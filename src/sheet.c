@@ -127,6 +127,9 @@ static void
 sheet_init_sc (Sheet const *sheet, SheetControl *sc)
 {
 	sc_set_panes (sc);
+	sc_set_top_left (sc,
+			 sheet->initial_top_left.col,
+			 sheet->initial_top_left.row);
 	sc_scrollbar_config (sc);
 
 	/* Set the visible bound, not the logical bound */
@@ -254,6 +257,7 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->outline_symbols_right = TRUE;
 	sheet->frozen_top_left.col = sheet->frozen_top_left.row =
 	sheet->unfrozen_top_left.col = sheet->unfrozen_top_left.row = -1;
+	sheet->initial_top_left.col = sheet->initial_top_left.row = 0;
 
 	/* Init menu states */
 	sheet->priv->enable_insert_rows = TRUE;
@@ -841,8 +845,8 @@ sheet_update_only_grid (Sheet const *sheet)
 		p->recompute_visibility = FALSE;
 		p->resize_scrollbar = FALSE; /* compute_visible_region does this */
 		SHEET_FOREACH_CONTROL(sheet, control,
-			sc_compute_visible_region (control, TRUE););
-		sheet_update_cursor_pos (sheet);
+			sc_compute_visible_region (control, TRUE);
+			sc_update_cursor_pos (control););
 		sheet_redraw_all (sheet);
 	}
 
@@ -1768,17 +1772,22 @@ sheet_col_is_hidden (Sheet *sheet, int const col)
 
 /*
  * sheet_find_boundary_horizontal
- *
- * Calculate the column index for the column which is @n units
- * from @start_col doing bounds checking.  If @jump_to_boundaries is
- * TRUE @n must be 1 and the jump is to the edge of the logical range.
- *
- * @sheet:  The Sheet *
+ * @sheet:  The Sheet
  * @start_col	: The column from which to begin searching.
  * @move_row	: The row in which to search for the edge of the range.
  * @base_row	: The height of the area being moved.
  * @n:      units to extend the selection vertically
  * @jump_to_boundaries : Jump to range boundaries.
+ *
+ * Calculate the column index for the column which is @n units
+ * from @start_col doing bounds checking.  If @jump_to_boundaries is
+ * TRUE @n must be 1 and the jump is to the edge of the logical range.
+ *
+ * NOTE : This routine implements the logic necasary for ctrl-arrow style
+ * movement.  That is more compilcated than simpfy finding the last in a list
+ * of cells with content.  If you are at the end of a range it will find the
+ * start of the next.  Make sure that is the sort of behavior you want before
+ * calling this.
  */
 int
 sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
@@ -1866,17 +1875,22 @@ sheet_row_is_hidden (Sheet *sheet, int const row)
 
 /*
  * sheet_find_boundary_vertical
- *
- * Calculate the row index for the row which is @n units
- * from @start_row doing bounds checking.  If @jump_to_boundaries is
- * TRUE @n must be 1 and the jump is to the edge of the logical range.
- *
  * @sheet:  The Sheet *
  * @move_col	: The col in which to search for the edge of the range.
  * @start_row	: The row from which to begin searching.
  * @base_col	: The width of the area being moved.
  * @n:      units to extend the selection vertically
  * @jump_to_boundaries : Jump to range boundaries.
+ *
+ * Calculate the row index for the row which is @n units
+ * from @start_row doing bounds checking.  If @jump_to_boundaries is
+ * TRUE @n must be 1 and the jump is to the edge of the logical range.
+ *
+ * NOTE : This routine implements the logic necasary for ctrl-arrow style
+ * movement.  That is more compilcated than simpfy finding the last in a list
+ * of cells with content.  If you are at the end of a range it will find the
+ * start of the next.  Make sure that is the sort of behavior you want before
+ * calling this.
  */
 int
 sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
@@ -2330,7 +2344,7 @@ sheet_row_fetch (Sheet *sheet, int pos)
  * callback routine.  If the only_existing flag is passed, then
  * callbacks are only invoked for existing cells.
  *
- * Return value:
+ * Returns the value returned by the callback, which can be :
  *    non-NULL on error, or value_terminate () if some invoked routine requested
  *    to stop (by returning non-NULL).
  *
@@ -3197,15 +3211,6 @@ sheet_cursor_set (Sheet *sheet,
 	g_return_if_fail (range_is_sane	(bound));
 
 	SHEET_FOREACH_CONTROL(sheet, sc, sc_cursor_bound (sc, bound););
-}
-
-void
-sheet_update_cursor_pos (Sheet const *sheet)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-
-	SHEET_FOREACH_CONTROL (sheet, control,
-		sc_update_cursor_pos (control););
 }
 
 /**
@@ -4423,6 +4428,33 @@ sheet_duplicate	(Sheet const *src)
 	sheet_redraw_all (dst);
 
 	return dst;
+}
+
+/**
+ * sheet_set_initial_top_left 
+ * @sheet : the sheet.
+ * @col   :
+ * @row   :
+ *
+ * Sets the top left cell that a newly created sheet control should display.
+ * This corresponds to the top left cell visible in pane 0 (frozen or not).
+ * NOTE : the unfrozen_top_left != initial_top_left.  Unfrozen is the first
+ * unfrozen cell, and corresponds to the _minimum_ cell in pane 0.  However,
+ * the pane can scroll and may have something else currently visible as the top
+ * left.
+ */
+void
+sheet_set_initial_top_left (Sheet *sheet, int col, int row)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (0 <= col && col < SHEET_MAX_COLS);
+	g_return_if_fail (0 <= row && row < SHEET_MAX_ROWS);
+	g_return_if_fail (!sheet_is_frozen (sheet) ||
+			  (sheet->unfrozen_top_left.col <= col &&
+			   sheet->unfrozen_top_left.row <= row));
+
+	sheet->initial_top_left.col = col;
+	sheet->initial_top_left.row = row;
 }
 
 /**

@@ -75,8 +75,6 @@
 
 #include "pixmaps/equal-sign.xpm"
 
-#define ENABLE_FREEZE
-
 gboolean
 wbcg_ui_update_begin (WorkbookControlGUI *wbcg)
 {
@@ -509,6 +507,11 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 {
 	GtkWidget *notebook;
 	gint page_number;
+	GtkObject *obj = gtk_object_get_data (GTK_OBJECT (child),
+					      SHEET_CONTROL_KEY);
+	SheetControlGUI *scg = SHEET_CONTROL_GUI (obj);
+
+	g_return_val_if_fail (scg != NULL, FALSE);
 
 	if (event->type != GDK_BUTTON_PRESS)
 		return FALSE;
@@ -516,17 +519,12 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 	notebook = child->parent;
 	page_number = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), child);
 
-	if (event->button == 1) {
+	if (event->button == 1 || NULL != scg->wbcg->rangesel) {
 		gtk_notebook_set_page (GTK_NOTEBOOK (notebook), page_number);
 		return TRUE;
 	}
 
 	if (event->button == 3) {
-		GtkObject *obj;
-
-		obj = gtk_object_get_data (GTK_OBJECT (child),
-					   SHEET_CONTROL_KEY);
-		g_return_val_if_fail (IS_SHEET_CONTROL_GUI (obj), FALSE);
 
 		sheet_menu_label_run (SHEET_CONTROL_GUI (obj), event);
 		scg_take_focus (SHEET_CONTROL_GUI (obj));
@@ -937,7 +935,6 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 					 !wbcg_edit_has_guru (wbcg));
 #endif
 
-#ifdef ENABLE_FREEZE
 	if (MS_FREEZE_VS_THAW & flags) {
 		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 		char const* label = sheet_is_frozen (sheet)
@@ -950,7 +947,6 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 		                   "/menu/View/ViewFreezeThawPanes", NULL, label);
 #endif
 	}
-#endif
 }
 
 static void
@@ -1695,7 +1691,6 @@ cb_view_zoom (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	dialog_zoom (wbcg, wb_control_cur_sheet (wbc));
 }
 
-#ifdef ENABLE_FREEZE
 static void
 cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
@@ -1704,14 +1699,25 @@ cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
 
 	if (scg->active_panes == 1) {
-		CellPos top_left;
-		top_left.col = scg->pane[0].gsheet->col.first;
-		top_left.row = scg->pane[0].gsheet->row.first;
-		sheet_freeze_panes (sheet, &top_left, &sheet->edit_pos);
+		CellPos frozen_tl, unfrozen_tl;
+		GnumericSheet const *gsheet = scg_pane (scg, 0);
+		frozen_tl.col = gsheet->col.first;
+		frozen_tl.row = gsheet->row.first;
+		unfrozen_tl = sheet->edit_pos;
+
+		if (unfrozen_tl.col <= gsheet->col.first ||
+		    unfrozen_tl.col > gsheet->col.last_full)
+			unfrozen_tl.col = (gsheet->col.first + gsheet->col.last_full) / 2;
+		if (unfrozen_tl.row <= gsheet->row.first ||
+		    unfrozen_tl.row > gsheet->row.last_full)
+			unfrozen_tl.row = (gsheet->row.first + gsheet->row.last_full) / 2;
+
+		if (unfrozen_tl.col > frozen_tl.col &&
+		    unfrozen_tl.row > frozen_tl.row)
+			sheet_freeze_panes (sheet, &frozen_tl, &unfrozen_tl);
 	} else
 		sheet_freeze_panes (sheet, NULL, NULL);
 }
-#endif
 
 static void
 cb_view_new_shared (GtkWidget *widget, WorkbookControlGUI *wbcg)
@@ -2395,11 +2401,9 @@ static GnomeUIInfo workbook_menu_view [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Zoom..."),
 		N_("Zoom the spreadsheet in or out"),
 		cb_view_zoom),
-#ifdef ENABLE_FREEZE
 	GNOMEUIINFO_ITEM_NONE (N_("_Freeze..."),
 		N_("Freeze the top left of the sheet"),
 		cb_view_freeze_panes),
-#endif
 	GNOMEUIINFO_ITEM_NONE (N_("New _Shared"),
 		N_("Create a new shared view of the workbook"),
 		cb_view_new_shared),
@@ -2785,9 +2789,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditRecalc", cb_edit_recalc),
 
 	BONOBO_UI_UNSAFE_VERB ("ViewZoom", cb_view_zoom),
-#ifdef ENABLE_FREEZE
 	BONOBO_UI_UNSAFE_VERB ("ViewFreezeThawPanes", cb_view_freeze_panes),
-#endif
 	BONOBO_UI_UNSAFE_VERB ("ViewNewShared", cb_view_new_shared),
 	BONOBO_UI_UNSAFE_VERB ("ViewNewUnshared", cb_view_new_unshared),
 
@@ -3679,10 +3681,8 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	/* FIXME: Once input validation is enabled change the [3] */
 	wbcg->menu_item_consolidate =
 		workbook_menu_data [3].widget;
-#ifdef ENABLE_FREEZE
 	wbcg->menu_item_freeze_panes =
 		workbook_menu_view [1].widget;
-#endif
 	
 	wbcg->menu_item_sheet_display_formulas =
 		workbook_menu_format_sheet [2].widget;

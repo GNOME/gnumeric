@@ -1,3 +1,7 @@
+2001-07-16  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_read_view) : Use sheet_set_initial_top_left.
+
 2001-06-28  Jody Goldberg <jgoldberg@home>
 
 	* Release 0.67

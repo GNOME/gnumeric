@@ -770,7 +770,7 @@ applix_read_view (ApplixReadState *state, char *name)
 		if (!strncmp ("View Top Left: ", buffer, 15)) {
 			int col, row;
 			if (applix_parse_cellref (state, buffer+15, &sheet, &col, &row, ':'))
-				sheet_make_cell_visible (sheet, col, row);
+				sheet_set_initial_top_left (sheet, col, row);
 		} else if (!strncmp ("View Open Cell: ", buffer, 16)) {
 			int col, row;
 			if (applix_parse_cellref (state, buffer+16, &sheet, &col, &row, ':'))

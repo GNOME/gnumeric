@@ -1,3 +1,4 @@
+/* vim: set sw=8: */
 /*
  * xml-io.c: save/read gnumeric Sheets using an XML encoding.
  *
@@ -267,6 +268,27 @@ xml_get_value_int (xmlNodePtr node, const char *name, int *val)
 	return FALSE;
 }
 
+static gboolean
+xml_get_prop_cellpos (xmlNodePtr node, char const *name, CellPos *val)
+{
+	char *str;
+	int dummy;
+	gboolean res;
+
+	str = (char *) xmlGetProp (node, name);
+	if (val == NULL)
+		return FALSE;
+	res = parse_cell_name (str, &val->col, &val->row, TRUE, &dummy);
+	xmlFree (str);
+	return res;
+}
+
+static void
+xml_set_prop_cellpos (xmlNodePtr node, char const *name, CellPos const *val)
+{
+	xmlSetProp (node, name, cell_pos_name (val));
+}
+
 #if 0
 /*
  * Get a float value for a node either carried as an attibute or as
@@ -338,33 +360,6 @@ xml_set_value_cstr (xmlNodePtr node, const char *name, const char *val)
 }
 
 /*
- * Set a String value for a node either carried as an attibute or as
- * the content of a child.
- */
-void
-xml_set_value_string (xmlNodePtr node, const char *name, const String *val)
-{
-	char *ret;
-	xmlNodePtr child;
-
-	ret = xmlGetProp (node, name);
-	if (ret != NULL) {
-		xmlFree (ret);
-		xmlSetProp (node, name, val->str);
-		return;
-	}
-	child = node->xmlChildrenNode;
-	while (child != NULL){
-		if (!strcmp (child->name, name)){
-			xmlNodeSetContent (child, val->str);
-			return;
-		}
-		child = child->next;
-	}
-	xmlSetProp (node, name, val->str);
-}
-
-/*
  * Set an integer value for a node either carried as an attibute or as
  * the content of a child.
  */
@@ -398,11 +393,9 @@ xml_set_value_int (xmlNodePtr node, const char *name, int val)
  * the content of a child.
  */
 static void
-xml_set_value_double (xmlNodePtr node, const char *name, double val,
-		      int precision)
+xml_set_prop_double (xmlNodePtr node, const char *name, double val,
+		     int precision)
 {
-	char *ret;
-	xmlNodePtr child;
 	char str[101 + DBL_DIG];
 
 	if (precision < 0 || precision > DBL_DIG)
@@ -413,20 +406,6 @@ xml_set_value_double (xmlNodePtr node, const char *name, double val,
 	else
 		snprintf (str, 100 + DBL_DIG, "%f", val);
 
-	ret = xmlGetProp (node, name);
-	if (ret != NULL){
-		xmlFree (ret);
-		xmlSetProp (node, name, str);
-		return;
-	}
-	child = node->xmlChildrenNode;
-	while (child != NULL){
-		if (!strcmp (child->name, name)){
-			xmlNodeSetContent (child, str);
-			return;
-		}
-		child = child->next;
-	}
 	xmlSetProp (node, name, str);
 }
 
@@ -436,7 +415,7 @@ xml_set_value_double (xmlNodePtr node, const char *name, double val,
 static void
 xml_set_value_points (xmlNodePtr node, const char *name, double val)
 {
-	xml_set_value_double (node, name, val, POINT_SIZE_PRECISION);
+	xml_set_prop_double (node, name, val, POINT_SIZE_PRECISION);
 }
 
 static void
@@ -524,11 +503,13 @@ xml_write_range (xmlNodePtr tree, Range const *r)
 }
 
 static void
-xml_read_selection_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
+xml_read_selection_info (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	Range r;
 	int row, col;
+	Sheet *sheet = ctxt->sheet;
 	xmlNodePtr sel, selections = e_xml_get_child_by_name (tree, "Selections");
+
 	if (selections == NULL)
 		return;
 
@@ -2097,6 +2078,40 @@ xml_write_merged_regions (XmlParseContext const *ctxt,
 	}
 }
 
+static void
+xml_read_sheet_layout (XmlParseContext *ctxt, xmlNodePtr tree)
+{
+	xmlNodePtr child;
+	CellPos tmp, frozen_tl, unfrozen_tl;
+
+	tree = e_xml_get_child_by_name (tree, "SheetLayout");
+	if (tree == NULL)
+	    return;
+
+	/* The top left cell in pane[0] */
+	if (xml_get_prop_cellpos (tree, "TopLeft", &tmp))
+		sheet_set_initial_top_left (ctxt->sheet, tmp.col, tmp.row);
+
+	child = e_xml_get_child_by_name (tree, "FreezePanes");
+	if (child != NULL &&
+	    xml_get_prop_cellpos (child, "FrozenTopLeft", &frozen_tl) &&
+	    xml_get_prop_cellpos (child, "UnfrozenTopLeft", &unfrozen_tl))
+		sheet_freeze_panes (ctxt->sheet, &frozen_tl, &unfrozen_tl);
+}
+
+static void
+xml_write_sheet_layout (XmlParseContext *ctxt, xmlNodePtr tree, Sheet const *sheet)
+{
+	tree = xmlNewChild (tree, ctxt->ns, "SheetLayout", NULL);
+
+	xml_set_prop_cellpos (tree, "TopLeft", &sheet->initial_top_left);
+	if (sheet_is_frozen (sheet)) {
+		xmlNodePtr freeze = xmlNewChild (tree, ctxt->ns, "FreezePanes", NULL);
+		xml_set_prop_cellpos (freeze, "FrozenTopLeft", &sheet->frozen_top_left);
+		xml_set_prop_cellpos (freeze, "UnfrozenTopLeft", &sheet->unfrozen_top_left);
+	}
+}
+
 static xmlNodePtr
 xml_write_styles (XmlParseContext *ctxt, StyleList *styles)
 {
@@ -2118,13 +2133,18 @@ xml_write_styles (XmlParseContext *ctxt, StyleList *styles)
 }
 
 static void
-xml_read_solver (Sheet *sheet, XmlParseContext *ctxt, xmlNodePtr tree,
-		 SolverParameters *param)
+xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	SolverConstraint *c;
 	xmlNodePtr       child;
 	int              col, row;
 	String           *s;
+	Sheet *sheet = ctxt->sheet;
+	SolverParameters *param = &sheet->solver_parameters;
+
+	tree = e_xml_get_child_by_name (tree, "Solver");
+	if (tree == NULL)
+		return;
 
 	xml_get_value_int (tree, "TargetCol", &col);
 	xml_get_value_int (tree, "TargetRow", &row);
@@ -2204,7 +2224,7 @@ xml_write_solver (XmlParseContext *ctxt, SolverParameters const *param)
 	xml_set_value_int (cur, "ProblemType", param->problem_type);
 
 	s = string_get (param->input_entry_str);
-	xml_set_value_string (cur, "Inputs", s);
+	xmlSetProp (cur, "Inputs", s->str);
 	string_unref (s);
 
 	constraints = param->constraints;
@@ -2422,10 +2442,8 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	}
 
 	xml_write_merged_regions (ctxt, cur, sheet->list_merged);
+	xml_write_sheet_layout (ctxt, cur, sheet);
 
-	/*
-	 * Solver informations
-	 */
 	solver = xml_write_solver (ctxt, &sheet->solver_parameters);
 	if (solver)
 		xmlAddChild (cur, solver);
@@ -2593,10 +2611,11 @@ xml_read_colrow_info (XmlParseContext *ctxt, xmlNodePtr tree,
 }
 
 static void
-xml_read_cols_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
+xml_read_cols_info (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr cols, col;
 	double tmp;
+	Sheet *sheet = ctxt->sheet;
 
 	cols = e_xml_get_child_by_name (tree, "Cols");
 	if (cols == NULL)
@@ -2622,10 +2641,11 @@ xml_read_cols_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
 }
 
 static void
-xml_read_rows_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
+xml_read_rows_info (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr rows, row;
 	double tmp;
+	Sheet *sheet = ctxt->sheet;
 
 	rows = e_xml_get_child_by_name (tree, "Rows");
 	if (rows == NULL)
@@ -2695,7 +2715,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr child;
 	/* xmlNodePtr styles; */
-	Sheet *ret = NULL;
+	Sheet *sheet = NULL;
 	double zoom_factor;
 	char *val;
 
@@ -2713,49 +2733,49 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	 */
 	val = xml_value_get (tree, "Name");
 	if (val != NULL){
-		ret = workbook_sheet_by_name (ctxt->wb, (const char *) val);
-		if (ret == NULL)
-			ret = sheet_new (ctxt->wb, (const char *) val);
+		sheet = workbook_sheet_by_name (ctxt->wb, (const char *) val);
+		if (sheet == NULL)
+			sheet = sheet_new (ctxt->wb, (const char *) val);
 		g_free (val);
 	}
 
-	if (ret == NULL)
+	if (sheet == NULL)
 		return NULL;
 
-	ctxt->sheet = ret;
+	ctxt->sheet = sheet;
 
-	ret->display_formulas = e_xml_get_bool_prop_by_name_with_default (tree,
+	sheet->display_formulas = e_xml_get_bool_prop_by_name_with_default (tree,
 		"DisplayFormulas", FALSE);
-	ret->hide_zero = e_xml_get_bool_prop_by_name_with_default (tree,
+	sheet->hide_zero = e_xml_get_bool_prop_by_name_with_default (tree,
 		"HideZero", FALSE);
-	ret->hide_grid = e_xml_get_bool_prop_by_name_with_default (tree,
+	sheet->hide_grid = e_xml_get_bool_prop_by_name_with_default (tree,
 		"HideGrid", FALSE);
-	ret->hide_col_header = e_xml_get_bool_prop_by_name_with_default (tree,
+	sheet->hide_col_header = e_xml_get_bool_prop_by_name_with_default (tree,
 		"HideColHeader", FALSE);
-	ret->hide_row_header = e_xml_get_bool_prop_by_name_with_default (tree,
+	sheet->hide_row_header = e_xml_get_bool_prop_by_name_with_default (tree,
 		"HideRowHeader", FALSE);
-	ret->display_outlines = e_xml_get_bool_prop_by_name_with_default (tree,
+	sheet->display_outlines = e_xml_get_bool_prop_by_name_with_default (tree,
 		"DisplayOutlines", TRUE);
-	ret->outline_symbols_below = e_xml_get_bool_prop_by_name_with_default (tree,
+	sheet->outline_symbols_below = e_xml_get_bool_prop_by_name_with_default (tree,
 		"OutlineSymbolsBelow", TRUE);
-	ret->outline_symbols_right = e_xml_get_bool_prop_by_name_with_default (tree,
+	sheet->outline_symbols_right = e_xml_get_bool_prop_by_name_with_default (tree,
 		"OutlineSymbolsRight", TRUE);
 
-	xml_get_value_int (tree, "MaxCol", &ret->cols.max_used);
-	xml_get_value_int (tree, "MaxRow", &ret->rows.max_used);
+	xml_get_value_int (tree, "MaxCol", &sheet->cols.max_used);
+	xml_get_value_int (tree, "MaxRow", &sheet->rows.max_used);
 	xml_get_value_double (tree, "Zoom", &zoom_factor);
 
 	xml_read_print_info (ctxt, tree);
 	xml_read_styles (ctxt, tree);
 	xml_read_cell_styles (ctxt, tree);
-	xml_read_cols_info (ctxt, ret, tree);
-	xml_read_rows_info (ctxt, ret, tree);
+	xml_read_cols_info (ctxt, tree);
+	xml_read_rows_info (ctxt, tree);
 	xml_read_merged_regions (ctxt, tree);
-	xml_read_selection_info (ctxt, ret, tree);
+	xml_read_selection_info (ctxt, tree);
 
 	child = e_xml_get_child_by_name (tree, "Names");
 	if (child)
-		xml_read_names (ctxt, child, NULL, ret);
+		xml_read_names (ctxt, child, NULL, sheet);
 
 	child = e_xml_get_child_by_name (tree, "Objects");
 	if (child != NULL) {
@@ -2774,17 +2794,16 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 		}
 	}
 
-	child = e_xml_get_child_by_name (tree, "Solver");
-	if (child != NULL)
-	        xml_read_solver (ret, ctxt, child, &(ret->solver_parameters));
+	xml_read_solver (ctxt, tree);
+	xml_read_sheet_layout (ctxt, tree);
 
 	xml_dispose_read_cell_styles (ctxt);
 
 	/* Init ColRowInfo's size_pixels and force a full respan */
-	sheet_flag_recompute_spans (ret);
-	sheet_set_zoom_factor (ret, zoom_factor, FALSE, FALSE);
+	sheet_flag_recompute_spans (sheet);
+	sheet_set_zoom_factor (sheet, zoom_factor, FALSE, FALSE);
 
-	return ret;
+	return sheet;
 }
 
 /*
@@ -3112,11 +3131,8 @@ xml_workbook_read (IOContext *context, WorkbookView *wb_view,
 	 * all of the references to forward sheets are properly
 	 * handled
 	 */
-	c = child->xmlChildrenNode;
-	while (c != NULL){
+	for (c = child->xmlChildrenNode; c != NULL ; c = c->next)
 		xml_sheet_create (ctxt, c);
-		c = c->next;
-	}
 
 	/*
 	 * Now read names which can have inter-sheet references
@@ -3127,7 +3143,6 @@ xml_workbook_read (IOContext *context, WorkbookView *wb_view,
 		xml_read_names (ctxt, child, wb, NULL);
 
 	child = e_xml_get_child_by_name (tree, "Sheets");
-
 
 	/*
 	 * Pass 2: read the contents

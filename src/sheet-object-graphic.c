@@ -176,7 +176,7 @@ sheet_object_graphic_write_xml (SheetObject const *so,
 
 	xml_set_value_int (tree, "Type", sog->type);
 	xml_set_value_int (tree, "Width", sog->width);
-	xml_set_value_string (tree, "Color", sog->color);
+	xml_set_value_cstr (tree, "Color", sog->color->str);
 	if (so->direction != SO_DIR_UNKNOWN)
 		xml_set_value_int (tree, "Direction", so->direction);
 
@@ -418,7 +418,7 @@ sheet_object_filled_write_xml (SheetObject const *so,
 	SheetObjectFilled *sof = SHEET_OBJECT_FILLED (so);
 
 	if (sof->fill_color != NULL)
-		xml_set_value_string (tree, "FillColor", sof->fill_color);
+		xml_set_value_cstr (tree, "FillColor", sof->fill_color->str);
 	xml_set_value_int (tree, "Pattern", sof->pattern);
 	return sheet_object_graphic_write_xml (so, ctxt, tree);
 }

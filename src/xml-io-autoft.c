@@ -138,17 +138,9 @@ xml_write_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft)
 	name_c        = format_template_get_name (ft);
 	description_c = format_template_get_description (ft);
 
-	author      = string_get (author_c);
-	name        = string_get (name_c);
-	description = string_get (description_c);
-
-	xml_set_value_string (child, "author", author);
-	xml_set_value_string (child, "name", name);
-	xml_set_value_string (child, "description", description);
-
-	string_unref (author);
-	string_unref (name);
-	string_unref (description);
+	xml_set_value_cstr (child, "author", author_c);
+	xml_set_value_cstr (child, "name", name_c);
+	xml_set_value_cstr (child, "description", description_c);
 
 	g_free (author_c);
 	g_free (name_c);

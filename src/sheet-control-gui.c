@@ -347,10 +347,10 @@ scg_scrollbar_config (SheetControl const *sc)
 	if (max_row < sheet->max_object_extent.row)
 		max_row = sheet->max_object_extent.row;
 	va->upper = max_row;
-	va->page_size = last_row - gsheet->row.first;
 	va->value = gsheet->row.first;
-	va->step_increment = va->page_increment =
-	    va->page_size / 2;
+	va->page_size = last_row - gsheet->row.first;
+	va->page_increment = MAX (va->page_size - 3, 1);
+	va->step_increment = 1;
 
 	if (max_col < sheet->cols.max_used)
 		max_col = sheet->cols.max_used;
@@ -359,8 +359,8 @@ scg_scrollbar_config (SheetControl const *sc)
 	ha->upper = max_col;
 	ha->page_size = last_col - gsheet->col.first;
 	ha->value = gsheet->col.first;
-	ha->step_increment = ha->page_increment =
-	    ha->page_size / 2;
+	ha->page_increment = MAX (ha->page_size - 3, 1);
+	ha->step_increment = 1;
 
 	gtk_adjustment_changed (va);
 	gtk_adjustment_changed (ha);
@@ -712,6 +712,18 @@ gnumeric_sheet_set_top_left (GnumericSheet *gsheet,
 
 	gsheet_compute_visible_region (gsheet, force_scroll);
 	gnome_canvas_scroll_to (GNOME_CANVAS (gsheet), col_offset, row_offset);
+}
+
+static void
+scg_set_top_left (SheetControl *sc, int col, int row)
+{
+	SheetControlGUI *scg = (SheetControlGUI *)sc;
+
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+
+	/* We could be faster if necessary */
+	scg_set_left_col (scg, col);
+	scg_set_top_row (scg, row);
 }
 
 static void
@@ -2714,6 +2726,7 @@ scg_class_init (GtkObjectClass *object_class)
 	sc_class->adjust_preferences     = scg_adjust_preferences;
 	sc_class->update_cursor_pos      = scg_update_cursor_pos;
 	sc_class->scrollbar_config       = scg_scrollbar_config;
+	sc_class->set_top_left		 = scg_set_top_left;
 	sc_class->compute_visible_region = scg_compute_visible_region;
 	sc_class->make_cell_visible      = scg_make_cell_visible_virt; /* wrapper */
 	sc_class->cursor_bound           = scg_cursor_bound;

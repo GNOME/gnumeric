@@ -78,7 +78,8 @@ struct _Sheet {
 	SheetPrivate     *priv;
 	PrintInformation *print_info;
 
-	CellPos frozen_top_left;
+	CellPos initial_top_left;	/* belongs in sheetView */
+	CellPos frozen_top_left;	/* these may also belong there */
 	CellPos unfrozen_top_left;
 };
 
@@ -90,6 +91,7 @@ Sheet      *sheet_duplicate		(Sheet const *source_sheet);
 void        sheet_destroy		(Sheet *sheet);
 void        sheet_destroy_contents	(Sheet *sheet);
 void        sheet_rename		(Sheet *sheet, char const *new_name);
+void	    sheet_set_initial_top_left	(Sheet *sheet, int col, int row);
 void	    sheet_freeze_panes		(Sheet *sheet,
 					 CellPos const *frozen_top_left,
 					 CellPos const *unfrozen_top_left);
@@ -103,7 +105,8 @@ void        sheet_cursor_set		(Sheet *sheet,
 					 int move_col, int move_row,
 					 Range const *cursor_bound);
 void        sheet_set_edit_pos		(Sheet *sheet, int col, int row);
-void	    sheet_update_cursor_pos	(Sheet const *sheet);
+
+/* deprecated : this will be removed when sheetViews are added */
 void        sheet_make_cell_visible	(Sheet *sheet, int col, int row);
 
 /* Cell management */

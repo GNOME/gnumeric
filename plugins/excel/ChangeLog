@@ -1,3 +1,8 @@
+2001-07-16  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_pane) : implement.
+	(ms_excel_read_window2) : store initial top left.
+
 2001-07-12  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_pane) : new function.

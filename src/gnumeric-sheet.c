@@ -414,7 +414,10 @@ gnumeric_sheet_key_release (GtkWidget *widget, GdkEventKey *event)
 static gint
 gnumeric_sheet_button_release (GtkWidget *widget, GdkEventButton *button)
 {
-	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
+	GnumericSheet *current = GNUMERIC_SHEET (widget);
+
+	/* scroll always operates on pane 0 */
+	GnumericSheet *gsheet = scg_pane (current->scg, 0);
 
 	if (button->button != 4 && button->button != 5)
 		return (*GTK_WIDGET_CLASS (gsheet_parent_class)->button_release_event)(widget, button);
@@ -422,23 +425,27 @@ gnumeric_sheet_button_release (GtkWidget *widget, GdkEventButton *button)
 	/* Roll Up or Left */
 	/* Roll Down or Right */
 	if ((button->state & GDK_MOD1_MASK)) {
-		int col = gsheet->col.last_full - gsheet->col.first;
+		int col = (gsheet->col.last_full - gsheet->col.first) / 4;
+		if (col < 1)
+			col = 1;
 		if (button->button == 4)
-			col = MAX (gsheet->col.first - col, 0);
-		else if (gsheet->col.last_full < SHEET_MAX_COLS-1)
-			col = gsheet->col.last_full;
+			col = gsheet->col.first - col;
 		else
-			return FALSE;
-		scg_set_left_col (gsheet->scg, col);
+			col = gsheet->col.first + col;
+
+		if (0 <= col && col <= SHEET_MAX_COLS-1)
+			scg_set_left_col (gsheet->scg, col);
 	} else {
-		int row = gsheet->row.last_full - gsheet->row.first;
+		int row = (gsheet->row.last_full - gsheet->row.first) / 4;
+		if (row < 1)
+			row = 1;
 		if (button->button == 4)
-			row = MAX (gsheet->row.first - row, 0);
-		else if (gsheet->row.last_full < SHEET_MAX_ROWS-1)
-			row = gsheet->row.last_full;
+			row = gsheet->row.first - row;
 		else
-			return FALSE;
-		scg_set_top_row (gsheet->scg, row);
+			row = gsheet->row.first + row;
+
+		if (0 <= row && row <= SHEET_MAX_ROWS-1)
+			scg_set_top_row (gsheet->scg, row);
 	}
 	return TRUE;
 }
@@ -1060,6 +1067,10 @@ gsheet_compute_visible_region (GnumericSheet *gsheet,
 		scg_scrollbar_config (SHEET_CONTROL (scg));
 
 	/* Force the cursor to update its bounds relative to the new visible region */
+	/* FIXME : Shouldn't we do the animated cursors too ?
+	 * in sheet_update_only_grid we manually call update_cursors after
+	 * every call here.
+	 */
 	item_cursor_reposition (gsheet->item_cursor);
 }
 

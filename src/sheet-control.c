@@ -81,19 +81,16 @@ SC_VIRTUAL (resize, (SheetControl *sc, gboolean force_scroll), (sc, force_scroll
 SC_VIRTUAL (set_zoom_factor, (SheetControl *sc), (sc))
 
 SC_VIRTUAL (redraw_all, (SheetControl *sc), (sc))
-
 SC_VIRTUAL (redraw_region,
 	    (SheetControl *sc,
 	     int start_col, int start_row, int end_col, int end_row),
 	    (sc, start_col, start_row, end_col, end_row))
-
 SC_VIRTUAL (redraw_headers,
 	    (SheetControl *sc,
 	     gboolean const col, gboolean const row, Range const * r),
 	    (sc, col, row, r))
 
 SC_VIRTUAL (ant, (SheetControl *sc), (sc))
-
 SC_VIRTUAL (unant, (SheetControl *sc), (sc))
 
 SC_VIRTUAL (adjust_preferences, (SheetControl *sc), (sc))
@@ -104,10 +101,12 @@ SC_VIRTUAL (scrollbar_config, (SheetControl const *sc), (sc));
 
 SC_VIRTUAL (mode_edit, (SheetControl *sc), (sc));
 
+SC_VIRTUAL (set_top_left,
+	    (SheetControl *sc, int col, int row),
+	    (sc, col, row))
 SC_VIRTUAL (compute_visible_region,
 	    (SheetControl *sc, gboolean full_recompute),
 	    (sc, full_recompute))
-
 SC_VIRTUAL (make_cell_visible,
 	    (SheetControl *sc, int col, int row, gboolean force_scroll, gboolean couple_panes),
 	    (sc, col, row, force_scroll, couple_panes));

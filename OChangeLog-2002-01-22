@@ -1,3 +1,44 @@
+2001-07-16  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object-graphic.c (sheet_object_graphic_write_xml) : use cstr.
+	(sheet_object_filled_write_xml) : ditto.
+
+	* src/xml-io-autoft.c (xml_write_format_template_members) : remove
+	  extra copying to and fro.
+
+	* src/xml-io.c (xml_set_value_string) : delete this bogosity.
+	(xml_write_solver) : Use xmlSetProp in its place.
+	(xml_set_value_double) : remove the searchiing silliness.
+	(xml_read_sheet_layout) : new function.
+	(xml_sheet_read) : called from here.
+	(xml_write_sheet_layout) : new function.
+	(xml_sheet_write) : called from here.
+
+2001-07-16  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-sheet.c (gsheet_compute_visible_region) : add a
+	  comment.
+	(gnumeric_sheet_button_release) : Fix scroll wheel handling.
+	  And make the scroll by 1/4 of a page rather than a full page.
+
+	* src/workbook-control-gui.c (cb_sheet_label_button_press) : while
+	  selecting a range all buttons switch pages.
+	(cb_view_freeze_panes) : Improve handling of border cases.
+
+	* src/sheet-control-gui.c (scg_set_top_left) : new function.
+	(scg_class_init) : tied in here.
+	(scg_scrollbar_config) : Some usability tuning.
+
+	* src/sheet.c (sheet_new) : init 'initial_top_left'
+	(sheet_set_initial_top_left) : new function.
+	(sheet_init_sc) : Set the initial top left.
+	(sheet_update_cursor_pos) : delete unnecessary.
+	(sheet_update_only_grid) : It is only called from here.  And even this
+	  seems questionable.
+	(sheet_find_boundary_{vertical,horizontal}) : adds more comments.
+
+	* src/sheet-control.c (sc_set_top_left) : new function.
+
 2001-07-17  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/commands.c (cmd_format): Marked string for translation.

@@ -2301,9 +2301,9 @@ ms_excel_sheet_new (ExcelWorkbook *wb, char const *sheet_name)
 
 	res->wb         = wb;
 	res->gnum_sheet = sheet;
-	res->freeze_panes	     = FALSE;
 	res->base_char_width         = -1;
 	res->base_char_width_default = -1;
+	res->freeze_panes	     = FALSE;
 	res->shared_formulae         =
 		g_hash_table_new ((GHashFunc)&cellpos_hash,
 				  (GCompareFunc)&cellpos_cmp);
@@ -3241,7 +3241,7 @@ margin_read (PrintUnit *pu, double val)
 static void
 ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
 {
-	int const pane_number	= MS_OLE_GET_GUINT8 (q->data);
+	/* int const pane_number	= MS_OLE_GET_GUINT8 (q->data); */
 	int const act_row	= MS_OLE_GET_GUINT16 (q->data + 1);
 	int const act_col	= MS_OLE_GET_GUINT16 (q->data + 3);
 	int num_refs		= MS_OLE_GET_GUINT16 (q->data + 7);
@@ -3582,7 +3582,21 @@ ms_excel_read_iteration (BiffQuery *q, ExcelWorkbook *wb)
 static void
 ms_excel_read_pane (BiffQuery *q, ExcelSheet *sheet, WorkbookView *wb_view)
 {
+	if (sheet->freeze_panes) {
+		guint16 x = MS_OLE_GET_GUINT16 (q->data + 0);
+		guint16 y = MS_OLE_GET_GUINT16 (q->data + 2);
+		guint16 rwTop = MS_OLE_GET_GUINT16 (q->data + 4);
+		guint16 colLeft = MS_OLE_GET_GUINT16 (q->data + 6);
+		Sheet *gsheet = sheet->gnum_sheet;
+		CellPos frozen, unfrozen, initial;
 
+		frozen = unfrozen = gsheet->initial_top_left;
+		unfrozen.col += x; unfrozen.row += y;
+		sheet_freeze_panes (gsheet, &frozen, &unfrozen);
+		sheet_set_initial_top_left (gsheet, colLeft, rwTop);
+	} else {
+		g_warning ("EXCEL : no support for split panes yet");
+	}
 }
 
 static void
@@ -3600,9 +3614,11 @@ ms_excel_read_window2 (BiffQuery *q, ExcelSheet *sheet, WorkbookView *wb_view)
 		sheet->gnum_sheet->hide_col_header =
 			sheet->gnum_sheet->hide_row_header	= !(options & 0x0004);
 
-		sheet_make_cell_visible (sheet->gnum_sheet, left_col, top_row);
-
-		sheet->freeze_panes = (options & 0x0008) != 0;
+		/* NOTE : This is top left of screen even if frozen, modify when
+		 *        we read PANE
+		 */
+		sheet->freeze_panes = ((options & 0x0008) != 0);
+		sheet_set_initial_top_left (sheet->gnum_sheet, left_col, top_row);
 
 #if 0
 		if (!(options & 0x0020)) {
