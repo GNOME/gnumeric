@@ -1,3 +1,19 @@
+1999-06-24  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/xml-io.c (xml_read_cell): Add new style reading code.  It is
+	compatible with the old Style reading code.
+	(xml_read_rows_info, xml_read_cols_info, xml_read_styles): Moved
+	Cols, Rows and Styles loading code here, for code clarity.
+
+	* src/style.c (style_font_new_simple): Include the scale in the
+	key lookup variable.
+
+	* src/xml-io.c: The FontDefs and the HREFs to the fonts were never
+	being used.  The new code for styles simplifies this.  Kill all
+	the references to the FontDefs urls and the font indeces.
+
+	* src/xml-io.c 
+
 1999-06-23  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/xml-io.c: Major updates.  

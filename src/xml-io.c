@@ -27,8 +27,6 @@ typedef struct {
 	xmlDocPtr doc;		/* Xml document */
 	xmlNsPtr ns;		/* Main name space */
 	xmlNodePtr parent;	/* used only for g_hash_table_foreach callbacks */
-	GHashTable *name_table;	/* to reproduce multiple refs with HREFs */
-	int fontIdx;		/* for Font refs names ... */
 	Sheet *sheet;		/* the associated sheet */
 	Workbook *wb;		/* the associated sheet */
 	GHashTable *style_table;/* to generate the styles and then the links to it */
@@ -662,20 +660,10 @@ xml_write_style (parse_xml_context_t *ctxt, Style *style, int style_idx)
 	}
 
 	if (style->font != NULL){
-		if ((name = (char *)
-		     g_hash_table_lookup (ctxt->name_table, style->font)) != NULL){
-			child = xmlNewChild (cur, ctxt->ns, "Font", NULL);
-			sprintf (str, "#%s", name);
-			xmlNewProp (child, "HREF", str);
-		} else {
-			child = xmlNewChild (cur, ctxt->ns, "Font", 
-			           xmlEncodeEntities(ctxt->doc,
-				                     style->font->font_name));
-			xml_set_value_int (child, "Unit", style->font->size);
-			sprintf (str, "FontDef%d", ctxt->fontIdx++);
-			xmlNewProp (child, "NAME", str);
-			g_hash_table_insert (ctxt->name_table, g_strdup (str), style->font);
-		}
+		child = xmlNewChild (cur, ctxt->ns, "Font", 
+				     xmlEncodeEntities(ctxt->doc,
+						       style->font->font_name));
+		xml_set_value_int (child, "Unit", style->font->size);
 
 	}
 
@@ -750,36 +738,17 @@ xml_read_style (parse_xml_context_t *ctxt, xmlNodePtr tree, Style * ret)
 	child = tree->childs;
 	while (child != NULL){
 		if (!strcmp (child->name, "Font")){
-			char *v;
+			char *font;
+			int units = 14;
 
-			v = xml_value_get (child, "NAME");
-			if (v){
-				int units = 14;
-				char *font;
-
-				xml_get_value_int (child, "Unit", &units);
-				font = xmlNodeGetContent(child);
-				if (font != NULL) {
-					ret->font = style_font_new (font, units, 1.0, 0, 0);
-					free(font);
-				}
-				if (ret->font){
-					g_hash_table_insert (ctxt->name_table, g_strdup (v), ret->font);
-					ret->valid_flags |= STYLE_FONT;
-				}
-				free (v);
-			} else {
-				StyleFont *font;
-
-				v = xml_value_get (child, "HREF");
-				if (v){
-					font = g_hash_table_lookup (ctxt->name_table, v + 1);
-					if (font){
-						ret->font = font;
-						style_font_ref (font);
-						ret->valid_flags |= STYLE_FONT;
-					}
-				}
+			xml_get_value_int (child, "Unit", &units);
+			font = xmlNodeGetContent(child);
+			if (font != NULL) {
+				ret->font = style_font_new (font, units, 1.0, 0, 0);
+				free(font);
+			}
+			if (ret->font){
+				ret->valid_flags |= STYLE_FONT;
 			}
 		} else if (!strcmp (child->name, "StyleBorder")){
 			StyleBorder *sb;
@@ -1047,7 +1016,9 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	xmlNodePtr childs;
 	int row = 0, col = 0;
 	char *content = NULL;
-
+	gboolean style_read = FALSE;
+	int style_idx;
+	
 	if (strcmp (tree->name, "Cell")){
 		fprintf (stderr,
 		 "xml_read_cell: invalid element type %s, 'Cell' expected`\n",
@@ -1065,20 +1036,40 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	if (ret == NULL)
 		return NULL;
 
+	/*
+	 * New file format includes an index pointer to the Style
+	 * Old format includes the Style online
+	 */
+	if (xml_get_value_int (tree, "Style", &style_idx)){
+		Style *s;
+		
+		style_read = TRUE;
+		s = g_hash_table_lookup (ctxt->style_table, GINT_TO_POINTER (style_idx));
+		if (s){
+			style_destroy (ret->style);
+			ret->style = style_duplicate (s);
+		} else {
+			printf ("Error: could not find style %d\n", style_idx);
+		}
+	}
+	
 	childs = tree->childs;
 	while (childs != NULL) {
-	        if (!strcmp (childs->name, "Style")) {
-		        style = xml_read_style (ctxt, childs, NULL);
-			if (style){
-				style_merge_to (style, ret->style);
-				style_destroy (ret->style);
-				ret->style = style;
+		if (!strcmp (childs->name, "Style")) {
+			if (!style_read){
+				style = xml_read_style (ctxt, childs, NULL);
+				if (style){
+					style_merge_to (style, ret->style);
+					style_destroy (ret->style);
+					ret->style = style;
+				}
 			}
 		}
-	        if (!strcmp (childs->name, "Content"))
-		        content = xmlNodeGetContent(childs);
+		if (!strcmp (childs->name, "Content"))
+			content = xmlNodeGetContent(childs);
 		childs = childs->next;
 	}
+	
 	if (content == NULL)
 		content = xmlNodeGetContent(tree);
 	if (content != NULL) {
@@ -1140,7 +1131,6 @@ xml_cell_styles_init (parse_xml_context_t *ctxt, xmlNodePtr cur, Sheet *sheet)
 	ctxt->style_table = g_hash_table_new (style_hash, style_compare);
 	ctxt->style_count = 1;
 
-	ctxt->style_node = cur;
 	g_hash_table_foreach (sheet->cell_hash, add_style, ctxt);
 }
 
@@ -1210,10 +1200,6 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	}
 
 	/*
-	 * Style : TODO ...
-	 */
-
-	/*
 	 * Objects
 	 * NOTE: seems that objects == NULL while current_object != NULL
 	 * is possible
@@ -1244,6 +1230,92 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	xml_cell_styles_shutdown (ctxt);
 	
 	return cur;
+}
+
+static void
+xml_read_cell_styles (parse_xml_context_t *ctxt, xmlNodePtr tree)
+{
+	xmlNodePtr styles, child;
+
+	ctxt->style_table = g_hash_table_new (g_direct_hash, g_direct_equal);
+	
+	child = xml_search_child (tree, "CellStyles");
+	if (child == NULL)
+		return;
+	
+	for (styles = child->childs; styles; styles = styles->next){
+		Style *s;
+		int style_idx;
+		
+		if (xml_get_value_int (styles, "No", &style_idx)){
+			s = xml_read_style (ctxt, styles, NULL);
+			g_hash_table_insert (
+				ctxt->style_table,
+				GINT_TO_POINTER (style_idx),
+				s);
+		}
+	}
+}
+
+static void
+destroy_style (gpointer key, gpointer value, gpointer data)
+{
+	style_destroy (value);
+}
+
+static void
+xml_dispose_read_cell_styles (parse_xml_context_t *ctxt)
+{
+	g_hash_table_foreach (ctxt->style_table, destroy_style, NULL);
+	g_hash_table_destroy (ctxt->style_table);
+}
+
+static void
+xml_read_styles (parse_xml_context_t *ctxt, xmlNodePtr tree)
+{
+	xmlNodePtr child;
+	xmlNodePtr regions;
+	
+	child = xml_search_child (tree, "Styles");
+	if (child == NULL)
+		return;
+	
+	for (regions = child->childs; regions; regions = regions->next)
+		xml_read_style_region (ctxt, regions);
+}
+
+static void
+xml_read_cols_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
+{
+	xmlNodePtr child, cols;
+	ColRowInfo *info;
+
+	child = xml_search_child (tree, "Cols");
+	if (child == NULL)
+		return;
+	
+	for (cols = child->childs; cols; cols = cols->next){
+		info = xml_read_colrow_info (ctxt, cols, NULL);
+		if (info != NULL)
+			sheet_col_add (sheet, info);
+	}
+}
+
+static void
+xml_read_rows_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
+{
+	xmlNodePtr child, rows;
+	ColRowInfo *info;
+
+	child = xml_search_child (tree, "Rows");
+	if (child == NULL)
+		return;
+	
+	for (rows = child->childs; rows; rows = rows->next){
+		info = xml_read_colrow_info (ctxt, rows, NULL);
+		if (info != NULL)
+			sheet_row_add (sheet, info);
+	}
 }
 
 /*
@@ -1290,38 +1362,12 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	xml_get_value_int (tree, "MaxCol", &ret->max_col_used);
 	xml_get_value_int (tree, "MaxRow", &ret->max_row_used);
 	xml_get_value_double (tree, "Zoom", &ret->last_zoom_factor_used);
-	child = xml_search_child (tree, "Styles");
-	if (child != NULL){
-		regions = child->childs;
-		while (regions != NULL){
-			xml_read_style_region (ctxt, regions);
-			regions = regions->next;
-		}
-	}
-	child = xml_search_child (tree, "Cols");
-	if (child != NULL){
-		ColRowInfo *info;
 
-		cols = child->childs;
-		while (cols != NULL){
-			info = xml_read_colrow_info (ctxt, cols, NULL);
-			if (info != NULL)
-				sheet_col_add (ret, info);
-			cols = cols->next;
-		}
-	}
-	child = xml_search_child (tree, "Rows");
-	if (child != NULL){
-		ColRowInfo *info;
+	xml_read_styles (ctxt, tree);
+	xml_read_cell_styles (ctxt, tree);
+	xml_read_cols_info (ctxt, ret, tree);
+	xml_read_rows_info (ctxt, ret, tree);
 
-		rows = child->childs;
-		while (rows != NULL){
-			info = xml_read_colrow_info (ctxt, rows, NULL);
-			if (info != NULL)
-				sheet_row_add (ret, info);
-			rows = rows->next;
-		}
-	}
 	child = xml_search_child (tree, "Objects");
 	if (child != NULL){
 		objects = child->childs;
@@ -1338,6 +1384,8 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 			cells = cells->next;
 		}
 	}
+	xml_dispose_read_cell_styles (ctxt);
+
 	/* Initialize the ColRowInfo's ->pixels data */
 	sheet_set_zoom_factor (ret, ret->last_zoom_factor_used);
 	return ret;
@@ -1539,11 +1587,7 @@ gnumeric_xml_read_sheet (const char *filename)
 	}
 	ctxt.doc = res;
 	ctxt.ns = gmr;
-	ctxt.name_table = g_hash_table_new (g_str_hash, g_str_equal);
-	ctxt.fontIdx = 1;
 	sheet = xml_sheet_read (&ctxt, res->root);
-	g_hash_table_foreach (ctxt.name_table, name_free, NULL);
-	g_hash_table_destroy (ctxt.name_table);
 	
 	xmlFreeDoc (res);
 
@@ -1579,14 +1623,9 @@ gnumeric_xml_write_sheet (Sheet *sheet, const char *filename)
 	gmr = xmlNewGlobalNs (xml, "http://www.gnome.org/gnumeric/", "gmr");
 	ctxt.doc = xml;
 	ctxt.ns = gmr;
-	ctxt.fontIdx = 1;
-	ctxt.name_table = g_hash_table_new (g_str_hash, g_str_equal);
 	
 	xml->root = xml_sheet_write (&ctxt, sheet);
 
-	g_hash_table_foreach (ctxt.name_table, name_free, NULL);
-	g_hash_table_destroy (ctxt.name_table);
-	
 	/*
 	 * Dump it.
 	 */
@@ -1638,13 +1677,9 @@ gnumeric_xml_read_workbook (const char *filename)
 	}
 	ctxt.doc = res;
 	ctxt.ns = gmr;
-	ctxt.name_table = g_hash_table_new (g_str_hash, g_str_equal);
-	ctxt.fontIdx = 1;
 	wb = xml_workbook_read (&ctxt, res->root);
 	workbook_set_filename (wb, (char *) filename);
 	workbook_recalc_all (wb);
-	g_hash_table_foreach (ctxt.name_table, name_free, NULL);
-	g_hash_table_destroy (ctxt.name_table);
 
 	xmlFreeDoc (res);
 	return wb;
@@ -1674,17 +1709,12 @@ gnumeric_xml_write_workbook (Workbook *wb, const char *filename)
 	if (xml == NULL){
 		return -1;
 	}
-	gmr = xmlNewGlobalNs (xml, "http://www.gnome.org/gnumeric/", "gmr");
+	gmr = xmlNewGlobalNs (xml, "http://www.gnome.org/gnumeric/v2", "gmr");
 	ctxt.doc = xml;
 	ctxt.ns = gmr;
-	ctxt.fontIdx = 1;
-	ctxt.name_table = g_hash_table_new (g_str_hash, g_str_equal);
 
 	xml->root = xml_workbook_write (&ctxt, wb);
 
-	g_hash_table_foreach (ctxt.name_table, name_free, NULL);
-	g_hash_table_destroy (ctxt.name_table);
-	
 	/*
 	 * Dump it.
 	 */

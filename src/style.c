@@ -81,6 +81,7 @@ style_font_new_simple (char *font_name, double size, double scale, int bold, int
 	key.size      = size;
 	key.is_bold   = bold;
 	key.is_italic = italic;
+	key.scale     = scale;
 	
 	font = (StyleFont *) g_hash_table_lookup (style_font_hash, &key);
 	if (!font){
@@ -361,7 +362,7 @@ style_new (void)
 }
 
 guint
-style_hash (gpointer a)
+style_hash (gconstpointer a)
 {
 	Style *style = (Style *) a;
 
@@ -370,7 +371,7 @@ style_hash (gpointer a)
 }
 
 gint
-style_compare (gpointer a, gpointer b)
+style_compare (gconstpointer a, gconstpointer b)
 {
 	Style *sa, *sb;
 
