@@ -90,5 +90,8 @@ void dao_adjust           (data_analysis_output_t *dao, gint cols, gint rows);
 ColRowStateList *dao_get_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols);
 void dao_set_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols, 
 				ColRowStateList *list);
+void dao_write_header (data_analysis_output_t *dao, gchar *toolname,
+		       gchar *title, Sheet *sheet);
+char *dao_find_name (Sheet *sheet, int col, int row);
 
 #endif

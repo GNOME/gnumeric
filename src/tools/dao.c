@@ -42,6 +42,8 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtk.h>
+#include <time.h>
+#include <parse-util.h>
 
 /**
  * dao_INIT:
@@ -707,4 +709,96 @@ dao_set_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols, ColRow
 		colrow_set_states (dao->sheet, is_cols, 
 				   is_cols ? dao->start_col : dao->start_row, 
 				   list);
+}
+
+/**
+ * dao_write_header: Writes the titles of a report.
+ * @dao:
+ * @toolname: name of the tool, like Solver or Risk simulation
+ * @title:
+ * @sheet:
+ *
+ * 
+ *
+ **/
+void
+dao_write_header (data_analysis_output_t *dao, gchar *toolname,
+		  gchar *title, Sheet *sheet)
+{
+	GString   *buf;
+	GDate     date;
+	GTimeVal  t;
+	struct tm tm_s;
+	gchar     *tmp;
+
+	buf = g_string_new ("");
+	g_string_sprintfa (buf, "%s %s %s %s", 
+			   _("Gnumeric "), toolname, VERSION, title);
+	dao_set_cell (dao, 0, 0, buf->str);
+	g_string_free (buf, FALSE);
+
+	buf = g_string_new ("");
+	g_string_sprintfa (buf, "%s [%s]%s",
+			   _("Worksheet:"),
+			   workbook_get_filename (sheet->workbook),
+			   sheet->name_quoted);
+	dao_set_cell (dao, 0, 1, buf->str);
+	g_string_free (buf, FALSE);
+
+	buf = g_string_new ("");
+	g_string_append (buf, _("Report Created: "));
+	g_get_current_time (&t);
+	g_date_set_time (&date, t.tv_sec);
+	g_date_to_struct_tm (&date, &tm_s);
+	tm_s.tm_sec  = t.tv_sec % 60;
+	tm_s.tm_min  = (t.tv_sec / 60) % 60;
+	tm_s.tm_hour = (t.tv_sec / 3600) % 24;
+	tmp = asctime (&tm_s);
+	g_string_append (buf, tmp);
+	dao_set_cell (dao, 0, 2, buf->str);
+	g_string_free (buf, FALSE);
+
+	dao_set_bold (dao, 0, 0, 0, 2);
+}
+
+
+char *
+dao_find_name (Sheet *sheet, int col, int row)
+{
+        static char *str     = NULL;
+	const char  *col_str = "";
+	const char  *row_str = "";
+        int         col_n, row_n;
+
+	for (col_n = col - 1; col_n >= 0; col_n--) {
+	        Cell *cell = sheet_cell_get (sheet, col_n, row);
+		if (cell && !VALUE_IS_NUMBER (cell->value)) {
+			col_str = value_peek_string (cell->value);
+		        break;
+		}
+	}
+
+	for (row_n = row - 1; row_n >= 0; row_n--) {
+	        Cell *cell = sheet_cell_get (sheet, col, row_n);
+		if (cell && !VALUE_IS_NUMBER (cell->value)) {
+			row_str = value_peek_string (cell->value);
+		        break;
+		}
+	}
+
+	if (*col_str || *row_str) {
+		str = g_new (char, strlen (col_str) + strlen (row_str) + 2);
+
+		if (*col_str)
+			sprintf (str, "%s %s", col_str, row_str);
+		else
+			sprintf (str, "%s", row_str);
+	} else {
+		const char *tmp = cell_coord_name (col, row);
+
+		str = g_new (char, strlen (tmp) + 1);
+		strcpy (str, tmp);
+	}
+
+	return str;
 }

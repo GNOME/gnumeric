@@ -52,42 +52,6 @@
 
 /* ------------------------------------------------------------------------- */
 
-
-static char *
-find_name (Sheet *sheet, int col, int row)
-{
-        static char *str = NULL;
-	const char  *col_str = "";
-	const char  *row_str = "";
-        int         col_n, row_n;
-
-	for (col_n = col - 1; col_n >= 0; col_n--) {
-	        Cell *cell = sheet_cell_get (sheet, col_n, row);
-		if (cell && !VALUE_IS_NUMBER (cell->value)) {
-			col_str = value_peek_string (cell->value);
-		        break;
-		}
-	}
-
-	for (row_n = row - 1; row_n >= 0; row_n--) {
-	        Cell *cell = sheet_cell_get (sheet, col, row_n);
-		if (cell && !VALUE_IS_NUMBER (cell->value)) {
-			row_str = value_peek_string (cell->value);
-		        break;
-		}
-	}
-
-	str = g_new (char, strlen (col_str) + strlen (row_str) + 2);
-
-	if (*col_str)
-	        sprintf (str, "%s %s", col_str, row_str);
-	else
-	        sprintf (str, "%s", row_str);
-
-	return str;
-}
-
-
 static void
 get_input_variable_names (SolverResults *res, Sheet *sheet)
 {
@@ -96,8 +60,8 @@ get_input_variable_names (SolverResults *res, Sheet *sheet)
 
 	for (i = 0; i < res->param->n_variables; i++) {
 	        cell = solver_get_input_var (res, i);
-		res->variable_names[i] = find_name (sheet, cell->pos.col,
-						    cell->pos.row);
+		res->variable_names[i] = dao_find_name (sheet, cell->pos.col,
+							cell->pos.row);
 	}
 }
 
@@ -108,8 +72,8 @@ get_constraint_names (SolverResults *res, Sheet *sheet)
 
 	for (i = 0; i < res->param->n_total_constraints; i++) {
 	        SolverConstraint *c = solver_get_constraint (res, i);
-		res->constraint_names[i] = find_name (sheet, c->lhs.col,
-						      c->lhs.row);
+		res->constraint_names[i] = dao_find_name (sheet, c->lhs.col,
+							  c->lhs.row);
 	}
 }
 
@@ -260,9 +224,9 @@ solver_prepare_reports (SolverProgram *program, SolverResults *res,
 	else
 	        alg = &qp_algorithm[param->options.algorithm];
 
-        res->target_name = find_name (sheet,
-				      res->param->target_cell->pos.col,
-				      res->param->target_cell->pos.row);
+        res->target_name = dao_find_name (sheet,
+					  res->param->target_cell->pos.col,
+					  res->param->target_cell->pos.row);
         get_input_variable_names (res, sheet);
         get_constraint_names (res, sheet);
 

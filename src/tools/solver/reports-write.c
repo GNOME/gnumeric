@@ -44,7 +44,6 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 #include <libgnome/gnome-i18n.h>
 #include <sys/utsname.h>
 #include <string.h>
@@ -91,46 +90,6 @@ get_cpu_info (gchar *model_name, gchar *cpu_mhz, unsigned int size)
 	}
 
 	return model & cpu;
-}
-
-
-static void
-fill_header_titles (data_analysis_output_t *dao, gchar *title, Sheet *sheet)
-{
-	GString   *buf;
-	GDate     date;
-	GTimeVal  t;
-	struct tm tm_s;
-	gchar     *tmp;
-
-	buf = g_string_new ("");
-	g_string_sprintfa (buf, "%s %s %s", 
-			   _("Gnumeric Solver"), VERSION, title);
-	dao_set_cell (dao, 0, 0, buf->str);
-	g_string_free (buf, FALSE);
-
-	buf = g_string_new ("");
-	g_string_sprintfa (buf, "%s [%s]%s",
-			   _("Worksheet:"),
-			   workbook_get_filename (sheet->workbook),
-			   sheet->name_quoted);
-	dao_set_cell (dao, 0, 1, buf->str);
-	g_string_free (buf, FALSE);
-
-	buf = g_string_new ("");
-	g_string_append (buf, _("Report Created: "));
-	g_get_current_time (&t);
-	g_date_set_time (&date, t.tv_sec);
-	g_date_to_struct_tm (&date, &tm_s);
-	tm_s.tm_sec  = t.tv_sec % 60;
-	tm_s.tm_min  = (t.tv_sec / 60) % 60;
-	tm_s.tm_hour = (t.tv_sec / 3600) % 24;
-	tmp = asctime (&tm_s);
-	g_string_append (buf, tmp);
-	dao_set_cell (dao, 0, 2, buf->str);
-	g_string_free (buf, FALSE);
-
-	dao_set_bold (dao, 0, 0, 0, 2);
 }
 
 
@@ -275,7 +234,7 @@ solver_answer_report (WorkbookControl *wbc,
 	        dao_set_cell (&dao, 0, 5, _("Target Cell (Minimize)"));
 
 	/* Fill in the header titles. */
-	fill_header_titles (&dao, _("Answer Report"), sheet);
+	dao_write_header (&dao, _("Solver"), _("Answer Report"), sheet);
 
 	/* Fill in other titles. */
 	dao_set_cell (&dao, 0, 10, _("Adjustable Cells"));
@@ -436,7 +395,7 @@ solver_sensitivity_report (WorkbookControl *wbc,
 	 */
 
 	/* Fill in the header titles. */
-	fill_header_titles (&dao, _("Sensitivity Report"), sheet);
+	dao_write_header (&dao, _("Solver"), _("Sensitivity Report"), sheet);
 
 	/* Fill in other titles. */
 	dao_set_cell (&dao, 0, 5, _("Adjustable Cells"));
@@ -566,7 +525,7 @@ solver_limits_report (WorkbookControl *wbc,
 	 */
 
 	/* Fill in the header titles. */
-	fill_header_titles (&dao, _("Limits Report"), sheet);
+	dao_write_header (&dao, _("Solver"), _("Limits Report"), sheet);
 }
 
 
@@ -836,7 +795,7 @@ solver_performance_report (WorkbookControl *wbc,
 	 */
 
 	/* Fill in the header titles. */
-	fill_header_titles (&dao, _("Performance Report"), sheet);
+	dao_write_header (&dao, _("Solver"), _("Performance Report"), sheet);
 
 	/* Fill in other titles. */
 	dao_set_cell (&dao, 0,  5, _("General Information"));
@@ -999,7 +958,7 @@ solver_program_report (WorkbookControl *wbc,
 
 	/* Fill in the header titles. */
 	dao_set_cell (&dao, 1, 3, "");
-	fill_header_titles (&dao, _("Program Report"), sheet);
+	dao_write_header (&dao, _("Solver"), _("Program Report"), sheet);
 
 	/* Print the type of the program. */
 	switch (res->param->problem_type) {
@@ -1050,5 +1009,5 @@ solver_dual_program_report (WorkbookControl *wbc,
 	 */
 
 	/* Fill in the header titles. */
-	fill_header_titles (&dao, _("Dual Program Report"), sheet);
+	dao_write_header (&dao, _("Solver"), _("Dual Program Report"), sheet);
 }
