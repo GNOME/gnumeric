@@ -1,3 +1,10 @@
+1999-12-11  Frank Chiulli  <fchiulli@home.com>
+
+	* ms-ole-summary.c (write_items): Correct the code that keeps track of
+ 	  the size of the property section and where the properties are written.
+ 	(ms_ole_summary_set_boolean): Correct the length of a boolean.
+ 	(ms_ole_summary_set_short): Correct the length of a short.
+ 
 1999-12-14 Valerie A Henson  <val@nmt.edu>
 
 	* ms-ole.c: s/dump/ms_ole_dump.

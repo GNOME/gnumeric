@@ -1,3 +1,9 @@
+1999-12-11  Frank Chiulli  <fchiulli@home.com>
+
+	* ms-summary.c (ms_summary_write): comment out DocumentSummary.
+
+	* boot.c (excel_save): re-enable summary write.
+
 1999-12-14 Valerie A Henson  <val@nmt.edu>
 
 	* ms-obj.c: s/dump/ms_ole_dump/

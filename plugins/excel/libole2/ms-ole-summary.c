@@ -99,12 +99,11 @@ typedef struct {
 static void
 write_items (MsOleSummary *si)
 {
+	MsOlePos cur_pos;
 	MsOlePos pos = 48; /* magic offset see: _create_stream */
 	guint8   data[PROPERTY_DESC_LEN];
 	guint8   fill_data[] = {0, 0, 0, 0};
-	guint32  bytes = PROPERTY_HDR_LEN;
 	guint32  i, num;
-	guint32  fill;
 	guint32  offset = 0;
 	GList   *l;
 
@@ -117,6 +116,7 @@ write_items (MsOleSummary *si)
 	l = si->write_items;
 	num = g_list_length (l);
 	i = 0;
+	offset = PROPERTY_HDR_LEN + num * PROPERTY_DESC_LEN;
 	while (l) {
 		write_item_t *w = l->data;
 		g_return_if_fail (w != NULL);
@@ -124,20 +124,17 @@ write_items (MsOleSummary *si)
 		/*
 		 *  The offset is calculated from the start of the 
 		 *  properties header.  The offset must be on a 
-		 *  4-byte boundary.
+		 *  4-byte boundary.  Therefore all data written must be
+		 *  in multiples of 4-bytes.
 		 */
-		offset = bytes + num * PROPERTY_DESC_LEN;
-		fill   = 0;
-		if ((offset & 0x3) > 0) {
-			fill    = 4 - (offset & 0x3);
-			offset += fill;
-		}
-			
 		MS_OLE_SET_GUINT32 (data + 0, w->id & 0xff);
 		MS_OLE_SET_GUINT32 (data + 4, offset);
 		si->s->write (si->s, data, PROPERTY_DESC_LEN);
 
-		bytes += w->len + fill;
+		offset += w->len;
+		if ((w->len & 0x3) > 0)
+			offset += (4 - (w->len & 0x3));
+			
 		i++;
 
 		l = g_list_next (l);
@@ -146,28 +143,33 @@ write_items (MsOleSummary *si)
 	g_return_if_fail (i == num);
 	
 	/*
-	 *  Write out the item descriptors and the section header.
+	 *  Write out the section header.
 	 */
 	si->s->lseek (si->s, pos, MsOleSeekSet);
-	MS_OLE_SET_GUINT32 (data + 0, bytes);
+	MS_OLE_SET_GUINT32 (data + 0, offset);
 	MS_OLE_SET_GUINT32 (data + 4, i);
 	si->s->write (si->s, data, PROPERTY_HDR_LEN);
 
 	/*
 	 *  Write out the property values.
+	 *  Keep track of the last position written to.
 	 */
-	si->s->lseek (si->s, pos + PROPERTY_HDR_LEN + num*PROPERTY_DESC_LEN, MsOleSeekSet);
+	cur_pos = pos + PROPERTY_HDR_LEN + num*PROPERTY_DESC_LEN;
+	si->s->lseek (si->s, cur_pos, MsOleSeekSet);
 	l = si->write_items;
 	while (l) {
 		write_item_t *w = l->data;
 		si->s->write (si->s, w->data, w->len);
+		cur_pos += w->len;
 		l = g_list_next (l);
 
 		/*
 		 * Write out any fill.
 		 */
-		if ((w->len & 0x3) > 0)
+		if ((w->len & 0x3) > 0) {
+		        cur_pos += (4 - (w->len & 0x3));
 			si->s->write (si->s, fill_data, 4 - (w->len & 0x3));
+		}
 
 	}
 
@@ -176,9 +178,8 @@ write_items (MsOleSummary *si)
 	 */
 	{
 		int     i;
-		guint8  data[] = { 0, 0, 0, 0 };
-		for (i = 0; i < 0x1000/4; i++)
-			si->s->write (si->s, data, 4);
+		for (i = cur_pos; i < 0x1000; i+=4)
+			si->s->write (si->s, fill_data, 4);
 	}
 
 }
@@ -1147,7 +1148,7 @@ ms_ole_summary_set_boolean (MsOleSummary *si, MsOleSummaryPID id,
 	w = write_item_t_new (si, id);
 
 	w->data = g_new (guint8, 8);
-	w->len  = 8;
+	w->len  = 6;
 
 	MS_OLE_SET_GUINT32 (w->data + 0, TYPE_BOOLEAN);
 	MS_OLE_SET_GUINT16 (w->data + 4, bool);
@@ -1175,7 +1176,7 @@ ms_ole_summary_set_short (MsOleSummary *si, MsOleSummaryPID id,
 	w = write_item_t_new (si, id);
 
 	w->data = g_new (guint8, 8);
-	w->len  = 8;
+	w->len  = 6;
 
 	MS_OLE_SET_GUINT32 (w->data + 0, TYPE_SHORT);
 	MS_OLE_SET_GUINT16 (w->data + 4, i);

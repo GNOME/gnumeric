@@ -108,10 +108,7 @@ excel_save (Workbook *wb, const char *filename, eBiff_version ver)
 
 	ans = ms_excel_write_workbook (f, wb, ver);
 
-	/*
-	 * Disabled until further notice; this code breaks excel.
-	 */
-/*        ms_summary_write (f, wb->summary_info); */
+        ms_summary_write (f, wb->summary_info);
 
 	ms_ole_destroy (&f);
 

@@ -236,7 +236,7 @@ set_summary_item (SummaryItem *s_item, MsOleSummary *ms_sum)
 		st = g_array_index (ms_sum->sections, MsOleSummarySection, sect);
 
 		if (sum_name_to_excel (s_item->name, &pid, st.ps_id) != 0) {
-	
+
 			switch (s_item->type) {
 
 			case SUMMARY_STRING:
@@ -308,6 +308,7 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	/*
 	 *  Write out DocumentSummaryInformation.
 	 */
+	/*
 	si = ms_ole_docsummary_create (f);
 	if (si == NULL) {
 		g_warning ("ms_summary_write: doc summary NOT created.\n");
@@ -322,4 +323,5 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	g_list_foreach (si_list, (GFunc)set_summary_item, si);
 	
 	ms_ole_summary_close (si);
+	*/
 }

@@ -12,6 +12,9 @@ JP:
 	* Added sorting of infinite ranges
 	* Got rid of blank sheets when printing
 
+Frank:
+	* Worked on Excel summary export
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.45
