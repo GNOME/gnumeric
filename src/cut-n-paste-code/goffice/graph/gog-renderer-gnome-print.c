@@ -426,7 +426,7 @@ gog_renderer_gnome_print_draw_text (GogRenderer *rend, char const *text,
 
 		pango_layout_set_font_description (prend->layout, pango_font);
 		pango_layout_set_text (prend->layout, text, -1);
-		pango_layout_get_size (prend->layout, &w, &h);
+		pango_layout_get_pixel_size (prend->layout, &w, &h);
 #else
 		/* This code will die when we require libgnomeprint 2.8  */
 		double font_ascent = gnome_font_get_ascender (gfont);
