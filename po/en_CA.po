@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-10 12:52-0500\n"
-"PO-Revision-Date: 2005-02-10 11:36-0400\n"
+"POT-Creation-Date: 2005-02-11 11:14-0500\n"
+"PO-Revision-Date: 2005-02-11 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -9782,45 +9782,45 @@ msgstr ""
 "@SEEALSO=TRUE"
 
 #: plugins/fn-logical/functions.c:333 plugins/fn-logical/functions.c:337
-#: plugins/fn-logical/functions.c:357 plugins/fn-math/functions.c:3258
-#: plugins/fn-stat/functions.c:5635 plugins/fn-stat/functions.c:5639
-#: plugins/fn-stat/functions.c:5643 plugins/fn-stat/functions.c:5681
-#: plugins/fn-stat/functions.c:5684 plugins/fn-stat/functions.c:5693
-#: plugins/fn-stat/functions.c:5729 plugins/fn-stat/functions.c:5743
-#: plugins/fn-stat/functions.c:5746 plugins/fn-stat/functions.c:5749
-#: plugins/fn-stat/functions.c:5771 plugins/fn-stat/functions.c:5775
-#: plugins/fn-stat/functions.c:5779 plugins/fn-stat/functions.c:5783
-#: plugins/fn-stat/functions.c:5787 plugins/fn-stat/functions.c:5791
-#: plugins/fn-stat/functions.c:5837 plugins/fn-stat/functions.c:5847
-#: plugins/fn-stat/functions.c:5851 plugins/fn-stat/functions.c:5855
-#: plugins/fn-stat/functions.c:5859 plugins/fn-stat/functions.c:5888
-#: plugins/fn-stat/functions.c:5891 plugins/fn-stat/functions.c:5894
-#: plugins/fn-stat/functions.c:5897 plugins/fn-stat/functions.c:5913
+#: plugins/fn-logical/functions.c:357 plugins/fn-math/functions.c:3263
+#: plugins/fn-stat/functions.c:5640 plugins/fn-stat/functions.c:5644
+#: plugins/fn-stat/functions.c:5648 plugins/fn-stat/functions.c:5686
+#: plugins/fn-stat/functions.c:5689 plugins/fn-stat/functions.c:5698
+#: plugins/fn-stat/functions.c:5734 plugins/fn-stat/functions.c:5748
+#: plugins/fn-stat/functions.c:5751 plugins/fn-stat/functions.c:5754
+#: plugins/fn-stat/functions.c:5776 plugins/fn-stat/functions.c:5780
+#: plugins/fn-stat/functions.c:5784 plugins/fn-stat/functions.c:5788
+#: plugins/fn-stat/functions.c:5792 plugins/fn-stat/functions.c:5796
+#: plugins/fn-stat/functions.c:5842 plugins/fn-stat/functions.c:5852
+#: plugins/fn-stat/functions.c:5856 plugins/fn-stat/functions.c:5860
+#: plugins/fn-stat/functions.c:5864 plugins/fn-stat/functions.c:5893
+#: plugins/fn-stat/functions.c:5896 plugins/fn-stat/functions.c:5899
+#: plugins/fn-stat/functions.c:5902 plugins/fn-stat/functions.c:5918
 #: src/func-builtin.c:131 src/func-builtin.c:137
 msgid "number,number,"
 msgstr "number,number,"
 
 #. MS Excel puts this in the engineering functions
-#: plugins/fn-logical/functions.c:341 plugins/fn-math/functions.c:3090
-#: plugins/fn-math/functions.c:3094 plugins/fn-math/functions.c:3097
-#: plugins/fn-math/functions.c:3100 plugins/fn-math/functions.c:3103
-#: plugins/fn-math/functions.c:3106 plugins/fn-math/functions.c:3109
-#: plugins/fn-math/functions.c:3115 plugins/fn-math/functions.c:3124
-#: plugins/fn-math/functions.c:3133 plugins/fn-math/functions.c:3141
-#: plugins/fn-math/functions.c:3144 plugins/fn-math/functions.c:3147
-#: plugins/fn-math/functions.c:3150 plugins/fn-math/functions.c:3153
-#: plugins/fn-math/functions.c:3158 plugins/fn-math/functions.c:3162
-#: plugins/fn-math/functions.c:3168 plugins/fn-math/functions.c:3178
-#: plugins/fn-math/functions.c:3185 plugins/fn-math/functions.c:3188
-#: plugins/fn-math/functions.c:3194 plugins/fn-math/functions.c:3197
-#: plugins/fn-math/functions.c:3210 plugins/fn-math/functions.c:3216
-#: plugins/fn-math/functions.c:3222 plugins/fn-math/functions.c:3243
-#: plugins/fn-math/functions.c:3246 plugins/fn-math/functions.c:3249
-#: plugins/fn-math/functions.c:3252 plugins/fn-math/functions.c:3255
-#: plugins/fn-math/functions.c:3268 plugins/fn-math/functions.c:3280
-#: plugins/fn-math/functions.c:3283 plugins/fn-stat/functions.c:5705
-#: plugins/fn-stat/functions.c:5708 plugins/fn-stat/functions.c:5726
-#: plugins/fn-stat/functions.c:5804 plugins/fn-string/functions.c:1127
+#: plugins/fn-logical/functions.c:341 plugins/fn-math/functions.c:3095
+#: plugins/fn-math/functions.c:3099 plugins/fn-math/functions.c:3102
+#: plugins/fn-math/functions.c:3105 plugins/fn-math/functions.c:3108
+#: plugins/fn-math/functions.c:3111 plugins/fn-math/functions.c:3114
+#: plugins/fn-math/functions.c:3120 plugins/fn-math/functions.c:3129
+#: plugins/fn-math/functions.c:3138 plugins/fn-math/functions.c:3146
+#: plugins/fn-math/functions.c:3149 plugins/fn-math/functions.c:3152
+#: plugins/fn-math/functions.c:3155 plugins/fn-math/functions.c:3158
+#: plugins/fn-math/functions.c:3163 plugins/fn-math/functions.c:3167
+#: plugins/fn-math/functions.c:3173 plugins/fn-math/functions.c:3183
+#: plugins/fn-math/functions.c:3190 plugins/fn-math/functions.c:3193
+#: plugins/fn-math/functions.c:3199 plugins/fn-math/functions.c:3202
+#: plugins/fn-math/functions.c:3215 plugins/fn-math/functions.c:3221
+#: plugins/fn-math/functions.c:3227 plugins/fn-math/functions.c:3248
+#: plugins/fn-math/functions.c:3251 plugins/fn-math/functions.c:3254
+#: plugins/fn-math/functions.c:3257 plugins/fn-math/functions.c:3260
+#: plugins/fn-math/functions.c:3273 plugins/fn-math/functions.c:3285
+#: plugins/fn-math/functions.c:3288 plugins/fn-stat/functions.c:5710
+#: plugins/fn-stat/functions.c:5713 plugins/fn-stat/functions.c:5731
+#: plugins/fn-stat/functions.c:5809 plugins/fn-string/functions.c:1127
 #: plugins/fn-string/functions.c:1130
 msgid "number"
 msgstr "number"
@@ -10406,7 +10406,7 @@ msgstr "val,range,approx"
 msgid "ref,row,col,height,width"
 msgstr "ref,row,col,height,width"
 
-#: plugins/fn-lookup/functions.c:1260 plugins/fn-math/functions.c:3296
+#: plugins/fn-lookup/functions.c:1260 plugins/fn-math/functions.c:3301
 msgid "array"
 msgstr "array"
 
@@ -11932,21 +11932,22 @@ msgstr ""
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
-"@DESCRIPTION=ROUNDDOWN function rounds a given @number down. @number is the "
-"number you want rounded down and @digits is the number of digits to which "
-"you want to round that number.\n"
+"@DESCRIPTION=ROUNDDOWN function rounds a given @number towards 0.\n"
 "\n"
-"* If @digits is greater than zero, @number is rounded down to the given "
+"@number is the number you want rounded toward 0 and @digits is the number of "
+"digits to which you want to round that number.\n"
+"\n"
+"* If @digits is greater than zero, @number is rounded toward 0 to the given "
 "number of digits.\n"
-"* If @digits is zero or omitted, @number is rounded down to the nearest "
+"* If @digits is zero or omitted, @number is rounded toward 0 to the next "
 "integer.\n"
-"* If @digits is less than zero, @number is rounded down to the left of the "
-"decimal point.\n"
+"* If @digits is less than zero, @number is rounded toward 0 to the left of "
+"the decimal point.\n"
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
 "ROUNDDOWN(5.5) equals 5.\n"
-"ROUNDDOWN(-3.3) equals -4.\n"
+"ROUNDDOWN(-3.3) equals -3.\n"
 "ROUNDDOWN(1501.15,1) equals 1501.1.\n"
 "ROUNDDOWN(1501.15,-2) equals 1500.0.\n"
 "\n"
@@ -11954,27 +11955,28 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
-"@DESCRIPTION=ROUNDDOWN function rounds a given @number down. @number is the "
-"number you want rounded down and @digits is the number of digits to which "
-"you want to round that number.\n"
+"@DESCRIPTION=ROUNDDOWN function rounds a given @number towards 0.\n"
 "\n"
-"* If @digits is greater than zero, @number is rounded down to the given "
+"@number is the number you want rounded toward 0 and @digits is the number of "
+"digits to which you want to round that number.\n"
+"\n"
+"* If @digits is greater than zero, @number is rounded toward 0 to the given "
 "number of digits.\n"
-"* If @digits is zero or omitted, @number is rounded down to the nearest "
+"* If @digits is zero or omitted, @number is rounded toward 0 to the next "
 "integer.\n"
-"* If @digits is less than zero, @number is rounded down to the left of the "
-"decimal point.\n"
+"* If @digits is less than zero, @number is rounded toward 0 to the left of "
+"the decimal point.\n"
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
 "ROUNDDOWN(5.5) equals 5.\n"
-"ROUNDDOWN(-3.3) equals -4.\n"
+"ROUNDDOWN(-3.3) equals -3.\n"
 "ROUNDDOWN(1501.15,1) equals 1501.1.\n"
 "ROUNDDOWN(1501.15,-2) equals 1500.0.\n"
 "\n"
 "@SEEALSO=ROUND,ROUNDUP"
 
-#: plugins/fn-math/functions.c:1904
+#: plugins/fn-math/functions.c:1906
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -12020,26 +12022,26 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
-#: plugins/fn-math/functions.c:1945
+#: plugins/fn-math/functions.c:1947
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
-"@DESCRIPTION=ROUNDUP function rounds a given number up.\n"
+"@DESCRIPTION=ROUNDUP function rounds a given number away from 0.\n"
 "\n"
-"@number is the number you want rounded up and @digits is the number of "
-"digits to which you want to round that number.\n"
+"@number is the number you want rounded away from 0 and @digits is the number "
+"of digits to which you want to round that number.\n"
 "\n"
-"* If @digits is greater than zero, @number is rounded up to the given number "
-"of digits.\n"
-"* If @digits is zero or omitted, @number is rounded up to the nearest "
+"* If @digits is greater than zero, @number is rounded away from 0 to the "
+"given number of digits.\n"
+"* If @digits is zero or omitted, @number is rounded away from 0 to the next "
 "integer.\n"
-"* If @digits is less than zero, @number is rounded up to the left of the "
-"decimal point.\n"
+"* If @digits is less than zero, @number is rounded away from 0 to the left "
+"of the decimal point.\n"
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
 "ROUNDUP(5.5) equals 6.\n"
-"ROUNDUP(-3.3) equals -3.\n"
+"ROUNDUP(-3.3) equals -4.\n"
 "ROUNDUP(1501.15,1) equals 1501.2.\n"
 "ROUNDUP(1501.15,-2) equals 1600.0.\n"
 "\n"
@@ -12047,28 +12049,28 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
-"@DESCRIPTION=ROUNDUP function rounds a given number up.\n"
+"@DESCRIPTION=ROUNDUP function rounds a given number away from 0.\n"
 "\n"
-"@number is the number you want rounded up and @digits is the number of "
-"digits to which you want to round that number.\n"
+"@number is the number you want rounded away from 0 and @digits is the number "
+"of digits to which you want to round that number.\n"
 "\n"
-"* If @digits is greater than zero, @number is rounded up to the given number "
-"of digits.\n"
-"* If @digits is zero or omitted, @number is rounded up to the nearest "
+"* If @digits is greater than zero, @number is rounded away from 0 to the "
+"given number of digits.\n"
+"* If @digits is zero or omitted, @number is rounded away from 0 to the next "
 "integer.\n"
-"* If @digits is less than zero, @number is rounded up to the left of the "
-"decimal point.\n"
+"* If @digits is less than zero, @number is rounded away from 0 to the left "
+"of the decimal point.\n"
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
 "ROUNDUP(5.5) equals 6.\n"
-"ROUNDUP(-3.3) equals -3.\n"
+"ROUNDUP(-3.3) equals -4.\n"
 "ROUNDUP(1501.15,1) equals 1501.2.\n"
 "ROUNDUP(1501.15,-2) equals 1600.0.\n"
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
 
-#: plugins/fn-math/functions.c:1989
+#: plugins/fn-math/functions.c:1994
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -12102,7 +12104,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
-#: plugins/fn-math/functions.c:2043
+#: plugins/fn-math/functions.c:2048
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -12146,7 +12148,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:2309
+#: plugins/fn-math/functions.c:2314
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -12188,14 +12190,14 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2PY2"
 
-#: plugins/fn-math/functions.c:2365 plugins/fn-math/functions.c:2385
-#: plugins/fn-math/functions.c:2478 plugins/fn-math/functions.c:2498
-#: plugins/fn-math/functions.c:2589 plugins/fn-math/functions.c:2609
+#: plugins/fn-math/functions.c:2370 plugins/fn-math/functions.c:2390
+#: plugins/fn-math/functions.c:2483 plugins/fn-math/functions.c:2503
+#: plugins/fn-math/functions.c:2594 plugins/fn-math/functions.c:2614
 #: plugins/fn-stat/functions.c:2933 plugins/fn-stat/functions.c:2963
 msgid "Array version not implemented!"
 msgstr "Array version not implemented!"
 
-#: plugins/fn-math/functions.c:2423
+#: plugins/fn-math/functions.c:2428
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -12237,7 +12239,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
 
-#: plugins/fn-math/functions.c:2534
+#: plugins/fn-math/functions.c:2539
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -12279,7 +12281,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: plugins/fn-math/functions.c:2647
+#: plugins/fn-math/functions.c:2652
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -12313,7 +12315,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: plugins/fn-math/functions.c:2705
+#: plugins/fn-math/functions.c:2710
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -12341,7 +12343,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: plugins/fn-math/functions.c:2848
+#: plugins/fn-math/functions.c:2853
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -12367,7 +12369,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: plugins/fn-math/functions.c:2924
+#: plugins/fn-math/functions.c:2929
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -12401,7 +12403,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: plugins/fn-math/functions.c:2971
+#: plugins/fn-math/functions.c:2976
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -12439,11 +12441,11 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: plugins/fn-math/functions.c:3112
+#: plugins/fn-math/functions.c:3117
 msgid "xnum,ynum"
 msgstr "xnum,ynum"
 
-#: plugins/fn-math/functions.c:3118 plugins/fn-math/functions.c:3121
+#: plugins/fn-math/functions.c:3123 plugins/fn-math/functions.c:3126
 #: plugins/fn-random/functions.c:1102 plugins/fn-random/functions.c:1123
 #: plugins/fn-random/functions.c:1129 plugins/fn-random/functions.c:1168
 #: plugins/fn-random/functions.c:1183 plugins/fn-random/functions.c:1186
@@ -12451,67 +12453,67 @@ msgid "a,b"
 msgstr "a,b"
 
 #. MS Excel puts this in statistical
-#: plugins/fn-math/functions.c:3129
+#: plugins/fn-math/functions.c:3134
 msgid "range,criteria"
 msgstr "range,criteria"
 
-#: plugins/fn-math/functions.c:3137
+#: plugins/fn-math/functions.c:3142
 msgid "number,significance"
 msgstr "number,significance"
 
-#: plugins/fn-math/functions.c:3165 plugins/fn-stat/functions.c:5819
+#: plugins/fn-math/functions.c:3170 plugins/fn-stat/functions.c:5824
 msgid "n,k"
 msgstr "n,k"
 
-#: plugins/fn-math/functions.c:3172
+#: plugins/fn-math/functions.c:3177
 msgid "number,number"
 msgstr "number,number"
 
-#: plugins/fn-math/functions.c:3191
+#: plugins/fn-math/functions.c:3196
 msgid "number,base"
 msgstr "number,base"
 
-#: plugins/fn-math/functions.c:3200 plugins/fn-math/functions.c:3219
+#: plugins/fn-math/functions.c:3205 plugins/fn-math/functions.c:3224
 msgid "numerator,denominator"
 msgstr "numerator,denominator"
 
-#: plugins/fn-math/functions.c:3203
+#: plugins/fn-math/functions.c:3208
 msgid "number,multiple"
 msgstr "number,multiple"
 
-#: plugins/fn-math/functions.c:3213
+#: plugins/fn-math/functions.c:3218
 msgid "base,exponent"
 msgstr "base,exponent"
 
-#: plugins/fn-math/functions.c:3225
+#: plugins/fn-math/functions.c:3230
 msgid "number,type"
 msgstr "number,type"
 
-#: plugins/fn-math/functions.c:3228 plugins/fn-math/functions.c:3232
-#: plugins/fn-math/functions.c:3236 plugins/fn-math/functions.c:3286
+#: plugins/fn-math/functions.c:3233 plugins/fn-math/functions.c:3237
+#: plugins/fn-math/functions.c:3241 plugins/fn-math/functions.c:3291
 msgid "number,digits"
 msgstr "number,digits"
 
-#: plugins/fn-math/functions.c:3240
+#: plugins/fn-math/functions.c:3245
 msgid "x,n,m,coefficients"
 msgstr "x,n,m,coefficients"
 
-#: plugins/fn-math/functions.c:3262
+#: plugins/fn-math/functions.c:3267
 msgid "range,criteria,actual_range"
 msgstr "range,criteria,actual_range"
 
-#: plugins/fn-math/functions.c:3265
+#: plugins/fn-math/functions.c:3270
 msgid "range,range,"
 msgstr "range,range,"
 
-#: plugins/fn-math/functions.c:3271 plugins/fn-math/functions.c:3274
-#: plugins/fn-math/functions.c:3277 plugins/fn-math/functions.c:3293
-#: plugins/fn-stat/functions.c:5678 plugins/fn-stat/functions.c:5687
-#: plugins/fn-stat/functions.c:5810 plugins/fn-stat/functions.c:5866
+#: plugins/fn-math/functions.c:3276 plugins/fn-math/functions.c:3279
+#: plugins/fn-math/functions.c:3282 plugins/fn-math/functions.c:3298
+#: plugins/fn-stat/functions.c:5683 plugins/fn-stat/functions.c:5692
+#: plugins/fn-stat/functions.c:5815 plugins/fn-stat/functions.c:5871
 msgid "array1,array2"
 msgstr "array1,array2"
 
-#: plugins/fn-math/functions.c:3299 plugins/fn-math/functions.c:3303
+#: plugins/fn-math/functions.c:3304 plugins/fn-math/functions.c:3308
 msgid "array,matrix_type,bandsize"
 msgstr "array,matrix_type,bandsize"
 
@@ -13418,7 +13420,7 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-random/functions.c:1099 plugins/fn-random/functions.c:1135
-#: plugins/fn-random/functions.c:1153 plugins/fn-stat/functions.c:5807
+#: plugins/fn-random/functions.c:1153 plugins/fn-stat/functions.c:5812
 msgid "p"
 msgstr "p"
 
@@ -16774,7 +16776,10 @@ msgid ""
 "@SYNTAX=EXPPOWDIST(x,a,b)\n"
 "@DESCRIPTION=EXPPOWDIST returns the probability density p(x) at @x for "
 "Exponential Power distribution with scale parameter @a and exponent @b.\n"
-"\n"
+"This distribution has been recommended for lifetime analysis when a U-shaped "
+"hazard function is desired. This corresponds to rapid failure once the "
+"product starts to wear out after a period of steady or even improving "
+"reliability.\n"
 "@EXAMPLES=\n"
 "EXPPOWDIST(0.4,1,2).\n"
 "\n"
@@ -16784,13 +16789,16 @@ msgstr ""
 "@SYNTAX=EXPPOWDIST(x,a,b)\n"
 "@DESCRIPTION=EXPPOWDIST returns the probability density p(x) at @x for "
 "Exponential Power distribution with scale parameter @a and exponent @b.\n"
-"\n"
+"This distribution has been recommended for lifetime analysis when a U-shaped "
+"hazard function is desired. This corresponds to rapid failure once the "
+"product starts to wear out after a period of steady or even improving "
+"reliability.\n"
 "@EXAMPLES=\n"
 "EXPPOWDIST(0.4,1,2).\n"
 "\n"
 "@SEEALSO=RANDEXPPOW"
 
-#: plugins/fn-stat/functions.c:5607
+#: plugins/fn-stat/functions.c:5612
 msgid ""
 "@FUNCTION=LAPLACE\n"
 "@SYNTAX=LAPLACE(x,a)\n"
@@ -16810,182 +16818,182 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLAPLACE"
 
-#: plugins/fn-stat/functions.c:5648 plugins/fn-stat/functions.c:5910
+#: plugins/fn-stat/functions.c:5653 plugins/fn-stat/functions.c:5915
 msgid "k,p"
 msgstr "k,p"
 
-#: plugins/fn-stat/functions.c:5652
+#: plugins/fn-stat/functions.c:5657
 msgid "x,alpha,beta,a,b"
 msgstr "x,alpha,beta,a,b"
 
-#: plugins/fn-stat/functions.c:5655
+#: plugins/fn-stat/functions.c:5660
 msgid "p,alpha,beta,a,b"
 msgstr "p,alpha,beta,a,b"
 
-#: plugins/fn-stat/functions.c:5658
+#: plugins/fn-stat/functions.c:5663
 msgid "n,t,p,c"
 msgstr "n,t,p,c"
 
-#: plugins/fn-stat/functions.c:5662
+#: plugins/fn-stat/functions.c:5667
 msgid "x,a,cum"
 msgstr "x,a,cum"
 
-#: plugins/fn-stat/functions.c:5666
+#: plugins/fn-stat/functions.c:5671
 msgid "x,dof"
 msgstr "x,dof"
 
-#: plugins/fn-stat/functions.c:5669 plugins/fn-stat/functions.c:5875
+#: plugins/fn-stat/functions.c:5674 plugins/fn-stat/functions.c:5880
 msgid "p,dof"
 msgstr "p,dof"
 
-#: plugins/fn-stat/functions.c:5672
+#: plugins/fn-stat/functions.c:5677
 msgid "act_range,theo_range"
 msgstr "act_range,theo_range"
 
-#: plugins/fn-stat/functions.c:5675
+#: plugins/fn-stat/functions.c:5680
 msgid "x,stddev,size"
 msgstr "x,stddev,size"
 
-#: plugins/fn-stat/functions.c:5690
+#: plugins/fn-stat/functions.c:5695
 msgid "trials,p,alpha"
 msgstr "trials,p,alpha"
 
-#: plugins/fn-stat/functions.c:5696
+#: plugins/fn-stat/functions.c:5701
 msgid "x,y,cumulative"
 msgstr "x,y,cumulative"
 
-#: plugins/fn-stat/functions.c:5699
+#: plugins/fn-stat/functions.c:5704
 msgid "x,dof of num,dof of denom"
 msgstr "x,dof of num,dof of denom"
 
-#: plugins/fn-stat/functions.c:5702
+#: plugins/fn-stat/functions.c:5707
 msgid "p,dof of num,dof of denom"
 msgstr "p,dof of num,dof of denom"
 
-#: plugins/fn-stat/functions.c:5711
+#: plugins/fn-stat/functions.c:5716
 msgid "x,known y's,known x's"
 msgstr "x,known y's,known x's"
 
-#: plugins/fn-stat/functions.c:5714
+#: plugins/fn-stat/functions.c:5719
 msgid "data_array,bins_array"
 msgstr "data_array,bins_array"
 
-#: plugins/fn-stat/functions.c:5717
+#: plugins/fn-stat/functions.c:5722
 msgid "arr1,arr2"
 msgstr "arr1,arr2"
 
-#: plugins/fn-stat/functions.c:5720
+#: plugins/fn-stat/functions.c:5725
 msgid "number,alpha,beta,cum"
 msgstr "number,alpha,beta,cum"
 
-#: plugins/fn-stat/functions.c:5723
+#: plugins/fn-stat/functions.c:5728
 msgid "number,alpha,beta"
 msgstr "number,alpha,beta"
 
-#: plugins/fn-stat/functions.c:5733 plugins/fn-stat/functions.c:5878
+#: plugins/fn-stat/functions.c:5738 plugins/fn-stat/functions.c:5883
 msgid "known_y's,known_x's,new_x's,const"
 msgstr "known_y's,known_x's,new_x's,const"
 
-#: plugins/fn-stat/functions.c:5740
+#: plugins/fn-stat/functions.c:5745
 msgid "x,n,M,N,cumulative"
 msgstr "x,n,M,N,cumulative"
 
-#: plugins/fn-stat/functions.c:5753 plugins/fn-stat/functions.c:5756
-#: plugins/fn-stat/functions.c:5768
+#: plugins/fn-stat/functions.c:5758 plugins/fn-stat/functions.c:5761
+#: plugins/fn-stat/functions.c:5773
 msgid "known_y's,known_x's,const,stat"
 msgstr "known_y's,known_x's,const,stat"
 
-#: plugins/fn-stat/functions.c:5759 plugins/fn-stat/functions.c:5834
-#: plugins/fn-stat/functions.c:5863
+#: plugins/fn-stat/functions.c:5764 plugins/fn-stat/functions.c:5839
+#: plugins/fn-stat/functions.c:5868
 msgid "known_y's,known_x's"
 msgstr "known_y's,known_x's"
 
-#: plugins/fn-stat/functions.c:5762 plugins/fn-stat/functions.c:5801
+#: plugins/fn-stat/functions.c:5767 plugins/fn-stat/functions.c:5806
 msgid "p,mean,stddev"
 msgstr "p,mean,stddev"
 
-#: plugins/fn-stat/functions.c:5765 plugins/fn-stat/functions.c:5841
+#: plugins/fn-stat/functions.c:5770 plugins/fn-stat/functions.c:5846
 msgid "x,mean,stddev"
 msgstr "x,mean,stddev"
 
-#: plugins/fn-stat/functions.c:5795
+#: plugins/fn-stat/functions.c:5800
 msgid "f,t,p"
 msgstr "f,t,p"
 
-#: plugins/fn-stat/functions.c:5798
+#: plugins/fn-stat/functions.c:5803
 msgid "x,mean,stddev,cumulative"
 msgstr "x,mean,stddev,cumulative"
 
-#: plugins/fn-stat/functions.c:5813
+#: plugins/fn-stat/functions.c:5818
 msgid "array,k"
 msgstr "array,k"
 
-#: plugins/fn-stat/functions.c:5816
+#: plugins/fn-stat/functions.c:5821
 msgid "array,x,significance"
 msgstr "array,x,significance"
 
-#: plugins/fn-stat/functions.c:5822
+#: plugins/fn-stat/functions.c:5827
 msgid "x,mean,cumulative"
 msgstr "x,mean,cumulative"
 
-#: plugins/fn-stat/functions.c:5825
+#: plugins/fn-stat/functions.c:5830
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr "x_range,prob_range,lower_limit,upper_limit"
 
-#: plugins/fn-stat/functions.c:5828
+#: plugins/fn-stat/functions.c:5833
 msgid "array,quart"
 msgstr "array,quart"
 
-#: plugins/fn-stat/functions.c:5844
+#: plugins/fn-stat/functions.c:5849
 msgid "array,interval"
 msgstr "array,interval"
 
-#: plugins/fn-stat/functions.c:5872
+#: plugins/fn-stat/functions.c:5877
 msgid "x,dof,tails"
 msgstr "x,dof,tails"
 
-#: plugins/fn-stat/functions.c:5881
+#: plugins/fn-stat/functions.c:5886
 msgid "ref,fraction"
 msgstr "ref,fraction"
 
-#: plugins/fn-stat/functions.c:5885
+#: plugins/fn-stat/functions.c:5890
 msgid "array1,array2,tails,type"
 msgstr "array1,array2,tails,type"
 
-#: plugins/fn-stat/functions.c:5900
+#: plugins/fn-stat/functions.c:5905
 msgid "x.alpha,beta,cumulative"
 msgstr "x.alpha,beta,cumulative"
 
-#: plugins/fn-stat/functions.c:5903
+#: plugins/fn-stat/functions.c:5908
 msgid "ref,x"
 msgstr "ref,x"
 
-#: plugins/fn-stat/functions.c:5907 plugins/fn-stat/functions.c:5925
+#: plugins/fn-stat/functions.c:5912 plugins/fn-stat/functions.c:5930
 msgid "x,a,b"
 msgstr "x,a,b"
 
-#: plugins/fn-stat/functions.c:5916
+#: plugins/fn-stat/functions.c:5921
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:228
 msgid "x"
 msgstr "x"
 
-#: plugins/fn-stat/functions.c:5919 plugins/fn-stat/functions.c:5922
+#: plugins/fn-stat/functions.c:5924 plugins/fn-stat/functions.c:5927
 msgid "x,a"
 msgstr "x,a"
 
-#: plugins/fn-stat/functions.c:5928
+#: plugins/fn-stat/functions.c:5933
 msgid "x,sigma"
 msgstr "x,sigma"
 
-#: plugins/fn-stat/functions.c:5931
+#: plugins/fn-stat/functions.c:5936
 msgid "x,a,sigma"
 msgstr "x,a,sigma"
 
-#: plugins/fn-stat/functions.c:5937
+#: plugins/fn-stat/functions.c:5942
 msgid "function_nbr,ref,ref,"
 msgstr "function_nbr,ref,ref,"
 
-#: plugins/fn-stat/functions.c:5940
+#: plugins/fn-stat/functions.c:5945
 msgid "ref,ref,"
 msgstr "ref,ref,"
 
