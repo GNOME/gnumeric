@@ -41,7 +41,7 @@ search_replace_free (SearchReplace *sr)
 /* ------------------------------------------------------------------------- */
 
 static int
-search_replace_compile (SearchReplace *sr)
+search_replace_compile (SearchReplace *sr, gboolean repl)
 {
 	const char *pattern;
 	char *tmp;
@@ -57,8 +57,8 @@ search_replace_compile (SearchReplace *sr)
 		pattern = sr->search_text;
 		tmp = NULL;
 		sr->plain_replace =
-			(strchr (sr->replace_text, '$') == 0 &&
-			 strchr (sr->replace_text, '\\') == 0);
+			repl && (strchr (sr->replace_text, '$') == 0 &&
+				 strchr (sr->replace_text, '\\') == 0);
 	} else {
 		/*
 		 * Create a regular expression equivalent to the search
@@ -102,13 +102,15 @@ SearchReplace *
 search_replace_copy (const SearchReplace *sr)
 {
 	SearchReplace *dst = search_replace_new ();
+	gboolean repl = (sr->replace_text != NULL);
+
 	*dst = *sr;
 	if (sr->search_text) dst->search_text = g_strdup (sr->search_text);
 	if (sr->replace_text) dst->replace_text = g_strdup (sr->replace_text);
 	if (sr->range_text) dst->range_text = g_strdup (sr->range_text);
 	if (sr->comp_search) {
 		dst->comp_search = NULL;
-		search_replace_compile (dst);
+		search_replace_compile (dst, repl);
 	}
 	return dst;
 }
@@ -116,7 +118,7 @@ search_replace_copy (const SearchReplace *sr)
 /* ------------------------------------------------------------------------- */
 
 char *
-search_replace_verify (SearchReplace *sr)
+search_replace_verify (SearchReplace *sr, gboolean repl)
 {
 	int err;
 	g_return_val_if_fail (sr != NULL, NULL);
@@ -124,7 +126,7 @@ search_replace_verify (SearchReplace *sr)
 	if (!sr->search_text || sr->search_text[0] == 0)
 		return g_strdup (_("Search string must not be empty."));
 
-	if (!sr->replace_text)
+	if (repl && !sr->replace_text)
 		return g_strdup (_("Replacement string must be set."));
 
 	if (sr->scope == SRS_range) {
@@ -140,11 +142,11 @@ search_replace_verify (SearchReplace *sr)
 			return g_strdup (_("The search range is invalid."));
 	}
 
-	err = search_replace_compile (sr);
+	err = search_replace_compile (sr, repl);
 	if (err)
 		return g_strdup (_("Invalid search pattern."));
 
-	if (!sr->plain_replace) {
+	if (repl && !sr->plain_replace) {
 		const char *s;
 
 		for (s = sr->replace_text; *s; s++) {

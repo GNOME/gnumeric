@@ -35,10 +35,10 @@ struct _SearchReplace {
 	gboolean match_words;	/* Like grep -w.  */
 
 	/* The following identify what kinds of cells are the target.  */
-	gboolean replace_strings;
-	gboolean replace_other_values;
-	gboolean replace_expressions;
-	gboolean replace_comments;
+	gboolean search_strings;
+	gboolean search_other_values;
+	gboolean search_expressions;
+	gboolean search_comments;
 
 	SearchReplaceError error_behaviour;
 
@@ -72,7 +72,7 @@ SearchReplace *search_replace_new (void);
 void search_replace_free (SearchReplace *sr);
 SearchReplace *search_replace_copy (const SearchReplace *sr);
 
-char *search_replace_verify (SearchReplace *sr);
+char *search_replace_verify (SearchReplace *sr, gboolean repl);
 
 char *search_replace_string (SearchReplace *sr, const char *src);
 

@@ -25,6 +25,7 @@ typedef struct {
 	GnomeDialog *dialog;
 	GnumericExprEntry *rangetext;
 	SearchReplaceDialogCallback cb;
+	gboolean search_and_replace;
 } DialogState;
 
 static const char *error_group[] = {
@@ -90,7 +91,10 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 	sr = search_replace_new ();
 
 	sr->search_text = get_text (gui, "searchtext");
-	sr->replace_text = get_text (gui, "replacetext");
+	if (dd->search_and_replace)
+		sr->replace_text = get_text (gui, "replacetext");
+	else
+		sr->replace_text = NULL;
 
 	i = gnumeric_glade_group_value (gui, search_type_group);
 	sr->is_regexp = (i == 1);
@@ -100,32 +104,36 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 	sr->range_text = g_strdup (
 		gtk_entry_get_text (GTK_ENTRY (dd->rangetext)));
 
-	sr->query = is_checked (gui, "query");
+	if (dd->search_and_replace) {
+		sr->query = is_checked (gui, "query");
+		sr->preserve_case = is_checked (gui, "preserve_case");
+	}
 	sr->ignore_case = is_checked (gui, "ignore_case");
-	sr->preserve_case = is_checked (gui, "preserve_case");
 	sr->match_words = is_checked (gui, "match_words");
 
-	sr->replace_strings = is_checked (gui, "replace_string");
-	sr->replace_other_values = is_checked (gui, "replace_other");
-	sr->replace_expressions = is_checked (gui, "replace_expr");
-	sr->replace_comments = is_checked (gui, "replace_comments");
+	sr->search_strings = is_checked (gui, "search_string");
+	sr->search_other_values = is_checked (gui, "search_other");
+	sr->search_expressions = is_checked (gui, "search_expr");
+	sr->search_comments = is_checked (gui, "search_comments");
 
-	i = gnumeric_glade_group_value (gui, error_group);
-	sr->error_behaviour = (i == -1) ? SRE_fail : (SearchReplaceError)i;
+	if (dd->search_and_replace) {
+		i = gnumeric_glade_group_value (gui, error_group);
+		sr->error_behaviour = (i == -1) ? SRE_fail : (SearchReplaceError)i;
+	}
 
 	i = gnumeric_glade_group_value (gui, direction_group);
 	sr->by_row = (i == -1) ? TRUE : (gboolean)i;
 
-	err = search_replace_verify (sr);
+	err = search_replace_verify (sr, dd->search_and_replace);
 	if (err) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, err);
 		g_free (err);
 		search_replace_free (sr);
 		return;
-	} else if (!sr->replace_strings &&
-		   !sr->replace_other_values &&
-		   !sr->replace_expressions &&
-		   !sr->replace_comments) {
+	} else if (!sr->search_strings &&
+		   !sr->search_other_values &&
+		   !sr->search_expressions &&
+		   !sr->search_comments) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("You must select some cell types to search."));
 		search_replace_free (sr);
@@ -216,6 +224,7 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	dd->gui = gui;
 	dd->cb = cb;
 	dd->dialog = dialog;
+	dd->search_and_replace = TRUE;
 
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 

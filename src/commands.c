@@ -3383,9 +3383,9 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 	is_string = is_value && (v->type == VALUE_STRING);
 	is_other = is_value && !is_string;
 
-	if ((is_expr && sr->replace_expressions) ||
-	    (is_string && sr->replace_strings) ||
-	    (is_other && sr->replace_other_values)) {
+	if ((is_expr && sr->search_expressions) ||
+	    (is_string && sr->search_strings) ||
+	    (is_other && sr->search_other_values)) {
 		char *old_text = cell_get_entered_text (cell);
 		gboolean initial_quote = (is_value && old_text[0] == '\'');
 		char *new_text = search_replace_string (sr, old_text + (initial_quote ? 1 : 0));
@@ -3494,7 +3494,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 		g_free (old_text);
 	}
 
-	if (!test_run && sr->replace_comments) {
+	if (!test_run && sr->search_comments) {
 		CellComment *comment = cell_has_comment_pos (ep->sheet, &ep->eval);
 		if (comment) {
 			const char *old_text = cell_comment_text_get (comment);
