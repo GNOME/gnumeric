@@ -5,6 +5,7 @@ Kenneth:
 	* Update update.pl script to make it more genetic, and work
 	  with the xml2pot script. It actually now requires it.
 	* Updated the spec file a little.
+        * Made 'make update-po' and 'make dist' work with new update.pl
 
 Almer:
 	* Fix stf importer bugs.
