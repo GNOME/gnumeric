@@ -2533,11 +2533,9 @@ average_tool (WorkbookControl *wbc, Sheet *sheet,
 {
 	GSList        *input_range;
 	GPtrArray     *data;
-	guint           dataset;
-
-	gnum_float    *prev;
-
-	/* TODO: Standard error output */
+	guint         dataset;
+	gint          col = 0;
+	gnum_float    *prev, *prev_av;
 
 	input_range = input;
 	prepare_input_range (&input_range, group_by);
@@ -2547,44 +2545,68 @@ average_tool (WorkbookControl *wbc, Sheet *sheet,
 	prepare_output (wbc, dao, _("Moving Averages"));
 
 	prev = g_new (gnum_float, interval);
+	prev_av = g_new (gnum_float, interval);
 
 	for (dataset = 0; dataset < data->len; dataset++) {
 		data_set_t    *current;
 		gnum_float    sum;
-		guint         row;
-		int           add_cursor, del_cursor, count;
+		gnum_float    std_err;
+		gint         row;
+		int           add_cursor, del_cursor;
 
 		current = g_ptr_array_index (data, dataset);
-		set_cell_printf (dao, dataset, 0, current->label);
+		set_cell_printf (dao, col, 0, current->label);
+		if (std_error_flag)
+			set_cell_printf (dao, col + 1, 0, _("Standard Error"));
 
-		count = add_cursor = del_cursor = 0;
+		add_cursor = del_cursor = 0;
 		sum = 0;
+		std_err = 0;
 		
-		for (row = 0; row < current->data->len; row++) {
+		for (row = 0; row < interval - 1; row++) {
 			prev[add_cursor] = g_array_index 
 				(current->data, gnum_float, row);
-			if (count == interval - 1) {
-				sum += prev[add_cursor];
-				set_cell_float (dao, dataset, row + 1, sum / interval);
-				sum -= prev[del_cursor];
-				if (++add_cursor == interval)
-					add_cursor = 0;
-				if (++del_cursor == interval)
-					del_cursor = 0;
-			} else {
-				sum += prev[add_cursor];
-				++add_cursor;
-				set_cell_na (dao, dataset, ++count);
-			}
+			sum += prev[add_cursor];
+			++add_cursor;
+			set_cell_na (dao, col, row + 1);
+			if (std_error_flag)
+				set_cell_na (dao, col + 1, row + 1);
 		}
-		
+		for (row = interval - 1; row < current->data->len; row++) {
+			prev[add_cursor] = g_array_index 
+				(current->data, gnum_float, row);
+			sum += prev[add_cursor];
+			prev_av[add_cursor] = sum / interval;
+			set_cell_float (dao, col, row + 1, prev_av[add_cursor]);
+			sum -= prev[del_cursor];
+			if (std_error_flag) {
+				std_err += (prev[add_cursor] - prev_av[add_cursor]) *
+					(prev[add_cursor] - prev_av[add_cursor]);
+				if (row >= 2 * interval - 2) {
+					set_cell_float (dao, col + 1, row + 1, 
+							sqrt (std_err / interval));
+					std_err -= (prev[del_cursor] - prev_av[del_cursor]) *
+						(prev[del_cursor] - prev_av[del_cursor]);
+				} else {
+					set_cell_na (dao, col + 1, row + 1);
+				}
+			}
+			if (++add_cursor == interval)
+				add_cursor = 0;
+			if (++del_cursor == interval)
+				del_cursor = 0;
+		}
+		col++;
+		if (std_error_flag)
+			col++;
 	}
-	set_italic (dao, 0, 0, data->len - 1, 0);
-	autofit_columns (dao, 0, data->len - 1);
+	set_italic (dao, 0, 0, col - 1, 0);
+	autofit_columns (dao, 0, col - 1);
 
 	destroy_data_set_list (data);
 	range_list_destroy (input_range);
 	g_free (prev);
+	g_free (prev_av);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);
