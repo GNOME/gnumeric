@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   id="svg101"
+   sodipodi:version="0.31"
+   width="64pt"
+   height="60pt"
+   sodipodi:docbase="///home/manu/"
+   sodipodi:docname="///home/manu/chart_line_1_2.svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs103" />
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingx="8pt"
+     gridoriginx="8pt"
+     gridspacingy="6pt"
+     snaptoguides="true"
+     gridoriginy="6pt"
+     snaptogrid="true" />
+  <rect
+     style="font-size:12;fill:#ffffff;fill-rule:evenodd;stroke-width:1pt;stroke:#000000;stroke-opacity:1;fill-opacity:1;"
+     id="rect128"
+     width="60"
+     height="60"
+     x="10"
+     y="7.5" />
+  <path
+     style="fill:none;stroke:#bfbe91;stroke-opacity:0.968268;stroke-width:2;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;fill-rule:evenodd;stroke-dasharray:none;"
+     d="M 9.99995 37.4878 L 20.0797 45.0567 C 20.0797 44.8179 40.4564 14.9089 40.4564 14.9089 C 40.4564 14.9089 50.0797 30.0344 50.0797 30.0344 C 50.0797 30.2732 70 15 70 15 "
+     id="path116"
+     sodipodi:nodetypes="ccccc" />
+  <path
+     style="fill:none;stroke:#f29109;stroke-opacity:1;stroke-width:2;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;fill-rule:evenodd;stroke-dasharray:none;"
+     d="M 9.87646 44.9908 C 9.87646 45.2419 20.0797 59.921 20.0797 59.921 C 20.0797 59.921 40 45 40 45 C 40 45 50.0797 60.3889 50.0797 60.3889 C 50.0797 60.3889 70 37.4311 70 37.4311 "
+     id="path117"
+     sodipodi:nodetypes="ccccc" />
+</svg>
