@@ -368,7 +368,7 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags const flags)
 {
 	CellSpanInfo const * span;
 	int left, right;
-	int other_left, other_right;
+	int min_col, max_col;
 	gboolean render = (flags & SPANCALC_RE_RENDER);
 	gboolean resize = (flags & SPANCALC_RESIZE);
 
@@ -391,11 +391,14 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags const flags)
 
 	/* Calculate the span of the cell */
 	cell_calc_span (cell, &left, &right);
+	min_col = left;
+	max_col = right;
 
 	/* Is there an existing span ? */
 	span = row_span_get (cell->row_info, cell->col_info->pos);
 	if (span != NULL) {
-		Cell const *other = span->cell;
+		Cell const * const other = span->cell;
+		int other_left, other_right;
 
 		if (cell == other) {
 			/* The existing span belonged to this cell */
@@ -408,25 +411,30 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags const flags)
 			return;
 		}
 
+		/* Do we need to redraw the original span because it shrank ? */
+		if (min_col > span->left)
+			min_col = span->left;
+		if (max_col < span->right)
+			max_col = span->right;
+
 		/* A different cell used to span into this cell, respan that */
 		cell_calc_span (other, &other_left, &other_right);
 		cell_unregister_span (other);
 		if (other_left != other_right)
 			cell_register_span (other, other_left, other_right);
+
+		/* Do we need to redraw the new span because it grew ? */
+		if (min_col > other_left)
+			min_col = other_left;
+		if (max_col < other_right)
+			max_col = other_right;
 	}
 
 	if (left != right)
 		cell_register_span (cell, left, right);
 
-	if (span != NULL) {
-		if (left < other_left)
-			left = other_left;
-		if (right > other_right)
-			right = other_right;
-	}
-
 	sheet_redraw_partial_row (cell->sheet, cell->row_info->pos,
-				  left, right);
+				  min_col, max_col);
 }
 
 /****************************************************************************/
@@ -1934,8 +1942,12 @@ sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 		g_warning ("Cell not in hash table |\n");
 }
 
-static void
-sheet_cell_remove_internal (Sheet *sheet, Cell *cell)
+/**
+ * sheet_cell_remove_simple : Remove the cell from the web of depenancies of a
+ *        sheet.  Do NOT redraw or free the cell.
+ */
+void
+sheet_cell_remove_simple (Sheet *sheet, Cell *cell)
 {
 	GList *deps;
 
@@ -1951,6 +1963,10 @@ sheet_cell_remove_internal (Sheet *sheet, Cell *cell)
 	cell_unrealize (cell);
 }
 
+/**
+ * sheet_cell_remove_simple : Remove the cell from the web of depenancies of a
+ *        sheet.  Do NOT free the cell, optionally redraw it.
+ */
 void
 sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
 {
@@ -1964,7 +1980,7 @@ sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
 					  cell->col_info->pos, cell->row_info->pos,
 					  cell->col_info->pos, cell->row_info->pos);
 
-	sheet_cell_remove_internal (sheet, cell);
+	sheet_cell_remove_simple (sheet, cell);
 	cell_destroy (cell);
 }
 
@@ -2042,7 +2058,7 @@ sheet_cell_formula_unlink (Cell *cell)
 static Value *
 cb_free_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
-	sheet_cell_remove_internal (sheet, cell);
+	sheet_cell_remove_simple (sheet, cell);
 	cell_destroy (cell);
 	return NULL;
 }
@@ -2269,6 +2285,7 @@ sheet_clear_region (CommandContext *context, Sheet *sheet,
 		    int const clear_flags)
 {
 	Range r;
+	int min_col, max_col;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -2296,11 +2313,17 @@ sheet_clear_region (CommandContext *context, Sheet *sheet,
 					  end_col,   end_row,
 					  cb_clear_cell_comments, NULL);
 
+	min_col = start_col;
+	max_col = end_col;
+
 	if (clear_flags & CLEAR_VALUES) {
 		if (clear_flags & CLEAR_NOCHECKARRAY ||
 		    !sheet_range_splits_array (sheet,
 					       start_col, start_row,
 					       end_col,   end_row)) {
+
+			int row, col[2];
+			gboolean test[2];
 
 			/* Remove or empty the cells depending on
 			 * whether or not there are comments
@@ -2310,18 +2333,55 @@ sheet_clear_region (CommandContext *context, Sheet *sheet,
 				&cb_empty_cell,
 				GINT_TO_POINTER(!(clear_flags & CLEAR_COMMENTS)));
 
-			/* FIXME : Add something to regen the spans
-			 * from adjacent cells that may now be able to
-			 * continue.
+			/*
+			 * Regen the spans from adjacent cells that may now be
+			 * able to continue.
 			 */
+			test[0] = (start_col > 0);
+			test[1] = (start_col != end_col && end_col < SHEET_MAX_ROWS-1);
+			col[0] = start_col - 1;
+			col[1] = end_col + 1;
+			for (row = start_row; row <= end_row ; ++row) {
+				ColRowInfo const * ri = sheet_row_get_info (sheet, row);
+
+				int i = 2;
+				while (i-- > 0) {
+					int left, right;
+					CellSpanInfo const *span;
+					Cell const *cell;
+
+					if (!test[i])
+						continue;
+
+					span = row_span_get (ri, col[i]);
+				
+					if (span == NULL)
+						continue;
+
+					cell = span->cell;
+					cell_calc_span (cell, &left, &right);
+					if (left != span->left || right != span->right) {
+						cell_unregister_span (cell);
+						cell_register_span (cell, left, right);
+					}
+
+					/* We would not need to redraw the old span, just the new one */
+					if (min_col > left)
+						min_col = left;
+					if (max_col < right)
+						max_col = right;
+				}
+			}
+
 			sheet_flag_status_update_range (sheet, &r);
 		} else
 			gnumeric_error_splits_array (context);
 	}
 
 	/* Always redraw */
-	sheet_redraw_cell_region (sheet, start_col, start_row,
-				  end_col, end_row);
+	sheet_redraw_cell_region (sheet,
+				  min_col, start_row,
+				  max_col, end_row);
 }
 
 /*****************************************************************************/

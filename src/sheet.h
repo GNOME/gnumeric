@@ -138,6 +138,7 @@ Cell       *sheet_cell_new                (Sheet *sheet, int col, int row);
 void        sheet_cell_insert             (Sheet *sheet, Cell *cell,
 				           int col, int row);
 void        sheet_cell_remove             (Sheet *sheet, Cell *cell, gboolean redraw);
+void	    sheet_cell_remove_simple	  (Sheet *sheet, Cell *cell);
 
 /* Iteration utilities */
 typedef  gboolean (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *info,

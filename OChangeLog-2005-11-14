@@ -1,3 +1,12 @@
+2000-05-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_cell_calc_span) : redraw the bounding range when
+	  interupting spans.
+	(sheet_clear_region) : Respan ranges that were interupted by the
+	  cleared region.
+	(sheet_cell_remove_simple) : rename from sheet_cell_remove_internal and
+	  export.
+
 2000-05-08  Jon K Hellan  <hellan@acm.org>
 
 	* src/file.c (cb_select): New callback: Make double click on list
@@ -77,6 +86,10 @@
 
 	* src/sheet-style.c (sheet_style_attach) : disable cache trash avoidance code.
 	  None of the sample xls were loading.
+
+	* src/workbook.c (workbook_do_destroy) : Empty the formula list before
+	  the cell contents so that we can avoid searching the lists for each
+	  cell.  This is a big time savings on exit.
 
 	* src/sheet.c (sheet_cell_calc_span) : Size the content if
 	  it has not yet been sized.

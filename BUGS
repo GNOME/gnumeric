@@ -15,8 +15,10 @@ Long term breakage
   This would mirror the application of bold/italic/underline
 
 - Auto resize needs to handle empty cells.
-- Clearing a cell that stopped a span does not regenerate the span.
+- changing col/row sizes does not mark a sheet dirty.
 - changing col/row sizes does not have undo support.
+- pasting a copy does not have undo support.
+- auto-fill does not have undo support.
 - The implication of mixed mode references ($B$2:C3)
   is large.  All accesses to a RangeRef need to be normalized.
 
