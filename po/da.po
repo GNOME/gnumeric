@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
 "POT-Creation-Date: 2000-06-19 22:02-0400\n"
-"PO-Revision-Date: 2000-06-09 02:30+02:00\n"
+"PO-Revision-Date: 2000-06-25 02:30+02:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -118,24 +118,24 @@ msgstr "#UKENDT!"
 msgid "Sheet%d"
 msgstr "Ark%d"
 
-#: plugins/excel/ms-excel-read.c:3671
+#: plugins/excel/ms-excel-read.c:3697
 msgid "No book or workbook streams found."
 msgstr "Ingen bøger eller arbejdsbogsstrømme fundet."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:3975
+#: plugins/excel/ms-excel-read.c:4001
 msgid "Password protected workbooks are not supported yet."
 msgstr "Adgangskodebeskyttede arbejdsbøger er endnu ikke understøttet."
 
-#: plugins/excel/ms-excel-read.c:4147
+#: plugins/excel/ms-excel-read.c:4174
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunne ikke finde gyldig MS Excel-arbejdsbog"
 
-#: plugins/excel/ms-excel-write.c:3383
+#: plugins/excel/ms-excel-write.c:3404
 msgid "Too many rows for this format"
 msgstr "For mange rækker for dette format"
 
-#: plugins/excel/ms-excel-write.c:3466
+#: plugins/excel/ms-excel-write.c:3487
 msgid "Can't open stream for writing\n"
 msgstr "Kan ikke åbne strøm for skrivning\n"
 
@@ -655,412 +655,407 @@ msgstr "Gnumeric hjemmeside"
 msgid "Gnumeric Support page"
 msgstr "Gnumeric supportside"
 
-#: src/analysis-tools.c:356
+#: src/analysis-tools.c:398
 msgid "Correlations"
 msgstr "Korrelationer"
 
-#: src/analysis-tools.c:379 src/analysis-tools.c:536 src/analysis-tools.c:695
-#: src/analysis-tools.c:811 src/analysis-tools.c:833 src/analysis-tools.c:859
-#: src/analysis-tools.c:2337 src/analysis-tools.c:2487
-#: src/analysis-tools.c:2670
+#: src/analysis-tools.c:419 src/analysis-tools.c:420 src/analysis-tools.c:571
+#: src/analysis-tools.c:572 src/analysis-tools.c:727 src/analysis-tools.c:828
+#: src/analysis-tools.c:846 src/analysis-tools.c:868 src/analysis-tools.c:2197
+#: src/analysis-tools.c:2335 src/analysis-tools.c:2497
 #, c-format
 msgid "Column %d"
 msgstr "Kolonne: %d"
 
-#: src/analysis-tools.c:408 src/analysis-tools.c:565 src/analysis-tools.c:2367
-#: src/analysis-tools.c:2513 src/analysis-tools.c:2692
+#: src/analysis-tools.c:445 src/analysis-tools.c:446 src/analysis-tools.c:597
+#: src/analysis-tools.c:598 src/analysis-tools.c:2223
+#: src/analysis-tools.c:2357 src/analysis-tools.c:2514
 #, c-format
 msgid "Row %d"
 msgstr "Række: %d"
 
-#: src/analysis-tools.c:431 src/analysis-tools.c:587 src/analysis-tools.c:763
-#: src/analysis-tools.c:771 src/analysis-tools.c:2133
-#: src/analysis-tools.c:2271 src/number-match.c:542
-msgid "#N/A"
-msgstr "#I/T"
-
-#: src/analysis-tools.c:510
+#: src/analysis-tools.c:547
 msgid "Covariances"
 msgstr "Kovarianser"
 
-#: src/analysis-tools.c:691 src/dialogs/dialog-analysis-tools.c:308
+#: src/analysis-tools.c:723 src/dialogs/dialog-analysis-tools.c:308
 msgid "Summary Statistics"
 msgstr "Sammendragsstatistikker"
 
-#: src/analysis-tools.c:699 src/analysis-tools.c:1097
-#: src/analysis-tools.c:1227 src/analysis-tools.c:1384
-#: src/analysis-tools.c:1520 src/analysis-tools.c:1657
+#: src/analysis-tools.c:729 src/analysis-tools.c:1092
+#: src/analysis-tools.c:1205 src/analysis-tools.c:1343
+#: src/analysis-tools.c:1460 src/analysis-tools.c:1579
 msgid "Mean"
 msgstr "Gennemsnit"
 
-#: src/analysis-tools.c:700 src/analysis-tools.c:1999
-#: src/analysis-tools.c:2021
+#: src/analysis-tools.c:730 src/analysis-tools.c:1899
+#: src/analysis-tools.c:1919
 msgid "Standard Error"
 msgstr "Standardfejl"
 
-#: src/analysis-tools.c:701
+#: src/analysis-tools.c:731
 msgid "Median"
 msgstr "Median"
 
-#: src/analysis-tools.c:702
+#: src/analysis-tools.c:732
 msgid "Mode"
 msgstr "Tilstand"
 
-#: src/analysis-tools.c:703
+#: src/analysis-tools.c:733
 msgid "Standard Deviation"
 msgstr "Standard afvigelse"
 
-#: src/analysis-tools.c:704
+#: src/analysis-tools.c:734
 msgid "Sample Variance"
 msgstr "Stikprøvevarians"
 
-#: src/analysis-tools.c:705
+#: src/analysis-tools.c:735
 msgid "Kurtosis"
 msgstr "Kurtosis"
 
-#: src/analysis-tools.c:706
+#: src/analysis-tools.c:736
 msgid "Skewness"
 msgstr "Skævhed"
 
-#: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:404
+#: src/analysis-tools.c:737 src/dialogs/dialog-function-wizard.c:397
 msgid "Range"
 msgstr "Omfang"
 
-#: src/analysis-tools.c:708
+#: src/analysis-tools.c:738
 msgid "Minimum"
 msgstr "Minimum"
 
-#: src/analysis-tools.c:709
+#: src/analysis-tools.c:739
 msgid "Maximum"
 msgstr "Maksimum"
 
-#: src/analysis-tools.c:710 src/analysis-tools.c:2470
-#: src/analysis-tools.c:2660 src/workbook.c:1554 src/workbook.c:2026
+#: src/analysis-tools.c:740 src/analysis-tools.c:2321
+#: src/analysis-tools.c:2487 src/workbook.c:1554 src/workbook.c:2026
 msgid "Sum"
 msgstr "Sum"
 
-#: src/analysis-tools.c:711 src/analysis-tools.c:2469
-#: src/analysis-tools.c:2659 src/workbook.c:2030
+#: src/analysis-tools.c:741 src/analysis-tools.c:2320
+#: src/analysis-tools.c:2486 src/workbook.c:2030
 msgid "Count"
 msgstr "Optæl"
 
-#: src/analysis-tools.c:804
+#: src/analysis-tools.c:821
 msgid "Confidence Level"
 msgstr "Konfidensniveau"
 
-#: src/analysis-tools.c:818
+#: src/analysis-tools.c:833
 msgid "Confidence Level (%g%%)"
 msgstr "Konfidensniveau (%g%%)"
 
-#: src/analysis-tools.c:830
+#: src/analysis-tools.c:843
 msgid "Kth Largest"
 msgstr "K-te største"
 
-#: src/analysis-tools.c:844
+#: src/analysis-tools.c:855
 #, c-format
 msgid "Largest (%d)"
 msgstr "Største (%d)"
 
-#: src/analysis-tools.c:856
+#: src/analysis-tools.c:865
 msgid "Kth Smallest"
 msgstr "K-te mindste"
 
-#: src/analysis-tools.c:870
+#: src/analysis-tools.c:877
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Mindste (%d)"
 
-#: src/analysis-tools.c:955 src/dialogs/cell-format.glade.h:19
+#: src/analysis-tools.c:960 src/dialogs/cell-format.glade.h:19
 #: src/dialogs/cell-format.glade.h:123
 msgid "Sample"
 msgstr "Stikprøve"
 
-#: src/analysis-tools.c:1066
+#: src/analysis-tools.c:1065
 msgid "z-Test"
 msgstr "z-test"
 
-#: src/analysis-tools.c:1093 src/analysis-tools.c:1223
-#: src/analysis-tools.c:1380 src/analysis-tools.c:1516
-#: src/analysis-tools.c:1650
+#: src/analysis-tools.c:1088 src/analysis-tools.c:1201
+#: src/analysis-tools.c:1339 src/analysis-tools.c:1456
+#: src/analysis-tools.c:1572
 msgid "Variable 1"
 msgstr "Variabel 1"
 
-#: src/analysis-tools.c:1094 src/analysis-tools.c:1224
-#: src/analysis-tools.c:1381 src/analysis-tools.c:1517
-#: src/analysis-tools.c:1651
+#: src/analysis-tools.c:1089 src/analysis-tools.c:1202
+#: src/analysis-tools.c:1340 src/analysis-tools.c:1457
+#: src/analysis-tools.c:1573
 msgid "Variable 2"
 msgstr "Variabel 2"
 
-#: src/analysis-tools.c:1098
+#: src/analysis-tools.c:1093
 msgid "Known Variance"
 msgstr "Kendt varians"
 
-#: src/analysis-tools.c:1099 src/analysis-tools.c:1229
-#: src/analysis-tools.c:1386 src/analysis-tools.c:1522
-#: src/analysis-tools.c:1659 src/analysis-tools.c:2000
+#: src/analysis-tools.c:1094 src/analysis-tools.c:1207
+#: src/analysis-tools.c:1345 src/analysis-tools.c:1462
+#: src/analysis-tools.c:1581 src/analysis-tools.c:1900
 msgid "Observations"
 msgstr "Observationer"
 
-#: src/analysis-tools.c:1100 src/analysis-tools.c:1231
-#: src/analysis-tools.c:1388 src/analysis-tools.c:1523
+#: src/analysis-tools.c:1095 src/analysis-tools.c:1209
+#: src/analysis-tools.c:1347 src/analysis-tools.c:1463
 msgid "Hypothesized Mean Difference"
 msgstr "Hypotetisk difference mellem middelværdi"
 
-#: src/analysis-tools.c:1101
+#: src/analysis-tools.c:1096
 msgid "z"
 msgstr "z"
 
-#: src/analysis-tools.c:1102
+#: src/analysis-tools.c:1097
 msgid "P (Z<=z) one-tail"
 msgstr "P (Z<=z) én-sidet"
 
-#: src/analysis-tools.c:1103
+#: src/analysis-tools.c:1098
 msgid "z Critical one-tail"
 msgstr "z kritisk værdi værdi én-sidet"
 
-#: src/analysis-tools.c:1104
+#: src/analysis-tools.c:1099
 msgid "P (Z<=z) two-tail"
 msgstr "P (Z<=z) to-sidet"
 
-#: src/analysis-tools.c:1105
+#: src/analysis-tools.c:1100
 msgid "z Critical two-tail"
 msgstr "z kritisk værdi værdi to-sidet"
 
-#: src/analysis-tools.c:1199 src/analysis-tools.c:1353
-#: src/analysis-tools.c:1489
+#: src/analysis-tools.c:1181 src/analysis-tools.c:1316
+#: src/analysis-tools.c:1433
 msgid "t-Test"
 msgstr "t-test"
 
-#: src/analysis-tools.c:1228 src/analysis-tools.c:1385
-#: src/analysis-tools.c:1521 src/analysis-tools.c:1658
-#: src/analysis-tools.c:2472 src/analysis-tools.c:2662
+#: src/analysis-tools.c:1206 src/analysis-tools.c:1344
+#: src/analysis-tools.c:1461 src/analysis-tools.c:1580
+#: src/analysis-tools.c:2323 src/analysis-tools.c:2489
 msgid "Variance"
 msgstr "Varians"
 
-#: src/analysis-tools.c:1230
+#: src/analysis-tools.c:1208
 msgid "Pearson Correlation"
 msgstr "Pearson korrelation"
 
 # degrees freedom, frihedsgrader
-#: src/analysis-tools.c:1232 src/analysis-tools.c:1389
-#: src/analysis-tools.c:1524 src/analysis-tools.c:1660
-#: src/analysis-tools.c:2014 src/analysis-tools.c:2554
-#: src/analysis-tools.c:2767
+#: src/analysis-tools.c:1210 src/analysis-tools.c:1348
+#: src/analysis-tools.c:1464 src/analysis-tools.c:1582
+#: src/analysis-tools.c:1912 src/analysis-tools.c:2393
+#: src/analysis-tools.c:2584
 msgid "df"
 msgstr "fg"
 
-#: src/analysis-tools.c:1233 src/analysis-tools.c:1390
-#: src/analysis-tools.c:1525 src/analysis-tools.c:2022
+#: src/analysis-tools.c:1211 src/analysis-tools.c:1349
+#: src/analysis-tools.c:1465 src/analysis-tools.c:1920
 msgid "t Stat"
 msgstr "t stat"
 
-#: src/analysis-tools.c:1234 src/analysis-tools.c:1391
-#: src/analysis-tools.c:1526
+#: src/analysis-tools.c:1212 src/analysis-tools.c:1350
+#: src/analysis-tools.c:1466
 msgid "P (T<=t) one-tail"
 msgstr "P (T<=t) én-sidet"
 
-#: src/analysis-tools.c:1235 src/analysis-tools.c:1392
-#: src/analysis-tools.c:1527
+#: src/analysis-tools.c:1213 src/analysis-tools.c:1351
+#: src/analysis-tools.c:1467
 msgid "t Critical one-tail"
 msgstr "t kritisk værdi én-sidet"
 
-#: src/analysis-tools.c:1236 src/analysis-tools.c:1393
-#: src/analysis-tools.c:1528
+#: src/analysis-tools.c:1214 src/analysis-tools.c:1352
+#: src/analysis-tools.c:1468
 msgid "P (T<=t) two-tail"
 msgstr "P (T<=t) to-sidet"
 
-#: src/analysis-tools.c:1237 src/analysis-tools.c:1394
-#: src/analysis-tools.c:1529
+#: src/analysis-tools.c:1215 src/analysis-tools.c:1353
+#: src/analysis-tools.c:1469
 msgid "t Critical two-tail"
 msgstr "t kritisk værdi to-sidet"
 
-#: src/analysis-tools.c:1387
+#: src/analysis-tools.c:1346
 msgid "Pooled Variance"
 msgstr "Samlet varians"
 
-#: src/analysis-tools.c:1626
+#: src/analysis-tools.c:1552
 msgid "F-Test"
 msgstr "F-test"
 
-#: src/analysis-tools.c:1661 src/analysis-tools.c:2017
-#: src/analysis-tools.c:2556 src/analysis-tools.c:2769
+#: src/analysis-tools.c:1583 src/analysis-tools.c:1915
+#: src/analysis-tools.c:2395 src/analysis-tools.c:2586
 msgid "F"
 msgstr "F"
 
-#: src/analysis-tools.c:1662
+#: src/analysis-tools.c:1584
 msgid "P (F<=f) one-tail"
 msgstr "P (F<=f) én-sidet"
 
-#: src/analysis-tools.c:1663
+#: src/analysis-tools.c:1585
 msgid "F Critical one-tail"
 msgstr "F kritisk værdi én-sidet"
 
-#: src/analysis-tools.c:1750 src/dialogs/dialog-analysis-tools.c:398
+#: src/analysis-tools.c:1660 src/dialogs/dialog-analysis-tools.c:398
 msgid "Random"
 msgstr "Tilfældig"
 
-#: src/analysis-tools.c:1895
+#: src/analysis-tools.c:1797
 msgid "Not implemented yet.\n"
 msgstr "Ikke implementeret endnu.\n"
 
 #. TODO This would be better using the
 #. value in the checkbox instead of this
 #. global, but I don't know GTK very well
-#: src/analysis-tools.c:1991 src/analysis-tools.c:2003
+#: src/analysis-tools.c:1891 src/analysis-tools.c:1903
 #: src/dialogs/dialog-analysis-tools.c:94
 #: src/dialogs/dialog-analysis-tools.c:1978
 msgid "Regression"
 msgstr "Regression"
 
-#: src/analysis-tools.c:1993
+#: src/analysis-tools.c:1893
 msgid "SUMMARY OUTPUT"
 msgstr "OVERSIGTS UDDATA"
 
-#: src/analysis-tools.c:1995
+#: src/analysis-tools.c:1895
 msgid "Regression Statistics"
 msgstr "Regressions statistikker"
 
-#: src/analysis-tools.c:1996
+#: src/analysis-tools.c:1896
 msgid "Multiple R"
 msgstr "Flerdimisionelt R"
 
-#: src/analysis-tools.c:1997
+#: src/analysis-tools.c:1897
 msgid "R Square"
 msgstr "R kvadreret"
 
-#: src/analysis-tools.c:1998
+#: src/analysis-tools.c:1898
 msgid "Adjusted R Square"
 msgstr "Tilpasset R kvadreret"
 
-#: src/analysis-tools.c:2002 src/analysis-tools.c:2551
-#: src/analysis-tools.c:2764
+#: src/analysis-tools.c:1902 src/analysis-tools.c:2390
+#: src/analysis-tools.c:2581
 msgid "ANOVA"
 msgstr "ANOVA"
 
-#: src/analysis-tools.c:2004
+#: src/analysis-tools.c:1904
 msgid "Residual"
 msgstr "Residual"
 
-#: src/analysis-tools.c:2005 src/analysis-tools.c:2561
-#: src/analysis-tools.c:2775
+#: src/analysis-tools.c:1905 src/analysis-tools.c:2400
+#: src/analysis-tools.c:2592
 msgid "Total"
 msgstr "Total"
 
-#: src/analysis-tools.c:2007
+#: src/analysis-tools.c:1907
 msgid "Intercept"
 msgstr "Skæring"
 
-#: src/analysis-tools.c:2010
+#: src/analysis-tools.c:1910
 #, c-format
 msgid "X Variable %d"
 msgstr "X variabel %d"
 
-#: src/analysis-tools.c:2015 src/analysis-tools.c:2553
-#: src/analysis-tools.c:2766
+#: src/analysis-tools.c:1913 src/analysis-tools.c:2392
+#: src/analysis-tools.c:2583
 msgid "SS"
 msgstr "SS"
 
-#: src/analysis-tools.c:2016 src/analysis-tools.c:2555
-#: src/analysis-tools.c:2768
+#: src/analysis-tools.c:1914 src/analysis-tools.c:2394
+#: src/analysis-tools.c:2585
 msgid "MS"
 msgstr "MS"
 
-#: src/analysis-tools.c:2018
+#: src/analysis-tools.c:1916
 msgid "Significance F"
 msgstr "Signifikans F"
 
-#: src/analysis-tools.c:2020
+#: src/analysis-tools.c:1918
 msgid "Coefficients"
 msgstr "Koefficienter"
 
-#: src/analysis-tools.c:2023 src/analysis-tools.c:2557
-#: src/analysis-tools.c:2770
+#: src/analysis-tools.c:1921 src/analysis-tools.c:2396
+#: src/analysis-tools.c:2587
 msgid "P-value"
 msgstr "P-værdi"
 
-#: src/analysis-tools.c:2025
+#: src/analysis-tools.c:1923
 #, c-format
 msgid "Lower 95%"
 msgstr "Nedre 95%"
 
-#: src/analysis-tools.c:2026
+#: src/analysis-tools.c:1924
 #, c-format
 msgid "Upper 95%"
 msgstr "Øvre 95%"
 
-#: src/analysis-tools.c:2246
+#: src/analysis-tools.c:2112
 msgid "Moving Averages"
 msgstr "Flytter gennemsnit"
 
-#: src/analysis-tools.c:2318
+#: src/analysis-tools.c:2181
 msgid "Ranks"
 msgstr "Omfang"
 
-#: src/analysis-tools.c:2326 src/analysis-tools.c:2355
+#: src/analysis-tools.c:2189 src/analysis-tools.c:2214
 msgid "Point"
 msgstr "Point"
 
-#: src/analysis-tools.c:2340 src/analysis-tools.c:2370
+#: src/analysis-tools.c:2199 src/analysis-tools.c:2225
 msgid "Rank"
 msgstr "Omfang"
 
-#: src/analysis-tools.c:2341 src/analysis-tools.c:2371
+#: src/analysis-tools.c:2200 src/analysis-tools.c:2226
 #: src/workbook-format-toolbar.c:380
 msgid "Percent"
 msgstr "Procent"
 
-#: src/analysis-tools.c:2461 src/analysis-tools.c:2652
+#: src/analysis-tools.c:2312 src/analysis-tools.c:2479
 msgid "Anova"
 msgstr "Anova"
 
-#: src/analysis-tools.c:2466 src/dialogs/analysis-tools.glade.h:52
+#: src/analysis-tools.c:2317 src/dialogs/analysis-tools.glade.h:52
 #: src/dialogs/dialog-analysis-tools.c:76
 msgid "Anova: Single Factor"
 msgstr "Anova: Enkelfaktor"
 
-#: src/analysis-tools.c:2467 src/analysis-tools.c:2658
+#: src/analysis-tools.c:2318 src/analysis-tools.c:2485
 msgid "SUMMARY"
 msgstr "OVERSIGT"
 
-#: src/analysis-tools.c:2468
+#: src/analysis-tools.c:2319
 msgid "Groups"
 msgstr "Grupper"
 
-#: src/analysis-tools.c:2471 src/analysis-tools.c:2661 src/workbook.c:2029
+#: src/analysis-tools.c:2322 src/analysis-tools.c:2488 src/workbook.c:2029
 msgid "Average"
 msgstr "Gennemsnit"
 
-#: src/analysis-tools.c:2552 src/analysis-tools.c:2765
+#: src/analysis-tools.c:2391 src/analysis-tools.c:2582
 msgid "Source of Variation"
 msgstr "Kilde til variation"
 
-#: src/analysis-tools.c:2558 src/analysis-tools.c:2771
+#: src/analysis-tools.c:2397 src/analysis-tools.c:2588
 msgid "F critical"
 msgstr "F kritisk værdi"
 
-#: src/analysis-tools.c:2559
+#: src/analysis-tools.c:2398
 msgid "Between Groups"
 msgstr "Mellem grupper"
 
-#: src/analysis-tools.c:2560
+#: src/analysis-tools.c:2399
 msgid "Within Groups"
 msgstr "Indenfor grupper"
 
-#: src/analysis-tools.c:2657 src/dialogs/analysis-tools.glade.h:64
+#: src/analysis-tools.c:2484 src/dialogs/analysis-tools.glade.h:64
 #: src/dialogs/dialog-analysis-tools.c:78
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Tofaktor uden replikering"
 
-#: src/analysis-tools.c:2772 src/dialogs/dialog-analysis-tools.c:392
+#: src/analysis-tools.c:2589 src/dialogs/dialog-analysis-tools.c:392
 msgid "Rows"
 msgstr "Rækker"
 
-#: src/analysis-tools.c:2773 src/dialogs/dialog-analysis-tools.c:391
+#: src/analysis-tools.c:2590 src/dialogs/dialog-analysis-tools.c:391
 #: src/dialogs/dialog-stf.glade.h:50
 msgid "Columns"
 msgstr "Kolonner"
 
-#: src/analysis-tools.c:2774
+#: src/analysis-tools.c:2591
 msgid "Error"
 msgstr "Fejl"
 
@@ -1106,7 +1101,7 @@ msgstr "Dette data på klippebordet synes ikke at være gyldig tekst"
 msgid "Parse error while trying to parse data into cellregion"
 msgstr "Fortolkningsfejl under førsøg på at fortolke data i en celleregion"
 
-#: src/cmd-edit.c:313
+#: src/cmd-edit.c:311
 #, c-format
 msgid ""
 "destination has a different shape (%dRx%dC) than the original (%dRx%dC)\n"
@@ -1117,11 +1112,11 @@ msgstr ""
 " \n"
 "Prøv at vælge en enkelt celle eller et område med samme form og størrelse."
 
-#: src/cmd-edit.c:318
+#: src/cmd-edit.c:316
 msgid "Unable to paste into selection"
 msgstr "Kan ikke indsætte i markering"
 
-#: src/cmd-edit.c:355 src/workbook.c:1534
+#: src/cmd-edit.c:353 src/workbook.c:1534
 msgid "Paste"
 msgstr "Indsæt"
 
@@ -1262,16 +1257,16 @@ msgid "Hide rows"
 msgstr "Skjul rækker"
 
 #. FIXME : improve on this
-#: src/commands.c:1838
+#: src/commands.c:1839
 msgid "Moving cells"
 msgstr "Flytter celler"
 
-#: src/commands.c:1976
+#: src/commands.c:1977
 #, c-format
 msgid "Pasting into %s"
 msgstr "Indsætter i %s"
 
-#: src/commands.c:2099
+#: src/commands.c:2100
 msgid "Autofill"
 msgstr "Autofyld"
 
@@ -1891,7 +1886,7 @@ msgstr "_Type"
 msgid "Display the value exactly as it was entered"
 msgstr "Vis værdien præcis som den var indtastet"
 
-#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:402
+#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:395
 msgid "Number"
 msgstr "Tal"
 
@@ -2287,7 +2282,7 @@ msgstr "Avancerede sorteringsindstillinger"
 msgid "Sort by"
 msgstr "Sortér efter"
 
-#: src/dialogs/cell-sort.glade.h:17 src/solver-lp.c:1059 src/solver-lp.c:1111
+#: src/dialogs/cell-sort.glade.h:17 src/solver-lp.c:1056 src/solver-lp.c:1106
 msgid "Value"
 msgstr "Værdi"
 
@@ -2746,28 +2741,28 @@ msgstr "så efter"
 msgid "delete cells"
 msgstr "slet celler"
 
-#: src/dialogs/dialog-function-wizard.c:394
-#, fuzzy, c-format
+#: src/dialogs/dialog-function-wizard.c:387
+#, c-format
 msgid "Value%d"
-msgstr "Værdi"
+msgstr "Værdi%d"
 
-#: src/dialogs/dialog-function-wizard.c:401 src/functions/fn-string.c:1337
+#: src/dialogs/dialog-function-wizard.c:394 src/functions/fn-string.c:1337
 msgid "String"
 msgstr "Streng"
 
-#: src/dialogs/dialog-function-wizard.c:403
+#: src/dialogs/dialog-function-wizard.c:396
 msgid "Boolean"
 msgstr "Boolsk"
 
-#: src/dialogs/dialog-function-wizard.c:405
+#: src/dialogs/dialog-function-wizard.c:398
 msgid "Array"
 msgstr "Matrise"
 
-#: src/dialogs/dialog-function-wizard.c:406
+#: src/dialogs/dialog-function-wizard.c:399
 msgid "Range/Array"
 msgstr "Omfang/Matrise"
 
-#: src/dialogs/dialog-function-wizard.c:408
+#: src/dialogs/dialog-function-wizard.c:401
 msgid "Any"
 msgstr "Enhver"
 
@@ -2839,8 +2834,8 @@ msgstr "Cellen opgivet i 'Ved at ændre celle' må ikke indeholde en formel"
 msgid "Goal seek did not find a solution!"
 msgstr "Målsøgning fandt ikke nogen løsning!"
 
-#: src/dialogs/dialog-goto-cell.c:45 src/solver-lp.c:897 src/solver-lp.c:924
-#: src/solver-lp.c:959 src/solver-lp.c:1057 src/solver-lp.c:1109
+#: src/dialogs/dialog-goto-cell.c:45 src/solver-lp.c:896 src/solver-lp.c:922
+#: src/solver-lp.c:957 src/solver-lp.c:1054 src/solver-lp.c:1104
 msgid "Cell"
 msgstr "Celle"
 
@@ -3441,9 +3436,8 @@ msgstr "AaBbCcDdEe12345"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/formula-guru.glade.h:7
-#, fuzzy
 msgid "Formula Guru"
-msgstr "Formel"
+msgstr "Formel troldmand"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3602,7 +3596,7 @@ msgid "_Fit to:"
 msgstr "_Tilpas til:"
 
 #: src/dialogs/print.glade.h:15
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "% of normal size"
 msgstr "%% af normal størrelse"
 
@@ -3766,9 +3760,8 @@ msgid "Print preview"
 msgstr "Vis udskrift"
 
 #: src/dialogs/print.glade.h:59
-#, fuzzy
 msgid "Options"
-msgstr "_Indstillinger"
+msgstr "Indstillinger"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -4339,14 +4332,12 @@ msgid "mmm-yyyy"
 msgstr "mmm-yyyy"
 
 #: src/formats.c:75
-#, fuzzy
 msgid "mmmm-yy"
-msgstr "mmm-yy"
+msgstr "mmmm-yy"
 
 #: src/formats.c:76
-#, fuzzy
 msgid "mmmm-yyyy"
-msgstr "mmm-yyyy"
+msgstr "mmmm-yyyy"
 
 #: src/formats.c:77 src/formats.c:98
 msgid "m/d/yy h:mm"
@@ -4390,12 +4381,11 @@ msgstr "yyyy-mmm-dd"
 
 #: src/formats.c:87
 msgid "yy"
-msgstr ""
+msgstr "yy"
 
 #: src/formats.c:88
-#, fuzzy
 msgid "yyyy"
-msgstr "m/d/yyyy"
+msgstr "yyyy"
 
 #: src/formats.c:94
 msgid "h:mm AM/PM"
@@ -5809,17 +5799,6 @@ msgstr ""
 "@DESCRIPTION=DAVERAGE-funktionen returnerer gennemsnittet af værdierne i en "
 "liste eller en database som passer til de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:499
-msgid ""
-"\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5831,16 +5810,6 @@ msgstr ""
 "@SYNTAX=DCOUNT(database,felt,kriterie)\n"
 "@DESCRIPTION=DCOUNT-funktionen tæller cellerne som indeholder tal i en "
 "database som passer til de opgivne betingelser. \n"
-
-#: src/functions/fn-database.c:568
-msgid ""
-"\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
-msgstr ""
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -5854,16 +5823,6 @@ msgstr ""
 "@DESCRIPTION=DCOUNTA-funktionen tæller cellerne som indeholder data i en "
 "database som passer til de opgivne betingelser. \n"
 
-#: src/functions/fn-database.c:629
-msgid ""
-"\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5875,17 +5834,6 @@ msgstr ""
 "@SYNTAX=DGET(database,felt,kriterie)\n"
 "@DESCRIPTION=DGET-funktionen returnerer en enkelt værdi fra en kolonne som "
 "tilfredstiller de specificerede betingelser. \n"
-
-#: src/functions/fn-database.c:687
-msgid ""
-"\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@SEEALSO=DCOUNT"
-msgstr ""
 
 #: src/functions/fn-database.c:747
 msgid ""
@@ -5899,16 +5847,6 @@ msgstr ""
 "@DESCRIPTION=DMAX-funktionen returnerer det største tal i en kolonne som "
 "tilfredstiller de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:755
-msgid ""
-"\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
-
 #: src/functions/fn-database.c:818
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -5921,15 +5859,6 @@ msgstr ""
 "@DESCRIPTION=DMIN-funktionen returnerer det mindste tal i en kolonne som "
 "tilfredstiller de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:826
-msgid ""
-"\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
-
 #: src/functions/fn-database.c:888
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -5941,14 +5870,6 @@ msgstr ""
 "@SYNTAX=DPRODUCT(database,felt,kriterie)\n"
 "@DESCRIPTION=DPRODUCT-funktionen returnerer produktet af tallene i en "
 "kolonne som tilfredstiller de specificerede betingelser. \n"
-
-#: src/functions/fn-database.c:896
-msgid ""
-"\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
-msgstr ""
 
 #: src/functions/fn-database.c:955
 msgid ""
@@ -5964,15 +5885,6 @@ msgstr ""
 "for en population baseret på et udvalg. Populationen består af tal som til- "
 "fredstiller de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:964
-msgid ""
-"\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
-msgstr ""
-
 #: src/functions/fn-database.c:1021
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -5987,15 +5899,6 @@ msgstr ""
 "population baseret på hele populationen. Populationen består af tal som til- "
 "fredstiller de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:1030
-msgid ""
-"\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
-msgstr ""
-
 #: src/functions/fn-database.c:1089
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -6007,15 +5910,6 @@ msgstr ""
 "@SYNTAX=DSUM(database,felt,kriterie)\n"
 "@DESCRIPTION=DSUM-funktionen returnerer summen af tallene i en kolonne som "
 "tilfredsstiller de specificerede betingelser. \n"
-
-#: src/functions/fn-database.c:1097
-msgid ""
-"\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
-msgstr ""
 
 #: src/functions/fn-database.c:1156
 msgid ""
@@ -6031,15 +5925,6 @@ msgstr ""
 "baseret på et udvalg. Populationerne består af tal som tilfredsstiller de "
 "specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:1165
-msgid ""
-"\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
-
 #: src/functions/fn-database.c:1224
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -6053,15 +5938,6 @@ msgstr ""
 "@DESCRIPTION=DVARP-funktionen returnerer variansen til en population baseret "
 "på alle populationerne. Populationerne består af tal som tilfredsstiller de "
 "specificerede betingelser. \n"
-
-#: src/functions/fn-database.c:1233
-msgid ""
-"\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
-msgstr ""
 
 #: src/functions/fn-database.c:1293
 msgid ""
@@ -7615,7 +7491,6 @@ msgid "Engineering"
 msgstr "Teknisk"
 
 #: src/functions/fn-financial.c:197
-#, fuzzy
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
@@ -7644,8 +7519,8 @@ msgstr ""
 "s])\n"
 "@DESCRIPTION=ACCRINT beregner den påløbne rente for et værdipapir som "
 "udbetaler periodisk rente. @rente er værdipapirets pålydende årlige rente og "
-"@pari er værdipapirets pålydende værdi. @basis er den type på "
-"rentedagsberegning som du vil bruge:\n"
+"@pari er værdipapirets pålydende værdi. @basis er den type "
+"rentedagsberegning du vil bruge:\n"
 "\n"
 "0  USA 30/360\n"
 "1  faktiske dage/faktiske dage\n"
@@ -7653,18 +7528,17 @@ msgstr ""
 "3  faktiske dage/365\n"
 "4  europæisk 30/360\n"
 "\n"
-"Hvis @basis udelades, anvendes USA 30/360. Hvis dato for udstedelse eller "
-"anbringelse ikke er gyldig, returnerer ACCRINT en NUM!-fejl. Hvis @rente "
+"Hvis @basis udelades, anvendes USA 30/360. Hvis dato for @udstedelse eller "
+"@anbringelse ikke er gyldig, returnerer ACCRINT en #NUM!-fejl. Hvis @rente "
 "eller @pari er nul eller negativ returnerer ACCRINT en #NUM!-fejl.  Hvis "
 "@basis < 0 eller @basis > 4, returnerer ACCRINT en #NUM!-fejl. Hvis dato for "
-"udstedelse er efter dato for forfald eller er de den samme, returnerer "
+"@udstedelse er efter dato for @forfald eller er de den samme, returnerer "
 "ACCRINT en #NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ACCRINTM"
 
 #: src/functions/fn-financial.c:255
-#, fuzzy
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -7692,9 +7566,9 @@ msgstr ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(udstedelse,forfald,rente,[pari,basis])\n"
 "@DESCRIPTION=ACCRINTM beregner og returnerer den påløbne rente for et "
-"værdipapir fra @udstedelse til @forfald. @rente er værdipapirets pålydende "
-"årlige rente og pari er værdipapirets pålydende værdi. Hvis du udelader "
-"@pari, bruger ACCRINTM et beløb på 1000. @basis er den type på "
+"værdipapir fra @udstedelse til @forfald datoerne. @rente er værdipapirets "
+"pålydende årlige rente og pari er værdipapirets pålydende værdi. Hvis du "
+"udelader @pari, bruger ACCRINTM et beløb på 1000. @basis er den type på "
 "rentedagsberegning som du vil bruge:\n"
 "\n"
 "0  USA 30/360\n"
@@ -7703,18 +7577,17 @@ msgstr ""
 "3  faktiske dage/365\n"
 "4  europæisk 30/360\n"
 "\n"
-"Hvis @basis udelades, anvendes USA 30/360. Hvis dato for udstedelse eller "
-"forfald ikke er gyldig, returnerer ACCRINTM en NUM!-fejl. Hvis @rente eller "
-"@pari er nul eller negativ returnerer ACCRINTM en #NUM!-fejl.  Hvis @basis < "
-"0 eller @basis > 4, returnerer ACCRINTM en #NUM!-fejl. Hvis dato for "
-"udstedelse er efter dato for forfald eller er de den samme, returnerer "
+"Hvis @basis udelades, anvendes USA 30/360. Hvis dato for @udstedelse eller "
+"@forfald ikke er gyldig, returnerer ACCRINTM en #NUM!-fejl. Hvis @rente "
+"eller @pari er nul eller negativ returnerer ACCRINTM en #NUM!-fejl.  Hvis "
+"@basis < 0 eller @basis > 4, returnerer ACCRINTM en #NUM!-fejl. Hvis dato "
+"for @udstedelse er efter dato for @forfald eller er de den samme, returnerer "
 "ACCRINTM en #NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ACCRINT"
 
 #: src/functions/fn-financial.c:305
-#, fuzzy
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -7746,7 +7619,7 @@ msgstr ""
 "@DESCRIPTION=INTRATE beregner og returnerer renten for et fuldtud sikkert "
 "værdipapir. @investering er prisen på værdipapiret betalt på @anbringelse "
 "datoen, og @indfrielse er beløbet der modtages på @forfald datoen. @basis er "
-"den type på rentedagsberegning som du vil bruge:\n"
+"den type rentedagsberegning du vil bruge:\n"
 "\n"
 "0  USA 30/360\n"
 "1  faktiske dage/faktiske dage\n"
@@ -7754,10 +7627,10 @@ msgstr ""
 "3  faktiske dage/365\n"
 "4  europæisk 30/360\n"
 "\n"
-"Hvis @basis udelades, anvendes USA 30/360. Hvis dato for anbringelse eller "
-"forfald ikke er gyldig, returnerer INTRATE en NUM!-fejl. Hvis @basis < 0 "
+"Hvis @basis udelades, anvendes USA 30/360. Hvis dato for @anbringelse eller "
+"@forfald ikke er gyldig, returnerer INTRATE en #NUM!-fejl. Hvis @basis < 0 "
 "eller @basis > 4, returnerer INTRATE en #NUM!-fejl. Hvis dato for "
-"anbringelse er efter dato for forfald eller er de den samme, returnerer "
+"@anbringelse er efter dato for @forfald eller er de den samme, returnerer "
 "INTRATE en #NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
@@ -7768,7 +7641,6 @@ msgstr ""
 "@SEEALSO=RECEIVED, DATE"
 
 #: src/functions/fn-financial.c:365
-#, fuzzy
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
@@ -7793,8 +7665,8 @@ msgstr ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED((anbringelse,forfald,investering,diskonto,rate[,basis])\n"
 "@DESCRIPTION=RECEIVED beregner og returnerer beløbet der udbetales ved "
-"forfaldsdatoen for en obligation. @basis er den type på rentedagsberegning "
-"som du vil bruge:\n"
+"@forfald datoen for en obligation. @basis er den type rentedagsberegning du "
+"vil bruge:\n"
 "\n"
 "0  USA 30/360\n"
 "1  faktiske dage/faktiske dage\n"
@@ -7802,17 +7674,16 @@ msgstr ""
 "3  faktiske dage/365\n"
 "4  europæisk 30/360\n"
 "\n"
-"Hvis @basis udelades, anvendes USA 30/360. Hvis anbringelsesdato eller "
-"forfaldsdato ikke er gyldig, returnerer RECEIVED en #NUM!-fejl. Hvis @basis "
-"< 0 eller @basis > 4, returnerer RECEIVED en #NUM!-fejl. Hvis "
-"anbringelsesdato er efter forfaldsdato eller er de den samme, returnerer "
-"RECEIVED en #NUM!-fejl. \n"
+"Hvis @basis udelades, anvendes USA 30/360. Hvis @anbringelse dato eller "
+"@forfald dato ikke er gyldig, returnerer RECEIVED en #NUM!-fejl. Hvis @basis "
+"< 0 eller @basis > 4, returnerer RECEIVED en #NUM!-fejl. Hvis @anbringelse "
+"dato er efter @forfald dato eller er de den samme, returnerer RECEIVED en "
+"#NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=INTRATE"
 
 #: src/functions/fn-financial.c:417
-#, fuzzy
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
@@ -7841,8 +7712,8 @@ msgstr ""
 "@DESCRIPTION=PRICEDISC beregner og returnerer prisen for en pålydende værdi "
 "på 100 af en obligation. Værdipapiret giver ikke rente ved forfald. "
 "@diskonto er raten som obligationen bliver diskonteret med.  @indfrielse er "
-"beløbet der udbetales på @forfald datoen.  @basis er den type på "
-"rentedagsberegning som du vil bruge:\n"
+"beløbet der udbetales på @forfald datoen.  @basis er den type "
+"rentedagsberegning du vil bruge:\n"
 "\n"
 "0  USA 30/360\n"
 "1  faktiske dage/faktiske dage\n"
@@ -7850,17 +7721,16 @@ msgstr ""
 "3  faktiske dage/365\n"
 "4  europæisk 30/360\n"
 "\n"
-"Hvis @basis udelades, anvendes USA 30/360. Hvis dato for anbringelse eller "
-"forfald ikke er gyldig, returnerer PRICEDISC en #NUM!-fejl. Hvis @basis < 0 "
-"eller @basis > 4, returnerer PRICEDISC en #NUM!-fejl. Hvis anbringelsesdato "
-"er efter forfaldsdato eller er de den samme, returnerer PRICEDISC en "
-"#NUM!-fejl. \n"
+"Hvis @basis udelades, anvendes USA 30/360. Hvis dato for @anbringelse eller "
+"@forfald ikke er gyldig, returnerer PRICEDISC en #NUM!-fejl. Hvis @basis < 0 "
+"eller @basis > 4, returnerer PRICEDISC en #NUM!-fejl. Hvis dato for "
+"@anbringelse er efter  dato for @forfald eller er de den samme, returnerer "
+"PRICEDISC en #NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PRICEMAT"
 
 #: src/functions/fn-financial.c:467
-#, fuzzy
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
@@ -7886,7 +7756,7 @@ msgstr ""
 "@SYNTAX=PRICEMAT(anbringelse,forfald,udstedelse,rente,udbytte[,basis])\n"
 "@DESCRIPTION=PRICEMAT beregner og returnerer prisen for en pålydende værdi "
 "på 100 af en obligation. Obligationen giver rente ved forfald. @basis er den "
-"type på rentedagsberegning som du vil bruge:\n"
+"type rentedagsberegning du vil bruge:\n"
 "\n"
 "0  USA 30/360\n"
 "1  faktiske dage/faktiske dage\n"
@@ -7894,17 +7764,16 @@ msgstr ""
 "3  faktiske dage/365\n"
 "4  europæisk 30/360\n"
 "\n"
-"Hvis @basis udelades, anvendes USA 30/360. Hvis dato for anbringelse eller "
-"forfald ikke er gyldig, returnerer PRICEMAT en #NUM!-fejl. Hvis @basis < 0 "
+"Hvis @basis udelades, anvendes USA 30/360. Hvis dato for @anbringelse eller "
+"@forfald ikke er gyldig, returnerer PRICEMAT en #NUM!-fejl. Hvis @basis < 0 "
 "eller @basis > 4, returnerer PRICEMAT en #NUM!-fejl. Hvis dato for "
-"anbringelse er efter dato for forfald eller er de den samme, returnerer "
+"@anbringelse er efter dato for @forfald eller er de den samme, returnerer "
 "PRICEMAT en #NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PRICEDISC"
 
 #: src/functions/fn-financial.c:522
-#, fuzzy
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
@@ -7928,7 +7797,7 @@ msgstr ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(anbringelse,forfald,pari,reststol[,basis])\n"
 "@DESCRIPTION=DISC beregner og returnerer diskonteringsrenten for et "
-"værdipapir. @basis er den type på rentedagsberegning som du vil bruge:\n"
+"værdipapir. @basis er den type rentedagsberegning du vil bruge:\n"
 "\n"
 "0  USA 30/360\n"
 "1  faktiske dage/faktiske dage\n"
@@ -7936,17 +7805,16 @@ msgstr ""
 "3  faktiske dage/365\n"
 "4  europæisk 30/360\n"
 "\n"
-"Hvis @basis udelades, anvendes USA 30/360. Hvis dato for anbringelse eller "
-"forfald ikke er gyldig, returnerer DISC en #NUM!-fejl. Hvis @basis < 0 eller "
-"@basis > 4, returnerer DISC en #NUM!-fejl. Hvis dato for anbringelse er "
-"efter dato for forfald eller er de den samme, returnerer DISC en #NUM!-fejl. "
-"\n"
+"Hvis @basis udelades, anvendes USA 30/360. Hvis dato for @anbringelse eller "
+"@forfald ikke er gyldig, returnerer DISC en #NUM!-fejl. Hvis @basis < 0 "
+"eller @basis > 4, returnerer DISC en #NUM!-fejl. Hvis dato for @anbringelse "
+"er efter dato for @forfald eller er de den samme, returnerer DISC en "
+"#NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-financial.c:568
-#, fuzzy
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -7975,17 +7843,17 @@ msgstr ""
 "rente.\n"
 "Den effektive rente beregnes ved hjælp af denne formel:\n"
 "\n"
-"         r( 1 + ------ ) ^ nper - 1       nper\n"
+"         @r( 1 + ------ ) ^ @nper - 1       @nper\n"
 "hvor:\n"
 "\n"
 "@r = nominel rente (opgivet på årlig basis)\n"
 "@nper = antal opgørelses-perioder\n"
 "For eksempel vil kreditkort opgive en årlig rente som er en nominel rente.\n"
-"For eksempel hvis du ønskede at finde ud af hvor meget du faktiske betaler i "
+"For eksempel hvis du ønskede at finde ud af hvor meget du faktisk betaler i "
 "rente på dit kreditkort som opgiver en årlig rente på 19 % som opgøres "
 "månedlig, skal du indtaste:\n"
-"=EFFECT(.19,12) og du vil få .2075 eller 20,75 %. Dette er den "
-"effektiveprocentsats som du betaler på dit lån.\n"
+"=EFFECT(.19,12) og du vil få .2075 eller 20,75 %. Dette er den effektive "
+"procentsats som du betaler på dit lån.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=NOMINAL"
@@ -7995,7 +7863,6 @@ msgid "effect - domain error"
 msgstr "effekt - domænefejl"
 
 #: src/functions/fn-financial.c:617
-#, fuzzy
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -8016,9 +7883,9 @@ msgstr ""
 "@SYNTAX=NOMINAL(r,nper)\n"
 "@DESCRIPTION=NOMINAL beregner den nominelle rente fra en given effektiv "
 "rente.\n"
-"Den nomineller rente beregnes ved hjælp af denne formel:\n"
+"Den nominelle rente beregnes ved hjælp af denne formel:\n"
 "\n"
-"      nper * (( 1 + r ) ^ (1 / nper) - 1 )\n"
+"@nper * (( 1 + @r ) ^ (1 / @nper) - 1 )\n"
 "hvor:\n"
 "\n"
 "@r = effektiv rente\n"
@@ -8050,7 +7917,6 @@ msgstr ""
 "@SEEALSO=PV"
 
 #: src/functions/fn-financial.c:690
-#, fuzzy
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -8068,10 +7934,10 @@ msgstr ""
 "@SYNTAX=DB(kost,skrapværdi,levetid,periode[,måned])\n"
 "@DESCRIPTION=DB beregner afskrivningen på et aktiv for en given periode ved "
 "brug af saldoafskrivning. @kost er aktivets oprindelige omkostning. "
-"@skrapværdi er værdien efter sidste afskrivning, @levetid er antal perioder "
-"ialt. @periode er perioden for hvilken du ønsker afskrivningen skal "
-"beregnes. @måned er antal måneder i det første år for afskrivningen. Hvis "
-"@måned udelades, antages den til at være 12. \n"
+"@skrapværdi er værdien efter afskrivningen, @levetid er antal perioder ialt. "
+"@periode er perioden for hvilken du ønsker afskrivningen skal beregnes. "
+"@måned er antal måneder i det første år for afskrivningen. Hvis @måned "
+"udelades, antages den til at være 12. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DDB,SLN,SYD"
@@ -8105,7 +7971,6 @@ msgstr ""
 "@SEEALSO=SLN,SYD"
 
 #: src/functions/fn-financial.c:792
-#, fuzzy
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -8130,12 +7995,12 @@ msgstr ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(kost,skrapværdi,levetid)\n"
 "@DESCRIPTION=SLN-funktionen vil bestemme den lineære afskrivning på et aktiv "
-"for en enkelt periode. @kost er aktivets oprindelige omkostning. @skrapværdi "
-"er værdien ved slutningen af aktivets nyttige levetid, og @levetid er antal "
-"perioder om aktivet afskrives over. Denne afskrivningsmetode deler "
-"omkostningerne ligeligt henover et aktivs levetid.\n"
+"for en enkelt periode. @kost er det beløb du oprindelig betalte for aktivet. "
+"@skrapværdi er værdien ved slutningen af aktivets nyttige levetid, og "
+"@levetid er antal perioder om aktivet afskrives over. Denne "
+"afskrivningsmetode deler omkostningerne ligeligt henover et aktivs levetid.\n"
 "Formlen brugt ved lineær afskrivning er:\n"
-"Afskrivningsomkostning = ( kost - skrapværdi ) / levetid\n"
+"Afskrivningsomkostning = ( @kost - @skrapværdi ) / @levetid\n"
 "\t@kost = aktivets omkostning på anskaffelsestidspunktet "
 "(markedsværdi).\t@skrapværdi = beløb som du får når aktivet sælges ved "
 "slutningen på dets brugbare levetid.\t@levetid = forventet levetid for "
@@ -8152,7 +8017,6 @@ msgid "sln - domain error"
 msgstr "SLN - domænefejl"
 
 #: src/functions/fn-financial.c:844
-#, fuzzy
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -8186,8 +8050,8 @@ msgstr ""
 "Afskrivningsværdien er de faktiske omkostninger minus skrapværdien. @levetid "
 "er antal perioder (typisk år) som aktivet afskrives over. Formlen brugt ved "
 "lineær afskrivning er:\n"
-"Afskrivningsomkostning = ( kost - skrapværdi ) * (levetid - periode + 1) * 2 "
-"/ levetid * (levetid + 1).\n"
+"Afskrivningsomkostning = ( @kost - @skrapværdi ) * (@levetid - @periode + 1) "
+"* 2 / @levetid * (@levetid + 1).\n"
 "\t@kost = aktivets omkostning på anskaffelsestidspunktet "
 "(markedsværdi).\t@skrapværdi = beløb som du får når aktivet sælges ved "
 "slutningen på dets brugbare levetid.\t@levetid = forventet levetid for "
@@ -8205,7 +8069,6 @@ msgid "syd - domain error"
 msgstr "SYD - domænefejl"
 
 #: src/functions/fn-financial.c:900
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -8218,17 +8081,16 @@ msgid ""
 "@SEEALSO=DOLLARFR"
 msgstr ""
 "@FUNCTION=DOLLARDE\n"
-"@SYNTAX=DOLLARDE(@delt_dollar, brøk))\n"
+"@SYNTAX=DOLLARDE(@delt_dollar, brøk)\n"
 "@DESCRIPTION=DOLLARDE konverterer en dollarpris udtrykt som en brøk til en "
 "dollarpris udtrykt som et decimaltal. \n"
 "Hvis @brøk ikke er et heltal, bliver det afkortet. Hvis @brøk<=0 returnerer "
-"DOLLARDE en NUM! fejl. \n"
+"DOLLARDE en #NUM! fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DOLLARFR"
 
 #: src/functions/fn-financial.c:942
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -8242,8 +8104,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar, brøk)\n"
-"@DESCRIPTION=DOLLARFR konverterer en dollarpris i decimaltal til en dollar- "
-"pris udtrykt som en brøk. \n"
+"@DESCRIPTION=DOLLARFR konverterer en dollarpris i decimaltal til en "
+"dollarpris udtrykt som en brøk. \n"
 "Hvis @brøk ikke er et heltal, bliver det afrundet. Hvis @brøk <= 0 "
 "returnerer DOLLARFR en #NUM! fejl. \n"
 "@EXAMPLES=\n"
@@ -8269,7 +8131,6 @@ msgstr ""
 "@SEEALSO=NPV"
 
 #: src/functions/fn-financial.c:1043
-#, fuzzy
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -8286,17 +8147,16 @@ msgstr ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(anbringelse,forfald,rente)\n"
 "@DESCRIPTION=TBILLEQ-funktionen returnerer obligationsudbytte-ækvivalenten "
-"(BEY) for et skatkammerbevis. TBILLEQ er lig med (365 * rente) / (360 - "
-"rente * DSM) hvor DSM er dagene mellem @anbringelse og @forfald. \n"
+"(BEY) for et skatkammerbevis. TBILLEQ er lig med (365 * @rente) / (360 - "
+"@rente * DSM) hvor DSM er dagene mellem @anbringelse og @forfald. \n"
 "Hvis @anbringelse er efter @forfald eller @forfald er sat til over et år "
-"senere end @anbringelse, returnerer TBILLEQ en NUM! fejl. Hvis @rente er "
+"senere end @anbringelse, returnerer TBILLEQ en #NUM! fejl. Hvis @rente er "
 "negativ, returnerer TBILLEQ en #NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 
 #: src/functions/fn-financial.c:1088
-#, fuzzy
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -8317,14 +8177,13 @@ msgstr ""
 "skatkammerbevis, hvor @anbringelse er anbringelsesdatoen, og @forfald er "
 "forfaldsdatoen. @rente er skatkammerbevisets pålydende rente. \n"
 "Hvis @anbringelse er efter @forfald eller @forfald er sat til over et år "
-"senere end @anbringelse, returnerer TBILLPRICE en NUM! fejl. Hvis @rente er "
+"senere end @anbringelse, returnerer TBILLPRICE en #NUM! fejl. Hvis @rente er "
 "negativ, returnerer TBILLPRICE en #NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 
 #: src/functions/fn-financial.c:1129
-#, fuzzy
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -8343,7 +8202,7 @@ msgstr ""
 "skatkammerbevis. @anbringelse er anbringelsesdatoen, og @forfald er "
 "forfaldsdatoen for beviset. @rente er skatkammerbevisets pålydende rente. \n"
 "Hvis @anbringelse er efter @forfald eller @forfald er sat til over et år "
-"senere end @anbringelse, returnerer TBILLYIELD en NUM!-fejl. Hvis @pris er "
+"senere end @anbringelse, returnerer TBILLYIELD en #NUM!-fejl. Hvis @pris er "
 "negativ, returnerer TBILLYIELD en #NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
@@ -8366,7 +8225,6 @@ msgstr ""
 "@SEEALSO=PV,FV"
 
 #: src/functions/fn-financial.c:1265
-#, fuzzy
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -8388,9 +8246,9 @@ msgstr ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(værdier[,gæt])\n"
 "@DESCRIPTION=IRR beregner og returnerer den interne rente på en investering. "
-"Denne funktion er nært relateret til netto nutidsværdi-funktionen (NPV).IRR "
+"Denne funktion er nært relateret til netto nutidsværdi-funktionen (NPV). IRR "
 "er renten for en serie af pengestrømme hvor netto nutidsværdien er nul. \n"
-"@værdier indeholder serien af pengesrømme genereret af investeringen. "
+"@værdier indeholder serien af pengestrømme genereret af investeringen. "
 "Betalingerne bør ske med regelmæssige intervaller. Det eventuelle @gæt er "
 "den initielle værdi brugt til beregning af IRR. Du behøver ikke bruge dette, "
 "det er kun med pga. Excel kompatibiliteten. \n"
@@ -8402,7 +8260,6 @@ msgstr ""
 "@SEEALSO=FV,NPV,PV"
 
 #: src/functions/fn-financial.c:1370
-#, fuzzy
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
@@ -8415,17 +8272,15 @@ msgid ""
 "\n"
 "@SEEALSO=FV"
 msgstr ""
-"@FUNCTION=FV\n"
-"@SYNTAX=FV(rente,term,bet,nv,type)\n"
-"@DESCRIPTION=FV beregner den fremtidige værdi for en investering. Dette "
-"gøres ud fra periodiske, konstante betalinger og en konstant rente. Renten i "
+"@FUNCTION=PV\n"
+"@SYNTAX=PV(rente,term,bet,fv,type)\n"
+"@DESCRIPTION=PV beregner den nutidige værdi for en investering. Renten i "
 "perioderne er @rente, @term er antal terminer i en annuitet, @bet er "
-"betalinger gjort hver periode, @nv er nutidsværdien, @fv er fremtidsværdien, "
-"og @type er hvornår betalinger skal betales.  Hvis @type = 1, falder "
-"betalinger i begyndelsen af perioden, hvis @type = 1, falder betalinger i "
-"slutningen af perioden.\n"
+"betalinger gjort hver periode, @fv er fremtidsværdien, og @type er hvornår "
+"betalinger skal betales.  Hvis @type = 1, falder betalinger i begyndelsen af "
+"perioden, hvis @type = 0, falder betalinger i slutningen af perioden.\n"
 "@EXAMPLES=\n"
-"@SEEALSO=PPMT,PV,FV"
+"@SEEALSO=FV"
 
 #: src/functions/fn-financial.c:1399
 msgid "pv - domain error"
@@ -8456,7 +8311,6 @@ msgstr ""
 "@SEEALSO=PV,XNPV"
 
 #: src/functions/fn-financial.c:1469
-#, fuzzy
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -8477,13 +8331,12 @@ msgstr ""
 "begyndelsen på betalingsplanen. @rente er renten og @værdier er "
 "betalingerne. \n"
 "Hvis @værdier og @datoer indeholder forskelligt antal værdier, returnerer "
-"XNPV en NUM fejl, \n"
+"XNPV en #NUM! fejl, \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=NPV,PV"
 
 #: src/functions/fn-financial.c:1528
-#, fuzzy
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -8526,7 +8379,6 @@ msgstr ""
 "@SEEALSO=IRR,XNPV"
 
 #: src/functions/fn-financial.c:1632
-#, fuzzy
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -8545,15 +8397,13 @@ msgstr ""
 "@DESCRIPTION=FV beregner den fremtidige værdi for en investering. Dette "
 "gøres ud fra periodiske, konstante betalinger og en konstant rente. Renten i "
 "perioderne er @rente, @term er antal terminer i en annuitet, @bet er "
-"betalinger gjort hver periode, @nv er nutidsværdien, @fv er fremtidsværdien, "
-"og @type er hvornår betalinger skal betales.  Hvis @type = 1, falder "
-"betalinger i begyndelsen af perioden, hvis @type = 1, falder betalinger i "
-"slutningen af perioden.\n"
+"betalinger gjort hver periode, @nv er nutidsværdien, og @type er hvornår "
+"betalinger skal betales.  Hvis @type = 1, falder betalinger i begyndelsen af "
+"perioden, hvis @type = 0, falder betalinger i slutningen af perioden.\n"
 "@EXAMPLES=\n"
-"@SEEALSO=PPMT,PV,FV"
+"@SEEALSO=PV,PMT,PPMT"
 
 #: src/functions/fn-financial.c:1671
-#, fuzzy
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -8629,7 +8479,6 @@ msgstr ""
 "@SEEALSO=IPMT,PV,FV"
 
 #: src/functions/fn-financial.c:1796
-#, fuzzy
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -8653,7 +8502,7 @@ msgstr ""
 "periodiske konstante betalinger og en konstant rente. Renten i perioderne er "
 "@rente, @bet er betalinger gjort hver periode, @nv er nutidsværdien, @fv er "
 "fremtidsværdien, og @type er hvornår betalinger skal betales.  Hvis @type = "
-"1, falder betalinger i begyndelsen af perioden, hvis @type = 1, falder "
+"1, falder betalinger i begyndelsen af perioden, hvis @type = 0, falder "
 "betalinger i slutningen af perioden.\n"
 "@EXAMPLES=\n"
 "For eksempel indsætter du 10.000 kr på en opsparingskonto som optjener en "
@@ -8686,7 +8535,6 @@ msgstr ""
 "@SEEALSO=PPMT,PV,FV"
 
 #: src/functions/fn-financial.c:1882
-#, fuzzy
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -8701,11 +8549,11 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 "@FUNCTION=FVSCHEDULE\n"
-"@SYNTAX=FVSCHEDULE(hovedstol,plan)\n"
+"@SYNTAX=FVSCHEDULE(hovedstol,renteplan)\n"
 "@DESCRIPTION=FVSCHEDULE returnerer fremtidsværdien af en given initiel værdi "
 "efter anvendelse af en række samlede periodiske rentestørrelser. Argumentet "
-"@hovedstol er nutidsværdien; renteplan er en vektor af rentestørrelser der "
-"skal anvendes. Renteplanen skal være et celleområde.\n"
+"@hovedstol er nutidsværdien; @renteplan er en vektor af rentestørrelser der "
+"skal anvendes. @renteplan argumentet skal være et celleområde.\n"
 "@EXAMPLES=\n"
 "Lad os antage at cellerne A1, A2, ..., A5 indeholder rentestørrelserne 0.11, "
 "0.13, 0.09, 0.17, and 0.03.  Så har vi at\n"
@@ -8713,7 +8561,6 @@ msgstr ""
 "@SEEALSO=PV,FV"
 
 #: src/functions/fn-financial.c:1926
-#, fuzzy
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -8740,7 +8587,7 @@ msgstr ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(møntenhed)\n"
 "@DESCRIPTION=EURO konverterer en Euro til en given national møntenhed "
-"indenfor Euroland (ØMU-medlemslandene). Møntenhed er en af de følgende:\n"
+"indenfor Euroland (ØMU-medlemslandene). @møntenhed er en af de følgende:\n"
 "    ATS     (Østrig)\n"
 "    BEF     (Belgien)\n"
 "    DEM     (Tyskland)\n"
@@ -8753,7 +8600,7 @@ msgstr ""
 "    NLG     (Holland)\n"
 "    PTE     (Portugal)\n"
 "\n"
-"Hvis en given møntenhed er andet end de overstående, vil EURO returnere en "
+"Hvis en given @møntenhed er andet end de overstående, vil EURO returnere en "
 "#NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "EURO(\"DEM\") returnerer 1.95583.\n"
@@ -9706,7 +9553,6 @@ msgid "#ARG!"
 msgstr "#ARG!"
 
 #: src/functions/fn-lookup.c:188
-#, fuzzy
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate])\n"
@@ -9729,14 +9575,13 @@ msgstr ""
 "stigende rækkefølge for at det fungerer korrekt; i dette tilfælde finder den "
 "rækken med værdien mindre end @værdi. Den returnerer værdien i rækken fundet "
 "ved 1 mere i @kolonne kolonner inde i @område.\n"
-"Returnerer NUM! hvis @kolonne < 0. Returnerer #REF! hvis @kolonne falder "
+"Returnerer #NUM! hvis @kolonne < 0. Returnerer #REF! hvis @kolonne falder "
 "udenfor @område.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=HLOOKUP"
 
 #: src/functions/fn-lookup.c:344
-#, fuzzy
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate])\n"
@@ -9756,7 +9601,7 @@ msgstr ""
 "@DESCRIPTION=VLOOKUP finder kolonnen i området som har en første række celle "
 "der ligner værdi. Hvis @tilnærmet ikke er sand, finder den kolonnen med en "
 "præcis overensstemmelse. Hvis @tilnærmet er sand, så skal værdierne være "
-"ordnet i stigende rækkefølge for den korrekte funktion; i dette tilfælde "
+"ordnet i stigende rækkefølge for at det virker korrekt; i dette tilfælde "
 "finder den kolonnen med værdien mindre end @værdi. Den returnerer værdien i "
 "kolonnen fundet ved 1 mere i @række rækker inde i @område.\n"
 "Returnerer #NUM! hvis @række < 0. Returnerer #REF! hvis @række falder "
@@ -9829,7 +9674,6 @@ msgstr ""
 "@SEEALSO=LOOKUP"
 
 #: src/functions/fn-lookup.c:671
-#, fuzzy
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
@@ -9846,15 +9690,14 @@ msgstr ""
 "@SYNTAX=INDIRECT(ref_tekst, [format])\n"
 "@DESCRIPTION=INDIRECT-funktionen returnerer indholdet af cellen peget til af "
 "ref_tekst strengen. Strengen specificerer en enkelt cellereference, hvor "
-"formatet er enten A1 eller R1C1 stil. Stilen sættes ved @format variablen, "
+"formatet er enten A1 eller R1C1 stil. Stilen sættes ved format variablen, "
 "som har den første stil som standard.\n"
-"Hvis ref_tekst ikke er en gyldig reference returneres #REF! \n"
+"Hvis @ref_tekst ikke er en gyldig reference returneres #REF! \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-lookup.c:740
-#, fuzzy
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(reference,[row, col, area])\n"
@@ -9866,7 +9709,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=INDEX\n"
-"@SYNTAX=INDEX(reference, [rad, kol, område])\n"
+"@SYNTAX=INDEX(reference, [række, kol, område])\n"
 "@DESCRIPTION=INDEX-funktionen returnerer en reference til cellen ved et "
 "afsæt fra referencen specificeret af række, kol.\n"
 "Hvis noget går galt returneres #REF! \n"
@@ -14397,7 +14240,6 @@ msgstr ""
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
 #: src/functions/fn-string.c:494
-#, fuzzy
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
@@ -14580,7 +14422,6 @@ msgstr ""
 "@SEEALSO=REPLACE, TRIM"
 
 #: src/functions/fn-string.c:1039
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -14867,6 +14708,10 @@ msgstr "#NAVN?"
 msgid "#NUM!"
 msgstr "#NUM!"
 
+#: src/number-match.c:542
+msgid "#N/A"
+msgstr "#I/T"
+
 #: src/number-match.c:543
 msgid "#RECALC!"
 msgstr "#RECALC!"
@@ -15026,9 +14871,8 @@ msgid "S_heets"
 msgstr "Ark"
 
 #: src/print.c:998
-#, fuzzy
 msgid "Printing failed"
-msgstr "Manglende %s fil"
+msgstr "Udskrift fejlede"
 
 #: src/selection.c:150
 msgid "cannot be performed with multiple selections"
@@ -15091,121 +14935,121 @@ msgstr "Indsæt rækker"
 msgid "Delete Rows"
 msgstr "Slet rækker"
 
-#: src/solver-lp.c:889
+#: src/solver-lp.c:888
 msgid "Answer Report"
 msgstr "Svarrapport"
 
-#: src/solver-lp.c:890
+#: src/solver-lp.c:889
 msgid "Gnumeric Solver Answer Report"
 msgstr "Gnumeric problemløser svarrapport"
 
-#: src/solver-lp.c:894
+#: src/solver-lp.c:893
 msgid "Target Cell (Maximize)"
 msgstr "Målcelle (Maksimér)"
 
-#: src/solver-lp.c:896
+#: src/solver-lp.c:895
 msgid "Target Cell (Minimize)"
 msgstr "Målcelle (Minimér)"
 
-#: src/solver-lp.c:898 src/solver-lp.c:925 src/solver-lp.c:960
-#: src/solver-lp.c:1058 src/solver-lp.c:1110
+#: src/solver-lp.c:897 src/solver-lp.c:923 src/solver-lp.c:958
+#: src/solver-lp.c:1055 src/solver-lp.c:1105
 msgid "Name"
 msgstr "Navn"
 
-#: src/solver-lp.c:899 src/solver-lp.c:926
+#: src/solver-lp.c:898 src/solver-lp.c:924
 msgid "Original Value"
 msgstr "Oprindelig værdi"
 
-#: src/solver-lp.c:900 src/solver-lp.c:927
+#: src/solver-lp.c:899 src/solver-lp.c:925
 msgid "Final Value"
 msgstr "Endelig værdi"
 
-#: src/solver-lp.c:923 src/solver-lp.c:1051
+#: src/solver-lp.c:921 src/solver-lp.c:1048
 msgid "Adjustable Cells"
 msgstr "Justérbareceller"
 
-#: src/solver-lp.c:958 src/solver-lp.c:1101
+#: src/solver-lp.c:956 src/solver-lp.c:1096
 msgid "Constraints"
 msgstr "Begrænsninger"
 
-#: src/solver-lp.c:961
+#: src/solver-lp.c:959
 msgid "Cell Value"
 msgstr "Celleværdi"
 
-#: src/solver-lp.c:962
+#: src/solver-lp.c:960
 msgid "Formula"
 msgstr "Formel"
 
-#: src/solver-lp.c:963
+#: src/solver-lp.c:961
 msgid "Status"
 msgstr "Status"
 
-#: src/solver-lp.c:964
+#: src/solver-lp.c:962
 msgid "Slack"
 msgstr "Slør"
 
-#: src/solver-lp.c:1012
+#: src/solver-lp.c:1010
 msgid "Binding"
 msgstr "Bindende"
 
-#: src/solver-lp.c:1014
+#: src/solver-lp.c:1012
 msgid "Not Binding"
 msgstr "Ikke bindende"
 
-#: src/solver-lp.c:1049
+#: src/solver-lp.c:1046
 msgid "Sensitivity Report"
 msgstr "Følsomhedsrapport"
 
-#: src/solver-lp.c:1050
+#: src/solver-lp.c:1047
 msgid "Gnumeric Solver Sensitivity Report"
 msgstr "Gnumeric problemløser følsomhedsrapport"
 
-#: src/solver-lp.c:1052 src/solver-lp.c:1103
+#: src/solver-lp.c:1049 src/solver-lp.c:1098
 msgid "Final"
 msgstr "Endelig"
 
-#: src/solver-lp.c:1053
+#: src/solver-lp.c:1050
 msgid "Reduced"
 msgstr "Reduceret"
 
-#: src/solver-lp.c:1054
+#: src/solver-lp.c:1051
 msgid "Objective"
 msgstr "Objektiv"
 
-#: src/solver-lp.c:1055 src/solver-lp.c:1056 src/solver-lp.c:1106
-#: src/solver-lp.c:1107
+#: src/solver-lp.c:1052 src/solver-lp.c:1053 src/solver-lp.c:1101
+#: src/solver-lp.c:1102
 msgid "Allowable"
 msgstr "Tilladte"
 
-#: src/solver-lp.c:1060
+#: src/solver-lp.c:1057
 msgid "Cost"
 msgstr "Omkostning"
 
-#: src/solver-lp.c:1061
+#: src/solver-lp.c:1058
 msgid "Coefficient"
 msgstr "Koefficient"
 
-#: src/solver-lp.c:1062 src/solver-lp.c:1114
+#: src/solver-lp.c:1059 src/solver-lp.c:1109
 msgid "Increase"
 msgstr "Forøg"
 
-#: src/solver-lp.c:1063 src/solver-lp.c:1115
+#: src/solver-lp.c:1060 src/solver-lp.c:1110
 msgid "Decrease"
 msgstr "Formindsk"
 
-#: src/solver-lp.c:1104
+#: src/solver-lp.c:1099
 msgid "Shadow"
 msgstr "Skygge"
 
-#: src/solver-lp.c:1105
+#: src/solver-lp.c:1100
 msgid "Constraint"
 msgstr "Begrænsning"
 
-#: src/solver-lp.c:1112
+#: src/solver-lp.c:1107
 msgid "Price"
 msgstr "Pris"
 
-#: src/solver-lp.c:1113
+#: src/solver-lp.c:1108
 msgid "R.H. Side"
 msgstr "Højreside"
 
@@ -15239,14 +15083,14 @@ msgstr "Tekstfil eksport (*.csv)"
 
 #: src/style.c:444 src/style.c:446
 msgid "<Has not been set>"
-msgstr ""
+msgstr "<Er ikke blevet sat>"
 
 #: src/style.c:449
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Gnumeric failed to find a suitable default font.\n"
-"Please verify your gnome-print installation\n"
-".Your fontmap file %s\n"
+"Please verify your gnome-print installation.\n"
+"Your fontmap file %s.\n"
 "\n"
 "If you still have no luck, please file a proper bug report (see\n"
 "http://bugs.gnome.org) including the following extra items:\n"
@@ -15263,26 +15107,30 @@ msgid ""
 "Thanks -- the Gnumeric Team\n"
 msgstr ""
 "Gnumeric kunne ikke finde en brugbar standard skrifttype.\n"
-"\n"
-"Tjek venligst din gnome-print installation og at din fontmap fil\n"
-"(ofte placeret i /usr/local/share/fonts/fontmap) ikke er tom eller\n"
-"tæt på.\n"
+"Tjek venligst din gnome-print installation\n"
+".din fontmap fil %s\n"
 "\n"
 "Hvis du stadig ikke har heldet med dig, så indsend venligst en rigtig "
-"fejlrapport (Se http://bugs.gnome.org) med de følgende ekstra ting:\n"
+"fejlrapport (se http://bugs.gnome.org) med de følgende ekstra ting:\n"
 "\n"
-"1. Værdier på LC_ALL og LANG miljøvariable.\n"
-"2. Din fontmap fil, se ovenfor.\n"
+"1. Indholdet af din fontmap fil, hvis filen eksisterer.\n"
+"\t (typisk på stedet %s)\n"
+"2. Værdien af din LC_ALL miljøvariabel.\n"
+"\tLC_ALL=%s\n"
+"3. Værdien af din LANG miljøvariabel.\n"
+"\tLANG=%s\n"
+"4. Hvilken version af 'libxml' som gnumeric bruger.\n"
+"   Du kan formentlig bruge 'ldd' kommandoen til at finde denne information.\n"
 "\n"
 "Tak -- Gnumeric-holdet\n"
 
 #: src/style.c:466
 msgid "does not have a valid entry for Helvetica"
-msgstr ""
+msgstr "har ikke en gyldig indgang for Helvetica"
 
 #: src/style.c:467
 msgid "could not be found in the expected location"
-msgstr ""
+msgstr "kunne ikke findes på det forventede sted"
 
 #: src/value.c:545
 msgid "Terminate"
@@ -15470,9 +15318,8 @@ msgstr ""
 #. * that is handled automaticly.
 #.
 #: src/workbook-format-toolbar.c:51
-#, fuzzy
 msgid "_($ #,##0.00_);($ #,##0.00)"
-msgstr "Kr #.##0,00_);(Kr #.##0,00)"
+msgstr "_Kr #.##0,00_);(Kr #.##0,00)"
 
 #: src/workbook-format-toolbar.c:343
 msgid "Sets the bold font"
@@ -15696,7 +15543,7 @@ msgstr "Ryd den valgte celles formater, kommentarer og indhold"
 
 #: src/workbook.c:1195
 msgid "_Formats"
-msgstr "_Formattér"
+msgstr "_Formatér"
 
 #: src/workbook.c:1196
 msgid "Clear the selected cells' formats"
@@ -16113,32 +15960,28 @@ msgstr ""
 "kolonne."
 
 #: src/workbook.c:1571
-#, fuzzy
 msgid "Create a Graph"
-msgstr "Opretter grafik"
+msgstr "Opretter en graf"
 
 #: src/workbook.c:1571
-#, fuzzy
 msgid "Invokes the graph guru to help create a graph"
-msgstr "Starter grafik-troldmanden for at lave et stykke grafik"
+msgstr "Starter grafik-troldmanden for at lave en graf"
 
 #: src/workbook.c:1574
 msgid "Insert Object"
 msgstr "Indsæt objekt"
 
 #: src/workbook.c:1574
-#, fuzzy
 msgid "Inserts an object into the spreadsheet"
 msgstr "Indsætter et objekt i regnearket"
 
 #: src/workbook.c:1577
 msgid "Insert shaped object"
-msgstr "Indsæt gennemsigtigt objekt"
+msgstr "Indsæt formet objekt"
 
 #: src/workbook.c:1577
-#, fuzzy
 msgid "Inserts a shaped object into the spreadsheet"
-msgstr "Indsætter et gennemsigtigt objekt i regnearket"
+msgstr "Indsætter et formet objekt i regnearket"
 
 #: src/workbook.c:1582
 msgid "Creates a button"
@@ -16225,19 +16068,19 @@ msgstr "Omdøb dette ark"
 msgid "Re-order sheets"
 msgstr "Omordn ark"
 
-#: src/xml-io.c:3142
+#: src/xml-io.c:3112
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Ugyldigt xml klipbordsdata. Er træet tomt?"
 
-#: src/xml-io.c:3183
+#: src/xml-io.c:3153
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ugyldig xml fil. Er træet tomt?"
 
-#: src/xml-io.c:3197
+#: src/xml-io.c:3167
 msgid "Is not an Workbook file"
 msgstr "Er ikke en arbejdsbogsfil"
 
-#: src/xml-io.c:3262
+#: src/xml-io.c:3232
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
