@@ -51,6 +51,9 @@
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
 		      <property name="mnemonic_widget">format_menu</property>
+		      <accessibility>
+			<atkrelation target="format_menu" type="label-for"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -77,6 +80,9 @@
 			  <property name="rules_hint">False</property>
 			  <property name="reorderable">False</property>
 			  <property name="enable_search">True</property>
+			  <accessibility>
+			    <atkrelation target="label6" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 		      </child>
 		    </widget>
@@ -114,6 +120,9 @@
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
 		      <property name="mnemonic_widget">format_menu</property>
+		      <accessibility>
+			<atkrelation target="preview" type="label-for"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -146,6 +155,9 @@
 			  <property name="right_margin">3</property>
 			  <property name="indent">0</property>
 			  <property name="text" translatable="yes"></property>
+			  <accessibility>
+			    <atkrelation target="label7" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 		      </child>
 		    </widget>
@@ -511,6 +523,9 @@
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
 		      <property name="mnemonic_widget">format_number_decimals</property>
+		      <accessibility>
+			<atkrelation target="format_number_decimals" type="label-for"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -530,6 +545,9 @@
 		      <property name="snap_to_ticks">False</property>
 		      <property name="wrap">False</property>
 		      <property name="adjustment">0 0 30 1 3 3</property>
+		      <accessibility>
+			<atkrelation target="format_decimal_label" type="labelled-by"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -582,6 +600,9 @@
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
+		      <accessibility>
+			<atkrelation target="format_symbol_select" type="label-for"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -597,6 +618,9 @@
 		      <property name="int1">0</property>
 		      <property name="int2">0</property>
 		      <property name="last_modification_time">Mon, 07 Oct 2002 16:09:16 GMT</property>
+		      <accessibility>
+			<atkrelation target="format_symbol_label" type="labelled-by"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -638,6 +662,9 @@
 			  <property name="rules_hint">False</property>
 			  <property name="reorderable">False</property>
 			  <property name="enable_search">False</property>
+			  <accessibility>
+			    <atkrelation target="format_list_label" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 		      </child>
 		    </widget>
@@ -666,6 +693,9 @@
 			  <property name="rules_hint">False</property>
 			  <property name="reorderable">False</property>
 			  <property name="enable_search">True</property>
+			  <accessibility>
+			    <atkrelation target="format_negatives_label" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 		      </child>
 		    </widget>
@@ -691,6 +721,9 @@
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
 		      <property name="mnemonic_widget">format_list</property>
+		      <accessibility>
+			<atkrelation target="format_list" type="label-for"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">0</property>
@@ -716,6 +749,9 @@
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
 		      <property name="mnemonic_widget">format_negatives</property>
+		      <accessibility>
+			<atkrelation target="format_negatives" type="label-for"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">0</property>
@@ -754,6 +790,9 @@
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
 		      <property name="mnemonic_widget">format_entry</property>
+		      <accessibility>
+			<atkrelation target="format_entry" type="label-for"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -772,6 +811,9 @@
 		      <property name="text" translatable="no"></property>
 		      <property name="has_frame">True</property>
 		      <property name="activates_default">False</property>
+		      <accessibility>
+			<atkrelation target="format_code_label" type="labelled-by"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>

@@ -1,7 +1,14 @@
-2003-09-10  Jody Goldberg <jody@gnome.org>
+2003-09-10  Christian Neumair  <chris@gnome-de.org>
 
-	For: Christian Neumair <chris@gnome-de.org>
-	* format-selector.glade : Start adding ATK relations.
+	* cell-sort.glade: Add ATK relation information.
+	* dao-gui-utils.c (dialog_tool_init_outputs): ditto.
+	* dialog-analysis-tools.c (dialog_tool_init): ditto.
+	* format-selector.glade: ditto.
+	* so-arrow.glade: ditto.
+	* so-checkbox.glade: ditto.
+	* so-fill.glade: ditto.
+	* so-frame.glade: ditto.
+	* so-scrollbar.glade: ditto.
 
 2003-09-10  Jody Goldberg <jody@gnome.org>
 

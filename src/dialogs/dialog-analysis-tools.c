@@ -371,6 +371,7 @@ dialog_tool_init (GenericToolState *state,
 					  GTK_WIDGET (state->input_entry));
 		gtk_label_set_mnemonic_widget (GTK_LABEL (widget), 
 					       GTK_WIDGET (state->input_entry));
+		gnm_setup_label_atk (widget, GTK_WIDGET (state->input_entry));
 		gtk_widget_show (GTK_WIDGET (state->input_entry));
 	}
 
@@ -405,6 +406,7 @@ dialog_tool_init (GenericToolState *state,
 					  GTK_WIDGET (state->input_entry_2));
 		gtk_label_set_mnemonic_widget (GTK_LABEL (widget), 
 					       GTK_WIDGET (state->input_entry_2));
+		gnm_setup_label_atk (widget, GTK_WIDGET (state->input_entry_2));
 		gtk_widget_show (GTK_WIDGET (state->input_entry_2));
 	}
 

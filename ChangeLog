@@ -1,3 +1,9 @@
+2003-09-10  Christian Neumair  <chris@gnome-de.org>
+
+	* src/sheet-object-graphic.c (sheet_object_graphic_user_config): Add
+	  ATK relation information.
+	(sheet_object_filled_user_config): ditto.
+
 2003-09-10  Jody Goldberg <jody@gnome.org>
 
 	* src/gui-util.c (gnm_setup_label_atk) : weaken requirement to

@@ -146,6 +146,8 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
 			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
+	gnm_setup_label_atk (state->output_range,
+			     GTK_WIDGET (state->output_entry));
 	g_signal_connect (G_OBJECT (state->output_range),
 		"toggled",
 		G_CALLBACK (cb_focus_on_entry), state->output_entry);

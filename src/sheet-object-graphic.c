@@ -487,6 +487,8 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 	w = color_combo_new (NULL, NULL, NULL, color_group_fetch ("color", so));
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (state->gui, "label_color")), w);
+	gnm_setup_label_atk (
+		glade_xml_get_widget (state->gui, "label_color"), w);
 	color_combo_set_color (COLOR_COMBO (w),
 		sog->fill_color ? &sog->fill_color->color : NULL);
 	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
@@ -935,6 +937,8 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 		NULL, color_group_fetch ("outline_color", so));
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (state->gui, "border_label")), w);
+	gnm_setup_label_atk (
+		glade_xml_get_widget (state->gui, "border_label"), w);
 	color_combo_set_color (COLOR_COMBO (w),
 		sof->outline_color ? &sof->outline_color->color : NULL);
 	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
@@ -952,6 +956,8 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 		NULL, color_group_fetch ("fill_color", so));
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (state->gui, "fill_label")), w);
+	gnm_setup_label_atk (
+		glade_xml_get_widget (state->gui, "fill_label"), w);
 	color_combo_set_color (COLOR_COMBO (w),
 		sog->fill_color ? &sog->fill_color->color : NULL);
 	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
