@@ -1,3 +1,10 @@
+2004-02-04  Jody Goldberg <jody@gnome.org>
+
+	* gui-utils/go-color-palette.c (cb_menu_custom_activate) : don't show
+	  until after the signal in case a handler is marking the dialog as a
+	  transient.
+	(cb_combo_custom_clicked) : ditto.
+
 2004-02-02  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* graph/plugins/plot_xy/gog-xy.c: fixed several warnings

@@ -166,7 +166,7 @@ static guint go_color_palette_signals [LAST_SIGNAL] = { 0, };
 
 static GObjectClass *go_color_palette_parent_class;
 
-static GObject *
+static GtkWidget *
 create_color_sel (GObject *action_proxy, GOColor c, GCallback handler)
 {
 	char *title = g_object_get_data (G_OBJECT (action_proxy), "title");
@@ -178,12 +178,12 @@ create_color_sel (GObject *action_proxy, GOColor c, GCallback handler)
 	gtk_widget_hide (dialog->help_button);
 	gtk_color_selection_set_current_color (colorsel,
 		go_color_to_gdk (c, &gdk));
-	gtk_widget_show (w);
 
 	g_signal_connect_object (dialog,
 		"response", handler, action_proxy, 0);
 
-	return G_OBJECT (dialog);
+	/* require an explicit show _after_ the custom-dialog signal fires */
+	return w;
 }
 
 static gboolean
@@ -390,9 +390,11 @@ cb_combo_custom_response (GtkColorSelectionDialog *dialog,
 static void
 cb_combo_custom_clicked (GtkWidget *button, GOColorPalette *pal)
 {
+	GtkWidget *dialog = create_color_sel (G_OBJECT (pal), pal->selection,
+		G_CALLBACK (cb_combo_custom_response));
 	g_signal_emit (pal, go_color_palette_signals [DISPLAY_CUSTOM_DIALOG], 0,
-		create_color_sel (G_OBJECT (pal), pal->selection,
-				  G_CALLBACK (cb_combo_custom_response)));
+		dialog);
+	gtk_widget_show (dialog);
 }
 
 void
@@ -635,9 +637,11 @@ cb_menu_custom_response (GtkColorSelectionDialog *dialog,
 static void
 cb_menu_custom_activate (GtkWidget *button, GOMenuColor *menu)
 {
+	GtkWidget *dialog = create_color_sel (G_OBJECT (menu), menu->selection,
+		G_CALLBACK (cb_menu_custom_response));
 	g_signal_emit (menu, go_menu_color_signals [DISPLAY_CUSTOM_DIALOG], 0,
-		create_color_sel (G_OBJECT (menu), menu->selection,
-				  G_CALLBACK (cb_menu_custom_response)));
+		dialog);
+	gtk_widget_show (dialog);
 }
 
 /**
