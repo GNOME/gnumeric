@@ -208,6 +208,7 @@ sheet_new (Workbook *wb, char const *name)
 	range_init_full_sheet (&sheet->priv->unhidden_region);
 
 	sheet->signature = SHEET_SIGNATURE;
+	sheet->index_in_wb = -1;
 	sheet->workbook = wb;
 	sheet->name_unquoted = g_strdup (name);
 	sheet->name_quoted = sheet_name_quote (name);

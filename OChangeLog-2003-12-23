@@ -1,3 +1,18 @@
+2002-03-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/sheet.c (sheet_new) : initialize sheet->index_in_wb
+	* src/sheet.h : new field sheet::index_in_wb
+	* src/workbook-control-gui.c (wbcg_sheet_add) : replace 
+	  workbook_sheet_index_get with sheet->index_in_wb
+	* src/workbook-view.c (wb_view_sheet_focus) : ditto
+	* src/workbook.c (workbook_sheet_index_get) : deleted
+	(workbook_sheet_index_update) : new
+	(workbook_sheet_attach) : replace workbook_sheet_index_get 
+	  with sheet->index_in_wb, call workbook_sheet_index_update
+	(workbook_sheet_detach) : ditto
+	(workbook_sheet_move) : ditto
+	(workbook_sheet_reorganize) : ditto
+	
 2002-03-06  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/tools: New directory created for tools.

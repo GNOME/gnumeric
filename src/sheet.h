@@ -11,7 +11,9 @@ typedef struct _SheetPrivate SheetPrivate;
 struct _Sheet {
 	int         signature;
 
+	int         index_in_wb;
 	Workbook    *workbook;
+
 	GList       *s_controls;
 
 	char        *name_quoted;

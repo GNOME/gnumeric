@@ -79,10 +79,8 @@ void
 wb_view_sheet_focus (WorkbookView *wbv, Sheet *sheet)
 {
 	if (wbv->current_sheet != sheet) {
-		Workbook *wb = wb_view_workbook (wbv);
-
 		/* Make sure the sheet has been attached */
-		g_return_if_fail (workbook_sheet_index_get (wb, sheet) >= 0);
+		g_return_if_fail (sheet->index_in_wb >= 0);
 
 		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
 			wb_control_sheet_focus (control, sheet););

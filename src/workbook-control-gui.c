@@ -582,7 +582,7 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	if (wbcg_ui_update_begin (wbcg)) {
 		gtk_notebook_insert_page (wbcg->notebook,
 			GTK_WIDGET (scg->table), sheet_label,
-			workbook_sheet_index_get (wb_control_workbook (wbc), sheet));
+			sheet->index_in_wb);
 		wbcg_ui_update_end (wbcg);
 	}
 

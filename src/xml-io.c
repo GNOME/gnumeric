@@ -2932,8 +2932,7 @@ xml_workbook_write (XmlParseContext *ctxt, WorkbookView *wb_view)
 	g_list_free (sheets0);
 
 	child = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar const *)"UIData", NULL);
-	xml_node_set_int (child, "SelectedTab", workbook_sheet_index_get (wb,
-		wb_view_cur_sheet (wb_view)));
+	xml_node_set_int (child, "SelectedTab", wb_view_cur_sheet (wb_view)->index_in_wb);
 	xmlAddChild (cur, child);
 
 	textdomain (old_msg_locale);

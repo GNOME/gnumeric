@@ -907,24 +907,24 @@ workbook_sheet_count (Workbook const *wb)
 	return wb->sheets ? wb->sheets->len : 0;
 }
 
-int
-workbook_sheet_index_get (Workbook const *wb, Sheet const * sheet)
+void
+workbook_sheet_index_update (Workbook *wb, int start)
 {
 	int i;
 
-	g_return_val_if_fail (IS_WORKBOOK (wb), 0);
+	g_return_if_fail (IS_WORKBOOK (wb));
 
-	for (i = wb->sheets->len ; i-- > 0 ; )
-		if (sheet == g_ptr_array_index (wb->sheets, i))
-			return i;
-	return -1;
+	for (i = wb->sheets->len ; i-- > start ; ) {
+		Sheet *sheet = g_ptr_array_index (wb->sheets, i);
+		sheet->index_in_wb = i;
+	}
 }
 
 Sheet *
 workbook_sheet_by_index (Workbook const *wb, int i)
 {
-	g_return_val_if_fail (IS_WORKBOOK (wb), 0);
-	g_return_val_if_fail ((int)wb->sheets->len > i, 0);
+	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+	g_return_val_if_fail ((int)wb->sheets->len > i, NULL);
 
 	return g_ptr_array_index (wb->sheets, i);
 }
@@ -955,10 +955,13 @@ workbook_sheet_attach (Workbook *wb, Sheet *new_sheet,
 	g_return_if_fail (new_sheet->workbook == wb);
 
 	if (insert_after != NULL) {
-		int pos = workbook_sheet_index_get (wb, insert_after);
-		g_ptr_array_insert (wb->sheets, (gpointer)new_sheet, pos+1);
-	} else
+		int pos = insert_after->index_in_wb;
+		g_ptr_array_insert (wb->sheets, (gpointer)new_sheet, ++pos);
+		workbook_sheet_index_update (wb, pos);
+	} else {
 		g_ptr_array_add (wb->sheets, new_sheet);
+		workbook_sheet_index_update (wb, workbook_sheet_count (wb) - 1);
+	}
 
 	g_hash_table_insert (wb->sheet_hash_private,
 			     new_sheet->name_unquoted, new_sheet);
@@ -990,7 +993,7 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 	SHEET_FOREACH_CONTROL (sheet, control,
 		sc_mode_edit (control););
 
-	sheet_index = workbook_sheet_index_get (wb, sheet);
+	sheet_index = sheet->index_in_wb;
 
 	/* If not exiting, adjust the focus for any views whose focus sheet
 	 * was the one being deleted, and prepare to recalc */
@@ -1015,6 +1018,8 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 
 	/* Remove our reference to this sheet */
 	g_ptr_array_remove_index (wb->sheets, sheet_index);
+	workbook_sheet_index_update (wb, sheet_index);
+	sheet->index_in_wb = -1;
 	g_hash_table_remove (wb->sheet_hash_private, sheet->name_unquoted);
 	sheet_destroy (sheet);
 
@@ -1090,12 +1095,21 @@ workbook_sheet_move (Sheet *sheet, int direction)
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	wb = sheet->workbook;
-        old_pos = workbook_sheet_index_get (wb, sheet);
+        old_pos = sheet->index_in_wb;
 	new_pos = old_pos + direction;
 
 	if (0 <= new_pos && new_pos < workbook_sheet_count (wb)) {
+		int min_pos = MIN (old_pos, new_pos);
+		int max_pos = MAX (old_pos, new_pos);
+		
 		g_ptr_array_remove_index (wb->sheets, old_pos);
 		g_ptr_array_insert (wb->sheets, sheet, new_pos);
+
+		for (; max_pos >= min_pos ; max_pos--) {
+			Sheet *sheet = g_ptr_array_index (wb->sheets, max_pos);
+			sheet->index_in_wb = max_pos;
+		}
+
 		WORKBOOK_FOREACH_CONTROL (wb, view, control,
 			wb_control_sheet_move (control, sheet, new_pos););
 		sheet_set_dirty (sheet, TRUE);
@@ -1165,7 +1179,7 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 			   GSList **new_sheets)
 {
 	GSList *this_sheet;
-	GSList *new_sheet;
+	GSList *new_sheet = NULL;
 	gint old_pos, new_pos = 0;
 	GSList *the_names;
 	GSList *the_sheets;
@@ -1290,7 +1304,7 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 			new_sheet = new_sheet->next;
 		}
 		if (sheet != NULL) {
-			old_pos = workbook_sheet_index_get (wb, sheet);
+			old_pos = sheet->index_in_wb;
 			if (new_pos != old_pos) {
 				g_ptr_array_remove_index (wb->sheets, old_pos);
 				g_ptr_array_insert (wb->sheets, sheet, new_pos);
@@ -1303,6 +1317,8 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 		}
 		this_sheet = this_sheet->next;
 	}
+	if (new_order)
+		workbook_sheet_index_update (wb, 0);
 	return FALSE;
 }
 
