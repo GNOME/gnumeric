@@ -32,7 +32,12 @@
 #include "style-border.h"
 #include "style-color.h"
 #include "cell.h"
+#include "gutils.h"
 #include "gnumeric-i18n.h"
+
+#ifndef USE_TILE_POOLS
+#define USE_TILE_POOLS 1
+#endif
 
 typedef union _CellTile CellTile;
 struct _SheetStyleData {
@@ -263,6 +268,17 @@ union _CellTile {
 	CellTilePtrMatrix	ptr_matrix;
 };
 
+#if USE_TILE_POOLS
+static int tile_pool_users;
+static gnm_mem_chunk *tile_pools[5];
+#define CHUNK_ALLOC(T,p) ((T*)gnm_mem_chunk_alloc (p))
+#define CHUNK_FREE(p,v) gnm_mem_chunk_free ((p), (v))
+#else
+#define CHUNK_ALLOC(T,c) g_new (T,1)
+#define CHUNK_FREE(p,v) g_free ((v))
+#endif
+
+
 static void
 cell_tile_dtor (CellTile *tile)
 {
@@ -288,7 +304,7 @@ cell_tile_dtor (CellTile *tile)
 	}
 
 	*((CellTileType *)&(tile->type)) = TILE_UNDEFINED; /* poison it */
-	g_free (tile);
+	CHUNK_FREE (tile_pools[t], tile);
 }
 
 static CellTile *
@@ -296,6 +312,9 @@ cell_tile_style_new (MStyle *style, CellTileType t)
 {
 	CellTile *res;
 
+#if USE_TILE_POOLS
+	res = CHUNK_ALLOC (CellTile, tile_pools[t]);
+#else
 	switch (t) {
 	case TILE_SIMPLE : res = (CellTile *)g_new (CellTileStyleSimple, 1);
 			   break;
@@ -308,6 +327,7 @@ cell_tile_style_new (MStyle *style, CellTileType t)
 	default : g_return_val_if_fail (FALSE, NULL);
 		return NULL;
 	};
+#endif
 
 	*((CellTileType *)&(res->type)) = t;
 
@@ -330,7 +350,7 @@ cell_tile_ptr_matrix_new (CellTile *t)
 	g_return_val_if_fail (TILE_SIMPLE <= t->type &&
 			      TILE_MATRIX >= t->type, NULL);
 
-	res = g_new (CellTilePtrMatrix, 1);
+	res = CHUNK_ALLOC (CellTilePtrMatrix, tile_pools[TILE_PTR_MATRIX]);
 	*((CellTileType *)&(res->type)) = TILE_PTR_MATRIX;
 
 	/* TODO :
@@ -441,6 +461,32 @@ sheet_style_init (Sheet *sheet)
 	g_assert (SHEET_MAX_ROWS <= TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW);
 	g_return_if_fail (IS_SHEET (sheet));
 
+#if USE_TILE_POOLS
+	if (tile_pool_users++ == 0) {
+		tile_pools[TILE_SIMPLE] =
+			gnm_mem_chunk_new ("simple tile pool",
+					   sizeof (CellTileStyleSimple),
+					   16 * 1024 - 128);
+		tile_pools[TILE_COL] =
+			gnm_mem_chunk_new ("column tile pool",
+					   sizeof (CellTileStyleCol),
+					   16 * 1024 - 128);
+		tile_pools[TILE_ROW] =
+			gnm_mem_chunk_new ("row tile pool",
+					   sizeof (CellTileStyleRow),
+					   16 * 1024 - 128);
+		tile_pools[TILE_MATRIX] =
+			gnm_mem_chunk_new ("matrix tile pool",
+					   sizeof (CellTileStyleMatrix),
+					   MAX (16 * 1024 - 128,
+						100 * sizeof (CellTileStyleMatrix)));
+
+		/* If this fails one day, just make two pools.  */
+		g_assert (sizeof (CellTileStyleMatrix) == sizeof (CellTilePtrMatrix));
+		tile_pools[TILE_PTR_MATRIX] = tile_pools[TILE_MATRIX];
+	}
+#endif
+
 	if (SHEET_MAX_COLS > 364238) {
 		/* Oh, yeah?  */
 		g_warning (_("This is a special version of Gnumeric.  It has been compiled\n"
@@ -452,6 +498,7 @@ sheet_style_init (Sheet *sheet)
 	sheet->style_data = g_new (SheetStyleData, 1);
 	sheet->style_data->style_hash =
 		g_hash_table_new (mstyle_hash, (GCompareFunc) mstyle_equal);
+#warning "FIXME: Allocating a StyleColor here is dubious."
 	sheet->style_data->auto_pattern_color = g_new (StyleColor, 1);
 	memcpy (sheet->style_data->auto_pattern_color,
 		style_color_auto_pattern (), sizeof (StyleColor));
@@ -469,6 +516,15 @@ cb_unlink (void *key, void *value, void *user)
 	mstyle_unlink (key);
 	return TRUE;
 }
+
+#if USE_TILE_POOLS
+static void
+cb_tile_pool_leak (gpointer data, gpointer user)
+{
+	CellTile *tile = data;
+	fprintf (stderr, "Leaking tile at %p.\n", tile);
+}
+#endif
 
 void
 sheet_style_shutdown (Sheet *sheet)
@@ -496,6 +552,34 @@ sheet_style_shutdown (Sheet *sheet)
 
 	g_free (sheet->style_data);
 	sheet->style_data = NULL;
+
+#if USE_TILE_POOLS
+	if (--tile_pool_users == 0) {
+		gnm_mem_chunk_foreach_leak (tile_pools[TILE_SIMPLE],
+					    cb_tile_pool_leak, NULL);
+		gnm_mem_chunk_destroy (tile_pools[TILE_SIMPLE], FALSE);
+		tile_pools[TILE_SIMPLE] = NULL;
+
+		gnm_mem_chunk_foreach_leak (tile_pools[TILE_COL],
+					    cb_tile_pool_leak, NULL);
+		gnm_mem_chunk_destroy (tile_pools[TILE_COL], FALSE);
+		tile_pools[TILE_COL] = NULL;
+
+		gnm_mem_chunk_foreach_leak (tile_pools[TILE_ROW],
+					    cb_tile_pool_leak, NULL);
+		gnm_mem_chunk_destroy (tile_pools[TILE_ROW], FALSE);
+		tile_pools[TILE_ROW] = NULL;
+
+		gnm_mem_chunk_foreach_leak (tile_pools[TILE_MATRIX],
+					    cb_tile_pool_leak, NULL);
+		gnm_mem_chunk_destroy (tile_pools[TILE_MATRIX], FALSE);
+		tile_pools[TILE_MATRIX] = NULL;
+
+		/* If this fails one day, just make two pools.  */
+		g_assert (sizeof (CellTileStyleMatrix) == sizeof (CellTilePtrMatrix));
+		tile_pools[TILE_PTR_MATRIX] = NULL;
+	}
+#endif
 }
 
 /**

@@ -1,5 +1,7 @@
 2003-07-07  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-style.c: Use pool allocation.
+
 	* src/value.c (value_equal): Change to eq-style semantics
 	(matching the hash function).
 

@@ -90,6 +90,7 @@ Morten:
 	* Fix another O(n^2) problem in stf import.
 	* Fix YEARFRAC.
 	* Speed up loading.
+	* Use pool allocation for cell style tiles.
 
 --------------------------------------------------------------------------
 
