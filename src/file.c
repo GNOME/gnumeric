@@ -726,7 +726,7 @@ workbook_save (CommandContext *context, Workbook *wb)
 	if (!save_fn)
 		save_fn = gnumeric_xml_write_workbook;
 	ret = ((save_fn) (context, wb, wb->filename) == 0);
-	if (ret == TRUE) 
+	if (ret) 
 		workbook_set_dirty (wb, FALSE);
 
 	command_context_pop_template (context);

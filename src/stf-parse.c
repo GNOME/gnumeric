@@ -226,7 +226,7 @@ gboolean
 stf_parse_options_after_modification (StfParseOptions_t *parseoptions)
 {
 	g_return_val_if_fail (parseoptions != NULL, FALSE);
-	g_return_val_if_fail (parseoptions->modificationmode == TRUE, FALSE);
+	g_return_val_if_fail (parseoptions->modificationmode, FALSE);
 
 	if (parseoptions->splitpositions->len == parseoptions->oldsplitpositions->len) {
 		int i;
