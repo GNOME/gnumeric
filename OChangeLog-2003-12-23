@@ -1,3 +1,9 @@
+2001-08-11  Ariel Rios <ariel@linuxppc.org>
+
+	* configure.in: Configure is now able to detect
+        whether a recent version of guile is available
+        to be able to build the guile plugin.
+
 2001-08-11  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
 	* src/sheet-object.c: Revert below removal of "Old crufty IO". In 

@@ -1,4 +1,4 @@
-AC_INIT(src/gnumeric.h)
+ AC_INIT(src/gnumeric.h)
 
 dnl Debian Autoconf 2.13 trips on this configure.in
 dnl AC_PREREQ(2.52)
@@ -71,7 +71,35 @@ AC_SUBST(READLINE_LIB)
 AC_SUBST(GUILE_LIBS)
 AC_SUBST(GUILE_INCS)
 guile_msg='not requested'
-AC_ARG_WITH(guile,[--with-guile   Include Guile support],[GNOME_CHECK_GUILE])
+
+#check for guile 1.5
+try_guile=true
+guile_msg="no"
+build_guile=false
+AC_ARG_WITH(guile,
+	[--{with,without}-guile   Compile with Guile support or without it],
+	if test x$withval = xno; then
+		try_guile=false
+	fi
+)
+
+if $try_guile; then
+	AC_MSG_CHECKING(for guile >= 1.5)
+	if test "`guile -c '(display (string>=? (version) "1.4.1"))'`" != "#t"; then
+  		AC_MSG_RESULT([Your Guile is too old.  You need Guile 1.5 or later.])
+	else
+	        AC_MSG_RESULT(found)
+		guile_msg="yes"
+		build_guile=true
+	fi
+	
+fi
+
+AM_CONDITIONAL(HAVE_GUILE, $build_guile)
+
+if $build_guile; then
+	GNOME_CHECK_GUILE
+fi
 
 AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)
