@@ -1,3 +1,9 @@
+2003-09-14  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(pie)) : don't confuse center diameter with
+	  separation, use it to distinguish between pie and ring.
+	(BC_R(pieformat)) : handle separation here.
+
 2003-09-13  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c (BC_R(tick)) : enable.  Looks like axis label enabling

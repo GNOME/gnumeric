@@ -447,6 +447,7 @@ BC_R(axcext)(XLChartHandler const *handle,
 {
 	return FALSE;
 }
+
 /****************************************************************************/
 
 static gboolean
@@ -1059,19 +1060,23 @@ BC_R(pie)(XLChartHandler const *handle,
 	  XLChartReadState *s, BiffQuery *q)
 {
 	float initial_angle = GSF_LE_GET_GUINT16 (q->data);
-	float default_separation = GSF_LE_GET_GUINT16 (q->data+2); /* 0-100 */
+	float center_size = GSF_LE_GET_GUINT16 (q->data+2); /* 0-100 */
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+4);
 	gboolean in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x01));
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
-	s->plot = gog_plot_new_by_name ("GogPiePlot");
+	s->plot = gog_plot_new_by_name ((center_size == 0) ? "GogPiePlot" : "GogRingPlot");
 	g_return_val_if_fail (s->plot != NULL, TRUE);
 
 	g_object_set (G_OBJECT (s->plot),
 		"in_3d",		in_3d,
 		"initial_angle",	initial_angle,
-		"default_separation",	default_separation,
 		NULL);
+	if (center_size != 0)
+		g_object_set (G_OBJECT (s->plot),
+			"center_size",	((double)center_size) / 100.,
+			NULL);
+
 #if 0
 	gboolean leader_lines = (s->container.ver >= MS_BIFF_V8 && (flags & 0x02));
 #endif
@@ -1085,24 +1090,19 @@ static gboolean
 BC_R(pieformat)(XLChartHandler const *handle,
 		XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const percent_diam = GSF_LE_GET_GUINT16 (q->data); /* 0-100 */
+	guint16 const default_separation = GSF_LE_GET_GUINT16 (q->data); /* 0-100 */
 
-	g_return_val_if_fail (percent_diam <= 100, TRUE);
+	g_return_val_if_fail (default_separation <= 100, TRUE);
 
-#if 0
-	pie = e_xml_get_child_by_name (s->xml.style, (xmlChar *)"Pie");
-	if (pie == NULL)
-		pie = xmlNewChild (s->xml.style, s->xml.ns, (xmlChar *)"Pie", NULL);
-
-	/* This is for individual slices */
-	if (percent_diam > 0) {
-		xmlNode *tmp = xmlNewChild (pie, pie->ns,
-			(xmlChar *)"separation_percent_of_radius", NULL);
-		xml_node_set_int (tmp, NULL, percent_diam);
-	}
-
-#endif
-	d (2, fprintf (stderr, "Pie slice is %hu %% of diam from center\n", percent_diam););
+	/* we only support the default right now.  Also, XL sets this for _all_ types
+	 * rather than just pies. */
+	if (s->plot != NULL &&
+	    g_object_class_find_property (G_OBJECT_GET_CLASS (s->plot), "default_separation"))
+		g_object_set (G_OBJECT (s->plot),
+			"default_separation",	((double) default_separation) / 100.,
+			NULL);
+	d (2, fprintf (stderr, "Pie slice(s) are %hu %% of diam from center\n",
+		       default_separation););
 	return FALSE;
 }
 
