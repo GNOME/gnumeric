@@ -1,3 +1,12 @@
+2004-03-03  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=136088
+	* graph/gog-object-xml.c (gog_object_write_property) : Add a
+	  GOG_PARAM_FORCE_SAVE to save a parameter even if the value is the
+	  same as the default.
+	* graph/gog-plot.c (gog_plot_class_init) : Use it here to always store
+	  the vary_style_by_element property.
+
 2004-02-27  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-theme.c (map_area_series_solid_default) : don't set colors

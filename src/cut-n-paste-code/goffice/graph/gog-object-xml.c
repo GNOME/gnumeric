@@ -184,7 +184,8 @@ gog_object_write_property (GogObject *obj, GParamSpec *pspec, xmlNode *parent)
 	g_object_get_property  (G_OBJECT (obj), pspec->name, &value);
 
 	/* No need to save default values */
-	if (g_param_value_defaults (pspec, &value)) {
+	if (!(pspec->flags & GOG_PARAM_FORCE_SAVE) &&
+	    g_param_value_defaults (pspec, &value)) {
 		g_value_unset (&value);
 		return;
 	}

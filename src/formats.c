@@ -96,6 +96,8 @@ cell_format_date [] = {
 	"yyyy-mmm-dd",		/* 29 */
 	"yy",			/* 30 */
 	"yyyy",			/* 31 */
+	"mmmmm",		/* 32 stored as custom in xls */
+	"mmmmm-yy",		/* 33 stored as custom in xls */
 	NULL
 };
 
