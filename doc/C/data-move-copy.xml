@@ -269,7 +269,7 @@
       identical copies of the original cells in the new location. This
       means that both the contents and the formatting of the original
       selection are copied to the new location and also means that any
-      data present in the new location are deleted. It is frequenly
+      data present in the new location are deleted. It is frequently
       important either to alter the data before it is pasted or to
       merge the data in the new location with the data being
       pasted. The <guimenuitem>Paste Special...</guimenuitem> command
@@ -282,7 +282,7 @@
       selectively paste the cell contents, the cell formats, the
       calculated values of the orginal cells rather than their
       contents.  described in the previous section copies both
-      contents and formatting of the orignal selection. If you need
+      contents and formatting of the original selection. If you need
       more options, use <guimenuitem>Paste Special...</guimenuitem>
       command.
     </para>
@@ -294,7 +294,7 @@
       should happen must be selected. The easiest way to do this is to
       select the single cell which will be at the top left hand corner
       of the region of pasted cells. Alternatively, the exact region
-      into which the cells will be copied can be slected. After the
+      into which the cells will be copied can be selected. After the
       selection is made, the <guimenuitem>Paste
       Special...</guimenuitem> command can be chosen from the
       <guimenu>Edit</guimenu> menu or the context menu obtained by
@@ -403,7 +403,7 @@
     <para>
       Pasting X clipboard in <application>Gnumeric</application> will
       automatically launch the <guilabel>Text Import</guilabel> druid
-      which will assist you in imporitng the plain text contents of X
+      which will assist you in importing the plain text contents of X
       clipboard into the spreadsheet. The <guilabel>Text
       Import</guilabel> druid is described in <xref
       linkend="sect-file-textImport" />.

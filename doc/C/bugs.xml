@@ -21,7 +21,7 @@
     provide the project with a way of making sure that the mistake is
     eventually fixed. Often the mistake is obvious and a fix can be
     made immediately to be included in the very next release of
-    <application>Gnumeric</application>. Occaisionally, the mistake is
+    <application>Gnumeric</application>. Occasionally, the mistake is
     more complex and the problem may take a while to be resolved. In
     these cases, the report provides a way to remind the developers that
     the problem still exists.
@@ -157,7 +157,7 @@
 
    <note>
      <para>
-       A user who accepts cookes from <literal>bugzilla.gnome.org</literal>
+       A user who accepts cookies from <literal>bugzilla.gnome.org</literal>
        will only have to give a password the first time they visit
        GNOME's <application>Bugzilla</application>. During all future
        visits, GNOME will recognize the cookie and thereby identify
@@ -473,7 +473,7 @@ a user
 </row>
 <row>
   <entry>trivial</entry>
-  <entry>The level used to report typos, esthetic, and other very
+  <entry>The level used to report typos, aesthetic, and other very
   small problems.</entry>
 </row>
 <row>

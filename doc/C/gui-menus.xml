@@ -79,7 +79,7 @@
               <imagedata fileref="figures/gnumeric-rearranged.png" />
             </imageobject>
             <textobject>
-              <phrase>An image of gnumeric with the toobars re-arranged.</phrase>
+              <phrase>An image of gnumeric with the toolbars re-arranged.</phrase>
             </textobject>
            </mediaobject>
     </screenshot>
@@ -120,7 +120,7 @@
                 <para><application>Gnumeric</application> menus, like
                 most menus in GNOME project software, are "tear-off"
                 menus. This means that the menu can be opened up into
-                its own window and kept open in a differnt part of the
+                its own window and kept open in a different part of the
                 screen. This is useful if there is a menu that you
                 keep using for a particular task. Just beneath the top
                 of each menu is a dashed line. Clicking on that line
@@ -139,7 +139,7 @@
  		   </screenshot>
  		 </figure>
 
-	<para>To get rid of a dettached menu, the dotted line can be clicked
+	<para>To get rid of a detached menu, the dotted line can be clicked
 	once more or the window containing the menu can simply be
 	closed. The window can usually be closed by clicking in the top
 	right corner of the window. Like the window containing <application>Gnumeric</application>, this outer
@@ -246,7 +246,7 @@
 			based file format which uses the extension ".gnumeric" and can 
 			open Microsoft Excel's file format which uses the ".xls" extension. 
 			The <guimenuitem>Open</guimenuitem> menu item creates a new window 
-			containing the selected file.  A more extensive dicsussion is
+			containing the selected file.  A more extensive discussion is
 			presented in <xref linkend="sect-file-open" />.
       	   </para>
      	   </listitem>
@@ -562,7 +562,7 @@
 	      <guimenuitem>Redo</guimenuitem> menu item is used after
 	      an undo operation to restore the change that was undone.
 	      The menu item only restores the last undone operation. Users
-	      can also resotre edit using a button on the standard toolbar
+	      can also restore edit using a button on the standard toolbar
 	      and through the associated menu. The menu allows several 
 	      operations to be redone at once. It is explained in <xref
 									linkend="std-toolbar" />.
@@ -704,7 +704,7 @@
 		</term>
 		<listitem>
 			<para>All of these operations remove data from the worksheet. They
-			differ in the type of data removed and the re-arangement of
+			differ in the type of data removed and the re-arrangement of
 			remaining data. The differences are explained below.
 			</para>
 
@@ -717,7 +717,7 @@
 				   sub-menu with four choices. The user can choose to clear all
 				   the elements of the cells in a selection: the formats, the
 				   comments, the contents. Alternatively, the user can choose
-				   to clear a single one of those elemets. Clearing the formats
+				   to clear a single one of those elements. Clearing the formats
 				   will leave the data or formula in the cell intact. It will
 				   remove any borders, re-set the cell alignments, change the
 				   background colour to white and the text colour to black and
@@ -839,7 +839,7 @@
 				 three tabs. In the first the user can enter the information
 				 the user wants to find and some constraints on the search. The
 				 second tab gives some extra choices for the search. When the
-				 user has picked the options they perfer, pushing the search
+				 user has picked the options they prefer, pushing the search
 				 button on the first tab will run the search. The third tab
 				 will show which cells match the search.
 				 </para>
@@ -1209,7 +1209,7 @@
 							defining an expression called "Total" which refers to a particular
 							cell. However, the user can also build up a whole sheet with
 							named
-							experssions.
+							expressions.
 							<xref
 							linkend="formulas-names"
 							/> explains names
@@ -1431,7 +1431,7 @@
 								acts as a toogle. By default it is unset and formulas results
 								are displayed. If this menu item is clicked, it will display a
 								little check mark on the left. The worksheet will show the
-								actual fomuals for all cells with formulas instead of showing
+								actual formulas for all cells with formulas instead of showing
 								the calculated result. This is useful for quickly assessing
 								which cells contain formulas and which contain data.
 	        			</para>
@@ -1494,7 +1494,7 @@
 					category chooser. The settings menu allows a user to pick what parts
 					of the template they want to copy into the worksheet. The edit menu
 					will be used to create new templates. Currently templates are written
-					as text into an extensible markup language (XML) format. The catory
+					as text into an extensible markup language (XML) format. The category
 					chooser gives the user access to different groups of templates.
 					Templates in each category are displayed in the middle area of the
 					dialog. Users select the template they want to use by clicking on it.
@@ -1564,7 +1564,7 @@
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>This entry launches the plug-in manangement
+	  <para>This entry launches the plug-in management
 	  dialog. Plug-ins are programs which are separate from
 	  <application>Gnumeric</application> but provide useful
 	  functionality.  Some of the core parts of gnumeric, such as
@@ -1606,7 +1606,7 @@
 		correct one type of common spelling mistake, while
 		allowing the user to add exceptions to the
 		rules. <application>Gnumeric</application> can
-		automatically caplitalize the names of week
+		automatically capitalize the names of week
 		days. <application>Gnumeric</application> can
 		automatically change an entry which starts with two
 		capital letters to only start with one and
@@ -1836,7 +1836,7 @@
 	</term>
 	<listitem>
 	  <para>The sub-menu options of the <guimenu>Group and
-	  Outline</guimenu> menu are useful for creating data hiearchies
+	  Outline</guimenu> menu are useful for creating data hierarchies
 	  within a worksheet.</para>
 	</listitem>
       </varlistentry>
@@ -1925,7 +1925,7 @@
 
 	<para>Context menus are menus which open up under the mouse pointer and are
 	therefore detached from the format graphical structure
-	of the applicaton. These menus provide an extra and convenient way to access
+	of the application. These menus provide an extra and convenient way to access
 	Gnumeric commands. All of the commands in context menus are available
 	through the regular menu system. Context menus provide different commands
 	depending on the position of the pointer.</para>
@@ -1946,7 +1946,7 @@
 	linkend="menu-context-col-row-header" />. Another context menu relates to the
 	worksheet tabs and is explained in <xref
 	linkend="menu-context-tabs" />. Yet
-	another context menu applies to embbeded objects or shaped components such
+	another context menu applies to embedded objects or shaped components such
 	as a plot. These are shown in <xref
 	linkend="menu-context-object" />. The
 	final context menu allows the configuration of the toolbars. This menu is
@@ -1955,7 +1955,7 @@
 
 <sect2 id="menu-context-grid">
 	<title>The Context Menu for the Cell Grid Area</title>
-	<para>The context menu in the cell grid area apprears when the pointer is over the cell
+	<para>The context menu in the cell grid area appears when the pointer is over the cell
 	grid area. This menu applies to the cells that have been selected, not
 	necessarily the cell underneath the mouse pointer. </para>
 		<figure id="menu-context-grid.png">

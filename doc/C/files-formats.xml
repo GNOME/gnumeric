@@ -376,7 +376,7 @@ zcat Book1.gnumeric > Book1.text
 cp Book1.gnumeric Book1.text.gz
 gunzip Book1.text.gz
 </screen>
-            both possibilities yeild the file "Book1.text" which is
+            both possibilities yield the file "Book1.text" which is
             an ASCII text file. This file can be opened in any editor,
             like <application>Vim</application> or
             <application>Emacs</application>,
@@ -1252,7 +1252,7 @@ pdflatex Book1.tex
 	           %,landscape%
              ]{report}
 </screen>
-            by removing the percent symbmol (%) in front of
+            by removing the percent symbol (%) in front of
 	    <literal>,landscape</literal>. For files to be included as
 	    tables in other LaTeX files, the preamble must include the
 	    <literal>lscape</literal> package, as was explained above,

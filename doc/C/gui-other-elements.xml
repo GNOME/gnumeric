@@ -265,7 +265,7 @@
     </figure>
 
     Rows are labeled along the left side of the worksheet. Each label
-    is a differrent integer increasing downward. This is shown in
+    is a different integer increasing downward. This is shown in
     <xref linkend="worksheet-rows-1" />.
     
     <figure id="worksheet-rows-1">
@@ -306,7 +306,7 @@
       there are more than one sheet, extra tabs are used to indicate
       how many sheets are there, and also allows the user to move to
       another sheet by clicking the proper tab. Each tab is a link to
-      a separte worksheet within Gnumeric. In this figure, the
+      a separate worksheet within Gnumeric. In this figure, the
       "Turtles" tab has been selected. Gnumeric shows this by making
       the "Turtles" since the tab is a little bigger and making it
       overlap the two neighbouring tabs.</para>

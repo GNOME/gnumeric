@@ -939,9 +939,9 @@
 
   <para>Select the <quote><guilabel>Predetermined Bins</guilabel></quote> option to specify 
   data on your worksheet in the <quote><guilabel>Bin Range:</guilabel></quote> entry. The
-  range should consist of a sigle column or two columns (the first one containing labels). If the 
+  range should consist of a single column or two columns (the first one containing labels). If the 
   first column of the bin range contains labels, select the <quote><guibutton>Bin 
-  Labels</guibutton></quote> option. The values in the last column are used as seprators between adjacent bins.</para> 
+  Labels</guibutton></quote> option. The values in the last column are used as seperators between adjacent bins.</para> 
 
   <para>Select the <quote><guilabel>Calculated Bins</guilabel></quote> option to have the 
   bins determined by the tool. Enter the desired number of bins in the 
@@ -986,7 +986,7 @@
 
       <para>
         The Output tab contains the standard output options and fields
-        described at the begining of <xref
+        described at the beginning of <xref
         linkend="sect-analysis-statistical" />.
       </para>
   </sect3>
@@ -1085,7 +1085,7 @@
         <listitem>
           <para>
             In the <quote><guilabel>Output</guilabel></quote> tab,
-            specify the output options as described at the begining of
+            specify the output options as described at the beginning of
             <xref linkend="sect-analysis-statistical" />.
           </para>
         </listitem>

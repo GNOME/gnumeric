@@ -7,6 +7,11 @@
 	take "url" attributes, not "linkend"s.
 	* files-opening.xml, files-textopen.xml: Wrapped "caption" contents in
 	"para"s.
+	* analysis-statistical.xml, bugs.xml, configuration-preferences.xml,
+	data-modify.xml, data-move-copy.xml, data-selections.xml,
+	data-types.xml, files-formats.xml, files-opening.xml, gui-menus.xml,
+	gui-mouse.xml, gui-other-elements.xml, gui-toolbars.xml, morehelp.xml,
+	worksheets.xml: Spelling fixes.
 
 2004-10-01  Adrian Custer <acuster@gnome.org>
 
