@@ -1548,6 +1548,7 @@ wbcg_finalize (GObject *obj)
 	}
 
 	g_hash_table_destroy (wbcg->visibility_widgets);
+	g_hash_table_destroy (wbcg->toggle_for_fullscreen);
 
 	(*parent_class->finalize) (obj);
 }
@@ -1665,48 +1666,6 @@ wbcg_set_status_text (WorkbookControlGUI *wbcg, char const *text)
 	gtk_label_set_text (GTK_LABEL (wbcg->status_text), text);
 }
 
-#if 0
-/*
- * Input: -2 [no change], -1 [toggle], 0 [invisible], 1 [visible].
- * Output: -1 [no toolbar], 0 [was invisible], 1 [was visible].
- */
-static int
-wbcg_set_toolbar_visible (WorkbookControlGUI *wbcg, GtkWidget *w,
-			  const char *action, int visible)
-{
-	gboolean was_visible;
-
-	if (w == NULL)
-		return -1;
-
-	was_visible = GTK_WIDGET_VISIBLE (w);
-	if (visible != -2 && wbcg_ui_update_begin (wbcg)) {
-		if (visible == -1)
-			visible = !was_visible;
-
-		if (visible)
-			gtk_widget_show (w);
-		else
-			gtk_widget_hide (w);
-
-		wbcg_set_toggle_action_state (wbcg, action, visible);
-		wbcg_ui_update_end (wbcg);
-	}
-
-	return was_visible;
-}
-
-int
-wbcg_set_statusbar_visible (WorkbookControlGUI *wbcg, int visible)
-{
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), -1);
-	return wbcg_set_toolbar_visible (wbcg,
-					 wbcg->statusbar,
-					 "ViewStatusbar",
-					 visible);
-}
-#endif
-
 static void
 set_visibility (WorkbookControlGUI *wbcg,
 		const char *action_name,
@@ -1722,18 +1681,26 @@ set_visibility (WorkbookControlGUI *wbcg,
 void
 wbcg_toggle_visibility (WorkbookControlGUI *wbcg, GtkToggleAction *action)
 {
-	set_visibility (wbcg,
-			gtk_action_get_name (GTK_ACTION (action)),
+	if (!wbcg->updating_ui && wbcg_ui_update_begin (wbcg)) {
+		char const *name = gtk_action_get_name (GTK_ACTION (action));
+		set_visibility (wbcg, name,
 			gtk_toggle_action_get_active (action));
+
+		if (wbcg->toggle_for_fullscreen != NULL) {
+			if (g_hash_table_lookup (wbcg->toggle_for_fullscreen, name) != NULL)
+				g_hash_table_remove (wbcg->toggle_for_fullscreen, name);
+			else
+				g_hash_table_insert (wbcg->toggle_for_fullscreen,
+					g_strdup (name), action);
+		}
+		wbcg_ui_update_end (wbcg);
+	}	
 }
 
 static void
 cb_visibility (const char *action, GtkWidget *orig_widget, WorkbookControlGUI *new_wbcg)
 {
-	if (wbcg_ui_update_begin (new_wbcg)) {
-		set_visibility (new_wbcg, action, GTK_WIDGET_VISIBLE (orig_widget));
-		wbcg_ui_update_end (new_wbcg);
-	}	
+	set_visibility (new_wbcg, action, GTK_WIDGET_VISIBLE (orig_widget));
 }
 
 void
@@ -1741,8 +1708,7 @@ wbcg_copy_toolbar_visibility (WorkbookControlGUI *new_wbcg,
 			      WorkbookControlGUI *wbcg)
 {
 	g_hash_table_foreach (wbcg->visibility_widgets,
-			      (GHFunc)cb_visibility,
-			      new_wbcg);
+		(GHFunc)cb_visibility, new_wbcg);
 }
 
 
@@ -2544,6 +2510,8 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg)
 		g_hash_table_new_full (g_str_hash, g_str_equal,
 				       (GDestroyNotify)g_free,
 				       (GDestroyNotify)g_object_unref);
+	wbcg->toggle_for_fullscreen = g_hash_table_new_full (
+		g_str_hash, g_str_equal, (GDestroyNotify)g_free, NULL);
 
 	/* Autosave */
 	wbcg->autosave_timer = 0;

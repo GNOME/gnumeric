@@ -1,3 +1,25 @@
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_toggle_visibility) : remember
+	  whether to keep a toolbar when in fullscreen mode.
+	(cb_visibility) : simplify.
+
+	* src/wbcg-actions.c (cb_view_fullscreen) : new.
+	(cb_help_irc) : throw something together.
+
+	* src/wbc-gtk.c (wbc_gtk_create_status_area) : hide statusbar by
+	  default in fullscreen mode.
+	(cb_add_menus_toolbars) : hide toolbars by default in fullscreen mode.
+	(cb_toolbar_activate) : simplify.
+	(cb_handlebox_visible) : ditto.
+	(cb_toggle_visibility) : new.
+	(cb_wbcg_window_state_event) : handle fullscreen transitions.
+	(wbc_gtk_init) : init the window_state_event handler.
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* src/stf.c (csv_tsv_probe) : accept files < 80 characters long
+
 2004-09-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/wbcg-actions.c: Correct Z-Test menu item description and 

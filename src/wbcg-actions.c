@@ -506,6 +506,14 @@ static GNM_ACTION_DEF (cb_view_zoom_out)
 			  (double) (zoom + 10) / 100);
 }
 
+static GNM_ACTION_DEF (cb_view_fullscreen)
+{
+	if (wbcg->is_fullscreen)
+		gtk_window_unfullscreen (wbcg_toplevel (wbcg));
+	else
+		gtk_window_fullscreen (wbcg_toplevel (wbcg));
+}
+
 static GNM_ACTION_DEF (cb_view_zoom)	{ dialog_zoom (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_view_new)	{ dialog_new_view (wbcg); }
 static GNM_ACTION_DEF (cb_view_freeze_panes)
@@ -750,8 +758,8 @@ hide_show_detail (WorkbookControlGUI *wbcg, gboolean show)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = show ? _("Show Detail") : _("Hide Detail");
-	GnmRange const *r = selection_first_range (sv, GNM_CMD_CONTEXT (wbc),
-						operation);
+	GnmRange const *r = selection_first_range (sv,
+		GNM_CMD_CONTEXT (wbc), operation);
 	gboolean is_cols;
 
 	/* We only operate on a single selection */
@@ -763,8 +771,8 @@ hide_show_detail (WorkbookControlGUI *wbcg, gboolean show)
 		is_cols = !range_is_full (r, TRUE);
 	else {
 		GtkWidget *dialog = dialog_col_row (wbcg, operation,
-						    (ColRowCallback_t) hide_show_detail_real,
-						    GINT_TO_POINTER (show));
+			(ColRowCallback_t) hide_show_detail_real,
+			GINT_TO_POINTER (show));
 		gtk_widget_show (dialog);
 		return;
 	}
@@ -778,7 +786,8 @@ group_ungroup_colrow (WorkbookControlGUI *wbcg, gboolean group)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = group ? _("Group") : _("Ungroup");
-	GnmRange const *r = selection_first_range (sv, GNM_CMD_CONTEXT (wbc), operation);
+	GnmRange const *r = selection_first_range (sv,
+		GNM_CMD_CONTEXT (wbc), operation);
 	gboolean is_cols;
 
 	/* We only operate on a single selection */
@@ -831,7 +840,20 @@ static GNM_ACTION_DEF (cb_help_web)
 #endif
 }
 
-static GNM_ACTION_DEF (cb_help_irc) { }
+static GNM_ACTION_DEF (cb_help_irc)
+{
+#ifdef WITH_GNOME
+	GError *err = NULL;
+
+	gnome_url_show ("irc://irc.gnome.org/gnumeric", &err);
+	if (err != NULL) {
+		gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
+		g_error_free (err);
+	}
+#else
+#warning "We need a non-gnome version of this."
+#endif
+}
 
 static GNM_ACTION_DEF (cb_help_bug)
 {
@@ -1080,8 +1102,7 @@ static GNM_ACTION_DEF (cb_align_bottom)
 
 static GNM_ACTION_DEF (cb_view_statusbar)
 {
-	if (!wbcg->updating_ui)
-		wbcg_toggle_visibility (wbcg, GTK_TOGGLE_ACTION (a));
+	wbcg_toggle_visibility (wbcg, GTK_TOGGLE_ACTION (a));
 }
 
 static GNM_ACTION_DEF (cb_merge_and_center)
@@ -1600,9 +1621,6 @@ static /* const 142334 */ GtkActionEntry actions[] = {
 	{ "ViewFreezeThawPanes", NULL, N_("_Freeze Panes"),
 		NULL, N_("Freeze the top left of the sheet"),
 		G_CALLBACK (cb_view_freeze_panes) },
-	{ "ViewFullScreen", NULL, N_("F_ull Screen..."),
-		NULL, N_("Zoom the spreadsheet in or out"),
-		G_CALLBACK (cb_view_zoom) },
 	{ "ViewZoom", NULL, N_("_Zoom..."),
 		NULL, N_("Zoom the spreadsheet in or out"),
 		G_CALLBACK (cb_view_zoom) },
@@ -1615,7 +1633,7 @@ static /* const 142334 */ GtkActionEntry actions[] = {
 
 /* Insert */
 	{ "InsertCells", NULL, N_("C_ells..."),
-		"<ctrl>plus", N_("Insert new cells"),
+		"<control>plus", N_("Insert new cells"),
 		G_CALLBACK (cb_insert_cells) },
 	{ "InsertColumns", "Gnumeric_ColumnAdd", N_("_Columns"),
 		NULL, N_("Insert new columns"),
@@ -2049,7 +2067,11 @@ static /* const 142334 */ GtkToggleActionEntry toggle_actions[] = {
 	{ "ViewStatusbar", NULL,
 	        N_("View _Statusbar"), NULL,
 	        N_("Toggle visibility of statusbar"),
-	        G_CALLBACK (cb_view_statusbar), TRUE }
+	        G_CALLBACK (cb_view_statusbar), TRUE },
+
+	{ "ViewFullScreen", GTK_STOCK_ZOOM_FIT,
+		N_("F_ull Screen..."), "F11",
+		N_("in or out"), G_CALLBACK (cb_view_fullscreen), FALSE }
 };
 
 static /* const 142334 */ GtkToggleActionEntry font_toggle_actions[] = {

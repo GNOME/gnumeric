@@ -54,7 +54,8 @@ struct _WorkbookControlGUI {
 	GtkWidget  *status_text;
 
 	/* Widgets whose visibility should be copied.  */
-	GHashTable *visibility_widgets;
+	GHashTable *visibility_widgets, *toggle_for_fullscreen;
+	gboolean is_fullscreen;
 
 	/* Edit area */
 	GtkWidget *selection_descriptor;	/* A GtkEntry */

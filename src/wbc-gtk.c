@@ -119,6 +119,10 @@ wbc_gtk_create_status_area (WorkbookControlGUI *wbcg, GtkWidget *progress,
 	g_hash_table_insert (wbcg->visibility_widgets,
 			     g_strdup ("ViewStatusbar"),
 			     g_object_ref (gtk->status_area));
+	/* disable statusbar by default going to fullscreen */
+	g_hash_table_insert (wbcg->toggle_for_fullscreen,
+		g_strdup ("ViewStatusbar"),
+		gtk_action_group_get_action (gtk->actions, "ViewStatusbar"));
 }
 
 /*****************************************************************************/
@@ -1072,34 +1076,17 @@ cb_regenerate_window_menu (WBCgtk *gtk)
 /* Toolbar menu */
 
 static void
-cb_toolbar_activate (GtkToggleAction *action, WBCgtk *gtk)
+cb_toolbar_activate (GtkToggleAction *action, WorkbookControlGUI *wbcg)
 {
-	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)gtk;
-	if (wbcg->updating_ui)
-		return;
-	if (wbcg_ui_update_begin (wbcg)) {
-		const char *name = gtk_action_get_name (GTK_ACTION (action));
-		gboolean visible = gtk_toggle_action_get_active (action);
-		GtkWidget *w = g_hash_table_lookup (wbcg->visibility_widgets,
-						    name);
-		if (w)
-			(visible ? gtk_widget_show : gtk_widget_hide) (w);
-
-		wbcg_ui_update_end (wbcg);
-	}
+	wbcg_toggle_visibility (wbcg, action);
 }
 
 static void
 cb_handlebox_visible (GtkWidget *box, GParamSpec *pspec, WorkbookControlGUI *wbcg)
 {
-	if (wbcg->updating_ui)
-		return;
-	if (wbcg_ui_update_begin (wbcg)) {
-		GtkToggleAction *toggle_action = g_object_get_data (
-			G_OBJECT (box), "toggle_action");
-		gtk_toggle_action_set_active (toggle_action, GTK_WIDGET_VISIBLE (box));
-		wbcg_ui_update_end (wbcg);
-	}
+	GtkToggleAction *toggle_action = g_object_get_data (
+		G_OBJECT (box), "toggle_action");
+	gtk_toggle_action_set_active (toggle_action, GTK_WIDGET_VISIBLE (box));
 }
 
 static void
@@ -1113,10 +1100,6 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		char const *name = gtk_widget_get_name (w);
 		char *toggle_name = g_strdup_printf ("ViewMenuToolbar%s", name);
 		char *tooltip = g_strdup_printf (_("Show/Hide toolbar %s"), name);
-
-		g_hash_table_insert (wbcg->visibility_widgets,
-				     g_strdup (toggle_name),
-				     g_object_ref (box));
 
 		gtk_container_add (GTK_CONTAINER (box), w);
 		g_object_connect (box,
@@ -1142,6 +1125,13 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 			toggle_name, toggle_name, GTK_UI_MANAGER_AUTO, FALSE);
 		g_object_set_data (G_OBJECT (box), "toggle_action",
 			gtk_action_group_get_action (gtk->toolbar.actions, toggle_name));
+
+		g_hash_table_insert (wbcg->visibility_widgets,
+			g_strdup (toggle_name), g_object_ref (box));
+		g_hash_table_insert (wbcg->toggle_for_fullscreen,
+			g_strdup (toggle_name),
+			gtk_action_group_get_action (gtk->toolbar.actions,
+						     toggle_name));
 
 		g_free (tooltip);
 		g_free (toggle_name);
@@ -1206,6 +1196,33 @@ cb_post_activate (WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_toggle_visibility (char const *name,
+		      GtkToggleAction *action, WorkbookControlGUI *wbcg)
+{
+	wbc_gtk_set_toggle_action_state (wbcg, name,
+		!gtk_toggle_action_get_active (action));
+}
+
+static void
+cb_wbcg_window_state_event (GtkWidget           *widget,
+			    GdkEventWindowState *event,
+			    WorkbookControlGUI  *wbcg)
+{
+	GHashTable *tmp = wbcg->toggle_for_fullscreen;
+	gboolean new_val = (event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN) != 0;
+	if (!(event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN) ||
+	    new_val == wbcg->is_fullscreen ||
+	    wbcg->updating_ui)
+		return;
+
+	wbc_gtk_set_toggle_action_state (wbcg, "ViewFullScreen", new_val);
+	wbcg->is_fullscreen = new_val;
+	wbcg->toggle_for_fullscreen = NULL;
+	g_hash_table_foreach (tmp, (GHFunc)cb_toggle_visibility, wbcg);
+	wbcg->toggle_for_fullscreen = tmp;
+}
+
+static void
 wbc_gtk_init (GObject *obj)
 {
 	static struct {
@@ -1235,6 +1252,8 @@ wbc_gtk_init (GObject *obj)
 	GError *error = NULL;
 
 	wbcg_set_toplevel (wbcg, gtk_window_new (GTK_WINDOW_TOPLEVEL));
+	g_signal_connect (wbcg->toplevel, "window_state_event",
+		G_CALLBACK (cb_wbcg_window_state_event), wbcg);
 	gtk_window_set_title (wbcg->toplevel, "Gnumeric");
 	gtk_window_set_wmclass (wbcg->toplevel, "Gnumeric", "Gnumeric");
 	gtk->menu_zone = gtk_vbox_new (TRUE, 0);

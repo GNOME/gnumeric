@@ -8,8 +8,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=127203	[x axis child pos]
-    : X axis label seperation
     : Delete grid then edit chart and see a new grid
 
     http://bugzilla.gnome.org/show_bug.cgi?id=144112
@@ -26,9 +24,6 @@ Release Critical
     http://bugzilla.gnome.org/show_bug.cgi?id=151610
     : crash 	: fixed
     : we mis-import multiple axis sets
-
-    http://bugzilla.gnome.org/show_bug.cgi?id=152059
-    : Finish the toolbar state swap for fullscreen
 
 Worries
 
@@ -471,7 +466,7 @@ Short Term Goals
     6.13) image export
 	6.13.1) Excel95
 	6.13.1) Excel97                                         (DONE)
-    6.13) chart import
+    6.13) chart import	
 	6.13.1) check overlap percentage for bars		(DONE)
 	6.13.2) Add gog_object_set_position			(DONE)
 	6.13.3) Handle 'use_one_style'				(DONE)
@@ -597,13 +592,6 @@ Short Term Goals
 
     http://bugzilla.gnome.org/show_bug.cgi?id=69799
 
-20) sheet-object-image						(DONE)
-    20.1) Don't make files for things we do not understand.     (DONE)
-    20.2) Make sure we can reexport things we do not		(DONE)
-          understand
-    20.3) Show a placeholder image for those                    (DONE)
-    20.4) Make sure we can export any of it at all		(DONE)
-
 21) AutoFilter
     21.1)  clip size for long lists				(DONE)
     21.2)  fix mouse events for scrolled combos			(DONE)
@@ -710,8 +698,8 @@ Misc stuff that should be fixed
     (Many analysis tools may in fact want to follow the consolidate style)
 
 - Look into octave/matlab filters
-- Talk to shaunm about mathematica (Shouldn't we rather support non-propritary
-  maxima rather than proprietary Mathematica?)
+- look into maxima
+- Talk to shaunm about mathematica
 
 - autoformat
     - leaking styles when an edge is disabled
@@ -736,11 +724,6 @@ Misc stuff that should be fixed
 - clean up the range_list codes to differentiate a list of ranges from a list
   of cellranges.
 
-- In selected regions the borders of cells that
-  have their background color set are drawn incorrectly.
-  An off-by-one pixel problem. For details see :
-  http://bugzilla.gnome.org/show_bug.cgi?id=52240
-
 - The max row/col canvas scroll size is still hard coded.
 
 - Formats
@@ -759,6 +742,7 @@ Misc stuff that should be fixed
     format.  (I.e., user has "44%" in cell and presses "5" -- that causes
     "5%" to be shown the the cursor between "5" and "%".)
 
+- Entering text of the form scheme://blah or a@b.c should insert hyperlinks
 - let's add simple commands like inc/dec font size and things like that.
 
 - Support parsing and displaying locale specific function names.

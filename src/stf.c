@@ -441,10 +441,14 @@ csv_tsv_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 		/* Rough and ready heuristic.  If the first 80 bytes have no
 		 * nuls this may be text */
 		guint8 const *header;
-		int i = 80;
+		int i;
 
-		if (gsf_input_seek (input, 0, G_SEEK_SET) ||
-		    NULL == (header = gsf_input_read (input, i, NULL)))
+		if (gsf_input_seek (input, 0, G_SEEK_SET))
+			return FALSE;
+		i = gsf_input_remaining (input);
+		if (i > 80)
+			i = 80;
+		if (NULL == (header = gsf_input_read (input, i, NULL)))
 			return FALSE;
 		while (i-- > 0)
 			if (*header++ == 0)

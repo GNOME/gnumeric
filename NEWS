@@ -20,6 +20,9 @@ Jody:
 	* Use the right default palette for XL95
 	http://bugzilla.gnome.org/show_bug.cgi?id=151628
 	* Fix resizing sample plot in graph assistant type selector
+	http://bugzilla.gnome.org/show_bug.cgi?id=152059
+	* Add full screen toggle
+	* Auto recognize csv files < 80 characters long
 
 Jon Kåre:
 	* Export text objects to Excel
