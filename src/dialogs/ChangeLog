@@ -1,3 +1,15 @@
+2002-06-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* tool-dialogs.h (dialog_tool_init) : new
+	* dialog-advanced-filter.c (dialog_histogram_tool_init) : deleted
+	(dialog_histogram_tool) : use dialog_tool_init
+	* dialog-random-generator.c (dialog_random_tool_init) : remove code duplicated
+	  in dialog_tool_init
+	(dialog_random_tool) : use dialog_tool_init
+	* dialog-analysis-tools.c : use improved dialog_tool_init in all dialog...tool
+	(dialog_tool_cmp) : new
+	(dialog_tool_init) : generalize and initial more fields
+
 2002-06-21  Jody Goldberg <jody@gnome.org>
 
 	* tool-dialogs.h : toss in a sheetview.

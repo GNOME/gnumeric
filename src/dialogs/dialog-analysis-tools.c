@@ -276,6 +276,14 @@ dialog_tool_init_buttons (GenericToolState *state, GtkSignalFunc ok_function)
 					   state->help_link);
 }
 
+static gint
+dialog_tool_cmp (GtkTableChild *tchild, GtkWidget *widget)
+{
+	return (tchild->widget != widget);
+}
+
+
+
 /**
  * dialog_tool_init:
  * @state:
@@ -287,52 +295,73 @@ dialog_tool_init_buttons (GenericToolState *state, GtkSignalFunc ok_function)
  * Create the dialog (guru).
  *
  **/
-static gboolean
-dialog_tool_init (GenericToolState *state, const char *gui_name,
-		  const char *dialog_name,
-		  GtkSignalFunc ok_function, GtkSignalFunc sensitivity_cb,
+gboolean
+dialog_tool_init (GenericToolState *state, 
+		  WorkbookControlGUI *wbcg,
+		  Sheet *sheet,
+		  char const *help_file,
+		  char const *gui_name,
+		  char const *dialog_name,
+		  char const *input_var1_str,
+		  char const *input_var2_str,
+		  char const *error_str,
+		  char const *key,
+		  GtkSignalFunc ok_function, 
+		  GtkSignalFunc sensitivity_cb,
 		  GnumericExprEntryFlags flags)
 {
 	GtkTable *table;
 	GtkWidget *widget;
-	gint key;
+	gint key_stroke;
+
+	state->wbcg  = wbcg;
+	state->wb    = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sheet;
+	state->sv    = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	state->warning_dialog = NULL;
+	state->help_link = help_file;
+	state->input_var1_str = (input_var1_str == NULL) ? 
+		_("_Input Range:") : input_var1_str;
+	state->input_var2_str = input_var2_str;
 
 	state->gui = gnumeric_glade_xml_new (state->wbcg, gui_name);
         if (state->gui == NULL)
-                return TRUE;
+		goto dialog_tool_init_error;
 
 	state->dialog = glade_xml_get_widget (state->gui, dialog_name);
         if (state->dialog == NULL)
-                return TRUE;
+		goto dialog_tool_init_error;
 
-	state->accel = gtk_accel_group_new ();
 
 	dialog_tool_init_buttons (state, ok_function);
 
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "input-table"));
-	state->input_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
-	gnm_expr_entry_set_flags (state->input_entry, flags, GNUM_EE_MASK);
-        gnm_expr_entry_set_scg (state->input_entry, wbcg_cur_scg (state->wbcg));
-	gtk_table_attach (table, GTK_WIDGET (state->input_entry),
-			  1, 2, 0, 1,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
-	g_signal_connect_after (G_OBJECT (state->input_entry),
-		"changed",
-		G_CALLBACK (sensitivity_cb), state);
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_WIDGET (state->input_entry));
-	if (state->input_var1_str == NULL) {
-		state->input_var1_str = _("_Input Range:");
-	}
 	widget = glade_xml_get_widget (state->gui, "var1-label");
-	key = gtk_label_parse_uline (GTK_LABEL (widget), state->input_var1_str);
-	if (key != GDK_VoidSymbol)
-		gtk_widget_add_accelerator (GTK_WIDGET (state->input_entry),
-					    "grab_focus",
-					    state->accel, key,
-					    GDK_MOD1_MASK, 0);
-	gtk_widget_show (GTK_WIDGET (state->input_entry));
+	if (widget == NULL) {
+		state->input_entry = NULL;
+		state->accel = NULL;
+	} else {
+		state->accel = gtk_accel_group_new ();
+		table = GTK_TABLE (glade_xml_get_widget (state->gui, "input-table"));
+		state->input_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+		gnm_expr_entry_set_flags (state->input_entry, flags, GNUM_EE_MASK);
+		gnm_expr_entry_set_scg (state->input_entry, wbcg_cur_scg (state->wbcg));
+		gtk_table_attach (table, GTK_WIDGET (state->input_entry),
+				  1, 2, 0, 1,
+				  GTK_EXPAND | GTK_FILL, 0,
+				  0, 0);
+		g_signal_connect_after (G_OBJECT (state->input_entry),
+					"changed",
+					G_CALLBACK (sensitivity_cb), state);
+		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+					  GTK_WIDGET (state->input_entry));
+		key_stroke = gtk_label_parse_uline (GTK_LABEL (widget), state->input_var1_str);
+		if (key_stroke != GDK_VoidSymbol)
+			gtk_widget_add_accelerator (GTK_WIDGET (state->input_entry),
+						    "grab_focus",
+						    state->accel, key_stroke,
+						    GDK_MOD1_MASK, 0);
+		gtk_widget_show (GTK_WIDGET (state->input_entry));
+	}
 
 
 /*                                                        */
@@ -342,11 +371,21 @@ dialog_tool_init (GenericToolState *state, const char *gui_name,
 	if (widget == NULL) {
 		state->input_entry_2 = NULL;
 	} else {
+		GList *this_label_widget;
+		GtkTableChild *tchild;
+
 		state->input_entry_2 = gnumeric_expr_entry_new (state->wbcg, TRUE);
-		gnm_expr_entry_set_flags (state->input_entry_2, flags, GNUM_EE_MASK);
+		gnm_expr_entry_set_flags (state->input_entry_2, 
+					  GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
 		gnm_expr_entry_set_scg (state->input_entry_2, wbcg_cur_scg (state->wbcg));
+		table = GTK_TABLE (gtk_widget_get_parent (widget));
+		
+		this_label_widget = g_list_find_custom (
+			table->children, widget, (GCompareFunc) dialog_tool_cmp);
+		tchild =  (GtkTableChild *)(this_label_widget->data);
+
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
-			  1, 2, 1, 2,
+			  1, 2, tchild->top_attach, tchild->bottom_attach,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
 		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
@@ -355,16 +394,18 @@ dialog_tool_init (GenericToolState *state, const char *gui_name,
 			"changed",
 			G_CALLBACK (sensitivity_cb), state);
 		if (state->input_var2_str != NULL) {
-			key = gtk_label_parse_uline (GTK_LABEL (widget), state->input_var2_str);
-			if (key != GDK_VoidSymbol)
+			key_stroke = gtk_label_parse_uline (GTK_LABEL (widget), 
+							    state->input_var2_str);
+			if (key_stroke != GDK_VoidSymbol)
 				gtk_widget_add_accelerator (GTK_WIDGET (state->input_entry_2),
 							    "grab_focus",
-							    state->accel, key,
+							    state->accel, key_stroke,
 							    GDK_MOD1_MASK, 0);
 		}
 		gtk_widget_show (GTK_WIDGET (state->input_entry_2));
 	}
 
+	state->warning = glade_xml_get_widget (state->gui, "warnings");
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
@@ -372,10 +413,18 @@ dialog_tool_init (GenericToolState *state, const char *gui_name,
 
 	dialog_tool_init_outputs (state, sensitivity_cb);
 
-	gtk_window_add_accel_group (GTK_WINDOW (state->dialog),
-				    state->accel);
+	if (state->accel)
+		gtk_window_add_accel_group (GTK_WINDOW (state->dialog),
+					    state->accel);
+
+	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog), key);
 
 	return FALSE;
+
+ dialog_tool_init_error:
+	gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, error_str);
+	g_free (state);
+	return TRUE;
 }
 
 /**
@@ -565,26 +614,15 @@ dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return 0;
 
 	state = g_new (GenericToolState, 1);
-	state->wbcg  = wbcg;
-	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->sheet = sheet;
-	state->warning_dialog = NULL;
-	state->help_link = "correlation-tool.html";
-	state->input_var1_str = NULL;
-	state->input_var2_str = NULL;
 
-	if (dialog_tool_init (state, "correlation.glade", "Correlation",
+	if (dialog_tool_init (state, wbcg, sheet,  "correlation-tool.html",
+			      "correlation.glade", "Correlation", NULL, NULL,
+			      _("Could not create the Correlation Tool dialog."),
+			      CORRELATION_KEY,
 			      G_CALLBACK (corr_tool_ok_clicked_cb),
 			      G_CALLBACK (tool_update_sensitivity_cb),
-			      0)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the Correlation Tool dialog."));
-		g_free (state);
+			      0))
 		return 0;
-	}
-
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
-			       CORRELATION_KEY);
 
 	tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
@@ -692,26 +730,15 @@ dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return 0;
 
 	state = g_new (GenericToolState, 1);
-	state->wbcg  = wbcg;
-	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->sheet = sheet;
-	state->warning_dialog = NULL;
-	state->help_link = "covariance-tool.html";
-	state->input_var1_str = NULL;
-	state->input_var2_str = NULL;
 
-	if (dialog_tool_init (state, "covariance.glade", "Covariance",
+	if (dialog_tool_init (state, wbcg, sheet,  "covariance-tool.html",
+			      "covariance.glade", "Covariance", NULL, NULL,
+			      _("Could not create the Covariance Tool dialog."),
+			      COVARIANCE_KEY,
 			      G_CALLBACK (cov_tool_ok_clicked_cb),
 			      G_CALLBACK (tool_update_sensitivity_cb),
-			      0)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the Covariance Tool dialog."));
-		g_free (state);
+			      0))
 		return 0;
-	}
-
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
-			       COVARIANCE_KEY);
 
 	tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
@@ -790,26 +817,15 @@ dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return 0;
 
 	state = g_new (GenericToolState, 1);
-	state->wbcg  = wbcg;
-	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->sheet = sheet;
-	state->warning_dialog = NULL;
-	state->help_link = "rank-and-percentile-tool.html";
-	state->input_var1_str = NULL;
-	state->input_var2_str = NULL;
 
-	if (dialog_tool_init (state, "rank.glade", "RankPercentile",
+	if (dialog_tool_init (state, wbcg, sheet,  "rank-and-percentile-tool.html",
+			      "rank.glade", "RankPercentile", NULL, NULL,
+			      _("Could not create the Rank and  Percentile Tools dialog."),
+			      RANK_PERCENTILE_KEY,
 			      G_CALLBACK (rank_tool_ok_clicked_cb),
 			      G_CALLBACK (tool_update_sensitivity_cb),
-			      0)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the Rank and  Percentile Tools dialog."));
-		g_free (state);
+			      0))
 		return 0;
-	}
-
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
-			       RANK_PERCENTILE_KEY);
 
 	tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
@@ -887,26 +903,15 @@ dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return 0;
 
 	state = g_new (GenericToolState, 1);
-	state->wbcg  = wbcg;
-	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->sheet = sheet;
-	state->warning_dialog = NULL;
-	state->help_link = "fourier-analysis-tool.html";
-	state->input_var1_str = NULL;
-	state->input_var2_str = NULL;
 
-	if (dialog_tool_init (state, "fourier-analysis.glade", "FourierAnalysis",
+	if (dialog_tool_init (state, wbcg, sheet,  "fourier-analysis-tool.html",
+			      "fourier-analysis.glade", "FourierAnalysis", NULL, NULL,
+			      _("Could not create the Fourier Analysis Tool dialog."),
+			      FOURIER_KEY,
 			      G_CALLBACK (fourier_tool_ok_clicked_cb),
 			      G_CALLBACK (tool_update_sensitivity_cb),
-			      0)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the Fourier Analyis Tool dialog."));
-		g_free (state);
+			      0))
 		return 0;
-	}
-
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
-			       FOURIER_KEY);
 
 	tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
@@ -1033,21 +1038,38 @@ desc_stat_tool_update_sensitivity_cb (GtkWidget *dummy, DescriptiveStatState *st
 
 
 /**
- * dialog_desc_stat_tool_init:
- * @state:
+ * dialog_descriptive_stat_tool:
+ * @wbcg:
+ * @sheet:
  *
- * Create the dialog (guru).
+ * Show the dialog (guru).
  *
  **/
-static gboolean
-dialog_desc_stat_tool_init (DescriptiveStatState *state)
+int
+dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
-	if (dialog_tool_init ((GenericToolState *)state, "descriptive-stats.glade", "DescStats",
+        DescriptiveStatState *state;
+
+	if (wbcg == NULL) {
+		return 1;
+	}
+
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, DESCRIPTIVE_STATS_KEY))
+		return 0;
+
+	state = g_new (DescriptiveStatState, 1);
+
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet, 
+			      "descriptive-statistics-tool.html",
+			      "descriptive-stats.glade", "DescStats", NULL, NULL,
+			      _("Could not create the Descriptive Statistics Tool dialog."),
+			      DESCRIPTIVE_STATS_KEY,
 			      G_CALLBACK (cb_desc_stat_tool_ok_clicked),
 			      G_CALLBACK (desc_stat_tool_update_sensitivity_cb),
-			      0)) {
-		return TRUE;
-	}
+			      0))
+		return 0;
 
 	state->summary_stats_button  = glade_xml_get_widget (state->base.gui, "summary_stats_button");
 	state->mean_stats_button  = glade_xml_get_widget (state->base.gui, "mean_stats_button");
@@ -1089,52 +1111,7 @@ dialog_desc_stat_tool_init (DescriptiveStatState *state)
  	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->s_entry));
 
-	gnumeric_keyed_dialog (state->base.wbcg, GTK_WINDOW (state->base.dialog),
-			       DESCRIPTIVE_STATS_KEY);
-
 	desc_stat_tool_update_sensitivity_cb (NULL, state);
-
-	return FALSE;
-}
-
-/**
- * dialog_descriptive_stat_tool:
- * @wbcg:
- * @sheet:
- *
- * Show the dialog (guru).
- *
- **/
-int
-dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-        DescriptiveStatState *state;
-
-	if (wbcg == NULL) {
-		return 1;
-	}
-
-
-	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, DESCRIPTIVE_STATS_KEY))
-		return 0;
-
-	state = g_new (DescriptiveStatState, 1);
-	state->base.wbcg  = wbcg;
-	state->base.wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->base.sheet = sheet;
-	state->base.warning_dialog = NULL;
-	state->base.help_link = "descriptive-statistics-tool.html";
-	state->base.input_var1_str = NULL;
-	state->base.input_var2_str = NULL;
-
-	if (dialog_desc_stat_tool_init (state)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the Descriptive Statistics Tool dialog."));
-		g_free (state);
-		return 0;
-	}
-
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
         return 0;
@@ -1149,8 +1126,6 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 /**********************************************/
 /*  Begin of ttest tool code */
 /**********************************************/
-
-static TTestState *ttest_tool_state;
 
 /**
  * ttest_tool_ok_clicked_cb:
@@ -1424,21 +1399,47 @@ dialog_ttest_realized (GtkWidget *widget, TTestState *state)
 }
 
 /**
- * dialog_ttest_tool_init:
- * @state:
+ * dialog_ttest_tool:
+ * @wbcg:
+ * @sheet:
+ * @test:
  *
- * Create the dialog (guru).
+ * Show the dialog (guru).
  *
  **/
-static gboolean
-dialog_ttest_tool_init (TTestState *state)
+int
+dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
 {
-	if (dialog_tool_init ((GenericToolState *)state, "mean-tests.glade", "MeanTests",
+        TTestState *state;
+	GtkDialog *dialog;
+
+	if (wbcg == NULL) {
+		return 1;
+	}
+
+	/* Only pop up one copy per workbook */
+	dialog = gnumeric_dialog_raise_if_exists (wbcg, TTEST_KEY);
+	if (dialog) {
+		state = gtk_object_get_data (GTK_OBJECT (dialog), "state");
+                state->invocation = test;
+		dialog_ttest_adjust_to_invocation (state);
+		return 0;
+	}
+
+	state = g_new (TTestState, 1);
+	state->invocation = test;
+
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,  "t-test.html",
+			      "mean-tests.glade", "MeanTests", _("Var_iable 1 Range:"),
+			      _("_Variable 2 Range:"),
+			      _("Could not create the Mean Tests Tool dialog."),
+			      TTEST_KEY,
 			      G_CALLBACK (ttest_tool_ok_clicked_cb),
 			      G_CALLBACK (ttest_update_sensitivity_cb),
-			      GNUM_EE_SINGLE_RANGE)) {
-		return TRUE;
-	}
+			      GNUM_EE_SINGLE_RANGE))
+		return 0;
+
+	gtk_object_set_data (GTK_OBJECT (state->base.dialog), "state", state);
 
 	state->paired_button  = glade_xml_get_widget (state->base.gui, "paired-button");
 	state->unpaired_button  = glade_xml_get_widget (state->base.gui, "unpaired-button");
@@ -1489,59 +1490,7 @@ dialog_ttest_tool_init (TTestState *state)
  	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->alpha_entry));
 
-
-	gnumeric_keyed_dialog (state->base.wbcg, GTK_WINDOW (state->base.dialog),
-			       TTEST_KEY);
-
 	ttest_update_sensitivity_cb (NULL, state);
-
-	return FALSE;
-}
-
-
-/**
- * dialog_ttest_tool:
- * @wbcg:
- * @sheet:
- * @test:
- *
- * Show the dialog (guru).
- *
- **/
-int
-dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
-{
-        TTestState *state;
-
-	if (wbcg == NULL) {
-		return 1;
-	}
-
-
-	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, TTEST_KEY)) {
-                ttest_tool_state->invocation = test;
-		dialog_ttest_adjust_to_invocation (ttest_tool_state);
-		return 0;
-	}
-
-	state = g_new (TTestState, 1);
-	ttest_tool_state = state;
-	state->base.wbcg  = wbcg;
-	state->base.wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->base.sheet = sheet;
-	state->base.warning_dialog = NULL;
-	state->invocation = test;
-	state->base.help_link = "t-test.html";
-	state->base.input_var1_str = _("Var_iable 1 Range:");
-	state->base.input_var2_str = _("_Variable 2 Range:");;
-
-	if (dialog_ttest_tool_init (state)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the Mean Tests Tool dialog."));
-		g_free (state);
-		return 0;
-	}
 	tool_load_selection ((GenericToolState *)state, FALSE);
 
         return 0;
@@ -1652,39 +1601,6 @@ ftest_update_sensitivity_cb (GtkWidget *dummy, FTestToolState *state)
 }
 
 /**
- * dialog_ftest_tool_init:
- * @state:
- *
- * Create the dialog (guru).
- *
- **/
-static gboolean
-dialog_ftest_tool_init (FTestToolState *state)
-{
-	if (dialog_tool_init ((GenericToolState *)state, "variance-tests.glade", "VarianceTests",
-			      G_CALLBACK (ftest_tool_ok_clicked_cb),
-			      G_CALLBACK (ftest_update_sensitivity_cb),
-			      GNUM_EE_SINGLE_RANGE)) {
-		return TRUE;
-	}
-
-	state->alpha_entry = glade_xml_get_widget (state->base.gui, "one_alpha");
- 	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
-				  GTK_WIDGET (state->alpha_entry));
-	g_signal_connect_after (G_OBJECT (state->alpha_entry),
-		"changed",
-		G_CALLBACK (ftest_update_sensitivity_cb), state);
-
-	gnumeric_keyed_dialog (state->base.wbcg, GTK_WINDOW (state->base.dialog),
-			       FTEST_KEY);
-
-	ftest_update_sensitivity_cb (NULL, state);
-
-	return FALSE;
-}
-
-/**
  * dialog_ftest_tool:
  * @wbcg:
  * @sheet:
@@ -1707,20 +1623,27 @@ dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return 0;
 
 	state = g_new (FTestToolState, 1);
-	state->base.wbcg  = wbcg;
-	state->base.wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->base.sheet = sheet;
-	state->base.warning_dialog = NULL;
-	state->base.help_link = "ftest-two-sample-for-variances-tool.html";
-	state->base.input_var1_str = _("Var_iable 1 Range");
-	state->base.input_var2_str = _("_Variable 2 Range");
 
-	if (dialog_ftest_tool_init (state)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the FTest Tool dialog."));
-		g_free (state);
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,  
+			      "ftest-two-sample-for-variances-tool.html",
+			      "variance-tests.glade", "VarianceTests",
+			      _("Var_iable 1 Range"), _("_Variable 2 Range"),
+			      _("Could not create the FTest Tool dialog."),
+			      FTEST_KEY,
+			      G_CALLBACK (ftest_tool_ok_clicked_cb),
+			      G_CALLBACK (ftest_update_sensitivity_cb),
+			      GNUM_EE_SINGLE_RANGE))
 		return 0;
-	}
+
+	state->alpha_entry = glade_xml_get_widget (state->base.gui, "one_alpha");
+ 	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+				  GTK_WIDGET (state->alpha_entry));
+	g_signal_connect_after (G_OBJECT (state->alpha_entry),
+		"changed",
+		G_CALLBACK (ftest_update_sensitivity_cb), state);
+
+	ftest_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, FALSE);
 
         return 0;
@@ -1877,21 +1800,38 @@ dialog_sampling_realized (GtkWidget *widget, SamplingState *state)
 }
 
 /**
- * dialog_sampling_tool_init:
- * @state:
+ * dialog_sampling_tool:
+ * @wbcg:
+ * @sheet:
  *
- * Create the dialog (guru).
+ * Show the dialog (guru).
  *
  **/
-static gboolean
-dialog_sampling_tool_init (SamplingState *state)
+int
+dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
-	if (dialog_tool_init ((GenericToolState *)state, "sampling.glade", "Sampling",
+        SamplingState *state;
+
+	if (wbcg == NULL) {
+		return 1;
+	}
+
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, SAMPLING_KEY)) {
+		return 0;
+	}
+
+	state = g_new (SamplingState, 1);
+
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet, "sampling-tool.html",
+			      "sampling.glade", "Sampling", NULL, NULL,
+			      _("Could not create the Sampling Tool dialog."),
+			      SAMPLING_KEY,
 			      G_CALLBACK (sampling_tool_ok_clicked_cb),
 			      G_CALLBACK (sampling_tool_update_sensitivity_cb),
-			      0)) {
-		return TRUE;
-	}
+			      0))
+		return 0;
 
 	state->periodic_button  = glade_xml_get_widget (state->base.gui, "periodic-button");
 	state->random_button  = glade_xml_get_widget (state->base.gui, "random-button");
@@ -1929,53 +1869,7 @@ dialog_sampling_tool_init (SamplingState *state)
  	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->number_entry));
 
-	gnumeric_keyed_dialog (state->base.wbcg, GTK_WINDOW (state->base.dialog),
-			       SAMPLING_KEY);
-
 	sampling_tool_update_sensitivity_cb (NULL, state);
-
-	return FALSE;
-}
-
-
-/**
- * dialog_sampling_tool:
- * @wbcg:
- * @sheet:
- *
- * Show the dialog (guru).
- *
- **/
-int
-dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-        SamplingState *state;
-
-	if (wbcg == NULL) {
-		return 1;
-	}
-
-
-	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, SAMPLING_KEY)) {
-		return 0;
-	}
-
-	state = g_new (SamplingState, 1);
-	state->base.wbcg  = wbcg;
-	state->base.wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->base.sheet = sheet;
-	state->base.warning_dialog = NULL;
-	state->base.help_link = "sampling-tool.html";
-	state->base.input_var1_str = NULL;
-	state->base.input_var2_str = NULL;
-
-	if (dialog_sampling_tool_init (state)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the Sampling Tool dialog."));
-		g_free (state);
-		return 0;
-	}
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
         return 0;
@@ -2114,108 +2008,6 @@ regression_tool_update_sensitivity_cb (GtkWidget *dummy, RegressionToolState *st
 	gtk_widget_set_sensitive (state->base.ok_button, ready);
 }
 
-
-/**
- * dialog_regression_tool_init:
- * @state:
- *
- * Create the dialog (guru).
- *
- **/
-static gboolean
-dialog_regression_tool_init (RegressionToolState *state)
-{
-	GtkTable *table;
-	GtkWidget *widget;
-	gint key;
-
-	state->base.gui = gnumeric_glade_xml_new (state->base.wbcg, "regression.glade");
-        if (state->base.gui == NULL)
-                return TRUE;
-
-	state->base.dialog = glade_xml_get_widget (state->base.gui, "Regression");
-        if (state->base.dialog == NULL)
-                return TRUE;
-
-	state->base.accel = gtk_accel_group_new ();
-
-	dialog_tool_init_buttons ((GenericToolState *)state,
-				  G_CALLBACK (regression_tool_ok_clicked_cb));
-
-	table = GTK_TABLE (glade_xml_get_widget (state->base.gui, "input-table"));
-	state->base.input_entry = gnumeric_expr_entry_new (state->base.wbcg, TRUE);
-	gnm_expr_entry_set_flags (state->base.input_entry, 0, GNUM_EE_MASK);
-        gnm_expr_entry_set_scg (state->base.input_entry, wbcg_cur_scg (state->base.wbcg));
-	gtk_table_attach (table, GTK_WIDGET (state->base.input_entry),
-			  1, 2, 0, 1,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
-	g_signal_connect_after (G_OBJECT (state->base.input_entry),
-		"changed",
-		G_CALLBACK (regression_tool_update_sensitivity_cb), state);
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
-				  GTK_WIDGET (state->base.input_entry));
-
-	widget = glade_xml_get_widget (state->base.gui, "var1-label");
-	state->base.input_var1_str = _("_X Variables:");
-	key = gtk_label_parse_uline (GTK_LABEL (widget), state->base.input_var1_str);
-	if (key != GDK_VoidSymbol)
-		gtk_widget_add_accelerator (GTK_WIDGET (state->base.input_entry),
-					    "grab_focus",
-					    state->base.accel, key,
-					    GDK_MOD1_MASK, 0);
-	gtk_widget_show (GTK_WIDGET (state->base.input_entry));
-
-	state->base.input_entry_2 = gnumeric_expr_entry_new (state->base.wbcg, TRUE);
-	gnm_expr_entry_set_flags (state->base.input_entry_2, GNUM_EE_SINGLE_RANGE,
-				       GNUM_EE_MASK);
-	gnm_expr_entry_set_scg (state->base.input_entry_2, wbcg_cur_scg (state->base.wbcg));
-	gtk_table_attach (table, GTK_WIDGET (state->base.input_entry_2),
-			  1, 2, 2, 3,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
-				  GTK_WIDGET (state->base.input_entry_2));
-	g_signal_connect_after (G_OBJECT (state->base.input_entry_2),
-		"changed",
-		G_CALLBACK (regression_tool_update_sensitivity_cb), state);
-	widget = glade_xml_get_widget (state->base.gui, "var2-label");
-	state->base.input_var2_str = _("_Y Variable:");
-	key = gtk_label_parse_uline (GTK_LABEL (widget), state->base.input_var2_str);
-	if (key != GDK_VoidSymbol)
-		gtk_widget_add_accelerator (GTK_WIDGET (state->base.input_entry_2),
-					    "grab_focus",
-					    state->base.accel, key,
-					    GDK_MOD1_MASK, 0);
-	gtk_widget_show (GTK_WIDGET (state->base.input_entry_2));
-
-	wbcg_edit_attach_guru (state->base.wbcg, state->base.dialog);
-	g_signal_connect (G_OBJECT (state->base.dialog),
-		"destroy",
-		G_CALLBACK (tool_destroy), state);
-
-	dialog_tool_init_outputs ((GenericToolState *)state,
-				  G_CALLBACK (regression_tool_update_sensitivity_cb));
-
-	gtk_window_add_accel_group (GTK_WINDOW (state->base.dialog),
-				    state->base.accel);
-
-	state->confidence_entry = glade_xml_get_widget (state->base.gui, "confidence-entry");
-	float_to_entry (GTK_ENTRY (state->confidence_entry), 0.95);
-	g_signal_connect_after (G_OBJECT (state->confidence_entry),
-		"changed",
-		G_CALLBACK (regression_tool_update_sensitivity_cb), state);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
-				  GTK_WIDGET (state->confidence_entry));
-
-	gnumeric_keyed_dialog (state->base.wbcg, GTK_WINDOW (state->base.dialog),
-			       REGRESSION_KEY);
-
-	regression_tool_update_sensitivity_cb (NULL, state);
-
-	return FALSE;
-}
-
 /**
  * dialog_regression_tool:
  * @wbcg:
@@ -2239,18 +2031,27 @@ dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return 0;
 
 	state = g_new (RegressionToolState, 1);
-	state->base.wbcg  = wbcg;
-	state->base.wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->base.sheet = sheet;
-	state->base.warning_dialog = NULL;
-	state->base.help_link = "regression-tool.html";
 
-	if (dialog_regression_tool_init (state)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the Regression Tool dialog."));
-		g_free (state);
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+			      "regression-tool.html",
+			      "regression.glade", "Regression", 
+			      _("_X Variables:"), _("_Y Variable:"),
+			      _("Could not create the Regression Tool dialog."),
+			      REGRESSION_KEY,
+			      G_CALLBACK (regression_tool_ok_clicked_cb),
+			      G_CALLBACK (regression_tool_update_sensitivity_cb),
+			      0))
 		return 0;
-	}
+
+	state->confidence_entry = glade_xml_get_widget (state->base.gui, "confidence-entry");
+	float_to_entry (GTK_ENTRY (state->confidence_entry), 0.95);
+	g_signal_connect_after (G_OBJECT (state->confidence_entry),
+		"changed",
+		G_CALLBACK (regression_tool_update_sensitivity_cb), state);
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+				  GTK_WIDGET (state->confidence_entry));
+
+	regression_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
         return 0;
@@ -2344,41 +2145,6 @@ exp_smoothing_tool_update_sensitivity_cb (GtkWidget *dummy,
 
 
 /**
- * dialog_exp_smoothing_tool_init:
- * @state:
- *
- * Create the dialog (guru).
- *
- **/
-static gboolean
-dialog_exp_smoothing_tool_init (ExpSmoothToolState *state)
-{
-	if (dialog_tool_init ((GenericToolState *)state, "exp-smoothing.glade",
-			      "ExpSmoothing",
-			      G_CALLBACK (exp_smoothing_tool_ok_clicked_cb),
-			      G_CALLBACK (exp_smoothing_tool_update_sensitivity_cb),
-			      0)) {
-		return TRUE;
-	}
-
-	state->damping_fact_entry = glade_xml_get_widget (state->base.gui,
-							  "damping-fact-entry");
-	float_to_entry (GTK_ENTRY (state->damping_fact_entry), 0.2);
-	g_signal_connect_after (G_OBJECT (state->damping_fact_entry),
-		"changed",
-		G_CALLBACK (exp_smoothing_tool_update_sensitivity_cb), state);
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
-				  GTK_WIDGET (state->damping_fact_entry));
-
-	gnumeric_keyed_dialog (state->base.wbcg, GTK_WINDOW (state->base.dialog),
-			       EXP_SMOOTHING_KEY);
-
-	exp_smoothing_tool_update_sensitivity_cb (NULL, state);
-
-	return FALSE;
-}
-
-/**
  * dialog_exp_smoothing_tool:
  * @wbcg:
  * @sheet:
@@ -2400,21 +2166,28 @@ dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return 0;
 
 	state = g_new (ExpSmoothToolState, 1);
-	state->base.wbcg  = wbcg;
-	state->base.wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->base.sheet = sheet;
-	state->base.warning_dialog = NULL;
-	state->base.help_link = "exp-smoothing-tool.html";
-	state->base.input_var1_str = NULL;
-	state->base.input_var2_str = NULL;
 
-	if (dialog_exp_smoothing_tool_init (state)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the Exponential Smoothing "
-				   "Tool dialog."));
-		g_free (state);
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,  "exp-smoothing-tool.html",
+			      "exp-smoothing.glade",
+			      "ExpSmoothing", NULL, NULL,
+			      _("Could not create the Exponential Smoothing "
+				"Tool dialog."),
+			      EXP_SMOOTHING_KEY,
+			      G_CALLBACK (exp_smoothing_tool_ok_clicked_cb),
+			      G_CALLBACK (exp_smoothing_tool_update_sensitivity_cb),
+			      0)) 
 		return 0;
-	}
+
+	state->damping_fact_entry = glade_xml_get_widget (state->base.gui,
+							  "damping-fact-entry");
+	float_to_entry (GTK_ENTRY (state->damping_fact_entry), 0.2);
+	g_signal_connect_after (G_OBJECT (state->damping_fact_entry),
+		"changed",
+		G_CALLBACK (exp_smoothing_tool_update_sensitivity_cb), state);
+ 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+				  GTK_WIDGET (state->damping_fact_entry));
+
+	exp_smoothing_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
         return 0;
@@ -2507,41 +2280,6 @@ average_tool_update_sensitivity_cb (GtkWidget *dummy, AverageToolState *state)
 	gtk_widget_set_sensitive (state->base.ok_button, ready);
 }
 
-
-/**
- * dialog_average_tool_init:
- * @state:
- *
- * Create the dialog (guru).
- *
- **/
-static gboolean
-dialog_average_tool_init (AverageToolState *state)
-{
-	if (dialog_tool_init ((GenericToolState *)state, "moving-averages.glade",
-			      "MovAverages",
-			      G_CALLBACK (average_tool_ok_clicked_cb),
-			      G_CALLBACK (average_tool_update_sensitivity_cb),
-			      0)) {
-		return TRUE;
-	}
-
-	state->interval_entry = glade_xml_get_widget (state->base.gui, "interval-entry");
-	int_to_entry (GTK_ENTRY (state->interval_entry), 3);
-	g_signal_connect_after (G_OBJECT (state->interval_entry),
-		"changed",
-		G_CALLBACK (average_tool_update_sensitivity_cb), state);
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
-				  GTK_WIDGET (state->interval_entry));
-
-	gnumeric_keyed_dialog (state->base.wbcg, GTK_WINDOW (state->base.dialog),
-			       AVERAGE_KEY);
-
-	average_tool_update_sensitivity_cb (NULL, state);
-
-	return FALSE;
-}
-
 /**
  * dialog_average_tool:
  * @wbcg:
@@ -2565,21 +2303,26 @@ dialog_average_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return 0;
 
 	state = g_new (AverageToolState, 1);
-	state->base.wbcg  = wbcg;
-	state->base.wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->base.warning_dialog = NULL;
-	state->base.sheet = sheet;
-	state->base.warning_dialog = NULL;
-	state->base.help_link = "moving-average-tool.html";
-	state->base.input_var1_str = NULL;
-	state->base.input_var2_str = NULL;
 
-	if (dialog_average_tool_init (state)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the Moving Average Tool dialog."));
-		g_free (state);
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,  "moving-average-tool.html",
+			      "moving-averages.glade",
+			      "MovAverages", NULL, NULL,
+			      _("Could not create the Moving Average Tool dialog."),
+			      AVERAGE_KEY,
+			      G_CALLBACK (average_tool_ok_clicked_cb),
+			      G_CALLBACK (average_tool_update_sensitivity_cb),
+			      0)) 
 		return 0;
-	}
+
+	state->interval_entry = glade_xml_get_widget (state->base.gui, "interval-entry");
+	int_to_entry (GTK_ENTRY (state->interval_entry), 3);
+	g_signal_connect_after (G_OBJECT (state->interval_entry),
+		"changed",
+		G_CALLBACK (average_tool_update_sensitivity_cb), state);
+ 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+				  GTK_WIDGET (state->interval_entry));
+
+	average_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
         return 0;
@@ -2757,80 +2500,39 @@ histogram_tool_set_calculated (GtkWidget *widget, GdkEventFocus *event,
 	    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->calculated_button), TRUE);
 }
 
-
 /**
- * dialog_histogram_tool_init:
- * @state:
+ * dialog_histogram_tool:
+ * @wbcg:
+ * @sheet:
  *
- * Create the dialog (guru).
+ * Show the dialog (guru).
  *
  **/
-static gboolean
-dialog_histogram_tool_init (HistogramToolState *state)
+int
+dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
-	GtkTable *table;
-	GtkWidget *widget;
-	gint key;
+        HistogramToolState *state;
 
-	state->base.gui = gnumeric_glade_xml_new (state->base.wbcg, "histogram.glade");
-        if (state->base.gui == NULL)
-                return TRUE;
-
-	state->base.dialog = glade_xml_get_widget (state->base.gui, "Histogram");
-        if (state->base.dialog == NULL)
-                return TRUE;
-
-	state->base.accel = gtk_accel_group_new ();
-
-	dialog_tool_init_buttons ((GenericToolState *) state,
-				  G_CALLBACK (histogram_tool_ok_clicked_cb));
-
-	table = GTK_TABLE (glade_xml_get_widget (state->base.gui, "input-table"));
-	state->base.input_entry = gnumeric_expr_entry_new (state->base.wbcg, TRUE);
-	gnm_expr_entry_set_flags (state->base.input_entry, 0, GNUM_EE_MASK);
-        gnm_expr_entry_set_scg (state->base.input_entry, wbcg_cur_scg (state->base.wbcg));
-	gtk_table_attach (table, GTK_WIDGET (state->base.input_entry),
-			  1, 2, 0, 1,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
-	g_signal_connect_after (G_OBJECT (state->base.input_entry),
-		"changed",
-		G_CALLBACK (histogram_tool_update_sensitivity_cb), state);
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
-				  GTK_WIDGET (state->base.input_entry));
-	if (state->base.input_var1_str == NULL) {
-		state->base.input_var1_str = _("_Input Range:");
+	if (wbcg == NULL) {
+		return 1;
 	}
-	widget = glade_xml_get_widget (state->base.gui, "var1-label");
-	key = gtk_label_parse_uline (GTK_LABEL (widget), state->base.input_var1_str);
-	if (key != GDK_VoidSymbol)
-		gtk_widget_add_accelerator (GTK_WIDGET (state->base.input_entry),
-					    "grab_focus",
-					    state->base.accel, key,
-					    GDK_MOD1_MASK, 0);
-	gtk_widget_show (GTK_WIDGET (state->base.input_entry));
 
-	table = GTK_TABLE (glade_xml_get_widget (state->base.gui, "bin_table"));
-	state->base.input_entry_2 = gnumeric_expr_entry_new (state->base.wbcg, TRUE);
-	gnm_expr_entry_set_flags (state->base.input_entry_2, GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
-	gnm_expr_entry_set_scg (state->base.input_entry_2, wbcg_cur_scg (state->base.wbcg));
-	gtk_table_attach (table, GTK_WIDGET (state->base.input_entry_2),
-			  1, 2, 1, 2,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
-	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
-				  GTK_WIDGET (state->base.input_entry_2));
-	g_signal_connect_after (G_OBJECT (state->base.input_entry_2),
-		"changed",
-		G_CALLBACK (histogram_tool_update_sensitivity_cb), state);
-	widget = glade_xml_get_widget (state->base.gui, "var2-label");
-	key = gtk_label_parse_uline (GTK_LABEL (widget), state->base.input_var2_str);
-	if (key != GDK_VoidSymbol)
-		gtk_widget_add_accelerator (GTK_WIDGET (state->base.input_entry_2),
-					    "grab_focus",
-					    state->base.accel, key,
-					    GDK_MOD1_MASK, 0);
-	gtk_widget_show (GTK_WIDGET (state->base.input_entry_2));
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, HISTOGRAM_KEY))
+		return 0;
+
+	state = g_new (HistogramToolState, 1);
+
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet, "histogram-tool.html",
+			      "histogram.glade", "Histogram", 
+			      _("_Input Range:"), _("Bin _Range:"),
+			      _("Could not create the Histogram Tool dialog."),
+			      HISTOGRAM_KEY,
+			      G_CALLBACK (histogram_tool_ok_clicked_cb),
+			      G_CALLBACK (histogram_tool_update_sensitivity_cb),
+			      0)) 
+		return 0;
 
 	state->predetermined_button = GTK_WIDGET(glade_xml_get_widget (state->base.gui,
 								       "pre_determined_button"));
@@ -2845,11 +2547,6 @@ dialog_histogram_tool_init (HistogramToolState *state)
 	state->min_entry = GTK_ENTRY(glade_xml_get_widget (state->base.gui,
 							    "min_entry"));
 
-
-	wbcg_edit_attach_guru (state->base.wbcg, state->base.dialog);
-	g_signal_connect (G_OBJECT (state->base.dialog),
-		"destroy",
-		G_CALLBACK (tool_destroy), state);
 	g_signal_connect_after (G_OBJECT (state->predetermined_button),
 		"toggled",
 		G_CALLBACK (histogram_tool_update_sensitivity_cb), state);
@@ -2874,56 +2571,6 @@ dialog_histogram_tool_init (HistogramToolState *state)
 	g_signal_connect (G_OBJECT (state->bin_labels_button),
 		"toggled",
 		G_CALLBACK (histogram_tool_set_predetermined_on_toggle), state);
-
-	dialog_tool_init_outputs ((GenericToolState *) state,
-				  G_CALLBACK (histogram_tool_update_sensitivity_cb));
-
-	gtk_window_add_accel_group (GTK_WINDOW (state->base.dialog),
-				    state->base.accel);
-
-	return FALSE;
-}
-
-/**
- * dialog_histogram_tool:
- * @wbcg:
- * @sheet:
- *
- * Show the dialog (guru).
- *
- **/
-int
-dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-        HistogramToolState *state;
-
-	if (wbcg == NULL) {
-		return 1;
-	}
-
-
-	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, HISTOGRAM_KEY))
-		return 0;
-
-	state = g_new (HistogramToolState, 1);
-	state->base.wbcg  = wbcg;
-	state->base.wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->base.sheet = sheet;
-	state->base.warning_dialog = NULL;
-	state->base.help_link = "histogram-tool.html";
-	state->base.input_var1_str = _("_Input Range:");
-	state->base.input_var2_str = _("Bin _Range:");
-
-	if (dialog_histogram_tool_init (state)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the Histogram Tool dialog."));
-		g_free (state);
-		return 0;
-	}
-
-	gnumeric_keyed_dialog (state->base.wbcg, GTK_WINDOW (state->base.dialog),
-			       HISTOGRAM_KEY);
 
 	histogram_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
@@ -3023,39 +2670,6 @@ anova_single_tool_update_sensitivity_cb (GtkWidget *dummy, AnovaSingleToolState 
 
 
 /**
- * dialog_anova_single_tool_init:
- * @state:
- *
- * Create the dialog (guru).
- *
- **/
-static gboolean
-dialog_anova_single_tool_init (AnovaSingleToolState *state)
-{
-	if (dialog_tool_init ((GenericToolState *)state, "anova-one.glade", "ANOVA",
-			      G_CALLBACK (anova_single_tool_ok_clicked_cb),
-			      G_CALLBACK (anova_single_tool_update_sensitivity_cb),
-			      0)) {
-		return TRUE;
-	}
-
-	state->alpha_entry = glade_xml_get_widget (state->base.gui, "alpha-entry");
-	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
-	g_signal_connect_after (G_OBJECT (state->alpha_entry),
-		"changed",
-		G_CALLBACK (anova_single_tool_update_sensitivity_cb), state);
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
-				  GTK_WIDGET (state->alpha_entry));
-
-	gnumeric_keyed_dialog (state->base.wbcg, GTK_WINDOW (state->base.dialog),
-			       ANOVA_SINGLE_KEY);
-
-	anova_single_tool_update_sensitivity_cb (NULL, state);
-
-	return FALSE;
-}
-
-/**
  * dialog_anova_single_tool:
  * @wbcg:
  * @sheet:
@@ -3078,20 +2692,26 @@ dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return 0;
 
 	state = g_new (AnovaSingleToolState, 1);
-	state->base.wbcg  = wbcg;
-	state->base.wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->base.sheet = sheet;
-	state->base.warning_dialog = NULL;
-	state->base.help_link = "anova.html#ANOVA-SINGLE-FACTOR-TOOL";
-	state->base.input_var1_str = NULL;
-	state->base.input_var2_str = NULL;
 
-	if (dialog_anova_single_tool_init (state)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the ANOVA (single factor) tool dialog."));
-		g_free (state);
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,  
+			      "anova.html#ANOVA-SINGLE-FACTOR-TOOL",
+			      "anova-one.glade", "ANOVA", NULL, NULL,
+			      _("Could not create the ANOVA (single factor) tool dialog."),
+			      ANOVA_SINGLE_KEY,
+			      G_CALLBACK (anova_single_tool_ok_clicked_cb),
+			      G_CALLBACK (anova_single_tool_update_sensitivity_cb),
+			      0))
 		return 0;
-	}
+
+	state->alpha_entry = glade_xml_get_widget (state->base.gui, "alpha-entry");
+	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
+	g_signal_connect_after (G_OBJECT (state->alpha_entry),
+		"changed",
+		G_CALLBACK (anova_single_tool_update_sensitivity_cb), state);
+ 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+				  GTK_WIDGET (state->alpha_entry));
+
+	anova_single_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
         return 0;
@@ -3236,48 +2856,6 @@ anova_two_factor_tool_update_sensitivity_cb (GtkWidget *dummy, AnovaTwoFactorToo
 	gtk_widget_set_sensitive (state->base.ok_button, ready);
 }
 
-
-/**
- * dialog_anova_two_factor_tool_init:
- * @state:
- *
- * Create the dialog (guru).
- *
- **/
-static gboolean
-dialog_anova_two_factor_tool_init (AnovaTwoFactorToolState *state)
-{
-	if (dialog_tool_init ((GenericToolState *)state, "anova-two.glade", "ANOVA",
-			      G_CALLBACK (anova_two_factor_tool_ok_clicked_cb),
-			      G_CALLBACK (anova_two_factor_tool_update_sensitivity_cb),
-			      GNUM_EE_SINGLE_RANGE)) {
-		return TRUE;
-	}
-
-	state->alpha_entry = glade_xml_get_widget (state->base.gui, "alpha-entry");
-	float_to_entry (GTK_ENTRY(state->alpha_entry), 0.05);
-	state->replication_entry = glade_xml_get_widget (state->base.gui, "replication-entry");
-	int_to_entry (GTK_ENTRY(state->replication_entry), 1);
-
-	g_signal_connect_after (G_OBJECT (state->alpha_entry),
-		"changed",
-		G_CALLBACK (anova_two_factor_tool_update_sensitivity_cb), state);
-	g_signal_connect_after (G_OBJECT (state->replication_entry),
-		"changed",
-		G_CALLBACK (anova_two_factor_tool_update_sensitivity_cb), state);
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
-				  GTK_WIDGET (state->alpha_entry));
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
-				  GTK_WIDGET (state->replication_entry));
-
-	gnumeric_keyed_dialog (state->base.wbcg, GTK_WINDOW (state->base.dialog),
-			       ANOVA_TWO_FACTOR_KEY);
-
-	anova_two_factor_tool_update_sensitivity_cb (NULL, state);
-
-	return FALSE;
-}
-
 /**
  * dialog_anova_two_factor_tool:
  * @wbcg:
@@ -3307,12 +2885,33 @@ dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->base.input_var1_str = NULL;
 	state->base.input_var2_str = NULL;
 
-	if (dialog_anova_two_factor_tool_init (state)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the ANOVA (two factor) tool dialog."));
-		g_free (state);
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+			      "anova.html#ANOVA-TWO-FACTOR-TOOL",
+			      "anova-two.glade", "ANOVA", NULL, NULL,
+			      _("Could not create the ANOVA (two factor) tool dialog."),
+			      ANOVA_TWO_FACTOR_KEY,
+			      G_CALLBACK (anova_two_factor_tool_ok_clicked_cb),
+			      G_CALLBACK (anova_two_factor_tool_update_sensitivity_cb),
+			      GNUM_EE_SINGLE_RANGE))
 		return 0;
-	}
+
+	state->alpha_entry = glade_xml_get_widget (state->base.gui, "alpha-entry");
+	float_to_entry (GTK_ENTRY(state->alpha_entry), 0.05);
+	state->replication_entry = glade_xml_get_widget (state->base.gui, "replication-entry");
+	int_to_entry (GTK_ENTRY(state->replication_entry), 1);
+
+	g_signal_connect_after (G_OBJECT (state->alpha_entry),
+		"changed",
+		G_CALLBACK (anova_two_factor_tool_update_sensitivity_cb), state);
+	g_signal_connect_after (G_OBJECT (state->replication_entry),
+		"changed",
+		G_CALLBACK (anova_two_factor_tool_update_sensitivity_cb), state);
+ 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+				  GTK_WIDGET (state->alpha_entry));
+ 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+				  GTK_WIDGET (state->replication_entry));
+
+	anova_two_factor_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, FALSE);
 
         return 0;

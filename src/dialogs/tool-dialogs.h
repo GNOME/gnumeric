@@ -34,14 +34,13 @@ typedef struct {
 	GtkWidget *cancel_button;
 	GtkWidget *apply_button;
 	GtkWidget *help_button;
-	const char *help_link;
-	char *input_var1_str;
-	char *input_var2_str;
+	char const *help_link;
+	char const *input_var1_str;
+	char const *input_var2_str;
 	GtkWidget *new_sheet;
 	GtkWidget *new_workbook;
 	GtkWidget *output_range;
 	Sheet	  *sheet;
-#warning warning warning THIS NEEDS TO BE INITIALIZED
 	SheetView *sv;
 	Workbook  *wb;
 	WorkbookControlGUI  *wbcg;
@@ -50,11 +49,22 @@ typedef struct {
 	GtkWidget *warning;
 } GenericToolState;
 
-void tool_load_selection (GenericToolState *state, gboolean allow_multiple);
+void     tool_load_selection (GenericToolState *state, gboolean allow_multiple);
 gboolean tool_destroy (GtkObject *w, GenericToolState  *state);
-void dialog_tool_init_buttons (GenericToolState *state, GCallback ok_function);
-void error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str);
-
-
+void     dialog_tool_init_buttons (GenericToolState *state, GCallback ok_function);
+void     error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str);
+gboolean dialog_tool_init (GenericToolState *state, 
+			   WorkbookControlGUI *wbcg,
+			   Sheet *sheet,
+			   char const *help_file,
+			   char const *gui_name,
+			   char const *dialog_name,
+			   char const *input_var1_str,
+			   char const *input_var2_str,
+			   char const *error_str,
+			   char const *key,
+			   GtkSignalFunc ok_function, 
+			   GtkSignalFunc sensitivity_cb,
+			   GnumericExprEntryFlags flags);
 
 #endif

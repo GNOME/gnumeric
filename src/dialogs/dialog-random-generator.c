@@ -443,7 +443,7 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
  * Create the dialog (guru).
  *
  **/
-static gboolean
+static void
 dialog_random_tool_init (RandomToolState *state)
 {
 	int   i, dist_str_no;
@@ -452,24 +452,8 @@ dialog_random_tool_init (RandomToolState *state)
 	GtkTable *table;
 	Range const *first;
 
-	state->base.gui = gnumeric_glade_xml_new (state->base.wbcg, "random-generation.glade");
-        if (state->base.gui == NULL)
-                return TRUE;
-
-	state->base.dialog = glade_xml_get_widget (state->base.gui, "Random");
-        if (state->base.dialog == NULL)
-                return TRUE;
-
-
-	state->base.accel = NULL;
 	state->distribution_accel = NULL;
 	state->distribution = DiscreteDistribution;
-
-	dialog_tool_init_buttons ((GenericToolState *)state,
-				  G_CALLBACK (random_tool_ok_clicked_cb) );
-
-	dialog_tool_init_outputs ((GenericToolState *)state,
-				  G_CALLBACK (random_tool_update_sensitivity_cb));
 
 	state->distribution_table = glade_xml_get_widget (state->base.gui, "distribution_table");
 	state->distribution_combo = glade_xml_get_widget (state->base.gui, "distribution_combo");
@@ -495,7 +479,7 @@ dialog_random_tool_init (RandomToolState *state)
 
 	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (state->distribution_combo)->entry),
 			   _(distribution_strs[dist_str_no].name));
-
+	
 	ds = distribution_strs_find (DiscreteDistribution);
 	(void) gtk_label_parse_uline (GTK_LABEL (state->par1_label), _(ds->label1));
 
@@ -531,9 +515,6 @@ dialog_random_tool_init (RandomToolState *state)
 
 	wbcg_edit_attach_guru (state->base.wbcg, state->base.dialog);
 	g_signal_connect (G_OBJECT (state->base.dialog),
-		"destroy",
-		G_CALLBACK (tool_destroy), state);
-	g_signal_connect (G_OBJECT (state->base.dialog),
 		"realize",
 		G_CALLBACK (dialog_random_realized), state);
 	g_signal_connect_after (G_OBJECT (state->vars_entry),
@@ -552,9 +533,6 @@ dialog_random_tool_init (RandomToolState *state)
 		"changed",
 		G_CALLBACK (random_tool_update_sensitivity_cb), state);
 
-	gnumeric_keyed_dialog (state->base.wbcg, GTK_WINDOW (state->base.dialog),
-			       RANDOM_KEY);
-
 	first = selection_first_range (state->base.sv, NULL, NULL);
 	if (first != NULL) {
 		gnm_expr_entry_load_from_range (state->base.output_entry,
@@ -567,7 +545,7 @@ dialog_random_tool_init (RandomToolState *state)
 
 	random_tool_update_sensitivity_cb (NULL, state);
 
-	return FALSE;
+	return;
 }
 
 
@@ -595,21 +573,19 @@ dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	}
 
 	state = g_new (RandomToolState, 1);
-	state->base.wbcg  = wbcg;
-	state->base.wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->base.sheet = sheet;
-	state->base.warning_dialog = NULL;
-	state->base.help_link = "random-number-generation-tool.html";
-	state->base.input_var1_str = NULL;
-	state->base.input_var2_str = NULL;
 
-	if (dialog_random_tool_init (state)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the Random Tool dialog."));
-		g_free (state);
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+			      "random-number-generation-tool.html",
+			      "random-generation.glade", "Random",
+			      NULL, NULL,
+			      _("Could not create the Random Tool dialog."),
+			      RANDOM_KEY,
+			      G_CALLBACK (random_tool_ok_clicked_cb),
+			      G_CALLBACK (random_tool_update_sensitivity_cb),
+			      0))
 		return 0;
-	}
 
+	dialog_random_tool_init (state);
 	gtk_widget_show (state->base.dialog);
 
         return 0;

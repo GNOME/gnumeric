@@ -266,92 +266,6 @@ advanced_filter_ok_clicked_cb (GtkWidget *button, AdvancedFilterState *state)
 }
 
 /**
- * dialog_histogram_tool_init:
- * @state:
- *
- * Create the dialog (guru).
- *
- **/
-static gboolean
-dialog_advanced_filter_init (AdvancedFilterState *state)
-{
-	GtkTable *table;
-	GtkWidget *widget;
-	gint key;
-
-	state->gui = gnumeric_glade_xml_new (state->wbcg, "advanced-filter.glade");
-        if (state->gui == NULL)
-                return TRUE;
-
-	state->dialog = glade_xml_get_widget (state->gui, "Filter");
-        if (state->dialog == NULL)
-                return TRUE;
-
-	state->accel = gtk_accel_group_new ();
-
-	dialog_tool_init_buttons ((GenericToolState *) state,
-				  GTK_SIGNAL_FUNC (advanced_filter_ok_clicked_cb));
-
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "input-table"));
-	state->input_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
-	gnm_expr_entry_set_flags (state->input_entry, 0, GNUM_EE_MASK);
-        gnm_expr_entry_set_scg (state->input_entry, wbcg_cur_scg (state->wbcg));
-	gtk_table_attach (table, GTK_WIDGET (state->input_entry),
-			  1, 2, 0, 1,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
-	g_signal_connect_after (GTK_OBJECT (state->input_entry), "changed",
-				  GTK_SIGNAL_FUNC (advanced_filter_update_sensitivity_cb),
-				  state);
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_WIDGET (state->input_entry));
-	widget = glade_xml_get_widget (state->gui, "var1-label");
-	key = gtk_label_parse_uline (GTK_LABEL (widget), state->input_var1_str);
-	if (key != GDK_VoidSymbol)
-		gtk_widget_add_accelerator (GTK_WIDGET (state->input_entry),
-					    "grab_focus",
-					    state->accel, key,
-					    GDK_MOD1_MASK, 0);
-	gtk_widget_show (GTK_WIDGET (state->input_entry));
-
-	state->input_entry_2 = gnumeric_expr_entry_new (state->wbcg, TRUE);
-	gnm_expr_entry_set_flags (state->input_entry_2, GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
-	gnm_expr_entry_set_scg (state->input_entry_2, wbcg_cur_scg (state->wbcg));
-	gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
-			  1, 2, 1, 2,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_WIDGET (state->input_entry_2));
-	g_signal_connect_after (GTK_OBJECT (state->input_entry_2), "changed",
-				  GTK_SIGNAL_FUNC (advanced_filter_update_sensitivity_cb),
-				  state);
-	widget = glade_xml_get_widget (state->gui, "var2-label");
-	key = gtk_label_parse_uline (GTK_LABEL (widget), state->input_var2_str);
-	if (key != GDK_VoidSymbol)
-		gtk_widget_add_accelerator (GTK_WIDGET (state->input_entry_2),
-					    "grab_focus",
-					    state->accel, key,
-					    GDK_MOD1_MASK, 0);
-	gtk_widget_show (GTK_WIDGET (state->input_entry_2));
-
-	state->warning = glade_xml_get_widget (state->gui, "warnings");
-
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (tool_destroy), state);
-
-	dialog_tool_init_outputs ((GenericToolState *) state, GTK_SIGNAL_FUNC
-				  (advanced_filter_update_sensitivity_cb));
-
-	gtk_window_add_accel_group (GTK_WINDOW (state->dialog),
-				    state->accel);
-
-	return FALSE;
-}
-
-/**
  * dialog_advanced_filter:
  * @wbcg:
  * @sheet:
@@ -374,23 +288,17 @@ dialog_advanced_filter (WorkbookControlGUI *wbcg)
 		return;
 
 	state = g_new (AdvancedFilterState, 1);
-	state->wbcg  = wbcg;
-	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->sheet = wb_control_cur_sheet (wbc);
-	state->warning_dialog = NULL;
-	state->help_link = "filters.html";
-	state->input_var1_str = _("_List Range:");
-	state->input_var2_str = _("Criteria _Range:");
 
-	if (dialog_advanced_filter_init (state)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the Advanced Filter dialog."));
-		g_free (state);
+	if (dialog_tool_init (state, wbcg, wb_control_cur_sheet (wbc),
+			      "filters.html",
+			      "advanced-filter.glade", "Filter",
+			      _("_List Range:"), _("Criteria _Range:"),
+			      _("Could not create the Advanced Filter dialog."),
+			      ADVANCED_FILTER_KEY,
+			      G_CALLBACK (advanced_filter_ok_clicked_cb),
+			      G_CALLBACK (advanced_filter_update_sensitivity_cb),
+			      0))
 		return;
-	}
-
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
-			       ADVANCED_FILTER_KEY);
 
 	advanced_filter_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
