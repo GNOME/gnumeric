@@ -14,9 +14,6 @@ struct _RenderedValue {
 	/* Text rendered and displayed */
 	String      *rendered_text;
 
-	/* Colour supplied by the formater eg [Red]0.00 */
-	StyleColor  *render_color;
-
 	/* Not yet used.  */
 	PangoLayout *layout;
 

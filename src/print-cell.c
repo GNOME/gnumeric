@@ -222,7 +222,7 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	int num_lines = 0;
 	double line_offset [3]; /* There are up to 3 lines, double underlined strikethroughs */
 	char const *text;
-	StyleColor *fore;
+	const PangoColor *fore;
 	double cell_width_pts, indent = 0.;
 
 	/* Don't print zeros if they should be ignored. */
@@ -235,14 +235,12 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	    cell->rendered_value->rendered_text->str == NULL) {
 		g_warning ("Serious cell error at '%s'", cell_name (cell));
 		/* This can occur when eg. a plugin function fires up a dialog */
-		text = "Pending";
-		fore = NULL;
-	} else {
-		text = cell->rendered_value->rendered_text->str;
-		fore = cell->rendered_value->render_color;
+		return;
 	}
-	if (fore == NULL)
-		fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
+
+	text = cell->rendered_value->rendered_text->str;
+	fore = cell_get_render_color (cell);
+	g_return_if_fail (fore != NULL); /* Be extra careful */
 
 	/* Get the sizes exclusive of margins and grids */
 	/* FIXME : all callers will eventually pass in their cell size */
@@ -309,7 +307,6 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	gnome_print_clip (context);
 
 	/* Set the font colour */
-	g_return_if_fail (fore != NULL); /* Be extra careful */
 	gnome_print_setrgbcolor (context,
 				 fore->red   / (double) 0xffff,
 				 fore->green / (double) 0xffff,
@@ -374,7 +371,7 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 			break;
 
 		default:
-			g_warning ("Single-line justitfication style not supported.");
+			g_warning ("Single-line justification style not supported.");
 			x = rect_x;
 			break;
 		}

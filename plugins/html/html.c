@@ -122,17 +122,14 @@ html_print_encoded (GsfOutput *output, char *str)
 static void
 html_get_text_color (Cell *cell, MStyle *mstyle, guint *r, guint *g, guint *b)
 {
-	StyleColor *textColor;
+	const PangoColor *fore = cell_get_render_color (cell);
 
-	textColor = cell_get_render_color (cell);
-	if (textColor == NULL && mstyle_is_element_set (mstyle, MSTYLE_COLOR_FORE))
-		textColor = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
-	if (textColor == NULL)
+	if (fore == NULL)
 		*r = *g = *b = 0;
 	else {
-		*r = textColor->color.red >> 8;
-		*g = textColor->color.green >> 8;
-		*b = textColor->color.blue >> 8;
+		*r = fore->red >> 8;
+		*g = fore->green >> 8;
+		*b = fore->blue >> 8;
 	}
 }
 static void

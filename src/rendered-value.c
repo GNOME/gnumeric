@@ -145,12 +145,14 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 
 	res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
 	res->rendered_text = string_get_nocopy (str);
-	res->render_color = color;
 	res->width_pixel = res->height_pixel = res->offset_pixel = 0;
 	res->dynamic_width = dynamic_width;
 
 	res->layout = NULL;
 	res->attrs = mstyle_get_pango_attrs (mstyle, color);
+
+	if (color)
+		style_color_unref (color);
 
 	return res;
 }
@@ -161,11 +163,6 @@ rendered_value_destroy (RenderedValue *rv)
 	if (rv->rendered_text) {
 		string_unref (rv->rendered_text);
 		rv->rendered_text = NULL;
-	}
-
-	if (rv->render_color) {
-		style_color_unref (rv->render_color);
-		rv->render_color = NULL;
 	}
 
 	if (rv->attrs) {
@@ -342,19 +339,32 @@ cell_get_rendered_text (Cell const *cell)
  * cell_get_render_color:
  * @cell: the cell from which we want to pull the color from
  *
- * the returned value is a pointer to the StyleColor.
- * no reference has been added!
+ * The returned value is a pointer to a PangoColor describing
+ * the foreground colour.
  */
-StyleColor  *
+const PangoColor *
 cell_get_render_color (Cell const *cell)
 {
+	PangoAttrList *attrs;
+	PangoAttrIterator *it;
+	PangoAttribute *attr;
+
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	/* A precursor to just in time rendering Ick! */
 	if (cell->rendered_value == NULL)
 		cell_render_value ((Cell *)cell, TRUE);
 
-	return cell->rendered_value->render_color;
+	attrs = cell->rendered_value->attrs;
+	g_return_val_if_fail (attrs != NULL, NULL);
+
+	it = pango_attr_list_get_iterator (attrs);
+	attr = pango_attr_iterator_get (it, PANGO_ATTR_FOREGROUND);
+	pango_attr_iterator_destroy (it);
+	if (!attr)
+		return NULL;
+
+	return &((PangoAttrColor *)attr)->color;
 }
 
 /**

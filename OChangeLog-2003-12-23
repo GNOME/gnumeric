@@ -1,3 +1,16 @@
+2003-01-14  Morten Welinder  <terra@diku.dk>
+
+	* src/rendered-value.h: Delete render_color member.
+
+	* src/rendered-value.c (cell_get_render_color): Change to return a
+	PangoColor pointer that includes any explicit foreground colour.
+	All callers changed.
+	(rendered_value_new): Don't store render_color.
+	(rendered_value_destroy): Don't release render_color.
+
+	* src/print-cell.c (print_cell): Use cell_get_render_color (for
+	now).
+
 2003-01-13  Morten Welinder  <terra@diku.dk>
 
 	* src/rendered-value.c (rendered_value_new): Create a matching

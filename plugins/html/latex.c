@@ -528,7 +528,6 @@ latex2e_write_multicolumn_cell (GsfOutput *output, Cell const *cell, int num_mer
 				StyleBorderType *borders, Sheet *sheet)
 {
 	char * rendered_string;
-	StyleColor *textColor;
 	gushort r,g,b;
 	gboolean wrap = FALSE;
 	FormatCharacteristics cell_format_characteristic;
@@ -666,15 +665,13 @@ latex2e_write_multicolumn_cell (GsfOutput *output, Cell const *cell, int num_mer
 
 	if (!cell_is_blank (cell)) {
                 /* Check the foreground (text) colour. */
-		textColor = cell_get_render_color (cell);
-		if (textColor == NULL && mstyle_is_element_set (mstyle, MSTYLE_COLOR_FORE))
-			textColor = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
-		if (textColor == NULL)
+		const PangoColor *fore = cell_get_render_color (cell);
+		if (fore == NULL)
 			r = g = b = 0;
 		else {
-			r = textColor->red;
-			g = textColor->green;
-			b = textColor->blue;
+			r = fore->red;
+			g = fore->green;
+			b = fore->blue;
 		}
 		if (r != 0 || g != 0 || b != 0) {
 			char *locale;
