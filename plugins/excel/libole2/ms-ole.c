@@ -123,28 +123,28 @@ write_wrap (int fd, const void *buf, size_t count)
 }
 
 static off_t
-lseek_wrap (int fildes, off_t offset, int whence)
+lseek_wrap (int fd, off_t offset, int whence)
 {
-	return lseek (fildes, offset, whence);
+	return lseek (fd, offset, whence);
 }
 
 static int
-isregfile_wrap (int fildes)
+isregfile_wrap (int fd)
 {
 	struct stat st;
 
-	if (fstat (fildes, &st))
+	if (fstat (fd, &st))
 		return 0;
 
 	return S_ISREG(st.st_mode);
 }
 
 static int
-getfilesize_wrap (int fildes, guint32 *size)
+getfilesize_wrap (int fd, guint32 *size)
 {
 	struct stat st;
 
-	if (fstat (fildes, &st))
+	if (fstat (fd, &st))
 		return -1;
 
 	*size = st.st_size;
@@ -1503,13 +1503,13 @@ ms_ole_open_vfs (MsOle **f, const char *name, gboolean try_mmap,
 		g_free (*f) ;
 		return MS_OLE_ERR_EXIST;
 	}
-	if ((*f)->syswrap->getfilesize(file, &((*f)->length))) {
+	if ((*f)->syswrap->getfilesize( file, &((*f)->length) )) {
 		printf ("Couldn't get the size of file '%s'\n", name);
 		(*f)->syswrap->close (file) ;
 		g_free (*f) ;
 		return MS_OLE_ERR_EXIST;
 	}
-	if ((*f)->length<=0x4c) { /* Bad show */
+	if ((*f)->length <= 0x4c) { /* Bad show */
 #if OLE_DEBUG > 0
 		printf ("File '%s' too short\n", name);
 #endif
@@ -1771,7 +1771,7 @@ ms_ole_destroy (MsOle **ptr)
  * @ptr: memory area to be dumped.
  * @len: how many bytes will be dumped.
  * 
- * Dump @len bytes from the memory area @ptr.
+ * Dump @len bytes from the memory location given by @ptr.
  **/
 void
 ms_ole_dump (guint8 const *ptr, guint32 len)
@@ -1940,11 +1940,12 @@ free_allocation (MsOle *f, guint32 startblock, gboolean is_big_block_stream)
  * 
  * Set the stream pointer for @s as many as @bytes bytes according to @type.
  * 
- * Return value: 
+ * Return value: the new position of the stream pointer.
  **/
 static MsOleSPos
 ms_ole_lseek (MsOleStream *s, MsOleSPos bytes, MsOleSeek type)
 {
+	/* FIXME tenix improve limits detection: avoid gint vs guint limits */
 	MsOleSPos newpos;
 
 	g_return_val_if_fail (s, -1);
@@ -2471,11 +2472,11 @@ find_in_pps (GList *l, const char *name)
  * @f:    ole file hande.
  * @path: path to find.
  * @file: file to find in path.
- * @create_if_not_found: :-).
+ * @create_if_not_found: create the pps with the given path if not found.
  * 
  * Locates a stream or storage with the given path.
  * 
- * Return value: a MsOleErr code.
+ * Return value: a #MsOleErr code.
  **/
 static MsOleErr
 path_to_pps (PPS **pps, MsOle *f, const char *path,
@@ -2566,6 +2567,8 @@ MsOleErr
 ms_ole_unlink (MsOle *f, const char *path)
 {
 	g_warning ("Unimplemented");
+
+	/* FIXME missing implementation, or at least a better error code =-) */
 	return MS_OLE_ERR_NOTEMPTY;
 }
 
@@ -2578,7 +2581,7 @@ ms_ole_unlink (MsOle *f, const char *path)
  *
  * Gets the names of the streams and directories in the directory @dirpath.
  *
- * Returns: a MsOleErr code.
+ * Returns: a #MsOleErr code.
  **/
 MsOleErr
 ms_ole_directory (char ***names, MsOle *f, const char *path)
@@ -2629,7 +2632,7 @@ ms_ole_directory (char ***names, MsOle *f, const char *path)
  * Gets information about the stream or the directory which is in the directory
  * @dirpath and its name is @file.
  *
- * Returns: a MsOleErr code.
+ * Returns: a #MsOleErr code.
  **/
 MsOleErr
 ms_ole_stat (MsOleStat *stat, MsOle *f, const char *path,
@@ -2822,7 +2825,7 @@ ms_ole_stream_open (MsOleStream ** const stream, MsOle *f,
  * 
  * Duplicates the stream object @stream.
  * 
- * Return value: a MsOleErr code.
+ * Return value: a #MsOleErr code.
  **/
 MsOleErr
 ms_ole_stream_duplicate (MsOleStream **s, const MsOleStream * const stream)

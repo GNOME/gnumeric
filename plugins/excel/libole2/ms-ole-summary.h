@@ -8,16 +8,19 @@
  * Built on work by:
  *    Somar Software's CPPSUM (http://www.somar.com)
  **/
-#include <time.h>
 
 #ifndef MS_OLE_SUMMARY_H
 #define MS_OLE_SUMMARY_H
 
+
+#include <time.h>
+
+
 /*
- *  MS Ole Property Set IDs
- *  The SummaryInformation stream contains the SummaryInformation property set.
- *  The DocumentSummaryInformation stream contains both the DocumentSummaryInformation
- *  and the UserDefined property sets as sections.
+ * MS Ole Property Set IDs
+ * The SummaryInformation stream contains the SummaryInformation property set.
+ * The DocumentSummaryInformation stream contains both the
+ * DocumentSummaryInformation and the UserDefined property sets as sections.
  */
 typedef enum {
 	MS_OLE_PS_SUMMARY_INFO,
@@ -26,33 +29,33 @@ typedef enum {
 } MsOlePropertySetID;
 
 typedef struct {
-	guint8              class_id[16];
-	GArray         	   *sections;
-	GArray         	   *items;
-	GList          	   *write_items;
-	gboolean       	    read_mode;
-	MsOleStream    	   *s;
-	MsOlePropertySetID  ps_id;
+	guint8			class_id[16];
+	GArray *		sections;
+	GArray *		items;
+	GList *			write_items;
+	gboolean		read_mode;
+	MsOleStream *		s;
+	MsOlePropertySetID	ps_id;
 } MsOleSummary;
 
+/* Could store the FID, but why bother ? */
 typedef struct {
-	/* Could store the FID, but why bother ? */
-	guint32             offset;
-	guint32             props;
-	guint32             bytes;
-	MsOlePropertySetID  ps_id;
+	guint32			offset;
+	guint32			props;
+	guint32			bytes;
+	MsOlePropertySetID	ps_id;
 } MsOleSummarySection;
 
-MsOleSummary *  ms_ole_summary_open            (MsOle *f);
-MsOleSummary *  ms_ole_docsummary_open         (MsOle *f);
-MsOleSummary *  ms_ole_summary_open_stream     (MsOleStream *s,
-                                                const MsOlePropertySetID psid);
-MsOleSummary *  ms_ole_summary_create          (MsOle *f);
-MsOleSummary *  ms_ole_docsummary_create       (MsOle *f);
-MsOleSummary *  ms_ole_summary_create_stream   (MsOleStream *s,
-                                                const MsOlePropertySetID psid);
-GArray       *  ms_ole_summary_get_properties  (MsOleSummary *si);
-void            ms_ole_summary_close           (MsOleSummary *si);
+MsOleSummary *	ms_ole_summary_open		(MsOle *f);
+MsOleSummary *	ms_ole_docsummary_open		(MsOle *f);
+MsOleSummary *	ms_ole_summary_open_stream	(MsOleStream *stream,
+						 const MsOlePropertySetID psid);
+MsOleSummary *	ms_ole_summary_create		(MsOle *f);
+MsOleSummary *	ms_ole_docsummary_create	(MsOle *f);
+MsOleSummary *	ms_ole_summary_create_stream	(MsOleStream *s,
+						 const MsOlePropertySetID psid);
+GArray *	ms_ole_summary_get_properties	(MsOleSummary *si);
+void		ms_ole_summary_close		(MsOleSummary *si);
 
 
 /*
@@ -69,6 +72,7 @@ typedef enum {
 
 #define MS_OLE_SUMMARY_TYPE(x) ((MsOleSummaryType)((x)>>8))
 
+/* FIXME MS_OLE_SUMMARY_THUMBNAIL is Preview, no Security, isn't it? */
 /*
  *  The MS byte specifies the type, the LS byte is the
  * 'standard' MS PID.
@@ -101,7 +105,6 @@ typedef enum {
 /* Short integer properties */
 	MS_OLE_SUMMARY_CODEPAGE       = 0x4001,
 
-/* FIXME tenix it is Preview, isn't it? */
 /* Security */	
 	MS_OLE_SUMMARY_THUMBNAIL      = 0x6011,
 
@@ -145,54 +148,49 @@ typedef struct {
 	guint8 *data;
 } MsOleSummaryPreview;
 
-gchar *              ms_ole_summary_get_string       (MsOleSummary *si,
-                                                      MsOleSummaryPID id,
-                                                      gboolean *available);
-gboolean             ms_ole_summary_get_boolean      (MsOleSummary *si,
-                                                      MsOleSummaryPID id,
-                                                      gboolean *available);
-guint16              ms_ole_summary_get_short        (MsOleSummary *si,
-                                                      MsOleSummaryPID id,
-                                                      gboolean *available);
-guint32              ms_ole_summary_get_long         (MsOleSummary *si,
-                                                      MsOleSummaryPID id,
-                                                      gboolean *available);
-GTimeVal             ms_ole_summary_get_time         (MsOleSummary *si,
-                                                      MsOleSummaryPID id,
-                                                      gboolean *available);
-MsOleSummaryPreview  ms_ole_summary_get_preview      (MsOleSummary *si,
-                                                      MsOleSummaryPID id,
-                                                      gboolean *available);
-void                 ms_ole_summary_preview_destroy  (MsOleSummaryPreview d);
+gchar *			ms_ole_summary_get_string	(MsOleSummary *si,
+							 MsOleSummaryPID id,
+							 gboolean *available);
+gboolean		ms_ole_summary_get_boolean	(MsOleSummary *si,
+							 MsOleSummaryPID id,
+							 gboolean *available);
+guint16			ms_ole_summary_get_short	(MsOleSummary *si,
+							 MsOleSummaryPID id,
+							 gboolean *available);
+guint32			ms_ole_summary_get_long		(MsOleSummary *si,
+							 MsOleSummaryPID id,
+							 gboolean *available);
+GTimeVal		ms_ole_summary_get_time		(MsOleSummary *si,
+							 MsOleSummaryPID id,
+							 gboolean *available);
+MsOleSummaryPreview	ms_ole_summary_get_preview	(MsOleSummary *si,
+							 MsOleSummaryPID id,
+							 gboolean *available);
+void			ms_ole_summary_preview_destroy	(MsOleSummaryPreview d);
 
-/* FIXME: The next comment isn't true, is it?
+/* FIXME The next comment isn't true, is it?
    Return TRUE if write is successful */
-void                 ms_ole_summary_set_string   (MsOleSummary *si,
-                                                  MsOleSummaryPID id,
-                                                  const gchar *str);
-void                 ms_ole_summary_set_boolean  (MsOleSummary *si,
-                                                  MsOleSummaryPID id,
-                                                  gboolean bool);
-void                 ms_ole_summary_set_short    (MsOleSummary *si,
-                                                  MsOleSummaryPID id,
-                                                  guint16 i);
-void                 ms_ole_summary_set_long     (MsOleSummary *si,
-                                                  MsOleSummaryPID id,
-                                                  guint32 i);
-void                 ms_ole_summary_set_time     (MsOleSummary *si,
-                                                  MsOleSummaryPID id,
-                                                  GTimeVal time);
-void                 ms_ole_summary_set_preview  (MsOleSummary *si,
-                                                  MsOleSummaryPID id,
-                                                  const MsOleSummaryPreview *
-                                                        preview);
+void			ms_ole_summary_set_string	(MsOleSummary *si,
+							 MsOleSummaryPID id,
+							 const gchar *str);
+void			ms_ole_summary_set_boolean	(MsOleSummary *si,
+							 MsOleSummaryPID id,
+							 gboolean bool);
+void			ms_ole_summary_set_short	(MsOleSummary *si,
+							 MsOleSummaryPID id,
+							 guint16 i);
+void			ms_ole_summary_set_long		(MsOleSummary *si,
+							 MsOleSummaryPID id,
+							 guint32 i);
+void			ms_ole_summary_set_time		(MsOleSummary *si,
+							 MsOleSummaryPID id,
+							 GTimeVal time);
+void			ms_ole_summary_set_preview	(MsOleSummary *si,
+							 MsOleSummaryPID id,
+							 const
+							 MsOleSummaryPreview *
+							 preview);
 
 
-glong                filetime_to_unixtime        (guint32 low_time,
-                                                  guint32 high_time);
-void                 unixtime_to_filetime        (time_t unix_time,
-                                                  unsigned int *time_high,
-                                                  unsigned int *time_low);
-
-#endif
+#endif	/* MS_OLE_SUMMARY_H */
 

@@ -1,5 +1,13 @@
 1999-12-17  Arturo Tena  <arturo@directmail.org>
 
+	* ms-ole-summary.c, ms-ole-summary.h (filetime_to_unixtime,
+	  unixtime_to_filetime): made private. May be a
+	  ms-ole-summary-private.h file is better.
+	* ms-ole-summary.h: clean up.
+	* ms-ole.c, ms-ole.h: more documentation.
+
+1999-12-17  Arturo Tena  <arturo@directmail.org>
+
 	* ms-ole.c, ms-ole.h (BLP): made private.
 	* ms-ole.c (define MS_OLE_H_IMPLEMENTATION): deleted, not used.
 	  (ms_ole_read_ptr_bb, ms_ole_read_ptr_sb): fixed error return value.

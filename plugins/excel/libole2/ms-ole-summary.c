@@ -16,6 +16,7 @@
 #include "ms-ole.h"
 #include "ms-ole-summary.h"
 
+
 #define SUMMARY_ID(x) ((x) & 0xff)
 
 typedef struct {
@@ -786,6 +787,7 @@ ms_ole_summary_get_long (MsOleSummary *si, MsOleSummaryPID id,
  * 
  * Return value: FIXME
  **/
+glong filetime_to_unixtime (guint32 low_time, guint32 high_time);
 glong
 filetime_to_unixtime (guint32 low_time, guint32 high_time)
 {
@@ -864,6 +866,8 @@ filetime_to_unixtime (guint32 low_time, guint32 high_time)
  * since January 1, 1601. unixtime is the number of seconds since January 1,
  * 1970.
  **/
+void unixtime_to_filetime (time_t unix_time, unsigned int *time_high,
+			   unsigned int *time_low);
 void
 unixtime_to_filetime (time_t unix_time, unsigned int *time_high, unsigned int *time_low)
 {

@@ -38,9 +38,9 @@ struct _MsOleSysWrappers {
 	ssize_t (*read)		(int fd, void *buf, size_t count);
 	int     (*close)	(int fd);
 	ssize_t (*write)	(int fd, const void *buf, size_t count);
-	off_t   (*lseek)	(int fildes, off_t offset, int whence);
-	int     (*isregfile)	(int fildes);
-	int     (*getfilesize)	(int fildes, guint32 *size);
+	off_t   (*lseek)	(int fd, off_t offset, int whence);
+	int     (*isregfile)	(int fd);
+	int     (*getfilesize)	(int fd, guint32 *size);
 };
 
 typedef enum {
@@ -76,10 +76,11 @@ typedef enum  {
 	MsOleRootT    = 5
 } MsOleType;
 
-typedef struct {
+typedef struct _MsOleStat MsOleStat;
+struct _MsOleStat {
 	MsOleType type;
-	MsOlePos  size;	/* Valid only for streams */
-} MsOleStat;
+	MsOlePos  size;
+};
 
 #define ms_ole_open(fs,path)     ms_ole_open_vfs ((fs), (path), TRUE, NULL)
 extern MsOleErr		ms_ole_open_vfs		(MsOle **fs,
@@ -146,7 +147,7 @@ struct _MsOleStream
 					   Points to the next byte to read */
 };
 
-#define MS_OLE_GET_GUINT8(p)  (*((const guint8 *)(p)+0))
+#define MS_OLE_GET_GUINT8(p)  (*((const guint8 *)(p) + 0))
 #define MS_OLE_GET_GUINT16(p) (guint16)(*((const guint8 *)(p)+0) |        \
 					(*((const guint8 *)(p)+1)<<8))
 #define MS_OLE_GET_GUINT32(p) (guint32)(*((const guint8 *)(p)+0) |        \
@@ -156,7 +157,7 @@ struct _MsOleStream
 #define MS_OLE_GET_GUINT64(p) (MS_OLE_GET_GUINT32(p) | \
 			       (((guint32)MS_OLE_GET_GUINT32((const guint8 *)(p)+4))<<32))
 
-#define MS_OLE_SET_GUINT8(p,n)  (*((guint8 *)(p)+0)=n)
+#define MS_OLE_SET_GUINT8(p,n)  (*((guint8 *)(p) + 0) = n)
 #define MS_OLE_SET_GUINT16(p,n) ((*((guint8 *)(p)+0)=((n)&0xff)),         \
 				 (*((guint8 *)(p)+1)=((n)>>8)&0xff))
 #define MS_OLE_SET_GUINT32(p,n) ((*((guint8 *)(p)+0)=((n))&0xff),         \
