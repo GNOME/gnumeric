@@ -84,7 +84,8 @@ Sheet:
 
 Workbook:
 	Methods:
-	- get_sheets
+	- sheets
+	- sheet_add ([name, insert_after_position])
 
 GnumericFunc:
 	call
@@ -109,6 +110,8 @@ Module Gnumeric:
 	- MStyle   (creates MStyle object with default style, uses mstyle_new_default())
 	- CellPos  (creates CellPos object)
 	- Range    (creates Range Object)
+	- workbooks
+	- workbook_add
 
 */
 
@@ -1539,15 +1542,6 @@ struct _py_Workbook_object {
 	Workbook *wb;
 };
 
-static PyObject *
-py_Workbook_get_sheets_method (py_Workbook_object *self, PyObject *args);
-
-static struct PyMethodDef py_Workbook_object_methods[] = {
-	{(char *) "get_sheets", (PyCFunction) py_Workbook_get_sheets_method,
-	 METH_VARARGS},
-	{NULL, NULL}
-};
-
 Workbook *
 py_Workbook_as_Workbook (py_Workbook_object *self)
 {
@@ -1555,13 +1549,13 @@ py_Workbook_as_Workbook (py_Workbook_object *self)
 }
 
 static PyObject *
-py_Workbook_get_sheets_method (py_Workbook_object *self, PyObject *args)
+py_Workbook_sheets (py_Workbook_object *self, PyObject *args)
 {
 	GList *sheets, *l;
 	gint i;
 	PyObject *py_sheets;
 
-	if (!PyArg_ParseTuple (args, (char *) ":get_sheets")) {
+	if (!PyArg_ParseTuple (args, (char *) ":sheets")) {
 		return NULL;
 	}
 
@@ -1583,9 +1577,35 @@ py_Workbook_get_sheets_method (py_Workbook_object *self, PyObject *args)
 }
 
 static PyObject *
+py_Workbook_sheet_add (py_Workbook_object *self, PyObject *args)
+{
+	Sheet *sheet = NULL;
+	char *name = NULL;
+	int   insert_before = -1;
+
+	if (!PyArg_ParseTuple (args, (char *) "|zi:add_sheet"))
+		return NULL;
+
+	if (insert_before >= 0)
+		sheet = workbook_sheet_by_index (self->wb, insert_before);
+	sheet = workbook_sheet_add (self->wb, sheet, TRUE);
+	if (sheet != NULL && name != NULL)
+		sheet_rename (sheet, name);
+	return py_new_Sheet_object (sheet);
+}
+
+static PyObject *
 py_Workbook_object_getattr (py_Workbook_object *self, gchar *name)
 {
-	return Py_FindMethod (py_Workbook_object_methods, (PyObject *) self, name);
+	static struct PyMethodDef methods [] = {
+		{ (char *) "sheets",	(PyCFunction) py_Workbook_sheets,
+		 METH_VARARGS},
+		{ (char *) "sheet_add",	(PyCFunction) py_Workbook_sheet_add,
+		 METH_VARARGS},
+
+		{NULL, NULL}
+	};
+	return Py_FindMethod (methods, (PyObject *) self, name);
 }
 
 static void
@@ -1993,15 +2013,14 @@ py_gnumeric_MStyle_method (PyObject *self, PyObject *args)
 }
 
 static PyObject *
-py_gnumeric_Workbooks_method (PyObject *self, PyObject *args)
+py_gnumeric_workbooks_method (PyObject *self, PyObject *args)
 {
 	GList *workbooks, *l;
 	int len, i;
 	PyObject *result;
 
-	if (!PyArg_ParseTuple (args, (char *) ":Workbooks")) {
+	if (!PyArg_ParseTuple (args, (char *) ":workbooks"))
 		return NULL;
-	}
 
 	workbooks = application_workbook_list ();
 	len = g_list_length (workbooks);
@@ -2018,7 +2037,7 @@ static PyMethodDef GnumericMethods[] = {
 	{ (char *) "CellPos", py_gnumeric_CellPos_method, METH_VARARGS },
 	{ (char *) "Range",   py_gnumeric_Range_method,   METH_VARARGS },
 	{ (char *) "MStyle",  py_gnumeric_MStyle_method,  METH_VARARGS },
- 	{ (char *) "Workbooks", py_gnumeric_Workbooks_method, METH_VARARGS },
+ 	{ (char *) "workbooks", py_gnumeric_workbooks_method, METH_VARARGS },
 	{ NULL, NULL },
 };
 
