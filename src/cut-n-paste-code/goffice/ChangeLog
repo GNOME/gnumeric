@@ -1,3 +1,8 @@
+2004-08-26  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-plot-engine.c (gog_plot_new_by_name): Handle inactive
+	plugins.
+
 2004-08-25  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-axis.c (gog_axis_view_render) : don't leak an axis map for

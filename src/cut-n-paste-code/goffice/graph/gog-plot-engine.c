@@ -74,9 +74,14 @@ gog_plot_new_by_name (char const *id)
 
 	if (type == 0) {
 		ErrorInfo *err = NULL;
-		GnmPluginService *service = g_hash_table_lookup (pending_engines, id);
+		GnmPluginService *service =
+			pending_engines
+			? g_hash_table_lookup (pending_engines, id)
+			: NULL;
 
-		g_return_val_if_fail (service != NULL, NULL);
+		if (!service || !service->is_active)
+			return NULL;
+
 		g_return_val_if_fail (!service->is_loaded, NULL);
 
 		plugin_service_load (service, &err);
@@ -86,9 +91,9 @@ gog_plot_new_by_name (char const *id)
 			error_info_print (err);
 			error_info_free	(err);
 		}
-	}
 
-	g_return_val_if_fail (type != 0, NULL);
+		g_return_val_if_fail (type != 0, NULL);
+	}
 
 	return g_object_new (type, NULL);
 }
@@ -189,7 +194,7 @@ cb_pending_plot_types_load (char const *path,
 }
 
 static void
-pending_plot_types_load ()
+pending_plot_types_load (void)
 {
 	if (pending_plot_type_files != NULL) {
 		GHashTable *tmp = pending_plot_type_files;
