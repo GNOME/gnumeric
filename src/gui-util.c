@@ -45,8 +45,7 @@ gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
 		message);
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog),
 		default_answer ? GTK_RESPONSE_YES : GTK_RESPONSE_NO);
-
-	return gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
+	return gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
 }
 /*
  * TODO:

@@ -38,6 +38,7 @@ typedef struct {
 	gint plugin_list_page_no, plugin_details_page_no;
 	GtkListStore  *model_plugins;
 	GtkTreeView   *list_plugins;
+	GtkTreeSelection   *selection;
 	GtkButton *button_activate_plugin, *button_deactivate_plugin,
 	          *button_activate_all, *button_deactivate_all,
 	          *button_install_plugin;
@@ -114,7 +115,8 @@ cb_pm_button_activate_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_gu
 
 			msg = g_strdup_printf (
 			      _("This plugin depends on loader of type \"%s\".\n"
-			        "Do you want to activate appropriate plugin together with this one?\n"
+			        "Do you want to activate appropriate plugin "
+				"together with this one?\n"
 			        "(otherwise, plugin won't be loaded)"),
 			       loader_type_str);
 			want_loader = gnumeric_dialog_question_yes_no (pm_gui->wbcg, msg, TRUE);
@@ -273,6 +275,10 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 	free_plugin_id (pm_gui->current_plugin_id);
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
 		pm_gui->current_plugin_id = NULL;
+		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), 
+					  FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin), 
+					  FALSE);
 	} else {
 		gboolean is_marked, is_active;
 
@@ -327,7 +333,7 @@ plugin_compare_name (gconstpointer a, gconstpointer b)
 {
 	PluginInfo *plugin_a = (PluginInfo *) a, *plugin_b = (PluginInfo *) b;
 
-	return strcoll (plugin_info_peek_name (plugin_a),
+	return - strcoll (plugin_info_peek_name (plugin_a),
 	                plugin_info_peek_name (plugin_b));
 }
 
@@ -335,9 +341,14 @@ static void
 update_plugin_manager_view (PluginManagerGUI *pm_gui)
 {
 	GList *sorted_plugin_list, *l;
-	gint n_active_plugins, n_inactive_plugins;
-	GtkTreeIter iter;
+	gint n_active_plugins, n_inactive_plugins, n_plugins;
+	GtkTreeIter iter, *select_iter = NULL;
 	plugin_state_t status;
+	gchar *id;
+	gchar *last_selected_plugin;
+
+	last_selected_plugin = (pm_gui->current_plugin_id != NULL) ? 
+		g_strdup (pm_gui->current_plugin_id) : NULL;
 
 	gtk_list_store_clear (pm_gui->model_plugins);
 
@@ -350,7 +361,7 @@ update_plugin_manager_view (PluginManagerGUI *pm_gui)
 	for (l = sorted_plugin_list; l != NULL; l = l->next) {
 		PluginInfo *pinfo = (PluginInfo *) l->data;
 
-		gtk_list_store_append (pm_gui->model_plugins, &iter);
+		gtk_list_store_prepend (pm_gui->model_plugins, &iter);
 
 		if (plugin_info_is_active (pinfo)) {
 			gboolean is_in_mem, is_marked;
@@ -371,24 +382,42 @@ update_plugin_manager_view (PluginManagerGUI *pm_gui)
 			n_inactive_plugins++;
 			status = PLUGIN_STATE_INACTIVE;
 		}
+		id = plugin_info_get_id (pinfo);
 		gtk_list_store_set (pm_gui->model_plugins, &iter,
 				    PLUGIN_NAME,  plugin_info_peek_name (pinfo),
 				    PLUGIN_STATE_STR, _(activity_description[status]),
 				    PLUGIN_STATE, status,
-				    PLUGIN_ID, plugin_info_get_id (pinfo),
+				    PLUGIN_ID, g_strdup (id),
 				    PLUGIN_POINTER, NULL,
 				    -1);
+		if (last_selected_plugin != NULL && select_iter == NULL) {
+			if (strcoll (id, last_selected_plugin) == 0) {
+				select_iter = gtk_tree_iter_copy(&iter);
+			fprintf (stderr, "found_it\n" );
+			}
+		}
 	}
+	n_plugins = n_active_plugins + n_inactive_plugins;
 
 	g_list_free (sorted_plugin_list);
 
-	g_free (pm_gui->current_plugin_id);
+	free_plugin_id (pm_gui->current_plugin_id);
 	pm_gui->current_plugin_id = NULL;
-	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), FALSE);
-	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin), FALSE);
-	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_all), n_inactive_plugins > 0);
-	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_all), n_active_plugins > 0);
-	update_plugin_details_view (pm_gui);
+	if (last_selected_plugin != NULL)
+		g_free (last_selected_plugin);
+
+	if (n_plugins > 0) {
+		if (select_iter == NULL)
+			select_iter = gtk_tree_iter_copy(&iter);
+		gtk_tree_selection_select_iter (pm_gui->selection, select_iter);
+		gtk_tree_iter_free (select_iter);
+	}
+
+	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_all), 
+				  n_inactive_plugins > 0);
+	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_all), 
+				  n_active_plugins > 0);
+	cb_pm_selection_changed (pm_gui->selection, pm_gui);
 }
 
 static void
@@ -445,7 +474,6 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	GtkWidget *page_plugin_list, *page_plugin_details;
 	GtkWidget *scrolled;
 	GtkTreeViewColumn *column;
-	GtkTreeSelection  *selection;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -495,9 +523,9 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 						    G_TYPE_STRING, G_TYPE_POINTER);
 	pm_gui->list_plugins = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (pm_gui->model_plugins)));
-	selection = gtk_tree_view_get_selection (pm_gui->list_plugins);
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
-	g_signal_connect (selection, "changed",
+	pm_gui->selection = gtk_tree_view_get_selection (pm_gui->list_plugins);
+	gtk_tree_selection_set_mode (pm_gui->selection, GTK_SELECTION_BROWSE);
+	g_signal_connect (pm_gui->selection, "changed",
 			  G_CALLBACK (cb_pm_selection_changed), pm_gui);
 	column = gtk_tree_view_column_new_with_attributes ("State",
 							   gtk_cell_renderer_text_new (),
