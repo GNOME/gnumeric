@@ -6,6 +6,7 @@ When you add or delete files, don't forget...
 
 * Edit po/POTFILES.in
 * Edit configure.in
+* Edit plugins/Makefile.am
 
 
 
@@ -22,4 +23,4 @@ For a good skeleton, grab a copy of the applix plugin.
 Plugins containing functions
 -----------------------------
 
-For a good skeleton, grab a copy of the numtheory plugin.
+For a good skeleton, grab a copy of the fn-date plugin.
