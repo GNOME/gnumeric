@@ -389,13 +389,25 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	SheetObject *so;
 	char *tmp;
+	int tmp_int;
 	GtkObject *obj;
 
-	obj = gtk_object_new (gtk_type_from_name (tree->name), NULL);
-	if (!obj)
-		return (NULL);
+	/* Old crufty IO */
+	if (!strcmp (tree->name, "Rectangle")){
+		so = sheet_object_box_new (FALSE);
+	} else if (!strcmp (tree->name, "Ellipse")){
+		so = sheet_object_box_new (TRUE);
+	} else if (!strcmp (tree->name, "Arrow")){
+		so = sheet_object_line_new (TRUE);
+	} else if (!strcmp (tree->name, "Line")){
+		so = sheet_object_line_new (FALSE);
+	} else {
+		obj = gtk_object_new (gtk_type_from_name (tree->name), NULL);
+		if (!obj)
+			return (NULL);
 	
-	so = SHEET_OBJECT (obj);
+		so = SHEET_OBJECT (obj);
+	}
 
 	if (SO_CLASS (so)->read_xml &&
 	    SO_CLASS (so)->read_xml (so, ctxt, tree)) {
@@ -431,7 +443,10 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 		xmlFree (tmp);
 	}
 
-	xml_get_value_int (tree, "Direction", &so->direction);
+	if (xml_get_value_int (tree, "Direction", &tmp_int))
+		so->direction = tmp_int;
+	else
+		so->direction = SO_DIR_UNKNOWN;
 
 	sheet_object_set_sheet (so, ctxt->sheet);
 	return so;

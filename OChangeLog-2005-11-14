@@ -1,5 +1,10 @@
 2001-08-11  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
+	* src/sheet-object.c: Revert below removal of "Old crufty IO". In 
+	addition, fix a warning that I introduced yesterday (missing cast).
+
+2001-08-11  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+
 	* src/sheet-object-graphic.c: Use GdkColors instead of strings. 
 	Implemented printing. Objects aren't in the right place though. Still 
 	needs some tuning. Configuration implemented (border width, outline
