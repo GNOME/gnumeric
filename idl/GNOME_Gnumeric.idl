@@ -276,7 +276,7 @@ module GNOME {
 		// Interfaces for accessing value sets from linear arrays.
 		// Mainly used for graphics.
 		//
-		interface VectorNotify : Bonobo::Unknown {
+		interface VectorNotify {
 			void changed (in short low, in short high);
 		};
 

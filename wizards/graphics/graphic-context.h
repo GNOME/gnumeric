@@ -4,7 +4,7 @@
 #include "str.h"
 #include "expr.h"
 #include "sheet-vector.h"
-#include "Graph.h"
+#include "idl/Graph.h"
 
 typedef enum {
 	SERIES_COLUMNS,
@@ -57,6 +57,8 @@ typedef struct {
 	 * A List of BonoboViewFrames
 	 */
 	GList *view_frames;
+
+	gboolean do_create;
 } WizardGraphicContext;
 
 #define GC_SIGNATURE ((('G' << 8) | ('C' << 8)) | 'o')

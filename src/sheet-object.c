@@ -164,9 +164,10 @@ sheet_object_drop_file (Sheet *sheet, gdouble x, gdouble y, const char *fname)
 		SheetObject   *so;
 		ObjectCoords   pos;
 
-		so = sheet_object_container_new (sheet, pos.x, pos.y,
-						 pos.x + 100.0, pos.y + 100.0,
-						 mime_goad_id);
+		so = sheet_object_container_new_from_goadid (
+			sheet, pos.x, pos.y,
+			pos.x + 100.0, pos.y + 100.0,
+			mime_goad_id);
 		if (!so) {
 			msg = g_strdup_printf ("can't create object for '%s'", mime_goad_id);
 			gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
@@ -455,9 +456,19 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 	}
 
 	case SHEET_MODE_CREATE_GRAPHIC:
+		g_warning ("Ugly API name follows, fix it");
+		o = sheet_object_container_new_bonobo (
+			sheet, x1, y1, x2, y2, sheet->mode_data);
+		g_warning ("Possible leak");
+		/*
+		 * Ie, who "owns" mode_data when it is a BonoboObjectClient?
+		 */
+		sheet->mode_data = NULL;
+		break;
+			
 	case SHEET_MODE_CREATE_COMPONENT:
 #ifdef ENABLE_BONOBO
-		o = sheet_object_container_new (
+		o = sheet_object_container_new_from_goadid (
 			sheet, x1, y1, x2, y2, sheet->mode_data);
 		g_free (sheet->mode_data);
 		sheet->mode_data = NULL;
@@ -693,7 +704,7 @@ sheet_object_bind_button_events (Sheet *sheet)
  *                   towards the currently selected object
  */
 void
-sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
+sheet_set_mode_type_full (Sheet *sheet, SheetModeType mode, void *mode_data)
 {
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -727,7 +738,10 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 
 	switch (sheet->mode) {
 	case SHEET_MODE_CREATE_GRAPHIC:
+		g_assert (BONOBO_IS_CLIENT_SITE (mode_data));
 		sheet_object_bind_button_events (sheet);
+		sheet->mode_data = mode_data;
+		break;
 		
 	case SHEET_MODE_CREATE_COMPONENT:
 	case SHEET_MODE_CREATE_CANVAS_ITEM:
@@ -768,6 +782,12 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 	}
 }
 
+void
+sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
+{
+	sheet_set_mode_type_full (sheet, mode, NULL);
+}
+ 
 /*
  * sheet_object_destroy_control_points
  *

@@ -2,11 +2,13 @@
  * Test code for the graphics engine
  *
  * Miguel de Icaza (miguel@gnu.org)
+ *
+ * (C) 1999, 2000 Helix Code, Inc.
  */
 #include <gnome.h>
 #include <libgnorba/gnorba.h>
 #include <bonobo.h>
-#include "Graph.h"
+#include "idl/Graph.h"
 #include "vector.h"
 
 /*

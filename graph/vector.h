@@ -4,7 +4,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <bonobo/bonobo-object.h>
-#include "Graph.h"
+#include "idl/Graph.h"
 
 BEGIN_GNOME_DECLS
 

@@ -8,7 +8,7 @@
  */
 #include <config.h>
 #include <bonobo/bonobo-object.h>
-#include "Gnumeric.h"
+#include "idl/Gnumeric.h"
 #include "gnumeric.h"
 #include "sheet-vector.h"
 #include "sheet.h"
@@ -63,9 +63,11 @@ impl_vector_get_numbers (PortableServer_Servant servant,
 	RangeBlock *block;
 	int block_top, block_idx;
 	int i, j, cols, rows, idx;
-	
+
 	if (high == -1)
 		high = vec->len;
+
+	printf ("Values requested are: %d %d\n", low, high);
 
 	if ((low < 0) || (high > vec->len)){
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Gnumeric_Sheet_OutOfRange, NULL);
@@ -86,10 +88,10 @@ impl_vector_get_numbers (PortableServer_Servant servant,
 	block_idx = find_block (vec, low, &block_top, &idx);
 	block = &vec->blocks [block_idx++];
 	j = 0;
-	cols = block->range.end.col - block->range.start.col;
-	rows = block->range.end.row - block->range.start.row;
+	cols = block->range.end.col - block->range.start.col + 1;
+	rows = block->range.end.row - block->range.start.row + 1;
 
-	for (i = low; i < high; i++){
+	for (i = low; i < high; i++, idx++){
 		Cell *cell;
 		int col, row;
 		
@@ -101,8 +103,8 @@ impl_vector_get_numbers (PortableServer_Servant servant,
 			rows = block->range.end.row - block->range.start.row;
 		}
 
-		col = idx / rows;
-		row = idx % rows;
+		col = idx / rows + block->range.start.col;
+		row = idx % rows + block->range.start.row;
 
 		cell = sheet_cell_get (vec->sheet, col, row);
 		if (cell)
@@ -111,6 +113,10 @@ impl_vector_get_numbers (PortableServer_Servant servant,
 			res->_buffer [j++] = 0.0;
 	}
 
+	for (j = 0, i = low; i < high; i++, j++){
+		printf ("Valud %d: %g\n", i, res->_buffer [j]);
+	}
+	
 	return res;
 }
 
@@ -145,12 +151,13 @@ impl_vector_get_vec_values (PortableServer_Servant servant,
 	 * Fill in the values
 	 */
 	block_idx = find_block (vec, low, &block_top, &idx);
-	block = &vec->blocks [block_idx++];
+	block = &vec->blocks [block_idx];
+	block_idx++;
 	j = 0;
-	cols = block->range.end.col - block->range.start.col;
-	rows = block->range.end.row - block->range.start.row;
+	cols = block->range.end.col - block->range.start.col + 1;
+	rows = block->range.end.row - block->range.start.row + 1;
 	
-	for (i = low; i < high; i++){
+	for (i = low; i < high; i++, idx++){
 		GNOME_Gnumeric_VecValue vecvalue;
 		Cell *cell;
 		int col, row;
@@ -163,8 +170,8 @@ impl_vector_get_vec_values (PortableServer_Servant servant,
 			rows = block->range.end.row - block->range.start.row;
 		}
 
-		col = idx / rows;
-		row = idx % rows;
+		col = idx / rows + block->range.start.col;
+		row = idx % rows + block->range.start.row;
 
 		cell = sheet_cell_get (vec->sheet, col, row);
 
@@ -424,7 +431,7 @@ sheet_vectors_cell_changed (Cell *cell)
 	for (l = cell->sheet->private->sheet_vectors; l; l = l->next){
 		SheetVector *vec = l->data;
 
-		if (vec->notify == NULL)
+		if (vec->notify == CORBA_OBJECT_NIL)
 			continue;
 		
 		for (i = 0; i < vec->n_blocks; i++)

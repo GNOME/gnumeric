@@ -598,7 +598,7 @@ x_selection_clear (GtkWidget *widget, GdkEventSelection *event, Workbook *wb)
 void
 x_clipboard_bind_workbook (Workbook *wb)
 {
-	GtkTargetEntry *targets;
+	GtkTargetEntry targets;
 	
 	wb->clipboard_paste_callback_data = NULL;
 
@@ -625,16 +625,15 @@ x_clipboard_bind_workbook (Workbook *wb)
 	/*
 	 * Our specific Gnumeric XML clipboard interchange type
 	 */
-	targets = g_new (GtkTargetEntry, 1);
+	targets.target = GNUMERIC_ATOM_NAME;
 
-	targets->target = GNUMERIC_ATOM_NAME;
-	targets->flags  = GTK_TARGET_SAME_WIDGET;              /* <- This is not useful, but we have to set it to something */
-	targets->info   = GNUMERIC_ATOM_INFO;
+	/* This is not useful, but we have to set it to something: */
+	targets.flags  = GTK_TARGET_SAME_WIDGET; 
+	targets.info   = GNUMERIC_ATOM_INFO;
 
-	/* We don't have to free targets, this will happen automatically once the 'toplevel' widget is destroyed!! */
 	gtk_selection_add_targets (wb->toplevel,
 				   GDK_SELECTION_PRIMARY,
-				   targets, 1);
+				   &targets, 1);
 }
 
 typedef struct {

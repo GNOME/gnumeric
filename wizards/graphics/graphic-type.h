@@ -2,6 +2,7 @@
 #define GRAPHIC_TYPE_H
 
 typedef struct {
+	gboolean                  with_labels;
 	GNOME_Graph_ChartType     chart_type;
 	GNOME_Graph_PlotMode      plot_mode;
 	GNOME_Graph_ColBarMode    col_bar_mode;

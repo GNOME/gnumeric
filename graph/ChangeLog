@@ -1,3 +1,8 @@
+2000-03-12  Miguel de Icaza  <miguel@helixcode.com>
+
+	* layout.c (impl_set_with_labels, impl_get_with_labels): New
+	methods to handle the setting or resetting of labels.
+
 2000-02-24  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* sample.c (create_test): UPdate to new Bonobo

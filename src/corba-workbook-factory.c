@@ -12,7 +12,7 @@
 #include "sheet.h"
 #include "gnumeric.h"
 #include "workbook.h"
-#include "Gnumeric.h"
+#include "idl/Gnumeric.h"
 #include "corba.h"
 #include "command-context-corba.h"
 

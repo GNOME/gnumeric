@@ -417,6 +417,24 @@ impl_graph_thaw (PortableServer_Servant servant, CORBA_Environment *ev)
 		graph_update (graph, 0);
 }
 
+static CORBA_boolean
+impl_get_with_labels (PortableServer_Servant servant, CORBA_Environment *ev)
+{
+	Graph *graph = graph_from_servant (servant);
+
+	return (graph->first == 1);
+}
+
+static void
+impl_set_with_labels (PortableServer_Servant servant, CORBA_boolean with_labels, CORBA_Environment *ev)
+{
+	Graph *graph = graph_from_servant (servant);
+
+	graph->first = with_labels ? 1 : 0;
+
+	graph_update (graph, DIRTY_SHAPE);
+}
+
 static void
 init_graph_corba_class (void)
 {
@@ -440,6 +458,8 @@ init_graph_corba_class (void)
 	graph_epv._set_scatter_conn = &impl_graph_set_scatter_conn;
 	graph_epv._get_surface_mode = &impl_graph_get_surface_mode;
 	graph_epv._set_surface_mode = &impl_graph_set_surface_mode;
+	graph_epv._get_with_labels = &impl_get_with_labels;
+	graph_epv._set_with_labels = &impl_set_with_labels;
 
 	graph_epv.freeze = &impl_graph_freeze;
 	graph_epv.thaw   = &impl_graph_thaw;

@@ -44,11 +44,7 @@ graph_view_canvas_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_pa
 		graph_view->affine [i] = affine [i];
 }
 
-/*
- * This really must be shared with the gnumeric color set
- */
 static char *default_colors [] = {
-	"rgb:0/0/0",
 	"rgb:FF/FF/FF",
 	"rgb:FF/0/0",
 	"rgb:0/FF/0",

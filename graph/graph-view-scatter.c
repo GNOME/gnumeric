@@ -7,7 +7,7 @@
  * Copyright 1999, 2000 Helix Code, Inc (http://www.helixcode.com)
  */
 #include <config.h>
-#include "Graph.h"
+#include "idl/Graph.h"
 #include "graph.h"
 #include "graph-view.h"
 #include "graph-view-scatter.h"

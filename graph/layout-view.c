@@ -8,7 +8,7 @@
  * (C) 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  */
 #include <config.h>
-#include "Graph.h"
+#include "idl/Graph.h"
 #include "layout-view.h"
 #include "graph-view.h"
 

@@ -4,13 +4,21 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org).
  *
- * (C) 1999 Helix Code, Inc. (http://www.helixcode.com)
+ * (C) 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  */
 #include <config.h>
 #include <math.h>
 #include <stdlib.h>
-#include "Graph.h"
+#include "idl/Graph.h"
 #include "graph-vector.h"
+
+static POA_GNOME_Gnumeric_VectorNotify__epv *vector_notify_epv;
+
+static void
+setup_notifier (GraphVector *v)
+{
+	if (
+}
 
 GraphVector *
 graph_vector_new (GNOME_Gnumeric_Vector vector, GraphVectorChangeNotifyFn change, void *data, gboolean guess)
@@ -40,8 +48,15 @@ graph_vector_new (GNOME_Gnumeric_Vector vector, GraphVectorChangeNotifyFn change
 		gv->u.values_vec = NULL;
 	}
 
+	setup_notifier (vector);
+
 	CORBA_exception_free (&ev);
 	return gv;
+}
+
+static void
+destroy_notifier (GraphVector *vector)
+{
 }
 
 void
@@ -49,6 +64,8 @@ graph_vector_destroy (GraphVector *vector)
 {
 	CORBA_Environment ev;
 
+	destroy_notifer (vector);
+	
 	CORBA_exception_init (&ev);
 	GNOME_Gnumeric_Vector_unref (vector->vector_object, &ev);
 	CORBA_exception_free (&ev);

@@ -38,6 +38,8 @@ attach_view (const char *name, WizardGraphicContext *gc)
 	 */
 	gtk_container_add (container, view);
 	gtk_widget_show (view);
+
+	return view_frame;
 }
 
 static void
@@ -121,7 +123,7 @@ button_cancel (GtkWidget *widget, WizardGraphicContext *gc)
 static void
 button_finish (GtkWidget *widget, WizardGraphicContext *gc)
 {
-	graphic_context_destroy (gc);
+	gc->do_create = 1;
 	gtk_main_quit ();
 }
 
@@ -195,5 +197,26 @@ graphics_wizard (Workbook *wb)
 	gtk_widget_grab_focus (toplevel);
 
 	gtk_main ();
+
+	if (gc->do_create){
+		GList *l;
+		
+		sheet_set_mode_type_full (gc->workbook->current_sheet,
+					  SHEET_MODE_CREATE_GRAPHIC, gc->client_site);
+#warning super hack
+		gtk_object_destroy (gc->dialog_toplevel);
+
+		for (l = gc->data_range_list; l; l = l->next){
+			DataRange *r = l->data;
+
+			sheet_vector_attach (r->vector, gc->workbook->current_sheet);
+		}
+	} else
+		graphic_context_destroy (gc);
+
+
+	g_warning ("Debugging context_destroy: put back after demo");
+/* 	graphic_context_destroy (gc); */
+	
 }
 

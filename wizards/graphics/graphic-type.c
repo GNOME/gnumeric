@@ -10,6 +10,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include <glade/glade.h>
+#include "idl/Graph.h"
 #include "Graph.h"
 #include "wizard.h"
 #include "graphic-type.h"
@@ -25,6 +26,7 @@ static subtype_info_t column_subtypes [] = {
 		N_("Clustered columns.  Compares values between categories"),
 		1, 1,
 		{
+			TRUE,
 			GNOME_Graph_CHART_TYPE_CLUSTERED,
 			GNOME_Graph_PLOT_COLBAR,
 			GNOME_Graph_COLBAR_FLAT,
@@ -36,6 +38,7 @@ static subtype_info_t column_subtypes [] = {
 		N_("Stacked columns.  Compares the values brought by each category"),
 		1, 2,
 		{
+			TRUE,
 			GNOME_Graph_CHART_TYPE_STACKED,
 			GNOME_Graph_PLOT_COLBAR,
 			GNOME_Graph_COLBAR_FLAT,
@@ -48,6 +51,7 @@ static subtype_info_t column_subtypes [] = {
 		N_("Stacked columns, 100%.  Compares between the categories the values broght to a total"),
 		1, 3,
 		{
+			TRUE,
 			GNOME_Graph_CHART_TYPE_STACKED_FULL,
 			GNOME_Graph_PLOT_COLBAR,
 			GNOME_Graph_COLBAR_FLAT,
@@ -63,6 +67,7 @@ static subtype_info_t bar_subtypes [] = {
 		N_("Clustered bars.  Compares values between categories"),
 		1, 1,
 		{
+			TRUE,
 			GNOME_Graph_CHART_TYPE_CLUSTERED,
 			GNOME_Graph_PLOT_COLBAR,
 			GNOME_Graph_COLBAR_FLAT,
@@ -74,6 +79,7 @@ static subtype_info_t bar_subtypes [] = {
 		N_("Stacked bars.  Compares the values brought by each category"),
 		1, 2,
 		{
+			TRUE,
 			GNOME_Graph_CHART_TYPE_STACKED,
 			GNOME_Graph_PLOT_COLBAR,
 			GNOME_Graph_COLBAR_FLAT,
@@ -86,6 +92,7 @@ static subtype_info_t bar_subtypes [] = {
 		N_("Stacked bars, 100%.  Compares between the categories the values broght to a total"),
 		1, 3,
 		{
+			TRUE, 
 			GNOME_Graph_CHART_TYPE_STACKED_FULL,
 			GNOME_Graph_PLOT_COLBAR,
 			GNOME_Graph_COLBAR_FLAT,
@@ -101,6 +108,7 @@ static subtype_info_t lines_subtypes [] = {
 		N_("Lines.  FIXME: Add nice explanation"),
 		1, 1,
 		{
+			TRUE,
 			GNOME_Graph_CHART_TYPE_CLUSTERED,
 			GNOME_Graph_PLOT_LINES,
 			GNOME_Graph_COLBAR_FLAT,
@@ -113,6 +121,7 @@ static subtype_info_t lines_subtypes [] = {
 		N_("Stacked Lines.  FIXME: Add nice explanation"),
 		1, 2,
 		{
+			TRUE,
 			GNOME_Graph_CHART_TYPE_STACKED,
 			GNOME_Graph_PLOT_LINES,
 			GNOME_Graph_COLBAR_FLAT,
@@ -126,6 +135,7 @@ static subtype_info_t lines_subtypes [] = {
 		N_("Stacked lines, 100%.  FIXME: Add nice explanation"),
 		1, 3,
 		{
+			TRUE,
 			GNOME_Graph_CHART_TYPE_STACKED_FULL,
 			GNOME_Graph_PLOT_LINES,
 			GNOME_Graph_COLBAR_FLAT,
@@ -138,6 +148,7 @@ static subtype_info_t lines_subtypes [] = {
 		N_("Lines with markers.  FIXME: Add nice explanation"),
 		2, 1,
 		{
+			TRUE,
 			GNOME_Graph_CHART_TYPE_CLUSTERED,
 			GNOME_Graph_PLOT_LINES,
 			GNOME_Graph_COLBAR_FLAT,
@@ -150,6 +161,7 @@ static subtype_info_t lines_subtypes [] = {
 		N_("Stacked lines with markers.  FIXME: Add nice explanation"),
 		2, 2,
 		{
+			TRUE,
 			GNOME_Graph_CHART_TYPE_STACKED,
 			GNOME_Graph_PLOT_LINES,
 			GNOME_Graph_COLBAR_FLAT,
@@ -162,6 +174,7 @@ static subtype_info_t lines_subtypes [] = {
 		N_("Stacked lines with markers, 100%.  FIXME: Add nice explanation"),
 		2, 3,
 		{
+			TRUE,
 			GNOME_Graph_CHART_TYPE_STACKED_FULL,
 			GNOME_Graph_PLOT_LINES,
 			GNOME_Graph_COLBAR_FLAT,
@@ -178,6 +191,7 @@ static subtype_info_t scatter_subtypes [] = {
 		N_("Scatter points"),
 		1, 1,
 		{
+			FALSE,
 			GNOME_Graph_CHART_TYPE_SCATTER,
 			0, /* plot_mode ignored */
 			0, /* col_bar_mode ignored */
@@ -194,6 +208,7 @@ static subtype_info_t scatter_subtypes [] = {
 		N_("Scatter points connected with lines"),
 		3, 1,
 		{
+			FALSE,
 			GNOME_Graph_CHART_TYPE_SCATTER,
 			0, /* plot_mode ignored */
 			0, /* col_bar_mode ignored */
@@ -210,6 +225,7 @@ static subtype_info_t scatter_subtypes [] = {
 		N_("Scatter data connected with lines"),
 		3, 2,
 		{
+			FALSE,
 			GNOME_Graph_CHART_TYPE_SCATTER,
 			0, /* plot_mode ignored */
 			0, /* col_bar_mode ignored */
@@ -230,6 +246,7 @@ static subtype_info_t area_subtypes [] = {
 		N_("Area 1: FIXME add nice description"),
 		1, 1,
 		{
+			TRUE,
 			GNOME_Graph_CHART_TYPE_CLUSTERED,
 			GNOME_Graph_PLOT_AREA,
 			GNOME_Graph_COLBAR_FLAT,
@@ -241,6 +258,7 @@ static subtype_info_t area_subtypes [] = {
 		N_("Stacked area.  FIXME: add nic description"),
 		1, 2,
 		{
+			TRUE,
 			GNOME_Graph_CHART_TYPE_STACKED,
 			GNOME_Graph_PLOT_AREA,
 			GNOME_Graph_COLBAR_FLAT,
@@ -253,6 +271,7 @@ static subtype_info_t area_subtypes [] = {
 		N_("Stacked Area, 100%.  FIXME: add nice description"),
 		1, 3,
 		{
+			TRUE,
 			GNOME_Graph_CHART_TYPE_STACKED_FULL,
 			GNOME_Graph_PLOT_AREA,
 			GNOME_Graph_COLBAR_FLAT,
@@ -280,6 +299,7 @@ void
 graphic_type_show_page (WizardGraphicContext *gc, int n)
 {
 	gtk_notebook_set_page (gc->graphic_types_notebook, n);
+	graphic_type_set_chart_mode (gc->chart, &graphic_types [n].subtypes [0].par);
 }
 
 void
@@ -320,7 +340,7 @@ graphic_type_set_chart_mode (GNOME_Graph_Chart chart, PlotParameters *par)
 	GNOME_Graph_Chart__set_scatter_mode (chart, par->scatter_mode, &ev);
 	GNOME_Graph_Chart__set_scatter_conn (chart, par->scatter_conn, &ev);
 	GNOME_Graph_Chart__set_surface_mode (chart, par->surface_mode, &ev);
-
+	GNOME_Graph_Chart__set_with_labels  (chart, par->with_labels, &ev);
 	CORBA_exception_free (&ev);
 }
 

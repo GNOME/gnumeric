@@ -73,7 +73,7 @@ graph_view_colbar_draw_nth_clustered (ViewDrawCtx *ctx, int item)
 	const int col_width = (ctx->units_per_slot - (ctx->margin * 2)) / n_series;
 	int i;
 
-	for (i = 0; i < n_series; i++){
+	for (i = ctx->graph->first; i < n_series; i++){
 		GraphVector *vector = ctx->graph->layout->vectors [i];
 
 		setup_gc (ctx, i, item);
@@ -98,7 +98,7 @@ graph_view_colbar_draw_nth_stacked (ViewDrawCtx *ctx, int item)
 	double last_neg = 0.0;
 	int i;
 	
-	for (i = 0; i < n_series; i++){
+	for (i = ctx->graph->first; i < n_series; i++){
 		GraphVector *vector = ctx->graph->layout->vectors [i];
 		double v;
 		
@@ -139,7 +139,7 @@ graph_view_colbar_draw_nth_stacked_full (ViewDrawCtx *ctx, int item)
 	total_pos = total_neg = 0.0;
 	last_pos = last_neg = 0.0;
 	
-	for (i = 0; i < n_series; i++){
+	for (i = ctx->graph->first; i < n_series; i++){
 		GraphVector *vector = ctx->graph->layout->vectors [i];
 		
 		values [i] = graph_vector_get_double (vector, item);
@@ -285,7 +285,7 @@ graph_view_line_draw_nth_clustered (ViewDrawCtx *ctx, int item, int draw_flags)
 	const int n_series = ctx->graph->layout->n_series;
 	int i;
 
-	for (i = 0; i < n_series; i++){
+	for (i = ctx->graph->first; i < n_series; i++){
 		GraphVector *vector = ctx->graph->layout->vectors [i];
 		Symbol sym;
 		
@@ -312,7 +312,8 @@ graph_view_line_draw_nth_stacked (ViewDrawCtx *ctx, int first, int last, int dra
 	const int col_width = (ctx->units_per_slot - (ctx->margin * 2)) / n_series;
 	double *series_values = g_new (double, n_series);
 	int i;
-				
+
+	
 }
 
 /*

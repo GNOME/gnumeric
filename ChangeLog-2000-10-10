@@ -1,3 +1,37 @@
+2000-03-13  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/sheet-vector.c (sheet_vectors_cell_changed): Change NULL to
+	CORBA_OBJECT_NIL 
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_load_from_file):
+	Use the new IDL:Bonobo interface name, not the IDL:GNOME one
+	(sheet_object_bonobo_load_from_file): ditto.
+	(sheet_object_bonobo_load): ditto.
+
+	* src/sheet-object.c (sheet_set_mode_type): Temporary hack to get
+	the graphics working under 1:20 hours when my battery runs out of
+	power. 
+
+	* src/sheet-object-container.c
+	(sheet_object_container_new_from_goadid): Renamed from
+	sheet_object_container_new
+
+	(sheet_object_container_new): Now takes a BonoboObjectClient as an
+	argument. 
+
+2000-03-12  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/sheet-vector.c (impl_vector_get_numbers): Increment idx
+	here;  
+	(impl_vector_get_vec_values): ditto.
+	(impl_vector_get_numbers): Use the proper values for the columns
+	row. 
+	(impl_vector_get_vec_values): ditto.
+
+	* src/clipboard.c (x_clipboard_bind_workbook): Fix memory leak.
+	The problem is worse, because the warning comment there was
+	completely bogus.
+
 2000-03-14  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-view.c (workbook_view_history_update,
@@ -407,7 +441,6 @@
 	* src/dialogs/dialog-plugin-manager.c (refresh_right_frame): Kill
  	a warning.
 
->>>>>>> 1.58
 2000-03-03  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell-draw.c (cell_draw) : Correct off by one error for

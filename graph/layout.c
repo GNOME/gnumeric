@@ -9,7 +9,7 @@
  */
 #include <config.h>
 #include <bonobo.h>
-#include "Graph.h"
+#include "idl/Graph.h"
 #include "layout.h"
 #include "layout-view.h"
 
@@ -87,17 +87,22 @@ impl_add_series (PortableServer_Servant servant, GNOME_Gnumeric_Vector vector, C
 	layout->vectors [layout->n_series] = graph_vector_new (vector, NULL, NULL, 0);
 	layout->n_series++;
 
+#if 0
+	GNOME_Gnumeric_Vector_set_notify ();
+#endif
+	g_warning ("Set the notification function here");
+	
 	graph_update (layout->graph, DIRTY_DATA);
 }
 
 static void
 init_layout_corba_class (void)
 {
-	layout_epv.get_chart    = &impl_get_chart;
-	layout_epv.get_axis     = &impl_get_axis;
-	layout_epv.reset_series = &impl_reset_series;
-	layout_epv.add_series   = &impl_add_series;
-
+	layout_epv.get_chart        = &impl_get_chart;
+	layout_epv.get_axis         = &impl_get_axis;
+	layout_epv.reset_series     = &impl_reset_series;
+	layout_epv.add_series       = &impl_add_series;
+	
 	layout_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
 	layout_vepv.Bonobo_Embeddable_epv = bonobo_embeddable_get_epv ();
 	layout_vepv.GNOME_Graph_Layout_epv = &layout_epv;

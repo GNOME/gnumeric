@@ -4,7 +4,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <bonobo/bonobo-object.h>
-#include "Graph.h"
+#include "idl/Graph.h"
 
 BEGIN_GNOME_DECLS
 
@@ -37,6 +37,10 @@ struct _Graph {
 	GNOME_Graph_ScatterConn   scatter_conn;
 	GNOME_Graph_SurfaceMode   surface_mode;
 
+	/*
+	 * For label on/off usage
+	 */
+	int first;
 	GSList *views;
 
 	int      frozen;

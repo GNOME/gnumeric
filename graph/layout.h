@@ -35,9 +35,7 @@ struct _Layout {
 	ObjDim           graph_dim;
 	Graph           *graph;
 
-	/*
-	 * Number of series we hold
-	 */
+	/* Number of series we hold */
 	int          n_series;
 	GraphVector **vectors;
 };

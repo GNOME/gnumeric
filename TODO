@@ -291,3 +291,54 @@ Office 2000 and 'explorer' compatibility.
 
     Needs to be optimized.
 
+* Graphics component
+
+  * Scatter plots are not being scaled to the dimensions of the allocated
+    size for the graph inside the layout.
+
+  * Stacked, and Stacked 100% are not working for line plots.
+
+  * Need to support labels for categories (series)
+
+  * Need to support list of series plotted (little box on the right)
+
+  * Need to support all kinds of captions
+
+  * Need to support axis drawing with all their features
+
+  * Need to support pie-charts
+
+  * Need to add 3D support
+
+  * Need to add editing-facilities to each data plot type.
+
+  * Need to provide menu/toolbar merging facilities with the graph component with 
+    Gnumeric
+
+  * Add printing support (not fun)
+
+* Graphics Wizard
+
+  * Need to high-light current graph type on the first page
+
+  * Need to have "finish" support in the wizard
+
+  * Need to finish the wizard: manual data entry, better wizarding,
+
+  * Need to split the wizard from the Gnumeric linking stage
+
+* Gnumeric-side graph support
+
+  * Need to save the settings for the plots.  Perhaps the wizard?
+
+  * Need to restore the setting from the plots. 
+
+  * Add component printing support.
+
+* Sheet Object and Graphics support
+
+  * Handle ownership of objects: from the wizard to the "finish"
+    creation routine in the sheet-object.c code
+
+  * Remove the sheet_object_set_type_full thing, and simplify the API
+    everywhere by requiting the mode_data argument.

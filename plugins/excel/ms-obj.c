@@ -180,10 +180,11 @@ ms_obj_realize (MSObj *obj, ExcelWorkbook *wb, ExcelSheet *sheet)
 #ifdef ENABLE_BONOBO
 		g_return_val_if_fail (blip->stream != NULL, FALSE);
 		g_return_val_if_fail (blip->reproid != NULL, FALSE);
-		so = sheet_object_container_new (sheet->gnum_sheet,
-						 position[0], position[1],
-						 position[2], position[3],
-						 blip->reproid);
+		so = sheet_object_container_new_from_goadid (
+			sheet->gnum_sheet,
+			position[0], position[1],
+			position[2], position[3],
+			blip->reproid);
 		if (!sheet_object_bonobo_load (SHEET_OBJECT_BONOBO (so), blip->stream))
 			g_warning ("Failed to load '%s' from stream",
 				   blip->reproid);

@@ -19,6 +19,7 @@
 #include <bonobo/bonobo-view-frame.h>
 #include <bonobo/bonobo-client-site.h>
 #include <bonobo/bonobo-embeddable.h>
+#include <bonobo/bonobo-object-client.h>
 
 static SheetObject *sheet_object_container_parent_class;
 
@@ -205,10 +206,34 @@ sheet_object_container_get_type (void)
 }
 
 SheetObject *
-sheet_object_container_new (Sheet *sheet,
-			    double x1, double y1,
-			    double x2, double y2,
-			    const char *goadid)
+sheet_object_container_new_bonobo (Sheet *sheet,
+				   double x1, double y1,
+				   double x2, double y2,
+				   BonoboClientSite *client_site)
+{
+	SheetObjectContainer *c;
+
+#warning More losage
+	
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	c = gtk_type_new (sheet_object_container_get_type ());
+	
+	sheet_object_construct (SHEET_OBJECT (c), sheet);
+	sheet_object_set_bounds (SHEET_OBJECT (c), x1, y1, x2, y2);
+
+	SHEET_OBJECT_BONOBO (c)->object_server = client_site->bound_object;
+	SHEET_OBJECT_BONOBO (c)->client_site = client_site;
+
+	return SHEET_OBJECT (c);
+}
+
+SheetObject *
+sheet_object_container_new_from_goadid (Sheet *sheet,
+					double x1, double y1,
+					double x2, double y2,
+					const char *goadid)
 {
 	BonoboObjectClient *object_server;
 	SheetObjectContainer *c;
@@ -231,4 +256,5 @@ sheet_object_container_new (Sheet *sheet,
 
 	return SHEET_OBJECT (c);
 }
+
 

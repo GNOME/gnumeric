@@ -129,18 +129,16 @@ graphic_wizard_guess_series (WizardGraphicContext *gc, SeriesOrientation orienta
 			}
 			vector = sheet_vector_new (sheet);
 			sheet_vector_append_range (vector, &range);
+			printf ("Range: (%d %d) (%d %d)\n",
+				range.start.col, range.start.row,
+				range.end.col, range.end.row);
+			
 			data_range = data_range_new_from_vector (gc->workbook, expr, vector);
 			g_free (expr);
 
 			graphic_context_data_range_add (gc, data_range);
 		}
 	}
-}
-
-static int
-graphic_context_data_range_count (WizardGraphicContext *gc)
-{
-	return g_list_length (gc->data_range_list);
 }
 
 GNOME_Gnumeric_Vector
@@ -163,28 +161,12 @@ graphic_context_auto_guess_series (WizardGraphicContext *gc)
 		graphic_wizard_guess_series (gc, SERIES_ROWS, TRUE);
 	else
 		graphic_wizard_guess_series (gc, SERIES_COLUMNS, TRUE);
-
+	
 	CORBA_exception_init (&ev);
 	GNOME_Graph_Layout_reset_series (gc->layout, &ev);
 	
-	/*
-	 * 1. Set the first series as the label series if we have more than one
-	 * series group.  Sounds like a good choice.  Need to verify the behaviour of
-	 * other apps.
-	 */
 	vector_list = gc->data_range_list;
-	if (graphic_context_data_range_count (gc) > 1){
-		GNOME_Gnumeric_Vector vector;
-
-		vector  = vector_from_data_range (vector_list->data);
-		GNOME_Graph_Layout_add_label_series (gc->layout, vector, &ev);
-		vector_list = vector_list->next;
-	} 
-
-	/*
-	 * 2. Process the rest
-	 */
-	for (; vector_list; vector_list = vector_list->next){
+	for (; vector_list != NULL; vector_list = vector_list->next){
 		GNOME_Gnumeric_Vector vector;
 
 		vector  = vector_from_data_range (vector_list->data);
@@ -390,9 +372,11 @@ data_range_new (Workbook *wb, const char *name_expr)
 	if (tree == NULL){
 		data_range->entered_expr = string_get ("\"\"");
 		tree = expr_parse_string ("\"\"", &pp, NULL, &error);
-	} else
+	} else 
 		data_range->entered_expr = string_get (name_expr);
-		
+
+	data_range->name_expr = tree;
+	
 	return data_range;
 }
 
