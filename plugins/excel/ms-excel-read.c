@@ -706,9 +706,9 @@ biff_string_get_flags (guint8 const *ptr,
 		*rich       = (header & 0x8) != 0;
 		return TRUE;
 	} else { /* Some assumptions: FIXME? */
-		*word_chars = 0;
-		*extended   = 0;
-		*rich       = 0;
+		*word_chars = FALSE;
+		*extended   = FALSE;
+		*rich       = FALSE;
 		return FALSE;
 	}
 }
