@@ -23,26 +23,235 @@
 #include "file.h"
 
 #include "lotus.h"
+#include "lotus-types.h"
+
+/* These really should be in glib */
+
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+#     define LOTUS_GETDOUBLE(p)   (*((double*)(p)))
+#     define LOTUS_SETDOUBLE(p,q) (*((double*)(p))=(q))
+#else
+#     define LOTUS_GETDOUBLE(p)   (lotus_getdouble(p))
+#     define LOTUS_SETDOUBLE(p,q) (lotus_setdouble(p,q))
+
+double
+lotus_getdouble (guint8 *p)
+{
+	double d;
+	int i;
+	guint8 *t = (guint8 *)&d;
+	int sd = sizeof (d);
+	
+	for (i = 0; i < sd; i++)
+		t[i] = p[sd - 1 - i];
+	
+	return d;
+}
+
+void
+lotus_setdouble (guint8 *p, double d)
+{
+	int i;
+	guint8 *t = (guint8 *)&d;
+	int sd = sizeof (d);
+	
+	for (i = 0; i < sd; i++)
+		p[sd - 1 - i] = t[i];
+}
+#endif
+
+typedef struct {
+	FILE    *f;
+	guint16  type;
+	guint16  len;
+	guint8  *data;
+} record_t;
+
+static record_t *
+record_new (FILE *f)
+{
+	record_t *r = g_new (record_t, 1);
+	/* Speed & determinism */
+	r->data     = g_new (guint8, 65540);
+	r->type     = 0;
+	r->len      = 0;
+	return r;
+}
+
+static gboolean
+record_next (record_t *r)
+{
+	guint8 hdata[8];
+	g_return_val_if_fail (r != NULL, FALSE);
+
+	if (fread (hdata, 1, 4, r->f) != 4)
+		return FALSE;
+
+	r->type = GUINT16_FROM_LE (*(guint16 *)hdata);
+	r->len  = GUINT16_FROM_LE (*(guint16 *)hdata + 4);
+
+	if (fread (r->data, 1, r->len, r->f) != r->len)
+		return FALSE;
+
+	return TRUE;
+}
+
+static void
+record_destroy (record_t *r)
+{
+	if (r) {
+		g_free (r->data);
+		r->data = NULL;
+		g_free (r);
+	}
+}
+
+static Cell *
+insert_value (Sheet *sheet, guint32 col, guint32 row, Value *val)
+{
+	Cell *cell;
+
+	g_return_val_if_fail (val != NULL, NULL);
+	g_return_val_if_fail (sheet != NULL, NULL);
+
+	cell = sheet_cell_fetch (sheet, col, row);
+
+	g_return_val_if_fail (cell != NULL, NULL);
+	cell_set_value (cell, val);
+
+	return cell;
+}
+
+/* Replace readsint(\(.*\)) with GINT16_FROM_LE(*(gint16 *)\1) */
+
+/* buf was old siag wb / sheet */
+static gboolean
+read_workbook (Workbook *wb, FILE *f)
+{
+	int       sheetidx = 0;
+	Sheet    *sheet = NULL;
+	gboolean  panic = FALSE;
+	record_t *r;
+
+	r = record_new (f);
+
+	while (!panic && record_next (r)) {
+		Cell    *cell;
+		Value   *v;
+		guint32  i, j;
+
+		switch (r->type) {
+		case LOTUS_BOF:
+		{
+			char *name = g_strdup_printf ("Sheet%d\n", sheetidx++);
+			sheet = sheet_new (wb, name);
+			g_free (name);
+			workbook_attach_sheet (wb, sheet);
+			break;
+		}
+
+		case LOTUS_EOF:
+			sheet = NULL;
+			break;
+
+		case LOTUS_NAME:
+		{
+			gint16 i = GINT16_FROM_LE (*(gint16 *)(r->data + 5));
+			v = value_new_int (i);
+		        i = 1 + GUINT16_FROM_LE  (*(guint16 *)(r->data + 3));
+			j = 1 + GUINT16_FROM_LE  (*(guint16 *)(r->data + 1));
+/*			rf = readfmt(p);  FIXME
+			f = sf | rf;
+			if (rf == FMT_DATE) {
+				value.number 
+					= from_wk1date(value.number,FALSE);
+				sprintf(b, "%d", (int)value.number);
+			}
+			ins_data(buf, siod_interpreter, b,
+				value, EXPRESSION, s, i, j);
+				ins_format(buf,	s, i, j, fmt_old2new(f)); */
+			cell = insert_value (sheet, i, j, v);
+			break;
+		}
+		case LOTUS_NUMBER:
+		{
+			float_t num = LOTUS_GETDOUBLE (r->data + 5);
+			v = value_new_float (num);
+		        i = 1 + GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
+			j = 1 + GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
+/*			rf = readfmt(p); 
+			f = sf | rf;
+			if (rf == FMT_DATE || rf == FMT_TIME) {
+				value.number = from_wk1date(value.number, 
+							    rf == FMT_TIME);
+				sprintf(b, "%d", (int) value.number);
+			}
+			ins_data(buf, siod_interpreter, b,
+				value, EXPRESSION, s, i, j);
+				ins_format(buf,	s, i, j, fmt_old2new(f)); */
+			cell = insert_value (sheet, i, j, v);
+			break;
+		}
+		case LOTUS_LABEL:
+		{
+			/* one of '\', '''', '"', '^' */
+			gchar format_prefix = *(r->data + 5);
+			v = value_new_string (r->data + 6); /* FIXME unsafe */
+		        i = 1 + GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
+			j = 1 + GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
+/*			f = sf | readfmt(p); 
+			ins_data(buf, siod_interpreter, (char *)r->data + 6,
+				value, LABEL, s, i, j);
+				ins_format(buf,	s, i, j, fmt_old2new(f)); */
+			break;
+		}
+		case LOTUS_FORMULA:
+		/* 5-12 = value */
+		/* 13-14 = formula r->length */
+/*                Ignore for now.
+                        i = GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
+			j = GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
+			f = sf | readfmt(p); 
+			formula(GINT16_FROM_LE (*(gint16 *)(r->data + 13), r->data + 15, i, j));
+			p1 = pop();
+			value.number = LOTUS_GETDOUBLE (r->data + 5);
+			ins_data(buf, siod_interpreter, p1,
+				value, EXPRESSION, s, i+1, j+1);
+			cfree(p1);
+			ins_format(buf,	s, i+1, j+1, fmt_old2new(f));*/
+			break;
+		default:
+			break;
+		}
+	}
+	record_destroy (r);
+
+	return !panic;
+}
 
 Workbook *
 lotus_read (const char *filename)
 {
-	Workbook *wb;
-	Sheet    *sheet;
+	FILE *f;
+	Workbook *wb = NULL;
+	
+	if (!(f = fopen (filename, "rb")))
+		return NULL;
 
 	cell_deep_freeze_redraws ();
 	
 	wb = workbook_new ();
 
-	sheet = sheet_new (wb, filename);
-	workbook_attach_sheet (wb, sheet);
+	if (!read_workbook (wb, f)) {
+		printf ("FIXME: Nasty workbook error, leaked\n");
+		return NULL;
+	}
 
 	if (wb)
 		workbook_recalc (wb);
 	cell_deep_thaw_redraws ();
+
+	fclose (f);
+	return wb;
 }
-
-
-
-
 

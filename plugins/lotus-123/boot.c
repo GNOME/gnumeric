@@ -44,9 +44,10 @@ lotus_probe (const char *filename)
 	ext = filename_ext (filename);
 	if (!ext)
 		return FALSE;
-	if (g_strcasecmp ("wk1", ext))
-	    return FALSE;
-	return TRUE;
+	if (!g_strcasecmp ("wk1", ext) ||
+	    !g_strcasecmp ("wks", ext))
+	    return TRUE;
+	return FALSE;
 }
 
 

@@ -1,5 +1,9 @@
 1999-07-21  Michael Meeks  <michael@edenproject.org>
 
+	* boot.c (lotus_probe): Expand to 'wks' files.
+
+1999-07-21  Michael Meeks  <michael@edenproject.org>
+
 	* lotus.[ch]: Created.
 
 	* boot.[ch]: Created
