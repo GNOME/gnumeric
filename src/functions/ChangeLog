@@ -1,3 +1,14 @@
+2002-01-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* fn-financial.c (coupncd, couppcd) : replace with coup_cd
+	(gnumeric_couppcd) : add optional OEM argument
+	(gnumeric_coupdayscd) : add optional OEM argument
+	(finance_functions_init) : add optional OEM arguments to 
+	  couppcd and coupdayscd
+	(coupdayscd) : rewrite
+	(adjust_dates_basis) : new utility procedure
+	(days_between_dep_basis) : new utility procedure
+
 2002-01-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* fn-financial.c (coupncd) : Rewrite to simpify and fix small bug
