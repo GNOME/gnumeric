@@ -15,6 +15,11 @@ Andreas:
 Arief Mulya Utama:
 	* Erlang (telecommunications engineering) plugin.
 
+Emmanuel Pacaud:
+	* Add dash styles to chart objects.
+	* Enables non integer line width for chart objects.
+	* Fix clipping in svg export.	
+	
 Hal Ashburner:
 	* Some function documentation cleanups.
 
