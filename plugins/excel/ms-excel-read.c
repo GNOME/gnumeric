@@ -851,21 +851,21 @@ black_or_white_contrast (StyleColor const * contrast)
 		if (ms_excel_color_debug > 1)
 			puts("Contrast is White");
 #endif
-		return style_color_new (0xffff, 0xffff, 0xffff);
+		return style_color_white ();
 	}
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_color_debug > 1)
 		puts("Contrast is Black");
 #endif
-	return style_color_new (0, 0, 0);
+	return style_color_black ();
 }
 
 StyleColor *
 ms_excel_palette_get (ExcelPalette const *pal, gint idx)
 {
 	/* return black on failure */
-	g_return_val_if_fail (pal != NULL, style_color_new (0, 0, 0));
+	g_return_val_if_fail (pal != NULL, style_color_black ());
 
 	/* NOTE : not documented but seems close
 	 * If you find a normative reference please forward it.
@@ -873,7 +873,9 @@ ms_excel_palette_get (ExcelPalette const *pal, gint idx)
 	 * The color index field seems to use
 	 *	8-63 = Palette index 0-55
 	 *
-	 *	0, 64, 65, 127 = auto ??
+	 * 	0 = black ?
+	 * 	1 = white ?
+	 *	64, 65, 127 = auto contrast ?
 	 */
 
 #ifndef NO_DEBUG_EXCEL
@@ -884,14 +886,17 @@ ms_excel_palette_get (ExcelPalette const *pal, gint idx)
 
 	/* Black ? */
 	if (idx == 0)
-		return style_color_new (0, 0, 0);
+		return style_color_black ();
 	/* White ? */
 	if (idx == 1)
-		return style_color_new (0xffff, 0xffff, 0xffff);
+		return style_color_white ();
 
 	idx -= 8;
-	g_return_val_if_fail (idx >= 0 && idx < pal->length,
-			      style_color_new (0, 0, 0));
+	if (idx < 0 || pal->length <= idx) {
+		g_warning ("EXCEL : color index (%d) is out of range (0..%d). Defaulting to black",
+			   idx + 8, pal->length);
+		return style_color_black();
+	}
 
 	if (pal->gnum_cols[idx] == NULL) {
 		gushort r, g, b;
@@ -906,7 +911,7 @@ ms_excel_palette_get (ExcelPalette const *pal, gint idx)
 		}
 #endif
 		pal->gnum_cols[idx] = style_color_new (r, g, b);
-		g_return_val_if_fail (pal->gnum_cols[idx], style_color_new (0, 0, 0));
+		g_return_val_if_fail (pal->gnum_cols[idx], style_color_black ());
 	}
 
 	style_color_ref (pal->gnum_cols[idx]);
@@ -1091,8 +1096,8 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 			/* Everything is auto default to black text/pattern on white */
 			if (pattern_index == 64 || pattern_index == 65 || pattern_index == 0)
 			{
-				back_color = style_color_new (0xffff, 0xffff, 0xffff);
-				font_color = pattern_color = style_color_new (0, 0, 0);
+				back_color = style_color_white ();
+				font_color = pattern_color = style_color_black ();
 			} else
 			{
 				pattern_color =
@@ -1170,7 +1175,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	for (i = 0; i < STYLE_ORIENT_MAX; i++) {
 		int const color_index = xf->border_color[i];
 		/* Handle auto colours */
-		StyleColor *color = (color_index == 64 || color_index == 127)
+		StyleColor *color = (color_index == 64 || color_index == 65 || color_index == 127)
 			? black_or_white_contrast (back_color)
 			: ms_excel_palette_get (sheet->wb->palette,
 						color_index);
@@ -2654,6 +2659,29 @@ ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
 #endif
 }
 
+static void
+ms_excel_read_GUTS (BiffQuery *q, ExcelSheet *sheet)
+{
+	g_return_if_fail (q->length == 8);
+	{
+		guint16 const row_gutter = MS_OLE_GET_GUINT16(q->data);
+		guint16 const col_gutter = MS_OLE_GET_GUINT16(q->data+2);
+		guint16 const max_row_outline = MS_OLE_GET_GUINT16(q->data+4);
+		guint16 const max_col_outline = MS_OLE_GET_GUINT16(q->data+6);
+
+		/* TODO : Use this information when gnumeric supports gutters,
+		 *        and outlines */
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 1) {
+			printf ("Gutters : row = %hu col = %hu\n"
+				"Max outline : row %hu col %hu\n",
+				row_gutter, col_gutter,
+				max_row_outline, max_col_outline);
+		}
+#endif
+	}
+}
+
 static gboolean
 ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 {
@@ -2773,10 +2801,13 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 		case BIFF_DELTA:
 		case BIFF_SAVERECALC:
 		case BIFF_PRINTHEADERS:
-		case BIFF_GUTS:
 		case BIFF_DEFAULTROWHEIGHT:
 		case BIFF_COUNTRY:
 		case BIFF_WSBOOL:
+			break;
+
+		case BIFF_GUTS:
+			ms_excel_read_GUTS (q, sheet);
 			break;
 
 		case BIFF_HEADER: /* FIXME : S59D94 */
@@ -2833,9 +2864,13 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 		case BIFF_OBJPROTECT:
 		case BIFF_PROTECT:
 		{
-			/* TODO : What to do with this information ? */
-			gboolean is_protected;
-			is_protected = MS_OLE_GET_GUINT16(q->data) == 1;
+			/* TODO : Use this information when gnumeric supports protection */
+			gboolean const is_protected = MS_OLE_GET_GUINT16(q->data) == 1;
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_read_debug > 1 && is_protected) {
+				printf ("Sheet is protected\n");
+			}
+#endif
 			break;
 		}
 
@@ -2931,7 +2966,12 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 
 		case BIFF_SCENMAN:
 		case BIFF_SCENARIO:
+			break;
+
 		case BIFF_MERGECELLS:
+#if 0
+			dump_biff (q);
+#endif
 			break;
 
 		default:
@@ -3388,12 +3428,15 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 		case BIFF_OBJPROTECT :
 		case BIFF_PROTECT :
 		{
-			/* TODO : What to do with this information ? */
-			gboolean is_protected;
-			is_protected = MS_OLE_GET_GUINT16(q->data) == 1;
+			/* TODO : Use this information when gnumeric supports protection */
+			gboolean const is_protected = MS_OLE_GET_GUINT16(q->data) == 1;
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_read_debug > 1 && is_protected) {
+				printf ("Sheet is protected\n");
+			}
+#endif
 			break;
 		}
-			break;
 
 		case BIFF_PASSWORD :
 			break;

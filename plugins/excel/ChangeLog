@@ -1,8 +1,20 @@
+1999-11-17  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (black_or_white_contrast) : Use new
+	  style_color{black,white} functions.
+	(ms_excel_palette_get) : Ditto.
+	(ms_excel_get_style_from_xf) : Ditto.
+
 1999-11-17  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-excel-read.c (biff_xf_data_new): Quieten.
 	(ms_excel_palette_get): Return black on failure.
 	(biff_get_text): quieten various warnings.
+
+1999-11-16  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_GUTS) : New function.
+	(ms_excel_read_sheet) : used here.
 
 1999-11-15  Jody Goldberg <jgoldberg@home.com>
 
