@@ -1,5 +1,10 @@
 2005-04-01  Jon K Hellan  <hellan@acm.org>
 
+	* src/gnm-so-filled.c (gnm_so_polygon_write_xml_dom) 
+	(gnm_so_polygon_write_xml_sax): Fix warnings.
+
+2005-04-01  Jon K Hellan  <hellan@acm.org>
+
 	* src/workbook-control-gui.c (wbcg_sheet_add): Make the
 	GNUMERIC_SHEET target GTK_TARGET_SAME_APP. 
 	(cb_wbcg_drag_data_received): Added source_widget parameter.

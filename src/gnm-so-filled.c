@@ -691,14 +691,12 @@ static gboolean
 gnm_so_polygon_write_xml_dom (SheetObject const *so,
 			      XmlParseContext const *ctxt, xmlNodePtr node)
 {
-	GnmSOPolygon *sop = GNM_SO_POLYGON (so);
 	return gnm_so_polygon_parent_class->write_xml_dom (so, ctxt, node);
 }
 
 static void
 gnm_so_polygon_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
-	GnmSOPolygon const *sop = GNM_SO_POLYGON (so);
 	return gnm_so_polygon_parent_class->write_xml_sax (so, output);
 }
 
