@@ -106,6 +106,7 @@ update_lc (void)
 		}
 	if (!lc_currency)
 		lc_currency = g_strdup ("$");
+	locale_info_cached = TRUE;
 }
 
 char

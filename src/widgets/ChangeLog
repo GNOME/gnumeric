@@ -1,3 +1,11 @@
+2003-06-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* widget-format-selector.h (number_format_selector_set_locale): new
+	* widget-format-selector.c (number_format_selector_set_locale): new
+	(fillin_negative_samples): switch to appropriate locale
+	(nfs_init): initialize locale
+	(nfs_destroy): destroy locale
+
 2003-06-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* widget-locale-selector.c: added more locales

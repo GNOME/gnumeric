@@ -126,10 +126,8 @@ static void
 locale_changed_cb (LocaleSelector *ls, char const *new_enc,
 		      DruidPageData_t *pagedata)
 {
-	const char *name = locale_selector_get_locale_name (ls, new_enc);
-#warning Fixme: implement locale changes
-	g_warning ("Locale changes (%s) have not been implemented", 
-			   name ? name : new_enc);
+	number_format_selector_set_locale (pagedata->format.format_selector,
+					   new_enc);
 }
 
 

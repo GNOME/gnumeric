@@ -38,6 +38,10 @@
 /* The maximum number of chars in the formatting sample */
 #define FORMAT_PREVIEW_MAX 40
 
+#define SETUP_LOCALE_SWITCH char *oldlocale = NULL
+#define START_LOCALE_SWITCH if (nfs->locale) oldlocale = g_strdup(gnumeric_setlocale(LC_ALL, nfs->locale))
+#define END_LOCALE_SWITCH if (oldlocale) {gnumeric_setlocale(LC_ALL, oldlocale);g_free (oldlocale);}
+
 static GtkHBoxClass *nfs_parent_class;
 
 /* Signals we emit */
@@ -158,10 +162,13 @@ fillin_negative_samples (NumberFormatSelector *nfs)
 	int i;
 	GtkTreeIter  iter;
 	GtkTreePath *path;
+	SETUP_LOCALE_SWITCH;
 
 	g_return_if_fail (page == 1 || page == 2);
 	g_return_if_fail (nfs->format.num_decimals <= 30);
 
+	START_LOCALE_SWITCH;
+		
 	if (nfs->format.use_separator)
 		thousand_sep[0] = format_get_thousand ();
 	if (nfs->format.num_decimals > 0)
@@ -220,6 +227,8 @@ fillin_negative_samples (NumberFormatSelector *nfs)
 	gtk_tree_path_append_index (path, nfs->format.negative_format);
 	gtk_tree_selection_select_path (nfs->format.negative_types.selection, path);
 	gtk_tree_path_free (path);
+
+	END_LOCALE_SWITCH;
 }
 
 static void
@@ -640,6 +649,7 @@ nfs_init (NumberFormatSelector *nfs)
 	GtkWidget *old_parent;
 
 	nfs->enable_edit = FALSE;
+	nfs->locale = NULL;
 
 	nfs->gui = gnm_glade_xml_new (NULL, "format-selector.glade", NULL, NULL);
 	if (nfs->gui == NULL)
@@ -798,6 +808,9 @@ nfs_destroy (GtkObject *object)
 {
   	NumberFormatSelector *nfs = NUMBER_FORMAT_SELECTOR (object);
 
+	g_free (nfs->locale);
+	nfs->locale = NULL;
+
 	if (nfs->format.spec) {
 		style_format_unref (nfs->format.spec);
 		nfs->format.spec = NULL;
@@ -929,4 +942,18 @@ number_format_selector_editable_enters (NumberFormatSelector *nfs,
 				  GTK_WIDGET (nfs->format.widget[F_DECIMAL_SPIN]));
 	gnumeric_editable_enters (window,
 				  GTK_WIDGET (nfs->format.widget[F_ENTRY]));
+}
+
+
+void		
+number_format_selector_set_locale (NumberFormatSelector *nfs, 
+				   char const *locale)
+{
+	SETUP_LOCALE_SWITCH;
+	g_free (nfs->locale);
+	nfs->locale = g_strdup (locale);
+
+	START_LOCALE_SWITCH;
+	cb_format_class_changed (nfs->format.menu, nfs);
+	END_LOCALE_SWITCH;
 }

@@ -55,6 +55,7 @@ typedef struct {
 	GladeXML 	*gui;
 
 	Value		*value;
+	char *  	locale;
 
 	gboolean	enable_edit;
 
@@ -106,6 +107,8 @@ void		number_format_selector_set_date_conv (NumberFormatSelector *nfs,
 						      GnmDateConventions const *date_conv);
 void		number_format_selector_editable_enters (NumberFormatSelector *nfs,
 							GtkWindow *window);
+void		number_format_selector_set_locale (NumberFormatSelector *nfs, 
+						   char const *locale);
 
 #endif /*__WIDGET_FORMAT_SELECTOR_H__*/
 
