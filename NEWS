@@ -1,8 +1,12 @@
 Gnumeric 0.57
 
-Morten
+Morten:
 	* Cleanup analysis tool code.
 	* Eliminate many fixed limits in the code.  (Still some to go.)
+
+Jukka:
+	* Implemented TRUE and FALSE logical functions and started
+          COUPDAYS.
 
 Translations:
 	* Updated: de (Karl), no (Kjartan), maybe more.

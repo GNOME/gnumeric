@@ -34,7 +34,7 @@ Gnumeric Spread Sheet task list
       ODDLPRICE, ODDLYIELD, PRICE, VDB, YIELD, YIELDDISC, and YIELDMAT.
 
 * Fix the Following Functions
-    * CELL, COUPDAYS, DURATION, and FALSE()
+    * CELL, COUPDAYS, and DURATION
 
 * Printing
   * Preview

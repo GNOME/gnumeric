@@ -1,3 +1,7 @@
+2000-06-30  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/functions/fn-logical.c: Added FALSE().
+
 2000-06-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/application.c (application_set_selected_sheet) : short circuit

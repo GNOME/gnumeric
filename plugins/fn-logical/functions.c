@@ -246,6 +246,28 @@ gnumeric_true (FunctionEvalInfo *ei, GList *expr_node_list)
 
 /***************************************************************************/
 
+static char *help_false = {
+	N_("@FUNCTION=FALSE\n"
+	   "@SYNTAX=FALSE()\n"
+
+	   "@DESCRIPTION="
+	   "FALSE returns boolean value false.  "
+	   "This function is Excel compatible. "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "FALSE() equals FALSE.\n"
+	   "\n"
+	   "@SEEALSO=TRUE")
+};
+
+static Value *
+gnumeric_false (FunctionEvalInfo *ei, GList *expr_node_list)
+{
+	return value_new_bool (FALSE);
+}
+
+/***************************************************************************/
+
 void
 logical_functions_init (void)
 {
@@ -256,6 +278,9 @@ logical_functions_init (void)
 			    "",
 			    &help_and, gnumeric_and);
 
+	function_add_args (cat,"false",    "",
+			   "",
+			   &help_false,  gnumeric_false);
 	def = function_add_nodes (cat,"if",      0,
 				  "logical_test,value_if_true,value_if_false",
 				  &help_if,  gnumeric_if);
@@ -267,7 +292,7 @@ logical_functions_init (void)
 	function_add_nodes (cat,"or",      0,
 			    "",
 			    &help_or,  gnumeric_or);
-	function_add_nodes (cat,"true",    0,
-			    "",
-			    &help_true,  gnumeric_true);
+	function_add_args (cat,"true",    "",
+			   "",
+			   &help_true,  gnumeric_true);
 }
