@@ -57,7 +57,7 @@ static const char *help_char = {
 	   "@SYNTAX=CHAR(x)\n"
 
 	   "@DESCRIPTION="
-	   "CHAR returns the ASCII character represented by the number @x."
+	   "CHAR returns the ASCII character represented by the number @x.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "CHAR(65) equals A.\n"
@@ -83,8 +83,8 @@ static const char *help_code = {
 	   "@SYNTAX=CODE(char)\n"
 
 	   "@DESCRIPTION="
-	   "CODE returns the ASCII number for the character @char.\n"
-           "This function is Excel compatible. "
+	   "CODE returns the ASCII number for the character @char.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "CODE(\"A\") equals 65.\n"
@@ -106,8 +106,8 @@ static const char *help_exact = {
 
 	   "@DESCRIPTION="
 	   "EXACT returns true if @string1 is exactly equal to @string2 "
-	   "(this routine is case sensitive).\n"
-           "This function is Excel compatible."
+	   "(this routine is case sensitive).\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "EXACT(\"key\",\"key\") equals TRUE.\n"
@@ -130,8 +130,8 @@ static const char *help_len = {
 	   "@SYNTAX=LEN(string)\n"
 
 	   "@DESCRIPTION="
-	   "LEN returns the length in characters of the string @string.\n"
-           "This function is Excel compatible."
+	   "LEN returns the length in characters of the string @string.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "len(\"Helsinki\") equals 8.\n"
@@ -153,8 +153,8 @@ static const char *help_left = {
 
 	   "@DESCRIPTION="
 	   "LEFT returns the leftmost @num_chars characters or the left "
-	   "character if @num_chars is not specified.\n"
-           "This function is Excel compatible. "
+	   "character if @num_chars is not specified.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "LEFT(\"Directory\",3) equals \"Dir\".\n"
@@ -188,8 +188,8 @@ static const char *help_lower = {
 	   "@SYNTAX=LOWER(text)\n"
 
 	   "@DESCRIPTION="
-	   "LOWER returns a lower-case version of the string in @text.\n"
-           "This function is Excel compatible."
+	   "LOWER returns a lower-case version of the string in @text.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "LOWER(\"J. F. Kennedy\") equals \"j. f. kennedy\".\n"
@@ -211,8 +211,8 @@ static const char *help_mid = {
 
 	   "@DESCRIPTION="
 	   "MID returns a substring from @string starting at @position for "
-	   "@length characters.\n"
-           "This function is Excel compatible."
+	   "@length characters.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "MID(\"testing\",2,3) equals \"est\".\n"
@@ -256,8 +256,8 @@ static const char *help_right = {
 
 	   "@DESCRIPTION="
 	   "RIGHT returns the rightmost @num_chars characters or the right "
-	   "character if @num_chars is not specified.\n"
-           "This function is Excel compatible. "
+	   "character if @num_chars is not specified.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "RIGHT(\"end\") equals \"d\".\n"
@@ -299,8 +299,8 @@ static const char *help_upper = {
 	   "@SYNTAX=UPPER(text)\n"
 
 	   "@DESCRIPTION="
-	   "UPPER returns a upper-case version of the string in @text.\n"
-           "This function is Excel compatible."
+	   "UPPER returns a upper-case version of the string in @text.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "UPPER(\"canceled\") equals \"CANCELED\".\n"
@@ -320,8 +320,8 @@ static const char *help_concatenate = {
 	N_("@FUNCTION=CONCATENATE\n"
 	   "@SYNTAX=CONCATENATE(string1[,string2...])\n"
 	   "@DESCRIPTION="
-	   "CONCATENATE returns up appended strings.\n"
-           "This function is Excel compatible."
+	   "CONCATENATE returns up appended strings.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "CONCATENATE(\"aa\",\"bb\") equals \"aabb\".\n"
@@ -344,8 +344,8 @@ static const char *help_rept = {
 	N_("@FUNCTION=REPT\n"
 	   "@SYNTAX=REPT(string,num)\n"
 	   "@DESCRIPTION="
-	   "REPT returns @num repetitions of @string.\n"
-           "This function is Excel compatible. "
+	   "REPT returns @num repetitions of @string.\n\n"
+           "* This function is Excel compatible.\n "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "REPT(\".\",3) equals \"...\".\n"
@@ -390,8 +390,8 @@ static const char *help_clean = {
 	N_("@FUNCTION=CLEAN\n"
 	   "@SYNTAX=CLEAN(string)\n"
 	   "@DESCRIPTION="
-	   "CLEAN removes any non-printable characters from @string.\n"
-           "This function is Excel compatible."
+	   "CLEAN removes any non-printable characters from @string.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "CLEAN(\"one\"\\&char(7)) equals \"one\".\n"
@@ -425,8 +425,8 @@ static const char *help_find = {
 	   "@DESCRIPTION="
 	   "FIND returns position of @string1 in @string2 (case-sensitive), "
 	   "searching only from character @start onwards (assuming 1 if "
-	   "omitted).\n"
-           "This function is Excel compatible."
+	   "omitted).\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "FIND(\"ac\",\"Jack\") equals 2.\n"
@@ -460,12 +460,15 @@ gnumeric_find (FunctionEvalInfo *ei, Value **argv)
 	if (count <= 0 || count > haystacksize) {
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	} else {
-		const char *haystart = g_utf8_offset_to_pointer (haystack, count - 1);
-		const char *p        = g_strstr_len (haystart, strlen (haystart), needle);
+		const char *haystart = g_utf8_offset_to_pointer (haystack,
+								 count - 1);
+		const char *p        = g_strstr_len (haystart,
+						     strlen (haystart), needle);
 
 		if (p)
 			/* One-based */
-			return value_new_int (g_utf8_pointer_to_offset (haystack, p) + 1);
+			return value_new_int
+				(g_utf8_pointer_to_offset (haystack, p) + 1);
 		else
 			/* Really?  */
 			return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -480,8 +483,8 @@ static const char *help_fixed = {
 	   "@DESCRIPTION="
 	   "FIXED returns @num as a formatted string with @decimals numbers "
 	   "after the decimal point, omitting commas if requested by "
-	   "@no_commas.\n"
-           "This function is Excel compatible."
+	   "@no_commas.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "FIXED(1234.567,2) equals \"1,234.57\".\n"
@@ -505,7 +508,7 @@ gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 		gboolean err;
 		commas = !value_get_as_bool (argv[2], &err);
 		if (err)
-			return value_new_error (ei->pos, _("Type Mismatch"));
+			return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}
 
 	if (decimals >= 127) /* else buffer overflow */
@@ -547,8 +550,8 @@ static const char *help_proper = {
 	   "@SYNTAX=PROPER(string)\n"
 
 	   "@DESCRIPTION="
-	   "PROPER returns @string with initial of each word capitalised.\n"
-           "This function is Excel compatible."
+	   "PROPER returns @string with initial of each word capitalised.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "PROPER(\"j. f. kennedy\") equals \"J. F. Kennedy\".\n"
@@ -574,9 +577,11 @@ gnumeric_proper (FunctionEvalInfo *ei, Value **argv)
 
 		if (g_unichar_isalpha (uc)) {
 			if (inword) {
-				g_string_append_unichar (res, g_unichar_tolower (uc));
+				g_string_append_unichar
+					(res, g_unichar_tolower (uc));
 			} else {
-				g_string_append_unichar (res, g_unichar_toupper (uc));
+				g_string_append_unichar
+					(res, g_unichar_toupper (uc));
 				inword = TRUE;
 			}
 		} else {
@@ -597,8 +602,8 @@ static const char *help_replace = {
 	   "@SYNTAX=REPLACE(old,start,num,new)\n"
 	   "@DESCRIPTION="
 	   "REPLACE returns @old with @new replacing @num characters from "
-	   "@start.\n"
-           "This function is Excel compatible."
+	   "@start.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "REPLACE(\"testing\",2,3,\"*****\") equals \"t*****ing\".\n"
@@ -646,8 +651,8 @@ static const char *help_t_ = {
 	   "@SYNTAX=T(value)\n"
 	   "@DESCRIPTION="
 	   "T returns @value if and only if it is text, otherwise a blank "
-	   "string.\n"
-           "This function is Excel compatible."
+	   "string.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "T(\"text\") equals \"text\".\n"
@@ -673,8 +678,8 @@ static const char *help_text = {
 	N_("@FUNCTION=TEXT\n"
 	   "@SYNTAX=TEXT(value,format_text)\n"
 	   "@DESCRIPTION="
-	   "TEXT returns @value as a string with the specified format.\n"
-           "This function is Excel compatible."
+	   "TEXT returns @value as a string with the specified format.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "TEXT(3.223,\"$0.00\") equals \"$3.22\".\n"
@@ -686,10 +691,11 @@ static const char *help_text = {
 static Value *
 gnumeric_text (FunctionEvalInfo *ei, Value **args)
 {
-	StyleFormat *format = style_format_new_XL (value_peek_string (args[1]), TRUE);
-	Value *res, *tmp = NULL;
+	StyleFormat *format = style_format_new_XL (value_peek_string (args[1]),
+						   TRUE);
+	Value       *res, *tmp = NULL;
 	Value const *arg  = args[0];
-	gboolean ok = FALSE;
+	gboolean    ok = FALSE;
 
 	if (arg->type == VALUE_STRING) {
 		Value *match = format_match (value_peek_string (arg), NULL);
@@ -721,8 +727,8 @@ static const char *help_trim = {
 	N_("@FUNCTION=TRIM\n"
 	   "@SYNTAX=TRIM(text)\n"
 	   "@DESCRIPTION="
-	   "TRIM returns @text with only single spaces between words.\n"
-           "This function is Excel compatible."
+	   "TRIM returns @text with only single spaces between words.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "TRIM(\"  a bbb  cc\") equals \"a bbb cc\".\n"
@@ -773,8 +779,8 @@ static const char *help_value = {
 	N_("@FUNCTION=VALUE\n"
 	   "@SYNTAX=VALUE(text)\n"
 	   "@DESCRIPTION="
-	   "VALUE returns numeric value of @text.\n"
-           "This function is Excel compatible."
+	   "VALUE returns numeric value of @text.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "VALUE(\"$1,000\") equals 1000.\n"
@@ -817,8 +823,8 @@ static const char *help_substitute = {
 	   "@DESCRIPTION="
 	   "SUBSTITUTE replaces @old with @new in @text.  Substitutions "
 	   "are only applied to instance @num of @old in @text, otherwise "
-	   "every one is changed.\n"
-           "This function is Excel compatible."
+	   "every one is changed.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "SUBSTITUTE(\"testing\",\"test\",\"wait\") equals \"waiting\".\n"
@@ -837,9 +843,9 @@ subs_string_new (guint len)
 {
 	struct subs_string *s = g_new (struct subs_string, 1);
 
-	s->len = 0;
-	s->mem = len;
-	s->str = g_new (gchar, len);
+	s->len  = 0;
+	s->mem  = len;
+	s->str  = g_new (gchar, len);
 	*s->str = '\0';
 	return s;
 }
@@ -931,8 +937,8 @@ static const char *help_dollar = {
 	N_("@FUNCTION=DOLLAR\n"
 	   "@SYNTAX=DOLLAR(num[,decimals])\n"
 	   "@DESCRIPTION="
-	   "DOLLAR returns @num formatted as currency.\n"
-           "This function is Excel compatible."
+	   "DOLLAR returns @num formatted as currency.\n\n"
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "DOLLAR(12345) equals \"$12,345.00\".\n"
@@ -988,7 +994,8 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 	}
 	sf = style_format_new_XL (format, FALSE);
 	g_free (format);
-	g_return_val_if_fail (sf != NULL, value_new_error (ei->pos, gnumeric_err_NA));
+	g_return_val_if_fail (sf != NULL,
+			      value_new_error (ei->pos, gnumeric_err_NA));
 
 	/* Since decimals can be negative, round the number.  */
 	p10 = gpow10 (decimals);
@@ -1013,18 +1020,18 @@ static const char *help_search = {
 	   "@within is the string in which you want to search.  @start_num "
 	   "is the start position of the search in @within.  If @start_num "
 	   "is omitted, it is assumed to be one.  The search is not case "
-	   "sensitive. "
+	   "sensitive.\n"
 	   "\n"
 	   "@text can contain wildcard characters (*) and question marks (?) "
 	   "to control the search.  A question mark matches with any "
 	   "character and wildcard matches with any string including empty "
 	   "string.  If you want the actual wildcard or question mark to "
-	   "be searched, use tilde (~) before the character. "
+	   "be searched, use tilde (~) before the character.\n"
 	   "\n"
-	   "If @text is not found, SEARCH returns #VALUE! error. "
-	   "If @start_num is less than one or it is greater than the length "
+	   "* If @text is not found, SEARCH returns #VALUE! error.\n"
+	   "* If @start_num is less than one or it is greater than the length "
 	   "of @within, SEARCH returns #VALUE! error.\n"
-           "This function is Excel compatible."
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "SEARCH(\"c\",\"Cancel\") equals 1.\n"
@@ -1230,28 +1237,51 @@ match_again:
 /***************************************************************************/
 
 const ModulePluginFunctionInfo string_functions[] = {
-        { "char",       "f",     N_("number"),                  &help_char,        gnumeric_char, NULL, NULL, NULL },
-        { "clean",      "S",     N_("text"),                    &help_clean,       gnumeric_clean, NULL, NULL, NULL },
-        { "code",       "S",     N_("text"),                    &help_code,        gnumeric_code, NULL, NULL, NULL },
-        { "concatenate", 0,      N_("text,text,"),              &help_concatenate, NULL, gnumeric_concatenate, NULL, NULL },
-        { "dollar",     "f|f",   N_("num,decimals"),            &help_dollar,      gnumeric_dollar, NULL, NULL, NULL },
-        { "exact",      "SS",    N_("text1,text2"),             &help_exact,       gnumeric_exact, NULL, NULL, NULL },
-        { "find",       "SS|f",  N_("text1,text2,num"),         &help_find,        gnumeric_find, NULL, NULL, NULL },
-        { "fixed",      "f|fb",  N_("num,decs,no_commas"),      &help_fixed,       gnumeric_fixed, NULL, NULL, NULL },
-        { "left",       "S|f",   N_("text,num_chars"),          &help_left,        gnumeric_left, NULL, NULL, NULL },
-        { "len",        "S",     N_("text"),                    &help_len,         gnumeric_len, NULL, NULL, NULL },
-        { "lower",      "S",     N_("text"),                    &help_lower,       gnumeric_lower, NULL, NULL, NULL },
-        { "proper",     "S",     N_("text"),                    &help_proper,      gnumeric_proper, NULL, NULL, NULL },
-        { "mid",        "Sff",   N_("text,pos,num"),            &help_mid,         gnumeric_mid, NULL, NULL, NULL },
-        { "replace",    "SffS",  N_("old,start,num,new"),       &help_replace,     gnumeric_replace, NULL, NULL, NULL },
-        { "rept",       "Sf",    N_("text,num"),                &help_rept,        gnumeric_rept, NULL, NULL, NULL },
-        { "right",      "S|f",   N_("text,num_chars"),          &help_right,       gnumeric_right, NULL, NULL, NULL },
-        { "search",     "SS|f",  N_("find,within,start_num"),   &help_search,      gnumeric_search, NULL, NULL, NULL },
-        { "substitute", "SSS|f", N_("text,old,new,num"),        &help_substitute,  gnumeric_substitute, NULL, NULL, NULL },
-        { "t",          "?",     N_("value"),                   &help_t_,          gnumeric_t_, NULL, NULL, NULL },
-        { "text",       "Ss",    N_("value,format_text"),       &help_text,        gnumeric_text, NULL, NULL, NULL },
-        { "trim",       "S",     N_("text"),                    &help_trim,        gnumeric_trim, NULL, NULL, NULL },
-        { "upper",      "S",     N_("text"),                    &help_upper,       gnumeric_upper, NULL, NULL, NULL },
-        { "value",      "?",     N_("text"),                    &help_value,       gnumeric_value, NULL, NULL, NULL },
+        { "char",       "f",     N_("number"),                  &help_char,
+	  gnumeric_char, NULL, NULL, NULL },
+        { "clean",      "S",     N_("text"),                    &help_clean,
+       gnumeric_clean, NULL, NULL, NULL },
+        { "code",       "S",     N_("text"),                    &help_code,
+	  gnumeric_code, NULL, NULL, NULL },
+        { "concatenate", 0,      N_("text,text,"),            &help_concatenate,
+	  NULL, gnumeric_concatenate, NULL, NULL },
+        { "dollar",     "f|f",   N_("num,decimals"),            &help_dollar,
+	  gnumeric_dollar, NULL, NULL, NULL },
+        { "exact",      "SS",    N_("text1,text2"),             &help_exact,
+	  gnumeric_exact, NULL, NULL, NULL },
+        { "find",       "SS|f",  N_("text1,text2,num"),         &help_find,
+	  gnumeric_find, NULL, NULL, NULL },
+        { "fixed",      "f|fb",  N_("num,decs,no_commas"),      &help_fixed,
+	  gnumeric_fixed, NULL, NULL, NULL },
+        { "left",       "S|f",   N_("text,num_chars"),          &help_left,
+	  gnumeric_left, NULL, NULL, NULL },
+        { "len",        "S",     N_("text"),                    &help_len,
+	  gnumeric_len, NULL, NULL, NULL },
+        { "lower",      "S",     N_("text"),                    &help_lower,
+	  gnumeric_lower, NULL, NULL, NULL },
+        { "proper",     "S",     N_("text"),                    &help_proper,
+	  gnumeric_proper, NULL, NULL, NULL },
+        { "mid",        "Sff",   N_("text,pos,num"),            &help_mid,
+	  gnumeric_mid, NULL, NULL, NULL },
+        { "replace",    "SffS",  N_("old,start,num,new"),       &help_replace,
+	  gnumeric_replace, NULL, NULL, NULL },
+        { "rept",       "Sf",    N_("text,num"),                &help_rept,
+	  gnumeric_rept, NULL, NULL, NULL },
+        { "right",      "S|f",   N_("text,num_chars"),          &help_right,
+	  gnumeric_right, NULL, NULL, NULL },
+        { "search",     "SS|f",  N_("find,within,start_num"),   &help_search,
+	  gnumeric_search, NULL, NULL, NULL },
+        { "substitute", "SSS|f", N_("text,old,new,num"),       &help_substitute,
+	  gnumeric_substitute, NULL, NULL, NULL },
+        { "t",          "?",     N_("value"),                   &help_t_,
+          gnumeric_t_, NULL, NULL, NULL },
+        { "text",       "Ss",    N_("value,format_text"),       &help_text,
+	  gnumeric_text, NULL, NULL, NULL },
+        { "trim",       "S",     N_("text"),                    &help_trim,
+	  gnumeric_trim, NULL, NULL, NULL },
+        { "upper",      "S",     N_("text"),                    &help_upper,
+	  gnumeric_upper, NULL, NULL, NULL },
+        { "value",      "?",     N_("text"),                    &help_value,
+	  gnumeric_value, NULL, NULL, NULL },
         {NULL}
 };

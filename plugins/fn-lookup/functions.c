@@ -343,25 +343,26 @@ static const char *help_address = {
 
 	   "@DESCRIPTION="
 	   "ADDRESS returns a cell address as text for specified row "
-	   "and column numbers. "
-	   "\n"
-	   "If @abs_num is 1 or omitted, ADDRESS returns absolute reference. "
-	   "If @abs_num is 2 ADDRESS returns absolute row and relative "
-	   "column.  If @abs_num is 3 ADDRESS returns relative row and "
-	   "absolute column. "
-	   "If @abs_num is 4 ADDRESS returns relative reference. "
-	   "If @abs_num is greater than 4 ADDRESS returns #VALUE! error. "
+	   "and column numbers.\n"
 	   "\n"
 	   "@a1 is a logical value that specifies the reference style.  If "
 	   "@a1 is TRUE or omitted, ADDRESS returns an A1-style reference, "
 	   "i.e. $D$4.  Otherwise ADDRESS returns an R1C1-style reference, "
-	   "i.e. R4C4. "
+	   "i.e. R4C4.\n"
 	   "\n"
 	   "@text specifies the name of the worksheet to be used as the "
-	   "external reference.  "
+	   "external reference.\n"
 	   "\n"
-	   "If @row_num or @col_num is less than one, ADDRESS returns #VALUE! "
-	   "error. "
+	   "* If @abs_num is 1 or omitted, ADDRESS returns absolute "
+	   "reference.\n"
+	   "* If @abs_num is 2 ADDRESS returns absolute row and relative "
+	   "column.\n"
+	   "* If @abs_num is 3 ADDRESS returns relative row and "
+	   "absolute column.\n"
+	   "* If @abs_num is 4 ADDRESS returns relative reference.\n"
+	   "* If @abs_num is greater than 4 ADDRESS returns #VALUE! error.\n"
+	   "* If @row_num or @col_num is less than one, ADDRESS returns "
+	   "#VALUE! error.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ADDRESS(5,4) equals \"$D$5\".\n"
@@ -413,7 +414,8 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 	switch (abs_num) {
 	case 1: case 5:
 	        if (a1)
-		        sprintf (buf, "%s$%s$%d", text, col_name (col - 1), row);
+		        sprintf (buf, "%s$%s$%d", text, col_name (col - 1),
+				 row);
 		else
 		        sprintf (buf, "%sR%dC%d", text, row, col);
 		break;
@@ -455,12 +457,14 @@ static const char *help_choose = {
 
 	   "@DESCRIPTION="
 	   "CHOOSE returns the value of index @index. "
-	   "@index is rounded to an integer if it is not."
+	   "@index is rounded to an integer if it is not.\n"
 	   "\n"
-	   "If @index < 1 or @index > number of values: returns #VAL!."
+	   "* If @index < 1 or @index > number of values, CHOOSE "
+	   "returns #VALUE! error.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "CHOOSE(3,\"Apple\",\"Orange\",\"Grape\",\"Perry\") equals \"Grape\".\n"
+	   "CHOOSE(3,\"Apple\",\"Orange\",\"Grape\",\"Perry\") equals "
+	   "\"Grape\".\n"
 	   "\n"
 	   "@SEEALSO=IF")
 };
@@ -475,7 +479,7 @@ gnumeric_choose (FunctionEvalInfo *ei, GnmExprList *l)
 	argc =  gnm_expr_list_length (l);
 
 	if (argc < 1 || !l->data)
-		return value_new_error (ei->pos, _("#ARG!"));
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	v = gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_STRICT);
 	if (!v)
@@ -486,12 +490,13 @@ gnumeric_choose (FunctionEvalInfo *ei, GnmExprList *l)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}
 
-	index = value_get_as_int(v);
+	index = value_get_as_int (v);
 	value_release (v);
 	for (l = l->next; l != NULL ; l = l->next) {
 		index--;
 		if (!index)
-			return gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+			return gnm_expr_eval (l->data, ei->pos,
+					      GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 	}
 	return value_new_error (ei->pos, gnumeric_err_VALUE);
 }
@@ -510,10 +515,10 @@ static const char *help_vlookup = {
 	   "correct function; in this case it finds the row with value less "
 	   "than @value.  It returns the value in the row found at a 1 based "
 	   "offset in @column columns into the @range.  @as_index returns the "
-	   "0 based offset that matched rather than the value"
+	   "0 based offset that matched rather than the value.\n"
 	   "\n"
-	   "Returns #NUM! if @column < 0. "
-	   "Returns #REF! if @column falls outside @range."
+	   "* VLOOKUP returns #NUM! if @column < 0.\n"
+	   "* VLOOKUP returns #REF! if @column falls outside @range.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -523,7 +528,7 @@ static const char *help_vlookup = {
 static Value *
 gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 {
-	int col_idx, index = -1;
+	int      col_idx, index = -1;
 	gboolean approx;
 
 	col_idx = value_get_as_int (args[2]);
@@ -568,10 +573,10 @@ static const char *help_hlookup = {
 	   "correct function; in this case it finds the col with value less "
 	   "than @value it returns the value in the col found at a 1 based "
 	   "offset in @row rows into the @range.  @as_index returns the offset "
-	   "that matched rather than the value"
+	   "that matched rather than the value.\n"
 	   "\n"
-	   "Returns #NUM! if @row < 0. "
-	   "Returns #REF! if @row falls outside @range."
+	   "* HLOOKUP returns #NUM! if @row < 0.\n"
+	   "* HLOOKUP returns #REF! if @row falls outside @range.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -622,13 +627,12 @@ static const char *help_lookup = {
 	   "LOOKUP function finds the row index of 'value' in @vector1 "
 	   "and returns the contents of value2 at that row index. "
 	   "If the area is longer than it is wide then the sense of the "
-	   "search is rotated. Alternatively a single array can be used."
+	   "search is rotated. Alternatively a single array can be used.\n"
 	   "\n"
-	   "If LOOKUP can't find @value it uses the next largest value less "
-	   "than value. "
-	   "The data must be sorted. "
-	   "\n"
-	   "If @value is smaller than the first value it returns #N/A"
+	   "* If LOOKUP can't find @value it uses the next largest value less "
+	   "than value.\n"
+	   "* The data must be sorted.\n"
+	   "* If @value is smaller than the first value it returns #N/A.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -687,20 +691,21 @@ static const char *help_match = {
 
 	   "@DESCRIPTION="
 	   "MATCH function finds the row index of @seek in @vector "
-	   "and returns it. "
+	   "and returns it.\n"
+	   "\n"
 	   "If the area is longer than it is wide then the sense of the "
-	   "search is rotated. Alternatively a single array can be used."
+	   "search is rotated. Alternatively a single array can be used.\n"
 	   "\n"
-	   "The @type parameter, which defaults to +1, controls the search:\n"
-	   "If @type = 1,  finds largest value <= @seek.\n"
-	   "If @type = 0,  finds first value == @seek.\n"
-	   "If @type = -1, finds smallest value >= @seek.\n"
+	   "* The @type parameter, which defaults to +1, controls the search:\n"
+	   "* If @type = 1, MATCH finds largest value <= @seek.\n"
+	   "* If @type = 0, MATCH finds first value == @seek.\n"
+	   "* If @type = -1, MATCH finds smallest value >= @seek.\n"
 	   "\n"
-	   "For type 0, the data can be in any order.  For types -1 and +1, "
+	   "* For type 0, the data can be in any order.  For types -1 and +1, "
 	   "the data must be sorted.  (And in this case, MATCH uses a binary "
-	   "search to locate the index.)"
+	   "search to locate the index.)\n"
 	   "\n"
-	   "If @seek could not be found, #N/A is returned."
+	   "* If @seek could not be found, #N/A is returned.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -749,9 +754,9 @@ static const char *help_indirect = {
 	   "INDIRECT function returns the contents of the cell pointed to "
 	   "by the ref_text string. The string specifices a single cell "
 	   "reference the format of which is either A1 or R1C1 style. The "
-	   "style is set by the format boolean, which defaults to the former."
+	   "style is set by the format boolean, which defaults to the former.\n"
 	   "\n"
-	   "If @ref_text is not a valid reference returns #REF! "
+	   "* If @ref_text is not a valid reference returns #REF! "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "If A1 contains 3.14 and A2 contains A1, then\n"
@@ -784,7 +789,8 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 			expr = tmp;
 		}
 		if (expr->any.oper == GNM_EXPR_OP_CELLREF) {
-			Value *res = gnm_expr_eval (expr, ei->pos, GNM_EXPR_EVAL_STRICT);
+			Value *res = gnm_expr_eval (expr, ei->pos,
+						    GNM_EXPR_EVAL_STRICT);
 			gnm_expr_unref (expr);
 			return res;
 		} else if (expr->any.oper == GNM_EXPR_OP_CONSTANT) {
@@ -809,16 +815,19 @@ static const char *help_index = {
 	"@SYNTAX=INDEX(array,[row, col, area])\n"
 	"@DESCRIPTION="
 	"INDEX gives a reference to a cell in the given @array."
-	"The cell is pointed out by @row and @col, which count the rows and columns"
-	"in the array.\n"
-	"If @row and @col are ommited the are assumed to be 1."
-	"@area has to be 1; references to multiple areas are not yet implemented."
-	"If the reference falls outside the range of the @array, INDEX returns a"
-	"#REF! error.\n"
+	"The cell is pointed out by @row and @col, which count the rows and "
+	"columns in the array.\n"
+	"\n"
+	"* If @row and @col are ommited the are assumed to be 1.\n"
+	"* @area has to be 1; references to multiple areas are not yet "
+	"implemented.\n"
+	"* If the reference falls outside the range of the @array, INDEX "
+	"returns a #REF! error.\n"
 	"\n"
 	"@EXAMPLES="
-	"Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3,"
-	"21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25,9\n"
+	"Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, "
+	"17.3, 21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25,9\n"
+	"\n"
 	"@SEEALSO=")
 };
 
@@ -857,10 +866,10 @@ static const char *help_column = {
 
 	   "@DESCRIPTION="
 	   "COLUMN function returns an array of the column numbers "
-	   "taking a default argument of the containing cell position."
+	   "taking a default argument of the containing cell position.\n"
 	   "\n"
-	   "If @reference is neither an array nor a reference nor a range "
-	   "returns #VALUE!."
+	   "* If @reference is neither an array nor a reference nor a range, "
+	   "COLUMN returns #VALUE! error.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "COLUMN() in E1 equals 5.\n"
@@ -909,10 +918,10 @@ static const char *help_columns = {
 
 	   "@DESCRIPTION="
 	   "COLUMNS function returns the number of columns in area or "
-	   "array reference."
+	   "array reference.\n"
 	   "\n"
-	   "If @reference is neither an array nor a reference nor a range "
-	   "returns #VALUE!."
+	   "* If @reference is neither an array nor a reference nor a range, "
+	   "COLUMNS returns #VALUE! error.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "COLUMNS(H2:J3) equals 3.\n"
@@ -936,11 +945,11 @@ static const char *help_offset = {
 	   "@DESCRIPTION="
 	   "OFFSET function returns a cell range. "
 	   "The cell range starts at offset (@col,@row) from @range, "
-	   "and is of height @height and width @width."
+	   "and is of height @height and width @width.\n"
 	   "\n"
-	   "If range is neither a reference nor a range returns #VALUE!.  "
-	   "If either height or width is omitted the height or width "
-	   "of the reference is used."
+	   "* If range is neither a reference nor a range returns #VALUE!.\n"
+	   "* If either height or width is omitted the height or width "
+	   "of the reference is used.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -959,8 +968,8 @@ gnumeric_offset (FunctionEvalInfo *ei, Value **args)
 
 	row_offset = value_get_as_int (args[1]);
 	col_offset = value_get_as_int (args[2]);
-	a.row += row_offset; b.row += row_offset;
-	a.col += col_offset; b.col += col_offset;
+	a.row     += row_offset; b.row += row_offset;
+	a.col     += col_offset; b.col += col_offset;
 
 	width = (args[3] != NULL)
 	    ? value_get_as_int (args[3])
@@ -992,10 +1001,10 @@ static const char *help_row = {
 
 	   "@DESCRIPTION="
 	   "ROW function returns an array of the row numbers taking "
-	   "a default argument of the containing cell position."
+	   "a default argument of the containing cell position.\n"
 	   "\n"
-	   "If @reference is neither an array nor a reference nor a range "
-	   "returns #VALUE!."
+	   "* If @reference is neither an array nor a reference nor a range, "
+	   "ROW returns #VALUE! error.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ROW() in G13 equals 13.\n"
@@ -1013,10 +1022,10 @@ gnumeric_row (FunctionEvalInfo *ei, Value **args)
 
 	switch (ref->type) {
 	case VALUE_CELLRANGE: {
-		int width = value_area_get_width (ei->pos, ref);
+		int width  = value_area_get_width (ei->pos, ref);
 		int height = value_area_get_height (ei->pos, ref);
 		CellRef const *const refa = &ref->v_range.cell.a;
-		int row = cellref_get_abs_row (refa, ei->pos) + 1;
+		int row    = cellref_get_abs_row (refa, ei->pos) + 1;
 		int i, j;
 		Value *res = value_new_array (width, height);
 
@@ -1044,10 +1053,10 @@ static const char *help_rows = {
 
 	   "@DESCRIPTION="
 	   "ROWS function returns the number of rows in area or array "
-	   "reference."
+	   "reference.\n"
 	   "\n"
-	   "If @reference is neither an array nor a reference nor a range "
-	   "returns #VALUE!."
+	   "* If @reference is neither an array nor a reference nor a range, "
+	   "ROWS returns #VALUE! error.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ROWS(H7:I13) equals 7.\n"
@@ -1070,8 +1079,7 @@ static const char *help_hyperlink = {
 
 	   "@DESCRIPTION="
 	   "HYPERLINK function currently returns its 2nd argument, "
-	   "or if that is omitted the 1st argument."
-	   "\n"
+	   "or if that is omitted the 1st argument.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "HYPERLINK(\"www.gnome.org\",\"GNOME\").\n"
@@ -1096,7 +1104,7 @@ static const char *help_transpose = {
 
 	   "@DESCRIPTION="
 	   "TRANSPOSE function returns the transpose of the input "
-	   "@matrix."
+	   "@matrix.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
