@@ -516,7 +516,7 @@ w_glpk_print_lp (SolverProgram program)
 			if (ndx [t] == n + 1)
 				printf ("%8g ", a[t++]);
 			else
-				printf ("%8g ", 0);
+				printf ("%8g ", 0.0);
 		}
 		g_free (ndx);
 		g_free (a);

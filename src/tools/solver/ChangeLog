@@ -1,3 +1,7 @@
+2002-10-09  Morten Welinder  <terra@diku.dk>
+
+	* api.c (w_glpk_print_lp): Fix type error.
+
 2002-09-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.9
