@@ -14,7 +14,11 @@
 #include "func.h"
 #include "plugin.h"
 #include "value.h"
-#include "limits.h"
+#include <limits.h>
+
+#ifndef WORD_BIT
+#define WORD_BIT (sizeof (int) * CHAR_BIT)
+#endif
 
 #define OUT_OF_BOUNDS "#LIMIT!"
 

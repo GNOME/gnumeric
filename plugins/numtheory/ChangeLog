@@ -1,3 +1,7 @@
+2000-08-07  Morten Welinder  <terra@diku.dk>
+
+	* numtheory.c (WORD_BIT): Compatibility fix.
+
 2000-08-03  Morten Welinder  <terra@diku.dk>
 
 	* numtheory.c (func_bitlshift, func_bitrshift): Handle large bit
