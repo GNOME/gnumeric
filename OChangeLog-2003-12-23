@@ -1,3 +1,19 @@
+2003-07-02  Jody Goldberg <jody@gnome.org>
+
+	* src/print.c (print_sheet_objects) : translate to the upper left
+	  corner of the object and pass in its width and height.
+	* src/sheet-object.c (sheet_object_print) : adjust print interface to
+	  only pass width and height in pts.  print context is already at 0,0
+	  and scaled.
+	* src/sheet-object-graph.c (sheet_object_graph_print) : Use new
+	  cleaner interface.
+	* src/sheet-object-image.c (sheet_object_image_print) : ditto.
+	* src/sheet-object-graphic.c (sheet_object_graphic_print) :
+	  Save the graphics context before filling and just resuse it for the
+	  outline.  Fix the direction handling for the new interface
+	  semantics.
+	(sheet_object_filled_print) : ditto.
+
 2003-07-01  Morten Welinder  <terra@gnome.org>
 
 	* src/datetime.c (yearfrac): New function.

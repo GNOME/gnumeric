@@ -304,32 +304,25 @@ sheet_object_image_clone (SheetObject const *so, Sheet *sheet)
 
 static void
 sheet_object_image_print (SheetObject const *so, GnomePrintContext *ctx,
-			  double base_x, double base_y)
+			  double width, double height)
 {
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
 	GdkPixbuf *pixbuf = soi_get_pixbuf (soi, 1.);
 
 	if (pixbuf != NULL) {
-		guchar *raw_image = gdk_pixbuf_get_pixels  (pixbuf);
-		gint width	= gdk_pixbuf_get_width     (pixbuf);
-		gint height	= gdk_pixbuf_get_height    (pixbuf);
+		char *raw_image = (char *)gdk_pixbuf_get_pixels (pixbuf);
 		gint rowstride	= gdk_pixbuf_get_rowstride (pixbuf);
-		double coords [4];
+		gint w	= gdk_pixbuf_get_width  (pixbuf);
+		gint h	= gdk_pixbuf_get_height (pixbuf);
 
-		sheet_object_position_pts_get (so, coords);
 		gnome_print_gsave (ctx);
-		gnome_print_translate (ctx,
-			base_x, base_y - fabs (coords[3] - coords[1]));
-		gnome_print_scale (ctx,
-			fabs (coords[2] - coords[0]),
-			fabs (coords[3] - coords[1]));
+		gnome_print_translate (ctx, 0, -height);
+		gnome_print_scale (ctx, width, height);
 
 		if (gdk_pixbuf_get_has_alpha (pixbuf))
-			gnome_print_rgbaimage (ctx, (char *)raw_image,
-					       width, height, rowstride);
+			gnome_print_rgbaimage (ctx, raw_image, w, h, rowstride);
 		else
-			gnome_print_rgbimage (ctx, (char *)raw_image,
-					      width, height, rowstride);
+			gnome_print_rgbimage (ctx, raw_image, w, h, rowstride);
 
 		g_object_unref (G_OBJECT (pixbuf));
 		gnome_print_grestore (ctx);

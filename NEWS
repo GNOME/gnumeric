@@ -22,6 +22,9 @@ Emmanuel Pacaud:
 	* New format selector for stf.
 	* support Ring plots
 
+Gustavo Carneiro:
+	* Use gnome-common detection for libtool version
+
 Jean Brefort:
 	* Support image files in chart areas (background, bar/col or pie)
 
@@ -37,6 +40,8 @@ Jody:
 	* Add XML persistence for charts
 	* Misc Charting improvements & fixes
 	* Add YEARFRAC to put us at 100% coverage
+	* Fix some format generation bugs
+	* Rationalize and document the SheetObject::print interface
 
 Jon Kåre:
 	* Improve color combo.

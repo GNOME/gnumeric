@@ -278,7 +278,6 @@ sheet_object_class_init (GObjectClass *klass)
 	sheet_object_class->populate_menu        = sheet_object_populate_menu;
 	sheet_object_class->print                = NULL;
 	sheet_object_class->user_config          = NULL;
-	sheet_object_class->stipple_border	 = FALSE;
 	sheet_object_class->rubber_band_directly = FALSE;
 	sheet_object_class->default_size	 = so_default_size;
 }
@@ -495,10 +494,10 @@ sheet_object_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 
 void
 sheet_object_print (SheetObject const *so, GnomePrintContext *ctx,
-		    double base_x, double base_y)
+		    double width, double height)
 {
 	if (SO_CLASS (so)->print)
-		SO_CLASS (so)->print (so, ctx, base_x, base_y);
+		SO_CLASS (so)->print (so, ctx, width, height);
 }
 
 SheetObject *

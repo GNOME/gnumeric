@@ -152,7 +152,6 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 	for (l = sheet->sheet_objects; l; l = l->next) {
 		SheetObject *so = SHEET_OBJECT (l->data);
 		double coords [4];
-		double obj_base_x = 0.0, obj_base_y = 0.0;
 
 		/* First check if we need to print this object */
 		if (!so->is_visible ||
@@ -160,21 +159,18 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 			continue;
 
 		sheet_object_position_pts_get (so, coords);
-		switch (pj->pi->scaling.type) {
-		case PERCENTAGE:
-			obj_base_x = base_x + (MIN (coords [0], coords [2])
-				- sheet_col_get_distance_pts (sheet, 0, range->start.col));
-			obj_base_y = base_y - (MIN (coords [3], coords [1])
-				- sheet_row_get_distance_pts (sheet, 0, range->start.row));
-			break;
-		case SIZE_FIT:
-			g_warning ("SIZE_FIT not implemented for "
-				   "objects!");
-			continue;
-		}
+		gnome_print_gsave (pj->print_context);
+		/* move to top left */
+		gnome_print_translate (pj->print_context,
+			base_x + (MIN (coords [0], coords [2])
+			    - sheet_col_get_distance_pts (sheet, 0, range->start.col)),
+			base_y - (MIN (coords [3], coords [1])
+			    - sheet_row_get_distance_pts (sheet, 0, range->start.row)));
 
 		sheet_object_print (so, pj->print_context,
-				    obj_base_x, obj_base_y);
+			fabs (coords[2] - coords[0]),
+			fabs (coords[3] - coords[1]));
+		gnome_print_grestore (pj->print_context);
 	}
 
 	gnome_print_grestore (pj->print_context);

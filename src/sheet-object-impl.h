@@ -48,10 +48,12 @@ typedef struct {
 	gboolean	(*write_xml) (SheetObject const *so,
 				      XmlParseContext const *ctxt,
 				      xmlNodePtr	tree);
+
+	/* Called with 0,0 set to the top, left corner of the object, and the
+	 * graphics context saved */
 	void                (*print) (SheetObject const *so,
 				      GnomePrintContext *ctx,
-				      double base_x,
-				      double base_y);
+				      double width, double height);
 	SheetObject *       (*clone) (SheetObject const *so,
 				      Sheet *sheet);
 
@@ -59,7 +61,6 @@ typedef struct {
 	void (*default_size)	 (SheetObject const *so,
 				  double *width_pts, double *height_pts);
 
-	gboolean stipple_border;
 	gboolean rubber_band_directly; /* If false, we draw a rectangle where
 					* the object is going to be layed out
 					* If true, we draw the object while

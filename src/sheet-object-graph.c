@@ -224,14 +224,10 @@ sheet_object_graph_clone (SheetObject const *so, Sheet *sheet)
 
 static void
 sheet_object_graph_print (SheetObject const *so, GnomePrintContext *ctx,
-			  double base_x, double base_y)
+			  double width, double height)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-	double coords [4];
-
-	sheet_object_position_pts_get (so, coords);
-	gog_graph_print_to_gnome_print (sog->graph, ctx,
-		base_x, base_y, coords);
+	gog_graph_print_to_gnome_print (sog->graph, ctx, width, height);
 }
 
 static void
