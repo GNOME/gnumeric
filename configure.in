@@ -440,7 +440,7 @@ dnl ***************************************
 
 dnl IDL flags for non-standard prefixes
 if $have_bonobo; then
-	IDL_FLAGS="-I$datadir/idl"
+	IDL_FLAGS="-I$datadir/idl `gnome-config --cflags idl`"
 	for path in `echo $GNOME_PATH | awk 'BEGIN { RS = ":"; } { print;}'`; do
 		IDL_FLAGS="$IDL_FLAGS -I$path/share/idl"
 	done
