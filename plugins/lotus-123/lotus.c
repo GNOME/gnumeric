@@ -8,29 +8,23 @@
  *    Morten Welinder (terra@diku.dk)
  **/
 #include <config.h>
-#include "gnumeric.h"
-
-#include <stdio.h>
-#include <errno.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include "workbook.h"
-#include "io-context.h"
-#include "gnumeric-util.h"
-#include "sheet.h"
-#include "file.h"
-#include "parse-util.h"
-#include "value.h"
-#include "cell.h"
-#include "gutils.h"
-#include "expr.h"
-#include "plugin-util.h"
-#include "error-info.h"
-
 #include "lotus.h"
 #include "lotus-types.h"
 #include "lotus-formula.h"
+
+#include <workbook.h>
+#include <sheet.h>
+#include <cell.h>
+#include <expr.h>
+#include <value.h>
+#include <gutils.h>
+#include <plugin-util.h>
+#include <error-info.h>
+
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <stdio.h>
+#include <string.h>
 
 #define LOTUS_DEBUG 0
 
