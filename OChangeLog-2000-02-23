@@ -1,5 +1,17 @@
 1999-10-24  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/mstyle.c (mstyle_new_default): Re-enable the standard background
+	color for now so things don't crash everywhere.
+
+	* src/item-grid.c (item_grid_draw_cell): Fixes for unset colors.
+
+	* src/Makefile.am (CLEANFILES): remove spurious binaries on clean.
+
+	* src/dialogs/dialog-cell-format.c (create_coloring_page): Sort out
+	case of no colors.
+
+1999-10-24  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/sheet-style.c (sheet_unique_cb): Again, CVS merge bug fixed.
 
 	* src/mstyle.c (mstyle_elements_equal): Fix stupid bug ( again ).

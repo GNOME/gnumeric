@@ -16,8 +16,10 @@ SUBDIRS = dialogs functions widgets
 
 if BONOBO
 bin_PROGRAMS = gnumeric-bonobo
+CLEANFILES  += gnumeric
 else
 bin_PROGRAMS = gnumeric
+CLEANFILES  +=gnumeric-bonobo
 endif
 
 #noinst_PROGRAMS = number-match

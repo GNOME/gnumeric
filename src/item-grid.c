@@ -264,13 +264,16 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 	gdk_gc_set_foreground (gc, &item_grid->default_color);
 	if (cell->render_color)
 		gdk_gc_set_foreground (gc, &cell->render_color->color);
-	else {
+	else if (mstyle_is_element_set (mstyle, MSTYLE_COLOR_FORE)) {
 		col = &mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color;
 		gdk_gc_set_foreground (gc, col);
 	}
 
-	col = &mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color;
-	gdk_gc_set_background (gc, col);
+	if (mstyle_is_element_set (mstyle, MSTYLE_COLOR_BACK)) {
+		col = &mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color;
+		gdk_gc_set_background (gc, col);
+	} else
+		gdk_gc_set_background (gc, &item_grid->background);
 
 	w = cell->col->pixels;
 	h = cell->row->pixels;

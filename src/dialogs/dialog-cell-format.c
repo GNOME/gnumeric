@@ -674,14 +674,16 @@ create_coloring_page (GtkWidget *prop_win,
 	fore = create_foreground_radio (prop_win);
 	back = create_background_radio (prop_win);
 
-	if (!mstyle_is_element_conflict (style, MSTYLE_COLOR_FORE)) {
+	if (mstyle_is_element_set (style, MSTYLE_COLOR_FORE) &&
+	    !mstyle_is_element_conflict (style, MSTYLE_COLOR_FORE)) {
 		gtk_radio_button_select (foreground_radio_list, 1);
 		set_color_picker_from_style (GNOME_COLOR_PICKER (foreground_cs),
 					     mstyle_get_color (style, MSTYLE_COLOR_FORE));
 	} else
 		gtk_radio_button_select (foreground_radio_list, 2);
 
-	if (!mstyle_is_element_conflict (style, MSTYLE_COLOR_BACK)) {
+	if (mstyle_is_element_set (style, MSTYLE_COLOR_BACK) &&
+	    !mstyle_is_element_conflict (style, MSTYLE_COLOR_BACK)) {
 		gtk_radio_button_select (background_radio_list, 1);
 		set_color_picker_from_style (GNOME_COLOR_PICKER (background_cs),
 					     mstyle_get_color (style, MSTYLE_COLOR_BACK));
