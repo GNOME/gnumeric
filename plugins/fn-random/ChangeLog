@@ -1,3 +1,7 @@
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : Do not translate ""
+
 2002-08-04  Jon K Hellan  <hellan@acm.org>
 
 	* functions.c: Include rangefunc.h.

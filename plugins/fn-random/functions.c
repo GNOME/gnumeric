@@ -1124,7 +1124,7 @@ const ModulePluginFunctionInfo random_functions[] = {
 	  gnumeric_randgumbel, NULL, NULL, NULL },
         { "randhyperg", "fff", N_("n1,n2,t"),    &help_randhyperg,
 	  gnumeric_randhyperg, NULL, NULL, NULL },
-        { "randlandau", "", N_(""), &help_randlandau,
+        { "randlandau", "", "", &help_randlandau,
 	  gnumeric_randlandau, NULL, NULL, NULL },
         { "randlaplace", "f", N_("a"), &help_randlaplace,
 	  gnumeric_randlaplace, NULL, NULL, NULL },
