@@ -129,7 +129,6 @@ oleo_get_gnumeric_expr (char const *o_expr,
 	while (*from) {
 		if (*from == 'r') {
 			CellRef start, end;
-			char *name;
 
 			from++;
 			oleo_get_ref_value (&start.row, &start.row_relative,
@@ -146,15 +145,13 @@ oleo_get_gnumeric_expr (char const *o_expr,
 				end.col_relative = start.col_relative;
 			}
 
-			name = cellref_as_string (&start, cur_pos, TRUE);
-			g_string_append (gres, name);
-			g_free (name);
+			cellref_as_string (gres, gnm_expr_conventions_default,
+					   &start, cur_pos, TRUE);
 
 			if (!cellref_equal (&start, &end)) {
 				g_string_append_c (gres, ':');
-				name = cellref_as_string (&end, cur_pos, TRUE);
-				g_string_append (gres, name);
-				g_free (name);
+				cellref_as_string (gres, gnm_expr_conventions_default,
+						   &end, cur_pos, TRUE);
 			}
 		} else {
 			g_string_append_c (gres, *from);

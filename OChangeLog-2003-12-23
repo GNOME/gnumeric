@@ -1,5 +1,21 @@
 2002-12-19  Morten Welinder  <terra@diku.dk>
 
+	* src/parse-util.h (GnmExprConventions): Add cell_ref_handler
+	and range_ref_handler members.
+
+	* src/expr.c (do_expr_as_string): Call cell_ref_handler and
+	range_ref_handler.
+
+	* src/parse-util.c (gnm_expr_conventions_new): Set default
+	cell_ref_handler and range_ref_handler.
+	(col_name_internal): Change to take an accumulator GString.  All
+	callers changed.
+	(row_name_internal): Ditto.
+	(rangeref_as_string): Ditto.
+	(cellref_as_string): Ditto.
+
+2002-12-19  Morten Welinder  <terra@diku.dk>
+
 	* src/parse-util.c (gnm_expr_conventions_default_1_0): Delete.
 	(parse_util_init): Don't set up gnm_expr_conventions_default_1_0.
 	(parse_util_shutdown): Don't free it.

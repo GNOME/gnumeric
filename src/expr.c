@@ -1206,9 +1206,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 		return;
 
 	case GNM_EXPR_OP_CELLREF: {
-		char *tmp = cellref_as_string (&expr->cellref.ref, pp, FALSE);
-		g_string_append (target, tmp);
-		g_free (tmp);
+		conv->cell_ref_handler (target, conv, &expr->cellref.ref, pp, FALSE);
 		return;
 	}
 
@@ -1222,9 +1220,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 		}
 
 		if (v->type == VALUE_CELLRANGE) {
-			char *tmp = rangeref_as_string (&v->v_range.cell, pp);
-			g_string_append (target, tmp);
-			g_free (tmp);
+			conv->range_ref_handler (target, conv, &v->v_range.cell, pp);
 			return;
 		}
 

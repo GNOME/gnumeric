@@ -280,6 +280,7 @@ pln_get_addr (ParsePos const *pp, guint8 const *ch)
 	guint16 r = GSF_LE_GET_GUINT16 (ch);
 	guint16 c = GSF_LE_GET_GUINT16 (ch+2);
 	CellRef ref;
+	GString *str = g_string_new ("");
 
 	ref.sheet = NULL;
 	ref.col_relative = ref.row_relative = FALSE;
@@ -301,7 +302,9 @@ pln_get_addr (ParsePos const *pp, guint8 const *ch)
 		break;
 	}
 
-	return cellref_as_string (&ref, pp, TRUE);
+	cellref_as_string (str, gnm_expr_conventions_default, &ref, pp, TRUE);
+
+	return g_string_free (str, FALSE);
 }
 
 static char *

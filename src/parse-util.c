@@ -45,54 +45,60 @@
 #include <glib.h>
 #include <string.h>
 
-inline static char *
-col_name_internal (char *buf, int col)
+static void
+col_name_internal (GString *target, int col)
 {
-  static const int steps[] = {
-	  26,
-	  26 * 26,
-	  26 * 26 * 26,
-	  26 * 26 * 26 * 26,
-	  26 * 26 * 26 * 26 * 26,
-	  26 * 26 * 26 * 26 * 26 * 26,
-	  INT_MAX
-  };
-  int i;
-  char *res;
+	static const int steps[] = {
+		26,
+		26 * 26,
+		26 * 26 * 26,
+		26 * 26 * 26 * 26,
+		26 * 26 * 26 * 26 * 26,
+		26 * 26 * 26 * 26 * 26 * 26,
+		INT_MAX
+	};
+	int i;
+	char *dst;
 
-  for (i = 0; col >= steps[i]; i++)
-    col -= steps[i];
+	for (i = 0; col >= steps[i]; i++)
+		col -= steps[i];
 
-  res = buf + i + 1;
-  while (i >= 0) {
-    buf[i--] = 'A' + col % 26;
-    col /= 26;
-  }
-
-  return res;
+	g_string_set_size (target, target->len + (i + 1));
+	dst = target->str + target->len;
+	while (i-- >= 0) {
+		*--dst = 'A' + col % 26;
+		col /= 26;
+	}
 }
 
 char const *
 col_name (int col)
 {
-	static char buffer[8];  /* 26^7 > 2^32.  */
-	char *res = col_name_internal (buffer, col);
-	*res = '\0';
-	return buffer;
+	static GString *buffer = NULL;
+	if (!buffer)
+		buffer = g_string_new ("");
+	g_string_truncate (buffer, 0);
+
+	col_name_internal (buffer, col);
+
+	return buffer->str;
 }
 
 char const *
 cols_name (int start_col, int end_col)
 {
-	static char buffer[16]; /* See col_name.  */
-	char *res = col_name_internal (buffer, start_col);
+	static GString *buffer = NULL;
+	if (!buffer)
+		buffer = g_string_new ("");
+	g_string_truncate (buffer, 0);
 
+	col_name_internal (buffer, start_col);
 	if (start_col != end_col) {
-		*res = ':';
-		res = col_name_internal (res + 1, end_col);
+		g_string_append_c (buffer, ':');
+		col_name_internal (buffer, end_col);
 	}
-	*res = '\0';
-	return buffer;
+
+	return buffer->str;
 }
 
 char const *
@@ -119,34 +125,40 @@ col_parse (char const *str, int *res, unsigned char *relative)
 
 /***************************************************************************/
 
-inline static char *
-row_name_internal (char *buf, int row)
+static void
+row_name_internal (GString *target, int row)
 {
-	int len = g_snprintf (buf, 4 * sizeof (int), "%d", row + 1);
-	return buf + len;
+	g_string_append_printf (target, "%d", row + 1);
 }
 
 char const *
 row_name (int row)
 {
-	static char buffer[4 * sizeof (int)];
-	char *res = row_name_internal (buffer, row);
-	*res = '\0';
-	return buffer;
+	static GString *buffer = NULL;
+	if (!buffer)
+		buffer = g_string_new ("");
+	g_string_truncate (buffer, 0);
+
+	row_name_internal (buffer, row);
+
+	return buffer->str;
 }
 
 char const *
 rows_name (int start_row, int end_row)
 {
-	static char buffer[2 * 4 * sizeof (int)];
-	char *res = row_name_internal (buffer, start_row);
+	static GString *buffer = NULL;
+	if (!buffer)
+		buffer = g_string_new ("");
+	g_string_truncate (buffer, 0);
 
+	row_name_internal (buffer, start_row);
 	if (start_row != end_row) {
-		*res = ':';
-		res = row_name_internal (res + 1, end_row);
+		g_string_append_c (buffer, ':');
+		row_name_internal (buffer, end_row);
 	}
-	*res = '\0';
-	return buffer;
+
+	return buffer->str;
 }
 
 char const *
@@ -203,18 +215,34 @@ cellref_abs_row (CellRef const *ref, ParsePos const *pp)
  * representation of @ref as evaluated at @pp.  @no_sheetname can be used to
  * suppress the addition of the sheetname for non-local references.
  **/
-char *
-cellref_as_string (CellRef const *cell_ref, ParsePos const *pp, gboolean no_sheetname)
+void
+cellref_as_string (GString *target, const GnmExprConventions *conv,
+		   CellRef const *cell_ref,
+		   ParsePos const *pp, gboolean no_sheetname)
 {
-	static char buffer [sizeof (long) * 4 + 4];
-	char *p = buffer;
 	int col, row;
 	Sheet *sheet = cell_ref->sheet;
+
+	/* If it is a non-local reference, add the path to the external sheet */
+	if (sheet != NULL && !no_sheetname) {
+		if (pp->wb == NULL && pp->sheet == NULL)
+			/* For the expression leak printer.  */
+			g_string_append (target, "'?'");
+		else if (pp->wb == NULL || sheet->workbook == pp->wb)
+			g_string_append (target, sheet->name_quoted);
+		else {
+			g_string_append_c (target, '[');
+			g_string_append (target, sheet->workbook->filename);
+			g_string_append_c (target, ']');
+			g_string_append (target, sheet->name_quoted);
+		}
+		g_string_append (target, conv->output_sheet_name_sep);
+	}
 
 	if (cell_ref->col_relative)
 		col = pp->eval.col + cell_ref->col;
 	else {
-		*p++ = '$';
+		g_string_append_c (target, '$');
 		col = cell_ref->col;
 	}
 
@@ -224,18 +252,18 @@ cellref_as_string (CellRef const *cell_ref, ParsePos const *pp, gboolean no_shee
 		col += SHEET_MAX_COLS;
 
 	if (col <= 'Z'-'A') {
-		*p++ = col + 'A';
+		g_string_append_c (target, col + 'A');
 	} else {
-		int a = col / ('Z'-'A'+1);
-		int b = col % ('Z'-'A'+1);
+		int a = col / ('Z' - 'A' + 1);
+		int b = col % ('Z' - 'A' + 1);
 
-		*p++ = a + 'A' - 1;
-		*p++ = b + 'A';
+		g_string_append_c (target, a + 'A' - 1);
+		g_string_append_c (target, b + 'A');
 	}
 	if (cell_ref->row_relative)
 		row = pp->eval.row + cell_ref->row;
 	else {
-		*p++ = '$';
+		g_string_append_c (target, '$');
 		row = cell_ref->row;
 	}
 
@@ -244,21 +272,7 @@ cellref_as_string (CellRef const *cell_ref, ParsePos const *pp, gboolean no_shee
 	if (row < 0)
 		row += SHEET_MAX_ROWS;
 
-	sprintf (p, "%d", row+1);
-
-	/* If it is a non-local reference, add the path to the external sheet */
-	if (sheet != NULL && !no_sheetname) {
-		if (pp->wb == NULL && pp->sheet == NULL) {
-			/* For the expression leak printer.  */
-			return g_strconcat ("'?'|", buffer, NULL);
-		}
-
-		if (pp->wb == NULL || sheet->workbook == pp->wb)
-			return g_strconcat (sheet->name_quoted, "!", buffer, NULL);
-		return g_strconcat ("[", sheet->workbook->filename, "]",
-				    sheet->name_quoted, "!", buffer, NULL);
-	} else
-		return g_strdup (buffer);
+	g_string_append_printf (target, "%d", row + 1);
 }
 
 /**
@@ -267,14 +281,10 @@ cellref_as_string (CellRef const *cell_ref, ParsePos const *pp, gboolean no_shee
  * @pp :
  *
  **/
-char *
-rangeref_as_string (RangeRef const *ref, ParsePos const *pp)
+void
+rangeref_as_string (GString *target, const GnmExprConventions *conv,
+		    RangeRef const *ref, ParsePos const *pp)
 {
-	char buf [2*(10  /* max digits in 32 bit row */
-		     + 7 /* max letters in 32 bit col */
-		     + 2 /* dollar signs for abs */
-		    ) + 2 /* colon and eos */];
-	char *p = buf;
 	Range r;
 
 	r.start.col = cellref_abs_col (&ref->a, pp);
@@ -282,60 +292,59 @@ rangeref_as_string (RangeRef const *ref, ParsePos const *pp)
 	r.start.row = cellref_abs_row (&ref->a, pp);
 	r.end.row   = cellref_abs_row (&ref->b, pp);
 
+	if (ref->a.sheet) {
+		if (pp->wb != NULL && ref->a.sheet->workbook != pp->wb) {
+			g_string_append_c (target, '[');
+			g_string_append (target, ref->a.sheet->workbook->filename);
+			g_string_append_c (target, ']');
+		}
+		if (pp->wb == NULL && pp->sheet == NULL)
+			/* For the expression leak printer. */
+			g_string_append (target, "'?'");
+		else if (ref->b.sheet == NULL || ref->a.sheet == ref->b.sheet)
+			g_string_append (target, ref->a.sheet->name_quoted);
+		else {
+			g_string_append (target, ref->a.sheet->name_quoted);
+			g_string_append_c (target, ':');
+			g_string_append (target, ref->b.sheet->name_quoted);
+		}
+		g_string_append (target, conv->output_sheet_name_sep);
+	}
+
 	/* be sure to use else if so that a1:iv65535 does not vanish */
 	if (r.start.col == 0 && r.end.col == SHEET_MAX_COLS-1) {
 		if (!ref->a.row_relative)
-			*p++ = '$';
-		p = row_name_internal (p, r.start.row);
-		*p++ = ':';
+			g_string_append_c (target, '$');
+		row_name_internal (target, r.start.row);
+		g_string_append_c (target, ':');
 		if (!ref->b.row_relative)
-			*p++ = '$';
-		p = row_name_internal (p, r.end.row);
+			g_string_append_c (target, '$');
+		row_name_internal (target, r.end.row);
 	} else if (r.start.row == 0 && r.end.row == SHEET_MAX_ROWS-1) {
 		if (!ref->a.col_relative)
-			*p++ = '$';
-		p = col_name_internal (p, r.start.col);
-		*p++ = ':';
+			g_string_append_c (target, '$');
+		col_name_internal (target, r.start.col);
+		g_string_append_c (target, ':');
 		if (!ref->b.col_relative)
-			*p++ = '$';
-		p = col_name_internal (p, r.end.col);
+			g_string_append_c (target, '$');
+		col_name_internal (target, r.end.col);
 	} else {
 		if (!ref->a.col_relative)
-			*p++ = '$';
-		p = col_name_internal (p, r.start.col);
+			g_string_append_c (target, '$');
+		col_name_internal (target, r.start.col);
 		if (!ref->a.row_relative)
-			*p++ = '$';
-		p = row_name_internal (p, r.start.row);
+			g_string_append_c (target, '$');
+		row_name_internal (target, r.start.row);
 
 		if (r.start.col != r.end.col || r.start.row != r.end.row) {
-			*p++ = ':';
+			g_string_append_c (target, ':');
 			if (!ref->b.col_relative)
-				*p++ = '$';
-			p = col_name_internal (p, r.end.col);
+				g_string_append_c (target, '$');
+			col_name_internal (target, r.end.col);
 			if (!ref->b.row_relative)
-				*p++ = '$';
-			p = row_name_internal (p, r.end.row);
+				g_string_append_c (target, '$');
+			row_name_internal (target, r.end.row);
 		}
-	}
-	*p = '\0';
-
-	if (ref->a.sheet == NULL)
-		return g_strdup (buf);
-
-	/* For the expression leak printer. */
-	if (pp->wb == NULL && pp->sheet == NULL)
-		return g_strconcat ("'?'!", buf, NULL);
-
-	if (ref->b.sheet == NULL || ref->a.sheet == ref->b.sheet) {
-		if (pp->wb == NULL || ref->a.sheet->workbook == pp->wb)
-			return g_strconcat (ref->a.sheet->name_quoted, "!", buf, NULL);
-		return g_strconcat ("[", ref->a.sheet->workbook->filename, "]",
-				    ref->a.sheet->name_quoted, "!", buf, NULL);
-	} else {
-		if (pp->wb == NULL || ref->a.sheet->workbook == pp->wb)
-			return g_strconcat (ref->a.sheet->name_quoted, ":", ref->b.sheet->name_quoted, "!", buf, NULL);
-		return g_strconcat ("[", ref->a.sheet->workbook->filename, "]",
-				    ref->a.sheet->name_quoted, ":", ref->b.sheet->name_quoted, "!", buf, NULL);
 	}
 }
 
@@ -505,10 +514,15 @@ cellref_parse (CellRef *out, char const *in, CellPos const *pos)
 char const *
 cell_coord_name (int col, int row)
 {
-	static char buffer [2 + 4 * sizeof (long)];
-	char *res = col_name_internal (buffer, col);
-	sprintf (res, "%d", row + 1);
-	return buffer;
+	static GString *buffer = NULL;
+	if (!buffer)
+		buffer = g_string_new ("");
+	g_string_truncate (buffer, 0);
+
+	col_name_internal (buffer, col);
+	row_name_internal (buffer, row);
+
+	return buffer->str;
 }
 
 char const *
@@ -1010,6 +1024,8 @@ gnm_expr_conventions_new (void)
 	GnmExprConventions *res = g_new0 (GnmExprConventions, 1);
 
 	res->expr_name_handler = def_expr_name_handler;
+	res->cell_ref_handler = cellref_as_string;
+	res->range_ref_handler = rangeref_as_string;
 	res->output_sheet_name_sep = "!";
 	res->output_translated = TRUE;
 	return res;

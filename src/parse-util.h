@@ -14,13 +14,14 @@ char const *row_parse (char const *str, int *res, unsigned char *relative);
 char const *cellpos_as_string	(CellPos const *pos);
 gboolean    cellpos_parse	(char const *cell_str, CellPos *res,
 				 gboolean strict, int *chars_read);
-
-char       *cellref_as_string	(CellRef const *ref, ParsePos const *pp,
-				 gboolean no_sheetname);
+void        cellref_as_string   (GString *target, const GnmExprConventions *conv,
+				 CellRef const *cell_ref,
+				 ParsePos const *pp, gboolean no_sheetname);
 char const *cellref_parse	(CellRef *out, char const *in,
 				 CellPos const *pos);
 
-char	   *rangeref_as_string	(RangeRef const *ref, ParsePos const *pp);
+void        rangeref_as_string (GString *target, const GnmExprConventions *conv,
+				RangeRef const *ref, ParsePos const *pp);
 char const *rangeref_parse	(RangeRef *res, char const *in,
 				 ParsePos const *pp);
 				 /* GError **err); */
@@ -92,6 +93,17 @@ typedef void (*GnmParseExprNameHandler) (GString *target,
 					 const GnmExprName *name,
 					 const GnmExprConventions *convs);
 
+typedef void (*GnmParseCellRefHandler) (GString *target,
+					const GnmExprConventions *convs,
+					CellRef const *cell_ref,
+					ParsePos const *pp,
+					gboolean no_sheetname);
+
+typedef void (*GnmParseRangeRefHandler) (GString *target,
+					 const GnmExprConventions *convs,
+					 RangeRef const *cell_ref,
+					 ParsePos const *pp);
+
 struct _GnmExprConventions {
 #if 0
 	/* Not yet.  */
@@ -149,6 +161,12 @@ struct _GnmExprConventions {
 
 	/* Called to make strings of names.  */
 	GnmParseExprNameHandler expr_name_handler;
+
+	/* Called to make strings of cell refs.  */
+	GnmParseCellRefHandler cell_ref_handler;
+
+	/* Called to make strings of range refs.  */
+	GnmParseRangeRefHandler range_ref_handler;
 
 	/* Used to separate sheet from name when both are needed.  */
 	const char *output_sheet_name_sep;

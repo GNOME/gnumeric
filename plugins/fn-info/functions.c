@@ -173,21 +173,32 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 	/* from CELL - limited usefulness! */
 	if (!g_ascii_strcasecmp(info_type, "address")) {
 		ParsePos pp;
-		char *ref_name = cellref_as_string (ref,
-			parse_pos_init_evalpos (&pp, ei->pos), TRUE);
-		return value_new_string_nocopy (ref_name);
+		GString *str = g_string_new ("");
+
+		cellref_as_string (
+			str,
+			gnm_expr_conventions_default,
+			ref,
+			parse_pos_init_evalpos (&pp, ei->pos),
+			TRUE);
+		return value_new_string_nocopy (g_string_free (str, FALSE));
 
 	/* from later 123 versions - USEFUL! */
 	} else if (!g_ascii_strcasecmp(info_type, "coord")) {
 		ParsePos pp;
 		CellRef tmp = *ref;
-		char *ref_name;
+		GString *str = g_string_new ("");
 
 		if (tmp.sheet == NULL)
 			tmp.sheet = ei->pos->sheet;
-		ref_name = cellref_as_string (&tmp,
-			parse_pos_init_evalpos (&pp, ei->pos), FALSE);
-		return value_new_string_nocopy (ref_name);
+		cellref_as_string (
+			str,
+			gnm_expr_conventions_default,
+			&tmp,
+			parse_pos_init_evalpos (&pp, ei->pos),
+			FALSE);
+
+		return value_new_string_nocopy (g_string_free (str, FALSE));
 
 	/* from CELL - pointless - use COLUMN instead! */
 	} else if (!g_ascii_strcasecmp (info_type, "col") ||

@@ -2921,8 +2921,7 @@ gnumeric_mdeterm (FunctionEvalInfo *ei, Value **argv)
 	gnm_float *matrix;
 	GnmStdError err;
 
-	if (validate_range_numeric_matrix (ep, values, &rows, &cols,
-					   &err)) {
+	if (validate_range_numeric_matrix (ep, values, &rows, &cols, &err)) {
 		return value_new_error_std (ei->pos, err);
 	}
 
