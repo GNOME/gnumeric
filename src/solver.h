@@ -151,6 +151,7 @@ typedef struct {
         gnum_float       time_user;
         gnum_float       time_system;
         gnum_float       time_real;
+        gchar            *target_name;
         gchar            **variable_names;
         gchar            **constraint_names;
         gnum_float       value_of_obj_fn;

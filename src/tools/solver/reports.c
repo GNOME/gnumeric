@@ -52,7 +52,11 @@
 /* ------------------------------------------------------------------------- */
 
 
-char *
+/* FIXME: Remove when done */
+extern SolverConstraint*
+get_solver_constraint (SolverResults *res, int n);
+
+static char *
 find_name (Sheet *sheet, int col, int row)
 {
         static char *str = NULL;
@@ -76,8 +80,6 @@ find_name (Sheet *sheet, int col, int row)
 		}
 	}
 
-	if (str)
-	        g_free (str);
 	str = g_new (char, strlen (col_str) + strlen (row_str) + 2);
 
 	if (*col_str)
@@ -130,7 +132,44 @@ get_cpu_info (gchar *model_name, gchar *cpu_mhz, unsigned int size)
 	return model & cpu;
 }
 
+static void
+get_input_variable_names (SolverResults *res, Sheet *sheet)
+{
+        Cell *cell;
+	int  i;
+
+	for (i = 0; i < res->param->n_variables; i++) {
+	        cell = get_solver_input_var (res, i);
+		res->variable_names[i] = find_name (sheet, cell->pos.col,
+						    cell->pos.row);
+	}
+}
+
+static void
+get_constraint_names (SolverResults *res, Sheet *sheet)
+{
+        Cell *cell;
+	int  i;
+
+	for (i = 0; i < res->param->n_total_constraints; i++) {
+	        SolverConstraint *c = get_solver_constraint (res, i);
+		res->constraint_names[i] = find_name (sheet, c->lhs.col,
+						      c->lhs.row);
+	}
+}
+
 
+gboolean
+solver_prepare_reports (SolverProgram *program, SolverResults *res,
+			Sheet *sheet)
+{
+        res->target_name = find_name (sheet,
+				      res->param->target_cell->pos.col,
+				      res->param->target_cell->pos.row);
+        get_input_variable_names (res, sheet);
+        get_constraint_names (res, sheet);
+}
+
 void
 solver_lp_reports (WorkbookControl *wbc, Sheet *sheet, SolverResults *res,
 		   gboolean answer, gboolean sensitivity, gboolean limits,

@@ -94,6 +94,7 @@ solver_results_init (const SolverParameters *sp)
 	res->time_system       = 0;
 	res->time_real         = 0;
 	res->ilp_flag          = FALSE;
+	res->target_name       = NULL;
 	res->input_cells_array = NULL;
 	res->constraints_array = NULL;
 	res->obj_coeff         = NULL;
@@ -119,6 +120,7 @@ solver_results_free (SolverResults *res)
 
         g_free (res->optimal_values);
 	g_free (res->original_values);
+	g_free (res->target_name);
 	g_free (res->variable_names);
 	g_free (res->constraint_names);
 	g_free (res->shadow_prizes);
@@ -773,11 +775,13 @@ solver_lp (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	res->time_real = end.tv_sec - start.tv_sec
 	        + (end.tv_usec - start.tv_usec) / (gnum_float) G_USEC_PER_SEC;
 
-	if (res->status == SolverOptimal)
+	if (res->status == SolverOptimal) {
+	        solver_prepare_reports (program, res, sheet);
 	        if (solver_prepare_lp_reports (program, res, sheet)) {
 		        alg->remove_fn (program);
 			return NULL;
 		}
+	}
 
 	alg->remove_fn (program);
 

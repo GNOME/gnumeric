@@ -1,5 +1,7 @@
 2002-03-18  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* reports.c, solver.c, reports-write.c: Made find_name static.
+
 	* reports-write.[ch]: Created.  reports-write.c should contain
 	writing only.  The logic will move into reports.c.
 

@@ -51,9 +51,6 @@
 /* ------------------------------------------------------------------------- */
 
 /* FIXME: Remove these when done */
-extern char *
-find_name (Sheet *sheet, int col, int row);
-
 extern gboolean
 get_cpu_info (gchar *model_name, gchar *cpu_mhz, unsigned int size);
 
@@ -134,9 +131,7 @@ solver_answer_report (WorkbookControl *wbc,
 	dao_set_cell (&dao, 1, 7, cell_name (res->param->target_cell));
 
 	/* Set `Name' field */
-	dao_set_cell (&dao, 2, 7, find_name (sheet,
-					 res->param->target_cell->pos.col,
-					 res->param->target_cell->pos.row));
+	dao_set_cell (&dao, 2, 7, res->target_name);
 
 	/* Set `Original Value' field */
 	dao_set_cell_float (&dao, 3, 7, res->original_value_of_obj_fn);
@@ -160,8 +155,7 @@ solver_answer_report (WorkbookControl *wbc,
 		dao_set_cell (&dao, 1, 12 + i, cell_name (cell));
 
 		/* Set `Name' column */
-		dao_set_cell (&dao, 2, 12 + i, find_name (sheet, cell->pos.col,
-						      cell->pos.row));
+		dao_set_cell (&dao, 2, 12 + i, res->variable_names [i]);
 
 		/* Set `Original Value' column */
 		dao_set_cell_value (&dao, 3, 12 + i,
@@ -193,7 +187,7 @@ solver_answer_report (WorkbookControl *wbc,
 
 		/* Set `Name' column */
 		dao_set_cell (&dao, 2, 16 + vars + i,
-			  find_name (sheet, c->lhs.col, c->lhs.row));
+			      res->constraint_names [i]);
 
 		/* Set `Cell Value' column */
 		dao_set_cell_float (&dao, 3, 16 + vars + i, res->lhs[i]);
@@ -289,8 +283,7 @@ solver_sensitivity_report (WorkbookControl *wbc,
 		dao_set_cell (&dao, 1, 8 + i, cell_name (cell));
 
 		/* Set `Name' column */
-		dao_set_cell (&dao, 2, 8 + i, find_name (sheet, cell->pos.col,
-						     cell->pos.row));
+		dao_set_cell (&dao, 2, 8 + i, res->variable_names[i]);
 
 		/* Set `Final Value' column */
 		dao_set_cell_value (&dao, 3, 8 + i,
@@ -339,7 +332,7 @@ solver_sensitivity_report (WorkbookControl *wbc,
 
 		/* Set `Name' column */
 		dao_set_cell (&dao, 2, 12 + vars + i,
-			  find_name (sheet, c->lhs.col, c->lhs.row));
+			      res->constraint_names [i]);
 
 		/* Set `Final Value' column */
 		cell = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
@@ -466,9 +459,7 @@ solver_limits_report (WorkbookControl *wbc,
 	dao_set_cell (&dao, 1, 7, cell_name (res->param->target_cell));
 
 	/* Set `Target Name' field */
-	dao_set_cell (&dao, 2, 7, find_name (sheet,
-					 res->param->target_cell->pos.col,
-					 res->param->target_cell->pos.row));
+	dao_set_cell (&dao, 2, 7, res->target_name);
 
 	/* Set `Target Value' field */
         cell = sheet_cell_get (sheet, res->param->target_cell->pos.col,
@@ -486,8 +477,7 @@ solver_limits_report (WorkbookControl *wbc,
 		dao_set_cell (&dao, 1, 12 + i, cell_name (cell));
 
 		/* Set `Adjustable Name' column */
-		dao_set_cell (&dao, 2, 12 + i, find_name (sheet, cell->pos.col,
-						      cell->pos.row));
+		dao_set_cell (&dao, 2, 12 + i, res->variable_names[i]);
 
 		/* Set `Adjustable Value' column */
 		dao_set_cell_value (&dao, 3, 12 + i,
@@ -782,10 +772,8 @@ solver_program_report (WorkbookControl *wbc,
 						gnumabs (res->obj_coeff[i]));
 
 			/* Print the name of the variable. */
-			cell = get_solver_input_var (res, i);
 			dao_set_cell (&dao, 3 + col*3, 6,
-				  find_name (sheet, cell->pos.col,
-					     cell->pos.row));
+				      res->variable_names [i]);
 			col++;
 			if (col > max_col)
 			        max_col = col;
@@ -816,10 +804,8 @@ solver_program_report (WorkbookControl *wbc,
 					     gnumabs (res->constr_coeff[i][n]));
 
 				/* Print the name of the variable. */
-				cell = get_solver_input_var (res, n);
 				dao_set_cell (&dao, 3 + col*3, row,
-					  find_name (sheet, cell->pos.col,
-						     cell->pos.row));
+					      res->variable_names [n]);
 				col++;
 				if (col > max_col)
 				        max_col = col;
