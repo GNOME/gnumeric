@@ -27,6 +27,9 @@ Michael
 	support and to provide a generic sensible sub-query offset.
 	* Fix VLookup so the lookfuns.xls works.
 	* Fix INDEX, AREAS, INDIRECT.
+	* Fixup csv import...
+	* Get scalability to large sheets sorted
+	* Test: sample.xls, Zero31.xls
 
 Jody
 	* Where do the anchor points for objects come from.

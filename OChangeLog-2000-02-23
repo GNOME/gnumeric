@@ -1,3 +1,10 @@
+1999-08-05  Michael Meeks  <michael@imaginator.com>
+
+	* src/file.c (workbook_import): Major hacks to get round quirks
+	in libglade.
+
+	* src/import.glade: Add label to the container.
+
 1999-08-04  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/cell.c (calc_text_dimensions): Made static.

@@ -196,7 +196,7 @@ workbook_import (Workbook *parent, const char *filename)
 {
 	Workbook *w = NULL;
 	GladeXML *gui;
-	GtkWidget *dialog;
+	GtkWidget *dialog, *contents;
 	GtkCList *clist;
 	int ret, row;
 	GList *l;
@@ -207,10 +207,23 @@ workbook_import (Workbook *parent, const char *filename)
 		return NULL;
 	}
 
+	/* Hack to get round libglade's bad handling of gnome-dialogs */
+	contents = glade_xml_get_widget (gui, "contents");
 	dialog = glade_xml_get_widget (gui, "import-dialog");
+
+	gtk_widget_hide (GTK_WIDGET (dialog));
+
+	dialog = gnome_dialog_new ("Import File", GNOME_STOCK_BUTTON_OK,
+				   GNOME_STOCK_BUTTON_CANCEL, NULL);
+
+	gtk_widget_reparent (contents, GTK_CONTAINER (GNOME_DIALOG(dialog)->vbox));
+	gtk_widget_show (contents);
+	/* End of hack */
+
 	if (parent != NULL)
 		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
 					 GTK_WINDOW (parent->toplevel));
+	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
 
 	clist = GTK_CLIST (glade_xml_get_widget (gui, "import-clist"));
 	gtk_clist_set_selection_mode (clist, GTK_SELECTION_SINGLE);
@@ -227,10 +240,10 @@ workbook_import (Workbook *parent, const char *filename)
 		gtk_clist_set_row_data (clist, row, l->data);
 		row++;
 	}
-	gtk_widget_show (dialog);
+
 	ret = gnome_dialog_run (GNOME_DIALOG (dialog));
 
-	if (ret == 0){
+	if (ret == 0) {
 		char *oldlocale;
 		
 		if (clist->selection){
@@ -252,8 +265,10 @@ workbook_import (Workbook *parent, const char *filename)
 			return w;
 		}
 	}
-	gtk_object_destroy (GTK_OBJECT (gui));
-	gtk_object_destroy (GTK_OBJECT (dialog));
+	if (ret != -1) {
+	  gnome_dialog_close (GNOME_DIALOG (dialog));
+	}
+	gtk_object_unref (GTK_OBJECT (gui));
 	return w;
 }
 
