@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
-"POT-Creation-Date: 2003-02-06 11:26+0100\n"
-"PO-Revision-Date: 2003-02-07 16:27+0100\n"
+"POT-Creation-Date: 2003-02-21 12:16+0100\n"
+"PO-Revision-Date: 2003-02-22 18:13+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -858,7 +858,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funkce spojené s finančními deriváty"
 
 #: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5105
-#: plugins/gnumeric_1_0/xml-io.c:3369 plugins/mps/mps.c:549 src/xml-io.c:3586
+#: plugins/gnumeric_1_0/xml-io.c:3369 plugins/mps/mps.c:549 src/xml-io.c:3588
 msgid "Reading file..."
 msgstr "Načítá se soubor..."
 
@@ -1425,11 +1425,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMCOT\n"
 "@SYNTAX=IMCOT(komplex_číslo)\n"
-"@DESCRIPTION=IMCOT vrací komplexní kotangentu komplexního čísla z (@komplex_číslo), kde\n"
+"@DESCRIPTION=IMCOT vrací komplexní kotangentu komplexního čísla z "
+"(@komplex_číslo), kde\n"
 "\n"
 "\tcot(z) = 1/tan(z).\n"
 "\n"
-"* Pokud @komplex_číslo není platné komplexní číslo, IMCOT vrátí chybu #VALUE!\n"
+"* Pokud @komplex_číslo není platné komplexní číslo, IMCOT vrátí chybu "
+"#VALUE!\n"
 "\n"
 "@EXAMPLES=\n"
 "IMCOT(\"2-j\") se rovná -0.171384+0.821330j.\n"
@@ -7527,13 +7529,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(vyrovnání,splatnost,frekvence[,základna,eom])\n"
-"@DESCRIPTION=COUDAYSNC počítá počet dní od data vyrovnání do dalšího data kupónu.\n"
+"@DESCRIPTION=COUDAYSNC počítá počet dní od data vyrovnání do dalšího data "
+"kupónu.\n"
 "\n"
 "@vyrovnání je datum vyrovnání.\n"
 "@splatnost je datum splatnosti.\n"
 "@frekvence je počet kuponů za rok.\n"
 "@eom = TRUE znamená zvláštní zpracování data splatnosti na konci měsíce.\n"
-"Možné hodnoty @frekvence jsou: 1 = roční, 2 = pololetní, 4 = čtvrtletní, a pokud je zadán @eom, pak 6 = dvojměsíční, 12 = měsíční.\n"
+"Možné hodnoty @frekvence jsou: 1 = roční, 2 = pololetní, 4 = čtvrtletní, a "
+"pokud je zadán @eom, pak 6 = dvojměsíční, 12 = měsíční.\n"
 "@základna je typ systému počítání dnů, který se má použít:\n"
 "\n"
 "  0  US/MSRB 30/360 (MSRB Pravidlo G33 (e))\n"
@@ -7547,7 +7551,8 @@ msgstr ""
 "\n"
 "* Pokud je frekvence neplatná, vrací funkce COUPDAYSNC chybu #NUM!\n"
 "* Pokud není @základna uvedena, použije se US 30/360.\n"
-"* Pokud je @základna < 0 nebo @základna > 5, funkce COUPDAYSNC vrací chybu #NUM!.\n"
+"* Pokud je @základna < 0 nebo @základna > 5, funkce COUPDAYSNC vrací chybu "
+"#NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "COUPDAYSNC (DATE(2002,11,29),DATE(2004,2,29),4,0) = 1\n"
@@ -16605,25 +16610,25 @@ msgstr "Formát souborů PO slovníku Gnome"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Poskytuje podporu pro ukládání Slovníku Gnome do souborů .po."
 
-#: plugins/gnumeric_1_0/xml-io.c:2824 src/xml-io.c:3045
+#: plugins/gnumeric_1_0/xml-io.c:2824 src/xml-io.c:3047
 msgid "Unparsable xml in clipboard"
 msgstr "Obsah schránky v XML není možné zpracovat"
 
-#: plugins/gnumeric_1_0/xml-io.c:2831 src/xml-io.c:3052
+#: plugins/gnumeric_1_0/xml-io.c:2831 src/xml-io.c:3054
 msgid "Clipboard is in unknown format"
 msgstr "Obsah schránky má neznámý formát."
 
-#: plugins/gnumeric_1_0/xml-io.c:3111 plugins/xbase/boot.c:173
+#: plugins/gnumeric_1_0/xml-io.c:3111 plugins/xbase/boot.c:175
 #: src/dialogs/dialog-goto-cell.c:286 src/dialogs/dialog-search.c:721
 #: src/dialogs/print.glade.h:21 src/workbook.c:1049 src/workbook.c:1379
-#: src/xml-io.c:3334
+#: src/xml-io.c:3336
 msgid "Sheet"
 msgstr "List"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: plugins/gnumeric_1_0/xml-io.c:3238 src/xml-io.c:3466
+#: plugins/gnumeric_1_0/xml-io.c:3238 src/xml-io.c:3468
 msgid "Processing file..."
 msgstr "Zpracovává se soubor..."
 
@@ -16631,7 +16636,7 @@ msgstr "Zpracovává se soubor..."
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Není soubor se sešitem Gnumeric"
 
-#: plugins/gnumeric_1_0/xml-io.c:3446 src/xml-io.c:3665
+#: plugins/gnumeric_1_0/xml-io.c:3446 src/xml-io.c:3667
 msgid "Failure saving file"
 msgstr "Chyba při ukládání souboru."
 
@@ -17396,7 +17401,7 @@ msgstr "Nazdar světe"
 msgid "This is message from \"%s\" plugin."
 msgstr "Toto je zpráva ze zásuvného modulu \"%s\"."
 
-#: plugins/xbase/boot.c:167
+#: plugins/xbase/boot.c:169
 msgid "Error while opening xbase file."
 msgstr "Chyba při otevírání souboru Xbase."
 
@@ -18443,7 +18448,7 @@ msgstr "Statistická ana_lýza"
 
 #: src/GNOME_Gnumeric.xml.h:235 src/dialogs/consolidate.glade.h:19
 #: src/workbook-control-gui.c:3841 src/workbook-control-gui.c:4591
-#: src/workbook-view.c:511
+#: src/workbook-view.c:512
 msgid "Sum"
 msgstr "Součet"
 
@@ -19490,7 +19495,7 @@ msgstr "Citlivá"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:157
 msgid "Whether the action is enabled."
-msgstr "Zda-li je tato akce povolena."
+msgstr "Jestli je tato akce povolena."
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:164
 msgid "Visible"
@@ -19498,7 +19503,7 @@ msgstr "Viditelná"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:165
 msgid "Whether the action is visible."
-msgstr "Zda-li je akce viditelná."
+msgstr "Jestli je akce viditelná."
 
 #: src/cut-n-paste-code/egg/menu/egg-markup.c:274
 #: src/cut-n-paste-code/egg/menu/egg-menu-merge.c:605
@@ -19536,7 +19541,7 @@ msgstr "Zobrazovat šipku"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:146
 msgid "If an arrow should be shown if the toolbar doesn't fit"
-msgstr "Zda-li se má zobrazovat šipka, pokud se nástrojová lišta nevleze"
+msgstr "Jestli se má zobrazovat šipka, pokud se nástrojová lišta nevleze"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:152
 msgid "Spacer size"
@@ -19560,7 +19565,7 @@ msgstr "Styl mezer"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:171
 msgid "Whether spacers are vertical lines or just blank"
-msgstr "Zda-li jsou oddělovače svislé čáry nebo pouze prázdné"
+msgstr "Jestli jsou oddělovače svislé čáry nebo pouze prázdné"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:178
 msgid "Button relief"
@@ -19623,7 +19628,7 @@ msgid ""
 "Whether the toolbar item is visible when the toolbar is in a horizontal "
 "orientation."
 msgstr ""
-"Zda-li má být položka nástrojové lišty viditelná, pokud je nástrojová lišta "
+"Jestli má být položka nástrojové lišty viditelná, pokud je nástrojová lišta "
 "horizontálně orientovaná."
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolitem.c:161
@@ -19635,7 +19640,7 @@ msgid ""
 "Whether the toolbar item is visible when the toolbar is in a vertical "
 "orientation."
 msgstr ""
-"Zda-li má být položka nástrojové lišty viditelná, pokud je nástrojová lišta "
+"Jestli má být položka nástrojové lišty viditelná, pokud je nástrojová lišta "
 "vertikálně orientovaná."
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolitem.c:168
@@ -19646,7 +19651,7 @@ msgstr "Homogenní velikost"
 msgid ""
 "Whether the toolbar item should be the same size as other homogeneous items."
 msgstr ""
-"Zda-li má být položka nástrojové lišty stejné velikosti jako ostatní "
+"Jestli má být položka nástrojové lišty stejné velikosti jako ostatní "
 "stejnorodé položky."
 
 #: src/dates.c:16
@@ -27702,21 +27707,21 @@ msgstr "Nastavit okraje"
 msgid "Size"
 msgstr "Velikost"
 
-#: src/workbook-view.c:252
+#: src/workbook-view.c:253
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dL × %dC"
 
-#: src/workbook-view.c:394
+#: src/workbook-view.c:395
 msgid "Internal ERROR"
 msgstr "Interní CHYBA"
 
-#: src/workbook-view.c:543
+#: src/workbook-view.c:544
 #, c-format
 msgid "Can't open '%s' : %s"
 msgstr "Nelze otevřít '%s' : %s"
 
-#: src/workbook-view.c:565
+#: src/workbook-view.c:566
 #, c-format
 msgid "An unexplained error happened while saving %s"
 msgstr "Nastala nevysvětlená chyba při ukládání %s"
@@ -27725,19 +27730,19 @@ msgstr "Nastala nevysvětlená chyba při ukládání %s"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:572 src/workbook-view.c:805
+#: src/workbook-view.c:573 src/workbook-view.c:808
 msgid "The filename given is not valid."
 msgstr "Zadaný název soubor je neplatný."
 
-#: src/workbook-view.c:656
+#: src/workbook-view.c:657
 msgid "Default file saver is not available."
 msgstr "Výchozí ukládání souboru není k dispozici."
 
-#: src/workbook-view.c:745
+#: src/workbook-view.c:748
 msgid "Unsupported file format."
 msgstr "Nepodporovaný formát souboru."
 
-#: src/workbook-view.c:798
+#: src/workbook-view.c:801
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Nastala nevysvětlitelná chyba při otevírání %s"
@@ -27759,11 +27764,11 @@ msgstr "Již existuje list s názvem"
 msgid "You may not use this name twice"
 msgstr "Nemůžete použít jeden název dvakrát"
 
-#: src/xml-io.c:3628
+#: src/xml-io.c:3630
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Toto není soubor se sešitem Gnumeric"
 
-#: src/xml-io.c:3697
+#: src/xml-io.c:3699
 msgid "Gnumeric XML file format"
 msgstr "Souborový formát Gnumeric XML"
 
@@ -28302,14 +28307,14 @@ msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
 msgstr ""
-"Tato hodnota určuje, zda-li se implicitně vztahuje dialog pro nastavení "
+"Tato hodnota určuje, zdali se implicitně vztahuje dialog pro nastavení "
 "tisku na všechny listy zároveň."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:40
 msgid ""
 "This variable determines whether to activate every new encountered plugin."
 msgstr ""
-"Tato proměnná určuje, zda-li se má aktivovat každý nově dostupný zásuvný "
+"Tato proměnná určuje, zdali se má aktivovat každý nově dostupný zásuvný "
 "modul."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:41
@@ -28461,7 +28466,7 @@ msgid ""
 "workbook is being saved."
 msgstr ""
 "Některé formáty souborů mohou obsahovat pouze jediný list. Tato proměnná "
-"určuje, zda-li bude uživatel varován, pokud se má uložit pouze jeden list "
+"určuje, zdali bude uživatel varován, pokud se má uložit pouze jeden list "
 "sešitu s více listy."
 
 #: schemas/gnumeric-general.schemas.in.h:29
@@ -28565,20 +28570,20 @@ msgstr ""
 #: schemas/gnumeric-general.schemas.in.h:45
 msgid ""
 "This value determines whether the default font for a new workbook bold is."
-msgstr "Tato hodnota určuje, zda-li má být výchozí písmo pro nový sešit tučné."
+msgstr "Tato hodnota určuje, zdali má být výchozí písmo pro nový sešit tučné."
 
 #: schemas/gnumeric-general.schemas.in.h:46
 msgid ""
 "This value determines whether the default font for a new workbook italic is."
 msgstr ""
-"Tato hodnota určuje, zda-li má být výchozí písmo pro nový sešit skloněné."
+"Tato hodnota určuje, zdali má být výchozí písmo pro nový sešit skloněné."
 
 #: schemas/gnumeric-general.schemas.in.h:47
 msgid ""
 "This value determines whether to show the sheet names in the undo and redo "
 "lists."
 msgstr ""
-"Tato hodnota určuje, zda-li se má v seznamu zpětných operací či jejich "
+"Tato hodnota určuje, zdali se má v seznamu zpětných operací či jejich "
 "vrácení zobrazovat název listu."
 
 #: schemas/gnumeric-general.schemas.in.h:48
@@ -28591,18 +28596,19 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:49
 msgid "This variable determines whether autocompletion is set on."
-msgstr "Tato proměnná určuje, zda-li je zapnuto automatické doplňování."
+msgstr "Tato proměnná určuje, zdali je zapnuto automatické doplňování."
 
 #: schemas/gnumeric-general.schemas.in.h:50
 msgid ""
 "This variable determines whether live (versus delayed) scrolling is "
 "performed."
 msgstr ""
-"Tato proměnná určuje, zda-li je prováděno živé nebo zpožděné posunování."
+"Tato proměnná určuje, zdali je prováděno živé nebo zpožděné posunování."
 
 #: schemas/gnumeric-general.schemas.in.h:52
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
-msgstr "Styl nástrojové lišty. Platné hodnoty jsou both, both_horiz, icon a text"
+msgstr ""
+"Styl nástrojové lišty. Platné hodnoty jsou both, both_horiz, icon a text"
 
 #: schemas/gnumeric-general.schemas.in.h:53
 msgid "Vertical DPI"
@@ -28899,9 +28905,6 @@ msgstr ""
 #~ msgid "Creates a list"
 #~ msgstr "Vytvoří seznam"
 
-#~ msgid "Combo"
-#~ msgstr "Combo"
-
 #~ msgid "Creates a combo box"
 #~ msgstr "Vytvoří combo box"
 
@@ -28966,9 +28969,6 @@ msgstr ""
 
 #~ msgid "_Type"
 #~ msgstr "_Typ"
-
-#~ msgid "[Red]"
-#~ msgstr "[Red]"
 
 #~ msgid "Argument mismatch"
 #~ msgstr "Chyba argumentu"
