@@ -65,7 +65,7 @@ reload_preview (FontSelector *fs)
 	 fs->gnome_font = gnome_font;
 	 fs->display_font = display_font;
 
-	 style = gtk_style_new ();
+	 style = gtk_style_copy (fs->font_preview->style);
 	 gdk_font_unref (style->font);
 	 style->font = fs->display_font->gdk_font;
 	 gdk_font_ref (style->font);
@@ -74,13 +74,26 @@ reload_preview (FontSelector *fs)
 	 gtk_style_unref (style);
 }
 
+/*
+ * We can not moveto a list element until it is realized.
+ */
+static void
+list_realized (GtkWidget *widget, gpointer user_data)
+{
+	GtkCList * clist = GTK_CLIST (widget);
+	int row = 0;
+	if (clist->selection)
+		row = GPOINTER_TO_UINT (clist->selection->data);
+	if (!gtk_clist_row_is_visible (clist, row))
+		gtk_clist_moveto (clist, row, 0, 0.5, 0.0);
+}
+
 static void
 font_selected (GtkCList *font_list, int col, int row, GdkEvent *event, FontSelector *fs)
 {
 	 gchar *text;
 
 	 gtk_clist_get_text (font_list, GPOINTER_TO_INT (font_list->selection->data), 0, &text);
-	 printf ("Text at %d, %s\n", row, text);
 	 gtk_entry_set_text (GTK_ENTRY (fs->font_name_entry), text);
 
 	 reload_preview (fs);
@@ -102,8 +115,10 @@ fs_fill_font_name_list (FontSelector *fs)
 
 	 gtk_signal_connect (
 		 GTK_OBJECT (fs->font_name_list), "select_row",
-		 GTK_SIGNAL_FUNC(font_selected), fs);
-
+		 GTK_SIGNAL_FUNC (font_selected), fs);
+	 gtk_signal_connect (
+		 GTK_OBJECT (fs->font_name_list), "realize",
+		 GTK_SIGNAL_FUNC (list_realized), NULL);
 }
 
 static char *styles [] = {
@@ -156,6 +171,9 @@ fs_fill_font_style_list (FontSelector *fs)
 	 gtk_signal_connect (
 		 GTK_OBJECT (fs->font_style_list), "select_row",
 		 GTK_SIGNAL_FUNC(style_selected), fs);
+	 gtk_signal_connect (
+		 GTK_OBJECT (fs->font_name_list), "realize",
+		 GTK_SIGNAL_FUNC(list_realized), NULL);
 }
 
 static void
@@ -199,6 +217,9 @@ fs_fill_font_size_list (FontSelector *fs)
 	gtk_signal_connect (
 		GTK_OBJECT (fs->font_size_list), "select_row",
 		GTK_SIGNAL_FUNC(size_selected), fs);
+	 gtk_signal_connect (
+		 GTK_OBJECT (fs->font_name_list), "realize",
+		 GTK_SIGNAL_FUNC (list_realized), NULL);
 	
 	gtk_signal_connect (
 		GTK_OBJECT (fs->font_size_entry), "changed",
@@ -223,6 +244,7 @@ fs_init (FontSelector *fs)
 	gtk_widget_queue_resize (toplevel);
 
 	fs->size = 10;
+	fs->is_bold = fs->is_italic = FALSE;
 	fs->font_name_entry  = glade_xml_get_widget (fs->gui, "font-name-entry");
 	fs->font_style_entry = glade_xml_get_widget (fs->gui, "font-style-entry");
 	fs->font_size_entry  = glade_xml_get_widget (fs->gui, "font-size-entry");
@@ -291,8 +313,6 @@ select_row (GtkWidget *list, int row)
 	GtkCList *cl = GTK_CLIST (list);
 	
 	gtk_clist_select_row (cl, row, 0);
-	if (!gtk_clist_row_is_visible (cl, row))
-		gtk_clist_moveto (cl, row, 0, 0.5, 0.0);
 }
 
 void
@@ -313,7 +333,7 @@ font_selector_set (FontSelector *fs,
 	}
 
 	if (l != NULL)
-		select_row (fs->font_style_list, row);
+		select_row (fs->font_name_list, row);
 
 	if (is_bold){
 		if (is_italic)
@@ -328,9 +348,10 @@ font_selector_set (FontSelector *fs,
 	}
 	select_row (fs->font_style_list, n);
 
-	for (i = 0; gnumeric_point_sizes [i] != 0; i++){
-		if (gnumeric_point_sizes [i] == size){
+	for (i = 0; gnumeric_point_sizes [i] != 0; i++) {
+		if (gnumeric_point_sizes [i] == size) {
 			select_row (fs->font_size_list, i);
+			break;
 		}
 	}
 
@@ -341,6 +362,5 @@ font_selector_set (FontSelector *fs,
 		
 		gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), buffer);
 	}
-	fs->size = size;
 }
 

@@ -6,6 +6,20 @@
 	(re_dimension_cells_cb): update. (sheet_selection_apply_style_cb): if
 	format changed re-render cell's text + add redraw.
 
+1999-10-28  Jody Goldberg <jgoldberg@home.com>
+
+	* src/widgets/widget-font-selector.c (reload_preview) :
+	  Copy the style rather than creating a new one.  So that
+	  we can change the colour elsewhere if desired.
+	(font_selector_set) : Fix typos.
+	(list_realize) : We can not moveto
+	  a list element until after the widget is realized.  Add a handler
+	  to take care of it.
+
+	* src/dialogs/font-sel.glade : Make the scrollbars optional.
+	  Fix the height of the preview area to avoid irritating flicker
+	  as the dialog resizes.
+
 1999-10-28  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/item-grid.c (item_grid_set_gc_stipple): Add.
