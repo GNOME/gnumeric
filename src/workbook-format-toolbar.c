@@ -89,7 +89,7 @@ center_cmd (GtkWidget *widget, Workbook *wb)
  *
  */
 static void
-change_selection_font (Workbook *wb, int bold, int italic, int underline)
+change_selection_font (Workbook *wb, int bold, int italic, int underline, int strikethrough)
 {
 	MStyle *mstyle;
 	Sheet  *sheet;
@@ -108,32 +108,70 @@ change_selection_font (Workbook *wb, int bold, int italic, int underline)
 		mstyle_set_font_uline (mstyle,
 				       underline ? UNDERLINE_SINGLE : UNDERLINE_NONE);
 
+	if (strikethrough >= 0)
+		mstyle_set_font_strike (mstyle, strikethrough);
+
 	if (bold >= 0 ||
 	    italic >= 0 ||
-	    underline >= 0)
+	    underline >= 0 ||
+	    strikethrough >= 0)
 		cmd_format (workbook_command_context_gui (wb), 
 			    sheet, mstyle, NULL);
 	else
 		mstyle_unref (mstyle);
 }
 
+/**
+ * toggled_from_toolbar :
+ *
+ * The callback is called after the state switches.
+ * The accelerator is called before.  Use the 'in_button' flag to
+ * diffentiate.  If we are called from an accelerator manually toggle
+ * the button and add a flag to protect against recursion.
+ *
+ * FIXME : This is ugly.  There must be a cleaner way to handle this.
+ */
+static gboolean
+toggled_from_toolbar (GtkToggleButton *t)
+{
+	static gboolean nested = FALSE;
+	if (t->button.in_button || nested)
+		return TRUE;
+
+	nested = TRUE;
+	gtk_toggle_button_set_active (t, !t->active);
+	nested = FALSE;
+	return FALSE;
+}
+
 static void
 bold_cmd (GtkToggleButton *t, Workbook *wb)
 {
-	change_selection_font (wb, t->active, -1, -1);
+	if (toggled_from_toolbar (t))
+		change_selection_font (wb, t->active, -1, -1, -1);
 }
 
 static void
 italic_cmd (GtkToggleButton *t, Workbook *wb)
 {
-	change_selection_font (wb, -1, t->active, -1);
+	if (toggled_from_toolbar (t))
+		change_selection_font (wb, -1, t->active, -1, -1);
 }
 
 static void
 underline_cmd (GtkToggleButton *t, Workbook *wb)
 {
-	change_selection_font (wb, -1, -1, t->active);
+	if (toggled_from_toolbar (t))
+		change_selection_font (wb, -1, -1, t->active, -1);
 }
+
+#if 0
+static void
+strikethrough_cmd (GtkToggleButton *t, Workbook *wb)
+{
+	change_selection_font (wb, -1, -1, -1, t->active));
+}
+#endif
 
 static void
 change_font_in_selection_cmd (GtkWidget *caller, Workbook *wb)

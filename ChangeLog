@@ -1,5 +1,8 @@
 2000-05-20  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-format-toolbar.c (change_selection_font) : Add strikethrough.
+	({bold,italic,underline}_cmd) : Handle accelerators too.
+
 	* src/application.c (application_set_selected_sheet) : We still need
 	  to partially clear the clipboard when short circuiting.
 
