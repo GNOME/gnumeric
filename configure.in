@@ -706,7 +706,6 @@ src/cut-n-paste-code/egg/menu/Makefile
 src/cut-n-paste-code/egg/toolbar/Makefile
 src/cut-n-paste-code/foocanvas/Makefile
 src/cut-n-paste-code/foocanvas/libfoocanvas/Makefile
-src/cut-n-paste-code/goffice/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/C/figures/Makefile
