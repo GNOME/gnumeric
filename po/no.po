@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.62\n"
 "POT-Creation-Date: 2001-02-21 17:30+0100\n"
-"PO-Revision-Date: 2001-02-21 17:33+01:00\n"
+"PO-Revision-Date: 2001-02-21 17:46+01:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -759,7 +759,7 @@ msgstr "Tilfeldig"
 
 #: src/analysis-tools.c:1870
 msgid "Not implemented yet.\n"
-msgstr "Ikke implementert ennå.\n"
+msgstr "Ikke implementert ennå.\n"
 
 #. TODO This would be better using the
 #. value in the checkbox instead of this
@@ -1369,7 +1369,7 @@ msgstr "_Filtrer på-plass"
 
 #: src/dialogs/advanced-filter.glade.h:9
 msgid "_List range:     "
-msgstr "_Listeområde:    "
+msgstr "_Listeområde:    "
 
 #: src/dialogs/advanced-filter.glade.h:10
 msgid "_Unique records only"
@@ -9839,7 +9839,7 @@ msgstr ""
 "gitte kriterier. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 23, 27, 28, 33, og "
-"39. Da får vi:\n"
+"39. Da får vi:\n"
 "SUMIF(A1:A5,\"<=28\") er lik 78.\n"
 "SUMIF(A1:A5,\"<28\") er lik 50.\n"
 "I tillegg, hvis cellene B1, B2, ..., B5 inneholder tallene 5, 3, 2, 6, og 7 "
@@ -12040,7 +12040,7 @@ msgstr ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(faktisk_område,teoretisk_område)\n"
 "@DESCRIPTION=CHITEST-funksjonen returnerer uavhengighetstesten til den "
-"chi-opphøyede distribusjonen.\n"
+"chi-opphøyede distribusjonen.\n"
 "@faktisk_område er et område som inneholder de observerte datapunktene. "
 "@teoretisk_område er et område som inneholder de forventede verdiene til "
 "datapunktene. Denne funksjonen er Excel kompatibel. \n"
@@ -12231,7 +12231,7 @@ msgstr ""
 "@n er antall suksesser, @forsøk er totalt antall uavhengige forsøk, @p er "
 "sannsynligheten for suksess i et forsøk, og @kumulativ beskriver om summen "
 "av binominalfunksjonen skal returneres fra 0 til @n.\n"
-"Hvis @n eller @forsøk ikke er heltall, blir de avkortet. Hvis @n < 0 eller\n"
+"Hvis @n eller @forsøk ikke er heltall, blir de avkortet. Hvis @n < 0 eller\n"
 "@forsøk < 0 returnerer BINOMDIST en #NUM!-feil. Hvis @n > @forsøk returnerer "
 "BINOMDIST en NUM!-feil. Hvis @p < 0 eller @p > 1 returnerer BINOMDIST en "
 "#NUM!-feil. Denne funksjonen er Excel kompatibel. \n"
@@ -13823,7 +13823,7 @@ msgstr ""
 "streng inkludert en tom streng.  Hvis du skal søke på selve jokertegnet "
 "eller spørsmålstegn, må du bruke tilde (~) foran tegnet. \n"
 "Hvis @tekst ikke blir funnet, returnerer SEARCH en #VALUE! feil. Hvis "
-"@start_num er mindre enn en eller større enn lengden av @innen, returnerer "
+"@start_num er mindre enn en eller større enn lengden av @innen, returnerer "
 "SEARCH en #VALUE! feil. \n"
 "@EXAMPLES=\n"
 "SEARCH(\"c\",\"Cancel\") er lik 1.\n"
@@ -14030,7 +14030,7 @@ msgstr ""
 
 #: src/main.c:110 src/main.c:130
 msgid "Enables debugging mesgs while reading excel workbooks"
-msgstr "Slår på debugmeldinger under lesing av excel arbeidsbøker"
+msgstr "Slår på debugmeldinger under lesing av excel arbeidsbøker"
 
 #: src/main.c:114
 msgid "Enables debugging mesgs while reading excel functions"
@@ -14732,7 +14732,7 @@ msgstr ""
 
 #: src/workbook-cmd-format.c:161
 msgid "You entered an invalid row height value.  It must be bigger than 0"
-msgstr "Du oppga en ugyldig verdi for radhøyde. Den må være større enn 0"
+msgstr "Du oppga en ugyldig verdi for radhøyde. Den må være større enn 0"
 
 #: src/workbook-format-toolbar.c:85
 msgid "Set Horizontal Alignment"
