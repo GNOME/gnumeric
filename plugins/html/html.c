@@ -71,16 +71,14 @@ typedef enum {
  *
  */
 static void
-html_print_encoded (GsfOutput *output, char *str)
+html_print_encoded (GsfOutput *output, char const *str)
 {
-	const char *p;
-	guint i;
+	gunichar c;
 
-	if (!str)
+	if (str == NULL)
 		return;
-	p = str;
-	while (*p != '\0') {
-		switch (*p) {
+	for (; *str != '\0' ; str = g_utf8_next_char (str)) {
+		switch (*str) {
 			case '<':
 				gsf_output_puts (output, "&lt;");
 				break;
@@ -94,16 +92,14 @@ html_print_encoded (GsfOutput *output, char *str)
 				gsf_output_puts (output, "&quot;");
 				break;
 			default:
-				i = (unsigned char) *p;
-				if ((( i >= 0x20) && (i < 0x80)) ||
-				    (*p == '\n') || (*p == '\r') || (*p == '\t'))
-					gsf_output_write (output, 1, p);
-				else {
-					gsf_output_printf (output, "&#%03u;", i);
-				}
+				c = g_utf8_get_char (str);
+				if (((c >= 0x20) && (c < 0x80)) ||
+				    (c == '\n') || (c == '\r') || (c == '\t'))
+					gsf_output_write (output, 1, str);
+				else
+					gsf_output_printf (output, "&#%u;", c);
 				break;
 		}
-		p++;
 	}
 }
 
@@ -480,7 +476,7 @@ html_file_save (GnmFileSaver const *fs, IOContext *io_context,
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">\n"
 "<html>\n"
 "<head>\n\t<title>Tables</title>\n"
-"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\n"
+"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n"
 "\t<!-- \"G_PLUGIN_FOR_HTML\" -->\n"
 "<style><!--\n"
 "tt {\n"
@@ -503,7 +499,7 @@ html_file_save (GnmFileSaver const *fs, IOContext *io_context,
 "\t\t\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html>\n"
 "<head>\n\t<title>Tables</title>\n"
-"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\n"
+"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n"
 "\t<!-- \"G_PLUGIN_FOR_HTML\" -->\n"
 "<style type=\"text/css\">\n"
 "tt {\n"
@@ -522,12 +518,12 @@ html_file_save (GnmFileSaver const *fs, IOContext *io_context,
 		break;
 	case XHTML  :
 		gsf_output_puts (output,
-"<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n"
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n"
 "\t\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"
 "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n"
 "<head>\n\t<title>Tables</title>\n"
-"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
+"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n"
 "\t<!-- \"G_PLUGIN_FOR_HTML\" -->\n"
 "<style type=\"text/css\">\n"
 "tt {\n"
