@@ -428,13 +428,13 @@ print_info_save (PrintInformation *pi)
 }
 
 static struct {
-	char   *short_name;
-	char   *full_name;
+	const char *short_name;
+	const char *full_name;
 	double factor;
-} units [] = {
+} units [UNIT_LAST + 1] = {
 	{ N_("pts"), N_("points"),     1.0 },
-	{ N_("mm"),  N_("millimeter"), 2.8346457 },
-	{ N_("cm"),  N_("centimeter"), 28.346457 },
+	{ N_("mm"),  N_("millimeter"), 72.0 / 25.4 },  /* 1in = 25.4mm, exact */
+	{ N_("cm"),  N_("centimeter"), 72.0 / 2.54 },
 	{ N_("In"),  N_("inch"),       72.0 },
 	{ NULL, NULL, 0.0 }
 };

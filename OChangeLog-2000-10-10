@@ -1,5 +1,10 @@
 2000-09-27  Morten Welinder  <terra@diku.dk>
 
+	* src/print-info.c: Use constant expression to make factors easier
+ 	to understand.  Constify.  Have the compiler check UNIT_LAST.
+
+2000-09-27  Morten Welinder  <terra@diku.dk>
+
 	* src/print-info.c (load_formats): Fix from Chema.  Don't forget
  	to pop the prefix.
 
