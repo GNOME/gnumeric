@@ -132,7 +132,7 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 		pane->row.canvas = NULL;
 
 	pane->drag_object = NULL;
-	i = sizeof (pane->control_points)/sizeof(FooCanvasItem *);
+	i = G_N_ELEMENTS (pane->control_points);
 	while (i-- > 0)
 		pane->control_points[i] = NULL;
 

@@ -694,7 +694,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				char *end;
 				int num = strtol (sep += 2, &end, 10);
 
-				if (sep == end || 0 >= num || num >= (int)(sizeof(map)/sizeof(int))) {
+				if (sep == end || 0 >= num || num >= (int)G_N_ELEMENTS (map)) {
 					(void) applix_parse_error (state, "Unknown pattern %s", sep);
 					return NULL;
 				}
@@ -736,7 +736,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				char *end;
 				int num = strtol (++sep, &end, 10);
 
-				if (sep == end || 0 >= num || num >= (int)(sizeof(map)/sizeof(int))) {
+				if (sep == end || 0 >= num || num >= (int)G_N_ELEMENTS (map)) {
 					(void) applix_parse_error (state, "Unknown border style %s", sep);
 					return NULL;
 				}

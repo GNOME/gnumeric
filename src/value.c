@@ -888,7 +888,7 @@ value_peek_string (Value const *v)
 
 		g_free (cache[next]);
 		s = cache[next] = value_get_as_string (v);
-		next = (next + 1) % (sizeof (cache) / sizeof (cache[0]));
+		next = (next + 1) % G_N_ELEMENTS (cache);
 		return s;
 	}
 }

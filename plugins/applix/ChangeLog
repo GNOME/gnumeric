@@ -1,3 +1,7 @@
+2003-03-07  Morten Welinder  <terra@diku.dk>
+
+	* applix-read.c (applix_parse_style): Use G_N_ELEMENTS.
+
 2003-03-05  Morten Welinder  <terra@diku.dk>
 
 	* applix-read.c (applix_read_attributes): Fix integer/gboolean

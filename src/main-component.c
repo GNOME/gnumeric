@@ -33,8 +33,6 @@ static float preferred_zoom_levels[] = {
 	1.0 / 4.0, 1.0 / 2.0, 3.0 / 4.0, 1.0, 1.5, 2.0, 3.0, 5.0
 };
 
-static const gint n_zoom_levels = (sizeof (preferred_zoom_levels) / sizeof (float));
-
 static void
 control_activated_cb (BonoboControl *control, gboolean activate,
 		      WorkbookControlComponent *wbcc)
@@ -63,7 +61,7 @@ control_activated_cb (BonoboControl *control, gboolean activate,
 static float
 zoom_level_from_index (int index)
 {
-	if (index >= 0 && index < n_zoom_levels)
+	if (index >= 0 && index < G_N_ELEMENTS (preferred_zoom_levels))
 		return preferred_zoom_levels [index];
 	else
 		return 1.0;
@@ -94,7 +92,7 @@ zoom_in_cb (BonoboZoomable *zoomable, WorkbookControlComponent *wbcc)
 	index = -1;
 
 	/* find next greater zoom level index */
-	for (i = 0; i < n_zoom_levels; i++) {
+	for (i = 0; i < G_N_ELEMENTS (preferred_zoom_levels); i++) {
 		if (preferred_zoom_levels [i] > zoom_level) {
 			index = i;
 			break;
@@ -124,7 +122,7 @@ zoom_out_cb (BonoboZoomable *zoomable, WorkbookControlComponent *wbcc)
 	index = -1;
 
 	/* find next lower zoom level index */
-	for (i = n_zoom_levels - 1; i >= 0; i--) {
+	for (i = G_N_ELEMENTS (preferred_zoom_levels) - 1; i >= 0; i--) {
 		if (preferred_zoom_levels [i] < zoom_level) {
 			index = i;
 			break;
@@ -202,7 +200,7 @@ add_interfaces (BonoboObject *control, WorkbookControl *wbc)
 		 TRUE, TRUE, TRUE,
 		 preferred_zoom_levels,
 		 NULL,
-		 n_zoom_levels);
+		 G_N_ELEMENTS (preferred_zoom_levels));
 	bonobo_object_add_interface (BONOBO_OBJECT (control),
 				     BONOBO_OBJECT (zoomable));
 	wbcc_set_zoomable (wbcc, zoomable);

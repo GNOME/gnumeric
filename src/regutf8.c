@@ -398,7 +398,7 @@ test (const char *pattern, const char *string, int cflags)
 	int res;
 	int eflags = 0;
 	regmatch_t match[100];
-	size_t nmatch = sizeof (match) / sizeof (match[0]);
+	size_t nmatch = G_N_ELEMENTS (match);
 
 	fprintf (stderr, "Pattern: \"%s\"\n", pattern);
 	fprintf (stderr, "String: \"%s\"\n", string);

@@ -1,3 +1,12 @@
+2003-03-07  Morten Welinder  <terra@diku.dk>
+
+	* src/value.c (value_peek_string): Use G_N_ELEMENTS.
+	* src/regutf8.c (test): Ditto.
+	* src/gnumeric-pane.c (gnm_pane_init): Ditto.
+
+	* src/main-component.c (n_zoom_levels): Replace with use of
+	G_N_ELEMENTS macro.
+
 2003-03-06  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-control-gui.c (scg_queue_movement) : new.
