@@ -1,3 +1,10 @@
+1999-11-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_col_get_unit_distance,
+	  sheet_row_get_unit_distance) : subtract 1 to match the inverse map and
+	  round to integers when accumulating to give a closer approximation to
+	  the trucation that occurs when drawing in pixels.
+
 1999-11-22  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/print.c: Fit the ranges that are printed.

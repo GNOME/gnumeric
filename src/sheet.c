@@ -933,7 +933,14 @@ sheet_col_get_unit_distance (Sheet const *sheet, int from, int to)
 	/* Do not use sheet_foreach_colrow, it ignores empties */
 	for (i = from ; i < to ; ++i) {
 		ColRowInfo const *ci = sheet_col_get_info (sheet, i);
-		units += ci->units + ci->margin_a_pt + ci->margin_b_pt;
+
+		/* I do not know why we subtract 1, but it is required to get
+		 * things to match.
+		 *
+		 * We take to floor of the width to get capture the rounding the
+		 * effect of rounding to pixels.
+		 */
+		units += (int)(ci->units + ci->margin_a_pt + ci->margin_b_pt) - 1;
 	}
 	
 	return units;
@@ -956,7 +963,14 @@ sheet_row_get_unit_distance (Sheet const *sheet, int from, int to)
 	/* Do not use sheet_foreach_colrow, it ignores empties */
 	for (i = from ; i < to ; ++i) {
 		ColRowInfo const *ri = sheet_row_get_info (sheet, i);
-		units += ri->units + ri->margin_a_pt + ri->margin_b_pt;
+
+		/* I do not know why we subtract 1, but it is required to get
+		 * things to match.
+		 *
+		 * We take to floor of the width to get capture the rounding the
+		 * effect of rounding to pixels.
+		 */
+		units += (int)(ri->units + ri->margin_a_pt + ri->margin_b_pt) - 1;
 	}
 	
 	return units;
