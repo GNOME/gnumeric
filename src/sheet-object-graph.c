@@ -53,13 +53,16 @@
 
 typedef struct {
 	SheetObject  base;
+#ifdef NEW_GRAPHS
 	GOGraph     *graph;
+#endif
 } SheetObjectGraph;
 typedef struct {
 	SheetObjectClass base;
 } SheetObjectGraphClass;
 
 
+#ifdef NEW_GRAPHS
 SheetObject *
 sheet_object_graph_new (GOGraph *graph)
 {
@@ -68,6 +71,7 @@ sheet_object_graph_new (GOGraph *graph)
 
 	return SHEET_OBJECT (so);
 }
+#endif
 
 static void
 sheet_object_graph_finalize (GObject *obj)
@@ -75,10 +79,12 @@ sheet_object_graph_finalize (GObject *obj)
 	SheetObjectGraph *graph = SHEET_OBJECT_GRAPH (obj);
 	GObjectClass     *parent;
 
+#ifdef NEW_GRAPHS
 	if (graph->graph != NULL) {
 		g_object_unref (graph->graph);
 		graph->graph = NULL;
 	}
+#endif
 
 	parent = g_type_class_peek (SHEET_OBJECT_TYPE);
 	if (parent && parent->finalize)
