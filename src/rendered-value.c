@@ -40,7 +40,7 @@
  * formula instead of its value.
  */
 RenderedValue *
-rendered_value_new (Cell * cell)
+rendered_value_new (Cell *cell, GList *styles)
 {
 	RenderedValue	*res;
 	StyleColor	*color;
@@ -49,7 +49,8 @@ rendered_value_new (Cell * cell)
 	g_return_val_if_fail (cell != NULL, NULL);
 	g_return_val_if_fail (cell->value != NULL, NULL);
 
-	if (cell_has_expr (cell) && cell->sheet->display_formulas) {
+	if (cell_has_expr (cell) &&
+	    cell->sheet != NULL && cell->sheet->display_formulas) {
 		ParsePos pp;
 		char *tmpstr = expr_tree_as_string (cell->u.expression,
 			parse_pos_init_cell (&pp, cell));
@@ -57,7 +58,10 @@ rendered_value_new (Cell * cell)
 		g_free (tmpstr);
 		color = NULL;
 	} else {
-		MStyle *mstyle = cell_get_mstyle (cell);
+		MStyle *mstyle = (styles != NULL)
+			? sheet_style_compute_from_list (styles, cell->pos.col, cell->pos.row)
+			: cell_get_mstyle (cell);
+
 		if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
 			/* entered text CAN be null if called by
 			 * set_value
@@ -89,7 +93,7 @@ rendered_value_new (Cell * cell)
 }
 
 void
-rendered_value_destroy (RenderedValue * rv)
+rendered_value_destroy (RenderedValue *rv)
 {
 	if (rv->rendered_text) {
 		string_unref (rv->rendered_text);
@@ -120,7 +124,7 @@ rendered_value_destroy (RenderedValue * rv)
 void
 rendered_value_calc_size (Cell const *cell)
 {
-	RenderedValue * rv = cell->rendered_value;
+	RenderedValue *rv = cell->rendered_value;
 	MStyle *mstyle = cell_get_mstyle (cell);
 	StyleFont * const style_font =
 	    sheet_view_get_style_font (cell->sheet, mstyle);
@@ -209,7 +213,7 @@ rendered_value_calc_size (Cell const *cell)
  * Caller is responsible for freeing the result
  */
 char *
-rendered_value_get_text (RenderedValue const * rv)
+rendered_value_get_text (RenderedValue const *rv)
 {
 	g_return_val_if_fail (rv->rendered_text != NULL,
 			      g_strdup ("ERROR"));
@@ -227,7 +231,7 @@ rendered_value_get_text (RenderedValue const * rv)
  * a string representation of the value.
  */
 char *
-cell_get_rendered_text (Cell const * cell)
+cell_get_rendered_text (Cell const *cell)
 {
 	g_return_val_if_fail (cell != NULL,
 			      g_strdup("ERROR"));
@@ -279,7 +283,7 @@ cell_get_entered_text (Cell const *cell)
 }
 
 int
-cell_rendered_width (Cell const * cell)
+cell_rendered_width (Cell const *cell)
 {
 	if (!cell || !cell->rendered_value)
 		return 0;
@@ -287,7 +291,7 @@ cell_rendered_width (Cell const * cell)
 		return cell->rendered_value->width_pixel;
 }
 int
-cell_rendered_height (Cell const * cell)
+cell_rendered_height (Cell const *cell)
 {
 	if (!cell || !cell->rendered_value)
 		return 0;

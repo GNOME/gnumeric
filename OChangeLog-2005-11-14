@@ -1,3 +1,21 @@
+2000-07-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-style.c (sheet_style_compute_from_list) : Make public.
+	  and rename from sheet_mstyle_compute_from_list.  Changed all
+	  callers.
+
+	* src/rendered-value.c (rendered_value_new) : Optionaly take a style
+	  list.  Use it if offered.
+
+	* src/cell.c (cell_render_value) : New signature for rendered_value_new.
+
+	* src/render-ascii.c (cell_region_render_ascii) : Temporarily reverse
+	  the style list so that it goes in the correct direction.   Use
+	  rendered_value not entered_text.
+
+	* src/clipboard.c (clipboard_prepend_cell) : Init the Cell::pos with
+	  the offsets.  This is useful in when looking up formats.
+
 2000-07-06  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-financial.c: Implemented COUPNCD().

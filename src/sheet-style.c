@@ -596,8 +596,8 @@ sheet_style_attach (Sheet  *sheet, Range range,
 		sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_ALL);
 }
 
-static MStyle *
-sheet_mstyle_compute_from_list (GList *list, int col, int row)
+MStyle *
+sheet_style_compute_from_list (GList *list, int col, int row)
 {
 	GList  *l;
 	GList  *style_list;
@@ -744,8 +744,7 @@ sheet_style_compute (const Sheet *sheet, int col, int row)
 		style_cache_misses++;
 	}
 
-	mstyle = sheet_mstyle_compute_from_list (sd->cached_list,
-						 col, row);
+	mstyle = sheet_style_compute_from_list (sd->cached_list, col, row);
 
 	sheet_style_cache_add (sd, col, row, mstyle);
 
@@ -1176,6 +1175,12 @@ sheet_style_relocate (const ExprRelocateInfo *rinfo)
 		sheet_style_cache_flush (rinfo->origin_sheet->style_data, STYLE_CACHE_FLUSH_ALL);
 }
 
+/*
+ * sheet_get_styles_in_range :
+ *
+ * Returns the list of styles that intersect the supplied range @r.
+ * NOTE : The list is in REVERSE ORDER.
+ */
 GList *
 sheet_get_styles_in_range (Sheet *sheet, const Range *r)
 {
@@ -1566,14 +1571,14 @@ border_check (UniqueClosure *cl, GList *edge_list,
 			continue; /* an outer corner */
 
 		/* Calculate the respective styles */
-		inner_style = sheet_mstyle_compute_from_list (edge_list,
-							      inner.col,
-							      inner.row);
+		inner_style = sheet_style_compute_from_list (edge_list,
+							     inner.col,
+							     inner.row);
 
 		if (do_outer)
-			outer_style = sheet_mstyle_compute_from_list (edge_list,
-								      outer.col,
-								      outer.row);
+			outer_style = sheet_style_compute_from_list (edge_list,
+								     outer.col,
+								     outer.row);
 
 		/* Build up the border maps + do internal borders */
 		switch (location) {
@@ -1713,9 +1718,9 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 		frags = range_fragment_list_clip (middle_list, &middle);
 		for (l = frags; l; l = g_list_next (l)) {
 			Range  *r   = l->data;
-			MStyle *tmp = sheet_mstyle_compute_from_list (middle_list,
-								      r->start.col,
-								      r->start.row);
+			MStyle *tmp = sheet_style_compute_from_list (middle_list,
+								     r->start.col,
+								     r->start.row);
 			mstyle_compare (cl->mstyle, tmp);
 			mstyle_unref (tmp);
 		}

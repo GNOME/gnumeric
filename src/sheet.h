@@ -249,6 +249,8 @@ int     sheet_row_size_fit_pixels     (Sheet *sheet, int row);
 /* sheet-style.c */
 MStyle        *sheet_style_compute              (const Sheet *sheet,
 						 int col, int row);
+MStyle	      *sheet_style_compute_from_list	(GList *list,
+						 int col, int row);
 void           sheet_style_attach               (Sheet  *sheet, Range   range,
 						 MStyle *mstyle);
 void           sheet_style_attach_single        (Sheet  *sheet, int col, int row,

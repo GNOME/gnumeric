@@ -27,7 +27,7 @@ struct _RenderedValue {
 	int         width_pixel, height_pixel;
 };
 
-RenderedValue * rendered_value_new       (Cell *cell);
+RenderedValue * rendered_value_new       (Cell *cell, GList *styles);
 void            rendered_value_destroy   (RenderedValue *rv);
 void            rendered_value_calc_size (Cell const *cell);
 

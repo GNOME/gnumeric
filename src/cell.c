@@ -672,7 +672,7 @@ cell_render_value (Cell *cell)
 	RenderedValue *rv;
 	g_return_if_fail (cell != NULL);
 
-	rv = rendered_value_new (cell);
+	rv = rendered_value_new (cell, NULL);
 	if (cell->rendered_value)
 		rendered_value_destroy (cell->rendered_value);
 	cell->rendered_value = rv;
