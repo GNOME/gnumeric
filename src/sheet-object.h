@@ -46,32 +46,33 @@ struct _SheetObjectAnchor {
 #define IS_SHEET_OBJECT(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_TYPE))
 GType sheet_object_get_type (void);
 
-void	     sheet_object_register	   (void);
-gboolean     sheet_object_clear_sheet	   (SheetObject *so);
-gboolean     sheet_object_set_sheet	   (SheetObject *so, Sheet *sheet);
-Sheet	    *sheet_object_get_sheet	   (SheetObject const *so);
+void	      sheet_object_register	 (void);
+gboolean      sheet_object_clear_sheet	 (SheetObject *so);
+gboolean      sheet_object_set_sheet	 (SheetObject *so, Sheet *sheet);
+Sheet	     *sheet_object_get_sheet	 (SheetObject const *so);
 
-SheetObject *sheet_object_read_xml	   (XmlParseContext const *ctxt,
-					    xmlNodePtr tree);
-xmlNodePtr   sheet_object_write_xml	   (SheetObject const *so,
-					    XmlParseContext const *ctxt);
-void         sheet_object_print		   (SheetObject const *so,
-					    GnomePrintContext *ctx,
-					    double base_x, double base_y);
-void         sheet_object_clone_sheet      (Sheet const *src, Sheet *dst, Range *range);
-void         sheet_object_update_bounds	   (SheetObject *so, CellPos const *p);
-void	     sheet_object_default_size	   (SheetObject *so,
-					    double *w, double *h);
+SheetObject  *sheet_object_read_xml	 (XmlParseContext const *ctxt,
+					  xmlNodePtr tree);
+xmlNodePtr    sheet_object_write_xml	 (SheetObject const *so,
+					  XmlParseContext const *ctxt);
+void          sheet_object_print	 (SheetObject const *so,
+					  GnomePrintContext *ctx,
+					  double base_x, double base_y);
+void          sheet_object_clone_sheet   (Sheet const *src, Sheet *dst, Range *range);
+void          sheet_object_update_bounds (SheetObject *so, CellPos const *p);
+void	      sheet_object_default_size	 (SheetObject *so,
+					  double *w, double *h);
 
-void		 sheet_object_new_view	   (SheetObject *so, SheetControl *, gpointer key);
-GObject		*sheet_object_get_view	   (SheetObject *so, gpointer key);
-SheetObject	*sheet_object_view_obj     (GObject *view);
-SheetControl	*sheet_object_view_control (GObject *view);
-gpointer	 sheet_object_view_key	   (GObject *view);
+void	      sheet_object_new_view	 (SheetObject *so, SheetControl *sc,
+					  gpointer key);
+GObject	     *sheet_object_get_view	 (SheetObject *so, gpointer key);
+SheetObject  *sheet_object_view_obj	 (GObject *view);
+SheetControl *sheet_object_view_control  (GObject *view);
+gpointer      sheet_object_view_key	 (GObject *view);
 
-Range const	*sheet_object_range_get	   (SheetObject const *so);
-void		 sheet_object_anchor_set   (SheetObject *so,
-					    SheetObjectAnchor const *anchor);
+Range const	*sheet_object_range_get	 (SheetObject const *so);
+void		 sheet_object_anchor_set (SheetObject *so,
+					  SheetObjectAnchor const *anchor);
 SheetObjectAnchor const *sheet_object_anchor_get (SheetObject const *so);
 
 void sheet_object_position_pts_get	   (SheetObject const *so, double *pos);

@@ -1,3 +1,15 @@
+2002-04-27  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_finalize) : destroy the views
+	  before we destroy the control.
+
+	* src/sheet-object.c (cb_sheet_object_view_finalized) : renamed from
+	  sheet_object_view_destroyed and simplified to use weakrefs.  At this
+	  point all we can do is remove the view from the list.
+	(sheet_object_new_view) : using weakrefs we are more constrained.
+	  object data is already done so there is no need to add refs to the
+	  control.
+
 2002-04-26  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_sheet_add) : Use

@@ -399,45 +399,6 @@ scg_scrollbar_config (SheetControl const *sc)
 	gtk_adjustment_changed (ha);
 }
 
-#if 0
-/*
- * scg_make_edit_pos_visible
- * @scg  Sheet view
- *
- * Make the cell at the edit position visible.
- *
- * To be called from the "size_allocate" signal handler when the geometry of a
- * new sheet view has been configured.
- */
-static void
-scg_make_edit_pos_visible (SheetControl *sc)
-{
-	scg_make_cell_visible (sc,
-			       scg->sheet->edit_pos.col,
-			       scg->sheet->edit_pos.row,
-			       TRUE);
-
-}
-#endif
-
-static void
-cb_table_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
-			SheetControlGUI *scg)
-{
-#if 0
-	/* FIXME
-	 * When a new sheet is added this is called and if the edit cell was
-	 * not visible we change the scroll position even though to the user
-	 * the size did not change and there is no reason for the scrolling to
-	 * jump.
-	 *
-	 * Can we somehow do this only if the edit pos was visible initially ?
-	 */
-	scg_make_edit_pos_visible ((SheetControl *) scg);
-#endif
-	scg_scrollbar_config ((SheetControl *) scg);
-}
-
 void
 scg_colrow_size_set (SheetControlGUI *scg,
 		     gboolean is_cols, int index, int new_size_pixels)
@@ -575,6 +536,45 @@ cb_vscrollbar_adjust_bounds (GtkRange *range, gdouble new_value)
 	}
 }
 
+#if 0
+/*
+ * scg_make_edit_pos_visible
+ * @scg  Sheet view
+ *
+ * Make the cell at the edit position visible.
+ *
+ * To be called from the "size_allocate" signal handler when the geometry of a
+ * new sheet view has been configured.
+ */
+static void
+scg_make_edit_pos_visible (SheetControl *sc)
+{
+	scg_make_cell_visible (sc,
+			       scg->sheet->edit_pos.col,
+			       scg->sheet->edit_pos.row,
+			       TRUE);
+
+}
+#endif
+
+static void
+cb_table_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
+			SheetControlGUI *scg)
+{
+#if 0
+	/* FIXME
+	 * When a new sheet is added this is called and if the edit cell was
+	 * not visible we change the scroll position even though to the user
+	 * the size did not change and there is no reason for the scrolling to
+	 * jump.
+	 *
+	 * Can we somehow do this only if the edit pos was visible initially ?
+	 */
+	scg_make_edit_pos_visible ((SheetControl *) scg);
+#endif
+	scg_scrollbar_config ((SheetControl *) scg);
+}
+
 static void
 cb_table_destroy (GtkObject *table, SheetControlGUI *scg)
 {
@@ -591,6 +591,7 @@ cb_table_destroy (GtkObject *table, SheetControlGUI *scg)
 		    toplevel->focus_widget == GTK_WIDGET (scg_pane (scg, 0)))
 			gtk_window_set_focus (toplevel, NULL);
 	}
+
 	scg->table = NULL;
 	SCG_FOREACH_PANE (scg, pane, pane->gcanvas = NULL;);
 
@@ -1170,6 +1171,12 @@ scg_finalize (GObject *object)
 {
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (object);
 	SheetControl *sc = (SheetControl *) scg;
+	Sheet	     *sheet = sc_sheet (sc);
+	GList *ptr;
+
+	/* remove the object view before we disappear */
+	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next )
+		sc_object_destroy_view	(sc, SHEET_OBJECT (ptr->data));
 
 	g_ptr_array_free (scg->col_group.buttons, TRUE);
 	g_ptr_array_free (scg->row_group.buttons, TRUE);
@@ -1179,8 +1186,6 @@ scg_finalize (GObject *object)
 
 	if (scg->table)
 		gtk_object_unref (GTK_OBJECT (scg->table));
-
-	/* FIXME : Should we be pedantic and clear the control points ? */
 
 	if (G_OBJECT_CLASS (scg_parent_class)->finalize)
 		(*G_OBJECT_CLASS (scg_parent_class)->finalize)(object);

@@ -452,13 +452,9 @@ sheet_object_clear_sheet (SheetObject *so)
 }
 
 static void
-sheet_object_view_destroyed (GObject *view, SheetObject *so)
+cb_sheet_object_view_finalized (SheetObject *so, GObject *view)
 {
-	SheetControl *sc = sheet_object_view_control (view);
-
 	so->realized_list = g_list_remove (so->realized_list, view);
-	g_datalist_remove_data (&G_OBJECT (view)->qdata, SO_VIEW_SHEET_CONTROL_KEY);
-	g_object_unref (G_OBJECT (sc));
 }
 
 /*
@@ -483,9 +479,8 @@ sheet_object_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	g_object_set_data (G_OBJECT (view), SO_VIEW_OBJECT_KEY, so);
 	g_object_set_data (G_OBJECT (view), SO_VIEW_SHEET_CONTROL_KEY, sc);
 	g_object_set_data (G_OBJECT (view), SO_VIEW_KEY, key);
-	g_object_ref (G_OBJECT (sc));
 	g_object_weak_ref (G_OBJECT (view),
-		(GWeakNotify) sheet_object_view_destroyed, so);
+		(GWeakNotify) cb_sheet_object_view_finalized, so);
 	so->realized_list = g_list_prepend (so->realized_list, view);
 
 	SO_CLASS (so)->update_bounds (so, view);
