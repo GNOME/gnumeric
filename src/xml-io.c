@@ -196,7 +196,7 @@ xml_node_get_int (xmlNodePtr node, char const *name, int *val)
 	*val = strtol (CXML2C (buf), &end, 10);
 	xmlFree (buf);
 
-	/* FIXME: it is, strictly speaking, now valid to use buf here.  */
+	/* FIXME: it is, strictly speaking, not valid to use buf here.  */
 	return (CXML2C (buf) != end) && (errno != ERANGE);
 }
 

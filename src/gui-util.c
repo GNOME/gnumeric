@@ -23,7 +23,6 @@
 #include "workbook.h"
 
 #include <string.h>
-#include <gal/widgets/e-colors.h>
 #include <gal/widgets/widget-color-combo.h>
 #include <glade/glade.h>
 

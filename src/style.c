@@ -21,7 +21,6 @@
 #include "gui-util.h"
 #include "mathfunc.h"
 
-#include <gal/widgets/e-colors.h>
 #include <string.h>
 
 #undef DEBUG_REF_COUNT

@@ -16,7 +16,6 @@
 #include "plugin-service.h"
 #include "plugin-loader.h"
 
-#include <gal/util/e-xml-utils.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output.h>
 #include <libxml/parser.h>

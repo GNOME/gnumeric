@@ -30,7 +30,6 @@
 #include "formats.h"
 #include "cmd-edit.h"
 #include "clipboard.h"
-#include <gal/widgets/e-cursors.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
 

@@ -45,7 +45,6 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gal/widgets/e-colors.h>
 #include <gal/widgets/e-cursors.h>
 
 #include <string.h>
