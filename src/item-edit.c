@@ -66,6 +66,11 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	do {
 		item_edit_get_pixel_coords (item_edit, &xd, &yd, &wd, &hd);
 		
+		/* FIXME : This is a temporary fix.
+		 * We need a multi line editor for this case and others.
+		 */
+		if ((item_edit->col +  item_edit->col_span) >= SHEET_MAX_COLS-1)
+			break;
 		if (total_len >= wd)
 			item_edit->col_span++;
 	} while (total_len >= wd);

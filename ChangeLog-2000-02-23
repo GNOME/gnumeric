@@ -1,5 +1,8 @@
 1999-11-23  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-edit.c (item_edit_draw) : Avoid crashing when we hit the
+	  edge of the sheet.
+
 	* src/cell-draw.c (cell_draw) : Fix long standing bone headed mistake.
 	  multi-line cells were hard coded to use black as the font color.
 
