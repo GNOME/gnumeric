@@ -116,8 +116,7 @@ WBC_VIRTUAL_FULL (menu_state_sheet_count, menu_state.sheet_count,
 	(WorkbookControl *wbc), (wbc))
 
 WBC_VIRTUAL (paste_from_selection,
-	(WorkbookControl *wbc, PasteTarget const *pt, guint32 time),
-	(wbc, pt, time))
+	(WorkbookControl *wbc, PasteTarget const *pt), (wbc, pt))
 
 void
 wb_control_sheet_add (WorkbookControl *wbc, Sheet *new_sheet)

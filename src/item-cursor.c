@@ -921,7 +921,7 @@ typedef enum {
 } ActionType;
 
 static void
-item_cursor_do_action (ItemCursor *ic, ActionType action, guint32 time)
+item_cursor_do_action (ItemCursor *ic, ActionType action)
 {
 	SheetControl *sc;
 	Sheet *sheet;
@@ -945,8 +945,7 @@ item_cursor_do_action (ItemCursor *ic, ActionType action, guint32 time)
 			break;
 		cmd_paste (wbc,
 			   paste_target_init (&pt, sheet, &ic->pos,
-					      PASTE_ALL_TYPES),
-			   time);
+					      PASTE_ALL_TYPES));
 		break;
 
 	case ACTION_MOVE_CELLS:
@@ -954,8 +953,7 @@ item_cursor_do_action (ItemCursor *ic, ActionType action, guint32 time)
 			break;
 		cmd_paste (wbc,
 			   paste_target_init (&pt, sheet, &ic->pos,
-					      PASTE_ALL_TYPES),
-			   time);
+					      PASTE_ALL_TYPES));
 		break;
 
 	case ACTION_COPY_FORMATS:
@@ -963,8 +961,7 @@ item_cursor_do_action (ItemCursor *ic, ActionType action, guint32 time)
 			break;
 		cmd_paste (wbc,
 			   paste_target_init (&pt, sheet, &ic->pos,
-					      PASTE_FORMATS),
-			   time);
+					      PASTE_FORMATS));
 		break;
 
 	case ACTION_COPY_VALUES:
@@ -972,8 +969,7 @@ item_cursor_do_action (ItemCursor *ic, ActionType action, guint32 time)
 			break;
 		cmd_paste (wbc,
 			   paste_target_init (&pt, sheet, &ic->pos,
-					      PASTE_AS_VALUES),
-			   time);
+					      PASTE_AS_VALUES));
 		break;
 
 	case ACTION_SHIFT_DOWN_AND_COPY:
@@ -996,7 +992,7 @@ context_menu_hander (GnumericPopupMenuElement const *element,
 {
 	g_return_val_if_fail (element != NULL, TRUE);
 
-	item_cursor_do_action (ic, element->index, GDK_CURRENT_TIME);
+	item_cursor_do_action (ic, element->index);
 	return TRUE;
 }
 
@@ -1059,8 +1055,8 @@ item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 		item_cursor_popup_menu (ic, event);
 	else
 		item_cursor_do_action (ic, (event->state & GDK_CONTROL_MASK)
-				       ? ACTION_COPY_CELLS : ACTION_MOVE_CELLS,
-				       event->time);
+				       ? ACTION_COPY_CELLS
+				       : ACTION_MOVE_CELLS);
 }
 
 static void

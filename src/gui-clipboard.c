@@ -38,7 +38,8 @@
 #define TARGETS_ATOM_NAME "TARGETS"
 
 static CellRegion *
-x_selection_to_cell_region (WorkbookControlGUI *wbcg, const guchar *src, int len)
+x_clipboard_to_cell_region (WorkbookControlGUI *wbcg,
+			    const guchar *src, int len)
 {
 	DialogStfResult_t *dialogresult;
 	CellRegion *cr = NULL;
@@ -137,13 +138,13 @@ x_selection_to_cell_region (WorkbookControlGUI *wbcg, const guchar *src, int len
 }
 
 /**
- * x_selection_received:
+ * x_clipboard_received:
  *
  * Invoked when the selection has been received by our application.
- * This is triggered by a call we do to gtk_selection_convert.
+ * This is triggered by a call we do to gtk_clipboard_request_contents.
  */
 static void
-x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time,
+x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		      WorkbookControlGUI *wbcg)
 {
 	GdkAtom atom_targets  = gdk_atom_intern (TARGETS_ATOM_NAME, FALSE);
@@ -158,7 +159,6 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time,
 	if (sel->target == atom_targets) { /* The data is a list of atoms */
 		GdkAtom *atoms = (GdkAtom *) sel->data;
 		gboolean gnumeric_format, html_format;
-		GtkWidget *toplevel;
 		int atom_count = (sel->length / sizeof (GdkAtom));
 		int i;
 
@@ -181,9 +181,9 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time,
 				html_format = TRUE;
 
 		/* NOTE : We don't release the date resources
-		 * (wbcg->clipboard_paste_callback_data), the
-		 * reason for this is that we will actually call ourself
-		 * again (indirectly through the gtk_selection_convert
+		 * (wbcg->clipboard_paste_callback_data), the reason for
+		 * this is that we will actually call ourself again
+		 * (indirectly through the gtk_clipboard_request_contents
 		 * and that call _will_ free the data (and also needs it).
 		 * So we won't release anything.
 		 */
@@ -192,21 +192,24 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time,
 		 * request the data in gnumeric XML format. If not, just
 		 * request it in string format
 		 */
-		toplevel = GTK_WIDGET (wbcg_toplevel (wbcg));
 		if (gnumeric_format)
-			gtk_selection_convert (toplevel,
-					       GDK_SELECTION_PRIMARY,
-					       atom_gnumeric, time);
-#if 0
+			gtk_clipboard_request_contents
+				(clipboard, atom_gnumeric,
+				 (GtkClipboardReceivedFunc)
+				 x_clipboard_received,
+				 wbcg);
 		else if (html_format)
-			gtk_selection_convert (toplevel,
-					       GDK_SELECTION_PRIMARY,
-					       atom_html, time);
-#endif
+			gtk_clipboard_request_contents
+				(clipboard, atom_html,
+				 (GtkClipboardReceivedFunc)
+				 x_clipboard_received,
+				 wbcg);
 		else
-			gtk_selection_convert (toplevel,
-					       GDK_SELECTION_PRIMARY,
-					       GDK_SELECTION_TYPE_STRING, time);
+			gtk_clipboard_request_contents
+				(clipboard, GDK_SELECTION_TYPE_STRING,
+				 (GtkClipboardReceivedFunc)
+				 x_clipboard_received,
+				 wbcg);
 
 	} else if (sel->target == atom_gnumeric) {
 		/* The data is the gnumeric specific XML interchange format */
@@ -219,7 +222,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time,
 		free_closure = TRUE;
 		/* Did X provide any selection? */
 		if (sel->length > 0)
-			content = x_selection_to_cell_region (wbcg, sel->data, sel->length);
+			content = x_clipboard_to_cell_region (wbcg, sel->data, sel->length);
 	}
 
 	if (content != NULL) {
@@ -245,13 +248,13 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time,
 }
 
 /**
- * x_selection_handler:
+ * x_clipboard_get_cb
  *
  * Callback invoked when another application requests we render the selection.
  */
 static void
-x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data,
-		     guint info, guint time, WorkbookControl *wbc)
+x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
+		     guint info, WorkbookControl *wbc)
 {
 	gboolean to_gnumeric = FALSE, content_needs_free = FALSE;
 	CellRegion *clipboard = application_clipboard_contents_get ();
@@ -286,7 +289,13 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data,
 	 * in fact we only have to check the 'info' variable, however
 	 * to be absolutely sure I check if the atom checks out too
 	 */
-	if (selection_data->target == atom_gnumeric && info == GNUMERIC_ATOM_INFO) {
+	if (selection_data->target == atom_gnumeric
+#if 0
+	    /* The 'info' parameter is junk with gtk_clipboard_set_with_owner
+	       on gtk 2.0  */
+	    && info == GNUMERIC_ATOM_INFO
+#endif
+		) {
 		int buffer_size;
 		xmlChar *buffer = xml_cellregion_write (wbc, clipboard, &buffer_size);
 		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING, 8,
@@ -322,25 +331,26 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data,
 }
 
 /**
- * x_selection_clear:
+ * x_clipboard_clear_cb:
  *
- * Callback for the "we lost the X selection" signal
+ * Callback for the "we lost the X selection" signal. Only invoked for
+ * "primary".
  */
 static gint
-x_selection_clear (GtkWidget *widget, GdkEventSelection *event,
-		   WorkbookControl *wbc)
+x_clipboard_clear_cb (GtkClipboard *clipboard,
+		      gpointer      data)
 {
-	/* we have already lost the selection, no need to clear it */
-	if (event->selection == GDK_SELECTION_PRIMARY)
-		application_clipboard_clear (FALSE);
+	application_clipboard_clear (FALSE);
 
 	return TRUE;
 }
 
 void
-x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt, guint32 time)
+x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt)
 {
 	PasteTarget *new_pt;
+	GtkClipboard *primary = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
+	GdkAtom atom_targets  = gdk_atom_intern (TARGETS_ATOM_NAME, FALSE);
 
 	if (wbcg->clipboard_paste_callback_data != NULL)
 		g_free (wbcg->clipboard_paste_callback_data);
@@ -349,55 +359,34 @@ x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt, guint32 ti
 	*new_pt = *pt;
 	wbcg->clipboard_paste_callback_data = new_pt;
 
-	/* Query the formats, This will callback x_selection_received */
-	gtk_selection_convert (
-		GTK_WIDGET (wbcg_toplevel (wbcg)),
-		GDK_SELECTION_PRIMARY,
-		gdk_atom_intern (TARGETS_ATOM_NAME, FALSE), time);
+	/* Query the formats, This will callback x_clipboard_received */
+	gtk_clipboard_request_contents
+		(primary, atom_targets,
+		 (GtkClipboardReceivedFunc) x_clipboard_received,
+		 wbcg);
 }
 
-/**
- * x_clipboard_bind_workbook:
- *
- * Binds the signals related to the X selection to the Workbook
- * and initialized the clipboard data structures for the Workbook.
- */
-int
-x_clipboard_bind_workbook (WorkbookControlGUI *wbcg)
+gboolean
+x_claim_clipboard (WorkbookControlGUI *wbcg)
 {
-	GtkWidget *toplevel = GTK_WIDGET (wbcg_toplevel (wbcg));
-	GtkTargetEntry targets;
+	gboolean clipboard_owner_set;
+	gboolean primary_owner_set;
+	static const GtkTargetEntry targets[] = {
+		{(char *) GNUMERIC_ATOM_NAME,  GTK_TARGET_SAME_WIDGET,
+		 GNUMERIC_ATOM_INFO},
+		{ (char *)"STRING", 0, 0 },
+	};
+	GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	GtkClipboard *primary = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
 
-	wbcg->clipboard_paste_callback_data = NULL;
-
-	g_signal_connect (G_OBJECT (toplevel),
-		"selection_clear_event",
-		G_CALLBACK (x_selection_clear), wbcg);
-	g_signal_connect (G_OBJECT (toplevel),
-		"selection_received",
-		G_CALLBACK (x_selection_received), wbcg);
-	g_signal_connect (G_OBJECT (toplevel),
-		"selection_get",
-		G_CALLBACK (x_selection_handler), wbcg);
-
-	gtk_selection_add_target (toplevel,
-		GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 0);
-	gtk_selection_add_target (toplevel,
-		GDK_SELECTION_CLIPBOARD, GDK_SELECTION_TYPE_STRING, 0);
-
-	/*
-	 * Our specific Gnumeric XML clipboard interchange type
-	 */
-	targets.target = (char *)GNUMERIC_ATOM_NAME;
-
-	/* This is not useful, but we have to set it to something: */
-	targets.flags  = GTK_TARGET_SAME_WIDGET;
-	targets.info   = GNUMERIC_ATOM_INFO;
-
-	gtk_selection_add_targets (toplevel,
-				   GDK_SELECTION_PRIMARY, &targets, 1);
-	gtk_selection_add_targets (toplevel,
-				   GDK_SELECTION_CLIPBOARD, &targets, 1);
-
-	return FALSE;
+	clipboard_owner_set = gtk_clipboard_set_with_owner
+		(clipboard, targets, G_N_ELEMENTS (targets),
+		 (GtkClipboardGetFunc) x_clipboard_get_cb, 
+		 NULL, G_OBJECT (wbcg));
+	primary_owner_set = gtk_clipboard_set_with_owner 
+		(primary, targets, G_N_ELEMENTS (targets),
+		 (GtkClipboardGetFunc) x_clipboard_get_cb,
+		 (GtkClipboardClearFunc) x_clipboard_clear_cb,
+		 G_OBJECT (wbcg));
+	return clipboard_owner_set || primary_owner_set;
 }

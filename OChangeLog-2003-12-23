@@ -1,3 +1,52 @@
+2002-05-13  Jon K Hellan  <hellan@acm.org>
+
+	* src/cmd-edit.[ch] (cmd_paste): Remove 'time' parameter.
+
+	* src/cmd-edit.c (cmd_paste): Call wb_control_paste_from_selection
+	without 'time' parameter.
+	(cmd_paste_to_selection): Call cmd_paste without 'time' parameter.
+
+	* src/item-cursor.c (item_cursor_do_action): Remove 'time'
+	parameter. Call cmd_paste without 'time' argument.
+	(context_menu_hander, item_cursor_do_drop): Call
+	item_cursor_do_action without 'time' argument.
+
+	* src/gui-clipboard.[ch]: Switched to GtkClipboard API.
+	(x_request_clipboard): Remove 'time' parameter.
+	(x_clipboard_bind_workbook): Remove.
+	(x_claim_clipboard): New function. Claims ownership of primary and
+	clipboard.
+
+	* src/gui-clipboard.c
+	(x_clipboard_to_cell_region): Renamed from
+	x_selection_to_cell_region.
+	(x_clipboard_received): Renamed from
+	x_selection_received. 'widget' parameter replaced with
+	'clipboard', and 'time' parameter dropped. Call
+	gtk_clipboard_request_contents instead of gtk_selection_convert.
+	(x_clipboard_get_cb): Renamed from x_selection_handler. 'widget'
+	parameter replaced with 'clipboard', and 'time' parameter dropped.
+	Don't trust 'info' parameter. Gtk bug?
+	(x_clipboard_clear_cb): New function. Replaces x_selection_clear,
+	but even simpler.
+	(x_request_clipboard): Call gtk_clipboard_request_contents instead
+	of gtk_selection_convert.
+
+	* src/workbook-control.[ch], src/workbook-control-priv.h: Remove
+	'time' parameter from paste_from_selection method.
+
+	* src/workbook-control-component.c (wbcc_claim_selection): Remove.
+	(workbook_control_component_ctor_class): Inherit claim_selection
+	from superclass.
+
+	* src/workbook-control-gui.c (wbcg_paste_from_selection): Remove
+	'time' parameter and call x_request_clipboard without 'time'
+	parameter.
+	(wbcg_claim_selection): Replace old implementation with call to
+	new function x_claim_clipboard.
+	(workbook_control_gui_init): Remove call to
+	x_clipboard_bind_workbook.
+
 2002-05-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/plugin.c (gnumeric_extra_plugin_dirs) : don't memorize the 

@@ -1156,21 +1156,15 @@ wbcg_menu_state_sheet_count (WorkbookControl *wbc)
 }
 
 static void
-wbcg_paste_from_selection (WorkbookControl *wbc, PasteTarget const *pt, guint32 time)
+wbcg_paste_from_selection (WorkbookControl *wbc, PasteTarget const *pt)
 {
-	x_request_clipboard ((WorkbookControlGUI *)wbc, pt, time);
+	x_request_clipboard ((WorkbookControlGUI *)wbc, pt);
 }
 
 static gboolean
 wbcg_claim_selection (WorkbookControl *wbc)
 {
-	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	gboolean clipboard_owner_set =  gtk_selection_owner_set (GTK_WIDGET (wbcg->toplevel),
-								 GDK_SELECTION_CLIPBOARD,
-								 GDK_CURRENT_TIME);
-	return gtk_selection_owner_set (GTK_WIDGET (wbcg->toplevel),
-					GDK_SELECTION_PRIMARY,
-					GDK_CURRENT_TIME) || clipboard_owner_set;
+	return x_claim_clipboard ((WorkbookControlGUI *)wbc);
 }
 
 static void
@@ -4711,11 +4705,6 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 
 	/* Postpone showing the GUI, so that we may resize it freely. */
 	gtk_idle_add ((GtkFunction) show_gui, wbcg);
-
-	/* Postpone clipboard setup. For mysterious reasons, connecting
-	   callbacks to the table doesn't work. toplevel does work, but we
-	   must wait until we live inside a toplevel. */
-	gtk_idle_add ((GtkFunction) x_clipboard_bind_workbook, wbcg);
 }
 
 static int

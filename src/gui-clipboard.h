@@ -3,8 +3,7 @@
 
 #include "gui-gnumeric.h"
 
-int  x_clipboard_bind_workbook (WorkbookControlGUI *wbcg);
-void x_request_clipboard (WorkbookControlGUI *wbcg,
-			  PasteTarget const *pt, guint32 time);
+void x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt);
+gboolean x_claim_clipboard (WorkbookControlGUI *wbcg);
 
 #endif /* GNUMERIC_GUI_CLIPBOARD_H */

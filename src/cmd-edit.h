@@ -10,8 +10,7 @@ void cmd_select_cur_depends (Sheet *sheet);
 void cmd_select_cur_inputs  (Sheet *sheet);
 
 void cmd_paste_to_selection (WorkbookControl *context, Sheet *sheet, int flags);
-void cmd_paste 		    (WorkbookControl *context, PasteTarget const *pt,
-			     guint32 time);
+void cmd_paste 		    (WorkbookControl *context, PasteTarget const *pt);
 
 void cmd_shift_cols  (WorkbookControl *context, Sheet *sheet,
 		      int start_col, int end_col,

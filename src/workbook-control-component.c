@@ -144,16 +144,6 @@ wbcc_menu_state_sheet_count (WorkbookControl *wbc) {}
 static void
 wbcc_menu_state_sensitivity (WorkbookControl *wbc, gboolean sensitive) {}
 
-/* FIXME: Can this be made to work? */
-static gboolean
-wbcc_claim_selection (WorkbookControl *wbc)
-{
-	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	return gtk_selection_owner_set (GTK_WIDGET (wbcg->table),
-					GDK_SELECTION_PRIMARY,
-					GDK_CURRENT_TIME);
-}
-
 static int
 wbcc_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 		     char const *title, char const *msg)
@@ -348,7 +338,7 @@ workbook_control_component_ctor_class (GObjectClass *object_class)
 	wbc_class->menu_state.sensitivity = wbcc_menu_state_sensitivity;
 	wbc_class->menu_state.sheet_count = wbcc_menu_state_sheet_count;
 
-	wbc_class->claim_selection       = wbcc_claim_selection;
+	/* wbc_class->claim_selection inherited from wbcg */
 	/* wbc_class->paste_from_selection inherited from wbcg */
 	wbc_class->validation_msg	 = wbcc_validation_msg;
 	wbcg_class->set_transient        = wbcc_set_transient_for;

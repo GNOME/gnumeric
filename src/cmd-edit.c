@@ -270,7 +270,7 @@ cmd_select_cur_inputs (Sheet *sheet)
  * Full undo support.
  */
 void
-cmd_paste (WorkbookControl *wbc, PasteTarget const *pt, guint32 time)
+cmd_paste (WorkbookControl *wbc, PasteTarget const *pt)
 {
 	CellRegion  *content;
 	Range const *src_range;
@@ -325,7 +325,7 @@ cmd_paste (WorkbookControl *wbc, PasteTarget const *pt, guint32 time)
 
 	/* See if the control has access to information to paste */
 	else
-		wb_control_paste_from_selection (wbc, pt, time);
+		wb_control_paste_from_selection (wbc, pt);
 }
 
 /**
@@ -350,7 +350,7 @@ cmd_paste_to_selection (WorkbookControl *wbc, Sheet *dest_sheet, int paste_flags
 	pt.sheet = dest_sheet;
 	pt.range = *r;
 	pt.paste_flags = paste_flags;
-	cmd_paste (wbc, &pt, GDK_CURRENT_TIME);
+	cmd_paste (wbc, &pt);
 }
 
 /**
