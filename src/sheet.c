@@ -709,7 +709,7 @@ col_row_unit_distance (GList *list, int from, int to, double default_units)
 }
 
 /**
- * sheet_col_get_distance:
+ * sheet_col_get_unit_distance:
  *
  * Return the number of points between from_col to to_col
  */
@@ -720,6 +720,20 @@ sheet_col_get_unit_distance (Sheet *sheet, int from_col, int to_col)
 	g_assert (sheet != NULL);
 
 	return col_row_unit_distance (sheet->cols_info, from_col, to_col, sheet->default_col_style.units);
+}
+
+/**
+ * sheet_row_get_unit_distance:
+ *
+ * Return the number of points between from_row to to_row
+ */
+double
+sheet_row_get_unit_distance (Sheet *sheet, int from_row, int to_row)
+{
+	g_assert (from_row <= to_row);
+	g_assert (sheet != NULL);
+
+	return col_row_unit_distance (sheet->rows_info, from_row, to_row, sheet->default_row_style.units);
 }
 
 /**

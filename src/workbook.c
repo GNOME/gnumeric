@@ -17,15 +17,11 @@
 #include "main.h"
 #include "file.h"
 #include "xml-io.h"
-#include "print-info.h"
 #include "plugin.h"
 #include "pixmaps.h"
 #include "clipboard.h"
 #include "utils.h"
 #include "widget-editable-label.h"
-
-#include <libgnomeprint/gnome-printer.h>
-#include <libgnomeprint/gnome-print.h>
 
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0
@@ -719,22 +715,7 @@ print_setup_cmd (GtkWidget *widget, Workbook *wb)
 static void
 print_cmd (GtkWidget *widget, Workbook *wb)
 {
-	GnomePrinter *printer;
-	GnomePrintContext *pc;
-	
-	Sheet *sheet = workbook_get_current_sheet (wb);
-
-	printer = gnome_printer_dialog_new_modal ();
-	if (printer){
-		pc = gnome_print_context_new (printer);
-#define MARGIN_X 1
-#define MARGIN_Y 1
-		print_cell_range (pc, sheet, 0, 0, 10, 20, MARGIN_X + 0.0, 792.0 - MARGIN_Y);
-		gnome_print_context_close_file (pc);
-		
-		gtk_object_unref (GTK_OBJECT (printer));
-		gtk_object_unref (GTK_OBJECT (pc));
-	}
+	workbook_print (wb);
 }
 
 static void
@@ -2200,11 +2181,6 @@ workbook_set_filename (Workbook *wb, const char *name)
 	wb->filename = g_strdup (name);
 
 	workbook_set_title (wb, g_basename (name));
-}
-
-void
-workbook_print (Workbook *wb)
-{
 }
 
 void

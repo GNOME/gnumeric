@@ -354,7 +354,7 @@ dialog_print_info_new (Workbook *wb)
 	dialog_print_info_t *dpi;
 	GladeXML *gui;
 	
-	gui = glade_xml_new ("print.glade", NULL);
+	gui = glade_xml_new (GNUMERIC_GLADEDIR "/print.glade", NULL);
 	if (!gui){
 		g_error ("Could not load print.glade");
 		return NULL;

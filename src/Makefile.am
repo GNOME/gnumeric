@@ -23,11 +23,20 @@ else
 bin_PROGRAMS = gnumeric
 endif
 
+idldir   = $(datadir)/idl
+idl_DATA = Gnumeric.idl
+
+gladedir   = $(datadir)/gnumeric/glade
+glade_DATA = print.glade
+
+EXTRA_DIST = $(glade_DATA) $(idl_DATA)
+
 #noinst_PROGRAMS = number-match
 
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
+	-DGNUMERIC_GLADEDIR=\""$(gladedir)"\"		\
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/libglade			\
 	$(GNOME_INCLUDEDIR)				\
@@ -121,7 +130,10 @@ GNUMERIC_BASE_SOURCES =			\
 	plugin-manager.c		\
 	ranges.c			\
 	ranges.h			\
+	print.c				\
+	print.h				\
 	print-cell.c			\
+	print-cell.h			\
 	print-info.c			\
 	print-info.h			\
 	render-ascii.c			\
@@ -193,7 +205,7 @@ gnumeric_LDADD = 				\
 	$(GNOME_LIBDIR) 			\
 	$(GNOMEUI_LIBS)				\
 	$(GNOME_XML_LIB) 			\
-	`gnome-config --libs gnomeprint`	\
+	$(GNOME_PRINT_LIBS)			\
 	$(GUILE_LIBS)				\
 	$(INTLLIBS)
 
@@ -219,9 +231,6 @@ dist-hook:
 	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps
 	cp $(srcdir)/pixmaps/*.png $(distdir)/pixmaps
 	touch $(distdir)/Gnumeric.idl
-
-idldir=$(datadir)/idl
-idl_DATA=Gnumeric.idl
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
 
