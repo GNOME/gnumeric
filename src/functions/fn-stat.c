@@ -824,7 +824,8 @@ callback_function_count (EvalPos const *ep, Value *value, void *closure)
 {
 	Value *result = (Value *) closure;
 
-	if (value && VALUE_IS_NUMBER (value))
+	if (value &&
+	    (value->type == VALUE_INTEGER || value->type == VALUE_FLOAT))
 		result->v_int.val++;
 	return NULL;
 }
