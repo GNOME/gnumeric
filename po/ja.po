@@ -3,6 +3,7 @@
 # Mitsuru Oka <95i44@is.kochi-u.ac.jp>, 1998.
 # Mitsuru Oka <mitsu-o@is.aist-nara.ac.jp>, 1999-2000.
 # Mitsuo Hamada <mhamada@redhat.com>, 2000.
+# Yukihiro Nakai <nakai@gnome.gr.jp>, 2000.
 #
 msgid ""
 msgstr ""
@@ -608,7 +609,6 @@ msgid "Tom Dyas, plugin support."
 msgstr "Tom Dyas, ¥×¥é¥°¥¤¥ó¥µ¥İ¡¼¥È¡£"
 
 #: src/about.c:42
-#, fuzzy
 msgid "Gergõ Érdi, Gnumeric hacker."
 msgstr "Gerg)Bõ Érdi, Gnumeric $)B¥Ï¥Ã¥«¡¼"
 
@@ -617,7 +617,6 @@ msgid "Jody Goldberg, Gnumeric hacker."
 msgstr "Jody Goldberg, Gnumeric ¥Ï¥Ã¥«¡¼¡£"
 
 #: src/about.c:44
-#, fuzzy
 msgid "Jon K. Hellan, Gnumeric hacker."
 msgstr "Jon K Hellan, Gnumeric ¥Ï¥Ã¥«¡¼¡£"
 
@@ -670,7 +669,6 @@ msgid "Ariel Rios, Guile support."
 msgstr "Ariel Rios, Guile ¥µ¥İ¡¼¥È¡£"
 
 #: src/about.c:57
-#, fuzzy
 msgid "Almer S. Tigelaar, text import."
 msgstr "Almer. S. Tigelaar, ¥Æ¥­¥¹¥ÈÆÉ¤ß¹ş¤ß¡£"
 
@@ -1096,18 +1094,16 @@ msgstr "F ´şµÑ¸Â³¦"
 
 #: src/analysis-tools.c:2412
 msgid "Between Groups"
-msgstr "½¸ÃÄ´Ö"
+msgstr "¥°¥ë¡¼¥×¤Î´Ö"
 
 #: src/analysis-tools.c:2413
-#, fuzzy
 msgid "Within Groups"
-msgstr "½¸ÃÄ´Ö"
+msgstr "¥°¥ë¡¼¥×¤ÎÈÏ°Ï"
 
 #: po/tmp/analysis-tools.glade.h:10 src/analysis-tools.c:2498
 #: src/dialogs/dialog-analysis-tools.c:87
-#, fuzzy
 msgid "Anova: Two-Factor Without Replication"
-msgstr "Ê¬»¶²òÀÏ: ·«¤êÊÖ¤·¤Î¤¢¤ëÆó¸µÇÛÃÖ"
+msgstr "Ê¬»¶²òÀÏ: ·«¤êÊÖ¤·¤Î¤Ê¤¤Æó¸µÇÛÃÖ"
 
 #: src/analysis-tools.c:2603 src/dialogs/dialog-analysis-tools.c:405
 msgid "Rows"
@@ -1167,14 +1163,12 @@ msgid "Invalid xml file. Tree is empty ?"
 msgstr "ÉÔÀµ¤Ê xml ¥Õ¥¡¥¤¥ë¤Ç¤¹¡£¥Ä¥ê¡¼¤¬¶õ¤Ç¤¹¤«?"
 
 #: src/bonobo-io.c:481
-#, fuzzy
 msgid "Does not contain a Workbook file"
-msgstr "Gnumeric¥ï¡¼¥¯¥Ö¥Ã¥¯¥Õ¥¡¥¤¥ë¤Ç¤Ï¤¢¤ê¤Ş¤»¤ó"
+msgstr "Gnumeric¥ï¡¼¥¯¥Ö¥Ã¥¯¥Õ¥¡¥¤¥ë¤¬¤¢¤ê¤Ş¤»¤ó"
 
 #: src/bonobo-io.c:527
-#, fuzzy
 msgid "Gnumeric Bonobo file format"
-msgstr "Gnumeric XML ¥Õ¥¡¥¤¥ë·Á¼°"
+msgstr "Gnumeric Bonobo¥Õ¥¡¥¤¥ë·Á¼°"
 
 #: src/clipboard.c:280
 #, c-format
@@ -1371,9 +1365,8 @@ msgstr "¼«Æ°¤ÇËä¤á¤ë"
 
 #. FIXME?
 #: src/commands.c:2419
-#, fuzzy
 msgid "Autoformat"
-msgstr "¼«Æ°½ñ¼°ÀßÄê(_A)"
+msgstr "¼«Æ°½ñ¼°ÀßÄê"
 
 #: src/corba-args.c:25
 msgid "Oaf options"
@@ -1580,18 +1573,16 @@ msgstr "Ã±°ì¤Î¥ì¥³¡¼¥É¤Î¤ß(_U)"
 #. * DO NOT compile this file as part of your application.
 #.
 #: po/tmp/analysis-tools.glade.h:6
-#, fuzzy
 msgid "1 - _Alpha:"
-msgstr "¦Á(_A):"
+msgstr "1 - ¦Á(_A):"
 
 #: po/tmp/analysis-tools.glade.h:7
 msgid "Analysis Tools"
 msgstr "²òÀÏ¥Ä¡¼¥ë"
 
 #: po/tmp/analysis-tools.glade.h:11
-#, fuzzy
 msgid "C_umulative Percentages"
-msgstr "¥Ñ¡¼¥»¥ó¥È(_P)"
+msgstr "¥Ñ¡¼¥»¥ó¥Æ¡¼¥¸¤ÎÎßÀÑ(_U)"
 
 #: po/tmp/analysis-tools.glade.h:12 src/dialogs/dialog-analysis-tools.c:89
 msgid "Correlation"
@@ -1618,9 +1609,8 @@ msgid "Grouped by:"
 msgstr "¥°¥ë¡¼¥×²½:"
 
 #: po/tmp/analysis-tools.glade.h:19
-#, fuzzy
 msgid "I_nverse"
-msgstr "Áı²Ã"
+msgstr "µÕ´Ø¿ô(_N)"
 
 #: po/tmp/analysis-tools.glade.h:20
 msgid "In_terval:"
@@ -1679,13 +1669,12 @@ msgid "Va_riable 2 Range:"
 msgstr "ÊÑ¿ô2¤ÎÈÏ°Ï(_R):"
 
 #: po/tmp/analysis-tools.glade.h:34
-#, fuzzy
 msgid "_Bin Range:"
-msgstr "ÆşÎÏÈÏ°Ï(_I):"
+msgstr "2¸µÈÏ°Ï(_B):"
 
 #: po/tmp/analysis-tools.glade.h:35
 msgid "_Chart Output"
-msgstr ""
+msgstr "¥Á¥ã¡¼¥È½ĞÎÏ(_C)"
 
 #: po/tmp/analysis-tools.glade.h:36 po/tmp/gnumeric.xml.h:199
 #: src/workbook-control-gui.c:1856
@@ -2485,24 +2474,21 @@ msgstr "¥»¥ë¤ò¾å¤Ë°ÜÆ°(_U)"
 
 #: src/dialogs/dialog-advanced-filter.c:238
 msgid "You should introduce a valid cell names in 'List Range:'"
-msgstr "'ÈÏ°Ï:'¤ËÀµ¤·¤¤¥»¥ë¤ÎÌ¾Á°¤ò»ØÄê¤·¤Æ²¼¤µ¤¤"
+msgstr "'¥ê¥¹¥ÈÈÏ°Ï:'¤ËÀµ¤·¤¤¥»¥ë¤ÎÌ¾Á°¤ò»ØÄê¤·¤Æ²¼¤µ¤¤"
 
 #: src/dialogs/dialog-advanced-filter.c:252
-#, fuzzy
 msgid "You should introduce a valid cell names in 'Criteria Range:'"
-msgstr "'ÈÏ°Ï:'¤ËÀµ¤·¤¤¥»¥ë¤ÎÈÏ°Ï¤ò»ØÄê¤·¤Æ²¼¤µ¤¤"
+msgstr "'´ğ½àÈÏ°Ï:'¤ËÀµ¤·¤¤¥»¥ë¤ÎÈÏ°Ï¤ò»ØÄê¤·¤Æ²¼¤µ¤¤"
 
 #: src/dialogs/dialog-advanced-filter.c:271
-#, fuzzy
 msgid "You should introduce a valid cell range in 'Copy To:'"
-msgstr "'ÈÏ°Ï:'¤ËÀµ¤·¤¤¥»¥ë¤ÎÈÏ°Ï¤ò»ØÄê¤·¤Æ²¼¤µ¤¤"
+msgstr "'¥³¥Ô¡¼Àè:'¤ËÀµ¤·¤¤¥»¥ë¤ÎÈÏ°Ï¤ò»ØÄê¤·¤Æ²¼¤µ¤¤"
 
 #: src/dialogs/dialog-advanced-filter.c:317
-#, fuzzy
 msgid ""
 "You should introduce the same number of columns in the `List Range' and in "
 "`Criteria Range:'"
-msgstr "'ÈÏ°Ï:'¤ËÀµ¤·¤¤¥»¥ë¤ÎÈÏ°Ï¤ò»ØÄê¤·¤Æ²¼¤µ¤¤"
+msgstr "'¥ê¥¹¥ÈÈÏ°Ï'¤È'´ğ½àÈÏ°Ï'¤ËÆ±¤¸¥«¥é¥àÈÖ¹æ¤ò»ØÄê¤·¤Æ¤¯¤À¤µ¤¤"
 
 #: src/dialogs/dialog-analysis-tools.c:93
 #: src/dialogs/dialog-analysis-tools.c:919
@@ -2806,9 +2792,8 @@ msgid "Fourier analysis is not implemented yet.  Sorry."
 msgstr "¥Õ¡¼¥ê¥¨Ê¬ÀÏ¤Ï¤Ş¤À¼ÂÁõ¤µ¤ì¤Æ¤¤¤Ş¤»¤ó¡£"
 
 #: src/dialogs/dialog-analysis-tools.c:2432
-#, fuzzy
 msgid "You should introduce a valid cell range in 'Bin Range:'"
-msgstr "'ÈÏ°Ï:'¤ËÀµ¤·¤¤¥»¥ë¤ÎÈÏ°Ï¤ò»ØÄê¤·¤Æ²¼¤µ¤¤"
+msgstr "'2¸µÈÏ°Ï:'¤ËÀµ¤·¤¤¥»¥ë¤ÎÈÏ°Ï¤ò»ØÄê¤·¤Æ²¼¤µ¤¤"
 
 #: src/dialogs/dialog-analysis-tools.c:2461
 #: src/dialogs/dialog-analysis-tools.c:2911
@@ -2924,9 +2909,8 @@ msgid "You cannot redefine a builtin name."
 msgstr "¥Ó¥ë¥È¥¤¥óÌ¾¤òºÆÄêµÁ¤Ç¤­¤Ş¤»¤ó"
 
 #: src/dialogs/dialog-define-names.c:644
-#, fuzzy
 msgid "Could not create the Name Guru."
-msgstr "°ú¿ô¤òÉ¾²Á¤Ç¤­¤Ş¤»¤ó"
+msgstr "Name Guru¤òºîÀ®¤Ç¤­¤Ş¤»¤ó¤Ç¤·¤¿¡£"
 
 #: src/dialogs/dialog-delete-cells.c:83
 msgid "delete cells"
@@ -3047,14 +3031,12 @@ msgid "All"
 msgstr "Á´¤Æ"
 
 #: src/dialogs/dialog-paste-special.c:25
-#, fuzzy
 msgid "Content"
-msgstr "ÆâÍÆ(_C)"
+msgstr "ÆâÍÆ"
 
 #: src/dialogs/dialog-paste-special.c:26
-#, fuzzy
 msgid "As Value"
-msgstr "ÃÍ"
+msgstr "ÃÍ¤È¤·¤Æ"
 
 #: src/dialogs/dialog-paste-special.c:27
 msgid "Formats"
@@ -3125,9 +3107,8 @@ msgstr "ºÇ½ªÊÑ¹¹:"
 
 #. This is strftime format. Use custom one if "%c" prints only last 2 digits of year in your locale.
 #: src/dialogs/dialog-plugin-manager.c:112
-#, fuzzy, c-format
 msgid "%c"
-msgstr "%"
+msgstr "%c"
 
 #: src/dialogs/dialog-plugin-manager.c:113
 #, c-format
@@ -3235,21 +3216,16 @@ msgid "Always"
 msgstr ""
 
 #: po/tmp/dialog-stf-export.glade.h:13
-#, fuzzy
 msgid "Automatic (puts quotes where needed)"
-msgstr ""
-"¼«Æ° (É¬Í×¤Ê¾ì½ê¤Ë°úÍÑÉä)\n"
-"¾ï¤ËÉÕ¤±¤ë\n"
-"ÉÕ¤±¤Ê¤¤\n"
+msgstr "¼«Æ° (É¬Í×¤Ê¾ì½ê¤Ë°úÍÑÉä)"
 
 #: po/tmp/dialog-stf-export.glade.h:14
 msgid "Available sheets"
 msgstr "ÍøÍÑ²ÄÇ½¥·¡¼¥È"
 
 #: po/tmp/dialog-stf-export.glade.h:15
-#, fuzzy
 msgid "Bang (!)"
-msgstr "´¶Ã²Éä(!) (_G)"
+msgstr "´¶Ã²Éä(!)"
 
 #: po/tmp/dialog-stf-export.glade.h:16
 msgid "Choose export formatting"
@@ -3260,14 +3236,12 @@ msgid "Choose sheets to export"
 msgstr "½ñ¤­½Ğ¤¹¥·¡¼¥È¤òÁª¤ó¤Ç¤¯¤À¤µ¤¤"
 
 #: po/tmp/dialog-stf-export.glade.h:18
-#, fuzzy
 msgid "Colon (:)"
-msgstr "¥³¥í¥ó(:) (_C)"
+msgstr "¥³¥í¥ó(:)"
 
 #: po/tmp/dialog-stf-export.glade.h:19
-#, fuzzy
 msgid "Comma (,)"
-msgstr "¥«¥ó¥Ş(,) (_M)"
+msgstr "¥«¥ó¥Ş(,)"
 
 #: po/tmp/dialog-stf-export.glade.h:20
 #: src/dialogs/dialog-stf-format-page.c:174
@@ -3281,8 +3255,8 @@ msgid ""
 "used for terminating a line in the text file. Wether the quote character is "
 "placed around cells depends on the value choosen for quoting."
 msgstr ""
-"½ĞÎÏ·Á¼°¤ò¥«¥¹¥¿¥Ş¥¤¥º¡£¹Ô½ªÃ¼¤Ï¥Æ¥­¥¹¥È¥Õ¥¡¥¤¥ë¤Ë¤ª¤¤¤Æ¹Ô¤ò½ª¤¨¤ë¤¿¤á¤Ë»È¤ï¤"
-"ì¤ëÊ¸»ú¥·¡¼¥±¥ó¥¹¤Ç¤¹¡£°úÍÑÉä¤¬¥»¥ë¤ÎÆâÍÆ¤´¤È¤Ë»È¤ï¤ì¤ë¤«¤É¤¦¤«¤Ï¡¢\"°úÍÑÉä¤Î"
+"½ĞÎÏ·Á¼°¤ò¥«¥¹¥¿¥Ş¥¤¥º¡£¹Ô½ªÃ¼¤Ï¥Æ¥­¥¹¥È¥Õ¥¡¥¤¥ë¤Ë¤ª¤¤¤Æ¹Ô¤ò½ª¤¨¤ë¤¿¤á¤Ë"
+"»È¤ï¤ì¤ë¥­¥ã¥é¥¯¥¿¥·¡¼¥±¥ó¥¹¤Ç¤¹¡£°úÍÑÉä¤¬ÇÛÃÖ¤µ¤ì¤ë¤«¤É¤¦¤«¤Ï\"°úÍÑÉä¤Î"
 "ÉÕ¤±Êı\"¤ÎÁªÂò¤Ë°ÍÂ¸¤·¤Ş¤¹¡£"
 
 #: po/tmp/dialog-stf-export.glade.h:22
@@ -3290,9 +3264,8 @@ msgid "Gnumeric : Exporting structured text"
 msgstr "Gnumeric : ¹½Â¤²½¥Æ¥­¥¹¥È¤Î½ñ¤­½Ğ¤·"
 
 #: po/tmp/dialog-stf-export.glade.h:23
-#, fuzzy
 msgid "Hyphen (-)"
-msgstr "¥Ï¥¤¥Õ¥ó(-) (_Y)"
+msgstr "¥Ï¥¤¥Õ¥ó(-)"
 
 #: po/tmp/dialog-stf-export.glade.h:24
 msgid "Line termination :"
@@ -3300,17 +3273,15 @@ msgstr "¹Ô½ªÃ¼ :"
 
 #: po/tmp/dialog-stf-export.glade.h:25
 msgid "Macintosh (carriage return)"
-msgstr ""
+msgstr "¥Ş¥Ã¥­¥ó¥È¥Ã¥·¥å(¥­¥ã¥ê¥Ã¥¸¥ê¥¿¡¼¥ó)"
 
 #: po/tmp/dialog-stf-export.glade.h:26 po/tmp/dialog-stf.glade.h:41
-#, fuzzy
 msgid "Never"
-msgstr "11·î"
+msgstr "¤·¤Ê¤¤"
 
 #: po/tmp/dialog-stf-export.glade.h:27
-#, fuzzy
 msgid "Pipe (|)"
-msgstr "¥Ñ¥¤¥×(|) (_I)"
+msgstr "¥Ñ¥¤¥×(|)"
 
 #: po/tmp/dialog-stf-export.glade.h:28
 msgid ""
@@ -3329,9 +3300,8 @@ msgid "Quoting :"
 msgstr "°úÍÑÉä¤ÎÉÕ¤±Êı:"
 
 #: po/tmp/dialog-stf-export.glade.h:31
-#, fuzzy
 msgid "Semicolon (;)"
-msgstr "¥»¥ß¥³¥í¥ó(;) (_N)"
+msgstr "¥»¥ß¥³¥í¥ó(;)"
 
 #: po/tmp/dialog-stf-export.glade.h:32
 msgid "Separator :"
@@ -3342,35 +3312,28 @@ msgid "Sheets to export"
 msgstr "½ñ¤­½Ğ¤¹¥·¡¼¥È"
 
 #: po/tmp/dialog-stf-export.glade.h:34
-#, fuzzy
 msgid "Slash (/)"
-msgstr "¥¹¥é¥Ã¥·¥å(/) (_H)"
+msgstr "¥¹¥é¥Ã¥·¥å (/)"
 
 #: po/tmp/dialog-stf-export.glade.h:35
-#, fuzzy
 msgid "Space"
-msgstr "¶õÇò(_P):"
+msgstr "¥¹¥Ú¡¼¥¹"
 
 #: po/tmp/dialog-stf-export.glade.h:36
-#, fuzzy
 msgid "Tab"
-msgstr "¥¿¥Ö(_B)"
+msgstr "¥¿¥Ö"
 
 #: po/tmp/dialog-stf-export.glade.h:37
 msgid "Unix (linefeed)"
-msgstr ""
+msgstr "UNIX (¥é¥¤¥ó¥Õ¥£¡¼¥É)"
 
 #: po/tmp/dialog-stf-export.glade.h:38
-#, fuzzy
 msgid "Windows (carriage return + linefeed)"
-msgstr ""
-"Unix (¥é¥¤¥ó¥Õ¥£¡¼¥É)\n"
-"Macintosh (¥­¥ã¥ê¥Ã¥¸¥ê¥¿¡¼¥ó)\n"
-"Windows (¥­¥ã¥ê¥Ã¥¸¥ê¥¿¡¼¥ó + ¥é¥¤¥ó¥Õ¥£¡¼¥É)\n"
+msgstr "Windows (¥­¥ã¥ê¥Ã¥¸¥ê¥¿¡¼¥ó + ¥é¥¤¥ó¥Õ¥£¡¼¥É)"
 
 #: po/tmp/dialog-stf-export.glade.h:39 po/tmp/dialog-stf.glade.h:74
 msgid "`"
-msgstr ""
+msgstr "'"
 
 #: src/dialogs/dialog-stf-fixed-page.c:63
 msgid "Autodiscovery did not find any columns in the text. Try manually"
@@ -3392,13 +3355,12 @@ msgid ""
 msgstr ""
 
 #: po/tmp/dialog-stf.glade.h:9
-#, fuzzy
 msgid "Add a new column"
 msgstr "¿·µ¬¤ËÎó¤òÁŞÆş"
 
 #: po/tmp/dialog-stf.glade.h:10
 msgid "Always (Both sides)"
-msgstr ""
+msgstr "¾ï¤Ë(Î¾Ã¼)"
 
 #: po/tmp/dialog-stf.glade.h:11
 msgid "Attempt to recognize columns in the text automatically"
@@ -3423,13 +3385,12 @@ msgid ""
 msgstr ""
 
 #: po/tmp/dialog-stf.glade.h:16
-#, fuzzy
 msgid "Clear list of columns"
-msgstr "Îó¤ÎÉı¤òÀßÄê"
+msgstr "Îó¤Î¥ê¥¹¥È¤ò¾Ãµî"
 
 #: po/tmp/dialog-stf.glade.h:17
 msgid "Click to select a column"
-msgstr ""
+msgstr "¥¯¥ê¥Ã¥¯¤ÇÎó¤òÁªÂò"
 
 #: po/tmp/dialog-stf.glade.h:18
 msgid "Co_lumn end : "
@@ -3492,9 +3453,8 @@ msgid "Format"
 msgstr "½ñ¼°"
 
 #: po/tmp/dialog-stf.glade.h:33
-#, fuzzy
 msgid "Formatting for the selected column"
-msgstr "ÁªÂò¤µ¤ì¤¿¥»¥ë¤Î½ñ¼°¤òÊÑ¹¹¤¹¤ë"
+msgstr "ÁªÂò¤µ¤ì¤¿Îó¤Î½ñ¼°ÀßÄê"
 
 #: po/tmp/dialog-stf.glade.h:34
 msgid "Formatting options"
@@ -3556,9 +3516,8 @@ msgid "Processing ends at this line, any subsequent lines will be ignored"
 msgstr ""
 
 #: po/tmp/dialog-stf.glade.h:49
-#, fuzzy
 msgid "Remove selected column"
-msgstr "ÁªÂò¤µ¤ì¤¿¥»¥ë¤òÊÂ¤ÙÂØ¤¨"
+msgstr "ÁªÂò¤µ¤ì¤¿Îó¤òºï½ü"
 
 #: po/tmp/dialog-stf.glade.h:50
 msgid "S_ee two separators as one"
@@ -3566,12 +3525,11 @@ msgstr "¤Õ¤¿¤Ä¤Î¥»¥Ñ¥ì¡¼¥¿¤ò¤Ò¤È¤Ä¤Ë¸«¤Ê¤¹"
 
 #: po/tmp/dialog-stf.glade.h:51
 msgid "S_pace"
-msgstr "¶õÇò(_P):"
+msgstr "¶õÇò(_P)"
 
 #: po/tmp/dialog-stf.glade.h:52
-#, fuzzy
 msgid "See two successive separators as one"
-msgstr "¤Õ¤¿¤Ä¤Î¥»¥Ñ¥ì¡¼¥¿¤ò¤Ò¤È¤Ä¤Ë¸«¤Ê¤¹"
+msgstr "¤Õ¤¿¤Ä¤ÎÏ¢Â³¤·¤¿¥»¥Ñ¥ì¡¼¥¿¤ò¤Ò¤È¤Ä¤Ë¸«¤Ê¤¹"
 
 #: po/tmp/dialog-stf.glade.h:53
 msgid ""
@@ -3579,15 +3537,14 @@ msgid ""
 msgstr ""
 
 #: po/tmp/dialog-stf.glade.h:54
-#, fuzzy
 msgid ""
 "Select the format for each column. You can click in the column list on the "
 "left or in the example to select a column. You can then enter a custom "
 "format or select one from the list on the right."
 msgstr ""
-"¤½¤ì¤¾¤ì¤ÎÎó¤ËÂĞ¤¹¤ë½ñ¼°¤òÁªÂò¤·¤Æ¤¯¤À¤µ¤¤¡£Îó¤òÁªÂò¤¹¤ë¤Ë¤ÏÎó°ìÍ÷¤Îº¸Â¦¡¢¤¢¤"
-"ë¤¤¤Ï¥×¥ì¥Ó¥å¡¼²èÌÌ¤Ç¥¯¥ê¥Ã¥¯¤·¤Æ¤¯¤À¤µ¤¤¡£¤½¤Î¸å¤Ç¤ª¹¥¤­¤Ê½ñ¼°ÀßÄê¤òÆşÎÏ¤¹¤ë"
-"¤«¡¢±¦Â¦¤Î½ñ¼°¤Î¥ê¥¹¥È¤«¤é°ì¤ÄÁªÂò¤·¤Æ¤¯¤À¤µ¤¤¡£"
+"¤½¤ì¤¾¤ì¤ÎÎó¤ËÂĞ¤¹¤ë½ñ¼°¤òÁªÂò¤·¤Æ¤¯¤À¤µ¤¤¡£Îó¤òÁªÂò¤¹¤ë¤Ë¤ÏÎó°ìÍ÷¤Îº¸Â¦¡¢"
+"¤¢¤ë¤¤¤ÏËŞÎã¤ò¥¯¥ê¥Ã¥¯¤·¤Ş¤¹¡£¤½¤·¤Æ¥«¥¹¥¿¥à½ñ¼°ÀßÄê¤«¡¢±¦Â¦¤Î½ñ¼°¤Î¥ê¥¹¥È"
+"¤«¤é°ì¤ÄÁªÂò¤·¤Æ¤¯¤À¤µ¤¤¡£"
 
 #: po/tmp/dialog-stf.glade.h:55
 msgid ""
@@ -3612,9 +3569,8 @@ msgid "Separators"
 msgstr "¥»¥Ñ¥ì¡¼¥¿"
 
 #: po/tmp/dialog-stf.glade.h:60
-#, fuzzy
 msgid "Set the end of this column"
-msgstr "ÎóÁ´ÂÎ¤òÁªÂò"
+msgstr "¤³¤ÎÎó¤Î½ª¤ï¤ê¤òÀßÄê"
 
 #: po/tmp/dialog-stf.glade.h:61
 msgid "Slas_h (/)"
@@ -3835,27 +3791,24 @@ msgid "Define Name"
 msgstr "Ì¾Á°¤òÄêµÁ"
 
 #: po/tmp/names.glade.h:7
-#, fuzzy
 msgid "Expression : "
-msgstr "²óµ¢"
+msgstr "¿ô¼° : "
 
 #: po/tmp/names.glade.h:8
-#, fuzzy
 msgid "Name : "
-msgstr "Ì¾Á°(_N):"
+msgstr "Ì¾Á° : "
 
 #: po/tmp/names.glade.h:9
 msgid "Scope :"
-msgstr ""
+msgstr "ÈÏ°Ï :"
 
 #: po/tmp/names.glade.h:11 po/tmp/solver.glade.h:21
 msgid "_Delete"
 msgstr "ºï½ü(_D)"
 
 #: po/tmp/names.glade.h:12
-#, fuzzy
 msgid "_Update"
-msgstr "ÆüÉÕ"
+msgstr "¹¹¿·(_U)"
 
 #: po/tmp/plugin-manager.glade.h:7
 msgid "Gnumeric Plugin Manager"
@@ -4300,25 +4253,23 @@ msgstr "É½¼¨"
 
 #: po/tmp/workbook-attr.glade.h:9
 msgid "_Horizontal Scrollbar"
-msgstr "¿åÊ¿¥¹¥¯¥í¡¼¥ë¥Ğ¡¼ (_H)"
+msgstr "¿åÊ¿¥¹¥¯¥í¡¼¥ë¥Ğ¡¼(_H)"
 
 #: po/tmp/workbook-attr.glade.h:10
 msgid "_Tabs"
-msgstr "¥¿¥Ö (_T)"
+msgstr "¥¿¥Ö(_T)"
 
 #: po/tmp/workbook-attr.glade.h:11
 msgid "_Vertical Scrollbar"
-msgstr "¿âÄ¾¥¹¥¯¥í¡¼¥ë¥Ğ¡¼ (_V)"
+msgstr "¿âÄ¾¥¹¥¯¥í¡¼¥ë¥Ğ¡¼(_V)"
 
 #: src/expr-name.c:164
-#, fuzzy
 msgid "already defined in sheet"
-msgstr "´û¤ËÄêµÁ¤µ¤ì¤Æ¤¤¤Ş¤¹"
+msgstr "¥·¡¼¥È¤Ç´û¤ËÄêµÁ¤µ¤ì¤Æ¤¤¤Ş¤¹"
 
 #: src/expr-name.c:168
-#, fuzzy
 msgid "already defined in workbook"
-msgstr "´û¤ËÄêµÁ¤µ¤ì¤Æ¤¤¤Ş¤¹"
+msgstr "¥ï¡¼¥¯¥Ö¥Ã¥¯¤Ç´û¤ËÄêµÁ¤µ¤ì¤Æ¤¤¤Ş¤¹"
 
 #: src/expr-name.c:172
 msgid "circular reference"
@@ -5529,9 +5480,8 @@ msgid "St.Helena pound"
 msgstr "¥»¥ó¥È¥Ø¥ì¥Ê¡¦¥É¥ë"
 
 #: src/formats.c:382
-#, fuzzy
 msgid "[$SIT]"
-msgstr "[$ITL]"
+msgstr "[$SIT]"
 
 #: src/formats.c:382
 msgid "Slovenia tolar"
@@ -6286,8 +6236,8 @@ msgstr ""
 "@DESCRIPTION=EDATE "
 "¤Ï@³«»ÏÆü¤«¤é¿ô¤¨¤Æ¡¢@·î¿ô¤À¤±Á°¤Ş¤¿¤Ï¸å¤ÎÆüÉÕ¤Î¥·¥ê¥¢¥ëÃÍ¤òÊÖ¤·¤Ş¤¹¡£@³«»ÏÆü"
 "¤Ïµ¯ÅÀ¤ÎÆüÉÕ¤Î¥·¥ê¥¢¥ëÃÍ¤Ç¤¹¡£@·î¤Ï@³«»ÏÆü¤òµ¯ÅÀ¤È¤·¤¿·î¿ô¤Ç¡¢Éé¤Î¿ô¤Ï@³«»ÏÆü"
-"¤è¤êÁ°¡¢Àµ¤Î¿ô¤Ï@³«»ÏÆü¤è¤ê¸å¤ò°ÕÌ£¤·¤Ş¤¹¡£@·î¤ËÀ°¿ô°Ê³°¤ÎÃÍ¤¬»ØÄê¤µ¤ì¤ë¤È¡¢¾"
-"®¿ô°Ê²¼¤ÏÀÚ¤ê¼Î¤Æ¤é¤ì¤Ş¤¹¡£\n"
+"¤è¤êÁ°¡¢Àµ¤Î¿ô¤Ï@³«»ÏÆü¤è¤ê¸å¤ò°ÕÌ£¤·¤Ş¤¹¡£@·î¤ËÀ°¿ô°Ê³°¤ÎÃÍ¤¬»ØÄê¤µ¤ì¤ë¤È¡¢"
+"ÀÚ¤ê¼Î¤Æ¤é¤ì¤Ş¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DATE"
@@ -6329,8 +6279,8 @@ msgstr ""
 "@SYNTAX=NOW ()\n"
 "@DESCRIPTION=É¾²Á¤µ¤ì¤¿»ş´Ö¤Ë¤ª¤±¤ëÆüÉÕ¤È»ş´Ö¤Î¥·¥ê¥¢¥ëÃÍ¤òÊÖ¤·¤Ş¤¹¡£\n"
 "Gnumeric¤Ë¤ª¤±¤ë¥·¥ê¥¢¥ëÃÍ¤Ï¼¡¤Î¤è¤¦¤ËÉ½¸½¤µ¤ì¤Ş¤¹: "
-"À°¿ôÉô¤Ï1900Ç¯1·î1Æü¤«¤é¤ÎÆü¿ô¤Ç¤¹¡£¾®¿ôÉô¤Ï¤½¤ÎÆü¤ÎÉôÊ¬¤òÉ½¸½¤·¤Æ¤ª¤ê¡¢»ş´Ö¡"
-"¢Ê¬¡¢ÉÃ¤òÉ½¸½¤·¤Ş¤¹¡£\n"
+"À°¿ôÉô¤Ï1900Ç¯1·î1Æü¤«¤é¤ÎÆü¿ô¤Ç¤¹¡£¾®¿ôÉô¤Ï¤½¤ÎÆü¤ÎÉôÊ¬¤òÉ½¸½¤·¤Æ¤ª¤ê¡¢"
+"»ş´Ö¡¢Ê¬¡¢ÉÃ¤Ë¥Ş¥Ã¥×¤µ¤ì¤Æ¤¤¤Ş¤¹¡£\n"
 "Îã: .0 ¤Ï 12:00 AM ¤òÉ½¸½¤·¡¢0.5 ¤Ï 12:00 PM ¤òÉ½¸½¤·¤Ş¤¹¡£\n"
 "\n"
 "@EXAMPLES=\n"
@@ -6388,8 +6338,8 @@ msgstr ""
 "@DESCRIPTION=¥·¥ê¥¢¥ëÃÍ¤ÇÉ½¤µ¤ì¤ëÆüÉÕ¤ÎÇ¯¤òÊÖ¤·¤Ş¤¹¡£¤³¤Î»ş´Ö¤Ï 0 (12:00 "
 "A.M.)¤«¤é 23 (11:00 P.M.)¤ÎÈÏ°Ï¤ÎÀ°¿ô¤Ç¤¹¡£\n"
 "Ãí°Õ¡¢Gnumeric "
-"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆşÎÏ¤Ç¤­¤Ş¤"
-"¹¡£\n"
+"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆşÎÏ"
+"¤Ç¤­¤Ş¤¹¡£\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -6412,8 +6362,8 @@ msgstr ""
 "@DESCRIPTION=¥·¥ê¥¢¥ëÃÍ¤ÇÉ½¤µ¤ì¤ëÆüÉÕ¤ÎÊ¬¤òÊÖ¤·¤Ş¤¹¡£¤³¤ÎÊ¬¤Ï 0 ¤«¤é 59 "
 "¤ÎÈÏ°Ï¤ÎÀ°¿ô¤È¤·¤ÆÊÖ¤µ¤ì¤Ş¤¹\n"
 "Ãí°Õ¡¢Gnumeric "
-"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆşÎÏ¤Ç¤­¤Ş¤"
-"¹¡£\n"
+"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆşÎÏ"
+"¤Ç¤­¤Ş¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
@@ -6435,8 +6385,8 @@ msgstr ""
 "@DESCRIPTION=¥·¥ê¥¢¥ëÃÍ¤ÇÉ½¤µ¤ì¤ëÆüÉÕ¤ÎÉÃ¤òÊÖ¤·¤Ş¤¹¡£ÉÃ¤Ï 0 ¤«¤é 59 "
 "¤ÎÈÏ°Ï¤ÎÀ°¿ô¤È¤·¤ÆÊÖ¤µ¤ì¤Ş¤¹\n"
 "Ãí°Õ¡¢Gnumeric "
-"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆşÎÏ¤Ç¤­¤Ş¤"
-"¹¡£\n"
+"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆşÎÏ"
+"¤Ç¤­¤Ş¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
@@ -6456,8 +6406,8 @@ msgstr ""
 "@SYNTAX=YEAR (¥·¥ê¥¢¥ëÃÍ)\n"
 "@DESCRIPTION=¥·¥ê¥¢¥ëÃÍ¤ÇÉ½¤µ¤ì¤ëÆüÉÕ¤ÎÇ¯¤òÊÖ¤·¤Ş¤¹¡£\n"
 "Ãí°Õ¡¢Gnumeric "
-"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆşÎÏ¤Ç¤­¤Ş¤"
-"¹¡£\n"
+"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆşÎÏ"
+"¤Ç¤­¤Ş¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
@@ -6477,8 +6427,8 @@ msgstr ""
 "@SYNTAX=MONTH (¥·¥ê¥¢¥ëÃÍ)\n"
 "@DESCRIPTION=¥·¥ê¥¢¥ëÃÍ¤ÇÉ½¤µ¤ì¤ëÆüÉÕ¤Î·î¤òÊÖ¤·¤Ş¤¹¡£\n"
 "Ãí°Õ¡¢Gnumeric "
-"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆşÎÏ¤Ç¤­¤Ş¤"
-"¹¡£\n"
+"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆşÎÏ"
+"¤Ç¤­¤Ş¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
@@ -6498,8 +6448,8 @@ msgstr ""
 "@SYNTAX=DAY (¥·¥ê¥¢¥ëÃÍ)\n"
 "@DESCRIPTION=¥·¥ê¥¢¥ëÃÍ¤ÇÉ½¤µ¤ì¤ëÆüÉÕ¤ÎÆü¤òÊÖ¤·¤Ş¤¹¡£\n"
 "Ãí°Õ¡¢Gnumeric "
-"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆşÎÏ¤Ç¤­¤Ş¤"
-"¹¡£\n"
+"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆşÎÏ"
+"¤Ç¤­¤Ş¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
@@ -6519,8 +6469,8 @@ msgstr ""
 "@SYNTAX=WEEKDAY (¥·¥ê¥¢¥ëÃÍ)\n"
 "@DESCRIPTION=¥·¥ê¥¢¥ëÃÍ¤«¤éÍËÆü¤ËÊÑ´¹¤·¤Ş¤¹¡£\n"
 "Ãí°Õ: Gnumeric "
-"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆşÎÏ¤Ç¤­¤Ş¤"
-"¹¡£\n"
+"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆşÎÏ"
+"¤Ç¤­¤Ş¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
@@ -6546,14 +6496,13 @@ msgstr ""
 "@DESCRIPTION=1Ç¯¤ò360Æü(30Æü x "
 "12¥ö·î)¤È¤·¤Æ¡¢@ÆüÉÕ1¤È@ÆüÉÕ2¤Î´Ö¤ÎÆü¿ô¤òÊÖ¤·¤Ş¤¹¡£@Êı¼°¤¬ TRUE "
 "¤Î¾ì¹ç¡¢¥è¡¼¥í¥Ã¥ÑÊı¼°¤ò»È¤¤¤Ş¤¹¡£\n"
-"¤³¤ÎÊı¼°¤Ç¤Ï¡¢ÆüÉÕ¤Ë»ØÄê¤µ¤ì¤¿Æü¤¬¤¢¤ë·î¤Î31Æü¤Ë¤¢¤¿¤ë¾ì¹ç¡¢¤½¤Î·î¤Î30Æü¤È¤·¤"
-"Æ·×»»¤·¤Ş¤¹¡£\n"
-"@Êı¼°¤¬ FALSE "
-"¤¢¤ë¤¤¤Ï¾ÊÎ¬¤µ¤ì¤¿¾ì¹ç¤Ë¤Ï¡¢ÊÆ¹ñÊı¼°¤ò»È¤¤¤Ş¤¹¡£¤³¤ÎÊı¼°¤Ï¡¢¾¯¡¹Ê£»¨¤Ê»º¶ÈÉ¸½"
-"àÊı¼°¤Ç¤¹¡£\n"
+"¤³¤ÎÊı¼°¤Ç¤Ï¡¢ÆüÉÕ¤Ë»ØÄê¤µ¤ì¤¿Æü¤¬¤¢¤ë·î¤Î31Æü¤Ë¤¢¤¿¤ë¾ì¹ç¡¢¤½¤Î·î¤Î30Æü"
+"Æü¤È¤·¤Æ·×»»¤·¤Ş¤¹¡£\n"
+"@Êı¼°¤¬ FALSE ¤¢¤ë¤¤¤Ï¾ÊÎ¬¤µ¤ì¤¿¾ì¹ç¤Ë¤Ï¡¢ÊÆ¹ñÊı¼°¤ò»È¤¤¤Ş¤¹¡£¤³¤ÎÊı¼°"
+"¤Ï¡¢¾¯¡¹Ê£»¨¤Ê»º¶ÈÉ¸½àÊı¼°¤Ç¤¹¡£\n"
 "Ãí°Õ: Gnumeric "
-"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆşÎÏ¤Ç¤­¤Ş¤"
-"¹¡£\n"
+"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆşÎÏ"
+"¤Ç¤­¤Ş¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
@@ -6597,8 +6546,8 @@ msgstr ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (³«»ÏÆü,Æü¿ô,º×Æü)\n"
 "@DESCRIPTION=WORKDAY "
-"´Ø¿ô¤Ï@³«»ÏÆü¤«¤éµ¯»»¤·¤Æ@Æü¿ô¸å¤ÎÆüÉÕ¤Î¥·¥ê¥¢¥ëÃÍ¤òÊÖ¤·¤Ş¤¹¡£²ÔÆ¯Æü¿ô¤Î·×»»¤"
-"«¤é½ü³°¤¹¤ë½ËÆü¤Ê¤É¤Ï@º×Æü¤Ë»ØÄê¤·¤Ş¤¹¡£\n"
+"´Ø¿ô¤Ï@³«»ÏÆü¤«¤éµ¯»»¤·¤Æ@Æü¿ô¸å¤ÎÆüÉÕ¤Î¥·¥ê¥¢¥ëÃÍ¤òÊÖ¤·¤Ş¤¹¡£²ÔÆ¯Æü¿ô"
+"¤Î·×»»¤«¤é½ü³°¤¹¤ë½ËÆü¤Ê¤É¤Ï@º×Æü¤Ë»ØÄê¤·¤Ş¤¹¡£\n"
 "@³«»ÏÆü¤¢¤ë¤¤¤Ï@Æü¿ô¤ËÌµ¸ú¤ÊÃÍ¤ò»ØÄê¤¹¤ë¤È¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Ş¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
@@ -6629,8 +6578,8 @@ msgstr ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (³«»ÏÆü,½ªÎ»Æü,º×Æü)\n"
 "@DESCRIPTION=NETWORKDAYS "
-"´Ø¿ô¤Ï@³«»ÏÆü¤È@½ªÎ»Æü¤Î´Ö¤Ë´Ş¤Ş¤ì¤ëÅÚÍËÆü¡¢ÆüÍËÆü¡¢½Ëº×Æü¤ò½ü¤¤¤¿Æü¤ÎÆü¿ô¤òÊ"
-"Ö¤·¤Ş¤¹¡£½Ëº×Æü¤ä²Æ´üµÙ²Ë¤Ê¤É¤Ï@º×Æü¤Ë»ØÄê¤·¤Ş¤¹¡£\n"
+"´Ø¿ô¤Ï@³«»ÏÆü¤È@½ªÎ»Æü¤Î´Ö¤Ë´Ş¤Ş¤ì¤ëÅÚÍËÆü¡¢ÆüÍËÆü¡¢½Ëº×Æü¤ò½ü¤¤¤¿Æü¤Î"
+"Æü¿ô¤òÊÖ¤·¤Ş¤¹¡£½Ëº×Æü¤ä²Æ´üµÙ²Ë¤Ê¤É¤Ï@º×Æü¤Ë»ØÄê¤·¤Ş¤¹¡£\n"
 "@³«»ÏÆü¤¢¤ë¤¤¤Ï@½ªÎ»Æü¤ËÌµ¸ú¤ÊÃÍ¤ò»ØÄê¤¹¤ë¤È¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Ş¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
@@ -6672,8 +6621,8 @@ msgstr ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
 "@DESCRIPTION=BIN2DEC "
-"´Ø¿ô¤Ï2¿Ê¿ô¤òÂĞ±ş¤¹¤ëÊ¸»úÎó¤¢¤ë¤¤¤Ï10¿Ê¿ô¤ËÊÑ´¹¤·¤Ş¤¹¡£¤³¤Î´Ø¿ô¤ÏExcel¸ß´¹¤Ç¤"
-"¹¡£\n"
+"´Ø¿ô¤Ï2¿Ê¿ô¤òÂĞ±ş¤¹¤ëÊ¸»úÎó¤¢¤ë¤¤¤Ï10¿Ê¿ô¤ËÊÑ´¹¤·¤Ş¤¹¡£¤³¤Î´Ø¿ô¤ÏExcel"
+"¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
 "BIN2DEC(101) = 5\n"
 "\n"
@@ -7558,9 +7507,9 @@ msgstr ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(¿ôÃÍ,ÊÑ´¹Á°Ã±°Ì,ÊÑ´¹¸åÃ±°Ì)\n"
 "@DESCRIPTION=CONVERT "
-"´Ø¿ô¤Ï¤¢¤ëÃ±°Ì¤«¤éÊÌ¤ÎÃ±°Ì¤Ø¤ÎÊÑ´¹·ë²Ì¤òÊÖ¤·¤Ş¤¹¡£Îã¤¨¤Ğ¡¢½Å¤µ¤ÎÃÍ¤ò¥İ¥ó¥É¤«¤"
-"é¥°¥é¥à¤ËÊÑ´¹¤¹¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£@¿ôÃÍ¤Ë¤ÏÊÑ´¹¤·¤¿¤¤¿ôÃÍ¡¢@ÊÑ´¹Á°Ã±°Ì¤Ë¤ÏÊÑ´¹"
-"Á°¤ÎÃ±°Ì¡¢@ÊÑ´¹¸åÃ±°Ì¤Ë¤ÏÊÑ´¹¤·¤¿¤¤Ã±°Ì¤ò»ØÄê¤·¤Ş¤¹¡£\n"
+"´Ø¿ô¤Ï¤¢¤ëÃ±°Ì¤«¤éÊÌ¤ÎÃ±°Ì¤Ø¤ÎÊÑ´¹·ë²Ì¤òÊÖ¤·¤Ş¤¹¡£Îã¤¨¤Ğ¡¢½Å¤µ¤ÎÃÍ¤ò¥İ¥ó¥É"
+"¤«¤é¥°¥é¥à¤ËÊÑ´¹¤¹¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£@¿ôÃÍ¤Ë¤ÏÊÑ´¹¤·¤¿¤¤¿ôÃÍ¡¢@ÊÑ´¹Á°Ã±°Ì"
+"¤Ë¤ÏÊÑ´¹Á°¤ÎÃ±°Ì¡¢@ÊÑ´¹¸åÃ±°Ì¤Ë¤ÏÊÑ´¹¤·¤¿¤¤Ã±°Ì¤ò»ØÄê¤·¤Ş¤¹¡£\n"
 "@ÊÑ´¹Á°Ã±°Ì¤ª¤è¤Ó@ÊÑ´¹Á°Ã±°Ì¤Ë»ÈÍÑ¤Ç¤­¤ëÃ±°Ì¤Ï°Ê²¼¤Î¤È¤ª¤ê¤Ç¤¹¡£\n"
 "\n"
 "½Å¤µ¤ª¤è¤Ó¼ÁÎÌ:\n"
@@ -7685,9 +7634,8 @@ msgstr ""
 "2¤Ä¤Î°ú¿ô¤ò»ØÄê¤·¤¿¾ì¹ç¡¢¸íº¹´Ø¿ô¤ÎÀÑÊ¬ÃÍ¤òÊÖ¤·¤Ş¤¹¡£\n"
 "@²¼¸Â¤Ş¤¿¤Ï@¾å¸Â¤Ë¿ôÃÍ°Ê³°¤¬»ØÄê¤µ¤ì¤ë¤È¡¢#VALUE! "
 "¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Ş¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel ¤Î ERF ´Ø¿ô¤Î¾å°Ì¸ß´¹¤Ç¤¹¡£(Excel ¤Ç¤Ï "
-"2 "
-"¤Ä¤Î°ú¿ô¤ò»ØÄê¤¹¤ë¾ì¹ç¤Ë¡¢¤É¤Á¤é¤Î°ú¿ô¤Ë¤âÉé¤Î¿ôÃÍ¤ò»ØÄê¤¹¤ë¤³¤È¤¬¤Ç¤­¤Ş¤»¤ó¡"
-"£) \n"
+"2¤Ä¤Î°ú¿ô¤ò»ØÄê¤¹¤ë¾ì¹ç¤Ë¡¢¤É¤Á¤é¤Î°ú¿ô¤Ë¤âÉé¤Î¿ôÃÍ¤ò»ØÄê¤¹¤ë¤³¤È¤¬"
+"¤Ç¤­¤Ş¤»¤ó¡£)\n"
 "@EXAMPLES=\n"
 "ERF(0.4) = 0.428392355\n"
 "ERF(1.6448536269515/SQRT(2)) = 0.90\n"
@@ -7805,9 +7753,8 @@ msgstr ""
 "@SYNTAX=ACCRINT(È¯¹ÔÆü,ºÇ½é¤ÎÍøÊ§¤¤Æü,¼õÎÎÆü,ÍøÎ¨,³ÛÌÌ,ÉÑÅÙ[,´ğ½à])\n"
 "@DESCRIPTION=ACCRINT "
 "´Ø¿ô¤ÏÄê´üÅª¤ËÍøÂ©¤¬»ÙÊ§¤ï¤ì¤ë¾Ú·ô¤ÎÌ¤¼ıÍøÂ©³Û¤òÊÖ¤·¤Ş¤¹¡£@ÍøÎ¨¤Ë¤Ï¾Ú·ô¤ÎÇ¯Íø"
-"Î¨¡¢@³ÛÌÌ¤Ë¤Ï¾Ú·ô¤Î³ÛÌÌ²Á³Ê¤ò»ØÄê¤·¤Ş¤¹¡£@´ğ½à¤Ë¤ÏÆü¿ô¤Î·×»»ÊıË¡¤ò¿ôÃÍ¤Ç»ØÄê¤"
-"·¤Ş¤¹:\n"
-"\n"
+"Î¨¡¢@³ÛÌÌ¤Ë¤Ï¾Ú·ô¤Î³ÛÌÌ²Á³Ê¤ò»ØÄê¤·¤Ş¤¹¡£@´ğ½à¤Ë¤ÏÆü¿ô¤Î·×»»ÊıË¡¤ò¿ôÃÍ¤Ç»ØÄê"
+"¤·¤Ş¤¹:\n"
 "0  30Æü/360Æü(ÊÆ¹ñÊı¼°)\n"
 "1  ¼Âºİ¤ÎÆü¿ô/¼Âºİ¤ÎÆü¿ô\n"
 "2  ¼Âºİ¤ÎÆü¿ô/360\n"
@@ -7854,8 +7801,8 @@ msgstr ""
 "@SYNTAX=ACCRINTM(È¯¹ÔÆü,¼õÎÎÆü,ÍøÎ¨,[³ÛÌÌ,´ğ½à])\n"
 "@DESCRIPTION=ACCRINTM "
 "´Ø¿ô¤ÏËş´üÆü¤ËÍøÂ©¤¬»ÙÊ§¤ï¤ì¤ë¾Ú·ô¤ÎÌ¤¼ıÍøÂ©³Û¤òÊÖ¤·¤Ş¤¹¡£@ÍøÎ¨¤Ë¤Ï¾Ú·ô¤ÎÇ¯Íø"
-"Î¨¡¢@³ÛÌÌ¤Ë¤Ï¾Ú·ô¤Î³ÛÌÌ²Á³Ê¤ò»ØÄê¤·¤Ş¤¹¡£@³ÛÌÌ¤ò¾ÊÎ¬¤·¤¿¾ì¹ç¤Ë¤Ï¡¢¥Ç¥Õ¥©¥ë¥È¤"
-"È¤·¤Æ $1,000 ¤¬Å¬ÍÑ¤µ¤ì¤Ş¤¹¡£@´ğ½à¤Ë¤ÏÆü¿ô¤Î·×»»ÊıË¡¤ò¿ôÃÍ¤Ç»ØÄê¤·¤Ş¤¹:\n"
+"Î¨¡¢@³ÛÌÌ¤Ë¤Ï¾Ú·ô¤Î³ÛÌÌ²Á³Ê¤ò»ØÄê¤·¤Ş¤¹¡£@³ÛÌÌ¤ò¾ÊÎ¬¤·¤¿¾ì¹ç¤Ë¤Ï¡¢¥Ç¥Õ¥©¥ë¥È"
+"¤È¤·¤Æ$1,000¤¬Å¬ÍÑ¤µ¤ì¤Ş¤¹¡£@´ğ½à¤Ë¤ÏÆü¿ô¤Î·×»»ÊıË¡¤ò¿ôÃÍ¤Ç»ØÄê¤·¤Ş¤¹:\n"
 "\n"
 "0  30Æü/360Æü(ÊÆ¹ñÊı¼°)\n"
 "1  ¼Âºİ¤ÎÆü¿ô/¼Âºİ¤ÎÆü¿ô\n"
@@ -7903,9 +7850,9 @@ msgstr ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(¼õÎÎÆü,Ëş´üÆü,Åê»ñ³Û,½ş´Ô²ÁÃÍ[,´ğ½à])\n"
 "@DESCRIPTION=INTRATE "
-"¤ÏÁ´³ÛÅê»ñ¤µ¤ì¤¿¾Ú·ô¤ÎÍøÎ¨¤òÊÖ¤·¤Ş¤¹¡£@Åê»ñ³Û¤Ë¤Ï¼õÎÎÆü¤Ş¤Ç¤ÎÅê»ñ³Û¡¢@½ş´Ô²ÁÃ"
-"Í¤Ë¤Ï@Ëş´üÆü¤Ë¼õ¤±¼è¤Ã¤¿Áí³Û¤ò»ØÄê¤·¤Ş¤¹¡£@´ğ½à¤Ë¤ÏÆü¿ô¤Î·×»»ÊıË¡¤ò¿ôÃÍ¤Ç»ØÄê"
-"¤·¤Ş¤¹:\n"
+"¤ÏÁ´³ÛÅê»ñ¤µ¤ì¤¿¾Ú·ô¤ÎÍøÎ¨¤òÊÖ¤·¤Ş¤¹¡£@Åê»ñ³Û¤Ë¤Ï¼õÎÎÆü¤Ş¤Ç¤ÎÅê»ñ³Û¡¢"
+"@½ş´Ô²ÁÃÍ¤Ë¤Ï@Ëş´üÆü¤Ë¼õ¤±¼è¤Ã¤¿Áí³Û¤ò»ØÄê¤·¤Ş¤¹¡£ @´ğ½à¤Ë¤ÏÆü¿ô¤Î·×»»"
+"ÊıË¡¤ò¿ôÃÍ¤Ç»ØÄê¤·¤Ş¤¹:\n"
 "\n"
 "0  30Æü/360Æü(ÊÆ¹ñÊı¼°)\n"
 "1  ¼Âºİ¤ÎÆü¿ô/¼Âºİ¤ÎÆü¿ô\n"
@@ -8220,10 +8167,10 @@ msgstr ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(¼èÆÀ²Á³Û,»ÄÂ¸²Á³Û,ÂÑÍÑÇ¯¿ô,´ü[,·î])\n"
 "@DESCRIPTION=DB "
-"¤ÏÄêÎ¨Ë¡¤ò»ÈÍÑ¤·¤Æ¡¢»ØÄê¤µ¤ì¤¿@´ü¤Î¸º²Á½şµÑÈñ¤ò·×»»¤·¤Ş¤¹¡£@¼èÆÀ²Á³Û¤Ï¹ØÆş»ş¤"
-"Î²Á³Ê¡¢@»ÄÂ¸²Á³Û¤Ï@ÂÑÍÑÇ¯¿ô¤ò·Ğ²á¤·¤¿»şÅÀ¤Ç¤Î²Á³Ê¡¢@´ü¤Ë¤Ï¸º²Á½şµÑ¤òµá¤á¤ë´ü¡"
-"¢@·î¤Ï»ñ»º¤ò¹ØÆş¤·¤¿Ç¯¤Î·î¿ô¤ò»ØÄê¤·¤Ş¤¹¡£@·î¤¬¾ÊÎ¬¤µ¤ì¤¿¾ì¹ç¤Ë¤Ï¡¢12¤¬»ØÄê¤µ"
-"¤ì¤¿¤È¤ß¤Ê¤µ¤ì¤Ş¤¹¡£\n"
+"¤ÏÄêÎ¨Ë¡¤ò»ÈÍÑ¤·¤Æ¡¢»ØÄê¤µ¤ì¤¿@´ü¤Î¸º²Á½şµÑÈñ¤ò·×»»¤·¤Ş¤¹¡£@¼èÆÀ²Á³Û¤Ï"
+"¹ØÆş»ş¤Î²Á³Ê¡¢@»ÄÂ¸²Á³Û¤Ï@ÂÑÍÑÇ¯¿ô¤ò·Ğ²á¤·¤¿»şÅÀ¤Ç¤Î²Á³Ê¡¢@´ü¤Ë¤Ï¸º²Á½şµÑ"
+"¤òµá¤á¤ë´ü¡¢@·î¤Ï»ñ»º¤ò¹ØÆş¤·¤¿Ç¯¤Î·î¿ô¤ò»ØÄê¤·¤Ş¤¹¡£@·î¤¬¾ÊÎ¬¤µ¤ì¤¿¾ì¹ç"
+"¤Ë¤Ï¡¢12¤¬»ØÄê¤µ¤ì¤¿¤È¤ß¤Ê¤µ¤ì¤Ş¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DDB,SLN,SYD"
@@ -8279,10 +8226,10 @@ msgstr ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(¼èÆÀ²Á³Û,»ÄÂ¸²Á³Û,ÂÑÍÑÇ¯¿ô)\n"
 "@DESCRIPTION=SLN "
-"´Ø¿ô¤ÏÄê³ÛË¡¤ò»ÈÍÑ¤·¤Æ¡¢»ñ»º¤Î1´ü¤¢¤¿¤ê¤Î¸º²Á½şµÑÈñ¤ò·×»»¤·¤Ş¤¹¡£@¼èÆÀ²Á³Û¤Ë¤"
-"Ï»ñ»º¹ØÆş»ş¤Î²Á³Ê¡¢@»ÄÂ¸²Á³Û¤Ë¤Ï@ÂÑÍÑÇ¯¿ô·Ğ²á»ş¤Î»ñ»º¤Î²Á³Ê¡¢@ÂÑÍÑÇ¯¿ô¤Ë¤Ï¤½¤"
-"Î»ñ»º¤ÎÂÑÍÑÇ¯¿ô¤òÇ¯Ã±°Ì¤Ç»ØÄê¤·¤Ş¤¹¡£¤³¤ÎÊıË¡¤Ç¤Ï¸º²Á½şµÑÈñ¤òÂÑÍÑÇ¯¿ô¤Ç¶ÑÅù¤Ë"
-"Ê¬³ä¤·¤Ş¤¹¡£\n"
+"´Ø¿ô¤ÏÄê³ÛË¡¤ò»ÈÍÑ¤·¤Æ¡¢»ñ»º¤Î1´ü¤¢¤¿¤ê¤Î¸º²Á½şµÑÈñ¤ò·×»»¤·¤Ş¤¹¡£@¼èÆÀ²Á³Û"
+"¤Ë¤Ï»ñ»º¹ØÆş»ş¤Î²Á³Ê¡¢@»ÄÂ¸²Á³Û¤Ë¤Ï@ÂÑÍÑÇ¯¿ô·Ğ²á»ş¤Î»ñ»º¤Î²Á³Ê¡¢@ÂÑÍÑÇ¯¿ô"
+"¤Ë¤Ï¤½¤Î»ñ»º¤ÎÂÑÍÑÇ¯¿ô¤òÇ¯Ã±°Ì¤Ç»ØÄê¤·¤Ş¤¹¡£¤³¤ÎÊıË¡¤Ç¤Ï¸º²Á½şµÑÈñ¤ò"
+"ÂÑÍÑÇ¯¿ô¤Ç¶ÑÅù¤ËÊ¬³ä¤·¤Ş¤¹¡£\n"
 "Äê³ÛË¡¤Ç»ÈÍÑ¤µ¤ì¤ë¼°\n"
 "¸º²Á½şµÑÈñ = ( @¼èÆÀ²Á³Û - @»ÄÂ¸²Á³Û ) / @ÂÑÍÑÇ¯¿ô\n"
 "@EXAMPLES=\n"
@@ -8325,8 +8272,8 @@ msgstr ""
 "@SYNTAX=SYD(¼èÆÀ²Á³Û,»ÄÂ¸²Á³Û,ÂÑÍÑÇ¯¿ô,´ü)\n"
 "@DESCRIPTION=SYD "
 "´Ø¿ô¤ÏÄê³ÛÄş¸ºË¡¤ò»ÈÍÑ¤·¤Æ¡¢»ØÄê¤µ¤ì¤¿@´ü¤Ë¤ª¤±¤ë¸º²Á½şµÑÈñ¤òÊÖ¤·¤Ş¤¹¡£¤³¤ÎÊı"
-"Ë¡¤Ï½şµÑÎ¨¤¬¹â¤¤¤Î¤Ç¡¢ºÇ½é¤Î´ü¤Î½şµÑÈñ¤¬ºÇ¸å¤Î´ü¤Î½şµÑÈñ¤è¤ê¤«¤Ê¤êÂç¤­¤¯¤Ê¤ê¤"
-"Ş¤¹¡£\n"
+"Ë¡¤Ï½şµÑÎ¨¤¬¹â¤¤¤Î¤Ç¡¢ºÇ½é¤Î´ü¤Î½şµÑÈñ¤¬ºÇ¸å¤Î´ü¤Î½şµÑÈñ¤è¤ê¤«¤Ê¤êÂç¤­¤¯¤Ê¤ê"
+"¤Ş¤¹¡£\n"
 "¤³¤Î´Ø¿ô¤Ï°Ê²¼¤Î¼°¤ÇÉ½¤µ¤ì¤Ş¤¹¡£¸º²Á½şµÑÈñ = ( @¼èÆÀ²Á³Û - @»ÄÂ¸²Á³Û ) * "
 "(@ÂÑÍÑÇ¯¿ô - @´ü + 1) * 2 / @ÂÑÍÑÇ¯¿ô * (@ÂÑÍÑÇ¯¿ô + 1).\n"
 "\n"
@@ -8421,8 +8368,9 @@ msgstr ""
 "´Ø¿ô¤ÏÊÆ¹ñºâÌ³¾ÊÃ»´ü¾Ú·ô(TB)¤ÎºÄ·ô¤ËÁêÅö¤¹¤ëÍø²ó¤ê(BEY)¤òÊÖ¤·¤Ş¤¹¡£¤³¤Î´Ø¿ô¤Ï"
 "¼¡¤Î¼°¤ÇÉ½¤µ¤ì¤Ş¤¹¡£TBILLEQ = (365 * @³ä°úÎ¨) / (360 - @³ä°úÎ¨ * DSM) "
 "¤³¤³¤Ç¡¢ DSM ¤Ï@¼õÎÎÆü¤«¤é@Ëş´üÆü¤Ş¤Ç¤ÎÆü¿ô\n"
-"@¼õÎÎÆü¤¬@Ëş´üÆü¤è¤ê¸å¤ÎÆüÉÕ¡¢@¼õÎÎÆü¤È@Ëş´üÆü¤Î´Ö¤¬1Ç¯¤òÄ¶¤¨¤ë¾ì¹ç¡¢#NUM!¥¨¥"
-"é¡¼¤¬ÊÖ¤µ¤ì¤Ş¤¹¡£@³ä°úÎ¨¤ËÉé¤Î¿ô¤ò»ØÄê¤¹¤ë¤È¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Ş¤¹¡£\n"
+"@¼õÎÎÆü¤¬@Ëş´üÆü¤è¤ê¸å¤ÎÆüÉÕ¡¢@¼õÎÎÆü¤È@Ëş´üÆü¤Î´Ö¤¬1Ç¯¤òÄ¶¤¨¤ë¾ì¹ç¡¢#NUM!"
+"¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Ş¤¹¡£@³ä°úÎ¨¤ËÉé¤Î¿ô¤ò»ØÄê¤¹¤ë¤È¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì"
+"¤Ş¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
@@ -8446,8 +8394,9 @@ msgstr ""
 "@SYNTAX=TBILLPRICE(¼õÎÎÆü,Ëş´üÆü,³ä°úÎ¨)\n"
 "@DESCRIPTION=TBILLPRICE ´Ø¿ô¤ÏÊÆ¹ñºâÌ³¾ÊÃ»´ü¾Ú·ô(TB)¤Î³ÛÌÌ $100 "
 "¤¢¤¿¤ê¤Î²Á³Ê¤òÊÖ¤·¤Ş¤¹¡£\n"
-"@¼õÎÎÆü¤¬@Ëş´üÆü¤è¤ê¸å¤ÎÆüÉÕ¡¢@¼õÎÎÆü¤È@Ëş´üÆü¤Î´Ö¤¬1Ç¯¤òÄ¶¤¨¤ë¾ì¹ç¡¢#NUM!¥¨¥"
-"é¡¼¤¬ÊÖ¤µ¤ì¤Ş¤¹¡£@³ä°úÎ¨¤ËÉé¤Î¿ô¤ò»ØÄê¤¹¤ë¤È¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Ş¤¹¡£\n"
+"@¼õÎÎÆü¤¬@Ëş´üÆü¤è¤ê¸å¤ÎÆüÉÕ¡¢@¼õÎÎÆü¤È@Ëş´üÆü¤Î´Ö¤¬1Ç¯¤òÄ¶¤¨¤ë¾ì¹ç¡¢#NUM!"
+"¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Ş¤¹¡£@³ä°úÎ¨¤ËÉé¤Î¿ô¤ò»ØÄê¤¹¤ë¤È¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì"
+"¤Ş¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
@@ -8468,10 +8417,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(¼õÎÎÆü,Ëş´üÆü,¸½ºß²ÁÃÍ)\n"
-"@DESCRIPTION=TBILLYIELD "
-"´Ø¿ô¤ÏÊÆ¹ñºâÌ³¾ÊÃ»´ü¾Ú·ô(TB)¤ÎÍø²ó¤ê¤òÊÖ¤·¤Ş¤¹¡£@¼õÎÎÆü¤¬@Ëş´üÆü¤è¤ê¸å¤ÎÆüÉÕ¡"
-"¢@¼õÎÎÆü¤È@Ëş´üÆü¤Î´Ö¤¬1Ç¯¤òÄ¶¤¨¤ë¾ì¹ç¡¢#NUM!¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Ş¤¹¡£@³ä°úÎ¨¤ËÉé¤"
-"Î¿ô¤ò»ØÄê¤¹¤ë¤È¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Ş¤¹¡£\n"
+"@DESCRIPTION=TBILLYIELD ´Ø¿ô¤ÏÊÆ¹ñºâÌ³¾ÊÃ»´ü¾Ú·ô(TB)¤ÎÍø²ó¤ê¤òÊÖ¤·¤Ş¤¹¡£"
+"@¼õÎÎÆü¤¬@Ëş´üÆü¤è¤ê¸å¤ÎÆüÉÕ¡¢@¼õÎÎÆü¤È@Ëş´üÆü¤Î´Ö¤¬1Ç¯¤òÄ¶¤¨¤ë¾ì¹ç¡¢"
+"#NUM!¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Ş¤¹¡£@³ä°úÎ¨¤ËÉé¤Î¿ô¤ò»ØÄê¤¹¤ë¤È¡¢#NUM! ¥¨¥é¡¼¤¬"
+"ÊÖ¤µ¤ì¤Ş¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLEQ,TBILLPRICE"
@@ -8541,12 +8490,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(ÍøÎ¨,»ÙÊ§²ó¿ô,Äê´ü»ÙÊ§³Û,¾­Íè²ÁÃÍ,»ÙÊ§´üÆü)\n"
-"@DESCRIPTION=PV "
-"¤ÏÅê»ñ¤Î¸½ºß²ÁÃÍ¤òÊÖ¤·¤Ş¤¹¡£@ÍøÎ¨¤Ë¤Ï´ü´Ö¤òÄÌ¤¸¤Æ°ìÄê¤ÎÍøÎ¨¡¢@»ÙÊ§²ó¿ô¤Ë¤Ï´ü´"
-"ÖÁ´ÂÎ¤Ç¤Î»ÙÊ§²ó¿ô¡¢@Äê´ü»ÙÊ§³Û¤Ë¤ÏËè²ó¤Î»ÙÊ§³Û¡¢@¾­Íè²ÁÃÍ¤Ë¤ÏºÇ¸å¤Ë»ÙÊ§¤Ã¤¿¸å"
-"¤Ë»Ä¤ë¸½¶â¤Î¼ı»Ù¤ò»ØÄê¤·¤Ş¤¹¡£@»ÙÊ§´üÆü¤Ë¤Ï»ÙÊ§¤¤¤¬È¯À¸¤¹¤ëÆü¤ò»ØÄê¤·¤Ş¤¹¡£@»"
-"ÙÊ§´üÆü = 0 ¤Ï»ÙÊ§¤¤¤¬´üËö¤ËÈ¯À¸¤·¤Ş¤¹¡£@»ÙÊ§´üÆü = "
-"1¤Ï»ÙÊ§¤¤¤¬´ü¼ó¤ËÈ¯À¸¤·¤Ş¤¹¡£@EXAMPLES=\n"
+"@DESCRIPTION=PV ¤ÏÅê»ñ¤Î¸½ºß²ÁÃÍ¤òÊÖ¤·¤Ş¤¹¡£@ÍøÎ¨¤Ë¤Ï´ü´Ö¤òÄÌ¤¸¤Æ°ìÄê¤Î"
+"ÍøÎ¨¡¢@»ÙÊ§²ó¿ô¤Ë¤Ï´ü´ÖÁ´ÂÎ¤Ç¤Î»ÙÊ§²ó¿ô¡¢@Äê´ü»ÙÊ§³Û¤Ë¤ÏËè²ó¤Î»ÙÊ§³Û¡¢"
+"@¾­Íè²ÁÃÍ¤Ë¤ÏºÇ¸å¤Ë»ÙÊ§¤Ã¤¿¸å¤Ë»Ä¤ë¸½¶â¤Î¼ı»Ù¤ò»ØÄê¤·¤Ş¤¹¡£@»ÙÊ§´üÆü¤Ë¤Ï"
+"»ÙÊ§¤¤¤¬È¯À¸¤¹¤ëÆü¤ò»ØÄê¤·¤Ş¤¹¡£@»ÙÊ§´üÆü = 0 ¤Ï»ÙÊ§¤¤¤¬´üËö¤ËÈ¯À¸¤·¤Ş¤¹¡£"
+"@»ÙÊ§´üÆü = 1¤Ï»ÙÊ§¤¤¤¬´ü¼ó¤ËÈ¯À¸¤·¤Ş¤¹¡£@EXAMPLES=\n"
 "\n"
 "@SEEALSO=FV"
 
@@ -8571,8 +8519,8 @@ msgstr ""
 "@SYNTAX=NPV(³ä°úÎ¨,ÃÍ1,ÃÍ2,...)\n"
 "@DESCRIPTION=NPV "
 "¤ÏÄê´üÅª¤Ê»ÙÊ§¤¤¤òÈ¼¤¦Åê»ñ¤ÎÀµÌ£¸½ºß²ÁÃÍ¤òÊÖ¤·¤Ş¤¹¡£@³ä°úÎ¨¤Ë¤ÏÅê»ñ´ü´Ö¤òÄÌ¤¸"
-"¤Æ°ìÄê¤Î³ä°úÎ¨¡¢@ÃÍ1¡¢@ÃÍ2¤Ë¤ÏÄê´üÅª¤Ê»ÙÊ§³Û¤ä¼ı±×³Û¤ò»ØÄê¤·¤Ş¤¹¡£¥­¥ã¥Ã¥·¥å¥"
-"Õ¥í¡¼¤Î¥¹¥±¥¸¥å¡¼¥ë¤¬Äê´üÅª¤Ç¤Ê¤¤¾ì¹ç¤Ë¤Ï¡¢XNPV ´Ø¿ô¤ò»ÈÍÑ¤·¤Æ¤¯¤À¤µ¤¤¡£\n"
+"¤Æ°ìÄê¤Î³ä°úÎ¨¡¢@ÃÍ1¡¢@ÃÍ2¤Ë¤ÏÄê´üÅª¤Ê»ÙÊ§³Û¤ä¼ı±×³Û¤ò»ØÄê¤·¤Ş¤¹¡£¥­¥ã¥Ã¥·¥å"
+"¥Õ¥í¡¼¤Î¥¹¥±¥¸¥å¡¼¥ë¤¬Äê´üÅª¤Ç¤Ê¤¤¾ì¹ç¤Ë¤Ï¡¢XNPV ´Ø¿ô¤ò»ÈÍÑ¤·¤Æ¤¯¤À¤µ¤¤¡£\n"
 "@EXAMPLES=\n"
 "NPV(0.17,-10000,3340,2941,2493,3233,1732,2932) = 186.30673\n"
 "\n"
@@ -8599,8 +8547,8 @@ msgstr ""
 "¤Ş¤¹¡£ºÇ½é¤Î»ÙÊ§Æü¤Ï»ÙÊ§¤¤¥¹¥±¥¸¥å¡¼¥ë¤ÎÀèÆ¬¤Ë³ºÅö¤·¤Ş¤¹¡£@³ä°úÎ¨¤Ï°ìÏ¢¤Î¥­¥ã"
 "¥Ã¥·¥å¥Õ¥í¡¼¤ËÂĞ¤¹¤ë³ä°úÎ¨¤Ç¤¹¡£@¥­¥ã¥Ã¥·¥å¥Õ¥í¡¼¤Ë¤Ï»ÙÊ§³Û¤Î¥ê¥¹¥È¤ò»ØÄê¤·¤Ş"
 "¤¹¡£\n"
-"@¥­¥ã¥Ã¥·¥å¥Õ¥í¡¼¤Ç¥ê¥¹¥È¤µ¤ì¤¿¿ô¤È@ÆüÉÕ¥ê¥¹¥È¤Ç»ØÄê¤µ¤ì¤¿ÆüÉÕ¤Î¿ô¤¬°ìÃ×¤·¤Ê¤"
-"¤¾ì¹ç¤Ë¤Ï¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Ş¤¹¡£\n"
+"@¥­¥ã¥Ã¥·¥å¥Õ¥í¡¼¤Ç¥ê¥¹¥È¤µ¤ì¤¿¿ô¤È@ÆüÉÕ¥ê¥¹¥È¤Ç»ØÄê¤µ¤ì¤¿ÆüÉÕ¤Î¿ô¤¬°ìÃ×¤·¤Ê"
+"¤¤¾ì¹ç¤Ë¤Ï¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Ş¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=NPV,PV"
@@ -13731,14 +13679,12 @@ msgid ""
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
 msgstr ""
-"¥É¥é¥Ã¥°¤·¤¿¥»¥ë¤¬¤½¤ÎÈÏ°Ï¤Î¤¹¤Ç¤ËÂ¸ºß¤¹¤ë¥»¥ë¤ÎÆâÍÆ¤ò¾å½ñ¤­¤·¤Ş¤¹¡£¤³¤ÎÈÏ°Ï¤"
-"Î¥»¥ë¤ÎÆâÍÆ¤ò\n"
-"ÃÖ¤­´¹¤¨¤Æ¤â¤¤¤¤¤Ç¤¹¤«?"
+"¥É¥é¥Ã¥°¤·¤¿¥»¥ë¤¬¤½¤ÎÈÏ°Ï¤Î¤¹¤Ç¤ËÂ¸ºß¤¹¤ë¥»¥ë¤ÎÆâÍÆ¤ò¾å½ñ¤­¤·¤Ş¤¹¡£¤³¤Î"
+"ÈÏ°Ï¤ÎÆâÍÆ¤òÃÖ¤­´¹¤¨¤Æ¤â¤¤¤¤¤Ç¤¹¤«?"
 
 #: src/item-cursor.c:910
-#, fuzzy
 msgid "_Move"
-msgstr "°ÜÆ°"
+msgstr "°ÜÆ°(_M)"
 
 #: po/tmp/gnumeric.xml.h:201 src/item-cursor.c:913
 #: src/sheet-control-gui.c:1095
@@ -13746,39 +13692,32 @@ msgid "_Copy"
 msgstr "¥³¥Ô¡¼(_C)"
 
 #: src/item-cursor.c:916
-#, fuzzy
 msgid "Copy _Formats"
-msgstr "¥Õ¥©¡¼¥Ş¥Ã¥È¤ò¥³¥Ô¡¼"
+msgstr "½ñ¼°¤ò¥³¥Ô¡¼(_F)"
 
 #: src/item-cursor.c:918
-#, fuzzy
 msgid "Copy _Values"
-msgstr "ÃÍ¤ò¥³¥Ô¡¼"
+msgstr "ÃÍ¤ò¥³¥Ô¡¼(_V)"
 
 #: src/item-cursor.c:923
-#, fuzzy
 msgid "Shift _Down and Copy"
-msgstr "¥»¥ë¤ò²¼¤Ë¤º¤é¤·¤Æ¥³¥Ô¡¼"
+msgstr "¥»¥ë¤ò²¼¤Ë¤º¤é¤·¤Æ¥³¥Ô¡¼(_D)"
 
 #: src/item-cursor.c:925
-#, fuzzy
 msgid "Shift _Right and Copy"
-msgstr "¥»¥ë¤ò±¦¤Ë¤º¤é¤·¤Æ¥³¥Ô¡¼"
+msgstr "¥»¥ë¤ò±¦¤Ë¤º¤é¤·¤Æ¥³¥Ô¡¼(_R)"
 
 #: src/item-cursor.c:927
-#, fuzzy
 msgid "Shift Dow_n and Move"
-msgstr "¥»¥ë¤ò²¼¤Ë¤º¤é¤·¤Æ°ÜÆ°"
+msgstr "¥»¥ë¤ò²¼¤Ë¤º¤é¤·¤Æ°ÜÆ°(_N)"
 
 #: src/item-cursor.c:929
-#, fuzzy
 msgid "Shift Righ_t and Move"
-msgstr "¥»¥ë¤ò±¦¤Ë¤º¤é¤·¤Æ°ÜÆ°"
+msgstr "¥»¥ë¤ò±¦¤Ë¤º¤é¤·¤Æ°ÜÆ°(_T)"
 
 #: src/item-cursor.c:934
-#, fuzzy
 msgid "C_ancel"
-msgstr "¶õÇò(_P):"
+msgstr "¥­¥ã¥ó¥»¥ë(_A)"
 
 #: src/main.c:83
 msgid "Display Gnumeric's version"
@@ -13850,25 +13789,22 @@ msgid "Enables extra consistancy checking while reading ole files"
 msgstr ""
 
 #: src/main.c:159
-#, fuzzy, c-format
 msgid ""
 "gnumeric version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"gnumeric ¥Ğ¡¼¥¸¥ç¥ó %s\n"
-"¥Ç¡¼¥¿¥Ç¥£¥ì¥¯¥È¥ê := %s\n"
-"¥é¥¤¥Ö¥é¥ê¥Ç¥£¥ì¥¯¥È¥ê := %s\n"
+"gnumeric ¥Ğ¡¼¥¸¥ç¥ó '%s'\n"
+"¥Ç¡¼¥¿¥Ç¥£¥ì¥¯¥È¥ê := '%s'\n"
+"¥é¥¤¥Ö¥é¥ê¥Ç¥£¥ì¥¯¥È¥ê := '%s'\n"
 
 #: src/main.c:209
-#, fuzzy
 msgid "Could not initialize Workbook factory"
-msgstr "Gnumeric¥ï¡¼¥¯¥Ö¥Ã¥¯¥Õ¥¡¥¯¥È¥ê¤ò½é´ü²½¤Ç¤­¤Ş¤»¤ó¤Ç¤·¤¿"
+msgstr "¥ï¡¼¥¯¥Ö¥Ã¥¯¥Õ¥¡¥¯¥È¥ê¤ò½é´ü²½¤Ç¤­¤Ş¤»¤ó¤Ç¤·¤¿"
 
 #: src/main.c:213
-#, fuzzy
 msgid "Could not initialize EmbeddableGrid factory"
-msgstr "Gnumeric¥ï¡¼¥¯¥Ö¥Ã¥¯¥Õ¥¡¥¯¥È¥ê¤ò½é´ü²½¤Ç¤­¤Ş¤»¤ó¤Ç¤·¤¿"
+msgstr "Ëä¤á¹ş¤ß¥°¥ê¥Ã¥É¥Õ¥¡¥¯¥È¥ê¤ò½é´ü²½¤Ç¤­¤Ş¤»¤ó¤Ç¤·¤¿"
 
 #: src/number-match.c:613
 msgid "#NULL!"
@@ -14096,24 +14032,20 @@ msgid "_Delete..."
 msgstr "ºï½ü(_D)..."
 
 #: src/sheet-control-gui.c:1115
-#, fuzzy
 msgid "_Insert Column(s)"
-msgstr "Îó¤òÁŞÆş"
+msgstr "Îó¤òÁŞÆş(_I)"
 
 #: src/sheet-control-gui.c:1117
-#, fuzzy
 msgid "_Delete Column(s)"
-msgstr "Îó¤òºï½ü"
+msgstr "Îó¤òºï½ü(_D)"
 
 #: src/sheet-control-gui.c:1119
-#, fuzzy
 msgid "_Insert Row(s)"
-msgstr "¹Ô¤òÁŞÆş"
+msgstr "¹Ô¤òÁŞÆş(_I)"
 
 #: src/sheet-control-gui.c:1121
-#, fuzzy
 msgid "_Delete Row(s)"
-msgstr "¹Ô¤òºï½ü"
+msgstr "¹Ô¤òºï½ü(_D)"
 
 #: src/sheet-control-gui.c:1124
 msgid "Clear Co_ntents"
@@ -14146,9 +14078,8 @@ msgid "_Row Height..."
 msgstr "¹Ô¤Î¹â¤µ(_R)..."
 
 #: src/sheet-object-container.c:216
-#, fuzzy, c-format
 msgid "can't create object for '%s'"
-msgstr "¥Õ¥¡¥¤¥ë %s ¤òºîÀ®¤Ç¤­¤Ş¤»¤ó\n"
+msgstr "'%s'¤Î¥ª¥Ö¥¸¥§¥¯¥È¤òºîÀ®¤Ç¤­¤Ş¤»¤ó"
 
 #: po/tmp/gnumeric.xml.h:18 src/sheet-object-widget.c:255
 #: src/workbook-object-toolbar.c:135
@@ -14180,13 +14111,12 @@ msgid "Delete Rows"
 msgstr "¹Ô¤òºï½ü"
 
 #: src/sheet.c:3856
-#, fuzzy
 msgid "Merge"
-msgstr "»»½ÑÊ¿¶ÑÃÍ"
+msgstr "¥Ş¡¼¥¸"
 
 #: src/sheet.c:3863
 msgid "There is already a merged region that intersects"
-msgstr ""
+msgstr "¤¹¤Ç¤Ë¥Ş¡¼¥¸¤µ¤ì¤¿ÈÏ°Ï¤¬¤¢¤Ã¤Æ¸òº¹¤·¤Æ¤¤¤Ş¤¹"
 
 #: src/solver-lp.c:897
 msgid "Answer Report"
@@ -14318,14 +14248,14 @@ msgstr "¥Õ¥¡¥¤¥ëÊÑ´¹Ãæ¤Ë¥¨¥é¡¼"
 #. * Note this buffer was allocated with malloc, not g_malloc
 #.
 #: src/stf.c:147
-#, fuzzy, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
 "The character '%c' (ASCII decimal %d) was encountered.\n"
 "Most likely your locale settings are wrong."
 msgstr ""
 "¤³¤Î¥Õ¥¡¥¤¥ë¤ÏÅ¬Àµ¤Ê¥Æ¥­¥¹¥È¥Õ¥¡¥¤¥ë¤Ç¤Ï¤Ê¤¤¤è¤¦¤Ç¤¹¡£\n"
-"'%c'Ê¸»ú (ASCII 10¿Ê %d) ¤¬¸«¤Ä¤«¤ê¤Ş¤·¤¿"
+"Ê¸»ú'%c' (ASCII 10¿Ê %d) ¤¬¸«¤Ä¤«¤ê¤Ş¤·¤¿¡£\n"
+"¤ª¤½¤é¤¯¥í¥±¡¼¥ëÀßÄê¤¬Àµ¤·¤¯¤¢¤ê¤Ş¤»¤ó¡£"
 
 #: src/stf.c:204
 msgid "Parse error while trying to parse data into sheet"
@@ -14419,9 +14349,8 @@ msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr "¹Ô¤Î¹â¤µ¤¬Å¬Åö¤ÊÃÍ¤Ç¤Ï¤¢¤ê¤Ş¤»¤ó¡£0°Ê¾å¤Ç¤Ê¤±¤ì¤Ğ¤Ê¤ê¤Ş¤»¤ó"
 
 #: src/workbook-format-toolbar.c:369
-#, fuzzy
 msgid "Select font"
-msgstr "¹Ô¤òÁªÂò(_R)"
+msgstr "¥Õ¥©¥ó¥È¤òÁªÂò"
 
 #: po/tmp/gnumeric.xml.h:78 src/workbook-format-toolbar.c:369
 #: src/workbook-format-toolbar.c:778
@@ -14469,9 +14398,8 @@ msgid "Right justifies the cell contents"
 msgstr "¥»¥ë¤ÎÆâÍÆ¤ò±¦´ó¤»¤Ë¤¹¤ë"
 
 #: src/workbook-format-toolbar.c:407
-#, fuzzy
 msgid "Center across selection"
-msgstr "ÁªÂò¤·¤¿ÈÏ°ÏÆâ¤ÇÃæ±ûÂ·¤¨(_A)"
+msgstr "ÁªÂò¤·¤¿ÈÏ°ÏÆâ¤ÇÃæ±ûÂ·¤¨"
 
 #: src/workbook-format-toolbar.c:414
 msgid "Money format"
@@ -14684,9 +14612,8 @@ msgid "Re-order sheets"
 msgstr "¥·¡¼¥È¤Î½ç½ø¤òÊÑ¹¹"
 
 #: src/workbook-control-gui.c:724
-#, fuzzy
 msgid "Nothing"
-msgstr "ÌµÊÑ¹¹"
+msgstr "¤Ê¤·"
 
 #: src/workbook-control-gui.c:751 src/workbook-control-gui.c:755
 #: src/workbook-control-gui.c:2069 src/workbook-control-gui.c:2252
@@ -14880,24 +14807,20 @@ msgid "Zoom the spreadsheet in or out"
 msgstr "É½¤Î³ÈÂç/½Ì¾®¤ò¹Ô¤¤¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:129 src/workbook-control-gui.c:1811
-#, fuzzy
 msgid "New _Shared"
-msgstr "¿·¤·¤¤¥·¡¼¥È"
+msgstr "¿·µ¬¥·¥§¥¢¡¼¥É(_S)"
 
 #: po/tmp/gnumeric.xml.h:49 src/workbook-control-gui.c:1812
-#, fuzzy
 msgid "Create a new shared view of the workbook"
-msgstr "¥ï¡¼¥¯¥Ö¥Ã¥¯¤Î¿·µ¬ºîÀ®"
+msgstr "¥ï¡¼¥¯¥Ö¥Ã¥¯¤Î¿·µ¬¥·¥§¥¢¡¼¥É¥Ó¥å¡¼¤òºîÀ®"
 
 #: po/tmp/gnumeric.xml.h:130 src/workbook-control-gui.c:1814
-#, fuzzy
 msgid "New _Unshared"
-msgstr "¿·µ¬¥·¡¼¥È(_E)"
+msgstr "¿·µ¬¥¢¥ó¥·¥§¥¢¡¼¥É(_U)"
 
 #: po/tmp/gnumeric.xml.h:51 src/workbook-control-gui.c:1815
-#, fuzzy
 msgid "Create a new unshared view of the workbook"
-msgstr "¥ï¡¼¥¯¥Ö¥Ã¥¯¤Î¿·µ¬ºîÀ®"
+msgstr "¥ï¡¼¥¯¥Ö¥Ã¥¯¤Î¿·µ¬¥¢¥ó¥·¥§¥¢¡¼¥É¥Ó¥å¡¼¤òºîÀ®"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
 #: po/tmp/gnumeric.xml.h:55 src/workbook-control-gui.c:1824
@@ -14918,9 +14841,8 @@ msgid "Insert the current time into the selected cell(s)"
 msgstr "ÁªÂò¤·¤¿¥»¥ë¤Ë¸½ºß»ş¹ï¤òÁŞÆş"
 
 #: src/workbook-control-gui.c:1838
-#, fuzzy
 msgid "_Define..."
-msgstr "ºï½ü(_D)..."
+msgstr "ÄêµÁ(_D)..."
 
 #: po/tmp/gnumeric.xml.h:68 src/workbook-control-gui.c:1839
 msgid "Edit sheet and workbook names"
@@ -14960,9 +14882,8 @@ msgid "Insert new cells"
 msgstr "¿·µ¬¤Ë¥»¥ë¤òÁŞÆş"
 
 #: po/tmp/gnumeric.xml.h:216 src/workbook-control-gui.c:1865
-#, fuzzy
 msgid "_Name"
-msgstr "Ì¾Á°"
+msgstr "Ì¾Á°(_N)"
 
 #: src/workbook-control-gui.c:1867
 msgid "_Add\\modify comment..."
@@ -15265,292 +15186,244 @@ msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML ¥Õ¥¡¥¤¥ë·Á¼°"
 
 #: src/xml-io-autoft.c:423
-#, fuzzy
 msgid "Error while trying to load autoformat template"
-msgstr "¥á¥â¥ê¥Ş¥Ã¥×¥Õ¥¡¥¤¥ë¤Î»î¹ÔÃæ¤Ë¥¨¥é¡¼"
+msgstr "¼«Æ°½ñ¼°¥Æ¥ó¥×¥ì¡¼¥È¤òÆÉ¤ß¹ş¤ßÃæ¤Ë¥¨¥é¡¼"
 
 #: src/xml-io-autoft.c:440
 msgid "Is not an autoformat template file"
 msgstr "¼«Æ°½ñ¼°¤Î¥Æ¥ó¥×¥ì¡¼¥È¥Õ¥¡¥¤¥ë¤Ç¤Ï¤¢¤ê¤Ş¤»¤ó"
 
 #: src/xml-io-autoft.c:450
-#, fuzzy
 msgid "Error while trying to build tree from autoformat template file"
-msgstr "¥á¥â¥ê¥Ş¥Ã¥×¥Õ¥¡¥¤¥ë¤Î»î¹ÔÃæ¤Ë¥¨¥é¡¼"
+msgstr "¼«Æ°½ñ¼°¥Æ¥ó¥×¥ì¡¼¥È¤«¤é¥Ä¥ê¡¼¤Î¹½ÃÛÃæ¤Ë¥¨¥é¡¼"
 
 #.
 #. * Translatable strings file generated by extract-ui.
 #. * DO NOT compile this file as part of your application.
 #.
 #: po/tmp/gnumeric.xml.h:6
-#, fuzzy
 msgid "*Control*b"
-msgstr "Ê¸»ú¤ÎÀ©¸æ"
+msgstr "*Control*b"
 
 #: po/tmp/gnumeric.xml.h:7
-#, fuzzy
 msgid "*Control*i"
-msgstr "Ê¸»ú¤ÎÀ©¸æ"
+msgstr "*Control*i"
 
 #: po/tmp/gnumeric.xml.h:8
-#, fuzzy
 msgid "*Control*u"
-msgstr "Ê¸»ú¤ÎÀ©¸æ"
+msgstr "*Control*u"
 
 #: po/tmp/gnumeric.xml.h:9
 msgid "About this application"
-msgstr ""
+msgstr "¤³¤Î¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¤Ë¤Ä¤¤¤Æ"
 
 #: po/tmp/gnumeric.xml.h:10
-#, fuzzy
 msgid "About..."
-msgstr "ÊÂ¤ÙÂØ¤¨(_S)..."
+msgstr "¾ğÊó..."
 
 #: po/tmp/gnumeric.xml.h:19
-#, fuzzy
 msgid "C_lear..."
-msgstr "¾Ãµî(_L)"
+msgstr "¾Ãµî(_L)..."
 
 #: po/tmp/gnumeric.xml.h:22
-#, fuzzy
 msgid "CenterAcrossSelection"
-msgstr "ÁªÂò¤·¤¿ÈÏ°ÏÆâ¤ÇÃæ±ûÂ·¤¨(_A)"
+msgstr "ÁªÂòÈÏ°Ï¤ÎÃæ±ûÂ·¤¨"
 
 #: po/tmp/gnumeric.xml.h:23
-#, fuzzy
 msgid "Centers across the selected cells"
-msgstr "ÁªÂò¤·¤¿ÈÏ°ÏÆâ¤ÇÃæ±ûÂ·¤¨(_A)"
+msgstr "ÁªÂò¤·¤¿¥»¥ë¤ÇÃæ±ûÂ·¤¨"
 
 #: po/tmp/gnumeric.xml.h:24
-#, fuzzy
 msgid "Centers the text in each selection"
-msgstr "³Æ¥»¥¯¥·¥ç¥ó¤Ë¤Ä¤¤¤ÆÀ°·ÁÊ¸»ú¤òÆşÎÏ:"
+msgstr "³ÆÁªÂòÈÏ°Ï¤Ç¥Æ¥­¥¹¥È¤òÃæ±ûÂ·¤¨"
 
 #: po/tmp/gnumeric.xml.h:25
-#, fuzzy
 msgid "Change height of the selected rows"
-msgstr "¹Ô¤Î¹â¤µ¤òÀßÄê"
+msgstr "ÁªÂò¤·¤¿¹Ô¤Î¹â¤µ¤òÊÑ¹¹"
 
 #: po/tmp/gnumeric.xml.h:26
 msgid "Change the default column width"
-msgstr ""
+msgstr "¥Ç¥Õ¥©¥ë¥È¤ÎÎóÉı¤òÊÑ¹¹"
 
 #: po/tmp/gnumeric.xml.h:27
 msgid "Change the default row height"
-msgstr ""
+msgstr "¥Ç¥Õ¥©¥ë¥È¤Î¹Ô¤Î¹â¤µ¤òÊÑ¹¹"
 
 #: po/tmp/gnumeric.xml.h:28
 msgid "Change the order the sheets are displayed"
-msgstr ""
+msgstr "¥·¡¼¥È¤¬É½¼¨¤µ¤ì¤ë½ç½ø¤òÊÑ¹¹"
 
 #: po/tmp/gnumeric.xml.h:29
-#, fuzzy
 msgid "Change width of the selected columns"
-msgstr "Îó¤ÎÉı¤òÀßÄê"
+msgstr "ÁªÂò¤·¤¿Îó¤ÎÉı¤òÊÑ¹¹"
 
 #: po/tmp/gnumeric.xml.h:35
-#, fuzzy
 msgid "Close"
-msgstr "¸¶²Á"
+msgstr "ÊÄ¤¸¤ë"
 
 #: po/tmp/gnumeric.xml.h:36
-#, fuzzy
 msgid "Close the current file"
-msgstr "¸½ºß¤Î¥»¥ë¤ÇÁíÏÂ¤ò¤È¤ë¡£"
+msgstr "¸½ºß¤Î¥Õ¥¡¥¤¥ë¤òÊÄ¤¸¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:38
-#, fuzzy
 msgid "Combo Box"
-msgstr "¥³¥ó¥Ü"
+msgstr "¥³¥ó¥Ü¥Ü¥Ã¥¯¥¹"
 
 #: po/tmp/gnumeric.xml.h:40
-#, fuzzy
 msgid "Copy the current selection to the clipboard"
-msgstr "ÁªÂòÉôÊ¬¤ò¥¯¥ê¥Ã¥×¥Ü¡¼¥É¤Ë¥³¥Ô¡¼"
+msgstr "ÁªÂòÈÏ°Ï¤ò¥¯¥ê¥Ã¥×¥Ü¡¼¥É¤Ë¥³¥Ô¡¼"
 
 #: po/tmp/gnumeric.xml.h:41
-#, fuzzy
 msgid "Copy the selection"
-msgstr "ÁªÂòÉôÊ¬¤Î¼«Æ°¥Õ¥£¥Ã¥È(_A)"
+msgstr "ÁªÂòÈÏ°Ï¤Î¥³¥Ô¡¼"
 
 #: po/tmp/gnumeric.xml.h:42
-#, fuzzy
 msgid "Create a button"
-msgstr "¥Ü¥¿¥ó¤òºîÀ®"
+msgstr "¥Ü¥¿¥ó¤ÎºîÀ®"
 
 #: po/tmp/gnumeric.xml.h:43
-#, fuzzy
 msgid "Create a checkbox"
-msgstr "¥Á¥§¥Ã¥¯¥Ü¥Ã¥¯¥¹¤òºîÀ®"
+msgstr "¥Á¥§¥Ã¥¯¥Ü¥Ã¥¯¥¹¤ÎºîÀ®"
 
 #: po/tmp/gnumeric.xml.h:44
-#, fuzzy
 msgid "Create a combo box"
-msgstr "¥³¥ó¥Ü¥Ü¥Ã¥¯¥¹¤òºîÀ®"
+msgstr "¥³¥ó¥Ü¥Ü¥Ã¥¯¥¹¤ÎºîÀ®"
 
 #: po/tmp/gnumeric.xml.h:45
-#, fuzzy
 msgid "Create a frame"
-msgstr "¥Õ¥ì¡¼¥à¤òºîÀ®"
+msgstr "¥Õ¥ì¡¼¥à¤ÎºîÀ®"
 
 #: po/tmp/gnumeric.xml.h:46
-#, fuzzy
 msgid "Create a label"
-msgstr "¥é¥Ù¥ë¤òºîÀ®"
+msgstr "¥é¥Ù¥ë¤ÎºîÀ®"
 
 #: po/tmp/gnumeric.xml.h:47
-#, fuzzy
 msgid "Create a line"
-msgstr "¥ê¥¹¥È¤òºîÀ®"
+msgstr "Àş¤ÎºîÀ®"
 
 #: po/tmp/gnumeric.xml.h:48
-#, fuzzy
 msgid "Create a list"
-msgstr "¥ê¥¹¥È¤òºîÀ®"
+msgstr "¥ê¥¹¥È¤ÎºîÀ®"
 
 #: po/tmp/gnumeric.xml.h:52
-#, fuzzy
 msgid "Create a new workbook"
-msgstr "¥ï¡¼¥¯¥Ö¥Ã¥¯¤Î¿·µ¬ºîÀ®"
+msgstr "¿·µ¬¥ï¡¼¥¯¥Ö¥Ã¥¯¤ÎºîÀ®"
 
 #: po/tmp/gnumeric.xml.h:53
-#, fuzzy
 msgid "Create a radio button"
-msgstr "¥é¥¸¥ª¥Ü¥¿¥ó¤òºîÀ®"
+msgstr "¥é¥¸¥ª¥Ü¥¿¥ó¤ÎºîÀ®"
 
 #: po/tmp/gnumeric.xml.h:58
-#, fuzzy
 msgid "Cut the selection"
-msgstr "ÁªÂòÉôÊ¬¤Î¼«Æ°¥Õ¥£¥Ã¥È(_A)"
+msgstr "ÁªÂòÈÏ°Ï¤Î¥«¥Ã¥È"
 
 #: po/tmp/gnumeric.xml.h:60
-#, fuzzy
 msgid "Decrease Precision"
-msgstr "¸º¾¯"
+msgstr "ÀºÅÙ¤Î´ËÏÂ"
 
 #: po/tmp/gnumeric.xml.h:61
-#, fuzzy
 msgid "Decrease the preceision of the selected cells"
-msgstr "ÁªÂò¤µ¤ì¤¿¥»¥ë¤Î½ñ¼°¤òÊÑ¹¹¤¹¤ë"
+msgstr "ÁªÂò¤µ¤ì¤¿¥»¥ë¤ÎÀºÅÙ¤òÍî¤·¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:63
 msgid "Display the value of a formula or the formula itself"
-msgstr ""
+msgstr "¼°¤ÎÃÍ¤Ş¤¿¤Ï¼°¤òÉ½¼¨"
 
 #: po/tmp/gnumeric.xml.h:64
-#, fuzzy
 msgid "Draw a rectangle"
-msgstr "¶ë·Á¥ª¥Ö¥¸¥§¥¯¥È¤òºîÀ®"
+msgstr "¶ë·Á¤ÎÉÁ²è"
 
 #: po/tmp/gnumeric.xml.h:65
 msgid "Draw an oval"
-msgstr ""
+msgstr "ÂÊ±ß¤ÎÉÁ²è"
 
 #: po/tmp/gnumeric.xml.h:66
-#, fuzzy
 msgid "E_xit"
-msgstr "¥Æ¥­¥¹¥È(_X)"
+msgstr "½ªÎ»(_X)"
 
 #: po/tmp/gnumeric.xml.h:67
-#, fuzzy
 msgid "Edit a formula in the current cell"
-msgstr "¸½ºß¤Î¥»¥ë¤Ç´Ø¿ô¤òÊÔ½¸¤¹¤ë¡£"
+msgstr "¸½ºß¤Î¥»¥ë¤Ç¼°¤òÊÔ½¸"
 
 #: po/tmp/gnumeric.xml.h:69
-#, fuzzy
 msgid "Edit the name of the current sheet"
-msgstr "¸½ºß¤Î¥»¥ë¤Ç´Ø¿ô¤òÊÔ½¸¤¹¤ë¡£"
+msgstr "¸½ºß¤Î¥·¡¼¥È¤ÎÌ¾Á°¤òÊÔ½¸"
 
 #: po/tmp/gnumeric.xml.h:71
 msgid "Ensure columns are just wide enough to display content"
-msgstr ""
+msgstr "Îó¤¬ÆâÍÆ¤òÉ½¼¨¤¹¤ë¤Î¤Ë½½Ê¬¤ÊÉı¤¬¤¢¤ë¤è¤¦¤Ë¤¹¤ë"
 
 #: po/tmp/gnumeric.xml.h:72
 msgid "Ensure rows are just tall enough to display content"
-msgstr ""
+msgstr "¹Ô¤¬ÆâÍÆ¤òÉ½¼¨¤¹¤ë¤Î¤Ë½½Ê¬¤ÊÉı¤¬¤¢¤ë¤è¤¦¤Ë¤¹¤ë"
 
 #: po/tmp/gnumeric.xml.h:73
 msgid "Exit the program"
-msgstr ""
+msgstr "¥×¥í¥°¥é¥à¤ò½ªÎ»"
 
 #: po/tmp/gnumeric.xml.h:81
-#, fuzzy
 msgid "Format the selected cells as money"
-msgstr "ÁªÂò¤µ¤ì¤¿¥»¥ë¤òÊÂ¤ÙÂØ¤¨"
+msgstr "ÁªÂò¤·¤¿¥»¥ë¤ò¶â³Û¤È¤·¤Æ½ñ¼°ÀßÄê"
 
 #: po/tmp/gnumeric.xml.h:82
-#, fuzzy
 msgid "Format the selected cells as percentages"
-msgstr "ÁªÂò¤µ¤ì¤Æ¤¤¤ë¥»¥ë¤Î·Á¼°¤ò¥Ñ¡¼¥»¥ó¥È¤Ë¤¹¤ë"
+msgstr "ÁªÂò¤·¤¿¥»¥ë¤ò¥Ñ¡¼¥»¥ó¥È¤Ç½ñ¼°ÀßÄê"
 
 #: po/tmp/gnumeric.xml.h:84
-#, fuzzy
 msgid "Function Guru"
-msgstr "´Ø¿ô"
+msgstr "´Ø¿ôGuru"
 
 #: po/tmp/gnumeric.xml.h:85
-#, fuzzy
 msgid "Graph Guru"
-msgstr "¿ô¼°¤Î¿ÀÍÍ"
+msgstr "¥°¥é¥ÕGuru"
 
 #: po/tmp/gnumeric.xml.h:86
-#, fuzzy
 msgid "Hide _Column Headers"
 msgstr "Îó¥Ø¥Ã¥À¤ò±£¤¹(_C)"
 
 #: po/tmp/gnumeric.xml.h:88
-#, fuzzy
 msgid "Hide _Row Headers"
 msgstr "¹Ô¥Ø¥Ã¥À¤ò±£¤¹(_R)"
 
 #: po/tmp/gnumeric.xml.h:90
-#, fuzzy
 msgid "Hide the selected columns"
-msgstr "ÁªÂò¤µ¤ì¤¿¥»¥ë¤òÊÂ¤ÙÂØ¤¨"
+msgstr "ÁªÂò¤µ¤ì¤¿Îó¤ò±£¤¹"
 
 #: po/tmp/gnumeric.xml.h:91
-#, fuzzy
 msgid "Hide the selected rows"
-msgstr "ÁªÂò¤µ¤ì¤¿¥»¥ë¤òÊÂ¤ÙÂØ¤¨"
+msgstr "ÁªÂò¤µ¤ì¤¿¹Ô¤ò±£¤¹"
 
 #: po/tmp/gnumeric.xml.h:92
-#, fuzzy
 msgid "Import..."
-msgstr "¥¤¥ó¥İ¡¼¥È(_I)..."
+msgstr "¥¤¥ó¥İ¡¼¥È..."
 
 #: po/tmp/gnumeric.xml.h:94
-#, fuzzy
 msgid "Includes a thousands seperator in the selected cells"
-msgstr "ÁªÂò¤µ¤ì¤¿¥»¥ë¤Ë¸½ºß¤ÎÆüÉÕ¤òÁŞÆş"
+msgstr "ÁªÂò¤µ¤ì¤¿¥»¥ëÀéÃ±°Ì¤Î¥»¥Ñ¥ì¡¼¥¿¤òÁŞÆş"
 
 #: po/tmp/gnumeric.xml.h:95
-#, fuzzy
 msgid "Increase Precision"
-msgstr "Áı²Ã"
+msgstr "ÀºÅÙ¤ÎÁıÉı"
 
 #: po/tmp/gnumeric.xml.h:96
-#, fuzzy
 msgid "Increase the preceision of the selected cells"
-msgstr "ÁªÂò¤µ¤ì¤¿¥»¥ë¤Ë¸½ºß¤ÎÆüÉÕ¤òÁŞÆş"
+msgstr "ÁªÂò¤µ¤ì¤¿¥»¥ë¤ÎÀºÅÙ¤ò¾å¤²¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:97
-#, fuzzy
 msgid "Insert Component"
-msgstr "Îó¤òÁŞÆş"
+msgstr "¥³¥ó¥İ¡¼¥Í¥ó¥È¤òÁŞÆş"
 
 #: po/tmp/gnumeric.xml.h:98
 msgid "Insert Shaped Component"
-msgstr ""
+msgstr "¥·¥§¡¼¥×¥³¥ó¥İ¡¼¥Í¥ó¥È¤òÁŞÆş"
 
 #: po/tmp/gnumeric.xml.h:100
-#, fuzzy
 msgid "Insert a shaped component into the spreadsheet"
-msgstr "¿·µ¬¤Ë¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤òºîÀ®"
+msgstr "¥·¥§¡¼¥×¥³¥ó¥İ¡¼¥Í¥ó¥È¤ò¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤ËÁŞÆş¤·¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:101
-#, fuzzy
 msgid "Insert an object into the spreadsheet"
-msgstr "¿·µ¬¤Ë¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤òºîÀ®"
+msgstr "¥ª¥Ö¥¸¥§¥¯¥È¤ò¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤ËÁŞÆş¤·¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:107
 msgid "Inserts a Bonobo object"
@@ -15558,383 +15431,220 @@ msgstr "Bonobo ¥ª¥Ö¥¸¥§¥¯¥È¤òÁŞÆş"
 
 #: po/tmp/gnumeric.xml.h:108
 msgid "Invoke the graph guru to create a graph"
-msgstr ""
+msgstr "¥°¥é¥ÕGuru¤Ë¥°¥é¥Õ¤òºîÀ®¤µ¤»¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:110
-#, fuzzy
 msgid "Italicize"
-msgstr "¥¤¥¿¥ê¥Ã¥¯"
+msgstr "¥¤¥¿¥ê¥Ã¥¯¤Ë¤¹¤ë"
 
 #: po/tmp/gnumeric.xml.h:116
-#, fuzzy
 msgid "Left justifies the contents of each cell"
-msgstr "¥»¥ë¤ÎÆâÍÆ¤òº¸´ó¤»¤Ë¤¹¤ë"
+msgstr "¥»¥ë¤ÎÆâÍÆ¤ò¤½¤ì¤¾¤ìº¸Â·¤¨¤Ë¤¹¤ë"
 
 #: po/tmp/gnumeric.xml.h:119
 msgid "Make any hidden columns in the selection visible"
-msgstr ""
+msgstr "ÁªÂòÈÏ°Ï¤ÎÈóÉ½¼¨¤ÎÎó¤òÉ½¼¨¤·¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:120
-#, fuzzy
 msgid "Make any hidden rows in the selection visible"
-msgstr "ÁªÂòÄ¹°Ê¾å¤ÏÄÉ²Ã¤Ç¤­¤Ş¤»¤ó¡£"
+msgstr "ÁªÂòÈÏ°Ï¤ÎÈóÉ½¼¨¤Î¹Ô¤òÉ½¼¨¤·¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:121
-#, fuzzy
 msgid "Make font bold"
-msgstr "¥¤¥¿¥ê¥Ã¥¯¥Õ¥©¥ó¥È¤Ë¤¹¤ë"
+msgstr "¥Õ¥©¥ó¥È¤òÂÀ»ú¤Ë¤¹¤ë"
 
 #: po/tmp/gnumeric.xml.h:122
-#, fuzzy
 msgid "Makes font italic"
-msgstr "¥¤¥¿¥ê¥Ã¥¯¥Õ¥©¥ó¥È¤Ë¤¹¤ë"
+msgstr "¥Õ¥©¥ó¥È¤ò¥¤¥¿¥ê¥Ã¥¯¤Ë¤¹¤ë"
 
 #: po/tmp/gnumeric.xml.h:123
-#, fuzzy
 msgid "Manage available plugin modules"
 msgstr "Í­¸ú¤Ê¥×¥é¥°¥¤¥ó¤Î´ÉÍı"
 
 #: po/tmp/gnumeric.xml.h:124
-#, fuzzy
 msgid "Mark the current selection for movement"
-msgstr "Ì¾Á°¤ÎÀ¸À®¤Î¤¿¤á¤Ë¸½ºßÁªÂò¤·¤Æ¤¤¤ë¤â¤Î¤ò»ÈÍÑ¤¹¤ë"
+msgstr "¸½ºß¤ÎÁªÂòÈÏ°Ï¤ò°ÜÆ°¤¹¤ë¤Î¤Ë¥Ş¡¼¥¯¤¹¤ë"
 
 #: po/tmp/gnumeric.xml.h:127
-#, fuzzy
 msgid "Money"
-msgstr "·îÍËÆü"
+msgstr "¶â³Û"
 
 #: po/tmp/gnumeric.xml.h:132
-#, fuzzy
 msgid "Open a spreadsheet"
-msgstr "¿·µ¬¤Ë¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤òºîÀ®"
+msgstr "¥¹¥×¥ì¥Ã¥É¥·¡¼¥È¤ò³«¤¯"
 
 #: po/tmp/gnumeric.xml.h:133
-#, fuzzy
 msgid "Open an existing workbook"
 msgstr "´ûÂ¸¤Î¥ï¡¼¥¯¥Ö¥Ã¥¯¤ò³«¤¯"
 
 #: po/tmp/gnumeric.xml.h:134
 msgid "Oval"
-msgstr ""
+msgstr "ÂÊ±ß"
 
 #: po/tmp/gnumeric.xml.h:136
-#, fuzzy
 msgid "Paste _Special..."
-msgstr "ÆÃÊÌÅ½¤êÉÕ¤±(_S)"
+msgstr "ÆÃÊÌÅ½¤êÉÕ¤±(_S)..."
 
 #: po/tmp/gnumeric.xml.h:137
-#, fuzzy
 msgid "Paste the clipboard"
 msgstr "¥¯¥ê¥Ã¥×¥Ü¡¼¥É¤«¤éÅ½ÉÕ¤±"
 
 #: po/tmp/gnumeric.xml.h:138
 msgid "Paste the contents of the clipboard or cut buffer"
-msgstr ""
+msgstr "¥¯¥ê¥Ã¥×¥Ü¡¼¥É¤ÎÆâÍÆ¤ä¥«¥Ã¥È¥Ğ¥Ã¥Õ¥¡¤òÅ½¤êÉÕ¤±¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:142
-#, fuzzy
 msgid "Print Pre_view"
 msgstr "°õºş¥×¥ì¥Ó¥å¡¼(_V)"
 
 #: po/tmp/gnumeric.xml.h:143
-#, fuzzy
 msgid "Print Preview"
 msgstr "°õºş¥×¥ì¥Ó¥å¡¼"
 
 #: po/tmp/gnumeric.xml.h:144
-#, fuzzy
 msgid "Print S_etup"
-msgstr "°õºşÀßÄê"
+msgstr "°õºşÀßÄê(_E)"
 
 #: po/tmp/gnumeric.xml.h:146
-#, fuzzy
 msgid "Print the current file"
-msgstr "¸½ºß¤Î¥»¥ë¤ÇÁíÏÂ¤ò¤È¤ë¡£"
+msgstr "¸½ºß¥Õ¥¡¥¤¥ë¤Î°õºş"
 
 #: po/tmp/gnumeric.xml.h:147
-#, fuzzy
 msgid "Print the workbook"
-msgstr "¥ï¡¼¥¯¥Ö¥Ã¥¯¤ò°õºş"
+msgstr "¥ï¡¼¥¯¥Ö¥Ã¥¯¤Î°õºş"
 
 #: po/tmp/gnumeric.xml.h:148
-#, fuzzy
 msgid "Radio Button"
 msgstr "¥é¥¸¥ª¥Ü¥¿¥ó"
 
 #: po/tmp/gnumeric.xml.h:152
-#, fuzzy
 msgid "Redo the undone action"
-msgstr "Áàºî¤ò¤ä¤êÄ¾¤·¤Ş¤¹"
+msgstr "¸µ¤ËÌá¤·¤¿Áàºî¤ò¤ä¤êÄ¾¤·¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:153
-#, fuzzy
 msgid "Remove selected cells, shifting others into their place"
-msgstr "ÁªÂò¤µ¤ì¤¿¥»¥ë¤òºï½ü¤·¡¢¤½¤Î¾ì½ê¤ËÂ¾¥»¥ë¤ò¤º¤é¤¹"
+msgstr "ÁªÂò¤µ¤ì¤¿¥»¥ë¤òºï½ü¤·¡¢¤½¤Î¾ì½ê¤ËÂ¾¤Î¥»¥ë¤ò¤º¤é¤¹"
 
 #: po/tmp/gnumeric.xml.h:155
-#, fuzzy
 msgid "Right justifies the contents of each cell"
-msgstr "¥»¥ë¤ÎÆâÍÆ¤ò±¦´ó¤»¤Ë¤¹¤ë"
+msgstr "¥»¥ë¤ÎÆâÍÆ¤ò¤½¤ì¤¾¤ì±¦Â·¤¨¤Ë¤¹¤ë"
 
 #: po/tmp/gnumeric.xml.h:158
-#, fuzzy
 msgid "Save As"
-msgstr "ÊİÂ¸"
+msgstr "Ì¾Á°¤òÊÑ¤¨¤ÆÊİÂ¸"
 
 #: po/tmp/gnumeric.xml.h:159
-#, fuzzy
 msgid "Save the current file"
-msgstr "¸½ºß¤Î¥»¥ë¤ÇÁíÏÂ¤ò¤È¤ë¡£"
+msgstr "¸½ºß¥Õ¥¡¥¤¥ë¤òÊİÂ¸¤·¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:160
-#, fuzzy
 msgid "Save the current file with a different name"
-msgstr "Ì¾Á°¤ÎÀ¸À®¤Î¤¿¤á¤Ë¸½ºßÁªÂò¤·¤Æ¤¤¤ë¤â¤Î¤ò»ÈÍÑ¤¹¤ë"
+msgstr "¸½ºß¥Õ¥¡¥¤¥ë¤òÊÌ¤ÎÌ¾Á°¤ÇÊİÂ¸¤·¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:161
-#, fuzzy
 msgid "Save the current workbook"
 msgstr "¥ï¡¼¥¯¥Ö¥Ã¥¯¤òÊİÂ¸"
 
 #: po/tmp/gnumeric.xml.h:168
-#, fuzzy
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "¸½ºßÊÔ½¸Ãæ¤Î¥»¥ë¤Ë°ÍÂ¸¤¹¤ë¥»¥ë¤ò¤¹¤Ù¤ÆÁªÂò"
 
 #: po/tmp/gnumeric.xml.h:172
 msgid "Setup the page settings for your current printer"
-msgstr ""
+msgstr "¥×¥ê¥ó¥¿¤Ë¤¢¤ï¤»¤Æ¥Ú¡¼¥¸¤òÀßÄê¤·¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:176
-#, fuzzy
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
-msgstr "ÁªÂò¤µ¤ì¤¿ºÇ½é¤ÎÎó¤ò¸µ¤Ë¡¢ÁªÂò¤µ¤ì¤Æ¤¤¤ëÈÏ°Ï¤ò¾º¤Ù¤­½ç¤ËÊÂ¤ÙÂØ¤¨¤ë¡£"
+msgstr "ÁªÂò¤µ¤ì¤¿ºÇ½é¤ÎÎó¤ò¸µ¤Ë¡¢ÁªÂò¤µ¤ì¤Æ¤¤¤ëÈÏ°Ï¤ò¾º½ç¤ËÊÂ¤ÙÂØ¤¨¤ë¡£"
 
 #: po/tmp/gnumeric.xml.h:177
-#, fuzzy
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
-msgstr "ÁªÂò¤µ¤ì¤¿ºÇ½é¤ÎÎó¤ò¸µ¤Ë¡¢ÁªÂò¤µ¤ì¤Æ¤¤¤ëÈÏ°Ï¤ò¹ß¤Ù¤­½ç¤ËÊÂ¤ÙÂØ¤¨¤ë¡£"
+msgstr "ÁªÂò¤µ¤ì¤¿ºÇ½é¤ÎÎó¤ò¸µ¤Ë¡¢ÁªÂò¤µ¤ì¤Æ¤¤¤ëÈÏ°Ï¤ò¹ß½ç¤ËÊÂ¤ÙÂØ¤¨¤ë¡£"
 
 #: po/tmp/gnumeric.xml.h:178
-#, fuzzy
 msgid "Statistical methods"
 msgstr "Åı·×³ØÅªÊıË¡"
 
 #: po/tmp/gnumeric.xml.h:181
-#, fuzzy
 msgid "Sum into the current cell"
-msgstr "¸½ºß¤Î¥»¥ë¤ÇÁíÏÂ¤ò¤È¤ë¡£"
+msgstr "¸½ºß¤Î¥»¥ë¤ËÁíÏÂ¤ò¤È¤ë"
 
 #: po/tmp/gnumeric.xml.h:183
 msgid "Toggle whether or not to display column headers"
-msgstr ""
+msgstr "Îó¤Î¥Ø¥Ã¥À¤ÎÉ½¼¨¡¿ÈóÉ½¼¨¤òÀÚÂØ¤¨¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:184
 msgid "Toggle whether or not to display gridlines"
-msgstr ""
+msgstr "¥°¥ê¥Ã¥É¥é¥¤¥ó¤ÎÉ½¼¨¡¿ÈóÉ½¼¨¤òÀÚÂØ¤¨¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:185
 msgid "Toggle whether or not to display row headers"
-msgstr ""
+msgstr "¹Ô¤Î¥Ø¥Ã¥À¤ÎÉ½¼¨¡¿ÈóÉ½¼¨¤òÀÚÂØ¤¨¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:186
 msgid "Toggle whether or not to display zeros as blanks"
-msgstr ""
+msgstr "¥¼¥í¤ò¥Ö¥é¥ó¥¯¤È¤·¤ÆÉ½¼¨¤¹¤ë¤«¤É¤¦¤«¤òÀÚÂØ¤¨¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:188
-#, fuzzy
 msgid "Underlines the text"
 msgstr "Ê¸»ú¤Ë²¼Àş¤òÉÕ²Ã"
 
 #: po/tmp/gnumeric.xml.h:189
-#, fuzzy
 msgid "Undo the last action"
-msgstr "Áàºî¤ò¼è¤ê¾Ã¤·¤Ş¤¹"
+msgstr "Ä¾Á°¤ÎÁàºî¤ò¼è¤ê¾Ã¤·¤Ş¤¹"
 
 #: po/tmp/gnumeric.xml.h:191
-#, fuzzy
 msgid "_Add / modify comment..."
 msgstr "Ãí¼á¤òÄÉ²Ã/½¤Àµ(_A)..."
 
 #: po/tmp/gnumeric.xml.h:196
-#, fuzzy
 msgid "_Cells"
-msgstr "¥»¥ë"
+msgstr "¥»¥ë(_C)"
 
 #: po/tmp/gnumeric.xml.h:198
-#, fuzzy
 msgid "_Change Name"
 msgstr "Ì¾Á°¤òÊÑ¹¹(_C)"
 
 #: po/tmp/gnumeric.xml.h:204
-#, fuzzy
 msgid "_Define"
-msgstr "Ì¾Á°¤òÄêµÁ"
+msgstr "Ì¾Á°¤òÄêµÁ(_D)"
 
 #: po/tmp/gnumeric.xml.h:206
-#, fuzzy
 msgid "_Edit"
 msgstr "ÊÔ½¸(_E)"
 
 #: po/tmp/gnumeric.xml.h:207
-#, fuzzy
 msgid "_File"
-msgstr "·«¤êÊÖ¤·(_F)"
+msgstr "¥Õ¥¡¥¤¥ë(_F)"
 
 #: po/tmp/gnumeric.xml.h:213
-#, fuzzy
 msgid "_Help"
 msgstr "±£¤¹(_H)"
 
 #: po/tmp/gnumeric.xml.h:218
-#, fuzzy
 msgid "_Object"
-msgstr "¥ª¥Ö¥¸¥§¥¯¥È(_O)..."
+msgstr "¥ª¥Ö¥¸¥§¥¯¥È(_O)"
 
 #: po/tmp/gnumeric.xml.h:219
-#, fuzzy
 msgid "_Open"
-msgstr "³«¤¯"
+msgstr "³«¤¯(_O)"
 
 #: po/tmp/gnumeric.xml.h:222
-#, fuzzy
 msgid "_Print"
-msgstr "°õºş"
+msgstr "°õºş(_P)"
 
 #: po/tmp/gnumeric.xml.h:224
-#, fuzzy
 msgid "_Redo"
-msgstr "¤â¤¦°ìÅÙ"
+msgstr "¤ä¤êÄ¾¤·(_R)"
 
 #: po/tmp/gnumeric.xml.h:234
-#, fuzzy
 msgid "_Undo"
-msgstr "¸µ¤ËÌá¤¹"
+msgstr "¸µ¤ËÌá¤¹(_U)"
 
 #: po/tmp/gnumeric.xml.h:236
-#, fuzzy
 msgid "_View"
-msgstr "É½¼¨"
-
-#~ msgid "Name Guru"
-#~ msgstr "Ì¾Á°¤Î¿ÀÍÍ"
-
-#~ msgid "Duplicate Sheet name"
-#~ msgstr "¥·¡¼¥ÈÌ¾¤òÊ£À½"
-
-#~ msgid "Database Access"
-#~ msgstr "¥Ç¡¼¥¿¥Ù¡¼¥¹¥¢¥¯¥»¥¹"
-
-#~ msgid "Enables database access"
-#~ msgstr "¥Ç¡¼¥¿¥Ù¡¼¥¹¥¢¥¯¥»¥¹¤òÍ­¸ú¤Ë¤¹¤ë"
-
-#~ msgid "Error while trying to pre-convert clipboard data"
-#~ msgstr "¥¯¥ê¥Ã¥×¥Ü¡¼¥É¤Î¥Ç¡¼¥¿¤Î»îÊÑ´¹Ãæ¤Ë¥¨¥é¡¼¤¬¤¢¤ê¤Ş¤·¤¿"
-
-#~ msgid ""
-#~ "The data on the clipboard does not seem to be valid text.\n"
-#~ "The character '%c' (ASCII decimal %d) was encountered"
-#~ msgstr ""
-#~ "¥¯¥ê¥Ã¥×¥Ü¡¼¥É¾å¤Î¥Ç¡¼¥¿¤ÏÅ¬Àµ¤Ê¥Æ¥­¥¹¥È¤Ç¤Ï¤Ê¤¤¤è¤¦¤Ç¤¹¡£\n"
-#~ "Ê¸»ú '%c' (ASCII decimal %d) ¤¬¸«¤Ä¤«¤ê¤Ş¤·¤¿"
-
-#~ msgid "Parse error while trying to parse data into cellregion"
-#~ msgstr "¥»¥ëÈÏ°Ï¤Î¥Ç¡¼¥¿¤ò¹½Ê¸²òÀÏÃæ¤Ë¹½Ê¸²òÀÏ¥¨¥é¡¼¤¬¤¢¤ê¤Ş¤·¤¿"
-
-#~ msgid "_Labels in First Row           "
-#~ msgstr "1¹ÔÌÜ¤ò¥é¥Ù¥ë¤Ë¤¹¤ë(_L)"
-
-#~ msgid " _Input Range: "
-#~ msgstr "ÆşÎÏÈÏ°Ï(_I):"
-
-#~ msgid "_Output Range: "
-#~ msgstr "½ĞÎÏÈÏ°Ï(_O):"
-
-#~ msgid "_New Sheet     "
-#~ msgstr "¿·µ¬¥·¡¼¥È(_N)"
-
-#~ msgid "_Labels      "
-#~ msgstr "¥é¥Ù¥ë(_L)"
-
-#~ msgid "Formulas"
-#~ msgstr "¸ø¼°"
-
-#~ msgid "Values"
-#~ msgstr "ÃÍ"
-
-#~ msgid ""
-#~ "\"\n"
-#~ "'\n"
-#~ "`\n"
-#~ msgstr ""
-#~ "\"\n"
-#~ "'\n"
-#~ "`\n"
-
-#~ msgid ""
-#~ "Space\n"
-#~ "Tab\n"
-#~ "Bang (!)\n"
-#~ "Colon (:)\n"
-#~ "Comma (,)\n"
-#~ "Hyphen (-)\n"
-#~ "Pipe (|)\n"
-#~ "Semicolon (;)\n"
-#~ "Slash (/)\n"
-#~ "Custom\n"
-#~ msgstr ""
-#~ "¶õÇò\n"
-#~ "¥¿¥Ö\n"
-#~ "´¶Ã²Éä (!)\n"
-#~ "¥³¥í¥ó (:)\n"
-#~ "¥«¥ó¥Ş (,)\n"
-#~ "¥Ï¥¤¥Õ¥ó (-)\n"
-#~ "¥Ñ¥¤¥× (|)\n"
-#~ "¥»¥ß¥³¥í¥ó (;)\n"
-#~ "¥¹¥é¥Ã¥·¥å (/)\n"
-#~ "¥«¥¹¥¿¥à\n"
-
-#~ msgid ""
-#~ "Always (Both sides)\n"
-#~ "Never\n"
-#~ "On left side only\n"
-#~ "On right side only\n"
-#~ msgstr ""
-#~ "¾ï¤Ë (Î¾Ã¼)\n"
-#~ "¾ï¤Ë¤Ê¤·\n"
-#~ "º¸Ã¼¤Î¤ß\n"
-#~ "±¦Ã¼¤Î¤ß\n"
-
-#~ msgid "window1"
-#~ msgstr "¥¦¥£¥ó¥É¥¦1"
-
-#~ msgid "\n"
-#~ msgstr "\n"
-
-#~ msgid ""
-#~ "pts\n"
-#~ "mm\n"
-#~ "cm\n"
-#~ "In\n"
-#~ msgstr ""
-#~ "pts\n"
-#~ "mm\n"
-#~ "cm\n"
-#~ "Inch\n"
-
-#~ msgid "You cannot change part of an array."
-#~ msgstr "ÇÛÎó¤Î°ìÉô¤ÎÊÑ¹¹¤Ï¤Ç¤­¤Ş¤»¤ó¡£"
-
-#~ msgid "_Names..."
-#~ msgstr "Ì¾Á°(_N)..."
-
-#~ msgid "N_ames"
-#~ msgstr "Ì¾Á° (_A)"
-
-#~ msgid "You should introduce a valid cell name"
-#~ msgstr "Àµ¤·¤¤¥»¥ëÌ¾¤ò»ØÄê¤·¤Æ²¼¤µ¤¤"
+msgstr "É½¼¨(_V)"
