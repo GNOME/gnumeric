@@ -1,5 +1,7 @@
 2002-03-08  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : add sample_datasource
+
 	* src/validation.c (validation_eval) : cleanup handling of 'int'
 	and fix handling of between.
 

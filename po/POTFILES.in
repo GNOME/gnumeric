@@ -40,6 +40,7 @@ plugins/python-loader/py-gnumeric.c
 plugins/python-loader/python-loader.c
 plugins/python/plugin.xml.in.h
 plugins/python/python.c
+plugins/sample_datasource/sample_datasource.c
 plugins/sc/plugin.xml.in.h
 plugins/sc/sc.c
 plugins/sylk/plugin.xml.in.h

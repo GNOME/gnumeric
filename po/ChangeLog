@@ -1,3 +1,7 @@
+2002-03-08  Jody Goldberg <jody@gnome.org>
+
+	* POTFILES.in : plugins/sample_datasource/sample_datasource.c
+
 2002-03-07  Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>
 
 	* sk.po: Updated Slovak translation.

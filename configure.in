@@ -606,6 +606,7 @@ plugins/applix/Makefile
 plugins/plan-perfect/Makefile
 plugins/psiconv/Makefile
 plugins/mps/Makefile
+plugins/sample_datasource/Makefile
 po/Makefile.in
 templates/Makefile
 templates/english/Makefile
