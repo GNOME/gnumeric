@@ -129,6 +129,7 @@ style_border_none (void)
 		none = g_new0 (StyleBorder, 1);
 		none->line_type = STYLE_BORDER_NONE;
 		none->color = style_color_new (0,0,0);
+		none->begin_margin = none->end_margin = 0;
 		none->ref_count = 1;
 	}
 
@@ -180,6 +181,8 @@ style_border_fetch (StyleBorderType const	 line_type,
 	g_hash_table_insert (border_hash, border, border);
 	border->ref_count = 1;
 	border->gc = NULL;
+	border->begin_margin = style_border_get_width (line_type) > 1 ? 1 : 0;
+	border->end_margin = style_border_get_width (line_type) > 2 ? 1 : 0;
 
 	return border;
 }

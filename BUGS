@@ -5,19 +5,18 @@ and longer term bugs.
 Release Critical
 ----------------
 
+- Autoformat - border warnings
+
 - Styles
     - uniform_get
     - test persistance
     - more tuning
 
-- Merged Cells
-    - copy/paste (cut works)
-    - fix undo ins/del row/col to restore lost merged regions
-
 - Fix Borders
-    - border style double_line does not handle all of the different
-      intersection cases.
     - diagonals
+    * intersection cases
+    * border style double_line does not handle all of the different
+      intersection cases.
 
 Long term breakage
 ------------------

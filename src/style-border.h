@@ -52,6 +52,7 @@ struct _StyleBorder {
 	/* Key elements */
 	StyleBorderType	 line_type;
 	StyleColor     	*color;
+	int		 begin_margin, end_margin;
 
 	/* Private */
 	GdkGC	*gc;

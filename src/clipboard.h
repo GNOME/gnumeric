@@ -22,7 +22,10 @@ enum {
 
 	/* If copying a range that includes blank cells, this
 	   prevents pasting blank cells over existing data */
-	PASTE_SKIP_BLANKS       = 1 << 11
+	PASTE_SKIP_BLANKS       = 1 << 11,
+
+	/* Do not paste merged regions (probably not needed) */
+	PASTE_DONT_MERGE        = 1 << 12
 };
 
 #define PASTE_ALL_TYPES (PASTE_CONTENT | PASTE_FORMATS)

@@ -1,3 +1,12 @@
+2001-01-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cmd-edit.c (cmd_paste_to_selection) : allow merged regions
+
+	* src/clipboard.c (clipboard_paste_region) : Optionally paste merged
+	  regions too.
+
+	* src/style-border.c (style_border_fetch) : add margins.
+
 2001-01-24  Morten Welinder  <terra@diku.dk>
 
 	* src/commands.c (cmd_search_replace_update_after_action): New

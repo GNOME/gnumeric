@@ -318,6 +318,14 @@ clipboard_paste_region (WorkbookControl *wbc,
 				    tmp);
 	}
 
+	/* remove and merged regions in the target range */
+	{
+		GSList *merged, *ptr;
+		merged = sheet_merge_get_overlap (pt->sheet, &pt->range);
+		for (ptr = merged ; ptr != NULL ; ptr = ptr->next)
+			sheet_merge_remove (wbc, pt->sheet, ptr->data);
+	}
+
 	for (tmp = repeat_vertical; repeat_horizontal-- > 0 ; repeat_vertical = tmp)
 		while (repeat_vertical-- > 0) {
 			int const left = repeat_horizontal * src_cols + pt->range.start.col;
@@ -345,15 +353,21 @@ clipboard_paste_region (WorkbookControl *wbc,
 
 			/* Move the styles on here so we get correct formats before recalc */
 			if (pt->paste_flags & PASTE_FORMATS) {
-				Range boundary = pt->range;
-
-				boundary.start.col = left;
-				boundary.start.row = top;
-				boundary.end.col   = left + src_cols - 1;
-				boundary.end.row   = top + src_rows - 1;
-				sheet_style_set_list (pt->sheet, &boundary.start,
+				CellPos pos;
+				pos.col = left;
+				pos.row = top;
+				sheet_style_set_list (pt->sheet, &pos,
 						      (pt->paste_flags & PASTE_TRANSPOSE),
 						      content->styles);
+			}
+
+			if (!(pt->paste_flags & PASTE_DONT_MERGE)) {
+				GSList *ptr;
+				for (ptr = content->merged; ptr != NULL ; ptr = ptr->next) {
+					Range tmp = *((Range const *)ptr->data);
+					if (!range_translate (&tmp, left, top))
+						sheet_merge_add (wbc, pt->sheet, &tmp, TRUE);
+				}
 			}
 
 			for (l = content->list; l; l = l->next) {
@@ -459,8 +473,11 @@ clipboard_copy_range (Sheet *sheet, Range const *r)
 
 	c->merged = NULL;
 	merged = sheet_merge_get_overlap (sheet, r);
-	for (ptr = merged ; ptr != NULL ; ptr = ptr->next)
-		c->merged = g_slist_prepend (c->merged, range_copy (ptr->data));
+	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
+		Range *tmp = range_copy (ptr->data);
+		range_translate (tmp, -r->start.col, -r->start.row);
+		c->merged = g_slist_prepend (c->merged, tmp);
+	}
 	g_slist_free (merged);
 
 	return c;

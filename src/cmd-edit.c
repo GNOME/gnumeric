@@ -353,7 +353,7 @@ cmd_paste_to_selection (WorkbookControl *wbc, Sheet *dest_sheet, int paste_flags
 	Range const *dest_range;
 	PasteTarget pt;
 
-	if (!selection_is_simple (wbc, dest_sheet, _("Paste"), FALSE, FALSE))
+	if (!selection_is_simple (wbc, dest_sheet, _("Paste"), TRUE, FALSE))
 		return;
 
 	dest_range = selection_first_range (dest_sheet, FALSE);
