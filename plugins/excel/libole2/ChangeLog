@@ -1,3 +1,22 @@
+1999-10-14  Arturo Tena <arturo@directmail.org>
+
+	* ms-ole.c: Changed calls to system calls to wrappers.
+	  (ms_ole_open_vfs): Renamed ms_ole_open. Added two parameters: one
+	  to turn on/off mmap trying, and the other to take the wrappers.
+	  (ms_ole_create_vfs): Renamed ms_ole_create. Added two parameters:
+	  one to turn on/off mmap trying, and the other to take the wrappers.
+	  Generate null MsOle file in the beginning, in order to be able to call
+	  take_wrapper_functions.
+	  (_MsOle): Added syswrap field.
+	  (open2_wrap, open3_wrap, read_wrap, close_wrap, fstat_wrap,
+	  write_wrap, write_wrap, lseek_wrap, take_wrapper_functions): Added.
+	  (default_wrappers): Added.
+	* ms-ole.h (ms_ole_open, ms_ole_create): Modified to be macros that
+	  call ms_ole_*_vfs.
+	  (ms_ole_open_vfs, ms_ole_create_vfs): Added.
+	  (MsOleSysWrappers, _MsOleSysWrappers): Added.
+	  (MsOleDoMmap, MsOleDontMmap): Added.
+
 1999-10-10  Arturo Tena <arturo@directmail.org>
 
 	* Makefile.am: make libole2.a not installed if compiling gnumeric.

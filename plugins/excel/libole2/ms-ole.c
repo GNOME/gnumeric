@@ -4,6 +4,8 @@
  * Author:
  *    Michael Meeks (michael@imaginator.com)
  **/
+
+/* FIXME tenix delete unused headers */
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/mman.h>
@@ -62,23 +64,89 @@
  **/
 struct _MsOle
 {
-	int        ref_count;
-	gboolean   ole_mmap;
-	guint8    *mem ;
-	guint32    length ;
+	int               ref_count;
+	gboolean          ole_mmap;
+	guint8           *mem;
+	guint32           length;
+	MsOleSysWrappers *syswrap;
 	
-	char       mode;
-	int        file_des;
-	int        dirty;
-	GArray    *bb;     /* Big  blocks status  */
-	GArray    *sb;     /* Small block status  */
-	GArray    *sbf;    /* The small block file */
-	guint32    num_pps;/* Count of number of property sets */
-	GList     *pps;    /* Property Storage -> struct _PPS, always 1 valid entry or NULL */
+	char              mode;
+	int               file_des;
+	int               dirty;
+	GArray           *bb;      /* Big  blocks status  */
+	GArray           *sb;      /* Small block status  */
+	GArray           *sbf;     /* The small block file */
+	guint32           num_pps; /* Count of number of property sets */
+	GList            *pps;     /* Property Storage -> struct _PPS, always 1 valid entry or NULL */
 /* if memory mapped */
-	GPtrArray *bbattr; /* Pointers to block structures */
+	GPtrArray        *bbattr;  /* Pointers to block structures */
 /* end if memory mapped */
 };
+
+
+/**
+ * Default system calls wrappers
+ **/
+static int
+open2_wrap (const char *pathname, int flags)
+{
+	return open (pathname, flags);
+}
+
+static int
+open3_wrap (const char *pathname, int flags, mode_t mode)
+{
+	return open (pathname, flags, mode);
+}
+
+static size_t
+read_wrap (int fd, void *buf, size_t count)
+{
+	return read (fd, buf, count);
+}
+
+static int
+close_wrap (int fd)
+{
+	return close (fd);
+}
+
+static int
+fstat_wrap (int filedes, struct stat *buf)
+{
+	return fstat (filedes, buf);
+}
+
+static int
+write_wrap (int fd, const void *buf, size_t count)
+{
+	return write (fd, buf, count);
+}
+
+static off_t
+lseek_wrap (int fildes, off_t offset, int whence)
+{
+	return lseek (fildes, offset, whence);
+}
+
+static MsOleSysWrappers default_wrappers = {
+	open2_wrap,
+	open3_wrap,
+	read_wrap,
+	close_wrap,
+	fstat_wrap,
+	write_wrap,
+	lseek_wrap
+};
+
+static void
+take_wrapper_functions (MsOle *f, MsOleSysWrappers *wrappers) {
+	if (wrappers == NULL)
+		f->syswrap = &default_wrappers;
+	else
+		f->syswrap = wrappers;
+}
+
 
 /* A global variable to enable calles to check_stream,
  * applications should optionally enable due to the performance penalty.
@@ -168,8 +236,8 @@ write_cache_block (MsOle *f, BBBlkAttr *attr)
 	g_return_if_fail (attr->data);
 	
 	offset = (attr->blk+1)*BB_BLOCK_SIZE;
-	if (lseek (f->file_des, offset, SEEK_SET)==(off_t)-1 ||
-	    write (f->file_des, attr->data, BB_BLOCK_SIZE) == -1)
+	if (f->syswrap->lseek (f->file_des, offset, SEEK_SET)==(off_t)-1 ||
+	    f->syswrap->write (f->file_des, attr->data, BB_BLOCK_SIZE) == -1)
 		printf ("Fatal error writing block %d at %d\n", attr->blk, offset);
 #if OLE_DEBUG > 0
 	printf ("Writing cache block %d to offset %d\n",
@@ -232,8 +300,8 @@ get_block_ptr (MsOle *f, BLP b, gboolean forwrite)
 		attr->data = g_new (guint8, BB_BLOCK_SIZE);
 	
 	offset = (b+1)*BB_BLOCK_SIZE;
-	lseek (f->file_des, offset, SEEK_SET);
-	read (f->file_des, attr->data, BB_BLOCK_SIZE);
+	f->syswrap->lseek (f->file_des, offset, SEEK_SET);
+	f->syswrap->read (f->file_des, attr->data, BB_BLOCK_SIZE);
 	attr->usage = 1;
 	attr->dirty = forwrite;
 
@@ -617,20 +685,23 @@ extend_file (MsOle *f, guint blocks)
 		g_assert (munmap(f->mem, f->length) != -1);
 		/* Extend that file by blocks */
 		
-		if ((fstat(file, &st) == -1) ||
-		    (lseek (file, st.st_size + BB_BLOCK_SIZE*blocks - 1, SEEK_SET)==(off_t)-1) ||
-		    (write (file, &zero, 1) == -1)) {
+		if ((f->syswrap->fstat(file, &st) == -1) ||
+		    (f->syswrap->lseek (file, st.st_size + BB_BLOCK_SIZE*blocks - 1, SEEK_SET)==(off_t)-1) ||
+		    (f->syswrap->write (file, &zero, 1) == -1)) {
 			printf ("Serious error extending file\n");
 			f->mem = 0;
 			return;
 		}
 
 		oldlen = st.st_size;
-		fstat(file, &st);
+		f->syswrap->fstat(file, &st);
 		f->length = st.st_size;
 		g_assert (f->length == BB_BLOCK_SIZE*blocks + oldlen);
 		if (f->length%BB_BLOCK_SIZE)
 			printf ("Warning file %d non-integer number of blocks\n", f->length);
+		/* NOTE tenix here we don't check if try_mmap is true, because
+		   if it reach here it means f->ole_mmap is true and try_mmap is
+		   true too */
 		newptr = mmap (f->mem, f->length, PROT_READ|PROT_WRITE, MAP_SHARED, file, 0);
 #if OLE_DEBUG > 0
 		if (newptr != f->mem)
@@ -1300,8 +1371,10 @@ ms_ole_unref (MsOle *f)
 }
 
 /**
- * ms_ole_open:
+ * ms_ole_open_vfs:
  * @name: name of OLE2 file to open
+ * @try_mmap: TRUE if try to mmap the file to open
+ * @wrappers: system functions wrappers, NULL if standard functions are used
  * 
  * Opens a pre-existing OLE2 file, use ms_ole_create ()
  * to create a new file
@@ -1309,7 +1382,8 @@ ms_ole_unref (MsOle *f)
  * Return value: a handle to the file or NULL on failure.
  **/
 MsOleErr
-ms_ole_open (MsOle **f, const char *name)
+ms_ole_open_vfs (MsOle **f, const char *name, gboolean try_mmap,
+		 MsOleSysWrappers *wrappers)
 {
 	struct stat st;
 	int prot = PROT_READ | PROT_WRITE;
@@ -1323,15 +1397,17 @@ ms_ole_open (MsOle **f, const char *name)
 #endif
 
 	*f = new_null_msole();
-	(*f)->file_des = file = open (name, O_RDWR);
+	take_wrapper_functions (*f, wrappers);
+	(*f)->file_des = file = (*f)->syswrap->open2 (name, O_RDWR);
 	(*f)->ref_count = 0;
 	(*f)->mode = 'w';
 	if (file == -1) {
-		(*f)->file_des = file = open (name, O_RDONLY);
+		(*f)->file_des = file = (*f)->syswrap->open2 (name, O_RDONLY);
 		(*f)->mode = 'r';
 		prot &= ~PROT_WRITE;
 	}
-	if ((file == -1) || fstat(file, &st) || !(S_ISREG(st.st_mode))) {
+	if ((file == -1) || (*f)->syswrap->fstat(file, &st)
+	    || !(S_ISREG(st.st_mode))) {
 		printf ("No such file '%s'\n", name);
 		g_free (*f) ;
 		return MS_OLE_ERR_EXIST;
@@ -1339,25 +1415,41 @@ ms_ole_open (MsOle **f, const char *name)
 	(*f)->length = st.st_size;
 	if ((*f)->length<=0x4c) { /* Bad show */
 		printf ("File '%s' too short\n", name);
-		close (file) ;
+		(*f)->syswrap->close (file) ;
 		g_free (*f) ;
 		return MS_OLE_ERR_FORMAT;
 	}
 
-	(*f)->ole_mmap = TRUE;
-	(*f)->mem = mmap (0, (*f)->length, prot, MAP_SHARED, file, 0);
+	if (try_mmap) {
+		(*f)->ole_mmap = TRUE;
+		(*f)->mem = mmap (0, (*f)->length, prot, MAP_SHARED, file, 0);
 
-	if (!(*f)->mem || (*f)->mem == MAP_FAILED) {
-		g_warning ("I can't mmap that file, falling back to slower method");
+		if (!(*f)->mem || (*f)->mem == MAP_FAILED) {
+			g_warning ("I can't mmap that file, falling back to slower method");
+			(*f)->ole_mmap = FALSE;
+			(*f)->mem = g_new (guint8, BB_BLOCK_SIZE);
+
+			if (!(*f)->mem
+			    || ((*f)->syswrap->read (file, (*f)->mem, BB_BLOCK_SIZE)
+				== -1)) {
+				printf ("Error reading header\n");
+				g_free (*f);
+				return MS_OLE_ERR_EXIST;
+			}
+		}
+	} else /* !try_mmap */ {
+		g_warning ("I won't mmap that file, using a slower method");
 		(*f)->ole_mmap = FALSE;
 		(*f)->mem = g_new (guint8, BB_BLOCK_SIZE);
 
-		if (!(*f)->mem || (read (file, (*f)->mem, BB_BLOCK_SIZE)==-1)) {
+		if (!(*f)->mem
+		    || ((*f)->syswrap->read (file, (*f)->mem, BB_BLOCK_SIZE)
+			== -1)) {
 			printf ("Error reading header\n");
 			g_free (*f);
 			return MS_OLE_ERR_EXIST;
 		}
-	}
+	} /* try_mmap */
 	
 	if (MS_OLE_GET_GUINT32((*f)->mem    ) != 0xe011cfd0 ||
 	    MS_OLE_GET_GUINT32((*f)->mem + 4) != 0xe11ab1a1) {
@@ -1388,15 +1480,18 @@ ms_ole_open (MsOle **f, const char *name)
 }
 
 /**
- * ms_ole_create:
+ * ms_ole_create_vfs:
  * @name: filename of new OLE file
+ * @try_mmap: TRUE if try to mmap the file to open
+ * @wrappers: system functions wrappers, NULL if standard functions are used
  * 
  * Creates an OLE2 file: @name
  *
  * Return value: pointer to new file or NULL on failure.
  **/
 MsOleErr
-ms_ole_create (MsOle **f, const char *name)
+ms_ole_create_vfs (MsOle **f, const char *name, gboolean try_mmap,
+		   MsOleSysWrappers *wrappers)
 {
 	struct stat st;
 	int file, zero=0;
@@ -1405,39 +1500,49 @@ ms_ole_create (MsOle **f, const char *name)
 	if (!f)
 		return MS_OLE_ERR_BADARG;
 
-	if ((file = open (name, O_RDWR|O_CREAT|O_TRUNC|O_NONBLOCK,
-			  S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP)) == -1) {
+	*f = new_null_msole ();
+	take_wrapper_functions (*f, wrappers);
+	if ((file = (*f)->syswrap->open3 (name,
+					  O_RDWR|O_CREAT|O_TRUNC|O_NONBLOCK,
+					  S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP))
+	    == -1) {
 		printf ("Can't create file '%s'\n", name);
+		g_free (*f);
 		return MS_OLE_ERR_PERM;
 	}
 
-	if ((lseek (file, BB_BLOCK_SIZE * init_blocks - 1,
+	if (((*f)->syswrap->lseek (file, BB_BLOCK_SIZE * init_blocks - 1,
 		    SEEK_SET) == (off_t)-1) ||
-	    (write (file, &zero, 1) == -1)) {
+	    ((*f)->syswrap->write (file, &zero, 1) == -1)) {
 		printf ("Serious error extending file to %d bytes\n",
 			BB_BLOCK_SIZE*init_blocks);
+		g_free (*f);
 		return MS_OLE_ERR_SPACE;
 	}
-
-	*f = new_null_msole ();
 
 	(*f)->ref_count = 0;
 	(*f)->file_des  = file;
 	(*f)->mode             = 'w';
-	fstat (file, &st);
+	(*f)->syswrap->fstat (file, &st);
 	(*f)->length = st.st_size;
 	if ((*f)->length % BB_BLOCK_SIZE)
 		printf ("Warning file %d non-integer number of blocks\n",
 			(*f)->length);
 
-	(*f)->ole_mmap = TRUE;
-	(*f)->mem  = mmap (0, (*f)->length, PROT_READ|PROT_WRITE, MAP_SHARED,
-			   file, 0);
-	if (!(*f)->mem || (*f)->mem == MAP_FAILED) {
-		g_warning ("I can't mmap that file, falling back to slower method");
+	if (try_mmap) {
+		(*f)->ole_mmap = TRUE;
+		(*f)->mem = mmap (0, (*f)->length, PROT_READ|PROT_WRITE,
+				  MAP_SHARED, file, 0);
+		if (!(*f)->mem || (*f)->mem == MAP_FAILED) {
+			g_warning ("I can't mmap that file, falling back to slower method");
+			(*f)->ole_mmap = FALSE;
+			(*f)->mem  = g_new (guint8, BB_BLOCK_SIZE);
+		}
+	} else /* !try_mmap */ {
+		g_warning ("I won't mmap that file, using a slower method");
 		(*f)->ole_mmap = FALSE;
 		(*f)->mem  = g_new (guint8, BB_BLOCK_SIZE);
-	}
+	} /* try_mmap */
 
 	/* The header block */
 	for (lp = 0; lp < BB_BLOCK_SIZE / 4; lp++)
@@ -1537,8 +1642,9 @@ ms_ole_destroy (MsOle **ptr)
 				attr->data = 0;
 			}
 			if (f->dirty) {
-				lseek (f->file_des, 0, SEEK_SET);
-				write (f->file_des, f->mem, BB_BLOCK_SIZE);
+				f->syswrap->lseek (f->file_des, 0, SEEK_SET);
+				f->syswrap->write (f->file_des, f->mem,
+						   BB_BLOCK_SIZE);
 			}
 			g_free (f->mem);
 			f->mem = 0;
@@ -1546,7 +1652,7 @@ ms_ole_destroy (MsOle **ptr)
 
 		destroy_pps (f->pps);
 
-		close (f->file_des);
+		f->syswrap->close (f->file_des);
 		g_free (f);
 
 #if OLE_DEBUG > 0
@@ -1783,6 +1889,9 @@ ms_ole_read_ptr_sb (MsOleStream *s, MsOlePos length)
 {
 	int blockidx = s->position/SB_BLOCK_SIZE;
 	int blklen;
+/* FIXME tenix 
+   ms-ole.c:1891: warning: `blklen' might be used uninitialized in this function
+ */
 	guint32 len=length;
 	guint8 *ans;
 

@@ -7,6 +7,8 @@
 #ifndef MS_OLE_H
 #define MS_OLE_H
 
+#include <fcntl.h>	/* for mode_t */
+#include <sys/stat.h>	/* for struct stat */
 #include <glib.h>
 
 /*
@@ -46,8 +48,9 @@ typedef enum { MS_OLE_ERR_OK,
 typedef guint32 BLP;
 
 /* Forward declarations of types */
-typedef struct _MsOle          MsOle;
-typedef struct _MsOleStream    MsOleStream;
+typedef struct _MsOle             MsOle;
+typedef struct _MsOleStream       MsOleStream;
+typedef struct _MsOleSysWrappers  MsOleSysWrappers;
 
 typedef enum { MsOleSeekSet, MsOleSeekCur, MsOleSeekEnd } MsOleSeek;
 #ifdef G_HAVE_GINT64
@@ -74,10 +77,17 @@ typedef struct {
 	MsOlePos  size;
 } MsOleStat;
 
+#define MsOleDoMmap   TRUE
+#define MsOleDontMmap FALSE
+
 /* Create new OLE file */
-extern MsOleErr ms_ole_create      (MsOle **, const char *name) ;
+#define ms_ole_create(n,m) ms_ole_create_vfs ((n), (m), MsOleDoMmap, NULL)
+extern MsOleErr ms_ole_create_vfs  (MsOle **, const char *name, int try_mmap,
+				    MsOleSysWrappers *wrappers);
 /* Open existing OLE file */
-extern MsOleErr ms_ole_open        (MsOle **, const char *name) ;
+#define ms_ole_open(n,m) ms_ole_open_vfs ((n), (m), MsOleDoMmap, NULL)
+extern MsOleErr ms_ole_open_vfs    (MsOle **, const char *name, int try_mmap,
+				    MsOleSysWrappers *wrappers);
 extern void     ms_ole_ref         (MsOle *);
 extern void     ms_ole_unref       (MsOle *);
 extern void     ms_ole_destroy     (MsOle **);
@@ -85,6 +95,7 @@ extern MsOleErr ms_ole_unlink      (MsOle *f, const char *path);
 extern MsOleErr ms_ole_directory   (char ***names,   MsOle *f, const char *path);
 extern MsOleErr ms_ole_stat        (MsOleStat *stat, MsOle *f, const char *path,
 				    const char *file);
+
 
 struct _MsOleStream
 {
@@ -126,6 +137,18 @@ extern MsOleErr ms_ole_stream_open       (MsOleStream ** const stream, MsOle *f,
 extern MsOleErr ms_ole_stream_close      (MsOleStream ** const stream);
 extern MsOleErr ms_ole_stream_duplicate  (MsOleStream ** const copy,
 					  const MsOleStream * const stream);
+
+
+struct _MsOleSysWrappers {
+	int (*open2) (const char *pathname, int flags);
+	int (*open3) (const char *pathname, int flags, mode_t mode);
+	size_t (*read) (int fd, void *buf, size_t count);
+	int (*close) (int fd);
+	int (*fstat) (int filedes, struct stat *buf);
+	ssize_t (*write) (int fd, const void *buf, size_t count);
+	off_t (*lseek) (int fildes, off_t offset, int whence);
+};
+
 
 extern void dump (guint8 const *ptr, guint32 len) ;
 
