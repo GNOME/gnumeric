@@ -1,5 +1,8 @@
 2002-12-30  Morten Welinder  <terra@diku.dk>
 
+	* src/formats.c (currency_date_format_init): Don't use undefined
+	\? pattern.
+
 	* src/sheet-style.c (cell_tile_style_new): Don't use res
 	uninitialized, even if we compile with no checks.
 
