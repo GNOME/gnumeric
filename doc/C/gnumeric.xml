@@ -30,7 +30,7 @@ GNU oleo">
 <!ENTITY graphs         SYSTEM "graphs.xml">
 <!ENTITY authors	SYSTEM "authors.xml">
 <!ENTITY license	SYSTEM "license.xml">
-<!ENTITY keybinding     SYSTEM "keybinding-appendix.xml">
+<!ENTITY keybindings    SYSTEM "keybinding-appendix.xml">
 <!ENTITY fdl            SYSTEM "fdl-appendix.xml">
 ]>
 
@@ -197,7 +197,7 @@ GNU oleo">
 
   <chapter id="keybinding">
     <title>Gnumeric Keybinding Reference</title>
-    &functions;
+    &keybindings;
   </chapter>
 <!-- appendix: free documentation license -->
 
