@@ -279,7 +279,7 @@ gnm_combo_text_new (GCompareFunc cmp_func)
 	return GTK_WIDGET (ct);
 }
 
-E_MAKE_TYPE(gnm_combo_text, "GnmComboText", GnmComboText, gnm_combo_text_class_init, NULL, gtk_combo_box_get_type ());
+E_MAKE_TYPE(gnm_combo_text, "GnmComboText", GnmComboText, gnm_combo_text_class_init, NULL, gtk_combo_box_get_type ())
 
 /**
  * gnm_combo_text_set_text :

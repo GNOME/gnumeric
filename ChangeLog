@@ -1,3 +1,12 @@
+2001-12-30  Jody Goldberg <jody@gnome.org>
+
+	* src/cell.h : fix warning on s390
+	* src/collect.h : ditto.
+	* src/parse-util.h : ditto.
+	* src/gnumeric.h : ditto.
+	* src/style.h : ditto.
+	* src/consolidate.h : ditto.
+
 2001-12-29  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (sheet_menu_label_run) : make the context menu

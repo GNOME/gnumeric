@@ -75,7 +75,7 @@ gnumeric_hscrollbar_button_press (GtkWidget *widget, GdkEventButton *event)
 
 	if (event->window == range->slider) {
 		gnumeric_hscrollbar_adjustment_value_changed (range->adjustment, hs);
-		
+
 		if (event->state & GDK_SHIFT_MASK)
 			hs->live.now = !hs->live.def;
 		else
@@ -96,7 +96,7 @@ gnumeric_hscrollbar_button_release (GtkWidget *widget, GdkEventButton *event)
 
 	gtk_signal_emit (GTK_OBJECT (hs), hscrollbar_signals[OFFSET_CHANGED],
 			 (int) GTK_RANGE (hs)->adjustment->value, FALSE);
-			 
+
 	return parent_class->button_release_event (widget, event);
 }
 
@@ -124,7 +124,7 @@ gnumeric_hscrollbar_class_init (GnumericHScrollbarClass *klass)
 	 * We override the range class's timer
 	 */
 	GTK_RANGE_CLASS (klass)->timer     = gnumeric_hscrollbar_timer;
-	
+
 	/*
 	 * Create the signals we emit ourselves
 	 */
@@ -145,7 +145,7 @@ GtkWidget *
 gnumeric_hscrollbar_new (GtkAdjustment *adjustment)
 {
 	GtkWidget *hs;
-	
+
 	hs = gtk_widget_new (GNUMERIC_HSCROLLBAR_TYPE,
 			     "adjustment", adjustment,
 			     NULL);
@@ -157,10 +157,10 @@ gnumeric_hscrollbar_new (GtkAdjustment *adjustment)
 	gtk_signal_connect (GTK_OBJECT (GTK_RANGE (hs)->adjustment), "value_changed",
 			    (GtkSignalFunc) gnumeric_hscrollbar_adjustment_value_changed,
 			    (gpointer) hs);
-			    
+
 	return hs;
 }
 
 E_MAKE_TYPE (gnumeric_hscrollbar, "GnumericHScrollbar", GnumericHScrollbar,
 	     gnumeric_hscrollbar_class_init, gnumeric_hscrollbar_init,
-	     GTK_TYPE_HSCROLLBAR);
+	     GTK_TYPE_HSCROLLBAR)

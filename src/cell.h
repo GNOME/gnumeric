@@ -19,7 +19,7 @@ typedef enum {
 	CELL_BEING_ITERATED = 0x080000,
 
 	/* Cell content spans */
-	CELL_CONTENT_SPANS  = 0x100000,
+	CELL_CONTENT_SPANS  = 0x100000
 } CellFlags;
 
 /* Definition of a Gnumeric Cell */

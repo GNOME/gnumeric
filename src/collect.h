@@ -15,7 +15,7 @@ typedef enum {
 	COLLECT_ZERO_ERRORS = 0x200,
 
 	COLLECT_IGNORE_BLANKS = 0x1000,
-	COLLECT_DATES	      = 0x2000,
+	COLLECT_DATES	      = 0x2000
 } CollectFlags;
 
 

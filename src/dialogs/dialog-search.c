@@ -23,6 +23,8 @@
 
 #include <widgets/gnumeric-expr-entry.h>
 #include <gal/widgets/e-cursors.h>
+#include <gal/widgets/e-unicode.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <gal/e-table/e-table-simple.h>
 #include <gal/e-table/e-table.h>
 #include <gal/e-table/e-table-scrolled.h>
@@ -111,10 +113,11 @@ value_at (ETableModel *etc, int col, int row, void *data)
 
 	switch (col) {
 	case COL_SHEET:
-		return (void *)(item->ep.sheet->name_unquoted);
+		result = e_utf8_from_locale_string (item->ep.sheet->name_unquoted);
+		break;
 
 	case COL_CELL:
-		result = g_strdup (cell_pos_name (&item->ep.eval));
+		result = e_utf8_from_locale_string (cell_pos_name (&item->ep.eval));
 		break;
 
 	case COL_TYPE:
@@ -125,24 +128,29 @@ value_at (ETableModel *etc, int col, int row, void *data)
 			gboolean is_value = !is_expr && !cell_is_blank (cell) && v;
 
 			if (is_expr)
-				return (void *)_("Expression");
+				return (void *)U_("Expression");
 			else if (is_value && v->type == VALUE_STRING)
-				return (void *)_("String");
+				return (void *)U_("String");
 			else if (is_value && v->type == VALUE_INTEGER)
-				return (void *)_("Integer");
+				return (void *)U_("Integer");
 			else if (is_value && v->type == VALUE_FLOAT)
-				return (void *)_("Number");
+				return (void *)U_("Number");
 			else
-				return (void *)_("Other value");
+				return (void *)U_("Other value");
 		} else
-			return (void *)_("Comment");
+			return (void *)U_("Comment");
 
 	case COL_CONTENTS:
 		if (cell) {
-			result = cell_get_entered_text (cell);
-			break;
-		} else
-			return (void *)cell_comment_text_get (item->comment);
+			char *s;
+
+			s = cell_get_entered_text (cell);
+			result = e_utf8_from_locale_string (s);
+			g_free (s);
+		} else {
+			result = e_utf8_from_locale_string (cell_comment_text_get (item->comment));
+		}
+		break;
 
 	default:
 		return NULL;
@@ -393,6 +401,7 @@ search_clicked (GtkWidget *widget, DialogState *dd)
 	}
 
 	gtk_notebook_set_page (dd->notebook, dd->notebook_matches_page);
+	gtk_widget_grab_focus (GTK_WIDGET (dd->e_table_scrolled));
 
 	/* Save the contents of the search in the gnome-entry. */
 	gentry = glade_xml_get_widget (gui, "search_entry");

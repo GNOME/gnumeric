@@ -454,7 +454,7 @@ gnumeric_expr_entry_class_init (GtkObjectClass *object_class)
 
 E_MAKE_TYPE (gnumeric_expr_entry, "GnumericExprEntry", GnumericExprEntry,
 	     gnumeric_expr_entry_class_init, NULL,
-	     GTK_TYPE_ENTRY);
+	     GTK_TYPE_ENTRY)
 
 /**
  * gnumeric_expr_entry_new:

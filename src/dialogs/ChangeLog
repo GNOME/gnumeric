@@ -1,3 +1,9 @@
+2001-12-30  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* dialog-search.c
+	(value_at): Return UTF-8 string (using U_() macro for static strings).
+	(search_clicked): Set focus to ETable to speed up keyboard navigation.
+
 2001-12-15  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* autocorrect.glade : change position of help button

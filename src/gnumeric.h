@@ -120,7 +120,7 @@ typedef enum _SpanCalcFlags {
 	SPANCALC_RESIZE		= 0x1,	/* Calculate sizes of all cells */
 	SPANCALC_RE_RENDER	= 0x2,	/* Render and Size all cells */
 	SPANCALC_RENDER		= 0x4,	/* Render and Size any unrendered cells */
-	SPANCALC_NO_DRAW	= 0x8,	/* Do not queue a redraw */
+	SPANCALC_NO_DRAW	= 0x8	/* Do not queue a redraw */
 } SpanCalcFlags;
 
 typedef struct _SearchReplace           SearchReplace;

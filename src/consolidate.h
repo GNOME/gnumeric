@@ -23,7 +23,7 @@ typedef enum {
 	 * of our formulas into the destination
 	 * otherwise we put formulas
 	 */
-	CONSOLIDATE_PUT_VALUES   = 1 << 3,
+	CONSOLIDATE_PUT_VALUES   = 1 << 3
 } ConsolidateMode;
 
 typedef struct _Consolidate {

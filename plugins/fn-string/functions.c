@@ -417,12 +417,12 @@ gnumeric_clean (FunctionEvalInfo *ei, Value **argv)
 	Value *res;
 	unsigned char *s, *p, *q;
 
-	s = value_get_as_string (argv[0]);
+	s = (unsigned char *)value_get_as_string (argv[0]);
 	for (p = q = s; *p; p++)
 		if (isprint (*p))
 			*q++ = *p;
 	*q = 0;
-	res = value_new_string (s);
+	res = value_new_string ((char *)s);
 	g_free (s);
 
 	return res;
@@ -566,7 +566,7 @@ gnumeric_proper (FunctionEvalInfo *ei, Value **argv)
 	unsigned char *s, *p;
 	gboolean inword = FALSE;
 
-	s = value_get_as_string (argv[0]);
+	s = (unsigned char *)value_get_as_string (argv[0]);
 	for (p = s; *p; p++) {
 		if (isalpha (*p)) {
 			if (inword) {
@@ -579,7 +579,7 @@ gnumeric_proper (FunctionEvalInfo *ei, Value **argv)
 			inword = FALSE;
 	}
 
-	v = value_new_string (s);
+	v = value_new_string ((char *)s);
 	g_free (s);
 	return v;
 }
@@ -781,13 +781,13 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 
 	default: {
 		Value *v;
-		unsigned char *p, *arg = value_get_as_string (argv[0]);
+		unsigned char *p, *arg = (unsigned char *)value_get_as_string (argv[0]);
 
 		/* Skip leading spaces */
 		for (p = arg ; *p && isspace (*p) ; ++p)
 			;
 
-		v = format_match_number (p, NULL, NULL);
+		v = format_match_number ((char *)p, NULL, NULL);
 		g_free (arg);
 
 		if (v != NULL)

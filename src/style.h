@@ -29,7 +29,7 @@ typedef enum _StyleVAlignFlags {
 typedef enum _StyleUnderlineType {
 	UNDERLINE_NONE   = 0,
 	UNDERLINE_SINGLE = 1,
-	UNDERLINE_DOUBLE = 2,
+	UNDERLINE_DOUBLE = 2
 } StyleUnderlineType;
 
 typedef enum _StyleOrientation {

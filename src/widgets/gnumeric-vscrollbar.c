@@ -87,7 +87,7 @@ gnumeric_vscrollbar_button_press (GtkWidget *widget, GdkEventButton *event)
 		gnumeric_vscrollbar_timer (GTK_RANGE (widget));
 	} else
 		vs->live.now = TRUE;
-	
+
 	return parent_class->button_press_event (widget, event);
 }
 
@@ -126,7 +126,7 @@ gnumeric_vscrollbar_class_init (GnumericVScrollbarClass *klass)
 	 * We override the range class's timer
 	 */
 	GTK_RANGE_CLASS (klass)->timer     = gnumeric_vscrollbar_timer;
-	
+
 	/*
 	 * Create the signals we emit ourselves
 	 */
@@ -146,7 +146,7 @@ GtkWidget *
 gnumeric_vscrollbar_new (GtkAdjustment *adjustment)
 {
 	GtkWidget *vs;
-	
+
 	vs = gtk_widget_new (GNUMERIC_VSCROLLBAR_TYPE,
 			     "adjustment", adjustment,
 			     NULL);
@@ -158,11 +158,10 @@ gnumeric_vscrollbar_new (GtkAdjustment *adjustment)
 	gtk_signal_connect (GTK_OBJECT (GTK_RANGE (vs)->adjustment), "value_changed",
 			    (GtkSignalFunc) gnumeric_vscrollbar_adjustment_value_changed,
 			    (gpointer) vs);
-			    
+
 	return vs;
 }
 
 E_MAKE_TYPE (gnumeric_vscrollbar, "GnumericVScrollbar", GnumericVScrollbar,
 	     gnumeric_vscrollbar_class_init, gnumeric_vscrollbar_init,
-	     GTK_TYPE_VSCROLLBAR);
-			       
+	     GTK_TYPE_VSCROLLBAR)
