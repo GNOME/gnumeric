@@ -290,7 +290,7 @@ print_cell_NEW (GnmCell const *cell, GnmStyle const *mstyle,
 
 static void
 print_cell_OLD (GnmCell const *cell, GnmStyle const *mstyle,
-		GnomePrintContext *context, PangoContext *pcontext,
+		GnomePrintContext *context, G_GNUC_UNUSED PangoContext *pcontext,
 		double x1, double y1, double width, double height, double h_center)
 {
 	Sheet const * const sheet = cell->base.sheet;
@@ -568,11 +568,25 @@ print_cell_OLD (GnmCell const *cell, GnmStyle const *mstyle,
 	gnome_print_grestore (context);
 }
 
+static void
+print_cell (GnmCell const *cell, GnmStyle const *mstyle,
+	    GnomePrintContext *context, PangoContext *pcontext,
+	    double x1, double y1, double width, double height, double h_center)
+{
 #ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
-#define print_cell (g_getenv ("USE_NEW_PRINT") ? print_cell_NEW : print_cell_OLD)
-#else
-#define print_cell print_cell_OLD
+	static int use_new = -1;
+
+	if (use_new == -1)
+		use_new = !g_getenv ("USE_OLD_PRINT");
+	if (use_new) {
+		print_cell_NEW (cell, mstyle, context, pcontext,
+				x1, y1, width, height, h_center);
+		return;
+	}
 #endif
+	print_cell_OLD (cell, mstyle, context, pcontext,
+			x1, y1, width, height, h_center);
+}
 
 
 /* We do not use print_make_rectangle_path here - because we do not want a

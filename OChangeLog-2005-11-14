@@ -1,5 +1,8 @@
 2004-09-24  Morten Welinder  <terra@gnome.org>
 
+	* src/print-cell.c (print_cell): New wrapper function.  Turn on
+	new printing by default.
+
 	* src/gui-util.c (entry_to_int): Plug leak.
 	(entry_to_float_with_format): Plug leak.
 
