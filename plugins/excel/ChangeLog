@@ -1,4 +1,4 @@
-1999-04-15  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+1999-04-15  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel.c (ms_excelReadWorkbook): Put PRECISION
 	output conditional on debug.
@@ -10,7 +10,7 @@
 	(ms_excel_parse_formula): Patch for broken MS files.
 	Updated 'Name' records.
 
-1999-04-15  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+1999-04-15  Michael Meeks  <michael@edenproject.org>
 
 	* boot.c: Fixed includes to remove annoying warning.
 	(excel_load): Add workbook_set_filename for style.
@@ -26,7 +26,7 @@
 
 	* ms-excel.c (ms_excel_set_cell_colors): Removed debug.
 
-1999-04-15  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+1999-04-15  Michael Meeks  <michael@edenproject.org>
 
 	* ms-formula.c (ms_excel_parse_formula): PTG_AREAN added,
 	and PTG_AREA updated to include 'shared' flag.
@@ -40,7 +40,7 @@
 	* ms-excel.h (MS_EXCEL_DOUBLE_FORMAT): Created to
 	standardise number transfer.
 
-1999-04-14  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+1999-04-14  Michael Meeks  <michael@edenproject.org>
 
 	* ms-formula.h: Updated ms_excel_parse_formula prototype.
 
@@ -58,7 +58,7 @@
 	(getRefV8, getRefV7): Attempt at shared formulae.
 	Fairly brutal hack: seems to work :-)
 
-1999-04-14  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+1999-04-14  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel.c (biff_get_text): Remove platform dependance.
 	(biff_get_error_text): Changed type.
@@ -75,7 +75,7 @@
 	* ms-biff.h (BIFF_GETWORD): Patch from Morten Welinder to
 	improve GET<TYPE> macros.
 
-1999-04-14  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+1999-04-14  Michael Meeks  <michael@edenproject.org>
 
 	* ole.c (dump_escher): Fatal Escher cockup removed, makes
 	the problem look more complex and realistic.

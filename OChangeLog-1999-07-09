@@ -1,9 +1,7 @@
-1999-04-15  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+1999-04-15  Michael Meeks  <michael@edenproject.org>
 
 	* src/parser.y (value_dump): Added CellRange support
 	include expr.h
-
-1999-04-15  Michael Meeks  <michael@edenproject.org>
 
 	* src/fn-lookup.c (gnumeric_offset): Implemented OFFSET.
 
