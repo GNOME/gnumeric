@@ -248,7 +248,7 @@ gnm_dao_new (WorkbookControlGUI *wbcg, gchar *inplace_str)
 	gnm_expr_entry_set_flags (gdao->output_entry,
 				  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (gdao->output_entry),
-			  1, 2, 2, 3,
+			  2, 3, 3, 4,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
 	gnm_setup_label_atk (gdao->output_range,

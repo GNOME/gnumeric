@@ -97,7 +97,7 @@
 		  <property name="label" translatable="yes">Input _range:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
 		  <property name="xalign">0</property>
@@ -139,10 +139,10 @@
 	      <child>
 		<widget class="GtkLabel" id="label4">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Number of rows per _sample:</property>
+		  <property name="label" translatable="yes">Rows per _sample:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
-		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
 		  <property name="xalign">0</property>
@@ -174,7 +174,7 @@
 		  <property name="text" translatable="yes">1</property>
 		  <property name="has_frame">True</property>
 		  <property name="invisible_char" translatable="yes">*</property>
-		  <property name="activates_default">False</property>
+		  <property name="activates_default">True</property>
 		  <accessibility>
 		    <atkrelation target="label4" type="labelled-by"/>
 		  </accessibility>
@@ -243,9 +243,6 @@
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
 		      <property name="mnemonic_widget">alpha-entry</property>
-		      <accessibility>
-			<atkrelation target="alpha-entry" type="label-for"/>
-		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">0</property>
@@ -258,19 +255,16 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkEntry" id="alpha-entry">
+		    <widget class="GtkSpinButton" id="alpha-entry">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="editable">True</property>
-		      <property name="visibility">True</property>
-		      <property name="max_length">0</property>
-		      <property name="text" translatable="yes">0.05</property>
-		      <property name="has_frame">True</property>
-		      <property name="invisible_char" translatable="yes">*</property>
-		      <property name="activates_default">False</property>
-		      <accessibility>
-			<atkrelation target="label3" type="labelled-by"/>
-		      </accessibility>
+		      <property name="climb_rate">0.01</property>
+		      <property name="digits">3</property>
+		      <property name="numeric">True</property>
+		      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
+		      <property name="snap_to_ticks">False</property>
+		      <property name="wrap">False</property>
+		      <property name="adjustment">0.05 0 1 0.01 0.05 0.05</property>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">1</property>
@@ -366,7 +360,7 @@
 	  <property name="selectable">False</property>
 	  <property name="xalign">0.5</property>
 	  <property name="yalign">0.5</property>
-	  <property name="xpad">0</property>
+	  <property name="xpad">5</property>
 	  <property name="ypad">0</property>
 	</widget>
 	<packing>

@@ -1,5 +1,13 @@
 2003-12-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-analysis-tools.c 
+	(anova_two_factor_tool_update_sensitivity_cb): switch to spin button
+	(anova_two_factor_tool_ok_clicked_cb): ditto
+	* anova-two.glade: change GtkEntry to GtkSpinButton
+	* dao.glade: replace separators with headers
+
+2003-12-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* descriptive-stats.glade: add some missed keyboard accelerators
 	* dao.glade: ditto
 

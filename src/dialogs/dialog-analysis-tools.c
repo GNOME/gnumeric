@@ -2808,8 +2808,8 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &data->alpha,
-			      TRUE);
+	data->alpha = gtk_spin_button_get_value 
+		(GTK_SPIN_BUTTON (state->alpha_entry));
 	err = entry_to_int (GTK_ENTRY (state->replication_entry),
 			    &data->replication, TRUE);
 
@@ -2879,13 +2879,13 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
  * Update the dialog widgets sensitivity.
  * We cannot use tool_update_sensitivity_cb
  * since we are also considering whether in fact
- * an alpha and a replaication is given.
+ * an alpha and a replication is given.
  **/
 static void
 anova_two_factor_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 					     AnovaTwoFactorToolState *state)
 {
-	int replication, err_alpha, err_replication;
+	int replication, err_replication;
 	gnm_float alpha;
         GnmValue *input_range;
 
@@ -2902,11 +2902,11 @@ anova_two_factor_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		value_release (input_range);
 
 	/* Checking Alpha*/
-	err_alpha = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha,
-				    FALSE);
-	if (!(err_alpha == 0 && alpha > 0 && alpha < 1)) {
+	alpha = gtk_spin_button_get_value 
+		(GTK_SPIN_BUTTON (state->alpha_entry));
+	if (!(alpha > 0 && alpha < 1)) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
-				    _("The alpha value is invalid. It should "
+				    _("The alpha value should "
 				      "be a number between 0 and 1."));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;
