@@ -1,3 +1,8 @@
+2003-06-06  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-fixed-page.c (cb_col_event): Don't allow the user to
+	create more than SHEET_MAX_COLS columns.
+
 2003-06-05  Jody Goldberg <jody@gnome.org>
 
 	* dialog-plugin-manager.c (cb_pm_button_directory_add_clicked) : doh!

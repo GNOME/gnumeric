@@ -107,6 +107,16 @@ cb_col_event (GtkWidget *button,
 			PangoFontDescription *font_desc;
 			int dx, width;
 
+			if (data->fixed.renderdata->colcount >= SHEET_MAX_COLS) {
+				char *msg = g_strdup_printf
+					(_("You cannot have more than %d columns in "
+					   "this version of Gnumeric."),
+					 SHEET_MAX_COLS);
+				gnumeric_notice (data->wbcg, GTK_MESSAGE_ERROR, msg);
+				g_free (msg);
+				return TRUE;
+			}
+
 			if (col == 0)
 				colstart = 0;
 			else {
