@@ -1,3 +1,17 @@
+2000-02-29  Jon K Hellan  <hellan@acm.org>
+
+	* python.c: Great renaming:
+	convert_py_exception_to_string -> exception_to_string
+	convert_cell_ref_to_python     -> cell_ref_to_python
+	convert_range_to_python        -> range_to_python
+	convert_boolean_to_python      -> boolean_to_python
+	convert_value_to_python        -> value_to_python
+	convert_cell_ref_from_python   -> cell_ref_from_python
+	convert_range_from_python      -> range_from_python
+	convert_python_to_value        -> value_from_python
+	gnumeric_apply                 -> apply
+	gnumeric_register_function     -> register_function
+	
 2000-02-28  Jon K Hellan  <hellan@acm.org>
 
 	* python.c: GnumericError: Define

@@ -38,13 +38,13 @@ static PyObject *GnumericError;
 static EvalPosition const *eval_pos = NULL;
 
 /**
- * convert_py_exception_to_string
+ * exception_to_string
  *
  * Converts the current Python exception to a C string. Returns C string.
  * Caller must free it.
  */
 static char *
-convert_py_exception_to_string ()
+exception_to_string ()
 {
 	char *header = _("Python exception");
 	char *retval = header;
@@ -93,13 +93,13 @@ cleanup:
  */
 
 /**
- * convert_cell_ref_to_python
+ * cell_ref_to_python
  * @v   value union
  *
  * Converts a cell reference to Python. Returns python object.
  */
 static PyObject *
-convert_cell_ref_to_python (CellRef *cell)
+cell_ref_to_python (CellRef *cell)
 {
 	PyObject *mod, *klass = NULL, *ret = NULL;
 
@@ -120,13 +120,13 @@ cleanup:
 }
 
 /**
- * convert_range_to_python
+ * range_to_python
  * @v   value union
  *
  * Converts a cell range to Python. Returns python object.
  */
 static PyObject *
-convert_range_to_python (Value *v)
+range_to_python (Value *v)
 {
 	PyObject *mod, *klass = NULL, *ret = NULL;
 
@@ -140,8 +140,8 @@ convert_range_to_python (Value *v)
 
 	ret = PyObject_CallFunction
 		(klass, "O&O&",
-		 convert_cell_ref_to_python, &v->v.cell_range.cell_a,
-		 convert_cell_ref_to_python, &v->v.cell_range.cell_b);
+		 cell_ref_to_python, &v->v.cell_range.cell_a,
+		 cell_ref_to_python, &v->v.cell_range.cell_b);
 
 cleanup:
 	Py_XDECREF (klass);
@@ -149,7 +149,7 @@ cleanup:
 }
 
 /**
- * convert_boolean_to_python
+ * boolean_to_python
  * @v   value union
  *
  * Converts a boolean to Python. Returns python object.
@@ -157,7 +157,7 @@ cleanup:
  * be possible to convert back to Gnumeric boolean.
  */
 static PyObject *
-convert_boolean_to_python (Value *v)
+boolean_to_python (Value *v)
 {
 	PyObject * o;
 
@@ -167,18 +167,17 @@ convert_boolean_to_python (Value *v)
 }
 
 /**
- * convert_value_to_python
+ * value_to_python
  * @v   value union
  *
  * Converts a Gnumeric value to Python. Returns python object.
  *
  * VALUE_ERROR is not handled here. It is not possible to receive VALUE_ERROR
  * as a parameter to a function.  But a C function may return VALUE_ERROR. In
- * this case, the caller an exception is raised before convert_value_to_python
- * is called.
- */
+ * this case, the caller an exception is raised before value_to_python is
+ * called.  */
 static PyObject *
-convert_value_to_python (Value *v)
+value_to_python (Value *v)
 {
 	PyObject *o;
 
@@ -186,23 +185,20 @@ convert_value_to_python (Value *v)
 	case VALUE_INTEGER:
 		o = PyInt_FromLong(v->v.v_int);
 		break;
-
 	case VALUE_FLOAT:
 		o = PyFloat_FromDouble(v->v.v_float);
 		break;
-
 	case VALUE_STRING:
 		o = PyString_FromString(v->v.str->str);
 		break;
-
 	case VALUE_CELLRANGE:
-		o = convert_range_to_python(v);
+		o = range_to_python(v);
 		break;
 	case VALUE_EMPTY:
 		o = Py_None;
 		break;
 	case VALUE_BOOLEAN:	/* Sort of implemented */
-		o = convert_boolean_to_python (v);
+		o = boolean_to_python (v);
 		break;
 		/* The following aren't implemented yet */
 	case VALUE_ARRAY:
@@ -215,7 +211,7 @@ convert_value_to_python (Value *v)
 }
 
 /**
- * convert_cell_ref_from_python
+ * cell_ref_from_python
  * @o    Python object
  * @c    Cell reference
  *
@@ -224,7 +220,7 @@ convert_value_to_python (Value *v)
  * Used as a converter function by PyArg_ParseTuple.
  */
 static int
-convert_cell_ref_from_python (PyObject *o, CellRef *c)
+cell_ref_from_python (PyObject *o, CellRef *c)
 {
 	int ret = FALSE;
 	PyObject *column = NULL, *row = NULL;
@@ -242,11 +238,9 @@ convert_cell_ref_from_python (PyObject *o, CellRef *c)
 	row_relative = PyObject_GetAttrString (o, "row_relative");
 	if (PyErr_Occurred () || !PyInt_Check (row_relative))
 		goto cleanup;
-	/* sheet        = PyObject_GetAttrString (o, "sheet");
-	if (PyErr_Occurred () || !PyString_Check (sheet)) {
-		ret = -1;
-		goto cleanup;
-		} */
+	/* sheet        = PyObject_GetAttrString (o, "sheet"); */
+	/* if (PyErr_Occurred () || !PyString_Check (sheet) */
+	/*         goto cleanup; */
 	c->col = (int) PyInt_AsLong (column);
 	c->row = (int) PyInt_AsLong (row);
 	c->col_relative = (unsigned char) PyInt_AsLong (col_relative);
@@ -265,7 +259,7 @@ cleanup:
 }
 
 /**
- * convert_range_from_python
+ * range_from_python
  * @o    Python object
  * @v    Value union
  *
@@ -275,7 +269,7 @@ cleanup:
  * PyArg_ParseTuple. 
  */
 static int
-convert_range_from_python (PyObject *o, Value *v)
+range_from_python (PyObject *o, Value *v)
 {
 	int ret = FALSE;
 	PyObject *range = NULL;
@@ -288,10 +282,8 @@ convert_range_from_python (PyObject *o, Value *v)
 		goto cleanup;
 	/* Slightly abusing PyArg_ParseTuple */
 	if (!PyArg_ParseTuple (range, "O&O&",
-			       convert_cell_ref_from_python,
-			       &v->v.cell_range.cell_a,
-			       convert_cell_ref_from_python,
-			       &v->v.cell_range.cell_b))
+			       cell_ref_from_python, &v->v.cell_range.cell_a,
+			       cell_ref_from_python, &v->v.cell_range.cell_b))
 		goto cleanup;
 	ret = TRUE;
 	
@@ -302,13 +294,13 @@ cleanup:
 }
 
 /**
- * convert_python_to_value
+ * value_from_python
  * @o   Python object
  *
  * Converts a Python object to a Gnumeric value. Returns Gnumeric value.
  */
 static Value *
-convert_python_to_value (PyObject *o)
+value_from_python (PyObject *o)
 {
 	Value *v = g_new (Value, 1);
 	Value *ret = NULL;
@@ -345,14 +337,14 @@ convert_python_to_value (PyObject *o)
  		if (s && strcmp (s,
 				 GNUMERIC_DEFS_MODULE "." CELL_RANGE_CLASS)
 		    == 0) {
-			if (convert_range_from_python (o, v))
+			if (range_from_python (o, v) != FALSE)
 				ret = v;
 		}
 	}
 
 cleanup:
 	if (PyErr_Occurred ()) {
-		char *exc_string = convert_py_exception_to_string ();
+		char *exc_string = exception_to_string ();
 		v->type = VALUE_ERROR;
 		v->v.error.mesg = string_get (exc_string);
 		g_free (exc_string);
@@ -403,7 +395,7 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
 	args = PyTuple_New (min);
 	for (i = 0; i < min; i++) {
 		/* ref is stolen from us */
-		PyTuple_SetItem (args, i, convert_value_to_python (argv [i]));
+		PyTuple_SetItem (args, i, value_to_python (argv [i]));
 	}
 
 	old_eval_pos = eval_pos;
@@ -414,7 +406,7 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
 	eval_pos = old_eval_pos;
 
 	if (!result) {
-		exc_string = convert_py_exception_to_string ();
+		exc_string = exception_to_string ();
 		v = value_new_error (ei->pos, exc_string);
 		g_free (exc_string);
 		PyErr_Print ();	/* Traceback to stderr for now */
@@ -422,13 +414,13 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
 		return v;
 	}
 
-	v = convert_python_to_value (result);
+	v = value_from_python (result);
 	Py_DECREF (result);
 	return v;
 }
 
 /**
- * gnumeric_apply
+ * apply
  * @m        Dummy
  * @py_args  Argument tuple
  *
@@ -439,7 +431,7 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
  *      gnumeric.apply (string function_name, sequence arguments)
  */
 static PyObject *
-gnumeric_apply (PyObject *m, PyObject *py_args)
+apply (PyObject *m, PyObject *py_args)
 {
 	PyObject *seq = NULL, *item = NULL, *retval = NULL;
 	char *funcname;
@@ -465,7 +457,7 @@ gnumeric_apply (PyObject *m, PyObject *py_args)
 		if (item == NULL)
 			goto cleanup;
 		Py_DECREF (item);
-		values[i] = convert_python_to_value (item);
+		values[i] = value_from_python (item);
 	}
 	Py_INCREF (item);	/* Otherwise, we would decrement twice. */
 
@@ -475,7 +467,7 @@ gnumeric_apply (PyObject *m, PyObject *py_args)
 		retval = NULL;	
 		PyErr_SetString (GnumericError, v->v.error.mesg->str);
 	} else 
-		retval = convert_value_to_python (v);
+		retval = value_to_python (v);
 	
 cleanup:
 	Py_XDECREF (item);
@@ -484,7 +476,7 @@ cleanup:
 }
 
 /**
- * gnumeric_register_function
+ * register_function
  * @m        Dummy
  * @py_args  Argument tuple
  *
@@ -498,7 +490,7 @@ cleanup:
  *                                  function python_function)
  */
 static PyObject *
-gnumeric_register_function (PyObject *m, PyObject *py_args)
+register_function (PyObject *m, PyObject *py_args)
 {
 	FunctionCategory *cat;
 	FunctionDefinition *fndef;
@@ -536,8 +528,8 @@ gnumeric_register_function (PyObject *m, PyObject *py_args)
  * Method table.
  */
 static PyMethodDef gnumeric_funcs[] = {
-	{ "apply",             gnumeric_apply,             METH_VARARGS },
-	{ "register_function", gnumeric_register_function, METH_VARARGS },
+	{ "apply",             apply,             METH_VARARGS },
+	{ "register_function", register_function, METH_VARARGS },
 	{ NULL, NULL },
 };
 
@@ -600,7 +592,7 @@ init_plugin (CommandContext *context, PluginData * pd)
 	/* setup standard functions */
 	initgnumeric ();
 	if (PyErr_Occurred ()) {
-		exc_string = convert_py_exception_to_string ();
+		exc_string = exception_to_string ();
 		PyErr_Print (); /* Also do a full traceback to stderr */
 		gnumeric_error_plugin_problem (context, exc_string);
 		g_free (exc_string);
