@@ -13,6 +13,7 @@
 #include "sheet-control-gui.h"
 #include "gnumeric-canvas.h"
 #include "gnumeric-pane.h"
+#include "application.h"
 
 #include <gsf/gsf-impl-utils.h>
 #include <libfoocanvas/foo-canvas-pixbuf.h>
@@ -178,11 +179,13 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 			static int count = 0;
 			char *filename = g_strdup_printf ("unknown%d.%s",
 							  count++, soi->type);
+#if 0
 			FILE *file = fopen (filename, "w");
 			if (file != NULL) {
 				fwrite (soi->data, soi->data_len, 1, file);
 				fclose (file);
 			}
+#endif
 			g_free (filename);
 			soi->dumped = TRUE;
 		}
@@ -194,6 +197,9 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 		} else {
 			g_warning ("Unable to display image");
 		}
+
+		pixbuf = application_get_pixbuf ("unknown_image");
+		g_object_ref (pixbuf);
 	}
 
 	return pixbuf;

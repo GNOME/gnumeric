@@ -570,6 +570,7 @@ gnumeric_application_setup_pixbufs (GnumericApplication *app)
 		{ right_border, "right_border" },
 		{ top_border, "top_border" },
 		/* Stuff */
+		{ unknown_image, "unknown_image" },
 		{ gnumeric_splash, "gnumeric_splash" }
 	};
 	unsigned int ui;

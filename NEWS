@@ -120,6 +120,7 @@ Morten:
 	* Clean up style format code.
 	* Fix parsing of fractional constants.
 	* Improve progress display a bit.
+	* Show default image for types we don't recognize.
 
 --------------------------------------------------------------------------
 

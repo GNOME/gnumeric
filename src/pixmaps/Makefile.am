@@ -42,6 +42,7 @@ IMAGES = @STRIP_BEGIN@ 						\
 	expr_entry.png		\
 	\
 	gnumeric_splash.jpg	\
+	unknown_image.png	\
 	\
 	object_arrow_24.png 	\
 	object_ellipse_24.png 	\
@@ -207,6 +208,7 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_expr_entry				$(srcdir)/expr_entry.png			\
 	\
 	gnumeric_splash				$(srcdir)/gnumeric_splash.jpg			\
+	unknown_image				$(srcdir)/unknown_image.png			\
 	\
 	gnm_object_arrow_24			$(srcdir)/object_arrow_24.png			\
 	gnm_object_ellipse_24			$(srcdir)/object_ellipse_24.png			\
