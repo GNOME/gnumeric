@@ -3071,60 +3071,6 @@ validate_range_numeric_matrix (const EvalPosition *ep, Value * matrix,
 	return FALSE;
 }
 
-static int
-minverse(float_t *array, int cols, int rows)
-{
-        int     i, n, r;
-	float_t pivot;
-
-#define ARRAY(C,R) (*(array + (R) + (C) * rows))
-
-	/* Pivot top-down */
-	for (r=0; r<rows-1; r++) {
-	        /* Select pivot row */
-	        for (i = r; ARRAY(r, i) == 0; i++)
-		        if (i == rows)
-			        return 1;
-		if (i != r)
-		        for (n = 0; i<cols; n++) {
-			        float_t tmp = ARRAY(n, r);
-				ARRAY(n, r) = ARRAY(n, i);
-				ARRAY(n, i) = tmp;
-			}
-
-		for (i=r+1; i<rows; i++) {
-		        /* Calculate the pivot */
-		        pivot = -ARRAY(r, i) / ARRAY(r, r);
-
-			/* Add the pivot row */
-			for (n=r; n<cols; n++)
-			  ARRAY(n, i) += pivot * ARRAY(n, r);
-		}
-	}
-
-	/* Pivot bottom-up */
-	for (r=rows-1; r>0; r--) {
-	        for (i=r-1; i>=0; i--) {
-		        /* Calculate the pivot */
-		        pivot = -ARRAY(r, i) / ARRAY(r, r);
-
-			/* Add the pivot row */
-			for (n=0; n<cols; n++)
-			        ARRAY(n, i) += pivot * ARRAY(n, r);
-		}
-	}
-
-	for (r=0; r<rows; r++) {
-	        pivot = ARRAY(r, r);
-		for (i=0; i<cols; i++)
-		        ARRAY(i, r) /= pivot;
-	}
-
-#undef ARRAY
-
-        return 0;
-}
-
 static Value *
 gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 {
@@ -3134,7 +3080,7 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 	int	c, cols;
         Value   *res;
         Value   *values = argv[0];
-	float_t *matrix;
+	float_t *matrix, *inverse;
 
 	char const *error_string = NULL;
 
@@ -3147,23 +3093,22 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 	if (cols != rows || !rows || !cols)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	matrix = g_new (float_t, rows*cols*2);
+	matrix = g_new (float_t, rows*cols);
+	inverse = g_new (float_t, rows*cols);
 	for (c=0; c<cols; c++)
 	        for (r=0; r<rows; r++) {
 		        Value const * a =
 			      value_area_get_x_y (ep, values, c, r);
 		        *(matrix + r + c*cols) = value_get_as_float(a);
-			if (c == r)
-			        *(matrix + r + (c+cols)*rows) = 1;
-			else
-			        *(matrix + r + (c+cols)*rows) = 0;
 		}
 
-	if (minverse(matrix, cols*2, rows)) {
+	if (minverse(matrix, cols, inverse)) {
 	        g_free (matrix);
+	        g_free (inverse);
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 	}
 
+	g_free (matrix);
 	res = g_new (Value, 1);
 	res->type = VALUE_ARRAY;
 	res->v.array.x = cols;
@@ -3175,12 +3120,12 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 		for (r = 0; r < rows; ++r){
 			float_t tmp;
 
-			tmp = *(matrix + r + (c+cols)*rows);
+			tmp = *(inverse + r + c*rows);
 			res->v.array.vals[c][r] = value_new_float (tmp);
 		}
 	}
+	g_free (inverse);
 
-	g_free (matrix);
 	return res;
 }
 
@@ -3192,8 +3137,8 @@ static char *help_mmult = {
 
 	   "@DESCRIPTION="
 	   "MMULT function returns the matrix product of two arrays. The "
-	   "result is an array with the same number of rows as @array1 and the "
-	   "same number of columns as @array2. "
+	   "result is an array with the same number of rows as @array1 and "
+	   "the same number of columns as @array2. "
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -3206,11 +3151,12 @@ static Value *
 gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 {
 	EvalPosition const * const ep = ei->pos;
-	int	r, rows_a, rows_b, i;
+	int	r, rows_a, rows_b;
 	int	c, cols_a, cols_b;
         Value *res;
         Value *values_a = argv[0];
         Value *values_b = argv[1];
+	float_t *A, *B, *product;
 	char const *error_string = NULL;
 
 	if (validate_range_numeric_matrix (ep, values_a, &rows_a, &cols_a,
@@ -3230,22 +3176,35 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 	res->v.array.y = rows_a;
 	res->v.array.vals = g_new (Value **, cols_b);
 
-	for (c = 0; c < cols_b; ++c){
-		res->v.array.vals [c] = g_new (Value *, rows_a);
-		for (r = 0; r < rows_a; ++r){
-			/* TODO TODO : Use ints for integer only areas */
-			float_t tmp = 0.;
-			for (i = 0; i < cols_a; ++i){
-				Value const * a =
-				    value_area_get_x_y (ep, values_a, i, r);
-				Value const * b =
-				    value_area_get_x_y (ep, values_b, c, i);
-				tmp += value_get_as_float (a) *
-				    value_get_as_float (b);
-			}
-			res->v.array.vals[c][r] = value_new_float (tmp);
+	A = g_new (float_t, cols_a * rows_a);
+	B = g_new (float_t, cols_b * rows_b);
+	product = g_new (float_t, cols_a * rows_b);
+
+	for (c=0; c<cols_a; c++)
+	        for (r=0; r<rows_a; r++) {
+		        Value const * a =
+			     value_area_get_x_y (ep, values_a, c, r);
+		        A[r + c*rows_a] = value_get_as_float (a);
 		}
+
+	for (c=0; c<cols_b; c++)
+	        for (r=0; r<rows_b; r++) {
+		        Value const * b =
+			     value_area_get_x_y (ep, values_b, c, r);
+		        B[r + c*rows_b] = value_get_as_float (b);
+		}
+
+	mmult (A, B, cols_a, rows_a, cols_b, product);
+
+	for (c=0; c<cols_b; c++) {
+	        res->v.array.vals [c] = g_new (Value *, rows_a);
+	        for (r=0; r<rows_a; r++)
+		        res->v.array.vals[c][r] =
+			    value_new_float (product [r + c*rows_a]);
 	}
+	g_free (A);
+	g_free (B);
+	g_free (product);
 
 	return res;
 }
@@ -3271,74 +3230,6 @@ static char *help_mdeterm = {
 	   "\n"
 	   "@SEEALSO=MMULT, MINVERSE")
 };
-
-/* This function implements the LU-Factorization method for solving
- * matrix determinants.  At first the given matrix, A, is converted to
- * a product of a lower triangular matrix, L, and an upper triangluar
- * matrix, U, where A = L*U.  The lower triangular matrix, L, contains
- * ones along the main diagonal.
- * 
- * The determinant of the original matrix, A, is det(A)=det(L)*det(U).
- * The determinant of any triangular matrix is the product of the
- * elements along its main diagonal.  Since det(L) is always one, we
- * can simply write as follows: det(A) = det(U).  As you can see this
- * algorithm is quite efficient.
- *
- * (C) Copyright 1999 by Jukka-Pekka Iivonen <iivonen@iki.fi>
- **/
-static float_t
-mdeterm(float_t *A, int cols)
-{
-        int i, j, n;
-	float_t product, sum;
-	float_t *L, *U;
-
-#define ARRAY(A,C,R) (*((A) + (R) + (C) * cols))
-
-	L = g_new(float_t, cols*cols);
-	U = g_new(float_t, cols*cols);
-
-	/* Initialize the matrices with value zero, except fill the L's
-	 * main diagonal with ones */
-	for (i=0; i<cols; i++)
-	        for (n=0; n<cols; n++) {
-		        if (i==n)
-		                ARRAY(L, i, n) = 1;
-			else
-		                ARRAY(L, i, n) = 0;
-			ARRAY(U, i, n) = 0;
-		}
-
-	/* Determine L and U so that A=L*U */
-	for (n=0; n<cols; n++) {
-	        for (i=n; i<cols; i++) {
-		        sum = 0;
-			for (j=0; j<n; j++)
-			        sum += ARRAY(U, j, i) * ARRAY(L, n, j);
-			ARRAY(U, n, i) = ARRAY(A, n, i) - sum;
-		}
-
-		for (i=n+1; i<cols; i++) {
-		        sum = 0;
-			for (j=0; j<i-1; j++)
-			        sum += ARRAY(U, j, n) * ARRAY(L, i, j);
-			ARRAY(L, i, n) = (ARRAY(A, i, n) - sum) /
-			  ARRAY(U, n, n);
-		}
-	}
-
-	/* Calculate det(U) */
-	product = ARRAY(U, 0, 0);
-	for (i=1; i<cols; i++)
-	        product *= ARRAY(U, i, i);
-
-#undef ARRAY
-
-	g_free(L);
-	g_free(U);
-
-	return product;
-}
 
 static Value *
 gnumeric_mdeterm (FunctionEvalInfo *ei, Value **argv)

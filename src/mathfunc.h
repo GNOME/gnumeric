@@ -117,6 +117,14 @@ double random_normal      (void);
 
 /* ------------------------------------------------------------------------- */
 
+/* Matrix functions. */
+float_t mdeterm (float_t *A, int dim);
+int     minverse(float_t *A, int dim, float_t *res);
+void    mmult   (float_t *A, float_t *B, int cols_a, int rows_a, int cols_b,
+		 float_t *product);
+
+/* ------------------------------------------------------------------------- */
+
 /* Misc. */
 float_t     gpow10                 (int n);
 int         gcd                    (int a, int b);

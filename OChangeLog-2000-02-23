@@ -1,3 +1,8 @@
+2000-02-06  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/mathfunc.[ch], src/functions/fn-math.c: Moved mdeterm, mmult
+ 	and minverse to mathfunc.c.
+
 2000-02-07  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/dialogs/Makefile.am (glade_msgs): Add new glade.h files
