@@ -30,9 +30,9 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-void dif_file_open (FileOpener const *fo, IOContext *io_context,
+void dif_file_open (GnumFileOpener const *fo, IOContext *io_context,
                     WorkbookView *wb_view, char const *filename);
-void dif_file_save (FileSaver const *fs, IOContext *io_context,
+void dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
                     WorkbookView *wb_view, const gchar *file_name);
 
 typedef struct {
@@ -249,7 +249,7 @@ g_warning("DIF SUCCESS");
 #endif
 
 void
-dif_file_open (FileOpener const *fo, IOContext *io_context,
+dif_file_open (GnumFileOpener const *fo, IOContext *io_context,
                WorkbookView *wb_view, char const *filename)
 {
 	int len;
@@ -320,7 +320,7 @@ dif_write_cell (FILE *f, Cell const *cell)
  * write every sheet of the workbook to a DIF format file
  */
 void
-dif_file_save (FileSaver const *fs, IOContext *io_context,
+dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
                WorkbookView *wb_view, const gchar *file_name)
 {
 	Workbook *wb = wb_view_workbook (wb_view);

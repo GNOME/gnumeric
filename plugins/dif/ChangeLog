@@ -1,3 +1,11 @@
+2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* dif.c (dif_file_open, dif_file_save):
+	s/FileOpener/GnumFileOpener/
+	s/FileSaver/GnumFileSaver/
+
+	* plugin.xml (<service>): Register only as importer.
+
 2001-05-20  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.65

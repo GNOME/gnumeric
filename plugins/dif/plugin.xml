@@ -5,7 +5,8 @@
 		<attribute name="module_file" value="dif.so"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="dif" priority="1" probe="FALSE">
+		<service type="file_opener" id="dif" priority="1" probe="FALSE"
+		         open="FALSE" import="TRUE">
 			<information description="Data Interchange Format (*.dif) file format"/>
 			<save_info saver_id="dif" format_level="manual"/>
 		</service>
