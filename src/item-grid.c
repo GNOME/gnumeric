@@ -58,16 +58,10 @@ item_grid_realize (GnomeCanvasItem *item)
 	item_grid->fill_gc = gdk_gc_new (window);
 	item_grid->gc = gdk_gc_new (window);
 	
-	gdk_gc_set_line_attributes (gc, 1, GDK_LINE_SOLID,
-				    GDK_CAP_PROJECTING, GDK_JOIN_MITER);
-
 	/* Allocate the default colors */
 	item_grid->background = gs_white;
 	item_grid->grid_color = gs_light_gray;
 	item_grid->default_color = gs_black;
-	
-	gdk_gc_set_foreground (gc, &item_grid->grid_color);
-	gdk_gc_set_background (gc, &item_grid->background);
 	
 	gdk_gc_set_foreground (item_grid->fill_gc, &item_grid->background);
 	gdk_gc_set_background (item_grid->fill_gc, &item_grid->grid_color);

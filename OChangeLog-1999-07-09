@@ -1,3 +1,8 @@
+1998-11-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-grid.c (item_grid_realize): Removed bogus calls to
+	invalid gc.
+
 1998-11-24  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* src/item-grid.c (item_grid_unrealize): Unref all the item_grid's GCs.
