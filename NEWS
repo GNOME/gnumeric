@@ -49,9 +49,26 @@ Jody:
 	* Handle freezing when top or left is non 0
 	http://bugzilla.gnome.org/show_bug.cgi?id=132448
 	* Silly crash fix
+	http://bugzilla.gnome.org/show_bug.cgi?id=131933
+	* Handle mismatched locales with decimal pt == thousands sep
+	http://bugzilla.gnome.org/show_bug.cgi?id=132060
+	* update axis labels when a plot changes a source
+	http://bugzilla.gnome.org/show_bug.cgi?id=125886
+	* Data points define the axis, not the number of labels
+	http://bugzilla.gnome.org/show_bug.cgi?id=132390
+	* Fix crash when updating chart style combos
+	http://bugzilla.gnome.org/show_bug.cgi?id=132017
+	* Support double underline when importing from applix
+	* Fix our exported xls with macros with named sheets
+	* Use theme colours in plot type selector
+	* New about box
+	* Reorg the text exporter
 
 John Gill:
 	* Tool tips for the sort dialog.
+
+Michael Devine:
+	* Radar plots.
 
 Morten:
 	* Clean out work-arounds for old GTK+.

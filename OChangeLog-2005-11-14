@@ -1,3 +1,79 @@
+2004-02-21  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=134627
+	* src/workbook-view.c (wb_view_selection_desc) : Display name of edit
+	  position after releasing Shift key, not the top left
+
+	* src/workbook-control-gui.c (cb_wbcg_drag_data_received) : disable
+	  the gnome-vfs portions.  They did not work anyway.  We can probably
+	  just #ifdef it in the future, I can't see an easy way to put that into
+	  a plugin.
+
+	* src/wbc-gtk.c (cb_font_name_changed) : quick and dirty enabling.
+	(cb_font_size_changed) : ditto.
+
+	* src/stf.c (stf_write_workbook) : remove the pointless wrapping of a
+	  pointer and just return the result directly.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=97216
+	* src/sheet-control-gui.c (scg_mode_create_object) : Go back to the
+	  primary sheet when creating an object
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=131588
+	* src/rangefunc.c (range_sum) : use long double if it is available
+
+	* src/mstyle.c (mstyle_new_default) : remove the gconf usage it did
+	  not belong here.
+	* src/style.c (font_init) : ditto.
+
+	* src/normal-args.c : deleted. content moved
+
+	* src/main-application.c : Move the arg handling into here, and #ifdef
+	  it rather than using external files.  It makes it easier to read.
+	  For the non gnome case we need to manually add gtk deps.  Now that
+	  we're not so dependent on gnome we can do more magic and move to a
+	  more abi-style approach with --convert and abi-commands in place of
+	  ssconvert
+
+	* src/libgnumeric.h : drop the arg handler stubs
+
+	* src/libgnumeric.c (gnm_shutdown) : gconf shutdown is handled
+	  internally now.
+
+	* src/hlink.c (gnm_hlink_url_activate) : conditionalize gnome depend.
+
+	* src/gutils.c (gnumeric_sys_data_dir) : Use g_build_path, just to be
+	  pedantic.
+	(gnumeric_sys_lib_dir) : ditto.
+
+	* src/gui-util.c (gnumeric_dialog_run) : Don't destroy the dialog
+	  until a stock response comes in (useful for druids)
+	(gnumeric_help_display) : conditionalize gnome.
+	(gnumeric_icondir) : new.
+	(gnumeric_load_image) : use it.
+	(gnumeric_load_pixbuf) : use it.
+
+	* src/gnumeric-gconf.c (gnm_app_get_gconf_client) : moved to here.
+	(gnm_conf_init_essential) : handle the font stuff here.
+
+	* src/gnumeric-gconf-priv.h : Clean up the default font keys and move
+	  them here.
+
+	* src/application.c : remove the gconf_client
+	(gnm_app_get_gconf_client) : move for now.
+	(gnm_app_release_gconf_client) : delete.
+
+	* src/Makefile.am : Further down the path of making gnome optional
+
+	* icons/Makefile.am : Add the new about box image, dunno where/how to
+	  use it yet.
+
+	* configure.in : corba is dependent on gnome for now.
+	  Move libgnome* into the gnome specific libs
+	  Add the new radar plot engine
+
+	* src/wbc-gtk.c (cb_show_menu_tip) : fix leak.
+
 2004-02-20  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-util.c: Don't include preview-file-selector.h.

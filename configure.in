@@ -43,7 +43,6 @@ Please use another compiler, for example a gcc 2.95 series compiler.])
   fi
 fi
 
-# remove libgnome soon
 gnumeric_reqs="
 glib-2.0		>= 2.3.2
 gobject-2.0		>= 2.3.2
@@ -53,11 +52,10 @@ gtk+-2.0		>= 2.3.2
 libxml-2.0		>= 2.4.12
 libglade-2.0		>= 2.0.0
 libgnomecanvas-2.0	>= 2.0.0
-libgnome-2.0		>= 2.0.0
-libgnomeui-2.0		>= 2.0.0
 libgnomeprint-2.2	>= 2.5.2
 libgnomeprintui-2.2	>= 2.5.2
 libart-2.0		>= 2.3.11
+gconf-2.0
 "
 
 dnl ************************************
@@ -720,7 +718,7 @@ with_corba=false
 PKG_CHECK_MODULES(CORBA_LIBS,  [ORBit-2.0 >= 2.4.2
 				libbonobo-2.0 >= 2.0.0
 				bonobo-activation-2.0 >= 1.0.2
-				],[with_corba=true])
+				],[with_corba=$gnumeric_with_gnome])
 
 AM_CONDITIONAL(WITH_CORBA, $with_corba)
 if test "x$with_corba" = "xtrue" ; then
@@ -756,6 +754,7 @@ src/gnumeric-paths.sh
 src/pixmaps/Makefile
 src/widgets/Makefile
 src/tools/Makefile
+src/cut-n-paste-code/goffice/graph/plugins/plot_radar/Makefile
 src/tools/solver/Makefile
 src/tools/solver/glpk/Makefile
 src/tools/solver/glpk/source/Makefile
