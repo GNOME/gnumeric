@@ -393,22 +393,6 @@ range_harmonic_mean (const gnum_float *xs, int n, gnum_float *res)
 		return 1;
 }
 
-/* Product.  */
-int
-range_product (const gnum_float *xs, int n, gnum_float *res)
-{
-	gnum_float product = 1;
-	int i;
-
-	/* FIXME: we should work harder at avoiding
-	   overflow here.  */
-	for (i = 0; i < n; i++) {
-		product *= xs[i];
-	}
-	*res = product;
-	return 0;
-}
-
 /* Geometric mean of positive numbers.  */
 int
 range_geometric_mean (const gnum_float *xs, int n, gnum_float *res)
@@ -430,6 +414,57 @@ range_geometric_mean (const gnum_float *xs, int n, gnum_float *res)
 		return 1;
 }
 
+
+/* Product.  */
+int
+range_product (const gnum_float *xs, int n, gnum_float *res)
+{
+	gnum_float product = 1;
+	int i;
+
+	/* FIXME: we should work harder at avoiding overflow here.  */
+	for (i = 0; i < n; i++) {
+		product *= xs[i];
+	}
+	*res = product;
+	return 0;
+}
+
+int
+range_multinomial (const gnum_float *xs, int n, gnum_float *res)
+{
+	gnum_float result = 1;
+	int sum = 0;
+	int i;
+
+	for (i = 0; i < n; i++) {
+		gnum_float x = xs[i];
+		int xi;
+
+		if (x < 0)
+			return 1;
+
+		xi = (int)x;
+		if (sum == 0 || xi == 0)
+			; /* Nothing.  */
+		else if (xi < 20) {
+			int j;
+			int f = sum + xi;
+
+			result *= f--;
+			for (j = 2; j <= xi; j++)
+				result = result * f-- / j;
+		} else {
+			/* Same as above, only faster.  */
+			result *= combin (sum + xi, xi);
+		}
+
+		sum += xi;
+	}
+
+	*res = result;
+	return 0;
+}
 
 int
 range_covar (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)

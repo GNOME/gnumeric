@@ -25,6 +25,11 @@ Release Critical
 
     - 57372
 
+    - The evolution check is broken.  We should check for "idl/Evolution-Composer.h"
+      because we use it in workbook-control-gui.c.  Moreover, the idl check currently
+      in configure.in should be run-time, not compile time.
+
+
 Pending Patches
 ---------------
 

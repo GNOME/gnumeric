@@ -1,3 +1,7 @@
+2001-07-12  Morten Welinder  <terra@diku.dk>
+
+	* fn-math.c (gnumeric_multinomial): Cleanup.
+
 2001-07-07  Morten Welinder  <terra@diku.dk>
 
 	* fn-information.c (gnumeric_expression, help_expression): Moved

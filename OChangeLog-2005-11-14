@@ -1,3 +1,9 @@
+2001-07-12  Morten Welinder  <terra@diku.dk>
+
+	* src/mathfunc.c (range_multinomial): New function.
+
+	* configure.in (evolution): Fix check, but see BUGS.
+
 2001-07-12  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/gnumeric-pane.c (gnumeric_pane_set_bounds): Kill warning.

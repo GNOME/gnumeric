@@ -40,6 +40,7 @@ double gnumeric_fake_trunc (double x);
 
 int range_sum (const gnum_float *xs, int n, gnum_float *res);
 int range_product (const gnum_float *xs, int n, gnum_float *res);
+int range_multinomial (const gnum_float *xs, int n, gnum_float *res);
 
 int range_sumsq (const gnum_float *xs, int n, gnum_float *res);
 int range_avedev (const gnum_float *xs, int n, gnum_float *res);

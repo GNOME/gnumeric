@@ -1551,47 +1551,16 @@ static char *help_multinomial = {
 	   "@SEEALSO=SUM")
 };
 
-typedef struct {
-	guint32 num;
-	int     sum;
-        int     product;
-} math_multinomial_t;
-
-static Value *
-callback_function_multinomial (const EvalPos *ep, Value *value,
-			       void *closure)
-{
-	math_multinomial_t *mm = closure;
-
-	switch (value->type){
-	case VALUE_INTEGER:
-	        mm->product *= fact(value->v_int.val);
-		mm->sum += value->v_int.val;
-		mm->num++;
-		break;
-	case VALUE_EMPTY:
-	default:
-		return value_terminate();
-	}
-	return NULL;
-}
 
 static Value *
 gnumeric_multinomial (FunctionEvalInfo *ei, GList *nodes)
 {
-        math_multinomial_t p;
-
-	p.num = 0;
-	p.sum = 0;
-	p.product = 1;
-
-	if (function_iterate_argument_values (ei->pos,
-					      callback_function_multinomial,
-					      &p, nodes,
-					      TRUE, TRUE) != NULL)
-	        return value_new_error (ei->pos, gnumeric_err_VALUE);
-
-	return value_new_float (fact(p.sum) / p.product);
+	return float_range_function (nodes, ei,
+				     range_multinomial,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -1641,7 +1610,7 @@ static char *help_g_product = {
 	   "@DESCRIPTION="
 	   "PRODUCT returns the product of all the values and cells "
 	   "referenced in the argument list.  Empty cells are ignored "
-	   "and the empty product in 1."
+	   "and the empty product is 1."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "G_PRODUCT(2,5,9) equals 90.\n"
