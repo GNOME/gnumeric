@@ -1,3 +1,9 @@
+2004-07-30  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (cb_add_menus_toolbars): Plug leaks.
+
+	* src/file.c (gnm_file_saver_unregister): First use, then free.
+
 2004-07-30  Jon K Hellan  <hellan@acm.org>
 
 	* src/command-context.c (format_message): Strange things happen if

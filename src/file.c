@@ -760,8 +760,8 @@ gnm_file_saver_unregister (GnmFileSaver *fs)
 	for (l = default_file_saver_list; l != NULL; l = l->next) {
 		if (((DefaultFileSaver *) l->data)->saver == fs) {
 			default_file_saver_list = g_list_remove_link (default_file_saver_list, l);
-			g_list_free_1 (l);
 			g_free (l->data);
+			g_list_free_1 (l);
 			break;
 		}
 	}

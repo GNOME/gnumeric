@@ -1128,6 +1128,9 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 			toggle_name, toggle_name, GTK_UI_MANAGER_AUTO, FALSE);
 		g_object_set_data (G_OBJECT (box), "toggle_action",
 			gtk_action_group_get_action (gtk->toolbar.actions, toggle_name));
+
+		g_free (tooltip);
+		g_free (toggle_name);
 	} else
 		gtk_box_pack_start (GTK_BOX (gtk->menu_zone), w, FALSE, TRUE, 0);
 	gtk_widget_show_all (w);
