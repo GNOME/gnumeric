@@ -1,5 +1,10 @@
 1999-10-24  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/mstyle.c (MStyleElement): Make font.size float + shrink enums.
+	Add standard header.
+
+1999-10-24  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/sheet-style.c (sheet_style_attach): kill redundant style_ref.
 
 	* src/xml-io.c (xml_write_style): Use default_back instead of _fore for

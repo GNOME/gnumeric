@@ -1,3 +1,9 @@
+/*
+ * MStyle.c: The guts of the style engine.
+ *
+ * Author:
+ *   Michael Meeks <mmeeks@gnu.org>
+ */
 #include <config.h>
 #include <gnome.h>
 #include <string.h>
@@ -50,12 +56,12 @@ struct _MStyleElement {
 			String   *name;
 			gboolean  bold;
 			gboolean  italic;
-			gdouble   size;
+			float     size;
 		}                font;
 		StyleFormat     *format;
 		union {
-			StyleVAlignFlags v;
-			StyleHAlignFlags h;
+			guint16   v;
+			guint16   h;
 		}                align;
 		StyleOrientation orientation;
 		gboolean         fit_in_cell;

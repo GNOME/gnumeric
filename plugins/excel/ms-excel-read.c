@@ -1082,6 +1082,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 
 	/* Set the cache */
 	xf->mstyle = mstyle;
+	mstyle_ref (mstyle);
 
 	return mstyle;
 }
