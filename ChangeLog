@@ -1,3 +1,9 @@
+2001-12-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+	* src/cellspan.c (cellspan_is_empty) : handle empty but defined 
+	  cells (#66658)
+	(cell_calc_span) : don't span empty cells (#66658)
+
+	
 2001-12-13  Jody Goldberg <jody@gnome.org>
 
 	s/gnome-xml/libxml/

@@ -177,7 +177,8 @@ cellspan_is_empty (int col, ColRowInfo const *ri, Cell const *ok_span_cell)
 	 * existing spans continue to flow through, but never get removed
 	 * because we don't respan expression results.
 	 */
-	return (tmp == NULL || tmp->value == NULL);
+	return (tmp == NULL || tmp->value == NULL || 
+		(tmp->value->type == VALUE_EMPTY && !cell_has_expr(tmp)));
 }
 
 /*
@@ -229,6 +230,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		indented_w += cell_rendered_offset (cell);
 
 	if (cell_has_expr (cell) ||
+	    cell_is_blank (cell) ||
 	    !cell->col_info->visible ||
 	    ((indented_w <= COL_INTERNAL_WIDTH (cell->col_info)) &&
 	     align != HALIGN_CENTER_ACROSS_SELECTION) ||
