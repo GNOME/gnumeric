@@ -5,6 +5,10 @@ and longer term bugs.
 Release Critical
 ----------------
 
+- We need a better error message when the file format is not understood.
+  This happens when old gnumerics read new files, so getting this fix
+  out there will take some time.
+
 Long term breakage
 ------------------
 - clipboard : fix duality of PASTE_FORMULAS vs PASTE_VALUES, add PASTE_COMMENT
