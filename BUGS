@@ -15,22 +15,6 @@ Release Critical
 Long term breakage
 ------------------
 
-- Auto-format leaks.
-
-         MLK: 12 bytes leaked at 0xcbe4b8
-               g_malloc       [gmem.c:177]
-               gdk_color_context_get_pixel [gdkcc.c:821]
-               e_color_alloc  [e-colors.c:27]
-               style_color_new [style-color.c:52]
-               xml_get_color_value [xml-io.c:572]
-               xml_read_style [xml-io.c:1489]
-               xml_read_format_template_member [xml-io-autoft.c:312]
-               xml_read_format_template_members [xml-io-autoft.c:391]
-               gnumeric_xml_read_format_template [xml-io-autoft.c:446]
-               format_template_new_from_file [format-template.c:644]
-               category_get_templates_list [file-autoft.c:140]
-               category_group_get_templates_list [file-autoft.c:364]
-
 - Styles
     - improve uniform_get to handle full sheet more quickly.
 
