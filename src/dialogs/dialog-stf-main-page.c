@@ -165,7 +165,7 @@ main_page_trim_menu_deactivate (__attribute__((unused)) GtkMenu *menu,
 {
 	MainInfo_t *info = data->main_info;
 
-	switch (gnumeric_option_menu_get_selected_index (info->main_trim)) {
+	switch (gtk_option_menu_get_history (info->main_trim)) {
 	case 0 : data->trim = (TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT); break;
 	case 1 : data->trim = TRIM_TYPE_NEVER; break;
 	case 2 : data->trim = TRIM_TYPE_LEFT; break;

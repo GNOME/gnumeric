@@ -1,0 +1,443 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
+<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
+
+<glade-interface>
+
+<widget class="GtkDialog" id="dialog">
+  <property name="visible">True</property>
+  <property name="title" translatable="yes">Gnumeric : AutoFilter</property>
+  <property name="type">GTK_WINDOW_TOPLEVEL</property>
+  <property name="window_position">GTK_WIN_POS_MOUSE</property>
+  <property name="modal">False</property>
+  <property name="resizable">True</property>
+  <property name="destroy_with_parent">False</property>
+  <property name="has_separator">True</property>
+
+  <child internal-child="vbox">
+    <widget class="GtkVBox" id="dialog-vbox2">
+      <property name="visible">True</property>
+      <property name="homogeneous">False</property>
+      <property name="spacing">0</property>
+
+      <child internal-child="action_area">
+	<widget class="GtkHButtonBox" id="dialog-action_area2">
+	  <property name="visible">True</property>
+	  <property name="layout_style">GTK_BUTTONBOX_END</property>
+
+	  <child>
+	    <widget class="GtkButton" id="help_button">
+	      <property name="visible">True</property>
+	      <property name="can_default">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="label">gtk-help</property>
+	      <property name="use_stock">True</property>
+	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="response_id">-11</property>
+	    </widget>
+	  </child>
+
+	  <child>
+	    <widget class="GtkButton" id="cancel_button">
+	      <property name="visible">True</property>
+	      <property name="can_default">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="label">gtk-cancel</property>
+	      <property name="use_stock">True</property>
+	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="response_id">-6</property>
+	    </widget>
+	  </child>
+
+	  <child>
+	    <widget class="GtkButton" id="ok_button">
+	      <property name="visible">True</property>
+	      <property name="can_default">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="label">gtk-ok</property>
+	      <property name="use_stock">True</property>
+	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="response_id">-5</property>
+	    </widget>
+	  </child>
+	</widget>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">False</property>
+	  <property name="fill">True</property>
+	  <property name="pack_type">GTK_PACK_END</property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkTable" id="table2">
+	  <property name="visible">True</property>
+	  <property name="n_rows">6</property>
+	  <property name="n_columns">4</property>
+	  <property name="homogeneous">False</property>
+	  <property name="row_spacing">0</property>
+	  <property name="column_spacing">0</property>
+
+	  <child>
+	    <widget class="GtkOptionMenu" id="optionmenu3">
+	      <property name="visible">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="history">0</property>
+
+	      <child>
+		<widget class="GtkMenu" id="menu3">
+
+		  <child>
+		    <widget class="GtkMenuItem" id="unused">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes"> </property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_unused_activate" last_modification_time="Wed, 04 Dec 2002 16:33:53 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="equals1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">equals</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_equals1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="does_not_equal1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">does not equal</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_does_not_equal1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="is_greater_than1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">is greater than</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_is_greater_than1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="is_greater_than_or_equal_to1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">is greater than or equal to</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_is_greater_than_or_equal_to1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="is_less_than1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">is less than</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_is_less_than1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="is_less_than_or_equal_to1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">is less than or equal to</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_is_less_than_or_equal_to1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="begins_with1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">begins with</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_begins_with1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="does_not_begin_with1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">does not begin with</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_does_not_begin_with1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="ends_with1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">ends with</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_ends_with1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="does_not_end_with1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">does not end with</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_does_not_end_with1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="contains1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">contains</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_contains1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="does_not_contain1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">does not contain</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_does_not_contain1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+		</widget>
+	      </child>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">1</property>
+	      <property name="right_attach">2</property>
+	      <property name="top_attach">1</property>
+	      <property name="bottom_attach">2</property>
+	      <property name="x_options">fill</property>
+	      <property name="y_options"></property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkOptionMenu" id="optionmenu4">
+	      <property name="visible">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="history">0</property>
+
+	      <child>
+		<widget class="GtkMenu" id="menu4">
+
+		  <child>
+		    <widget class="GtkMenuItem" id="menuitem1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes"> </property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_unused_activate" last_modification_time="Wed, 04 Dec 2002 16:33:53 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="menuitem2">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">equals</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_equals1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="menuitem3">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">does not equal</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_does_not_equal1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="menuitem4">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">is greater than</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_is_greater_than1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="menuitem5">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">is greater than or equal to</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_is_greater_than_or_equal_to1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="menuitem6">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">is less than</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_is_less_than1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="menuitem7">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">is less than or equal to</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_is_less_than_or_equal_to1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="menuitem8">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">begins with</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_begins_with1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="menuitem9">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">does not begin with</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_does_not_begin_with1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="menuitem10">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">ends with</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_ends_with1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="menuitem11">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">does not end with</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_does_not_end_with1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="menuitem12">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">contains</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_contains1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="menuitem13">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">does not contain</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="on_does_not_contain1_activate" last_modification_time="Wed, 04 Dec 2002 16:32:58 GMT"/>
+		    </widget>
+		  </child>
+		</widget>
+	      </child>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">1</property>
+	      <property name="right_attach">2</property>
+	      <property name="top_attach">3</property>
+	      <property name="bottom_attach">4</property>
+	      <property name="x_options">fill</property>
+	      <property name="y_options"></property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkLabel" id="label2">
+	      <property name="visible">True</property>
+	      <property name="label" translatable="yes">Show rows where:</property>
+	      <property name="use_underline">False</property>
+	      <property name="use_markup">False</property>
+	      <property name="justify">GTK_JUSTIFY_LEFT</property>
+	      <property name="wrap">False</property>
+	      <property name="selectable">False</property>
+	      <property name="xalign">0</property>
+	      <property name="yalign">0.5</property>
+	      <property name="xpad">5</property>
+	      <property name="ypad">5</property>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">0</property>
+	      <property name="right_attach">4</property>
+	      <property name="top_attach">0</property>
+	      <property name="bottom_attach">1</property>
+	      <property name="x_options">fill</property>
+	      <property name="y_options"></property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkHBox" id="hbox2">
+	      <property name="visible">True</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">0</property>
+
+	      <child>
+		<widget class="GtkRadioButton" id="radiobutton1">
+		  <property name="visible">True</property>
+		  <property name="can_focus">True</property>
+		  <property name="label" translatable="yes">_And</property>
+		  <property name="use_underline">True</property>
+		  <property name="relief">GTK_RELIEF_NORMAL</property>
+		  <property name="active">False</property>
+		  <property name="inconsistent">False</property>
+		  <property name="draw_indicator">True</property>
+		</widget>
+		<packing>
+		  <property name="padding">10</property>
+		  <property name="expand">False</property>
+		  <property name="fill">False</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkRadioButton" id="radiobutton2">
+		  <property name="visible">True</property>
+		  <property name="can_focus">True</property>
+		  <property name="label" translatable="yes">_Or</property>
+		  <property name="use_underline">True</property>
+		  <property name="relief">GTK_RELIEF_NORMAL</property>
+		  <property name="active">False</property>
+		  <property name="inconsistent">False</property>
+		  <property name="draw_indicator">True</property>
+		  <property name="group">radiobutton1</property>
+		</widget>
+		<packing>
+		  <property name="padding">10</property>
+		  <property name="expand">False</property>
+		  <property name="fill">False</property>
+		</packing>
+	      </child>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">1</property>
+	      <property name="right_attach">4</property>
+	      <property name="top_attach">2</property>
+	      <property name="bottom_attach">3</property>
+	      <property name="y_padding">7</property>
+	      <property name="x_options">fill</property>
+	    </packing>
+	  </child>
+	</widget>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">True</property>
+	  <property name="fill">True</property>
+	</packing>
+      </child>
+    </widget>
+  </child>
+</widget>
+
+</glade-interface>

@@ -121,6 +121,7 @@ typedef struct _FormatTemplate          FormatTemplate;
 typedef struct _Validation              Validation;
 
 typedef struct _GnmFilter		GnmFilter;
+typedef struct _GnmFilterCondition	GnmFilterCondition;
 
 typedef struct _GnmGraph		GnmGraph;
 typedef struct _GnmGraphPlot		GnmGraphPlot;

@@ -1,3 +1,7 @@
+2002-12-05  Jody Goldberg <jody@gnome.org>
+
+	* POTFILES.in (schemas) : add the autofilter dialogs
+
 2002-12-05  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.

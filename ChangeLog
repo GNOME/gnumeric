@@ -1,5 +1,28 @@
 2002-12-04  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control-gui.c (wbcg_menu_state_update) : link filter
+	  state to 'show all' state.
+
+	* src/value.c (value_cmp_reverse) : new.
+
+	* src/xml-io.c (xml_write_sheet_filters) : new.
+	(xml_sheet_write) : Used here.
+	(xml_read_sheet_filters) : new.
+	(xml_sheet_read) : Used here.
+
+	* src/gui-util.c (gnumeric_option_menu_get_selected_index) : delete.
+
+	* src/sheet-filter.c (cb_filter_find_minmax) : new.
+	(cb_hide_the_rest) : new.
+	(filter_field_apply) : support top/bottom N items.
+	(cb_filter_button_release) : connect up the dialog stubs.
+
+2002-11-18  Fernando Herrera <fherrera@onirica.com>
+
+	* gnumeric.desktop.in: add X-GNOME-BUGZILLA stuff
+
+2002-12-04  Jody Goldberg <jody@gnome.org>
+
 	* src/expr.c (gnm_expr_as_string) : Add a currently useless
 	  conventions argument for future use.
 

@@ -232,7 +232,7 @@ gnumeric_color_init (void)
 	e_color_alloc_name (NULL, "gray20",  &gs_dark_gray);
 	e_color_alloc_name (NULL, "red",     &gs_red);
 	e_color_alloc_name (NULL, "lavender",&gs_lavender);
-	e_color_alloc_name (NULL, "DarkSeaGreen",&gs_green);
+	e_color_alloc_name (NULL, "DarkOliveGreen",&gs_green);
 
 	style_color_hash  = g_hash_table_new (color_hash,
 					      (GEqualFunc) style_color_equal);

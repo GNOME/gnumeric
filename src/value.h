@@ -119,6 +119,7 @@ gnum_float   value_diff		   (Value const *a, Value const *b);
 ValueCompare value_compare         (Value const *a, Value const *b,
 				    gboolean case_sensitive);
 int	     value_cmp		   (void const *ptr_a, void const *ptr_b);
+int	     value_cmp_reverse	   (void const *ptr_a, void const *ptr_b);
 gint	     value_equal	   (Value const *a, Value const *b);
 guint        value_hash		   (Value const *v);
 

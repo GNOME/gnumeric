@@ -155,7 +155,7 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	}
 
 	fo = g_list_nth_data (openers,
-			      gnumeric_option_menu_get_selected_index (omenu));
+			      gtk_option_menu_get_history (omenu));
 	
 	file_name = gtk_file_selection_get_filename (fsel);
 	gui_file_read (wbcg, file_name, fo);
@@ -322,7 +322,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 
 	/* Show file selector */
 	if (gnumeric_dialog_file_selection (wbcg, fsel)) {
-		fs = g_list_nth_data (savers, gnumeric_option_menu_get_selected_index (omenu));
+		fs = g_list_nth_data (savers, gtk_option_menu_get_history (omenu));
 		if (fs != NULL) {
 			success = do_save_as (wbcg, wb_view, fs,
 			                      gtk_file_selection_get_filename (fsel));
@@ -397,7 +397,7 @@ ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	switch (gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog))) {
 	case GTK_RESPONSE_OK: /* Ok */
 		fs = g_list_nth_data (savers,
-			gnumeric_option_menu_get_selected_index (omenu));
+			gtk_option_menu_get_history (omenu));
 		break;
 	default: /* Cancel */
 		fs = NULL;

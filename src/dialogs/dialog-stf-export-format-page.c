@@ -47,7 +47,7 @@ static void
 sheet_page_separator_menu_deactivate (__attribute__((unused)) GtkMenuShell *shell,
 				      StfE_FormatPageData_t *data)
 {
-	if (gnumeric_option_menu_get_selected_index (data->format_separator) == CUSTOM_INDEX) {
+	if (gtk_option_menu_get_history (data->format_separator) == CUSTOM_INDEX) {
 
 		gtk_widget_set_sensitive (GTK_WIDGET (data->format_custom), TRUE);
 		gtk_widget_grab_focus      (GTK_WIDGET (data->format_custom));
@@ -119,7 +119,7 @@ stf_export_dialog_format_page_result (StfE_FormatPageData_t *data, StfExportOpti
 	g_return_if_fail (data != NULL);
 	g_return_if_fail (export_options != NULL);
 
-	switch (gnumeric_option_menu_get_selected_index (data->format_termination)) {
+	switch (gtk_option_menu_get_history (data->format_termination)) {
 	case 0 : terminator = TERMINATOR_TYPE_LINEFEED; break;
 	case 1 : terminator = TERMINATOR_TYPE_RETURN; break;
 	case 2 : terminator = TERMINATOR_TYPE_RETURN_LINEFEED; break;
@@ -130,7 +130,7 @@ stf_export_dialog_format_page_result (StfE_FormatPageData_t *data, StfExportOpti
 
 	stf_export_options_set_terminator_type (export_options, terminator);
 
-	switch (gnumeric_option_menu_get_selected_index (data->format_quote)) {
+	switch (gtk_option_menu_get_history (data->format_quote)) {
 	case 0 : quotingmode = QUOTING_MODE_AUTO; break;
 	case 1 : quotingmode = QUOTING_MODE_ALWAYS; break;
 	case 2 : quotingmode = QUOTING_MODE_NEVER; break;
@@ -146,7 +146,7 @@ stf_export_dialog_format_page_result (StfE_FormatPageData_t *data, StfExportOpti
 	g_free (text);
 
 	separator = '\0';
-	switch (gnumeric_option_menu_get_selected_index (data->format_separator)) {
+	switch (gtk_option_menu_get_history (data->format_separator)) {
 	case 0 : separator = ' '; break;
 	case 1 : separator = '\t'; break;
 	case 2 : separator = '!'; break;

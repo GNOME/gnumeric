@@ -7,6 +7,9 @@ Evert Verhellen:
 	* New icons for +/- precision
 	* Make bonobo/non-bonobo a whole lot more consistent.
 
+Fernando Herrera:
+	* Improve desktop file to support bug-buddy.
+
 Jody:
 	* Make the behavor of save and save-as more comfortable.
 	* Fix parsing 3d references
@@ -21,6 +24,7 @@ Jody:
 	* Begin support for auto-filters
 	* Begin support for pivot tables
 	* Full support for SUBTOTAL magic
+	* Fix sneaky bug between sheetobjects and frozen panes
 
 Jon Kåre:
         * Separate GUI for showing progress and messages before first 

@@ -194,9 +194,9 @@ dialog_set_sec_button_sensitivity (__attribute__((unused)) GtkWidget *dummy,
 	select_ready = (state->selected_row > -1);
 	ready = gnm_expr_entry_is_cell_ref (state->lhs_entry, state->sheet,
 					    TRUE) &&
-		((gnumeric_option_menu_get_selected_index (state->type_combo)
+		((gtk_option_menu_get_history (state->type_combo)
 		  == SolverINT)
-		 || (gnumeric_option_menu_get_selected_index (state->type_combo)
+		 || (gtk_option_menu_get_history (state->type_combo)
 		     == SolverBOOL)
 		 || (is_hom_row_or_col_ref (state->lhs_entry, state->rhs_entry,
 					    state->sheet)));
@@ -296,7 +296,7 @@ cb_dialog_add_clicked (__attribute__((unused)) GtkWidget *button,
 
 	the_constraint->lhs_value = gnm_expr_entry_parse_as_value
 		(state->lhs_entry, state->sheet);
-	the_constraint->type = gnumeric_option_menu_get_selected_index
+	the_constraint->type = gtk_option_menu_get_history
 		(state->type_combo);
 	if ((the_constraint->type != SolverINT) &&
 	    (the_constraint->type != SolverBOOL)) {
@@ -390,9 +390,9 @@ cb_dialog_set_rhs_sensitivity (__attribute__((unused)) GtkWidget *dummy,
 /* FIXME: We would like to disable the rhs when appropriate. */
 /* Unfortunately this confuses the widget:                   */
 
-	if ((gnumeric_option_menu_get_selected_index (state->type_combo)
+	if ((gtk_option_menu_get_history (state->type_combo)
 		  == SolverINT)
-		 || (gnumeric_option_menu_get_selected_index (state->type_combo)
+		 || (gtk_option_menu_get_history (state->type_combo)
 		     == SolverBOOL)) {
 		gtk_widget_set_sensitive (GTK_WIDGET (state->rhs_entry), FALSE);
 	} else {

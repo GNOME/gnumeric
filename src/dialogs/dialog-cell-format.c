@@ -2340,12 +2340,12 @@ validation_rebuild_validation (FormatState *state)
 		return;
 
 	state->validation.changed = FALSE;
-	type = gnumeric_option_menu_get_selected_index (
+	type = gtk_option_menu_get_history (
 		state->validation.constraint_type);
 
 	if (type != VALIDATION_TYPE_ANY) {
-		ValidationStyle style = gnumeric_option_menu_get_selected_index (state->validation.error.action);
-		ValidationOp    op    = gnumeric_option_menu_get_selected_index (state->validation.op);
+		ValidationStyle style = gtk_option_menu_get_history (state->validation.error.action);
+		ValidationOp    op    = gtk_option_menu_get_history (state->validation.op);
 		char *title = gtk_editable_get_chars (GTK_EDITABLE (state->validation.error.title), 0, -1);
 		char *msg   = gnumeric_textview_get_text (state->validation.error.msg);
 		GnmExpr const *expr0 = validation_entry_to_expr (state->sheet,
@@ -2387,9 +2387,9 @@ static void
 cb_validation_error_action_deactivate (__attribute__((unused)) GtkMenuShell *ignored,
 				       FormatState *state)
 {
-	int index = gnumeric_option_menu_get_selected_index (state->validation.error.action);
+	int index = gtk_option_menu_get_history (state->validation.error.action);
 	gboolean const flag = (index > 0) &&
-		(gnumeric_option_menu_get_selected_index (state->validation.constraint_type) > 0);
+		(gtk_option_menu_get_history (state->validation.constraint_type) > 0);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.title_label), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.msg_label), flag);
@@ -2428,7 +2428,7 @@ cb_validation_sensitivity (__attribute__((unused)) GtkMenuShell *ignored,
 	gboolean has_operators = FALSE;
 	char const *msg0 = "";
 	char const *msg1 = "";
-	ValidationType const type = gnumeric_option_menu_get_selected_index (
+	ValidationType const type = gtk_option_menu_get_history (
 		state->validation.constraint_type);
 
 	switch (type) {
@@ -2440,7 +2440,7 @@ cb_validation_sensitivity (__attribute__((unused)) GtkMenuShell *ignored,
 	case VALIDATION_TYPE_AS_DATE :
 	case VALIDATION_TYPE_AS_TIME :
 	case VALIDATION_TYPE_TEXT_LENGTH : {
-		ValidationOp const op = gnumeric_option_menu_get_selected_index (
+		ValidationOp const op = gtk_option_menu_get_history (
 			state->validation.op);
 		has_operators = TRUE;
 		switch (op) {

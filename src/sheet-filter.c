@@ -34,19 +34,13 @@
 #include "ranges.h"
 #include "str.h"
 #include "number-match.h"
+#include "dialogs.h"
 
 #include <libfoocanvas/foo-canvas-widget.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gnumeric-i18n.h>
-
-struct _GnmFilterCondition {
-	GnmFilterOp op[2];
-	Value	*value[2];
-	gboolean is_and;
-	int	 count;
-};
 
 typedef struct {
 	SheetObject parent;
@@ -60,20 +54,13 @@ typedef struct {
 	SheetObjectClass s_object_class;
 } GnmFilterFieldClass;
 
-struct _GnmFilter {
-	Dependent dep;
-	Range  r;
-
-	GPtrArray *fields;
-	gboolean   is_active;
-};
-
 #define FILTER_FIELD_TYPE     (filter_field_get_type ())
 #define FILTER_FIELD(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), FILTER_FIELD_TYPE, GnmFilterField))
 
 #define	VIEW_ITEM_ID	"view-item"
 #define ARROW_ID	"arrow"
 #define	FIELD_ID	"field"
+#define	WBCG_ID		"wbcg"
 
 static GType filter_field_get_type (void);
 
@@ -205,6 +192,7 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 	GtkTreeIter  iter;
 	GnmFilterField *field;
 	GnmFilterCondition *cond;
+	WorkbookControlGUI *wbcg;
 
 	/* A release inside popup accepts */
 	if (event->window != popup->window ||
@@ -214,6 +202,7 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 		return TRUE;
 
 	field = g_object_get_data (G_OBJECT (list), FIELD_ID);
+	wbcg  = g_object_get_data (G_OBJECT (list), WBCG_ID);
 	if (field != NULL &&
 	    gtk_tree_selection_get_selected (gtk_tree_view_get_selection (list),
 					     NULL, &iter)) {
@@ -234,6 +223,8 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 		case  1 : cond = NULL;	break; /* unfilter */
 		case  2 : /* Custom */
 			set_condition = FALSE;
+			dialog_auto_filter (wbcg, field->filter, field->i,
+					    TRUE, field->cond);
 			break;
 		case  3 : cond = gnm_filter_condition_new_single (
 				  GNM_FILTER_OP_BLANKS, NULL);
@@ -243,7 +234,10 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 			break;
 		case 10 : /* Top 10 */
 			set_condition = FALSE;
+			dialog_auto_filter (wbcg, field->filter, field->i,
+					    FALSE, field->cond);
 			break;
+
 		default :
 			set_condition = FALSE;
 			g_warning ("Unknown type %d", type);
@@ -254,7 +248,7 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 		if (set_condition) {
 			gnm_filter_set_condition (field->filter, field->i,
 					 cond, TRUE);
-			sheet_redraw_all (field->filter->dep.sheet, TRUE);
+			sheet_update (field->filter->dep.sheet);
 		}
 	}
 	gtk_widget_destroy (popup);
@@ -428,6 +422,7 @@ cb_filter_button_pressed (GtkButton *button, GnmFilterField *field)
 	gtk_tree_view_append_column (GTK_TREE_VIEW (list), column);
 	gtk_widget_size_request (GTK_WIDGET (list), &req);
 	g_object_set_data (G_OBJECT (list), FIELD_ID, field);
+	g_object_set_data (G_OBJECT (list), WBCG_ID, scg_get_wbcg (scg));
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
@@ -553,6 +548,7 @@ GSF_CLASS (GnmFilterField, filter_field,
 static Value *
 cb_filter_expr (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
 {
+#warning TODO
 	return NULL;
 }
 
@@ -571,6 +567,52 @@ cb_filter_non_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
 	if (!cell_is_blank (cell) &&
 	    !(cell->value->type == VALUE_STRING && *(cell->value->v_str.val->str) == '\0'))
 		colrow_set_visibility (sheet, FALSE, FALSE, row, row);
+	return NULL;
+}
+
+typedef struct {
+	unsigned count;
+	unsigned elements;
+	gboolean find_max;
+	Value const **vals;
+} FilterMinMax;
+
+static Value *
+cb_filter_find_minmax (Sheet *sheet, int col, int row, Cell *cell, FilterMinMax *data)
+{
+	Value const *v = cell->value;
+	if (data->elements >= data->count) {
+		unsigned j, i = data->elements;
+		ValueCompare const cond = data->find_max ? IS_LESS : IS_GREATER;
+		while (i-- > 0)
+			if (value_compare (v, data->vals[i], TRUE) == cond) {
+				for (j = 0; j < i ; j++)
+					data->vals[j] = data->vals[j+1];
+				data->vals[i] = v;
+				break;
+			}
+	} else {
+		data->vals [data->elements++] = v;
+		if (data->elements == data->count) {
+			qsort (data->vals, data->elements,
+			       sizeof (Value *),
+			       data->find_max ? value_cmp_reverse : value_cmp);
+		}
+	}
+	return NULL;
+}
+
+static Value *
+cb_hide_the_rest (Sheet *sheet, int col, int row, Cell *cell,
+		  FilterMinMax const *data)
+{
+	int i = data->elements;
+	Value const *v = cell->value;
+	
+	while (i-- > 0)
+		if (data->vals[i] == v)
+			return NULL;
+	colrow_set_visibility (sheet, FALSE, FALSE, row, row);
 	return NULL;
 }
 
@@ -601,6 +643,23 @@ filter_field_apply (GnmFilterField *field)
 			col, start_row, col, end_row,
 			cb_filter_non_blanks, NULL);
 	else if (0x30 == (field->cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
+		if (field->cond->op[0] & 0x2) { /* relative */
+#warning TODO
+		} else { /* absolute */
+			FilterMinMax data;
+			data.find_max = (field->cond->op[0] & 0x1) ? FALSE : TRUE;
+			data.elements    = 0;
+			data.count  = field->cond->count;
+			data.vals   = g_alloca (sizeof (Value *) * data.count);
+			sheet_foreach_cell_in_range (filter->dep.sheet,
+				CELL_ITER_IGNORE_HIDDEN,
+				col, start_row, col, end_row,
+				(CellIterFunc) cb_filter_find_minmax, &data);
+			sheet_foreach_cell_in_range (filter->dep.sheet,
+				CELL_ITER_IGNORE_HIDDEN,
+				col, start_row, col, end_row,
+				(CellIterFunc) cb_hide_the_rest, &data);
+		}
 	} else
 		g_warning ("Invalid operator %d", field->cond->op[0]);
 }

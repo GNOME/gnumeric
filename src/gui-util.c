@@ -709,45 +709,6 @@ gnumeric_clist_moveto (GtkCList *clist, gint row)
 			G_CALLBACK (cb_clist_moveto), GINT_TO_POINTER (row));
 }
 
-/**
- * gnumeric_option_menu_get_selected_index:
- * @optionmenu: a gtkoptionmenu
- *
- * Tries to find out (in an ugly way) the selected
- * item in @optionsmenu
- *
- * Return value: the selected index or -1 on error (or no selection?)
- **/
-int
-gnumeric_option_menu_get_selected_index (GtkOptionMenu *optionmenu)
-{
-	GtkMenu *menu;
-	GtkMenuItem *selected;
-	GList *iterator;
-	int index = -1;
-	int i = 0;
-
-	g_return_val_if_fail (optionmenu != NULL, -1);
-
-	menu = (GtkMenu *) gtk_option_menu_get_menu (optionmenu);
-	iterator = GTK_MENU_SHELL (menu)->children;
-	selected = (GtkMenuItem *) gtk_menu_get_active (menu);
-
-	while (iterator) {
-
-		if (iterator->data == selected) {
-
-			index = i;
-			break;
-		}
-
-		iterator = iterator->next;
-		i++;
-	}
-
-	return index;
-}
-
 GtkWidget *
 gnumeric_create_tooltip (void)
 {

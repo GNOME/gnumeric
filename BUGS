@@ -11,6 +11,7 @@ Pending Patches
 ---------------
     - ?? more work on D&D based sheet reorg ?
     - XIM menu http://bugzilla.gnome.org/show_bug.cgi?id=84062
+    - move format generation out of dialog
 
 1.2 Targets
 -----------
@@ -70,19 +71,25 @@ Pending Patches
     http://bugzilla.gnome.org/show_bug.cgi?id=69799
 20) Change =IF back to a nodes function to handle the majority case
 21) AutoFilter
-    21.1) fix sizing and mouse for scrolled combos
-    21.2) race condition on start				(DONE)
-    21.3) expression filters
-    21.4) top 10 filters
-    21.5) blank filters						(DONE)
-    21.6) visual cue that row in part of a filter		(DONE)
-    21.7) visual cue that a field is active			(DONE)
-    21.8) select the current condition in the combos		(DONE)
-    21.9) top 10 dialog
-    21.10 expression dialog
-    21.11) Handle range changes (cut-n-paste or ins/del col/row)
-    21.12) xml import/export
-    21.13) Handle the relationship between groups and filters	(DONE)
+    21.1)  clip size for long lists				(DONE)
+    21.2)  fix mouse events for scrolled combos
+    21.3)  race condition on start				(DONE)
+    21.4)  expression filters
+    21.5)  top 10 item filters					(DONE)
+    21.6)  top 10 percentage filters
+    21.7)  blank filters					(DONE)
+    21.8)  visual cue that row in part of a filter		(DONE)
+    21.9)  visual cue that a field is active			(DONE)
+    21.10) select the current condition in the combos		(DONE)
+    21.11) top 10 dialog					(DONE)
+    21.12) expression dialog
+    21.13) Handle range changes (cut-n-paste or ins/del col/row)
+    21.14) xml import/export
+    21.15) Handle the relationship between groups and filters	(DONE)
+    21.16) sax import/export
+    21.17) Fix cursor redraw after filter			(DONE)
+    21.18) Link filters to Show All menu			(DONE)
+    21.19) Have the show all action clear filter conditions
 
 22) Add dirty flags to workbook too, adding a sheet should
     make workbook dirty not the new sheet.
@@ -104,6 +111,7 @@ Bonobo component
 
 Possibly Post 1.2 Targets
 -------------------------
+- insert cut
 - pivot tables
 - validation from list (generalize filter combos)
 - clipboard handlers in plugins

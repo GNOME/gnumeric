@@ -107,6 +107,8 @@ src/cut-n-paste-code/egg/toolbar/eggtoolitem.c
 src/dates.c
 src/dependent.c
 src/dialogs/advanced-filter.glade
+src/dialogs/autofilter-expression.glade
+src/dialogs/autofilter-top10.glade
 src/dialogs/anova-one.glade
 src/dialogs/anova-two.glade
 src/dialogs/autocorrect.glade
@@ -125,6 +127,7 @@ src/dialogs/delete-cells.glade
 src/dialogs/descriptive-stats.glade
 src/dialogs/dialog-about.c
 src/dialogs/dialog-advanced-filter.c
+src/dialogs/dialog-autofilter.c
 src/dialogs/dialog-analysis-tools.c
 src/dialogs/dialog-autocorrect.c
 src/dialogs/dialog-autoformat.c

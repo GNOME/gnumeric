@@ -84,7 +84,7 @@ construct_consolidate (ConsolidateState *state)
 	Value            *range_value;
 	int              i;
 
-	switch (gnumeric_option_menu_get_selected_index (state->gui.function)) {
+	switch (gtk_option_menu_get_history (state->gui.function)) {
 	case 0 : func = "SUM"; break;
 	case 1 : func = "MIN"; break;
 	case 2 : func = "MAX"; break;
@@ -109,7 +109,7 @@ construct_consolidate (ConsolidateState *state)
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->gui.labels_copy)))
 		mode |= CONSOLIDATE_COPY_LABELS;
-	if (gnumeric_option_menu_get_selected_index (state->gui.put) == 0)
+	if (gtk_option_menu_get_history (state->gui.put) == 0)
 		mode |= CONSOLIDATE_PUT_VALUES;
 
 	consolidate_set_mode (cs, mode);

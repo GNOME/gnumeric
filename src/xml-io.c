@@ -32,6 +32,7 @@
 #include "value.h"
 #include "validation.h"
 #include "sheet-merge.h"
+#include "sheet-filter.h"
 #include "io-context.h"
 #include "command-context.h"
 #include "workbook-control.h"
@@ -1980,7 +1981,7 @@ xml_read_sheet_layout (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	tree = e_xml_get_child_by_name (tree, (xmlChar const *)"SheetLayout");
 	if (tree == NULL)
-	    return;
+		return;
 
 	/* The top left cell in pane[0] */
 	if (xml_node_get_cellpos (tree, "TopLeft", &tmp))
@@ -2006,6 +2007,46 @@ xml_write_sheet_layout (XmlParseContext *ctxt, xmlNodePtr tree, Sheet const *she
 		xml_node_set_cellpos (freeze, "FrozenTopLeft", &sv->frozen_top_left);
 		xml_node_set_cellpos (freeze, "UnfrozenTopLeft",
 				      &sv->unfrozen_top_left);
+	}
+}
+
+static void
+xml_read_sheet_filters (XmlParseContext *ctxt, xmlNode const *container)
+{
+	xmlNode *filter;
+	char	*content;
+	Range	 r;
+
+	container = e_xml_get_child_by_name (container, (xmlChar const *)"Filters");
+	if (container == NULL)
+		return;
+
+	for (filter = container->xmlChildrenNode; filter != NULL; filter = filter->next)
+		if (!xmlIsBlankNode (filter)) {
+			content = (char *)xml_node_get_cstr (filter, NULL);
+			if (content != NULL) {
+				if (parse_range (content, &r))
+					gnm_filter_new (ctxt->sheet, &r);
+				xmlFree (content);
+			}
+		}
+}
+
+static void
+xml_write_sheet_filters (XmlParseContext *ctxt, xmlNode *container,
+			 Sheet const *sheet)
+{
+	GSList *ptr;
+	GnmFilter *filter;
+
+	if (sheet->filters == NULL)
+		return;
+
+	container = xmlNewChild (container, ctxt->ns, (xmlChar const *)"Filters", NULL);
+	for (ptr = sheet->filters; ptr != NULL ; ptr = ptr->next) {
+		filter = ptr->data;
+		xmlNewChild (container, ctxt->ns, (xmlChar const *)"Filter",
+			     (xmlChar const *)range_name (&filter->r));
 	}
 }
 
@@ -2273,7 +2314,9 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 
 	tstr = xmlEncodeEntitiesReentrant (ctxt->doc, (xmlChar const *)sheet->name_unquoted);
 	xmlNewChild (sheetNode, ctxt->ns, (xmlChar const *)"Name",  tstr);
-	if (tstr) xmlFree (tstr); {
+	if (tstr)
+		xmlFree (tstr);
+	{
 		char str[4 * sizeof (int) + DBL_DIG + 50];
 		sprintf (str, "%d", sheet->cols.max_used);
 		xmlNewChild (sheetNode, ctxt->ns, (xmlChar const *)"MaxCol", (xmlChar const *)str);
@@ -2375,6 +2418,7 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 
 	xml_write_merged_regions (ctxt, sheetNode, sheet->list_merged);
 	xml_write_sheet_layout (ctxt, sheetNode, sheet);
+	xml_write_sheet_filters (ctxt, sheetNode, sheet);
 
 	solver = xml_write_solver (ctxt, sheet->solver_parameters);
 	if (solver)
@@ -2598,6 +2642,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	xml_read_cols_info (ctxt, tree);
 	xml_read_rows_info (ctxt, tree);
 	xml_read_merged_regions (ctxt, tree);
+	xml_read_sheet_filters (ctxt, tree);
 	xml_read_selection_info (ctxt, tree);
 
 	xml_read_names (ctxt, tree, NULL, sheet);

@@ -3,6 +3,7 @@
 #define GNUMERIC_FILTER_H
 
 #include "gnumeric.h"
+#include "dependent.h"
 #include "expr.h"
 
 typedef enum {
@@ -26,7 +27,20 @@ typedef enum {
 	GNM_FILTER_OP_TYPE_MASK		= 0x30
 } GnmFilterOp;
 
-typedef struct _GnmFilterCondition GnmFilterCondition;
+struct _GnmFilterCondition {
+	GnmFilterOp op[2];
+	Value	*value[2];
+	gboolean is_and;
+	int	 count;
+};
+
+struct _GnmFilter {
+	Dependent dep;
+	Range  r;
+
+	GPtrArray *fields;
+	gboolean   is_active;
+};
 
 GnmFilterCondition *gnm_filter_condition_new_single (GnmFilterOp op, Value *v);
 GnmFilterCondition *gnm_filter_condition_new_double (GnmFilterOp op1, Value *v1,

@@ -490,13 +490,28 @@ value_cmp (void const *ptr_a, void const *ptr_b)
 	Value const *a = *(Value const **)ptr_a;
 	Value const *b = *(Value const **)ptr_b;
 	switch (value_compare (a, b, TRUE)) {
-	case IS_EQUAL : return 0;
-	case IS_LESS :  return -1;
-	case IS_GREATER :  return 1;
+	case IS_EQUAL :   return  0;
+	case IS_LESS :    return -1;
+	case IS_GREATER : return  1;
 	default :
 		break;
 	};
 	return a->type - b->type;
+}
+
+int
+value_cmp_reverse (void const *ptr_a, void const *ptr_b)
+{
+	Value const *a = *(Value const **)ptr_a;
+	Value const *b = *(Value const **)ptr_b;
+	switch (value_compare (a, b, TRUE)) {
+	case IS_EQUAL :   return  0;
+	case IS_LESS :	  return  1;
+	case IS_GREATER : return -1;
+	default :
+		break;
+	};
+	return b->type - a->type;
 }
 
 gint

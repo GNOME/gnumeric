@@ -1249,8 +1249,16 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	Sheet const *sheet = wb_control_cur_sheet (wbc);
 	SheetView const *sv = wb_control_cur_sheet_view (wbc);
+	gboolean has_filtered_rows = sheet->has_filtered_rows;
 
-	g_return_if_fail (wbcg != NULL);
+	if (!has_filtered_rows) {
+		GSList *ptr = sheet->filters;
+		for (;ptr != NULL ; ptr = ptr->next)
+			if (((GnmFilter *)ptr->data)->is_active) {
+				has_filtered_rows = TRUE;
+				break;
+			}
+	}
 
 #ifndef WITH_BONOBO
 	if (MS_INSERT_COLS & flags)
@@ -1286,7 +1294,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 					 !wbcg_edit_has_guru (wbcg));
 	if (MS_CONSOLIDATE & flags)
 		change_menu_sensitivity (wbcg->menu_item_filter_show_all,
-					 sheet->has_hidden_rows);
+					 has_filtered_rows);
 #else
 	if (MS_INSERT_COLS & flags)
 		change_menu_sensitivity (wbcg, "/commands/InsertColumns",
@@ -1321,7 +1329,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 					 !wbcg_edit_has_guru (wbcg));
 	if (MS_CONSOLIDATE & flags)
 		change_menu_sensitivity (wbcg, "/commands/DataFilterShowAll",
-					 sheet->has_hidden_rows);
+					 has_filtered_rows);
 #endif
 
 	if (MS_FREEZE_VS_THAW & flags) {

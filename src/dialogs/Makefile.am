@@ -29,6 +29,7 @@ base_files =					\
 	dialog-advanced-filter.c		\
 	dialog-analysis-tools.c			\
 	dialog-autocorrect.c			\
+	dialog-autofilter.c			\
 	dialog-autoformat.c			\
 	dialog-autosave.c			\
 	dialog-cell-comment.c			\
@@ -85,6 +86,8 @@ glade_DATA = 				\
 	anova-one.glade			\
 	anova-two.glade			\
 	autocorrect.glade		\
+	autofilter-expression.glade	\
+	autofilter-top10.glade       	\
 	autoformat.glade		\
 	autosave.glade			\
 	cell-comment.glade		\

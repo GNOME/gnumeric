@@ -1,3 +1,10 @@
+2002-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : add autofilter
+	* dialogs.h : ditto.
+	* dialog-autofilter.c : new.
+	* autofilter.glade : new.
+
 2002-12-03  Morten Welinder  <terra@diku.dk>
 
 	* dialog-printer-setup.c (unit_selector_gnome_print_unit_to_gnm):
