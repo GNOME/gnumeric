@@ -44,7 +44,7 @@ create_option_list (const char *const *list)
 	const char *const *p;
 	char *res;
 
-	for (p = list; *p; p++){
+	for (p = list; *p; p++) {
 		const char *v = _(*p);
 
 		if (*v == '*')
@@ -54,16 +54,16 @@ create_option_list (const char *const *list)
 	len += 5;
 
 	res = g_malloc (len);
-	res [0] = '(';
-	res [1] = 0;
-	for (p = list; *p; p++){
+	res[0] = '(';
+	res[1] = 0;
+	for (p = list; *p; p++) {
 		const char *v = _(*p);
 
 		if (*v == '*')
 			v++;
 
 		strcat (res, v);
-		if (*(p+1))
+		if (*(p + 1))
 		    strcat (res, "|");
 	}
 	strcat (res, ")");
@@ -107,8 +107,8 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 	regexp = g_string_new ("");
 	match_types = g_byte_array_new ();
 
-	for (; *format; format++){
-		switch (*format){
+	for (; *format; format++) {
+		switch (*format) {
 		case '_':
 			if (format[1]) {
 				g_string_append (regexp, "[ ]?");
@@ -127,12 +127,12 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 			break;
 
 		case 'P': case 'p':
-			if (tolower (*(format+1)) == 'm')
+			if (tolower (*(format + 1)) == 'm')
 				format++;
 			break;
 
 		case '\\':
-			if (*(format+1)){
+			if (*(format + 1)) {
 				format++;
 				g_string_append_c (regexp, *format);
 			}
@@ -221,7 +221,7 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 		case 'h':
 		case 'H':
 			hour_seen = TRUE;
-			if (tolower (*(format+1)) == 'h')
+			if (tolower (*(format + 1)) == 'h')
 				format++;
 
 			g_string_append (regexp, "([0-9][0-9]?)");
@@ -230,16 +230,16 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 
 		case 'M':
 		case 'm':
-			if (hour_seen){
-				if (tolower (*(format+1)) == 'm')
+			if (hour_seen) {
+				if (tolower (*(format + 1)) == 'm')
 					format++;
 				g_string_append (regexp, "([0-9][0-9]?)");
 				append_type (MATCH_MINUTE);
 				hour_seen = FALSE;
 			} else {
-				if (tolower (*(format+1)) == 'm'){
-					if (tolower (*(format+2)) == 'm'){
-						if (tolower (*(format+3)) == 'm'){
+				if (tolower (*(format + 1)) == 'm') {
+					if (tolower (*(format + 2)) == 'm') {
+						if (tolower (*(format + 3)) == 'm') {
 							char *l;
 
 							l = create_option_list (month_long);
@@ -278,11 +278,11 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 			 */
 			{
 				int l = match_types->len;
-				if (l > 0 && match_types->data [l-1] == MATCH_MONTH_NUMBER)
-					match_types->data [l-1] = MATCH_MINUTE;
+				if (l > 0 && match_types->data[l - 1] == MATCH_MONTH_NUMBER)
+					match_types->data[l - 1] = MATCH_MINUTE;
 			}
 
-			if (tolower (*(format+1) == 's'))
+			if (tolower (*(format + 1) == 's'))
 				format++;
 			g_string_append (regexp, "([0-9][0-9]?)");
 			append_type (MATCH_SECOND);
@@ -290,9 +290,9 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 
 		case 'D':
 		case 'd':
-			if (tolower (*(format+1) == 'd')){
-				if (tolower (*(format+2) == 'd')){
-					if (tolower (*(format+3) == 'd')){
+			if (tolower (*(format + 1) == 'd')) {
+				if (tolower (*(format + 2) == 'd')) {
+					if (tolower (*(format + 3) == 'd')) {
 						char *l;
 
 						l = create_option_list (day_long);
@@ -322,9 +322,9 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 
 		case 'Y':
 		case 'y':
-			if (tolower (*(format+1) == 'y')){
-				if (tolower (*(format+2) == 'y')){
-					if (tolower (*(format+3) == 'y')){
+			if (tolower (*(format + 1) == 'y')) {
+				if (tolower (*(format + 2) == 'y')) {
+					if (tolower (*(format + 3) == 'y')) {
 						g_string_append (regexp, "([0-9][0-9][0-9][0-9])");
 						append_type (MATCH_YEAR_FULL);
 						format++;
@@ -348,10 +348,10 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 			break;
 
 		case 'A': case 'a':
-			if (*(format+1) == 'm' || *(format+1) == 'M'){
-				if (*(format+2) == '/'){
-					if (*(format+3) == 'P' || *(format+3) == 'p'){
-						if (*(format+4) == 'm' || *(format+4) == 'M'){
+			if (*(format + 1) == 'm' || *(format + 1) == 'M') {
+				if (*(format + 2) == '/') {
+					if (*(format + 3) == 'P' || *(format + 3) == 'p') {
+						if (*(format + 4) == 'm' || *(format + 4) == 'M') {
 							format++;
 						}
 						format++;
@@ -410,7 +410,7 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 static void
 print_regex_error (int ret)
 {
-	switch (ret){
+	switch (ret) {
 	case REG_BADBR:
 		fprintf (stderr,
 			 "There was an invalid `\\{...\\}' construct in the regular\n"
@@ -559,10 +559,10 @@ static char const *
 gnumeric_error_init (int const indx, char const * str)
 {
 	g_return_val_if_fail (indx >= 0, str);
-	g_return_val_if_fail (indx < sizeof(gnumeric_error_data)/sizeof(struct gnumeric_error_info), str);
+	g_return_val_if_fail (indx < sizeof (gnumeric_error_data) / sizeof (struct gnumeric_error_info), str);
 
 	gnumeric_error_data[indx].str = str;
-	gnumeric_error_data[indx].len = strlen(str);
+	gnumeric_error_data[indx].len = strlen (str);
 	return str;
 }
 
@@ -577,7 +577,7 @@ gnumeric_error_init (int const indx, char const * str)
 static Value *
 value_is_error (char const * const str)
 {
-	int i = sizeof(gnumeric_error_data)/sizeof(struct gnumeric_error_info);
+	int i = sizeof (gnumeric_error_data) / sizeof (struct gnumeric_error_info);
 
 	g_return_val_if_fail (str != NULL, NULL);
 
@@ -599,10 +599,10 @@ format_match_init (void)
 
 	currency_date_format_init ();
 
-	for (i = 0; cell_formats [i]; i++){
-		char const * const * p = cell_formats [i];
+	for (i = 0; cell_formats[i]; i++) {
+		char const * const * p = cell_formats[i];
 
-		for (; *p; p++){
+		for (; *p; p++) {
 			if (strcmp (*p, "General") == 0)
 				continue;
 			format_match_define (*p);
@@ -625,7 +625,7 @@ format_match_finish (void)
 {
 	GList *l;
 
-	for (l = format_match_list; l; l = l->next){
+	for (l = format_match_list; l; l = l->next) {
 		format_parse_t *fp = l->data;
 
 		style_format_unref (fp->format);
@@ -651,11 +651,11 @@ table_lookup (const char *str, const char *const *table)
 	const char *const *p = table;
 	int i = 0;
 
-	for (p = table; *p; p++, i++){
+	for (p = table; *p; p++, i++) {
 		const char *v  = *p;
 		const char *iv = _(*p);
 
-		if (*v == '*'){
+		if (*v == '*') {
 			v++;
 			iv++;
 		}
@@ -683,8 +683,8 @@ extract_text (const char *str, const regmatch_t *mp)
 	char *p;
 
 	p = g_malloc (mp->rm_eo - mp->rm_so + 1);
-	strncpy (p, &str [mp->rm_so], mp->rm_eo - mp->rm_so);
-	p [mp->rm_eo - mp->rm_so] = 0;
+	strncpy (p, &str[mp->rm_so], mp->rm_eo - mp->rm_so);
+	p[mp->rm_eo - mp->rm_so] = 0;
 
 	return p;
 }
@@ -718,17 +718,17 @@ compute_value (const char *s, const regmatch_t *mp,
 	hours = minutes = -1;
 	seconds = -1.;
 
-	for (i = 0; i < len; i++){
+	for (i = 0; i < len; i++) {
 		MatchType type = *(data++);
 		char *str;
 
-		str = extract_text (s, &mp [idx]);
+		str = extract_text (s, &mp[idx]);
 
 
 #ifdef DEBUG_NUMBER_MATCH
 		printf ("Item %d is a %d\n", idx, type);
 #endif
-		switch (type){
+		switch (type) {
 		case MATCH_MONTH_FULL:
 			month = table_lookup (str, month_long);
 			if (month == -1)
@@ -765,9 +765,10 @@ compute_value (const char *s, const regmatch_t *mp,
 				char *ptr = str;
 
 				number = 0.;
+				/* FIXME: this loop is bogus.  */
 				do {
-				    number *= 1000.;
-				    number += strtol (ptr, &ptr, 10);
+					number *= 1000.;
+					number += strtol (ptr, &ptr, 10);
 				} while (*(ptr++) == thousands_sep);
 				is_number = TRUE;
 			}
@@ -834,7 +835,7 @@ compute_value (const char *s, const regmatch_t *mp,
 		g_free (str);
 	}
 
-	if (is_number){
+	if (is_number) {
 		if (percentify)
 			number *= 0.01;
 		*v = number;
@@ -845,8 +846,8 @@ compute_value (const char *s, const regmatch_t *mp,
 		time_t t = time (NULL);
 		GDate *date;
 		struct tm *tm = localtime (&t);
-		if (year == -1){
-			if (year_short != -1){
+		if (year == -1) {
+			if (year_short != -1) {
 				/* Window of -75 thru +24 years. */
 				/* (TODO: See what current
 				 * version of MS Excel uses.) */
@@ -856,9 +857,9 @@ compute_value (const char *s, const regmatch_t *mp,
 					= tm->tm_year + 1900 - 75;
 				int earliest_cc = earliest_ccyy / 100;
 
-				g_return_val_if_fail(year_short >= 0 &&
-						     year_short <= 99,
-						     FALSE);
+				g_return_val_if_fail (year_short >= 0 &&
+						      year_short <= 99,
+						      FALSE);
 				year = earliest_cc * 100 + year_short;
 				/*
 				 * Our first guess at year has the same
@@ -1020,7 +1021,7 @@ format_match (const char *text, StyleFormat **format)
 {
 	Value   *v;
 	GList *l;
-	regmatch_t mp [NM+1];
+	regmatch_t mp[NM + 1];
 
 	if (format)
 		*format = NULL;
@@ -1030,7 +1031,7 @@ format_match (const char *text, StyleFormat **format)
 
 	/* If it begins with a '\'' it is a string */
 	if (text[0] == '\'')
-		return value_new_string (text+1);
+		return value_new_string (text + 1);
 
 	/* TODO : We should check the format associated with the region first,
 	 *        but we're not passing that information in yet
@@ -1042,7 +1043,7 @@ format_match (const char *text, StyleFormat **format)
 		return v;
 
 	/* Fall back to checking the set of canned formats */
-	for (l = format_match_list; l; l = l->next){
+	for (l = format_match_list; l; l = l->next) {
 		float_t result;
 		gboolean b;
 		format_parse_t *fp = l->data;
@@ -1056,14 +1057,14 @@ format_match (const char *text, StyleFormat **format)
 		{
 			int i;
 			printf ("matches expression: %s %s\n", fp->format_str, fp->regexp_str);
-			for (i = 0; i < NM; i++){
+			for (i = 0; i < NM; i++) {
 				char *p;
 
-				if (mp [i].rm_so == -1)
+				if (mp[i].rm_so == -1)
 					break;
 
-				p = extract_text (text, &mp [i]);
-				printf ("%d %d->%s\n", mp [i].rm_so, mp [i].rm_eo, p);
+				p = extract_text (text, &mp[i]);
+				printf ("%d %d->%s\n", mp[i].rm_so, mp[i].rm_eo, p);
 			}
 		}
 #endif

@@ -4075,7 +4075,7 @@ fact (int n)
  * (C) Copyright 1999 by Jukka-Pekka Iivonen <iivonen@iki.fi>
  **/
 float_t
-mdeterm(float_t *A, int dim)
+mdeterm (float_t *A, int dim)
 {
         int i, j, n;
 	float_t product, sum;
@@ -4083,47 +4083,47 @@ mdeterm(float_t *A, int dim)
 
 #define ARRAY(A,C,R) (*((A) + (R) + (C) * dim))
 
-	L = g_new(float_t, dim*dim);
-	U = g_new(float_t, dim*dim);
+	L = g_new (float_t, dim * dim);
+	U = g_new (float_t, dim * dim);
 
 	/* Initialize the matrices with value zero, except fill the L's
 	 * main diagonal with ones */
-	for (i=0; i<dim; i++)
-	        for (n=0; n<dim; n++) {
-		        if (i==n)
-		                ARRAY(L, i, n) = 1;
+	for (i = 0; i < dim; i++)
+	        for (n = 0; n < dim; n++) {
+		        if (i == n)
+		                ARRAY (L, i, n) = 1;
 			else
-		                ARRAY(L, i, n) = 0;
-			ARRAY(U, i, n) = 0;
+		                ARRAY (L, i, n) = 0;
+			ARRAY (U, i, n) = 0;
 		}
 
 	/* Determine L and U so that A=L*U */
-	for (n=0; n<dim; n++) {
-	        for (i=n; i<dim; i++) {
+	for (n = 0; n < dim; n++) {
+	        for (i = n; i < dim; i++) {
 		        sum = 0;
-			for (j=0; j<n; j++)
-			        sum += ARRAY(U, j, i) * ARRAY(L, n, j);
-			ARRAY(U, n, i) = ARRAY(A, n, i) - sum;
+			for (j = 0; j < n; j++)
+			        sum += ARRAY (U, j, i) * ARRAY (L, n, j);
+			ARRAY (U, n, i) = ARRAY (A, n, i) - sum;
 		}
 
-		for (i=n+1; i<dim; i++) {
+		for (i = n + 1; i < dim; i++) {
 		        sum = 0;
-			for (j=0; j<i-1; j++)
-			        sum += ARRAY(U, j, n) * ARRAY(L, i, j);
-			ARRAY(L, i, n) = (ARRAY(A, i, n) - sum) /
-			  ARRAY(U, n, n);
+			for (j = 0; j < i - 1; j++)
+			        sum += ARRAY (U, j, n) * ARRAY (L, i, j);
+			ARRAY (L, i, n) = (ARRAY (A, i, n) - sum) /
+			  ARRAY (U, n, n);
 		}
 	}
 
 	/* Calculate det(U) */
-	product = ARRAY(U, 0, 0);
-	for (i=1; i<dim; i++)
-	        product *= ARRAY(U, i, i);
+	product = ARRAY (U, 0, 0);
+	for (i = 1; i < dim; i++)
+	        product *= ARRAY (U, i, i);
 
 #undef ARRAY
 
-	g_free(L);
-	g_free(U);
+	g_free (L);
+	g_free (U);
 
 	return product;
 }
@@ -4134,73 +4134,73 @@ mdeterm(float_t *A, int dim)
  * (C) Copyright 1999 by Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
 int
-minverse(float_t *A, int dim, float_t *res)
+minverse (float_t *A, int dim, float_t *res)
 {
         int     i, n, r, cols, rows;
 	float_t *array, pivot;
 
-#define ARRAY(C,R) (*(array + (R) + (C) * rows))
+#define ARRAY (C,R) (*(array + (R) + (C) * rows))
 
 	/* Initialize the matrix */
-	cols = dim*2;
+	cols = dim * 2;
 	rows = dim;
-	array = g_new (float_t, cols*rows);
-	for (i=0; i<cols; i++)
-	        for (n=0; n<rows; n++)
+	array = g_new (float_t, cols * rows);
+	for (i = 0; i < cols; i++)
+	        for (n = 0; n < rows; n++)
 		        if (i < dim)
-			        ARRAY(i, n) = A[n+i*rows];
-			else if (i-dim == n)
-			        ARRAY(i, n) = 1;
+			        ARRAY (i, n) = A[n + i * rows];
+			else if (i - dim == n)
+			        ARRAY (i, n) = 1;
 			else
-			        ARRAY(i, n) = 0;
+			        ARRAY (i, n) = 0;
 
 	/* Pivot top-down */
-	for (r=0; r<rows-1; r++) {
+	for (r = 0; r < rows-1; r++) {
 	        /* Select pivot row */
-	        for (i = r; ARRAY(r, i) == 0; i++)
+	        for (i = r; ARRAY (r, i) == 0; i++)
 		        if (i == rows) {
 			        g_free (array);
 			        return 1;
 			}
 		if (i != r)
-		        for (n = 0; i<cols; n++) {
-			        float_t tmp = ARRAY(n, r);
-				ARRAY(n, r) = ARRAY(n, i);
-				ARRAY(n, i) = tmp;
+		        for (n = 0; i < cols; n++) {
+			        float_t tmp = ARRAY (n, r);
+				ARRAY (n, r) = ARRAY (n, i);
+				ARRAY (n, i) = tmp;
 			}
 
-		for (i=r+1; i<rows; i++) {
+		for (i = r + 1; i < rows; i++) {
 		        /* Calculate the pivot */
-		        pivot = -ARRAY(r, i) / ARRAY(r, r);
+		        pivot = -ARRAY (r, i) / ARRAY (r, r);
 
 			/* Add the pivot row */
-			for (n=r; n<cols; n++)
-			        ARRAY(n, i) += pivot * ARRAY(n, r);
+			for (n = r; n < cols; n++)
+			        ARRAY (n, i) += pivot * ARRAY (n, r);
 		}
 	}
 
 	/* Pivot bottom-up */
-	for (r=rows-1; r>0; r--) {
-	        for (i=r-1; i>=0; i--) {
+	for (r = rows - 1; r>0; r--) {
+	        for (i = r - 1; i >= 0; i--) {
 		        /* Calculate the pivot */
-		        pivot = -ARRAY(r, i) / ARRAY(r, r);
+		        pivot = -ARRAY (r, i) / ARRAY (r, r);
 
 			/* Add the pivot row */
-			for (n=0; n<cols; n++)
-			        ARRAY(n, i) += pivot * ARRAY(n, r);
+			for (n = 0; n < cols; n++)
+			        ARRAY (n, i) += pivot * ARRAY (n, r);
 		}
 	}
 
-	for (r=0; r<rows; r++) {
-	        pivot = ARRAY(r, r);
-		for (i=0; i<cols; i++)
-		        ARRAY(i, r) /= pivot;
+	for (r = 0; r < rows; r++) {
+	        pivot = ARRAY (r, r);
+		for (i = 0; i < cols; i++)
+		        ARRAY (i, r) /= pivot;
 	}
 
 	/* Fetch the results */
-	for (i=0; i<dim; i++)
-	        for (n=0; n<dim; n++)
-		        res[n+i*rows] = ARRAY(i+dim, n);
+	for (i = 0; i < dim; i++)
+	        for (n = 0; n < dim; n++)
+		        res[n + i * rows] = ARRAY (i + dim, n);
 #undef ARRAY
 	g_free (array);
 
@@ -4221,8 +4221,8 @@ mmult (float_t *A, float_t *B, int cols_a, int rows_a, int cols_b,
 		for (r = 0; r < rows_a; ++r) {
 		        tmp = 0;
 			for (i = 0; i < cols_a; ++i)
-				tmp += A[r + i*rows_a] * B[i + c*cols_a];
-		        product [r + c*rows_a] = tmp;
+				tmp += A[r + i * rows_a] * B[i + c * cols_a];
+		        product[r + c * rows_a] = tmp;
 		}
 	}
 }
@@ -4234,9 +4234,9 @@ mtranspose (float_t *A, int cols, int rows, float_t *M)
 {
         int i, j;
 
-	for (i=0; i<cols; i++)
-	        for (j=0; j<rows; j++)
-		        M[i + j*cols] = A[j + i*rows];
+	for (i = 0; i < cols; i++)
+	        for (j = 0; j < rows; j++)
+		        M[i + j * cols] = A[j + i * rows];
 }
 
 /* Solve a set of linear equations (do not try to swap rows).
@@ -4248,35 +4248,35 @@ mpivot (float_t *pivot_table, int cols, int rows)
 	int     i, j, k;
 
 	/* Pivot top-down */
-	for (j=0; j<rows; j++) {
-	        if (pivot_table[j + j*rows] == 0)
+	for (j = 0; j < rows; j++) {
+	        if (pivot_table[j + j * rows] == 0)
 		        return 1;
-		for (i=j+1; i<rows; i++) {
-		        pivot = pivot_table[i + j*rows] /
-			        pivot_table[j + j*rows];
-			for (k=j; k<cols; k++)
-			        pivot_table[i + k*rows] -=
-				        pivot * pivot_table[j + k*rows];
+		for (i = j + 1; i < rows; i++) {
+		        pivot = pivot_table[i + j * rows] /
+			        pivot_table[j + j * rows];
+			for (k = j; k < cols; k++)
+			        pivot_table[i + k * rows] -=
+				        pivot * pivot_table[j + k * rows];
 		}
 	}
 
 	/* Pivot bottom-up */
-	for (j=rows-1; j>=0; j--) {
-	        if (pivot_table[j + j*rows] == 0)
+	for (j = rows - 1; j >= 0; j--) {
+	        if (pivot_table[j + j * rows] == 0)
 		        return 1;
-		for (i=j-1; i>=0; i--) {
-		        pivot = pivot_table[i + j*rows] /
-			        pivot_table[j + j*rows];
-			for (k=j; k<cols; k++)
-			        pivot_table[i + k*rows] -=
-				        pivot * pivot_table[j + k*rows];
+		for (i = j - 1; i >= 0; i--) {
+		        pivot = pivot_table[i + j * rows] /
+			        pivot_table[j + j * rows];
+			for (k = j; k < cols; k++)
+			        pivot_table[i + k * rows] -=
+				        pivot * pivot_table[j + k * rows];
 		}
 	}
 
-	for (i=0; i<rows; i++) {
-	        pivot = pivot_table[i + i*rows];
-		pivot_table[i + i*rows] /= pivot;
-		pivot_table[i + (cols-1)*rows] /= pivot;
+	for (i = 0; i < rows; i++) {
+	        pivot = pivot_table[i + i * rows];
+		pivot_table[i + i * rows] /= pivot;
+		pivot_table[i + (cols-1) * rows] /= pivot;
 	}
 
 	return 0;
@@ -4298,11 +4298,11 @@ vect_sqr_mdiag (float_t *v, int n, float_t *M)
 {
         int i;
 
-	for (i=0; i<n*n; i++)
+	for (i = 0; i < n * n; i++)
 	        M[i] = 0;
 
-	for (i=0; i<n; i++)
-	        M[i+i*n] = v[i] * v[i];
+	for (i = 0; i < n; i++)
+	        M[i + i * n] = v[i] * v[i];
 }
 
 #include <stdio.h>
@@ -4312,13 +4312,13 @@ display (float_t *M, int cols, int rows, char *s)
 {
         int i, j;
 
-	printf("\n%s:\n", s);
-	for (i=0; i<rows; i++) {
-	        for (j=0; j<cols; j++)
-		         printf("%8.4f ", M[i+j*rows]);
-		printf("\n");
+	printf ("\n%s:\n", s);
+	for (i = 0; i < rows; i++) {
+	        for (j = 0; j < cols; j++)
+		         printf ("%8.4f ", M[i + j * rows]);
+		printf ("\n");
 	}
-	printf("\n");
+	printf ("\n");
 }
 
 /* Solves the dual vector v from
@@ -4366,19 +4366,19 @@ solve_dual_vector (float_t *A, float_t *c, float_t *x, float_t *A_t,
 	mmult (Asqr_D, c, n_variables, n_constraints, 1, Asqr_Dc);
 
 	/* Create the pivot table for mpivot */
-	for (i=0; i<n_constraints; i++) {
-	        for (j=0; j<n_constraints; j++)
-		        pivot_table[j+i*n_constraints] =
-			        Asqr_DA_t[j+i*n_constraints];
-		pivot_table[i+n_constraints*n_constraints] = Asqr_Dc[i];
+	for (i = 0; i < n_constraints; i++) {
+	        for (j = 0; j < n_constraints; j++)
+		        pivot_table[j + i * n_constraints] =
+			        Asqr_DA_t[j + i * n_constraints];
+		pivot_table[i + n_constraints * n_constraints] = Asqr_Dc[i];
 	}
 
-	i = mpivot (pivot_table, n_constraints+1, n_constraints);
+	i = mpivot (pivot_table, n_constraints + 1, n_constraints);
 	if (i)
 	        return i;
 
-	for (i=0; i<n_constraints; i++)
-	        v[i] = pivot_table[i+n_constraints*n_constraints];
+	for (i = 0; i < n_constraints; i++)
+	        v[i] = pivot_table[i + n_constraints * n_constraints];
 
 	return 0;
 }
@@ -4402,10 +4402,10 @@ create_step_vector (float_t *c, float_t *sqr_D, float_t *A_t, float_t *v,
 	mmult (A_t, v, n_constraints, n_variables, 1, A_tv);
 
 	if (max_flag)
-	        for (i=0; i<n_variables; i++)
+	        for (i = 0; i < n_variables; i++)
 		        diff[i] = c[i] - A_tv[i];
 	else
-	        for (i=0; i<n_variables; i++)
+	        for (i = 0; i < n_variables; i++)
 		        diff[i] = -(c[i] - A_tv[i]);
 
 	mmult (sqr_D, diff, n_variables, n_variables, 1, dx);
@@ -4414,10 +4414,10 @@ create_step_vector (float_t *c, float_t *sqr_D, float_t *A_t, float_t *v,
 static float_t
 step_length (float_t *x, float_t *dx, int n_variables, gboolean *found)
 {
-        float_t min=0, test;
+        float_t min = 0, test;
 	int     i, min_ind = -1;
 
-	for (i=0; i<n_variables; i++)
+	for (i = 0; i < n_variables; i++)
 	        if (dx[i] < 0) {
 		         test = -x[i] / dx[i];
 			 if (min_ind < 0 || test < min) {
@@ -4470,7 +4470,7 @@ run_affine_scale (float_t *A, float_t *b, float_t *c, float_t *x,
 	dx = &wspace[s_ind];
 	s_ind += n_variables;
 
-	for (iter=0; rdg > e && iter<max_iter; iter++) {
+	for (iter = 0; rdg > e && iter < max_iter; iter++) {
 	        solve_dual_vector (A, c, x, A_t,
 				   n_constraints, n_variables, sqr_D, v,
 				   &wspace[s_ind]);
@@ -4483,7 +4483,7 @@ run_affine_scale (float_t *A, float_t *b, float_t *c, float_t *x,
 		if ( !flag)
 		        break;
 
-		for (i=0; i<n_variables; i++)
+		for (i = 0; i < n_variables; i++)
 		        x[i] += 0.81 * step_len * dx[i];
 
 		rdg = affine_rdg (b, c, x, v, n_constraints, n_variables,
@@ -4563,38 +4563,38 @@ affine_init (float_t *A, float_t *b, float_t *c, int n_constraints,
 	 s_ind += n_constraints;
 
 	 new_A = &wspace[s_ind];
-	 s_ind += (n_variables+1) * n_constraints;
+	 s_ind += (n_variables + 1) * n_constraints;
 
 	 new_x = &wspace[s_ind];
 	 s_ind += n_variables + 1;
 
-	 for (i=0; i<n_variables; i++)
-	         new_c [i] = c[i];
+	 for (i = 0; i < n_variables; i++)
+	         new_c[i] = c[i];
 	 new_c[i] = -pow (2, 58);
 
-	 for (i=0; i<n_constraints; i++)
+	 for (i = 0; i < n_constraints; i++)
 	         tmp[i] = 0;
-	 for (i=0; i<n_constraints; i++)
-	         for (j=0; j<n_variables; j++)
-		          tmp[i] += A[i + j*n_constraints];
+	 for (i = 0; i < n_constraints; i++)
+	         for (j = 0; j < n_variables; j++)
+		          tmp[i] += A[i + j * n_constraints];
 
-	 for (i=0; i<n_variables; i++)
+	 for (i = 0; i < n_variables; i++)
 	         tmp[i] = b[i] - tmp[i];
 
-	 for (i=0; i<n_variables; i++)
-	         for (j=0; j<n_constraints; j++)
-		         new_A[j + i*n_constraints] = A[j + i*n_constraints];
-	 for (i=0; i<n_constraints; i++)
-	         new_A[i + n_variables*n_constraints] = tmp[i];
+	 for (i = 0; i < n_variables; i++)
+	         for (j = 0; j < n_constraints; j++)
+		         new_A[j + i * n_constraints] = A[j + i * n_constraints];
+	 for (i = 0; i < n_constraints; i++)
+	         new_A[i + n_variables * n_constraints] = tmp[i];
 
-	 for (i=0; i<=n_variables; i++)
+	 for (i = 0; i <= n_variables; i++)
 	         new_x[i] = 1;
 
 	 found = affine_scale (new_A, b, new_c, new_x,
-			       n_constraints, n_variables+1, TRUE,
+			       n_constraints, n_variables + 1, TRUE,
 			       0.01, 1000, NULL, NULL);
 
-	 for (i=0; i<n_variables; i++)
+	 for (i = 0; i < n_variables; i++)
 	         x[i] = new_x[i];
 
 	 g_free (wspace);
@@ -4628,7 +4628,7 @@ branch_and_bound (float_t *A, float_t *b, float_t *c, float_t *xx,
 	display (c, n_variables, 1, "c");
 
 	found = affine_init (A, b, c, n_constraints, n_variables, x);
-	if (! found) {
+	if (!found) {
 	        g_free (x);
 	        return FALSE;
 	}
@@ -4636,24 +4636,25 @@ branch_and_bound (float_t *A, float_t *b, float_t *c, float_t *xx,
 	found = affine_scale (A, b, c, x, n_constraints, n_variables, max_flag,
 			      e, max_iter, NULL, NULL);
 
-	if (! found) {
+	if (!found) {
 	        g_free (x);
 		return FALSE;
 	}
 
 	z = 0;
-	for (i=0; i<n_variables; i++)
+	for (i = 0; i < n_variables; i++)
 	        z += c[i] * x[i];
 
 	if (max_flag) {
 	        if (z < *best)
 		        return FALSE;
-	} else
+	} else {
 	        if (z > *best)
 		        return FALSE;
+	}
 
-	for (i=0; i<n_variables; i++)
-	        if (int_r [i] && fabs (x[i] - rint (x[i])) > 0.0001) {
+	for (i = 0; i < n_variables; i++)
+	        if (int_r[i] && fabs (x[i] - rint (x[i])) > 0.0001) {
 		        float_t  rhs_1, rhs_2;
 			float_t  *lA, *rA;
 			float_t  *lb, *rb;
@@ -4665,48 +4666,48 @@ branch_and_bound (float_t *A, float_t *b, float_t *c, float_t *xx,
 			rhs_2 = ceil (x[i]);
 
 			lA =  g_new (float_t,
-				     (n_constraints+1) * (n_variables+1));
-			lb =  g_new (float_t, (n_constraints+1));
-			lrc = g_new (float_t, (n_variables+1));
+				     (n_constraints + 1) * (n_variables + 1));
+			lb =  g_new (float_t, n_constraints + 1);
+			lrc = g_new (float_t, n_variables + 1);
 			rA =  g_new (float_t,
-				     (n_constraints+1)*(n_variables+1));
-			rb =  g_new (float_t, (n_constraints+1));
+				     (n_constraints + 1) * (n_variables + 1));
+			rb =  g_new (float_t, n_constraints + 1);
 			/* FIXME: int_r too */
 
-			for (k=0; k<n_variables; k++)
+			for (k = 0; k < n_variables; k++)
 			        lrc[k] = c[k];
 			lrc[k] = 0;
 
-			for (k=0; k<n_constraints; k++)
+			for (k = 0; k < n_constraints; k++)
 			        lb[k] = rb[k] = b[k];
 			lb[k] = rhs_1;
 			rb[k] = rhs_2;
 
-			for (k=0; k<n_variables; k++) {
-			        for (l=0; l<n_constraints; l++)
-				        lA[l+k*(n_constraints+1)] =
-					  rA[l+k*(n_constraints+1)] =
-					  A[l+k*n_constraints];
+			for (k = 0; k < n_variables; k++) {
+			        for (l = 0; l < n_constraints; l++)
+				        lA[l + k * (n_constraints + 1)] =
+					  rA[l + k * (n_constraints + 1)] =
+					  A[l + k * n_constraints];
 				if (k == i)
-				        lA[l+k*(n_constraints+1)] =
-					  rA[l+k*(n_constraints+1)] = 1;
+				        lA[l + k * (n_constraints + 1)] =
+					  rA[l + k * (n_constraints + 1)] = 1;
 				else
-				        lA[l+k*(n_constraints+1)] =
-					  rA[l+k*(n_constraints+1)] = 0;
+				        lA[l + k * (n_constraints + 1)] =
+					  rA[l + k * (n_constraints + 1)] = 0;
 			}
-			for (k=0; k<n_constraints; k++)
-			        lA[k+n_variables*(n_constraints+1)] =
-				  rA[k+n_variables*(n_constraints+1)] = 0;
-			lA[k+n_variables*(n_constraints+1)] = 1;
-			rA[k+n_variables*(n_constraints+1)] = -1;
+			for (k = 0; k < n_constraints; k++)
+			        lA[k + n_variables * (n_constraints + 1)] =
+				  rA[k + n_variables * (n_constraints + 1)] = 0;
+			lA[k + n_variables * (n_constraints + 1)] = 1;
+			rA[k + n_variables * (n_constraints + 1)] = -1;
 
 			f1 = branch_and_bound (lA, lb, lrc, xx,
-					       n_constraints+1, n_variables+1,
+					       n_constraints + 1, n_variables + 1,
 					       n_original, TRUE, e, max_iter,
 					       int_r, fun, data, best);
 
 			f2 = branch_and_bound (rA, rb, lrc, xx,
-					       n_constraints+1, n_variables+1,
+					       n_constraints + 1, n_variables + 1,
 					       n_original, TRUE, e, max_iter,
 					       int_r, fun, data, best);
 
@@ -4717,21 +4718,22 @@ branch_and_bound (float_t *A, float_t *b, float_t *c, float_t *xx,
 			g_free (lrc);
 
 			return f1 || f2;
-		} else if (int_r [i])
+		} else if (int_r[i])
 		        x[i] = rint (x[i]);
 
 	if (max_flag) {
 	        if (z > *best) {
 		        *best = z;
-			for (i=0; i<n_original; i++)
+			for (i = 0; i < n_original; i++)
 			        xx[i] = x[i];
 		}
-	} else
+	} else {
 	        if (z < *best) {
 		        *best = z;
-			for (i=0; i<n_original; i++)
+			for (i = 0; i < n_original; i++)
 			        xx[i] = x[i];
 		}
+	}
 
 	g_free (x);
 	return TRUE;
@@ -4740,7 +4742,7 @@ branch_and_bound (float_t *A, float_t *b, float_t *c, float_t *xx,
 
 
 #ifdef STANDALONE
-int main()
+int main ()
 {
   float_t A[] = { 11, 5, 6, 50, 1, 0, 0, 1 };
   float_t b[] = { 66, 225 };
@@ -4758,11 +4760,11 @@ int main()
   branch_and_bound (A, b, c, x, n_constraints, n_variables, n_variables, TRUE,
 		    0.000001, 10000, r_int,
 		    NULL, NULL, &best);
-  printf("=========================================================\n");
-  printf("optimal=%g\n", best);
-  for (i=0; i<n_variables; i++)
-    printf("%g\t", x[i]);
-  printf("\n");
+  printf ("=========================================================\n");
+  printf ("optimal=%g\n", best);
+  for (i = 0; i < n_variables; i++)
+    printf ("%g\t", x[i]);
+  printf ("\n");
 }
 
 #endif
