@@ -1,3 +1,7 @@
+2001-12-30  Jody Goldberg <jody@gnome.org>
+
+	* preface.sgml : a first pass.  Needs editing and polish.
+
 2001-12-30  Kevin Breit  <mrproper@ximian.com>
 
 	* authors.sgml, formulas.sgml, gnumeric.sgml, license.sgml, menus.sgml: Commited these changes for acuster.
