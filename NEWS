@@ -20,6 +20,9 @@ Jody:
 	* preset canvas scroll region in case something scrolls before we are
 	  realized.
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=81766
+	* Handle undocumented XL-ism.
+
 	* gdk_flush after all grab/ungrab events so that long running
 	  operations that do not update the display are certain to ungrab
 	  without delay (thanks rconover)

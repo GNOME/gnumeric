@@ -1,3 +1,9 @@
+2002-05-14  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=81766
+	* ms-excel-read.c (ms_excel_read_formula) : work around undocumented
+	  'feature' that will store a 0 length RECORD for empty strings.
+
 2002-05-04  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (biff_put_text) : suppress warnings.

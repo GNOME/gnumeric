@@ -1936,8 +1936,11 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 				 *       clarifies the behaviour to be the std
 				 *       unicode format rather than the pure
 				 *       length version the docs describe.
+				 *
+				 * NOTE : Apparently some apps actually store a
+				 *        0 length string record for an empty.
 				 */
-				const guint16 len = MS_OLE_GET_GUINT16 (q->data);
+				guint16 const len = (q->data != NULL) ? MS_OLE_GET_GUINT16 (q->data) : 0;
 
 				if (len > 0)
 					v = biff_get_text (q->data + 2, len, NULL);
