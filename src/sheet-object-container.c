@@ -31,8 +31,6 @@
 #include <bonobo/bonobo-object-directory.h>
 #include <bonobo/bonobo-exception.h>
 
-static GtkObjectClass *sheet_object_container_parent_class;
-
 static gint
 cb_user_activation_request (BonoboViewFrame *view_frame, GtkObject *so_view)
 {
@@ -121,55 +119,26 @@ sheet_object_container_set_active (SheetObject *so, GtkObject *view,
 	view_frame = gtk_object_get_data (GTK_OBJECT (view), "view_frame");
 
 	if (active) {
-		printf ("%p %p: activate: %d\n",
-			so, view_frame,
-			GTK_OBJECT (view_frame)->ref_count);
 		bonobo_object_ref (BONOBO_OBJECT (view_frame));
 		bonobo_view_frame_view_activate (view_frame);
 		bonobo_view_frame_set_covered (view_frame, FALSE);
 	} else {
-		printf ("%p %p: deactivate: %d\n",
-			so, view_frame,
-			GTK_OBJECT (view_frame)->ref_count);
 		bonobo_view_frame_view_deactivate (view_frame);
 		bonobo_view_frame_set_covered (view_frame, TRUE);
 		bonobo_object_unref (BONOBO_OBJECT (view_frame));
 	}
 }
 
-#if 0
-static void
-sheet_object_container_destroy (GtkObject *object)
-{
-	BonoboViewFrame *view_frame =
-		gtk_object_get_data (GTK_OBJECT (view), "view_frame");
-	if (view_frame) {
-		bonobo_object_unref (BONOBO_OBJECT (view_frame));
-		gtk_object_set_data (GTK_OBJECT (view_item), "view_frame", NULL);
-	}
-
-	if (sheet_object_container_parent_class->destroy)
-		sheet_object_container_parent_class->destroy (object);
-}
-#endif
-
 static void
 sheet_object_container_class_init (GtkObjectClass *object_class)
 {
 	SheetObjectClass *so_class;
-
-	sheet_object_container_parent_class =
-		gtk_type_class (sheet_object_get_type ());
 
 	/* SheetObject class method overrides */
 	so_class = SHEET_OBJECT_CLASS (object_class);
 	so_class->new_view 	= sheet_object_container_new_view;
 	so_class->update_bounds = sheet_object_container_update_bounds;
 	so_class->set_active    = sheet_object_container_set_active;
-
-#if 0
-	object_class->destroy   = sheet_object_container_destroy;
-#endif
 }
 
 SheetObject *
