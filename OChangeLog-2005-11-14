@@ -1,3 +1,12 @@
+2003-03-26  Jody Goldberg <jody@gnome.org>
+
+	* src/commands.c (command_register_undo) : handle 0 sized command
+	  queues by keeping a ref to the current command in case the
+	  truncation unrefs it.
+
+	* src/workbook-control-gui.c (workbook_control_gui_ctor_class) : be
+	  more resilient in the face of incomplete installs.
+
 2003-03-21  Morten Welinder  <terra@diku.dk>
 
 	* src/rendered-value.c (cell_get_render_color): Work around the
@@ -7,6 +16,37 @@
 
 	* src/xml-io.c (gnumeric_xml_write_workbook): Remove gratuitous
 	const cast.
+
+2003-03-18  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-util.c (gnumeric_inject_widget_into_bonoboui) : make it more
+	  forgiving in the face of installation problems.
+
+2003-03-17  Jody Goldberg <jody@gnome.org>
+
+	* src/dependent.c (name_dep_debug_name) : new.
+	(dynamic_dep_eval) : new.
+	(dependent_types_init) : register name pseudo type a name is not
+	  really a dependent, but it is useful for relocation to have a unique
+	  type for it.
+
+	* src/dependent.h : Add relocation flavour to handle the needs of
+	  names and potentially eventually sorting.
+
+	* src/clipboard.c (clipboard_paste_region) : set relocation flavour.
+	* src/sheet-autofill.c (autofill_cell) : ditto.
+	* src/sheet.c (cb_set_cell_content) : ditto.
+	* src/workbook.c (workbook_sheet_detach) : ditto.
+
+	* src/item-edit.c (recalc_spans) : support the use of partial columns
+	  at the edges.
+	* src/sheet-control-gui.c (gnm_canvas_make_cell_visible) : don't
+	  scroll past the requested col/row if it is larger than the screen.
+
+2003-03-15  Jody Goldberg <jody@gnome.org>
+
+	* src/file.h : fix the naming of a few methods (Still needs cleanup)
+	  and add gnm_file_saver_for_file_name.
 
 2003-03-19  Guntupalli Karunakar  <karunakar@freedomink.org>
 

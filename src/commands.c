@@ -133,8 +133,8 @@ typedef struct {
 	RedoCmd		redo_cmd;
 } GnumericCommandClass;
 
-GSF_CLASS (GnumericCommand, gnumeric_command,
-	   NULL, NULL, G_TYPE_OBJECT);
+static GSF_CLASS (GnumericCommand, gnumeric_command,
+		  NULL, NULL, G_TYPE_OBJECT);
 
 /* Store the real GObject dtor pointer */
 static void (* g_object_dtor) (GObject *object) = NULL;
@@ -684,6 +684,7 @@ command_register_undo (WorkbookControl *wbc, GObject *obj)
 	command_list_release (wb->redo_commands);
 	wb->redo_commands = NULL;
 
+	g_object_ref (obj); /* keep a ref in case it gets truncated away */
 	wb->undo_commands = g_slist_prepend (wb->undo_commands, cmd);
 	undo_trunc = truncate_undo_info (wb);
 
@@ -697,6 +698,7 @@ command_register_undo (WorkbookControl *wbc, GObject *obj)
 		wb_control_undo_redo_clear (control, FALSE);
 	});
 	undo_redo_menu_labels (wb);
+	g_object_unref (obj);
 }
 
 
