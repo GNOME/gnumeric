@@ -178,6 +178,9 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	file_format_changed_cb_data data;
 	gint opener_default;
 	char const *title;
+	char *file_name = NULL;
+	const char *encoding = NULL;
+	GnmFileOpener *fo = NULL;
 
 	openers = g_list_sort (g_list_copy (get_file_openers ()),
 			       file_opener_description_cmp);
@@ -269,20 +272,20 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	if (!gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel)))
 		goto out;
 
-	{
-		/* NOTE: we get a filename here.  Think about URIs later.  */
-		char *file_name = gtk_file_chooser_get_filename (fsel);
-		const char *encoding = charmap_selector_get_encoding (CHARMAP_SELECTOR (charmap_selector));
-		GnmFileOpener *fo =
-			g_list_nth_data (openers,
-					 gtk_option_menu_get_history (omenu));
-		gui_file_read (wbcg, file_name, fo, encoding);
-		g_free (file_name);
-	}
+	/* NOTE: we get a filename here.  Think about URIs later.  */
+	file_name = gtk_file_chooser_get_filename (fsel);
+	encoding = charmap_selector_get_encoding (CHARMAP_SELECTOR (charmap_selector));
+	fo = g_list_nth_data (openers,
+			      gtk_option_menu_get_history (omenu));
 
  out:
 	gtk_widget_destroy (GTK_WIDGET (fsel));
 	g_list_free (openers);
+
+	if (file_name) {
+		gui_file_read (wbcg, file_name, fo, encoding);
+		g_free (file_name);
+	}
 }
 
 /*

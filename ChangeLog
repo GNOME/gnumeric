@@ -1,5 +1,9 @@
 2004-02-17  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-file.c (gui_file_open): Destroy file selector before
+	calling opener.  (File selector grabs focus so stf-import could
+	not be interacted with.)
+
 	* src/print.c (compute_scale_fit_to): For 0 pages, just return
 	100%.
 
