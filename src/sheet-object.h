@@ -16,11 +16,14 @@
 #define SHEET_OBJECT_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_TYPE, SheetObjectClass))
 #define IS_SHEET_OBJECT(o)    (GTK_CHECK_TYPE((o), SHEET_OBJECT_TYPE))
 
+typedef enum { SHEET_OBJECT_ACTION_STATIC,
+	       SHEET_OBJECT_ACTION_CAN_PRESS } SheetObjectAction;
 typedef struct {
-	GtkObject  parent_object;
-	Sheet     *sheet;
-	GList     *realized_list;
-	gboolean   dragging;
+	GtkObject          parent_object;
+	SheetObjectAction  type;
+	Sheet             *sheet;
+	GList             *realized_list;
+	gboolean           dragging;
 
 	/* Private data */
 	GnomeCanvasPoints *bbox_points; /* use _get / _set_bounds */
@@ -30,17 +33,24 @@ typedef struct {
 	GtkObjectClass parent_class;
 
 	/* Virtual methods */
-	GnomeCanvasItem *(*realize) (SheetObject *sheet_object, SheetView *sheet_view);
+	GnomeCanvasItem *(*realize) (SheetObject *sheet_object,
+				     SheetView   *sheet_view);
 	void       (*update_bounds) (SheetObject *sheet_object);
 	void   (*creation_finished) (SheetObject *sheet_object);
+	void         (*start_popup) (SheetObject *sheet_object,
+				     GtkMenu     *menu);
+	void           (*end_popup) (SheetObject *sheet_object,
+				     GtkMenu     *menu);
 } SheetObjectClass;
 
-GtkType sheet_object_get_type   (void);
-void    sheet_object_construct  (SheetObject *sheet_object, Sheet *sheet);
-void    sheet_object_drop_file  (GnumericSheet *gsheet, gint x, gint y,
-				 const char *fname);
-int     sheet_object_event      (GnomeCanvasItem *item, GdkEvent *event,
-				 SheetObject *so);
+GtkType sheet_object_get_type      (void);
+void    sheet_object_construct     (SheetObject *sheet_object, Sheet *sheet);
+void    sheet_object_drop_file     (GnumericSheet *gsheet, gint x, gint y,
+				    const char *fname);
+int     sheet_object_canvas_event  (GnomeCanvasItem *item, GdkEvent *event,
+				    SheetObject *so);
+void    sheet_object_widget_handle (SheetObject *so, GtkWidget *widget,
+				    GnomeCanvasItem *item);
 
 /* b = bottom, t = top, l = left, r = right */
 void    sheet_object_get_bounds (SheetObject *sheet_object, double *tlx, double *tly,
@@ -68,8 +78,7 @@ void             sheet_object_realize        (SheetObject *object);
 
 void             sheet_object_unrealize      (SheetObject *object);
 
-void             sheet_object_make_current   (Sheet *sheet,
-					      SheetObject *object);
+void             sheet_object_make_current   (SheetObject *object);
 
 SheetObject     *sheet_object_create_line    (Sheet *sheet,   int is_arrow,
 					      double x1,      double y1,

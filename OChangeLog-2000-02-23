@@ -1,3 +1,35 @@
+1999-09-21  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/sheet-object-container.c (make_container_item): Add widget_handle.
+	(sheet_object_container_destroy): clean.
+
+	* src/sheet-object-widget.c (sheet_object_widget_realize): add widget
+	handling hook.
+
+	* src/sheet-object.c (sheet_object_event): renamed to canvas_event.
+	(control_point_handle_event): use gdouble for x,y & remove duff w2w &
+	dx*zoom code.
+
+	* src/sheet-object.h: add various signals + a type.
+
+	* src/sheet-object-widget.c (sheet_object_widget_construct): set press.
+
+	* src/sheet-object.c (sheet_object_event, sheet_object_make_current): 
+	remove redundant 'Sheet' argument.
+	(control_point_handle_event): Add make_current to button press.
+	(sheet_object_start_editing): clean + setup cursor data.
+	(control_point_handle_event): Use sizing cursors.
+	(sheet_object_event): Add 'press' cursor.
+	(sheet_object_widget_event, sheet_object_widget_handle): handlers to pass
+	events around.
+
+	* src/sheet-object-container.c (user_activation_request_cb): update
+	make_current.
+
+	* src/cursors.h: Add new cursors.
+
+	* src/cursors.c: ditto.
+
 1999-09-21  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-stat.c (gnumeric_logest): Add some meat.

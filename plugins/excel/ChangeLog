@@ -1,3 +1,15 @@
+1999-09-21  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* ms-obj.c (ms_parse_object_anchor): remove zoom.
+	(ms_obj_realize): Add zoom here.
+
+	* ms-excel-read.c (ms_excel_read_sheet): queue objects for later.
+	(ms_excel_read_workbook): Realise sheet objects after read.
+	(ms_excel_sheet_new): NULL obj queue ptr.
+
+	* ms-obj.c: Add lots of missing cross references.
+	(ms_excel_sheet_realize_objs): Implement.
+
 1999-09-21  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_workbook) : Prefer 'workbook' to

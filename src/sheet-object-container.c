@@ -30,14 +30,17 @@ static void
 sheet_object_container_destroy (GtkObject *object)
 {
 	SheetObjectContainer *soc = SHEET_OBJECT_CONTAINER (object);
-
-	g_free (soc->repoid);
-
+	
+	if (soc->repoid)
+		g_free (soc->repoid);
+	soc->repoid = NULL;
+	
 	if (soc->client_site)
 		gnome_object_destroy (GNOME_OBJECT (soc->client_site));
+	soc->client_site = NULL;
 	
 	/* Call parent's destroy method */
-	GTK_OBJECT_CLASS(sheet_object_container_parent_class)->destroy (object);
+	GTK_OBJECT_CLASS (sheet_object_container_parent_class)->destroy (object);
 }
 
 static GnomeCanvasItem *
@@ -57,8 +60,9 @@ make_container_item (SheetObject *so, SheetView *sheet_view, GtkWidget *w)
 		"height", y2 - y1,
 		"size_pixels", FALSE,
 		NULL);
-
+	sheet_object_widget_handle (so, w, item);
 	gtk_widget_show (w);
+
 	return item;
 }
 
@@ -67,7 +71,7 @@ sheet_object_container_destroy_views (SheetObject *so)
 {
 	GList *l;
 
-	for (l = so->realized_list; l; l = l->next){
+	for (l = so->realized_list; l; l = l->next) {
 		GnomeCanvasItem *item = l->data;
 
 		gtk_object_destroy (GTK_OBJECT (item));
@@ -90,7 +94,7 @@ user_activation_request_cb (GnomeViewFrame *view_frame, SheetObject *so)
 	}
 
 	gnome_view_frame_view_activate (view_frame);
-	sheet_object_make_current (sheet, so);
+	sheet_object_make_current (so);
 	
 	return FALSE;
 }
@@ -228,9 +232,9 @@ sheet_object_container_land (SheetObject *so, const gchar *fname,
 				file = get_file_name ();
 			else
 				file = g_strdup (fname);
-			if (file){
+			if (file)
 				GNOME_PersistFile_load (ret, file, &ev);
-			}
+
 			GNOME_Unknown_unref ((GNOME_Unknown) ret, &ev);
 			CORBA_Object_release (ret, &ev);
 			g_free (file);
@@ -252,7 +256,7 @@ sheet_object_container_land (SheetObject *so, const gchar *fname,
 						GnomeStream *stream;
 						
 						stream = gnome_stream_fs_open (file, GNOME_Storage_READ);
-						if (stream){
+						if (stream) {
 							GNOME_PersistStream_load (
 								ret,
 								(GNOME_Stream) gnome_object_corba_objref (

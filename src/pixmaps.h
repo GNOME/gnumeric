@@ -22,3 +22,4 @@
 #include "pixmaps/preview.xpm"
 
 #endif /* GNUMERIC_PIXMAPS_H */
+

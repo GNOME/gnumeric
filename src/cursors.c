@@ -10,11 +10,16 @@
 
 GnumericCursorDef gnumeric_cursors [] = {
 	{ NULL, 17, 17, cursor_cross_xpm },
-	{ NULL, GDK_INTERNAL_CURSOR,   GDK_CROSSHAIR, NULL },
-	{ NULL, GDK_INTERNAL_CURSOR,   GDK_ARROW,     NULL },
-	{ NULL, GDK_INTERNAL_CURSOR,   GDK_FLEUR,     NULL },
+	{ NULL, GDK_INTERNAL_CURSOR,   GDK_CROSSHAIR,         NULL },
+	{ NULL, GDK_INTERNAL_CURSOR,   GDK_ARROW,             NULL },
+	{ NULL, GDK_INTERNAL_CURSOR,   GDK_FLEUR,             NULL },
 	{ NULL, 24, 24, cursor_zoom_in_xpm }, 
 	{ NULL, 24, 24, cursor_zoom_out_xpm }, 
+	{ NULL, GDK_INTERNAL_CURSOR,   GDK_SB_H_DOUBLE_ARROW, NULL },
+	{ NULL, GDK_INTERNAL_CURSOR,   GDK_SB_V_DOUBLE_ARROW, NULL },
+	{ NULL, GDK_INTERNAL_CURSOR,   GDK_SIZING,            NULL },
+	{ NULL, GDK_INTERNAL_CURSOR,   GDK_SIZING,            NULL },
+	{ NULL, GDK_INTERNAL_CURSOR,   GDK_HAND2,             NULL },
 	{ NULL, 0,    0,  NULL }
 };
 

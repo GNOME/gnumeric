@@ -385,7 +385,7 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 	{
 		int const header = 17 + primary_uid_size + common_header_len;
 		gboolean needs_free;
-		guint8 const * data =
+		guint8 const *data =
 			ms_escher_get_data (state, h->offset, h->len,
 					    header, &needs_free);
 		const char *repoid = NULL;

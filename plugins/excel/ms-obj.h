@@ -43,6 +43,8 @@ gboolean ms_parse_object_anchor (int pos[4],
 gboolean ms_obj_realize(MSObj * obj,
 			ExcelWorkbook  *wb, ExcelSheet * sheet);
 
+void     ms_excel_sheet_realize_objs (ExcelSheet *sheet);
+
 MSObj * ms_read_OBJ (BiffQuery *q,
 		     ExcelWorkbook * wb, Sheet * sheet);
 

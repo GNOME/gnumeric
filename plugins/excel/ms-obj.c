@@ -2,8 +2,8 @@
  * ms-obj.c: MS Excel Object support for Gnumeric
  *
  * Author:
- *    Michael Meeks (michael@imaginator.com)
  *    Jody Goldberg (jgoldberg@home.com)
+ *    Michael Meeks (mmeeks@gnu.org)
  **/
 
 #include "ms-obj.h"
@@ -38,13 +38,19 @@ extern int ms_excel_read_debug;
  * NOTE : The MSObj is freed by this routine
  */
 gboolean
-ms_obj_realize(MSObj * obj, ExcelWorkbook  *wb, ExcelSheet * sheet)
+ms_obj_realize (MSObj *obj, ExcelWorkbook *wb, ExcelSheet *sheet)
 {
-	int * anchor = NULL;
+	int   *anchor = NULL, i;
+	float   zoom;
+
 	if (obj == NULL)
 		return TRUE;
 
 	anchor = obj->anchor;
+
+	zoom = sheet->gnum_sheet->last_zoom_factor_used;
+	for (i = 0; i < 4; i++)
+		anchor[i] *= zoom;
 
 	switch (obj->gnumeric_type) {
 	case SHEET_OBJECT_BUTTON :
@@ -99,45 +105,59 @@ ms_obj_realize(MSObj * obj, ExcelWorkbook  *wb, ExcelSheet * sheet)
 	return FALSE;
 }
 
+/**
+ * ms_excel_sheet_realize_objs:
+ * @sheet: 
+ * 
+ *   This realizes the objects after the zoom factor has been
+ * loaded.
+ **/
+void
+ms_excel_sheet_realize_objs (ExcelSheet *sheet)
+{
+	GList *l;
+
+	for (l = sheet->obj_queue; l; l = g_list_next (l))
+		ms_obj_realize (l->data, sheet->wb, sheet);
+
+	g_list_free (sheet->obj_queue);
+	sheet->obj_queue = NULL;
+}
+
 gboolean
 ms_parse_object_anchor (int anchor[4],
 			Sheet const * sheet, guint8 const * data)
 {
 	/* Words 0, 4, 8, 12 : The row/col of the corners */
 	/* Words 2, 6, 10, 14 : distance from cell edge measured in 1/1024 of an inch */
-	float	zoom;
 	int	i;
 
 	/* FIXME : How to handle objects not in sheets ?? */
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
-	zoom = sheet->last_zoom_factor_used;
-
 	for (i = 0; i < 4; ++i) {
-		guint16 const pos = MS_OLE_GET_GUINT16(data + 4*i);
+		guint16 const pos = MS_OLE_GET_GUINT16 (data + 4 * i);
 		/* FIXME : we are slightly off.  Tweak the pixels/inch ratio
 		 * to make this come out on my screen for pic.xls.
 		 * 66 pixels/inch seems correct ???
 		 */
-		float margin = (MS_OLE_GET_GUINT16(data + 4*i + 2) / (1024./66.));
+		float margin = (MS_OLE_GET_GUINT16 (data + 4 * i + 2) / (1024. / 66.));
 
 		float const tmp = (i&1) /* odds are rows */
 		    ? sheet_row_get_unit_distance (sheet, 0, pos)
 		    : sheet_col_get_unit_distance (sheet, 0, pos);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 1) {
-			printf ("zoom = %f;\n", zoom);
 			printf ("%f units (%d pixels) from ",
-				margin, (int)(zoom * margin));
-			if (i&1)
-				printf ("row %d;\n", pos+1);
+				margin, (int)(margin));
+			if (i & 1)
+				printf ("row %d;\n", pos + 1);
 			else
 				printf ("col %s (%d);\n", col_name(pos), pos);
 		}
 #endif
 
 		margin += tmp;
-		margin *= zoom;
 
 		anchor[i] = (int)margin;
 	}
@@ -151,6 +171,9 @@ ms_parse_object_anchor (int anchor[4],
 	return FALSE;
 }
 
+/*
+ * See: S59EOE.HTM
+ */
 void
 ms_read_TXO (BiffQuery *q, ExcelWorkbook * wb)
 {
@@ -195,11 +218,9 @@ ms_read_TXO (BiffQuery *q, ExcelWorkbook * wb)
 #endif
 
 	/* MS-Documentation error.  The offset for the reserved 4 x 0 is 18 */
-	if (unicode_flag)
-	{
+	if (unicode_flag) {
 		static gboolean first = TRUE;
-		if (first)
-		{
+		if (first) {
 			first = FALSE;
 			g_warning ("EXCEL : Unicode text is unsupported");
 		}
@@ -213,13 +234,11 @@ ms_read_TXO (BiffQuery *q, ExcelWorkbook * wb)
 	text[text_len] = '\0';
 
 	/* FIXME : Should I worry about padding between the records ? */
-	for (i = 0; i < num_formats ; ++i)
-	{
+	for (i = 0; i < num_formats ; ++i) {
 	    /* TODO TODO finish */
 	}
 
-	if (ms_excel_read_debug > 0)
-	{
+	if (ms_excel_read_debug > 0) {
 		printf ("{ TextObject\n");
 		printf ("Text '%s'\n", text);
 		printf ("is %s, %s & %s;\n",
@@ -239,6 +258,10 @@ ms_obj_dump (guint8 const * const data, int const len, char const * const name)
 	printf ("}; /* %s */\n", name);
 }
 
+
+/*
+ * See: S59DAD.HTM
+ */
 static gboolean
 ms_obj_read_pre_biff8_obj (BiffQuery *q, ExcelWorkbook * wb,
 			   Sheet * sheet, MSObj * obj)
@@ -249,12 +272,15 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, ExcelWorkbook * wb,
 	guint32 const numObjects = MS_OLE_GET_GUINT16(q->data);
 	guint16 const flags = MS_OLE_GET_GUINT16(q->data+8);
 #endif
-	obj->excel_type = MS_OLE_GET_GUINT16(q->data+4);
-	obj->id = MS_OLE_GET_GUINT32(q->data+6);
+	obj->excel_type = MS_OLE_GET_GUINT16(q->data + 4);
+	obj->id         = MS_OLE_GET_GUINT32(q->data + 6);
 
 	return ms_parse_object_anchor (obj->anchor, sheet, q->data+10);
 }
 
+/*
+ * See: S59DAD.HTM
+ */
 static gboolean
 ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * obj)
 {

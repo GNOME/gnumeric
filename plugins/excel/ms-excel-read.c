@@ -1659,7 +1659,8 @@ ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 	ExcelSheet *ans = (ExcelSheet *) g_malloc (sizeof (ExcelSheet));
 
 	ans->gnum_sheet = sheet_new (wb->gnum_wb, name);
-	ans->wb = wb;
+	ans->wb         = wb;
+	ans->obj_queue  = NULL;
 
 	ans->shared_formulae =
 	    g_hash_table_new ((GHashFunc)biff_shared_formula_hash,
@@ -2430,8 +2431,8 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			break;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
-			ms_obj_realize(ms_read_OBJ (q, wb, sheet->gnum_sheet),
-				       wb, sheet);
+			sheet->obj_queue = g_list_append (sheet->obj_queue,
+							  ms_read_OBJ (q, wb, sheet->gnum_sheet));
 			break;
 
 		case BIFF_SELECTION:
@@ -2895,7 +2896,8 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 				{
 					ExcelSheet *sheet = ms_excel_workbook_get_sheet (wb, current_sheet);
 					ms_excel_sheet_set_version (sheet, ver->version);
-					ms_excel_read_sheet (sheet, q, wb);
+					ms_excel_read_sheet   (sheet, q, wb);
+					ms_excel_sheet_realize_objs (sheet);
 					current_sheet++;
 				}
 			} else if (ver->type == eBiffTChart)

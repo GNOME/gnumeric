@@ -13,6 +13,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
+#include "cursors.h"
 #include "sheet-object-widget.h"
 
 static SheetObject *sheet_object_widget_parent_class;
@@ -38,6 +39,9 @@ sheet_object_widget_realize (SheetObject *so, SheetView *sheet_view)
 		"height", y2 - y1,
 		"size_pixels", FALSE,
 		NULL);
+
+	sheet_object_widget_handle (so, view_widget, item);
+
 	return item;
 }
 
@@ -119,6 +123,7 @@ sheet_object_widget_construct (SheetObjectWidget *sow,
 	so = SHEET_OBJECT (sow);
 	
 	sheet_object_construct  (so, sheet);
+	so->type = SHEET_OBJECT_ACTION_CAN_PRESS;
 	sheet_object_set_bounds (so, x1, y1, x2, y2);
 
 	sow->realize = realize;
