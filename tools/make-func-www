@@ -1,0 +1,41 @@
+#!/usr/local/bin/perl -w
+# -----------------------------------------------------------------------------
+
+use strict;
+
+foreach my $srcfile (@ARGV) {
+    my $dstfile = $srcfile;
+    $dstfile =~ s/\.html$/.shtml/;
+
+    my $func = $srcfile;
+    $func =~ s|^(.*/)?gnumeric-||;
+    $func =~ s/\..*$//;
+
+    local (*SRC, *DST);
+    open (SRC, "<$srcfile") || die "Cannot read $srcfile: $!\n";
+    open (DST, ">$dstfile") || die "Cannot write $dstfile: $!\n";
+
+    print DST '<!--#set var="title" value="Gnumeric function ', $func, '" -->';
+    print DST '<!--#set var="rootdir" value=".." -->';
+    print DST '<!--#include virtual="../header-begin.shtml" -->', "\n";
+    print DST '<link rel="stylesheet" href="stylesheet/function.css" type="text/css"/>', "\n";
+    print DST '<!--#include virtual="../header-end.shtml" -->', "\n";
+
+    while (<SRC>) {
+	if (m'<body>' ... m'</body>') {
+	    s|<body>||;
+	    s|</body>||;
+
+	    s/(href=\".*\.)html\"/$1shtml\"/g;
+
+	    print DST;
+	}
+    }    
+
+    print DST '<!--#include virtual="../footer.shtml" -->', "\n";
+
+    close (DST);
+    close (SRC);
+}
+
+# -----------------------------------------------------------------------------
