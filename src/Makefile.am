@@ -5,7 +5,10 @@
 SUBDIRS = tools cut-n-paste-code
 
 bin_PROGRAMS =
-check_PROGRAMS = # test-pango number-match
+
+check_PROGRAMS =
+# check_PROGRAMS += test-pango number-match
+## Don't put comment on an assignment line!  It can trigger an automake bug.
 
 if WITH_GTK
   SUBDIRS += pixmaps dialogs widgets

@@ -63,4 +63,5 @@ liblp_solve_a_SOURCES =				\
     yacc_read.c		\
     yacc_read.h
 
-EXTRA_DIST = lp_BFP1.c	# icky inclusion of partial file
+# icky inclusion of partial file
+EXTRA_DIST = lp_BFP1.c
