@@ -307,7 +307,7 @@ go_locale_languages (void)
   return list;
 }
 #else
-#include <libgnome/gnome-i18n.h.h>
+#include <libgnome/gnome-i18n.h>
 
 GList const *
 go_locale_languages (void)
