@@ -402,7 +402,7 @@ static GnomeUIInfo workbook_format_toolbar[] = {
 	/* Button to replace font and size selectors in vertical mode */
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Font"), N_("Font selector"),
-		&cb_font_name, GNOME_STOCK_PIXMAP_FONT),
+		&cb_font_name, GTK_STOCK_SELECT_FONT),
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Bold"), N_("Bold"),
 		&cb_font_bold, NULL, NULL,
@@ -471,10 +471,10 @@ static GnomeUIInfo workbook_format_toolbar[] = {
 
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Decrease Indent"), N_("Align the contents to the left and decrease the indent"),
-		cb_format_dec_indent, GNOME_STOCK_PIXMAP_TEXT_UNINDENT),
+		cb_format_dec_indent, GNOME_STOCK_TEXT_UNINDENT),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Increase Indent"), N_("Align the contents to the left and increase the indent"),
-		cb_format_inc_indent, GNOME_STOCK_PIXMAP_TEXT_INDENT),
+		cb_format_inc_indent, GNOME_STOCK_TEXT_INDENT),
 
 	GNOMEUIINFO_SEPARATOR,
 
