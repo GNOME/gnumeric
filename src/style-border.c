@@ -304,6 +304,7 @@ style_border_set_pc_dash (StyleBorderType const i,
 			  GnomePrintContext *context)
 {
 	GdkLineStyle style = GDK_LINE_SOLID;
+	int w;
 
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (i >= STYLE_BORDER_NONE);
@@ -315,7 +316,10 @@ style_border_set_pc_dash (StyleBorderType const i,
 	if (style_border_data[i].pattern != NULL)
 		style = GDK_LINE_ON_OFF_DASH;
 
-	gnome_print_setlinewidth (context, style_border_data[i].width);
+	w = style_border_data[i].width;
+	if (w == 0)
+		w = 1;
+	gnome_print_setlinewidth (context, w);
 
 	if (style_border_data[i].pattern != NULL) {
 		struct LineDotPattern const * const pat =
@@ -651,8 +655,9 @@ static inline void
 print_hline (GnomePrintContext *context,
 	     float x1, float x2, float y)
 {
+	/* exclude far pixel to match gdk */
 	gnome_print_moveto (context, x1, y);
-	gnome_print_lineto (context, x2, y);
+	gnome_print_lineto (context, x2-1., y);
 	gnome_print_stroke (context);
 }
 
@@ -660,8 +665,9 @@ static inline void
 print_vline (GnomePrintContext *context,
 	     float x, float y1, float y2)
 {
+	/* exclude far pixel to match gdk */
 	gnome_print_moveto (context, x, y1);
-	gnome_print_lineto (context, x, y2);
+	gnome_print_lineto (context, x, y2-1.);
 	gnome_print_stroke (context);
 }
 

@@ -1,5 +1,9 @@
 2001-02-23  Jody Goldberg <jgoldberg@home.com>
 
+	* src/style-border.c (print_hline) : gdk_draw_line excludes the far
+	  pixel.  Make this match to keep the draw code consistent.
+	(print_vline) : ditto.
+
 	* src/print-cell.c (print_cell_range) : Use the hide_grid from the
 	  print flags not the sheet itself.
 
