@@ -592,7 +592,11 @@ gog_graph_print_to_gnome_print (GogGraph *graph,
 			      "zoom", 1.,
 			      NULL);
 	prend->gp_context = g_object_ref (gp_context);
+#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
 	prend->layout = gnome_print_pango_create_layout (prend->gp_context);
+#else
+	prend->layout = 0;
+#endif
 	allocation.x = 0.;
 	allocation.y = 0.;
 	allocation.w = width;
