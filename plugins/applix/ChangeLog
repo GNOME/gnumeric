@@ -1,3 +1,10 @@
+2002-02-10  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=70327
+	* applix-read.c (applix_parse_style) : Looks like the font indicies
+	  are 0 based.
+	(applix_parse_error) : Make this vararg and generate decent errors.
+
 2002-02-05  Jon K Hellan  <hellan@acm.org>
 
 	* applix-read.c (applix_read_colormap): Use style_color_new_i8.

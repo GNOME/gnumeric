@@ -71,15 +71,26 @@ typedef struct {
 /* The maximum numer of character potentially involved in a new line */
 #define MAX_END_OF_LINE_SLOP	16
 
+static int applix_parse_error (ApplixReadState *,
+			       char const *format, ...) G_GNUC_PRINTF (2, 3);
+
 static int
-applix_parse_error (ApplixReadState *state, char const *msg)
+applix_parse_error (ApplixReadState *state, char const *format, ...)
 {
-	if (state->parse_error == NULL) {
+	va_list args;
+	char *err;
+
+	if (state->parse_error == NULL)
 		state->parse_error = error_info_new_str (
 		                     _("Parse error while reading Applix file."));
-	}
-	error_info_add_details (state->parse_error,
-	                        error_info_new_str (msg));
+
+	va_start (args, format);
+	err = g_strdup_vprintf (format, args);
+	va_end (args);
+
+	error_info_add_details (state->parse_error, error_info_new_str (err));
+	g_free (err);
+
 	return -1;
 }
 
@@ -267,6 +278,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 	char *start = *buffer, *tmp = start;
 	gboolean is_protected = FALSE, is_invisible = FALSE;
 	char const *format_prefix = NULL, *format_suffix = NULL;
+	int font_id = 0; /* default */
 
 	*buffer = NULL;
 	if (*tmp == 'P') {
@@ -330,7 +342,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 				case '3' : a = HALIGN_CENTER; break;
 				case '4' : a = HALIGN_FILL; break;
 				default :
-					(void) applix_parse_error (state, "Unknown horizontal alignment");
+					(void) applix_parse_error (state, "Unknown horizontal alignment '%c'", *sep);
 					return NULL;
 				};
 				mstyle_set_align_h (style, a);
@@ -342,7 +354,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 				case 'C' : a = VALIGN_CENTER; break;
 				case 'B' : a = VALIGN_BOTTOM; break;
 				default :
-					(void) applix_parse_error (state, "Unknown vertical alignment");
+					(void) applix_parse_error (state, "Unknown vertical alignment '%c'", *sep);
 					return NULL;
 				};
 				mstyle_set_align_v (style, a);
@@ -352,8 +364,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 				char *format = NULL;
 				gboolean needs_free = FALSE;
 				switch (*sep) {
-				case 'D' :
-				{
+				case 'D' : {
 					int id = 0;
 					char *end;
 					static char * const date_formats[] = {
@@ -385,7 +396,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					    (0 == (id = strtol (sep+1, &end, 10))) ||
 					    sep+1 == end ||
 					    id < 1 || id > 16)
-						(void) applix_parse_error (state, "Unknown format");
+						(void) applix_parse_error (state, "Unknown format %d", id);
 
 					format = date_formats[id-1];
 					sep = end;
@@ -399,7 +410,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					case '2' : format = "hh:mm:ss";		break;
 					case '3' : format = "hh:mm";		break;
 					default :
-						(void) applix_parse_error (state, "Unknown time format");
+						(void) applix_parse_error (state, "Unknown time format '%c'", sep[1]);
 						return NULL;
 					};
 					sep += 2;
@@ -433,8 +444,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					if (!format_suffix)
 						format_suffix = "%";
 
-				case 'F' : /* fixed */
-				{
+				case 'F' : { /* fixed */
 					static char const *zeros = "000000000";
 					char *format;
 					char const *prec = "", *decimal = "";
@@ -469,7 +479,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					   }
 					   /* Fall through */
 				default :
-					(void) applix_parse_error (state, "Unknown format");
+					(void) applix_parse_error (state, "Unknown format '%c'", *sep);
 					return NULL;
 				};
 				if (format)
@@ -502,7 +512,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					sep += 2;
 					break;
 				};
-				(void) applix_parse_error (state, "Unknown font modifier");
+				(void) applix_parse_error (state, "Unknown font modifier 'f%c'", sep[1]);
 				return NULL;
 
 			case 'F' :
@@ -513,7 +523,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					mstyle_set_color (style, MSTYLE_COLOR_FORE, color);
 					break;
 				}
-				(void) applix_parse_error (state, "Unknown font modifier");
+				(void) applix_parse_error (state, "Unknown font modifier F%c", sep[1]);
 				return NULL;
 
 			case 'P' : {
@@ -524,7 +534,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					mstyle_set_font_size (style, size / application_dpi_to_pixels ());
 					break;
 				}
-				(void) applix_parse_error (state, "Invalid font size");
+				(void) applix_parse_error (state, "Invalid font size '%s", start);
 				return NULL;
 			}
 
@@ -539,21 +549,17 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					sep +=2;
 					break;
 				}
-				(void) applix_parse_error (state, "Unknown font modifier");
+				(void) applix_parse_error (state, "Unknown font modifier W%c", sep[1]);
 				return NULL;
 
 			case 'T' :
 				if (sep[1] == 'F') {
-					/* Ok this should be a font ID (I assume numbered from 0) */
+					/* be a font ID numbered from 0 */
 					char *start = (sep += 2);
-					int font_id = strtol (start, &sep, 10);
 
-					if (start == sep || font_id < 1 || font_id > (int)state->font_names->len)
-						(void) applix_parse_error (state, "Unknown font modifier");
-					else {
-						char const *name = g_ptr_array_index (state->font_names, font_id-1);
-						mstyle_set_font_name (style, name);
-					}
+					font_id = strtol (start, &sep, 10);
+					if (start == sep || font_id < 0 || font_id >= (int)state->font_names->len)
+						(void) applix_parse_error (state, "Unknown font index %s", start);
 					break;
 				}
 
@@ -568,9 +574,11 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 		}
 
 		if (*sep != '|' && *sep != ')') {
-			(void) applix_parse_error (state, "Unknown font modifier");
+			(void) applix_parse_error (state, "Invalid font specification");
 			return NULL;
 		}
+
+		mstyle_set_font_name (style, g_ptr_array_index (state->font_names, font_id));
 
 		/* Background, pattern, and borders */
 		for (++sep ; *sep && *sep != ')' ; ) {
@@ -588,7 +596,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 				int num = strtol (sep += 2, &end, 10);
 
 				if (sep == end || 0 >= num || num >= (int)(sizeof(map)/sizeof(int))) {
-					(void) applix_parse_error (state, "Unknown pattern");
+					(void) applix_parse_error (state, "Unknown pattern %s", sep);
 					return NULL;
 				}
 
@@ -630,7 +638,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 				int num = strtol (++sep, &end, 10);
 
 				if (sep == end || 0 >= num || num >= (int)(sizeof(map)/sizeof(int))) {
-					(void) applix_parse_error (state, "Unknown border style");
+					(void) applix_parse_error (state, "Unknown border style %s", sep);
 					return NULL;
 				}
 				sep = end;
@@ -649,13 +657,13 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 			if (*sep == ',')
 				++sep;
 			else if (*sep != ')') {
-				(void) applix_parse_error (state, "Unknown pattern, background, or border");
+				(void) applix_parse_error (state, "Invalid pattern, background, or border");
 				return NULL;
 			}
 		}
 
 		if (*sep != ')') {
-			(void) applix_parse_error (state, "Unknown pattern or background");
+			(void) applix_parse_error (state, "Invalid pattern or background");
 			return NULL;
 		}
 
