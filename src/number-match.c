@@ -768,8 +768,15 @@ compute_value (const char *s, const regmatch_t *mp,
 				number = 0.;
 				/* FIXME: this loop is bogus.  */
 				do {
+					if (number > DBL_MAX/1000.)
+						return FALSE;
+
 					number *= 1000.;
+
+					errno = 0; /* strtol sets errno, but does not clear it.  */
 					number += strtol (ptr, &ptr, 10);
+					if (errno == ERANGE)
+						return FALSE;
 				} while (*(ptr++) == thousands_sep);
 				is_number = TRUE;
 			}
@@ -784,6 +791,7 @@ compute_value (const char *s, const regmatch_t *mp,
 		case MATCH_NUMBER_DECIMALS:
 			if (*str == decimal) {
 				char *end;
+				errno = 0; /* strtol sets errno, but does not clear it.  */
 				if (seconds < 0) {
 					number += strtod (str, &end);
 					is_number = TRUE;

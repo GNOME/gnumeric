@@ -1,5 +1,9 @@
 2001-02-15  Jody Goldberg <jgoldberg@home.com>
 
+	* src/number-match.c (compute_value) : check for overflow.
+
+2001-02-15  Jody Goldberg <jgoldberg@home.com>
+
 	* configure.in : remove dead dirs
 	* Makefile.am : Add the xml-i18n-*.in files
 
