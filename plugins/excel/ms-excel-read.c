@@ -2436,12 +2436,15 @@ ms_excel_sheet_insert_val (ExcelSheet *sheet, int xfidx,
 			   int col, int row, Value *v)
 {
 	Cell *cell;
+	BiffXFData const *xf = ms_excel_get_xf (sheet, xfidx);
+
 	g_return_if_fail (v);
 	g_return_if_fail (sheet);
+	g_return_if_fail (xf);
 
 	ms_excel_set_xf (sheet, col, row, xfidx);
 	cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
-	cell_set_value (cell, v, NULL);
+	cell_set_value (cell, v, xf->style_format);
 }
 
 static void
@@ -2457,11 +2460,7 @@ static void
 ms_excel_sheet_set_comment (ExcelSheet *sheet, int col, int row, const char *text)
 {
 	if (text) {
-		Cell *cell = sheet_cell_get (sheet->gnum_sheet, col, row);
-		if (!cell) {
-			cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
-			cell_set_value (cell, value_new_empty (), NULL);
-		}
+		Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
 		cell_set_comment (cell, text);
 	}
 }
@@ -2509,8 +2508,6 @@ ms_excel_read_comment (BiffQuery *q, ExcelSheet *sheet)
 			Cell *cell = sheet_cell_fetch (sheet->gnum_sheet,
 						       sheet->comment_prev_col,
 						       sheet->comment_prev_row);
-			if (!cell->value)
-				cell_set_value (cell, value_new_empty(), NULL);
 			if (cell->comment && cell->comment->comment &&
 			    cell->comment->comment->str) {
 				char *txt = g_strconcat (cell->comment->comment->str, text, NULL);

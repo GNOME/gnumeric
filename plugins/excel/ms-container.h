@@ -9,7 +9,7 @@ typedef struct _MSObj MSObj;
 
 typedef struct
 {
-	gboolean (*realize_obj) (MSObj *obj, MSContainer *container);
+	gboolean (*realize_obj) (MSContainer *container, MSObj *obj);
 } MSContainerClass;
 
 struct _MSContainer

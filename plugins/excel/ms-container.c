@@ -77,5 +77,5 @@ ms_container_realize_objs (MSContainer *container)
 	g_return_if_fail (container != NULL);
 
 	for (l = container->obj_queue; l; l = g_list_next (l))
-		(void) (*container->vtbl->realize_obj) (l->data, container);
+		(void) (*container->vtbl->realize_obj) (container, l->data);
 }

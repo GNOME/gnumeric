@@ -1,3 +1,11 @@
+2000-11-01  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_sheet_set_comment) : we do not need to set
+	  the cell's value to empty.  It is created that way.
+	(ms_excel_read_comment) : Ditto.
+	(ms_excel_sheet_insert_val) : We have direct access to the display
+	  format.  Use it rather than doing an expensive lookup.
+
 2000-10-29  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c : Adjust to the signature changes for reading views
