@@ -91,6 +91,8 @@ GNOME Spread Sheet task list
 
    Correct Date support.
 
+   Sensible Unicode support.
+
    Add collation of BIFF continuation records to the
    previous record, to save many checks in the code.
 
@@ -101,3 +103,4 @@ GNOME Spread Sheet task list
 
    Serious testing required.
    Integrate 'advance' into read_copy, and write, and rename to lseek
+

@@ -56,14 +56,15 @@ FORMULA_OP_DATA formula_op_data[] = {
  **/
 FORMULA_FUNC_DATA formula_func_data[] =
 {
-  { 0x04, "SUM (", 0,  ")", 1, 0 },
-  { 0x05, "AVERAGE (", 0,  ")", 1, 0 },
-  { 0x06, "MIN (", 0,  ")", 1, 0 },
-  { 0x07, "MAX (", 0,  ")", 1, 0 },
-  { 0x24, "AND (", 0,  ")", 1, 0 },
-  { 0x25, "OR (",  0,  ")", 1, 0 },
-  { 0x65, "HLOOKUP (", 0, ")", 1, 0 },
-  { 0x66, "VLOOKUP (", 0, ")", 1, 0 }
+  { 0x04, "SUM (", 0,  ")", -1, 0 },
+  { 0x05, "AVERAGE (", 0,  ")", -1, 0 },
+  { 0x06, "MIN (", 0,  ")", -1, 0 },
+  { 0x07, "MAX (", 0,  ")", -1, 0 },
+  { 0x24, "AND (", 0,  ")", -1, 0 },
+  { 0x25, "OR (",  0,  ")", -1, 0 },
+  { 0x65, "HLOOKUP (", 0, ")", -1, 0 },
+  { 0x66, "VLOOKUP (", 0, ")", -1, 0 },
+  { 0x71, "UPPER (",   0, ")", 1, 0 }
 };
 #define FORMULA_FUNC_DATA_LEN (sizeof(formula_func_data)/sizeof(FORMULA_FUNC_DATA))
 
@@ -192,28 +193,38 @@ static PARSE_DATA *parse_list_pop_front (PARSE_LIST *list)
  * comman delimits them sticking result in 'into'
  * frees the stack space.
  **/
-static void parse_list_comma_delimit_n (PARSE_LIST *list, char *into, int n)
+static void 
+parse_list_comma_delimit_n (PARSE_LIST *stack, char *prefix,
+					int n, char *suffix, int precedence)
 {
-  char *buffer = into ;
-  int lp, start ;
-  GList *ptr ;
+	char **args, *ans, *put ;
+	guint32 slen = 0 ;
+	int lp ;
 
-  start = list->length - n ;
-  ptr = g_list_nth (list->data, start) ;
-  for (lp=0;lp<n;lp++)
-    {      
-      char *str   = &buffer[strlen(buffer)] ;
-      PARSE_DATA  *dat = ptr->data ;
-      char *appnd = dat->name ;
-      ptr = ptr->next ;
-      sprintf (str, "%s%c", appnd, ptr?',':' ') ;
-    }
+	args = g_new (char *, n) ;
 
-  for (lp=0;lp<n;lp++)
-    {
-      PARSE_DATA *dat = parse_list_pop (list) ;
-      parse_data_free (dat) ;
-    }
+	for (lp=0;lp<n;lp++)
+	{
+		PARSE_DATA  *dat = parse_list_pop (stack) ;
+		args[n-lp-1] = dat->name ;
+		slen += dat->name?strlen(dat->name):0 ;
+		g_free (dat) ;
+	}
+	slen+= prefix?strlen(prefix):0 ;
+	slen+= suffix?strlen(suffix):0 ;
+	slen+= 1 + n ; /* Commas and termination */
+
+	ans = g_new (char, slen) ;
+
+	strcpy (ans, prefix) ;
+	put = ans + strlen(ans) ;
+
+	for (lp=0;lp<n;lp++)
+		put += sprintf (put, "%c%s", lp?',':' ', args[lp]) ;
+
+	strcat (put, suffix) ;
+
+	parse_list_push_raw (stack, ans, precedence) ;
 }
 
 /**
@@ -286,6 +297,31 @@ get_inter_sheet_ref (MS_EXCEL_WORKBOOK *wb, guint16 extn_idx)
 		strcat (ans, "!") ;
 	}
 	return ans ;
+}
+
+static gboolean
+make_function (PARSE_LIST *stack, int fn_idx, int numargs)
+{
+	int lp ;
+			
+	for (lp=0;lp<FORMULA_FUNC_DATA_LEN;lp++)
+	{
+		if (formula_func_data[lp].function_idx == fn_idx)
+		    {
+			const FORMULA_FUNC_DATA *fd = &formula_func_data[lp] ;
+			
+			if (fd->num_args != -1)
+				numargs = fd->num_args ;
+
+			parse_list_comma_delimit_n (stack, (fd->prefix)?fd->prefix:"",
+						    numargs,
+						    fd->suffix?fd->suffix:"", fd->precedence) ;
+			return 1 ;
+		}
+	}
+	if (lp==FORMULA_FUNC_DATA_LEN)
+		printf ("FIXME, unimplemented fn 0x%x, with %d args\n", fn_idx, numargs) ;
+	return 0 ;
 }
 
 /**
@@ -364,7 +400,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 				ptg_length = 3 ;
 			}
 			buffer = cellref_name (ref, sheet->gnum_sheet, fn_col, fn_row) ;
-			parse_list_push_raw(stack, buffer, NO_PRECEDENCE) ;
+			parse_list_push_raw (stack, buffer, NO_PRECEDENCE) ;
 /*	    printf ("%s\n", buffer) ; */
 			g_free (ref) ;
 		}
@@ -386,7 +422,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 				strcat (ans, (ptr = cellref_name (ref, sheet->gnum_sheet, fn_col, fn_row))) ;
 				g_free (ptr) ;
 				printf("Answer : '%s'\n", ans) ;
-				parse_list_push_raw (stack, strdup(ans), NO_PRECEDENCE) ;
+				parse_list_push_raw (stack, g_strdup(ans), NO_PRECEDENCE) ;
 				ptg_length = 6 ;
 			}
 			else
@@ -469,35 +505,20 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 			g_free (last) ;
 		}
 		break ;
+		case FORMULA_PTG_FUNC:
+		{
+			if (!make_function (stack, BIFF_GETWORD(cur), -1)) error = 1 ;
+			ptg_length = 2 ;
+			break ;
+		}
 		case FORMULA_PTG_FUNC_VAR:
 		{
 			int numargs = (BIFF_GETBYTE( cur ) & 0x7f) ;
 			int prompt  = (BIFF_GETBYTE( cur ) & 0x80) ;   /* Prompts the user ?  */
 			int iftab   = (BIFF_GETWORD(cur+1) & 0x7fff) ; /* index into fn table */
 			int cmdquiv = (BIFF_GETWORD(cur+1) & 0x8000) ; /* is a command equiv.?*/
-			GList *args=0, *tmp ;
-			int lp ;
-			char buffer[4096] ; /* Nasty ! */
-/*	    printf ("Found formula %d with %d args\n", iftab, numargs) ; */
-			
-			for (lp=0;lp<FORMULA_FUNC_DATA_LEN;lp++)
-			{
-				if (formula_func_data[lp].function_idx == iftab && formula_func_data[lp].multi_arg)
-				{
-					const FORMULA_FUNC_DATA *fd = &formula_func_data[lp] ;
-					GList *ptr ;
-					
-					strcpy (buffer, (fd->prefix)?fd->prefix:"") ;
-					
-					parse_list_comma_delimit_n (stack, &buffer[strlen(buffer)], numargs) ;
-					
-					strcat (buffer, fd->suffix?fd->suffix:"") ;
-					parse_list_push_raw(stack, g_strdup (buffer), fd->precedence) ;
-					break ;
-				}
-			}
-			if (lp==FORMULA_FUNC_DATA_LEN)
-				printf ("FIXME, unimplemented vararg fn %d, with %d args\n", iftab, numargs), error=1 ;
+
+			if (!make_function (stack, iftab, numargs)) error = 1 ;
 			ptg_length = 3 ;
 		}
 		break ;
@@ -515,7 +536,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 			ptg_length = 0 ;
 			break ;
 		case FORMULA_PTG_MISSARG:
-			parse_list_push_raw (stack, strdup (""), NO_PRECEDENCE) ;
+			parse_list_push_raw (stack, g_strdup (""), NO_PRECEDENCE) ;
 			ptg_length = 0 ;
 			break ;
 		case FORMULA_PTG_ATTR: /* FIXME: not fully implemented */
@@ -535,13 +556,6 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 			else
 				printf ("Unknown PTG Attr 0x%x 0x%x\n", grbit, w) ;
 		break ;
-		}
-		case FORMULA_PTG_FUNC:
-		{
-			int iftab   = BIFF_GETWORD(cur) ;
-			printf ("FIXME, unimplemented function table pointer %d\n", iftab), error=1 ;
-			ptg_length = 2 ;
-			break ;
 		}
 		case FORMULA_PTG_INT:
 		{

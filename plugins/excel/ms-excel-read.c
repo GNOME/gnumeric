@@ -880,7 +880,6 @@ ms_excel_sheet_destroy (MS_EXCEL_SHEET * sheet)
 	g_list_free (sheet->array_formulae);
 
 	sheet_destroy (sheet->gnum_sheet);
-	/* FIXME: This needs a workbook_detach function ! */
 	
 	g_free (sheet);
 }
@@ -925,6 +924,25 @@ ms_excel_workbook_attach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans)
 	}
 	ms_excel_sheet_set_index (ans, idx) ;
 	wb->excel_sheets = g_list_append (wb->excel_sheets, ans) ;
+}
+
+static void
+ms_excel_workbook_detach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans)
+{
+	int    idx = 0 ;
+	GList *list = wb->excel_sheets ;
+
+	if (ans->gnum_sheet)
+		workbook_detach_sheet (wb->gnum_wb, ans->gnum_sheet);
+	
+	while (list)
+		if (list->data == ans)
+		{
+			wb->excel_sheets = g_list_remove(wb->excel_sheets, list);
+			return ;
+		}
+		else
+			list = list->next ;
 }
 
 static MS_EXCEL_SHEET *
@@ -1051,6 +1069,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		  dump (q->data, q->length);
 		  STRNPRINTF(q->data + 8, EX_GETSTRLEN(q)); 
 		*/
+		printf ("Rstring\n") ;
 		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
 				       (txt = biff_get_text (q->data + 8, EX_GETSTRLEN (q))));
 		g_free (txt) ;
@@ -1062,7 +1081,6 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			double num = BIFF_GETDOUBLE (q->data + 6);	/*
 									 * FIXME GETDOUBLE is not endian independant 
 									 */
-			printf ("A number : %f\n", num);
 			dump (q->data, q->length);
 			snprintf (buf, 64, "%f", num);
 			ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf);
@@ -1138,7 +1156,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		 */
 		ms_excel_parse_formula (sheet, q, EX_GETCOL (q), EX_GETROW (q));
 		break;
-	case BIFF_STRING_REF:
+	case BIFF_LABELSST:
 	{
 		char *str;
 		
@@ -1180,9 +1198,9 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			else /* Boolean */
 			{
 				if (BIFF_GETBYTE(q->data + 6))
-					ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), "TRUE") ;
+					ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), "1") ; /* TRUE */
 				else
-					ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), "FALSE") ;
+					ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), "0") ; /* FALSE */
 			}
 			break;
 		}
@@ -1206,7 +1224,8 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 			if (q->streamPos == blankSheetPos)
 			{
 				printf ("Blank sheet\n");
-// FIXME:				ms_excel_sheet_destroy (sheet);
+				ms_excel_workbook_detach (sheet->wb, sheet) ;
+				ms_excel_sheet_destroy (sheet) ;
 				return;
 			}
 			ms_excel_fixup_array_formulae (sheet);
@@ -1217,7 +1236,8 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 			break;
 		}
 	}
-// FIXME:	ms_excel_sheet_destroy (sheet);
+	ms_excel_workbook_detach (sheet->wb, sheet) ;
+	ms_excel_sheet_destroy (sheet) ;
 	printf ("Error, hit end without EOF\n");
 	return;
 }
@@ -1385,13 +1405,13 @@ ms_excelReadWorkbook (MS_OLE * file)
 			case BIFF_XF:
 				biff_xf_data_new (wb, q, ver->version) ;
 				break;
-			case BIFF_STRINGS:
-				wb->global_strings= g_malloc(q->length-8);
+			case BIFF_SST: /* see S59DE7.HTM */
+				wb->global_strings = g_malloc(q->length-8);
 				memcpy(wb->global_strings, q->data+8, q->length-8);
 				wb->global_string_max = BIFF_GETLONG(q->data+4);
 				printf("There are apparently %d strings\n",
 				       wb->global_string_max);
-				dump (wb->global_strings, wb->global_string_max);
+				dump (q->data+8, q->length-8) ;
 				break;
 			case BIFF_EXTERNSHEET:
 			{

@@ -85,8 +85,8 @@ extern void free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 #define BIFF_RSTRING                    0xd6
 #define BIFF_XF                         0xe0
 
-#define BIFF_STRINGS			0xfc
-#define BIFF_STRING_REF			0xfd
+#define BIFF_SST                        0xfc
+#define BIFF_LABELSST                   0xfd
 
 /* Odd balls */
 #define BIFF_SUPBOOK                   0x1ae /* Supporting Workbook */

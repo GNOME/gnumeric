@@ -55,12 +55,12 @@ typedef struct _FORMULA_OP_DATA
 
 typedef struct _FORMULA_FUNC_DATA
 {
-  int function_idx ;
-  char *prefix ;
-  char *mid ;
-  char *suffix ;
-  int multi_arg ;
-  int precedence ;
+	int function_idx ;
+	char *prefix ;
+	char *mid ;
+	char *suffix ;
+	int num_args ; /* -1 for multi-arg */
+	int precedence ;
 } FORMULA_FUNC_DATA ;
 
 #endif

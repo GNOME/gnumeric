@@ -1,3 +1,9 @@
+1999-02-10  Michael Meeks  <michael@imaginator.com>
+
+	* plugins/excel/ms-excel.c (ms_excel_read_cell): BOOLERR booleans
+	hard-translated to 1, 0: not a good solution to problems with TRUE.
+	* src/fn-string.c (gnumeric_upper, gnumeric_lower): Add increment
+	
 1999-02-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/parser.y: Apparently string concatenation operator in Excel

@@ -565,7 +565,7 @@ dump_stream (MS_OLE_STREAM *s)
 static void
 dump_biff (BIFF_QUERY *bq)
 {
-	printf ("Opcode %d length %d malloced? %d\nData:\n", bq->opcode, bq->length, bq->data_malloced);
+	printf ("Opcode 0x%x length %d malloced? %d\nData:\n", bq->opcode, bq->length, bq->data_malloced);
 	if (bq->length>0)
 		dump (bq->data, bq->length);
 	dump_stream (bq->pos);
@@ -1522,7 +1522,7 @@ ms_biff_query_next (BIFF_QUERY *bq)
 		return 1;
 	}
 	ans = ms_biff_collate_block (bq);
-	/* dump_biff (bq); */
+/*	dump_biff (bq); */
 	return (ans);
 }
 
