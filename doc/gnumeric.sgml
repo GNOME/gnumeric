@@ -6,6 +6,7 @@
 <!entity selections SYSTEM "selections.sgml">
 <!entity autofill SYSTEM "autofill.sgml">
 <!entity worksheet SYSTEM "worksheet.sgml">
+<!entity files SYSTEM "files.sgml">
 ]>
 <book id="gnumeric">
   <bookinfo>
@@ -58,14 +59,30 @@
    </chapter>
 
    <chapter id="formatting">
-     <title>Cell Formatting</title> &numberformat;
+     <title>Cell Formatting</title>
+      &numberformat;
    </chapter>
 
    <chapter id="worksheet">
-     <title>Worksheet overview.</title> &worksheet;
+     <title>Worksheet overview.</title> 
+      &worksheet;
    </chapter>
 
- 
+  <chapter id="files">
+    <title>Working with files.</title>
+    &files;
+  </chapter>
+
+  <chapter id="tutorials">
+    <title>Tutorials</title>
+    <para>Nothing yet, will be some walkthroughs eventually.</para>
+  </chapter>
+
+  <chapter id="cell-elements">
+    <title>Drawing on a worksheet</title>
+    <para>boxes, labels, etc eventually.</para>
+  </chapter>
+
 </book>
 	
 

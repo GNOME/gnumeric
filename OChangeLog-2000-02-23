@@ -1,3 +1,10 @@
+1998-10-06 Adrian Likins <adrian@gimp.or>
+
+	* doc/images/*.gif: gifs for documenting the button bar   
+	* doc/editing.sgml, files.sgml, formulas.sgml, gnumeric.sgml,
+	number-format.sgml, worksheet.sgml: doc updates, some prelim
+	info on file loading/saving 
+
 1998-10-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/cell.c (cell_modified): New function, used to tag a modified

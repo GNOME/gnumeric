@@ -3,7 +3,7 @@
 
   <para>Cell formats allow you to change the way cell data appears in the 
     spreadsheet. It is important to keep in mind that it only alters the way the 
-    data is presented, and does not change the value of the data. </para>
+  data is presented, and does not change the value of the data. </para>
   
   <para>The formatting options allows for monetary units, scientific options,
      dates, times, fractions,and more. Positive and negative values can have different colors and formats
@@ -39,7 +39,7 @@
 
   <para>The number formatting dialog (see <xref linkend="number-format-dialog"> ) 
       provides a wide range of options for 
-      formatting numbers. The primary use of the dialog is to select from
+    formatting numbers. The primary use of the dialog is to select from
       one of the many preset number formatting rules. These formatting styles
       should be more than adequate for the vast majority of cases. If none
       of these meet the needs of the user, it is possible to create your own
@@ -56,11 +56,11 @@
     categories, and a list of formats in each category.</para>
 
     <para>There is also a Sample output of what the new formatting should
-      look like, and the example of what the formatting code looks like.</para>
+  look like, and the example of what the formatting code looks like.</para>
 </sect2>    
 
 
-<sect2>
+<sect2 id="changing-font">
 <title>Changing the Font</title>
 
 <para>Any cell can use any font that is availble to Gnumeric. This 
@@ -83,6 +83,26 @@ tab. This will open the standard Gnome font selection dialog.</para>
 <para>Reference docs on how to use the font dialog here.</para>
 <!-- FIXME -->
 
+<procedure>
+  <title>To change a cells font</title>
+   <step>
+     <para>
+        Select the cell or range of cell that the font needs to be changed in. </para>
+   </step>
+   <step>
+      <para>Open the cell format dialog. This dialog can be opened from the
+         <guimenu>Format</guimenu><guimenuitem>Cells</guimenuitem> menu,
+         with the <keycombo><keycap>Ctrl</keycap><keycap>1</keycap></keycombo>,
+         or from right-clicking (<mousebutton>MB3</mousebutton>) and choosing
+         the <guimenuitem>Cell Format</guimenuitem> menu option.</para>
+   </step>
+   <step>
+      <para>Select the font tab in the dialog box notebook. This will open
+            the font selection part of the dialog. See
+            <xref linkend="number-format-font-dialog"> for a look at the dialog.</para>
+   <step><para>TELL PEOPLE HOW TO USE THE FONT DIALOG HERE</para></step>
+
+</procedure>
 
 <para>For simply changing a cell's format to be Bold or Italics,
 there are buttons on the toolbar for doing this quickly.
@@ -116,23 +136,45 @@ open the Gnome color dialog. Select a color and
 press <guibutton>Okay</guibutton> to return to the cell color dialog.
 </para>
 
-<Para>The <Guilabel>Background Configuration</Guilabel> Includes
-Options For Setting The Cells Background To Either A Solid
-Color Or A Pattern.</Para>
+<procedure>
+  <title>Changing a cell's text color</title>
+ <step>
+     <para>
+        Select the cell or range of cell that the font needs to be changed in. </para>
+   </step>
+    <step>
+      <para>Open the cell format dialog. This dialog can be opened from the
+         <guimenu>Format</guimenu><guimenuitem>Cells</guimenuitem> menu,
+         with the <keycombo><keycap>Ctrl</keycap><keycap>1</keycap></keycombo>,
+         or from right-clicking (<mousebutton>MB3</mousebutton>) and choosing
+         the <guimenuitem>Cell Format</guimenuitem> menu option.</para>
+   </step>
+   <step>
+       <para>Select the <guilabel>Color </guilabel> tab in the dialog box notebook. This will open
+       the font selection part of the dialog. See 
+       <xref linkend="number-format-color-dialog"> for a look at the dialog.</para>
+   </step>
+   <step><para>TELL PEOPLE HOW TO USE THE COLOR PICKER HERE</para></step>
+    <!--  FIXME FIXME FIXME -->
+</procedure>
 
-<Para>To Set The Background Of The Cell To A Solid Color,
-Click On The <Guibutton>Use Solid Color</Guibutton>, And
-Choose A Color From The Color Selector Dialog. </Para>
+<para>The <guilabel>background configuration</guilabel> includes
+options for setting the cells background to either a solid
+color or a pattern.</para>
 
-<Para>To Set A Pattern For The Cell Background, 
-Click On The <Guibutton>Use A Pattern</Guibutton> Button
-And Select A Pattern By Clicking On The Pattern The User Wants.
-There Is A Solid Black Border That Should Outline The Currently
-Selected Pattern. </Para>
+<para>To set the background of the cell to a solid color,
+click on the <guibutton>use solid color</guibutton>, and
+choose a color from the color selector dialog. </para>
 
-<!-- Fixme -->
-<Para>Note: The Background Options Are Not Implemented Yet.</Para>
-<!-- Fixme -->
+<para>To set a pattern for the cell background, 
+click on the <guibutton>use a pattern</guibutton> button
+and select a pattern by clicking on the pattern the user wants.
+there is a solid black border that should outline the currently
+selected pattern. </para>
+
+<!-- fixme -->
+<para>Note: the background options are not implemented yet.</para>
+<!-- fixme -->
 </sect2>
 
 <sect2>
@@ -150,7 +192,110 @@ as needed. There are several justification options. See
    </screenshot>
 </figure>
 
+<figure id="number-format-justification-dialog">
+  <title>The cell justification dialog.</title>
+  <screenshot>
+     <graphic fileref="images/number-format-justification-dialog-2.jpg"></graphic>
+   </screenshot>
+</figure>
+
+<procedure>
+ <title>Changing a cells justification.</title>
+   <step>
+    <para>
+        Select the cell or range of cell that the font needs to be changed in. </para>
+   </step>
+    <step>
+      <para>Open the cell format dialog. This dialog can be opened from the
+         <guimenu>Format</guimenu><guimenuitem>Cells</guimenuitem> menu,
+         with the <keycombo><keycap>Ctrl</keycap><keycap>1</keycap></keycombo>,
+         or from right-clicking (<mousebutton>MB3</mousebutton>) and choosing
+         the <guimenuitem>Cell Format</guimenuitem> menu option.</para>
+   </step>
+   <step>
+     <para>
+       Select the <guilabel>Alignment</guilabel> tab from the notebook tabs. This
+       will open the font selection part of the dialog. See
+       <xref linkend="number-format-justification-dialog"> for a look at the dialog.
+     </para>
+    </step>
+   <step>
+     <para>Choose a horizontal and Vertical justification type by clicking on
+     one of the buttons. Only one choice from each option group is allowed. </para>
+   </step>
+</procedure>
+  
+<variablelist>
+   <title>Horizontal justitfication options.</title>
+   <varlistentry>
+     <term><guibutton>General</guibutton></term>
+     <listitem>
+          <para>The standard default justification. This equates to right justifying
+           numbers and formulas, and left justifying strings and labels.</para>
+     </listitem>
+   </varlistentry>
+   <varlistentry>
+      <term><guibutton>Left</guibutton></term>
+      <listitem>
+        <para>Left justitify all cell contents.</para>
+      </listitem>
+   </varlistentry>
+   <varlistentry>
+     <term><guibutton>Center</guibutton></term>
+     <listitem>
+       <para>Center all cell contents.</para>
+     </listitem>
+   </varlistentry>
+   <varlistentry>
+     <term><guibutton>Right</guibutton></term>
+     <listitem>
+       <para>Right justify all cell contents.</para>
+     </listitem>
+   </varlistentry>
+   <varlistentry>
+     <term><guibutton>Fill</guibutton></term>
+       <listitem>
+          <para>Fill the cell with the contents. This will repeat the cells
+                contents to fill the space.</para>
+       </listitem>
+    </varlistentry>
+   <varlistentry>
+     <term><guibutton>Justify</guibutton></term>
+         <listitem>
+           <para>Left justify and verticaly center the cells contents.</para>
+         </listitem>
+      </varlistentry>
+</variablelist>
+
+
+<!--FIXME I dont belive alignment is implemented yet -->
+<variablelist>
+   <title>Vertical Justification options.</title>
+<varlistentry>
+   <term><guibutton>Top</guibutton></term>
+   <listitem><para>Align the top of the cells contents with the top of the cell.</para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><guibutton>Center</guibutton></term>
+   <listitem><para>Center the cells contents vertically. Equally space between the top and bottom</para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><guibutton>Bottom</guibutton></term>
+   <listitem><para>Align the contents of the cell with the bottom of the cell.</para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><guibutton>Justify</guibutton></term>
+   <listitem><para>FIXME FIXME</para></listitem>
+   <!--FIXME -->
+</varlistentry>
+</variablelist>
+
+
 </sect2>
+
+
+
+
 <sect2 id="number-format-bold-italics">
    <title>Cell Formatting options on the buttonbar.</title>
 

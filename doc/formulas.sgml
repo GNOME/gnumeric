@@ -1,0 +1,92 @@
+<sect1 id="formulas">
+  <title>Formulas</title>
+
+  <para>Formulas are the key to the whole ball of wax when it comes to
+  spreadsheets. A formula can take almost anything as its arguments
+  including single numbers, cell references, ranges of cells, arrays
+  of cells, etc. <para>
+
+
+   <sect2>
+   <title>Syntax</title>
+   
+    <para> Formulas are distinguished from regular data by a '='
+    as the first character. Everything following a '=' is evaluated
+    as a formula, not a string. </para>
+
+     <para> The simplest fomula's just use the standard math operator
+     and symbols. +,-,*,/ are intrepreted just as you would expect them to.
+     +,- can be used as unary operators and indicate sign, just as can
+     be expected.</para>
+      
+      <example id="standardoperators">
+      <title>Examples of standard operators</title>
+      <programlisting>
+       =5+5            returns 10.
+   
+       =5-4            returns 1.
+
+       =-5             returns -5.
+
+       =5*5            returns 25.
+
+       =(5*5)+11       returns 36.
+
+       =(5*)+(49/7)    returns 32.
+    </programlisting>
+     </example>
+  </sect2>
+
+
+<sect2>
+<title>Using Functions</title>
+
+<para>Most of the standard math, business, statistical, and scientific calculations
+are implemented in terms of functions. Functions are in the form of:</para>
+
+    <example id="basicfunctionsyntax">
+    <title>Basic Function syntax</title>
+    <programlisting>
+             =FUNCTION(ARGUMENTS)
+    </programlisting>
+     </example>
+ 
+<para> While the documentation generally refers to functions in all caps,
+there use is not actually case sensitive.<para>
+
+ <example id="funxtionsyntax">
+ <title>Some examples of function syntax</title>
+ <programlisting>
+             =SUM(A1,A2,A4,B5)
+
+            =AVERAGE(A1:A16)
+
+            =EXP(1)
+
+	    =PI()
+
+            =MIN(A1,A2,B6)
+    </programlisting>
+  </example>
+
+
+</sect2>
+</sect1>
+
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         
+

@@ -16,7 +16,7 @@
     </screenshot>
   </figure>
 
-  <sect2>
+  <sect2 id="menu-bar">
     <title>The Menu bar</title>    
     <para>The default location of the menu bar is the top of the application window.
       It provides a quick and organized access to some of the more common
@@ -199,7 +199,7 @@
       </varlistentry>
 
       <varlistentry>
-	<term>
+	<term
 	  <guiicon><inlinegraphic fileref="images/stock_save.gif"></inlinegraphic>
 	    Save
 	  </guiicon>

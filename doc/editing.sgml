@@ -25,12 +25,12 @@
 
   <para>Dates and numbers are a special case of strings that are automatically
     converted to numerical types. If a string entered matches one of the formats
-    for dates or times, the string is converted into a serial number (representitive
+    for dates or times, the string is converted into a serial number (representative
     of the time in the string) and the cell format is set to that of the
     original string.</para>
 
   <para>To make use of this feature, the user just needs to enter in a number in
-    a recognizable format. Gnumeric will automatically convert it into an approriate serial
+    a recognizable format. Gnumeric will automatically convert it into an appropriate serial
     number. Because of this, it is possible to enter a date or time in a human readable 
     format, and have it stored in a numerical format inside of Gnumeric.</para>
 
@@ -71,12 +71,12 @@
       <title>Advanced Editing mode</title>
       
       <para>For a more complete set of editing options, especially for
-	longer entries, there is an adnvanced editing mode. </para>
+	longer entries, there is an advanced editing mode. </para>
       
       <para>This mode is accessed by pressing <keycap>F2</keycap>. This shifts the
 	focus from the current cell to the editing region in the worksheet. This
 	allows more complete control over the text and data in the cell. This includes
-	the use of the cursor keys to postition the cursor within the data in the cell.
+	the use of the cursor keys to position the cursor within the data in the cell.
         See <xref linkend="worksheet-data-entry"> For more info on the data entry area.</para>
       
       <variablelist>
@@ -86,7 +86,7 @@
 	</varlistentry>
 	<varlistentry>
 	  <term><keycap>Cursor keys</keycap></term>
-	  <listitem><para>Move the cursor approriately.</para></listitem>
+	  <listitem><para>Move the cursor appropriately.</para></listitem>
 	</varlistentry>
 	<varlistentry>
 	  <term><keycap>Ctrl+K</keycap></term>
@@ -95,7 +95,7 @@
       </variablelist>
       
       <tip>
-	<para>All the normal keybindings for Gnome application entry boxes
+	<para>All the normal key bindings for Gnome application entry boxes
 	  also apply here.</para>
 	<!-- FIXME need a reference of the defualt keybindings -->
       </tip>
@@ -105,7 +105,7 @@
     <sect3>
       <title>Error Messages</title>
 
-      <para>If the user enters a formula or set of data that is not acceptible,
+      <para>If the user enters a formula or set of data that is not acceptable,
 	Gnumeric will display an error message in the cell.</para>
       
       <!-- FIXME  A listing of cell error messages  -->
@@ -118,12 +118,129 @@
   
 </sect1>
 
+
+
 <!--  include the files for formulas and for cell referencing -->
 
 &formulas;
 
 &cellrefer;
 
+<sect1>
+  <title>Selecting Cells While Entering Formulas.</title>
+
+  <para>When entering a formula into a cell, it is possible to use the
+    mouse and the keyboard cursor keys to quickly enter data.</para>
+
+  <para>There are several ways to enter a cell range into a formula. Cell
+    ranges and references can be entered into a formula simply by typing in
+    the proper syntax (see <xref linkend="cell-referencing"> for more details).
+    But manually entering in cell ranges is slow and cumbersome. </para>
+
+  <para>When entering data into a cell, and the cursor is at a point
+    where a cell reference is appropriate, it is possible to define a cell
+    reference by selecting a cell via the mouse or keyboard. This selection
+    is a little different from the ordinary selection. It is highlighted
+    by a "marching ants" border. </para>
+
+  <figure id="editing-cell-selection">
+    <title>The highlighted selection</title>
+    <screenshot>
+      <graphic fileref="images/editing-cell-selection-1.jpg"></graphic>
+    </screenshot>
+  </figure>
+  
+  <sect2>
+    <title>Entering data into a formula with the mouse</title>
+
+    <para>When entering a formula, if the cursor is at a point
+      where a cell reference may be appropriate, the user just needs
+      to click on a cell to automatically enter its cell reference 
+      into the formula. Then finish the formula as normal.</para>
+
+    <procedure>
+      <title>Using the mouse to enter a cell reference into a formula</title>
+      <step>
+	<para>
+	  Select a cell to enter a formula into. For example A1.
+	</para>
+      </step>
+      <step>
+	<para>Enter a formula, but stop the cursor at a point
+	  where a cell reference is appropriate. For this example,
+	  =exp( 
+	</para>
+	</step>
+      <step>
+	<para>
+	  Now use the mouse to click on another cell to reference. For example,
+	  just click on the Cell B1. Its reference will be entered into the formula
+	  in cell A1.
+	</para>
+      </step>
+      <step>
+	<para>
+	  To finish the formula, just type in the closing parenthesis. This will
+	  also "unselect" the region.
+	</para>
+      </step>
+    </procedure>
+    
+    <para>This can be used to select a range of cells just like regular selections. </para>
+    
+  </sect2>
+
+  <sect2>
+    <title>Entering data into a formula with the keyboard.</title>
+
+    <para>If entering lots of formulas or even just entering a few formulas, it is
+      often quickest to use the keyboard to select cells and ranges of cells for use
+      in formulas. Just as reaching a input point allows the user to select cells 
+      with the mouse, it is possible to use the keyboard to select cells. Just use 
+      the cursor keys and selection modifiers to create a selection.</para>
+
+    <procedure>
+      <title>Using the keyboard to enter data into a formula.</title>
+
+      <step>
+	<para>
+	  Select a cell to enter a formula into. For example A1.
+	</para>
+      </step>
+      <step>
+	<para>Enter a formula, but stop the cursor at a point
+	  where a cell reference is appropriate. For this example,
+	  =SUM( 
+	</para>
+      </step>
+      <step>
+	<para>
+	  Move the selection around with the cursor keys. Move the selection
+	  cursor to cell B1 to start the selection.
+	</para>
+      </step>
+      <step>
+	<para>
+	  Hold down <keycap>Shift</keycap> and move the selection one cell
+	over and one cell down. Cells B1,B2,C1,C2 should now be selected and
+	the formula should show =sum(B1:C2 
+	</para>
+      </step>
+      <step>
+	<para>
+	  To finish the function, close the parenthesis. The cell should
+	  now show =sum(B1:C2). Press enter and the formula is entered.
+	</para>
+      </step>
+    </procedure>
+
+    <para>To select a range of cell, hold <keycap>Shift</keycap> and  move over the desired area.</para>
+
+    <para>To stop entering a selection or to start over, press <keycombo><keycap>Shift</keycap>
+	<keycap>Backspace</keycap></keycombo></para>
+
+    </sect2>
+	  
 
 
 <sect1>
