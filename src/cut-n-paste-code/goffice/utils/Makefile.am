@@ -55,6 +55,6 @@ BUILT_SOURCES =				\
 	go-marshalers.h			\
 	go-marshalers.c
 
-EXTRA_DIST = gnm-marshalers.list
+EXTRA_DIST = go-marshalers.list
 
 include $(srcdir)/../goffice.mk

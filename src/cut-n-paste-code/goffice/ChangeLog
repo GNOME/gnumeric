@@ -3,6 +3,7 @@
 	* gui-utils/go-marshalers.list: Remove, merge with ...
 	* utils/go-marshalers.list: ... this one, adjust all callers.
 	* gui-utils/Makefile.am: Nuke the rules for go-marshalers.
+	* utils/Makefile.am: Typo.
 	* goffice.mk (INCLUDES): Add $(builddir)/../cut-n-paste-code,
 	  for the generated header goffice/utils/go-marshalers.h.
 
