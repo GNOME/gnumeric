@@ -708,7 +708,6 @@ mps_input_context_destroy (MpsInputContext *ctxt)
 		g_free (ctxt->matrix);
 		ctxt->matrix = NULL;
 	}
-	g_free (ctxt->line);
 	g_free (ctxt->name);
 	g_object_unref (G_OBJECT (ctxt->input)); ctxt->input = NULL;
 	g_free (ctxt);

@@ -1,3 +1,8 @@
+2002-06-15  Jody Goldberg <jody@gnome.org>
+
+	* mps.c (mps_input_context_destroy) : do not free the line, we do not
+	  own that memory.
+
 2002-06-14  Jody Goldberg <jody@gnome.org>
 
 	* parser.c (mps_parse_name) : just use strdup.
