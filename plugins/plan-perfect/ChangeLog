@@ -1,3 +1,8 @@
+1999-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* pln.c (pln_parse_sheet) : Begin returning error strings.
+	(pln_read_workbook) : Improve error reporting.
+
 1999-11-29  Kevin Handy  <kth@srv.net>
 
 	* pln.h, pln.c: Initial version.

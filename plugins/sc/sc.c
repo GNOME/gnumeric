@@ -366,7 +366,7 @@ sc_parse_line (sc_file_state_t *src, char *buf)
 }
 
 
-static gboolean
+static char *
 sc_parse_sheet (sc_file_state_t *src)
 {
 	char buf [BUFSIZ];
@@ -376,21 +376,18 @@ sc_parse_sheet (sc_file_state_t *src)
 
 	while (fgets (buf, sizeof (buf), src->f) != NULL) {
 		g_strchomp (buf);
-		if ( isalpha (buf [0]) &&
-		     !sc_parse_line (src, buf) ) {
-			fprintf (stderr, "error parsing line\n");
-			return FALSE;
-		}
+		if (isalpha (buf [0]) && !sc_parse_line (src, buf))
+			return g_strdup ("Error parsing line");
 	}
 
 	if (ferror (src->f))
-		return FALSE;
+		return "";
 
-	return TRUE;
+	return NULL;
 }
 
 
-static gboolean
+static char *
 sc_read_workbook (Workbook *book, const char *filename)
 {
 	/*
@@ -399,16 +396,16 @@ sc_read_workbook (Workbook *book, const char *filename)
 	 */
 	sc_file_state_t src;
 	char *name;
-	gboolean result;
+	char *result;
 	FILE *f;
 
-	g_return_val_if_fail (book, FALSE);
-	g_return_val_if_fail (filename, FALSE);
-	g_return_val_if_fail (*filename, FALSE);
+	g_return_val_if_fail (book, "");
+	g_return_val_if_fail (filename, "");
+	g_return_val_if_fail (*filename, "");
 
 	f = fopen (filename, "r");
 	if (!f)
-		return FALSE;
+		return g_strdup (g_strerror(errno));
 
 	name = g_strdup_printf (_("Imported %s"), g_basename (filename));
 

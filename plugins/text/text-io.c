@@ -36,7 +36,6 @@ static Sheet    *text_read_sheet     (const char *filename);
 static int       text_write_sheet    (Sheet *sheet, const char *filename);
 */
 
-static gboolean  text_read_workbook  (Workbook *wb, const char *filename);
 static int       text_write_workbook (Workbook *wb, const char *filename);
 
 static void      writeTextSheet      (TextData *data, Sheet *sheet);
@@ -288,48 +287,38 @@ text_parse_file (gchar *file, gint flen, gint start,
 }
 
 
-static gboolean
+static char *
 readTextWorkbook (Workbook *book, const char* filename, gboolean probe)
 {
 	Sheet      *sheet = NULL;
-	int	    fd;
 	struct stat buf;
 	gint	    flen;	/* file length */
 	gchar      *file;	/* data pointer */
 	gint	    idx;
+	int const   fd = open (filename, O_RDONLY);
+	if (fd < 0)
+		return g_strdup (g_strerror (errno));
 
-	if ((fd = open (filename, O_RDONLY)) < 0){
-		char *msg;
-		int   err = errno;
-
-		msg = g_strdup_printf (_("While opening %s\n%s"),
-				       filename, g_strerror (err));
-		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR, msg);
-		g_free (msg);
-
-		return FALSE;
-	}
-
-	if (fstat (fd, &buf) == -1){
-		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-				 "Can not stat the file");
+	if (fstat (fd, &buf) < 0) {
 		close(fd);
-		return FALSE;
+		return g_strdup (g_strerror(errno));
 	}
+
+	flen = buf.st_size;
 
 	/* FIXME: ARBITRARY VALUE */
-	if (buf.st_size < 1 || buf.st_size > 1000000){
+	if (buf.st_size < 1) {
 		close(fd);
-		return FALSE;
-	} else
-		flen = buf.st_size;
+		return g_strdup (_("Empty file"));
+	} else if ( buf.st_size > 1000000){
+		close(fd);
+		return g_strdup (_("File is too large"));
+	}
 
 	file = mmap (NULL, flen, PROT_READ, MAP_PRIVATE, fd, 0);
 	if (file == (char*)-1){
-		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-				 "Can not mmap the file");
 		close (fd);
-		return FALSE;
+		return g_strdup (_("Can not mmap the file"));
 	}
 
 	idx = 0;
@@ -349,22 +338,22 @@ readTextWorkbook (Workbook *book, const char* filename, gboolean probe)
 	munmap (file, flen);
 	close (fd);
 
-	return TRUE;
+	return NULL;
 }
 
-static gboolean
+static char *
 text_read_workbook (Workbook *wb, const char* filename)
 {
-	gboolean ret;
+	char *ret;
 
 	ret = readTextWorkbook (wb, filename, FALSE);
-	if (ret){
+	if (ret == NULL) {
 		workbook_set_filename (wb, filename);
 		workbook_set_title (wb, filename);
 		workbook_recalc_all (wb);
 	}
 
-	return TRUE;
+	return ret;
 }
 
 #if 0

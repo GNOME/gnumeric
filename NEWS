@@ -23,6 +23,8 @@ Frank:
 Jody:
 	* Begin exception handling for corba vs gui.
 	* Add some simple version protection for plugins.
+	* Improve error reporting for file loading.
+	* Explicitly disable passord protected XL spreadsheets.
 	* Bug fixing.
 
 Cort:

@@ -1,3 +1,8 @@
+1999-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* sc.c (sc_parse_sheet) : Return an error string.
+	(sc_read_workbook) : Ditto.
+
 1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
 
 	* sc.c: General cleanup, handle left/right-justified

@@ -396,7 +396,7 @@ sylk_parse_line (sylk_file_state_t *src, char *buf)
 	return TRUE;
 }
 
-static gboolean
+static char *
 sylk_parse_sheet (sylk_file_state_t *src)
 {
 	char buf [BUFSIZ];
@@ -404,10 +404,8 @@ sylk_parse_sheet (sylk_file_state_t *src)
 	if (fgets_mac (buf, sizeof (buf), src->f) == NULL)
 		return FALSE;
 
-	if (strncmp ("ID;", buf, 3)) {
-		g_warning ("not SYLK file\n");
-		return FALSE;
-	}
+	if (strncmp ("ID;", buf, 3))
+		return g_strdup ("Not SYLK file");
 
 	while (fgets_mac (buf, sizeof (buf), src->f) != NULL) {
 		g_strchomp (buf);
@@ -418,13 +416,12 @@ sylk_parse_sheet (sylk_file_state_t *src)
 	}
 
 	if (ferror (src->f))
-		return FALSE;
+		return "";
 
-	return TRUE;
+	return NULL;
 }
 
-
-static gboolean
+static char *
 sylk_read_workbook (Workbook *book, const char *filename)
 {
 	/*
@@ -433,12 +430,12 @@ sylk_read_workbook (Workbook *book, const char *filename)
 	 */
 	sylk_file_state_t src;
 	char *name;
-	gboolean result;
+	char * result;
 	FILE *f;
 
 	f = fopen (filename, "r");
 	if (!f)
-		return FALSE;
+		return g_strdup (g_strerror(errno));
 
 	name = g_strdup_printf (_("Imported %s"), g_basename (filename));
 

@@ -134,7 +134,7 @@ xbase_field_as_value (XBrecord *record, guint num)
 	}
 }
 
-static gboolean
+static char *
 xbase_load (Workbook *wb, const char *filename)
 {
 	XBfile *file;
@@ -146,7 +146,7 @@ xbase_load (Workbook *wb, const char *filename)
 	Value *val;
 
 	if ((file = xbase_open (filename)) == NULL)
-		return FALSE;
+		return "";
 
 	if ((p = filename_ext (name)) != NULL)
 		*p = '\0'; /* remove "dbf" */
@@ -186,7 +186,7 @@ xbase_load (Workbook *wb, const char *filename)
 
 	xbase_close (file);
 
-	return TRUE;
+	return NULL;
 }
 
 static int

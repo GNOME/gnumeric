@@ -19,7 +19,7 @@ typedef enum _eBiff_version { eBiffV2=2, eBiffV3=3,
 			      eBiffV8=8, /* Excel 97 */
 			      eBiffVUnknown=0} eBiff_version ;
 
-extern gboolean ms_excel_read_workbook  (Workbook *wb, MsOle *file);
+extern char *   ms_excel_read_workbook  (Workbook *wb, MsOle *file);
 extern int      ms_excel_write_workbook (MsOle *file, Workbook *wb,
 					 eBiff_version ver);
 

@@ -134,7 +134,7 @@ Workbook   *workbook_new_with_sheets     (int sheet_count);
 
 gboolean    workbook_set_filename        (Workbook *, const char *);
 void        workbook_set_title           (Workbook *, const char *);
-Workbook   *workbook_try_read            (const char *filename);
+Workbook   *workbook_try_read            (const char *filename, char **error_msg);
 Workbook   *workbook_read                (const char *filename);
 
 gboolean    workbook_save_as             (Workbook *);

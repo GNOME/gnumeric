@@ -2292,25 +2292,24 @@ gnumeric_xml_write_sheet (Sheet *sheet, const char *filename)
  * the actual in-memory structure.
  */
 
-gboolean
+char *
 gnumeric_xml_read_workbook (Workbook *wb, const char *filename)
 {
 	xmlDocPtr res;
 	xmlNsPtr gmr;
 	parse_xml_context_t ctxt;
 
-	g_return_val_if_fail (filename != NULL, FALSE);
+	g_return_val_if_fail (filename != NULL, "");
 
 	/*
 	 * Load the file into an XML tree.
 	 */
 	res = xmlParseFile (filename);
 	if (res == NULL)
-		return FALSE;
-	if (res->root == NULL){
-		fprintf (stderr, "gnumeric_xml_read_workbook %s: tree is empty\n", filename);
+		return "";
+	if (res->root == NULL) {
 		xmlFreeDoc (res);
-		return FALSE;
+		return g_strdup ("Invalid xml file. Tree is empty ?");
 	}
 	/*
 	 * Do a bit of checking, get the namespaces, and chech the top elem.
@@ -2318,11 +2317,9 @@ gnumeric_xml_read_workbook (Workbook *wb, const char *filename)
 	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/");
 	if (gmr == NULL)
 		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/v2");
-	if (strcmp (res->root->name, "Workbook") || (gmr == NULL)){
-		fprintf (stderr, "gnumeric_xml_read_workbook %s: not an Workbook file\n",
-			 filename);
+	if (strcmp (res->root->name, "Workbook") || (gmr == NULL)) {
 		xmlFreeDoc (res);
-		return FALSE;
+		return g_strdup ("Is not an Workbook file");
 	}
 	ctxt.doc = res;
 	ctxt.ns = gmr;
@@ -2331,7 +2328,7 @@ gnumeric_xml_read_workbook (Workbook *wb, const char *filename)
 	workbook_recalc_all (wb);
 
 	xmlFreeDoc (res);
-	return TRUE;
+	return NULL;
 }
 
 /*

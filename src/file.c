@@ -149,29 +149,35 @@ file_format_unregister_save (FileFormatSave save)
 	}
 }
 
-gboolean
+/**
+ * workbook_load_from:
+ * @workbook: A blank workbook to load into.
+ * @filename: gives the URI of the file.
+ * 
+ * This function attempts to read the file into the supplied
+ * workbook.
+ * 
+ * Return value: success : NULL
+ *               failure : A string describing the error.  If the string is
+ *                         "" then a default error message should be used.  If the
+ *                         string is non empty it needs to be freed.
+ **/
+char *
 workbook_load_from (Workbook *wb, const char *filename)
 {
-	gboolean ret = FALSE;
 	GList *l;
 
-	for (l = gnumeric_file_openers; l; l = l->next){
-		const FileOpener *fo = l->data;
+	for (l = gnumeric_file_openers; l; l = l->next) {
+		FileOpener const * const fo = l->data;
 
-		if (fo->probe == NULL)
-			continue;
-		
-		if ((*fo->probe) (filename)){
-			
-			if ((*fo->open) (wb, filename)){
+		if (fo->probe != NULL && (*fo->probe) (filename)) {
+			char *result = (*fo->open) (wb, filename);
+			if (result == NULL)
 				workbook_mark_clean (wb);
-				ret = TRUE;
-			} else
-				ret = FALSE;
-			break;
+			return result;
 		}
 	}
-	return ret;
+	return "";
 }
 
 /**
@@ -184,19 +190,25 @@ workbook_load_from (Workbook *wb, const char *filename)
  *               NULL on failure.
  **/
 Workbook *
-workbook_try_read (const char *filename)
+workbook_try_read (const char *filename, char **msg)
 {
 	Workbook *wb;
+	char *result;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
 	wb = workbook_new ();
-	if (!workbook_load_from (wb, filename)) {
+	result = workbook_load_from (wb, filename);
+	if (result != NULL) {
 #ifdef ENABLE_BONOBO
 		gnome_object_destroy (GNOME_OBJECT (wb));
 #else
 		gtk_object_destroy   (GTK_OBJECT (wb));
 #endif
+		if (msg)
+			*msg = result;
+		else if (*result)
+			g_free (result);
 		wb = NULL;
 	}
 
@@ -204,11 +216,16 @@ workbook_try_read (const char *filename)
 }
 
 static void 
-file_error_message (char *message, const char *filename)
+file_error_message (char *message, const char *filename, char*plugin_mesg)
 {
-	char *s;
-	
-	s = g_strdup_printf (message, filename);
+	char *s = g_strdup_printf (message, filename);
+
+	if (plugin_mesg != NULL && *plugin_mesg) {
+		char *tmp = g_strconcat (s, "\n", plugin_mesg, NULL);
+		g_free (plugin_mesg);
+		g_free (s);
+		s = tmp;
+	}
 
 	gnumeric_notice (
 		NULL,
@@ -230,6 +247,7 @@ Workbook *
 workbook_read (const char *filename)
 {
 	Workbook *wb = NULL;
+	char *msg = NULL;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
@@ -240,9 +258,9 @@ workbook_read (const char *filename)
 		return wb;
 	}
 
-	wb = workbook_try_read (filename);
+	wb = workbook_try_read (filename, &msg);
 	if (!wb)
-		file_error_message (N_("Could not read file %s"), filename);
+		file_error_message (N_("Could not read file %s"), filename, msg);
 	return wb;
 }
 
@@ -532,7 +550,7 @@ workbook_save_as (Workbook *wb)
 				} else {
 					file_error_message 
 						(N_("Could not save to file %s"), 
-						 name);
+						 name, NULL);
 				}
 
 				g_free (name);
@@ -557,7 +575,7 @@ workbook_save (Workbook *wb)
 		return TRUE;
 	} else {
 		file_error_message (N_("Could not save to file %s"), 
-				    wb->filename);
+				    wb->filename, NULL);
 		return FALSE;
 	}
 }

@@ -10,6 +10,7 @@
  */
 
 #include <stdio.h>
+#include <errno.h>
 #include <unistd.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
@@ -172,7 +173,7 @@ oleo_deal_with_cell (char *str, Sheet *sheet, int *ccol, int *crow)
 	}
 }
 
-gboolean
+char *
 oleo_read (Workbook *wb, const char *filename)
 {
 	FILE *f = fopen (filename, "rb");
@@ -183,7 +184,9 @@ oleo_read (Workbook *wb, const char *filename)
 	Sheet *sheet = NULL;
 	char str[2048];
 
-	if (!f) return FALSE;
+	if (!f)
+		return g_strdup (g_strerror(errno));
+
 	cell_deep_freeze_redraws ();
 	sheet = attach_sheet (wb, sheetidx++);
 
@@ -217,5 +220,5 @@ oleo_read (Workbook *wb, const char *filename)
 	}
 
 	fclose (f);
-	return TRUE;
+	return NULL;
 }

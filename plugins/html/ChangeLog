@@ -1,3 +1,7 @@
+1999-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html_read) : Return some error strings.
+
 1999-12-18  Michael Meeks  <mmeeks@gnu.org>
 
 	* html.c (html_get_color): implement helper.

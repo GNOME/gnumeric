@@ -9,4 +9,4 @@ double lotus_getdouble (const guint8 *p);
 void   lotus_setdouble (guint8 *p, double d);
 #endif
 
-gboolean lotus_read (Workbook *wb, const char *filename);
+char * lotus_read (Workbook *wb, const char *filename);

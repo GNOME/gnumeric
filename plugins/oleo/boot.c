@@ -51,15 +51,15 @@ oleo_probe (const char *filename)
 }
 
 
-static gboolean
+static char *
 oleo_load (Workbook *wb, const char *filename)
 {
 	char *name, *p;
-	gboolean ret;
+	char * ret;
 
 	ret = oleo_read (wb, filename);
 
-	if (ret) {
+	if (ret == NULL) {
 		if ((p = filename_ext (filename)) != NULL)
 			*p = '\0'; /* remove "oleo" */
 		name = g_strconcat (p, "gnumeric", NULL);

@@ -236,23 +236,20 @@ g_warning("DIF SUCCESS");
 #   define MAP_FAILED -1
 #endif
 
-static gboolean
+static char *
 dif_read_workbook (Workbook *book, char const *filename)
 {
-	/* TODO : When there is a reasonable error reporting
-	 * mechanism use it and put all the error code back
-	 */
-	gboolean result = FALSE;
+	char *result = NULL;
 	int len;
 	struct stat sbuf;
 	char const *data;
 	int const fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return FALSE;
+		return g_strdup (g_strerror(errno));
 
 	if (fstat(fd, &sbuf) < 0) {
 		close (fd);
-		return FALSE;
+		return g_strdup (g_strerror(errno));
 	}
 
 	len = sbuf.st_size;
@@ -269,16 +266,14 @@ dif_read_workbook (Workbook *book, char const *filename)
 		workbook_attach_sheet (book, src.sheet);
 		g_free (name);
 
-		result = dif_parse_sheet (&src);
-
-		if (!result)
-		{
-g_warning("DIF : Failed to load sheet");
+		if (!dif_parse_sheet (&src)) {
 			workbook_detach_sheet (book, src.sheet, TRUE);
+			result = g_strdup(_(("DIF : Failed to load sheet")));
 		}
 
 		munmap((char *)data, len);
-	}
+	} else
+		result = g_strdup (_("Unable to mmap the file"));
 	close(fd);
 
 	return result;

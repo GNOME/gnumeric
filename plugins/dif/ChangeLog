@@ -1,3 +1,7 @@
+1999-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* dif.c (dif_read_workbook) : Preliminary error reporting support.
+
 1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
 
 	* dif.c (dif_cleanup_plugin): free pd->title

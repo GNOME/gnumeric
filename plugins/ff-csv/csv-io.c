@@ -30,9 +30,10 @@ typedef struct {
 
 
 static char *
-csv_parse_field (FileSource_t *src)
+csv_parse_field (FileSource_t *src, Cell *cell)
 {
 	GString *res = NULL;
+	char *field;
 	char const *cur = src->cur;
 	char const delim =
 		(*cur != '"' && *cur != '\'')
@@ -49,10 +50,9 @@ csv_parse_field (FileSource_t *src)
 			} else
 				res = g_string_new ("");
 
-			if (!cur[1]) {
-				g_warning ("CSV : Unexpected end of line at line %d", src->line);
-				return NULL;
-			}
+			if (!cur[1])
+				return g_strdup_printf (_("Invalid CSV file unexpected end of line at line %d"),
+							src->line);
 
 			/* \r\n is a single embedded newline, ignore the \r */
 			if (cur [1] == '\r' && cur [2] == '\n')
@@ -77,77 +77,71 @@ csv_parse_field (FileSource_t *src)
 	}
 
 	if (res != NULL) {
-		char *tmp = res->str;
+		field = res->str;
 		g_string_free (res, FALSE);
-		return tmp;
-	}
+	} else
+		field = g_strndup (start, cur-start);
 
-	return g_strndup (start, cur-start);
+	cell_set_text_simple (cell, field);
+	g_free (field);
+
+	return NULL;
 }
 
-static gboolean
+static char *
 csv_parse_sheet (FileSource_t *src)
 {
 	int row, col;
-	char *field;
 
 	for (row = 0 ; *src->cur ; ++row, ++src->line, ++(src->cur)) {
-		if (row >= SHEET_MAX_ROWS) {
-			g_warning ("CSV : Invalid CSV file has more than the maximum number of rows %d",
-				   SHEET_MAX_ROWS);
-			return FALSE;
-		}
+		if (row >= SHEET_MAX_ROWS)
+			return g_strdup_printf (_("Invalid CSV file has more than the maximum number of rows %d"),
+						SHEET_MAX_ROWS);
 
 		for (col = 0 ; *src->cur && *src->cur != '\n' && *src->cur != '\r' ; ++col) {
-			if (col >= SHEET_MAX_COLS) {
-				g_warning ("CSV : Invalid CSV file has more than the maximum number of columns %d",
-					   SHEET_MAX_COLS);
-				return FALSE;
-			}
+			char *error = NULL;
+			Cell *cell;
+			if (col >= SHEET_MAX_COLS)
+				return g_strdup_printf (_("Invalid CSV file has more than the maximum number of columns %d"),
+							SHEET_MAX_COLS);
 
-			if (NULL != (field = csv_parse_field (src))) {
-				Cell *cell = sheet_cell_new (src->sheet, col, row);
-				cell_set_text_simple (cell, field);
-				g_free (field);
-			} else
-				return FALSE;
+			cell = sheet_cell_new (src->sheet, col, row);
+			if (NULL != (error = csv_parse_field (src, cell)))
+				return error;
 		}
 
 		/* \r\n is a single end of line, ignore the \r */
 		if (src->cur [0] == '\r' && src->cur [1] == '\n')
 			src->cur++;
 	}
-	return TRUE;
+	return NULL;
 }
 
 #ifndef MAP_FAILED
 #   define MAP_FAILED -1
 #endif
 
-static gboolean
+static char *
 csv_read_workbook (Workbook *book, char const *filename)
 {
-	/* TODO : When there is a reasonable error reporting
-	 * mechanism use it and put all the error code back
-	 */
-	gboolean result = FALSE;
+	char *result = NULL;
 	int len;
 	struct stat sbuf;
 	char const *data;
-	int const fd = open(filename, O_RDONLY);
+	int const   fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return FALSE;
+		return g_strdup (g_strerror(errno));
 
 	if (fstat(fd, &sbuf) < 0) {
 		close (fd);
-		return FALSE;
+		return g_strdup (g_strerror(errno));
 	}
 
 	len = sbuf.st_size;
 	if (MAP_FAILED != (data = (char const *) (mmap(0, len, PROT_READ,
 						       MAP_PRIVATE, fd, 0)))) {
 		FileSource_t src;
-		char * name = g_strdup_printf (_("Imported %s"), g_basename (filename));
+		char *name = g_strdup_printf (_("Imported %s"), g_basename (filename));
 
 		src.data  = data;
 		src.cur   = data;
@@ -159,16 +153,16 @@ csv_read_workbook (Workbook *book, char const *filename)
 
 		result = csv_parse_sheet (&src);
 
-		if (!result)
+		if (result != NULL)
 			workbook_detach_sheet (book, src.sheet, TRUE);
 
 		munmap((char *)data, len);
-	}
+	} else
+		result = g_strdup (_("Unable to mmap the file"));
 	close(fd);
 
 	return result;
 }
-
 
 static int
 csv_write_cell (FILE *f, Cell *cell, int col, int row)

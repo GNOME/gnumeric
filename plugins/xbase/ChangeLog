@@ -1,3 +1,8 @@
+1999-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* boot.c (xbase_load) : Return an error string.  This is very
+	  preliminary.  We should get real error messages from the importer.
+
 1999-12-10  Michael Meeks  <mmeeks@gnu.org>
 
 	* xbase.c: don't define type_descriptions if not debugging.

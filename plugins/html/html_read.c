@@ -20,6 +20,7 @@
  */
 
 #include <gnome.h>
+#include <errno.h>
 #include "config.h"
 #include "html.h"
 #include "font.h"
@@ -351,7 +352,7 @@ html_get_string (char *s, int *flags)
 /*
  * try at least to read back what we have written before..
  */
-gboolean
+char *
 html_read (Workbook *wb, const char *filename)
 {
 	FILE *fp;
@@ -362,14 +363,13 @@ html_read (Workbook *wb, const char *filename)
 	char name[64];
 	char buf[LINESIZE];
 
-	if (!filename)
-		return FALSE;
+	g_return_val_if_fail (filename != NULL, "");
 
 	workbook_set_filename (wb, filename);
 
 	fp = fopen (filename, "r");
 	if (!fp)
-		return FALSE;
+		return g_strdup (g_strerror(errno));
 
 	sheet = NULL;
 	col = 0;
@@ -452,6 +452,6 @@ html_read (Workbook *wb, const char *filename)
 		}
 	}
 	fclose (fp);
-	return TRUE;
+	return NULL;
 }
 

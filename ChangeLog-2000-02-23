@@ -1,3 +1,15 @@
+1999-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/file.c (workbook_load_from) : The 'open' functions return error
+	  strings now.  Success == NULL, standard error == "", custom error
+	  which needs to be freed is everything else.
+	(workbook_try_read) : An optional argument in which to store error
+	  messages returned by the loaders.
+	(file_error_message) : Support the custom error messages.
+	(workbook_read) : Ditto.
+
+	* src/xml-io.c (xml_workbook_read) : Return simple error strings.
+
 1999-12-29  Ariel Rios  <jarios@usa.net>
 
 	* doc/guile-gnumeric.txt: Documentation for the guile plugin was added.

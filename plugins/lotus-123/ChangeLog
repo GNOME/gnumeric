@@ -1,3 +1,11 @@
+1999-12-30  Jody Goldberg <jgoldberg@home.com>
+
+1999-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* boot.c (lotus_load) : Return error strings.
+	* lotus.c (read_workbook) : Ditto.
+	(lotus_read) : Ditto.
+
 1999-12-21  Jon K Hellan  <hellan@acm.org>
  	
 	* README: I was credited for this, but I did not write it.

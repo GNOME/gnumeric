@@ -6,6 +6,7 @@
  *    Michael Meeks <mmeeks@gnu.org>
  **/
 #include <stdio.h>
+#include <errno.h>
 #include <unistd.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
@@ -146,19 +147,19 @@ attach_sheet (Workbook *wb, int idx)
 }
 
 /* buf was old siag wb / sheet */
-static gboolean
+static char *
 read_workbook (Workbook *wb, FILE *f)
 {
 	int       sheetidx = 0;
 	Sheet    *sheet = NULL;
-	gboolean  panic = FALSE;
+	char     *panic_message = NULL;
 	record_t *r;
 
 	sheet = attach_sheet (wb, sheetidx++);
 
 	r = record_new (f);
 
-	while (!panic && record_next (r)) {
+	while (panic_message == NULL && record_next (r)) {
 		Cell    *cell;
 		Value   *v;
 		guint32  i, j;
@@ -214,7 +215,9 @@ read_workbook (Workbook *wb, FILE *f)
 		case LOTUS_LABEL:
 		{
 			/* one of '\', '''', '"', '^' */
+#if 0
 			gchar format_prefix = *(r->data + 5);
+#endif
 			v = value_new_string (r->data + 6); /* FIXME unsafe */
 			i = GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
 		        j = GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
@@ -255,28 +258,27 @@ read_workbook (Workbook *wb, FILE *f)
 	}
 	record_destroy (r);
 
-	return !panic;
+	return panic_message;
 }
 
-gboolean
+char *
 lotus_read (Workbook *wb, const char *filename)
 {
 	FILE *f;
+	char *res;
 
 	if (!(f = fopen (filename, "rb")))
-		return FALSE;
+		return g_strdup (g_strerror(errno));
 
 	cell_deep_freeze_redraws ();
 
-	if (!read_workbook (wb, f)) {
-		printf ("FIXME: Nasty workbook error, leaked\n");
-		return FALSE;
+	res = read_workbook (wb, f);
+	if (res == NULL) {
+		workbook_recalc (wb);
+		cell_deep_thaw_redraws ();
+		fclose (f);
 	}
 
-	workbook_recalc (wb);
-	cell_deep_thaw_redraws ();
-
-	fclose (f);
-	return TRUE;
+	return res;
 }
 

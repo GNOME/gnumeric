@@ -47,22 +47,24 @@ excel_probe (const char *filename)
 	return FALSE;
 }
 
-static gboolean
+static char *
 excel_load (Workbook *wb, const char *filename)
 {
-	MsOle *f;
-	gboolean ret;
-	MsOleErr  result;
+	MsOleErr  ole_error;
+	MsOle	 *f;
+	char	 *workbook_error;
 
-	result = ms_ole_open (&f, filename);
-	if (result != MS_OLE_ERR_OK) {
+	ole_error = ms_ole_open (&f, filename);
+	if (ole_error != MS_OLE_ERR_OK) {
 		ms_ole_destroy (&f);
-		return FALSE;
+		/* FIXME : The null string indicates using the default message
+		 * We need a more detailed message from ole_open */
+		return "";
 	}
 
 	printf ("Opening '%s' ", filename);
-	ret = ms_excel_read_workbook (wb, f);
-	if (ret) {
+	workbook_error = ms_excel_read_workbook (wb, f);
+	if (workbook_error == NULL) {
 		char *name = g_strconcat (filename, ".gnumeric", NULL);
 		ms_summary_read (f, wb->summary_info);
 
@@ -75,7 +77,7 @@ excel_load (Workbook *wb, const char *filename)
 
 	ms_ole_destroy (&f);
 
-	return ret;
+	return workbook_error;
 }
 
 

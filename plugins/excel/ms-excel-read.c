@@ -3425,7 +3425,7 @@ ms_excel_read_supporting_wb (BIFF_BOF_DATA *ver, BiffQuery *q)
 #endif
 }
 
-gboolean
+char *
 ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 {
 	ExcelWorkbook *wb = NULL;
@@ -3434,10 +3434,14 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 	BiffQuery *q;
 	BIFF_BOF_DATA *ver = 0;
 	int current_sheet = 0;
+	char *problem_loading = NULL;
 
 	cell_deep_freeze_redraws ();
 
 	/* Find that book file */
+	/* Look for workbook before book so that we load the office97 format rather than
+	 * office5 when there are multiple streams.
+	 */
 	result = ms_ole_stream_open (&stream, file, "/", "workbook", 'r');
 	if (result != MS_OLE_ERR_OK) {
 		ms_ole_stream_close (&stream);
@@ -3445,14 +3449,13 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 		result = ms_ole_stream_open (&stream, file, "/", "book", 'r');
 		if (result != MS_OLE_ERR_OK) {
 			ms_ole_stream_close (&stream);
-			g_warning ("No Excel stream found: wierd");
-			return FALSE;
+			return g_strdup (_("No book or workbook streams found."));
 		}
 	}
 
 	q = ms_biff_query_new (stream);
 
-	while (ms_biff_query_next (q)) {
+	while (problem_loading == NULL && ms_biff_query_next (q)) {
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 5) {
 			printf ("Opcode : 0x%x\n", q->opcode);
@@ -3782,6 +3785,11 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 		case BIFF_PASSWORD :
 			break;
 
+		case BIFF_FILEPASS :
+			/* All records after this are encrypted */
+			problem_loading = g_strdup (_("Password protected workbooks are not supported yet."));
+			break;
+
 		case (BIFF_STYLE & 0xff) : /* Why here and not as 93 */
 			break;
 
@@ -3904,9 +3912,12 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 	cell_deep_thaw_redraws ();
 
 	if (wb) {
-		workbook_recalc (wb->gnum_wb);
+		/* If we were forced to stop then the load failed */
+		if (problem_loading == NULL)
+			workbook_recalc (wb->gnum_wb);
 		ms_excel_workbook_destroy (wb);
-		return TRUE;
+		return problem_loading;
 	}
-	return FALSE;
+
+	return "";
 }

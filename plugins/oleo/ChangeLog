@@ -1,3 +1,8 @@
+1999-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* boot.c (oleo_load) : return error messages.
+	* oleo.c (oleo_read) : Ditto.
+
 1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
  
         * boot.c (oleo_cleanup_plugin): free pd->title

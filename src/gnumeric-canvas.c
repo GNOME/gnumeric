@@ -944,7 +944,7 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 	while (tmp_list) {
 		Workbook *new_wb;
 
-		if ((new_wb = workbook_try_read (tmp_list->data)))
+		if ((new_wb = workbook_try_read (tmp_list->data, NULL)))
 			gtk_widget_show (new_wb->toplevel);
 		else
 		        sheet_object_drop_file (gsheet, x, y, tmp_list->data);

@@ -1,3 +1,8 @@
+1999-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* text-io.c (readTextWorkbook) : Return an error string.
+	(text_read_workbook) : Ditto.
+
 1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
  
 	 * ChangeLog: new file
