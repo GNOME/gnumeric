@@ -52,7 +52,7 @@ Long term breakage
     - Duplicate sheet.
     - Remove sheet. This raises some serious design issues.
     - Freeze panes.
-    - Analysis tools (except ANOVA & Correlation).
+    - D-T Analysis tools.
     - Goal seek.
     - Tabulate.
 

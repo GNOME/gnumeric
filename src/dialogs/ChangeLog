@@ -1,5 +1,12 @@
 2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* tools.h : change covariance_tool into 
+	  cmd_analysis_tools engine
+	* dialog-analysis-tools.c : make covariance tool
+	  undoable and add formatting options to all tools
+
+2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* correlation.glade : add options
 	* covariance.glade : add options
 	* descriptive-stats.glade : add options

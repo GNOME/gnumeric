@@ -766,17 +766,11 @@ analysis_tool_correlation_engine (data_analysis_output_t *dao, gpointer specs,
  *
  **/
 
-/* If columns_flag is set, the data entries are grouped by columns
- * otherwise by rows.
- */
-int
-covariance_tool (WorkbookControl *wbc, Sheet *sheet,
-		 GSList *input, group_by_t group_by,
-		 data_analysis_output_t *dao)
+static gboolean
+analysis_tool_covariance_engine_run (data_analysis_output_t *dao, 
+				      analysis_tools_data_generic_t *info)
 {
-	GSList *input_range = input;
 	GPtrArray *data = NULL;
-
 	guint col, row;
 	int error;
 	gnum_float x;
@@ -784,19 +778,11 @@ covariance_tool (WorkbookControl *wbc, Sheet *sheet,
 	GArray *clean_col_data, *clean_row_data;
 	GSList *missing;
 
-	prepare_input_range (&input_range, group_by);
-	if (!check_input_range_list_homogeneity (input_range)) {
-		range_list_destroy (input_range);
-		return group_by + 1;
-	}
-	data = new_data_set_list (input_range, group_by,
-				  FALSE, dao->labels_flag, sheet);
-	dao_prepare_output (wbc, dao, _("Covariances"));
+	data = new_data_set_list (info->input, info->group_by,
+				  FALSE, info->labels, dao->sheet);
 
-	if (dao->type == RangeOutput) {
-		dao_set_cell_printf (dao, 0, 0,  _("Covariances"));
-		dao_set_italic (dao, 0, 0, 0, 0);
-	}
+	dao_set_cell_printf (dao, 0, 0,  _("Covariances"));
+	dao_set_italic (dao, 0, 0, 0, 0);
 
 	for (row = 0; row < data->len; row++) {
 		row_data = g_ptr_array_index (data, row);
@@ -838,15 +824,45 @@ covariance_tool (WorkbookControl *wbc, Sheet *sheet,
 		}
 	}
 
-	dao_autofit_columns (dao);
 	destroy_data_set_list (data);
-	range_list_destroy (input_range);
-
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (dao->sheet);
 
 	return 0;
 }
+
+gboolean 
+analysis_tool_covariance_engine (data_analysis_output_t *dao, gpointer specs, 
+				   analysis_tool_engine_t selector, gpointer result)
+{
+	analysis_tools_data_generic_t *info = specs;
+
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("Covariance (%s)"), result) 
+			== NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+		prepare_input_range (&info->input, info->group_by);
+		if (!check_input_range_list_homogeneity (info->input)) {
+			info->err = info->group_by + 1;
+			return TRUE;
+		}
+		dao_adjust (dao, 1 + g_slist_length (info->input), 
+			    1 + g_slist_length (info->input));
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("Covariance"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("Covariance"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		return analysis_tool_covariance_engine_run (dao, specs);
+	}
+	return TRUE;  /* We shouldn't get here */
+}
+
+
 
 
 /************* Descriptive Statistics Tool *******************************

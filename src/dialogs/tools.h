@@ -78,9 +78,6 @@ void error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_
 
 /* Section 2: not undoable tools */
 
-int covariance_tool       (WorkbookControl *context, Sheet *current_sheet,
-			   GSList *input, group_by_t group_by,
-			   data_analysis_output_t *dao);
 int descriptive_stat_tool (WorkbookControl *context, Sheet *current_sheet,
 			   GSList *input, group_by_t group_by,
 			   descriptive_stat_tool_t *ds,
@@ -167,6 +164,12 @@ typedef struct {
 /**************** Correlation Tool ***************/
 
 gboolean analysis_tool_correlation_engine  (data_analysis_output_t *dao, gpointer specs, 
+					    analysis_tool_engine_t selector, gpointer result);
+
+
+/**************** Covariance Tool  ***************/
+
+gboolean analysis_tool_covariance_engine  (data_analysis_output_t *dao, gpointer specs, 
 					    analysis_tool_engine_t selector, gpointer result);
 
 

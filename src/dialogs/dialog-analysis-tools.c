@@ -534,7 +534,7 @@ corr_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	GtkWidget *w;
 
 	data = g_new0 (analysis_tools_data_generic_t, 1);
-	dao  = g_new0 (data_analysis_output_t  , 1);
+	dao  = g_new0 (data_analysis_output_t, 1);
 
 	data->input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
@@ -654,45 +654,56 @@ dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 static void
 cov_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 {
-	data_analysis_output_t  dao;
+	data_analysis_output_t  *dao;
+	analysis_tools_data_generic_t  *data;
+
         char   *text;
 	GtkWidget *w;
-	GSList *input;
-	gint err;
 
-	input = gnm_expr_entry_parse_as_list (
+	data = g_new0 (analysis_tools_data_generic_t, 1);
+	dao  = g_new0 (data_analysis_output_t, 1);
+
+	data->input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
-        parse_output (state, &dao);
-
+        parse_output (state, dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = covariance_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, input,
-				 gnumeric_glade_group_value (state->gui, grouped_by_group),
-			       &dao);
-	switch (err) {
-	case 0: gtk_widget_destroy (state->dialog);
-		break;
-	case 1:
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
-				_("The selected input rows must have equal size!"));
-		break;
-	case 2:
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
-				_("The selected input columns must have equal size!"));
-		break;
-	case 3:
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
-				_("The selected input areas must have equal size!"));
-		break;
-	default:
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
-		g_free (text);
-		break;
-	}
+	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+			       dao, data, analysis_tool_covariance_engine)) {
+
+		switch (data->err) {
+		case 1:
+			error_in_entry ((GenericToolState *) state, 
+					GTK_WIDGET (state->input_entry),
+					_("The selected input rows must have equal size!"));
+			break;
+		case 2:
+			error_in_entry ((GenericToolState *) state, 
+					GTK_WIDGET (state->input_entry),
+					_("The selected input columns must have equal size!"));
+			break;
+		case 3:
+			error_in_entry ((GenericToolState *) state, 
+					GTK_WIDGET (state->input_entry),
+					_("The selected input areas must have equal size!"));
+			break;
+		default:
+			text = g_strdup_printf (
+				_("An unexpected error has occurred: %d."), data->err);
+			error_in_entry ((GenericToolState *) state, 
+					GTK_WIDGET (state->input_entry), text);
+			g_free (text);
+			break;
+		}
+		range_list_destroy (data->input);
+		g_free (dao);
+		g_free (data);
+	} else 
+		gtk_widget_destroy (state->dialog);
 	return;
 }
 
@@ -864,6 +875,10 @@ desc_stat_tool_update_sensitivity_cb (GtkWidget *dummy, DescriptiveStatState *st
 			 (0 == entry_to_int (GTK_ENTRY (state->s_entry), &an_int, FALSE) &&
 				 an_int > 0)) &&
                  ((i != 2) || (output_range != NULL)));
+
+	gtk_widget_set_sensitive (state->clear_outputrange_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_format_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_comments_button, (i == 2));
 
         if (input_range != NULL) range_list_destroy (input_range);
         if (output_range != NULL) value_release (output_range);
@@ -1246,6 +1261,10 @@ ttest_update_sensitivity_cb (GtkWidget *dummy, TTestState *state)
 	input_2_ready = ((state->input_entry_2 == NULL) || (input_range_2 != NULL));
 	output_ready =  ((i != 2) || (output_range != NULL));
 
+	gtk_widget_set_sensitive (state->clear_outputrange_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_format_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_comments_button, (i == 2));
+
         if (input_range != NULL) value_release (input_range);
         if (input_range_2 != NULL) value_release (input_range_2);
         if (output_range != NULL) value_release (output_range);
@@ -1603,6 +1622,10 @@ ftest_update_sensitivity_cb (GtkWidget *dummy, FTestToolState *state)
 	input_2_ready = ((state->input_entry_2 == NULL) || (input_range_2 != NULL));
 	output_ready =  ((i != 2) || (output_range != NULL));
 
+	gtk_widget_set_sensitive (state->clear_outputrange_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_format_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_comments_button, (i == 2));
+
         if (input_range != NULL) value_release (input_range);
         if (input_range_2 != NULL) value_release (input_range_2);
         if (output_range != NULL) value_release (output_range);
@@ -1731,6 +1754,10 @@ sampling_tool_update_sensitivity_cb (GtkWidget *dummy, SamplingState *state)
 		 (err_size == 0 && size > 0) &&
 		 (err_number == 0 && number > 0) &&
                  ((i != 2) || (output_range != NULL)));
+
+	gtk_widget_set_sensitive (state->clear_outputrange_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_format_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_comments_button, (i == 2));
 
         if (input_range != NULL) range_list_destroy (input_range);
         if (output_range != NULL) value_release (output_range);
@@ -2052,7 +2079,7 @@ static void
 random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 {
 	gboolean ready  = FALSE;
-	gint count, vars;
+	gint count, vars, i;
 	gnum_float a_float, from_val, to_val, p_val;
         Value *output_range;
 	Value *disc_prob_range;
@@ -2062,11 +2089,13 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 		(GNUMERIC_EXPR_ENTRY (state->output_entry), state->sheet);
 	the_dist = combo_get_distribution (state->distribution_combo);
 
+	i = gnumeric_glade_group_value (state->gui, output_group);
+
 	ready = ((entry_to_int (GTK_ENTRY (state->vars_entry), &vars, FALSE) == 0 &&
 		  vars > 0) &&
 		 (entry_to_int (GTK_ENTRY (state->count_entry), &count, FALSE) == 0 &&
 		  count > 0) &&
-                 ((gnumeric_glade_group_value (state->gui, output_group) != 2) ||
+                 ((i != 2) ||
 		  (output_range != NULL)));
         if (output_range != NULL) value_release (output_range);
 
@@ -2120,6 +2149,10 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 			from_val <= to_val;
 		break;
 	}
+
+	gtk_widget_set_sensitive (state->clear_outputrange_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_format_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_comments_button, (i == 2));
 
 	gtk_widget_set_sensitive (state->apply_button, ready);
 	gtk_widget_set_sensitive (state->ok_button, ready);
@@ -2648,6 +2681,10 @@ regression_tool_update_sensitivity_cb (GtkWidget *dummy, RegressionToolState *st
 		(err == 0) && (1 > confidence ) && (confidence > 0) &&
 		output_ready;
 
+	gtk_widget_set_sensitive (state->clear_outputrange_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_format_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_comments_button, (i == 2));
+
         if (input_range != NULL) range_list_destroy (input_range);
         if (input_range_2 != NULL) value_release (input_range_2);
         if (output_range != NULL) value_release (output_range);
@@ -2885,6 +2922,10 @@ exp_smoothing_tool_update_sensitivity_cb (GtkWidget *dummy,
                  (err == 0 && damp_fact >= 0 && damp_fact <= 1) &&
                  ((i != 2) || (output_range != NULL)));
 
+	gtk_widget_set_sensitive (state->clear_outputrange_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_format_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_comments_button, (i == 2));
+
         if (input_range != NULL) range_list_destroy (input_range);
         if (output_range != NULL) value_release (output_range);
 
@@ -3055,6 +3096,10 @@ average_tool_update_sensitivity_cb (GtkWidget *dummy, AverageToolState *state)
 	ready = ((input_range != NULL) &&
                  (err == 0 && interval > 0) &&
                  ((i != 2) || (output_range != NULL)));
+
+	gtk_widget_set_sensitive (state->clear_outputrange_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_format_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_comments_button, (i == 2));
 
         if (input_range != NULL) range_list_destroy (input_range);
         if (output_range != NULL) value_release (output_range);
@@ -3299,6 +3344,10 @@ histogram_tool_update_sensitivity_cb (GtkWidget *dummy, HistogramToolState *stat
 		(!predetermined_bins && entry_to_int(state->n_entry, &the_n,FALSE) == 0
 			&& the_n > 0);
 	output_ready =  ((i != 2) || (output_range != NULL));
+
+	gtk_widget_set_sensitive (state->clear_outputrange_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_format_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_comments_button, (i == 2));
 
         if (input_range != NULL) range_list_destroy (input_range);
         if (input_range_2 != NULL) value_release (input_range_2);
