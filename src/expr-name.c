@@ -341,7 +341,7 @@ expr_name_add (ParsePos const *pp, char const *name,
 	       GnmExpr const *expr, char **error_msg,
 	       gboolean link_to_container)
 {
-	GnmNamedExpr *nexpr;
+	GnmNamedExpr *nexpr = NULL;
 	GnmNamedExprCollection *scope = NULL;
 
 	g_return_val_if_fail (pp != NULL, NULL);
@@ -355,40 +355,36 @@ expr_name_add (ParsePos const *pp, char const *name,
 		return NULL;
 	}
 
-	if (pp->sheet != NULL) {
-		if (pp->sheet->names == NULL)
-			pp->sheet->names = gnm_named_expr_collection_new ();
-		scope = pp->sheet->names;
-	} else {
-		if (pp->wb->names == NULL)
-			pp->wb->names = gnm_named_expr_collection_new ();
-		scope = pp->wb->names;
-	}
-
-	/* see if there was a place holder */
-	nexpr = g_hash_table_lookup (scope->placeholders, name);
-	if (nexpr != NULL) {
-		if (expr == NULL) {
-			/* there was already a placeholder for this */
-			expr_name_ref (nexpr);
-			return nexpr;
-		}
-
-		/* convert the placeholder into a real name */
-		g_hash_table_remove (scope->placeholders, nexpr->name);
-		nexpr->is_placeholder = FALSE;
-	} else {
-		nexpr = g_hash_table_lookup (scope->names, name);
+	scope = (pp->sheet != NULL) ? pp->sheet->names : pp->wb->names;
+	if (scope != NULL) {
+		/* see if there was a place holder */
+		nexpr = g_hash_table_lookup (scope->placeholders, name);
 		if (nexpr != NULL) {
-			if (error_msg != NULL) {
-				*error_msg = (pp->sheet != NULL)
-					? g_strdup_printf (_("'%s' is already defined in sheet"), name)
-					: g_strdup_printf (_("'%s' is already defined in workbook"), name);
+			if (expr == NULL) {
+				/* there was already a placeholder for this */
+				expr_name_ref (nexpr);
+				return nexpr;
 			}
-			gnm_expr_unref (expr);
-			return NULL;
+
+			/* convert the placeholder into a real name */
+			g_hash_table_remove (scope->placeholders, nexpr->name);
+			nexpr->is_placeholder = FALSE;
+		} else {
+			nexpr = g_hash_table_lookup (scope->names, name);
+			if (nexpr != NULL) {
+				if (error_msg != NULL)
+					*error_msg = (pp->sheet != NULL)
+						? g_strdup_printf (_("'%s' is already defined in sheet"), name)
+						: g_strdup_printf (_("'%s' is already defined in workbook"), name);
+
+				gnm_expr_unref (expr);
+				return NULL;
+			}
 		}
-	}
+	} else if (pp->sheet != NULL)
+		scope = pp->sheet->names = gnm_named_expr_collection_new ();
+	else
+		scope = pp->wb->names = gnm_named_expr_collection_new ();
 
 	if (error_msg)
 		*error_msg = NULL;
@@ -506,32 +502,41 @@ expr_name_eval (GnmNamedExpr const *nexpr, EvalPos const *pos,
  * @nexpr:
  * @sheet:
  *
- * Return Value: FALSE or error, TRUE otherwise
+ * Returns a translated error string which the caller must free if something
+ * goes wrong.
  **/
-gboolean
+char *
 expr_name_set_scope (GnmNamedExpr *nexpr, Sheet *sheet)
 {
-	GnmNamedExprCollection *scope;
+	GnmNamedExprCollection *scope, **new_scope;
 
-	g_return_val_if_fail (nexpr != NULL, FALSE);
-	g_return_val_if_fail (nexpr->pos.sheet != NULL || nexpr->pos.wb != NULL, FALSE);
-	g_return_val_if_fail (nexpr->active, FALSE);
+	g_return_val_if_fail (nexpr != NULL, NULL);
+	g_return_val_if_fail (nexpr->pos.sheet != NULL || nexpr->pos.wb != NULL, NULL);
+	g_return_val_if_fail (nexpr->active, NULL);
 
 	scope = (nexpr->pos.sheet != NULL)
 		? nexpr->pos.sheet->names : nexpr->pos.wb->names;
 
-	g_return_val_if_fail (scope != NULL, FALSE);
+	g_return_val_if_fail (scope != NULL, NULL);
 
-	g_hash_table_remove (
+	new_scope = (sheet != NULL) ? &(sheet->names) : &(nexpr->pos.wb->names);
+	if (*new_scope != NULL) {
+		if (NULL != g_hash_table_lookup ((*new_scope)->placeholders, nexpr->name->str) ||
+		    NULL != g_hash_table_lookup ((*new_scope)->names, nexpr->name->str))
+			return g_strdup_printf (((sheet != NULL)
+				? _("'%s' is already defined in sheet")
+				: _("'%s' is already defined in workbook")), nexpr->name->str);
+	} else
+		*new_scope = gnm_named_expr_collection_new ();
+
+	g_hash_table_steal (
 		nexpr->is_placeholder ? scope->placeholders : scope->names,
 		nexpr->name->str);
 
 	nexpr->pos.sheet = sheet;
-
-	scope = (sheet != NULL) ? sheet->names : nexpr->pos.wb->names;
-	gnm_named_expr_collection_insert (scope, nexpr);
-
-	return TRUE;
+	nexpr->active = FALSE; /* to placate collection_insert */
+	gnm_named_expr_collection_insert (*new_scope, nexpr);
+	return NULL;
 }
 
 /**

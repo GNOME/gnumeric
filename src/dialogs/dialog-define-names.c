@@ -94,16 +94,6 @@ name_guru_warn (G_GNUC_UNUSED NameGuruState *state)
 }
 
 static void
-cb_scope_changed (G_GNUC_UNUSED GtkToggleButton *button,
-		  NameGuruState *state)
-{
-	if (state->updating || state->cur_name == NULL)
-		return;
-	expr_name_set_scope (state->cur_name,
-		name_guru_scope_is_sheet (state) ? state->sheet : NULL);
-}
-
-static void
 name_guru_display_scope (NameGuruState *state)
 {
 	GnmNamedExpr const *nexpr = state->cur_name;
@@ -115,33 +105,6 @@ name_guru_display_scope (NameGuruState *state)
 		gtk_toggle_button_set_active (state->sheet_scope, TRUE);
 	state->updating = FALSE;
 }
-
-/**
- * name_guru_set_expr:
- * @state:
- * @nexpr: Expression to set in the entries, NULL to clear entries
- *
- * Set the entries in the dialog from an GnmNamedExpr
- **/
-static void
-name_guru_set_expr (NameGuruState *state, GnmNamedExpr *nexpr)
-{
-	state->updating = TRUE;
-	if (nexpr) {
-		char *txt = expr_name_as_string (nexpr, &state->pp,
-				 gnm_expr_conventions_default);
-		gnm_expr_entry_load_from_text  (state->expr_entry, txt);
-		g_free (txt);
-		gtk_entry_set_text (state->name, nexpr->name->str);
-	} else {
-		gnm_expr_entry_load_from_text (state->expr_entry, "");
-		gtk_entry_set_text (state->name, "");
-	}
-	state->updating = FALSE;
-
-	name_guru_display_scope (state);
-}
-
 
 static GnmNamedExpr *
 name_guru_in_list (NameGuruState *state, char const *name,
@@ -168,15 +131,25 @@ name_guru_in_list (NameGuruState *state, char const *name,
 	return NULL;
 }
 
+static void
+name_guru_set_expr (NameGuruState *state, GnmNamedExpr *nexpr)
+{
+	state->updating = TRUE;
+	if (nexpr) {
+		char *txt = expr_name_as_string (nexpr, &state->pp,
+				 gnm_expr_conventions_default);
+		gnm_expr_entry_load_from_text  (state->expr_entry, txt);
+		g_free (txt);
+		gtk_entry_set_text (state->name, nexpr->name->str);
+	} else {
+		gnm_expr_entry_load_from_text (state->expr_entry, "");
+		gtk_entry_set_text (state->name, "");
+	}
+	state->updating = FALSE;
 
+	name_guru_display_scope (state);
+}
 
-/**
- * name_guru_update_sensitivity:
- * @state:
- * @update_entries:
- *
- * Update the dialog widgets sensitivity
- **/
 static void
 name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 {
@@ -214,43 +187,6 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 		state->updating = FALSE;
 	}
 }
-
-/**
- * cb_name_guru_update_sensitivity:
- * @dummy:
- * @state:
- *
- **/
-static void
-cb_name_guru_update_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
-				 NameGuruState *state)
-{
-	name_guru_update_sensitivity (state, FALSE);
-}
-
-static void
-cb_name_guru_select_name (G_GNUC_UNUSED GtkTreeSelection *ignored,
-			  NameGuruState *state)
-{
-	GnmNamedExpr *nexpr;
-	GtkTreeIter  iter;
-
-	if (state->updating ||
-	    !gtk_tree_selection_get_selected (state->selection, NULL, &iter))
-		return;
-
-	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter, 1, &nexpr, -1);
-
-	g_return_if_fail (nexpr != NULL);
-	g_return_if_fail (nexpr->name != NULL);
-	g_return_if_fail (nexpr->name->str != NULL);
-
-	state->cur_name = nexpr;
-
-	name_guru_set_expr (state, nexpr);
-	name_guru_update_sensitivity (state, FALSE);
-}
-
 
 static void
 name_guru_populate_list (NameGuruState *state)
@@ -291,6 +227,59 @@ name_guru_populate_list (NameGuruState *state)
 					    &iter, 0, nexpr->name->str, 1, nexpr, -1);
 	}
 	name_guru_update_sensitivity (state, TRUE);
+}
+
+static void
+cb_scope_changed (G_GNUC_UNUSED GtkToggleButton *button, NameGuruState *state)
+{
+	char *err;
+	if (state->updating || state->cur_name == NULL)
+		return;
+	err = expr_name_set_scope (state->cur_name,
+		name_guru_scope_is_sheet (state) ? state->sheet : NULL);
+	if (err != NULL) {
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, err);
+		g_free (err);
+		name_guru_display_scope (state); /* flip it back */
+	} else
+		name_guru_populate_list (state);
+}
+
+
+/**
+ * cb_name_guru_update_sensitivity:
+ * @dummy:
+ * @state:
+ *
+ **/
+static void
+cb_name_guru_update_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
+				 NameGuruState *state)
+{
+	name_guru_update_sensitivity (state, FALSE);
+}
+
+static void
+cb_name_guru_select_name (G_GNUC_UNUSED GtkTreeSelection *ignored,
+			  NameGuruState *state)
+{
+	GnmNamedExpr *nexpr;
+	GtkTreeIter  iter;
+
+	if (state->updating ||
+	    !gtk_tree_selection_get_selected (state->selection, NULL, &iter))
+		return;
+
+	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter, 1, &nexpr, -1);
+
+	g_return_if_fail (nexpr != NULL);
+	g_return_if_fail (nexpr->name != NULL);
+	g_return_if_fail (nexpr->name->str != NULL);
+
+	state->cur_name = nexpr;
+
+	name_guru_set_expr (state, nexpr);
+	name_guru_update_sensitivity (state, FALSE);
 }
 
 /**
@@ -401,16 +390,14 @@ cb_name_guru_clicked (GtkWidget *button, NameGuruState *state)
 	    button == state->update_button ||
 	    button == state->ok_button) {
 		/* If adding the name failed, do not exit */
-		if (!name_guru_add (state)) {
+		if (!name_guru_add (state))
 			return;
-		}
 	}
 
 	if (button == state->close_button || button == state->ok_button) {
 		gtk_widget_destroy (state->dialog);
 		return;
 	}
-
 }
 
 static GtkWidget *

@@ -1,3 +1,10 @@
+2003-06-02  Jody Goldberg <jody@gnome.org>
+
+	* src/expr-name.c (expr_name_set_scope) : if the new scope does not
+	  have any names initialize it.  Don't remove the name from the old
+	  scope if it already exists in the newscope.  Return an error message
+	  in the case of problems.
+
 2003-06-02  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_general_free): New function.

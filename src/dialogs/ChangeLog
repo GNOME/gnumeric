@@ -1,3 +1,8 @@
+2003-06-02  Jody Goldberg <jody@gnome.org>
+
+	* dialog-define-names.c (cb_scope_changed) : handle failure to change
+	  scope and update the name list on success.
+
 2003-06-02  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-preview.c (stf_preview_render): Switch from list
