@@ -3162,7 +3162,10 @@ show_gui (WorkbookControlGUI *wbcg)
 		gtk_window_set_default_size (wbcg->toplevel, sx, sy);
 	}
 
-	gtk_widget_show (GTK_WIDGET (wbcg->toplevel));
+	gtk_widget_show_all (GTK_WIDGET (wbcg->toplevel));
+
+	/* rehide headers if necessary */
+	scg_adjust_preferences (wb_control_gui_cur_sheet (wbcg));
 
 	return FALSE;
 }

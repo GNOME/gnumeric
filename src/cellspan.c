@@ -143,13 +143,6 @@ row_span_get (ColRowInfo const * const ri, int const col)
 	return g_hash_table_lookup (ri->spans, GINT_TO_POINTER(col));
 }
 
-static inline int
-cell_contents_fit_inside_column (const Cell *cell)
-{
-	int const tmp = cell_rendered_width (cell);
-	return (tmp <= COL_INTERNAL_WIDTH (cell->col_info));
-}
-
 /**
  * cell_is_empty :
  *
@@ -193,7 +186,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	Sheet *sheet;
 	int align, left, max_col, min_col;
 	int row, pos, margin;
-	int cell_width_pixel;
+	int cell_width_pixel, indented_w;
 	MStyle *mstyle;
 	ColRowInfo const *ri;
 	Range const *merge_left;
@@ -223,9 +216,12 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	mstyle = cell_get_mstyle (cell);
 	align = cell_default_halign (cell, mstyle);
 	row   = cell->pos.row;
+	indented_w = cell_width_pixel = cell_rendered_width (cell);
+	if (align == HALIGN_LEFT || align == HALIGN_RIGHT)
+		indented_w += cell_rendered_offset (cell);
 
 	if (cell_needs_recalc (cell) ||
-	    (cell_contents_fit_inside_column (cell) &&
+	    ((indented_w <= COL_INTERNAL_WIDTH (cell->col_info)) &&
 	     align != HALIGN_CENTER_ACROSS_SELECTION) ||
 	    align == HALIGN_JUSTIFY ||
 	    align == HALIGN_FILL ||
@@ -235,8 +231,6 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		return;
 	}
 
-	cell_width_pixel = cell_rendered_width (cell);
-
 	sheet_merge_get_adjacent (sheet, &cell->pos, &merge_left, &merge_right);
 	min_col = (merge_left != NULL) ? merge_left->end.col : 0;
 	max_col = (merge_right != NULL) ? merge_right->start.col : SHEET_MAX_COLS;
@@ -245,8 +239,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	case HALIGN_LEFT:
 		*col1 = *col2 = cell->pos.col;
 		pos = cell->pos.col + 1;
-		left = cell_width_pixel + cell_rendered_offset (cell) -
-			COL_INTERNAL_WIDTH (cell->col_info);
+		left = indented_w - COL_INTERNAL_WIDTH (cell->col_info);
 		margin = cell->col_info->margin_b;
 
 		for (; left > 0 && pos < max_col; pos++){
@@ -271,8 +264,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	case HALIGN_RIGHT:
 		*col1 = *col2 = cell->pos.col;
 		pos = cell->pos.col - 1;
-		left = cell_width_pixel + cell_rendered_offset (cell) -
-			COL_INTERNAL_WIDTH (cell->col_info);
+		left = indented_w - COL_INTERNAL_WIDTH (cell->col_info);
 		margin = cell->col_info->margin_a;
 
 		for (; left > 0 && pos >= min_col; pos--){

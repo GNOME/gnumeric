@@ -1,3 +1,16 @@
+2001-02-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (show_gui) : It seems like we need to
+	  show_all for the bonobo build, I don't know why.  Add an explicit
+	  call the scg_adjust_preferences to rehide headers that may be shown
+	  inadvertently.
+
+	* src/cellspan.c (cell_calc_span) : Even if the content fits the
+	  indent may cause a span.
+
+	* src/style.c (required_updates_for_style) : flag an indent change as
+	  something that requires a resize.
+
 2001-02-18  Jody Goldberg <jgoldberg@home.com>
 
 	* src/embeddable-grid.c (set_header_visibility) : delete.

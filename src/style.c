@@ -369,7 +369,8 @@ required_updates_for_style (MStyle *style)
 	     mstyle_is_element_set  (style, MSTYLE_FONT_SIZE) ||
 	     mstyle_is_element_set  (style, MSTYLE_WRAP_TEXT));
 	gboolean const format_change =
-	    mstyle_is_element_set (style, MSTYLE_FORMAT);
+	    (mstyle_is_element_set (style, MSTYLE_FORMAT) ||
+	     mstyle_is_element_set (style, MSTYLE_INDENT));
 
 	return format_change
 	    ? SPANCALC_RE_RENDER|SPANCALC_RESIZE
