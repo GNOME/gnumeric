@@ -875,7 +875,7 @@ sheet_view_adjust_preferences (SheetView *sheet_view)
 #if 0
 #ifdef ENABLE_BONOBO
 void
-sheet_view_insert_object (SheetView *sheet_view, GnomeObjectClient *object)
+sheet_view_insert_object (SheetView *sheet_view, BonoboObjectClient *object)
 {
 /*	GtkWidget *view;*/
 

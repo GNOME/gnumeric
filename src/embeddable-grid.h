@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_EMBEDDABLE_GRID_H
 #define GNUMERIC_EMBEDDABLE_GRID_H
 
-#include <bonobo/gnome-embeddable.h>
+#include <bonobo/bonobo-embeddable.h>
 
 #define EMBEDDABLE_GRID_TYPE        (embeddable_grid_get_type ())
 #define EMBEDDABLE_GRID(o)          (GTK_CHECK_CAST ((o), EMBEDDABLE_GRID_TYPE, EmbeddableGrid))
@@ -10,13 +10,13 @@
 #define IS_EMBEDDABLE_GRID_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), EMBEDDABLE_GRID_TYPE))
 
 /*
- * The GnomeEmbeddable object
+ * The BonoboEmbeddable object
  */
 struct _EmbeddableGrid;
 typedef struct _EmbeddableGrid EmbeddableGrid;
 
 struct _EmbeddableGrid {
-	GnomeEmbeddable embeddable;
+	BonoboEmbeddable embeddable;
 
 	/* The associated workbook */
 	Workbook *workbook;
@@ -32,7 +32,7 @@ struct _EmbeddableGrid {
 };
 
 typedef struct {
-	GnomeEmbeddableClass parent_class;
+	BonoboEmbeddableClass parent_class;
 } EmbeddableGridClass;
 
 GtkType         embeddable_grid_get_type     (void);
@@ -48,7 +48,7 @@ void            embeddable_grid_set_header_visibility (EmbeddableGrid *eg,
 						       gboolean row_headers_visible);
 
 /*
- * The GnomeView object
+ * The BonoboView object
  */
 #define GRID_VIEW_TYPE        (grid_view_get_type ())
 #define GRID_VIEW(o)          (GTK_CHECK_CAST ((o), GRID_VIEW_TYPE, GridView))
@@ -60,17 +60,17 @@ struct _GridView;
 typedef struct _GridView GridView;
 
 struct _GridView {
-	GnomeView view;
+	BonoboView view;
 
 	SheetView      *sheet_view;
 	EmbeddableGrid *embeddable;
 };
 
 typedef struct {
-	GnomeView parent_class;
+	BonoboView parent_class;
 } GridViewClass;
 
 GtkType         grid_view_get_type           (void);
-GnomeView      *grid_view_new                (EmbeddableGrid *container);
+BonoboView      *grid_view_new                (EmbeddableGrid *container);
 
 #endif /* GNUMERIC_EMBEDDABLE_GRID_H */

@@ -48,7 +48,7 @@ struct _ParsePosition {
 };
 
 #ifdef ENABLE_BONOBO
-#    include <bonobo/gnome-container.h>
+#    include <bonobo/bonobo-container.h>
 #endif
 
 #include "value.h"

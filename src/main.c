@@ -157,7 +157,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 
 	if (opened_workbook) {
 #ifdef ENABLE_BONOBO
-		gnome_object_unref (GNOME_OBJECT (new_book));
+		bonobo_object_unref (BONOBO_OBJECT (new_book));
 #else
 		gtk_object_unref (GTK_OBJECT (new_book));
 #endif

@@ -1,5 +1,5 @@
 
-#include <bonobo.idl>
+#include <Bonobo.idl>
 
 module GNOME {
 	module Gnumeric {
@@ -215,7 +215,7 @@ module GNOME {
 			double row_height (in long row);
 		};
 
-		interface Workbook : GNOME::Unknown {
+		interface Workbook : Bonobo::Unknown {
 			exception NameExists {};
 
 			Sheet sheet_new    (in string name) raises (NameExists);
@@ -256,11 +256,11 @@ module GNOME {
 		//
 		// Interfaces for embedding Gnumeric with Bonobo
 		//
-		interface WorkbookFactory : GNOME::GenericFactory {
+		interface WorkbookFactory : Bonobo::GenericFactory {
 			Workbook read (in string filename);
 		};
 		
-		interface Grid : GNOME::Embeddable {
+		interface Grid : Bonobo::Embeddable {
 			Sheet get_sheet ();
 			
 			void set_header_visibility (in boolean cols, in boolean rows);
@@ -271,11 +271,11 @@ module GNOME {
 		// Interfaces for accessing value sets from linear arrays.
 		// Mainly used for graphics.
 		//
-		interface VectorNotify : GNOME::Unknown {
+		interface VectorNotify : Bonobo::Unknown {
 			void changed (in short low, in short high);
 		};
 
-		interface Vector : GNOME::Unknown {
+		interface Vector : Bonobo::Unknown {
 			exception OutOfRange {};
 			exception Failed {};
 

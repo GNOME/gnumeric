@@ -2,7 +2,7 @@
 #define GNUMERIC_SHEET_OBJECT_BONOBO_H
 
 #include "sheet-object.h"
-#include <bonobo/gnome-client-site.h>
+#include <bonobo/bonobo-client-site.h>
 
 /*
  * SheetObjectBonobo:
@@ -25,12 +25,12 @@ typedef struct {
 	 * If this is NULL the object has not yet been
 	 * activated/bound to this site
 	 */
-	GnomeClientSite *client_site;
+	BonoboClientSite *client_site;
 
 	/*
 	 * Points to the object server that implements this SheetObjectBonobo
 	 */
-	GnomeObjectClient *object_server;
+	BonoboObjectClient *object_server;
 } SheetObjectBonobo;
 
 typedef struct {
@@ -43,14 +43,14 @@ typedef struct {
 GtkType            sheet_object_bonobo_get_type (void);
 SheetObjectBonobo *sheet_object_bonobo_construct (SheetObjectBonobo *sob, 
 						  Sheet *sheet,
-						  GnomeObjectClient *object_server,
+						  BonoboObjectClient *object_server,
 						  double x1, double y1,
 						  double x2, double y2);
 
 gboolean sheet_object_bonobo_load_from_file      (SheetObjectBonobo *sob,
 						  const char *fname);
 gboolean sheet_object_bonobo_load                (SheetObjectBonobo *sob,
-						  GnomeStream *stream);
+						  BonoboStream *stream);
 void     sheet_object_bonobo_query_size          (SheetObjectBonobo *sob);
 
 

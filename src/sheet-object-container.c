@@ -14,10 +14,10 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "sheet-object-container.h"
-#include <bonobo/gnome-container.h>
-#include <bonobo/gnome-view-frame.h>
-#include <bonobo/gnome-client-site.h>
-#include <bonobo/gnome-embeddable.h>
+#include <bonobo/bonobo-container.h>
+#include <bonobo/bonobo-view-frame.h>
+#include <bonobo/bonobo-client-site.h>
+#include <bonobo/bonobo-embeddable.h>
 
 static SheetObject *sheet_object_container_parent_class;
 
@@ -45,26 +45,26 @@ make_container_item (SheetObject *so, SheetView *sheet_view, GtkWidget *w)
 }
 
 static gint
-user_activation_request_cb (GnomeViewFrame *view_frame, SheetObject *so)
+user_activation_request_cb (BonoboViewFrame *view_frame, SheetObject *so)
 {
 	Sheet *sheet = so->sheet;
 
 	printf ("user activation request\n");
 	if (sheet->active_object_frame){
-		gnome_view_frame_view_deactivate (sheet->active_object_frame);
+		bonobo_view_frame_view_deactivate (sheet->active_object_frame);
 		if (sheet->active_object_frame != NULL)
-                        gnome_view_frame_set_covered (sheet->active_object_frame, TRUE);
+                        bonobo_view_frame_set_covered (sheet->active_object_frame, TRUE);
 		sheet->active_object_frame = NULL;
 	}
 
-	gnome_view_frame_view_activate (view_frame);
+	bonobo_view_frame_view_activate (view_frame);
 	sheet_object_make_current (so);
 	
 	return FALSE;
 }
 
 static gint
-view_activated_cb (GnomeViewFrame *view_frame, gboolean activated, SheetObject *so)
+view_activated_cb (BonoboViewFrame *view_frame, gboolean activated, SheetObject *so)
 {
 	Sheet *sheet = so->sheet;
 	
@@ -79,7 +79,7 @@ view_activated_cb (GnomeViewFrame *view_frame, gboolean activated, SheetObject *
                  * Otherwise, uncover it so that it can receive
                  * events, and set it as the active View.
                  */
-                gnome_view_frame_set_covered (view_frame, FALSE);
+                bonobo_view_frame_set_covered (view_frame, FALSE);
                 sheet->active_object_frame = view_frame;
         } else {
                 /*
@@ -91,7 +91,7 @@ view_activated_cb (GnomeViewFrame *view_frame, gboolean activated, SheetObject *
                  * not told it to deactivate itself, and that is
                  * why we cover the view here.
                  */
-                gnome_view_frame_set_covered (view_frame, TRUE);
+                bonobo_view_frame_set_covered (view_frame, TRUE);
 
                 if (view_frame == sheet->active_object_frame)
 			sheet->active_object_frame = NULL;
@@ -103,9 +103,9 @@ view_activated_cb (GnomeViewFrame *view_frame, gboolean activated, SheetObject *
  * Invoked when an item has been destroyed
  */
 static void
-item_destroyed (GnomeCanvasItem *item, GnomeViewFrame *view_frame)
+item_destroyed (GnomeCanvasItem *item, BonoboViewFrame *view_frame)
 {
-	gnome_object_destroy (GNOME_OBJECT (view_frame));
+	bonobo_object_destroy (BONOBO_OBJECT (view_frame));
 }
 
 static GnomeCanvasItem *
@@ -113,28 +113,28 @@ sheet_object_container_realize (SheetObject *so, SheetView *sheet_view)
 {
 	SheetObjectContainer *soc;
 	GnomeCanvasItem *i;
-	GnomeViewFrame *view_frame;
+	BonoboViewFrame *view_frame;
 	GtkWidget *view_widget;
 
 	soc = SHEET_OBJECT_CONTAINER (so);
 	
-	view_frame = gnome_client_site_new_view (SHEET_OBJECT_BONOBO (so)->client_site);
-	gnome_view_frame_set_ui_handler (view_frame, so->sheet->workbook->uih);
+	view_frame = bonobo_client_site_new_view (SHEET_OBJECT_BONOBO (so)->client_site);
+	bonobo_view_frame_set_ui_handler (view_frame, so->sheet->workbook->uih);
 		
 	gtk_signal_connect (GTK_OBJECT (view_frame), "user_activate",
 			    GTK_SIGNAL_FUNC (user_activation_request_cb), so);
-	gtk_signal_connect (GTK_OBJECT (view_frame), "view_activated",
+	gtk_signal_connect (GTK_OBJECT (view_frame), "activated",
 			    GTK_SIGNAL_FUNC (view_activated_cb), so);
 	/*
 	 * We need somehow to grab events from the wrapper in order to be able to
 	 * move the component around easily.
 	 *
-	 * gtk_signal_connect (GTK_OBJECT (gnome_view_frame_get_wrapper (view_frame)),
+	 * gtk_signal_connect (GTK_OBJECT (bonobo_view_frame_get_wrapper (view_frame)),
 	 *                    "event",
 	 *                    GTK_SIGNAL_FUNC (sheet_object_event), so);
 	 */
 	
-	view_widget = gnome_view_frame_get_wrapper (view_frame);
+	view_widget = bonobo_view_frame_get_wrapper (view_frame);
 	i = make_container_item (so, sheet_view, view_widget);
 
 	gtk_signal_connect (GTK_OBJECT (i), "destroy",
@@ -208,13 +208,13 @@ sheet_object_container_new (Sheet *sheet,
 			    double x2, double y2,
 			    const char *goadid)
 {
-	GnomeObjectClient *object_server;
+	BonoboObjectClient *object_server;
 	SheetObjectContainer *c;
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	object_server = gnome_object_activate_with_goad_id (NULL, goadid, 0, NULL);
+	object_server = bonobo_object_activate_with_goad_id (NULL, goadid, 0, NULL);
 	if (!object_server)
 		return NULL;
 

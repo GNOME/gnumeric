@@ -201,7 +201,7 @@ workbook_try_read (const char *filename, char **msg)
 	result = workbook_load_from (wb, filename);
 	if (result != NULL) {
 #ifdef ENABLE_BONOBO
-		gnome_object_destroy (GNOME_OBJECT (wb));
+		bonobo_object_destroy (BONOBO_OBJECT (wb));
 #else
 		gtk_object_destroy   (GTK_OBJECT (wb));
 #endif
@@ -335,7 +335,7 @@ workbook_import (Workbook *parent, const char *filename)
 		error = fo->open (wb, filename);
 		if (error != NULL) {
 #ifdef ENABLE_BONOBO
-		        gnome_object_destroy (GNOME_OBJECT (wb));
+		        bonobo_object_destroy (BONOBO_OBJECT (wb));
 #else
 			gtk_object_destroy   (GTK_OBJECT (wb));
 #endif

@@ -22,7 +22,7 @@ sheet_object_item_realize (SheetObject *so, SheetView *sheet_view)
 	/*
 	 * Create item/view-frame
 	 */
-	item = gnome_client_site_new_item (
+	item = bonobo_client_site_new_item (
 		SHEET_OBJECT_BONOBO (so)->client_site,
 		sheet_view->object_group);
 	
@@ -75,14 +75,14 @@ sheet_object_item_new (Sheet *sheet,
 		       double x2, double y2,
 		       const char *goad_id)
 {
-	GnomeObjectClient *object_server;
+	BonoboObjectClient *object_server;
 	SheetObjectItem *soi;
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (goad_id != NULL, NULL);
 	
-	object_server = gnome_object_activate_with_goad_id (NULL, goad_id, 0, NULL);
+	object_server = bonobo_object_activate_with_goad_id (NULL, goad_id, 0, NULL);
 	if (!object_server)
 		return NULL;
 

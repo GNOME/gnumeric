@@ -2,7 +2,7 @@
 #define GNUMERIC_WORKBOOK_H
 
 #ifdef ENABLE_BONOBO
-#   include <bonobo/gnome-bonobo.h>
+#   include <bonobo.h>
 #else
 #   include <gtk/gtkobject.h>
 #endif
@@ -19,8 +19,8 @@
 #define IS_WORKBOOK_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), WORKBOOK_TYPE))
 
 #ifdef ENABLE_BONOBO
-#   define WORKBOOK_PARENT_CLASS      GnomeObject
-#   define WORKBOOK_PARENT_CLASS_TYPE GNOME_OBJECT_TYPE
+#   define WORKBOOK_PARENT_CLASS      BonoboObject
+#   define WORKBOOK_PARENT_CLASS_TYPE BONOBO_OBJECT_TYPE
 #else
 #   define WORKBOOK_PARENT_CLASS      GtkObject
 #   define WORKBOOK_PARENT_CLASS_TYPE gtk_object_get_type()
@@ -43,17 +43,17 @@ typedef struct _WorkbookPrivate WorkbookPrivate;
 struct _Workbook {
 #ifdef ENABLE_BONOBO
 	/* The base object for the Workbook */
-	GnomeObject bonobo_object;
+	BonoboObject bonobo_object;
 
-	/* A GnomeContainer */
-	GnomeContainer   *gnome_container;
+	/* A BonoboContainer */
+	BonoboContainer   *bonobo_container;
 
-	GnomePersistFile *persist_file;
+	BonoboPersistFile *persist_file;
 	
 	/* A list of EmbeddableGrids exported to the world */
 	GList      *bonobo_regions;
 
-	GnomeUIHandler *uih;
+	BonoboUIHandler *uih;
 #else
 	GtkObject  gtk_object;
 
@@ -129,7 +129,7 @@ struct _Workbook {
 
 typedef struct {
 #ifdef ENABLE_BONOBO
-	GnomeObjectClass bonobo_parent_class;
+	BonoboObjectClass bonobo_parent_class;
 #else
 	GtkObjectClass   gtk_parent_class;
 #endif

@@ -13,7 +13,7 @@
  *
  *    Perhaps we should relay "realize" and get from the Bonobo
  *    versions both the GnomeCanvasItem to use for the gnumeric
- *    display and the GnomeViewFrame that logically "controls" this
+ *    display and the BonoboViewFrame that logically "controls" this
  *    to keep track of the view frames.
  */
 #include <config.h>
@@ -24,10 +24,10 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "sheet-object-bonobo.h"
-#include <bonobo/gnome-container.h>
-#include <bonobo/gnome-view-frame.h>
-#include <bonobo/gnome-client-site.h>
-#include <bonobo/gnome-embeddable.h>
+#include <bonobo/bonobo-container.h>
+#include <bonobo/bonobo-view-frame.h>
+#include <bonobo/bonobo-client-site.h>
+#include <bonobo/bonobo-embeddable.h>
 
 static SheetObject *sheet_object_bonobo_parent_class;
 
@@ -39,7 +39,7 @@ sheet_object_bonobo_destroy (GtkObject *object)
 	SheetObjectBonobo *sob = SHEET_OBJECT_BONOBO (object);
 	
 	if (sob->client_site)
-		gnome_object_destroy (GNOME_OBJECT (sob->client_site));
+		bonobo_object_destroy (BONOBO_OBJECT (sob->client_site));
 	
 	sob->client_site = NULL;
 	
@@ -86,13 +86,13 @@ gboolean
 sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
 {
 	CORBA_Environment ev;
-	GNOME_PersistFile pf;
-	GNOME_PersistStream ps;
+	Bonobo_PersistFile pf;
+	Bonobo_PersistStream ps;
 	
 	CORBA_exception_init (&ev);
 
-	pf = GNOME_Unknown_query_interface (
-		gnome_object_corba_objref (GNOME_OBJECT (sob->object_server)),
+	pf = Bonobo_Unknown_query_interface (
+		bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
 		"IDL:GNOME/PersistFile:1.0", &ev);
 
 	if (ev._major == CORBA_NO_EXCEPTION && pf != CORBA_OBJECT_NIL){
@@ -103,17 +103,17 @@ sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
 		else
 			file = g_strdup (fname);
 		if (file)
-			GNOME_PersistFile_load (pf, file, &ev);
+			Bonobo_PersistFile_load (pf, file, &ev);
 
-		GNOME_Unknown_unref ((GNOME_Unknown) pf, &ev);
+		Bonobo_Unknown_unref ((Bonobo_Unknown) pf, &ev);
 		CORBA_Object_release (pf, &ev);
 		g_free (file);
 
 		goto finish;
 	} 
 		
-	ps = GNOME_Unknown_query_interface (
-		gnome_object_corba_objref (GNOME_OBJECT (sob->object_server)),
+	ps = Bonobo_Unknown_query_interface (
+		bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
 		"IDL:GNOME/PersistStream:1.0", &ev);
 	
 	if (ev._major == CORBA_NO_EXCEPTION && ps != CORBA_OBJECT_NIL){
@@ -125,17 +125,17 @@ sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
 			file = g_strdup (fname);
 
 		if (file) {
-			GnomeStream *stream;
+			BonoboStream *stream;
 			
-			stream = gnome_stream_fs_open (file, GNOME_Storage_READ);
+			stream = bonobo_stream_fs_open (file, Bonobo_Storage_READ);
 			if (stream) {
-				GNOME_PersistStream_load (
+				Bonobo_PersistStream_load (
 					ps,
-					(GNOME_Stream) gnome_object_corba_objref (
-						GNOME_OBJECT (stream)), &ev);
+					(Bonobo_Stream) bonobo_object_corba_objref (
+						BONOBO_OBJECT (stream)), &ev);
 			}
 		}
-		GNOME_Unknown_unref ((GNOME_Unknown) ps, &ev);
+		Bonobo_Unknown_unref ((Bonobo_Unknown) ps, &ev);
 		CORBA_Object_release (ps, &ev);
 		g_free (file);
 
@@ -156,10 +156,10 @@ sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
  */
 gboolean
 sheet_object_bonobo_load (SheetObjectBonobo *sob,
-			  GnomeStream *stream)
+			  BonoboStream *stream)
 {
 	CORBA_Environment   ev;
-	GNOME_PersistStream ret;
+	Bonobo_PersistStream ret;
 	
 	g_return_val_if_fail (sob != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), FALSE);
@@ -167,17 +167,17 @@ sheet_object_bonobo_load (SheetObjectBonobo *sob,
 	
 	CORBA_exception_init (&ev);
 	
-	ret = GNOME_Unknown_query_interface (
-		gnome_object_corba_objref (GNOME_OBJECT (sob->object_server)),
+	ret = Bonobo_Unknown_query_interface (
+		bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
 		"IDL:GNOME/PersistStream:1.0", &ev);
 	if (ev._major == CORBA_NO_EXCEPTION && ret != CORBA_OBJECT_NIL) {
 		if (stream) {
-			GNOME_PersistStream_load (
+			Bonobo_PersistStream_load (
 				ret,
-				(GNOME_Stream) gnome_object_corba_objref (
-					GNOME_OBJECT (stream)), &ev);
+				(Bonobo_Stream) bonobo_object_corba_objref (
+					BONOBO_OBJECT (stream)), &ev);
 		}
-		GNOME_Unknown_unref ((GNOME_Unknown) ret, &ev);
+		Bonobo_Unknown_unref ((Bonobo_Unknown) ret, &ev);
 		CORBA_Object_release (ret, &ev);
 	} else {
 		CORBA_exception_free (&ev);
@@ -194,7 +194,7 @@ sheet_object_bonobo_query_size (SheetObjectBonobo *sob)
 {
 #if 0
 	int dx = -1, dy = -1;
-	gnome_view_frame_size_request (view_frame, &dx, &dy);
+	bonobo_view_frame_size_request (view_frame, &dx, &dy);
 	
 	if (dx > 0 && dy > 0) {
 		double tlx, tly, brx, bry;
@@ -241,7 +241,7 @@ sheet_object_bonobo_get_type (void)
 
 SheetObjectBonobo *
 sheet_object_bonobo_construct (SheetObjectBonobo *sob, Sheet *sheet,
-			       GnomeObjectClient *object_server,
+			       BonoboObjectClient *object_server,
 			       double x1, double y1,
 			       double x2, double y2)
 {
@@ -250,15 +250,15 @@ sheet_object_bonobo_construct (SheetObjectBonobo *sob, Sheet *sheet,
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), NULL);
-	g_return_val_if_fail (GNOME_IS_OBJECT_CLIENT (object_server), NULL);
+	g_return_val_if_fail (BONOBO_IS_OBJECT_CLIENT (object_server), NULL);
 
 	sheet_object_construct (SHEET_OBJECT (sob), sheet);
 	sheet_object_set_bounds (SHEET_OBJECT (sob), x1, y1, x2, y2);
 
 	sob->object_server = object_server;
-	sob->client_site = gnome_client_site_new (sheet->workbook->gnome_container);
+	sob->client_site = bonobo_client_site_new (sheet->workbook->bonobo_container);
 	
-	if (!gnome_client_site_bind_embeddable (sob->client_site, sob->object_server)){
+	if (!bonobo_client_site_bind_embeddable (sob->client_site, sob->object_server)){
 		gtk_object_destroy (GTK_OBJECT (sob));
 		return NULL;
 	}

@@ -891,7 +891,7 @@ gnumeric_sheet_drag_data_get (GtkWidget *widget,
 			      guint time)
 {
 #ifdef ENABLE_BONOBO
-	GnomeMoniker *moniker;
+	BonoboMoniker *moniker;
 	Sheet *sheet = GNUMERIC_SHEET (widget)->sheet_view->sheet;
 	Workbook *wb = sheet->workbook;
 	char *s;
@@ -901,15 +901,15 @@ gnumeric_sheet_drag_data_get (GtkWidget *widget,
 	if (wb->filename == NULL)
 		return;
 	
-	moniker = gnome_moniker_new ();
-	gnome_moniker_set_server (
+	moniker = bonobo_moniker_new ();
+	bonobo_moniker_set_server (
 		moniker,
 		"IDL:GNOME:Gnumeric:Workbook:1.0",
 		wb->filename);
 
-	gnome_moniker_append_item_name (
+	bonobo_moniker_append_item_name (
 		moniker, "Sheet1");
-	s = gnome_moniker_get_as_string (moniker);
+	s = bonobo_moniker_get_as_string (moniker);
 	gtk_object_destroy (GTK_OBJECT (moniker));
 
 	gtk_selection_data_set (selection_data, selection_data->target, 8, s, strlen (s)+1);

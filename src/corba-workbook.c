@@ -7,7 +7,7 @@
 #include <config.h>
 #include <libgnorba/gnome-factory.h>
 #include <gnome.h>
-#include <bonobo/gnome-object.h>
+#include <bonobo/bonobo-object.h>
 #include "sheet.h"
 #include "gnumeric.h"
 #include "Gnumeric.h"
@@ -186,8 +186,8 @@ Workbook_corba_class_init ()
 
 	gnome_gnumeric_workbook_vepv.GNOME_Gnumeric_Workbook_epv =
 		&gnome_gnumeric_workbook_epv;
-	gnome_gnumeric_workbook_vepv.GNOME_Unknown_epv =
-		gnome_object_get_epv ();
+	gnome_gnumeric_workbook_vepv.Bonobo_Unknown_epv =
+		bonobo_object_get_epv ();
 
 	gnome_gnumeric_workbook_epv.sheet_new = Workbook_sheet_new;
 	gnome_gnumeric_workbook_epv.sheet_lookup = Workbook_sheet_lookup;

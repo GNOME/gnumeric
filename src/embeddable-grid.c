@@ -11,8 +11,8 @@
  *
  */
 #include <config.h>
-#include <bonobo/gnome-embeddable.h>
-#include <bonobo/gnome-embeddable-factory.h>
+#include <bonobo/bonobo-embeddable.h>
+#include <bonobo/bonobo-embeddable-factory.h>
 #include "Gnumeric.h"
 #include "sheet.h"
 #include "embeddable-grid.h"
@@ -23,12 +23,12 @@
 POA_GNOME_Gnumeric_Grid__epv embeddable_grid_epv;
 POA_GNOME_Gnumeric_Grid__vepv embeddable_grid_vepv;
 
-static GnomeEmbeddableFactory *gnome_embeddable_grid_factory;
+static BonoboEmbeddableFactory *bonobo_embeddable_grid_factory;
 
 static inline EmbeddableGrid *
 embeddable_grid_from_servant (PortableServer_Servant servant)
 {
-	return EMBEDDABLE_GRID (gnome_object_from_servant (servant));
+	return EMBEDDABLE_GRID (bonobo_object_from_servant (servant));
 }
 
 static GNOME_Gnumeric_Sheet
@@ -83,17 +83,17 @@ Grid_get_header_visibility (PortableServer_Servant servant,
 	*row_headers_visible = eg->show_row_title;
 }
 
-static GnomeView *
-embeddable_grid_view_factory (GnomeEmbeddable *embeddable,
-			      const GNOME_ViewFrame view_frame,
+static BonoboView *
+embeddable_grid_view_factory (BonoboEmbeddable *embeddable,
+			      const Bonobo_ViewFrame view_frame,
 			      void *data)
 {
-	GnomeView *view;
+	BonoboView *view;
 	EmbeddableGrid *eg = EMBEDDABLE_GRID (embeddable);
 	
 	view = grid_view_new (eg);
 
-	return GNOME_VIEW (view);
+	return BONOBO_VIEW (view);
 }
 
 static void
@@ -102,8 +102,8 @@ init_embeddable_grid_corba_class (void)
 	/*
 	 * vepv
 	 */
-	embeddable_grid_vepv.GNOME_Unknown_epv = gnome_object_get_epv ();
-	embeddable_grid_vepv.GNOME_Embeddable_epv = gnome_embeddable_get_epv ();
+	embeddable_grid_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
+	embeddable_grid_vepv.Bonobo_Embeddable_epv = bonobo_embeddable_get_epv ();
 	embeddable_grid_vepv.GNOME_Gnumeric_Grid_epv = &embeddable_grid_epv;
 
 	/*
@@ -126,12 +126,12 @@ embeddable_grid_init (GtkObject *object)
 }
 
 static CORBA_Object
-create_embeddable_grid (GnomeObject *object)
+create_embeddable_grid (BonoboObject *object)
 {
 	POA_GNOME_Gnumeric_Grid *servant;
 	CORBA_Environment ev;
 	
-	servant = (POA_GNOME_Gnumeric_Grid *) g_new0 (GnomeObjectServant, 1);
+	servant = (POA_GNOME_Gnumeric_Grid *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &embeddable_grid_vepv;
 
 	CORBA_exception_init (&ev);
@@ -143,7 +143,7 @@ create_embeddable_grid (GnomeObject *object)
 	}
 	CORBA_exception_free (&ev);
 
-	return gnome_object_activate_servant (object, servant);
+	return bonobo_object_activate_servant (object, servant);
 }
 
 static void
@@ -174,15 +174,15 @@ embeddable_grid_new_anon (void)
 		
 	embeddable_grid = gtk_type_new (EMBEDDABLE_GRID_TYPE);
 	embeddable_grid_init_anon (embeddable_grid);
-	corba_embeddable_grid = create_embeddable_grid (GNOME_OBJECT (embeddable_grid));
+	corba_embeddable_grid = create_embeddable_grid (BONOBO_OBJECT (embeddable_grid));
 
 	if (corba_embeddable_grid == CORBA_OBJECT_NIL){
 		gtk_object_destroy (GTK_OBJECT (embeddable_grid));
 		return NULL;
 	}
 	
-	gnome_embeddable_construct (
-		GNOME_EMBEDDABLE (embeddable_grid), corba_embeddable_grid,
+	bonobo_embeddable_construct (
+		BONOBO_EMBEDDABLE (embeddable_grid), corba_embeddable_grid,
 		embeddable_grid_view_factory, NULL);
 
 	return embeddable_grid;
@@ -195,7 +195,7 @@ embeddable_grid_new (Workbook *wb, Sheet *sheet)
 	GNOME_Gnumeric_Grid corba_embeddable_grid;
 		
 	embeddable_grid = gtk_type_new (EMBEDDABLE_GRID_TYPE);
-	corba_embeddable_grid = create_embeddable_grid (GNOME_OBJECT (embeddable_grid));
+	corba_embeddable_grid = create_embeddable_grid (BONOBO_OBJECT (embeddable_grid));
 
 	if (corba_embeddable_grid == CORBA_OBJECT_NIL){
 		gtk_object_destroy (GTK_OBJECT (embeddable_grid));
@@ -208,17 +208,17 @@ embeddable_grid_new (Workbook *wb, Sheet *sheet)
 	/*
 	 * We keep a handle to the Workbook
 	 */
-	gnome_object_ref (GNOME_OBJECT (embeddable_grid->workbook));
+	bonobo_object_ref (BONOBO_OBJECT (embeddable_grid->workbook));
 	
-	gnome_embeddable_construct (
-		GNOME_EMBEDDABLE (embeddable_grid), corba_embeddable_grid,
+	bonobo_embeddable_construct (
+		BONOBO_EMBEDDABLE (embeddable_grid), corba_embeddable_grid,
 		embeddable_grid_view_factory, NULL);
 
 	return embeddable_grid;
 }
 
-static GnomeObject *
-embeddable_grid_factory (GnomeEmbeddableFactory *This, void *data)
+static BonoboObject *
+embeddable_grid_factory (BonoboEmbeddableFactory *This, void *data)
 {
 	EmbeddableGrid *embeddable_grid;
 
@@ -231,7 +231,7 @@ embeddable_grid_factory (GnomeEmbeddableFactory *This, void *data)
 	 * Populate verb list here.
 	 */
 
-	return GNOME_OBJECT (embeddable_grid);
+	return BONOBO_OBJECT (embeddable_grid);
 }
 
 GtkType
@@ -250,7 +250,7 @@ embeddable_grid_get_type (void)
 			NULL, /* reserved 2 */
 			(GtkClassInitFunc) NULL
 		};
-		type = gtk_type_unique (gnome_embeddable_get_type (), &info);
+		type = gtk_type_unique (bonobo_embeddable_get_type (), &info);
 	}
 	
 	return type;
@@ -259,7 +259,7 @@ embeddable_grid_get_type (void)
 void
 EmbeddableGridFactory_init (void)
 {
-	gnome_embeddable_grid_factory = gnome_embeddable_factory_new (
+	bonobo_embeddable_grid_factory = bonobo_embeddable_factory_new (
 		"GNOME:Gnumeric:GridFactory:1.0",
 		embeddable_grid_factory, NULL);
 }
@@ -279,7 +279,7 @@ grid_view_get_type (void)
 			sizeof (GridViewClass),
 			NULL, NULL, NULL, NULL, NULL
 		};
-		type = gtk_type_unique (gnome_view_get_type (), &info);
+		type = gtk_type_unique (bonobo_view_get_type (), &info);
 	}
 	
 	return type;
@@ -308,18 +308,18 @@ grid_view_activate (GridView *grid_view)
 /*	gtk_signal_emit_by_name (GTK_OBJECT (grid_view->view.plug), "set_focus",
 	grid_view->sheet_view->sheet_view);*/
 			
-	gnome_view_activate_notify (GNOME_VIEW (grid_view), TRUE);
+	bonobo_view_activate_notify (BONOBO_VIEW (grid_view), TRUE);
 }
 
-GnomeView *
+BonoboView *
 grid_view_new (EmbeddableGrid *eg)
 {
 	GridView *grid_view = NULL;
-	GNOME_View corba_grid_view;
+	Bonobo_View corba_grid_view;
 	
 	grid_view = gtk_type_new (GRID_VIEW_TYPE);
 
-	corba_grid_view = gnome_view_corba_object_create (GNOME_OBJECT (grid_view));
+	corba_grid_view = bonobo_view_corba_object_create (BONOBO_OBJECT (grid_view));
 	if (corba_grid_view == CORBA_OBJECT_NIL){
 		gtk_object_destroy (GTK_OBJECT (corba_grid_view));
 		return NULL;
@@ -329,18 +329,18 @@ grid_view_new (EmbeddableGrid *eg)
 	grid_view->sheet_view = sheet_new_sheet_view (eg->sheet);
 	gtk_widget_show (GTK_WIDGET (grid_view->sheet_view));
 	g_warning ("FIXME: view_construct API changed");
-/*	gnome_view_construct (
-		GNOME_VIEW (grid_view), corba_grid_view,
+/*	bonobo_view_construct (
+		BONOBO_VIEW (grid_view), corba_grid_view,
 		GTK_WIDGET (grid_view->sheet_view));*/
 
 	eg->views = g_list_prepend (eg->views, grid_view);
 
 	gtk_signal_connect (GTK_OBJECT (grid_view), "destroy",
 			    GTK_SIGNAL_FUNC (grid_view_destroy), NULL);
-	gtk_signal_connect (GTK_OBJECT (grid_view), "view_activate",
+	gtk_signal_connect (GTK_OBJECT (grid_view), "activate",
 			    GTK_SIGNAL_FUNC (grid_view_activate), NULL);
 	
-	return GNOME_VIEW (grid_view);
+	return BONOBO_VIEW (grid_view);
 }
 
 void

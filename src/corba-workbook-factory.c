@@ -28,7 +28,7 @@ static WorkbookFactoryServant workbook_factory_servant;
 static GNOME_Gnumeric_WorkbookFactory gnumeric_workbook_factory;
 
 static PortableServer_ServantBase__epv gnumeric_workbook_factory_base_epv;
-static POA_GNOME_GenericFactory__epv gnumeric_workbook_generic_factory_epv;
+static POA_Bonobo_GenericFactory__epv gnumeric_workbook_generic_factory_epv;
 static POA_GNOME_Gnumeric_WorkbookFactory__epv gnumeric_workbook_factory_epv;
 static POA_GNOME_Gnumeric_WorkbookFactory__vepv gnumeric_workbook_factory_vepv;
 
@@ -75,7 +75,7 @@ WorkbookFactory_create_object (PortableServer_Servant servant,
 	if (strcmp (goad_id, "IDL:GNOME:Gnumeric:Workbook:1.0") != 0){
 		if (strcmp (goad_id, "GOADID:GNOME:Gnumeric:Workbook:1.0") != 0){
 			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-					     ex_GNOME_GenericFactory_CannotActivate,
+					     ex_Bonobo_GenericFactory_CannotActivate,
 					     NULL);
 			return CORBA_OBJECT_NIL;
 		}
@@ -104,7 +104,7 @@ GNOME_Gnumeric_WorkbookFactory__create (PortableServer_POA poa, CORBA_Environmen
 		
 	gnumeric_workbook_factory_vepv.GNOME_Gnumeric_WorkbookFactory_epv =
 		&gnumeric_workbook_factory_epv;
-	gnumeric_workbook_factory_vepv.GNOME_GenericFactory_epv =
+	gnumeric_workbook_factory_vepv.Bonobo_GenericFactory_epv =
 		&gnumeric_workbook_generic_factory_epv;
 	gnumeric_workbook_factory_vepv._base_epv =
 		&gnumeric_workbook_factory_base_epv;

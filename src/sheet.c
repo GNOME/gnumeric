@@ -3149,17 +3149,17 @@ void
 sheet_insert_object (Sheet *sheet, char *repoid)
 {
 #ifdef ENABLE_BONOBO
-	GnomeClientSite *client_site;
-	GnomeObjectClient *object_server;
+	BonoboClientSite *client_site;
+	BonoboObjectClient *object_server;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (repoid != NULL);
 
 	if (strncmp (repoid, "moniker_url:", 12) == 0)
-		object_server = gnome_object_activate (repoid, 0);
+		object_server = bonobo_object_activate (repoid, 0);
 	else
-		object_server = gnome_object_activate_with_repo_id (NULL, repoid, 0, NULL);
+		object_server = bonobo_object_activate_with_repo_id (NULL, repoid, 0, NULL);
 	
 	if (!object_server){
 		char *msg;
@@ -3171,10 +3171,10 @@ sheet_insert_object (Sheet *sheet, char *repoid)
 		return;
 	}
 
-	client_site = gnome_client_site_new (sheet->workbook->gnome_container);
-	gnome_container_add (sheet->workbook->gnome_container, GNOME_OBJECT (client_site));
+	client_site = bonobo_client_site_new (sheet->workbook->bonobo_container);
+	bonobo_container_add (sheet->workbook->bonobo_container, BONOBO_OBJECT (client_site));
 
-	if (!gnome_client_site_bind_embeddable (client_site, object_server)){
+	if (!bonobo_client_site_bind_embeddable (client_site, object_server)){
 		gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR,
 				 _("I was unable to the bind object"));
 		gtk_object_unref (GTK_OBJECT (object_server));

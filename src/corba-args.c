@@ -9,7 +9,7 @@
 #include <config.h>
 #include <gnome.h>
 #include <libgnorba/gnorba.h>
-#include <bonobo/gnome-bonobo.h>
+#include <bonobo.h>
 #include "sheet.h"
 #include "main.h"
 #include "embeddable-grid.h"

@@ -2,7 +2,7 @@
 #define GNUMERIC_SHEET_OBJECT_ITEM_H
 
 #include "sheet-object-bonobo.h"
-#include <bonobo/gnome-client-site.h>
+#include <bonobo/bonobo-client-site.h>
 
 /*
  * SheetObjectItem:

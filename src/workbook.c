@@ -34,7 +34,7 @@
 #include "commands.h"
 
 #ifdef ENABLE_BONOBO
-#include <bonobo/gnome-persist-file.h>
+#include <bonobo/bonobo-persist-file.h>
 #include "sheet-object-container.h"
 #include "embeddable-grid.h"
 #endif
@@ -83,7 +83,7 @@ file_open_cmd (GtkWidget *widget, Workbook *wb)
 
 		if (workbook_is_pristine (wb)) {
 #ifdef ENABLE_BONOBO
-			gnome_object_unref (GNOME_OBJECT (wb));
+			bonobo_object_unref (BONOBO_OBJECT (wb));
 #else
 			gtk_object_unref (GTK_OBJECT (wb));
 #endif
@@ -107,7 +107,7 @@ file_import_cmd (GtkWidget *widget, Workbook *wb)
 
 		if (workbook_is_pristine (wb)) {
 #ifdef ENABLE_BONOBO
-			gnome_object_unref (GNOME_OBJECT (wb));
+			bonobo_object_unref (BONOBO_OBJECT (wb));
 #else
 			gtk_object_unref (GTK_OBJECT (wb));
 #endif
@@ -368,7 +368,7 @@ workbook_delete_event (GtkWidget *widget, GdkEvent *event, Workbook *wb)
 			gtk_widget_hide (GTK_WIDGET (wb->toplevel));
 			return FALSE;
 		}
-		gnome_object_unref (GNOME_OBJECT (wb));
+		bonobo_object_unref (BONOBO_OBJECT (wb));
 #else
 		gtk_object_unref   (GTK_OBJECT   (wb));
 #endif
@@ -575,7 +575,7 @@ close_cmd (GtkWidget *widget, Workbook *wb)
 {
 	if (workbook_can_close (wb)){
 #ifdef ENABLE_BONOBO
-		gnome_object_unref (GNOME_OBJECT (wb));
+		bonobo_object_unref (BONOBO_OBJECT (wb));
 #else
 		gtk_object_unref (GTK_OBJECT (wb));
 #endif
@@ -600,7 +600,7 @@ quit_cmd (void)
 
 		if (workbook_can_close (wb)){
 #ifdef ENABLE_BONOBO
-			gnome_object_unref (GNOME_OBJECT (wb));
+			bonobo_object_unref (BONOBO_OBJECT (wb));
 #else
 			gtk_object_unref (GTK_OBJECT (wb));
 #endif
@@ -1922,8 +1922,8 @@ grid_destroyed (GtkObject *embeddable_grid, Workbook *wb)
 	wb->bonobo_regions = g_list_remove (wb->bonobo_regions, embeddable_grid);
 }
 
-static GNOME_Unknown
-workbook_container_get_object (GnomeObject *container, CORBA_char *item_name,
+static Bonobo_Unknown
+workbook_container_get_object (BonoboObject *container, CORBA_char *item_name,
 			       CORBA_boolean only_if_exists, CORBA_Environment *ev,
 			       Workbook *wb)
 {
@@ -1977,11 +1977,11 @@ workbook_container_get_object (GnomeObject *container, CORBA_char *item_name,
 	wb->bonobo_regions = g_list_prepend (wb->bonobo_regions, eg);
 
 	return CORBA_Object_duplicate (
-		gnome_object_corba_objref (GNOME_OBJECT (eg)), ev);
+		bonobo_object_corba_objref (BONOBO_OBJECT (eg)), ev);
 }
 
 static int
-workbook_persist_file_load (GnomePersistFile *ps, const CORBA_char *filename, void *closure)
+workbook_persist_file_load (BonoboPersistFile *ps, const CORBA_char *filename, void *closure)
 {
 	Workbook *wb = closure;
 
@@ -1992,7 +1992,7 @@ workbook_persist_file_load (GnomePersistFile *ps, const CORBA_char *filename, vo
 }
 
 static int
-workbook_persist_file_save (GnomePersistFile *ps, const CORBA_char *filename, void *closure)
+workbook_persist_file_save (BonoboPersistFile *ps, const CORBA_char *filename, void *closure)
 {
 	Workbook *wb = closure;
 
@@ -2002,21 +2002,21 @@ workbook_persist_file_save (GnomePersistFile *ps, const CORBA_char *filename, vo
 static void
 workbook_bonobo_setup (Workbook *wb)
 {
-	wb->gnome_container = GNOME_CONTAINER (gnome_container_new ());
-	wb->persist_file = gnome_persist_file_new (
+	wb->bonobo_container = BONOBO_CONTAINER (bonobo_container_new ());
+	wb->persist_file = bonobo_persist_file_new (
 		workbook_persist_file_load,
 		workbook_persist_file_save,
 		wb);
 		
-	gnome_object_add_interface (
-		GNOME_OBJECT (wb),
-		GNOME_OBJECT (wb->gnome_container));
-	gnome_object_add_interface (
-		GNOME_OBJECT (wb),
-		GNOME_OBJECT (wb->persist_file));
+	bonobo_object_add_interface (
+		BONOBO_OBJECT (wb),
+		BONOBO_OBJECT (wb->bonobo_container));
+	bonobo_object_add_interface (
+		BONOBO_OBJECT (wb),
+		BONOBO_OBJECT (wb->persist_file));
 	
 	gtk_signal_connect (
-		GTK_OBJECT (wb->gnome_container), "get_object",
+		GTK_OBJECT (wb->bonobo_container), "get_object",
 		GTK_SIGNAL_FUNC (workbook_container_get_object), wb);
 }
 #endif
@@ -2080,7 +2080,7 @@ workbook_get_type (void)
 		};
 
 #ifdef ENABLE_BONOBO
-		type = gtk_type_unique (gnome_object_get_type (), &info);
+		type = gtk_type_unique (bonobo_object_get_type (), &info);
 #else
 		type = gtk_type_unique (gtk_object_get_type (), &info);
 #endif
@@ -2186,16 +2186,16 @@ workbook_new (void)
 	wb->priv->menu_item_paste_special = workbook_menu_edit[6].widget;
 #else
 	{
-		GnomeUIHandlerMenuItem *list;
+		BonoboUIHandlerMenuItem *list;
 
 		wb->bonobo_regions  = NULL;
 		wb->persist_file    = NULL;
-		wb->uih = gnome_ui_handler_new ();
-		gnome_ui_handler_set_app (wb->uih, GNOME_APP (wb->toplevel));
-		gnome_ui_handler_create_menubar (wb->uih);
-		list = gnome_ui_handler_menu_parse_uiinfo_list_with_data (workbook_menu, wb);
-		gnome_ui_handler_menu_add_list (wb->uih, "/", list);
-		gnome_ui_handler_menu_free_list (list);
+		wb->uih = bonobo_ui_handler_new ();
+		bonobo_ui_handler_set_app (wb->uih, GNOME_APP (wb->toplevel));
+		bonobo_ui_handler_create_menubar (wb->uih);
+		list = bonobo_ui_handler_menu_parse_uiinfo_list_with_data (workbook_menu, wb);
+		bonobo_ui_handler_menu_add_list (wb->uih, "/", list);
+		bonobo_ui_handler_menu_free_list (list);
 	}
 #endif
 

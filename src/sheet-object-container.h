@@ -2,7 +2,7 @@
 #define GNUMERIC_SHEET_OBJECT_CONTAINER_H
 
 #include "sheet-object-bonobo.h"
-#include <bonobo/gnome-client-site.h>
+#include <bonobo/bonobo-client-site.h>
 
 /*
  * SheetObjectContainer:
@@ -23,7 +23,7 @@ typedef struct {
 } SheetObjectContainerClass;
 
 /*
- * GNOME::View Bonobo containers.
+ * Bonobo::View Bonobo containers.
  */
 GtkType      sheet_object_container_get_type (void);
 SheetObject *sheet_object_container_new      (Sheet *sheet,
