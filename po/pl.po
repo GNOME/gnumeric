@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-01-18 15:30+0100\n"
-"PO-Revision-Date: 2002-01-18 16:44+0100\n"
+"POT-Creation-Date: 2002-01-20 19:06+0100\n"
+"PO-Revision-Date: 2002-01-20 19:14+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1159,12 +1159,42 @@ msgid "Co_mments"
 msgstr "K_omentarze"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "Co_variance"
+msgstr "Ko_wariancja"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "Collapse an outline group"
 msgstr "Zwija konspekt grupy"
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "Combo Box"
 msgstr "Wej¶cie z opcjami"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "Comparing two population means for two paired samples.: t-test"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid ""
+"Comparing two population means for two unpaired samples from pop. with equal "
+"var.: t-test"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid ""
+"Comparing two population means for two unpaired samples from pop. with "
+"unequal var.: t-test"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid ""
+"Comparing two population means from pop. with known varinces or using a "
+"large sample: z- test"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "Comparing two population variances"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "Configure toolbars"
@@ -1186,6 +1216,11 @@ msgstr "Kopiuje zaznaczenie do schowka"
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "Copy the selection"
 msgstr "Kopiuje zaznaczenie"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/dialogs/covariance.glade.h:1
+#: src/workbook-control-gui.c:1
+msgid "Covariance"
+msgstr "Kowariancja"
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "Create a button"
@@ -1333,6 +1368,14 @@ msgid "Exit the program"
 msgstr "Koñczy pracê programu"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "Exponential smoothing"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "F_orecasting"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "F_ormat"
 msgstr "_Format"
 
@@ -1363,6 +1406,11 @@ msgstr "U¿ywany kolor"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formatuje obszar komórek zgodnie z predefioniowanym szablonem"
 
+#: src/GNOME_Gnumeric.xml.h:1 src/analysis-tools.c:1
+#: src/dialogs/fourier-analysis.glade.h:1 src/workbook-control-gui.c:1
+msgid "Fourier Analysis"
+msgstr "Analiza Fouriera"
+
 #: src/GNOME_Gnumeric.xml.h:1 src/sheet-object-widget.c:1
 #: src/workbook-object-toolbar.c:1
 msgid "Frame"
@@ -1371,6 +1419,10 @@ msgstr "Ramka"
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "Function Guru"
 msgstr "Druid funkcji"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "Generate random numbers of a selection of distributions"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:1 src/dialogs/graph-guru.glade.h:1
 msgid "Graph Guru"
@@ -1583,6 +1635,10 @@ msgid "Money"
 msgstr "Waluta"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "Moving average"
+msgstr "¦rednia ruchoma"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "New"
 msgstr "Nowy"
 
@@ -1593,6 +1649,10 @@ msgstr "Nowy _wspó³dzielony"
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "New _Unshared"
 msgstr "Nowy _oddzielny"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "One Factor Analysis of Variance"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "Open"
@@ -1643,10 +1703,18 @@ msgstr "Wkleja zawarto¶æ schowka lub bufora wycinków"
 msgid "Paste with optional filters and transformations"
 msgstr "Wstawia z opcjonalnym zastosowaniem filtrów i przekszta³ceñ"
 
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "Pearson Correlation"
+msgstr "Korelacja Pearsona"
+
 #: src/GNOME_Gnumeric.xml.h:1 src/analysis-tools.c:1
 #: src/workbook-format-toolbar.c:1
 msgid "Percent"
 msgstr "Procentowe"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "Periodic and random samples"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:1 src/dialogs/print.glade.h:1
 #: src/workbook-control-gui.c:1
@@ -1682,6 +1750,14 @@ msgstr "Drukuje zeszyt"
 msgid "Radio Button"
 msgstr "Przycisk radiowy"
 
+#: src/GNOME_Gnumeric.xml.h:1
+msgid "Ranks and _Percentiles"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "Ranks, placements and percentiles"
+msgstr ""
+
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 #: src/workbook-control-gui.c:1
 msgid "Re-_Order Sheets..."
@@ -1710,6 +1786,10 @@ msgstr "Prostok±t"
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "Redo the undone action"
 msgstr "Ponawia cofniêt± czynno¶æ"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "Regression Analysis"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "Remove an outline group"
@@ -1866,9 +1946,9 @@ msgstr "Rozdziel"
 msgid "Split merged ranges of cells"
 msgstr "Rozdziela scalon± grupê komórek"
 
-#: src/GNOME_Gnumeric.xml.h:1
-msgid "Statistical methods"
-msgstr "Metody statystyczne"
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "Statistical Anal_ysis"
+msgstr "_Analiza statystyczna"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/dialogs/consolidate.glade.h:1
 #: src/workbook-control-gui.c:1 src/workbook-control-gui.c:1
@@ -1916,6 +1996,14 @@ msgstr ""
 "Prze³±cza pomiêdzy wy¶wietlaniem wierszy podsumowañ nad lub pod szczegó³ami"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "Two Factor Analysis of Variance"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "Two _Means"
+msgstr "Dwie ¶_rednie:"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "Uncollapse an outline group"
 msgstr "Rozwija konspekt grupy"
 
@@ -1932,12 +2020,32 @@ msgid "Undo the last action"
 msgstr "Cofa ostatni± czynno¶æ"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "Unpaired Samples, E_qual Var.: T-Test"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "Unpaired Samples, _Unequal Var.: T-Test"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "Validate input with preset criteria"
 msgstr "Sprawdza zgodno¶æ wprowadzanych danych z ustalonymi kryteriami"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "Various frequency tables"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "Various summary statistics"
+msgstr "Ró¿ne statystyki podsumowuj±ce"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zmienia powiêkszenie widoku arkusza"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "_ANOVA"
+msgstr "_Analiza wariancji"
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "_About..."
@@ -2001,12 +2109,12 @@ msgid "_Copy"
 msgstr "S_kopiuj"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
-msgid "_Data"
-msgstr "_Dane"
+msgid "_Correlation"
+msgstr "_Korelacja"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
-msgid "_Data Analysis..."
-msgstr "Analiza _danych..."
+msgid "_Data"
+msgstr "_Dane"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "_Define..."
@@ -2018,12 +2126,20 @@ msgid "_Delete..."
 msgstr "_Usuñ..."
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "_Descriptive Statistics"
+msgstr "Statystyka _opisowa"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "_Duplicate"
 msgstr "_Zduplikuj"
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "_Edit"
 msgstr "_Edycja"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "_Exponential Smoothing"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "_File"
@@ -2041,6 +2157,10 @@ msgstr "_Filtr"
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "_Formats"
 msgstr "_Formaty"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "_Fourier Analysis"
+msgstr "Analiza _Fouriera"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 #: src/workbook-control-gui.c:1
@@ -2082,6 +2202,10 @@ msgid "_Hide Detail"
 msgstr "_Ukryj szczegó³y"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "_Histogram"
+msgstr "_Histogram"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "_Import..."
 msgstr "Za_importuj..."
 
@@ -2095,6 +2219,14 @@ msgid "_Insert new"
 msgstr "W_staw nowy"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "_Known Variances or Large Sample: Z-Test"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "_Moving Average"
+msgstr "¦rednia _ruchoma"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "_Name"
 msgstr "_Nazwa"
 
@@ -2106,9 +2238,17 @@ msgstr "_Nowy"
 msgid "_Object..."
 msgstr "O_biekt..."
 
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "_One Factor"
+msgstr "_Jeden czynnik"
+
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "_Open..."
 msgstr "_Otwórz..."
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "_Paired Samples: T-Test"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:1 src/sheet-control-gui.c:1
 #: src/workbook-control-gui.c:1
@@ -2124,9 +2264,17 @@ msgid "_Print..."
 msgstr "Wy_drukuj..."
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "_Random Generator..."
+msgstr "Generacja liczb _losowych..."
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 #: src/workbook-control-gui.c:1
 msgid "_Redo"
 msgstr "P_onów"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "_Regression"
+msgstr "_Regresja"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/dialogs/autocorrect.glade.h:1
 #: src/dialogs/dialog-stf.glade.h:1 src/workbook-control-gui.c:1
@@ -2146,6 +2294,10 @@ msgstr "_Wiersz"
 #: src/workbook-control-gui.c:1
 msgid "_Rows"
 msgstr "_Wiersze"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "_Sampling"
+msgstr "_Próbkowanie"
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "_Save"
@@ -2195,6 +2347,14 @@ msgstr "Paski _narzêdziowe..."
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "_Tools"
 msgstr "_Narzêdzia"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "_Two Factor"
+msgstr "_Dwa czynniki"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+msgid "_Two Variances: FTest"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 #: src/workbook-control-gui.c:1
@@ -2377,8 +2537,7 @@ msgstr "Nie zaimplementowane.\n"
 msgid "Y Variable"
 msgstr "Zmienna Y"
 
-#: src/analysis-tools.c:1 src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/regression.glade.h:1
+#: src/analysis-tools.c:1 src/dialogs/regression.glade.h:1
 msgid "Regression"
 msgstr "Regresja"
 
@@ -2406,7 +2565,7 @@ msgstr "¦rednia ruchoma"
 msgid "Standard Error"
 msgstr "B³±d standardowy"
 
-#: src/analysis-tools.c:1 src/dialogs/dialog-analysis-tools.c:1
+#: src/analysis-tools.c:1
 msgid "Exponential Smoothing"
 msgstr ""
 
@@ -2428,7 +2587,7 @@ msgstr "Korelacja rangowa"
 msgid "Anova"
 msgstr "Analiza wariancji"
 
-#: src/analysis-tools.c:1 src/dialogs/dialog-analysis-tools.c:1
+#: src/analysis-tools.c:1
 msgid "Anova: Single Factor"
 msgstr "Analiza wariancji: jeden czynnik"
 
@@ -2501,8 +2660,7 @@ msgstr ">%s"
 msgid "Too Large"
 msgstr "Zbyt du¿a"
 
-#: src/analysis-tools.c:1 src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/histogram.glade.h:1
+#: src/analysis-tools.c:1 src/dialogs/histogram.glade.h:1
 msgid "Histogram"
 msgstr "Histogram"
 
@@ -2523,11 +2681,6 @@ msgstr "%"
 #, no-c-format
 msgid "Cumulative %"
 msgstr "£±czny %"
-
-#: src/analysis-tools.c:1 src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/fourier-analysis.glade.h:1
-msgid "Fourier Analysis"
-msgstr "Analiza Fouriera"
 
 #: src/analysis-tools.c:1
 msgid "Real"
@@ -4120,13 +4273,9 @@ msgstr "_Funkcja :"
 msgid "_Put :"
 msgstr "_Wstawianie :"
 
-#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:1
+#: src/dialogs/correlation.glade.h:1
 msgid "Correlation"
 msgstr "Korelacja"
-
-#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:1
-msgid "Covariance"
-msgstr "Kowariancja"
 
 #: src/dialogs/delete-cells.glade.h:1 src/sheet-object.c:1
 msgid "Delete"
@@ -4165,7 +4314,6 @@ msgid "Confidence Interval for the _Mean"
 msgstr "Przedzia³ istotno¶ci dla ¶_redniej"
 
 #: src/dialogs/descriptive-stats.glade.h:1
-#: src/dialogs/dialog-analysis-tools.c:1
 msgid "Descriptive Statistics"
 msgstr "Statystyka opisowa"
 
@@ -4632,48 +4780,6 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr ""
-
-#: src/dialogs/dialog-analysis-tools.c:1
-msgid "Anova: Two-Factor With Or Without Replication"
-msgstr "Analiza wariancji: dwa czynniki z lub bez powtórzeñ"
-
-#: src/dialogs/dialog-analysis-tools.c:1
-msgid "F-Test: Two-Sample for Variances"
-msgstr "Test F: dwie próbki dla wariancji"
-
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/moving-averages.glade.h:1
-msgid "Moving Average"
-msgstr "¦rednia ruchoma"
-
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/random-generation.glade.h:1
-msgid "Random Number Generation"
-msgstr "Generacja liczb losowych"
-
-#: src/dialogs/dialog-analysis-tools.c:1 src/dialogs/rank.glade.h:1
-msgid "Rank and Percentile"
-msgstr "Korelacja rangowa i percentyl"
-
-#: src/dialogs/dialog-analysis-tools.c:1 src/dialogs/sampling.glade.h:1
-msgid "Sampling"
-msgstr "Próbkowanie"
-
-#: src/dialogs/dialog-analysis-tools.c:1
-msgid "t-Test: Paired Two Sample for Means"
-msgstr "Test t: dwie próbki dla ¶redniej"
-
-#: src/dialogs/dialog-analysis-tools.c:1
-msgid "t-Test: Two-Sample Assuming Equal Variances"
-msgstr "Test t: dwie próbki o jednakowych wariancjach"
-
-#: src/dialogs/dialog-analysis-tools.c:1
-msgid "t-Test: Two-Sample Assuming Unequal Variances"
-msgstr "Test t: dwie próbki o ró¿nych wariancjach"
-
-#: src/dialogs/dialog-analysis-tools.c:1
-msgid "z-Test: Two Sample for Means"
-msgstr "Test z: dwie próbki dla ¶redniej"
 
 #: src/dialogs/dialog-autocorrect.c:1
 msgid "Could not create the AutoCorrect dialog."
@@ -6099,6 +6205,10 @@ msgid "In_terval:"
 msgstr "O_kres:"
 
 #: src/dialogs/moving-averages.glade.h:1
+msgid "Moving Average"
+msgstr "¦rednia ruchoma"
+
+#: src/dialogs/moving-averages.glade.h:1
 msgid "_Standard Errors"
 msgstr "B³êdy _standardowe"
 
@@ -6359,6 +6469,10 @@ msgid "Number of _Variables:"
 msgstr "_Liczba zmiennych:"
 
 #: src/dialogs/random-generation.glade.h:1
+msgid "Random Number Generation"
+msgstr "Generacja liczb losowych"
+
+#: src/dialogs/random-generation.glade.h:1
 msgid "Random Numbers"
 msgstr "Liczby losowe"
 
@@ -6373,6 +6487,10 @@ msgstr "Ro_zk³ad:"
 #: src/dialogs/rank.glade.h:1
 msgid "Average _Rank"
 msgstr ""
+
+#: src/dialogs/rank.glade.h:1
+msgid "Rank and Percentile"
+msgstr "Korelacja rangowa i percentyl"
 
 #: src/dialogs/rank.glade.h:1
 msgid "Ties:"
@@ -6409,6 +6527,10 @@ msgstr "L_iczba próbek:"
 #: src/dialogs/sampling.glade.h:1
 msgid "Per_iod:"
 msgstr "_Okres:"
+
+#: src/dialogs/sampling.glade.h:1
+msgid "Sampling"
+msgstr "Próbkowanie"
 
 #: src/dialogs/sampling.glade.h:1
 msgid "Sampling Method:"
@@ -10531,7 +10653,6 @@ msgstr ""
 "@SEEALSO=ERF"
 
 #: src/functions/fn-eng.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -10562,7 +10683,6 @@ msgid "Impossible"
 msgstr "Niemo¿liwe"
 
 #: src/functions/fn-eng.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -10579,7 +10699,7 @@ msgstr ""
 "@SYNTAX=GESTEP(x[;y])\n"
 "@DESCRIPTION=Funkcja GESTEP testuje relacjê @x >= @y, zwracaj±c 1 w "
 "przypadku prawdy lub 0 w przypadku fa³szu. Parametr @y jest opcjonalny i "
-"domy lnie równy 0.\n"
+"domy¶lnie przyjmuje warto¶æ 0.\n"
 "Je¿eli jeden z argumentów nie jest liczb±, funkcja zwraca b³±d #WARTO¦Æ!.\n"
 "Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
@@ -11532,27 +11652,26 @@ msgid ""
 "@maturity is the maturity date of the security.\n"
 "@frequency is the number of coupon payments per year.\n"
 "@eom = TRUE handles end of month maturity dates special.\n"
-"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly and if eom is "
-"given: 6 = bimonthly, 12 = monthly.\n"
+"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, "
+"12 = monthly.\n"
 "@basis is the type of day counting system you want to use:\n"
 "\n"
-"0  30/360\n"
+"0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 "1  actual days/actual days\n"
 "2  actual days/360\n"
 "3  actual days/365\n"
 "4  European 30/360\n"
-"5  US 30/360  (available only if eom is given)\n"
+"5  European+ 30/360\n"
 "(see the gnumeric manual for a detailed description of these bases)\n"
 "\n"
 "If @frequency is invalid, COUPDAYBS returns #NUM! error.\n"
-"If @basis is omitted, 30/360 is applied.\n"
+"If @basis is omitted, MSRB 30/360 is applied.\n"
 "If @basis is invalid, #NUM! error is returned.\n"
 "\n"
-"If COUPDAYBS is called with 3 or 4 arguments, it is XL compatible.\n"
 "@EXAMPLES=\n"
-"COUPDAYBS(8-Oct-2001,29-Nov-2002,4,0) = "
-"40COUPDAYBS(8-Oct-2001,29-Nov-2002,4,0,TRUE) = "
-"39COUPDAYBS(8-Oct-2001,29-Nov-2002,4,0,FALSE) = 39\n"
+"COUPDAYBS (DATE(2002,11,29),DATE(2004,2,29),4,0) = 89\n"
+"COUPDAYBS (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 0\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
@@ -11566,25 +11685,26 @@ msgid ""
 "@maturity is the maturity date of the security.\n"
 "@frequency is the number of coupon payments per year.\n"
 "@eom = TRUE handles end of month maturity dates special.\n"
-"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly and if eom is "
-"given: 6 = bimonthly, 12 = monthly.\n"
+"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, "
+"12 = monthly.\n"
 "@basis is the type of day counting system you want to use:\n"
 "\n"
-"0  30/360\n"
+"0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 "1  actual days/actual days\n"
 "2  actual days/360\n"
 "3  actual days/365\n"
 "4  European 30/360\n"
-"5  US 30/360  (available only if eom is given)\n"
+"5  European+ 30/360\n"
 "(see the gnumeric manual for a detailed description of these bases)\n"
 "\n"
 "If @frequency is invalid, COUPDAYS returns #NUM! error.\n"
-"If @basis is omitted, 30/360 is applied.\n"
+"If @basis is omitted, MSRB 30/360 is applied.\n"
 "If @basis is invalid, #NUM! error is returned.\n"
 "\n"
-"If COUPDAYS is called with 3 or 4 arguments and basis other than 1, it is XL "
-"compatible.\n"
 "@EXAMPLES=\n"
+"COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,0) = 90\n"
+"COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 90\n"
+"COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,1,FALSE) = 91\n"
 "\n"
 "@SEEALSO="
 msgstr ""
@@ -11599,27 +11719,26 @@ msgid ""
 "@maturity is the maturity date of the security.\n"
 "@frequency is the number of coupon payments per year.\n"
 "@eom = TRUE handles end of month maturity dates special.\n"
-"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly and if eom is "
-"given: 6 = bimonthly, 12 = monthly.\n"
+"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, "
+"12 = monthly.\n"
 "@basis is the type of day counting system you want to use:\n"
 "\n"
-"0  30/360\n"
+"0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 "1  actual days/actual days\n"
 "2  actual days/360\n"
 "3  actual days/365\n"
 "4  European 30/360\n"
-"5  US 30/360  (available only if eom is given)\n"
+"5  European+ 30/360\n"
 "(see the gnumeric manual for a detailed description of these bases)\n"
 "\n"
 "If @frequency is invalid, COUPDAYSNC returns #NUM! error.\n"
-"If @basis is omitted, 30/360 is applied.\n"
+"If @basis is omitted, MSRB 30/360 is applied.\n"
 "If @basis is invalid, #NUM! error is returned.\n"
 "\n"
-"If COUPDAYSNC is called with 3 or 4 arguments, it is XL compatible.\n"
 "@EXAMPLES=\n"
-"COUPDAYSNC(8-Oct-2001,29-Nov-2002,4,0) = "
-"50COUPDAYSNC(8-Oct-2001,29-Nov-2002,4,0,TRUE) = "
-"51COUPDAYSNC(8-Oct-2001,29-Nov-2002,4,0,FALSE) = 51\n"
+"COUPDAYSNC (DATE(2002,11,29),DATE(2004,2,29),4,0) = 1\n"
+"COUPDAYSNC (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 89\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
@@ -11632,27 +11751,26 @@ msgid ""
 "@maturity is the maturity date of the security.\n"
 "@frequency is the number of coupon payments per year.\n"
 "@eom = TRUE handles end of month maturity dates special.\n"
-"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly and if eom is "
-"given: 6 = bimonthly, 12 = monthly.\n"
+"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, "
+"12 = monthly.\n"
 "@basis is the type of day counting system you want to use:\n"
 "\n"
-"0  30/360\n"
+"0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 "1  actual days/actual days\n"
 "2  actual days/360\n"
 "3  actual days/365\n"
 "4  European 30/360\n"
-"5  US 30/360  (available only if eom is given)\n"
+"5  European+ 30/360\n"
 "(see the gnumeric manual for a detailed description of these bases)\n"
 "\n"
 "If @frequency is invalid, COUPNCD returns #NUM! error.\n"
-"If @basis is omitted, 30/360 is applied.\n"
+"If @basis is omitted, MSRB 30/360 is applied.\n"
 "If @basis is invalid, #NUM! error is returned.\n"
 "\n"
-"If COUPNCD is called with 3 or 4 arguments, it is XL compatible.\n"
 "@EXAMPLES=\n"
-"COUPNCD(8-Oct-2001,29-Nov-2002,4,0) = "
-"28-Nov-2001COUPNCD(8-Oct-2001,29-Nov-2002,4,0,TRUE) = "
-"29-Nov-2001COUPNCD(8-Oct-2001,29-Nov-2002,4,0,FALSE) = 29-Nov-2001\n"
+"COUPNCD (DATE(2002,11,29),DATE(2004,2,29),4,0) = 30-Nov-2002\n"
+"COUPNCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 28-Feb-2003\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
@@ -11665,54 +11783,56 @@ msgid ""
 "@maturity is the maturity date of the security.\n"
 "@frequency is the number of coupon payments per year.\n"
 "@eom = TRUE handles end of month maturity dates special.\n"
-"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly and if eom is "
-"given: 6 = bimonthly, 12 = monthly.\n"
+"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, "
+"12 = monthly.\n"
 "@basis is the type of day counting system you want to use:\n"
 "\n"
-"0  30/360\n"
+"0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 "1  actual days/actual days\n"
 "2  actual days/360\n"
 "3  actual days/365\n"
 "4  European 30/360\n"
-"5  US 30/360  (available only if eom is given)\n"
+"5  European+ 30/360\n"
 "(see the gnumeric manual for a detailed description of these bases)\n"
 "\n"
 "If @frequency is invalid, COUPPCD returns #NUM! error.\n"
-"If @basis is omitted, 30/360 is applied.\n"
+"If @basis is omitted, MSRB 30/360 is applied.\n"
 "If @basis is invalid, #NUM! error is returned.\n"
 "\n"
-"If COUPPCD is called with 3 or 4 arguments, it is XL compatible.\n"
 "@EXAMPLES=\n"
-"COUPPCD(8-Oct-2001,29-Nov-2002,4,0) = "
-"28-Aug-2001COUPPCD(8-Oct-2001,29-Nov-2002,4,0,TRUE) = "
-"29-Aug-2001COUPPCD(8-Oct-2001,29-Nov-2002,4,0,FALSE) = "
-"29-Aug-2001COUPPCD(8-Oct-2001,30-Nov-2002,4,0,FALSE) = "
-"30-Aug-2001COUPPCD(8-Oct-2001,30-Nov-2002,4,0,TRUE) = 31-Aug-2001\n"
+"COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0) = 31-AUG-2002\n"
+"COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 29-Nov-2002\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
 #: src/functions/fn-financial.c:1
 msgid ""
 "@FUNCTION=COUPNUM\n"
-"@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
+"@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
 "@DESCRIPTION=COUPNUM returns the numbers of coupons to be paid between the "
-"settlement and maturity dates, rounded up.@settlement is the settlement date "
-"of the security. @maturity is the maturity date of the security. @frequency "
-"is the number of coupon payments per year. Allowed frequencies are: 1 = "
-"annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system "
-"you want to use:\n"
+"settlement and maturity dates, rounded up.\n"
+"@settlement is the settlement date of the security.\n"
+"@maturity is the maturity date of the security.\n"
+"@frequency is the number of coupon payments per year.\n"
+"@eom = TRUE handles end of month maturity dates special.\n"
+"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. 6 = bimonthly, "
+"12 = monthly.\n"
+"@basis is the type of day counting system you want to use:\n"
 "\n"
-"0  US 30/360\n"
+"0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 "1  actual days/actual days\n"
 "2  actual days/360\n"
 "3  actual days/365\n"
 "4  European 30/360\n"
+"5  European+ 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, COUPNUM returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
+"@basis is omitted, MSRB 30/360 is applied. If @basis is not in between 0 and "
 "4, #NUM! error is returned. \n"
 "@EXAMPLES=\n"
-"\n"
+"COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0) = 6\n"
+"COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 5\n"
 "@SEEALSO="
 msgstr ""
 
@@ -11971,7 +12091,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/functions/fn-information.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(value)\n"
@@ -11998,7 +12117,7 @@ msgstr ""
 "#WARTO¦Æ!     3\n"
 "#ODW!         4\n"
 "#NAZWA!       5\n"
-"#LICZBA!           6\n"
+"#LICZBA!      6\n"
 "#NA!          7\n"
 "Funkcja ta jest zgodna z programem Excel. \n"
 "@EXAMPLES=\n"
@@ -12895,7 +13014,6 @@ msgstr ""
 "@SEEALSO=LCM"
 
 #: src/functions/fn-math.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -12914,7 +13032,7 @@ msgstr ""
 "@SYNTAX=LCM(liczba1;liczba2;...)\n"
 "@DESCRIPTION=Funkcja LCM zwraca najmniejsz± wspóln± wielokrotno¶æ liczb "
 "ca³kowitych. Jest to najmniejsza liczba dodatnia, bêd±ca iloczynem "
-"wszystkich danych argumentów ca³kowitych. \n"
+"wszystkich podanych argumentów ca³kowitych. \n"
 "Je¿eli który¶ z argumentów jest mniejszy od jedno¶ci, funkcja LCM zwraca "
 "b³±d #LICZBA!\n"
 "Funkcja ta jest zgodna z programem Excel.\n"
@@ -12951,7 +13069,6 @@ msgstr ""
 "@SEEALSO=CEIL, FLOOR"
 
 #: src/functions/fn-math.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -12979,7 +13096,6 @@ msgstr ""
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -12997,7 +13113,7 @@ msgstr ""
 "@SYNTAX=ACOSH(x)\n"
 "@DESCRIPTION=Funkcja ACOSH oblicza arcch (arcus cosinus hiperboliczny) "
 "parametru @x; jest to warto¶æ, której ch (cosinus hiperboliczny) wynosi @x. "
-"Je¿eli @x jest mniejszy od 1, funkcja zwraca b³±d #LICZBA!.\n"
+"Je¿eli @x jest mniejszy od 1.0, funkcja zwraca b³±d #LICZBA!.\n"
 "Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "ACOSH(2) jest równe 1,31696.\n"
@@ -13006,7 +13122,6 @@ msgstr ""
 "@SEEALSO=ACOS, ASINH, DEGREES, RADIANS "
 
 #: src/functions/fn-math.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -13080,7 +13195,6 @@ msgstr ""
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -13098,7 +13212,7 @@ msgstr ""
 "@SYNTAX=ATANH(x)\n"
 "@DESCRIPTION=Funkcja ATANH oblicza warto¶æ arcusa tangensa hiperbolicznego "
 "parametru @x; jest to warto¶æ, której tangens hiperboliczny wynosi @x. "
-"Je¿eli modu³ parametru @x jest wiêkszy od 1,0, funkcja ATANH zwraca b³±d "
+"Je¿eli warto¶æ bezwzglêdna parametru @x jest wiêksza od 1,0, funkcja ATANH zwraca b³±d "
 "#LICZBA!.\n"
 "Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
@@ -13990,7 +14104,6 @@ msgstr ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:1
-#, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -19169,12 +19282,12 @@ msgid "Hide _Row Header"
 msgstr "Ukrywanie poziomego n_ag³ówka"
 
 #: src/workbook-control-gui.c:1
-msgid "Manage available plugin modules."
-msgstr "Zarz±dzanie dostêpnymi wtyczkami"
+msgid "Ranks And _Percentiles"
+msgstr ""
 
 #: src/workbook-control-gui.c:1
-msgid "Statistical methods."
-msgstr "Metody statystyczne."
+msgid "Manage available plugin modules."
+msgstr "Zarz±dzanie dostêpnymi wtyczkami"
 
 #: src/workbook-control-gui.c:1
 msgid "_Group..."
