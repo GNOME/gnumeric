@@ -464,7 +464,6 @@ parse_cell_name_list (Sheet *sheet,
 	int      i, n, j, k, col, row;
 	gboolean range_flag = 0;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (cell_name_str != NULL, NULL);
 	g_return_val_if_fail (error_flag != NULL, NULL);
@@ -480,7 +479,7 @@ parse_cell_name_list (Sheet *sheet,
 			if (!parse_cell_name (buf, &col, &row, strict, NULL)){
 			error:
 			        *error_flag = 1;
-				free (buf);
+				g_free (buf);
 				g_slist_free (cells);
 				g_free (tmp);
 				return NULL;
@@ -517,7 +516,7 @@ parse_cell_name_list (Sheet *sheet,
 	}
 
 	*error_flag = 0;
-	free (buf);
+	g_free (buf);
 	g_free (tmp);
 	return cells;
 }

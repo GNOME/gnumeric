@@ -36,8 +36,8 @@ typedef struct
 	guint32	segment_len;	/* number of bytes in current segment */
 
 	/* Offsets from the logical 1st byte in the stream */
-	guint32 start_offset;	/* 1st byte in current segment */
-	guint32 end_offset;	/* 1st byte past end of current segment */
+	gint32 start_offset;	/* 1st byte in current segment */
+	gint32 end_offset;	/* 1st byte past end of current segment */
 } MSEscherState;
 
 typedef struct _MSEscherHeader
@@ -46,9 +46,9 @@ typedef struct _MSEscherHeader
 	guint	ver;
 	guint	instance;
 	guint16	fbt;
-	guint32	len; /* Including the common header */
+	gint32	len; /* Including the common header */
 
-	guint32	offset;
+	gint32	offset;
 	struct _MSEscherHeader *container;
 
 	/* TODO : decide were to put these cause they dont belong here */
@@ -102,8 +102,8 @@ ms_escher_blip_destroy (MSEscherBlip *blip)
 static guint8 const *
 ms_escher_get_data (MSEscherState * state,
 		    gint offset,	/* bytes from logical start of the stream */
-		    guint num_bytes,	/* how many bytes we want, incl prefix */
-		    guint prefix,	/* number of bytes of header to skip */
+		    gint num_bytes,	/* how many bytes we want, incl prefix */
+		    gint prefix,	/* number of bytes of header to skip */
 		    gboolean * needs_free)
 {
 	BiffQuery *q = state->q;
@@ -1722,14 +1722,17 @@ static gboolean
 ms_escher_read_ClientTextbox (MSEscherState *state, MSEscherHeader *h)
 {
 	guint16 opcode;
+	int has_next_record;
 
 	g_return_val_if_fail (h->len == common_header_len, TRUE);
 	g_return_val_if_fail (h->offset + h->len == state->end_offset, TRUE);
 
 	/* Read the TXO, be VERY careful until we are sure of the state */
-	g_return_val_if_fail (ms_biff_query_peek_next (state->q, &opcode), TRUE);
+	has_next_record = ms_biff_query_peek_next (state->q, &opcode);
+	g_return_val_if_fail (has_next_record, TRUE);
 	g_return_val_if_fail (opcode == BIFF_TXO, TRUE);
-	g_return_val_if_fail (ms_biff_query_next (state->q), TRUE);
+	has_next_record = ms_biff_query_next (state->q);
+	g_return_val_if_fail (has_next_record, TRUE);
 
 	/* FIXME : Leaking memory.  Get an object management framework into place
 	 * so that there is somewhere to put the comment text.
@@ -1743,14 +1746,17 @@ ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 {
 	guint16 opcode;
 	MSObj  *obj;
+	int has_next_record;
 
 	g_return_val_if_fail (h->len == common_header_len, TRUE);
 	g_return_val_if_fail (h->offset + h->len == state->end_offset, TRUE);
 
 	/* Read the OBJ, be VERY careful until we are sure of the state */
-	g_return_val_if_fail (ms_biff_query_peek_next (state->q, &opcode), TRUE);
+	has_next_record = ms_biff_query_peek_next (state->q, &opcode);
+	g_return_val_if_fail (has_next_record, TRUE);
 	g_return_val_if_fail (opcode == BIFF_OBJ, TRUE);
-	g_return_val_if_fail (ms_biff_query_next (state->q), TRUE);
+	has_next_record = ms_biff_query_next (state->q);
+	g_return_val_if_fail (has_next_record, TRUE);
 
 	obj = ms_read_OBJ (state->q, state->container);
 

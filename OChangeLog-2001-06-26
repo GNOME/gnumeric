@@ -1,3 +1,16 @@
+2001-05-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (item_cursor_event) : ignore events while editing.
+
+	* src/functions/fn-string.c (gnumeric_value) : s/free/g_free/
+	* src/parse-util.c (parse_cell_name_list) : ditto.
+
+	* src/parser.y (gnumeric_expr_parser) : reorganize slightly to improve
+	  readability.
+
+	* src/sheet.c (sheet_range_contains_region) : doh!.  forgot to invert
+	  logic when I renamed the function.
+
 2001-05-07  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-control-gui.c (scg_select_all): Handle select button

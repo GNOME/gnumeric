@@ -1967,6 +1967,17 @@ cb_cell_is_array (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 
 }
 
+/**
+ * sheet_range_contains_region :
+ *
+ * @sheet : The sheet
+ * @r     : the range to check.
+ * @wbc   : an optional place to report errors.
+ * @cmd   :
+ *
+ * Check to see if the target region @sheet!@r contains any merged regions or
+ * arrays.  Report an error to the @wbc if it is supplied.
+ */
 gboolean
 sheet_range_contains_region (Sheet const *sheet, Range const *r,
 			     WorkbookControl *wbc, char const *cmd)
@@ -1981,7 +1992,7 @@ sheet_range_contains_region (Sheet const *sheet, Range const *r,
 			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), cmd,
 				_("can not operate on merged cells"));
 		g_slist_free (merged);
-		return FALSE;
+		return TRUE;
 	}
 
 	if (sheet_foreach_cell_in_range ((Sheet *)sheet, TRUE,
@@ -1991,10 +2002,10 @@ sheet_range_contains_region (Sheet const *sheet, Range const *r,
 		if (wbc != NULL)
 			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), cmd,
 				_("can not operate on array formulae"));
-		return FALSE;
+		return TRUE;
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 /***************************************************************************/

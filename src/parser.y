@@ -81,14 +81,14 @@ deallocate_init (void)
 	deallocate_stack = g_ptr_array_new ();
 }
 
-#ifndef KEEP_DEALLOCATION_STACK_BETWEEN_CALLS
 static void
 deallocate_uninit (void)
 {
+#ifndef KEEP_DEALLOCATION_STACK_BETWEEN_CALLS
 	g_ptr_array_free (deallocate_stack, TRUE);
 	deallocate_stack = NULL;
-}
 #endif
+}
 
 static void
 deallocate_all (void)
@@ -145,7 +145,7 @@ register_allocation (void *data, ParseDeallocator freer)
   register_allocation ((list), (ParseDeallocator)&free_expr_list_list)
 
 static void
-unregister_allocation (const void *data)
+unregister_allocation (void const *data)
 {
 	int pos;
 
@@ -165,7 +165,7 @@ unregister_allocation (const void *data)
 	 * error.  "2/16/1800 00:00" (without the quotes) is an example.
 	 * The first "00" is registered before the second division is
 	 * reduced.
-	 * 
+	 *
 	 * This isn't a big deal -- we will just look at the entry just below
 	 * the top.
 	 */
@@ -199,7 +199,7 @@ typedef struct {
 	 * expression beginning to calculate the offset in the expression
 	 */
 	char const *expr_backup;
-	
+
 	/* Location where the parsing is taking place */
 	ParsePos const *pos;
 
@@ -409,7 +409,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	}
 
 	| STRING '(' arg_list ')' {
-		const char *name = $1->constant.value->v_str.val->str;
+		char const *name = $1->constant.value->v_str.val->str;
 		FunctionDefinition *f = func_lookup_by_name (name,
 			state->pos->wb);
 
@@ -438,7 +438,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 			int retval = gnumeric_parse_error (
 				state, g_strdup_printf (_("Expression '%s' does not exist on sheet '%s'"), name, $1->name_quoted),
 				state->expr_text - state->expr_backup + 1, strlen (name));
-				
+
 			unregister_allocation ($2); expr_tree_unref ($2);
 			return retval;
 		} else
@@ -458,7 +458,7 @@ sheetref: string_opt_quote SHEET_SEP {
 			int retval = gnumeric_parse_error (
 				state, g_strdup_printf (_("Unknown sheet '%s'"), name),
 				state->expr_text - state->expr_backup, strlen (name));
-				
+
 			unregister_allocation ($1); expr_tree_unref ($1);
 			return retval;
 		} else
@@ -482,13 +482,13 @@ sheetref: string_opt_quote SHEET_SEP {
 
 		if (wb != NULL)
 			sheet = sheet_lookup_by_name (wb, sheetname);
-			
+
 		unregister_allocation ($2); expr_tree_unref ($2);
 		if (sheet == NULL) {
 			int retval = gnumeric_parse_error (
 				state, g_strdup_printf (_("Unknown sheet '%s'"), sheetname),
 				state->expr_text - state->expr_backup, strlen (sheetname));
-				
+
 			unregister_allocation ($4); expr_tree_unref ($4);
 			return retval;
 		} else
@@ -625,7 +625,7 @@ array_cols: array_row {
  * must all be handled by the parser not the lexer.
  */
 static int
-parse_ref_or_string (const char *string)
+parse_ref_or_string (char const *string)
 {
 	CellRef   ref;
 	Value *v = NULL;
@@ -642,24 +642,20 @@ parse_ref_or_string (const char *string)
 
 /**
  * find_char:
- * @str: 
- * @c: 
- * 
+ * @str:
+ * @c:
+ *
  * Returns a pointer to character c in str.
  * Callers should check weather p is '\0'!
  **/
-static const char *
-find_char (const char *str, char c)
+static char const *
+find_char (char const *str, char c)
 {
-	const char *p;
-
-	for (p = str; *p && *p != c; p++) {
-		if (*p == '\\' && p[1])
-			p++;
-	}
-
-	return p;
-}	
+	for (; *str && *str != c; str++)
+		if (*str == '\\' && str[1])
+			str++;
+	return str;
+}
 
 static char const *
 find_matching_close (char const *str, char const **res)
@@ -681,35 +677,12 @@ find_matching_close (char const *str, char const **res)
 	return str;
 }
 
-/**
- * check_parens
- * @str: String to search
- *
- * Check all paren in a string, produce an error if there are to many
- * or not enough parens.
- **/
-static void
-check_parens (ParserState *pstate, const char *str)
-{
-	char const *res = NULL;
-	char const *last = find_matching_close (str, &res);
-
-	if (*last) {
-		gnumeric_parse_error (
-			pstate, g_strdup (_("Could not find matching opening parenthesis")),
-			(last - str) + 2, 1);
-	} else if (res != NULL) {
-		gnumeric_parse_error (
-			pstate, g_strdup (_("Could not find matching closing parenthesis")),
-			(res - str) + 2, 1);
-	}
-}
 
 int
 yylex (void)
 {
 	int c;
-	const char *start;
+	char const *start;
 	gboolean is_number = FALSE;
 
         while (isspace ((unsigned char)*state->expr_text))
@@ -825,7 +798,7 @@ yylex (void)
 	switch (c){
 	case '\'':
 	case '"': {
-		const char *p;
+		char const *p;
 		char *string, *s;
 		char quotes_end = c;
 		Value *v;
@@ -857,7 +830,7 @@ yylex (void)
 	}
 
 	if (isalpha ((unsigned char)c) || c == '_' || c == '$'){
-		const char *start = state->expr_text - 1;
+		char const *start = state->expr_text - 1;
 		char *str;
 		int  len;
 
@@ -916,8 +889,6 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 		      ParseError *error)
 {
 	ParserState pstate;
-	const char *last_token;
-
 	pstate.expr_text   = expr_text;
 	pstate.expr_backup = expr_text;
 	pstate.pos	   = pos;
@@ -935,7 +906,7 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 		*pstate.desired_format = NULL;
 
 	pstate.error = error;
-	
+
 	if (deallocate_stack == NULL)
 		deallocate_init ();
 
@@ -947,30 +918,6 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 	yyparse ();
 	state = NULL;
 
-	/* Set too the last encountered token */
-	last_token = pstate.expr_text - 1;
-
-	/* If something went wrong, see if we can give a more specific
-	 * error messages.
-	 */	
-	if (!pstate.error->message && !pstate.result) {
-		if (*last_token != '\0') {
-			gnumeric_parse_error (
-				&pstate, g_strdup_printf (_("Unexpected token %c"), *last_token),
-				(last_token - pstate.expr_backup) + 1, 1);
-		} else {
-			/* First check for paren errors */
-			check_parens (&pstate, pstate.expr_backup);
-
-			/* Set a general error message */
-			if (!pstate.error->message)
-				gnumeric_parse_error (
-					&pstate, g_strdup (_("Invalid expression")),
-					(pstate.expr_text - pstate.expr_backup) + 1,
-					(pstate.expr_text - pstate.expr_backup));
-		}
-	}
-
 	if (pstate.result != NULL) {
 		deallocate_assert_empty ();
 		if (desired_format) {
@@ -981,8 +928,7 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 			tmp.eval = pos->eval;
 			format = auto_style_format_suggest (pstate.result, &tmp);
 			if (format) {
-				/*
-				 * Override the format that came from a
+				/* Override the format that came from a
 				 * constant somewhere inside.
 				 */
 				if (*desired_format)
@@ -990,10 +936,41 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 				*desired_format = format;
 			}
 		}
+		/* If this happens, something is very wrong */
+		if (pstate.error->message != NULL) {
+			g_warning ("An error occurred and the ExprTree is non-null! This should not happen");
+			g_warning ("Error message is %s (%d, %d)", pstate.error->message, pstate.error->begin_char,
+					pstate.error->end_char);
+		}
 	} else {
-#if 0
-		fprintf (stderr, "Unable to parse '%s'\n", expr_text);
-#endif
+		/* If there is no error message, attempt to be more detailed */
+		if (pstate.error->message == NULL) {
+			char const *last_token = pstate.expr_text - 1;
+
+			if (*last_token == '\0') {
+				char const *str = pstate.expr_backup;
+				char const *res = NULL;
+				char const *last = find_matching_close (str, &res);
+
+				if (*last)
+					gnumeric_parse_error (&pstate,
+						g_strdup (_("Could not find matching opening parenthesis")),
+						(last - str) + 2, 1);
+				else if (res != NULL)
+					gnumeric_parse_error (&pstate,
+						g_strdup (_("Could not find matching closing parenthesis")),
+						(res - str) + 2, 1);
+				else
+					gnumeric_parse_error (&pstate,
+						g_strdup (_("Invalid expression")),
+						(pstate.expr_text - pstate.expr_backup) + 1,
+						(pstate.expr_text - pstate.expr_backup));
+			} else
+				gnumeric_parse_error (&pstate,
+					g_strdup_printf (_("Unexpected token %c"), *last_token),
+					(last_token - pstate.expr_backup) + 1, 1);
+		}
+
 		deallocate_all ();
 		if (desired_format && *desired_format) {
 			style_format_unref (*desired_format);
@@ -1001,16 +978,7 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 		}
 	}
 
-#ifndef KEEP_DEALLOCATION_STACK_BETWEEN_CALLS
 	deallocate_uninit ();
-#endif
 
-	/* If this happens, something is very wrong */
-	if (pstate.error->message && pstate.result) {
-		g_warning ("An error occurred and the ExprTree is non-null! This should not happen");
-		g_warning ("Error message is %s (%d, %d)", pstate.error->message, pstate.error->begin_char,
-			   pstate.error->end_char);
-	}
-		
 	return pstate.result;
 }

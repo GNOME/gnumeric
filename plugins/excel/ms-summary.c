@@ -103,7 +103,7 @@ excel_to_gnumeric (guint32 type)
 static int
 sum_name_to_excel (const gchar *name, MsOleSummaryPID *pid, MsOlePropertySetID psid)
 {
-	gint	 i, j;
+	unsigned i, j;
 
 	/*
 	 *  First find the name in the summary_item_name array.
@@ -229,7 +229,7 @@ ms_summary_read (MsOle *f, SummaryInfo *sin)
 static void
 set_summary_item (SummaryItem *s_item, MsOleSummary *ms_sum)
 {
-	gint		 sect;
+	unsigned	 sect;
 	MsOleSummaryPID	 pid;
 
 	for (sect = 0; sect < ms_sum->sections->len; sect++) {

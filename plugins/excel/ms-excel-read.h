@@ -99,7 +99,7 @@ typedef struct _ExcelWorkbook
 	guint16              num_extern_sheets;
 	ExcelPalette        *palette;
 	char               **global_strings;
-	int                  global_string_max;
+	guint32              global_string_max;
 
 	/* Indexed in the order they are read */
 	GPtrArray           *charts;

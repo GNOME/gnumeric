@@ -172,7 +172,7 @@ get_chars (const char *ptr, guint length, gboolean high_byte)
 
 	if (high_byte) {
 		wchar_t* wc = g_new (wchar_t, length + 2);
-		int retlength;
+		size_t retlength;
 		ans = g_new (char, (length+2)*8);
 
 		for (lp = 0; lp < length; lp++) {
@@ -384,7 +384,7 @@ static void
 read_sst (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 {
 	guint32 offset;
-	int     k;
+	unsigned k;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug>4) {
@@ -819,7 +819,7 @@ biff_name_data_get_name (ExcelSheet *sheet, int idx)
 
 	a = sheet->wb->name_data;
 
-	if (a == NULL || idx < 0 || a->len <= idx ||
+	if (a == NULL || idx < 0 || (int)a->len <= idx ||
 	    (bnd = g_ptr_array_index (a, idx)) == NULL) {
 		g_warning ("EXCEL : %x (of %x) UNKNOWN name\n", idx, a->len);
 		return expr_tree_new_constant (value_new_string ("Unknown name"));
@@ -1107,13 +1107,13 @@ ms_excel_get_font (ExcelSheet *sheet, guint16 font_idx)
 }
 
 static BiffXFData const *
-ms_excel_get_xf (ExcelSheet *sheet, int const xfidx)
+ms_excel_get_xf (ExcelSheet *sheet, int xfidx)
 {
 	BiffXFData *xf;
 	GPtrArray const * const p = sheet->wb->XF_cell_records;
 
 	g_return_val_if_fail (p != NULL, NULL);
-	if (0 > xfidx || xfidx >= p->len) {
+	if (0 > xfidx || xfidx >= (int)p->len) {
 		g_warning ("XL : Xf index 0x%x is not in the range [0..0x%x)", xfidx, p->len);
 		return NULL;
 	}
@@ -1463,7 +1463,7 @@ excel_map_pattern_index_from_excel (int const i)
 
 	/* Default to Solid if out of range */
 	g_return_val_if_fail (i >= 0 &&
-			      i < (sizeof (map_from_excel)/sizeof (int)), 0);
+			      i < (int)(sizeof (map_from_excel)/sizeof (int)), 0);
 
 	return map_from_excel[i];
 }
@@ -1801,7 +1801,9 @@ biff_shared_formula_destroy (gpointer key, BiffSharedFormula *sf,
 static ExprTree *
 ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 {
-	g_return_val_if_fail (ms_biff_query_next (q), NULL);
+	int has_next_record = ms_biff_query_next (q);
+	
+	g_return_val_if_fail (has_next_record, NULL);
 
 	if (q->ls_op == BIFF_SHRFMLA || q->ls_op == BIFF_ARRAY) {
 		gboolean const is_array = (q->ls_op == BIFF_ARRAY);
@@ -1905,7 +1907,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		cell_set_value (cell, value_new_error (NULL, "Formula Error"), NULL);
 		return;
 	}
-	if (q->length < (22 + MS_OLE_GET_GUINT16 (q->data+20))) {
+	if (q->length < (unsigned)(22 + MS_OLE_GET_GUINT16 (q->data+20))) {
 		printf ("FIXME: serious formula error: "
 			"supposed length 0x%x, real len 0x%x\n",
 			MS_OLE_GET_GUINT16 (q->data+20), q->length);
@@ -2494,7 +2496,7 @@ ms_excel_workbook_attach (ExcelWorkbook *wb, ExcelSheet *ans)
 static gboolean
 ms_excel_workbook_detach (ExcelWorkbook *wb, ExcelSheet *ans)
 {
-	int    idx = 0;
+	unsigned idx = 0;
 
 	if (ans->gnum_sheet) {
 		if (!workbook_sheet_detach (wb->gnum_wb, ans->gnum_sheet))
@@ -2523,7 +2525,7 @@ ms_excel_workbook_get_sheet (ExcelWorkbook *wb, guint idx)
 static void
 ms_excel_workbook_destroy (ExcelWorkbook *wb)
 {
-	gint lp;
+	unsigned lp;
 
 	g_hash_table_foreach_remove (wb->boundsheet_data_by_stream,
 				     (GHRFunc)biff_boundsheet_data_destroy,
@@ -2562,7 +2564,7 @@ ms_excel_workbook_destroy (ExcelWorkbook *wb)
 		g_free (wb->extern_sheets);
 
 	if (wb->global_strings) {
-		int i;
+		unsigned i;
 		for (i = 0; i < wb->global_string_max; i++)
 			g_free (wb->global_strings[i]);
 		g_free (wb->global_strings);
@@ -3207,7 +3209,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 			ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
 						   value_new_string (str));
 		} else
-			printf ("string index 0x%x >= 0x%x\n",
+			printf ("string index 0x%u >= 0x%x\n",
 				idx, sheet->wb->global_string_max);
                 break;
 	}
@@ -3396,7 +3398,7 @@ ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *sheet)
 	/* Do an anal sanity check. Just in case we've
 	 * mis-interpreted the format.
 	 */
-	g_return_if_fail (q->length == 2+8*num_merged);
+	g_return_if_fail (q->length == (unsigned )(2+8*num_merged));
 
 	for (i = 0 ; i < num_merged ; ++i, ptr += 8) {
 		Range r;

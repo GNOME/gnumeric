@@ -1990,7 +1990,7 @@ BC(register_handlers)(void)
 static void
 BC(register_handler)(ExcelChartHandler const *const handle)
 {
-	int const num_handler = sizeof(chart_biff_handler) /
+	unsigned const num_handler = sizeof(chart_biff_handler) /
 		sizeof(ExcelChartHandler *);
 
 	guint32 num = handle->opcode & 0xff;

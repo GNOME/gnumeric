@@ -67,7 +67,7 @@ record_seek (XBrecord *record, int whence, glong row)
 		g_warning("record_seek: invalid whence (%d)", whence);
 		return FALSE;
 	}
-	if (offset < 1 || offset > record->file->records)
+	if (offset < 1 || offset > (int)record->file->records)
 		return FALSE;
 	record->row = offset;
 	offset = (offset-1) * record->file->fieldlen + record->file->offset;
@@ -249,7 +249,7 @@ xbase_open (const char *filename, ErrorInfo **ret_error)
 void
 xbase_close (XBfile *x)
 {
-	int i;
+	unsigned i;
 
 	fprintf (stderr, "Closing Xbase file\n");
 	fclose (x->f);

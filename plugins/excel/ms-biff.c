@@ -13,8 +13,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
-#include <malloc.h>
-#include <assert.h>
 #include <ctype.h>
 
 #include <config.h>

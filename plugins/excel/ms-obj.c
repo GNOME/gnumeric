@@ -97,7 +97,7 @@ ms_read_TXO (BiffQuery *q)
 		/*
 		 * FIXME: Use biff_get_text or something ?
 		 */
-		if (q->length < increment * text_len) {
+		if ((int)q->length < increment * text_len) {
 			g_free (text);
 			text = g_strdup ("Broken continue");
 		} else {
@@ -467,7 +467,7 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container)
 	}
 
 	obj->excel_type_name = NULL;
-	if (obj->excel_type < sizeof(object_type_names)/sizeof(char*))
+	if (obj->excel_type < (int)(sizeof(object_type_names)/sizeof(char*)))
 		obj->excel_type_name = object_type_names [obj->excel_type];
 	if (obj->excel_type_name == NULL)
 		obj->excel_type_name = "Unknown";

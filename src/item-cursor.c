@@ -1214,19 +1214,23 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 static gint
 item_cursor_event (GnomeCanvasItem *item, GdkEvent *event)
 {
-	ItemCursor *item_cursor = ITEM_CURSOR (item);
+	ItemCursor *ic = ITEM_CURSOR (item);
+
+	/* While editing nothing should be draggable */
+	if (wb_control_gui_is_editing (ic->scg->wbcg))
+		return TRUE;
 
 #if 0
 	switch (event->type)
 	{
-	case GDK_BUTTON_RELEASE: printf ("release %d\n", item_cursor->style); break;
-	case GDK_BUTTON_PRESS: printf ("press %d\n", item_cursor->style); break;
-	case GDK_2BUTTON_PRESS: printf ("2press %d\n", item_cursor->style); break;
+	case GDK_BUTTON_RELEASE: printf ("release %d\n", ic->style); break;
+	case GDK_BUTTON_PRESS: printf ("press %d\n", ic->style); break;
+	case GDK_2BUTTON_PRESS: printf ("2press %d\n", ic->style); break;
 	default :
 	    break;
 	};
 #endif
-	switch (item_cursor->style) {
+	switch (ic->style) {
 	case ITEM_CURSOR_ANTED:
 		g_warning ("Animated cursors should not receive events, "
 			   "the point method should preclude that");

@@ -26,7 +26,7 @@ struct _MSObj
 
 	/* Type specific parameters */
 	GtkObject	*gnum_obj;
-	unsigned	 excel_type;
+	int		 excel_type;
 	char const	*excel_type_name;
 };
 

@@ -172,7 +172,7 @@ two_way_table_idx_to_key (const TwoWayTable *table, gint idx)
 {
 
 	g_return_val_if_fail (idx - table->base >= 0, NULL);
-	g_return_val_if_fail (idx - table->base < table->idx_to_key->len,
+	g_return_val_if_fail (idx - table->base < (int)table->idx_to_key->len,
 			      NULL);
 
 	return g_ptr_array_index (table->idx_to_key, idx - table->base);

@@ -1,3 +1,10 @@
+2001-05-07  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-escher.c (ms_escher_get_data) : suppress warnings.
+	(ms_escher_read_ClientTextbox) : no side effects in precondition.
+
+	* ms-excel-read.c (ms_excel_formula_shared) : ditto.
+
 2001-05-06  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (biff_boundsheet_data_new) : merge in the last of

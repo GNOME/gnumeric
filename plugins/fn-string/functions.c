@@ -880,7 +880,7 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 			;
 
 		v = format_match (p, NULL, NULL);
-		free (arg);
+		g_free (arg);
 
 		if (v)
 			return v;

@@ -73,7 +73,7 @@ ms_container_get_blip (MSContainer *container, int blip_id)
 		    return ms_container_get_blip (container->parent_container,
 						  blip_id);
 
-	g_return_val_if_fail (blip_id < container->blips->len, NULL);
+	g_return_val_if_fail (blip_id < (int)container->blips->len, NULL);
 
 	return g_ptr_array_index (container->blips, blip_id);
 }
