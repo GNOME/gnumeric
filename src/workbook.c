@@ -856,13 +856,11 @@ static GnomeUIInfo workbook_toolbar [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK (
-		N_("Bold"), N_("Sets the bold attribute on the cell"),
-		bold_cmd, GNOME_STOCK_PIXMAP_TEXT_BOLD),
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Bold"), N_("Sets the bold attribute on the cell"),
+	  bold_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_BOLD },
 
-	GNOMEUIINFO_ITEM_STOCK (
-		N_("Italic"), N_("Sets the italic attribute on the cell"),
-		italic_cmd, GNOME_STOCK_PIXMAP_TEXT_ITALIC),
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Italic"), N_("Sets the italic attribute on the cell"),
+	  italic_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_ITALIC },
 	
 	GNOMEUIINFO_SEPARATOR,
 

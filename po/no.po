@@ -250,17 +250,14 @@ msgstr "Tekst"
 msgid "Money"
 msgstr "Valuta"
 
-#. 1. Categories
 #: src/dialog-cell-format.c:253
 msgid "Categories"
 msgstr "Kategorier"
 
-#. 2.1 Input line
 #: src/dialog-cell-format.c:283
 msgid "Code:"
 msgstr "Kode:"
 
-#. 2.2 Sample
 #: src/dialog-cell-format.c:292
 msgid "Sample:"
 msgstr "Eksempel:"
@@ -302,7 +299,6 @@ msgstr "Øverst"
 msgid "Bottom"
 msgstr "Nederst"
 
-#. Vertical alignment
 #: src/dialog-cell-format.c:421
 msgid "Vertical"
 msgstr "Vertikal"
@@ -320,7 +316,6 @@ msgstr "Autolinjeskift"
 msgid "Text color"
 msgstr "Tekstfarge"
 
-#. The radio buttons
 #: src/dialog-cell-format.c:601 src/dialog-cell-format.c:631
 #: src/dialog-paste-special.c:28
 msgid "None"
@@ -493,12 +488,10 @@ msgid "Custom"
 msgstr "Egendefinert"
 
 #: src/dialog-zoom.c:83
-#, c-format
 msgid "Zoom factor should be at least 50%"
 msgstr "Zoom-faktor bør være minst 50%"
 
 #: src/dialog-zoom.c:88
-#, c-format
 msgid "Zoom factor should be at most 900%"
 msgstr "Zoom-faktor bør ikke være over 900%"
 
@@ -510,6 +503,7 @@ msgstr "Syntaksfeil"
 msgid "Missing quote"
 msgstr "Manglende apostrof"
 
+#. Type checking
 #: src/expr.c:467 src/fn-sheet.c:25 src/fn-sheet.c:59
 msgid "Invalid number of arguments"
 msgstr "Ugyldig antall argumenter"
@@ -1253,12 +1247,10 @@ msgid "[h]:mm:ss"
 msgstr ""
 
 #: src/formats.c:74
-#, c-format
 msgid "0%"
 msgstr ""
 
 #: src/formats.c:75
-#, c-format
 msgid "0.00%"
 msgstr ""
 
@@ -1294,49 +1286,44 @@ msgstr ""
 msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr ""
 
-#: src/gnumeric-sheet.c:878
-#, c-format
+#: src/gnumeric-sheet.c:877
 msgid "75%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:881
-#, c-format
+#: src/gnumeric-sheet.c:880
 msgid "50%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:884
-#, c-format
+#: src/gnumeric-sheet.c:883
 msgid "25%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:887
-#, c-format
+#: src/gnumeric-sheet.c:886
 msgid "12%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:890
-#, c-format
+#: src/gnumeric-sheet.c:889
 msgid "6%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:893
+#: src/gnumeric-sheet.c:892
 msgid "Horizontal lines"
 msgstr "Horisontale linjer"
 
-#: src/gnumeric-sheet.c:896
+#: src/gnumeric-sheet.c:895
 msgid "Vertical lines"
 msgstr "Vertikale linjer"
 
-#: src/gnumeric-sheet.c:899 src/gnumeric-sheet.c:902 src/gnumeric-sheet.c:905
-#: src/gnumeric-sheet.c:908
+#: src/gnumeric-sheet.c:898 src/gnumeric-sheet.c:901 src/gnumeric-sheet.c:904
+#: src/gnumeric-sheet.c:907
 msgid "Diagonal lines"
 msgstr "Diagonale linjer"
 
-#: src/gnumeric-sheet.c:911
+#: src/gnumeric-sheet.c:910
 msgid "Crossed diagonals"
 msgstr "Kryssede diagonaler"
 
-#: src/gnumeric-sheet.c:914
+#: src/gnumeric-sheet.c:913
 msgid "Bricks"
 msgstr "Mursteiner"
 
@@ -1437,12 +1424,10 @@ msgid "Plugin is still in use.\n"
 msgstr "Tillegget er fremdeles i bruk.\n"
 
 #: src/sheet-view.c:336 src/sheet-view.c:410
-#, c-format
 msgid "Row: %d"
 msgstr "Rad: %d"
 
 #: src/sheet-view.c:343 src/sheet-view.c:382
-#, c-format
 msgid "Column: %s"
 msgstr "Kolonne: %s"
 
@@ -1775,20 +1760,19 @@ msgstr "Gjennomsnitt"
 msgid "Count"
 msgstr "Teller"
 
-#: src/workbook.c:1236
+#: src/workbook.c:1235
 msgid "Untitled.gnumeric"
 msgstr "Navnløs.gnumeric"
 
-#: src/workbook.c:1316
+#: src/workbook.c:1315
 msgid "Zoom out"
 msgstr "Zoom ut"
 
-#: src/workbook.c:1323
+#: src/workbook.c:1322
 msgid "Zoom in"
 msgstr "Zoom inn"
 
-#: src/workbook.c:1372 src/workbook.c:1393
-#, c-format
+#: src/workbook.c:1371 src/workbook.c:1392
 msgid "Sheet %d"
 msgstr "Ark %d"
 

@@ -268,17 +268,14 @@ msgstr "テキスト"
 msgid "Money"
 msgstr "通貨"
 
-#. 1. Categories
 #: src/dialog-cell-format.c:253
 msgid "Categories"
 msgstr "部類"
 
-#. 2.1 Input line
 #: src/dialog-cell-format.c:283
 msgid "Code:"
 msgstr "コード:"
 
-#. 2.2 Sample
 #: src/dialog-cell-format.c:292
 msgid "Sample:"
 msgstr "例:"
@@ -320,7 +317,6 @@ msgstr "上"
 msgid "Bottom"
 msgstr "下"
 
-#. Vertical alignment
 #: src/dialog-cell-format.c:421
 msgid "Vertical"
 msgstr "垂直"
@@ -338,7 +334,6 @@ msgstr "自動改行"
 msgid "Text color"
 msgstr "テキストカラー"
 
-#. The radio buttons
 #: src/dialog-cell-format.c:601 src/dialog-cell-format.c:631
 #: src/dialog-paste-special.c:28
 msgid "None"
@@ -509,12 +504,10 @@ msgid "Custom"
 msgstr "カスタム"
 
 #: src/dialog-zoom.c:83
-#, c-format
 msgid "Zoom factor should be at least 50%"
 msgstr "縮小比は最小 50% まで"
 
 #: src/dialog-zoom.c:88
-#, c-format
 msgid "Zoom factor should be at most 900%"
 msgstr "拡大比は最大 900% まで"
 
@@ -526,6 +519,7 @@ msgstr "構文エラーです"
 msgid "Missing quote"
 msgstr "引用符に間違いがあります"
 
+#. Type checking
 #: src/expr.c:467 src/fn-sheet.c:25 src/fn-sheet.c:59
 msgid "Invalid number of arguments"
 msgstr "引数の数が不正です"
@@ -1553,12 +1547,10 @@ msgid "[h]:mm:ss"
 msgstr ""
 
 #: src/formats.c:74
-#, c-format
 msgid "0%"
 msgstr ""
 
 #: src/formats.c:75
-#, c-format
 msgid "0.00%"
 msgstr ""
 
@@ -1594,49 +1586,44 @@ msgstr ""
 msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr "$#,##0.00_);[赤]($#,##0.00)"
 
-#: src/gnumeric-sheet.c:878
-#, c-format
+#: src/gnumeric-sheet.c:877
 msgid "75%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:881
-#, c-format
+#: src/gnumeric-sheet.c:880
 msgid "50%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:884
-#, c-format
+#: src/gnumeric-sheet.c:883
 msgid "25%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:887
-#, c-format
+#: src/gnumeric-sheet.c:886
 msgid "12%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:890
-#, c-format
+#: src/gnumeric-sheet.c:889
 msgid "6%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:893
+#: src/gnumeric-sheet.c:892
 msgid "Horizontal lines"
 msgstr "水平線"
 
-#: src/gnumeric-sheet.c:896
+#: src/gnumeric-sheet.c:895
 msgid "Vertical lines"
 msgstr "垂直線"
 
-#: src/gnumeric-sheet.c:899 src/gnumeric-sheet.c:902 src/gnumeric-sheet.c:905
-#: src/gnumeric-sheet.c:908
+#: src/gnumeric-sheet.c:898 src/gnumeric-sheet.c:901 src/gnumeric-sheet.c:904
+#: src/gnumeric-sheet.c:907
 msgid "Diagonal lines"
 msgstr "対角線"
 
-#: src/gnumeric-sheet.c:911
+#: src/gnumeric-sheet.c:910
 msgid "Crossed diagonals"
 msgstr "交叉対角線"
 
-#: src/gnumeric-sheet.c:914
+#: src/gnumeric-sheet.c:913
 msgid "Bricks"
 msgstr "レンガ"
 
@@ -1737,12 +1724,10 @@ msgid "Plugin is still in use.\n"
 msgstr "プラグインはまだ使用中です。\n"
 
 #: src/sheet-view.c:336 src/sheet-view.c:410
-#, c-format
 msgid "Row: %d"
 msgstr "行: %d"
 
 #: src/sheet-view.c:343 src/sheet-view.c:382
-#, c-format
 msgid "Column: %s"
 msgstr "列: %s"
 
@@ -2074,20 +2059,19 @@ msgstr "平均"
 msgid "Count"
 msgstr "回数"
 
-#: src/workbook.c:1236
+#: src/workbook.c:1235
 msgid "Untitled.gnumeric"
 msgstr ""
 
-#: src/workbook.c:1316
+#: src/workbook.c:1315
 msgid "Zoom out"
 msgstr "拡大"
 
-#: src/workbook.c:1323
+#: src/workbook.c:1322
 msgid "Zoom in"
 msgstr "縮小"
 
-#: src/workbook.c:1372 src/workbook.c:1393
-#, c-format
+#: src/workbook.c:1371 src/workbook.c:1392
 msgid "Sheet %d"
 msgstr "シート %d"
 

@@ -3,6 +3,12 @@
 
 /*** App-specific servant structures ***/
 typedef struct {
+   POA_GNOME_GenericFactory servant;
+   PortableServer_POA poa;
+
+} impl_POA_GNOME_GenericFactory;
+
+typedef struct {
    POA_GNOME_Table servant;
    PortableServer_POA poa;
 
@@ -25,6 +31,18 @@ typedef struct {
 } impl_POA_GNOME_GnumericFactory;
 
 /*** Implementation stub prototypes ***/
+static void impl_GNOME_GenericFactory__destroy(impl_POA_GNOME_GenericFactory * servant,
+					CORBA_Environment * ev);
+
+CORBA_Object
+impl_GNOME_GenericFactory_new(impl_POA_GNOME_GenericFactory * servant,
+		       CORBA_Environment * ev);
+
+CORBA_Object
+impl_GNOME_GenericFactory_new_args(impl_POA_GNOME_GenericFactory * servant,
+			    CORBA_char * argument,
+			    CORBA_Environment * ev);
+
 static void impl_GNOME_Table__destroy(impl_POA_GNOME_Table * servant,
 				      CORBA_Environment * ev);
 
@@ -109,6 +127,21 @@ impl_GNOME_GnumericFactory_create_object(impl_POA_GNOME_GnumericFactory * servan
 					 CORBA_Environment * ev);
 
 /*** epv structures ***/
+static PortableServer_ServantBase__epv impl_GNOME_GenericFactory_base_epv =
+{
+   NULL,			/* _private data */
+   (gpointer) & impl_GNOME_GenericFactory__destroy,	/* finalize routine */
+   NULL,			/* default_POA routine */
+};
+static POA_GNOME_GenericFactory__epv impl_GNOME_GenericFactory_epv =
+{
+   NULL,			/* _private */
+   (gpointer) & impl_GNOME_GenericFactory_new,
+
+   (gpointer) & impl_GNOME_GenericFactory_new_args,
+
+};
+
 static PortableServer_ServantBase__epv impl_GNOME_Table_base_epv =
 {
    NULL,			/* _private data */
@@ -185,6 +218,12 @@ static POA_GNOME_GenericFactory__epv impl_GNOME_GnumericFactory_GNOME_GenericFac
 };
 
 /*** vepv structures ***/
+static POA_GNOME_GenericFactory__vepv impl_GNOME_GenericFactory_vepv =
+{
+   &impl_GNOME_GenericFactory_base_epv,
+   &impl_GNOME_GenericFactory_epv,
+};
+
 static POA_GNOME_Table__vepv impl_GNOME_Table_vepv =
 {
    &impl_GNOME_Table_base_epv,
@@ -212,6 +251,52 @@ static POA_GNOME_GnumericFactory__vepv impl_GNOME_GnumericFactory_vepv =
 };
 
 /*** Stub implementations ***/
+static GNOME_GenericFactory 
+impl_GNOME_GenericFactory__create(PortableServer_POA poa, CORBA_Environment * ev)
+{
+   GNOME_GenericFactory retval;
+   impl_POA_GNOME_GenericFactory *newservant;
+   PortableServer_ObjectId *objid;
+
+   newservant = g_new0(impl_POA_GNOME_GenericFactory, 1);
+   newservant->servant.vepv = &impl_GNOME_GenericFactory_vepv;
+   newservant->poa = poa;
+   POA_GNOME_GenericFactory__init((PortableServer_Servant) newservant, ev);
+   objid = PortableServer_POA_activate_object(poa, newservant, ev);
+   CORBA_free(objid);
+   retval = PortableServer_POA_servant_to_reference(poa, newservant, ev);
+
+   return retval;
+}
+
+/* You shouldn't call this routine directly without first deactivating the servant... */
+static void
+impl_GNOME_GenericFactory__destroy(impl_POA_GNOME_GenericFactory * servant, CORBA_Environment * ev)
+{
+
+   POA_GNOME_GenericFactory__fini((PortableServer_Servant) servant, ev);
+   g_free(servant);
+}
+
+CORBA_Object
+impl_GNOME_GenericFactory_new(impl_POA_GNOME_GenericFactory * servant,
+		       CORBA_Environment * ev)
+{
+   CORBA_Object retval;
+
+   return retval;
+}
+
+CORBA_Object
+impl_GNOME_GenericFactory_new_args(impl_POA_GNOME_GenericFactory * servant,
+			    CORBA_char * argument,
+			    CORBA_Environment * ev)
+{
+   CORBA_Object retval;
+
+   return retval;
+}
+
 static GNOME_Table 
 impl_GNOME_Table__create(PortableServer_POA poa, CORBA_Environment * ev)
 {

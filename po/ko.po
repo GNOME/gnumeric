@@ -249,17 +249,14 @@ msgstr "텍스트"
 msgid "Money"
 msgstr "돈"
 
-#. 1. Categories
 #: src/dialog-cell-format.c:253
 msgid "Categories"
 msgstr "범주"
 
-#. 2.1 Input line
 #: src/dialog-cell-format.c:283
 msgid "Code:"
 msgstr "코드:"
 
-#. 2.2 Sample
 #: src/dialog-cell-format.c:292
 msgid "Sample:"
 msgstr "샘플:"
@@ -301,7 +298,6 @@ msgstr "꼭대기"
 msgid "Bottom"
 msgstr "밑바닥"
 
-#. Vertical alignment
 #: src/dialog-cell-format.c:421
 msgid "Vertical"
 msgstr "수직"
@@ -319,7 +315,6 @@ msgstr ""
 msgid "Text color"
 msgstr "텍스트 색상"
 
-#. The radio buttons
 #: src/dialog-cell-format.c:601 src/dialog-cell-format.c:631
 #: src/dialog-paste-special.c:28
 msgid "None"
@@ -490,12 +485,10 @@ msgid "Custom"
 msgstr ""
 
 #: src/dialog-zoom.c:83
-#, c-format
 msgid "Zoom factor should be at least 50%"
 msgstr "확대율은 최소 50%입니다"
 
 #: src/dialog-zoom.c:88
-#, c-format
 msgid "Zoom factor should be at most 900%"
 msgstr "확대율은 최대 900%입니다."
 
@@ -507,6 +500,7 @@ msgstr "구문 에러"
 msgid "Missing quote"
 msgstr "quote 빠짐"
 
+#. Type checking
 #: src/expr.c:467 src/fn-sheet.c:25 src/fn-sheet.c:59
 msgid "Invalid number of arguments"
 msgstr "인자 갯수가 틀림"
@@ -1238,12 +1232,10 @@ msgid "[h]:mm:ss"
 msgstr ""
 
 #: src/formats.c:74
-#, c-format
 msgid "0%"
 msgstr ""
 
 #: src/formats.c:75
-#, c-format
 msgid "0.00%"
 msgstr ""
 
@@ -1279,49 +1271,44 @@ msgstr ""
 msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr ""
 
-#: src/gnumeric-sheet.c:878
-#, c-format
+#: src/gnumeric-sheet.c:877
 msgid "75%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:881
-#, c-format
+#: src/gnumeric-sheet.c:880
 msgid "50%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:884
-#, c-format
+#: src/gnumeric-sheet.c:883
 msgid "25%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:887
-#, c-format
+#: src/gnumeric-sheet.c:886
 msgid "12%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:890
-#, c-format
+#: src/gnumeric-sheet.c:889
 msgid "6%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:893
+#: src/gnumeric-sheet.c:892
 msgid "Horizontal lines"
 msgstr "수평선"
 
-#: src/gnumeric-sheet.c:896
+#: src/gnumeric-sheet.c:895
 msgid "Vertical lines"
 msgstr "수직선"
 
-#: src/gnumeric-sheet.c:899 src/gnumeric-sheet.c:902 src/gnumeric-sheet.c:905
-#: src/gnumeric-sheet.c:908
+#: src/gnumeric-sheet.c:898 src/gnumeric-sheet.c:901 src/gnumeric-sheet.c:904
+#: src/gnumeric-sheet.c:907
 msgid "Diagonal lines"
 msgstr ""
 
-#: src/gnumeric-sheet.c:911
+#: src/gnumeric-sheet.c:910
 msgid "Crossed diagonals"
 msgstr ""
 
-#: src/gnumeric-sheet.c:914
+#: src/gnumeric-sheet.c:913
 msgid "Bricks"
 msgstr ""
 
@@ -1422,12 +1409,10 @@ msgid "Plugin is still in use.\n"
 msgstr "플러그인이 아직 사용중입니다.\n"
 
 #: src/sheet-view.c:336 src/sheet-view.c:410
-#, c-format
 msgid "Row: %d"
 msgstr "가로: %d"
 
 #: src/sheet-view.c:343 src/sheet-view.c:382
-#, c-format
 msgid "Column: %s"
 msgstr "세로: %s"
 
@@ -1759,20 +1744,19 @@ msgstr "평균"
 msgid "Count"
 msgstr "계수"
 
-#: src/workbook.c:1236
+#: src/workbook.c:1235
 msgid "Untitled.gnumeric"
 msgstr ""
 
-#: src/workbook.c:1316
+#: src/workbook.c:1315
 msgid "Zoom out"
 msgstr "확대"
 
-#: src/workbook.c:1323
+#: src/workbook.c:1322
 msgid "Zoom in"
 msgstr "축소"
 
-#: src/workbook.c:1372 src/workbook.c:1393
-#, c-format
+#: src/workbook.c:1371 src/workbook.c:1392
 msgid "Sheet %d"
 msgstr "쉬트 %d"
 
