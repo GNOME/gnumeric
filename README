@@ -154,7 +154,7 @@ documentation for these:
 	  to enter for example: =1+2.
 
 	- Control-A selects all.
-	- Shift-Space selects the row.
+	- Alt-Space selects the row.
 	- Control-Space selects a column.
 
 	- Selection-keys + control extend the selection to boundary of
