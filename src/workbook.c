@@ -1,4 +1,5 @@
 #include <gnome.h>
+#include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"
 
 /* The locations within the main table in the workbook */
@@ -36,6 +37,48 @@ workbook_setup_sheets (Workbook *wb)
 			  0, 0);
 }
 
+Sheet *
+workbook_focus_current_sheet (Workbook *wb)
+{
+	GtkWidget *current_notebook;
+	Sheet *sheet;
+	
+	current_notebook = GTK_NOTEBOOK (wb->notebook)->cur_page->child;
+	sheet = gtk_object_get_data (GTK_OBJECT (current_notebook), "sheet");
+	
+	gtk_window_set_focus (GTK_WINDOW (wb->toplevel),
+			      sheet->sheet_view);
+	return sheet;
+}
+
+static void
+wb_input_finished (GtkEntry *entry, Workbook *wb)
+{
+	printf ("FOCUS!\n");
+	workbook_focus_current_sheet (wb);
+}
+
+static int
+wb_edit_key_pressed (GtkEntry *entry, GdkEvent *event, Workbook *wb)
+{
+	Sheet *sheet;
+	
+	if (event->type != GDK_KEY_PRESS)
+		return 0;
+
+	switch (event->key.keyval){
+	case GDK_Left:
+	case GDK_Right:
+	case GDK_Up:
+	case GDK_Down:
+		sheet = workbook_focus_current_sheet (wb);
+		gtk_widget_event (sheet->sheet_view, event);
+		return 1;
+	default:
+		return 0;
+	}
+}
+
 static void
 workbook_setup_edit_area (Workbook *wb)
 {
@@ -68,6 +111,14 @@ workbook_setup_edit_area (Workbook *wb)
 	gtk_table_attach (GTK_TABLE (wb->table), box2,
 			  0, 1, 0, 1,
 			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
+
+	/* Do signal setup for the editing input line */
+	gtk_signal_connect (GTK_OBJECT (wb->ea_input), "activate",
+			    GTK_SIGNAL_FUNC(wb_input_finished),
+			    wb);
+	gtk_signal_connect (GTK_OBJECT (wb->ea_input), "key_press_event",
+			    GTK_SIGNAL_FUNC(wb_edit_key_pressed),
+			    wb);
 }
 
 /*
@@ -148,6 +199,7 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
 	buttons (sheet, GTK_TABLE (t));
 	gtk_widget_show_all (t);
+	gtk_object_set_data (GTK_OBJECT (t), "sheet", sheet);
 	gtk_notebook_append_page (GTK_NOTEBOOK (wb->notebook),
 				  t, gtk_label_new (sheet->name));
 }

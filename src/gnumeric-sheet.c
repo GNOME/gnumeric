@@ -57,12 +57,32 @@ gnumeric_sheet_create (Sheet *sheet, GtkWidget *entry)
 }
 
 static void
+gnumeric_sheet_accept_pending_output (GnumericSheet *sheet)
+{
+	/* Destroy the object */
+	if (sheet->item_editor){
+		gtk_object_destroy (GTK_OBJECT (sheet->item_editor));
+		sheet->item_editor = NULL;
+	}
+}
+
+static void
+gnumeric_sheet_load_new_cell (GnumericSheet *gsheet)
+{
+	Sheet *sheet = gsheet->sheet;
+	Workbook *wb = sheet->parent_workbook;
+	GtkWidget *entry = wb->ea_input;
+
+	gtk_entry_set_text (GTK_ENTRY(entry), "");
+}
+
+static void
 gnumeric_sheet_move_cursor_horizontal (GnumericSheet *sheet, int count)
 {
 	ItemCursor *item_cursor = sheet->item_cursor;
 	int new_left;
 	
-	new_left = item_cursor->start_col + count;
+	new_left = sheet->cursor_col + count;
 
 	if (new_left < 0)
 		return;
@@ -74,10 +94,13 @@ gnumeric_sheet_move_cursor_horizontal (GnumericSheet *sheet, int count)
 
 	if (new_left < 0)
 		new_left = 0;
-	
+
+	gnumeric_sheet_accept_pending_output (sheet);
+	sheet->cursor_col = new_left;
 	item_cursor_set_bounds (item_cursor,
 				new_left, item_cursor->end_col + count,
 				item_cursor->start_row, item_cursor->end_row);
+	gnumeric_sheet_load_new_cell (sheet);
 }
 
 static void
@@ -85,8 +108,8 @@ gnumeric_sheet_move_cursor_vertical (GnumericSheet *sheet, int count)
 {
 	ItemCursor *item_cursor = sheet->item_cursor;
 	int new_top;
-		
-	new_top = item_cursor->start_row + count;
+
+	new_top = sheet->cursor_row + count;
 
 	if (new_top < 0)
 		return;
@@ -95,10 +118,13 @@ gnumeric_sheet_move_cursor_vertical (GnumericSheet *sheet, int count)
 		g_warning ("do scroll\n");
 		return;
 	}
-	
+
+	gnumeric_sheet_accept_pending_output (sheet);
+	sheet->cursor_row = new_top;
 	item_cursor_set_bounds (item_cursor,
 				item_cursor->start_col, item_cursor->end_col,
 				new_top, item_cursor->end_row + count);
+	gnumeric_sheet_load_new_cell (sheet);
 }
 
 static void
@@ -112,8 +138,8 @@ start_editing_at_cursor (GnumericSheet *sheet, GtkWidget *entry)
 				      item_edit_get_type (),
 				      "ItemEdit::Sheet",    sheet->sheet,
 				      "ItemEdit::Grid",     sheet->item_grid,
-				      "ItemEdit::Col",      2,
-				      "ItemEdit::Row",      2,
+				      "ItemEdit::Col",      sheet->cursor_col,
+				      "ItemEdit::Row",      sheet->cursor_row,
 				      "ItemEdit::GtkEntry", entry,
 				      NULL);
 

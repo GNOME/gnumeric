@@ -324,7 +324,6 @@ sheet_row_set_height (Sheet *sheet, int row, int height)
 	colrow_set_units (sheet, ri);
 	if (add)
 		sheet_row_add (sheet, ri);
-	printf ("ROW=%d %d\n", ri->pos, ri->pixels);
 	sheet_redraw_all (sheet);
 }
 

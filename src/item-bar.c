@@ -235,7 +235,6 @@ is_pointer_on_division (ItemBar *item_bar, int pos, int *the_total, int *the_ele
 		else
 			cri = sheet_col_get_info (item_bar->sheet, i);
 
-		printf ("%d %d->%d\n", i, cri->pixels, pos);
 		total += cri->pixels;
 		if ((total - 4 < pos) && (pos < total + 4)){
 			if (the_total)

@@ -35,22 +35,49 @@ item_edit_get_pixel_coords (ItemEdit *item_edit, int *x, int *y, int *w, int *h)
 }
 
 static void
-item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
+item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
+		int x, int y, int width, int height)
 {
 	GtkWidget *canvas = GTK_WIDGET (item->canvas);
 	ItemEdit *item_edit = ITEM_EDIT (item);
+	GdkFont  *font;
 	int xd, yd, wd, hd, dx, dy;
+	char *text;
+	int  cursor_pos, text_len, first_part_len, total_len;
 
-	if (!item_edit->sheet)
-		return;
-	item_edit_get_pixel_coords (item_edit, &xd, &yd, &wd, &hd);
+	font = canvas->style->font;
+	text = gtk_entry_get_text (GTK_ENTRY (item_edit->editor));
+	text_len = strlen (text);
+	cursor_pos = GTK_EDITABLE (item_edit->editor)->current_pos;
 
+	total_len = gdk_text_width (font, text, text_len);
+
+	/* Adjust the col_span if necesary */
+	do {
+		item_edit_get_pixel_coords (item_edit, &xd, &yd, &wd, &hd);
+		if (total_len >= wd)
+			item_edit->col_span++;
+	} while (total_len >= wd);
+	
 	dx = xd - x;
 	dy = yd - y;
 
-	gdk_draw_rectangle (drawable, canvas->style->white_gc,
-			    TRUE,
+	/* Do the drawing */
+	gdk_draw_rectangle (drawable, canvas->style->white_gc, TRUE,
 			    dx + 1, dy + 1, wd - 1, hd - 1);
+
+	first_part_len = gdk_text_width (font, text, cursor_pos);
+	gdk_draw_text (drawable, font, canvas->style->black_gc,
+		       dx + 1, dy + hd - font->descent, text, cursor_pos);
+	gdk_draw_line (drawable, canvas->style->black_gc,
+		       first_part_len + dx + 1,
+		       dy + hd - font->descent,
+		       first_part_len + dx + 1,
+		       dy + hd - (font->ascent + font->descent));
+	gdk_draw_text (drawable, font, canvas->style->black_gc,
+		       dx + 1 + first_part_len,
+		       dy + hd - font->descent,
+		       text + cursor_pos, text_len - cursor_pos);
 }
 
 static double
@@ -115,6 +142,18 @@ item_edit_init (ItemEdit *item_edit)
 }
 
 static void
+entry_changed (GtkEntry *entry, void *data)
+{
+	ItemEdit *item_edit = ITEM_EDIT (data);
+	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_edit)->canvas;
+	int x, y, w, h;
+
+	item_edit_get_pixel_coords (item_edit, &x, &y, &w, &h);
+	
+	gnome_canvas_request_redraw (canvas, x, y, x+w, y+h);
+}
+
+static void
 item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	GnomeCanvasItem *item;
@@ -132,6 +171,8 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_GTK_ENTRY:
 		item_edit->editor = GTK_VALUE_POINTER (*arg);
+		gtk_signal_connect (GTK_OBJECT (item_edit->editor), "changed",
+				    GTK_SIGNAL_FUNC(entry_changed), item_edit);
 		break;
 	case ARG_COL:
 		item_edit->col = GTK_VALUE_INT (*arg);

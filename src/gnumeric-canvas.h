@@ -20,6 +20,7 @@ typedef struct {
 	ColType     top_col;
 	RowType     top_row;
 
+	int         cursor_col, cursor_row;
 	ItemGrid    *item_grid;
 	ItemCursor  *item_cursor;
 	ItemBar     *item_bar_col;

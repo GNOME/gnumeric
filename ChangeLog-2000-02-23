@@ -18,6 +18,7 @@
 
 	* src/item-bar.c (item_bar_event): Do world->canvas cordinate
 	conversion to get zoomed resizng working).
+	(bar_draw_cell): Minor look fix.
 
 	* src/sheet.c (sheet_row_set_height): Silly mistake, add the newly
 	created rowinfo to the row array, not the column array.
