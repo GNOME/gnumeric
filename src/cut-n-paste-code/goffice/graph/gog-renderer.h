@@ -22,7 +22,7 @@
 #define GOG_RENDERER_H
 
 #include <goffice/graph/goffice-graph.h>
-#include <glib-object.h>
+#include <gtk/gtkenums.h>
 #include <libart_lgpl/libart.h>
 
 #define GOG_RENDERER_TYPE	  (gog_renderer_get_type ())
@@ -37,13 +37,14 @@ void  gog_renderer_request_update (GogRenderer *r);
 void  gog_renderer_push_style     (GogRenderer *r, GogStyle const *style);
 void  gog_renderer_pop_style      (GogRenderer *r);
 
-void  gog_renderer_draw_path      (GogRenderer *r, ArtVpath *path);
-void  gog_renderer_draw_polygon   (GogRenderer *r, ArtVpath *path,
+void  gog_renderer_draw_path      (GogRenderer *r, ArtVpath const *path);
+void  gog_renderer_draw_polygon   (GogRenderer *r, ArtVpath const *path,
 				   gboolean narrow);
 void  gog_renderer_draw_rectangle (GogRenderer *r,
 				   GogViewAllocation const *rect);
 
-void  gog_renderer_draw_text	  (GogRenderer *rend, ArtPoint *pos,
+void  gog_renderer_draw_text	  (GogRenderer *rend, ArtPoint const *pos,
+				   GtkAnchorType anchor,
 				   char const *text, GogViewRequisition *size);
 void  gog_renderer_draw_marker	  (GogRenderer *rend, double x, double y);
 void  gog_renderer_measure_text	  (GogRenderer *rend,

@@ -323,10 +323,16 @@ gog_plot_foreach_elem (GogPlot *plot, GogEnumFunc func, gpointer data)
 }
 
 GOData *
-gog_plot_get_axis_bounds (GogPlot *plot, unsigned axis,
-			  double *min, double *max)
+gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
+			  double *min, double *max,
+			  double *logical_min, double *logical_max)
 {
-	return NULL;
+	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
+
+	g_return_val_if_fail (klass != NULL, FALSE);
+
+	return (klass->axis_bounds) (plot, axis, min, max,
+		logical_min, logical_max);
 }
 
 gboolean

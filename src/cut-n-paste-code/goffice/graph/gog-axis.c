@@ -34,6 +34,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
 #include <src/gui-util.h>
+#include <src/mathfunc.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkcheckbutton.h>
 #include <glade/glade-xml.h>
@@ -56,7 +57,9 @@ struct _GogAxis {
 	GogDatasetElement source [AXIS_ELEM_LAST_ENTRY];
 	GogAxisTickLevel  tick_level;
 
+	double		bound_min, bound_max, bound_step;
 	double		min_val, max_val;
+	double		logical_min_val, logical_max_val;
 	gpointer	min_contrib, max_contrib; /* NULL means use the manual sources */
 };
 
@@ -158,11 +161,53 @@ gog_axis_update (GogObject *obj)
 {
 	GSList *ptr;
 	GogAxis *axis = GOG_AXIS (obj);
+	double minima, maxima, logical_min, logical_max;
+	double range, step;
 
 	gog_debug (0, g_warning ("axis::update"););
 
+	axis->min_val = DBL_MAX;
+	axis->max_val = DBL_MIN;
+	axis->min_contrib = axis->max_contrib = NULL;
 	for (ptr = axis->contributors ; ptr != NULL ; ptr = ptr->next) {
+		gog_plot_get_axis_bounds (GOG_PLOT (ptr->data), axis->type,
+			&minima, &maxima, &logical_min, &logical_max);
+
+		if (axis->min_val > minima) {
+			axis->min_val = minima;
+			axis->logical_min_val = logical_min;
+			axis->min_contrib = ptr->data;
+		} else if (axis->min_contrib == ptr->data) {
+			axis->min_contrib = NULL;
+			axis->min_val = minima;
+		}
+
+		if (axis->max_val < maxima) {
+			axis->max_val = maxima;
+			axis->logical_max_val = logical_max;
+			axis->max_contrib = ptr->data;
+		} else if (axis->max_contrib == ptr->data) {
+			axis->max_contrib = NULL;
+			axis->max_val = maxima;
+		}
 	}
+
+	minima = axis->min_val;
+	maxima = axis->max_val;
+	range = fabs (maxima - minima);
+	if (gnumeric_sub_epsilon (range) < 0.) {
+		minima *= .9;
+		maxima *= 1.1;
+		range = fabs (maxima - minima);
+	}
+	step  = pow (10, gnumeric_fake_trunc (log10 (range)));
+	if (range/step < 3)
+		step /= 5.;
+
+	/* we want the bounds to be loose so jump up a step if we get too close */
+	axis->bound_min = step * floor (gnumeric_sub_epsilon (minima/step));
+	axis->bound_max = step * ceil (gnumeric_add_epsilon (maxima/step));
+	axis->bound_step = step;
 }
 
 static void
@@ -341,12 +386,12 @@ gog_axis_get_pos (GogAxis const *axis)
 }
 
 gboolean
-gog_axis_get_bounds (GogAxis const *axis, double *min_val, double *max_val)
+gog_axis_get_bounds (GogAxis const *axis, double *min_bound, double *max_bound)
 {
 	g_return_val_if_fail (GOG_AXIS (axis) != NULL, FALSE);
 
-	*min_val = axis->min_val;
-	*max_val = axis->max_val;
+	*min_bound = axis->bound_min;
+	*max_bound = axis->bound_max;
 
 	return TRUE;
 }
@@ -365,6 +410,8 @@ gog_axis_add_contributor (GogAxis *axis, GogObject *contrib)
 	g_return_if_fail (g_slist_find (axis->contributors, contrib) == NULL);
 
 	axis->contributors = g_slist_prepend (axis->contributors, contrib);
+
+	gog_object_request_update (GOG_OBJECT (axis));
 }
 
 /**
@@ -377,10 +424,23 @@ gog_axis_add_contributor (GogAxis *axis, GogObject *contrib)
 void
 gog_axis_del_contributor (GogAxis *axis, GogObject *contrib)
 {
+	gboolean update = FALSE;
+
 	g_return_if_fail (GOG_AXIS (axis) != NULL);
 	g_return_if_fail (g_slist_find (axis->contributors, contrib) != NULL);
 
+	if (axis->min_contrib == contrib) {
+		axis->min_contrib = NULL;
+		update = TRUE;
+	}
+	if (axis->max_contrib == contrib) {
+		axis->max_contrib = NULL;
+		update = TRUE;
+	}
 	axis->contributors = g_slist_remove (axis->contributors, contrib);
+
+	if (update)
+		gog_object_request_update (GOG_OBJECT (axis));
 }
 
 void
@@ -410,18 +470,11 @@ gog_axis_contributors (GogAxis *axis)
  * gog_axis_bound_changed :
  * @axis : #GogAxis
  * @contrib : #GogObject
- * @low :
- * @high :
 **/
 void
-gog_axis_bound_changed (GogAxis *axis, GogObject *contrib,
-			double low, double high)
+gog_axis_bound_changed (GogAxis *axis, GogObject *contrib)
 {
 	g_return_if_fail (GOG_AXIS (axis) != NULL);
-
-#warning crap
-	axis->min_val = low;
-	axis->max_val = high;
 
 	gog_object_request_update (GOG_OBJECT (axis));
 }
@@ -429,17 +482,16 @@ gog_axis_bound_changed (GogAxis *axis, GogObject *contrib,
 static unsigned
 gog_axis_num_markers (GogAxis *axis)
 {
-#warning bogus quicky
-	return 2;
+	if (axis->bound_step <= 0.)
+		return 1;
+
+	return 1 + fabs (axis->bound_max - axis->bound_min) / (double)axis->bound_step;
 }
 
-static char const *
+static char *
 gog_axis_get_marker (GogAxis *axis, unsigned i)
 {
-#warning bogus quicky
-	if (i == 0)
-		return "low";
-	return "high";
+	return g_strdup_printf ("%g", axis->bound_min + ((double)i) * axis->bound_step);
 }
 
 /****************************************************************************/
@@ -468,8 +520,9 @@ gog_axis_view_size_request (GogView *view, GogViewRequisition *req)
  * things are too big */
 	gog_renderer_push_style (view->renderer, axis->base.style);
 	for (i = gog_axis_num_markers (axis) ; i-- > 0 ; ) {
-		gog_renderer_measure_text (view->renderer,
-			gog_axis_get_marker (axis, i), &tmp);
+		char *txt = gog_axis_get_marker (axis, i);
+		gog_renderer_measure_text (view->renderer, txt, &tmp);
+		g_free (txt);
 		if (is_horiz) {
 			total += tmp.w;
 			if (max < tmp.h)
@@ -496,9 +549,12 @@ static void
 gog_axis_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogViewAllocation const *area = &view->residual;
+	GogViewRequisition size;
 	ArtVpath path[3];
+	ArtPoint pos;
 	GogAxis *axis = GOG_AXIS (view->model);
-	double pre, post;
+	unsigned n;
+	double pre, post, step, bound;
 	double line_width = gog_renderer_line_size (
 		view->renderer, axis->base.style->line.width) / 2;
 
@@ -506,6 +562,7 @@ gog_axis_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	g_return_if_fail (axis->pos != GOG_AXIS_IN_MIDDLE);
 
+	gog_renderer_push_style (view->renderer, axis->base.style);
 	switch (axis->type) {
 	case GOG_AXIS_X:
 		gog_chart_view_get_indents (view->parent, &pre, &post);
@@ -526,17 +583,36 @@ gog_axis_view_render (GogView *view, GogViewAllocation const *bbox)
 		break;
 
 	case GOG_AXIS_Y:
-		path[0].y = area->y;
+		pos.y = path[0].y = area->y;
 		path[1].y = area->y + area->h;
 		switch (axis->pos) {
 		case GOG_AXIS_AT_LOW:
 			path[0].x = path[1].x = area->x + area->w - line_width;
+			pos.x = area->x;
 			break;
 		case GOG_AXIS_AT_HIGH:
 			path[0].x = path[1].x = area->x + line_width;
+			pos.x = area->x + area->w;
 			break;
 		default :
 			break;
+		}
+
+		n = gog_axis_num_markers (axis);
+		
+		if (n > 1)
+			step = area->h / (n - 1);
+		for (bound = -1 ; n-- > 0 ;) {
+			if (pos.y >= bound) {	/* keep thing sfrom overlapping */
+				char *txt = gog_axis_get_marker (axis, n);
+
+				size.w = area->w - line_width;
+				size.h = -1;
+				gog_renderer_draw_text (view->renderer, &pos, GTK_ANCHOR_W, txt, &size);
+				g_free (txt);
+				bound = pos.y + size.h;
+			}
+			pos.y += step;
 		}
 		break;
 	default :
@@ -546,7 +622,6 @@ gog_axis_view_render (GogView *view, GogViewAllocation const *bbox)
 	path[0].code = ART_MOVETO;
 	path[1].code = ART_LINETO;
 	path[2].code = ART_END;
-	gog_renderer_push_style (view->renderer, axis->base.style);
 	gog_renderer_draw_path (view->renderer, path);
 	gog_renderer_pop_style (view->renderer);
 }

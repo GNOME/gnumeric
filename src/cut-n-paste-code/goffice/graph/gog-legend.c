@@ -331,7 +331,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 
 	pos.x = swatch.x + data->pad_x;
 	pos.y = swatch.y;
-	gog_renderer_draw_text (v->renderer, &pos, name, NULL);
+	gog_renderer_draw_text (v->renderer, &pos, GTK_ANCHOR_NW, name, NULL);
 
 	gog_renderer_pop_style (v->renderer);
 

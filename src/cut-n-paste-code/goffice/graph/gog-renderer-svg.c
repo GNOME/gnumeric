@@ -55,7 +55,7 @@ static GObjectClass *parent_klass;
 static GType gog_renderer_svg_get_type (void);
 
 static void
-draw_path (GogRendererSvg *prend, ArtVpath *path, GString *string)
+draw_path (GogRendererSvg *prend, ArtVpath const *path, GString *string)
 {
 	for ( ; path->code != ART_END ; path++)
 		switch (path->code) {
@@ -71,7 +71,7 @@ draw_path (GogRendererSvg *prend, ArtVpath *path, GString *string)
 }
 
 static void
-gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath *path)
+gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (renderer);
 	GogStyle const *style = renderer->cur_style;
@@ -101,7 +101,7 @@ gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath *path)
 }
 
 static void
-gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolean narrow)
+gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path, gboolean narrow)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (renderer);
 	GogStyle const *style = renderer->cur_style;
@@ -184,7 +184,8 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolean n
 }
 
 static void
-gog_renderer_svg_draw_text (GogRenderer *rend, ArtPoint *pos,
+gog_renderer_svg_draw_text (GogRenderer *rend, ArtPoint const *pos,
+			    GtkAnchorType anchor,
 			    char const *text, GogViewRequisition *size)
 {
 #if 0

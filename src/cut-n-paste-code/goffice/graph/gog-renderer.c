@@ -205,7 +205,7 @@ gog_renderer_pop_style (GogRenderer *rend)
  * Draws @path using the outline elements of the current style.
  **/
 void
-gog_renderer_draw_path (GogRenderer *rend, ArtVpath *path)
+gog_renderer_draw_path (GogRenderer *rend, ArtVpath const *path)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
@@ -225,7 +225,7 @@ gog_renderer_draw_path (GogRenderer *rend, ArtVpath *path)
  * If @narrow is false it alos outlines it using the outline elements.
  **/
 void
-gog_renderer_draw_polygon (GogRenderer *rend, ArtVpath *path, gboolean narrow)
+gog_renderer_draw_polygon (GogRenderer *rend, ArtVpath const *path, gboolean narrow)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
@@ -237,14 +237,15 @@ gog_renderer_draw_polygon (GogRenderer *rend, ArtVpath *path, gboolean narrow)
 
 /**
  * gog_renderer_draw_text :
- * @rend : #GogRenderer
- * @pos  : #ArtPoint
- * @text : the string to draw
- * @size : an optionally NULL #GogViewRequisition to store the size of
- *         @text we just drew.
+ * @rend   : #GogRenderer
+ * @pos    : #ArtPoint
+ * @anchor : #GtkAnchorType how to draw relative to @pos
+ * @text   : the string to draw
+ * @size   : an optionally NULL #GogViewRequisition to store the size of
+ *         @text we just drew.  If w or h is >=0 when called clip the text
  **/
 void
-gog_renderer_draw_text (GogRenderer *rend, ArtPoint *pos,
+gog_renderer_draw_text (GogRenderer *rend, ArtPoint const *pos, GtkAnchorType anchor,
 			char const *text, GogViewRequisition *size)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
@@ -253,7 +254,7 @@ gog_renderer_draw_text (GogRenderer *rend, ArtPoint *pos,
 	g_return_if_fail (rend->cur_style != NULL);
 	g_return_if_fail (text != NULL);
 
-	(klass->draw_text) (rend, pos, text, size);
+	(klass->draw_text) (rend, pos, anchor, text, size);
 }
 
 /**

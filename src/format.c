@@ -856,7 +856,7 @@ static StyleFormat *
 style_format_number (FormatCharacteristics const *fmt)
 {
 	int symbol = fmt->currency_symbol_index;
-	GString *str;
+	GString *str, *tmp;
 	StyleFormat *sf;
 
 	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
@@ -903,7 +903,10 @@ style_format_number (FormatCharacteristics const *fmt)
 			g_assert_not_reached ();
 		};
 
-		g_string_append_len (str, str->str, prelen);
+		tmp = g_string_new_len (str->str, str->len);
+		g_string_append_len (tmp, str->str, prelen);
+		g_string_free (str, TRUE);
+		str = tmp;
 
 		if (fmt->negative_fmt >= 2)
 			g_string_append_c (str, ')');
@@ -2113,6 +2116,9 @@ char *
 style_format_delocalize (char const *descriptor_string)
 {
 	g_return_val_if_fail (descriptor_string != NULL, NULL);
+
+	if (*descriptor_string == '\0')
+		return g_strdup ("");
 
 	if (strcmp (descriptor_string, _("General"))) {
 		char const *thousands_sep = format_get_thousand ();

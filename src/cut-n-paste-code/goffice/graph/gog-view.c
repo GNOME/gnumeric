@@ -284,17 +284,8 @@ static void
 gog_view_render_real (GogView *view, GogViewAllocation const *bbox)
 {
 	GSList *ptr;
-	GogView *child;
-	GogViewClass *klass;
-
-	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
-		child = ptr->data;
-		klass = GOG_VIEW_GET_CLASS (child);
-		g_return_if_fail (child->renderer != NULL);
-
-#warning TODO clip based on bbox
-		(klass->render) (child, bbox);
-	}
+	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
+		gog_view_render	(ptr->data, bbox);
 }
 
 static void
@@ -466,6 +457,11 @@ void
 gog_view_render	(GogView *view, GogViewAllocation const *bbox)
 {
 	GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
+
+	g_return_if_fail (view->renderer != NULL);
+
+	if (view->residual.w < 0 || view->residual.h < 0)
+		return;
 	klass->render (view, bbox);
 }
 

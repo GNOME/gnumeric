@@ -118,7 +118,7 @@ set_color (GogRendererGnomePrint *prend, GOColor color)
 }
 
 static void
-draw_path (GogRendererGnomePrint *prend, ArtVpath *path)
+draw_path (GogRendererGnomePrint *prend, ArtVpath const *path)
 {
 	gnome_print_newpath (prend->gp_context);
 	for ( ; path->code != ART_END ; path++)
@@ -137,7 +137,7 @@ draw_path (GogRendererGnomePrint *prend, ArtVpath *path)
 }
 
 static void
-gog_renderer_gnome_print_draw_path (GogRenderer *renderer, ArtVpath *path)
+gog_renderer_gnome_print_draw_path (GogRenderer *renderer, ArtVpath const *path)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (renderer);
 	GogStyle const *style = renderer->cur_style;
@@ -164,7 +164,7 @@ print_image (GogRendererGnomePrint *prend, GdkPixbuf *image, int w, int h)
 
 #define PIXBUF_SIZE 1024
 static void
-gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolean narrow)
+gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *path, gboolean narrow)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (renderer);
 	GogStyle const *style = renderer->cur_style;
@@ -193,7 +193,7 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 				set_color (prend, color);
 				gnome_print_fill (prend->gp_context);
 			} else {
-				ArtSVP *fill = art_svp_from_vpath (path);
+				ArtSVP *fill = art_svp_from_vpath ((ArtVpath *)path);
 				image = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, bbox.x1, bbox.y1);
 				gdk_pixbuf_fill (image, 0);
 				go_pattern_render_svp (&style->fill.u.pattern.pat,
@@ -317,7 +317,8 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 }
 
 static void
-gog_renderer_gnome_print_draw_text (GogRenderer *rend, ArtPoint *pos,
+gog_renderer_gnome_print_draw_text (GogRenderer *rend, ArtPoint const *pos,
+				    GtkAnchorType anchor,
 				    char const *text, GogViewRequisition *size)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
@@ -348,9 +349,9 @@ static void
 gog_renderer_gnome_print_draw_marker (GogRenderer *renderer, double x, double y)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (renderer);
-	GOMarker * marker = renderer->cur_style->marker;
-	const ArtVpath * outline_path_raw, * fill_path_raw;
-	ArtVpath * outline_path, * fill_path;
+	GOMarker *marker = renderer->cur_style->marker;
+	ArtVpath const *outline_path_raw, *fill_path_raw;
+	ArtVpath *outline_path, *fill_path;
 	double scaling[6], translation[6], affine[6];
 	double half_size;
 

@@ -53,9 +53,9 @@ typedef struct {
 	void (*push_style)     (GogRenderer *renderer, GogStyle const *style);
 	void (*pop_style)      (GogRenderer *renderer);
 
-	void (*draw_path)      (GogRenderer *renderer, ArtVpath *path);
-	void (*draw_polygon)   (GogRenderer *renderer, ArtVpath *path, gboolean narrow);
-	void (*draw_text)      (GogRenderer *rend, ArtPoint *pos,
+	void (*draw_path)      (GogRenderer *renderer, ArtVpath const *path);
+	void (*draw_polygon)   (GogRenderer *renderer, ArtVpath const *path, gboolean narrow);
+	void (*draw_text)      (GogRenderer *rend, ArtPoint const *pos, GtkAnchorType anchor,
 				char const *text, GogViewRequisition *size);
 	void (*draw_marker)    (GogRenderer *rend, double x, double y);
 	void (*measure_text)   (GogRenderer *rend, 

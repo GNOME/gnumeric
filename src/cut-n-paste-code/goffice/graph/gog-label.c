@@ -228,7 +228,7 @@ gog_label_view_render (GogView *view, GogViewAllocation const *bbox)
 			ArtPoint  point;
 			point.x = view->residual.x;
 			point.y = view->residual.y;
-			gog_renderer_draw_text (view->renderer, &point, text, NULL);
+			gog_renderer_draw_text (view->renderer, &point, GTK_ANCHOR_NW, text, NULL);
 		}
 	}
 	gog_renderer_pop_style (view->renderer);

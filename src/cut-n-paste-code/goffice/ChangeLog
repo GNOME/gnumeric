@@ -1,3 +1,25 @@
+2003-09-09  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-renderer.h : Add an anchor parm to draw_text and clean up
+	  the semantics of size.
+
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_draw_text) : handle
+	  the various anchor types.
+
+	* graph/gog-axis.c : Some initial work at generating bounds, and
+	  drawing axis values.
+
+	* graph/gog-view.c (gog_view_render) : filter objects with invalid
+	  size.  eg a user makes the plot too small to be useful.
+
+2003-09-09  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_update) :
+	  percentage charts logicly limit -1 .. 1
+
+	* graph/plugins/plot_xy/gog-xy.c (gog_xy_plot_update) : no logical min
+	  or max.
+
 2003-09-08  Jody Goldberg <jody@gnome.org>
 
 	* graph/plugins/plot_barcol/plot-types.xml.in : fix icons to match

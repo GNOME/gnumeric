@@ -737,6 +737,9 @@ cell_format_classify (StyleFormat const *sf, FormatCharacteristics *info)
 	info->date_has_months = FALSE;
 	info->fraction_denominator = 0;
 
+	if (*fmt == '\0')
+		return FMT_UNKNOWN;
+
 	/* Note: ->family is not yet ready.  */
 	if (strcmp (sf->format, cell_format_general[0]) == 0)
 		return FMT_GENERAL;
