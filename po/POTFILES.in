@@ -2,7 +2,6 @@ plugins/excel/boot.c
 plugins/excel/ms-excel-read.c
 plugins/excel/ms-formula-read.c
 plugins/ff-csv/csv-io.c
-plugins/guile/plugin.c
 plugins/html/boot.c
 plugins/lotus-123/boot.c
 plugins/oleo/boot.c
