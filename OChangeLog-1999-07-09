@@ -1,3 +1,11 @@
+1998-09-26  Adrian Likins <adrian@gimp.org>
+ 
+        * doc/*.jpg:
+          doc/images/*.jpg: moved images to an images subdir
+
+        * doc/gnumeric.sgml, editing.sgml, autofill.sgml: cleaned
+          up the markup some   
+
 1998-09-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* plugins/python/python.c (init_plugin): Use the system
