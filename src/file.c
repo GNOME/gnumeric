@@ -328,19 +328,23 @@ workbook_import (Workbook *parent, const char *filename)
 	if (ret == 0 && clist->selection) {
 		FileOpener *fo;
 		int sel_row;
+		char *error;
 		
 		sel_row = GPOINTER_TO_INT (clist->selection->data);
 		
 		fo = gtk_clist_get_row_data (clist, sel_row);
 		
 		wb = workbook_new ();
-		if (!fo->open (wb, filename)){
+		error = fo->open (wb, filename);
+		if (error != NULL) {
 #ifdef ENABLE_BONOBO
 		        gnome_object_destroy (GNOME_OBJECT (wb));
 #else
 			gtk_object_destroy   (GTK_OBJECT (wb));
 #endif
 			wb = NULL;
+			file_error_message (N_("Could not import file %s"),
+					    filename, error);
 		} else {
 			workbook_mark_clean (wb);
 			/* We will want to change the name before saving */

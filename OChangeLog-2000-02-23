@@ -1,3 +1,7 @@
+1999-12-31  Jody Goldberg <jgoldberg@home.com>
+
+	* src/file.c (workbook_import) : Support new plugin interface.
+
 1999-12-31  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/corba-workbook.c (workbook_corba_setup): Create the corba
