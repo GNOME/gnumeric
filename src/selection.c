@@ -638,7 +638,7 @@ sheet_selection_cut (CmdContext *context, Sheet *sheet)
 					    ss->user.start.row,ss->user.start.col,
 					    ss->user.end.row, ss->user.end.col)) {
 		gnumeric_no_modify_array_notice (sheet->workbook);
-		return;
+		return FALSE;
 	}
 
 	application_clipboard_cut (sheet, &ss->user);
