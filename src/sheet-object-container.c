@@ -119,8 +119,8 @@ sheet_object_container_realize (SheetObject *so, SheetView *sheet_view)
 
 	soc = SHEET_OBJECT_CONTAINER (so);
 	
-	view_frame = bonobo_client_site_new_view (SHEET_OBJECT_BONOBO (so)->client_site);
-	bonobo_view_frame_set_ui_handler (view_frame, so->sheet->workbook->uih);
+	view_frame = bonobo_client_site_new_view (SHEET_OBJECT_BONOBO (so)->client_site,
+						  so->sheet->workbook->uih);
 		
 	gtk_signal_connect (GTK_OBJECT (view_frame), "user_activate",
 			    GTK_SIGNAL_FUNC (user_activation_request_cb), so);
