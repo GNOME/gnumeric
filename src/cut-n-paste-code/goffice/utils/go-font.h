@@ -24,6 +24,7 @@
 #include <glib.h>
 #include <goffice/utils/goffice-utils.h>
 #include <pango/pango-font.h>
+#include <pango/pangofc-fontmap.h>
 
 G_BEGIN_DECLS
 
@@ -48,6 +49,9 @@ void go_font_cache_unregister (GClosure *callback);
 /* private */
 void go_font_init     (void);
 void go_font_shutdown (void);
+
+/* See http://bugzilla.gnome.org/show_bug.cgi?id=143542 */
+void go_pango_fc_font_map_cache_clear (PangoFcFontMap *font_map);
 
 G_END_DECLS
 

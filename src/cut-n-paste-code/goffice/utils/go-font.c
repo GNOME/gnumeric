@@ -21,6 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include "go-font.h"
+#include <gmodule.h>
 
 static GHashTable   *font_hash;
 static GPtrArray    *font_array;
@@ -158,10 +159,27 @@ go_font_cache_unregister (GClosure *watcher)
 	font_watchers = g_slist_remove (font_watchers, watcher);
 }
 
+static void (*fake_pango_fc_font_map_cache_clear) (PangoFcFontMap *);
+
+void
+go_pango_fc_font_map_cache_clear (PangoFcFontMap *font_map)
+{
+	if (fake_pango_fc_font_map_cache_clear)
+		fake_pango_fc_font_map_cache_clear (font_map);
+}
+
 /* private */
 void
 go_font_init (void)
 {
+	GModule *self = g_module_open (NULL, 0);
+	if (self) {
+		gpointer sym;
+		if (g_module_symbol (self, "pango_fc_font_map_cache_clear", &sym))
+			fake_pango_fc_font_map_cache_clear = sym;
+		g_module_close (self);
+	}
+
 	font_array = g_ptr_array_new ();
 	font_hash = g_hash_table_new_full (
 		(GHashFunc)pango_font_description_hash,
@@ -187,4 +205,3 @@ go_font_shutdown (void)
 		g_slist_free (font_watchers);
 	}
 }
-
