@@ -71,7 +71,6 @@ cb_cell_comment_ok_clicked (GtkWidget *button, CommentState *state)
 	gtk_text_buffer_get_bounds  (state->text, &start, &end);
 	text = gtk_text_buffer_get_text (state->text, &start, &end, TRUE);
 
-
 	if (!cmd_set_comment (WORKBOOK_CONTROL (state->wbcg), state->sheet, state->pos, text))
 		gtk_widget_destroy (state->dialog);
 	g_free (text);

@@ -1,3 +1,8 @@
+2002-03-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/sheet-control-gui.c (scg_comment_display) : use 
+	  textview widget
+
 2002-03-05  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook-edit.c (auto_complete_matches): Plug leak.

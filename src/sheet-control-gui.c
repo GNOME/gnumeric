@@ -48,6 +48,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-cursors.h>
+#include <gal/widgets/e-colors.h>
 #include <string.h>
 
 static SheetControlClass *scg_parent_class;
@@ -2285,15 +2286,10 @@ scg_comment_timer_clear (SheetControlGUI *scg)
  * @scg : The SheetControl
  * @cc  : A cell comment
  *
- * Simplistic routine to display the text of a comment in an UGLY popup window.
- * FIXME : this should really bring up another sheetobject with an arrow from
- * it to the comment marker.  However, we lack a decent rich text canvas item
- * until the conversion to pango and the new text box.
  */
 void
 scg_comment_display (SheetControlGUI *scg, CellComment *cc)
 {
-	GtkWidget *label;
 	int x, y;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
@@ -2312,12 +2308,33 @@ scg_comment_display (SheetControlGUI *scg, CellComment *cc)
 	g_return_if_fail (IS_CELL_COMMENT (cc));
 
 	if (scg->comment.item == NULL) {
+		GtkWidget *label/*, *frame */;
+		GdkRectangle rect;
+
 		scg->comment.item = gtk_window_new (GTK_WINDOW_POPUP);
-		label = gtk_label_new (cell_comment_text_get (cc));
-		gtk_container_add (GTK_CONTAINER (scg->comment.item), label);
 		gdk_window_get_pointer (NULL, &x, &y, NULL);
 		gtk_widget_set_uposition (scg->comment.item, x+10, y+10);
+
+		label = gtk_text_view_new ();
+		gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW(label), GTK_WRAP_NONE);
+		gnumeric_textview_set_text (GTK_TEXT_VIEW(label),
+					    cell_comment_text_get (cc));
+		gtk_text_view_set_editable (GTK_TEXT_VIEW(label), FALSE);
+
+#warning Figure out while the frame does not work here.
+
+/* FIXME: we would really like a frame, */
+/* for that, uncomment the next 4 lines and comment-out the following*/
+
+/* 		frame = gtk_frame_new (NULL); */
+/* 		gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_ETCHED_IN); */
+
+/* 		gtk_container_add (GTK_CONTAINER (scg->comment.item), frame); */
+/* 		gtk_container_add (GTK_CONTAINER (frame), label); */
+		gtk_container_add (GTK_CONTAINER (scg->comment.item), label);
 		gtk_widget_show_all (scg->comment.item);
+
+		gtk_text_view_get_visible_rect  (GTK_TEXT_VIEW(label), &rect);
 	}
 }
 

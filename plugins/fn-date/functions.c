@@ -923,7 +923,7 @@ static const char *help_workday = {
 	   "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
 
 	   "@DESCRIPTION="
-	   "WORKDAY returns the day which is @days working days "
+	   "WORKDAY returns the date which is @days working days "
 	   "from the @start_date.  Weekends and holidays optionally "
 	   "supplied in @holidays are respected."
 	   "\n"
@@ -931,7 +931,8 @@ static const char *help_workday = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "WORKDAY(DATE(2001,1,5),DATE(2001,2,15)) equals 88609.\n"
+	   "DAY(WORKDAY(DATE(2001,1,5),30)) equals 16 and\n"
+	   "MONTH(WORKDAY(DATE(2001,1,5),30)) equals 2.\n"
 	   "\n"
 	   "@SEEALSO=NETWORKDAYS")
 };
@@ -954,6 +955,7 @@ gnumeric_workday (FunctionEvalInfo *ei, Value **argv)
 
 	days = value_get_as_int (argv[1]);
 
+#warning WORKDAY is partially unimplemented.
 	if (argv[2] != NULL)
 		return value_new_error (ei->pos, _("Unimplemented"));
 
@@ -995,7 +997,8 @@ static const char *help_networkdays = {
 
 	   "@DESCRIPTION="
 	   "NETWORKDAYS returns the number of non-weekend non-holidays between "
-	   "@start_date and @end_date.  Holidays optionally supplied in @holidays."
+	   "@start_date and @end_date including these dates. " 
+	   "Holidays are optionally supplied in @holidays."
 	   "\n"
 	   "Returns #NUM! if start_date or end_date are invalid.\n"
 	   "This function is Excel compatible. "
@@ -1007,7 +1010,7 @@ static const char *help_networkdays = {
 };
 
 /*
- * A utility routine to return the 1st monday <= the serial if its valid
+ * A utility routine to return the last monday <= the serial if its valid
  * Returns -1 on error
  */
 static int
@@ -1068,10 +1071,13 @@ networkdays_holiday_callback(EvalPos const *ep,
 static Value *
 gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 {
-	int start_serial = datetime_value_to_serial (argv[0]);
-	int end_serial = datetime_value_to_serial (argv[1]);
+	int start_serial;
+	int end_serial;
 	int start_offset, end_offset, res;
 	networkdays_holiday_closure close;
+	GDate * start_date;
+	
+
 
 	if (argv[0]->type == VALUE_ERROR)
 		return value_duplicate (argv[0]);
@@ -1088,6 +1094,7 @@ gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 		end_serial = tmp;
 	}
 
+	start_date = datetime_serial_to_g (start_serial);
 	close.start_serial = start_serial;
 	close.end_serial = end_serial;
 	close.res = 0;
@@ -1107,7 +1114,13 @@ gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 				    &close);
 	}
 
-	return value_new_int (res - start_offset + end_offset + 1 - close.res);
+	res = res - start_offset + end_offset - close.res;
+
+	if (g_date_weekday (start_date) < G_DATE_SATURDAY)
+		res++;
+	datetime_g_free (start_date);
+
+	return value_new_int (res);
 }
 
 /***************************************************************************/
