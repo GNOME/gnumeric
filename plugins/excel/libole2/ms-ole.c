@@ -133,14 +133,6 @@ bb_blk_attr_new (guint32 blk)
 }
 
 static void
-set_blk_dirty (MsOle *f, BLP b)
-{
-	BBBlkAttr *attr = g_ptr_array_index (f->bbattr, b);
-	g_assert (attr);
-	attr->dirty = TRUE;
-}
-
-static void
 write_cache_block (MsOle *f, BBBlkAttr *attr)
 {
 	size_t offset;
@@ -313,7 +305,7 @@ static void
 dump_header (MsOle *f)
 {
 	printf ("--------------------------MsOle HEADER-------------------------\n");
-	printf ("Num BBD Blocks : %d Root %d, SB blocks %d\n",
+	printf ("Num BBD Blocks : %d Root %%d, SB blocks %d\n",
 		f->bb?f->bb->len:-1,
 /*		f->pps?f->pps->len:-1, */
 		f->sb?f->sb->len:-1);
@@ -460,7 +452,7 @@ read_bb (MsOle *f)
 	num_add_bbd_lists = GET_NUM_ADD_BBD_LISTS (f);
 	if (num_add_bbd_lists > 0) {
 		/* FIXME change g_assert and return a error to user */
-		g_assert (lp == MAX_SIZE_BBD_LIST*BB_BLOCK_SIZE/4)
+		g_assert (lp == MAX_SIZE_BBD_LIST*BB_BLOCK_SIZE/4);
 		missing_lps = (f->length/BB_BLOCK_SIZE) - 1 - MAX_SIZE_BBD_LIST*BB_BLOCK_SIZE/4;
 		visited_add_bbd_list = GET_FIRST_ADD_BBD_LIST (f);
 		for (lp=0; lp<missing_lps; lp++) {

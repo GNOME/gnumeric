@@ -1,3 +1,9 @@
+1999-09-26  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* ms-ole.c (read_bb): Add semicolon after assert.
+	(set_blk_dirty): remove: unused.
+	(dump_header): kill arg.
+
 1999-09-26  Arturo Tena <arturo@directmail.org>
 
 	* ms-ole.c (read_bb): Read all the BBD's, including those where are in
