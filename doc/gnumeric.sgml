@@ -49,17 +49,11 @@
 
   <chapter id="editing">
     <title>Entering data.</title>
-    <sect1>
-      <para></para>
-    </sect1>
     &editing;
   </chapter>
 
   <chapter id="style">
-    <title>Style.</title>
-    <sect1>
-      <para> </para>
-    </sect1>
+     <title>Style.</title>
   </chapter>
 
   <chapter id="formatting">
@@ -67,15 +61,6 @@
     &numberformat;
   </chapter>
 
-<chapter id="formulas">
-    <title>Formulas</title>
-    &formulas;
-  </chapter>
-
-<chapter id="cellrefer">
-    <title>Cell Referencing</title>
-    &cellrefer;
-  </chapter>
 
 </book>
 	

@@ -32,14 +32,14 @@
   <screenshot>
        <screeninfo>Figure 1. 
 	 </screeninfo>
-       <graphic fileref="autofill-1.jpg"></graphic>
+       <graphic fileref="images/autofill-1.jpg"></graphic>
        This is figure 1.
   </screenshot>
 
    <screenshot>
        <screeninfo>Figure 2. A set of cells being autofill'ed
 	 </screeninfo>
-       <graphic fileref="autofill-2.jpg"></graphic>
+       <graphic fileref="images/autofill-2.jpg"></graphic>
   </screenshot>
 
   <para>As handy as being able to simply and quickly generate series of
@@ -53,13 +53,13 @@
   <screenshot>
        <screeninfo>Figure 3. 
 	 </screeninfo>
-       <graphic fileref="autofill-3.jpg"></graphic>
+       <graphic fileref="images/autofill-3.jpg"></graphic>
   </screenshot>
 
    <screenshot>
        <screeninfo>Figure 4. A set of cells being autofill'ed
 	 </screeninfo>
-       <graphic fileref="autofill-4.jpg"></graphic>
+       <graphic fileref="images/autofill-4.jpg"></graphic>
   </screenshot>
 
 
@@ -85,19 +85,19 @@
  <screenshot> 
        <screeninfo>Figure 5. 
 	 </screeninfo>
-       <graphic fileref="autofill-5.jpg"></graphic>
+       <graphic fileref="images/autofill-5.jpg"></graphic>
   </screenshot>
 
    <screenshot>
        <screeninfo>Figure 6. A set of cells being autofill'ed
 	 </screeninfo>
-       <graphic fileref="autofill-6.jpg"></graphic>
+       <graphic fileref="images/autofill-6.jpg"></graphic>
   </screenshot>
 
   <screenshot>
        <screeninfo>Figure 7. A set of cells being autofill'ed
 	 </screeninfo>
-       <graphic fileref="autofill-7.jpg"></graphic>
+       <graphic fileref="images/autofill-7.jpg"></graphic>
   </screenshot>
 
    <para> Other examples of strings that can be autofilled include days of
@@ -120,7 +120,7 @@
   <screenshot>
        <screeninfo>Figure 8. 
 	 </screeninfo>
-       <graphic fileref="autofill-8.jpg"></graphic>
+       <graphic fileref="images/autofill-8.jpg"></graphic>
   </screenshot>
   </sect2>
 
@@ -137,14 +137,14 @@
  <screenshot>
        <screeninfo>Figure 9. 
 	 </screeninfo>
-       <graphic fileref="autofill-9.jpg"></graphic>
+       <graphic fileref="images/autofill-9.jpg"></graphic>
   </screenshot>
  
 
  <screenshot>
        <screeninfo>Figure 10. 
 	 </screeninfo>
-       <graphic fileref="autofill-10.jpg"></graphic>
+       <graphic fileref="images/autofill-10.jpg"></graphic>
   </screenshot>
  
  </sect2>

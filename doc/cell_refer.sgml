@@ -8,9 +8,10 @@ in the function argument.</para>
 <para>Cell are refernce in a format like C4, where C is the column label
 and 4 is the row label.</para>
 
- <programlisting>
- 	<title>Some examples of function syntax</title>
-	    =EXP(B1)
+ <example id="simplecellrefer">
+ <title>Some examples of function syntax</title>
+   <programlisting>
+ 	     =EXP(B1)
 
             =COS(A2)
             
@@ -31,9 +32,9 @@ be a comma seperated list, an array, or any combination thereof.</para>
 indicate cells that are discontinous.</para>
 
 
-    <example>
+    <example id="cellrefermutiplecells">
+   <title>Some examples of function syntax</title>
     <programlisting>
- 	<title>Some examples of function syntax</title>
 	    =SUM(A1,B2,C4)
 
             =MIN(A1,B2, C4,C5,D6)
@@ -45,7 +46,7 @@ indicate cells that are discontinous.</para>
  <screenshot>
        <screeninfo>Figure 10. 
 	 </screeninfo>
-       <graphic fileref="cells-1.jpg"></graphic>
+       <graphic fileref="images/cells-1.jpg"></graphic>
   </screenshot>
  
 </sect3>
@@ -60,10 +61,10 @@ cells in sets horizontally, vertically, or in arrays.</para>
 <para>The ':' operator is used to indicate a range of cells. The basic
 syntax is upperleft corner:bottom rigth corner. </para>
 
-    <example>
+    <example id="cellrefercontin">
+	<title>Referencing blocks of cells</title>
     <programlisting>
- 	<title>Referencing blocks of cells</title>
-		=SUM(A1:E1)
+ 		=SUM(A1:E1)
 
 		=AVERAGE(B4:E7)
 
@@ -75,7 +76,7 @@ syntax is upperleft corner:bottom rigth corner. </para>
 <screenshot>
        <screeninfo>Figure 10. 
 	 </screeninfo>
-       <graphic fileref="cells-2.jpg"></graphic>
+       <graphic fileref="images/cells-2.jpg"></graphic>
   </screenshot>
  </sect3>
 
@@ -87,9 +88,9 @@ you can use any combination of the above methods to get
 the needed cells.</para>
 
 
-   <example>
+   <example id="cellreferdiscontin">
+	<title>Referencing blocks of cells</title>
     <programlisting>
- 	<title>Referencing blocks of cells</title>
 		=SUM(A1:E1, B19, L14:L17)
 
 		=AVERAGE(A1,A3, A5:C5)

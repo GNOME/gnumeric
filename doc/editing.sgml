@@ -1,4 +1,33 @@
 <sect1>
+<title>Strings and numbers</title>
+
+  <para>The basic forms of data that can be entered into a cell include
+  strings, numbers, formulas, and cell references. </para>
+
+  <para>The simplest of these types are strings and numbers. They are
+  just constant values that are stored in a cell. There is  no special
+  syntax for this kind of data. The only limitation is that strings and
+  numbers can not contain newlines or begin with a '='. The '=' is
+  used to denote cells that contain formulas or cell references.</para>
+
+ <screenshot>
+       <screeninfo>String and number example
+	 </screeninfo>
+       <graphic fileref="images/editing-1.jpg"></graphic>
+  </screenshot>
+
+
+</sect1>
+
+<!--  include the files for formulas and for cell referencing -->
+
+&formulas;
+
+&cellrefer;
+
+
+
+<sect1>
   <title>Copying and moving cells</title>
   
   <para>There are two ways of moving and copying cells in Gnumeric:</para>
@@ -8,7 +37,7 @@
     <listitem><para>Using the mouse to drag the selection</para></listitem>
   </itemizedlist>
   
-  <sect2>Using the mouse to drag the selection
+  <sect2><title>Using the mouse to drag the selection</title>
     
 	<para>Gnumeric allows the user to move and copy cells
 	 and their contents by simply dragging and dropping the
@@ -85,7 +114,7 @@
   <screenshot>
        <screeninfo>Figure 1.
 	 </screeninfo>
-       <graphic fileref="dndselection-1.jpg"></graphic>
+       <graphic fileref="images/dndselection-1.jpg"></graphic>
      </screenshot>
   </sect2>
 
@@ -118,10 +147,10 @@
    that is currently in focus and will take any input for the keyboard.</para>
 
 	
-	<screenshot>
+      <screenshot id="activecell">
        <screeninfo>Figure 1. 
 	 </screeninfo>
-       <graphic fileref="selection-2.jpg"></graphic>
+       <graphic fileref="images/selection-2.jpg"></graphic>
         </screenshot>
 
 
@@ -131,7 +160,7 @@
    <screenshot>
        <screeninfo>Figure 2. 
 	 </screeninfo>
-       <graphic fileref="selection-1.jpg"></graphic>
+       <graphic fileref="images/selection-1.jpg"></graphic>
   </screenshot>
 
   </sect2>
@@ -146,7 +175,7 @@
   <screenshot>
        <screeninfo>Figure 3.
 	 </screeninfo>
-       <graphic fileref="selection-3.jpg"></graphic>
+       <graphic fileref="images/selection-3.jpg"></graphic>
   </screenshot>
 
  <para>To make a continuous selection of cells, click on the cell with
@@ -156,7 +185,7 @@
  <screenshot>
        <screeninfo>Figure 3.
 	 </screeninfo>
-       <graphic fileref="selection-4.jpg"></graphic>
+       <graphic fileref="images/selection-4.jpg"></graphic>
   </screenshot>
 
  </sect2>
@@ -171,7 +200,7 @@
   <screenshot>
        <screeninfo>Figure 5.
 	 </screeninfo>
-       <graphic fileref="selection-5.jpg"></graphic>
+       <graphic fileref="images/selection-5.jpg"></graphic>
   </screenshot>
 
 
@@ -191,7 +220,7 @@
  <screenshot>
        <screeninfo>Figure 6.
 	 </screeninfo>
-       <graphic fileref="selection-8.jpg"></graphic>
+       <graphic fileref="images/selection-8.jpg"></graphic>
   </screenshot>
 
  <para>To select an entire column of cells, press Ctrl+Space. This is equilivent
@@ -200,7 +229,7 @@
  <screenshot>
        <screeninfo>Figure 6.
 	 </screeninfo>
-       <graphic fileref="selection-9.jpg"></graphic>
+       <graphic fileref="images/selection-9.jpg"></graphic>
   </screenshot>
 
  <para>To select the entire sheet, press Ctrl+A. This is equilivent to
@@ -209,7 +238,7 @@
 <screenshot>
        <screeninfo>Figure 6.
 	 </screeninfo>
-       <graphic fileref="selection-10.jpg"></graphic>
+       <graphic fileref="images/selection-10.jpg"></graphic>
   </screenshot>
 
 
@@ -243,13 +272,13 @@
   <screenshot>
        <screeninfo>Figure 6. A selection of several cells.
 	 </screeninfo>
-       <graphic fileref="selection-6.jpg"></graphic>
+       <graphic fileref="images/selection-6.jpg"></graphic>
   </screenshot>
 
   <screenshot>
        <screeninfo>Figure 7. A selection of several cells, filled with the same values.
 	 </screeninfo>
-       <graphic fileref="selection-7.jpg"></graphic> 
+       <graphic fileref="images/selection-7.jpg"></graphic> 
   </screenshot>
 
 </sect2>
@@ -291,14 +320,13 @@
   <screenshot>
        <screeninfo>Figure 1. 
 	 </screeninfo>
-       <graphic fileref="autofill-1.jpg"></graphic>
-       This is figure 1.
+       <graphic fileref="images/autofill-1.jpg"></graphic>
   </screenshot>
 
    <screenshot>
        <screeninfo>Figure 2. A set of cells being autofill'ed
 	 </screeninfo>
-       <graphic fileref="autofill-2.jpg"></graphic>
+       <graphic fileref="images/autofill-2.jpg"></graphic>
   </screenshot>
 
   <para>As handy as being able to simply and quickly generate series of
@@ -312,13 +340,13 @@
   <screenshot>
        <screeninfo>Figure 3. 
 	 </screeninfo>
-       <graphic fileref="autofill-3.jpg"></graphic>
+       <graphic fileref="images/autofill-3.jpg"></graphic>
   </screenshot>
 
    <screenshot>
        <screeninfo>Figure 4. A set of cells being autofill'ed
 	 </screeninfo>
-       <graphic fileref="autofill-4.jpg"></graphic>
+       <graphic fileref="images/autofill-4.jpg"></graphic>
   </screenshot>
 
 
@@ -344,19 +372,19 @@
  <screenshot> 
        <screeninfo>Figure 5. 
 	 </screeninfo>
-       <graphic fileref="autofill-5.jpg"></graphic>
+       <graphic fileref="images/autofill-5.jpg"></graphic>
   </screenshot>
 
    <screenshot>
        <screeninfo>Figure 6. A set of cells being autofill'ed
 	 </screeninfo>
-       <graphic fileref="autofill-6.jpg"></graphic>
+       <graphic fileref="images/autofill-6.jpg"></graphic>
   </screenshot>
 
   <screenshot>
        <screeninfo>Figure 7. A set of cells being autofill'ed
 	 </screeninfo>
-       <graphic fileref="autofill-7.jpg"></graphic>
+       <graphic fileref="images/autofill-7.jpg"></graphic>
   </screenshot>
 
    <para> Other examples of strings that can be autofilled include days of
@@ -379,7 +407,7 @@
   <screenshot>
        <screeninfo>Figure 8. 
 	 </screeninfo>
-       <graphic fileref="autofill-8.jpg"></graphic>
+       <graphic fileref="images/autofill-8.jpg"></graphic>
   </screenshot>
   </sect2>
 
@@ -396,14 +424,14 @@
  <screenshot>
        <screeninfo>Figure 9. 
 	 </screeninfo>
-       <graphic fileref="autofill-9.jpg"></graphic>
+       <graphic fileref="images/autofill-9.jpg"></graphic>
   </screenshot>
  
 
  <screenshot>
        <screeninfo>Figure 10. 
 	 </screeninfo>
-       <graphic fileref="autofill-10.jpg"></graphic>
+       <graphic fileref="images/autofill-10.jpg"></graphic>
   </screenshot>
  
  </sect2>
