@@ -159,10 +159,20 @@ initgnumeric(void)
   g_print("gnumeric module initialized\n");
 }  
 
+static int
+no_unloading_for_me(PluginData *pd)
+{
+  return 0;
+}
+
 int
 init_plugin(PluginData * pd)
 {
   PyObject *m, *d, *f;
+
+  pd->can_unload = no_unloading_for_me;
+  pd->title = g_strdup("Python Plugin");
+
 
   /* initialize the python interpreter */
   Py_SetProgramName("gnumeric");
@@ -176,8 +186,6 @@ init_plugin(PluginData * pd)
   }
 
   /* plugin stuff */
-
-  pd->title = g_strdup("Python Plugin");
 
   /* run the magic python file */
   /* XXX should run single Python file in system directory. This file would
@@ -199,14 +207,4 @@ init_plugin(PluginData * pd)
   }
 
   return 0;
-}
-
-void cleanup_plugin(PluginData *pd)
-{
-  /* XXX Unloading the Plugin will crash gnumeric right now :) */
-  /* XXX Plugin API needs to support a "can_unload" function instead of
-   * the lame reference count.
-   */
-  g_free(pd->title);
-  Py_Finalize();
 }
