@@ -1,3 +1,11 @@
+2000-06-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/parser.y : Add 'string_opt_quote' and use it in a few
+	  productions that do not care about the quote state of the token.
+
+	* src/sheet.c (sheet_name_quote) : Sheet names that begin with digits
+	  need to be quoted. (#15720)
+
 2000-06-28  Jody Goldberg <jgoldberg@home.com>
 
 	* src/expr.c (expr_tree_new_funcall) : Ref the function here.

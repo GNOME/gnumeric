@@ -2610,22 +2610,23 @@ sheet_show_cursor (Sheet *sheet)
 char *
 sheet_name_quote (const char *name_unquoted)
 {
-	int         i, j, quotes_embedded;
-	gboolean    quote;
-	static char quote_chr [] = { '=', '<', '>', '+', '-', ' ', '^', '&', '%', '\0' };
+	int         i, j, quotes_embedded = 0;
+	gboolean    needs_quotes;
+	static char quote_chr [] = { '=', '<', '>', '+', '-', ' ', '^', '&', '%', ':', '\0' };
 
 	g_return_val_if_fail (name_unquoted != NULL, NULL);
 
-	quote = FALSE;
-	for (i = 0, quotes_embedded = 0; name_unquoted [i]; i++) {
-		for (j = 0; quote_chr [j]; j++) 
-			if (name_unquoted [i] == quote_chr [j])
-				quote = TRUE;
-		if (name_unquoted [i] == '"')
-			quotes_embedded++;
-	}
+	needs_quotes = isdigit (*name_unquoted);
+	if (!needs_quotes)
+		for (i = 0, quotes_embedded = 0; name_unquoted [i]; i++) {
+			for (j = 0; quote_chr [j]; j++) 
+				if (name_unquoted [i] == quote_chr [j])
+					needs_quotes = TRUE;
+			if (name_unquoted [i] == '"')
+				quotes_embedded++;
+		}
 
-	if (quote) {
+	if (needs_quotes) {
 		int  len_quoted = strlen (name_unquoted) + quotes_embedded + 3;
 		char  *ret = g_malloc (len_quoted);
 		const char *src;
@@ -2644,7 +2645,6 @@ sheet_name_quote (const char *name_unquoted)
 	} else
 		return g_strdup (name_unquoted);
 }
-
 
 void
 sheet_mark_clean (Sheet *sheet)

@@ -325,8 +325,8 @@ int yyparse(void);
 	GList    *list;
 	Sheet	 *sheet;
 }
-%type  <tree>     exp array_exp
 %type  <list>     arg_list array_row, array_cols
+%type  <tree>     exp array_exp string_opt_quote
 %token <tree>     STRING QUOTED_STRING CONSTANT CELLREF GTE LTE NE
 %token            SEPARATOR
 %type  <tree>     cellref
@@ -396,7 +396,11 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	}
 	;
 
-sheetref: STRING SHEET_SEP {
+string_opt_quote : STRING
+		 | QUOTED_STRING
+		 ;
+
+sheetref: string_opt_quote SHEET_SEP {
 		Sheet *sheet = sheet_lookup_by_name (parser_pos->wb, $1->constant.value->v_str.val->str);
 		unregister_allocation ($1); expr_tree_unref ($1);
 		if (sheet == NULL) {
@@ -407,13 +411,13 @@ sheetref: STRING SHEET_SEP {
 	        $$ = sheet;
 	}
 
-	| '[' STRING ']' STRING SHEET_SEP {
+	| '[' string_opt_quote ']' string_opt_quote SHEET_SEP {
 		/* TODO : Get rid of ParseErr and replace it with something richer.
 		 * The replace ment should include more detail as to what the error
 		 * was,  and where in the expr string to highlight.
 		 *
 		 * e.g. for =1+Shhet!A1+2
-		 *  We should return "Unknow Sheet 'Shhet'" and the indicies 3:7
+		 *  We should return "Unknow Sheet 'Sheet'" and the indicies 3:7
 		 *  to mark the offending region.
 		 */
 		Workbook * wb =
@@ -497,9 +501,9 @@ arg_list: exp {
         | { $$ = NULL; }
 	;
 
-array_exp:	  CONSTANT	{ $$ = $1; }
-		| STRING        { parse_string_as_value ($1); $$ = $1; }
-	;
+array_exp: CONSTANT		{ $$ = $1; }
+	 | string_opt_quote	{ parse_string_as_value ($1); $$ = $1; }
+	 ;
 
 array_row: array_exp {
 		unregister_allocation ($1);
