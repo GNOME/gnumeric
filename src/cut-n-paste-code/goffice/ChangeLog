@@ -1,3 +1,7 @@
+2003-08-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* graph/gog-style-prefs.glade: align fill-image widgets
+
 2003-08-12  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* graph/gog-style-prefs.glade: improve spacing, add scoll window
