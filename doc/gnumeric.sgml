@@ -1,7 +1,9 @@
-<!doctype book PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
+<!DOCTYPE book PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
 <!entity editing SYSTEM "editing.sgml">
 <!entity autofill SYSTEM "autofill.sgml">
 <!entity numberformat SYSTEM "number-format.sgml">
+<!entity dndselection SYSTEM "dndselection.sgml">
+<!entity selection SYSTEM "selection.sgml">
 ]>
 <book>
   <bookinfo>
@@ -63,13 +65,25 @@
 
   <chapter id="">
     <title>Number formatting.</title>
-    &numberformat
+    &numberformat;
   </chapter>
 
  <chapter id="autofill">
      <title>Autofill.</title>
        &autofill;
-</chapter>
+ </chapter>
+
+ <chapter id="dndselection">
+    <title>Drag And Drop Selection.</title>
+     &dndselection;
+    </chapter>
+
+ <chapter id="selection">
+    <title>Selections.</title>
+     &selection;
+    </chapter>
+
+
 </book>
 	
 
