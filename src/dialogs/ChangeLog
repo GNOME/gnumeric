@@ -1,3 +1,24 @@
+2001-10-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (parse_output) : rewrite to permit output of
+	  the data analysis tools to be directed into a range on a different sheet
+	  of the active workbook.
+	  (corr_tool_ok_clicked_cb) : change of parse_output arguments
+	  (cov_tool_ok_clicked_cb) : ditto
+	  (cb_desc_stat_tool_ok_clicked) : ditto
+	  (rank_tool_ok_clicked_cb) : ditto
+	  (ttest_tool_ok_clicked_cb) : ditto
+	  (ftest_tool_ok_clicked_cb) : ditto
+	  (sampling_tool_ok_clicked_cb) : ditto
+	  (random_tool_ok_clicked_cb) : ditto
+	  (regression_tool_ok_clicked_cb) : ditto
+	  (average_tool_ok_clicked_cb) : ditto
+	  (fourier_tool_ok_clicked_cb) : ditto
+	  (histogram_tool_ok_clicked_cb) : ditto
+	  (anova_single_tool_ok_clicked_cb) : ditto
+	  (anova_two_factor_tool_ok_clicked_cb) : ditto
+	* dialog-goal-seek.c (cb_dialog_apply_clicked) : fix leak
+
 2001-10-18  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.72

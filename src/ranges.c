@@ -16,6 +16,7 @@
 #include "value.h"
 #include "cell.h"
 #include "style.h"
+#include "workbook.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -1316,4 +1317,71 @@ global_range_dup (GlobalRange const *src)
 	g_return_val_if_fail (src != NULL, NULL);
 
 	return global_range_new (src->sheet, &src->range);
+}
+
+/**
+ * global_range_parse:
+ * @sheet: the sheet where the cell range is evaluated. This really only needed if
+ *         the range given does not include a sheet specification.
+ * @range: a range specification (ex: "A1", "A1:C3", "Sheet1!A1:C3).
+ * @strict: if FALSE, allow extra characters after range text.
+ *
+ * Returns a (Value *) of type VALUE_CELLRANGE if the @range was
+ * succesfully parsed or NULL on failure.
+ */
+Value *
+global_range_parse (Sheet *sheet, char const *range, gboolean strict)
+{
+	CellRef a, b;
+	int n_read, n_read_2;
+
+	g_return_val_if_fail (range != NULL, FALSE);
+
+	a.col_relative = 0;
+	b.col_relative = 0;
+	a.row_relative = 0;
+	b.row_relative = 0;
+
+	if (!parse_cell_name (range, &a.col, &a.row, FALSE, &n_read)){
+/* Perhaps we can't parse this because it starts with a sheet name */
+		GSList *matching_sheets = NULL;
+		Sheet * this_sheet;
+		n_read_2 = 0;
+/* We have to remember that we could have two sheets called:  sheet and sheet!  */
+		WORKBOOK_FOREACH_SHEET(sheet->workbook, a_sheet, 
+				       if((strncmp(a_sheet->name_quoted, 
+						  range, 
+						   strlen(a_sheet->name_quoted)) == 0)
+					  && (range[strlen(a_sheet->name_quoted)] == '!')) 
+				       matching_sheets = g_slist_append (matching_sheets,
+									 a_sheet));
+		if (matching_sheets == NULL) 
+			return NULL;
+		g_slist_sort (matching_sheets, strcmp);
+		this_sheet = (Sheet *) ((g_slist_last (matching_sheets))->data);
+		g_slist_free (matching_sheets);
+		n_read_2 += strlen(this_sheet->name_quoted) + 1;
+		if (!parse_cell_name (&range[n_read_2], &a.col, &a.row, FALSE, &n_read)){
+			return NULL;
+		}
+		n_read += n_read_2;
+		a.sheet = this_sheet;
+	} else {
+		a.sheet = sheet;
+	}
+
+	if (range[n_read] == ':') {
+		if (!parse_cell_name (&range[n_read+1], &b.col, &b.row, strict, NULL))
+			return NULL;
+		b.sheet = a.sheet;
+	} else if (strict && range[n_read])
+		return NULL;
+	else
+		b = a;
+
+	/*
+	 * We can dummy out the calling cell because we know that both
+	 * refs use the same mode.  This will handle inversions.
+	 */
+	return value_new_cellrange (&a, &b, 0, 0);
 }

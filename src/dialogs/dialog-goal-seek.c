@@ -429,7 +429,8 @@ cb_dialog_apply_clicked(GtkWidget *button, GoalSeekState *state)
 		state->old_value = NULL;
 	}
 	state->old_cell = state->change_cell;
-	state->old_value = state->change_cell->value ? value_duplicate (state->change_cell->value) : NULL;
+	state->old_value = state->change_cell->value ? 
+		value_duplicate (state->change_cell->value) : NULL;
 
 	status = gnumeric_goal_seek (state);
 
@@ -445,9 +446,11 @@ cb_dialog_apply_clicked(GtkWidget *button, GoalSeekState *state)
 
 		actual_str = cell_get_rendered_text(state->set_cell);
 		gtk_label_set_text (GTK_LABEL (state->current_value_label), actual_str);
+		g_free(actual_str);
 
 		solution_str = cell_get_rendered_text(state->change_cell);
 		gtk_label_set_text (GTK_LABEL (state->solution_label), solution_str);
+		g_free (solution_str);
 
 		break;
 	default:

@@ -1,3 +1,10 @@
+Gnumeric 0.73
+
+Andreas:
+	* Allow analysis tool output to be directed onto a range 
+          on another sheet.
+
+--------------------------------------------------------------------------
 Gnumeric 0.72
 
 Adrian Custer:
@@ -10,6 +17,8 @@ Almer:
 Andreas:
 	* Rewrite remaining analysis tools
           to use the gnumeric-expr-entry widget.
+	* Rewrite goal seek dialog to use the 
+	  gnumeric-expr-entry widget.
 
 Jody:
 	* Fix color selectors for drawing objects.

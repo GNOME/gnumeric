@@ -122,5 +122,6 @@ GlobalRange *global_range_new     (Sheet *sheet, Range const *r);
 void         global_range_free    (GlobalRange *gr);
 gboolean     global_range_overlap (GlobalRange const *a, GlobalRange const *b);
 GlobalRange *global_range_dup     (GlobalRange const *src);
+Value       *global_range_parse   (Sheet *sheet, char const *range, gboolean strict);
 
 #endif /* GNUMERIC_RANGES_H */

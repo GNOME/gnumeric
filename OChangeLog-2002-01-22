@@ -1,3 +1,7 @@
+2001-10-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+        * src/ranges.c/h (global_range_parse) : new function
+
 2001-10-18  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : post release bump.

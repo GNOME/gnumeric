@@ -496,27 +496,13 @@ error_in_entry (WorkbookControlGUI *wbcg, GtkWidget *entry, const char *err_str)
 				 GTK_ENTRY(entry)->text_length);
 }
 
-/*  parse_output should be rewritten to use   */
-/*  range_parse rather than parse_range       */
-
 static int
-parse_output (WorkbookControlGUI *wbcg, Sheet *sheet, int output,
-	      GtkWidget *entry, data_analysis_output_t *dao)
+parse_output (GenericToolState *state, data_analysis_output_t *dao)
 {
         char  *text;
-	Range range;
+        Value *output_range;
 
-	text = gtk_entry_get_text (GTK_ENTRY (entry));
-	if (output == 2 &&
-	    !parse_range (text, &range.start.col, &range.start.row,
-			  &range.end.col, &range.end.row)) {
-	        error_in_entry (wbcg, entry,
-				_("You should introduce a valid cell range "
-				  "in 'Input Range:'"));
-		return 1;
-	}
-
-	switch (output) {
+	switch (gnumeric_glade_group_value (state->gui, output_group)) {
 	case 0:
 	        dao->type = NewSheetOutput;
 		break;
@@ -524,12 +510,21 @@ parse_output (WorkbookControlGUI *wbcg, Sheet *sheet, int output,
 	        dao->type = NewWorkbookOutput;
 		break;
 	case 2:
+		text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
+		output_range = global_range_parse(state->sheet, text, TRUE);
+		g_return_val_if_fail (output_range != NULL, 1);
+		g_return_val_if_fail (output_range->type == VALUE_CELLRANGE, 1);
+
 	        dao->type = RangeOutput;
-		dao->start_col = range.start.col;
-		dao->start_row = range.start.row;
-		dao->cols = range.end.col-range.start.col+1;
-		dao->rows = range.end.row-range.start.row+1;
-		dao->sheet = sheet;
+		dao->start_col = output_range->v_range.cell.a.col;
+		dao->start_row = output_range->v_range.cell.a.row;
+		dao->cols = output_range->v_range.cell.b.col 
+			- output_range->v_range.cell.a.col + 1;
+		dao->rows = output_range->v_range.cell.b.row 
+			- output_range->v_range.cell.a.row + 1;
+		dao->sheet = output_range->v_range.cell.a.sheet;
+
+		value_release(output_range);
 		break;
 	}
 
@@ -677,7 +672,7 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "output-table"));
 	state->output_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	gnumeric_expr_entry_set_flags(state->output_entry,
-                                      GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL, 
+                                      GNUM_EE_SINGLE_RANGE, 
                                       GNUM_EE_MASK);
         gnumeric_expr_entry_set_scg(state->output_entry, wb_control_gui_cur_sheet (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->output_entry),
@@ -847,7 +842,7 @@ dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
  * @state:
  *
  * Update the dialog widgets sensitivity if the only items of interest
- * are the standard input (one range) and output items.
+ * are the standard input (one or two ranges) and output items.
  **/
 static void
 tool_update_sensitivity_cb (GtkWidget *dummy, GenericToolState *state)
@@ -867,7 +862,7 @@ tool_update_sensitivity_cb (GtkWidget *dummy, GenericToolState *state)
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
 	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-        output_range = range_parse(state->sheet,output_text,TRUE);
+        output_range = global_range_parse(state->sheet,output_text,TRUE);
         input_range = range_parse(state->sheet,input_text,TRUE);
 	if (state->input_entry_2 != NULL) {
 		input_text_2 = gtk_entry_get_text (GTK_ENTRY (state->input_entry_2));
@@ -923,10 +918,7 @@ corr_tool_ok_clicked_cb(GtkWidget *button, GenericToolState *state)
 			             &range.end.col,
 				     &range.end.row);
 
-        parse_output (state->wbcg, state->sheet, 
-                      gnumeric_glade_group_value (state->gui, output_group),
-	              GTK_WIDGET(state->output_entry), 
-                      &dao);
+        parse_output (state, &dao);
 
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
@@ -1030,10 +1022,7 @@ cov_tool_ok_clicked_cb(GtkWidget *button, GenericToolState *state)
 			             &range.end.col,
 				     &range.end.row);
 
-        parse_output (state->wbcg, state->sheet, 
-                      gnumeric_glade_group_value (state->gui, output_group),
-	              GTK_WIDGET(state->output_entry), 
-                      &dao);
+        parse_output (state, &dao);
 
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
@@ -1162,12 +1151,7 @@ cb_desc_stat_tool_ok_clicked(GtkWidget *button, DescriptiveStatState *state)
 	text = gtk_entry_get_text (GTK_ENTRY (state->s_entry));
 	dst.k_smallest = atoi(text);
 
-	
-        parse_output (state->wbcg, state->sheet, 
-                      gnumeric_glade_group_value (state->gui, output_group),
-	              GTK_WIDGET(state->output_entry), 
-                      &dao);
-
+        parse_output ((GenericToolState *)state, &dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
         dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -1204,7 +1188,7 @@ desc_stat_tool_update_sensitivity_cb (GtkWidget *dummy, DescriptiveStatState *st
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
 	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-        output_range = range_parse(state->sheet,output_text,TRUE);
+        output_range = global_range_parse(state->sheet,output_text,TRUE);
         input_range = range_parse(state->sheet,input_text,TRUE);
 	i = gnumeric_glade_group_value (state->gui, output_group);
 	j = gnumeric_glade_group_value (state->gui, stats_group);
@@ -1344,11 +1328,7 @@ rank_tool_ok_clicked_cb(GtkWidget *button, GenericToolState *state)
 			             &range.end.col,
 				     &range.end.row);
 
-        parse_output (state->wbcg, state->sheet, 
-                      gnumeric_glade_group_value (state->gui, output_group),
-	              GTK_WIDGET(state->output_entry), 
-                      &dao);
-
+        parse_output (state, &dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
         dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -1456,10 +1436,7 @@ ttest_tool_ok_clicked_cb(GtkWidget *button, TTestState *state)
 			             &range_2.end.col,
 				     &range_2.end.row);
 
-        parse_output (state->wbcg, state->sheet, 
-                      gnumeric_glade_group_value (state->gui, output_group),
-	              GTK_WIDGET(state->output_entry), 
-                      &dao);
+        parse_output ((GenericToolState *)state, &dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
         dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -1853,11 +1830,7 @@ ftest_tool_ok_clicked_cb(GtkWidget *button, FTestToolState *state)
 			             &range_2.end.col,
 				     &range_2.end.row);
 
-        parse_output (state->wbcg, state->sheet, 
-                      gnumeric_glade_group_value (state->gui, output_group),
-	              GTK_WIDGET(state->output_entry), 
-                      &dao);
-
+        parse_output ((GenericToolState *)state, &dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
         dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -1975,7 +1948,7 @@ sampling_tool_update_sensitivity_cb (GtkWidget *dummy, SamplingState *state)
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
 	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-        output_range = range_parse(state->sheet,output_text,TRUE);
+        output_range = global_range_parse(state->sheet,output_text,TRUE);
         input_range = range_parse(state->sheet,input_text,TRUE);
 		
 	i = gnumeric_glade_group_value (state->gui, output_group);
@@ -2024,11 +1997,7 @@ sampling_tool_ok_clicked_cb(GtkWidget *button, SamplingState *state)
 			             &range.end.col,
 				     &range.end.row);
 
-        parse_output (state->wbcg, state->sheet, 
-                      gnumeric_glade_group_value (state->gui, output_group),
-	              GTK_WIDGET(state->output_entry), 
-                      &dao);
-
+        parse_output ((GenericToolState *)state, &dao);
 
         periodic = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->periodic_button));
         
@@ -2278,7 +2247,7 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 	char *text;
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
-        output_range = range_parse(state->sheet,output_text,TRUE);
+        output_range = global_range_parse(state->sheet,output_text,TRUE);
 		
 	i = gnumeric_glade_group_value (state->gui, output_group);
         
@@ -2439,10 +2408,7 @@ random_tool_ok_clicked_cb(GtkWidget *button, RandomToolState *state)
 	gint vars, count;
 	random_tool_t           param;
 
-        parse_output (state->wbcg, state->sheet, 
-                      gnumeric_glade_group_value (state->gui, output_group),
-	              GTK_WIDGET(state->output_entry), 
-                      &dao);
+        parse_output ((GenericToolState *)state, &dao);
 
 	text = gtk_entry_get_text (GTK_ENTRY (state->vars_entry));
 	vars = atoi(text);
@@ -2717,10 +2683,7 @@ regression_tool_ok_clicked_cb(GtkWidget *button, RegressionToolState *state)
 			             &range_2.end.col,
 				     &range_2.end.row);
 
-        parse_output (state->wbcg, state->sheet, 
-                      gnumeric_glade_group_value (state->gui, output_group),
-	              GTK_WIDGET(state->output_entry), 
-                      &dao);
+        parse_output ((GenericToolState *)state, &dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
         dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -2783,7 +2746,7 @@ regression_tool_update_sensitivity_cb (GtkWidget *dummy, RegressionToolState *st
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
 	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry_2));
-        output_range = range_parse(state->sheet,output_text,TRUE);
+        output_range = global_range_parse(state->sheet,output_text,TRUE);
         input_range = range_parse(state->sheet,input_text,TRUE);
 
 	i = gnumeric_glade_group_value (state->gui, output_group);
@@ -2910,10 +2873,7 @@ average_tool_ok_clicked_cb(GtkWidget *button, AverageToolState *state)
 			             &range.end.col,
 				     &range.end.row);
 
-        parse_output (state->wbcg, state->sheet, 
-                      gnumeric_glade_group_value (state->gui, output_group),
-	              GTK_WIDGET(state->output_entry), 
-                      &dao);
+        parse_output ((GenericToolState *)state, &dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
         dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -2956,7 +2916,7 @@ average_tool_update_sensitivity_cb (GtkWidget *dummy, AverageToolState *state)
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
 	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-        output_range = range_parse(state->sheet,output_text,TRUE);
+        output_range = global_range_parse(state->sheet,output_text,TRUE);
         input_range = range_parse(state->sheet,input_text,TRUE);
 	i = gnumeric_glade_group_value (state->gui, output_group);
 	text = gtk_entry_get_text (GTK_ENTRY (state->interval_entry));
@@ -3078,10 +3038,7 @@ fourier_tool_ok_clicked_cb(GtkWidget *button, GenericToolState *state)
 			             &range.end.col,
 				     &range.end.row);
 
-        parse_output (state->wbcg, state->sheet, 
-                      gnumeric_glade_group_value (state->gui, output_group),
-	              GTK_WIDGET(state->output_entry), 
-                      &dao);
+        parse_output (state, &dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
         dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -3182,11 +3139,7 @@ histogram_tool_ok_clicked_cb(GtkWidget *button, GenericToolState *state)
 			             &range_2.end.col,
 				     &range_2.end.row);
 
-        parse_output (state->wbcg, state->sheet, 
-                      gnumeric_glade_group_value (state->gui, output_group),
-	              GTK_WIDGET(state->output_entry), 
-                      &dao);
-
+        parse_output (state, &dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
 	dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -3302,10 +3255,7 @@ anova_single_tool_ok_clicked_cb(GtkWidget *button, AnovaSingleToolState *state)
 			             &range.end.col,
 				     &range.end.row);
 
-        parse_output (state->wbcg, state->sheet, 
-                      gnumeric_glade_group_value (state->gui, output_group),
-	              GTK_WIDGET(state->output_entry), 
-                      &dao);
+        parse_output ((GenericToolState *)state, &dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
         dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -3350,7 +3300,7 @@ anova_single_tool_update_sensitivity_cb (GtkWidget *dummy, AnovaSingleToolState 
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
 	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-        output_range = range_parse(state->sheet,output_text,TRUE);
+        output_range = global_range_parse(state->sheet,output_text,TRUE);
         input_range = range_parse(state->sheet,input_text,TRUE);
 	i = gnumeric_glade_group_value (state->gui, output_group);
 	text = gtk_entry_get_text (GTK_ENTRY (state->alpha_entry));
@@ -3475,10 +3425,7 @@ anova_two_factor_tool_ok_clicked_cb(GtkWidget *button, AnovaTwoFactorToolState *
 			             &range.end.col,
 				     &range.end.row);
 
-        parse_output (state->wbcg, state->sheet, 
-                      gnumeric_glade_group_value (state->gui, output_group),
-	              GTK_WIDGET(state->output_entry), 
-                      &dao);
+        parse_output ((GenericToolState *)state, &dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
         dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -3551,7 +3498,7 @@ anova_two_factor_tool_update_sensitivity_cb (GtkWidget *dummy, AnovaTwoFactorToo
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
 	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-        output_range = range_parse(state->sheet,output_text,TRUE);
+        output_range = global_range_parse(state->sheet,output_text,TRUE);
         input_range = range_parse(state->sheet,input_text,TRUE);
 	i = gnumeric_glade_group_value (state->gui, output_group);
 	text = gtk_entry_get_text (GTK_ENTRY (state->alpha_entry));
