@@ -262,7 +262,8 @@ callback (int iter, gnum_float *x, gnum_float bv, gnum_float cx, int n,
  * program is ready to run.
  */
 static SolverProgram
-lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res)
+lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
+		gchar **errmsg)
 {
         SolverProgram  program;
 	Cell          *target;
@@ -284,7 +285,17 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res)
 			res->obj_coeff[i] = x;
 		}
 	}
-			 
+
+	/* Check that the target cell contains a formula. */
+	for (i = 0; i < param->n_variables; i++) {
+	        if (res->obj_coeff[i] != 0)
+		        goto target_cell_formula_ok;
+	}
+	*errmsg = _("Target cell should contain a formula.");
+	/* Do not free!: solver_results_free (res); */
+	return NULL;
+ target_cell_formula_ok:
+
 	/* Add constraints. */
 	for (i = 0; i < param->n_constraints + param->n_int_bool_constraints;
 	     i++) {
@@ -395,19 +406,6 @@ check_program_definition_failures (Sheet            *sheet,
 	SolverConstraint **constraints_array;
 
 	param->n_variables = 0;
-
-	/*
-	 * Checks for the Target cell.
-	 */
-
-	/* Check that target cell is not empty. */
-	cell = get_solver_target_cell (sheet);
-	if (cell == NULL || cell->value == NULL
-	    || VALUE_IS_EMPTY (cell->value)) {
-	        *errmsg = _("Target cell is empty. The objective function "
-			    "cannot be determined.");
-		return TRUE;
-	}
 
 	/*
 	 * Checks for the Input cells.
@@ -605,7 +603,9 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 
 	save_original_values (res, param, sheet);
 
-	program              = lp_solver_init (sheet, param, res);
+	program              = lp_solver_init (sheet, param, res, errmsg);
+	if (program == NULL)
+	        return NULL;
 
 	g_get_current_time (&start);
         res->status          = lp_algorithm[param->options.algorithm]

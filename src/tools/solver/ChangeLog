@@ -1,5 +1,8 @@
 2002-03-15  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* solver.c (lp_solver_init): Added a check that at least one of
+	the obj. fn coefficents should be != 0.
+
 	* reports.c (solver_performance_report): Fixed the `OS' title to be bold.
 	Improve the titles and add the name of the algorithm.
 
