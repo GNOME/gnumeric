@@ -89,5 +89,6 @@ void gnm_mem_chunk_destroy (gnm_mem_chunk *, gboolean);
 gpointer gnm_mem_chunk_alloc (gnm_mem_chunk *);
 gpointer gnm_mem_chunk_alloc0 (gnm_mem_chunk *);
 void gnm_mem_chunk_free (gnm_mem_chunk *, gpointer);
+void gnm_mem_chunk_foreach_leak (gnm_mem_chunk *, GFunc, gpointer);
 
 #endif /* GNUMERIC_UTILS_H */

@@ -9,6 +9,7 @@ struct _String {
 };
 
 void    string_init           (void);
+void    string_shutdown       (void);
 
 String *string_lookup         (const char *s);
 String *string_get            (const char *s);

@@ -316,6 +316,7 @@ main (int argc, char *argv [])
 	format_color_shutdown ();
 	gnumeric_color_shutdown ();
 	style_shutdown ();
+	string_shutdown ();
 	dependent_types_shutdown ();
 	cell_shutdown ();
 	expr_shutdown ();

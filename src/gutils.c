@@ -935,3 +935,37 @@ gnm_mem_chunk_free (gnm_mem_chunk *chunk, gpointer mem)
 		chunk->freeblocks = g_list_remove (chunk->freeblocks, block);
 	}
 }
+
+
+void
+gnm_mem_chunk_foreach_leak (gnm_mem_chunk *chunk, GFunc cb, gpointer user)
+{
+	GSList *l, *leaks = NULL;
+
+	for (l = chunk->blocklist; l; l = l->next) {
+		gnm_mem_chunk_block *block = l->data;
+		if (chunk->atoms_per_block - (block->freecount + block->nonalloccount) > 0) {
+			char *freed = g_new0 (char, chunk->atoms_per_block);
+			gnm_mem_chunk_freeblock *fb = block->freelist;
+			int i;
+
+			while (fb) {
+				char *atom = (char *)fb - chunk->alignment;
+				int no = (atom - (char *)block->data) / chunk->atom_size;
+				freed[no] = 1;
+				fb = fb->next;
+			}
+
+			for (i = chunk->atoms_per_block - block->nonalloccount - 1; i >= 0; i--) {
+				if (!freed[i]) {
+					char *atom = (char *)block->data + i * chunk->atom_size;
+					leaks = g_slist_prepend (leaks, atom + chunk->alignment);
+				}
+			}
+			g_free (freed);
+		}
+	}
+
+	g_slist_foreach (leaks, cb, user);
+	g_slist_free (leaks);
+}

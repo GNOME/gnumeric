@@ -1,3 +1,12 @@
+2002-04-05  Morten Welinder  <terra@diku.dk>
+
+	* src/gutils.c (gnm_mem_chunk_foreach_leak): New function.
+
+	* src/str.c (string_get, string_get_nocopy, string_unref):
+	Optionally use string pool.
+	(string_shutdown): New function.
+	* src/main.c (main): Call string_shutdown.
+
 2002-04-05  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (cb_insert_image) : add insert image.
