@@ -1,10 +1,6 @@
-2002-02-20  gettextize  <bug-gnu-utils@gnu.org>
+2002-02-21  Christian Rose  <menthos@menthos.com>
 
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
-
-2002-02-20  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
+	* sv.po: Updated Swedish translation.
 
 2002-02-16  Karsten Weiss  <knweiss@gmx.de>
 

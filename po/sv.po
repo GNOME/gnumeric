@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-01-30 22:58-0500\n"
-"PO-Revision-Date: 2002-01-30 02:37+0100\n"
+"POT-Creation-Date: 2002-02-21 02:44+0100\n"
+"PO-Revision-Date: 2002-02-21 02:46+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -447,7 +447,7 @@ msgstr ""
 "opt_bs_gamma"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4524
-#: plugins/mps/mps.c:579 src/xml-io.c:3378
+#: plugins/mps/mps.c:579 src/xml-io.c:3379
 msgid "Reading file..."
 msgstr "Läser fil..."
 
@@ -501,7 +501,7 @@ msgstr "Fel vid läsning av DIF-fil."
 msgid "Cannot get default sheet."
 msgstr "Kan inte skapa standardblad."
 
-#: plugins/dif/dif.c:398
+#: plugins/dif/dif.c:399
 msgid "Error while saving DIF file."
 msgstr "Fel vid sparande av DIF-fil."
 
@@ -816,7 +816,7 @@ msgstr "Bivillkor:"
 #: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:10
 #: src/format-template.c:510 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
-#: src/workbook-control.c:233
+#: src/workbook-control.c:234
 msgid "Name"
 msgstr "Namn"
 
@@ -1807,7 +1807,7 @@ msgstr "Förgrund"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formatera ett cellområde enligt en fördefinierad mall"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4078
+#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4094
 #: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3038
 msgid "Fourier Analysis"
 msgstr "Fourieranalys"
@@ -2793,12 +2793,12 @@ msgstr "_Arbetsbok..."
 msgid "_Zoom..."
 msgstr "_Zooma..."
 
-#: src/analysis-tools.c:195 src/analysis-tools.c:3218
+#: src/analysis-tools.c:195 src/analysis-tools.c:3234
 #, c-format
 msgid "Row %i"
 msgstr "Rad %i"
 
-#: src/analysis-tools.c:198 src/analysis-tools.c:3210
+#: src/analysis-tools.c:198 src/analysis-tools.c:3226
 #, c-format
 msgid "Column %i"
 msgstr "Kolumn %i"
@@ -3000,111 +3000,111 @@ msgid "Rank"
 msgstr "Rang"
 
 #. We are ready to create the summary table
-#: src/analysis-tools.c:2828 src/analysis-tools.c:3008
-#: src/analysis-tools.c:3270
+#: src/analysis-tools.c:2829 src/analysis-tools.c:3024
+#: src/analysis-tools.c:3286
 msgid "Anova"
 msgstr "Anova"
 
-#: src/analysis-tools.c:2830
+#: src/analysis-tools.c:2831
 msgid "Anova: Single Factor"
 msgstr "Anova: en faktor"
 
-#: src/analysis-tools.c:2831 src/analysis-tools.c:3273
+#: src/analysis-tools.c:2832 src/analysis-tools.c:3289
 msgid "SUMMARY"
 msgstr "SAMMANFATTNING"
 
-#: src/analysis-tools.c:2832
+#: src/analysis-tools.c:2833
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupper/Antal/Summa/Medelvärde/Varians"
 
-#: src/analysis-tools.c:2895
+#: src/analysis-tools.c:2889
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Variationskälla/Mellan grupper/Inom grupper/Total"
 
-#: src/analysis-tools.c:2900 src/analysis-tools.c:3090
-#: src/analysis-tools.c:3297
+#: src/analysis-tools.c:2894 src/analysis-tools.c:3106
+#: src/analysis-tools.c:3313
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-värde/F-kritisk"
 
-#: src/analysis-tools.c:3014
+#: src/analysis-tools.c:3030
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Två faktorer utan upprepning"
 
-#: src/analysis-tools.c:3015
+#: src/analysis-tools.c:3031
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/SAMMANFATTNING/Antal/Summa/Medelvärde/Varians"
 
-#: src/analysis-tools.c:3084
+#: src/analysis-tools.c:3100
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Variationskälla/Rader/Kolumner/Fel/Total"
 
-#: src/analysis-tools.c:3272
+#: src/analysis-tools.c:3288
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Två faktorer med upprepning"
 
-#: src/analysis-tools.c:3277 src/analysis-tools.c:3287
-#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:74
+#: src/analysis-tools.c:3293 src/analysis-tools.c:3303
+#: src/analysis-tools.c:3311 src/dialogs/dialog-autoformat.c:74
 #: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr "Totalt"
 
-#: src/analysis-tools.c:3279
+#: src/analysis-tools.c:3295
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Antal/Summa/Medelvärde/Varians"
 
-#: src/analysis-tools.c:3289
+#: src/analysis-tools.c:3305
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Variationskälla/Rader/Kolumner/Interaktion/Inom"
 
-#: src/analysis-tools.c:3757
+#: src/analysis-tools.c:3773
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/analysis-tools.c:3761
+#: src/analysis-tools.c:3777
 msgid "Too Small"
 msgstr "För litet"
 
-#: src/analysis-tools.c:3778
+#: src/analysis-tools.c:3794
 msgid "More"
 msgstr "Mer"
 
-#: src/analysis-tools.c:3786
+#: src/analysis-tools.c:3802
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/analysis-tools.c:3790
+#: src/analysis-tools.c:3806
 msgid "Too Large"
 msgstr "För stort"
 
-#: src/analysis-tools.c:3831 src/dialogs/histogram.glade.h:7
+#: src/analysis-tools.c:3847 src/dialogs/histogram.glade.h:7
 msgid "Histogram"
 msgstr "Histogram"
 
-#: src/analysis-tools.c:3836
+#: src/analysis-tools.c:3852
 msgid "Bin"
 msgstr "Bin"
 
-#: src/analysis-tools.c:3861
+#: src/analysis-tools.c:3877
 msgid "Frequency"
 msgstr "Frekvens"
 
-#: src/analysis-tools.c:3863 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3879 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3866
+#: src/analysis-tools.c:3882
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Kumulativ %"
 
-#: src/analysis-tools.c:4098
+#: src/analysis-tools.c:4114
 msgid "Real"
 msgstr "Realdel"
 
-#: src/analysis-tools.c:4099
+#: src/analysis-tools.c:4115
 msgid "Imaginary"
 msgstr "Imaginärdel"
 
@@ -3113,7 +3113,7 @@ msgstr "Imaginärdel"
 msgid "Error '%s' opening workbook stream"
 msgstr "\"%s\"-fel vid öppning av arbetsboksflöde"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3401
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3402
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ogiltig xml-fil, trädet är tomt?"
 
@@ -5656,8 +5656,8 @@ msgid ""
 "Do you want to mark it for deactivation such that it will be inactive after "
 "restarting Gnumeric?"
 msgstr ""
-"Insticksmodulen kan inte deaktiveras eftersom den fortfarande används.\n"
-"Vill du att den ska markeras för deaktivering så att den blir inaktiv efter "
+"Insticksmodulen kan inte inaktiveras eftersom den fortfarande används.\n"
+"Vill du att den ska markeras för inaktivering så att den blir inaktiv efter "
 "omstart av Gnumeric?"
 
 #: src/dialogs/dialog-plugin-manager.c:311
@@ -5671,7 +5671,7 @@ msgstr "Fel vid aktivering av insticksmoduler"
 #: src/dialogs/dialog-plugin-manager.c:475
 #, c-format
 msgid "%s[in memory, marked for deactivation]"
-msgstr "%s[i minne, markerad för deaktivering]"
+msgstr "%s[i minne, markerad för inaktivering]"
 
 #: src/dialogs/dialog-plugin-manager.c:478
 #, c-format
@@ -5681,7 +5681,7 @@ msgstr "%s[i minne]"
 #: src/dialogs/dialog-plugin-manager.c:481
 #, c-format
 msgid "%s[marked for deactivation]"
-msgstr "%s[markerad för deaktivering]"
+msgstr "%s[markerad för inaktivering]"
 
 #: src/dialogs/dialog-plugin-manager.c:620
 msgid "Plugin list"
@@ -6705,7 +6705,7 @@ msgstr "_Aktivera alla insticksmoduler"
 
 #: src/dialogs/plugin-manager.glade.h:14
 msgid "_Deactivate all plugins"
-msgstr "_Deaktivera alla insticksmoduler"
+msgstr "_Inaktivera alla insticksmoduler"
 
 #: src/dialogs/plugin-manager.glade.h:15
 msgid "_Install new plugin"
@@ -6781,7 +6781,7 @@ msgid "Scale"
 msgstr "Skala"
 
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3086
+#: src/workbook.c:1065 src/xml-io.c:3087
 msgid "Sheet"
 msgstr "Blad"
 
@@ -7508,23 +7508,23 @@ msgstr "redan globalt definierad "
 msgid "'%s' has a circular reference"
 msgstr "\"%s\" har en cirkelreferens"
 
-#: src/expr-name.c:415
+#: src/expr-name.c:418
 msgid "Builtin"
 msgstr "Inbyggd"
 
-#: src/expr-name.c:515 src/expr-name.c:527
+#: src/expr-name.c:518 src/expr-name.c:530
 msgid "Error: no sheet"
 msgstr "Fel: inget blad"
 
-#: src/expr.c:551
+#: src/expr.c:557
 msgid "Internal type error"
 msgstr "Internt typfel"
 
-#: src/expr.c:730
+#: src/expr.c:736
 msgid "Unknown operator"
 msgstr "Okänd operator"
 
-#: src/expr.c:959
+#: src/expr.c:965
 msgid "Unknown evaluation error"
 msgstr "Okänt evalueringsfel"
 
@@ -7560,7 +7560,7 @@ msgstr "Ett undantag inträffade vid sparande till flöde."
 #: src/file.c:495
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
-"Överskrivning av gamla filer av denna typ är deaktiverat av säkerhetsskäl."
+"Överskrivning av gamla filer av denna typ är inaktiverat av säkerhetsskäl."
 
 #: src/file.c:497
 msgid ""
@@ -15072,59 +15072,59 @@ msgstr ""
 
 #: src/functions/fn-math.c:1235
 msgid ""
-"@FUNCTION=RandExp\n"
-"@SYNTAX=RandExp(b)\n"
-"@DESCRIPTION=RandExp returns a exponentially distributed random number. \n"
+"@FUNCTION=RANDEXP\n"
+"@SYNTAX=RANDEXP(b)\n"
+"@DESCRIPTION=RANDEXP returns a exponentially-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandExp(0.5).\n"
+"RANDEXP(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=RandExp\n"
-"@SYNTAX=RandExp(b)\n"
-"@DESCRIPTION=RandExp returnerar ett exponentialfördelat slumptal.\n"
+"@FUNCTION=RANDEXP\n"
+"@SYNTAX=RANDEXP(b)\n"
+"@DESCRIPTION=RANDEXP returnerar ett exponentialfördelat slumptal.\n"
 "@EXAMPLES=\n"
-"RandExp(0,5).\n"
+"RANDEXP(0,5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1258
 msgid ""
-"@FUNCTION=RandPoisson\n"
-"@SYNTAX=RandPoisson(lambda)\n"
-"@DESCRIPTION=RandPoisson returns a poisson distributed random number. \n"
+"@FUNCTION=RANDPOISSON\n"
+"@SYNTAX=RANDPOISSON(lambda)\n"
+"@DESCRIPTION=RANDPOISSON returns a poisson-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandPoisson(3).\n"
+"RANDPOISSON(3).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=RandPoisson\n"
-"@SYNTAX=RandPoisson(lambda)\n"
-"@DESCRIPTION=RandPoisson returnerar ett Poissonfördelat slumptal.\n"
+"@FUNCTION=RANDPOISSON\n"
+"@SYNTAX=RANDPOISSON(lambda)\n"
+"@DESCRIPTION=RANDPOISSON returnerar ett Poissonfördelat slumptal.\n"
 "@EXAMPLES=\n"
-"RandPoisson(3).\n"
+"RANDPOISSON(3).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1284
 msgid ""
-"@FUNCTION=RandBinom\n"
-"@SYNTAX=RandBinom(p,trials)\n"
-"@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
-"If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 RandBinom "
+"@FUNCTION=RANDBINOM\n"
+"@SYNTAX=RANDBINOM(p,trials)\n"
+"@DESCRIPTION=RANDBINOM returns a binomially-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBINOM returns #NUM! error. If @trials < 0 RANDBINOM "
 "returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBinom(0.5,2).\n"
+"RANDBINOM(0.5,2).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=RandBinom\n"
-"@SYNTAX=RandBinom(p;försök)\n"
-"@DESCRIPTION=RandBinom returnerar ett binomialfördelat slumptal.\n"
-"om @p < 0 eller @p > 1 returnerar RandBinom felvärdet #NUM!. Om @försök < 0 "
-"returnerar RandBinom felvärdet #NUM!.\n"
+"@FUNCTION=RANDBINOM\n"
+"@SYNTAX=RANDBINOM(p;försök)\n"
+"@DESCRIPTION=RANDBINOM returnerar ett binomialfördelat slumptal.\n"
+"Om @p < 0 eller @p > 1 returnerar RANDBINOM felvärdet #NUM!. Om @försök < 0 "
+"returnerar RANDBINOM felvärdet #NUM!.\n"
 "@EXAMPLES=\n"
-"RandBinom(0,5;2).\n"
+"RANDBINOM(0,5;2).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
@@ -15132,7 +15132,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
-"@DESCRIPTION=RANDNEGBINOM returns a negitive binomialy distributed random "
+"@DESCRIPTION=RANDNEGBINOM returns a negative binomially-distributed random "
 "number. \n"
 "If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. If @failures "
 "RANDNEGBINOM returns #NUM! error. \n"
@@ -15154,21 +15154,21 @@ msgstr ""
 
 #: src/functions/fn-math.c:1345
 msgid ""
-"@FUNCTION=RandBernoulli\n"
-"@SYNTAX=RandBernoulli(p)\n"
-"@DESCRIPTION=RandBernoulli returns a Bernoulli distributed random number. \n"
-"If @p < 0 or @p > 1 RandBernoulli returns #NUM! error. \n"
+"@FUNCTION=RANDBERNOULLI\n"
+"@SYNTAX=RANDBERNOULLI(p)\n"
+"@DESCRIPTION=RANDBERNOULLI returns a Bernoulli-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBernoulli(0.5).\n"
+"RANDBERNOULLI(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=RandBernoulli\n"
-"@SYNTAX=RandBernoulli(p)\n"
-"@DESCRIPTION=RandBernoulli returnerar ett Bernoullifördelat slumptal.\n"
-"Om @p < 0 eller @p > 1 returnerar RandBernoulli felvärdet #NUM!.\n"
+"@FUNCTION=RANDBERNOULLI\n"
+"@SYNTAX=RANDBERNOULLI(p)\n"
+"@DESCRIPTION=RANDBERNOULLI returnerar ett Bernoullifördelat slumptal.\n"
+"Om @p < 0 eller @p > 1 returnerar RANDBERNOULLI felvärdet #NUM!.\n"
 "@EXAMPLES=\n"
-"RandBernoulli(0,5).\n"
+"RANDBERNOULLI(0,5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
@@ -19673,7 +19673,7 @@ msgstr "Fel vid öppnande av filen \"%s\" för läsning."
 msgid "Unable to mmap the file."
 msgstr "Kan inte minnesmappa filen."
 
-#: src/plugin-util.c:318 src/xml-io.c:3367
+#: src/plugin-util.c:318 src/xml-io.c:3368
 msgid "Cannot get file size."
 msgstr "Kan inte få tag i filstorleken."
 
@@ -19774,7 +19774,7 @@ msgstr "Fel vid aktivering av insticksmodultjänst %d."
 #: src/plugin.c:1098
 #, c-format
 msgid "Error while deactivating plugin service #%d."
-msgstr "Fel vid deaktivering av insticksmodultjänst %d."
+msgstr "Fel vid inaktivering av insticksmodultjänst %d."
 
 #: src/plugin.c:1169 src/plugin.c:1219
 msgid "Cannot load plugin loader."
@@ -19800,7 +19800,7 @@ msgstr "Kunde inte aktivera insticksmodulen \"%s\" (ID: %s)."
 #: src/plugin.c:1510
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
-msgstr "Kunde inte deaktivera insticksmodulen \"%s\" (ID: %s)."
+msgstr "Kunde inte inaktivera insticksmodulen \"%s\" (ID: %s)."
 
 #: src/plugin.c:1721
 msgid "Errors while reading info about available plugins."
@@ -20263,17 +20263,17 @@ msgstr "Tolkningsfel vid tolkning av data i kalkylbladet"
 msgid "Error while trying to write csv file"
 msgstr "Fel vid skrivning av csv-fil"
 
-#: src/stf.c:438
-msgid "Text File import (customizable)"
-msgstr "Textfilsimport (anpassningsbar)"
+#: src/stf.c:439
+msgid "Text import (defaults to csv)"
+msgstr "Textimport (som standard csv)"
 
-#: src/stf.c:441
-msgid "Text File import (default csv)"
-msgstr "Textfilsimport (standard-csv)"
+#: src/stf.c:443
+msgid "Text import (configurable)"
+msgstr "Textimport (anpassningsbar)"
 
-#: src/stf.c:446
-msgid "Text File Export (*.csv)"
-msgstr "Textfilssexport (*.csv)"
+#: src/stf.c:447
+msgid "Text export (configurable)"
+msgstr "Textexport (anpassningsbar)"
 
 #: src/style.c:265 src/style.c:267
 msgid "<Has not been set>"
@@ -20337,32 +20337,42 @@ msgstr "Din \"fontmap2\"-fil har inte en giltig post för Helvetica."
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "Din \"fontmap2\"-fil kunde inte hittas på den förväntade platsen."
 
-#: src/validation.c:138
+#: src/validation.c:137
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Cell %s får inte vara tom"
 
-#: src/validation.c:158
+#: src/validation.c:151
 #, c-format
 msgid "'%f' is not an integer"
 msgstr "\"%f\" är inte ett heltal"
 
-#: src/validation.c:168
+#: src/validation.c:161
 #, c-format
-msgid "'%f' is not a number"
-msgstr "\"%f\" är inte ett tal"
+msgid "'%s' is an error"
+msgstr "\"%s\" är ett fel"
 
-#: src/validation.c:175
+#: src/validation.c:169
+#, c-format
+msgid "'%s' is not a valid date"
+msgstr "\"%s\" är inte ett giltigt datum"
+
+#: src/validation.c:171
+#, c-format
+msgid "'%s' is not a valid time"
+msgstr "\"%s\" är inte en giltig tid"
+
+#: src/validation.c:173
 #, c-format
 msgid "'%s' is not a number"
 msgstr "\"%s\" är inte ett tal"
 
-#: src/validation.c:259
+#: src/validation.c:265
 #, c-format
 msgid "%s is not true."
 msgstr "%s är inte sann."
 
-#: src/validation.c:272
+#: src/validation.c:278
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -20370,7 +20380,7 @@ msgstr ""
 "Det värdet är ogiltigt.\n"
 "Begränsningar har placerats på innehållet i denna cell."
 
-#: src/validation.c:279
+#: src/validation.c:285
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric: validering"
 
@@ -20700,7 +20710,7 @@ msgstr "Ok"
 msgid "Define Name"
 msgstr "Definiera namn"
 
-#: src/workbook-control.c:240
+#: src/workbook-control.c:241
 msgid "Address"
 msgstr "Adress"
 
@@ -20958,33 +20968,60 @@ msgstr "Är inte en autoformatmallfil"
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Fel uppstod när träd skulle byggas från autoformatmallfil"
 
-#: src/xml-io.c:2799
+#: src/xml-io.c:2800
 msgid "Unparsable xml in clipboard"
 msgstr "Otolkningsbar xml i urklipp"
 
-#: src/xml-io.c:2806
+#: src/xml-io.c:2807
 msgid "Clipboard is in unknown format"
 msgstr "Urklipp är i ett okänt format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3212
+#: src/xml-io.c:3213
 msgid "Processing file..."
 msgstr "Bearbetar fil..."
 
-#: src/xml-io.c:3375
+#: src/xml-io.c:3376
 msgid "Not enough memory to create zlib decompression state."
 msgstr ""
 "Inte tillräckligt med minne för att skapa zlib-dekomprimeringstillstånd."
 
-#: src/xml-io.c:3410
+#: src/xml-io.c:3411
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Är inte en Gnumeric-arbetsboksfil"
 
-#: src/xml-io.c:3467
+#: src/xml-io.c:3468
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid ""
+#~ "@FUNCTION=RandBinom\n"
+#~ "@SYNTAX=RandBinom(p,trials)\n"
+#~ "@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
+#~ "If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 "
+#~ "RandBinom returns #NUM! error. \n"
+#~ "@EXAMPLES=\n"
+#~ "RandBinom(0.5,2).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+#~ msgstr ""
+#~ "@FUNCTION=RandBinom\n"
+#~ "@SYNTAX=RandBinom(p;försök)\n"
+#~ "@DESCRIPTION=RandBinom returnerar ett binomialfördelat slumptal.\n"
+#~ "om @p < 0 eller @p > 1 returnerar RandBinom felvärdet #NUM!. Om @försök < "
+#~ "0 returnerar RandBinom felvärdet #NUM!.\n"
+#~ "@EXAMPLES=\n"
+#~ "RandBinom(0,5;2).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+
+#~ msgid "Text File Export (*.csv)"
+#~ msgstr "Textfilssexport (*.csv)"
+
+#~ msgid "'%f' is not a number"
+#~ msgstr "\"%f\" är inte ett tal"
 
 #~ msgid ""
 #~ "Comparing two population means from pop. with known varinces or using a "
@@ -22209,7 +22246,7 @@ msgstr "Gnumeric XML-filformat"
 
 #~ msgid "Couldn't deactivate plugin \"%s\" (ID: %s): it's still in use."
 #~ msgstr ""
-#~ "Kunde inte deaktivera insticksmodulen \"%s\" (ID: %s): den används "
+#~ "Kunde inte inaktivera insticksmodulen \"%s\" (ID: %s): den används "
 #~ "fortfarande."
 
 #~ msgid ""
