@@ -8,6 +8,10 @@
  */
 
 #include <config.h>
+#include "plugin-util.h"
+#include "command-context.h"
+#include "io-context.h"
+
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/mman.h>
@@ -16,11 +20,8 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
+#include <ctype.h>
 #include <libgnome/libgnome.h>
-
-#include "plugin-util.h"
-#include "command-context.h"
-#include "io-context.h"
 
 #ifndef MAP_PRIVATE
 /* For the benefit of HPUX  */
@@ -49,16 +50,14 @@ gnumeric_fopen (IOContext *context, const char *path, const char *mode)
 	g_return_val_if_fail (mode != NULL, NULL);
 
 	f = fopen (path, mode);
+	if (f != NULL)
+		return f;
 
-	if (!f) {
-
-		/* Always report as read error
-		 */
+	if (mode != NULL && tolower (*mode) == 'r')
 		gnumeric_io_error_read (context, g_strerror (errno));
-		return NULL;
-	}
-
-	return f;
+	else
+		gnumeric_io_error_save (context, g_strerror (errno));
+	return NULL;
 }
 
 /**

@@ -34,6 +34,7 @@ typedef enum {
 #define dependent_type(dep)		((dep)->flags & DEPENDENT_TYPE_MASK)
 #define dependent_is_cell(dep)		(dependent_type (dep) == DEPENDENT_CELL)
 #define dependent_needs_recalc(dep)	((dep)->flags & DEPENDENT_NEEDS_RECALC)
+#define dependent_is_linked(dep)	((dep)->flags & DEPENDENT_IN_EXPR_LIST)
 
 struct _DependencyContainer {
 	Dependent *dependent_list;

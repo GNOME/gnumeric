@@ -20,14 +20,13 @@ typedef enum {
 } WbProgressElements;
 
 GtkType   io_context_get_type (void);
+IOContext *gnumeric_io_context_new        (WorkbookControl *wbc);
 
 /*
  * These are the exceptions that can arise.
  * NOTE : The selection is quite limited by IDL's intentional non-support for
  *        inheritance (single or multiple).
  */
-IOContext *gnumeric_io_context_new        (WorkbookControl *wbc);
-
 void       gnumeric_io_error_system       (IOContext *context, char const *msg);
 void       gnumeric_io_error_read         (IOContext *context, char const *msg);
 void       gnumeric_io_error_save         (IOContext *context, char const *msg);

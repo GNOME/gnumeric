@@ -487,9 +487,9 @@ static GtkType sheet_widget_checkbox_get_type (void);
 
 typedef struct {
 	SheetObjectWidget	sow;
-	char *label;
-	gboolean being_updated;
 
+	char	 *label;
+	gboolean  being_updated;
 	Dependent dep;
 	gboolean  value;
 } SheetWidgetCheckbox;
@@ -846,6 +846,7 @@ sheet_widget_checkbox_set_sheet (SheetObject *so, Sheet *sheet)
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
 
 	g_return_val_if_fail (swc != NULL, TRUE);
+	g_return_val_if_fail (swc->dep.sheet == NULL, TRUE);
 
 	dependent_changed (&swc->dep, TRUE);
 	sheet_widget_checkbox_set_active (swc);
@@ -860,7 +861,8 @@ sheet_widget_checkbox_clear_sheet (SheetObject *so)
 
 	g_return_val_if_fail (swc != NULL, TRUE);
 
-	dependent_unlink (&swc->dep, NULL);
+	if (dependent_is_linked (&swc->dep))
+		dependent_unlink (&swc->dep, NULL);
 	return FALSE;
 }
 
@@ -939,23 +941,60 @@ SOW_MAKE_TYPE(checkbox, Checkbox,
 
 /****************************************************************************/
 static GtkType sheet_widget_radio_button_get_type (void);
-#define SHEET_WIDGET_RADIO_BUTTON_TYPE     (sheet_widget_radio_button_get_type ())
-#define SHEET_WIDGET_RADIO_BUTTON(obj)     (GTK_CHECK_CAST((obj), SHEET_WIDGET_RADIO_BUTTON_TYPE, SheetWidgeRadioButton))
+#define SHEET_WIDGET_RADIO_BUTTON_TYPE	(sheet_widget_radio_button_get_type ())
+#define SHEET_WIDGET_RADIO_BUTTON(obj)	(GTK_CHECK_CAST((obj), SHEET_WIDGET_RADIO_BUTTON_TYPE, SheetWidgetRadioButton))
+#define DEP_TO_RADIO_BUTTON(d_ptr)	(SheetWidgetRadioButton *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetRadioButton, dep))
+
 typedef struct {
 	SheetObjectWidget	sow;
+
+	gboolean	being_updated;
+	Dependent	dep;
 } SheetWidgetRadioButton;
 typedef struct {
 	SheetObjectWidgetClass	sow;
 } SheetWidgetRadioButtonClass;
 
 static void
+radio_button_eval (Dependent *dep)
+{
+	Value *v;
+	EvalPos pos;
+	gboolean err, result;
+
+	pos.sheet = dep->sheet;
+	pos.eval.row = pos.eval.col = 0;
+	v = eval_expr (&pos, dep->expression, EVAL_STRICT);
+	if (!err) {
+		SheetWidgetRadioButton *swrb = DEP_TO_RADIO_BUTTON (dep);
+	}
+}
+
+static void
+radio_button_debug_name (Dependent const *dep, FILE *out)
+{
+	fprintf (out, "RadioButton%p", dep);
+}
+
+static DEPENDENT_MAKE_TYPE (radio_button, NULL)
+
+static void
 sheet_widget_radio_button_construct (SheetObjectWidget *sow, Sheet *sheet)
 {
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (sow);
+
+	swrb->being_updated = FALSE;
+
+	swrb->dep.sheet = sheet;
+	swrb->dep.flags = radio_button_get_dep_type ();
+	swrb->dep.expression = NULL;
 }
 
 static void
 sheet_widget_radio_button_destroy (GtkObject *obj)
 {
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (obj);
+	dependent_set_expr (&swrb->dep, NULL);
 	(*sheet_object_widget_class->destroy)(obj);
 }
 
@@ -965,46 +1004,133 @@ sheet_widget_radio_button_create_widget (SheetObjectWidget *sow, SheetControlGUI
 	return gtk_radio_button_new_with_label (NULL, "RadioButton");
 }
 
+static gboolean
+sheet_widget_radio_button_set_sheet (SheetObject *so, Sheet *sheet)
+{
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
+
+	g_return_val_if_fail (swrb != NULL, TRUE);
+	g_return_val_if_fail (swrb->dep.sheet == NULL, TRUE);
+
+	dependent_changed (&swrb->dep, TRUE);
+
+	return FALSE;
+}
+
+static gboolean
+sheet_widget_radio_button_clear_sheet (SheetObject *so)
+{
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
+
+	g_return_val_if_fail (swrb != NULL, TRUE);
+
+	if (dependent_is_linked (&swrb->dep))
+		dependent_unlink (&swrb->dep, NULL);
+	return FALSE;
+}
+
 SOW_MAKE_TYPE(radio_button, RadioButton,
 	      NULL,
-	      NULL,
-	      NULL,
+	      sheet_widget_radio_button_set_sheet,
+	      sheet_widget_radio_button_clear_sheet,
 	      NULL,
 	      NULL,
 	      NULL)
 
 /****************************************************************************/
 static GtkType sheet_widget_list_get_type (void);
-#define SHEET_WIDGET_LIST_TYPE     (sheet_widget_list_get_type ())
-#define SHEET_WIDGET_LIST(obj)     (GTK_CHECK_CAST((obj), SHEET_WIDGET_LIST_TYPE, SheetWidgeList))
+#define SHEET_WIDGET_LIST_TYPE	(sheet_widget_list_get_type ())
+#define SHEET_WIDGET_LIST(obj)	(GTK_CHECK_CAST((obj), SHEET_WIDGET_LIST_TYPE, SheetWidgetList))
+#define DEP_TO_LIST(d_ptr)	(SheetWidgetList *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetList, dep))
+
 typedef struct {
 	SheetObjectWidget	sow;
+
+	gboolean	being_updated;
+	Dependent	dep;
 } SheetWidgetList;
 typedef struct {
 	SheetObjectWidgetClass	sow;
 } SheetWidgetListClass;
 
 static void
+list_eval (Dependent *dep)
+{
+	Value *v;
+	EvalPos pos;
+	gboolean err, result;
+
+	pos.sheet = dep->sheet;
+	pos.eval.row = pos.eval.col = 0;
+	v = eval_expr (&pos, dep->expression, EVAL_STRICT);
+	if (!err) {
+		SheetWidgetList *swl = DEP_TO_LIST (dep);
+	}
+}
+
+static void
+list_debug_name (Dependent const *dep, FILE *out)
+{
+	fprintf (out, "List%p", dep);
+}
+
+static DEPENDENT_MAKE_TYPE (list, NULL)
+
+static void
 sheet_widget_list_construct (SheetObjectWidget *sow, Sheet *sheet)
 {
+	SheetWidgetList *swl = SHEET_WIDGET_LIST (sow);
+
+	swl->being_updated = FALSE;
+
+	swl->dep.sheet = sheet;
+	swl->dep.flags = list_get_dep_type ();
+	swl->dep.expression = NULL;
 }
 
 static void
 sheet_widget_list_destroy (GtkObject *obj)
 {
+	SheetWidgetList *swl = SHEET_WIDGET_LIST (obj);
+	dependent_set_expr (&swl->dep, NULL);
 	(*sheet_object_widget_class->destroy)(obj);
 }
 
 static GtkWidget *
 sheet_widget_list_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
 {
-    return gtk_list_new ();
+	return gtk_list_new ();
+}
+
+static gboolean
+sheet_widget_list_set_sheet (SheetObject *so, Sheet *sheet)
+{
+	SheetWidgetList *swl = SHEET_WIDGET_LIST (so);
+
+	g_return_val_if_fail (swl != NULL, TRUE);
+	g_return_val_if_fail (swl->dep.sheet == NULL, TRUE);
+
+	dependent_changed (&swl->dep, TRUE);
+
+	return FALSE;
+}
+
+static gboolean
+sheet_widget_list_clear_sheet (SheetObject *so)
+{
+	SheetWidgetList *swl = SHEET_WIDGET_LIST (so);
+
+	g_return_val_if_fail (swl != NULL, TRUE);
+
+	if (dependent_is_linked (&swl->dep))
+		dependent_unlink (&swl->dep, NULL);
+	return FALSE;
 }
 
 SOW_MAKE_TYPE(list, List,
 	      NULL,
-	      NULL,
-	      NULL,	      
+	      sheet_widget_list_set_sheet,
+	      sheet_widget_list_clear_sheet,
 	      NULL,
 	      NULL,
 	      NULL)
@@ -1018,10 +1144,9 @@ static GtkType sheet_widget_combo_get_type (void);
 
 typedef struct {
 	SheetObjectWidget	sow;
-	gboolean being_updated;
 
-	Dependent input_dep;
-	Dependent output_dep;
+	gboolean	being_updated;
+	Dependent	input_dep, output_dep;
 } SheetWidgetCombo;
 typedef struct {
 	SheetObjectWidgetClass	sow;
@@ -1080,7 +1205,6 @@ static DEPENDENT_MAKE_TYPE (combo_output, NULL)
 static void
 sheet_widget_combo_construct (SheetObjectWidget *sow, Sheet *sheet)
 {
-	static int counter = 0;
 	SheetWidgetCombo *swc = SHEET_WIDGET_COMBO (sow);
 
 	swc->being_updated = FALSE;
@@ -1106,16 +1230,47 @@ sheet_widget_combo_destroy (GtkObject *obj)
 static GtkWidget *
 sheet_widget_combo_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
 {
-	return gnm_combo_text_new (NULL);
+	GtkWidget *w = gnm_combo_text_new (NULL);
+	return w;
+}
+
+static gboolean
+sheet_widget_combo_set_sheet (SheetObject *so, Sheet *sheet)
+{
+	SheetWidgetCombo *swc = SHEET_WIDGET_COMBO (so);
+
+	g_return_val_if_fail (swc != NULL, TRUE);
+	g_return_val_if_fail (swc->input_dep.sheet == NULL, TRUE);
+	g_return_val_if_fail (swc->output_dep.sheet == NULL, TRUE);
+
+	dependent_changed (&swc->input_dep, TRUE);
+	dependent_changed (&swc->output_dep, TRUE);
+
+	return FALSE;
+}
+
+static gboolean
+sheet_widget_combo_clear_sheet (SheetObject *so)
+{
+	SheetWidgetCombo *swc = SHEET_WIDGET_COMBO (so);
+
+	g_return_val_if_fail (swc != NULL, TRUE);
+
+	if (dependent_is_linked (&swc->input_dep))
+		dependent_unlink (&swc->input_dep, NULL);
+	if (dependent_is_linked (&swc->output_dep))
+		dependent_unlink (&swc->output_dep, NULL);
+	return FALSE;
 }
 
 SOW_MAKE_TYPE(combo, Combo,
 	      NULL,
-	      NULL,
-	      NULL,
+	      sheet_widget_combo_set_sheet,
+	      sheet_widget_combo_clear_sheet,
 	      NULL,
 	      NULL,
 	      NULL)
+
 /**************************************************************************/
 
 /**
@@ -1129,10 +1284,10 @@ void
 sheet_object_widget_register (void)
 {
 	SHEET_WIDGET_LABEL_TYPE;
+	SHEET_WIDGET_FRAME_TYPE;
 	SHEET_WIDGET_BUTTON_TYPE;
 	SHEET_WIDGET_CHECKBOX_TYPE;
 	SHEET_WIDGET_RADIO_BUTTON_TYPE;
 	SHEET_WIDGET_LIST_TYPE;
-	SHEET_WIDGET_FRAME_TYPE;
 	SHEET_WIDGET_COMBO_TYPE;
 }

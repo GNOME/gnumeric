@@ -3252,7 +3252,7 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 {
 	xmlDocPtr xml;
 	XmlParseContext *ctxt;
-	int ret;
+	FILE *file;
 
 	g_return_if_fail (wb_view != NULL);
 	g_return_if_fail (filename != NULL);
@@ -3270,11 +3270,13 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 	xml_parse_ctx_destroy (ctxt);
 
 	gnumeric_xml_set_compression (xml);
-	ret = xmlSaveFile (filename, xml);
-	xmlFreeDoc (xml);
-	if (ret < 0) {
-		gnumeric_io_error_save (context, "");
+	file = gnumeric_fopen (context, filename, "w");
+	if (file != NULL) {
+		xmlDocDump (file, xml);
+		fclose (file);
 	}
+
+	xmlFreeDoc (xml);
 }
 
 void

@@ -27,6 +27,7 @@
 #include "xml-io.h"
 #include "format-template.h"
 #include "gutils.h"
+#include "plugin-util.h"
 #include "mstyle.h"
 
 #include <glib.h>
@@ -176,11 +177,13 @@ xml_write_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft)
  * returns 0 in case of success, -1 otherwise.
  */
 int
-gnumeric_xml_write_format_template (WorkbookControl *context, FormatTemplate *ft,
+gnumeric_xml_write_format_template (WorkbookControl *wbc, FormatTemplate *ft,
 				    const char *filename)
 {
 	XmlParseContext *ctxt;
 	xmlDocPtr xml;
+	FILE *file;
+	IOContext *io_context;
 	int ret;
 
 	g_return_val_if_fail (ft != NULL, -1);
@@ -191,25 +194,26 @@ gnumeric_xml_write_format_template (WorkbookControl *context, FormatTemplate *ft
 	 */
 	xml = xmlNewDoc ("1.0");
 	if (xml == NULL) {
-		gnumeric_error_save (COMMAND_CONTEXT (context), "");
+		gnumeric_error_save (COMMAND_CONTEXT (wbc), "");
 		return -1;
 	}
 	ctxt = xml_parse_ctx_new (xml, NULL);
 	xml->root = xml_write_format_template_members (ctxt, ft);
 	xml_parse_ctx_destroy (ctxt);
 
-	/*
-	 * Dump it.
-	 */
+	/* Dump it. */
 	xmlSetDocCompressMode (xml, 0);
-	ret = xmlSaveFile (filename, xml);
+	io_context = gnumeric_io_context_new (wbc);
+	file = gnumeric_fopen (io_context, filename, "w");
+	if (file != NULL) {
+		xmlDocDump (file, xml);
+		fclose (file);
+		ret = 0;
+	} else
+		ret = -1;
+	gtk_object_destroy (GTK_OBJECT (io_context));
 	xmlFreeDoc (xml);
-	if (ret < 0) {
-		gnumeric_error_save (COMMAND_CONTEXT (context),
-			"Error while trying to save autoformat template");
-		return -1;
-	}
-	return 0;
+	return ret;
 }
 
 #define ERR_READ_FT_MEMBER "xml_read_format_template_member: : No %s section in template member!"

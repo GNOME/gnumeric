@@ -137,7 +137,7 @@ dependent_set_expr (Dependent *dep, ExprTree *new_expr)
 
 		if (new_expr != NULL)
 			expr_tree_ref (new_expr);
-		if (dep->flags & DEPENDENT_IN_EXPR_LIST)
+		if (dependent_is_linked (dep))
 			dependent_unlink (dep, NULL);
 		if (dep->expression != NULL)
 			expr_tree_unref (dep->expression);

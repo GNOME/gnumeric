@@ -1,5 +1,15 @@
 2001-10-10  Jody Goldberg <jgoldberg@home.com>
 
+	* src/plugin-util.c (gnumeric_fopen) : be smarter about what type of
+	  error to report.
+
+	* src/xml-io.c (gnumeric_xml_write_workbook) : switch to manually
+	  opening the file then dumping to prepare for xml2.  Apparently it
+	  attempts to escape file names.
+	* src/xml-io-autoft.c (gnumeric_xml_write_format_template) : ditto.
+
+2001-10-10  Jody Goldberg <jgoldberg@home.com>
+
 	* src/xml-io.c (gnumeric_xml_set_compression) : new utility.
 	(gnumeric_xml_write_selection_clipboard) : Used here.
 	(gnumeric_xml_write_workbook) : and here.

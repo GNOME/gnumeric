@@ -285,7 +285,7 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	if (so->sheet == sheet)
-		return (TRUE);
+		return TRUE;
 
 	g_return_val_if_fail (g_list_find (sheet->sheet_objects, so) == NULL, TRUE);
 
