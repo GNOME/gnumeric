@@ -1,5 +1,9 @@
 2003-09-10  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : bump to 1.1.91 just in case
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.1.90
 
 2003-09-09  Jody Goldberg <jody@gnome.org>
