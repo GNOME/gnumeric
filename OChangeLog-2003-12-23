@@ -1,5 +1,11 @@
 2003-05-23  Morten Welinder  <terra@gnome.org>
 
+	* src/gnumeric-pane.c (set_acetate_coords): Create bitmap on the
+	right display.
+
+	* src/pattern.c (gnumeric_pattern_get_stipple): Take drawable
+	argument for identifying screen that bitmaps need to be valid on.
+
 	* src/workbook-format-toolbar.c (workbook_create_format_toolbar):
 	Switch font and size selectors to gnm_combo_text.
 

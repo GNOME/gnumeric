@@ -745,7 +745,8 @@ set_acetate_coords (GnumericPane *pane, GObject *so_view,
 
 	if (pane->control_points [8] == NULL) {
 		static char diagonal [] = { 0xcc, 0x66, 0x33, 0x99, 0xcc, 0x66, 0x33, 0x99 };
-		GdkBitmap *stipple = gdk_bitmap_create_from_data (NULL, diagonal, 8, 8);
+		GdkBitmap *stipple = gdk_bitmap_create_from_data (GTK_WIDGET (gcanvas)->window,
+								  diagonal, 8, 8);
 		FooCanvasItem *item = foo_canvas_item_new (
 			gcanvas->object_group,
 			item_acetate_get_type (),
