@@ -1,5 +1,8 @@
 1999-09-23  Jody Goldberg <jgoldberg@home.com>
 
+	* ole.c (dump_vba) : Remove the escher code.  The new version needs to
+	  much context to be useable at this level.
+
 	* ms-excel-read.c (ms_excel_read_cell) : Fix importing of column
 	  widths.
 

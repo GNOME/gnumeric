@@ -18,7 +18,6 @@
 #include "biff-types.h"
 
 #define BIFF_TYPES_FILE    "biff-types.h"
-#define ESCHER_TYPES_FILE  "escher-types.h"
 
 static char delim[]=" \t\n";
 
@@ -28,15 +27,13 @@ typedef struct {
 } GENERIC_TYPE;
 
 static GPtrArray *biff_types   = NULL;
-static GPtrArray *escher_types = NULL;
-typedef enum { eBiff=0, eEscher=1 } typeType;
 
 static char *cur_dir = NULL;
 
 static void dump_vba (MsOle *f);
 
 static void
-read_types (char *fname, GPtrArray **types, typeType t)
+read_types (char *fname, GPtrArray **types)
 {
 	FILE *file = fopen(fname, "r");
 	char buffer[1024];
@@ -61,11 +58,8 @@ read_types (char *fname, GPtrArray **types, typeType t)
 				while (*pt && *pt != '#') pt++;      /* # */
 				while (*pt && !isspace(*pt)) pt++;  /* define */
 				while (*pt &&  isspace(*pt)) pt++;  /* '   ' */
-				if (t==eBiff) {
-					while (*pt && *pt != '_') pt++;     /* BIFF_ */
-					name = *pt?pt+1:pt;
-				} else
-					name = pt;
+				while (*pt && *pt != '_') pt++;     /* BIFF_ */
+				name = *pt?pt+1:pt;
 				while (*pt && !isspace(*pt)) pt++;
 				bt->name=g_strndup(name, (pt-name));
 				g_ptr_array_add (*types, bt);
@@ -80,29 +74,10 @@ get_biff_opcode_name (guint16 opcode)
 {
 	int lp;
 	if (!biff_types)
-		read_types (BIFF_TYPES_FILE, &biff_types, eBiff);
+		read_types (BIFF_TYPES_FILE, &biff_types);
 	/* Count backwars to give preference to non-filtered record types */
 	for (lp=biff_types->len; --lp >= 0 ;) {
 		GENERIC_TYPE *bt = g_ptr_array_index (biff_types, lp);
-		if (bt->opcode>0xff) {
-			if (bt->opcode == opcode)
-				return bt->name;
-		} else {
-			if (bt->opcode == (opcode&0xff))
-				return bt->name;
-		}
-	}
-	return "Unknown";
-}
-
-static char*
-get_escher_opcode_name (guint16 opcode)
-{
-	int lp;
-	if (!escher_types)
-		read_types (ESCHER_TYPES_FILE, &escher_types, eEscher);
-	for (lp=0;lp<escher_types->len;lp++) {
-		GENERIC_TYPE *bt = g_ptr_array_index (escher_types, lp);
 		if (bt->opcode>0xff) {
 			if (bt->opcode == opcode)
 				return bt->name;
@@ -150,7 +125,6 @@ list_commands ()
 	printf (" * cd:                   enter storage\n");
 	printf (" * biff    <stream name>:   dump biff records, merging continues\n");
 	printf (" * biffraw <stream name>:   dump biff records no merge + raw data\n");
-	printf (" * draw    <stream name>:   dump drawing records\n");
 	printf (" * dump    <stream name>:   dump stream\n");
 	printf (" * summary              :   dump document summary info\n");
 	printf (" * debug                :   dump internal ole library status\n");
@@ -177,145 +151,7 @@ syntax_error(char *err)
 	exit(1);
 }
 
-/* ---------------------------- Start cut from ms-escher.c ---------------------------- */
-
-
-typedef struct { /* See: S59FDA.HTM */
-	guint    ver:4;
-	guint    instance:12;
-	guint16  type;   /* fbt */
-	guint32  length;
-	guint8  *data;
-	guint32  length_left;
-	gboolean first;
-} ESH_HEADER;
-#define ESH_HEADER_LEN 8
-
-static ESH_HEADER *
-esh_header_new (guint8 *data, gint32 length)
-{
-	ESH_HEADER *h = g_new (ESH_HEADER,1);
-	h->length=0;
-	h->type=0;
-	h->instance=0;
-	h->data=data;
-	h->length_left=length;
-	h->first = TRUE;
-	return h;
-}
-
-static int
-esh_header_next (ESH_HEADER *h)
-{
-	guint16 split;
-	g_return_val_if_fail(h, 0);
-	g_return_val_if_fail(h->data, 0);
-
-	if (h->length_left < h->length + ESH_HEADER_LEN*2)
-		return 0;
-
-	if (h->first==TRUE)
-		h->first = FALSE;
-	else {
-		h->data+=h->length+ESH_HEADER_LEN;
-		h->length_left-=h->length+ESH_HEADER_LEN;
-	}
-
-	h->length   = MS_OLE_GET_GUINT32(h->data+4);
-	h->type     = MS_OLE_GET_GUINT16(h->data+2);
-	split       = MS_OLE_GET_GUINT16(h->data+0);
-	h->ver      = (split&0x0f);
-	h->instance = (split>>4);
-#if ESH_HEADER_DEBUG > 0
-	printf ("Next header length 0x%x(=%d), type 0x%x, ver 0x%x, instance 0x%x\n",
-		h->length, h->length, h->type, h->ver, h->instance);
-#endif
-	return 1;
-}
-
-/* static ESH_HEADER *
-esh_header_contained (ESH_HEADER *h)
-{
-	if (h->length_left<ESH_HEADER_LEN)
-		return NULL;
-	g_assert (h->data[h->length_left-1] == *//* Check that pointer *//*
-		  h->data[h->length_left-1]);
-	return esh_header_new (h->data+ESH_HEADER_LEN,
-			       h->length-ESH_HEADER_LEN);
-}*/
-
-static void
-esh_header_destroy (ESH_HEADER *h)
-{
-	if (h)
-		g_free(h);
-}
-/**
- *  Builds a flat record by merging CONTINUE records,
- *  Have to do until we move this into ms_ole.c
- *  pass pointers to your length & data variables.
- *  This is dead sluggish.
- **/
-static int
-biff_to_flat_data (const BiffQuery *q, guint8 **data, guint32 *length)
-{
-/*	BiffQuery *nq = ms_biff_query_copy (q);
-	guint8 *ptr;
-	int cnt=0;
-
-	*length=0;
-	do {
-		*length+=nq->length;
-		ms_biff_query_next(nq);
-		cnt++;
-	} while (nq->opcode == BIFF_CONTINUE ||
-		 nq->opcode == BIFF_MS_O_DRAWING ||
-		 nq->opcode == BIFF_MS_O_DRAWING_GROUP);
-
-	printf ("MERGING %d continues\n", cnt);
-	(*data) = g_malloc (*length);
-	ptr=(*data);
-	nq = ms_biff_query_copy (q);
-	do {
-		memcpy (ptr, nq->data, nq->length);
-		ptr+=nq->length;
-		ms_biff_query_next(nq);
-	} while (nq->opcode == BIFF_CONTINUE ||
-		 nq->opcode == BIFF_MS_O_DRAWING ||
-		 nq->opcode == BIFF_MS_O_DRAWING_GROUP);*/
-	g_warning ("This needs re-implementing by Jody");
-
-	return 0;
-}
-
 /* ---------------------------- End cut ---------------------------- */
-
-static void
-dump_escher (guint8 *data, guint32 len, gboolean raw, int level)
-{
-	ESH_HEADER *h = esh_header_new (data, len);
-	while (esh_header_next(h)) {
-		int lp;
-		for (lp=0;lp<level;lp++) printf ("-");
-		printf ("Header: type 0x%4x : '%15s', inst 0x%x ver 0x%x len 0x%x\n",
-			h->type, get_escher_opcode_name (h->type), h->instance,
-			h->ver, h->length);
-		if (h->ver == 0xf) /* A container */
-			dump_escher (h->data+ESH_HEADER_LEN,
-				     h->length-ESH_HEADER_LEN,
-				     raw, level+1);
-		else if (h->type == 0xf007) { /* Magic hey */
-			dump_escher (h->data + ESH_HEADER_LEN + 36,
-				     h->length - ESH_HEADER_LEN - 36,
-				     raw, level + 1);
-		} else if (raw) {
-			int l = MIN (h->length - ESH_HEADER_LEN,
-				     len + data - h->data);
-			dump (h->data + ESH_HEADER_LEN, l);
-		}
-	}
-	esh_header_destroy (h); 
-}
 
 static void
 enter_dir (MsOle *ole)
@@ -476,42 +312,6 @@ do_biff_raw (MsOle *ole)
 			buffer[0]=0;
 			buffer[len-1]=0;
 		}
-		ms_ole_stream_close (&stream);
-	}
-}
-
-static void
-do_draw (MsOle *ole, gboolean raw)
-{
-	char *ptr;
-	MsOleStream *stream;
-	
-	ptr = strtok (NULL, delim);
-	if (!ptr) {
-		printf ("Need a stream name\n");
-		return;
-	}
-       
-	if (ms_ole_stream_open (&stream, ole, cur_dir, ptr, 'r') !=
-	    MS_OLE_ERR_OK) {
-		printf ("Error opening '%s'\n", ptr);
-		return;
-	} else {
-		BiffQuery *q = ms_biff_query_new (stream);
-		while (ms_biff_query_next(q)) {
-			if (q->ls_op == BIFF_MS_O_DRAWING ||
-			    q->ls_op == BIFF_MS_O_DRAWING_GROUP ||
-			    q->ls_op == BIFF_MS_O_DRAWING_SELECTION) {
-				guint8 *data;
-				guint32 len;
-				guint skip = biff_to_flat_data (q, &data, &len) - 1;
-				printf("Drawing: '%s' - data %p, length 0x%x\n", get_biff_opcode_name(q->opcode),
-				       data, len);
-				dump_escher (data, len, raw, 0);
-				while (skip > 0 && ms_biff_query_next(q)) skip--;
-			}
-		}
-		printf ("\n");
 		ms_ole_stream_close (&stream);
 	}
 }
@@ -823,10 +623,6 @@ int main (int argc, char **argv)
 			do_biff (ole);
 		else if (g_strcasecmp(ptr, "biffraw")==0)
 			do_biff_raw (ole);
-		else if (g_strcasecmp(ptr, "draw")==0) /* Assume its in a BIFF file */
-			do_draw (ole, FALSE);
-		else if (g_strcasecmp(ptr, "drawraw")==0) /* Assume its in a BIFF file */
-			do_draw (ole, TRUE);
 		else if (g_strcasecmp(ptr, "get")==0)
 			do_get (ole);
 		else if (g_strcasecmp(ptr, "put")==0)

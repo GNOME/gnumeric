@@ -2233,14 +2233,23 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		g_free (label);
 		break;
 	}
-	case BIFF_ROW: /* FIXME: See: S59DDB.HTM */
+
+	/* See: S59DDB.HTM */
+	case BIFF_ROW:
 	{
-		guint16 height = MS_OLE_GET_GUINT16(q->data+6);
-/*		printf ("Row %d formatting 0x%x\n", MS_OLE_GET_GUINT16(q->data), height);  */
-		if ((height&0x8000) == 0) { /* Fudge Factor */
-/*			printf ("Row height : %f points\n", MS_OLE_GET_GUINT16(q->data+6)/20.0);*/
-			sheet_row_set_height (sheet->gnum_sheet, MS_OLE_GET_GUINT16(q->data), MS_OLE_GET_GUINT16(q->data+6)/15, TRUE);
-		}
+		guint16 const row = MS_OLE_GET_GUINT16(q->data);
+		guint16 const height = MS_OLE_GET_GUINT16(q->data+6);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 1)
+			printf ("Row %d height 0x%x;\n", row, height);
+#endif
+		/* FIXME : the height is specified in 1/20 of a point.
+		 * but we can not assume that 1pt = 1pixel.
+		 * MS seems to assume that it is closer to 1point = 1.3pixels.
+		 */
+		if ((height&0x8000) == 0)
+			sheet_row_set_height (sheet->gnum_sheet, row,
+					      height/15., TRUE);
 		break;
 	}
 
