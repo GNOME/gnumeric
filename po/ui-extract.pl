@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w 
 
-#  An XML to PO Template file converter
+#  The XML UI Translation Extractor
 #  (C) 2000 The Free Software Foundation
 #
 #  Authors: Kenneth Christiansen <kenneth@gnu.org>
@@ -50,7 +50,7 @@ sub SplitOnArgument {
 
 #-------------------
 sub Version{
-    print "The XML to POT Converter $VERSION\n";
+    print "The XML UI Translations Extractor $VERSION\n";
     print "Written by Kenneth Christiansen, 2000.\n\n";
     print "Copyright (C) 2000 Free Software Foundation, Inc.\n";
     print "This is free software; see the source for copying conditions.  There is NO\n";
@@ -60,8 +60,8 @@ sub Version{
 
 #-------------------  
 sub Help{
-    print "Usage: xml2pot [FILENAME] [OPTIONS] ...\n";
-    print "Generates a pot file from an xml source.\n\nGraps all strings ";
+    print "Usage: ui-extract.pl [FILENAME] [OPTIONS] ...\n";
+    print "Generates a headerfile from an xml source.\n\nGraps all strings ";
     print "between <_translatable_node> and it's end tag,\nwhere tag are all allowed ";
     print "xml tags. Read the docs for more info.\n\n"; 
     print "  -V, --version                shows the version\n";
