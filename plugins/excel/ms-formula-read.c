@@ -678,9 +678,12 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 					    &unknownFunctionHandler);
 			name = symbol_lookup (global_symbol_table,
 					      f_name);
+
+			/* We just added it, it better be there */
 			g_assert (name);
 
-			g_warning ("%s : unknown function.", f_name);
+			/* WISHLIST : it would be nice to have a log if these. */
+			g_warning ("EXCEL unknown function : %s", f_name);
 		}
 		expr_tree_unref (tmp);
 		symbol_ref (name);
@@ -759,6 +762,8 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 	
 	if (array_element != NULL)
 		*array_element = FALSE;
+
+	g_return_val_if_fail (sheet != NULL, NULL);
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_formula_debug > 1) {

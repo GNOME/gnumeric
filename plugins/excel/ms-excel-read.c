@@ -1778,7 +1778,7 @@ ms_excel_get_name (ExcelWorkbook *wb, int name_idx)
 
 /* FIXME: S59DA9.HTM */
 static void
-ms_excel_read_name (BiffQuery *q, ExcelWorkbook *wb)
+ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 {
 	guint16 fn_grp_idx;
 	guint16 flags          = BIFF_GET_GUINT16 (q->data);
@@ -1860,15 +1860,15 @@ ms_excel_read_name (BiffQuery *q, ExcelWorkbook *wb)
 		printf (" BinData");
 	printf ("\n");
 
-	g_ptr_array_add (wb->internal_names, name);
+	g_ptr_array_add (sheet->wb->internal_names, name);
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug>1) {
-		printf ("NAME %d : %s\n", wb->internal_names->len, name);
+		printf ("NAME %d : %s\n", sheet->wb->internal_names->len, name);
 	}
-	tree = ms_excel_parse_formula (NULL, name_def_data,
-				       0, 0, FALSE, name_def_len, NULL);
 #endif
+	tree = ms_excel_parse_formula (sheet, name_def_data,
+				       0, 0, FALSE, name_def_len, NULL);
 }
 
 /* S59D7E.HTM */
@@ -2101,7 +2101,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		switch (q->opcode)
 		{
 		case BIFF_NAME:
-			ms_excel_read_name (q, sheet->wb);
+			ms_excel_read_name (q, sheet);
 			break;
 
 		case BIFF_BOOLERR: /* S59D5F.HTM */
@@ -2759,10 +2759,6 @@ ms_excel_read_workbook (MsOle *file)
 		case BIFF_PASSWORD :
 			break;
 
-		case (BIFF_NAME & 0xff) : /* Why here and not as 18 */
-			ms_excel_read_name (q, wb);
-			break;
-
 		case (BIFF_STYLE & 0xff) : /* Why here and not as 93 */
 			break;
 
@@ -2770,15 +2766,20 @@ ms_excel_read_workbook (MsOle *file)
 			break;
 
 		case BIFF_EXTERNNAME :
+		case (BIFF_NAME & 0xff) : /* Why here and not as 18 */
 		{
 			/* Create a pseudo-sheet */
 			ExcelSheet sheet;
 			sheet.wb = wb;
 			sheet.ver = ver->version;
 			sheet.gnum_sheet = NULL;
-			ms_excel_externname(q, &sheet);
-			break;
+			sheet.shared_formulae = NULL;
+			if (q->ls_op == (BIFF_EXTERNNAME&0xff))
+				ms_excel_externname (q, &sheet);
+			else
+				ms_excel_read_name (q, &sheet);
 		}
+		break;
 
 		case BIFF_BACKUP :
 			break;
@@ -2792,7 +2793,7 @@ ms_excel_read_workbook (MsOle *file)
 			break;
 
 		case BIFF_OBPROJ :
-			puts("Visual Basic Project");
+			/* Flags that the project has some VBA */
 			break;
 
 		case BIFF_BOOKBOOL :
