@@ -1,3 +1,12 @@
+2002-12-02  Jon K Hellan  <hellan@acm.org>
+
+	* src/Makefile.am: Don't link component with I-ContextGtk.
+
+	* src/io-context-gtk.c (icg_progress_set) 
+	(icg_progress_message_set): Respect no-splash flag.
+
+	* src/main-application.c: Add no-splash argument.
+
 2002-11-30  Jody Goldberg <jody@gnome.org>
 
 	* src/expr-name.c (cb_check_name) : ignore hidden names.

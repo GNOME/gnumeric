@@ -64,8 +64,6 @@ GNUMERIC_BASE =					\
 	io-context.c				\
 	io-context.h				\
 	io-context-priv.h			\
-	io-context-gtk.c			\
-	io-context-gtk.h			\
 	complex.h				\
 	complex.c				\
 	dates.c					\
@@ -294,6 +292,8 @@ if WITH_BONOBO
 gnumeric_SOURCES =				\
 	$(GNUMERIC_BASE)			\
 	$(GNUMERIC_BONOBO)			\
+	io-context-gtk.c			\
+	io-context-gtk.h			\
 	main-application.c			\
 	normal-args.c
 #	 corba-args.c (use normal for now)
@@ -305,6 +305,8 @@ gnumeric_LDADD =				\
 else
 gnumeric_SOURCES =				\
 	$(GNUMERIC_BASE)			\
+	io-context-gtk.c			\
+	io-context-gtk.h			\
 	main-application.c			\
 	normal-args.c
 

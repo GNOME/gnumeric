@@ -24,6 +24,8 @@
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkwindow.h>
 
+extern int gnumeric_no_splash;
+
 #define ICG_POPUP_DELAY 3.0
 
 #define IO_CONTEXT_GTK_CLASS(klass) \
@@ -159,6 +161,9 @@ icg_progress_set (CommandContext *cc, gfloat val)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
 
+	if (gnumeric_no_splash)
+		return;
+	
 	if (icg->window == NULL) {
 		if (!icg_user_is_impatient (icg)) {
 			icg->progress = val;
@@ -174,6 +179,9 @@ icg_progress_message_set (CommandContext *cc, gchar const *msg)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
 
+	if (gnumeric_no_splash)
+		return;
+	
 	if (icg->window == NULL) {
 		if (!icg_user_is_impatient (icg)) {
 			g_free (icg->progress_msg);

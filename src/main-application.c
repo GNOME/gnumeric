@@ -42,6 +42,7 @@ static int gnumeric_show_version = FALSE;
 static char *func_def_file = NULL;
 static char *func_state_file = NULL;
 
+int gnumeric_no_splash = FALSE;
 char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
 char const *gnumeric_data_dir = GNUMERIC_DATADIR;
 
@@ -72,6 +73,9 @@ gnumeric_popt_options[] = {
 	{ "geometry", 'g', POPT_ARG_STRING, &x_geometry, 0,
 	  N_("Specify the size and location of the initial window"), N_("WIDTHxHEIGHT+XOFF+YOFF")
 	},
+
+	{ "no-splash", '\0', POPT_ARG_NONE, &gnumeric_no_splash, 0,
+	  N_("Don't show splash screen"), NULL },
 
 	{ "quit", '\0', POPT_ARG_NONE, &immediate_exit_flag, 0,
 	  N_("Exit immediately after loading the selected books (useful for testing)."), NULL },
