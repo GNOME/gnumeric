@@ -163,7 +163,7 @@ xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, CellPos *v
 }
 
 static gboolean
-xml_sax_color (xmlChar const * const *attrs, char const *name, StyleColor **res)
+xml_sax_attr_color (xmlChar const * const *attrs, char const *name, StyleColor **res)
 {
 	int red, green, blue;
 
@@ -184,7 +184,7 @@ xml_sax_color (xmlChar const * const *attrs, char const *name, StyleColor **res)
 }
 
 static gboolean
-xml_sax_range (xmlChar const * const *attrs, Range *res)
+xml_sax_attr_range (xmlChar const * const *attrs, Range *res)
 {
 	int flags = 0;
 	for (; attrs[0] && attrs[1] ; attrs += 2)
@@ -478,6 +478,7 @@ typedef struct _XMLSaxParseState
 	int display_outlines;
 	int outline_symbols_below;
 	int outline_symbols_right;
+	StyleColor *tab_color;
 
 	/* expressions with ref > 1 a map from index -> expr pointer */
 	GHashTable *expr_map;
@@ -697,11 +698,13 @@ static void
 xml_sax_sheet_start (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	gboolean tmp;
+	StyleColor *color = NULL;
 
 	state->hide_col_header = state->hide_row_header =
 	state->display_formulas = state->hide_zero =
 	state->hide_grid = state->display_outlines =
 	state->outline_symbols_below = state->outline_symbols_right = -1;
+	state->tab_color = NULL;
 	state->sheet_zoom = 1.; /* default */
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -721,6 +724,8 @@ xml_sax_sheet_start (XMLSaxParseState *state, xmlChar const **attrs)
 			state->outline_symbols_below = tmp;
 		else if (xml_sax_attr_bool (attrs, "OutlineSymbolsRight", &tmp))
 			state->outline_symbols_right = tmp;
+		else if (xml_sax_attr_color (attrs, "TabColor", &color))
+			state->tab_color = color;
 		else
 			xml_sax_unknown_attr (state, attrs, "Sheet");
 }
@@ -773,6 +778,7 @@ xml_sax_sheet_name (XMLSaxParseState *state)
 		state->sheet->outline_symbols_below = state->outline_symbols_below;
 	if (state->outline_symbols_right >= 0)
 		state->sheet->outline_symbols_right = state->outline_symbols_right;
+	state->sheet->tab_color = state->tab_color;
 }
 
 static void
@@ -866,7 +872,7 @@ static void
 xml_sax_selection_range (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	Range r;
-	if (xml_sax_range (attrs, &r))
+	if (xml_sax_attr_range (attrs, &r))
 		sheet_selection_add_range (state->sheet,
 					   r.start.col, r.start.row,
 					   r.start.col, r.start.row,
@@ -1017,7 +1023,7 @@ xml_sax_style_region_start (XMLSaxParseState *state, xmlChar const **attrs)
 
 	state->style = mstyle_new ();
 	state->style_range_init =
-		xml_sax_range (attrs, &state->style_range);
+		xml_sax_attr_range (attrs, &state->style_range);
 }
 
 static void
@@ -1059,11 +1065,11 @@ xml_sax_styleregion_start (XMLSaxParseState *state, xmlChar const **attrs)
 			mstyle_set_pattern (state->style, val);
 		else if (xml_sax_attr_int (attrs, "Indent", &val))
 			mstyle_set_indent (state->style, val);
-		else if (xml_sax_color (attrs, "Fore", &colour))
+		else if (xml_sax_attr_color (attrs, "Fore", &colour))
 			mstyle_set_color (state->style, MSTYLE_COLOR_FORE, colour);
-		else if (xml_sax_color (attrs, "Back", &colour))
+		else if (xml_sax_attr_color (attrs, "Back", &colour))
 			mstyle_set_color (state->style, MSTYLE_COLOR_BACK, colour);
-		else if (xml_sax_color (attrs, "PatternColor", &colour))
+		else if (xml_sax_attr_color (attrs, "PatternColor", &colour))
 			mstyle_set_color (state->style, MSTYLE_COLOR_PATTERN, colour);
 		else if (!strcmp (attrs[0], "Format"))
 			mstyle_set_format_text (state->style, (char *)attrs[1]);
@@ -1251,7 +1257,7 @@ xml_sax_style_region_borders (XMLSaxParseState *state, xmlChar const **attrs)
 
 	/* Colour is optional */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_color (attrs, "Color", &colour)) ;
+		if (xml_sax_attr_color (attrs, "Color", &colour)) ;
 		else if (xml_sax_attr_int (attrs, "Style", &pattern)) ;
 		else
 			xml_sax_unknown_attr (state, attrs, "StyleBorder");

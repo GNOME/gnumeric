@@ -2219,6 +2219,9 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	e_xml_set_bool_prop_by_name (sheetNode, (xmlChar *)"OutlineSymbolsRight",
 				     sheet->outline_symbols_right);
 
+	if (sheet->tab_color != NULL)
+		xml_node_set_color (sheetNode, "TabColor", sheet->tab_color);
+
 	tstr = xmlEncodeEntitiesReentrant (ctxt->doc, (xmlChar *)sheet->name_unquoted);
 	xmlNewChild (sheetNode, ctxt->ns, (xmlChar *)"Name",  tstr);
 	if (tstr) xmlFree (tstr); {
@@ -2548,6 +2551,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 		(xmlChar *)"OutlineSymbolsBelow",	TRUE);
 	sheet->outline_symbols_right = e_xml_get_bool_prop_by_name_with_default (tree,
 		(xmlChar *)"OutlineSymbolsRight",	TRUE);
+	sheet->tab_color = xml_node_get_color (tree, "TabColor");
 
 	xml_node_get_double (e_xml_get_child_by_name (tree, (xmlChar *)"Zoom"), NULL,
 			     &zoom_factor);

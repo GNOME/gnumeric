@@ -1,3 +1,11 @@
+2002-01-14  Jody Goldberg <jody@gnome.org>
+
+	* xml-sax-read.c (xml_sax_attr_color) : rename from xml_sax_color for
+	  consistency.
+	(xml_sax_attr_range) : ditto.
+	(xml_sax_sheet_start) : read the optional tab colour.
+	(xml_sax_sheet_name) : assign the tab colour.
+
 2002-01-10  Jody Goldberg <jody@gnome.org>
 
 	* xml-sax-read.c (xml_sax_attr_bool) : fix return type

@@ -1,3 +1,13 @@
+2002-01-14  Jody Goldberg <jody@gnome.org>
+
+	* src/commands.c (cmd_set_text) : Be smarter about the undo label
+	  generated for text with embedded new lines or leading white space.
+
+	* gnumeric.xsd : Add the tab color.
+
+	* src/xml-io.c (xml_sheet_read) : read tab optional tab colours.
+	(xml_sheet_write) : write the tab colour if it is set.
+
 2002-01-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/datetime.c (coupdays) : moved from src/functions/fn-financial.c

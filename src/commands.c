@@ -59,6 +59,7 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
+#include <ctype.h>
 
 #define MAX_DESCRIPTOR_WIDTH 15
 
@@ -626,7 +627,7 @@ cmd_set_text (WorkbookControl *wbc,
 	GtkObject *obj;
 	CmdSetText *me;
 	gchar *pad = "";
-	gchar *text, *corrected_text;
+	gchar *text, *corrected_text, *tmp, c = '\0';
 	Cell const *cell;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
@@ -650,8 +651,20 @@ cmd_set_text (WorkbookControl *wbc,
 	me->pos.eval = *pos;
 	me->text = corrected_text;
 
+	/* strip leading white space from labels */
+	while (*corrected_text != '\0' && isspace (*(unsigned char *)corrected_text))
+		++corrected_text;
+
+	/* truncate at newlines */
+	for (tmp = corrected_text ; *tmp != '\0' ; ++tmp)
+		if (*tmp == '\r' || *tmp == '\n') {
+			c = *tmp;
+			*tmp = '\0';
+			break;
+		}
+
 	/* Limit the size of the descriptor to something reasonable */
-	if (strlen (corrected_text) > MAX_DESCRIPTOR_WIDTH) {
+	if (strlen (corrected_text) > MAX_DESCRIPTOR_WIDTH || c != '\0') {
 		pad = "..."; /* length of 3 */
 		text = g_strndup (corrected_text,
 				  MAX_DESCRIPTOR_WIDTH - 3);
@@ -666,6 +679,8 @@ cmd_set_text (WorkbookControl *wbc,
 
 	if (text != corrected_text)
 		g_free (text);
+	else if (c != '\0')
+		*tmp = c;
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);

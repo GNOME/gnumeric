@@ -180,6 +180,7 @@
                     <xsd:attribute name="DisplayOutlines"     type="xsd:boolean" use="required"/>
                     <xsd:attribute name="OutlineSymbolsBelow" type="xsd:boolean" use="required"/>
                     <xsd:attribute name="OutlineSymbolsRight" type="xsd:boolean" use="required"/>
+                    <xsd:attribute name="TabColor"	      type="gmr:color"   use="optional"/>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
