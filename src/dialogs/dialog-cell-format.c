@@ -87,13 +87,14 @@ typedef struct _FormatState
 
 	Sheet		*sheet;
 	MStyle		*style, *result;
+	Value		*value;
 
 	gboolean	 is_multi;	/* single cell or multiple ranges */
 	gboolean	 enable_edit;
 
 	struct
 	{
-		GnomeCanvas	*canvas;
+		GtkLabel	*preview;
 		GtkBox		*box;
 		GtkWidget	*widget[F_MAX_WIDGET];
 
@@ -354,15 +355,12 @@ init_button_image (GladeXML *gui, char const * const name)
 static void
 draw_format_preview (FormatState *state)
 {
-	FormatFamily const page = state->format.current_type;
 	static char const * const zeros = "000000000000000000000000000000";
-	GString *new_format = g_string_new ("");
-
-	/* The first time through lets initialize */
-	if (state->format.canvas == NULL) {
-		state->format.canvas =
-		    GNOME_CANVAS (glade_xml_get_widget (state->gui, "format_sample"));
-	}
+	FormatFamily const page = state->format.current_type;
+	GString		*new_format = g_string_new ("");
+	gchar		*preview;
+	StyleColor	*preview_color;
+	StyleFormat	*sf;
 
 	/* Update the format based on the current selections and page */
 	switch (page)
@@ -434,6 +432,25 @@ draw_format_preview (FormatState *state)
 				    new_format->str);
 				    
 	g_string_free (new_format, TRUE);
+
+	/* Nothing to sample. */
+	if (state->value == NULL)
+		return;
+
+	/* The first time through lets initialize */
+	if (state->format.preview == NULL) {
+		state->format.preview =
+		    GTK_LABEL (glade_xml_get_widget (state->gui, "format_sample"));
+	}
+
+	g_return_if_fail (state->format.preview != NULL);
+
+	sf = mstyle_get_format (state->result);
+	g_return_if_fail (sf != NULL);
+
+	/* TODO : Do I need to free this ? */
+	preview = format_value (sf, state->value, &preview_color);
+	gtk_label_set_text (state->format.preview, preview);
 }
 
 static void
@@ -534,7 +551,6 @@ fmt_dialog_init_fmt_list (GtkCList *cl, char const * const *formats,
 static void
 fmt_dialog_enable_widgets (FormatState *state, int page)
 {
-	gboolean has_list = FALSE;
 	static FormatWidget contents[12][6] =
 	{
 		/* General */
@@ -595,8 +611,6 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 			GtkCList *cl = GTK_CLIST (w);
 			int select = -1, start = 0, end = -1;
 
-			has_list = TRUE;
-
 			switch (page) {
 			case 4: case 5: case 7:
 				start = end = page;
@@ -638,9 +652,7 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 			fillin_negative_samples (state, page);
 	}
 
-	/* Setting the list has already updated the format and preview */
-	if (!has_list)
-		draw_format_preview (state);
+	draw_format_preview (state);
 }
 
 /*
@@ -718,7 +730,7 @@ fmt_dialog_init_format_page (FormatState *state)
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_FORMAT))
 		format = mstyle_get_format (state->style)->format;
 
-	state->format.canvas = NULL;
+	state->format.preview = NULL;
 	state->format.spec = format;
 
 	/* The handlers will set the format family later.  -1 flags that
@@ -1009,14 +1021,16 @@ cb_font_changed (GtkWidget *widget, GtkStyle *previous_style, FormatState *state
 	family_name = gnome_font->fontmap_entry->familyname;
 	height = gnome_display_font->gnome_font->size;
 
-	mstyle_set_font_name   (state->result, family_name);
-	mstyle_set_font_size   (state->result, gnome_font->size);
-	mstyle_set_font_bold   (state->result,
-				gnome_font->fontmap_entry->weight_code >=
-				GNOME_FONT_BOLD);
-	mstyle_set_font_italic (state->result, gnome_font->fontmap_entry->italic);
+	if (state->enable_edit) {
+		mstyle_set_font_name   (state->result, family_name);
+		mstyle_set_font_size   (state->result, gnome_font->size);
+		mstyle_set_font_bold   (state->result,
+					gnome_font->fontmap_entry->weight_code >=
+					GNOME_FONT_BOLD);
+		mstyle_set_font_italic (state->result, gnome_font->fontmap_entry->italic);
 
-	fmt_dialog_changed (state);
+		fmt_dialog_changed (state);
+	}
 }
 
 /* Manually insert the font selector, and setup signals */
@@ -1772,7 +1786,8 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 }
 
 static void
-fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, GladeXML  *gui, gboolean is_multi)
+fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, GladeXML *gui,
+		 gboolean is_multi, Value *sample_val)
 {
 	static GnomeHelpMenuEntry help_ref = { "gnumeric", "formatting.html" };
 
@@ -1855,6 +1870,7 @@ fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, GladeXML  *gui, gboolean is_multi
 	state.gui			= gui;
 	state.dialog			= GNOME_PROPERTY_BOX (dialog);
 	state.sheet			= sheet;
+	state.value			= sample_val;
 	state.style			= mstyle;
 	state.result			= mstyle_new ();
 	state.is_multi			= is_multi;
@@ -2004,6 +2020,8 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	GladeXML    *gui;
 	MStyle      *mstyle;
 	gboolean     is_multi;
+	Value	    *sample_val;
+	Cell	    *first_upper_left;
 
 	/* FIXME : Use this when it is ready */
 	MStyleBorder *borders[STYLE_BORDER_EDGE_MAX];
@@ -2022,8 +2040,15 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	is_multi = g_list_length (sheet->selections) != 1 ||
 	    !range_is_singleton (selection);
 
+	sample_val = NULL;
+	first_upper_left = sheet_cell_get (sheet, selection->start.col,
+					   selection->start.row);
+
+	if (first_upper_left)
+		sample_val = first_upper_left->value;
+
 	mstyle = sheet_selection_get_unique_style (sheet, borders);
-	fmt_dialog_impl (sheet, mstyle, gui, is_multi);
+	fmt_dialog_impl (sheet, mstyle, gui, is_multi, sample_val);
 	
 	gtk_object_unref (GTK_OBJECT (gui));
 	mstyle_unref (mstyle);
@@ -2033,8 +2058,6 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
  * TODO 
  *
  * Formats 
- * 	- regexps to recognize parameterized formats (ie percent 4 decimals)
- *      - Generate formats from the dialogs.
  *      - Add the preview for the 1st upper-left cell.
  *
  * Borders

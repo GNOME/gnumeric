@@ -1,3 +1,7 @@
+1999-11-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/cell-format.glade : Improve layout for big fonts.
+
 1999-11-07  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/workbook.c (workbook_new): coding style requires a space
