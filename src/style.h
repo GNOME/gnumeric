@@ -35,28 +35,41 @@ typedef struct {
 	char     *name;
 } StyleColor;
 
+/**
+ *  The order or the following two records
+ * is assumed in xml-io
+ **/
 typedef enum {
-	BORDER_NONE,
-	BORDER_SOLID
+ 	BORDER_NONE=0,
+ 	BORDER_THIN,
+ 	BORDER_MEDIUM,
+ 	BORDER_DASHED,
+ 	BORDER_DOTTED,
+ 	BORDER_THICK,
+ 	BORDER_DOUBLE,
+ 	BORDER_HAIR
 } StyleBorderType;
+
+#define NUM_STYLE_BORDER 8
+
+typedef enum {
+	STYLE_TOP=0,
+ 	STYLE_BOTTOM=1,
+ 	STYLE_LEFT=2,
+ 	STYLE_RIGHT=3
+} StyleSide;
 
 typedef struct {
 	int      ref_count;
 
-	/*
-	 * if the value is BorderNone, then the respective
+	/**
+	 * if the value is BORDER_NONE, then the respective
 	 * color is not allocated, otherwise, it has a
-	 * valid color
-	 */
-	unsigned int left:4;
-	unsigned int right:4;
-	unsigned int top:4;
-	unsigned int bottom:4;
-
-	StyleColor *left_color;
-	StyleColor *right_color;
-	StyleColor *top_color;
-	StyleColor *bottom_color;
+	 * valid color.
+	 * NB. Use StyleSide to get orientation
+	 **/
+ 	StyleBorderType type[4] ;
+ 	StyleColor  *color[4] ;
 } StyleBorder;
 
 /* Alignment definitions */
@@ -135,14 +148,8 @@ void           style_color_unref      (StyleColor *sc);
 StyleBorder   *style_border_new_plain (void);
 void           style_border_ref       (StyleBorder *sb);
 void           style_border_unref     (StyleBorder *sb);
-StyleBorder   *style_border_new       (StyleBorderType left,
-				       StyleBorderType right,
-				       StyleBorderType top,
-				       StyleBorderType bottom,
-				       StyleColor *left_color,
-				       StyleColor *right_color,
-				       StyleColor *top_color,
-				       StyleColor *bottom_color);
+StyleBorder   *style_border_new       (StyleBorderType border_type[4],
+ 				       StyleColor *border_color[4]);
 
 extern StyleFont *gnumeric_default_font;
 extern StyleFont *gnumeric_default_bold_font;

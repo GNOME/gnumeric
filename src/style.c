@@ -173,28 +173,26 @@ style_font_unref (StyleFont *sf)
 }
 
 StyleBorder *
-style_border_new (StyleBorderType left,    StyleBorderType right,
-		  StyleBorderType top,     StyleBorderType bottom,
-		  StyleColor *left_color,  StyleColor *right_color,
-		  StyleColor *top_color,   StyleColor *bottom_color)
+style_border_new (StyleBorderType border_type[4],
+		  StyleColor *border_color[4])
+
 {
 	StyleBorder key, *border;
+	int lp ;
 
-	key.left    	 = left;
-	key.right   	 = right;
-	key.top     	 = top;
-	key.bottom  	 = bottom;
-	if (left_color)
-		key.left_color   = left_color;
-	if (right_color)
-		key.right_color  = right_color;
-	if (top_color)
-		key.top_color    = top_color;
-	if (bottom_color)
-		key.bottom_color = bottom_color;
-
-	border = (StyleBorder *) g_hash_table_lookup (style_border_hash, &key);
-	if (!border){
+ 	memcpy (&key.type, border_type, sizeof(key.type)) ;
+ 	for (lp=0;lp<4;lp++)
+ 	{
+		if (border_color[lp])
+			key.color[lp] = border_color[lp] ;
+		else
+ 			key.color[lp] = NULL ;
+ 	}
+	
+	border = (StyleBorder *) g_hash_table_lookup (style_border_hash,
+						      &key);
+	if (!border)
+	{
 		border = g_new0 (StyleBorder, 1);
 		*border = key;
 		g_hash_table_insert (style_border_hash, border, border);
@@ -230,9 +228,9 @@ style_border_unref (StyleBorder *sb)
 StyleBorder *
 style_border_new_plain (void)
 {
-	return style_border_new (BORDER_NONE, BORDER_NONE,
-				 BORDER_NONE, BORDER_NONE,
-				 NULL, NULL, NULL, NULL);
+ 	StyleBorderType style[4] = { BORDER_NONE, BORDER_NONE, BORDER_NONE, BORDER_NONE } ;
+ 	StyleColor *color[4] = { NULL, NULL, NULL, NULL } ;
+	return style_border_new (style, color) ;
 }
 
 StyleColor *
@@ -411,27 +409,17 @@ border_equal (gconstpointer v, gconstpointer v2)
 {
 	StyleBorder *k1 = (StyleBorder *) v;
 	StyleBorder *k2 = (StyleBorder *) v2;
+	int lp ;
 
-	if (k1->left != k2->left)
-		return 0;
-	if (k1->right != k2->right)
-		return 0;
-	if (k1->top != k2->top)
-		return 0;
-	if (k1->bottom != k2->bottom)
-		return 0;
-	if (k1->left != BORDER_NONE)
-		if (k1->left_color != k2->left_color)
+ 	for (lp=0;lp<4;lp++)
+ 	{
+ 		if (k1->type[lp] != k2->type[lp])
+ 			return 0 ;
+ 		if (k1->type[lp] != BORDER_NONE &&
+ 		    k1->color[lp] != k2->color[lp])
 			return 0;
-	if (k1->right != BORDER_NONE)
-		if (k1->right_color != k2->right_color)
-			return 0;
-	if (k1->top != BORDER_NONE)
-		if (k1->top_color != k2->top_color)
-			return 0;
-	if (k1->bottom != BORDER_NONE)
-		if (k1->bottom_color != k2->bottom_color)
-			return 0;
+	}
+	
 	return 1;
 }
 
@@ -440,7 +428,9 @@ border_hash (gconstpointer v)
 {
 	StyleBorder *k = (StyleBorder *) v;
 
-	return (k->left << 12) | (k->right << 8) | (k->top << 4) | (k->bottom);
+ 	return (k->type[STYLE_LEFT] << 12) | (k->type[STYLE_RIGHT] << 8) |
+	       (k->type[STYLE_TOP] << 4) | (k->type[STYLE_BOTTOM]) ;
+
 }
 
 static gint

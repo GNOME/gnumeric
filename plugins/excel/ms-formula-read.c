@@ -463,6 +463,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	      printf ("Unknown PTG 0x%x base %x\n", ptg, ptgbase), error=1 ;
 	  }
 	}
+      printf ("Ptg 0x%x length (not inc. ptg byte) %d\n", ptgbase, ptg_length) ;
       cur+=    (ptg_length+1) ;
       length-= (ptg_length+1) ;
     }
@@ -508,5 +509,3 @@ void ms_excel_fixup_array_formulae (MS_EXCEL_SHEET *sheet)
       tmp = tmp->next ;
     }
 }
-
-

@@ -418,6 +418,27 @@ cell_set_pattern (Cell *cell, int pattern)
 }
 
 /*
+ * NB. don't unref the StyleColor *s you pass.
+ */
+void
+cell_set_border (Cell *cell, StyleBorderType border_type[4],
+		 StyleColor *border_color[4])
+{
+	g_return_if_fail (cell != NULL);
+
+	cell_modified (cell);
+	
+  	if (cell->style->valid_flags & STYLE_BORDER)
+		style_border_unref (cell->style->border) ;
+
+	cell->style->valid_flags |= STYLE_BORDER;
+	cell->style->border     = style_border_new (border_type,
+						    border_color) ;
+
+	cell_queue_redraw (cell);
+}
+
+/*
  * cell_set_rendered_text
  * @cell:          the cell we will modify
  * @rendered_text: the text we will display

@@ -16,7 +16,9 @@
 
 
 /* Version info types as found in various Biff records */
-typedef enum _eBiff_version { eBiffV2=2, eBiffV3=3, eBiffV4=4, eBiffV5=5, eBiffV7=7,
+typedef enum _eBiff_version { eBiffV2=2, eBiffV3=3,
+			      eBiffV4=4, eBiffV5=5,
+			      eBiffV7=7,
 			      eBiffV8=8, eBiffVUnknown=0} eBiff_version ;
 typedef enum _eBiff_filetype { eBiffTWorkbook=0, eBiffTVBModule=1, eBiffTWorksheet=2,
 			       eBiffTChart=3, eBiffTMacrosheet=4, eBiffTWorkspace=5,
@@ -33,22 +35,10 @@ typedef enum _eBiff_wrap { eBiffWWrap=0, eBiffWNoWrap=1 } eBiff_wrap ;
 typedef enum _eBiff_eastern { eBiffEContext=0, eBiffEleftToRight=1,
 			      eBiffErightToLeft=2 } eBiff_eastern ;
 
-typedef enum _eBiff_direction { eBiffDirTop=0, eBiffDirBottom=1,
-				eBiffDirLeft=2, eBiffDirRight=3 } eBiff_direction ;
 typedef enum _eBiff_border_orientation { eBiffBONone=0,
                                          eBiffBODiagDown=1,
 					 eBiffBODiagUp=2,
 					 eBiffBODiagBoth=3 } eBiff_border_orientation ;
-typedef enum _eBiff_border_linestyle /* Magic numbers ! */
-{
-  eBiffBorderNone=0, eBiffBorderThin=1, eBiffBorderMedium=2,
-  eBiffBorderDashed=3, eBiffBorderDotted=4, eBiffBorderThick=5,
-  eBiffBorderDouble=6, eBiffBorderHair=7, eBiffBorderMediumDash=8,
-  eBiffBorderDashDot=9, eBiffBorderMediumDashDot=10,
-  eBiffBorderDashDotDot=11, eBiffBorderMediumDashDotDot=12,
-  eBiffBorderSlantedDashDot=13
-} eBiff_border_linestyle ;
-
 typedef enum _eBiffFontUnderline
 {
   eBiffFUNone=1, eBiffFUSingle=2, eBiffFUDouble=3,
@@ -79,8 +69,9 @@ extern void free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 #define BIFF_BOF                        0x09
 #define BIFF_EOF                        0x0a
 #define BIFF_PRECISION                  0x0e
+#define BIFF_HEADER                     0x14
+#define BIFF_FOOTER                     0x15
 #define BIFF_ARRAY                      0x21
-
 #define BIFF_FONT                       0x31
 #define BIFF_XF_OLD                     0x43
 
@@ -90,6 +81,9 @@ extern void free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 #define BIFF_MULBLANK                   0xbe
 #define BIFF_RSTRING                    0xd6
 #define BIFF_XF                         0xe0
+
+#define BIFF_STRINGS			0xfc
+#define BIFF_STRING_REF			0xfd
 
 /* Odd balls */
 #define BIFF_DV                        0x1be

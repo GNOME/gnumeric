@@ -23,10 +23,10 @@ typedef struct _BIFF_BOUNDSHEET_DATA
 
 typedef struct _MS_EXCEL_SHEET
 {
-  Sheet *gnum_sheet ;
-  struct _MS_EXCEL_WORKBOOK *wb ;
-  eBiff_version ver ;
-  GList *array_formulae ;
+	Sheet *gnum_sheet ;
+	struct _MS_EXCEL_WORKBOOK *wb ;
+	eBiff_version ver ;
+	GList *array_formulae ;      
 } MS_EXCEL_SHEET ;
 
 extern void ms_excel_sheet_insert (MS_EXCEL_SHEET *sheet, int xfidx, int col, int row, char *text) ;
@@ -54,13 +54,22 @@ typedef struct _BIFF_FONT_DATA
 
 typedef struct _MS_EXCEL_WORKBOOK
 {
-  GList *boundsheet_data ;
-  GList *XF_records ;
-  GList *excel_sheets ;
-  GList *font_data ;
-  MS_EXCEL_PALETTE *palette ;
-  /* Gnumeric parallel workbook */
-  Workbook *gnum_wb ;
+	GList *boundsheet_data ;
+	GList *XF_records ;
+	GList *excel_sheets ;
+	GList *font_data ;
+	MS_EXCEL_PALETTE *palette ;
+	/**
+	 *    Global strings kludge, works for me,
+	 * Caveat Emptor -- njl195@zepler.org
+	 **/
+	char *global_strings;
+	int global_string_max;
+
+	/**
+	 * Gnumeric parallel workbook
+	 **/
+	Workbook *gnum_wb ;
 } MS_EXCEL_WORKBOOK ;
 
 #endif

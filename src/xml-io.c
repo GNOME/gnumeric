@@ -742,40 +742,46 @@ style_is_default_back (StyleColor *color)
 static char *BorderTypes[8] =
 {
 	"none",
-	"solid",
-	"unknown",
-	"unknown",
-	"unknown",
-	"unknown",
-	"unknown",
-	"unknown"
+ 	"thin",
+ 	"medium",
+ 	"dashed",
+ 	"dotted",
+ 	"thick",
+ 	"double",
+	"hair"
 };
+
+static char *StyleSideNames[4] =
+{
+ 	"Top",
+ 	"Bottom",
+ 	"Left",
+ 	"Right"
+} ;
 
 static xmlNodePtr
 writeXmlStyleBorder (parseXmlContextPtr ctxt, StyleBorder *border)
 {
 	xmlNodePtr cur;
 	xmlNodePtr side;
+	int lp ;
+       
+	for (lp=3;lp>=0;lp--)
+		if (border->type[lp] != BORDER_NONE)
+			break ;
+	if (lp<0)
+		return NULL ;
 
-	if ((border->left == BORDER_NONE) && (border->right == BORDER_NONE) &&
-	 (border->left == BORDER_NONE) && (border->right == BORDER_NONE))
-		return NULL;
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "StyleBorder", NULL);
-	if (border->left != BORDER_NONE){
-		side = xmlNewChild (cur, ctxt->ns, "Left", BorderTypes[border->left]);
-		xmlSetColorValue (side, "Color", border->left_color);
-	}
-	if (border->right != BORDER_NONE){
-		side = xmlNewChild (cur, ctxt->ns, "Right", BorderTypes[border->right]);
-		xmlSetColorValue (side, "Color", border->right_color);
-	}
-	if (border->top != BORDER_NONE){
-		side = xmlNewChild (cur, ctxt->ns, "Top", BorderTypes[border->top]);
-		xmlSetColorValue (side, "Color", border->top_color);
-	}
-	if (border->bottom != BORDER_NONE){
-		side = xmlNewChild (cur, ctxt->ns, "Bottom", BorderTypes[border->bottom]);
-		xmlSetColorValue (side, "Color", border->bottom_color);
+	
+	for (lp=0;lp<4;lp++)
+ 	{
+ 		if (border->type[lp] != BORDER_NONE)
+ 		{
+ 			side = xmlNewChild (cur, ctxt->ns, StyleSideNames[lp],
+ 					    BorderTypes[border->type[lp]]);
+ 			xmlSetColorValue (side, "Color", border->color[lp]);
+ 		}
 	}
 	return cur;
 }
@@ -787,39 +793,29 @@ static StyleBorder *
 readXmlStyleBorder (parseXmlContextPtr ctxt, xmlNodePtr tree)
 {
 	StyleBorder *ret;
-	StyleBorderType left = BORDER_NONE;
-	StyleBorderType right = BORDER_NONE;
-	StyleBorderType top = BORDER_NONE;
-	StyleBorderType bottom = BORDER_NONE;
-	StyleColor *left_color = NULL;
-	StyleColor *right_color = NULL;
-	StyleColor *top_color = NULL;
-	StyleColor *bottom_color = NULL;
+ 	StyleBorderType style[4] = { BORDER_NONE, BORDER_NONE, BORDER_NONE, BORDER_NONE } ;
+ 	StyleColor *color[4] = { NULL, NULL, NULL, NULL } ;
 	xmlNodePtr side;
+	int lp ;
 
 	if (strcmp (tree->name, "StyleBorder")){
 		fprintf (stderr,
 			 "readXmlStyleBorder: invalid element type %s, 'StyleBorder' expected`\n",
 			 tree->name);
 	}
-	if ((side = xmlSearchChild (tree, "Left")) != NULL){
-		left = BORDER_SOLID;
-		xmlGetColorValue (side, "Color", &left_color);
+
+ 	for (lp=0;lp<4;lp++)
+ 	{
+ 		if ((side = xmlSearchChild (tree, StyleSideNames[lp])) != NULL)
+ 		{
+ 			/* FIXME: need to read the proper type */
+ 			style[lp] = BORDER_THICK ;
+ 			xmlGetColorValue (side, "Color", &color[lp]);
+ 		}
 	}
-	if ((side = xmlSearchChild (tree, "Right")) != NULL){
-		right = BORDER_SOLID;
-		xmlGetColorValue (side, "Color", &right_color);
-	}
-	if ((side = xmlSearchChild (tree, "Top")) != NULL){
-		top = BORDER_SOLID;
-		xmlGetColorValue (side, "Color", &top_color);
-	}
-	if ((side = xmlSearchChild (tree, "Bottom")) != NULL){
-		bottom = BORDER_SOLID;
-		xmlGetColorValue (side, "Color", &bottom_color);
-	}
-	ret = style_border_new (left, right, top, bottom,
-		       left_color, right_color, top_color, bottom_color);
+	
+	ret = style_border_new(style, color) ;
+
 	return NULL;
 }
 

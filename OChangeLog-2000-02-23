@@ -1,3 +1,45 @@
+1999-01-10  Michael Meeks <michael@imaginator.com>
+
+	* plugins/excel/ms-excel.c(ms_excelReadWorkbook): Only believe the
+	first BOF with regard to BIFF version number, other BOFs seem to lie.
+
+1999-01-10  Nick Lamb <njl98r@ecs.soton.ac.uk>
+
+	* plugins/excel/ms-excel.h: Added global string table to EXCEL_WORKBOOK
+
+	* plugins/excel/ms-excel.c (ms_excel_workbook_new): Setup new fields,
+	(ms_excel_read_cell): case BIFF_STRING_REF,
+	(biff_get_global_string): Retrieves a global string from the EXCEL_WORKBOOK table.
+	(ms_excel_read_cell): case BIFF_STRING_REF,
+	(ms_excelReadWorkbook): case BIFF_STRINGS reads the global table.
+
+1999-01-10  Michael Meeks <michael@imaginator.com>
+
+	* plugins/excel/ms-excel.c: Rehash of border code to use neater centralised
+	enumerations / types.
+	(get_style_color_from_idx): Implemented.
+	
+	* src/style.h: Major expansion of 'StyleBorderType', massive simplification
+	of StyleBorder to use directional [ StyleSide ] arrays instead of lots of
+	unique member names.
+
+	* src/style.c (border_equal, border_hash, style_border_new,
+	style_border_new_plain): Major overhaul and shrink to fit new structure.
+
+	* src/xml-io.c: Updated BorderTypes array to give textual names to
+	the new border types, also created an array of text names for StyleSides.
+	
+	* src/xml-io.c (readXmlStyleBorder,writeXmlStyleBorder): Use new
+	arrays and struct.
+
+	* src/cell.c, src/cell.h: Added cell_set_border.
+	
+1999-01-10  Thomas Meeks  <meekte95@christs-hospital.org.uk>
+
+ 	* plugins/excel/ms-excel.c (ms_excel_read_cell): 
+ 	added header and footer Biff code.
+ 	* plugins/excel/ms-excel-biff.h: the defines. 
+	
 1999-01-10  Changwoo Ryu  <cwryu@adam.kaist.ac.kr>
 
 	* src/workbook.c (cb_sheet_check_dirty): Use g_strdup_printf
@@ -52,6 +94,7 @@
 	* src/workbook.c (open_cmd): If the file-open dialog was
 	cancelled, it will return NULL.  Take this into account.
 
+>>>>>>> 1.256
 1999-01-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/workbook.c (workbook_setup_status_area): We do not use the

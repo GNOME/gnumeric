@@ -19,6 +19,8 @@
 #include "gnumeric-util.h"
 #include "gnome-xml/tree.h"
 #include "gnome-xml/parser.h"
+#include "gnumeric-sheet.h"
+#include "format.h"
 #include "color.h"
 #include "sheet-object.h"
 #include "style.h"
@@ -58,6 +60,29 @@ biff_get_text (BYTE * ptr, int length)
 	return ans;
 }
 
+static char *
+biff_get_global_string(MS_EXCEL_SHEET *sheet, int number)
+{
+	char *temp;
+	int length, k;
+
+	MS_EXCEL_WORKBOOK *wb = sheet->wb ;
+
+        if (number >= wb->global_string_max)
+          return "Too Weird";
+
+	temp= wb->global_strings;
+        for (k= 0; k < number; ++k) {
+          length= BIFF_GETWORD(temp);
+          temp+= length + 3;
+        }
+        length= BIFF_GETWORD(temp);
+        return biff_get_text(temp+3, length);
+}
+
+/**
+ * See S59D5D.HTM
+ **/
 static BIFF_BOF_DATA *
 ms_biff_bof_data_new (BIFF_QUERY * q)
 {
@@ -79,15 +104,19 @@ ms_biff_bof_data_new (BIFF_QUERY * q)
 			ans->version = eBiffV4;
 			break;
 		case 8:	/*
-				 * More complicated 
-				 */
+			 * More complicated 
+			 */
 			{
-				switch (BIFF_GETWORD (q->data)) {
+				printf ("Complicated BIFF version %d\n",
+					BIFF_GETWORD(q->data)) ;
+				dump (q->data, q->length);
+				switch (BIFF_GETWORD (q->data))
+				{
 				case 0x0600:
 					ans->version = eBiffV8;
 					break;
 				case 0x500:
-					ans->version = eBiffV5;		/*
+					ans->version = eBiffV7;		/*
 									 * OR ebiff7 : FIXME ? ! 
 									 */
 					break;
@@ -100,6 +129,7 @@ ms_biff_bof_data_new (BIFF_QUERY * q)
 		default:
 			printf ("Unknown BIFF number in BOF %x\n", q->opcode);
 			ans->version = eBiffVUnknown;
+			printf ("Biff version %d\n", ans->version) ;
 		}
 		switch (BIFF_GETWORD (q->data + 2)) {
 		case 0x0005:
@@ -327,13 +357,13 @@ typedef struct _BIFF_XF_DATA {
 	BYTE rotation;
 	eBiff_eastern eastern;
 	BYTE border_color[4];	/*
-				 * Array [eBiff_direction] 
+				 * Array [StyleSide]
 				 */
-	eBiff_border_linestyle border_line[4];	/*
-						 * Array [eBiff_direction] 
-						 */
+	StyleBorderType border_type[4];	/*
+					 * Array [StyleSide]
+					 */
 	eBiff_border_orientation border_orientation;
-	eBiff_border_linestyle border_linestyle;
+	StyleBorderType border_linestyle;
 	BYTE fill_pattern_idx;
 	BYTE foregnd_col;
 	BYTE backgnd_col;
@@ -426,6 +456,19 @@ ms_excel_set_cell_font (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf)
 	printf ("Unknown fount idx %d\n", xf->font_idx);
 }
 
+
+static StyleColor *
+get_style_color_from_idx (MS_EXCEL_SHEET *sheet, int idx)
+{
+ 	MS_EXCEL_PALETTE *p = sheet->wb->palette;
+	
+ 	if (idx >= 0 && p && idx < p->length)
+ 		return style_color_new (p->red[idx], p->green[idx],
+ 					p->blue[idx]) ;
+ 	else
+ 		return NULL ;
+}
+
 void
 ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, int xfidx)
 {
@@ -487,6 +530,52 @@ ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, int xfidx)
 	cell_set_alignment (cell, xf->halign, xf->valign, ORIENT_HORIZ, 1);
 	ms_excel_set_cell_colors (sheet, cell, xf);
 	ms_excel_set_cell_font (sheet, cell, xf);
+	{
+		int lp ;
+ 		StyleColor *tmp[4] ;
+ 		for (lp=0;lp<4;lp++)
+ 			tmp[lp] = get_style_color_from_idx
+ 				(sheet, xf->border_color[lp]) ;
+ 		cell_set_border (cell, xf->border_type, tmp) ;
+		}
+}
+
+static StyleBorderType
+biff_xf_map_border (int b)
+{
+	switch (b)
+ 	{
+ 	case 0: /* None */
+ 		return BORDER_NONE ;
+ 	case 1: /* Thin */
+ 		return BORDER_THIN ;
+ 	case 2: /* Medium */
+ 		return BORDER_MEDIUM ;
+ 	case 3: /* Dashed */
+ 		return BORDER_DASHED ;
+ 	case 4: /* Dotted */
+ 		return BORDER_DOTTED ;
+ 	case 5: /* Thick */
+ 		return BORDER_THICK ;
+ 	case 6: /* Double */
+ 		return BORDER_DOUBLE ;
+ 	case 7: /* Hair */
+ 		return BORDER_HAIR ;
+ 	case 8: /* Medium Dashed */
+ 		return BORDER_MEDIUM ;
+ 	case 9: /* Dash Dot */
+ 		return BORDER_THIN ;
+ 	case 10: /* Medium Dash Dot */
+ 		return BORDER_THIN ;
+ 	case 11: /* Dash Dot Dot */
+ 		return BORDER_HAIR ;
+ 	case 12: /* Medium Dash Dot Dot */
+ 		return BORDER_THIN ;
+ 	case 13: /* Slanted Dash Dot*/
+ 		return BORDER_HAIR ;
+ 	}
+  	printf ("Unknown border style %d\n", b) ;
+ 	return BORDER_NONE ;
 }
 
 /**
@@ -614,20 +703,20 @@ biff_xf_data_new (BIFF_QUERY * q, eBiff_version ver)
 				 */
 		data = BIFF_GETWORD (q->data + 10);
 		subdata = data;
-		xf->border_line[eBiffDirLeft] = (subdata & 0xf);
+		xf->border_type[STYLE_LEFT] = biff_xf_map_border (subdata & 0xf) ;
 		subdata = subdata >> 4;
-		xf->border_line[eBiffDirRight] = (subdata & 0xf);
+		xf->border_type[STYLE_RIGHT] = biff_xf_map_border (subdata & 0xf);
 		subdata = subdata >> 4;
-		xf->border_line[eBiffDirTop] = (subdata & 0xf);
+		xf->border_type[STYLE_TOP] = biff_xf_map_border (subdata & 0xf);
 		subdata = subdata >> 4;
-		xf->border_line[eBiffDirBottom] = (subdata & 0xf);
+		xf->border_type[STYLE_BOTTOM] = biff_xf_map_border (subdata & 0xf);
 		subdata = subdata >> 4;
 
 		data = BIFF_GETWORD (q->data + 12);
 		subdata = data;
-		xf->border_color[eBiffDirLeft] = (subdata & 0x7f);
+		xf->border_color[STYLE_LEFT] = (subdata & 0x7f);
 		subdata = subdata >> 7;
-		xf->border_color[eBiffDirRight] = (subdata & 0x7f);
+		xf->border_color[STYLE_RIGHT] = (subdata & 0x7f);
 		subdata = (data & 0xc000) >> 14;
 		switch (subdata) {
 		case 0:
@@ -646,12 +735,12 @@ biff_xf_data_new (BIFF_QUERY * q, eBiff_version ver)
 
 		data = BIFF_GETLONG (q->data + 14);
 		subdata = data;
-		xf->border_color[eBiffDirTop] = (subdata & 0x7f);
+		xf->border_color[STYLE_TOP] = (subdata & 0x7f);
 		subdata = subdata >> 7;
-		xf->border_color[eBiffDirBottom] = (subdata & 0x7f);
+		xf->border_color[STYLE_BOTTOM] = (subdata & 0x7f);
 		subdata = subdata >> 7;
-		xf->border_linestyle = (data & 0x01e00000) >> 21;
-		xf->fill_pattern_idx = (data & 0xfc000000) >> 26;
+		xf->border_linestyle = biff_xf_map_border ((data & 0x01e00000) >> 21);
+		xf->fill_pattern_idx = biff_xf_map_border ((data & 0xfc000000) >> 26);
 
 		data = BIFF_GETWORD (q->data + 18);
 		xf->foregnd_col = (data & 0x007f);
@@ -666,24 +755,24 @@ biff_xf_data_new (BIFF_QUERY * q, eBiff_version ver)
 		/*
 		 * Luckily this maps nicely onto the new set. 
 		 */
-		xf->border_line[eBiffDirBottom] = (data & 0x1c0) >> 6;
-		xf->border_color[eBiffDirBottom] = (data & 0xfe00) >> 9;
+		xf->border_type[STYLE_BOTTOM] = biff_xf_map_border ((data & 0x1c0) >> 6);
+		xf->border_color[STYLE_BOTTOM] = (data & 0xfe00) >> 9;
 
 		data = BIFF_GETWORD (q->data + 12);
 		subdata = data;
-		xf->border_line[eBiffDirTop] = (subdata & 0x07);
+		xf->border_type[STYLE_TOP] = biff_xf_map_border (subdata & 0x07);
 		subdata = subdata >> 3;
-		xf->border_line[eBiffDirLeft] = (subdata & 0x07);
+		xf->border_type[STYLE_LEFT] = biff_xf_map_border (subdata & 0x07);
 		subdata = subdata >> 3;
-		xf->border_line[eBiffDirRight] = (subdata & 0x07);
+		xf->border_type[STYLE_RIGHT] = biff_xf_map_border (subdata & 0x07);
 		subdata = subdata >> 3;
-		xf->border_color[eBiffDirTop] = subdata;
+		xf->border_color[STYLE_TOP] = subdata;
 
 		data = BIFF_GETWORD (q->data + 14);
 		subdata = data;
-		xf->border_color[eBiffDirLeft] = (subdata & 0x7f);
+		xf->border_color[STYLE_LEFT] = (subdata & 0x7f);
 		subdata = subdata >> 7;
-		xf->border_color[eBiffDirRight] = (subdata & 0x7f);
+		xf->border_color[STYLE_RIGHT] = (subdata & 0x7f);
 	}
 	return xf;
 }
@@ -741,6 +830,8 @@ ms_excel_workbook_new ()
 	ans->excel_sheets = NULL;
 	ans->XF_records = NULL;
 	ans->palette = NULL;
+	ans->global_strings = NULL;
+	ans->global_string_max = 0 ;
 	return ans;
 }
 
@@ -851,6 +942,16 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			}
 		}
 		break;
+ 	case BIFF_HEADER: /* FIXME : S59D94 Microsoft failed to document this correctly  */
+ 		printf ("Header\n") ;
+		if (q->length)
+			dump (q->data+1, BIFF_GETBYTE(q->data+0)) ;
+ 		break;
+ 	case BIFF_FOOTER: /* FIXME : S59D8D Microsoft failed to document this correctly  */
+ 		printf ("Footer\n") ;
+		if (q->length)
+			dump (q->data+1, BIFF_GETBYTE(q->data+0)) ;
+ 		break;
 	case BIFF_RSTRING:
 		/*
 		  printf ("Cell [%d, %d] = ", EX_GETCOL(q), EX_GETROW(q)) ;
@@ -938,11 +1039,15 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		 */
 		ms_excel_parse_formula (sheet, q, EX_GETCOL (q), EX_GETROW (q));
 		break;
+
+	case BIFF_STRING_REF:
+
+		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
+				       biff_get_global_string(sheet, BIFF_GETLONG(q->data + 6)));
+                break;
+		
 	default:
-		printf ("Opcode : 0x%x, length 0x%x\n", q->opcode, q->length);
-		/*
-		 * dump (q->data, q->length) ; 
-		 */
+		printf ("Unrecognised opcode : 0x%x, length 0x%x\n", q->opcode, q->length);
 		break;
 	}
 }
@@ -1049,9 +1154,18 @@ ms_excelReadWorkbook (MS_OLE * file)
 		while (ms_biff_query_next (q)) {
 			switch (q->ls_op) {
 			case BIFF_BOF:
+			{
+				/* The first BOF seems to be OK, the rest lie ? */
+				eBiff_version vv = eBiffVUnknown ;
 				if (ver)
+				{
+					vv = ver->version ;
 					ms_biff_bof_data_destroy (ver);
+				}
 				ver = ms_biff_bof_data_new (q);
+				if (vv != eBiffVUnknown)
+					ver->version = vv ;
+
 				if (ver->type == eBiffTWorkbook) {
 					wb = ms_excel_workbook_new ();
 					wb->gnum_wb = workbook_new ();
@@ -1071,7 +1185,8 @@ ms_excelReadWorkbook (MS_OLE * file)
 						printf ("Sheet offset in stream of %x not found in list\n", q->streamPos);
 				} else
 					printf ("Unknown BOF\n");
-				break;
+			}
+			break;
 			case BIFF_EOF:
 				printf ("End of worksheet spec.\n");
 				break;
@@ -1118,6 +1233,14 @@ ms_excelReadWorkbook (MS_OLE * file)
 					 */
 					wb->XF_records = g_list_append (wb->XF_records, ptr);
 				}
+				break;
+			case BIFF_STRINGS:
+				wb->global_strings= malloc(q->length-8);
+				memcpy(wb->global_strings, q->data+8, q->length-8);
+				wb->global_string_max= BIFF_GETLONG(q->data+4);
+				printf("There are apparently %d strings\n",
+				       wb->global_string_max);
+				dump(wb->global_strings, wb->global_string_max);
 				break;
 			default:
 				printf ("Opcode : 0x%x, length 0x%x\n", q->opcode, q->length);

@@ -11,6 +11,7 @@
 typedef guint8  BYTE ;
 typedef guint16 WORD ;
 typedef guint32 LONG ;
+typedef guint64 DLONG ;
 
 /* EXTREMELY IMPORTANT TO PASS A BYTE PTR ! */
 #define BIFF_GETBYTE(p) (*(p+0))
@@ -19,9 +20,9 @@ typedef guint32 LONG ;
 		        (*(p+1)<<8)+ \
 		        (*(p+2)<<16)+ \
 		        (*(p+3)<<24))
-#define BIFF_GETDLONG(p) (long long int)(GETLONG(p)+(((long long int)GETLONG(p+4))<<32))
-/* Oh dear, silly really, brutal endianness hack: FIXME */
-#define BIFF_GETDOUBLE(p) (*((double *)(p)))
+#define BIFF_GETDLONG(p) (DLONG)(BIFF_GETLONG(p)+(((DLONG)BIFF_GETLONG(p+4))<<32))
+/* Endianness hack only work on Intel ! */
+#define BIFF_GETDOUBLE(p) (*((double*)(p)))
 
 /**
  * Returns query data, it is imperative that copies of
