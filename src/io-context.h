@@ -20,7 +20,7 @@ typedef enum {
 } WbProgressElements;
 
 GType      io_context_get_type (void);
-IOContext *gnumeric_io_context_new        (WorkbookControl *wbc);
+IOContext *gnumeric_io_context_new        (CommandContext *cc);
 
 /*
  * These are the exceptions that can arise.

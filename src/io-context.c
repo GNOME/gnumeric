@@ -50,8 +50,8 @@ io_context_finalize (GObject *obj)
 
 	io_context = IO_CONTEXT (obj);
 	error_info_free (io_context->error_info);
-	gnumeric_progress_set (COMMAND_CONTEXT (io_context->impl), 0.0);
-	gnumeric_progress_message_set (COMMAND_CONTEXT (io_context->impl), NULL);
+	gnumeric_progress_set (io_context->impl, 0.0);
+	gnumeric_progress_message_set (io_context->impl, NULL);
 	g_object_unref (G_OBJECT (io_context->impl));
 
 	G_OBJECT_CLASS (g_type_class_peek (G_TYPE_OBJECT))->finalize (obj);
@@ -68,14 +68,14 @@ E_MAKE_TYPE (io_context, "GnumIOContext", IOContext, \
              G_TYPE_OBJECT)
 
 IOContext *
-gnumeric_io_context_new (WorkbookControl *wbc)
+gnumeric_io_context_new (CommandContext *cc)
 {
 	IOContext *io_context;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), NULL);
+	g_return_val_if_fail (IS_COMMAND_CONTEXT (cc), NULL);
 
 	io_context = g_object_new (TYPE_IO_CONTEXT, NULL);
-	io_context->impl = wbc;
+	io_context->impl = cc;
 	g_object_ref (G_OBJECT (io_context->impl));
 
 	return io_context;
@@ -172,11 +172,10 @@ gnumeric_io_error_display (IOContext *context)
 {
 	g_return_if_fail (context != NULL);
 
-	if (context->error_info != NULL) {
-		gnumeric_error_error_info (COMMAND_CONTEXT (context->impl),
+	if (context->error_info != NULL)
+		gnumeric_error_error_info (context->impl,
 		                           context->error_info);
 	}
-}
 
 void
 gnumeric_io_error_clear (IOContext *context)
@@ -210,7 +209,7 @@ io_progress_update (IOContext *io_context, gdouble f)
 		(void) gettimeofday (&tv, NULL);
 		t = tv.tv_sec + tv.tv_usec / 1000000.0;
 		if (t - io_context->last_time >= PROGRESS_UPDATE_PERIOD_SEC) {
-			gnumeric_progress_set (COMMAND_CONTEXT (io_context->impl), f);
+			gnumeric_progress_set (io_context->impl, f);
 			io_context->last_time = t;
 			io_context->last_progress = f;
 		}
@@ -226,7 +225,7 @@ io_progress_message (IOContext *io_context, const gchar *msg)
 {
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 
-	gnumeric_progress_message_set (COMMAND_CONTEXT (io_context->impl), msg);
+	gnumeric_progress_message_set (io_context->impl, msg);
 }
 
 void

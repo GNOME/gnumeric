@@ -550,9 +550,12 @@ cb_select_all (GtkWidget *the_button, SheetControlGUI *scg)
 }
 
 static void
-vertical_scroll_offset_changed (GtkAdjustment *adj, int top, int is_hint,
+vertical_scroll_offset_changed (GtkRange *range, /* int top, int is_hint, */
 				SheetControlGUI *scg)
 {
+	/* kludge until we can fix the custom scrollbars */
+	gboolean is_hint = FALSE;
+	int top = range->adjustment->value;
 	if (is_hint) {
 		char *buffer = g_strdup_printf (_("Row: %s"), row_name (top));
 		wb_control_gui_set_status_text (scg->wbcg, buffer);
@@ -565,9 +568,12 @@ vertical_scroll_offset_changed (GtkAdjustment *adj, int top, int is_hint,
 }
 
 static void
-horizontal_scroll_offset_changed (GtkAdjustment *adj, int left, int is_hint,
+horizontal_scroll_offset_changed (GtkRange *range, /* int left, int is_hint, */
 				  SheetControlGUI *scg)
 {
+	/* kludge until we can fix the custom scrollbars */
+	gboolean is_hint = FALSE;
+	int left = range->adjustment->value;
 	if (is_hint) {
 		char *buffer = g_strdup_printf (_("Column: %s"), col_name (left));
 		wb_control_gui_set_status_text (scg->wbcg, buffer);
@@ -1124,11 +1130,11 @@ sheet_control_gui_new (Sheet *sheet)
 	scg->ha = gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
 	scg->vs = gtk_vscrollbar_new (GTK_ADJUSTMENT (scg->va));
 	scg->hs = gtk_hscrollbar_new (GTK_ADJUSTMENT (scg->ha));
-#if 0
-	gtk_signal_connect (GTK_OBJECT (scg->vs), "offset_changed",
+#if 1
+	gtk_signal_connect (GTK_OBJECT (scg->vs), "value_changed",
 		GTK_SIGNAL_FUNC (vertical_scroll_offset_changed),
 		scg);
-	gtk_signal_connect (GTK_OBJECT (scg->hs), "offset_changed",
+	gtk_signal_connect (GTK_OBJECT (scg->hs), "value_changed",
 		GTK_SIGNAL_FUNC (horizontal_scroll_offset_changed),
 		scg);
 #endif

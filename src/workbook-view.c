@@ -227,8 +227,11 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 				  r->end.row - r->start.row + 1,
 				  r->end.col - r->start.col + 1);
 
+		if (optional_wbc == NULL) {
 		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
 			wb_control_selection_descr_set (control, sel_descr););
+		} else
+			wb_control_selection_descr_set (optional_wbc, sel_descr);
 	}
 }
 
@@ -490,9 +493,9 @@ workbook_view_new (Workbook *optional_wb)
 /**
  * wb_view_save_as:
  * @wbv         : Workbook View
- * @wbc         : Workbook Control
  * @fs          : GnumFileSaver object
  * @file_name   : File name
+ * @context     :
  *
  * Saves @wbv and workbook it's attached to into @file_name file using 
  * @fs file saver.
@@ -500,37 +503,36 @@ workbook_view_new (Workbook *optional_wb)
  * Return value: TRUE if file was successfully saved and FALSE otherwise.
  */
 gboolean
-wb_view_save_as (WorkbookView *wbv, WorkbookControl *wbc,
-                 GnumFileSaver *fs, gchar const *file_name)
+wb_view_save_as (WorkbookView *wbv, GnumFileSaver *fs, gchar const *file_name,
+		 CommandContext *context)
 {
-	gboolean success = FALSE;
 	IOContext *io_context;
-	Workbook *wb;
+	Workbook  *wb;
+	gboolean error;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), FALSE);
-	g_return_val_if_fail (file_name != NULL, FALSE);
+	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
 	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), FALSE);
+	g_return_val_if_fail (file_name != NULL, FALSE);
+	g_return_val_if_fail (IS_COMMAND_CONTEXT (context), FALSE);
 
-	wb = wb_control_workbook (wbc);
-	io_context = gnumeric_io_context_new (wbc);
+	wb = wb_view_workbook (wbv);
+	io_context = gnumeric_io_context_new (context);
 	gnum_file_saver_save (fs, io_context, wbv, file_name);
-	if (!gnumeric_io_error_occurred (io_context)) {
+	error = gnumeric_io_error_occurred (io_context);
+	if (!error) {
 		workbook_set_saveinfo (wb, file_name, gnum_file_saver_get_format_level (fs), fs);
 		workbook_set_dirty (wb, FALSE);
-		success = TRUE;
-	} else {
+	} else
 		gnumeric_io_error_display (io_context);
-		success = FALSE;
-	}
 	g_object_unref (G_OBJECT (io_context));
 
-	return success;
+	return !error;
 }
 
 /**
  * wb_view_save:
- * @wbv         : Workbook View
- * @wbc         : Workbook Control
+ * @wbv         : The view to save.
+ * @context     : The context that invoked the operation
  *
  * Saves @wbv and workbook it's attached to into file assigned to the
  * workbook using workbook's file saver. If the workbook has no file
@@ -539,37 +541,37 @@ wb_view_save_as (WorkbookView *wbv, WorkbookControl *wbc,
  * Return value: TRUE if file was successfully saved and FALSE otherwise.
  */
 gboolean
-wb_view_save (WorkbookView *wbv, WorkbookControl *wbc)
+wb_view_save (WorkbookView *wbv, CommandContext *context)
 {
-	gboolean success = FALSE;
-	IOContext *io_context;
-	Workbook *wb;
-	GnumFileSaver *fs;
+	IOContext	*io_context;
+	Workbook	*wb;
+	GnumFileSaver	*fs;
+	gboolean error;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), FALSE);
+	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
+	g_return_val_if_fail (IS_COMMAND_CONTEXT (context), FALSE);
 
-	wb = wb_control_workbook (wbc);
-	io_context = gnumeric_io_context_new (wbc);
+	wb = wb_view_workbook (wbv);
 	fs = workbook_get_file_saver (wb);
-	if (fs == NULL) {
+	if (fs == NULL)
 		fs = get_default_file_saver ();
-	}
-	if (fs != NULL) {
-		gnum_file_saver_save (fs, io_context, wbv, wb->filename);
-	} else {
+
+	io_context = gnumeric_io_context_new (context);
+	if (fs == NULL)
 		gnumeric_io_error_save (io_context,
-		_("Default file saver is not available."));
-	}
-	if (!gnumeric_io_error_occurred (io_context)) {
-		workbook_set_dirty (wb, FALSE);
-		success = TRUE;
-	} else {
+			_("Default file saver is not available."));
+	else
+		gnum_file_saver_save (fs, io_context, wbv, wb->filename);
+
+	error = gnumeric_io_error_occurred (io_context);
+	if (error)
 		gnumeric_io_error_display (io_context);
-		success = FALSE;
-	}
+	else
+		workbook_set_dirty (wb, FALSE);
+
 	g_object_unref (G_OBJECT (io_context));
 
-	return success;
+	return !error;
 }
 
 /**
@@ -610,12 +612,13 @@ wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
 	Workbook *new_wb = NULL;
 	WorkbookView *new_wbv = NULL;
 
+	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), FALSE);
 	g_return_val_if_fail (fo == NULL || IS_GNUM_FILE_OPENER (fo), FALSE);
 	g_return_val_if_fail (file_name != NULL, FALSE);
 
 	if (g_file_test (file_name, G_FILE_TEST_IS_REGULAR)) {
-		IOContext *io_context = gnumeric_io_context_new (wbc);
+		IOContext *io_context = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
 		wb_control_menu_state_sensitivity (wbc, FALSE);
 
 		/* Search for an applicable opener */

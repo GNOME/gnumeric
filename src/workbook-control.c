@@ -224,6 +224,7 @@ wb_control_parse_and_jump (WorkbookControl *wbc, const char *text)
 				a.row = r->start.row;
 				b.col = r->end.col;
 				b.row = r->end.row;
+				a.col_relative = a.row_relative = b.col_relative = b.row_relative = FALSE;
 				pp.sheet = NULL; /* make it a global name */
 				nexpr = expr_name_add (&pp, text,
 					expr_tree_new_constant (

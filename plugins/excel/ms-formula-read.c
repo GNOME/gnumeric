@@ -1351,9 +1351,18 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 				ptg_length = 17;
 			}
 			last = first;
+			if (first_sheet != NULL) {
 			first.sheet = first_sheet->gnum_sheet;
 			first_sheet = ms_excel_workbook_get_sheet (first_sheet->wb, last_index);
+				if (first_sheet != NULL)
 			last.sheet  = first_sheet->gnum_sheet;
+			}
+			if (first_sheet == NULL) {
+				g_warning ("EXCEL : external 3d references in %s!%s.",
+					   (sheet->gnum_sheet)?
+					   sheet->gnum_sheet->name_unquoted : "",
+					   cell_coord_name (fn_col,fn_row));
+			}
 
 			/* There does not appear to be a way to express a ref
 			 * to another sheet without using a 3d ref.  lets be smarter
@@ -1409,9 +1418,19 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 					  fn_col, fn_row, 0);
 				ptg_length = 20;
 			}
+			if (first_sheet != NULL) {
 			first.sheet = first_sheet->gnum_sheet;
 			first_sheet = ms_excel_workbook_get_sheet (first_sheet->wb, last_index);
+				if (first_sheet != NULL)
 			last.sheet  = first_sheet->gnum_sheet;
+			}
+			if (first_sheet == NULL) {
+				g_warning ("EXCEL : external 3d references in %s!%s.",
+					   (sheet->gnum_sheet)?
+					   sheet->gnum_sheet->name_unquoted : "",
+					   cell_coord_name (fn_col,fn_row));
+			}
+
 			parse_list_push_raw (&stack, value_new_cellrange (&first, &last, fn_col, fn_row));
 			break;
 		}

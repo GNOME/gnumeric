@@ -25,6 +25,7 @@ Jody:
 	* Rework sheet order dialog and make it a guru.
 	* Clean sheet object widget creation.
 	* Improve key handling when there are gurus.
+ 	* Crash importing 3d references to external workbooks.
 
 Joshua R. Odom:
 	* Reorganize the custom pixmaps.

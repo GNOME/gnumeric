@@ -44,9 +44,6 @@ Long term breakage
     typically clicks to place the window.) This already works correctly
     under many window managers.
 
-- Data->Filter dialog
-    : use expr entry widget.         (done in cvs head)
-
 - The autocalc label should use a more readable format and should not get
   clipped.
 
@@ -160,8 +157,6 @@ Long term breakage
     : Add object control for resize to disable invalid sizes.
     : do not show the middle size boxes when the space between corners is too
       small.
-    : An optional stippled trim would be a nice addition for components to
-      indicate that you can click there for a menu.
 
 - Add a warning when attempting to save using the suffix from a different saver.
   eg saving .gnumeric as foo.xls

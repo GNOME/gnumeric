@@ -134,6 +134,8 @@ wbcg_toplevel (WorkbookControlGUI *wbcg)
 	return wbcg->toplevel;
 }
 
+#warning merge these and clarfy whether we want the visible scg, or the logical (view) scg
+
 /**
  * wbcg_focus_cur_scg :
  * @wbcg : The workbook control to operate on.
@@ -150,16 +152,15 @@ wbcg_focus_cur_scg (WorkbookControlGUI *wbcg)
 	GtkWidget *table;
 	GtkObject *obj;
 	SheetControlGUI *scg;
-	Sheet *sheet;
 
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
 
 	table = gtk_notebook_get_nth_page (wbcg->notebook,
 		gtk_notebook_get_current_page (wbcg->notebook));
 	obj = gtk_object_get_data (GTK_OBJECT (table), SHEET_CONTROL_KEY);
 	scg = SHEET_CONTROL_GUI (obj);
 
-	g_return_if_fail (scg != NULL);
+	g_return_val_if_fail (scg != NULL, NULL);
 
 	scg_take_focus (scg);
 	return sc_sheet (SHEET_CONTROL (scg));

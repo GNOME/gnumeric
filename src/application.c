@@ -125,19 +125,19 @@ application_init (void)
 		{ gnm_bucket,				NULL,				"Gnumeric_Bucket" },
 		{ gnm_font,				NULL,				"Gnumeric_Font" },
 
-		{ gnm_object_arrow,			NULL,				"Gnumeric_ObjectArrow" },
-		{ gnm_object_ellipse,			NULL,				"Gnumeric_ObjectEllipse" },
-		{ gnm_object_line,			NULL,				"Gnumeric_ObjectLine" },
-		{ gnm_object_rectangle,			NULL,				"Gnumeric_ObjectRectangle" },
+		{ gnm_object_arrow_24,			NULL,				"Gnumeric_ObjectArrow" },
+		{ gnm_object_ellipse_24,		NULL,				"Gnumeric_ObjectEllipse" },
+		{ gnm_object_line_24,			NULL,				"Gnumeric_ObjectLine" },
+		{ gnm_object_rectangle_24,		NULL,				"Gnumeric_ObjectRectangle" },
 
-		{ gnm_object_button,			NULL,				"Gnumeric_ObjectButton" },
-		{ gnm_object_checkbox,			NULL,				"Gnumeric_ObjectCheckbox" },
-		{ gnm_object_combo,			NULL,				"Gnumeric_ObjectCombo" },
-		{ gnm_object_frame,			NULL,				"Gnumeric_ObjectFrame" },
-		{ gnm_object_label,			NULL,				"Gnumeric_ObjectLabel" },
-		{ gnm_object_list,			NULL,				"Gnumeric_ObjectList" },
-		{ gnm_object_radiobutton,		NULL,				"Gnumeric_ObjectRadiobutton" },
-		{ gnm_object_scrollbar,			NULL,				"Gnumeric_ObjectScrollbar" },
+		{ gnm_object_button_24,			NULL,				"Gnumeric_ObjectButton" },
+		{ gnm_object_checkbox_24,		NULL,				"Gnumeric_ObjectCheckbox" },
+		{ gnm_object_combo_24,			NULL,				"Gnumeric_ObjectCombo" },
+		{ gnm_object_frame_24,			NULL,				"Gnumeric_ObjectFrame" },
+		{ gnm_object_label_24,			NULL,				"Gnumeric_ObjectLabel" },
+		{ gnm_object_list_24,			NULL,				"Gnumeric_ObjectList" },
+		{ gnm_object_radiobutton_24,		NULL,				"Gnumeric_ObjectRadiobutton" },
+		{ gnm_object_scrollbar_24,		NULL,				"Gnumeric_ObjectScrollbar" },
 	};
 	unsigned i = 0;
 	GtkIconFactory *factory = gtk_icon_factory_new ();

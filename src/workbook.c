@@ -316,7 +316,7 @@ workbook_persist_file_save (BonoboPersistFile *ps, const CORBA_char *filename,
 	GnumFileSaver *fs;
 
 	fs = get_file_saver_by_id ("Gnumeric_XmlIO:gnum_xml");
-	return wb_view_save_as (wbv, /* FIXME */ NULL, fs, filename) ? 0 : -1;
+	return wb_view_save_as (wbv, fs, filename, NULL /* FIXME */) ? 0 : -1;
 }
 
 extern Bonobo_Unknown

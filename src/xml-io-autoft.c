@@ -177,7 +177,7 @@ xml_write_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft)
  * returns 0 in case of success, -1 otherwise.
  */
 int
-gnumeric_xml_write_format_template (WorkbookControl *wbc, FormatTemplate *ft,
+gnumeric_xml_write_format_template (CommandContext *context, FormatTemplate *ft,
 				    const char *filename)
 {
 	XmlParseContext *ctxt;
@@ -194,7 +194,7 @@ gnumeric_xml_write_format_template (WorkbookControl *wbc, FormatTemplate *ft,
 	 */
 	xml = xmlNewDoc ((xmlChar *)"1.0");
 	if (xml == NULL) {
-		gnumeric_error_save (COMMAND_CONTEXT (wbc), "");
+		gnumeric_error_save (context, "");
 		return -1;
 	}
 	ctxt = xml_parse_ctx_new (xml, NULL);
@@ -203,7 +203,7 @@ gnumeric_xml_write_format_template (WorkbookControl *wbc, FormatTemplate *ft,
 
 	/* Dump it. */
 	xmlSetDocCompressMode (xml, 0);
-	io_context = gnumeric_io_context_new (wbc);
+	io_context = gnumeric_io_context_new (context);
 	file = gnumeric_fopen (io_context, filename, "w");
 	if (file != NULL) {
 		xmlDocDump (file, xml);
@@ -401,7 +401,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
  * the actual in-memory structure.
  */
 int
-gnumeric_xml_read_format_template (WorkbookControl *context, FormatTemplate *ft,
+gnumeric_xml_read_format_template (CommandContext *context, FormatTemplate *ft,
 				   const char *filename)
 {
 	xmlDocPtr res;

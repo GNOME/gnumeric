@@ -39,19 +39,19 @@ IMAGES = @STRIP_BEGIN@ 						\
 	bucket.xpm		\
 	font.xpm		\
 	\
-	object-arrow.png 	\
-	object-ellipse.png 	\
-	object-line.png 	\
-	object-rectangle.png 	\
+	object_arrow_24.png 	\
+	object_ellipse_24.png 	\
+	object_line_24.png 	\
+	object_rectangle_24.png \
 	\
 	button.xpm		\
-	object-checkbox.png 	\
+	object_checkbox_24.png 	\
 	combo.xpm		\
-	object-frame.png 	\
-	object-label.png 	\
+	object_frame_24.png 	\
+	object_label_24.png 	\
 	list.xpm		\
 	radiobutton.xpm		\
-	object-scrollbar.png 	\
+	object_scrollbar_24.png \
 	\
 	@STRIP_END@
 
@@ -116,19 +116,19 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_bucket				$(srcdir)/bucket.xpm				\
 	gnm_font				$(srcdir)/font.xpm				\
 	\
-	gnm_object_arrow			$(srcdir)/object-arrow.png			\
-	gnm_object_ellipse			$(srcdir)/object-ellipse.png			\
-	gnm_object_line				$(srcdir)/object-line.png			\
-	gnm_object_rectangle			$(srcdir)/object-rectangle.png			\
+	gnm_object_arrow_24			$(srcdir)/object_arrow_24.png			\
+	gnm_object_ellipse_24			$(srcdir)/object_ellipse_24.png			\
+	gnm_object_line_24			$(srcdir)/object_line_24.png			\
+	gnm_object_rectangle_24			$(srcdir)/object_rectangle_24.png		\
 	\
-	gnm_object_button			$(srcdir)/button.xpm				\
-	gnm_object_checkbox			$(srcdir)/object-checkbox.png			\
-	gnm_object_combo			$(srcdir)/combo.xpm				\
-	gnm_object_frame			$(srcdir)/object-frame.png			\
-	gnm_object_label			$(srcdir)/object-label.png			\
-	gnm_object_list				$(srcdir)/list.xpm				\
-	gnm_object_radiobutton			$(srcdir)/radiobutton.xpm			\
-	gnm_object_scrollbar			$(srcdir)/object-scrollbar.png			\
+	gnm_object_button_24			$(srcdir)/button.xpm				\
+	gnm_object_checkbox_24			$(srcdir)/object_checkbox_24.png		\
+	gnm_object_combo_24			$(srcdir)/combo.xpm				\
+	gnm_object_frame_24			$(srcdir)/object_frame_24.png			\
+	gnm_object_label_24			$(srcdir)/object_label_24.png			\
+	gnm_object_list_24			$(srcdir)/list.xpm				\
+	gnm_object_radiobutton_24		$(srcdir)/radiobutton.xpm			\
+	gnm_object_scrollbar_24			$(srcdir)/object_scrollbar_24.png		\
 	@STRIP_END@
 
 pixbuf_file = $(srcdir)/gnumeric-stock-pixbufs.h
