@@ -23,6 +23,7 @@
 #include "commands.h"
 #include "format.h"
 #include "border.h"
+#include "ranges.h"
 
 /*
  * Pixmaps
@@ -75,6 +76,48 @@ static void
 center_cmd (GtkWidget *widget, Workbook *wb)
 {
 	set_selection_halign (wb, HALIGN_CENTER);
+}
+
+static void
+sort_cmd (Workbook *wb, int asc)
+{
+	Sheet *sheet;
+	Range *sel;
+	SortClause *clause;
+
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (wb->current_sheet != NULL);
+	
+	sheet = wb->current_sheet;
+	sel = range_copy (selection_first_range (sheet, TRUE));
+
+	/* We can't sort complex ranges */
+	if (!selection_is_simple (workbook_command_context_gui (wb),
+				  sheet, _("sort")))
+		return;
+			
+	range_clip_to_finite (sel, sheet);
+		
+	clause = g_new0 (SortClause, 1);
+	clause->offset = 0;
+	clause->asc = asc;
+	clause->cs = FALSE;
+	clause->val = FALSE;
+
+	cmd_sort ( workbook_command_context_gui (wb),
+		   sheet, sel, clause, 1, TRUE);
+}
+
+static void
+sort_ascend_cmd (GtkWidget *widget, Workbook *wb)
+{
+	sort_cmd (wb, 0);
+}
+
+static void
+sort_descend_cmd (GtkWidget *widget, Workbook *wb)
+{
+	sort_cmd (wb, 1);
 }
 
 /*
@@ -300,6 +343,15 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 	{ GNOME_APP_UI_TOGGLEITEM, N_("Right align"), N_("Right justifies the cell contents"),
 	  &right_align_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_ALIGN_RIGHT },
 
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Sort Ascending"), N_("Sorts the selected region in ascending order based on the first column selected."),
+		sort_ascend_cmd, GNOME_STOCK_PIXMAP_UP),
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Sort Descending"), N_("Sorts the selected region in descending order based on the first column selected."),
+		sort_descend_cmd, GNOME_STOCK_PIXMAP_DOWN),
+		
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_DATA (

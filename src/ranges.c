@@ -878,6 +878,18 @@ range_is_infinite (Range const *r)
 	return FALSE;
 }
 
+void
+range_clip_to_finite (Range *range, Sheet *sheet)
+{
+	Range extent;
+	
+	extent = sheet_get_extent (sheet);
+       	if (range->end.col >= SHEET_MAX_COLS - 2)
+		range->end.col = extent.end.col;
+	if (range->end.row >= SHEET_MAX_ROWS - 2)
+		range->end.row = extent.end.row;	
+}
+
 static void
 range_style_apply_cb (Sheet *sheet, const Range *range, gpointer user_data)
 {

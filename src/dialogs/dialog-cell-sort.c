@@ -63,18 +63,6 @@ typedef struct {
 	GList     *rownames_header;
 } SortFlow;
 
-/* Utility functions */
-static void
-clip_range_to_finite (Sheet *sheet, Range *range)
-{
-	Range extent;
-	
-	extent = sheet_get_extent (sheet);
-       	if (range->end.col >= SHEET_MAX_COLS - 2)
-		range->end.col = extent.end.col;
-	if (range->end.row >= SHEET_MAX_ROWS - 2)
-		range->end.row = extent.end.row;	
-}
 
 static gchar *
 column_name (Sheet *sheet, int row, int col, gboolean header)
@@ -512,13 +500,12 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 	gboolean cont;
 	int lp, btn;
 
-
 	g_return_if_fail (inwb != NULL);
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	/* Initialize some important stuff */
-	sort_flow.sel = range_copy (selection_first_range (sheet, FALSE));
+	sort_flow.sel = range_copy (selection_first_range (sheet, TRUE));
 	sort_flow.sheet = sheet;
 	sort_flow.wb = inwb;
 
@@ -528,7 +515,7 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 		return;	
 
 	/* Correct selection if necessary */
-	clip_range_to_finite (sort_flow.sheet, sort_flow.sel);
+	range_clip_to_finite (sort_flow.sheet, sort_flow.sel);
 	
 	/* Set up the dialog information */
 	sort_flow.header = FALSE;
@@ -639,3 +626,7 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 	
 	gtk_object_unref (GTK_OBJECT (gui));
 }
+
+
+
+
