@@ -11,6 +11,7 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
+#include <string.h>
 #include "gnumeric.h"
 #include "expr-name.h"
 

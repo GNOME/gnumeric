@@ -21,6 +21,7 @@
  */
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
+#include <stdlib.h>
 #include "gnumeric.h"
 
 #include "sheet-view.h"

@@ -25,6 +25,8 @@
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
+#include <string.h>
+#include <stdlib.h>
 #include <func.h>
 
 #include <complex.h>

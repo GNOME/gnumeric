@@ -27,6 +27,7 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
+#include <string.h>
 #include "dao.h"
 
 #include "value.h"

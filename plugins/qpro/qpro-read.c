@@ -22,6 +22,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
+#include <string.h>
 #include "qpro.h"
 
 #include <gutils.h>

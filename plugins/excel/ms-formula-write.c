@@ -14,6 +14,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
+#include <string.h>
 #include "ms-formula-write.h"
 #include "excel.h"
 #include "ms-biff.h"

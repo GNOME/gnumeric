@@ -12,6 +12,7 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
+#include <string.h>
 
 #include "ms-biff.h"
 #include "biff-types.h"

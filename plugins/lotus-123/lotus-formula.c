@@ -10,6 +10,7 @@
  **/
 #include <gnumeric-config.h>
 #include <gnumeric.h>
+#include <string.h>
 #include "lotus.h"
 #include "lotus-types.h"
 #include "lotus-formula.h"
