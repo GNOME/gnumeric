@@ -639,7 +639,7 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 		if (a->type != VALUE_FLOAT && b->type != VALUE_FLOAT){
 			int ia = value_get_as_int (a);
 			int ib = value_get_as_int (b);
-			double dres;
+			gnum_float dres;
 			int ires;
 
 			value_release (a);
@@ -649,7 +649,7 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 			   catch most cases where overflow will not happen.  */
 			switch (expr->any.oper){
 			case OPER_ADD:
-				dres = (double)ia + (double)ib;
+				dres = (gnum_float)ia + (gnum_float)ib;
 				ires = (int)dres;
 				if (dres == ires)
 					return value_new_int (ires);
@@ -657,7 +657,7 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 					return value_new_float ((gnum_float) dres);
 
 			case OPER_SUB:
-				dres = (double)ia - (double)ib;
+				dres = (gnum_float)ia - (gnum_float)ib;
 				ires = (int)dres;
 				if (dres == ires)
 					return value_new_int (ires);
@@ -665,7 +665,7 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 					return value_new_float ((gnum_float) dres);
 
 			case OPER_MULT:
-				dres = (double)ia * (double)ib;
+				dres = (gnum_float)ia * (gnum_float)ib;
 				ires = (int)dres;
 				if (dres == ires)
 					return value_new_int (ires);
@@ -675,7 +675,7 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 			case OPER_DIV:
 				if (ib == 0)
 					return value_new_error (pos, gnumeric_err_DIV0);
-				dres = (double)ia / (double)ib;
+				dres = (gnum_float)ia / (gnum_float)ib;
 				ires = (int)dres;
 				if (dres == ires)
 					return value_new_int (ires);
@@ -685,7 +685,7 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 			case OPER_EXP:
 				if (ia == 0 && ib <= 0)
 					return value_new_error (pos, gnumeric_err_NUM);
-				dres = pow ((double)ia, (double)ib);
+				dres = pow ((gnum_float)ia, (gnum_float)ib);
 				ires = (int)dres;
 				if (dres == ires)
 					return value_new_int (ires);

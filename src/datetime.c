@@ -117,7 +117,7 @@ datetime_timet_to_serial_raw (time_t t)
         g_date_clear (&date, 1);
 	g_date_set_time (&date, t);
 	secs = tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec;
-	return datetime_g_to_serial (&date) + secs / (double)SECS_PER_DAY;
+	return datetime_g_to_serial (&date) + secs / (gnum_float)SECS_PER_DAY;
 }
 
 /* ------------------------------------------------------------------------- */

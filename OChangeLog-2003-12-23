@@ -1,5 +1,10 @@
 2002-02-19  Morten Welinder  <terra@diku.dk>
 
+	* src/sheet-autofill.c (autofill_cell): Use gnum_float instead of
+	double.
+	* src/expr.c (expr_eval_real): Ditto.
+	* src/datetime.c (datetime_timet_to_serial_raw): Ditto.
+
 	* src/format.c (format_compile): Fix isdigit usage.
 
 	* src/value.c (value_diff): Return a gnum_float, not a double.

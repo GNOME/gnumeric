@@ -125,8 +125,8 @@ typedef struct _FillItem {
 
 	gboolean delta_is_float;
 	union {
-		double    d_float;
-		int       d_int;
+		gnum_float d_float;
+		int d_int;
 	} delta;
 
 	struct _FillItem *group_last;
@@ -401,7 +401,7 @@ autofill_compute_delta (GList *list_last, gboolean singleton_increment)
 	/* fall through */
 
 	case FILL_NUMBER: {
-		double a, b;
+		gnum_float a, b;
 
 		if (list_last->prev == NULL) {
 			if ((fi->delta_is_float = (VALUE_TYPE (fi->v.value) == VALUE_FLOAT)))
@@ -616,7 +616,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 		Value *v;
 
 		if (delta->delta_is_float) {
-			double const d = value_get_as_float (delta->v.value);
+			const gnum_float d = value_get_as_float (delta->v.value);
 			v = value_new_float (d + idx * delta->delta.d_float);
 		} else {
 			int const i = value_get_as_int (delta->v.value);
