@@ -762,11 +762,11 @@ msgstr "Нова книга"
 
 #: src/dialogs/dialog-analysis-tools.c:409
 msgid "Output Range:"
-msgstr ""
+msgstr "Д╕апазон виводу:"
 
 #: src/dialogs/dialog-analysis-tools.c:429
 msgid "Grouped By:"
-msgstr ""
+msgstr "Групувати за:"
 
 #: src/dialogs/dialog-analysis-tools.c:471
 #: src/dialogs/dialog-analysis-tools.c:552
@@ -793,7 +793,7 @@ msgstr "Вв╕д:"
 #: src/dialogs/dialog-analysis-tools.c:1907
 #: src/dialogs/dialog-analysis-tools.c:1996
 msgid "Input Range:"
-msgstr ""
+msgstr "Вх╕дний д╕апазон:"
 
 #: src/dialogs/dialog-analysis-tools.c:509
 #: src/dialogs/dialog-analysis-tools.c:589
@@ -823,7 +823,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1168
 #: src/dialogs/dialog-analysis-tools.c:1270
 msgid "Variable 1 Range:"
-msgstr ""
+msgstr "Д╕апазон зм╕нно╖ 1:"
 
 #: src/dialogs/dialog-analysis-tools.c:843
 #: src/dialogs/dialog-analysis-tools.c:960
@@ -831,7 +831,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1171
 #: src/dialogs/dialog-analysis-tools.c:1273
 msgid "Variable 2 Range:"
-msgstr ""
+msgstr "Д╕апазон зм╕нно╖ 2:"
 
 #: src/dialogs/dialog-analysis-tools.c:846
 #: src/dialogs/dialog-analysis-tools.c:963
@@ -842,11 +842,11 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:849
 msgid "Variable 1 Variance (known):"
-msgstr ""
+msgstr "Дисперс╕я зм╕нно╖ 1 (в╕дома):"
 
 #: src/dialogs/dialog-analysis-tools.c:852
 msgid "Variable 2 Variance (known):"
-msgstr ""
+msgstr "Дисперс╕я зм╕нно╖ 2 (в╕дома):"
 
 #: src/dialogs/dialog-analysis-tools.c:854
 #: src/dialogs/dialog-analysis-tools.c:965
@@ -890,7 +890,7 @@ msgstr "Параметри:"
 
 #: src/dialogs/dialog-analysis-tools.c:1443
 msgid "Value and Probability Input Range:"
-msgstr ""
+msgstr "Вх╕дний д╕апазон значень та в╕рог╕дностей:"
 
 #: src/dialogs/dialog-analysis-tools.c:1448
 msgid "Between:"
@@ -906,7 +906,7 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1458
 msgid "Standard Deviation = "
-msgstr ""
+msgstr "Стандартне в╕дхилення ="
 
 #: src/dialogs/dialog-analysis-tools.c:1462
 msgid "Lambda"
@@ -924,11 +924,11 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1611
 msgid "Input Y Range:"
-msgstr ""
+msgstr "Вх╕дний д╕апазон Y:"
 
 #: src/dialogs/dialog-analysis-tools.c:1614
 msgid "Input X Range:"
-msgstr ""
+msgstr "Вх╕дний д╕апазон X:"
 
 #: src/dialogs/dialog-analysis-tools.c:1616
 msgid "Confidence Level:"
@@ -998,7 +998,7 @@ msgstr "Спадаючий"
 
 #: src/dialogs/dialog-cell-sort.c:454
 msgid "At least one clause is required."
-msgstr ""
+msgstr "Необх╕дний хоча б один пункт."
 
 #: src/dialogs/dialog-cell-sort.c:463
 msgid "Can't add more than the selection length."
@@ -1006,7 +1006,7 @@ msgstr ""
 
 #: src/dialogs/dialog-cell-sort.c:466
 msgid "Maximum number of clauses has been reached."
-msgstr ""
+msgstr "Було досягнуто максимально╖ к╕лькост╕ пункт╕в."
 
 #: src/dialogs/dialog-cell-sort.c:595
 msgid "sort"
@@ -1014,7 +1014,7 @@ msgstr "сортувати"
 
 #: src/dialogs/dialog-cell-sort.c:655
 msgid "then by"
-msgstr ""
+msgstr "пот╕м за"
 
 #: src/dialogs/cell-sort.glade.h:16 src/dialogs/dialog-cell-sort.c:655
 msgid "Sort by"
@@ -1022,11 +1022,11 @@ msgstr "Сортувати за"
 
 #: src/dialogs/dialog-cell-sort.c:690
 msgid "Column must be within range"
-msgstr ""
+msgstr "Стовпчик мусить бути у д╕апазон╕"
 
 #: src/dialogs/dialog-cell-sort.c:707
 msgid "Row must be within range"
-msgstr ""
+msgstr "Рядок мусить бути у д╕апазон╕"
 
 #: src/dialogs/dialog-cell-sort.c:714
 msgid "First column must be valid"
@@ -1058,7 +1058,7 @@ msgstr ""
 
 #: src/dialogs/dialog-function-wizard.c:211
 msgid "Range"
-msgstr ""
+msgstr "Д╕апазон"
 
 #: src/dialogs/dialog-function-wizard.c:214
 msgid "Array"
@@ -1066,15 +1066,15 @@ msgstr "Масив"
 
 #: src/dialogs/dialog-function-wizard.c:217
 msgid "Range/Array"
-msgstr ""
+msgstr "Д╕апазон/масив"
 
 #: src/dialogs/dialog-function-wizard.c:220
 msgid "Any"
-msgstr ""
+msgstr "Будь-який"
 
 #: src/dialogs/dialog-function-wizard.c:223
 msgid "Unknown"
-msgstr ""
+msgstr "В╕домий"
 
 #: src/dialogs/dialog-function-wizard.c:332
 msgid "Formula Wizard"
@@ -1102,15 +1102,15 @@ msgstr "Р╕шення:       %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:213
 msgid "Goal Seek Report"
-msgstr ""
+msgstr "Зв╕т про пошук ц╕л╕"
 
 #: src/dialogs/dialog-goal-seek.c:275
 msgid "Goal Seek..."
-msgstr ""
+msgstr "Пошук ц╕л╕..."
 
 #: src/dialogs/dialog-goal-seek.c:295
 msgid "Set cell:"
-msgstr "Встановити для ком╕рки:"
+msgstr "Встановити ком╕рки:"
 
 #: src/dialogs/dialog-goal-seek.c:296
 msgid "To value:"
@@ -1118,15 +1118,15 @@ msgstr "Значення:"
 
 #: src/dialogs/dialog-goal-seek.c:297
 msgid "By changing cell:"
-msgstr ""
+msgstr "Зм╕ни ком╕рки:"
 
 #: src/dialogs/dialog-goal-seek.c:298
 msgid "To a value of at least [optional]:"
-msgstr ""
+msgstr "До значення не меншого н╕ж [не обов'язково]:"
 
 #: src/dialogs/dialog-goal-seek.c:299
 msgid "But no bigger than [optional]:"
-msgstr ""
+msgstr "Не б╕льше н╕ж [не обов'язково]:"
 
 #: src/dialogs/dialog-goal-seek.c:358
 msgid "You should introduce a valid cell name in 'Set cell'"
@@ -1158,7 +1158,7 @@ msgstr "Перейти..."
 
 #: src/dialogs/dialog-goto-cell.c:43
 msgid "Special..."
-msgstr ""
+msgstr "Спец╕альний..."
 
 #: src/dialogs/dialog-insert-cells.c:85
 msgid "insert cells"
@@ -1284,27 +1284,27 @@ msgstr ""
 
 #: src/dialogs/dialog-solver.c:68
 msgid "Assume Linear Model"
-msgstr ""
+msgstr "Перев╕рити л╕н╕йну модель"
 
 #: src/dialogs/dialog-solver.c:69
 msgid "Assume Non-Negative"
-msgstr ""
+msgstr "Перев╕рити не негативн╕сть"
 
 #: src/dialogs/dialog-solver.c:74
 msgid "Use Automatic Scaling"
-msgstr ""
+msgstr "Використовувати автомасштабування"
 
 #: src/dialogs/dialog-solver.c:75
 msgid "Show Iteration Results"
-msgstr ""
+msgstr "Показувати результати ╕терац╕й"
 
 #: src/dialogs/dialog-solver.c:134
 msgid "Gnumeric Solver Options"
-msgstr ""
+msgstr "Параметри Gnumeric Solver"
 
 #: src/dialogs/dialog-solver.c:150
 msgid "Estimates"
-msgstr ""
+msgstr "Оц╕нки"
 
 #: src/dialogs/dialog-solver.c:152
 msgid "Derivatives"
@@ -1312,7 +1312,7 @@ msgstr ""
 
 #: src/dialogs/dialog-solver.c:155
 msgid "Search"
-msgstr ""
+msgstr "Пошук"
 
 #: src/dialogs/dialog-solver.c:204
 msgid "You gave a cell reference that contain no data."
@@ -1330,7 +1330,7 @@ msgstr "Додати"
 
 #: src/dialogs/dialog-solver.c:394
 msgid "Gnumeric Solver Parameters"
-msgstr ""
+msgstr "Параметри Gnumeric Solver"
 
 #: src/dialogs/dialog-solver.c:395
 msgid "Solve"
@@ -1446,7 +1446,7 @@ msgstr "позначка9"
 #.
 #: src/dialogs/import.glade.h:7
 msgid "Choose an import filter for loading the file:"
-msgstr ""
+msgstr "Вибер╕ть ╕мпортуючий ф╕льтр для завантаження файлу:"
 
 #: src/dialogs/import.glade.h:8
 msgid "label2"
@@ -1475,20 +1475,20 @@ msgstr "Альбомна"
 
 #: src/dialogs/print.glade.h:11
 msgid "Scale"
-msgstr ""
+msgstr "Масштаб"
 
 #: src/dialogs/print.glade.h:12
 msgid "_Adjust to:"
-msgstr ""
+msgstr "Вир╕внювати до:"
 
 #: src/dialogs/print.glade.h:13
 msgid "_Fit to:"
-msgstr ""
+msgstr "Заповнювати до:"
 
 #: src/dialogs/print.glade.h:15
 #, no-c-format
 msgid "% of normal size"
-msgstr "% в╕д нормального розм╕ру"
+msgstr "% нормального розм╕ру"
 
 #: src/dialogs/print.glade.h:16
 msgid "page(s) wide by"
@@ -1510,7 +1510,7 @@ msgstr "Друкувати"
 #: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:34
 #: src/dialogs/print.glade.h:44 src/dialogs/print.glade.h:60
 msgid "Print previe_w"
-msgstr ""
+msgstr "Перегляд друку"
 
 #: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:35
 #: src/dialogs/print.glade.h:45 src/dialogs/print.glade.h:61
@@ -1523,7 +1523,7 @@ msgstr "Стор╕нка"
 
 #: src/dialogs/print.glade.h:23
 msgid "_Top:"
-msgstr ""
+msgstr "Вгору:"
 
 #: src/dialogs/print.glade.h:24
 msgid "He_ader:"
@@ -1531,7 +1531,7 @@ msgstr "Заголовок:"
 
 #: src/dialogs/print.glade.h:25
 msgid "_Bottom:"
-msgstr ""
+msgstr "Вниз:"
 
 #: src/dialogs/print.glade.h:26
 msgid "_Footer"
@@ -1539,7 +1539,7 @@ msgstr "Зноска"
 
 #: src/dialogs/print.glade.h:27
 msgid "Center on page"
-msgstr ""
+msgstr "В центр╕ стор╕нки"
 
 #: src/dialogs/print.glade.h:28
 msgid "_Horizontally"
@@ -1551,11 +1551,11 @@ msgstr ""
 
 #: src/dialogs/print.glade.h:30
 msgid "_Left:"
-msgstr ""
+msgstr "Л╕воруч:"
 
 #: src/dialogs/cell-format.glade.h:34 src/dialogs/print.glade.h:31
 msgid "_Right"
-msgstr ""
+msgstr "Праворуч:"
 
 #: src/dialogs/print.glade.h:32
 msgid "Paper _size:"
@@ -1591,19 +1591,19 @@ msgstr "Заголовки та зноски"
 
 #: src/dialogs/print.glade.h:47
 msgid "Print _area:"
-msgstr ""
+msgstr "Д╕лянка друку:"
 
 #: src/dialogs/print.glade.h:48
 msgid "Titles to print"
-msgstr ""
+msgstr "Заголовки для друку"
 
 #: src/dialogs/print.glade.h:49
 msgid "_Columns to repeat on the left side:"
-msgstr ""
+msgstr "Стовпчити повторюються з л╕во╖ сторони:"
 
 #: src/dialogs/print.glade.h:50
 msgid "_Rows to repeat on the upper region:"
-msgstr ""
+msgstr "Рядки повторюються в гор╕:"
 
 #: src/dialogs/print.glade.h:51 src/workbook.c:1222
 msgid "Print"
@@ -1627,15 +1627,15 @@ msgstr "Чорне ╕ б╕ле"
 
 #: src/dialogs/print.glade.h:56
 msgid "Page order"
-msgstr "Порялок стор╕нок"
+msgstr "Порядок стор╕нок"
 
 #: src/dialogs/print.glade.h:57
 msgid "_Down, then right"
-msgstr ""
+msgstr "Вниз, пот╕м праворуч"
 
 #: src/dialogs/print.glade.h:58
 msgid "R_ight, then down"
-msgstr ""
+msgstr "Праворуч, мот╕м вниз"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1644,11 +1644,11 @@ msgstr ""
 #.
 #: src/dialogs/names.glade.h:7
 msgid "Define Name"
-msgstr ""
+msgstr "Визначити назви"
 
 #: src/dialogs/names.glade.h:8
 msgid "Names in workbook:"
-msgstr ""
+msgstr "Назви в книз╕:"
 
 #: src/dialogs/names.glade.h:11
 msgid "Refers to:"
@@ -1716,19 +1716,19 @@ msgstr "Компан╕я"
 #.
 #: src/dialogs/cell-format.glade.h:7 src/dialogs/cell-format.glade.h:38
 msgid "_General"
-msgstr ""
+msgstr "Загальний"
 
 #: src/dialogs/cell-format.glade.h:8
 msgid "_Number"
-msgstr "Чи_сло"
+msgstr "Числовий"
 
 #: src/dialogs/cell-format.glade.h:9
 msgid "_Currency"
-msgstr ""
+msgstr "Грошовий"
 
 #: src/dialogs/cell-format.glade.h:10
 msgid "_Accounting"
-msgstr ""
+msgstr "Зростаючий"
 
 #: src/dialogs/cell-format.glade.h:11
 msgid "_Date"
@@ -1740,31 +1740,31 @@ msgstr "_Час"
 
 #: src/dialogs/cell-format.glade.h:13
 msgid "_Percentage"
-msgstr ""
+msgstr "В╕дсотки"
 
 #: src/dialogs/cell-format.glade.h:14
 msgid "_Fraction"
-msgstr ""
+msgstr "Дробовий"
 
 #: src/dialogs/cell-format.glade.h:15
 msgid "_Scientific"
-msgstr ""
+msgstr "Науковий"
 
 #: src/dialogs/cell-format.glade.h:16
 msgid "Te_xt"
-msgstr "_Текст"
+msgstr "Текстовий"
 
 #: src/dialogs/cell-format.glade.h:17
 msgid "Sp_ecial"
-msgstr ""
+msgstr "Спец╕альний"
 
 #: src/dialogs/cell-format.glade.h:18
 msgid "Cust_om"
-msgstr ""
+msgstr "Користувацький"
 
 #: src/dialogs/cell-format.glade.h:19 src/dialogs/cell-format.glade.h:108
 msgid "Sample"
-msgstr ""
+msgstr "Зразок"
 
 #: src/dialogs/cell-format.glade.h:20
 msgid ""
@@ -1774,11 +1774,11 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:21
 msgid "Deci_mal places:"
-msgstr ""
+msgstr "Десяткових позиц╕й:"
 
 #: src/dialogs/cell-format.glade.h:22
 msgid "_Use Separator for 1000's"
-msgstr "Використовувати розд╕лювач для тисяч:"
+msgstr "Використовувати розд╕лювач розряд╕в:"
 
 #: src/dialogs/cell-format.glade.h:23
 msgid "S_ymbol:"
@@ -1790,15 +1790,15 @@ msgstr "\n"
 
 #: src/dialogs/cell-format.glade.h:26
 msgid "$"
-msgstr ""
+msgstr "$"
 
 #: src/dialogs/cell-format.glade.h:27
 msgid "Negat_ive number:"
-msgstr ""
+msgstr "В╕д'╓мне число:"
 
 #: src/dialogs/cell-format.glade.h:28
 msgid "De_lete format"
-msgstr ""
+msgstr "Усунути формат"
 
 #: src/dialogs/cell-format.glade.h:29
 msgid "_Type"
@@ -1806,59 +1806,59 @@ msgstr "_Тип"
 
 #: src/dialogs/cell-format.glade.h:30
 msgid "Display the value exactly as it was entered"
-msgstr ""
+msgstr "Показувати значення точно так як його було введено"
 
 #: src/dialogs/cell-format.glade.h:32
 msgid "Horizontal"
-msgstr "Горизонтальне"
+msgstr "По горизонтал╕"
 
 #: src/dialogs/cell-format.glade.h:33
 msgid "_Justify"
-msgstr "Вир╕внювання"
+msgstr "За форматом"
 
 #: src/dialogs/cell-format.glade.h:35
 msgid "_Fill"
-msgstr ""
+msgstr "Заповнення"
 
 #: src/dialogs/cell-format.glade.h:36
 msgid "_Center"
-msgstr "По центру"
+msgstr "В центр╕"
 
 #: src/dialogs/cell-format.glade.h:37
 msgid "_Left"
-msgstr "По л╕вому краю"
+msgstr "Л╕воруч"
 
 #: src/dialogs/cell-format.glade.h:39
 msgid "Vertical"
-msgstr "Вертикальне"
+msgstr "По вертикал╕"
 
 #: src/dialogs/cell-format.glade.h:40
 msgid "J_ustify"
-msgstr "Вир╕внювання"
+msgstr "За форматом"
 
 #: src/dialogs/cell-format.glade.h:41
 msgid "_Top"
-msgstr "По верху"
+msgstr "Вгору"
 
 #: src/dialogs/cell-format.glade.h:42
 msgid "C_enter"
-msgstr "По центру"
+msgstr "В центр╕"
 
 #: src/dialogs/cell-format.glade.h:43
 msgid "_Bottom"
-msgstr "По низу"
+msgstr "Знизу"
 
 #: src/dialogs/cell-format.glade.h:44
 msgid "Control"
-msgstr ""
+msgstr "Керування"
 
 #: src/dialogs/cell-format.glade.h:45
 msgid "_Wrap text"
-msgstr ""
+msgstr "Переносити текст"
 
 #: src/dialogs/cell-format.glade.h:47
 msgid "Unfinished"
-msgstr ""
+msgstr "Незавершено"
 
 #: src/dialogs/cell-format.glade.h:48
 msgid "Alignment"
@@ -1871,16 +1871,16 @@ msgstr "Кол╕р"
 #: src/dialogs/cell-format.glade.h:50 src/dialogs/cell-format.glade.h:78
 #: src/dialogs/cell-format.glade.h:87
 msgid "_Automatic"
-msgstr ""
+msgstr "Автоматичне"
 
 #: src/dialogs/cell-format.glade.h:51 src/dialogs/cell-format.glade.h:79
 #: src/dialogs/cell-format.glade.h:88 src/dialogs/dialog-zoom.glade.h:15
 msgid "_Custom"
-msgstr ""
+msgstr "Користувацьке"
 
 #: src/dialogs/cell-format.glade.h:52
 msgid "Pick a font color"
-msgstr "Вибер╕ть кол╕р шрифту"
+msgstr "Вибрати кол╕р шрифту"
 
 #: src/dialogs/cell-format.glade.h:53
 msgid "Effects"
@@ -1910,7 +1910,7 @@ msgstr "Нижн╕й ╕ндекс"
 
 #: src/dialogs/cell-format.glade.h:62
 msgid "Stri_kethrough"
-msgstr ""
+msgstr "Перекреслення"
 
 #: src/dialogs/cell-format.glade.h:63
 msgid "Font"
@@ -1922,15 +1922,15 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:65
 msgid "Left"
-msgstr ""
+msgstr "Л╕воруч"
 
 #: src/dialogs/cell-format.glade.h:66
 msgid "Top"
-msgstr ""
+msgstr "Вгору"
 
 #: src/dialogs/cell-format.glade.h:67
 msgid "Bottom"
-msgstr ""
+msgstr "Вниз"
 
 #: src/dialogs/cell-format.glade.h:68
 msgid "Diagonal"
@@ -1938,11 +1938,11 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:69
 msgid "Right"
-msgstr ""
+msgstr "Праворуч"
 
 #: src/dialogs/cell-format.glade.h:71
 msgid "Outline"
-msgstr ""
+msgstr "Контур"
 
 #: src/dialogs/cell-format.glade.h:72
 msgid "Inside Vertical"
@@ -1958,7 +1958,7 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:75 src/workbook.c:1262
 msgid "Line"
-msgstr ""
+msgstr "Л╕н╕я"
 
 #: src/dialogs/cell-format.glade.h:76
 msgid "_Style"
@@ -1966,7 +1966,7 @@ msgstr "Стиль"
 
 #: src/dialogs/cell-format.glade.h:80
 msgid "Pick a border color"
-msgstr "Вибер╕ть кол╕р тла"
+msgstr "Вибрати кол╕р тла"
 
 #: src/dialogs/cell-format.glade.h:81
 msgid "Border"
@@ -1978,7 +1978,7 @@ msgstr "Кол╕р тла"
 
 #: src/dialogs/cell-format.glade.h:83
 msgid "_No Color"
-msgstr ""
+msgstr "Без кольору"
 
 #: src/dialogs/cell-format.glade.h:84
 msgid "C_olor"
@@ -1990,11 +1990,11 @@ msgstr "Вибер╕ть кол╕р тла"
 
 #: src/dialogs/cell-format.glade.h:86
 msgid "Pattern"
-msgstr ""
+msgstr "Шаблон"
 
 #: src/dialogs/cell-format.glade.h:89
 msgid "Pick a Pattern color"
-msgstr ""
+msgstr "Вказати кол╕р шаблону"
 
 #: src/dialogs/cell-format.glade.h:90
 #, c-format
@@ -2079,15 +2079,15 @@ msgstr "Тло"
 
 #: src/dialogs/cell-format.glade.h:110
 msgid "_Locked"
-msgstr ""
+msgstr "Захищено"
 
 #: src/dialogs/cell-format.glade.h:111
 msgid "_Hidden"
-msgstr ""
+msgstr "Сховано"
 
 #: src/dialogs/cell-format.glade.h:112
 msgid "Locking cells or hiding formulas only affects protected worksheets."
-msgstr ""
+msgstr "Захист ком╕рок чи приховування формул д╕╓ лише в захищених таблицях."
 
 #: src/dialogs/cell-format.glade.h:113
 msgid "Worksheet _protected"
@@ -2112,15 +2112,15 @@ msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:9
 msgid "A header"
-msgstr ""
+msgstr "Заголовок"
 
 #: src/dialogs/cell-sort.glade.h:10
 msgid "Sort"
-msgstr ""
+msgstr "Сортувати"
 
 #: src/dialogs/cell-sort.glade.h:14 src/sheet-object.c:978
 msgid "Remove"
-msgstr ""
+msgstr "Видалити"
 
 #: src/dialogs/cell-sort.glade.h:15
 msgid "Advanced Sort Options"
@@ -2140,7 +2140,7 @@ msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:20
 msgid "Case sensitive"
-msgstr "Чутлив╕ст╕ь до рег╕стру"
+msgstr "Рег╕строва чутлив╕ст╕ь"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -2200,7 +2200,7 @@ msgstr ""
 
 #: src/expr-name.c:177
 msgid "already defined"
-msgstr ""
+msgstr "вже визначено"
 
 #: src/expr-name.c:180
 msgid "no scope"
@@ -2208,7 +2208,7 @@ msgstr ""
 
 #: src/expr-name.c:185
 msgid "circular reference"
-msgstr ""
+msgstr "цикл╕чне посилання"
 
 #: src/expr-name.c:338
 msgid "Builtin"
@@ -2216,7 +2216,7 @@ msgstr ""
 
 #: src/expr-name.c:373
 msgid "Error: no sheet"
-msgstr "Помилка: нема╓ аркуш╕в"
+msgstr "Помилка: нема╓ аркуша"
 
 #: src/expr.c:181
 msgid "Syntax error"
@@ -2224,7 +2224,7 @@ msgstr "Синтаксична помилка"
 
 #: src/expr.c:185
 msgid "Missing quote"
-msgstr ""
+msgstr "В╕дсутня лапка"
 
 #: src/expr.c:189
 msgid "Impossible!"
@@ -2236,7 +2236,7 @@ msgstr "Внутр╕шня помилка"
 
 #: src/expr.c:711
 msgid "Internal type error"
-msgstr ""
+msgstr "Помилка внутр╕шнього типу"
 
 #: src/expr.c:864
 msgid "Unknown operator"
@@ -2266,7 +2266,7 @@ msgstr "Зберегти книгу як"
 
 #: src/file.c:543
 msgid "Sorry, there are no file savers loaded, I cannot save"
-msgstr ""
+msgstr "Нажаль, модуля збереження файл╕в не завантажено, збереження неможливе"
 
 #: src/file.c:557 src/file.c:582
 #, c-format
@@ -2275,7 +2275,7 @@ msgstr "Неможливо записати у файл %s"
 
 #: src/file.c:595
 msgid "Load file"
-msgstr ""
+msgstr "Завантажити файл"
 
 #: src/functions/fn-database.c:398
 msgid ""
@@ -2296,6 +2296,10 @@ msgid ""
 "@DESCRIPTION=DCOUNT function counts the cells that contain numbers in a "
 "database that match conditions specified. \n"
 msgstr ""
+"@FUNCTION=DCOUNT\n"
+"@SYNTAX=DCOUNT(database,field,criteria)\n"
+"@DESCRIPTION=Функц╕я DCOUNT п╕драхову╓ ком╕рки, що м╕стять числа в баз╕ "
+"даних, як╕ задов╕льняють вказаним умовам. \n"
 
 #: src/functions/fn-database.c:519
 msgid ""
@@ -2304,6 +2308,10 @@ msgid ""
 "@DESCRIPTION=DCOUNTA function counts the cells that contain data in a "
 "database that match conditions specified. \n"
 msgstr ""
+"@FUNCTION=DCOUNTA\n"
+"@SYNTAX=DCOUNTA(database,field,criteria)\n"
+"@DESCRIPTION=Функц╕я DCOUNTA п╕драхову╓ ком╕рки, що м╕стять дан╕ в баз╕ "
+"даних, як╕ задов╕льняють вказаним умовам. \n"
 
 #: src/functions/fn-database.c:574
 msgid ""
@@ -2312,6 +2320,10 @@ msgid ""
 "@DESCRIPTION=DGET function returns a single value from a column that match "
 "conditions specified. \n"
 msgstr ""
+"@FUNCTION=DGET\n"
+"@SYNTAX=DGET(database,field,criteria)\n"
+"@DESCRIPTION=Функц╕я DGET поверта╓ одне значення з стовпчика, яке "
+"задов╕льня╓ вказаним умовам. \n"
 
 #: src/functions/fn-database.c:641
 msgid ""
@@ -2320,6 +2332,10 @@ msgid ""
 "@DESCRIPTION=DMAX function returns the largest number in a column that match "
 "conditions specified. \n"
 msgstr ""
+"@FUNCTION=DMAX\n"
+"@SYNTAX=DMAX(database,field,criteria)\n"
+"@DESCRIPTION=Функц╕я DMAX поверта╓ найб╕льше число в стовпчику, яке "
+"задов╕льня╓ вказаним умовам. \n"
 
 #: src/functions/fn-database.c:709
 msgid ""
@@ -2328,6 +2344,10 @@ msgid ""
 "@DESCRIPTION=DMIN function returns the smallest number in a column that "
 "match conditions specified. \n"
 msgstr ""
+"@FUNCTION=DMIN\n"
+"@SYNTAX=DMIN(database,field,criteria)\n"
+"@DESCRIPTION=Функц╕я DMIN поверта╓ найменше число в стовпчику, яке "
+"задов╕льня╓ вказаним умовам. \n"
 
 #: src/functions/fn-database.c:776
 msgid ""
