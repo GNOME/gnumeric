@@ -1,3 +1,8 @@
+1999-09-26  Arturo Tena <arturo@directmail.org>
+
+	* ms-ole.c (read_bb): Read all the BBD's, including those where are in
+	the additional bbd lists.
+
 1999-09-25  Arturo Tena  <arturo@directmail.org>
 
 	* gnome-stream-ole.c, gnome-stream-ole.h, gnome-storage-ole.h,
