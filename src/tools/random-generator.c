@@ -341,6 +341,38 @@ tool_random_engine_run_chisq (data_analysis_output_t *dao,
 }
 
 static gboolean
+tool_random_engine_run_pareto (data_analysis_output_t *dao, 
+			       tools_data_random_t *info,
+			       pareto_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_pareto (param->a, param->b);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
+tool_random_engine_run_rayleigh (data_analysis_output_t *dao, 
+				 tools_data_random_t *info,
+				 rayleigh_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_rayleigh (param->sigma);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
 tool_random_engine_run_fdist (data_analysis_output_t *dao, 
 			      tools_data_random_t *info,
 			      fdist_random_tool_t *param)
@@ -357,6 +389,102 @@ tool_random_engine_run_fdist (data_analysis_output_t *dao,
 }
 
 static gboolean
+tool_random_engine_run_lognormal (data_analysis_output_t *dao, 
+				  tools_data_random_t *info,
+				  lognormal_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_lognormal (param->zeta, param->sigma);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
+tool_random_engine_run_logarithmic (data_analysis_output_t *dao, 
+				    tools_data_random_t *info,
+				    logarithmic_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_logarithmic (param->p);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
+tool_random_engine_run_logistic (data_analysis_output_t *dao, 
+				 tools_data_random_t *info,
+				 logistic_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_logistic (param->a);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
+tool_random_engine_run_tdist (data_analysis_output_t *dao, 
+			      tools_data_random_t *info,
+			      tdist_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_tdist (param->nu);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
+tool_random_engine_run_gamma (data_analysis_output_t *dao, 
+			      tools_data_random_t *info,
+			      gamma_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_gamma (param->a, param->b);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
+tool_random_engine_run_geometric (data_analysis_output_t *dao, 
+				  tools_data_random_t *info,
+				  geometric_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_geometric (param->p);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
 tool_random_engine_run_weibull (data_analysis_output_t *dao, 
 				tools_data_random_t *info,
 				weibull_random_tool_t *param)
@@ -366,6 +494,54 @@ tool_random_engine_run_weibull (data_analysis_output_t *dao,
 		for (n = 0; n < info->count; n++) {
 			gnum_float v;
 			v = random_weibull (param->a, param->b);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
+tool_random_engine_run_laplace (data_analysis_output_t *dao, 
+				tools_data_random_t *info,
+				laplace_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_laplace (param->a);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
+tool_random_engine_run_gumbel1 (data_analysis_output_t *dao, 
+				tools_data_random_t *info,
+				gumbel_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_gumbel1 (param->a, param->b);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
+tool_random_engine_run_gumbel2 (data_analysis_output_t *dao, 
+				tools_data_random_t *info,
+				gumbel_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_gumbel2 (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 		}
 	}	
@@ -432,12 +608,45 @@ tool_random_engine (data_analysis_output_t *dao, gpointer specs,
 		case ChisqDistribution:
 			return tool_random_engine_run_chisq
 				(dao, specs, &info->param.chisq);
+		case ParetoDistribution:
+			return tool_random_engine_run_pareto
+				(dao, specs, &info->param.pareto);
+		case LognormalDistribution:
+			return tool_random_engine_run_lognormal
+				(dao, specs, &info->param.lognormal);
+		case RayleighDistribution:
+			return tool_random_engine_run_rayleigh
+				(dao, specs, &info->param.rayleigh);
 		case FdistDistribution:
 			return tool_random_engine_run_fdist
 				(dao, specs, &info->param.fdist);
+		case TdistDistribution:
+			return tool_random_engine_run_tdist
+				(dao, specs, &info->param.tdist);
+		case GammaDistribution:
+			return tool_random_engine_run_gamma
+				(dao, specs, &info->param.gamma);
+		case GeometricDistribution:
+			return tool_random_engine_run_geometric
+				(dao, specs, &info->param.geometric);
 		case WeibullDistribution:
 			return tool_random_engine_run_weibull
 				(dao, specs, &info->param.weibull);
+		case LaplaceDistribution:
+			return tool_random_engine_run_laplace
+				(dao, specs, &info->param.laplace);
+		case LogarithmicDistribution:
+			return tool_random_engine_run_logarithmic
+				(dao, specs, &info->param.logarithmic);
+		case LogisticDistribution:
+			return tool_random_engine_run_logistic
+				(dao, specs, &info->param.logistic);
+		case Gumbel1Distribution:
+			return tool_random_engine_run_gumbel1
+				(dao, specs, &info->param.gumbel);
+		case Gumbel2Distribution:
+			return tool_random_engine_run_gumbel2
+				(dao, specs, &info->param.gumbel);
 		case BinomialDistribution:
 			return tool_random_engine_run_binomial
 			        (dao, specs, &info->param.binomial);

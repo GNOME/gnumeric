@@ -10,8 +10,11 @@
 typedef enum {
   DiscreteDistribution, UniformDistribution, NormalDistribution,
   BernoulliDistribution, BetaDistribution, BinomialDistribution,
-  PoissonDistribution, CauchyDistribution, ChisqDistribution,
-  WeibullDistribution, FdistDistribution,
+  PoissonDistribution, CauchyDistribution, ChisqDistribution, GammaDistribution,
+  WeibullDistribution, FdistDistribution, GeometricDistribution,
+  Gumbel1Distribution, Gumbel2Distribution, LaplaceDistribution,
+  TdistDistribution, LogarithmicDistribution, LogisticDistribution,
+  ParetoDistribution, LognormalDistribution, RayleighDistribution,
   /* PatternedDistribution, */ NegativeBinomialDistribution, ExponentialDistribution
 } random_distribution_t;
 
@@ -65,14 +68,58 @@ typedef struct {
 } chisq_random_tool_t;
 
 typedef struct {
+        gnum_float zeta;
+        gnum_float sigma;
+} lognormal_random_tool_t;
+
+typedef struct {
+        gnum_float sigma;
+} rayleigh_random_tool_t;
+
+typedef struct {
         gnum_float nu1;
         gnum_float nu2;
 } fdist_random_tool_t;
 
 typedef struct {
+        gnum_float nu;
+} tdist_random_tool_t;
+
+typedef struct {
+        gnum_float p;
+} logarithmic_random_tool_t;
+
+typedef struct {
+        gnum_float a;
+        gnum_float b;
+} pareto_random_tool_t;
+
+typedef struct {
+        gnum_float a;
+} logistic_random_tool_t;
+
+typedef struct {
+        gnum_float a;
+        gnum_float b;
+} gamma_random_tool_t;
+
+typedef struct {
         gnum_float a;
         gnum_float b;
 } weibull_random_tool_t;
+
+typedef struct {
+        gnum_float a;
+} laplace_random_tool_t;
+
+typedef struct {
+        gnum_float a;
+        gnum_float b;
+} gumbel_random_tool_t;
+
+typedef struct {
+        gnum_float p;
+} geometric_random_tool_t;
 
 /* typedef struct { */
 /*         gnum_float from, to; */
@@ -93,7 +140,17 @@ typedef union {
         exponential_random_tool_t exponential;
         cauchy_random_tool_t      cauchy;
         chisq_random_tool_t       chisq;
+        lognormal_random_tool_t   lognormal;
+        rayleigh_random_tool_t    rayleigh;
         fdist_random_tool_t       fdist;
+        tdist_random_tool_t       tdist;
+        logarithmic_random_tool_t logarithmic;
+        logistic_random_tool_t    logistic;
+        pareto_random_tool_t      pareto;
+        gamma_random_tool_t       gamma;
+        geometric_random_tool_t   geometric;
+        gumbel_random_tool_t      gumbel;
+        laplace_random_tool_t     laplace;
         weibull_random_tool_t     weibull;
 /*         patterned_random_tool_t   patterned; */
 } random_tool_t;
