@@ -58,6 +58,7 @@ role_plot_post_add (GogObject *parent, GogObject *plot)
 	GogChart *chart = GOG_CHART (parent);
 	/* APPEND to keep order, there won't be that many */
 	chart->plots = g_slist_append (chart->plots, plot);
+	gog_chart_request_carnality_update (chart);
 }
 
 static void
@@ -65,10 +66,11 @@ role_plot_pre_remove (GogObject *parent, GogObject *plot)
 {
 	GogChart *chart = GOG_CHART (parent);
 	chart->plots = g_slist_remove (chart->plots, plot);
+	gog_chart_request_carnality_update (chart);
 }
 
 static void
-gog_chart_class_init (GogChartClass *klass)
+gog_chart_class_init (GogObjectClass *gog_klass)
 {
 	static GogObjectRole const roles[] = {
 		{ N_("Plot"), "GogPlot",
@@ -79,7 +81,6 @@ gog_chart_class_init (GogChartClass *klass)
 		  GOG_POSITION_COMPASS, GOG_POSITION_E|GOG_POSITION_ALIGN_END, TRUE,
 		  NULL, NULL, NULL, NULL, NULL, NULL },
 	};
-	GogObjectClass *gog_klass = (GogObjectClass *) klass;
 
 	gog_klass->editor    = gog_chart_editor;
 	gog_klass->type_name = gog_chart_type_name;
@@ -95,6 +96,8 @@ gog_chart_init (GogChart *chart)
 	chart->y     = 0;
 	chart->cols  = 0;
 	chart->rows  = 0;
+	/* start as true so that we can queue an update when it changes */
+	chart->carnality_valid = TRUE;
 }
 
 GSF_CLASS (GogChart, gog_chart,

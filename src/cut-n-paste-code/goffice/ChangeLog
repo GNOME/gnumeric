@@ -1,3 +1,21 @@
+2003-05-30  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-plot.c (role_series_post_add) : adding a series changes
+	  the carnality.
+	(role_series_pre_remove) : ditto.
+	(gog_plot_update) : delete.  Already handled at the chart level.
+	(gog_plot_init) : Make sure carnailty is initially valid so that we
+	  queue an an update request as necessary when it really
+	  does change.
+
+	* graph/gog-chart.c (gog_chart_view_size_allocate) : support the
+	  alignment flags and enforce clipping.
+	(role_plot_post_add) : adding a plot changes the carnality.
+	(role_plot_pre_remove) : ditto.
+	(gog_chart_init) : Make sure carnailty is initially valid so that we
+	  queue an an update request as necessary when it really
+	  does change.
+
 2003-05-29  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-renderer.c (gog_renderer_outline_size) : keep widths >= 1

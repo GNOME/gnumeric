@@ -103,6 +103,7 @@ role_series_post_add (GogObject *parent, GogObject *child)
 
 	/* APPEND to keep order, there won't be that many */
 	plot->series = g_slist_append (plot->series, series);
+	gog_plot_request_carnality_update (plot);
 }
 
 static void
@@ -110,13 +111,7 @@ role_series_pre_remove (GogObject *parent, GogObject *series)
 {
 	GogPlot *plot = GOG_PLOT (parent);
 	plot->series = g_slist_remove (plot->series, series);
-}
-
-static void
-gog_plot_update (GogObject *obj)
-{
-	/* ensure that styles get correctly assigned */
-	gog_plot_get_carnality (GOG_PLOT (obj));
+	gog_plot_request_carnality_update (plot);
 }
 
 static void
@@ -132,14 +127,19 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 	GObjectClass *gobject_klass = (GObjectClass *) gog_klass;
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
-	gog_klass->update = gog_plot_update;
-
 	parent_klass = g_type_class_peek_parent (gog_klass);
 	gobject_klass->finalize		= gog_plot_finalize;
 }
 
+static void
+gog_plot_init (GogPlot *plot)
+{
+	/* start as true so that we can queue an update when it changes */
+	plot->carnality_valid = TRUE;
+}
+
 GSF_CLASS_ABSTRACT (GogPlot, gog_plot,
-		    gog_plot_class_init, NULL,
+		    gog_plot_class_init, gog_plot_init,
 		    GOG_OBJECT_TYPE)
 
 static void
