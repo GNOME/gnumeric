@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "POT-Creation-Date: 2002-02-14 10:39+0200\n"
-"PO-Revision-Date: 2002-02-14 16:06+0200\n"
+"PO-Revision-Date: 2002-02-14 20:00+0200\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -14,9 +14,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: gnumeric.desktop.in.h:1
-#, fuzzy
 msgid "Gnumeric Spreadsheet"
-msgstr "Вставити нову таблицю"
+msgstr "Електронна таблиця Gnumeric"
 
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
@@ -228,7 +227,7 @@ msgstr "Помилка під час зчитування файлу DIF."
 
 #: plugins/dif/dif.c:365
 msgid "Cannot get default sheet."
-msgstr "Неможливо отримати типову сторінку."
+msgstr "Неможливо отримати типовий аркуш."
 
 #: plugins/dif/dif.c:397
 msgid "Error while saving DIF file."
@@ -1529,9 +1528,8 @@ msgstr "Випривити формулу в поточній комірці"
 
 #: src/GNOME_Gnumeric.xml.h:78
 #: src/workbook-control-gui.c:2604
-#, fuzzy
 msgid "Edit descriptive information"
-msgstr "Додаткова інформація"
+msgstr "Виправити описову інформацію"
 
 #: src/GNOME_Gnumeric.xml.h:79
 #: src/workbook-control-gui.c:2795
@@ -2347,9 +2345,8 @@ msgstr "Збільнення та зменшення масштабу табли
 
 #: src/GNOME_Gnumeric.xml.h:245
 #: src/workbook-control-gui.c:2987
-#, fuzzy
 msgid "_ANOVA"
-msgstr "Дисперсійний аналіз"
+msgstr "_Дисперсійний аналіз"
 
 #: src/GNOME_Gnumeric.xml.h:246
 msgid "_About..."
@@ -2450,9 +2447,8 @@ msgstr "Виправити"
 
 #: src/GNOME_Gnumeric.xml.h:265
 #: src/workbook-control-gui.c:2950
-#, fuzzy
 msgid "_Exponential Smoothing"
-msgstr "Експоненціальне"
+msgstr "_Експоненціальне згладжування"
 
 #: src/GNOME_Gnumeric.xml.h:266
 msgid "_File"
@@ -2495,9 +2491,8 @@ msgid "_Goto cell..."
 msgstr "Перейти на комірку..."
 
 #: src/GNOME_Gnumeric.xml.h:274
-#, fuzzy
 msgid "_Graph..."
-msgstr "Згрупувати"
+msgstr "_Графік..."
 
 #: src/GNOME_Gnumeric.xml.h:275
 msgid "_Group"
@@ -2573,9 +2568,8 @@ msgstr "_Об'єкт..."
 
 #: src/GNOME_Gnumeric.xml.h:289
 #: src/workbook-control-gui.c:2938
-#, fuzzy
 msgid "_One Factor"
-msgstr "Дисперсний аналіз: однофакторний"
+msgstr "_Однофакторний"
 
 #: src/GNOME_Gnumeric.xml.h:290
 msgid "_Open..."
@@ -2665,7 +2659,7 @@ msgstr "Подробиці про файл"
 #: src/GNOME_Gnumeric.xml.h:307
 #: src/workbook-control-gui.c:3046
 msgid "_Solver..."
-msgstr "Рішення..."
+msgstr "Пошук розв'язання..."
 
 #: src/GNOME_Gnumeric.xml.h:308
 msgid "_Sort..."
@@ -2697,9 +2691,8 @@ msgstr "Інструменти"
 
 #: src/GNOME_Gnumeric.xml.h:314
 #: src/workbook-control-gui.c:2941
-#, fuzzy
 msgid "_Two Factor"
-msgstr "Дисперсний аналіз - двофакторний"
+msgstr "_Двофакторний"
 
 #: src/GNOME_Gnumeric.xml.h:315
 #: src/workbook-control-gui.c:3019
@@ -2911,9 +2904,8 @@ msgid "Moving Averages"
 msgstr ""
 
 #: src/analysis-tools.c:2561
-#, fuzzy
 msgid "Standard Error"
-msgstr "Стандиртні помилки"
+msgstr "Стандиртна похибка"
 
 #: src/analysis-tools.c:2649
 msgid "Exponential Smoothing"
@@ -2986,9 +2978,8 @@ msgid "Total"
 msgstr "Загалом"
 
 #: src/analysis-tools.c:3295
-#, fuzzy
 msgid "/Count/Sum/Average/Variance"
-msgstr "/Групи/Кількість/Сума/Середнє/Дисперсія"
+msgstr "/Кількість/Сума/Середнє/Дисперсія"
 
 #: src/analysis-tools.c:3305
 #, fuzzy
@@ -3005,9 +2996,8 @@ msgid "Too Small"
 msgstr ""
 
 #: src/analysis-tools.c:3794
-#, fuzzy
 msgid "More"
-msgstr "Перемістити"
+msgstr "Далі"
 
 #: src/analysis-tools.c:3802
 #, c-format
@@ -3959,7 +3949,7 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:2479
 msgid "The probabilities may not all be 0!"
-msgstr ""
+msgstr "Вірогідність не можу дорівнювати нулю!"
 
 #: src/dialogs/dialog-analysis-tools.c:2483
 msgid ""
@@ -3969,7 +3959,7 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:2488
 msgid "None of the values in the value range may be empty!"
-msgstr ""
+msgstr "Жодні значення у діапазоні значень не можуть бути порожніми!"
 
 #: src/dialogs/dialog-analysis-tools.c:2668
 #, fuzzy
@@ -4007,9 +3997,8 @@ msgid "Could not create the Regression Tool dialog."
 msgstr "Не вдалося створити Ґуру назв."
 
 #: src/dialogs/dialog-analysis-tools.c:3108
-#, fuzzy
 msgid "Could not create the Exponential Smoothing Tool dialog."
-msgstr "Не вдалося створити Ґуру назв."
+msgstr "Не вдалося створити діалог експоненціального згладжування."
 
 #: src/dialogs/dialog-analysis-tools.c:3280
 #, fuzzy
@@ -4028,18 +4017,16 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:3733
-#, fuzzy
 msgid "Bin _Range:"
-msgstr "Двійковий діапазон:"
+msgstr "Двійковий _діапазон:"
 
 #: src/dialogs/dialog-analysis-tools.c:3737
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Не вдалося створити діалог гістограмних інструментів."
 
 #: src/dialogs/dialog-analysis-tools.c:3916
-#, fuzzy
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr "Не вдалося створити Ґуру назв."
+msgstr "Не вдалося створити діалог однофакторного дисперсного аналізу."
 
 #: src/dialogs/dialog-analysis-tools.c:3979
 msgid "Each sample must contain the same number of rows."
@@ -4060,9 +4047,8 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:4120
-#, fuzzy
 msgid "Could not create the ANOVA (two factor) tool dialog."
-msgstr "Не вдалося створити Ґуру назв."
+msgstr "Не вдалося створити діалог двофакторного дисперсного аналізу."
 
 #: src/dialogs/dialog-autocorrect.c:296
 #, fuzzy
@@ -4318,7 +4304,7 @@ msgstr "Не вдалося створити Ґуру назв."
 #: src/dialogs/dialog-consolidate.c:158
 #, c-format
 msgid "Source region %s overlaps with the destination region"
-msgstr ""
+msgstr "Вихідна ділянка %s перетинається з ділянкою призначення."
 
 #: src/dialogs/dialog-define-names.c:378
 msgid "You cannot redefine a builtin name."
@@ -4642,6 +4628,8 @@ msgid ""
 "Solver found an optimal solution. All constraints and optimality conditions are satisfied.\n"
 ""
 msgstr ""
+"Знайдено оптимальне розв'язання. Всіх обмежень та умов оптимальності дотримано.\n"
+""
 
 #: src/dialogs/dialog-solver.c:825
 msgid "The Target Cell value does not converge!"
@@ -4658,9 +4646,8 @@ msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Обмеження \"%s\" для комірки, що не є вхідною."
 
 #: src/dialogs/dialog-solver.c:1106
-#, fuzzy
 msgid "Could not create the Solver dialog."
-msgstr "Не вдалося створити Ґуру назв."
+msgstr "Не вдалося створити діалог пошуку розв'язання."
 
 #: src/dialogs/dialog-stf-export-sheet-page.c:358
 msgid "You need to select at least one sheet to export"
@@ -4719,7 +4706,7 @@ msgstr "Необхідно вказати одну правильну комір
 
 #: src/dialogs/dialog-tabulate.c:390
 msgid "The dependency cells should not contain an expression"
-msgstr ""
+msgstr "Залежні комірки не мають містити вирази"
 
 #: src/dialogs/dialog-tabulate.c:399
 msgid "You should introduce a valid number as minimum"
@@ -7374,7 +7361,6 @@ msgstr ""
 "@SEEALSO=IMCOS,IMTAN"
 
 #: src/functions/fn-eng.c:1046
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
@@ -7386,15 +7372,15 @@ msgid ""
 "@SEEALSO=IMPOWER"
 msgstr ""
 "@FUNCTION=IMSQRT\n"
-"@SYNTAX=IMSQRT(inumber)\n"
-"@DESCRIPTION=IMSQRT повертає квадратний корінь комплесного числа. Ця функція є сумісною з Excel. \n"
+"@SYNTAX=IMSQRT(кчисло)\n"
+"@DESCRIPTION=IMSQRT повертає квадратний корінь комплесного числа.\n"
+"Ця функція є сумісною з Excel.\n"
 "@EXAMPLES=\n"
 "IMSQRT(\"1+j\") дорівнює 1.09868+0.4550899j.\n"
 "\n"
 "@SEEALSO=IMPOWER"
 
 #: src/functions/fn-eng.c:1074
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber,inumber)\n"
@@ -7406,15 +7392,15 @@ msgid ""
 "@SEEALSO=IMSUM"
 msgstr ""
 "@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(inumber,inumber)\n"
-"@DESCRIPTION=IMSUB повертає різницю двох комплексних чисел. Ця функція є сумісною з Excel. \n"
+"@SYNTAX=IMSUB(кчисло,кчисло)\n"
+"@DESCRIPTION=IMSUB повертає різницю двох комплексних чисел.\n"
+"Ця функція є сумісною з Excel.\n"
 "@EXAMPLES=\n"
 "IMSUB(\"3-j\",\"2+j\") дорівнює 1-2j.\n"
 "\n"
 "@SEEALSO=IMSUM"
 
 #: src/functions/fn-eng.c:1105
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -7426,15 +7412,15 @@ msgid ""
 "@SEEALSO=IMDIV"
 msgstr ""
 "@FUNCTION=IMPRODUCT\n"
-"@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
-"@DESCRIPTION=IMPRODUCT повертає добуток заданих комплексних чисел. Ця функція сумісна з Excel. \n"
+"@SYNTAX=IMPRODUCT(кчисло1[,кчисло2,...])\n"
+"@DESCRIPTION=IMPRODUCT повертає добуток заданих комплексних чисел.\n"
+"Ця функція є сумісною з Excel.\n"
 "@EXAMPLES=\n"
-"IMPRODUCT(\"2-j\",\"4-2j\") равняется 6-8j.\n"
+"IMPRODUCT(\"2-j\",\"4-2j\") дорівнює 6-8j.\n"
 "\n"
 "@SEEALSO=IMDIV"
 
 #: src/functions/fn-eng.c:1175
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber,inumber)\n"
@@ -7446,8 +7432,9 @@ msgid ""
 "@SEEALSO=IMSUB"
 msgstr ""
 "@FUNCTION=IMSUM\n"
-"@SYNTAX=IMSUM(inumber,inumber)\n"
-"@DESCRIPTION=IMSUM повертає суму двох комлексних чисел. Ця функція є сумісною з Excel. \n"
+"@SYNTAX=IMSUM(кчисло,кчисло)\n"
+"@DESCRIPTION=IMSUM повертає суму двох комлексних чисел.\n"
+"Ця функція є сумісною з Excel. \n"
 "@EXAMPLES=\n"
 "IMSUM(\"2-4j\",\"9-j\") дорівнює 11-5j.\n"
 "\n"
@@ -7949,12 +7936,12 @@ msgid ""
 "\n"
 "@SEEALSO=PV,FV"
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (години,хвилини,секунди)\n"
-"@DESCRIPTION=Повертає дріб, що містить час дня.\n"
+"@FUNCTION=RATE\n"
+"@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
+"@DESCRIPTION=RATE calculates the rate of an investment.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=HOUR"
+"@SEEALSO=PV,FV"
 
 #: src/functions/fn-financial.c:1479
 msgid ""
@@ -10557,7 +10544,7 @@ msgstr ""
 
 #: src/functions/fn-math.c:3351
 msgid "Maths / Trig."
-msgstr ""
+msgstr "Математика і тригонометрія"
 
 #: src/functions/fn-sheet.c:21
 msgid ""
@@ -12136,7 +12123,6 @@ msgstr ""
 "@SEEALSO=IMAGINARY"
 
 #: src/functions/fn-string.c:640
-#, fuzzy
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -12148,16 +12134,17 @@ msgid ""
 "\n"
 "@SEEALSO=CELL, N, VALUE"
 msgstr ""
-"@FUNCTION=TRUE\n"
-"@SYNTAX=TRUE()\n"
-"@DESCRIPTION=Повертає логічне значення ІСТИНА. Ця функція сумісна з Excel. \n"
+"@FUNCTION=T\n"
+"@SYNTAX=T(значення)\n"
+"@DESCRIPTION=T повертає @значення лише в тому випадку, якщо @значення є текстом, інакше повертається порожній рядок.\n"
+"Ця функція є сумісною з Excel.\n"
 "@EXAMPLES=\n"
-"TRUE() дорівнює ІСТИНА.\n"
+"T(\"текст\") дорівнює \"текст\".\n"
+"T(64) повертає порожню комірку.\n"
 "\n"
-"@SEEALSO=FALSE"
+"@SEEALSO=CELL, N, VALUE"
 
 #: src/functions/fn-string.c:666
-#, fuzzy
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -12170,11 +12157,11 @@ msgid ""
 "@SEEALSO=DOLLAR"
 msgstr ""
 "@FUNCTION=TEXT\n"
-"@SYNTAX=TEXT(value,format_text)\n"
-"@DESCRIPTION=TEXT поветає @value як рядок у вказаному форматі.\n"
+"@SYNTAX=TEXT(значення,формат_тексту)\n"
+"@DESCRIPTION=TEXT поветає @значення у вигляді рядка у вказаному форматі.\n"
 "@EXAMPLES=\n"
 "TEXT(3.223,\"$0.00\") рівне \"$3.22\".\n"
-"TEXT(date(1999,4,15),\"mmmm, dd, yy\") рівне \"April, 15, 99\".\n"
+"TEXT(date(1999,4,15),\"mmmm, dd, yy\") рівне \"Квітень, 15, 99\".\n"
 "\n"
 "@SEEALSO=DOLLAR"
 
@@ -12259,7 +12246,6 @@ msgstr ""
 "@SEEALSO=FIXED, TEXT, VALUE"
 
 #: src/functions/fn-string.c:988
-#, fuzzy
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
@@ -12277,7 +12263,8 @@ msgstr ""
 "@SYNTAX=SEARCH(підрядок,рядок[,початок])\n"
 "@DESCRIPTION=SEARCH повертає позицію символа чи рядка в іншому рядку.  @підрядок - рядок чи символ для пошуку. @рядок - рядок, в якому ви хочете повести пошук. @початок - початкова позиція для пошуку в @рядок.  Якщо @початок пропущено, то він приймається рівним 1.  Пошук не чутливий до реґістру. \n"
 "@підрядок може містити символ зірочки (*) і знак питання (?) для керування пошуком.  Знак питання відповідає будь-якому символу, а зірочка - будь-якому рядку, в тому числі порожньому.  Якщо вам потрібно знайти символ зірочки чи знак питання, використовуйте перед символом знак тильди (~). \n"
-"Якщо @підрядок не буде знайдено, SEARCH поверне помилку #VALUE!. Якщо @початок менше 1 чи більше довжини @рядок, SEARCH поверне помилку #VALUE!. @EXAMPLES=\n"
+"Якщо @підрядок не буде знайдено, SEARCH поверне помилку #VALUE!. Якщо @початок менше 1 чи більше довжини @рядок, SEARCH поверне помилку #VALUE!.\n"
+"@EXAMPLES=\n"
 "SEARCH(\"c\",\"Cancel\") рівне 1.\n"
 "SEARCH(\"c\",\"Cancel\",2) рівне 4.\n"
 "\n"
@@ -12326,15 +12313,15 @@ msgid "Error while trying to pre-convert clipboard data"
 msgstr "Помилка під час спроби передконвертувати дані в кишені"
 
 #: src/gui-clipboard.c:61
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The data on the clipboard does not seem to be valid text.\n"
 "The character '%c' (ASCII decimal %d) was encountered.\n"
 "Most likely your locale settings are wrong."
 msgstr ""
-"Цей файл не схожий на потрібний текстовий.\n"
-"Було виявлено символ \"%c\" (десяткове дначення ASCII - %d).\n"
-"Напевно у вас помилкові установки локалізації."
+"Дані в кишені не схожі на правильний текст.\n"
+"Було виявлено символ \"%c\" (ASCII-код %d).\n"
+"Очевидно ваші параметри локалізації встановлено неправильно."
 
 #: src/gui-clipboard.c:102
 msgid "Parse error while trying to parse data into cellregion"
@@ -12605,14 +12592,13 @@ msgid "#RECALC!"
 msgstr "#RECALC!"
 
 #: src/parser.y:348
-#, fuzzy
 msgid "Sheet name is required"
-msgstr "Необхідний хоча б один пункт."
+msgstr "Необхідна назва аркуша"
 
 #: src/parser.y:458
 #, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
-msgstr ""
+msgstr "Назви \"%s\" не існує в аркуші \"%s\""
 
 #: src/parser.y:480
 #, c-format
@@ -12628,7 +12614,7 @@ msgstr "Назви \"%s\" не ісує в книзі \"%s\""
 #: src/parser.y:540
 #, c-format
 msgid "Unknown sheet '%s'"
-msgstr ""
+msgstr "Невідомий аркуш \"%s\""
 
 #: src/parser.y:648
 #: src/parser.y:662
@@ -12665,7 +12651,7 @@ msgstr "Неправильний вираз"
 #: src/parser.y:1072
 #, c-format
 msgid "Unexpected token %c"
-msgstr ""
+msgstr "Неочікуваний символ %c"
 
 #: src/plugin-loader-module.c:84
 msgid "Module file name not given."
@@ -13218,7 +13204,7 @@ msgstr "Ширина стрілки"
 
 #: src/sheet-object-graphic.c:503
 msgid "Distance from tip of arrowhead to the center point"
-msgstr ""
+msgstr "Відстань від наконечника стрілки до центральної точки"
 
 #: src/sheet-object-graphic.c:505
 msgid "Distance from tip of arrowhead to trailing point, measured along shaft"
@@ -13230,7 +13216,7 @@ msgstr ""
 
 #: src/sheet-object-graphic.c:841
 msgid "Configure filled object"
-msgstr ""
+msgstr "Налаштувати заповнений об'єкт"
 
 #: src/sheet-object-graphic.c:853
 msgid "Outline color"
@@ -13238,7 +13224,7 @@ msgstr "Колір контура"
 
 #: src/sheet-object-graphic.c:855
 msgid "Fill color"
-msgstr ""
+msgstr "Колір заповнення"
 
 #: src/sheet-object-graphic.c:857
 msgid "Border width"
@@ -13313,11 +13299,11 @@ msgstr "Стерти рядки"
 
 #: src/solver-lp.c:889
 msgid "Answer Report"
-msgstr ""
+msgstr "Підсумковий звіт"
 
 #: src/solver-lp.c:890
 msgid "Gnumeric Solver Answer Report"
-msgstr ""
+msgstr "Підсумковий звіт пошуку розв'язання"
 
 #: src/solver-lp.c:894
 msgid "Target Cell (Maximize)"
@@ -13357,11 +13343,11 @@ msgstr "Формула"
 
 #: src/solver-lp.c:1005
 msgid "Binding"
-msgstr ""
+msgstr "Зв'язування"
 
 #: src/solver-lp.c:1007
 msgid "Not Binding"
-msgstr ""
+msgstr "Без зв'язування"
 
 #: src/solver-lp.c:1040
 msgid "Sensitivity Report"
@@ -13374,11 +13360,11 @@ msgstr ""
 #: src/solver-lp.c:1043
 #: src/solver-lp.c:1089
 msgid "Final"
-msgstr ""
+msgstr "Остаточний"
 
 #: src/solver-lp.c:1044
 msgid "Reduced"
-msgstr ""
+msgstr "Зменшений"
 
 #: src/solver-lp.c:1045
 msgid "Objective"
@@ -13393,7 +13379,7 @@ msgstr ""
 
 #: src/solver-lp.c:1051
 msgid "Cost"
-msgstr ""
+msgstr "Вартість"
 
 #: src/solver-lp.c:1052
 msgid "Coefficient"
@@ -13411,7 +13397,7 @@ msgstr "Зменшити"
 
 #: src/solver-lp.c:1090
 msgid "Shadow"
-msgstr ""
+msgstr "Тінь"
 
 #: src/solver-lp.c:1091
 msgid "Constraint"
@@ -13682,7 +13668,7 @@ msgstr "Вставити стовпчики"
 
 #: src/workbook-control-gui.c:2341
 msgid "Show"
-msgstr ""
+msgstr "Показати"
 
 #: src/workbook-control-gui.c:2341
 msgid "Hide"
@@ -13690,7 +13676,7 @@ msgstr "Прибрати"
 
 #: src/workbook-control-gui.c:2358
 msgid "can only be performed on an existing group"
-msgstr ""
+msgstr "може бути здійснено лише на існуючій групі"
 
 #: src/workbook-control-gui.c:2382
 msgid "Group"
