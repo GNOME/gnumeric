@@ -410,7 +410,6 @@ cb_write_sheet_pairs (ExcelSheetPair *sp, gconstpointer dummy, ExcelWriteState *
 static void
 excel_write_externsheets_v8 (ExcelWriteState *ewb)
 {
-	/* start with a plugin magic entry */
 	static guint8 const expr_ref []   = { 0x02, 0, 0x1c, 0x17 };
 	static guint8 const zeros []	  = { 0, 0, 0, 0, 0 ,0 };
 	static guint8 const magic_addin[] = { 0x01, 0x00, 0x01, 0x3a };

@@ -365,7 +365,8 @@ cb_cut_into_cols (gpointer data, gpointer user_data)
 		return;
 	}
 	if ((range->type != VALUE_CELLRANGE) ||
-	    (range->v_range.cell.a.sheet != range->v_range.cell.b.sheet)) {
+	    (range->v_range.cell.b.sheet != NULL &&
+	     range->v_range.cell.b.sheet != range->v_range.cell.a.sheet)) {
 		value_release (range);
 		return;
 	}
@@ -402,7 +403,8 @@ cb_cut_into_rows (gpointer data, gpointer user_data)
 		return;
 	}
 	if ((range->type != VALUE_CELLRANGE) ||
-	    (range->v_range.cell.a.sheet != range->v_range.cell.b.sheet)) {
+	    (range->v_range.cell.b.sheet != NULL &&
+	     range->v_range.cell.b.sheet != range->v_range.cell.a.sheet)) {
 		value_release (range);
 		return;
 	}

@@ -1,3 +1,9 @@
+2002-12-16  Jody Goldberg <jody@gnome.org>
+
+	* analysis-tools.c (cb_cut_into_cols) : It is ok for sheet B to be
+	  NULL.
+	(cb_cut_into_rows) : ditto.
+
 2002-11-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.12

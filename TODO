@@ -147,18 +147,6 @@ under "1.0" are more important.
    + There is some function documentation already, but
      it's incomplete.
 
-* Subtotals
-
-   + This will really need to wait for a while.
-
-* Filtering
-
-   + Most of the major elements are there to support in place
-   filters.  All we'd need is a new Dependent type to manage the
-   filter results.
-   + Implement `AutoFilter' tool.
-   + Implement filter columns???
-
 * Edit->Fill->Series...
 
    + Implement `Fill Series' tool with linear, growth and date filling.
