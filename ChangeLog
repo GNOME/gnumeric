@@ -1,3 +1,9 @@
+2004-06-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/consolidate.c (simple_consolidate): dao_set_cell_expr now
+	  absorbs the expr reference.
+	(colrow_consolidate): ditto
+
 2004-06-16  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c (wbv_save_to_file): Simplify using

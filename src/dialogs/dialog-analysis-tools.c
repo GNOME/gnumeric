@@ -971,6 +971,8 @@ cb_desc_stat_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		GTK_TOGGLE_BUTTON (state->kth_largest_button));
 	data->kth_smallest = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->kth_smallest_button));
+	data->use_ssmedian = gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (state->ss_button));
 
 	if (data->confidence_level == 1)
 		data->c_level = gtk_spin_button_get_value 
@@ -1142,7 +1144,7 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->kth_smallest_button  = glade_xml_get_widget
 	        (state->base.gui, "kth_smallest_button");
 	state->c_entry  = glade_xml_get_widget (state->base.gui, "c_entry");
-	float_to_entry (GTK_ENTRY (state->c_entry), 0.95);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->c_entry), 0.95);
 	state->l_entry  = glade_xml_get_widget (state->base.gui, "l_entry");
 	int_to_entry (GTK_ENTRY (state->l_entry), 1);
 	state->s_entry  = glade_xml_get_widget (state->base.gui, "s_entry");
@@ -1177,7 +1179,7 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->s_entry));
 
-	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);
+	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	desc_stat_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 

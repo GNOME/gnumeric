@@ -6,6 +6,7 @@
  *   Andreas J. Guelzow  <aguelzow@taliesin.ca>
  *
  * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
+ * (C) Copyright 2002, 2004 by Andreas J. Guelzow  <aguelzow@taliesin.ca>
  *
  * Modified 2001 to use range_* functions of mathfunc.h
  *
@@ -30,6 +31,9 @@
 #include "analysis-tools.h"
 
 #include "mathfunc.h"
+#include "func.h"
+#include "expr.h"
+#include "position.h"
 #include "complex.h"
 #include "rangefunc.h"
 #include "tools.h"
@@ -348,6 +352,61 @@ strip_missing (GArray * data, GSList * missing)
 }
 
 /*
+ *  analysis_tools_write_label:
+ *  @val: range to extract label from
+ *  @dao: data_analysis_output_t, where to write to
+ *  @info: analysis_tools_data_descriptive_t info
+ *  @x: output col number
+ *  @y: output row number
+ *  @i: default col/row number
+ *
+ */
+
+static void
+analysis_tools_write_label (GnmValue *val, data_analysis_output_t *dao, 
+			    analysis_tools_data_descriptive_t *info,
+			    int x, int y, int i)
+{
+	char const *format = NULL;
+
+	if (info->base.labels) {
+		GnmValue *label = value_dup(val);
+		
+		label->v_range.cell.b = label->v_range.cell.a;
+		dao_set_cell_expr (dao,  x, y, gnm_expr_new_constant (label));
+		switch (info->base.group_by) {
+		case GROUPED_BY_ROW:
+			val->v_range.cell.a.col++;
+			break;
+		case GROUPED_BY_COL:
+		case GROUPED_BY_BIN:
+		case GROUPED_BY_AREA:
+		default:
+			val->v_range.cell.a.row++;
+			break;
+		}
+	} else {
+		switch (info->base.group_by) {
+		case GROUPED_BY_ROW:
+			format = _("Row %i");
+			break;
+		case GROUPED_BY_COL:
+			format = _("Column %i");
+			break;
+		case GROUPED_BY_BIN:
+			format = _("Bin %i");
+			break;
+		case GROUPED_BY_AREA:
+		default:
+			format = _("Area %i");
+			break;
+		}
+		
+		dao_set_cell_printf (dao, x, y, format, i);
+	}
+}
+
+/*
  *  cb_cut_into_cols:
  *  @data:
  *  @user_data:
@@ -370,6 +429,12 @@ cb_cut_into_cols (gpointer data, gpointer user_data)
 		value_release (range);
 		return;
 	}
+
+	range->v_range.cell.a.col_relative = 0;
+	range->v_range.cell.a.row_relative = 0;
+	range->v_range.cell.b.col_relative = 0;
+	range->v_range.cell.b.row_relative = 0;
+
 	if (range->v_range.cell.a.col == range->v_range.cell.b.col) {
 		*list_of_units = g_slist_prepend (*list_of_units, range);
 		return;
@@ -408,6 +473,12 @@ cb_cut_into_rows (gpointer data, gpointer user_data)
 		value_release (range);
 		return;
 	}
+
+	range->v_range.cell.a.col_relative = 0;
+	range->v_range.cell.a.row_relative = 0;
+	range->v_range.cell.b.col_relative = 0;
+	range->v_range.cell.b.row_relative = 0;
+
 	if (range->v_range.cell.a.row == range->v_range.cell.b.row) {
 		*list_of_units = g_slist_prepend (*list_of_units, range);
 		return;
@@ -917,10 +988,45 @@ typedef struct {
 } desc_stats_t;
 
 static void
-summary_statistics (GPtrArray *data,
-		    data_analysis_output_t *dao, GArray *basic_stats)
+summary_statistics (data_analysis_output_t *dao, 
+		    analysis_tools_data_descriptive_t *info)
 {
 	guint     col;
+	GSList *data = info->base.input;
+	GnmFunc *fd_mean;
+	GnmFunc *fd_median;
+	GnmFunc *fd_mode;
+	GnmFunc *fd_stdev;
+	GnmFunc *fd_var;
+	GnmFunc *fd_kurt;
+	GnmFunc *fd_skew;
+	GnmFunc *fd_min;
+	GnmFunc *fd_max;
+	GnmFunc *fd_sum;
+	GnmFunc *fd_count;
+
+	fd_mean = gnm_func_lookup ("AVERAGE", NULL);
+	gnm_func_ref (fd_mean);
+	fd_median = gnm_func_lookup (info->use_ssmedian ? "SSMEDIAN" : "MEDIAN", NULL);
+	gnm_func_ref (fd_median);
+	fd_mode = gnm_func_lookup ("MODE", NULL);
+	gnm_func_ref (fd_mode);
+	fd_stdev = gnm_func_lookup ("STDEV", NULL);
+	gnm_func_ref (fd_stdev);
+	fd_var = gnm_func_lookup ("VAR", NULL);
+	gnm_func_ref (fd_var);
+	fd_kurt = gnm_func_lookup ("KURT", NULL);
+	gnm_func_ref (fd_kurt);
+	fd_skew = gnm_func_lookup ("SKEW", NULL);
+	gnm_func_ref (fd_skew);
+	fd_min = gnm_func_lookup ("MIN", NULL);
+	gnm_func_ref (fd_min);
+	fd_max = gnm_func_lookup ("MAX", NULL);
+	gnm_func_ref (fd_max);
+	fd_sum = gnm_func_lookup ("SUM", NULL);
+	gnm_func_ref (fd_sum);
+	fd_count = gnm_func_lookup ("COUNT", NULL);
+	gnm_func_ref (fd_count);
 
         dao_set_cell (dao, 0, 0, NULL);
 
@@ -945,152 +1051,241 @@ summary_statistics (GPtrArray *data,
 					"/Sum"
 					"/Count"));
 
-	for (col = 0; col < data->len; col++) {
-		data_set_t *the_col = (g_ptr_array_index (data, col));
-		const gnm_float *the_data = (gnm_float *)the_col->data->data;
-		int the_col_len = the_col->data->len;
-		gnm_float x, xmin, xmax;
-		int error, error2;
-	        desc_stats_t info = g_array_index (basic_stats, desc_stats_t, col);
+	for (col = 0; data != NULL; data = data->next, col++) {
+		GnmExprList *args = NULL;
+		GnmExpr const *expr = NULL;
+		GnmExpr const *expr_min = NULL;
+		GnmExpr const *expr_max = NULL;
+		GnmExpr const *expr_var = NULL;
+		GnmExpr const *expr_count = NULL;
+		GnmValue *val = NULL;
+		GnmValue *val_org = NULL;
+		
+		val_org = value_dup(data->data);
 
-		dao_set_cell_printf (dao, col + 1, 0, the_col->label);
+		/* Note that analysis_tools_write_label may modify val_org */
+		analysis_tools_write_label (val_org, dao, info, col + 1, 0, col + 1);
 		dao_set_italic (dao, col+1, 0, col+1, 0);
 
 	        /* Mean */
-		dao_set_cell_float_na (dao, col + 1, 1, info.mean, info.error_mean == 0);
-
-		/* Standard Error */
-		dao_set_cell_float_na (dao, col + 1, 2, sqrtgnum (info.var / info.len),
-				   info.error_var == 0);
+		val = value_dup(val_org);
+		args = gnm_expr_list_append (NULL, gnm_expr_new_constant (val));
+		expr = gnm_expr_new_funcall (fd_mean, args);
+		dao_set_cell_expr (dao,  col + 1, 1, expr);
 
 		/* Standard Deviation */
-		dao_set_cell_float_na (dao, col + 1, 5, sqrtgnum (info.var), info.error_var == 0);
+		val = value_dup(val_org);
+		args = gnm_expr_list_append (NULL, gnm_expr_new_constant (val));
+		expr = gnm_expr_new_funcall (fd_stdev, args);
+		dao_set_cell_expr (dao,  col + 1, 5, expr);
 
 		/* Sample Variance */
-		dao_set_cell_float_na (dao, col + 1, 6, info.var, info.error_var == 0);
+		val = value_dup(val_org);
+		args = gnm_expr_list_append (NULL, gnm_expr_new_constant (val));
+		expr_var = expr = gnm_expr_new_funcall (fd_var, args);
+		gnm_expr_ref (expr_var);
+		dao_set_cell_expr (dao,  col + 1, 6, expr);
 
 		/* Median */
-		error = range_median_inter (the_data, the_col_len, &x);
-		dao_set_cell_float_na (dao, col + 1, 3, x, error == 0);
+		val = value_dup(val_org);
+		args = gnm_expr_list_append (NULL, gnm_expr_new_constant (val));
+		expr = gnm_expr_new_funcall (fd_median, args);
+		dao_set_cell_expr (dao,  col + 1, 3, expr);
 
 		/* Mode */
-		error = range_mode (the_data, the_col_len, &x);
-		dao_set_cell_float_na (dao, col + 1, 4, x, error == 0);
+		val = value_dup(val_org);
+		args = gnm_expr_list_append (NULL, gnm_expr_new_constant (val));
+		expr = gnm_expr_new_funcall (fd_mode, args);
+		dao_set_cell_expr (dao,  col + 1, 4, expr);
 
 		/* Kurtosis */
-		error = range_kurtosis_m3_est (the_data, the_col_len, &x);
-		dao_set_cell_float_na (dao, col + 1, 7, x, error == 0);
+		val = value_dup(val_org);
+		args = gnm_expr_list_append (NULL, gnm_expr_new_constant (val));
+		expr = gnm_expr_new_funcall (fd_kurt, args);
+		dao_set_cell_expr (dao,  col + 1, 7, expr);
 
 		/* Skewness */
-		error = range_skew_est (the_data, the_col_len, &x);
-		dao_set_cell_float_na (dao, col + 1, 8, x, error == 0);
+		val = value_dup(val_org);
+		args = gnm_expr_list_append (NULL, gnm_expr_new_constant (val));
+		expr = gnm_expr_new_funcall (fd_skew, args);
+		dao_set_cell_expr (dao,  col + 1, 8, expr);
 
 		/* Minimum */
-		error = range_min (the_data, the_col_len, &xmin);
-		dao_set_cell_float_na (dao, col + 1, 10, xmin, error == 0);
+		val = value_dup(val_org);
+		args = gnm_expr_list_append (NULL, gnm_expr_new_constant (val));
+		expr_min = expr = gnm_expr_new_funcall (fd_min, args);
+		gnm_expr_ref (expr_min);
+		dao_set_cell_expr (dao,  col + 1, 10, expr);
 
 		/* Maximum */
-		error2 = range_max (the_data, the_col_len, &xmax);
-		dao_set_cell_float_na (dao, col + 1, 11, xmax, error2 == 0);
+		val = value_dup(val_org);
+		args = gnm_expr_list_append (NULL, gnm_expr_new_constant (val));
+		expr_max = expr = gnm_expr_new_funcall (fd_max, args);
+		gnm_expr_ref (expr_max);
+		dao_set_cell_expr (dao,  col + 1, 11, expr);
 
 		/* Range */
-		dao_set_cell_float_na (dao, col + 1, 9, xmax - xmin,
-				   error == 0 && error2 == 0);
+		expr = gnm_expr_new_binary (expr_max, GNM_EXPR_OP_SUB, expr_min);
+		dao_set_cell_expr (dao,  col + 1, 9, expr);
 
 		/* Sum */
-		error = range_sum (the_data, the_col_len, &x);
-		dao_set_cell_float_na (dao, col + 1, 12, x, error == 0);
+		val = value_dup(val_org);
+		args = gnm_expr_list_append (NULL, gnm_expr_new_constant (val));
+		expr = gnm_expr_new_funcall (fd_sum, args);
+		dao_set_cell_expr (dao,  col + 1, 12, expr);
 
 		/* Count */
-		dao_set_cell_int (dao, col + 1, 13, the_col_len);
+		args = gnm_expr_list_append (NULL, gnm_expr_new_constant (val_org));
+		expr_count = expr = gnm_expr_new_funcall (fd_count, args);
+		gnm_expr_ref (expr_count);
+		dao_set_cell_expr (dao,  col + 1, 13, expr);
+
+		/* Standard Error */
+		expr = gnm_expr_new_binary (
+			gnm_expr_new_binary (expr_var, GNM_EXPR_OP_DIV, expr_count), 
+			GNM_EXPR_OP_EXP, 
+			gnm_expr_new_constant (value_new_float (0.5)));
+		dao_set_cell_expr (dao,  col + 1, 2, expr);
 	}
+
+	gnm_func_unref (fd_mean);
+	gnm_func_unref (fd_median);
+	gnm_func_unref (fd_mode);
+	gnm_func_unref (fd_stdev);
+	gnm_func_unref (fd_var);
+	gnm_func_unref (fd_kurt);
+	gnm_func_unref (fd_skew);
+	gnm_func_unref (fd_min);
+	gnm_func_unref (fd_max);
+	gnm_func_unref (fd_sum);
+	gnm_func_unref (fd_count);
+
 	dao_autofit_columns (dao);
 }
 
 static void
-confidence_level (GPtrArray *data, gnm_float c_level,
-		  data_analysis_output_t *dao, GArray *basic_stats)
+confidence_level (data_analysis_output_t *dao, 
+		  analysis_tools_data_descriptive_t *info)
 {
-        gnm_float x;
         guint col;
 	char *buffer;
 	char *format;
-	desc_stats_t info;
-	data_set_t *the_col;
+	GSList *data = info->base.input;
+	GnmFunc *fd_mean;
+	GnmFunc *fd_var;
+	GnmFunc *fd_count;
+	GnmFunc *fd_tinv;
 
 	format = g_strdup_printf (_("/%%%s%%%% CI for the Mean from"
 				    "/to"), GNUM_FORMAT_g);
-	buffer = g_strdup_printf (format, c_level * 100);
+	buffer = g_strdup_printf (format, info->c_level * 100);
 	g_free (format);
 	set_cell_text_col (dao, 0, 1, buffer);
         g_free (buffer);
 
         dao_set_cell (dao, 0, 0, NULL);
 
-	for (col = 0; col < data->len; col++) {
-		the_col = g_ptr_array_index (data, col);
-		dao_set_cell_printf (dao, col + 1, 0, the_col->label);
+	fd_mean = gnm_func_lookup ("AVERAGE", NULL);
+	gnm_func_ref (fd_mean);
+	fd_var = gnm_func_lookup ("VAR", NULL);
+	gnm_func_ref (fd_var);
+	fd_count = gnm_func_lookup ("COUNT", NULL);
+	gnm_func_ref (fd_count);
+	fd_tinv = gnm_func_lookup ("TINV", NULL);
+	gnm_func_ref (fd_tinv);
+
+
+	for (col = 0; data != NULL; data = data->next, col++) {
+		GnmExprList *args = NULL;
+		GnmExpr const *expr = NULL;
+		GnmExpr const *expr_mean = NULL;
+		GnmExpr const *expr_var = NULL;
+		GnmExpr const *expr_count = NULL;
+		GnmValue *val = NULL;
+		GnmValue *val_org = NULL;
+
+		val_org = value_dup(data->data);
+
+		/* Note that analysis_tools_write_label may modify val_org */
+		analysis_tools_write_label (val_org, dao, info, col + 1, 0, col + 1);
 		dao_set_italic (dao, col+1, 0, col+1, 0);
 
-		if ((c_level < 1) && (c_level >= 0)) {
-			info = g_array_index (basic_stats, desc_stats_t, col);
-			if (info.error_mean == 0 && info.error_var == 0) {
-				x = -qt ((1 - c_level) / 2, info.len - 1, TRUE, FALSE) *
-					sqrtgnum (info.var / info.len);
-				dao_set_cell_float (dao, col + 1, 1, info.mean - x);
-				dao_set_cell_float (dao, col + 1, 2, info.mean + x);
-				continue;
-			}
-		}
-		dao_set_cell_na (dao, col + 1, 1);
+		val = value_dup(val_org);
+		args = gnm_expr_list_append (NULL, gnm_expr_new_constant (val));
+		expr_mean = gnm_expr_new_funcall (fd_mean, args);
+		gnm_expr_ref (expr_mean); /* We need it twice */
+		val = value_dup(val_org);
+		args = gnm_expr_list_append (NULL, gnm_expr_new_constant (val));
+		expr_var = gnm_expr_new_funcall (fd_var, args);
+		args = gnm_expr_list_append (NULL, gnm_expr_new_constant (val_org));
+		expr_count = gnm_expr_new_funcall (fd_count, args);
+		gnm_expr_ref (expr_count); /* We need it twice */
+		
+		args = gnm_expr_list_append (NULL, gnm_expr_new_constant (
+						     value_new_float (1 - info->c_level)));
+		args = gnm_expr_list_append (args, 
+			  gnm_expr_new_binary (expr_count, GNM_EXPR_OP_SUB,
+					       gnm_expr_new_constant (value_new_int (1))));
+		expr = gnm_expr_new_binary (gnm_expr_new_funcall (fd_tinv, args),
+					    GNM_EXPR_OP_MULT,
+					    gnm_expr_new_binary (gnm_expr_new_binary (expr_var, 
+										      GNM_EXPR_OP_DIV,
+										      expr_count), 
+								 GNM_EXPR_OP_EXP, 
+								 gnm_expr_new_constant (value_new_float (0.5))));
+		gnm_expr_ref (expr); /* We need it twice */
+
+		dao_set_cell_expr (dao,  col + 1, 1, 
+				   gnm_expr_new_binary (expr_mean, 
+							GNM_EXPR_OP_SUB, 
+							expr));
+		dao_set_cell_expr (dao,  col + 1, 2, 
+				   gnm_expr_new_binary (expr_mean, 
+							GNM_EXPR_OP_ADD, 
+							expr));
 	}
+
+	gnm_func_unref (fd_mean);
+	gnm_func_unref (fd_var);
+	gnm_func_unref (fd_count);
+	gnm_func_unref (fd_tinv);
 }
 
-
 static void
-kth_largest (GPtrArray *data, int k,
-	     data_analysis_output_t *dao)
+kth_smallest_largest (data_analysis_output_t *dao, 
+		      analysis_tools_data_descriptive_t *info,
+		      char const* func, char const* label, int k)
 {
-        gnm_float x;
         guint col;
-	gint error;
-	data_set_t *the_col;
+	GSList *data = info->base.input;
+	GnmFunc *fd = gnm_func_lookup (func, NULL);
+	gnm_func_ref (fd);
 
-        dao_set_cell_printf (dao, 0, 1, _("Largest (%d)"), k);
+        dao_set_cell_printf (dao, 0, 1, label, k);
 
         dao_set_cell (dao, 0, 0, NULL);
 
-	for (col = 0; col < data->len; col++) {
-		the_col = g_ptr_array_index (data, col);
-		dao_set_cell_printf (dao, col + 1, 0, the_col->label);
+	for (col = 0; data != NULL; data = data->next, col++) {
+		GnmExprList *args = NULL;
+		GnmExpr const *expr = NULL;
+		GnmValue *val = NULL;
+
+		val = value_dup(data->data);
+
+		analysis_tools_write_label (val, dao, info, col + 1, 0, col + 1);
 		dao_set_italic (dao, col+1, 0, col+1, 0);
-		error = range_min_k_nonconst ((gnm_float *)(the_col->data->data),
-					      the_col->data->len, &x, the_col->data->len - k);
-		dao_set_cell_float_na (dao, col + 1, 1, x, error == 0);
+
+		args = gnm_expr_list_append (args, gnm_expr_new_constant (val));		
+
+		val = value_new_int (k);
+		args = gnm_expr_list_append (args, gnm_expr_new_constant (val));
+
+		expr = gnm_expr_new_funcall (fd, args);
+		
+		dao_set_cell_expr (dao,  col + 1, 1, expr);
 	}
-}
 
-static void
-kth_smallest (GPtrArray  *data, int k,
-	      data_analysis_output_t *dao)
-{
-        gnm_float x;
-        guint col;
-	gint error;
-	data_set_t *the_col;
-
-        dao_set_cell_printf (dao, 0, 1, _("Smallest (%d)"), k);
-
-        dao_set_cell (dao, 0, 0, NULL);
-
-	for (col = 0; col < data->len; col++) {
-		the_col = g_ptr_array_index (data, col);
-		dao_set_cell_printf (dao,  col + 1, 0, the_col->label);
-		dao_set_italic (dao, col+1, 0, col+1, 0);
-		error = range_min_k_nonconst ((gnm_float *)(the_col->data->data),
-					      the_col->data->len, &x, k - 1);
-		dao_set_cell_float_na (dao, col + 1, 1, x, error == 0);
-	}
+	gnm_func_unref (fd);
 }
 
 /* Descriptive Statistics
@@ -1099,59 +1294,32 @@ static gboolean
 analysis_tool_descriptive_engine_run (data_analysis_output_t *dao, 
 				      analysis_tools_data_descriptive_t *info)
 {
-	GPtrArray *data = NULL;
-
-	GArray        *basic_stats = NULL;
-	data_set_t    *the_col;
-        desc_stats_t  local_info;
-	guint         col;
-	const gnm_float *the_data;
-
-	data = new_data_set_list (info->base.input, info->base.group_by,
-				  TRUE, info->base.labels, dao->sheet);
-
-	if (info->summary_statistics || info->confidence_level) {
-		basic_stats = g_array_new (FALSE, FALSE, sizeof (desc_stats_t));
-		for (col = 0; col < data->len; col++) {
-			the_col = g_ptr_array_index (data, col);
-			the_data = (gnm_float *)the_col->data->data;
-                        local_info.len = the_col->data->len;
-			local_info.error_mean = range_average 
-				(the_data, local_info.len, &(local_info.mean));
-			local_info.error_var = range_var_est 
-				(the_data, local_info.len, &(local_info.var));
-			g_array_append_val (basic_stats, local_info);
-		}
-	}
-
         if (info->summary_statistics) {
-                summary_statistics (data, dao, basic_stats);
+                summary_statistics (dao, info);
 		dao->offset_row += 16;
 		if (dao->rows <= dao->offset_row)
 			goto finish_descriptive_tool;
 	}
         if (info->confidence_level) {
-                confidence_level (data, info->c_level,  dao, basic_stats);
+                confidence_level (dao, info);
 		dao->offset_row += 4;
 		if (dao->rows <= dao->offset_row)
 			goto finish_descriptive_tool;
 	}
         if (info->kth_largest) {
-                kth_largest (data, info->k_largest, dao);
+		kth_smallest_largest (dao, info, "LARGE", _("Largest (%d)"), 
+				      info->k_largest);
 		dao->offset_row += 4;
 		if (dao->rows <= dao->offset_row)
 			goto finish_descriptive_tool;
 	}
         if (info->kth_smallest)
-                kth_smallest (data, info->k_smallest, dao);
-
+                kth_smallest_largest (dao, info, "SMALL", _("Smallest (%d)"), 
+				      info->k_smallest);
 
  finish_descriptive_tool:
 
-	destroy_data_set_list (data);
-	if (basic_stats != NULL)
-		g_array_free (basic_stats, TRUE);
-
+	dao_redraw_respan (dao);
 	return 0;
 }
 

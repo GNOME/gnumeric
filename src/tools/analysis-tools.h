@@ -73,6 +73,7 @@ typedef struct {
         gboolean confidence_level;
         gboolean kth_largest;
         gboolean kth_smallest;
+        gboolean use_ssmedian;
         int      k_smallest;
 	int      k_largest;
         gnm_float  c_level;

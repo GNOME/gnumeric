@@ -528,7 +528,6 @@ simple_consolidate (GnmFunc *fd, GSList const *src,
 			if (args) {
 				GnmExpr const *expr = gnm_expr_new_funcall (fd, args);
 				dao_set_cell_expr (dao, x, y, expr);
-				gnm_expr_unref (expr);
 			}
 		}
 	}
@@ -723,7 +722,6 @@ colrow_consolidate (GnmConsolidate *cs, data_analysis_output_t *dao)
 				GnmExpr const *expr = gnm_expr_new_funcall (cs->fd, args);
 				
 				dao_set_cell_expr (dao, x, y, expr);
-				gnm_expr_unref (expr);
 			}
 		}
 	}

@@ -30,6 +30,7 @@
 #include <string.h>
 #include "dao.h"
 
+#include "expr.h"
 #include "value.h"
 #include "cell.h"
 #include "sheet.h"
@@ -273,6 +274,11 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 	return FALSE;
 }
 
+/*
+ * dao_set_cell_expr absorbs the reference for the expr.
+ *
+ */
+
 void 
 dao_set_cell_expr (data_analysis_output_t *dao, int col, int row,
 		   GnmExpr const *expr)
@@ -297,6 +303,7 @@ dao_set_cell_expr (data_analysis_output_t *dao, int col, int row,
 
 	cell = sheet_cell_fetch (dao->sheet, col, row);
 	cell_set_expr (cell, expr);
+	gnm_expr_unref (expr);				
 }
 
 
