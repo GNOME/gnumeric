@@ -584,7 +584,7 @@
 	<widget>
 	  <class>GtkFrame</class>
 	  <name>frame5</name>
-	  <label>Error behaviour</label>
+	  <label>Error behavior</label>
 	  <label_xalign>0</label_xalign>
 	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	  <child>
