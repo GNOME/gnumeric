@@ -203,6 +203,9 @@ go_conf_get_type (char const *key)
 char *
 go_conf_get_value_as_str   (char const *key)
 {
+	char *value_string;
+	GConfClient *gconf = gnm_app_get_gconf_client ();
+
 	switch (go_conf_get_type (key)) {
 	case G_TYPE_STRING:
 		value_string = gconf_client_get_string (gconf, key, NULL);
@@ -224,6 +227,8 @@ go_conf_get_value_as_str   (char const *key)
 	default:
 		value_string = g_strdup ("ERROR FIXME");
 	}
+
+	return value_string;
 }
 
 gboolean
