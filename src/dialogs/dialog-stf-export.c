@@ -281,6 +281,38 @@ cb_sheet_select_none (TextExportState *state)
 	set_sheet_selection_count (state, 0);
 }
 
+/**
+ * Refreshes the buttons on a row (un)selection and selects the chosen sheet
+ * for this view.
+ */
+static void
+cb_selection_changed (GtkTreeSelection *new_selection,
+		      TextExportState *state)
+{
+	GtkTreeIter iter, it;
+	gboolean first_selected, last_selected;
+
+	GtkTreeSelection  *selection = 
+		(new_selection == NULL) 
+		? gtk_tree_view_get_selection (state->sheets.view) 
+		: new_selection;
+
+	gtk_tree_model_get_iter_first 
+		(GTK_TREE_MODEL (state->sheets.model),
+		 &iter);
+	first_selected = gtk_tree_selection_iter_is_selected (selection, &iter);
+	it = iter;
+	while (gtk_tree_model_iter_next (GTK_TREE_MODEL (state->sheets.model),
+					 &it))
+		iter = it;
+	last_selected = gtk_tree_selection_iter_is_selected (selection, &iter);
+
+	gtk_widget_set_sensitive (state->sheets.top, !first_selected);
+	gtk_widget_set_sensitive (state->sheets.up, !first_selected);
+	gtk_widget_set_sensitive (state->sheets.bottom, !last_selected);
+	gtk_widget_set_sensitive (state->sheets.down, !last_selected);
+}
+
 typedef gboolean gnm_iter_search_t (GtkTreeModel *model, GtkTreeIter* iter);
 
 #define gnm_tree_model_iter_next gtk_tree_model_iter_next
@@ -317,6 +349,7 @@ move_element (TextExportState *state, gnm_iter_search_t iter_search)
 		return;
 
 	gtk_list_store_swap (state->sheets.model, &a, &b);
+	cb_selection_changed (NULL, state);
 }
 
 static void 
@@ -343,6 +376,7 @@ cb_sheet_top   (TextExportState *state)
 		return;
 	
 	gtk_list_store_move_after (state->sheets.model, &this_iter, NULL);
+	cb_selection_changed (NULL, state);
 }
 
 static void 
@@ -356,6 +390,7 @@ cb_sheet_bottom (TextExportState *state)
 	if (!gtk_tree_selection_get_selected  (selection, NULL, &this_iter))
 		return;
 	gtk_list_store_move_before (state->sheets.model, &this_iter, NULL);
+	cb_selection_changed (NULL, state);
 }
 
 static void
@@ -467,6 +502,12 @@ stf_export_dialog_sheet_page_init (TextExportState *state)
 	g_signal_connect_swapped (G_OBJECT (state->sheets.bottom),
 		"clicked",
 		G_CALLBACK (cb_sheet_bottom), state);
+
+	cb_selection_changed (NULL, state);
+	g_signal_connect (selection,
+			  "changed",
+			  G_CALLBACK (cb_selection_changed), state);
+	
 }
 
 static void

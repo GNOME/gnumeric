@@ -17,6 +17,7 @@ Andreas:
 	* Fix various bugs [#156531, #156710]
 	* Add tooltips to buttons in text export sheet selection. 
 	* Add top and bottom buttons to text export sheet selection.
+	* Disable buttons in text export sheet selection when not applicable.
 
 Arief Mulya Utama:
 	* Erlang (telecommunications engineering) plugin.

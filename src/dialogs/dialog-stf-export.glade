@@ -416,7 +416,7 @@
 			  <child>
 			    <widget class="GtkButton" id="sheet_down">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Lower the sselected heet in the list of to be exported sheets to be exported later.</property>
+			      <property name="tooltip" translatable="yes">Lower the selected sheet in the list of to be exported sheets to be exported later.</property>
 			      <property name="can_focus">True</property>
 			      <property name="label">gtk-go-down</property>
 			      <property name="use_stock">True</property>

@@ -1,5 +1,15 @@
 2004-10-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-stf-export.glade: fix spelling
+	* dialog-stf-export.c (cb_selection_changed): new
+	(move_element): call cb_selection_changed
+	(cb_sheet_top): ditto
+	(cb_sheet_bottom): ditto
+	(stf_export_dialog_sheet_page_init): link selection
+	  changes to cb_selection_changed
+
+2004-10-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-stf-export.glade: add tool tips and new buttons
 	* dialog-stf-export.c (gnm_tree_model_iter_prev): new
 	(move_element): simplify
