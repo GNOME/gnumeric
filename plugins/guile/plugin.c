@@ -195,7 +195,7 @@ cleanup_plugin (PluginInfo *pinfo)
 }
 
 gboolean
-init_plugin (Plugininfo *pinfo, ErrorInfo **ret_error)
+init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
 	FunctionCategory *cat;
 	char *name, *dir;

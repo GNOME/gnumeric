@@ -1,3 +1,7 @@
+2001-01-28  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (init_plugin): Correct typo.
+
 2001-01-27  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* Makefile.am, plugin.c, plugin.xml:
