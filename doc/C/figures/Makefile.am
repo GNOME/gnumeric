@@ -268,5 +268,5 @@ EXTRA_DIST = \
      worksheet-rows-1.png \
      worksheet-running-calc-1.png \
      zoom-dialog.png \
-     zoom-toolbar.png 	
-     zoom.png \
+     zoom-toolbar.png \
+     zoom.png
