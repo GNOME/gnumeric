@@ -294,15 +294,16 @@ gnumeric_offcap (FunctionEvalInfo *ei, GnmValue **argv)
 	GoalSeekStatus status;
 	gnumeric_offcap_t udata;
 
-	if (des_gos > 1 || des_gos <= 0)
+	if (des_gos >= 1 || des_gos <= 0)
 		return value_new_error_VALUE (ei->pos);
 
 	goal_seek_initialize (&data);
 	data.xmin = 0;
-	data.xmax = 2 * circuits;
+	data.xmax = circuits / (1 - des_gos);
 	udata.circuits = circuits;
 	udata.des_gos = des_gos;
-	traffic0 = circuits / 2;
+
+	traffic0 = data.xmax * (2 + des_gos * 10) / (3 + des_gos * 10);
 	/* Newton search from guess.  */
 	status = goal_seek_newton (&gnumeric_offcap_f, NULL,
 				   &data, &udata, traffic0);
