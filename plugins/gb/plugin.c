@@ -156,7 +156,7 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 static void
 register_vb_function (Workbook         *opt_workbook,
 		      const char       *name,
-		      FunctionCategory *cat,
+		      GnmFuncGroup *cat,
 		      GBWorkbookData   *wd)
 {
 	GnmFunc *fndef;
@@ -204,9 +204,7 @@ read_gb (gpointer            *jody_broke_the_context,
 	} else {
 		{ /* 1. Register GB functions with Excel */
 			GSList *fns, *f;
-			FunctionCategory *cat;
-
-			cat = function_get_category ("GnomeBasic");
+			GnmFuncGroup *group = gnm_func_group_fetch ("GnomeBasic");
 
 			fns = gbrun_project_fn_names (wd->proj);
 
