@@ -1088,8 +1088,9 @@ eval_expr (EvalPosition const * const pos, ExprTree const *tree,
 {
 	Value * res = eval_expr_real (pos, tree, flags);
 
-	if (res == NULL && !(flags&EVAL_PERMIT_EMPTY))
-		return value_new_int (0);
+	if (res == NULL)
+		return (flags & EVAL_PERMIT_EMPTY)
+		    ? NULL : value_new_int (0);
 
 	if (res->type == VALUE_EMPTY) {
 		value_release (res);

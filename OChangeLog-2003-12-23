@@ -1,5 +1,7 @@
 2000-04-06  Jody Goldberg <jgoldberg@home.com>
 
+	* src/expr.c (eval_expr) : Fix thinko.
+
 	* src/functions/fn-string.c : Add func 'expression' to return text of
 	  formula.
 
