@@ -292,10 +292,9 @@ union_of_int_sets (GSList * list_1, GSList * list_2)
 {
 	GSList *list_res = NULL;
 
-	if ((list_1 == NULL) || (g_slist_length (list_1) == 0))
-		return ((list_2 == NULL) ? NULL :
-			g_slist_copy (list_2));
-	if ((list_2 == NULL) || (g_slist_length (list_2) == 0))
+	if (list_1 == NULL)
+		return g_slist_copy (list_2);
+	if (list_2 == NULL)
 		return g_slist_copy (list_1);
 
 	list_res = g_slist_copy (list_1);
@@ -2160,12 +2159,13 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 
 	/* create a list of all missing or incomplete observations */
 	missing = y_data->missing;
+	y_data->missing = NULL;
 	for (i = 0; i < xdim; i++) {
-		GSList *this_missing;
-		GSList *the_union;
-
-		this_missing = ((data_set_t *)g_ptr_array_index (x_data, i))->missing;
-		the_union = union_of_int_sets (missing, this_missing);
+		data_set_t *this_data = g_ptr_array_index (x_data, i);
+		GSList *this_missing = this_data->missing;
+		GSList *the_union =
+			union_of_int_sets (missing, this_missing);
+		this_data->missing = NULL;
 		g_slist_free (missing);
 		missing = the_union;
 	}
@@ -2182,6 +2182,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 				       g_ptr_array_index (x_data, i))->data, TRUE);
 			((data_set_t *) g_ptr_array_index (x_data, i))->data = cleaned;
 		}
+		g_slist_free (missing);
 	}
 
 	/* data is now clean and ready */
