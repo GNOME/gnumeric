@@ -1,5 +1,9 @@
 1999-03-13  Michael Meeks <michael@imaginator.com>
 
+	* src/fn-eng.c (gnumeric_delta): Implemented
+
+1999-03-13  Michael Meeks <michael@imaginator.com>
+
 	* src/fn-eng.c: Created
 	(gnumeric_erf, gnumeric_erfc, gnumeric_bessely)
 	(gnumeric_besselj): Implemented
