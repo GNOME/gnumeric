@@ -8,6 +8,10 @@ export DEB_BUILD_OPTIONS
 export DEB_HOST_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 export DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
+ifeq ($(DEB_BUILD_GNU_TYPE),m68k-linux)
+	DEB_BUILD_OPTIONS+=noopt
+endif
+
 # Uncomment this to turn on verbose mode. 
 #export DH_VERBOSE=1
 
@@ -33,17 +37,10 @@ features:=
 
 features+= --with-python=python2.2
 
-# Bonobo allows us to use parts of other applications like Guppi and
-# Evolution as components via CORBA, and allows us to work as a component
-# for other applications.
+# Bonobo allows us to use parts of other applications as components via
+# CORBA, and allows us to work as a component for other applications.
 
 features+= --with-bonobo
-
-# File -> Send functionality via Evolution's mail composer component. Note
-# that this is achieved through Bonobo, so no additional library
-# dependencies are introduced.
-
-features+= --with-evolution
 
 # Plugin to access databases through the GDA framework.
 
@@ -89,14 +86,6 @@ configure-stamp:
 
 	# Prepare for build
 	 
-	# Update our local copy of the Evolution Composer component
-	# interface, if available. 
-	if test -r /usr/share/idl/Evolution-Composer.idl ; then \
-		rm -rf evo && \
-		mkdir evo && \
-		cp /usr/share/idl/Evolution-Composer.idl evo ; \
-	fi
-	
 	mkdir build
 	cd build && env srcdir=`pwd`/.. \
 		../configure $(confflags)
@@ -107,7 +96,7 @@ build: configure-stamp build-stamp
 build-stamp:
 	dh_testdir
 
-	cd build && $(MAKE) EVOLUTION_IDL_DIR=`pwd`/../evo
+	cd build && $(MAKE)
 
 	touch build-stamp
 
@@ -139,7 +128,7 @@ clean:
 	-rm -rf aclocal.m4 config.h.in stamp-h.in autom4te.cache \
 		doc/C/gnumeric.junk
 
-	-rm -f GNOME_Gnumeric.server.in
+	-rm -f GNOME_Gnumeric.server.in GNOME_Gnumeric.server src/gnumeric-paths.h
 
 	dh_clean
 
@@ -152,17 +141,22 @@ install: build
 
 	cd build && env GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 \
 		$(MAKE) install \
-		prefix=`pwd`/../debian/gnumeric/usr \
-		sysconfdir=`pwd`/../debian/gnumeric/etc \
-		localstatedir=`pwd`/../debian/gnumeric/var/lib \
-		libexecdir=`pwd`/../debian/gnumeric/usr/bin
+		prefix=`pwd`/../debian/tmp/usr \
+		sysconfdir=`pwd`/../debian/tmp/etc \
+		localstatedir=`pwd`/../debian/tmp/var/lib \
+		libexecdir=`pwd`/../debian/tmp/usr/bin
 
 	# Plugins are not intended as stand-alone executables
-	find `pwd`/debian/gnumeric/usr/lib/gnumeric/*/plugins -type f -print0 | xargs -0 chmod a-x
+	find `pwd`/debian/tmp/usr/lib/gnumeric/*/plugins -type f -print0 | xargs -0 chmod a-x
+
+	# Change DTD reference from a URL to a local path for document
+	# registration
+	find `pwd`/debian/tmp -type f -name '*.xml' -exec \
+		perl -i -pe 's,http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd,/usr/share/sgml/docbook/dtd/xml/4.1.2/docbookx.dtd,' {} \;
 
 	# Remove unwanted files: static libraries and documentation sources
-	find `pwd`/debian/gnumeric/usr/ -name '*.a' -print0 | xargs -0 rm -f
-	find `pwd`/debian/gnumeric/ -name '*.sgml' -print0 | xargs -0 rm -f
+	find `pwd`/debian/tmp/usr/ -name '*.a' -print0 | xargs -0 rm -f
+	find `pwd`/debian/tmp/ -name '*.sgml' -print0 | xargs -0 rm -f
 
 	# We no longer remove the libtool files for plugins as we did for
 	# 1.0.x: 1.1.x actually needs them for the plugins to work.
@@ -170,20 +164,30 @@ install: build
 
 	# Remove scrollkeeper stuff as well, as it should be done at package
 	# (de)install time.
-	rm -rf `pwd`/debian/gnumeric/var/lib/scrollkeeper
+	rm -rf `pwd`/debian/tmp/var/lib/scrollkeeper
 
 	# Low-colour icon for use by the menu system
-	$(INSTALL) -m 644 debian/gnome-gnumeric.xpm `pwd`/debian/gnumeric/usr/share/pixmaps/
+	$(INSTALL) -m 644 debian/gnome-gnumeric.xpm `pwd`/debian/tmp/usr/share/pixmaps/
 
 	# Move files and put in links
-	dh_movefiles --sourcedir=debian/gnumeric
+	dh_movefiles
 	cd debian/gnumeric && \
 		for idl in usr/share/gnumeric/*/idl/*.idl; do \
 			(cd usr/share/idl && ln -s `echo $$idl | sed -e 's,^usr/share,..,'` .); \
 		done
+	cd debian/gnumeric-doc/usr/share/gnumeric/* && \
+		ln -s . share && cd gnome/help/gnumeric/C && \
+		mkdir stylesheet && cd stylesheet && \
+		ln -s ../../../../../../../pixmaps/gnome-logo-icon.png .
 
 	# Clean out empty dirs left over from moving
-	-find `pwd`/debian/gnumeric/ -type d -depth | xargs rmdir 2>&1 >/dev/null
+	for p in `grep '^Package: ' debian/control | sed -e 's/^Package: //'` ; do \
+		find `pwd`/debian/$$p/ -type d -depth | xargs rmdir 2>&1 >/dev/null || true ; \
+	done
+
+	# Ensure there are no files left over with which we haven't dealt with
+	rmdir `find debian/tmp -type d -depth`
+
 
 # Build architecture-independent files here.
 # Pass -i to all debhelper commands in this target to reduce clutter.

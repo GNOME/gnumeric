@@ -20,10 +20,6 @@ A: Probably not. Gnumeric relies on an external component for graphing to work.
 Q: How do I insert an image into a worksheet?
 A: Make sure you have the "eog" package installed, and use Insert -> Object.
 
-Q: Why doesn't "File -> Send" work?
-A: Gnumeric relies on an external component for mailing workbooks. Install
-   the "evolution" package.
-
 Q: Where is the <foo> plugin?
 A: Plugins that require additional libraries or programs are packaged 
    separately (e.g. "gnumeric-python"). Do "apt-cache search gnumeric" to
