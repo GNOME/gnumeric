@@ -34,10 +34,263 @@
 #include <libxml/xmlmemory.h>
 #include <libxml/xmlIO.h>
 
+#include <zlib.h>
+
+#define GZIP_HEADER_SIZE 10
+#define GZIP_MAGIC_1 0x1f
+#define GZIP_MAGIC_2 0x8b
+#define GZIP_FLAG_RESERVED     0xE0 /* bits 5..7: reserved */
+
 #ifdef GNOME2_CONVERSION_COMPLETE
 static GnumFileOpener *gnumeric_bonobo_opener;
 static GnumFileSaver *gnumeric_bonobo_saver;
+#endif
 
+typedef struct {
+	Bonobo_Stream        bstream;
+	CORBA_Environment    *ev;
+	char                 *infbuf;
+	int                  infbsiz;
+	gboolean             compressed;
+	z_stream             zstream;
+} StreamIOCtxt;
+
+static int
+get_raw_bytes_from_stream (StreamIOCtxt *sc, char *buffer, int len)
+{
+	Bonobo_Stream_iobuf *buf;
+	int                  ret;
+
+	g_return_val_if_fail (sc != NULL, -1);
+		
+	Bonobo_Stream_read (sc->bstream, len, &buf, sc->ev);
+	if (BONOBO_EX (sc->ev))
+		ret = -1;
+	else {
+		ret = buf->_length;
+		memcpy (buffer, buf->_buffer, ret);
+		CORBA_free (buf);
+	}
+
+	return ret;
+}
+
+static int
+get_bytes_from_compressed_stream (StreamIOCtxt *sc, char *buffer, int len)
+{
+	int	 z_err;
+	z_stream *zstream = &sc->zstream;
+
+	zstream->next_out = (Bytef*) buffer;
+	zstream->avail_out = len;
+
+	while (zstream->avail_out != 0) {
+		if (zstream->avail_in == 0)
+			zstream->avail_in =
+				get_raw_bytes_from_stream (sc, sc->infbuf,
+							   sc->infbsiz);
+			if (zstream->avail_in < 0)
+				return -1;
+			zstream->next_in = sc->infbuf;
+		}
+		z_err = inflate(zstream, Z_NO_FLUSH);
+		if (z_err == Z_STREAM_END)
+			break;
+		if (z_err != Z_OK)
+			return -1;
+	}
+	return (int)(len - zstream->avail_out);
+}
+
+static int
+get_bytes_from_stream (StreamIOCtxt *sc, char *buffer, int len)
+{
+	if (sc->compressed)
+		return get_bytes_from_compressed_stream (sc, buffer, len);
+	else 
+		return get_raw_bytes_from_stream (sc, buffer, len);
+}
+
+static int
+cleanup_stream (StreamIOCtxt *sc)
+{
+	if (sc->compressed)
+		inflateEnd (&sc->zstream);
+}
+
+/* Returns true if a valid gzip header */
+static gboolean
+check_gzip_header (StreamIOCtxt *sc)
+{
+	unsigned char header [GZIP_HEADER_SIZE];
+	int bytes_read;
+
+	bytes_read = get_raw_bytes_from_stream (sc, header, GZIP_HEADER_SIZE);
+	if (bytes_read < GZIP_HEADER_SIZE)
+		return FALSE;
+
+	if (header[0] != GZIP_MAGIC_1 || header[1] != GZIP_MAGIC_2)
+		return FALSE;
+	if (header[2] != Z_DEFLATED || (header[3] & GZIP_FLAG_RESERVED) != 0)
+		return FALSE;
+
+	/* This is indeed gzipped data. Ignore the rest of the header */
+	return TRUE;
+}
+
+static gboolean
+init_for_inflate (StreamIOCtxt *sc, char *infbuf, int len)
+{
+	sc->infbuf = infbuf;
+	sc->zstream.next_in = infbuf;
+	sc->zstream.avail_in = 0;
+	sc->zstream.next_out = 0;
+	sc->zstream.avail_out = 0;
+	sc->infbsiz = sizeof infbuf;
+	sc->zstream.zalloc = NULL;
+	sc->zstream.zfree  = NULL;
+	sc->zstream.opaque = NULL;
+		
+	if (inflateInit2 (&sc->zstream, -MAX_WBITS) != Z_OK) {
+		g_warning ("zlib initialization error");
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+static xmlDocPtr
+hack_xmlSAXParseFile (StreamIOCtxt *sc)
+{
+	xmlDocPtr ret;
+	xmlParserCtxtPtr xc;
+
+	xc = xmlCreateIOParserCtxt (
+		NULL, NULL,
+		(xmlInputReadCallback) get_bytes_from_stream, 
+		(xmlInputCloseCallback) cleanup_stream,
+		sc, XML_CHAR_ENCODING_NONE);
+	if (!xc)
+		return NULL;
+
+	xmlParseDocument (xc);
+
+	if (xc->wellFormed)
+		ret = xc->myDoc;
+	else {
+		ret = NULL;
+		xmlFreeDoc (xc->myDoc);
+		xc->myDoc = NULL;
+	}
+	xmlFreeParserCtxt (xc);
+
+	return ret;
+}
+
+void
+gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
+				  Bonobo_Stream              stream,
+				  Bonobo_Persist_ContentType type,
+				  void                      *data,
+				  CORBA_Environment         *ev)
+{
+	WorkbookControl *wbc;
+	WorkbookView       *wb_view;
+	Workbook           *wb;
+	Workbook           *old_wb;
+	xmlDoc             *doc;
+	xmlNs              *gmr;
+	GnumericXMLVersion  version;
+	StreamIOCtxt       sc;
+	XmlParseContext    *xc;
+	CommandContext     *cc;
+	IOContext     *ioc;
+	char           infbuf[16384];
+
+	g_return_if_fail (data != NULL);
+	g_return_if_fail (IS_WORKBOOK_CONTROL_COMPONENT (data));
+	wbc  = WORKBOOK_CONTROL (data);
+	
+	/* FIXME: Probe for file type */
+	
+	CORBA_exception_init (ev);
+
+	old_wb = wb_control_workbook (wbc);
+	if (!workbook_is_pristine (old_wb)) {
+		/* No way to interact properly with user */
+		g_warning ("Old workbook has unsaved changes.");
+		goto exit_error;
+	}
+		
+	wb_view = wb_control_view (wbc);
+
+	sc.bstream = stream;
+	sc.ev     = ev;
+	sc.compressed = check_gzip_header (&sc);
+
+	if (sc.compressed) {
+		if (!init_for_inflate (&sc, infbuf, sizeof infbuf))
+					goto exit_error;
+	} else {
+		Bonobo_Stream_seek (stream, 0, Bonobo_Stream_SeekSet, ev);
+		if (BONOBO_EX (ev))
+			goto exit_error;
+	}
+	
+	/*
+	 * Load the stream into an XML tree.
+	 */
+	doc = hack_xmlSAXParseFile (&sc);
+	if (!doc) {
+		g_warning ("Failed to parse file");
+		goto exit_error;
+	}
+	if (!doc->xmlRootNode) {
+		xmlFreeDoc (doc);
+		g_warning ("Invalid xml file. Tree is empty ?");
+		goto exit_error;
+	}
+	/*
+	 * Do a bit of checking, get the namespaces, and check the top elem.
+	 */
+	gmr = xml_check_version (doc, &version);
+	if (!gmr) {
+		xmlFreeDoc (doc);
+		goto exit_error;
+	}
+	xc = xml_parse_ctx_new_full (doc, gmr, version, NULL, NULL, NULL);
+	ioc = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
+	xml_workbook_read (ioc, wb_view, xc, doc->xmlRootNode);
+	
+	xml_parse_ctx_destroy (xc);
+	xmlFreeDoc (doc);
+
+	if (gnumeric_io_error_occurred (ioc)) {
+		g_object_unref (G_OBJECT (ioc));
+		goto exit_error;
+	}	
+
+	g_object_unref (G_OBJECT (ioc));
+	return;
+
+exit_error:
+	/* Propagate exceptions which are in the PersistStream interface */
+	if (BONOBO_EX (ev)) {
+		if (BONOBO_USER_EX (ev, ex_Bonobo_Persist_WrongDataType) ||
+		    BONOBO_USER_EX (ev, ex_Bonobo_NotSupported) ||
+		    BONOBO_USER_EX (ev, ex_Bonobo_IOError) ||
+		    BONOBO_USER_EX (ev, ex_Bonobo_Persist_FileNotFound))
+			return;
+
+		CORBA_exception_free (ev);
+	}
+
+	/* This may be a bad exception to throw, but they're all bad */
+	CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+			     ex_Bonobo_Persist_WrongDataType, NULL);
+}
+
+#ifdef GNOME2_CONVERSION_COMPLETE
 static void
 write_stream_to_storage (xmlNodePtr           cur,
 			 Bonobo_PersistStream persist,
@@ -318,183 +571,6 @@ gnumeric_bonobo_write_workbook (GnumFileSaver const *fs,
 	bonobo_object_unref (BONOBO_OBJECT (storage));
 }
 #endif
-
-#ifdef HAVE_LIBXML_2
-static int
-xml_input_read_cb (void *context, char *buffer, int len)
-{
-	Bonobo_Stream_iobuf *buf;
-	Bonobo_Stream        stream = context;
-	CORBA_Environment    ev;
-	int                  ret;
-
-	CORBA_exception_init (&ev);
-
-	Bonobo_Stream_read (stream, len, &buf, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
-		ret = -1;
-	else {
-		ret = buf->_length;
-		memcpy (buffer, buf, ret);
-		CORBA_free (buf);
-	}
-
-	CORBA_exception_free (&ev);
-
-	return ret;
-}
-
-static void
-xml_input_close_cb (void * context)
-{
-	CORBA_Environment ev;
-
-	CORBA_Object_release (context, &ev);
-}
-#endif
-
-static xmlDocPtr
-hack_xmlSAXParseFile (Bonobo_Stream stream)
-{
-#ifdef HAVE_LIBXML_2
-	xmlDocPtr ret;
-	xmlParserCtxtPtr ctxt;
-
-	ctxt = xmlCreateIOParserCtxt (NULL, NULL,
-				      xml_input_read_cb,
-				      xml_input_close_cb,
-				      stream, XML_CHAR_ENCODING_NONE);
-	if (!ctxt)
-		return NULL;
-
-	xmlParseDocument (ctxt);
-
-	if (ctxt->wellFormed)
-		ret = ctxt->myDoc;
-	else {
-		ret = NULL;
-		xmlFreeDoc (ctxt->myDoc);
-		ctxt->myDoc = NULL;
-	}
-	xmlFreeParserCtxt (ctxt);
-
-	return ret;
-#else
-	xmlDocPtr ret;
-	xmlParserCtxtPtr ctxt;
-       	Bonobo_Stream_iobuf *buf;
-	CORBA_Environment    ev;
-	int                  len = 0;
-
-	ctxt = xmlCreatePushParserCtxt (NULL, NULL, NULL, 0, NULL);
-
-	CORBA_exception_init (&ev);
-
-	do {
-		Bonobo_Stream_read (stream, 65536, &buf, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			CORBA_exception_free (&ev);
-			g_warning ("Leak bits of tree everywhere");
-			return NULL;
-		} else {
-			len = buf->_length;
-			if (xmlParseChunk (ctxt, (char*)buf->_buffer, len, (len == 0))) {
-				g_warning ("Leak bits of tree everywhere");
-				return NULL;
-			}
-			CORBA_free (buf);
-		}
-	} while (len > 0);
-
-	CORBA_exception_free (&ev);
-
-	if (ctxt->wellFormed)
-		ret = ctxt->myDoc;
-	else {
-		ret = NULL;
-		xmlFreeDoc (ctxt->myDoc);
-		ctxt->myDoc = NULL;
-	}
-	xmlFreeParserCtxt (ctxt);
-
-	return ret;
-#endif /* HAVE_LIBXML_2*/
-}
-
-void
-gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
-				  Bonobo_Stream              stream,
-				  Bonobo_Persist_ContentType type,
-				  void                      *data,
-				  CORBA_Environment         *ev)
-{
-	WorkbookControl *wbc;
-	WorkbookView       *wb_view;
-	Workbook           *wb;
-	Workbook           *old_wb;
-	xmlDoc             *doc;
-	xmlNs              *gmr;
-	GnumericXMLVersion  version;
-	XmlParseContext    *ctxt;
-	CommandContext     *cc;
-	IOContext     *ioc;
-
-	g_return_if_fail (data != NULL);
-	g_return_if_fail (IS_WORKBOOK_CONTROL_COMPONENT (data));
-	wbc  = WORKBOOK_CONTROL (data);
-	
-	/* FIXME: Probe for file type */
-	
-	old_wb = wb_control_workbook (wbc);
-	if (!workbook_is_pristine (old_wb)) {
-		/* No way to interact properly with user */
-		g_warning ("Old workbook has unsaved changes.");
-		goto exit_wrong_type;
-	}
-		
-	wb_view = wb_control_view (wbc);
-
-	/*
-	 * Load the file into an XML tree.
-	 */
-	/* FIXME: exceptions inside the hack will be lost. */
-	doc = hack_xmlSAXParseFile (stream);
-	if (!doc) {
-		g_warning ("Failed to parse file");
-		goto exit_wrong_type;
-	}
-	if (!doc->xmlRootNode) {
-		xmlFreeDoc (doc);
-		g_warning ("Invalid xml file. Tree is empty ?");
-		goto exit_wrong_type;
-	}
-	/*
-	 * Do a bit of checking, get the namespaces, and check the top elem.
-	 */
-	gmr = xml_check_version (doc, &version);
-	if (!gmr) {
-		xmlFreeDoc (doc);
-		goto exit_wrong_type;
-	}
-	ctxt = xml_parse_ctx_new_full (doc, gmr, version, NULL, NULL, NULL);
-	ioc = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
-	xml_workbook_read (ioc, wb_view, ctxt, doc->xmlRootNode);
-	
-	xml_parse_ctx_destroy (ctxt);
-	xmlFreeDoc (doc);
-
-	if (gnumeric_io_error_occurred (ioc)) {
-		g_object_unref (G_OBJECT (ioc));
-		goto exit_wrong_type;
-	}	
-
-	g_object_unref (G_OBJECT (ioc));
-	return;
-
-exit_wrong_type:
-	CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-			     ex_Bonobo_Persist_WrongDataType, NULL);
-}
 
 #ifdef GNOME2_CONVERSION_COMPLETE
 static void

@@ -1,3 +1,24 @@
+2002-04-26  Jon K Hellan  <hellan@acm.org>
+
+	* src/bonobo-io.c (struct StreamIOCtxt): Context data structure
+	for reading a PersistStream. 
+	(get_raw_bytes_from_stream): New function. Read raw bytes from the
+	stream. 
+	(get_bytes_from_compressed_stream): New function. Uncompress bytes
+	from the stream and copy wanted number of bytes into buffer.
+	(get_bytes_from_stream): New function. Read bytes from the stream,
+	having uncompressed them if necessary.
+	(cleanup_stream): New function. Clean up zlib when closing stream.
+	(check_gzip_header): New function. Check if stream is gzipped.
+	(init_for_inflate): New function. Initialize data structures for
+	uncompressing.
+	(hack_xmlSAXParseFile): Drop the non HAVE_LIBXML_2 branch. Rename
+	context variables: We now have both an xml context and a stream
+	context.
+	(gnumeric_bonobo_read_from_stream): Set up handling of compressed
+	streams. Propagate CORBA exceptions where allowed by the
+	PersistStream interface.
+
 2002-04-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* schemas/gnumeric-general.schemas : add sort schemas
