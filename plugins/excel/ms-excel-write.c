@@ -103,18 +103,21 @@ excel_write_string_len (guint8 const *str, unsigned *bytes)
 /**
  * excel_write_string :
  * @bp :
- * @txt :
  * @flags :
+ * @txt :
+ *
+ * NOTE : I considered putting markup here too to be strictly correct and
+ * export rich text directly.  But it was easier to just use RSTRING.
  *
  * The number of bytes used to write the len, header, and text
  **/
 unsigned
-excel_write_string (BiffPut *bp, guint8 const *txt,
-		    WriteStringFlags flags)
+excel_write_string (BiffPut *bp, WriteStringFlags flags,
+		    guint8 const *txt)
 {
 	unsigned byte_len, out_bytes, offset;
 	unsigned char_len = excel_write_string_len (txt, &byte_len);
-	guint8 const *in_bytes = txt;
+	char *in_bytes = (char *)txt; /* bloody strict-aliasing is broken */
 	char *tmp;
 
 	/* before biff8 all lengths were in bytes */
@@ -356,9 +359,8 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb)
 		GSF_LE_SET_GUINT8 (data, len);
 		GSF_LE_SET_GUINT8 (data + 1, 3); /* undocumented */
 		ms_biff_put_var_write (ewb->bp, data, 2);
-		excel_write_string (ewb->bp,
-			esheet->gnum_sheet->name_unquoted,
-			STR_NO_LENGTH);
+		excel_write_string (ewb->bp, STR_NO_LENGTH,
+			esheet->gnum_sheet->name_unquoted);
 		ms_biff_put_commit (ewb->bp);
 	}
 
@@ -373,8 +375,7 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb)
 
 		/* write the name and the 1 byte length */
 		func = g_ptr_array_index (ewb->externnames, i);
-		excel_write_string (ewb->bp, func->name,
-			STR_ONE_BYTE_LENGTH);
+		excel_write_string (ewb->bp, STR_ONE_BYTE_LENGTH, func->name);
 
 		ms_biff_put_var_write (ewb->bp, expr_ref, sizeof (expr_ref));
 		ms_biff_put_commit (ewb->bp);
@@ -421,7 +422,7 @@ excel_write_externsheets_v8 (ExcelWriteState *ewb)
 
 			/* write the name and the 1 byte length */
 			func = g_ptr_array_index (ewb->externnames, i);
-			excel_write_string (ewb->bp, func->name, STR_ONE_BYTE_LENGTH);
+			excel_write_string (ewb->bp, STR_ONE_BYTE_LENGTH, func->name);
 			ms_biff_put_var_write (ewb->bp, expr_ref, sizeof (expr_ref));
 			ms_biff_put_commit (ewb->bp);
 		}
@@ -711,18 +712,14 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 	GSF_LE_SET_GUINT32 (data, options);
 	ms_biff_put_var_write (bp, data, 4);
 
-	excel_write_string (bp,
-		vip->msg ? gnm_input_msg_get_title (vip->msg) : "",
-		STR_TWO_BYTE_LENGTH);
-	excel_write_string (bp,
-		(vip->v && vip->v->title) ? vip->v->title->str : "",
-		STR_TWO_BYTE_LENGTH);
-	excel_write_string (bp,
-		vip->msg ? gnm_input_msg_get_msg (vip->msg) : "",
-		STR_TWO_BYTE_LENGTH);
-	excel_write_string (bp,
-		(vip->v && vip->v->msg) ? vip->v->msg->str : "",
-		STR_TWO_BYTE_LENGTH);
+	excel_write_string (bp, STR_TWO_BYTE_LENGTH,
+		vip->msg ? gnm_input_msg_get_title (vip->msg) : "");
+	excel_write_string (bp, STR_TWO_BYTE_LENGTH,
+		(vip->v && vip->v->title) ? vip->v->title->str : "");
+	excel_write_string (bp, STR_TWO_BYTE_LENGTH,
+		vip->msg ? gnm_input_msg_get_msg (vip->msg) : "");
+	excel_write_string (bp, STR_TWO_BYTE_LENGTH,
+		(vip->v && vip->v->msg) ? vip->v->msg->str : "");
 
 	/* Things seem to parse relative to the top left of the first range */
 	r = vip->ranges->data;
@@ -915,7 +912,7 @@ excel_write_NAME (G_GNUC_UNUSED gpointer key,
 		excel_write_string_len (name, &name_len);
 		GSF_LE_SET_GUINT8 (data + 3, name_len); /* name_len */
 		ms_biff_put_var_write (ewb->bp, data, 14);
-		excel_write_string (ewb->bp, name, STR_NO_LENGTH);
+		excel_write_string (ewb->bp, STR_NO_LENGTH, name);
 	}
 
 	if (!expr_name_is_placeholder (nexpr)) {
@@ -970,7 +967,7 @@ excel_write_BOUNDSHEET (BiffPut *bp, MsBiffFileType type,
 	}
 	GSF_LE_SET_GUINT8 (data+5, 0); /* Visible */
 	ms_biff_put_var_write (bp, data, 6);
-	excel_write_string (bp, name, STR_ONE_BYTE_LENGTH);
+	excel_write_string (bp, STR_ONE_BYTE_LENGTH, name);
 	ms_biff_put_commit (bp);
 	return pos;
 }
@@ -1249,37 +1246,94 @@ excel_font_to_string (ExcelFont const *f)
 }
 #endif
 
-/**
- * excel_font_new
- * @st style - which includes style font and color
- *
- * Make an ExcelFont.
- * In, Excel, the foreground color is a font attribute. ExcelFont
- * consists of a GnmFont and a color.
- *
- * Style color is *not* unrefed. This is correct
- **/
-static ExcelFont *
-excel_font_new (GnmStyle *st)
+static void
+excel_font_free (ExcelFont *efont)
 {
-	ExcelFont *f;
-	GnmColor *c;
+	/* FONT_SKIP has value == NULL */
+	d (3, fprintf (stderr, "free %p", efont););
+	if (efont != NULL) {
+		d (3, fprintf (stderr, "freeing %s", excel_font_to_string (efont)););
+		g_free (efont->font_name_copy);
+		g_free (efont);
+	}
+}
 
-	if (!st)
+static ExcelFont *
+excel_font_new (GnmStyle const *base_style)
+{
+	ExcelFont *efont;
+	GnmColor  *c;
+
+	if (base_style == NULL)
 		return NULL;
 
-	f = g_new (ExcelFont, 1);
-	f->font_name	 = mstyle_get_font_name   (st);
-	f->size_pts	 = mstyle_get_font_size   (st);
-	f->is_bold	 = mstyle_get_font_bold   (st);
-	f->is_italic	 = mstyle_get_font_uline  (st);
-	f->underline     = mstyle_get_font_uline  (st);
-	f->strikethrough = mstyle_get_font_strike (st);
-	c = mstyle_get_color (st, MSTYLE_COLOR_FORE);
-	f->color = style_color_to_rgb888 (c);
-	f->is_auto = c->is_auto;
+	efont = g_new (ExcelFont, 1);
+	efont->font_name	= mstyle_get_font_name   (base_style);
+	efont->font_name_copy	= NULL;
+	efont->size_pts		= mstyle_get_font_size   (base_style);
+	efont->is_bold		= mstyle_get_font_bold   (base_style);
+	efont->is_italic	= mstyle_get_font_uline  (base_style);
+	efont->underline	= mstyle_get_font_uline  (base_style);
+	efont->strikethrough	= mstyle_get_font_strike (base_style);
 
-	return f;
+	c = mstyle_get_color (base_style, MSTYLE_COLOR_FORE);
+	efont->color = style_color_to_rgb888 (c);
+	efont->is_auto = c->is_auto;
+
+	return efont;
+}
+
+static void
+excel_font_overlay_pango (ExcelFont *efont, GSList *pango)
+{
+	PangoColor const *c;
+	PangoAttribute *attr;
+	GSList *ptr;
+
+	for (ptr = pango ; ptr != NULL ; ptr = ptr->next) {
+		attr = (PangoAttribute *)(ptr->data);
+		switch (attr->klass->type) {
+		case PANGO_ATTR_FAMILY :
+			g_free (efont->font_name_copy);
+			efont->font_name = efont->font_name_copy =
+				g_strdup (((PangoAttrString *)attr)->value);
+			break;
+		case PANGO_ATTR_SIZE : efont->size_pts	=
+			(double )(((PangoAttrInt *)attr)->value) / PANGO_SCALE;
+			break;
+		case PANGO_ATTR_STYLE : efont->is_italic =
+			((PangoAttrInt *)attr)->value == PANGO_STYLE_ITALIC;
+			break;
+		case PANGO_ATTR_WEIGHT : efont->is_bold	=
+			((PangoAttrInt *)attr)->value >= PANGO_WEIGHT_BOLD;
+			break;
+		case PANGO_ATTR_STRIKETHROUGH : efont->strikethrough =
+			((PangoAttrInt *)attr)->value != 0;
+			break;
+		case PANGO_ATTR_UNDERLINE :
+			switch (((PangoAttrInt *)attr)->value) {
+			case PANGO_UNDERLINE_NONE :
+				efont->underline = UNDERLINE_NONE;
+				break;
+			case PANGO_UNDERLINE_SINGLE :
+				efont->underline = UNDERLINE_SINGLE;
+				break;
+			case PANGO_UNDERLINE_DOUBLE :
+				efont->underline = UNDERLINE_DOUBLE;
+				break;
+			}
+			break;
+
+		case PANGO_ATTR_FOREGROUND :
+			c = &((PangoAttrColor *)attr)->color;
+			efont->is_auto = FALSE;
+			efont->color = ((c->blue & 0xff00) << 8) + (c->green & 0xff00) + (c->red >> 8);
+			break;
+		default :
+			break; /* ignored */
+		}
+	}
+	g_slist_free (pango);
 }
 
 static guint
@@ -1325,40 +1379,9 @@ excel_font_equal (gconstpointer a, gconstpointer b)
 static ExcelFont *
 fonts_get_font (ExcelWriteState *ewb, gint idx)
 {
-
 	return two_way_table_idx_to_key (ewb->fonts.two_way_table, idx);
 }
 
-static void
-fonts_init (ExcelWriteState *ewb)
-{
-	ewb->fonts.two_way_table = two_way_table_new (
-		excel_font_hash, excel_font_equal, 0,
-		(GDestroyNotify) g_free);
-}
-
-static void
-fonts_free (ExcelWriteState *ewb)
-{
-	if (ewb->fonts.two_way_table != NULL) {
-		two_way_table_free (ewb->fonts.two_way_table);
-		ewb->fonts.two_way_table = NULL;
-	}
-}
-
-/**
- * Get index of an ExcelFont
- **/
-static gint
-fonts_get_index (ExcelWriteState *ewb, ExcelFont const *f)
-{
-	return two_way_table_key_to_idx (ewb->fonts.two_way_table, f);
-}
-
-/**
- * Callback called when putting font to table. Print to debug log when
- * font is added. Free resources when it was already there.
- **/
 static void
 after_put_font (ExcelFont *f, gboolean was_added, gint index, gconstpointer dummy)
 {
@@ -1366,51 +1389,37 @@ after_put_font (ExcelFont *f, gboolean was_added, gint index, gconstpointer dumm
 		d (1, fprintf (stderr, "Found unique font %d - %s\n",
 			      index, excel_font_to_string (f)););
 	} else
-		g_free (f);
+		excel_font_free (f);
 }
 
 /**
- * Add a font to table if it is not already there.
+ * put_efont :
+ * @efont : #ExcelFont
+ * @ewb : #ExcelWriteState
+ *
+ * Absorbs ownership of @efont potentially freeing it.
+ *
+ * Returns the index of the font
  **/
-static void
-put_font (GnmStyle *st, gconstpointer dummy, ExcelWriteState *ewb)
+static inline gint
+put_efont (ExcelFont *efont, ExcelWriteState *ewb)
 {
 	TwoWayTable *twt = ewb->fonts.two_way_table;
-	ExcelFont *f = excel_font_new (st);
+
+	d (2, fprintf (stderr, "adding %s", excel_font_to_string (efont)););
 
 	/* Occupy index FONT_SKIP with junk - Excel skips it */
 	if (twt->idx_to_key->len == FONT_SKIP)
-		(void) two_way_table_put (twt, NULL,
-					  FALSE, NULL, NULL);
+		two_way_table_put (twt, NULL, FALSE, NULL, NULL);
 
-	two_way_table_put (twt, f, TRUE, (AfterPutFunc) after_put_font, NULL);
+	return two_way_table_put (twt, efont, TRUE, (AfterPutFunc) after_put_font, NULL);
 }
-
-/**
- * Add all fonts in workbook to table
- **/
 static void
-gather_fonts (ExcelWriteState *ewb)
+put_style_font (GnmStyle *style, gconstpointer dummy, ExcelWriteState *ewb)
 {
-	TwoWayTable *twt = ewb->xf.two_way_table;
-
-	/* For each style, get fonts index from hash. If none, it's
-           not there yet, and we enter it. */
-	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_font, ewb);
+	put_efont (excel_font_new (style), ewb);
 }
 
-/**
- * excel_write_FONT
- * @bp BIFF buffer
- * @ewb workbook
- * @f  font
- *
- * Write a font to file
- * See S59D8C.HTM
- *
- * FIXME:
- * It would be useful to map well known fonts to Windows equivalents
- **/
 static void
 excel_write_FONT (ExcelWriteState *ewb, ExcelFont const *f)
 {
@@ -1453,7 +1462,7 @@ excel_write_FONT (ExcelWriteState *ewb, ExcelFont const *f)
 	GSF_LE_SET_GUINT8  (data + 12, charset);
 	GSF_LE_SET_GUINT8  (data + 13, 0);
 	ms_biff_put_var_write (ewb->bp, data, 14);
-	excel_write_string (ewb->bp, font_name, STR_ONE_BYTE_LENGTH);
+	excel_write_string (ewb->bp, STR_ONE_BYTE_LENGTH, font_name);
 	ms_biff_put_commit (ewb->bp);
 }
 
@@ -1552,20 +1561,11 @@ formats_get_format (ExcelWriteState *ewb, gint idx)
 	return two_way_table_idx_to_key (ewb->formats.two_way_table, idx);
 }
 
-/**
- * Get index of a format
- **/
 static gint
 formats_get_index (ExcelWriteState *ewb, GnmFormat const *format)
 {
 	return two_way_table_key_to_idx (ewb->formats.two_way_table, format);
 }
-
-/**
- * Add a format to table if it is not already there.
- *
- * Style format is *not* unrefed. This is correct
- **/
 static void
 put_format (GnmStyle *mstyle, gconstpointer dummy, ExcelWriteState *ewb)
 {
@@ -1576,20 +1576,6 @@ put_format (GnmStyle *mstyle, gconstpointer dummy, ExcelWriteState *ewb)
 			   (AfterPutFunc) after_put_format,
 			   "Found unique format %d - 0x%x\n");
 }
-
-
-/**
- * Add all formats in workbook to table
- **/
-static void
-gather_formats (ExcelWriteState *ewb)
-{
-	TwoWayTable *twt = ewb->xf.two_way_table;
-	/* For each style, get fonts index from hash. If none, it's
-           not there yet, and we enter it. */
-	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_format, ewb);
-}
-
 
 static void
 excel_write_FORMAT (ExcelWriteState *ewb, int fidx)
@@ -1609,8 +1595,8 @@ excel_write_FORMAT (ExcelWriteState *ewb, int fidx)
 
 	GSF_LE_SET_GUINT16 (data, fidx);
 	ms_biff_put_var_write (ewb->bp, data, 2);
-	excel_write_string (ewb->bp, format, (ewb->bp->version >= MS_BIFF_V8)
-		? STR_TWO_BYTE_LENGTH : STR_ONE_BYTE_LENGTH);
+	excel_write_string (ewb->bp, (ewb->bp->version >= MS_BIFF_V8)
+		? STR_TWO_BYTE_LENGTH : STR_ONE_BYTE_LENGTH, format);
 	ms_biff_put_commit (ewb->bp);
 	g_free (format);
 }
@@ -1631,11 +1617,11 @@ excel_write_FORMATs (ExcelWriteState *ewb)
 	int magic_num [] = { 5, 6, 7, 8, 0x2a, 0x29, 0x2c, 0x2b };
 	guint i;
 
-	/* The built-in fonts which get localized */
+	/* The built-in formats which get localized */
 	for (i = 0; i < G_N_ELEMENTS (magic_num); i++)
 		excel_write_FORMAT (ewb, magic_num [i]);
 
-	/* The custom fonts */
+	/* The custom formats */
 	for (i = EXCEL_BUILTIN_FORMAT_LEN; i < nformats; i++)
 		excel_write_FORMAT (ewb, i);
 }
@@ -1684,14 +1670,83 @@ xf_free (ExcelWriteState *ewb)
 	}
 }
 
-
-/**
- * Get an mstyle, given index
- **/
 static GnmStyle *
 xf_get_mstyle (ExcelWriteState *ewb, gint idx)
 {
 	return two_way_table_idx_to_key (ewb->xf.two_way_table, idx);
+}
+
+/***************************************************************************/
+
+static void
+cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
+{
+	int index;
+	GnmStyle  *style;
+	GnmFormat *fmt;
+	GnmString *str;
+
+	if (cell_has_expr (cell) || cell->value == NULL)
+		return;
+
+	if ((fmt = VALUE_FMT (cell->value)) != NULL) {
+		style = cell_get_mstyle (cell);
+
+		/* Collect unique fonts in rich text */
+		if (cell->value->type == VALUE_STRING &&
+		    style_format_is_markup (fmt)) {
+			ExcelFont *efont;
+			gint tmp[2];
+			PangoAttrIterator *iter =
+				pango_attr_list_get_iterator (fmt->markup);
+			GArray *txo =
+				g_array_sized_new (FALSE, FALSE, sizeof (int), 8);
+			GSList *attrs;
+
+			do {
+				/* trim start */
+				attrs = pango_attr_iterator_get_attrs (iter);
+				if (txo->len == 0 && attrs == NULL)
+					continue;
+
+				efont = excel_font_new (style);
+				excel_font_overlay_pango (efont, attrs);
+				pango_attr_iterator_range (iter, tmp, NULL);
+				tmp[1] = put_efont (efont, ewb);
+				g_array_append_vals (txo, (gpointer)tmp, 2);
+			} while (pango_attr_iterator_next (iter));
+			/* trim end */
+			if (txo->len > 2 && attrs == NULL)
+				g_array_set_size (txo, txo->len - 2);
+			pango_attr_iterator_destroy (iter);
+
+			g_hash_table_insert (ewb->cell_markup, (gpointer)cell, txo);
+			return; /* we use RSTRING, no need to add to SST */
+		}
+
+		/* XL has no notion of value format.  We need to create
+		 * imaginary styles with the value format substituted into the
+		 * current style.  Otherwise an entry like '10:00' gets loaded
+		 * as a raw number.  */
+		else if (style_format_is_general (mstyle_get_format (style))) {
+			style = mstyle_copy (style);
+			mstyle_set_format (style, fmt);
+			g_hash_table_insert (ewb->xf.value_fmt_styles,
+				(gpointer)cell, 
+				sheet_style_find (cell->base.sheet, style));
+		}
+	}
+
+	/* Collect strings for the SST if we need them */
+	if (ewb->sst.strings != NULL && cell->value->type == VALUE_STRING) {
+		str = cell->value->v_str.val;
+		if (!g_hash_table_lookup_extended (ewb->sst.strings, str, NULL, NULL)) {
+			index = ewb->sst.indicies->len;
+			g_ptr_array_add (ewb->sst.indicies, str);
+			g_hash_table_insert (ewb->sst.strings, str,
+				GINT_TO_POINTER (index));
+		}
+	}
 }
 
 static void
@@ -1699,27 +1754,6 @@ cb_accum_styles (GnmStyle *st, gconstpointer dummy, ExcelWriteState *ewb)
 {
 	two_way_table_put (ewb->xf.two_way_table, st, TRUE, NULL, NULL);
 }
-
-/* XL has no notion of value format.  We need to create imaginary styles
- * with the value format substituted into the current style.  Otherwise
- * an entry like '10:00' gets loaded as a raw number.
- */
-static void
-cb_collect_value_fmts (GnmCellPos const *pos, GnmCell *cell, ExcelWriteState *ewb)
-{
-	GnmStyle *style;
-
-	if (cell->value == NULL || VALUE_FMT (cell->value) == NULL)
-		return;
-	style = cell_get_mstyle (cell);
-	if (!style_format_is_general (mstyle_get_format (style)))
-		return;
-	style = mstyle_copy (style);
-	mstyle_set_format (style, VALUE_FMT (cell->value));
-	g_hash_table_insert (ewb->xf.value_fmt_styles, cell, 
-		sheet_style_find (cell->base.sheet, style));
-}
-
 static void
 gather_styles (ExcelWriteState *ewb)
 {
@@ -1730,8 +1764,8 @@ gather_styles (ExcelWriteState *ewb)
 	for (i = 0; i < ewb->sheets->len; i++) {
 		esheet = g_ptr_array_index (ewb->sheets, i);
 
-		sheet_foreach_cell (esheet->gnum_sheet,
-			(GHFunc) &cb_collect_value_fmts, ewb);
+		g_hash_table_foreach (esheet->gnum_sheet->cell_hash,
+			(GHFunc) cb_cell_pre_pass, ewb);
 
 		sheet_style_foreach (esheet->gnum_sheet, (GHFunc)cb_accum_styles, ewb);
 		for (col = 0; col < esheet->max_col; col++)
@@ -2002,8 +2036,8 @@ build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle *st)
 	xfd->mstyle       = st;
 
 	f = excel_font_new (st);
-	xfd->font_idx = fonts_get_index (ewb, f);
-	g_free (f);
+	xfd->font_idx = two_way_table_key_to_idx (ewb->fonts.two_way_table, f);
+	excel_font_free (f);
 
 	xfd->style_format = mstyle_get_format (st);
 	xfd->format_idx   = formats_get_index (ewb, xfd->style_format);
@@ -2359,16 +2393,6 @@ excel_write_map_errcode (GnmValue const *v)
 	}
 }
 
-/**
- * excel_write_value
- * @ewb
- * @v   value
- * @col column
- * @row row
- * @xf  XF index
- *
- * Write cell value to file
- **/
 static void
 excel_write_value (ExcelWriteState *ewb, GnmValue *v, guint32 col, guint32 row, guint16 xf)
 {
@@ -2470,8 +2494,8 @@ excel_write_value (ExcelWriteState *ewb, GnmValue *v, guint32 col, guint32 row, 
 			EX_SETCOL(data, col);
 			EX_SETROW(data, row);
 			ms_biff_put_var_write  (ewb->bp, data, 6);
-			excel_write_string (ewb->bp, v->v_str.val->str,
-					    STR_TWO_BYTE_LENGTH);
+			excel_write_string (ewb->bp, STR_TWO_BYTE_LENGTH,
+				v->v_str.val->str);
 			ms_biff_put_commit (ewb->bp);
 		} else {
 			guint8 *data = ms_biff_put_len_next (ewb->bp, BIFF_LABELSST, 10);
@@ -2588,8 +2612,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 	if (string_result) {
 		char const *str = value_peek_string (v);
 		ms_biff_put_var_next (ewb->bp, 0x200|BIFF_STRING);
-		excel_write_string (ewb->bp, str,
-			STR_TWO_BYTE_LENGTH);
+		excel_write_string (ewb->bp, STR_TWO_BYTE_LENGTH, str);
 		ms_biff_put_commit (ewb->bp);
 	}
 }
@@ -2645,17 +2668,55 @@ repeat:
 	g_slist_free (comments);
 }
 
-/**
- * write_cell
- * @bp    biff buffer
- * @esheet sheet
- * @cell  cell
- *
- * Write cell to file
- **/
 static void
-write_cell (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell const *cell, unsigned xf)
+excel_write_RSTRING (ExcelWriteState *ewb, GnmCell const *cell, unsigned xf)
 {
+	GArray *txo = g_hash_table_lookup (ewb->cell_markup, cell);
+	guint8 buf [6];
+	unsigned i, n;
+
+	g_return_if_fail (txo != NULL);
+
+	ms_biff_put_var_next (ewb->bp, BIFF_RSTRING);
+	EX_SETROW (buf, cell->pos.row);
+	EX_SETCOL (buf, cell->pos.col);
+	EX_SETXF  (buf, xf);
+	ms_biff_put_var_write  (ewb->bp, buf, 6);
+	excel_write_string (ewb->bp, STR_TWO_BYTE_LENGTH,
+		cell->value->v_str.val->str);
+
+	n = txo->len / 2;
+	if (ewb->bp->version < MS_BIFF_V8) {
+		GSF_LE_SET_GUINT8 (buf, n);
+		ms_biff_put_var_write  (ewb->bp, buf, 1);
+		for (i = 0; i < n ; i++) {
+			GSF_LE_SET_GUINT8 (buf, 
+				g_array_index (txo, gint, i*2));
+			GSF_LE_SET_GUINT8 (buf + 1,
+				g_array_index (txo, gint, i*2+1));
+			ms_biff_put_var_write  (ewb->bp, buf, 2);
+		}
+	} else {
+		GSF_LE_SET_GUINT16 (buf, n);
+		ms_biff_put_var_write  (ewb->bp, buf, 2);
+		for (i = 0; i < n ; i++) {
+			GSF_LE_SET_GUINT16 (buf, 
+				g_array_index (txo, gint, i*2));
+			GSF_LE_SET_GUINT16 (buf + 2,
+				g_array_index (txo, gint, i*2+1));
+			ms_biff_put_var_write  (ewb->bp, buf, 4);
+		}
+	}
+
+	ms_biff_put_commit (ewb->bp);
+}
+
+static void
+excel_write_cell (ExcelWriteState *ewb, ExcelWriteSheet *esheet,
+		  GnmCell const *cell, unsigned xf)
+{
+	GnmValue *v;
+
 	d (2, {
 		GnmParsePos tmp;
 		fprintf (stderr, "Writing cell at %s '%s' = '%s', xf = 0x%x\n",
@@ -2668,10 +2729,17 @@ write_cell (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell const *cell, 
 			(cell->value ?
 			 value_get_as_string (cell->value) : "empty"), xf);
 	});
+
 	if (cell_has_expr (cell))
 		excel_write_FORMULA (ewb, esheet, cell, xf);
-	else if (cell->value != NULL)
-		excel_write_value (ewb, cell->value, cell->pos.col, cell->pos.row, xf);
+	else if ((v = cell->value) != NULL) {
+		if (v->type == VALUE_STRING &&
+		    VALUE_FMT (v) != NULL &&
+		    style_format_is_markup (VALUE_FMT (v)))
+			excel_write_RSTRING (ewb, cell, xf);
+		else
+			excel_write_value (ewb, cell->value, cell->pos.col, cell->pos.row, xf);
+	}
 }
 
 /**
@@ -3044,9 +3112,9 @@ excel_write_AUTOFILTERINFO (BiffPut *bp, ExcelWriteSheet *esheet)
 		ms_biff_put_var_write (bp, buf, sizeof buf);
 
 		if (str0 != NULL)
-			excel_write_string (bp, str0, STR_NO_LENGTH);
+			excel_write_string (bp, STR_NO_LENGTH, str0);
 		if (str1 != NULL)
-			excel_write_string (bp, str1, STR_NO_LENGTH);
+			excel_write_string (bp, STR_NO_LENGTH, str1);
 
 		ms_biff_put_commit (bp);
 	}
@@ -3686,7 +3754,7 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 							xf_list, run_size);
 					run_size = 0;
 				}
-				write_cell (ewb, esheet, cell, xf);
+				excel_write_cell (ewb, esheet, cell, xf);
 				workbook_io_progress_update (esheet->ewb->io_context, 1);
 			}
 		}
@@ -3709,7 +3777,7 @@ excel_write_CODENAME (ExcelWriteState *ewb, GObject *src)
 		/* it does not appear to always exist */
 		if (codename != NULL) {
 			ms_biff_put_var_next (ewb->bp, BIFF_CODENAME);
-			excel_write_string (ewb->bp, codename, STR_TWO_BYTE_LENGTH);
+			excel_write_string (ewb->bp, STR_TWO_BYTE_LENGTH, codename);
 			ms_biff_put_commit (ewb->bp);
 		}
 	}
@@ -3875,28 +3943,29 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
  * colors to tables. Resolves any referencing problems before they
  * occur, hence the records can be written in a linear order.
  **/
-static int
-gather_style_info (ExcelWriteState *ewb)
+static void
+pre_pass (ExcelWriteState *ewb)
 {
-	int ret = 0;
+	TwoWayTable *twt;
 
 	if (ewb->sheets->len == 0)
-		return TRUE;
+		return;
 
 	two_way_table_put (ewb->xf.two_way_table, ewb->xf.default_style,
 		TRUE, NULL, NULL); /* The default style first */
 
 	/* Its font and format */
-	put_font (ewb->xf.default_style, NULL, ewb);
+	put_style_font (ewb->xf.default_style, NULL, ewb);
 	put_format (ewb->xf.default_style, NULL, ewb);
 
 	gather_styles (ewb);     /* (and cache cells) */
-	/* Gather Info from styles */
-	gather_fonts (ewb);
-	gather_formats (ewb);
-	gather_palette (ewb);
 
-	return ret;
+	/* Gather Info from styles */
+	twt = ewb->xf.two_way_table;
+	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_style_font, ewb);
+	twt = ewb->xf.two_way_table;
+	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_format, ewb);
+	gather_palette (ewb);
 }
 
 typedef struct {
@@ -3911,9 +3980,11 @@ excel_write_SST (ExcelWriteState *ewb)
 	GPtrArray const *strings = ewb->sst.indicies;
 	BiffPut		*bp = ewb->bp;
 	SSTInf		*extsst = NULL;
-	guint8 *ptr, data [8224];
-	guint8 const * const last = data + sizeof (data);
-	unsigned i, tmp, out_bytes, blocks;
+	char *ptr, data [8224];
+	char const * const last = data + sizeof (data);
+	unsigned i, tmp, out_bytes, blocks, char_len, byte_len;
+	GnmString const *string;
+	char *str;
 
 	if (strings->len > 0) {
 		blocks = 1 + ((strings->len - 1) / 8);
@@ -3927,9 +3998,8 @@ excel_write_SST (ExcelWriteState *ewb)
 
 	ptr = data + 8;
 	for (i = 0; i < strings->len ; i++) {
-		GnmString const *string = g_ptr_array_index (strings, i);
-		char const *str = string->str;
-		unsigned char_len, byte_len;
+		string = g_ptr_array_index (strings, i);
+		str = string->str;
 
 		if (0 == (i % 8)) {
 			tmp = ptr - data + /* biff header */ 4;
@@ -3973,7 +4043,7 @@ excel_write_SST (ExcelWriteState *ewb)
 unicode_loop :
 			*ptr++ = 1;	/* unicode header == 1 */
 			old_out_bytes = out_bytes = last - ptr;
-			g_iconv (bp->convert, (char **)&str, &byte_len, (char **)&ptr, &out_bytes);
+			g_iconv (bp->convert, &str, &byte_len, (char **)&ptr, &out_bytes);
 			count += old_out_bytes - out_bytes;
 
 			if (byte_len > 0) {
@@ -4038,12 +4108,12 @@ excel_write_WRITEACCESS (BiffPut *bp)
 
 	ms_biff_put_var_next (bp, BIFF_WRITEACCESS);
 	if (bp->version >= MS_BIFF_V8) {
-		len = excel_write_string (bp, utf8_name, STR_TWO_BYTE_LENGTH);
+		len = excel_write_string (bp, STR_TWO_BYTE_LENGTH, utf8_name);
 		memset (pad, ' ', sizeof pad);
 		ms_biff_put_var_write (bp, pad, sizeof pad - len);
 		ms_biff_put_commit (bp);
 	} else {
-		len = excel_write_string (bp, utf8_name, STR_ONE_BYTE_LENGTH);
+		len = excel_write_string (bp, STR_ONE_BYTE_LENGTH, utf8_name);
 		memset (pad, ' ', 32);
 		ms_biff_put_var_write (bp, pad, 32 - len - 1);
 		ms_biff_put_commit (bp);
@@ -4110,7 +4180,7 @@ cb_write_macro_NAME (gpointer key, ExcelFunc *efunc, ExcelWriteState *ewb)
 		ms_biff_put_var_next (ewb->bp, BIFF_NAME);
 		GSF_LE_SET_GUINT8 (data+3, len);
 		ms_biff_put_var_write (ewb->bp, data, sizeof (data));
-		excel_write_string (ewb->bp, efunc->macro_name, STR_NO_LENGTH);
+		excel_write_string (ewb->bp, STR_NO_LENGTH, efunc->macro_name);
 		ms_biff_put_commit (ewb->bp);
 
 		g_free (efunc->macro_name);	/* INVALIDATE THE NAME */
@@ -4370,31 +4440,13 @@ excel_write_v8 (ExcelWriteState *ewb, GsfOutfile *outfile)
 /****************************************************************************/
 
 static void
-sst_collect_str (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
-{
-	int index;
-	GnmString *str;
-
-	if (cell_has_expr (cell) || cell->value == NULL ||
-	    cell->value->type != VALUE_STRING)
-		return;
-
-	str = cell->value->v_str.val;
-	if (!g_hash_table_lookup_extended (ewb->sst.strings, str, NULL, NULL)) {
-		index = ewb->sst.indicies->len;
-		g_ptr_array_add (ewb->sst.indicies, str);
-		g_hash_table_insert (ewb->sst.strings, str,
-			GINT_TO_POINTER (index));
-	}
-}
-
-static void
 cb_check_names (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 {
 	if (nexpr->active && !nexpr->is_placeholder)
 		excel_write_prep_expr (ewb, nexpr->expr);
 }
 
+static void cb_g_array_free (GArray *array) { g_array_free (array, TRUE); }
 ExcelWriteState *
 excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 		       gboolean biff7, gboolean biff8)
@@ -4416,9 +4468,13 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 	ewb->function_map = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 		NULL, g_free);
 	ewb->sheet_pairs  = NULL;
+	ewb->cell_markup  = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+		NULL, (GDestroyNotify) cb_g_array_free);
 	ewb->double_stream_file = biff7 && biff8;
 
-	fonts_init (ewb);
+	ewb->fonts.two_way_table = two_way_table_new (
+		excel_font_hash, excel_font_equal, 0,
+		(GDestroyNotify) excel_font_free);
 	formats_init (ewb);
 	palette_init (ewb);
 	xf_init (ewb);
@@ -4440,23 +4496,15 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 			excel_write_prep_sheet (ewb, sheet);	/* filters */
 	}
 
-	gather_style_info (ewb);
-
-	if (biff7) {
-		ewb->sst.strings  = NULL;
-		ewb->sst.indicies = NULL;
-	}
-
 	if (biff8) {
 		ewb->sst.strings  = g_hash_table_new (g_direct_hash, g_direct_equal);
 		ewb->sst.indicies = g_ptr_array_new ();
-
-		for (i = 0 ; i < workbook_sheet_count (ewb->gnum_wb) ; i++) {
-			Sheet *sheet = workbook_sheet_by_index (ewb->gnum_wb, i);
-			g_hash_table_foreach (sheet->cell_hash,
-				(GHFunc) sst_collect_str, ewb);
-		}
+	} else {
+		ewb->sst.strings  = NULL;
+		ewb->sst.indicies = NULL;
 	}
+	pre_pass (ewb);
+
 	ewb->obj_count = 0;
 
 	return ewb;
@@ -4467,7 +4515,10 @@ excel_write_state_free (ExcelWriteState *ewb)
 {
 	unsigned i;
 
-	fonts_free   (ewb);
+	if (ewb->fonts.two_way_table != NULL) {
+		two_way_table_free (ewb->fonts.two_way_table);
+		ewb->fonts.two_way_table = NULL;
+	}
 	formats_free (ewb);
 	palette_free (ewb);
 	xf_free  (ewb);
@@ -4480,6 +4531,7 @@ excel_write_state_free (ExcelWriteState *ewb)
 	g_ptr_array_free (ewb->externnames, TRUE);
 	g_hash_table_destroy (ewb->function_map);
 	g_hash_table_destroy (ewb->sheet_pairs);
+	g_hash_table_destroy (ewb->cell_markup);
 
 	if (ewb->sst.strings != NULL) {
 		g_hash_table_destroy (ewb->sst.strings);

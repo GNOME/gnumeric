@@ -349,7 +349,7 @@ static void
 write_string (PolishData *pd, gchar const *txt)
 {
 	push_guint8 (pd, FORMULA_PTG_STR);
-	excel_write_string (pd->ewb->bp, txt, STR_ONE_BYTE_LENGTH);
+	excel_write_string (pd->ewb->bp, STR_ONE_BYTE_LENGTH, txt);
 }
 
 static void
@@ -874,8 +874,8 @@ write_arrays (PolishData *pd)
 					ms_biff_put_var_write (pd->ewb->bp, data, 8);
 				} else { /* Can only be a string */
 					push_guint8 (pd, 2);
-					excel_write_string (pd->ewb->bp,
-						value_peek_string (v), string_flags);
+					excel_write_string (pd->ewb->bp, string_flags,
+						value_peek_string (v));
 				}
 			}
 		}

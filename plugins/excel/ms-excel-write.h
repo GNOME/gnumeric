@@ -26,10 +26,11 @@ typedef struct {
 	 */
 	guint32    color;
 	char const *font_name;
-	double	  size_pts;
-	gboolean  is_bold;
-	gboolean  is_italic;
-	gboolean  is_auto;
+	char       *font_name_copy; /* some times we need to keep a local copy */
+	double	  		size_pts;
+	gboolean  		is_bold;
+	gboolean  		is_italic;
+	gboolean  		is_auto;
 	StyleUnderlineType	underline;
 	gboolean		strikethrough;
 } ExcelFont;
@@ -71,6 +72,7 @@ struct _ExcelWriteState {
 
 	GHashTable    *function_map;
 	GHashTable    *sheet_pairs;
+	GHashTable    *cell_markup;
 
 	/* we use the ewb as a closure for things, this is useful */
 	int tmp_counter;
@@ -120,8 +122,7 @@ typedef enum {
 } WriteStringFlags;
 
 unsigned excel_write_string_len (guint8 const *txt, unsigned *bytes);
-unsigned excel_write_string	(BiffPut *bp, guint8 const *txt,
-				 WriteStringFlags flags);
+unsigned excel_write_string	(BiffPut *bp, WriteStringFlags flags, guint8 const *txt);
 
 int excel_write_get_externsheet_idx (ExcelWriteState *wb,
 				     Sheet *gnum_sheeta,

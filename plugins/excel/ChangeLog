@@ -1,3 +1,11 @@
+2004-04-29  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_font_overlay_pango) : new.
+	(excel_write_RSTRING) : new.
+	(cb_cell_pre_pass) : merge cb_collect_value_fmts, sst_collect_str
+	  add support for richtext
+	(excel_write_cell) : export RSTRINGS for richtext
+
 2004-04-22  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=136086

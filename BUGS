@@ -129,8 +129,11 @@ Pending Patches
 	    8.13.1.1) biff[57]					(DONE)
 	    8.13.1.2) biff8					(DONE)
 	8.13.2) import from SST					(DONE)
-	8.13.3) export RSTRING
-	8.13.4) export in SST
+	8.13.3) collect fonts from markup for export
+	    8.13.3.1) cells					(DONE)
+	    8.13.3.2) comments
+	    8.13.3.2) text boxes
+	8.13.4) export RSTRING (95 & 97)			(DONE)
     8.14) editing while zoomed
 
 -------------------------------------------------------------------------------
@@ -157,7 +160,6 @@ Excel i/o
 Short Term Goals
 ----------------
 
-* compartmentalize gconf support
 - validate expression names to ensure that they are not simple values (eg TRUE)
 
 - Force the "for" (and thus the "switch") in mstyle_hash to be unrolled.
@@ -751,84 +753,3 @@ Translations
 	- simple bold/italic/font
 	- links
 	- embedded images ??
---------------------------------------------------------------------------------
-Finished
-
-4) finish support for h/v only splits				(DONE)
-7) Expr Parser                                                  (DONE)
-    7.1) Move the host of flags into an GnmExprConventions      (DONE)
-    7.2) Use conventions obj to generate strings		(DONE)
-8) Reinstate auto-format					(DONE)
-    8.1) Move type information to function flags.		(DONE)
-    8.2) Change commands to infer types.			(DONE)
-9) Manual recalc						(DONE)
-    9.1) finish calculation ui in workbook attr dialog		(DONE)
-10) fix highlighting of completion code				(DONE)
-11) Use the default gtk font rather than our own		(DONE)
-12) audit all of the import plugins to do UTF-8 conversions     (DONE)
-    12.1)  excel						(DONE)
-    12.2)  applix						(DONE)
-    12.3)  lotus						(DONE)
-    12.4)  quattro pro                                          (DONE)
-    12.5)  plan perfect						(DONE)
-    12.6)  html							(DONE)
-    12.7)  opencalc						(DONE)
-    12.8)  oleo                                                 (DONE)
-    12.9)  sc                                                   (DONE)
-    12.10) sylk                                                 (DONE)
-    12.11) dif                                                  (DONE)
-    12.12) psion                                                (DONE)
-13) export plugins use gsf					(DONE)
-15) Decide whether to turn on the poor man's UTF-8 regexps.     (DONE)
-16) Outline mode						(DONE)
-    16.1) optionally put markers above/left			(DONE)
-    16.2) smarter handling for groups at the edge of selection	(DONE)
-    16.3) implement 'clicked' for numbers callbacks		(DONE)
-17) 3D reference fixes on sheet deletion			(DONE)
-18) 'discard' for invalid expressions enters text as string	(DONE)
-19) Session management						(DONE)
-23) Bonobo component						(DONE)
-    23.1) Install it in libexec					(DONE)
-    23.2) Investigate warnings 					(DONE)
-25) Audit all fixed-length buffers.  Most non-time-critical can be replaced
-    by proper usage of g_strdup_printf.
-    25.1)  src/*.[ch]                                           (DONE 20030110 MW)
-    25.2)  plugins/applix                                       (DONE 20030409 MW)
-    25.3)  plugins/corba                                        (DONE 20030408 MW)
-    25.4)  plugins/derivatives                                  (DONE 20030408 MW)
-    25.5)  plugins/dif                                          (DONE 20030408 MW)
-    25.6)  plugins/excel
-    25.7)  plugins/fn-*                                         (DONE 20030110 MW)
-    25.8)  plugins/gb                                           (DONE 20030110 MW)
-    25.9)  plugins/gda                                          (DONE 20030110 MW)
-    25.10) plugins/gnome-glossary                               (DONE 20030408 MW)
-    25.11) plugins/guile                                        (DONE 20030110 MW)
-    25.12) plugins/html                                         (DONE 20030110 MW)
-    25.13) plugins/lotus-123                                    (DONE 20030110 MW)
-    25.14) plugins/mps                ---PROBABLY SAFE---
-    25.15) plugins/numtheory                                    (DONE 20030110 MW)
-    25.16) plugins/oleo                                         (DONE 20030408 MW)
-    25.17) plugins/openoffice                                   (DONE 20030408 MW)
-    25.18) plugins/perl                                         (DONE 20030110 MW)
-    25.19) plugins/plan-perfect                                 (DONE 20030408 MW)
-    25.20) plugins/psiconv              ---NOT SAFE---
-    25.21) plugins/py-func                                      (DONE 20030408 MW)
-    25.22) plugins/python-loader                                (DONE 20030408 MW)
-    25.23) plugins/qpro                                         (DONE 20030110 MW)
-    25.24) plugins/sample_datasource                            (DONE 20030110 MW)
-    25.25) plugins/sc                                           (DONE 20030409 MW)
-    25.26) plugins/sylk                                         (DONE 20030110 MW)
-    25.27) plugins/uihello                                      (DONE 20030408 MW)
-    25.28) plugins/xbase                                        (DONE 20030408 MW)
-    25.29) plugins/xml_sax                                      (DONE 20030408 MW)
-
-26) Format characterization                                     (DONE)
-    26.1) Add characterization (units) to StyleFormat           (DONE)
-28) Finish Function Coverage					(DONE)
-    28.1) Convert the code from sc to use our date routines	(DONE)
-    28.2) ODDFPRICE	(test fails)				(DONE)
-    28.3) ODDFYIELD						(DONE)
-    28.4) ODDLPRICE	(test fails)				(DONE)
-    28.5) ODDLYIELD	(test fails)				(DONE)
-    28.6) YIELDDISC	(basis 1 seems different)		(DONE)
-    28.7) YEARFRAC						(DONE)

@@ -1010,10 +1010,9 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 			if ((q->length - offset) >= 4) {
 				txo_run.last = g_utf8_offset_to_pointer (res->str,
 					GSF_LE_GET_GUINT16 (q->data+offset)) - res->str;
-				if (prev_markup != NULL) {
+				if (prev_markup != NULL)
 					pango_attr_list_filter (prev_markup,
 						(PangoAttrFilterFunc) append_markup, &txo_run);
-				}
 				txo_run.first = txo_run.last;
 				prev_markup = ms_container_get_markup (
 					c, GSF_LE_GET_GUINT16 (q->data + offset + 2));
