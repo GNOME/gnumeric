@@ -3,6 +3,8 @@
  *
  * Author:
  *  Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *
+ * (C) Copyright 2000 by Jukka-Pekka Iivonen <iivonen@iki.fi> 
  */
 
 #include <config.h>
@@ -414,6 +416,140 @@ min_toggled(GtkWidget *widget, SolverParameters *data)
 	}
 }
 
+static void
+original_values_toggled(GtkWidget *widget, gboolean *data)
+{
+        if (GTK_TOGGLE_BUTTON (widget)->active)
+	        *data = FALSE;
+	else
+	        *data = TRUE;
+}
+
+static void
+solver_values_toggled(GtkWidget *widget, gboolean *data)
+{
+        if (GTK_TOGGLE_BUTTON (widget)->active)
+	        *data = TRUE;
+	else
+	        *data = FALSE;
+}
+
+static void
+report_button_toggled(GtkWidget *widget, gboolean *data)
+{
+	*data = GTK_TOGGLE_BUTTON (widget)->active;
+}
+
+static gboolean
+dialog_results (Workbook *wb, int res,
+		gboolean *answer, gboolean *sensitivity, gboolean *limits)
+{
+	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/solver.glade",
+					NULL);
+	GtkWidget *dialog;
+	GtkWidget *label;
+	GtkWidget *checkbutton1;
+	GtkWidget *checkbutton2;
+	GtkWidget *checkbutton3;
+	GtkWidget *radiobutton3;
+	GtkWidget *radiobutton4;
+	gchar     *label_txt = "";
+        gboolean  answer_s, sensitivity_s, limits_s;
+	gboolean  keep_solver_solution;
+	int       selection;
+
+	answer_s = sensitivity_s = limits_s = FALSE;
+
+	switch (res){
+	case SIMPLEX_DONE:
+	        answer_s = TRUE;
+	        label_txt = "Solver found an optimal solution. All "
+		  "constraints and \noptimality conditions are satisfied.";
+		break;
+	case SIMPLEX_UNBOUNDED:
+		label_txt = "The Target Cell value does not converge.\n";
+	        break;
+	default:
+	        break;
+	}
+
+	if (!gui) {
+		printf ("Could not find solver.glade\n");
+		return FALSE;
+	}
+	dialog = glade_xml_get_widget (gui, "SolverResults");
+	label = glade_xml_get_widget (gui, "result-label");
+	checkbutton1 = glade_xml_get_widget (gui, "checkbutton1");
+	checkbutton2 = glade_xml_get_widget (gui, "checkbutton2");
+	checkbutton3 = glade_xml_get_widget (gui, "checkbutton3");
+
+	radiobutton3 = glade_xml_get_widget (gui, "radiobutton3");
+	radiobutton4 = glade_xml_get_widget (gui, "radiobutton4");
+
+	gtk_signal_connect (GTK_OBJECT (checkbutton1), "toggled",
+			    GTK_SIGNAL_FUNC (report_button_toggled), answer);
+	gtk_signal_connect (GTK_OBJECT (checkbutton2), "toggled",
+			    GTK_SIGNAL_FUNC (report_button_toggled),
+			    sensitivity);
+	gtk_signal_connect (GTK_OBJECT (checkbutton3), "toggled",
+			    GTK_SIGNAL_FUNC (report_button_toggled), limits);
+
+	gtk_signal_connect (GTK_OBJECT (radiobutton3), "toggled",
+			    GTK_SIGNAL_FUNC (solver_values_toggled), 
+			    &keep_solver_solution);
+	gtk_signal_connect (GTK_OBJECT (radiobutton4), "toggled",
+			    GTK_SIGNAL_FUNC (original_values_toggled), 
+			    &keep_solver_solution);
+
+	gtk_label_set_text (GTK_LABEL (label), label_txt);
+
+	gtk_widget_set_sensitive (checkbutton1, answer_s);
+	gtk_widget_set_sensitive (checkbutton2, sensitivity_s);
+	gtk_widget_set_sensitive (checkbutton3, limits_s);
+
+	/* Run the dialog */
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+
+	if (selection != -1)
+		gtk_object_destroy (GTK_OBJECT (dialog));
+
+	gtk_object_unref (GTK_OBJECT (gui));
+
+	return keep_solver_solution;
+}
+
+static GSList *
+save_original_values (CellList *input_cells)
+{
+        GSList *ov = NULL;
+
+	while (input_cells != NULL) {
+	        Cell *cell = (Cell *) input_cells->data;
+		char *str;
+
+		str = value_get_as_string (cell->value);
+		ov = g_slist_append (ov, str);
+
+	        input_cells = input_cells->next;
+	}
+
+	return ov;
+}
+
+static void
+restore_original_values (CellList *input_cells, GSList *ov)
+{
+        while (ov != NULL) {
+	        const char *str = (char *) ov->data;
+	        Cell *cell = (Cell *) input_cells->data;
+
+		cell_set_text (cell, str);
+		ov = ov->next;
+		input_cells = input_cells->next;
+	}
+}
+
+
 void
 dialog_solver (Workbook *wb, Sheet *sheet)
 
@@ -427,7 +563,8 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 	GtkWidget *constr_add_button;
 	GtkWidget *constr_change_button;
 	GtkWidget *constr_delete_button;
-	GSList    *cur;
+	GSList    *cur, *ov;
+	gboolean  solver_solution;
 
 	static constraint_dialog_t *constraint_dialog = NULL;
 	static gchar *target_entry_str = NULL;
@@ -435,10 +572,12 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 
 	const char *text;
 	int        selection, res;
+	float_t    ov_target;
 	Cell       *target_cell;
 	CellList   *input_cells;
 	int        target_cell_col, target_cell_row;
 	int        error_flag;
+	gboolean   answer, sensitivity, limits;
 
 	if (!gui) {
 		printf ("Could not find solver.glade\n");
@@ -565,6 +704,7 @@ main_dialog:
 					      target_cell_row);
 		cell_set_text (target_cell, "");
 	}
+	ov_target = value_get_as_float (target_cell->value);
 
 	/* Parse input cells entry */
 	text = gtk_entry_get_text (GTK_ENTRY (input_entry));
@@ -585,23 +725,22 @@ main_dialog:
 	sheet->solver_parameters.input_cells = input_cells;
 	sheet->solver_parameters.constraints = constraint_dialog->constraints;
 
-	switch (selection) {
-	case 0:  /* Solve */
-	        if (1 ||sheet->solver_parameters.options.assume_linear_model) {
+	if (selection == 0) {
+	        ov = save_original_values (input_cells);
+	        if (sheet->solver_parameters.options.assume_linear_model) {
 		        res = solver_simplex(wb, sheet);
-			if (res == SIMPLEX_UNBOUNDED) {
-			        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-						 _("The problem is unbounded "
-						   "and cannot be solved"));
-				break;
-			}
+			gtk_widget_hide (dialog);
+			answer = sensitivity = limits = FALSE;
+			solver_solution = dialog_results (wb, res, 
+							  &answer,
+							  &sensitivity,
+							  &limits);
+			solver_lp_reports (wb, sheet, ov, ov_target,
+					   answer, sensitivity, limits);
+			if (! solver_solution)
+			        restore_original_values (input_cells, ov);
 		} else
 		        ; /* NLP not implemented yet */
-
-		break;
-	case 2:  /* Options */
-	default:
-	        break;
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (target_entry));

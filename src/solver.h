@@ -46,4 +46,9 @@ struct _SolverParameters {
         SolverOptions      options;
 };
 
+void solver_lp_reports (Workbook *wb, Sheet *sheet, GSList *ov,
+			float_t ov_target,
+			gboolean answer, gboolean sensitivity, 
+			gboolean limits);
+
 #endif

@@ -15,6 +15,8 @@
 #include "func.h"
 #include "cell.h"
 #include "eval.h"
+#include "dialogs.h"
+#include "mstyle.h"
 
 
 
@@ -160,7 +162,7 @@ static int
 simplex_step_three(float_t *table, int col, int tbl_cols, int tbl_rows,
 		   int *status)
 {
-        float_t a, min, test;
+        float_t a, min=0, test;
 	int     i, min_i=-1;
 
 	table += tbl_cols;
@@ -292,3 +294,202 @@ int solver_simplex (Workbook *wb, Sheet *sheet)
 
         return SIMPLEX_DONE;
 }
+
+static char *
+find_name (Sheet *sheet, int col, int row)
+{
+        static char *str = NULL;
+        Cell        *cell;
+	char        *col_str, *row_str;
+        int         col_n, row_n;
+
+	for (col_n = col-1; col_n >= 0; col_n--) {
+	        cell = sheet_cell_get (sheet, col_n, row);
+		if (cell && !VALUE_IS_NUMBER (cell->value))
+		        break;
+	}
+	if (col_n >= 0)
+	        col_str = value_get_as_string (cell->value);
+	else
+	        col_str = g_strdup ("");
+
+	for (row_n = row-1; row_n >= 0; row_n--) {
+	        cell = sheet_cell_get (sheet, col, row_n);
+		if (cell && !VALUE_IS_NUMBER (cell->value))
+		        break;
+	}
+
+	if (row_n >= 0)
+	        row_str = value_get_as_string (cell->value);
+	else
+	        row_str = g_strdup ("");
+
+	if (str)
+	        g_free (str);
+	str = g_new (char, strlen(col_str) + strlen(row_str) + 2);
+
+	if (*col_str)
+	        sprintf(str, "%s %s", col_str, row_str);
+	else
+	        sprintf(str, "%s", row_str);
+
+	g_free (col_str);
+	g_free (row_str);
+
+	return str;
+}
+
+static void
+solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
+		      float_t ov_target)
+{
+        data_analysis_output_t dao;
+	SolverParameters       *param = &sheet->solver_parameters;
+	GSList                 *constraints;
+        CellList               *cell_list = param->input_cells;
+	
+	Cell *cell;
+	char buf[256];
+	char *str;
+	int  row;
+
+	dao.type = NewSheetOutput;
+        prepare_output (wb, &dao, "Answer");
+	set_cell (&dao, 0, 0, "Gnumeric Solver Answer Report");
+	if (param->problem_type == SolverMaximize)
+	        set_cell (&dao, 0, 1, "Target Cell (Maximize)");
+	else
+	        set_cell (&dao, 0, 1, "Target Cell (Minimize)");
+	set_cell (&dao, 0, 2, "Cell");
+	set_cell (&dao, 1, 2, "Name");
+	set_cell (&dao, 2, 2, "Original Value");
+	set_cell (&dao, 3, 2, "Final Value");
+
+	/* Set `Cell' field */
+	set_cell (&dao, 0, 3, (char*) cell_name(param->target_cell->col->pos,
+						param->target_cell->row->pos));
+
+	/* Set `Name' field */
+	set_cell (&dao, 1, 3, find_name (sheet, param->target_cell->col->pos,
+					 param->target_cell->row->pos));
+
+	/* Set `Original Value' field */
+	sprintf (buf, "%f", ov_target);
+	set_cell (&dao, 2, 3, buf);
+
+	/* Set `Final Value' field */
+	cell = sheet_cell_fetch (sheet, param->target_cell->col->pos,
+				 param->target_cell->row->pos);
+	str = value_get_as_string (cell->value);
+	set_cell (&dao, 3, 3, str);
+	g_free (str);
+	
+	row = 4;
+	set_cell (&dao, 0, row++, "Adjustable Cells");
+	set_cell (&dao, 0, row, "Cell");
+	set_cell (&dao, 1, row, "Name");
+	set_cell (&dao, 2, row, "Original Value");
+	set_cell (&dao, 3, row, "Final Value");
+	row++;
+
+	while (cell_list != NULL) {
+	        char *str = (char *) ov->data;
+	        cell = (Cell *) cell_list->data;
+
+		/* Set `Cell' column */
+		set_cell (&dao, 0, row, (char *) cell_name(cell->col->pos,
+							   cell->row->pos));
+
+		/* Set `Name' column */
+		set_cell (&dao, 1, row, find_name (sheet, cell->col->pos,
+						   cell->row->pos));
+
+		/* Set `Original Value' column */
+		set_cell (&dao, 2, row, str);
+
+		/* Set `Final Value' column */
+		cell = sheet_cell_fetch (sheet, cell->col->pos,
+					 cell->row->pos);
+		str = value_get_as_string (cell->value);
+		set_cell (&dao, 3, row, str);
+		g_free (str);
+
+		/* Go to next row */
+	        cell_list = cell_list->next;
+		ov = ov->next;
+		row++;
+	}
+
+	set_cell (&dao, 0, row++, "Constraints");
+	set_cell (&dao, 0, row, "Cell");
+	set_cell (&dao, 1, row, "Name");
+	set_cell (&dao, 2, row, "Cell Value");
+	set_cell (&dao, 3, row, "Formula");
+	set_cell (&dao, 4, row, "Status");
+	set_cell (&dao, 5, row, "Slack");
+
+	row++;
+	constraints = param->constraints;
+	while (constraints != NULL) {
+	        SolverConstraint *c = (SolverConstraint *) constraints->data;
+		float_t lhs, rhs;
+
+		/* Set `Cell' column */
+		set_cell (&dao, 0, row,
+			  (char *) cell_name (c->lhs_col, c->lhs_row));
+
+		/* Set `Name' column */
+		set_cell (&dao, 1, row, find_name (sheet, c->lhs_col,
+						   c->lhs_row));
+
+		/* Set `Cell Value' column */
+		cell = sheet_cell_fetch (sheet, c->rhs_col, c->rhs_row);
+		str = value_get_as_string (cell->value);
+		rhs = value_get_as_float (cell->value);
+		set_cell (&dao, 2, row, str);
+		g_free (str);
+
+		/* Set `Formula' column */
+		set_cell (&dao, 3, row, c->str);
+
+		/* Set `Status' column */
+		cell = sheet_cell_fetch (sheet, c->lhs_col, c->lhs_row);
+		lhs = value_get_as_float (cell->value);
+
+		if (fabs (lhs-rhs) < 0.0001)
+		        set_cell (&dao, 4, row, "Binding");
+		else
+		        set_cell (&dao, 4, row, "Not Binding");
+
+		/* Set `Slack' column */
+		sprintf(buf, "%f", fabs (lhs-rhs));
+		set_cell (&dao, 5, row, buf);
+
+		/* Go to next row */
+		++row;
+		constraints = constraints->next;
+	}
+}
+
+static void
+solver_sensitivity_report (Workbook *wb)
+{
+}
+
+static void
+solver_limits_report (Workbook *wb)
+{
+}
+
+void
+solver_lp_reports (Workbook *wb, Sheet *sheet, GSList *ov, float_t ov_target,
+		   gboolean answer, gboolean sensitivity, gboolean limits)
+{
+        if (answer)
+	        solver_answer_report (wb, sheet, ov, ov_target);
+	if (sensitivity)
+	        solver_sensitivity_report (wb);
+	if (limits)
+	        solver_limits_report (wb);
+}
+
