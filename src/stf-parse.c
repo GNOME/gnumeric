@@ -1511,14 +1511,9 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 	}
 	g_slist_free (list_start);
 
-	for (i = 0; i < max_line_length + 1; i++) {
-
-		if (line_begin_hits[i] == effective_lines || line_end_hits[i] == effective_lines) {
-
+	for (i = 0; i < max_line_length + 1; i++)
+		if (line_begin_hits[i] == effective_lines || line_end_hits[i] == effective_lines)
 			stf_parse_options_fixed_splitpositions_add (parseoptions, i);
-		}
-
-	}
 
 	/*
 	 * Do some corrections to the initial columns
@@ -1662,8 +1657,25 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 			 * The column only contains spaces
 			 * remove it
 			 */
-			if (only_spaces)
+			if (only_spaces) {
 				g_array_remove_index (parseoptions->splitpositions, i);
+
+				/*
+				 * If the beginning of the column is zero than this
+				 * is an exclusive case and the end also needs to be removed
+				 * because there is no preceding column
+				 */
+				if (begin == 0)
+					g_array_remove_index (parseoptions->splitpositions, i);
+					
+				/*
+				 * We HAVE to make sure that the next column (end) also
+				 * gets checked out. If we don't decrease "i" here, we
+				 * will skip over it as the indexes shift down after
+				 * the removal
+				 */
+				i--;
+			}
 		}
 	}
 

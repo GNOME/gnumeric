@@ -1,3 +1,10 @@
+2001-04-25  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/stf-parse.c (stf_parse_options_fixed_autodiscover):
+	Fix ugly discovering error that can cause a non-existant column
+	to be discovered if there are leading spaces and avoid skipping
+	over columns that should be checked for emptyness. Fixes Bug #53499
+
 2001-04-24  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/number-match.c : We are using the fabs function, so
