@@ -91,11 +91,10 @@ free_stats (simstats_t *stats, simulation_t *sim)
 	g_free (stats->errmask);
 }
 
-static gchar *
-recompute_outputs (simulation_t *sim, gnum_float **outputs, int iter, int round)
+static void
+eval_inputs_list (simulation_t *sim)
 {
 	GSList *cur;
-	int    i = 0;
 
 	/* Recompute inputs. */
 	for (cur = sim->list_inputs; cur != NULL; cur = cur->next) {
@@ -104,6 +103,13 @@ recompute_outputs (simulation_t *sim, gnum_float **outputs, int iter, int round)
 		cell_queue_recalc (cell);
 		cell_eval (cell);
 	}
+}
+
+static gchar *
+eval_outputs_list (simulation_t *sim, gnum_float **outputs, int iter, int round)
+{
+	GSList *cur;
+	int    i = 0;
 
 	/* Recompute outputs. */
 	for (cur = sim->list_outputs; cur != NULL; cur = cur->next) {
@@ -112,13 +118,24 @@ recompute_outputs (simulation_t *sim, gnum_float **outputs, int iter, int round)
 		cell_eval (cell);
 		if (cell->value == NULL || ! VALUE_IS_NUMBER (cell->value)) {
 			return _("Output variable did not yield to a numeric "
-				 "value.");
+				 "value. Check the output variables in your "
+				 "model (maybe your last simulation round # "
+				 "is too high).");
 		}
 
-		outputs [i++][iter] = value_get_as_float (cell->value);
+		if (outputs)
+			outputs [i++][iter] = value_get_as_float (cell->value);
 	}
 
 	return NULL;
+}
+
+static gchar *
+recompute_outputs (simulation_t *sim, gnum_float **outputs, int iter, int round)
+{
+	eval_inputs_list (sim);
+
+	return eval_outputs_list (sim, outputs, iter, round);
 }
 
 static void
@@ -194,7 +211,7 @@ static void
 create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t *stats,
 		data_analysis_output_t *dao, Sheet *sheet)
 {
-	int i, n, n_rounds, rinc;
+	int i, n, t, n_rounds, rinc;
 
 	n_rounds = 1 + sim->last_round - sim->first_round;
 
@@ -208,8 +225,8 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t *stats,
 	 */
 	dao_set_cell (dao, 0, 0, "A");
 
-	rinc = sim->n_output_vars + 3;
-	for (n = sim->first_round; n <= sim->last_round; n++) {
+	rinc = sim->n_output_vars + 4;
+	for (n = 0, t = sim->first_round; t <= sim->last_round; t++, n++) {
 		dao_set_cell (dao, 2, 6 + n * rinc, _("Min"));
 		dao_set_cell (dao, 3, 6 + n * rinc, _("Mean"));
 		dao_set_cell (dao, 4, 6 + n * rinc, _("Max"));
@@ -227,29 +244,29 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t *stats,
 			dao_set_bold (dao, 1, i + 7 + n * rinc, 1,
 				      i + 7 + n * rinc);
 			dao_set_cell_float (dao, 2, i + 7 + n * rinc,
-					    stats [n].min [i]);
+					    stats [t].min [i]);
 			dao_set_cell_float (dao, 3, i + 7 + n * rinc,
-					    stats [n].mean [i]);
+					    stats [t].mean [i]);
 			dao_set_cell_float (dao, 4, i + 7 + n * rinc,
-					    stats [n].max [i]);
+					    stats [t].max [i]);
 			dao_set_cell_float (dao, 5, i + 7 + n * rinc,
-					    stats [n].median [i]);
+					    stats [t].median [i]);
 			dao_set_cell_float_na
-				(dao, 6, i + 7 + n * rinc, stats [n].mode [i],
-				 ! (stats [n].errmask [i] & ModeErr));
+				(dao, 6, i + 7 + n * rinc, stats [t].mode [i],
+				 ! (stats [t].errmask [i] & ModeErr));
 			dao_set_cell_float_na
-				(dao, 7, i + 7 + n * rinc, stats [n].stddev [i],
-				 ! (stats [n].errmask [i] & StddevErr));
+				(dao, 7, i + 7 + n * rinc, stats [t].stddev [i],
+				 ! (stats [t].errmask [i] & StddevErr));
 			dao_set_cell_float_na
-				(dao, 8, i + 7 + n * rinc, stats [n].var [i],
-				 ! (stats [n].errmask [i] & VarErr));
+				(dao, 8, i + 7 + n * rinc, stats [t].var [i],
+				 ! (stats [t].errmask [i] & VarErr));
 			dao_set_cell_float_na
-				(dao, 9, i + 7 + n * rinc, stats [n].skew [i],
-				 ! (stats [n].errmask [i] & SkewErr));
+				(dao, 9, i + 7 + n * rinc, stats [t].skew [i],
+				 ! (stats [t].errmask [i] & SkewErr));
 			dao_set_cell_float_na
 				(dao, 10, i + 7 + n * rinc,
-				 stats [n].kurtosis [i],
-				 ! (stats [n].errmask [i] & KurtosisErr));
+				 stats [t].kurtosis [i],
+				 ! (stats [t].errmask [i] & KurtosisErr));
 		}
 	}
 
@@ -271,11 +288,15 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t *stats,
 			char  *tmp = g_strdup_printf
 				("%s%d", _("SUMMARY OF SIMULATION ROUND #"),
 				 n + 1);
-		
-			dao_set_cell (dao, 0, 5 + rinc * n, tmp);
+			int   ind = 5 + rinc * (n - sim->first_round);
+
+			dao_set_cell (dao, 0, ind, tmp);
+			dao_set_italic (dao, 0, ind, 0, ind);
 		}
-	else
+	else {
 		dao_set_cell (dao, 0, 5, _("SUMMARY"));
+		dao_set_italic (dao, 0, 5, 0, 5);
+	}
 
 
 	/* Fill in the header titles. */
@@ -304,7 +325,7 @@ simulation_tool (WorkbookControl        *wbc,
 
 	/* Initialize results storage. */
 	sim->cellnames = g_new (gchar *, sim->n_output_vars);
-	outputs = g_new (gnum_float *, sim->n_output_vars);
+	outputs        = g_new (gnum_float *, sim->n_output_vars);
 	for (i = 0; i < sim->n_output_vars; i++)
 		outputs [i] = g_new (gnum_float, sim->n_iterations);
 
@@ -327,20 +348,24 @@ simulation_tool (WorkbookControl        *wbc,
 		for (i = 0; i < sim->n_iterations; i++) {
 			err = recompute_outputs (sim, outputs, i, round);
 			if (err != NULL)
-				return err;
+				goto out;
 		}
 		create_stats (sim, outputs, &stats [round]);
 	}
+ out:
 	sheet->simulation_round = 0;
+	eval_inputs_list (sim);
+	eval_outputs_list (sim, NULL, 0, 0);
 
 	/* Free results storage. */
 	for (i = 0; i < sim->n_output_vars; i++)
 		g_free (outputs [i]);
 	g_free (outputs);
 
-
-	/* Create the reports. */
-	create_reports (wbc, sim, stats, dao, sheet);
+	if (err == NULL) {
+		/* Create the reports. */
+		create_reports (wbc, sim, stats, dao, sheet);
+	}
 
 
 	/* Free statistics storage. */
@@ -349,5 +374,7 @@ simulation_tool (WorkbookControl        *wbc,
 
 	g_free (stats);
 
-	return NULL;
+	sheet_redraw_all (sheet, TRUE);
+
+	return err;
 }
