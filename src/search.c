@@ -30,6 +30,18 @@ search_replace_free (SearchReplace *sr)
 
 /* ------------------------------------------------------------------------- */
 
+SearchReplace *
+search_replace_copy (const SearchReplace *sr)
+{
+	SearchReplace *dst = search_replace_new ();
+	*dst = *sr;
+	if (sr->search_text) dst->search_text = g_strdup (sr->search_text);
+	if (sr->replace_text) dst->replace_text = g_strdup (sr->replace_text);
+	return dst;
+}
+
+/* ------------------------------------------------------------------------- */
+
 void
 search_replace (Workbook *wb, const SearchReplace *sr)
 {

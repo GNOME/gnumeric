@@ -280,7 +280,7 @@
 
 	      <widget>
 		<class>GtkRadioButton</class>
-		<name>radiobutton7</name>
+		<name>search_type_text</name>
 		<tooltip>The search text is taken literal</tooltip>
 		<can_focus>True</can_focus>
 		<label>Plain text</label>
@@ -296,7 +296,7 @@
 
 	      <widget>
 		<class>GtkRadioButton</class>
-		<name>radiobutton8</name>
+		<name>search_type_regexp</name>
 		<tooltip>The search text is a regular expression</tooltip>
 		<can_focus>True</can_focus>
 		<label>Regular expression</label>
@@ -333,7 +333,7 @@
 
 	    <widget>
 	      <class>GtkRadioButton</class>
-	      <name>radiobutton1</name>
+	      <name>scope_workbook</name>
 	      <tooltip>Search and replace in all cells in the workbook</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>Entire workbook</label>
@@ -349,7 +349,7 @@
 
 	    <widget>
 	      <class>GtkRadioButton</class>
-	      <name>radiobutton2</name>
+	      <name>scope_sheet</name>
 	      <tooltip>Search and replace in current sheet only</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>Current sheet</label>
@@ -376,7 +376,7 @@
 
 	      <widget>
 		<class>GtkRadioButton</class>
-		<name>radiobutton3</name>
+		<name>scope_range</name>
 		<tooltip>Search and replace in specified range only</tooltip>
 		<can_focus>True</can_focus>
 		<label>Range</label>
@@ -535,7 +535,7 @@
 
 	    <widget>
 	      <class>GtkRadioButton</class>
-	      <name>radiobutton4</name>
+	      <name>error_fail</name>
 	      <tooltip>Fail without any changes actually being done to any cell</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>Fail</label>
@@ -551,7 +551,7 @@
 
 	    <widget>
 	      <class>GtkRadioButton</class>
-	      <name>radiobutton9</name>
+	      <name>error_skip</name>
 	      <tooltip>Skip cells that that would result in errors</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>Don't change</label>
@@ -567,7 +567,7 @@
 
 	    <widget>
 	      <class>GtkRadioButton</class>
-	      <name>radiobutton10</name>
+	      <name>error_query</name>
 	      <tooltip>Query for replacement</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>Query</label>
@@ -583,7 +583,7 @@
 
 	    <widget>
 	      <class>GtkRadioButton</class>
-	      <name>radiobutton5</name>
+	      <name>error_error</name>
 	      <tooltip>Create =ERROR(&quot;...&quot;)</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>Make error expression</label>
@@ -599,7 +599,7 @@
 
 	    <widget>
 	      <class>GtkRadioButton</class>
-	      <name>radiobutton6</name>
+	      <name>error_string</name>
 	      <tooltip>Turn unparseable entries into string values</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>Make string value</label>

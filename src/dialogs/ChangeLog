@@ -1,3 +1,8 @@
+2001-01-17  Morten Welinder  <terra@diku.dk>
+
+	* dialog-search-replace.c (dialog_search_replace): Extract the
+ 	entered values.
+
 2001-01-11  Morten Welinder  <terra@diku.dk>
 
 	* dialogs.h (dialog_search_replace): prototype.

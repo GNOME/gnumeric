@@ -49,6 +49,7 @@
 #include "dialogs/dialog-autocorrect.h"
 #include "sheet-autofill.h"
 #include "mstyle.h"
+#include "search.h"
 
 #define MAX_DESCRIPTOR_WIDTH 15
 
@@ -1461,6 +1462,7 @@ cmd_set_date_time_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	return FALSE;
 }
+
 static void
 cmd_set_date_time_destroy (GtkObject *cmd)
 {
@@ -2663,6 +2665,141 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GList *selection)
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
+
+
+#define CMD_SEARCH_REPLACE_TYPE		(cmd_search_replace_get_type())
+#define CMD_SEARCH_REPLACE(o)		(GTK_CHECK_CAST ((o), CMD_SEARCH_REPLACE_TYPE, CmdSearchReplace))
+
+typedef struct
+{
+	GnumericCommand parent;
+	SearchReplace *sr;
+
+	/* Undo/redo uses this list of cells.  */
+	GList *cells;
+} CmdSearchReplace;
+
+GNUMERIC_MAKE_COMMAND (CmdSearchReplace, cmd_search_replace);
+
+typedef struct {
+	EvalPos pos;
+	ExprTree *old_expr, *new_expr;
+} SearchReplaceItem;
+
+static gboolean
+cmd_search_replace_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdSearchReplace *me = CMD_SEARCH_REPLACE (cmd);
+	GList *tmp;
+
+	/* Undo does replacements backwards.  */
+	for (tmp = g_list_last (me->cells); tmp; tmp = tmp->prev) {
+		SearchReplaceItem *sri = tmp->data;
+		Cell *cell = sheet_cell_get (sri->pos.sheet,
+					     sri->pos.eval.col,
+					     sri->pos.eval.row);
+
+		if (sri->old_expr)
+			cell_set_expr (cell, sri->old_expr, NULL);
+		else
+			; /* FIXME...  Do something.  */
+	}
+
+	return FALSE;
+}
+
+static gboolean
+cmd_search_replace_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdSearchReplace *me = CMD_SEARCH_REPLACE (cmd);
+	GList *tmp;
+
+	/* Redo does replacements forward.  */
+	for (tmp = me->cells; tmp; tmp = tmp->next) {
+		SearchReplaceItem *sri = tmp->data;
+		Cell *cell = sheet_cell_get (sri->pos.sheet,
+					     sri->pos.eval.col,
+					     sri->pos.eval.row);
+
+		if (sri->new_expr)
+			cell_set_expr (cell, sri->new_expr, NULL);
+		else
+			; /* FIXME...  Do something.  */
+	}
+
+	return FALSE;
+}
+
+static gboolean
+cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc, gboolean test_run)
+{
+	SearchReplace *sr = me->sr;
+	gboolean query = sr->query;
+
+	if (test_run) {
+		/*
+		 * The only thing that can fail during replacement are
+		 * expressions in fail mode.
+		 */
+		if (sr->error_behaviour != SRE_fail ||
+		    !sr->replace_expressions)
+			return FALSE;
+		query = FALSE;
+	}
+
+
+	return FALSE;
+}
+
+
+static void
+cmd_search_replace_destroy (GtkObject *cmd)
+{
+	CmdSearchReplace *me = CMD_SEARCH_REPLACE (cmd);
+	GList *tmp;
+
+	for (tmp = me->cells; tmp; tmp = tmp->next) {
+		SearchReplaceItem *sri = tmp->data;
+		if (sri->old_expr) expr_tree_unref (sri->old_expr);
+		if (sri->new_expr) expr_tree_unref (sri->new_expr);
+	}
+	g_list_free (me->cells);
+	search_replace_free (me->sr);
+
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_search_replace (WorkbookControl *wbc, SearchReplace *sr)
+{
+	GtkObject *obj;
+	CmdSearchReplace *me;
+
+	g_return_val_if_fail (sr != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_SEARCH_REPLACE_TYPE);
+	me = CMD_SEARCH_REPLACE (obj);
+
+	me->cells = NULL;
+	me->sr = search_replace_copy (sr);
+
+	me->parent.sheet = NULL/* sheet */;
+	me->parent.size = 1;  /* Corrected below. */
+	me->parent.cmd_descriptor = g_strdup (_("Search and Replace"));
+
+	if (cmd_search_replace_do (me, wbc, TRUE)) {
+		/* There was an error and nothing was done.  */
+		gtk_object_unref (obj);
+		return TRUE;
+	}
+
+	cmd_search_replace_do (me, wbc, FALSE);
+	me->parent.size += g_list_length (me->cells);
+
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
 
 /******************************************************************/
 
