@@ -366,7 +366,7 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 				0, 0, GNUMERIC_CANVAS_FACTOR_X * scale, h * scale);
 		foo_canvas_set_scroll_region (scg->pane[0].row.canvas,
 			0, 0, w * scale, GNUMERIC_CANVAS_FACTOR_Y * scale);
-}
+	}
 
 	SCG_FOREACH_PANE (scg, pane, {
 		if (scg->rtl)
