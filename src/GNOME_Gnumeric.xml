@@ -272,7 +272,7 @@
 
 	        <menuitem name="EditFillSeries" verb=""
 		    _label="_Series..."
-		    _tip="Fill according to a linear or exponential serie"/>
+		    _tip="Fill according to a linear or exponential series"/>
 
 		<menuitem name="RandomGenerator" verb=""
 		    _label="_Random Generator..."

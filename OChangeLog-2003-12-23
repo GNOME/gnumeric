@@ -1,3 +1,8 @@
+2003-05-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/GNOME_Gnumeric.xml: Fix spelling
+	* src/workbook-control-gui.c: ditto
+
 2003-05-14  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (cb_notebook_switch_page) : set the edit

@@ -3317,7 +3317,7 @@ static GnomeUIInfo workbook_menu_edit_fill [] = {
 		N_("Make a table of a cell's value as a function of other cells"),
 		cb_tools_tabulate),
 	GNOMEUIINFO_ITEM_NONE (N_("Series..."),
-		N_("Fill according to a linear or exponential serie"),
+		N_("Fill according to a linear or exponential series"),
 		cb_edit_fill_series),
 	GNOMEUIINFO_ITEM_NONE (N_("_Random Generator..."),
 		N_("Generate random numbers of a selection of distributions"),
