@@ -4,15 +4,16 @@
  * Author:
  *    Marko R. Riedel (mriedel@neuearbeit.de)    [Functions]
  *    Morten Welinder (terra@diku.dk)            [Plugin framework]
+ *    Brian J. Murrell (brian@interlinx.bc.ca)	 [Bitwise operators]
  */
 #include <config.h>
 #include <gnome.h>
 #include <glib.h>
 
-#include "../../src/gnumeric.h"
-#include "../../src/func.h"
-#include "../../src/plugin.h"
-#include "../../src/value.h"
+#include "gnumeric.h"
+#include "func.h"
+#include "plugin.h"
+#include "value.h"
 
 #define OUT_OF_BOUNDS "#LIMIT!"
 
@@ -360,8 +361,39 @@ gnumeric_nt_pi (FunctionEvalInfo *ei, Value **args)
 
 /* ------------------------------------------------------------------------- */
 
+static Value *
+func_bitor (FunctionEvalInfo *ei, Value *argv [])
+{
+        return value_new_int (value_get_as_int (argv [0]) |
+                                                  value_get_as_int (argv [1]));
+}
+
+static Value *
+func_bitand (FunctionEvalInfo *ei, Value *argv [])
+{
+        return value_new_int (value_get_as_int (argv [0]) &
+                                                  value_get_as_int (argv [1]));
+}
+
+static Value *
+func_bitlshift (FunctionEvalInfo *ei, Value *argv [])
+{
+        return value_new_int (value_get_as_int (argv [0]) <<
+                                                  value_get_as_int (argv [1]));
+}
+
+static Value *
+func_bitrshift (FunctionEvalInfo *ei, Value *argv [])
+{
+        return value_new_int (value_get_as_int (argv [0]) >>
+                                                  value_get_as_int (argv [1]));
+}
+
+/* ------------------------------------------------------------------------- */
+
 static const char *function_names[] = {
-	"nt_phi", "nt_d", "nt_sigma", "ithprime", "isprime", "nt_pi"
+	"nt_phi", "nt_d", "nt_sigma", "ithprime", "isprime", "nt_pi",
+        "bitor", "bitand", "bitlshift", "bitrshift"
 };
 
 static const int function_count =
@@ -420,9 +452,20 @@ init_plugin (CommandContext *context, PluginData *pd)
 	function_add_args  (cat, "nt_pi",   "f",
 			    "number",    &help_nt_pi,    gnumeric_nt_pi);
 
+        cat = function_get_category (_("Bitwise Operations"));
+
+        function_add_args (cat, "bitor", "ff",
+			   "A,B", NULL, func_bitor);
+        function_add_args (cat, "bitand", "ff",
+			   "A,B", NULL, func_bitand);
+        function_add_args (cat, "bitlshift", "ff",
+			   "A,B", NULL, func_bitlshift);
+        function_add_args (cat, "bitrshift", "ff",
+			   "A,B", NULL, func_bitrshift);
+
 	if (plugin_data_init (pd, can_unload, cleanup_plugin,
 			      _("Number Theory"),
-			      _("Adds several basic number theory functions, including utilities for prime numbers, pi, phi and sigma.")))
+			      _("Several basic utilities for prime numbers, pi, phi, sigma. It also hold some simple bitwise operations")))
 	        return PLUGIN_OK;
 	else
 	        return PLUGIN_ERROR;

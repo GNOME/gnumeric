@@ -1,3 +1,9 @@
+2000-07-06  Jody Goldberg <jgoldberg@home.com>
+
+	* numtheory.c : Add the bitwise operators supplied by
+	  Brian Murrel <brian@interlinx.bc.ca>
+	  Why put them here ?  They are too small live on their own.
+
 2000-06-28  Jody Goldberg <jgoldberg@home.com>
 
 	* numtheory.c : Use func_lookup_by_name.
