@@ -3,12 +3,44 @@
 -->
 
   <para>
-    There are several ways to use this manual. The simplest is to read
-    sequentially through the manual. A quicker way to find the answer
-    to a particular question might be to read the explanation for the
-    organization of the manual which is presented below and then go
-    directly to that section. <!-- TODO: Alternatively, the text of
-    the manual can be searched by using the index. -->
+    There are several ways to use this manual depending on what kind
+    of user you are. 
+    <itemizedlist>
+<!-- TO DO EVENTUALLY IN THE BEAUTIFUL FUTURE
+      <listitem>
+        <para><guilabel>Users who want a quick overview</guilabel>
+        </para>
+        <para>
+          <xref linkend="chapter-quick-overview" /> quickly summarizes
+          the features of <application>Gnumeric</application> to show
+          experienced users what the program can do.
+        </para>
+      </listitem>
+ -->
+      <listitem>
+        <para><guilabel>New users</guilabel>
+        </para>
+        <para>
+          If you are new to computers or to spreadsheets consider
+          reading <xref linkend="chapter-quick-start" />, titled "A
+          Quick Introduction", which explains the basics of
+          spreadsheets in general and
+          <application>Gnumeric</application> in particular.
+        </para>
+      </listitem>
+      <listitem>
+        <para><guilabel>Users who want specific help</guilabel>
+        </para>
+        <para>
+          Quickly finding help for a particular question can be quite
+          hard. We suggest first reading the explanations of the
+          contents of each chapter which are given below to try to
+          figure out where your question might be answered, and then
+          go directly to that section. <!-- TODO: Alternatively, the
+          text of the manual can be searched by using the index. -->
+        </para>
+      </listitem>
+    </itemizedlist>
   </para>
 
   <para>
@@ -25,12 +57,15 @@
               <guilabel>A Quick Introduction</guilabel>
         </para>
         <para>
-          This chapter of the manual explains the fundamentals of
-          spreadsheets in general and of
+          The best way to learn how to use
+          <application>Gnumeric</application> is to begin exploring
+          the program yourself. This chapter will help you get started
+          trying new things and seeing what happens. The chapter
+          explains the fundamentals of spreadsheets in general and of
           <application>Gnumeric</application> in particular. The
           chapter attempts to help new users get started with
           <application>Gnumeric</application> and provides background
-          for the more detailled explanations in the rest of the
+          for the more detailled explanations given in the rest of the
           manual.
         </para>
       </listitem>
@@ -97,7 +132,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-worksheets" />: 
-              <guilabel>Manging and Viewing Worksheets</guilabel>
+              <guilabel>Managing and Viewing Worksheets</guilabel>
         </para>
         <para>
           This chapter explains how to manage worksheets and

@@ -1,3 +1,19 @@
+2004-07-05  Adrian Custer <acuster@gnome.org>
+
+    	* The first major 1.3 edits.
+	* TODO: Addded with list of topics that need some gnum. lovin'.
+    	* gnumeric.xml: Start of 1.3 docs. Update versions and
+	  dates. Split into a developer and stable version.
+	* welcome.xml: Update the version number. Split 1.3. Update.
+	* manual-usage.xml: Add new user switch.
+	* quick-start.xml: Make OS agnostic. Remove redundant "Getting
+	  started" section, moved to chapter header in gnumeric.xml.  Added
+	  section: "Parts of Gnm". Placed text correctly in <para> to
+	  validate.
+    	* data-selections.xml: Edit the multiple cell selection text, closes 
+          http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=256777.
+    
+
 2004-05-15  Adrian Custer <acuster@gnome.org>
 
 	* quick-start.xml: some graphing info.

@@ -119,8 +119,7 @@ The <interface>Undo Tab</interface> permits to customize the undo feature. You w
 
 <para>
 The <interface>Sorting Tab</interface> allows to determine the default settings
-for the <interface>Sort Dialog</interface>. See the <xref
-      linkend="sect-sorting" />
+for the <interface>Sort Dialog</interface>. 
 </para>
 
   <figure id="configuration-preferences-various">

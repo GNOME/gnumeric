@@ -1,10 +1,10 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
-"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" 
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
   <!ENTITY app "Gnumeric">
-  <!ENTITY appversion "1.2">
-  <!ENTITY manrevision "1.2">
-  <!ENTITY date "September 2003">
+  <!ENTITY appversion "1.3">
+  <!ENTITY manrevision "1.3">
+  <!ENTITY date "May 2004">
   <!ENTITY file-format-open "Excel 95/97/2000, gnumeric XML, HTML, 
            comma separated CSV, Applix,  Lotus 1-2-3, GNU oleo">
 
@@ -101,7 +101,7 @@
 <book id="index" lang="en">
 <!-- please do not change the id; for translations, change lang to -->
 <!-- appropriate code -->
-  <title>The Gnumeric Manual, version 1.2</title>
+  <title>The Gnumeric Manual, version &appversion;</title>
 
   <bookinfo>
 
@@ -116,6 +116,18 @@
       </para>
     </abstract>
 -->
+
+    <copyright>
+      <year>2004</year>
+      <holder>Adrian Custer, Ray Dassen, Jody Goldberg.
+      </holder> 
+    </copyright>
+  <!-- translators: uncomment this:
+    <copyright>
+   	<year>2003</year>
+   	<holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+    </copyright>
+   -->
 
     <copyright>
       <year>2003</year>
@@ -286,6 +298,14 @@
 	</revdescription> 
       </revision>
       <revision> 
+	<revnumber>Gnumeric Manual: Version 1.2</revnumber> 
+	<date>September 2002</date> 
+	<revdescription> 
+	  <para role="author">The Gnumeric Team</para>
+	  <para role="publisher">GNOME Documentation Project</para>
+	</revdescription> 
+      </revision>
+      <revision> 
 	<revnumber>Gnumeric Manual: Version 1.0</revnumber> 
 	<date>January 2002</date> 
 	<revdescription> 
@@ -356,13 +376,51 @@
     <title>A Quick Introduction</title>
 
     <para>
-      This chapter of the manual explains the fundamentals of
-      spreadsheets in general and of
+      The best way to learn how to use
+      <application>Gnumeric</application> is to begin exploring the
+      program yourself. This chapter will help you get started trying
+      new things and seeing what happens. The chapter explains the
+      fundamentals of spreadsheets in general and of
       <application>Gnumeric</application> in particular. The chapter
       attempts to help new users get started with
       <application>Gnumeric</application> and provides background for
       the more detailled explanations given in the rest of the manual.
     </para>
+
+    <note>
+      <para>
+        <guilabel>Getting started with computers</guilabel>
+      </para>
+
+      <para>
+        Unfortunately, this manual cannot teach you the very basics of
+        interacting with a modern computer. If you have never used
+        computers, don't know the names of the hardware components
+        (the pieces you can touch) or don't know the names of the
+        elements you see on the screen (like windows or the mouse
+        pointer), you will probably want to get some basic advice from
+        someone you know or read the manuals which came with your
+        machine or your operating system. It's all pretty easy but, in
+        order to understand this manual, you will need to know some
+        basic terminology and have some basic computing skills.
+      </para>
+
+      <para>
+        If you are using the GNOME desktop environment, you can read
+        the <ulink type="help" url="ghelp:user-guide">the GNOME User
+        Guide</ulink> for help in getting started with computers.
+      </para>
+
+      <para>
+        If you are using the another desktop environment such as
+        <ulink url="http://www.kde.org/">KDE</ulink> or another
+        operating system, please see the instructions from the web
+        site linked with either your desktop environment, your
+        operating system, your software distribution source or the
+        people who provided you with your computer. There are also
+        many books providing good introcution to computers.
+      </para>
+    </note>
 
     &quick-start;
 
@@ -624,6 +682,7 @@
 
 <!-- ============= Appendices ================================ -->
 
+
   <appendix id="function-reference">
     <title>Function Reference</title>
 
@@ -649,6 +708,7 @@
     &appendix-keybindings;
 
   </appendix>
+
 
 
 <!--
