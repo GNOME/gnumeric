@@ -2470,7 +2470,7 @@ msgstr "gul"
 
 #: src/format.c:1023
 msgid "0.0########"
-msgstr ""
+msgstr "0.0########"
 
 #: src/format.c:1040
 msgid "CELLRANGE"
@@ -2478,209 +2478,209 @@ msgstr "CELLEOMRÅDE"
 
 #: src/format.c:1043
 msgid "ARRAY"
-msgstr ""
+msgstr "TABELL"
 
 #: src/formats.c:17
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: src/formats.c:18
 msgid "0.00"
-msgstr ""
+msgstr "0.00"
 
 #: src/formats.c:19
 msgid "#,##0"
-msgstr ""
+msgstr "#,##0"
 
 #: src/formats.c:20
 msgid "#,##0.00"
-msgstr ""
+msgstr "#,##0.00"
 
 #: src/formats.c:21
 msgid "#,##0_);(#,##0)"
-msgstr ""
+msgstr "#,##0_);(#,##0)"
 
 #: src/formats.c:22
 msgid "#,##0_);[red](#,##0)"
-msgstr ""
+msgstr "#,##0_);[red](#,##0)"
 
 #: src/formats.c:23
 msgid "#,##0.00_);(#,##0.00)"
-msgstr ""
+msgstr "#,##0.00_);(#,##0.00)"
 
 #: src/formats.c:24
 msgid "#,##0.00_);[red](#,##0.00)"
-msgstr ""
+msgstr "#,##0.00_);[red](#,##0.00)"
 
 #: src/formats.c:25
 msgid "0.0"
-msgstr ""
+msgstr "0.0"
 
 #: src/formats.c:30
 msgid "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
-msgstr ""
+msgstr "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
 
 #: src/formats.c:31
 msgid "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
-msgstr ""
+msgstr "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
 
 #: src/formats.c:32
 msgid "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
-msgstr ""
+msgstr "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
 
 #: src/formats.c:33
 msgid "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
-msgstr ""
+msgstr "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
 
 #: src/formats.c:38
 msgid "m/d/yy"
-msgstr ""
+msgstr "m/d/yy"
 
 #: src/formats.c:39
 msgid "m/d/yyyy"
-msgstr ""
+msgstr "m/d/yyyy"
 
 #: src/formats.c:40
 msgid "d-mmm-yy"
-msgstr ""
+msgstr "d-mmm-yy"
 
 #: src/formats.c:41
 msgid "d-mmm-yyyy"
-msgstr ""
+msgstr "d-mmm-yyyy"
 
 #: src/formats.c:42
 msgid "d-mmm"
-msgstr ""
+msgstr "d-mmm"
 
 #: src/formats.c:43
 msgid "d-mm"
-msgstr ""
+msgstr "d-mm"
 
 #: src/formats.c:44
 msgid "mmm/d"
-msgstr ""
+msgstr "mmm/d"
 
 #: src/formats.c:45
 msgid "mm/d"
-msgstr ""
+msgstr "mm/d"
 
 #: src/formats.c:46
 msgid "mm/dd/yy"
-msgstr ""
+msgstr "mm/dd/yy"
 
 #: src/formats.c:47
 msgid "mm/dd/yyyy"
-msgstr ""
+msgstr "mm/dd/yyyy"
 
 #: src/formats.c:48
 msgid "mmm/dd/yy"
-msgstr ""
+msgstr "mmm/dd/yy"
 
 #: src/formats.c:49
 msgid "mmm/dd/yyyy"
-msgstr ""
+msgstr "mmm/dd/yyyy"
 
 #: src/formats.c:50
 msgid "mmm/ddd/yy"
-msgstr ""
+msgstr "mmm/ddd/yy
 
 #: src/formats.c:51
 msgid "mmm/ddd/yyyy"
-msgstr ""
+msgstr "mmm/ddd/yyyy
 
 #: src/formats.c:52
 msgid "mm/ddd/yy"
-msgstr ""
+msgstr "mm/ddd/yy
 
 #: src/formats.c:53
 msgid "mm/ddd/yyyy"
-msgstr ""
+msgstr "mm/ddd/yyyy"
 
 #: src/formats.c:54
 msgid "mmm-yy"
-msgstr ""
+msgstr "mmm-yy"
 
 #: src/formats.c:55
 msgid "mmm-yyyy"
-msgstr ""
+msgstr "mmm-yyyy"
 
 #: src/formats.c:56 src/formats.c:66
 msgid "m/d/yy h:mm"
-msgstr ""
+msgstr "m/d/yy h:mm"
 
 #: src/formats.c:57
 msgid "m/d/yyyy h:mm"
-msgstr ""
+msgstr "m/d/yyyy h:mm"
 
 #: src/formats.c:62
 msgid "h:mm AM/PM"
-msgstr ""
+msgstr "h:mm AM/PM"
 
 #: src/formats.c:63
 msgid "h:mm:ss AM/PM"
-msgstr ""
+msgstr "h:mm:ss AM/PM"
 
 #: src/formats.c:64
 msgid "h:mm"
-msgstr ""
+msgstr "h:mm"
 
 #: src/formats.c:65
 msgid "h:mm:ss"
-msgstr ""
+msgstr "h:mm:ss"
 
 #: src/formats.c:67
 msgid "mm:ss"
-msgstr ""
+msgstr "mm:ss"
 
 #: src/formats.c:68
 msgid "mm:ss.0"
-msgstr ""
+msgstr "mm:ss.0"
 
 #: src/formats.c:69
 msgid "[h]:mm:ss"
-msgstr ""
+msgstr "[h]:mm:ss"
 
 #: src/formats.c:74
 #, c-format
 msgid "0%"
-msgstr ""
+msgstr "0%"
 
 #: src/formats.c:75
 #, c-format
 msgid "0.00%"
-msgstr ""
+msgstr "0.00%"
 
 #: src/formats.c:80
 msgid "# ?/?"
-msgstr ""
+msgstr "# ?/?"
 
 #: src/formats.c:81
 msgid "# ??/??"
-msgstr ""
+msgstr "# ??/??"
 
 #: src/formats.c:86
 msgid "0.00E+00"
-msgstr ""
+msgstr "0.00E+00"
 
 #: src/formats.c:87
 msgid "##0.0E+0"
-msgstr ""
+msgstr "##0.0E+0"
 
 #: src/formats.c:97
 msgid "$#,##0_);($#,##0)"
-msgstr ""
+msgstr "$#,##0_);($#,##0)"
 
 #: src/formats.c:98
 msgid "$#,##0_);[red]($#,##0)"
-msgstr ""
+msgstr "$#,##0_);[red]($#,##0)"
 
 #: src/formats.c:99
 msgid "$#,##0.00_);($#,##0.00)"
-msgstr ""
+msgstr "$#,##0.00_);($#,##0.00)"
 
 #: src/formats.c:100
 msgid "$#,##0.00_);[red]($#,##0.00)"
-msgstr ""
+msgstr "$#,##0.00_);[red]($#,##0.00)"
 
 #: src/gnumeric-sheet.c:911
 #, c-format
