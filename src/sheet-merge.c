@@ -65,7 +65,7 @@ sheet_merge_add (WorkbookControl *wbc,
 	MStyle *style;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-	g_return_val_if_fail (r != NULL, TRUE);
+	g_return_val_if_fail (range_is_sane (r), TRUE);
 
 	if (sheet_range_splits_array (sheet, r, wbc, _("Merge")))
 		return TRUE;

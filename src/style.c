@@ -15,6 +15,8 @@
 #include "application.h"
 #include "gnumeric-util.h"
 #include "sheet.h"
+#include "cell.h"
+#include "value.h"
 
 #include <gal/widgets/e-colors.h>
 
@@ -381,3 +383,48 @@ required_updates_for_style (MStyle *style)
 			  : SPANCALC_SIMPLE;
 }
 
+/**
+ * style_default_halign :
+ * @style :
+ * @cell  :
+ *
+ * Select the appropriate horizontal alignment depending on the style and cell
+ * value.
+ */
+StyleHAlignFlags
+style_default_halign (MStyle const *mstyle, Cell const *c)
+{
+	StyleHAlignFlags align = mstyle_get_align_h (mstyle);
+
+	if (align == HALIGN_GENERAL) {
+		Value *v;
+
+		g_return_val_if_fail (c != NULL, HALIGN_RIGHT);
+
+		if (c->base.sheet && c->base.sheet->display_formulas &&
+		    cell_has_expr (c))
+			return HALIGN_LEFT;
+
+		for (v = c->value; v != NULL ; )
+			switch (v->type) {
+			case VALUE_BOOLEAN :
+				return HALIGN_CENTER;
+
+			case VALUE_INTEGER :
+			case VALUE_FLOAT :
+				return HALIGN_RIGHT;
+
+			case VALUE_ARRAY :
+				/* Tail recurse into the array */
+				if (v->v_array.x > 0 && v->v_array.y > 0) {
+					v = v->v_array.vals [0][0];
+					break;
+				}
+
+			default :
+				return HALIGN_LEFT;
+			}
+	}
+
+	return align;
+}

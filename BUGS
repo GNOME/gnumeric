@@ -14,6 +14,8 @@ Release Critical
       merged cells.
 
     - Get the i18n XL patches verified and in
+	: smarter support for unicode characters that do not convert to the
+	  current encoding.
 
     - Fix XL named expr import for sheet local names
 
@@ -77,12 +79,7 @@ Long term breakage
   flashing when entering data quickly.
 - The currency list in the format dialog needs to be sorted for the locale
 - When applying a currency symbol we need to store the NON-localized id.
-- Increase/Decrease precision toolbar buttons should look at the displayed
-  precision for the edit cell and assign the changed value to the entire
-  selection.  Not individually adjusting each non-blank cell's precision.
-  This would mirror the application of bold/italic/underline
-- Moreover, the above buttons ought to work.  Try "44", click $, then add
-  and remove decimals.
+- Inc/Dec precision should work.  Try "44", click $, then add/remove decimals.
 - While we're playing with those functions, let's add simple ones like inc/dec
   font size and things like that.
 

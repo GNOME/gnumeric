@@ -5,6 +5,14 @@
 #include <math.h>
 #include <glib.h>
 
+#ifndef FINITE
+#  ifdef finite
+#    define FINITE finite
+#  elif defined(isfinite)
+#    define FINITE isfinite
+#  endif
+#endif
+
 #ifdef qgamma
 /* It was reported that mips-sgi-irix6.5 has a weird and conflicting define
    for qgamma.  See bug 1689.  */

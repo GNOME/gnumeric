@@ -21,6 +21,7 @@
 #include "workbook.h"
 #include "utils-dialog.h"
 #include "goal-seek.h"
+#include "mathfunc.h"
 #ifdef HAVE_IEEEFP_H
 #include <ieeefp.h>
 #endif
@@ -54,7 +55,7 @@ goal_seek_eval (gnum_float x, gnum_float *y, void *vevaldata)
 
 	if (evaldata->ycell->value) {
 	        *y = value_get_as_float (evaldata->ycell->value) - evaldata->ytarget;
-		if (finite (*y))
+		if (FINITE (*y))
 			return GOAL_SEEK_OK;
 	}
 

@@ -63,7 +63,6 @@ gboolean	 cell_is_number		(Cell const *cell);
 gboolean	 cell_is_zero		(Cell const *cell);
 gboolean	 cell_is_partial_array	(Cell const *cell);
 ExprArray const *cell_is_array		(Cell const *cell);
-StyleHAlignFlags cell_default_halign	(Cell const *v, MStyle const *mstyle);
 
 /**
  * Utilities to assign the contents of a cell

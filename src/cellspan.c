@@ -215,7 +215,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	}
 
 	mstyle = cell_get_mstyle (cell);
-	align = cell_default_halign (cell, mstyle);
+	align = style_default_halign (mstyle, cell);
 	row   = cell->pos.row;
 	indented_w = cell_width_pixel = cell_rendered_width (cell);
 	if (align == HALIGN_LEFT || align == HALIGN_RIGHT)

@@ -34,7 +34,7 @@ typedef enum {
 
 /* The order corresponds to the border_buttons name list
  * in dialog_cell_format_impl */
-enum _StyleBorderLocation {
+typedef enum _StyleBorderLocation {
 	STYLE_BORDER_TOP,	STYLE_BORDER_BOTTOM,
 	STYLE_BORDER_LEFT,	STYLE_BORDER_RIGHT,
 	STYLE_BORDER_REV_DIAG,	STYLE_BORDER_DIAG,
@@ -46,7 +46,7 @@ enum _StyleBorderLocation {
 	STYLE_BORDER_HORIZ, STYLE_BORDER_VERT,
 
 	STYLE_BORDER_EDGE_MAX
-};
+} StyleBorderLocation;
 
 struct _StyleBorder {
 	/* Key elements */

@@ -1574,7 +1574,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 
 	switch (value->type){
 	case VALUE_FLOAT:
-		if (!finite (value->v_float.val))
+		if (!FINITE (value->v_float.val))
 			return g_strdup (gnumeric_err_VALUE);
 
 		if (is_general) {

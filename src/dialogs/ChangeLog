@@ -1,3 +1,8 @@
+2001-04-26  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-goal-seek.c (goal_seek_eval) : Merge in some of boc's
+	  portability patch.
+
 2001-04-26  Morten Welinder  <terra@diku.dk>
 
 	* dialog-solver.c (dialog_solver): Plug leak.

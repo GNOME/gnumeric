@@ -2187,7 +2187,7 @@ cmd_paste_cut_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		g_free (r);
 	}
 
-	range_check_sanity (&tmp);
+	range_ensure_sanity (&tmp);
 
 	sheet_move_range (wbc, &me->info, &me->reloc_storage);
 

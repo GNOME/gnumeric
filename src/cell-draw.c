@@ -267,7 +267,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 		return;
 	}
 
-	halign = cell_default_halign (cell, mstyle);
+	halign = style_default_halign (mstyle, cell);
 	if (halign == HALIGN_CENTER_ACROSS_SELECTION || h_center <= 0)
 		h_center = width / 2;
 

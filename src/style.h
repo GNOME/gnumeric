@@ -9,7 +9,7 @@
 #define DEFAULT_SIZE 9.0
 
 /* Alignment definitions */
-enum _StyleHAlignFlags {
+typedef enum _StyleHAlignFlags {
 	HALIGN_GENERAL =  0x01,
 	HALIGN_LEFT    =  0x02,
 	HALIGN_RIGHT   =  0x04,
@@ -17,27 +17,27 @@ enum _StyleHAlignFlags {
 	HALIGN_FILL    =  0x10,
 	HALIGN_JUSTIFY =  0x20,
 	HALIGN_CENTER_ACROSS_SELECTION =  0x40
-};
+} StyleHAlignFlags;
 
-enum _StyleVAlignFlags {
+typedef enum _StyleVAlignFlags {
 	VALIGN_TOP     = 1,
 	VALIGN_BOTTOM  = 2,
 	VALIGN_CENTER  = 4,
 	VALIGN_JUSTIFY = 8
-};
+} StyleVAlignFlags;
 
-enum _StyleUnderlineType {
+typedef enum _StyleUnderlineType {
 	UNDERLINE_NONE   = 0,
 	UNDERLINE_SINGLE = 1,
 	UNDERLINE_DOUBLE = 2,
-};
+} StyleUnderlineType;
 
-enum _StyleOrientation {
+typedef enum _StyleOrientation {
 	ORIENT_HORIZ           = 1,
 	ORIENT_VERT_HORIZ_TEXT = 2,
 	ORIENT_VERT_VERT_TEXT  = 4,
 	ORIENT_VERT_VERT_TEXT2 = 8
-};
+} StyleOrientation;
 
 struct _StyleFont {
 	int                ref_count;
@@ -76,6 +76,8 @@ gint           style_compare (gconstpointer a, gconstpointer b);
 
 guint          style_font_hash_func (gconstpointer v);
 gint           style_font_equal (gconstpointer v, gconstpointer v2);
+
+StyleHAlignFlags style_default_halign (MStyle const *mstyle, Cell const *c);
 
 extern StyleFont *gnumeric_default_font;
 extern StyleFont *gnumeric_default_bold_font;

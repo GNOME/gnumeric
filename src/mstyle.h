@@ -7,7 +7,7 @@
 /*
  * Keep element_size up to date.
  */
-enum _MStyleElementType {
+typedef enum _MStyleElementType {
 	/* Delimiter */
 	MSTYLE_ELEMENT_UNSET = 0,
 	/* When there is a conflict in a merge */
@@ -46,7 +46,7 @@ enum _MStyleElementType {
 		MSTYLE_WRAP_TEXT,
 	/* Delimiter */
 	MSTYLE_ELEMENT_MAX
-};
+} MStyleElementType;
 
 MStyle     *mstyle_new           (void);
 MStyle     *mstyle_new_default   (void);

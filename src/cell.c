@@ -8,18 +8,15 @@
 #include "config.h"
 #include "gnumeric.h"
 #include "cell.h"
-#include "cellspan.h"
+#include "sheet.h"
 #include "expr.h"
-#include "eval.h"
+#include "rendered-value.h"
 #include "value.h"
 #include "style.h"
-#include "sheet.h"
-#include "sheet-style.h"
-#include "rendered-value.h"
-#include "gnumeric-util.h"
-#include "parse-util.h"
 #include "format.h"
 #include "sheet-object-cell-comment.h"
+#include "eval.h"
+#include "sheet-style.h"
 
 extern int dependency_debugging;
 
@@ -605,43 +602,6 @@ cell_is_partial_array (Cell const *cell)
 {
 	ExprArray const *ref = cell_is_array (cell);
 	return ref != NULL && (ref->cols > 1 || ref->rows > 1);
-}
-
-StyleHAlignFlags
-cell_default_halign (Cell const *c, MStyle const *mstyle)
-{
-	StyleHAlignFlags align = mstyle_get_align_h (mstyle);
-
-	if (align == HALIGN_GENERAL) {
-		Value *v;
-
-		g_return_val_if_fail (c != NULL, HALIGN_RIGHT);
-
-		if (c->base.sheet && c->base.sheet->display_formulas &&
-		    cell_has_expr (c))
-			return HALIGN_LEFT;
-
-		for (v = c->value; v != NULL ; )
-			switch (v->type) {
-			case VALUE_BOOLEAN :
-				return HALIGN_CENTER;
-
-			case VALUE_INTEGER :
-			case VALUE_FLOAT :
-				return HALIGN_RIGHT;
-
-			case VALUE_ARRAY :
-				if (v->v_array.x > 0 && v->v_array.y > 0) {
-					v = v->v_array.vals [0][0];
-					break;
-				}
-
-			default :
-				return HALIGN_LEFT;
-			}
-	}
-
-	return align;
 }
 
 /***************************************************************************/

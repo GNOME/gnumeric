@@ -1,3 +1,12 @@
+2001-04-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/mathfunc.h (FINITE) : Move the #define wrapper out here.
+
+	* src/cell.c : prune some includes
+	(cell_default_halign) : rename to
+	* src/style.c (style_default_halign) : to simplify headers for systems
+	  that do not support fwd declarations of enums. H - cough - PUX
+
 2001-04-26  Morten Welinder  <terra@diku.dk>
 
 	* src/stf-parse.c: Put a decisive end to the signed-vs-unsigned
@@ -13,6 +22,9 @@
 
 	* src/item-grid.c (item_grid_class_init) : Drat part of a canceled
 	  patch slipped in.
+
+	* src/ranges.c (range_is_sane) : new function.
+	(sheet_merge_add) : use it here.
 
 2001-04-26  Jon K Hellan  <hellan@acm.org>
 

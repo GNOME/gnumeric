@@ -492,10 +492,8 @@ xml_read_range (xmlNodePtr tree, Range *r)
 	    xml_get_value_int (tree, "endCol",   &r->end.col) &&
 	    xml_get_value_int (tree, "endRow",   &r->end.row);
 
-	/* Add some silent sanity checking to cleanup problems
-	 * with older versions of gnumeric that had some boundary problems
-	 */
-	range_check_sanity (r);
+	/* Older versions of gnumeric had some boundary problems */
+	range_ensure_sanity (r);
 
 	return res;
 }

@@ -61,7 +61,6 @@ typedef struct _Range		Range;
 typedef struct _RangeRef	RangeRef;
 
 typedef struct _MStyle		  MStyle;
-typedef enum   _MStyleElementType MStyleElementType;
 
 typedef struct _SheetStyleData	SheetStyleData;
 typedef struct _StyleRegion	StyleRegion;
@@ -75,12 +74,6 @@ typedef struct _PrintInformation PrintInformation;
 typedef struct _String	 	 String;
 
 typedef struct _DependencyData   DependencyData;
-
-typedef enum _StyleHAlignFlags    StyleHAlignFlags;
-typedef enum _StyleVAlignFlags    StyleVAlignFlags;
-typedef enum _StyleOrientation    StyleOrientation;
-typedef enum _StyleBorderLocation StyleBorderLocation;
-typedef enum _StyleUnderlineType  StyleUnderlineType;
 
 typedef struct _StyleFormat	  StyleFormat;
 typedef struct _StyleFont	  StyleFont;

@@ -1084,20 +1084,20 @@ range_translate (Range *range, int col_offset, int row_offset)
 	    range->start.row >= SHEET_MAX_ROWS || range->end.row < 0)
 		return TRUE;
 
-	range_check_sanity (range);
+	range_ensure_sanity (range);
 
 	return FALSE;
 }
 
 /**
- * range_check_sanity :
+ * range_ensure_sanity :
  * @range : the range to check
  *
  * Silently clip a range to ensure that it does not contain areas
- * outside the valid bounds
+ * outside the valid bounds.  Does NOT fix inverted ranges.
  */
 void
-range_check_sanity (Range *range)
+range_ensure_sanity (Range *range)
 {
 	if (range->start.col < 0)
 		range->start.col = 0;
@@ -1109,6 +1109,28 @@ range_check_sanity (Range *range)
 		range->end.row = SHEET_MAX_ROWS-1;
 }
 
+/**
+ * range_is_sane :
+ * @range : the range to check
+ *
+ * Generate warnings if the range is out of bounds or inverted.
+ */
+gboolean
+range_is_sane (Range const *range)
+{
+	g_return_val_if_fail (range != NULL, FALSE);
+	g_return_val_if_fail (range->start.col >= 0, FALSE);
+	g_return_val_if_fail (range->end.col >= range->start.col, FALSE);
+	g_return_val_if_fail (range->end.col <= SHEET_MAX_COLS, FALSE);
+	g_return_val_if_fail (range->start.row >= 0, FALSE);
+	g_return_val_if_fail (range->end.row >= range->start.row, FALSE);
+	g_return_val_if_fail (range->end.row <= SHEET_MAX_ROWS, FALSE);
+
+	return TRUE;
+}
+
+gboolean
+range_is_sane	(Range const *range);
 /**
  * range_transpose:
  * @range: The range.

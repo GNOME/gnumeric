@@ -42,10 +42,6 @@
 #define ISNAN isnan
 #endif
 
-#ifndef FINITE
-#define FINITE finite
-#endif
-
 /* Any better idea for a quick hack?  */
 #define ML_NAN (0.0 / 0.0)
 #define ML_NEGINF (-1.0 / 0.0)
@@ -91,7 +87,7 @@ d1mach (int i)
 static double
 gnumeric_add_epsilon (double x)
 {
-  if (!finite (x) || x == 0)
+  if (!FINITE (x) || x == 0)
     return x;
   else {
     int exp;
@@ -711,7 +707,7 @@ double pnorm(double x, double mu, double sigma)
     }
     x = (x - mu) / sigma;
 #ifdef IEEE_754
-    if(!finite(x)) {
+    if(!FINITE (x)) {
 	if(x < 0) return 0;
 	else return 1;
     }
@@ -1373,7 +1369,7 @@ double qgamma(double p, double alpha, double scale)
 	p1 = 0.5*ch;
 	p2 = p - pgamma(p1, alpha, 1);
 #ifdef IEEE_754
-	if(!finite(p2))
+	if(!FINITE (p2))
 #else
 	if(errno != 0)
 #endif
@@ -1759,7 +1755,7 @@ double lbeta(double a, double b)
 	return ML_POSINF;
     }
 #ifdef IEEE_754
-    else if (!FINITE(q)) {
+    else if (!FINITE (q)) {
 	return ML_NEGINF;
     }
 #endif
@@ -2080,7 +2076,7 @@ double qbeta(double alpha, double p, double q)
 		y = pbeta_raw(xinbta, pp, qq);
 		/* y = pbeta_raw2(xinbta, pp, qq, logbeta) -- to SAVE CPU; */
 #ifdef IEEE_754
-		if(!FINITE(y))
+		if(!FINITE (y))
 #else
 		if (errno)
 #endif
@@ -2159,9 +2155,9 @@ double pt(double x, double n)
 	return ML_NAN;
     }
 #ifdef IEEE_754
-    if(!finite(x))
+    if(!FINITE (x))
 	return (x < 0) ? 0 : 1;
-    if(!finite(n))
+    if(!FINITE (n))
 	return pnorm(x, 0.0, 1.0);
 #endif
     if (n > 4e5) { /*-- Fixme(?): test should depend on `n' AND `x' ! */
@@ -2502,7 +2498,7 @@ double dweibull(double x, double shape, double scale)
     }
     if (x <= 0) return 0;
 #ifdef IEEE_754
-    if (!finite(x)) return 0;
+    if (!FINITE (x)) return 0;
 #endif
     tmp1 = pow(x / scale, shape - 1);
     tmp2 = tmp1 * (x / scale);
@@ -2555,7 +2551,7 @@ double ppois(double x, double lambda)
     if (x < 0)
 	return 0;
 #ifdef IEEE_754
-    if (!finite(x))
+    if (!FINITE (x))
 	return 1;
 #endif
     return  1 - pgamma(lambda, x + 1, 1.0);
@@ -2607,7 +2603,7 @@ double dpois(double x, double lambda)
     if (x < 0)
 	return 0;
 #ifdef IEEE_754
-    if(!finite(x))
+    if(!FINITE (x))
 	return 0;
 #endif
     return exp(x * log(lambda) - lambda - lgammafn(x + 1));
@@ -2650,7 +2646,7 @@ double pbinom(double x, double n, double p)
 #ifdef IEEE_754
     if (ISNAN(x) || ISNAN(n) || ISNAN(p))
 	return x + n + p;
-    if (!FINITE(n) || !FINITE(p)) {
+    if (!FINITE (n) || !FINITE (p)) {
 	ML_ERROR(ME_DOMAIN);
 	return ML_NAN;
     }
@@ -2768,7 +2764,7 @@ double qbinom(double x, double n, double p)
 #ifdef IEEE_754
     if (ISNAN(x) || ISNAN(n) || ISNAN(p))
 	return x + n + p;
-    if(!FINITE(x) || !FINITE(n) || !FINITE(p)) {
+    if(!FINITE (x) || !FINITE (n) || !FINITE (p)) {
 	ML_ERROR(ME_DOMAIN);
 	return ML_NAN;
     }
