@@ -282,6 +282,9 @@ dump_escher (guint8 *data, guint32 len, int level)
 			h->ver, h->length);
 		if (h->ver == 0xf) /* A container */
 			dump_escher (h->data+ESH_HEADER_LEN, h->length-ESH_HEADER_LEN, level+1);
+		if (h->type == 0xf007) { /* Magic hey */
+			h->length = 36;
+		}
 	}
 	esh_header_destroy (h); 
 }

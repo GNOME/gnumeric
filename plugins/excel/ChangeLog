@@ -1,3 +1,8 @@
+1999-08-25  Michael Meeks  <michael@imaginator.com>
+
+	* ms-escher.c (esh_header_next): re-order for clarity.
+	(BSE_new): Fiddling with bits: thanks to Caolan.
+
 1999-08-25  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* ms-formula-read.c (formula_func_data): Fixed the number of

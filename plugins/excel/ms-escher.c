@@ -71,9 +71,9 @@ esh_header_next (ESH_HEADER *h)
 		h->length_left-=h->length+ESH_HEADER_LEN;
 	}
 
-	h->length   = MS_OLE_GET_GUINT32(h->data+4);
-	h->type     = MS_OLE_GET_GUINT16(h->data+2);
 	split       = MS_OLE_GET_GUINT16(h->data+0);
+	h->type     = MS_OLE_GET_GUINT16(h->data+2);
+	h->length   = MS_OLE_GET_GUINT32(h->data+4);
 	h->ver      = (split&0x0f);
 	h->instance = (split>>4);
 #if ESH_HEADER_DEBUG > 0
@@ -253,18 +253,14 @@ BSE_new (ESH_HEADER *h) /* S59FE3.HTM */
 	FILE_BLIP_STORE_ENTRY *fbse = g_new (FILE_BLIP_STORE_ENTRY, 1);
 	guint8 *data = h->data + ESH_HEADER_LEN;
 	guint8 type;
-	guint32 tmp,txt_byte_len,data_len;
-	int lp;
+	guint32 tmp,txt_byte_len;
+	int lp, i, extra;
+	static guint16 magic_instance[] = { 0, 0x216, 0x03d4, 0x542, 0x6e0, 0x46a, 0x7a8, 0x800 };
 
 	if (saved_os == eMac)
 		type   = MS_OLE_GET_GUINT8(data+ 1);
 	else
 		type   = MS_OLE_GET_GUINT8(data+ 0);
-	if (type<8)
-		fbse->stored_type = h->instance;
-	else
-		fbse->stored_type = eERROR;
-	printf ("Stored type : 0x%x type 0x%x\n", h->instance, type);
 
 	for (lp=0;lp<16;lp++)
 		fbse->rbg_uid[lp] = MS_OLE_GET_GUINT8(data+2+lp);
@@ -272,10 +268,12 @@ BSE_new (ESH_HEADER *h) /* S59FE3.HTM */
 	fbse->ref_count  = MS_OLE_GET_GUINT32(data+24);
 	fbse->delay_off  = MS_OLE_GET_GUINT32(data+28);
 	tmp              = MS_OLE_GET_GUINT8(data+32);
-	if (tmp==1)
+	if (tmp == 1)
 		fbse->usage = eUsageTexture;
 	else
 		fbse->usage = eUsageDefault;
+
+	/* Very red herring I think */
 	fbse->name_len   = MS_OLE_GET_GUINT8(data+33);
 	if (fbse->name_len)
 		fbse->name = biff_get_text (data+36, fbse->name_len,
@@ -285,34 +283,85 @@ BSE_new (ESH_HEADER *h) /* S59FE3.HTM */
 		txt_byte_len=0;
 	}
 
+	if (fbse->delay_off == 0xffffffff) {
+		g_warning ("Looks like a delay stream\n");
+		return NULL;
+	}
+
 	printf ("FBSE: '%s' 0x%x(=%d) 0x%x 0x%x 0x%x '%s'\n",
 		bse_type_to_name (fbse->stored_type), fbse->size, fbse->size,
-		fbse->ref_count,
-		fbse->delay_off, fbse->usage, fbse->name);
+		fbse->ref_count, fbse->delay_off, fbse->usage, fbse->name);
+
 	for (lp=0;lp<16;lp++)
 		printf ("0x%x ", fbse->rbg_uid[lp]);
+
 	printf ("\n");
 
-	/* Now the picture data */
-	data+=txt_byte_len+36;
-	data_len = h->length - ESH_HEADER_LEN -36 - txt_byte_len;
+	/* --------------- Contained record --------------- */
 
+	h->length = 36; /* I know this from nothing :-) */
+	esh_header_next (h);
+	h->data+= ESH_HEADER_LEN;
+
+	extra = 0;
+	for (i = 0; i < sizeof (magic_instance) / sizeof(magic_instance[0]); i++)
+		if ((h->instance ^ magic_instance[i]) == 1)
+			extra = 16;
+
+	fbse->stored_type = eERROR;
+
+	if (h->type >= Blip_START && h->type < Blip_END) {
+		gint clip_head = 0;
+
+		fbse->stored_type = h->type - Blip_START;
+		printf ("Stored type : 0x%x type 0x%x\n", fbse->stored_type, h->type);
+
+		switch (fbse->stored_type) {
+		case ePNG:
+			clip_head = 17 + extra;
+			printf ("A PNG!\n");
+			break;
+		case eJPEG:
+		case ePICT:
+			clip_head = 17 + extra;
+			break;
+		case eWMF:
+		case eEMF:
+		{
+			guint32 outlen;
+			guint32 inlen;
+			clip_head = 16 + extra + 4 + 24 + 4;
+			outlen = MS_OLE_GET_GUINT32(h->data + 16 + extra);
+			inlen  = MS_OLE_GET_GUINT32(h->data + 16 + extra + 4 + 24);
+			break;
+		}
+		case eDIB:
+			clip_head = 17 + extra;
+			break;
+		default:
+			g_warning ("Don't know what to do with this image\n");
+			break;
+		}
+		/* Data at h->data + clip_head, length = h->length - clip_head */
 #if ESH_BITMAP_DUMP > 0
-	printf ("Header\n");
-	dump (h->data, h->length-data_len);
+		printf ("Header\n");
+		dump (h->data, clip_head);
 
-	printf ("Data\n");
-	dump (data, data_len);
+		printf ("Data\n");
+		dump (h->data + clip_head, h->length - clip_head);
 #endif
-	if (fbse->stored_type == eJPEG ||
-	    fbse->stored_type == ePNG ||
-	    fbse->stored_type == eDIB) {
-		data+=25; /* Another header ! */
-		data_len-=25;
-		write_file ("test", data, fbse->size, fbse->stored_type);
-	} else
-		printf ("FIXME: unhandled type 0x%x\n",
-			fbse->stored_type);
+		if (fbse->stored_type == eJPEG ||
+		    fbse->stored_type == ePNG ||
+		    fbse->stored_type == eDIB) {
+			write_file ("test", h->data + clip_head,
+				    h->length - clip_head, fbse->stored_type);
+		} else
+			printf ("FIXME: unhandled type 0x%x\n",
+				fbse->stored_type);
+
+	} else {
+		printf ("Invalid blip type 0x%x\n", h->type);
+	}
 
 	return fbse;
 }
