@@ -1,8 +1,17 @@
 1999-07-22  Michael Meeks  <michael@edenproject.org>
 
+
+	* ms-ole.c (ms_ole_stream_open): Cope with dodgy files by truncating
+	them ( best we can do ).
+	(NEXT_BB, NEXT_SB): Global insertion of cosmetic whitespace.
+
+	* ms-ole-summary.h: Add get_properties API, pointless and asymetrical
+	but possibly useful.
+
 	* ms-ole-summary.c (ms_ole_summary_open_stream): Actually init. the
 	items array.
-
+	(read_items): Handle corrupt streams more correctly and chattily.
+	
 1999-07-20  Michael Meeks  <michael@edenproject.org>
 
 	* ms-ole-summary.h: Changed not_available to available, improves

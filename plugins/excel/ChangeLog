@@ -1,5 +1,7 @@
 1999-07-22  Michael Meeks  <michael@edenproject.org>
 
+	* ole.c: Major summary hack, cleaned old cruft & made beautiful.
+
 	* ms-summary.c: Re-write to use new summary stuff in libole2.
 
 1999-07-19  Michael Meeks  <michael@edenproject.org>

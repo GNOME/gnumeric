@@ -13,6 +13,7 @@
 #include <ctype.h>
 
 #include "ms-ole.h"
+#include "ms-ole-summary.h"
 #include "ms-biff.h"
 #include "biff-types.h"
 
@@ -29,8 +30,6 @@ typedef struct {
 static GPtrArray *biff_types   = NULL;
 static GPtrArray *escher_types = NULL;
 typedef enum { eBiff=0, eEscher=1 } typeType;
-
-static void dump_summary (MsOleStream *ole);
 
 static void
 read_types (char *fname, GPtrArray **types, typeType t)
@@ -159,7 +158,7 @@ syntax_error(char *err)
 	printf (" * biffraw <stream name>:   dump biff records no merge + raw data\n");
 	printf (" * draw    <stream name>:   dump drawing records\n");
 	printf (" * dump    <stream name>:   dump stream\n");
-	printf (" * summary <stream name>:   dump document summary info\n");
+	printf (" * summary              :   dump document summary info\n");
 	printf (" * debug                :   dump internal ole library status\n");
 	printf (" Raw transfer commands\n");
 	printf (" * get     <stream name> <fname>\n");
@@ -483,17 +482,140 @@ really_put (MsOle *ole, char *from, char *to)
 static void
 do_summary (MsOle *ole)
 {
-	char *ptr;
-	MsOleDirectory *dir;
-	
-	ptr = strtok (NULL, delim);
-	if ((dir = get_file_handle (ole, ptr)))
-	{
-		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
-		dump_summary (stream);
-		ms_ole_stream_close (stream);
+	MsOleSummary        *si;
+	MsOleSummaryPreview  preview;
+	gboolean             ok;
+	gchar               *txt;
+	guint32              num;
+
+	si = ms_ole_summary_open (ole);
+	if (!si) {
+		printf ("No summary information\n");
+		return;
+	}
+
+	txt = ms_ole_summary_get_string (si, MS_OLE_SUMMARY_TITLE, &ok);
+	if (ok)
+		printf ("The title is %s\n", txt);
+	else
+		printf ("no title found\n");
+	g_free (txt);
+
+	txt = ms_ole_summary_get_string (si, MS_OLE_SUMMARY_SUBJECT, &ok);
+	if (ok)
+		printf ("The subject is %s\n", txt);
+	else
+		printf ("no subject found\n");
+	g_free (txt);
+
+	txt = ms_ole_summary_get_string (si, MS_OLE_SUMMARY_AUTHOR, &ok);
+	if (ok)
+		printf ("The author is %s\n", txt);
+	else
+		printf ("no author found\n");
+	g_free (txt);
+
+	txt = ms_ole_summary_get_string (si, MS_OLE_SUMMARY_KEYWORDS, &ok);
+	if (ok)
+		printf ("The keywords are %s\n", txt);
+	else
+		printf ("no keywords found\n");
+	g_free (txt);
+
+	txt = ms_ole_summary_get_string (si, MS_OLE_SUMMARY_COMMENTS, &ok);
+	if (ok)
+		printf ("The comments are %s\n", txt);
+	else
+		printf ("no comments found\n");
+	g_free (txt);
+
+	txt = ms_ole_summary_get_string (si, MS_OLE_SUMMARY_TEMPLATE, &ok);
+	if (ok)
+		printf ("The template was %s\n", txt);
+	else
+		printf ("no template found\n");
+	g_free (txt);
+
+	txt = ms_ole_summary_get_string (si, MS_OLE_SUMMARY_LASTAUTHOR, &ok);
+	if (ok)
+		printf ("The last author was %s\n", txt);
+	else
+		printf ("no last author found\n");
+	g_free (txt);
+
+	txt = ms_ole_summary_get_string (si, MS_OLE_SUMMARY_REVNUMBER, &ok);
+	if (ok)
+		printf ("The rev no was %s\n", txt);
+	else
+		printf ("no rev no found\n");
+	g_free (txt);
+
+	txt = ms_ole_summary_get_string (si, MS_OLE_SUMMARY_APPNAME, &ok);
+	if (ok)
+		printf ("The app name was %s\n", txt);
+	else
+		printf ("no app name found\n");
+	g_free (txt);
+
+/*	txt = wvSumInfoGetTime(&yr, &mon, &day, &hr, &min, &sec,PID_TOTAL_EDITTIME,&si);
+	if (ok)
+		printf ("Total edit time was %d/%d/%d %d:%d:%d\n",day,mon,yr,hr,min,sec);
+	else
+		printf ("no total edit time found\n");
+	g_free (txt);
+
+	txt = wvSumInfoGetTime(&yr, &mon, &day, &hr, &min, &sec,PID_LASTPRINTED,&si);
+	if (ok)
+	    printf ("Last printed on %d/%d/%d %d:%d:%d\n",day,mon,yr,hr,min,sec);
+	else
+		printf ("no last printed time found\n");
+
+	txt = wvSumInfoGetTime(&yr, &mon, &day, &hr, &min, &sec,PID_CREATED,&si);
+	if (ok)
+	    printf ("Created on %d/%d/%d %d:%d:%d\n",day,mon,yr,hr,min,sec);
+	else
+		printf ("no creation time found\n");
+
+	txt = wvSumInfoGetTime(&yr, &mon, &day, &hr, &min, &sec,PID_LASTSAVED,&si);
+	if (ok)
+	    printf ("Last Saved on %d/%d/%d %d:%d:%d\n",day,mon,yr,hr,min,sec);
+	else
+	printf ("no lastsaved date found\n");*/
+
+	num = ms_ole_summary_get_long (si, MS_OLE_SUMMARY_PAGECOUNT, &ok);
+
+	if (ok)
+		printf ("PageCount is %d\n", num);
+	else
+		printf ("no pagecount\n");
+
+	num = ms_ole_summary_get_long (si, MS_OLE_SUMMARY_WORDCOUNT, &ok);
+	if (ok)
+		printf ("WordCount is %d\n", num);
+	else
+		printf ("no wordcount\n");
+
+	num = ms_ole_summary_get_long (si, MS_OLE_SUMMARY_CHARCOUNT, &ok);
+
+	if (ok)
+		printf ("CharCount is %d\n", num);
+	else
+		printf ("no charcount\n");
+
+	num = ms_ole_summary_get_long (si, MS_OLE_SUMMARY_SECURITY, &ok);
+	if (ok)
+		printf ("Security is %d\n", num);
+	else
+		printf ("no security\n");
+
+	preview = ms_ole_summary_get_preview (si, MS_OLE_SUMMARY_THUMBNAIL, &ok);
+	if (ok) {
+		printf ("preview is %d bytes long\n", preview.len);
+		ms_ole_summary_preview_destroy (preview);
 	} else
-		printf ("Need a stream name\n");
+		printf ("no preview found\n");
+
+	ms_ole_summary_destroy (si);
 }
 
 static void
@@ -599,131 +721,4 @@ int main (int argc, char **argv)
 
 	ms_ole_destroy (ole);
 	return 1;
-}
-
-/* ------------------------------------------------------------------- */
-/*            Developed here for convenience only                      */
-/* ------------------------------------------------------------------- */
-
-typedef struct _MsOleSummaryHeader MsOleSummaryHeader;
-typedef struct _MsOleSummaryRecord MsOleSummaryRecord;
-typedef guint32 MsOleSummaryFileTime;
-
-#define SUMMARY_DEBUG 1
-
-#define RECORD_HEADER 10
-#define HEADER_LEN    0x38
-
-/* LONG  = 4 bytes */
-/* DWORD = 2 bytes ( signed ? ) */
-struct _MsOleSummaryHeader {
-	guint32     num_records;
-	GPtrArray  *records;
-};
-
-struct _MsOleSummaryRecord {
-	MsOlePos	offset;
-	guint32		type;
-	gchar	*txt;
-};
-
-static gchar *sum_names[] = {
-	"Unknown",				/* 0x0 */
-	"Codepage Property",                    /* 0x1 */
-	"Title",                                /* 0x2 */
-	"Subject",                              /* 0x3 */
-	"Author",                               /* 0x4 */
-	"Keywords",                             /* 0x5 */
-	"Comments",                             /* 0x6 */
-	"Template",                             /* 0x7 */
-	"Last Saved By",                        /* 0x8 */
-	"Revision Number",                      /* 0x9 */
-	"Unknown",                              /* 0xa */
-	"Last printed summary properties",      /* 0xb */
-	"Create time/date",                     /* 0xc */
-	"Last save time/date",                  /* 0xd */
-	"Page count",                           /* 0xe */
-	"Word count",                           /* 0xf */
-	"Character count",                      /* 0x10 */
-	"Unknown",                              /* 0x11 */
-	"Creating Application",                 /* 0x12 */
-	"Security"                              /* 0x13 */
-};
-
-static void
-read_records (MsOleStream *s, MsOleSummaryRecord *sr)
-{
-	guint8  data[64];
-	guint8 *mem;
-	gint32 len, rec_type;
-
-	s->lseek (s, sr->offset, MsOleSeekSet);
-	g_return_if_fail (s->read_copy (s, data, 4));
-
-	rec_type = MS_OLE_GET_GUINT32 (data);
-#if SUMMARY_DEBUG > 0
-	printf ("Next record at 0x%x : '%s' : type 0x%x\n",
-		sr->offset, sum_names[sr->type], rec_type);
-#endif
-
-	if (rec_type == 0x1e) { /* String */
-		g_return_if_fail (s->read_copy (s, data, 4));
-		len = MS_OLE_GET_GUINT32 (data);
-
-		mem = g_malloc (len+1);
-		g_return_if_fail (s->read_copy (s, mem, len));
-/*		dump (mem, len); */
-
-		sr->txt = mem;
-
-		printf ("string '%s'\n", sr->txt);
-	} else if (rec_type == 0x3) {
-		g_return_if_fail (s->read_copy (s, data, 4));
-		printf ("Integer : 0x%x\n", MS_OLE_GET_GUINT32 (data));
-	} else if (rec_type == 0x40) {
-		g_return_if_fail (s->read_copy (s, data, 8));
-		printf ("Timestamp : 0x%x%x\n", MS_OLE_GET_GUINT32 (data + 4),
-			MS_OLE_GET_GUINT32 (data));
-	} else {
-		printf ("Unknown type:\n");
-		g_return_if_fail (s->read_copy (s, data, 32));
-		dump (data, 32);
-	}
-}
-
-static void
-dump_summary (MsOleStream *s)
-{
-	MsOleSummaryHeader *sh = g_new (MsOleSummaryHeader, 1);
-	/* Dwords, GUID, DW, FileTimes, DW */
-	guint8 data[HEADER_LEN];
-	int lp;
-
-	g_return_if_fail (s);
-	g_return_if_fail (HEADER_LEN <= s->size);
-
-	g_return_if_fail (s->read_copy (s, data, HEADER_LEN));
-
-	sh->num_records = MS_OLE_GET_GUINT32 (data + 0x34);
-	sh->records     = g_ptr_array_new ();
-
-	printf ("Summary info header len 0x%x = 0x%x records\n",
-		HEADER_LEN, sh->num_records);
-	dump (data, HEADER_LEN);
-
-	for (lp = 0; lp < sh->num_records; lp++) {
-		MsOleSummaryRecord *sr = g_new (MsOleSummaryRecord, 1);
-		guint8 data[8];
-
-		g_return_if_fail (s->read_copy (s, data, 8));
-		sr->offset = ((0x0b + 2) * 8) - HEADER_LEN + MS_OLE_GET_GUINT32 (data+4);
-		sr->type   = MS_OLE_GET_GUINT32(data);
-		printf ("Record type %x at offset 0x%x\n", sr->type, MS_OLE_GET_GUINT32(data+4));
-		g_ptr_array_add (sh->records, sr);
-	}
-
-	for (lp = 0; lp < sh->num_records; lp++) {
-		if (lp)
-			read_records (s, g_ptr_array_index (sh->records, lp));
-	}
 }

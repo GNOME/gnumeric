@@ -29,6 +29,9 @@ MsOleSummary *ms_ole_summary_open           (MsOle *f);
  */
 MsOleSummary *ms_ole_summary_open_stream    (MsOleStream *s);
 
+/* An array of MsOleSummaryPID FIXME: without the helpful type */
+GArray       *ms_ole_summary_get_properties (MsOleSummary *si);
+
 void          ms_ole_summary_destroy        (MsOleSummary *si);
 
 
@@ -94,7 +97,7 @@ typedef struct {
 void                ms_ole_summary_preview_destroy (MsOleSummaryPreview d);
 
 /* Ensure that you destroy / free returned values after use */
-char                *ms_ole_summary_get_string  (MsOleSummary *si, MsOleSummaryPID id,
+gchar               *ms_ole_summary_get_string  (MsOleSummary *si, MsOleSummaryPID id,
 						 gboolean *available);
 
 guint32              ms_ole_summary_get_long    (MsOleSummary *si, MsOleSummaryPID id,

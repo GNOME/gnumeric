@@ -146,6 +146,24 @@ ms_ole_summary_open (MsOle *f)
 	return ms_ole_summary_open_stream (s);
 }
 
+GArray *
+ms_ole_summary_get_properties (MsOleSummary *si)
+{
+	GArray *ans;
+	gint i;
+
+	g_return_val_if_fail (si != NULL, NULL);
+	g_return_val_if_fail (si->items != NULL, NULL);
+
+	ans = g_array_new (FALSE, FALSE, sizeof (MsOleSummaryPID));
+	g_array_set_size  (ans, si->items->len);
+	for (i = 0; i < si->items->len; i++)
+		g_array_index (ans, MsOleSummaryPID, i) = 
+			g_array_index (si->items, item_t, i).id;
+
+	return ans;
+}
+
 void ms_ole_summary_destroy (MsOleSummary *si)
 {
 	g_return_if_fail (si != NULL);

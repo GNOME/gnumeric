@@ -322,7 +322,7 @@ characterise_block (MsOle *f, BLP blk, char **ans)
 				*ans = p->name;
 				return;
 			}
-			cur = NEXT_BB(f, cur);
+			cur = NEXT_BB (f, cur);
 		}
 		}*/
 }
@@ -607,7 +607,7 @@ get_pps_ptr (MsOle *f, PPS_IDX i, gboolean forwrite)
 			return 0;
 		}
 		lp--;
-		blk = NEXT_BB(f, blk);
+		blk = NEXT_BB (f, blk);
 	}
 	if (blk == END_OF_CHAIN) {
 		printf ("Serious error finding pps %d\n", i);
@@ -723,7 +723,7 @@ read_pps (MsOle *f)
 		last = blk = GET_ROOT_STARTBLOCK (f);
 		while (blk != END_OF_CHAIN) {
 			last = blk;
-			blk = NEXT_BB(f, blk);
+			blk = NEXT_BB (f, blk);
 			g_array_index (f->bb, BLP, last) = UNUSED_BLOCK;
 		}
 	}
@@ -1403,7 +1403,7 @@ check_stream (MsOleStream *s)
 #if OLE_DEBUG > 2
 			dump (GET_SB_R_PTR(f, blk), SB_BLOCK_SIZE);
 #endif
-			blk = NEXT_SB(f, blk);
+			blk = NEXT_SB (f, blk);
 			idx++;
 		}
 	} else {
@@ -1413,7 +1413,7 @@ check_stream (MsOleStream *s)
 #if OLE_DEBUG > 2
 			dump (BB_R_PTR(f, blk), BB_BLOCK_SIZE);
 #endif
-			blk = NEXT_BB(f, blk);
+			blk = NEXT_BB (f, blk);
 			idx++;
 		}
 	}
@@ -1445,7 +1445,7 @@ free_allocation (MsOle *f, guint32 startblock, gboolean is_big_block_stream)
 		BLP p = startblock;
 		printf ("FIXME: this should also free up blocks\n");
 		while (p != END_OF_CHAIN) {
-			BLP next = NEXT_BB(f,p);
+			BLP next = NEXT_BB (f,p);
 			if (next == p) {
 				printf ("Serious bug: cyclic ring in BB allocation\n");
 				return;
@@ -1463,7 +1463,7 @@ free_allocation (MsOle *f, guint32 startblock, gboolean is_big_block_stream)
 	{
 		BLP p = startblock;
 		while (p != END_OF_CHAIN) {
-			BLP next = NEXT_SB(f,p);
+			BLP next = NEXT_SB (f,p);
 			if (next == p) {
 				printf ("Serious bug: cyclic ring in SB allocation\n");
 				return;
@@ -1894,7 +1894,7 @@ ms_ole_stream_open (MsOleDirectory *d, char mode)
 	PPS    *p;
 	MsOle *f=d->file;
 	MsOleStream *s;
-	int lp;
+	int lp, panic=0;
 
 	if (!d || !f)
 		return 0;
@@ -1929,23 +1929,43 @@ ms_ole_stream_open (MsOleDirectory *d, char mode)
 
 		s->blocks    = g_array_new (FALSE, FALSE, sizeof(BLP));
 		s->strtype   = MsOleLargeBlock;
-		for (lp=0;lp<(s->size+BB_BLOCK_SIZE-1)/BB_BLOCK_SIZE;lp++)
-		{
+		for (lp = 0; !panic & (lp < (s->size + BB_BLOCK_SIZE - 1) / BB_BLOCK_SIZE); lp++) {
 			g_array_append_val (s->blocks, b);
 #if OLE_DEBUG > 1
 			printf ("Block %d\n", b);
 #endif
-			if (b == END_OF_CHAIN)
-				printf ("Warning: bad file length in '%s'\n", p->name);
-			else if (b == SPECIAL_BLOCK)
-				printf ("Warning: special block in '%s'\n", p->name);
-			else if (b == UNUSED_BLOCK)
-				printf ("Warning: unused block in '%s'\n", p->name);
-			else
-				b = NEXT_BB(f, b);
+			if (b == END_OF_CHAIN ||
+			    b == SPECIAL_BLOCK ||
+			    b == UNUSED_BLOCK) {
+
+				printf ("Panic: broken stream, truncating to block %d\n", lp);
+				s->size = (lp-1)*BB_BLOCK_SIZE;
+				panic   = 1;
+
+#if OLE_DEBUG > 0
+				if (b == END_OF_CHAIN)
+					printf ("Warning: bad file length in '%s'\n", p->name);
+				else if (b == SPECIAL_BLOCK)
+					printf ("Warning: special block in '%s'\n", p->name);
+				else if (b == UNUSED_BLOCK)
+					printf ("Warning: unused block in '%s'\n", p->name);
+#endif
+			} else
+				
+				b = NEXT_BB (f, b);
 		}
-		if (b != END_OF_CHAIN && NEXT_BB(f, b) != END_OF_CHAIN)
-			printf ("FIXME: Extra useless blocks on end of '%s'\n", p->name);
+		if (b != END_OF_CHAIN) {
+			BLP next;
+			printf ("Panic: extra unused blocks on end of '%s', wiping it\n",
+				p->name);
+			while (b != END_OF_CHAIN &&
+			       b != UNUSED_BLOCK &&
+			       b != SPECIAL_BLOCK) {
+				next = NEXT_BB (f, b);
+				g_array_index (f->bb, BLP, b) = END_OF_CHAIN;
+				b = next;
+			}
+		}
 	}
 	else
 	{
@@ -1964,23 +1984,43 @@ ms_ole_stream_open (MsOleDirectory *d, char mode)
 
 		s->strtype   = MsOleSmallBlock;
 
-		for (lp=0;lp<(s->size+SB_BLOCK_SIZE-1)/SB_BLOCK_SIZE;lp++)
-		{
+		for (lp = 0; !panic & (lp < (s->size + SB_BLOCK_SIZE - 1) / SB_BLOCK_SIZE); lp++) {
 			g_array_append_val (s->blocks, b);
 #if OLE_DEBUG > 0
 			printf ("Block %d\n", b);
 #endif
-			if (b == END_OF_CHAIN)
-				printf ("Warning: bad file length in '%s'\n", p->name);
-			else if (b == SPECIAL_BLOCK)
-				printf ("Warning: special block in '%s'\n", p->name);
-			else if (b == UNUSED_BLOCK)
-				printf ("Warning: unused block in '%s'\n", p->name);
-			else
-				b = NEXT_SB(f, b);
+			if (b == END_OF_CHAIN ||
+			    b == SPECIAL_BLOCK ||
+			    b == UNUSED_BLOCK) {
+
+				printf ("Panic: broken stream, truncating to block %d\n", lp);
+				s->size = (lp-1)*SB_BLOCK_SIZE;
+				panic   = 1;
+#if OLE_DEBUG > 0
+				if (b == END_OF_CHAIN)
+					printf ("Warning: bad file length in '%s'\n", p->name);
+				else if (b == SPECIAL_BLOCK)
+					printf ("Warning: special block in '%s'\n", p->name);
+				else if (b == UNUSED_BLOCK)
+					printf ("Warning: unused block in '%s'\n", p->name);
+#endif
+			} else
+				b = NEXT_SB (f, b);
 		}
-		if (b != END_OF_CHAIN && NEXT_SB(f, b) != END_OF_CHAIN)
-			printf ("FIXME: Extra useless blocks on end of '%s'\n", p->name);
+		if (b != END_OF_CHAIN) {
+			BLP next;
+			printf ("Panic: extra unused blocks on end of '%s', wiping it\n",
+				p->name);
+			while (b != END_OF_CHAIN &&
+			       b != UNUSED_BLOCK &&
+			       b != SPECIAL_BLOCK) {
+				next = NEXT_SB (f, b);
+				g_array_index (f->sb, BLP, b) = END_OF_CHAIN;
+				b = next;
+			}
+			if (b != END_OF_CHAIN)
+				printf ("Panic: even more serious block error\n");
+		}
 	}
 	return s;
 }
