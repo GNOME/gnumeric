@@ -67,7 +67,7 @@ gnumeric_LDADD = \
 	$(GNOME_XML_LIB) \
 	$(INTLLIBS)
 
-test_format_SOURCES = format.c
+test_format_SOURCES = format.c test-format.c
 
 test_format_LDADD = \
 	$(GNOME_LIBDIR) \
