@@ -149,6 +149,13 @@ GNUMERIC_BASE_SOURCES =				\
 	pattern.c				\
 	plugin.c				\
 	plugin.h				\
+	module-plugin-defs.h			\
+	plugin-service.c			\
+	plugin-service.h			\
+	plugin-loader.c				\
+	plugin-loader.h				\
+	plugin-loader-module.c			\
+	plugin-loader-module.h			\
 	plugin-util.c				\
 	plugin-util.h				\
 	portability.h				\

@@ -27,6 +27,33 @@
 
 /* ------------------------------------------------------------------------- */
 
+static GList *timers_stack = NULL;
+
+void
+gnumeric_time_counter_push (void)
+{
+	GTimer *timer;
+
+	timer = g_timer_new ();
+	timers_stack = g_list_prepend (timers_stack, timer);
+}
+
+gdouble
+gnumeric_time_counter_pop (void)
+{
+	GTimer *timer;
+	gdouble ret_val;
+
+	g_assert (timers_stack != NULL);
+
+	timer = (GTimer *) timers_stack->data;
+	timers_stack = g_list_remove (timers_stack, timers_stack->data);
+	ret_val = g_timer_elapsed (timer, NULL);
+	g_timer_destroy (timer);
+
+	return ret_val;
+}
+
 /**
  * gnumeric_config_get_string_list:
  * @config_path: GNOME configuration path or its prefix if 
@@ -156,6 +183,25 @@ g_create_list (gpointer item1, ...)
 }
 
 /**
+ * g_list_free_custom:
+ * @list: list of some items
+ * @free_func: function freeing list item
+ *
+ * Clears a list, calling g_free() for each list item.
+ *
+ */
+void
+g_list_free_custom (GList *list, GFreeFunc free_func)
+{
+	GList *l;
+
+	for (l = list; l != NULL; l = l->next) {
+		free_func (l->data);
+	}
+	g_list_free (list);
+}
+
+/**
  * g_string_list_copy:
  * @list: List of strings.
  *
@@ -206,6 +252,25 @@ g_strsplit_to_list (const gchar *string, const gchar *delimiter)
 	}
 
 	return string_list;
+}
+
+/**
+ * g_slist_free_custom:
+ * @list: list of some items
+ * @free_func: function freeing list item
+ *
+ * Clears a list, calling g_free() for each list item.
+ *
+ */
+void
+g_slist_free_custom (GSList *list, GFreeFunc free_func)
+{
+	GSList *l;
+
+	for (l = list; l != NULL; l = l->next) {
+		free_func (l->data);
+	}
+	g_slist_free (list);
 }
 
 /**

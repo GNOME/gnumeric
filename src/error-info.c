@@ -8,6 +8,7 @@
 #include <config.h>
 #include <glib.h>
 #include <stdio.h>
+#include <errno.h>
 #include "error-info.h"
 
 struct _ErrorInfo {
@@ -89,6 +90,12 @@ error_info_new_from_error_list (GList *errors)
 	return error;
 }
 
+ErrorInfo *
+error_info_new_from_errno (void)
+{
+	return error_info_new_str (g_strerror (errno));
+}
+
 void
 error_info_add_details (ErrorInfo *error, ErrorInfo *details)
 {
@@ -112,7 +119,7 @@ error_info_add_details_list (ErrorInfo *error, GList *details)
 	g_return_if_fail (error != NULL);
 
 	new_details_list = NULL;
- 	for (l = details; l != NULL; l = l->next) {
+	for (l = details; l != NULL; l = l->next) {
 		ErrorInfo *details_error;
 
 		details_error = (ErrorInfo *) l->data;

@@ -1,3 +1,130 @@
+2001-02-24  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/Makefile.am: Added files:  plugin-service.[ch],
+	plugin-loader.[ch], plugin-loader-module.[ch], module-plugin-defs.h.
+
+	* src/error-info.[ch] (error_info_new_from_errno): New function.
+
+	* src/file.c
+	(struct _FileOpener, struct _FileSaver): Moved from file.h
+	(file_opener_get_format_description, file_opener_has_probe,
+	file_saver_get_extension,  file_saver_get_format_description):
+	New accessor functions.
+	(file_opener_probe, file_opener_open, file_saver_save,
+	file_opener_set_user_data, file_opener_get_user_data,
+	file_saver_set_user_data, file_saver_get_user_data): New
+	functions.
+	(get_file_opener_by_id, get_file_saver_by_id): Removed
+	Now using FileOpener*/FileSaver* instead of FileOpenerId/FileSaverId
+	everywhere.
+
+	* src/file.h
+	(struct _FileOpener, struct _FileSaver): Moved to file.c.
+	Adjusted to file.c.
+
+	* src/gui-file.c: Adjusted to file.[ch], now FileSaver.extension
+	field should contain real extension (without a dot).
+
+	* src/func.[ch]
+	(enum FunctionFlags, struct _FunctionDefinition): Moved from func.h
+	to func.c.
+	(struct _FunctionCategory): Added "internal_name" and "display_name"
+	in place of "name" field.
+	(function_get_category_with_translation,
+	function_category_remove_func, func_get_ref_count, function_remove,
+	function_add_name_only): New functions.
+	Now it's possible to load function implementation on demand (after
+	registering function using function_add_name_only() and providing
+	function of type FunctionGetFullInfoCallback).
+	Rename fd and fndef to fn_def for consistency.
+
+	* src/functions/fn-database.c (database_functions_init),
+	src/functions/fn-date.c (date_functions_init),
+	src/functions/fn-eng.c (eng_functions_init),
+	src/functions/fn-financial.c (finance_functions_init),
+	src/functions/fn-information.c (information_functions_init),
+	src/functions/fn-logical.c (logical_functions_init),
+	src/functions/fn-lookup.c (lookup_functions_init),
+	src/functions/fn-math.c (math_functions_init),
+	src/functions/fn-sheet.c (sheet_functions_init),
+	src/functions/fn-stat.c (stat_functions_init),
+	src/functions/fn-string.c (string_functions_init):
+	Use function_get_category_with_translation, instead of
+	function_get_category.
+
+	* src/plugin.[ch]
+	(struct _PluginInfo): Removed many fields.
+	(plugin_info_get_extra_info_list):
+	Just call gnumeric_plugin_loader_get_extra_info_list.
+	(plugin_info_peek_services_data, plugin_info_peek_loader_type_str):
+	New accessor functions.
+	(plugin_info_read_service_list, plugin_info_read_loader,
+	plugin_info_read):
+	Read services and loader info, use functions from
+	gal/util/e-xml-utils.h everywhere.
+	(activate_plugin, deactivate_plugin): Just activate/deactivate all
+	plugin services.
+	(plugin_can_deactivate): Ask plugin services.
+	(plugin_load_service, plugin_unload_service,
+	plugin_info_offers_loader_by_type_str,
+	plugin_loader_register_type, plugin_loader_register_id_only,
+	plugin_loader_get_by_id, plugin_loader_is_available_by_id,
+	plugin_list_sort_by_dependency):
+	New functions.
+	(plugin_db_activate_plugin_list): Activate plugins in correct order,
+	using plugin_list_sort_by_dependency function.
+	(plugin_info_print): Removed.
+	(module_plugin_print_info, module_plugin_info_get_extra_info_list,
+	module_plugin_free, module_plugin_info_read, module_plugin_activate,
+	module_plugin_deactivate, module_plugin_can_deactivate): Removed,
+	most code  moved to plugin-loader.c and plugin-loader-module.c.
+
+	* src/plugin-service.[ch]: New files, support for plugin services
+	(five types of these so far).
+
+	* src/plugin-loader.[ch]: New files, base class for plugin loaders.
+
+	* src/plugin-loader-module.[ch]: New files, support for "g_module"
+	plugins.
+
+	* src/plugin-util.[ch] (gnumeric_fopen_error_info,
+	gnumeric_open_error_info, gnumeric_mmap_error_info): New functions.
+
+	* src/gutils.[ch] (g_list_free_custom, g_slist_free_custom,
+	gnumeric_time_counter_push, gnumeric_time_counter_pop):
+	New functions.
+
+	* src/io-context-priv.h (struct _IOContext): Added error_info field.
+
+	* src/io-context.[ch] (gnumeric_io_context_new,
+	gnumeric_io_context_free, gnumeric_io_error_info_set,
+	gnumeric_io_error_info_push, gnumeric_io_error_info_pop,
+	gnumeric_io_error_info_clear, gnumeric_io_error_info_display,
+	gnumeric_io_has_error_info): New functions, quick hack to add
+	support for ErrorInfo.
+
+	* src/module-plugin-defs.h: New file, should be included be every
+	g_module plugin.
+
+	* src/auto-format.c: Use accessor function from func.h.
+
+	* src/bonobo-io.c (gnumeric_bonobo_write_workbook,
+	gnumeric_bonobo_read_workbook, gnumeric_bonobo_io_probe),
+	src/stf.c (stf_read_workbook, stf_write_workbook),
+	src/xml-io.[ch] (xml_probe, gnumeric_xml_read_workbook,
+	gnumeric_xml_write_workbook):
+	Signature changes.
+
+	* src/workbook.c: Adjusted to
+	workbook_load_from/gnumeric_xml_write_workbook signature change.
+
+	* src/dialogs/dialog-function-select.c: Adjust to func.[ch].
+
+	* src/dialogs/dialog-plugin-manager.c
+	Adjust to plugin.[ch].
+	(cb_pm_button_activate_plugin_clicked): Check if loader for current
+	plugin is available, suggest activating loader plugin otherwise.
+
 2001-02-24  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook-control-gui.c (cb_edit_search_replace_action): New

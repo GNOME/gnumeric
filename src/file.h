@@ -3,6 +3,9 @@
 
 #include "gnumeric.h"
 
+typedef struct _FileOpener FileOpener;
+typedef struct _FileSaver  FileSaver;
+
 /*
  * File format levels. They are ordered. When we save a file, we
  * remember the name, but not if we already have a name at a higher level.
@@ -17,65 +20,46 @@ typedef enum {
 	FILE_FL_AUTO		/* Save will save to this filename */
 } FileFormatLevel;
 
-typedef gboolean   (*FileFormatProbe) (const gchar *filename, gpointer user_data);
-typedef gint       (*FileFormatOpen) (IOContext *context,
-                                      WorkbookView *wb_view,
-                                      const gchar *filename,
-                                      gpointer user_data);
-typedef gint       (*FileFormatSave) (IOContext *context,
-                                      WorkbookView *wb_View,
-                                      const gchar *filename,
-                                      gpointer user_data);
+typedef gboolean   (*FileFormatProbe)     (FileOpener const *fo,
+                                           const gchar *file_name);
+typedef gboolean   (*FileFormatOpen)      (FileOpener const *fo,
+                                           IOContext *context,
+                                           WorkbookView *wb_view,
+                                           const gchar *file_name);
+typedef gboolean   (*FileFormatSave)      (FileSaver const *fs,
+                                           IOContext *context,
+                                           WorkbookView *wb_view,
+                                           const gchar *file_name);
 
-#ifdef G_HAVE_GINT64
-	typedef guint64 FileOpenerId;
-	typedef guint64 FileSaverId;
-#else
-	typedef gulong FileOpenerId;
-	typedef gulong FileSaverId;
-#endif
+const gchar *file_opener_get_format_description (FileOpener const *fo);
+gboolean     file_opener_has_probe (FileOpener const *fo);
+gboolean     file_opener_probe     (FileOpener const *fo, const gchar *file_name);
+gboolean     file_opener_open      (FileOpener const *fo, IOContext *context,
+                                    WorkbookView *wb_view, const gchar *file_name);
+void         file_opener_set_user_data (FileOpener *fo, gpointer user_data);
+gpointer     file_opener_get_user_data (FileOpener const *fo);
 
-#define FILE_OPENER_ID_INVALID  0
-#define FILE_SAVER_ID_INVALID   0
+const gchar *file_saver_get_extension (FileSaver const *fs);
+const gchar *file_saver_get_format_description (FileSaver const *fs);
+gboolean     file_saver_save          (FileSaver const *fs, IOContext *context,
+                                       WorkbookView *wb_view, const gchar *file_name);
+void         file_saver_set_user_data (FileSaver *fs, gpointer user_data);
+gpointer     file_saver_get_user_data (FileSaver const *fs);
 
-typedef struct _FileOpener FileOpener;
-typedef struct _FileSaver  FileSaver;
-
-struct _FileOpener {
-	FileOpenerId    opener_id;
-	int             priority;
-	char           *format_description;
-	FileFormatProbe probe;
-	FileFormatOpen  open;
-	gpointer        user_data;
-};
-
-struct _FileSaver {
-	FileSaverId      saver_id;
-	char            *extension;
-	char            *format_description;
-	FileFormatLevel level;
-	FileFormatSave  save;
-	gpointer        user_data;
-};
-
-void file_format_unregister_open (FileOpenerId opener_id);
-FileOpenerId file_format_register_open   (gint priority,
+FileOpener *file_format_register_open    (gint priority,
                                           const gchar *format_description,
                                           FileFormatProbe probe_fn,
-                                          FileFormatOpen  open_fn,
-                                          gpointer user_data);
+                                          FileFormatOpen  open_fn);
+void        file_format_unregister_open  (FileOpener *fo);
 
-void file_format_unregister_save (FileSaverId saver_id);
-FileSaverId file_format_register_save   (gchar *extension,
-                                         const gchar *format_description,
-                                         FileFormatLevel level,
-                                         FileFormatSave save_fn,
-                                         gpointer user_data);
-GList *file_format_get_savers (void);
-GList *file_format_get_openers (void);
-FileOpener *get_file_opener_by_id (FileOpenerId file_opener_id);
-FileSaver  *get_file_saver_by_id (FileSaverId file_saver_id);
+FileSaver  *file_format_register_save    (gchar *extension,
+                                          const gchar *format_description,
+                                          FileFormatLevel level,
+                                          FileFormatSave save_fn);
+void file_format_unregister_save         (FileSaver *fs);
+
+GList      *file_format_get_savers (void);
+GList      *file_format_get_openers (void);
 
 gboolean      workbook_save_as   (WorkbookControl *wbcg, WorkbookView *,
                                   const char *name, FileSaver *saver);

@@ -52,17 +52,13 @@ struct _XmlParseContext {
 	GnumericXMLVersion    version;
 };
 
-FileOpenerId gnumeric_xml_get_opener_id (void);
-FileSaverId  gnumeric_xml_get_saver_id (void);
+FileOpener *gnumeric_xml_get_opener (void);
+FileSaver  *gnumeric_xml_get_saver (void);
 
-gint gnumeric_xml_read_workbook   (IOContext *context,
-                                   WorkbookView *wb_view,
-                                   const gchar *filename,
-                                   gpointer user_data);
-gint gnumeric_xml_write_workbook  (IOContext *context,
-                                   WorkbookView *wb_view,
-                                   const gchar *filename,
-                                   gpointer user_data);
+gboolean gnumeric_xml_read_workbook (FileOpener const *fo, IOContext *context,
+                                     WorkbookView *wbv, const gchar *filename);
+gboolean gnumeric_xml_write_workbook (FileSaver const *fs, IOContext *context,
+                                      WorkbookView *wb_view, const gchar *filename);
 
 XmlParseContext *xml_parse_ctx_new      (xmlDocPtr             doc,
 					 xmlNsPtr              ns);

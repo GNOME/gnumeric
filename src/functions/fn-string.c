@@ -1331,7 +1331,7 @@ void string_functions_init (void);
 void
 string_functions_init (void)
 {
-	FunctionCategory *cat = function_get_category (_("String"));
+	FunctionCategory *cat = function_get_category_with_translation ("String", _("String"));
 
 	function_add_args  (cat, "char",       "f",    "number",
 			    &help_char,       gnumeric_char);

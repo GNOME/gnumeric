@@ -986,7 +986,7 @@ void
 date_functions_init(void)
 {
 	FunctionDefinition *def;
-	FunctionCategory *cat = function_get_category (_("Date / Time"));
+	FunctionCategory *cat = function_get_category_with_translation ("Date / Time", _("Date / Time"));
 
 	def = function_add_args (cat,  "date",           "fff",
 				 "year,month,day",

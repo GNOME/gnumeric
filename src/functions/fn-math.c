@@ -3387,7 +3387,7 @@ void
 math_functions_init (void)
 {
 	FunctionDefinition *def;
-	FunctionCategory *cat = function_get_category (_("Maths / Trig."));
+	FunctionCategory *cat = function_get_category_with_translation ("Maths / Trig.", _("Maths / Trig."));
 
 	def = function_add_args  (cat, "abs",     "f",
 				  "number",    &help_abs,      gnumeric_abs);

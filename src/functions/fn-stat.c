@@ -4705,7 +4705,7 @@ void
 stat_functions_init (void)
 {
 	FunctionDefinition *def;
-	FunctionCategory *cat = function_get_category (_("Statistics"));
+	FunctionCategory *cat = function_get_category_with_translation ("Statistics", _("Statistics"));
 
         def = function_add_nodes (cat, "avedev",    0,      "",
 				  &help_avedev, gnumeric_avedev);

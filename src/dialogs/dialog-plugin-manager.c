@@ -164,34 +164,113 @@ typedef struct {
 } PluginManagerGUI;
 
 
-static void update_plugin_manager_view (PluginManagerGUI *pm_gui, ErrorInfo **ret_error);
+static void update_plugin_manager_view (PluginManagerGUI *pm_gui);
 static void update_plugin_details_view (PluginManagerGUI *pm_gui);
 
+static gboolean
+gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
+                                 const gchar *message,
+                                 gboolean default_answer)
+{
+	GtkWidget *dialog, *default_button;
+
+	dialog = gnome_message_box_new (
+	         message,
+	         GNOME_MESSAGE_BOX_QUESTION,
+	         GNOME_STOCK_BUTTON_YES,
+	         GNOME_STOCK_BUTTON_NO,
+	         NULL);
+	if (default_answer) {
+		default_button = (GtkWidget *) (GNOME_DIALOG (dialog)->buttons)->data;
+	} else {
+		default_button = (GtkWidget *) (GNOME_DIALOG (dialog)->buttons)->next->data;
+	}
+	gtk_widget_grab_focus (default_button);
+
+	return gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog)) == 0;
+}
 
 static void
 cb_pm_button_activate_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
 {
 	PluginInfo *pinfo;
-	ErrorInfo *error;
+	const gchar *loader_type_str;
+	gboolean loader_available = FALSE;
 
 	g_return_if_fail (pm_gui != NULL);
 	g_return_if_fail (pm_gui->current_plugin_id != NULL);
 
 	pinfo = plugin_db_get_plugin_info_by_plugin_id (pm_gui->current_plugin_id);
-	activate_plugin (pinfo, &error);
-	if (error != NULL) {
-		error = error_info_new_str_with_details (
-		        _("Error while activating plugin"),
-		        error);
-		gnumeric_error_info_dialog_show (pm_gui->wbcg, error);
-		error_info_free (error);
-	}
-	if (plugin_info_is_active (pinfo)) {
+	loader_type_str = plugin_info_peek_loader_type_str (pinfo);
+	if (plugin_loader_is_available_by_id (loader_type_str)) {
+		loader_available = TRUE;
+	} else {
 		ErrorInfo *ignored_error;
-	
-		plugin_db_update_saved_active_plugin_id_list ();
-		update_plugin_manager_view (pm_gui, &ignored_error);
+		GList *plugin_list, *l;
+		PluginInfo *loader_pinfo = NULL;
+
+		plugin_list = plugin_db_get_available_plugin_info_list (&ignored_error);
 		error_info_free (ignored_error);
+		for (l = plugin_list; l != NULL; l = l->next) {
+			loader_pinfo = (PluginInfo *) l->data;
+			if (!plugin_info_is_active (loader_pinfo) &&
+			    plugin_info_provides_loader_by_type_str (loader_pinfo, loader_type_str)) {
+				break;
+			}
+		}
+		if (l != NULL) {
+			gchar *msg;
+			gboolean want_loader;
+			ErrorInfo *error;
+
+
+			msg = g_strdup_printf (
+			      _("This plugin depends on loader of type \"%s\".\n"
+			        "Do you want to activate appropriate plugin together with this one?\n"
+			        "(otherwise, plugin won't be loaded)"),
+			       loader_type_str);
+			want_loader = gnumeric_dialog_question_yes_no (pm_gui->wbcg, msg, TRUE);
+			g_free (msg);
+			if (want_loader) {
+				activate_plugin (loader_pinfo, &error);
+				if (error != NULL) {
+					error = error_info_new_str_with_details (
+					        _("Error while activating plugin loader"),
+					        error);
+					gnumeric_error_info_dialog_show (pm_gui->wbcg, error);
+					error_info_free (error);
+				}
+				if (plugin_info_is_active (loader_pinfo)) {
+					plugin_db_update_saved_active_plugin_id_list ();
+					update_plugin_manager_view (pm_gui);
+					loader_available = TRUE;
+				}
+			}
+		} else {
+			gchar *msg;
+
+			msg = g_strdup_printf (_("Loader for selected plugin (type: \"%s\") is not available."),
+			                       plugin_info_peek_loader_type_str (pinfo));
+			gnumeric_error_plugin (COMMAND_CONTEXT (pm_gui->wbcg), msg);
+			g_free (msg);
+		}
+	}
+
+	if (loader_available) {
+		ErrorInfo *error;
+
+		activate_plugin (pinfo, &error);
+		if (error != NULL) {
+			error = error_info_new_str_with_details (
+			        _("Error while activating plugin"),
+			        error);
+			gnumeric_error_info_dialog_show (pm_gui->wbcg, error);
+			error_info_free (error);
+		}
+		if (plugin_info_is_active (pinfo)) {
+			plugin_db_update_saved_active_plugin_id_list ();
+			update_plugin_manager_view (pm_gui);
+		}
 	}
 }
 
@@ -204,7 +283,7 @@ cb_pm_button_deactivate_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_
 	g_return_if_fail (pm_gui->current_plugin_id != NULL);
 
 	pinfo = plugin_db_get_plugin_info_by_plugin_id (pm_gui->current_plugin_id);
-	if (can_deactivate_plugin (pinfo)) {
+	if (plugin_can_deactivate (pinfo)) {
 		ErrorInfo *error;
 
 		deactivate_plugin (pinfo, &error);
@@ -216,11 +295,8 @@ cb_pm_button_deactivate_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_
 			error_info_free (error);
 		}
 		if (!plugin_info_is_active (pinfo)) {
-			ErrorInfo *ignored_error;
-
 			plugin_db_update_saved_active_plugin_id_list ();
-			update_plugin_manager_view (pm_gui, &ignored_error);
-			error_info_free (ignored_error);
+			update_plugin_manager_view (pm_gui);
 		}
 	} else {
 		gnumeric_error_plugin (COMMAND_CONTEXT (pm_gui->wbcg), _("Plugin is still in use."));
@@ -231,11 +307,13 @@ static void
 cb_pm_button_activate_all_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
 {
 	ErrorInfo *error, *ignored_error;
+	GList *plugin_list;
 
 	g_return_if_fail (pm_gui != NULL);
-	plugin_db_activate_plugin_list (NULL, &error);
-	update_plugin_manager_view (pm_gui, &ignored_error);
+	plugin_list = plugin_db_get_available_plugin_info_list (&ignored_error);
 	error_info_free (ignored_error);
+	plugin_db_activate_plugin_list (plugin_list, &error);
+	update_plugin_manager_view (pm_gui);
 	plugin_db_update_saved_active_plugin_id_list ();
 	if (error != NULL) {
 		error = error_info_new_str_with_details (
@@ -250,11 +328,13 @@ static void
 cb_pm_button_deactivate_all_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
 {
 	ErrorInfo *error, *ignored_error;
+	GList *plugin_list;
 
 	g_return_if_fail (pm_gui != NULL);
-	plugin_db_deactivate_plugin_list (NULL, &error);
-	update_plugin_manager_view (pm_gui, &ignored_error);
+	plugin_list = plugin_db_get_available_plugin_info_list (&ignored_error);
 	error_info_free (ignored_error);
+	plugin_db_deactivate_plugin_list (plugin_list, &error);
+	update_plugin_manager_view (pm_gui);
 	plugin_db_update_saved_active_plugin_id_list ();
 	if (error != NULL) {
 		error = error_info_new_str_with_details (
@@ -307,8 +387,6 @@ cb_pm_clist_row_unselected (GtkCList *clist, gint row_no, gint col_no, gpointer 
 static void
 pm_dialog_init (PluginManagerGUI *pm_gui)
 {
-	ErrorInfo *ignored_error;
-
 	gtk_signal_connect (GTK_OBJECT (pm_gui->clist_active), "select_row",
 	                    (GtkSignalFunc) cb_pm_clist_row_selected,
 	                    (gpointer) pm_gui);
@@ -341,8 +419,7 @@ pm_dialog_init (PluginManagerGUI *pm_gui)
 	                    (gpointer) pm_gui);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pm_gui->checkbutton_install_new),
 	                              gnome_config_get_bool_with_default ("Gnumeric/Plugin/ActivateNewByDefault", FALSE));
-	update_plugin_manager_view (pm_gui, &ignored_error);
-	error_info_free (ignored_error);
+	update_plugin_manager_view (pm_gui);
 }
 
 static void
@@ -352,14 +429,14 @@ free_plugin_id (gpointer data)
 }
 
 static void
-update_plugin_manager_view (PluginManagerGUI *pm_gui, ErrorInfo **ret_error)
+update_plugin_manager_view (PluginManagerGUI *pm_gui)
 {
 	GList *plugin_list, *l;
-	ErrorInfo *error;
+	ErrorInfo *ignored_error;
 	gint n_active_plugins, n_inactive_plugins;
 
-	plugin_list = plugin_db_get_available_plugin_info_list (&error);
-	*ret_error = error;
+	plugin_list = plugin_db_get_available_plugin_info_list (&ignored_error);
+	error_info_free (ignored_error);
 
 	gtk_clist_freeze (pm_gui->clist_active);
 	gtk_clist_freeze (pm_gui->clist_inactive);
@@ -426,20 +503,23 @@ update_plugin_details_view (PluginManagerGUI *pm_gui)
 		                          &txt_pos);
 
 		n_extra_info_items = plugin_info_get_extra_info_list (pinfo, &extra_info_keys, &extra_info_values);
-		gtk_clist_freeze (pm_gui->clist_extra_info);
-		gtk_clist_clear (pm_gui->clist_extra_info);
-		for (i = 0, lkey = extra_info_keys, lvalue = extra_info_values;
-		     i < n_extra_info_items;
-		     i++, lkey = lkey->next, lvalue = lvalue->next ) {
-			gchar *row[2];
+		if (n_extra_info_items > 0) {
+			gtk_clist_freeze (pm_gui->clist_extra_info);
+			gtk_clist_clear (pm_gui->clist_extra_info);
+			for (i = 0, lkey = extra_info_keys, lvalue = extra_info_values;
+			     i < n_extra_info_items;
+			     i++, lkey = lkey->next, lvalue = lvalue->next ) {
+				gchar *row[2];
 
-			row[0] = (gchar *) lkey->data;
-			row[1] = (gchar *) lvalue->data;
-			gtk_clist_append (pm_gui->clist_extra_info, row);
+				row[0] = (gchar *) lkey->data;
+				row[1] = (gchar *) lvalue->data;
+				gtk_clist_append (pm_gui->clist_extra_info, row);
+			}
+			gtk_clist_thaw (pm_gui->clist_extra_info);
+			e_free_string_list (extra_info_keys);
+			e_free_string_list (extra_info_values);
 		}
-		gtk_clist_thaw (pm_gui->clist_extra_info);
-		e_free_string_list (extra_info_keys);
-		e_free_string_list (extra_info_values);
+
 		gnumeric_notebook_set_page_enabled (pm_gui->gnotebook,
 		                                    pm_gui->plugin_details_page_no,
 		                                    TRUE);
@@ -501,11 +581,11 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	                  pm_gui->clist_extra_info != NULL &&
 	                  page_plugin_list != NULL &&
 	                  page_plugin_details != NULL);
-			  
+
 	gtk_clist_column_titles_passive (pm_gui->clist_active);
 	gtk_clist_column_titles_passive (pm_gui->clist_inactive);
 	gtk_clist_column_titles_passive (pm_gui->clist_extra_info);
-	
+
 	pm_gui->gnotebook = GNUMERIC_NOTEBOOK (gnumeric_notebook_new ());
 	gtk_widget_reparent (page_plugin_list, GTK_WIDGET (pm_gui->gnotebook));
 	gtk_widget_reparent (page_plugin_details, GTK_WIDGET (pm_gui->gnotebook));

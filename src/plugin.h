@@ -7,18 +7,33 @@
 #include "error-info.h"
 #include "gutils.h"
 
+#define PLUGIN_DEBUG
+#undef PLUGIN_ALWAYS_LOAD
+
 typedef struct _PluginInfo PluginInfo;
+typedef struct _PluginService PluginService;
+typedef struct _PluginServicesData PluginServicesData;
 
 void         plugins_init (CommandContext *context);
 void         plugins_shutdown (void);
 
 GList       *gnumeric_extra_plugin_dirs (void);
 
+typedef GtkType (*PluginLoaderGetTypeCallback) (gpointer callback_data, ErrorInfo **ret_error);
+
+void         plugin_loader_register_type (const gchar *id_str, GtkType loader_type);
+void         plugin_loader_register_id_only (const gchar *id_str, PluginLoaderGetTypeCallback callback,
+                                             gpointer callback_data);
+GtkType      plugin_loader_get_by_id (const gchar *id_str, ErrorInfo **ret_error);
+gboolean     plugin_loader_is_available_by_id (const gchar *id_str);
+
 PluginInfo  *plugin_info_read (const gchar *dir_name, xmlNodePtr tree, ErrorInfo **ret_error);
 void         plugin_info_free (PluginInfo *pinfo);
 void         activate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error);
 void         deactivate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error);
-gboolean     can_deactivate_plugin (PluginInfo *pinfo);
+gboolean     plugin_can_deactivate (PluginInfo *pinfo);
+void         plugin_load_service (PluginInfo *pinfo, PluginService *service, ErrorInfo **ret_error);
+void         plugin_unload_service (PluginInfo *pinfo, PluginService *service, ErrorInfo **ret_error);
 void         plugin_info_print (PluginInfo *pinfo);
 GList       *plugin_info_list_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error);
 GList       *plugin_info_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret_error);
@@ -53,17 +68,14 @@ const gchar *plugin_info_peek_dir_name (PluginInfo *pinfo);
 const gchar *plugin_info_peek_id (PluginInfo *pinfo);
 const gchar *plugin_info_peek_name (PluginInfo *pinfo);
 const gchar *plugin_info_peek_description (PluginInfo *pinfo);
+const gchar *plugin_info_peek_loader_type_str (PluginInfo *pinfo);
+PluginServicesData *plugin_info_peek_services_data (PluginInfo *pinfo);
+gboolean     plugin_info_provides_loader_by_type_str (PluginInfo *pinfo, const gchar *loader_type_str);
 
-/*
- * Three functions below should be defined by module plugins.
- * Every plugin should also define string gnumeric_plugin_version, matching
- * version of gnumeric it's compiled for.
- * (gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;)
- *
- */
-
-gboolean init_plugin (PluginInfo *, ErrorInfo **ret_error);
-gboolean cleanup_plugin (PluginInfo *);
-gboolean can_deactivate_plugin (PluginInfo *);
+#ifdef PLUGIN_DEBUG
+#define PLUGIN_MESSAGE(format, args...) g_print (format, ##args)
+#else
+#define PLUGIN_MESSAGE(format, args...)
+#endif
 
 #endif /* GNUMERIC_PLUGIN_H */

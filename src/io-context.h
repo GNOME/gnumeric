@@ -1,8 +1,9 @@
 #ifndef GNUMERIC_IO_CONTEXT_H
 #define GNUMERIC_IO_CONTEXT_H
 
-#include "gnumeric.h"
 #include <gtk/gtkobject.h>
+#include "gnumeric.h"
+#include "error-info.h"
 
 #define IO_CONTEXT_TYPE  (io_context_get_type ())
 #define IO_CONTEXT(o)    (GTK_CHECK_CAST ((o), IO_CONTEXT_TYPE, IOContext))
@@ -15,14 +16,24 @@ GtkType   io_context_get_type (void);
  * NOTE : The selection is quite limited by IDL's intentional non-support for
  *        inheritance (single or multiple).
  */
-void gnumeric_io_error_system		(IOContext *context, char const *msg);
-void gnumeric_io_error_read		(IOContext *context, char const *msg);
-void gnumeric_io_error_save		(IOContext *context, char const *msg);
+IOContext *gnumeric_io_context_new        (WorkbookControl *wbc);
+void       gnumeric_io_context_free       (IOContext *context);
 
-void gnumeric_warning_unknown_font	(IOContext *context, char const *msg);
-void gnumeric_warning_unknown_feature	(IOContext *context, char const *msg);
-void gnumeric_warning_unknown_function	(IOContext *context, char const *msg);
+void       gnumeric_io_error_system       (IOContext *context, char const *msg);
+void       gnumeric_io_error_read         (IOContext *context, char const *msg);
+void       gnumeric_io_error_save         (IOContext *context, char const *msg);
 
-void gnumeric_io_progress_set	        (IOContext *context, gfloat f);
+void       gnumeric_io_error_info_set     (IOContext *context, ErrorInfo *error);
+void       gnumeric_io_error_info_push    (IOContext *context, ErrorInfo *error);
+ErrorInfo *gnumeric_io_error_info_pop     (IOContext *context);
+void       gnumeric_io_error_info_clear   (IOContext *context);
+void       gnumeric_io_error_info_display (IOContext *context);
+gboolean   gnumeric_io_has_error_info     (IOContext *context);
+
+void gnumeric_warning_unknown_font        (IOContext *context, char const *msg);
+void gnumeric_warning_unknown_feature     (IOContext *context, char const *msg);
+void gnumeric_warning_unknown_function    (IOContext *context, char const *msg);
+
+void gnumeric_io_progress_set             (IOContext *context, gfloat f);
 
 #endif /* GNUMERIC_IO_CONTEXT_H */

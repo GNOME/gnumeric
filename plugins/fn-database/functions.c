@@ -1333,7 +1333,7 @@ void database_functions_init(void);
 void
 database_functions_init(void)
 {
-	FunctionCategory *cat = function_get_category (_("Database"));
+	FunctionCategory *cat = function_get_category_with_translation ("Database", _("Database"));
 
 	function_add_args (cat,  "daverage", "r?r",
 			   "database,field,criteria",

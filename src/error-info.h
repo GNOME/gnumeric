@@ -10,6 +10,7 @@ ErrorInfo  *error_info_new_printf (const gchar *msg_format, ...) G_GNUC_PRINTF (
 ErrorInfo  *error_info_new_str_with_details (const gchar *msg, ErrorInfo *details);
 ErrorInfo  *error_info_new_str_with_details_list (const gchar *msg, GList *details);
 ErrorInfo  *error_info_new_from_error_list (GList *errors);
+ErrorInfo  *error_info_new_from_errno (void);
 void        error_info_add_details (ErrorInfo *error, ErrorInfo *details);
 void        error_info_add_details_list (ErrorInfo *error, GList *details);
 void        error_info_free (ErrorInfo *error);

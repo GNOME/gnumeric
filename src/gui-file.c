@@ -8,7 +8,7 @@
 #include "gui-file.h"
 #include "sheet.h"
 #include "application.h"
-#include "io-context-priv.h"
+#include "io-context.h"
 #include "command-context.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
@@ -55,12 +55,12 @@ gui_file_import (WorkbookControlGUI *wbcg, const char *filename)
 
 	for (row = 0, l = file_format_get_openers (); l; l = l->next){
 		FileOpener *fo = l->data;
-		char *text [1];
+		char *text[1];
 
-		if (fo->probe != NULL)
+		if (file_opener_has_probe (fo))
 			continue;
 
-		text [0] = fo->format_description;
+		text[0] = (gchar *) file_opener_get_format_description (fo);
 		gtk_clist_append (clist, text);
 		gtk_clist_set_row_data (clist, row, l->data);
 		if (row == 0)
@@ -96,14 +96,15 @@ gui_file_import (WorkbookControlGUI *wbcg, const char *filename)
 				    filename);
 	command_context_push_err_template (COMMAND_CONTEXT (wbcg), template);
 	{
-		/* FIXME : This is a placeholder */
-		IOContext io_context;
-		io_context.impl = WORKBOOK_CONTROL (wbcg);
-		ret = fo->open (&io_context, new_view, filename, fo->user_data);
+		IOContext *io_context;
+
+		io_context = gnumeric_io_context_new (WORKBOOK_CONTROL (wbcg));
+		ret = file_opener_open (fo, io_context, new_view, filename) ? 0 : -1;
 		if (ret == 0 && workbook_sheet_count (new_wb) <= 0) {
 			ret = -1;
 			gnumeric_error_read (COMMAND_CONTEXT (wbcg), _("No sheets found"));
 		}
+		gnumeric_io_context_free (io_context);
 	}
 	command_context_pop_err_template (COMMAND_CONTEXT (wbcg));
 	g_free (template);
@@ -191,11 +192,14 @@ file_saver_is_default_format (WorkbookControlGUI *wbcg, FileSaver *saver)
 	if (wbcg->current_saver == saver)
 		return TRUE;
 
-	if (wbcg->current_saver == NULL)
-		if (strcmp (saver->extension, ".gnumeric") == 0) {
+	if (wbcg->current_saver == NULL) {
+		const gchar *extension = file_saver_get_extension (saver);
+
+		if (extension != NULL && strcmp (extension, "gnumeric") == 0) {
 			wbcg->current_saver = saver;
 			return TRUE;
 		}
+	}
 
 	return FALSE;
 }
@@ -210,7 +214,7 @@ fill_save_menu (WorkbookControlGUI *wbcg,  GtkOptionMenu *omenu, GtkMenu *menu)
 		GtkWidget *menu_item;
 		FileSaver *fs = l->data;
 
-		menu_item = gtk_menu_item_new_with_label (fs->format_description);
+		menu_item = gtk_menu_item_new_with_label (file_saver_get_format_description (fs));
 		gtk_object_set_data (GTK_OBJECT (menu_item), "wbcg", wbcg);
 		gtk_widget_show (menu_item);
 		gtk_menu_append (menu, menu_item);
@@ -362,6 +366,7 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view, const char *name)
 {
 	char *filename;
 	gboolean success;
+	const gchar *extension;
 
 	if (*name == 0 || name [strlen (name) - 1] == '/') {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
@@ -369,12 +374,12 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view, const char *name)
 		return FALSE;
 	}
 
-	if (strchr (g_basename (name), '.') == NULL)
-		filename = g_strconcat (name, wbcg->current_saver->extension,
-					NULL);
-	else
+	extension = file_saver_get_extension (wbcg->current_saver);
+	if (strchr (g_basename (name), '.') == NULL && extension != NULL) {
+		filename = g_strdup_printf ("%s.%s", name, extension);
+	} else {
 		filename = g_strdup (name);
-
+	}
 	if (!can_try_save_to (wbcg, filename)) {
 		g_free (filename);
 		return FALSE;

@@ -275,7 +275,7 @@ void
 logical_functions_init (void)
 {
 	FunctionDefinition *def;
-	FunctionCategory *cat = function_get_category (_("Logical"));
+	FunctionCategory *cat = function_get_category_with_translation ("Logical", _("Logical"));
 
 	function_add_nodes (cat,"and",     0,
 			    "",

@@ -4,6 +4,9 @@
 #include "gnumeric.h"
 #include "numbers.h"
 
+void     gnumeric_time_counter_push (void);
+gdouble  gnumeric_time_counter_pop (void);
+
 GList   *gnumeric_config_get_string_list (const gchar *config_path,
                                           const gchar *item_name_prefix);
 void     gnumeric_config_set_string_list (GList *items,
@@ -11,8 +14,11 @@ void     gnumeric_config_set_string_list (GList *items,
                                           const gchar *item_name_prefix);
 
 GList    *g_create_list (gpointer item1, ...);
+void      g_list_free_custom (GList *list, GFreeFunc free_func);
 GList    *g_string_list_copy (GList *list);
 GList    *g_strsplit_to_list (const gchar *string, const gchar *delimiter);
+
+void      g_slist_free_custom (GSList *list, GFreeFunc free_func);
 
 #define   g_lang_score_is_better(score_a, score_b) (score_a < score_b)
 gint      g_lang_score_in_lang_list (gchar *lang, GList *lang_list);

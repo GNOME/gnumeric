@@ -2913,7 +2913,7 @@ void
 finance_functions_init (void)
 {
 	FunctionDefinition *def;
-	FunctionCategory *cat = function_get_category (_("Financial"));
+	FunctionCategory *cat = function_get_category_with_translation ("Financial", _("Financial"));
 
 	def = function_add_args	 (cat, "accrint", "???fff|f",
 				  "issue,first_interest,settlement,rate,par,"

@@ -102,17 +102,17 @@ stf_open_and_read (const char *filename)
 
 /**
  * stf_read_workbook
+ * @fo       : file opener
  * @context  : command context
  * @book     : workbook
  * @filename : file to read from+convert
- * @user_data: ignored
  *
  * Main routine, handles importing a file including all dialog mumbo-jumbo
  *
- * returns : 0 on success or -1 otherwise
+ * returns : TRUE on success or FALSE otherwise
  **/
-static int
-stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename, gpointer user_data)
+static gboolean
+stf_read_workbook (FileOpener const *fo, IOContext *context, WorkbookView *wbv, char const *filename)
 {
 	Workbook *book;
 	DialogStfResult_t *dialogresult = NULL;
@@ -126,7 +126,7 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename, 
 
 		gnumeric_io_error_read (context,
 				     _("Error while trying to memory map file"));
-		return -1;
+		return FALSE;
 	}
 
 	if (!stf_parse_convert_to_unix (data)) {
@@ -136,7 +136,7 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename, 
 		free (data);
 		gnumeric_io_error_read (context,
 				     _("Error while trying to pre-convert file"));
-		return -1;
+		return FALSE;
 	}
 
 	if ((c = stf_parse_is_valid_data (data)) != NULL) {
@@ -152,7 +152,7 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename, 
 
 		free (data);
 
-		return -1;
+		return FALSE;
 	}
 
 	/*
@@ -203,13 +203,13 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename, 
 			free (data);
 			gnumeric_error_read (COMMAND_CONTEXT (context),
 					     _("Parse error while trying to parse data into sheet"));
-			return -1;
+			return FALSE;
 		}
 
 		workbook_recalc (book);
 		sheet_calc_spans (sheet, SPANCALC_RENDER);
 		workbook_set_saveinfo (book, filename, FILE_FL_MANUAL,
-		                       gnumeric_xml_get_saver_id ());
+		                       gnumeric_xml_get_saver ());
 	} else
 		workbook_sheet_detach (book, sheet);
 
@@ -221,10 +221,9 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename, 
 
 	if (dialogresult != NULL) {
 		stf_dialog_result_free (dialogresult);
-
-		return 0;
+		return TRUE;
 	} else
-		return -1;
+		return FALSE;
 }
 
 
@@ -276,24 +275,23 @@ stf_write_func (char *string, gpointer data)
 
 /**
  * stf_write_workbook
+ * @fs       : file saver
  * @context  : command context
  * @book     : workbook
  * @filename : file to read from+convert
- * @user_data: ignored
  *
  * Main routine, handles exporting a file including all dialog mumbo-jumbo
  *
- * returns : 0 on success or -1 otherwise
+ * returns : TRUE on success or FALSE otherwise
  **/
-static int
-stf_write_workbook (IOContext *context, WorkbookView *wb_view,
-                    const char *filename, gpointer user_data)
+static gboolean
+stf_write_workbook (FileSaver const *fs, IOContext *context, WorkbookView *wb_view, const char *filename)
 {
 	StfE_Result_t *result = NULL;
 
-	g_return_val_if_fail (context != NULL, -1);
-	g_return_val_if_fail (wb_view != NULL, -1);
-	g_return_val_if_fail (filename != NULL, -1);
+	g_return_val_if_fail (context != NULL, FALSE);
+	g_return_val_if_fail (wb_view != NULL, FALSE);
+	g_return_val_if_fail (filename != NULL, FALSE);
 
 	if (IS_WORKBOOK_CONTROL_GUI (context->impl))
 		result = stf_export_dialog (WORKBOOK_CONTROL_GUI (context->impl),
@@ -303,7 +301,7 @@ stf_write_workbook (IOContext *context, WorkbookView *wb_view,
 		FILE *f = stf_open_for_write (context, filename);
 
 		if (!f)
-			return -1;
+			return FALSE;
 
 		stf_export_options_set_write_callback (result->export_options,
 						       (StfEWriteFunc) stf_write_func, (gpointer) f);
@@ -313,16 +311,16 @@ stf_write_workbook (IOContext *context, WorkbookView *wb_view,
 			gnumeric_error_read (COMMAND_CONTEXT (context),
 					     _("Error while trying to write csv file"));
 			stf_export_dialog_result_free (result);
-			return -1;
+			return FALSE;
 		}
 
 		stf_export_dialog_result_free (result);
 
 		fclose (f);
 
-		return 0;
+		return TRUE;
 	} else
-		return -1;
+		return FALSE;
 }
 /**
  * stf_init
@@ -337,9 +335,9 @@ stf_init (void)
 	char *desc;
 
 	desc = _("Text File import");
-	file_format_register_open (1, desc, NULL, stf_read_workbook, NULL);
+	file_format_register_open (1, desc, NULL, stf_read_workbook);
 
 	desc = _("Text File Export (*.csv)");
-	file_format_register_save (".csv", desc, FILE_FL_MANUAL,
-	                           stf_write_workbook, NULL);
+	file_format_register_save ("csv", desc, FILE_FL_MANUAL,
+	                           stf_write_workbook);
 }

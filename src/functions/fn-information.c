@@ -854,7 +854,7 @@ void information_functions_init (void);
 void
 information_functions_init (void)
 {
-	FunctionCategory *cat = function_get_category (_("Information"));
+	FunctionCategory *cat = function_get_category_with_translation ("Information", _("Information"));
 
 	function_add_args  (cat, "cell", "sr", "info_type, cell",
 			    &help_cell, gnumeric_cell);

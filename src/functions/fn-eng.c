@@ -1851,7 +1851,7 @@ void eng_functions_init (void);
 void
 eng_functions_init (void)
 {
-	FunctionCategory *cat = function_get_category (_("Engineering"));
+	FunctionCategory *cat = function_get_category_with_translation ("Engineering", _("Engineering"));
 
 	function_add_args  (
 		cat, "besseli",    "ff",   "xnum,ynum",

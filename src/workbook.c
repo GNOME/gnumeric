@@ -303,7 +303,7 @@ workbook_persist_file_save (BonoboPersistFile *ps, const CORBA_char *filename,
 {
 	WorkbookView *wbv = closure;
 
-	return gnumeric_xml_write_workbook (/* FIXME */ NULL, wbv, filename, NULL);
+	return gnumeric_xml_write_workbook (/* FIXME */ NULL, /* FIXME */ NULL, wbv, filename);
 }
 
 extern Bonobo_Unknown
@@ -438,7 +438,7 @@ workbook_new (void)
 		g_free (name);
 	} while (!is_unique);
 	wb->file_format_level = FILE_FL_NEW;
-	wb->file_saver_id     = FILE_SAVER_ID_INVALID;
+	wb->file_saver        = NULL;
 
 	wb->priv->during_destruction = FALSE;
 
@@ -543,7 +543,7 @@ workbook_set_filename (Workbook *wb, const char *name)
  */
 gboolean
 workbook_set_saveinfo (Workbook *wb, const gchar *name,
-                       FileFormatLevel level, FileSaverId file_saver_id)
+                       FileFormatLevel level, FileSaver *file_saver)
 {
 	g_return_val_if_fail (wb != NULL, FALSE);
 	g_return_val_if_fail (name != NULL, FALSE);
@@ -556,10 +556,10 @@ workbook_set_saveinfo (Workbook *wb, const gchar *name,
 	if (!workbook_set_filename (wb, name))
 		return FALSE;
 	wb->file_format_level = level;
-	if (file_saver_id != FILE_SAVER_ID_INVALID) {
-		wb->file_saver_id = file_saver_id;
+	if (file_saver != NULL) {
+		wb->file_saver = file_saver;
 	} else {
-		wb->file_saver_id = gnumeric_xml_get_saver_id ();
+		wb->file_saver = gnumeric_xml_get_saver ();
 	}
 
 	return TRUE;

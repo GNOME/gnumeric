@@ -1124,7 +1124,7 @@ void lookup_functions_init (void);
 void
 lookup_functions_init (void)
 {
-	FunctionCategory *cat = function_get_category (_("Data / Lookup"));
+	FunctionCategory *cat = function_get_category_with_translation ("Data / Lookup", _("Data / Lookup"));
 
 	function_add_args  (cat, "address",   "ff|ffs",
 			    "row_num,col_num,abs_num,a1,text",

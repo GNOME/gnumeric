@@ -46,7 +46,7 @@ category_list_fill (FunctionSelectState *state)
 		if (cat == NULL)
 			break;
 
-		cols[0] = (gchar *)cat->name->str; /* Const cast */
+		cols[0] = (gchar *) cat->display_name->str; /* Const cast */
 		gtk_clist_append (list, cols);
 
 		gtk_clist_set_row_data (list, i, (gpointer)cat);

@@ -167,7 +167,7 @@ do_af_suggest (const ExprTree *expr, const EvalPos *epos, char **explicit)
 		AutoFormatTypes typ;
 		const char *name;
 
-		name = expr->func.func->name;
+		name = function_def_get_name (expr->func.func);
 		typ = (AutoFormatTypes)
 			GPOINTER_TO_INT
 			(g_hash_table_lookup (auto_format_function_hash, name));

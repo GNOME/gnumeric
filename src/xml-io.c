@@ -44,19 +44,19 @@
 /* Precision to use when saving point measures. */
 #define POINT_SIZE_PRECISION 3
 
-static FileOpenerId xml_opener_id = FILE_OPENER_ID_INVALID;
-static FileSaverId xml_saver_id = FILE_SAVER_ID_INVALID;
+static FileOpener *xml_opener = NULL;
+static FileSaver  *xml_saver = NULL;
 
-FileOpenerId
-gnumeric_xml_get_opener_id (void)
+FileOpener *
+gnumeric_xml_get_opener (void)
 {
-	return xml_opener_id;
+	return xml_opener;
 }
 
-FileSaverId
-gnumeric_xml_get_saver_id (void)
+FileSaver *
+gnumeric_xml_get_saver (void)
 {
-	return xml_saver_id;
+	return xml_saver;
 }
 
 XmlParseContext *
@@ -3096,7 +3096,7 @@ xml_check_version (xmlDocPtr doc, GnumericXMLVersion *version)
  * passes, then we return TRUE
  */
 static gboolean
-xml_probe (const gchar *filename, gpointer user_data)
+xml_probe (FileOpener const *fo, const gchar *filename)
 {
         int ret;
 	xmlDocPtr res = NULL;
@@ -3229,18 +3229,18 @@ gnumeric_xml_read_selection_clipboard (WorkbookControl *wbc, CellRegion **cr,
  * One parse the XML file, getting a tree, then analyze the tree to build
  * the actual in-memory structure.
  */
-gint
-gnumeric_xml_read_workbook (IOContext *context,
+gboolean
+gnumeric_xml_read_workbook (FileOpener const *fo,
+                            IOContext *context,
                             WorkbookView *wbv,
-                            const gchar *filename,
-                            gpointer user_data)
+                            const gchar *filename)
 {
 	xmlDocPtr res;
 	xmlNsPtr gmr;
 	XmlParseContext *ctxt;
 	GnumericXMLVersion    version;
 
-	g_return_val_if_fail (filename != NULL, -1);
+	g_return_val_if_fail (filename != NULL, FALSE);
 
 	/*
 	 * Load the file into an XML tree.
@@ -3248,13 +3248,13 @@ gnumeric_xml_read_workbook (IOContext *context,
 	res = xmlParseFile (filename);
 	if (res == NULL) {
 		gnumeric_io_error_read (context, "");
-		return -1;
+		return FALSE;
 	}
 	if (res->xmlRootNode == NULL) {
 		xmlFreeDoc (res);
 		gnumeric_io_error_read (context,
 			_("Invalid xml file. Tree is empty ?"));
-		return -1;
+		return FALSE;
 	}
 
 	/* Do a bit of checking, get the namespaces, and check the top elem. */
@@ -3263,7 +3263,7 @@ gnumeric_xml_read_workbook (IOContext *context,
 		xmlFreeDoc (res);
 		gnumeric_io_error_read (context,
 			_("Is not an Gnumeric Workbook file"));
-		return -1;
+		return FALSE;
 	}
 
 	/* Parse the file */
@@ -3271,10 +3271,11 @@ gnumeric_xml_read_workbook (IOContext *context,
 	ctxt->version = version;
 	xml_workbook_read (context, wbv, ctxt, res->xmlRootNode);
 	workbook_set_saveinfo (wb_view_workbook (wbv), filename, FILE_FL_AUTO,
-	                       gnumeric_xml_get_saver_id ());
+	                       gnumeric_xml_get_saver ());
 	xml_parse_ctx_destroy (ctxt);
 	xmlFreeDoc (res);
-	return 0;
+
+	return TRUE;
 }
 
 /*
@@ -3282,18 +3283,18 @@ gnumeric_xml_read_workbook (IOContext *context,
  * One build an in-memory XML tree and save it to a file.
  * returns 0 in case of success, -1 otherwise.
  */
-gint
-gnumeric_xml_write_workbook (IOContext *context,
+gboolean
+gnumeric_xml_write_workbook (FileSaver const *fs,
+                             IOContext *context,
                              WorkbookView *wb_view,
-                             const gchar *filename,
-                             gpointer user_data)
+                             const gchar *filename)
 {
 	xmlDocPtr xml;
 	XmlParseContext *ctxt;
 	int ret;
 
-	g_return_val_if_fail (wb_view != NULL, -1);
-	g_return_val_if_fail (filename != NULL, -1);
+	g_return_val_if_fail (wb_view != NULL, FALSE);
+	g_return_val_if_fail (filename != NULL, FALSE);
 
 	/*
 	 * Create the tree
@@ -3301,7 +3302,7 @@ gnumeric_xml_write_workbook (IOContext *context,
 	xml = xmlNewDoc ("1.0");
 	if (xml == NULL) {
 		gnumeric_io_error_save (context, "");
-		return -1;
+		return FALSE;
 	}
 	ctxt = xml_parse_ctx_new (xml, NULL);
 	xml->xmlRootNode = xml_workbook_write (ctxt, wb_view);
@@ -3315,9 +3316,10 @@ gnumeric_xml_write_workbook (IOContext *context,
 	xmlFreeDoc (xml);
 	if (ret < 0) {
 		gnumeric_io_error_save (context, "");
-		return -1;
+		return FALSE;
 	}
-	return 0;
+
+	return TRUE;
 }
 
 void
@@ -3325,9 +3327,9 @@ xml_init (void)
 {
 	gchar *desc = _("Gnumeric XML file format");
 
-	xml_opener_id = file_format_register_open (
-	                50, desc, xml_probe, gnumeric_xml_read_workbook, NULL);
-	xml_saver_id = file_format_register_save (
-	               ".gnumeric", desc, FILE_FL_AUTO,
-	               gnumeric_xml_write_workbook, NULL);
+	xml_opener = file_format_register_open (
+	             50, desc, xml_probe, gnumeric_xml_read_workbook);
+	xml_saver = file_format_register_save (
+	            "gnumeric", desc, FILE_FL_AUTO,
+	            gnumeric_xml_write_workbook);
 }
