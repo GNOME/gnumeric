@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
 "POT-Creation-Date: 2000-06-19 22:02-0400\n"
-"PO-Revision-Date: 2000-07-31 02:30+02:00\n"
+"PO-Revision-Date: 2000-08-05 02:30+02:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -256,7 +256,7 @@ msgstr "Lotus 123"
 msgid "Imports Lotus 123 files"
 msgstr "Importerer en Lotus 123-fil"
 
-#: plugins/numtheory/numtheory.c:180
+#: plugins/numtheory/numtheory.c:189
 msgid ""
 "@FUNCTION=NT_PHI\n"
 "@SYNTAX=NT_PHI(n)\n"
@@ -274,7 +274,33 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:215
+#: plugins/numtheory/numtheory.c:224
+msgid ""
+"@FUNCTION=NT_MU\n"
+"@SYNTAX=NT_MU(n)\n"
+"@DESCRIPTION=The NT_MU function (Möbius mu function) returns \n"
+"0  if @n is divisible by the square of a prime .\n"
+"Otherwise it returns: \n"
+"-1 if @n has an odd  number of different prime factors .\n"
+"1  if @n has an even number of different prime factors .\n"
+"If @n=1 it returns 1\n"
+"\n"
+"@EXAMPLES=\n"
+"@SEEALSO=NT_D, ITHPRIME, NT_PHI"
+msgstr ""
+"@FUNCTION=NT_MU\n"
+"@SYNTAX=NT_MU(n)\n"
+"@DESCRIPTION=NT_MU funktionen (Möbius my funktionen) returnerer \n"
+"0  hvis @n er delelig med kvadratet på et primtal .\n"
+"Ellers returnerer den: \n"
+"-1 hvis @n har et ulige antal forskellige primtals-faktorer .\n"
+"1  hvis @n har et  lige antal forskellige primtals-faktorer .\n"
+"Hvis @n=1 returnerer den 1\n"
+"\n"
+"@EXAMPLES=\n"
+"@SEEALSO=NT_D, ITHPRIME, NT_PHI"
+
+#: plugins/numtheory/numtheory.c:263
 msgid ""
 "@FUNCTION=NT_D\n"
 "@SYNTAX=NT_D(n)\n"
@@ -290,7 +316,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:249
+#: plugins/numtheory/numtheory.c:297
 msgid ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
@@ -307,7 +333,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
-#: plugins/numtheory/numtheory.c:284
+#: plugins/numtheory/numtheory.c:332
 msgid ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
@@ -323,7 +349,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:312
+#: plugins/numtheory/numtheory.c:360
 msgid ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
@@ -339,7 +365,7 @@ msgstr ""
 "Denne funktion tager kun ét argument.\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:338
+#: plugins/numtheory/numtheory.c:386
 msgid ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
@@ -355,15 +381,15 @@ msgstr ""
 "Denne funktion tager kun ét argument.\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:440 plugins/numtheory/numtheory.c:467
+#: plugins/numtheory/numtheory.c:509 plugins/numtheory/numtheory.c:541
 msgid "Number Theory"
 msgstr "Talteori"
 
-#: plugins/numtheory/numtheory.c:455
+#: plugins/numtheory/numtheory.c:527
 msgid "Bitwise Operations"
 msgstr "Bitvise operationer"
 
-#: plugins/numtheory/numtheory.c:468
+#: plugins/numtheory/numtheory.c:542
 msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
 "simple bitwise operations"
@@ -2228,7 +2254,7 @@ msgid "Add"
 msgstr "Tilføj"
 
 #: src/dialogs/cell-sort.glade.h:9 src/dialogs/plugin-manager.glade.h:9
-#: src/sheet-object.c:1068
+#: src/sheet-object.c:1070
 msgid "Remove"
 msgstr "Fjern"
 
@@ -15006,17 +15032,17 @@ msgstr "klip"
 msgid "Button"
 msgstr "Knap"
 
-#: src/sheet-object.c:812 src/sheet-object.c:815 src/workbook.c:1142
+#: src/sheet-object.c:814 src/sheet-object.c:817 src/workbook.c:1142
 #: src/workbook.c:1145
 msgid "Select an object to add"
 msgstr "Vælg et objektderskal tilføjes"
 
-#: src/sheet-object.c:1406
+#: src/sheet-object.c:1408
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Jeg kunne ikke aktivere objekt %s"
 
-#: src/sheet-object.c:1418
+#: src/sheet-object.c:1420
 msgid "I was unable to the bind object"
 msgstr "Jeg kunne ikke binde objekt"
 
