@@ -599,12 +599,12 @@ parse_text_value_or_expr (ParsePos const *pos, char const *text,
 	StyleFormat *desired_fmt = NULL;
 	char const *expr_start;
 
+	*expr = NULL;
+
 	/* Does it match any formats?  */
 	*val = format_match (text, current_format, &desired_fmt);
-	if (*val != NULL) {
-		*expr = NULL;
+	if (*val != NULL)
 		return desired_fmt;
-	}
 
 	/* If it does not match known formats, see if it is an expression */
 	expr_start = gnumeric_char_start_expr_p (text);

@@ -1274,7 +1274,7 @@ cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo,
 	if (!from_inside && !to_inside)
 		return CELLREF_NO_RELOCATE;
 
-	if (from_inside != to_inside) {
+	if (from_inside != to_inside && ref->sheet == NULL) {
 		if (to_inside) {
 			if (rinfo->pos.sheet == rinfo->target_sheet)
 				ref_sheet = NULL;
