@@ -690,9 +690,9 @@ cmd_ins_del_row_col_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	/* restore row/col contents */
 	if (me->is_cols)
-		range_init (&r, index, 0, index, SHEET_MAX_ROWS-1);
+		range_init (&r, index, 0, index+me->count-1, SHEET_MAX_ROWS-1);
 	else
-		range_init (&r, 0, index, SHEET_MAX_COLS-1, index);
+		range_init (&r, 0, index, SHEET_MAX_COLS-1, index+me->count-1);
 
 	clipboard_paste_region (wbc,
 				paste_target_init (&pt, me->sheet, &r, PASTE_ALL_TYPES),

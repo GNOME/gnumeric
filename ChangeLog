@@ -1,3 +1,7 @@
+2000-10-31  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (cmd_ins_del_row_col_undo) : Correct target range.
+
 2000-11-01  Michael Meeks  <michael@helixcode.com>
 
 	* src/command-context-corba.[ch]: privatize the command context.
