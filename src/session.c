@@ -93,7 +93,7 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 		if (wbcg == NULL)
 			continue;
 		
-		wbcg_edit_finish (wbcg, FALSE, NULL);
+		wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
 
 		if (!ask_user)
 			if (!gui_file_save (wbcg, wb_view)) {

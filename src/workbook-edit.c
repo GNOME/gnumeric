@@ -65,13 +65,13 @@ wbcg_auto_complete_destroy (WorkbookControlGUI *wbcg)
 /**
  * wbcg_edit_finish :
  * @wbcg : #WorkbookControlGUI
- * @accept : Should any changes be accepted or discarded
+ * @result : what should we do with the content
  * @showed_dialog : If non-NULL will indicate if a dialog was displayed.
  *
  * Return TRUE if editing completed successfully, or we were no editing.
  **/
 gboolean
-wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
+wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 		  gboolean *showed_dialog)
 {
 	Sheet *sheet;
@@ -91,7 +91,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
 
 	/* Remove the range selection cursor if it exists */
 	if (NULL != wbcg->rangesel)
-		scg_rangesel_stop (wbcg->rangesel, !accept);
+		scg_rangesel_stop (wbcg->rangesel, result == WBC_EDIT_REJECT);
 
 	if (!wbcg_is_editing (wbcg)) {
 		/* We may have a guru up even if we are not editing. remove it.
@@ -113,7 +113,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
 	sv = sheet_get_view (sheet, wbv);
 
 	/* Save the results before changing focus */
-	if (accept) {
+	if (result != WBC_EDIT_REJECT) {
 		ValidationStatus valid;
 		char *free_txt = NULL;
 		char const *txt = wbcg_edit_get_display_text (wbcg);
@@ -194,26 +194,28 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
 		}
 
 		/* NOTE we assign the value BEFORE validating in case
-		 * a validation condition depends on the new value.
-		 */
-		cmd_set_text (wbc, sheet, &sv->edit_pos, txt,
-			      wbcg->edit_line.markup);
-		valid = validation_eval (wbc, mstyle, sheet, &sv->edit_pos,
-					 showed_dialog);
+		 * a validation condition depends on the new value  */
+		if (result == WBC_EDIT_ACCEPT)
+			cmd_set_text (wbc, sheet, &sv->edit_pos, txt,
+				wbcg->edit_line.markup);
+		else
+			cmd_area_set_text (wbc, sv, txt,
+				result == WBC_EDIT_ACCEPT_ARRAY);
+
+		valid = validation_eval (wbc, mstyle, sheet, &sv->edit_pos, showed_dialog);
 
 		if (free_txt != NULL)
 			g_free (free_txt);
 
 		if (valid != VALIDATION_STATUS_VALID) {
-			accept = FALSE;
+			result = WBC_EDIT_REJECT;
 			command_undo (wbc);
 			if (valid == VALIDATION_STATUS_INVALID_EDIT) {
 				gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
 						      GTK_WIDGET (wbcg_get_entry (wbcg)));
 				  return FALSE;
 			}
-		} else
-			accept = TRUE;
+		}
 	} else {
 		if (sv == wb_control_cur_sheet_view (wbc)) {
 			/* Redraw the cell contents in case there was a span */
@@ -260,19 +262,11 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
 
 	/* restore focus to original sheet in case things were being selected
 	 * on a different page.  Do no go through the view, rangesel is
-	 * specific to the control.
-	 */
+	 * specific to the control.  */
 	wb_control_sheet_focus (wbc, sheet);
-
-	/* Only the edit sheet has an edit cursor */
-	scg_edit_stop (wbcg_cur_scg (wbcg));
-
+	scg_edit_stop (wbcg_cur_scg (wbcg));	/* Only the edit sheet has an edit cursor */
 	wbcg_auto_complete_destroy (wbcg);
-	wb_control_style_feedback (wbc, NULL); /* in case markup messed with things */
-
-	/* really necessary ? the commands should have taken care of it */
-	if (accept && sheet->workbook->recalc_auto)
-		workbook_recalc (wb_control_workbook (wbc));
+	wb_control_style_feedback (wbc, NULL);	/* in case markup messed with things */
 
 	return TRUE;
 }
@@ -860,4 +854,3 @@ wbcg_edit_ctor (WorkbookControlGUI *wbcg)
 	wbcg->edit_line.markup = NULL;
 	wbcg->edit_line.cur_fmt = NULL;
 }
-

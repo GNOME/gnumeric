@@ -43,7 +43,7 @@ gnumeric_pane_realized (GtkWidget *widget, gpointer ignored)
 }
 
 static void
-gnumeric_pane_header_init (GnumericPane *pane, SheetControlGUI *scg,
+gnumeric_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 			   gboolean is_col_header)
 {
 	FooCanvas *canvas = gnm_simple_canvas_new (scg);
@@ -88,7 +88,7 @@ gnumeric_pane_header_init (GnumericPane *pane, SheetControlGUI *scg,
 }
 
 static void
-gnm_pane_clear_obj_size_tip (GnumericPane *pane)
+gnm_pane_clear_obj_size_tip (GnmPane *pane)
 {
 	if (pane->size_tip) {
 		gtk_widget_destroy (gtk_widget_get_toplevel (pane->size_tip));
@@ -97,7 +97,7 @@ gnm_pane_clear_obj_size_tip (GnumericPane *pane)
 }
 
 static void
-gnm_pane_display_obj_size_tip (GnumericPane *pane, int idx)
+gnm_pane_display_obj_size_tip (GnmPane *pane, int idx)
 {
 	char *msg;
 	double pts[4], pixels[4];
@@ -130,7 +130,7 @@ gnm_pane_display_obj_size_tip (GnumericPane *pane, int idx)
 }
 
 static void
-cb_pane_popup_menu (GnumericPane *pane)
+cb_pane_popup_menu (GnmPane *pane)
 {
 	/* the popup-menu signal is a binding. the grid almost always has focus
 	 * we need to cheat to find out if the user realllllly wants a col/row
@@ -155,7 +155,7 @@ cb_pane_popup_menu (GnumericPane *pane)
 }
 
 void
-gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
+gnm_pane_init (GnmPane *pane, SheetControlGUI *scg,
 	       gboolean col_headers, gboolean row_headers, int index)
 {
 	FooCanvasItem	 *item;
@@ -222,7 +222,7 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 }
 
 void
-gnm_pane_release (GnumericPane *pane)
+gnm_pane_release (GnmPane *pane)
 {
 	g_return_if_fail (pane->gcanvas != NULL);
 	g_return_if_fail (pane->is_active);
@@ -263,7 +263,7 @@ gnm_pane_release (GnumericPane *pane)
 }
 
 void
-gnm_pane_bound_set (GnumericPane *pane,
+gnm_pane_bound_set (GnmPane *pane,
 		    int start_col, int start_row,
 		    int end_col, int end_row)
 {
@@ -281,7 +281,7 @@ gnm_pane_bound_set (GnumericPane *pane,
 /****************************************************************************/
 
 void
-gnm_pane_colrow_resize_start (GnumericPane *pane,
+gnm_pane_colrow_resize_start (GnmPane *pane,
 			      gboolean is_cols, int resize_pos)
 {
 	SheetControlGUI const *scg;
@@ -338,7 +338,7 @@ gnm_pane_colrow_resize_start (GnumericPane *pane,
 }
 
 void
-gnm_pane_colrow_resize_stop (GnumericPane *pane)
+gnm_pane_colrow_resize_stop (GnmPane *pane)
 {
 	g_return_if_fail (pane != NULL);
 
@@ -357,7 +357,7 @@ gnm_pane_colrow_resize_stop (GnumericPane *pane)
 }
 
 void
-gnm_pane_colrow_resize_move (GnumericPane *pane,
+gnm_pane_colrow_resize_move (GnmPane *pane,
 			     gboolean is_cols, int resize_pos)
 {
 	FooCanvasItem *resize_guide;
@@ -383,7 +383,7 @@ gnm_pane_colrow_resize_move (GnumericPane *pane,
 /****************************************************************************/
 
 void
-gnm_pane_reposition_cursors (GnumericPane *pane)
+gnm_pane_reposition_cursors (GnmPane *pane)
 {
 	GSList *l;
 
@@ -399,7 +399,7 @@ gnm_pane_reposition_cursors (GnumericPane *pane)
 }
 
 gboolean
-gnm_pane_cursor_bound_set (GnumericPane *pane, GnmRange const *r)
+gnm_pane_cursor_bound_set (GnmPane *pane, GnmRange const *r)
 {
 	return item_cursor_bound_set (pane->cursor.std, r);
 }
@@ -407,12 +407,12 @@ gnm_pane_cursor_bound_set (GnumericPane *pane, GnmRange const *r)
 /****************************************************************************/
 
 gboolean
-gnm_pane_rangesel_bound_set (GnumericPane *pane, GnmRange const *r)
+gnm_pane_rangesel_bound_set (GnmPane *pane, GnmRange const *r)
 {
 	return item_cursor_bound_set (pane->cursor.rangesel, r);
 }
 void
-gnm_pane_rangesel_start (GnumericPane *pane, GnmRange const *r)
+gnm_pane_rangesel_start (GnmPane *pane, GnmRange const *r)
 {
 	FooCanvas *canvas = FOO_CANVAS (pane->gcanvas);
 	FooCanvasItem *tmp;
@@ -441,7 +441,7 @@ gnm_pane_rangesel_start (GnumericPane *pane, GnmRange const *r)
 }
 
 void
-gnm_pane_rangesel_stop (GnumericPane *pane)
+gnm_pane_rangesel_stop (GnmPane *pane)
 {
 	g_return_if_fail (pane->cursor.rangesel != NULL);
 
@@ -461,13 +461,13 @@ gnm_pane_rangesel_stop (GnumericPane *pane)
 /****************************************************************************/
 
 gboolean
-gnm_pane_special_cursor_bound_set (GnumericPane *pane, GnmRange const *r)
+gnm_pane_special_cursor_bound_set (GnmPane *pane, GnmRange const *r)
 {
 	return item_cursor_bound_set (pane->cursor.special, r);
 }
 
 void
-gnm_pane_special_cursor_start (GnumericPane *pane, int style, int button)
+gnm_pane_special_cursor_start (GnmPane *pane, int style, int button)
 {
 	FooCanvasItem *item;
 	FooCanvas *canvas = FOO_CANVAS (pane->gcanvas);
@@ -484,7 +484,7 @@ gnm_pane_special_cursor_start (GnumericPane *pane, int style, int button)
 }
 
 void
-gnm_pane_special_cursor_stop (GnumericPane *pane)
+gnm_pane_special_cursor_stop (GnmPane *pane)
 {
 	g_return_if_fail (pane->cursor.special != NULL);
 
@@ -493,7 +493,7 @@ gnm_pane_special_cursor_stop (GnumericPane *pane)
 }
 
 void
-gnm_pane_mouse_cursor_set (GnumericPane *pane, GdkCursor *c)
+gnm_pane_mouse_cursor_set (GnmPane *pane, GdkCursor *c)
 {
 	gdk_cursor_ref (c);
 	if (pane->mouse_cursor)
@@ -504,7 +504,7 @@ gnm_pane_mouse_cursor_set (GnumericPane *pane, GdkCursor *c)
 /****************************************************************************/
 
 void
-gnm_pane_edit_start (GnumericPane *pane)
+gnm_pane_edit_start (GnmPane *pane)
 {
 	GnmCanvas const *gcanvas = pane->gcanvas;
 	SheetView const *sv = sc_view (SHEET_CONTROL (gcanvas->simple.scg));
@@ -535,7 +535,7 @@ gnm_pane_edit_start (GnumericPane *pane)
 }
 
 void
-gnm_pane_edit_stop (GnumericPane *pane)
+gnm_pane_edit_stop (GnmPane *pane)
 {
 	if (pane->editor != NULL) {
 		gtk_object_destroy (GTK_OBJECT (pane->editor));
@@ -544,7 +544,7 @@ gnm_pane_edit_stop (GnumericPane *pane)
 }
 
 void
-gnm_pane_object_stop_editing (GnumericPane *pane)
+gnm_pane_object_stop_editing (GnmPane *pane)
 {
 	int i = G_N_ELEMENTS (pane->control_points);
 	while (i-- > 0) {
@@ -560,7 +560,7 @@ gnm_pane_object_stop_editing (GnumericPane *pane)
 #define CTRL_PT_TOTAL_SIZE 	(CTRL_PT_SIZE*4 + CTRL_PT_OUTLINE*2)
 
 static void
-gnm_pane_object_move (GnumericPane *pane, GtkObject *ctrl_pt,
+gnm_pane_object_move (GnmPane *pane, GtkObject *ctrl_pt,
 		      gdouble new_x, gdouble new_y)
 {
 	SheetControlGUI *scg = pane->gcanvas->simple.scg;
@@ -660,7 +660,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event,
 			FooCanvasItem *so_view)
 {
 	SheetObject *so = sheet_object_view_obj (G_OBJECT (so_view));
-	GnumericPane *pane = sheet_object_view_key (G_OBJECT (so_view));
+	GnmPane *pane = sheet_object_view_key (G_OBJECT (so_view));
 	GnmCanvas *gcanvas = GNM_CANVAS (ctrl_pt->canvas);
 	SheetControlGUI *scg = gcanvas->simple.scg;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (scg_get_wbcg (scg));
@@ -811,7 +811,7 @@ new_control_point (GObject *so_view, int idx, double x, double y,
  * creating the control point if necessary.
  */
 static void
-set_item_x_y (GnumericPane *pane, GObject *so_view, int idx,
+set_item_x_y (GnmPane *pane, GObject *so_view, int idx,
 	      double x, double y, GdkCursorType ct, gboolean visible)
 {
 	if (pane->control_points [idx] == NULL)
@@ -833,7 +833,7 @@ set_item_x_y (GnumericPane *pane, GObject *so_view, int idx,
 #define normalize_high_low(d1,d2) if (d1<d2) { double tmp=d1; d1=d2; d2=tmp;}
 
 static void
-set_acetate_coords (GnumericPane *pane, GObject *so_view,
+set_acetate_coords (GnmPane *pane, GObject *so_view,
 		    double l, double t, double r, double b)
 {
 	FooCanvasItem *so_view_item = FOO_CANVAS_ITEM (so_view);
@@ -893,7 +893,7 @@ set_acetate_coords (GnumericPane *pane, GObject *so_view,
 }
 
 void
-gnm_pane_object_set_bounds (GnumericPane *pane, SheetObject *so,
+gnm_pane_object_set_bounds (GnmPane *pane, SheetObject *so,
 			    double l, double t, double r, double b)
 {
 	GObject *so_view_obj = sheet_object_get_view (so, pane);
@@ -953,7 +953,7 @@ cb_sheet_object_canvas_event (FooCanvasItem *item, GdkEvent *event,
 			return FALSE;
 
 		if (event->button.button < 3) {
-			GnumericPane *pane = sheet_object_view_key (G_OBJECT (item));
+			GnmPane *pane = sheet_object_view_key (G_OBJECT (item));
 
 			g_return_val_if_fail (pane->drag_object == NULL, FALSE);
 			pane->drag_object = so;

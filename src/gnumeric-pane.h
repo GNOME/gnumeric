@@ -37,37 +37,37 @@ struct _GnumericPane {
 	GtkWidget       *size_tip;
 };
 
-void gnm_pane_init	(GnumericPane *pane, SheetControlGUI *scg,
+void gnm_pane_init	(GnmPane *pane, SheetControlGUI *scg,
 			 gboolean col_header, gboolean row_header, int index);
-void gnm_pane_release	(GnumericPane *pane);
-void gnm_pane_bound_set	(GnumericPane *pane,
+void gnm_pane_release	(GnmPane *pane);
+void gnm_pane_bound_set	(GnmPane *pane,
 			 int start_col, int start_row,
 			 int end_col, int end_row);
 
-void gnm_pane_edit_start		(GnumericPane *gsheet);
-void gnm_pane_edit_stop			(GnumericPane *gsheet);
+void gnm_pane_edit_start		(GnmPane *gsheet);
+void gnm_pane_edit_stop			(GnmPane *gsheet);
 
-void gnm_pane_colrow_resize_stop	(GnumericPane *pane);
-void gnm_pane_colrow_resize_start	(GnumericPane *pane,
+void gnm_pane_colrow_resize_stop	(GnmPane *pane);
+void gnm_pane_colrow_resize_start	(GnmPane *pane,
 					 gboolean is_cols, int resize_pos);
-void gnm_pane_colrow_resize_move	(GnumericPane *pane,
+void gnm_pane_colrow_resize_move	(GnmPane *pane,
 					 gboolean is_cols, int resize_pos);
 
-void gnm_pane_reposition_cursors		(GnumericPane *pane);
-gboolean gnm_pane_cursor_bound_set	 	(GnumericPane *pane, GnmRange const *r);
-gboolean gnm_pane_rangesel_bound_set		(GnumericPane *pane, GnmRange const *r);
-void gnm_pane_rangesel_start			(GnumericPane *pane, GnmRange const *r);
-void gnm_pane_rangesel_stop			(GnumericPane *pane);
-gboolean gnm_pane_special_cursor_bound_set	(GnumericPane *pane, GnmRange const *r);
-void gnm_pane_special_cursor_start 		(GnumericPane *pane, int style, int button);
-void gnm_pane_special_cursor_stop		(GnumericPane *pane);
-void gnm_pane_mouse_cursor_set                  (GnumericPane *pane, GdkCursor *c);
+void gnm_pane_reposition_cursors		(GnmPane *pane);
+gboolean gnm_pane_cursor_bound_set	 	(GnmPane *pane, GnmRange const *r);
+gboolean gnm_pane_rangesel_bound_set		(GnmPane *pane, GnmRange const *r);
+void gnm_pane_rangesel_start			(GnmPane *pane, GnmRange const *r);
+void gnm_pane_rangesel_stop			(GnmPane *pane);
+gboolean gnm_pane_special_cursor_bound_set	(GnmPane *pane, GnmRange const *r);
+void gnm_pane_special_cursor_start 		(GnmPane *pane, int style, int button);
+void gnm_pane_special_cursor_stop		(GnmPane *pane);
+void gnm_pane_mouse_cursor_set                  (GnmPane *pane, GdkCursor *c);
 
 void gnm_pane_object_register	  (SheetObject *so, FooCanvasItem *view);
 void gnm_pane_widget_register	  (SheetObject *so, GtkWidget *widget,
 				   FooCanvasItem *view);
-void gnm_pane_object_stop_editing (GnumericPane *pane);
-void gnm_pane_object_set_bounds   (GnumericPane *pane, SheetObject *so,
+void gnm_pane_object_stop_editing (GnmPane *pane);
+void gnm_pane_object_set_bounds   (GnmPane *pane, SheetObject *so,
 				   double l, double t, double r, double b);
 
 #endif /* GNUMERIC_PANE_H */

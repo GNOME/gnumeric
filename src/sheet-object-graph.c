@@ -122,7 +122,7 @@ sheet_object_graph_finalize (GObject *obj)
 static GObject *
 sheet_object_graph_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 	FooCanvasItem *item = foo_canvas_item_new (gcanvas->sheet_object_group,
 		GOG_CONTROL_FOOCANVAS_TYPE,
@@ -549,7 +549,7 @@ static void
 cb_graph_guru_done (WorkbookControlGUI *wbcg)
 {
 	wbcg_edit_detach_guru (wbcg);
-	wbcg_edit_finish (wbcg, FALSE, NULL);
+	wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
 }
 
 void

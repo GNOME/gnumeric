@@ -496,7 +496,7 @@ static void
 dialog_formula_guru_destroy (FormulaGuruState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
-	wbcg_edit_finish (state->wbcg, FALSE, NULL);
+	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 
 	g_free (state->prefix);
 	state->prefix = NULL;
@@ -514,27 +514,12 @@ dialog_formula_guru_destroy (FormulaGuruState *state)
 }
 
 
-/**
- * cb_dialog_formula_guru_cancel_clicked:
- * @button:
- * @state:
- *
- * Close (destroy) the dialog
- **/
 static void
-cb_dialog_formula_guru_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
-				       FormulaGuruState *state)
+cb_dialog_formula_guru_cancel_clicked (FormulaGuruState *state)
 {
-	wbcg_edit_finish (state->wbcg, FALSE, NULL);
+	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 }
 
-/**
- * cb_dialog_formula_guru_zoom_toggled:
- * @button:
- * @state:
- *
- * Close (destroy) the dialog
- **/
 static void
 cb_dialog_formula_guru_zoom_toggled (GtkWidget *button, FormulaGuruState *state)
 {
@@ -657,7 +642,7 @@ cb_dialog_formula_guru_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		gnumeric_cell_renderer_expr_entry_editing_done (
 			GTK_CELL_EDITABLE (state->cellrenderer->entry),
 			state->cellrenderer);
-	wbcg_edit_finish (state->wbcg, TRUE, NULL);
+	wbcg_edit_finish (state->wbcg, WBC_EDIT_ACCEPT, NULL);
 }
 
 static void
@@ -866,7 +851,7 @@ dialog_formula_guru_init (FormulaGuruState *state)
 
 	state->main_button_area = glade_xml_get_widget (state->gui, "dialog-action_area2");
 
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
+	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
 		"clicked",
 		G_CALLBACK (cb_dialog_formula_guru_cancel_clicked), state);
 
@@ -888,7 +873,7 @@ dialog_formula_guru_show (FormulaGuruState *state)
 
 	if ((!gtk_tree_model_get_iter_first   (GTK_TREE_MODEL (state->model), &iter)) ||
 	    gtk_tree_model_iter_n_children (GTK_TREE_MODEL(state->model), &iter) == 0)
-		wbcg_edit_finish (state->wbcg, TRUE, NULL);
+		wbcg_edit_finish (state->wbcg, WBC_EDIT_ACCEPT, NULL);
 	else
 		gtk_widget_show_all (state->dialog);
 }

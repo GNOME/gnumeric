@@ -152,7 +152,7 @@ read_dep (GnmDependent *dep, char const *name,
 static GObject *
 sheet_object_widget_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
 	GtkWidget *view_widget = SOW_CLASS(so)->create_widget (
 		SHEET_OBJECT_WIDGET (so), SHEET_CONTROL_GUI (sc));
 	FooCanvasItem *view_item = foo_canvas_item_new (

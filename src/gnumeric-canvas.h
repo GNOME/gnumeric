@@ -18,7 +18,7 @@ typedef gboolean (*GnmCanvasSlideHandler) (GnmCanvas *gcanvas,
 struct _GnmCanvas {
 	GnmSimpleCanvas simple;
 
-	GnumericPane *pane;
+	GnmPane *pane;
 
 	GnmCellPos first, last_full, last_visible, first_offset;
 
@@ -43,7 +43,7 @@ struct _GnmCanvas {
 };
 
 GType gnm_canvas_get_type (void);
-GnmCanvas *gnm_canvas_new (SheetControlGUI *scg, GnumericPane *pane);
+GnmCanvas *gnm_canvas_new (SheetControlGUI *scg, GnmPane *pane);
 
 int  gnm_canvas_find_col (GnmCanvas *gsheet, int x, int *col_origin);
 int  gnm_canvas_find_row (GnmCanvas *gsheet, int y, int *row_origin);

@@ -5,8 +5,15 @@
 #include "workbook-control-gui.h"
 #include "widgets/gnumeric-expr-entry.h"
 
+typedef enum {
+    WBC_EDIT_REJECT = 0,
+    WBC_EDIT_ACCEPT,		/* assign content to current edit pos */
+    WBC_EDIT_ACCEPT_RANGE,	/* assign content to first range in selection */
+    WBC_EDIT_ACCEPT_ARRAY	/* assign content as an array to the first range in selection */
+} WBCEditResult;
+
 void	 wbcg_edit_ctor	  (WorkbookControlGUI *wbcg);
-gboolean wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
+gboolean wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 			   gboolean *showed_dialog);
 gboolean wbcg_edit_start  (WorkbookControlGUI *wbcg,
 			   gboolean blankp, gboolean cursorp);

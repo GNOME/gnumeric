@@ -942,7 +942,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 
 	/* This was a regular click on a cell on the spreadsheet.  Select it.
 	 * but only if the entered expression is valid */
-	if (!wbcg_edit_finish (scg->wbcg, TRUE, &edit_showed_dialog))
+	if (!wbcg_edit_finish (scg->wbcg, WBC_EDIT_ACCEPT, &edit_showed_dialog))
 		return TRUE;
 
 	/* button 1 will always change the selection,  the other buttons will

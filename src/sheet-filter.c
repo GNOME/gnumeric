@@ -443,9 +443,9 @@ cb_focus_changed (GtkWindow *toplevel)
 static void
 cb_filter_button_pressed (GtkButton *button, GnmFilterField *field)
 {
-	GObject	     *view = g_object_get_data (G_OBJECT (button), VIEW_ITEM_ID);
-	GnumericPane *pane = sheet_object_view_key (G_OBJECT (view));
-	GtkWidget    *frame, *popup, *list, *container;
+	GObject	  *view = g_object_get_data (G_OBJECT (button), VIEW_ITEM_ID);
+	GnmPane   *pane = sheet_object_view_key (G_OBJECT (view));
+	GtkWidget *frame, *popup, *list, *container;
 	SheetControlGUI *scg = pane->gcanvas->simple.scg;
 	int root_x, root_y;
 	GtkListStore  *model;
@@ -554,7 +554,7 @@ filter_field_arrow_format (GnmFilterField *field, GtkWidget *arrow)
 static GObject *
 filter_field_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
 	GtkWidget *arrow, *view_widget = gtk_button_new ();
 	GnmFilterField *field = (GnmFilterField *) so;
 	FooCanvasItem *view_item = foo_canvas_item_new (

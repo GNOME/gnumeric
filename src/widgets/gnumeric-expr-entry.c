@@ -300,12 +300,13 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 			gtk_cell_editable_remove_widget (GTK_CELL_EDITABLE (gee));
 			return TRUE;
 		} else
-			wbcg_edit_finish (wbcg, FALSE, NULL);
+			wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
 		return TRUE;
 
 	case GDK_KP_Enter:
 	case GDK_Return: {
 		SheetView *sv;
+		WBCEditResult result;
 
 		if (gee->is_cell_renderer)
 			return FALSE;
@@ -325,21 +326,12 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 		sv = sheet_get_view (wbcg->wb_control.editing_sheet,
 			wb_control_view (WORKBOOK_CONTROL (wbcg)));
 
-		if (state == GDK_CONTROL_MASK ||
-		    state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK)) {
-			gboolean const is_array = (state & GDK_SHIFT_MASK);
-			char const *text = gtk_entry_get_text (
-				wbcg_get_entry (wbcg));
-
-			cmd_area_set_text (WORKBOOK_CONTROL (wbcg), sv,
-				text, is_array);
-
-			/* do NOT store the results If the assignment was
-			 * successful it will have taken care of that.
-			 */
-			wbcg_edit_finish (wbcg, FALSE, NULL);
-		} else if (wbcg_edit_finish (wbcg, TRUE, NULL)) {
-			/* move the edit pos */
+		if (state & GDK_CONTROL_MASK)
+			result = (state & GDK_SHIFT_MASK) ? WBC_EDIT_ACCEPT_ARRAY : WBC_EDIT_ACCEPT_RANGE;
+		else
+			result = WBC_EDIT_ACCEPT;
+		/* move the edit pos for normal entry */
+		if (wbcg_edit_finish (wbcg, result, NULL) && result == WBC_EDIT_ACCEPT) {
 			gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
 			sv_selection_walk_step (sv, direction, FALSE);
 			sv_update (sv);

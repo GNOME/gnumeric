@@ -24,8 +24,8 @@ struct _SheetControlGUI {
 		GtkWidget	*button_box;
 	} col_group, row_group;
 
-	GnumericPane	 pane [SCG_NUM_PANES];
-	int		 active_panes;
+	GnmPane	 pane [SCG_NUM_PANES];
+	int	 active_panes;
 
 	int grab_stack; /* utility to keep track of grabs in the various canvases */
 
@@ -76,7 +76,7 @@ void scg_mode_edit		(SheetControl *sc);
 #define SCG_FOREACH_PANE(scg, pane, code)		\
   do {							\
 	int i;						\
-	GnumericPane *pane;				\
+	GnmPane *pane;					\
 	for (i = scg->active_panes; i-- > 0 ; ) {	\
 		pane = scg->pane + i;			\
 		if (pane->is_active) {			\

@@ -1,3 +1,29 @@
+2004-07-22  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-edit.c (wbcg_edit_finish) : change 'accept' into an
+	  enum and handle arrays and range fills here.
+
+	* src/parser.y : Add distinct productions for array elements with
+	  {1\2\3;4\5\6} vs {1,2,3;4,5,6}
+	(build_array) : add some error messages empty and asymetric arrays.
+
+2004-07-22  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_set_standard_toolbar_visible) : delete
+	(wbcg_set_format_toolbar_visible) : delete
+	(wbcg_set_object_toolbar_visible) : delete
+	(wbcg_copy_toolbar_visibility) : make virtual for now
+
+	* src/wbcg-actions.c (cb_view_standard_toolbar) : delete
+	(cb_view_format_toolbar) : delete
+	(cb_view_object_toolbar) : delete
+
+2004-07-22  Jody Goldberg <jody@gnome.org>
+
+	* src/wbc-gtk.c (cb_handlebox_visible) : new.
+	(cb_add_menus_toolbars) : connect it here and create a menu entry in
+	  the view menu to toggle the visibility.
+
 2004-07-21  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (expm1gnum): Supply this when missing.

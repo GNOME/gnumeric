@@ -294,7 +294,9 @@ build_array (GSList *cols)
 	int x, mx, y;
 
 	if (!cols) {
-		/* parser_error = PARSE_ERR_SYNTAX; */
+		report_err (state, g_error_new (1, PERR_INVALID_EMPTY,
+			_("An array must have at least 1 element")),
+			state->ptr, 0);
 		return NULL;
 	}
 
@@ -324,6 +326,9 @@ build_array (GSList *cols)
 		}
 		if (x < mx || row) {
 			/* parser_error = PARSE_ERR_SYNTAX; */
+			report_err (state, g_error_new (1, PERR_ASYMETRIC_ARRAY,
+				_("Arrays must be rectangular")),
+				state->ptr, 0);
 			value_release (array);
 			return NULL;
 		}
@@ -475,10 +480,11 @@ int yyparse (void);
 	Sheet		*sheet;
 	Workbook	*wb;
 }
-%type  <list>	opt_exp arg_list array_row array_cols
+%type  <list>	opt_exp arg_list
+%type  <list>	array_row_comma array_row_bslash array_cols_comma array_cols_bslash
 %type  <expr>	exp array_exp function string_opt_quote cellref
 %token <expr>	STRING QUOTED_STRING CONSTANT RANGEREF GTE LTE NE AND OR NOT INTERSECT
-%token		SEPARATOR SHEET_SEP INVALID_TOKEN
+%token		SEPARATOR SHEET_SEP INVALID_TOKEN ARRAY_START_COMMA ARRAY_START_BSLASH
 %type  <sheet>	sheetref
 %type  <wb>	workbookref
 
@@ -569,7 +575,12 @@ exp:	  CONSTANT 	{ $$ = $1; }
 			}
 		}
 	}
-        | '{' array_cols '}' {
+        | ARRAY_START_COMMA array_cols_comma '}' {
+		unregister_allocation ($2);
+		$$ = build_array ($2);
+		free_expr_list_list ($2);
+	}
+        | ARRAY_START_BSLASH array_cols_bslash '}' {
 		unregister_allocation ($2);
 		$$ = build_array ($2);
 		free_expr_list_list ($2);
@@ -741,52 +752,56 @@ array_exp:     CONSTANT		{ $$ = $1; }
 	 | string_opt_quote	{ $$ = parse_string_as_value ($1); }
 	 ;
 
-array_row: array_exp {
+
+/* Some locales use {1\2\3;4\5\6} rather than {1,2,3;4,5,6}
+ * but the lexer will call ',' or ';' SEPARATOR depending on locale */
+array_row_comma : { $$ = NULL; }
+	| array_exp {
 		unregister_allocation ($1);
 		$$ = g_slist_prepend (NULL, $1);
 		register_expr_list_allocation ($$);
         }
-
-	/* Some locales use {1\2\3;4\5\6} rather than {1,2,3;4,5,6}
-	 * but the lexer will call ',' or ';' SEPARATOR depending on locale
-	 * which does not work here.  So we fake it and have _two_ productions
-	 * then test the separator at parse time.
-	 */
-	| array_exp SEPARATOR array_row {
-		if (state->array_col_separator == ',') {
-			unregister_allocation ($3);
-			unregister_allocation ($1);
-			$$ = g_slist_prepend ($3, $1);
-			register_expr_list_allocation ($$);
-		} else {
-			report_err (state, g_error_new (1, PERR_INVALID_ARRAY_SEPARATOR,
-				_("This locale uses '\\' rather than ',' to separate array columns.")),
-				state->ptr, 1);
-			YYERROR;
-		}
+	| array_exp SEPARATOR array_row_comma {
+		unregister_allocation ($3);
+		unregister_allocation ($1);
+		$$ = g_slist_prepend ($3, $1);
+		register_expr_list_allocation ($$);
 	}
-	| array_exp '\\' array_row {
-		if (state->array_col_separator == '\\') {
-			unregister_allocation ($3);
-			unregister_allocation ($1);
-			$$ = g_slist_prepend ($3, $1);
-			register_expr_list_allocation ($$);
-		} else {
-			report_err (state, g_error_new (1, PERR_INVALID_ARRAY_SEPARATOR,
-				_("This locale uses ',' rather than '\\' to separate array columns.")),
-				state->ptr, 1);
-			YYERROR;
-		}
-	}
-        | { $$ = NULL; }
 	;
 
-array_cols: array_row {
+array_cols_comma: array_row_comma {
 		unregister_allocation ($1);
 		$$ = g_slist_prepend (NULL, $1);
 		register_expr_list_list_allocation ($$);
         }
-        | array_row ';' array_cols {
+        | array_row_comma ';' array_cols_comma {
+		unregister_allocation ($3);
+		unregister_allocation ($1);
+		$$ = g_slist_prepend ($3, $1);
+		register_expr_list_list_allocation ($$);
+	}
+	;
+
+array_row_bslash : { $$ = NULL; }
+	| array_exp {
+		unregister_allocation ($1);
+		$$ = g_slist_prepend (NULL, $1);
+		register_expr_list_allocation ($$);
+        }
+	| array_exp '\\' array_row_bslash {
+		unregister_allocation ($3);
+		unregister_allocation ($1);
+		$$ = g_slist_prepend ($3, $1);
+		register_expr_list_allocation ($$);
+	}
+	;
+
+array_cols_bslash: array_row_bslash {
+		unregister_allocation ($1);
+		$$ = g_slist_prepend (NULL, $1);
+		register_expr_list_list_allocation ($$);
+        }
+        | array_row_bslash SEPARATOR array_cols_bslash {
 		unregister_allocation ($3);
 		unregister_allocation ($1);
 		$$ = g_slist_prepend ($3, $1);
@@ -1258,6 +1273,10 @@ yylex (void)
 		return eat_space (state, c);
 
 	case '\n': return 0;
+
+	case '{' :
+		return (state->array_col_separator == ',')
+			? ARRAY_START_COMMA : ARRAY_START_BSLASH;
 
 	case 0x00AC: return NOT;
 	case 0x2212: return '-';

@@ -262,7 +262,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 		if (wbcg_is_editing (wbcg))
 			sheet = wbcg->wb_control.editing_sheet;
 
-		if (wbcg_edit_finish (wbcg, TRUE, NULL)) {
+		if (wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, NULL)) {
 			/* Figure out the direction */
 			gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
 			gboolean const horizontal = (event->keyval == GDK_KP_Enter ||
@@ -273,7 +273,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 		break;
 
 	case GDK_Escape:
-		wbcg_edit_finish (wbcg, FALSE, NULL);
+		wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
 		gnm_app_clipboard_unant ();
 		break;
 
@@ -668,7 +668,7 @@ GSF_CLASS (GnmCanvas, gnm_canvas,
 	   GNM_SIMPLE_CANVAS_TYPE);
 
 GnmCanvas *
-gnm_canvas_new (SheetControlGUI *scg, GnumericPane *pane)
+gnm_canvas_new (SheetControlGUI *scg, GnmPane *pane)
 {
 	GnmCanvas	 *gcanvas;
 	FooCanvasGroup *root_group;

@@ -155,7 +155,7 @@ sheet_object_graphic_finalize (GObject *object)
 static GObject *
 sheet_object_graphic_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	FooCanvasItem *item = NULL;
 	GdkColor *fill_color;
@@ -795,7 +795,7 @@ sheet_object_filled_new_view_internal (SheetObject *so, SheetControl *sc, GnmCan
 static GObject *
 sheet_object_filled_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
 	FooCanvasItem *i = sheet_object_filled_new_view_internal (so,
 				sc, gcanvas, gcanvas->sheet_object_group);
 
@@ -1212,7 +1212,7 @@ sheet_object_polygon_finalize (GObject *object)
 static GObject *
 sheet_object_polygon_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
 	SheetObjectPolygon *sop = SHEET_OBJECT_POLYGON (so);
 	FooCanvasItem *item = NULL;
 	GdkColor *fill_color, *outline_color;
@@ -1496,7 +1496,7 @@ sheet_object_text_finalize (GObject *obj)
 static GObject *
 sheet_object_text_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
 	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
 	FooCanvasItem *text = NULL, *back = NULL;
 	FooCanvasGroup *group;

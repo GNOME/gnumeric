@@ -126,7 +126,7 @@ scg_redraw_headers (SheetControl *sc,
 		    GnmRange const * r /* optional == NULL */)
 {
 	SheetControlGUI *scg = (SheetControlGUI *)sc;
-	GnumericPane *pane;
+	GnmPane *pane;
  	GnmCanvas *gcanvas;
 	int i;
 
@@ -317,7 +317,7 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 
 		/* pane 0 has already been done */
 		for (i = scg->active_panes; i-- > 1 ; ) {
-			GnumericPane const *p = scg->pane + i;
+			GnmPane const *p = scg->pane + i;
 			if (p->is_active) {
 				p->gcanvas->first_offset.col = scg_colrow_distance_get (
 					scg, TRUE, 0, p->gcanvas->first.col);
@@ -482,7 +482,7 @@ scg_select_all (SheetControlGUI *scg)
 			wbcg_get_entry_logical (scg->wbcg), TRUE);
 	} else if (wbcg_edit_get_guru (scg->wbcg) == NULL) {
 		scg_mode_edit (SHEET_CONTROL (sc));
-		wbcg_edit_finish (scg->wbcg, FALSE, NULL);
+		wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
 		sv_selection_reset (sc->view);
 		sv_selection_add_range (sc->view, 0, 0, 0, 0,
 			SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
@@ -499,7 +499,7 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 	gboolean const rangesel = wbcg_rangesel_possible (scg->wbcg);
 
 	if (!rangesel)
-		if (!wbcg_edit_finish (scg->wbcg, TRUE, NULL))
+		if (!wbcg_edit_finish (scg->wbcg, WBC_EDIT_ACCEPT, NULL))
 			return FALSE;
 
 	if (modifiers & GDK_SHIFT_MASK) {
@@ -1584,7 +1584,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 	GList *l;
 	gboolean has_link = FALSE;
 
-	wbcg_edit_finish (scg->wbcg, FALSE, NULL);
+	wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
 
 	/* Now see if there is some selection which selects a whole row or a
 	 * whole column and disable the insert/delete col/row menu items
@@ -1700,7 +1700,7 @@ scg_mode_edit (SheetControl *sc)
 
 	if (scg->wbcg != NULL) {
 		if (wbcg_edit_get_guru (scg->wbcg) != NULL)
-			wbcg_edit_finish (scg->wbcg, FALSE, NULL);
+			wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
 		wb_control_menu_state_update (WORKBOOK_CONTROL (scg->wbcg),
 			MS_CLIPBOARD);
 	}
@@ -1728,7 +1728,7 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 	 * to edit a newly created object
 	 */
 	g_object_ref (G_OBJECT (so));
-	if (wbcg_edit_finish (scg->wbcg, TRUE, NULL) &&
+	if (wbcg_edit_finish (scg->wbcg, WBC_EDIT_ACCEPT, NULL) &&
 	    scg_mode_clear (scg)) {
 		scg->current_object = so;
 		g_object_ref (G_OBJECT (so));
@@ -2414,7 +2414,7 @@ scg_cursor_move (SheetControlGUI *scg, int n,
 	SheetView *sv = sc_view ((SheetControl *) scg);
 	GnmCellPos tmp = sv->edit_pos_real;
 
-	if (!wbcg_edit_finish (scg->wbcg, TRUE, NULL))
+	if (!wbcg_edit_finish (scg->wbcg, WBC_EDIT_ACCEPT, NULL))
 		return;
 
 	if (horiz)

@@ -3,7 +3,7 @@
 /*
  * wbc-gtk.c: A raw gtk based WorkbookControl
  *
- * Copyright (C) 2000-2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -71,6 +71,10 @@ struct _WBCgtk {
 		GtkActionGroup   *actions;
 		guint		  merge_id;
 	} file_history;
+	struct {
+		GtkActionGroup   *actions;
+		guint		  merge_id;
+	} toolbar;
 
 	GOActionComboStack	*undo_action, *redo_action;
 	GOActionComboColor	*fore_color, *back_color;
@@ -716,8 +720,6 @@ wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 			&entry, 1, (WorkbookControlGUI *)wbcg);
 		action = gtk_action_group_get_action (gtk->file_history.actions,
 						      name);
-		/* We just put it in there -- I had better come back out.  */
-		g_assert (action != NULL);
 		g_object_set_data_full (G_OBJECT (action), "uri",
 					g_strdup (uri), (GDestroyNotify)g_free);
 
@@ -973,6 +975,51 @@ check_underlines (GtkWidget *w, const char *path)
 #endif
 
 
+/****************************************************************************/
+/* Toolbar menu */
+
+static void
+cb_toolbar_activate (GtkToggleAction *action, WBCgtk *gtk)
+{
+	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)gtk;
+	if (wbcg->updating_ui)
+		return;
+	if (wbcg_ui_update_begin (wbcg)) {
+		char *name;
+		char const *tmp;
+		GSList *ptr, *toolbars = gtk_ui_manager_get_toplevels (gtk->ui,
+			GTK_UI_MANAGER_TOOLBAR);
+
+		g_object_get (G_OBJECT (action),
+			"label",	&name,
+			NULL);
+		if (name != NULL) {
+			for (ptr = toolbars ; ptr != NULL ; ptr = ptr->next) { 
+				tmp = gtk_widget_get_name (ptr->data);
+				if (tmp != NULL && 0 == strcmp (tmp, name))
+					g_object_set (G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (ptr->data))),
+						"visible",	gtk_toggle_action_get_active (action),
+						NULL);
+			}
+			g_free (name);
+		}
+		g_slist_free (toolbars);
+		wbcg_ui_update_end (wbcg);
+	}
+}
+
+static void
+cb_handlebox_visible (GtkWidget *box, GParamSpec *pspec, WorkbookControlGUI *wbcg)
+{
+	if (wbcg->updating_ui)
+		return;
+	if (wbcg_ui_update_begin (wbcg)) {
+		GtkToggleAction *toggle_action = g_object_get_data (
+			G_OBJECT (box), "toggle_action");
+		gtk_toggle_action_set_active (toggle_action, GTK_WIDGET_VISIBLE (box));
+		wbcg_ui_update_end (wbcg);
+	}
+}
 
 static void
 cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
@@ -981,10 +1028,14 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 	if (GTK_IS_TOOLBAR (w)) {
 		WorkbookControlGUI *wbcg = (WorkbookControlGUI *)gtk;
 		GtkWidget *box = gtk_handle_box_new ();
-		const char *name;
+		GtkToggleActionEntry entry;
+		char const *name = gtk_widget_get_name (w);
+		char *toggle_name = g_strdup_printf ("ViewMenuToolbar%s", name);
+		char *tooltip = g_strdup_printf (_("Show/Hide toolbar %s"), name);
 
 		gtk_container_add (GTK_CONTAINER (box), w);
 		g_object_connect (box,
+			"signal::notify::visible", G_CALLBACK (cb_handlebox_visible), wbcg,
 			"signal::child_attached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (TRUE),
 			"signal::child_detached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (FALSE),
 			NULL);
@@ -992,13 +1043,19 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
 		gtk_box_pack_start (GTK_BOX (gtk->toolbar_zone), box, FALSE, FALSE, 0);
 
-		name = gtk_widget_get_name (w);
-		if (name && strcmp (name, "StandardToolbar") == 0)
-			wbcg->standard_toolbar = box;
-		else if (name && strcmp (name, "FormatToolbar") == 0)
-			wbcg->format_toolbar = box;
-		else if (name && strcmp (name, "ObjectToolbar") == 0)
-			wbcg->object_toolbar = box;
+		entry.name = toggle_name;
+		entry.stock_id = NULL;
+		entry.label = name;
+		entry.accelerator = NULL;
+		entry.tooltip = tooltip;
+		entry.callback = G_CALLBACK (cb_toolbar_activate);
+		gtk_action_group_add_toggle_actions (gtk->toolbar.actions,
+			&entry, 1, (WorkbookControlGUI *)wbcg);
+		gtk_ui_manager_add_ui (gtk->ui, gtk->toolbar.merge_id,
+			"/menubar/View/Toolbars", 
+			toggle_name, toggle_name, GTK_UI_MANAGER_AUTO, FALSE);
+		g_object_set_data (G_OBJECT (box), "toggle_action",
+			gtk_action_group_get_action (gtk->toolbar.actions, toggle_name));
 	} else
 		gtk_box_pack_start (GTK_BOX (gtk->menu_zone), w, FALSE, TRUE, 0);
 	gtk_widget_show_all (w);
@@ -1157,6 +1214,10 @@ wbc_gtk_init (GObject *obj)
 	gtk->file_history.merge_id = 0;
 	wbc_gtk_reload_recent_file_menu (wbcg);
 
+	gtk->toolbar.merge_id = gtk_ui_manager_new_merge_id (gtk->ui);
+	gtk->toolbar.actions = gtk_action_group_new ("Toolbars");
+	gtk_ui_manager_insert_action_group (gtk->ui, gtk->toolbar.actions, 0);
+
 	gtk_ui_manager_ensure_update (gtk->ui);
 	gtk_widget_show_all (gtk->everything);
 	gtk_container_add (GTK_CONTAINER (wbcg->toplevel), gtk->everything);
@@ -1177,6 +1238,10 @@ wbc_gtk_finalize (GObject *obj)
 		gtk_ui_manager_remove_ui (gtk->ui, gtk->file_history.merge_id);
 	if (gtk->file_history.actions != NULL)
 		g_object_unref (gtk->file_history.actions);
+	if (gtk->toolbar.merge_id != 0)
+		gtk_ui_manager_remove_ui (gtk->ui, gtk->toolbar.merge_id);
+	if (gtk->toolbar.actions != NULL)
+		g_object_unref (gtk->toolbar.actions);
 	g_object_unref (gtk->ui);
 
 	parent_class->finalize (obj);

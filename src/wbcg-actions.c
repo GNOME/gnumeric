@@ -115,7 +115,7 @@ static GNM_ACTION_DEF (cb_file_quit)
 	}
 
 	/* If we were editing when the quit request came in abort the edit. */
-	wbcg_edit_finish (wbcg, FALSE, NULL);
+	wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
 
 	/* list is modified during workbook destruction */
 	workbooks = g_list_copy (gnm_app_workbook_list ());
@@ -1015,21 +1015,6 @@ static GNM_ACTION_DEF (cb_align_vcenter)
 static GNM_ACTION_DEF (cb_align_bottom)
 	{ wbcg_set_selection_valign (wbcg, VALIGN_BOTTOM); }
 
-static GNM_ACTION_DEF (cb_view_standard_toolbar)
-{
-	if (!wbcg->updating_ui)
-		wbcg_set_standard_toolbar_visible (wbcg, -1);
-}
-static GNM_ACTION_DEF (cb_view_format_toolbar)
-{
-	if (!wbcg->updating_ui)
-		wbcg_set_format_toolbar_visible (wbcg, -1);
-}
-static GNM_ACTION_DEF (cb_view_object_toolbar)
-{
-	if (!wbcg->updating_ui)
-		wbcg_set_object_toolbar_visible (wbcg, -1);
-}
 static GNM_ACTION_DEF (cb_view_statusbar)
 {
 	if (!wbcg->updating_ui)
@@ -1979,18 +1964,6 @@ static /* const 142334 */ GtkToggleActionEntry toggle_actions[] = {
 		N_("Align _Bottom"), NULL,
 	        N_("Align Bottom"), G_CALLBACK (cb_align_bottom), FALSE },
 
-	{ "ViewStandardToolbar", NULL,
-	        N_("View _Standard Toolbar"), NULL,
-	        N_("Toggle visibility of standard toolbar"),
-	        G_CALLBACK (cb_view_standard_toolbar), TRUE },
-	{ "ViewFormatToolbar", NULL,
-	        N_("View Fo_rmat Toolbar"), NULL,
-	        N_("Toggle visibility of format toolbar"),
-	        G_CALLBACK (cb_view_format_toolbar), TRUE },
-	{ "ViewObjectToolbar", NULL,
-	        N_("View _Object Toolbar"), NULL,
-	        N_("Toggle visibility of object toolbar"),
-	        G_CALLBACK (cb_view_object_toolbar), TRUE },
 	{ "ViewStatusbar", NULL,
 	        N_("View _Statusbar"), NULL,
 	        N_("Toggle visibility of statusbar"),

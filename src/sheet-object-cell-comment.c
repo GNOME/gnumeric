@@ -182,7 +182,7 @@ cell_comment_event (FooCanvasItem *view, GdkEvent *event, SheetControlGUI *scg)
 static GObject *
 cell_comment_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
 	FooCanvasPoints *points;
 	FooCanvasGroup *group;
 	FooCanvasItem *item = NULL;

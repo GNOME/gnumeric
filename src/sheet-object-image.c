@@ -209,7 +209,7 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 static GObject *
 sheet_object_image_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
 	FooCanvasItem *item = NULL;
 	GdkPixbuf *pixbuf, *placeholder = NULL;

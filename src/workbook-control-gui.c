@@ -3,7 +3,7 @@
 /*
  * workbook-control-gui.c: GUI specific routines for a workbook-control.
  *
- * Copyright (C) 2000-2002 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as published
@@ -932,11 +932,10 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 		GtkWidget *tmp = GTK_WIDGET (wbcg->notebook);
 
 		/* Be sure we are no longer editing */
-		wbcg_edit_finish (wbcg, FALSE, NULL);
+		wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
 
 		/* Clear notebook to disable updates as focus changes for pages
-		 * during destruction
-		 */
+		 * during destruction */
 		wbcg->notebook = NULL;
 		gtk_container_remove (GTK_CONTAINER (wbcg->table), tmp);
 	}
@@ -1280,7 +1279,7 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 	/* If we were editing when the quit request came make sure we don't
 	 * lose any entered text
 	 */
-	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
+	if (!wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, NULL))
 		return TRUE;
 
 	/* If something is still using the control
@@ -1307,15 +1306,15 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 }
 
 static void
-cb_cancel_input (G_GNUC_UNUSED gpointer p, WorkbookControlGUI *wbcg)
+cb_cancel_input (WorkbookControlGUI *wbcg)
 {
-	wbcg_edit_finish (wbcg, FALSE, NULL);
+	wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
 }
 
 static void
-cb_accept_input (G_GNUC_UNUSED gpointer p, WorkbookControlGUI *wbcg)
+cb_accept_input (WorkbookControlGUI *wbcg)
 {
-	wbcg_edit_finish (wbcg, TRUE, NULL);
+	wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, NULL);
 }
 
 static gboolean
@@ -1362,7 +1361,7 @@ cb_share_a_cell (Sheet *sheet, int col, int row, GnmCell *cell, gpointer _es)
 
 
 static void
-cb_workbook_debug_info (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_workbook_debug_info (WorkbookControlGUI *wbcg)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
@@ -1393,7 +1392,7 @@ cb_workbook_debug_info (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
-cb_autofunction (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_autofunction (WorkbookControlGUI *wbcg)
 {
 	GtkEntry *entry;
 	gchar const *txt;
@@ -1432,7 +1431,7 @@ edit_area_button (WorkbookControlGUI *wbcg, gboolean sensitive,
 	if (!sensitive)
 		gtk_widget_set_sensitive (button, FALSE);
 
-	g_signal_connect (G_OBJECT (button),
+	g_signal_connect_swapped (G_OBJECT (button),
 		"clicked",
 		G_CALLBACK (func), wbcg);
 
@@ -1495,7 +1494,7 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 		if (prev == page_num)
 			return;
 
-		if (!wbcg_edit_finish (wbcg, TRUE, NULL))
+		if (!wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, NULL))
 			gtk_notebook_set_current_page (notebook, prev);
 		else
 			/* Looks silly, but is really neccesarry */
@@ -1694,36 +1693,6 @@ wbcg_set_toolbar_visible (WorkbookControlGUI *wbcg, GtkWidget *w,
 }
 
 int
-wbcg_set_standard_toolbar_visible (WorkbookControlGUI *wbcg, int visible)
-{
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), -1);
-	return wbcg_set_toolbar_visible (wbcg,
-					 wbcg->standard_toolbar,
-					 "ViewStandardToolbar",
-					 visible);
-}
-
-int
-wbcg_set_format_toolbar_visible (WorkbookControlGUI *wbcg, int visible)
-{
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), -1);
-	return wbcg_set_toolbar_visible (wbcg,
-					 wbcg->format_toolbar,
-					 "ViewFormatToolbar",
-					 visible);
-}
-
-int
-wbcg_set_object_toolbar_visible (WorkbookControlGUI *wbcg, int visible)
-{
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), -1);
-	return wbcg_set_toolbar_visible (wbcg,
-					 wbcg->object_toolbar,
-					 "ViewObjectToolbar",
-					 visible);
-}
-
-int
 wbcg_set_statusbar_visible (WorkbookControlGUI *wbcg, int visible)
 {
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), -1);
@@ -1737,9 +1706,8 @@ void
 wbcg_copy_toolbar_visibility (WorkbookControlGUI *new_wbcg,
 			      WorkbookControlGUI *wbcg)
 {
-	int visible;
-
-	visible = wbcg_set_standard_toolbar_visible (wbcg, -2);
+#if 0
+	int visible = wbcg_set_standard_toolbar_visible (wbcg, -2);
 	if (visible >= 0) wbcg_set_standard_toolbar_visible (new_wbcg, visible);
 
 	visible = wbcg_set_format_toolbar_visible (wbcg, -2);
@@ -1750,6 +1718,7 @@ wbcg_copy_toolbar_visibility (WorkbookControlGUI *new_wbcg,
 
 	visible = wbcg_set_statusbar_visible (wbcg, -2);
 	if (visible >= 0) wbcg_set_statusbar_visible (new_wbcg, visible);
+#endif
 }
 
 

@@ -1508,7 +1508,7 @@ cb_do_print_ok (G_GNUC_UNUSED GtkWidget *w,
 {
 	/* Detach BEFORE we finish editing */
 	wbcg_edit_detach_guru (state->wbcg);
-	wbcg_edit_finish (state->wbcg, TRUE, NULL);
+	wbcg_edit_finish (state->wbcg, WBC_EDIT_ACCEPT, NULL);
 	fetch_settings (state);
 	if (gtk_toggle_button_get_active (
 		    GTK_TOGGLE_BUTTON (
@@ -1539,7 +1539,7 @@ cb_do_print_destroy (G_GNUC_UNUSED GtkWidget *button,
 		     PrinterSetupState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
-	wbcg_edit_finish (state->wbcg, FALSE, NULL);
+	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 
 	g_signal_handler_disconnect (glade_xml_get_widget (state->gui, "print-setup-notebook"),
 				     state->notebook_signal_connection);

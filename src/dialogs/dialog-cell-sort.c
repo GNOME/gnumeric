@@ -475,7 +475,7 @@ dialog_destroy (GtkObject *w, SortFlowState  *state)
 		state->gui = NULL;
 	}
 
-	wbcg_edit_finish (state->wbcg, FALSE, NULL);
+	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 
 	state->dialog = NULL;
 
