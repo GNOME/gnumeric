@@ -1918,7 +1918,7 @@ static char const *help_opt_amer_exchange = {
 	"\n"
 	"@EXAMPLES=\n"
 	"\n"
-	"@SEEALSO=OPT_EURO_EXCH, OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	"@SEEALSO=OPT_EURO_EXCHANGE, OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 }; 
 
 
