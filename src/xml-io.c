@@ -52,7 +52,6 @@
 #include "gutils.h"
 #include "gnumeric-gconf.h"
 
-#include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-libxml-extras.h>
 #include <goffice/app/error-info.h>
 #include <gsf/gsf-libxml.h>
