@@ -1,3 +1,10 @@
+2004-05-06  Morten Welinder  <terra@gnome.org>
+
+	* utils/go-gradient.c (go_gradient_dir_from_str,
+	go_gradient_dir_as_str): Use G_N_ELEMENTS.
+	(grad_dir_names[]): Constify.
+	(go_gradient_selector): Eliminate elements table.
+
 2004-04-29  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=141405

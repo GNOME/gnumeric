@@ -29,7 +29,7 @@
 #include <string.h>
 
 
-static struct {
+static const struct {
 	GOGradientDirection dir;
 	char const *name;
 } grad_dir_names[] = {
@@ -57,8 +57,7 @@ go_gradient_dir_from_str (char const *name)
 	unsigned i;
 	GOGradientDirection ret = GO_GRADIENT_N_TO_S;
 
-	for (i = 0; 
-	     i < sizeof grad_dir_names / sizeof grad_dir_names[0]; i++) {
+	for (i = 0; i < G_N_ELEMENTS (grad_dir_names); i++) {
 		if (strcmp (grad_dir_names[i].name, name) == 0) {
 			ret = grad_dir_names[i].dir;
 			break;
@@ -73,7 +72,7 @@ go_gradient_dir_as_str (GOGradientDirection dir)
 	unsigned i;
 	char const *ret = "pattern";
 
-	for (i = 0; i < sizeof grad_dir_names / sizeof grad_dir_names[0]; i++) {
+	for (i = 0; i < G_N_ELEMENTS (grad_dir_names); i++) {
 		if (grad_dir_names[i].dir == dir) {
 			ret = grad_dir_names[i].name;
 			break;
@@ -85,13 +84,6 @@ go_gradient_dir_as_str (GOGradientDirection dir)
 GtkWidget *
 go_gradient_selector (GOColor start, GOColor end)
 {
-#warning Add names to these after release
-	static GOGradientDirection elements[] = {
-		GO_GRADIENT_N_TO_S,	GO_GRADIENT_S_TO_N,	GO_GRADIENT_N_TO_S_MIRRORED,	GO_GRADIENT_S_TO_N_MIRRORED,
-		GO_GRADIENT_W_TO_E,	GO_GRADIENT_E_TO_W,	GO_GRADIENT_W_TO_E_MIRRORED,	GO_GRADIENT_E_TO_W_MIRRORED,
-		GO_GRADIENT_NW_TO_SE,	GO_GRADIENT_SE_TO_NW,	GO_GRADIENT_NW_TO_SE_MIRRORED,	GO_GRADIENT_SE_TO_NW_MIRRORED,
-		GO_GRADIENT_NE_TO_SW,	GO_GRADIENT_SW_TO_NE,	GO_GRADIENT_SW_TO_NE_MIRRORED,	GO_GRADIENT_NE_TO_SW_MIRRORED
-	};
 	int const W = 20, H = 20;
 	unsigned	 i;
 	GOComboPixmaps	*w;
@@ -101,7 +93,7 @@ go_gradient_selector (GOColor start, GOColor end)
 	ArtGradientStop	  stops[2];
 
 	w = go_combo_pixmaps_new (4);
-	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
+	for (i = 0; i < G_N_ELEMENTS (grad_dir_names); i++) {
 		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, W, H);
 		render = art_render_new (0, 0, W, H,
 			gdk_pixbuf_get_pixels (pixbuf),
@@ -113,7 +105,7 @@ go_gradient_selector (GOColor start, GOColor end)
 		art_render_gradient_linear (render,
 			&gradient, ART_FILTER_NEAREST);
 		art_render_invoke (render);
-		go_combo_pixmaps_add_element (w, pixbuf, elements[i], NULL);
+		go_combo_pixmaps_add_element (w, pixbuf, grad_dir_names[i].dir, NULL);
 	}
 
 	return GTK_WIDGET (w);
