@@ -7,6 +7,9 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+- A zero formatted using the default money button yeilds "$-".
+
+
 Pending Patches
 ---------------
 
