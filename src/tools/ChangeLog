@@ -1,3 +1,9 @@
+2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c (analysis_tool_regression_engine_run): set the 
+	  error code to show that we have reported the errors
+	* analysis-tools.h: add more items to analysis_tools_error_code_t
+	
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.19

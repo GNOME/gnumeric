@@ -1954,6 +1954,13 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		char *text;
 
 		switch ( data->base.err) {
+		case analysis_tools_reported_err_input:
+			gnm_expr_entry_grab_focus 
+				(GNM_EXPR_ENTRY (state->base.input_entry), 
+				 TRUE);
+			break;
+		case analysis_tools_reported_err:
+			break;
 		case  analysis_tools_REG_invalid_dimensions:
 			error_in_entry ((GenericToolState *) state,
 					GTK_WIDGET (state->base.input_entry),

@@ -18,6 +18,8 @@
 
 typedef enum {
 	analysis_tools_noerr = 0,
+	analysis_tools_reported_err,
+	analysis_tools_reported_err_input,
 	analysis_tools_missing_data,
 	analysis_tools_too_few_cols,
 	analysis_tools_too_few_rows,

@@ -1,5 +1,10 @@
 2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-analysis-tools.c (regression_tool_ok_clicked_cb):
+	  do not report already reported errors
+
+2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* mean-tests.glade: replace some abbreviations with the 
 	  complete name
 

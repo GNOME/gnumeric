@@ -2156,6 +2156,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		destroy_data_set_list (x_data);
 		gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
 			_("There must be an equal number of entries for each variable in the regression."));
+		info->base.err = analysis_tools_reported_err_input;
 		return TRUE;
 	}
 
@@ -2210,6 +2211,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 					 _("There are too few data points to conduct this "
 					   "regression.\nThere must be at least as many "
 					   "data points as free variables."));
+			info->base.err = analysis_tools_reported_err_input;
 			break;
 
 		case REG_near_singular_bad:
@@ -2217,7 +2219,8 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 					 _("Two or more of the independent variables "
 					   "are nearly linear\ndependent.  All numerical "
 					   "precision was lost in the computation."));
-                break;
+			info->base.err = analysis_tools_reported_err_input;
+			break;
 
 		case REG_singular:
 			gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
@@ -2225,6 +2228,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 					   "are linearly\ndependent, and the regression "
 					   "cannot be calculated.\n\nRemove one of these\n"
 					   "variables and try the regression again."));
+			info->base.err = analysis_tools_reported_err_input;
 			break;
 
 		case REG_invalid_data:
@@ -2232,6 +2236,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 			gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
 					 _("There must be an equal number of entries "
 					   "for each variable in the regression."));
+			info->base.err = analysis_tools_reported_err_input;
 			break;
 		default:
 			break;
