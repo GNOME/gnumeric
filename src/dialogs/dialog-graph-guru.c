@@ -389,14 +389,12 @@ cb_sample_released (__attribute__((unused)) GtkWidget *button,
 	if (typesel->current_major_item == NULL)
 		return;
 
-	gtk_layout_freeze (GTK_LAYOUT (typesel->canvas));
 	gnome_canvas_item_hide (GNOME_CANVAS_ITEM (typesel->plot_group));
 	gnome_canvas_item_show (GNOME_CANVAS_ITEM (typesel->current_major_item));
 	gnome_canvas_item_show (GNOME_CANVAS_ITEM (typesel->selector));
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (typesel->canvas), 0, 0,
 		MINOR_PIXMAP_WIDTH*3 + BORDER*5,
 		MINOR_PIXMAP_HEIGHT*3 + BORDER*5);
-	gtk_layout_thaw (GTK_LAYOUT (typesel->canvas));
 }
 
 typedef struct {

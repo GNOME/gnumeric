@@ -77,8 +77,8 @@ typedef struct {
 	WorkbookControlGUI *wbcg;
 	GladeXML	   *gui;
 	PreviewGrid        *grid[NUM_PREVIEWS];              /* Previewgrid's */
-	GnomeCanvasItem    *rect[NUM_PREVIEWS];              /* Centering rectangles */
-	GnomeCanvasItem    *selrect;                         /* Selection rectangle */
+	FooCanvasItem	   *rect[NUM_PREVIEWS];              /* Centering rectangles */
+	FooCanvasItem	   *selrect;                         /* Selection rectangle */
 	GSList             *templates;                       /* List of FormatTemplate's */
 	FormatTemplate     *selected_template;               /* The currently selected template */
 	GList              *category_groups;                 /* List of groups of categories */
@@ -97,7 +97,7 @@ typedef struct {
 
 	GtkCombo       *category;
 
-	GnomeCanvas      *canvas[NUM_PREVIEWS];
+	FooCanvas	 *canvas[NUM_PREVIEWS];
 	GtkFrame         *frame[NUM_PREVIEWS];
 	GtkVScrollbar    *scroll;
 	GtkCheckMenuItem *gridlines;
@@ -254,8 +254,6 @@ previews_free (AutoFormatState *state)
 
 	for (i = 0; i < NUM_PREVIEWS; i++) {
 		if (state->grid[i]) {
-			gtk_layout_freeze (GTK_LAYOUT (state->canvas[i]));
-
 			gtk_object_destroy (GTK_OBJECT (state->rect[i]));
 			gtk_object_destroy (GTK_OBJECT (state->grid[i]));
 			state->rect[i] = NULL;
@@ -317,7 +315,6 @@ previews_load (AutoFormatState *state, int topindex)
 				NULL);
 
 			/* Setup grid */
-			gtk_layout_freeze (GTK_LAYOUT (state->canvas[i]));
 			state->grid[i] = PREVIEW_GRID (
 				foo_canvas_item_new (foo_canvas_root (state->canvas[i]),
 						       preview_grid_get_type (),
@@ -363,9 +360,6 @@ previews_load (AutoFormatState *state, int topindex)
 	}
 
 	state->preview_top = topindex;
-
-	for (i = 0; i < NUM_PREVIEWS; i++)
-		gtk_layout_thaw (GTK_LAYOUT (state->canvas[i]));
 }
 
 /********************************************************************************
@@ -411,7 +405,7 @@ cb_scroll_value_changed (GtkAdjustment *adjustment, AutoFormatState *state)
 }
 
 static gboolean
-cb_canvas_button_press (GnomeCanvas *canvas,
+cb_canvas_button_press (FooCanvas *canvas,
 			__attribute__((unused)) GdkEventButton *event,
 			AutoFormatState *state)
 {
@@ -623,10 +617,10 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 		state->frame[i] = GTK_FRAME (glade_xml_get_widget (gui, name));
 		g_free (name);
 
-		state->canvas[i] = foo_canvas_new ();
-		gtk_widget_set_size_request (state->canvas[i], 230, 90);
+		state->canvas[i] = FOO_CANVAS (foo_canvas_new ());
+		gtk_widget_set_size_request (GTK_WIDGET (state->canvas[i]), 230, 90);
 		gtk_container_add (GTK_CONTAINER (state->frame[i]),
-				   state->canvas[i]);
+				   GTK_WIDGET (state->canvas[i]));
 
 		g_signal_connect (G_OBJECT (state->canvas[i]),
 			"button-press-event",
