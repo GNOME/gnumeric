@@ -337,7 +337,7 @@ gnumeric_sheet_stop_cell_selection (GnumericSheet *gsheet)
 		return;
 
 	gsheet->selecting_cell = FALSE;
-	gtk_object_destroy (GTK_OBJECT (gsheet->selection));
+	gtk_object_unref (GTK_OBJECT (gsheet->selection));
 	gsheet->selection = NULL;
 }
 
@@ -370,7 +370,7 @@ destroy_item_editor (GnumericSheet *gsheet)
 {
 	g_return_if_fail (gsheet->item_editor);
 
-	gtk_object_destroy (GTK_OBJECT (gsheet->item_editor));
+	gtk_object_unref (GTK_OBJECT (gsheet->item_editor));
 	gsheet->item_editor = NULL;
 }
 
@@ -810,7 +810,8 @@ gnumeric_sheet_key_mode_object (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_BackSpace:
 	case GDK_Delete:
-		gtk_object_destroy (GTK_OBJECT (sheet->current_object));
+		gtk_object_unref (GTK_OBJECT (sheet->current_object));
+		sheet->current_object = NULL;
 		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
 		break;
 

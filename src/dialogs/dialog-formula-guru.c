@@ -352,7 +352,7 @@ dialog_function_wizard (Workbook *wb, FunctionDefinition *fd)
 	if (gnome_dialog_run (GNOME_DIALOG(dialog)) == 0)
 		ans = get_text_value (&state);
 	
-	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_object_unref (GTK_OBJECT (dialog));
 	tokenized_help_destroy (state.tok);
 	return ans;
 }

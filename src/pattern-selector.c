@@ -15,8 +15,6 @@
 #define PIXS_PER_SQUARE 30
 #define BORDER 4
 
-static GnomeCanvasClass *parent_class;
-
 void
 pattern_selector_select (PatternSelector *ps, int pattern)
 {
@@ -81,28 +79,29 @@ click_on_pattern (GnomeCanvasItem *item, GdkEvent *event, void *num)
 	}
 	return TRUE;
 }
-		  
+
 static void
-pattern_selector_realize (GtkWidget *widget)
+pattern_selector_init (PatternSelector *pattern_selector)
 {
-	PatternSelector *ps = PATTERN_SELECTOR (widget);
-	GdkWindow *window;
+	GnomeCanvas *canvas = GNOME_CANVAS (pattern_selector);
 	GnomeCanvasGroup *group;
 	int i;
 	
-	if (GTK_WIDGET_CLASS (parent_class)->realize)
-		(*GTK_WIDGET_CLASS (parent_class)->realize)(widget);
+	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);
+	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_DEFAULT);
 
-	window = widget->window;
-	group = GNOME_CANVAS_GROUP (gnome_canvas_root (GNOME_CANVAS (widget)));
+	group = GNOME_CANVAS_GROUP (gnome_canvas_root (GNOME_CANVAS (pattern_selector)));
 	
 	for (i = 0; i < GNUMERIC_SHEET_PATTERNS; i++){
+		GdkBitmap *stipple;
 		GnomeCanvasRE *item;
 		int x, y;
 
 		x = i % 7;
 		y = i / 7;
 
+		stipple = gdk_bitmap_create_from_data (
+			NULL, gnumeric_sheet_patterns [i].pattern, 8, 8);
 		item = GNOME_CANVAS_RE (gnome_canvas_item_new (
 			group,
 			gnome_canvas_rect_get_type (),
@@ -113,50 +112,13 @@ pattern_selector_realize (GtkWidget *widget)
 			"fill_color",   "black",
 			"width_pixels", (int) 1,
 			"outline_color","black",
+			"fill_stipple",  stipple,
 			NULL));
 
-		ps->patterns [i] = gdk_bitmap_create_from_data (
-			window, gnumeric_sheet_patterns [i].pattern, 8, 8);
-
-		gdk_gc_set_stipple (item->fill_gc, ps->patterns [i]);
-		gdk_gc_set_fill (item->fill_gc, GDK_STIPPLED);
-
+		gdk_bitmap_unref (stipple);
 		gtk_signal_connect (GTK_OBJECT (item), "event",
 				    GTK_SIGNAL_FUNC (click_on_pattern), GINT_TO_POINTER (i));
 	}
-}
-
-static void
-pattern_selector_unrealize (GtkWidget *widget)
-{
-	PatternSelector *ps = PATTERN_SELECTOR (widget);
-	int i;
-
-	for (i = 0; i < GNUMERIC_SHEET_PATTERNS; i++)
-		     gdk_pixmap_unref (ps->patterns [i]);
-	     
-	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
-		(*GTK_WIDGET_CLASS (parent_class)->unrealize)(widget);
-}
-
-static void
-pattern_selector_class_init (PatternSelectorClass *class)
-{
-	GtkWidgetClass *widget_class = (GtkWidgetClass *) class;
-
-	parent_class = gtk_type_class (gnome_canvas_get_type());
-	
-	widget_class->realize = pattern_selector_realize;
-	widget_class->unrealize = pattern_selector_unrealize;
-}
-
-static void
-pattern_selector_init (PatternSelector *pattern_selector)
-{
-	GnomeCanvas *canvas = GNOME_CANVAS (pattern_selector);
-	
-	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);
-	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_DEFAULT);
 }
 
 GtkType
@@ -169,7 +131,7 @@ pattern_selector_get_type (void)
 			"PatternSelector",
 			sizeof (PatternSelector),
 			sizeof (PatternSelectorClass),
-			(GtkClassInitFunc) pattern_selector_class_init,
+			(GtkClassInitFunc) NULL,
 			(GtkObjectInitFunc) pattern_selector_init,
 			NULL, /* reserved 1 */
 			NULL, /* reserved 2 */

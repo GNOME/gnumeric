@@ -1,3 +1,53 @@
+1999-06-12  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/dialog-cell-comment.c (dialog_cell_comment): Process the
+	return value from gnome_dialog_run correctly as well.  (ie we
+	should catch the return value -1 as the "user closed dialog box"
+ 	message and avoid destroying the dialog box ourselves).
+
+	* src/item-grid.c (context_paste_special_cmd): Handle a cancel
+	operation from the dialog_paste_special dialog box.
+
+	* src/dialog-paste-special.c (dialog_paste_special): Hanlde the
+	case in which the window manager closed the dialog box.
+
+	* src/cell.c (cell_comment_destroy): Changed invocation from
+	gtk_object_destroy to gtk_object_unref.
+	(cell_comment_unrealize): ditto.
+	(cell_comment_clicked): ditto.
+	* src/dialog-cell-sort.c (dialog_cell_sort): ditto.
+	* src/dialog-function-select.c (dialog_function_select): ditto
+	* src/dialog-function-wizard.c (dialog_function_wizard): ditto
+	* src/dialog-paste-special.c (dialog_paste_special): ditto
+	* src/dialog-solver.c (constr_add_click): ditto.
+	(constr_add_click): ditto
+	(dialog_solver_options): ditto
+	* src/gnumeric-sheet.c (gnumeric_sheet_stop_cell_selection): ditto
+	(destroy_item_editor): ditto.
+	(gnumeric_sheet_key_mode_object): ditto, and clear the pointer to
+	the current_object.
+	* src/sheet-object-container.c (sheet_object_container_destroy): ditto.
+	* src/item-cursor.c (item_cursor_drag_event): ditto.
+	(item_cursor_autofill_event): ditto
+	* src/item-bar.c (item_bar_event): ditto
+	* src/workbook.c (workbook_setup_auto_calc): ditto.
+	* src/widget-editable-label.c (el_stop_editing): ditto
+	* src/sheet-object.c (sheet_object_destroy): ditto
+	(sheet_view_object_unrealize): ditto
+	(sheet_object_destroy_control_points): ditto
+	* src/sheet-view.c (sheet_view_destroy): ditto
+
+1999-06-10  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/pattern-selector.c (pattern_selector_init): Use the GNOME
+	canvas fill_stipple feature instead of using the hack of creating
+	the bitmap and setting the stipple on the realize handler.
+
+1999-06-01  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* po/hr.po: Added croat translation from Vladimir Vuksan
+	<vuksan@cs.unm.edu>.
+
 1999-06-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* samples/mathfuns.xls: New test file for math functions.

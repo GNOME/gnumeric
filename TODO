@@ -38,6 +38,10 @@ GNOME Spread Sheet task list
 * Auditing
    Write the sheet auditing code.
 
+* Searching
+
+   Searching text on the spreadhseet.
+
 * EDITION
 
 ** Object Clipboard

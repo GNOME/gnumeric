@@ -1460,7 +1460,7 @@ workbook_setup_auto_calc (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (canvas), "button_press_event",
 			    GTK_SIGNAL_FUNC (change_auto_expr_menu), wb);
 
-	gtk_object_destroy (GTK_OBJECT (l));
+	gtk_object_unref (GTK_OBJECT (l));
 	gtk_widget_show_all (frame);
 }
 

@@ -398,8 +398,8 @@ void dialog_cell_sort(Workbook * inwb, Sheet * sheet)
 	while (sort_flow.retry || sort_flow.force_redisplay);
 
 	if (sort_flow.dialog)
-		gtk_object_destroy(GTK_OBJECT(sort_flow.dialog));
+		gtk_object_unref (GTK_OBJECT(sort_flow.dialog));
 
 	for (lp = 0; lp < sort_flow.num_clause; lp++)
-		order_box_destroy(sort_flow.clauses[lp]);
+		order_box_destroy (sort_flow.clauses[lp]);
 }

@@ -16,6 +16,7 @@ dialog_cell_comment (Workbook *wb, Cell *cell)
 {
 	GtkWidget *dialog;
 	GtkWidget *text;
+	int v;
 	
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (cell != NULL);
@@ -43,7 +44,11 @@ dialog_cell_comment (Workbook *wb, Cell *cell)
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_widget_grab_focus (text);
 
-	if (gnome_dialog_run (GNOME_DIALOG (dialog)) == 0){
+	v = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (v == -1)
+		return;
+	
+	if (v == 0){
 		char *comment;
 
 		comment = gtk_editable_get_chars (GTK_EDITABLE (text), 0, -1);
@@ -54,5 +59,5 @@ dialog_cell_comment (Workbook *wb, Cell *cell)
 		}
 	}
 
-	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_object_unref (GTK_OBJECT (dialog));
 }
