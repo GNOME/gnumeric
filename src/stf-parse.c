@@ -540,9 +540,6 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 				second = TRUE;
 		}
 	}
-	
-	printf ("stf_parse_csv_cell: >%s<\n", res->str);
-	
 	return g_string_free (res, FALSE);
 }
 

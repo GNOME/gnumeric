@@ -4,6 +4,7 @@ Andreas:
 	* Some more utf-8 cleaning in the stf parsers.
 	* Improve the encoding selector by only showing
 	  supported encodings
+	* Some small improvements to the Text Import dialog
 
 Jody:
 	* Set alwaysCalc flag when xls exporting dynamic dependencies.

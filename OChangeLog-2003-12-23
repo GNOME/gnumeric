@@ -1,3 +1,7 @@
+2003-05-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/stf-parse.c (stf_parse_csv_cell): remove debug spew
+
 2003-05-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/GNOME_Gnumeric.xml: Fix spelling

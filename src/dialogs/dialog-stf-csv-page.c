@@ -46,9 +46,7 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 	GList *list;
 	GSList *sepstr;
 	GString *sepc = g_string_new (NULL);
-	char *textfieldtext;
 	int i;
-	gunichar str_ind;
 
 	sepstr = NULL;
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_custom))) {
@@ -89,16 +87,6 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 			g_free ((char *) l->data);
 		g_slist_free (sepstr);
 	}
-
-	textfieldtext = gtk_editable_get_chars (GTK_EDITABLE (info->csv_textfield), 0, -1);
-	str_ind = g_utf8_get_char (textfieldtext);
-	if (str_ind != '\0')
-	     stf_parse_options_csv_set_stringindicator (parseoptions, 
-							str_ind);
-	g_free (textfieldtext);
-
-	stf_parse_options_csv_set_indicator_2x_is_single  (parseoptions,
-							   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_2x_indicator)));
 
 	stf_parse_options_csv_set_duplicates (parseoptions,
 					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_duplicates)));
@@ -273,11 +261,7 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->csv_custom          = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_custom"));
 	info->csv_customseparator = GTK_ENTRY        (glade_xml_get_widget (gui, "csv_customseparator"));
 
-	info->csv_2x_indicator  = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_2x_indicator"));
 	info->csv_duplicates    = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_duplicates"));
-	info->csv_textindicator = GTK_COMBO        (glade_xml_get_widget (gui, "csv_textindicator"));
-	info->csv_textfield     = GTK_ENTRY        (glade_xml_get_widget (gui, "csv_textfield"));
-
 	info->csv_canvas = GNOME_CANVAS   (glade_xml_get_widget (gui, "csv_canvas"));
 	info->csv_scroll = GTK_VSCROLLBAR (glade_xml_get_widget (gui, "csv_scroll"));
 
@@ -322,14 +306,8 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (info->csv_customseparator),
 		"changed",
 		G_CALLBACK (csv_page_global_change), pagedata);
-	g_signal_connect (G_OBJECT (info->csv_2x_indicator),
-		"toggled",
-		G_CALLBACK (csv_page_global_change), pagedata);
 	g_signal_connect (G_OBJECT (info->csv_duplicates),
 		"toggled",
-		G_CALLBACK (csv_page_global_change), pagedata);
-	g_signal_connect (G_OBJECT (info->csv_textfield),
-		"changed",
 		G_CALLBACK (csv_page_global_change), pagedata);
 	g_signal_connect (G_OBJECT (GTK_RANGE (info->csv_scroll)->adjustment),
 		"value_changed",

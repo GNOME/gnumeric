@@ -1,3 +1,18 @@
+2003-05-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-csv-page.c: loose text indicator widgets (they are 
+	  needed to determine number f lines)
+	* dialog-stf-format-page.c: obtain trim option menu from
+	  main page
+	* dialog-stf-main-page.c: optain text indicator widgets from
+	  csv page. Disable tehm as appropriate. Recalulate line numbers
+	  when teh text indicator or source format changes.
+	* dialog-stf.c (stf_dialog_editables_enter): text indicator
+	  combo has moved to main page
+	* dialog-stf.glade: rearranging of some items and adding
+	  (yet non-functional) line terminator selector
+	* dialog-stf.h: add new widgets
+
 2003-05-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf-export-format-page.c 

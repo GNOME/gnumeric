@@ -22,11 +22,16 @@ typedef struct {
 	GtkRadioButton *main_fixed;
 	GtkSpinButton  *main_startrow;
 	GtkSpinButton  *main_stoprow;
-	GtkOptionMenu  *main_trim;
 	GtkLabel       *main_lines;
 	GtkFrame       *main_frame;
 	GnomeCanvas    *main_canvas;
-
+	GtkCheckButton  *main_2x_indicator;
+	GtkCombo        *main_textindicator;
+	GtkEntry        *main_textfield;
+	GtkEntry        *main_terminator_field;
+        GtkButton       *main_terminator_add;
+        GtkTreeView     *main_terminator_view;
+     
 	/* Page members that are created at run-time */
 	GnomeCanvasText *main_run_text;
 	GnomeCanvasItem *main_run_rect;
@@ -40,9 +45,6 @@ typedef struct {
 	GtkCheckButton  *csv_custom;
 	GtkEntry        *csv_customseparator;
 	GtkCheckButton  *csv_duplicates;
-	GtkCheckButton  *csv_2x_indicator;
-	GtkCombo        *csv_textindicator;
-	GtkEntry        *csv_textfield;
 	GnomeCanvas     *csv_canvas;
 	GtkVScrollbar   *csv_scroll;
 
@@ -79,7 +81,8 @@ typedef struct {
 	GtkEntry          *format_format;
 	GnomeCanvas       *format_canvas;
 	GtkVScrollbar     *format_scroll;
-
+        GtkOptionMenu     *format_trim;
+     
 	/* Page members that are created at run-time */
 	RenderData_t      *format_run_renderdata;
 	StfParseOptions_t *format_run_parseoptions;  /* Note : refers to either FixedInfo_t or CsvInfo_t parseoptions */

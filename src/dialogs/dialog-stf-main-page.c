@@ -94,11 +94,22 @@ main_page_import_range_changed (DruidPageData_t *data)
 	startrow = gtk_spin_button_get_value_as_int (info->main_startrow);
 	stoprow  = gtk_spin_button_get_value_as_int (info->main_stoprow);
 
+	if (stoprow > data->lines) {
+	     stoprow = data->lines;
+	     gtk_spin_button_set_value (info->main_stoprow, (float) stoprow);
+	}
+	
+	if (startrow > stoprow) {
+	     startrow = stoprow;
+	     gtk_spin_button_set_value (info->main_startrow, (float) startrow);
+	}
+	
+
 	main_page_set_spin_button_adjustment (info->main_startrow, 1, stoprow);
 	main_page_set_spin_button_adjustment (info->main_stoprow, startrow, data->lines);
 
 	data->importlines = (stoprow - startrow) + 1;
-	linescaption = g_strdup_printf (_("%d lines to import"), data->importlines);
+	linescaption = g_strdup_printf (_("%d of %d lines to import"), data->importlines, data->lines);
 	gtk_label_set_text (info->main_lines, linescaption);
 	g_free (linescaption);
 }
@@ -153,28 +164,57 @@ main_page_stoprow_changed (G_GNUC_UNUSED GtkSpinButton* button,
 	main_page_set_scroll_region_and_prevent_center (data);
 }
 
-/**
- * main_page_trim_toggled:
- * @button: the toggle button the event handler is attached to
- * @data: mother struct
- *
- **/
 static void
-main_page_trim_menu_deactivate (G_GNUC_UNUSED GtkMenu *menu,
-				DruidPageData_t *data)
+main_page_stringindicator_change (G_GNUC_UNUSED GtkWidget *widget,
+			DruidPageData_t *data)
 {
 	MainInfo_t *info = data->main_info;
-	int trimtype = gtk_option_menu_get_history (info->main_trim);
+	StfParseOptions_t *parseoptions = data->csv_info->csv_run_parseoptions;
+	char *textfieldtext;
+	gunichar str_ind;
 
-	switch (trimtype) {
-	case -1:
-	case 0 : data->trim = (TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT); break;
-	case 1 : data->trim = TRIM_TYPE_NEVER; break;
-	case 2 : data->trim = TRIM_TYPE_LEFT; break;
-	case 3 : data->trim = TRIM_TYPE_RIGHT; break;
-	default : g_warning ("Unknown trim type selected (%d)", trimtype);
-	}
+	textfieldtext = gtk_editable_get_chars (GTK_EDITABLE (info->main_textfield), 0, -1);
+	str_ind = g_utf8_get_char (textfieldtext);
+	if (str_ind != '\0')
+	     stf_parse_options_csv_set_stringindicator (parseoptions, 
+							str_ind);
+	g_free (textfieldtext);
+
+	stf_parse_options_csv_set_indicator_2x_is_single  (parseoptions,
+							   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->main_2x_indicator)));
+
+	data->lines    = stf_parse_get_rowcount (parseoptions, data->data);
+	main_page_stoprow_changed (NULL, data);
 }
+
+static void
+main_page_source_format_toggled (G_GNUC_UNUSED GtkWidget *widget,
+				  DruidPageData_t *data)
+{
+     if (gtk_toggle_button_get_active 
+	 (GTK_TOGGLE_BUTTON (data->main_info->main_separated))) {
+	  gtk_widget_set_sensitive 
+	       (GTK_WIDGET (data->main_info->main_2x_indicator), TRUE);
+	  gtk_widget_set_sensitive 
+	       (GTK_WIDGET (data->main_info->main_textindicator), TRUE);
+	  gtk_widget_set_sensitive 
+	       (GTK_WIDGET (data->main_info->main_textfield), TRUE);
+	  data->lines = stf_parse_get_rowcount 
+	       (data->csv_info->csv_run_parseoptions, data->data);
+     } else {
+	  gtk_widget_set_sensitive 
+	       (GTK_WIDGET (data->main_info->main_2x_indicator), FALSE);
+	  gtk_widget_set_sensitive 
+	       (GTK_WIDGET (data->main_info->main_textindicator), FALSE);
+	  gtk_widget_set_sensitive 
+	       (GTK_WIDGET (data->main_info->main_textfield), FALSE);
+	  data->lines = stf_parse_get_rowcount 
+	       (data->fixed_info->fixed_run_parseoptions, data->data);
+     }
+     main_page_stoprow_changed (NULL, data);
+}
+
+
 
 /*************************************************************************************************
  * MAIN EXPORTED FUNCTIONS
@@ -196,7 +236,6 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	MainInfo_t *info = pagedata->main_info;
 	char *label, *base;
 	const char *s;
-	GtkMenu *menu;
 	int l, lg;
 	int line_count;
 	const char *end_point = NULL;
@@ -207,10 +246,22 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->main_fixed     = GTK_RADIO_BUTTON (glade_xml_get_widget (gui, "main_fixed"));
 	info->main_startrow  = GTK_SPIN_BUTTON  (glade_xml_get_widget (gui, "main_startrow"));
 	info->main_stoprow   = GTK_SPIN_BUTTON  (glade_xml_get_widget (gui, "main_stoprow"));
-	info->main_trim      = GTK_OPTION_MENU  (glade_xml_get_widget (gui, "main_trim"));
 	info->main_lines     = GTK_LABEL        (glade_xml_get_widget (gui, "main_lines"));
 	info->main_frame     = GTK_FRAME        (glade_xml_get_widget (gui, "main_frame"));
 	info->main_canvas    = GNOME_CANVAS     (glade_xml_get_widget (gui, "main_canvas"));
+	info->main_2x_indicator  = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "main_2x_indicator"));
+	info->main_textindicator = GTK_COMBO    (glade_xml_get_widget (gui, "main_textindicator"));
+	info->main_textfield     = GTK_ENTRY    (glade_xml_get_widget (gui, "main_textfield"));
+	info->main_terminator_field = GTK_ENTRY    (glade_xml_get_widget (gui, "terminator_entry"));
+	info->main_terminator_add = GTK_BUTTON    (glade_xml_get_widget (gui, "terminator_add"));
+	info->main_terminator_view = GTK_TREE_VIEW    (glade_xml_get_widget (gui, "terminator_treeview"));
+
+	gtk_widget_set_sensitive 
+	     (GTK_WIDGET (info->main_terminator_field), FALSE);
+	gtk_widget_set_sensitive 
+	     (GTK_WIDGET (info->main_terminator_add), FALSE);
+	gtk_widget_set_sensitive 
+	     (GTK_WIDGET (info->main_terminator_view), FALSE);
 
 	/*
 	 * XFREE86 Overflow protection
@@ -283,11 +334,16 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (info->main_stoprow),
 		"changed",
 		G_CALLBACK (main_page_stoprow_changed), pagedata);
-	menu = (GtkMenu *) gtk_option_menu_get_menu (info->main_trim);
-	g_signal_connect (G_OBJECT (menu),
-		"deactivate",
-		G_CALLBACK (main_page_trim_menu_deactivate), pagedata);
+	g_signal_connect (G_OBJECT (info->main_2x_indicator),
+		"toggled",
+		G_CALLBACK (main_page_stringindicator_change), pagedata);
+	g_signal_connect (G_OBJECT (info->main_textfield),
+		"changed",
+		G_CALLBACK (main_page_stringindicator_change), pagedata);
+	g_signal_connect (G_OBJECT (info->main_separated),
+		"toggled",
+		G_CALLBACK (main_page_source_format_toggled), pagedata);
+
 
 	main_page_startrow_changed (info->main_startrow, pagedata);
-	main_page_trim_menu_deactivate (menu, pagedata);
 }

@@ -31,6 +31,29 @@
  * MISC UTILITY FUNCTIONS
  *************************************************************************************************/
 
+/**                                                                                         * main_page_trim_toggled:                                                                  * @button: the toggle button the event handler is attached to                              * @data: mother struct                                                                     *                                                                                          **/
+static void
+format_page_trim_menu_deactivate (G_GNUC_UNUSED GtkMenu *menu,
+                                DruidPageData_t *data)
+{
+     FormatInfo_t *info = data->format_info;
+     int trimtype = gtk_option_menu_get_history (info->format_trim);
+
+     switch (trimtype) {
+     case -1:
+     case 0 : data->trim = (TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
+	  break;
+     case 1 : data->trim = TRIM_TYPE_NEVER;
+	  break;
+     case 2 : data->trim = TRIM_TYPE_LEFT;
+	  break;
+     case 3 : data->trim = TRIM_TYPE_RIGHT;
+	  break;
+     default : g_warning ("Unknown trim type selected (%d)", trimtype);
+     }
+}
+
+
 /**
  * format_page_update_preview
  * @pagedata : mother struct
@@ -367,6 +390,7 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	char const * const * subiterator;
 	char *temp[1];
 	int rownumber;
+	GtkMenu *menu;
 
 	g_return_if_fail (gui != NULL);
 	g_return_if_fail (pagedata != NULL);
@@ -382,7 +406,8 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 
 	info->format_canvas = GNOME_CANVAS   (glade_xml_get_widget (gui, "format_canvas"));
 	info->format_scroll = GTK_VSCROLLBAR (glade_xml_get_widget (gui, "format_scroll"));
-
+	info->format_trim   = GTK_OPTION_MENU  (glade_xml_get_widget (gui, "format_trim"));
+	
 	/* Set properties */
 	info->format_run_renderdata    = stf_preview_new (info->format_canvas, TRUE,
 		workbook_date_conv (wb_control_workbook (WORKBOOK_CONTROL (pagedata->wbcg))));
@@ -428,4 +453,10 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (GTK_RANGE (info->format_scroll)->adjustment),
 		"value_changed",
 		G_CALLBACK (format_page_scroll_value_changed), pagedata);
+
+	menu = (GtkMenu *) gtk_option_menu_get_menu (info->format_trim);
+        g_signal_connect (G_OBJECT (menu),
+			  "deactivate",
+			  G_CALLBACK (format_page_trim_menu_deactivate), pagedata);
+	format_page_trim_menu_deactivate (menu, pagedata);
 }
