@@ -39,19 +39,20 @@ IMAGES = @STRIP_BEGIN@ 						\
 	bucket.xpm		\
 	font.xpm		\
 	\
-	arrow.xpm		\
-	line.xpm		\
-	oval.xpm		\
-	rect.xpm		\
+	object-arrow.png 	\
+	object-ellipse.png 	\
+	object-line.png 	\
+	object-rectangle.png 	\
 	\
 	button.xpm		\
-	checkbutton.xpm		\
+	object-checkbox.png 	\
 	combo.xpm		\
-	frame.xpm		\
-	label.xpm		\
+	object-frame.png 	\
+	object-label.png 	\
 	list.xpm		\
 	radiobutton.xpm		\
-	vscrollbar.xpm		\
+	object-scrollbar.png 	\
+	\
 	@STRIP_END@
 
 VARIABLES = @STRIP_BEGIN@ 									\
@@ -115,19 +116,19 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_bucket				$(srcdir)/bucket.xpm				\
 	gnm_font				$(srcdir)/font.xpm				\
 	\
-	gnm_arrow				$(srcdir)/arrow.xpm				\
-	gnm_line				$(srcdir)/line.xpm				\
-	gnm_oval				$(srcdir)/oval.xpm				\
-	gnm_rect				$(srcdir)/rect.xpm				\
+	gnm_object_arrow			$(srcdir)/object-arrow.png			\
+	gnm_object_ellipse			$(srcdir)/object-ellipse.png			\
+	gnm_object_line				$(srcdir)/object-line.png			\
+	gnm_object_rectangle			$(srcdir)/object-rectangle.png			\
 	\
-	gnm_button				$(srcdir)/button.xpm				\
-	gnm_checkbutton				$(srcdir)/checkbutton.xpm			\
-	gnm_combo				$(srcdir)/combo.xpm				\
-	gnm_frame				$(srcdir)/frame.xpm				\
-	gnm_label				$(srcdir)/label.xpm				\
-	gnm_list				$(srcdir)/list.xpm				\
-	gnm_radiobutton				$(srcdir)/radiobutton.xpm			\
-	gnm_vscrollbar				$(srcdir)/vscrollbar.xpm			\
+	gnm_object_button			$(srcdir)/button.xpm				\
+	gnm_object_checkbox			$(srcdir)/object-checkbox.png			\
+	gnm_object_combo			$(srcdir)/combo.xpm				\
+	gnm_object_frame			$(srcdir)/object-frame.png			\
+	gnm_object_label			$(srcdir)/object-label.png			\
+	gnm_object_list				$(srcdir)/list.xpm				\
+	gnm_object_radiobutton			$(srcdir)/radiobutton.xpm			\
+	gnm_object_scrollbar			$(srcdir)/object-scrollbar.png			\
 	@STRIP_END@
 
 pixbuf_file = $(srcdir)/gnumeric-stock-pixbufs.h

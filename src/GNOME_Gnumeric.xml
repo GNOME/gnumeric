@@ -852,68 +852,68 @@
 	homogeneous="0" look="icon" relief="none" verb="ObjectToolbar">
 
 	<toolitem name="Label"
-	    pixtype="stock" pixname="Gnumeric_Label"
+	    pixtype="stock" pixname="Gnumeric_ObjectLabel"
 	    look="icon"
 	    _label="Label"
 	    _tip="Create a label" verb="CreateLabel"/>
 
 	<toolitem name="Frame"
-	    pixtype="stock" pixname="Gnumeric_Frame"
+	    pixtype="stock" pixname="Gnumeric_ObjectFrame"
 	    _label="Frame"
 	    _tip="Create a frame" verb="CreateFrame"/>
 
 	<!-- Not useful until we have scripts
 	<toolitem name="Button"
-	    pixtype="stock" pixname="Gnumeric_Button"
+	    pixtype="stock" pixname="Gnumeric_ObjectButton"
 	    _label="Button"
 	    _tip="Create a button" verb="CreateButton"/>
 	-->
 
 	<toolitem name="Scrollbar"
-	    pixtype="stock" pixname="Gnumeric_Scrollbar"
+	    pixtype="stock" pixname="Gnumeric_ObjectScrollbar"
 	    _label="Scrollbar"
 	    _tip="Create a scrollbar" verb="CreateScrollbar"/>
 	<toolitem name="Checkbox"
-	    pixtype="stock" pixname="Gnumeric_Checkbutton"
+	    pixtype="stock" pixname="Gnumeric_ObjectCheckbox"
 	    _label="Checkbox"
 	    _tip="Create a checkbox" verb="CreateCheckbox"/>
 
 	<!-- think about how to handle groups
 	<toolitem name="Radiobutton"
-	    pixtype="stock" pixname="Gnumeric_Radiobutton"
+	    pixtype="stock" pixname="Gnumeric_ObjectRadiobutton"
 	    _label="Radio Button"
 	    _tip="Create a radio button" verb="CreateRadiobutton"/>
 
 	<toolitem name="List"
-	    pixtype="stock" pixname="Gnumeric_List"
+	    pixtype="stock" pixname="Gnumeric_ObjectList"
 	    _label="List"
 	    _tip="Create a list" verb="CreateList"/>
 
 	<toolitem name="Combo"
-	    pixtype="stock" pixname="Gnumeric_Combo"
+	    pixtype="stock" pixname="Gnumeric_ObjectCombo"
 	    _label="Combo Box"
 	    _tip="Create a combo box" verb="CreateCombo"/>
 	-->
 
 	<toolitem name="Line"
-	    pixtype="stock" pixname="Gnumeric_Line"
+	    pixtype="stock" pixname="Gnumeric_ObjectLine"
 	    _label="Line"
 	    _tip="Create a line" verb="CreateLine"/>
 
 	<toolitem name="Arrow"
-	    pixtype="stock" pixname="Gnumeric_Arrow"
+	    pixtype="stock" pixname="Gnumeric_ObjectArrow"
 	    _label="Arrow"
 	    _tip="Create an arrow" verb="CreateArrow"/>
 
 	<toolitem name="Rectangle"
-	    pixtype="stock" pixname="Gnumeric_Rectangle"
+	    pixtype="stock" pixname="Gnumeric_ObjectRectangle"
 	    _label="Rectangle"
 	    _tip="Draw a rectangle" verb="CreateRectangle"/>
 
-	<toolitem name="Oval"
-	    pixtype="stock" pixname="Gnumeric_Oval"
-	    _label="Oval"
-	    _tip="Draw an oval" verb="CreateEllipse"/>
+	<toolitem name="Ellipse"
+	    pixtype="stock" pixname="Gnumeric_ObjectEllipse"
+	    _label="Ellipse"
+	    _tip="Draw an ellipse" verb="CreateEllipse"/>
 
     </dockitem>
     <keybindings>

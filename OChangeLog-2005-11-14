@@ -1,3 +1,17 @@
+2002-01-30  Jody Goldberg <jody@gnome.org>
+
+	* src/application.c : merge in the new object icons from jimmac.
+	* src/pixmaps/Makefile.am : ditto.
+	* src/workbook-control-gui.c : ditto.
+	* src/GNOME_Gnumeric.xml : ditto.
+	s/^/Object/
+	s/Rect/Rectangle/
+	s/Oval/Ellipse/
+	s/Checkbutton/Checkbox/
+
+	* src/gui-util.c (gnumeric_error_info_dialog_show) : center error
+	  dialog on the mouse.
+
 2002-01-29  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (cb_notebook_switch_page) : fix changing

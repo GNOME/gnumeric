@@ -368,6 +368,11 @@ gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
 	gtk_dialog_add_button (GTK_DIALOG (dialog),
 		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CLOSE);
+
+#warning FIXME : not needed when set_transient is finished
+	gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+	gnumeric_set_transient (wbcg, GTK_WINDOW (dialog));
+
 	if (gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog)) == GNUMERIC_RESPONSE_DETAILS)
 		gnumeric_error_info_dialog_show_full (wbcg, error);
 }
