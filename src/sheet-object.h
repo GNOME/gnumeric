@@ -1,9 +1,7 @@
 #ifndef GNUMERIC_SHEET_OBJECT_H
 #define GNUMERIC_SHEET_OBJECT_H
 
-#define ENABLE_BONOBO_PRINT
-
-#ifdef ENABLE_BONOBO_PRINT
+#ifdef ENABLE_BONOBO
 #       include <bonobo/bonobo-print-client.h>
 #endif
 
@@ -38,7 +36,7 @@ typedef struct {
 
 typedef struct {
 	SheetObject     *so;
-#ifdef ENABLE_BONOBO_PRINT
+#ifdef ENABLE_BONOBO
 	BonoboPrintData *pd;
 #endif
 	double           x_pos_pts;

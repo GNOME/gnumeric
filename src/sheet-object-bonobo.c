@@ -30,8 +30,6 @@
 #include <bonobo/bonobo-client-site.h>
 #include <bonobo/bonobo-embeddable.h>
 
-#define ENABLE_BONOBO_PRINT
-
 static SheetObjectClass *sheet_object_bonobo_parent_class;
 
 #define SOB_CLASS(o) SHEET_OBJECT_CLASS (GTK_OBJECT (o)->klass)
@@ -198,7 +196,7 @@ sheet_object_bonobo_load (SheetObjectBonobo *sob,
 	return TRUE;
 }
 
-#ifdef ENABLE_BONOBO_PRINT
+#ifdef ENABLE_BONOBO
 static void
 sheet_object_bonobo_print (SheetObject *so, SheetObjectPrintInfo *pi)
 {
@@ -228,7 +226,7 @@ sheet_object_bonobo_class_init (GtkObjectClass *object_class)
 	/* Object class method overrides */
 	object_class->destroy = sheet_object_bonobo_destroy;
 
-#ifdef ENABLE_BONOBO_PRINT
+#ifdef ENABLE_BONOBO
 	sheet_object_class->print = sheet_object_bonobo_print;
 #endif
 }

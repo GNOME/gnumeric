@@ -148,7 +148,7 @@ sheet_object_construct (SheetObject *so, Sheet *sheet)
 void
 sheet_object_drop_file (Sheet *sheet, gdouble x, gdouble y, const char *fname)
 {
-#if ENABLE_BONOBO
+#ifdef ENABLE_BONOBO
 	const char *mime_type;
 	const char *mime_goad_id;
 	char *msg = NULL;

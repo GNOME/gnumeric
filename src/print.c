@@ -19,10 +19,6 @@
 #include <libgnomeprint/gnome-print-dialog.h>
 
 #ifdef ENABLE_BONOBO
-#define ENABLE_BONOBO_PRINT
-#endif
-
-#ifdef ENABLE_BONOBO_PRINT
 #	include <bonobo/bonobo-print-client.h>
 #endif
 
@@ -178,7 +174,7 @@ print_page_cells (Sheet *sheet,
 		base_x, base_y, TRUE);
 }
 
-#ifdef ENABLE_BONOBO_PRINT
+#ifdef ENABLE_BONOBO
 
 static void
 print_page_object (Sheet *sheet, SheetObjectPrintInfo *pi,
@@ -430,7 +426,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 			sheet, start_col, start_row, end_col, end_row,
 			x, y, print_width, print_height, pj);
 
-#ifdef ENABLE_BONOBO_PRINT
+#ifdef ENABLE_BONOBO
 		/*
 		 * Print objects
 		 */
@@ -534,7 +530,7 @@ print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj, gboolean output)
 	/*
 	 * Render Sheet objects.
 	 */
-#ifdef ENABLE_BONOBO_PRINT
+#ifdef ENABLE_BONOBO
 	{
 		pj->sheet_objects = NULL;
 		for (l = sheet->objects; l; l = l->next) {
