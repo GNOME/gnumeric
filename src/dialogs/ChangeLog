@@ -1,3 +1,8 @@
+2002-01-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (tool_load_selection) : use 
+	  global_range_name
+
 2002-01-24  Jody Goldberg <jody@gnome.org>
 
 	* cell-format.glade : fix typo.
@@ -23,7 +28,6 @@
 	* correlation.glade : added underline property
 	* covariance.glade : added underline property
 	* descriptive-stats.glade : added underline property
-	* dialog-analysis-tools.c : added underline property
 	* exp-smoothing.glade : added underline property
 	* fourier-analysis.glade : added underline property
 	* histogram.glade : added underline property

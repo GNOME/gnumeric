@@ -994,6 +994,17 @@ global_range_dup (GlobalRange const *src)
 	return global_range_new (src->sheet, &src->range);
 }
 
+char *
+global_range_name    (Sheet *sheet, Range const *r)
+{
+	char const * the_range_name = range_name (r);
+
+	if (sheet == NULL)
+		return g_strdup (the_range_name);
+	
+	return g_strdup_printf ("%s!%s", sheet->name_quoted, the_range_name);
+}
+
 /**
  * global_range_parse:
  * @sheet: the sheet where the cell range is evaluated. This really only needed if
