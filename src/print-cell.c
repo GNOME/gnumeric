@@ -40,6 +40,52 @@ print_hline (GnomePrintContext *context,
 	gnome_print_stroke (context);
 }
 
+/*
+ * print_show_iso8859_1
+ *
+ * Like gnome_print_show, but expects an ISO 8859.1 string.
+ *
+ * NOTE: This function got introduced when gnome-print switched to UTF-8,
+ * and will disappear again once Gnumeric makes the switch. Deprecated at
+ * birth! 
+ */
+int
+print_show_iso8859_1 (GnomePrintContext *pc, char const *text)
+{
+	guint32 u4text[128];
+	guint32 *dynp = NULL;
+	size_t len;
+	int ret;
+	char const *p;
+	char *u4p, *outp;
+
+	g_return_val_if_fail (pc && text, -1);
+
+	if (!*text)
+		return 0;
+
+	/* Dynamic allocation for long strings */
+	if ((len = strlen (text)) > sizeof u4text / sizeof u4text[0]) {
+		dynp = g_new0 (guint32, len);
+		u4p  = dynp;
+	} else {
+		memset (u4text, '\0', sizeof u4text);
+		u4p  = u4text;
+	}
+	outp =  (char *) u4p; 	/* Munging types on purpose */
+
+	/* Convert to big endian UCS-4 */
+	for (p = text, outp += 3; *p; p++, outp += 4)
+		*outp = *p;
+
+	ret = gnome_print_show_ucs4 (pc, u4p, (gint) len);
+
+	if (dynp)
+		g_free (dynp);
+
+	return ret;
+}
+
 /***********************************************************/
 
 /*
@@ -54,7 +100,9 @@ print_text (GnomePrintContext *context,
 	    double const * const line_offset, int num_lines)
 {
 	gnome_print_moveto (context, x, text_base);
-	gnome_print_show (context, text);
+	/* FIXME:
+	 * Switch this back to gnome_print_show once we use UTF-8 internally */
+	print_show_iso8859_1 (context, text);
 
 	/* FIXME how to handle small fonts ?
 	 * the text_base should be at least 2 pixels above the bottom */

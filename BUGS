@@ -21,8 +21,6 @@ Release Critical
   font size and things like that.
 - Copy sheet, and insert new sheet both append to the end of the sheet list
   rather than inserting before the current sheet.
-- Be able to print non-ASCII. gnome-print 0.21 expects UTF-8, and we
-  still feed it ISO-8859-X. We don't even really specify X :-)
 
 Post 0.57 Changes
 -----------------

@@ -1,3 +1,21 @@
+2000-08-30  Jon K Hellan  <hellan@acm.org>
+
+	* src/print-cell.[ch] (print_show_iso8859_1): Wrapper around
+	gnome_print_show which accepts iso8859.1. We use this until we
+	switch to UTF-8 internally.
+
+	* src/print-cell.c (print_text): Use print_show_iso8859_1.
+
+	* src/print.c (print_hf): Ditto.
+
+2000-08-30  Jon K Hellan  <hellan@acm.org>
+
+	* src/print.c (print_page, print_job_info_get): Header/footer are
+	measured from top/bottom of sheet, not from inside top/bottom
+	margin.
+	(print_page): Correct placement when centering horizontally or
+	vertically.
+
 2000-08-29  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-financial.c (gnumeric_sln): Value arg is float,

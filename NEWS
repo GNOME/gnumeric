@@ -17,6 +17,9 @@ Jody:
 John Gill:
 	* Double click fill support.
 
+Jon Kåre:
+        * Make print work with new gnome-print
+
 JPR:
 	* Put more effort into reverse engineering MATCH (and friends)
 	  than you want to know about.

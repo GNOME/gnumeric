@@ -15,4 +15,8 @@ void print_cell_grid  (GnomePrintContext *context,
 		       double base_x, double base_y,
 		       double width, double height);
 
+/* This function got introduced when gnome-print switched to UTF-8, and will
+ * disappear again once Gnumeric makes the switch */
+int print_show_iso8859_1 (GnomePrintContext *pc, char const *text);
+
 #endif

@@ -172,12 +172,6 @@ get_printable_width (dialog_print_info_t *dpi, UnitName unit)
  * @unit unit
  *
  * Return page height minus margins, header and footer in specified unit.
- *
- * FIXME: This uses our traditional semantics for headers and footers, which
- * is to measure the header from the bottom of the top margin. Excel uses a
- * different convention, so the Excel import code must be updated. Unless we
- * chicken out and go with Excel's broken convention: Both top margin and
- * header are measured from the top of the page.
  */
 static double
 get_printable_height (dialog_print_info_t *dpi, UnitName unit)

@@ -250,7 +250,9 @@ print_hf (PrintJobInfo *pj, const char *format, HFSide side, double y)
 		x = 0;
 	}	
 	gnome_print_moveto (pj->print_context, x, y);
-	gnome_print_show (pj->print_context, text);
+	/* FIXME:
+	 * Switch this back to gnome_print_show once we use UTF-8 internally */
+	print_show_iso8859_1 (pj->print_context, text);
 	g_free (text);
 }
 
@@ -356,7 +358,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 
 	/* Margins */
 	base_x += margins->left.points; 
-	base_y += margins->top.points + margins->header.points;
+	base_y += MAX (margins->top.points, margins->header.points);
 
 	for (i = 0; i < pj->n_copies; i++){
 		double x = base_x;
@@ -854,7 +856,8 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 
 	pj->x_points = pj->width - (pm->left.points + pm->right.points);
 	pj->y_points = pj->height -
-		(pm->top.points + pm->bottom.points + pm->header.points + pm->footer.points);
+		(MAX (pm->top.points, pm->header.points) +
+		 MAX (pm->bottom.points, pm->footer.points));
 
 	/*
 	 * Setup render info
