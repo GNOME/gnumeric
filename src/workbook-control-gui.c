@@ -400,6 +400,55 @@ wbcg_edit_selection_descr_set (WorkbookControl *wbc, char const *text)
 	gtk_entry_set_text (GTK_ENTRY (wbcg->selection_descriptor), text);
 }
 
+void
+wbcg_toolbar_timer_clear (WorkbookControlGUI *wbcg)
+{
+	/* Remove previous ui timer */
+	if (wbcg->toolbar_sensitivity_timer != 0) {
+		gtk_timeout_remove (wbcg->toolbar_sensitivity_timer);
+		wbcg->toolbar_sensitivity_timer = 0;
+	}
+}
+
+static gboolean
+cb_thaw_ui_toolbar (gpointer *data)
+{
+        WorkbookControlGUI *wbcg = (WorkbookControlGUI *)data;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
+
+	wb_control_menu_state_sensitivity (WORKBOOK_CONTROL (wbcg), TRUE);
+	wbcg_toolbar_timer_clear (wbcg);
+
+	return TRUE;
+}
+
+/* In milliseconds */
+static void
+wbcg_edit_set_sensitive (WorkbookControl *wbc,
+			 gboolean ok_cancel_flag, gboolean func_guru_flag)
+{
+	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (wbc);
+	
+	/* These are only sensitive while editing */
+	gtk_widget_set_sensitive (wbcg->ok_button, ok_cancel_flag);
+	gtk_widget_set_sensitive (wbcg->cancel_button, ok_cancel_flag);
+
+	gtk_widget_set_sensitive (wbcg->func_button, func_guru_flag);
+	wbcg_toolbar_timer_clear (wbcg);
+
+	/* Toolbars are insensitive while editing */
+	if (func_guru_flag) {
+		/* We put the re-enabling of the ui on a timer */
+		wbcg->toolbar_sensitivity_timer =
+			gtk_timeout_add (300, /* seems a reasonable amount */
+					 (GtkFunction) cb_thaw_ui_toolbar,
+					 wbcg);
+	} else
+		wb_control_menu_state_sensitivity
+			(WORKBOOK_CONTROL (wbcg), func_guru_flag);
+}
+
 static gboolean
 cb_sheet_label_edit_finished (EditableLabel *el, char const *new_name,
 			      WorkbookControlGUI *wbcg)
@@ -4693,6 +4742,7 @@ workbook_control_gui_ctor_class (GObjectClass *object_class)
 	wbc_class->zoom_feedback	= wbcg_zoom_feedback;
 	wbc_class->edit_line_set	= wbcg_edit_line_set;
 	wbc_class->selection_descr_set	= wbcg_edit_selection_descr_set;
+	wbc_class->edit_set_sensitive	= wbcg_edit_set_sensitive;
 	wbc_class->auto_expr_value	= wbcg_auto_expr_value;
 
 	wbc_class->sheet.add        = wbcg_sheet_add;

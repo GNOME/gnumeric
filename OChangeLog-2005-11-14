@@ -1,3 +1,42 @@
+2002-05-08  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-component.c: Include "dialogs.h" to get
+	prototype for dialog_search.
+
+	* src/bonobo-io.c (cleanup_stream): Return status.
+
+2002-05-08  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control.[ch], src/workbook-control-priv.h
+	(wb_control_edit_set_sensitive): New virtual, replacing
+	workbook_edit_set_sensitive in workbook-edit. Made parameter names
+	descriptive because it's now used far away from where it is
+	defined.
+
+	* src/workbook-control-component.c (wbcc_edit_set_sensitive): Null
+	implementation of new virtual.
+	(workbook_control_component_init): Construct, but don't show, the
+	edit area, to avoid warnings when range selecting.
+	(workbook_control_component_ctor_class): Register
+	edit_set_sensitive implementation.
+
+	* src/workbook-control-gui.[ch] (wbcg_toolbar_timer_clear): Moved
+	from workbook-edit, renamed and exported.
+
+	* src/workbook-control-gui.h (cb_thaw_ui_toolbar): Moved from
+	workbook-edit.
+	(wbcg_edit_set_sensitive): Implementation of new virtual
+	wb_control_edit_set_sensitive, moved from workbook-edit and
+	renamed from workbook_edit_set_sensitive.
+	(workbook_control_gui_ctor_class): Register edit_set_sensitive
+	implementation.
+
+	* src/workbook-edit.c (toolbar_timer_clear, cb_thaw_ui_toolbar,
+	workbook_edit_set_sensitive): Move to workbook-control-gui.
+	(wbcg_edit_finish, (wbcg_edit_start, wbcg_edit_attach_guru,
+	wbcg_edit_detach_guru):
+	s/workbook_edit_set_sensitive/wb_control_edit_set_sensitive/
+	
 2002-05-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/workbook-edit.c : include gnumeric-gconf.h

@@ -30,6 +30,7 @@ void	   wbcg_ui_update_end	  (WorkbookControlGUI *wbcg);
 
 gboolean   wbcg_rangesel_possible (WorkbookControlGUI const *wbcg);
 gboolean   wbcg_is_editing	  (WorkbookControlGUI const *wbcg);
+void       wbcg_toolbar_timer_clear (WorkbookControlGUI *wbcg);
 void       wbcg_autosave_cancel	  (WorkbookControlGUI *wbcg);
 void       wbcg_autosave_set      (WorkbookControlGUI *wbcg,
 				   int minutes, gboolean prompt);

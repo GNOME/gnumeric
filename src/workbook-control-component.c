@@ -5,6 +5,7 @@
 #include <gal/util/e-util.h>
 #include <bonobo/bonobo-zoomable.h>
 
+#include "dialogs.h"
 #include "sheet.h"
 
 static char *
@@ -86,6 +87,10 @@ wbcc_edit_line_set (WorkbookControl *wbc, char const *text) {}
 
 static void
 wbcc_edit_selection_descr_set (WorkbookControl *wbc, char const *text) {}
+
+static void
+wbcc_edit_set_sensitive (WorkbookControl *wbc,
+			 gboolean ok_cancel_flag, gboolean func_guru_flag) {}
 
 static void
 wbcc_auto_expr_value (WorkbookControl *wbc) {}
@@ -281,6 +286,10 @@ workbook_control_component_init (WorkbookControlComponent *wbcc,
 
 	workbook_control_set_view (&wbcg->wb_control, optional_view, optional_wb);
 	
+	/* We don't display the edit area, but by constructing it, we avoid
+	 * warnings when attaching gurus */
+	wbcg_edit_ctor (wbcg);
+
 	/* We are not in edit mode */
 	wbcg->editing = FALSE;
 	wbcg->editing_sheet = NULL;
@@ -316,6 +325,7 @@ workbook_control_component_ctor_class (GObjectClass *object_class)
 	wbc_class->zoom_feedback      = wbcc_zoom_feedback;
 	wbc_class->edit_line_set      = wbcc_edit_line_set;
 	wbc_class->selection_descr_set = wbcc_edit_selection_descr_set;
+	wbc_class->edit_set_sensitive = wbcc_edit_set_sensitive;
 	wbc_class->auto_expr_value    = wbcc_auto_expr_value;
 
 	/* wbc_class->sheet.add inherited from wbcg */

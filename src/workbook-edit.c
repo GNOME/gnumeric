@@ -62,51 +62,6 @@ wbcg_auto_complete_destroy (WorkbookControlGUI *wbcg)
 
 }
 
-static void
-toolbar_timer_clear (WorkbookControlGUI *wbcg)
-{
-	/* Remove previous ui timer */
-	if (wbcg->toolbar_sensitivity_timer != 0) {
-		gtk_timeout_remove (wbcg->toolbar_sensitivity_timer);
-		wbcg->toolbar_sensitivity_timer = 0;
-	}
-}
-
-static gboolean
-cb_thaw_ui_toolbar (gpointer *data)
-{
-        WorkbookControlGUI *wbcg = (WorkbookControlGUI *)data;
-
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
-
-	wb_control_menu_state_sensitivity (WORKBOOK_CONTROL (wbcg), TRUE);
-	toolbar_timer_clear (wbcg);
-
-	return TRUE;
-}
-
-/* In milliseconds */
-static void
-workbook_edit_set_sensitive (WorkbookControlGUI *wbcg, gboolean flag1, gboolean flag2)
-{
-	/* These are only sensitive while editing */
-	gtk_widget_set_sensitive (wbcg->ok_button, flag1);
-	gtk_widget_set_sensitive (wbcg->cancel_button, flag1);
-
-	gtk_widget_set_sensitive (wbcg->func_button, flag2);
-	toolbar_timer_clear (wbcg);
-
-	/* Toolbars are insensitive while editing */
-	if (flag2) {
-		/* We put the re-enabling of the ui on a timer */
-		wbcg->toolbar_sensitivity_timer =
-			gtk_timeout_add (300, /* seems a reasonable amount */
-					 (GtkFunction) cb_thaw_ui_toolbar,
-					 wbcg);
-	} else
-		wb_control_menu_state_sensitivity (WORKBOOK_CONTROL (wbcg), flag2);
-}
-
 static gboolean
 wbcg_edit_error_dialog (WorkbookControlGUI *wbcg, char *str)
 {
@@ -242,7 +197,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 
 	if (wbcg->edit_line.guru != NULL)
 		gtk_widget_destroy (wbcg->edit_line.guru);
-	workbook_edit_set_sensitive (wbcg, FALSE, TRUE);
+	wb_control_edit_set_sensitive (wbc, FALSE, TRUE);
 
 	/* restore focus to original sheet in case things were being selected
 	 * on a different page.  Do no go through the view, rangesel is
@@ -364,7 +319,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	inside_editing = TRUE;
 
 	application_clipboard_unant ();
-	workbook_edit_set_sensitive (wbcg, TRUE, FALSE);
+	wb_control_edit_set_sensitive (WORKBOOK_CONTROL (wbcg), TRUE, FALSE);
 
 	cell = sheet_cell_get (sheet, col, row);
 	if (!blankp) {
@@ -471,7 +426,7 @@ wbcg_edit_attach_guru_main (WorkbookControlGUI *wbcg, GtkWidget *guru)
 
 	wbcg->edit_line.guru = guru;
 	gtk_entry_set_editable (wbcg_get_entry (wbcg), FALSE);
-	workbook_edit_set_sensitive (wbcg, FALSE, FALSE);
+	wb_control_edit_set_sensitive (wbc, FALSE, FALSE);
 	wb_control_menu_state_update (wbc, NULL, MS_GURU_MENU_ITEMS);
 
 }
@@ -529,7 +484,7 @@ wbcg_edit_detach_guru (WorkbookControlGUI *wbcg)
 	wbcg_set_entry (wbcg, NULL);
 	wbcg->edit_line.guru = NULL;
 	gtk_entry_set_editable (wbcg_get_entry (wbcg), TRUE);
-	workbook_edit_set_sensitive (wbcg, FALSE, TRUE);
+	wb_control_edit_set_sensitive (wbc, FALSE, TRUE);
 	wb_control_menu_state_update (wbc, NULL, MS_GURU_MENU_ITEMS);
 }
 
@@ -626,5 +581,5 @@ wbcg_edit_ctor (WorkbookControlGUI *wbcg)
 void
 wbcg_edit_dtor (WorkbookControlGUI *wbcg)
 {
-	toolbar_timer_clear (wbcg);
+	wbcg_toolbar_timer_clear (wbcg);
 }

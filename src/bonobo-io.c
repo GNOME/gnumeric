@@ -119,7 +119,10 @@ static int
 cleanup_stream (StreamIOCtxt *sc)
 {
 	if (sc->compressed)
-		inflateEnd (&sc->zstream);
+		if (inflateEnd (&sc->zstream) != 0)
+			return -1;
+
+	return 0;
 }
 
 /* Returns true if a valid gzip header */
