@@ -319,13 +319,6 @@ cb_format_as_percent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 }
 
 static void
-cb_format_with_thousands (GtkWidget *ignore, WorkbookControlGUI *wbcg)
-{
-	apply_number_format (wbcg, cell_formats[FMT_ACCOUNT][3],
-			     _("Format with thousands separator"));
-}
-
-static void
 modify_format (WorkbookControlGUI *wbcg,
 	       char *(*format_modify_fn) (StyleFormat const *format),
 	       char const *descriptor)
@@ -357,6 +350,12 @@ static void
 cb_format_dec_precision (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	modify_format (wbcg, &format_remove_decimal, _("Decrease precision"));
+}
+
+static void
+cb_format_with_thousands (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+{
+	modify_format (wbcg, &format_toggle_thousands, _("Toggle thousands separator"));
 }
 
 static void
