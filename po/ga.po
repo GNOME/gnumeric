@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: gnumeric gnumeric-1-2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-01-18 15:54-0500\n"
-"PO-Revision-Date: 2004-01-21 21:38+0000\n"
+"PO-Revision-Date: 2004-02-02 21:38+0000\n"
 "Last-Translator: Alastair McKinstry <mckinstry@computer.org>\n"
 "Language-Team: Gaeilge <gaeilge-gnulinux@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -2309,7 +2309,7 @@ msgstr ""
 
 #: plugins/fn-database/plugin.xml.in.h:1 plugins/gda/plugin.xml.in.h:1
 msgid "Database"
-msgstr ""
+msgstr "Bunachar Sonraí"
 
 #: plugins/fn-database/plugin.xml.in.h:2
 msgid "Database Functions"
@@ -9994,7 +9994,7 @@ msgstr ""
 
 #: plugins/gda/plugin-gda.c:100
 msgid "Database Connection"
-msgstr ""
+msgstr "Ceangal Bunachar Sonrai"
 
 #: plugins/gda/plugin-gda.c:136
 msgid ""
@@ -13602,7 +13602,7 @@ msgstr ""
 #: src/dialogs/dialog-plugin-manager.c:712
 #: src/dialogs/dialog-preferences.c:558 src/dialogs/function-select.glade.h:2
 msgid "Description"
-msgstr ""
+msgstr "Tuarascail"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:1
 msgid "GNOME Office Graph"
@@ -15051,15 +15051,15 @@ msgstr ""
 
 #: src/dialogs/autoformat.glade.h:10
 msgid "C_ategory:"
-msgstr ""
+msgstr "R_anga:"
 
 #: src/dialogs/autoformat.glade.h:11
 msgid "Category:"
-msgstr ""
+msgstr "Ranga:"
 
 #: src/dialogs/autoformat.glade.h:12
 msgid "Description:"
-msgstr ""
+msgstr "Tuarascail:"
 
 #: src/dialogs/autoformat.glade.h:13
 msgid "Edges"
@@ -15128,7 +15128,7 @@ msgstr "    "
 
 #: src/dialogs/cell-format.glade.h:13
 msgid "<b>Background</b>"
-msgstr ""
+msgstr "<b>Cúlra</b>"
 
 #: src/dialogs/cell-format.glade.h:14
 msgid "<b>Control</b>"
