@@ -2240,6 +2240,7 @@ scg_set_display_cursor (SheetControlGUI *scg)
 	else if (scg->current_object != NULL)
 		cursor = E_CURSOR_ARROW;
 
+#warning "FIXME: e_cursor_set_widget is not MULTIHEAD safe."
 	SCG_FOREACH_PANE (scg, pane, {
 		int c = cursor;
 		if (c < 0)

@@ -40,7 +40,7 @@ style_color_new_uninterned (gushort red, gushort green, gushort blue,
 	sc->color.red = red;
 	sc->color.green = green;
 	sc->color.blue = blue;
-	sc->color.pixel = e_color_alloc (red, green, blue);
+	sc->color.pixel = gs_white.pixel;
 	sc->name = NULL;
 	sc->is_auto = is_auto;
 
@@ -51,7 +51,7 @@ style_color_new_uninterned (gushort red, gushort green, gushort blue,
 	sc->selected_color.red = red;
 	sc->selected_color.green = green;
 	sc->selected_color.blue = blue;
-	sc->selected_color.pixel = e_color_alloc (red, green, blue);
+	sc->selected_color.pixel = gs_white.pixel;
 
 	sc->ref_count = 1;
 
