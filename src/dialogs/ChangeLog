@@ -1,5 +1,9 @@
 2003-04-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* dialog-solver.c (dialog_init): Killed a run time warning.
+	(cb_dialog_solve_clicked): Removed 'show iteration results'
+	button.
+	
 	* dialog-simulation.c (update_log): Use gtk list view instead of
 	text view.
 

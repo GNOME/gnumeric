@@ -64,7 +64,7 @@ typedef struct {
 	GnumericExprEntry   *lhs_entry;
 	GnumericExprEntry   *rhs_entry;
 	GtkOptionMenu       *type_combo;
-	GtkOptionMenu       *algorithm_combo;
+	GtkCombo            *algorithm_combo;
 	GtkCList            *constraint_list;
 	gint                selected_row;
 	gnm_float          ov_target;
@@ -937,9 +937,6 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	param->options.automatic_scaling = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget
 				    (state->gui, "autoscale_button")));
-	param->options.show_iter_results = gtk_toggle_button_get_active
-		(GTK_TOGGLE_BUTTON (glade_xml_get_widget
-				    (state->gui, "show_iter_button")));
 
 	param->options.max_iter = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->max_iter_entry));
@@ -1159,7 +1156,7 @@ dialog_init (SolverState *state)
 		G_CALLBACK (dialog_set_main_button_sensitivity), state);
 
 	/* Algorithm */
-	state->algorithm_combo = GTK_OPTION_MENU
+	state->algorithm_combo = GTK_COMBO
 		(glade_xml_get_widget (state->gui, "algorithm_combo"));
 	switch (param->options.model_type) {
 	case SolverLPModel:

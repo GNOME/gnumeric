@@ -438,27 +438,6 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkCheckButton" id="show_iter_button">
-			  <property name="visible">True</property>
-			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Show Iteration _Results</property>
-			  <property name="use_underline">True</property>
-			  <property name="relief">GTK_RELIEF_NORMAL</property>
-			  <property name="active">False</property>
-			  <property name="inconsistent">False</property>
-			  <property name="draw_indicator">True</property>
-			</widget>
-			<packing>
-			  <property name="left_attach">1</property>
-			  <property name="right_attach">2</property>
-			  <property name="top_attach">2</property>
-			  <property name="bottom_attach">3</property>
-			  <property name="x_options">fill</property>
-			  <property name="y_options"></property>
-			</packing>
-		      </child>
-
-		      <child>
 			<widget class="GtkCheckButton" id="autoscale_button">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
@@ -828,7 +807,7 @@
 			  <property name="visible">True</property>
 
 			  <child>
-			    <widget class="GtkMenuItem" id="&amp;lt;=">
+			    <widget class="GtkMenuItem" id="&amp;amp;lt;=">
 			      <property name="visible">True</property>
 			      <property name="label" translatable="yes">&lt;=</property>
 			      <property name="use_underline">True</property>
@@ -837,7 +816,7 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkMenuItem" id="&amp;gt;=">
+			    <widget class="GtkMenuItem" id="&amp;amp;gt;=">
 			      <property name="visible">True</property>
 			      <property name="label" translatable="yes">&gt;=</property>
 			      <property name="use_underline">True</property>
