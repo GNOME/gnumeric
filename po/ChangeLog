@@ -2,10 +2,6 @@
 
 	* Release 0.71
 
-2001-10-07  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
-
 2001-10-07  Yukihiro Nakai <nakai@gnome.gr.jp>
 
 	* ja.po: Update Japanese translation.
@@ -30,18 +26,6 @@
 
         * POTFILES.in : Add correlation.glade, covariance.glade and
 	  rank.glade
-
-2001-10-02  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.38.
-
-2001-10-02  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.38.
-
-2001-10-02  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.38.
 
 2001-10-02  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
 
