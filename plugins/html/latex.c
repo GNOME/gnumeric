@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * latex.c
  *
@@ -560,7 +559,7 @@ latex2e_write_table_header(GsfOutput *output, int num_cols)
  * @row:
  * @sheet:
  * @which_border: MStyleElementType (MSTYLE_BORDER_LEFT or MSTYLE_BORDER_RIGHT)
- *
+  *
  * Determine the border style
  *
  */
@@ -580,14 +579,19 @@ latex2e_find_vline (int col, int row, Sheet *sheet, MStyleElementType which_bord
 	      border->line_type == STYLE_BORDER_NONE))
 		return border->line_type;
 
-	col = colrow_find_adjacent_visible (sheet, TRUE, col,
-		(which_border != MSTYLE_BORDER_LEFT));
-	if (col > 0)
-		return STYLE_BORDER_NONE;
-	mstyle = sheet_style_get (sheet, col, row);
-	border = mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT);
-	return ((style_border_is_blank (border)) ? STYLE_BORDER_NONE :
-		border->line_type);
+	if (which_border == MSTYLE_BORDER_LEFT) {
+		if (col < 1)
+			return STYLE_BORDER_NONE;
+		mstyle = sheet_style_get (sheet, col - 1, row);
+		border = mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT);
+		return ((style_border_is_blank (border)) ? STYLE_BORDER_NONE :
+			border->line_type);
+	} else {
+		mstyle = sheet_style_get (sheet, col + 1, row);
+		border = mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT);
+		return ((style_border_is_blank (border)) ? STYLE_BORDER_NONE :
+			border->line_type);
+	}
 
 	return STYLE_BORDER_NONE;
 }
