@@ -8,11 +8,11 @@ GNUMERIC_SRC_DIR = $(top_srcdir)/src
 #
 # Where to install the plugin
 #
-plugindir = $(libdir)/gnumeric/plugins
+plugindir = $(libdir)/gnumeric/plugins/$(VERSION)
 
-plugin_LTLIBRARIES = libtext.la
+plugin_LTLIBRARIES = libgnum_text.la
 
-libtext_la_SOURCES = text-io.h text-io.c
+libgnum_text_la_SOURCES = text-io.h text-io.c
 
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\

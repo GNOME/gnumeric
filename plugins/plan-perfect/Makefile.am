@@ -8,11 +8,11 @@ GNUMERIC_SRC_DIR = $(top_srcdir)/src
 #
 # Where to install the plugin
 #
-plugindir = $(libdir)/gnumeric/plugins
+plugindir = $(libdir)/gnumeric/plugins/$(VERSION)
 
-plugin_LTLIBRARIES = libpln.la
+plugin_LTLIBRARIES = libgnum_pln.la
 
-libpln_la_SOURCES = pln.h pln.c
+libgnum_pln_la_SOURCES = pln.h pln.c
 
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\

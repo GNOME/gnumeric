@@ -7,12 +7,12 @@ GNUMERIC_SRC_DIR = $(top_srcdir)/src
 #
 # Where to install the plugin
 #
-plugindir = $(libdir)/gnumeric/plugins
+plugindir = $(libdir)/gnumeric/plugins/$(VERSION)
 hack=$(shell gnome-config --includedir)
 
-plugin_LTLIBRARIES = libgdaif.la
+plugin_LTLIBRARIES = libgnum_gdaif.la
 
-libgdaif_la_SOURCES = plugin-gda.c
+libgnum_gdaif_la_SOURCES = plugin-gda.c
 
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\
@@ -21,4 +21,4 @@ INCLUDES = 						\
 	$(GNOME_INCLUDEDIR)                             \
 	-I$(hack)/gda
 
-libgdaif_la_LIBADD = -L$(hack)/lib -lgda-client $(GNORBA_LIBS)
+libgnum_gdaif_la_LIBADD = -L$(hack)/lib -lgda-client $(GNORBA_LIBS)

@@ -7,11 +7,11 @@ INCLUDES = 						\
 	-I$(top_srcdir)/src				\
 	$(GNOME_INCLUDEDIR)
 
-plugindir = $(libdir)/gnumeric/plugins
+plugindir = $(libdir)/gnumeric/plugins/$(VERSION)
 
-plugin_LTLIBRARIES = libxbase.la
+plugin_LTLIBRARIES = libgnum_xbase.la
 
-libxbase_la_SOURCES =		\
+libgnum_xbase_la_SOURCES =		\
 	boot.c			\
 	xbase.c			\
 	xbase.h

@@ -1,5 +1,18 @@
 1999-12-27  Jody Goldberg <jgoldberg@home.com>
 
+	* configure.in : Re-enable the python plugin by default.
+
+	* src/plugin.c (load_all_plugins) : Search in a version specific
+	  directory.
+
+	* plugins/*/Makefile.am : Install in 
+	      <prefix>/lib/gnumeric/plugins/${VERSION}
+	  to decrease the number of silly version problems.
+	  Adjust the plugin names to follow the convention
+	      libgnum_<name>.so
+	  to avoid problems like the python plugin 'libpython.so'
+	  depending on the python libraries with the same name.
+	
 	* src/cell.c (cell_get_formatted_val) : Make public.
 
 1999-12-23  JP Rosevear  <jpr@arcavia.com>

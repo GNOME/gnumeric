@@ -113,15 +113,17 @@ static void
 load_all_plugins (void)
 {
 	char *plugin_dir;
-	char *home_dir = getenv ("HOME");
+	char const * const home_dir = getenv ("HOME");
 	
 	/* Load the user plugins */
-	plugin_dir = g_strconcat (home_dir ? home_dir : "", "/.gnumeric/plugins/", NULL);
-	plugin_load_plugins_in_dir (plugin_dir);
-	g_free (plugin_dir);
+	if (home_dir != NULL) {
+		plugin_dir = g_strconcat (home_dir, "/.gnumeric/plugins/" GNUMERIC_VERSION "/", NULL);
+		plugin_load_plugins_in_dir (plugin_dir);
+		g_free (plugin_dir);
+	}
 
 	/* Load the system plugins */
-	plugin_dir = gnome_unconditional_libdir_file ("gnumeric/plugins/");
+	plugin_dir = gnome_unconditional_libdir_file ("gnumeric/plugins/" GNUMERIC_VERSION "/");
 	plugin_load_plugins_in_dir (plugin_dir);
 	g_free (plugin_dir);
 }

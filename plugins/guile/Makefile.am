@@ -10,9 +10,9 @@ GNUMERIC_SRC_DIR = $(srcdir)/../../src
 #
 plugindir = $(libdir)/gnumeric/plugins
 
-plugin_LTLIBRARIES = libgnumguile.la
+plugin_LTLIBRARIES = libgnum_guile.la
 
-libgnumguile_la_SOURCES = plugin.c
+libgnum_guile_la_SOURCES = plugin.c
 
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\
@@ -22,7 +22,7 @@ INCLUDES = 						\
 	$(GNOME_INCLUDEDIR)
 
 #libguile_la_LDFLAGS = $(PYTHON_LIB_LOC)
-libgnumguile_la_LIBADD = $(GUILE_LIBS)
+libgnum_guile_la_LIBADD = $(GUILE_LIBS)
 
 Guilescriptsdir = $(datadir)/gnumeric/guile
 

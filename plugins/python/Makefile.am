@@ -8,11 +8,11 @@ GNUMERIC_SRC_DIR = $(srcdir)/../../src
 #
 # Where to install the plugin
 #
-plugindir = $(libdir)/gnumeric/plugins
+plugindir = $(libdir)/gnumeric/plugins/$(VERSION)
 
-plugin_LTLIBRARIES = libpython.la
+plugin_LTLIBRARIES = libgnum_python.la
 
-libpython_la_SOURCES = python.c
+libgnum_python_la_SOURCES = python.c
 
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\
@@ -21,8 +21,8 @@ INCLUDES = 						\
 	$(PY_CFLAGS)				\
 	$(GNOME_INCLUDEDIR)
 
-libpython_la_LDFLAGS = $(PY_LIB_LOC)  
-libpython_la_LIBADD = -l$(PY_LIBS) $(PY_EXTRA_LIBS)
+libgnum_python_la_LDFLAGS = $(PY_LIB_LOC)  
+libgnum_python_la_LIBADD = -l$(PY_LIBS) $(PY_EXTRA_LIBS)
 
 Pythonscriptsdir = $(datadir)/gnumeric/python
 

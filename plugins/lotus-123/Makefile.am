@@ -7,11 +7,11 @@ INCLUDES = 						\
 	-I$(top_srcdir)/src				\
 	$(GNOME_INCLUDEDIR)
 
-plugindir = $(libdir)/gnumeric/plugins
+plugindir = $(libdir)/gnumeric/plugins/$(VERSION)
 
-plugin_LTLIBRARIES = liblotus.la
+plugin_LTLIBRARIES = libgnum_lotus.la
 
-liblotus_la_SOURCES =		\
+libgnum_lotus_la_SOURCES =		\
 	boot.c			\
 	config.h		\
 	lotus.c			\

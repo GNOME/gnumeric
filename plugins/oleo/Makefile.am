@@ -7,11 +7,11 @@ INCLUDES = 						\
 	-I$(top_srcdir)/src				\
 	$(GNOME_INCLUDEDIR)
 
-plugindir = $(libdir)/gnumeric/plugins
+plugindir = $(libdir)/gnumeric/plugins/$(VERSION)
 
-plugin_LTLIBRARIES = liboleo.la
+plugin_LTLIBRARIES = libgnum_oleo.la
 
-liboleo_la_SOURCES =		\
+libgnum_oleo_la_SOURCES =		\
         boot.c  \
 	oleo.c	\
 	oleo.h

@@ -8,11 +8,11 @@ GNUMERIC_SRC_DIR = $(top_srcdir)/src
 #
 # Where to install the plugin
 #
-plugindir = $(libdir)/gnumeric/plugins
+plugindir = $(libdir)/gnumeric/plugins/$(VERSION)
 
-plugin_LTLIBRARIES = libdif.la
+plugin_LTLIBRARIES = libgnum_dif.la
 
-libdif_la_SOURCES = dif.h dif.c
+libgnum_dif_la_SOURCES = dif.h dif.c
 
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\

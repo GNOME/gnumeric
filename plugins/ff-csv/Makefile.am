@@ -8,11 +8,11 @@ GNUMERIC_SRC_DIR = $(top_srcdir)/src
 #
 # Where to install the plugin
 #
-plugindir = $(libdir)/gnumeric/plugins
+plugindir = $(libdir)/gnumeric/plugins/$(VERSION)
 
-plugin_LTLIBRARIES = libcsv.la
+plugin_LTLIBRARIES = libgnum_csv.la
 
-libcsv_la_SOURCES = csv-io.h csv-io.c
+libgnum_csv_la_SOURCES = csv-io.h csv-io.c
 
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\

@@ -10,7 +10,7 @@ GNUMERIC_SRC_DIR = $(srcdir)/../../src
 #
 # Where to install the plugin
 #
-execplugindir = $(libdir)/gnumeric/plugins
+execplugindir = $(libdir)/gnumeric/plugins/$(VERSION)
 gnperldir = $(datadir)/gnumeric/perl/lib
 
 PERL_CFLAGS = $(PERL_CCCDLFLAGS)				\

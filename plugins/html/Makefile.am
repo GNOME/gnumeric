@@ -8,11 +8,11 @@ GNUMERIC_SRC_DIR = $(top_srcdir)/src
 #
 # Where to install the plugin
 #
-plugindir = $(libdir)/gnumeric/plugins
+plugindir = $(libdir)/gnumeric/plugins/$(VERSION)
 
-plugin_LTLIBRARIES = libhtml.la
+plugin_LTLIBRARIES = libgnum_html.la
 
-libhtml_la_SOURCES = boot.h boot.c html.h html.c latex.h latex.c \
+libgnum_html_la_SOURCES = boot.h boot.c html.h html.c latex.h latex.c \
 				roff.h roff.c font.h font.c epsf.h epsf.c ps.h ps.c
 
 INCLUDES = 						\
