@@ -1,3 +1,7 @@
+2003-02-08  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : remove mr_IN until there is content
+
 2003-02-07  Morten Welinder  <terra@diku.dk>
 
 	* src/rendered-value.h: Store a GdkColor here in order to work
