@@ -688,9 +688,6 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 		GtkWidget *w = state->format.widget[tmp];
 		gtk_widget_show (w);
 
-		/* The sample is always the 1st widget */
-		gtk_box_reorder_child (state->format.box, w, i+1);
-
 		if (tmp == F_LIST) {
 			GtkCList *cl = GTK_CLIST (w);
 			int select = -1, start = 0, end = -1;

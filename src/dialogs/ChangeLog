@@ -1,3 +1,7 @@
+2002-02-28  Jody Goldberg <jody@gnome.org>
+
+	* cell-format.glade : reorder slightly.
+
 2002-02-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* insert-cells.glade : add help button, change some ids
@@ -13,6 +17,9 @@
 	  assigning things twice.  Simplify it while we're in here.
 	(fmt_dialog_init_validation_page) : Use gnm_expr_entry_load_from_expr.
 	(validation_entry_from_expr) : delete.
+	(fmt_dialog_enable_widgets) : don't reorder things.  We only bother
+	  storing the interesting widget, bu there are wrappers around some of
+	  them which was breaking the reorder process.
 
 2002-02-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
