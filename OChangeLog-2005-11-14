@@ -1,3 +1,11 @@
+2004-04-01  Jody Goldberg <jody@gnome.org>
+
+	* src/item-edit.c (item_edit_event) : basic cursor position support.
+
+	* src/print-cell.c (print_cell_background) : draw diagonals.
+	* src/style-border.c (style_border_print_diag) : fill in.  Where did
+	  this code go ?  I could have sworn I implemented this years ago.
+
 2004-04-01  Morten Welinder  <terra@gnome.org>
 
 	* src/format.c (append_hour_elapsed): Fix precision issues.

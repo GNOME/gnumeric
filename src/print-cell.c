@@ -521,6 +521,7 @@ print_cell_background (GnomePrintContext *context,
 	if (gnumeric_background_set_pc (style, context))
 		/* Fill the entire cell (API excludes far pixel) */
 		print_rectangle (context, x, y, w+1, h+1);
+	style_border_print_diag (style, context, x, y, x+w, y-h);
 }
 
 /**
