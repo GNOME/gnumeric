@@ -108,7 +108,7 @@ shuffle_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button, ShuffleState *state)
 
 	type = gnumeric_glade_group_value (state->gui, shuffle_by);
 
-	ds = data_shuffling (WORKBOOK_CONTROL (state->wbcg), dao, 
+	ds = data_shuffling (WORKBOOK_CONTROL (state->wbcg), dao,
 			     state->sheet, input, type);
 
 	wbc = WORKBOOK_CONTROL (state->wbcg);

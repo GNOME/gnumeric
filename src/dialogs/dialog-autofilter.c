@@ -84,17 +84,17 @@ map_op (AutoFilterState *state, GnmFilterOp *op,
 	case 5: *op = GNM_FILTER_OP_LT;		break;
 	case 6: *op = GNM_FILTER_OP_LTE;	break;
 
-	case 7: 
+	case 7:
 	case 8: *op = (i == 8) ? GNM_FILTER_OP_NOT_EQUAL : GNM_FILTER_OP_EQUAL;
 		v = value_new_string_nocopy (g_strconcat ("*", txt, NULL));
 		break;
 
-	case 9: 
+	case 9:
 	case 10: *op = (i == 10) ? GNM_FILTER_OP_NOT_EQUAL : GNM_FILTER_OP_EQUAL;
 		v = value_new_string_nocopy (g_strconcat (txt, "*", NULL));
 		break;
 
-	case 11: 
+	case 11:
 	case 12: *op = (i == 12) ? GNM_FILTER_OP_NOT_EQUAL : GNM_FILTER_OP_EQUAL;
 		v = value_new_string_nocopy (g_strconcat ("*", txt, "*", NULL));
 		break;

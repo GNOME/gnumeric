@@ -313,7 +313,7 @@ stf_export_dialog_sheet_page_init (GladeXML *gui, Workbook *wb)
 		clist = data->sheet_export;
 	else
 		clist = data->sheet_avail;
-		
+
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
 		char *t[1];

@@ -71,10 +71,10 @@ dialog_summary_get (SummaryState *state)
 		char const *txt;
 
 		w = glade_xml_get_widget (state->gui, dialog_summary_names[lp]);
-		if (w == NULL) 
+		if (w == NULL)
 			continue;
 
-		old_content = summary_item_as_text_by_name (dialog_summary_names[lp], 
+		old_content = summary_item_as_text_by_name (dialog_summary_names[lp],
 							    wb->summary_info);
 		txt = gtk_entry_get_text (GTK_ENTRY (w));
 
@@ -92,7 +92,7 @@ dialog_summary_get (SummaryState *state)
 
 		w = glade_xml_get_widget (state->gui, summary_item_name[SUMMARY_I_COMMENTS]);
 		comments = gnumeric_textview_get_text (GTK_TEXT_VIEW (w));
-		old_content = summary_item_as_text_by_name (summary_item_name[SUMMARY_I_COMMENTS], 
+		old_content = summary_item_as_text_by_name (summary_item_name[SUMMARY_I_COMMENTS],
 							    wb->summary_info);
 		if (0 != strcmp (old_content, comments))
 			sit = summary_item_new_string (summary_item_name[SUMMARY_I_COMMENTS],
@@ -127,7 +127,7 @@ dialog_summary_put (SummaryState *state)
 	}
 	w = glade_xml_get_widget (state->gui, summary_item_name[SUMMARY_I_COMMENTS]);
 	if (w) {
-		char *txt = summary_item_as_text_by_name (summary_item_name[SUMMARY_I_COMMENTS], 
+		char *txt = summary_item_as_text_by_name (summary_item_name[SUMMARY_I_COMMENTS],
 							  sin);
 		gnumeric_textview_set_text (GTK_TEXT_VIEW (w), txt);
 		g_free (txt);
@@ -178,10 +178,10 @@ cb_dialog_summary_destroy (GtkObject *w, SummaryState *state)
 	g_return_val_if_fail (state != NULL, FALSE);
 
 	g_signal_handler_disconnect (
-		G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg))), 
+		G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg))),
 		state->signal_handler_filename_changed);
 	g_signal_handler_disconnect (
-		G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg))), 
+		G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg))),
 		state->signal_handler_summary_changed);
 
 	if (state->gui != NULL) {
@@ -260,14 +260,14 @@ dialog_summary_update (WorkbookControlGUI *wbcg, gboolean open_dialog)
 
 	dialog_summary_put (state);
 
-	g_object_set_data (G_OBJECT (state->dialog), SUMMARY_DIALOG_KEY_DIALOG, 
+	g_object_set_data (G_OBJECT (state->dialog), SUMMARY_DIALOG_KEY_DIALOG,
 			   state);
 
-	state->signal_handler_filename_changed = g_signal_connect ( 
-		G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg))), 
+	state->signal_handler_filename_changed = g_signal_connect (
+		G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg))),
 		"filename_changed", G_CALLBACK (cb_info_changed), state) ;
-	state->signal_handler_summary_changed = g_signal_connect ( 
-		G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg))), 
+	state->signal_handler_summary_changed = g_signal_connect (
+		G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg))),
 		"summary_changed", G_CALLBACK (cb_info_changed), state) ;
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),

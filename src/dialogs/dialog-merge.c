@@ -107,7 +107,7 @@ cb_merge_selection_changed (GtkTreeSelection *selection, MergeState *state)
 		gnm_expr_entry_load_from_text (state->field, field_string);
 		g_free (data_string);
 		g_free (field_string);
-	} 
+	}
 	cb_merge_update_buttons (NULL, state);
 }
 
@@ -256,11 +256,11 @@ cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 		if (field_problems == 1)
 			text = g_strdup (_("One field is not part of the merge zone!"));
 		else
-			text = g_strdup_printf (_("%i fields are not part of the merge zone!"), 
+			text = g_strdup_printf (_("%i fields are not part of the merge zone!"),
 						field_problems);
 		gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
 					  &(state->warning_dialog),
-					  GTK_MESSAGE_ERROR, 
+					  GTK_MESSAGE_ERROR,
 					  text);
 		g_free (text);
 		value_release (v_zone);

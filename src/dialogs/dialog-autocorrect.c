@@ -25,7 +25,7 @@
 
 
 /*
- *  FIXME:  since we are displaying gconf data, we should register a notification and 
+ *  FIXME:  since we are displaying gconf data, we should register a notification and
  *          update our info on gconf changes!
  *
  */
@@ -131,7 +131,7 @@ autocorrect_init_exception_list (AutoCorrectState *state,
 	gtk_tree_view_append_column (GTK_TREE_VIEW (exception->list),
 		gtk_tree_view_column_new_with_attributes (NULL,
 			gtk_cell_renderer_text_new (),
-			"text", 0, 
+			"text", 0,
 			NULL));
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (exception->list));

@@ -333,7 +333,7 @@ get_table_expr_entry (GtkTable *t, int y, int x)
 
 	for (l = t->children; l; l = l->next) {
 		GtkTableChild *child = l->data;
-		if (child->left_attach == x && child->top_attach == y && 
+		if (child->left_attach == x && child->top_attach == y &&
 		    IS_GNUMERIC_EXPR_ENTRY (child->widget)) {
 			return GNUMERIC_EXPR_ENTRY (child->widget);
 		}
@@ -352,16 +352,16 @@ get_table_float_entry (GtkTable *t, int y, int x, Cell *cell, gnm_float *number,
 	*wp = NULL;
 	for (l = t->children; l; l = l->next) {
 		GtkTableChild *child = l->data;
-		if (child->left_attach == x && child->top_attach == y && 
+		if (child->left_attach == x && child->top_attach == y &&
 		    GTK_IS_ENTRY (child->widget)) {
 			*wp = GTK_ENTRY (child->widget);
 			format = mstyle_get_format (cell_get_mstyle (cell));
-			return (with_default ? 
+			return (with_default ?
 				entry_to_float_with_format_default (GTK_ENTRY (child->widget), number,
-							   TRUE, format, default_float) :  
+							   TRUE, format, default_float) :
 				entry_to_float_with_format (GTK_ENTRY (child->widget), number,
 							   TRUE, format));
-		} 
+		}
 	}
 	return 3;
 }
@@ -415,7 +415,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			goto error;
 		}
 
-		if (get_table_float_entry (dd->source_table, row, COL_MIN, cells[dims], 
+		if (get_table_float_entry (dd->source_table, row, COL_MIN, cells[dims],
 					   &(minima[dims]), &e_w, FALSE, 0.0)) {
 			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as minimum"));
@@ -423,7 +423,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			goto error;
 		}
 
-		if (get_table_float_entry (dd->source_table, row, COL_MAX, cells[dims], 
+		if (get_table_float_entry (dd->source_table, row, COL_MAX, cells[dims],
 					   &(maxima[dims]), &e_w, FALSE, 0.0)) {
 			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as maximum"));
@@ -438,7 +438,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			goto error;
 		}
 
-		if (get_table_float_entry (dd->source_table, row, COL_STEP, cells[dims], 
+		if (get_table_float_entry (dd->source_table, row, COL_STEP, cells[dims],
 					   &(steps[dims]), &e_w, TRUE, 1.0)) {
 			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as step size"));

@@ -184,7 +184,7 @@ update_log (SimulationState *state, simulation_t *sim)
 		switch (i) {
 		case 0:
 			g_string_append_printf (buf, "%d",
-						sim->last_round - 
+						sim->last_round -
 						sim->first_round + 1);
 			break;
 		case 1:
@@ -197,7 +197,7 @@ update_log (SimulationState *state, simulation_t *sim)
 			g_string_append_printf (buf, "%d", sim->n_output_vars);
 			break;
 		case 4:
-			g_string_append_printf (buf, "%.2g", 
+			g_string_append_printf (buf, "%.2g",
 						sim->end.tv_sec -
 						sim->start.tv_sec +
 						(sim->end.tv_usec -
@@ -220,15 +220,15 @@ update_log (SimulationState *state, simulation_t *sim)
 	path = gtk_tree_path_new_from_string ("0");
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (store), &iter, path);
 	gtk_tree_path_free (path);
-	  
+
 	gtk_tree_view_append_column
 		(GTK_TREE_VIEW (view),
-		 gtk_tree_view_column_new_with_attributes 
+		 gtk_tree_view_column_new_with_attributes
 		 (_("Name"),
 		  gtk_cell_renderer_text_new (), "text", 0, NULL));
 	gtk_tree_view_append_column
 		(GTK_TREE_VIEW (view),
-		 gtk_tree_view_column_new_with_attributes 
+		 gtk_tree_view_column_new_with_attributes
 		 (_("Value"),
 		  gtk_cell_renderer_text_new (), "text", 1, NULL));
 	gtk_tree_view_set_model (GTK_TREE_VIEW (view), GTK_TREE_MODEL (store));

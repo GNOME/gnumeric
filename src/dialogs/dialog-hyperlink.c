@@ -187,13 +187,13 @@ static struct {
 	  N_("Jump to specific cells or named range in the current workbook"),
 	  dhl_set_target_cur_wb,
 	  dhl_get_target_cur_wb },
-	
+
 	{ N_("_External Link"), "Gnumeric_Link_External",
 	  "GnmHLinkExternal",	"external-link-box" ,
 	  N_("Open an external file with the specified name"),
 	  dhl_set_target_external,
 	  dhl_get_target_external },
-#ifndef GNM_NO_MAILTO	
+#ifndef GNM_NO_MAILTO
 	{ N_("Send _Email"),	"Gnumeric_Link_EMail",
 	  "GnmHLinkEMail",	"email-box" ,
 	  N_("Prepare an email"), NULL },
@@ -211,7 +211,7 @@ dhl_set_target (HyperlinkState* state)
 	unsigned i;
 	const char* const target = gnm_hlink_get_target (state->link);
 	const char* type_name;
-	
+
 	if (target) {
 		type_name = G_OBJECT_TYPE_NAME (state->link);
 		for (i = 0 ; i < G_N_ELEMENTS (type); i++) {
@@ -238,7 +238,7 @@ dhl_get_target (HyperlinkState *state, gboolean *success)
 			break;
 		}
 	}
-	
+
 	return NULL;
 }
 
@@ -256,11 +256,11 @@ dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 	char *cmdname;
 	const char *target;
 	gboolean success;
-	
+
 	target = dhl_get_target (state, &success);
 	if (!success)
 		return;		/* Let user continue editing */
-	
+
 	if (target) {
 		gnm_hlink_set_target (state->link, target);
 		gnm_hlink_set_tip (state->link, dhl_get_tip (state));
@@ -279,7 +279,7 @@ dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 		cmdname = _("Remove Hyperlink");
 		cmd_selection_format (WORKBOOK_CONTROL (state->wbcg), style,
 				      NULL, cmdname);
-	}		
+	}
 	gtk_widget_destroy (state->dialog);
 }
 
@@ -343,7 +343,7 @@ dhl_init (HyperlinkState *state)
 	GnumericExprEntry *expr_entry;
 	unsigned i, select = 0;
 
-#ifdef GNM_NO_MAILTO	
+#ifdef GNM_NO_MAILTO
 	gtk_widget_hide (glade_xml_get_widget (state->gui, "email-box"));
 #endif
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
@@ -450,7 +450,7 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 		g_object_ref (link);
 		state->is_new = FALSE;
 	}
-	
+
 	state->link = link;
 	if (dhl_init (state)) {
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,

@@ -193,7 +193,7 @@ dialog_zoom (WorkbookControlGUI *wbcg, Sheet *sheet)
 		radio  = GTK_RADIO_BUTTON (glade_xml_get_widget (state->gui, buttons[i].name));
 		g_return_if_fail (radio != NULL);
 
-		g_object_set_data (G_OBJECT (radio), ZOOM_DIALOG_FACTOR_KEY, 
+		g_object_set_data (G_OBJECT (radio), ZOOM_DIALOG_FACTOR_KEY,
 				   GINT_TO_POINTER(buttons[i].factor));
 
 		g_signal_connect (G_OBJECT (radio),

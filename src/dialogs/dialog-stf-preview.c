@@ -632,7 +632,7 @@ stf_preview_new (GnomeCanvas *canvas, gboolean formatted,
 
 	renderdata->charwidth = style_font_string_width (gnumeric_default_font,"W");
 	renderdata->charheight = style_font_get_height (gnumeric_default_font);
- 
+
 	renderdata->activecolumn = -1;
 	renderdata->date_conv	 = date_conv;
 

@@ -204,7 +204,7 @@ get_paper_pswidth (PrinterSetupState *state)
 {
 	double height;
 	double width;
-	if (gnome_print_job_get_page_size_from_config (state->pi->print_config, 
+	if (gnome_print_job_get_page_size_from_config (state->pi->print_config,
 							  &width, &height))
 		return width;
 	else
@@ -222,7 +222,7 @@ get_paper_psheight (PrinterSetupState *state)
 {
 	double height;
 	double width;
-	if (gnome_print_job_get_page_size_from_config (state->pi->print_config, 
+	if (gnome_print_job_get_page_size_from_config (state->pi->print_config,
 							  &width, &height))
 		return height;
 	else
@@ -643,7 +643,7 @@ cb_unit_selector_changed (GnomePrintUnitSelector *sel, PrinterSetupState *state)
 
 	unit = gnome_print_unit_selector_get_unit (sel);
 	if (unit) {
-		gnome_print_config_set (state->pi->print_config, GNOME_PRINT_KEY_PREFERED_UNIT, 
+		gnome_print_config_set (state->pi->print_config, GNOME_PRINT_KEY_PREFERED_UNIT,
 					unit->abbr);
 		spin_button_adapt_to_unit (state->margins.header.spin, unit);
 		spin_button_adapt_to_unit (state->margins.footer.spin, unit);
@@ -686,7 +686,7 @@ do_setup_margin (PrinterSetupState *state)
 
 	table = glade_xml_get_widget (state->gui, "margin-table");
 	state->unit_selector = gnome_print_unit_selector_new (GNOME_PRINT_UNIT_ABSOLUTE);
-	gtk_table_attach (GTK_TABLE (table), state->unit_selector, 1, 2, 1, 2, 
+	gtk_table_attach (GTK_TABLE (table), state->unit_selector, 1, 2, 1, 2,
 			  GTK_FILL, GTK_FILL | GTK_SHRINK, 0, 0);
 	g_signal_connect (G_OBJECT (state->unit_selector), "modified",
 			  G_CALLBACK (cb_unit_selector_changed), state);
@@ -1023,10 +1023,10 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "ok_button"), FALSE);
 
 	if (header)
-		g_signal_connect (G_OBJECT (dialog), "destroy", 
+		g_signal_connect (G_OBJECT (dialog), "destroy",
 				  G_CALLBACK (gtk_widget_destroyed), &state->customize_header);
 	else
-		g_signal_connect (G_OBJECT (dialog), "destroy", 
+		g_signal_connect (G_OBJECT (dialog), "destroy",
 				  G_CALLBACK (gtk_widget_destroyed), &state->customize_footer);
 
 
@@ -1383,7 +1383,7 @@ do_setup_page (PrinterSetupState *state)
 	gui = state->gui;
 	table = GTK_TABLE (glade_xml_get_widget (gui, "table-paper-selector"));
 
-	paper_selector = gnome_paper_selector_new_with_flags (pi->print_config, 
+	paper_selector = gnome_paper_selector_new_with_flags (pi->print_config,
 							      GNOME_PAPER_SELECTOR_MARGINS);
 	gtk_widget_show (paper_selector);
 	gtk_table_attach_defaults (table, paper_selector, 0, 1, 0, 1);
@@ -1399,7 +1399,7 @@ do_setup_page (PrinterSetupState *state)
 		gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (gui, "scale-percent-radio")), FALSE);
 	}
 
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "scale-percent-radio")), 
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "scale-percent-radio")),
 		"toggled",
 		G_CALLBACK (scaling_type_changed), state);
 
@@ -1438,8 +1438,8 @@ print_setup_get_sheet (PrinterSetupState *state)
 
 	if (apply_all_sheets)
 		return NULL;
-	return workbook_sheet_by_index (state->sheet->workbook, 
-					gtk_option_menu_get_history (GTK_OPTION_MENU 
+	return workbook_sheet_by_index (state->sheet->workbook,
+					gtk_option_menu_get_history (GTK_OPTION_MENU
 								     (state->sheet_selector)));
 }
 
@@ -1513,7 +1513,7 @@ cb_do_print_destroy (G_GNUC_UNUSED GtkWidget *button,
 	printer_setup_state_free (state);
 }
 
-static void        
+static void
 cb_do_sheet_selector_toggled (GtkToggleButton *togglebutton,
 			      PrinterSetupState *state)
 {
@@ -1539,7 +1539,7 @@ do_setup_sheet_selector (PrinterSetupState *state)
 		Sheet * a_sheet = workbook_sheet_by_index (state->sheet->workbook, i);
 		if (a_sheet == state->sheet)
 			n_this = i;
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), 
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu),
 				       gtk_menu_item_new_with_label (a_sheet->name_unquoted));
 	}
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (state->sheet_selector), menu);
@@ -1658,11 +1658,11 @@ do_fetch_page (PrinterSetupState *state)
 	double height;
 	double width;
 
-	if (gnome_print_job_get_page_size_from_config (state->pi->print_config, 
+	if (gnome_print_job_get_page_size_from_config (state->pi->print_config,
 							  &width, &height) &&
 	    height > width) {
 		state->pi->orientation = PRINT_ORIENT_VERTICAL;
-	} else 
+	} else
 		state->pi->orientation = PRINT_ORIENT_HORIZONTAL;
 
 	w = glade_xml_get_widget (gui, "scale-percent-radio");
@@ -1672,7 +1672,7 @@ do_fetch_page (PrinterSetupState *state)
 		state->pi->scaling.type = SIZE_FIT;
 
 	w = glade_xml_get_widget (gui, "scale-percent-spin");
-	state->pi->scaling.percentage.x = state->pi->scaling.percentage.y 
+	state->pi->scaling.percentage.x = state->pi->scaling.percentage.y
 		= GTK_SPIN_BUTTON (w)->adjustment->value;
 
 	w = glade_xml_get_widget (gui, "scale-width-spin");

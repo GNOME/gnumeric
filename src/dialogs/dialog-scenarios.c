@@ -111,15 +111,15 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		(GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 
 	if (cell_range == NULL) {
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, 
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 				 _("Invalid changing cells"));
 		gnm_expr_entry_grab_focus (state->input_entry, TRUE);
 		return;
 	}
-	
+
 	rr = value_to_rangeref (cell_range, FALSE);
 	if (rr->a.sheet != state->sheet) {
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, 
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 				 _("Changing cells should be on the current "
 				   "sheet only."));
 		gnm_expr_entry_grab_focus (state->input_entry, TRUE);
@@ -130,12 +130,12 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	name = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 	if (scenario_name_used (state->sheet->scenarios, name)) {
 	        g_free (name);
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, 
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 				 _("Scenario name already used"));
 		goto out;
 	} else if (check_name (name)) {
 	        g_free (name);
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, 
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 				 _("Invalid scenario name"));
 		goto out;
 	}
@@ -160,7 +160,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	cmd_scenario_add (wbc, scenario, state->sheet);
 
 	if (res)
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_WARNING, 
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_WARNING,
 				 _("Changing cells contain at least one "
 				   "expression that is not just a value. "
 				   "Note that showing the scenario will "
@@ -259,12 +259,12 @@ update_comment (ScenariosState *state, const gchar *cells,
 	/* Update comment text view */
 	w = glade_xml_get_widget (state->gui, "comment_view");
 	buf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (w));
- 
+
 	gtk_text_buffer_set_text (buf, comment, strlen (comment));
 }
 
 static gboolean
-find_scenario_strs (GList *scenarios, gchar *name, 
+find_scenario_strs (GList *scenarios, gchar *name,
 		    gchar **cells, gchar **comment)
 {
 	static gchar *buf1 = NULL, *buf2 = NULL;
@@ -302,17 +302,17 @@ set_selection_state (ScenariosState *state, gboolean f)
 		gchar                   *cells;
 
 		selection = gtk_tree_view_get_selection
-			(GTK_TREE_VIEW 
+			(GTK_TREE_VIEW
 			 (state->scenario_state->scenarios_treeview));
 		if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
 		return;
-		model = gtk_tree_view_get_model 
+		model = gtk_tree_view_get_model
 			(GTK_TREE_VIEW
 			 (state->scenario_state->scenarios_treeview));
-	
+
 		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,
 				    0, &name, -1);
-	
+
 		find_scenario_strs (state->sheet->scenarios, name,
 				    &cells, &comment);
 		update_comment (state, cells, comment);
@@ -346,7 +346,7 @@ update_scenarios_treeview (GtkWidget *view, GList *scenarios)
 				   GTK_TREE_MODEL (store));
 	  gtk_tree_view_append_column
 	          (GTK_TREE_VIEW (view),
-		   gtk_tree_view_column_new_with_attributes 
+		   gtk_tree_view_column_new_with_attributes
 		   (_("Name"),
 		    gtk_cell_renderer_text_new (), "text", 0, NULL));
 }
@@ -401,7 +401,7 @@ scenarios_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		cmd_scenario_mngr (wbc, cmd, state->sheet);
 	}
 
-	scenario_manager_ok (state->sheet); 
+	scenario_manager_ok (state->sheet);
 
 	gtk_widget_destroy (state->dialog);
 	scenario_manager_free (state);
@@ -482,11 +482,11 @@ scenarios_show_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	dao.sheet = state->sheet;
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
 		return;
-	model = gtk_tree_view_get_model 
+	model = gtk_tree_view_get_model
 	        (GTK_TREE_VIEW (state->scenario_state->scenarios_treeview));
-	
+
 	gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,  0, &value, -1);
-	
+
 	wbc = WORKBOOK_CONTROL (state->wbcg);
 	state->scenario_state->current =
 		scenario_by_name (state->sheet->scenarios, value, NULL),
@@ -516,11 +516,11 @@ scenarios_delete_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	dao.sheet = state->sheet;
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
 		return;
-	model = gtk_tree_view_get_model 
+	model = gtk_tree_view_get_model
 	        (GTK_TREE_VIEW (state->scenario_state->scenarios_treeview));
-	
+
 	gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 0, &value, -1);
-	
+
 	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 	all_deleted = scenario_mark_deleted (state->sheet->scenarios, value);
 	set_selection_state (state, FALSE);
@@ -549,7 +549,7 @@ scenarios_summary_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 
 	if (results == NULL) {
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, 
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 				 _("Results entry did not contain valid "
 				   "cell names."));
 		return;
@@ -557,7 +557,7 @@ scenarios_summary_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	scenario_summary (WORKBOOK_CONTROL (state->wbcg), state->sheet,
 			  results, &new_sheet);
-	
+
 	state->scenario_state->new_report_sheets =
 		g_slist_prepend (state->scenario_state->new_report_sheets,
 				 new_sheet);

@@ -100,9 +100,9 @@ ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 	sr = search_replace_new ();
 
-	sr->search_text = g_strdup (gtk_entry_get_text 
+	sr->search_text = g_strdup (gtk_entry_get_text
 				    (GTK_ENTRY (gnome_entry_gtk_entry (dd->search_text))));
-	sr->replace_text = g_strdup (gtk_entry_get_text 
+	sr->replace_text = g_strdup (gtk_entry_get_text
 				     (GTK_ENTRY (gnome_entry_gtk_entry (dd->replace_text))));
 
 	/* Save the contents of both gnome-entry's. */
@@ -324,15 +324,15 @@ dialog_search_replace_query (WorkbookControlGUI *wbcg,
 		gtk_window_set_transient_for (GTK_WINDOW (dialog), toplevel);
 
 	gtk_tooltips_set_tip (gtk_tooltips_new (),
-			      gtk_dialog_add_button (dialog, GTK_STOCK_CANCEL, 
+			      gtk_dialog_add_button (dialog, GTK_STOCK_CANCEL,
 						     GTK_RESPONSE_CANCEL),
 			      _("Perform no more replacements"), NULL);
 	gtk_tooltips_set_tip (gtk_tooltips_new (),
-			      gtk_dialog_add_button (dialog, GTK_STOCK_NO, 
+			      gtk_dialog_add_button (dialog, GTK_STOCK_NO,
 						     GTK_RESPONSE_NO),
 			      _("Do not perform this replacement"), NULL);
 	gtk_tooltips_set_tip (gtk_tooltips_new (),
-			      gtk_dialog_add_button (dialog, GTK_STOCK_YES, 
+			      gtk_dialog_add_button (dialog, GTK_STOCK_YES,
 						     GTK_RESPONSE_YES),
 			      _("Perform this replacement"), NULL);
 

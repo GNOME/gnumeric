@@ -576,138 +576,138 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 	err = entry_to_int (GTK_ENTRY (state->vars_entry), &data->n_vars, FALSE);
 	err = entry_to_int (GTK_ENTRY (state->count_entry), &data->count, FALSE);
 
-	data->distribution = state->distribution = 
+	data->distribution = state->distribution =
 		combo_get_distribution (state->distribution_combo);
 	switch (state->distribution) {
 	case NormalDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.normal.mean, TRUE);
-		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par2_entry),
 				      &data->param.normal.stdev, TRUE);
 		break;
 	case BernoulliDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.bernoulli.p, TRUE);
 		break;
 	case BetaDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.beta.a, TRUE);
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.beta.b, TRUE);
 		break;
 	case PoissonDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.poisson.lambda, TRUE);
 		break;
 	case ExponentialDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.exponential.b, TRUE);
 		break;
 	case ExponentialPowerDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.exppow.a, TRUE);
-		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par2_entry),
 				      &data->param.exppow.b, TRUE);
 		break;
 	case CauchyDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.cauchy.a, TRUE);
 		break;
 	case LandauDistribution:
 		break;
 	case LaplaceDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.laplace.a, TRUE);
 		break;
 	case GaussianTailDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.gaussian_tail.a, TRUE);
-		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par2_entry),
 				      &data->param.gaussian_tail.sigma, TRUE);
 		break;
 	case ChisqDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.chisq.nu, TRUE);
 		break;
 	case LogarithmicDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.logarithmic.p, TRUE);
 		break;
 	case LogisticDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.logistic.a, TRUE);
 		break;
 	case RayleighDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.rayleigh.sigma, TRUE);
 		break;
 	case RayleighTailDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.rayleigh_tail.a, TRUE);
-		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par2_entry),
 				      &data->param.rayleigh_tail.sigma, TRUE);
 		break;
 	case LognormalDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.lognormal.zeta, TRUE);
-		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par2_entry),
 				      &data->param.lognormal.sigma, TRUE);
 		break;
 	case LevyDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.levy.c, TRUE);
-		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par2_entry),
 				      &data->param.levy.alpha, TRUE);
 		break;
 	case FdistDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.fdist.nu1, TRUE);
-		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par2_entry),
 				      &data->param.fdist.nu2, TRUE);
 		break;
 	case ParetoDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.pareto.a, TRUE);
-		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par2_entry),
 				      &data->param.pareto.b, TRUE);
 		break;
 	case TdistDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.tdist.nu, TRUE);
 		break;
 	case WeibullDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.weibull.a, TRUE);
-		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par2_entry),
 				      &data->param.weibull.b, TRUE);
 		break;
 	case GeometricDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.geometric.p, TRUE);
 		break;
 	case GammaDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.gamma.a, TRUE);
-		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par2_entry),
 				      &data->param.gamma.b, TRUE);
 		break;
 	case Gumbel1Distribution:
 	case Gumbel2Distribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.gumbel.a, TRUE);
-		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par2_entry),
 				      &data->param.gumbel.b, TRUE);
 		break;
 	case BinomialDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.binomial.p, TRUE);
-		err = entry_to_int (GTK_ENTRY (state->par2_entry), 
+		err = entry_to_int (GTK_ENTRY (state->par2_entry),
 				    &data->param.binomial.trials, TRUE);
 		break;
 	case NegativeBinomialDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
 				      &data->param.negbinom.p, TRUE);
-		err = entry_to_int (GTK_ENTRY (state->par2_entry), 
+		err = entry_to_int (GTK_ENTRY (state->par2_entry),
 				    &data->param.negbinom.f, TRUE);
 		break;
 	case DiscreteDistribution:
@@ -731,8 +731,8 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 	}
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
-				state->base.sheet, 
-				dao, data, tool_random_engine) && 
+				state->base.sheet,
+				dao, data, tool_random_engine) &&
 	    (button == state->base.ok_button)) {
 		if (state->distribution_accel) {
 			gtk_window_remove_accel_group (GTK_WINDOW (state->base.dialog),

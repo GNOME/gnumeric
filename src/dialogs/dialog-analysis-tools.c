@@ -191,9 +191,9 @@ error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str)
 				  &(state->warning_dialog),
 				  GTK_MESSAGE_ERROR, err_str);
 
-	if (IS_GNUMERIC_EXPR_ENTRY (entry)) 
+	if (IS_GNUMERIC_EXPR_ENTRY (entry))
 		gnm_expr_entry_grab_focus (GNUMERIC_EXPR_ENTRY (entry), TRUE);
-	else 
+	else
 		focus_on_entry (GTK_ENTRY (entry));
 }
 
@@ -309,7 +309,7 @@ dialog_tool_cmp (GtkTableChild *tchild, GtkWidget *widget)
  *
  **/
 gboolean
-dialog_tool_init (GenericToolState *state, 
+dialog_tool_init (GenericToolState *state,
 		  WorkbookControlGUI *wbcg,
 		  Sheet *sheet,
 		  char const *help_file,
@@ -319,8 +319,8 @@ dialog_tool_init (GenericToolState *state,
 		  char const *input_var2_str,
 		  char const *error_str,
 		  char const *key,
-		  GtkSignalFunc ok_function, 
-		  GtkSignalFunc close_function, 
+		  GtkSignalFunc ok_function,
+		  GtkSignalFunc close_function,
 		  GtkSignalFunc sensitivity_cb,
 		  GnumericExprEntryFlags flags)
 {
@@ -334,7 +334,7 @@ dialog_tool_init (GenericToolState *state,
 	state->sv    = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->warning_dialog = NULL;
 	state->help_link      = help_file;
-	state->input_var1_str = (input_var1_str == NULL) ? 
+	state->input_var1_str = (input_var1_str == NULL) ?
 		_("_Input Range:") : input_var1_str;
 	state->input_var2_str = input_var2_str;
 
@@ -395,7 +395,7 @@ dialog_tool_init (GenericToolState *state,
 
 		state->input_entry_2 = gnumeric_expr_entry_new (state->wbcg,
 								TRUE);
-		gnm_expr_entry_set_flags (state->input_entry_2, 
+		gnm_expr_entry_set_flags (state->input_entry_2,
 					  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
 		gnm_expr_entry_set_scg (state->input_entry_2,
 					wbcg_cur_scg (state->wbcg));
@@ -579,29 +579,29 @@ corr_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = glade_xml_get_widget (state->gui, "labels_button");
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
 			       dao, data, analysis_tool_correlation_engine)) {
 
 		switch (data->err - 1) {
 		case GROUPED_BY_ROW:
-			error_in_entry ((GenericToolState *) state, 
+			error_in_entry ((GenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input rows must have equal size!"));
 			break;
 		case GROUPED_BY_COL:
-			error_in_entry ((GenericToolState *) state, 
+			error_in_entry ((GenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input columns must have equal size!"));
 			break;
 		case GROUPED_BY_AREA:
-			error_in_entry ((GenericToolState *) state, 
+			error_in_entry ((GenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input areas must have equal size!"));
 			break;
 		default:
 			text = g_strdup_printf (
 				_("An unexpected error has occurred: %d."), data->err);
-			error_in_entry ((GenericToolState *) state, 
+			error_in_entry ((GenericToolState *) state,
 					GTK_WIDGET (state->input_entry), text);
 			g_free (text);
 			break;
@@ -609,7 +609,7 @@ corr_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		range_list_destroy (data->input);
 		g_free (dao);
 		g_free (data);
-	} else 
+	} else
 		gtk_widget_destroy (state->dialog);
 	return;
 }
@@ -696,29 +696,29 @@ cov_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = glade_xml_get_widget (state->gui, "labels_button");
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
 			       dao, data, analysis_tool_covariance_engine)) {
 
 		switch (data->err - 1) {
 		case GROUPED_BY_ROW:
-			error_in_entry ((GenericToolState *) state, 
+			error_in_entry ((GenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input rows must have equal size!"));
 			break;
 		case GROUPED_BY_COL:
-			error_in_entry ((GenericToolState *) state, 
+			error_in_entry ((GenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input columns must have equal size!"));
 			break;
 		case GROUPED_BY_AREA:
-			error_in_entry ((GenericToolState *) state, 
+			error_in_entry ((GenericToolState *) state,
 					GTK_WIDGET (state->input_entry),
 					_("The selected input areas must have equal size!"));
 			break;
 		default:
 			text = g_strdup_printf (
 				_("An unexpected error has occurred: %d."), data->err);
-			error_in_entry ((GenericToolState *) state, 
+			error_in_entry ((GenericToolState *) state,
 					GTK_WIDGET (state->input_entry), text);
 			g_free (text);
 			break;
@@ -726,7 +726,7 @@ cov_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		range_list_destroy (data->input);
 		g_free (dao);
 		g_free (data);
-	} else 
+	} else
 		gtk_widget_destroy (state->dialog);
 	return;
 }
@@ -813,8 +813,8 @@ rank_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
         data->av_ties = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
-			       dao, data, analysis_tool_ranking_engine)) 
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+			       dao, data, analysis_tool_ranking_engine))
 		gtk_widget_destroy (state->dialog);
 	return;
 }
@@ -845,7 +845,7 @@ dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	state = g_new (GenericToolState, 1);
 
-	if (dialog_tool_init (state, wbcg, sheet,  
+	if (dialog_tool_init (state, wbcg, sheet,
 			      "rank-and-percentile-tool.html",
 			      "rank.glade", "RankPercentile", NULL, NULL,
 			      _("Could not create the Rank and Percentile "
@@ -901,7 +901,7 @@ fourier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = glade_xml_get_widget (state->gui, "inverse_button");
 	data->inverse = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)) != 0;
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
 			       dao, data, analysis_tool_fourier_engine))
 		gtk_widget_destroy (state->dialog);
 
@@ -1013,8 +1013,8 @@ cb_desc_stat_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet, 
-			       dao, data, analysis_tool_descriptive_engine)) 
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
+			       dao, data, analysis_tool_descriptive_engine))
 		gtk_widget_destroy (state->base.dialog);
 	return;
 }
@@ -1096,7 +1096,7 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	state = g_new (DescriptiveStatState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet, 
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      "descriptive-statistics-tool.html",
 			      "descriptive-stats.glade", "DescStats",
 			      NULL, NULL,
@@ -1224,18 +1224,18 @@ ttest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	switch (state->invocation) {
 	case TTEST_PAIRED:
-		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet, 
-					dao, data, analysis_tool_ttest_paired_engine)) 
+		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
+					dao, data, analysis_tool_ttest_paired_engine))
 			gtk_widget_destroy (state->base.dialog);
 		break;
 	case TTEST_UNPAIRED_EQUALVARIANCES:
-		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet, 
-					dao, data, analysis_tool_ttest_eqvar_engine)) 
+		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
+					dao, data, analysis_tool_ttest_eqvar_engine))
 			gtk_widget_destroy (state->base.dialog);
 		break;
 	case TTEST_UNPAIRED_UNEQUALVARIANCES:
-		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet, 
-					dao, data, analysis_tool_ttest_neqvar_engine)) 
+		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
+					dao, data, analysis_tool_ttest_neqvar_engine))
 			gtk_widget_destroy (state->base.dialog);
 		break;
 	case TTEST_ZTEST:
@@ -1258,8 +1258,8 @@ ttest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			return;
 		}
 
-		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet, 
-					dao, data, analysis_tool_ztest_engine)) 
+		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
+					dao, data, analysis_tool_ztest_engine))
 			gtk_widget_destroy (state->base.dialog);
 		break;
 	}
@@ -1590,8 +1590,8 @@ ftest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &data->alpha, TRUE);
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet, 
-				dao, data, analysis_tool_ftest_engine)) 
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
+				dao, data, analysis_tool_ftest_engine))
 		gtk_widget_destroy (state->base.dialog);
 
 	return;
@@ -1672,7 +1672,7 @@ dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	state = g_new (FTestToolState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,  
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      "ftest-two-sample-for-variances-tool.html",
 			      "variance-tests.glade", "VarianceTests",
 			      _("Var_iable 1 Range"), _("_Variable 2 Range"),
@@ -1792,8 +1792,8 @@ sampling_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	}
 	err = entry_to_int (GTK_ENTRY (state->number_entry), &data->number, TRUE);
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet, 
-			       dao, data, analysis_tool_sampling_engine)) 
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
+			       dao, data, analysis_tool_sampling_engine))
 		gtk_widget_destroy (state->base.dialog);
 	return;
 }
@@ -1978,13 +1978,13 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = glade_xml_get_widget (state->base.gui, "intercept-button");
 	data->intercept = 1 - gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet, 
+	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			       dao, data, analysis_tool_regression_engine)) {
 		char *text;
 
 		switch ( data->base.err) {
 		case  analysis_tools_REG_invalid_dimensions:
-			error_in_entry ((GenericToolState *) state, 
+			error_in_entry ((GenericToolState *) state,
 					GTK_WIDGET (state->base.input_entry),
 			      _("There must be an equal number of entries "
 				"for each variable in the regression."));
@@ -1992,7 +1992,7 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		default:
 			text = g_strdup_printf (
 				_("An unexpected error has occurred: %d."), data->base.err);
-			error_in_entry ((GenericToolState *) state, 
+			error_in_entry ((GenericToolState *) state,
 					GTK_WIDGET (state->base.input_entry), text);
 			g_free (text);
 			break;
@@ -2088,7 +2088,7 @@ dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      "regression-tool.html",
-			      "regression.glade", "Regression", 
+			      "regression.glade", "Regression",
 			      _("_X Variables:"), _("_Y Variable:"),
 			      _("Could not create the Regression Tool dialog."),
 			      REGRESSION_KEY,
@@ -2151,7 +2151,7 @@ exp_smoothing_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = glade_xml_get_widget (state->base.gui, "std_errors_button");
 	data->std_error_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet, 
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			       dao, data, analysis_tool_exponential_smoothing_engine))
 		gtk_widget_destroy (state->base.dialog);
 
@@ -2232,7 +2232,7 @@ dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      G_CALLBACK (exp_smoothing_tool_ok_clicked_cb),
 			      NULL,
 			      G_CALLBACK (exp_smoothing_tool_update_sensitivity_cb),
-			      0)) 
+			      0))
 		return 0;
 
 	state->damping_fact_entry = glade_xml_get_widget (state->base.gui,
@@ -2293,7 +2293,7 @@ average_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = glade_xml_get_widget (state->base.gui, "std_errors_button");
 	data->std_error_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet, 
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			       dao, data, analysis_tool_moving_average_engine))
 		gtk_widget_destroy (state->base.dialog);
 
@@ -2363,7 +2363,7 @@ dialog_average_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	state = g_new (AverageToolState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet, 
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      "moving-average-tool.html",
 			      "moving-averages.glade",
 			      "MovAverages", NULL, NULL,
@@ -2372,7 +2372,7 @@ dialog_average_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      AVERAGE_KEY,
 			      G_CALLBACK (average_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (average_tool_update_sensitivity_cb),
-			      0)) 
+			      0))
 		return 0;
 
 	state->interval_entry = glade_xml_get_widget (state->base.gui, "interval-entry");
@@ -2483,7 +2483,7 @@ histogram_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		w = glade_xml_get_widget (state->base.gui, "labels_2_button");
 		data->bin_labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 		data->bin = g_slist_prepend (NULL, gnm_expr_entry_parse_as_value
-					     (GNUMERIC_EXPR_ENTRY (state->base.input_entry_2), 
+					     (GNUMERIC_EXPR_ENTRY (state->base.input_entry_2),
 					      state->base.sheet));
 	} else {
 		entry_to_int(state->n_entry, &data->n,TRUE);
@@ -2505,7 +2505,7 @@ histogram_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = glade_xml_get_widget (state->base.gui, "chart-button");
 	data->chart = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet, 
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			       dao, data, analysis_tool_histogram_engine))
 		gtk_widget_destroy (state->base.dialog);
 
@@ -2589,15 +2589,15 @@ dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	state = g_new (HistogramToolState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet, 
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      "histogram-tool.html",
-			      "histogram.glade", "Histogram", 
+			      "histogram.glade", "Histogram",
 			      _("_Input Range:"), _("Bin _Range:"),
 			      _("Could not create the Histogram Tool dialog."),
 			      HISTOGRAM_KEY,
 			      G_CALLBACK (histogram_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (histogram_tool_update_sensitivity_cb),
-			      0)) 
+			      0))
 		return 0;
 
 	state->predetermined_button = GTK_WIDGET (glade_xml_get_widget
@@ -2686,7 +2686,7 @@ anova_single_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &data->alpha, FALSE);
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet, 
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 				dao, data, analysis_tool_anova_single_engine))
 		gtk_widget_destroy (state->base.dialog);
 
@@ -2766,7 +2766,7 @@ dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	state = g_new (AnovaSingleToolState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,  
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      "anova.html#ANOVA-SINGLE-FACTOR-TOOL",
 			      "anova-one.glade", "ANOVA", NULL, NULL,
 			      _("Could not create the ANOVA (single factor) "
@@ -2842,11 +2842,11 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			    &data->replication, TRUE);
 
 	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
-			       state->base.sheet, 
+			       state->base.sheet,
 			       dao, data, analysis_tool_anova_two_factor_engine)) {
 		switch (data->err) {
 		case analysis_tools_missing_data:
-			error_in_entry ((GenericToolState *) state, 
+			error_in_entry ((GenericToolState *) state,
 					GTK_WIDGET (state->base.input_entry),
 					data->labels ? _("The given input range should contain at "
 					  "least two columns and two rows of data and the "
@@ -2855,7 +2855,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 					  "least two columns and two rows of data."));
 			break;
 		case analysis_tools_too_few_cols:
-			error_in_entry ((GenericToolState *) state, 
+			error_in_entry ((GenericToolState *) state,
 					GTK_WIDGET (state->base.input_entry),
 					data->labels ? _("The given input range should contain at "
 					  "least two columns of data and the "
@@ -2864,7 +2864,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 					  "least two columns of data."));
 			break;
 		case analysis_tools_too_few_rows:
-			error_in_entry ((GenericToolState *) state, 
+			error_in_entry ((GenericToolState *) state,
 					GTK_WIDGET (state->base.input_entry),
 					data->labels ? _("The given input range should contain at "
 					  "least two rows of data and the "
@@ -2874,7 +2874,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 					  "data."));
 			break;
 		case analysis_tools_replication_invalid:
-			error_in_entry ((GenericToolState *) state, 
+			error_in_entry ((GenericToolState *) state,
 					GTK_WIDGET (state->base.input_entry),
 					_("The number of data rows must be a "
 					  "multiple of the replication "
@@ -2884,7 +2884,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			text = g_strdup_printf (
 				_("An unexpected error has occurred: %d."),
 				data->err);
-			error_in_entry ((GenericToolState *) state, 
+			error_in_entry ((GenericToolState *) state,
 					GTK_WIDGET (state->base.input_entry),
 					text);
 			g_free (text);
@@ -2894,7 +2894,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			value_release (data->input);
 		g_free (dao);
 		g_free (data);
-	} else 
+	} else
 		gtk_widget_destroy (state->base.dialog);
 
 	return;

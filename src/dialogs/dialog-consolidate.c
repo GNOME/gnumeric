@@ -230,7 +230,7 @@ cb_source_changed (G_GNUC_UNUSED GtkEntry *ignored,
 	g_return_if_fail (state != NULL);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.add),
-				  gnm_expr_entry_is_cell_ref (state->gui.source, 
+				  gnm_expr_entry_is_cell_ref (state->gui.source,
 							      state->sheet, TRUE));
 }
 

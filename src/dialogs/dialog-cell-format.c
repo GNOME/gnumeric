@@ -961,15 +961,15 @@ fmt_dialog_init_format_page (FormatState *state)
 	}
 
 	/* setup the structure of the negative type list */
-	state->format.negative_types.model = gtk_list_store_new (3, 
-		G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING); 
+	state->format.negative_types.model = gtk_list_store_new (3,
+		G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING);
 	state->format.negative_types.view =
 		GTK_TREE_VIEW (state->format.widget[F_NEGATIVE]);
 	gtk_tree_view_set_model (state->format.negative_types.view,
 		GTK_TREE_MODEL (state->format.negative_types.model));
 	column = gtk_tree_view_column_new_with_attributes (_("Negative Number Format"),
 			gtk_cell_renderer_text_new (),
-			"text",		1, 
+			"text",		1,
 			"foreground",	2,
 			NULL);
 	gtk_tree_view_append_column (state->format.negative_types.view, column);
@@ -997,15 +997,15 @@ fmt_dialog_init_format_page (FormatState *state)
 		G_CALLBACK (cb_separator_toggle), state);
 
 	/* setup custom format list */
-	state->format.formats.model = gtk_list_store_new (1, 
-		G_TYPE_STRING); 
+	state->format.formats.model = gtk_list_store_new (1,
+		G_TYPE_STRING);
 	state->format.formats.view =
 		GTK_TREE_VIEW (state->format.widget[F_LIST]);
 	gtk_tree_view_set_model (state->format.formats.view,
 		GTK_TREE_MODEL (state->format.formats.model));
 	column = gtk_tree_view_column_new_with_attributes (_("Number Formats"),
 			gtk_cell_renderer_text_new (),
-			"text",		0, 
+			"text",		0,
 			NULL);
 	gtk_tree_view_append_column (state->format.formats.view, column);
 	state->format.formats.selection =
@@ -1247,7 +1247,7 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 		application_display_dpi_get (TRUE),
 		application_display_dpi_get (FALSE));
 	layout = pango_layout_new (context);
-	pango_layout_set_font_description (layout, 
+	pango_layout_set_font_description (layout,
 		pango_context_get_font_description (gnumeric_default_font->pango.context));
 	pango_layout_set_text (layout, _("Text"), -1);
  	attrs = pango_attr_list_new ();

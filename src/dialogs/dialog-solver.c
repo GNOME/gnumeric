@@ -415,7 +415,7 @@ cb_dialog_model_type_clicked (G_GNUC_UNUSED GtkWidget *button,
 					  FALSE);
 		gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
 					  &(state->warning_dialog),
-					  GTK_MESSAGE_INFO, 
+					  GTK_MESSAGE_INFO,
 					  _("Looking for a subject for your "
 					    "thesis? Maybe you would like to "
 					    "write a QP solver for "
@@ -759,7 +759,7 @@ solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
 		gnumeric_notice_nonmodal
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
-			 GTK_MESSAGE_WARNING, 
+			 GTK_MESSAGE_WARNING,
 			 _("The Target Cell value specified does not "
 			   "converge!  The program is unbounded."));
 		err = solver_reports (WORKBOOK_CONTROL(state->wbcg),
@@ -773,7 +773,7 @@ solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
 		gnumeric_notice_nonmodal
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
-			 GTK_MESSAGE_WARNING, 
+			 GTK_MESSAGE_WARNING,
 			 _("A feasible solution could not be found.  "
 			   "All specified constraints cannot be met "
 			   "simultaneously. "));
@@ -788,7 +788,7 @@ solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
 		gnumeric_notice_nonmodal
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
-			 GTK_MESSAGE_ERROR, 
+			 GTK_MESSAGE_ERROR,
 			 _("The maximum number of iterations exceeded. "
 			   "The optimal value could not be found."));
 		err = solver_reports (WORKBOOK_CONTROL(state->wbcg),
@@ -802,7 +802,7 @@ solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
 		gnumeric_notice_nonmodal
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
-			 GTK_MESSAGE_ERROR, 
+			 GTK_MESSAGE_ERROR,
 			 solver_max_time_err);
 		err = solver_reports (WORKBOOK_CONTROL(state->wbcg),
 				      state->sheet, res,
@@ -916,7 +916,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		gnumeric_glade_group_value (state->gui, model_type_group);
 
 	for (i = 0; algorithm_defs [i].name; i++) {
-		GtkEntry             *entry = GTK_ENTRY 
+		GtkEntry             *entry = GTK_ENTRY
 			(GTK_COMBO (state->algorithm_combo)->entry);
 		G_CONST_RETURN gchar *name = gtk_entry_get_text (entry);
 
@@ -1305,7 +1305,7 @@ dialog_init (SolverState *state)
 		(state->gui, "scenario_name_entry");
 	if (state->scenario_name_entry == NULL)
 		return TRUE;
-	gtk_entry_set_text (GTK_ENTRY (state->scenario_name_entry), 
+	gtk_entry_set_text (GTK_ENTRY (state->scenario_name_entry),
 			    param->options.scenario_name);
 
 	conv.c_listing = state->constraint_list;

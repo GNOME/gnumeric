@@ -124,7 +124,7 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, CellPos const *pos)
 
 	comment = cell_has_comment_pos (sheet, pos);
 	if (comment)
-		gtk_text_buffer_set_text (state->text, cell_comment_text_get (comment), 
+		gtk_text_buffer_set_text (state->text, cell_comment_text_get (comment),
 					  -1);
 
 	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");

@@ -337,7 +337,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		gtk_widget_destroy (state->warning_dialog);
 
 	/* set up source */
-	target = gnm_expr_entry_parse_as_value (state->set_cell_entry, 
+	target = gnm_expr_entry_parse_as_value (state->set_cell_entry,
 						state->sheet);
 	if (target == NULL) {
 		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
@@ -362,7 +362,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	}
 
 	/* set up source */
-	target = gnm_expr_entry_parse_as_value (state->change_cell_entry, 
+	target = gnm_expr_entry_parse_as_value (state->change_cell_entry,
 						state->sheet);
 	if (target == NULL) {
 		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
@@ -389,7 +389,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 
 	format = mstyle_get_format (cell_get_mstyle (state->set_cell));
-	if (entry_to_float_with_format (GTK_ENTRY(state->to_value_entry), 
+	if (entry_to_float_with_format (GTK_ENTRY(state->to_value_entry),
 					&state->target_value, TRUE, format)){
 		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
 					  &(state->warning_dialog),
@@ -401,13 +401,13 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	}
 
 	format = mstyle_get_format (cell_get_mstyle (state->change_cell));
-	if (entry_to_float_with_format (GTK_ENTRY(state->at_least_entry), 
+	if (entry_to_float_with_format (GTK_ENTRY(state->at_least_entry),
 					 &state->xmin, TRUE, format)) {
 		state->xmin = -max_range_val;
 		gtk_entry_set_text (GTK_ENTRY (state->at_least_entry), "");
 	}
 
-	if (entry_to_float_with_format (GTK_ENTRY(state->at_most_entry), &state->xmax, 
+	if (entry_to_float_with_format (GTK_ENTRY(state->at_most_entry), &state->xmax,
 					TRUE, format)) {
   		state->xmax = +max_range_val;
 		gtk_entry_set_text (GTK_ENTRY (state->at_most_entry), "");
@@ -538,7 +538,7 @@ dialog_init (GoalSeekState *state)
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "goal-table"));
 	state->set_cell_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->set_cell_entry,
-		GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL | 
+		GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL |
 				  GNM_EE_ABS_ROW | GNM_EE_ABS_COL,
 		GNM_EE_MASK);
         gnm_expr_entry_set_scg (state->set_cell_entry, wbcg_cur_scg (state->wbcg));
@@ -552,7 +552,7 @@ dialog_init (GoalSeekState *state)
 
 	state->change_cell_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->change_cell_entry,
-		GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL | 
+		GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL |
 				  GNM_EE_ABS_ROW | GNM_EE_ABS_COL,
 		GNM_EE_MASK);
 	gnm_expr_entry_set_scg (state->change_cell_entry, wbcg_cur_scg (state->wbcg));

@@ -9,7 +9,7 @@
  *
  * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  * (C) Copyright 2001, 2002 by Andreas J. Guelzow  <aguelzow@taliesin.ca>
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -57,7 +57,7 @@ cb_focus_on_entry (GtkWidget *widget, GtkWidget *entry)
 {
         if (GTK_TOGGLE_BUTTON (widget)->active)
 		gtk_widget_grab_focus
-			(GTK_WIDGET (gnm_expr_entry_get_entry 
+			(GTK_WIDGET (gnm_expr_entry_get_entry
 				     (GNUMERIC_EXPR_ENTRY (entry))));
 }
 
@@ -101,11 +101,11 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
 						     "newworkbook-button");
 	state->output_range  = glade_xml_get_widget (state->gui,
 						     "outputrange-button");
-	state->clear_outputrange_button = glade_xml_get_widget 
+	state->clear_outputrange_button = glade_xml_get_widget
 		(state->gui, "clear_outputrange_button");
-	state->retain_format_button = glade_xml_get_widget 
+	state->retain_format_button = glade_xml_get_widget
 		(state->gui, "retain_format_button");
-	state->retain_comments_button = glade_xml_get_widget 
+	state->retain_comments_button = glade_xml_get_widget
 		(state->gui, "retain_comments_button");
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "output-table"));
 	state->output_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
@@ -121,7 +121,7 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
 		"toggled",
 		G_CALLBACK (cb_focus_on_entry), state->output_entry);
 	g_signal_connect
-		(G_OBJECT (gnm_expr_entry_get_entry 
+		(G_OBJECT (gnm_expr_entry_get_entry
 			   (GNUMERIC_EXPR_ENTRY (state->output_entry))),
 		 "focus-in-event",
 		 G_CALLBACK (tool_set_focus_output_range), state);
@@ -204,7 +204,7 @@ parse_output (GenericToolState *state, data_analysis_output_t *dao)
 		dao->autofit_flag = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (button));
 
-	if (state->clear_outputrange_button != NULL) 
+	if (state->clear_outputrange_button != NULL)
 		dao->clear_outputrange = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (state->clear_outputrange_button));
 

@@ -100,7 +100,7 @@ static gboolean
 model_get_plugin_iter (GtkTreeModel *model, gpointer plugin, GtkTreeIter *ret_iter)
 {
 	gboolean has_iter;
-      
+
 	for (has_iter = gtk_tree_model_get_iter_first (model, ret_iter);
 	     has_iter; has_iter = gtk_tree_model_iter_next (model, ret_iter)) {
 		gpointer current;
@@ -227,7 +227,7 @@ pm_add_dir (char *dir_name)
 	GSList *plugin_dirs;
 
 	plugin_dirs = gnm_app_prefs->plugin_extra_dirs;
-	if (g_slist_find_custom (plugin_dirs, dir_name, g_str_compare)) 
+	if (g_slist_find_custom (plugin_dirs, dir_name, g_str_compare))
 		g_free (dir_name);
 	else {
 		GNM_SLIST_PREPEND (plugin_dirs, dir_name);
@@ -262,11 +262,11 @@ cb_pm_button_directory_delete_clicked (G_GNUC_UNUSED GtkButton *button,
 	gboolean is_system = TRUE;
 	if (gtk_tree_selection_get_selected (pm_gui->selection_directory, NULL, &iter)) {
 		gtk_tree_model_get (GTK_TREE_MODEL (pm_gui->model_directories),
-				    &iter, 
+				    &iter,
 				    DIR_NAME, &name,
 				    DIR_IS_SYSTEM, &is_system,
 				    -1);
-		if (is_system) 
+		if (is_system)
 			g_free (name);
 		else
 			pm_delete_dir (name);
@@ -383,7 +383,7 @@ pm_dialog_cleanup (G_GNUC_UNUSED GObject *dialog,
 	GtkTreeModel *model = GTK_TREE_MODEL (pm_gui->model_plugins);
 	GtkTreeIter iter;
 	gboolean has_iter;
-      
+
 	for (has_iter = gtk_tree_model_get_iter_first (model, &iter);
 	     has_iter; has_iter = gtk_tree_model_iter_next (model, &iter)) {
 		gpointer plugin;
@@ -646,7 +646,7 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 
 	/* Set-up plugin list  page */
 
-	pm_gui->button_activate_all = 
+	pm_gui->button_activate_all =
 		GTK_BUTTON (glade_xml_get_widget (gui, "button_activate_all"));
 	pm_gui->button_deactivate_all =
 		GTK_BUTTON (glade_xml_get_widget (gui, "button_deactivate_all"));
@@ -705,13 +705,13 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 
 	pm_gui->frame_mark_for_deactivation =
 		glade_xml_get_widget (gui, "frame_mark_for_deactivation");
-	pm_gui->checkbutton_mark_for_deactivation = 
+	pm_gui->checkbutton_mark_for_deactivation =
 		glade_xml_get_widget (gui, "checkbutton_mark_for_deactivation");
 
 	/* Set-up directories page */
 
 	table = glade_xml_get_widget (gui, "directory-table");
-	pm_gui->model_directories = gtk_list_store_new (DIR_NUM_COLMNS, G_TYPE_STRING, 
+	pm_gui->model_directories = gtk_list_store_new (DIR_NUM_COLMNS, G_TYPE_STRING,
 							G_TYPE_BOOLEAN);
 	pm_gui->list_directories = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (pm_gui->model_directories)));
@@ -719,12 +719,12 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	gtk_tree_selection_set_mode (pm_gui->selection_directory, GTK_SELECTION_BROWSE);
 	column = gtk_tree_view_column_new_with_attributes (_("Directory"),
 							   gtk_cell_renderer_text_new (),
-							   "text", DIR_NAME, 
+							   "text", DIR_NAME,
 							   NULL);
 	gtk_tree_view_column_set_sort_column_id (column, DIR_NAME);
 	gtk_tree_view_append_column (pm_gui->list_directories, column);
 	scrolled_directories = glade_xml_get_widget (gui, "scrolled_directories");
-	gtk_container_add (GTK_CONTAINER (scrolled_directories), 
+	gtk_container_add (GTK_CONTAINER (scrolled_directories),
 			   GTK_WIDGET (pm_gui->list_directories));
 
 	pm_gui->button_directory_add = GTK_BUTTON (glade_xml_get_widget
@@ -753,7 +753,7 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	pm_dialog_init (pm_gui);
 	(void) gnumeric_dialog_run (wbcg, pm_gui->dialog_pm);
 
-	pm_gui->directories_changed_notification = gnm_gconf_rm_notification 
+	pm_gui->directories_changed_notification = gnm_gconf_rm_notification
 		(pm_gui->directories_changed_notification);
 
 	g_free (pm_gui);

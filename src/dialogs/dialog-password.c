@@ -38,7 +38,7 @@ dialog_get_password (GtkWindow *parent, const char *filename)
 	g_free (str);
 
 	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
-	
+
 	d = gtk_dialog_new_with_buttons ("", parent,
 					 GTK_DIALOG_DESTROY_WITH_PARENT |
 					 GTK_DIALOG_NO_SEPARATOR,
@@ -66,7 +66,7 @@ dialog_get_password (GtkWindow *parent, const char *filename)
 	gtk_box_pack_start_defaults (GTK_BOX (pwb), entry);
 	gtk_box_pack_start (GTK_BOX (vb), pwb, FALSE, FALSE, 0);
 	gtk_widget_show_all (d);
-	
+
 	g_signal_connect (G_OBJECT (entry),
 		"activate",
 		G_CALLBACK (cb_accept_password), d);

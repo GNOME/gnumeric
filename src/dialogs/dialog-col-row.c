@@ -77,10 +77,10 @@ static void
 cb_dialog_col_row_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 			      ColRowState *state)
 {
-	state->callback (state->wbcg, 
-			 gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON 
-						       (glade_xml_get_widget (state->gui, 
-									      "cols"))), 
+	state->callback (state->wbcg,
+			 gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
+						       (glade_xml_get_widget (state->gui,
+									      "cols"))),
 			 state->data);
 	gtk_widget_destroy (state->dialog);
 	return;

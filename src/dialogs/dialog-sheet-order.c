@@ -256,17 +256,17 @@ populate_sheet_list (SheetManager *state)
 	int i, n = workbook_sheet_count (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg)));
 	GtkCellRenderer *renderer;
 
-	state->model = gtk_list_store_new (NUM_COLMNS, 
+	state->model = gtk_list_store_new (NUM_COLMNS,
 					   G_TYPE_BOOLEAN,
 					   GDK_TYPE_PIXBUF,
-					   G_TYPE_STRING, 
-					   G_TYPE_STRING, 
-					   G_TYPE_POINTER, 
-					   G_TYPE_BOOLEAN, 
-					   G_TYPE_BOOLEAN, 
-					   GDK_TYPE_COLOR, 
-					   GDK_TYPE_COLOR); 
-	state->sheet_list = GTK_TREE_VIEW (gtk_tree_view_new_with_model 
+					   G_TYPE_STRING,
+					   G_TYPE_STRING,
+					   G_TYPE_POINTER,
+					   G_TYPE_BOOLEAN,
+					   G_TYPE_BOOLEAN,
+					   GDK_TYPE_COLOR,
+					   GDK_TYPE_COLOR);
+	state->sheet_list = GTK_TREE_VIEW (gtk_tree_view_new_with_model
 					   (GTK_TREE_MODEL (state->model)));
 	selection = gtk_tree_view_get_selection (state->sheet_list);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
@@ -284,13 +284,13 @@ populate_sheet_list (SheetManager *state)
 		gtk_list_store_append (state->model, &iter);
 		gtk_list_store_set (state->model, &iter,
 				    SHEET_LOCKED, sheet->is_protected,
-				    SHEET_LOCK_IMAGE, sheet->is_protected ? 
+				    SHEET_LOCK_IMAGE, sheet->is_protected ?
 				    state->image_padlock : state->image_padlock_no,
 				    SHEET_NAME, sheet->name_unquoted,
 				    SHEET_NEW_NAME, "",
 				    SHEET_POINTER, sheet,
-				    IS_EDITABLE_COLUMN,	TRUE,   
-				    IS_DELETED,	FALSE,   
+				    IS_EDITABLE_COLUMN,	TRUE,
+				    IS_DELETED,	FALSE,
 				    BACKGROUND_COLOUR_POINTER, color,
 				    FOREGROUND_COLOUR_POINTER, text_color,
 				    -1);
@@ -308,13 +308,13 @@ populate_sheet_list (SheetManager *state)
 	column = gtk_tree_view_column_new_with_attributes ("",
 							   renderer,
 							   "active", SHEET_LOCKED,
-							   "pixbuf", SHEET_LOCK_IMAGE, 
+							   "pixbuf", SHEET_LOCK_IMAGE,
 							   NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
 
 	column = gtk_tree_view_column_new_with_attributes (_("Current Name"),
 					      gnumeric_cell_renderer_text_new (),
-					      "text", SHEET_NAME, 
+					      "text", SHEET_NAME,
 					      "strikethrough", IS_DELETED,
 					      "background_gdk",BACKGROUND_COLOUR_POINTER,
 					      "foreground_gdk",FOREGROUND_COLOUR_POINTER,
@@ -324,7 +324,7 @@ populate_sheet_list (SheetManager *state)
 	renderer = gnumeric_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (_("New Name"),
 					      renderer,
-					      "text", SHEET_NEW_NAME, 
+					      "text", SHEET_NEW_NAME,
 					      "editable", IS_EDITABLE_COLUMN,
 					      "strikethrough", IS_DELETED,
 					      "background_gdk",BACKGROUND_COLOUR_POINTER,
@@ -367,7 +367,7 @@ cb_item_move (SheetManager *state, gint direction)
 			    SHEET_NEW_NAME, &new_name,
 			    IS_EDITABLE_COLUMN, &is_editable,
 			    SHEET_POINTER, &sheet,
-			    IS_DELETED,	&is_deleted,   
+			    IS_DELETED,	&is_deleted,
 			    BACKGROUND_COLOUR_POINTER, &back,
 			    FOREGROUND_COLOUR_POINTER, &fore,
 			    -1);
@@ -378,7 +378,7 @@ cb_item_move (SheetManager *state, gint direction)
 	gtk_list_store_insert (state->model, &iter, row + direction);
 	gtk_list_store_set (state->model, &iter,
 			    SHEET_LOCKED, is_locked,
-			    SHEET_LOCK_IMAGE, is_locked ? 
+			    SHEET_LOCK_IMAGE, is_locked ?
 			    state->image_padlock : state->image_padlock_no,
 			    SHEET_NAME, name,
 			    SHEET_NEW_NAME, new_name,
@@ -437,7 +437,7 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 		sprintf (name, _("Sheet%d"), i);
 		while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
 						       &this_iter, NULL, n)) {
-			gtk_tree_model_get (GTK_TREE_MODEL (state->model), &this_iter, 
+			gtk_tree_model_get (GTK_TREE_MODEL (state->model), &this_iter,
 					    SHEET_NAME, &old_name,
 					    SHEET_NEW_NAME, &new_name,
 					    -1);
@@ -557,9 +557,9 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 
 	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
 					       &this_iter, NULL, n)) {
-		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &this_iter, 
+		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &this_iter,
 				    SHEET_LOCKED, &is_locked,
-				    SHEET_POINTER, &this_sheet, 
+				    SHEET_POINTER, &this_sheet,
 				    SHEET_NAME, &old_name,
 				    SHEET_NEW_NAME, &new_name,
 				    IS_DELETED, &is_deleted,
@@ -569,23 +569,23 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 		if (!is_deleted) {
 			new_order = g_slist_prepend (new_order, this_sheet);
 
-			if (this_sheet == NULL || 
+			if (this_sheet == NULL ||
 			    (strlen (new_name) > 0 && strcmp (old_name, new_name))) {
 				changed_names = g_slist_prepend (changed_names, this_sheet);
-				new_names = g_slist_prepend (new_names, 
+				new_names = g_slist_prepend (new_names,
 							     strlen(new_name) > 0 ? new_name : NULL);
 			} else {
 				g_free (new_name);
 			}
 			g_free (old_name);
 
-			back_changed = (this_sheet == NULL) || 
-				!sheet_order_gdk_color_equal (back, 
-					      this_sheet->tab_color ? 
+			back_changed = (this_sheet == NULL) ||
+				!sheet_order_gdk_color_equal (back,
+					      this_sheet->tab_color ?
 					      &this_sheet->tab_color->color : NULL);
-			fore_changed = (this_sheet == NULL) || 
-				!sheet_order_gdk_color_equal (fore, 
-					      this_sheet->tab_text_color ? 
+			fore_changed = (this_sheet == NULL) ||
+				!sheet_order_gdk_color_equal (fore,
+					      this_sheet->tab_text_color ?
 					      &this_sheet->tab_text_color->color : NULL);
 			if (fore_changed || back_changed) {
 				color_changed = g_slist_prepend (color_changed, this_sheet);
@@ -598,12 +598,12 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 					gdk_color_free (fore);
 			}
 
-			lock_changed = (this_sheet == NULL) || 
+			lock_changed = (this_sheet == NULL) ||
 				(is_locked != this_sheet->is_protected);
 			if (lock_changed) {
-				protection_changed = g_slist_prepend (protection_changed, 
+				protection_changed = g_slist_prepend (protection_changed,
 								      this_sheet);
-				new_locks = g_slist_prepend (new_locks, 
+				new_locks = g_slist_prepend (new_locks,
 							     GINT_TO_POINTER (is_locked));
 			}
 		} else
@@ -623,12 +623,12 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	changed_names = g_slist_reverse (changed_names);
 	old_order = g_slist_copy (state->old_order);
 
-	if ((new_order == NULL) || (deleted_sheets && 
+	if ((new_order == NULL) || (deleted_sheets &&
 	    !gnumeric_dialog_question_yes_no (state->wbcg,
 					      _("Deletion of sheets is not undoable. "
 						"Do you want to proceed?"), FALSE))) {
 		if (new_order == NULL)
-			gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, 
+			gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 					 _("You may not delete all sheets in a workbook!"));
 
 		/* clean-up */
@@ -686,12 +686,12 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	g_signal_handler_block (G_OBJECT (wb),
 				state->sheet_order_changed_listener);
 
-	if ((new_order == NULL && changed_names == NULL && color_changed == NULL 
+	if ((new_order == NULL && changed_names == NULL && color_changed == NULL
 	     && protection_changed == NULL)
-	    || !cmd_reorganize_sheets (WORKBOOK_CONTROL (state->wbcg), 
+	    || !cmd_reorganize_sheets (WORKBOOK_CONTROL (state->wbcg),
 				       old_order, new_order,
 				       changed_names, new_names, NULL,
-				       color_changed, new_colors_back, new_colors_fore, 
+				       color_changed, new_colors_back, new_colors_fore,
 				       protection_changed, new_locks)) {
 		gtk_widget_destroy (GTK_WIDGET (state->dialog));
 	} else {
@@ -771,7 +771,7 @@ dialog_sheet_order_update_sheet_order (SheetManager *state)
 		gtk_tree_model_get (model, &iter,
 			SHEET_LOCKED, &is_locked,
 			SHEET_NAME, &name,
-			SHEET_NEW_NAME, &new_name, 
+			SHEET_NEW_NAME, &new_name,
 			IS_EDITABLE_COLUMN, &is_editable,
 			SHEET_POINTER, &sheet_model,
 			IS_DELETED, &is_deleted,
@@ -821,7 +821,7 @@ cb_sheet_order_changed (Workbook *wb, SheetManager *state)
 
 	/*
 	 * First question: Has the user already changed the order via
-	 * the dialog? If no, we assume that the user wants to see the 
+	 * the dialog? If no, we assume that the user wants to see the
 	 * sheet order change reflected in the dialog.
 	 */
 	n = g_slist_length (state->old_order);
@@ -837,7 +837,7 @@ cb_sheet_order_changed (Workbook *wb, SheetManager *state)
 		return;
 	}
 
-	/* 
+	/*
 	 * The user has already changed the order via the dialog.
 	 * Let's check if the new sheet order is already reflected
 	 * in the dialog. If yes, things are easy.
@@ -898,7 +898,7 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	state->ok_btn  = glade_xml_get_widget (gui, "ok_button");
 	state->cancel_btn  = glade_xml_get_widget (gui, "cancel_button");
 	state->old_order  = NULL;
-	state->initial_colors_set = FALSE; 
+	state->initial_colors_set = FALSE;
 	state->image_padlock =  gtk_widget_render_icon (state->dialog,
                                              "Gnumeric_Protection_Yes",
                                              GTK_ICON_SIZE_LARGE_TOOLBAR,
@@ -921,7 +921,7 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 
 	table = GTK_TABLE (glade_xml_get_widget (gui, "sheet_order_buttons_table"));
 	cg = color_group_fetch ("back_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	state->ccombo_back = color_combo_new  (gdk_pixbuf_new_from_inline (-1, gnm_bucket, 
+	state->ccombo_back = color_combo_new  (gdk_pixbuf_new_from_inline (-1, gnm_bucket,
 									   FALSE, NULL),
 					       _("Default"), NULL, cg);
 	gtk_table_attach (table, state->ccombo_back,
@@ -933,7 +933,7 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	color_combo_box_set_preview_relief (COLOR_COMBO (state->ccombo_back), GTK_RELIEF_NORMAL);
 
 	cg = color_group_fetch ("fore_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	state->ccombo_fore = color_combo_new  (gdk_pixbuf_new_from_inline (-1, gnm_font, 
+	state->ccombo_fore = color_combo_new  (gdk_pixbuf_new_from_inline (-1, gnm_font,
 									   FALSE, NULL),
 					       _("Default"), NULL, cg);
 	gtk_table_attach (table, state->ccombo_fore,

@@ -493,13 +493,13 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	state->cur_name   = NULL;
 	state->updating   = FALSE;
 
-	state->model	 = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER); 
+	state->model	 = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
 	state->treeview  = glade_xml_get_widget (state->gui, "name_list");
 	gtk_tree_view_set_model (GTK_TREE_VIEW (state->treeview),
 				 GTK_TREE_MODEL (state->model));
 	column = gtk_tree_view_column_new_with_attributes (_("Name"),
 			gtk_cell_renderer_text_new (),
-			"text", 0, 
+			"text", 0,
 			NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (state->treeview), column);
 

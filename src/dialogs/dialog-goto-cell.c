@@ -116,7 +116,7 @@ static void
 cb_dialog_goto_go_clicked (G_GNUC_UNUSED GtkWidget *button,
 			   GotoState *state)
 {
-	char *text = g_strdup (gtk_entry_get_text 
+	char *text = g_strdup (gtk_entry_get_text
 	       (GTK_ENTRY (gnome_entry_gtk_entry (state->goto_text))));
 
 	if (wb_control_parse_and_jump (WORKBOOK_CONTROL (state->wbcg), text))
@@ -130,12 +130,12 @@ cb_dialog_goto_update_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 				   GotoState *state)
 {
 	GtkEntry *entry = GTK_ENTRY (gnome_entry_gtk_entry (state->goto_text));
-	Value *val = global_range_parse (wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)), 
+	Value *val = global_range_parse (wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
 					 gtk_entry_get_text (entry));
 	if (val != NULL) {
 		gtk_widget_set_sensitive (state->go_button, TRUE);
 		value_release (val);
-	} else 
+	} else
 		gtk_widget_set_sensitive (state->go_button, FALSE);
 	gtk_entry_set_activates_default (entry, (val != NULL));
 }
@@ -201,7 +201,7 @@ dialog_goto_load_names (GotoState *state)
 		if (sheet->names != NULL)
 			g_hash_table_foreach (sheet->names->names,
 				(GHFunc) cb_load_names, &closure);
-	} 
+	}
 
 }
 
@@ -267,10 +267,10 @@ dialog_goto_init (GotoState *state)
 
 	/* Set-up treeview */
 	scrolled = glade_xml_get_widget (state->gui, "scrolled");
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled), 
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled),
 					     GTK_SHADOW_ETCHED_IN);
 
-	state->model = gtk_tree_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_STRING, 
+	state->model = gtk_tree_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_STRING,
 					   G_TYPE_POINTER, G_TYPE_POINTER);
 	state->treeview = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));

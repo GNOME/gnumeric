@@ -166,7 +166,7 @@ append_data (SortFlowState *state, int i, int index)
 	gtk_list_store_set (state->model, &iter,
 			    ITEM_NAME,  str,
 			    ITEM_DESCENDING, !sort_asc,
-			    ITEM_DESCENDING_IMAGE, sort_asc ? state->image_ascending 
+			    ITEM_DESCENDING_IMAGE, sort_asc ? state->image_ascending
 			    : state->image_descending,
 			    ITEM_CASE_SENSITIVE, gnm_app_prefs->sort_default_by_case,
 			    ITEM_SORT_BY_VALUE, TRUE,
@@ -730,7 +730,7 @@ dialog_init (SortFlowState *state)
 		G_CALLBACK (cb_toggled_descending), state);
 	column = gtk_tree_view_column_new_with_attributes ("",
 							   renderer,
-							   "active", ITEM_DESCENDING, 
+							   "active", ITEM_DESCENDING,
 							   "pixbuf", ITEM_DESCENDING_IMAGE,
 							   NULL);
 	gtk_tree_view_append_column (state->treeview, column);
@@ -774,7 +774,7 @@ dialog_init (SortFlowState *state)
 		"toggled",
 		G_CALLBACK (cb_update_sensitivity), state);
 
-	state->retain_format_check = glade_xml_get_widget (state->gui, 
+	state->retain_format_check = glade_xml_get_widget (state->gui,
 							    "retain_format_button");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->retain_format_check),
 				      gnm_app_prefs->sort_default_retain_formats);
