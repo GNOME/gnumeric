@@ -19,14 +19,18 @@ create_stream_ole_server (const GnomeStreamOLE *stream_ole)
 	GnomeObject *object = GNOME_OBJECT(stream_ole);
 	POA_GNOME_Stream *servant;
 	GNOME_Stream corba_stream;
+	CORBA_Environment ev;
 
 	servant = (POA_GNOME_Stream *) g_new0 (GnomeObjectServant, 1);
 	servant->vepv = &gnome_stream_vepv;
-	POA_GNOME_Stream__init ((PortableServer_Servant) servant, &object->ev);
-	if (object->ev._major != CORBA_NO_EXCEPTION){
+	CORBA_exception_init (&ev);
+	POA_GNOME_Stream__init ((PortableServer_Servant) servant, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION){
 		g_free (servant);
+		CORBA_exception_free (&ev);
 		return NULL;
 	}
+	CORBA_exception_free (&ev);
 	corba_stream = gnome_object_activate_servant(object, servant);
 	return GNOME_STREAM(gnome_object_construct(GNOME_OBJECT(stream_ole), 
 						   corba_stream));

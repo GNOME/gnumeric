@@ -129,15 +129,19 @@ static CORBA_Object
 create_embeddable_grid (GnomeObject *object)
 {
 	POA_GNOME_Gnumeric_Grid *servant;
-
+	CORBA_Environment ev;
+	
 	servant = (POA_GNOME_Gnumeric_Grid *) g_new0 (GnomeObjectServant, 1);
 	servant->vepv = &embeddable_grid_vepv;
 
-	POA_GNOME_Gnumeric_Grid__init ((PortableServer_Servant) servant, &object->ev);
-	if (object->ev._major != CORBA_NO_EXCEPTION){
+	CORBA_exception_init (&ev);
+	POA_GNOME_Gnumeric_Grid__init ((PortableServer_Servant) servant, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION){
 		g_free (servant);
+		CORBA_exception_free (&ev);
 		return CORBA_OBJECT_NIL;
 	}
+	CORBA_exception_free (&ev);
 
 	return gnome_object_activate_servant (object, servant);
 }

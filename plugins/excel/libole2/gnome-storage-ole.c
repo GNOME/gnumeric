@@ -26,15 +26,18 @@ create_ole_server (const GnomeStorageOLE *ole)
 	GnomeObject *object = GNOME_OBJECT(ole);
 	POA_GNOME_Storage *servant;
 	GNOME_Storage corba_storage;
+	CORBA_Environment ev;
 
 	servant = (POA_GNOME_Storage *) g_new0 (GnomeObjectServant, 1);
 	servant->vepv = &gnome_storage_vepv;
-	POA_GNOME_Storage__init ((PortableServer_Servant) servant, 
-				 &object->ev);
-	if (object->ev._major != CORBA_NO_EXCEPTION){
+	CORBA_exception_init (&ev);
+	POA_GNOME_Storage__init ((PortableServer_Servant) servant, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION){
 		g_free (servant);
+		CORBA_exception_free (&ev);
 		return NULL;
 	}
+	CORBA_exception_free (&ev);
 
 	corba_storage = gnome_object_activate_servant(object, servant);
 	return gnome_storage_construct(GNOME_STORAGE(ole), 

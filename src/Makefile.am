@@ -203,14 +203,14 @@ gnumeric_libs =					\
 	functions/libfunctions.a		
 
 gnumeric_LDADD = 				\
+	$(gnumeric_libs)			\
 	$(EXTRA_GNOME_LIBS)			\
 	$(GNOME_XML_LIB) 			\
 	$(GUILE_LIBS)				\
 	$(INTLLIBS)
 
 gnumeric_bonobo_LDADD =				\
-	../plugins/excel/libexcel.a		\
-	../plugins/excel/libole2/libole2.a 	\
+	$(gnumeric_libs)			\
 	$(EXTRA_GNOME_LIBS)			\
 	$(GNOME_XML_LIB) 			\
 	$(GUILE_LIBS)				\
