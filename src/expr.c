@@ -769,7 +769,7 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 				style_format_ref (VALUE_FMT (res));
 			}
 		} else {
-			res = value_new_float (value_get_as_float (a) * .01);
+			res = value_new_float (value_get_as_float (a) / 100);
 			VALUE_FMT (res) = style_format_default_percentage ();
 			style_format_ref (VALUE_FMT (res));
 		}

@@ -1,3 +1,7 @@
+2002-03-05  Morten Welinder  <terra@diku.dk>
+
+	* fn-financial.c (gnumeric_euro): Improve precision.
+
 2002-03-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* fn-date.c (gnumeric_networkdays) : fix (73491)

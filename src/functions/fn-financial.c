@@ -2201,43 +2201,43 @@ gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
 	switch (*str) {
 	case 'A':
 	        if (strncmp ("ATS", str, 3) == 0)
-		        return value_new_float (13.7603);
+		        return value_new_float (GNUM_const (13.7603));
 		break;
 	case 'B':
 	        if (strncmp ("BEF", str, 3) == 0)
-		        return value_new_float (40.3399);
+		        return value_new_float (GNUM_const (40.3399));
 		break;
 	case 'D':
 	        if (strncmp ("DEM", str, 3) == 0)
-		        return value_new_float (1.95583);
+		        return value_new_float (GNUM_const (1.95583));
 		break;
 	case 'E':
 	        if (strncmp ("ESP", str, 3) == 0)
-		        return value_new_float (166.386);
+		        return value_new_float (GNUM_const (166.386));
 		break;
 	case 'F':
 	        if (strncmp ("FIM", str, 3) == 0)
-		        return value_new_float (5.94573);
+		        return value_new_float (GNUM_const (5.94573));
 		else if (strncmp ("FRF", str, 3) == 0)
-		        return value_new_float (6.55957);
+		        return value_new_float (GNUM_const (6.55957));
 		break;
 	case 'I':
 	        if (strncmp ("IEP", str, 3) == 0)
-		        return value_new_float (0.787564);
+		        return value_new_float (GNUM_const (0.787564));
 		else if (strncmp ("ITL", str, 3) == 0)
-		        return value_new_float (1936.27);
+		        return value_new_float (GNUM_const (1936.27));
 		break;
 	case 'L':
 	        if (strncmp ("LUX", str, 3) == 0)
-		        return value_new_float (40.3399);
+		        return value_new_float (GNUM_const (40.3399));
 		break;
 	case 'N':
 	        if (strncmp ("NLG", str, 3) == 0)
-		        return value_new_float (2.20371);
+		        return value_new_float (GNUM_const (2.20371));
 		break;
 	case 'P':
 	        if (strncmp ("PTE", str, 3) == 0)
-		        return value_new_float (200.482);
+		        return value_new_float (GNUM_const (200.482));
 		break;
 	default:
 	        break;
