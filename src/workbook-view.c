@@ -56,6 +56,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <locale.h>
 #include <string.h>
+#include <unistd.h>
 
 /* WorkbookView signals */
 enum {
@@ -667,7 +668,7 @@ wb_view_save (WorkbookView *wbv, CommandContext *context)
 		gnumeric_error_save (COMMAND_CONTEXT (io_context),
 			_("Default file saver is not available."));
 	else {
-		const char *filename = workbook_get_filename (wb);
+		char const *filename = workbook_get_filename (wb);
 		wbv_save_to_file (wbv, fs, filename, io_context);
 	}
 
@@ -683,9 +684,76 @@ wb_view_save (WorkbookView *wbv, CommandContext *context)
 	return !has_error;
 }
 
+static gboolean
+cb_cleanup_sendto (gpointer path)
+{
+	char *dir = g_path_get_dirname (path);
+	unlink (path);	g_free (path);	/* the attachment */
+	unlink (dir);	g_free (dir);	/* the tempdir */
+	return FALSE;
+}
+
 gboolean
 wb_view_sendto (WorkbookView *wbv, CommandContext *context)
 {
+	gboolean problem;
+	IOContext	*io_context;
+	Workbook	*wb;
+	GnmFileSaver	*fs;
+
+	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
+	g_return_val_if_fail (IS_COMMAND_CONTEXT (context), FALSE);
+
+	wb = wb_view_workbook (wbv);
+	fs = workbook_get_file_saver (wb);
+	if (fs == NULL)
+		fs = gnm_file_saver_get_default ();
+
+	io_context = gnumeric_io_context_new (context);
+	if (fs != NULL) {
+		char *argv[3];
+		char *template = g_build_path (G_DIR_SEPARATOR_S, 
+			g_get_tmp_dir (), "gnm-sendto.XXXXXX", NULL);
+		char *file_utf8 = g_path_get_basename (workbook_get_filename (wb));
+		char *full_name;
+
+		mkdtemp (template);
+		full_name = g_build_path (G_DIR_SEPARATOR_S, 
+			template, file_utf8, NULL);
+		g_free (file_utf8);
+
+		wbv_save_to_file (wbv, fs, full_name, io_context);
+
+		if (gnumeric_io_error_occurred (io_context) ||
+		    gnumeric_io_warning_occurred (io_context))
+			gnumeric_io_error_display (io_context);
+
+		if (!gnumeric_io_error_occurred (io_context)) {
+			/* wbv_save_to_file would have errored if this failed */
+			char *file_locale = g_filename_from_utf8 (full_name,
+				-1, NULL, NULL, NULL);
+			argv[0] = (char *)"evolution-1.4";
+			argv[1] = g_strdup_printf ("mailto:?attach=%s", file_locale);
+			argv[2] = NULL;
+			problem = g_spawn_async (template,
+						 argv, NULL, G_SPAWN_SEARCH_PATH,
+						 NULL, NULL, NULL, NULL);
+			g_free (argv[1]);
+			g_free (file_locale);
+		}
+		g_free (template);
+
+		/* 5 minutes to ensure the file is loaded by the mailer */
+		g_timeout_add (1000 * 10, cb_cleanup_sendto, full_name);
+	} else {
+		gnumeric_error_save (COMMAND_CONTEXT (io_context),
+			_("Default file saver is not available."));
+		gnumeric_io_error_display (io_context);
+	}
+
+	g_object_unref (G_OBJECT (io_context));
+
+	return !problem;
 }
 
 WorkbookView *

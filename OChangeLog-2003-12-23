@@ -1,3 +1,19 @@
+2003-07-04  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-view.c (wb_view_sendto) : quick implementation that
+	  hard codes evolution-1.4, and its syntax.  Will leak the file if we
+	  exit too soon after sending.
+
+	* src/sheet-object-graphic.c (cb_dialog_graphic_config_destroy) : fix leak.
+	(cb_dialog_graphic_config_ok_clicked) : delete.
+	(cb_fill_color_changed) : simplify.
+	(sheet_object_graphic_user_config) : tidy and set mnemonics for the
+	  colour combos.
+	(sheet_object_filled_user_config) : ditto.
+	(cb_dialog_filled_config_destroy) : fix leaks.
+	(cb_fillcolor_changed) : simplify
+	(cb_outlinecolor_changed) : ditto.
+
 2003-07-03  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-object-graphic.c (sheet_object_graphic_user_config) 

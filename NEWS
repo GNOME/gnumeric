@@ -44,6 +44,8 @@ Jody:
 	* Add YEARFRAC to put us at 100% coverage
 	* Fix some format generation bugs
 	* Rationalize and document the SheetObject::print interface
+	* Cleanup line/arrow/filled sheet object config dialogs
+	* An initial implementation of bonobo-less File -> Send To
 
 Jon Kåre:
 	* Improve color combo.

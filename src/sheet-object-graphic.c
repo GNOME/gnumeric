@@ -362,48 +362,35 @@ sheet_object_graphic_print (SheetObject const *so, GnomePrintContext *ctx,
 typedef struct {
 	GladeXML           *gui;
 	GtkWidget          *dialog;
-	GtkWidget *canvas;
-	FooCanvasItem *arrow;
-	GtkWidget *fill_color_combo;
-	GtkSpinButton *spin_arrow_tip;
-	GtkSpinButton *spin_arrow_length;
-	GtkSpinButton *spin_arrow_width;
-	GtkSpinButton *spin_line_width;
+	GtkWidget	*canvas;
+	FooCanvasItem	*arrow;
+	GtkSpinButton	*spin_arrow_tip;
+	GtkSpinButton	*spin_arrow_length;
+	GtkSpinButton	*spin_arrow_width;
+	GtkSpinButton	*spin_line_width;
 
-	StyleColor *fill_color;
-	double width;
-	double a, b, c;                   /* Only for arrows */
+	/* Store the initial values */
+	StyleColor	*fill_color;
+	double		 width, a, b, c;
 
 	WorkbookControlGUI *wbcg;
 	SheetObjectGraphic *sog;
-	Sheet		   *sheet;
 } DialogGraphicData;
 
-
-
-static gboolean
-cb_dialog_graphic_config_destroy (GtkObject *w, DialogGraphicData *state)
+static void
+cb_dialog_graphic_config_destroy (DialogGraphicData *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
 	wbcg_edit_detach_guru (state->wbcg);
-
+	if (state->fill_color != NULL) {
+		style_color_unref (state->fill_color);
+		state->fill_color = NULL;
+	}
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
 	}
-
 	state->dialog = NULL;
 	g_free (state);
-
-	return FALSE;
-}
-
-static void
-cb_dialog_graphic_config_ok_clicked (GtkWidget *button, DialogGraphicData *state)
-{
-	gtk_widget_destroy (state->dialog);
 }
 
 static void
@@ -413,7 +400,8 @@ cb_dialog_graphic_config_cancel_clicked (GtkWidget *button, DialogGraphicData *s
 
 	sheet_object_graphic_width_set (state->sog, state->width);
 	sheet_object_graphic_fill_color_set (so,
-					     state->fill_color);
+		state->fill_color);
+	state->fill_color = NULL;
 
 	if (state->sog->type == SHEET_OBJECT_ARROW)
 		sheet_object_graphic_abc_set (state->sog,
@@ -453,14 +441,12 @@ cb_adjustment_value_changed (GtkAdjustment *adj, DialogGraphicData *state)
 }
 
 static void
-cb_fill_color_changed (ColorCombo *color_combo, GdkColor *color,
+cb_fill_color_changed (GtkWidget *cc, GdkColor *color,
 		       gboolean is_custom, gboolean by_user, gboolean is_default,
 		       DialogGraphicData *state)
 {
-	SheetObject *so = SHEET_OBJECT (state->sog);
-	sheet_object_graphic_fill_color_set (so, color_combo_get_style_color (
-						     state->fill_color_combo));
-
+	sheet_object_graphic_fill_color_set (SHEET_OBJECT (state->sog),
+		color_combo_get_style_color (cc));
 	foo_canvas_item_set (state->arrow, "fill_color_gdk", color, NULL);
 }
 
@@ -471,7 +457,7 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 	WorkbookControlGUI *wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 	DialogGraphicData *state;
 	FooCanvasPoints *points;
-	GtkWidget *table;
+	GtkWidget *table, *w;
 
 	g_return_if_fail (sog != NULL);
 
@@ -482,7 +468,6 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 	state = g_new0 (DialogGraphicData, 1);
 	state->sog = sog;
 	state->wbcg = wbcg;
-	state->sheet = sc_sheet	(sc);
 
 	sog = SHEET_OBJECT_GRAPHIC (so);
 	state->gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
@@ -495,22 +480,21 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 				   2, 3, 0, (sog->type != SHEET_OBJECT_ARROW) ? 2 : 5);
 	gtk_widget_show (GTK_WIDGET (state->canvas));
 
-	state->fill_color_combo = color_combo_new (NULL, NULL, NULL,
-					color_group_fetch ("color", so));
-	color_combo_set_color (COLOR_COMBO (state->fill_color_combo),
-			       sog->fill_color ? &sog->fill_color->color : NULL);
-	color_combo_set_instant_apply 
-		(COLOR_COMBO (state->fill_color_combo), FALSE);
-	gtk_combo_box_set_tearable 
-		(GTK_COMBO_BOX (state->fill_color_combo), FALSE);
+	w = color_combo_new (NULL, NULL, NULL, color_group_fetch ("color", so));
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (glade_xml_get_widget (state->gui, "label_color")), w);
+	color_combo_set_color (COLOR_COMBO (w),
+		sog->fill_color ? &sog->fill_color->color : NULL);
+	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
+	gtk_combo_box_set_tearable (GTK_COMBO_BOX (w), FALSE);
 	state->fill_color = style_color_ref (sog->fill_color);
-	gtk_table_attach_defaults (GTK_TABLE (table),
-				   state->fill_color_combo, 1, 2, 0, 1);
-	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->fill_color_combo),
-					GTK_RELIEF_NORMAL);
-	color_combo_box_set_preview_relief (COLOR_COMBO (state->fill_color_combo),
-					    GTK_RELIEF_NORMAL);
-	gtk_widget_show (GTK_WIDGET (state->fill_color_combo));
+	gtk_table_attach_defaults (GTK_TABLE (table), w, 1, 2, 0, 1);
+	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (w), GTK_RELIEF_NORMAL);
+	color_combo_box_set_preview_relief (COLOR_COMBO (w), GTK_RELIEF_NORMAL);
+	gtk_widget_show (GTK_WIDGET (w));
+	g_signal_connect (G_OBJECT (w),
+		"color_changed",
+		G_CALLBACK (cb_fill_color_changed), state);
 
 	state->spin_arrow_tip = GTK_SPIN_BUTTON (glade_xml_get_widget (
 						    state->gui, "spin_arrow_tip"));
@@ -575,31 +559,29 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 			  (gtk_spin_button_get_adjustment (state->spin_arrow_width)),
 			  "value_changed",
 			  G_CALLBACK (cb_adjustment_value_changed), state);
-	g_signal_connect (G_OBJECT (state->fill_color_combo),
-			  "color_changed",
-			  G_CALLBACK (cb_fill_color_changed), state);
 	g_signal_connect (G_OBJECT
 			  (gtk_spin_button_get_adjustment (state->spin_line_width)),
 			  "value_changed",
 			  G_CALLBACK (cb_adjustment_value_changed), state);
-	g_signal_connect (G_OBJECT (state->dialog),
-			  "destroy",
-			  G_CALLBACK (cb_dialog_graphic_config_destroy), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
+	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
 			  "clicked",
-			  G_CALLBACK (cb_dialog_graphic_config_ok_clicked), state);
+			  G_CALLBACK (gtk_widget_destroy), state->dialog);
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
 			  "clicked",
 			  G_CALLBACK (cb_dialog_graphic_config_cancel_clicked), state);
+
+	/* a candidate for merging into attach guru */
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		(sog->type != SHEET_OBJECT_ARROW) ? "so-line.html" : "so-arrow.html");
-
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
-			       SHEET_OBJECT_CONFIG_KEY);
-
+		SHEET_OBJECT_CONFIG_KEY);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_dialog_graphic_config_destroy);
+	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
+		GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-
+	gtk_widget_show (state->dialog);
 }
 
 static void
@@ -825,41 +807,38 @@ sheet_object_filled_clone (SheetObject const *so, Sheet *sheet)
 	return SHEET_OBJECT (new_sof);
 }
 
-typedef struct
-{
-	GladeXML           *gui;
-	GtkWidget          *dialog;
+typedef struct {
+	GladeXML	*gui;
+	GtkWidget	*dialog;
+	GtkSpinButton	*spin_border_width;
 
-	GtkWidget *fill_color_combo;
-	GtkWidget *outline_color_combo;
-	GtkSpinButton *spin_border_width;
-
-	StyleColor *outline_color;
-	StyleColor *fill_color;
-	double width;
+	StyleColor	*outline_color;
+	StyleColor	*fill_color;
+	double		 width;
 
 	WorkbookControlGUI *wbcg;
-	SheetObjectFilled *sof;
+	SheetObjectFilled  *sof;
 	Sheet		   *sheet;
 } DialogFilledData;
 
-static gboolean
-cb_dialog_filled_config_destroy (GtkObject *w, DialogFilledData *state)
+static void
+cb_dialog_filled_config_destroy (DialogFilledData *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
 	wbcg_edit_detach_guru (state->wbcg);
-
+	if (state->outline_color != NULL) {
+		style_color_unref (state->outline_color);
+		state->outline_color = NULL;
+	}
+	if (state->fill_color != NULL) {
+		style_color_unref (state->fill_color);
+		state->fill_color = NULL;
+	}
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
 	}
-
 	state->dialog = NULL;
 	g_free (state);
-
-	return FALSE;
 }
 
 static void
@@ -873,16 +852,21 @@ cb_dialog_filled_adjustment_value_changed (GtkAdjustment *adj, DialogFilledData 
 }
 
 static void
-cb_dialog_filled_color_changed (ColorCombo *color_combo, GdkColor *color,
-		       gboolean is_custom, gboolean by_user, gboolean is_default,
-		       DialogFilledData *state)
+cb_fillcolor_changed (GtkWidget *cc, GdkColor *color,
+		      gboolean is_custom, gboolean by_user, gboolean is_default,
+		      SheetObject *so)
 {
-	SheetObject *so = SHEET_OBJECT (state->sof);
-	sheet_object_graphic_fill_color_set (so, color_combo_get_style_color (
-						     state->fill_color_combo));
+	sheet_object_graphic_fill_color_set (so,
+		color_combo_get_style_color (cc));
+}
+
+static void
+cb_outlinecolor_changed (GtkWidget *cc, GdkColor *color,
+			 gboolean is_custom, gboolean by_user, gboolean is_default,
+			 SheetObject *so)
+{
 	sheet_object_filled_outline_color_set (so,
-					       color_combo_get_style_color (
-						       state->outline_color_combo));
+		color_combo_get_style_color (cc));
 }
 
 static void
@@ -899,9 +883,11 @@ cb_dialog_filled_config_cancel_clicked (GtkWidget *button, DialogFilledData *sta
 
 	sheet_object_graphic_width_set (sog, state->width);
 	sheet_object_graphic_fill_color_set (so,
-					     state->fill_color);
+		state->fill_color);
+	state->fill_color = NULL;
 	sheet_object_filled_outline_color_set (so,
-					       state->outline_color);
+		state->outline_color);
+	state->outline_color = NULL;
 
 	gtk_widget_destroy (state->dialog);
 }
@@ -912,8 +898,8 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 	SheetObjectFilled *sof = SHEET_OBJECT_FILLED (so);
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	WorkbookControlGUI *wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
-	GtkWidget *table;
 	DialogFilledData *state;
+	GtkWidget *table, *w;
 
 	g_return_if_fail (IS_SHEET_OBJECT_FILLED (so));
 
@@ -932,72 +918,65 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 
  	table = glade_xml_get_widget (state->gui, "table");
 
-	state->outline_color_combo = color_combo_new (NULL, _("Transparent"),
-				NULL, color_group_fetch ("outline_color", so));
-	color_combo_set_color (COLOR_COMBO (state->outline_color_combo),
-			       sof->outline_color ? &sof->outline_color->color : NULL);
-	color_combo_set_instant_apply 
-		(COLOR_COMBO (state->outline_color_combo), FALSE);
-	gtk_combo_box_set_tearable 
-		(GTK_COMBO_BOX (state->fill_color_combo), FALSE);
+	w = color_combo_new (NULL, _("Transparent"),
+		NULL, color_group_fetch ("outline_color", so));
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (glade_xml_get_widget (state->gui, "border_label")), w);
+	color_combo_set_color (COLOR_COMBO (w),
+		sof->outline_color ? &sof->outline_color->color : NULL);
+	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
+	gtk_combo_box_set_tearable (GTK_COMBO_BOX (w), FALSE);
 	state->outline_color = style_color_ref (sof->outline_color);
-	gtk_table_attach_defaults (GTK_TABLE (table),
-				   state->outline_color_combo, 1, 2, 0, 1);
-	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->outline_color_combo),
-					GTK_RELIEF_NORMAL);
-	color_combo_box_set_preview_relief (COLOR_COMBO (state->outline_color_combo),
-					    GTK_RELIEF_NORMAL);
-	gtk_widget_show (GTK_WIDGET (state->outline_color_combo));
+	gtk_table_attach_defaults (GTK_TABLE (table), w, 1, 2, 0, 1);
+	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (w), GTK_RELIEF_NORMAL);
+	color_combo_box_set_preview_relief (COLOR_COMBO (w), GTK_RELIEF_NORMAL);
+	gtk_widget_show (GTK_WIDGET (w));
+	g_signal_connect (G_OBJECT (w),
+		"color_changed",
+		G_CALLBACK (cb_outlinecolor_changed), so);
 
-
-	state->fill_color_combo = color_combo_new (NULL, _("Transparent"),
-				NULL, color_group_fetch ("fill_color", so));
-	color_combo_set_color (COLOR_COMBO (state->fill_color_combo),
-			       sog->fill_color ? &sog->fill_color->color : NULL);
-	color_combo_set_instant_apply 
-		(COLOR_COMBO (state->fill_color_combo), FALSE);
-	gtk_combo_box_set_tearable 
-		(GTK_COMBO_BOX (state->fill_color_combo), FALSE);
+	w = color_combo_new (NULL, _("Transparent"),
+		NULL, color_group_fetch ("fill_color", so));
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (glade_xml_get_widget (state->gui, "fill_label")), w);
+	color_combo_set_color (COLOR_COMBO (w),
+		sog->fill_color ? &sog->fill_color->color : NULL);
+	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
+	gtk_combo_box_set_tearable (GTK_COMBO_BOX (w), FALSE);
 	state->fill_color = style_color_ref (sog->fill_color);
-	gtk_table_attach_defaults (GTK_TABLE (table),
-				   state->fill_color_combo, 1, 2, 1, 2);
-	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->fill_color_combo),
-					GTK_RELIEF_NORMAL);
-	color_combo_box_set_preview_relief (COLOR_COMBO (state->fill_color_combo),
-					    GTK_RELIEF_NORMAL);
-	gtk_widget_show (GTK_WIDGET (state->fill_color_combo));
+	gtk_table_attach_defaults (GTK_TABLE (table), w, 1, 2, 1, 2);
+	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (w), GTK_RELIEF_NORMAL);
+	color_combo_box_set_preview_relief (COLOR_COMBO (w), GTK_RELIEF_NORMAL);
+	gtk_widget_show (GTK_WIDGET (w));
+	g_signal_connect (G_OBJECT (w),
+		"color_changed",
+		G_CALLBACK (cb_fillcolor_changed), so);
 
 	state->spin_border_width = GTK_SPIN_BUTTON (glade_xml_get_widget (
 						     state->gui, "spin_border_width"));
 	state->width = sog->width;
 	gtk_spin_button_set_value (state->spin_border_width, state->width);
 
-
-	g_signal_connect (G_OBJECT (state->fill_color_combo),
-			  "color_changed",
-			  G_CALLBACK (cb_dialog_filled_color_changed), state);
-	g_signal_connect (G_OBJECT (state->outline_color_combo),
-			  "color_changed",
-			  G_CALLBACK (cb_dialog_filled_color_changed), state);
 	g_signal_connect (G_OBJECT
 			  (gtk_spin_button_get_adjustment (state->spin_border_width)),
 			  "value_changed",
 			  G_CALLBACK (cb_dialog_filled_adjustment_value_changed), state);
-	g_signal_connect (G_OBJECT (state->dialog),
-			  "destroy",
-			  G_CALLBACK (cb_dialog_filled_config_destroy), state);
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
 			  "clicked",
 			  G_CALLBACK (cb_dialog_filled_config_ok_clicked), state);
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
 			  "clicked",
 			  G_CALLBACK (cb_dialog_filled_config_cancel_clicked), state);
+
+	/* a candidate for merging into attach guru */
 	gnumeric_init_help_button (glade_xml_get_widget (state->gui, "help_button"),
-				   "so-filled.html");
-
+		"so-filled.html");
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
-			       SHEET_OBJECT_CONFIG_KEY);
-
+		SHEET_OBJECT_CONFIG_KEY);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_dialog_filled_config_destroy);
+	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
+		GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show (state->dialog);
 }
