@@ -105,8 +105,9 @@ selection_is_simple (WorkbookControl *wbc, Sheet const *sheet,
 		return FALSE;
 	}
 
+	r = sheet->selections->data;
+
 	if (!allow_merged) {
-		r = sheet->selections->data;
 		merged = sheet_region_get_merged (sheet, r);
 		if (merged != NULL) {
 			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), command_name,
