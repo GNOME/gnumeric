@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2002-07-18 14:05-0400\n"
-"PO-Revision-Date: 2002-05-26 03:05+0000\n"
+"POT-Creation-Date: 2002-08-24 12:24+0100\n"
+"PO-Revision-Date: 2002-08-24 12:35+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -14,9 +14,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: gnumeric.desktop.in.h:1
-#, fuzzy
 msgid "Gnumeric Spreadsheet"
-msgstr "Inserir uma folha de cálculo nova"
+msgstr "Folha de Cálculo Gnumeric"
 
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
@@ -685,22 +684,20 @@ msgid "This plugin enables Guile(scheme) support in Gnumeric"
 msgstr "Este plugin activa suporte Guile (scheme) no Gnumeric"
 
 #: plugins/guile/smob-value.c:102
-#, fuzzy
 msgid "Unable to convert value from Guile"
-msgstr "Incapaz de fechar ficheiro de módulo \"%s\"."
+msgstr "Incapaz de converter valor do Guile"
 
 #: plugins/guile/smob-value.c:163
 msgid "Not a Guile boolean"
-msgstr ""
+msgstr "Não é uma booleana Guile"
 
 #: plugins/guile/smob-value.c:181
-#, fuzzy
 msgid "Not a Guile number"
-msgstr "Número negativo:"
+msgstr "Não é um número Guile"
 
 #: plugins/guile/smob-value.c:199
 msgid "Not a Guile string"
-msgstr ""
+msgstr "Não é uma expressão Guile"
 
 #: plugins/html/plugin.xml.in.h:1
 msgid "DVI TeX (via groff)"
@@ -4409,7 +4406,6 @@ msgid "_Wrap text"
 msgstr "Envolver te_xto"
 
 #: src/dialogs/cell-format.glade.h:129
-#, fuzzy
 msgid "min <= val <= max         (between)"
 msgstr "mín <= val <= máx           (entre)"
 
@@ -4418,17 +4414,14 @@ msgid "val != bound                  (not equal to)"
 msgstr "val != limite                 (diferente de)"
 
 #: src/dialogs/cell-format.glade.h:131
-#, fuzzy
 msgid "val <  bound                  (less than)"
 msgstr "val <  limite              (menor do que)"
 
 #: src/dialogs/cell-format.glade.h:132
-#, fuzzy
 msgid "val <= min || max <= val (not between)"
 msgstr "val <= mín || máx <= val   (não entre)"
 
 #: src/dialogs/cell-format.glade.h:133
-#, fuzzy
 msgid "val <=bound                  (less than or equal to)"
 msgstr "val <=limite                      (menor ou igual a)"
 
@@ -4437,12 +4430,10 @@ msgid "val == bound                 (equal to)"
 msgstr "val == limite                 (igual a)"
 
 #: src/dialogs/cell-format.glade.h:135
-#, fuzzy
 msgid "val >  bound                  (greater than)"
 msgstr "val >  limite                 (maior do que)"
 
 #: src/dialogs/cell-format.glade.h:136
-#, fuzzy
 msgid "val >=bound                  (greater than or equal to)"
 msgstr "val >=limite                         (maior ou igual a)"
 
@@ -7452,28 +7443,28 @@ msgstr "Barras de Rolamento _Horizontais"
 msgid "_Vertical Scrollbar"
 msgstr "Barras de Rolamento _Verticais"
 
-#: src/expr-name.c:241
+#: src/expr-name.c:249
 msgid "already defined in sheet"
 msgstr "já definido na folha"
 
-#: src/expr-name.c:245
+#: src/expr-name.c:253
 msgid "already defined in workbook"
 msgstr "já definido no livro de trabalho"
 
-#: src/expr-name.c:249
+#: src/expr-name.c:257
 msgid "already globally defined "
 msgstr "já definido globalmente "
 
-#: src/expr-name.c:255
+#: src/expr-name.c:263
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr "'%s' tem uma referência circular"
 
-#: src/expr-name.c:418
+#: src/expr-name.c:426
 msgid "Builtin"
 msgstr "Interno"
 
-#: src/expr-name.c:516 src/expr-name.c:528
+#: src/expr-name.c:525 src/expr-name.c:537
 msgid "Error: no sheet"
 msgstr "Erro: nenhuma folha"
 
@@ -12261,7 +12252,6 @@ msgstr ""
 "@SEEALSO=PV,FV"
 
 #: src/functions/fn-financial.c:2170
-#, fuzzy
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -12297,6 +12287,7 @@ msgstr ""
 "    FIM     (Finlândia)\n"
 "    FRF     (França)\n"
 "    IEP     (Irlanda)\n"
+"    GRD     (Grécia)\n"
 "    ITL     (Itália)\n"
 "    LUF     (Luxemburgo)\n"
 "    NLG     (Holanda)\n"
@@ -20262,7 +20253,7 @@ msgstr "Erro ao tentar encontrar o ficheiro csv"
 
 #: src/stf.c:458
 msgid "Text import (auto-detect CSV or tab-delimited)"
-msgstr ""
+msgstr "Importação de texto (auto-detectar CSV ou separado por tabs)"
 
 #: src/stf.c:462
 msgid "Text import (configurable)"
@@ -20996,16 +20987,14 @@ msgstr "Formato de ficheiro XML Gnumeric"
 #~ msgid "&lt;- Remove"
 #~ msgstr "&lt;- Remover"
 
-#, fuzzy
 #~ msgid "&lt;- Remove all"
-#~ msgstr "&lt;- Remover"
+#~ msgstr "&lt;- Remover tudo"
 
 #~ msgid "Add -&gt;"
 #~ msgstr "Adicionar -&gt;"
 
-#, fuzzy
 #~ msgid "Add all -&gt;"
-#~ msgstr "Adicionar -&gt;"
+#~ msgstr "Adicionar tudo -&gt;"
 
 #~ msgid "&gt;="
 #~ msgstr "&gt;="
