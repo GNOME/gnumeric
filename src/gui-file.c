@@ -346,7 +346,7 @@ ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	GtkWidget *dialog;
 	GtkWidget *format_chooser;
 	GtkOptionMenu *omenu;
-	GList *savers, *l;
+	GList *savers;
 	GnumFileSaver *fs;
 	const gchar *buttons[] = {GNOME_STOCK_BUTTON_OK,
 		                  GNOME_STOCK_BUTTON_CANCEL, NULL}; 
@@ -356,13 +356,7 @@ ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	gnome_dialog_set_close (GNOME_DIALOG (dialog), FALSE);
 	
 	/* Add the format chooser */
-	
-	savers = NULL;
-	for (l = get_file_savers (); l != NULL; l = l->next) {
-		if (gnum_file_saver_supports_save_to_stream (l->data)) {
-			savers = g_list_append (savers, l->data);
-		}
-	}
+	savers = g_list_copy (get_file_savers ());
 	savers = g_list_sort (savers, file_saver_description_cmp);
 	omenu = GTK_OPTION_MENU (gtk_option_menu_new ());
 	format_chooser = make_format_chooser (savers, omenu);

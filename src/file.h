@@ -2,6 +2,7 @@
 #define GNUMERIC_FILE_H
 
 #include <gtk/gtktypeutils.h>
+#include "io-context.h"
 #include "gnumeric.h"
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-stream.h>
@@ -112,12 +113,7 @@ GnumFileSaver *gnum_file_saver_new (const gchar *id,
                                     const gchar *extension,
                                     const gchar *description,
                                     FileFormatLevel level,
-#ifdef ENABLE_BONOBO
-			GnumFileSaverSaveFunc         save_func,
-			GnumFileSaverSaveToStreamFunc save_to_stream_func);
-#else
                                     GnumFileSaverSaveFunc save_func);
-#endif
 
 void          gnum_file_saver_set_save_scope (GnumFileSaver *fs, FileSaveScope scope);
 FileSaveScope gnum_file_saver_get_save_scope (GnumFileSaver *fs);
@@ -126,11 +122,10 @@ void         gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_contex
                                    WorkbookView *wbv, const gchar *file_name);
 #ifdef ENABLE_BONOBO
 void         gnum_file_saver_save_to_stream (GnumFileSaver const *fs, 
-					     IOContext *io_context,
-					     WorkbookView *wbv, 
-					     BonoboStream *stream,
-					     CORBA_Environment *ev);
-gboolean     gnum_file_saver_supports_save_to_stream (GnumFileSaver const *fs);
+                                             IOContext *io_context,
+                                             WorkbookView *wbv, 
+                                             BonoboStream *stream,
+                                             CORBA_Environment *ev);
 #endif
 gchar       *gnum_file_saver_fix_file_name (GnumFileSaver const *fs,
                                             const gchar *file_name);

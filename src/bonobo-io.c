@@ -528,11 +528,7 @@ gnumeric_bonobo_io_init (void)
 	                         gnumeric_bonobo_read_workbook);
 	gnumeric_bonobo_saver = gnum_file_saver_new (
 	                        NULL, "efs", desc, FILE_FL_AUTO,
-#ifdef ENABLE_BONOBO
-				gnumeric_bonobo_write_workbook, NULL);
-#else
 	                        gnumeric_bonobo_write_workbook);
-#endif
 	register_file_opener (gnumeric_bonobo_opener, 100);
 	register_file_saver (gnumeric_bonobo_saver);
 }

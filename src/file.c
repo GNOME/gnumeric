@@ -7,6 +7,13 @@
  */
 #include <config.h>
 #include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/mman.h>
+#include <sys/file.h>
 #include <libgnome/libgnome.h>
 #include <gal/util/e-util.h>
 #ifdef ENABLE_BONOBO
@@ -242,27 +249,74 @@ gnum_file_saver_save_real (GnumFileSaver const *fs, IOContext *io_context,
 }
 
 #ifdef ENABLE_BONOBO
+#define FILE_COPY_CHUNK_SIZE  0x10000
+
 static void
 gnum_file_saver_save_to_stream_real (GnumFileSaver const *fs,
-				     IOContext *io_context, 
-				     WorkbookView *wbv, 
-				     BonoboStream *stream, 
-				     CORBA_Environment *ev)
+                                     IOContext *io_context, 
+                                     WorkbookView *wbv, 
+                                     BonoboStream *stream, 
+                                     CORBA_Environment *ev)
 {
-	if (fs->save_to_stream_func == NULL) {
-		gnumeric_io_error_unknown (io_context);
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Bonobo_Stream_NotSupported, NULL);
-		return;
+	gchar *tmp_name;
+	gint old_umask;
+	gint fd;
+
+	tmp_name = g_concat_dir_and_file (g_get_tmp_dir (), "gnumeric-file-XXXXXX");
+	old_umask = umask (0077);
+	fd = mkstemp (tmp_name);
+	if (fd == -1) {
+		gnumeric_io_error_info_set (io_context, error_info_new_str_with_details (
+		                            _("Cannot create temporary file."),
+		                            error_info_new_from_errno ()));
+	} else {
+		struct stat sbuf;
+		gchar *buf;
+
+		io_progress_range_push (io_context, 0.0, 0.5);
+		gnum_file_saver_save (fs, io_context, wbv, tmp_name);
+		io_progress_range_pop (io_context);
+		(void) unlink (tmp_name);
+
+		if (gnumeric_io_error_occurred (io_context)) {
+			gnumeric_io_error_push (io_context, error_info_new_str (
+			                        _("Error saving to temporary file.")));
+		} else if (fstat (fd, &sbuf) == -1) {
+			gnumeric_io_error_info_set (io_context, error_info_new_str_with_details (
+			                            _("Cannot get temporary file size."),
+			                            error_info_new_from_errno ()));
+		} else if ((buf = mmap (0, sbuf.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) == (void *) -1) {
+			gnumeric_io_error_info_set (io_context, error_info_new_str_with_details (
+			                            _("Cannot mmap temporary file."),
+			                            error_info_new_from_errno ()));
+		} else {
+			Bonobo_Stream_iobuf *iobuf;
+			gint offset;
+
+			io_progress_message (io_context, _("Saving file to stream."));
+			io_progress_range_push (io_context, 0.5, 1.0);
+			iobuf = Bonobo_Stream_iobuf__alloc ();
+			value_io_progress_set (io_context, sbuf.st_size, FILE_COPY_CHUNK_SIZE);
+			for (offset = 0; offset < sbuf.st_size; offset += FILE_COPY_CHUNK_SIZE) {
+				value_io_progress_update (io_context, offset);
+				iobuf->_buffer = buf + offset;
+				iobuf->_length = MIN (sbuf.st_size - offset, FILE_COPY_CHUNK_SIZE);
+				Bonobo_Stream_write (BONOBO_OBJREF (stream), iobuf, ev);
+				if (BONOBO_EX (ev)) {
+					gnumeric_io_error_string (
+					io_context, _("Exception occured while saving to stream."));
+					break;
+				}
+			}
+			io_progress_unset (io_context);
+			CORBA_free (iobuf);
+			io_progress_range_pop (io_context);
+			munmap (buf, sbuf.st_size);
+		}
+		(void) close (fd);
 	}
-
-	fs->save_to_stream_func (fs, io_context, wbv, stream, ev);
-}
-
-gboolean
-gnum_file_saver_supports_save_to_stream (GnumFileSaver const *fs)
-{
-	return (fs->save_to_stream_func != NULL);
+	g_free (tmp_name);
+	(void) umask (old_umask);
 }
 #endif
 
@@ -289,9 +343,6 @@ E_MAKE_TYPE (gnum_file_saver, "GnumFileSaver", GnumFileSaver, \
  * @description : Description of supported file format
  * @level       : File format level
  * @save_func   : Pointer to "save" function
-#ifdef ENABLE_BONOBO
- * @save_to_stream_func: Pointer to "save to stream" function
-#endif
  *
  * Sets up GnumFileSaver object, newly created with gtk_type_new function.
  * This is intended to be used only by GnumFileSaver derivates.
@@ -302,12 +353,7 @@ gnum_file_saver_setup (GnumFileSaver *fs, const gchar *id,
                        const gchar *extension,
                        const gchar *description,
                        FileFormatLevel level,
-#ifdef ENABLE_BONOBO
-		       GnumFileSaverSaveFunc save_func,
-		       GnumFileSaverSaveToStreamFunc save_to_stream_func)
-#else
                        GnumFileSaverSaveFunc save_func)
-#endif
 {
 	gchar *tmp;
 
@@ -322,9 +368,6 @@ gnum_file_saver_setup (GnumFileSaver *fs, const gchar *id,
 	fs->description = g_strdup (description);
 	fs->format_level = level;
 	fs->save_func = save_func;
-#ifdef ENABLE_BONOBO
-	fs->save_to_stream_func = save_to_stream_func;
-#endif
 }
 
 /**
@@ -334,9 +377,6 @@ gnum_file_saver_setup (GnumFileSaver *fs, const gchar *id,
  * @description : Description of supported file format
  * @level       : File format level
  * @save_func   : Pointer to "save" function
-#ifdef ENABLE_BONOBO
- * @save_to_stream_func: Pointer to "save to stream" function
-#endif
  *
  * Creates new GnumFileSaver object. Optional @id will be used
  * after registering it with register_file_saver or
@@ -349,21 +389,12 @@ gnum_file_saver_new (const gchar *id,
                      const gchar *extension,
                      const gchar *description,
                      FileFormatLevel level,
-#ifdef ENABLE_BONOBO
-		     GnumFileSaverSaveFunc save_func,
-		     GnumFileSaverSaveToStreamFunc save_to_stream_func)
-#else
                      GnumFileSaverSaveFunc save_func)
-#endif
 {
 	GnumFileSaver *fs;
 
 	fs = GNUM_FILE_SAVER (gtk_type_new (TYPE_GNUM_FILE_SAVER));
-#ifdef ENABLE_BONOBO
-	gnum_file_saver_setup (fs, id, extension, description, level, save_func, save_to_stream_func);
-#else
 	gnum_file_saver_setup (fs, id, extension, description, level, save_func);
-#endif
 
 	return fs;
 }
@@ -463,13 +494,13 @@ gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
  */
 void
 gnum_file_saver_save_to_stream (GnumFileSaver const *fs, IOContext *io_context,
-		                WorkbookView *wbv, BonoboStream *stream,
-				CORBA_Environment *ev)
+                                WorkbookView *wbv, BonoboStream *stream,
+                                CORBA_Environment *ev)
 {
 	bonobo_return_if_fail (IS_GNUM_FILE_SAVER (fs), ev);
 	
 	GNUM_FILE_SAVER_METHOD (fs, save_to_stream) (fs, io_context, wbv,
-						     stream, ev);
+	                                             stream, ev);
 }
 #endif
 

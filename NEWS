@@ -37,6 +37,10 @@ Lutz:
 	  "PrintOperations" that help components to put their own menus into
 	  the right place.
 
+Zbigniew:
+	* Use temporary files to handle saving to BonoboStream with every
+	  file saver.
+
 --------------------------------------------------------------------------
 Gnumeric 0.67
 

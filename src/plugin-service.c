@@ -619,11 +619,7 @@ gnum_plugin_file_saver_new (PluginService *service)
 	                       service_file_saver->file_extension,
 	                       service_file_saver->description,
 	                       service_file_saver->format_level,
-#ifdef ENABLE_BONOBO
-	                       NULL, NULL);
-#else
-			       NULL);
-#endif
+	                       NULL);
 	gnum_file_saver_set_save_scope (GNUM_FILE_SAVER (fs),
 	                                service_file_saver->save_scope);
 	fs->service = service;

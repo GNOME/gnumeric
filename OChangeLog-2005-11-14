@@ -1,3 +1,32 @@
+2001-07-16  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/file-priv.h
+	(struct _GnumFileSaver): Removed save_to_stream_func member.
+	(gnum_file_saver_setup): Removed save_to_stream_func argument.
+
+	* src/file.h
+	(gnum_file_saver_new): Removed save_to_stream_func argument.
+	(gnum_file_saver_supports_save_to_stream): Removed.
+
+	* src/file.c
+	(gnum_file_saver_save_to_stream_real):
+	New implementation, uses temporary file and gnum_file_saver_save.
+	(gnum_file_saver_setup): Removed save_to_stream_func argument.
+	(gnum_file_saver_new): Removed save_to_stream_func argument.
+	(gnum_file_saver_supports_save_to_stream): Removed.
+
+	* src/gui-file.c
+	(ask_for_file_saver): Show all file savers in format chooser.
+
+	* src/bonobo-io.c (gnumeric_bonobo_io_init),
+	src/plugin-service.c (gnum_plugin_file_saver_new),
+	src/stf.c (stf_init):
+	Adjusted to file.h change (removed save_to_stream_func argument).
+
+	* src/xml-io.c
+	(gnumeric_xml_write_workbook_to_stream): Removed.
+	(xml_init): Adjusted to file.h change.
+
 2001-07-16  Almer S. Tigelaar  <almer@gnome.org>
 
 	* stf-parse.c (stf_parse_general): Fix leakage.

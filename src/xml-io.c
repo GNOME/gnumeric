@@ -3448,54 +3448,6 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 	}
 }
 
-#ifdef ENABLE_BONOBO
-void
-gnumeric_xml_write_workbook_to_stream (GnumFileSaver const *fs,
-				       IOContext *context,
-			               WorkbookView *wb_view,
-				       BonoboStream *stream, 
-				       CORBA_Environment *ev)
-{
-	xmlDocPtr xml;
-	XmlParseContext *ctxt;
-	Bonobo_Stream_iobuf *buffer;
-#if 0
-	Bonobo_StorageInfo *info;
-#endif
-
-	xml = xmlNewDoc ("1.0");
-	ctxt = xml_parse_ctx_new (xml, NULL);
-	xmlDocSetRootElement (xml, xml_workbook_write (ctxt, wb_view));
-	xml_parse_ctx_destroy (ctxt);
-	xmlSetDocCompressMode (xml, 9);
-					
-	buffer = Bonobo_Stream_iobuf__alloc ();
-	xmlDocDumpMemory (xml, &(buffer->_buffer), &(buffer->_length));
-	Bonobo_Stream_write (BONOBO_OBJREF (stream), buffer, ev);
-	CORBA_free (buffer);
-	xmlFreeDoc (xml);
-	if (BONOBO_EX (ev))
-		return;
-
-#if 0
-	/*
-	 * FIXME: Enable this code when BonoboStreamMemory has [get,set]Info
-	 * capabilities.
-	 */
-	info = Bonobo_StorageInfo__alloc ();
-	info->name = CORBA_string_dup (workbook_get_filename (
-						wb_view_workbook (wbv)));
-	info->type = Bonobo_STORAGE_TYPE_REGULAR;
-	info->content_type = CORBA_string_dup ("application/x-gnumeric");
-	info->size = size;
-	Bonobo_Stream_setInfo (BONOBO_OBJREF (stream), info,
-			       Bonobo_FIELD_CONTENT_TYPE | Bonobo_FIELD_TYPE |
-			       Bonobo_FIELD_SIZE, ev);
-	CORBA_free (info);
-#endif
-}
-#endif
-
 void
 xml_init (void)
 {
@@ -3506,13 +3458,7 @@ xml_init (void)
 	             xml_probe, gnumeric_xml_read_workbook);
 	xml_saver = gnum_file_saver_new (
 	            "Gnumeric_XmlIO:gnum_xml", "gnumeric", desc,
-		    FILE_FL_AUTO,
-#ifdef ENABLE_BONOBO
-		    gnumeric_xml_write_workbook,
-		    gnumeric_xml_write_workbook_to_stream);
-#else
-	            gnumeric_xml_write_workbook);
-#endif
+	            FILE_FL_AUTO, gnumeric_xml_write_workbook);
 	register_file_opener (xml_opener, 50);
 	register_file_saver_as_default (xml_saver, 50);
 }

@@ -50,16 +50,16 @@ void gnum_file_opener_setup (GnumFileOpener *fo, const gchar *id,
 struct _GnumFileSaverClass {
 	GtkObjectClass parent_class;
 
-	void  (*save)		(GnumFileSaver const *fs,
-				 IOContext *io_context,
-				 WorkbookView *wbv,
-				 const gchar *file_name);
+	void (*save) (GnumFileSaver const *fs,
+	              IOContext *io_context,
+	              WorkbookView *wbv,
+	              const gchar *file_name);
 #ifdef ENABLE_BONOBO
-	void  (*save_to_stream) (GnumFileSaver const *fs,
-				 IOContext *io_context,
-				 WorkbookView *wbv,
-				 BonoboStream *stream,
-				 CORBA_Environment *ev);
+	void (*save_to_stream) (GnumFileSaver const *fs,
+	                        IOContext *io_context,
+	                        WorkbookView *wbv,
+	                        BonoboStream *stream,
+	                        CORBA_Environment *ev);
 #endif
 };
 
@@ -73,9 +73,6 @@ struct _GnumFileSaver {
 	FileFormatLevel               format_level;
 	FileSaveScope                 save_scope;
 	GnumFileSaverSaveFunc         save_func;
-#ifdef ENABLE_BONOBO
-	GnumFileSaverSaveToStreamFunc save_to_stream_func;
-#endif
 };
 
 void gnum_file_saver_setup (GnumFileSaver *fs,
@@ -83,11 +80,6 @@ void gnum_file_saver_setup (GnumFileSaver *fs,
                             const gchar *extension,
                             const gchar *description,
                             FileFormatLevel level,
-#ifdef ENABLE_BONOBO
-			    GnumFileSaverSaveFunc save_func,
-			    GnumFileSaverSaveToStreamFunc save_to_stream_func);
-#else
                             GnumFileSaverSaveFunc save_func);
-#endif
 
 #endif /* GNUMERIC_FILE_PRIV_H */
