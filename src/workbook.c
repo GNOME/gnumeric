@@ -727,6 +727,15 @@ solver_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+data_analysis_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	dialog_data_analysis (wb, sheet);
+}
+
+static void
 print_setup_cmd (GtkWidget *widget, Workbook *wb)
 {
 	dialog_printer_setup (wb);
@@ -946,6 +955,7 @@ static GnomeUIInfo workbook_menu_tools [] = {
 #if 0
 	{ GNOME_APP_UI_ITEM, N_("_Solver..."),    NULL, solver_cmd },
 #endif
+	{ GNOME_APP_UI_ITEM, N_("_Data Analysis..."), NULL, data_analysis_cmd },
 	GNOMEUIINFO_END
 };
 

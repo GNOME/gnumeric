@@ -53,6 +53,7 @@ INCLUDES = 						\
 
 GNUMERIC_BASE_SOURCES =				\
 	about.c					\
+	analysis-tools.c			\
 	cell.h					\
 	cell.c					\
 	cell-draw.c				\
@@ -70,6 +71,7 @@ GNUMERIC_BASE_SOURCES =				\
 	cursors.h				\
 	dates.c					\
 	dates.h					\
+	dialog-analysis-tools.c			\
 	dialog-cell-comment.c			\
 	dialog-cell-format.c			\
 	dialog-cell-sort.c			\

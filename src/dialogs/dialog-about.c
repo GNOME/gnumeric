@@ -34,7 +34,7 @@ dialog_about (Workbook *wb)
 		N_("Vincent Renardias, CSV support."),
 		N_("Vladimir Vuksan, financial functions."),
 		N_("Takashi Matsuda, simple text plugin."),
-		N_("Jukka-Pekka Iivonen, numerous functions."),
+		N_("Jukka-Pekka Iivonen, numerous functions and tools."),
 		N_("Morten Welinder, Gnumeric hacker."),
 		NULL
 	};

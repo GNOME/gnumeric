@@ -5,9 +5,10 @@ Miguel:
 	Pattern selector works again.
 
 Jukka:
+	* Started the implementation of Data Analysis tools
+	- Implemented Correlation and Covariance tools
 	* Added the following functions:
 	- FORECAST() and INTERCEPT().
-
         * And fixed these functions:
 	- SUMIF() and N().
 

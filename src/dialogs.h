@@ -22,4 +22,12 @@ void  dialog_printer_setup   (Workbook *wb);
 
 FunctionDefinition *dialog_function_select (Workbook *wb);
 
+void  dialog_data_analysis   (Workbook *wb, Sheet *sheet);
+
+void correlation_tool (Workbook *wb, Sheet *current_sheet, 
+		       Range *input_range, int columns_flag);
+void covariance_tool (Workbook *wb, Sheet *current_sheet, 
+		      Range *input_range, int columns_flag);
+
+
 #endif /* GNUMERIC_DIALOGS_H */
