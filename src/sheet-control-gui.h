@@ -29,6 +29,7 @@ struct _SheetControlGUI {
 	SheetObject	 *current_object;
 	SheetObject	 *drag_object;
 	double		  object_coords [4];
+	double		  last_x, last_y;
 	void        	 *active_object_frame;	/* FIXME remove this */
 
 	/* Selection group */

@@ -1,5 +1,10 @@
 2001-02-01  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-control-gui.c (scg_object_update_bbox) : when we select a
+	  new object get its position.
+	(cb_control_point_event) : This is a motion event.  Get rid of the
+	  stupid statics.
+
 	* src/sheet-merge.c (sheet_merge_remove) : free the range AFTER we
 	  lookup the cell.  It is possible that the range is the same as the
 	  argument and we still need it.

@@ -1347,8 +1347,6 @@ static int
 cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 			GnomeCanvasItem *so_view)
 {
-	/*  FIXME : move these statics into the control */
-	static gdouble last_x, last_y;
 	SheetObject *so = sheet_object_view_obj (GTK_OBJECT (so_view));
 	SheetControlGUI *scg = sheet_object_view_control (GTK_OBJECT (so_view));
 	int idx;
@@ -1381,8 +1379,8 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 						GDK_POINTER_MOTION_MASK |
 						GDK_BUTTON_RELEASE_MASK,
 						NULL, event->button.time);
-			last_x = event->button.x;
-			last_y = event->button.y;
+			scg->last_x = event->button.x;
+			scg->last_y = event->button.y;
 			break;
 
 		case 3: display_object_menu (so, so_view, event);
@@ -1434,14 +1432,10 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 
 		idx = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (ctrl_pt)));
 
-		/* FIXME : When we get rid of these stupid statics 
-		 * we can make the sliding work properly.  Currently while autosliding
-		 * the object is not changed until a motion event.
-		 */
-		dx = event->button.x - last_x;
-		dy = event->button.y - last_y;
-		last_x = event->button.x;
-		last_y = event->button.y;
+		dx = event->motion.x - scg->last_x;
+		dy = event->motion.y - scg->last_y;
+		scg->last_x = event->motion.x;
+		scg->last_y = event->motion.y;
 
 		for (i = 4; i-- > 0; )
 			new_coords [i] = scg->object_coords [i];
@@ -1625,6 +1619,9 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 
 	if (new_coords != NULL)
 		scg_object_calc_position (scg, so, new_coords);
+	else
+		scg_object_view_position (scg, so, scg->object_coords);
+
 	l = scg->object_coords [0];
 	t = scg->object_coords [1];
 	r = scg->object_coords [2];
@@ -1788,6 +1785,8 @@ cb_sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event,
 						GDK_POINTER_MOTION_MASK |
 						GDK_BUTTON_RELEASE_MASK,
 						NULL, event->button.time);
+			scg->last_x = event->button.x;
+			scg->last_y = event->button.y;
 		} else
 			display_object_menu (so, item, event);
 		break;
