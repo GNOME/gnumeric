@@ -14,6 +14,7 @@
 #include "print-info.h"
 #include "format.h"
 #include "func.h"
+#include "datetime.h"
 
 static PrintHF predefined_formats [] = {
 	{ "",                 "",                             "" },

@@ -907,7 +907,7 @@ gnumeric_average (FunctionEvalInfo *ei, GList *expr_node_list)
 				     range_average,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS,
-				     gnumeric_err_VALUE);
+				     gnumeric_err_DIV0);
 }
 
 /***************************************************************************/
