@@ -14,7 +14,7 @@ Jody:
 	* 1st pass at borders & patterns
 	* Improve edit popup.
 	* Rework cell format dialog.
-	* Some support for inter book references (no dependancies yet)
+	* Some support for inter book references (no dependencies yet)
 
 Daniel:
 	* Excel Name export.

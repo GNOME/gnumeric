@@ -1171,12 +1171,12 @@ border_get_mstyle (FormatState const *state, BorderLocations const loc)
 	StyleColor *color =
 	    style_color_new ((r << 8)|r, (g << 8)|g, (b << 8)|b);
 		
-	/* Dont set borders that have not been changed */
+	/* Don't set borders that have not been changed */
 	if (!edge->is_set)
 		return NULL;
 
-	return border_fetch (state->border.edge[loc].pattern_index, color,
-			     border_get_orientation (loc + MSTYLE_BORDER_TOP));
+	return style_border_fetch (state->border.edge[loc].pattern_index, color,
+				   style_border_get_orientation (loc + MSTYLE_BORDER_TOP));
 }
 
 /* See if either the color or pattern for any segment has changed and
@@ -1483,9 +1483,6 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 	cell_freeze_redraws ();
 	
 	sheet_selection_apply_style (state->sheet, state->result);
-
-	if (mstyle_is_element_set  (state->result, MSTYLE_FONT_SIZE))
-		sheet_selection_height_update (state->sheet);
 
 	sheet_selection_set_border  (state->sheet,
 				     border_get_mstyle (state, BORDER_TOP),

@@ -317,7 +317,7 @@ mstyle_element_ref (MStyleElement e)
 		style_color_ref (e.u.color.any);
 		break;
 	case MSTYLE_ANY_BORDER:
-		border_ref (e.u.border.any);
+		style_border_ref (e.u.border.any);
 		break;
 	case MSTYLE_FONT_NAME:
 		string_ref (e.u.font.name);
@@ -339,7 +339,7 @@ mstyle_element_unref (MStyleElement e)
 		style_color_unref (e.u.color.fore);
 		break;
 	case MSTYLE_ANY_BORDER:
-		border_unref (e.u.border.any);
+		style_border_unref (e.u.border.any);
 		break;
 	case MSTYLE_FONT_NAME:
 		string_unref (e.u.font.name);

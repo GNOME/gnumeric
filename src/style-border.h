@@ -38,18 +38,18 @@ struct _MStyleBorder {
 	gint	ref_count;
 };
 
-void	      border_unref (MStyleBorder *border);
-MStyleBorder *border_ref   (MStyleBorder *border);
-MStyleBorder *border_fetch (StyleBorderType const	 line_type,
-			    StyleColor 			*color,
-			    StyleBorderOrientation       orientation);
-StyleBorderOrientation border_get_orientation (MStyleElementType type);
+void	      style_border_unref (MStyleBorder *border);
+MStyleBorder *style_border_ref   (MStyleBorder *border);
+MStyleBorder *style_border_fetch (StyleBorderType const	 line_type,
+				  StyleColor 			*color,
+				  StyleBorderOrientation       orientation);
+StyleBorderOrientation style_border_get_orientation (MStyleElementType type);
 
-gint   border_get_width   (StyleBorderType const line_type);
-void   border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type);
-GdkGC *border_get_gc      (MStyleBorder *border, GdkWindow *window);
+gint   style_border_get_width   (StyleBorderType const line_type);
+void   style_border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type);
+GdkGC *style_border_get_gc      (MStyleBorder *border, GdkWindow *window);
 
-void border_draw (GdkDrawable * drawable, const MStyleBorder *border,
-		  int x1, int y1, int x2, int y2);
+void   style_border_draw (GdkDrawable * drawable, const MStyleBorder *border,
+			  int x1, int y1, int x2, int y2);
 
 #endif /* GNUMERIC_BORDER_H */

@@ -978,8 +978,6 @@ typedef struct {
 	MStyleBorder *bottom;
 	MStyleBorder *left;
 	MStyleBorder *right;
-	MStyleBorder *rev_diag;
-	MStyleBorder *diag;
 } apply_border_closure_t;
 
 static void
@@ -991,7 +989,7 @@ do_apply_border (Sheet *sheet, const Range *r,
 
 	if (border) {
 		mstyle = mstyle_new ();
-		border_ref (border);
+		style_border_ref (border);
 		mstyle_set_border (mstyle, t, border);
 		sheet_style_attach (sheet, *r, mstyle);
 	}
@@ -1098,16 +1096,24 @@ sheet_selection_set_border (Sheet *sheet,
 
 	/* 1. The middle bits, inefficient but an optimize'll help */
 	if (horiz) {
-		border_ref (horiz);
+		style_border_ref (horiz);
 		mstyle_set_border (mstyle, MSTYLE_BORDER_TOP, horiz);
-		border_ref (horiz);
+		style_border_ref (horiz);
 		mstyle_set_border (mstyle, MSTYLE_BORDER_BOTTOM, horiz);
 	}
 	if (vert) {
-		border_ref (vert);
+		style_border_ref (vert);
 		mstyle_set_border (mstyle, MSTYLE_BORDER_LEFT, vert);
-		border_ref (vert);
+		style_border_ref (vert);
 		mstyle_set_border (mstyle, MSTYLE_BORDER_RIGHT, vert);
+	}
+	if (rev_diag) {
+		style_border_ref (rev_diag);
+		mstyle_set_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL, rev_diag);
+	}
+	if (diag) {
+		style_border_ref (diag);
+		mstyle_set_border (mstyle, MSTYLE_BORDER_DIAGONAL, diag);
 	}
 	if (horiz || vert)
 		sheet_selection_apply_style (sheet, mstyle);
@@ -1117,27 +1123,24 @@ sheet_selection_set_border (Sheet *sheet,
 	cl.bottom   = bottom;
 	cl.left     = left;
 	cl.right    = right;
-	cl.rev_diag = rev_diag;
-	cl.diag     = diag;
 	selection_foreach_range (sheet,
 				 sheet_selection_apply_border_cb,
 				 &cl);
 	sheet_set_dirty (sheet, TRUE);
 	if (top)
-		border_unref (top);
+		style_border_unref (top);
 	if (bottom)
-		border_unref (bottom);
+		style_border_unref (bottom);
 	if (left)
-		border_unref (left);
+		style_border_unref (left);
 	if (right)
-		border_unref (right);
+		style_border_unref (right);
 	if (rev_diag)
-		border_unref (rev_diag);
+		style_border_unref (rev_diag);
 	if (diag)
-		border_unref (diag);
+		style_border_unref (diag);
 	if (horiz)
-		border_unref (horiz);
+		style_border_unref (horiz);
 	if (vert)
-		border_unref (vert);
+		style_border_unref (vert);
 }
-

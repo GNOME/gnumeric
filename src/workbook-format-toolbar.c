@@ -141,7 +141,6 @@ change_font_size_in_selection_cmd (GtkEntry *entry, Workbook *wb)
 	mstyle_set_font_size (mstyle, size);
 	
 	sheet_selection_apply_style (sheet, mstyle);
-	sheet_selection_height_update (sheet);
 	workbook_focus_current_sheet (sheet->workbook);
 }
 

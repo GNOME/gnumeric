@@ -71,10 +71,10 @@ struct {
 	/* 0xd : BORDER_SLANTED_DASH_DOT */	{ 2, 6, &slant_line },/* How to slant */
 };
 
-static GHashTable *style_border_hash = NULL;
+static GHashTable *border_hash = NULL;
 
 static gint
-border_equal (gconstpointer v1, gconstpointer v2)
+style_border_equal (gconstpointer v1, gconstpointer v2)
 {
 	MStyleBorder const *k1 = (MStyleBorder const *) v1;
 	MStyleBorder const *k2 = (MStyleBorder const *) v2;
@@ -84,7 +84,7 @@ border_equal (gconstpointer v1, gconstpointer v2)
 }
 
 static guint
-border_hash (gconstpointer v)
+style_border_hash (gconstpointer v)
 {
 	MStyleBorder const *b = (MStyleBorder const *) v;
 
@@ -93,12 +93,12 @@ border_hash (gconstpointer v)
 }
 
 #if 0
-	g_hash_table_destroy (style_border_hash);
-	style_border_hash = NULL;
+	g_hash_table_destroy (border_hash);
+	border_hash = NULL;
 #endif
 
 MStyleBorder *
-border_fetch (StyleBorderType const	 line_type,
+style_border_fetch (StyleBorderType const	 line_type,
 	      StyleColor 		*color,
 	      StyleBorderOrientation     orientation)
 {
@@ -115,19 +115,20 @@ border_fetch (StyleBorderType const	 line_type,
 	key.line_type = line_type;
 	key.color = color;
 
-	if (style_border_hash != NULL) {
-		border = g_hash_table_lookup (style_border_hash, &key);
+	if (border_hash) {
+		border = g_hash_table_lookup (border_hash, &key);
 
 		if (border != NULL) {
 			++border->ref_count;
 			return border;
 		}
 	} else
-		style_border_hash = g_hash_table_new (border_hash, border_equal);
+		border_hash = g_hash_table_new (style_border_hash,
+						style_border_equal);
 
 	border = g_new0 (MStyleBorder, 1);
 	*border = key;
-	g_hash_table_insert (style_border_hash, border, border);
+	g_hash_table_insert (border_hash, border, border);
 	border->ref_count = 1;
 	border->gc = NULL;
 
@@ -135,7 +136,7 @@ border_fetch (StyleBorderType const	 line_type,
 }
 
 gint
-border_get_width (StyleBorderType const line_type)
+style_border_get_width (StyleBorderType const line_type)
 {
 	g_return_val_if_fail (line_type >= BORDER_NONE, 0);
 	g_return_val_if_fail (line_type < BORDER_MAX, 0);
@@ -148,7 +149,7 @@ border_get_width (StyleBorderType const line_type)
 }
 
 void
-border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type)
+style_border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type)
 {
 	GdkLineStyle style = GDK_LINE_SOLID;
 	int i;
@@ -186,13 +187,13 @@ border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type)
 }
 
 GdkGC *
-border_get_gc (MStyleBorder *border, GdkWindow *window)
+style_border_get_gc (MStyleBorder *border, GdkWindow *window)
 {
 	g_return_val_if_fail (border != NULL, NULL);
 
 	if (border->gc == NULL) {
 		border->gc = gdk_gc_new (window);
-		border_set_gc_dash (border->gc, border->line_type);
+		style_border_set_gc_dash (border->gc, border->line_type);
 		gdk_gc_set_foreground (border->gc, &border->color->color);
 	}
 
@@ -200,7 +201,7 @@ border_get_gc (MStyleBorder *border, GdkWindow *window)
 }
 
 MStyleBorder *
-border_ref (MStyleBorder *border)
+style_border_ref (MStyleBorder *border)
 {
 	g_return_val_if_fail (border != NULL, NULL);
 	++border->ref_count;
@@ -208,7 +209,7 @@ border_ref (MStyleBorder *border)
 }
 
 void
-border_unref (MStyleBorder *border)
+style_border_unref (MStyleBorder *border)
 {
 	g_return_if_fail (border != NULL);
 	g_return_if_fail (border->ref_count > 0);
@@ -220,23 +221,23 @@ border_unref (MStyleBorder *border)
 	if (border->gc)
 		gdk_gc_unref (border->gc);
 
-	g_hash_table_remove (style_border_hash, border);
+	g_hash_table_remove (border_hash, border);
 	g_free (border);
 }
 
 void
-border_draw (GdkDrawable * drawable, const MStyleBorder* border,
+style_border_draw (GdkDrawable * drawable, const MStyleBorder* border,
 	     int x1, int y1, int x2, int y2)
 {
 	if (border != NULL)
 		gdk_draw_line (drawable,
-			       border_get_gc ((MStyleBorder *)border,
-					      drawable),
+			       style_border_get_gc ((MStyleBorder *)border,
+						    drawable),
 			       x1, y1, x2, y2);
 }
 
 StyleBorderOrientation
-border_get_orientation (MStyleElementType type)
+style_border_get_orientation (MStyleElementType type)
 {
 	switch (type) {
 	case MSTYLE_BORDER_LEFT:

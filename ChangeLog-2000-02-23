@@ -1,3 +1,16 @@
+1999-11-07  Michael Meeks  <mmeeks@gnu.org>
+
+	* s/border_/style_border/
+
+	* src/selection.c (sheet_selection_height_update): Kill; ill-concieved.
+	(cb_set_row_height): ditto.
+
+	* src/dialogs/dialog-cell-format.c (cb_fmt_dialog_dialog_apply): hack
+	out height_update.
+
+	* src/workbook-format-toolbar.c (change_font_size_in_selection_cmd): 
+	remove call.
+
 1999-11-07  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-cell-format.c (cb_fmt_dialog_dialog_apply) :
@@ -5,10 +18,15 @@
 
 	* src/Makefile.am : Remove non-existant sheet-style.h.
 
-1999-11-06  Jody Goldberg <jgoldberg@home.com>
+1999-11-06  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet-style.c (sheet_selection_set_border): Set the diagonals,
+	clean the closure.
 
 	* src/dialogs/dialog-cell-format.c (fmt_dialog_impl) : Dont close the
 	  dialog until ok or cancel is pressed.
+
+1999-11-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/selection.c (sheet_selection_height_update) : Call the
 	  autoresize code for non user sized rows.  Do not just hard code the
@@ -18,6 +36,8 @@
 	  to the font.
 	(cb_fmt_dialog_dialog_apply) : Call sheet_selection_height_update if
 	  the font changed.
+
+1999-11-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-view.c (sheet_view_set_zoom_factor) : Smaill patch from
 	  Federico Mena Quintero to improve item-bar resize while zoomed.

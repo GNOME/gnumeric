@@ -1119,8 +1119,8 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 			: ms_excel_palette_get (sheet->wb->palette,
 						color_index);
 		MStyleBorder *border =
-			border_fetch (xf->border_type [i], color,
-				      MSTYLE_BORDER_TOP + i);
+			style_border_fetch (xf->border_type [i], color,
+					    MSTYLE_BORDER_TOP + i);
 		if (border)
 			mstyle_set_border (mstyle, MSTYLE_BORDER_TOP + i, border);
 	}

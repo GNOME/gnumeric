@@ -1210,8 +1210,10 @@ cell_calc_dimensions (Cell *cell)
 		cell->width  = cell->col->margin_a + cell->col->margin_b + w;
 		cell->height = cell->row->margin_a + cell->row->margin_b + h;
 
-		if (cell->height > cell->row->pixels && !cell->row->hard_size)
+		if (cell->height > cell->row->pixels && !cell->row->hard_size) {
 			sheet_row_set_internal_height (cell->sheet, cell->row, h);
+			printf ("Cell height %d, pixels %d\n", cell->height, cell->row->pixels);
+		}
 
 		mstyle_unref (mstyle);
 	} else

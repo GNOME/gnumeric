@@ -235,31 +235,31 @@ item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 		       gboolean const extended_right)
 {
 	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_TOP))
-		border_draw (drawable,
-			     mstyle_get_border (mstyle, MSTYLE_BORDER_TOP),
-			     x, y, x + w, y);
+		style_border_draw (drawable,
+				   mstyle_get_border (mstyle, MSTYLE_BORDER_TOP),
+				   x, y, x + w, y);
 	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_LEFT))
-		border_draw (drawable, 
-			     mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT),
-			     x, y, x, y + h);
+		style_border_draw (drawable, 
+				   mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT),
+				   x, y, x, y + h);
 	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_BOTTOM))
-		border_draw (drawable, 
-			     mstyle_get_border (mstyle, MSTYLE_BORDER_BOTTOM),
-			     x, y + h, x + w, y + h);
+		style_border_draw (drawable, 
+				   mstyle_get_border (mstyle, MSTYLE_BORDER_BOTTOM),
+				   x, y + h, x + w, y + h);
 	if (!extended_right &&
 	    mstyle_is_element_set (mstyle, MSTYLE_BORDER_RIGHT))
-		border_draw (drawable, 
-			     mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT),
-			     x + w, y, x + w, y + h);
-
+		style_border_draw (drawable, 
+				   mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT),
+				   x + w, y, x + w, y + h);
+	
 	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_DIAGONAL))
-		border_draw (drawable,
-			     mstyle_get_border (mstyle, MSTYLE_BORDER_DIAGONAL),
-			     x, y, x+w, y+h);
+		style_border_draw (drawable,
+				   mstyle_get_border (mstyle, MSTYLE_BORDER_DIAGONAL),
+				   x, y, x + w, y + h);
 	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_REV_DIAGONAL))
-		border_draw (drawable,
-			     mstyle_get_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL),
-			     x, y+h, x+w, y);
+		style_border_draw (drawable,
+				   mstyle_get_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL),
+				   x, y + h, x + w, y);
 }
 
 /*
