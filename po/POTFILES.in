@@ -127,6 +127,8 @@ src/number-match.c
 src/parse-util.c
 src/plugin-util.c
 src/plugin.c
+src/plugin-loader-module.c
+src/plugin-loader.c
 src/print-info.c
 src/print.c
 src/search.c
