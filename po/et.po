@@ -25523,7 +25523,7 @@ msgstr "Pakistan, ruupiad"
 
 #: src/formats.c:505
 #, fuzzy
-msgid "Poland, Zlotych"
+msgid "Poland, Zlotys"
 msgstr "Poola, slotid"
 
 #: src/formats.c:506

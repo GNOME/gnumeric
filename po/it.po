@@ -1,4 +1,4 @@
-# Italian translation for GNUMERIC
+# Italian translation for GNUMER encoding="UTF-8"IC
 # Leandro Noferini <lnoferin@cybervalley.org>
 msgid ""
 msgstr ""

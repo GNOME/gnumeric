@@ -26035,7 +26035,7 @@ msgid "Pakistan, Rupees"
 msgstr "巴基斯坦 卢比"
 
 #: src/formats.c:505
-msgid "Poland, Zlotych"
+msgid "Poland, Zlotys"
 msgstr ""
 
 #: src/formats.c:506

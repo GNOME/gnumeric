@@ -502,7 +502,7 @@ CurrencySymbol const currency_symbols[] =
 	{ "[$PGK]",	N_("Papua New Guinea, Kina"), TRUE, TRUE },
 	{ "[$PHP]",	N_("Philippines, Pesos"), TRUE, TRUE },
 	{ "[$PKR]",	N_("Pakistan, Rupees"), TRUE, TRUE },
-	{ "[$PLN]",	N_("Poland, Zlotych"), TRUE, TRUE },
+	{ "[$PLN]",	N_("Poland, Zlotys"), TRUE, TRUE },
 	{ "[$PYG]",	N_("Paraguay, Guarani"), TRUE, TRUE },
 	{ "[$QAR]",	N_("Qatar, Rials"), TRUE, TRUE },
 	{ "[$ROL]",	N_("Romania, Lei"), TRUE, TRUE },

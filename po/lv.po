@@ -1,4 +1,4 @@
-# SOME DESCRIPTIVE TITLE.
+# SOME DESCRIPTIVE TITL encoding="UTF-8"E.
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.#: plugins/fn-random/functions.c:1127
 msgid ""

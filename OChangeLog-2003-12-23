@@ -1,5 +1,7 @@
 2003-08-23  Jody Goldberg <jody@gnome.org>
 
+	* src/formats.c : Use english form of plural, not polish for Zlotys
+
 	* src/workbook-control-gui.c (cb_edit_cut) : if we're goign to delete
 	  an object don't cut the selection too.
 

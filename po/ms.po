@@ -1,4 +1,4 @@
-# Galeon Bahasa Melayu (ms)
+# Galeon Bahasa Melayu (m encoding="UTF-8"s)
 # Jika takut risiko, Jangan bicara tentang Perjuangan
 # Hasbullah Bin Pit (sebol) <sebol@ikhlas.com>, 2001
 #

@@ -1,4 +1,4 @@
-# gnumeric ko.po
+# gnumeric ko. encoding="UTF-8"po
 # Sung-Hyun Nam <namsh@lgic.co.kr>, 1998-2000
 # Jae-kyun Lee <kida@power.yeungnam.ac.kr>, 2002
 # Changwoo Ryu <cwryu@debian.org>, 2003

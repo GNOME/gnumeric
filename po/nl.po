@@ -1,4 +1,4 @@
-# Nederlandse vertaling van gnumeric CVS-versie
+# Nederlandse vertaling van gnumeric CVS-vers encoding="UTF-8"ie
 # Copyright (C) 1999-2002 Free Software Foundation, Inc.
 # M.Meij <M.Meij@wbmt.tudelft.nl>
 # Almer S. Tigelaar <almer1@dds.nl>, 2001

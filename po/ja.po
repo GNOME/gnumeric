@@ -1,4 +1,4 @@
-# gnumeric ja.po.
+# gnumeric ja.p encoding="UTF-8"o.
 # Copyright (C) 1998-2002 Free Software Foundation, Inc.
 # Mitsuru Oka <95i44@is.kochi-u.ac.jp>, 1998.
 # Mitsuru Oka <mitsu-o@is.aist-nara.ac.jp>, 1999-2000.

@@ -1,4 +1,4 @@
-# Gnumeric Hungarian translations
+# Gnumeric Hungarian translatio encoding="UTF-8"ns
 # Copyright (C) 1998-2000 Free Software Foundation, Inc.
 # Emese Kovacs <emese@gnome.hu>, 2000
 # Andras TIMAR <timar@gnome.hu>, 2000

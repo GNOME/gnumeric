@@ -22662,7 +22662,7 @@ msgid "Pakistan, Rupees"
 msgstr "Pakistan 巴基斯坦 (盧比)"
 
 #: src/formats.c:505
-msgid "Poland, Zlotych"
+msgid "Poland, Zlotys"
 msgstr "Poland 波蘭 (茲羅提)"
 
 #: src/formats.c:506
