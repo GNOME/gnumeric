@@ -422,6 +422,7 @@ cb_sort_selection_changed (GtkTreeSelection *ignored, SortFlowState *state)
 	if (!gtk_tree_selection_get_selected (state->selection, NULL, &iter)) {
 		gtk_widget_set_sensitive (state->up_button, FALSE);
 		gtk_widget_set_sensitive (state->down_button, FALSE);
+		gtk_widget_set_sensitive (state->delete_button, FALSE);
 		return;
 	}
 
@@ -432,7 +433,7 @@ cb_sort_selection_changed (GtkTreeSelection *ignored, SortFlowState *state)
 	gtk_widget_set_sensitive (state->down_button,
 				  gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
 					       &this_iter, NULL, row+1));
-	gtk_widget_set_sensitive (state->delete_button, FALSE);
+	gtk_widget_set_sensitive (state->delete_button, TRUE);
 }
 
 static void
@@ -497,6 +498,23 @@ move_cb (SortFlowState *state, gint direction)
 static void cb_up   (GtkWidget *w, SortFlowState *state) { move_cb (state, -1); }
 static void cb_down (GtkWidget *w, SortFlowState *state) { move_cb (state,  1); }
 
+static void cb_delete_clicked (GtkWidget *w, SortFlowState *state) 
+{ 
+	GtkTreeIter iter;
+	gboolean in_use;
+
+	if (!gtk_tree_selection_get_selected (state->selection, NULL, &iter))
+		return;
+
+	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
+			    ITEM_IN_USE, &in_use,
+			    -1);
+	if (in_use)
+		state->sort_items -= 1;
+	gtk_list_store_remove (state->model, &iter);	
+	if (state->sort_items == 0 || state->sort_items == 1)
+		cb_update_sensitivity (NULL, state);
+}
 
 static void
 cb_toggled_in_use (GtkCellRendererToggle *cell,
@@ -628,6 +646,8 @@ dialog_init (SortFlowState *state)
 							   "active", ITEM_SORT_BY_VALUE, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 
+	gtk_tree_view_set_reorderable (state->treeview,TRUE);
+
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->treeview));
 	gtk_widget_show (GTK_WIDGET (state->treeview));
 
@@ -655,6 +675,9 @@ dialog_init (SortFlowState *state)
 	state->add_button  = glade_xml_get_widget (state->gui, "add_button");
 	gtk_widget_set_sensitive (state->add_button, FALSE);
 	state->delete_button  = glade_xml_get_widget (state->gui, "delete_button");
+	gtk_signal_connect (GTK_OBJECT (state->delete_button),
+		"clicked",
+		GTK_SIGNAL_FUNC (cb_delete_clicked), state);
 	gtk_widget_set_sensitive (state->delete_button, FALSE);
 
 	state->help_button  = glade_xml_get_widget (state->gui, "help_button");

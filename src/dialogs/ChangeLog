@@ -1,3 +1,21 @@
+2002-02-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-cell-sort.c (cb_sort_selection_changed) : handle delete
+	  button
+	(cb_delete_clicked) : new
+	(dialog_init) : connect cb_delete_clicked to button
+	
+2002-02-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* goalseek.glade : remove hbox from active-area
+	* cell-sort.glade : add add and delete buttons (currently 
+	  inactive)
+	* dialog-cell-sort.c :  add add and delete buttons (currently 
+	  inactive), set initial top-bottom vs left-right depending on
+	  shape of initial selection, add only MAX_INITIAL_CLAUSES to the
+	  list of available clauses (to avoid adding 65000+ if a complete 
+	  column is selected).
+
 2002-02-05  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-cell-format.c (border_get_mstyle): Use style_color_new_i8.
