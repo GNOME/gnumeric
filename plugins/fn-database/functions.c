@@ -29,7 +29,7 @@ criteria_test_equal(Value *x, Value *y)
 		else
 		        return 0;
 	else if (x->type == VALUE_STRING && y->type == VALUE_STRING
-		 && strcmp(x->v.str->str, y->v.str->str) == 0)
+		 && g_strcasecmp (x->v.str->str, y->v.str->str) == 0)
 	        return 1;
 	else
 	        return 0;
@@ -44,7 +44,7 @@ criteria_test_unequal(Value *x, Value *y)
 		else
 		        return 0;
 	else if (x->type == VALUE_STRING && y->type == VALUE_STRING
-		 && strcmp(x->v.str->str, y->v.str->str) != 0)
+		 && g_strcasecmp(x->v.str->str, y->v.str->str) != 0)
 	        return 1;
 	else
 	        return 0;
@@ -128,7 +128,7 @@ find_column_of_field (const EvalPosition *ep, Value *database, Value *field)
 	end_col = database->v.cell_range.cell_b.col;
 	row = database->v.cell_range.cell_a.row;
 
-	for (n=begin_col; n<=end_col; n++) {
+	for (n = begin_col; n <= end_col; n++) {
 		char *txt;
 		gboolean match;
 
@@ -137,7 +137,7 @@ find_column_of_field (const EvalPosition *ep, Value *database, Value *field)
 		        continue;
 
 		txt = cell_get_text (cell);
-		match = (strcmp (field_name, txt) == 0);
+		match = (g_strcasecmp (field_name, txt) == 0);
 		g_free (txt);
 		if (match) {
 		        column = n;
@@ -319,7 +319,7 @@ find_cells_that_match (const EvalPosition *ep, Value *database, int field, GSLis
 		       while (conditions != NULL) {
 			       func_criteria_t *cond = conditions->data;
 
-			       if (cond->fun(test_cell->value, cond->x)) {
+			       if (cond->fun (test_cell->value, cond->x)) {
 				       add_flag = 1;
 				       break;
 			       }
@@ -390,8 +390,10 @@ gnumeric_daverage (FunctionEvalInfo *ei, Value **argv)
 	while (current != NULL) {
 	        Cell *cell = current->data;
 
-	        count++;
-		sum += value_get_as_float (cell->value);
+		if (VALUE_IS_NUMBER(cell->value)) {
+			count++;
+			sum += value_get_as_float (cell->value);
+		}
 		current = g_slist_next(current);
 	}
 
@@ -656,9 +658,11 @@ gnumeric_dmax (FunctionEvalInfo *ei, Value **argv)
 	        float_t v;
 
 	        cell = current->data;
-		v = value_get_as_float (cell->value);
-		if (max < v)
-		        max = v;
+		if (VALUE_IS_NUMBER(cell->value)) {
+			v = value_get_as_float (cell->value);
+			if (max < v)
+				max = v;
+		}
 		current = g_slist_next(current);
 	}
 
@@ -727,9 +731,11 @@ gnumeric_dmin (FunctionEvalInfo *ei, Value **argv)
 	        float_t v;
 
 	        cell = current->data;
-		v = value_get_as_float (cell->value);
-		if (min > v)
-		        min = v;
+		if (VALUE_IS_NUMBER(cell->value)) {
+			v = value_get_as_float (cell->value);
+			if (min > v)
+				min = v;
+		}
 		current = g_slist_next(current);
 	}
 

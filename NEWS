@@ -11,6 +11,7 @@ Michael:
 	* Better Excel string importing.
 	* Fix for padded number insertion ( fixes CSV import )
 	* Implemented ISREF, improved CELL.
+	* Fixed several database functions.
 
 Jody:
 	* Enable Array formulas.

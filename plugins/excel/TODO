@@ -26,7 +26,7 @@ Michael
 	* Re-write BiffQuery structure to allow better string
 	support and to provide a generic sensible sub-query offset.
 	* Fix VLookup so the lookfuns.xls works.
-	* Fix infofuns.xls: ISREF...
+	* Fix INDEX, AREAS, INDIRECT.
 
 Jody
 	* Where do the anchor points for objects come from.

@@ -1,3 +1,16 @@
+1999-08-01  Michael Meeks  <michael@edenproject.org>
+
+	* src/workbook.c (workbook_setup_sheets): Added comment about making
+	workbook sheets' notebooks scrollable.
+
+	* src/fn-database.c (gnumeric_dmin, gnumeric_dmax, gnumeric_daverage):
+	Only use the value if it is a number.
+	(find_column_of_field): Use g_strcasecmp instead of strcmp.
+	(criteria_test_equal, unequal): ditto; test this.
+
+	* src/fn-information.c (gnumeric_cell): Changed broken cell_fetch's
+	to cell_gets.
+
 1999-08-01  Jody Goldberg  <jgoldberg@home.com>
 
 	* src/fn-date.c (get_serial_date): Constify.  Improve handling of

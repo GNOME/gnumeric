@@ -1098,6 +1098,10 @@ workbook_setup_sheets (Workbook *wb)
 {
 	wb->notebook = gtk_notebook_new ();
 	GTK_WIDGET_UNSET_FLAGS (wb->notebook, GTK_CAN_FOCUS);
+/* Looks like we need to be able to define whether you scroll the current
+ * pointer or the window, sadly can't be done by gtk_notebook 
+ * gtk_notebook_set_scrollable (GTK_NOTEBOOK (wb->notebook), TRUE);
+ */
 	gtk_signal_connect_after (GTK_OBJECT (wb->notebook), "switch_page",
 				  GTK_SIGNAL_FUNC(do_focus_sheet), wb);
 

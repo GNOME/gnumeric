@@ -150,7 +150,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		 */
 		return value_new_error (&ei->pos, _("Unimplemented"));
 	} else if (!g_strcasecmp (info_type, "contents")) {
-		Cell *cell = sheet_cell_fetch (ei->pos.sheet, ref.col, ref.row);
+		Cell *cell = sheet_cell_get (ei->pos.sheet, ref.col, ref.row);
 		if (cell && cell->value)
 			return value_duplicate (cell->value);
 		g_warning ("Untested / checked");
@@ -162,7 +162,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		 */
 		return value_new_error (&ei->pos, _("Unimplemented"));
 	} else if (!g_strcasecmp (info_type, "format")) {
-		Cell *cell = sheet_cell_fetch (ei->pos.sheet, ref.col, ref.row);
+		Cell *cell = sheet_cell_get (ei->pos.sheet, ref.col, ref.row);
 
 		if (cell && CELL_IS_FORMAT_SET (cell))
 			return translate_cell_format (cell->style->format);
@@ -186,7 +186,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 	} else if (!g_strcasecmp (info_type, "type")) {
 		Cell *cell;
 
-		cell = sheet_cell_fetch (ei->pos.sheet, ref.col, ref.row);
+		cell = sheet_cell_get (ei->pos.sheet, ref.col, ref.row);
 		if (cell && cell->value) {
 			if (cell->value->type == VALUE_STRING)
 				return value_new_string ("l");
