@@ -930,16 +930,11 @@ compute_value (const char *s, const regmatch_t *mp,
 		if (day == -1)
 			day = tm->tm_mday;
 
-		if (day < 1 || day > 31)
-			return FALSE;
-
-		if (month < 1 || month > 12)
+		if (!g_date_valid_dmy (day, month, year))
 			return FALSE;
 
 		date = g_date_new_dmy (day, month, year);
-
 		number = datetime_g_to_serial (date);
-
 		g_date_free (date);
 	}
 

@@ -1,3 +1,8 @@
+2001-06-19  Morten Welinder  <terra@diku.dk>
+
+	* src/number-match.c (compute_value): Don't g_barf on invalid
+ 	dates.
+
 2001-06-19  Almer S. Tigelaar  <almer@gnome.org>
  
  	* src/item-cursor.c (item_cursor_tip_setstatus): New function.

@@ -37,8 +37,8 @@ calc_N (gnum_float x)
  * Requires.
  *   t > 0.
  *   stddev > 0.
- *   X != 0.
- *   S / X > 0.
+ *   X > 0.
+ *   S > 0.
  */
 static gnum_float
 calc_d1 (gnum_float X, gnum_float S, gnum_float stddev, gnum_float t, gnum_float r)
