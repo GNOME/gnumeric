@@ -400,7 +400,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 	sheet_style_optimize (pt->sheet, pt->range);
 
         if (pt->paste_flags & (PASTE_CONTENT | PASTE_AS_VALUES)) {
-		GList *deps = sheet_region_get_deps (pt->sheet, pt->range);
+		GList *deps = sheet_region_get_deps (pt->sheet, &pt->range);
 		if (deps)
 			dependent_queue_recalc_list (deps, TRUE);
 		sheet_range_calc_spans (pt->sheet, pt->range, SPANCALC_RENDER);

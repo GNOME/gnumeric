@@ -63,6 +63,16 @@ AC_SUBST(gnomelocaledir)
 
 AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
 
+AC_PATH_PROG(TPUT_CMD,tput,no)
+if test "$TPUT_CMD" = no; then
+  marker_ok="<yes >"
+  marker_fail="<FAIL>"
+  marker_no="<NO  >"
+else
+  marker_ok="<`$TPUT_CMD bold`yes`$TPUT_CMD sgr0` >"
+  marker_fail="<`$TPUT_CMD bold`fail`$TPUT_CMD sgr0`>"
+  marker_no="<`$TPUT_CMD bold`no`$TPUT_CMD sgr0`  >"
+fi
 
 dnl
 dnl On Solaris finite() needs ieeefp.h
@@ -92,7 +102,7 @@ if xml-config --libs > /dev/null 2>&1; then
 	awk -F. '{ printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
     if test "$vers" -ge 1008005; then
 	if test "$vers" -lt 2000000; then
-	    AC_MSG_RESULT(<yes > found $verstxt)
+	    AC_MSG_RESULT($marker_ok found $verstxt)
 	    xml_ok=yes
 	else
 	    AC_MSG_RESULT(<FAIL> found unsupported $verstxt)

@@ -13,9 +13,9 @@ void            sheet_deps_destroy        (Sheet *sheet);
 void            sheet_recalc_dependencies (Sheet *sheet);
 #if 0
 /* Write this it will be useful */
-void		sheet_region_recalc_deps  (const Sheet *sheet, Range r);
+void		sheet_region_recalc_deps  (const Sheet *sheet, const Range *r);
 #endif
-GList          *sheet_region_get_deps     (const Sheet *sheet, Range r);
+GList          *sheet_region_get_deps     (const Sheet *sheet, const Range *r);
 
 /* Convenience routines for Cells */
 void            cell_eval                 (Cell *cell);

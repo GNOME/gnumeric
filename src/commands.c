@@ -648,7 +648,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 		/* mark content as dirty */
 		sheet_flag_status_update_range (me->pos.sheet, r);
-		deps = sheet_region_get_deps (me->pos.sheet, *r);
+		deps = sheet_region_get_deps (me->pos.sheet, r);
 		if (deps)
 			dependent_queue_recalc_list (deps, TRUE);
 	}
@@ -2200,7 +2200,7 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 				   me->base_col, me->base_row,
 				   me->end_col, me->end_row);
 
-	deps = sheet_region_get_deps (me->dst.sheet, me->dst.range);
+	deps = sheet_region_get_deps (me->dst.sheet, &me->dst.range);
 	if (deps)
 		dependent_queue_recalc_list (deps, TRUE);
 	sheet_range_calc_spans (me->dst.sheet, me->dst.range, SPANCALC_RENDER);

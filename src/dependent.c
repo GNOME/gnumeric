@@ -957,7 +957,7 @@ workbook_recalc_all (Workbook *wb)
 }
 
 typedef struct {
-	Range r;
+	const Range *r;
 	GList *list;
 } get_range_dep_closure_t;
 
@@ -968,7 +968,7 @@ search_range_deps (gpointer key, gpointer value, gpointer closure)
 	Range           *range     = &(deprange->range);
 	get_range_dep_closure_t *c =  closure;
 
-	if (!range_overlap (range, &c->r))
+	if (!range_overlap (range, c->r))
 		return;
 
 	c->list = g_list_concat (c->list, g_list_copy (deprange->dependent_list));
@@ -982,9 +982,9 @@ search_range_deps (gpointer key, gpointer value, gpointer closure)
  * @range : The target range.
  */
 GList *
-sheet_region_get_deps (const Sheet *sheet, Range range)
+sheet_region_get_deps (const Sheet *sheet, const Range *range)
 {
-	int                      ix, iy;
+	int ix, iy, end_row, end_col;
 	get_range_dep_closure_t  closure;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
@@ -995,14 +995,11 @@ sheet_region_get_deps (const Sheet *sheet, Range range)
 	g_hash_table_foreach (sheet->deps->range_hash,
 			      &search_range_deps, &closure);
 
-	if (range.end.col > sheet->cols.max_used)
-		range.end.col = sheet->cols.max_used;
+	end_col = MIN (range->end.col, sheet->cols.max_used);
+	end_row = MIN (range->end.row, sheet->rows.max_used);
 
-	if (range.end.row > sheet->rows.max_used)
-		range.end.row = sheet->rows.max_used;
-
-	for (ix = range.start.col; ix <= range.end.col; ix++) {
-		for (iy = range.start.row; iy <= range.end.row; iy++) {
+	for (ix = range->start.col; ix <= end_col; ix++) {
+		for (iy = range->start.row; iy <= end_row; iy++) {
 			GList *l = get_single_dependencies (sheet, ix, iy);
 
 			closure.list = g_list_concat (closure.list, l);
