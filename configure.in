@@ -203,6 +203,8 @@ try_gb=true
 gb=
 gb_msg=no
 have_gb=false
+GB_CFLAGS=
+GB_LIBS=
 AC_ARG_WITH(gb,
 	[--{with,without}-gb       Compile with Gb support or without it],
 	if test x$withval = xno; then
@@ -226,6 +228,8 @@ if $try_gb; then
 	if $gb_ok; then
 		AC_MSG_RESULT(found)
 		AC_DEFINE(ENABLE_GB)
+		GB_LIBS=`gnome-config --libs gb`
+		GB_CFLAGS=`gnome-config --cflags gb`
 		have_gb=true
 		gb=gb
 		gb_msg=yes
@@ -234,6 +238,8 @@ if $try_gb; then
 	fi
 fi
 AM_CONDITIONAL(WITH_GB, $have_gb)
+AC_SUBST(GB_CFLAGS)
+AC_SUBST(GB_LIBS)
 
 dnl ******************************
 dnl GnomePrint checking
@@ -282,8 +288,8 @@ else
     AC_MSG_ERROR(Did not find GTK+ installed)
 fi
 
-EXTRA_GNOME_LIBS=`gnome-config --libs gnomeui print libglade $bonobo $gb`
-EXTRA_GNOME_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo $gb`
+EXTRA_GNOME_LIBS=`gnome-config --libs gnomeui print libglade $bonobo`
+EXTRA_GNOME_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo`
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 

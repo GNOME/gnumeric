@@ -12,12 +12,11 @@ plugindir = $(libdir)/gnumeric/plugins/$(VERSION)
 plugin_LTLIBRARIES = libgnum_gb.la
 
 libgnum_gb_la_SOURCES = plugin.c
-libgnum_gb_la_LIBADD = $(EXTRA_GNOME_LIBS) -lm @GLIB_LIBS@ -lgb -lgbrun
+libgnum_gb_la_LIBADD = $(GB_LIBS) $(EXTRA_GNOME_LIBS) -lm @GLIB_LIBS@ -lgb -lgbrun
 
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-DGNUMERIC_VERSION=\""$(VERSION)"\"             \
 	-I$(includedir)					\
-	$(GNOME_INCLUDEDIR)
-
+	$(GNOME_INCLUDEDIR) $(GB_CFLAGS)

@@ -615,6 +615,8 @@ sheet_get_extent (Sheet const *sheet)
 	 */
 	if (r.end.col > sheet->cols.max_used)
 		r.end.col = sheet->cols.max_used;
+	if (r.end.col < 0)
+		r.end.col = 0;
 	if (r.start.col > r.end.col)
 		r.start.col = r.end.col;
 	if (r.start.col < 0)
@@ -622,6 +624,8 @@ sheet_get_extent (Sheet const *sheet)
 
 	if (r.end.row > sheet->rows.max_used)
 		r.end.row = sheet->rows.max_used;
+	if (r.end.row < 0)
+		r.end.row = 0;
 	if (r.start.row > r.end.row)
 		r.start.row = r.end.row;
 	if (r.start.row < 0)
