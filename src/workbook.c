@@ -2356,6 +2356,8 @@ workbook_standard_toolbar_orient (GtkToolbar *toolbar,
 static GtkWidget *
 workbook_create_standard_toobar (Workbook *wb)
 {
+	GnomeDockItemBehavior behavior;
+
 	char const * const preset_zoom[] =
 	{
 	    "200%",
@@ -2373,11 +2375,15 @@ workbook_create_standard_toobar (Workbook *wb)
 	
 	toolbar = gnumeric_toolbar_new (workbook_standard_toolbar, wb);
 
+	behavior = GNOME_DOCK_ITEM_BEH_NORMAL;
+	if(!gnome_preferences_get_menubar_detachable())
+		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
+
 	gnome_app_add_toolbar (
 		GNOME_APP (wb->toplevel),
 		GTK_TOOLBAR (toolbar),
 		name,
-		GNOME_DOCK_ITEM_BEH_NORMAL,
+		behavior,
 		GNOME_DOCK_TOP, 1, 0, 0);
 
 	/* Zoom combo box */

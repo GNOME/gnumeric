@@ -1,3 +1,8 @@
+2000-04-18  Cody Russell  <car0969@gamma2.uta.edu>
+	* src/workbook-format-toolbar.c, src/workbook.c: Make the toolbars
+	honor the user's control-center settings regarding GnomeDock
+	handles.
+
 2000-04-17  Karl EICHWALDER  <ke@suse.de>
 
 	* src/dialogs/dialog-analysis-tools.c (dialog_correlation_tool):

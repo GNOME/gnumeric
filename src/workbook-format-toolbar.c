@@ -520,17 +520,22 @@ workbook_create_format_toolbar (Workbook *wb)
 {
 	GtkWidget *toolbar, *fontsel, *fontsize, *entry;
 	const char *name = "FormatToolbar";
+	GnomeDockItemBehavior behavior;
 	GList *l;
 	int i, len;
 	
 	toolbar = gnumeric_toolbar_new (
 		workbook_format_toolbar, wb);
 
+	behavior = GNOME_DOCK_ITEM_BEH_NORMAL;
+	if(!gnome_preferences_get_menubar_detachable())
+		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
+
 	gnome_app_add_toolbar (
 		GNOME_APP (wb->toplevel),
 		GTK_TOOLBAR (toolbar),
 		name,
-		GNOME_DOCK_ITEM_BEH_NORMAL,
+		behavior,
 		GNOME_DOCK_TOP, 2, 0, 0);
 
 	/*
