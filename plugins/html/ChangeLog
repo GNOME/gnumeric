@@ -1,3 +1,7 @@
+2000-11-11  Michael Meeks  <michael@helixcode.com>
+
+	* html.c (html_write_cell40): cell_default_halign not value~
+
 2000-10-30  Jody Goldberg <jgoldberg@home.com>
 
 	* html.[ch] : Adjust to the signature changes for reading views
