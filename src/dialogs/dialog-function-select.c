@@ -205,6 +205,11 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 			    CAT_NAME, _("Recently Used"),
 			    CATEGORY, NULL,
 			    -1);
+	gtk_tree_store_append (state->model, &p_iter, NULL);
+	gtk_tree_store_set (state->model, &p_iter,
+			    CAT_NAME, _("All Functions (long list)"),
+			    CATEGORY, GINT_TO_POINTER(-1),
+			    -1);
 
 	while ((cat = gnm_func_group_get_nth (i++)) != NULL) {
 		gtk_tree_store_append (state->model, &p_iter, NULL);
@@ -359,13 +364,27 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 				    CATEGORY, &cat,
 				    -1);
 		if (cat != NULL) {
-			funcs = g_list_sort (g_list_copy (cat->functions),
-					     dialog_function_select_by_name);
+			if (cat == GINT_TO_POINTER(-1)) {
+				int i = 0;
+				funcs = NULL;
+				
+				while ((cat = gnm_func_group_get_nth (i++)) 
+				       != NULL) {
+					funcs = g_list_concat 
+						(funcs, 
+						 g_list_copy (cat->functions));
+				}
+				funcs = g_list_sort (funcs, dialog_function_select_by_name);
+			} else {
+				funcs = g_list_sort (g_list_copy (cat->functions),
+						     dialog_function_select_by_name);
+			}
+			
 			for (this_func = funcs; this_func; this_func = this_func->next) {
 				GnmFunc const *a_func = this_func->data;
 				TokenizedHelp *help = tokenized_help_new (a_func);
 				char const *f_syntax = tokenized_help_find (help, "SYNTAX");
-
+				
 				gtk_list_store_append (state->model_f, &iter);
 				gtk_list_store_set (state->model_f, &iter,
 						    FUN_NAME, f_syntax,
@@ -374,7 +393,7 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 				tokenized_help_destroy (help);
 			}
 			g_list_free (funcs);
-		} else {
+		} else if (cat == NULL) {
 			GSList *rec_funcs;
 			for (rec_funcs = state->recent_funcs; rec_funcs;
 			     rec_funcs = rec_funcs->next) {
@@ -390,6 +409,15 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 						    -1);
 				tokenized_help_destroy (help);
 			}
+		} else {
+			int i = 0;
+			funcs = NULL;
+			
+			while ((cat = gnm_func_group_get_nth (i++)) != NULL) {
+				funcs = g_list_concat (funcs, g_list_copy (cat->functions));
+			}
+			funcs = g_list_sort (funcs, dialog_function_select_by_name);
+			
 		}
 	}
 }

@@ -1,3 +1,8 @@
+2003-06-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-function-select.c: Add a 'All Functions' category
+	* function-select.glade: Add instructions
+
 2003-06-26  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-format-page.c: Dump column clist.

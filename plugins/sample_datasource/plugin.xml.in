@@ -10,7 +10,7 @@
 	</loader>
 	<services>
 		<service type="function_group" id="ATL">
-			<_category>Financial</_category>
+			<_category>Finance</_category>
 			<functions>
 				<function name="atl_last"/>
 			</functions>
