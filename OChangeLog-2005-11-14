@@ -1,3 +1,7 @@
+2005-03-29  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in (--with-perl): Mention bug #171957.
+
 2005-03-28  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c (image_write): Look harder for selected

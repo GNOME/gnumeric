@@ -677,7 +677,8 @@ dnl **************************************************
 dnl
 dnl Here is the place to choose the default:
 perl_msg="Disabled by default"
-dnl perl_msg=yes
+dnl ###### Don't enable Perl by default before bug #171957 is fixed.
+dnl ### perl_msg=yes
 AC_ARG_WITH(perl, [--{with,without}-perl   Compile the Perl plugin loader],
 	[case $withval in
 	yes) perl_msg=yes;;
