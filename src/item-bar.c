@@ -591,7 +591,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 
 			/* Redraw the ItemBar to show nice incremental progress */
 			gnome_canvas_request_redraw (
-				canvas, 0, 0, INT_MAX, INT_MAX);
+				canvas, 0, 0, INT_MAX/2, INT_MAX/2);
 
 		} else if (item_bar->start_selection != -1) {
 			int x, y, left, top, width, height, col, row;

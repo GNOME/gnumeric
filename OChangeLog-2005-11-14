@@ -1,5 +1,11 @@
 2001-01-30  Jody Goldberg <jgoldberg@home.com>
 
+	* src/preview-grid-controller.c (preview_grid_controller_force_redraw)
+	  work around overflow on BSD.
+	* src/item-bar.c (item_bar_event) : ditto.
+
+2001-01-30  Jody Goldberg <jgoldberg@home.com>
+
 	* src/xml-io.c (xml_sheet_create) : typo.
 
 2001-01-30  Jody Goldberg <jgoldberg@home.com>
