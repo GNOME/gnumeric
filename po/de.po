@@ -36,8 +36,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.62cvs\n"
-"POT-Creation-Date: 2001-02-10 00:22+0100\n"
-"PO-Revision-Date: 2001-02-10 01:59+01:00\n"
+"POT-Creation-Date: 2001-02-10 18:47+0100\n"
+"PO-Revision-Date: 2001-02-10 19:39+01:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -95,16 +95,16 @@ msgstr "#UNBEKANNT!"
 msgid "Sheet%d"
 msgstr "Blatt%d"
 
-#: plugins/excel/ms-excel-read.c:3886
+#: plugins/excel/ms-excel-read.c:3885
 msgid "No book or workbook streams found."
 msgstr "Keine book- oder workbook-Streams gefunden."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4180
+#: plugins/excel/ms-excel-read.c:4179
 msgid "Password protected workbooks are not supported yet."
 msgstr "Passwortgeschützte Arbeitsbücher werden noch nicht unterstützt."
 
-#: plugins/excel/ms-excel-read.c:4301
+#: plugins/excel/ms-excel-read.c:4300
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kann kein gültiges MS-Excel-Arbeitsbuch auffinden."
 
@@ -659,7 +659,9 @@ msgstr "Statistischer Überblick"
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample "
 "Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
-msgstr "/Mittel/Standardfehler/Median/Modus/Standardabweichung/Beispielvarianz/Kurtosis/Skewness/Bereich/Minimum/Maximum/Summe/Anzahl"
+msgstr ""
+"/Mittel/Standardfehler/Median/Modus/Standardabweichung/Beispielvarianz/Kurtos"
+"is/Skewness/Bereich/Minimum/Maximum/Summe/Anzahl"
 
 #: src/analysis-tools.c:899
 msgid "Confidence Level"
@@ -713,7 +715,9 @@ msgstr "Variable 2"
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/z/P (Z<=z) "
 "one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
-msgstr "/Mittel/Known Variance/Observations/Hypothesized Mean Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
+msgstr ""
+"/Mittel/Known Variance/Observations/Hypothesized Mean Difference/z/P (Z<=z) "
+"one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
 
 #: src/analysis-tools.c:1255 src/analysis-tools.c:1390
 #: src/analysis-tools.c:1507
@@ -1629,7 +1633,7 @@ msgstr "_Rahmen anwenden"
 
 #: src/dialogs/autoformat.glade.h:4
 msgid "Apply _Fonts"
-msgstr "_Schriftart anwenden"
+msgstr "_Schrift anwenden"
 
 #: src/dialogs/autoformat.glade.h:5
 msgid "Apply _Number Formats"
@@ -1837,7 +1841,7 @@ msgstr "Effekte"
 #: src/dialogs/cell-format.glade.h:32 src/gnumeric.xml.h:70
 #: src/workbook-format-toolbar.c:713
 msgid "Font"
-msgstr "Schriftart"
+msgstr "Schrift"
 
 #: src/dialogs/cell-format.glade.h:33
 msgid "Foreground Solid"
@@ -3591,11 +3595,11 @@ msgstr "AaBbCcDdEe12345ÄÖÜäöüß"
 
 #: src/dialogs/font-sel.glade.h:2
 msgid "Font style:"
-msgstr "Stil der Schriftart:"
+msgstr "Stil der Schrift:"
 
 #: src/dialogs/font-sel.glade.h:3
 msgid "Font:"
-msgstr "Schriftart:"
+msgstr "Schrift:"
 
 #: src/dialogs/font-sel.glade.h:4
 msgid "Preview"
@@ -12374,7 +12378,7 @@ msgid ""
 "\n"
 "Thanks -- the Gnumeric Team\n"
 msgstr ""
-"Gnumeric konnte keine angemessene Standardschriftart finden.\n"
+"Gnumeric konnte keine angemessene Standardschrift finden.\n"
 "\n"
 "Bitte überprüfen Sie Ihre Installation von gnome-print.\n"
 "Ihre fontmap-Datei %s.\n"
@@ -12432,14 +12436,13 @@ msgstr ""
 "Der Wert muss größer als 0 sein."
 
 #: src/workbook-format-toolbar.c:384
-#, fuzzy
 msgid "Select font"
-msgstr "_Zeile auswählen"
+msgstr "Schrift auswählen"
 
 #: src/gnumeric.xml.h:72 src/workbook-format-toolbar.c:384
 #: src/workbook-format-toolbar.c:800
 msgid "Font selector"
-msgstr "Schriftartwähler"
+msgstr "Schriftwähler"
 
 #: src/workbook-format-toolbar.c:387
 msgid "Sets the bold font"
@@ -12487,24 +12490,20 @@ msgid "Center across selection"
 msgstr "Über Auswahl zentrieren"
 
 #: src/gnumeric.xml.h:120 src/workbook-format-toolbar.c:426
-#, fuzzy
 msgid "Merge"
-msgstr "Mittel"
+msgstr "Zusammenführen"
 
 #: src/gnumeric.xml.h:121 src/workbook-format-toolbar.c:426
-#, fuzzy
 msgid "Merge a range of cells"
-msgstr "Wählt einen Bereich von Zellen"
+msgstr "Einen Bereich von Zellen zusammenführen"
 
 #: src/gnumeric.xml.h:182 src/workbook-format-toolbar.c:429
-#, fuzzy
 msgid "Split"
-msgstr "Sampling"
+msgstr "Splitten"
 
 #: src/gnumeric.xml.h:183 src/workbook-format-toolbar.c:429
-#, fuzzy
 msgid "Split merged ranges of cells"
-msgstr "Wählt einen Bereich von Zellen"
+msgstr "Einen zusammengeführten Bereich von Zellen splitten"
 
 #: src/workbook-format-toolbar.c:434
 msgid "Money format"
@@ -12607,29 +12606,24 @@ msgid "Font Size"
 msgstr "Schriftgröße"
 
 #: src/gnumeric.xml.h:108 src/workbook-object-toolbar.c:129
-#, fuzzy
 msgid "Label"
-msgstr "_Beschriftungen"
+msgstr "Beschriftung"
 
 #: src/workbook-object-toolbar.c:129
-#, fuzzy
 msgid "Creates a label"
-msgstr "Eine Grafik erzeugen"
+msgstr "Ein Label erzeugen"
 
 #: src/gnumeric.xml.h:77 src/workbook-object-toolbar.c:132
-#, fuzzy
 msgid "Frame"
-msgstr "Name"
+msgstr "Rahmen"
 
 #: src/workbook-object-toolbar.c:132
-#, fuzzy
 msgid "Creates a frame"
-msgstr "Eine Grafik erzeugen"
+msgstr "Einen Rahmen erzeugen"
 
 #: src/workbook-object-toolbar.c:135
-#, fuzzy
 msgid "Creates a button"
-msgstr "Ein neues Arbeitsbuch erzeugen"
+msgstr "Einen Knopf erzeugen"
 
 #: src/gnumeric.xml.h:25 src/workbook-object-toolbar.c:138
 msgid "Checkbox"
@@ -12650,9 +12644,8 @@ msgid "Creates a radio button"
 msgstr "Eine Grafik erzeugen"
 
 #: src/workbook-object-toolbar.c:144
-#, fuzzy
 msgid "Creates a list"
-msgstr "Eine Grafik erzeugen"
+msgstr "Eine Liste erzeugen"
 
 #: src/workbook-object-toolbar.c:147
 #, fuzzy
@@ -12665,24 +12658,20 @@ msgid "Creates a combobox"
 msgstr "Ein neues Arbeitsbuch erzeugen"
 
 #: src/workbook-object-toolbar.c:150
-#, fuzzy
 msgid "Creates a line object"
-msgstr "Ein neues Arbeitsbuch erzeugen"
+msgstr "Ein Linienobjekt erzeugen"
 
 #: src/gnumeric.xml.h:5 src/workbook-object-toolbar.c:153
-#, fuzzy
 msgid "Arrow"
-msgstr "Zeilen"
+msgstr "Pfeil"
 
 #: src/workbook-object-toolbar.c:153
-#, fuzzy
 msgid "Creates an arrow object"
-msgstr "Ein neues Arbeitsbuch erzeugen"
+msgstr "Ein Pfeilobjekt erzeugen"
 
 #: src/gnumeric.xml.h:151 src/workbook-object-toolbar.c:156
-#, fuzzy
 msgid "Rectangle"
-msgstr "Wertebereich"
+msgstr "Rechteck"
 
 #: src/workbook-object-toolbar.c:156
 #, fuzzy
@@ -12691,7 +12680,7 @@ msgstr "Ein neues Arbeitsbuch erzeugen"
 
 #: src/workbook-object-toolbar.c:159
 msgid "Ellipse"
-msgstr ""
+msgstr "Ellipse"
 
 #: src/workbook-object-toolbar.c:159
 #, fuzzy
@@ -12746,18 +12735,16 @@ msgid "Redo"
 msgstr "Wiederholen"
 
 #: src/gnumeric.xml.h:245 src/workbook-control-gui.c:768
-#, fuzzy
 msgid "_Undo"
-msgstr "Rückgängig"
+msgstr "_Rückgängig"
 
 #: src/gnumeric.xml.h:233 src/workbook-control-gui.c:770
-#, fuzzy
 msgid "_Redo"
-msgstr "Wiederholen"
+msgstr "_Wiederholen"
 
 #: src/workbook-control-gui.c:843
 msgid "Would split an array."
-msgstr "Würde ein Array spalten."
+msgstr "Würde ein Array splitten."
 
 #: src/workbook-control-gui.c:886
 #, c-format
@@ -12819,16 +12806,14 @@ msgstr "_Importieren..."
 
 #: src/gnumeric.xml.h:86 src/workbook-control-gui.c:1776
 msgid "Imports a file"
-msgstr "Importiert eine Datei"
+msgstr "Eine Datei importieren"
 
 #: src/gnumeric.xml.h:139 src/workbook-control-gui.c:1786
-#, fuzzy
 msgid "Print Pre_view"
 msgstr "Druck_vorschau"
 
 #: src/gnumeric.xml.h:140 src/workbook-control-gui.c:1786
 #: src/workbook-control-gui.c:2167
-#, fuzzy
 msgid "Print Preview"
 msgstr "Druckvorschau"
 
@@ -12898,7 +12883,7 @@ msgstr "Arra_y auswählen"
 
 #: src/gnumeric.xml.h:173 src/workbook-control-gui.c:1840
 msgid "Select an array of cells"
-msgstr "Wählt einen Bereich von Zellen"
+msgstr "Einen Bereich von Zellen auswählen"
 
 #: src/gnumeric.xml.h:169 src/workbook-control-gui.c:1844
 msgid "Select _Depends"
@@ -12909,14 +12894,12 @@ msgid "Select all the cells that depend on the current edit cell."
 msgstr "Alle die Zellen auswählen, die von der aktuellen Zelle abhängig sind."
 
 #: src/gnumeric.xml.h:213 src/workbook-control-gui.c:1852
-#, fuzzy
 msgid "_Duplicate"
-msgstr "_Datum"
+msgstr "_Duplizieren"
 
 #: src/gnumeric.xml.h:113 src/workbook-control-gui.c:1853
-#, fuzzy
 msgid "Make a copy of the current sheet"
-msgstr "Eine Funktion in der aktuellen Zelle bearbeiten"
+msgstr "Eine Kopie des aktuellen Blattes erstellen"
 
 #: src/gnumeric.xml.h:224 src/workbook-control-gui.c:1856
 #: src/workbook-control-gui.c:2142
@@ -12924,25 +12907,21 @@ msgid "_Insert"
 msgstr "_Einfügen"
 
 #: src/gnumeric.xml.h:92 src/workbook-control-gui.c:1857
-#, fuzzy
 msgid "Insert a new sheet"
-msgstr "Neues Arbeitsblatt einfügen"
+msgstr "Neues Blatt einfügen"
 
 #: src/gnumeric.xml.h:148 src/workbook-control-gui.c:1860
-#, fuzzy
 msgid "Re_name..."
-msgstr "_Namen..."
+msgstr "Umbe_nennen..."
 
 #: src/gnumeric.xml.h:154 src/workbook-control-gui.c:1861
-#, fuzzy
 msgid "Rename the current sheet"
-msgstr "Eine Funktion in der aktuellen Zelle bearbeiten"
+msgstr "Das aktuelle Blatte umbenennen"
 
 #: src/gnumeric.xml.h:146 src/workbook-control-gui.c:1864
 #: src/workbook-control-gui.c:2035
-#, fuzzy
 msgid "Re-_Order Sheets..."
-msgstr "Blätter neu _ordnen"
+msgstr "Blätter neu _ordnen..."
 
 #: src/gnumeric.xml.h:103 src/workbook-control-gui.c:1869
 msgid "Irrevocably remove an entire sheet"
@@ -12966,18 +12945,16 @@ msgid "Remove selected cells, shifting other into their place"
 msgstr "Ausgewählte Zellen entfernen, andere an deren Stelle einsetzen"
 
 #: src/gnumeric.xml.h:157 src/workbook-control-gui.c:1899
-#, fuzzy
 msgid "S_heet"
-msgstr "_Blätter"
+msgstr "_Blatt"
 
 #: src/gnumeric.xml.h:238 src/workbook-control-gui.c:1901
-#, fuzzy
 msgid "_Select"
-msgstr "_Auswählen..."
+msgstr "_Auswählen"
 
 #: src/gnumeric.xml.h:164 src/workbook-control-gui.c:1903
 msgid "Search and Replace..."
-msgstr ""
+msgstr "Suchen und ersetzen..."
 
 #: src/gnumeric.xml.h:165 src/workbook-control-gui.c:1904
 msgid "Search for some text and replace it with something else"
@@ -13048,11 +13025,9 @@ msgstr "Aktuelle _Zeit"
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Aktuelle Zeit in die ausgewählte(n) Zelle(n) einfügen"
 
-# Checkit. vs. "Clear"
 #: src/workbook-control-gui.c:1955
-#, fuzzy
 msgid "_Define..."
-msgstr "_Entfernen..."
+msgstr "_Festlegen..."
 
 #: src/gnumeric.xml.h:62 src/workbook-control-gui.c:1956
 msgid "Edit sheet and workbook names"
@@ -13092,9 +13067,8 @@ msgid "Insert new cells"
 msgstr "Neue Zellen einfügen"
 
 #: src/gnumeric.xml.h:226 src/workbook-control-gui.c:1982
-#, fuzzy
 msgid "_Name"
-msgstr "Name"
+msgstr "_Name"
 
 #: src/workbook-control-gui.c:1984
 msgid "_Add\\modify comment..."
@@ -13460,9 +13434,8 @@ msgid "Change width of the selected columns"
 msgstr "Spaltenbreite einstellen"
 
 #: src/gnumeric.xml.h:30
-#, fuzzy
 msgid "Close the current file"
-msgstr "Summe in die aktuelle Zelle schreiben"
+msgstr "Die aktuelle Datei schließen"
 
 #: src/gnumeric.xml.h:32
 #, fuzzy
@@ -13475,14 +13448,12 @@ msgid "Copy the current selection to the clipboard"
 msgstr "Die Auswahl in die Zwischenablage kopieren"
 
 #: src/gnumeric.xml.h:35
-#, fuzzy
 msgid "Copy the selection"
-msgstr "_Auswahl automatisch einpasssen"
+msgstr "Die Markierung kopieren"
 
 #: src/gnumeric.xml.h:36
-#, fuzzy
 msgid "Create a button"
-msgstr "Ein neues Arbeitsbuch erzeugen"
+msgstr "Einen Knopf erzeugen"
 
 #: src/gnumeric.xml.h:37
 #, fuzzy
@@ -13495,28 +13466,24 @@ msgid "Create a combo box"
 msgstr "Ein neues Arbeitsbuch erzeugen"
 
 #: src/gnumeric.xml.h:39
-#, fuzzy
 msgid "Create a frame"
-msgstr "Eine Grafik erzeugen"
+msgstr "Einen Rahmen erzeugen"
 
 #: src/gnumeric.xml.h:40
-#, fuzzy
 msgid "Create a label"
-msgstr "Eine Grafik erzeugen"
+msgstr "Eine Beschriftung erzeugen"
 
 #: src/gnumeric.xml.h:41
 msgid "Create a line"
 msgstr "Eine Linie erzeugen"
 
 #: src/gnumeric.xml.h:42
-#, fuzzy
 msgid "Create a list"
-msgstr "Eine Grafik erzeugen"
+msgstr "Eine Liste erzeugen"
 
 #: src/gnumeric.xml.h:46
-#, fuzzy
 msgid "Create a new workbook"
-msgstr "Ein neues Arbeitsbuch erzeugen"
+msgstr "Ein neues Arbeitsbuch anlegen"
 
 #: src/gnumeric.xml.h:47
 #, fuzzy
@@ -13557,9 +13524,8 @@ msgid "Draw an oval"
 msgstr "Ein Oval zeichnen"
 
 #: src/gnumeric.xml.h:60
-#, fuzzy
 msgid "E_xit"
-msgstr "Te_xt"
+msgstr "_Beenden"
 
 #: src/gnumeric.xml.h:61
 #, fuzzy
@@ -13584,9 +13550,8 @@ msgid "Exit the program"
 msgstr "Das Programm beenden"
 
 #: src/gnumeric.xml.h:75
-#, fuzzy
 msgid "Format the selected cells as money"
-msgstr "Ausgewählte Zellen sortieren"
+msgstr "Ausgewählte Zellen als Geldangabe formatieren"
 
 #: src/gnumeric.xml.h:76
 #, fuzzy
@@ -13594,14 +13559,14 @@ msgid "Format the selected cells as percentages"
 msgstr "Die ausgewählten Zellen als Prozentwert formatieren"
 
 #: src/gnumeric.xml.h:78
-#, fuzzy
 msgid "Function Guru"
-msgstr "Funktion"
+msgstr "Funktionen-Druide"
 
+# Graph != Graphic?
+# 2001-02-10 19:31:00 CET -ke-
 #: src/gnumeric.xml.h:79
-#, fuzzy
 msgid "Graph Guru"
-msgstr "Formel-Druiden"
+msgstr "Grafen-Druide"
 
 #: src/gnumeric.xml.h:80
 #, fuzzy
@@ -13629,9 +13594,8 @@ msgid "Includes a thousands separator in the selected cells"
 msgstr "Aktuelles Datum in die ausgewählte(n) Zelle(n) einfügen"
 
 #: src/gnumeric.xml.h:88
-#, fuzzy
 msgid "Increase Precision"
-msgstr "Erhöhen"
+msgstr "Genauigkeit erhöhen"
 
 #: src/gnumeric.xml.h:89
 #, fuzzy
@@ -13662,11 +13626,11 @@ msgstr "Ein Objekt in das Arbeitsblatt einfügen"
 msgid "Inserts a Bonobo object"
 msgstr "Ein Bonobo-Objekt einfügen"
 
+# Graph != Graphic?
+# 2001-02-10 19:31:00 CET -ke-
 #: src/gnumeric.xml.h:102
-#, fuzzy
 msgid "Invoke the graph guru to create a graph"
-msgstr ""
-"Den Grafik-Druiden zur Unterstützung beim Erzeugen einer Grafik aufrufen"
+msgstr "Den Grafen-Druiden zur Unterstützung beim Erzeugen einer Grafik aufrufen"
 
 #: src/gnumeric.xml.h:104
 #, fuzzy
@@ -13683,23 +13647,20 @@ msgid "Make any hidden columns in the selection visible"
 msgstr ""
 
 #: src/gnumeric.xml.h:115
-#, fuzzy
 msgid "Make any hidden rows in the selection visible"
-msgstr "Kann nicht mehr als die Auswahllänge hinzufügen."
+msgstr ""
 
 #: src/gnumeric.xml.h:116
 msgid "Make font bold"
 msgstr "Die Schrift fett machen"
 
 #: src/gnumeric.xml.h:117
-#, fuzzy
 msgid "Makes font italic"
 msgstr "Die Schrift kursiv machen"
 
 #: src/gnumeric.xml.h:118
-#, fuzzy
 msgid "Manage available plugin modules"
-msgstr "Verfügbare Module einbinden"
+msgstr "Verfügbare Plugin-Module verwalten"
 
 #: src/gnumeric.xml.h:119
 #, fuzzy
@@ -13711,12 +13672,10 @@ msgid "Money"
 msgstr "Geld"
 
 #: src/gnumeric.xml.h:129
-#, fuzzy
 msgid "Open a spreadsheet"
-msgstr "Neues Arbeitsblatt erzeugen"
+msgstr "Ein Arbeitsblatt öffnen"
 
 #: src/gnumeric.xml.h:130
-#, fuzzy
 msgid "Open an existing workbook"
 msgstr "Ein vorhandenes Arbeitsbuch öffnen"
 
@@ -13737,14 +13696,12 @@ msgid "Paste the contents of the clipboard or cut buffer"
 msgstr ""
 
 #: src/gnumeric.xml.h:141
-#, fuzzy
 msgid "Print S_etup"
-msgstr "Ausdruck einrichten"
+msgstr "Druck_er einrichten"
 
 #: src/gnumeric.xml.h:143
-#, fuzzy
 msgid "Print the current file"
-msgstr "Summe in die aktuelle Zelle schreiben"
+msgstr "Die aktuelle Datei drucken"
 
 #: src/gnumeric.xml.h:144
 msgid "Print the workbook"
@@ -13778,9 +13735,8 @@ msgid "Save _As"
 msgstr "Speichern _unter"
 
 #: src/gnumeric.xml.h:161
-#, fuzzy
 msgid "Save the current file"
-msgstr "Summe in die aktuelle Zelle schreiben"
+msgstr "Die aktuelle Datei speichern"
 
 #: src/gnumeric.xml.h:162
 #, fuzzy
@@ -13788,9 +13744,8 @@ msgid "Save the current file with a different name"
 msgstr "Die aktuelle Markierung verwenden, um Namen zu erzeugen."
 
 #: src/gnumeric.xml.h:163
-#, fuzzy
 msgid "Save the current workbook"
-msgstr "Das Arbeitsbuch speichern"
+msgstr "Das aktuelle Arbeitsbuch speichern"
 
 #: src/gnumeric.xml.h:172
 #, fuzzy
@@ -13820,7 +13775,6 @@ msgstr ""
 "ersten markierten Spalte."
 
 #: src/gnumeric.xml.h:184
-#, fuzzy
 msgid "Statistical methods"
 msgstr "Statistische Methoden"
 
@@ -13850,32 +13804,28 @@ msgid "Underlines the text"
 msgstr "Den Text unterstreichen"
 
 #: src/gnumeric.xml.h:195
-#, fuzzy
 msgid "Undo the last action"
-msgstr "Operation rückgängig machen"
+msgstr "Die letzte Operation rückgängig machen"
 
 #: src/gnumeric.xml.h:197
 msgid "_About..."
 msgstr "_Info..."
 
 #: src/gnumeric.xml.h:198
-#, fuzzy
 msgid "_Add / modify comment..."
 msgstr "Kommentar _hinzufügen/ändern..."
 
 #: src/gnumeric.xml.h:204
-#, fuzzy
 msgid "_Change Name..."
-msgstr "Namen än_dern"
+msgstr "Namen än_dern..."
 
 #: src/gnumeric.xml.h:205
 msgid "_Close"
 msgstr "S_chließen"
 
 #: src/gnumeric.xml.h:211
-#, fuzzy
 msgid "_Define"
-msgstr "Name definieren"
+msgstr "Namen _festlegen"
 
 #: src/gnumeric.xml.h:214
 msgid "_Edit"
