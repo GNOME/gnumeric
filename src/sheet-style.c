@@ -1599,12 +1599,14 @@ static gboolean
 cb_hash_to_list (gpointer key, gpointer	value, gpointer	user_data)
 {
 	StyleList **res = user_data;
-	StyleRegion *sr = value;
-	*res = g_list_prepend (*res, value);
 
 #ifdef DEBUG_STYLE_LIST
+	StyleRegion *sr = value;
 	range_dump (&sr->range, "\n");
 #endif
+
+	*res = g_list_prepend (*res, value);
+
 	return TRUE;
 }
 

@@ -561,7 +561,7 @@ void
 parse_error_free (ParseError *pe)
 {
 	if (pe->message != NULL) {
-		g_free (pe->message)
+		g_free (pe->message);
 		pe->message = NULL;
 	}
 }

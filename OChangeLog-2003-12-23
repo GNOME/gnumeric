@@ -1,5 +1,11 @@
 2001-02-11  Jody Goldberg <jgoldberg@home.com>
 
+	* README : bump GAL req.
+	* gnumeric.spec.in : ditto.
+	* configure.in : Ditto.
+
+2001-02-11  Jody Goldberg <jgoldberg@home.com>
+
 	* src/parser.y : Move the state information into a struct so that we
 	  can eventually get rid of the statics.
 	Take a 'ParseError' as a place to return more detailed information
