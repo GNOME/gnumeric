@@ -4,6 +4,8 @@
  * Author:
  *     Miguel de Icaza (miguel@kernel.org)
  *
+ * FIXME: add support for drawing the selection.
+ *
  */
 #include <config.h>
 #include <gnome.h>
@@ -118,7 +120,7 @@ el_edit_sync (El *el)
 }
 
 static void
-el_start_editing (El *el, const char *text)
+el_start_editing (El *el, const char *text, gboolean select_text)
 {
 	gtk_widget_grab_focus (GTK_WIDGET (el));
 
@@ -136,6 +138,9 @@ el_start_editing (El *el, const char *text)
 
 	gtk_grab_add (GTK_WIDGET (el));
 
+	if (select_text)
+		gtk_editable_select_region (GTK_EDITABLE (el->entry), 0, -1);
+	  
 	/*
 	 * Syncronize the GtkEntry with the label
 	 */
@@ -242,7 +247,7 @@ el_button_press_event (GtkWidget *widget, GdkEventButton *button)
 	if (button->type == GDK_2BUTTON_PRESS){
 		char *text = GNOME_CANVAS_TEXT (el->text_item)->text;
 
-		el_start_editing (el, text);
+		el_start_editing (el, text, TRUE);
 
 		return FALSE;
 	}

@@ -1,3 +1,10 @@
+2000-09-10  Miguel de Icaza  <miguel@helixcode.com>
+
+	* widget-editable-label.c (el_start_editing): Optionally select
+	the entire text. 
+	(el_button_press_event): Double click should start editing with
+	all the text selected.
+
 2000-09-11  Jody Goldberg <jgoldberg@home.com>
 
 	* widget-color-combo.c (color_table_setup) : We need to ungrab from
