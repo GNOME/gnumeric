@@ -1,3 +1,8 @@
+2003-02-02  Jody Goldberg <jody@gnome.org>
+
+	* src/mstyle.c (mstyle_get_pango_attrs) : The mstyle uses the ref to
+	  the new list so we need to add a ref for the result.
+
 2003-02-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* README: Updated; added Debian package names.

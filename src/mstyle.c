@@ -1621,5 +1621,6 @@ mstyle_get_pango_attrs (const MStyle *mstyle)
 		style_font_unref (font);
 	}
 
+	pango_attr_list_ref (res);
 	return res;
 }
