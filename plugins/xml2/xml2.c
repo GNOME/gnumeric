@@ -28,6 +28,8 @@
 #include "plugin.h"
 #include "plugin-util.h"
 #include "workbook.h"
+#include "style.h"
+#include "cell.h"
 
 #include <gnome-xml/tree.h>
 #include <gnome-xml/parser.h>
@@ -44,7 +46,7 @@ xml2UnknownAttr (XML2ParseState *state, CHAR const * const *attrs, char const *n
 }
 
 static int
-xmlParseAttrDouble (CHAR const * const *attrs, char const *name, double * res)
+xml2ParseAttrDouble (CHAR const * const *attrs, char const *name, double * res)
 {
 	char *end;
 	double tmp;
@@ -75,7 +77,7 @@ xmlParseNDouble (CHAR const *chars, int len, double *res)
 }
 
 static int
-xmlParseAttrInt (CHAR const * const *attrs, char const *name, int *res)
+xml2ParseAttrInt (CHAR const * const *attrs, char const *name, int *res)
 {
 	char *end;
 	int tmp;
@@ -96,7 +98,7 @@ xmlParseAttrInt (CHAR const * const *attrs, char const *name, int *res)
 	*res = tmp;
 	return TRUE;
 }
-#if 0
+
 static gboolean
 xmlParseNInt (CHAR const *chars, int len, int *res)
 {
@@ -105,7 +107,46 @@ xmlParseNInt (CHAR const *chars, int len, int *res)
 	g_free (tmp);
 	return end == (tmp+len);
 }
-#endif
+
+static int
+xml2ParseAttrColour (CHAR const * const *attrs, char const *name, StyleColor **res)
+{
+	int red, green, blue;
+	
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (strcmp (attrs[0], name))
+		return FALSE;
+
+	if (sscanf (attrs[1], "%X:%X:%X", &red, &green, &blue) != 3){
+		g_warning ("Invalid attribute '%s', expected colour, received '%s'",
+			   name, attrs[1]);
+		return FALSE;
+	}
+	*res = style_color_new (red, green, blue);
+	return TRUE;
+}
+
+static gboolean
+xml2ParseRange (CHAR const * const *attrs, Range *res)
+{
+	int flags = 0;
+	for (; attrs[0] && attrs[1] ; attrs += 2)
+		if (xml2ParseAttrInt (attrs, "startCol", &res->start.col))
+			flags |= 0x1;
+		else if (xml2ParseAttrInt (attrs, "startRow", &res->start.row))
+			flags |= 0x2;
+		else if (xml2ParseAttrInt (attrs, "endCol", &res->end.col))
+			flags |= 0x4;
+		else if (xml2ParseAttrInt (attrs, "endRow", &res->end.row))
+			flags |= 0x8;
+		else
+			return FALSE;
+
+	return flags == 0xf;
+}
 
 /*****************************************************************************/
 
@@ -263,18 +304,132 @@ struct _XML2ParseState
 	Sheet *sheet;
 	double sheet_zoom;
 
-	GHashTable *style_table;/* old style styles compatibility */
-	GHashTable *expr_map;	/*
-				 * Emitted expressions with ref count > 1
-				 * When writing this is map from expr pointer -> index
-				 * when reading this is a map from index -> expr pointer
-				 */
+	/* Only valid while parsing attributes */
+	struct {
+		char *name;
+		char *value;
+		int   type;
+	} attribute;
+	GList *attributes;
+
+	gboolean  style_range_init;
+	Range	  style_range;
+	MStyle   *style;
+
+	Cell *cell;
+	int   expr_id;
+
+	/* expressions with ref > 1 a map from index -> expr pointer */
+	GHashTable *expr_map;
 };
 
 /****************************************************************************/
 
 static void
-xml2_parse_sheet_name (XML2ParseState *state, CHAR const *chars, int len)
+xml2_arg_set (GtkArg *arg, gchar *string)
+{
+	switch (arg->type) {
+	case GTK_TYPE_CHAR:
+		GTK_VALUE_CHAR (*arg) = string[0];
+		break;
+	case GTK_TYPE_UCHAR:
+		GTK_VALUE_UCHAR (*arg) = string[0];
+		break;
+	case GTK_TYPE_BOOL:
+		if (!strcmp (string, "TRUE"))
+			GTK_VALUE_BOOL (*arg) = TRUE;
+		else
+			GTK_VALUE_BOOL (*arg) = FALSE;
+		break;
+	case GTK_TYPE_INT:
+		GTK_VALUE_INT (*arg) = atoi (string);
+		break;
+	case GTK_TYPE_UINT:
+		GTK_VALUE_UINT (*arg) = atoi (string);
+		break;
+	case GTK_TYPE_LONG:
+		GTK_VALUE_LONG (*arg) = atol (string);
+		break;
+	case GTK_TYPE_ULONG:
+		GTK_VALUE_ULONG (*arg) = atol (string);
+		break;
+	case GTK_TYPE_FLOAT:
+		GTK_VALUE_FLOAT (*arg) = atof (string);
+		break;
+	case GTK_TYPE_DOUBLE:
+		GTK_VALUE_DOUBLE (*arg) = atof (string);
+		break;
+	case GTK_TYPE_STRING:
+		GTK_VALUE_STRING (*arg) = g_strdup (string);
+		break;
+	}
+}
+
+static void
+xml2FinishParseAttr (XML2ParseState *state)
+{
+	GtkArg *arg;
+
+	g_return_if_fail (state->attribute.name != NULL);
+	g_return_if_fail (state->attribute.value != NULL);
+	g_return_if_fail (state->attribute.type >= 0);
+
+	arg = gtk_arg_new (state->attribute.type);
+	arg->name = state->attribute.name;
+	xml2_arg_set (arg, state->attribute.value);
+	state->attributes = g_list_prepend (state->attributes, arg);
+
+	state->attribute.type = -1;
+	g_free (state->attribute.value);
+	state->attribute.value = NULL;
+	state->attribute.name = NULL;
+}
+
+static void
+xml2_free_arg_list (GList *start)
+{
+	GList *list = start;
+	while (list) {
+		GtkArg *arg = list->data;
+		if (arg) {
+			g_free (arg->name);
+			gtk_arg_free (arg, FALSE);
+		}
+		list = list->next;
+	}
+	g_list_free (start);
+}
+
+static void
+xml2_parse_attr_elem (XML2ParseState *state, CHAR const *chars, int len)
+{
+	switch (state->state) {
+	case STATE_WB_ATTRIBUTES_ELEM_NAME :
+		g_return_if_fail (state->attribute.name == NULL);
+		state->attribute.name = g_strndup (chars, len);
+		break;
+
+	case STATE_WB_ATTRIBUTES_ELEM_VALUE :
+		g_return_if_fail (state->attribute.value == NULL);
+		state->attribute.value = g_strndup (chars, len);
+		break;
+
+	case STATE_WB_ATTRIBUTES_ELEM_TYPE :
+	{
+		int type;
+		if (xmlParseNInt (chars, len, &type))
+			state->attribute.type = type;
+		break;
+	}
+
+	default :
+		g_assert_not_reached ();
+	};
+
+}
+
+static void
+xml2ParseSheetName (XML2ParseState *state, CHAR const *chars, int len)
 {
 	char *tmp;
 	g_return_if_fail (state->sheet == NULL);
@@ -288,7 +443,7 @@ xml2_parse_sheet_name (XML2ParseState *state, CHAR const *chars, int len)
 }
 
 static void
-xml2_parse_sheet_zoom (XML2ParseState *state, CHAR const *chars, int len)
+xml2ParseSheetZoom (XML2ParseState *state, CHAR const *chars, int len)
 {
 	double zoom;
 
@@ -308,7 +463,7 @@ xml2ParseColRow (XML2ParseState *state, CHAR const **attrs, gboolean is_col)
 	g_return_if_fail (state->sheet != NULL);
 
 	for (; attrs[0] && attrs[1] ; attrs += 2) {
-		if (xmlParseAttrInt (attrs, "No", &dummy)) {
+		if (xml2ParseAttrInt (attrs, "No", &dummy)) {
 			g_return_if_fail (cri == NULL);
 
 			cri = is_col
@@ -317,12 +472,12 @@ xml2ParseColRow (XML2ParseState *state, CHAR const **attrs, gboolean is_col)
 		} else {
 			g_return_if_fail (cri != NULL);
 
-			if (xmlParseAttrDouble (attrs, "Unit", &size)) ;
-			else if (xmlParseAttrInt (attrs, "MarginA", &cri->margin_a)) ;
-			else if (xmlParseAttrInt (attrs, "MarginB", &cri->margin_b)) ;
-			else if (xmlParseAttrInt (attrs, "HardSize", &dummy))
+			if (xml2ParseAttrDouble (attrs, "Unit", &size)) ;
+			else if (xml2ParseAttrInt (attrs, "MarginA", &cri->margin_a)) ;
+			else if (xml2ParseAttrInt (attrs, "MarginB", &cri->margin_b)) ;
+			else if (xml2ParseAttrInt (attrs, "HardSize", &dummy))
 				cri->hard_size = dummy;
-			else if (xmlParseAttrInt (attrs, "Hidden", &dummy))
+			else if (xml2ParseAttrInt (attrs, "Hidden", &dummy))
 				cri->visible = !dummy;
 			else
 				xml2UnknownAttr (state, attrs, "ColRow");
@@ -335,6 +490,147 @@ xml2ParseColRow (XML2ParseState *state, CHAR const **attrs, gboolean is_col)
 		sheet_col_set_size_pts (state->sheet, cri->pos, size, cri->hard_size);
 	else
 		sheet_row_set_size_pts (state->sheet, cri->pos, size, cri->hard_size);
+}
+
+static void
+xml2ParseStyleRegion (XML2ParseState *state, CHAR const **attrs)
+{
+	g_return_if_fail (state->style_range_init == FALSE);
+	g_return_if_fail (state->style == NULL);
+
+	state->style = mstyle_new ();
+	state->style_range_init =
+		xml2ParseRange (attrs, &state->style_range);
+}
+
+static void
+xml2ParseStyleRegionStyle (XML2ParseState *state, CHAR const **attrs)
+{
+	int val;
+	StyleColor *colour;
+
+	g_return_if_fail (state->style != NULL);
+
+	if (attrs == NULL)
+		return;
+
+	for (; attrs[0] && attrs[1] ; attrs += 2) {
+		if (xml2ParseAttrInt (attrs, "HAlign", &val))
+			mstyle_set_align_h (state->style, val);
+		else if (xml2ParseAttrInt (attrs, "VAlign", &val))
+			mstyle_set_align_v (state->style, val);
+		else if (xml2ParseAttrInt (attrs, "Fit", &val))
+			mstyle_set_fit_in_cell (state->style, val);
+		else if (xml2ParseAttrInt (attrs, "Orient", &val))
+			mstyle_set_fit_in_cell (state->style, val);
+		else if (xml2ParseAttrInt (attrs, "Shade", &val))
+			mstyle_set_pattern (state->style, val);
+		else if (xml2ParseAttrColour (attrs, "Fore", &colour))
+			mstyle_set_color (state->style, MSTYLE_COLOR_FORE, colour);
+		else if (xml2ParseAttrColour (attrs, "Back", &colour))
+			mstyle_set_color (state->style, MSTYLE_COLOR_BACK, colour);
+		else if (xml2ParseAttrColour (attrs, "PatternColor", &colour))
+			mstyle_set_color (state->style, MSTYLE_COLOR_PATTERN, colour);
+		else if (!strcmp (attrs[0], "Format"))
+			mstyle_set_format (state->style, attrs[1]);
+		else
+			xml2UnknownAttr (state, attrs, "StyleRegion");
+	}
+}
+
+static void
+xml2ParseStyleRegionFonts (XML2ParseState *state, CHAR const **attrs)
+{
+	double size_pts = 10.;
+	int val;
+
+	g_return_if_fail (state->style != NULL);
+
+	if (attrs == NULL)
+		return;
+
+	for (; attrs[0] && attrs[1] ; attrs += 2) {
+		if (xml2ParseAttrDouble (attrs, "Unit", &size_pts))
+			mstyle_set_font_size (state->style, size_pts);
+		else if (xml2ParseAttrInt (attrs, "Bold", &val))
+			mstyle_set_font_bold (state->style, val);
+		else if (xml2ParseAttrInt (attrs, "Italic", &val))
+			mstyle_set_font_italic (state->style, val);
+		else if (xml2ParseAttrInt (attrs, "Underline", &val))
+			mstyle_set_font_uline (state->style, (StyleUnderlineType)val);
+		else if (xml2ParseAttrInt (attrs, "StrikeThrough", &val))
+			mstyle_set_font_strike (state->style, val ? TRUE : FALSE);
+		else
+			xml2UnknownAttr (state, attrs, "StyleFont");
+	}
+
+#if 0
+	char *font;
+	font = xmlNodeGetContent (child);
+	if (font) {
+		if (*font == '-')
+			style_font_read_from_x11 (state->style, font);
+		else
+			mstyle_set_font_name (state->style, font);
+		xmlFree (font);
+	}
+#endif
+}
+
+static void
+xml2ParseStyleRegionBorders (XML2ParseState *state, CHAR const **attrs)
+{
+}
+
+static void
+xml2ParseCell (XML2ParseState *state, CHAR const **attrs)
+{
+	int row = -1, col = -1;
+	int dummy, val;
+
+	g_return_if_fail (state->cell == NULL);
+
+	for (; attrs[0] && attrs[1] ; attrs += 2) {
+		if (xml2ParseAttrInt (attrs, "Col", &col)) ;
+		else if (xml2ParseAttrInt (attrs, "Row", &row)) ;
+		else if (xml2ParseAttrInt (attrs, "Style", &dummy)) ;
+		else if (xml2ParseAttrInt (attrs, "ExprID", &val)) {
+			g_return_if_fail (state->expr_id == -1);
+			state->expr_id = val;
+		} else
+			xml2UnknownAttr (state, attrs, "Cell");
+	}
+
+	g_return_if_fail (col >= 0);
+	g_return_if_fail (row >= 0);
+
+	state->cell = sheet_cell_fetch (state->sheet, col, row);
+}
+
+static void
+xml2ParseCellContent (XML2ParseState *state, CHAR const *chars, int len)
+{
+	char *tmp;
+
+	g_return_if_fail (state->cell != NULL);
+
+	tmp = g_strndup (chars, len);
+	cell_set_text (state->cell, tmp);
+	g_free (tmp);
+
+	if (state->expr_id >= 0) {
+		gpointer const id = GINT_TO_POINTER (state->expr_id);
+		gpointer const expr = g_hash_table_lookup (state->expr_map, id);
+
+		if (expr == NULL) {
+			if (cell_has_expr (state->cell))
+				g_hash_table_insert (state->expr_map, id,
+						     state->cell->u.expression);
+			else
+				g_warning ("XML-IO2 : Shared expression with no expession ??");
+			state->expr_id = -1;
+		}
+	}
 }
 
 /****************************************************************************/
@@ -366,25 +662,6 @@ static gboolean
 xml2_probe (const char *filename)
 {
 	return TRUE;
-}
-
-static void
-xml2StartDocument(XML2ParseState *state)
-{
-	state->state = STATE_START;
-	state->unknown_depth = 0;
-	state->state_stack = NULL;
-
-	state->sheet = NULL;
-	state->version = -1;
-}
-
-static void
-xml2EndDocument(XML2ParseState *state)
-{
-	g_message ("Ending state == %s", xml2_state_names[state->state]);
-	if (state->unknown_depth != 0)
-		g_warning ("unknown_depth != 0 (%d)", state->unknown_depth);
 }
 
 static void
@@ -474,21 +751,25 @@ xml2StartElement(XML2ParseState *state, CHAR const *name, CHAR const **attrs)
 		break;
 
 	case STATE_SHEET_STYLES :
-		if (xml2SwitchState (state, name, STATE_STYLE_REGION)) {
-		} else
+		if (xml2SwitchState (state, name, STATE_STYLE_REGION))
+			xml2ParseStyleRegion (state, attrs);
+		else
 			xml2UnknownState (state, name);
 		break;
 
 	case STATE_STYLE_REGION :
-		if (xml2SwitchState (state, name, STATE_STYLE_STYLE)) {
-		} else
+		if (xml2SwitchState (state, name, STATE_STYLE_STYLE))
+			xml2ParseStyleRegionStyle (state, attrs);
+		else
 			xml2UnknownState (state, name);
 		break;
 
 	case STATE_STYLE_STYLE :
-		if (xml2SwitchState (state, name, STATE_STYLE_FONT)) {
-		} else if (xml2SwitchState (state, name, STATE_STYLE_BORDER)) {
-		} else
+		if (xml2SwitchState (state, name, STATE_STYLE_FONT))
+			xml2ParseStyleRegionFonts (state, attrs);
+		else if (xml2SwitchState (state, name, STATE_STYLE_BORDER))
+			xml2ParseStyleRegionBorders (state, attrs);
+		else
 			xml2UnknownState (state, name);
 		break;
 
@@ -524,29 +805,20 @@ xml2StartElement(XML2ParseState *state, CHAR const *name, CHAR const **attrs)
 		break;
 
 	case STATE_SHEET_CELLS :
-		if (xml2SwitchState (state, name, STATE_CELL)) {
-		} else
+		if (xml2SwitchState (state, name, STATE_CELL))
+			xml2ParseCell (state, attrs);
+		else
 			xml2UnknownState (state, name);
 		break;
 
 	case STATE_CELL :
-		if (xml2SwitchState (state, name, STATE_CELL_CONTENT)) {
-		} else
+		if (!xml2SwitchState (state, name, STATE_CELL_CONTENT))
 			xml2UnknownState (state, name);
 		break;
 
 	default :
 		break;
 	};
-
-#if 0
-	printf ("start '%s'\n", name);
-
-	if (attrs == NULL)
-		return;
-	while (*attrs)
-		puts (*(attrs++));
-#endif
 }
 
 static void
@@ -558,6 +830,36 @@ xml2EndElement(XML2ParseState *state, const CHAR *name)
 	switch (state->state) {
 	case STATE_SHEET :
 		state->sheet = NULL;
+		break;
+
+	case STATE_WB_ATTRIBUTES_ELEM :
+		/* store a single attribute */
+		xml2FinishParseAttr (state);
+		break;
+
+	case STATE_WB_ATTRIBUTES :
+		workbook_set_attributev (state->wb, state->attributes);
+		xml2_free_arg_list (state->attributes);
+		state->attributes = NULL;
+		break;
+
+	case STATE_STYLE_REGION :
+		g_return_if_fail (state->style_range_init);
+		g_return_if_fail (state->style != NULL);
+		g_return_if_fail (state->sheet != NULL);
+
+		sheet_style_attach (state->sheet, state->style_range, state->style);
+
+		state->style_range_init = FALSE;
+		state->style = NULL;
+		break;
+
+	case STATE_CELL :
+		g_return_if_fail (state->cell != NULL);
+		if (state->expr_id >= 0) {
+			state->expr_id = -1;
+		}
+		state->cell = NULL;
 		break;
 
 	default :
@@ -572,17 +874,26 @@ xml2EndElement(XML2ParseState *state, const CHAR *name)
 static void
 xml2Characters(XML2ParseState *state, const CHAR *chars, int len)
 {
+	/*
+	 * FIXME FIXME FIXME :
+	 *
+	 * This BLOWS GOATS!!!!
+	 * I just discovered that I need to accumulate the characters.
+	 * because things that are escaped are sent in smaller chunks.
+	 */
 	switch (state->state) {
 	case STATE_WB_ATTRIBUTES_ELEM_NAME :
 	case STATE_WB_ATTRIBUTES_ELEM_TYPE :
 	case STATE_WB_ATTRIBUTES_ELEM_VALUE :
+		xml2_parse_attr_elem (state, chars, len);
+		break;
 
 	case STATE_WB_SUMMARY_ITEM_NAME :
 	case STATE_WB_SUMMARY_ITEM_VALUE :
 		break;
 
 	case STATE_SHEET_NAME :
-		xml2_parse_sheet_name (state, chars, len);
+		xml2ParseSheetName (state, chars, len);
 		break;
 
 	case STATE_SHEET_MAXCOL :
@@ -591,7 +902,7 @@ xml2Characters(XML2ParseState *state, const CHAR *chars, int len)
 		break;
 
 	case STATE_SHEET_ZOOM :
-		xml2_parse_sheet_zoom (state, chars, len);
+		xml2ParseSheetZoom (state, chars, len);
 		break;
 
 	case STATE_PRINT_MARGIN :
@@ -600,13 +911,10 @@ xml2Characters(XML2ParseState *state, const CHAR *chars, int len)
 	case STATE_PRINT_PAPER :
 
 	case STATE_STYLE_FONT :
+		break;
+
 	case STATE_CELL_CONTENT :
-#if 0
-		printf("char = '");
-		for (i = 0; i < len; i++)
-			putchar (chars[i]);
-		printf("'\n");
-#endif
+		xml2ParseCellContent (state, chars, len);
 		break;
 
 	default :
@@ -648,6 +956,36 @@ xml2FatalError(XML2ParseState *state, const char *msg, ...)
 	va_start(args, msg);
 	g_logv("XML", G_LOG_LEVEL_ERROR, msg, args);
 	va_end(args);
+}
+
+static void
+xml2StartDocument(XML2ParseState *state)
+{
+	state->state = STATE_START;
+	state->unknown_depth = 0;
+	state->state_stack = NULL;
+
+	state->sheet = NULL;
+	state->version = -1;
+
+	state->attribute.name = state->attribute.value = NULL;
+	state->attribute.type = -1;
+	state->attributes = NULL;
+
+	state->style_range_init = FALSE;
+	state->style = NULL;
+
+	state->cell = NULL;
+	state->expr_id = -1;
+	state->expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
+}
+
+static void
+xml2EndDocument(XML2ParseState *state)
+{
+	g_message ("Ending state == %s", xml2_state_names[state->state]);
+	if (state->unknown_depth != 0)
+		g_warning ("unknown_depth != 0 (%d)", state->unknown_depth);
 }
 
 static xmlSAXHandler xml2SAXParser = {
