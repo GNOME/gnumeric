@@ -1,3 +1,7 @@
+2002-02-28  Morten Welinder  <terra@diku.dk>
+
+	* fn-eng.c (gnumeric_convert): Improve precision here and there.
+
 2002-02-27  Morten Welinder  <terra@diku.dk>
 
 	* fn-stat.c: Use new lower-tail flag for R's q* routines.

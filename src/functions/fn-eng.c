@@ -1372,19 +1372,19 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
         #define one_g_to_ozm    0.035273972
 
 	/* Distance constants */
-	#define one_m_to_mi     0.0006213711922
-	#define one_m_to_Nmi    0.0005399568035
-	#define one_m_to_in     39.37007874
-	#define one_m_to_ft     3.280839895
-	#define one_m_to_yd     1.093613298
+	#define one_m_to_mi     (one_m_to_yd / 1760)
+	#define one_m_to_Nmi    (1 / GNUM_const (1852.0))
+	#define one_m_to_in     (10000 / GNUM_const (254.0))
+	#define one_m_to_ft     (one_m_to_in / 12)
+	#define one_m_to_yd     (one_m_to_ft / 3)
 	#define one_m_to_ang    10000000000.0
 	#define one_m_to_Pica   2834.645669
 
 	/* Time constants */
 	#define one_yr_to_day   365.25
-	#define one_yr_to_hr    8766
-	#define one_yr_to_mn    525960
-	#define one_yr_to_sec   31557600
+	#define one_yr_to_hr    (24 * one_yr_to_day)
+	#define one_yr_to_mn    (60 * one_yr_to_hr)
+	#define one_yr_to_sec   (60 * one_yr_to_mn)
 
 	/* Pressure constants */
 	#define one_Pa_to_atm   0.9869233e-5
@@ -1414,8 +1414,8 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	#define C_K_offset      273.15
 
 	/* Liquid measure constants */
-	#define one_tsp_to_tbs  0.33333333333
-	#define one_tsp_to_oz   0.166666667
+	#define one_tsp_to_tbs  (GNUM_const (1.0) / 3)
+	#define one_tsp_to_oz   (GNUM_const (1.0) / 6)
 	#define one_tsp_to_cup  0.020833333
 	#define one_tsp_to_pt   0.010416667
 	#define one_tsp_to_qt   0.005208333
@@ -1423,22 +1423,22 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	#define one_tsp_to_l    0.004929994
 
 	/* Prefixes */
-	#define exa    1e+18
-	#define peta   1e+15
-	#define tera   1e+12
-	#define giga   1e+09
-	#define mega   1e+06
-	#define kilo   1e+03
-	#define hecto  1e+02
-	#define dekao  1e+01
-	#define deci   1e-01
-	#define centi  1e-02
-	#define milli  1e-03
-	#define micro  1e-06
-	#define nano   1e-09
-	#define pico   1e-12
-	#define femto  1e-15
-	#define atto   1e-18
+	#define exa    GNUM_const (1e+18)
+	#define peta   GNUM_const (1e+15)
+	#define tera   GNUM_const (1e+12)
+	#define giga   GNUM_const (1e+09)
+	#define mega   GNUM_const (1e+06)
+	#define kilo   GNUM_const (1e+03)
+	#define hecto  GNUM_const (1e+02)
+	#define dekao  GNUM_const (1e+01)
+	#define deci   GNUM_const (1e-01)
+	#define centi  GNUM_const (1e-02)
+	#define milli  GNUM_const (1e-03)
+	#define micro  GNUM_const (1e-06)
+	#define nano   GNUM_const (1e-09)
+	#define pico   GNUM_const (1e-12)
+	#define femto  GNUM_const (1e-15)
+	#define atto   GNUM_const (1e-18)
 
 	static const eng_convert_unit_t weight_units[] = {
 	        { "g",    1.0 },
@@ -1550,15 +1550,15 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	to_unit = value_peek_string (argv[2]);
 
 	if (strcmp (from_unit, "C") == 0 && strcmp (to_unit, "F") == 0)
-	        return value_new_float (1.8 * n + 32);
+	        return value_new_float (n * 9 / 5 + 32);
 	else if (strcmp (from_unit, "F") == 0 && strcmp (to_unit, "C") == 0)
-	        return value_new_float ((n - 32) / 1.8);
+	        return value_new_float ((n - 32) * 5 / 9);
 	else if (strcmp (from_unit, "F") == 0 && strcmp (to_unit, "F") == 0)
 	        return value_new_float (n);
 	else if (strcmp (from_unit, "F") == 0 && strcmp (to_unit, "K") == 0)
-	        return value_new_float ((n - 32) / 1.8 + C_K_offset);
+	        return value_new_float ((n - 32) * 5 / 9 + C_K_offset);
 	else if (strcmp (from_unit, "K") == 0 && strcmp (to_unit, "F") == 0)
-	        return value_new_float (1.8 * (n - C_K_offset) + 32);
+	        return value_new_float ((n - C_K_offset) * 9 / 5 + 32);
 	else if (strcmp (from_unit, "C") == 0 && strcmp (to_unit, "K") == 0)
 	        return value_new_float (n + C_K_offset);
 	else if (strcmp (from_unit, "K") == 0 && strcmp (to_unit, "C") == 0)
