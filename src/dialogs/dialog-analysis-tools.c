@@ -187,7 +187,7 @@ new_frame(char *name, GtkWidget *target_box)
 	return box;
 }
 
-void
+static void
 error_in_entry(Workbook *wb, GtkWidget *entry, char *err_str)
 {
         gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, err_str);
@@ -289,7 +289,7 @@ static void
 dialog_correlation_tool(Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box, *group_box, *groupped_label;
-	static GtkWidget *range_entry, *r, *output_range_entry, *hbox;
+	static GtkWidget *range_entry, *r, *output_range_entry;
 	static GSList    *group_ops, *output_ops;
 
 	data_analysis_output_t  dao;
@@ -297,7 +297,7 @@ dialog_correlation_tool(Workbook *wb, Sheet *sheet)
 	char  *text;
 	int   selection;
 	static Range range;
-	int   i=0, output, size;
+	int   i=0, output;
 
 	if (!dialog) {
 	        dialog = new_dialog("Correlation", wb->toplevel);
@@ -381,7 +381,7 @@ dialog_covariance_tool(Workbook *wb, Sheet *sheet)
 	char  *text;
 	int   selection, output;
 	static Range range;
-	int   i=0, size;
+	int   i=0;
 
 	if (!dialog) {
 	        dialog = new_dialog("Covariance", wb->toplevel);
@@ -575,7 +575,7 @@ dialog_descriptive_stat_tool(Workbook *wb, Sheet *sheet)
 	char  *text;
 	int   selection, output;
 	static Range range;
-	int   i=0, size;
+	int   i=0;
 
 	if (!dialog) {
 	        dialog = new_dialog("Descriptive Statistics", wb->toplevel);
@@ -677,7 +677,6 @@ dialog_ztest_tool(Workbook *wb, Sheet *sheet)
 	char  *text;
 	int   selection, output;
 	static Range range_input1, range_input2;
-	int   i=0, size;
 
 	if (!dialog) {
 	        dialog = new_dialog("z-Test: Two Sample for Means",
@@ -788,7 +787,6 @@ dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet)
 	char  *text;
 	int   selection, output;
 	static Range range_input1, range_input2;
-	int   i=0, size;
 
 	if (!dialog) {
 	        dialog = new_dialog("t-Test: Paired Two Sample for Means",
@@ -887,7 +885,6 @@ dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet)
 	char  *text;
 	int   selection, output;
 	static Range range_input1, range_input2;
-	int   i=0, size;
 
 	if (!dialog) {
 	        dialog = new_dialog("t-Test: Two-Sample Assuming "
@@ -987,7 +984,6 @@ dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet)
 	char  *text;
 	int   selection, output;
 	static Range range_input1, range_input2;
-	int   i=0, size;
 
 	if (!dialog) {
 	        dialog = new_dialog("t-Test: Two-Sample Assuming "
@@ -1087,7 +1083,6 @@ dialog_ftest_tool(Workbook *wb, Sheet *sheet)
 	char  *text;
 	int   selection, output;
 	static Range range_input1, range_input2;
-	int   i=0, size;
 
 	if (!dialog) {
 	        dialog = new_dialog("F-Test: Two-Sample for Variances",

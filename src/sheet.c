@@ -3866,7 +3866,7 @@ void
 sheet_insert_object (Sheet *sheet, char *repoid)
 {
 	GnomeClientSite *client_site;
-	GnomeObject *object_server;
+	GnomeUnknown *object_server;
 	GList *l;
 
 	g_return_if_fail (sheet != NULL);

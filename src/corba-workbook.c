@@ -163,7 +163,7 @@ Workbook_corba_class_init ()
 	gnome_gnumeric_workbook_vepv.GNOME_Gnumeric_Workbook_epv =
 		&gnome_gnumeric_workbook_epv;
 	gnome_gnumeric_workbook_vepv.GNOME_obj_epv =
-		&gnome_obj_epv;
+		&gnome_object_epv;
 
 	gnome_gnumeric_workbook_epv.sheet_new = Workbook_sheet_new;
 	gnome_gnumeric_workbook_epv.sheet_lookup = Workbook_sheet_lookup;
