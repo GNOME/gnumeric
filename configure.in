@@ -281,6 +281,7 @@ plugins/perl/ext/Makefile.PL
 plugins/stat/Makefile
 plugins/guile/Makefile
 plugins/ff-csv/Makefile
+plugins/ff-stf/Makefile
 plugins/text/Makefile
 plugins/xbase/Makefile
 plugins/html/Makefile

@@ -1,3 +1,10 @@
+1999-11-27  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort): Use
+	string_list_free (fix leak). (string_list_free): implement.
+	Stylistic fixes.
+	(dialog_cell_sort_header_toggled): Fix fatal list bug.
+
 1999-11-26  JP Rosevear  <jpr@arcavia.com>
 
 	* src/dialogs/dialog-cell-sort: Allow sorting of rows

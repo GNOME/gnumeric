@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-11-18 23:21+0000\n"
+"POT-Creation-Date: 1999-11-27 15:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,23 +14,23 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: ENCODING\n"
 
-#: plugins/excel/boot.c:80
+#: plugins/excel/boot.c:92
 msgid "Saving over old files disabled for safety"
 msgstr ""
 
-#: plugins/excel/boot.c:88
+#: plugins/excel/boot.c:100
 msgid "Can't open"
 msgstr ""
 
-#: plugins/excel/boot.c:126
+#: plugins/excel/boot.c:138
 msgid "Microsoft(R) Excel file format"
 msgstr ""
 
-#: plugins/excel/boot.c:127
+#: plugins/excel/boot.c:139
 msgid "Excel(R) 97 file format"
 msgstr ""
 
-#: plugins/excel/boot.c:128
+#: plugins/excel/boot.c:140
 msgid "Excel(R) 95 file format"
 msgstr ""
 
@@ -46,84 +46,84 @@ msgstr ""
 msgid "Broken function"
 msgstr ""
 
-#: plugins/excel/ms-formula-read.c:1397
+#: plugins/excel/ms-formula-read.c:1442
 msgid " Unknown formula"
 msgstr ""
 
-#: plugins/ff-csv/csv-io.c:138 plugins/sylk/sylk.c:443
+#: plugins/ff-csv/csv-io.c:142 plugins/sylk/sylk.c:443
 #, c-format
 msgid "Imported %s"
 msgstr ""
 
-#: plugins/ff-csv/csv-io.c:266
+#: plugins/ff-csv/csv-io.c:271
 msgid "Comma Separated Value (CSV) import"
 msgstr ""
 
-#: plugins/ff-csv/csv-io.c:269
+#: plugins/ff-csv/csv-io.c:274
 msgid "Comma Separated Value format (*.csv)"
 msgstr ""
 
-#: plugins/ff-csv/csv-io.c:272
+#: plugins/ff-csv/csv-io.c:277
 msgid "Comma Separated Value (CSV) module"
 msgstr ""
 
-#: plugins/html/boot.c:65
+#: plugins/html/boot.c:67
 msgid "HTML 3.2 file format (*.html)"
 msgstr ""
 
-#: plugins/html/boot.c:67
+#: plugins/html/boot.c:69
 msgid "HTML 4.0 file format (*.html)"
 msgstr ""
 
-#: plugins/html/boot.c:69
+#: plugins/html/boot.c:71
 msgid "HTML file made by gnumeric"
 msgstr ""
 
-#: plugins/html/boot.c:73
+#: plugins/html/boot.c:75
 msgid "LaTeX file format (*.tex)"
 msgstr ""
 
-#: plugins/html/boot.c:75
+#: plugins/html/boot.c:77
 msgid "LaTeX2e file format (*.tex)"
 msgstr ""
 
-#: plugins/html/boot.c:78
+#: plugins/html/boot.c:80
 msgid "PS file format (via groff)"
 msgstr ""
 
-#: plugins/html/boot.c:80
+#: plugins/html/boot.c:82
 msgid "DVI TeX file format (via groff)"
 msgstr ""
 
-#: plugins/html/boot.c:82
+#: plugins/html/boot.c:84
 msgid "TROFF file format (*.me)"
 msgstr ""
 
-#: plugins/html/boot.c:84
+#: plugins/html/boot.c:86
 msgid "PDF file format (via groff/gs)"
 msgstr ""
 
-#: plugins/html/boot.c:87
+#: plugins/html/boot.c:89
 msgid "EPS file format (*.eps)"
 msgstr ""
 
-#: plugins/html/boot.c:100
+#: plugins/html/boot.c:102
 msgid "HTML (simple html export/import plugin)"
 msgstr ""
 
-#: plugins/lotus-123/boot.c:88
+#: plugins/lotus-123/boot.c:89
 msgid "Lotus (*.wk1) file format"
 msgstr ""
 
-#: plugins/lotus-123/boot.c:94
+#: plugins/lotus-123/boot.c:95
 msgid "Lotus 123 file import/export plugin"
 msgstr ""
 
-#: plugins/oleo/boot.c:88
+#: plugins/oleo/boot.c:89
 msgid "GNU Oleo (*.oleo) file format"
 msgstr ""
 
-#: plugins/oleo/boot.c:94
+#: plugins/oleo/boot.c:95
 msgid "GNU Oleo import plugin"
 msgstr ""
 
@@ -164,11 +164,11 @@ msgstr ""
 msgid "OLD Statistics Plugin, not required anymore"
 msgstr ""
 
-#: plugins/sylk/sylk.c:501
+#: plugins/sylk/sylk.c:502
 msgid "MultiPlan (SYLK) import"
 msgstr ""
 
-#: plugins/sylk/sylk.c:506
+#: plugins/sylk/sylk.c:507
 msgid "MultiPlan (SYLK) file import module"
 msgstr ""
 
@@ -187,15 +187,15 @@ msgstr ""
 msgid "Simple Text Format"
 msgstr ""
 
-#: plugins/text/text-io.c:458
+#: plugins/text/text-io.c:459
 msgid "TXT (simple text import/export plugin)"
 msgstr ""
 
-#: plugins/xbase/boot.c:207
+#: plugins/xbase/boot.c:208
 msgid "Xbase (*.dbf) file format"
 msgstr ""
 
-#: plugins/xbase/boot.c:214
+#: plugins/xbase/boot.c:215
 msgid "XBase file import/export plugin"
 msgstr ""
 
@@ -598,11 +598,11 @@ msgstr ""
 msgid "Standard Errors"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:203
+#: src/dialogs/cell-sort.glade.h:12 src/dialogs/dialog-analysis-tools.c:203
 msgid "Columns"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:204
+#: src/dialogs/cell-sort.glade.h:11 src/dialogs/dialog-analysis-tools.c:204
 msgid "Rows"
 msgstr ""
 
@@ -837,52 +837,56 @@ msgstr ""
 msgid "Format Cells"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:43
-msgid "Column:"
+#: src/dialogs/dialog-cell-sort.c:91
+msgid "Ascending"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:59
-msgid "Asc"
+#: src/dialogs/dialog-cell-sort.c:94
+msgid "Descending"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:62
-msgid "Desc"
+#: src/dialogs/dialog-cell-sort.c:376
+msgid "At least one clause is required."
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:276
-msgid "more clauses than rows ?"
+#: src/dialogs/dialog-cell-sort.c:385
+msgid "Can't add more than the selection length."
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:279
-msgid "too many clauses"
+#: src/dialogs/dialog-cell-sort.c:388
+msgid "Maximum number of clauses has been reached."
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:300
-msgid "Need at least one clause"
-msgstr ""
-
-#: src/dialogs/dialog-cell-sort.c:335 src/print.c:502 src/workbook.c:1457
+#: src/dialogs/dialog-cell-sort.c:520 src/print.c:508 src/workbook.c:1457
 msgid "Selection must be a single range"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:347
+#: src/dialogs/dialog-cell-sort.c:532
 msgid "Selection must be a finite range"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:367
+#: src/dialogs/dialog-cell-sort.c:582
 msgid "then by"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:367
+#: src/dialogs/dialog-cell-sort.c:582
 msgid "Sort by"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:405
+#: src/dialogs/dialog-cell-sort.c:617
 msgid "Column must be within range"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:411
+#: src/dialogs/dialog-cell-sort.c:634
+msgid "Row must be within range"
+msgstr ""
+
+#: src/dialogs/dialog-cell-sort.c:641
 msgid "First column must be valid"
+msgstr ""
+
+#: src/dialogs/dialog-cell-sort.c:641
+msgid "First row must be valid"
 msgstr ""
 
 #: src/dialogs/dialog-delete-cells.c:79
@@ -897,7 +901,7 @@ msgstr ""
 msgid "String"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:32 src/dialogs/dialog-function-wizard.c:209
+#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:209
 msgid "Number"
 msgstr ""
 
@@ -1029,9 +1033,9 @@ msgstr ""
 msgid "Formats"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/cell-format.glade.h:71
-#: src/dialogs/cell-format.glade.h:78 src/dialogs/dialog-paste-special.c:28
-#: src/widgets/widget-color-combo.c:111
+#: src/dialogs/cell-format.glade.h:59 src/dialogs/cell-format.glade.h:70
+#: src/dialogs/cell-format.glade.h:77 src/dialogs/dialog-paste-special.c:28
+#: src/widgets/widget-color-combo.c:128
 msgid "None"
 msgstr ""
 
@@ -1173,8 +1177,8 @@ msgid "Add Constraint"
 msgstr ""
 
 #. Constraint buttons
-#: src/dialogs/dialog-solver.c:235 src/dialogs/dialog-solver.c:407
-#: src/dialogs/names.glade.h:9
+#: src/dialogs/cell-sort.glade.h:13 src/dialogs/dialog-solver.c:235
+#: src/dialogs/dialog-solver.c:407 src/dialogs/names.glade.h:9
 msgid "Add"
 msgstr ""
 
@@ -1266,19 +1270,19 @@ msgid "Size:"
 msgstr ""
 
 #: src/dialogs/font-sel.glade.h:11
-msgid "Preview:"
+msgid "Preview"
 msgstr ""
 
 #: src/dialogs/font-sel.glade.h:12
-msgid "AaBbCcDdEe12345"
+msgid "AaBbCcDdEeJj12345"
 msgstr ""
 
 #: src/dialogs/font-sel.glade.h:13
-msgid "label7"
+msgid "label8"
 msgstr ""
 
 #: src/dialogs/font-sel.glade.h:14
-msgid "label8"
+msgid "label7"
 msgstr ""
 
 #: src/dialogs/font-sel.glade.h:15
@@ -1307,7 +1311,7 @@ msgstr ""
 msgid "window2"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:47 src/dialogs/print.glade.h:8
+#: src/dialogs/cell-format.glade.h:46 src/dialogs/print.glade.h:8
 msgid "Orientation"
 msgstr ""
 
@@ -1399,7 +1403,7 @@ msgstr ""
 msgid "_Left:"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:35 src/dialogs/print.glade.h:30
+#: src/dialogs/cell-format.glade.h:34 src/dialogs/print.glade.h:30
 msgid "_Right"
 msgstr ""
 
@@ -1560,7 +1564,7 @@ msgstr ""
 #. * Add this file to your project's POTFILES.in.
 #. * DO NOT compile it as part of your application.
 #.
-#: src/dialogs/cell-format.glade.h:7 src/dialogs/cell-format.glade.h:39
+#: src/dialogs/cell-format.glade.h:7 src/dialogs/cell-format.glade.h:38
 msgid "_General"
 msgstr ""
 
@@ -1573,7 +1577,7 @@ msgid "_Currency"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:10
-msgid "_Acounting"
+msgid "_Accounting"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:11
@@ -1600,15 +1604,15 @@ msgstr ""
 msgid "Te_xt"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:17 src/workbook.c:995
-msgid "S_pecial"
+#: src/dialogs/cell-format.glade.h:17
+msgid "Sp_ecial"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:18
-msgid "C_ustom"
+msgid "Cust_om"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:19 src/dialogs/cell-format.glade.h:109
+#: src/dialogs/cell-format.glade.h:19 src/dialogs/cell-format.glade.h:108
 msgid "Sample"
 msgstr ""
 
@@ -1619,326 +1623,324 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:21
-msgid "_Decimal places:"
+msgid "Deci_mal places:"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:22
-msgid "_Use Seperator for 1000's"
+msgid "_Use Separator for 1000's"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:23
-msgid "_Symbol:"
+msgid "S_ymbol:"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:24
-msgid ""
-"$\n"
-"None\n"
+msgid "\n"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:27
+#: src/dialogs/cell-format.glade.h:26
 msgid "$"
 msgstr ""
 
+#: src/dialogs/cell-format.glade.h:27
+msgid "Negat_ive number:"
+msgstr ""
+
 #: src/dialogs/cell-format.glade.h:28
-msgid "_Negative number:"
+msgid "De_lete format"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:29
-msgid "_Delete format"
-msgstr ""
-
-#: src/dialogs/cell-format.glade.h:30
 msgid "_Type"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:31
+#: src/dialogs/cell-format.glade.h:30
 msgid "Display the value exactly as it was entered"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:33
+#: src/dialogs/cell-format.glade.h:32
 msgid "Horizontal"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:34
+#: src/dialogs/cell-format.glade.h:33
 msgid "_Justify"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:36
+#: src/dialogs/cell-format.glade.h:35
 msgid "_Fill"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:37
+#: src/dialogs/cell-format.glade.h:36
 msgid "_Center"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:38
+#: src/dialogs/cell-format.glade.h:37
 msgid "_Left"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:40
+#: src/dialogs/cell-format.glade.h:39
 msgid "Vertical"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:41
+#: src/dialogs/cell-format.glade.h:40
 msgid "J_ustify"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:42
+#: src/dialogs/cell-format.glade.h:41
 msgid "_Top"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:43
+#: src/dialogs/cell-format.glade.h:42
 msgid "C_enter"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:44
+#: src/dialogs/cell-format.glade.h:43
 msgid "_Bottom"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:45
+#: src/dialogs/cell-format.glade.h:44
 msgid "Control"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:46
+#: src/dialogs/cell-format.glade.h:45
 msgid "_Wrap text"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:48
+#: src/dialogs/cell-format.glade.h:47
 msgid "Unfinished"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:49
+#: src/dialogs/cell-format.glade.h:48
 msgid "Alignment"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:50
+#: src/dialogs/cell-format.glade.h:49
 msgid "Color"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:51 src/dialogs/cell-format.glade.h:79
-#: src/dialogs/cell-format.glade.h:88
+#: src/dialogs/cell-format.glade.h:50 src/dialogs/cell-format.glade.h:78
+#: src/dialogs/cell-format.glade.h:87
 msgid "_Automatic"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:52 src/dialogs/cell-format.glade.h:80
-#: src/dialogs/cell-format.glade.h:89 src/dialogs/dialog-zoom.glade.h:15
+#: src/dialogs/cell-format.glade.h:51 src/dialogs/cell-format.glade.h:79
+#: src/dialogs/cell-format.glade.h:88 src/dialogs/dialog-zoom.glade.h:15
 msgid "_Custom"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:53
+#: src/dialogs/cell-format.glade.h:52
 msgid "Pick a font color"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:54
+#: src/dialogs/cell-format.glade.h:53
 msgid "Effects"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:55
+#: src/dialogs/cell-format.glade.h:54
 msgid "_Underline:"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:56
+#: src/dialogs/cell-format.glade.h:55
 msgid ""
 "None\n"
 "Single\n"
 "Double\n"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:61
+#: src/dialogs/cell-format.glade.h:60
 msgid "Sup_erscript"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:62
+#: src/dialogs/cell-format.glade.h:61
 msgid "Su_bscript"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:63
+#: src/dialogs/cell-format.glade.h:62
 msgid "Stri_kethrough"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:64
+#: src/dialogs/cell-format.glade.h:63
 msgid "Font"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:65
+#: src/dialogs/cell-format.glade.h:64
 msgid "Reverse Diagonal"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:66
+#: src/dialogs/cell-format.glade.h:65
 msgid "Left"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:67
+#: src/dialogs/cell-format.glade.h:66
 msgid "Top"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:68
+#: src/dialogs/cell-format.glade.h:67
 msgid "Bottom"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:69
+#: src/dialogs/cell-format.glade.h:68
 msgid "Diagonal"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:70
+#: src/dialogs/cell-format.glade.h:69
 msgid "Right"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:72
+#: src/dialogs/cell-format.glade.h:71
 msgid "Outline"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:73
+#: src/dialogs/cell-format.glade.h:72
 msgid "Inside Vertical"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:74
+#: src/dialogs/cell-format.glade.h:73
 msgid "Inside"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:75
+#: src/dialogs/cell-format.glade.h:74
 msgid "Inside Horizontal"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:76 src/workbook.c:1124
+#: src/dialogs/cell-format.glade.h:75 src/workbook.c:1124
 msgid "Line"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:77
+#: src/dialogs/cell-format.glade.h:76
 msgid "_Style"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:81
+#: src/dialogs/cell-format.glade.h:80
 msgid "Pick a border color"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:82
+#: src/dialogs/cell-format.glade.h:81
 msgid "Border"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:83
+#: src/dialogs/cell-format.glade.h:82
 msgid "Background Color"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:84
+#: src/dialogs/cell-format.glade.h:83
 msgid "_No Color"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:85
+#: src/dialogs/cell-format.glade.h:84
 msgid "C_olor"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:86
+#: src/dialogs/cell-format.glade.h:85
 msgid "Pick a Background color"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:87
+#: src/dialogs/cell-format.glade.h:86
 msgid "Pattern"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:90
+#: src/dialogs/cell-format.glade.h:89
 msgid "Pick a Pattern color"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:91
+#: src/dialogs/cell-format.glade.h:90
 #, c-format
 msgid "75% grey"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:92
+#: src/dialogs/cell-format.glade.h:91
 #, c-format
 msgid "50% Grey"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:93
+#: src/dialogs/cell-format.glade.h:92
 #, c-format
 msgid "25% Grey"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:94
+#: src/dialogs/cell-format.glade.h:93
 #, c-format
 msgid "12.5% Grey"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:95
+#: src/dialogs/cell-format.glade.h:94
 #, c-format
 msgid "6.25% Grey"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:96
+#: src/dialogs/cell-format.glade.h:95
 msgid "Horizontal Stripe"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:97
+#: src/dialogs/cell-format.glade.h:96
 msgid "Thin Horizontal Stripe"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:98
+#: src/dialogs/cell-format.glade.h:97
 msgid "Vertical Stripe"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:99
+#: src/dialogs/cell-format.glade.h:98
 msgid "Thin Vertical Stripe"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:100
+#: src/dialogs/cell-format.glade.h:99
 msgid "Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:101
+#: src/dialogs/cell-format.glade.h:100
 msgid "Thin Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:102
+#: src/dialogs/cell-format.glade.h:101
 msgid "Diagonal Stripe"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:103
+#: src/dialogs/cell-format.glade.h:102
 msgid "Thin Diagonal Stripe"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:104
+#: src/dialogs/cell-format.glade.h:103
 msgid "Diagonal Crosshatch"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:105
+#: src/dialogs/cell-format.glade.h:104
 msgid "Thick Diagonal Crosshatch"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:106
+#: src/dialogs/cell-format.glade.h:105
 msgid "Thin Horizontal Crosshatch"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:107
+#: src/dialogs/cell-format.glade.h:106
 msgid "Thin Diagonal Crosshatch"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:108
+#: src/dialogs/cell-format.glade.h:107
 msgid "Solid"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:110 src/workbook-format-toolbar.c:425
+#: src/dialogs/cell-format.glade.h:109 src/workbook-format-toolbar.c:429
 msgid "Background"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:111
+#: src/dialogs/cell-format.glade.h:110
 msgid "_Locked"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:112
+#: src/dialogs/cell-format.glade.h:111
 msgid "_Hidden"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:113
+#: src/dialogs/cell-format.glade.h:112
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:114
-msgid "Worksheet protected"
+#: src/dialogs/cell-format.glade.h:113
+msgid "Worksheet _protected"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:115
+#: src/dialogs/cell-format.glade.h:114
 msgid "Protection"
 msgstr ""
 
@@ -1948,11 +1950,24 @@ msgstr ""
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/cell-sort.glade.h:7
-msgid "My selection has"
+msgid "Sort..."
 msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:8
-msgid "A header row"
+msgid "Selection has"
+msgstr ""
+
+#: src/dialogs/cell-sort.glade.h:9
+msgid "A header"
+msgstr ""
+
+#: src/dialogs/cell-sort.glade.h:10
+msgid "Sort"
+msgstr ""
+
+#: src/dialogs/cell-sort.glade.h:14 src/plugin-manager.c:143
+#: src/sheet-object.c:978
+msgid "Remove"
 msgstr ""
 
 #.
@@ -6844,24 +6859,24 @@ msgstr ""
 msgid "yellow"
 msgstr ""
 
-#: src/format.c:1334
+#: src/format.c:1370
 msgid "0.0########"
 msgstr ""
 
-#: src/format.c:1348 src/value-sheet.c:26 src/value.c:321
+#: src/format.c:1384 src/value-sheet.c:26 src/value.c:321
 msgid "TRUE"
 msgstr ""
 
-#: src/format.c:1348 src/value-sheet.c:26 src/value.c:321
+#: src/format.c:1384 src/value-sheet.c:26 src/value.c:321
 msgid "FALSE"
 msgstr ""
 
-#: src/format.c:1357
+#: src/format.c:1393
 msgid "CELLRANGE"
 msgstr ""
 
 #. Array of arrays ??
-#: src/format.c:1361
+#: src/format.c:1397
 msgid "ARRAY"
 msgstr ""
 
@@ -7132,52 +7147,52 @@ msgstr ""
 msgid "You cannot change part of an array."
 msgstr ""
 
-#: src/item-bar.c:451
+#: src/item-bar.c:462
 #, c-format
 msgid "Height: %.2f"
 msgstr ""
 
-#: src/item-bar.c:454
+#: src/item-bar.c:465
 #, c-format
 msgid "Width: %.2f"
 msgstr ""
 
-#: src/item-cursor.c:516
+#: src/item-cursor.c:578
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
 msgstr ""
 
-#: src/item-cursor.c:597 src/workbook.c:1096
+#: src/item-cursor.c:659 src/workbook.c:1096
 msgid "Copy"
 msgstr ""
 
-#: src/item-cursor.c:598 src/print-preview.c:538
+#: src/item-cursor.c:660 src/print-preview.c:538
 msgid "Move"
 msgstr ""
 
-#: src/item-cursor.c:599
+#: src/item-cursor.c:661
 msgid "Copy formats"
 msgstr ""
 
-#: src/item-cursor.c:600
+#: src/item-cursor.c:662
 msgid "Copy values"
 msgstr ""
 
-#: src/item-cursor.c:601
+#: src/item-cursor.c:663
 msgid "Shift cells down and copy"
 msgstr ""
 
-#: src/item-cursor.c:602
+#: src/item-cursor.c:664
 msgid "Shift cells right and copy"
 msgstr ""
 
-#: src/item-cursor.c:603
+#: src/item-cursor.c:665
 msgid "Shift cells down and move"
 msgstr ""
 
-#: src/item-cursor.c:604
+#: src/item-cursor.c:666
 msgid "Shift cells right and move"
 msgstr ""
 
@@ -7290,10 +7305,6 @@ msgstr ""
 
 #: src/plugin-manager.c:140
 msgid "Add..."
-msgstr ""
-
-#: src/plugin-manager.c:143 src/sheet-object.c:978
-msgid "Remove"
 msgstr ""
 
 #: src/plugin.c:41
@@ -7462,7 +7473,7 @@ msgstr ""
 msgid "Last"
 msgstr ""
 
-#: src/print-preview.c:539 src/workbook.c:2104
+#: src/print-preview.c:539 src/workbook.c:2113
 msgid "Zoom in"
 msgstr ""
 
@@ -7470,7 +7481,7 @@ msgstr ""
 msgid "Zooms the page in"
 msgstr ""
 
-#: src/print-preview.c:540 src/workbook.c:2097
+#: src/print-preview.c:540 src/workbook.c:2106
 msgid "Zoom out"
 msgstr ""
 
@@ -7491,7 +7502,7 @@ msgstr ""
 msgid "the workbook"
 msgstr ""
 
-#: src/print.c:617
+#: src/print.c:623
 msgid "Printing failed -- bad filename?"
 msgstr ""
 
@@ -7532,26 +7543,26 @@ msgstr ""
 msgid "Select an object"
 msgstr ""
 
-#: src/sheet-view.c:368
+#: src/sheet-view.c:369
 #, c-format
 msgid "Row: %d"
 msgstr ""
 
-#: src/sheet-view.c:378
+#: src/sheet-view.c:379
 #, c-format
 msgid "Column: %s"
 msgstr ""
 
-#: src/sheet.c:990
+#: src/sheet.c:1004
 msgid "Internal ERROR"
 msgstr ""
 
-#: src/sheet.c:2976
+#: src/sheet.c:2994
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:2988
+#: src/sheet.c:3006
 msgid "I was unable to the bind object"
 msgstr ""
 
@@ -7694,15 +7705,15 @@ msgstr ""
 msgid "Decreases the number of decimal numbers displayed"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:383
+#: src/workbook-format-toolbar.c:387
 msgid "Font selector"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:399
+#: src/workbook-format-toolbar.c:403
 msgid "Size"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:421
+#: src/workbook-format-toolbar.c:425
 msgid "Foreground"
 msgstr ""
 
@@ -7915,6 +7926,10 @@ msgstr ""
 msgid "Edit the selected cell's comment"
 msgstr ""
 
+#: src/workbook.c:995
+msgid "S_pecial"
+msgstr ""
+
 #: src/workbook.c:1003 src/workbook.c:1011
 msgid "_Auto fit selection"
 msgstr ""
@@ -8032,7 +8047,7 @@ msgid "Creates a graphic in the spreadsheet"
 msgstr ""
 
 #: src/workbook.c:1109
-msgid "Bobobo Item"
+msgid "Bonobo Item"
 msgstr ""
 
 #: src/workbook.c:1109
@@ -8103,37 +8118,33 @@ msgstr ""
 msgid "Count"
 msgstr ""
 
-#: src/workbook.c:2005
-msgid "Untitled.gnumeric"
+#: src/workbook.c:2010
+#, c-format
+msgid "Book%d.gnumeric"
 msgstr ""
 
-#: src/workbook.c:2228
+#: src/workbook.c:2237
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr ""
 
-#: src/workbook.c:2277
+#: src/workbook.c:2286
 msgid "Add another sheet"
 msgstr ""
 
-#: src/workbook.c:2278
+#: src/workbook.c:2287
 msgid "Remove this sheet"
 msgstr ""
 
-#: src/workbook.c:2546 src/workbook.c:2590
+#: src/workbook.c:2555 src/workbook.c:2588
 #, c-format
 msgid "Sheet%d"
 msgstr ""
 
-#: src/workbook.c:2582
-#, c-format
-msgid "Book%d"
-msgstr ""
-
-#: src/workbook.c:2625
+#: src/workbook.c:2624
 msgid "Gnumeric: "
 msgstr ""
 
-#: src/xml-io.c:2338
+#: src/xml-io.c:2344
 msgid "Gnumeric XML file format"
 msgstr ""
