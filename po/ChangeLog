@@ -1,3 +1,7 @@
+2001-10-07  Yukihiro Nakai <nakai@gnome.gr.jp>
+
+	* ja.po: Update Japanese translation.
+
 2001-10-06  Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>
 
 	* pt_BR.po: Updated Brazilian Portuguese translation.
@@ -45,38 +49,38 @@
 
 2001-10-01  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokm)Bål) translation.
 
 2001-09-28  Valek Filippov  <frob@df.ru>
 
 	* ru.po: updated russian translation.
 
-2001-09-17  Carlos Perelló Marín <carlos@gnome-db.org>
+2001-09-17  Carlos Perell)Bó Marín <carlos@gnome-db.org>
 
 	* POTFILES.in: I'm idiot. It's fixed now.
 
-2001-09-17  Carlos Perelló Marín <carlos@gnome-db.org>
+2001-09-17  Carlos Perell)Bó Marín <carlos@gnome-db.org>
 
         * POTFILES.in: Fixed a rename, please remember
         to update your changes here.
 
-2001-09-16  Carlos Perelló Marín <carlos@gnome-db.org>
+2001-09-16  Carlos Perell)Bó Marín <carlos@gnome-db.org>
 
 	* es.po: Header fix.
 
 2001-09-12  Jody Goldberg <jgoldberg@home.com>
 
-	* es.po : Committed for German Poo Caamaño <gpoo@ubiobio.cl>
+	* es.po : Committed for German Poo Caama)Bño <gpoo@ubiobio.cl>
 
 2001-09-14  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokm)Bål) translation.
 
 2001-09-03  Christian Rose  <menthos@menthos.com>
 
 	* POTFILES.in: Removed non-existant src/gnumeric-util.c.
 	* sv.po: Added additional translations from
-	Jörgen Tegnér <jorgen.tegner@telia.com>, and updated
+	J)Börgen Tegnér <jorgen.tegner@telia.com>, and updated
 	some more.
 
 2001-08-31  Abel Cheung  <maddog@linux.org.hk>
@@ -133,7 +137,7 @@
 
 2001-08-08  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokm)Bål) translation.
 	* nn.po: Updated Norwegian (nynorsk) translation from
 	Roy-Magne Mo <rmo@sunnmore.net>.	
 
@@ -151,7 +155,7 @@
 
 2001-08-12  Jody Goldberg <jgoldberg@home.com>
 
-	* es.po : Committed for German Poo Caamaño <gpoo@ubiobio.cl>
+	* es.po : Committed for German Poo Caama)Bño <gpoo@ubiobio.cl>
 
 2001-08-12  Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>
 
@@ -164,7 +168,7 @@
 2001-08-11  Jody Goldberg <jgoldberg@home.com>
 
 	* nl.po : Committed for Tino Meinen <a.t.meinen@chello.nl>
-	* es.po : Committed for German Poo Caamaño <gpoo@ubiobio.cl>
+	* es.po : Committed for German Poo Caama)Bño <gpoo@ubiobio.cl>
 
 2001-08-11  Ole Laursen  <olau@hardworking.dk>
 
@@ -184,11 +188,11 @@
 
 2001-08-09  Jody Goldberg <jgoldberg@home.com>
 
-	* es.po : Committed for German Poo Caamaño <gpoo@ubiobio.cl>
+	* es.po : Committed for German Poo Caama)Bño <gpoo@ubiobio.cl>
 
 2001-08-08  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokm)Bål) translation.
 	
 2001-08-07  Yukihiro Nakai <ynakai@redhat.com>
 
@@ -246,7 +250,7 @@
 2001-07-15  Fatih Demir <kabalak@gtranslator.org>
 
 	* tr.po: Committed updated Turkish translation by
-		Nilgün.
+		Nilg)Bün.
 
 2001-07-15  Ole Laursen  <olau@hardworking.dk>
 
@@ -256,11 +260,11 @@
 
 	* pl.po: Updated Polish translation.
 
-2001-07-15  Carlos Perelló Marín <carlos@gnome-db.org>
+2001-07-15  Carlos Perell)Bó Marín <carlos@gnome-db.org>
 
 	* es.po: Fixed the header.
 
-2001-07-15  German Poo Caamaño <gpoo@ubiobio.cl>
+2001-07-15  German Poo Caama)Bño <gpoo@ubiobio.cl>
 
 	* es.po: update and take over maintainership.
 
@@ -295,7 +299,7 @@
 2001-07-08  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation. Applied a translation patch from
-	Jörgen Tegnér <jorgen.tegner@post.utfors.se>. Slowly moving towards more
+	J)Börgen Tegnér <jorgen.tegner@post.utfors.se>. Slowly moving towards more
 	translated messages.
 
 2001-07-06  Christian Rose  <menthos@menthos.com>
@@ -482,7 +486,7 @@
 
 2001-05-11  Fatih Demir <kabalak@gtranslator.org>
 
-	* tr.po: Committed updated Turkish translation by Nilgün.
+	* tr.po: Committed updated Turkish translation by Nilg)Bün.
 
 2001-05-10  Ole Laursen  <olau@hardworking.dk>
 
@@ -1795,7 +1799,7 @@
 
 	* no.po: Updated Norwegian translation.
 	
-1999-10-17  Martin Norbäk  <norpan@bigfoot.com>
+1999-10-17  Martin Norb)Bäk  <norpan@bigfoot.com>
 
 	* sv.po: Updated translation again.
 

@@ -361,6 +361,7 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:233
+#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -566,8 +567,8 @@ msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
 "simple bitwise operations"
 msgstr ""
-"素数、π、φ、Σのいくつかの基本的なユーテリティ。いくつかの簡単なビット関連"
-"演算も関係します"
+"素数、π、φ、Σのいくつかの基本的なユーテリティ。いくつかの簡単なビット関連演算"
+"も関係します"
 
 #: plugins/oleo/plugin.xml.in.h:1
 msgid "GNU Oleo"
@@ -14414,15 +14415,14 @@ msgstr ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
 "@DESCRIPTION=GAMMADIST関数はガンマ分布を返します。もし@cumがTRUEならば"
-"GAMMADISTは不完全なガンマ関数を返します。そうでなければ確率集合関数を"
-"返します。\n"
-"もし@x < 0ならGAMMADISTは#NUM!エラーを返します。もし@alpha <= 0または"
-"@beta <= 0ならばGAMMADISTは#NUM!エラーを返します。この関数はExcel互換です。\n"
+"GAMMADISTは不完全なガンマ関数を返します。そうでなければ確率集合関数を返しま"
+"す。\n"
+"もし@x < 0ならGAMMADISTは#NUM!エラーを返します。もし@alpha <= 0または@beta "
+"<= 0ならばGAMMADISTは#NUM!エラーを返します。この関数はExcel互換です。\n"
 "@EXAMPLES=\n"
 "GAMMADIST(1,2,3,0)は0.07961459になります。\n"
 "\n"
 "@SEEALSO=GAMMAINV"
-
 
 #: src/functions/fn-stat.c:1188
 msgid ""
@@ -14638,7 +14638,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:1820
-#, fuzzy
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -14653,17 +14652,6 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE"
 msgstr ""
-"@FUNCTION=BESSELI\n"
-"@SYNTAX=BESSELI(x,y)\n"
-"@DESCRIPTION=BESSELI関数はノイマン, ウェーバー, またはベッセル関数を返しま"
-"す。@x 関数に代入する変数です。@y はベッセル関数の次数を指定します。@y に整数"
-"以外の値を指定すると、小数点以下が切り捨てられます。\n"
-"@x または @y に数値以外の値を指定すると #VALUE! が返されます。@y に負の値をを"
-"指定すると、#NUM! エラーが返されます。この関数は Excel 互換です。\n"
-"@EXAMPLES=\n"
-"BESSELI(0.7,3) = 0.007367374\n"
-"\n"
-"@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
 #: src/functions/fn-stat.c:1861
 msgid ""
@@ -15390,7 +15378,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-string.c:73
-#, fuzzy
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
@@ -15405,12 +15392,12 @@ msgstr ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(文字列1, 文字列2)\n"
 "@DESCRIPTION=EXACT は@文字列1と@文字列2が完全に同じ場合に TRUE を返します。"
-"(この関数は大文字、小文字を区別します)\n"
+"(この関数は大文字、小文字を区別します)。\n"
 "@EXAMPLES=\n"
 "EXACT(\"key\",\"key\") = TRUE\n"
 "EXACT(\"key\",\"Key\") = FALSE\n"
 "\n"
-"@SEEALSO=LEN"
+"@SEEALSO=LEN, SEARCH"
 
 #: src/functions/fn-string.c:97
 msgid ""
@@ -15612,13 +15599,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
-"@DESCRIPTION=REPLACEは@oldの@startから@numコの文字を@newで置換たものを返し"
-"ます。\n"
+"@DESCRIPTION=REPLACEは@oldの@startから@numコの文字を@newで置換たものを返しま"
+"す。\n"
 "@EXAMPLES=\n"
 "REPLACE(\"testing\",2,3,\"*****\")は\"t*****ing\"になります。\n"
 "\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
-
 
 #: src/functions/fn-string.c:657
 msgid ""
@@ -15632,6 +15618,15 @@ msgid ""
 "\n"
 "@SEEALSO=CELL, N, VALUE"
 msgstr ""
+"@FUNCTION=T\n"
+"@SYNTAX=T(value)\n"
+"@DESCRIPTION=Tは@valueがもし文字列だけなら@valueを返します。そうでなければ"
+"空の文字列を返します。\n"
+"@EXAMPLES=\n"
+"T(\"text\")は\"text\"になります。\n"
+"T(64)は空のセルを返します。\n"
+"\n"
+"@SEEALSO=CELL, N, VALUE"
 
 #: src/functions/fn-string.c:681
 msgid ""
@@ -15698,6 +15693,14 @@ msgid ""
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 msgstr ""
+"@FUNCTION=SUBSTITUTE\n"
+"@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
+"@DESCRIPTION=SUBSTITUTEは@textの@oldを@newで置換します。置換は@textの"
+"@num個の@oldにのみ適用されます。指定されていなければすべて変換されます。\n"
+"@EXAMPLES=\n"
+"SUBSTITUTE(\"testing\",\"test\",\"wait\")は\"waiting\"になります。\n"
+"\n"
+"@SEEALSO=REPLACE, TRIM"
 
 #: src/functions/fn-string.c:939
 msgid ""
@@ -16087,6 +16090,7 @@ msgid "Expression '%s' does not exist on sheet '%s'"
 msgstr "式 '%s'はシート'%s'には存在しません"
 
 #: src/parser.y:466 src/parser.y:497
+#, c-format
 msgid "Unknown sheet '%s'"
 msgstr "不明なシート '%s'"
 
@@ -16125,6 +16129,7 @@ msgid "Module file name not given."
 msgstr "モジュールファイル名が指定されていません。"
 
 #: src/plugin-loader-module.c:124
+#, c-format
 msgid "Unable to open module file \"%s\"."
 msgstr "モジュールファイル\"%s\"を開けません。"
 
@@ -16154,6 +16159,7 @@ msgstr ""
 "ダイナミックモジュールローディングはこのシステムでサポートされていません。"
 
 #: src/plugin-loader-module.c:170
+#, c-format
 msgid "Unable to close module file \"%s\"."
 msgstr "モジュールファイル\"%s\"を閉じることができません。"
 
@@ -16248,6 +16254,7 @@ msgid "Missing loader id."
 msgstr "ローダIDが見つかりません。"
 
 #: src/plugin-service.c:1197
+#, c-format
 msgid "Error while reading service of type \"%s\"."
 msgstr "タイプ\"%s\"のサービス読み込み中にエラーが発生しました。"
 
@@ -16389,6 +16396,7 @@ msgid "We depend on plugin with id=\"%s\" which couldn't be loaded."
 msgstr "ID=\"%s\"のプラグインに依存していますが読み込めませんでした。"
 
 #: src/plugin.c:1308
+#, c-format
 msgid "Errors occurred while reading plugin informations from file \"%s\"."
 msgstr "ファイル\"%s\"からプラグイン情報の読み込み中にエラーが発生しました。"
 
@@ -17040,6 +17048,7 @@ msgstr ""
 "置換は終了しましたが、何も変更されていません。"
 
 #: src/workbook-control-gui.c:1748 src/workbook-control-gui.c:1821
+#, c-format
 msgid "Comment in cell %s!%s"
 msgstr "%s!%sにのコメント"
 
