@@ -160,6 +160,11 @@ cell_set_text (Cell *cell, char *text)
 			case '0': case '1': case '2': case '3': case '4':
 			case '5': case '6': case '7': case '8': case '9':
 				break;
+
+			case '-':
+				if (p == text)
+					break;
+				/* falldown */
 				
 			case 'E': case 'e': case '+': case ':': case '.':
 				is_float = 1;

@@ -33,7 +33,7 @@ static int append_day( GString *string, gchar *format, struct tm *time_split );
 static int append_minute( GString *string, gchar *format, struct tm *time_split );
 static int append_second( GString *string, gchar *format, struct tm *time_split );
 static int append_half( GString *string, gchar *format, struct tm *time_split );
-static void style_entry_free( StyleFormatEntry *entry );
+static void style_entry_free( gpointer data, gpointer user_data );
 
 
 /*
@@ -359,8 +359,9 @@ format_compile (StyleFormat *format)
 }
 
 static void
-style_entry_free( StyleFormatEntry *entry )
+style_entry_free(gpointer data, gpointer user_data)
 {
+  StyleFormatEntry *entry = data;
   g_free( entry->format );
   g_free( entry );
 }
@@ -523,8 +524,7 @@ format_number(gdouble number, StyleFormatEntry *style_format_entry, char **color
 	{
 	  number /= 1000.0;
 	}
-      if ( format[i] )
-	return NULL;
+
       if ( number < 0.0 )
 	{
 	  number = - number;
@@ -634,6 +634,9 @@ format_number(gdouble number, StyleFormatEntry *style_format_entry, char **color
 	}
       g_string_append( string, number_string->str );
     }
+  if (format [i])
+    g_string_append ( string, &format [i] );
+  
   returnvalue = g_malloc0( string->len + 1);
   strncpy( returnvalue, string->str, string->len );
   returnvalue[string->len] = 0;
@@ -644,7 +647,7 @@ format_number(gdouble number, StyleFormatEntry *style_format_entry, char **color
   return returnvalue;
 }
 
-gboolean
+static gboolean
 check_valid (StyleFormatEntry *entry, Value *value)
 {
   switch (value->type)
