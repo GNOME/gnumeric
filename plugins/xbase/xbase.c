@@ -24,11 +24,13 @@
 
 static const char *field_types = "CNLDMF?BGPYTI";
 
-static const char *field_type_descriptions[] = { /* FIXME: fix array size from field_types*/
+#if XBASE_DEBUG > 0
+static const char *field_type_descriptions [] = { /* FIXME: fix array size from field_types*/
   "Character", "Number", "Logical", "Date", "Memo", "Floating point",
   "Character name variable", "Binary", "General", "Picture", "Currency",
   "DateTime", "Integer"
 };
+#endif
 
 
 /**
@@ -198,7 +200,7 @@ xbase_read_field (XBfile *file)
 #if XBASE_DEBUG > 0
 	else
 		printf ("Type:\t%c (%s)\n", ans->type,
-			field_type_descriptions[p-field_types]);
+			field_type_descriptions [p-field_types]);
 	printf ("Data address:\t0x%.8X\n", GUINT32_FROM_LE((guint32)buf[12]));
 	printf ("Length:\t%d\n", buf[16]);
 	printf ("Decimal count:\t%d\n", buf[17]);
