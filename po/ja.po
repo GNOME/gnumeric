@@ -16475,9 +16475,8 @@ msgid "No stream named content.xml found."
 msgstr "content.xmlという名前のストリームが見つかりませんでした。"
 
 #: plugins/openoffice/openoffice-read.c:1422
-#, fuzzy
 msgid "No stream named styles.xml found."
-msgstr "content.xmlという名前のストリームが見つかりませんでした。"
+msgstr "styles.xmlという名前のストリームが見つかりませんでした。"
 
 #: plugins/openoffice/openoffice-write.c:122
 #, fuzzy, c-format
@@ -16511,17 +16510,15 @@ msgstr "OpenCalc/StarCalc"
 
 #: plugins/openoffice/plugin.xml.in.h:4
 msgid "OpenOffice OASIS _UNFINISHED_"
-msgstr ""
+msgstr "OpenOffice OASISは *未完了* です"
 
 #: plugins/paradox/paradox.c:73 plugins/paradox/paradox.c:122
-#, fuzzy
 msgid "Error while opening paradox file."
-msgstr "xBase ファイルのオープンでエラーが発生しました。"
+msgstr "paradox ファイルのオープンでエラーが発生しました。"
 
 #: plugins/paradox/paradox.c:120
-#, fuzzy
 msgid "Could not allocate memory for record."
-msgstr "Formula Guru を作成できませんでした。"
+msgstr "レコードのメモリを確保できませんでした。"
 
 #: plugins/paradox/paradox.c:196
 #, c-format
@@ -16529,23 +16526,20 @@ msgid "Field type %d is not unsupported."
 msgstr ""
 
 #: plugins/paradox/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports Paradox files"
-msgstr "SC/XSpread ファイルをインポートします"
+msgstr "Paradox ファイルをインポートします"
 
 #: plugins/paradox/plugin.xml.in.h:2
-#, fuzzy
 msgid "Paradox"
-msgstr "対象"
+msgstr "Paradox"
 
 #: plugins/paradox/plugin.xml.in.h:3
 msgid "Paradox database or primary index file"
-msgstr ""
+msgstr "Paradoxのデータベースまたはプライマリインデックスのファイル"
 
 #: plugins/perl/ext/Gnumeric.xs:144
-#, fuzzy
 msgid "Perl plugin"
-msgstr "Guile プラグイン"
+msgstr "Perl プラグイン"
 
 #: plugins/perl/plugin.xml.in.h:1
 msgid "Enables the creation of functions in Perl"
@@ -16598,14 +16592,12 @@ msgid "Error while reading psiconv file."
 msgstr "psiconv ファイルの読み込み中にエラーが発生しました。"
 
 #: plugins/psiconv/psiconv-read.c:618
-#, fuzzy
 msgid "Error while parsing Psion file."
-msgstr "psiconv ファイルの解析中にエラーが発生しました。"
+msgstr "Psionファイルのパース中にでエラーが発生しました。"
 
 #: plugins/psiconv/psiconv-read.c:626
-#, fuzzy
 msgid "This Psion file is not a Sheet file."
-msgstr "Psion 5 シリーズのシートファイルのインポート"
+msgstr "このPsionファイルはシートファイルではありません。"
 
 #: plugins/py-func/plugin.xml.in.h:1
 msgid "Python"
@@ -16625,24 +16617,21 @@ msgstr "デフォルトインタプリタ"
 
 #: plugins/python-loader/gnm-python.c:130
 #: plugins/python-loader/gnm-python.c:152
-#, fuzzy, c-format
 msgid "Could not import %s."
-msgstr "ファイルを読み込めませんでした: %s"
+msgstr "%s をインポートできませんでした。"
 
 #: plugins/python-loader/gnm-python.c:137
-#, fuzzy, c-format
 msgid "Could not find %s."
-msgstr "ファイルを読み込めませんでした: %s"
+msgstr "%s は見つかりませんでした。"
 
 #: plugins/python-loader/gnm-python.c:145
 #, c-format
 msgid "Could not initialize Python bindings for Gtk+, etc: %s"
-msgstr ""
+msgstr "PythonのGtK+バインディングなどを初期化できませんでした: %s"
 
 #: plugins/python-loader/gnm-python.c:159
-#, fuzzy, c-format
 msgid "Could not find %s"
-msgstr "ファイルを読み込めませんでした: %s"
+msgstr "%s は見つかりませんでした。"
 
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -16698,7 +16687,7 @@ msgstr "Python モジュール名が指定されていません。"
 
 #: plugins/python-loader/python-loader.c:106
 msgid "Cannot create new Python interpreter."
-msgstr ""
+msgstr "Pythonの新規インタプリタを作成できません。"
 
 #: plugins/python-loader/python-loader.c:127
 #, c-format
@@ -16765,10 +16754,9 @@ msgstr "クアトロ・プロ(tm)ファイルをインポートします"
 
 #: plugins/qpro/plugin.xml.in.h:2
 msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
-msgstr ""
+msgstr "クアトロ・プロ (*.wb1, *.wb2, *.wb3)"
 
 #: plugins/qpro/plugin.xml.in.h:3
-#, fuzzy
 msgid "Quattro Pro(tm)"
 msgstr "クアトロ・プロ(tm)"
 
@@ -16880,11 +16868,11 @@ msgstr "みなさんこんにちは"
 
 #: plugins/uihello/plugin.xml.in.h:1
 msgid "Hello World plugin using ui service"
-msgstr ""
+msgstr "UIサービスを使用したHello Worldプラグイン"
 
 #: plugins/uihello/plugin.xml.in.h:2
 msgid "UI Hello"
-msgstr ""
+msgstr "UI Hello"
 
 #: plugins/uihello/uihello.c:24
 #, c-format
