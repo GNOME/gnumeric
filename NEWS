@@ -7,12 +7,14 @@ Andreas:
 	* Some small improvements to the Text Import dialog
 
 Jody:
+	* More work on graphs.
 	* Set alwaysCalc flag when xls exporting dynamic dependencies.
 	* Fix HIG-ification of validation page in fmt dialog
 	* Add some mnemonics to the new and improved file open dialog.
 	* Finish conversion of default font to Sans 10
 	* Fix http://bugs.debian.org/193276
 	* Fix rangesel on other sheet in with of sheet local names
+	* Fix recalc on undo of cut-paste of interior of range
 
 Morten:
 	* New function COLUMNNUMBER.

@@ -12,6 +12,7 @@ Release Critical
 
 * New libgsf -- we leak .5MB or so per save.
 
+* no recalc of region when content is cut&pasted out
 
 Pending Patches
 ---------------
@@ -26,22 +27,23 @@ Pending Patches
 - validate expression names to ensure that they are not simple values (eg TRUE)
 
 0) Misc minor UI tweaks
-    0.1) Missing toolbar borders for colour and stack combos	(DONE)
-    0.2) Make the 'apply' behavior of the color combo optional
-         so that we can do just selection.
-    0.3) Add keynav for color combo
-    0.4) center color combo swatches in the buttons
-    0.5) Add mnemonic_activate for colour combos		(DONE)
-    0.6) Add mnemonic_activate for ExprEntry			(DONE)
-    0.7) Queue update for changed/deleted in ExprEntry ?
-    0.8) menu mnemonics for Edit -> Fill -> merge & series
-    0.9) Fix warning on destruction of torn off combo		(DONE)
+    0.1)  Missing toolbar borders for colour and stack combos	(DONE)
+    0.2)  Make the 'apply' behavior of the color combo optional
+          so that we can do just selection.
+    0.3)  Add keynav for color combo
+    0.4)  center color combo swatches in the buttons
+    0.5)  alpha channel support for colour combos
+    0.6)  Add mnemonic_activate for colour combos		(DONE)
+    0.7)  Add mnemonic_activate for ExprEntry			(DONE)
+    0.8)  Queue update for changed/deleted in ExprEntry ?
+    0.9)  menu mnemonics for Edit -> Fill -> merge & series
+    0.10) Fix warning on destruction of torn off combo		(DONE)
 
 1) graphs							{Jody}
     1.1) Split plot xml file engine, type, and family plugins	(DONE)
     1.2) Use the registered engines to create plots		(DONE)
     1.3) xml -> GValue parsing for type args			(DONE)
-    1.4) Simple Background item
+    1.4) Decide on model vs view structure			(DONE)
     1.5) Simple Pie Plot
     1.6) 1st pass at Graph Guru					(DONE)
     1.7) vector and scalar data sources from gnumeric		(DONE)
@@ -53,18 +55,30 @@ Pending Patches
     1.13) Extend GogObjectRole to include more handlers		(DONE)
     1.14) Decide on recalc strategy
     1.15) per series plot type specific data			(DONE)
-    1.16) libart based render akin to guppicanvas.
-    1.16.1) Solid background fills
-    1.16.2) Gradient fills
-    1.16.3) Images fills
+    1.16) libart based render akin to guppicanvas.		(DONE)
+    1.16.1) Solid background fills				(DONE)
+    1.16.2) Gradient fills (basic)				(DONE)
+    1.16.3) Image fills
+    1.16.4) path
+    1.16.5) text
+    1.16.6) markers
     1.17) Connect the user_config handler for SheetObjectGraph
           to test the guru on existing graphs
     1.18) Extend sheet object anchor assignment to call object	(DONE)
           specfic handlers so that we can set the logical size
 	  of the graph.
+    1.19) Sort GogObject::children by precedence
+    1.20) Extend Guru to support changing precedence
+    1.21) GogStyle Editor page
+    1.22) theme
+	1.22.1) load from xml
+	1.22.2) selector for graphs
+	1.22.3) How to change a graph's theme
+    1.23) enumerate legend elements
 
-    Pinch Guppi's property bag code for GOGraphItem ?
-    drag destination for background images
+    Pinch Guppi's property bag code for GogObject ?
+    Wish
+	drag destination for background images
 
     - theme
     - series style
