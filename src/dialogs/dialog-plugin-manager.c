@@ -488,6 +488,7 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	pm_gui->clist_extra_info = GTK_CLIST (glade_xml_get_widget (gui, "clist_extra_info"));
 	page_plugin_list = glade_xml_get_widget (gui, "page_plugin_list");
 	page_plugin_details = glade_xml_get_widget (gui, "page_plugin_details");
+	
 	g_return_if_fail (pm_gui->dialog_pm != NULL &&
 	                  pm_gui->clist_active != NULL && pm_gui->clist_inactive != NULL &&
 	                  pm_gui->button_activate_plugin != NULL &&
@@ -500,6 +501,11 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	                  pm_gui->clist_extra_info != NULL &&
 	                  page_plugin_list != NULL &&
 	                  page_plugin_details != NULL);
+			  
+	gtk_clist_column_titles_passive (pm_gui->clist_active);
+	gtk_clist_column_titles_passive (pm_gui->clist_inactive);
+	gtk_clist_column_titles_passive (pm_gui->clist_extra_info);
+	
 	pm_gui->gnotebook = GNUMERIC_NOTEBOOK (gnumeric_notebook_new ());
 	gtk_widget_reparent (page_plugin_list, GTK_WIDGET (pm_gui->gnotebook));
 	gtk_widget_reparent (page_plugin_details, GTK_WIDGET (pm_gui->gnotebook));

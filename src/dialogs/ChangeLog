@@ -1,3 +1,8 @@
+2001-02-18  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* dialog-plugin-manager.c (dialog_plugin_manager) :
+	Make clist column headers passive.
+
 2001-02-17  Chema Celorio  <chema@celorio.com>
 
 	* cell-format.glade: fix a bug for the indent spin button
