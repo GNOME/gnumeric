@@ -20,7 +20,7 @@
     manual, you will kneed to know some basic terminology and have
     some basic computing skills. For an introduction to the GNOME
     desktop environment, see <ulink type="help"
-    url="ghelp:/user-guide">the GNOME User Guide</ulink>.
+    url="ghelp:user-guide">the GNOME User Guide</ulink>.
   </para>
 
 </sect1>
@@ -1168,18 +1168,20 @@
     </tip>
     <application>Gnumeric</application> includes a large number of
     features which allow users to craft the look of a particular graph
-    for maximum effectiveness. In <application>Gnumeric</application>,
-    it is possible to change the font, modify the borders of each
-    graph and of each plot, add patterns and images to backgrounds,
-    add patterns to plot elements and configure the graph in multiple
-    ways. These features will be explained in detail below.
+    to maxamize the effectiveness of the presentation. In
+    <application>Gnumeric</application>, it is possible to change the
+    fonts, modify the borders of each element, add patterns and images
+    to backgrounds, add patterns to plot elements and configure the
+    graph in multiple ways. These features will be explained in detail
+    below.
     <tip>
       <para>
         Graphs which use a large number of the graphical features
         available in <application>Gnumeric</application> often appear
-        cluttered. The visual richness of such images can often obscure
-        the message which should be communicated. Spare, elegant
-        and direct graphs will communicate the idea most effectively.
+        cluttered. The visual richness of such images can often
+        obscure the message contained in the presentation of the
+        data. Spare, elegant and direct graphs will communicate
+        results most effectively.
       </para>
     </tip>
   </para>
@@ -1189,7 +1191,7 @@
 
     <para>
       This section will introduce the process of creating a graph
-      by presenting an example of a side-by-side column chart.
+      by presenting an example of a side-by-side column plot.
     </para>
 
     <sect3>
@@ -1197,10 +1199,9 @@
     <para>
       Because a graph requires data, it is first necessary to create
       some simple data to use in these examples. First we have to
-      input these data into a worksheet. For clarity in this
-      discussion, the word "Interval" should be in cell A1. This will
-      result in a worksheet whose top left corner looks like <xref
-      linkend="fig-quick-graph-dataPic"/>.
+      input these data into a worksheet. The data used are shown in
+      <xref linkend="fig-quick-graph-dataPic"/>. For clarity in this
+      discussion, the word "Interval" should be in cell A1.
     </para>
 
     <figure id="fig-quick-graph-dataPic">
@@ -1309,7 +1310,7 @@
       </para>
 
       <figure id="fig-quick-graph-colGraph">
-        <title>The Simple Column Graph.</title>
+        <title>The Simple Graph with a Column Plot.</title>
         <screenshot>
           <mediaobject>
             <imageobject>
@@ -1318,7 +1319,8 @@
             </imageobject>
             <textobject>
               <para>
-                This screenshot depicts the simple column graph.
+                This screenshot depicts the simple graph with a single
+                chart containing a column plot.
               </para>
             </textobject>
           </mediaobject>
@@ -1328,14 +1330,14 @@
     </sect3>
 
     <sect3>
-      <title>Modifying the Column Plot</title>
+      <title>Modifying the Simple Graph</title>
 
       <para>
-        The graph can be customized with titles, label boxes and lots
-        of extra information. To customize the graph, right click on
-        the plot to open the graph custom menu. The graph context menu
-        will appear as shown in <xref
-        linkend="fig-quick-graph-contextMenu"/>.
+        The graph can be customized with titles, extra charts,
+        overlaid plots, label boxes and lots of extra information. To
+        customize the graph, right click on the plot to open the graph
+        custom menu. The graph context menu will appear as shown in
+        <xref linkend="fig-quick-graph-contextMenu"/>.
       </para>
 
       <figure id="fig-quick-graph-contextMenu">
@@ -1377,11 +1379,11 @@
       </para>
 
       <procedure>
-        <title>Adding a title and legend to the Column Plot</title>
+        <title>Adding a title and legend to the simple graph</title>
 
         <step>
           <para>
-            Right click on the column plot to open the context menu
+            Right click on the graph to open the context menu
             and select the <guimenuitem>Properties</guimenuitem> menu
             item. This will open the graph editor.
           </para>
@@ -1389,11 +1391,14 @@
 
         <step>
           <para>
-            The graph editor opens with the "Graph" entry selected in
-            the graph tree on the top left. In the top right is a
-            preview of the eventual graph. The bottom lists some
-            attributes of the item selected in the graph tree. Click
-            and hold on the <guibutton>Add</guibutton> button
+            The graph editor opens with the top-level "Graph" entry
+            selected in the element tree displayed in the top left
+            pane of the editor. The top right pane of the editor
+            displays a preview of the eventual graph. The bottom pane
+            of the editor has a single or several tabs presenting the
+            elements which can be modified for the particular item
+            selected in the element tree. Click and hold on the
+            <guibutton>Add</guibutton> button
               <inlinemediaobject>
                 <imageobject>
                   <imagedata
@@ -1407,20 +1412,26 @@
                   </para>
                 </textobject>
               </inlinemediaobject>
-            to open the graph menu, which will have different entries
-            depending on the item selected in the graph tree. Drag the
-            mouse cursor down until the selection highlights the
-            "Title" entry and release the mouse button. This will add
-            a "Title" node in the graph tree and change the selection
-            to this node.
+            to open the menu of elements addable to a graph. Note that
+            this menu changes depending on the element selected in the
+            element tree when the <guibutton>Add</guibutton> is
+            clicked. Drag the mouse cursor down until the selection
+            highlights the "Title" entry and release the mouse
+            button. This will add a "Title" node in the graph element
+            tree and change the selection to this "Title" node. The
+            bottom pane of the graph editor will also change to
+            display the modifiable characteristics of the "Title"
+            element.
           </para>
         </step>
 
         <step>
           <para>
-            In the text field, add a title such as "Egg Production and
-            Female Productivity" and type the <keycap>Enter</keycap>
-            key. Note that the title appears at the top of the graph.
+            In the text field of the tab displayed in the bottom pane
+            of the graph editor, add a title such as "Egg Production
+            and Female Productivity" and type the
+            <keycap>Enter</keycap> key. Note that the title appears at
+            the top of the graph in the preview pane.
           </para>
         </step>
 
@@ -1430,7 +1441,7 @@
             "Chart1". Next, click and hold on the add button, drag
             down to the <guimenuitem>Legend</guimenuitem> menu item
             and release. Note that this adds a legend on the right of
-            the graph.
+            the graph in the preview pane.
           </para>
         </step>
 
@@ -1439,8 +1450,8 @@
             Click on the "Ok" button. The plot should now have a title
             and a legend. Note that
             <application>gnumeric</application> has used the words in
-            the column headers automatically to describe the two data
-            series.
+            the column headers automatically to label the two data
+            series in the legend.
           </para>
         </step>
        
@@ -1476,16 +1487,22 @@
     <title>Graphing is changing rapidly in Gnumeric 1.2</title>
 
     <para>
-      Graphical charts in <application>Gnumeric</application> version
-      1.2 are evolving quickly to provide many types of charts, each
-      of which provides an elegant plot automatically but can be
-      cutomized in detail according the user's preferences. This is a
-      active area for the programmers and therefore will be changing
-      dramatically in the future. Detailled information about
-      graphical charts is presented in <xref
-      linkend="chapter-graphics" />. That chapter will be updated
-      regularly during development to explain in detail how to produce
-      and modify charts.
+      The approach to the creation of graphical displays of data has
+      been completely redesigned in
+      <application>Gnumeric</application> version 1.2 and is still
+      being improved. The ultimate goal is a system which will produce
+      an elegant graph automatically but can be cutomized in detail
+      according the user's preferences. This is a active area of
+      programming development and therefore will be changing
+      repeatedly in future versions.
+    </para>
+
+    <para>
+      Information on the creation of graphical displays of data is
+      presented in greater detail in <xref linkend="chapter-graphics"
+      />. That chapter will be updated regularly during development to
+      explain in detail how to produce and modify graphical displays
+      of data.
     </para>
 
   </sect2>      
@@ -1534,6 +1551,12 @@
     <guibutton>Print</guibutton> button will perform the printing
     task.
   </para>
+
+  <para>
+    Printing is explained in greater detail in <xref
+    linkend="chapter-printing" />.
+  </para>
+
 
 
 </sect1>
