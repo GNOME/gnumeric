@@ -122,8 +122,8 @@ Architecture Changes
     8.8) Update fmt action state as cursor moves		(DONE)
     8.9) extended rendered value to use the markup in fmts	(DONE)
     8.10) Use existing markup when editing a cell		(DONE)
-    8.11) Persist markup as pseudo format
-    8.12) Parse markup in pseudo format
+    8.11) Persist markup as pseudo format			(DONE)
+    8.12) Parse markup in pseudo format				(DONE)
     8.13) xls
 	8.13.1) import from RSTRING				(DONE)
 	    8.13.1.1) biff[57]					(DONE)
@@ -156,10 +156,6 @@ Target Features
 - drawing rotated borders
 - repeat (http://bugzilla.gnome.org/show_bug.cgi?id=143244)	(DONE)
 - ssconvert for non-gnome					(DONE)
-
-Excel i/o							(DONE)
-    - 'Forms' import						(DONE)
-    - Properties of 'Forms'					(DONE)
 
 -------------------------------------------------------------------------------
 Short Term Goals
@@ -587,6 +583,9 @@ Short Term Goals
     6.16) Excel95 object import
 	6.16.1) TextBox						(DONE)
     6.17) Excel95 object export
+    6.18) 'Forms' import					(DONE)
+	6.18.1) basic objects					(DONE)
+	6.18.2) connections to cells				(DONE)
 
 7) Jump to zip file
     7.1) move existing code into plugin (easy)

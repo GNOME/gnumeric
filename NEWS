@@ -45,6 +45,7 @@ Jody:
 	* Rename x-quattro-pro to match freedesktop
 	* Have text in item-edit does reflect zoom
 	* Show the right rich text format when clicking on edit line
+	* Finish rich text persistence for gnumeric xml and clipboard
 
 Morten:
 	* Implement Edit->Select->Input. [#154735]

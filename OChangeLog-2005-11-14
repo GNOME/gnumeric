@@ -1,3 +1,14 @@
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* src/format.c (cb_attrs_as_string) : new.
+	(gnm_format_parse_markup) : parse the content generated above
+	(style_format_new_XL) : handle markup formats
+
+2004-10-30  Jody Goldberg <jody@gnome.org>
+
+	* src/formats.c (cell_format_classify) : handle the quick cheesy hack
+	  to persist attr lists.
+
 2004-10-28  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_update_action_sensitivity) :

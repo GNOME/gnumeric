@@ -640,7 +640,6 @@ gnm_utf8_strcapital (const char *p, ssize_t len)
 	const char *pend = (len < 0 ? NULL : p + len);
 	GString *res = g_string_sized_new (len < 0 ? 1 : len + 1);
 	gboolean up = TRUE;
-	char *result;
 
 	/*
 	 * This does a simple character-by-character mapping and probably
@@ -668,9 +667,7 @@ gnm_utf8_strcapital (const char *p, ssize_t len)
 		}
 	}
 
-	result = res->str;
-	g_string_free (res, FALSE);
-	return result;
+	return g_string_free (res, FALSE);
 }
 
 /* ------------------------------------------------------------------------- */

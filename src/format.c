@@ -2268,6 +2268,123 @@ style_format_delocalize (char const *descriptor_string)
 		return g_strdup ("General");
 }
 
+static gboolean
+cb_attrs_as_string (PangoAttribute *a, GString *accum)
+{
+	PangoColor const *c;
+
+	switch (a->klass->type) {
+	case PANGO_ATTR_FAMILY :
+		g_string_append_printf (accum, "[family=%s",
+			((PangoAttrString *)a)->value);
+		break;
+	case PANGO_ATTR_SIZE :
+		g_string_append_printf (accum, "[size=%d",
+			((PangoAttrInt *)a)->value);
+		break;
+	case PANGO_ATTR_STYLE :
+		g_string_append_printf (accum, "[italic=%d",
+			(((PangoAttrInt *)a)->value == PANGO_STYLE_ITALIC) ? 1 : 0);
+		break;
+	case PANGO_ATTR_WEIGHT :
+		g_string_append_printf (accum, "[bold=%d",
+			(((PangoAttrInt *)a)->value >= PANGO_WEIGHT_BOLD) ? 1 : 0);
+		break;
+	case PANGO_ATTR_STRIKETHROUGH :
+		g_string_append_printf (accum, "[strikthrough=%d",
+			((PangoAttrInt *)a)->value ? 1 : 0);
+		break;
+	case PANGO_ATTR_UNDERLINE :
+		switch (((PangoAttrInt *)a)->value) {
+		case PANGO_UNDERLINE_NONE :
+			g_string_append (accum, "[underline=none");
+			break;
+		case PANGO_UNDERLINE_SINGLE :
+			g_string_append (accum, "[underline=single");
+			break;
+		case PANGO_UNDERLINE_DOUBLE :
+			g_string_append (accum, "[underline=double");
+			break;
+		}
+		break;
+
+	case PANGO_ATTR_FOREGROUND :
+		c = &((PangoAttrColor *)a)->color;
+		g_string_append_printf (accum, "[color=%02xx%02xx%02x",
+			((c->red & 0xff00) >> 8),
+			((c->green & 0xff00) >> 8),
+			((c->blue & 0xff00) >> 8));
+		break;
+	default :
+		return FALSE; /* ignored */
+	}
+	g_string_append_printf (accum, ":%d:%d]", a->start_index, a->end_index);
+	return FALSE;
+}
+
+static PangoAttrList *
+gnm_format_parse_markup (char *str)
+{
+	PangoAttrList *attrs;
+	PangoAttribute *a;
+	char *closer, *val, *val_end;
+	unsigned len;
+	int r, g, b;
+
+	g_return_val_if_fail (*str == '@', attrs);
+	attrs = pango_attr_list_new ();
+	for (str++ ; *str ; str = closer + 1) {
+		g_return_val_if_fail (*str == '[', attrs);
+		str++;
+
+		val = strchr (str, '=');
+		g_return_val_if_fail (val != NULL, attrs);
+		len = val - str;
+		val++;
+
+		val_end = strchr (val, ':');
+		g_return_val_if_fail (val_end != NULL, attrs);
+
+		closer = strchr (val_end, ']');
+		g_return_val_if_fail (closer != NULL, attrs);
+		*val_end = '\0';
+		*closer = '\0';
+
+		a = NULL;
+		if (len == 4) {
+			if (0 == strncmp (str, "size", 4))
+				a = pango_attr_size_new (atoi (val));
+			else if (0 == strncmp (str, "bold", 4))
+				a = pango_attr_weight_new (atoi (val) ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL);
+		} else if (len == 5 && 0 == strncmp (str, "color", 5) &&
+			   3 == sscanf (val, "%02xx%02xx%02x", &r, &g, &b))
+			a = pango_attr_foreground_new ((r << 8) | r, (g << 8) | g, (b << 8) | b);
+		else if (len == 6) {
+			if (0 == strncmp (str, "family", 6))
+				a = pango_attr_family_new (val);
+			else if (0 == strncmp (str, "italic", 6))
+				a = pango_attr_style_new (atoi (val) ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
+		} else if (len == 9 && 0 == strncmp (str, "underline", 9)) {
+			if (0 == strcmp (val, "none"))
+				a = pango_attr_underline_new (PANGO_UNDERLINE_NONE);
+			else if (0 == strcmp (val, "single"))
+				a = pango_attr_underline_new (PANGO_UNDERLINE_SINGLE);
+			else if (0 == strcmp (val, "double"))
+				a = pango_attr_underline_new (PANGO_UNDERLINE_DOUBLE);
+		} else if (len == 13 && 0 == strncmp (str, "strikethrough", 13))
+			a = pango_attr_strikethrough_new (atoi (val) != 0);
+
+		if (a != NULL && val_end != NULL &&
+		    2 == sscanf (val_end+1, "%d:%d]", &a->start_index, &a->end_index))
+			pango_attr_list_insert (attrs, a);
+
+		*val_end = ':';
+		*closer = ']';
+	}
+
+	return attrs;
+}
+
 /**
  * style_format_new_XL :
  *
@@ -2298,7 +2415,9 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 		format->regexp_str = NULL;
 		format->match_tags = NULL;
 		format->family = cell_format_classify (format, &format->family_info);
-		if (!style_format_is_general (format))
+		if (format->family == FMT_MARKUP)
+			format->markup = gnm_format_parse_markup (format->format);
+		else if (!style_format_is_general (format))
 			format_compile (format);
 
 		g_hash_table_insert (style_format_hash, format->format, format);
@@ -2325,8 +2444,12 @@ GnmFormat *
 style_format_new_markup (PangoAttrList *markup, gboolean add_ref)
 {
 	GnmFormat *format = g_new0 (GnmFormat, 1);
+	GString *accum = g_string_new ("@");
 
-	format->format = g_strdup_printf ("@%p", markup);
+	pango_attr_list_filter (markup,
+		(PangoAttrFilterFunc) cb_attrs_as_string, accum);
+
+	format->format = g_string_free (accum, FALSE);
 	format->entries = NULL;
 	format->regexp_str = NULL;
 	format->match_tags = NULL;
