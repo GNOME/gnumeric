@@ -1,3 +1,10 @@
+2002-10-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-cell-sort.c (cb_delete_clicked) : no need to update the
+	  sensitivity when we have still sort items left
+	(cb_add_clicked) : we need to update the sensitivity when we add
+	  a new sort item (after having deleted all of them)
+
 2002-10-04  Jody Goldberg <jody@gnome.org>
 
 	* dialog-define-names.c : port to TreeView.

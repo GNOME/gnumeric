@@ -531,7 +531,7 @@ static void cb_delete_clicked (GtkWidget *w, SortFlowState *state)
 
 	state->sort_items -= 1;
 	gtk_list_store_remove (state->model, &iter);
-	if (state->sort_items == 0 || state->sort_items == 1)
+	if (state->sort_items == 0)
 		cb_update_sensitivity (NULL, state);
 }
 
@@ -594,6 +594,8 @@ static void cb_add_clicked (GtkWidget *w, SortFlowState *state)
 
 	global_range_free (grange_sort);
 	global_range_free (grange_add);
+	if (state->sort_items == 1)
+		cb_update_sensitivity (NULL, state);
 }
 
 static void
