@@ -92,9 +92,7 @@
       <mediaobject>
         <imageobject>
 	  <imagedata format="PNG"
-		     fileref="figures/preferences-font.png"
-                     srccredit="Sebastian Klost" 
-                     width="550px" />
+		     fileref="figures/preferences-font.png" />
         </imageobject>
       </mediaobject>
     </figure>
@@ -115,9 +113,7 @@
       <mediaobject>
         <imageobject>
 	  <imagedata format="PNG"
-		   fileref="figures/preferences-font-header.png"
-                   srccredit="Sebastian Klost" 
-                   width="550px" />
+		   fileref="figures/preferences-font-header.png" />
         </imageobject>
       </mediaobject>
     </figure>
@@ -143,9 +139,7 @@
       <mediaobject>
         <imageobject>
 	  <imagedata format="PNG"
-		   fileref="figures/preferences-copypaste.png"
-                   srccredit="Sebastian Klost" 
-                   width="550px" />
+		   fileref="figures/preferences-copypaste.png" />
         </imageobject>
       </mediaobject>
     </figure>
@@ -168,9 +162,7 @@
       <mediaobject>
         <imageobject>
 	  <imagedata format="PNG"
-		   fileref="figures/preferences-files.png"
-                   srccredit="Sebastian Klost" 
-                   width="550px" />
+		   fileref="figures/preferences-files.png" />
         </imageobject>
       </mediaobject>
     </figure>
@@ -206,9 +198,7 @@
       <mediaobject>
         <imageobject>
 	  <imagedata format="PNG"
-		   fileref="figures/preferences-tools.png"
-                   srccredit="Sebastian Klost" 
-                   width="550px" />
+		   fileref="figures/preferences-tools.png" />
         </imageobject>
       </mediaobject>
     </figure>
@@ -223,9 +213,7 @@
       <mediaobject>
         <imageobject>
 	  <imagedata format="PNG"
-		   fileref="figures/preferences-sorting.png"
-                   srccredit="Sebastian Klost" 
-                   width="550px" />
+		   fileref="figures/preferences-sorting.png" />
         </imageobject>
       </mediaobject>
     </figure>
@@ -251,9 +239,7 @@
       <mediaobject>
         <imageobject>
 	  <imagedata format="PNG"
-		   fileref="figures/preferences-undo.png"
-                   srccredit="Sebastian Klost" 
-                   width="550px" />
+		   fileref="figures/preferences-undo.png" />
         </imageobject>
       </mediaobject>
     </figure>
@@ -283,9 +269,7 @@
       <mediaobject>
         <imageobject>
 	  <imagedata format="PNG"
-		   fileref="figures/preferences-windows.png"
-                   srccredit="Sebastian Klost" 
-                   width="550px" />
+		   fileref="figures/preferences-windows.png" />
         </imageobject>
       </mediaobject>
     </figure>
@@ -302,9 +286,7 @@
         <mediaobject>
           <imageobject>
 	    <imagedata format="PNG"
-		   fileref="figures/preferences-screen.png"
-                   srccredit="Sebastian Klost" 
-                   width="550px" />
+		   fileref="figures/preferences-screen.png" />
         </imageobject>
       </mediaobject>
     </figure>
