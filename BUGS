@@ -86,11 +86,6 @@ Pending Patches
 	    6.9.4.2) Escher					(DONE)
     6.10) hlink export
 
-8) Reinstate auto-format
-    8.1) Add characterization (units) to StyleFormat
-    8.2) Move type information to function flags.		(DONE)
-    8.3) Change commands to infer types.			(DONE)
-
 14) Polish up Open and Save
     14.1) merge open and import dialogs				(DONE)
     14.2) Notice mismatch between suffix and saver		(DONE)
@@ -173,6 +168,9 @@ Pending Patches
     25.28) plugins/uihello                                      (DONE 20030408 MW)
     25.29) plugins/xbase                                        (DONE 20030408 MW)
     25.30) plugins/xml_sax                                      (DONE 20030408 MW)
+
+26) Format characterization
+    26.1) Add characterization (units) to StyleFormat
 
 
 Functions
@@ -345,6 +343,9 @@ Finished
 7) Expr Parser                                                  (DONE)
     7.1) Move the host of flags into an GnmExprConventions      (DONE)
     7.2) Use conventions obj to generate strings		(DONE)
+8) Reinstate auto-format					(DONE)
+    8.1) Move type information to function flags.		(DONE)
+    8.2) Change commands to infer types.			(DONE)
 9) Manual recalc						(DONE)
     9.1) finish calculation ui in workbook attr dialog		(DONE)
 10) fix highlighting of completion code				(DONE)
@@ -373,4 +374,3 @@ Finished
 23) Bonobo component						(DONE)
     23.1) Install it in libexec					(DONE)
     23.2) Investigate warnings 					(DONE)
-
