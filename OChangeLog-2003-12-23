@@ -1,5 +1,8 @@
 2002-12-20  Morten Welinder  <terra@diku.dk>
 
+	* src/workbook-view.c (wb_view_new_from_input): Add a ref-count
+ 	check for probes.
+
 	* src/parser.y: Check for failure from build_intersect.
 
 2002-12-19  Morten Welinder  <terra@diku.dk>

@@ -690,19 +690,31 @@ wb_view_new_from_input  (GsfInput *input,
 	if (optional_fmt == NULL) {
 		FileProbeLevel pl;
 		GList *l;
+		int input_refs = G_OBJECT (input)->ref_count;
 
 		for (pl = FILE_PROBE_FILE_NAME; pl < FILE_PROBE_LAST && optional_fmt == NULL; pl++) {
 			for (l = get_file_openers (); l != NULL; l = l->next) {
 				GnmFileOpener const *tmp_fo = GNM_FILE_OPENER (l->data);
+				int new_input_refs;
 #if 0
 				printf ("Trying format %s at level %d...\n",
 					gnm_file_opener_get_id (tmp_fo),
 					(int)pl);
 #endif
-				if (gnm_file_opener_probe (tmp_fo, input, pl)) {
+				if (gnm_file_opener_probe (tmp_fo, input, pl))
 					optional_fmt = tmp_fo;
-					break;
+
+				new_input_refs = G_OBJECT (input)->ref_count;
+				if (new_input_refs != input_refs) {
+					g_warning ("Format %s's probe changed input ref_count from %d to %d.",
+						   gnm_file_opener_get_id (tmp_fo),
+						   input_refs,
+						   new_input_refs);
+					input_refs = new_input_refs;
 				}
+
+				if (optional_fmt)
+					break;
 			}
 		}
 	}
