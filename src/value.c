@@ -1301,15 +1301,11 @@ criteria_test_equal (Value const *x, Value const *y)
 	g_return_val_if_fail (x != NULL, FALSE);
 	g_return_val_if_fail (y != NULL, FALSE);
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-	        if (value_get_as_float (x) == value_get_as_float (y))
-		        return 1;
-		else
-		        return 0;
-	else if (x->type == VALUE_STRING && y->type == VALUE_STRING
-		 && g_ascii_strcasecmp (x->v_str.val->str, y->v_str.val->str) == 0)
-	        return 1;
+	        return (value_get_as_float (x) == value_get_as_float (y));
 	else
-	        return 0;
+		return (x->type == VALUE_STRING &&
+			y->type == VALUE_STRING &&
+			g_ascii_strcasecmp (x->v_str.val->str, y->v_str.val->str) == 0);
 }
 
 gboolean
@@ -1318,15 +1314,12 @@ criteria_test_unequal (Value const *x, Value const *y)
 	g_return_val_if_fail (x != NULL, FALSE);
 	g_return_val_if_fail (y != NULL, FALSE);
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-	        if (value_get_as_float (x) != value_get_as_float (y))
-		        return 1;
-		else
-		        return 0;
-	else if (x->type == VALUE_STRING && y->type == VALUE_STRING
-		 && g_ascii_strcasecmp (x->v_str.val->str, y->v_str.val->str) != 0)
-	        return 1;
+	        return (value_get_as_float (x) != value_get_as_float (y));
 	else
-	        return 0;
+		/* Hmm...  Is this really right?  number vs string, not unequal?  */
+		return (x->type == VALUE_STRING &&
+			y->type == VALUE_STRING &&
+			g_ascii_strcasecmp (x->v_str.val->str, y->v_str.val->str) != 0);
 }
 
 gboolean
@@ -1335,12 +1328,9 @@ criteria_test_less (Value const *x, Value const *y)
 	g_return_val_if_fail (x != NULL, FALSE);
 	g_return_val_if_fail (y != NULL, FALSE);
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-	        if (value_get_as_float (x) < value_get_as_float (y))
-		        return 1;
-		else
-		        return 0;
+	        return (value_get_as_float (x) < value_get_as_float (y));
 	else
-	        return 0;
+	        return FALSE;
 }
 
 gboolean
@@ -1349,12 +1339,9 @@ criteria_test_greater (Value const *x, Value const *y)
 	g_return_val_if_fail (x != NULL, FALSE);
 	g_return_val_if_fail (y != NULL, FALSE);
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-	        if (value_get_as_float (x) > value_get_as_float (y))
-		        return 1;
-		else
-		        return 0;
+	        return (value_get_as_float (x) > value_get_as_float (y));
 	else
-	        return 0;
+	        return FALSE;
 }
 
 gboolean
@@ -1363,12 +1350,9 @@ criteria_test_less_or_equal (Value const *x, Value const *y)
 	g_return_val_if_fail (x != NULL, FALSE);
 	g_return_val_if_fail (y != NULL, FALSE);
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-	        if (value_get_as_float (x) <= value_get_as_float (y))
-		        return 1;
-		else
-		        return 0;
+	        return (value_get_as_float (x) <= value_get_as_float (y));
 	else
-	        return 0;
+	        return FALSE;
 }
 
 gboolean
@@ -1377,12 +1361,9 @@ criteria_test_greater_or_equal (Value const *x, Value const *y)
 	g_return_val_if_fail (x != NULL, FALSE);
 	g_return_val_if_fail (y != NULL, FALSE);
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-	        if (value_get_as_float (x) >= value_get_as_float (y))
-		        return 1;
-		else
-		        return 0;
+	        return (value_get_as_float (x) >= value_get_as_float (y));
 	else
-	        return 0;
+	        return FALSE;
 }
 
 /*
