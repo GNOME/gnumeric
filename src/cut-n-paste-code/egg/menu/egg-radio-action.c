@@ -1,4 +1,4 @@
-/* File import from libegg to gnumeric by ./tools/import-egg.  Do not edit.  */
+/* File import from libegg to gnumeric by import-egg.  Do not edit.  */
 
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>

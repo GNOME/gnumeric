@@ -1,4 +1,4 @@
-/* File import from libegg to gnumeric by ./tools/import-egg.  Do not edit.  */
+/* File import from libegg to gnumeric by import-egg.  Do not edit.  */
 
 #ifndef EGG_TOOL_ITEM_H
 #define EGG_TOOL_ITEM_H

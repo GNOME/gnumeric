@@ -5,6 +5,9 @@ use strict;
 
 $| = 1;
 
+my $myself = $0;
+$myself =~ s|^.*/||;
+
 die "$0: must run from top-level gnumeric directory.\n"
     unless -r "gnumeric-config.h";
 my $dst = "src/cut-n-paste-code/egg";
@@ -84,7 +87,7 @@ sub copy_subsystem {
 
 	print STDERR "Creating $dstdir/$file...";
 
-	print DST "/* File import from libegg to gnumeric by $0.  Do not edit.  */\n\n";
+	print DST "/* File import from libegg to gnumeric by $myself.  Do not edit.  */\n\n";
 
 	if ($file =~ /\.c$/) {
 	    print DST "#include <gnumeric-config.h>\n";
