@@ -1,3 +1,15 @@
+2003-10-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-dialogs.schemas.in: add schemas for header/footer
+	  font
+	* src/gnumeric-gconf-priv.h: new keys:
+	  PRINTSETUP_GCONF_HF_FONT_NAME, PRINTSETUP_GCONF_HF_FONT_SIZE,
+	  PRINTSETUP_GCONF_HF_FONT_BOLD, PRINTSETUP_GCONF_HF_FONT_ITALIC
+	* src/gnumeric-gconf.c (gnm_conf_init_extras): initialize new fields 
+	* src/gnumeric-gconf.h: new fields for preference structure
+	* src/print.c (print_job_info_get): use preference info and fallback
+	  fonts
+
 2003-10-25  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=125421

@@ -224,6 +224,20 @@ gnm_conf_init_extras (void)
 		PRINTSETUP_GCONF_HEADER, GCONF_VALUE_STRING, NULL);
 	prefs.printer_footer = gconf_client_get_list (client,
 		PRINTSETUP_GCONF_FOOTER, GCONF_VALUE_STRING, NULL);
+	prefs.printer_decoration_font_name = gconf_client_get_string (client,
+		PRINTSETUP_GCONF_HF_FONT_NAME, NULL);
+	if (prefs.printer_decoration_font_name == NULL)
+		prefs.printer_decoration_font_name = g_strdup ("Sans");
+	prefs.printer_decoration_font_size = gnm_gconf_get_float (client,
+		PRINTSETUP_GCONF_HF_FONT_SIZE, 1., 100., 10.);
+	prefs.printer_decoration_font_weight = ( gnm_gconf_get_bool
+						(client,
+						 PRINTSETUP_GCONF_HF_FONT_BOLD,
+						 FALSE) 
+						? GNOME_FONT_BOLD 
+						: GNOME_FONT_REGULAR);
+	prefs.printer_decoration_font_italic = gnm_gconf_get_bool (client,
+		PRINTSETUP_GCONF_HF_FONT_ITALIC, FALSE);
 	prefs.unfocused_range_selection = gnm_gconf_get_bool (client,
 		DIALOGS_GCONF_UNFOCUSED_RS, TRUE);
 	prefs.prefer_clipboard_selection = gnm_gconf_get_bool (client,

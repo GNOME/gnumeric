@@ -30,6 +30,7 @@
 #include "sheet-style.h"
 #include "ranges.h"
 #include "style.h"
+#include "gnumeric-gconf.h"
 
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprint/gnome-print-config.h>
@@ -1139,7 +1140,6 @@ workbook_print_all (PrintJobInfo *pj, Workbook *wb)
 static PrintJobInfo *
 print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 {
-	GnomeFontFace *face;
 	PrintJobInfo *pj;
 	PrintMargins *pm = &sheet->print_info->margins;
 	double width = 1.0, height = 1.0;
@@ -1183,14 +1183,11 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	pj->render_info->sheet = sheet;
 	pj->render_info->page = 1;
 
-	face = gnome_font_face_find_closest (DEFAULT_FONT);
-	if (face) {
-		pj->decoration_font = gnome_font_face_get_font_default (face, 12.);
-		gnome_font_face_unref (face);
-	} else {
-		g_warning ("Failed to get a font for page decorations.  (Tried %s.)", DEFAULT_FONT);
-		pj->decoration_font = NULL;
-	}
+	pj->decoration_font = gnm_font_find_closest_from_weight_slant 
+		(gnm_app_prefs->printer_decoration_font_name, 
+		 gnm_app_prefs->printer_decoration_font_weight,
+		 gnm_app_prefs->printer_decoration_font_italic,
+		 gnm_app_prefs->printer_decoration_font_size);
 
 	return pj;
 }

@@ -225,6 +225,50 @@
         </locale>
       </schema>
       <schema>
+        <key>/schemas/apps/gnumeric/printsetup/hf-font-size</key>
+        <applyto>/apps/gnumeric/printsetup/hf-font-size</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>10</default>
+        <locale name="C">
+        <short>Default Header/Footer Font Size</short>
+        <long>The default font size for headers and footers.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/hf-font-name</key>
+        <applyto>/apps/gnumeric/printsetup/hf-font-name</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+        <locale name="C">
+	<default>Sans</default>
+        <short>Default header/footer font name</short>
+        <long>The default font name for headers and footers.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/hf-font-bold</key>
+        <applyto>/apps/gnumeric/printsetup/hf-font-bold</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>The default header/footer font is bold.</short>
+        <long>This value determines whether the default font for headers and footers is bold.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/hf-font-italic</key>
+        <applyto>/apps/gnumeric/printsetup/hf-font-italic</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>The default header/footer font is italic.</short>
+        <long>This value determines whether the default font for headers and footers is italic.</long>
+        </locale>
+      </schema>
+      <schema>
         <key>/schemas/apps/gnumeric/dialogs/rs/unfocused</key>
         <applyto>/apps/gnumeric/dialogs/rs/unfocused</applyto>
         <owner>Gnumeric</owner>
