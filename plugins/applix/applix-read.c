@@ -630,7 +630,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				double size = strtod (start, &sep);
 
 				if (start != sep && size > 0.) {
-					mstyle_set_font_size (style, size / application_dpi_to_pixels ());
+					mstyle_set_font_size (style, size / gnm_app_dpi_to_pixels ());
 					break;
 				}
 				(void) applix_parse_error (state, "Invalid font size '%s", start);

@@ -1,3 +1,7 @@
+2003-10-31  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : disable deprecated is only for development releases.
+
 2003-10-29  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/stf.c (stf_init): csv means "... values"
