@@ -337,8 +337,7 @@ exceptions_callback (GtkWidget *widget, autocorrect_t *p)
 	gtk_signal_connect (GTK_OBJECT (remove), "clicked",
 			    GTK_SIGNAL_FUNC (remove_in_clicked), &e2);
 
-
-	v = gnome_dialog_run (GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (p->wb, GNOME_DIALOG (dia));
 	if (v != -1)
 	        gtk_object_destroy (GTK_OBJECT (dia));
 	gtk_object_unref (GTK_OBJECT (gui));
@@ -434,7 +433,7 @@ dialog_autocorrect (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (replace), "toggled",
 			    GTK_SIGNAL_FUNC (replace_toggled), wb);
 #endif
-	v = gnome_dialog_run (GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
 
 	if (v != 0) {
 	        autocorrect_init_caps = old_init_caps;

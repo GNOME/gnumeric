@@ -116,7 +116,7 @@ dialog_summary_update (Workbook *wb, SummaryInfo *sin)
 				 GTK_WINDOW (wb->toplevel));
 	summary_put (gui, sin);
 
-	v = gnome_dialog_run (GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
 	if (v == 0)
 		summary_get (gui, sin);
 

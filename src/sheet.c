@@ -3610,7 +3610,12 @@ sheet_move_range (CommandContext *context,
 
 	/* 1. Fix references to and from the cells which are moving */
 	/* All we really want is the workbook so either sheet will do */
-	workbook_expr_relocate (rinfo->origin_sheet->workbook, rinfo);
+
+	/* FIXME : Avoid leaking and free the reloc list for now.  When undo
+	 * for paste_cut is ready we will need this list
+	 */
+	workbook_expr_unrelocate_free (
+		workbook_expr_relocate (rinfo->origin_sheet->workbook, rinfo));
 
 	/* 2. Collect the cells */
 	sheet_cell_foreach_range (rinfo->origin_sheet, TRUE,

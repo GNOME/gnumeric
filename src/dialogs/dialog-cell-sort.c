@@ -616,7 +616,7 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 	/* Run the dialog */
 	cont = TRUE;
 	while (cont) {
-		btn = gnome_dialog_run (GNOME_DIALOG (sort_flow.dialog));
+		btn = gnumeric_dialog_run (inwb, GNOME_DIALOG (sort_flow.dialog));
 		if (btn == BUTTON_OK)
 			cont = dialog_cell_sort_ok (&sort_flow);
 		else if (btn == BUTTON_ADD)

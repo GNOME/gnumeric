@@ -39,7 +39,7 @@ dialog_insert_cells_impl (Workbook *wb, Sheet *sheet, GladeXML  *gui)
 				    GTK_WINDOW (wb->toplevel));
 
 	/* Bring up the dialog */
-	res = gnome_dialog_run (GNOME_DIALOG (dialog));
+	res = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (res == GNOME_OK) {
 		i = gtk_radio_group_get_selected
 			(GTK_RADIO_BUTTON(radio_0)->group);

@@ -75,7 +75,7 @@ dialog_goto_cell (Workbook *wb)
 	gtk_widget_grab_focus (entry);
 	
 	/* Run the dialog */
-	if (gnome_dialog_run (GNOME_DIALOG (dialog)) == GNOME_OK) {
+	if (gnumeric_dialog_run (wb, GNOME_DIALOG (dialog)) == GNOME_OK) {
 
 		text = gtk_entry_get_text (GTK_ENTRY (entry));
 

@@ -342,7 +342,7 @@ dialog_function_wizard (Workbook *wb, FunctionDefinition *fd)
 
 	function_wizard_create (&state);
 
-	if (gnome_dialog_run (GNOME_DIALOG(dialog)) == 0)
+	if (gnumeric_dialog_run (wb, GNOME_DIALOG(dialog)) == 0)
 		ans = get_text_value (&state);
 	
 	gnome_dialog_close (GNOME_DIALOG(dialog));

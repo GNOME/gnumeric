@@ -15,6 +15,7 @@
 
 #include "sheet.h"
 #include "dialog-printer.h"
+#include "gnumeric-util.h"
 
 static GnomePrinterDialogClass *dialog_parent_class = NULL;
 
@@ -180,7 +181,7 @@ gnumeric_printer_dialog_run (PrintRange *range, Workbook *wb)
 
 	gtk_window_set_modal (GTK_WINDOW (printer_dialog), TRUE);
 	gnome_dialog_set_parent (GNOME_DIALOG (printer_dialog), GTK_WINDOW(wb->toplevel));
-	bn = gnome_dialog_run (GNOME_DIALOG (printer_dialog));
+	bn = gnumeric_dialog_run (wb, GNOME_DIALOG (printer_dialog));
 	
 	if (bn < 0)
 		return NULL;

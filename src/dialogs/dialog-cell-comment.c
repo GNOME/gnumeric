@@ -45,7 +45,7 @@ dialog_cell_comment (Workbook *wb, Cell *cell)
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_widget_grab_focus (text);
 
-	v = gnome_dialog_run (GNOME_DIALOG (dialog));
+	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (v == -1)
 		return;
 	

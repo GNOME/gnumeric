@@ -323,7 +323,7 @@ workbook_import (Workbook *parent, const char *filename)
 
 	gtk_widget_grab_focus (GTK_WIDGET (clist));
 
-	ret = gnome_dialog_run (GNOME_DIALOG (dialog));
+	ret = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 
 	if (ret == 0 && clist->selection) {
 		FileOpener *fo;

@@ -118,7 +118,7 @@ dialog_paste_special (Workbook *wb)
 
 	/* Run the dialog */
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	v = gnome_dialog_run (GNOME_DIALOG (dialog));
+	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 
 	/* If closed with the window manager, cancel */
 	if (v == -1)

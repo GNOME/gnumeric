@@ -2445,7 +2445,7 @@ sheet_action_delete_sheet (GtkWidget *ignored, Sheet *current_sheet)
 	g_free (message);
 	gnome_dialog_set_parent (GNOME_DIALOG (d), GTK_WINDOW (wb->toplevel));
 
-	r = gnome_dialog_run (GNOME_DIALOG (d));
+	r = gnumeric_dialog_run (wb, GNOME_DIALOG (d));
 
 	if (r != 0)
 		return;

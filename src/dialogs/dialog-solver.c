@@ -168,7 +168,7 @@ dialog_solver_options (Workbook *wb, Sheet *sheet)
 
 	/* Run the dialog */
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	gnome_dialog_run (GNOME_DIALOG (dialog));
+	gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 
 	sheet->solver_parameters.options.assume_linear_model = 1;
 	sheet->solver_parameters.options.assume_non_negative = 1;
@@ -282,7 +282,8 @@ add_dialog:
 	gtk_widget_grab_focus (lhs_entry);
 
 	/* Run the dialog */
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (constraint_dialog->wb,
+					 GNOME_DIALOG (dialog));
 	
 	if (selection == 1) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
@@ -503,7 +504,7 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 main_dialog:
 	
 	/* Run the dialog */
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 
 	switch (selection) {
 	case 1:

@@ -16,6 +16,7 @@
 #include "widgets/widget-font-selector.h"
 #include "widgets/gnumeric-dashed-canvas-line.h"
 #include "gnumeric-sheet.h"
+#include "gnumeric-util.h"
 #include "selection.h"
 #include "ranges.h"
 #include "format.h"
@@ -2096,7 +2097,8 @@ fmt_dialog_impl (FormatState *state, MStyleBorder **borders)
 	state->enable_edit = TRUE;
 
 	/* Bring up the dialog, and run it until someone hits ok or cancel */
-	while ((res = gnome_dialog_run (GNOME_DIALOG (dialog))) > 0)
+	while ((res = gnumeric_dialog_run (state->sheet->workbook,
+					   GNOME_DIALOG (dialog))) > 0)
 		;
 
 	g_free ((char *)state->format.spec);

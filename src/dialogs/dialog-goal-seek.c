@@ -238,8 +238,10 @@ dialog_found_solution (Cell *set_cell, Cell *change_cell, float_t target_value)
 					      (dialog)->vbox), label_box);
 
 	gtk_widget_show_all (dialog);
-        selection = gnome_dialog_run (GNOME_DIALOG (dialog));
-	gnome_dialog_close (GNOME_DIALOG (dialog));
+        selection = gnumeric_dialog_run (set_cell->sheet->workbook, GNOME_DIALOG (dialog));
+
+	if (selection >= 0)
+		gnome_dialog_close (GNOME_DIALOG (dialog));
 
 	g_free (status_str);
 	g_free (target_str);
@@ -337,7 +339,7 @@ dialog_goal_seek (Workbook *wb, Sheet *sheet)
 	gtk_widget_grab_focus (set_entry);
 
 dialog_loop:
-        selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+        selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection == 0) {
 		Cell    *set_cell;
  	        int     set_cell_col, set_cell_row;
@@ -440,5 +442,6 @@ dialog_loop:
 			value_release (old_value);
 	}
 
-	gnome_dialog_close (GNOME_DIALOG (dialog));
+	if (selection >= 0)
+		gnome_dialog_close (GNOME_DIALOG (dialog));
 }

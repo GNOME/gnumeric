@@ -31,7 +31,39 @@ gnumeric_notice (Workbook *wb, const char *type, const char *str)
 		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
 					 GTK_WINDOW (wb->toplevel));
 
-	gnome_dialog_run (GNOME_DIALOG (dialog));
+	gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+}
+
+/**
+ * gnumeric_dialog_run : A utility routine to handle the application being closed by
+ * the window manager while a modal dialog is being displayed.
+ */
+gint
+gnumeric_dialog_run (Workbook *wb, GnomeDialog *dialog)
+{
+#if 0
+	gint res;
+	GtkObject * const app = GTK_OBJECT (wb->toplevel);
+
+	gtk_object_ref (app);
+	res = gnome_dialog_run (dialog);
+
+	/* If the application was closed close the dialog too */
+	if (res < 0 && GTK_OBJECT_DESTROYED (app))
+		gnome_dialog_close (dialog);
+
+	gtk_object_unref (app);
+	return res;
+#else
+	/* FIXME : For now we are just a simple wrapper.
+	 * After the release of .48 we should :
+	 * 1) Move the set_parent call into here.
+	 * 2) Handle destruction of the dialog 
+	 * 3) Handle the more interesting case of exiting of the
+	 *    main window.
+	 */
+	return gnome_dialog_run (dialog);
+#endif
 }
 
 int

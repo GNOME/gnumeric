@@ -436,7 +436,7 @@ text_get (GtkText *text_widget)
 }
 
 static PrintHF *
-do_hf_config (const char *title, PrintHF **config)
+do_hf_config (const char *title, PrintHF **config, Workbook *wb)
 {
 	GladeXML *gui = glade_xml_new (GNUMERIC_GLADEDIR "/hf-config.glade", NULL);
 	GtkText *left, *middle, *right;
@@ -457,7 +457,7 @@ do_hf_config (const char *title, PrintHF **config)
 	text_insert (middle, (*config)->middle_format);
 	text_insert (right, (*config)->right_format);
 
-	v = gnome_dialog_run (GNOME_DIALOG (dialog));
+	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 
 	if (v == 0) {
 		char *left_format, *right_format, *middle_format;
@@ -501,7 +501,8 @@ do_header_config (GtkWidget *button, dialog_print_info_t *dpi)
 {
 	PrintHF *hf;
 	
-	hf = do_hf_config (_("Custom header configuration"), &dpi->header);
+	hf = do_hf_config (_("Custom header configuration"),
+			   &dpi->header, dpi->sheet->workbook);
 
 	if (hf)
 		do_setup_hf_menus (dpi, hf, NULL);
@@ -512,7 +513,8 @@ do_footer_config (GtkWidget *button, dialog_print_info_t *dpi)
 {
 	PrintHF *hf;
 	
-	hf = do_hf_config (_("Custom footer configuration"), &dpi->footer);
+	hf = do_hf_config (_("Custom footer configuration"),
+			   &dpi->footer, dpi->sheet->workbook);
 
 	if (hf)
 		do_setup_hf_menus (dpi, NULL, hf);
@@ -942,7 +944,7 @@ dialog_printer_setup (Workbook *wb, Sheet *sheet)
 
 	gnome_dialog_set_parent (GNOME_DIALOG (dpi->dialog), GTK_WINDOW (wb->toplevel));
 	
-	v = gnome_dialog_run (GNOME_DIALOG (dpi->dialog));
+	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dpi->dialog));
 	
 	if (v == 0) {
 		fetch_settings (dpi);

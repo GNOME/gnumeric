@@ -114,43 +114,43 @@ static const char *distribution_strs[] = {
 };
 
 static void
-summary_stat_signal_fun()
+summary_stat_signal_fun ()
 {
         ds.summary_statistics = !ds.summary_statistics;
 }
 
 static void
-confidence_signal_fun()
+confidence_signal_fun ()
 {
         ds.confidence_level = !ds.confidence_level;
 }
 
 static void
-kth_largest_signal_fun()
+kth_largest_signal_fun ()
 {
         ds.kth_largest = !ds.kth_largest;
 }
 
 static void
-kth_smallest_signal_fun()
+kth_smallest_signal_fun ()
 {
         ds.kth_smallest = !ds.kth_smallest;
 }
 
 static void
-first_row_label_signal_fun()
+first_row_label_signal_fun ()
 {
         label_row_flag = !label_row_flag;
 }
 
 static void
-force_intercept_zero_signal_fun()
+force_intercept_zero_signal_fun ()
 {
 	intercept_flag = !intercept_flag;
 }
 
 static void
-standard_errors_signal_fun()
+standard_errors_signal_fun ()
 {
         standard_errors_flag = !standard_errors_flag;
 }
@@ -444,7 +444,7 @@ add_groupped_by(GtkWidget *box)
 
 
 static void
-dialog_correlation_tool(Workbook *wb, Sheet *sheet)
+dialog_correlation_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box;
 	static GtkWidget *range_entry, *output_range_entry;
@@ -491,7 +491,7 @@ dialog_correlation_tool(Workbook *wb, Sheet *sheet)
 
 correlation_dialog_loop:
 
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -525,7 +525,7 @@ correlation_dialog_loop:
 }
 
 static void
-dialog_covariance_tool(Workbook *wb, Sheet *sheet)
+dialog_covariance_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box;
 	static GtkWidget *range_entry, *output_range_entry;
@@ -571,7 +571,7 @@ dialog_covariance_tool(Workbook *wb, Sheet *sheet)
 
 covariance_dialog_loop:
 
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -605,7 +605,7 @@ covariance_dialog_loop:
 }
 
 static void
-dialog_sampling_tool(Workbook *wb, Sheet *sheet)
+dialog_sampling_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box, *sampling_box, *sampling_label;
 	static GtkWidget *range_entry, *output_range_entry, *sampling_entry[2];
@@ -678,7 +678,7 @@ dialog_sampling_tool(Workbook *wb, Sheet *sheet)
 
 sampling_dialog_loop:
 
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -712,7 +712,7 @@ sampling_dialog_loop:
 }
 
 static void
-dialog_descriptive_stat_tool(Workbook *wb, Sheet *sheet)
+dialog_descriptive_stat_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box;
 	static GtkWidget *range_entry, *output_range_entry;
@@ -765,7 +765,7 @@ dialog_descriptive_stat_tool(Workbook *wb, Sheet *sheet)
 
 stat_dialog_loop:
 
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -807,7 +807,7 @@ stat_dialog_loop:
 }
 
 static void
-dialog_ztest_tool(Workbook *wb, Sheet *sheet)
+dialog_ztest_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box;
 	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
@@ -869,7 +869,7 @@ dialog_ztest_tool(Workbook *wb, Sheet *sheet)
 
 ztest_dialog_loop:
 
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -925,7 +925,7 @@ ztest_dialog_loop:
 }
 
 static void
-dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet)
+dialog_ttest_paired_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box;
 	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
@@ -980,7 +980,7 @@ dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet)
 
 ttest_dialog_loop:
 
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -1030,7 +1030,7 @@ ttest_dialog_loop:
 }
 
 static void
-dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet)
+dialog_ttest_eq_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box;
 	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
@@ -1085,7 +1085,7 @@ dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet)
 
 ttest_dialog_loop:
 
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -1135,7 +1135,7 @@ ttest_dialog_loop:
 }
 
 static void
-dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet)
+dialog_ttest_neq_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box;
 	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
@@ -1191,7 +1191,7 @@ dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet)
 
 ttest_dialog_loop:
 
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -1241,7 +1241,7 @@ ttest_dialog_loop:
 }
 
 static void
-dialog_ftest_tool(Workbook *wb, Sheet *sheet)
+dialog_ftest_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box, *vbox;
 	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
@@ -1291,7 +1291,7 @@ dialog_ftest_tool(Workbook *wb, Sheet *sheet)
 
 ftest_dialog_loop:
 
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -1339,7 +1339,7 @@ ftest_dialog_loop:
 
 
 static void
-distribution_callback(GtkWidget *widget, random_tool_callback_t *p)
+distribution_callback (GtkWidget *widget, random_tool_callback_t *p)
 {
         char *text;
 
@@ -1378,7 +1378,7 @@ distribution_callback(GtkWidget *widget, random_tool_callback_t *p)
 }
 
 static void
-dialog_random_tool(Workbook *wb, Sheet *sheet)
+dialog_random_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box, *param_box, *distribution_combo;
 	static GtkWidget *vars_entry, *count_entry, *output_range_entry;
@@ -1518,7 +1518,7 @@ dialog_random_tool(Workbook *wb, Sheet *sheet)
 
 random_dialog_loop:
 
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -1577,7 +1577,7 @@ random_dialog_loop:
 }
 
 static void
-dialog_regression_tool(Workbook *wb, Sheet *sheet)
+dialog_regression_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box, *vbox;
 	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
@@ -1633,7 +1633,7 @@ dialog_regression_tool(Workbook *wb, Sheet *sheet)
 
 dialog_loop:
 
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -1705,7 +1705,7 @@ dialog_loop:
 }
 
 static void
-dialog_average_tool(Workbook *wb, Sheet *sheet)
+dialog_average_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box, *vbox;
 	static GtkWidget *range_entry, *output_range_entry;
@@ -1753,7 +1753,7 @@ dialog_average_tool(Workbook *wb, Sheet *sheet)
 
 dialog_loop:
 
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -1794,7 +1794,7 @@ dialog_loop:
 
 
 static void
-dialog_ranking_tool(Workbook *wb, Sheet *sheet)
+dialog_ranking_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box;
 	static GtkWidget *range_entry, *output_range_entry;
@@ -1841,7 +1841,7 @@ dialog_ranking_tool(Workbook *wb, Sheet *sheet)
 
 dialog_loop:
 
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -1876,7 +1876,7 @@ dialog_loop:
 
 
 static void
-dialog_anova_single_factor_tool(Workbook *wb, Sheet *sheet)
+dialog_anova_single_factor_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box;
 	static GtkWidget *range_entry, *output_range_entry, *alpha_entry;
@@ -1926,7 +1926,7 @@ dialog_anova_single_factor_tool(Workbook *wb, Sheet *sheet)
 
 dialog_loop:
 
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -1964,7 +1964,7 @@ dialog_loop:
 
 
 static void
-dialog_anova_two_factor_without_r_tool(Workbook *wb, Sheet *sheet)
+dialog_anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box;
 	static GtkWidget *range_entry, *output_range_entry, *alpha_entry;
@@ -2013,7 +2013,7 @@ dialog_anova_two_factor_without_r_tool(Workbook *wb, Sheet *sheet)
 
 dialog_loop:
 
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -2050,7 +2050,7 @@ dialog_loop:
 
 
 static void
-selection_made(GtkWidget *clist, gint row, gint column,
+selection_made (GtkWidget *clist, gint row, gint column,
 	       GdkEventButton *event, gpointer data)
 {
         selected_row = row;
@@ -2059,7 +2059,6 @@ selection_made(GtkWidget *clist, gint row, gint column,
 
 void
 dialog_data_analysis (Workbook *wb, Sheet *sheet)
-
 {
 	static GtkWidget *dialog, *scrolled_win;
 	static GtkWidget *main_label;
@@ -2118,7 +2117,7 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
 	gtk_widget_grab_focus (GTK_WIDGET(tool_list));
 
 	/* Run the dialog */
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	gnome_dialog_close (GNOME_DIALOG (dialog));
 
 	if (selection == 0) {

@@ -277,7 +277,7 @@ dialog_define_names (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (state.list), "selection_changed",
 			    GTK_SIGNAL_FUNC (select_name), &state);
 
-	v = gnome_dialog_run (GNOME_DIALOG (state.dia));
+	v = gnumeric_dialog_run (wb, GNOME_DIALOG (state.dia));
 	
 	if (v == -1)
 		destroy_state (&state);

@@ -27,13 +27,13 @@ Requirements
 
 You need:
 
-	gnome-libs-1.0
+	gnome-libs-1.0.55
 	gnome-print-0.10
-	libxml-1.0
+	gnome-xml-1.8.5
 	libglade-0.11
 
 Optionally:
-	bonobo-0.1
+	bonobo-0.5
 
 
 Notes regarding plugins
@@ -159,6 +159,8 @@ documentation for these:
 	  'array-formula'.
 
 	- Control-Pg{Up,Down}: Switch to the previous/next worksheet.
+
+	- Alt-Pg{Up,Down}: Page left and right.
 
      o Auto-convert-on-input features: When you enter text in Gnumeric
        it is now matched against the known formats of Gnumeric and if

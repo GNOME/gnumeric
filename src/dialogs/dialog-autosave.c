@@ -48,7 +48,7 @@ dialog_autosave_callback (gpointer *data)
 			gnome_dialog_set_parent (GNOME_DIALOG (dia),
 						 GTK_WINDOW (wb->toplevel));
 
-			v = gnome_dialog_run (GNOME_DIALOG (dia));
+			v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
 			if (v != -1)
 			        gtk_object_destroy (GTK_OBJECT (dia));
 			gtk_object_unref (GTK_OBJECT (gui));
@@ -118,7 +118,7 @@ dialog_autosave (Workbook *wb)
 	gtk_entry_set_text (GTK_ENTRY (minutes), buf);
 
 loop:	
-	v = gnome_dialog_run (GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
 
 	if (v == 0) {
 		gchar *txt;
