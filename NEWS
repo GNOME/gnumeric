@@ -4,6 +4,10 @@ Jody:
 	* Fix parenthesis for XL export.
 	* Enable right/left indent.
 
+Morten:
+	* Column header drawing fix.
+	* [Linear] Regression fix.
+
 Translations:
 	* Updated: de (Karl), ja (Yukihiro Nakai), and maybe more.
 
