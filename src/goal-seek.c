@@ -307,7 +307,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 				return GOAL_SEEK_OK;
 			}
 
-			det = sqrt (ymid * ymid - data->ypos * data->yneg);
+			det = sqrtgnum (ymid * ymid - data->ypos * data->yneg);
 			if (det == 0)
 				 /* This might happen with underflow, I guess. */
 				continue;

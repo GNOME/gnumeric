@@ -183,7 +183,7 @@ range_stddev_pop (const gnum_float *xs, int n, gnum_float *res)
 	if (range_var_pop (xs, n, res))
 		return 1;
 	else {
-		*res = sqrt (*res);
+		*res = sqrtgnum (*res);
 		return 0;
 	}
 }
@@ -195,7 +195,7 @@ range_stddev_est (const gnum_float *xs, int n, gnum_float *res)
 	if (range_var_est (xs, n, res))
 		return 1;
 	else {
-		*res = sqrt (*res);
+		*res = sqrtgnum (*res);
 		return 0;
 	}
 }
@@ -323,7 +323,7 @@ range_geometric_mean (const gnum_float *xs, int n, gnum_float *res)
 				return 1;
 			product *= xs[i];
 		}
-		*res = pow (product, 1.0 / n);
+		*res = powgnum (product, 1.0 / n);
 		return 0;
 	} else
 		return 1;

@@ -109,7 +109,7 @@ GNUMERIC_COMPLEX_PROTO (void complex_to_polar (gnum_float *mod, gnum_float *angl
 GNUMERIC_COMPLEX_PROTO (void complex_from_polar (complex_t *dst, gnum_float mod, gnum_float angle))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
-	complex_init (dst, mod * cos (angle), mod * sin (angle));
+	complex_init (dst, mod * cosgnum (angle), mod * singnum (angle));
 }
 #endif
 
@@ -171,8 +171,8 @@ GNUMERIC_COMPLEX_PROTO (void complex_exp (complex_t *dst, const complex_t *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst,
-		      exp (src->re) * cos (src->im),
-		      exp (src->re) * sin (src->im));
+		      expgnum (src->re) * cosgnum (src->im),
+		      expgnum (src->re) * singnum (src->im));
 }
 #endif
 
@@ -182,7 +182,7 @@ GNUMERIC_COMPLEX_PROTO (void complex_ln (complex_t *dst, const complex_t *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst,
-		      log (complex_mod (src)),
+		      loggnum (complex_mod (src)),
 		      complex_angle (src));
 }
 #endif
@@ -196,7 +196,7 @@ GNUMERIC_COMPLEX_PROTO (void complex_pow (complex_t *dst, const complex_t *a, co
 
 	/* ln is not defined for reals less than or equal to zero.  */
 	if (complex_real_p (a) && complex_real_p (b))
-		complex_init (dst, pow (a->re, b->re), 0);
+		complex_init (dst, powgnum (a->re, b->re), 0);
 	else {
 		complex_ln (&lna, a);
 		complex_mul (&b_lna, b, &lna);
@@ -211,8 +211,8 @@ GNUMERIC_COMPLEX_PROTO (void complex_sin (complex_t *dst, const complex_t *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst,
-		      sin (src->re) * cosh (src->im),
-		      cos (src->re) * sinh (src->im));
+		      singnum (src->re) * cosh (src->im),
+		      cosgnum (src->re) * sinh (src->im));
 }
 #endif
 
@@ -222,8 +222,8 @@ GNUMERIC_COMPLEX_PROTO (void complex_cos (complex_t *dst, const complex_t *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst,
-		      cos (src->re) * cosh (src->im),
-		      -sin (src->re) * sinh (src->im));
+		      cosgnum (src->re) * cosh (src->im),
+		      -singnum (src->re) * sinh (src->im));
 }
 #endif
 
@@ -246,7 +246,7 @@ GNUMERIC_COMPLEX_PROTO (void complex_sqrt (complex_t *dst, const complex_t *src)
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_from_polar (dst,
-			    sqrt (complex_mod (src)),
+			    sqrtgnum (complex_mod (src)),
 			    complex_angle (src) / 2);
 }
 #endif

@@ -681,8 +681,8 @@ render_number (GString *result,
 	}
 
 	for (; int_part >= 1. ; int_part /= 10., digit_count++) {
-		gnum_float r = floor (int_part);
-		int digit = r - floor (r / 10) * 10;
+		gnum_float r = floorgnum (int_part);
+		int digit = r - floorgnum (r / 10) * 10;
 
 		if (group-- == 0) {
 			group = 2;
@@ -1425,9 +1425,9 @@ fmt_general_float (gnum_float val, float col_width)
 		/* leave space for minus sign */
 		/* FIXME : idealy we would use the width of a minus sign */
 		col_width -= 1.;
-		tmp = log10 (-val);
+		tmp = log10gnum (-val);
 	} else
-		tmp = (val > 0.) ? log10 (val) : 0;
+		tmp = (val > 0.) ? log10gnum (val) : 0;
 
 	/* leave space for the decimal */
 	/* FIXME : idealy we would use the width of a decimal point */
@@ -1436,14 +1436,14 @@ fmt_general_float (gnum_float val, float col_width)
 		prec = 0;
 
 	if (tmp > 0.) {
-		log_val = ceil (tmp);
+		log_val = ceilgnum (tmp);
 
 		/* Decrease precision to leave space for the E+00 */
 		if (log_val > prec)
 			for (prec -= 4; log_val >= 100 ; log_val /= 10)
 				prec--;
 	} else {
-		log_val = floor (tmp);
+		log_val = floorgnum (tmp);
 
 		/* Display 0 for cols that are too narrow for scientific
 		 * notation with abs (value) < 1 */
@@ -1565,7 +1565,7 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 		if (entry == NULL) {
 			gnum_float val = value->v_float.val;
 			if ((gnum_float)INT_MAX >= val && val >= (gnum_float)INT_MIN) {
-				gnum_float int_val = floor (value->v_float.val);
+				gnum_float int_val = floorgnum (value->v_float.val);
 				if (int_val == value->v_float.val)
 					return fmt_general_int (int_val, col_width);
 			}

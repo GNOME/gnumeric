@@ -144,7 +144,7 @@ range_gcd (const gnum_float *xs, int n, gnum_float *res)
 			if (xs[i] <= 0)
 				return 1;
 			else
-				gcd_so_far = gcd ((int)(floor (xs[i])),
+				gcd_so_far = gcd ((int)(floorgnum (xs[i])),
 						  gcd_so_far);
 		}
 		*res = gcd_so_far;
@@ -198,7 +198,7 @@ range_lcm (const gnum_float *xs, int n, gnum_float *res)
 			if (x <= 0)
 				return 1;
 			else {
-				int xi = (int) floor (x);
+				int xi = (int) floorgnum (x);
 				lcm_so_far /= gcd (lcm_so_far, xi);
 				lcm_so_far *= xi;
 			}
@@ -275,7 +275,7 @@ gnumeric_acos (FunctionEvalInfo *ei, Value **args)
 	if ((t < -1.0) || (t > 1.0))
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (acos (t));
+	return value_new_float (acosgnum (t));
 }
 
 /***************************************************************************/
@@ -337,7 +337,7 @@ gnumeric_asin (FunctionEvalInfo *ei, Value **args)
 	if ((t < -1.0) || (t > 1.0))
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (asin (t));
+	return value_new_float (asingnum (t));
 }
 
 /***************************************************************************/
@@ -386,7 +386,7 @@ static const char *help_atan = {
 static Value *
 gnumeric_atan (FunctionEvalInfo *ei, Value **args)
 {
-	return value_new_float (atan (value_get_as_float (args [0])));
+	return value_new_float (atangnum (value_get_as_float (args [0])));
 }
 
 /***************************************************************************/
@@ -766,7 +766,7 @@ static const char *help_cos = {
 static Value *
 gnumeric_cos (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_float (cos (value_get_as_float (argv [0])));
+	return value_new_float (cosgnum (value_get_as_float (argv [0])));
 }
 
 /***************************************************************************/
@@ -836,7 +836,7 @@ static const char *help_exp = {
 static Value *
 gnumeric_exp (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_float (exp (value_get_as_float (argv [0])));
+	return value_new_float (expgnum (value_get_as_float (argv [0])));
 }
 
 /***************************************************************************/
@@ -869,12 +869,12 @@ gnumeric_fact (FunctionEvalInfo *ei, Value **argv)
 	if (x < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	x_is_integer = (x == floor (x));
+	x_is_integer = (x == floorgnum (x));
 
 	if (x > 12 || !x_is_integer) {
-		gnum_float res = exp (lgamma (x + 1));
+		gnum_float res = expgnum (lgamma (x + 1));
 		if (x_is_integer)
-			res = floor (res + 0.5);  /* Round, just in case.  */
+			res = floorgnum (res + 0.5);  /* Round, just in case.  */
 		return value_new_float (res);
 	} else
 		return value_new_int (fact (x));
@@ -1012,7 +1012,7 @@ gnumeric_log (FunctionEvalInfo *ei, Value **argv)
 	if (t <= 0.0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (log (t) / log (base));
+	return value_new_float (loggnum (t) / loggnum (base));
 }
 
 /***************************************************************************/
@@ -1042,7 +1042,7 @@ gnumeric_ln (FunctionEvalInfo *ei, Value **argv)
 	if (t <= 0.0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (log (t));
+	return value_new_float (loggnum (t));
 }
 
 /***************************************************************************/
@@ -1070,8 +1070,8 @@ gnumeric_power (FunctionEvalInfo *ei, Value **argv)
 	x = value_get_as_float (argv [0]);
 	y = value_get_as_float (argv [1]);
 
-	if ((x > 0) || (x == 0 && y > 0) || (x < 0 && y == floor (y)))
-		return value_new_float (pow (x, y));
+	if ((x > 0) || (x == 0 && y > 0) || (x < 0 && y == floorgnum (y)))
+		return value_new_float (powgnum (x, y));
 
 	if (x == 0 && y != 0)
 		return value_new_error (ei->pos, gnumeric_err_DIV0);
@@ -1104,7 +1104,7 @@ gnumeric_log2 (FunctionEvalInfo *ei, Value **argv)
 	if (t <= 0.0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (log (t) / M_LN2);
+	return value_new_float (loggnum (t) / M_LN2);
 }
 
 /***************************************************************************/
@@ -1133,7 +1133,7 @@ gnumeric_log10 (FunctionEvalInfo *ei, Value **argv)
 	if (t <= 0.0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (log10 (t));
+	return value_new_float (log10gnum (t));
 }
 
 /***************************************************************************/
@@ -1387,7 +1387,7 @@ static const char *help_sin = {
 static Value *
 gnumeric_sin (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_float (sin (value_get_as_float (argv [0])));
+	return value_new_float (singnum (value_get_as_float (argv [0])));
 }
 
 /***************************************************************************/
@@ -1437,7 +1437,7 @@ gnumeric_sqrt (FunctionEvalInfo *ei, Value **argv)
 	if (x < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (sqrt (x));
+	return value_new_float (sqrtgnum (x));
 }
 
 /***************************************************************************/
@@ -1648,7 +1648,7 @@ static const char *help_tan = {
 static Value *
 gnumeric_tan (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_float (tan (value_get_as_float (argv [0])));
+	return value_new_float (tangnum (value_get_as_float (argv [0])));
 }
 
 /***************************************************************************/
@@ -1762,7 +1762,7 @@ gnumeric_even (FunctionEvalInfo *ei, Value **argv)
 	        sign = -1;
 		number = -number;
 	}
-	ceiled = ceil (number);
+	ceiled = ceilgnum (number);
 	if (fmod (ceiled, 2) == 0)
 	        if (number > ceiled)
 		        return value_new_int ((int) (sign * (ceiled + 2)));
@@ -1800,7 +1800,7 @@ gnumeric_odd (FunctionEvalInfo *ei, Value **argv)
 	        sign = -1;
 		number = -number;
 	}
-	ceiled = ceil (number);
+	ceiled = ceilgnum (number);
 	if (fmod (ceiled, 2) == 1)
 	        if (number > ceiled)
 		        return value_new_int ((int) (sign * (ceiled + 2)));
@@ -1940,7 +1940,7 @@ gnumeric_sqrtpi (FunctionEvalInfo *ei, Value **argv)
 	if (n < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (sqrt (M_PI * n));
+	return value_new_float (sqrtgnum (M_PI * n));
 }
 
 /***************************************************************************/
@@ -1973,7 +1973,7 @@ gnumeric_randbetween (FunctionEvalInfo *ei, Value **argv)
 	if (bottom > top)
 		return value_new_error (ei->pos, gnumeric_err_NUM );
 
-	r = bottom + floor ((top + 1.0 - bottom) * random_01 ());
+	r = bottom + floorgnum ((top + 1.0 - bottom) * random_01 ());
 	return value_new_int ((int)r);
 }
 
@@ -2884,7 +2884,7 @@ callback_function_seriessum (const EvalPos *ep, Value *value,
 
 	coefficient = value_get_as_float (value);
 
-	mm->sum += coefficient * pow (mm->x, mm->n);
+	mm->sum += coefficient * powgnum (mm->x, mm->n);
 	mm->n += mm->m;
 
 	return NULL;

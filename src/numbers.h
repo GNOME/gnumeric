@@ -6,6 +6,10 @@ typedef int    gnum_int;
 
 #ifdef WITH_LONG_DOUBLE
 
+#ifdef HAVE_SUNMATH_H
+#include <sunmath.h>
+#endif
+
 typedef long double gnum_float;
 #ifdef HAVE_STRTOLD
 #define strtognum strtold
@@ -23,14 +27,6 @@ gnum_float strtognum (const char *str, char **end);
 gnum_float modfgnum (gnum_float x, gnum_float *iptr);
 #endif
 
-#ifdef HAVE_FABSL
-#define gnumabs fabsl
-#else
-#define NEED_FAKE_GNUMABS
-/* Defined in gutils.c  */
-gnum_float gnumabs (gnum_float x);
-#endif
-
 #ifdef HAVE_LDEXPL
 #define ldexpgnum ldexpl
 #else
@@ -46,6 +42,21 @@ gnum_float ldexpgnum (gnum_float x, int exp);
 /* Defined in gutils.c  */
 gnum_float frexpgnum (gnum_float x, int *exp);
 #endif
+
+#define sqrtgnum sqrtl
+#define gnumabs fabsl
+#define floorgnum floorl
+#define ceilgnum ceill
+#define powgnum powl
+#define expgnum expl
+#define loggnum logl
+#define log10gnum log10l
+#define singnum sinl
+#define cosgnum cosl
+#define tangnum tanl
+#define asingnum asinl
+#define acosgnum acosl
+#define atangnum atanl
 
 #define GNUM_FORMAT_e "Le"
 #define GNUM_FORMAT_E "LE"
@@ -66,6 +77,19 @@ typedef double gnum_float;
 #define gnumabs fabs
 #define ldexpgnum ldexp
 #define frexpgnum frexp
+#define sqrtgnum sqrt
+#define floorgnum floor
+#define ceilgnum ceil
+#define powgnum pow
+#define expgnum exp
+#define loggnum log
+#define log10gnum log10
+#define singnum sin
+#define cosgnum cos
+#define tangnum tan
+#define asingnum asin
+#define acosgnum acos
+#define atangnum atan
 
 #define GNUM_FORMAT_e "e"
 #define GNUM_FORMAT_E "E"

@@ -290,7 +290,7 @@ general_linear_regression (gnum_float **xss, int xdim,
 			for (i = 0; i < xdim; i++) {
 				e[i] = 1;
 				backsolve (LU, P, e, xdim, inv);
-				regression_stat->se[i] = sqrt (regression_stat->var * inv[i]);
+				regression_stat->se[i] = sqrtgnum (regression_stat->var * inv[i]);
 				e[i] = 0;
 			}
 			g_free (e);
@@ -316,7 +316,7 @@ general_linear_regression (gnum_float **xss, int xdim,
 			((1 - regression_stat->sqr_r) / regression_stat->df_resid);
 
 		regression_stat->ss_reg =  regression_stat->ss_total - regression_stat->ss_resid;
-		regression_stat->se_y = sqrt (regression_stat->ss_total / n);
+		regression_stat->se_y = sqrtgnum (regression_stat->ss_total / n);
 		regression_stat->ms_reg = regression_stat->ss_reg / regression_stat->df_reg;
 		regression_stat->ms_resid = regression_stat->ss_resid / regression_stat->df_resid;
 
@@ -375,7 +375,7 @@ exponential_regression (gnum_float **xss, int dim,
 	log_ys = g_new (gnum_float, n);
 	for (i = 0; i < n; i++)
 		if (ys[i] > 0)
-			log_ys[i] = log (ys[i]);
+			log_ys[i] = loggnum (ys[i]);
 		else {
 			result = 1; /* Bad data.  */
 			goto out;
@@ -398,7 +398,7 @@ exponential_regression (gnum_float **xss, int dim,
 
 	if (result == 0)
 		for (i = 0; i < dim + 1; i++)
-			res[i] = exp (res[i]);
+			res[i] = expgnum (res[i]);
 
  out:
 	g_free (log_ys);
@@ -419,6 +419,8 @@ regression_stat_new (void)
 	return regression_stat;
 }
 
+/* ------------------------------------------------------------------------- */
+
 void 
 regression_stat_destroy (regression_stat_t *regression_stat) 
 {
@@ -433,3 +435,4 @@ regression_stat_destroy (regression_stat_t *regression_stat)
 	g_free (regression_stat);
 }
 
+/* ------------------------------------------------------------------------- */

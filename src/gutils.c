@@ -574,16 +574,6 @@ modfgnum (gnum_float x, gnum_float *iptr)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef NEED_FAKE_GNUMABS
-gnum_float
-gnumabs (gnum_float x)
-{
-	return (x >= 0) ? x : -x;
-}
-#endif
-
-/* ------------------------------------------------------------------------- */
-
 #ifdef NEED_FAKE_STRTOGNUM
 gnum_float
 strtognum (const char *str, char **end)

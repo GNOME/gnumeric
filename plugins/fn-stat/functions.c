@@ -533,7 +533,7 @@ gnumeric_negbinomdist (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (combin (x + r - 1, r - 1) *
-				pow (p, r) * pow (1 - p, x));
+				powgnum (p, r) * powgnum (1 - p, x));
 }
 
 /***************************************************************************/
@@ -698,7 +698,7 @@ gnumeric_fisherinv (FunctionEvalInfo *ei, Value **argv)
        gnum_float y;
 
        y = value_get_as_float (argv[0]);
-       return value_new_float ((exp (2 * y) - 1.0) / (exp (2 * y) + 1.0));
+       return value_new_float ((expgnum (2 * y) - 1.0) / (expgnum (2 * y) + 1.0));
 }
 
 /***************************************************************************/
@@ -1862,7 +1862,7 @@ gnumeric_confidence (FunctionEvalInfo *ei, Value **argv)
 	if (size < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (-qnorm (x / 2, 0, 1) * (stddev / sqrt (size)));
+	return value_new_float (-qnorm (x / 2, 0, 1) * (stddev / sqrtgnum (size)));
 }
 
 /***************************************************************************/
@@ -2202,7 +2202,7 @@ gnumeric_fisher (FunctionEvalInfo *ei, Value **argv)
         if (x <= -1.0 || x >= 1.0)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
-        return value_new_float (0.5 * log ((1.0 + x) / (1.0 - x)));
+        return value_new_float (0.5 * loggnum ((1.0 + x) / (1.0 - x)));
 }
 
 /***************************************************************************/
@@ -2701,7 +2701,7 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 	if (den == 0)
 	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (sqrt (k * (n * sqrsum_y - sum_y * sum_y - num / den)));
+	return value_new_float (sqrtgnum (k * (n * sqrsum_y - sum_y * sum_y - num / den)));
 }
 
 /***************************************************************************/
@@ -2775,13 +2775,13 @@ gnumeric_ztest (FunctionEvalInfo *ei, ExprList *expr_node_list)
 	if (p.num < 2)
 	        return value_new_error (ei->pos, gnumeric_err_DIV0);
 
-	stdev = sqrt ((p.sqrsum - p.sum * p.sum / p.num) / (p.num - 1));
+	stdev = sqrtgnum ((p.sqrsum - p.sum * p.sum / p.num) / (p.num - 1));
 
 	if (stdev == 0)
 	        return value_new_error (ei->pos, gnumeric_err_DIV0);
 
 	return value_new_float (1 - pnorm ((p.sum / p.num - p.x) /
-					   (stdev / sqrt (p.num)),
+					   (stdev / sqrtgnum (p.num)),
 					   0, 1));
 }
 
@@ -3435,9 +3435,9 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		if (N - 1 == 0 || N == 0)
 		        return value_new_error (ei->pos, gnumeric_err_NUM);
 
-		s = sqrt (Q / (N - 1));
+		s = sqrtgnum (Q / (N - 1));
 		mean1 = sum / N;
-		x = mean1 / (s / sqrt (N));
+		x = mean1 / (s / sqrtgnum (N));
 		dof = N - 1;
 	} else {
 	        if ((err = stat_helper (&cl, ei->pos, argv [0])))
@@ -3459,7 +3459,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		} else
 		        dof = n1 + n2 - 2;
 
-		x = (mean1 - mean2) / sqrt (var1 / n1 + var2 / n2);
+		x = (mean1 - mean2) / sqrtgnum (var1 / n1 + var2 / n2);
 	}
 
 	if (tails == 1)
@@ -3782,7 +3782,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 		value_array_set (result, 0, 2,
 				 value_new_float (extra_stat.sqr_r));
 		value_array_set (result, 1, 2,
-				 value_new_float (sqrt (extra_stat.var)));
+				 value_new_float (sqrtgnum (extra_stat.var)));
 		value_array_set (result, 0, 3,
 				 value_new_float (extra_stat.F));
 		value_array_set (result, 1, 3,
@@ -4148,7 +4148,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 		value_array_set (result, 0, 2,
 				 value_new_float (extra_stat.sqr_r));
 		value_array_set (result, 1, 2,
-				 value_new_float (sqrt (extra_stat.var))); /* Still wrong ! */
+				 value_new_float (sqrtgnum (extra_stat.var))); /* Still wrong ! */
 		value_array_set (result, 0, 3,
 				 value_new_float (extra_stat.F));
 		value_array_set (result, 1, 3,
@@ -4159,7 +4159,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 				 value_new_float (extra_stat.ss_resid));
 		for (i = 0; i < dim; i++)
 			value_array_set (result, dim - i - 1, 1,
-					 value_new_float (extra_stat.se[i+affine]));
+					 value_new_float (extra_stat.se[i + affine]));
 		value_array_set (result, dim, 1,
 				 value_new_float (extra_stat.se[0]));
 	} else
@@ -4286,7 +4286,7 @@ gnumeric_growth (FunctionEvalInfo *ei, Value *argv[])
 	result = value_new_array (1, nnx);
 	for (i = 0; i < nnx; i++)
 	        value_array_set (result, 0, i,
-				 value_new_float (pow (expres[1], nxs[i]) *
+				 value_new_float (powgnum (expres[1], nxs[i]) *
 						  expres[0]));
 
  out:

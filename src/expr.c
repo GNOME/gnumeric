@@ -685,7 +685,7 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 			case OPER_EXP:
 				if (ia == 0 && ib <= 0)
 					return value_new_error (pos, gnumeric_err_NUM);
-				dres = pow ((gnum_float)ia, (gnum_float)ib);
+				dres = powgnum ((gnum_float)ia, (gnum_float)ib);
 				ires = (int)dres;
 				if (dres == ires)
 					return value_new_int (ires);
@@ -721,7 +721,7 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 				if ((va == 0 && vb <= 0) ||
 				    (va < 0 && vb != (int)vb))
 					return value_new_error (pos, gnumeric_err_NUM);
-				return value_new_float (pow (va, vb));
+				return value_new_float (powgnum (va, vb));
 
 			default:
 				break;

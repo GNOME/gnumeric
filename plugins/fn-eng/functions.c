@@ -54,7 +54,7 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 	if (*err)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	b10 = pow (src_base, 10);
+	b10 = powgnum (src_base, 10);
 	if (v >= b10 / 2) /* N's complement */
 		v = v - b10;
 
@@ -63,12 +63,12 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 
 	if (v < 0) {
 		max = 10;
-		v += pow (dest_base, max);
+		v += powgnum (dest_base, max);
 	} else {
 		if (v == 0)
 			max = 1;
 		else
-			max = (int)(log (v + 0.5) / log (dest_base)) + 1;
+			max = (int)(loggnum (v + 0.5) / loggnum (dest_base)) + 1;
 	}
 
 	if (places > max)

@@ -1021,11 +1021,11 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data,
 		set_cell_float_na (dao, col + 1, 1, info.mean, info.error_mean == 0);
 
 		/* Standard Error */
-		set_cell_float_na (dao, col + 1, 2, sqrt (info.var / info.len),
+		set_cell_float_na (dao, col + 1, 2, sqrtgnum (info.var / info.len),
 				   info.error_var == 0);
 
 		/* Standard Deviation */
-		set_cell_float_na (dao, col + 1, 5, sqrt (info.var), info.error_var == 0);
+		set_cell_float_na (dao, col + 1, 5, sqrtgnum (info.var), info.error_var == 0);
 
 		/* Sample Variance */
 		set_cell_float_na (dao, col + 1, 6, info.var, info.error_var == 0);
@@ -1098,7 +1098,7 @@ confidence_level (WorkbookControl *wbc, GPtrArray *data, gnum_float c_level,
 			info = g_array_index (basic_stats, desc_stats_t, col);
 			if (info.error_mean == 0 && info.error_var == 0) {
 				x = -qt ((1 - c_level) / 2, info.len - 1) *
-					sqrt (info.var / info.len);
+					sqrtgnum (info.var / info.len);
 				set_cell_float (dao, col + 1, 1, info.mean - x);
 				set_cell_float (dao, col + 1, 2, info.mean + x);
 				continue;
@@ -1389,8 +1389,8 @@ ztest_tool (WorkbookControl *wbc, Sheet *sheet,
 
 	if (no_error) {
 		z = (mean_1 - mean_2 - mean_diff) /
-			sqrt (known_var_1 / variable_1->data->len  + known_var_2 /
-			      variable_2->data->len);
+			sqrtgnum (known_var_1 / variable_1->data->len  + known_var_2 /
+				  variable_2->data->len);
 		p = 1 - pnorm (fabs (z), 0, 1);
 	}
 
@@ -1549,7 +1549,7 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 	df = cleaned_variable_1->len - 1;
 
 	if (var_diff_error == 0) {
-		t = (mean_diff - mean_diff_hypo)/sqrt (var_diff/difference->len);
+		t = (mean_diff - mean_diff_hypo) / sqrtgnum (var_diff / difference->len);
 		p = 1.0 - pt (fabs (t), df);
 	}
 
@@ -1685,7 +1685,7 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 		       var_2 * (variable_2->data->len - 1)) / df;
 		if (var != 0) {
 			t = (mean_1 - mean_2 - mean_diff) /
-				sqrt (var / variable_1->data->len + var / variable_2->data->len);
+				sqrtgnum (var / variable_1->data->len + var / variable_2->data->len);
 			p = 1.0 - pt (fabs (t), df);
 		}
 	}
@@ -1813,7 +1813,7 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 			    ((1 - c)* (1 - c)) / (variable_2->data->len - 1.0));
 
 		t =  (mean_1 - mean_2 - mean_diff) /
-			sqrt (var_1 / variable_1->data->len + var_2 / variable_2->data->len);
+			sqrtgnum (var_1 / variable_1->data->len + var_2 / variable_2->data->len);
 		p = 1.0 - pt (fabs (t), df);
 	}
 
@@ -2397,7 +2397,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	if (xdim == 1)
 		cor_err =  range_correl_pop (xss[0], (gnum_float *)(y_data->data->data),
 					  y_data->data->len, &r);
-	else r = sqrt (regression_stat->sqr_r);
+	else r = sqrtgnum (regression_stat->sqr_r);
 
 	/* Multiple R */
 	set_cell_float_na (dao, 1, 3, r, cor_err == 0);
@@ -2409,7 +2409,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_cell_float (dao, 1, 5, regression_stat->adj_sqr_r);
 
 	/* Standard Error */
-	set_cell_float (dao, 1, 6, sqrt (regression_stat->var));
+	set_cell_float (dao, 1, 6, sqrtgnum (regression_stat->var));
 
 	/* Observations */
 	set_cell_float (dao, 1, 7, y_data->data->len);
@@ -2588,7 +2588,7 @@ average_tool (WorkbookControl *wbc, Sheet *sheet,
 					(prev[add_cursor] - prev_av[add_cursor]);
 				if (row >= 2 * interval - 2) {
 					set_cell_float (dao, col + 1, row + 1,
-							sqrt (std_err / interval));
+							sqrtgnum (std_err / interval));
 					std_err -= (prev[del_cursor] - prev_av[del_cursor]) *
 						(prev[del_cursor] - prev_av[del_cursor]);
 				} else {
@@ -3995,18 +3995,18 @@ fourier_fft (fourier_t *in, fourier_t *fourier)
 		gnum_float arg = M_PI * i / fourier_1.n;
 
 		fourier->real[i] = (fourier_1.real[i] +
-			fourier_2.real[i] * cos (arg) +
-			fourier_2.imaginary[i] * sin (arg))/2;
+			fourier_2.real[i] * cosgnum (arg) +
+			fourier_2.imaginary[i] * singnum (arg))/2;
 		fourier->imaginary[i] = (fourier_1.imaginary[i] +
-			fourier_2.imaginary[i] * cos (arg) -
-			fourier_2.real[i] * sin (arg))/2;
+			fourier_2.imaginary[i] * cosgnum (arg) -
+			fourier_2.real[i] * singnum (arg))/2;
 
 		fourier->real[i + fourier_1.n] = (fourier_1.real[i] -
-			fourier_2.real[i] * cos (arg) -
-			fourier_2.imaginary[i] * sin (arg))/2;
+			fourier_2.real[i] * cosgnum (arg) -
+			fourier_2.imaginary[i] * singnum (arg))/2;
 		fourier->imaginary[i + fourier_1.n] = (fourier_1.imaginary[i] -
-			fourier_2.imaginary[i] * cos (arg) +
-			fourier_2.real[i] * sin (arg))/2;
+			fourier_2.imaginary[i] * cosgnum (arg) +
+			fourier_2.real[i] * singnum (arg))/2;
 	}
 
 
@@ -4057,18 +4057,18 @@ fourier_fft_inv (fourier_t *in, fourier_t *fourier)
 		gnum_float arg = M_PI * i / fourier_1.n;
 
 		fourier->real[i] = (fourier_1.real[i] +
-			fourier_2.real[i] * cos (arg) -
-			fourier_2.imaginary[i] * sin (arg))/2;
+			fourier_2.real[i] * cosgnum (arg) -
+			fourier_2.imaginary[i] * singnum (arg))/2;
 		fourier->imaginary[i] = (fourier_1.imaginary[i] +
-			fourier_2.imaginary[i] * cos (arg) +
-			fourier_2.real[i] * sin (arg))/2;
+			fourier_2.imaginary[i] * cosgnum (arg) +
+			fourier_2.real[i] * singnum (arg))/2;
 
 		fourier->real[i + fourier_1.n] = (fourier_1.real[i] -
-			fourier_2.real[i] * cos (arg) +
-			fourier_2.imaginary[i] * sin (arg))/2;
+			fourier_2.real[i] * cosgnum (arg) +
+			fourier_2.imaginary[i] * singnum (arg))/2;
 		fourier->imaginary[i + fourier_1.n] = (fourier_1.imaginary[i] -
-			fourier_2.imaginary[i] * cos (arg) -
-			fourier_2.real[i] * sin (arg))/2;
+			fourier_2.imaginary[i] * cosgnum (arg) -
+			fourier_2.real[i] * singnum (arg))/2;
 	}
 
 

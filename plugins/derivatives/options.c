@@ -12,6 +12,7 @@
 #include <math.h>
 
 #include "func.h"
+#include "numbers.h"
 #include "mathfunc.h"
 #include "plugin.h"
 #include "value.h"
@@ -43,14 +44,14 @@ calc_N (gnum_float x)
 static gnum_float
 calc_d1 (gnum_float X, gnum_float S, gnum_float stddev, gnum_float t, gnum_float r)
 {
-	return (log (S / X) + r * t) / (stddev * sqrt (t))
-		+ stddev * sqrt (t) / 2.0;
+	return (loggnum (S / X) + r * t) / (stddev * sqrtgnum (t))
+		+ stddev * sqrtgnum (t) / 2.0;
 }
 
 static gnum_float
 calc_d2 (gnum_float X, gnum_float S, gnum_float stddev, gnum_float t, gnum_float r)
 {
-	return calc_d1 (X, S, stddev, t, r) - stddev * sqrt (t);
+	return calc_d1 (X, S, stddev, t, r) - stddev * sqrtgnum (t);
 }
 
 static Value *
@@ -74,7 +75,7 @@ func_opt_bs_call (FunctionEvalInfo *ei, Value *argv [])
 
 	d1 = calc_d1 (X, S, stddev, t, r);
 	d2 = calc_d2 (X, S, stddev, t, r);
-	C = S * calc_N (d1) - X * exp (-r * t) * calc_N (d2);
+	C = S * calc_N (d1) - X * expgnum (-r * t) * calc_N (d2);
 
 	return value_new_float (C);
 }
@@ -100,7 +101,7 @@ func_opt_bs_put (FunctionEvalInfo *ei, Value *argv [])
 
 	d1 = calc_d1 (X, S, stddev, t, r);
 	d2 = calc_d2 (X, S, stddev, t, r);
-	P = -S * calc_N (-d1) + X * exp (-r * t) * calc_N (-d2);
+	P = -S * calc_N (-d1) + X * expgnum (-r * t) * calc_N (-d2);
 
 	return value_new_float (P);
 }
@@ -145,8 +146,8 @@ func_opt_bs_call_theta (FunctionEvalInfo *ei, Value *argv[])
 
 	d1 = calc_d1 (X, S, stddev, t, r);
 	d2 = calc_d2 (X, S, stddev, t, r);
-	theta = -(S * stddev * calc_Np (d1)) / (2.0 * sqrt (t))
-		-(r * X * calc_N (d2) * exp (-r * t));
+	theta = -(S * stddev * calc_Np (d1)) / (2.0 * sqrtgnum (t))
+		-(r * X * calc_N (d2) * expgnum (-r * t));
 
 	return value_new_float (theta);
 }
@@ -169,7 +170,7 @@ func_opt_bs_call_rho (FunctionEvalInfo *ei, Value *argv[])
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	d2 = calc_d2 (X, S, stddev, t, r);
-	return value_new_float (t * X * exp (-r * t) * calc_N (d2));
+	return value_new_float (t * X * expgnum (-r * t) * calc_N (d2));
 }
 
 static Value *
@@ -213,7 +214,7 @@ func_opt_bs_put_theta (FunctionEvalInfo *ei, Value *argv[])
 
 	d1 = calc_d1 (X, S, stddev, t, r);
 	d2 = calc_d2 (X, S, stddev, t, r);
-	theta = - (S * stddev * calc_Np (d1)) / (2.0 * sqrt (t)) + r * X * exp (-r * t) * calc_N (-d2);
+	theta = - (S * stddev * calc_Np (d1)) / (2.0 * sqrtgnum (t)) + r * X * expgnum (-r * t) * calc_N (-d2);
 	return value_new_float (theta);
 }
 
@@ -237,7 +238,7 @@ func_opt_bs_put_rho (FunctionEvalInfo *ei, Value *argv[])
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	d2 = calc_d2 (X, S, stddev, t, r);
-	return value_new_float (-t * X * exp (-r * t) * calc_N (-d2));
+	return value_new_float (-t * X * expgnum (-r * t) * calc_N (-d2));
 }
 
 static Value *
@@ -260,7 +261,7 @@ func_opt_bs_gamma (FunctionEvalInfo *ei, Value *argv[])
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	d1 = calc_d1 (X, S, stddev, t, r);
-	return value_new_float (calc_Np (d1) / (S * stddev * sqrt (t)));
+	return value_new_float (calc_Np (d1) / (S * stddev * sqrtgnum (t)));
 }
 
 static Value *
@@ -282,10 +283,10 @@ func_opt_bs_vega (FunctionEvalInfo *ei, Value *argv[])
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	d1 = calc_d1 (X, S, stddev, t, r);
-	return value_new_float (S * sqrt (t) * calc_Np (d1));
+	return value_new_float (S * sqrtgnum (t) * calc_Np (d1));
 }
 
-static char *help_opt_bs_call = {
+static const char *help_opt_bs_call = {
 	N_("@FUNCTION=opt_bs_call\n"
 	   "@SYNTAX=opt_bs_call(strike,price,volatility,days_to_maturity,rate)\n"
 	   "@DESCRIPTION="
@@ -305,7 +306,7 @@ static char *help_opt_bs_call = {
 	   "opt_bs_put_theta, opt_bs_vega, opt_bs_gamma")
 };
 
-static char *help_opt_bs_put = {
+static const char *help_opt_bs_put = {
 	N_("@FUNCTION=opt_bs_put\n"
 	   "@SYNTAX=opt_bs_put(strike,price,volatility,days_to_maturity,rate)\n"
 	   "@DESCRIPTION="
@@ -325,7 +326,7 @@ static char *help_opt_bs_put = {
 	   "opt_bs_put_theta, opt_bs_vega, opt_bs_gamma")
 };
 
-static char *help_opt_bs_call_delta = {
+static const char *help_opt_bs_call_delta = {
 	N_("@FUNCTION=opt_bs_call_delta\n"
 	   "@SYNTAX=opt_bs_call_delta(strike,price,volatility,days_to_maturity,rate)\n"
 	   "@DESCRIPTION="
@@ -348,7 +349,7 @@ static char *help_opt_bs_call_delta = {
 	   "opt_bs_put_theta, opt_bs_vega, opt_bs_gamma")
 };
 
-static char *help_opt_bs_put_delta = {
+static const char *help_opt_bs_put_delta = {
 	N_("@FUNCTION=opt_bs_put_delta\n"
 	   "@SYNTAX=opt_bs_put_delta(strike,price,volatility,days_to_maturity,rate)\n"
 	   "@DESCRIPTION="
@@ -371,7 +372,7 @@ static char *help_opt_bs_put_delta = {
 	   "opt_bs_put_theta, opt_bs_vega, opt_bs_gamma")
 };
 
-static char *help_opt_bs_call_rho = {
+static const char *help_opt_bs_call_rho = {
         /* xgettext:no-c-format */
 	N_("@FUNCTION=opt_bs_call_rho\n"
 	   "@SYNTAX=opt_bs_call_rho(strike,price,volatility,days_to_maturity,rate)\n"
@@ -395,7 +396,7 @@ static char *help_opt_bs_call_rho = {
 	   "opt_bs_put_theta, opt_bs_vega, opt_bs_gamma")
 };
 
-static char *help_opt_bs_put_rho = {
+static const char *help_opt_bs_put_rho = {
         /* xgettext:no-c-format */
 	N_("@FUNCTION=opt_bs_put_rho\n"
 	   "@SYNTAX=opt_bs_put_rho(strike,price,volatility,days_to_maturity,rate)\n"
@@ -419,7 +420,7 @@ static char *help_opt_bs_put_rho = {
 	   "opt_bs_put_theta, opt_bs_vega, opt_bs_gamma")
 };
 
-static char *help_opt_bs_call_theta = {
+static const char *help_opt_bs_call_theta = {
 	N_("@FUNCTION=opt_bs_call_theta\n"
 	   "@SYNTAX=opt_bs_call_theta(strike,price,volatility,days_to_maturity,rate)\n"
 	   "@DESCRIPTION="
@@ -442,7 +443,7 @@ static char *help_opt_bs_call_theta = {
 	   "opt_bs_put_theta, opt_bs_vega, opt_bs_gamma")
 };
 
-static char *help_opt_bs_put_theta = {
+static const char *help_opt_bs_put_theta = {
 	N_("@FUNCTION=opt_bs_put_theta\n"
 	   "@SYNTAX=opt_bs_put_theta(strike,price,volatility,days_to_maturity,rate)\n"
 	   "@DESCRIPTION="
@@ -465,7 +466,7 @@ static char *help_opt_bs_put_theta = {
 	   "opt_bs_call_theta, opt_bs_vega, opt_bs_gamma")
 };
 
-static char *help_opt_bs_gamma = {
+static const char *help_opt_bs_gamma = {
 	N_("@FUNCTION=opt_bs_gamma\n"
 	   "@SYNTAX=opt_bs_gamma(strike,price,volatility,days_to_maturity,rate)\n"
 	   "@DESCRIPTION="
@@ -488,7 +489,7 @@ static char *help_opt_bs_gamma = {
 	   "opt_bs_call_theta, opt_bs_put_rho, opt_bs_vega")
 };
 
-static char *help_opt_bs_vega = {
+static const char *help_opt_bs_vega = {
         /* xgettext:no-c-format */
 	N_("@FUNCTION=opt_bs_vega\n"
 	   "@SYNTAX=opt_bs_bega(strike,price,volatility,days_to_maturity,rate)\n"

@@ -116,13 +116,13 @@ gnumeric_sub_epsilon (gnum_float x)
 gnum_float
 gnumeric_fake_floor (gnum_float x)
 {
-  return floor (gnumeric_add_epsilon (x));
+  return floorgnum (gnumeric_add_epsilon (x));
 }
 
 gnum_float
 gnumeric_fake_ceil (gnum_float x)
 {
-  return ceil (gnumeric_sub_epsilon (x));
+  return ceilgnum (gnumeric_sub_epsilon (x));
 }
 
 gnum_float

@@ -63,7 +63,7 @@
 static gnum_float
 calculate_pvif (gnum_float rate, gnum_float nper)
 {
-	return (pow (1 + rate, nper));
+	return (powgnum (1 + rate, nper));
 }
 
 #if 0
@@ -76,14 +76,14 @@ calculate_fvif (gnum_float rate, gnum_float nper)
 static gnum_float
 calculate_pvifa (gnum_float rate, gnum_float nper)
 {
-	return ((1.0 / rate) - (1.0 / (rate * pow (1 + rate, nper))));
+	return ((1.0 / rate) - (1.0 / (rate * powgnum (1 + rate, nper))));
 }
 #endif
 
 static gnum_float
 calculate_fvifa (gnum_float rate, gnum_float nper)
 {
-	return ((pow (1 + rate, nper) - 1) / rate);
+	return ((powgnum (1 + rate, nper) - 1) / rate);
 }
 
 
@@ -98,8 +98,8 @@ static gnum_float
 calculate_principal (gnum_float starting_principal, gnum_float payment,
 		     gnum_float rate, gnum_float period)
 {
-	return (starting_principal * pow (1.0 + rate, period) + payment *
-		((pow (1 + rate, period) - 1) / rate));
+	return (starting_principal * powgnum (1.0 + rate, period) + payment *
+		((powgnum (1 + rate, period) - 1) / rate));
 }
 
 static gnum_float
@@ -804,7 +804,7 @@ gnumeric_effect (FunctionEvalInfo *ei, Value **argv)
 	if (rate < 0 || nper <= 0)
 		return value_new_error (ei->pos, _("effect - domain error"));
 
-        return value_new_float (pow ((1 + rate / nper), nper) - 1);
+        return value_new_float (powgnum ((1 + rate / nper), nper) - 1);
 }
 
 /***************************************************************************/
@@ -842,7 +842,7 @@ gnumeric_nominal (FunctionEvalInfo *ei, Value **argv)
 	if (rate < 0 || nper <= 0)
 		return value_new_error (ei->pos, _("nominal - domain error"));
 
-        return value_new_float (nper * (pow (1 + rate, 1.0 / nper ) - 1 ));
+        return value_new_float (nper * (powgnum (1 + rate, 1.0 / nper ) - 1 ));
 
 }
 
@@ -918,7 +918,7 @@ gnumeric_db (FunctionEvalInfo *ei, Value **argv)
 	if (cost == 0 || life <= 0 || salvage / cost < 0)
 	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	rate = 1 - pow ((salvage / cost), (1 / life));
+	rate = 1 - powgnum ((salvage / cost), (1 / life));
 	rate *= 1000;
 	rate = floor (rate+0.5) / 1000;
 
@@ -1132,7 +1132,7 @@ gnumeric_dollarde (FunctionEvalInfo *ei, Value **argv)
 	floored = floor (fractional_dollar);
 	rest = fractional_dollar - floored;
 
-	return value_new_float (floored + ((gnum_float) rest * pow (10, n) /
+	return value_new_float (floored + ((gnum_float) rest * powgnum (10, n) /
 					   fraction));
 }
 
@@ -1175,7 +1175,7 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 	rest = fractional_dollar - floored;
 
 	return value_new_float (floored + ((gnum_float) (rest * fraction) /
-					   pow (10, n)));
+					   powgnum (10, n)));
 }
 
 /***************************************************************************/
@@ -1213,9 +1213,9 @@ gnumeric_mirr (FunctionEvalInfo *ei, Value **argv)
 	for (i = 0, npv_pos = npv_neg = 0; i < n; i++) {
 		gnum_float v = values[i];
 		if (v >= 0)
-			npv_pos += v / pow (1 + rrate, i);
+			npv_pos += v / powgnum (1 + rrate, i);
 		else
-			npv_neg += v / pow (1 + frate, i);
+			npv_neg += v / powgnum (1 + frate, i);
 	}
 
 	if (npv_neg == 0 || npv_pos == 0 || rrate <= -1) {
@@ -1228,8 +1228,8 @@ gnumeric_mirr (FunctionEvalInfo *ei, Value **argv)
 	 * the one Microsoft claims to use and it produces the results
 	 * that Excel does.  -- MW.
 	 */
-	res = pow ((-npv_pos * pow (1 + rrate, n)) / (npv_neg * (1 + rrate)),
-		  (1.0 / (n - 1))) - 1.0;
+	res = powgnum ((-npv_pos * powgnum (1 + rrate, n)) / (npv_neg * (1 + rrate)),
+		       (1.0 / (n - 1))) - 1.0;
 
 	result = value_new_float (res);
 out:
@@ -1441,9 +1441,9 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 	goal_seek_initialise (&data);
 
 	data.xmin = MAX (data.xmin,
-			 -pow (DBL_MAX / 1e10, 1.0 / udata.nper) + 1);
+			 -powgnum (DBL_MAX / 1e10, 1.0 / udata.nper) + 1);
 	data.xmax = MIN (data.xmax,
-			 pow (DBL_MAX / 1e10, 1.0 / udata.nper) - 1);
+			 powgnum (DBL_MAX / 1e10, 1.0 / udata.nper) - 1);
 
 	/* Newton search from guess.  */
 	status = goal_seek_newton (&gnumeric_rate_f, &gnumeric_rate_df,
@@ -1517,7 +1517,7 @@ irr_npv (gnum_float rate, gnum_float *y, void *user_data)
 
 	sum = 0;
 	for (i = 0; i < n; i++)
-	        sum += values[i] * pow (1 + rate, n - i);
+	        sum += values[i] * powgnum (1 + rate, n - i);
 
 	/*
 	 * I changed the formula above by multiplying all terms by (1+r)^n.
@@ -1541,7 +1541,7 @@ irr_npv_df (gnum_float rate, gnum_float *y, void *user_data)
 
 	sum = 0;
 	for (i = 0; i < n - 1; i++)
-	        sum += values[i] * (n - i) * pow (1 + rate, n - i - 1);
+	        sum += values[i] * (n - i) * powgnum (1 + rate, n - i - 1);
 
 	*y = sum;
 	return GOAL_SEEK_OK;
@@ -1570,9 +1570,9 @@ gnumeric_irr (FunctionEvalInfo *ei, Value **argv)
 	goal_seek_initialise (&data);
 
 	data.xmin = MAX (data.xmin,
-			 -pow (DBL_MAX / 1e10, 1.0 / p.n) + 1);
+			 -powgnum (DBL_MAX / 1e10, 1.0 / p.n) + 1);
 	data.xmax = MIN (data.xmax,
-			 pow (DBL_MAX / 1e10, 1.0 / p.n) - 1);
+			 powgnum (DBL_MAX / 1e10, 1.0 / p.n) - 1);
 
 	status = goal_seek_newton (&irr_npv, &irr_npv_df, &data, &p, rate0);
 	if (status != GOAL_SEEK_OK) {
@@ -1677,7 +1677,7 @@ callback_function_npv (const EvalPos *ep, Value *value, void *closure)
 		mm->rate = value_get_as_float (value);
 	} else
 		mm->sum += value_get_as_float (value) /
-		        pow (1 + mm->rate, mm->num);
+		        powgnum (1 + mm->rate, mm->num);
 	mm->num++;
         return NULL;
 }
@@ -1746,8 +1746,8 @@ gnumeric_xnpv (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	for (i = 0; i < p_n; i++)
-	        sum += payments[i] / pow (1 + rate, (dates[i] - dates[0]) /
-					  365.0);
+	        sum += payments[i] / powgnum (1 + rate, (dates[i] - dates[0]) /
+					      365.0);
 
 	result = value_new_float (sum);
  out:
@@ -1812,7 +1812,7 @@ xirr_npv (gnum_float rate, gnum_float *y, void *user_data)
 
 		if (d < 0)
 		        return GOAL_SEEK_ERROR;
-	        sum += values[i] / pow (1 + rate, d / 365.0);
+	        sum += values[i] / powgnum (1 + rate, d / 365.0);
 	}
 
 	*y = sum;
@@ -2080,7 +2080,7 @@ gnumeric_nper (FunctionEvalInfo *ei, Value **argv)
 	if (tmp <= 0.0)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-        return value_new_float (log (tmp) / log (1.0 + rate));
+        return value_new_float (loggnum (tmp) / loggnum (1.0 + rate));
 }
 
 /***************************************************************************/
@@ -2116,7 +2116,7 @@ gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
 	else if (fv / pv < 0)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-        return value_new_float (log (fv / pv) / log (1.0 + rate));
+        return value_new_float (loggnum (fv / pv) / loggnum (1.0 + rate));
 
 }
 
@@ -2322,9 +2322,9 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 	base = 1.0 + yield / freq;
 	exponent = d / e;
 	for (k = 0; k < n; k++)
-	        sum += den / pow (base, exponent + k);
+	        sum += den / powgnum (base, exponent + k);
 
-	first_term = redemption / pow (base, (n - 1.0 + d / e));
+	first_term = redemption / powgnum (base, (n - 1.0 + d / e));
 	last_term = a / e * den;
 
 	result = value_new_float (first_term + sum - last_term);
@@ -2584,12 +2584,12 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
 	 */
 
 	/* Odd short first coupon */
-	term1 = redemption / pow (1.0 + yield / freq, n - 1.0 + ds / e);
-	term2 = (100.0 * rate / freq * df / e) / pow (1.0 + yield / freq, ds / e);;
+	term1 = redemption / powgnum (1.0 + yield / freq, n - 1.0 + ds / e);
+	term2 = (100.0 * rate / freq * df / e) / powgnum (1.0 + yield / freq, ds / e);;
 	last_term = 100.0 * rate / freq * a / e;
 	sum = 0;
 	for (k = 1; k < n; k++)
-	        sum += (100.0 * rate / freq) / pow (1 + yield / freq, k + ds / e);
+	        sum += (100.0 * rate / freq) / powgnum (1 + yield / freq, k + ds / e);
 
 	result = value_new_float (term1 + term2 + sum - last_term);
 
