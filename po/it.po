@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.34\n"
 "POT-Creation-Date: 2000-05-09 21:12-0400\n"
-"PO-Revision-Date: 2000-04-12 11:11+02:00\n"
+"PO-Revision-Date: 2000-05-19 00:40+02:00\n"
 "Last-Translator: Leandro Noferini <lnoferin@cybervalley.org>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -13,15 +13,12 @@ msgstr ""
 "Date: 2000-03-28 23:16:00+0200\n"
 
 #: graph/main.c:48
-#, fuzzy
 msgid "I could not initialize Bonobo"
-msgstr ""
-"Non riesco ad inizializzare la fabbrica delle Cartelle di lavoro di Gnumeric"
+msgstr "Non riesco ad inizializzare Bonobo"
 
 #: graph/sample.c:206
-#, fuzzy
 msgid "Chart type"
-msgstr "Tipo di incolla"
+msgstr "Tipo grafico"
 
 #: graph/sample.c:207
 msgid "Plot mode"
@@ -55,13 +52,13 @@ msgstr "Sezione di centro:"
 #: plugins/dif/dif.c:270 plugins/ff-csv/csv-io.c:166
 #: plugins/plan-perfect/pln.c:896 plugins/sc/sc.c:413 plugins/sylk/sylk.c:446
 #: plugins/text/text-io.c:322 src/stf.c:150
-#, fuzzy, c-format
+#, c-format
 msgid "Imported %s"
-msgstr "F_ormatta"
+msgstr "Ho importato %s"
 
 #: plugins/dif/dif.c:283
 msgid "DIF : Failed to load sheet"
-msgstr ""
+msgstr "DIF : Non riesco a caricare il foglio"
 
 #: plugins/dif/dif.c:292 plugins/plan-perfect/pln.c:917
 msgid "Unable to mmap the file"
@@ -69,11 +66,11 @@ msgstr ""
 
 #: plugins/dif/dif.c:422
 msgid "Data Interchange Format (DIF) import"
-msgstr ""
+msgstr "Importo un file Data Interchange Format (DIF)"
 
 #: plugins/dif/dif.c:425
 msgid "Data Interchange Format (*.dif)"
-msgstr ""
+msgstr "Formato Data Interchange (*.dif)"
 
 #: plugins/excel/boot.c:116
 msgid "Saving over old files disabled for safety"
@@ -97,7 +94,7 @@ msgstr "File in formato Excel(R) 95"
 
 #: plugins/excel/ms-excel-read.c:263
 msgid "#UNKNOWN!"
-msgstr "SCONOSCIUTO!"
+msgstr "#UNKNOWN!"
 
 #: plugins/excel/ms-excel-read.c:3504
 msgid "No book or workbook streams found."
@@ -110,11 +107,11 @@ msgstr "Cartelle di lavoro protette da password non ancora supportate"
 
 #: plugins/excel/ms-excel-read.c:4033
 msgid "Unable to locate valid MS Excel workbook"
-msgstr ""
+msgstr "Non riesco a trovare una cartella di lavoro MS Excel"
 
 #: plugins/excel/ms-excel-write.c:3374
 msgid "Too many rows for this format"
-msgstr ""
+msgstr "Troppe righe per questo formato"
 
 #: plugins/excel/ms-excel-write.c:3454
 msgid "Can't open stream for writing\n"
@@ -185,20 +182,19 @@ msgstr "Numero di argomenti non valido"
 #. FIXME : This looks like a leak (JEG 4/4/00)
 #: plugins/guile/plugin.c:287 plugins/guile/plugin.c:292
 msgid "First argument to SCM must be a Guile expression"
-msgstr ""
+msgstr "Il primo argomento per SCM deve essere un'espressione Guile"
 
 #: plugins/guile/plugin.c:296
 msgid "Undefined scheme function"
-msgstr ""
+msgstr "Funzione scheme indefinita"
 
 #: plugins/guile/plugin.c:314
-#, fuzzy
 msgid "Could not evaluate argument"
-msgstr "Non riesco a leggere il file %s"
+msgstr "Non riesco a calcolare l'argomento"
 
 #: plugins/guile/plugin.c:482
 msgid "Gnumeric has not been compiled with support for guile."
-msgstr ""
+msgstr "Gnumeric non è stato compilato con il supporto per guile."
 
 #: plugins/html/boot.c:75
 msgid "HTML 3.2 file format (*.html)"
@@ -339,41 +335,39 @@ msgid ""
 msgstr ""
 
 #: plugins/numtheory/numtheory.c:412
-#, fuzzy
 msgid "Number Theory"
-msgstr "Numero"
+msgstr "Teoria numerica"
 
 #: plugins/oleo/boot.c:86
 msgid "GNU Oleo (*.oleo) file format"
 msgstr "File in formato Oleo di GNU (*.oleo)"
 
 #: plugins/plan-perfect/pln.c:715
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Invalid PLN file has more than the maximum\n"
 "number of %s %d"
-msgstr "File CSV non valido perché supera il numero massimo di righe %d"
+msgstr "Numero PLN invalido perché ha un numero di %s e %d maggiore del massimo"
 
 #: plugins/plan-perfect/pln.c:732
 msgid "PLN : Not a PlanPerfect File"
-msgstr ""
+msgstr "PLN : non è un file PlanPerfect"
 
 #: plugins/plan-perfect/pln.c:738
 msgid "PLN : Spreadsheet is password encrypted"
-msgstr ""
+msgstr "PLN : il foglio è crittato con password"
 
 #: plugins/plan-perfect/pln.c:954
 msgid "Plan Perfect Format (PLN) import"
-msgstr ""
+msgstr "Importo il formato Pla Perfect (PLN)"
 
 #: plugins/python/python.c:45
 msgid "Python exception"
 msgstr "Eccezione Python"
 
 #: plugins/python/python.c:570
-#, fuzzy
 msgid "Unknown Python type"
-msgstr "Errore di valutazione sconosciuto"
+msgstr "Tipo Python sconosciuto"
 
 #: plugins/python/python.c:609
 msgid "Unable to lookup Python code object."
@@ -389,15 +383,15 @@ msgstr "Plugin per il Campionamento"
 
 #: plugins/sc/sc.c:455
 msgid "SC/xspread file import"
-msgstr ""
+msgstr "Importo un file SC/xspread"
 
 #: plugins/sylk/sylk.c:406
 msgid "Not SYLK file"
-msgstr ""
+msgstr "Non è un file SYLK"
 
 #: plugins/sylk/sylk.c:414
 msgid "error parsing line\n"
-msgstr ""
+msgstr "errore nel parsare la linea\n"
 
 #: plugins/sylk/sylk.c:510
 msgid "MultiPlan (SYLK) import"
@@ -412,17 +406,16 @@ msgid "File is too large"
 msgstr "File troppo grande"
 
 #: plugins/text/text-io.c:395
-#, fuzzy
 msgid "Simple Text"
-msgstr "Formato solo testo"
+msgstr "Testo Semplice"
 
 #: plugins/text/text-io.c:426
 msgid "Basic Text I/O"
-msgstr ""
+msgstr "I/O di Testo Semplice"
 
 #: plugins/text/text-io.c:427
 msgid "Read/Write workbooks using a simple text format."
-msgstr ""
+msgstr "Leggi/Scrivi una cartella di lavoro usando il formato di semplice testo."
 
 #: plugins/xbase/boot.c:205
 msgid "Xbase (*.dbf) file format"
@@ -434,7 +427,7 @@ msgstr "Miguel de Icaza, programmatore principale"
 
 #: src/about.c:26
 msgid "Almer. S. Tigelaar, Text import."
-msgstr ""
+msgstr "Almer. S. Tigelaar, importazione di file di testo."
 
 #: src/about.c:27
 msgid "Sean Atkinson, Functions and X-Base importing."
@@ -445,9 +438,8 @@ msgid "Tom Dyas, Plugin support."
 msgstr "Tom Dyas, supporto ai plugin"
 
 #: src/about.c:29
-#, fuzzy
 msgid "Gergõ Érdi, Gnumeric hacker."
-msgstr "Morten Welinder, Gnumeric hacker."
+msgstr "Gergõ Érdi, Gnumeric hacker."
 
 #: src/about.c:30
 #, fuzzy
@@ -585,51 +577,44 @@ msgstr "Significa = "
 
 #: src/analysis-tools.c:701 src/analysis-tools.c:2000
 #: src/analysis-tools.c:2022
-#, fuzzy
 msgid "Standard Error"
 msgstr "Errore Standard"
 
 #: src/analysis-tools.c:702
-#, fuzzy
 msgid "Median"
-msgstr "Min"
+msgstr "Mediano"
 
 #: src/analysis-tools.c:703
-#, fuzzy
 msgid "Mode"
-msgstr "Sposta"
+msgstr "Modo"
 
 #: src/analysis-tools.c:704
-#, fuzzy
 msgid "Standard Deviation"
-msgstr "Deviazione Standard = "
+msgstr "Deviazione Standard"
 
 #: src/analysis-tools.c:705
-#, fuzzy
 msgid "Sample Variance"
-msgstr "Plugin per il Campionamento"
+msgstr "Varianza di campionamento"
 
 #: src/analysis-tools.c:706
 msgid "Kurtosis"
-msgstr ""
+msgstr "Kurtosis"
 
 #: src/analysis-tools.c:707
 msgid "Skewness"
-msgstr ""
+msgstr "Skewness"
 
 #: src/analysis-tools.c:708 src/dialogs/dialog-function-wizard.c:210
 msgid "Range"
 msgstr "Intervallo"
 
 #: src/analysis-tools.c:709
-#, fuzzy
 msgid "Minimum"
-msgstr "Min"
+msgstr "Minimo"
 
 #: src/analysis-tools.c:710
-#, fuzzy
 msgid "Maximum"
-msgstr "Max"
+msgstr "Massimo"
 
 #: src/analysis-tools.c:711 src/analysis-tools.c:2471
 #: src/analysis-tools.c:2661 src/workbook.c:1484 src/workbook.c:1952
@@ -642,34 +627,30 @@ msgid "Count"
 msgstr "Conto"
 
 #: src/analysis-tools.c:805
-#, fuzzy
 msgid "Confidence Level"
-msgstr "Livello d'esperienza:"
+msgstr "Livello d'esperienza"
 
 #: src/analysis-tools.c:819
-#, fuzzy
 msgid "Confidence Level (%g%%)"
-msgstr "Livello d'esperienza:"
+msgstr "Livello d'esperienza (%g%%)"
 
 #: src/analysis-tools.c:831
-#, fuzzy
 msgid "Kth Largest"
-msgstr "Il Kth più grande:"
+msgstr "Il Kth più grande"
 
 #: src/analysis-tools.c:845
 #, c-format
 msgid "Largest (%d)"
-msgstr ""
+msgstr "Il maggiore (%d)"
 
 #: src/analysis-tools.c:857
-#, fuzzy
 msgid "Kth Smallest"
-msgstr "Il Kth più piccolo:"
+msgstr "Il Kth più piccolo"
 
 #: src/analysis-tools.c:871
-#, fuzzy, c-format
+#, c-format
 msgid "Smallest (%d)"
-msgstr "Il Kth più piccolo:"
+msgstr "Il più piccolo (%d)"
 
 #: src/analysis-tools.c:956 src/dialogs/cell-format.glade.h:19
 #: src/dialogs/cell-format.glade.h:123
@@ -677,45 +658,39 @@ msgid "Sample"
 msgstr "Esempio"
 
 #: src/analysis-tools.c:1067
-#, fuzzy
 msgid "z-Test"
-msgstr "Testo"
+msgstr "z-Test"
 
 #: src/analysis-tools.c:1094 src/analysis-tools.c:1224
 #: src/analysis-tools.c:1381 src/analysis-tools.c:1517
 #: src/analysis-tools.c:1651
-#, fuzzy
 msgid "Variable 1"
-msgstr "Intervallo della Variabile 1:"
+msgstr "Variabile 1"
 
 #: src/analysis-tools.c:1095 src/analysis-tools.c:1225
 #: src/analysis-tools.c:1382 src/analysis-tools.c:1518
 #: src/analysis-tools.c:1652
-#, fuzzy
 msgid "Variable 2"
-msgstr "Intervallo della Variabile 2:"
+msgstr "Variabile 2"
 
 #: src/analysis-tools.c:1099
-#, fuzzy
 msgid "Known Variance"
-msgstr "Covarianza"
+msgstr "Varianza Conosciuta"
 
 #: src/analysis-tools.c:1100 src/analysis-tools.c:1230
 #: src/analysis-tools.c:1387 src/analysis-tools.c:1523
 #: src/analysis-tools.c:1660 src/analysis-tools.c:2001
-#, fuzzy
 msgid "Observations"
-msgstr "Operazione"
+msgstr "Osservazioni"
 
 #: src/analysis-tools.c:1101 src/analysis-tools.c:1232
 #: src/analysis-tools.c:1389 src/analysis-tools.c:1524
-#, fuzzy
 msgid "Hypothesized Mean Difference"
-msgstr "Principale Differenza Ipotizzata:"
+msgstr "Principale Differenza Ipotizzata"
 
 #: src/analysis-tools.c:1102
 msgid "z"
-msgstr ""
+msgstr "z"
 
 #: src/analysis-tools.c:1103
 msgid "P (Z<=z) one-tail"
@@ -735,28 +710,25 @@ msgstr ""
 
 #: src/analysis-tools.c:1200 src/analysis-tools.c:1354
 #: src/analysis-tools.c:1490
-#, fuzzy
 msgid "t-Test"
-msgstr "Testo"
+msgstr "t-Test"
 
 #: src/analysis-tools.c:1229 src/analysis-tools.c:1386
 #: src/analysis-tools.c:1522 src/analysis-tools.c:1659
 #: src/analysis-tools.c:2473 src/analysis-tools.c:2663
-#, fuzzy
 msgid "Variance"
-msgstr "Covarianza"
+msgstr "Varianza"
 
 #: src/analysis-tools.c:1231
-#, fuzzy
 msgid "Pearson Correlation"
-msgstr "Correlazione"
+msgstr "Correlazione di Pearson"
 
 #: src/analysis-tools.c:1233 src/analysis-tools.c:1390
 #: src/analysis-tools.c:1525 src/analysis-tools.c:1661
 #: src/analysis-tools.c:2015 src/analysis-tools.c:2555
 #: src/analysis-tools.c:2768
 msgid "df"
-msgstr ""
+msgstr "df"
 
 #: src/analysis-tools.c:1234 src/analysis-tools.c:1391
 #: src/analysis-tools.c:1526 src/analysis-tools.c:2023
@@ -790,14 +762,13 @@ msgid "Pooled Variance"
 msgstr "Covarianza"
 
 #: src/analysis-tools.c:1627
-#, fuzzy
 msgid "F-Test"
-msgstr "Testo"
+msgstr "F-Test"
 
 #: src/analysis-tools.c:1662 src/analysis-tools.c:2018
 #: src/analysis-tools.c:2557 src/analysis-tools.c:2770
 msgid "F"
-msgstr ""
+msgstr "F"
 
 #: src/analysis-tools.c:1663
 msgid "P (F<=f) one-tail"
@@ -813,7 +784,7 @@ msgstr "Casuale"
 
 #: src/analysis-tools.c:1896
 msgid "Not implemented yet.\n"
-msgstr ""
+msgstr "Non ancora implementato.\n"
 
 #. TODO This would be better using the
 #. value in the checkbox instead of this
@@ -826,7 +797,7 @@ msgstr "Regressione"
 
 #: src/analysis-tools.c:1994
 msgid "SUMMARY OUTPUT"
-msgstr ""
+msgstr "OUTPUT DELLA SOMMATORIA"
 
 #: src/analysis-tools.c:1996
 #, fuzzy
@@ -834,61 +805,57 @@ msgid "Regression Statistics"
 msgstr "Statistica descrittiva"
 
 #: src/analysis-tools.c:1997
-#, fuzzy
 msgid "Multiple R"
-msgstr "Moltiplica"
+msgstr "Moltiplica R"
 
 #: src/analysis-tools.c:1998
 msgid "R Square"
-msgstr ""
+msgstr "Radice quadrata di R"
 
 #: src/analysis-tools.c:1999
 msgid "Adjusted R Square"
-msgstr ""
+msgstr "Radice quadrata di R arrotondata"
 
 #: src/analysis-tools.c:2003 src/analysis-tools.c:2552
 #: src/analysis-tools.c:2765
 msgid "ANOVA"
-msgstr ""
+msgstr "ANOVA"
 
 #: src/analysis-tools.c:2005
 msgid "Residual"
-msgstr ""
+msgstr "Residuo"
 
 #: src/analysis-tools.c:2006 src/analysis-tools.c:2562
 #: src/analysis-tools.c:2776
-#, fuzzy
 msgid "Total"
-msgstr "Titolo"
+msgstr "Totale"
 
 #: src/analysis-tools.c:2008
-#, fuzzy
 msgid "Intercept"
-msgstr "Percentuale"
+msgstr "Intercetta"
 
 #: src/analysis-tools.c:2011
-#, fuzzy, c-format
+#, c-format
 msgid "X Variable %d"
-msgstr "Intervallo della Variabile 1:"
+msgstr "Variabile X %d"
 
 #: src/analysis-tools.c:2016 src/analysis-tools.c:2554
 #: src/analysis-tools.c:2767
 msgid "SS"
-msgstr ""
+msgstr "SS"
 
 #: src/analysis-tools.c:2017 src/analysis-tools.c:2556
 #: src/analysis-tools.c:2769
 msgid "MS"
-msgstr ""
+msgstr "MS"
 
 #: src/analysis-tools.c:2019
 msgid "Significance F"
 msgstr ""
 
 #: src/analysis-tools.c:2021
-#, fuzzy
 msgid "Coefficients"
-msgstr "Commenti"
+msgstr "Coefficienti"
 
 #: src/analysis-tools.c:2024 src/analysis-tools.c:2558
 #: src/analysis-tools.c:2771
@@ -907,22 +874,18 @@ msgid "Upper 95%"
 msgstr ""
 
 #: src/analysis-tools.c:2247
-#, fuzzy
 msgid "Moving Averages"
 msgstr "Media Mobile"
 
 #: src/analysis-tools.c:2319
-#, fuzzy
 msgid "Ranks"
-msgstr "Intervallo"
+msgstr "Intervalli"
 
 #: src/analysis-tools.c:2327 src/analysis-tools.c:2356
-#, fuzzy
 msgid "Point"
-msgstr "Stampa"
+msgstr "Punto"
 
 #: src/analysis-tools.c:2341 src/analysis-tools.c:2371
-#, fuzzy
 msgid "Rank"
 msgstr "Intervallo"
 
@@ -933,7 +896,7 @@ msgstr "Percentuale"
 
 #: src/analysis-tools.c:2462 src/analysis-tools.c:2653
 msgid "Anova"
-msgstr ""
+msgstr "Anova"
 
 #: src/analysis-tools.c:2467 src/dialogs/analysis-tools.glade.h:52
 #: src/dialogs/dialog-analysis-tools.c:81
@@ -942,11 +905,11 @@ msgstr "Anova: Fattore singolo"
 
 #: src/analysis-tools.c:2468 src/analysis-tools.c:2659
 msgid "SUMMARY"
-msgstr ""
+msgstr "SOMMARIO"
 
 #: src/analysis-tools.c:2469
 msgid "Groups"
-msgstr ""
+msgstr "Gruppi"
 
 #: src/analysis-tools.c:2472 src/analysis-tools.c:2662 src/workbook.c:1955
 msgid "Average"
@@ -954,7 +917,7 @@ msgstr "Media"
 
 #: src/analysis-tools.c:2553 src/analysis-tools.c:2766
 msgid "Source of Variation"
-msgstr ""
+msgstr "Sorgente della variazione"
 
 #: src/analysis-tools.c:2559 src/analysis-tools.c:2772
 #, fuzzy
@@ -962,13 +925,12 @@ msgid "F critical"
 msgstr "Verticale"
 
 #: src/analysis-tools.c:2560
-#, fuzzy
 msgid "Between Groups"
-msgstr "Fra:"
+msgstr "Fra i Gruppi"
 
 #: src/analysis-tools.c:2561
 msgid "Within Groups"
-msgstr ""
+msgstr "Nei Gruppi"
 
 #: src/analysis-tools.c:2658 src/dialogs/analysis-tools.glade.h:64
 #: src/dialogs/dialog-analysis-tools.c:83
@@ -986,17 +948,16 @@ msgid "Columns"
 msgstr "Colonne"
 
 #: src/analysis-tools.c:2775
-#, fuzzy
 msgid "Error"
-msgstr "Freccia"
+msgstr "Errore"
 
 #: src/clipboard.c:238
 msgid "Error while trying to pre-convert clipboard data"
-msgstr ""
+msgstr "Errore nella preconversione dei dati della clipboard"
 
 #: src/clipboard.c:245
 msgid "This data on the clipboard does not seem to be valid text"
-msgstr ""
+msgstr "Questo dato della clipboard non sembra essere testo valido"
 
 #: src/clipboard.c:260
 msgid "Parse error while trying to parse data into cellregion"
@@ -1012,9 +973,9 @@ msgid "Typing \"%s%s\" in %s"
 msgstr "Digitando \\ \"%s%s\\\" in %s"
 
 #: src/commands.c:592
-#, fuzzy, c-format
+#, c-format
 msgid "Typing \"%s%s\""
-msgstr "Digitando \\ \"%s%s\\\" in %s"
+msgstr "Digitando \\ \"%s%s\\\""
 
 #: src/commands.c:778
 #, c-format
@@ -1038,9 +999,9 @@ msgstr "Sto inserendo la %d riga prima di %d"
 
 #. col_name uses a static buffer
 #: src/commands.c:804
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting %d columns %s:"
-msgstr "Sto cancellando %d colonne (%s:"
+msgstr "Sto cancellando %d colonne %s:"
 
 #: src/commands.c:809
 #, c-format
@@ -1048,9 +1009,9 @@ msgid "Deleting column %s"
 msgstr "Sto cancellando la colonna %s"
 
 #: src/commands.c:819
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting %d rows %d:%d"
-msgstr "Sto cancellando le righe %d (%d:%d"
+msgstr "Sto cancellando le righe %d %d:%d"
 
 #: src/commands.c:821
 #, c-format
@@ -1063,7 +1024,6 @@ msgid "Clear"
 msgstr "Cancella"
 
 #: src/commands.c:1141
-#, fuzzy
 msgid "Format cells"
 msgstr "Formatta le celle"
 
@@ -1307,12 +1267,11 @@ msgstr "Dicembre"
 #.
 #: src/dialogs/advanced-filter.glade.h:7
 msgid "Advanced Filter"
-msgstr ""
+msgstr "Filtro avanzato"
 
 #: src/dialogs/advanced-filter.glade.h:8
-#, fuzzy
 msgid "Action"
-msgstr "selezione"
+msgstr "Azione"
 
 #: src/dialogs/advanced-filter.glade.h:9
 msgid "_Filter in-place"
@@ -1320,33 +1279,31 @@ msgstr ""
 
 #: src/dialogs/advanced-filter.glade.h:10
 msgid "_Copy to a new location"
-msgstr ""
+msgstr "_Copio in una nuova posizione"
 
 #: src/dialogs/advanced-filter.glade.h:11
-#, fuzzy
 msgid "Copy to a new _sheet"
-msgstr "Crea un foglio nuovo"
+msgstr "Copia in un _foglio nuovo"
 
 #: src/dialogs/advanced-filter.glade.h:12
-#, fuzzy
 msgid "Copy to a new _workbook"
-msgstr "la cartella di lavoro"
+msgstr "Copia in una nuova cartella di lavoro"
 
 #: src/dialogs/advanced-filter.glade.h:13
 msgid "C_riteria range:"
-msgstr ""
+msgstr "Intervallo nei C_riteri:"
 
 #: src/dialogs/advanced-filter.glade.h:14
 msgid "C_opy to:        "
-msgstr ""
+msgstr "C_opia in:        "
 
 #: src/dialogs/advanced-filter.glade.h:15
 msgid "_List range:     "
-msgstr ""
+msgstr "Intervallo nella _Lista:     "
 
 #: src/dialogs/advanced-filter.glade.h:16
 msgid "_Unique records only"
-msgstr ""
+msgstr "Solo record _Unici"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1558,32 +1515,27 @@ msgstr "Generazione Numeri Casuali"
 
 #: src/dialogs/analysis-tools.glade.h:117
 msgid "_Distribution:"
-msgstr ""
+msgstr "_Distribuzione:"
 
 #: src/dialogs/analysis-tools.glade.h:118
-#, fuzzy
 msgid "_Number of variables:"
-msgstr "Numero di Variabili:"
+msgstr "_Numero di Variabili:"
 
 #: src/dialogs/analysis-tools.glade.h:119
-#, fuzzy
 msgid "Numbe_r of samples:"
-msgstr "Numero di Campionature:"
+msgstr "Nume_ro di Campionature:"
 
 #: src/dialogs/analysis-tools.glade.h:121
-#, fuzzy
 msgid "N_ew sheet"
-msgstr "Nuovo Foglio"
+msgstr "N_uovo Foglio"
 
 #: src/dialogs/analysis-tools.glade.h:122
-#, fuzzy
 msgid "New _workbook"
-msgstr "Nuova Cartella di lavoro"
+msgstr "Nuova _Cartella di lavoro"
 
 #: src/dialogs/analysis-tools.glade.h:123
-#, fuzzy
 msgid "_Output range:"
-msgstr "Intervalleo di Output:"
+msgstr "Intervallo di _Output:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1591,32 +1543,28 @@ msgstr "Intervalleo di Output:"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/autocorrect-exceptions.glade.h:7
-#, fuzzy
 msgid "AutoCorrect Exceptions"
-msgstr "Correzione automatica"
+msgstr "Eccezioni dell'AutoCorrezione"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:8
 msgid "_Do not capitalize after:"
-msgstr ""
+msgstr "_Non mettere le maiuscole dopo:"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:9 src/dialogs/solver.glade.h:25
-#, fuzzy
 msgid "_Add"
-msgstr "Aggiungi"
+msgstr "_Aggiungi"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:10
-#, fuzzy
 msgid "_Remove"
-msgstr "Elimina"
+msgstr "_Elimina"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:11
-#, fuzzy
 msgid "_First Letter"
-msgstr "_Prima pagina"
+msgstr "_Prima Lettera"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:12
 msgid "Do _not correct:"
-msgstr ""
+msgstr "No_n correggere:"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:13
 #: src/dialogs/cell-sort.glade.h:13 src/dialogs/names.glade.h:9
@@ -1632,7 +1580,7 @@ msgstr "Elimina"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:15
 msgid "_INitial CApitals"
-msgstr ""
+msgstr "MAiuscole _INiziali"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1645,38 +1593,35 @@ msgstr "Correzione automatica"
 
 #: src/dialogs/autocorrect.glade.h:8
 msgid "Correct _TWo INitial CApitals                           "
-msgstr ""
+msgstr "Correggi LE DOppie MAiuscole INiziali"
 
 #: src/dialogs/autocorrect.glade.h:9
-#, fuzzy
 msgid "_Exceptions..."
-msgstr "Opzione"
+msgstr "_Eccezioni..."
 
 #: src/dialogs/autocorrect.glade.h:10
 msgid "Capitalize _first letter of sentence"
-msgstr ""
+msgstr "Rendi maiuscola la prima lettera delle frasi"
 
 #: src/dialogs/autocorrect.glade.h:11
 msgid "Capitalize _names of days"
-msgstr ""
+msgstr "Scrivi maiuscoli i nomi dei giorni"
 
 #: src/dialogs/autocorrect.glade.h:12
 msgid "Correct accidental use of _cAPS LOCK key"
-msgstr ""
+msgstr "Correggi l'uso scorretto del tasto _cAPS LOCK"
 
 #: src/dialogs/autocorrect.glade.h:13
 msgid "_Replace text when typed"
-msgstr ""
+msgstr "_Sostituisco il testo mentre scrivi"
 
 #: src/dialogs/autocorrect.glade.h:14
-#, fuzzy
 msgid "Re_place:"
-msgstr "Quantita` di deci_mali"
+msgstr "Sos_tituire:"
 
 #: src/dialogs/autocorrect.glade.h:15
-#, fuzzy
 msgid "_With:"
-msgstr "_Larghezza"
+msgstr "_Larghezza:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1688,22 +1633,20 @@ msgid "Auto Save"
 msgstr "Salvataggio Automatico"
 
 #: src/dialogs/autosave-prompt.glade.h:8
-#, fuzzy
 msgid "Do you want to save the workbook?"
-msgstr "Salva la cartella di lavoro"
+msgstr "Vuoi salvare la cartella di lavoro?"
 
 #: src/dialogs/autosave.glade.h:8
-#, fuzzy
 msgid "_Automatic Save Every"
-msgstr "_Automatico"
+msgstr "Salvaggio _Automatico Ogni"
 
 #: src/dialogs/autosave.glade.h:9
 msgid "_Prompt Before Saving"
-msgstr ""
+msgstr "_Chiedi Prima di Salvare"
 
 #: src/dialogs/autosave.glade.h:10
 msgid "_minutes"
-msgstr ""
+msgstr "_minuti"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1838,12 +1781,11 @@ msgstr "Sezione di centro:"
 
 #: src/dialogs/cell-format.glade.h:40
 msgid "Left _Indent"
-msgstr ""
+msgstr "Allinea a _Destra"
 
 #: src/dialogs/cell-format.glade.h:41
-#, fuzzy
 msgid "Vertical Alignment"
-msgstr "Allineamento"
+msgstr "Allineamento Verticale"
 
 #: src/dialogs/cell-format.glade.h:42
 msgid "_Top"
@@ -1862,7 +1804,6 @@ msgid "J_ustify"
 msgstr "Gi_ustificazione"
 
 #: src/dialogs/cell-format.glade.h:46
-#, fuzzy
 msgid "Control"
 msgstr "Controllo"
 
@@ -1876,7 +1817,7 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:49
 msgid "_Merge Cells"
-msgstr ""
+msgstr "_Mescola le celle"
 
 #: src/dialogs/cell-format.glade.h:50 src/dialogs/print.glade.h:8
 msgid "Orientation"
@@ -2114,7 +2055,7 @@ msgstr "Indietro"
 
 #: src/dialogs/cell-format.glade.h:118
 msgid "Large Circles"
-msgstr ""
+msgstr "Cerchi Larghi"
 
 #: src/dialogs/cell-format.glade.h:119
 msgid "Thatch"
@@ -2122,15 +2063,15 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:120
 msgid "Semi Circles"
-msgstr ""
+msgstr "Semicerchi"
 
 #: src/dialogs/cell-format.glade.h:121
 msgid "Small Circles"
-msgstr ""
+msgstr "Cerchi Piccoli"
 
 #: src/dialogs/cell-format.glade.h:122
 msgid "Foreground Solid"
-msgstr ""
+msgstr "Sfondo completo"
 
 #: src/dialogs/cell-format.glade.h:124 src/workbook-format-toolbar.c:636
 #: src/workbook-format-toolbar.c:639
@@ -2174,7 +2115,7 @@ msgstr "La selezione ha"
 
 #: src/dialogs/cell-sort.glade.h:9
 msgid "A header"
-msgstr ""
+msgstr "Header A"
 
 #: src/dialogs/cell-sort.glade.h:10
 msgid "Sort"
@@ -2329,32 +2270,30 @@ msgstr "Deviazione Standard = "
 
 #: src/dialogs/dialog-analysis-tools.c:121
 msgid "Poisson"
-msgstr ""
+msgstr "Poisson"
 
 #: src/dialogs/dialog-analysis-tools.c:121
-#, fuzzy
 msgid "_Lambda:"
-msgstr "Lambda"
+msgstr "_Lambda:"
 
 #: src/dialogs/dialog-analysis-tools.c:123
 msgid "Exponential"
-msgstr ""
+msgstr "Esponenziale"
 
 #: src/dialogs/dialog-analysis-tools.c:123
 #, fuzzy
 msgid "_b value:"
-msgstr "Al valore:"
+msgstr "Valore _b:"
 
 #: src/dialogs/dialog-analysis-tools.c:125
 msgid "Binomial"
-msgstr ""
+msgstr "Binomiale"
 
 #: src/dialogs/dialog-analysis-tools.c:125
 #: src/dialogs/dialog-analysis-tools.c:127
 #: src/dialogs/dialog-analysis-tools.c:130
-#, fuzzy
 msgid "_p value:"
-msgstr "Al valore:"
+msgstr "Valore _p:"
 
 #: src/dialogs/dialog-analysis-tools.c:125
 #, fuzzy
@@ -2362,14 +2301,12 @@ msgid "N_umber of trials"
 msgstr "Numero di Variabili:"
 
 #: src/dialogs/dialog-analysis-tools.c:127
-#, fuzzy
 msgid "Negative Binomial"
-msgstr "Numero negat_ivo:"
+msgstr "Binomiale negativo"
 
 #: src/dialogs/dialog-analysis-tools.c:128
-#, fuzzy
 msgid "N_umber of failures"
-msgstr "Numero di Variabili:"
+msgstr "N_umero di errori"
 
 #: src/dialogs/dialog-analysis-tools.c:130
 msgid "Bernoulli"
@@ -2381,11 +2318,11 @@ msgstr "Uniforme"
 
 #: src/dialogs/dialog-analysis-tools.c:132
 msgid "_Lower bound:"
-msgstr ""
+msgstr "_Limite Inferiore:"
 
 #: src/dialogs/dialog-analysis-tools.c:132
 msgid "_Upper bound:"
-msgstr ""
+msgstr "Limite _Superiore:"
 
 #: src/dialogs/dialog-analysis-tools.c:315
 #, fuzzy
@@ -2628,7 +2565,7 @@ msgstr "Decrescente"
 
 #: src/dialogs/dialog-cell-sort.c:250
 msgid "Advanced..."
-msgstr ""
+msgstr "Avanzato..."
 
 #: src/dialogs/dialog-cell-sort.c:340
 msgid "Column must be within range"
@@ -2702,7 +2639,7 @@ msgstr "Aiutante per le formule"
 #: src/dialogs/dialog-goal-seek.c:201
 #, c-format
 msgid "Goal seeking with cell %s found a solution"
-msgstr ""
+msgstr "La ricerca dell'Obbiettivo con la cella %s ha trovato una soluzione"
 
 #: src/dialogs/dialog-goal-seek.c:204
 #, c-format
@@ -2721,11 +2658,11 @@ msgstr "Soluzione:       %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:213
 msgid "Goal Seek Report"
-msgstr ""
+msgstr "Report della Ricerca dell'Obbiettivo"
 
 #: src/dialogs/dialog-goal-seek.c:277
 msgid "Goal Seek..."
-msgstr ""
+msgstr "Ricerca dell'Obbiettivo..."
 
 #: src/dialogs/dialog-goal-seek.c:295
 msgid "Set cell:"
@@ -2837,7 +2774,7 @@ msgstr "Fomrato del file:"
 #: src/dialogs/dialog-plugin-manager.c:95
 #, c-format
 msgid "File name: %s"
-msgstr ""
+msgstr "Nome File: %s"
 
 #: src/dialogs/dialog-plugin-manager.c:100 src/dialogs/font-sel.glade.h:10
 #: src/dialogs/plugin-manager.glade.h:13
@@ -2847,17 +2784,17 @@ msgstr "Dimensione:"
 #: src/dialogs/dialog-plugin-manager.c:102
 #, c-format
 msgid "Size: %ld bytes"
-msgstr ""
+msgstr "Dimensione: %ld bytes"
 
 #: src/dialogs/dialog-plugin-manager.c:107
 #: src/dialogs/plugin-manager.glade.h:14
 msgid "Modified:"
-msgstr ""
+msgstr "Modificato:"
 
 #: src/dialogs/dialog-plugin-manager.c:110
 #, c-format
 msgid "Modified: %s"
-msgstr ""
+msgstr "Modificato: %s"
 
 #: src/dialogs/dialog-printer-setup.c:505
 msgid "Custom header configuration"
@@ -2883,17 +2820,15 @@ msgstr "<="
 
 #: src/dialogs/dialog-solver.c:28
 msgid ">="
-msgstr ""
+msgstr ">="
 
 #: src/dialogs/dialog-solver.c:29
-#, fuzzy
 msgid "="
-msgstr "<="
+msgstr "="
 
 #: src/dialogs/dialog-solver.c:30
-#, fuzzy
 msgid "Int"
-msgstr "In"
+msgstr "Int"
 
 #: src/dialogs/dialog-solver.c:250 src/dialogs/dialog-solver.c:432
 msgid ""
@@ -2906,7 +2841,6 @@ msgid "The cell range in LHS or RHS should have only one column or row."
 msgstr ""
 
 #: src/dialogs/dialog-solver.c:848
-#, fuzzy
 msgid "You should introduce a valid cell name for 'Target cell'"
 msgstr "Devi inserire un nome di cella valido in 'Cella obbiettivo'"
 
@@ -2916,34 +2850,32 @@ msgstr "Devi inserire un nome di cella valido in 'Cambiando le celle'"
 
 #: src/dialogs/dialog-stf-export-sheet-page.c:356
 msgid "You need to select at least one sheet to export"
-msgstr ""
+msgstr "Devi selezionare almeno un foglio da esportare"
 
 #: src/dialogs/dialog-stf-export.c:49 src/dialogs/dialog-stf.c:102
-#, fuzzy
 msgid "Are you sure you want to cancel?"
-msgstr "Eliminare il foglio chiamato (%s)?"
+msgstr "Sei sicuro di voler annullare?"
 
 #: src/dialogs/dialog-stf-export.c:382 src/dialogs/dialog-stf.c:525
-#, fuzzy, c-format
+#, c-format
 msgid "Missing %s file"
-msgstr "Apice mancante"
+msgstr "Manca il file %s"
 
 #: src/dialogs/dialog-stf-format-page.c:167
 #: src/dialogs/dialog-stf-format-page.c:359
-#, fuzzy
 msgid "Custom"
-msgstr "Pers_onalizzato"
+msgstr "Personalizzato"
 
 #: src/dialogs/dialog-stf-main-page.c:85
 #: src/dialogs/dialog-stf-main-page.c:196
-#, fuzzy, c-format
+#, c-format
 msgid "%d lines to import"
-msgstr "Titoli da stampare"
+msgstr "%d linee da importare"
 
 #: src/dialogs/dialog-stf-main-page.c:200
 #, c-format
 msgid "Data (from %s)"
-msgstr ""
+msgstr "Dati (da %s)"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3052,7 +2984,7 @@ msgstr "La funzione non esiste"
 
 #: src/dialogs/function-select.glade.h:9
 msgid "Function _Names"
-msgstr ""
+msgstr "_Nomi delle Funzioni"
 
 #: src/dialogs/function-select.glade.h:10
 #: src/dialogs/function-select.glade.h:11
@@ -3177,7 +3109,7 @@ msgstr "Indietro"
 
 #: src/dialogs/plugin-manager.glade.h:15
 msgid "Advanced"
-msgstr ""
+msgstr "Avanzato"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3332,7 +3264,7 @@ msgstr "Stampa"
 
 #: src/dialogs/print.glade.h:52
 msgid "Row and co_lumn headings"
-msgstr ""
+msgstr "Titoli della riga e della colonna"
 
 #: src/dialogs/print.glade.h:53 src/workbook.c:1158
 msgid "Co_mments"
@@ -3414,30 +3346,27 @@ msgstr "Assumi non-Negativo"
 #.
 #: src/dialogs/solver.glade.h:7
 msgid "Add Constraint"
-msgstr ""
+msgstr "Aggiungi un vincolo"
 
 #: src/dialogs/solver.glade.h:8 src/dialogs/solver.glade.h:13
 msgid "_Left Hand Side:"
 msgstr ""
 
 #: src/dialogs/solver.glade.h:9 src/dialogs/solver.glade.h:14
-#, fuzzy
 msgid "_Type:"
-msgstr "_Tipo"
+msgstr "_Tipo:"
 
 #: src/dialogs/solver.glade.h:10 src/dialogs/solver.glade.h:15
 msgid "_Right Hand Side:"
 msgstr ""
 
 #: src/dialogs/solver.glade.h:11
-#, fuzzy
 msgid "Add  "
-msgstr "Aggiungi"
+msgstr "Aggiungi  "
 
 #: src/dialogs/solver.glade.h:12
-#, fuzzy
 msgid "Change Constraint"
-msgstr "_Cambia nome"
+msgstr "_Cambia vincolo"
 
 #: src/dialogs/solver.glade.h:16
 msgid "Gnumeric Solver Parameters"
@@ -3445,45 +3374,39 @@ msgstr "Parametri del Solver di Gnumeric"
 
 #: src/dialogs/solver.glade.h:17
 msgid "_Set Target Cell:       "
-msgstr ""
+msgstr "_Seleziona la Cella Obbiettivo:       "
 
 #: src/dialogs/solver.glade.h:18 src/dialogs/solver.glade.h:23
 msgid "                         "
-msgstr ""
+msgstr "                         "
 
 #: src/dialogs/solver.glade.h:19
-#, fuzzy
 msgid "Equal To:"
 msgstr "Uguale a:"
 
 #: src/dialogs/solver.glade.h:20
-#, fuzzy
 msgid "_Max"
-msgstr "Max"
+msgstr "_Max"
 
 #: src/dialogs/solver.glade.h:21
-#, fuzzy
 msgid "M_in"
-msgstr "Min"
+msgstr "M_in"
 
 #: src/dialogs/solver.glade.h:22
-#, fuzzy
 msgid "B_y Changing Cells: "
-msgstr "Cambiando le celle:"
+msgstr "C_ambiando le celle:"
 
 #: src/dialogs/solver.glade.h:24
 msgid "Subject to the Constraints:"
-msgstr ""
+msgstr "Soggetto del vincolo:"
 
 #: src/dialogs/solver.glade.h:26
-#, fuzzy
 msgid "_Change"
-msgstr "Cambia"
+msgstr "_Cambia"
 
 #: src/dialogs/solver.glade.h:27
-#, fuzzy
 msgid "_Delete"
-msgstr "Cancella"
+msgstr "_Cancella"
 
 #: src/dialogs/solver.glade.h:28
 msgid "Solve"
@@ -3495,29 +3418,27 @@ msgstr "Opzione"
 
 #: src/dialogs/solver.glade.h:30
 msgid "Reports:"
-msgstr ""
+msgstr "Report:"
 
 #: src/dialogs/solver.glade.h:31
-#, fuzzy
 msgid "_Answer"
-msgstr "_Inserisci"
+msgstr "_Rispondi"
 
 #: src/dialogs/solver.glade.h:32
-#, fuzzy
 msgid "_Sensitivity"
-msgstr "_Scientifico"
+msgstr "_Sensibilità"
 
 #: src/dialogs/solver.glade.h:33
 msgid "_Limits"
-msgstr ""
+msgstr "_Limiti"
 
 #: src/dialogs/solver.glade.h:34
 msgid "_Keep Solver Solution"
-msgstr ""
+msgstr "_Mantieni la soluzione del Risolutore"
 
 #: src/dialogs/solver.glade.h:35
 msgid "_Restore Original Values"
-msgstr ""
+msgstr "_Ripristina i Valori Originali"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3525,9 +3446,8 @@ msgstr ""
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/summary.glade.h:7
-#, fuzzy
 msgid "Summary"
-msgstr "So_mmario..."
+msgstr "Sommario"
 
 #: src/dialogs/summary.glade.h:8
 msgid "Title"
@@ -3568,17 +3488,15 @@ msgstr "Compagnia"
 #.
 #: src/dialogs/workbook-attr.glade.h:7
 msgid "Scrollbars"
-msgstr ""
+msgstr "Barre di scorrimento"
 
 #: src/dialogs/workbook-attr.glade.h:8
-#, fuzzy
 msgid "Horizontal Scrollbar"
-msgstr "Bande orizzontali"
+msgstr "Barre di scorrimento orizzontali"
 
 #: src/dialogs/workbook-attr.glade.h:9
-#, fuzzy
 msgid "Vertical Scrollbar"
-msgstr "Bande verticali"
+msgstr "Barre di scorrimento verticali"
 
 #: src/dialogs/workbook-attr.glade.h:10
 #, fuzzy
@@ -3586,14 +3504,12 @@ msgid "Notebook"
 msgstr "Nuova Cartella di lavoro"
 
 #: src/dialogs/workbook-attr.glade.h:11
-#, fuzzy
 msgid "Tabs"
 msgstr "Etichette"
 
 #: src/dialogs/workbook-attr.glade.h:12
-#, fuzzy
 msgid "View"
-msgstr "_Vista"
+msgstr "Vista"
 
 #: src/embeddable-grid.c:155
 msgid "Embedded Sheet"
@@ -3601,7 +3517,7 @@ msgstr "Foglio Inserito"
 
 #: src/expr-name.c:180
 msgid "already defined"
-msgstr "gia` definito"
+msgstr "già definito"
 
 #: src/expr-name.c:183
 msgid "no scope"
@@ -3672,6 +3588,8 @@ msgid ""
 "Workbook %s already exists.\n"
 "Do you want to save over it?"
 msgstr ""
+"La cartella di lavoro %s esiste.\n"
+"Vuoi sovrascriverla?"
 
 #: src/file.c:579
 #, c-format
@@ -3679,6 +3597,8 @@ msgid ""
 "%s\n"
 "is a directory name"
 msgstr ""
+"%s\n"
+"è un nome di directory"
 
 #: src/file.c:588
 #, c-format
@@ -3686,27 +3606,32 @@ msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr ""
+"Non hai i permessi per salvare in\n"
+"%s"
 
 #: src/file.c:612
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
 msgstr ""
+"Inserisci un nome di file,\n"
+"non di una directory"
 
 #: src/file.c:619
-#, fuzzy
 msgid ""
 "Sorry, there are no file savers loaded,\n"
 "I cannot save"
 msgstr ""
-"Mi dispiace, ma non ci sono filtri di salvataggio usabili, non posso salvare"
+"Mi dispiace, ma non ci sono filtri di salvataggio usabili,\n"
+"non posso salvare"
 
 #: src/file.c:635 src/file.c:718
-#, fuzzy
 msgid ""
 "Could not save to file %s\n"
 "%%s"
-msgstr "Non riesco a salvare nel file %s"
+msgstr ""
+"Non riesco a salvare nel file %s\n"
+"%%s"
 
 #: src/file.c:663
 msgid "Save workbook as"
@@ -4034,545 +3959,539 @@ msgstr "##0,0E+0"
 #.
 #: src/formats.c:164
 msgid "[$ADP]"
-msgstr ""
+msgstr "[$ADP]"
 
 #: src/formats.c:164
 msgid "Andorran peseta"
-msgstr ""
+msgstr "Peseta di Andorra"
 
 #: src/formats.c:165
-#, fuzzy
 msgid "[$AED]"
-msgstr "&[DATE]"
+msgstr "[$AED]"
 
 #: src/formats.c:165
 msgid "UAE dirham"
-msgstr ""
+msgstr "Dirham degli Emirati Arabi Uniti"
 
 #: src/formats.c:166
 msgid "[$AFA]"
-msgstr ""
+msgstr "[$AFA]"
 
 #: src/formats.c:166
 msgid "Afghanistan afghani"
-msgstr ""
+msgstr "Afghani dell'Afghanistan"
 
 #: src/formats.c:167
 msgid "[$ALL]"
-msgstr ""
+msgstr "[$ALL]"
 
 #: src/formats.c:167
 msgid "Albanian lek"
-msgstr ""
+msgstr "Lek albanese"
 
 #: src/formats.c:168
 msgid "[$ANG]"
-msgstr ""
+msgstr "[$ANG]"
 
 #: src/formats.c:168
 msgid "Netherlands Antillian guilder"
-msgstr ""
+msgstr "Guilder delle Antille Olandesi"
 
 #: src/formats.c:169
 msgid "[$AON]"
-msgstr ""
+msgstr "[$AON]"
 
 #: src/formats.c:169
 msgid "Angolan new kwanza"
-msgstr ""
+msgstr "Nuovo kwanza angolano"
 
 #: src/formats.c:170
 msgid "[$ARA]"
-msgstr ""
+msgstr "[$ARA]"
 
 #: src/formats.c:170
 msgid "Argentine austral"
-msgstr ""
+msgstr "Australe argentino"
 
 #: src/formats.c:171
-#, fuzzy
 msgid "[$ATS]"
-msgstr "&[DATE]"
+msgstr "[$ATS]"
 
 #: src/formats.c:171
 msgid "Austrian schilling"
-msgstr ""
+msgstr "Scellino austriaco"
 
 #: src/formats.c:172
 msgid "[$AUD]"
-msgstr ""
+msgstr "[$AUD]"
 
 #: src/formats.c:172
 msgid "Australian dollar"
-msgstr ""
+msgstr "Dollaro australiano"
 
 #: src/formats.c:173
 msgid "[$AWG]"
-msgstr ""
+msgstr "[$AWG]"
 
 #: src/formats.c:173
 msgid "Aruban guilder"
-msgstr ""
+msgstr "Guilder di Aruba"
 
 #: src/formats.c:174
 msgid "[$BBD]"
-msgstr ""
+msgstr "[$BBD]"
 
 #: src/formats.c:174
 msgid "Barbados dollar"
-msgstr ""
+msgstr "Dollaro delle isole Barbados"
 
 #: src/formats.c:175
-#, fuzzy
 msgid "[$BDT]"
-msgstr "&[DATE]"
+msgstr "[$BDT]"
 
 #: src/formats.c:175
 msgid "Bangladeshi taka"
-msgstr ""
+msgstr "Taka del Bangladesh"
 
 #: src/formats.c:176
 msgid "[$BEF]"
-msgstr ""
+msgstr "[$BEF]"
 
 #: src/formats.c:176
 msgid "Belgian franc"
-msgstr ""
+msgstr "Franco belga"
 
 #: src/formats.c:177
 msgid "[$BGL]"
-msgstr ""
+msgstr "[$BGL]"
 
 #: src/formats.c:177
 msgid "Bulgarian lev"
-msgstr ""
+msgstr "Lev bulgaro"
 
 #: src/formats.c:178
 msgid "[$BHD]"
-msgstr ""
+msgstr "[$BHD]"
 
 #: src/formats.c:178
 msgid "Bahraini dinar"
-msgstr ""
+msgstr "Dinaro del Bahrein"
 
 #: src/formats.c:179
 msgid "[$BIF]"
-msgstr ""
+msgstr "[$BIF]"
 
 #: src/formats.c:179
 msgid "Burundi franc"
-msgstr ""
+msgstr "Franco del Burundi"
 
 #: src/formats.c:180
 msgid "[$BMD]"
-msgstr ""
+msgstr "[$BMD]"
 
 #: src/formats.c:180
 msgid "Bermudian dollar"
-msgstr ""
+msgstr "Dollaro delle Bermuda"
 
 #: src/formats.c:181
 msgid "[$BND]"
-msgstr ""
+msgstr "[$BND]"
 
 #: src/formats.c:181
 msgid "Brunei dollar"
-msgstr ""
+msgstr "Dollaro del Brunei"
 
 #: src/formats.c:182
 msgid "[$BOB]"
-msgstr ""
+msgstr "[$BOB]"
 
 #: src/formats.c:182
 msgid "Bolivian boliviano"
-msgstr ""
+msgstr "Boliviano della Bolivia"
 
 #: src/formats.c:183
 msgid "[$BRE]"
-msgstr ""
+msgstr "[$BRE]"
 
 #: src/formats.c:183
 msgid "Brazilian cruzeiro"
-msgstr ""
+msgstr "Cruzeiro brasiliano"
 
 #: src/formats.c:184
 msgid "[$BSD]"
-msgstr ""
+msgstr "[$BSD]"
 
 #: src/formats.c:184
 msgid "Bahamian dollar"
-msgstr ""
+msgstr "Dollaro delle Bahamas"
 
 #: src/formats.c:185
 msgid "[$BTN]"
-msgstr ""
+msgstr "[$BTN]"
 
 #: src/formats.c:185
 msgid "Bhutan ngultrum"
-msgstr ""
+msgstr "Ngultrum del Butan"
 
 #: src/formats.c:186
 msgid "[$BWP]"
-msgstr ""
+msgstr "[$BWP]"
 
 #: src/formats.c:186
 msgid "Botswanian pula"
-msgstr ""
+msgstr "Pula del Botsawa"
 
 #: src/formats.c:187
 msgid "[$BYB]"
-msgstr ""
+msgstr "[$BYB]"
 
 #: src/formats.c:187
 msgid "Belarussian ruble"
-msgstr ""
+msgstr "Rublo bielorusso"
 
 #: src/formats.c:188
 msgid "[$BZD]"
-msgstr ""
+msgstr "[$BZD]"
 
 #: src/formats.c:188
 msgid "Belize dollar"
-msgstr ""
+msgstr "Dollaro del Belize"
 
 #: src/formats.c:189
 msgid "[$CAD]"
-msgstr ""
+msgstr "[$CAD]"
 
 #: src/formats.c:189
 msgid "Canadian dollar"
-msgstr ""
+msgstr "Dollaro canadese"
 
 #: src/formats.c:190
 msgid "[$CHF]"
-msgstr ""
+msgstr "[$CHF]"
 
 #: src/formats.c:190
 msgid "Swiss franc"
-msgstr ""
+msgstr "Franco svizzero"
 
 #: src/formats.c:191
 msgid "[$CLP]"
-msgstr ""
+msgstr "[$CLP]"
 
 #: src/formats.c:191
 msgid "Chilean peso"
-msgstr ""
+msgstr "Peso cileno"
 
 #: src/formats.c:192
 msgid "[$CNY]"
-msgstr ""
+msgstr "[$CNY]"
 
 #: src/formats.c:192
 msgid "Chinese yuan renminbi"
-msgstr ""
+msgstr "Yuan cinese renminbi"
 
 #: src/formats.c:193
 msgid "[$COP]"
-msgstr ""
+msgstr "[$COP]"
 
 #: src/formats.c:193
 msgid "Colombian peso"
-msgstr ""
+msgstr "Peso colombiano"
 
 #: src/formats.c:194
 msgid "[$CRC]"
-msgstr ""
+msgstr "[$CRC]"
 
 #: src/formats.c:194
 msgid "Costa Rican colon"
-msgstr ""
+msgstr "Colon del Costa Rica"
 
 #: src/formats.c:195
 msgid "[$CSK]"
-msgstr ""
+msgstr "[$CSK]"
 
 #: src/formats.c:195
 msgid "Czech Koruna"
-msgstr ""
+msgstr "Corona ceca"
 
 #: src/formats.c:196
 msgid "[$CUP]"
-msgstr ""
+msgstr "[$CUP]"
 
 #: src/formats.c:196
-#, fuzzy
 msgid "Cuban peso"
-msgstr "Non posso aprire"
+msgstr "Peso cubano"
 
 #: src/formats.c:197
 msgid "[$CVE]"
-msgstr ""
+msgstr "[$CVE]"
 
 #: src/formats.c:197
 msgid "Cape Verde escudo"
-msgstr ""
+msgstr "Scudo del Capo Verde"
 
 #: src/formats.c:198
 msgid "[$CYP]"
-msgstr ""
+msgstr "[$CYP]"
 
 #: src/formats.c:198
 msgid "Cyprus pound"
-msgstr ""
+msgstr "Sterlina di Cipro"
 
 #: src/formats.c:199
-#, fuzzy
 msgid "[$DEM]"
-msgstr "&[DATE]"
+msgstr "[$DEM]"
 
 #: src/formats.c:199
 msgid "Deutsche mark"
-msgstr ""
+msgstr "Marco tedesco"
 
 #: src/formats.c:200
 msgid "[$DJF]"
-msgstr ""
+msgstr "[$DJF]"
 
 #: src/formats.c:200
 msgid "Djibouti franc"
-msgstr ""
+msgstr "Franco del Gibuti"
 
 #: src/formats.c:201
 msgid "[$DKK]"
-msgstr ""
+msgstr "[$DKK]"
 
 #: src/formats.c:201
 msgid "Danish krone"
-msgstr ""
+msgstr "Corona danese"
 
 #: src/formats.c:202
 msgid "[$DOP]"
-msgstr ""
+msgstr "[$DOP]"
 
 #: src/formats.c:202
 msgid "Dominican peso"
-msgstr ""
+msgstr "Peso dominicano"
 
 #: src/formats.c:203
 msgid "[$DZD]"
-msgstr ""
+msgstr "[$DZD]"
 
 #: src/formats.c:203
 msgid "Algerian dinar"
-msgstr ""
+msgstr "Dinaro algerino"
 
 #: src/formats.c:204
 msgid "[$ECS]"
-msgstr ""
+msgstr "[$ECS]"
 
 #: src/formats.c:204
 msgid "Ecuador sucre"
-msgstr ""
+msgstr "Sucre dell'Ecuador"
 
 #: src/formats.c:205
 msgid "[$EGP]"
-msgstr ""
+msgstr "[$EGP]"
 
 #: src/formats.c:205
 msgid "Egyptian pound"
-msgstr ""
+msgstr "Sterlina egiziana"
 
 #: src/formats.c:206
 msgid "[$ESP]"
-msgstr ""
+msgstr "[$ESP]"
 
 #: src/formats.c:206
 msgid "Spanish peseta"
-msgstr ""
+msgstr "Peseta spagnola"
 
 #: src/formats.c:207
-#, fuzzy
 msgid "[$ETB]"
-msgstr "&[TAB]"
+msgstr "&[ETB]"
 
 #: src/formats.c:207
 msgid "Ethiopian birr"
-msgstr ""
+msgstr "Birr etiope"
 
 #: src/formats.c:208
 msgid "[$EUR]"
-msgstr ""
+msgstr "[$EUR]"
 
 #: src/formats.c:208
 msgid "Euro"
-msgstr ""
+msgstr "Euro"
 
 #: src/formats.c:209
 msgid "[$FIM]"
-msgstr ""
+msgstr "[$FIM]"
 
 #: src/formats.c:209
 msgid "Finnish markka"
-msgstr ""
+msgstr "Markka finlandese"
 
 #: src/formats.c:210
 msgid "[$FJD]"
-msgstr ""
+msgstr "[$FJD]"
 
 #: src/formats.c:210
 msgid "Fiji dollar"
-msgstr ""
+msgstr "Dollaro delle Fiji"
 
 #: src/formats.c:211
 msgid "[$FKP]"
-msgstr ""
+msgstr "[$FKP]"
 
 #: src/formats.c:211
 msgid "Falkland Islands pound"
-msgstr ""
+msgstr "Sterlina delle isole Falkland"
 
 #: src/formats.c:212
 msgid "[$FRF]"
-msgstr ""
+msgstr "[$FRF]"
 
 #: src/formats.c:212
 msgid "French franc"
-msgstr ""
+msgstr "Franco francese"
 
 #: src/formats.c:213
 msgid "[$GBP]"
-msgstr ""
+msgstr "[$GBP]"
 
 #: src/formats.c:213
 msgid "UK pound sterling"
-msgstr ""
+msgstr "Sterlina del Regno Unito"
 
 #: src/formats.c:214
 msgid "[$GHC]"
-msgstr ""
+msgstr "[$GHC]"
 
 #: src/formats.c:214
 msgid "Ghanaian cedi"
-msgstr ""
+msgstr "Cedi del Ghana"
 
 #: src/formats.c:215
 msgid "[$GIP]"
-msgstr ""
+msgstr "[$GIP]"
 
 #: src/formats.c:215
 msgid "Gibraltar pound"
-msgstr ""
+msgstr "Sterlina di Gibilterra"
 
 #: src/formats.c:216
 msgid "[$GMD]"
-msgstr ""
+msgstr "[$GMD]"
 
 #: src/formats.c:216
 msgid "Gambian dalasi"
-msgstr ""
+msgstr "Dalasi del Gambia"
 
 #: src/formats.c:217
 msgid "[$GNF]"
-msgstr ""
+msgstr "[$GNF]"
 
 #: src/formats.c:217
 msgid "Guinea franc"
-msgstr ""
+msgstr "Franco del Guinea"
 
 #: src/formats.c:218
 msgid "[$GRD]"
-msgstr ""
+msgstr "[$GRD]"
 
 #: src/formats.c:218
 msgid "Greek drachma"
-msgstr ""
+msgstr "Dracma graco"
 
 #: src/formats.c:219
 msgid "[$GTQ]"
-msgstr ""
+msgstr "[$GTQ]"
 
 #: src/formats.c:219
 msgid "Guatemalan quetzal"
-msgstr ""
+msgstr "Quetzal guatemalteco"
 
 #: src/formats.c:220
 msgid "[$GWP]"
-msgstr ""
+msgstr "[$GWP]"
 
 #: src/formats.c:220
 msgid "Guinea-Bissau peso"
-msgstr ""
+msgstr "Peso della Guinea-Bissau"
 
 #: src/formats.c:221
 msgid "[$GYD]"
-msgstr ""
+msgstr "[$GYD]"
 
 #: src/formats.c:221
 msgid "Guyanan dollar"
-msgstr ""
+msgstr "Dollaro della Guiana"
 
 #: src/formats.c:222
 msgid "[$HKD]"
-msgstr ""
+msgstr "[$HKD]"
 
 #: src/formats.c:222
 msgid "Hong Kong dollar"
-msgstr ""
+msgstr "Dollaro di Honk Kong"
 
 #: src/formats.c:223
 msgid "[$HNL]"
-msgstr ""
+msgstr "[$HNL]"
 
 #: src/formats.c:223
 msgid "Honduran lempira"
-msgstr ""
+msgstr "Lempira dell'Honduras"
 
 #: src/formats.c:224
 msgid "[$HRK]"
-msgstr ""
+msgstr "[$HRK]"
 
 #: src/formats.c:224
 msgid "Croatian kuna"
-msgstr ""
+msgstr "Kuna croata"
 
 #: src/formats.c:225
 msgid "[$HTG]"
-msgstr ""
+msgstr "[$HTG]"
 
 #: src/formats.c:225
 msgid "Haitian gourde"
-msgstr ""
+msgstr "Gourda haitiano"
 
 #: src/formats.c:226
 msgid "[$HUF]"
-msgstr ""
+msgstr "[$HUF]"
 
 #: src/formats.c:226
 msgid "Hungarian forint"
-msgstr ""
+msgstr "Fiorino ungherese"
 
 #: src/formats.c:227
 msgid "[$IDR]"
-msgstr ""
+msgstr "[$IDR]"
 
 #: src/formats.c:227
 msgid "Indonesian rupiah"
-msgstr ""
+msgstr "Rupia indonesiana"
 
 #: src/formats.c:228
 msgid "[$IEP]"
-msgstr ""
+msgstr "[$IEP]"
 
 #: src/formats.c:228
 msgid "Irish punt"
-msgstr ""
+msgstr "Punt irlandese"
 
 #: src/formats.c:229
 msgid "[$IEX]"
-msgstr ""
+msgstr "[$IEX]"
 
 #: src/formats.c:229
 msgid "Irish pence ***"
-msgstr ""
+msgstr "Pence irlandese ***"
 
 #: src/formats.c:230
 msgid "[$ILS]"
-msgstr ""
+msgstr "[$ILS]"
 
 #: src/formats.c:230
 msgid "Israeli shekel"
-msgstr ""
+msgstr "Shekel israeliano"
 
 #: src/formats.c:231
 msgid "[$INR]"
