@@ -1,6 +1,8 @@
 2003-04-28  Morten Welinder  <terra@gnome.org>
 
 	* latex.c (latex2e_print_vert_border): Sanity check.
+	(latex2e_write_multicolumn_cell): Fix off-by one access to
+	borders.
 
 2003-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 

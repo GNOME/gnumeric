@@ -35,6 +35,7 @@ Morten:
 	* Security fix for oleo plugin.
 	* Security fix for sc plugin.
 	* Fix gnome print configuration.
+	* Fix latex exporter crash.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.16

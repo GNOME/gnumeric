@@ -488,7 +488,7 @@ latex2e_write_blank_cell (GsfOutput *output, gint col, gint row, gint index,
 	}
 	right_border = borders[index + 1];
 
-	if (left_border == STYLE_BORDER_NONE &&  right_border == STYLE_BORDER_NONE)
+	if (left_border == STYLE_BORDER_NONE && right_border == STYLE_BORDER_NONE)
 		gsf_output_printf (output, "\n");
 	else {
 		/* Open the multicolumn statement. */
@@ -557,7 +557,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, Cell *cell, int num_merged_co
 	if (index == 0) {
 		left_border = *borders;
 	}
-	right_border = borders[index + num_merged_cols];
+	right_border = borders[index + num_merged_cols - 1];
 
 	/* We only set up a multicolumn command if necessary */
 	if (num_merged_cols > 1) {
