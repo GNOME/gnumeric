@@ -1252,11 +1252,11 @@ msgstr "<="
 
 #: src/dialogs/dialog-solver.c:44 src/workbook.c:1687
 msgid "Max"
-msgstr ""
+msgstr "Максимум"
 
 #: src/dialogs/dialog-solver.c:45 src/workbook.c:1686
 msgid "Min"
-msgstr ""
+msgstr "М╕н╕мум"
 
 #: src/dialogs/dialog-solver.c:50
 msgid "Tangent"
@@ -3438,7 +3438,7 @@ msgstr ""
 
 #: src/functions/fn-eng.c:1844
 msgid "Engineering"
-msgstr ""
+msgstr "╤нженер╕я"
 
 #: src/functions/fn-financial.c:208
 msgid ""
@@ -4155,6 +4155,13 @@ msgid ""
 "\n"
 "@SEEALSO=COUNT"
 msgstr ""
+"@FUNCTION=COUNTBLANK\n"
+"@SYNTAX=COUNTBLANK(д╕апазон)\n"
+"@DESCRIPTION=COUNTBLANK поверта╓ к╕льк╕сть порожн╕х ком╕рок в @д╕апазон╕. Ця "
+"функц╕я сум╕сна з Excel. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=COUNT"
 
 #: src/functions/fn-information.c:254
 msgid ""
@@ -4416,6 +4423,13 @@ msgid ""
 "\n"
 "@SEEALSO=ISEVEN"
 msgstr ""
+"@FUNCTION=ISODD\n"
+"@SYNTAX=ISODD()\n"
+"@DESCRIPTION=ISODD поверта╓ ╤СТИНА якщо число непарне. Ця функц╕я сум╕сна з "
+"Excel. \n "
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=ISEVEN"
 
 #: src/functions/fn-information.c:723
 msgid ""
@@ -5226,6 +5240,15 @@ msgid ""
 "\n"
 "@SEEALSO=POW"
 msgstr ""
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=SQRT поверта╓ квадратний кол╕р @x. Ця функц╕я сум╕сна з "
+"Excel. \n"
+"Якщо @x в╕д'╓мне, SQRT поверта╓ помилку #NUM!. \n"
+"@EXAMPLES=\n"
+"SQRT(2) р╕вне 1.4142136.\n"
+"\n"
+"@SEEALSO=POW"
 
 #: src/functions/fn-math.c:1347
 msgid ""
@@ -5578,7 +5601,7 @@ msgstr ""
 #: src/functions/fn-math.c:2613 src/functions/fn-math.c:2628
 #: src/functions/fn-stat.c:2666 src/functions/fn-stat.c:2696
 msgid "Array version not implemented!"
-msgstr ""
+msgstr "Верс╕ю для масиву не реал╕зовано!"
 
 #: src/functions/fn-math.c:2464
 msgid ""
@@ -7117,6 +7140,13 @@ msgid ""
 "\n"
 "@SEEALSO=CHAR, CODE"
 msgstr ""
+"@FUNCTION=LEN\n"
+"@SYNTAX=LEN(рядок)\n"
+"@DESCRIPTION=LEN поверта╓ довжину рядка @рядок в символах.\n"
+"@EXAMPLES=\n"
+"len(\"Helsinki\") р╕вне 8.\n"
+"\n"
+"@SEEALSO=CHAR, CODE"
 
 #: src/functions/fn-string.c:126
 msgid ""
