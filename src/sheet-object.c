@@ -887,6 +887,7 @@ sheet_object_register (void)
 	SHEET_OBJECT_GRAPHIC_TYPE;
 	SHEET_OBJECT_FILLED_TYPE;
 	CELL_COMMENT_TYPE;
+	(void) sheet_object_text_get_type ();
 #ifdef WITH_BONOBO
 #ifdef GNOME2_CONVERSION_COMPLETE
 	sheet_object_bonobo_get_type ();

@@ -155,6 +155,8 @@ GNUMERIC_BASE =					\
 	parse-util.h				\
 	pattern.h				\
 	pattern.c				\
+	pivottable.h				\
+	pivottable.c				\
 	plugin-loader-module.c			\
 	plugin-loader-module.h			\
 	plugin-loader.c				\

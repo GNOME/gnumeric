@@ -2291,31 +2291,52 @@ cmd_selection_group (WorkbookControl *wbc,
 	GObject   *obj;
 	CmdGroup  *me;
 	SheetView *sv;
+	Range	   r;
 
 	g_return_val_if_fail (wbc != NULL, TRUE);
 
-	obj = g_object_new (CMD_GROUP_TYPE, NULL);
-	me = CMD_GROUP (obj);
-
 	sv = wb_control_cur_sheet_view (wbc);
-	me->range = *selection_first_range (sv, NULL, NULL);
+	r = *selection_first_range (sv, NULL, NULL);
 
 	/* Check if this really is possible and display an error if it's not */
-	if (sheet_colrow_can_group (sv->sheet, &me->range, is_cols) != group) {
-		if (group)
+	if (sheet_colrow_can_group (sv->sheet, &r, is_cols) != group) {
+		if (group) {
 			gnumeric_error_system (COMMAND_CONTEXT (wbc), is_cols
 					       ? _("Those columns are already grouped")
 					       : _("Those rows are already grouped"));
-		else
+			return TRUE;
+		}
+
+		/* see if the user selected the col/row with the marker too */
+		if (is_cols) {
+			if (r.start.col != r.end.col) {
+				if (sv->sheet->outline_symbols_right)
+					r.end.col--;
+				else
+					r.start.col++;
+			}
+		} else {
+			if (r.start.row != r.end.row) {
+				if (sv->sheet->outline_symbols_below)
+					r.end.row--;
+				else
+					r.start.row++;
+			}
+		}
+
+		if (sheet_colrow_can_group (sv->sheet, &r, is_cols) != group) {
 			gnumeric_error_system (COMMAND_CONTEXT (wbc), is_cols
 					       ? _("Those columns are not grouped, you can't ungroup them")
 					       : _("Those rows are not grouped, you can't ungroup them"));
-		cmd_group_finalize (G_OBJECT (me));
-		return TRUE;
+			return TRUE;
+		}
 	}
 
+	obj = g_object_new (CMD_GROUP_TYPE, NULL);
+	me = CMD_GROUP (obj);
 	me->is_cols = is_cols;
 	me->group = group;
+	me->range = r;
 
 	me->cmd.sheet = sv->sheet;
 	me->cmd.size = 1;

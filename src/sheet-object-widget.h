@@ -5,7 +5,6 @@
 
 void sheet_object_widget_register (void);
 
-GType sheet_widget_label_get_type	(void);
 GType sheet_widget_frame_get_type	(void);
 GType sheet_widget_button_get_type	(void);
 GType sheet_widget_scrollbar_get_type	(void);

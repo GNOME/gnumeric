@@ -10,6 +10,7 @@ Release Critical
     - XL crashes importing our xls95 exports with names
     - referencing freed named expr from undo clipboard
     - height calculation in render value is hosed for embedded new lines
+    - maptable freeze crash
 
 Pending Patches
 ---------------
@@ -32,11 +33,9 @@ Pending Patches
 3) hlinks
     3.1) Finish the edit dialog to load and store results
     3.2) Figure out import semantics of the other 2 XL types
-4) finish support for h/v only splits				(DONE)
 5) zip based format
     5.1) move existing code into plugin
     5.2) work on sax style exporter
-    5.3) extend api for gnm_expr_as_string to handle 1.0 vs 1.1 style rangerefs
     5.4) should extend the format api to contain (not support) all of the
         opencalc flags.
 6) XL
@@ -50,32 +49,15 @@ Pending Patches
 
 7) Expr Parser
     7.1) Move the host of flags into an GnmExprConventions
-    7.2) Use the new convetions type to generate strings too
+    7.2) Use conventions obj to generate strings too
+    7.3) extend gnm_expr_as_string to handle 1.0 vs 1.1 style rangerefs
 
 8) Reinstate auto-format
     8.1) Add characterization (units) to StyleFormat
     8.2) Move type information to function flags.		(DONE)
     8.3) Change commands to infer types.
 
-9) Manual recalc						(DONE)
-    9.1) finish calculation ui in workbook attr dialog		(DONE)
-10) fix highlighting of completion code				(DONE)
-
 11) look into using the default gtk font rather than our own
-
-12) audit all of the import plugins to do UTF-8 conversions     (DONE)
-    12.1)  excel						(DONE)
-    12.2)  applix						(DONE)
-    12.3)  lotus						(DONE)
-    12.4)  quattro pro                                          (DONE)
-    12.5)  plan perfect						(DONE)
-    12.6)  html							(DONE)
-    12.7)  opencalc						(DONE)
-    12.8)  oleo                                                 (DONE)
-    12.9)  sc                                                   (DONE)
-    12.10) sylk                                                 (DONE)
-    12.11) dif                                                  (DONE)
-    12.12) psion                                                (DONE)
 
 13) export plugins UTF-8 -> ??
 
@@ -84,13 +66,7 @@ Pending Patches
     14.2) Notice mismatch between suffix and saver		(DONE)
     14.3) sort the file types by precedence and recently used
     14.4) do we want to persist recently used ?
-15) Decide whether to turn on the poor man's UTF-8 regexps.     (DONE)
-16) Outline mode
-    16.1) optionally put markers above/left			(DONE)
-    16.2) smarter handling for groups at the edge of selection
-    16.3) implement 'clicked' for numbers callbacks		(DONE)
 17) 3D reference fixes on sheet deletion
-18) 'discard' for invalid expressions enters text as string	(DONE)
 
 19) Session management
     http://bugzilla.gnome.org/show_bug.cgi?id=69799
@@ -249,3 +225,30 @@ Plugins
     : has some fixed-length arrays that can be overrun.
     : creates formulae by making strings and then parsing them.
       (Wasteful and won't work in non-C locales.)
+
+--------------------------------------------------------------------------------
+Finished
+
+4) finish support for h/v only splits				(DONE)
+9) Manual recalc						(DONE)
+    9.1) finish calculation ui in workbook attr dialog		(DONE)
+10) fix highlighting of completion code				(DONE)
+12) audit all of the import plugins to do UTF-8 conversions     (DONE)
+    12.1)  excel						(DONE)
+    12.2)  applix						(DONE)
+    12.3)  lotus						(DONE)
+    12.4)  quattro pro                                          (DONE)
+    12.5)  plan perfect						(DONE)
+    12.6)  html							(DONE)
+    12.7)  opencalc						(DONE)
+    12.8)  oleo                                                 (DONE)
+    12.9)  sc                                                   (DONE)
+    12.10) sylk                                                 (DONE)
+    12.11) dif                                                  (DONE)
+    12.12) psion                                                (DONE)
+15) Decide whether to turn on the poor man's UTF-8 regexps.     (DONE)
+16) Outline mode						(DONE)
+    16.1) optionally put markers above/left			(DONE)
+    16.2) smarter handling for groups at the edge of selection	(DONE)
+    16.3) implement 'clicked' for numbers callbacks		(DONE)
+18) 'discard' for invalid expressions enters text as string	(DONE)

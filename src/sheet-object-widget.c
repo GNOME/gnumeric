@@ -170,99 +170,6 @@ static GSF_CLASS (SheetObjectWidget, sheet_object_widget,
 		  SHEET_OBJECT_TYPE);
 
 /****************************************************************************/
-#define SHEET_WIDGET_LABEL_TYPE     (sheet_widget_label_get_type ())
-#define SHEET_WIDGET_LABEL(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_LABEL_TYPE, SheetWidgetLabel))
-typedef struct {
-	SheetObjectWidget	sow;
-	char *label;
-} SheetWidgetLabel;
-typedef struct {
-	SheetObjectWidgetClass	sow;
-} SheetWidgetLabelClass;
-
-static void
-sheet_widget_label_init_full (SheetWidgetLabel *swl, char const *text)
-{
-	swl->label = g_strdup (text);
-}
-
-static void
-sheet_widget_label_init (SheetWidgetLabel *swl)
-{
-	sheet_widget_label_init_full (swl, _("Label"));
-}
-
-static void
-sheet_widget_label_finalize (GObject *obj)
-{
-	SheetWidgetLabel *swl = SHEET_WIDGET_LABEL (obj);
-
-	if (swl->label != NULL) {
-		g_free (swl->label);
-		swl->label = NULL;
-	}
-
-	(*sheet_object_widget_class->finalize) (obj);
-}
-
-static GtkWidget *
-sheet_widget_label_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
-{
-	SheetWidgetLabel *swl = SHEET_WIDGET_LABEL (sow);
-
-	return gtk_label_new (swl->label);
-}
-
-static SheetObject *
-sheet_widget_label_clone (SheetObject const *src_swl, Sheet *new_sheet)
-{
-	SheetWidgetLabel *swl = g_object_new (SHEET_WIDGET_LABEL_TYPE, NULL);
-	sheet_widget_label_init_full (swl,
-		SHEET_WIDGET_LABEL (src_swl)->label);
-	return SHEET_OBJECT (swl);
-}
-
-static gboolean
-sheet_widget_label_write_xml (SheetObject const *so,
-			      XmlParseContext const *context,
-			      xmlNodePtr tree)
-{
-	SheetWidgetLabel *swl = SHEET_WIDGET_LABEL (so);
-
-	xml_node_set_cstr (tree, "Label", swl->label);
-
-	return FALSE;
-}
-
-static gboolean
-sheet_widget_label_read_xml (SheetObject *so,
-			     XmlParseContext const *context,
-			     xmlNodePtr tree)
-{
-	SheetWidgetLabel *swl = SHEET_WIDGET_LABEL (so);
-	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
-
-	if (!label) {
-		g_warning ("Could not read a SheetWidgetLabel beacause it lacks a label property.");
-		return TRUE;
-	}
-
-	swl->label = g_strdup (label);
-	xmlFree (label);
-
-	return FALSE;
-}
-
-
-SOW_MAKE_TYPE (label, Label,
-	       NULL,
-	       NULL,
-	       NULL,
-	       &sheet_widget_label_clone,
-	       &sheet_widget_label_write_xml,
-	       &sheet_widget_label_read_xml);
-
-/****************************************************************************/
 #define SHEET_WIDGET_FRAME_TYPE     (sheet_widget_frame_get_type ())
 #define SHEET_WIDGET_FRAME(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_FRAME_TYPE, SheetWidgetFrame))
 typedef struct {
@@ -1879,7 +1786,6 @@ SOW_MAKE_TYPE (combo, Combo,
 void
 sheet_object_widget_register (void)
 {
-	SHEET_WIDGET_LABEL_TYPE;
 	SHEET_WIDGET_FRAME_TYPE;
 	SHEET_WIDGET_BUTTON_TYPE;
 	SHEET_WIDGET_SCROLLBAR_TYPE;

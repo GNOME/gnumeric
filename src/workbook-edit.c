@@ -84,8 +84,11 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 		 * Do NOT remove until later it if we are editing, it is possible
 		 * that we may want to continue editing.
 		 */
-		if (wbcg->edit_line.guru != NULL)
-			gtk_widget_destroy (wbcg->edit_line.guru);
+		if (wbcg->edit_line.guru != NULL) {
+			GtkWidget *w = wbcg->edit_line.guru;
+			wbcg_edit_detach_guru (wbcg);
+			gtk_widget_destroy (w);
+		}
 
 		return TRUE;
 	}
@@ -211,7 +214,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 
 	if (wbcg->edit_line.guru != NULL) {
 		GtkWidget *w = wbcg->edit_line.guru;
-		wbcg->edit_line.guru = NULL;
+		wbcg_edit_detach_guru (wbcg);
 		gtk_widget_destroy (w);
 	}
 	wb_control_edit_set_sensitive (wbc, FALSE, TRUE);

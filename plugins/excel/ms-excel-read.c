@@ -433,7 +433,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	}
 
 	/* TextBox */
-	case 0x06: so = g_object_new (sheet_widget_label_get_type (), NULL);
+	case 0x06: so = g_object_new (sheet_object_text_get_type (), NULL);
 		   break;
 	/* Button */
 	case 0x07: so = g_object_new (sheet_widget_button_get_type (), NULL);
@@ -469,7 +469,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		   break;
 	case 0x0C: so = g_object_new (sheet_widget_radio_button_get_type (), NULL);
 		   break;
-	case 0x0E: so = g_object_new (sheet_widget_label_get_type (), NULL);
+	case 0x0E: so = g_object_new (sheet_object_text_get_type (), NULL);
 		   break;
 	case 0x10: so = sheet_object_box_new (FALSE);  break; /* Spinner */
 	case 0x11: so = g_object_new (sheet_widget_scrollbar_get_type (), NULL);

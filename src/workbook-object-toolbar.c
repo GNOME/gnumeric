@@ -52,7 +52,7 @@ static void
 cmd_create_label (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 {
 	create_object_command (wbcg,
-		g_object_new (sheet_widget_label_get_type(), NULL));
+		g_object_new (sheet_object_text_get_type (), NULL));
 }
 static void
 cmd_create_frame (GtkWidget *ignored, WorkbookControlGUI *wbcg)

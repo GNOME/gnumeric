@@ -27,6 +27,7 @@
 #include <libfoocanvas/foo-canvas-line.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <libfoocanvas/foo-canvas-polygon.h>
+#include <libfoocanvas/foo-canvas-text.h>
 #include <math.h>
 
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-arrow-key"
@@ -51,8 +52,18 @@ typedef struct {
 } SheetObjectGraphic;
 typedef struct {
 	SheetObjectClass parent_class;
+	FooCanvasItem *(*get_graphic) (FooCanvasItem *item);
 } SheetObjectGraphicClass;
 static SheetObjectClass *sheet_object_graphic_parent_class;
+
+static FooCanvasItem *
+sheet_object_graphic_get_graphic (SheetObject *so, FooCanvasItem *item)
+{
+	SheetObjectGraphicClass *sog_class = SHEET_OBJECT_GRAPHIC_CLASS (G_OBJECT_GET_CLASS (so));
+	if (sog_class->get_graphic != NULL)
+		return (*sog_class->get_graphic) (item);
+	return item;
+}
 
 /**
  * sheet_object_graphic_fill_color_set :
@@ -74,7 +85,9 @@ sheet_object_graphic_fill_color_set (SheetObject *so, StyleColor *color)
 	sog->fill_color = color;
 
 	for (l = so->realized_list; l; l = l->next)
-		foo_canvas_item_set (l->data, "fill_color_gdk", gdk, NULL);
+		foo_canvas_item_set (sheet_object_graphic_get_graphic (so, l->data),
+			"fill_color_gdk", gdk,
+			NULL);
 }
 
 static void
@@ -85,8 +98,9 @@ sheet_object_graphic_width_set (SheetObjectGraphic *sog, double width)
 
 	sog->width = width;
 	for (l = so->realized_list; l; l = l->next)
-		foo_canvas_item_set (l->data, "width_units", width,
-				       NULL);
+		foo_canvas_item_set (sheet_object_graphic_get_graphic (so, l->data),
+			"width_units", width,
+			NULL);
 }
 
 static void
@@ -100,9 +114,11 @@ sheet_object_graphic_abc_set (SheetObjectGraphic *sog, double a, double b,
 	sog->b = b;
 	sog->c = c;
 	for (l = so->realized_list; l; l = l->next)
-		foo_canvas_item_set (l->data, "arrow_shape_a", a,
-						"arrow_shape_b", b,
-						"arrow_shape_c", c, NULL);
+		foo_canvas_item_set (sheet_object_graphic_get_graphic (so, l->data),
+			"arrow_shape_a", a,
+			"arrow_shape_b", b,
+			"arrow_shape_c", c,
+			NULL);
 }
 
 SheetObject *
@@ -598,7 +614,8 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 static void
 sheet_object_graphic_class_init (GObjectClass *object_class)
 {
-	SheetObjectClass *sheet_object_class;
+	SheetObjectClass	*so_class  = SHEET_OBJECT_CLASS (object_class);
+	SheetObjectGraphicClass *sog_class = SHEET_OBJECT_GRAPHIC_CLASS (object_class);
 
 	sheet_object_graphic_parent_class = g_type_class_peek (SHEET_OBJECT_TYPE);
 
@@ -606,15 +623,16 @@ sheet_object_graphic_class_init (GObjectClass *object_class)
 	object_class->finalize = sheet_object_graphic_finalize;
 
 	/* SheetObject class method overrides */
-	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
-	sheet_object_class->new_view	  = sheet_object_graphic_new_view;
-	sheet_object_class->update_bounds = sheet_object_graphic_update_bounds;
-	sheet_object_class->read_xml	  = sheet_object_graphic_read_xml;
-	sheet_object_class->write_xml	  = sheet_object_graphic_write_xml;
-	sheet_object_class->clone         = sheet_object_graphic_clone;
-	sheet_object_class->user_config   = sheet_object_graphic_user_config;
-	sheet_object_class->print         = sheet_object_graphic_print;
-	sheet_object_class->rubber_band_directly = TRUE;
+	so_class->new_view	= sheet_object_graphic_new_view;
+	so_class->update_bounds = sheet_object_graphic_update_bounds;
+	so_class->read_xml	= sheet_object_graphic_read_xml;
+	so_class->write_xml	= sheet_object_graphic_write_xml;
+	so_class->clone         = sheet_object_graphic_clone;
+	so_class->user_config   = sheet_object_graphic_user_config;
+	so_class->print         = sheet_object_graphic_print;
+	so_class->rubber_band_directly = TRUE;
+
+	sog_class->get_graphic = NULL;
 }
 
 static void
@@ -673,7 +691,9 @@ sheet_object_filled_outline_color_set (SheetObject *so, StyleColor *color)
 	sof->outline_color = color;
 
 	for (l = so->realized_list; l; l = l->next)
-		foo_canvas_item_set (l->data, "outline_color_gdk", gdk, NULL);
+		foo_canvas_item_set (sheet_object_graphic_get_graphic (so, l->data),
+			"outline_color_gdk", gdk,
+			NULL);
 }
 
 SheetObject *
@@ -723,10 +743,10 @@ sheet_object_filled_update_bounds (SheetObject *so, GObject *view)
 		foo_canvas_item_hide (FOO_CANVAS_ITEM (view));
 }
 
-static GObject *
-sheet_object_filled_new_view (SheetObject *so, SheetControl *sc, gpointer key)
+static FooCanvasItem *
+sheet_object_filled_new_view_internal (SheetObject *so, SheetControl *sc, GnmCanvas *gcanvas,
+				       FooCanvasGroup *group)
 {
-	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	SheetObjectGraphic *sog;
 	SheetObjectFilled  *sof;
 	FooCanvasItem *item;
@@ -742,9 +762,7 @@ sheet_object_filled_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	fill_color = (sog->fill_color != NULL) ? &sog->fill_color->color : NULL;
 	outline_color = (sof->outline_color != NULL) ? &sof->outline_color->color : NULL;
 
-	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
-
-	item = foo_canvas_item_new (gcanvas->sheet_object_group,
+	item = foo_canvas_item_new (group,
 		(sog->type == SHEET_OBJECT_OVAL) ?
 					FOO_TYPE_CANVAS_ELLIPSE :
 					FOO_TYPE_CANVAS_RECT,
@@ -753,8 +771,19 @@ sheet_object_filled_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 		"width_units",		sog->width,
 		NULL);
 
-	gnm_pane_object_register (so, item);
-	return G_OBJECT (item);
+	return item;
+}
+
+static GObject *
+sheet_object_filled_new_view (SheetObject *so, SheetControl *sc, gpointer key)
+{
+	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	FooCanvasItem *i = sheet_object_filled_new_view_internal (so,
+				sc, gcanvas, gcanvas->sheet_object_group);
+
+	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
+	gnm_pane_object_register (so, i);
+	return G_OBJECT (i);
 }
 
 static gboolean
@@ -1382,3 +1411,183 @@ sheet_object_polygon_outline_color_set (SheetObject *so, StyleColor *color)
 	for (l = so->realized_list; l; l = l->next)
 		foo_canvas_item_set (l->data, "outline_color_gdk", gdk, NULL);
 }
+
+/************************************************************************/
+
+typedef struct {
+	SheetObjectFilled parent;
+
+	char *label;
+} SheetObjectText;
+typedef struct {
+	SheetObjectFilledClass	parent;
+} SheetObjectTextClass;
+static SheetObjectFilledClass *sheet_object_text_parent_class;
+
+static void
+sheet_object_text_init_full (SheetObjectText *sot, char const *text)
+{
+	sot->label = g_strdup (text);
+#if 0
+	sheet_object_graphic_fill_color_set (SHEET_OBJECT (sot) NULL);
+	sheet_object_filled_fill_color_set (SHEET_OBJECT (sot) NULL);
+#endif
+}
+
+static void
+sheet_object_text_init (SheetObjectText *sot)
+{
+	sheet_object_text_init_full (sot, _("Label"));
+}
+
+static void
+sheet_object_text_finalize (GObject *obj)
+{
+	SheetObjectText *sot = SHEET_OBJECT_TEXT (obj);
+
+	g_free (sot->label);
+	sot->label = NULL;
+
+	G_OBJECT_CLASS (sheet_object_text_parent_class)->finalize (obj);
+}
+
+static GObject *
+sheet_object_text_new_view (SheetObject *so, SheetControl *sc, gpointer key)
+{
+	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
+	FooCanvasItem *text = NULL, *back = NULL;
+	FooCanvasGroup *group;
+
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
+	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
+	g_return_val_if_fail (gcanvas != NULL, NULL);
+
+	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
+	group = FOO_CANVAS_GROUP (foo_canvas_item_new (
+			gcanvas->sheet_object_group,
+			FOO_TYPE_CANVAS_GROUP,
+			NULL));
+	text = foo_canvas_item_new (group,
+		FOO_TYPE_CANVAS_TEXT,
+		"text",		sot->label,
+		"anchor",	GTK_ANCHOR_NW,
+		"clip",		TRUE,
+		"x",		0.,
+		"y",		0.,
+		NULL);
+	back = sheet_object_filled_new_view_internal (so, sc, gcanvas, group);
+	foo_canvas_item_raise_to_top (text);
+	gnm_pane_object_register (so, FOO_CANVAS_ITEM (group));
+	return G_OBJECT (group);
+}
+
+static void
+sheet_object_text_update_bounds (SheetObject *so, GObject *view)
+{
+	double coords [4];
+	SheetControlGUI	  *scg  =
+		SHEET_CONTROL_GUI (sheet_object_view_control (view));
+	FooCanvasGroup *group = FOO_CANVAS_GROUP (view);
+
+	scg_object_view_position (scg, so, coords);
+
+	foo_canvas_item_set (FOO_CANVAS_ITEM (group->item_list->next->data),
+		"clip_width",  fabs (coords [0] - coords [2]),
+		"clip_height", fabs (coords [1] - coords [3]),
+		NULL);
+	foo_canvas_item_set (FOO_CANVAS_ITEM (group->item_list->data),
+		"x1", 0.,
+		"y1", 0.,
+		"x2", fabs (coords [0] - coords [2]),
+		"y2", fabs (coords [1] - coords [3]),
+		NULL);
+
+	foo_canvas_item_set (FOO_CANVAS_ITEM (view),
+		"x", MIN (coords [0], coords [2]),
+		"y", MIN (coords [1], coords [3]),
+		NULL);
+
+	if (so->is_visible)
+		foo_canvas_item_show (FOO_CANVAS_ITEM (view));
+	else
+		foo_canvas_item_hide (FOO_CANVAS_ITEM (view));
+
+
+}
+
+static gboolean
+sheet_object_text_read_xml (SheetObject *so,
+			     XmlParseContext const *context,
+			     xmlNodePtr tree)
+{
+	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
+	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
+
+	if (!label) {
+		g_warning ("Could not read a SheetObjectText beacause it lacks a label property.");
+		return TRUE;
+	}
+
+	sot->label = g_strdup (label);
+	xmlFree (label);
+
+	return FALSE;
+}
+
+static gboolean
+sheet_object_text_write_xml (SheetObject const *so,
+			      XmlParseContext const *context,
+			      xmlNodePtr tree)
+{
+	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
+
+	xml_node_set_cstr (tree, "Label", sot->label);
+
+	return FALSE;
+}
+
+static SheetObject *
+sheet_object_text_clone (SheetObject const *src_swl, Sheet *new_sheet)
+{
+	SheetObjectText *sot = g_object_new (SHEET_OBJECT_TEXT_TYPE, NULL);
+	sheet_object_text_init_full (sot,
+		SHEET_OBJECT_TEXT (src_swl)->label);
+	return SHEET_OBJECT (sot);
+}
+
+static FooCanvasItem *
+sheet_object_text_get_graphic (FooCanvasItem *item)
+{
+	FooCanvasGroup *group = FOO_CANVAS_GROUP (item);
+	return FOO_CANVAS_ITEM (group->item_list->data);
+}
+
+static void
+sheet_object_text_class_init (GObjectClass *object_class)
+{
+	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class);
+	SheetObjectGraphicClass *sog_class = SHEET_OBJECT_GRAPHIC_CLASS (object_class);
+
+	sheet_object_text_parent_class = g_type_class_peek (SHEET_OBJECT_FILLED_TYPE);
+
+	/* Object class method overrides */
+	object_class->finalize = sheet_object_text_finalize;
+
+	/* SheetObject class method overrides */
+	so_class = SHEET_OBJECT_CLASS (object_class);
+	so_class->new_view	= sheet_object_text_new_view;
+	so_class->update_bounds = sheet_object_text_update_bounds;
+	so_class->read_xml	= sheet_object_text_read_xml;
+	so_class->write_xml	= sheet_object_text_write_xml;
+	so_class->clone         = sheet_object_text_clone;
+	/* so_class->user_config   = NULL; inherit from parent */ 
+	/* so_class->print         = NULL; inherit from parent */
+	so_class->rubber_band_directly = FALSE;
+
+	sog_class->get_graphic	= sheet_object_text_get_graphic;
+}
+
+GSF_CLASS (SheetObjectText, sheet_object_text,
+	   sheet_object_text_class_init, sheet_object_text_init,
+	   SHEET_OBJECT_FILLED_TYPE);

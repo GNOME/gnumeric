@@ -1,9 +1,23 @@
+2002-11-23  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-graphic.c : Move the label widget here.  Inherit it
+	  from SheetObjectFilled, and use canvas text.  Still needs some love
+	  to handle the outline width nicely but on the whole it works.
+
 2002-11-22  Jody Goldberg <jody@gnome.org>
+
+	* src/commands.c (cmd_selection_group) : Add a bonus heuristic to
+	  accept attempts to ungroup a region that erroneously includes the
+	  collapse marker.
+
+2002-11-22  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=97691
+	* src/workbook-edit.c (wbcg_edit_finish) : detach guru before
+	  destroying it.
 
 	* tools/import-foocanvas : add a trailing backslash before the
 	  header list.
-
-2002-11-22  Jody Goldberg <jody@gnome.org>
 
 	* src/commands.c (cmd_global_outline_change) : don't push a useless
 	  command.

@@ -28,4 +28,9 @@ void sheet_object_polygon_set_points	    (SheetObject *so, GArray *pairs);
 void sheet_object_polygon_fill_color_set    (SheetObject *so, StyleColor *color);
 void sheet_object_polygon_outline_color_set (SheetObject *so, StyleColor *color);
 
+#define SHEET_OBJECT_TEXT_TYPE     (sheet_object_text_get_type ())
+#define SHEET_OBJECT_TEXT(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_OBJECT_TEXT_TYPE, SheetObjectText))
+
+GType sheet_object_text_get_type (void);
+
 #endif /* GNUMERIC_SHEET_OBJECT_GRAPHIC_H */
