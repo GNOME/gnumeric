@@ -29,9 +29,11 @@ You need:
 
 	gnome-libs-1.0.57
 	gnome-print-0.20
-	gnome-xml-1.8.7
+	gnome-xml-1.8.7      (gnome-xml 2.x not supported yet)
 	libglade-0.13
 	libole2-0.1.4
+	glib-1.2.7
+	gtk+-1.2.7
 
 Optionally:
 	bonobo-0.14
