@@ -67,6 +67,42 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
 	return v;
 }
 
+
+static char *help_datevalue = {
+	N_("@FUNCTION=DATEVALUE\n"
+	   "@SYNTAX=DATEVALUE (date_str)\n"
+
+	   "@DESCRIPTION="
+	   "DATEVALUE returns the serial number of the date.  @date_str is "
+	   "the string that contains the date.  For example, "
+	   "DATEVALUE(\"1/1/1999\") equals to 36160. "
+	   "\n"	   
+	   ""
+	   "@SEEALSO=DATE")
+};
+
+static Value *
+gnumeric_datevalue (struct FunctionDefinition *fd,
+		    Value *argv [], char **error_string)
+{
+	int         year, month, day;
+	const gchar *datestr;
+	GDate       date;
+
+	if (argv[0]->type != VALUE_STRING) {
+                  *error_string = _("#NUM!");
+                  return NULL;
+	}
+	datestr = argv[0]->v.str->str;
+	g_date_set_parse (&date, datestr);
+	if (!g_date_valid(&date)) {
+                  *error_string = _("#VALUE!");
+                  return NULL;
+	}
+
+	return value_int (g_date_serial (&date));
+}
+
 static char *help_today = {
 	N_("@FUNCTION=TODAY\n"
 	   "@SYNTAX=TODAY ()\n"
@@ -295,20 +331,27 @@ gnumeric_year_month_day (FunctionDefinition *fd, Value *argv [], char **error_st
 }
 
 FunctionDefinition date_functions [] = {
-	{ "date",    "fff",  "year,month,day", &help_date,    NULL, gnumeric_date  },
-	{ "day",     "f",    "serial_number",  &help_day,     NULL, gnumeric_year_month_day  },
-	{ "hour",    "f",    "serial_number",  &help_hour,    NULL, gnumeric_hour_min_sec },
-	{ "minute",  "f",    "serial_number",  &help_minute,  NULL, gnumeric_hour_min_sec },
-	{ "month",   "f",    "serial_number",  &help_month,   NULL, gnumeric_year_month_day  },
-	{ "now",     "",     "",               &help_now,     NULL, gnumeric_now },
-	{ "second",  "f",    "serial_number",  &help_second,  NULL, gnumeric_hour_min_sec },
-	{ "time",    "fff",  "hours,minutes,seconds", &help_time, NULL, gnumeric_time },
-	{ "today",   "",     "",               &help_today,   NULL, gnumeric_today },
-	{ "year",    "f",    "serial_number",  &help_year,    NULL, gnumeric_year_month_day  },
+	{ "date",      "fff",  "year,month,day",        &help_date,
+	  NULL, gnumeric_date  },
+	{ "datevalue", "s",    "date_str",              &help_datevalue,
+	  NULL, gnumeric_datevalue  },
+	{ "day",       "f",    "serial_number",         &help_day,
+	  NULL, gnumeric_year_month_day  },
+	{ "hour",      "f",    "serial_number",         &help_hour,
+	  NULL, gnumeric_hour_min_sec },
+	{ "minute",    "f",    "serial_number",         &help_minute,
+	  NULL, gnumeric_hour_min_sec },
+	{ "month",     "f",    "serial_number",         &help_month,
+	  NULL, gnumeric_year_month_day  },
+	{ "now",       "",     "",                      &help_now,
+	  NULL, gnumeric_now },
+	{ "second",    "f",    "serial_number",         &help_second,
+	  NULL, gnumeric_hour_min_sec },
+	{ "time",      "fff",  "hours,minutes,seconds", &help_time,
+	  NULL, gnumeric_time },
+	{ "today",     "",     "",                      &help_today,
+	  NULL, gnumeric_today },
+	{ "year",      "f",    "serial_number",         &help_year,
+	  NULL, gnumeric_year_month_day  },
 	{ NULL, NULL },
 };
-
-
-
-
-
