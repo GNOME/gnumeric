@@ -1309,7 +1309,7 @@ static GnomeUIInfo workbook_menu [] = {
 
 static GnomeUIInfo workbook_standard_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("New"), N_("Creates a new sheet"),
+		N_("New"), N_("Creates a new workbook"),
 		new_cmd, GNOME_STOCK_PIXMAP_NEW),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Open"), N_("Opens an existing workbook"),

@@ -1,3 +1,7 @@
+2000-03-03  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook.c: Fix 6760.
+
 2000-03-03  Jon K Hellan  <hellan@acm.org>
 
 	* doc/python-gnumeric.txt: Updated documentation
