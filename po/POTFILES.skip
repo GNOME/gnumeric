@@ -1,4 +1,3 @@
-GNOME_Gnumeric.server.in
 src/cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas-text.c
 src/cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas.c
-src/parser.c
+src/test-pango.c

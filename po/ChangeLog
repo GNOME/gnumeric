@@ -1,3 +1,10 @@
+2003-04-10  Abel Cheung  <maddog@linux.org.hk>
+
+	* LEEME.es: Removed.
+	* POTFILES.in: Add some glade files and remove non-existant file.
+	* POTFILES.skip: Remove non-existant file, add src/test-pango.c
+	  (test-pango is for testing only?)
+
 2003-03-19  Guntupalli Karunakar  <karunakar@freedomink.org>
 
 	* ml.po: Added translation for Malayalam (ml)
