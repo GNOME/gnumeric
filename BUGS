@@ -10,6 +10,7 @@ Release Critical
 - We need to somehow add --export-dynamic to the gnumeric link line, or else
   plugins won't load on Solaris/gcc.  (This might just be my bastard libtool.)
 - 3D reference fixes on sheet deletion
+- mps importer fails to import the mps sample files afiro.mps and blend.mps
 
 1.2 Targets
 -----------
