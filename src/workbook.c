@@ -760,7 +760,7 @@ static GnomeUIInfo workbook_menu_insert [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("_Add/Modify comment"),
+	{ GNOME_APP_UI_ITEM, N_("_Add/modify comment"),
 	  N_("Edit the selected cell's comment"), workbook_edit_comment },
 	{ GNOME_APP_UI_SUBTREE, N_("_Special"), NULL, workbook_menu_insert_special },
 
@@ -821,7 +821,7 @@ static GnomeUIInfo workbook_menu [] = {
 #define TOOLBAR_ITALIC_BUTTON_INDEX 13
 static GnomeUIInfo workbook_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("New"), N_("Create a new sheet"),
+		N_("New"), N_("Creates a new sheet"),
 		new_cmd, GNOME_STOCK_PIXMAP_NEW),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Open"), N_("Opens an existing workbook"),
@@ -845,21 +845,21 @@ static GnomeUIInfo workbook_toolbar [] = {
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Left align"), N_("Sets the cell alignment to the left"),
+		N_("Left align"), N_("Left justifies the cell contents"),
 		left_align_cmd, GNOME_STOCK_PIXMAP_ALIGN_LEFT),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Center"), N_("Centers the cell contents"),
 		center_cmd, GNOME_STOCK_PIXMAP_ALIGN_CENTER),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Right align"), N_("Sets the cell alignment to the right"),
+		N_("Right align"), N_("Right justifies the cell contents"),
 		right_align_cmd, GNOME_STOCK_PIXMAP_ALIGN_RIGHT),
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Bold"), N_("Sets the bold attribute on the cell"),
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Bold"), N_("Sets the bold font"),
 	  bold_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_BOLD },
 
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Italic"), N_("Sets the italic attribute on the cell"),
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Italic"), N_("Makes the font italic"),
 	  italic_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_ITALIC },
 	
 	GNOMEUIINFO_SEPARATOR,

@@ -59,7 +59,7 @@ func-index.sgml: func.defs $(srcdir)/make-index.pl
 	perl $(srcdir)/make-index.pl func.defs > func-index.sgml
 
 make-func.defs: 
-	$(top_builddir)/src/gnumeric --dump-func-defs=func.defs
+	$(top_srcdir)/src/gnumeric --dump-func-defs=func.defs
 
 dist-hook:
 	mkdir $(distdir)/gnumeric
