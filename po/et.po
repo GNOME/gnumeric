@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-10-29 19:04-0500\n"
+"POT-Creation-Date: 2001-11-05 01:48-0500\n"
 "PO-Revision-Date: 2001-10-21 01:12GMT+0200\n"
 "Last-Translator: Ain Vagula <ain@riiska.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -44,7 +44,7 @@ msgstr "Finantsilised"
 msgid "Functions related to financial derivatives"
 msgstr ""
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4249 src/xml-io.c:3449
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4352 src/xml-io.c:3449
 msgid "Reading file..."
 msgstr "Faili lugemine..."
 
@@ -137,25 +137,25 @@ msgstr "#TUNDMATU!"
 msgid "Sheet%d"
 msgstr "Leht%d"
 
-#: plugins/excel/ms-excel-read.c:4244
+#: plugins/excel/ms-excel-read.c:4347
 msgid "No book or workbook streams found."
 msgstr "Raamatut ega nende kogumit ei leitud"
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4408
+#: plugins/excel/ms-excel-read.c:4511
 msgid "Password protected workbooks are not supported yet."
 msgstr "Raamatute kaitsmine parooliga ei ole veel toetatud"
 
-#: plugins/excel/ms-excel-read.c:4521
+#: plugins/excel/ms-excel-read.c:4624
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Ei suuda leida sobivat MS Exceli raamatut"
 
-#: plugins/excel/ms-excel-write.c:3543
+#: plugins/excel/ms-excel-write.c:3479
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Liiga palju ridu selle formaadi (%d > %d) jaoks"
 
-#: plugins/excel/ms-excel-write.c:3771
+#: plugins/excel/ms-excel-write.c:3707
 msgid "Can't open stream for writing\n"
 msgstr "Ei saa avada andmevoogu kirjutamiseks\n"
 
@@ -264,10 +264,10 @@ msgstr "Gnumericu XML failiformaat"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr ""
 
-#: plugins/guile/plugin.c:67 src/func.c:776 src/functions/fn-information.c:654
-#: src/functions/fn-information.c:723 src/functions/fn-information.c:750
-#: src/functions/fn-information.c:776 src/functions/fn-information.c:825
-#: src/functions/fn-information.c:854 src/functions/fn-information.c:918
+#: plugins/guile/plugin.c:67 src/func.c:776 src/functions/fn-information.c:653
+#: src/functions/fn-information.c:722 src/functions/fn-information.c:749
+#: src/functions/fn-information.c:775 src/functions/fn-information.c:824
+#: src/functions/fn-information.c:853 src/functions/fn-information.c:917
 #: src/functions/fn-logical.c:194 src/functions/fn-string.c:313
 msgid "Invalid number of arguments"
 msgstr "Vigane argumentide arv"
@@ -842,7 +842,7 @@ msgstr "Viga SYLK faili avamisel."
 msgid "Error while reading sheet."
 msgstr "Viga lehe lugemisel."
 
-#: plugins/xbase/boot.c:150
+#: plugins/xbase/boot.c:163
 msgid "Error while opening xbase file."
 msgstr "Viga xbase faili avamisel."
 
@@ -885,1176 +885,1183 @@ msgstr "XML dokument halvas vormingus!"
 msgid "About this application"
 msgstr "Rakenduse info"
 
-#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:2849
+#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:2846
 msgid "Add an outline group"
 msgstr "Lisa väljatoodud grupp"
 
-#: src/GNOME_Gnumeric.xml.h:3 src/workbook-format-toolbar.c:481
+#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:2876
+#, fuzzy
+msgid "Advanced _Filter..."
+msgstr "Täiustatud filter"
+
+#: src/GNOME_Gnumeric.xml.h:4 src/workbook-format-toolbar.c:481
 msgid "Aligns the contents to the left and decreases the indent"
 msgstr "Joondab sisu vasakule ja vähendab taandust"
 
-#: src/GNOME_Gnumeric.xml.h:4 src/workbook-format-toolbar.c:484
+#: src/GNOME_Gnumeric.xml.h:5 src/workbook-format-toolbar.c:484
 msgid "Aligns the contents to the left and increases the indent"
 msgstr "Joondab sisu vasakule ja suurendab taandust"
 
-#: src/GNOME_Gnumeric.xml.h:5 src/workbook-object-toolbar.c:171
+#: src/GNOME_Gnumeric.xml.h:6 src/workbook-object-toolbar.c:171
 msgid "Arrow"
 msgstr "Nool"
 
-#: src/GNOME_Gnumeric.xml.h:6 src/workbook-control-gui.c:2816
+#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:2813
 msgid "Auto _Correct..."
 msgstr "Automaat_korrektuur...."
 
-#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:2527
+#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2524
 msgid "Auto_fill"
 msgstr "Automaat_täitmine"
 
-#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2528
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2525
 msgid "Automatically fill the current selection"
 msgstr "Valitud ala automaatne täitmine"
 
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2817
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:2814
 msgid "Automatically perform simple spell checking"
 msgstr "Lihtsa õigekirjakontrolli automaatne teostamine"
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:2820
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:2817
 msgid "Automatically save the current document at regular intervals"
 msgstr "Dokumendi salvestamine kindla intervalliga automaatselt"
 
-#: src/GNOME_Gnumeric.xml.h:11 src/dialogs/cell-format.glade.h:16
+#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:16
 #: src/dialogs/dialog-cell-format.c:2665 src/workbook-format-toolbar.c:842
 #: src/workbook-format-toolbar.c:898
 msgid "Background"
 msgstr "Taust"
 
-#: src/GNOME_Gnumeric.xml.h:12 src/widgets/widget-font-selector.c:114
+#: src/GNOME_Gnumeric.xml.h:13 src/widgets/widget-font-selector.c:114
 #: src/workbook-format-toolbar.c:415
 msgid "Bold"
 msgstr "Rasvane"
 
-#: src/GNOME_Gnumeric.xml.h:13 src/workbook-format-toolbar.c:830
+#: src/GNOME_Gnumeric.xml.h:14 src/workbook-format-toolbar.c:830
 #: src/workbook-format-toolbar.c:895
 msgid "Borders"
 msgstr "Piirded"
 
-#: src/GNOME_Gnumeric.xml.h:14 src/sheet-object-widget.c:413
+#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:413
 #: src/workbook-object-toolbar.c:149
 msgid "Button"
 msgstr "Nupp"
 
-#: src/GNOME_Gnumeric.xml.h:15 src/workbook-control-gui.c:2690
+#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2687
 msgid "C_ells..."
 msgstr "L_ahtrid..."
 
-#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2591
+#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2588
 msgid "C_lear"
 msgstr "P_uhasta"
 
-#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2794
+#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2791
 msgid "C_olumn"
 msgstr "V_eerg"
 
-#: src/GNOME_Gnumeric.xml.h:18 src/workbook-format-toolbar.c:442
+#: src/GNOME_Gnumeric.xml.h:19 src/workbook-format-toolbar.c:442
 msgid "Center"
 msgstr "Tsenter"
 
-#: src/GNOME_Gnumeric.xml.h:19
+#: src/GNOME_Gnumeric.xml.h:20
 msgid "CenterAcrossSelection"
 msgstr "Tsentreerimine üle valitud ala"
 
-#: src/GNOME_Gnumeric.xml.h:20
+#: src/GNOME_Gnumeric.xml.h:21
 msgid "Centers across the selected cells"
 msgstr "Tsentreerimine üle valitud ala"
 
-#: src/GNOME_Gnumeric.xml.h:21
+#: src/GNOME_Gnumeric.xml.h:22
 msgid "Centers the text in each selection"
 msgstr "Tsentreerib teksti kõikides valikutes"
 
-#: src/GNOME_Gnumeric.xml.h:22 src/workbook-control-gui.c:2728
+#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2725
 msgid "Change height of the selected rows"
 msgstr "Valitud ridade kõrguse määramine"
 
-#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2721
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2718
 msgid "Change the default column width"
 msgstr "Muuda veergude laiuse vaikeväärtust"
 
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2740
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2737
 msgid "Change the default row height"
 msgstr "Muuda rea kõrguse vaikeväärtust"
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2549
-#: src/workbook-control-gui.c:2750
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2546
+#: src/workbook-control-gui.c:2747
 msgid "Change the order the sheets are displayed"
 msgstr "Muuda lehtede kuvamise järjekorda"
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2712
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2709
 msgid "Change width of the selected columns"
 msgstr "Muuda valitud veergude laiusi"
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-object-toolbar.c:153
+#: src/GNOME_Gnumeric.xml.h:28 src/workbook-object-toolbar.c:153
 msgid "Checkbox"
 msgstr "Kontrollkast"
 
-#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:2488
+#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2485
 msgid "Clear the selected cells' comments"
 msgstr "Eemalda valitud lahtritest märkused"
 
-#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2491
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2488
 msgid "Clear the selected cells' contents"
 msgstr "Eemalda valitud lahtritest sisu"
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2485
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2482
 msgid "Clear the selected cells' formats"
 msgstr "Eemalda valitud lahtrite vormindus"
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2482
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2479
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Eemalda valitud lahtrite vormindus, märkused ja sisu"
 
-#: src/GNOME_Gnumeric.xml.h:32
+#: src/GNOME_Gnumeric.xml.h:33
 msgid "Close the current file"
 msgstr "Sulge fail"
 
-#: src/GNOME_Gnumeric.xml.h:33 src/dialogs/print.glade.h:4
-#: src/workbook-control-gui.c:2487
+#: src/GNOME_Gnumeric.xml.h:34 src/dialogs/print.glade.h:4
+#: src/workbook-control-gui.c:2484
 msgid "Co_mments"
 msgstr "Märk_used"
 
-#: src/GNOME_Gnumeric.xml.h:34 src/workbook-control-gui.c:2843
+#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2840
 msgid "Collapse an outline group"
 msgstr "Lase väljatoodud grupp kokku"
 
-#: src/GNOME_Gnumeric.xml.h:35
+#: src/GNOME_Gnumeric.xml.h:36
 msgid "Combo Box"
 msgstr "Kombokast"
 
-#: src/GNOME_Gnumeric.xml.h:36
+#: src/GNOME_Gnumeric.xml.h:37
 msgid "Configure toolbars"
 msgstr "Seadista tööriistaribasid"
 
-#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:2890
+#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2894
 msgid "Consolidate regions using a function"
 msgstr "Konsolideeri regioonid funktsiooni abil"
 
-#: src/GNOME_Gnumeric.xml.h:38 src/selection.c:540
-#: src/workbook-control-gui.c:2944
+#: src/GNOME_Gnumeric.xml.h:39 src/selection.c:540
+#: src/workbook-control-gui.c:2948
 msgid "Copy"
 msgstr "Kopeeri"
 
-#: src/GNOME_Gnumeric.xml.h:39
+#: src/GNOME_Gnumeric.xml.h:40
 msgid "Copy the current selection to the clipboard"
 msgstr "Kopeeri valik lõikepuhvrisse"
 
-#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:2577
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:2574
 msgid "Copy the selection"
 msgstr "Kopeeri valik"
 
-#: src/GNOME_Gnumeric.xml.h:41
+#: src/GNOME_Gnumeric.xml.h:42
 msgid "Create a button"
 msgstr "Tee nupp"
 
-#: src/GNOME_Gnumeric.xml.h:42
+#: src/GNOME_Gnumeric.xml.h:43
 msgid "Create a checkbox"
 msgstr "Tee kontrollkast"
 
-#: src/GNOME_Gnumeric.xml.h:43
+#: src/GNOME_Gnumeric.xml.h:44
 msgid "Create a combo box"
 msgstr "Tee kombokast"
 
-#: src/GNOME_Gnumeric.xml.h:44
+#: src/GNOME_Gnumeric.xml.h:45
 msgid "Create a frame"
 msgstr "Tee raam"
 
-#: src/GNOME_Gnumeric.xml.h:45
+#: src/GNOME_Gnumeric.xml.h:46
 msgid "Create a label"
 msgstr "Tee silt"
 
-#: src/GNOME_Gnumeric.xml.h:46
+#: src/GNOME_Gnumeric.xml.h:47
 msgid "Create a line"
 msgstr "Tee joon"
 
-#: src/GNOME_Gnumeric.xml.h:47
+#: src/GNOME_Gnumeric.xml.h:48
 msgid "Create a list"
 msgstr "Tee loend"
 
-#: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:2633
+#: src/GNOME_Gnumeric.xml.h:49 src/workbook-control-gui.c:2630
 msgid "Create a new shared view of the workbook"
 msgstr "Loo uus jagatud vaade raamatust"
 
-#: src/GNOME_Gnumeric.xml.h:49 src/workbook-control-gui.c:2444
+#: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:2441
 msgid "Create a new spreadsheet"
 msgstr "Tekita uus tabel"
 
-#: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:2636
+#: src/GNOME_Gnumeric.xml.h:51 src/workbook-control-gui.c:2633
 msgid "Create a new unshared view of the workbook"
 msgstr "Loo uus jagamata vaade raamatust"
 
-#: src/GNOME_Gnumeric.xml.h:51
+#: src/GNOME_Gnumeric.xml.h:52
 msgid "Create a new workbook"
 msgstr "Loo uus raamat"
 
-#: src/GNOME_Gnumeric.xml.h:52
+#: src/GNOME_Gnumeric.xml.h:53
 msgid "Create a radio button"
 msgstr "Tee raadionupp"
 
-#: src/GNOME_Gnumeric.xml.h:53
+#: src/GNOME_Gnumeric.xml.h:54
 msgid "Create an arrow"
 msgstr "Tee nool"
 
-#: src/GNOME_Gnumeric.xml.h:54 src/sheet-control-gui.c:1299
-#: src/workbook-control-gui.c:2572
+#: src/GNOME_Gnumeric.xml.h:55 src/sheet-control-gui.c:1321
+#: src/workbook-control-gui.c:2569
 msgid "Cu_t"
 msgstr "Lõ_ika"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:55 src/workbook-control-gui.c:2654
+#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2651
 msgid "Current _date"
 msgstr "Käesolev _kuupäev"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2660
+#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2657
 msgid "Current _time"
 msgstr "Praegune _aeg"
 
-#: src/GNOME_Gnumeric.xml.h:57 src/selection.c:566 src/selection.c:569
-#: src/workbook-control-gui.c:2941
+#: src/GNOME_Gnumeric.xml.h:58 src/selection.c:566 src/selection.c:569
+#: src/workbook-control-gui.c:2945
 msgid "Cut"
 msgstr "Lõika"
 
-#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:2573
+#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:2570
 msgid "Cut the selection"
 msgstr "Lõika valik välja"
 
-#: src/GNOME_Gnumeric.xml.h:59 src/workbook-format-toolbar.c:401
+#: src/GNOME_Gnumeric.xml.h:60 src/workbook-format-toolbar.c:401
 #: src/workbook-format-toolbar.c:481
 msgid "Decrease Indent"
 msgstr "Vähenda taandust"
 
-#: src/GNOME_Gnumeric.xml.h:60
+#: src/GNOME_Gnumeric.xml.h:61
 msgid "Decrease Precision"
 msgstr "Vähenda täpsust"
 
-#: src/GNOME_Gnumeric.xml.h:61
+#: src/GNOME_Gnumeric.xml.h:62
 msgid "Decrease the precision of the selected cells"
 msgstr "Vähenda täpsust valitud lahtrites"
 
-#: src/GNOME_Gnumeric.xml.h:62 src/workbook-control-gui.c:2755
+#: src/GNOME_Gnumeric.xml.h:63 src/workbook-control-gui.c:2752
 msgid "Display _Formulas"
 msgstr "Näita _valemeid"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/workbook-control-gui.c:2858
+#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2855
 msgid "Display _Outlines"
 msgstr "Näita _gruppe"
 
-#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2756
+#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2753
 msgid "Display the value of a formula or the formula itself"
 msgstr "Näita valemi väärtust või valemit ennast"
 
-#: src/GNOME_Gnumeric.xml.h:65
+#: src/GNOME_Gnumeric.xml.h:66
 msgid "Draw a rectangle"
 msgstr "Joonista ristkülik"
 
-#: src/GNOME_Gnumeric.xml.h:66
+#: src/GNOME_Gnumeric.xml.h:67
 msgid "Draw an oval"
 msgstr "Joonista ovaal"
 
-#: src/GNOME_Gnumeric.xml.h:67
+#: src/GNOME_Gnumeric.xml.h:68
 msgid "E_xit"
 msgstr "_Välju"
 
-#: src/GNOME_Gnumeric.xml.h:68
+#: src/GNOME_Gnumeric.xml.h:69
 msgid "Edit a formula in the current cell"
 msgstr "Muuda valemit käesolevas lahtris"
 
-#: src/GNOME_Gnumeric.xml.h:69 src/workbook-control-gui.c:2669
+#: src/GNOME_Gnumeric.xml.h:70 src/workbook-control-gui.c:2666
 msgid "Edit sheet and workbook names"
 msgstr "Muuda tabeli ja raamatu nimesid"
 
-#: src/GNOME_Gnumeric.xml.h:70 src/workbook-control-gui.c:2747
+#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2744
 msgid "Edit the name of the current sheet"
 msgstr "Muuda käesoleva lehe nime"
 
-#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2699
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:2696
 msgid "Edit the selected cell's comment"
 msgstr "Muuda valitud lahtrite märkusi"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:2709
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2706
 msgid "Ensure columns are just wide enough to display content"
 msgstr "Veendu et veergude laius on piisav sisu kuvamiseks"
 
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2731
+#: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:2728
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Veendu et ridade kõrgus on piisav sisu kuvamiseks"
 
-#: src/GNOME_Gnumeric.xml.h:74
+#: src/GNOME_Gnumeric.xml.h:75
 msgid "Exit the program"
 msgstr "Välju programmist"
 
-#: src/GNOME_Gnumeric.xml.h:75 src/workbook-control-gui.c:2911
+#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:2915
 msgid "F_ormat"
 msgstr "V_ormindamine"
 
-#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:2884
+#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:2877
 msgid "Filter data with given criteria"
 msgstr "Filtreeri andmed vastavalt antud kriteeriumile"
 
-#: src/GNOME_Gnumeric.xml.h:77 src/dialogs/cell-format.glade.h:41
+#: src/GNOME_Gnumeric.xml.h:78 src/dialogs/cell-format.glade.h:41
 #: src/workbook-format-toolbar.c:781
 msgid "Font"
 msgstr "Font"
 
-#: src/GNOME_Gnumeric.xml.h:78 src/workbook-format-toolbar.c:892
+#: src/GNOME_Gnumeric.xml.h:79 src/workbook-format-toolbar.c:892
 msgid "Font Size"
 msgstr "Fondi suurus"
 
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-format-toolbar.c:412
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-format-toolbar.c:412
 #: src/workbook-format-toolbar.c:890
 msgid "Font selector"
 msgstr "Fondi valimine"
 
-#: src/GNOME_Gnumeric.xml.h:80 src/dialogs/dialog-cell-format.c:2660
+#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2660
 #: src/workbook-format-toolbar.c:867 src/workbook-format-toolbar.c:901
 msgid "Foreground"
 msgstr "Esiplaan"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:2799
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2796
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Vorminda ala lahtrid vastavalt etteantud mallile"
 
-#: src/GNOME_Gnumeric.xml.h:82
+#: src/GNOME_Gnumeric.xml.h:83
 msgid "Format the selected cells as money"
 msgstr "Vorminda valitud lahtrid rahana"
 
-#: src/GNOME_Gnumeric.xml.h:83
+#: src/GNOME_Gnumeric.xml.h:84
 msgid "Format the selected cells as percentages"
 msgstr "Vorminda valitud lahtrid protsendina"
 
-#: src/GNOME_Gnumeric.xml.h:84 src/sheet-object-widget.c:316
+#: src/GNOME_Gnumeric.xml.h:85 src/sheet-object-widget.c:316
 #: src/workbook-object-toolbar.c:144
 msgid "Frame"
 msgstr "Raam"
 
-#: src/GNOME_Gnumeric.xml.h:85
+#: src/GNOME_Gnumeric.xml.h:86
 msgid "Function Guru"
 msgstr "Funktsiooniguru"
 
-#: src/GNOME_Gnumeric.xml.h:86 src/dialogs/graph-guru.glade.h:2
+#: src/GNOME_Gnumeric.xml.h:87 src/dialogs/graph-guru.glade.h:2
 msgid "Graph Guru"
 msgstr "Diagrammiguru"
 
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:2727
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:2724
 msgid "H_eight..."
 msgstr "_Kõrgus..."
 
-#: src/GNOME_Gnumeric.xml.h:88
+#: src/GNOME_Gnumeric.xml.h:89
 msgid "Hide _Column Headers"
 msgstr "Peida _veergude päised"
 
-#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:2767
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:2764
 msgid "Hide _Gridlines"
 msgstr "Peida _alusvõrk"
 
-#: src/GNOME_Gnumeric.xml.h:90
+#: src/GNOME_Gnumeric.xml.h:91
 msgid "Hide _Row Headers"
 msgstr "Peida _ridade päised"
 
-#: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:2761
+#: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:2758
 msgid "Hide _Zeros"
 msgstr "Peida _nullid"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:2715
+#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2712
 msgid "Hide the selected columns"
 msgstr "Peida valitud veerud"
 
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2734
+#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:2731
 msgid "Hide the selected rows"
 msgstr "Peida valitud read"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:2448
+#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:2445
 msgid "Imports a file"
 msgstr "Impordib faili"
 
-#: src/GNOME_Gnumeric.xml.h:95
+#: src/GNOME_Gnumeric.xml.h:96
 msgid "Includes a thousands separator in the selected cells"
 msgstr "Kasutab valitud lahtrites tuhandete eraldajat"
 
-#: src/GNOME_Gnumeric.xml.h:96 src/workbook-format-toolbar.c:379
+#: src/GNOME_Gnumeric.xml.h:97 src/workbook-format-toolbar.c:379
 #: src/workbook-format-toolbar.c:484
 msgid "Increase Indent"
 msgstr "Suurenda taandust"
 
-#: src/GNOME_Gnumeric.xml.h:97
+#: src/GNOME_Gnumeric.xml.h:98
 msgid "Increase Precision"
 msgstr "Suurenda täpsust"
 
-#: src/GNOME_Gnumeric.xml.h:98
+#: src/GNOME_Gnumeric.xml.h:99
 msgid "Increase the precision of the selected cells"
 msgstr "Suurenda täpsust valitud lahtrites"
 
-#: src/GNOME_Gnumeric.xml.h:99
+#: src/GNOME_Gnumeric.xml.h:100
 msgid "Insert Component"
 msgstr "Lisa komponent"
 
-#: src/GNOME_Gnumeric.xml.h:100
+#: src/GNOME_Gnumeric.xml.h:101
 msgid "Insert Shaped Component"
 msgstr "Lisa vormitud komponent"
 
-#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:2541
+#: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:2538
 msgid "Insert a new sheet"
 msgstr "Lisa uus leht"
 
-#: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:2682
+#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2679
 msgid "Insert a new spreadsheet"
 msgstr "Lisa uus tabel"
 
-#: src/GNOME_Gnumeric.xml.h:103
+#: src/GNOME_Gnumeric.xml.h:104
 msgid "Insert a shaped component into the spreadsheet"
 msgstr "Lisa tabelisse vormitud komponent"
 
-#: src/GNOME_Gnumeric.xml.h:104
+#: src/GNOME_Gnumeric.xml.h:105
 msgid "Insert an object into the spreadsheet"
 msgstr "Lisa tabelisse objekt"
 
-#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2691
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2688
 msgid "Insert new cells"
 msgstr "Lisa uued lahtrid"
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2688
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:2685
 msgid "Insert new columns"
 msgstr "Lisa uued veerud"
 
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:2685
+#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:2682
 msgid "Insert new rows"
 msgstr "Lisa uued read"
 
-#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:2655
+#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:2652
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Lisab käesoleva kuupäeva valitud lahtri(te)sse"
 
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:2661
+#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:2658
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Lisab praeguse kellaaja valitud lahtri(te)sse"
 
-#: src/GNOME_Gnumeric.xml.h:110
+#: src/GNOME_Gnumeric.xml.h:111
 msgid "Inserts a Bonobo object"
 msgstr "Lisab Bonobo objekti"
 
-#: src/GNOME_Gnumeric.xml.h:111
+#: src/GNOME_Gnumeric.xml.h:112
 msgid "Invoke the graph guru to create a graph"
 msgstr "Kaasa diagrammi koostamisse Diagrammiguru"
 
-#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:2553
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2550
 msgid "Irrevocably remove an entire sheet"
 msgstr "Kustuta kogu leht pöördmatult"
 
-#: src/GNOME_Gnumeric.xml.h:113
+#: src/GNOME_Gnumeric.xml.h:114
 msgid "Italicize"
 msgstr "Muuda kaldkirjaks"
 
-#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:2826
+#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2823
 msgid "Iteratively recalculate to find a target value"
 msgstr "Taasarvuta iteratiivselt sihtväärtuse leidmiseks"
 
-#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2829
+#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2826
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr "Taasarvuta iteratiivselt kasutades piiranguid sihtväärtuni jõudmiseks"
 
-#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2617
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2614
 msgid "Jump to a specified cell"
 msgstr "Hüppa määratud lahtrisse"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/sheet-object-widget.c:219
+#: src/GNOME_Gnumeric.xml.h:118 src/sheet-object-widget.c:219
 #: src/workbook-object-toolbar.c:141
 msgid "Label"
 msgstr "Pealdis"
 
-#: src/GNOME_Gnumeric.xml.h:118 src/dialogs/cell-format.glade.h:55
+#: src/GNOME_Gnumeric.xml.h:119 src/dialogs/cell-format.glade.h:55
 #: src/workbook-format-toolbar.c:632
 msgid "Left"
 msgstr "Vasak"
 
-#: src/GNOME_Gnumeric.xml.h:119
+#: src/GNOME_Gnumeric.xml.h:120
 msgid "Left justifies the contents of each cell"
 msgstr "Joondab kõik lahtrid vasakule"
 
-#: src/GNOME_Gnumeric.xml.h:120 src/dialogs/cell-format.glade.h:56
+#: src/GNOME_Gnumeric.xml.h:121 src/dialogs/cell-format.glade.h:56
 #: src/workbook-object-toolbar.c:168
 msgid "Line"
 msgstr "Joon"
 
-#: src/GNOME_Gnumeric.xml.h:121 src/dialogs/cell-format.glade.h:57
+#: src/GNOME_Gnumeric.xml.h:122 src/dialogs/cell-format.glade.h:57
 #: src/workbook-object-toolbar.c:162
 msgid "List"
 msgstr "Loend"
 
-#: src/GNOME_Gnumeric.xml.h:122
+#: src/GNOME_Gnumeric.xml.h:123
 msgid "Lock or unlock the top left cols/rows"
 msgstr "Lukustab/vabastab ülemised/vasakud veerud/read"
 
-#: src/GNOME_Gnumeric.xml.h:123 src/workbook-control-gui.c:2537
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2534
 msgid "Make a copy of the current sheet"
 msgstr "Tee käesolevast lehest koopia"
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2718
+#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:2715
 msgid "Make any hidden columns in the selection visible"
 msgstr "Tee kõik varjatud veerud valitud alal nähtavaks"
 
-#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:2737
+#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:2734
 msgid "Make any hidden rows in the selection visible"
 msgstr "Tee kõik varjatud read valitud alal nähtavaks"
 
-#: src/GNOME_Gnumeric.xml.h:126
+#: src/GNOME_Gnumeric.xml.h:127
 msgid "Make font bold"
 msgstr "Muuda font rasvaseks"
 
-#: src/GNOME_Gnumeric.xml.h:127
+#: src/GNOME_Gnumeric.xml.h:128
 msgid "Make font italic"
 msgstr "Kalluta fonti"
 
-#: src/GNOME_Gnumeric.xml.h:128
+#: src/GNOME_Gnumeric.xml.h:129
 msgid "Manage available plugin modules"
 msgstr "Halda saadaolevate pluginate mooduleid"
 
-#: src/GNOME_Gnumeric.xml.h:129
+#: src/GNOME_Gnumeric.xml.h:130
 msgid "Mark the current selection for movement"
 msgstr "Märgista käesolev valik liigutamiseks"
 
-#: src/GNOME_Gnumeric.xml.h:130 src/sheet-merge.c:74
+#: src/GNOME_Gnumeric.xml.h:131 src/sheet-merge.c:74
 #: src/workbook-format-toolbar.c:454
 msgid "Merge"
 msgstr "Ühenda"
 
-#: src/GNOME_Gnumeric.xml.h:131 src/workbook-format-toolbar.c:454
+#: src/GNOME_Gnumeric.xml.h:132 src/workbook-format-toolbar.c:454
 msgid "Merge a range of cells"
 msgstr "Ühenda lahtrite kogum"
 
-#: src/GNOME_Gnumeric.xml.h:132 src/workbook-control-gui.c:2791
+#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:2788
 msgid "Modify the formatting of the selected cells"
 msgstr "Muuda valitud lahtrite vormindust"
 
-#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:2803
+#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:2800
 msgid "Modify the workbook attributes"
 msgstr "Muuda raamatu atribuute"
 
-#: src/GNOME_Gnumeric.xml.h:134
+#: src/GNOME_Gnumeric.xml.h:135
 msgid "Money"
 msgstr "Raha"
 
-#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2920
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2924
 msgid "New"
 msgstr "Uus"
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2632
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2629
 msgid "New _Shared"
 msgstr "Uus _jagatud"
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2635
+#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2632
 msgid "New _Unshared"
 msgstr "Uus ja_gamata"
 
-#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2923
+#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:2927
 msgid "Open"
 msgstr "Ava"
 
-#: src/GNOME_Gnumeric.xml.h:139
+#: src/GNOME_Gnumeric.xml.h:140
 msgid "Open a spreadsheet"
 msgstr "Ava tabel"
 
-#: src/GNOME_Gnumeric.xml.h:140
+#: src/GNOME_Gnumeric.xml.h:141
 msgid "Open an existing workbook"
 msgstr "Ava olemasolev raamat"
 
-#: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:2864
+#: src/GNOME_Gnumeric.xml.h:142 src/workbook-control-gui.c:2861
 msgid "Outlines _Below"
 msgstr "Grupid allpool"
 
-#: src/GNOME_Gnumeric.xml.h:142 src/workbook-control-gui.c:2870
+#: src/GNOME_Gnumeric.xml.h:143 src/workbook-control-gui.c:2867
 msgid "Outlines _Right"
 msgstr "Grupid paremal"
 
-#: src/GNOME_Gnumeric.xml.h:143
+#: src/GNOME_Gnumeric.xml.h:144
 msgid "Oval"
 msgstr "Ovaal"
 
-#: src/GNOME_Gnumeric.xml.h:144
+#: src/GNOME_Gnumeric.xml.h:145
 msgid "P_aste Special..."
 msgstr "_Aseta valikuliselt..."
 
-#: src/GNOME_Gnumeric.xml.h:145 src/cmd-edit.c:362
-#: src/workbook-control-gui.c:2947
+#: src/GNOME_Gnumeric.xml.h:146 src/cmd-edit.c:344
+#: src/workbook-control-gui.c:2951
 msgid "Paste"
 msgstr "Aseta"
 
-#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:2581
+#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:2578
 msgid "Paste the clipboard"
 msgstr "Aseta lõikepuhvri sisu"
 
-#: src/GNOME_Gnumeric.xml.h:147
+#: src/GNOME_Gnumeric.xml.h:148
 msgid "Paste the contents of the clipboard or cut buffer"
 msgstr "Aseta puhvrisse kopeeritud või lõigatud andmed"
 
-#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:2586
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:2583
 msgid "Paste with optional filters and transformations"
 msgstr "Aseta määratavate filtrite ja muutustega"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/analysis-tools.c:2641
-#: src/analysis-tools.c:2667 src/workbook-format-toolbar.c:466
+#: src/GNOME_Gnumeric.xml.h:150 src/analysis-tools.c:2665
+#: src/analysis-tools.c:2691 src/workbook-format-toolbar.c:466
 msgid "Percent"
 msgstr "Protsent"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/dialogs/print.glade.h:18
-#: src/workbook-control-gui.c:2932
+#: src/GNOME_Gnumeric.xml.h:151 src/dialogs/print.glade.h:18
+#: src/workbook-control-gui.c:2936
 msgid "Print"
 msgstr "Trüki"
 
-#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2461
+#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2458
 msgid "Print Pre_view"
 msgstr "_Väljatrüki eelvaade"
 
-#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2461
-#: src/workbook-control-gui.c:2935
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:2458
+#: src/workbook-control-gui.c:2939
 msgid "Print Preview"
 msgstr "Väljatrüki eelvaade"
 
-#: src/GNOME_Gnumeric.xml.h:153
+#: src/GNOME_Gnumeric.xml.h:154
 msgid "Print S_etup"
 msgstr "Trükkimise s_eadistamine"
 
-#: src/GNOME_Gnumeric.xml.h:154 src/dialogs/print.glade.h:20 src/print.c:1183
+#: src/GNOME_Gnumeric.xml.h:155 src/dialogs/print.glade.h:20 src/print.c:1183
 msgid "Print preview"
 msgstr "Väljatrüki eelvaade"
 
-#: src/GNOME_Gnumeric.xml.h:155
+#: src/GNOME_Gnumeric.xml.h:156
 msgid "Print the current file"
 msgstr "Trüki käesolev fail"
 
-#: src/GNOME_Gnumeric.xml.h:156
+#: src/GNOME_Gnumeric.xml.h:157
 msgid "Print the workbook"
 msgstr "Trüki raamat"
 
-#: src/GNOME_Gnumeric.xml.h:157
+#: src/GNOME_Gnumeric.xml.h:158
 msgid "Radio Button"
 msgstr "Raadionupp"
 
-#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:2548
-#: src/workbook-control-gui.c:2749
+#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2545
+#: src/workbook-control-gui.c:2746
 msgid "Re-_Order Sheets..."
 msgstr "K_orrasta lehed..."
 
-#: src/GNOME_Gnumeric.xml.h:159
+#: src/GNOME_Gnumeric.xml.h:160
 msgid "Re-_Order..."
 msgstr "K_orrasta ..."
 
-#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:2544
+#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:2541
 msgid "Re_name..."
 msgstr "_Nimeta ümber..."
 
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:2621
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2618
 msgid "Recalculate"
 msgstr "Arvuta uuesti"
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2622
+#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:2619
 msgid "Recalculate the spreadsheet"
 msgstr "Arvuta tabel uuesti"
 
-#: src/GNOME_Gnumeric.xml.h:163 src/workbook-object-toolbar.c:174
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-object-toolbar.c:174
 msgid "Rectangle"
 msgstr "Ristkülik"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:2566
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:2563
 msgid "Redo the undone action"
 msgstr "Soorita tühistatud tegevus uuesti"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:2852
+#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:2849
 msgid "Remove an outline group"
 msgstr "Eemalda väljatoodud grupp"
 
-#: src/GNOME_Gnumeric.xml.h:166
+#: src/GNOME_Gnumeric.xml.h:167
 msgid "Remove selected cells, shifting others into their place"
 msgstr "Eemalda valitud lahtrid, liigutades teised nende asemele"
 
-#: src/GNOME_Gnumeric.xml.h:167 src/workbook-control-gui.c:2545
+#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:2542
 msgid "Rename the current sheet"
 msgstr "Nimeta käesolev leht ümber"
 
-#: src/GNOME_Gnumeric.xml.h:168 src/dialogs/cell-format.glade.h:70
+#: src/GNOME_Gnumeric.xml.h:169 src/dialogs/cell-format.glade.h:70
 #: src/workbook-format-toolbar.c:634
 msgid "Right"
 msgstr "Parem"
 
-#: src/GNOME_Gnumeric.xml.h:169
+#: src/GNOME_Gnumeric.xml.h:170
 msgid "Right justifies the contents of each cell"
 msgstr "Joondab kõik lahtrid paremale"
 
-#: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:2598
+#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:2595
 msgid "S_heet"
 msgstr "Le_ht"
 
-#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:2702
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:2699
 msgid "S_pecial"
 msgstr "E_ri"
 
-#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:2450
-#: src/workbook-control-gui.c:2926
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:2447
+#: src/workbook-control-gui.c:2930
 msgid "Save"
 msgstr "Salvesta"
 
-#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:2453
+#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:2450
 msgid "Save _As..."
 msgstr "Salvesta _kui..."
 
-#: src/GNOME_Gnumeric.xml.h:174
+#: src/GNOME_Gnumeric.xml.h:175
 msgid "Save the current file"
 msgstr "Salvesta käesolev fail"
 
-#: src/GNOME_Gnumeric.xml.h:175
+#: src/GNOME_Gnumeric.xml.h:176
 msgid "Save the current file with a different name"
 msgstr "Salvesta käesolev fail teise nimega"
 
-#: src/GNOME_Gnumeric.xml.h:176
+#: src/GNOME_Gnumeric.xml.h:177
 msgid "Save the current workbook"
 msgstr "Salvesta käesolev raamat"
 
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:2610
+#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2607
 msgid "Search and Replace..."
 msgstr "Otsi ja asenda..."
 
-#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2605
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2602
 msgid "Search for some text"
 msgstr "Otsi mingit teksti"
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2611
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2608
 msgid "Search for some text and replace it with something else"
 msgstr "Otsi mingit tekti ja asenda see millegi muuga"
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2604
+#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2601
 msgid "Search..."
 msgstr "Otsi..."
 
-#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2514
+#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2511
 msgid "Select Arra_y"
 msgstr "Vali maatr_iks"
 
-#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2499
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2496
 msgid "Select _All"
 msgstr "Vali _kõik"
 
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2509
+#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2506
 msgid "Select _Column"
 msgstr "Vali _veerg"
 
-#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2519
+#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:2516
 msgid "Select _Depends"
 msgstr "Vali _sõltuvad"
 
-#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:2504
+#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2501
 msgid "Select _Row"
 msgstr "Vali _rida"
 
-#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2500
+#: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:2497
 msgid "Select all cells in the spreadsheet"
 msgstr "Vali kõik tabeli lahtrid"
 
-#: src/GNOME_Gnumeric.xml.h:187
+#: src/GNOME_Gnumeric.xml.h:188
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Vali kõik lahtrid, mis sõltuvad käesolevast lahtrist"
 
-#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:2515
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2512
 msgid "Select an array of cells"
 msgstr "Vali lahtrite maatriks"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2510
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2507
 msgid "Select an entire column"
 msgstr "Vali kogu veerg"
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2505
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:2502
 msgid "Select an entire row"
 msgstr "Vali kogu rida"
 
-#: src/GNOME_Gnumeric.xml.h:191
+#: src/GNOME_Gnumeric.xml.h:192
 msgid "Setup the page settings for your current printer"
 msgstr "Määra lehe seadistused oma printeri jaoks"
 
-#: src/GNOME_Gnumeric.xml.h:192 src/workbook-control-gui.c:2974
+#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:2978
 msgid "Sort Ascending"
 msgstr "Sorteeri kasvavas järjekorras"
 
-#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:2977
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:2981
 msgid "Sort Descending"
 msgstr "Sorteeri kahanevas järjekorras"
 
-#: src/GNOME_Gnumeric.xml.h:194
+#: src/GNOME_Gnumeric.xml.h:195
 msgid "Sort the selected cells"
 msgstr "Sorteeri valitud lahtrid"
 
-#: src/GNOME_Gnumeric.xml.h:195
+#: src/GNOME_Gnumeric.xml.h:196
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr "Sorteeri valitud ala kasvavas järjestuses esimese valitud veeru järgi"
 
-#: src/GNOME_Gnumeric.xml.h:196
+#: src/GNOME_Gnumeric.xml.h:197
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
 msgstr "Sorteeri valitud ala kahanevas järjestuses esimese valitud veeru järgi"
 
-#: src/GNOME_Gnumeric.xml.h:197 src/workbook-format-toolbar.c:457
+#: src/GNOME_Gnumeric.xml.h:198 src/workbook-format-toolbar.c:457
 msgid "Split"
 msgstr "Lahuta"
 
-#: src/GNOME_Gnumeric.xml.h:198 src/workbook-format-toolbar.c:457
+#: src/GNOME_Gnumeric.xml.h:199 src/workbook-format-toolbar.c:457
 msgid "Split merged ranges of cells"
 msgstr "Lahuta ühendatud lahtrite vahemik"
 
-#: src/GNOME_Gnumeric.xml.h:199
+#: src/GNOME_Gnumeric.xml.h:200
 msgid "Statistical methods"
 msgstr "Statistilised meetodid"
 
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:2467
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2464
 msgid "Su_mmary..."
 msgstr "Ko_kkuvõte..."
 
-#: src/GNOME_Gnumeric.xml.h:201 src/analysis-tools.c:3212
-#: src/dialogs/consolidate.glade.h:19 src/workbook-control-gui.c:2967
-#: src/workbook-control-gui.c:3573 src/workbook-view.c:511
+#: src/GNOME_Gnumeric.xml.h:202 src/analysis-tools.c:3236
+#: src/dialogs/consolidate.glade.h:19 src/workbook-control-gui.c:2971
+#: src/workbook-control-gui.c:3593 src/workbook-view.c:520
 msgid "Sum"
 msgstr "Summa"
 
-#: src/GNOME_Gnumeric.xml.h:202
+#: src/GNOME_Gnumeric.xml.h:203
 msgid "Sum into the current cell"
 msgstr "Summeeri käesolevasse lahtrisse"
 
-#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:2468
+#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2465
 msgid "Summary information"
 msgstr "Kokkuvõtlik info"
 
-#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2774
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2771
 msgid "Toggle whether or not to display column headers"
 msgstr "Lülita veeru päiste näitamine"
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2768
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2765
 msgid "Toggle whether or not to display gridlines"
 msgstr "Lülita alusvõrgu näitamine"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2859
+#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2856
 msgid "Toggle whether or not to display outline groups"
 msgstr "Lülita väljatoodud gruppide näitamine"
 
-#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2780
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2777
 msgid "Toggle whether or not to display row headers"
 msgstr "Lülita rea päiste näitamine"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2762
+#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2759
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Lülita nullide näitamine tühikutena"
 
-#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2871
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2868
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Lülita veergudes gruppide näitamine paremale või vasakule"
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2865
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2862
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Lülita ridades gruppide näitamine üles või alla"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2846
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2843
 msgid "Uncollapse an outline group"
 msgstr "Tõmba väljatoodud grupp laiali"
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-format-toolbar.c:429
+#: src/GNOME_Gnumeric.xml.h:213 src/workbook-format-toolbar.c:429
 msgid "Underline"
 msgstr "Jooni alla"
 
-#: src/GNOME_Gnumeric.xml.h:213
+#: src/GNOME_Gnumeric.xml.h:214
 msgid "Underlines the text"
 msgstr "Joonib teksti alla"
 
-#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:2562
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:2559
 msgid "Undo the last action"
 msgstr "Tühista viimane tegevus"
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:2887
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:2891
 msgid "Validate input with preset criteria"
 msgstr "Valideeri sisendit ettemääratud kriteeriumi alusel"
 
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:2642
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:2639
 msgid "Zoom the spreadsheet in or out"
 msgstr "Suurenda või vähenda tabelit"
 
-#: src/GNOME_Gnumeric.xml.h:217
+#: src/GNOME_Gnumeric.xml.h:218
 msgid "_About..."
 msgstr "_Info..."
 
-#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:2698
+#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:2695
 msgid "_Add / Modify comment..."
 msgstr "Lis_a/muuda kommentaari..."
 
-#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:2481
+#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:2478
 msgid "_All"
 msgstr "_Kõik"
 
-#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:2819
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:2816
 msgid "_Auto Save..."
 msgstr "_Automaatsalvestamine..."
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:2708
-#: src/workbook-control-gui.c:2730
+#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:2705
+#: src/workbook-control-gui.c:2727
 msgid "_Auto fit selection"
 msgstr "_Valiku automaatne mahutamine"
 
-#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:2798
+#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:2795
 msgid "_Autoformat..."
 msgstr "_Automaatvormindus..."
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:2790
+#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:2787
 msgid "_Cells..."
 msgstr "_Lahtrid..."
 
-#: src/GNOME_Gnumeric.xml.h:224
+#: src/GNOME_Gnumeric.xml.h:225
 msgid "_Change Name..."
 msgstr "_Muuda nime..."
 
-#: src/GNOME_Gnumeric.xml.h:225
+#: src/GNOME_Gnumeric.xml.h:226
 msgid "_Close"
 msgstr "Sul_ge"
 
-#: src/GNOME_Gnumeric.xml.h:226 src/dialogs/analysis-tools.glade.h:30
-#: src/dialogs/anova-one.glade.h:8 src/dialogs/correlation.glade.h:7
-#: src/dialogs/covariance.glade.h:7 src/dialogs/descriptive-stats.glade.h:15
+#: src/GNOME_Gnumeric.xml.h:227 src/dialogs/anova-one.glade.h:8
+#: src/dialogs/correlation.glade.h:7 src/dialogs/covariance.glade.h:7
+#: src/dialogs/descriptive-stats.glade.h:15
 #: src/dialogs/fourier-analysis.glade.h:7
 #: src/dialogs/moving-averages.glade.h:8 src/dialogs/rank.glade.h:6
-#: src/dialogs/sampling.glade.h:13 src/workbook-control-gui.c:2687
+#: src/dialogs/sampling.glade.h:13 src/workbook-control-gui.c:2684
 msgid "_Columns"
 msgstr "_Veerud"
 
-#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:2889
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2893
 msgid "_Consolidate..."
 msgstr "_Konsolideeri..."
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2490
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2487
 msgid "_Content"
 msgstr "_Sisu"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/item-cursor.c:1026
-#: src/sheet-control-gui.c:1301 src/workbook-control-gui.c:2576
+#: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1029
+#: src/sheet-control-gui.c:1323 src/workbook-control-gui.c:2573
 msgid "_Copy"
 msgstr "_Kopeeri"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:2913
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2917
 msgid "_Data"
 msgstr "An_dmed"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2834
+#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:2831
 msgid "_Data Analysis..."
 msgstr "An_dmete analüüs..."
 
-#: src/GNOME_Gnumeric.xml.h:232
+#: src/GNOME_Gnumeric.xml.h:233
 msgid "_Define"
 msgstr "_Määra"
 
-#: src/GNOME_Gnumeric.xml.h:233 src/sheet-control-gui.c:1319
-#: src/workbook-control-gui.c:2593
+#: src/GNOME_Gnumeric.xml.h:234 src/sheet-control-gui.c:1341
+#: src/workbook-control-gui.c:2590
 msgid "_Delete..."
 msgstr "_Kustuta..."
 
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:2536
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2533
 msgid "_Duplicate"
 msgstr "_Paljunda"
 
-#: src/GNOME_Gnumeric.xml.h:235
+#: src/GNOME_Gnumeric.xml.h:236
 msgid "_Edit"
 msgstr "_Redigeerimine"
 
-#: src/GNOME_Gnumeric.xml.h:236
+#: src/GNOME_Gnumeric.xml.h:237
 msgid "_File"
 msgstr "_Fail"
 
-#: src/GNOME_Gnumeric.xml.h:237 src/dialogs/cell-format.glade.h:109
-#: src/workbook-control-gui.c:2602
+#: src/GNOME_Gnumeric.xml.h:238 src/dialogs/cell-format.glade.h:109
+#: src/workbook-control-gui.c:2599
 msgid "_Fill"
 msgstr "_Täida"
 
-#: src/GNOME_Gnumeric.xml.h:238 src/workbook-control-gui.c:2883
-msgid "_Filter..."
-msgstr "_Filter..."
+#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2889
+#, fuzzy
+msgid "_Filter"
+msgstr "_Fail"
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2484
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2481
 msgid "_Formats"
 msgstr "_Formaadid"
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:958
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:957
+#: src/workbook-control-gui.c:2641
 msgid "_Freeze Panes"
 msgstr "_Külmuta alad"
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:2825
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2822
 msgid "_Goal Seek..."
 msgstr "_Tulemi otsing..."
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2616
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:2613
 msgid "_Goto cell..."
 msgstr "_Mine lahtrisse..."
 
-#: src/GNOME_Gnumeric.xml.h:243
+#: src/GNOME_Gnumeric.xml.h:244
 msgid "_Group"
 msgstr "_Grupp"
 
-#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:2895
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:2899
 msgid "_Group and Outline"
 msgstr "_Grupeeri ja too välja"
 
-#: src/GNOME_Gnumeric.xml.h:245
+#: src/GNOME_Gnumeric.xml.h:246
 msgid "_Help"
 msgstr "_Abi"
 
-#: src/GNOME_Gnumeric.xml.h:246 src/sheet-control-gui.c:1342
-#: src/sheet-control-gui.c:1350 src/workbook-control-gui.c:2714
-#: src/workbook-control-gui.c:2733
+#: src/GNOME_Gnumeric.xml.h:247 src/sheet-control-gui.c:1364
+#: src/sheet-control-gui.c:1372 src/workbook-control-gui.c:2711
+#: src/workbook-control-gui.c:2730
 msgid "_Hide"
 msgstr "_Peida"
 
-#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:2842
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2839
 msgid "_Hide Detail"
 msgstr "_Peida üksikasjad"
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2448
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2445
 msgid "_Import..."
 msgstr "_Impordi..."
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2540
-#: src/workbook-control-gui.c:2910
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2537
+#: src/workbook-control-gui.c:2914
 msgid "_Insert"
 msgstr "_Lisa"
 
-#: src/GNOME_Gnumeric.xml.h:250
+#: src/GNOME_Gnumeric.xml.h:251
 msgid "_Insert new"
 msgstr "_Lisa uus"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:2696
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2693
 msgid "_Name"
 msgstr "_Nimi"
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2444
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2441
 msgid "_New"
 msgstr "_Uus"
 
-#: src/GNOME_Gnumeric.xml.h:253
+#: src/GNOME_Gnumeric.xml.h:254
 msgid "_Object"
 msgstr "_Objekt"
 
-#: src/GNOME_Gnumeric.xml.h:254
+#: src/GNOME_Gnumeric.xml.h:255
 msgid "_Open"
 msgstr "_Ava"
 
-#: src/GNOME_Gnumeric.xml.h:255 src/sheet-control-gui.c:1303
-#: src/workbook-control-gui.c:2580
+#: src/GNOME_Gnumeric.xml.h:256 src/sheet-control-gui.c:1325
+#: src/workbook-control-gui.c:2577
 msgid "_Paste"
 msgstr "_Aseta"
 
-#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:2810
+#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:2807
 msgid "_Plug-ins..."
 msgstr "_Pluginad..."
 
-#: src/GNOME_Gnumeric.xml.h:257
+#: src/GNOME_Gnumeric.xml.h:258
 msgid "_Print"
 msgstr "_Trüki"
 
-#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:1027
-#: src/workbook-control-gui.c:2565
+#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:1024
+#: src/workbook-control-gui.c:2562
 msgid "_Redo"
 msgstr "_Taasta"
 
-#: src/GNOME_Gnumeric.xml.h:259 src/dialogs/autocorrect-exceptions.glade.h:7
-#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2552
+#: src/GNOME_Gnumeric.xml.h:260 src/dialogs/autocorrect.glade.h:13
+#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2549
 msgid "_Remove"
 msgstr "_Eemalda"
 
-#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:2795
+#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:2792
 msgid "_Row"
 msgstr "_Rida"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/dialogs/analysis-tools.glade.h:41
-#: src/dialogs/anova-one.glade.h:13 src/dialogs/correlation.glade.h:12
-#: src/dialogs/covariance.glade.h:12 src/dialogs/descriptive-stats.glade.h:20
+#: src/GNOME_Gnumeric.xml.h:262 src/dialogs/anova-one.glade.h:13
+#: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
+#: src/dialogs/descriptive-stats.glade.h:20
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:13 src/dialogs/rank.glade.h:11
-#: src/dialogs/sampling.glade.h:19 src/workbook-control-gui.c:2684
+#: src/dialogs/sampling.glade.h:19 src/workbook-control-gui.c:2681
 msgid "_Rows"
 msgstr "_Read"
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:2450
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2447
 msgid "_Save"
 msgstr "_Salvesta"
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2600
+#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:2597
 msgid "_Select"
 msgstr "_Vali"
 
-#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:2681
-#: src/workbook-control-gui.c:2796
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2678
+#: src/workbook-control-gui.c:2793
 msgid "_Sheet"
 msgstr "_Leht"
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2845
+#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2842
 msgid "_Show Detail"
 msgstr "_Näita üksikasju"
 
-#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2828
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:2825
 msgid "_Solver..."
 msgstr "_Lahendaja..."
 
-#: src/GNOME_Gnumeric.xml.h:267
+#: src/GNOME_Gnumeric.xml.h:268
 msgid "_Sort..."
 msgstr "_Sorteeri..."
 
-#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:2739
+#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2736
 msgid "_Standard Height"
 msgstr "_Tüüpkõrgus"
 
-#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2720
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2717
 msgid "_Standard Width"
 msgstr "_Tüüplaius"
 
-#: src/GNOME_Gnumeric.xml.h:270
+#: src/GNOME_Gnumeric.xml.h:271
 msgid "_Toolbars..."
 msgstr "_Tööriistaribad..."
 
-#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:2912
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:2916
 msgid "_Tools"
 msgstr "_Tööriistad"
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:1025
-#: src/workbook-control-gui.c:2561
+#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:1023
+#: src/workbook-control-gui.c:2558
 msgid "_Undo"
 msgstr "_Tühista"
 
-#: src/GNOME_Gnumeric.xml.h:273
+#: src/GNOME_Gnumeric.xml.h:274
 msgid "_Ungroup"
 msgstr "_Lõhu grupid"
 
-#: src/GNOME_Gnumeric.xml.h:274 src/sheet-control-gui.c:1344
-#: src/sheet-control-gui.c:1352 src/workbook-control-gui.c:2717
-#: src/workbook-control-gui.c:2736
+#: src/GNOME_Gnumeric.xml.h:275 src/sheet-control-gui.c:1366
+#: src/sheet-control-gui.c:1374 src/workbook-control-gui.c:2714
+#: src/workbook-control-gui.c:2733
 msgid "_Unhide"
 msgstr "_Näita"
 
-#: src/GNOME_Gnumeric.xml.h:275 src/workbook-control-gui.c:2886
+#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:2890
 msgid "_Validate..."
 msgstr "_Valideeri..."
 
-#: src/GNOME_Gnumeric.xml.h:276
+#: src/GNOME_Gnumeric.xml.h:277
 msgid "_View"
 msgstr "_Vaade"
 
-#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:2711
+#: src/GNOME_Gnumeric.xml.h:278 src/workbook-control-gui.c:2708
 msgid "_Width..."
 msgstr "_Laius..."
 
-#: src/GNOME_Gnumeric.xml.h:278 src/workbook-control-gui.c:2802
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:2799
 msgid "_Workbook..."
 msgstr "_Raamat..."
 
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:2641
+#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2638
 msgid "_Zoom..."
 msgstr "_Suurenda..."
 
@@ -2127,7 +2134,7 @@ msgstr "K's vähim"
 msgid "Smallest (%d)"
 msgstr "Vähim (%d)"
 
-#: src/analysis-tools.c:1400 src/analysis-tools.c:3256
+#: src/analysis-tools.c:1400 src/analysis-tools.c:3280
 #: src/dialogs/cell-format.glade.h:72
 msgid "Sample"
 msgstr "Valim"
@@ -2198,20 +2205,20 @@ msgid "/Mean/Variance/Observations/df/F/P (F<=f) one-tail/F Critical one-tail"
 msgstr ""
 "/Keskmine/Dispersioon/Vaatlused/df/F/P (F<=f) one-tail/F kriitiline one-tail"
 
-#: src/analysis-tools.c:2087
+#: src/analysis-tools.c:2081
 msgid "Random"
 msgstr "Juhuslik"
 
-#: src/analysis-tools.c:2225
+#: src/analysis-tools.c:2249
 msgid "Not implemented yet.\n"
 msgstr "Hetkel veel lahendamata.\n"
 
-#: src/analysis-tools.c:2322 src/dialogs/dialog-analysis-tools.c:3720
+#: src/analysis-tools.c:2346 src/dialogs/dialog-analysis-tools.c:3699
 #: src/dialogs/regression.glade.h:7
 msgid "Regression"
 msgstr "Regressioon"
 
-#: src/analysis-tools.c:2324
+#: src/analysis-tools.c:2348
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -2220,170 +2227,169 @@ msgstr ""
 "Standardhälve/Vaatlused//Dispersioonianalüüs//Regressioon/Jääk/Kokku///"
 "Vabaliige"
 
-#: src/analysis-tools.c:2343
+#: src/analysis-tools.c:2367
 #, c-format
 msgid "X Variable %d"
 msgstr "X muutuja %d"
 
-#: src/analysis-tools.c:2345
+#: src/analysis-tools.c:2369
 msgid "/df/SS/MS/F/Significance F"
 msgstr "/df/SS/MS/F/Olulisus F"
 
-#: src/analysis-tools.c:2351
+#: src/analysis-tools.c:2375
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower 95%/Upper 95%"
 msgstr "/Koefitsendid/Standardhälve/t Stat/P-väärtus/Alumine 95%/Ülemine 95%"
 
-#: src/analysis-tools.c:2549
+#: src/analysis-tools.c:2573
 msgid "Moving Averages"
 msgstr "Liikuvad keskmised"
 
-#: src/analysis-tools.c:2622
+#: src/analysis-tools.c:2646
 msgid "Ranks"
 msgstr "Astakud"
 
-#: src/analysis-tools.c:2630 src/analysis-tools.c:2655
+#: src/analysis-tools.c:2654 src/analysis-tools.c:2679
 msgid "Point"
 msgstr "Punkt"
 
-#: src/analysis-tools.c:2638 src/analysis-tools.c:2780
-#: src/analysis-tools.c:2946 src/dialogs/dialog-stf-preview.h:19
+#: src/analysis-tools.c:2662 src/analysis-tools.c:2804
+#: src/analysis-tools.c:2970 src/dialogs/dialog-stf-preview.h:19
 #, c-format
 msgid "Column %d"
 msgstr "Veerg %d"
 
-#: src/analysis-tools.c:2640 src/analysis-tools.c:2666
+#: src/analysis-tools.c:2664 src/analysis-tools.c:2690
 msgid "Rank"
 msgstr "Astak"
 
-#: src/analysis-tools.c:2664 src/analysis-tools.c:2802
-#: src/analysis-tools.c:2963
+#: src/analysis-tools.c:2688 src/analysis-tools.c:2826
+#: src/analysis-tools.c:2987
 #, c-format
 msgid "Row %d"
 msgstr "Rida %d"
 
-#: src/analysis-tools.c:2757 src/analysis-tools.c:2928
-#: src/analysis-tools.c:3119
+#: src/analysis-tools.c:2781 src/analysis-tools.c:2952
+#: src/analysis-tools.c:3143
 msgid "Anova"
 msgstr "Dispersioonianalüüs"
 
-#: src/analysis-tools.c:2762 src/dialogs/analysis-tools.glade.h:2
-#: src/dialogs/dialog-analysis-tools.c:3698
+#: src/analysis-tools.c:2786 src/dialogs/dialog-analysis-tools.c:3677
 msgid "Anova: Single Factor"
 msgstr "Dispersioonianalüüs: Üksik faktor"
 
-#: src/analysis-tools.c:2763 src/analysis-tools.c:3122
+#: src/analysis-tools.c:2787 src/analysis-tools.c:3146
 msgid "SUMMARY"
 msgstr "KOKKUVÕTE"
 
-#: src/analysis-tools.c:2764
+#: src/analysis-tools.c:2788
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupid/Loend/Summa/Keskmine/Dispersioon"
 
-#: src/analysis-tools.c:2835
+#: src/analysis-tools.c:2859
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 "/Dispersioonianalüüs/Variatsiooni lähtehulk/Gruppide vahel/Gruppide seas/"
 "Kokku"
 
-#: src/analysis-tools.c:2840 src/analysis-tools.c:3036
+#: src/analysis-tools.c:2864 src/analysis-tools.c:3060
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-väärtus/F kriitiline"
 
-#: src/analysis-tools.c:2933 src/dialogs/analysis-tools.glade.h:4
+#: src/analysis-tools.c:2957
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Dispersioonianalüüs: 2-faktoriline ilma korduseta"
 
-#: src/analysis-tools.c:2934
+#: src/analysis-tools.c:2958
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/KOKKUVÕTE/Loend/Summa/Keskmine/Dispersioon"
 
-#: src/analysis-tools.c:3030
+#: src/analysis-tools.c:3054
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/Dispersioonianalüüs/Variatsiooni lähtehulk/Read/Veerud/Viga/Kokku"
 
-#: src/analysis-tools.c:3121 src/dialogs/analysis-tools.glade.h:3
+#: src/analysis-tools.c:3145
 msgid "Anova: Two-Factor With Replication"
 msgstr "Dispersioonianalüüs: 2-faktoriline kordusega"
 
-#: src/analysis-tools.c:3138 src/analysis-tools.c:3209
-#: src/analysis-tools.c:3260 src/dialogs/dialog-autoformat.c:77
+#: src/analysis-tools.c:3162 src/analysis-tools.c:3233
+#: src/analysis-tools.c:3284 src/dialogs/dialog-autoformat.c:77
 #: src/dialogs/dialog-autoformat.c:81
 msgid "Total"
 msgstr "Kokku"
 
-#: src/analysis-tools.c:3211 src/dialogs/consolidate.glade.h:5
-#: src/workbook-control-gui.c:3577
+#: src/analysis-tools.c:3235 src/dialogs/consolidate.glade.h:5
+#: src/workbook-control-gui.c:3597
 msgid "Count"
 msgstr "Loend"
 
-#: src/analysis-tools.c:3213 src/dialogs/consolidate.glade.h:2
-#: src/workbook-control-gui.c:3576
+#: src/analysis-tools.c:3237 src/dialogs/consolidate.glade.h:2
+#: src/workbook-control-gui.c:3596
 msgid "Average"
 msgstr "Keskmine"
 
-#: src/analysis-tools.c:3214
+#: src/analysis-tools.c:3238
 msgid "Variance"
 msgstr "Dispersioon"
 
-#: src/analysis-tools.c:3254
+#: src/analysis-tools.c:3278
 msgid "ANOVA"
 msgstr "Dispersioonianalüüs"
 
-#: src/analysis-tools.c:3255
+#: src/analysis-tools.c:3279
 msgid "Source of Variation"
 msgstr "Variatsiooni lähtehulk"
 
-#: src/analysis-tools.c:3257 src/dialogs/dialog-stf.glade.h:17
+#: src/analysis-tools.c:3281 src/dialogs/dialog-stf.glade.h:17
 msgid "Columns"
 msgstr "Veerud"
 
-#: src/analysis-tools.c:3258
+#: src/analysis-tools.c:3282
 msgid "Interaction"
 msgstr "Vastasmõju"
 
-#: src/analysis-tools.c:3259
+#: src/analysis-tools.c:3283
 msgid "Within"
 msgstr "Piires"
 
-#: src/analysis-tools.c:3262
+#: src/analysis-tools.c:3286
 msgid "SS"
 msgstr "SS"
 
-#: src/analysis-tools.c:3269
+#: src/analysis-tools.c:3293
 msgid "df"
 msgstr "df"
 
 #. Note: a * b * rows_per_sample, tot_count and df_gr+df_col+df_inter+df_within should all be the same
-#: src/analysis-tools.c:3278
+#: src/analysis-tools.c:3302
 msgid "MS"
 msgstr "MS"
 
-#: src/analysis-tools.c:3285
+#: src/analysis-tools.c:3309
 msgid "F"
 msgstr "F"
 
-#: src/analysis-tools.c:3291
+#: src/analysis-tools.c:3315
 msgid "P-value"
 msgstr "P-väärtus"
 
-#: src/analysis-tools.c:3296
+#: src/analysis-tools.c:3320
 msgid "F crit"
 msgstr "F crit"
 
-#: src/analysis-tools.c:3349 src/dialogs/analysis-tools.glade.h:12
-#: src/dialogs/dialog-analysis-tools.c:3712 src/dialogs/histogram.glade.h:4
+#: src/analysis-tools.c:3373 src/dialogs/dialog-analysis-tools.c:3691
+#: src/dialogs/histogram.glade.h:4
 msgid "Histogram"
 msgstr "Histogramm"
 
-#: src/analysis-tools.c:3352
+#: src/analysis-tools.c:3376
 msgid "Bin"
 msgstr "Bin"
 
-#: src/analysis-tools.c:3353
+#: src/analysis-tools.c:3377
 msgid "Frequency"
 msgstr "Sagedus"
 
-#: src/analysis-tools.c:3356
+#: src/analysis-tools.c:3380
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Kuhjuv %"
@@ -2441,7 +2447,7 @@ msgstr ""
 msgid "result passes the sheet boundary"
 msgstr "tulemus ületab lehe piirid"
 
-#: src/cmd-edit.c:319
+#: src/cmd-edit.c:301
 #, c-format
 msgid ""
 "destination has a different shape (%dRx%dC) than the original (%dRx%dC)\n"
@@ -2452,115 +2458,115 @@ msgstr ""
 "\n"
 "Proovi valida üksik lahter või sama kuju ja suurusega ala."
 
-#: src/cmd-edit.c:325
+#: src/cmd-edit.c:307
 msgid "Unable to paste into selection"
 msgstr "Ei suuda asetada valitud alasse"
 
-#: src/cmd-edit.c:406
+#: src/cmd-edit.c:388
 #, c-format
 msgid "Shift rows %s"
 msgstr "Tõsta ridu %s"
 
-#: src/cmd-edit.c:407
+#: src/cmd-edit.c:389
 #, c-format
 msgid "Shift row %s"
 msgstr "Tõsta rida %s"
 
-#: src/cmd-edit.c:444
+#: src/cmd-edit.c:426
 #, c-format
 msgid "Shift columns %s"
 msgstr "Tõsta veerge %s"
 
-#: src/cmd-edit.c:445
+#: src/cmd-edit.c:427
 #, c-format
 msgid "Shift column %s"
 msgstr "Tõsta veergu %s"
 
-#: src/commands.c:637 src/commands.c:733
+#: src/commands.c:636 src/commands.c:730
 msgid "Set Text"
 msgstr "Määra tekst"
 
-#: src/commands.c:664
+#: src/commands.c:661
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Kirjutan \"%s%s\" %s -sse"
 
-#: src/commands.c:839
+#: src/commands.c:836
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Kirjutan \"%s%s\""
 
-#: src/commands.c:1099
+#: src/commands.c:1096
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Paigutan %d veergu enne %s"
 
-#: src/commands.c:1100
+#: src/commands.c:1097
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Paigutan %d veeru enne %s"
 
-#: src/commands.c:1111
+#: src/commands.c:1108
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Lisatakse %d rida enne %s"
 
-#: src/commands.c:1112
+#: src/commands.c:1109
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Lisatakse %d rida enne %s"
 
-#: src/commands.c:1123
+#: src/commands.c:1120
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Kustutatakse veerud %s"
 
-#: src/commands.c:1124
+#: src/commands.c:1121
 #, c-format
 msgid "Deleting column %s"
 msgstr "Kustutatakse veerg %s"
 
-#: src/commands.c:1134
+#: src/commands.c:1131
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Kustutatakse read %s"
 
-#: src/commands.c:1135
+#: src/commands.c:1132
 #, c-format
 msgid "Deleting row %s"
 msgstr "Kustutatakse rida %s"
 
-#: src/commands.c:1210
+#: src/commands.c:1207
 msgid "Undo Clear"
 msgstr "Tühista eemaldamine"
 
-#: src/commands.c:1293
+#: src/commands.c:1290
 msgid "contents"
 msgstr "sisu"
 
-#: src/commands.c:1295
+#: src/commands.c:1292
 msgid "formats"
 msgstr "formaadid"
 
-#: src/commands.c:1297
+#: src/commands.c:1294
 msgid "comments"
 msgstr "märkused"
 
-#: src/commands.c:1313
+#: src/commands.c:1310
 msgid "all"
 msgstr "kõik"
 
-#: src/commands.c:1320
+#: src/commands.c:1317
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Eemaldatakse %s %s -s"
 
-#: src/commands.c:1519
+#: src/commands.c:1516
 #, c-format
 msgid "Changing format of %s"
 msgstr "Muudetakse %s formaati"
 
-#: src/commands.c:1595
+#: src/commands.c:1592
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Nimeta leht '%s' ümber '%s'"
@@ -2572,217 +2578,217 @@ msgstr "Nimeta leht '%s' ümber '%s'"
 #. * translators should be aware that the leading character of the
 #. * result will be ignored.
 #.
-#: src/commands.c:1669
+#: src/commands.c:1666
 msgid ">mm/dd/yyyy"
 msgstr ">mm/dd/yyyy"
 
 #. FIXME : See comment above
-#: src/commands.c:1674
+#: src/commands.c:1671
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/commands.c:1715
+#: src/commands.c:1712
 msgid "Set Date/Time"
 msgstr "Määra kuupäev/kellaaeg"
 
-#: src/commands.c:1732
+#: src/commands.c:1729
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Paigutan tänase kuupäeva %s"
 
-#: src/commands.c:1733
+#: src/commands.c:1730
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Paigutan praeguse kellaaja %s"
 
-#: src/commands.c:1841
+#: src/commands.c:1838
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Veeru %s automaatsobitamine"
 
-#: src/commands.c:1842
+#: src/commands.c:1839
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Rea %s automaatsobitamine"
 
-#: src/commands.c:1845
+#: src/commands.c:1842
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Veeru %s laius määratakse %d pikselit"
 
-#: src/commands.c:1847
+#: src/commands.c:1844
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Rea %s kõrgus määratakse %d pikselit"
 
-#: src/commands.c:1852 src/commands.c:1853
+#: src/commands.c:1849 src/commands.c:1850
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Veergude %s automaatsobitamine"
 
-#: src/commands.c:1856
+#: src/commands.c:1853
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Veergude %s laius määratakse %d pikselit"
 
-#: src/commands.c:1858
+#: src/commands.c:1855
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Ridade %s kõrgus määratakse %d pikselit"
 
-#: src/commands.c:1942
+#: src/commands.c:1939
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorteerimine %s"
 
-#: src/commands.c:2070
+#: src/commands.c:2067
 msgid "Unhide columns"
 msgstr "Näita veerud"
 
-#: src/commands.c:2070
+#: src/commands.c:2067
 msgid "Hide columns"
 msgstr "Peida veerud"
 
-#: src/commands.c:2071
+#: src/commands.c:2068
 msgid "Unhide rows"
 msgstr "Näita read"
 
-#: src/commands.c:2071
+#: src/commands.c:2068
 msgid "Hide rows"
 msgstr "Peida read"
 
-#: src/commands.c:2155
+#: src/commands.c:2152
 msgid "Expand columns"
 msgstr "Laota veerud laiali"
 
-#: src/commands.c:2155
+#: src/commands.c:2152
 msgid "Collapse columns"
 msgstr "Kogu veerud kokku"
 
-#: src/commands.c:2156
+#: src/commands.c:2153
 msgid "Expand rows"
 msgstr "Laota read laiali"
 
-#: src/commands.c:2156
+#: src/commands.c:2153
 msgid "Collapse rows"
 msgstr "Kogu read kokku"
 
-#: src/commands.c:2257
+#: src/commands.c:2254
 msgid "Those columns are already grouped"
 msgstr "Need veerud on juba grupeeritud"
 
-#: src/commands.c:2258
+#: src/commands.c:2255
 msgid "Those rows are already grouped"
 msgstr "Need read on juba grupeeritud"
 
-#: src/commands.c:2261
+#: src/commands.c:2258
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Need veerud on grupeerimata, neid ei saa lahti grupeerida"
 
-#: src/commands.c:2262
+#: src/commands.c:2259
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Need read on grupeerimata, neid ei saa lahti grupeerida"
 
-#: src/commands.c:2273
+#: src/commands.c:2270
 #, c-format
 msgid "Group columns %s"
 msgstr "Grupeeri veerud %s"
 
-#: src/commands.c:2273
+#: src/commands.c:2270
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Grupeeri veerud %s lahti"
 
-#: src/commands.c:2275
+#: src/commands.c:2272
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Grupeeri read %d:%d"
 
-#: src/commands.c:2275
+#: src/commands.c:2272
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Grupeeri read %d:%d lahti"
 
-#: src/commands.c:2478
+#: src/commands.c:2475
 #, c-format
 msgid "Moving %s"
 msgstr "%s liigutamine"
 
-#: src/commands.c:2487 src/commands.c:2671
+#: src/commands.c:2484 src/commands.c:2668
 msgid "is beyond sheet boundaries"
 msgstr "on väljaspool lehe piire"
 
 #. FIXME?
-#: src/commands.c:2642
+#: src/commands.c:2639
 #, c-format
 msgid "Pasting into %s"
 msgstr "Asetan %s -sse"
 
 #. Check arrays or merged regions
-#: src/commands.c:2809 src/workbook-control-gui.c:1818
+#: src/commands.c:2806 src/workbook-control-gui.c:1815
 msgid "Autofill"
 msgstr "Automaattäitmine"
 
 #. Changed in initial redo.
-#: src/commands.c:2831
+#: src/commands.c:2828
 #, c-format
 msgid "Autofilling %s"
 msgstr "%s automaattäitmine"
 
-#: src/commands.c:2984
+#: src/commands.c:2981
 #, c-format
 msgid "Autoformatting %s"
 msgstr "%s automaatvormindamine"
 
-#: src/commands.c:3094
+#: src/commands.c:3091
 #, c-format
 msgid "Unmerging %s"
 msgstr "Lahutatakse %s"
 
-#: src/commands.c:3232
+#: src/commands.c:3229
 #, c-format
 msgid "Merging %s"
 msgstr "Ühendatakse %s"
 
 #. Corrected below.
-#: src/commands.c:3610 src/dialogs/search-replace.glade.h:43
+#: src/commands.c:3607 src/dialogs/search-replace.glade.h:43
 msgid "Search and Replace"
 msgstr "Otsi ja asenda"
 
-#: src/commands.c:3706
+#: src/commands.c:3703
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Veergude vaikelaiuse määramine %.2fpts"
 
-#: src/commands.c:3707
+#: src/commands.c:3704
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Ridade vaikekõrguse määramine %.2fpts"
 
 #. Changed in initial redo.
-#: src/commands.c:3792
+#: src/commands.c:3789
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "Konsolideeritakse %s!%s"
 
-#: src/commands.c:3907
+#: src/commands.c:3904
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Suurendus %s kuni %.0f%%"
 
-#: src/commands.c:3976
+#: src/commands.c:3973
 msgid "Insert object"
 msgstr "Lisa objekt"
 
-#: src/commands.c:4034
+#: src/commands.c:4031
 msgid "Delete object"
 msgstr "Kustuta objekt"
 
-#: src/commands.c:4115
+#: src/commands.c:4112
 msgid "Resize object"
 msgstr "Muuda objekti suurust"
 
-#: src/commands.c:4115
+#: src/commands.c:4112
 msgid "Move object"
 msgstr "Liiguta objekti"
 
@@ -2983,208 +2989,8 @@ msgid "_Unique records only"
 msgstr "Ainult _unikaalsed kirjed"
 
 #: src/dialogs/analysis-tools.glade.h:1
-msgid "1 - _Alpha:"
-msgstr "1 - _Alfa:"
-
-#: src/dialogs/analysis-tools.glade.h:5 src/dialogs/histogram.glade.h:2
-msgid "C_umulative Percentages"
-msgstr "K_uhjuvad protsendid"
-
-#: src/dialogs/analysis-tools.glade.h:6 src/dialogs/correlation.glade.h:1
-#: src/dialogs/dialog-analysis-tools.c:3702
-msgid "Correlation"
-msgstr "Korrelatsioon"
-
-#: src/dialogs/analysis-tools.glade.h:7 src/dialogs/covariance.glade.h:1
-#: src/dialogs/dialog-analysis-tools.c:3704
-msgid "Covariance"
-msgstr "Kovariatsioon"
-
-#: src/dialogs/analysis-tools.glade.h:8
 msgid "Data Analysis Tools"
 msgstr "Andmete analüüsi töövahendid"
-
-#: src/dialogs/analysis-tools.glade.h:9
-#: src/dialogs/dialog-analysis-tools.c:3708
-msgid "F-Test: Two-Sample for Variances"
-msgstr "F-test: 2-valimiline dispersioonidele"
-
-#: src/dialogs/analysis-tools.glade.h:10
-#: src/dialogs/dialog-analysis-tools.c:3710
-#: src/dialogs/fourier-analysis.glade.h:1
-msgid "Fourier Analysis"
-msgstr "Fourier' analüüs"
-
-#: src/dialogs/analysis-tools.glade.h:11
-msgid "Grouped by:"
-msgstr "Grupeeritud vastavalt:"
-
-#: src/dialogs/analysis-tools.glade.h:13
-#: src/dialogs/fourier-analysis.glade.h:3
-msgid "I_nverse"
-msgstr "Pööra ü_mber"
-
-#: src/dialogs/analysis-tools.glade.h:14 src/dialogs/moving-averages.glade.h:3
-msgid "In_terval:"
-msgstr "In_tervall:"
-
-#: src/dialogs/analysis-tools.glade.h:15 src/dialogs/anova-one.glade.h:5
-#: src/dialogs/anova-two.glade.h:5 src/dialogs/correlation.glade.h:3
-#: src/dialogs/covariance.glade.h:3 src/dialogs/descriptive-stats.glade.h:7
-#: src/dialogs/fourier-analysis.glade.h:4 src/dialogs/histogram.glade.h:5
-#: src/dialogs/mean-tests.glade.h:6 src/dialogs/moving-averages.glade.h:4
-#: src/dialogs/rank.glade.h:2 src/dialogs/regression.glade.h:4
-#: src/dialogs/sampling.glade.h:3 src/dialogs/variance-tests.glade.h:3
-msgid "Input"
-msgstr "Sisend"
-
-#: src/dialogs/analysis-tools.glade.h:16
-#: src/dialogs/dialog-analysis-tools.c:3714
-#: src/dialogs/moving-averages.glade.h:5
-msgid "Moving Average"
-msgstr "Liikuv keskmine"
-
-#: src/dialogs/analysis-tools.glade.h:17 src/dialogs/anova-one.glade.h:6
-#: src/dialogs/anova-two.glade.h:6 src/dialogs/correlation.glade.h:4
-#: src/dialogs/covariance.glade.h:4 src/dialogs/descriptive-stats.glade.h:11
-#: src/dialogs/fourier-analysis.glade.h:5 src/dialogs/histogram.glade.h:6
-#: src/dialogs/mean-tests.glade.h:7 src/dialogs/moving-averages.glade.h:6
-#: src/dialogs/random-generation.glade.h:2 src/dialogs/rank.glade.h:3
-#: src/dialogs/regression.glade.h:5 src/dialogs/sampling.glade.h:5
-#: src/dialogs/variance-tests.glade.h:4
-msgid "N_ew Workbook"
-msgstr "_Uus raamat"
-
-#: src/dialogs/analysis-tools.glade.h:18
-msgid "N_ew sheet"
-msgstr "Uus l_eht"
-
-#: src/dialogs/analysis-tools.glade.h:19
-msgid "New _workbook"
-msgstr "Uus _raamat"
-
-#: src/dialogs/analysis-tools.glade.h:20
-msgid "Numbe_r of samples:"
-msgstr "Valimite a_rv:"
-
-#: src/dialogs/analysis-tools.glade.h:21
-msgid "Output options"
-msgstr "Väljundi seadistused"
-
-#: src/dialogs/analysis-tools.glade.h:22
-#: src/dialogs/dialog-analysis-tools.c:3716
-#: src/dialogs/random-generation.glade.h:5
-msgid "Random Number Generation"
-msgstr "Juhuarvu genereerimine"
-
-#: src/dialogs/analysis-tools.glade.h:23
-#: src/dialogs/dialog-analysis-tools.c:3718 src/dialogs/rank.glade.h:5
-msgid "Rank and Percentile"
-msgstr "Astak ja protsentiil"
-
-#: src/dialogs/analysis-tools.glade.h:24
-msgid "T-Test: Assuming Equal Variances"
-msgstr "t-test: Oletatakse võrdseid dispersioone"
-
-#: src/dialogs/analysis-tools.glade.h:25
-msgid "T-Test: Assuming Unequal Variances"
-msgstr "t-test: Oletatakse erinevaid dispersioone"
-
-#: src/dialogs/analysis-tools.glade.h:26
-msgid "T-Test: Paired Two Sample for Means"
-msgstr "t-test: Paaris kahene valim keskmistele"
-
-#: src/dialogs/analysis-tools.glade.h:27
-msgid "Va_riable 2 Range:"
-msgstr "M_uutuja 2 vahemik:"
-
-#: src/dialogs/analysis-tools.glade.h:28
-msgid "_Bin Range:"
-msgstr "_Bin vahemik:"
-
-#: src/dialogs/analysis-tools.glade.h:29
-msgid "_Chart Output"
-msgstr "_Diagrammi väljund"
-
-#: src/dialogs/analysis-tools.glade.h:31
-#: src/dialogs/random-generation.glade.h:8
-msgid "_Distribution:"
-msgstr "_Jaotus:"
-
-#: src/dialogs/analysis-tools.glade.h:32
-msgid "_Hypothesized Mean Difference:"
-msgstr "_Hüpoteetiline keskmine erinevus:"
-
-#: src/dialogs/analysis-tools.glade.h:33 src/dialogs/anova-one.glade.h:9
-#: src/dialogs/anova-two.glade.h:9 src/dialogs/correlation.glade.h:8
-#: src/dialogs/covariance.glade.h:8 src/dialogs/descriptive-stats.glade.h:16
-#: src/dialogs/dialog-analysis-tools.c:784
-#: src/dialogs/dialog-analysis-tools.c:3280
-#: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:8
-#: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:7
-msgid "_Input Range:"
-msgstr "_Sisendi vahemik:"
-
-#: src/dialogs/analysis-tools.glade.h:34 src/dialogs/anova-one.glade.h:10
-#: src/dialogs/anova-two.glade.h:10 src/dialogs/correlation.glade.h:9
-#: src/dialogs/covariance.glade.h:9 src/dialogs/descriptive-stats.glade.h:17
-#: src/dialogs/fourier-analysis.glade.h:9 src/dialogs/histogram.glade.h:9
-#: src/dialogs/mean-tests.glade.h:21 src/dialogs/moving-averages.glade.h:10
-#: src/dialogs/rank.glade.h:8 src/dialogs/regression.glade.h:10
-#: src/dialogs/sampling.glade.h:14 src/dialogs/variance-tests.glade.h:10
-msgid "_Labels"
-msgstr "_Pealdised"
-
-#: src/dialogs/analysis-tools.glade.h:35
-msgid "_Labels in First Row"
-msgstr "_Pealdised esimeses reas"
-
-#: src/dialogs/analysis-tools.glade.h:36 src/dialogs/anova-one.glade.h:11
-#: src/dialogs/anova-two.glade.h:11 src/dialogs/correlation.glade.h:10
-#: src/dialogs/covariance.glade.h:10 src/dialogs/descriptive-stats.glade.h:18
-#: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:10
-#: src/dialogs/mean-tests.glade.h:22 src/dialogs/moving-averages.glade.h:11
-#: src/dialogs/random-generation.glade.h:9 src/dialogs/rank.glade.h:9
-#: src/dialogs/regression.glade.h:11 src/dialogs/sampling.glade.h:15
-#: src/dialogs/variance-tests.glade.h:11
-msgid "_New Sheet"
-msgstr "_Uus leht"
-
-#: src/dialogs/analysis-tools.glade.h:37
-msgid "_Number of variables:"
-msgstr "_Muutujate arv:"
-
-#: src/dialogs/analysis-tools.glade.h:38 src/dialogs/anova-one.glade.h:12
-#: src/dialogs/anova-two.glade.h:12 src/dialogs/correlation.glade.h:11
-#: src/dialogs/covariance.glade.h:11 src/dialogs/descriptive-stats.glade.h:19
-#: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:11
-#: src/dialogs/mean-tests.glade.h:23 src/dialogs/moving-averages.glade.h:12
-#: src/dialogs/random-generation.glade.h:10 src/dialogs/rank.glade.h:10
-#: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:16
-#: src/dialogs/variance-tests.glade.h:12
-msgid "_Output Range:"
-msgstr "_Väljundi vahemik:"
-
-#: src/dialogs/analysis-tools.glade.h:39
-msgid "_Output range:"
-msgstr "_Väljundi vahemik:"
-
-#: src/dialogs/analysis-tools.glade.h:40 src/dialogs/histogram.glade.h:12
-msgid "_Pareto (Sorted)"
-msgstr "_Pareto (Sorteeritud)"
-
-#: src/dialogs/analysis-tools.glade.h:42
-msgid "_Rows per sample:"
-msgstr "_Ridu valimis:"
-
-#: src/dialogs/analysis-tools.glade.h:43
-#: src/dialogs/moving-averages.glade.h:14
-msgid "_Standard Errors"
-msgstr "_Standardhälbed"
-
-#: src/dialogs/analysis-tools.glade.h:44
-msgid "_Variable 1 Range:"
-msgstr "_Muutuja 1 vahemik:"
 
 #: src/dialogs/anova-one.glade.h:1 src/dialogs/anova-two.glade.h:1
 msgid "(1 - _Alpha) = "
@@ -3208,6 +3014,27 @@ msgstr "Dispersioonianalüüs - Üksik faktor"
 msgid "Grouped By:"
 msgstr "Grupeeritud:"
 
+#: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:5
+#: src/dialogs/correlation.glade.h:3 src/dialogs/covariance.glade.h:3
+#: src/dialogs/descriptive-stats.glade.h:7
+#: src/dialogs/fourier-analysis.glade.h:4 src/dialogs/histogram.glade.h:5
+#: src/dialogs/mean-tests.glade.h:6 src/dialogs/moving-averages.glade.h:4
+#: src/dialogs/rank.glade.h:2 src/dialogs/regression.glade.h:4
+#: src/dialogs/sampling.glade.h:3 src/dialogs/variance-tests.glade.h:3
+msgid "Input"
+msgstr "Sisend"
+
+#: src/dialogs/anova-one.glade.h:6 src/dialogs/anova-two.glade.h:6
+#: src/dialogs/correlation.glade.h:4 src/dialogs/covariance.glade.h:4
+#: src/dialogs/descriptive-stats.glade.h:11
+#: src/dialogs/fourier-analysis.glade.h:5 src/dialogs/histogram.glade.h:6
+#: src/dialogs/mean-tests.glade.h:7 src/dialogs/moving-averages.glade.h:6
+#: src/dialogs/random-generation.glade.h:2 src/dialogs/rank.glade.h:3
+#: src/dialogs/regression.glade.h:5 src/dialogs/sampling.glade.h:5
+#: src/dialogs/variance-tests.glade.h:4
+msgid "N_ew Workbook"
+msgstr "_Uus raamat"
+
 #: src/dialogs/anova-one.glade.h:7 src/dialogs/anova-two.glade.h:8
 #: src/dialogs/correlation.glade.h:5 src/dialogs/covariance.glade.h:5
 #: src/dialogs/descriptive-stats.glade.h:12
@@ -3218,6 +3045,48 @@ msgstr "Grupeeritud:"
 #: src/dialogs/variance-tests.glade.h:5
 msgid "Output"
 msgstr "Väljund"
+
+#: src/dialogs/anova-one.glade.h:9 src/dialogs/anova-two.glade.h:9
+#: src/dialogs/correlation.glade.h:8 src/dialogs/covariance.glade.h:8
+#: src/dialogs/descriptive-stats.glade.h:16
+#: src/dialogs/dialog-analysis-tools.c:763
+#: src/dialogs/dialog-analysis-tools.c:3259
+#: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:8
+#: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:7
+msgid "_Input Range:"
+msgstr "_Sisendi vahemik:"
+
+#: src/dialogs/anova-one.glade.h:10 src/dialogs/anova-two.glade.h:10
+#: src/dialogs/correlation.glade.h:9 src/dialogs/covariance.glade.h:9
+#: src/dialogs/descriptive-stats.glade.h:17
+#: src/dialogs/fourier-analysis.glade.h:9 src/dialogs/histogram.glade.h:9
+#: src/dialogs/mean-tests.glade.h:21 src/dialogs/moving-averages.glade.h:10
+#: src/dialogs/rank.glade.h:8 src/dialogs/regression.glade.h:10
+#: src/dialogs/sampling.glade.h:14 src/dialogs/variance-tests.glade.h:10
+msgid "_Labels"
+msgstr "_Pealdised"
+
+#: src/dialogs/anova-one.glade.h:11 src/dialogs/anova-two.glade.h:11
+#: src/dialogs/correlation.glade.h:10 src/dialogs/covariance.glade.h:10
+#: src/dialogs/descriptive-stats.glade.h:18
+#: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:10
+#: src/dialogs/mean-tests.glade.h:22 src/dialogs/moving-averages.glade.h:11
+#: src/dialogs/random-generation.glade.h:9 src/dialogs/rank.glade.h:9
+#: src/dialogs/regression.glade.h:11 src/dialogs/sampling.glade.h:15
+#: src/dialogs/variance-tests.glade.h:11
+msgid "_New Sheet"
+msgstr "_Uus leht"
+
+#: src/dialogs/anova-one.glade.h:12 src/dialogs/anova-two.glade.h:12
+#: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
+#: src/dialogs/descriptive-stats.glade.h:19
+#: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:11
+#: src/dialogs/mean-tests.glade.h:23 src/dialogs/moving-averages.glade.h:12
+#: src/dialogs/random-generation.glade.h:10 src/dialogs/rank.glade.h:10
+#: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:16
+#: src/dialogs/variance-tests.glade.h:12
+msgid "_Output Range:"
+msgstr "_Väljundi vahemik:"
 
 #: src/dialogs/anova-two.glade.h:3 src/dialogs/descriptive-stats.glade.h:3
 #: src/dialogs/random-generation.glade.h:1 src/dialogs/sampling.glade.h:1
@@ -3231,32 +3100,6 @@ msgstr "Dispersioonianalüüs - Kaks faktorit"
 #: src/dialogs/anova-two.glade.h:7
 msgid "Number of Rows _Per Sample:"
 msgstr "Ridade arv _valimi kohta:"
-
-#: src/dialogs/autocorrect-exceptions.glade.h:1
-msgid "AutoCorrect Exceptions"
-msgstr "Automaatkorrigeerimise erandid"
-
-#: src/dialogs/autocorrect-exceptions.glade.h:2
-msgid "Do _not correct:"
-msgstr "Ära _korrigeeri:"
-
-#: src/dialogs/autocorrect-exceptions.glade.h:3
-#: src/dialogs/consolidate.glade.h:26 src/dialogs/dialog-stf.glade.h:61
-#: src/dialogs/names.glade.h:6 src/dialogs/solver.glade.h:14
-msgid "_Add"
-msgstr "_Lisa"
-
-#: src/dialogs/autocorrect-exceptions.glade.h:4
-msgid "_Do not capitalize after:"
-msgstr "Ära muu_da suurtäheks pärast:"
-
-#: src/dialogs/autocorrect-exceptions.glade.h:5
-msgid "_First Letter"
-msgstr "_Esimene täht"
-
-#: src/dialogs/autocorrect-exceptions.glade.h:6
-msgid "_INitial CApitals"
-msgstr "-INitsiaalid"
 
 #: src/dialogs/autocorrect.glade.h:1
 msgid "Auto Correct"
@@ -3279,18 +3122,40 @@ msgid "Correct accidental use of _cAPS LOCK key"
 msgstr "Paranda cAPS LOCK klahvi juhuslik väärkasutus"
 
 #: src/dialogs/autocorrect.glade.h:6
+msgid "Do _not correct:"
+msgstr "Ära _korrigeeri:"
+
+#: src/dialogs/autocorrect.glade.h:7
 msgid "Re_place:"
 msgstr "A_senda:"
 
-#: src/dialogs/autocorrect.glade.h:7
-msgid "_Exceptions..."
-msgstr "_Erandid..."
+#: src/dialogs/autocorrect.glade.h:8 src/dialogs/consolidate.glade.h:26
+#: src/dialogs/dialog-stf.glade.h:61 src/dialogs/names.glade.h:6
+#: src/dialogs/solver.glade.h:16
+msgid "_Add"
+msgstr "_Lisa"
 
-#: src/dialogs/autocorrect.glade.h:8
+#: src/dialogs/autocorrect.glade.h:9
+msgid "_Do not capitalize after:"
+msgstr "Ära muu_da suurtäheks pärast:"
+
+#: src/dialogs/autocorrect.glade.h:10
+msgid "_First Letter"
+msgstr "_Esimene täht"
+
+#: src/dialogs/autocorrect.glade.h:11 src/dialogs/cell-format.glade.h:111
+msgid "_General"
+msgstr "_Üldine"
+
+#: src/dialogs/autocorrect.glade.h:12
+msgid "_INitial CApitals"
+msgstr "-INitsiaalid"
+
+#: src/dialogs/autocorrect.glade.h:14
 msgid "_Replace text when typed"
 msgstr "_Asenda tekst sisestamise ajal"
 
-#: src/dialogs/autocorrect.glade.h:9
+#: src/dialogs/autocorrect.glade.h:15
 msgid "_With:"
 msgstr "_Sellega:"
 
@@ -3624,7 +3489,7 @@ msgstr "Puudub"
 msgid "None          (silently accept invalid input)"
 msgstr "Puudub          (aktsepteeri vigast sisestust ilma kärata)"
 
-#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-formula-guru.c:435
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-formula-guru.c:432
 #: src/dialogs/dialog-search.c:135
 msgid "Number"
 msgstr "Number"
@@ -3807,10 +3672,6 @@ msgstr "_Kuupäev"
 msgid "_Fraction"
 msgstr "_Murd"
 
-#: src/dialogs/cell-format.glade.h:111
-msgid "_General"
-msgstr "_Üldine"
-
 #: src/dialogs/cell-format.glade.h:112
 msgid "_Hidden"
 msgstr "_Peidetud"
@@ -3940,7 +3801,7 @@ msgid "Selection has"
 msgstr "Valikul on"
 
 #: src/dialogs/cell-sort.glade.h:9 src/dialogs/dialog-cell-sort.c:503
-#: src/workbook-control-gui.c:2347
+#: src/workbook-control-gui.c:2344
 msgid "Sort"
 msgstr "Sorteeri"
 
@@ -4013,11 +3874,11 @@ msgstr "Ülemises _reas"
 msgid "Labels"
 msgstr "Pealdised"
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3575
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3595
 msgid "Max"
 msgstr "Max"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3574
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3594
 msgid "Min"
 msgstr "Min"
 
@@ -4085,14 +3946,22 @@ msgstr "_Funktsioon:"
 msgid "_Put :"
 msgstr "_Pane :"
 
+#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:3681
+msgid "Correlation"
+msgstr "Korrelatsioon"
+
 #: src/dialogs/correlation.glade.h:6 src/dialogs/covariance.glade.h:6
 #: src/dialogs/descriptive-stats.glade.h:14 src/dialogs/sampling.glade.h:12
 #, fuzzy
 msgid "_Areas"
 msgstr "_Jadad"
 
+#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:3683
+msgid "Covariance"
+msgstr "Kovariatsioon"
+
 #: src/dialogs/delete-cells.glade.h:1 src/dialogs/sheet-order.glade.h:2
-#: src/sheet-object.c:97
+#: src/sheet-object.c:93
 msgid "Delete"
 msgstr "Kustuta"
 
@@ -4129,7 +3998,7 @@ msgid "Confidence Interval for the _Mean"
 msgstr "Usaldusvahemik _keskmise jaoks"
 
 #: src/dialogs/descriptive-stats.glade.h:5
-#: src/dialogs/dialog-analysis-tools.c:3706
+#: src/dialogs/dialog-analysis-tools.c:3685
 msgid "Descriptive Statistics"
 msgstr "Kirjeldav statistika"
 
@@ -4289,19 +4158,19 @@ msgstr "Gnumericu koduleht"
 msgid "Contract Support"
 msgstr "Lepinguline tugi"
 
-#: src/dialogs/dialog-advanced-filter.c:237
+#: src/dialogs/dialog-advanced-filter.c:256
 msgid "You should introduce a valid cell names in 'List Range:'"
 msgstr "Sa pead andma sobilikud lahtrite nimed aknas 'Loendi vahemik:'"
 
-#: src/dialogs/dialog-advanced-filter.c:251
+#: src/dialogs/dialog-advanced-filter.c:270
 msgid "You should introduce a valid cell names in 'Criteria Range:'"
 msgstr "Sa pead andma sobilikud lahtrite nimed aknas 'Tingimuse vahemik:'"
 
-#: src/dialogs/dialog-advanced-filter.c:270
+#: src/dialogs/dialog-advanced-filter.c:289
 msgid "You should introduce a valid cell range in 'Copy To:'"
 msgstr "Sa pead andma sobilikud lahtrite nimed aknas 'Kopeeri:'"
 
-#: src/dialogs/dialog-advanced-filter.c:316
+#: src/dialogs/dialog-advanced-filter.c:335
 msgid ""
 "You should introduce the same number of columns in the `List Range' and in "
 "`Criteria Range:'"
@@ -4309,147 +4178,147 @@ msgstr ""
 "Sa pead andma sama veergude arvu akendes 'Loendi vahemik:' ja 'Tingimuse "
 "vahemik:'"
 
-#: src/dialogs/dialog-analysis-tools.c:978
-#: src/dialogs/dialog-analysis-tools.c:1088
+#: src/dialogs/dialog-analysis-tools.c:957
+#: src/dialogs/dialog-analysis-tools.c:1067
 msgid "The selected input rows must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:982
-#: src/dialogs/dialog-analysis-tools.c:1092
+#: src/dialogs/dialog-analysis-tools.c:961
+#: src/dialogs/dialog-analysis-tools.c:1071
 msgid "The selected input columns must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:986
-#: src/dialogs/dialog-analysis-tools.c:1096
+#: src/dialogs/dialog-analysis-tools.c:965
+#: src/dialogs/dialog-analysis-tools.c:1075
 msgid "The selected input areas must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1032
+#: src/dialogs/dialog-analysis-tools.c:1011
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Ei suudetud luua korrelatsiooni töövahendi dialoogi."
 
-#: src/dialogs/dialog-analysis-tools.c:1142
+#: src/dialogs/dialog-analysis-tools.c:1121
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Ei suudetud luua kovariatsiooni töövahendi dialoogi."
 
-#: src/dialogs/dialog-analysis-tools.c:1344
+#: src/dialogs/dialog-analysis-tools.c:1323
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Ei suudetud luua kirjeldava statistika töövahendi dialoogi."
 
-#: src/dialogs/dialog-analysis-tools.c:1441
+#: src/dialogs/dialog-analysis-tools.c:1420
 msgid "Could not create the Rank and  Percentile Tools dialog."
 msgstr "Ei suudetud luua vahemiku ja protsentiili töövahendi dialoogi."
 
-#: src/dialogs/dialog-analysis-tools.c:1556
+#: src/dialogs/dialog-analysis-tools.c:1535
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Tekkis ettearvamatu viga: %d"
 
-#: src/dialogs/dialog-analysis-tools.c:1781
+#: src/dialogs/dialog-analysis-tools.c:1760
 msgid "Var_iable 1 Range:"
 msgstr "M_uutuja 1 vahemik:"
 
-#: src/dialogs/dialog-analysis-tools.c:1782
+#: src/dialogs/dialog-analysis-tools.c:1761
 msgid "_Variable 2 Range:"
 msgstr "Muu_tuja 2 vahemik:"
 
-#: src/dialogs/dialog-analysis-tools.c:1786
+#: src/dialogs/dialog-analysis-tools.c:1765
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Ei suudetud luua keskmiste kontrolli töövahendi dialoogi."
 
-#: src/dialogs/dialog-analysis-tools.c:1966
+#: src/dialogs/dialog-analysis-tools.c:1945
 msgid "Var_iable 1 Range"
 msgstr "Muutu_ja 1 vahemik:"
 
-#: src/dialogs/dialog-analysis-tools.c:1967
+#: src/dialogs/dialog-analysis-tools.c:1946
 msgid "_Variable 2 Range"
 msgstr "Muutuj_a 2 vahemik:"
 
-#: src/dialogs/dialog-analysis-tools.c:1971
+#: src/dialogs/dialog-analysis-tools.c:1950
 msgid "Could not create the FTest Tool dialog."
 msgstr "Ei suudetud luua FTest töövahendi dialoogi."
 
-#: src/dialogs/dialog-analysis-tools.c:2228
+#: src/dialogs/dialog-analysis-tools.c:2207
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Ei suudetud luua valikute töövahendi dialoogi."
 
-#: src/dialogs/dialog-analysis-tools.c:2265
+#: src/dialogs/dialog-analysis-tools.c:2244
 msgid "Discrete"
 msgstr "Diskreetne"
 
-#: src/dialogs/dialog-analysis-tools.c:2265
+#: src/dialogs/dialog-analysis-tools.c:2244
 msgid "_Value And Probability Input Range:"
 msgstr "_Väärtuse ja tõenäosuse sisendvahemik:"
 
-#: src/dialogs/dialog-analysis-tools.c:2267
+#: src/dialogs/dialog-analysis-tools.c:2246
 #: src/dialogs/search-replace.glade.h:24
 #: src/widgets/widget-font-selector.c:113
 msgid "Normal"
 msgstr "Normaalne"
 
-#: src/dialogs/dialog-analysis-tools.c:2267
+#: src/dialogs/dialog-analysis-tools.c:2246
 msgid "_Mean:"
 msgstr "_Keskmine:"
 
-#: src/dialogs/dialog-analysis-tools.c:2267
+#: src/dialogs/dialog-analysis-tools.c:2246
 msgid "_Standard Deviation:"
 msgstr "_Standardhälve:"
 
-#: src/dialogs/dialog-analysis-tools.c:2269
+#: src/dialogs/dialog-analysis-tools.c:2248
 msgid "Poisson"
 msgstr "Poisson"
 
-#: src/dialogs/dialog-analysis-tools.c:2269
+#: src/dialogs/dialog-analysis-tools.c:2248
 msgid "_Lambda:"
 msgstr "_Lambda:"
 
-#: src/dialogs/dialog-analysis-tools.c:2271
+#: src/dialogs/dialog-analysis-tools.c:2250
 msgid "Exponential"
 msgstr "Eksponent-"
 
-#: src/dialogs/dialog-analysis-tools.c:2271
+#: src/dialogs/dialog-analysis-tools.c:2250
 msgid "_b Value:"
 msgstr "_b väärtus:"
 
-#: src/dialogs/dialog-analysis-tools.c:2273
+#: src/dialogs/dialog-analysis-tools.c:2252
 msgid "Binomial"
 msgstr "Binoom-"
 
-#: src/dialogs/dialog-analysis-tools.c:2273
-#: src/dialogs/dialog-analysis-tools.c:2275
-#: src/dialogs/dialog-analysis-tools.c:2278
+#: src/dialogs/dialog-analysis-tools.c:2252
+#: src/dialogs/dialog-analysis-tools.c:2254
+#: src/dialogs/dialog-analysis-tools.c:2257
 msgid "_p Value:"
 msgstr "_p väärtus:"
 
-#: src/dialogs/dialog-analysis-tools.c:2273
+#: src/dialogs/dialog-analysis-tools.c:2252
 msgid "N_umber of Trials:"
 msgstr "_Katsete arv:"
 
-#: src/dialogs/dialog-analysis-tools.c:2275
+#: src/dialogs/dialog-analysis-tools.c:2254
 msgid "Negative Binomial"
 msgstr "Negatiivne binoom-"
 
-#: src/dialogs/dialog-analysis-tools.c:2276
+#: src/dialogs/dialog-analysis-tools.c:2255
 msgid "N_umber of Failures"
 msgstr "_Ebaõnnestumiste arv"
 
-#: src/dialogs/dialog-analysis-tools.c:2278
+#: src/dialogs/dialog-analysis-tools.c:2257
 msgid "Bernoulli"
 msgstr "Bernouilli"
 
-#: src/dialogs/dialog-analysis-tools.c:2280
+#: src/dialogs/dialog-analysis-tools.c:2259
 msgid "Uniform"
 msgstr "Uniform"
 
-#: src/dialogs/dialog-analysis-tools.c:2280
+#: src/dialogs/dialog-analysis-tools.c:2259
 msgid "_Lower Bound:"
 msgstr "_Alumine piir:"
 
-#: src/dialogs/dialog-analysis-tools.c:2280
+#: src/dialogs/dialog-analysis-tools.c:2259
 msgid "_Upper Bound:"
 msgstr "_Ülemine piir:"
 
-#: src/dialogs/dialog-analysis-tools.c:2529
+#: src/dialogs/dialog-analysis-tools.c:2508
 msgid ""
 "You should introduce a valid cell range in 'Value and probability input "
 "Range:'"
@@ -4457,15 +4326,15 @@ msgstr ""
 "Sa pead määrama sobiva vahemiku aknas 'Väärtuse ja tõenäeosuse sisendi "
 "vahemik:'"
 
-#: src/dialogs/dialog-analysis-tools.c:2707
+#: src/dialogs/dialog-analysis-tools.c:2686
 msgid "Could not create the Random Tool dialog."
 msgstr "Ei suudetud luua juhuarvu töövahendi dialoogi."
 
-#: src/dialogs/dialog-analysis-tools.c:2748
+#: src/dialogs/dialog-analysis-tools.c:2727
 msgid "You should introduce a valid cell range in 'X Variables:'"
 msgstr "Sa pead määrama sobiva vahemiku aknas 'X muutujad:'"
 
-#: src/dialogs/dialog-analysis-tools.c:2777
+#: src/dialogs/dialog-analysis-tools.c:2756
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -4473,7 +4342,7 @@ msgstr ""
 "On liiga vähe andmepunkte regressiooni juhtimiseks.\n"
 "Andmepunkte peab olema vähemalt sama palju kui vabu muutujaid."
 
-#: src/dialogs/dialog-analysis-tools.c:2783
+#: src/dialogs/dialog-analysis-tools.c:2762
 msgid ""
 "Two or more of the independent variables are linearly dependent,\n"
 "and the regression cannot be calculated. Remove one of these\n"
@@ -4483,94 +4352,117 @@ msgstr ""
 "ja regressiooni ei saa arvutada. Eemalda üks neist ja\n"
 "proovi uuesti."
 
-#: src/dialogs/dialog-analysis-tools.c:2790
+#: src/dialogs/dialog-analysis-tools.c:2769
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "Iga regressiooni muutuja jaoks peab olema võrdne arv sisendeid."
 
-#: src/dialogs/dialog-analysis-tools.c:2902
+#: src/dialogs/dialog-analysis-tools.c:2881
 msgid "_X Variables:"
 msgstr "_X muutujad:"
 
-#: src/dialogs/dialog-analysis-tools.c:2903
+#: src/dialogs/dialog-analysis-tools.c:2882
 msgid "_Y Variables:"
 msgstr "_Y muutujad:"
 
-#: src/dialogs/dialog-analysis-tools.c:2907
+#: src/dialogs/dialog-analysis-tools.c:2886
 msgid "Could not create the Regression Tool dialog."
 msgstr "Ei suudetud luua regressiooni töövahendi dialoogi."
 
-#: src/dialogs/dialog-analysis-tools.c:3075
+#: src/dialogs/dialog-analysis-tools.c:3054
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Ei suudetud luua liikuva keskmise töövahendi dialoogi."
 
-#: src/dialogs/dialog-analysis-tools.c:3122
+#: src/dialogs/dialog-analysis-tools.c:3101
 msgid "Fourier analysis is not implemented yet.  Sorry."
 msgstr "Fourier analüüs ei ole veel teostatud. Vabandame."
 
-#: src/dialogs/dialog-analysis-tools.c:3165
+#: src/dialogs/dialog-analysis-tools.c:3144
 msgid "Could not create the Fourier Analyis Tool dialog."
 msgstr "Ei suudetud luua Fourier' analüüsi töövahendi dialoogi."
 
-#: src/dialogs/dialog-analysis-tools.c:3237
-#: src/dialogs/dialog-analysis-tools.c:3540
+#: src/dialogs/dialog-analysis-tools.c:3216
+#: src/dialogs/dialog-analysis-tools.c:3519
 msgid "Given input range contains non-numeric data."
 msgstr "Antud sisendala sisaldab mittenumbrilisi andmeid."
 
-#: src/dialogs/dialog-analysis-tools.c:3242
+#: src/dialogs/dialog-analysis-tools.c:3221
 msgid "Given bin range contains non-numeric data."
 msgstr "Antud bin ala sisaldab mittenumbrilisi andmeid."
 
-#: src/dialogs/dialog-analysis-tools.c:3281 src/dialogs/histogram.glade.h:1
+#: src/dialogs/dialog-analysis-tools.c:3260 src/dialogs/histogram.glade.h:1
 msgid "Bin _Range:"
 msgstr "_Bin vahemik:"
 
-#: src/dialogs/dialog-analysis-tools.c:3288
+#: src/dialogs/dialog-analysis-tools.c:3267
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Ei suudetud luua histogrammi töövahendi dialoogi."
 
-#: src/dialogs/dialog-analysis-tools.c:3462
+#: src/dialogs/dialog-analysis-tools.c:3441
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr ""
 "Ei suudetud luua dispersioonianalüüsi (üksiku faktoriga) töövahendi dialoogi."
 
-#: src/dialogs/dialog-analysis-tools.c:3535
+#: src/dialogs/dialog-analysis-tools.c:3514
 msgid "Each sample must contain the same number of rows."
 msgstr "Iga valik peab sisaldama sama arvu ridu."
 
-#: src/dialogs/dialog-analysis-tools.c:3545
+#: src/dialogs/dialog-analysis-tools.c:3524
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 "Antud sisendala peab sisaldama vähemalt kaks veergu andmeid ja pealdisi"
 
-#: src/dialogs/dialog-analysis-tools.c:3669
+#: src/dialogs/dialog-analysis-tools.c:3648
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr ""
 "Ei suudetud luua dispersioonianalüüsi (kahe faktoriga) töövahendi dialoogi."
 
-#: src/dialogs/dialog-analysis-tools.c:3700
+#: src/dialogs/dialog-analysis-tools.c:3679
 msgid "Anova: Two-Factor With Or Without Replication"
 msgstr "Dispersioonianalüüs: 2-faktoriline koos või ilma korduseta"
 
-#: src/dialogs/dialog-analysis-tools.c:3722 src/dialogs/sampling.glade.h:9
+#: src/dialogs/dialog-analysis-tools.c:3687
+msgid "F-Test: Two-Sample for Variances"
+msgstr "F-test: 2-valimiline dispersioonidele"
+
+#: src/dialogs/dialog-analysis-tools.c:3689
+#: src/dialogs/fourier-analysis.glade.h:1
+msgid "Fourier Analysis"
+msgstr "Fourier' analüüs"
+
+#: src/dialogs/dialog-analysis-tools.c:3693
+#: src/dialogs/moving-averages.glade.h:5
+msgid "Moving Average"
+msgstr "Liikuv keskmine"
+
+#: src/dialogs/dialog-analysis-tools.c:3695
+#: src/dialogs/random-generation.glade.h:5
+msgid "Random Number Generation"
+msgstr "Juhuarvu genereerimine"
+
+#: src/dialogs/dialog-analysis-tools.c:3697 src/dialogs/rank.glade.h:5
+msgid "Rank and Percentile"
+msgstr "Astak ja protsentiil"
+
+#: src/dialogs/dialog-analysis-tools.c:3701 src/dialogs/sampling.glade.h:9
 msgid "Sampling"
 msgstr "Valik"
 
-#: src/dialogs/dialog-analysis-tools.c:3724
+#: src/dialogs/dialog-analysis-tools.c:3703
 msgid "t-Test: Paired Two Sample for Means"
 msgstr "t-test: Paarisvalim keskmistele"
 
-#: src/dialogs/dialog-analysis-tools.c:3726
+#: src/dialogs/dialog-analysis-tools.c:3705
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr "t-test: Paarisvalimiga lepitult võrdsed dispersioonid"
 
-#: src/dialogs/dialog-analysis-tools.c:3728
+#: src/dialogs/dialog-analysis-tools.c:3707
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr "t-test: Paarisvalimiga lepitult erinevad dispersioonid"
 
-#: src/dialogs/dialog-analysis-tools.c:3730
+#: src/dialogs/dialog-analysis-tools.c:3709
 msgid "z-Test: Two Sample for Means"
 msgstr "z-test: Paarsvalim keskmistele"
 
@@ -4730,7 +4622,7 @@ msgstr "Lahtri vorming"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: src/dialogs/dialog-cell-format.c:2655 src/dialogs/dialog-cell-format.c:2660
-#: src/dialogs/dialog-cell-format.c:2670 src/functions/fn-information.c:392
+#: src/dialogs/dialog-cell-format.c:2670 src/functions/fn-information.c:391
 #: src/workbook-format-toolbar.c:860
 msgid "Automatic"
 msgstr "Automaatne"
@@ -4820,37 +4712,37 @@ msgstr "Ei saa muuta sisseehitatud nime."
 msgid "Could not create the Name Guru."
 msgstr "Ei suuda luua Nimeguru."
 
-#: src/dialogs/dialog-formula-guru.c:427
+#: src/dialogs/dialog-formula-guru.c:424
 #, c-format
 msgid "Value%d"
 msgstr "Väärtus%d"
 
-#: src/dialogs/dialog-formula-guru.c:434 src/dialogs/dialog-search.c:131
+#: src/dialogs/dialog-formula-guru.c:431 src/dialogs/dialog-search.c:131
 #: src/functions/fn-string.c:1227
 msgid "String"
 msgstr "String"
 
-#: src/dialogs/dialog-formula-guru.c:436
+#: src/dialogs/dialog-formula-guru.c:433
 msgid "Boolean"
 msgstr "Tõeväärtus"
 
-#: src/dialogs/dialog-formula-guru.c:437 src/dialogs/search-replace.glade.h:36
+#: src/dialogs/dialog-formula-guru.c:434 src/dialogs/search-replace.glade.h:36
 msgid "Range"
 msgstr "Vahemik"
 
-#: src/dialogs/dialog-formula-guru.c:438
+#: src/dialogs/dialog-formula-guru.c:435
 msgid "Array"
 msgstr "Maatriks"
 
-#: src/dialogs/dialog-formula-guru.c:439
+#: src/dialogs/dialog-formula-guru.c:436
 msgid "Range/Array"
 msgstr "Ala/Maatriks"
 
-#: src/dialogs/dialog-formula-guru.c:440
+#: src/dialogs/dialog-formula-guru.c:437
 msgid "Scalar"
 msgstr "Skalaar"
 
-#: src/dialogs/dialog-formula-guru.c:442
+#: src/dialogs/dialog-formula-guru.c:439
 msgid "Any"
 msgstr "Suvaline"
 
@@ -5038,18 +4930,18 @@ msgid "Errors while deactivating plugins"
 msgstr "Vead pluginate deaktiveerimisel"
 
 #: src/dialogs/dialog-plugin-manager.c:476
-#, c-format
-msgid "%s [in memory, marked for deactivation]"
+#, fuzzy, c-format
+msgid "%s[in memory, marked for deactivation]"
 msgstr "%s [mälus, märgitud deaktiveerimiseks]"
 
 #: src/dialogs/dialog-plugin-manager.c:479
-#, c-format
-msgid "%s [in memory]"
+#, fuzzy, c-format
+msgid "%s[in memory]"
 msgstr "%s [mälus]"
 
 #: src/dialogs/dialog-plugin-manager.c:482
-#, c-format
-msgid "%s [marked for deactivation]"
+#, fuzzy, c-format
+msgid "%s[marked for deactivation]"
 msgstr "%s [märgitud deaktiveerimiseks]"
 
 #: src/dialogs/dialog-plugin-manager.c:621
@@ -5105,46 +4997,47 @@ msgstr "Otsimiseks pead sa valima mõne lahtri tüübi."
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Tahad sa tõesti lehte nimega `%s' kustutada"
 
-#: src/dialogs/dialog-solver.c:31
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:32
+#: src/dialogs/dialog-solver.c:68 src/dialogs/solver.glade.h:1
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:33
+#: src/dialogs/dialog-solver.c:69 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
-#: src/dialogs/dialog-solver.c:34
+#. xgettext: Int == Integer constraint for the linear program
+#: src/dialogs/dialog-solver.c:71 src/dialogs/solver.glade.h:9
 msgid "Int"
 msgstr "Int"
 
-#: src/dialogs/dialog-solver.c:246 src/dialogs/dialog-solver.c:438
+#: src/dialogs/dialog-solver.c:829
 msgid ""
-"The constraints having cell ranges in LHS and RHS should have the same "
-"number of columns and rows in both sides."
+"Solver found an optimal solution. All constraints and optimality conditions "
+"are satisfied.\n"
 msgstr ""
-"Piirangud, mille alad on määratud LHS-is ja RHS-is peaksid omama sama arvu "
-"veerge ja ridu mõlemal pool."
 
-#: src/dialogs/dialog-solver.c:256 src/dialogs/dialog-solver.c:448
-msgid "The cell range in LHS or RHS should have only one column or row."
-msgstr "Ala LHS-is ja RHS-is peaks omama ainult ühte rida või veergu."
+#: src/dialogs/dialog-solver.c:836
+msgid "The Target Cell value does not converge!"
+msgstr ""
 
-#: src/dialogs/dialog-solver.c:859
-msgid "You should introduce a valid cell name for 'Target cell'"
-msgstr "Sa pead sisestama sobiliku lahtri nime 'Sihtlahtri' jaoks"
+#: src/dialogs/dialog-solver.c:840
+#, c-format
+msgid "Solver was not successful: %i"
+msgstr ""
 
-#: src/dialogs/dialog-solver.c:877
-msgid "You should introduce a valid cell names in 'By changing cells'"
-msgstr "Sa pead sisestama sobilikud lahtri nimed 'Muutes lahtreid' jaoks"
-
-#: src/dialogs/dialog-solver.c:901
+#: src/dialogs/dialog-solver.c:862
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Piirang `%s' on pandud lahtrile mis ei ole sisendlahter."
+
+#: src/dialogs/dialog-solver.c:1113
+#, fuzzy
+msgid "Could not create the Solver dialog."
+msgstr "Ei suuda luua sihtmärgi otsingu dialoogi."
 
 #: src/dialogs/dialog-stf-export-sheet-page.c:358
 msgid "You need to select at least one sheet to export"
@@ -5601,7 +5494,7 @@ msgstr "_Eraldatud"
 msgid "_To line : "
 msgstr "_Reale : "
 
-#: src/dialogs/dialog-workbook-attr.c:175
+#: src/dialogs/dialog-workbook-attr.c:166
 msgid "Workbook Attributes"
 msgstr "Raamatu atribuudid"
 
@@ -5623,8 +5516,8 @@ msgstr "Suurendamine"
 msgid "Sheets"
 msgstr "Lehed"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3125
-#: src/workbook-control-gui.c:3181
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3129
+#: src/workbook-control-gui.c:3185
 msgid "Zoom"
 msgstr "Suurendamine"
 
@@ -5676,6 +5569,10 @@ msgstr "Suurus:"
 #: src/dialogs/formula-guru.glade.h:1
 msgid "Formula Guru"
 msgstr "Valemiguru"
+
+#: src/dialogs/fourier-analysis.glade.h:3
+msgid "I_nverse"
+msgstr "Pööra ü_mber"
 
 #: src/dialogs/function-select.glade.h:1
 msgid "Function Selector"
@@ -5770,9 +5667,17 @@ msgstr "Vasak sektsioon:"
 msgid "Right section:"
 msgstr "Parem sektsioon:"
 
+#: src/dialogs/histogram.glade.h:2
+msgid "C_umulative Percentages"
+msgstr "K_uhjuvad protsendid"
+
 #: src/dialogs/histogram.glade.h:3
 msgid "Chart Output"
 msgstr "Diagrammi väljund"
+
+#: src/dialogs/histogram.glade.h:12
+msgid "_Pareto (Sorted)"
+msgstr "_Pareto (Sorteeritud)"
 
 #: src/dialogs/insert-cells.glade.h:2
 msgid "Insert _column(s)"
@@ -5866,6 +5771,14 @@ msgstr "_Mittevõrdsed"
 msgid "3"
 msgstr "3"
 
+#: src/dialogs/moving-averages.glade.h:3
+msgid "In_terval:"
+msgstr "In_tervall:"
+
+#: src/dialogs/moving-averages.glade.h:14
+msgid "_Standard Errors"
+msgstr "_Standardhälbed"
+
 #: src/dialogs/names.glade.h:1
 msgid "Define names"
 msgstr "Määra nimed"
@@ -5886,7 +5799,7 @@ msgstr "Skoop :"
 msgid "Workbook"
 msgstr "Raamat"
 
-#: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:17
+#: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:19
 msgid "_Delete"
 msgstr "_Kustuta"
 
@@ -6138,6 +6051,10 @@ msgstr "Juhuarvud"
 #: src/dialogs/random-generation.glade.h:7
 msgid "Size of _Sample:"
 msgstr "Valimi _suurus:"
+
+#: src/dialogs/random-generation.glade.h:8
+msgid "_Distribution:"
+msgstr "_Jaotus:"
 
 #: src/dialogs/regression.glade.h:2
 msgid "Confidence Level:"
@@ -6556,97 +6473,72 @@ msgstr "Sisesta uue _lehe nimi:"
 msgid "Rename sheet"
 msgstr "Nimeta leht ümber"
 
-#: src/dialogs/solver-options.glade.h:1
+#: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
 msgstr "Oleta _lineaarset mudelit"
 
-#: src/dialogs/solver-options.glade.h:2
+#: src/dialogs/solver.glade.h:5
 msgid "Assume _Non-Negative"
 msgstr "Oleta _mittenegatiivset"
 
-#: src/dialogs/solver-options.glade.h:3
-msgid "Solver Options"
-msgstr "Lahendaja valikud"
-
-#: src/dialogs/solver.glade.h:1
-msgid "                         "
-msgstr "                         "
-
-#: src/dialogs/solver.glade.h:2
-msgid "Add  "
-msgstr "Lisa  "
-
-#: src/dialogs/solver.glade.h:3
-msgid "Add Constraint"
-msgstr "Lisa piirang"
-
-#: src/dialogs/solver.glade.h:4
+#: src/dialogs/solver.glade.h:6
 msgid "B_y Changing Cells: "
 msgstr "K_ui muudetakse lahtreid:"
 
-#: src/dialogs/solver.glade.h:5
-msgid "Change Constraint"
-msgstr "Muuda piirangut"
+#: src/dialogs/solver.glade.h:7 src/solver-lp.c:952 src/solver-lp.c:1086
+msgid "Constraints"
+msgstr "Piirangud"
 
-#: src/dialogs/solver.glade.h:6
+#: src/dialogs/solver.glade.h:8
 msgid "Equal To:"
 msgstr "Võrdne:"
 
-#: src/dialogs/solver.glade.h:7
+#: src/dialogs/solver.glade.h:10
 msgid "M_in"
 msgstr "M_in"
 
-#: src/dialogs/solver.glade.h:8
-msgid "Options..."
-msgstr "Valikud..."
-
-#: src/dialogs/solver.glade.h:9
-msgid "Reports:"
-msgstr "Raportid:"
-
-#: src/dialogs/solver.glade.h:10
-msgid "Solve"
-msgstr "Lahenda"
-
 #: src/dialogs/solver.glade.h:11
-msgid "Solver Parameters"
+#, fuzzy
+msgid "Parameters"
 msgstr "Lahendaja parameetrid"
 
 #: src/dialogs/solver.glade.h:12
-msgid "Solver Result"
-msgstr "Lahendaja tulemus"
+#, fuzzy
+msgid "Reports"
+msgstr "Raportid:"
 
 #: src/dialogs/solver.glade.h:13
+msgid "Solve"
+msgstr "Lahenda"
+
+#: src/dialogs/solver.glade.h:14
+#, fuzzy
+msgid "Solver"
+msgstr "Lahenda"
+
+#: src/dialogs/solver.glade.h:15
 msgid "Subject to the Constraints:"
 msgstr "Alluta piirangutele:"
 
-#: src/dialogs/solver.glade.h:15
+#: src/dialogs/solver.glade.h:17
 msgid "_Answer"
 msgstr "_Vastus"
 
-#: src/dialogs/solver.glade.h:16
+#: src/dialogs/solver.glade.h:18
 msgid "_Change"
 msgstr "_Muuda"
 
-#: src/dialogs/solver.glade.h:18
-msgid "_Keep Solver Solution"
-msgstr "_Säilita lahendaja tulemus"
-
-#: src/dialogs/solver.glade.h:19
+#: src/dialogs/solver.glade.h:20
 msgid "_Left Hand Side:"
 msgstr "_Vasakpoolne serv:"
 
-#: src/dialogs/solver.glade.h:20
+#: src/dialogs/solver.glade.h:21
 msgid "_Limits"
 msgstr "_Piirid"
 
-#: src/dialogs/solver.glade.h:21
+#: src/dialogs/solver.glade.h:22
 msgid "_Max"
 msgstr "_Max"
-
-#: src/dialogs/solver.glade.h:22
-msgid "_Restore Original Values"
-msgstr "_Taasta algsed väärtused"
 
 #: src/dialogs/solver.glade.h:23
 msgid "_Right Hand Side:"
@@ -6701,26 +6593,22 @@ msgid "Testing Equality of 2 Variances (F-Test)"
 msgstr "Testitakse 2 dispersiooni võrdsust (F-Test)"
 
 #: src/dialogs/workbook-attr.glade.h:1
-msgid "Notebook"
-msgstr "Märkmik"
+msgid "Notebook _Tabs for Sheets"
+msgstr ""
 
 #: src/dialogs/workbook-attr.glade.h:2
-msgid "Scrollbars"
-msgstr "Kerimisribad"
-
-#: src/dialogs/workbook-attr.glade.h:3
 msgid "View"
 msgstr "Vaade"
+
+#: src/dialogs/workbook-attr.glade.h:3
+msgid "_Auto Complete Text in Cells"
+msgstr ""
 
 #: src/dialogs/workbook-attr.glade.h:4
 msgid "_Horizontal Scrollbar"
 msgstr "_Rõhtne kerimisriba"
 
 #: src/dialogs/workbook-attr.glade.h:5
-msgid "_Tabs"
-msgstr "_Tabid"
-
-#: src/dialogs/workbook-attr.glade.h:6
 msgid "_Vertical Scrollbar"
 msgstr "_Püstine kerimisriba"
 
@@ -8922,8 +8810,8 @@ msgstr ""
 "@SARNASED=NETWORKDAYS"
 
 #. Path of the current directory or folder.
-#: src/functions/fn-date.c:832 src/functions/fn-eng.c:125
-#: src/functions/fn-information.c:358 src/functions/fn-information.c:374
+#: src/functions/fn-date.c:832 src/functions/fn-eng.c:97
+#: src/functions/fn-information.c:357 src/functions/fn-information.c:373
 msgid "Unimplemented"
 msgstr "Teostamata"
 
@@ -8966,11 +8854,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-eng.c:60
-msgid "Base error"
-msgstr "Baasviga"
-
-#: src/functions/fn-eng.c:140
+#: src/functions/fn-eng.c:111
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -8991,7 +8875,7 @@ msgstr ""
 "\n"
 "@SARNASED=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: src/functions/fn-eng.c:163
+#: src/functions/fn-eng.c:134
 msgid ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(number[,places])\n"
@@ -9016,7 +8900,7 @@ msgstr ""
 "\n"
 "@SARNASED=OCT2BIN, BIN2DEC, BIN2HEX"
 
-#: src/functions/fn-eng.c:189
+#: src/functions/fn-eng.c:160
 msgid ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(number[,places])\n"
@@ -9042,7 +8926,7 @@ msgstr ""
 "\n"
 "@SARNASED=HEX2BIN, BIN2OCT, BIN2DEC"
 
-#: src/functions/fn-eng.c:215
+#: src/functions/fn-eng.c:186
 msgid ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(number[,places])\n"
@@ -9067,7 +8951,7 @@ msgstr ""
 "\n"
 "@SARNASED=BIN2DEC, DEC2OCT, DEC2HEX"
 
-#: src/functions/fn-eng.c:241
+#: src/functions/fn-eng.c:212
 msgid ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(number[,places])\n"
@@ -9092,7 +8976,7 @@ msgstr ""
 "\n"
 "@SARNASED=OCT2DEC, DEC2BIN, DEC2HEX"
 
-#: src/functions/fn-eng.c:267
+#: src/functions/fn-eng.c:238
 msgid ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(number[,places])\n"
@@ -9118,7 +9002,7 @@ msgstr ""
 "\n"
 "@SARNASED=HEX2DEC, DEC2BIN, DEC2OCT"
 
-#: src/functions/fn-eng.c:293
+#: src/functions/fn-eng.c:264
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
@@ -9139,7 +9023,7 @@ msgstr ""
 "\n"
 "@SARNASED=DEC2OCT, OCT2BIN, OCT2HEX"
 
-#: src/functions/fn-eng.c:316
+#: src/functions/fn-eng.c:287
 msgid ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(number[,places])\n"
@@ -9163,7 +9047,7 @@ msgstr ""
 "\n"
 "@SARNASED=BIN2OCT, OCT2DEC, OCT2HEX"
 
-#: src/functions/fn-eng.c:342
+#: src/functions/fn-eng.c:313
 msgid ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(number[,places])\n"
@@ -9188,7 +9072,7 @@ msgstr ""
 "\n"
 "@SARNASED=HEX2OCT, OCT2BIN, OCT2DEC"
 
-#: src/functions/fn-eng.c:368
+#: src/functions/fn-eng.c:339
 msgid ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(number[,places])\n"
@@ -9214,7 +9098,7 @@ msgstr ""
 "\n"
 "@SARNASED=BIN2HEX, HEX2OCT, HEX2DEC"
 
-#: src/functions/fn-eng.c:394
+#: src/functions/fn-eng.c:365
 msgid ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(number[,places])\n"
@@ -9240,7 +9124,7 @@ msgstr ""
 "\n"
 "@SARNASED=OCT2HEX, HEX2BIN, HEX2DEC"
 
-#: src/functions/fn-eng.c:420
+#: src/functions/fn-eng.c:391
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -9260,7 +9144,7 @@ msgstr ""
 "\n"
 "@SARNASED=DEC2HEX, HEX2BIN, HEX2OCT"
 
-#: src/functions/fn-eng.c:443
+#: src/functions/fn-eng.c:414
 msgid ""
 "@FUNCTION=BESSELI\n"
 "@SYNTAX=BESSELI(x,y)\n"
@@ -9286,7 +9170,7 @@ msgstr ""
 "\n"
 "@SARNASED=BESSELJ,BESSELK,BESSELY"
 
-#: src/functions/fn-eng.c:484
+#: src/functions/fn-eng.c:455
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
@@ -9312,7 +9196,7 @@ msgstr ""
 "\n"
 "@SARNASED=BESSELI,BESSELJ,BESSELY"
 
-#: src/functions/fn-eng.c:524
+#: src/functions/fn-eng.c:495
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -9338,7 +9222,7 @@ msgstr ""
 "\n"
 "@SARNASED=BESSELJ,BESSELK,BESSELY"
 
-#: src/functions/fn-eng.c:560
+#: src/functions/fn-eng.c:531
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -9364,7 +9248,7 @@ msgstr ""
 "\n"
 "@SARNASED=BESSELJ,BESSELK,BESSELY"
 
-#: src/functions/fn-eng.c:632
+#: src/functions/fn-eng.c:603
 msgid ""
 "@FUNCTION=COMPLEX\n"
 "@SYNTAX=COMPLEX(real,im[,suffix])\n"
@@ -9391,7 +9275,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-eng.c:671
+#: src/functions/fn-eng.c:642
 msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
@@ -9411,7 +9295,7 @@ msgstr ""
 "\n"
 "@SARNASED=IMREAL"
 
-#: src/functions/fn-eng.c:702
+#: src/functions/fn-eng.c:673
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
@@ -9431,7 +9315,7 @@ msgstr ""
 "\n"
 "@SARNASED=IMAGINARY"
 
-#: src/functions/fn-eng.c:733
+#: src/functions/fn-eng.c:704
 msgid ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(inumber)\n"
@@ -9451,7 +9335,7 @@ msgstr ""
 "\n"
 "@SARNASED=IMAGINARY,IMREAL"
 
-#: src/functions/fn-eng.c:764
+#: src/functions/fn-eng.c:735
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
@@ -9471,7 +9355,7 @@ msgstr ""
 "\n"
 "@SARNASED=IMAGINARY,IMREAL"
 
-#: src/functions/fn-eng.c:795
+#: src/functions/fn-eng.c:766
 msgid ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(inumber)\n"
@@ -9491,7 +9375,7 @@ msgstr ""
 "\n"
 "@SARNASED=IMSIN,IMTAN"
 
-#: src/functions/fn-eng.c:823
+#: src/functions/fn-eng.c:794
 msgid ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
@@ -9509,7 +9393,7 @@ msgstr ""
 "\n"
 "@SARNASED=IMSIN,IMCOS"
 
-#: src/functions/fn-eng.c:850
+#: src/functions/fn-eng.c:821
 msgid ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
@@ -9529,7 +9413,7 @@ msgstr ""
 "\n"
 "@SARNASED=IMLN"
 
-#: src/functions/fn-eng.c:878
+#: src/functions/fn-eng.c:849
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
@@ -9549,7 +9433,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-eng.c:905
+#: src/functions/fn-eng.c:876
 msgid ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(inumber)\n"
@@ -9575,7 +9459,7 @@ msgstr ""
 "\n"
 "@SARNASED=IMEXP,IMLOG2,IMLOG10"
 
-#: src/functions/fn-eng.c:937
+#: src/functions/fn-eng.c:908
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
@@ -9595,7 +9479,7 @@ msgstr ""
 "\n"
 "@SARNASED=IMLN,IMLOG10"
 
-#: src/functions/fn-eng.c:967
+#: src/functions/fn-eng.c:938
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
@@ -9615,7 +9499,7 @@ msgstr ""
 "\n"
 "@SARNASED=IMLN,IMLOG2"
 
-#: src/functions/fn-eng.c:997
+#: src/functions/fn-eng.c:968
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber,number)\n"
@@ -9638,7 +9522,7 @@ msgstr ""
 "\n"
 "@SARNASED=IMSQRT"
 
-#: src/functions/fn-eng.c:1033
+#: src/functions/fn-eng.c:1004
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber,inumber)\n"
@@ -9658,7 +9542,7 @@ msgstr ""
 "\n"
 "@SARNASED=IMPRODUCT"
 
-#: src/functions/fn-eng.c:1067
+#: src/functions/fn-eng.c:1038
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
@@ -9678,7 +9562,7 @@ msgstr ""
 "\n"
 "@SARNASED=IMCOS,IMTAN"
 
-#: src/functions/fn-eng.c:1095
+#: src/functions/fn-eng.c:1066
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
@@ -9698,7 +9582,7 @@ msgstr ""
 "\n"
 "@SARNASED=IMPOWER"
 
-#: src/functions/fn-eng.c:1123
+#: src/functions/fn-eng.c:1094
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber,inumber)\n"
@@ -9718,7 +9602,7 @@ msgstr ""
 "\n"
 "@SARNASED=IMSUM"
 
-#: src/functions/fn-eng.c:1154
+#: src/functions/fn-eng.c:1125
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -9738,7 +9622,7 @@ msgstr ""
 "\n"
 "@SARNASED=IMDIV"
 
-#: src/functions/fn-eng.c:1224
+#: src/functions/fn-eng.c:1195
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber,inumber)\n"
@@ -9758,7 +9642,7 @@ msgstr ""
 "\n"
 "@SARNASED=IMSUB"
 
-#: src/functions/fn-eng.c:1258
+#: src/functions/fn-eng.c:1229
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -9963,7 +9847,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-eng.c:1659
+#: src/functions/fn-eng.c:1630
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
@@ -9999,7 +9883,7 @@ msgstr ""
 "protsendilist tõenäosust sattuda keskmise umbes 1.645 standardhälbe sisse.\n"
 "@SARNASED=ERFC"
 
-#: src/functions/fn-eng.c:1705
+#: src/functions/fn-eng.c:1676
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -10023,7 +9907,7 @@ msgstr ""
 "\n"
 "@SARNASED=ERF"
 
-#: src/functions/fn-eng.c:1735
+#: src/functions/fn-eng.c:1706
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -10048,11 +9932,11 @@ msgstr ""
 "\n"
 "@SARNASED=EXACT,GESTEP"
 
-#: src/functions/fn-eng.c:1780 src/functions/fn-eng.c:1834
+#: src/functions/fn-eng.c:1751 src/functions/fn-eng.c:1805
 msgid "Impossible"
 msgstr "Võimatu"
 
-#: src/functions/fn-eng.c:1791
+#: src/functions/fn-eng.c:1762
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -10076,19 +9960,24 @@ msgstr ""
 "\n"
 "@SARNASED=DELTA"
 
-#: src/functions/fn-eng.c:1848
+#: src/functions/fn-eng.c:1819
 msgid "Engineering"
 msgstr "Tehnilised"
 
-#: src/functions/fn-financial.c:828
+#: src/functions/fn-financial.c:838
 #, fuzzy
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
 "@DESCRIPTION=ACCRINT calculates the accrued interest for a security that "
-"pays periodic interest.  The @rate is the annual rate of the security and "
-"@par is the par value of the security. @basis is the type of day counting "
-"system you want to use:\n"
+"pays periodic interest.  @issue is the issue date of the security.  "
+"@first_interest is the first interest date of the security.  @settlement is "
+"the settlement date of the sequrity.  The settlement date is always after "
+"the issue date (the date when the security is bought). @rate is the annual "
+"rate of the security and @par is the par value of the security. @frequency "
+"is the number of coupon payments per year. Allowed frequencies are: 1 = "
+"annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system "
+"you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10096,11 +9985,12 @@ msgid ""
 "3  actual days/365\n"
 "4  European 30/360\n"
 "\n"
-"If @issue date or @settlement date is not valid, ACCRINT returns #NUM! "
-"error. If @rate or @par is zero or negative, ACCRINT returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, "
-"ACCRINT returns #NUM! error. If @issue date is after @settlement date or "
-"they are the same, ACCRINT returns #NUM! error. \n"
+"If @issue date, @first_interest date, or @settlement date is not valid, "
+"ACCRINT returns #NUM! error. The dates must be @issue < @first_interest < "
+"@settlement, or ACCRINT returns #NUM! error. If @rate <= 0 or @par <= 0 , "
+"ACCRINT returns #NUM! error. If @basis is omitted, US 30/360 is applied. If "
+"@basis < 0 or @basis > 4, ACCRINT returns #NUM! error. If @issue date is "
+"after @settlement date or they are the same, ACCRINT returns #NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ACCRINTM"
@@ -10127,16 +10017,17 @@ msgstr ""
 "\n"
 "@SARNASED=ACCRINTM"
 
-#: src/functions/fn-financial.c:883
+#: src/functions/fn-financial.c:916
 #, fuzzy
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
 "@DESCRIPTION=ACCRINTM calculates and returns the accrued interest for a "
-"security from @issue to @maturity date.  @rate is the annual rate of the "
-"security and @par is the par value of the security. If you omit @par, "
-"ACCRINTM applies $1,000 instead.  @basis is the type of day counting system "
-"you want to use:\n"
+"security from @issue to @maturity date.  @issue is the issue date of the "
+"security.  @maturity is the maturity date of the security.  @rate is the "
+"annual rate of the security and @par is the par value of the security. If "
+"you omit @par, ACCRINTM applies $1,000 instead.  @basis is the type of day "
+"counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10145,10 +10036,10 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @issue date or @maturity date is not valid, ACCRINTM returns #NUM! error. "
-"If @rate or @par is zero or negative, ACCRINTM returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, "
-"ACCRINTM returns #NUM! error. If @issue date is after @maturity date or they "
-"are the same, ACCRINTM returns #NUM! error. \n"
+"If @rate <= 0 or @par <= 0, ACCRINTM returns #NUM! error. If @basis is "
+"omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, ACCRINTM returns "
+"#NUM! error. If @issue date is after @maturity date or they are the same, "
+"ACCRINTM returns #NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ACCRINT"
@@ -10175,15 +10066,17 @@ msgstr ""
 "\n"
 "@SARNASED=ACCRINT"
 
-#: src/functions/fn-financial.c:933
+#: src/functions/fn-financial.c:968
 #, fuzzy
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
 "@DESCRIPTION=INTRATE calculates and returns the interest rate of a fully "
-"vested security. @investment is the prize of the security paid at "
-"@settlement date and @redemption is the amount to be received at @maturity "
-"date.  @basis is the type of day counting system you want to use:\n"
+"vested security.  @settlement is the settlement date of the security.  "
+"@maturity is the maturity date of the security. @investment is the prize of "
+"the security paid at @settlement date and @redemption is the amount to be "
+"received at @maturity date.  @basis is the type of day counting system you "
+"want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10228,14 +10121,16 @@ msgstr ""
 "=INTRATE(36631, 36799, 100000, 103525, 1) mis võrdub 0.0648 ehk 6.48%\n"
 "@SARNASED=RECEIVED, DATE"
 
-#: src/functions/fn-financial.c:993
+#: src/functions/fn-financial.c:1029
 #, fuzzy
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
 "@DESCRIPTION=RECEIVED calculates and returns the amount to be received at "
-"@maturity date for a security bond. @basis is the type of day counting "
-"system you want to use:\n"
+"@maturity date for a security bond.  @settlement is the settlement date of "
+"the security.  @maturity is the maturity date of the security.  The amount "
+"of investement is specified in @investment.  @rate is the security's "
+"discount rate. @basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10271,16 +10166,17 @@ msgstr ""
 "\n"
 "@SARNASED=INTRATE"
 
-#: src/functions/fn-financial.c:1045
+#: src/functions/fn-financial.c:1084
 #, fuzzy
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
 "@DESCRIPTION=PRICEDISC calculates and returns the price per $100 face value "
 "of a security bond.  The security does not pay interest at maturity.  "
-"@discount is the rate for which the security is discounted.  @redemption is "
-"the amount to be received on @maturity date.  @basis is the type of day "
-"counting system you want to use:\n"
+"@settlement is the settlement date of the security. @maturity is the "
+"maturity date of the security.  @discount is the rate for which the security "
+"is discounted.  @redemption is the amount to be received on @maturity date.  "
+"@basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10317,14 +10213,17 @@ msgstr ""
 "\n"
 "@SARNASED=PRICEMAT"
 
-#: src/functions/fn-financial.c:1096
+#: src/functions/fn-financial.c:1136
 #, fuzzy
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
 "@DESCRIPTION=PRICEMAT calculates and returns the price per $100 face value "
-"of a security.  The security pays interest at maturity. @basis is the type "
-"of day counting system you want to use:\n"
+"of a security.  The security pays interest at maturity. @settlement is the "
+"settlement date of the security.  @maturity is the maturity date of the "
+"security.  @issue is the issue date of the security.  @rate is the discount "
+"rate of the security. @yield is the annual yield of the security. @basis is "
+"the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10360,13 +10259,16 @@ msgstr ""
 "\n"
 "@SARNASED=PRICEDISC"
 
-#: src/functions/fn-financial.c:1151
+#: src/functions/fn-financial.c:1195
 #, fuzzy
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
 "@DESCRIPTION=DISC calculates and returns the discount rate for a sequrity. "
-"@basis is the type of day counting system you want to use:\n"
+"@settlement is the settlement date of the security.  @maturity is the "
+"maturity date of the security.  @par is the price per $100 face value of the "
+"security.  @redemption is the redeption value per $100 face value of the "
+"security. @basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10401,7 +10303,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:1198
+#: src/functions/fn-financial.c:1246
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -10444,11 +10346,11 @@ msgstr ""
 "mida sa laenu eest maksad.\n"
 "@SARNASED=NOMINAL"
 
-#: src/functions/fn-financial.c:1239
+#: src/functions/fn-financial.c:1287
 msgid "effect - domain error"
 msgstr "efekt - domeeni viga"
 
-#: src/functions/fn-financial.c:1247
+#: src/functions/fn-financial.c:1295
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -10480,11 +10382,11 @@ msgstr ""
 "\n"
 "@SARNASED=EFFECT"
 
-#: src/functions/fn-financial.c:1277
+#: src/functions/fn-financial.c:1325
 msgid "nominal - domain error"
 msgstr "nominaal - domeeni viga"
 
-#: src/functions/fn-financial.c:1286
+#: src/functions/fn-financial.c:1334
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -10503,7 +10405,7 @@ msgstr ""
 "\n"
 "@SARNASED=PV"
 
-#: src/functions/fn-financial.c:1320
+#: src/functions/fn-financial.c:1368
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -10529,7 +10431,7 @@ msgstr ""
 "\n"
 "@SARNASED=DDB,SLN,SYD"
 
-#: src/functions/fn-financial.c:1376
+#: src/functions/fn-financial.c:1424
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -10557,7 +10459,7 @@ msgstr ""
 "\n"
 "@SARNASED=SLN,SYD"
 
-#: src/functions/fn-financial.c:1424
+#: src/functions/fn-financial.c:1472
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -10599,21 +10501,22 @@ msgstr ""
 "See teeb aastaseks amortisatsiooniks $930.\n"
 "@SARNASED=SYD"
 
-#: src/functions/fn-financial.c:1468
+#: src/functions/fn-financial.c:1516
 msgid "sln - domain error"
 msgstr "sln - domeeni viga"
 
-#: src/functions/fn-financial.c:1476
+#: src/functions/fn-financial.c:1524
+#, fuzzy
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
-"@DESCRIPTION=The SYD function calculates the sum-of-years digits "
-"depriciation for an asset based on its cost, salvage value, anticipated life "
-"and a particular period. This method accelerates the rate of the "
-"depreciation, so that more depreciation expense occurs in earlier periods "
-"than in later ones. The depreciable cost is the actual cost minus the "
-"salvage value. The useful life is the number of periods (typically years) "
-"over with the asset is depreciated.\n"
+"@DESCRIPTION=SYD function calculates the sum-of-years digits depriciation "
+"for an asset based on its cost, salvage value, anticipated life and a "
+"particular period. This method accelerates the rate of the depreciation, so "
+"that more depreciation expense occurs in earlier periods than in later ones. "
+"The depreciable cost is the actual cost minus the salvage value. The useful "
+"life is the number of periods (typically years) over with the asset is "
+"depreciated.\n"
 "The Formula used for sum-of-years digits depriciation is:\n"
 "Depriciation expense = ( @cost - @salvage_value ) * (@life - @period + 1) * "
 "2 / @life * (@life + 1).\n"
@@ -10650,16 +10553,19 @@ msgstr ""
 "=SYD(5000, 200, 5, 2), mis tagastab 1,280.00.\n"
 "@SARNASED=SLN"
 
-#: src/functions/fn-financial.c:1522
+#: src/functions/fn-financial.c:1570
 msgid "syd - domain error"
 msgstr "syd - domeeni viga"
 
-#: src/functions/fn-financial.c:1532
+#: src/functions/fn-financial.c:1580
+#, fuzzy
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
 "@DESCRIPTION=DOLLARDE converts a dollar price expressed as a fraction into a "
-"dollar price expressed as a decimal number. \n"
+"dollar price expressed as a decimal number. @fractional_dollar is the "
+"fractional number to be converted. @fraction is the denominator of the "
+"fraction. \n"
 "If @fraction is non-integer it is truncated. If @fraction <= 0, DOLLARDE "
 "returns #NUM! error. \n"
 "@EXAMPLES=\n"
@@ -10676,7 +10582,7 @@ msgstr ""
 "\n"
 "@SARNASED=DOLLARFR"
 
-#: src/functions/fn-financial.c:1574
+#: src/functions/fn-financial.c:1624
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -10698,7 +10604,7 @@ msgstr ""
 "\n"
 "@SARNASED=DOLLARDE"
 
-#: src/functions/fn-financial.c:1616
+#: src/functions/fn-financial.c:1666
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
@@ -10716,7 +10622,7 @@ msgstr ""
 "\n"
 "@SARNASED=NPV"
 
-#: src/functions/fn-financial.c:1676
+#: src/functions/fn-financial.c:1726
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -10731,7 +10637,7 @@ msgid ""
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1721
+#: src/functions/fn-financial.c:1771
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -10747,7 +10653,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1762
+#: src/functions/fn-financial.c:1812
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -10762,11 +10668,12 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 msgstr ""
 
-#: src/functions/fn-financial.c:1803
+#: src/functions/fn-financial.c:1853
+#, fuzzy
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
-"@DESCRIPTION=RATE calculates rate of an investment.\n"
+"@DESCRIPTION=RATE calculates the rate of an investment.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PV,FV"
@@ -10778,7 +10685,7 @@ msgstr ""
 "\n"
 "@SARNASED=PV,FV"
 
-#: src/functions/fn-financial.c:1911
+#: src/functions/fn-financial.c:1961
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -10798,7 +10705,7 @@ msgid ""
 "@SEEALSO=FV,NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2034
+#: src/functions/fn-financial.c:2084
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -10812,7 +10719,7 @@ msgid ""
 "@SEEALSO=FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2081
+#: src/functions/fn-financial.c:2131
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -10826,7 +10733,7 @@ msgid ""
 "@SEEALSO=PV,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2135
+#: src/functions/fn-financial.c:2185
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -10841,7 +10748,7 @@ msgid ""
 "@SEEALSO=NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2195
+#: src/functions/fn-financial.c:2245
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -10864,7 +10771,7 @@ msgid ""
 "@SEEALSO=IRR,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2299
+#: src/functions/fn-financial.c:2349
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -10879,7 +10786,7 @@ msgid ""
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
 
-#: src/functions/fn-financial.c:2338
+#: src/functions/fn-financial.c:2388
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -10890,7 +10797,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2367
+#: src/functions/fn-financial.c:2417
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -10906,7 +10813,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2414
+#: src/functions/fn-financial.c:2464
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -10922,7 +10829,7 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2463
+#: src/functions/fn-financial.c:2513
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -10941,7 +10848,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2512
+#: src/functions/fn-financial.c:2562
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -10954,7 +10861,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2549
+#: src/functions/fn-financial.c:2599
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -10969,7 +10876,7 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2593
+#: src/functions/fn-financial.c:2643
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -11014,14 +10921,16 @@ msgstr ""
 "EURO(\"DEM\") tagastab 1.95583.\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:2675
+#: src/functions/fn-financial.c:2725
 #, fuzzy
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])\n"
-"@DESCRIPTION=@frequency is the number of coupon payments per year. Allowed "
-"frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of "
-"day counting system you want to use:\n"
+"@DESCRIPTION=PRICE returns price per $100 face value of a security. This "
+"method can only be used if the security pays periodic interest. @frequency "
+"is the number of coupon payments per year. Allowed frequencies are: 1 = "
+"annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system "
+"you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -11055,14 +10964,15 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:2714
+#: src/functions/fn-financial.c:2800
 #, fuzzy
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])\n"
-"@DESCRIPTION=@frequency is the number of coupon payments per year. Allowed "
-"frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of "
-"day counting system you want to use:\n"
+"@DESCRIPTION=Use YIELD to calculate the yield on a security that pays "
+"periodic interest. @frequency is the number of coupon payments per year. "
+"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the "
+"type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -11096,7 +11006,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:2747
+#: src/functions/fn-financial.c:2876
 #, fuzzy
 msgid ""
 "@FUNCTION=YIELDDISC\n"
@@ -11137,7 +11047,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:2779
+#: src/functions/fn-financial.c:2908
 #, fuzzy
 msgid ""
 "@FUNCTION=YIELDMAT\n"
@@ -11178,15 +11088,17 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:2811
+#: src/functions/fn-financial.c:2940
 #, fuzzy
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
 "frequency[,basis])\n"
-"@DESCRIPTION=@frequency is the number of coupon payments per year. Allowed "
-"frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of "
-"day counting system you want to use:\n"
+"@DESCRIPTION=ODDFPRICE returns the price per $100 face value of a security. "
+"The security should have an odd short or long first period. @frequency is "
+"the number of coupon payments per year. Allowed frequencies are: 1 = annual, "
+"2 = semi, 4 = quarterly. @basis is the type of day counting system you want "
+"to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -11220,7 +11132,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:2844
+#: src/functions/fn-financial.c:3025
 #, fuzzy
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
@@ -11262,7 +11174,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:2877
+#: src/functions/fn-financial.c:3058
 #, fuzzy
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
@@ -11281,7 +11193,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:2896
+#: src/functions/fn-financial.c:3077
 #, fuzzy
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
@@ -11323,7 +11235,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:2929
+#: src/functions/fn-financial.c:3110
 #, fuzzy
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
@@ -11366,7 +11278,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:2963
+#: src/functions/fn-financial.c:3144
 #, fuzzy
 msgid ""
 "@FUNCTION=AMORLINC\n"
@@ -11409,7 +11321,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:2997
+#: src/functions/fn-financial.c:3178
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
@@ -11451,7 +11363,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:3053
+#: src/functions/fn-financial.c:3234
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYS\n"
@@ -11493,7 +11405,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:3109
+#: src/functions/fn-financial.c:3290
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
@@ -11535,7 +11447,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:3143
+#: src/functions/fn-financial.c:3346
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPNCD\n"
@@ -11577,7 +11489,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:3198
+#: src/functions/fn-financial.c:3401
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPPCD\n"
@@ -11619,7 +11531,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:3231
+#: src/functions/fn-financial.c:3434
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPNUM\n"
@@ -11661,7 +11573,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:3284
+#: src/functions/fn-financial.c:3487
 #, fuzzy
 msgid ""
 "@FUNCTION=CUMIPMT\n"
@@ -11681,7 +11593,7 @@ msgstr ""
 "\n"
 "@SARNASED=PV"
 
-#: src/functions/fn-financial.c:3304
+#: src/functions/fn-financial.c:3507
 #, fuzzy
 msgid ""
 "@FUNCTION=CUMPRINC\n"
@@ -11699,7 +11611,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:3324
+#: src/functions/fn-financial.c:3527
 #, fuzzy
 msgid ""
 "@FUNCTION=MDURATION\n"
@@ -11717,7 +11629,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-financial.c:3345
+#: src/functions/fn-financial.c:3548
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -11735,7 +11647,7 @@ msgstr ""
 "\n"
 "@SARNASED=DB"
 
-#: src/functions/fn-financial.c:3371
+#: src/functions/fn-financial.c:3574
 msgid "Financial"
 msgstr "Finantsilised"
 
@@ -11756,7 +11668,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-information.c:249 src/functions/fn-information.c:411
+#: src/functions/fn-information.c:249 src/functions/fn-information.c:410
 msgid "Unknown info_type"
 msgstr "Tundmatu infotüüp"
 
@@ -11800,7 +11712,7 @@ msgstr ""
 "\n"
 "@SARNASED=COUNT"
 
-#: src/functions/fn-information.c:339
+#: src/functions/fn-information.c:338
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO()\n"
@@ -11818,20 +11730,20 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-information.c:381
+#: src/functions/fn-information.c:380
 msgid "Unknown version"
 msgstr "Tundmatu versioon"
 
-#: src/functions/fn-information.c:383
+#: src/functions/fn-information.c:382
 #, c-format
 msgid "%s version %s"
 msgstr "%s versioon %s"
 
-#: src/functions/fn-information.c:401
+#: src/functions/fn-information.c:400
 msgid "Unknown system"
 msgstr "Tundmatu süsteem"
 
-#: src/functions/fn-information.c:417
+#: src/functions/fn-information.c:416
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(value)\n"
@@ -11849,11 +11761,11 @@ msgstr ""
 "\n"
 "@SARNASED=ERROR"
 
-#: src/functions/fn-information.c:440
+#: src/functions/fn-information.c:439
 msgid "Argument mismatch"
 msgstr "Argumendi sobimatus"
 
-#: src/functions/fn-information.c:471
+#: src/functions/fn-information.c:470
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(value)\n"
@@ -11871,7 +11783,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-information.c:505
+#: src/functions/fn-information.c:504
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
@@ -11889,7 +11801,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-information.c:535
+#: src/functions/fn-information.c:534
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(value)\n"
@@ -11923,7 +11835,7 @@ msgstr ""
 "\n"
 "@SARNASED=ISERROR"
 
-#: src/functions/fn-information.c:594
+#: src/functions/fn-information.c:593
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -11941,7 +11853,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-information.c:615
+#: src/functions/fn-information.c:614
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -11959,7 +11871,7 @@ msgstr ""
 "\n"
 "@SARNASED=ISERROR"
 
-#: src/functions/fn-information.c:635
+#: src/functions/fn-information.c:634
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(value)\n"
@@ -11977,7 +11889,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-information.c:683
+#: src/functions/fn-information.c:682
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(value)\n"
@@ -11995,7 +11907,7 @@ msgstr ""
 "\n"
 "@SARNASED=ISODD"
 
-#: src/functions/fn-information.c:704
+#: src/functions/fn-information.c:703
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(value)\n"
@@ -12013,7 +11925,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-information.c:733
+#: src/functions/fn-information.c:732
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(value)\n"
@@ -12031,7 +11943,7 @@ msgstr ""
 "\n"
 "@SARNASED=ISTEXT"
 
-#: src/functions/fn-information.c:759
+#: src/functions/fn-information.c:758
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -12049,7 +11961,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-information.c:785
+#: src/functions/fn-information.c:784
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(value)\n"
@@ -12067,7 +11979,7 @@ msgstr ""
 "\n"
 "@SARNASED=ISEVEN"
 
-#: src/functions/fn-information.c:806
+#: src/functions/fn-information.c:805
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(value)\n"
@@ -12085,7 +11997,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-information.c:837
+#: src/functions/fn-information.c:836
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -12103,7 +12015,7 @@ msgstr ""
 "\n"
 "@SARNASED=ISNONTEXT"
 
-#: src/functions/fn-information.c:863
+#: src/functions/fn-information.c:862
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -12121,7 +12033,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-information.c:901
+#: src/functions/fn-information.c:900
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -12139,7 +12051,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-information.c:930
+#: src/functions/fn-information.c:929
 msgid "Information"
 msgstr "Teave"
 
@@ -12337,7 +12249,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:431
+#: src/functions/fn-lookup.c:423
 msgid ""
 "@FUNCTION=CHOOSE\n"
 "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
@@ -12349,11 +12261,11 @@ msgid ""
 "@SEEALSO=IF"
 msgstr ""
 
-#: src/functions/fn-lookup.c:455
+#: src/functions/fn-lookup.c:447
 msgid "#ARG!"
 msgstr "#ARG!"
 
-#: src/functions/fn-lookup.c:482
+#: src/functions/fn-lookup.c:474
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate])\n"
@@ -12370,7 +12282,7 @@ msgid ""
 "@SEEALSO=HLOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:543
+#: src/functions/fn-lookup.c:535
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate])\n"
@@ -12386,7 +12298,7 @@ msgid ""
 "@SEEALSO=VLOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:604
+#: src/functions/fn-lookup.c:596
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
@@ -12402,7 +12314,7 @@ msgid ""
 "@SEEALSO=VLOOKUP,HLOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:671
+#: src/functions/fn-lookup.c:663
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -12423,7 +12335,7 @@ msgid ""
 "@SEEALSO=LOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:731
+#: src/functions/fn-lookup.c:723
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
@@ -12437,7 +12349,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:790
+#: src/functions/fn-lookup.c:782
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(reference,[row, col, area])\n"
@@ -12449,7 +12361,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:836
+#: src/functions/fn-lookup.c:828
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -12462,7 +12374,7 @@ msgid ""
 "@SEEALSO=COLUMNS,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:888
+#: src/functions/fn-lookup.c:880
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -12475,7 +12387,7 @@ msgid ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:913
+#: src/functions/fn-lookup.c:905
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -12489,7 +12401,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:976
+#: src/functions/fn-lookup.c:968
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -12502,7 +12414,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:1028
+#: src/functions/fn-lookup.c:1020
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -12515,7 +12427,7 @@ msgid ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:1053
+#: src/functions/fn-lookup.c:1045
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location, optional_label)\n"
@@ -12535,7 +12447,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-lookup.c:1078
+#: src/functions/fn-lookup.c:1070
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -12551,11 +12463,11 @@ msgstr ""
 "\n"
 "@SARNASED=MMULT"
 
-#: src/functions/fn-lookup.c:1126
+#: src/functions/fn-lookup.c:1118
 msgid "Data / Lookup"
 msgstr "Andmed / Lahendamine"
 
-#: src/functions/fn-math.c:122
+#: src/functions/fn-math.c:116
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
@@ -12581,7 +12493,7 @@ msgstr ""
 "\n"
 "@SARNASED=LCM"
 
-#: src/functions/fn-math.c:174
+#: src/functions/fn-math.c:168
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -12608,7 +12520,7 @@ msgstr ""
 "\n"
 "@SARNASED=GCD"
 
-#: src/functions/fn-math.c:231
+#: src/functions/fn-math.c:225
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -12632,7 +12544,7 @@ msgstr ""
 "\n"
 "@SARNASED=CEIL, FLOOR"
 
-#: src/functions/fn-math.c:256
+#: src/functions/fn-math.c:250
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -12658,7 +12570,7 @@ msgstr ""
 "\n"
 "@SARNASED=COS, SIN, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:288
+#: src/functions/fn-math.c:282
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -12682,7 +12594,7 @@ msgstr ""
 "\n"
 "@SARNASED=ACOS, ASINH, DEGREES, RADIANS "
 
-#: src/functions/fn-math.c:319
+#: src/functions/fn-math.c:313
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -12706,7 +12618,7 @@ msgstr ""
 "\n"
 "@SARNASED=SIN, COS, ASINH, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:350
+#: src/functions/fn-math.c:344
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -12729,7 +12641,7 @@ msgstr ""
 "\n"
 "@SARNASED=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:374
+#: src/functions/fn-math.c:368
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -12752,7 +12664,7 @@ msgstr ""
 "\n"
 "@SARNASED=TAN, COS, SIN, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:399
+#: src/functions/fn-math.c:393
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -12777,7 +12689,7 @@ msgstr ""
 "\n"
 "@SARNASED=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:431
+#: src/functions/fn-math.c:425
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -12804,7 +12716,7 @@ msgstr ""
 "\n"
 "@SARNASED=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:459
+#: src/functions/fn-math.c:453
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -12828,7 +12740,7 @@ msgstr ""
 "\n"
 "@SARNASED=ABS, FLOOR, INT"
 
-#: src/functions/fn-math.c:483
+#: src/functions/fn-math.c:477
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -12858,7 +12770,7 @@ msgstr ""
 "\n"
 "@SARNASED=COUNT,SUMIF"
 
-#: src/functions/fn-math.c:561
+#: src/functions/fn-math.c:555
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
@@ -12893,7 +12805,7 @@ msgstr ""
 "\n"
 "@SARNASED=COUNTIF, SUM"
 
-#: src/functions/fn-math.c:714
+#: src/functions/fn-math.c:708
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -12921,7 +12833,7 @@ msgstr ""
 "\n"
 "@SARNASED=CEIL"
 
-#: src/functions/fn-math.c:755
+#: src/functions/fn-math.c:749
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -12943,7 +12855,7 @@ msgstr ""
 "\n"
 "@SARNASED=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/functions/fn-math.c:779
+#: src/functions/fn-math.c:773
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -12967,7 +12879,7 @@ msgstr ""
 "\n"
 "@SARNASED=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: src/functions/fn-math.c:804
+#: src/functions/fn-math.c:798
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -12987,7 +12899,7 @@ msgstr ""
 "\n"
 "@SARNASED=RADIANS, PI"
 
-#: src/functions/fn-math.c:826
+#: src/functions/fn-math.c:820
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -13007,7 +12919,7 @@ msgstr ""
 "\n"
 "@SARNASED=LOG, LOG2, LOG10"
 
-#: src/functions/fn-math.c:849
+#: src/functions/fn-math.c:843
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -13029,7 +12941,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-math.c:890
+#: src/functions/fn-math.c:884
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -13055,7 +12967,7 @@ msgstr ""
 "\n"
 "@SARNASED="
 
-#: src/functions/fn-math.c:924
+#: src/functions/fn-math.c:918
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
@@ -13082,7 +12994,7 @@ msgstr ""
 "\n"
 "@SARNASED=CEIL, ABS, INT"
 
-#: src/functions/fn-math.c:961
+#: src/functions/fn-math.c:955
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -13104,7 +13016,7 @@ msgstr ""
 "\n"
 "@SARNASED=FLOOR, CEIL, ABS"
 
-#: src/functions/fn-math.c:985
+#: src/functions/fn-math.c:979
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
@@ -13128,7 +13040,7 @@ msgstr ""
 "\n"
 "@SARNASED=LN, LOG2, LOG10"
 
-#: src/functions/fn-math.c:1025
+#: src/functions/fn-math.c:1019
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -13148,7 +13060,7 @@ msgstr ""
 "\n"
 "@SARNASED=EXP, LOG2, LOG10"
 
-#: src/functions/fn-math.c:1055
+#: src/functions/fn-math.c:1049
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -13170,7 +13082,7 @@ msgstr ""
 "\n"
 "@SARNASED=EXP"
 
-#: src/functions/fn-math.c:1089
+#: src/functions/fn-math.c:1083
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -13190,7 +13102,7 @@ msgstr ""
 "\n"
 "@SARNASED=EXP, LOG10, LOG"
 
-#: src/functions/fn-math.c:1117
+#: src/functions/fn-math.c:1111
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -13210,7 +13122,7 @@ msgstr ""
 "\n"
 "@SARNASED=EXP, LOG2, LOG"
 
-#: src/functions/fn-math.c:1146
+#: src/functions/fn-math.c:1140
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -13234,7 +13146,7 @@ msgstr ""
 "\n"
 "@SARNASED=INT,FLOOR,CEIL"
 
-#: src/functions/fn-math.c:1194
+#: src/functions/fn-math.c:1188
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -13254,7 +13166,7 @@ msgstr ""
 "\n"
 "@SARNASED=PI,DEGREES"
 
-#: src/functions/fn-math.c:1216
+#: src/functions/fn-math.c:1210
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -13274,7 +13186,7 @@ msgstr ""
 "\n"
 "@SARNASED=RANDBETWEEN"
 
-#: src/functions/fn-math.c:1239
+#: src/functions/fn-math.c:1233
 msgid ""
 "@FUNCTION=RandExp\n"
 "@SYNTAX=RandExp(b)\n"
@@ -13292,7 +13204,7 @@ msgstr ""
 "\n"
 "@SARNASED=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1262
+#: src/functions/fn-math.c:1256
 msgid ""
 "@FUNCTION=RandPoisson\n"
 "@SYNTAX=RandPoisson(lambda)\n"
@@ -13310,7 +13222,7 @@ msgstr ""
 "\n"
 "@SARNASED=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1288
+#: src/functions/fn-math.c:1282
 msgid ""
 "@FUNCTION=RandBinom\n"
 "@SYNTAX=RandBinom(p,trials)\n"
@@ -13332,7 +13244,7 @@ msgstr ""
 "\n"
 "@SARNASED=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1318
+#: src/functions/fn-math.c:1312
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -13355,7 +13267,7 @@ msgstr ""
 "\n"
 "@SARNASED=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1349
+#: src/functions/fn-math.c:1343
 msgid ""
 "@FUNCTION=RandBernoulli\n"
 "@SYNTAX=RandBernoulli(p)\n"
@@ -13375,7 +13287,7 @@ msgstr ""
 "\n"
 "@SARNASED=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1377
+#: src/functions/fn-math.c:1371
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -13395,7 +13307,7 @@ msgstr ""
 "\n"
 "@SARNASED=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/functions/fn-math.c:1400
+#: src/functions/fn-math.c:1394
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -13417,7 +13329,7 @@ msgstr ""
 "\n"
 "@SARNASED=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/functions/fn-math.c:1423
+#: src/functions/fn-math.c:1417
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -13439,7 +13351,7 @@ msgstr ""
 "\n"
 "@SARNASED=POWER"
 
-#: src/functions/fn-math.c:1451
+#: src/functions/fn-math.c:1445
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -13463,7 +13375,7 @@ msgstr ""
 "\n"
 "@SARNASED=AVERAGE, COUNT"
 
-#: src/functions/fn-math.c:1481
+#: src/functions/fn-math.c:1475
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -13492,7 +13404,7 @@ msgstr ""
 "\n"
 "@SARNASED=AVERAGE, SUM, COUNT"
 
-#: src/functions/fn-math.c:1513
+#: src/functions/fn-math.c:1507
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -13506,7 +13418,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1544
+#: src/functions/fn-math.c:1538
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -13518,7 +13430,7 @@ msgid ""
 "@SEEALSO=SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:1573
+#: src/functions/fn-math.c:1567
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -13531,7 +13443,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT, G_PRODUCT"
 msgstr ""
 
-#: src/functions/fn-math.c:1611
+#: src/functions/fn-math.c:1605
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -13544,7 +13456,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1639
+#: src/functions/fn-math.c:1633
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -13556,7 +13468,7 @@ msgid ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:1662
+#: src/functions/fn-math.c:1656
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -13569,7 +13481,7 @@ msgid ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:1685
+#: src/functions/fn-math.c:1679
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -13582,7 +13494,7 @@ msgid ""
 "@SEEALSO=SQRTPI"
 msgstr ""
 
-#: src/functions/fn-math.c:1709
+#: src/functions/fn-math.c:1703
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -13596,7 +13508,7 @@ msgid ""
 "@SEEALSO=INT"
 msgstr ""
 
-#: src/functions/fn-math.c:1744
+#: src/functions/fn-math.c:1738
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -13608,7 +13520,7 @@ msgid ""
 "@SEEALSO=ODD"
 msgstr ""
 
-#: src/functions/fn-math.c:1782
+#: src/functions/fn-math.c:1776
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -13620,7 +13532,7 @@ msgid ""
 "@SEEALSO=EVEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1820
+#: src/functions/fn-math.c:1814
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -13634,7 +13546,7 @@ msgid ""
 "@SEEALSO=FACT"
 msgstr ""
 
-#: src/functions/fn-math.c:1858
+#: src/functions/fn-math.c:1852
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -13647,7 +13559,7 @@ msgid ""
 "@SEEALSO=MOD"
 msgstr ""
 
-#: src/functions/fn-math.c:1889
+#: src/functions/fn-math.c:1883
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -13662,7 +13574,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-math.c:1923
+#: src/functions/fn-math.c:1917
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -13674,7 +13586,7 @@ msgid ""
 "@SEEALSO=PI"
 msgstr ""
 
-#: src/functions/fn-math.c:1952
+#: src/functions/fn-math.c:1946
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -13689,7 +13601,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: src/functions/fn-math.c:1986
+#: src/functions/fn-math.c:1980
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -13709,7 +13621,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:2030
+#: src/functions/fn-math.c:2024
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -13729,7 +13641,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:2071
+#: src/functions/fn-math.c:2065
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -13749,7 +13661,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDDOWN"
 msgstr ""
 
-#: src/functions/fn-math.c:2115
+#: src/functions/fn-math.c:2109
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -13765,7 +13677,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:2165
+#: src/functions/fn-math.c:2159
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -13787,7 +13699,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-math.c:2431
+#: src/functions/fn-math.c:2425
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -13807,14 +13719,14 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2PY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2487 src/functions/fn-math.c:2506
-#: src/functions/fn-math.c:2600 src/functions/fn-math.c:2620
-#: src/functions/fn-math.c:2712 src/functions/fn-math.c:2732
+#: src/functions/fn-math.c:2481 src/functions/fn-math.c:2500
+#: src/functions/fn-math.c:2594 src/functions/fn-math.c:2614
+#: src/functions/fn-math.c:2706 src/functions/fn-math.c:2726
 #: src/functions/fn-stat.c:2609 src/functions/fn-stat.c:2639
 msgid "Array version not implemented!"
 msgstr "Maatriksi versioon pole toetatud!"
 
-#: src/functions/fn-math.c:2544
+#: src/functions/fn-math.c:2538
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -13834,7 +13746,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2656
+#: src/functions/fn-math.c:2650
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -13854,7 +13766,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2770
+#: src/functions/fn-math.c:2764
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -13885,7 +13797,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:2852
+#: src/functions/fn-math.c:2846
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -13902,7 +13814,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:2975
+#: src/functions/fn-math.c:2969
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -13916,11 +13828,11 @@ msgid ""
 "@SEEALSO=MMULT, MDETERM"
 msgstr ""
 
-#: src/functions/fn-math.c:3023
+#: src/functions/fn-math.c:3017
 msgid "#3D MULT?"
 msgstr "#3D MULT?"
 
-#: src/functions/fn-math.c:3102
+#: src/functions/fn-math.c:3096
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -13932,7 +13844,7 @@ msgid ""
 "@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
 
-#: src/functions/fn-math.c:3178
+#: src/functions/fn-math.c:3172
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -13948,7 +13860,7 @@ msgid ""
 "@SEEALSO=MMULT, MINVERSE"
 msgstr ""
 
-#: src/functions/fn-math.c:3236
+#: src/functions/fn-math.c:3230
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -13966,7 +13878,7 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: src/functions/fn-math.c:3351
+#: src/functions/fn-math.c:3345
 msgid "Maths / Trig."
 msgstr "Matemaatika / Trig."
 
@@ -15100,10 +15012,11 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:3246
+#, fuzzy
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
-"@DESCRIPTION=FTEST function returns the one-tailed probability that the "
+"@DESCRIPTION=FTEST function returns the two-tailed probability that the "
 "variances in the given two data sets are not significantly different. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -15114,6 +15027,17 @@ msgid ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 msgstr ""
+"@FUNKTSIOON=SLOPE\n"
+"@SÜNTAKS=SLOPE(known_y's,known_x's)\n"
+"@KIRJELDUS=SLOPE tagastab lineerse sõltuvuse graafiku kalde. See funktsioon "
+"on Exceliga ühilduv. \n"
+"@NÄITED=\n"
+"Oletame, et lahtrid A1, A2, ..., A5 sisaldavad arve 11.4, 17.3, 21.3, 25.9, "
+"ja 40.1, ning lahtrid B1, B2, ... B5 arve 23.2, 25.8, 29.9, 33.5, ja 42.7.  "
+"Siis\n"
+"SLOPE(A1:A5,B1:B5) võrdub 1.417959936.\n"
+"\n"
+"@SARNASED=STDEV,STDEVPA"
 
 #: src/functions/fn-stat.c:3296
 msgid ""
@@ -15847,35 +15771,35 @@ msgstr ""
 "\n"
 "@SARNASED=FIND"
 
-#: src/gnumeric-canvas.c:89
+#: src/gnumeric-canvas.c:87
 msgid "Format as Number"
 msgstr "Vorminda arvuna"
 
-#: src/gnumeric-canvas.c:93
+#: src/gnumeric-canvas.c:91
 msgid "Format as Currency"
 msgstr "Vorminda rahana"
 
-#: src/gnumeric-canvas.c:97 src/workbook-format-toolbar.c:315
+#: src/gnumeric-canvas.c:95 src/workbook-format-toolbar.c:315
 msgid "Format as Percentage"
 msgstr "Vorminda protsendina"
 
-#: src/gnumeric-canvas.c:101
+#: src/gnumeric-canvas.c:99
 msgid "Format as Scientific"
 msgstr "Vorminda teaduslikuna"
 
-#: src/gnumeric-canvas.c:105
+#: src/gnumeric-canvas.c:103
 msgid "Format as Date"
 msgstr "Vorminda kuupäevana"
 
-#: src/gnumeric-canvas.c:109
+#: src/gnumeric-canvas.c:107
 msgid "Format as Time"
 msgstr "Vorminda ajana"
 
-#: src/gnumeric-canvas.c:113
+#: src/gnumeric-canvas.c:111
 msgid "Format as alternative Number"
 msgstr "Vorminda alternatiivse arvuna"
 
-#: src/gnumeric-canvas.c:534
+#: src/gnumeric-canvas.c:478
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Fail \"%s\" on tundmatu formaadiga."
@@ -16009,7 +15933,7 @@ msgstr "Laius: %.2f pts (%d pikselit)"
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Kõrgus: %.2f pts (%d pikselit)"
 
-#: src/item-cursor.c:913
+#: src/item-cursor.c:916
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -16019,35 +15943,35 @@ msgstr ""
 "lahtrite sisu.   Oled sa kindel, et tahad lahtrite sisu\n"
 "selles vahemikus kustutada?"
 
-#: src/item-cursor.c:1023
+#: src/item-cursor.c:1026
 msgid "_Move"
 msgstr "_Liiguta"
 
-#: src/item-cursor.c:1029
+#: src/item-cursor.c:1032
 msgid "Copy _Formats"
 msgstr "Kopeeri _vorming"
 
-#: src/item-cursor.c:1031
+#: src/item-cursor.c:1034
 msgid "Copy _Values"
 msgstr "Kopeeri väärtused"
 
-#: src/item-cursor.c:1036
+#: src/item-cursor.c:1039
 msgid "Shift _Down and Copy"
 msgstr "Nihuta alla ja kopeeri"
 
-#: src/item-cursor.c:1038
+#: src/item-cursor.c:1041
 msgid "Shift _Right and Copy"
 msgstr "Nihuta paremale ja kopeeri"
 
-#: src/item-cursor.c:1040
+#: src/item-cursor.c:1043
 msgid "Shift Dow_n and Move"
 msgstr "Nihuta alla ja tõsta"
 
-#: src/item-cursor.c:1042
+#: src/item-cursor.c:1045
 msgid "Shift Righ_t and Move"
 msgstr "Nihuta paremale ja tõsta"
 
-#: src/item-cursor.c:1047
+#: src/item-cursor.c:1050
 msgid "C_ancel"
 msgstr "Tühista"
 
@@ -16631,17 +16555,17 @@ msgstr "Vigane tagumine kurakaldkriips asendamises."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "ei ole võimalik teostada mitme valitud vahemiku puhul"
 
-#: src/sheet-control-gui.c:499
+#: src/sheet-control-gui.c:501
 #, c-format
 msgid "Row: %s"
 msgstr "Rida: %s"
 
-#: src/sheet-control-gui.c:514
+#: src/sheet-control-gui.c:516
 #, c-format
 msgid "Column: %s"
 msgstr "Veerg: %s"
 
-#: src/sheet-control-gui.c:1305
+#: src/sheet-control-gui.c:1327
 msgid "Paste _Special"
 msgstr "Aseta _teisiti"
 
@@ -16652,41 +16576,41 @@ msgstr "Aseta _teisiti"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1317
+#: src/sheet-control-gui.c:1339
 msgid "_Insert..."
 msgstr "_Lisa..."
 
-#: src/sheet-control-gui.c:1321
+#: src/sheet-control-gui.c:1343
 msgid "_Insert Column(s)"
 msgstr "Lisa veerg (veerud)"
 
-#: src/sheet-control-gui.c:1323
+#: src/sheet-control-gui.c:1345
 msgid "_Delete Column(s)"
 msgstr "Kustuta veerg (veerud)"
 
-#: src/sheet-control-gui.c:1325
+#: src/sheet-control-gui.c:1347
 msgid "_Insert Row(s)"
 msgstr "Lisa rida (read)"
 
-#: src/sheet-control-gui.c:1327
+#: src/sheet-control-gui.c:1349
 msgid "_Delete Row(s)"
 msgstr "Kustuta rida (read)"
 
-#: src/sheet-control-gui.c:1330
+#: src/sheet-control-gui.c:1352
 msgid "Clear Co_ntents"
 msgstr "Eemalda s_isu"
 
-#: src/sheet-control-gui.c:1336
+#: src/sheet-control-gui.c:1358
 msgid "_Format Cells..."
 msgstr "_Vorminda lahtrid..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1340
+#: src/sheet-control-gui.c:1362
 msgid "Column _Width..."
 msgstr "Veeru _laius..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1348
+#: src/sheet-control-gui.c:1370
 msgid "_Row Height..."
 msgstr "_Rea kõrgus..."
 
@@ -16694,16 +16618,16 @@ msgstr "_Rea kõrgus..."
 msgid "There is already a merged region that intersects"
 msgstr "Juba ühendatud ala kattub valituga."
 
-#: src/sheet-object-bonobo.c:240
+#: src/sheet-object-bonobo.c:243
 msgid "Open..."
 msgstr "Ava..."
 
-#: src/sheet-object-container.c:184
+#: src/sheet-object-container.c:182
 #, c-format
 msgid "can't create object for '%s'"
 msgstr "ei suuda luua objekti '%s'"
 
-#: src/sheet-object-container.c:192
+#: src/sheet-object-container.c:190
 #, c-format
 msgid "Could not load file: %s"
 msgstr "Ei suuda laadida faili: %s"
@@ -16773,7 +16697,7 @@ msgstr "Lahter :"
 msgid "Label :"
 msgstr "Pealdis :"
 
-#: src/sheet-object.c:91
+#: src/sheet-object.c:87
 msgid "Properties..."
 msgstr "Omadused..."
 
@@ -16793,19 +16717,19 @@ msgstr "ei saa opereerida maatriksi valemitega"
 msgid "Clear"
 msgstr "Puhasta"
 
-#: src/sheet.c:3394
+#: src/sheet.c:3396
 msgid "Insert Columns"
 msgstr "Lisa veerud"
 
-#: src/sheet.c:3463
+#: src/sheet.c:3465
 msgid "Delete Columns"
 msgstr "Kustuta veerud"
 
-#: src/sheet.c:3528
+#: src/sheet.c:3530
 msgid "Insert Rows"
 msgstr "Lisa read"
 
-#: src/sheet.c:3597
+#: src/sheet.c:3599
 msgid "Delete Rows"
 msgstr "Kustuta read"
 
@@ -16836,10 +16760,6 @@ msgstr "Lõppväärtus"
 #: src/solver-lp.c:919 src/solver-lp.c:1041
 msgid "Adjustable Cells"
 msgstr "Muudetavad lahtrid"
-
-#: src/solver-lp.c:952 src/solver-lp.c:1086
-msgid "Constraints"
-msgstr "Piirangud"
 
 #: src/solver-lp.c:955
 msgid "Cell Value"
@@ -17098,39 +17018,39 @@ msgstr "Tee sellest lehest koopia"
 msgid "Re-order sheets"
 msgstr "Järjesta lehed uuesti"
 
-#: src/workbook-control-gui.c:807 src/workbook-control-gui.c:866
+#: src/workbook-control-gui.c:807 src/workbook-control-gui.c:865
 msgid "Nothing"
 msgstr "Eimiski"
 
-#: src/workbook-control-gui.c:958
+#: src/workbook-control-gui.c:957
 msgid "Un_freeze Panes"
 msgstr "Va_basta alad"
 
-#: src/workbook-control-gui.c:1021 src/workbook-control-gui.c:2954
-#: src/workbook-control-gui.c:3137 src/workbook-control-gui.c:3177
+#: src/workbook-control-gui.c:1020 src/workbook-control-gui.c:2958
+#: src/workbook-control-gui.c:3141 src/workbook-control-gui.c:3181
 msgid "Undo"
 msgstr "Tühista"
 
-#: src/workbook-control-gui.c:1022 src/workbook-control-gui.c:2957
-#: src/workbook-control-gui.c:3145 src/workbook-control-gui.c:3179
+#: src/workbook-control-gui.c:1021 src/workbook-control-gui.c:2961
+#: src/workbook-control-gui.c:3149 src/workbook-control-gui.c:3183
 msgid "Redo"
 msgstr "Taasta"
 
-#: src/workbook-control-gui.c:1178
+#: src/workbook-control-gui.c:1175
 #, c-format
 msgid "Would split array %s"
 msgstr "Poolitab maatriksi %s"
 
-#: src/workbook-control-gui.c:1239
+#: src/workbook-control-gui.c:1236
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Raamatus %s on salvestamata muudatusi, kas salvestan?"
 
-#: src/workbook-control-gui.c:1242
+#: src/workbook-control-gui.c:1239
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Raamatus on salvestamata muudatusi, kas salvestan?"
 
-#: src/workbook-control-gui.c:1730
+#: src/workbook-control-gui.c:1727
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -17149,7 +17069,7 @@ msgstr ""
 "\n"
 "Asendamine tühistatakse ja midagi ei muudeta."
 
-#: src/workbook-control-gui.c:1768
+#: src/workbook-control-gui.c:1765
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr "Märkus lahtris %s!%s"
@@ -17158,7 +17078,7 @@ msgstr "Märkus lahtris %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:1950
+#: src/workbook-control-gui.c:1947
 msgid "Insert rows"
 msgstr "Lisa read"
 
@@ -17166,178 +17086,174 @@ msgstr "Lisa read"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:1968
+#: src/workbook-control-gui.c:1965
 msgid "Insert columns"
 msgstr "Lisa veerud"
 
-#: src/workbook-control-gui.c:1989
+#: src/workbook-control-gui.c:1986
 msgid "Select an object to add"
 msgstr "Vali lisatav objekt"
 
-#: src/workbook-control-gui.c:2000
+#: src/workbook-control-gui.c:1997
 #, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "Ei suuda luua objekti tüübiga '%s'"
 
-#: src/workbook-control-gui.c:2221
+#: src/workbook-control-gui.c:2218
 msgid "Show"
 msgstr "Näita"
 
-#: src/workbook-control-gui.c:2221
+#: src/workbook-control-gui.c:2218
 msgid "Hide"
 msgstr "Peida"
 
-#: src/workbook-control-gui.c:2240
+#: src/workbook-control-gui.c:2237
 msgid "can only be performed on an existing group"
 msgstr "saab kasutada ainult eksisteeriva grupi puhul"
 
-#: src/workbook-control-gui.c:2264
+#: src/workbook-control-gui.c:2261
 msgid "Group"
 msgstr "Grupeeri"
 
-#: src/workbook-control-gui.c:2264
+#: src/workbook-control-gui.c:2261
 msgid "Ungroup"
 msgstr "Grupeeri lahti"
 
-#: src/workbook-control-gui.c:2453
+#: src/workbook-control-gui.c:2450
 msgid "Save with a new name or format"
 msgstr "Salvesta muu nime või formaadiga"
 
-#: src/workbook-control-gui.c:2520
+#: src/workbook-control-gui.c:2517
 msgid "Select all the cells that depend on the current edit cell."
 msgstr "Vali kõik lahtrid, mis sõltuvad käesolevast lahtrist."
 
-#: src/workbook-control-gui.c:2585
+#: src/workbook-control-gui.c:2582
 msgid "P_aste special..."
 msgstr "_Aseta valikuliselt"
 
-#: src/workbook-control-gui.c:2594
+#: src/workbook-control-gui.c:2591
 msgid "Remove selected cells, shifting other into their place"
 msgstr "Eemalda valitud lahtrid, liigutades teised nende asemele"
 
-#: src/workbook-control-gui.c:2644
-msgid "_Freeze..."
-msgstr "_Külmuta..."
-
-#: src/workbook-control-gui.c:2645
+#: src/workbook-control-gui.c:2642
 msgid "Freeze the top left of the sheet"
 msgstr "Külmuta lehe vasak ülaosa"
 
-#: src/workbook-control-gui.c:2668
+#: src/workbook-control-gui.c:2665
 msgid "_Define..."
 msgstr "_Määra..."
 
-#: src/workbook-control-gui.c:2673
+#: src/workbook-control-gui.c:2670
 msgid "_Auto generate names..."
 msgstr "_Tekita nimed automaatselt..."
 
-#: src/workbook-control-gui.c:2674
+#: src/workbook-control-gui.c:2671
 msgid "Use the current selection to create names"
 msgstr "Kasuta käesolevat valikut nimede tekitamisel"
 
-#: src/workbook-control-gui.c:2746
+#: src/workbook-control-gui.c:2743
 msgid "_Change name"
 msgstr "_Muuda nime"
 
-#: src/workbook-control-gui.c:2773
+#: src/workbook-control-gui.c:2770
 msgid "Hide _Column Header"
 msgstr "Peida _veeru päis"
 
-#: src/workbook-control-gui.c:2779
+#: src/workbook-control-gui.c:2776
 msgid "Hide _Row Header"
 msgstr "Peida _rea päis"
 
-#: src/workbook-control-gui.c:2811
+#: src/workbook-control-gui.c:2808
 msgid "Manage available plugin modules."
 msgstr "Korrasta saadaolevaid pluginamooduleid."
 
-#: src/workbook-control-gui.c:2835
+#: src/workbook-control-gui.c:2832
 msgid "Statistical methods."
 msgstr "Statistilised meetodid."
 
-#: src/workbook-control-gui.c:2848
+#: src/workbook-control-gui.c:2845
 msgid "_Group..."
 msgstr "_Grupeeri..."
 
-#: src/workbook-control-gui.c:2851
+#: src/workbook-control-gui.c:2848
 msgid "_Ungroup..."
 msgstr "Grupeeri _lahti..."
 
-#: src/workbook-control-gui.c:2880
+#: src/workbook-control-gui.c:2886
 msgid "_Sort"
 msgstr "_Sorteeri"
 
-#: src/workbook-control-gui.c:2881
+#: src/workbook-control-gui.c:2887
 msgid "Sorts the selected region."
 msgstr "Sorteerib valitud ala."
 
-#: src/workbook-control-gui.c:2920
+#: src/workbook-control-gui.c:2924
 msgid "Creates a new workbook"
 msgstr "Loob uue raamatu"
 
-#: src/workbook-control-gui.c:2923
+#: src/workbook-control-gui.c:2927
 msgid "Opens an existing workbook"
 msgstr "Avab olemasoleva raamatu"
 
-#: src/workbook-control-gui.c:2926
+#: src/workbook-control-gui.c:2930
 msgid "Saves the workbook"
 msgstr "Salvestab raamatu"
 
-#: src/workbook-control-gui.c:2932
+#: src/workbook-control-gui.c:2936
 msgid "Prints the workbook"
 msgstr "Trükib raamatu"
 
-#: src/workbook-control-gui.c:2941
+#: src/workbook-control-gui.c:2945
 msgid "Cuts the selection to the clipboard"
 msgstr "Lõikab valiku lõikepuhvrisse"
 
-#: src/workbook-control-gui.c:2944
+#: src/workbook-control-gui.c:2948
 msgid "Copies the selection to the clipboard"
 msgstr "Kopeerib valiku lõikepuhvrisse"
 
-#: src/workbook-control-gui.c:2947
+#: src/workbook-control-gui.c:2951
 msgid "Pastes the clipboard"
 msgstr "Asetab lõikepuhvri"
 
-#: src/workbook-control-gui.c:2954
+#: src/workbook-control-gui.c:2958
 msgid "Undo the operation"
 msgstr "Tühista tegevus"
 
-#: src/workbook-control-gui.c:2957
+#: src/workbook-control-gui.c:2961
 msgid "Redo the operation"
 msgstr "Taasta tegevus"
 
-#: src/workbook-control-gui.c:2967
+#: src/workbook-control-gui.c:2971
 msgid "Sum into the current cell."
 msgstr "Summeeri käesolevasse lahtrisse."
 
-#: src/workbook-control-gui.c:2970
+#: src/workbook-control-gui.c:2974
 msgid "Function"
 msgstr "Funktsioon"
 
-#: src/workbook-control-gui.c:2970
+#: src/workbook-control-gui.c:2974
 msgid "Edit a function in the current cell."
 msgstr "Muuda funktsiooni käesolevas lahtris."
 
-#: src/workbook-control-gui.c:2974
+#: src/workbook-control-gui.c:2978
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
 msgstr ""
 "Sorteerib valitud ala kasvavas järjekorras esimese valitud veeru alusel."
 
-#: src/workbook-control-gui.c:2977
+#: src/workbook-control-gui.c:2981
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
 msgstr ""
 "Sorteerib valitud ala kahanevas järjekorras esimese valitud veeru alusel."
 
-#: src/workbook-control-gui.c:3725
+#: src/workbook-control-gui.c:3745
 msgid "Send"
 msgstr "Saada"
 
-#: src/workbook-control-gui.c:3725
+#: src/workbook-control-gui.c:3745
 msgid "Send the current file in email"
 msgstr "Saada käesolev fail elektronpostiga"
 
@@ -17561,24 +17477,24 @@ msgstr "Ellips"
 msgid "Creates an ellipse object"
 msgstr "Tekitab ellipsi"
 
-#: src/workbook-view.c:234
+#: src/workbook-view.c:235
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: src/workbook-view.c:378
+#: src/workbook-view.c:379
 msgid "Internal ERROR"
 msgstr "Sisemine VIGA"
 
-#: src/workbook-view.c:645
+#: src/workbook-view.c:657
 msgid "Default file saver is not available."
 msgstr "Vaikimisi failisalvestaja ei ole saadaval."
 
-#: src/workbook-view.c:734
+#: src/workbook-view.c:746
 msgid "No sheets in workbook."
 msgstr "Raamatus pole lehti."
 
-#: src/workbook-view.c:744
+#: src/workbook-view.c:756
 msgid "Unsupported file format."
 msgstr "Toetamata failiformaat."
 
@@ -17630,13 +17546,134 @@ msgstr "Zlib dekompressiooni oleku tekitamiseks ei jätku mälu."
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Ei ole Gnumericu tabelifail"
 
-#: src/xml-io.c:3537
+#: src/xml-io.c:3530
 msgid "Gnumeric XML file format"
 msgstr "Gnumericu XML failiformaat"
 
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME Tabelitöötlus"
+
+#~ msgid "_Filter..."
+#~ msgstr "_Filter..."
+
+#~ msgid "1 - _Alpha:"
+#~ msgstr "1 - _Alfa:"
+
+#~ msgid "Grouped by:"
+#~ msgstr "Grupeeritud vastavalt:"
+
+#~ msgid "N_ew sheet"
+#~ msgstr "Uus l_eht"
+
+#~ msgid "New _workbook"
+#~ msgstr "Uus _raamat"
+
+#~ msgid "Numbe_r of samples:"
+#~ msgstr "Valimite a_rv:"
+
+#~ msgid "Output options"
+#~ msgstr "Väljundi seadistused"
+
+#~ msgid "T-Test: Assuming Equal Variances"
+#~ msgstr "t-test: Oletatakse võrdseid dispersioone"
+
+#~ msgid "T-Test: Assuming Unequal Variances"
+#~ msgstr "t-test: Oletatakse erinevaid dispersioone"
+
+#~ msgid "T-Test: Paired Two Sample for Means"
+#~ msgstr "t-test: Paaris kahene valim keskmistele"
+
+#~ msgid "Va_riable 2 Range:"
+#~ msgstr "M_uutuja 2 vahemik:"
+
+#~ msgid "_Bin Range:"
+#~ msgstr "_Bin vahemik:"
+
+#~ msgid "_Chart Output"
+#~ msgstr "_Diagrammi väljund"
+
+#~ msgid "_Hypothesized Mean Difference:"
+#~ msgstr "_Hüpoteetiline keskmine erinevus:"
+
+#~ msgid "_Labels in First Row"
+#~ msgstr "_Pealdised esimeses reas"
+
+#~ msgid "_Number of variables:"
+#~ msgstr "_Muutujate arv:"
+
+#~ msgid "_Output range:"
+#~ msgstr "_Väljundi vahemik:"
+
+#~ msgid "_Rows per sample:"
+#~ msgstr "_Ridu valimis:"
+
+#~ msgid "_Variable 1 Range:"
+#~ msgstr "_Muutuja 1 vahemik:"
+
+#~ msgid "AutoCorrect Exceptions"
+#~ msgstr "Automaatkorrigeerimise erandid"
+
+#~ msgid "_Exceptions..."
+#~ msgstr "_Erandid..."
+
+#~ msgid ""
+#~ "The constraints having cell ranges in LHS and RHS should have the same "
+#~ "number of columns and rows in both sides."
+#~ msgstr ""
+#~ "Piirangud, mille alad on määratud LHS-is ja RHS-is peaksid omama sama "
+#~ "arvu veerge ja ridu mõlemal pool."
+
+#~ msgid "The cell range in LHS or RHS should have only one column or row."
+#~ msgstr "Ala LHS-is ja RHS-is peaks omama ainult ühte rida või veergu."
+
+#~ msgid "You should introduce a valid cell name for 'Target cell'"
+#~ msgstr "Sa pead sisestama sobiliku lahtri nime 'Sihtlahtri' jaoks"
+
+#~ msgid "You should introduce a valid cell names in 'By changing cells'"
+#~ msgstr "Sa pead sisestama sobilikud lahtri nimed 'Muutes lahtreid' jaoks"
+
+#~ msgid "Solver Options"
+#~ msgstr "Lahendaja valikud"
+
+#~ msgid "                         "
+#~ msgstr "                         "
+
+#~ msgid "Add  "
+#~ msgstr "Lisa  "
+
+#~ msgid "Add Constraint"
+#~ msgstr "Lisa piirang"
+
+#~ msgid "Change Constraint"
+#~ msgstr "Muuda piirangut"
+
+#~ msgid "Options..."
+#~ msgstr "Valikud..."
+
+#~ msgid "Solver Result"
+#~ msgstr "Lahendaja tulemus"
+
+#~ msgid "_Keep Solver Solution"
+#~ msgstr "_Säilita lahendaja tulemus"
+
+#~ msgid "_Restore Original Values"
+#~ msgstr "_Taasta algsed väärtused"
+
+#~ msgid "Notebook"
+#~ msgstr "Märkmik"
+
+#~ msgid "Scrollbars"
+#~ msgstr "Kerimisribad"
+
+#~ msgid "_Tabs"
+#~ msgstr "_Tabid"
+
+#~ msgid "Base error"
+#~ msgstr "Baasviga"
+
+#~ msgid "_Freeze..."
+#~ msgstr "_Külmuta..."
 
 #~ msgid "label62"
 #~ msgstr "pealdis62"

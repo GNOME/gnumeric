@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.75\n"
-"POT-Creation-Date: 2001-11-04 22:06+0300\n"
+"POT-Creation-Date: 2001-11-05 01:48-0500\n"
 "PO-Revision-Date: 2001-11-04 22:49+0300\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -14,6 +14,32 @@ msgstr ""
 #: plugins/applix/applix-read.c:78
 msgid "Parse error while reading Applix file."
 msgstr "Ошибка анализа при чтении файла Applix."
+
+#: plugins/applix/plugin.xml.in.h:1
+msgid "Applix"
+msgstr ""
+
+#: plugins/applix/plugin.xml.in.h:2
+msgid "Applix (*.as)"
+msgstr ""
+
+#: plugins/applix/plugin.xml.in.h:3
+msgid "Imports version 4.[234] spreadsheets"
+msgstr ""
+
+#: plugins/derivatives/plugin.xml.in.h:1
+#, fuzzy
+msgid "Finance"
+msgstr "Финансовые"
+
+#: plugins/derivatives/plugin.xml.in.h:2
+#, fuzzy
+msgid "Financial Derivatives"
+msgstr "Финансовые"
+
+#: plugins/derivatives/plugin.xml.in.h:3
+msgid "Functions related to financial derivatives"
+msgstr ""
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4352 src/xml-io.c:3449
 msgid "Reading file..."
@@ -74,6 +100,19 @@ msgstr "Невозможно получить исходную таблицу."
 msgid "Error while saving DIF file."
 msgstr "Ошибка при сохранении файла DIF."
 
+#: plugins/dif/plugin.xml.in.h:1
+msgid "Data Interchange Format (*.dif)"
+msgstr ""
+
+#: plugins/dif/plugin.xml.in.h:2
+msgid "Data Interchange Format (DIF) module"
+msgstr ""
+
+#: plugins/dif/plugin.xml.in.h:3
+msgid ""
+"Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgstr ""
+
 #: plugins/excel/boot.c:144
 msgid "Preparing for save..."
 msgstr "Подготовка к сохранению..."
@@ -126,6 +165,26 @@ msgstr "Ошибочная функция"
 msgid " Unknown formula"
 msgstr " Неизвестная формула"
 
+#: plugins/excel/plugin.xml.in.h:1
+msgid "Excel(R) 95 file format"
+msgstr ""
+
+#: plugins/excel/plugin.xml.in.h:2
+msgid "Excel(R) 97 file format"
+msgstr ""
+
+#: plugins/excel/plugin.xml.in.h:3
+msgid "Imports/Exports Microsoft(R) Excel files"
+msgstr ""
+
+#: plugins/excel/plugin.xml.in.h:4
+msgid "Microsoft(R) Excel"
+msgstr ""
+
+#: plugins/excel/plugin.xml.in.h:5
+msgid "Microsoft(R) Excel (*.xls)"
+msgstr ""
+
 #: plugins/gb/plugin.c:138
 msgid "Unknown GB error"
 msgstr "Неизвестная ошибка GB"
@@ -139,6 +198,15 @@ msgstr "Ошибка инициализации gb \"%s\""
 #, c-format
 msgid "Error in project '%s'"
 msgstr "Ошибка в проекте \"%s\""
+
+#: plugins/gb/plugin.xml.in.h:1
+msgid "Enables Gnome Basic support"
+msgstr ""
+
+#: plugins/gb/plugin.xml.in.h:2
+#, fuzzy
+msgid "Gnome Basic"
+msgstr "Gnumeric"
 
 #: plugins/gda/plugin-gda.c:109
 msgid ""
@@ -173,6 +241,27 @@ msgstr "Ошибка: Невозможно инициализировать пул соединений"
 msgid "Error: could not open connection to %s"
 msgstr "Ошибка: невозможно открыть соединение с %s"
 
+#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1349
+msgid "Database"
+msgstr "База данных"
+
+#: plugins/gda/plugin.xml.in.h:2
+msgid "Database functions for allowing the retrieval of data from a database"
+msgstr ""
+
+#: plugins/gnome-glossary/plugin.xml.in.h:1
+msgid "Gnome Glossary"
+msgstr ""
+
+#: plugins/gnome-glossary/plugin.xml.in.h:2
+#, fuzzy
+msgid "Gnome Glossary PO file format"
+msgstr "Формат файла Gnumeric XML"
+
+#: plugins/gnome-glossary/plugin.xml.in.h:3
+msgid "It provides support for saving Gnome Glossary in .po files."
+msgstr ""
+
 #: plugins/guile/plugin.c:67 src/func.c:776 src/functions/fn-information.c:653
 #: src/functions/fn-information.c:722 src/functions/fn-information.c:749
 #: src/functions/fn-information.c:775 src/functions/fn-information.c:824
@@ -194,6 +283,51 @@ msgstr "Неопределенная функция scheme"
 msgid "Could not evaluate argument"
 msgstr "Невозможно выполнить аргумент"
 
+#: plugins/guile/plugin.xml.in.h:1
+#, fuzzy
+msgid "Guile Plugin"
+msgstr "Действующие дополнения"
+
+#: plugins/guile/plugin.xml.in.h:2
+msgid "This plugin enables Guile(scheme) support in Gnumeric"
+msgstr ""
+
+#: plugins/html/plugin.xml.in.h:1
+msgid "DVI TeX (via groff)"
+msgstr ""
+
+#: plugins/html/plugin.xml.in.h:2
+msgid "HTML & TeX"
+msgstr ""
+
+#: plugins/html/plugin.xml.in.h:3
+msgid "HTML 3.2 (*.html)"
+msgstr ""
+
+#: plugins/html/plugin.xml.in.h:4
+msgid "HTML 4.0 (*.html)"
+msgstr ""
+
+#: plugins/html/plugin.xml.in.h:5
+msgid "HTML file made by gnumeric"
+msgstr ""
+
+#: plugins/html/plugin.xml.in.h:6
+msgid "Import/Export of HTML, TeX, DVI, roff"
+msgstr ""
+
+#: plugins/html/plugin.xml.in.h:7
+msgid "LaTeX 2.09 (*.tex)"
+msgstr ""
+
+#: plugins/html/plugin.xml.in.h:8
+msgid "LaTeX2e (*.tex)"
+msgstr ""
+
+#: plugins/html/plugin.xml.in.h:9
+msgid "TROFF (*.me)"
+msgstr ""
+
 #: plugins/html/roff.c:199
 msgid "Error executing groff."
 msgstr "Ошибка при выполнении groff."
@@ -201,6 +335,19 @@ msgstr "Ошибка при выполнении groff."
 #: plugins/lotus-123/lotus.c:309
 msgid "Error while reading lotus workbook."
 msgstr "Ошибка при чтении рабочей книги lotus."
+
+#: plugins/lotus-123/plugin.xml.in.h:1
+#, fuzzy
+msgid "Imports Lotus 123 files"
+msgstr "Импортировать файл"
+
+#: plugins/lotus-123/plugin.xml.in.h:2
+msgid "Lotus 123"
+msgstr ""
+
+#: plugins/lotus-123/plugin.xml.in.h:3
+msgid "Lotus 123 (*.wk1)"
+msgstr ""
 
 #: plugins/numtheory/numtheory.c:198
 msgid ""
@@ -419,6 +566,43 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITLSHIFT"
 
+#: plugins/numtheory/plugin.xml.in.h:1
+#, fuzzy
+msgid "Bitwise Operations"
+msgstr "Действие"
+
+#: plugins/numtheory/plugin.xml.in.h:2
+#, fuzzy
+msgid "Number Theory"
+msgstr "Числовой"
+
+#: plugins/numtheory/plugin.xml.in.h:3
+msgid ""
+"Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
+"simple bitwise operations"
+msgstr ""
+
+#: plugins/oleo/plugin.xml.in.h:1
+msgid "GNU Oleo"
+msgstr ""
+
+#: plugins/oleo/plugin.xml.in.h:2
+msgid "GNU Oleo (*.oleo)"
+msgstr ""
+
+#: plugins/oleo/plugin.xml.in.h:3
+msgid "Imports GNU Oleo documents"
+msgstr ""
+
+#: plugins/perl/plugin.xml.in.h:1
+#, fuzzy
+msgid "Enables the creation of functions in Perl"
+msgstr "Разрешить некоторые отладочные функции"
+
+#: plugins/perl/plugin.xml.in.h:2
+msgid "Perl"
+msgstr ""
+
 #: plugins/plan-perfect/pln.c:741
 msgid "PLN : Not a PlanPerfect File"
 msgstr "PLN: файл не PlanPerfect"
@@ -452,6 +636,53 @@ msgstr "Импорт %s"
 #: plugins/plan-perfect/pln.c:930
 msgid "Unable to mmap the file"
 msgstr "Невозможно выполнить mmap файл"
+
+#: plugins/plan-perfect/plugin.xml.in.h:1
+msgid "Imports Plan Perfect Formatted Documents"
+msgstr ""
+
+#: plugins/plan-perfect/plugin.xml.in.h:2
+#, fuzzy
+msgid "Plan Perfect"
+msgstr "Простой текст"
+
+#: plugins/plan-perfect/plugin.xml.in.h:3
+msgid "Plan Perfect Format (PLN) import"
+msgstr ""
+
+#: plugins/psiconv/plugin.xml.in.h:1
+msgid "Imports Psion 5 series Sheet files"
+msgstr ""
+
+#: plugins/psiconv/plugin.xml.in.h:2
+msgid "Psiconv"
+msgstr ""
+
+#: plugins/psiconv/plugin.xml.in.h:3
+msgid "Psion (*.psisheet)"
+msgstr ""
+
+#: plugins/py-func/plugin.xml.in.h:1
+msgid "Python"
+msgstr ""
+
+#: plugins/py-func/plugin.xml.in.h:2
+#, fuzzy
+msgid "Python functions"
+msgstr "Исключение Python"
+
+#: plugins/py-func/plugin.xml.in.h:3
+msgid "Sample Python plugin providing some (useless) functions."
+msgstr ""
+
+#: plugins/python-loader/plugin.xml.in.h:1
+#, fuzzy
+msgid "Python plugin loader"
+msgstr "Невозможно загрузить загрузчик дополнения."
+
+#: plugins/python-loader/plugin.xml.in.h:2
+msgid "This plugin provides support for Python plugins"
+msgstr ""
 
 #: plugins/python-loader/py-gnumeric.c:273
 #: plugins/python-loader/py-gnumeric.c:313
@@ -530,6 +761,15 @@ msgstr "Файл не содержит словарь \"%s\"."
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Объект \"%s\" не является словарем."
 
+#: plugins/python/plugin.xml.in.h:1
+#, fuzzy
+msgid "Python Plugin"
+msgstr "Исключение Python"
+
+#: plugins/python/plugin.xml.in.h:2
+msgid "This plugin provides Python language support in Gnumeric"
+msgstr ""
+
 #: plugins/python/python.c:52
 msgid "Python exception"
 msgstr "Исключение Python"
@@ -551,6 +791,19 @@ msgstr "объект должен быть вызываемым"
 msgid "Unhandled Python exception: %s"
 msgstr "Необработанное исключение Python: %s"
 
+#: plugins/sc/plugin.xml.in.h:1
+#, fuzzy
+msgid "Imports SC/XSpread files"
+msgstr "Импортировать файл"
+
+#: plugins/sc/plugin.xml.in.h:2
+msgid "SC/XSpread"
+msgstr ""
+
+#: plugins/sc/plugin.xml.in.h:3
+msgid "SC/xspread"
+msgstr ""
+
 #: plugins/sc/sc.c:387
 msgid "Error parsing line"
 msgstr "Ошибка разбора строки"
@@ -558,6 +811,19 @@ msgstr "Ошибка разбора строки"
 #: plugins/sc/sc.c:433
 msgid "Error reading sheet."
 msgstr "Ошибка чтения листа."
+
+#: plugins/sylk/plugin.xml.in.h:1
+#, fuzzy
+msgid "Imports MultiPlan (SYLK) files"
+msgstr "Импортировать файл"
+
+#: plugins/sylk/plugin.xml.in.h:2
+msgid "MultiPlan (SYLK)"
+msgstr ""
+
+#: plugins/sylk/plugin.xml.in.h:3
+msgid "MultiPlan (SYLK) import"
+msgstr ""
 
 #: plugins/sylk/sylk.c:418
 msgid "Not SYLK file"
@@ -578,6 +844,33 @@ msgstr "Ошибки при чтении таблицы."
 #: plugins/xbase/boot.c:163
 msgid "Error while opening xbase file."
 msgstr "Ошибка при открытии файла xbase."
+
+#: plugins/xbase/plugin.xml.in.h:1
+#, fuzzy
+msgid "Imports XBase files"
+msgstr "Импортировать файл"
+
+#: plugins/xbase/plugin.xml.in.h:2
+#, fuzzy
+msgid "XBase"
+msgstr "Вставить"
+
+#: plugins/xbase/plugin.xml.in.h:3
+#, fuzzy
+msgid "Xbase (*.dbf) file format"
+msgstr "Неподдерживаемый формат файла."
+
+#: plugins/xml_sax/plugin.xml.in.h:1
+msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
+msgstr ""
+
+#: plugins/xml_sax/plugin.xml.in.h:2
+msgid "EXPERIMENTAL SAX based XML"
+msgstr ""
+
+#: plugins/xml_sax/plugin.xml.in.h:3
+msgid "The next generation sax based xml I/O subsystem"
+msgstr ""
 
 #: plugins/xml_sax/xml-sax-read.c:2227
 msgid "xmlCreateFileParserCtxt () failed."
@@ -3450,42 +3743,34 @@ msgid "_Wrap text"
 msgstr "Переносить текст"
 
 #: src/dialogs/cell-format.glade.h:128
-msgid "label62"
-msgstr "Метка"
-
-#: src/dialogs/cell-format.glade.h:129
-msgid "label63"
-msgstr "Метка"
-
-#: src/dialogs/cell-format.glade.h:130
 msgid "min <= val <= max         (between)"
 msgstr "мин. <= значение <= макс.  (между)"
 
-#: src/dialogs/cell-format.glade.h:131
+#: src/dialogs/cell-format.glade.h:129
 msgid "val != bound                  (not equal to)"
 msgstr "значение != bound  (не равно)                         "
 
-#: src/dialogs/cell-format.glade.h:132
+#: src/dialogs/cell-format.glade.h:130
 msgid "val >  bound                  (greater than)"
 msgstr "значение > bound  (больше чем)"
 
-#: src/dialogs/cell-format.glade.h:133
+#: src/dialogs/cell-format.glade.h:131
 msgid "val >=bound                  (greater than or equal to)"
 msgstr "значение >= bound  (больше чем или равно)"
 
-#: src/dialogs/cell-format.glade.h:134
+#: src/dialogs/cell-format.glade.h:132
 msgid "val <  bound                  (less than)"
 msgstr "значение < bound  (меньше чем)                         "
 
-#: src/dialogs/cell-format.glade.h:135
+#: src/dialogs/cell-format.glade.h:133
 msgid "val <= min || max <= val (not between)"
 msgstr "значение <= мин. || макс. <= значение (не между)"
 
-#: src/dialogs/cell-format.glade.h:136
+#: src/dialogs/cell-format.glade.h:134
 msgid "val <=bound                  (less than or equal to)"
 msgstr "значение <= bound  (меньше чем или равно)"
 
-#: src/dialogs/cell-format.glade.h:137
+#: src/dialogs/cell-format.glade.h:135
 msgid "val == bound                 (equal to)"
 msgstr "значение == bound  (равно)                         "
 
@@ -5370,10 +5655,6 @@ msgstr "Решение:"
 #: src/dialogs/goalseek.glade.h:11
 msgid "To Value:"
 msgstr "До значения:"
-
-#: src/dialogs/goalseek.glade.h:12
-msgid "label10"
-msgstr "Метка"
 
 #: src/dialogs/hf-config.glade.h:1
 msgid "Enter the format strings for each section:"
@@ -8184,10 +8465,6 @@ msgstr ""
 "If the summary data is unavailable, GETPIVOTDATA returns #REF! error. \n"
 "@SEEALSO="
 
-#: src/functions/fn-database.c:1349
-msgid "Database"
-msgstr "База данных"
-
 #: src/functions/fn-date.c:25
 msgid ""
 "@FUNCTION=DATE\n"
@@ -10234,8 +10511,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
-"@DESCRIPTION=DOLLARDE преобразует долларовую цену выраженную дробью в долларовую цену выраженную десятичным числом. \n"
-"Если @fraction не целое, дробная часть отбрасывается . Если @fraction <= 0, DOLLARDE возвращает ошибку #NUM!. \n"
+"@DESCRIPTION=DOLLARDE преобразует долларовую цену выраженную дробью в "
+"долларовую цену выраженную десятичным числом. \n"
+"Если @fraction не целое, дробная часть отбрасывается . Если @fraction <= 0, "
+"DOLLARDE возвращает ошибку #NUM!. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DOLLARFR"
@@ -11048,7 +11327,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
-"DESCRIPTION=Возвращает накопленный доход по займу между @start_period и @end_period..\n"
+"DESCRIPTION=Возвращает накопленный доход по займу между @start_period и "
+"@end_period..\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -15723,9 +16003,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
-"@DESCRIPTION=Функция FTEST возвращает одностороннюю вероятность того, что различия дисперсий двух наборов данных незначимы. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция FTEST возвращает одностороннюю вероятность того, что "
+"различия дисперсий двух наборов данных незначимы. Эта функция Excel-"
+"совместима.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ... A5 содержат числа 11.4, 17.3, 21.3, 25.9 и 40.1, а ячейки B1, B2, ... B5  содержат числа 23.2, 25.8, 29.9, 33.5 и 42.7. Тогда\n"
+"Допустим, что ячейки A1, A2, ... A5 содержат числа 11.4, 17.3, 21.3, 25.9 и "
+"40.1, а ячейки B1, B2, ... B5  содержат числа 23.2, 25.8, 29.9, 33.5 и 42.7. "
+"Тогда\n"
 "FTEST(A1:A5,B1:B5) равняется 0.510815017.\n"
 "\n"
 "@SEEALSO=FDIST,FINV"
@@ -18364,3 +18648,12 @@ msgstr "Формат файла Gnumeric XML"
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "Электронная таблица GNOME"
+
+#~ msgid "label62"
+#~ msgstr "Метка"
+
+#~ msgid "label63"
+#~ msgstr "Метка"
+
+#~ msgid "label10"
+#~ msgstr "Метка"

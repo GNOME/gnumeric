@@ -1,3 +1,7 @@
+2001-11-05  Jody Goldberg <jgoldberg@home,com>
+
+	* Release 0.75
+
 2001-11-01  Jody Goldberg <jgoldberg@home.com>
 
 	* xbase.c (record_get_field) : fix bone headed indexing scheme.
