@@ -438,8 +438,10 @@ item_edit_destroy (GtkObject *o)
 	ItemEdit *item_edit = ITEM_EDIT (o);
 	GtkEntry *entry = item_edit->entry;
 
-	if (item_edit->text_offsets != NULL)
+	if (item_edit->text_offsets != NULL) {
 		g_slist_free (item_edit->text_offsets);
+		item_edit->text_offsets = NULL;
+	}
 
 	item_edit_cursor_blink_stop (item_edit);
 	entry_destroy_feedback_range (item_edit);
