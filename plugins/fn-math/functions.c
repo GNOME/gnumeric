@@ -751,7 +751,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, GnmValue **argv)
 
 static char const *help_ceiling = {
 	N_("@FUNCTION=CEILING\n"
-	   "@SYNTAX=CEILING(x,significance)\n"
+	   "@SYNTAX=CEILING(x[,significance])\n"
 
 	   "@DESCRIPTION="
 	   "CEILING function rounds @x up to the nearest multiple of "
@@ -3208,7 +3208,7 @@ GnmFuncDescriptor const math_functions[] = {
 	  gnumeric_ceil, NULL, NULL, NULL, NULL,	  
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "ceiling", "ff", N_("number,significance"), &help_ceiling,
+	{ "ceiling", "f|f", N_("number,significance"), &help_ceiling,
 	  gnumeric_ceiling, NULL, NULL, NULL, NULL,	  
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
