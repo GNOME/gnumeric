@@ -121,6 +121,7 @@ glade_DATA = 				\
 	search.glade			\
 	search-replace.glade		\
 	sheet-order.glade		\
+	so-scrollbar.glade			\
 	solver.glade			\
 	summary.glade			\
 	tabulate.glade			\

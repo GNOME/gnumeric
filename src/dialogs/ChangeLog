@@ -1,3 +1,8 @@
+2002-04-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* Makefile.am : added so-scrollbar.glade
+	* so-scrollbar.glade : new
+
 2002-04-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* Makefile.am : add dialog-col-row.c, remove dialog-simple-input.c

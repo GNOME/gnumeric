@@ -1,3 +1,7 @@
+2002-04-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* POTFILES.in : added src/dialogs/so-scrollbar.glade
+
 2002-04-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* POTFILES.in : removed src/widgets/gnumeric-cell-renderer-toggle.c

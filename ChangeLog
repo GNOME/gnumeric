@@ -1,3 +1,9 @@
+2002-04-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* sheet-object-widget.c (cb_scrollbar_config_cancel_clicked) : new
+	(cb_scrollbar_config_ok_clicked) replaces cb_scrollbar_config_clicked
+	(sheet_widget_scrollbar_user_config) : don't use GnomeDialog
+
 2002-04-09  Morten Welinder  <terra@diku.dk>
 
 	* configure.in (bind_textdomain_codeset): Add -lintl when needed.

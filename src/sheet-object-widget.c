@@ -630,25 +630,26 @@ sheet_widget_scrollbar_clone (SheetObject const *src_so, Sheet *new_sheet)
 }
 
 typedef struct {
-	GtkWidget *dialog;
-	GnumericExprEntry *expression;
-	GtkWidget *min;
-	GtkWidget *max;
-	GtkWidget *inc;
-	GtkWidget *page;
+	GladeXML           *gui;
+	GtkWidget          *dialog;
+	GnumericExprEntry  *expression;
+	GtkWidget          *min;
+	GtkWidget          *max;
+	GtkWidget          *inc;
+	GtkWidget          *page;
 
-	GtkWidget *old_focus;
+	GtkWidget          *old_focus;
 
-	WorkbookControlGUI  *wbcg;
+	WorkbookControlGUI *wbcg;
 	SheetWidgetScrollbar *swb;
-	Sheet		    *sheet;
+	Sheet		   *sheet;
 } ScrollbarConfigState;
 
 static void
 cb_scrollbar_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 			ScrollbarConfigState *state)
 {
-	/* Note:  have of the set-focus action is handle by the default */
+	/* Note:  half of the set-focus action is handle by the default */
 	/*        callback installed by wbcg_edit_attach_guru           */
 
 	/* Force an update of the content in case it
@@ -675,31 +676,35 @@ cb_scrollbar_config_destroy (GtkObject *w, ScrollbarConfigState *state)
 
 	wbcg_edit_detach_guru (state->wbcg);
 
-	/* Handle window manger closing the dialog.
-	 * This will be ignored if we are being destroyed differently.
-	 */
-	wbcg_edit_finish (state->wbcg, FALSE);
+	if (state->gui != NULL) {
+		g_object_unref (G_OBJECT (state->gui));
+		state->gui = NULL;
+	}
 
 	state->dialog = NULL;
-
 	g_free (state);
+
 	return FALSE;
 }
 
 static void
-cb_scrollbar_config_clicked (GnomeDialog *dialog, gint button_number,
-			    ScrollbarConfigState *state)
+cb_scrollbar_config_ok_clicked (GtkWidget *button, ScrollbarConfigState *state)
 {
-	if (button_number == 0) {
-		SheetObject *so = SHEET_OBJECT (state->swb);
-		ParsePos  pp;
-		GnmExpr const *expr = gnm_expr_entry_parse (state->expression,
-			parse_pos_init (&pp, NULL, so->sheet, 0, 0),
-			NULL, FALSE);
-		if (expr != NULL)
-			dependent_set_expr (&state->swb->dep, expr);
-	}
-	wbcg_edit_finish (state->wbcg, FALSE);
+	SheetObject *so = SHEET_OBJECT (state->swb);
+	ParsePos  pp;
+	GnmExpr const *expr = gnm_expr_entry_parse (state->expression,
+						    parse_pos_init (&pp, NULL, so->sheet, 0, 0),
+						    NULL, FALSE);
+	if (expr != NULL)
+		dependent_set_expr (&state->swb->dep, expr);
+
+	gtk_widget_destroy (state->dialog);
+}
+
+static void
+cb_scrollbar_config_cancel_clicked (GtkWidget *button, ScrollbarConfigState *state)
+{
+	gtk_widget_destroy (state->dialog);
 }
 
 static void
@@ -721,14 +726,10 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControlGUI *scg)
 	state->wbcg = wbcg;
 	state->sheet = sc_sheet	(SHEET_CONTROL (scg));
 	state->old_focus = NULL;
-	state->dialog = gnome_dialog_new (_("Scrollbar Configure"),
-					  GNOME_STOCK_BUTTON_OK,
-					  GNOME_STOCK_BUTTON_CANCEL,
-					  NULL);
+	state->gui = gnumeric_glade_xml_new (wbcg, "so-scrollbar.glade");
+	state->dialog = glade_xml_get_widget (state->gui, "SO-Scrollbar");
 
- 	table = gtk_table_new (0, 0, FALSE);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (state->dialog)->vbox),
-		table, TRUE, TRUE, 5);
+ 	table = glade_xml_get_widget (state->gui, "table");
 
 	state->expression = gnumeric_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->expression,
@@ -736,35 +737,36 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControlGUI *scg)
 		GNUM_EE_MASK);
 	gnm_expr_entry_set_scg (state->expression, scg);
 	gnm_expr_entry_load_from_dep (state->expression, &swb->dep);
-	gnumeric_table_attach_with_label (state->dialog, table,
-		N_("Link to:"), GTK_WIDGET (state->expression), 0);
+	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
+			  1, 2, 0, 1,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+	gtk_widget_show (GTK_WIDGET (state->expression));
 
 	/* TODO : This is silly, no need to be similar to XL here. */
- 	state->min = gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (
-		swb->adjustment->lower, 0., 30001., 1., 10., 1.)), 1., 0);
-	gnumeric_table_attach_with_label (state->dialog, table,
-		N_("Min:"), GTK_WIDGET (state->min), 1);
- 	state->max = gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (
-		swb->adjustment->upper, 0., 30001., 1., 10., 1.)), 1., 0);
-	gnumeric_table_attach_with_label (state->dialog, table,
-		N_("Max:"), GTK_WIDGET (state->max), 2);
- 	state->inc = gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (
-		swb->adjustment->step_increment, 0., 30001., 1., 10., 1.)), 1., 0);
-	gnumeric_table_attach_with_label (state->dialog, table,
-		N_("Increment:"), GTK_WIDGET (state->inc), 3);
- 	state->page = gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (
-		swb->adjustment->page_increment, 0., 30001., 1., 10., 1.)), 1., 0);
-	gnumeric_table_attach_with_label (state->dialog, table,
-		N_("Page:"), GTK_WIDGET (state->page), 4);
-
-	gnome_dialog_set_default (GNOME_DIALOG (state->dialog), 0);
+	state->min = glade_xml_get_widget (state->gui, "spin_min");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->min), swb->adjustment->lower);
+	state->max = glade_xml_get_widget (state->gui, "spin_max");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->max), swb->adjustment->upper);
+	state->inc = glade_xml_get_widget (state->gui, "spin_increment");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->inc), swb->adjustment->step_increment);
+	state->page = glade_xml_get_widget (state->gui, "spin_page");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->page), swb->adjustment->page_increment);
 
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
 		G_CALLBACK (cb_scrollbar_config_destroy), state);
-	g_signal_connect (G_OBJECT (state->dialog),
+
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
 		"clicked",
-		G_CALLBACK (cb_scrollbar_config_clicked), state);
+		G_CALLBACK (cb_scrollbar_config_ok_clicked), state);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
+		"clicked",
+		G_CALLBACK (cb_scrollbar_config_cancel_clicked), state);
+	gnumeric_init_help_button (
+		glade_xml_get_widget (state->gui, "help_button"),
+		"so-scrollbar.html");
+	
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
@@ -776,10 +778,8 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControlGUI *scg)
 		"set-focus",
 		G_CALLBACK (cb_scrollbar_set_focus), state);
 
-	gtk_window_set_position (GTK_WINDOW (state->dialog), GTK_WIN_POS_MOUSE);
-	gtk_window_set_focus (GTK_WINDOW (state->dialog),
-			      GTK_WIDGET (state->expression));
-	gtk_widget_show_all (state->dialog);
+	gtk_widget_show (state->dialog);
+	gtk_widget_grab_focus (GTK_WIDGET (state->expression));
 }
 
 static gboolean
