@@ -34,6 +34,7 @@
 #include <print-info.h>
 #include <selection.h>
 #include <validation.h>
+#include <input-msg.h>
 #include <parse-util.h>	/* for cell_name */
 #include <ranges.h>
 #include <expr.h>
@@ -3818,6 +3819,9 @@ excel_read_DV (BiffQuery *q, ExcelSheet *esheet)
 	mstyle_set_validation (mstyle,
 		validation_new (style, type, op, error_title, error_msg,
 			expr1, expr2, options & 0x0100, options & 0x0200));
+	if (input_msg != NULL || input_title != NULL)
+	mstyle_set_input_msg (mstyle,
+		gnm_input_msg_new (input_msg, input_title));
 
 	for (ptr = ranges; ptr != NULL ; ptr = ptr->next) {
 		Range *r = ptr->data;
@@ -3828,6 +3832,10 @@ excel_read_DV (BiffQuery *q, ExcelSheet *esheet)
 	}
 	g_slist_free (ranges);
 	mstyle_unref (mstyle);
+	g_free (input_msg);
+	g_free (error_msg);
+	g_free (input_title);
+	g_free (error_title);
 }
 
 static void

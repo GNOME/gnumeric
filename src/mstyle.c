@@ -67,6 +67,7 @@ typedef struct {
 
 		Validation      *validation;
 		GnmHLink        *hlink;
+		GnmInputMsg	*input_msg;
 
 		/* Convenience members */
 		gpointer         any_pointer;
@@ -98,7 +99,8 @@ struct _MStyle {
 #define MSTYLE_ANY_POINTER           MSTYLE_FONT_NAME: \
 				case MSTYLE_FORMAT: \
 				case MSTYLE_VALIDATION: \
-				case MSTYLE_HLINK
+				case MSTYLE_HLINK: \
+				case MSTYLE_INPUT_MSG
 
 #define MSTYLE_ANY_BOOLEAN           MSTYLE_FONT_BOLD: \
 				case MSTYLE_FONT_ITALIC: \
@@ -146,7 +148,8 @@ const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
 	"Content.Locked",
 	"Content.Hidden",
 	"Validation",
-	"Hyper Link"
+	"Hyper Link",
+	"Input Msg"
 };
 
 /* Some ref/link count debugging */
@@ -306,6 +309,10 @@ mstyle_element_dump (const MStyleElement *e)
 		g_string_printf (ans, "hlink %p", e->u.hlink);
 		break;
 
+	case MSTYLE_INPUT_MSG :
+		g_string_printf (ans, "input msg %p", e->u.input_msg);
+		break;
+
 	default:
 		g_string_printf (ans, "%s", mstyle_names[e->type]);
 		break;
@@ -368,6 +375,8 @@ mstyle_element_equal (MStyleElement const *a,
 		return (a->u.validation == b->u.validation);
 	case MSTYLE_HLINK:
 		return (a->u.hlink == b->u.hlink);
+	case MSTYLE_INPUT_MSG:
+		return (a->u.input_msg == b->u.input_msg);
 	default:
 		return TRUE;
 	}
@@ -399,6 +408,10 @@ mstyle_element_ref (const MStyleElement *e)
 		if (e->u.hlink)
 			g_object_ref (G_OBJECT (e->u.hlink));
 		break;
+	case MSTYLE_INPUT_MSG:
+		if (e->u.input_msg)
+			g_object_ref (G_OBJECT (e->u.input_msg));
+		break;
 	default:
 		break;
 	}
@@ -428,6 +441,10 @@ mstyle_element_unref (MStyleElement e)
 	case MSTYLE_HLINK:
 		if (e.u.hlink)
 			g_object_unref (G_OBJECT (e.u.hlink));
+		break;
+	case MSTYLE_INPUT_MSG:
+		if (e.u.input_msg)
+			g_object_unref (G_OBJECT (e.u.input_msg));
 		break;
 	default:
 		break;
@@ -603,6 +620,7 @@ mstyle_new_default (void)
 	mstyle_set_font_strike (mstyle, FALSE);
 
 	mstyle_set_hlink       (mstyle, NULL);
+	mstyle_set_input_msg   (mstyle, NULL);
 
 	mstyle_set_color       (mstyle, MSTYLE_COLOR_FORE,
 				style_color_black ());
@@ -905,7 +923,7 @@ mstyle_equal_XL (const MStyle *a, const MStyle *b)
 
 	ea = a->elements;
 	eb = b->elements;
-	for (i = 1; i <= MSTYLE_HLINK; i++) {
+	for (i = 1; i < MSTYLE_VALIDATION; i++) {
 		/* Elements in the same position should have the same types */
 		if (ea[i].type != eb[i].type) {
 			if (ea[i].type != MSTYLE_ELEMENT_UNSET &&
@@ -1408,7 +1426,6 @@ mstyle_set_validation (MStyle *style, Validation *v)
 	mstyle_element_unref (style->elements[MSTYLE_VALIDATION]);
 	style->elements[MSTYLE_VALIDATION].type = MSTYLE_VALIDATION;
 	style->elements[MSTYLE_VALIDATION].u.validation = v;
-
 }
 
 Validation *
@@ -1427,7 +1444,6 @@ mstyle_set_hlink (MStyle *style, GnmHLink *link)
 	mstyle_element_unref (style->elements[MSTYLE_HLINK]);
 	style->elements[MSTYLE_HLINK].type = MSTYLE_HLINK;
 	style->elements[MSTYLE_HLINK].u.hlink = link;
-
 }
 
 GnmHLink *
@@ -1436,6 +1452,24 @@ mstyle_get_hlink (const MStyle *style)
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_HLINK), NULL);
 
 	return style->elements[MSTYLE_HLINK].u.hlink;
+}
+
+void
+mstyle_set_input_msg (MStyle *style, GnmInputMsg *msg)
+{
+	g_return_if_fail (style != NULL);
+
+	mstyle_element_unref (style->elements[MSTYLE_INPUT_MSG]);
+	style->elements[MSTYLE_INPUT_MSG].type = MSTYLE_INPUT_MSG;
+	style->elements[MSTYLE_INPUT_MSG].u.input_msg = msg;
+}
+
+GnmInputMsg *
+mstyle_get_input_msg (const MStyle *style)
+{
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_INPUT_MSG), NULL);
+
+	return style->elements[MSTYLE_INPUT_MSG].u.input_msg;
 }
 
 gboolean

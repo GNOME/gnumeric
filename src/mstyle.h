@@ -51,7 +51,8 @@ typedef enum _MStyleElementType {
 
 	/* Things not in MS Excel's Style */
 	        MSTYLE_VALIDATION,
-	        MSTYLE_HLINK, /* patch equal_XL if this is changed */
+	        MSTYLE_HLINK,		/* patch equal_XL if this is changed */
+	        MSTYLE_INPUT_MSG,	/* patch equal_XL if this is changed */
 	/* Delimiter */
 	MSTYLE_ELEMENT_MAX
 } MStyleElementType;
@@ -126,13 +127,16 @@ gboolean            mstyle_get_content_locked (const MStyle *st);
 void                mstyle_set_content_hidden (MStyle *st, gboolean f);
 gboolean            mstyle_get_content_hidden (const MStyle *st);
 
-void                mstyle_set_validation       (MStyle *st, Validation *v);
-Validation         *mstyle_get_validation       (const MStyle *st);
+void                mstyle_set_validation	(MStyle *st, Validation *v);
+Validation         *mstyle_get_validation	(const MStyle *st);
 
 void                mstyle_set_hlink		(MStyle *st, GnmHLink *link);
 GnmHLink	   *mstyle_get_hlink		(const MStyle *st);
 
-gboolean            mstyle_visible_in_blank(const MStyle *st);
+void                mstyle_set_input_msg	(MStyle *st, GnmInputMsg *msg);
+GnmInputMsg   	   *mstyle_get_input_msg	(const MStyle *st);
+
+gboolean            mstyle_visible_in_blank (const MStyle *st);
 
 char       *mstyle_to_string   (const MStyle *st); /* Debug only ! leaks like a sieve */
 void        mstyle_dump        (const MStyle *st);

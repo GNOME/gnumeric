@@ -36,6 +36,7 @@
 #include <value.h>
 #include <str.h>
 #include <mathfunc.h>
+#include <format.h>
 
 #include <math.h>
 #include <limits.h>
@@ -3403,7 +3404,9 @@ static const char *help_coupncd = {
 static Value *
 gnumeric_coupncd (FunctionEvalInfo *ei, Value **argv)
 {
-	return func_coup (ei, argv, coupncd);
+	Value *res = func_coup (ei, argv, coupncd);
+	value_set_fmt (res, style_format_default_date ());
+	return res;
 }
 
 /***************************************************************************/
@@ -3448,7 +3451,9 @@ static const char *help_couppcd = {
 static Value *
 gnumeric_couppcd (FunctionEvalInfo *ei, Value **argv)
 {
-	return func_coup (ei, argv, couppcd);
+	Value *res = func_coup (ei, argv, couppcd);
+	value_set_fmt (res, style_format_default_date ());
+	return res;
 }
 
 /***************************************************************************/

@@ -123,6 +123,8 @@ GNUMERIC_BASE =					\
 	hlink-impl.h				\
 	history.c				\
 	history.h				\
+	input-msg.c				\
+	input-msg.h				\
 	item-acetate.c				\
 	item-acetate.h				\
 	item-bar.c				\

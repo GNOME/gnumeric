@@ -1,3 +1,15 @@
+2002-10-26  Jody Goldberg <jody@gnome.org>
+
+	* src/Makefile.am : Add input-msg.[ch]
+	* src/input-msg.c : new.  Quick place holder.
+
+2002-10-26  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (copy_hash_table_to_ptr_array) : Add trivial test to
+	  keep blank cells out of the output.
+
+	* src/sheet.c (sheet_regen_adjacent_spans) : Morten found a typo.
+
 2002-10-24  Jody Goldberg <jody@gnome.org>
 
 	* src/dependent.c (link_cellrange_dep) : jonkare found a typo.

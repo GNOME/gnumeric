@@ -2780,7 +2780,7 @@ sheet_regen_adjacent_spans (Sheet *sheet,
 	*max_col = end_col;
 
 	test[0] = (start_col > 0);
-	test[1] = (end_col < SHEET_MAX_ROWS-1);
+	test[1] = (end_col < SHEET_MAX_COLS-1);
 	col[0] = start_col - 1;
 	col[1] = end_col + 1;
 	for (row = start_row; row <= end_row ; ++row) {

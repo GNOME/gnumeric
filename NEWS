@@ -55,6 +55,7 @@ Jody:
 	* Fix xls name import for external and builtin names (95 & 2k)
 	* Fix undo for object movement
 	* Improve XL95 export and prep framework for 2k
+	* Add quicky placeholder for importing 'input msg' from xls
 
 Morten:
 	* Port search center from gal's e-table to gtk's treeview.

@@ -224,6 +224,7 @@ src/gui-util.c
 src/gutils.c
 src/history.c
 src/hlink.c
+src/input-msg.c
 src/item-bar.c
 src/item-cursor.c
 src/item-grid.c

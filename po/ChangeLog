@@ -1,3 +1,7 @@
+2002-10-26  Jody Goldberg <jody@gnome.org>
+
+	* POTFILES.in : Add input-msg.c
+
 2002-10-24  Pablo Saratxaga  <pablo@mandrakesoft.com>
 
 	* vi.po: Updated Vietnamese file

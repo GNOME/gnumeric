@@ -2265,12 +2265,11 @@ natural_order_cmp (const void *a, const void *b)
 }
 
 static void
-copy_hash_table_to_ptr_array (gpointer key, gpointer value, gpointer user_data)
+copy_hash_table_to_ptr_array (gpointer key, Cell *cell, gpointer user_data)
 {
-	g_ptr_array_add (user_data,value) ;
+	if (!cell_is_blank (cell))
+		g_ptr_array_add (user_data, cell) ;
 }
-
-
 
 /*
  * Create an XML subtree of doc equivalent to the given Sheet.
@@ -2405,7 +2404,8 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 		n = g_hash_table_size (sheet->cell_hash);
 		if (n > 0) {
 			GPtrArray *natural = g_ptr_array_new ();
-			g_hash_table_foreach (sheet->cell_hash, copy_hash_table_to_ptr_array, natural);
+			g_hash_table_foreach (sheet->cell_hash,
+				(GHFunc) copy_hash_table_to_ptr_array, natural);
 			qsort (&g_ptr_array_index (natural, 0),
 			       n,
 			       sizeof (gpointer),
