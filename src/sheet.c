@@ -160,7 +160,7 @@ void
 sheet_detach_control (SheetControl *sc)
 {
 	Sheet *sheet;
-	
+
 	g_return_if_fail (IS_SHEET_CONTROL (sc));
 
 	sheet = sc_sheet (sc);
@@ -754,7 +754,7 @@ sheet_colrow_fit_gutter (Sheet const *sheet, gboolean is_cols)
 		(ColRowHandler)cb_outline_level, &outline_level);
 	return outline_level;
 }
-			  
+
 /**
  * sheet_update_only_grid :
  *
@@ -988,7 +988,7 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
 
 /**
  * sheet_colrow_can_group:
- * 
+ *
  * Returns TRUE if @from to @to can be grouped, return
  * FALSE otherwise. You can invert the result if you need
  * to find out if a group can be ungrouped.
@@ -998,7 +998,7 @@ sheet_colrow_can_group (Sheet *sheet, Range const *r, gboolean is_cols)
 {
 	ColRowInfo const *start_cri, *end_cri;
 	int start, end;
-	
+
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	if (is_cols) {
@@ -1026,10 +1026,10 @@ sheet_colrow_group_ungroup (Sheet *sheet, Range const *r,
 {
 	int i, new_size, start, end;
 	int const step = group ? 1 : -1;
-	
+
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
-	/* Can we group/ungroup ? */	
+	/* Can we group/ungroup ? */
 	if (group != sheet_colrow_can_group (sheet, r, is_cols))
 		return FALSE;
 
@@ -1477,7 +1477,7 @@ sheet_cell_get_value (Sheet *sheet, int const col, int const row)
 	Cell *cell;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	
+
 	cell = sheet_cell_get (sheet, col, row);
 
 	return cell ? cell->value : NULL;
@@ -2647,7 +2647,7 @@ static void
 sheet_cell_destroy (Sheet *sheet, Cell *cell, gboolean queue_recalc)
 {
 	if (cell_has_expr (cell)) {
-		/* if it needs recalc then its depends are already queued 
+		/* if it needs recalc then its depends are already queued
 		 * check recalc status before we unlink
 		 */
 		queue_recalc &= !cell_needs_recalc (cell);
@@ -4183,8 +4183,8 @@ sheet_clone_colrow_info_item (ColRowInfo *info, void *user_data)
 {
 	closure_clone_colrow const *closure = user_data;
 	ColRowInfo *new_colrow = sheet_colrow_fetch (closure->sheet,
-		src->pos, closure->is_column);
-	colrow_copy (new_colrow, src);
+		info->pos, closure->is_column);
+	colrow_copy (new_colrow, info);
 	return FALSE;
 }
 
@@ -4389,7 +4389,7 @@ sheet_duplicate	(Sheet const *src)
 }
 
 /**
- * sheet_set_initial_top_left 
+ * sheet_set_initial_top_left
  * @sheet : the sheet.
  * @col   :
  * @row   :
@@ -4443,7 +4443,7 @@ sheet_freeze_panes (Sheet *sheet,
 			sheet->unfrozen_top_left = *unfrozen;
 		} else
 			frozen = unfrozen = NULL;
-	} 
+	}
 
 	if (frozen == NULL) {
 		g_return_if_fail (unfrozen == NULL);
@@ -4483,7 +4483,7 @@ sheet_is_frozen	(Sheet const *sheet)
 /**
  * sheet_set_tab_color :
  * @sheet :
- * @color : 
+ * @color :
  *
  * absorb the reference to the style color
  */

@@ -1,6 +1,10 @@
+2002-05-04  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/sheet.c (sheet_clone_colrow_info_item): Correct typo s/src/info.
+
 2002-05-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/print.c (compute_sheet_pages) : don't overwrite number of 
+	* src/print.c (compute_sheet_pages) : don't overwrite number of
 	  pages from previous sheets.
 
 2002-04-29  Jody Goldberg <jody@gnome.org>
@@ -63,7 +67,7 @@
 2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/analysis-tools.c (set_cell_value) : plug leak
-	
+
 2002-03-20  Jody Goldberg <jody@gnome.org>
 
 	* src/cellspan.c (cell_calc_span) : Fix span calc when spanning
@@ -237,7 +241,7 @@
 	(style_font_unref) : ditto.
 
 2002-01-29  Duarte Loreto <happyguy_pt@hotmail.com>
-   
+
         * src/workbook-control-gui.c : Fixed misspell of variance (was "varince")
         * src/GNOME_Gnumeric.xml: Same as previous
 
@@ -286,7 +290,7 @@
 	* Makefile.am: Added omf-install/
 	* omf-install: Added directory for OMF stuff
 	* omf-install/Makefile.am: Copied that in
-	
+
 2002-01-22  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* README:
