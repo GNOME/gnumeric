@@ -2135,9 +2135,9 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 	case BIFF_COLINFO: /* See: S59D67.HTM */
 	{
 		int lp;
-		int divisor;
-		BiffXFData const *xf;
-		BiffFontData const *fd;
+		int char_width = 1;
+		BiffXFData const *xf = NULL;
+		BiffFontData const *fd = NULL;
 		guint16 const firstcol = MS_OLE_GET_GUINT16(q->data);
 		guint16 const lastcol  = MS_OLE_GET_GUINT16(q->data+2);
 		guint16       width    = MS_OLE_GET_GUINT16(q->data+4);
@@ -2160,27 +2160,31 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 #endif
 		/*
 		 * FIXME FIXME FIXME 
-		 * 1) As a default 36 seems seems to match the sheet I
+		 * 1) As a default 12 seems seems to match the sheet I
 		 *    calibrated against.
 		 * 2) the docs say charwidth not height.  Is this correct ?
 		 */
 		if ((xf = ms_excel_get_xf (sheet, cols_xf)) != NULL &&
 		    (fd = ms_excel_get_font (sheet, xf->font_idx))) {
-			divisor = fd->height / 10;
+			char_width = fd->height / 20.;
 		} else
-			divisor = 36.;
+			char_width = 12.;
 
 		if (width>>8 == 0) {
 			if (hidden)
 				printf ("FIXME: Hidden column unimplemented\n");
 			else
 				printf ("FIXME: 0 sized column ???\n");
-			width = 62 * divisor;
-		}
+
+			/* FIXME : Make the magic default col width a define or function somewhere */
+			width = 62;
+		} else
+			/* NOTE : Do not use *= we need to do the width*char_width before the division */
+			width = width * char_width / 256.;
 
 		for (lp=firstcol;lp<=lastcol;lp++)
 			sheet_col_set_width (sheet->gnum_sheet, lp,
-					     width/divisor);
+					     width);
 		break;
 	}
 	case BIFF_RK: /* See: S59DDA.HTM */
