@@ -28,6 +28,12 @@
 
 /***************************************************************************/
 
+/**
+ * expr_tree_new_constant :
+ * @v :
+ *
+ * Absorb the value.
+ */
 ExprTree *
 expr_tree_new_constant (Value *v)
 {

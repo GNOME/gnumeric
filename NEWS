@@ -7,6 +7,9 @@ Jody:
 	* Make names created in the goto box absolute.
 	* Fix multi-line text entry.
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=71172
+	* Keep the validated value around, and fix date/time validation.
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=70327
 	* Applix font indicies are 0 based.
 
