@@ -1725,8 +1725,11 @@ BC_R(end)(XLChartHandler const *handle,
 					obj = (tmp == NULL)
 						? gog_object_add_by_name (GOG_OBJECT (s->chart), "Grid", NULL)
 						: GOG_OBJECT (tmp);
-				} else
+				} else {
 					obj = GOG_OBJECT (s->chart);
+					s->style->outline = s->style->line;
+					s->style->line.width = -1.;
+				}
 				if (obj != NULL)
 					g_object_set (G_OBJECT (obj),
 						"style", s->style,
@@ -2004,8 +2007,16 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 	state.text	    = NULL;
 
 	if (NULL != (state.sog = sog)) {
+		GogStyle *style = gog_style_new ();
+		style->outline.width = -1;
+		style->fill.type = GOG_FILL_STYLE_NONE;
+
 		state.graph = sheet_object_graph_get_gog (sog);
 		state.chart = GOG_CHART (gog_object_add_by_name (GOG_OBJECT (state.graph), "Chart", NULL));
+
+		g_object_set (G_OBJECT (state.graph), "style", style, NULL);
+		g_object_set (G_OBJECT (state.chart), "style", style, NULL);
+		g_object_unref (style);
 	} else {
 		state.graph = NULL;
 		state.chart = NULL;

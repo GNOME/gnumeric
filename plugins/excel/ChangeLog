@@ -1,3 +1,10 @@
+2004-04-19  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=135949
+	* ms-chart.c (BC_R(end)) : graph style wants outline not line
+	(ms_excel_read_chart) : there is not 'Graph' concept in xls, remove
+	  it's style.  Charts default to blank too.
+
 2004-04-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.11
