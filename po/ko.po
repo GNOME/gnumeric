@@ -3,10 +3,10 @@
 # Sung-Hyun Nam <namsh@lgic.co.kr>, 1998, 1999
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.28\n"
-"POT-Creation-Date: 1999-09-06 18:02-0500\n"
-"PO-Revision-Date: 1999-07-08 12:20:55+0900\n"
-"Last-Translator: Sung-Hyun Nam <namsh@lgic.co.kr>\n"
+"Project-Id-Version: gnumeric 0.35\n"
+"POT-Creation-Date: 1999-09-12 19:07+0900\n"
+"PO-Revision-Date: 1999-09-12 11:44:28+0900\n"
+"Last-Translator: Sung-Hyun Nam <namsh@kldp.org>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=euc-kr\n"
@@ -32,48 +32,45 @@ msgstr "엑셀(R) 97 파일 형식"
 msgid "Excel(R) 95 file format"
 msgstr "엑셀(R) 95 파일 형식"
 
-#: plugins/excel/ms-excel-read.c:264
+#: plugins/excel/ms-excel-read.c:265
 msgid "#UNKNOWN!"
-msgstr ""
+msgstr "#모름!"
 
 #: plugins/excel/ms-formula-read.c:645
-#, fuzzy
 msgid "Unknown Function"
-msgstr "모르는 계산 에러"
+msgstr "모르는 함수"
 
 #: plugins/excel/ms-formula-read.c:690
 msgid "Broken function"
-msgstr ""
+msgstr "깨진 함수"
 
 #: plugins/excel/ms-formula-read.c:1385
-#, fuzzy
 msgid " Unknown formula"
-msgstr "모르는 계산 에러"
+msgstr " 모르는 공식"
 
 #: plugins/ff-csv/csv-io.c:52
 #, c-format
 msgid "Imported %s"
-msgstr ""
+msgstr "%s 가져옴"
 
 #: plugins/ff-csv/csv-io.c:82
 msgid "Comma Separated Value (CSV) import"
-msgstr ""
+msgstr "콤마로 구분된 값 (CSV) 가져오기"
 
 #: plugins/ff-csv/csv-io.c:85
 msgid "Comma Separated Value (CSV) module"
-msgstr ""
+msgstr "콤마로 구분된 값 (CSV) 모듈"
 
 #: plugins/guile/plugin.c:219
 msgid "Argument must be a Guile expression"
 msgstr "인자는 Guile 형식이어야 합니다"
 
 #: plugins/guile/plugin.c:237 src/expr.c:502
-#: src/functions/fn-information.c:334 src/functions/fn-information.c:394
-#: src/functions/fn-information.c:416 src/functions/fn-information.c:437
-#: src/functions/fn-information.c:477 src/functions/fn-information.c:501
-#: src/functions/fn-information.c:557 src/functions/fn-logical.c:159
-#: src/functions/fn-lookup.c:443 src/functions/fn-sheet.c:35
-#: src/functions/fn-string.c:293
+#: src/functions/fn-information.c:347 src/functions/fn-information.c:413
+#: src/functions/fn-information.c:438 src/functions/fn-information.c:462
+#: src/functions/fn-information.c:508 src/functions/fn-information.c:535
+#: src/functions/fn-information.c:597 src/functions/fn-logical.c:176
+#: src/functions/fn-lookup.c:463 src/functions/fn-string.c:342
 msgid "Invalid number of arguments"
 msgstr "인자 갯수가 틀림"
 
@@ -99,56 +96,55 @@ msgstr "Guile 플러그인"
 
 #: plugins/html/boot.c:65
 msgid "HTML 3.2 file format (*.html)"
-msgstr ""
+msgstr "HTML 3.2 파일 형식 (*.html)"
 
 #: plugins/html/boot.c:67
 msgid "HTML 4.0 file format (*.html)"
-msgstr ""
+msgstr "HTML 4.0 파일 형식 (*.html)"
 
 #: plugins/html/boot.c:69
 msgid "HTML file made by gnumeric"
-msgstr ""
+msgstr "Gnumeric이 만든 HTML 파일"
 
 #: plugins/html/boot.c:73
 msgid "LaTeX file format (*.tex)"
-msgstr ""
+msgstr "LaTeX 파일 형식 (*.tex)"
 
 #: plugins/html/boot.c:75
 msgid "LaTeX2e file format (*.tex)"
-msgstr ""
+msgstr "LaTeX2e 파일 형식 (*.tex)"
 
 #: plugins/html/boot.c:78
 msgid "PS file format (via groff)"
-msgstr ""
+msgstr "PS 파일 형식 (via groff)"
 
 #: plugins/html/boot.c:80
 msgid "DVI TeX file format (via groff)"
-msgstr ""
+msgstr "DVI TeX 파일 형식 (via groff)"
 
 #: plugins/html/boot.c:82
-#, fuzzy
 msgid "TROFF file format (*.me)"
-msgstr "파일 형식:"
+msgstr "TROFF 파일 형식 (*.me)"
 
 #: plugins/html/boot.c:84
 msgid "PDF file format (via groff/gs)"
-msgstr ""
+msgstr "PDF 파일 형식 (via groff/gs)"
 
 #: plugins/html/boot.c:87
 msgid "EPS file format (*.eps)"
-msgstr ""
+msgstr "EPS 파일 형식 (*.eps)"
 
 #: plugins/html/boot.c:100
 msgid "HTML (simple html export/import plugin)"
-msgstr ""
+msgstr "HTML (간단한 html 보내기/가져오기 플러그인)"
 
 #: plugins/lotus-123/boot.c:88
 msgid "Lotus (*.wk1) file format"
-msgstr ""
+msgstr "로터스 (*.wk1) 파일 형식"
 
 #: plugins/lotus-123/boot.c:94
 msgid "Lotus 123 file import/export plugin"
-msgstr ""
+msgstr "로터스 123 파일 가져오기/보내기 플러그인"
 
 #: plugins/python/python.c:101
 msgid "Unable to lookup Python code object."
@@ -180,9 +176,8 @@ msgid "Python Plugin"
 msgstr "Python 플러그인"
 
 #: plugins/sample/plugin-sample.c:49
-#, fuzzy
 msgid "Sample Plugin"
-msgstr "Guile 플러그인"
+msgstr "샘플 플러그인"
 
 #: plugins/stat/stat.c:27
 msgid "OLD Statistics Plugin, not required anymore"
@@ -194,29 +189,28 @@ msgid ""
 "While opening %s\n"
 "%s"
 msgstr ""
+"%s를 여는 도중에\n"
+"%s"
 
 #: plugins/text/text-io.c:337
-#, fuzzy
 msgid "NoName"
-msgstr "이름"
+msgstr "이름없음"
 
 #: plugins/text/text-io.c:428
-#, fuzzy
 msgid "Simple Text Format"
-msgstr "파일 형식:"
+msgstr "간단한 텍스트 형식"
 
 #: plugins/text/text-io.c:458
 msgid "TXT (simple text import/export plugin)"
-msgstr ""
+msgstr "TXT (간단한 텍스트 가져오기/보내기 플러그인)"
 
 #: plugins/xbase/boot.c:207
-#, fuzzy
 msgid "Xbase (*.dbf) file format"
-msgstr "엑셀(R) 97 파일 형식"
+msgstr "Xbase (*.dbf) 파일 형식"
 
 #: plugins/xbase/boot.c:214
 msgid "XBase file import/export plugin"
-msgstr ""
+msgstr "XBase 파일 가져오기/보내기 플러그인"
 
 #: src/about.c:24
 msgid "Miguel de Icaza, main programmer."
@@ -236,7 +230,7 @@ msgstr "Jody Goldberg, 엑셀 해커."
 
 #: src/about.c:28
 msgid "Ross Ihaka, special functions."
-msgstr ""
+msgstr "Ross Ihaka, 특별한 함수들."
 
 #: src/about.c:29
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
@@ -275,9 +269,8 @@ msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr ""
 
 #: src/about.c:38
-#, fuzzy
 msgid "Vincent Renardias, CSV support, French localisation."
-msgstr "Vincent Renardias, CSV 지원."
+msgstr "Vincent Renardias, CSV 지원, 프랑스어 번역"
 
 #: src/about.c:39
 msgid "Bruno Unna, Excel bits."
@@ -301,7 +294,7 @@ msgstr "Gnumeric"
 
 #: src/about.c:57
 msgid "(C) 1998-1999 Miguel de Icaza"
-msgstr ""
+msgstr "(C) 1998-1999 Miguel de Icaza"
 
 #: src/about.c:64
 msgid "Gnumeric Home Page"
@@ -313,16 +306,16 @@ msgstr "Gnumeric 지원 페이지"
 
 #: src/cell.c:74
 msgid "ERROR"
-msgstr ""
+msgstr "에러"
 
 #. Until the value is recomputed, we put in this value.
 #: src/cell.c:125 src/cell.c:754
 msgid "Circular reference"
-msgstr ""
+msgstr "순환 참조"
 
 #: src/corba-args.c:33
 msgid "Could not initialize the Gnumeric Workbook factory"
-msgstr ""
+msgstr "Gnumeric 워크북 팩토리를 초기화할 수 없습니다"
 
 #: src/dates.c:14
 msgid "*Sun"
@@ -476,336 +469,602 @@ msgstr "11월"
 msgid "December"
 msgstr "12월"
 
-#: src/dialogs/dialog-analysis-tools.c:106
-msgid "Discrete"
+#: src/dialogs/dialog-analysis-tools.c:71
+#: src/dialogs/dialog-analysis-tools.c:1832
+msgid "Anova: Single Factor"
 msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:73
+#: src/dialogs/dialog-analysis-tools.c:1920
+msgid "Anova: Two-Factor Without Replication"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:75
+#: src/dialogs/dialog-analysis-tools.c:408
+msgid "Correlation"
+msgstr "상호관계"
+
+#: src/dialogs/dialog-analysis-tools.c:77
+#: src/dialogs/dialog-analysis-tools.c:489
+msgid "Covariance"
+msgstr "공분산"
+
+#: src/dialogs/dialog-analysis-tools.c:79
+#: src/dialogs/dialog-analysis-tools.c:677
+msgid "Descriptive Statistics"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:81
+#: src/dialogs/dialog-analysis-tools.c:1204
+msgid "F-Test: Two-Sample for Variances"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:83
+#: src/dialogs/dialog-analysis-tools.c:1659
+msgid "Moving Average"
+msgstr "이동 평균"
+
+#: src/dialogs/dialog-analysis-tools.c:85
+#: src/dialogs/dialog-analysis-tools.c:1368
+msgid "Random Number Generation"
+msgstr "무작위 숫자 생성"
+
+#: src/dialogs/dialog-analysis-tools.c:87
+#: src/dialogs/dialog-analysis-tools.c:1749
+msgid "Rank and Percentile"
+msgstr "등급과 백분위수"
+
+#: src/dialogs/dialog-analysis-tools.c:89
+#: src/dialogs/dialog-analysis-tools.c:1559
+msgid "Regression"
+msgstr "회귀"
+
+#: src/dialogs/dialog-analysis-tools.c:91
+#: src/dialogs/dialog-analysis-tools.c:566
+msgid "Sampling"
+msgstr "샘플링"
+
+#: src/dialogs/dialog-analysis-tools.c:93
+#: src/dialogs/dialog-analysis-tools.c:890
+msgid "t-Test: Paired Two Sample for Means"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:95
+#: src/dialogs/dialog-analysis-tools.c:995
+msgid "t-Test: Two-Sample Assuming Equal Variances"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:97
+#: src/dialogs/dialog-analysis-tools.c:1100
+msgid "t-Test: Two-Sample Assuming Unequal Variances"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:99
+#: src/dialogs/dialog-analysis-tools.c:773
+msgid "z-Test: Two Sample for Means"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:106
+#: src/dialogs/dialog-analysis-tools.c:1337
+#: src/dialogs/dialog-analysis-tools.c:1516
+msgid "Discrete"
+msgstr "불연속"
 
 #: src/dialogs/dialog-analysis-tools.c:107
+#: src/dialogs/dialog-analysis-tools.c:1334
+#: src/dialogs/dialog-analysis-tools.c:1506
 #: src/widgets/widget-font-selector.c:117
-#, fuzzy
 msgid "Normal"
-msgstr "형식"
+msgstr "일반"
 
 #: src/dialogs/dialog-analysis-tools.c:108
+#: src/dialogs/dialog-analysis-tools.c:1331
+#: src/dialogs/dialog-analysis-tools.c:1512
 msgid "Bernoulli"
-msgstr ""
+msgstr "베르누이"
 
 #: src/dialogs/dialog-analysis-tools.c:109
+#: src/dialogs/dialog-analysis-tools.c:1328
+#: src/dialogs/dialog-analysis-tools.c:1500
 msgid "Uniform"
-msgstr ""
+msgstr "균등"
 
 #: src/dialogs/dialog-analysis-tools.c:150
 msgid "Summary Statistics"
-msgstr ""
+msgstr "요약 통계"
 
 #: src/dialogs/dialog-analysis-tools.c:152
 msgid "Confidence Level for Mean"
-msgstr ""
+msgstr "평균의 신용 수준"
 
 #: src/dialogs/dialog-analysis-tools.c:153
 msgid "0.95"
-msgstr ""
+msgstr "0.95"
 
 #: src/dialogs/dialog-analysis-tools.c:154
 msgid "Kth Largest:"
-msgstr ""
+msgstr "K번째 큰:"
 
 #: src/dialogs/dialog-analysis-tools.c:155
 #: src/dialogs/dialog-analysis-tools.c:157
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: src/dialogs/dialog-analysis-tools.c:156
 msgid "Kth Smallest:"
-msgstr ""
+msgstr "K번째 작은:"
 
 #: src/dialogs/dialog-analysis-tools.c:162
 msgid "Labels in First Row"
-msgstr ""
+msgstr "첫번째 열의 꼬리표"
 
 #: src/dialogs/dialog-analysis-tools.c:168
 msgid "Labels"
-msgstr ""
+msgstr "꼬리표"
 
 #: src/dialogs/dialog-analysis-tools.c:174
 msgid "Standard Errors"
-msgstr ""
+msgstr "표준 에러"
 
 #: src/dialogs/dialog-analysis-tools.c:201
-#, fuzzy
 msgid "Columns"
-msgstr "열(_o)"
+msgstr "열"
 
 #: src/dialogs/dialog-analysis-tools.c:202
-#, fuzzy
 msgid "Rows"
-msgstr "행(_R)"
+msgstr "행"
 
 #: src/dialogs/dialog-analysis-tools.c:207
 msgid "Periodic"
-msgstr ""
+msgstr "주기적"
 
 #: src/dialogs/dialog-analysis-tools.c:208
 msgid "Random"
-msgstr ""
+msgstr "무작위"
 
 #: src/dialogs/dialog-analysis-tools.c:237
-#: src/dialogs/dialog-analysis-tools.c:2010
+#: src/dialogs/dialog-analysis-tools.c:2009
 msgid "OK"
+msgstr "확인"
+
+#: src/dialogs/dialog-analysis-tools.c:345
+msgid "New Sheet"
+msgstr "새 쉬트"
+
+#. hbox = gtk_hbox_new (FALSE, 0);
+#: src/dialogs/dialog-analysis-tools.c:349
+msgid "New Workbook"
+msgstr "새 워크북"
+
+#: src/dialogs/dialog-analysis-tools.c:354
+msgid "Output Range:"
+msgstr "출력 범위:"
+
+#: src/dialogs/dialog-analysis-tools.c:373
+msgid "Grouped By:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2009
-#, fuzzy
+#: src/dialogs/dialog-analysis-tools.c:418
+#: src/dialogs/dialog-analysis-tools.c:499
+#: src/dialogs/dialog-analysis-tools.c:576
+#: src/dialogs/dialog-analysis-tools.c:687
+#: src/dialogs/dialog-analysis-tools.c:1668
+#: src/dialogs/dialog-analysis-tools.c:1759
+#: src/dialogs/dialog-analysis-tools.c:1842
+#: src/dialogs/dialog-analysis-tools.c:1931
+msgid "Input Range:"
+msgstr "입력 범위:"
+
+#: src/dialogs/dialog-analysis-tools.c:453
+#: src/dialogs/dialog-analysis-tools.c:533
+#: src/dialogs/dialog-analysis-tools.c:637
+#: src/dialogs/dialog-analysis-tools.c:727
+#: src/dialogs/dialog-analysis-tools.c:1794
+#: src/dialogs/dialog-analysis-tools.c:1879
+#: src/dialogs/dialog-analysis-tools.c:1965
+msgid "You should introduce a valid cell range in 'Range:'"
+msgstr "유효한 셀 범위를 '범위:'에 입력하셔야 합니다"
+
+#: src/dialogs/dialog-analysis-tools.c:496
+#: src/dialogs/dialog-analysis-tools.c:573
+#: src/dialogs/dialog-analysis-tools.c:684
+#: src/dialogs/dialog-analysis-tools.c:781
+#: src/dialogs/dialog-analysis-tools.c:898
+#: src/dialogs/dialog-analysis-tools.c:1003
+#: src/dialogs/dialog-analysis-tools.c:1109
+#: src/dialogs/dialog-analysis-tools.c:1562
+#: src/dialogs/dialog-analysis-tools.c:1662
+#: src/dialogs/dialog-analysis-tools.c:1756
+#: src/dialogs/dialog-analysis-tools.c:1839
+#: src/dialogs/dialog-analysis-tools.c:1928
+msgid "Input:"
+msgstr "입력:"
+
+#: src/dialogs/dialog-analysis-tools.c:578
+msgid "Sampling Method:"
+msgstr "샘플링 방법:"
+
+#: src/dialogs/dialog-analysis-tools.c:590
+msgid "Period:"
+msgstr "주기:"
+
+#: src/dialogs/dialog-analysis-tools.c:593
+msgid "Number of Samples:"
+msgstr "샘플 갯수:"
+
+#: src/dialogs/dialog-analysis-tools.c:784
+#: src/dialogs/dialog-analysis-tools.c:901
+#: src/dialogs/dialog-analysis-tools.c:1006
+#: src/dialogs/dialog-analysis-tools.c:1112
+#: src/dialogs/dialog-analysis-tools.c:1214
+msgid "Variable 1 Range:"
+msgstr "변수 1 범위:"
+
+#: src/dialogs/dialog-analysis-tools.c:787
+#: src/dialogs/dialog-analysis-tools.c:904
+#: src/dialogs/dialog-analysis-tools.c:1009
+#: src/dialogs/dialog-analysis-tools.c:1115
+#: src/dialogs/dialog-analysis-tools.c:1217
+msgid "Variable 2 Range:"
+msgstr "변수 2 범위:"
+
+#: src/dialogs/dialog-analysis-tools.c:790
+#: src/dialogs/dialog-analysis-tools.c:907
+#: src/dialogs/dialog-analysis-tools.c:1012
+#: src/dialogs/dialog-analysis-tools.c:1118
+msgid "Hypothesized Mean Difference:"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:793
+msgid "Variable 1 Variance (known):"
+msgstr "변수 1 변화 (알려짐):"
+
+#: src/dialogs/dialog-analysis-tools.c:796
+msgid "Variable 2 Variance (known):"
+msgstr "변수 2 변화 (알려짐):"
+
+#: src/dialogs/dialog-analysis-tools.c:798
+#: src/dialogs/dialog-analysis-tools.c:909
+#: src/dialogs/dialog-analysis-tools.c:1014
+#: src/dialogs/dialog-analysis-tools.c:1120
+#: src/dialogs/dialog-analysis-tools.c:1219
+#: src/dialogs/dialog-analysis-tools.c:1846
+#: src/dialogs/dialog-analysis-tools.c:1933
+msgid "Alpha:"
+msgstr "알파:"
+
+#: src/dialogs/dialog-analysis-tools.c:830
+#: src/dialogs/dialog-analysis-tools.c:941
+#: src/dialogs/dialog-analysis-tools.c:1046
+#: src/dialogs/dialog-analysis-tools.c:1152
+#: src/dialogs/dialog-analysis-tools.c:1252
+#: src/dialogs/dialog-analysis-tools.c:1606
+msgid "You should introduce a valid cell range in 'Variable 1:'"
+msgstr "유효한 셀 범위를 '변수 1:'에 입력하셔야 합니다"
+
+#: src/dialogs/dialog-analysis-tools.c:841
+#: src/dialogs/dialog-analysis-tools.c:952
+#: src/dialogs/dialog-analysis-tools.c:1057
+#: src/dialogs/dialog-analysis-tools.c:1163
+#: src/dialogs/dialog-analysis-tools.c:1263
+#: src/dialogs/dialog-analysis-tools.c:1617
+msgid "You should introduce a valid cell range in 'Variable 2:'"
+msgstr "유효한 셀 범위를 '변수 2:'에 입력하셔야 합니다"
+
+#: src/dialogs/dialog-analysis-tools.c:1379
+msgid "Number of Variables:"
+msgstr "변수의 갯수:"
+
+#: src/dialogs/dialog-analysis-tools.c:1382
+msgid "Number of Random Numbers:"
+msgstr "무작위 숫자의 갯수:"
+
+#: src/dialogs/dialog-analysis-tools.c:1393
+msgid "Parameters:"
+msgstr "파라미터:"
+
+#: src/dialogs/dialog-analysis-tools.c:1406
+msgid "Value and Probability Input Range:"
+msgstr "값과 확률 입력 범위:"
+
+#: src/dialogs/dialog-analysis-tools.c:1411
+msgid "Between:"
+msgstr "사이:"
+
+#: src/dialogs/dialog-analysis-tools.c:1414
+msgid "And:"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:1419
+msgid "Mean = "
+msgstr "평균 = "
+
+#: src/dialogs/dialog-analysis-tools.c:1421
+msgid "Standard Deviation = "
+msgstr "표준 편차 = "
+
+#: src/dialogs/dialog-analysis-tools.c:1425
+msgid "Lambda"
+msgstr "람다"
+
+#: src/dialogs/dialog-analysis-tools.c:1429
+msgid "p Value"
+msgstr "p 값"
+
+#: src/dialogs/dialog-analysis-tools.c:1524
+msgid ""
+"You should introduce a valid cell range in 'Value and Probability Input "
+"Range:'"
+msgstr "유효한 셀 범위를 '값과 확률 입력 범위:'에 입력하셔야 합니다"
+
+#: src/dialogs/dialog-analysis-tools.c:1568
+msgid "Input Y Range:"
+msgstr "입력 Y 범위:"
+
+#: src/dialogs/dialog-analysis-tools.c:1571
+msgid "Input X Range:"
+msgstr "입력 X 범위:"
+
+#: src/dialogs/dialog-analysis-tools.c:1573
+msgid "Confidence Level:"
+msgstr "신용 수준:"
+
+#: src/dialogs/dialog-analysis-tools.c:1670
+msgid "Interval:"
+msgstr "간격:"
+
+#: src/dialogs/dialog-analysis-tools.c:1705
+msgid "You should introduce a valid cell range in 'Range Input:'"
+msgstr "유효한 셀 범위를 '범위 입력'에 입력하셔야 합니다"
+
+#: src/dialogs/dialog-analysis-tools.c:2008
 msgid "Data Analysis"
-msgstr "자료 분석(_D)..."
+msgstr "자료 분석..."
+
+#: src/dialogs/dialog-analysis-tools.c:2015
+msgid "Analysis Tools"
+msgstr "분석 도구"
 
 #: src/dialogs/dialog-cell-comment.c:25
-#, fuzzy
 msgid "Cell comment"
-msgstr "코멘트"
+msgstr "셀 설명"
 
-#: src/dialogs/dialog-cell-format.c:68
+#: src/dialogs/dialog-cell-format.c:69
 msgid "Numbers"
 msgstr "숫자"
 
-#: src/dialogs/dialog-cell-format.c:69
+#: src/dialogs/dialog-cell-format.c:70
 msgid "Accounting"
 msgstr "계산중"
 
-#: src/dialogs/dialog-cell-format.c:70
+#: src/dialogs/dialog-cell-format.c:71
 msgid "Date"
 msgstr "날짜"
 
-#: src/dialogs/dialog-cell-format.c:71
+#: src/dialogs/dialog-cell-format.c:72
 msgid "Time"
 msgstr "시간"
 
-#: src/dialogs/dialog-cell-format.c:72
+#: src/dialogs/dialog-cell-format.c:73
 msgid "Percent"
 msgstr "퍼센트"
 
-#: src/dialogs/dialog-cell-format.c:73
+#: src/dialogs/dialog-cell-format.c:74
 msgid "Fraction"
 msgstr "분수"
 
-#: src/dialogs/dialog-cell-format.c:74
+#: src/dialogs/dialog-cell-format.c:75
 msgid "Scientific"
 msgstr "과학"
 
-#: src/dialogs/dialog-cell-format.c:75
+#: src/dialogs/dialog-cell-format.c:76
 msgid "Text"
 msgstr "텍스트"
 
-#: src/dialogs/dialog-cell-format.c:76
+#: src/dialogs/dialog-cell-format.c:77
 msgid "Money"
 msgstr "돈"
 
 #. 1. Categories
-#: src/dialogs/dialog-cell-format.c:258
+#: src/dialogs/dialog-cell-format.c:259
 msgid "Categories"
 msgstr "범주"
 
 #. 2.1 Input line
-#: src/dialogs/dialog-cell-format.c:290
+#: src/dialogs/dialog-cell-format.c:291
 msgid "Code:"
 msgstr "코드:"
 
 #. 2.2 Sample
-#: src/dialogs/dialog-cell-format.c:299
+#: src/dialogs/dialog-cell-format.c:300
 msgid "Sample:"
 msgstr "샘플:"
 
-#: src/dialogs/dialog-cell-format.c:311
+#: src/dialogs/dialog-cell-format.c:312
 msgid "Format codes"
 msgstr "형식 코드"
 
-#: src/dialogs/dialog-cell-format.c:360 src/formats.c:16
+#: src/dialogs/dialog-cell-format.c:361 src/formats.c:16
 #: src/number-match.c:457
 msgid "General"
 msgstr "보통"
 
-#: src/dialogs/dialog-cell-format.c:361
+#: src/dialogs/dialog-cell-format.c:362
 msgid "Left"
 msgstr "왼쪽"
 
-#: src/dialogs/dialog-cell-format.c:362 src/dialogs/dialog-cell-format.c:371
-#: src/workbook.c:1142
+#: src/dialogs/dialog-cell-format.c:363 src/dialogs/dialog-cell-format.c:372
+#: src/workbook.c:1120
 msgid "Center"
 msgstr "중앙"
 
-#: src/dialogs/dialog-cell-format.c:363
+#: src/dialogs/dialog-cell-format.c:364
 msgid "Right"
 msgstr "오른쪽"
 
-#: src/dialogs/dialog-cell-format.c:364
+#: src/dialogs/dialog-cell-format.c:365
 msgid "Fill"
 msgstr "채움"
 
-#: src/dialogs/dialog-cell-format.c:365 src/dialogs/dialog-cell-format.c:373
+#: src/dialogs/dialog-cell-format.c:366 src/dialogs/dialog-cell-format.c:374
 msgid "Justify"
-msgstr ""
+msgstr "균등"
 
-#: src/dialogs/dialog-cell-format.c:370
+#: src/dialogs/dialog-cell-format.c:371
 msgid "Top"
 msgstr "꼭대기"
 
-#: src/dialogs/dialog-cell-format.c:372
+#: src/dialogs/dialog-cell-format.c:373
 msgid "Bottom"
 msgstr "밑바닥"
 
 #. Vertical alignment
-#: src/dialogs/dialog-cell-format.c:428
+#: src/dialogs/dialog-cell-format.c:429
 msgid "Vertical"
 msgstr "수직"
 
 #. Horizontal alignment
-#: src/dialogs/dialog-cell-format.c:432
+#: src/dialogs/dialog-cell-format.c:433
 msgid "Horizontal"
 msgstr "수평"
 
-#: src/dialogs/dialog-cell-format.c:435
+#: src/dialogs/dialog-cell-format.c:436
 msgid "Auto return"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:620
+#: src/dialogs/dialog-cell-format.c:621
 msgid "Text color"
 msgstr "텍스트 색상"
 
 #. The radio buttons
-#: src/dialogs/dialog-cell-format.c:624 src/dialogs/dialog-cell-format.c:660
+#: src/dialogs/dialog-cell-format.c:625 src/dialogs/dialog-cell-format.c:661
 #: src/dialogs/dialog-paste-special.c:28
 msgid "None"
 msgstr "없음"
 
-#: src/dialogs/dialog-cell-format.c:626
+#: src/dialogs/dialog-cell-format.c:627
 msgid "Use this color"
 msgstr "이 색상 사용"
 
-#: src/dialogs/dialog-cell-format.c:628 src/dialogs/dialog-cell-format.c:666
+#: src/dialogs/dialog-cell-format.c:629 src/dialogs/dialog-cell-format.c:667
 msgid "No change"
 msgstr "변경하지 않음"
 
-#: src/dialogs/dialog-cell-format.c:654
+#: src/dialogs/dialog-cell-format.c:655
 msgid "Background configuration"
 msgstr "배경 환경설정"
 
-#: src/dialogs/dialog-cell-format.c:662
+#: src/dialogs/dialog-cell-format.c:663
 msgid "Use solid color"
 msgstr "고체색상 사용"
 
-#: src/dialogs/dialog-cell-format.c:664
+#: src/dialogs/dialog-cell-format.c:665
 msgid "Use a pattern"
 msgstr "패턴 사용"
 
-#: src/dialogs/dialog-cell-format.c:937
+#: src/dialogs/dialog-cell-format.c:938
 #: src/dialogs/dialog-function-wizard.c:209
 msgid "Number"
 msgstr "숫자"
 
-#: src/dialogs/dialog-cell-format.c:938
+#: src/dialogs/dialog-cell-format.c:939
 msgid "Alignment"
 msgstr "정렬"
 
-#: src/dialogs/dialog-cell-format.c:939
+#: src/dialogs/dialog-cell-format.c:940
 msgid "Font"
 msgstr "글꼴"
 
-#: src/dialogs/dialog-cell-format.c:940
+#: src/dialogs/dialog-cell-format.c:941
 msgid "Coloring"
 msgstr "채색"
 
-#: src/dialogs/dialog-cell-sort.c:40
-#, fuzzy
+#: src/dialogs/dialog-cell-sort.c:41
 msgid "Column:"
-msgstr "열(_o)"
+msgstr "열:"
 
-#: src/dialogs/dialog-cell-sort.c:55
+#: src/dialogs/dialog-cell-sort.c:56
 msgid "Asc"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:58
-#, fuzzy
+#: src/dialogs/dialog-cell-sort.c:59
 msgid "Desc"
-msgstr "*12월"
+msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:271
+#: src/dialogs/dialog-cell-sort.c:272
 msgid "more clauses than rows ?"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:274
+#: src/dialogs/dialog-cell-sort.c:275
 msgid "too many clauses"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:294
+#: src/dialogs/dialog-cell-sort.c:295
 msgid "Need at least one clause"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:314 src/workbook.c:1501
+#: src/dialogs/dialog-cell-sort.c:315 src/workbook.c:1481
 msgid "Selection must be a single range"
 msgstr "선택은 단일 범위여야만 합니다."
 
-#: src/dialogs/dialog-cell-sort.c:320
-#, fuzzy
+#: src/dialogs/dialog-cell-sort.c:321
 msgid "Selection must be a finite range"
-msgstr "선택은 단일 범위여야만 합니다."
+msgstr "선택은 유한한 범위여야만 합니다."
 
-#: src/dialogs/dialog-cell-sort.c:332
-#, fuzzy
+#: src/dialogs/dialog-cell-sort.c:333
 msgid "Sort Cells"
-msgstr "셀 삽입"
+msgstr "셀 정렬"
 
-#: src/dialogs/dialog-cell-sort.c:347
+#: src/dialogs/dialog-cell-sort.c:348
 msgid "then by"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:347
+#: src/dialogs/dialog-cell-sort.c:348
 msgid "sort by"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:385
-#, fuzzy
+#: src/dialogs/dialog-cell-sort.c:386
 msgid "Column must be within range"
-msgstr "열 갯수가 범위를 벗어남"
+msgstr "열은 범위 내에 있어야 합니다"
 
-#: src/dialogs/dialog-cell-sort.c:391
+#: src/dialogs/dialog-cell-sort.c:392
 msgid "First column must be valid"
-msgstr ""
+msgstr "첫번째 열은 유효해야 합니다"
 
-#: src/dialogs/dialog-delete-cells.c:25
+#: src/dialogs/dialog-delete-cells.c:26
 msgid "delete cells"
 msgstr "셀 삭제"
 
-#: src/dialogs/dialog-delete-cells.c:45
+#: src/dialogs/dialog-delete-cells.c:46
 msgid "Delete cells"
 msgstr "셀 삭제"
 
-#: src/dialogs/dialog-delete-cells.c:48 src/dialogs/names.glade.h:10
-#: src/item-grid.c:642
+#: src/dialogs/dialog-delete-cells.c:49 src/dialogs/names.glade.h:10
+#: src/item-grid.c:643
 msgid "Delete"
 msgstr "삭제"
 
-#: src/dialogs/dialog-delete-cells.c:49
+#: src/dialogs/dialog-delete-cells.c:50
 msgid "Shift cells left"
 msgstr "셀을 왼쪽으로 옮김"
 
-#: src/dialogs/dialog-delete-cells.c:50
+#: src/dialogs/dialog-delete-cells.c:51
 msgid "Shift cells up"
 msgstr "셀을 위로 옮김"
 
-#: src/dialogs/dialog-delete-cells.c:51
+#: src/dialogs/dialog-delete-cells.c:52
 msgid "Delete row(s)"
 msgstr "행 삭제"
 
-#: src/dialogs/dialog-delete-cells.c:52
+#: src/dialogs/dialog-delete-cells.c:53
 msgid "Delete column(s)"
 msgstr "열 삭제"
 
 #: src/dialogs/dialog-function-select.c:188
-#, fuzzy
 msgid "Formula Selection"
-msgstr "분수"
+msgstr "공식 선택"
 
-#: src/dialogs/dialog-function-wizard.c:206 src/functions/fn-string.c:1183
+#: src/dialogs/dialog-function-wizard.c:206 src/functions/fn-string.c:1296
 msgid "String"
 msgstr "문자열"
 
@@ -814,32 +1073,28 @@ msgid "Boolean"
 msgstr ""
 
 #: src/dialogs/dialog-function-wizard.c:215
-#, fuzzy
 msgid "Range"
-msgstr "직사각형"
+msgstr "범위"
 
 #: src/dialogs/dialog-function-wizard.c:218
-#, fuzzy
 msgid "Array"
-msgstr "화살표"
+msgstr "배열"
 
 #: src/dialogs/dialog-function-wizard.c:221
 msgid "Range/Array"
-msgstr ""
+msgstr "범위/배열"
 
 #: src/dialogs/dialog-function-wizard.c:224
 msgid "Any"
 msgstr ""
 
 #: src/dialogs/dialog-function-wizard.c:227
-#, fuzzy
 msgid "Unknown"
-msgstr "모르는 계산 에러"
+msgstr "모름"
 
 #: src/dialogs/dialog-function-wizard.c:334
-#, fuzzy
 msgid "Formula Wizard"
-msgstr "식"
+msgstr "공식 마법사"
 
 #: src/dialogs/dialog-goal-seek.c:191
 #, c-format
@@ -849,37 +1104,33 @@ msgstr ""
 #: src/dialogs/dialog-goal-seek.c:195
 #, c-format
 msgid "Target value:   %12.2f"
-msgstr ""
+msgstr "대상 값:       %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:198
 #, c-format
 msgid "Current value:  %12.2f"
-msgstr ""
+msgstr "현재 값:       %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:201
 #, c-format
 msgid "Solution:       %12.2f"
-msgstr ""
+msgstr "답:            %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:204
-#, fuzzy
 msgid "Goal Seek Report"
-msgstr "목표 찾기(_G)..."
+msgstr "목표 찾기 보고"
 
 #: src/dialogs/dialog-goal-seek.c:266
-#, fuzzy
 msgid "Goal Seek..."
-msgstr "목표 찾기(_G)..."
+msgstr "목표 찾기..."
 
 #: src/dialogs/dialog-goal-seek.c:280
-#, fuzzy
 msgid "Set cell:"
-msgstr "셀 삭제"
+msgstr "셀 설정:"
 
 #: src/dialogs/dialog-goal-seek.c:281
-#, fuzzy
 msgid "To value:"
-msgstr "값 복사"
+msgstr ""
 
 #: src/dialogs/dialog-goal-seek.c:282
 msgid "By changing cell:"
@@ -894,26 +1145,24 @@ msgid "But no bigger than [optional]:"
 msgstr ""
 
 #: src/dialogs/dialog-goal-seek.c:343
-#, fuzzy
 msgid "You should introduce a valid cell name in 'Set cell'"
-msgstr "유효한 셀이름을 넣으셔야 합니다"
+msgstr "유효한 셀 이름을 '셀 설정'에 입력하셔야 합니다"
 
 #: src/dialogs/dialog-goal-seek.c:351
 msgid "The cell named in 'Set cell' must contain a formula"
-msgstr ""
+msgstr "'셀 설정'의 셀 이름은 공식을 포함해야만 합니다"
 
 #: src/dialogs/dialog-goal-seek.c:364
-#, fuzzy
 msgid "You should introduce a valid cell name in 'By changing cell'"
-msgstr "유효한 셀이름을 넣으셔야 합니다"
+msgstr "유효한 셀이름을 'By changing cell'에 입력하셔야 합니다"
 
 #: src/dialogs/dialog-goal-seek.c:373
 msgid "The cell named in 'By changing cell' must not contain a formula"
-msgstr ""
+msgstr "'By changing cell'의 셀 이름은 공식을 포함하면 않됩니다"
 
 #: src/dialogs/dialog-goal-seek.c:420
 msgid "Goal seek did not find a solution!"
-msgstr ""
+msgstr "목표 찾기가 답을 찾지 못했습니다!"
 
 #: src/dialogs/dialog-goto-cell.c:42
 msgid "Cell"
@@ -927,31 +1176,31 @@ msgstr "...로 가기"
 msgid "Special..."
 msgstr "특별한 기능..."
 
-#: src/dialogs/dialog-insert-cells.c:26
+#: src/dialogs/dialog-insert-cells.c:27
 msgid "insert cells"
 msgstr "셀 삽입"
 
-#: src/dialogs/dialog-insert-cells.c:46
+#: src/dialogs/dialog-insert-cells.c:47
 msgid "Insert cells"
 msgstr "셀 삽입"
 
-#: src/dialogs/dialog-insert-cells.c:49 src/item-grid.c:641
+#: src/dialogs/dialog-insert-cells.c:50 src/item-grid.c:642
 msgid "Insert"
 msgstr "삽입"
 
-#: src/dialogs/dialog-insert-cells.c:50
+#: src/dialogs/dialog-insert-cells.c:51
 msgid "Shift cells right"
 msgstr "셀을 오른쪽으로 옮김"
 
-#: src/dialogs/dialog-insert-cells.c:51
+#: src/dialogs/dialog-insert-cells.c:52
 msgid "Shift cells down"
 msgstr "셀을 밑으로 옮김"
 
-#: src/dialogs/dialog-insert-cells.c:52
+#: src/dialogs/dialog-insert-cells.c:53
 msgid "Insert row(s)"
 msgstr "행 삽입"
 
-#: src/dialogs/dialog-insert-cells.c:53
+#: src/dialogs/dialog-insert-cells.c:54
 msgid "Insert column(s)"
 msgstr "열 삽입"
 
@@ -976,7 +1225,6 @@ msgid "Add "
 msgstr "더하기 "
 
 #: src/dialogs/dialog-paste-special.c:30
-#, fuzzy
 msgid "Subtract"
 msgstr "빼기"
 
@@ -988,7 +1236,7 @@ msgstr "곱하기"
 msgid "Divide"
 msgstr "나누기"
 
-#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:639
+#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:640
 msgid "Paste special"
 msgstr "특별한 붙이기"
 
@@ -1005,58 +1253,53 @@ msgid "Transpose"
 msgstr "전환"
 
 #: src/dialogs/dialog-printer-setup.c:515
-#, fuzzy
 msgid "Custom header configuration"
-msgstr "배경 환경설정"
+msgstr "사용자 머리글 환경설정"
 
 #: src/dialogs/dialog-printer-setup.c:526
 msgid "Custom footer configuration"
-msgstr ""
+msgstr "사용자 바닥글 환경설정"
 
 #: src/dialogs/dialog-printer-setup.c:734
-#, fuzzy
 msgid "Print setup"
-msgstr "인쇄"
+msgstr "인쇄 설정"
 
 #: src/dialogs/dialog-solver.c:23
 msgid "<="
-msgstr ""
+msgstr "<="
 
 #. N_("="),
 #: src/dialogs/dialog-solver.c:25
 msgid ">="
-msgstr ""
+msgstr ">="
 
-#: src/dialogs/dialog-solver.c:45 src/workbook.c:1611
+#: src/dialogs/dialog-solver.c:45 src/workbook.c:1591
 msgid "Max"
 msgstr "최대"
 
-#: src/dialogs/dialog-solver.c:46 src/workbook.c:1610
+#: src/dialogs/dialog-solver.c:46 src/workbook.c:1590
 msgid "Min"
 msgstr "최소"
 
 #: src/dialogs/dialog-solver.c:51
-#, fuzzy
 msgid "Tangent"
-msgstr "진홍색"
+msgstr "탄젠트"
 
 #: src/dialogs/dialog-solver.c:52
 msgid "Quadratic"
-msgstr ""
+msgstr "이차방정식"
 
 #: src/dialogs/dialog-solver.c:57
 msgid "Forward"
 msgstr ""
 
 #: src/dialogs/dialog-solver.c:58
-#, fuzzy
 msgid "Central"
-msgstr "중앙"
+msgstr ""
 
 #: src/dialogs/dialog-solver.c:63
-#, fuzzy
 msgid "Newton"
-msgstr "새 쉬트"
+msgstr "뉴턴"
 
 #: src/dialogs/dialog-solver.c:64
 msgid "Conjugate"
@@ -1079,9 +1322,8 @@ msgid "Show Iteration Results"
 msgstr ""
 
 #: src/dialogs/dialog-solver.c:147
-#, fuzzy
 msgid "Gnumeric Solver Options"
-msgstr "Gnumeric 플러그인"
+msgstr "Gnumeric 해결사 옵션"
 
 #: src/dialogs/dialog-solver.c:246
 msgid "Add Constraint"
@@ -1092,29 +1334,24 @@ msgid "Add"
 msgstr "더하기"
 
 #: src/dialogs/dialog-solver.c:366
-#, fuzzy
 msgid "Gnumeric Solver Parameters"
-msgstr "Gnumeric 홈 페이지"
+msgstr "Gnumeric 해결사 파라미터"
 
 #: src/dialogs/dialog-solver.c:367
-#, fuzzy
 msgid "Solve"
-msgstr "이동"
+msgstr "해결"
 
 #: src/dialogs/dialog-solver.c:369
-#, fuzzy
 msgid "Options..."
-msgstr "옵션"
+msgstr "옵션..."
 
 #: src/dialogs/dialog-solver.c:496
-#, fuzzy
 msgid "You should introduce a valid cell name for 'Target cell'"
-msgstr "유효한 셀이름을 넣으셔야 합니다"
+msgstr "유효한 셀이름을 '대상 셀'에 입력하셔야 합니다"
 
 #: src/dialogs/dialog-solver.c:517
-#, fuzzy
 msgid "You should introduce a valid cell names in 'By changing cells'"
-msgstr "유효한 셀이름을 넣으셔야 합니다"
+msgstr "유효한 셀이름을 'By changing cells'에 입력하셔야 합니다"
 
 #: src/dialogs/dialog-zoom.c:47 src/dialogs/dialog-zoom.c:50
 msgid "Zoom"
@@ -1125,9 +1362,9 @@ msgid "Custom"
 msgstr "사용자"
 
 #: src/dialogs/dialog-zoom.c:88
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Zoom factor should be at least 25%"
-msgstr "확대율은 최소 50%입니다"
+msgstr "확대율은 최소 25%입니다"
 
 #: src/dialogs/dialog-zoom.c:95
 #, no-c-format
@@ -1140,19 +1377,16 @@ msgstr "확대율은 최대 900%입니다."
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/hf-config.glade.h:7
-#, fuzzy
 msgid "Left section"
-msgstr "왼쪽 정렬"
+msgstr "왼쪽 섹션"
 
 #: src/dialogs/hf-config.glade.h:8
-#, fuzzy
 msgid "Center section:"
-msgstr "페이지 중앙"
+msgstr "중앙 섹션:"
 
 #: src/dialogs/hf-config.glade.h:9
-#, fuzzy
 msgid "Right section:"
-msgstr "오른쪽 정렬"
+msgstr "오른쪽 섹션:"
 
 #: src/dialogs/hf-config.glade.h:10
 msgid "Enter the format strings for each section:"
@@ -1164,27 +1398,24 @@ msgstr ""
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/font-sel.glade.h:7
-#, fuzzy
 msgid "window1"
-msgstr "창2"
+msgstr "창1"
 
 #: src/dialogs/font-sel.glade.h:8
-#, fuzzy
 msgid "Font:"
-msgstr "글꼴"
+msgstr "글꼴:"
 
 #: src/dialogs/font-sel.glade.h:9
 msgid "Font style:"
-msgstr ""
+msgstr "글꼴 형식:"
 
 #: src/dialogs/font-sel.glade.h:10
 msgid "Size:"
-msgstr ""
+msgstr "크기:"
 
 #: src/dialogs/font-sel.glade.h:11
-#, fuzzy
 msgid "Preview:"
-msgstr "인쇄 미리보기"
+msgstr "미리보기:"
 
 #: src/dialogs/font-sel.glade.h:12
 msgid "AaBbCcDdEe12345"
@@ -1229,23 +1460,20 @@ msgid "Orientation"
 msgstr "방위"
 
 #: src/dialogs/print.glade.h:9
-#, fuzzy
 msgid "Por_trait"
-msgstr "인쇄"
+msgstr "세로(_t)"
 
 #: src/dialogs/print.glade.h:10
-#, fuzzy
 msgid "_Landscape"
-msgstr "붙이기 종류"
+msgstr "가로(_L)"
 
 #: src/dialogs/print.glade.h:11
 msgid "Scale"
 msgstr "척도"
 
 #: src/dialogs/print.glade.h:12
-#, fuzzy
 msgid "_Adjust to:"
-msgstr "자동정렬(_A)"
+msgstr ""
 
 #: src/dialogs/print.glade.h:13
 msgid "_Fit to:"
@@ -1261,85 +1489,71 @@ msgid "page(s) wide by"
 msgstr ""
 
 #: src/dialogs/print.glade.h:16
-#, fuzzy
 msgid "tall"
-msgstr "이탤릭"
+msgstr ""
 
 #: src/dialogs/print.glade.h:17
-#, fuzzy
 msgid "Fi_rst page number:"
-msgstr "첫번째 페이지 번호:"
+msgstr "첫번째 페이지 번호(_r):"
 
 #: src/dialogs/print.glade.h:18 src/dialogs/print.glade.h:32
 #: src/dialogs/print.glade.h:42 src/dialogs/print.glade.h:58
-#, fuzzy
 msgid "_Print"
-msgstr "인쇄"
+msgstr "인쇄(_P)"
 
 #: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:33
 #: src/dialogs/print.glade.h:43 src/dialogs/print.glade.h:59
-#, fuzzy
 msgid "Print previe_w"
-msgstr "인쇄 미리보기"
+msgstr "인쇄 미리보기(_w)"
 
 #: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:34
 #: src/dialogs/print.glade.h:44 src/dialogs/print.glade.h:60
-#, fuzzy
 msgid "_Options"
-msgstr "옵션"
+msgstr "옵션(_O)"
 
 #: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:61
 msgid "Page"
 msgstr "페이지"
 
 #: src/dialogs/print.glade.h:22
-#, fuzzy
 msgid "_Top:"
-msgstr "꼭대기"
+msgstr "꼭대기(_T):"
 
 #: src/dialogs/print.glade.h:23
-#, fuzzy
 msgid "He_ader:"
-msgstr "머리말:"
+msgstr "머리말(_a):"
 
 #: src/dialogs/print.glade.h:24
-#, fuzzy
 msgid "_Bottom:"
-msgstr "밑바닥"
+msgstr "바닥(_B):"
 
 #: src/dialogs/print.glade.h:25
-#, fuzzy
 msgid "_Footer"
-msgstr "꼬리말"
+msgstr "꼬리말(_F)"
 
 #: src/dialogs/print.glade.h:26
 msgid "Center on page"
 msgstr "페이지 중앙"
 
 #: src/dialogs/print.glade.h:27
-#, fuzzy
 msgid "_Horizontally"
-msgstr "수평으로"
+msgstr "수평으로(_H)"
 
 #: src/dialogs/print.glade.h:28
-#, fuzzy
 msgid "_Vertically"
-msgstr "수직으로"
+msgstr "수직으로(_V)"
 
 #: src/dialogs/print.glade.h:29
-#, fuzzy
 msgid "_Left:"
-msgstr "왼쪽:"
+msgstr "왼쪽(_L):"
 
 #: src/dialogs/print.glade.h:30
-#, fuzzy
 msgid "_Right"
-msgstr "오른쪽"
+msgstr "오른쪽(_R):"
 
 #: src/dialogs/print.glade.h:31
-#, fuzzy
 msgid "Paper _size:"
-msgstr "종이 크기:"
+msgstr "종이 크기(_s):"
 
 #: src/dialogs/print.glade.h:35
 msgid "Margins"
@@ -1370,9 +1584,8 @@ msgid "Headers and footers"
 msgstr "머리말과 꼬리말"
 
 #: src/dialogs/print.glade.h:46
-#, fuzzy
 msgid "Print _area:"
-msgstr "인쇄 영역:"
+msgstr "인쇄 영역(_a):"
 
 #: src/dialogs/print.glade.h:47
 msgid "Titles to print"
@@ -1386,7 +1599,7 @@ msgstr ""
 msgid "_Rows to repeat on the upper region:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:50 src/workbook.c:1121
+#: src/dialogs/print.glade.h:50 src/workbook.c:1099
 msgid "Print"
 msgstr "인쇄"
 
@@ -1394,19 +1607,17 @@ msgstr "인쇄"
 msgid "Row and co_lumn headings"
 msgstr ""
 
-#: src/dialogs/print.glade.h:52
-#, fuzzy
+#: src/dialogs/print.glade.h:52 src/workbook.c:934
 msgid "Co_mments"
-msgstr "코멘트"
+msgstr "설명(_m)"
 
 #: src/dialogs/print.glade.h:53
 msgid "_Grid lines"
-msgstr ""
+msgstr "격자선(_G)"
 
 #: src/dialogs/print.glade.h:54
-#, fuzzy
 msgid "_Black and white"
-msgstr "흑백"
+msgstr "흑백(_B)"
 
 #: src/dialogs/print.glade.h:55
 msgid "Page order"
@@ -1417,9 +1628,8 @@ msgid "_Down, then right"
 msgstr ""
 
 #: src/dialogs/print.glade.h:57
-#, fuzzy
 msgid "R_ight, then down"
-msgstr "오른쪽 정렬"
+msgstr ""
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1427,19 +1637,16 @@ msgstr "오른쪽 정렬"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/names.glade.h:7
-#, fuzzy
 msgid "Define Name"
 msgstr "이름 정의"
 
 #: src/dialogs/names.glade.h:8
-#, fuzzy
 msgid "Names in workbook:"
-msgstr "워크북에서의 이름"
+msgstr "워크북에서의 이름:"
 
 #: src/dialogs/names.glade.h:11
-#, fuzzy
 msgid "Refers to:"
-msgstr "Refers to"
+msgstr ""
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1447,35 +1654,32 @@ msgstr "Refers to"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/summary.glade.h:7
-#, fuzzy
 msgid "Title"
-msgstr "시간"
+msgstr "제목"
 
 #: src/dialogs/summary.glade.h:8
 msgid "Author"
-msgstr ""
+msgstr "저자"
 
 #: src/dialogs/summary.glade.h:9
-#, fuzzy
 msgid "Category"
 msgstr "범주"
 
 #: src/dialogs/summary.glade.h:10
 msgid "Keywords"
-msgstr ""
+msgstr "키워드"
 
 #: src/dialogs/summary.glade.h:11
-#, fuzzy
 msgid "Manager"
-msgstr "직사각형"
+msgstr "관리자"
 
 #: src/dialogs/summary.glade.h:12
 msgid "Document Summary Information\n"
-msgstr ""
+msgstr "문서 요약 정보\n"
 
 #: src/dialogs/summary.glade.h:14
 msgid "Comments"
-msgstr "코멘트"
+msgstr "설명"
 
 #: src/dump.c:31
 #, c-format
@@ -1491,9 +1695,8 @@ msgid "already defined"
 msgstr ""
 
 #: src/expr-name.c:134
-#, fuzzy
 msgid "no workbook"
-msgstr "워크북을 다른 이름으로 저장"
+msgstr "워크북 없음"
 
 #: src/expr-name.c:139
 msgid "circular reference"
@@ -1528,9 +1731,8 @@ msgid "Internal type error"
 msgstr "내부 유형 에러"
 
 #: src/expr.c:997
-#, fuzzy
 msgid "Unknown operator"
-msgstr "모르는 계산 에러"
+msgstr "모르는 연산자"
 
 #: src/expr.c:1136
 msgid "Unknown evaluation error"
@@ -1544,28 +1746,28 @@ msgstr "#지워진 셀에 대한 참조!"
 msgid "#Reference to deleted range!"
 msgstr "#지워진 범위에 대한 참조!"
 
-#: src/file.c:185
+#: src/file.c:222
 #, c-format
 msgid "Could not read file %s"
 msgstr "%s 파일을 읽을 수 없습니다"
 
-#: src/file.c:354
+#: src/file.c:395
 msgid "File format:"
 msgstr "파일 형식:"
 
-#: src/file.c:398
+#: src/file.c:449
 msgid "Save workbook as"
 msgstr "워크북을 다른 이름으로 저장"
 
-#: src/file.c:437
+#: src/file.c:491
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr "죄송, 파일 저장기가 적재되지 않아서 저장할 수가 없습니다"
 
-#: src/file.c:475
+#: src/file.c:529
 msgid "Load file"
 msgstr "파일 불러오기"
 
-#: src/functions/fn-database.c:340
+#: src/functions/fn-database.c:341
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
@@ -1581,10 +1783,12 @@ msgid ""
 "first row of a @criteria should contain the labels of the fields for which "
 "the criterias are for. Cells below the label specify coditions, for example, "
 "``>3'' or ``<9''. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DCOUNT"
 msgstr ""
 
-#: src/functions/fn-database.c:407
+#: src/functions/fn-database.c:412
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
@@ -1600,10 +1804,12 @@ msgid ""
 "first row of a @criteria should contain the labels of the fields for which "
 "the criterias are for. Cells below the label specify coditions, for example, "
 "``>3'' or ``<9''. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DAVERAGE"
 msgstr ""
 
-#: src/functions/fn-database.c:470
+#: src/functions/fn-database.c:479
 msgid ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
@@ -1619,10 +1825,12 @@ msgid ""
 "first row of a @criteria should contain the labels of the fields for which "
 "the criterias are for. Cells below the label specify coditions, for example, "
 "``>3'' or ``<9''. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DCOUNT"
 msgstr ""
 
-#: src/functions/fn-database.c:530
+#: src/functions/fn-database.c:543
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
@@ -1640,10 +1848,12 @@ msgid ""
 "``>3'' or ``<9''. \n"
 "If none of the items match the conditions, DGET returns #VALUE! error. If "
 "more than one items match the conditions, DGET returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DCOUNT"
 msgstr ""
 
-#: src/functions/fn-database.c:605
+#: src/functions/fn-database.c:620
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -1659,10 +1869,12 @@ msgid ""
 "first row of a @criteria should contain the labels of the fields for which "
 "the criterias are for. Cells below the label specify coditions, for example, "
 "``>3'' or ``<9''. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DMIN"
 msgstr ""
 
-#: src/functions/fn-database.c:676
+#: src/functions/fn-database.c:697
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -1678,10 +1890,12 @@ msgid ""
 "first row of a @criteria should contain the labels of the fields for which "
 "the criterias are for. Cells below the label specify coditions, for example, "
 "``>3'' or ``<9''. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DMAX"
 msgstr ""
 
-#: src/functions/fn-database.c:749
+#: src/functions/fn-database.c:774
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -1697,10 +1911,12 @@ msgid ""
 "first row of a @criteria should contain the labels of the fields for which "
 "the criterias are for. Cells below the label specify coditions, for example, "
 "``>3'' or ``<9''. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DSUM"
 msgstr ""
 
-#: src/functions/fn-database.c:821
+#: src/functions/fn-database.c:850
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -1717,10 +1933,12 @@ msgid ""
 "first row of a @criteria should contain the labels of the fields for which "
 "the criterias are for. Cells below the label specify coditions, for example, "
 "``>3'' or ``<9''. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DSTDEVP"
 msgstr ""
 
-#: src/functions/fn-database.c:890
+#: src/functions/fn-database.c:923
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -1737,10 +1955,12 @@ msgid ""
 "first row of a @criteria should contain the labels of the fields for which "
 "the criterias are for. Cells below the label specify coditions, for example, "
 "``>3'' or ``<9''. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DSTDEV"
 msgstr ""
 
-#: src/functions/fn-database.c:961
+#: src/functions/fn-database.c:998
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -1756,10 +1976,12 @@ msgid ""
 "first row of a @criteria should contain the labels of the fields for which "
 "the criterias are for. Cells below the label specify coditions, for example, "
 "``>3'' or ``<9''. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DPRODUCT"
 msgstr ""
 
-#: src/functions/fn-database.c:1031
+#: src/functions/fn-database.c:1072
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -1776,10 +1998,12 @@ msgid ""
 "first row of a @criteria should contain the labels of the fields for which "
 "the criterias are for. Cells below the label specify coditions, for example, "
 "``>3'' or ``<9''. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DVARP"
 msgstr ""
 
-#: src/functions/fn-database.c:1102
+#: src/functions/fn-database.c:1147
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -1796,13 +2020,14 @@ msgid ""
 "first row of a @criteria should contain the labels of the fields for which "
 "the criterias are for. Cells below the label specify coditions, for example, "
 "``>3'' or ``<9''. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DVAR"
 msgstr ""
 
-#: src/functions/fn-database.c:1177
-#, fuzzy
+#: src/functions/fn-database.c:1226
 msgid "Database"
-msgstr "날짜"
+msgstr "데이터베이스"
 
 #: src/functions/fn-date.c:66
 msgid ""
@@ -1812,28 +2037,32 @@ msgid ""
 "1900(the date serial number) for the given year, month and day.\n"
 "The @day might be negative (to count backwards) and it is relative to the "
 "previous @month.  The @years should be at least 1900.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 
-#: src/functions/fn-date.c:98
+#: src/functions/fn-date.c:99
 msgid "Invalid month or year"
 msgstr "비정상적인 달 혹은 년"
 
-#: src/functions/fn-date.c:110
+#: src/functions/fn-date.c:111
 msgid "Invalid day"
 msgstr "비정상적인 날짜"
 
-#: src/functions/fn-date.c:119
+#: src/functions/fn-date.c:121
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
 "@DESCRIPTION=DATEVALUE returns the serial number of the date.  @date_str is "
 "the string that contains the date.  For example, DATEVALUE(\"1/1/1999\") "
 "equals to 36160. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DATE"
 msgstr ""
 
-#: src/functions/fn-date.c:138
+#: src/functions/fn-date.c:143
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -1842,19 +2071,23 @@ msgid ""
 "serial number of the initial date and @months is the number of months before "
 "(negative number) or after (positive number) the initial date.\n"
 "If @months is not an integer, it is truncated.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DATE"
 msgstr ""
 
-#: src/functions/fn-date.c:182
+#: src/functions/fn-date.c:191
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
 "@DESCRIPTION=Returns the serial number for today (the number of days elapsed "
 "since the 1st of January of 1900).\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 
-#: src/functions/fn-date.c:206
+#: src/functions/fn-date.c:217
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -1866,27 +2099,33 @@ msgid ""
 "seconds.\n"
 "For example: .0 represents the beginning of the day, and 0.5 represents "
 "noon.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 
-#: src/functions/fn-date.c:247
+#: src/functions/fn-date.c:260
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
 "@DESCRIPTION=Returns a fraction representing the time of day.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=HOUR"
 msgstr ""
 
-#: src/functions/fn-date.c:272
+#: src/functions/fn-date.c:287
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
 "@DESCRIPTION=Returns a fraction representing the time of day, a number "
 "between 0 and 1.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=HOUR"
 msgstr ""
 
-#: src/functions/fn-date.c:291
+#: src/functions/fn-date.c:308
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -1894,10 +2133,13 @@ msgid ""
 "an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.).\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
 "for you, so you can enter a date as a string.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 msgstr ""
 
-#: src/functions/fn-date.c:316
+#: src/functions/fn-date.c:336
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -1905,10 +2147,12 @@ msgid ""
 "as an integer in the range 0 to 59.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
 "for you, so you can enter a date as a string.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
 
-#: src/functions/fn-date.c:341
+#: src/functions/fn-date.c:364
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -1916,50 +2160,60 @@ msgid ""
 "as an integer in the range 0 to 59.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
 "for you, so you can enter a date as a string.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
 
-#: src/functions/fn-date.c:366
+#: src/functions/fn-date.c:392
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
 "@DESCRIPTION=Converts a serial number to a year.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
 "for you, so you can enter a date as a string.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
 
-#: src/functions/fn-date.c:393
+#: src/functions/fn-date.c:422
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
 "@DESCRIPTION=Converts a serial number to a month.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
 "for you, so you can enter a date as a string.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/functions/fn-date.c:420
+#: src/functions/fn-date.c:452
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
 "@DESCRIPTION=Converts a serial number to a day.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
 "for you, so you can enter a date as a string.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/functions/fn-date.c:447
+#: src/functions/fn-date.c:482
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serial_number)\n"
 "@DESCRIPTION=Converts a serial number to a weekday.  FIXME: explain.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
 "for you, so you can enter a date as a string.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/functions/fn-date.c:474
+#: src/functions/fn-date.c:512
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -1971,24 +2225,28 @@ msgid ""
 "somewhat complicated industry standard method.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
 "for you, so you can enter a date as a string.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/functions/fn-date.c:507
+#: src/functions/fn-date.c:548
 msgid "Unsupported method"
 msgstr "지원하지 않는 방법"
 
-#: src/functions/fn-date.c:568
+#: src/functions/fn-date.c:609
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
 "@DESCRIPTION=Returns the last day of the month which is @months from the "
 "@start_date.\n"
 "Returns #NUM! if start_date or months are invalid.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MONTH"
 msgstr ""
 
-#: src/functions/fn-date.c:610
+#: src/functions/fn-date.c:652
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
@@ -1996,35 +2254,39 @@ msgid ""
 "@start_date.  Weekends and holidays optionaly supplied in @holidays are "
 "respected.\n"
 "Returns #NUM! if @start_date or @days are invalid.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=NETWORKDAYS"
 msgstr ""
 
 #. 1 if the cell is formatted in color for negative values;
 #. * otherwise returns 0 (zero).
 #.
-#: src/functions/fn-date.c:639 src/functions/fn-eng.c:120
-#: src/functions/fn-information.c:152 src/functions/fn-information.c:164
-#: src/functions/fn-information.c:181 src/functions/fn-information.c:184
-#: src/functions/fn-information.c:203 src/functions/fn-information.c:262
-#: src/functions/fn-information.c:278
+#: src/functions/fn-date.c:682 src/functions/fn-eng.c:120
+#: src/functions/fn-information.c:155 src/functions/fn-information.c:167
+#: src/functions/fn-information.c:184 src/functions/fn-information.c:187
+#: src/functions/fn-information.c:206 src/functions/fn-information.c:272
+#: src/functions/fn-information.c:288
 msgid "Unimplemented"
 msgstr ""
 
-#: src/functions/fn-date.c:674
+#: src/functions/fn-date.c:717
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
 "@DESCRIPTION=Returns the number of non-weekend non-holidays between "
 "@start_date and @end_date.  Holidays optionaly supplied in @holidays.\n"
 "Returns #NUM if start_date or end_date are invalid\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=WORKDAY"
 msgstr ""
 
-#: src/functions/fn-date.c:785
+#: src/functions/fn-date.c:829
 msgid "Date / Time"
 msgstr "날짜 / 시간"
 
-#: src/functions/fn-eng.c:22 src/functions/fn-math.c:19
+#: src/functions/fn-eng.c:22
 msgid ""
 "@FUNCTION=NAME\n"
 "@SYNTAX=(b1, b2, ...)\n"
@@ -2034,86 +2296,104 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-eng.c:57
-#, fuzzy
 msgid "Base error"
-msgstr "유형 에러"
+msgstr ""
 
-#: src/functions/fn-eng.c:133
+#: src/functions/fn-eng.c:135
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
-"@DESCRIPTION=The BIN2DEC function converts a binary number in string or "
-"number to its decimal equivalent.\n"
+"@DESCRIPTION=BIN2DEC function converts a binary number in string or number "
+"to its decimal equivalent.\n"
+"@EXAMPLES=\n"
+"BIN2DEC(101) equals 5.\n"
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 msgstr ""
 
-#: src/functions/fn-eng.c:151
+#: src/functions/fn-eng.c:157
 msgid ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(number[,places])\n"
-"@DESCRIPTION=The BIN2OCT function converts a binary number to an octal "
-"number. @places is an optional field, specifying to zero pad to that number "
-"of spaces.\n"
+"@DESCRIPTION=BIN2OCT function converts a binary number to an octal number. "
+"@places is an optional field, specifying to zero pad to that number of "
+"spaces.\n"
 "If @places is too small or negative #NUM! error is returned.\n"
+"@EXAMPLES=\n"
+"BIN2OCT(110111) equals 67.\n"
+"\n"
 "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 msgstr ""
 
-#: src/functions/fn-eng.c:171
+#: src/functions/fn-eng.c:182
 msgid ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(number[,places])\n"
-"@DESCRIPTION=The BIN2HEX function converts a binary number to a hexadecimal "
+"@DESCRIPTION=BIN2HEX function converts a binary number to a hexadecimal "
 "number.  @places is an optional field, specifying to zero pad to that number "
 "of spaces.\n"
 "If @places is too small or negative #NUM! error is returned.\n"
+"@EXAMPLES=\n"
+"BIN2HEX(100111) equals 27.\n"
+"\n"
 "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC"
 msgstr ""
 
-#: src/functions/fn-eng.c:191
+#: src/functions/fn-eng.c:207
 msgid ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(number[,places])\n"
-"@DESCRIPTION=The DEC2BIN function converts a decimal number to a binary "
-"number. @places is an optional field, specifying to zero pad to that number "
-"of spaces.\n"
+"@DESCRIPTION=DEC2BIN function converts a decimal number to a binary number. "
+"@places is an optional field, specifying to zero pad to that number of "
+"spaces.\n"
 "If @places is too small or negative #NUM! error is returned.\n"
+"@EXAMPLES=\n"
+"DEC2BIN(42) equals 101010.\n"
+"\n"
 "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 msgstr ""
 
-#: src/functions/fn-eng.c:211
+#: src/functions/fn-eng.c:232
 msgid ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(number[,places])\n"
-"@DESCRIPTION=The DEC2OCT function converts a decimal number to an octal "
-"number. @places is an optional field, specifying to zero pad to that number "
-"of spaces.\n"
+"@DESCRIPTION=DEC2OCT function converts a decimal number to an octal number. "
+"@places is an optional field, specifying to zero pad to that number of "
+"spaces.\n"
 "If @places is too small or negative #NUM! error is returned.\n"
+"@EXAMPLES=\n"
+"DEC2OCT(42) equals 52.\n"
+"\n"
 "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX"
 msgstr ""
 
-#: src/functions/fn-eng.c:231
+#: src/functions/fn-eng.c:257
 msgid ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(number[,places])\n"
-"@DESCRIPTION=The DEC2HEX function converts a decimal number to a hexadecimal "
+"@DESCRIPTION=DEC2HEX function converts a decimal number to a hexadecimal "
 "number. @places is an optional field, specifying to zero pad to that number "
 "of spaces.\n"
 "If @places is too small or negative #NUM! error is returned.\n"
+"@EXAMPLES=\n"
+"DEC2HEX(42) equals 2A.\n"
+"\n"
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 msgstr ""
 
-#: src/functions/fn-eng.c:251
+#: src/functions/fn-eng.c:282
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
-"@DESCRIPTION=The OCT2DEC function converts an octal number in a string or "
-"number to its decimal equivalent.\n"
+"@DESCRIPTION=OCT2DEC function converts an octal number in a string or number "
+"to its decimal equivalent.\n"
+"@EXAMPLES=\n"
+"OCT2DEC(\"124\") equals 84.\n"
 "\n"
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 msgstr ""
 
-#: src/functions/fn-eng.c:269
+#: src/functions/fn-eng.c:304
 msgid ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(number[,places])\n"
@@ -2121,10 +2401,13 @@ msgid ""
 "number.  @places is an optional field, specifying to zero pad to that number "
 "of spaces.\n"
 "If @places is too small or negative #NUM! error is returned.\n"
+"@EXAMPLES=\n"
+"OCT2BIN(\"213\") equals 10001011.\n"
+"\n"
 "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX"
 msgstr ""
 
-#: src/functions/fn-eng.c:289
+#: src/functions/fn-eng.c:329
 msgid ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(number[,places])\n"
@@ -2132,10 +2415,13 @@ msgid ""
 "number.  @places is an optional field, specifying to zero pad to that number "
 "of spaces.\n"
 "If @places is too small or negative #NUM! error is returned.\n"
+"@EXAMPLES=\n"
+"OCT2HEX(132) equals 5A.\n"
+"\n"
 "@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC"
 msgstr ""
 
-#: src/functions/fn-eng.c:309
+#: src/functions/fn-eng.c:354
 msgid ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(number[,places])\n"
@@ -2143,10 +2429,13 @@ msgid ""
 "number.  @places is an optional field, specifying to zero pad to that number "
 "of spaces.\n"
 "If @places is too small or negative #NUM! error is returned.\n"
+"@EXAMPLES=\n"
+"HEX2BIN(\"2A\") equals 101010.\n"
+"\n"
 "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC"
 msgstr ""
 
-#: src/functions/fn-eng.c:329
+#: src/functions/fn-eng.c:379
 msgid ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(number[,places])\n"
@@ -2154,32 +2443,40 @@ msgid ""
 "number.  @places is an optional field, specifying to zero pad to that number "
 "of spaces.\n"
 "If @places is too small or negative #NUM! error is returned.\n"
+"@EXAMPLES=\n"
+"HEX2OCT(\"2A\") equals 52.\n"
+"\n"
 "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC"
 msgstr ""
 
-#: src/functions/fn-eng.c:349
+#: src/functions/fn-eng.c:404
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
 "@DESCRIPTION=The HEX2DEC function converts a hexadecimal number to its "
 "decimal equivalent.\n"
+"@EXAMPLES=\n"
+"HEX2DEC(\"2A\") equals 42.\n"
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 msgstr ""
 
-#: src/functions/fn-eng.c:367
+#: src/functions/fn-eng.c:426
 msgid ""
 "@FUNCTION=BESSELI\n"
 "@SYNTAX=BESSELI(x,y)\n"
-"@DESCRIPTION=The BESSELI function returns the Neumann, Weber or Bessel "
-"function. @x is where the function is evaluated. @y is the order of the "
-"bessel function, if non-integer it is truncated.\n"
+"@DESCRIPTION=BESSELI function returns the Neumann, Weber or Bessel function. "
+"@x is where the function is evaluated. @y is the order of the bessel "
+"function, if non-integer it is truncated.\n"
 "If @x or @y are not numeric a #VALUE! error is returned. If @y < 0 a #NUM! "
 "error is returned.\n"
+"@EXAMPLES=\n"
+"BESSELI(0.7,3) equals 0.007367374.\n"
+"\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
 
-#: src/functions/fn-eng.c:404
+#: src/functions/fn-eng.c:467
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
@@ -2188,10 +2485,13 @@ msgid ""
 "bessel function, if non-integer it is truncated.\n"
 "if x or n are not numeric a #VALUE! error is returned.if y < 0 a #NUM! error "
 "is returned.\n"
+"@EXAMPLES=\n"
+"BESSELK(3,9) equals 397.95880.\n"
+"\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 msgstr ""
 
-#: src/functions/fn-eng.c:440
+#: src/functions/fn-eng.c:507
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -2200,10 +2500,13 @@ msgid ""
 "non-integer it is truncated.\n"
 "If @x or @y are not numeric a #VALUE! error is returned.  If @y < 0 a #NUM! "
 "error is returned.\n"
+"@EXAMPLES=\n"
+"BESSELJ(0.89,3) equals 0.013974004.\n"
+"\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
 
-#: src/functions/fn-eng.c:471
+#: src/functions/fn-eng.c:543
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -2212,10 +2515,13 @@ msgid ""
 "bessel function, if non-integer it is truncated.\n"
 "if x or n are not numeric a #VALUE! error is returned.if n < 0 a #NUM! error "
 "is returned.\n"
+"@EXAMPLES=\n"
+"BESSELY(4,2) equals 0.215903595.\n"
+"\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
 
-#: src/functions/fn-eng.c:542
+#: src/functions/fn-eng.c:618
 msgid ""
 "@FUNCTION=COMPLEX\n"
 "@SYNTAX=COMPLEX(real,im[,suffix])\n"
@@ -2223,160 +2529,217 @@ msgid ""
 "the real and @im is the imaginary coefficient of the complex number.  "
 "@suffix is the suffix for the imaginary coefficient.  If it is omitted, "
 "COMPLEX uses 'i' by default.\n"
-"If @suffix is neither 'i' nor 'j', COMPLEX returns #VALUE! error. @SEEALSO="
+"If @suffix is neither 'i' nor 'j', COMPLEX returns #VALUE! error. \n"
+"@EXAMPLES=\n"
+"COMPLEX(1,-1) equals 1-i.\n"
+"\n"
+"@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-eng.c:579
+#: src/functions/fn-eng.c:661
 msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
 "@DESCRIPTION=IMAGINARY returns the imaginary coefficient of a complex "
 "number.\n"
+"@EXAMPLES=\n"
+"IMAGINARY(\"132-j\") equals -1.\n"
+"\n"
 "@SEEALSO=IMREAL"
 msgstr ""
 
-#: src/functions/fn-eng.c:604
+#: src/functions/fn-eng.c:691
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
 "@DESCRIPTION=IMREAL returns the real coefficient of a complex number.\n"
+"@EXAMPLES=\n"
+"imreal(\"132-j\") equals 132.\n"
+"\n"
 "@SEEALSO=IMAGINARY"
 msgstr ""
 
-#: src/functions/fn-eng.c:629
+#: src/functions/fn-eng.c:721
 msgid ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(inumber)\n"
 "@DESCRIPTION=IMABS returns the absolute value of a complex number.\n"
+"@EXAMPLES=\n"
+"IMABS(\"2-j\") equals 2.23606798.\n"
+"\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
 
-#: src/functions/fn-eng.c:654
+#: src/functions/fn-eng.c:751
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
 "@DESCRIPTION=IMCONJUGATE returns the complex conjugate of a complex number.\n"
+"@EXAMPLES=\n"
+"IMCONJUGATE(\"1-j\") equals 1+j.\n"
+"\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
 
-#: src/functions/fn-eng.c:679
+#: src/functions/fn-eng.c:781
 msgid ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(inumber)\n"
 "@DESCRIPTION=IMCOS returns the cosine of a complex number.\n"
+"@EXAMPLES=\n"
+"IMCOS(\"1+j\") equals 0.833730-0.988898j.\n"
+"\n"
 "@SEEALSO=IMSIN,IMTAN"
 msgstr ""
 
-#: src/functions/fn-eng.c:701
+#: src/functions/fn-eng.c:808
 msgid ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
 "@DESCRIPTION=IMTAN returns the tangent of a complex number.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=IMSIN,IMCOS"
 msgstr ""
 
-#: src/functions/fn-eng.c:723
+#: src/functions/fn-eng.c:834
 msgid ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
 "@DESCRIPTION=IMEXP returns the exponential of a complex number.\n"
+"@EXAMPLES=\n"
+"IMEXP(\"2-j\") equals 3.992324-6.217676j.\n"
+"\n"
 "@SEEALSO=IMLN"
 msgstr ""
 
-#: src/functions/fn-eng.c:745
+#: src/functions/fn-eng.c:861
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
 "@DESCRIPTION=IMARGUMENT returns the argument theta of a complex number.\n"
+"@EXAMPLES=\n"
+"IMARGUMENT(\"2-j\") equals -0.463647609.\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-eng.c:766
+#: src/functions/fn-eng.c:887
 msgid ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(inumber)\n"
 "@DESCRIPTION=IMLN returns the natural logarithm of a complex number. (The "
 "result will have an imaginary part between -pi an +pi.  The natural "
-"logarithm is not uniquely defined on complex numbers.  You may need to add "
-"or subtract an even multiple of pi to the imaginary part.)\n"
+"logarithm is not uniquely defined on complex numbers. You may need to add or "
+"subtract an even multiple of pi to the imaginary part.)\n"
+"@EXAMPLES=\n"
+"IMLN(\"3-j\") equals 1.15129-0.32175j.\n"
+"\n"
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 msgstr ""
 
-#: src/functions/fn-eng.c:791
+#: src/functions/fn-eng.c:918
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
 "@DESCRIPTION=IMLOG2 returns the logarithm of a complex number in base 2.\n"
+"@EXAMPLES=\n"
+"IMLOG2(\"3-j\") equals 1.66096-0.46419j.\n"
+"\n"
 "@SEEALSO=IMLN,IMLOG10"
 msgstr ""
 
-#: src/functions/fn-eng.c:815
+#: src/functions/fn-eng.c:947
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
 "@DESCRIPTION=IMLOG10 returns the logarithm of a complex number in base 10.\n"
+"@EXAMPLES=\n"
+"IMLOG10(\"3-j\") equals 0.5-0.13973j.\n"
+"\n"
 "@SEEALSO=IMLN,IMLOG2"
 msgstr ""
 
-#: src/functions/fn-eng.c:839
+#: src/functions/fn-eng.c:976
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber,number)\n"
 "@DESCRIPTION=IMPOWER returns a complex number raised to a power.  @inumber "
 "is the complex number to be raised to a power and @number is the power to "
 "which you want to raise the complex number.\n"
+"@EXAMPLES=\n"
+"IMPOWER(\"4-j\",2) equals 15-8j.\n"
+"\n"
 "@SEEALSO=IMSQRT"
 msgstr ""
 
-#: src/functions/fn-eng.c:869
+#: src/functions/fn-eng.c:1011
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber,inumber)\n"
 "@DESCRIPTION=IMDIV returns the quotient of two complex numbers.\n"
+"@EXAMPLES=\n"
+"IMDIV(\"2-j\",\"2+j\") equals 0.6-0.8j.\n"
+"\n"
 "@SEEALSO=IMPRODUCT"
 msgstr ""
 
-#: src/functions/fn-eng.c:897
+#: src/functions/fn-eng.c:1044
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
 "@DESCRIPTION=IMSIN returns the sine of a complex number.\n"
+"@EXAMPLES=\n"
+"IMSIN(\"1+j\") equals 1.29846+0.63496j.\n"
+"\n"
 "@SEEALSO=IMCOS,IMTAN"
 msgstr ""
 
-#: src/functions/fn-eng.c:919
+#: src/functions/fn-eng.c:1071
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
 "@DESCRIPTION=IMSQRT returns the square root of a complex number.\n"
+"@EXAMPLES=\n"
+"IMSQRT(\"1+j\") equals 1.09868+0.4550899j.\n"
+"\n"
 "@SEEALSO=IMPOWER"
 msgstr ""
 
-#: src/functions/fn-eng.c:941
+#: src/functions/fn-eng.c:1098
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber,inumber)\n"
 "@DESCRIPTION=IMSUB returns the difference of two complex numbers.\n"
+"@EXAMPLES=\n"
+"IMSUB(\"3-j\",\"2+j\") equals 1-2j.\n"
+"\n"
 "@SEEALSO=IMSUM"
 msgstr ""
 
-#: src/functions/fn-eng.c:966
+#: src/functions/fn-eng.c:1128
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
 "@DESCRIPTION=IMPRODUCT returns the product of given complex numbers.\n"
+"@EXAMPLES=\n"
+"IMPRODUCT(\"2-j\",\"4-2j\") equals 6-8j.\n"
+"\n"
 "@SEEALSO=IMDIV"
 msgstr ""
 
-#: src/functions/fn-eng.c:1030
+#: src/functions/fn-eng.c:1197
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber,inumber)\n"
 "@DESCRIPTION=IMSUM returns the sum of two complex numbers.\n"
+"@EXAMPLES=\n"
+"IMSUM(\"2-4j\",\"9-j\") equals 11-5j.\n"
+"\n"
 "@SEEALSO=IMSUB"
 msgstr ""
 
-#: src/functions/fn-eng.c:1058
+#: src/functions/fn-eng.c:1230
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -2473,23 +2836,31 @@ msgid ""
 "\n"
 "If @from_unit and @to_unit are different types, CONVERT returns #NUM! error. "
 "\n"
+"@EXAMPLES=\n"
+"CONVERT(3,\"lbm\",\"g\") equals 1360.7769.\n"
+"CONVERT(5.8,\"m\",\"in\") equals 228.3465.\n"
+"CONVERT(7.9,\"cal\",\"J\") equals 33.07567.\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-eng.c:1445
+#: src/functions/fn-eng.c:1624
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF(lower limit[,upper_limit])\n"
-"@DESCRIPTION=The ERF function returns the integral of the error function "
-"between the limits.  If the @upper_limit ommitted ERF returns the integral "
-"between zero and the @lower_limit.\n"
+"@DESCRIPTION=ERF function returns the integral of the error function between "
+"the limits.  If the @upper_limit ommitted ERF returns the integral between "
+"zero and the @lower_limit.\n"
 "If either @lower_limit or @upper_limit are not numeric a #VALUE! error is "
 "returned.  If either @lower_limit or @upper_limit are < 0 a #NUM! error is "
 "returned.\n"
+"@EXAMPLES=\n"
+"ERF(0.4) equals 0.428392355.\n"
+"\n"
 "@SEEALSO=ERFC"
 msgstr ""
 
-#: src/functions/fn-eng.c:1482
+#: src/functions/fn-eng.c:1667
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -2497,39 +2868,46 @@ msgid ""
 "error function between the limits 0 and @x.\n"
 "If @x is not numeric a #VALUE! error is returned.  If @x < 0 a #NUM! error "
 "is returned.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=ERF"
 msgstr ""
 
-#: src/functions/fn-eng.c:1508
+#: src/functions/fn-eng.c:1697
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
-"@DESCRIPTION=The DELTA function test for numerical equivilance of two "
-"arguments returning 1 in equality @y is optional, and defaults to 0.\n"
+"@DESCRIPTION=DELTA function test for numerical equivilance of two arguments "
+"returning 1 in equality @y is optional, and defaults to 0.\n"
 "If either argument is non-numeric returns a #VALUE! error.\n"
+"@EXAMPLES=\n"
+"DELTA(42.99,43) equals 0.\n"
+"\n"
 "@SEEALSO=EXACT,GESTEP"
 msgstr ""
 
-#: src/functions/fn-eng.c:1551 src/functions/fn-eng.c:1602
-#, fuzzy
+#: src/functions/fn-eng.c:1743 src/functions/fn-eng.c:1798
 msgid "Impossible"
-msgstr "불가능해요!"
+msgstr "불가능"
 
-#: src/functions/fn-eng.c:1560
+#: src/functions/fn-eng.c:1754
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
 "@DESCRIPTION=The GESTEP function test for if @x is >= @y, returning 1 if it "
 "is so, and 0 otherwise @y is optional, and defaults to 0.\n"
 "If either argument is non-numeric returns a #VALUE! error.\n"
+"@EXAMPLES=\n"
+"GESTEP(5,4) equals 1.\n"
+"\n"
 "@SEEALSO=DELTA"
 msgstr ""
 
-#: src/functions/fn-eng.c:1612
+#: src/functions/fn-eng.c:1810
 msgid "Engineering"
 msgstr ""
 
-#: src/functions/fn-financial.c:206
+#: src/functions/fn-financial.c:207
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
@@ -2549,10 +2927,12 @@ msgid ""
 "negative, ACCRINT returns NUM! error.If @basis < 0 or @basis > 4, ACCRINT "
 "returns NUM! error. If issue date is after maturity date or they are the "
 "same, ACCRINT returns NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=ACCRINTM"
 msgstr ""
 
-#: src/functions/fn-financial.c:259
+#: src/functions/fn-financial.c:264
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -2573,10 +2953,12 @@ msgid ""
 "negative, ACCRINTM returns NUM! error.If @basis < 0 or @basis > 4, ACCRINTM "
 "returns NUM! error. If issue date is after maturity date or they are the "
 "same, ACCRINTM returns NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=ACCRINT"
 msgstr ""
 
-#: src/functions/fn-financial.c:311
+#: src/functions/fn-financial.c:320
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -2595,10 +2977,12 @@ msgid ""
 "date is not valid, INTRATE returns NUM! error.If @basis < 0 or @basis > 4, "
 "INTRATE returns NUM! error. If settlement date is after maturity date or "
 "they are the same, INTRATE returns NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=RECEIVED"
 msgstr ""
 
-#: src/functions/fn-financial.c:361
+#: src/functions/fn-financial.c:374
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis]@DESCRIPTION=RECE"
@@ -2615,10 +2999,12 @@ msgid ""
 "date is not valid, RECEIVED returns NUM! error.If @basis < 0 or @basis > 4, "
 "RECEIVED returns NUM! error. If settlement date is after maturity date or "
 "they are the same, RECEIVED returns NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=INTRATE"
 msgstr ""
 
-#: src/functions/fn-financial.c:408
+#: src/functions/fn-financial.c:425
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis]@DESCRIPTION"
@@ -2638,10 +3024,12 @@ msgid ""
 "date is not valid, PRICEDISC returns NUM! error.If @basis < 0 or @basis > 4, "
 "PRICEDISC returns NUM! error. If settlement date is after maturity date or "
 "they are the same, PRICEDISC returns NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=PRICEMAT"
 msgstr ""
 
-#: src/functions/fn-financial.c:457
+#: src/functions/fn-financial.c:478
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis]@DESCRIPTION=PRI"
@@ -2659,10 +3047,12 @@ msgid ""
 "date is not valid, PRICEMAT returns NUM! error.If @basis < 0 or @basis > 4, "
 "PRICEMAT returns NUM! error. If settlement date is after maturity date or "
 "they are the same, PRICEMAT returns NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=PRICEDISC"
 msgstr ""
 
-#: src/functions/fn-financial.c:508
+#: src/functions/fn-financial.c:533
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis]@DESCRIPTION=DISC "
@@ -2679,10 +3069,12 @@ msgid ""
 "date is not valid, DISC returns NUM! error.If @basis < 0 or @basis > 4, DISC "
 "returns NUM! error. If settlement date is after maturity date or they are "
 "the same, DISC returns NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:553
+#: src/functions/fn-financial.c:582
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -2702,15 +3094,16 @@ msgid ""
 "monthly you would type in:\n"
 "=EFFECT(.19,12) and you would get .2075 or 20.75%. That is the effective "
 "percentage you will pay on your loan.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=NOMINAL"
 msgstr ""
 
-#: src/functions/fn-financial.c:592
-#, fuzzy
+#: src/functions/fn-financial.c:623
 msgid "effect - domain error"
-msgstr "acos - 도메인 에러"
+msgstr "effect - 도메인 에러"
 
-#: src/functions/fn-financial.c:599
+#: src/functions/fn-financial.c:632
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -2723,24 +3116,27 @@ msgid ""
 "\n"
 "r = effective interest rate\n"
 "nper = number of periods used for compounding\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=EFFECT"
 msgstr ""
 
-#: src/functions/fn-financial.c:626
-#, fuzzy
+#: src/functions/fn-financial.c:661
 msgid "nominal - domain error"
-msgstr "asin - 도메인 에러"
+msgstr "nominal - 도메인 에러"
 
-#: src/functions/fn-financial.c:633
+#: src/functions/fn-financial.c:670
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
 "@DESCRIPTION=ISPMT function returns the interest payed on a given period. \n"
 "If @per < 1 or @per > @nper, ISPMT returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:663
+#: src/functions/fn-financial.c:704
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -2750,10 +3146,12 @@ msgid ""
 "overall.  @period is the period for which you want the depreciation to be "
 "calculated.  @month is the number of months in the first year of "
 "depreciation. If @month is omitted, it is assumed to be 12. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DDB,SLN,SYD,VDB"
 msgstr ""
 
-#: src/functions/fn-financial.c:713
+#: src/functions/fn-financial.c:758
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -2764,10 +3162,12 @@ msgid ""
 "for which you want the depreciation to be calculated, and @factor is the "
 "factor at which the balance declines.  If @factor is omitted, it is assumed "
 "to be two (double-declining balance method). \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=SLN,SYD,VDB"
 msgstr ""
 
-#: src/functions/fn-financial.c:757
+#: src/functions/fn-financial.c:806
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -2778,15 +3178,16 @@ msgid ""
 "\t@cost = cost of an asset when acquired (market value)\t@salvage_value = "
 "amount you get when asset sold at the end of life\t@life = anticipated life "
 "of an asset\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=SYD"
 msgstr ""
 
-#: src/functions/fn-financial.c:787
-#, fuzzy
+#: src/functions/fn-financial.c:838
 msgid "sln - domain error"
-msgstr "asin - 도메인 에러"
+msgstr "sln - 도메인 에러"
 
-#: src/functions/fn-financial.c:793
+#: src/functions/fn-financial.c:846
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -2798,15 +3199,16 @@ msgid ""
 "\t@cost = cost of an asset when acquired (market value)\t@salvage_value = "
 "amount you get when asset sold at the end of life\t@life = anticipated life "
 "of an asset\t@period = period for which we need the expense\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=SLN"
 msgstr ""
 
-#: src/functions/fn-financial.c:827
-#, fuzzy
+#: src/functions/fn-financial.c:882
 msgid "syd - domain error"
-msgstr "acos - 도메인 에러"
+msgstr "syd - 도메인 에러"
 
-#: src/functions/fn-financial.c:835
+#: src/functions/fn-financial.c:892
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -2814,30 +3216,36 @@ msgid ""
 "dollar price expressed as a decimal number. \n"
 "If @fraction is non-integer it is truncated. If @fraction<=0 DOLLARDE "
 "returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DOLLARFR"
 msgstr ""
 
-#: src/functions/fn-financial.c:872
+#: src/functions/fn-financial.c:933
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
 "@DESCRIPTION=DOLLARFR converts a decimal dollar price into a dollar price "
 "expressed as a fraction. \n"
-"If @fraction is non-integer it is truncated. If @fraction <= 0 DOLLARDE "
+"If @fraction is non-integer it is truncated. If @fraction <= 0 DOLLARFR "
 "returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DOLLARDE"
 msgstr ""
 
-#: src/functions/fn-financial.c:909
+#: src/functions/fn-financial.c:974
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
 "@DESCRIPTION=MIRR function returns the modified internal rate of return for "
 "a given periodic cash flow. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=NPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:957
+#: src/functions/fn-financial.c:1026
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -2847,10 +3255,12 @@ msgid ""
 "If @settlement is after @maturity or the @maturity is set to over one year "
 "later than the @settlement, TBILLEQ returns NUM! error. If @discount is "
 "negative, TBILLEQ returns NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:994
+#: src/functions/fn-financial.c:1067
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -2861,10 +3271,12 @@ msgid ""
 "If @settlement is after @maturity or the @maturity is set to over one year "
 "later than the @settlement, TBILLPRICE returns NUM! error. If @discount is "
 "negative, TBILLPRICE returns NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1031
+#: src/functions/fn-financial.c:1108
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -2874,31 +3286,36 @@ msgid ""
 "If @settlement is after @maturity or the @maturity is set to over one year "
 "later than the @settlement, TBILLYIELD returns NUM! error. If @pr is "
 "negative, TBILLYIELD returns NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 msgstr ""
 
-#: src/functions/fn-financial.c:1068
+#: src/functions/fn-financial.c:1149
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
 "@DESCRIPTION=Calculates rate of an investment.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1167
+#: src/functions/fn-financial.c:1252
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
 "@DESCRIPTION=Calculates the present value of an investment.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1188
-#, fuzzy
+#: src/functions/fn-financial.c:1275
 msgid "pv - domain error"
-msgstr "acos - 도메인 에러"
+msgstr "pv - 도메인 에러"
 
-#: src/functions/fn-financial.c:1199
+#: src/functions/fn-financial.c:1288
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -2906,10 +3323,12 @@ msgid ""
 "generating peridic payments.  @rate is the periodic interest rate and @v1, "
 "@v2, ... are the periodic payments. If the schedule of the cash flows are "
 "not periodic use the XNPV function. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=PV,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1248
+#: src/functions/fn-financial.c:1341
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -2919,26 +3338,32 @@ msgid ""
 "and @values are the payments. \n"
 "If @values and @dates contain unequal number of values, XNPV returns the "
 "#NUM error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1301
+#: src/functions/fn-financial.c:1398
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt,pv,type)\n"
 "@DESCRIPTION=Calculates the future value of an investment.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
 
-#: src/functions/fn-financial.c:1329
+#: src/functions/fn-financial.c:1430
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
 "@DESCRIPTION=Calculates the present value of an investment.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1358
+#: src/functions/fn-financial.c:1463
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -2950,10 +3375,12 @@ msgid ""
 "where:\n"
 "PMT = Payment received on annuity\n"
 "PRINCIPA(per-1) = amount of the remaining principal from last period\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1408
+#: src/functions/fn-financial.c:1517
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -2964,18 +3391,22 @@ msgid ""
 "where:\n"
 "PMT = Payment received on annuity\n"
 "IPMT(per) = amount of interest for period per\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1459
+#: src/functions/fn-financial.c:1572
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
 "@DESCRIPTION=Calculates number of periods of an investment.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1490
+#: src/functions/fn-financial.c:1607
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -2983,161 +3414,186 @@ msgid ""
 "a desired value. This function is similar to FV and PV with a difference "
 "that we do not need give the direction of cash flows e.g. -100 for a cash "
 "outflow and +100 for a cash inflow.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1523
+#: src/functions/fn-financial.c:1644
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(pv,schedule)\n"
 "@DESCRIPTION=FVSCHEDULE returns the future value of given initial value @pv "
 "after applying a series of compound periodic interest rates. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1559
+#: src/functions/fn-financial.c:1683
 msgid "Financial"
 msgstr ""
 
-#: src/functions/fn-information.c:67
+#: src/functions/fn-information.c:68
 msgid ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL()\n"
 "@DESCRIPTION=CELL Returns information about the formatting, location, or "
 "contents of a cell. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:206 src/functions/fn-information.c:314
-#, fuzzy
+#: src/functions/fn-information.c:209 src/functions/fn-information.c:324
 msgid "Unknown info_type"
-msgstr "모르는 계산 에러"
+msgstr "모르는 정보형태"
 
-#: src/functions/fn-information.c:211
+#: src/functions/fn-information.c:215
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
 "@DESCRIPTION=COUNTBLANK returns the number of blank cells in a @range. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=COUNT"
 msgstr ""
 
-#: src/functions/fn-information.c:246
+#: src/functions/fn-information.c:254
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO()\n"
 "@DESCRIPTION=INFO returns information about the current operating "
 "environment. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:284
-#, fuzzy
+#: src/functions/fn-information.c:294
 msgid "Unknown version"
-msgstr "모르는 계산 에러"
+msgstr "모르는 버젼"
 
-#: src/functions/fn-information.c:286
+#: src/functions/fn-information.c:296
 #, c-format
 msgid "%s version %s"
 msgstr ""
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/functions/fn-information.c:295
-#, fuzzy
+#: src/functions/fn-information.c:305
 msgid "Automatic"
-msgstr "자동정렬(_A)"
+msgstr "자동"
 
-#: src/functions/fn-information.c:304
-#, fuzzy
+#: src/functions/fn-information.c:314
 msgid "Unknown system"
-msgstr "모르는 계산 에러"
+msgstr "모르는 시스템"
 
-#: src/functions/fn-information.c:319
+#: src/functions/fn-information.c:330
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK()\n"
 "@DESCRIPTION=ISBLANK returns TRUE if the value is blank. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:362
+#: src/functions/fn-information.c:376
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN()\n"
 "@DESCRIPTION=ISEVEN returns TRUE if the number is even. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=ISODD"
 msgstr ""
 
-#: src/functions/fn-information.c:379
+#: src/functions/fn-information.c:396
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL()\n"
 "@DESCRIPTION=ISLOGICAL returns TRUE if the value is a logical value. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:403
+#: src/functions/fn-information.c:423
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT()\n"
 "@DESCRIPTION=ISNONTEXT Returns TRUE if the value is not text. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=ISTEXT"
 msgstr ""
 
-#: src/functions/fn-information.c:424
+#: src/functions/fn-information.c:447
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER()\n"
 "@DESCRIPTION=ISNUMBER returns TRUE if the value is a number. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:445
+#: src/functions/fn-information.c:471
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD()\n"
 "@DESCRIPTION=ISODD returns TRUE if the number is odd. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=ISEVEN"
 msgstr ""
 
-#: src/functions/fn-information.c:462
+#: src/functions/fn-information.c:491
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF()\n"
 "@DESCRIPTION=ISREF returns TRUE if the value is a reference. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:488
+#: src/functions/fn-information.c:520
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT()\n"
 "@DESCRIPTION=ISTEXT returns TRUE if the value is text. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=ISNONTEXT"
 msgstr ""
 
-#: src/functions/fn-information.c:509
+#: src/functions/fn-information.c:544
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N()\n"
 "@DESCRIPTION=N returns a value converted to a number.  Strings containing "
 "text are converted to the zero value. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:544
+#: src/functions/fn-information.c:582
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE()\n"
 "@DESCRIPTION=TYPE returns a number indicating the data type of a value. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:565
-#, fuzzy
+#: src/functions/fn-information.c:606
 msgid "Information"
-msgstr "분수"
+msgstr "정보"
 
-#: src/functions/fn-logical.c:15
+#: src/functions/fn-logical.c:17
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -3148,26 +3604,29 @@ msgid ""
 "anything else is TRUE.\n"
 "If the values contain strings or empty cells those values are ignored.  If "
 "no logical values are provided, then the error '#VALUE!' is returned. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=OR, NOT"
 msgstr ""
 
-#: src/functions/fn-logical.c:66
+#: src/functions/fn-logical.c:73
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
 "@DESCRIPTION=Implements the logical NOT function: the result is TRUE if the "
 "@number is zero;  otherwise the result is FALSE.\n"
 "\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=AND, OR"
 msgstr ""
 
-#: src/functions/fn-logical.c:81 src/functions/fn-lookup.c:439
-#: src/functions/fn-lookup.c:446 src/functions/fn-string.c:457
-#, fuzzy
+#: src/functions/fn-logical.c:90 src/functions/fn-lookup.c:459
+#: src/functions/fn-lookup.c:466 src/functions/fn-string.c:526
 msgid "Type Mismatch"
-msgstr "유형이 서로 틀림"
+msgstr "유형이 틀림"
 
-#: src/functions/fn-logical.c:86
+#: src/functions/fn-logical.c:97
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -3178,10 +3637,12 @@ msgid ""
 "anything else is TRUE.\n"
 "If the values contain strings or empty cells those values are ignored.  If "
 "no logical values are provided, then the error '#VALUE!'is returned.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=AND, NOT"
 msgstr ""
 
-#: src/functions/fn-logical.c:135
+#: src/functions/fn-logical.c:150
 msgid ""
 "@FUNCTION=IF\n"
 "@SYNTAX=IF(condition[,if-true,if-false])\n"
@@ -3190,14 +3651,16 @@ msgid ""
 "the result of the IF expression is the @if-true expression, otherwise IF "
 "evaluates to the value of @if-false. If ommitted @if-true defaults to TRUE "
 "and @if-false to FALSE.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-logical.c:192
+#: src/functions/fn-logical.c:211
 msgid "Logical"
 msgstr ""
 
-#: src/functions/fn-lookup.c:16
+#: src/functions/fn-lookup.c:18
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -3214,24 +3677,28 @@ msgid ""
 "@text specifies the name of the worksheet to be used as the external "
 "reference.  \n"
 "If @row_num or @col_num is less than one, ADDRESS returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:128
+#: src/functions/fn-lookup.c:134
 msgid ""
 "@FUNCTION=CHOOSE\n"
 "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
 "@DESCRIPTION=CHOOSE returns the value of index @index. @index is rounded to "
 "an integer if it is not.\n"
 "If @index < 1 or @index > number of values: returns #VAL!.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=IF"
 msgstr ""
 
-#: src/functions/fn-lookup.c:150
+#: src/functions/fn-lookup.c:158
 msgid "#ARG!"
 msgstr ""
 
-#: src/functions/fn-lookup.c:175
+#: src/functions/fn-lookup.c:185
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column,[approximate])\n"
@@ -3242,10 +3709,12 @@ msgid ""
 "finds the row with value less than @value.  It returns the value in the row "
 "found at a 1 based offset in @column columns into the @range.\n"
 "Returns #NUM! if @column < 0.Returns #REF! if @column falls outside @range.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=HLOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:326
+#: src/functions/fn-lookup.c:340
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row,[approximate])\n"
@@ -3256,10 +3725,12 @@ msgid ""
 "finds the col with value less than @value it returns the value in the col "
 "found at a 1 based offset in @row rows into the @range.\n"
 "Returns #NUM! if @row < 0.Returns #REF! if @row falls outside @range.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=VLOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:407
+#: src/functions/fn-lookup.c:425
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
@@ -3270,10 +3741,12 @@ msgid ""
 "If LOOKUP can't find @value it uses the next largest value less than value. "
 "The data must be sorted. \n"
 "If @value is smaller than the first value it returns #N/A\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=VLOOKUP,HLOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:500
+#: src/functions/fn-lookup.c:522
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text, [format])\n"
@@ -3282,10 +3755,12 @@ msgid ""
 "format of which is either A1 or R1C1 style. The style is set by the format "
 "boolean, which defaults to the former.\n"
 "If ref_text is not a valid reference returns #REF! \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:555
+#: src/functions/fn-lookup.c:581
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -3293,10 +3768,12 @@ msgid ""
 "taking a default argument of the containing cell position.\n"
 "If @reference is neither an array nor a reference nor a range returns "
 "#VALUE!.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:604
+#: src/functions/fn-lookup.c:634
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -3304,10 +3781,12 @@ msgid ""
 "array reference.\n"
 "If @reference is neither an array nor a reference nor a range returns "
 "#VALUE!.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:625
+#: src/functions/fn-lookup.c:659
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -3316,10 +3795,12 @@ msgid ""
 "@width.\n"
 "If range is neither a reference nor a range returns #VALUE!.  If either "
 "height or width is omitted the height or width of the reference is used.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:684
+#: src/functions/fn-lookup.c:722
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -3327,10 +3808,12 @@ msgid ""
 "default argument of the containing cell position.\n"
 "If @reference is neither an array nor a reference nor a range returns "
 "#VALUE!.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:733
+#: src/functions/fn-lookup.c:775
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -3338,33 +3821,42 @@ msgid ""
 "reference.\n"
 "If @reference is neither an array nor a reference nor a range returns "
 "#VALUE!.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:756
+#: src/functions/fn-lookup.c:800
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(reference)\n"
 "@DESCRIPTION=The HYPERLINK function currently returns its 2nd argument, or "
 "if that is omitted the 1st argument.\n"
 "\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:780
+#: src/functions/fn-lookup.c:826
 msgid "Data / Lookup"
 msgstr ""
 
-#: src/functions/fn-math.c:156
+#: src/functions/fn-math.c:136
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
 "@DESCRIPTION=GCD returns the greatest common divisor of given numbers. \n"
-"If any of the arguments is less than zero, GCD returns #NUM! error. \n"
+"If any of the arguments is less than zero, GCD returns #NUM! error. If any "
+"of the arguments is non-integer, it is truncated. \n"
+"@EXAMPLES=\n"
+"GCD(470,770) equals to 10.\n"
+"GCD(470,770,1495) equals to 5.\n"
+"\n"
 "@SEEALSO=LCM"
 msgstr ""
 
-#: src/functions/fn-math.c:197
+#: src/functions/fn-math.c:186
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -3372,17 +3864,24 @@ msgid ""
 "common multiple is the smallest positive number that is a multiple of all "
 "integer arguments given. \n"
 "If any of the arguments is less than one, LCM returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"LCM(2,13) equlas to 26.\n"
+"LCM(4,7,5) equals to 140.\n"
+"\n"
 "@SEEALSO=GCD"
 msgstr ""
 
-#: src/functions/fn-math.c:248
+#: src/functions/fn-math.c:243
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
 "@DESCRIPTION=Implements the Absolute Value function:  the result is to drop "
 "the negative sign (if present).  This can be done for integers and floating "
 "point numbers.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
+"@EXAMPLES=\n"
+"ABS(7) equals 7.\n"
+"ABS(-3.14) equals 3.14.\n"
+"\n"
 "@SEEALSO=CEIL, FLOOR"
 msgstr ""
 
@@ -3390,121 +3889,120 @@ msgstr ""
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
-"@DESCRIPTION=The ACOS function calculates the arc cosine of @x; that  is the "
-"value whose cosine is @x.  If @x  falls  outside  the  range -1 to 1, ACOS "
-"fails and returns the error 'acos - domain error'.  The value it returns is "
-"in radians. \n"
-"Performing this function on a string or empty cell simply does nothing. This "
-"function only takes one argument.\n"
+"@DESCRIPTION=The ACOS function calculates the arc cosine of @x; that is the "
+"value whose cosine is @x.  If @x  falls  outside  the range -1 to 1, ACOS "
+"fails and returns the NUM! error. The value it returns is in radians. \n"
+"@EXAMPLES=\n"
+"ACOS(0.1) equals 1.470629.\n"
+"ACOS(-0.1) equals 1.670964.\n"
+"\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:289
-msgid "acos - domain error"
-msgstr "acos - 도메인 에러"
-
-#: src/functions/fn-math.c:295
+#: src/functions/fn-math.c:298
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
 "@DESCRIPTION=The ACOSH  function  calculates  the inverse hyperbolic cosine "
 "of @x; that is the value whose hyperbolic cosine is @x. If @x is less than "
-"1.0, acosh() returns the error  'acosh - domain error'\n"
-"Performing this function on a string or empty cell simply does nothing. This "
-"function only takes one argument.\n"
+"1.0, acosh() returns the NUM! error. \n"
+"@EXAMPLES=\n"
+"ACOSH(2) equals 1.31696.\n"
+"ACOSH(5.3) equals 2.35183.\n"
+"\n"
 "@SEEALSO=ACOS, ASINH, DEGREES, RADIANS "
 msgstr ""
 
-#: src/functions/fn-math.c:317
-msgid "acosh - domain error"
-msgstr "acosh - 도메인 에러"
-
-#: src/functions/fn-math.c:323
+#: src/functions/fn-math.c:328
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
 "@DESCRIPTION=The ASIN function calculates the arc sine of @x; that is the "
 "value whose sine is @x. If @x falls outside  the  range -1 to 1, ASIN fails "
-"and returns the error 'asin - domain error'. \n"
-"Performing this function on a string or empty cell simply does nothing. This "
-"function only takes one argument.\n"
+"and returns the NUM! error. \n"
+"@EXAMPLES=\n"
+"ASIN(0.5) equals 0.523599.\n"
+"ASIN(1) equals 1.570797.\n"
+"\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:344
-msgid "asin - domain error"
-msgstr "asin - 도메인 에러"
-
-#: src/functions/fn-math.c:350
+#: src/functions/fn-math.c:358
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
-"@DESCRIPTION=The ASINH  function  calculates  the inverse hyperbolic  sine "
-"of @x; that is the value whose hyperbolic sine is @x. \n"
-"Performing this function on a string or empty cell simply does nothing. This "
-"function only takes one argument.\n"
+"@DESCRIPTION=ASINH function calculates the inverse hyperbolic sine of @x; "
+"that is the value whose hyperbolic sine is @x. \n"
+"@EXAMPLES=\n"
+"ASINH(0.5) equals 0.481212.ASINH(1.0) equals 0.881374.\n"
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:371
+#: src/functions/fn-math.c:381
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
 "@DESCRIPTION=The ATAN function calculates the arc tangent of @x; that  is "
 "the value whose tangent is @x.Return value is in radians.\n"
-"Performing this function on a string or empty cell simply does nothing. This "
-"function only takes one argument.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:394
+#: src/functions/fn-math.c:403
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
-"@DESCRIPTION=The  ATANH  function  calculates  the inverse hyperbolic "
-"tangent of @x; that is the value whose  hyperbolic  tangent is  @x.   If  "
-"the  absolute value of @x is greater than 1.0,  ATANH returns an error of "
-"'atanh: domain error'      \n"
-"Performing this function on a string or empty cell simply does nothing. This "
-"function only takes one argument.\n"
+"@DESCRIPTION=ATANH function calculates the inverse hyperbolic tangent of @x; "
+"that is the value whose hyperbolic tangent is @x. If the absolute value of "
+"@x is greater than 1.0, ATANH returns NUM! error. \n"
+"@EXAMPLES=\n"
+"ATANH(0.5) equals 0.549306.ATANH(0.8) equals 1.098612.\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:417
-msgid "atanh: domain error"
-msgstr "atanh: 도메인 에러"
-
-#: src/functions/fn-math.c:423
+#: src/functions/fn-math.c:434
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
-"@DESCRIPTION=The ATAN2 function calculates the arc tangent of the two "
-"variables @b1 and @b2.  It is similar to calculating  the  arc tangent  of "
-"@b2 / @b1, except that the signs of both arguments are used to determine the "
-"quadrant of the result. The result is in radians.\n"
-"Performing this function on a string or empty cell simply does nothing. \n"
+"@DESCRIPTION=ATAN2 function calculates the arc tangent of the two variables "
+"@b1 and @b2.  It is similar to calculating the arc tangent of @b2 / @b1, "
+"except that the signs of both arguments are used to determine the quadrant "
+"of the result. The result is in radians.\n"
+"@EXAMPLES=\n"
+"ATAN2(0.5,1.0) equals 1.107149.ATAN2(-0.5,2.0) equals 1.815775.\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:447
+#: src/functions/fn-math.c:461
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
 "@DESCRIPTION=The CEIL function rounds @x up to the next nearest integer.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
+"\n"
+"@EXAMPLES=\n"
+"CEIL(0.4) equals 1.CEIL(-1.1) equals -1.CEIL(-2.9) equals -2.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 msgstr ""
 
-#: src/functions/fn-math.c:466
+#: src/functions/fn-math.c:484
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
 "@DESCRIPTION=COUNTIF function counts the number of cells in the given @range "
 "that meet the given @criteria. \n"
+"@EXAMPLES=\n"
+"Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, "
+"and 39.  Then\n"
+"COUNTIF(A1:A5,\"<=28\") equals 3.\n"
+"COUNTIF(A1:A5,\"<28\") equals 2.\n"
+"COUNTIF(A1:A5,\"28\") equals 1.\n"
+"COUNTIF(A1:A5,\">28\") equals 2.\n"
+"\n"
 "@SEEALSO=COUNT,SUMIF"
 msgstr ""
 
-#: src/functions/fn-math.c:535
+#: src/functions/fn-math.c:561
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
@@ -3512,325 +4010,410 @@ msgid ""
 "the given @criteria.  If @actual_range is given, SUMIF sums the values in "
 "the @actual_range whose corresponding components in @range meet the given "
 "@criteria. \n"
+"@EXAMPLES=\n"
+"Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, "
+"and 39.  Then\n"
+"SUMIF(A1:A5,\"<=28\") equals 78.\n"
+"SUMIF(A1:A5,\"<28\") equals 50.\n"
+"In addition, if the cells B1, B2, ..., B5 hold numbers 5, 3, 2, 6, and 7 "
+"then:\n"
+"SUMIF(A1:A5,\"<=27\",B1:B5) equals 8.\n"
+"\n"
 "@SEEALSO=COUNTIF, SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:679
+#: src/functions/fn-math.c:716
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
-"@DESCRIPTION=The CEILING function rounds @x up to the nearest multiple of "
+"@DESCRIPTION=CEILING function rounds @x up to the nearest multiple of "
 "significance. \n"
 "If @x or @significance is non-numeric CEILING returns #VALUE! error. If @x "
 "and @significance have different signs CEILING returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"CEILING(2.43,1) equals 3.CEILING(123.123,3) equals 126.\n"
 "@SEEALSO=CEIL"
 msgstr ""
 
-#: src/functions/fn-math.c:712
+#: src/functions/fn-math.c:756
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
-"@DESCRIPTION=The  COS  function  returns  the cosine of @x, where @x is "
-"given in radians.  \n"
-"Performing this function on a string or empty cell simply does nothing. This "
-"function only takes one argument.\n"
+"@DESCRIPTION=COS function returns the cosine of @x, where @x is given in "
+"radians. \n"
+"@EXAMPLES=\n"
+"COS(0.5) equals 0.877583.\n"
+"COS(1) equals 0.540302.\n"
+"\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/functions/fn-math.c:732
+#: src/functions/fn-math.c:779
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
-"@DESCRIPTION=The COSH  function  returns the hyperbolic cosine of @x,  which "
-"is defined mathematically as (exp(@x) + exp(-@x)) / 2.    @x is in radians. "
-"\n"
-"Performing this function on a string or empty cell simply does nothing. This "
-"function only takes one argument.\n"
+"@DESCRIPTION=COSH function returns the hyperbolic cosine of @x, which is "
+"defined mathematically as (exp(@x) + exp(-@x)) / 2.   @x is in radians. \n"
+"@EXAMPLES=\n"
+"COSH(0.5) equals 1.127626.COSH(1) equals 1.543081.\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 msgstr ""
 
-#: src/functions/fn-math.c:753
+#: src/functions/fn-math.c:803
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
-"@DESCRIPTION=Computes the number of degrees equivalent to @x radians.\n"
-"Performing this function on a string or empty cell simply does nothing. \n"
+"@DESCRIPTION=DEGREES computes the number of degrees equivalent to @x "
+"radians.\n"
+"@EXAMPLES=\n"
+"DEGREES(2.5) equals 143.2394.\n"
+"\n"
 "@SEEALSO=RADIANS, PI"
 msgstr ""
 
-#: src/functions/fn-math.c:774
+#: src/functions/fn-math.c:824
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
-"@DESCRIPTION=Computes the value of e (the base of natural logarithmns) "
+"@DESCRIPTION=EXP computes the value of e (the base of natural logarithmns) "
 "raised to the power of @x. \n"
-"Performing this function on a string or empty cell returns an error.\n"
+"@EXAMPLES=\n"
+"EXP(2) equals 7.389056.\n"
+"\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 msgstr ""
 
-#: src/functions/fn-math.c:801
+#: src/functions/fn-math.c:846
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=Computes the factorial of @x. ie, @x!\n"
-"Performing this function on a string or empty cell returns an error.\n"
+"@DESCRIPTION=FACT computes the factorial of @x. ie, @x!\n"
+"@EXAMPLES=\n"
+"FACT(3) equals 6.\n"
+"FACT(9) equals 362880.\n"
 "\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-math.c:838
+#: src/functions/fn-math.c:894
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
-"@DESCRIPTION=Computes the number of combinations.\n"
+"@DESCRIPTION=COMBIN computes the number of combinations. \n"
 "Performing this function on a non-integer or a negative number returns an "
-"error. Also if @n is less than @k returns an error.\n"
+"error.  Also if @n is less than @k returns an error.\n"
+"@EXAMPLES=\n"
+"COMBIN(8,6) equals 28.\n"
+"COMBIN(6,2) equals 15.\n"
 "\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-math.c:882
+#: src/functions/fn-math.c:943
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
-"@DESCRIPTION=The FLOOR function rounds @x down to the next nearest multiple "
-"of @significance.  @significance defaults to 1.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
+"@DESCRIPTION=FLOOR function rounds @x down to the next nearest multiple of "
+"@significance.  @significance defaults to 1.\n"
+"@EXAMPLES=\n"
+"FLOOR(0.5) equals 0.\n"
+"FLOOR(5,2) equals 4.\n"
+"\n"
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
 
-#: src/functions/fn-math.c:912
+#: src/functions/fn-math.c:978
 msgid ""
 "@FUNCTION=INT\n"
-"@SYNTAX=INT(b1, b2, ...)\n"
-"@DESCRIPTION=The INT function round @b1 now to the nearest int. Where "
-"'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for @b1 >= "
-"0, and CEIL(b1) for @b1 < 0. \n"
-"Performing this function on a string or empty cell simply does nothing.\n"
+"@SYNTAX=INT(a)\n"
+"@DESCRIPTION=INT function rounds @a now to the nearest integer where "
+"`nearest' implies being closer to zero. INT is equivalent to FLOOR(a) for @a "
+">= 0, and CEIL(a) for @a < 0. \n"
+"@EXAMPLES=\n"
+"INT(7.2) equals 7.\n"
+"INT(-5.5) equals -6.\n"
+"\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 msgstr ""
 
-#: src/functions/fn-math.c:939
+#: src/functions/fn-math.c:1003
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
-"@DESCRIPTION=Computes the logarithm of @x in the given base @base.  If no "
-"@base is given LOG returns the logarithm in base 10. \n"
+"@DESCRIPTION=LOG computes the logarithm of @x in the given base @base.  If "
+"no @base is given LOG returns the logarithm in base 10. \n"
+"@EXAMPLES=\n"
+"LOG(2) equals 0.30103.\n"
+"LOG(8192,2) equals 13.\n"
+"\n"
 "@SEEALSO=LN, LOG2, LOG10"
 msgstr ""
 
-#: src/functions/fn-math.c:968
+#: src/functions/fn-math.c:1038
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
-"@DESCRIPTION=LN returns the natural logarithm of @x. \n"
+"@DESCRIPTION=LN returns the natural logarithm of @x. If @x <= 0, LN returns "
+"#NUM! error. \n"
+"@EXAMPLES=\n"
+"LN(7) equals 1.94591.\n"
+"\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
 
-#: src/functions/fn-math.c:991
+#: src/functions/fn-math.c:1067
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
-"@DESCRIPTION=Returns the value of @x raised to the power @y.\n"
-"Performing this function on a string or empty cell returns an error.\n"
+"@DESCRIPTION=POWER returns the value of @x raised to the power @y.\n"
+"@EXAMPLES=\n"
+"POWER(2,7) equals 128.\n"
+"POWER(3,3.141) equals 31.523749.\n"
+"\n"
 "@SEEALSO=EXP"
 msgstr ""
 
-#: src/functions/fn-math.c:1018
+#: src/functions/fn-math.c:1098
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
-"@DESCRIPTION=Computes the base-2 logarithm  of @x. \n"
-"Performing this function on a string or empty cell returns an error. \n"
+"@DESCRIPTION=Computes the base-2 logarithm  of @x. If @x <= 0, LOG2 returns "
+"#NUM! error. \n"
+"@EXAMPLES=\n"
+"LOG2(1024) equals 10.\n"
+"\n"
 "@SEEALSO=EXP, LOG10, LOG"
 msgstr ""
 
-#: src/functions/fn-math.c:1036
-msgid "log2: domain error"
-msgstr "log2: 도메인 에러"
-
-#: src/functions/fn-math.c:1042
+#: src/functions/fn-math.c:1126
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
-"@DESCRIPTION=Computes the base-10 logarithm  of @x. \n"
-"Performing this function on a string or empty cell returns an error. \n"
+"@DESCRIPTION=Computes the base-10 logarithm of @x. If @x <= 0, LOG10 returns "
+"#NUM! error. \n"
+"@EXAMPLES=\n"
+"LOG10(7) equals 0.845098.\n"
+"\n"
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr ""
 
-#: src/functions/fn-math.c:1061
-msgid "log10: domain error"
-msgstr "log10: 도메인 에러"
-
-#: src/functions/fn-math.c:1067
+#: src/functions/fn-math.c:1154
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
-"@DESCRIPTION=Implements modulo arithmetic. Returns the remainder when "
-"@divisor is divided into @number.\n"
-"Returns #DIV/0! if divisor is zero.\n"
+"@DESCRIPTION=MOD function returns the remainder when @divisor is divided "
+"into @number. \n"
+"MOD returns #DIV/0! if divisor is zero.\n"
+"\n"
+"@EXAMPLES=\n"
+"MOD(23,7) equals 2.\n"
+"\n"
 "@SEEALSO=INT,FLOOR,CEIL"
 msgstr ""
 
-#: src/functions/fn-math.c:1104
+#: src/functions/fn-math.c:1197
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
-"@DESCRIPTION=Computes the number of radians equivalent to  @x degrees. \n"
-"Performing this function on a string or empty cell simply does nothing. \n"
+"@DESCRIPTION=RADIANS computes the number of radians equivalent to @x "
+"degrees. \n"
+"@EXAMPLES=\n"
+"RADIANS(180) equals 3.14159.\n"
+"\n"
 "@SEEALSO=PI,DEGREES"
 msgstr ""
 
-#: src/functions/fn-math.c:1125
+#: src/functions/fn-math.c:1218
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
-"@DESCRIPTION=Returns a random number greater than or equal to 0 and less "
-"than 1.\n"
+"@DESCRIPTION=RAND returns a random number between zero and one ([0..1]). \n"
+"@EXAMPLES=\n"
+"RAND() returns a random number greater than zero but less than one.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1143
+#: src/functions/fn-math.c:1240
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
-"@DESCRIPTION=The SIN function returns the sine of @x, where @x is given in "
+"@DESCRIPTION=SIN function returns the sine of @x, where @x is given in "
 "radians.\n"
-"Performing this function on a string or empty cell simply does nothing. This "
-"function only takes one argument.\n"
+"@EXAMPLES=\n"
+"SIN(0.5) equals 0.479426.\n"
+"\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/functions/fn-math.c:1163
+#: src/functions/fn-math.c:1262
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
-"@DESCRIPTION=The SINH function returns the hyperbolic sine of @x, which is "
+"@DESCRIPTION=SINH function returns the hyperbolic sine of @x, which is "
 "defined mathematically as (exp(@x) - exp(-@x)) / 2.\n"
-"Performing this function on a string or empty cell simply does nothing. This "
-"function only takes one argument.\n"
+"@EXAMPLES=\n"
+"SINH(0.5) equals 0.521095.\n"
+"\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
 
-#: src/functions/fn-math.c:1183
+#: src/functions/fn-math.c:1284
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
-"@DESCRIPTION=The SQRT function returns the square root of @x.\n"
-"If @x is negative returns #NUM!. This function only takes one argument.\n"
+"@DESCRIPTION=SQRT function returns the square root of @x.\n"
+"If @x is negative, SQRT returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"SQRT(2) equals 1.4142136.\n"
+"\n"
 "@SEEALSO=POW"
 msgstr ""
 
-#: src/functions/fn-math.c:1206
+#: src/functions/fn-math.c:1311
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
-"@DESCRIPTION=Computes the sum of all the values and cells referenced in the "
-"argument list. \n"
+"@DESCRIPTION=SUM computes the sum of all the values and cells referenced in "
+"the argument list. \n"
+"@EXAMPLES=\n"
+"Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
+"and 43.  Then\n"
+"SUM(A1:A5) equals 107.\n"
+"\n"
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1227
+#: src/functions/fn-math.c:1339
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
-"@DESCRIPTION=Computes the sum of all the values and cells referenced in the "
-"argument list.  Numbers, text and logical values are included in the "
+"@DESCRIPTION=SUMA computes the sum of all the values and cells referenced in "
+"the argument list.  Numbers, text and logical values are included in the "
 "calculation too.  If the cell contains text or the argument evaluates to "
 "FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, "
-"it is counted as one (1). Note that empty cells are not counted.\n"
+"it is counted as one (1). \n"
+"@EXAMPLES=\n"
+"Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
+"and 43.  Then\n"
+"SUMA(A1:A5) equals 107.\n"
+"\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1252
+#: src/functions/fn-math.c:1370
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
 "@DESCRIPTION=SUMSQ returns the sum of the squares of all the values and "
 "cells referenced in the argument list. \n"
+"@EXAMPLES=\n"
+"Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
+"and 43.  Then\n"
+"SUMSQ(A1:A5) equals 2925.\n"
+"\n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1274
+#: src/functions/fn-math.c:1399
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
 "@DESCRIPTION=MULTINOMIAL returns the ratio of the factorial of a sum of "
 "values to the product of factorials. \n"
+"@EXAMPLES=\n"
+"MULTINOMIAL(2,3,4) equals 1260.\n"
+"\n"
 "@SEEALSO=SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:1329
+#: src/functions/fn-math.c:1458
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
 "@DESCRIPTION=PRODUCT returns the product of all the values and cells "
 "referenced in the argument list. \n"
+"@EXAMPLES=\n"
+"PRODUCT(2,5,9) equals 90.\n"
+"\n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1350
+#: src/functions/fn-math.c:1484
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
-"@DESCRIPTION=The TAN function  returns the tangent of @x, where @x is given "
-"in radians.\n"
-"Performing this function on a string or empty cell simply does nothing. This "
-"function only takes one argument.\n"
+"@DESCRIPTION=TAN function returns the tangent of @x, where @x is given in "
+"radians.\n"
+"@EXAMPLES=\n"
+"TAN(3) equals -0.1425465.\n"
+"\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:1370
+#: src/functions/fn-math.c:1506
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
 "@DESCRIPTION= The TANH function returns the hyperbolic tangent of @x,  which "
 "is defined mathematically as sinh(@x) / cosh(@x). \n"
-"Performing this function on a string or empty cell simply does nothing. This "
-"function only takes one argument.\n"
+"@EXAMPLES=\n"
+"TANH(2) equals 0.96402758.\n"
+"\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:1390
+#: src/functions/fn-math.c:1528
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
-"@DESCRIPTION=The PI functions returns the value of Pi as defined by M_PI.\n"
+"@DESCRIPTION=PI functions returns the value of Pi. \n"
 "This function is called with no arguments.\n"
-"@SEEALSO="
+"@EXAMPLES=\n"
+"PI() equals 3.141593.\n"
+"\n"
+"@SEEALSO=SQRTPI"
 msgstr ""
 
-#: src/functions/fn-math.c:1409
+#: src/functions/fn-math.c:1551
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
-"@DESCRIPTION=The TRUNC function returns the value of @number truncated to "
-"the number of digits specified.  If @digits is omitted then @digits defaults "
-"to zero.\n"
+"@DESCRIPTION=TRUNC function returns the value of @number truncated to the "
+"number of digits specified. If @digits is omitted then @digits defaults to "
+"zero.\n"
+"@EXAMPLES=\n"
+"TRUNC(3.12) equals 3.\n"
+"TRUNC(4.15,1) equals 4.1.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=INT"
 msgstr ""
 
-#: src/functions/fn-math.c:1442
+#: src/functions/fn-math.c:1588
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
 "@DESCRIPTION=EVEN function returns the number rounded up to the nearest even "
 "integer. \n"
+"@EXAMPLES=\n"
+"EVEN(5.4) equals 6.\n"
+"\n"
 "@SEEALSO=ODD"
 msgstr ""
 
-#: src/functions/fn-math.c:1473
+#: src/functions/fn-math.c:1625
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
 "@DESCRIPTION=ODD function returns the @number rounded up to the nearest odd "
 "integer. \n"
+"@EXAMPLES=\n"
+"ODD(4.4) equals 5.\n"
+"\n"
 "@SEEALSO=EVEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1504
+#: src/functions/fn-math.c:1662
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -3838,37 +4421,51 @@ msgid ""
 "\n"
 "If @number is not an integer, it is truncated. If @number is negative "
 "FACTDOUBLE returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"FACTDOUBLE(5) equals 15.\n"
+"\n"
 "@SEEALSO=FACT"
 msgstr ""
 
-#: src/functions/fn-math.c:1535
+#: src/functions/fn-math.c:1699
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
 "@DESCRIPTION=QUOTIENT function returns the integer portion of a division. "
 "@num is the divided and @den is the divisor. \n"
+"@EXAMPLES=\n"
+"QUOTIENT(23,5) equals 4.\n"
+"\n"
 "@SEEALSO=MOD"
 msgstr ""
 
-#: src/functions/fn-math.c:1556
+#: src/functions/fn-math.c:1726
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
 "@DESCRIPTION=SIGN function returns 1 if the @number is positive, zero if the "
 "@number is 0, and -1 if the @number is negative. \n"
+"@EXAMPLES=\n"
+"SIGN(3) equals 1.\n"
+"SIGN(-3) equals -1.\n"
+"SIGN(0) equals 0.\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-math.c:1581
+#: src/functions/fn-math.c:1759
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
 "@DESCRIPTION=SQRTPI function returns the square root of a @number multiplied "
 "by pi. \n"
+"@EXAMPLES=\n"
+"SQRTPI(2) equals 2.506628275.\n"
+"\n"
 "@SEEALSO=PI"
 msgstr ""
 
-#: src/functions/fn-math.c:1603
+#: src/functions/fn-math.c:1787
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -3876,10 +4473,14 @@ msgid ""
 "@bottom and @top.\n"
 "If @bottom or @top is non-integer, they are truncated. If @bottom > @top, "
 "RANDBETWEEN returns #NUM! error.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDBETWEEN(3,7).\n"
+"\n"
 "@SEEALSO=RAND"
 msgstr ""
 
-#: src/functions/fn-math.c:1629
+#: src/functions/fn-math.c:1820
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -3890,10 +4491,16 @@ msgid ""
 "of digits. If @digits is zero or omitted, @number is rounded down to the "
 "nearest integer. If @digits is less than zero, @number is rounded down to "
 "the left of the decimal point. \n"
-"@SEEALSO=ROUNDUP"
+"@EXAMPLES=\n"
+"ROUNDDOWN(5.5) equals 5.\n"
+"ROUNDDOWN(-3.3) equals -4.\n"
+"ROUNDDOWN(1501.15,1) equals 1501.1.\n"
+"ROUNDDOWN(1501.15,-2) equals 1500.0.\n"
+"\n"
+"@SEEALSO=ROUND,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:1667
+#: src/functions/fn-math.c:1866
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -3904,10 +4511,16 @@ msgid ""
 "digits. If @digits is zero or omitted, @number is rounded to the nearest "
 "integer. If @digits is less than zero, @number is rounded to the left of the "
 "decimal point. \n"
+"@EXAMPLES=\n"
+"ROUND(5.5) equals 6.\n"
+"ROUND(-3.3) equals -3.\n"
+"ROUND(1501.15,1) equals 1501.2.\n"
+"ROUND(1501.15,-2) equals 1500.0.\n"
+"\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:1702
+#: src/functions/fn-math.c:1909
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -3918,22 +4531,31 @@ msgid ""
 "of digits. If @digits is zero or omitted, @number is rounded up to the "
 "nearest integer. If @digits is less than zero, @number is rounded up to the "
 "left of the decimal point. \n"
-"@SEEALSO=ROUNDDOWN"
+"@EXAMPLES=\n"
+"ROUNDUP(5.5) equals 6.\n"
+"ROUNDUP(-3.3) equals -3.\n"
+"ROUNDUP(1501.15,1) equals 1501.2.\n"
+"ROUNDUP(1501.15,-2) equals 1600.0.\n"
+"\n"
+"@SEEALSO=ROUND,ROUNDDOWN"
 msgstr ""
 
-#: src/functions/fn-math.c:1740
+#: src/functions/fn-math.c:1955
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
 "@DESCRIPTION=MROUND function rounds a given number to the desired multiple. "
 "@number is the number you want rounded and @multiple is the the multiple to "
-"which you want to round the number. For example, MROUND(1.7, 0.2) equals "
-"1.8. \n"
+"which you want to round the number. \n"
 "If @number and @multiple have different sign, MROUND returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"MROUND(1.7,0.2) equals 1.8.\n"
+"MROUND(321.123,0.12) equals 321.12.\n"
+"\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:1784
+#: src/functions/fn-math.c:2004
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -3944,10 +4566,17 @@ msgid ""
 "is more concise than classic type, type 2 is more concise than type 1, and "
 "type 3 is more concise than type 2.  Type 4 is simplified type. \n"
 "If @number is negative or greater than 3999, ROMAN returns #VALUE! error. \n"
+"@EXAMPLES=\n"
+"ROMAN(999) equals CMXCIX.\n"
+"ROMAN(999,1) equals LMVLIV.\n"
+"ROMAN(999,2) equals XMIX.\n"
+"ROMAN(999,3) equals VMIV.\n"
+"ROMAN(999,4) equals IM.\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-math.c:2043
+#: src/functions/fn-math.c:2272
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -3958,17 +4587,23 @@ msgid ""
 "Strings and empty cells are simply ignored.\n"
 "If @array1 and @array2 have different number of data points, SUMX2MY2 "
 "returns #N/A! error. \n"
-"@SEEALSO=SUMSQ"
+"@EXAMPLES=\n"
+"Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
+"and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.  "
+"Then\n"
+"SUMX2MY2(A1:A5,B1:B5) equals -1299.\n"
+"\n"
+"@SEEALSO=SUMSQ,SUMX2PY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2090 src/functions/fn-math.c:2104
-#: src/functions/fn-math.c:2177 src/functions/fn-math.c:2191
-#: src/functions/fn-math.c:2263 src/functions/fn-math.c:2277
-#: src/functions/fn-stat.c:2303 src/functions/fn-stat.c:2333
+#: src/functions/fn-math.c:2326 src/functions/fn-math.c:2341
+#: src/functions/fn-math.c:2423 src/functions/fn-math.c:2438
+#: src/functions/fn-math.c:2517 src/functions/fn-math.c:2532
+#: src/functions/fn-stat.c:2560 src/functions/fn-stat.c:2590
 msgid "Array version not implemented!"
 msgstr ""
 
-#: src/functions/fn-math.c:2131
+#: src/functions/fn-math.c:2370
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -3979,10 +4614,16 @@ msgid ""
 "Strings and empty cells are simply ignored.\n"
 "If @array1 and @array2 have different number of data points, SUMX2PY2 "
 "returns #N/A! error. \n"
-"@SEEALSO=SUMSQ"
+"@EXAMPLES=\n"
+"Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
+"and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.  "
+"Then\n"
+"SUMX2PY2(A1:A5,B1:B5) equals 7149.\n"
+"\n"
+"@SEEALSO=SUMSQ,SUMX2MY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2218
+#: src/functions/fn-math.c:2465
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -3993,10 +4634,16 @@ msgid ""
 "Strings and empty cells are simply ignored.\n"
 "If @array1 and @array2 have different number of data points, SUMXMY2 returns "
 "#N/A! error. \n"
-"@SEEALSO=SUMSQ"
+"@EXAMPLES=\n"
+"Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
+"and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.  "
+"Then\n"
+"SUMXMY2(A1:A5,B1:B5) equals 409.\n"
+"\n"
+"@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2304
+#: src/functions/fn-math.c:2561
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -4015,10 +4662,19 @@ msgid ""
 "10   VAR\n"
 "11   VARP\n"
 "\n"
+"@EXAMPLES=\n"
+"Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, "
+"and 39.  Then\n"
+"SUBTOTAL(1,A1:A5) equals 30.\n"
+"SUBTOTAL(6,A1:A5) equals 22378356.\n"
+"SUBTOTAL(7,A1:A5) equals 6.164414003.\n"
+"SUBTOTAL(9,A1:A5) equals 150.\n"
+"SUBTOTAL(11,A1:A5) equals 30.4.\n"
+"\n"
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:2385
+#: src/functions/fn-math.c:2653
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -4026,18 +4682,25 @@ msgid ""
 "the base of the power serie, @n is the initial power to raise @x, @m is the "
 "increment to the power for each term in the series, and @coefficients is the "
 "coefficents by which each successive power of @x is multiplied. \n"
+"@EXAMPLES=\n"
+"Let us assume that the cells A1, A2, ..., A5 contain numbers 1.23, 2.32, "
+"2.98, 3.42, and 4.33.  Then\n"
+"SERIESSUM(3,1,2.23,A1:A5) equals 251416.43018.\n"
+"\n"
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:2502
+#: src/functions/fn-math.c:2775
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
 "@DESCRIPTION=TRANSPOSE function returns the transpose of the input @matrix.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MMULT"
 msgstr ""
 
-#: src/functions/fn-math.c:2545
+#: src/functions/fn-math.c:2823
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(array)\n"
@@ -4046,34 +4709,40 @@ msgid ""
 "If the matrix cannot be inverted, MINVERSE returns #NUM! error. If the "
 "matrix does not contain equal number of columns and rows, MINVERSE returns "
 "#VALUE! error.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MMULT, MDETERM"
 msgstr ""
 
-#: src/functions/fn-math.c:2590
+#: src/functions/fn-math.c:2870
 msgid "#3D MULT?"
 msgstr ""
 
-#: src/functions/fn-math.c:2726
+#: src/functions/fn-math.c:3008
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
 "@DESCRIPTION=MMULT function returns the matrix product of two arrays. The "
 "result is an array with the same number of rows as @array1 and the same "
 "number of columns as @array2.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
 
-#: src/functions/fn-math.c:2788
+#: src/functions/fn-math.c:3073
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(array)\n"
 "@DESCRIPTION=MDETERM function returns the determinant of a given matrix. \n"
 "If the matrix does not contain equal number of columns and rows, MDETERM "
 "returns #VALUE! error.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MMULT, MINVERSE"
 msgstr ""
 
-#: src/functions/fn-math.c:2905
+#: src/functions/fn-math.c:3194
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -4082,10 +4751,16 @@ msgid ""
 "an array entry is not numeric, the value zero is used instead. \n"
 "If array or range arguments do not have the same dimentions, SUMPRODUCT "
 "returns #VALUE! error. \n"
+"@EXAMPLES=\n"
+"Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
+"and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.  "
+"Then\n"
+"SUMPRODUCT(A1:A5,B1:B5) equals 3370.\n"
+"\n"
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: src/functions/fn-math.c:3002
+#: src/functions/fn-math.c:3299
 msgid "Maths / Trig."
 msgstr ""
 
@@ -4093,86 +4768,103 @@ msgstr ""
 msgid "Argument mismatch"
 msgstr "인자가 서로 틀림"
 
-#: src/functions/fn-misc.c:38
+#: src/functions/fn-misc.c:39
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(exp)\n"
 "@DESCRIPTION=Returns a TRUE value if the expression has an error\n"
 "\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=ERROR"
 msgstr ""
 
-#: src/functions/fn-misc.c:65
+#: src/functions/fn-misc.c:68
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA()\n"
 "@DESCRIPTION=ISNA returns TRUE if the value is the #N/A error value. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-misc.c:95
+#: src/functions/fn-misc.c:101
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR()\n"
 "@DESCRIPTION=ISERR returns TRUE if the value is any error value except #N/A. "
 "\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-misc.c:121
+#: src/functions/fn-misc.c:130
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(exp)\n"
 "@DESCRIPTION=FIXME\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=ISERROR"
 msgstr ""
 
-#: src/functions/fn-misc.c:169
+#: src/functions/fn-misc.c:180
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
 "@DESCRIPTION=NA returns the error value #N/A. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-misc.c:185
+#: src/functions/fn-misc.c:200
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
 "@DESCRIPTION=Return the specified error\n"
 "\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=ISERROR"
 msgstr ""
 
-#: src/functions/fn-misc.c:199 src/functions/fn-string.c:57
-#: src/functions/fn-string.c:79 src/functions/fn-string.c:100
-#: src/functions/fn-string.c:155 src/functions/fn-string.c:189
-#: src/functions/fn-string.c:264 src/functions/fn-string.c:340
-#: src/functions/fn-string.c:375 src/functions/fn-string.c:552
-#: src/functions/fn-string.c:594 src/functions/fn-string.c:686
-#: src/functions/fn-string.c:714
+#: src/functions/fn-misc.c:215 src/functions/fn-string.c:66
+#: src/functions/fn-string.c:93 src/functions/fn-string.c:118
+#: src/functions/fn-string.c:183 src/functions/fn-string.c:221
+#: src/functions/fn-string.c:307 src/functions/fn-string.c:395
+#: src/functions/fn-string.c:434 src/functions/fn-string.c:626
+#: src/functions/fn-string.c:674 src/functions/fn-string.c:774
+#: src/functions/fn-string.c:805
 msgid "Type mismatch"
 msgstr "유형이 서로 틀림"
 
-#: src/functions/fn-misc.c:206
+#: src/functions/fn-misc.c:224
 msgid "Miscellaneous"
 msgstr "기타"
 
-#: src/functions/fn-sheet.c:15
+#: src/functions/fn-sheet.c:17
 msgid ""
 "@FUNCTION=SELECTION\n"
-"@SYNTAX=SELECTION(x)\n"
+"@SYNTAX=SELECTION(permit_intersection)\n"
 "@DESCRIPTION=The SELECTION function returns a list with the values in the "
-"current mouse cursor. This is usually used to implement on-the-flight "
-"computation of values.\n"
+"current selection. This is usually used to implement on-the-fly computation "
+"of values.If @permit_intersection is TRUE the user specifed selection ranges "
+"are returned, EVEN IF THEY OVERLAP.  If @permit_intersection is FALSE a "
+"distict set of regions is returned, however, there may be more of them than "
+"the user initially specified.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-sheet.c:75
+#: src/functions/fn-sheet.c:102
 msgid "Sheet"
 msgstr "쉬트"
 
-#: src/functions/fn-stat.c:107
+#: src/functions/fn-stat.c:109
 msgid ""
 "@FUNCTION=VARP\n"
 "@SYNTAX=VARP(b1, b2, ...)\n"
@@ -4183,7 +4875,7 @@ msgid ""
 "@SEEALSO=STDEV,VAR,MEAN"
 msgstr ""
 
-#: src/functions/fn-stat.c:134
+#: src/functions/fn-stat.c:138
 msgid ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
@@ -4192,30 +4884,36 @@ msgid ""
 "(VAR is also known as the N-1-variance.  Under reasonable conditions, it is "
 "the maximum-likelihood estimator for the true variance.)\n"
 "Performing this function on a string or empty cell simply does nothing.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=VARP,STDEV"
 msgstr ""
 
-#: src/functions/fn-stat.c:162
+#: src/functions/fn-stat.c:170
 msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1, b2, ...)\n"
 "@DESCRIPTION=STDEV returns standard deviation of a set of numbers treating "
 "these numbers as members of a population\n"
 "Performing this function on a string or empty cell simply does nothing.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=VAR,MEAN"
 msgstr ""
 
-#: src/functions/fn-stat.c:185
+#: src/functions/fn-stat.c:197
 msgid ""
 "@FUNCTION=STDEVP\n"
 "@SYNTAX=STDEVP(b1, b2, ...)\n"
 "@DESCRIPTION=STDEVP returns standard deviation of a set of numbers treating "
 "these numbers as members of a complete population\n"
 "Performing this function on a string or empty cell simply does nothing.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=STDEV,VAR,MEAN"
 msgstr ""
 
-#: src/functions/fn-stat.c:210
+#: src/functions/fn-stat.c:225
 msgid ""
 "@FUNCTION=RANK\n"
 "@SYNTAX=RANK(x,ref[,order])\n"
@@ -4223,10 +4921,12 @@ msgid ""
 "the number whose rank you want to find, @ref is the list of numbers, and "
 "@order specifies how to rank numbers.  If @order is 0, numbers are ranked in "
 "descending order, otherwise numbers are ranked in ascending order.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=PERCENTRANK"
 msgstr ""
 
-#: src/functions/fn-stat.c:294
+#: src/functions/fn-stat.c:313
 msgid ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=TRIMMEAN(ref,percent)\n"
@@ -4235,28 +4935,34 @@ msgid ""
 "percentage of number excluded from the mean. For example, if @percent=0.2 "
 "and the data set contains 40 numbers, 8 numbers are trimmed from the data "
 "set (40 x 0.2), 4 from the top and 4 from the bottom of the set.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
 msgstr ""
 
-#: src/functions/fn-stat.c:347
+#: src/functions/fn-stat.c:370
 msgid ""
 "@FUNCTION=COVAR\n"
 "@SYNTAX=COVAR(array1,array2)\n"
 "@DESCRIPTION=COVAR returns the covariance of two data sets.\n"
 "Strings and empty cells are simply ignored.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:370
+#: src/functions/fn-stat.c:397
 msgid ""
 "@FUNCTION=CORREL\n"
 "@SYNTAX=CORREL(array1,array2)\n"
 "@DESCRIPTION=CORREL returns the correllation coefficient of two data sets.\n"
 "Strings and empty cells are simply ignored.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:393
+#: src/functions/fn-stat.c:424
 msgid ""
 "@FUNCTION=NEGBINOMDIST\n"
 "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
@@ -4266,44 +4972,54 @@ msgid ""
 "If @f or @t is a non-integer it is truncated. If (@f + @t -1) <= 0 "
 "NEGBINOMDIST returns #NUM! error. If @p < 0 or @p > 1 NEGBINOMDIST returns "
 "#NUM! error.\n"
+"@EXAMPLES=\n"
+"NEGBINOMDIST(2,5,0.55) equals 0.152872629.\n"
+"\n"
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 msgstr ""
 
-#: src/functions/fn-stat.c:426
+#: src/functions/fn-stat.c:462
 msgid ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
 "@DESCRIPTION=The NORMSDIST function returns the standard normal cumulative "
 "distribution. @x is the value for which you want the distribution.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
+"@EXAMPLES=\n"
+"NORMSDIST(2) equals 0.977249868.\n"
+"\n"
 "@SEEALSO=NOMRDIST"
 msgstr ""
 
-#: src/functions/fn-stat.c:450
+#: src/functions/fn-stat.c:488
 msgid ""
 "@FUNCTION=NORMSINV\n"
 "@SYNTAX=NORMSINV(p)\n"
-"@DESCRIPTION=The NORMSINV function returns the inverse of the standard "
-"normal cumulative distribution. @p is the given probability corresponding to "
-"the normal distribution.\n"
+"@DESCRIPTION=NORMSINV function returns the inverse of the standard normal "
+"cumulative distribution. @p is the given probability corresponding to the "
+"normal distribution.\n"
 "If @p < 0 or @p > 1 NORMSINV returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"NORMSINV(0.2) equals -0.841621234.\n"
+"\n"
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:477
+#: src/functions/fn-stat.c:520
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=LOGNORMDIST(x,mean,stdev)\n"
 "@DESCRIPTION=The LOGNORMDIST function returns the lognormal distribution. @x "
 "is the value for which you want the distribution, @mean is the mean of the "
 "distribution, and @stdev is the standard deviation of the distribution. \n"
-"Performing this function on a string or empty cell simply does nothing. If "
-"@stdev = 0 LOGNORMDIST returns #DIV/0! error. If @x <= 0, @mean < 0 or "
+"If @stdev = 0 LOGNORMDIST returns #DIV/0! error. If @x <= 0, @mean < 0 or "
 "@stdev < 0 LOGNORMDIST returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"LOGNORMDIST(3,1,2) equals 0.519662338.\n"
+"\n"
 "@SEEALSO=NORMDIST"
 msgstr ""
 
-#: src/functions/fn-stat.c:514
+#: src/functions/fn-stat.c:560
 msgid ""
 "@FUNCTION=LOGINV\n"
 "@SYNTAX=LOGINV(p,mean,stdev)\n"
@@ -4312,20 +5028,26 @@ msgid ""
 "normal distribution, @mean is the arithmetic mean of the distribution, and "
 "@stdev is the standard deviation of the distribution.\n"
 "If @p < 0 or @p > 1 or @stdev <= 0 LOGINV returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"LOGINV(0.5,2,3) equals 7.389056099.\n"
+"\n"
 "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST"
 msgstr ""
 
-#: src/functions/fn-stat.c:545
+#: src/functions/fn-stat.c:596
 msgid ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
-"@DESCRIPTION=The FISHERINV function returns the inverse of the Fisher "
+"@DESCRIPTION=FISHERINV function returns the inverse of the Fisher "
 "transformation at @x. \n"
 "If @x is non-number FISHERINV returns #VALUE! error.\n"
+"@EXAMPLES=\n"
+"FISHERINV(2) equals 0.96402758.\n"
+"\n"
 "@SEEALSO=FISHER"
 msgstr ""
 
-#: src/functions/fn-stat.c:567
+#: src/functions/fn-stat.c:623
 msgid ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
@@ -4333,58 +5055,70 @@ msgid ""
 "data set has many most common numbers MODE returns the first one of them. \n"
 "Strings and empty cells are simply ignored.If the data set does not contain "
 "any duplicates MODE returns #N/A! error.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=AVERAGE,MEDIAN"
 msgstr ""
 
-#: src/functions/fn-stat.c:653
+#: src/functions/fn-stat.c:713
 msgid ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
 "@DESCRIPTION=HARMEAN returns the harmonic mean of the N data points.\n"
 "Performing this function on a string or empty cell simply does nothing.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE"
 msgstr ""
 
-#: src/functions/fn-stat.c:677
+#: src/functions/fn-stat.c:741
 msgid ""
 "@FUNCTION=GEOMEAN\n"
 "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
 "@DESCRIPTION=GEOMEAN returns the geometric mean of the given arguments. This "
 "is equal to the Nth root of the product of the terms.\n"
 "Performing this function on a string or empty cell simply does nothing.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=HARMEAN,MEDIAN,MEAN,MODE"
 msgstr ""
 
-#: src/functions/fn-stat.c:702
+#: src/functions/fn-stat.c:770
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
 "@DESCRIPTION=Returns the total number of integer or floating point arguments "
 "passed.\n"
 "Performing this function on a string or empty cell simply does nothing.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/functions/fn-stat.c:738
+#: src/functions/fn-stat.c:810
 msgid ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=COUNTA(b1, b2, ...)\n"
 "@DESCRIPTION=Returns the number of arguments passed not including empty "
 "cells.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 msgstr ""
 
-#: src/functions/fn-stat.c:770
+#: src/functions/fn-stat.c:846
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
 "@DESCRIPTION=Computes the average of all the values and cells referenced in "
 "the argument list.  This is equivalent to the sum of the arguments divided "
 "by the count of the arguments.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-stat.c:793
+#: src/functions/fn-stat.c:873
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -4392,10 +5126,12 @@ msgid ""
 "has the smallest value. With negative numbers considered smaller than "
 "positive numbers.\n"
 "Performing this function on a string or empty cell simply does nothing.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MAX,ABS"
 msgstr ""
 
-#: src/functions/fn-stat.c:819
+#: src/functions/fn-stat.c:903
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -4403,10 +5139,12 @@ msgid ""
 "has the largest value. With negative numbers considered smaller than "
 "positive numbers.\n"
 "Performing this function on a string or empty cell simply does nothing.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MIN,ABS"
 msgstr ""
 
-#: src/functions/fn-stat.c:845
+#: src/functions/fn-stat.c:933
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -4417,20 +5155,24 @@ msgid ""
 "zero.\n"
 "Strings and empty cells are simply ignored.\n"
 "If less than three numbers are given, SKEW returns #DIV/0! error.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 msgstr ""
 
-#: src/functions/fn-stat.c:874
+#: src/functions/fn-stat.c:966
 msgid ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(n1, n2, ...)\n"
 "@DESCRIPTION=SKEW returns the population skewness of a data set.\n"
 "Strings and empty cells are simply ignored.\n"
 "If less than two numbers are given, SKEWP returns #DIV/0! error.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 msgstr ""
 
-#: src/functions/fn-stat.c:899
+#: src/functions/fn-stat.c:995
 msgid ""
 "@FUNCTION=EXPONDIST\n"
 "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
@@ -4439,21 +5181,27 @@ msgid ""
 "otherwise it will return 1 - exp (-@y*@x).\n"
 "If @x < 0 or @y <= 0 this will return an error.  Performing this function on "
 "a string or empty cell simply does nothing.\n"
+"@EXAMPLES=\n"
+"EXPONDIST(2,4,0) equals 0.001341851.\n"
+"\n"
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/functions/fn-stat.c:938
+#: src/functions/fn-stat.c:1039
 msgid ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
-"@DESCRIPTION=The GAMMALN function returns the natural logarithm of the gamma "
+"@DESCRIPTION=GAMMALN function returns the natural logarithm of the gamma "
 "function.\n"
 "If @x is non-number then GAMMALN returns #VALUE! error. If @x <= 0 then "
 "GAMMALN returns #NUM! error.\n"
+"@EXAMPLES=\n"
+"GAMMALN(23) equals 48.471181352.\n"
+"\n"
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/functions/fn-stat.c:969
+#: src/functions/fn-stat.c:1075
 msgid ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
@@ -4462,21 +5210,27 @@ msgid ""
 "the probability mass function.\n"
 "If @x < 0 GAMMADIST returns #NUM! error. If @alpha <= 0 or @beta <= 0, "
 "GAMMADIST returns #NUM! error.\n"
+"@EXAMPLES=\n"
+"GAMMADIST(1,2,3,0) equals 0.07961459.\n"
+"\n"
 "@SEEALSO=GAMMAINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:1004
+#: src/functions/fn-stat.c:1115
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
-"@DESCRIPTION=The GAMMAINV function returns the inverse of the cumulative "
-"gamma distribution.\n"
+"@DESCRIPTION=GAMMAINV function returns the inverse of the cumulative gamma "
+"distribution.\n"
 "If @p < 0 or @p > 1 GAMMAINV returns #NUM! error. If @alpha <= 0 or @beta <= "
 "0 GAMMAINV returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"GAMMAINV(0.34,2,4) equals 4.829093908.\n"
+"\n"
 "@SEEALSO=GAMMADIST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1034
+#: src/functions/fn-stat.c:1150
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -4484,20 +5238,26 @@ msgid ""
 "chi-squared distribution. @dof is the number of degrees of freedom.\n"
 "If @dof is non-integer it is truncated. If @dof < 1 CHIDIST returns #NUM! "
 "error.\n"
+"@EXAMPLES=\n"
+"CHIDIST(5.3,2) equals 0.070651213.\n"
+"\n"
 "@SEEALSO=CHIINV,CHITEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1064
+#: src/functions/fn-stat.c:1185
 msgid ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
 "@DESCRIPTION=The CHIINV function returns the inverse of the one-tailed "
 "probability of the chi-squared distribution.\n"
 "If @p < 0 or @p > 1 or @dof < 1 CHIINV returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"CHIINV(0.98,7) equals 1.564293004.\n"
+"\n"
 "@SEEALSO=CHIDIST,CHITEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1092
+#: src/functions/fn-stat.c:1218
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
@@ -4506,10 +5266,12 @@ msgid ""
 "@actual_range is a range that contains the observed data points. "
 "@theoretical_range is a range that contains the expected values of the data "
 "points. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=CHIDIST,CHIINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:1231
+#: src/functions/fn-stat.c:1361
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -4519,10 +5281,13 @@ msgid ""
 "If @x < @a or @x > @b BETADIST returns #NUM! error. If @alpha <= 0 or @beta "
 "<= 0, BETADIST returns #NUM! error. If @a >= @b BETADIST returns #NUM! "
 "error.\n"
+"@EXAMPLES=\n"
+"BETADIST(0.12,2,3) equals 0.07319808.\n"
+"\n"
 "@SEEALSO=BETAINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:1271
+#: src/functions/fn-stat.c:1406
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -4532,10 +5297,13 @@ msgid ""
 "BETAINV uses 1.\n"
 "If @p < 0 or @p > 1 BETAINV returns #NUM! error. If @alpha <= 0 or @beta <= "
 "0, BETAINV returns #NUM! error. If @a >= @b BETAINV returns #NUM! error.\n"
+"@EXAMPLES=\n"
+"BETAINV(0.45,1.6,1) equals 0.607096629.\n"
+"\n"
 "@SEEALSO=BETADIST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1311
+#: src/functions/fn-stat.c:1451
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -4544,20 +5312,26 @@ msgid ""
 "one-tailed or two-tailed distribution.\n"
 "If @dof < 1 TDIST returns #NUM! error. If @tails is neither 1 or 2 TDIST "
 "returns #NUM! error.\n"
+"@EXAMPLES=\n"
+"TDIST(2,5,1) equals 0.050969739.\n"
+"\n"
 "@SEEALSO=TINV,TTEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1345
+#: src/functions/fn-stat.c:1490
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
 "@DESCRIPTION=The TINV function returns the inverse of the two-tailed "
 "Student's t-distribution.\n"
 "If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"TINV(0.4,32) equals 0.852998454.\n"
+"\n"
 "@SEEALSO=TDIST,TTEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1373
+#: src/functions/fn-stat.c:1523
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -4566,10 +5340,13 @@ msgid ""
 "freedom.\n"
 "If @x < 0 FDIST returns #NUM! error. If @dof1 < 1 or @dof2 < 1, FDIST "
 "returns #NUM! error.\n"
+"@EXAMPLES=\n"
+"FDIST(2,5,5) equals 0.232511319.\n"
+"\n"
 "@SEEALSO=FINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:1404
+#: src/functions/fn-stat.c:1559
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -4577,10 +5354,13 @@ msgid ""
 "distribution.\n"
 "If @p < 0 or @p > 1 FINV returns #NUM! error. If @dof1 < 1 or @dof2 < 1 FINV "
 "returns #NUM! error.\n"
+"@EXAMPLES=\n"
+"FINV(0.2,2,4) equals 2.472135955.\n"
+"\n"
 "@SEEALSO=FDIST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1434
+#: src/functions/fn-stat.c:1594
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -4592,10 +5372,13 @@ msgid ""
 "@trials are non-integer they are truncated. If @n < 0 or @trials < 0 "
 "BINOMDIST returns #NUM! error. If @n > trials BINOMDIST returns #NUM! error. "
 "If @p < 0 or @p > 1 BINOMDIST returns #NUM! error.\n"
+"@EXAMPLES=\n"
+"BINOMDIST(3,5,0.8,0) equals 0.2048.\n"
+"\n"
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/functions/fn-stat.c:1476
+#: src/functions/fn-stat.c:1641
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -4606,10 +5389,13 @@ msgid ""
 "If @trials is a non-integer it is truncated. If @trials < 0 CRITBINOM "
 "returns #NUM! error. If @p < 0 or @p > 1 CRITBINOM returns #NUM! error. If "
 "@alpha < 0 or @alpha > 1 CRITBINOM returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"CRITBINOM(10,0.5,0.75) equals 6.\n"
+"\n"
 "@SEEALSO=BINOMDIST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1510
+#: src/functions/fn-stat.c:1680
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -4617,10 +5403,13 @@ msgid ""
 "the number of objects, @k is the number of objects in each permutation.\n"
 "If @n = 0 PERMUT returns #NUM! error. If @n < @k PERMUT returns #NUM! "
 "error.\n"
+"@EXAMPLES=\n"
+"PERMUT(7,3) equals 210.\n"
+"\n"
 "@SEEALSO=COMBIN"
 msgstr ""
 
-#: src/functions/fn-stat.c:1539
+#: src/functions/fn-stat.c:1714
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
@@ -4631,10 +5420,13 @@ msgid ""
 "If @x,@n,@M or @N is a non-integer it is truncated. If @x,@n,@M or @N < 0 "
 "HYPGEOMDIST returns #NUM! error. If @x > @M or @n > @N HYPGEOMDIST returns "
 "#NUM! error.\n"
+"@EXAMPLES=\n"
+"HYPGEOMDIST(1,2,3,10) equals 0.4666667.\n"
+"\n"
 "@SEEALSO=BINOMDIST,POISSON"
 msgstr ""
 
-#: src/functions/fn-stat.c:1573
+#: src/functions/fn-stat.c:1753
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -4643,14 +5435,17 @@ msgid ""
 "@size is the size of the sample.\n"
 "If @size is non-integer it is truncated. If @size < 0 CONFIDENCE returns "
 "#NUM! error. If @size is 0 CONFIDENCE returns #DIV/0! error.\n"
+"@EXAMPLES=\n"
+"CONFIDENCE(0.05,1,33) equals 0.341185936.\n"
+"\n"
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/functions/fn-stat.c:1599 src/value.c:875
+#: src/functions/fn-stat.c:1782 src/value.c:894
 msgid "#DIV/0!"
 msgstr ""
 
-#: src/functions/fn-stat.c:1608
+#: src/functions/fn-stat.c:1793
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
@@ -4658,10 +5453,13 @@ msgid ""
 "number to be normalized, @mean is the mean of the distribution, @stdev is "
 "the standard deviation of the distribution.\n"
 "If stddev is 0 STANDARDIZE returns #DIV/0! error.\n"
+"@EXAMPLES=\n"
+"STANDARDIZE(3,2,4) equals 0.25.\n"
+"\n"
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/functions/fn-stat.c:1639
+#: src/functions/fn-stat.c:1830
 msgid ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -4671,10 +5469,13 @@ msgid ""
 "exp(-(@x/@beta^@alpha)). \n"
 "If @x < 0 WEIBULL returns #NUM! error. If @alpha <= 0 or @beta <= 0 WEIBULL "
 "returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"WEIBULL(3,2,4,0) equals 0.213668559.\n"
+"\n"
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/functions/fn-stat.c:1679
+#: src/functions/fn-stat.c:1875
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
@@ -4682,10 +5483,13 @@ msgid ""
 "distribution. @x is the value for which you want the distribution, @mean is "
 "the mean of the distribution, @stdev is the standard deviation. \n"
 "If @stdev is 0 NORMDIST returns #DIV/0! error. \n"
+"@EXAMPLES=\n"
+"NORMDIST(2,1,2,0) equals 0.176032663.\n"
+"\n"
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/functions/fn-stat.c:1718
+#: src/functions/fn-stat.c:1919
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stdev)\n"
@@ -4694,10 +5498,13 @@ msgid ""
 "normal distribution, @mean is the arithmetic mean of the distribution, and "
 "@stdev is the standard deviation of the distribution.\n"
 "If @p < 0 or @p > 1 or @stdev <= 0 NORMINV returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"NORMINV(0.76,2,3) equals 4.118907689.\n"
+"\n"
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1750
+#: src/functions/fn-stat.c:1956
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -4709,10 +5516,12 @@ msgid ""
 "Strings and empty cells are simply ignored.\n"
 "If fewer than four numbers are given or all of them are equal KURT returns "
 "#DIV/0! error.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 msgstr ""
 
-#: src/functions/fn-stat.c:1781
+#: src/functions/fn-stat.c:1991
 msgid ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -4720,40 +5529,49 @@ msgid ""
 "Strings and empty cells are simply ignored.\n"
 "If fewer than two numbers are given or all of them are equal KURTP returns "
 "#DIV/0! error.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 msgstr ""
 
-#: src/functions/fn-stat.c:1807
+#: src/functions/fn-stat.c:2021
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
 "@DESCRIPTION=AVEDEV returns the average of the absolute deviations of a data "
 "set from their mean. \n"
 "Performing this function on a string or empty cell simply does nothing.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=STDEV"
 msgstr ""
 
-#: src/functions/fn-stat.c:1832
+#: src/functions/fn-stat.c:2050
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
 "@DESCRIPTION=DEVSQ returns the sum of squares of deviations of a data set "
 "from the sample mean.\n"
 "Strings and empty cells are simply ignored.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=STDEV"
 msgstr ""
 
-#: src/functions/fn-stat.c:1856
+#: src/functions/fn-stat.c:2078
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
 "@DESCRIPTION=The FISHER function returns the Fisher transformation at @x.\n"
 "If @x is not-number FISHER returns #VALUE! error.If @x <= -1 or @x >= 1 "
 "FISHER returns #NUM! error\n"
+"@EXAMPLES=\n"
+"FISHER(0.332) equals 0.345074339.\n"
+"\n"
 "@SEEALSO=SKEW"
 msgstr ""
 
-#: src/functions/fn-stat.c:1885
+#: src/functions/fn-stat.c:2112
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -4762,60 +5580,73 @@ msgid ""
 "whether to return the sum of the poisson function from 0 to @x.\n"
 "If @x is a non-integer it is truncated. If @x <= 0 POISSON returns #NUM! "
 "error. If @mean <= 0 POISSON returns the #NUM! error.\n"
+"@EXAMPLES=\n"
+"POISSON(3,6,0) equals 0.089235078.\n"
+"\n"
 "@SEEALSO=NORMDIST, WEIBULL"
 msgstr ""
 
-#: src/functions/fn-stat.c:1922
+#: src/functions/fn-stat.c:2154
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
 "@DESCRIPTION=PEARSON returns the Pearson correllation coefficient of two "
 "data sets.\n"
 "Strings and empty cells are simply ignored.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 msgstr ""
 
-#: src/functions/fn-stat.c:1942
+#: src/functions/fn-stat.c:2178
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
 "@DESCRIPTION=RSQ returns the square of the Pearson correllation coefficient "
 "of two data sets.\n"
 "Strings and empty cells are simply ignored.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:1968
+#: src/functions/fn-stat.c:2207
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
 "@DESCRIPTION=MEDIAN returns the median of the given data set.\n"
 "Strings and empty cells are simply ignored. If even numbers are given MEDIAN "
 "returns the average of the two numbers in the middle.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 msgstr ""
 
-#: src/functions/fn-stat.c:2010
+#: src/functions/fn-stat.c:2253
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
 "@DESCRIPTION=LARGE returns the k-th largest value in a data set.\n"
 "If data set is empty LARGE returns #NUM! error. If @k <= 0 or @k is greater "
 "than the number of data items given LARGE returns #NUM! error.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 msgstr ""
 
-#: src/functions/fn-stat.c:2053
+#: src/functions/fn-stat.c:2300
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
 "@DESCRIPTION=SMALL returns the k-th smallest value in a data set.\n"
 "If data set is empty SMALL returns #NUM! error. If @k <= 0 or @k is greater "
 "than the number of data items given SMALL returns #NUM! error.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 msgstr ""
 
-#: src/functions/fn-stat.c:2120
+#: src/functions/fn-stat.c:2371
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])\n"
@@ -4826,10 +5657,12 @@ msgid ""
 "returns #NUM! error. If any value in @prob_range is <=0 or > 1, PROB returns "
 "#NUM! error. If @x_range and @prob_range contain a different number of data "
 "entries, PROB returns #N/A! error.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
 msgstr ""
 
-#: src/functions/fn-stat.c:2246
+#: src/functions/fn-stat.c:2501
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -4837,20 +5670,24 @@ msgid ""
 "y-value for each x in the regression.\n"
 "If @known_y's and @known_x's are empty or have a different number of "
 "arguments then STEYX returns #N/A! error.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 msgstr ""
 
-#: src/functions/fn-stat.c:2392
+#: src/functions/fn-stat.c:2651
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
 "@DESCRIPTION=ZTEST returns the two-tailed probability of a z-test.\n"
 "@ref is the data set and @x is the value to be tested.\n"
 "If @ref contains less than two data items ZTEST returns #DIV/0! error.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 msgstr ""
 
-#: src/functions/fn-stat.c:2465
+#: src/functions/fn-stat.c:2728
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -4859,10 +5696,12 @@ msgid ""
 "contains text or the argument evaluates to FALSE, it is counted as value "
 "zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  "
 "Note that empty cells are not counted.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/functions/fn-stat.c:2491
+#: src/functions/fn-stat.c:2758
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -4871,10 +5710,12 @@ msgid ""
 "cell contains text or the argument evaluates to FALSE, it is counted as "
 "value zero (0).  If the argument evaluates to TRUE, it is counted as one "
 "(1).  Note that empty cells are not counted.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MAX,MINA"
 msgstr ""
 
-#: src/functions/fn-stat.c:2517
+#: src/functions/fn-stat.c:2788
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -4883,10 +5724,12 @@ msgid ""
 "cell contains text or the argument evaluates to FALSE, it is counted as "
 "value zero (0).  If the argument evaluates to TRUE, it is counted as one "
 "(1).  Note that empty cells are not counted.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MIN,MAXA"
 msgstr ""
 
-#: src/functions/fn-stat.c:2543
+#: src/functions/fn-stat.c:2818
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -4895,10 +5738,12 @@ msgid ""
 "text or the argument evaluates to FALSE, it is counted as value zero (0).  "
 "If the argument evaluates to TRUE, it is counted as one (1).  Note that "
 "empty cells are not counted.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=VAR,VARPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:2569
+#: src/functions/fn-stat.c:2848
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -4907,10 +5752,12 @@ msgid ""
 "the cell contains text or the argument evaluates to FALSE, it is counted as "
 "value zero (0).  If the argument evaluates to TRUE, it is counted as one "
 "(1).  Note that empty cells are not counted.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=VARP,VARP"
 msgstr ""
 
-#: src/functions/fn-stat.c:2595
+#: src/functions/fn-stat.c:2878
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -4919,10 +5766,12 @@ msgid ""
 "the cell contains text or the argument evaluates to FALSE, it is counted as "
 "value zero (0).  If the argument evaluates to TRUE, it is counted as one "
 "(1).  Note that empty cells are not counted.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:2621
+#: src/functions/fn-stat.c:2908
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -4931,10 +5780,12 @@ msgid ""
 "calculation too.  If the cell contains text or the argument evaluates to "
 "FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, "
 "it is counted as one (1).  Note that empty cells are not counted.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=STDEVA,STDEVP"
 msgstr ""
 
-#: src/functions/fn-stat.c:2647
+#: src/functions/fn-stat.c:2938
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -4947,10 +5798,12 @@ msgid ""
 "@significance is less than one, PERCENTRANK returns #NUM! error. If @x does "
 "not match any of the values in @array or @x matches more than once, "
 "PERCENTRANK interpolates the returned value.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 msgstr ""
 
-#: src/functions/fn-stat.c:2755
+#: src/functions/fn-stat.c:3050
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -4966,19 +5819,23 @@ msgid ""
 "If @array is empty, QUARTILE returns #NUM! error. If @quart < 0 or @quart > "
 "4, QUARTILE returns #NUM! error. If @quart is not an integer, it is "
 "truncated. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 msgstr ""
 
-#: src/functions/fn-stat.c:2810
+#: src/functions/fn-stat.c:3109
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
 "@DESCRIPTION=FTEST function returns the one-tailed probability that the "
 "variances in the given two data sets are not significantly different. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:2897
+#: src/functions/fn-stat.c:3200
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -4995,10 +5852,12 @@ msgid ""
 "truncated to integers. If @tails is not one or two, TTEST returns #NUM! "
 "error. If @type is any other than one, two, or three, TTEST returns #NUM! "
 "error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:3141
+#: src/functions/fn-stat.c:3447
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -5008,10 +5867,12 @@ msgid ""
 "@bin_array is an array containing the intervals into which you want to group "
 "the values in data_array.  If the @bin_array is empty, FREQUENCY returns the "
 "number of data points in @data_array. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-stat.c:3251
+#: src/functions/fn-stat.c:3561
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's])\n"
@@ -5023,10 +5884,12 @@ msgid ""
 "y=mx+b is given in the first column and the y-intercept (b) in the second. \n"
 "If @known_y's and @known_x's have unequal number of data points, LINEST "
 "returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:3320
+#: src/functions/fn-stat.c:3634
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -5037,10 +5900,12 @@ msgid ""
 "y-values. \n"
 "If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @known_y's and "
 "@known_x's have unequal number of data points, TREND returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:3399
+#: src/functions/fn-stat.c:3717
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -5050,10 +5915,12 @@ msgid ""
 "If @known_x or @known_y contains no data entries or different number of data "
 "entries, FORECAST returns #N/A! error. If the variance of the @known_x is "
 "zero, FORECAST returns #DIV/0 error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:3460
+#: src/functions/fn-stat.c:3781
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -5062,224 +5929,299 @@ msgid ""
 "If @known_x or @known_y contains no data entries or different number of data "
 "entries, INTERCEPT returns #N/A! error. If the variance of the @known_x is "
 "zero, INTERCEPT returns #DIV/0 error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:3499
+#: src/functions/fn-stat.c:3824
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
 "@DESCRIPTION=SLOPE returns the slope of the linear regression line.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:3534
+#: src/functions/fn-stat.c:3862
 msgid "Statistics"
 msgstr ""
 
-#: src/functions/fn-string.c:19
+#: src/functions/fn-string.c:22
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
-"@DESCRIPTION=Returns the ASCII character represented by the number @x.\n"
+"@DESCRIPTION=CHAR returns the ASCII character represented by the number @x.\n"
+"@EXAMPLES=\n"
+"CHAR(65) equals A.\n"
+"\n"
 "@SEEALSO=CODE"
 msgstr ""
 
-#: src/functions/fn-string.c:41
+#: src/functions/fn-string.c:48
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
-"@DESCRIPTION=Returns the ASCII number for the character @char.\n"
+"@DESCRIPTION=CODE returns the ASCII number for the character @char.\n"
+"@EXAMPLES=\n"
+"CODE(\"A\") equals 65.\n"
+"\n"
 "@SEEALSO=CHAR"
 msgstr ""
 
-#: src/functions/fn-string.c:64
+#: src/functions/fn-string.c:75
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
-"@DESCRIPTION=Returns true if @string1 is exactly equal to @string2 (this "
-"routine is case sensitive).\n"
+"@DESCRIPTION=EXACT returns true if @string1 is exactly equal to @string2 "
+"(this routine is case sensitive).\n"
+"@EXAMPLES=\n"
+"EXACT(\"key\",\"key\") equals TRUE.\n"
+"EXACT(\"key\",\"Key\") equals FALSE.\n"
+"\n"
 "@SEEALSO=LEN"
 msgstr ""
 
-#: src/functions/fn-string.c:86
+#: src/functions/fn-string.c:102
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
-"@DESCRIPTION=Returns the length in characters of the string @string.\n"
+"@DESCRIPTION=LEN returns the length in characters of the string @string.\n"
+"@EXAMPLES=\n"
+"len(\"Helsinki\") equals 8.\n"
+"\n"
 "@SEEALSO=CHAR, CODE"
 msgstr ""
 
-#: src/functions/fn-string.c:106
+#: src/functions/fn-string.c:126
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
-"@DESCRIPTION=Returns the leftmost @num_chars characters or the left "
+"@DESCRIPTION=LEFT returns the leftmost @num_chars characters or the left "
 "character if @num_chars is not specified.\n"
+"@EXAMPLES=\n"
+"LEFT(\"Directory\",3) equals \"Dir\".\n"
+"\n"
 "@SEEALSO=MID, RIGHT"
 msgstr ""
 
-#: src/functions/fn-string.c:139
+#: src/functions/fn-string.c:164
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
-"@DESCRIPTION=Returns a lower-case version of the string in @text\n"
+"@DESCRIPTION=LOWER returns a lower-case version of the string in @text\n"
+"@EXAMPLES=\n"
+"LOWER(\"J. F. Kennedy\") equals \"j. f. kennedy\".\n"
+"\n"
 "@SEEALSO=UPPER"
 msgstr ""
 
-#: src/functions/fn-string.c:168
+#: src/functions/fn-string.c:198
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
-"@DESCRIPTION=Returns a substring from @string starting at @position for "
+"@DESCRIPTION=MID returns a substring from @string starting at @position for "
 "@length characters.\n"
+"@EXAMPLES=\n"
+"MID(\"testing\",2,3) equals \"est\".\n"
+"\n"
 "@SEEALSO=LEFT, RIGHT"
 msgstr ""
 
-#: src/functions/fn-string.c:195 src/functions/fn-string.c:601
+#: src/functions/fn-string.c:227 src/functions/fn-string.c:681
 msgid "Invalid arguments"
 msgstr "비정상적인 인자"
 
-#: src/functions/fn-string.c:211
+#: src/functions/fn-string.c:245
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
-"@DESCRIPTION=Returns the rightmost @num_chars characters or the right "
+"@DESCRIPTION=RIGHT returns the rightmost @num_chars characters or the right "
 "character if @num_chars is not specified.\n"
+"@EXAMPLES=\n"
+"RIGHT(\"end\") equals \"d\".\n"
+"RIGHT(\"end\",2) equals \"nd\".\n"
+"\n"
 "@SEEALSO=MID, LEFT"
 msgstr ""
 
-#: src/functions/fn-string.c:248
+#: src/functions/fn-string.c:288
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=Returns a upper-case version of the string in @text.\n"
+"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
+"@EXAMPLES=\n"
+"UPPER(\"canceled\") equals \"CANCELED\".\n"
+"\n"
 "@SEEALSO=LOWER"
-msgstr ""
-
-#: src/functions/fn-string.c:278
-msgid ""
-"@FUNCTION=CONCATENATE\n"
-"@SYNTAX=CONCATENATE(string1[,string2...])\n"
-"@DESCRIPTION=Returns up appended strings.\n"
-"@SEEALSO=LEFT, MID, RIGHT"
 msgstr ""
 
 #: src/functions/fn-string.c:323
 msgid ""
+"@FUNCTION=CONCATENATE\n"
+"@SYNTAX=CONCATENATE(string1[,string2...])\n"
+"@DESCRIPTION=CONCATENATE returns up appended strings.\n"
+"@EXAMPLES=\n"
+"CONCATENATE(\"aa\",\"bb\") equals \"aabb\".\n"
+"\n"
+"@SEEALSO=LEFT, MID, RIGHT"
+msgstr ""
+
+#: src/functions/fn-string.c:375
+msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
-"@DESCRIPTION=Returns @num repetitions of @string.\n"
+"@DESCRIPTION=REPT returns @num repetitions of @string.\n"
+"@EXAMPLES=\n"
+"REPT(\".\",3) equals \"...\".\n"
+"\n"
 "@SEEALSO=CONCATENATE"
 msgstr ""
 
 #. start position too high or low
-#: src/functions/fn-string.c:342 src/functions/fn-string.c:417
-#: src/functions/fn-string.c:422 src/functions/fn-string.c:462
+#: src/functions/fn-string.c:397 src/functions/fn-string.c:481
+#: src/functions/fn-string.c:486 src/functions/fn-string.c:531
 msgid "Invalid argument"
 msgstr "비정상적인 인자"
 
-#: src/functions/fn-string.c:358
+#: src/functions/fn-string.c:415
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
-"@DESCRIPTION=Cleans the string from any non-printable characters.\n"
+"@DESCRIPTION=CLEAN cleans the string from any non-printable characters.\n"
+"@EXAMPLES=\n"
+"CLEAN(\"one\"&char(7)) equals \"one\".\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-string.c:394
+#: src/functions/fn-string.c:455
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
-"@DESCRIPTION=Returns position of @string1 in @string2 (case-sesitive), "
+"@DESCRIPTION=FIND returns position of @string1 in @string2 (case-sesitive), "
 "searching only from character @start onwards (assumed 1 if omitted).\n"
+"@EXAMPLES=\n"
+"FIND(\"ac\",\"Jack\") equals 2.\n"
+"\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 msgstr ""
 
-#: src/functions/fn-string.c:428
+#: src/functions/fn-string.c:494
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num, [decimals, no_commas])\n"
-"@DESCRIPTION=Returns @num as a formatted string with @decimals numbers after "
-"the decimal point, omitting commas if requested by @no_commas.\n"
+"@DESCRIPTION=FIXED returns @num as a formatted string with @decimals numbers "
+"after the decimal point, omitting commas if requested by @no_commas.\n"
+"@EXAMPLES=\n"
+"FIXED(1234.567,2) equals \"1,234.57\".\n"
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-string.c:535
+#: src/functions/fn-string.c:601
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
-"@DESCRIPTION=Returns @string with initial of each word capitalised.\n"
+"@DESCRIPTION=PROPER returns @string with initial of each word capitalised.\n"
+"@EXAMPLES=\n"
+"PROPER(\"j. f. kennedy\") equals \"J. F. Kennedy\".\n"
+"\n"
 "@SEEALSO=LOWER, UPPER"
 msgstr ""
 
-#: src/functions/fn-string.c:574
+#: src/functions/fn-string.c:650
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
-"@DESCRIPTION=Returns @old with @new replacing @num characters from @start.\n"
+"@DESCRIPTION=REPLACE returns @old with @new replacing @num characters from "
+"@start.\n"
+"@EXAMPLES=\n"
+"REPLACE(\"testing\",2,3,\"*****\") equals \"t*****ing\".\n"
+"\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 msgstr ""
 
-#: src/functions/fn-string.c:625
+#: src/functions/fn-string.c:705
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
-"@DESCRIPTION=Returns @value if and only if it is text, otherwise a blank "
+"@DESCRIPTION=T returns @value if and only if it is text, otherwise a blank "
 "string.\n"
+"@EXAMPLES=\n"
+"T(\"text\") equals \"text\".\n"
+"T(64) returns an empty cell.\n"
+"\n"
 "@SEEALSO=CELL, N, VALUE"
 msgstr ""
 
-#: src/functions/fn-string.c:645
+#: src/functions/fn-string.c:729
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
-"@DESCRIPTION=Returns @value as a string with the specified format.\n"
+"@DESCRIPTION=TEXT returns @value as a string with the specified format.\n"
+"@EXAMPLES=\n"
+"TEXT(3.223,\"$0.00\") equals \"$3.22\".\n"
+"TEXT(date(1999,4,15),\"mmmm, dd, yy\") equals \"April, 15, 99\".\n"
+"\n"
 "@SEEALSO=DOLLAR"
 msgstr ""
 
-#: src/functions/fn-string.c:698
+#: src/functions/fn-string.c:786
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
-"@DESCRIPTION=Returns @text with only single spaces between words.\n"
+"@DESCRIPTION=TRIM returns @text with only single spaces between words.\n"
+"@EXAMPLES=\n"
+"TRIM(\"  a bbb  cc\") equals \"a bbb cc\".\n"
+"\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 msgstr ""
 
-#: src/functions/fn-string.c:743
+#: src/functions/fn-string.c:836
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
-"@DESCRIPTION=Returns numeric value of @text.\n"
+"@DESCRIPTION=VALUE returns numeric value of @text.\n"
+"@EXAMPLES=\n"
+"VALUE(\"$1,000\") equals 1000.\n"
+"\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 msgstr ""
 
-#: src/functions/fn-string.c:824
+#: src/functions/fn-string.c:883
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
 "@DESCRIPTION=Replaces @old with @new in @text.  Substitutions are only "
 "applied to instance @num of @old in @text, otherwise every one is changed.\n"
+"@EXAMPLES=\n"
+"SUBSTITUTE(\"testing\",\"test\",\"wait\") equals \"waiting\".\n"
+"\n"
 "@SEEALSO=REPLACE, TRIM"
 msgstr ""
 
-#: src/functions/fn-string.c:895
+#: src/functions/fn-string.c:998
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num,[decimals])\n"
 "@DESCRIPTION=Returns @num formatted as currency.\n"
+"@EXAMPLES=\n"
+"DOLLAR(12345) equals \"$12,345.00\".\n"
+"\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 msgstr ""
 
-#: src/functions/fn-string.c:960
+#: src/functions/fn-string.c:1068
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
-"@DESCRIPTION=Returns the location of a character or text string within "
-"another string.  @text is the string or character to be searched. @within is "
-"the string in which you want to search.  @start_num is the start position of "
-"the search in @within.  If @start_num is omitted, it is assumed to be one.  "
-"The search is not case sensitive. \n"
+"@DESCRIPTION=SEARCH returns the location of a character or text string "
+"within another string.  @text is the string or character to be searched. "
+"@within is the string in which you want to search.  @start_num is the start "
+"position of the search in @within.  If @start_num is omitted, it is assumed "
+"to be one.  The search is not case sensitive. \n"
 "@text can contain wildcard characters (*) and question marks (?) to control "
 "the search.  A question mark matches with any character and wildcard matches "
 "with any string including empty string.  If you want the actual wildcard or "
@@ -5287,6 +6229,10 @@ msgid ""
 "If @text is not found, SEARCH returns #VALUE! error. If @start_num is less "
 "than one or it is greater than the length of @within, SEARCH returns #VALUE! "
 "error. \n"
+"@EXAMPLES=\n"
+"SEARCH(\"c\",\"Cancel\") equals 1.\n"
+"SEARCH(\"c\",\"Cancel\",2) equals 4.\n"
+"\n"
 "@SEEALSO=FIND"
 msgstr ""
 
@@ -5322,25 +6268,24 @@ msgstr "흰색"
 msgid "yellow"
 msgstr "황색"
 
-#: src/format.c:1068
+#: src/format.c:1064
 msgid "0.0########"
 msgstr "0.0########"
 
-#: src/format.c:1082 src/value.c:184 src/value.c:367
+#: src/format.c:1078 src/value.c:203 src/value.c:386
 msgid "TRUE"
-msgstr ""
+msgstr "참"
 
-#: src/format.c:1082 src/value.c:184 src/value.c:367
-#, fuzzy
+#: src/format.c:1078 src/value.c:203 src/value.c:386
 msgid "FALSE"
-msgstr "파일"
+msgstr "거짓"
 
-#: src/format.c:1091
+#: src/format.c:1087
 msgid "CELLRANGE"
 msgstr "셀범위"
 
 #. Array of arrays ??
-#: src/format.c:1095
+#: src/format.c:1091
 msgid "ARRAY"
 msgstr "배열"
 
@@ -5365,18 +6310,16 @@ msgid "#,##0_);(#,##0)"
 msgstr "#,##0_);(#,##0)"
 
 #: src/formats.c:22
-#, fuzzy
 msgid "#,##0_);[Red](#,##0)"
-msgstr "#,##0_);[red](#,##0)"
+msgstr "#,##0_);[Red](#,##0)"
 
 #: src/formats.c:23
 msgid "#,##0.00_);(#,##0.00)"
 msgstr "#,##0.00_);(#,##0.00)"
 
 #: src/formats.c:24
-#, fuzzy
 msgid "#,##0.00_);[Red](#,##0.00)"
-msgstr "#,##0.00_);[red](#,##0.00)"
+msgstr "#,##0.00_);[Red](#,##0.00)"
 
 #: src/formats.c:25
 msgid "0.0"
@@ -5479,39 +6422,36 @@ msgid "m/d/yyyy h:mm"
 msgstr "m/d/yyyy h:mm"
 
 #: src/formats.c:58
-#, fuzzy
 msgid "yyyy/mm/d"
-msgstr "mm/d"
+msgstr "yyyy/mm/d"
 
 #: src/formats.c:59
-#, fuzzy
 msgid "yyyy/mmm/d"
-msgstr "mmm/d"
+msgstr "yyyy/mmm/d"
 
 #: src/formats.c:60
 msgid "yyyy/mm/dd"
 msgstr ""
 
 #: src/formats.c:61
-#, fuzzy
 msgid "yyyy/mmm/dd"
-msgstr "mmm/d"
+msgstr "yyyy/mmm/dd"
 
 #: src/formats.c:62
 msgid "yyyy-mm-d"
-msgstr ""
+msgstr "yyyy-mm-d"
 
 #: src/formats.c:63
 msgid "yyyy-mmm-d"
-msgstr ""
+msgstr "yyyy-mmm-d"
 
 #: src/formats.c:64
 msgid "yyyy-mm-dd"
-msgstr ""
+msgstr "yyyy-mm-dd"
 
 #: src/formats.c:65
 msgid "yyyy-mmm-dd"
-msgstr ""
+msgstr "yyyy-mmm-dd"
 
 #: src/formats.c:70
 msgid "h:mm AM/PM"
@@ -5572,18 +6512,16 @@ msgid "$#,##0_);($#,##0)"
 msgstr "$#,##0_);($#,##0)"
 
 #: src/formats.c:106
-#, fuzzy
 msgid "$#,##0_);[Red]($#,##0)"
-msgstr "$#,##0_);[red]($#,##0)"
+msgstr "$#,##0_);[Red]($#,##0)"
 
 #: src/formats.c:107
 msgid "$#,##0.00_);($#,##0.00)"
 msgstr "$#,##0.00_);($#,##0.00)"
 
 #: src/formats.c:108
-#, fuzzy
 msgid "$#,##0.00_);[Red]($#,##0.00)"
-msgstr "$#,##0.00_);[red]($#,##0.00)"
+msgstr "$#,##0.00_);[Red]($#,##0.00)"
 
 #: src/func.c:424
 msgid "Function does not exist"
@@ -5593,80 +6531,80 @@ msgstr "함수가 없습니다"
 msgid "Calling non-function"
 msgstr "함수가 아닌 걸 불렀읍니다"
 
-#: src/gnumeric-sheet.c:981
+#: src/gnumeric-sheet.c:971
 msgid "Solid"
 msgstr "고체색"
 
-#: src/gnumeric-sheet.c:985
+#: src/gnumeric-sheet.c:975
 #, no-c-format
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:989
+#: src/gnumeric-sheet.c:979
 #, no-c-format
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:993
+#: src/gnumeric-sheet.c:983
 #, no-c-format
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:997
+#: src/gnumeric-sheet.c:987
 #, no-c-format
 msgid "12.5%"
 msgstr "12.5%"
 
-#: src/gnumeric-sheet.c:1001
+#: src/gnumeric-sheet.c:991
 #, no-c-format
 msgid "6.25%"
 msgstr "6.25%"
 
-#: src/gnumeric-sheet.c:1004
+#: src/gnumeric-sheet.c:994
 msgid "Horizontal Stripe"
 msgstr "수평선"
 
-#: src/gnumeric-sheet.c:1007
+#: src/gnumeric-sheet.c:997
 msgid "Vertical Stripe"
 msgstr "수직선"
 
-#: src/gnumeric-sheet.c:1010
+#: src/gnumeric-sheet.c:1000
 msgid "Reverse Diagonal Stripe"
 msgstr "역대각선"
 
-#: src/gnumeric-sheet.c:1013
+#: src/gnumeric-sheet.c:1003
 msgid "Diagonal Stripe"
 msgstr "대각선"
 
-#: src/gnumeric-sheet.c:1016
+#: src/gnumeric-sheet.c:1006
 msgid "Diagonal Crosshatch"
 msgstr "대각 직교평행선"
 
-#: src/gnumeric-sheet.c:1019
+#: src/gnumeric-sheet.c:1009
 msgid "Thick Diagonal Crosshatch"
 msgstr "굵은 대각 직교평행선"
 
-#: src/gnumeric-sheet.c:1022
+#: src/gnumeric-sheet.c:1012
 msgid "Thin Horizontal Stripe"
 msgstr "가는 수평선"
 
-#: src/gnumeric-sheet.c:1025
+#: src/gnumeric-sheet.c:1015
 msgid "Thin Vertical Stripe"
 msgstr "가는 수직선"
 
-#: src/gnumeric-sheet.c:1028
+#: src/gnumeric-sheet.c:1018
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "가는 역대각선"
 
-#: src/gnumeric-sheet.c:1031
+#: src/gnumeric-sheet.c:1021
 msgid "Thin Diagonal Stripe"
 msgstr "가는 대각선"
 
-#: src/gnumeric-sheet.c:1034
+#: src/gnumeric-sheet.c:1024
 msgid "Thin Crosshatch"
 msgstr "가는 직교평행선"
 
-#: src/gnumeric-sheet.c:1037
+#: src/gnumeric-sheet.c:1027
 msgid "Thin Diagonal Crosshatch"
 msgstr "가는 역대각 직교평행선"
 
@@ -5674,7 +6612,7 @@ msgstr "가는 역대각 직교평행선"
 msgid "You cannot change part of an array."
 msgstr "배열의 일부를 바꿀 수 없습니다."
 
-#: src/item-cursor.c:500
+#: src/item-cursor.c:501
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -5684,51 +6622,51 @@ msgstr ""
 "덮어써지게 될겁니다. 이 영역의 내용을 바꾸기를\n"
 "원하십니까?"
 
-#: src/item-cursor.c:581 src/item-grid.c:637 src/workbook.c:1130
+#: src/item-cursor.c:582 src/item-grid.c:638 src/workbook.c:1108
 msgid "Copy"
 msgstr "복사"
 
-#: src/item-cursor.c:582 src/print-preview.c:452
+#: src/item-cursor.c:583 src/print-preview.c:452
 msgid "Move"
 msgstr "이동"
 
-#: src/item-cursor.c:583
+#: src/item-cursor.c:584
 msgid "Copy formats"
 msgstr "형식 복사"
 
-#: src/item-cursor.c:584
+#: src/item-cursor.c:585
 msgid "Copy values"
 msgstr "값 복사"
 
-#: src/item-cursor.c:585
+#: src/item-cursor.c:586
 msgid "Shift cells down and copy"
 msgstr "셀을 밑으로 보내고 복사"
 
-#: src/item-cursor.c:586
+#: src/item-cursor.c:587
 msgid "Shift cells right and copy"
 msgstr "셀을 오른쪽으로 보내고 복사"
 
-#: src/item-cursor.c:587
+#: src/item-cursor.c:588
 msgid "Shift cells down and move"
 msgstr "셀을 밑으로 보내고 복사"
 
-#: src/item-cursor.c:588
+#: src/item-cursor.c:589
 msgid "Shift cells right and move"
 msgstr "셀을 오른쪽으로 보내고 이동"
 
-#: src/item-grid.c:636 src/workbook.c:1127
+#: src/item-grid.c:637 src/workbook.c:1105
 msgid "Cut"
 msgstr "자르기"
 
-#: src/item-grid.c:638 src/workbook.c:1133
+#: src/item-grid.c:639 src/workbook.c:1111
 msgid "Paste"
 msgstr "붙이기"
 
-#: src/item-grid.c:643
+#: src/item-grid.c:644
 msgid "Erase content"
 msgstr "내용 지우기"
 
-#: src/item-grid.c:645
+#: src/item-grid.c:646
 msgid "Cell format"
 msgstr "셀 형식"
 
@@ -5830,19 +6768,16 @@ msgid "Page &[NUM]"
 msgstr ""
 
 #: src/print-info.c:418
-#, fuzzy
 msgid "pts"
-msgstr "옵션"
+msgstr "pts"
 
 #: src/print-info.c:418
-#, fuzzy
 msgid "points"
-msgstr "옵션"
+msgstr "points"
 
 #: src/print-info.c:419
-#, fuzzy
 msgid "mm"
-msgstr "d-mm"
+msgstr "mm"
 
 #: src/print-info.c:419
 msgid "millimeter"
@@ -5853,9 +6788,8 @@ msgid "cm"
 msgstr ""
 
 #: src/print-info.c:420
-#, fuzzy
 msgid "centimeter"
-msgstr "중앙"
+msgstr ""
 
 #: src/print-info.c:421
 msgid "In"
@@ -5866,43 +6800,36 @@ msgid "inch"
 msgstr ""
 
 #: src/print-info.c:481
-#, fuzzy
 msgid "Sheet 1"
-msgstr "쉬트"
+msgstr "쉬트 1"
 
 #: src/print-info.c:539
 msgid "tab"
 msgstr ""
 
 #: src/print-info.c:540
-#, fuzzy
 msgid "page"
 msgstr "페이지"
 
 #: src/print-info.c:541
-#, fuzzy
 msgid "pages"
 msgstr "페이지"
 
 #: src/print-info.c:542
-#, fuzzy
 msgid "date"
 msgstr "날짜"
 
 #: src/print-info.c:543
-#, fuzzy
 msgid "time"
 msgstr "시간"
 
 #: src/print-preview.c:289
-#, fuzzy
 msgid "Page: "
-msgstr "페이지"
+msgstr "페이지: "
 
 #: src/print-preview.c:412
-#, fuzzy
 msgid "_First page"
-msgstr "첫번째 페이지 번호:"
+msgstr "첫번째 페이지(_F)"
 
 #: src/print-preview.c:412 src/print-preview.c:440
 msgid "Shows the first page"
@@ -5925,86 +6852,73 @@ msgid "Shows the next page"
 msgstr ""
 
 #: src/print-preview.c:421
-#, fuzzy
 msgid "_Last page"
-msgstr "붙이기 종류"
+msgstr "마지막 페이지(_L)"
 
 #: src/print-preview.c:421 src/print-preview.c:449
 msgid "Shows the last page"
-msgstr ""
+msgstr "마지막 페이지 보기"
 
 #: src/print-preview.c:426
-#, fuzzy
 msgid "Zoom _in"
-msgstr "축소"
+msgstr "축소(_i)"
 
 #: src/print-preview.c:426
-#, fuzzy
 msgid "Zooms in"
 msgstr "축소"
 
 #: src/print-preview.c:427
-#, fuzzy
 msgid "Zoom _out"
-msgstr "확대"
+msgstr "확대(_o)"
 
 #: src/print-preview.c:427
-#, fuzzy
 msgid "Zooms out"
 msgstr "확대"
 
 #: src/print-preview.c:434
-#, fuzzy
 msgid "_View"
-msgstr "새 쉬트(_N)"
+msgstr "보기(_V)"
 
 #: src/print-preview.c:440
-#, fuzzy
 msgid "First"
-msgstr "첫번째 페이지 번호:"
+msgstr "첫번째"
 
 #: src/print-preview.c:443
-#, fuzzy
 msgid "Back"
-msgstr "검정색"
+msgstr "뒤로"
 
 #: src/print-preview.c:446
-#, fuzzy
 msgid "Next"
-msgstr "텍스트"
+msgstr "다음"
 
 #: src/print-preview.c:449
-#, fuzzy
 msgid "Last"
-msgstr "붙이기"
+msgstr "마지막"
 
-#: src/print-preview.c:453 src/workbook.c:2121
+#: src/print-preview.c:453 src/workbook.c:2096
 msgid "Zoom in"
 msgstr "축소"
 
 #: src/print-preview.c:453
-#, fuzzy
 msgid "Zooms the page in"
-msgstr "축소"
+msgstr "페이지를 축소"
 
-#: src/print-preview.c:454 src/workbook.c:2114
+#: src/print-preview.c:454 src/workbook.c:2089
 msgid "Zoom out"
 msgstr "확대"
 
 #: src/print-preview.c:454
-#, fuzzy
 msgid "Zooms the page out"
-msgstr "확대"
+msgstr "페이지를 확대"
 
 #: src/print-preview.c:466
-#, fuzzy, c-format
+#, c-format
 msgid "Preview for %s"
-msgstr "인쇄 미리보기"
+msgstr ""
 
 #: src/print-preview.c:469
-#, fuzzy
 msgid "the workbook"
-msgstr "워크북 저장"
+msgstr ""
 
 #: src/print-preview.c:546
 msgid ""
@@ -6016,88 +6930,66 @@ msgid ""
 "We apologize for the inconvenience"
 msgstr ""
 
-#: src/sheet-object-container.c:187 src/workbook.c:904
-#, fuzzy
+#: src/sheet-object-container.c:200 src/workbook.c:882
 msgid "Select an object"
-msgstr "선 그림"
+msgstr "객체 선택"
 
-#: src/sheet-object-container.c:290
+#: src/sheet-object-container.c:329
 msgid "Object server"
-msgstr ""
+msgstr "객체 서버"
 
-#: src/sheet-view.c:340 src/sheet-view.c:412
+#: src/sheet-view.c:359 src/sheet-view.c:431
 #, c-format
 msgid "Row: %d"
 msgstr "가로: %d"
 
-#: src/sheet-view.c:347 src/sheet-view.c:386
+#: src/sheet-view.c:366 src/sheet-view.c:405
 #, c-format
 msgid "Column: %s"
 msgstr "세로: %s"
 
-#: src/sheet.c:878
-#, fuzzy
+#: src/sheet.c:860
 msgid "Internal ERROR"
 msgstr "내부 에러"
 
-#: src/sheet.c:3018
-msgid "The command `"
-msgstr "The command `"
-
-#: src/sheet.c:3020
-msgid "' cannot be performed with multiple selections"
-msgstr "' cannot be performed with multiple selections"
-
-#: src/sheet.c:3035
-msgid "copy"
-msgstr "복사"
-
-#: src/sheet.c:3060
-msgid "cut"
-msgstr "자르기"
-
-#: src/sheet.c:3116
-msgid "paste"
-msgstr "붙이기"
-
-#: src/sheet.c:4307
+#: src/sheet.c:3572
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:4319
+#: src/sheet.c:3584
 msgid "I was unable to the bind object"
 msgstr ""
 
-#: src/value.c:583
+#: src/value.c:602
 msgid "Terminate"
 msgstr ""
 
-#: src/value.c:874
+#: src/value.c:893
 msgid "#NULL!"
 msgstr ""
 
-#: src/value.c:876
+#: src/value.c:895
 msgid "#VALUE!"
 msgstr ""
 
-#: src/value.c:877
+#: src/value.c:896
 msgid "#REF!"
 msgstr ""
 
-#: src/value.c:878
+#: src/value.c:897
 msgid "#NAME?"
 msgstr ""
 
-#: src/value.c:879
+#: src/value.c:898
 msgid "#NUM!"
 msgstr ""
 
-#: src/value.c:880
+#: src/value.c:899
 msgid "#N/A"
 msgstr ""
 
-#: src/widgets/widget-font-selector.c:118 src/workbook.c:1150
+#: src/widgets/widget-font-selector.c:118 src/workbook.c:1128
 msgid "Bold"
 msgstr "강조"
 
@@ -6105,482 +6997,453 @@ msgstr "강조"
 msgid "Bold italic"
 msgstr ""
 
-#: src/widgets/widget-font-selector.c:120 src/workbook.c:1153
+#: src/widgets/widget-font-selector.c:120 src/workbook.c:1131
 msgid "Italic"
 msgstr "이탤릭"
 
-#: src/workbook.c:454
+#: src/workbook.c:464
 msgid "Warning"
 msgstr "경고"
 
-#: src/workbook.c:463
+#: src/workbook.c:473
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "워크북 %s가 저장되지 않았습니다. 저장할까요?"
 
-#: src/workbook.c:466
+#: src/workbook.c:476
 msgid "Workbook has unsaved changes, save them?"
 msgstr "워크북이 저장되지 않았습니다. 저장할까요?"
 
-#: src/workbook.c:665
+#: src/workbook.c:667
 msgid "Insert cols"
 msgstr "행 삽입"
 
-#: src/workbook.c:684
+#: src/workbook.c:687
 msgid "Insert rows"
 msgstr "열 삽입"
 
-#: src/workbook.c:780
+#: src/workbook.c:782
 msgid ">mm/dd/yyyy"
 msgstr ">mm/dd/yyyy"
 
-#: src/workbook.c:799
+#: src/workbook.c:801
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/workbook.c:913
+#: src/workbook.c:891
 msgid "_New"
 msgstr "새 쉬트(_N)"
 
-#: src/workbook.c:913
+#: src/workbook.c:891
 msgid "Create a new spreadsheet"
 msgstr "새 스프레드쉬트 생성"
 
-#: src/workbook.c:917
+#: src/workbook.c:895
 msgid "_Import"
-msgstr ""
+msgstr "가져오기(_I)"
 
-#: src/workbook.c:917
+#: src/workbook.c:895
 msgid "Imports a file"
-msgstr ""
+msgstr "파일 가져오기"
 
-#: src/workbook.c:923
+#: src/workbook.c:901
 msgid "Su_mmary..."
-msgstr ""
+msgstr "요약(_m)..."
 
-#: src/workbook.c:923
+#: src/workbook.c:901
 msgid "Summary information"
-msgstr ""
+msgstr "요약 정보"
 
-#: src/workbook.c:928
+#: src/workbook.c:906
 msgid "Plu_g-ins..."
 msgstr "플러그인(_g)..."
 
-#: src/workbook.c:928
+#: src/workbook.c:906
 msgid "Gnumeric plugins"
 msgstr "Gnumeric 플러그인"
 
-#: src/workbook.c:935
-#, fuzzy
+#: src/workbook.c:913
 msgid "Print pre_view"
-msgstr "인쇄 미리보기"
+msgstr "인쇄 미리보기(_v)"
 
-#: src/workbook.c:935
+#: src/workbook.c:913
 msgid "Print preview"
 msgstr "인쇄 미리보기"
 
-#: src/workbook.c:951
+#: src/workbook.c:929
 msgid "_All"
 msgstr "모두(_A)"
 
-#: src/workbook.c:952
+#: src/workbook.c:930
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "선택된 셀의 형식, 주석 및 내용을 지움"
 
-#: src/workbook.c:954
+#: src/workbook.c:932
 msgid "_Formats"
 msgstr "형식(_F)"
 
-#: src/workbook.c:955
+#: src/workbook.c:933
 msgid "Clear the selected cells' formats"
 msgstr "선택된 셀의 형식을 지움"
 
-#: src/workbook.c:956
-msgid "_Comments"
-msgstr "코멘트(_C)"
-
-#: src/workbook.c:957
+#: src/workbook.c:935
 msgid "Clear the selected cells' comments"
 msgstr "선택된 셀의 주석 지움"
 
-#: src/workbook.c:958
+#: src/workbook.c:936
 msgid "_Content"
 msgstr "내용(_C)"
 
-#: src/workbook.c:959
+#: src/workbook.c:937
 msgid "Clear the selected cells' contents"
 msgstr "선택된 셀의 내용 지움"
 
-#: src/workbook.c:967
+#: src/workbook.c:945
 msgid "P_aste special..."
 msgstr "특별히 붙이기(_a)..."
 
-#: src/workbook.c:968
+#: src/workbook.c:946
 msgid "C_lear"
 msgstr "지우기(_l)"
 
-#: src/workbook.c:969
+#: src/workbook.c:947
 msgid "Clear the selected cell(s)"
 msgstr "선택된 셀 지움"
 
-#: src/workbook.c:973
+#: src/workbook.c:951
 msgid "_Select All"
 msgstr "모두 선택(_S)"
 
-#: src/workbook.c:974
+#: src/workbook.c:952
 msgid "Select all cells in the spreadsheet"
 msgstr "스프레드쉬트의 모든 셀을 선택"
 
-#: src/workbook.c:976
+#: src/workbook.c:954
 msgid "_Goto cell..."
 msgstr "셀 찾아가기(_G)..."
 
-#: src/workbook.c:977
+#: src/workbook.c:955
 msgid "Jump to a specified cell"
 msgstr "주어진 셀로 가기"
 
-#: src/workbook.c:983
+#: src/workbook.c:961
 msgid "Insert object..."
 msgstr "객체 삽입..."
 
-#: src/workbook.c:984
+#: src/workbook.c:962
 msgid "Inserts a Bonobo object"
 msgstr "보노보 객체 삽입"
 
-#: src/workbook.c:991
+#: src/workbook.c:969
 msgid "_Define cell names"
 msgstr "셀 이름 정의(_D)"
 
-#: src/workbook.c:995
+#: src/workbook.c:973
 msgid "_Recalculate"
 msgstr "재계산(_R)"
 
-#: src/workbook.c:996
+#: src/workbook.c:974
 msgid "Recalculate the spreadsheet"
 msgstr "스프레드쉬트를 재계산"
 
-#: src/workbook.c:1004
+#: src/workbook.c:982
 msgid "_Zoom..."
 msgstr "확대(_Z)..."
 
-#: src/workbook.c:1005
+#: src/workbook.c:983
 msgid "Zoom the spreadsheet in or out"
 msgstr "스프레드쉬트의 확대 혹은 축소"
 
-#: src/workbook.c:1012
+#: src/workbook.c:990
 msgid "Current _date"
 msgstr "현재 날짜(_d)"
 
-#: src/workbook.c:1013
-#, fuzzy
+#: src/workbook.c:991
 msgid "Insert the current date into the selected cell(s)"
 msgstr "선택된 셀에 현재 날짜 삽입"
 
-#: src/workbook.c:1016
+#: src/workbook.c:994
 msgid "Current _time"
 msgstr "현재 시간(_t)"
 
-#: src/workbook.c:1017
+#: src/workbook.c:995
 msgid "Insert the current time into the selected cell(s)"
 msgstr "선택된 셀에 현재 시간 삽입"
 
-#: src/workbook.c:1024 src/workbook.c:1070
+#: src/workbook.c:1002 src/workbook.c:1048
 msgid "_Sheet"
 msgstr "쉬트(_S)"
 
-#: src/workbook.c:1024
+#: src/workbook.c:1002
 msgid "Insert a new spreadsheet"
 msgstr "새 스프레드쉬트 삽입"
 
-#: src/workbook.c:1026 src/workbook.c:1064
+#: src/workbook.c:1004 src/workbook.c:1042
 msgid "_Cells..."
 msgstr "셀(_C)..."
 
-#: src/workbook.c:1026
+#: src/workbook.c:1004
 msgid "Insert new cells"
 msgstr "새 셀 삽입"
 
-#: src/workbook.c:1028
+#: src/workbook.c:1006
 msgid "_Rows"
 msgstr "행(_R)"
 
-#: src/workbook.c:1028
+#: src/workbook.c:1006
 msgid "Insert new rows"
 msgstr "새로운 행 삽입"
 
-#: src/workbook.c:1030
+#: src/workbook.c:1008
 msgid "C_olumns"
 msgstr "열(_o)"
 
-#: src/workbook.c:1030
+#: src/workbook.c:1008
 msgid "Insert new columns"
 msgstr "새로운 열 삽입"
 
-#: src/workbook.c:1035
+#: src/workbook.c:1013
 msgid "_Add/modify comment..."
 msgstr "코멘트 추가/수정(_A)..."
 
-#: src/workbook.c:1036
+#: src/workbook.c:1014
 msgid "Edit the selected cell's comment"
 msgstr "선택된 셀의 주석 편집"
 
-#: src/workbook.c:1037
+#: src/workbook.c:1015
 msgid "_Special"
 msgstr "특별한 기능(_S)"
 
-#: src/workbook.c:1046 src/workbook.c:1052
+#: src/workbook.c:1024 src/workbook.c:1030
 msgid "_Autoadjust"
 msgstr "자동정렬(_A)"
 
-#: src/workbook.c:1047
+#: src/workbook.c:1025
 msgid "_Width"
 msgstr "넓이(_W)"
 
-#: src/workbook.c:1053
+#: src/workbook.c:1031
 msgid "_Height"
 msgstr "높이(_H)"
 
-#: src/workbook.c:1058
+#: src/workbook.c:1036
 msgid "_Change name"
 msgstr "이름 바꿈(_C)"
 
-#: src/workbook.c:1065
+#: src/workbook.c:1043
 msgid "Modify the formatting of the selected cells"
 msgstr "선택된 셀의 형식 수정"
 
-#: src/workbook.c:1068
+#: src/workbook.c:1046
 msgid "C_olumn"
 msgstr "열(_o)"
 
-#: src/workbook.c:1069
+#: src/workbook.c:1047
 msgid "_Row"
 msgstr "행(_R)"
 
-#: src/workbook.c:1077
+#: src/workbook.c:1055
 msgid "_Sort..."
 msgstr "정렬(_S)..."
 
-#: src/workbook.c:1078
+#: src/workbook.c:1056
 msgid "Sort the selected cells"
 msgstr "선택된 셀 정렬"
 
-#: src/workbook.c:1079
+#: src/workbook.c:1057
 msgid "_Goal Seek..."
 msgstr "목표 찾기(_G)..."
 
-#: src/workbook.c:1081
+#: src/workbook.c:1059
 msgid "_Solver..."
 msgstr "해결사(_S)..."
 
-#: src/workbook.c:1083
+#: src/workbook.c:1061
 msgid "_Data Analysis..."
 msgstr "자료 분석(_D)..."
 
-#: src/workbook.c:1097
+#: src/workbook.c:1075
 msgid "_Insert"
 msgstr "삽입(_I)"
 
-#: src/workbook.c:1098
+#: src/workbook.c:1076
 msgid "F_ormat"
 msgstr "형식(_o)"
 
-#: src/workbook.c:1099
+#: src/workbook.c:1077
 msgid "_Tools"
 msgstr "툴(_T)"
 
-#: src/workbook.c:1112
+#: src/workbook.c:1090
 msgid "New"
 msgstr "새 쉬트"
 
-#: src/workbook.c:1112
+#: src/workbook.c:1090
 msgid "Creates a new sheet"
 msgstr "새 쉬트 생성"
 
-#: src/workbook.c:1115
+#: src/workbook.c:1093
 msgid "Open"
 msgstr "열기"
 
-#: src/workbook.c:1115
+#: src/workbook.c:1093
 msgid "Opens an existing workbook"
 msgstr "기존의 워크북 열기"
 
-#: src/workbook.c:1118
+#: src/workbook.c:1096
 msgid "Save"
 msgstr "저장"
 
-#: src/workbook.c:1118
+#: src/workbook.c:1096
 msgid "Saves the workbook"
 msgstr "워크북 저장"
 
-#: src/workbook.c:1121
+#: src/workbook.c:1099
 msgid "Prints the workbook"
 msgstr "워크북 인쇄"
 
-#: src/workbook.c:1127
+#: src/workbook.c:1105
 msgid "Cuts the selection to the clipboard"
 msgstr "선택한 내용을 클립보드로 잘라보내기"
 
-#: src/workbook.c:1130
+#: src/workbook.c:1108
 msgid "Copies the selection to the clipboard"
 msgstr "선택한 내용을 클립보드로 복사"
 
-#: src/workbook.c:1133
+#: src/workbook.c:1111
 msgid "Pastes the clipboard"
 msgstr "클립보드 내용 붙이기"
 
-#: src/workbook.c:1139
+#: src/workbook.c:1117
 msgid "Left align"
 msgstr "왼쪽 정렬"
 
-#: src/workbook.c:1139
+#: src/workbook.c:1117
 msgid "Left justifies the cell contents"
 msgstr "셀 내용을 왼쪽으로 정렬"
 
-#: src/workbook.c:1142
+#: src/workbook.c:1120
 msgid "Centers the cell contents"
 msgstr "셀 내용을 중간으로 정렬"
 
-#: src/workbook.c:1145
+#: src/workbook.c:1123
 msgid "Right align"
 msgstr "오른쪽 정렬"
 
-#: src/workbook.c:1145
+#: src/workbook.c:1123
 msgid "Right justifies the cell contents"
 msgstr "셀 내용을 오른쪽으로 정렬"
 
-#: src/workbook.c:1150
+#: src/workbook.c:1128
 msgid "Sets the bold font"
 msgstr "굵은 속성 설정"
 
-#: src/workbook.c:1153
+#: src/workbook.c:1131
 msgid "Makes the font italic"
 msgstr "기울임 글꼴로 만듦"
 
-#: src/workbook.c:1160
+#: src/workbook.c:1138
 msgid "Graphic"
 msgstr "그래픽"
 
-#: src/workbook.c:1160
+#: src/workbook.c:1138
 msgid "Creates a graphic in the spreadsheet"
 msgstr "스프레드쉬트에 그래픽 생성"
 
-#: src/workbook.c:1164
-#, fuzzy
+#: src/workbook.c:1143
 msgid "Button"
-msgstr "밑바닥"
+msgstr "버튼"
 
-#: src/workbook.c:1164
-#, fuzzy
+#: src/workbook.c:1143
 msgid "Creates a button object"
-msgstr "선 그림"
+msgstr "버튼 객체 생성"
 
-#: src/workbook.c:1167
+#: src/workbook.c:1147
 msgid "Line"
 msgstr "선"
 
-#: src/workbook.c:1167
+#: src/workbook.c:1147
 msgid "Creates a line object"
 msgstr "선 그림"
 
-#: src/workbook.c:1170
+#: src/workbook.c:1150
 msgid "Arrow"
 msgstr "화살표"
 
-#: src/workbook.c:1170
+#: src/workbook.c:1150
 msgid "Creates an arrow object"
 msgstr "화살표 생성"
 
-#: src/workbook.c:1173
+#: src/workbook.c:1153
 msgid "Rectangle"
 msgstr "직사각형"
 
-#: src/workbook.c:1173
+#: src/workbook.c:1153
 msgid "Creates a rectangle object"
 msgstr "직사각형 생성"
 
-#: src/workbook.c:1176
+#: src/workbook.c:1156
 msgid "Ellipse"
 msgstr "타원"
 
-#: src/workbook.c:1176
+#: src/workbook.c:1156
 msgid "Creates an ellipse object"
 msgstr "타원 생성"
 
-#: src/workbook.c:1394
+#: src/workbook.c:1374
 msgid "You should introduce a valid cell name"
 msgstr "유효한 셀이름을 넣으셔야 합니다"
 
-#: src/workbook.c:1403
+#: src/workbook.c:1383
 msgid "Column out of range"
 msgstr "열 갯수가 범위를 벗어남"
 
-#: src/workbook.c:1409
+#: src/workbook.c:1389
 msgid "Row number out of range"
 msgstr "행 갯수가 범위를 벗어남"
 
-#: src/workbook.c:1609
+#: src/workbook.c:1589
 msgid "Sum"
 msgstr "합계"
 
-#: src/workbook.c:1612
+#: src/workbook.c:1592
 msgid "Average"
 msgstr "평균"
 
-#: src/workbook.c:1613
+#: src/workbook.c:1593
 msgid "Count"
 msgstr "계수"
 
-#: src/workbook.c:2013
+#: src/workbook.c:1992
 msgid "Untitled.gnumeric"
 msgstr "Untitled.gnumeric"
 
-#: src/workbook.c:2216
-#, fuzzy, c-format
+#: src/workbook.c:2196
+#, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
-msgstr "`%s' 쉬트를 지우기를 원하십니까 "
+msgstr "정말로 `%s' 쉬트를 지우기를 원하십니까?"
+
+#: src/workbook.c:2215
+msgid "Other sheets depend on the values on this sheet; I cannot remove it."
+msgstr "다른 쉬트가 이 쉬트의 값을 필요로 합니다; 지울수가 없습니다."
 
 #: src/workbook.c:2235
-#, fuzzy
-msgid "Other sheets depend on the values on this sheet; I cannot remove it."
-msgstr "다른 쉬트가 이 쉬트의 값을 필요로 합니다; 지울수가 없습니다"
-
-#: src/workbook.c:2255
 msgid "Add another sheet"
 msgstr "다른 쉬트 추가"
 
-#: src/workbook.c:2256
+#: src/workbook.c:2236
 msgid "Remove this sheet"
 msgstr "이 쉬트 삭제"
 
-#: src/workbook.c:2522 src/workbook.c:2557
+#: src/workbook.c:2502 src/workbook.c:2537
 #, c-format
 msgid "Sheet%d"
 msgstr "쉬트%d"
 
-#: src/workbook.c:2631
+#: src/workbook.c:2611
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
 #: src/xml-io.c:2033
 msgid "Old Gnumeric XML file format"
 msgstr "이전 Gnumeric XML 파일 형식"
-
-#~ msgid "Right:"
-#~ msgstr "오른쪽:"
-
-#~ msgid "Division lines"
-#~ msgstr "눈금선"
-
-#~ msgid "Titles of rows and columns."
-#~ msgstr "행과 열의 제목"
-
-#, fuzzy
-#~ msgid "int"
-#~ msgstr "인쇄"
-
-#, fuzzy
-#~ msgid "bool"
-#~ msgstr "툴(_T)"
-
-#~ msgid "Reference to newborn cell"
-#~ msgstr "새로운 셀에 대한 참조"
