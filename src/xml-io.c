@@ -27,6 +27,7 @@
 #include "file.h"
 #include "workbook-view.h"
 #include "selection.h"
+#include "command-context.h"
 
 /*
  * A parsing context.
@@ -2238,7 +2239,7 @@ xml_probe (const char *filename)
  * the actual in-memory structure.
  */
 
-char *
+int
 gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 			    const char *filename)
 {
@@ -2246,17 +2247,19 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 	xmlNsPtr gmr;
 	parse_xml_context_t ctxt;
 
-	g_return_val_if_fail (filename != NULL, "");
+	g_return_val_if_fail (filename != NULL, -1);
 
 	/*
 	 * Load the file into an XML tree.
 	 */
 	res = xmlParseFile (filename);
 	if (res == NULL)
-		return "";
+		return -1;
 	if (res->root == NULL) {
 		xmlFreeDoc (res);
-		return g_strdup ("Invalid xml file. Tree is empty ?");
+		gnumeric_error_read
+			(context, _("Invalid xml file. Tree is empty ?"));
+		return -1;
 	}
 	/*
 	 * Do a bit of checking, get the namespaces, and chech the top elem.
@@ -2266,7 +2269,9 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/v2");
 	if (strcmp (res->root->name, "Workbook") || (gmr == NULL)) {
 		xmlFreeDoc (res);
-		return g_strdup ("Is not an Workbook file");
+		gnumeric_error_read
+			(context, _("Is not an Workbook file"));
+		return -1;
 	}
 	ctxt.doc = res;
 	ctxt.ns = gmr;
@@ -2275,7 +2280,7 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 	workbook_recalc_all (wb);
 
 	xmlFreeDoc (res);
-	return NULL;
+	return -1;
 }
 
 /*
