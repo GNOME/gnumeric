@@ -1,3 +1,31 @@
+2001-09-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/style-color.c (style_color_new_name) : new utility.
+
+	* src/gnumeric-graph.c : cleanup the debug info.
+	(gnm_graph_get_spec) : make public and add some protection.
+
+	* src/number-match.c : remove format_parse_t and merge it with
+	  StyleFormat.
+	(format_match_release) : new routine split from format_match_finish.
+	(format_match_finish) : just unref the StyleFont.
+	(format_match_create) : tweaking the calling convention and rename
+	  format_match_define.
+	(format_match_init) : manage the format_match_list here.
+	(format_match) : Match against the currently assigned format first
+
+	* src/format.c : clean the includes.
+	Make _StyleFormat public for sharing with number-match.c
+	(format_compile) : call format_match_create.
+	(format_destroy) : call format_match_release.
+	(format_color_init) : use style_color_new_name.
+	(style_format_new_XL) : init the new regexp elements to NULL.
+
+	* src/bonobo-io.c (gnumeric_bonobo_io_init) : name this better.
+
+	* src/sheet-control-gui.c (scg_object_update_bbox) : add some
+	  protection.
+
 2001-09-12  John Gotts <jgotts@linuxsavvy.com>
 
 	* gnumeric.spec.in: Keep better track of the /usr/share/gnumeric

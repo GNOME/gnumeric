@@ -3,11 +3,14 @@
 
 #include "gnumeric.h"
 
-gboolean format_match_define (const char *format);
-void     format_match_init   (void);
-void     format_match_finish (void);
-Value   *format_match_simple (const char *s);
-Value   *format_match        (const char *s, StyleFormat const *current_format,
+gboolean format_match_create  (StyleFormat *fmt);
+void	 format_match_release (StyleFormat *fmt);
+
+Value   *format_match_simple (char const *s);
+Value   *format_match        (char const *s, StyleFormat *current_format,
 			      StyleFormat **format);
+
+void format_match_init   (void);
+void format_match_finish (void);
 
 #endif /* GNUMERIC_NUMBER_MATCH_H */

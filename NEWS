@@ -13,6 +13,7 @@ Christopher Keith Fairbairn:
 
 Jody:
 	* Enable XL import for graphs.
+	* Parse using the assigned fmt before checking the builtins.
 	* Add simple bucketing of range dependencies.
 	* Add minor formating extension.
 	* Cleanup the DOM based xml import/export utilities.

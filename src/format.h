@@ -2,13 +2,24 @@
 #define GNUMERIC_FORMAT_H
 
 #include "gnumeric.h"
+#include <sys/types.h>
+#include <regex.h>
 
-char	      *style_format_delocalize  (const char *descriptor_string);
-StyleFormat   *style_format_new_XL	(const char *descriptor_string,
+struct _StyleFormat {
+	int    ref_count;
+	char  *format;
+        GSList *entries;  /* Of type StyleFormatEntry. */
+	char        *regexp_str;
+	GByteArray  *match_tags;
+	regex_t     regexp;
+};
+
+char	      *style_format_delocalize  (char const *descriptor_string);
+StyleFormat   *style_format_new_XL	(char const *descriptor_string,
 					 gboolean delocalize);
 char   	      *style_format_as_XL	(StyleFormat const *fmt,
 					 gboolean localized);
-char   	      *style_format_str_as_XL	(const char *descriptor_string,
+char   	      *style_format_str_as_XL	(char const *descriptor_string,
 					 gboolean localized);
 
 void           style_format_ref		(StyleFormat *sf);
@@ -17,7 +28,7 @@ gboolean       style_format_is_general	(StyleFormat const *sf);
 gboolean       style_format_is_text	(StyleFormat const *sf);
 
 void   format_destroy (StyleFormat *format);
-char  *format_value   (StyleFormat *format, const Value *value, StyleColor **color,
+char  *format_value   (StyleFormat *format, Value const *value, StyleColor **color,
 		       float col_width);
 
 void   format_color_init     (void);

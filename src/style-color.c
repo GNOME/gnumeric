@@ -19,6 +19,15 @@ GdkColor gs_white, gs_black, gs_light_gray, gs_dark_gray, gs_red, gs_lavender;
 static GHashTable *style_color_hash;
 
 StyleColor *
+style_color_new_name (char const *name)
+{
+	GdkColor c;
+
+	gdk_color_parse (name, &c);
+	return style_color_new (c.red, c.green, c.blue);
+}
+
+StyleColor *
 style_color_new (gushort red, gushort green, gushort blue)
 {
 	StyleColor *sc;

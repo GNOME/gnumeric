@@ -34,7 +34,7 @@ GSList     *parse_cell_name_list     (Sheet *sheet, char const *cell_name_str,
 StyleFormat *parse_text_value_or_expr (EvalPos const *pos,
 				       char const *text,
 				       Value **val, ExprTree **expr,
-				       StyleFormat const *current_format /* can be NULL */);
+				       StyleFormat *current_format /* can be NULL */);
 
 /* Is this string potentially the start of an expression */
 char const * gnumeric_char_start_expr_p (char const * c);

@@ -11,7 +11,6 @@
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
- *
  */
 #include <config.h>
 #include <stdio.h>
@@ -21,8 +20,6 @@
 #include <libgnome/gnome-i18n.h>
 #include <string.h>
 #include <ctype.h>
-#include <sys/types.h>
-#include <regex.h>
 #include <errno.h>
 #include <locale.h>
 #include <math.h>
@@ -44,14 +41,14 @@
  * would match them
  */
 static char *
-create_option_list (const char *const *list)
+create_option_list (char const *const *list)
 {
 	int len = 0;
-	const char *const *p;
+	char const *const *p;
 	char *res;
 
 	for (p = list; *p; p++) {
-		const char *v = _(*p);
+		char const *v = _(*p);
 
 		if (*v == '*')
 			v++;
@@ -63,7 +60,7 @@ create_option_list (const char *const *list)
 	res[0] = '(';
 	res[1] = 0;
 	for (p = list; *p; p++) {
-		const char *v = _(*p);
+		char const *v = _(*p);
 
 		if (*v == '*')
 			v++;
@@ -348,6 +345,7 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 			break;
 
 		case ';':
+			/* TODO : Is it ok to only match the first entry ?? */
 			while (*format)
 				format++;
 			format--;
@@ -500,44 +498,48 @@ print_regex_error (int ret)
 	}
 }
 
-typedef struct {
-	StyleFormat *format;
-	char        *format_str, *regexp_str;
-	GByteArray  *match_tags;
-	regex_t     regexp;
-} format_parse_t;
+static GSList *format_match_list = NULL;
 
-static GList *format_match_list = NULL;
+void
+format_match_release (StyleFormat *fmt)
+{
+	if (fmt->regexp_str != NULL) {
+		g_free (fmt->regexp_str);
+		regfree (&fmt->regexp);
+		g_byte_array_free (fmt->match_tags, TRUE);
+	}
+}
 
 gboolean
-format_match_define (const char *format)
+format_match_create (StyleFormat *fmt)
 {
-	format_parse_t *fp;
 	GByteArray *match_tags;
 	char *regexp;
 	regex_t r;
 	int ret;
 
-	regexp = format_create_regexp (format, &match_tags);
-	if (!regexp)
+	g_return_val_if_fail (fmt != NULL, FALSE);
+	g_return_val_if_fail (fmt->regexp_str == NULL, FALSE);
+	g_return_val_if_fail (fmt->match_tags == NULL, FALSE);
+
+	regexp = format_create_regexp (fmt->format, &match_tags);
+	if (!regexp) {
+		fmt->regexp_str = NULL;
+		fmt->match_tags = NULL;
 		return FALSE;
+	}
 
 	ret = regcomp (&r, regexp, REG_EXTENDED | REG_ICASE);
 	if (ret != 0) {
-		g_warning ("expression %s\nproduced:%s\n", format, regexp);
+		g_warning ("expression %s\nproduced:%s\n", fmt->format, regexp);
 		print_regex_error (ret);
 		g_free (regexp);
 		return FALSE;
 	}
 
-	fp = g_new (format_parse_t, 1);
-	fp->format = style_format_new_XL (format, FALSE);
-	fp->format_str = g_strdup (format);
-	fp->regexp_str = regexp;
-	fp->regexp     = r;
-	fp->match_tags = match_tags;
-
-	format_match_list = g_list_append (format_match_list, fp);
+	fmt->regexp_str = regexp;
+	fmt->regexp     = r;
+	fmt->match_tags = match_tags;
 
 	return TRUE;
 }
@@ -612,9 +614,23 @@ format_match_init (void)
 		char const * const * p = cell_formats[i];
 
 		for (; *p; p++) {
+			StyleFormat *fmt;
+			
 			if (strcmp (*p, "General") == 0)
 				continue;
-			format_match_define (*p);
+			fmt = style_format_new_XL (*p, FALSE);
+			if (fmt->regexp_str != NULL) {
+				/* TODO : we could hash the regexp and
+				 * only check those that are not already in use.
+				 * We could also keep track of the ones that General would match.
+				 * and avoid putting them in the list too.
+				 */
+				format_match_list = g_slist_append (format_match_list, fmt);
+			}
+#if 0
+			else
+				/* should we bother keeping a list of the others to avoid leaks ? */
+#endif
 		}
 	}
 
@@ -632,20 +648,12 @@ format_match_init (void)
 void
 format_match_finish (void)
 {
-	GList *l;
+	GSList *l;
 
-	for (l = format_match_list; l; l = l->next) {
-		format_parse_t *fp = l->data;
+	for (l = format_match_list; l; l = l->next)
+		style_format_unref (l->data);
 
-		style_format_unref (fp->format);
-		g_free (fp->format_str);
-		g_free (fp->regexp_str);
-		g_byte_array_free (fp->match_tags, TRUE);
-		regfree (&fp->regexp);
-
-		g_free (fp);
-	}
-	g_list_free (format_match_list);
+	g_slist_free (format_match_list);
 	currency_date_format_shutdown ();
 }
 
@@ -655,14 +663,14 @@ format_match_finish (void)
  * Looks the string in the table passed
  */
 static int
-table_lookup (const char *str, const char *const *table)
+table_lookup (char const *str, char const *const *table)
 {
-	const char *const *p = table;
+	char const *const *p = table;
 	int i = 0;
 
 	for (p = table; *p; p++, i++) {
-		const char *v  = *p;
-		const char *iv = _(*p);
+		char const *v  = *p;
+		char const *iv = _(*p);
 
 		if (*v == '*') {
 			v++;
@@ -687,7 +695,7 @@ table_lookup (const char *str, const char *const *table)
  * in the fields rm_so and rm_eo
  */
 static char *
-extract_text (const char *str, const regmatch_t *mp)
+extract_text (char const *str, const regmatch_t *mp)
 {
 	char *p;
 
@@ -706,7 +714,7 @@ extract_text (const char *str, const regmatch_t *mp)
  * of the date/time matching.
  */
 static gboolean
-compute_value (const char *s, const regmatch_t *mp,
+compute_value (char const *s, const regmatch_t *mp,
 	       GByteArray *array, gnum_float *v)
 {
 	const int len = array->len;
@@ -988,7 +996,7 @@ compute_value (const char *s, const regmatch_t *mp,
  * Attempt to match the the supplied string as a simple value.
  */
 Value *
-format_match_simple (const char *text)
+format_match_simple (char const *text)
 {
 	/* Is it a boolean?  */
 	if (0 == g_strcasecmp (text, _("TRUE")))
@@ -1044,7 +1052,7 @@ format_match_simple (const char *text)
  * format_match :
  *
  * @text : The text to parse
- * @current_format : The current format for the value (potentially NULL)
+ * @cur_fmt : The current format for the value (potentially NULL)
  * @format : An optional place to store the target format
  *
  * Attempts to parse the supplied string to see if it matches a known value format.
@@ -1054,15 +1062,15 @@ format_match_simple (const char *text)
  * resulting value.
  */
 Value *
-format_match (char const *text, StyleFormat const *current_format,
-	      StyleFormat **format)
+format_match (char const *text, StyleFormat *cur_fmt,
+	      StyleFormat **matching_format)
 {
-	Value   *v;
-	GList *l;
+	Value  *v;
+	GSList *l;
 	regmatch_t mp[NM + 1];
 
-	if (format)
-		*format = NULL;
+	if (matching_format)
+		*matching_format = NULL;
 
 	if (text[0] == '\0')
 		return value_new_empty ();
@@ -1071,15 +1079,18 @@ format_match (char const *text, StyleFormat const *current_format,
 	if (text[0] == '\'')
 		return value_new_string (text + 1);
 
-	/* FIXME : when the regex merges with the StyleFormat we can do this properly
-	 * for now at least handle text
-	 */
-	if (current_format && style_format_is_text (current_format))
-		return value_new_string (text);
-
-	/* TODO : We should check the format associated with the region first,
-	 *        but we're not passing that information in yet
-	 */
+	if (cur_fmt) {
+		gnum_float result;
+		if (style_format_is_text (cur_fmt))
+			return value_new_string (text);
+		if (cur_fmt->regexp_str != NULL &&
+		    regexec (&cur_fmt->regexp, text, NM, mp, 0) != REG_NOMATCH &&
+		    compute_value (text, mp, cur_fmt->match_tags, &result)) {
+			if (matching_format)
+				*matching_format = cur_fmt;
+			return value_new_float (result);
+		}
+	}
 
 	/* Check basic types */
 	v = format_match_simple (text);
@@ -1090,17 +1101,17 @@ format_match (char const *text, StyleFormat const *current_format,
 	for (l = format_match_list; l; l = l->next) {
 		gnum_float result;
 		gboolean b;
-		format_parse_t *fp = l->data;
+		StyleFormat *fmt = l->data;
 #ifdef DEBUG_NUMBER_MATCH
 		printf ("test: %s \'%s\'\n", fp->format_str, fp->regexp_str);
 #endif
-		if (regexec (&fp->regexp, text, NM, mp, 0) == REG_NOMATCH)
+		if (regexec (&fmt->regexp, text, NM, mp, 0) == REG_NOMATCH)
 			continue;
 
 #ifdef DEBUG_NUMBER_MATCH
 		{
 			int i;
-			printf ("matches expression: %s %s\n", fp->format_str, fp->regexp_str);
+			printf ("matches expression: %s %s\n", fmt->format, fmt->regexp_str);
 			for (i = 0; i < NM; i++) {
 				char *p;
 
@@ -1113,7 +1124,7 @@ format_match (char const *text, StyleFormat const *current_format,
 		}
 #endif
 
-		b = compute_value (text, mp, fp->match_tags, &result);
+		b = compute_value (text, mp, fmt->match_tags, &result);
 
 #ifdef DEBUG_NUMBER_MATCH
 		if (b)
@@ -1122,8 +1133,8 @@ format_match (char const *text, StyleFormat const *current_format,
 			printf ("unable to compute value\n");
 #endif
 		if (b) {
-			if (format)
-				*format = fp->format;
+			if (matching_format)
+				*matching_format = fmt;
 			return value_new_float (result);
 		}
 	}

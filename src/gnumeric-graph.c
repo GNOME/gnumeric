@@ -40,6 +40,12 @@
 #include <gal/util/e-xml-utils.h>
 #include <gnome-xml/parser.h>
 
+#ifndef DISABLE_DEBUG
+#define d(code)	do { code; } while (0)
+#else
+#define d(code)	
+#endif
+
 #define	MANAGER		  GNOME_Gnumeric_Graph_Manager_v2
 #define	MANAGER1(suffix)  GNOME_Gnumeric_Graph_Manager_v2_ ## suffix
 #define	CMANAGER1(suffix) CORBA_sequence_GNOME_Gnumeric_Graph_Manager_v2_ ## suffix
@@ -333,18 +339,17 @@ static POA_GNOME_Gnumeric_String_Vector__vepv	string_vector_vepv;
 static void
 gnm_graph_vector_set_expr (Dependent *dep, ExprTree *expr)
 {
-#ifdef DEBUG_GRAPHS
-	ParsePos pos;
-	char * new_str;
+	d({
+		ParsePos pos; char * new_str;
 
-	parse_pos_init (&pos, NULL, dep->sheet, 0, 0);
-	new_str = expr_tree_as_string (expr, &pos);
-	printf("new = %s\n", new_str);
-	g_free (new_str);
-	new_str = expr_tree_as_string (dep->expression, &pos);
-	printf("old = %s\n", new_str);
-	g_free (new_str);
-#endif
+		parse_pos_init (&pos, NULL, dep->sheet, 0, 0);
+		new_str = expr_tree_as_string (expr, &pos);
+		printf("new = %s\n", new_str);
+		g_free (new_str);
+		new_str = expr_tree_as_string (dep->expression, &pos);
+		printf("old = %s\n", new_str);
+		g_free (new_str);
+	});
 
 	expr_tree_ref (expr);
 	dependent_unlink (dep, NULL);
@@ -489,9 +494,8 @@ gnm_graph_vector_destroy (GtkObject *obj)
 {
 	GnmGraphVector *vector = GNUMERIC_GRAPH_VECTOR (obj);
 
-#ifdef DEBUG_GRAPHS
-	printf ("graph-vector::destroy %p\n", obj);
-#endif
+	d(printf ("graph-vector::destroy %p\n", obj));
+
 	dependent_unlink (&vector->dep, NULL);
 	if (vector->dep.expression != NULL) {
 		expr_tree_unref (vector->dep.expression);
@@ -661,14 +665,15 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 		vector = g_ptr_array_index (graph->vectors, i);
 		if ((type == GNM_VECTOR_AUTO || type == vector->type) &&
 		    expr_tree_equal (expr, vector->dep.expression)) {
-#ifdef DEBUG_GRAPHS
-			ParsePos pos;
-			char *expr_str;
-			parse_pos_init (&pos, NULL, sheet, 0, 0);
-			expr_str = expr_tree_as_string (expr, &pos);
-			printf ("vector::ref (%d) @ %p = %s\n", vector->type, vector, expr_str);
-			g_free (expr_str);
-#endif
+			d({
+				ParsePos pos;
+				char *expr_str;
+				parse_pos_init (&pos, NULL, sheet, 0, 0);
+				expr_str = expr_tree_as_string (expr, &pos);
+				printf ("vector::ref (%d) @ %p = %s\n",
+					vector->type, vector, expr_str);
+				g_free (expr_str);
+			});
 			return vector->id;
 		}
 	}
@@ -707,17 +712,16 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 	    !gnm_graph_subscribe_vector (graph, vector)) {
 		gtk_object_unref (GTK_OBJECT (vector));
 		vector = NULL;
+	} else {
+		d({
+			ParsePos pos;
+			char *expr_str;
+			parse_pos_init (&pos, NULL, sheet, 0, 0);
+			expr_str = expr_tree_as_string (expr, &pos);
+			printf ("vector::new (%d) @ %p = %s\n", type, vector, expr_str);
+			g_free (expr_str);
+		});
 	}
-#ifdef DEBUG_GRAPHS
-	else {
-		ParsePos pos;
-		char *expr_str;
-		parse_pos_init (&pos, NULL, sheet, 0, 0);
-		expr_str = expr_tree_as_string (expr, &pos);
-		printf ("vector::new (%d) @ %p = %s\n", type, vector, expr_str);
-		g_free (expr_str);
-	}
-#endif
 
 	return vector ? vector->id : -1;
 }
@@ -786,9 +790,7 @@ gnm_graph_new (Workbook *wb)
 {
 	GnmGraph *graph = gtk_type_new (GNUMERIC_GRAPH_TYPE);
 
-#ifdef DEBUG_GRAPHS
-	printf ("gnumeric : graph new %p\n", graph);
-#endif
+	d(printf ("gnumeric : graph new %p\n", graph));
 
 	if (gnm_graph_setup (graph, wb)) {
 		gtk_object_destroy (GTK_OBJECT (graph));
@@ -921,11 +923,13 @@ gnm_graph_range_to_vectors (GnmGraph *graph,
 	}
 }
 
-static void
+xmlDoc *
 gnm_graph_get_spec (GnmGraph *graph)
 {
 	CORBA_Environment  ev;
 	MANAGER1(Buffer)  *spec;
+
+	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), NULL);
 
 	CORBA_exception_init (&ev);
 	spec = MANAGER1 (_get_spec) (graph->manager, &ev);
@@ -933,7 +937,7 @@ gnm_graph_get_spec (GnmGraph *graph)
 		xmlParserCtxtPtr pctxt;
 
 		/* A limit in libxml */
-		g_return_if_fail (spec->_length >= 4);
+		g_return_val_if_fail (spec->_length >= 4, NULL);
 
 		pctxt = xmlCreatePushParserCtxt (NULL, NULL,
 			spec->_buffer, spec->_length, NULL);
@@ -953,6 +957,8 @@ gnm_graph_get_spec (GnmGraph *graph)
 			   bonobo_exception_get_text (&ev), graph);
 	}
 	CORBA_exception_free (&ev);
+
+	return graph->xml_doc;
 }
 
 /**
@@ -971,6 +977,8 @@ gnm_graph_import_specification (GnmGraph *graph, xmlDocPtr spec)
 	MANAGER1(Buffer)  *partial;
 	xmlChar *mem;
 	int size;
+
+	g_return_if_fail (IS_GNUMERIC_GRAPH (graph));
 
 	xmlDocDumpMemory (spec, &mem, &size);
 
@@ -1007,9 +1015,8 @@ gnm_graph_destroy (GtkObject *obj)
 {
 	GnmGraph *graph = GNUMERIC_GRAPH (obj);
 
-#ifdef DEBUG_GRAPHS
-	printf ("gnumeric : graph destroy %p\n", obj);
-#endif
+	d(printf ("gnumeric : graph destroy %p\n", obj));
+
 	if (graph->manager_client != NULL) {
 		bonobo_object_unref (BONOBO_OBJECT (graph->manager_client));
 		graph->manager_client = NULL;
@@ -1043,9 +1050,9 @@ gnm_graph_populate_menu (SheetObject *so,
 	GnmGraph *graph;
 	GtkWidget *item;
 
-	graph = GNUMERIC_GRAPH (so);
 	g_return_if_fail (IS_GNUMERIC_GRAPH (so));
 
+	graph = GNUMERIC_GRAPH (so);
 	item = gtk_menu_item_new_with_label (_("Data..."));
 	gtk_signal_connect (GTK_OBJECT (item), "activate",
 			    GTK_SIGNAL_FUNC (cb_graph_assign_data), graph);

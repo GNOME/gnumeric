@@ -833,6 +833,9 @@ fmt_dialog_init_format_page (FormatState *state)
 	} else
 		format = g_strdup (cell_formats [0][0]);
 
+	if (!strcmp (format, "General") && state->parse_format != NULL)
+		format = g_strdup (state->parse_format->format);
+
 	state->format.preview = NULL;
 	state->format.spec = format;
 

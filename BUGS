@@ -19,18 +19,7 @@ Pending Patches
 Long term breakage
 ------------------
 
-- When *reading* xml files, why do we look up expression ids in a hash?
-  A g_ptr_array seems to fit the problem *much* better.
-
 - Why are there 3-4 places in xml-io.c that initialise a XmlParseContext?
-
-- We need to sort out 59141 which seems to be an interaction problem between
-  autoformat-assigned formats and the cell format dialog.
-    A1 = 1,234           [With the ","]
-    A2 = 9
-    A3 = A1/A2           [See "137"]
-  Select format cells for A3.  See "general" and "137" at the same time.  Wrong.
-  Should be either a specific format, or else 137.111111
 
 - can_try_save_to uses access().  That's bogus in a number of ways: (a) it
   checks the wrong permissions in the set[gu]id case.  (b) It reports the
@@ -43,6 +32,7 @@ Long term breakage
     : support horizontal or vertical only
 - outline mode
     : finish implementing optionally putting markers above/left
+    : Figure out the ungroup bug (almer)
 
 - support negative durations with [h]
 
@@ -91,13 +81,8 @@ Names :
 - format.c: we should resolve all the separators at gnumeric_setlocale time,
   not every time we need them.
 
-- when guessing the format of a possible value we should try the format
-  associated with the cell FIRST rather than later.  eg enter '10-1' (without
-  quotes) in a cell with an assigned format of Text.  This should be treated as
-  text.  Instead It parses as a Date (Oct 1) and gets converted.
-  PARTIAL : we need to merge the StyleFormat and the regexp.  Currently only
-  	works for Text formats.
-
+- the format classification should know about other currencies and currency
+  placements.
 - The currency list in the format dialog needs to be sorted for the locale
 - When applying a currency symbol we need to store the NON-localized id.
 - Inc/Dec precision should work.  Try "44", click $, then add/remove decimals.
@@ -112,6 +97,7 @@ Names :
 - formats with AM/PM need to be internationalized.
 - hour month and year format strings need to be internationalized.
     eg tt:ss instead of hh:ss for other locales.
+- we should parse fractions
 
 - We do not format fractional seconds correctly.
 

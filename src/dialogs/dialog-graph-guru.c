@@ -68,6 +68,7 @@ typedef struct
 
 	gboolean is_columns;
 	GSList	  *ranges;
+	xmlDoc 	  *xml_doc;
 
 	/* external state */
 	WorkbookControlGUI *wbcg;
@@ -131,6 +132,13 @@ cb_graph_guru_key_press (GtkWidget *widget, GdkEventKey *event,
 }
 
 static void
+graph_guru_init_data_page (GraphGuruState *state)
+{
+	g_return_if_fail (state->xml_doc != NULL);
+	xmlDocDump (stdout, state->xml_doc);
+}
+
+static void
 graph_guru_set_page (GraphGuruState *state, int page)
 {
 	char *name;
@@ -139,11 +147,15 @@ graph_guru_set_page (GraphGuruState *state, int page)
 	if (state->current_page == page)
 		return;
 
+	if (page != 0)
+		state->xml_doc = gnm_graph_get_spec (state->graph);
+
 	switch (page) {
 	case 0: name = _("Step 1 of 3: Select graph type");
 		prev_ok = FALSE;
 		break;
 	case 1: name = _("Step 2 of 3: Select data ranges");
+		graph_guru_init_data_page (state);
 		break;
 	case 2: name = _("Step 3 of 3: Customize graph");
 		next_ok = FALSE;
@@ -323,6 +335,8 @@ dialog_graph_guru (WorkbookControlGUI *wbcg)
 	state->gui	= NULL;
 	state->control  = CORBA_OBJECT_NIL;
 	state->graph    = gnm_graph_new (state->wb);
+	state->graph    = gnm_graph_new (state->wb);
+	state->xml_doc  = NULL;
 
 	r = selection_first_range (state->sheet, NULL, NULL);
 	num_cols = range_width (r);

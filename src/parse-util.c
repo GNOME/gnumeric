@@ -575,7 +575,7 @@ parse_cell_name_list (Sheet *sheet,
 StyleFormat *
 parse_text_value_or_expr (EvalPos const *pos, char const *text,
 			  Value **val, ExprTree **expr,
-			  StyleFormat const *current_format /* can be NULL */)
+			  StyleFormat *current_format /* can be NULL */)
 {
 	StyleFormat *desired_format = NULL;
 	char const * const expr_start = gnumeric_char_start_expr_p (text);

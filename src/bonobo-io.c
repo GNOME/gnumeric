@@ -523,7 +523,7 @@ gnumeric_bonobo_io_probe (GnumFileOpener const *fo, const char *filename,
 void
 gnumeric_bonobo_io_init (void)
 {
-	char *desc = _("Gnumeric Bonobo file format");
+	char *desc = _("EXPERIMENTAL Bonobo EFS format");
 
 	gnumeric_bonobo_opener = gnum_file_opener_new (
 	                         NULL, desc, gnumeric_bonobo_io_probe,

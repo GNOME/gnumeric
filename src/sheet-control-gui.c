@@ -1869,6 +1869,8 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 		? sheet_object_get_view (so, SHEET_CONTROL (scg))
 		: GTK_OBJECT (so_view);
 
+	g_return_if_fail (so_view_obj != NULL);
+
 	if (new_coords != NULL)
 		scg_object_calc_position (scg, so, new_coords);
 	else

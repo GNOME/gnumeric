@@ -142,7 +142,8 @@ struct _NamedExpression {
 };
 
 ExprTree   *expr_parse_string      (char const *expr, ParsePos const *pp,
-				    StyleFormat **desired_format, ParseError *error);
+				    StyleFormat **desired_format,
+				    ParseError *error);
 ExprTree   *expr_tree_duplicate    (ExprTree *expr);
 char       *expr_tree_as_string    (ExprTree const *tree, ParsePos const *fp);
 

@@ -21,22 +21,6 @@
  */
 
 #include <config.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <math.h>
-#include <float.h>
-#include <limits.h>
-#include <ctype.h>
-#include <locale.h>
-#include <errno.h>
-#ifdef HAVE_LANGINFO_H
-#    include <langinfo.h>
-#endif
-#ifdef HAVE_IEEEFP_H
-#    include <ieeefp.h>
-#endif
 #include "style-color.h"
 #include "format.h"
 #include "expr.h"
@@ -47,9 +31,21 @@
 #include "datetime.h"
 #include "mathfunc.h"
 #include "str.h"
-#include <gtk/gtk.h>
+#include "number-match.h"
+
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include <locale.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <errno.h>
+#include <stdlib.h>
+#ifdef HAVE_LANGINFO_H
+#    include <langinfo.h>
+#endif
+#ifdef HAVE_IEEEFP_H
+#    include <ieeefp.h>
+#endif
 
 /***************************************************************************/
 
@@ -194,12 +190,6 @@ typedef struct {
         int         restriction_value;
 	StyleColor *color;
 } StyleFormatEntry;
-
-struct _StyleFormat {
-	int    ref_count;
-	char  *format;
-        GSList *entries;  /* Of type StyleFormatEntry. */
-};
 
 /*
  * The returned string is newly allocated.
@@ -462,6 +452,7 @@ format_compile (StyleFormat *format)
 	int num_entries = 1, counter = 0;
 	GSList *ptr;
 
+	format_match_create (format);
 	for (fmt = format->format; *fmt ; fmt++) {
 		if (NULL == real_start && '[' != *fmt)
 			real_start = fmt;
@@ -604,6 +595,7 @@ format_destroy (StyleFormat *format)
 	g_slist_foreach (format->entries, &format_entry_dtor, NULL);
 	g_slist_free (format->entries);
 	format->entries = NULL;
+	format_match_release (format);
 }
 
 static struct FormatColor {
@@ -626,15 +618,9 @@ format_color_init (void)
 {
 	int i;
 
-	for (i = 0; format_colors[i].name; i++){
-		StyleColor *sc;
-		GdkColor c;
-
-		gdk_color_parse (format_colors[i].name, &c);
-		sc = style_color_new (c.red, c.green, c.blue);
-
-		format_colors[i].color = sc;
-	}
+	for (i = 0; format_colors[i].name; i++)
+		format_colors[i].color =
+			style_color_new_name (format_colors[i].name);
 }
 
 void
@@ -1780,6 +1766,8 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 		format = g_new0 (StyleFormat, 1);
 		format->format = g_strdup (descriptor_string);
 		format->entries = NULL;
+		format->regexp_str = NULL;
+		format->match_tags = NULL;
 		format_compile (format);
 		g_hash_table_insert (style_format_hash, format->format, format);
 	}

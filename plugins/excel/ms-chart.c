@@ -152,7 +152,8 @@ excel_chart_series_write_xml (ExcelChartSeries *series,
 		if (series->vector [i].remote_ID >= 0) {
 			v = xmlNewChild (series->xml, s->xml.ns,
 				ms_vector_purpose_type_name [i], NULL);
-			xml_node_set_int (v, "ID", series->vector [i].remote_ID);
+			e_xml_set_uint_prop_by_name (v, "ID",
+				series->vector [i].remote_ID);
 		}
 }
 

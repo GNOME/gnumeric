@@ -1,3 +1,8 @@
+2001-09-14  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c (excel_chart_series_write_xml) : Use the gal routines for
+	  symetry with the guppi implementation.
+
 2001-09-09  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-chart.c (BC_R(pieformat)) : store pie seperation.
