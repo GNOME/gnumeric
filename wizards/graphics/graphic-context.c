@@ -189,7 +189,6 @@ graphic_context_auto_guess_series (WizardGraphicContext *gc)
 
 		vector  = vector_from_data_range (vector_list->data);
 		GNOME_Graph_Layout_add_series (gc->layout, vector, "FIXME", &ev);
-		vector_list = vector_list->next;
 	}
 
 	graphic_type_init_preview (gc);

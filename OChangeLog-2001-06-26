@@ -1,3 +1,7 @@
+2000-03-13  Jon K Hellan  <hellan@acm.org>
+
+	* src/main.c (main): Silence warning.
+
 2000-03-13  Jody Goldberg <jgoldberg@home.com>
 
 	* Makefile.am : Make wizards and graph subdirs contingent on bonobo.

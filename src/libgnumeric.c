@@ -205,9 +205,9 @@ gnumeric_main (void *closure, int argc, char *argv [])
 int
 main (int argc, char *argv [])
 {
+#if 0
 	int fd;
 
-#if 0
 	/* FIXME:
 	 *
 	 * We segfault inside scm_boot_guile if any of stdin, stdout or stderr
