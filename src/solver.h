@@ -23,7 +23,7 @@ typedef enum {
 } SolverConstraintType;
 
 typedef enum {
-        LPSolve = 0
+        LPSolve = 0, GLPKSimplex
 } SolverLPAlgorithmType;
 
 typedef enum {
@@ -47,11 +47,8 @@ typedef void
         (solver_lp_set_constr_mat_fn)   (SolverProgram p, int col, int row,
 					 gnum_float v);
 typedef void
-        (solver_lp_set_constr_type_fn)  (SolverProgram p, int row,
-					 SolverConstraintType t);
-typedef void
-        (solver_lp_set_constr_rhs_fn)   (SolverProgram p, int row,
-					 gnum_float rhs);
+        (solver_lp_set_constr_fn)       (SolverProgram p, int row,
+					 SolverConstraintType t, gnum_float rhs);
 typedef void
         (solver_lp_set_maxim_fn)        (SolverProgram p);
 typedef void
@@ -80,8 +77,7 @@ typedef struct {
         solver_lp_remove_fn           *remove_fn;
         solver_lp_set_obj_fn          *set_obj_fn;
         solver_lp_set_constr_mat_fn   *set_constr_mat_fn;
-        solver_lp_set_constr_type_fn  *set_constr_type_fn;
-        solver_lp_set_constr_rhs_fn   *set_constr_rhs_fn;
+        solver_lp_set_constr_fn       *set_constr_fn;
         solver_lp_set_maxim_fn        *maxim_fn;
         solver_lp_set_minim_fn        *minim_fn;
         solver_lp_set_int_fn          *set_int_fn;

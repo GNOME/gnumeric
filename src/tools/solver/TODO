@@ -6,7 +6,6 @@ Critical bugs:
   * fix bug: solver parameters when the sheet is duplicated
 
 Usability fixes:
-  * add warnings if data in cells is going to be overwritten
   * add `keep original values dialog'
    - fix the saving of these values twice
   * get_lp_coeff: test that it's really LP
@@ -43,7 +42,8 @@ Feature enhancements:
     - implement RANGES support
     - clean up
   * add more algorithms
-    - finish the GLPK support; add confugure checking for it
+    - add confugure check for GLPK
+    - add support for other GLPK solvers
     - add support for algorithm specific options
 
 Misc:

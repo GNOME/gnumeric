@@ -1,5 +1,8 @@
 2002-03-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* api.c, solver.c: Completed the support for GLPK's two phase
+	primal simplex method.
+
 	* api.c: Added support for automatic scaling and non-negativity
 	assumption options.  Framwork for max iterations and max time
 	options added too.

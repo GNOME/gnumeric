@@ -339,8 +339,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 		}
 
 		x = value_get_as_float (target->value);
-		alg->set_constr_rhs_fn (program, i, x);
-		alg->set_constr_type_fn (program, i, c->type);
+		alg->set_constr_fn (program, i, c->type, x);
 	}
 
 	/* Set up the problem type. */
@@ -371,7 +370,9 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 				&(param->options.max_time_sec)))
 	        return NULL;
 
+#if 0
 	lp_solve_print_lp (program);
+#endif
 
 	return program;
 }
