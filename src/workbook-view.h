@@ -11,7 +11,8 @@ struct _WorkbookView {
 	Workbook *wb;
 	GPtrArray *wb_controls;
 
-	Sheet	  *current_sheet;
+	Sheet	  *current_sheet;	/* convenience */
+	SheetView *current_sheet_view;
 
 	/* preferences */
 	gboolean   show_horizontal_scrollbar;
@@ -52,8 +53,9 @@ void		 wb_view_attach_control	  (WorkbookView *wbv, WorkbookControl *wbc);
 void		 wb_view_detach_control	  (WorkbookControl *wbc);
 
 /* Information */
-Workbook	*wb_view_workbook	  (WorkbookView *wbv);
-Sheet		*wb_view_cur_sheet	  (WorkbookView *wbv);
+Workbook	*wb_view_workbook	  (WorkbookView const *wbv);
+Sheet		*wb_view_cur_sheet	  (WorkbookView const *wbv);
+SheetView	*wb_view_cur_sheet_view	  (WorkbookView const *wbv);
 void		 wb_view_sheet_focus	  (WorkbookView *wbv, Sheet *sheet);
 void		 wb_view_sheet_add	  (WorkbookView *wbv, Sheet *new_sheet);
 gboolean	 wb_view_is_protected	  (WorkbookView *wbv, gboolean check_sheet);

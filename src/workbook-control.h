@@ -72,16 +72,16 @@ enum {
 
 void wb_control_menu_state_sheet_prefs	(WorkbookControl *wbc, Sheet const *s);
 void wb_control_menu_state_sheet_count	(WorkbookControl *wbc);
-void wb_control_menu_state_update	(WorkbookControl *wbc, Sheet const *s,
-					 int flags);
+void wb_control_menu_state_update	(WorkbookControl *wbc, int flags);
 
 void wb_control_paste_from_selection (WorkbookControl *wbc,
 				      PasteTarget const *pt);
 gboolean wb_control_claim_selection  (WorkbookControl *wbc);
 
-WorkbookView *wb_control_view		(WorkbookControl *wbc);
-Workbook     *wb_control_workbook	(WorkbookControl *wbc);
-Sheet        *wb_control_cur_sheet	(WorkbookControl *wbc);
+WorkbookView *wb_control_view		(WorkbookControl const *wbc);
+Workbook     *wb_control_workbook	(WorkbookControl const *wbc);
+Sheet        *wb_control_cur_sheet	(WorkbookControl const *wbc);
+SheetView    *wb_control_cur_sheet_view	(WorkbookControl const *wbc);
 
 gboolean      wb_control_parse_and_jump (WorkbookControl *wbc, char const *text);
 

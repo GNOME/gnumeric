@@ -1229,7 +1229,7 @@ scg_ant (SheetControl *sc)
 	if (NULL != scg->pane[0].anted_cursors)
 		scg_unant (sc);
 
-	for (l = sc->sheet->ants; l; l = l->next) {
+	for (l = sc->view->ants; l; l = l->next) {
 		Range const *r = l->data;
 
 		SCG_FOREACH_PANE (scg, pane, {
@@ -1320,8 +1320,9 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 		      gpointer user_data)
 {
 	SheetControlGUI *scg = user_data;
-	SheetControl *sc = (SheetControl *) scg;
-	Sheet *sheet = sc->sheet;
+	SheetControl	*sc = (SheetControl *) scg;
+	SheetView	*sv = sc->view;
+	Sheet		*sheet = sc->sheet;
 	WorkbookControlGUI *wbcg = scg->wbcg;
 	WorkbookControl *wbc = sc->wbc;
 
@@ -1330,10 +1331,10 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 
 	switch (element->index) {
 	case CONTEXT_CUT :
-		sheet_selection_cut (wbc, sheet);
+		sv_selection_cut (sv, wbc);
 		break;
 	case CONTEXT_COPY :
-		sheet_selection_copy (wbc, sheet);
+		sv_selection_copy (sv, wbc);
 		break;
 	case CONTEXT_PASTE :
 		cmd_paste_to_selection (wbc, sheet, PASTE_DEFAULT);
@@ -1468,14 +1469,12 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		(is_col ? CONTEXT_DISPLAY_FOR_COLS : 0) |
 		(is_row ? CONTEXT_DISPLAY_FOR_ROWS : 0);
 
-	/*
-	 * Paste special does not apply to cut cells.  Enable
-	 * when there is nothing in the local clipboard, or when
-	 * the clipboard has the results of a copy.
+	/* Paste special only applies to local copies, not cuts, or remote
+	 * items
 	 */
 	int sensitivity_filter =
-	    (application_clipboard_is_empty () ||
-	    (application_clipboard_contents_get () != NULL))
+		(!application_clipboard_is_empty () &&
+		!application_clipboard_is_cut ())
 		? 0 : CONTEXT_DISABLE_PASTE_SPECIAL;
 
 	GList *l;

@@ -56,7 +56,8 @@ static POA_GNOME_Gnumeric_Sheet__epv gnome_gnumeric_sheet_epv;
 
 typedef struct {
 	POA_GNOME_Gnumeric_Sheet servant;
-	Sheet *sheet;
+	Sheet     *sheet;
+	SheetView *sheet_view;
 } SheetServant;
 
 static inline void
@@ -93,6 +94,13 @@ sheet_from_servant (PortableServer_Servant servant)
 	SheetServant *ss = (SheetServant *) servant;
 
 	return ss->sheet;
+}
+static inline SheetView *
+sv_from_servant (PortableServer_Servant servant)
+{
+	SheetServant *ss = (SheetServant *) servant;
+
+	return ss->sheet_view;
 }
 
 static void
@@ -177,17 +185,15 @@ Sheet_selection_append_range (PortableServer_Servant servant,
 static void
 Sheet_selection_copy (PortableServer_Servant servant, CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
-
-	sheet_selection_copy (command_context_corba (sheet->workbook), sheet);
+	SheetView *sv = sv_from_servant (servant);
+	sv_selection_copy (sv, command_context_corba (sheet->workbook))
 }
 
 static void
 Sheet_selection_cut (PortableServer_Servant servant, CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
-
-	sheet_selection_cut (command_context_corba (sheet->workbook), sheet);
+	SheetView *sv = sv_from_servant (servant);
+	sv_selection_cut (sv, command_context_corba (sheet->workbook))
 }
 
 static void

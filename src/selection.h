@@ -22,10 +22,6 @@ void        sheet_selection_add_range    (Sheet *sheet,
 void        sheet_selection_reset        (Sheet *sheet);
 void        sheet_selection_free         (Sheet *sheet);
 
-/* Cut/Copy/Paste on the workbook selection */
-gboolean    sheet_selection_copy              (WorkbookControl *context, Sheet *sheet);
-gboolean    sheet_selection_cut               (WorkbookControl *context, Sheet *sheet);
-
 void        sheet_selection_walk_step         (Sheet *sheet,
 					       gboolean forward,
 					       gboolean horizontal);

@@ -923,8 +923,9 @@ typedef enum {
 static void
 item_cursor_do_action (ItemCursor *ic, ActionType action)
 {
-	SheetControl *sc;
-	Sheet *sheet;
+	SheetControl	*sc;
+	SheetView 	*sv;
+	Sheet		*sheet;
 	WorkbookControl *wbc;
 	PasteTarget pt;
 
@@ -936,12 +937,13 @@ item_cursor_do_action (ItemCursor *ic, ActionType action)
 	}
 
 	sc = (SheetControl *) ic->scg;
-	sheet = sc->sheet;
-	wbc = sc->wbc;
+	sheet = sc_sheet (sc);
+	sv = sc_view (sc);
+	wbc = sc_wbc (sc);
 
 	switch (action) {
 	case ACTION_COPY_CELLS:
-		if (!sheet_selection_copy (wbc, sheet))
+		if (!sv_selection_copy (sv, wbc))
 			break;
 		cmd_paste (wbc,
 			   paste_target_init (&pt, sheet, &ic->pos,
@@ -949,7 +951,7 @@ item_cursor_do_action (ItemCursor *ic, ActionType action)
 		break;
 
 	case ACTION_MOVE_CELLS:
-		if (!sheet_selection_cut (wbc, sheet))
+		if (!sv_selection_cut (sv, wbc))
 			break;
 		cmd_paste (wbc,
 			   paste_target_init (&pt, sheet, &ic->pos,
@@ -957,7 +959,7 @@ item_cursor_do_action (ItemCursor *ic, ActionType action)
 		break;
 
 	case ACTION_COPY_FORMATS:
-		if (!sheet_selection_copy (wbc, sheet))
+		if (!sv_selection_copy (sv, wbc))
 			break;
 		cmd_paste (wbc,
 			   paste_target_init (&pt, sheet, &ic->pos,
@@ -965,7 +967,7 @@ item_cursor_do_action (ItemCursor *ic, ActionType action)
 		break;
 
 	case ACTION_COPY_VALUES:
-		if (!sheet_selection_copy (wbc, sheet))
+		if (!sv_selection_copy (sv, wbc))
 			break;
 		cmd_paste (wbc,
 			   paste_target_init (&pt, sheet, &ic->pos,

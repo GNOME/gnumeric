@@ -47,7 +47,7 @@ typedef struct {
 				 char const *undo, char const *redo);
 	} undo_redo;
 	struct {
-		void (*update)      (WorkbookControl *wbc, Sheet const *sheet, int flags);
+		void (*update)      (WorkbookControl *wbc, int flags);
 		void (*sheet_prefs) (WorkbookControl *wbc, Sheet const *sheet);
 		void (*sheet_count) (WorkbookControl *wbc);
 	} menu_state;

@@ -246,8 +246,7 @@ cb_edit_copy (GtkWidget *widget, BonoboControl *control)
 
 	g_return_if_fail (wbcg != NULL);
 
-	sheet = wb_control_cur_sheet (wbc);
-	sheet_selection_copy (wbc, sheet);
+	sv_selection_copy (wb_control_cur_sheet_view (wbc), wbc);
 }
 
 static void

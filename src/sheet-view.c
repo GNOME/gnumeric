@@ -26,8 +26,12 @@
 #include "sheet-view.h"
 #include "sheet-control.h"
 #include "sheet-control-priv.h"
+#include "ranges.h"
+#include "selection.h"
+#include "application.h"
 
 #include <gal/util/e-util.h>
+#include <libgnome/gnome-i18n.h>
 
 Sheet *
 sv_sheet (SheetView const *sv)
@@ -69,6 +73,39 @@ sv_detach_control (SheetControl *sc)
 	sc->view = NULL;
 }
 
+static void
+sv_weakref_notify (SheetView **ptr, GObject *sv)
+{
+	g_return_if_fail (ptr != NULL);
+	g_return_if_fail (*ptr == (SheetView *)sv); /* remember sv is dead */
+	*ptr = NULL;
+}
+
+void
+sv_weak_ref (SheetView *sv, SheetView **ptr)
+{
+	g_return_if_fail (ptr != NULL);
+
+	*ptr = sv;
+	if (sv != NULL)
+		g_object_weak_ref (G_OBJECT (sv),
+			(GWeakNotify) sv_weakref_notify,
+			ptr);
+}
+
+void
+sv_weak_unref (SheetView **ptr)
+{
+	g_return_if_fail (ptr != NULL);
+
+	if (*ptr != NULL) {
+		g_object_weak_unref (G_OBJECT (*ptr),
+			(GWeakNotify) sv_weakref_notify,
+			ptr);
+		*ptr = NULL;
+	}
+}
+
 static GObjectClass *parent_class;
 static void
 s_view_finalize (GObject *object)
@@ -83,6 +120,8 @@ s_view_finalize (GObject *object)
 		if (sv->controls != NULL)
 			g_warning ("Unexpected left over controls");
 	}
+
+	sv_unant (sv);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -108,4 +147,81 @@ sheet_view_new (Sheet *sheet, WorkbookView *wbv)
 	sheet_attach_view (sheet, sv);
 	sv->wbv = wbv;
 	return sv;
+}
+
+void
+sv_unant (SheetView *sv)
+{
+	GList *ptr;
+
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+
+	if (sv->ants == NULL)
+		return;
+	for (ptr = sv->ants; ptr != NULL; ptr = ptr->next)
+		g_free (ptr->data);
+	g_list_free (sv->ants);
+	sv->ants = NULL;
+
+	SHEET_VIEW_FOREACH_CONTROL (sv, control,
+		sc_unant (control););
+}
+
+void
+sv_ant (SheetView *sv, GList *ranges)
+{
+	GList *ptr;
+
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (ranges != NULL);
+
+	if (sv->ants != NULL)
+		sv_unant (sv);
+	for (ptr = ranges; ptr != NULL; ptr = ptr->next)
+		sv->ants = g_list_prepend (sv->ants, range_dup (ptr->data));
+	sv->ants = g_list_reverse (sv->ants);
+
+	SHEET_VIEW_FOREACH_CONTROL (sv, control,
+		sc_ant (control););
+}
+
+gboolean
+sv_selection_copy (SheetView *sv, WorkbookControl *wbc)
+{
+	Range const *sel;
+
+	if (!(sel = selection_first_range (sv_sheet (sv), wbc, _("Copy"))))
+		return FALSE;
+
+	application_clipboard_cut_copy (wbc, FALSE, sv, sel, TRUE);
+
+	return TRUE;
+}
+
+gboolean
+sv_selection_cut (SheetView *sv, WorkbookControl *wbc)
+{
+	Range const *sel;
+
+	/* 'cut' is a poor description of what we're
+	 * doing here.  'move' would be a better
+	 * approximation.  The key portion of this process is that
+	 * the range being moved has all
+	 * 	- references to it adjusted to the new site.
+	 * 	- relative references from it adjusted.
+	 *
+	 * NOTE : This command DOES NOT MOVE ANYTHING !
+	 *        We only store the src, paste does the move.
+	 */
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
+
+	if (!(sel = selection_first_range (sv_sheet (sv), wbc, _("Cut"))))
+		return FALSE;
+
+	if (sheet_range_splits_region (sv_sheet (sv), sel, NULL, wbc, _("Cut")))
+		return FALSE;
+
+	application_clipboard_cut_copy (wbc, TRUE, sv, sel, TRUE);
+
+	return TRUE;
 }

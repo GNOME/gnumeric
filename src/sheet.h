@@ -41,12 +41,6 @@ struct _Sheet {
 	 */
 	GList       *selections;
 
-	/*
-	 * Same as the above, contains the currently anted regions
-	 * on the sheet
-	 */
-	GList       *ants;
-
 	/* User defined names */
 	GList      *names;
 

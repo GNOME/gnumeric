@@ -489,48 +489,6 @@ sheet_selection_reset (Sheet *sheet)
 	sheet_menu_state_enable_insert (sheet, TRUE, TRUE);
 }
 
-gboolean
-sheet_selection_copy (WorkbookControl *wbc, Sheet *sheet)
-{
-	Range const *sel;
-
-	if (!(sel = selection_first_range (sheet, wbc, _("Copy"))))
-		return FALSE;
-
-	application_clipboard_cut_copy (wbc, FALSE, sheet, sel, TRUE);
-
-	return TRUE;
-}
-
-gboolean
-sheet_selection_cut (WorkbookControl *wbc, Sheet *sheet)
-{
-	Range const *sel;
-
-	/*
-	 * 'cut' is a poor description of what we're
-	 * doing here.  'move' would be a better
-	 * approximation.  The key portion of this process is that
-	 * the range being moved has all
-	 * 	- references to it adjusted to the new site.
-	 * 	- relative references from it adjusted.
-	 *
-	 * NOTE : This command DOES NOT MOVE ANYTHING !
-	 *        We only store the src, paste does the move.
-	 */
-	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-
-	if (!(sel = selection_first_range (sheet, wbc, _("Cut"))))
-		return FALSE;
-
-	if (sheet_range_splits_region (sheet, sel, NULL, wbc, _("Cut")))
-		return FALSE;
-
-	application_clipboard_cut_copy (wbc, TRUE, sheet, sel, TRUE);
-
-	return TRUE;
-}
-
 /**
  * selection_get_ranges:
  * @sheet: the sheet.

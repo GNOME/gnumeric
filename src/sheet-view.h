@@ -10,6 +10,8 @@ struct _SheetView {
 	Sheet	 	*sheet;
 	WorkbookView	*wbv;
 	GPtrArray	*controls;
+
+	GList *ants;
 };
 
 typedef struct {
@@ -24,14 +26,20 @@ typedef struct {
 /* Lifecycle */
 GType	   sheet_view_get_type	 (void);
 SheetView *sheet_view_new	 (Sheet *sheet, WorkbookView *wbv);
-void	   sv_attach_control (SheetView *sv, SheetControl *sc);
-void	   sv_detach_control (SheetControl *sc);
+void	   sv_attach_control	(SheetView *sv, SheetControl *sc);
+void	   sv_detach_control	(SheetControl *sc);
+void	   sv_weak_ref		(SheetView *sv, SheetView **ptr);
+void	   sv_weak_unref	(SheetView **ptr);
 
 /* Information */
-Sheet		*sv_sheet	(SheetView const *sv);
-WorkbookView	*sv_wbv		(SheetView const *sv);
+Sheet	     *sv_sheet (SheetView const *sv);
+WorkbookView *sv_wbv	  (SheetView const *sv);
 
 /* Manipulation */
+void	 sv_unant		(SheetView *sv);
+void	 sv_ant			(SheetView *sv, GList *ranges);
+gboolean sv_selection_copy	(SheetView *sv, WorkbookControl *wbc);
+gboolean sv_selection_cut	(SheetView *sv, WorkbookControl *wbc);
 
 #define SHEET_VIEW_FOREACH_CONTROL(sv, control, code)				\
 do {										\

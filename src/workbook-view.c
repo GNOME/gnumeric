@@ -58,18 +58,24 @@ enum {
 };
 
 Workbook *
-wb_view_workbook (WorkbookView *wbv)
+wb_view_workbook (WorkbookView const *wbv)
 {
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), NULL);
 	return wbv->wb;
 }
 
 Sheet *
-wb_view_cur_sheet (WorkbookView *wbv)
+wb_view_cur_sheet (WorkbookView const *wbv)
 {
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), NULL);
-
 	return wbv->current_sheet;
+}
+
+SheetView *
+wb_view_cur_sheet_view (WorkbookView const *wbv)
+{
+	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), NULL);
+	return wbv->current_sheet_view;
 }
 
 void
@@ -83,6 +89,10 @@ wb_view_sheet_focus (WorkbookView *wbv, Sheet *sheet)
 			wb_control_sheet_focus (control, sheet););
 
 		wbv->current_sheet = sheet;
+		SHEET_FOREACH_VIEW (sheet, view, {
+			if (sv_wbv (view) == wbv)
+				wbv->current_sheet_view = view;
+		});
 		wb_view_selection_desc (wbv, TRUE, NULL);
 		wb_view_edit_line_set (wbv, NULL);
 		wb_view_format_feedback (wbv, TRUE);
@@ -99,9 +109,13 @@ wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
 
 	if (wbv->current_sheet == NULL) {
 		wbv->current_sheet = new_sheet;
-		wb_view_auto_expr_recalc (wbv, FALSE);
+		SHEET_FOREACH_VIEW (new_sheet, view, {
+			if (sv_wbv (view) == wbv)
+				wbv->current_sheet_view = view;
+		});
 		wb_view_format_feedback (wbv, FALSE);
 		wb_view_menus_update (wbv);
+		wb_view_auto_expr_recalc (wbv, FALSE);
 	}
 
 	new_view = sheet_view_new (new_sheet, wbv);
@@ -201,7 +215,7 @@ wb_view_menus_update (WorkbookView *wbv)
 	sheet = wbv->current_sheet;
 	if (sheet != NULL) {
 		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control, {
-			wb_control_menu_state_update (control, sheet, MS_ALL);
+			wb_control_menu_state_update (control, MS_ALL);
 			wb_control_menu_state_sheet_prefs (control, sheet);
 		});
 	}

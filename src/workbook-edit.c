@@ -427,7 +427,7 @@ wbcg_edit_attach_guru_main (WorkbookControlGUI *wbcg, GtkWidget *guru)
 	wbcg->edit_line.guru = guru;
 	gtk_entry_set_editable (wbcg_get_entry (wbcg), FALSE);
 	wb_control_edit_set_sensitive (wbc, FALSE, FALSE);
-	wb_control_menu_state_update (wbc, NULL, MS_GURU_MENU_ITEMS);
+	wb_control_menu_state_update (wbc, MS_GURU_MENU_ITEMS);
 
 }
 
@@ -485,7 +485,7 @@ wbcg_edit_detach_guru (WorkbookControlGUI *wbcg)
 	wbcg->edit_line.guru = NULL;
 	gtk_entry_set_editable (wbcg_get_entry (wbcg), TRUE);
 	wb_control_edit_set_sensitive (wbc, FALSE, TRUE);
-	wb_control_menu_state_update (wbc, NULL, MS_GURU_MENU_ITEMS);
+	wb_control_menu_state_update (wbc, MS_GURU_MENU_ITEMS);
 }
 
 GtkWidget *

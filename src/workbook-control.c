@@ -110,8 +110,8 @@ WBC_VIRTUAL_FULL (undo_redo_labels, undo_redo.labels,
 WBC_VIRTUAL_FULL (menu_state_sheet_prefs, menu_state.sheet_prefs,
 	(WorkbookControl *wbc, Sheet const *sheet), (wbc, sheet))
 WBC_VIRTUAL_FULL (menu_state_update, menu_state.update,
-        (WorkbookControl *wbc, Sheet const *sheet, int flags),
-	(wbc, sheet, flags))
+        (WorkbookControl *wbc, int flags),
+	(wbc, flags))
 WBC_VIRTUAL_FULL (menu_state_sheet_count, menu_state.sheet_count,
 	(WorkbookControl *wbc), (wbc))
 
@@ -140,7 +140,7 @@ wb_control_sheet_add (WorkbookControl *wbc, SheetView *sv)
 			wb_control_auto_expr_value (wbc);
 			wb_control_format_feedback (wbc);
 			wb_control_menu_state_sheet_prefs (wbc, new_sheet);
-			wb_control_menu_state_update (wbc, new_sheet, MS_ALL);
+			wb_control_menu_state_update (wbc, MS_ALL);
 		}
 	}
 }
@@ -179,29 +179,31 @@ wb_control_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 }
 
 WorkbookView *
-wb_control_view (WorkbookControl *wbc)
+wb_control_view (WorkbookControl const *wbc)
 {
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), NULL);
-
 	return wbc->wb_view;
 }
 
 Workbook *
-wb_control_workbook (WorkbookControl *wbc)
+wb_control_workbook (WorkbookControl const *wbc)
 {
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), NULL);
-	g_return_val_if_fail (wbc->wb_view != NULL, NULL);
-
 	return wb_view_workbook (wbc->wb_view);
 }
 
 Sheet *
-wb_control_cur_sheet (WorkbookControl *wbc)
+wb_control_cur_sheet (WorkbookControl const *wbc)
 {
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), NULL);
-	g_return_val_if_fail (wbc->wb_view != NULL, NULL);
-
 	return wb_view_cur_sheet (wbc->wb_view);
+}
+
+SheetView *
+wb_control_cur_sheet_view (WorkbookControl const *wbc)
+{
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), NULL);
+	return wb_view_cur_sheet_view (wbc->wb_view);
 }
 
 gboolean

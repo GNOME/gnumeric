@@ -999,9 +999,10 @@ change_menu_label (WorkbookControlGUI const *wbcg,
 #endif
 
 static void
-wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
+wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	Sheet *sheet = wb_control_cur_sheet (wbc);
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -1023,7 +1024,8 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 	}
 	if (MS_PASTE_SPECIAL & flags)
 		change_menu_sensitivity (wbcg->menu_item_paste_special,
-					 sheet->priv->enable_paste_special);
+			!application_clipboard_is_empty () &&
+			!application_clipboard_is_cut ());
 	if (MS_PRINT_SETUP & flags)
 		change_menu_sensitivity (wbcg->menu_item_print_setup,
 					 !wbcg_edit_has_guru (wbcg));
@@ -1054,7 +1056,8 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 	}
 	if (MS_PASTE_SPECIAL & flags)
 		change_menu_sensitivity (wbcg, "/commands/EditPasteSpecial",
-					 sheet->priv->enable_paste_special);
+			!application_clipboard_is_empty () &&
+			!application_clipboard_is_cut ());
 	if (MS_PRINT_SETUP & flags)
 		change_menu_sensitivity (wbcg, "/commands/FilePrintSetup",
 					 !wbcg_edit_has_guru (wbcg));
@@ -1825,14 +1828,13 @@ cb_edit_cut (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	SheetControlGUI *scg;
 
-	if (wbcg_sheet_to_page_index (wbcg, wb_control_cur_sheet (wbc), &scg)
-	    >= 0) {
+	if (wbcg_sheet_to_page_index (wbcg, sheet, &scg) >= 0) {
 		SheetControl *sc = (SheetControl *) scg;
 		/* FIXME : Add clipboard support for objects */
 		if (scg->current_object != NULL)
 			cmd_object_delete (wbc, scg->current_object);
 		scg_mode_edit (sc);
-		sheet_selection_cut (wbc, sheet);
+		sv_selection_cut (sc_view (sc), wbc);
 	}
 }
 
@@ -1840,8 +1842,8 @@ static void
 cb_edit_copy (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	sheet_selection_copy (wbc, sheet);
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
+	sv_selection_copy (sv, wbc);
 }
 
 static void

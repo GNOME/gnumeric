@@ -27,7 +27,7 @@
 typedef struct
 {
 	/* Clipboard */
-	Sheet		*clipboard_sheet;
+	SheetView	*clipboard_sheet_view;
 	CellRegion	*clipboard_copied_contents;
 	Range		 clipboard_cut_range;
 
@@ -159,7 +159,7 @@ application_init (void)
 	g_object_unref (G_OBJECT (factory));
 
 	app.clipboard_copied_contents = NULL;
-	app.clipboard_sheet = NULL;
+	app.clipboard_sheet_view = NULL;
 
 	/* Set up GConf: */
 
@@ -212,20 +212,22 @@ application_workbook_list (void)
 void
 application_clipboard_clear (gboolean drop_selection)
 {
+	GList *ptr;
+
 	if (app.clipboard_copied_contents) {
 		cellregion_free (app.clipboard_copied_contents);
 		app.clipboard_copied_contents = NULL;
 	}
-	if (app.clipboard_sheet != NULL) {
-		Sheet *sheet = app.clipboard_sheet;
+	if (app.clipboard_sheet_view != NULL) {
+		sv_unant (app.clipboard_sheet_view);
 
-		sheet_unant (sheet);
+		for (ptr = workbook_list; ptr; ptr = ptr->next){
+			Workbook *wb = ptr->data;
+			WORKBOOK_FOREACH_CONTROL (wb, view, control,
+				wb_control_menu_state_update (control, MS_PASTE_SPECIAL););
+		}
 
-		sheet->priv->enable_paste_special = FALSE;
-		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-			wb_control_menu_state_update (control, sheet, MS_PASTE_SPECIAL););
-
-		app.clipboard_sheet = NULL;
+		app.clipboard_sheet_view = NULL;
 
 		/* Release the selection */
 		if (drop_selection) {
@@ -242,20 +244,20 @@ application_clipboard_clear (gboolean drop_selection)
 void
 application_clipboard_unant (void)
 {
-	if (app.clipboard_sheet != NULL)
-		sheet_unant (app.clipboard_sheet);
+	if (app.clipboard_sheet_view != NULL)
+		sv_unant (app.clipboard_sheet_view);
 }
 
 static gboolean
-application_set_selected_sheet (WorkbookControl *wbc, Sheet *sheet)
+application_set_selected_sheet (WorkbookControl *wbc, SheetView *sv)
 {
-	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
 
 	application_clipboard_clear (FALSE);
 
 	/* FIXME : how to do this on a per display basis ? */
 	if (wb_control_claim_selection (wbc)) {
-		app.clipboard_sheet = sheet;
+		app.clipboard_sheet_view = sv;
 		return TRUE;
 	}
 
@@ -285,29 +287,34 @@ application_set_selected_sheet (WorkbookControl *wbc, Sheet *sheet)
  */
 void
 application_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
-				Sheet *sheet, Range const *area,
+				SheetView *sv, Range const *area,
 				gboolean animate_cursor)
 {
-	g_return_if_fail (IS_SHEET (sheet));
+	GList *ptr;
+
+	g_return_if_fail (IS_SHEET_VIEW (sv));
 	g_return_if_fail (area != NULL);
 
-	if (application_set_selected_sheet (wbc, sheet) ) {
+	if (application_set_selected_sheet (wbc, sv) ) {
+		Sheet *sheet = sv_sheet (sv);
 		app.clipboard_cut_range = *area;
 
-		sheet->priv->enable_paste_special = !is_cut;
 		if (!is_cut)
 			app.clipboard_copied_contents =
 				clipboard_copy_range (sheet, area);
 
-		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-			wb_control_menu_state_update (control, sheet, MS_PASTE_SPECIAL););
+		for (ptr = workbook_list; ptr; ptr = ptr->next){
+			Workbook *wb = ptr->data;
+			WORKBOOK_FOREACH_CONTROL (wb, view, control,
+				wb_control_menu_state_update (control, MS_PASTE_SPECIAL););
+		}
 
 		if (animate_cursor) {
 			/* * The 'area' and the list itself will be copied
 			 * entirely. We ant the copied range on the sheet.
 			 */
 			GList *l = g_list_append (NULL, (Range *) area);
-			sheet_ant (sheet, l);
+			sv_ant (sv, l);
 			g_list_free (l);
 		}
 	}
@@ -316,13 +323,13 @@ application_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 gboolean
 application_clipboard_is_empty (void)
 {
-	return app.clipboard_sheet == NULL;
+	return app.clipboard_sheet_view == NULL;
 }
 
 gboolean
 application_clipboard_is_cut (void)
 {
-	if (app.clipboard_sheet != NULL)
+	if (app.clipboard_sheet_view != NULL)
 		return app.clipboard_copied_contents ? FALSE : TRUE;
 	return FALSE;
 }
@@ -330,7 +337,15 @@ application_clipboard_is_cut (void)
 Sheet *
 application_clipboard_sheet_get (void)
 {
-	return app.clipboard_sheet;
+	if (app.clipboard_sheet_view == NULL)
+		return NULL;
+	return sv_sheet (app.clipboard_sheet_view);
+}
+
+SheetView *
+application_clipboard_sheet_view_get (void)
+{
+	return app.clipboard_sheet_view;
 }
 
 CellRegion *
@@ -348,7 +363,7 @@ application_clipboard_area_get (void)
 	 * the clipboard has been cleared so we need to be extra
 	 * safe and only return a range if there is a valid selection
 	 */
-	if (app.clipboard_sheet != NULL)
+	if (app.clipboard_sheet_view != NULL)
 		return &app.clipboard_cut_range;
 	return NULL;
 }

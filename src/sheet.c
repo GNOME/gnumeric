@@ -64,55 +64,6 @@ static void sheet_redraw_partial_row (Sheet const *sheet, int row,
 				      int start_col, int end_col);
 
 void
-sheet_unant (Sheet *sheet)
-{
-	GList *l;
-
-	g_return_if_fail (IS_SHEET (sheet));
-
-	if (!sheet->ants)
-		return;
-
-	for (l = sheet->ants; l != NULL; l = l->next) {
-		Range *ss = l->data;
-		g_free (ss);
-	}
-
-	g_list_free (sheet->ants);
-	sheet->ants = NULL;
-
-	SHEET_FOREACH_CONTROL (sheet, view, control,
-			       sc_unant (control););
-}
-
-void
-sheet_ant (Sheet *sheet, GList *ranges)
-{
-	GList *l;
-
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (ranges != NULL);
-
-	if (sheet->ants != NULL)
-		sheet_unant (sheet);
-
-	/*
-	 * We need to copy the whole selection to the 'ant' list which contains
-	 * all currently anted regions on the sheet. Every sheet-control look
-	 * at that list to ant/unant things
-	 */
-	for (l = ranges; l != NULL; l = l->next) {
-		Range *ss = l->data;
-
-		sheet->ants = g_list_prepend (sheet->ants, range_dup (ss));
-	}
-	sheet->ants = g_list_reverse (sheet->ants);
-
-	SHEET_FOREACH_CONTROL (sheet, view, control,
-		sc_ant (control););
-}
-
-void
 sheet_redraw_all (Sheet const *sheet, gboolean headers)
 {
 	SHEET_FOREACH_CONTROL (sheet, view, control,
@@ -282,7 +233,6 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->priv->enable_insert_rows = TRUE;
 	sheet->priv->enable_insert_cols = TRUE;
 	sheet->priv->enable_insert_cells = TRUE;
-	sheet->priv->enable_paste_special = TRUE;
 	sheet->priv->enable_showhide_detail = TRUE;
 
 	sheet->names = NULL;
@@ -2904,7 +2854,6 @@ sheet_destroy (Sheet *sheet)
 	}
 
 	sheet_selection_free (sheet);
-	sheet_unant (sheet);
 
 	g_free (sheet->name_quoted);
 	g_free (sheet->name_unquoted);
@@ -4187,7 +4136,7 @@ sheet_menu_state_enable_insert (Sheet *sheet, gboolean col, gboolean row)
 	WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
 		if (sheet == wb_view_cur_sheet (view)) {
 			WORKBOOK_VIEW_FOREACH_CONTROL(view, wbc,
-				wb_control_menu_state_update (wbc, sheet, flags););
+				wb_control_menu_state_update (wbc, flags););
 		}
 	});
 }
@@ -4495,7 +4444,7 @@ sheet_freeze_panes (Sheet *sheet,
 	WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
 		if (sheet == wb_view_cur_sheet (view)) {
 			WORKBOOK_VIEW_FOREACH_CONTROL(view, wbc,
-				wb_control_menu_state_update (wbc, sheet, MS_FREEZE_VS_THAW););
+				wb_control_menu_state_update (wbc, MS_FREEZE_VS_THAW););
 		}
 	});
 }

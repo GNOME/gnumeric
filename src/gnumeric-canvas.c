@@ -235,7 +235,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 		if (gnm_canvas_guru_key (wbcg, event))
 			break;
 		if (state == GDK_CONTROL_MASK)
-			sheet_selection_copy (WORKBOOK_CONTROL (wbcg), sheet);
+			sv_selection_copy (sc_view (sc), WORKBOOK_CONTROL (wbcg));
 		else if (state == GDK_SHIFT_MASK)
 			cmd_paste_to_selection (WORKBOOK_CONTROL (wbcg), sheet, PASTE_DEFAULT);
 		break;
@@ -246,7 +246,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 			break;
 		if (state == GDK_SHIFT_MASK) {
 			scg_mode_edit (sc);
-			sheet_selection_cut (WORKBOOK_CONTROL (wbcg), sheet);
+			sv_selection_cut (sc_view (sc), WORKBOOK_CONTROL (wbcg));
 		} else
 			cmd_clear_selection (WORKBOOK_CONTROL (wbcg), sheet, CLEAR_VALUES);
 		break;

@@ -1050,6 +1050,7 @@ typedef struct
 	int		 index;
 	int		 count;
 	Range           *cutcopied;
+	SheetView	*cut_copy_view;
 
 	ColRowStateList *saved_states;
 	CellRegion	*contents;
@@ -1112,8 +1113,8 @@ cmd_ins_del_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	/* Ins/Del Row/Col re-ants things completely to account
 	 * for the shift of col/rows.
 	 */
-	if (me->cutcopied != NULL)
-		application_clipboard_cut_copy (wbc, me->is_cut, me->sheet,
+	if (me->cutcopied != NULL && me->cut_copy_view != NULL)
+		application_clipboard_cut_copy (wbc, me->is_cut, me->cut_copy_view,
 						me->cutcopied, FALSE);
 
 	return FALSE;
@@ -1199,7 +1200,7 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	/* Ins/Del Row/Col re-ants things completely to account
 	 * for the shift of col/rows.
 	 */
-	if (!trouble && me->cutcopied != NULL) {
+	if (!trouble && me->cutcopied != NULL && me->cut_copy_view != NULL) {
 		Range s = *me->cutcopied;
 		int key = me->is_insert ? me->count : -me->count;
 		int threshold = me->is_insert ? me->index : me->index + 1;
@@ -1217,7 +1218,7 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 			s.end.row   += key;
 		}
 
-		application_clipboard_cut_copy (wbc, me->is_cut, me->sheet, &s, FALSE);
+		application_clipboard_cut_copy (wbc, me->is_cut, me->cut_copy_view, &s, FALSE);
 	}
 
 	return trouble;
@@ -1234,8 +1235,11 @@ cmd_ins_del_colrow_finalize (GObject *cmd)
 		cellregion_free (me->contents);
 		me->contents = NULL;
 	}
-	if (me->cutcopied)
+	if (me->cutcopied) {
 		g_free (me->cutcopied);
+		me->cutcopied = NULL;
+	}
+	sv_weak_unref (&(me->cut_copy_view));
 	if (me->reloc_storage) {
 		dependents_unrelocate_free (me->reloc_storage);
 		me->reloc_storage = NULL;
@@ -1245,9 +1249,9 @@ cmd_ins_del_colrow_finalize (GObject *cmd)
 
 static gboolean
 cmd_ins_del_colrow (WorkbookControl *wbc,
-		     Sheet *sheet,
-		     gboolean is_cols, gboolean is_insert,
-		     char const * descriptor, int index, int count)
+		    Sheet *sheet,
+		    gboolean is_cols, gboolean is_insert,
+		    char const * descriptor, int index, int count)
 {
 	GObject *obj;
 	CmdInsDelColRow *me;
@@ -1271,6 +1275,8 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 	    sheet == application_clipboard_sheet_get ()) {
 		me->cutcopied = range_dup (application_clipboard_area_get ());
 		me->is_cut    = application_clipboard_is_cut ();
+		sv_weak_ref (application_clipboard_sheet_view_get (),
+			&(me->cut_copy_view));
 	} else
 		me->cutcopied = NULL;
 

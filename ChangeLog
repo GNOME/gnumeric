@@ -6,6 +6,64 @@
 
 2002-06-19  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet.c (sheet_destroy) : no need to unant, that is a view
+	  responsibility.
+
+	* src/sheet-view.c (sv_weakref_notify) : new.
+	(sv_weak_ref) : new.
+	(sv_weak_unref) : new.
+	(sv_unant) : move here from sheet.
+	(sv_ant) : move here from sheet.
+	(sv_selection_copy): from selection.c
+	(sv_selection_cut) : from selection.c
+
+	* src/sheet-control.c (sc_view) : new.
+
+	* src/sheet-control-gui.c (scg_ant) : the animated cursors are now
+	  stored in the view not the sheet.
+	(context_menu_handler) : sync with the workbook control criteria for
+	  enabling paste special.
+
+	* src/selection.c (sheet_selection_copy) : start the process of
+	  migrating to SheetView and move this there.
+	(sheet_selection_cut) : ditto.
+
+	* src/item-cursor.c (item_cursor_do_action) : pass a SheetView.
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_sheet) : pass a
+	  SheetView.
+
+	* src/corba-sheet.c : untested patch to handle views.
+
+	* src/commands.c (cmd_ins_del_colrow_undo) : use the sheetview.
+	(cmd_ins_del_colrow_redo) : ditto.
+	(cmd_ins_del_colrow_finalize) : remove weakref on the view.
+	(cmd_ins_del_colrow) : add a weak ref to the view.
+
+	* src/application.c (application_init) : we store a view now, not just
+	  a sheet.
+	(application_clipboard_clear) : update all workbooks, not just this
+	  one, and store the view.
+	(application_clipboard_unant) : use the view.
+	(application_set_selected_sheet) : the selection is now view based.
+	(application_clipboard_cut_copy) : take a view and remove the crufy
+	  enable_paste_special flag.  That is handled locally.
+	(application_clipboard_is_empty) : handle SheetView.
+	(application_clipboard_is_cut) : ditto.
+	(application_clipboard_sheet_get) : ditto.
+	(application_clipboard_sheet_view_get) : ditto.
+
+	* src/workbook-control-gui.c (wbcg_menu_state_update) : Use the
+	  current sheet not some magic sheet.
+
+	* src/sheet.c (sheet_new) : delete enable_paste_special.
+
+	* src/workbook-control-gui.c (wbcg_menu_state_update) : paste special
+	  is for local copies, use the application data rather than a sheet
+	  local flag.
+
+2002-06-19  Jody Goldberg <jody@gnome.org>
+
 	* src/sheet.c (sheet_attach_view) : renamed from sheet_attach_control.
 	(sheet_detach_view) : renamed from sheet_detach_control.
 
