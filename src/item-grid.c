@@ -16,10 +16,9 @@
 
 /* The signals we emit */
 enum {
-	ITEM_GRID_TEST,
-	ITEM_GRID_LAST_SIGNAL
+	LAST_SIGNAL
 };
-static guint item_grid_signals [ITEM_GRID_LAST_SIGNAL] = { 0 };
+static guint item_grid_signals [LAST_SIGNAL] = { 0 };
 
 static GnomeCanvasItem *item_grid_parent_class;
 
@@ -107,17 +106,18 @@ item_grid_reconfigure (GnomeCanvasItem *item)
  */
 static void
 item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
-		     int x1, int y1, int x2, int y2)
+		     int x1, int y1, int width, int height, int col, int row)
 {
 	GdkGC *grid_gc = item_grid->grid_gc;
+	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_grid)->canvas;
+	GdkGC *black_gc = GTK_WIDGET (canvas)->style->black_gc;
+	Cell *cell;
 
-	gdk_draw_rectangle (drawable, item_grid->fill_gc, TRUE,
-			    x1+1, y1+1, x2-x1-2, y2-y1-2);
-
-	gdk_draw_line (drawable, grid_gc, x1, y1, x2, y1);
-	gdk_draw_line (drawable, grid_gc, x2, y1, x2, y2);
-	gdk_draw_line (drawable, grid_gc, x2, y2, x1, y2);
-	gdk_draw_line (drawable, grid_gc, x1, y1, x1, y2);
+	if (sheet_selection_is_cell_selected (item_grid->sheet, col, row)){
+		gdk_draw_rectangle (drawable, black_gc,
+				    TRUE,
+				    x1+1, y1+1, width - 2, height - 2);
+	}
 }
 
 /*
@@ -224,6 +224,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 		y_paint += ri->pixels;
 	}
 
+	col = paint_col;
 	for (x_paint = -diff_x; x_paint < end_x; col++){
 		ColRowInfo *ci;
 
@@ -234,16 +235,11 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 			ColRowInfo *ri;
 
 			ri = sheet_row_get_info (sheet, row);
-#if 0
-			item_debug_cross (drawable, item_grid->grid_gc,
-					  x_paint, y_paint,
-					  x_paint + ci->pixels,
-					  y_paint + ri->pixels);
 			item_grid_draw_cell (drawable, item_grid,
 					     x_paint, y_paint,
-					     x_paint + ci->pixels,
-					     y_paint + ri->pixels);
-#endif
+					     ci->pixels,
+					     ri->pixels,
+					     col, row);
 			y_paint += ri->pixels;
 		}
 
@@ -270,13 +266,53 @@ item_grid_translate (GnomeCanvasItem *item, double dx, double dy)
 	printf ("item_grid_translate %g, %g\n", dx, dy);
 }
 
+/*
+ * Handle the selection
+ */
 static gint
 item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 {
-#if 0
-	printf ("Event\n");
-#endif
-	return 0;
+	ItemGrid *item_grid = ITEM_GRID (item);
+	Sheet *sheet = item_grid->sheet;
+	int col, row;
+
+
+	switch (event->type){
+	case GDK_BUTTON_RELEASE:
+		item_grid->selecting = 0;
+		gnome_canvas_item_ungrab (item, event->button.time);
+		return 1;
+		
+	case GDK_MOTION_NOTIFY:
+		if (!item_grid->selecting)
+			return 1;
+		col = find_col (item_grid, event->motion.x, NULL);
+		row = find_row (item_grid, event->motion.y, NULL);
+		sheet_selection_extend_to (sheet, col, row);
+		return 1;
+		
+	case GDK_BUTTON_PRESS:
+		col = find_col (item_grid, event->button.x, NULL);
+		row = find_row (item_grid, event->button.y, NULL);
+		if (!(event->button.state & GDK_SHIFT_MASK)){
+			if (sheet_selection_is_cell_selected (sheet, col, row))
+				return 1;
+			
+			sheet_selection_clear (sheet);
+		}
+
+		item_grid->selecting = 1;
+		sheet_selection_append (sheet, col, row);
+		printf ("ItemGrab:%d\n", gnome_canvas_item_grab (item,
+					GDK_POINTER_MOTION_MASK |
+					GDK_BUTTON_RELEASE_MASK,
+					NULL,
+					event->button.time));
+		return 1;
+		
+	default:
+		return 0;	
+	}
 }
 
 /*
@@ -296,6 +332,7 @@ item_grid_init (ItemGrid *item_grid)
 	item_grid->top_row  = 0;
 	item_grid->top_offset = 0;
 	item_grid->left_offset = 0;
+	item_grid->selecting = 0;
 }
 
 static void

@@ -14,6 +14,8 @@ typedef struct {
 	ColType  left_col;
 	RowType  top_row;
 
+	int      selecting;
+	
 	/* Offset from spreadsheet origin in units */
 	long     top_offset;
 	long     left_offset;

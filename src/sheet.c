@@ -50,7 +50,7 @@ sheet_init_dummy_stuff (Sheet *sheet)
 		rp = sheet_row_new (sheet);
 		rp->pos = y;
 		rp->units = (20 * (y + 1));
-		rp->selected = 1;
+		rp->selected = 0;
 		sheet_row_add (sheet, rp);
 	}
 }
@@ -116,13 +116,18 @@ Sheet *
 sheet_new (Workbook *wb, char *name)
 {
 	Sheet *sheet;
+	int rows_shown, cols_shown;
 
+	rows_shown = cols_shown = 40;
+	
 	sheet = g_new0 (Sheet, 1);
 	sheet->parent_workbook = wb;
 	sheet->name = g_strdup (name);
 	sheet->last_zoom_factor_used = -1.0;
 	sheet->toplevel = gtk_table_new (0, 0, 0);
-
+	sheet->max_col_used = cols_shown;
+	sheet->max_row_used = rows_shown;
+	
 	sheet_init_default_styles (sheet);
 	
 	/* Dummy initialization */
@@ -158,9 +163,42 @@ sheet_new (Workbook *wb, char *name)
 	gtk_signal_connect (GTK_OBJECT (sheet->row_item), "size_changed",
 			    GTK_SIGNAL_FUNC (sheet_row_size_changed),
 			    sheet);
+
+	/* Scroll bars and their adjustments */
+	sheet->va = gtk_adjustment_new (0.0, 0.0, sheet->max_row_used, 1.0, rows_shown, 1.0);
+	sheet->ha = gtk_adjustment_new (0.0, 0.0, sheet->max_col_used, 1.0, cols_shown, 1.0);
+	
+	sheet->hs = gtk_hscrollbar_new (GTK_ADJUSTMENT (sheet->ha));
+	sheet->vs = gtk_vscrollbar_new (GTK_ADJUSTMENT (sheet->va));
+
+	/* Attach the horizontal scroll */
+	gtk_table_attach (GTK_TABLE (sheet->toplevel), sheet->hs,
+			  1, 2, 2, 3,
+			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
+
+	/* Attach the vertical scroll */
+	gtk_table_attach (GTK_TABLE (sheet->toplevel), sheet->vs,
+			  2, 3, 1, 2,
+			  0, GTK_FILL | GTK_EXPAND, 0, 0);
 	
 	sheet_set_zoom_factor (sheet, 1.0);
 	return sheet;
+}
+
+void
+sheet_destroy (Sheet *sheet)
+{
+	g_assert (sheet != NULL);
+	
+	sheet_selection_clear (sheet);
+	g_free (sheet->name);
+	
+	style_destroy (sheet->default_row_style.style);
+	style_destroy (sheet->default_col_style.style);
+	
+	gtk_widget_destroy (sheet->toplevel);
+	
+	g_free (sheet);
 }
 
 void
@@ -400,4 +438,87 @@ sheet_get_cell_bounds (Sheet *sheet, ColType col, RowType row, int *x, int *y, i
 
 	*w = sheet_col_get_distance (sheet, col, col + 1);
 	*h = sheet_row_get_distance (sheet, row, row + 1);
+}
+
+void
+sheet_selection_append (Sheet *sheet, int col, int row)
+{
+	SheetSelection *ss;
+
+	ss = g_new0 (SheetSelection, 1);
+
+	ss->base_col  = col;
+	ss->base_row  = row;
+
+	ss->start_col = col;
+	ss->end_col   = col;
+	ss->start_row = row;
+	ss->end_row   = row;
+	
+	sheet->selections = g_list_prepend (sheet->selections, ss);
+
+	gnumeric_sheet_set_selection (GNUMERIC_SHEET (sheet->sheet_view),
+				      col, row, col, row);
+	sheet_redraw_all (sheet);
+}
+
+void
+sheet_selection_extend_to (Sheet *sheet, int col, int row)
+{
+	SheetSelection *ss;
+	
+	g_assert (sheet->selections);
+	ss = (SheetSelection *) sheet->selections->data;
+
+	if (col < ss->base_col){
+		ss->start_col = col;
+		ss->end_col   = ss->base_col;
+	} else {
+		ss->start_col = ss->base_col;
+		ss->end_col   = col;
+	}
+
+	if (row < ss->base_row){
+		ss->end_row   = ss->base_row;
+		ss->start_row = row;
+	} else {
+		ss->end_row   = row;
+		ss->start_row = ss->base_row;
+	}
+
+	gnumeric_sheet_set_selection (GNUMERIC_SHEET (sheet->sheet_view),
+				      ss->start_col, ss->start_row,
+				      ss->end_col, ss->end_row);
+				      
+	sheet_redraw_all (sheet);
+}
+
+void
+sheet_selection_clear (Sheet *sheet)
+{
+	GList *list = sheet->selections;
+
+	for (list = sheet->selections; list; list = list->next){
+		SheetSelection *ss = list->data;
+
+		g_free (ss);
+	}
+	g_list_free (sheet->selections);
+	sheet->selections = NULL;
+	sheet_redraw_all (sheet);
+}
+
+int
+sheet_selection_is_cell_selected (Sheet *sheet, int col, int row)
+{
+	GList *list = sheet->selections;
+
+	for (list = sheet->selections; list; list = list->next){
+		SheetSelection *ss = list->data;
+
+		if ((ss->start_col <= col) && (col <= ss->end_col) &&
+		    (ss->start_row <= row) && (row <= ss->end_row))
+			return 1;
+	}
+	return 0;
 }

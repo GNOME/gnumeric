@@ -56,6 +56,13 @@ gnumeric_sheet_create (Sheet *sheet, GtkWidget *entry)
 	return gsheet;
 }
 
+void
+gnumeric_sheet_cursor_set (GnumericSheet *sheet, int col, int row)
+{
+	sheet->cursor_col = col;
+	sheet->cursor_row = row;
+}
+
 static void
 gnumeric_sheet_accept_pending_output (GnumericSheet *sheet)
 {
@@ -96,10 +103,11 @@ gnumeric_sheet_move_cursor_horizontal (GnumericSheet *sheet, int count)
 		new_left = 0;
 
 	gnumeric_sheet_accept_pending_output (sheet);
-	sheet->cursor_col = new_left;
+	gnumeric_sheet_cursor_set (sheet, new_left, sheet->cursor_row);
+
 	item_cursor_set_bounds (item_cursor,
-				new_left, item_cursor->end_col + count,
-				item_cursor->start_row, item_cursor->end_row);
+				new_left, item_cursor->start_row,
+				new_left, item_cursor->start_row);
 	gnumeric_sheet_load_new_cell (sheet);
 }
 
@@ -120,11 +128,25 @@ gnumeric_sheet_move_cursor_vertical (GnumericSheet *sheet, int count)
 	}
 
 	gnumeric_sheet_accept_pending_output (sheet);
-	sheet->cursor_row = new_top;
+	gnumeric_sheet_cursor_set (sheet, sheet->cursor_col, new_top);
 	item_cursor_set_bounds (item_cursor,
-				item_cursor->start_col, item_cursor->end_col,
-				new_top, item_cursor->end_row + count);
+				item_cursor->start_col, new_top,
+				item_cursor->start_col, new_top);
 	gnumeric_sheet_load_new_cell (sheet);
+}
+
+void
+gnumeric_sheet_set_selection (GnumericSheet *sheet, int start_col, int start_row, int end_col, int end_row)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (start_row <= end_row);
+	g_return_if_fail (start_col <= end_col);
+	g_return_if_fail (GNUMERIC_IS_SHEET (sheet));
+
+	gnumeric_sheet_cursor_set (sheet, start_col, start_row);
+	item_cursor_set_bounds (sheet->item_cursor,
+				start_col, start_row,
+				end_col, end_row);
 }
 
 static void

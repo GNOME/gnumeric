@@ -182,6 +182,22 @@ style_new (void)
 	return style;
 }
 
+void
+style_destroy (Style *style)
+{
+	g_return_if_fail (style != NULL);
+	g_return_if_fail (style->format != NULL);
+	g_return_if_fail (style->font != NULL);
+	g_return_if_fail (style->border != NULL);
+	
+	style_format_unref (style->format);
+	style_font_unref   (style->font);
+	style_border_unref (style->border);
+	
+	g_free (style);
+}
+
+
 Style *
 style_duplicate (Style *original)
 {

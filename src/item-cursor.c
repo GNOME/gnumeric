@@ -85,8 +85,8 @@ item_cursor_get_pixel_coords (ItemCursor *item_cursor, int *x, int *y, int *w, i
 	*x = sheet_col_get_distance (sheet, item_grid->left_col, item_cursor->start_col);
 	*y = sheet_row_get_distance (sheet, item_grid->top_row, item_cursor->start_row);
 
-	*w = sheet_col_get_distance (sheet, item_cursor->start_col, item_cursor->end_col);
-	*h = sheet_row_get_distance (sheet, item_cursor->start_row, item_cursor->end_row);
+	*w = sheet_col_get_distance (sheet, item_cursor->start_col, item_cursor->end_col+1);
+	*h = sheet_row_get_distance (sheet, item_cursor->start_row, item_cursor->end_row+1);
 }
 
 static void
@@ -189,14 +189,14 @@ item_cursor_request_redraw (ItemCursor *item_cursor)
 }
 
 void
-item_cursor_set_bounds (ItemCursor *item_cursor, int c1, int c2, int r1, int r2)
+item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, int end_col, int end_row)
 {
 	item_cursor_request_redraw (item_cursor);
 	
-	item_cursor->start_col = c1;
-	item_cursor->end_col = c2;
-	item_cursor->start_row = r1;
-	item_cursor->end_row = r2;
+	item_cursor->start_col = start_col;
+	item_cursor->end_col   = end_col;
+	item_cursor->start_row = start_row;
+	item_cursor->end_row   = end_row;
 
 	item_cursor_request_redraw (item_cursor);
 }
@@ -236,9 +236,9 @@ item_cursor_init (ItemCursor *item_cursor)
 	item->y2 = 1;
 
 	item_cursor->start_col = 0;
-	item_cursor->end_col   = 1;
+	item_cursor->end_col   = 0;
 	item_cursor->start_row = 0;
-	item_cursor->end_row   = 1;
+	item_cursor->end_row   = 0;
 	item_cursor->start_row = ITEM_CURSOR_SELECTION;
 }
 
