@@ -1504,7 +1504,7 @@
       <para/>
       <para>@field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>
       <para/>
-      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.</para>
+      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''.</para>
       <para>Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.</para>
       <para>If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.</para>
       <para/>
@@ -1557,7 +1557,7 @@
       <para/>
       <para>@field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>
       <para/>
-      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.</para>
+      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''.</para>
       <para>Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.</para>
       <para>If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.</para>
       <para/>
@@ -1609,7 +1609,7 @@
       <para/>
       <para>@field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>
       <para/>
-      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.</para>
+      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''.</para>
       <para>Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.</para>
       <para>If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.</para>
       <para/>
@@ -1661,7 +1661,7 @@
       <para/>
       <para>@field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>
       <para/>
-      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.</para>
+      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''.</para>
       <para>Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.</para>
       <para>If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.</para>
       <para/>
@@ -1715,7 +1715,7 @@
       <para/>
       <para>@field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>
       <para/>
-      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.</para>
+      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''.</para>
       <para>Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.</para>
       <para>If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.</para>
       <para/>
@@ -1767,7 +1767,7 @@
       <para/>
       <para>@field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>
       <para/>
-      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.</para>
+      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''.</para>
       <para>Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.</para>
       <para>If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.</para>
       <para/>
@@ -1818,7 +1818,7 @@
       <para/>
       <para>@field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>
       <para/>
-      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.</para>
+      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''.</para>
       <para>Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.</para>
       <para>If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.</para>
       <para/>
@@ -1868,7 +1868,7 @@
       <para/>
       <para>@field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>
       <para/>
-      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.</para>
+      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''.</para>
       <para>Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.</para>
       <para>If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.</para>
       <para/>
@@ -1919,7 +1919,7 @@
       <para/>
       <para>@field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>
       <para/>
-      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.</para>
+      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''.</para>
       <para>Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.</para>
       <para>If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.</para>
       <para/>
@@ -1970,7 +1970,7 @@
       <para/>
       <para>@field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>
       <para/>
-      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.</para>
+      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''.</para>
       <para>Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.</para>
       <para>If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.</para>
       <para/>
@@ -2021,7 +2021,7 @@
       <para/>
       <para>@field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>
       <para/>
-      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.</para>
+      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''.</para>
       <para>Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.</para>
       <para>If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.</para>
       <para/>
@@ -2072,7 +2072,7 @@
       <para/>
       <para>@field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>
       <para/>
-      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.</para>
+      <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''.</para>
       <para>Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.</para>
       <para>If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.</para>
       <para/>
@@ -2146,7 +2146,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>DATE returns the number of days since the 1st of january of 1900(the date serial number) for the given year, month and day.</para>
+      <para>DATE returns the number of days since the 1st of January of 1900(the date serial number) for the given year, month and day.</para>
       <para/>
       <para>* If @month &lt; 1 or @month &gt; 12, the year will be corrected.  A similar correction takes place for days.</para>
       <para>* The @years should be at least 1900.  If @years &lt; 1900, it is assumed to be 1900 + @years.</para>
@@ -2969,7 +2969,7 @@
       <title>Description</title>
       <para>BESSELI function returns the Neumann, Weber or Bessel function.</para>
       <para/>
-      <para>@x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.</para>
+      <para>@x is where the function is evaluated. @y is the order of the Bessel function, if non-integer it is truncated.</para>
       <para/>
       <para>* If @x or @y are not numeric a #VALUE! error is returned.</para>
       <para>* If @y &lt; 0 a #NUM! error is returned.</para>
@@ -3003,7 +3003,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>BESSELJ function returns the bessel function with @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.</para>
+      <para>BESSELJ function returns the Bessel function with @x is where the function is evaluated. @y is the order of the Bessel function, if non-integer it is truncated.</para>
       <para/>
       <para>* If @x or @y are not numeric a #VALUE! error is returned.</para>
       <para>* If @y &lt; 0 a #NUM! error is returned.</para>
@@ -3037,7 +3037,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>BESSELK function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.</para>
+      <para>BESSELK function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the Bessel function, if non-integer it is truncated.</para>
       <para/>
       <para>* If @x or @y are not numeric a #VALUE! error is returned.</para>
       <para>* If @y &lt; 0 a #NUM! error is returned.</para>
@@ -3073,7 +3073,7 @@
       <title>Description</title>
       <para>BESSELY function returns the Neumann, Weber or Bessel function.</para>
       <para/>
-      <para>@x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.</para>
+      <para>@x is where the function is evaluated. @y is the order of the Bessel function, if non-integer it is truncated.</para>
       <para/>
       <para>* If @x or @y are not numeric a #VALUE! error is returned.</para>
       <para>* If @y &lt; 0 a #NUM! error is returned.</para>
@@ -4169,7 +4169,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>COUPPCD returns the coupon date preceeding settlement.</para>
+      <para>COUPPCD returns the coupon date preceding settlement.</para>
       <para/>
       <para>@settlement is the settlement date of the security.</para>
       <para>@maturity is the maturity date of the security.</para>
@@ -4218,7 +4218,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>CUM_BIV_NORM_DIST calculates the cumulative bivariate normal distribution from parameters a, b &amp; rho.  The return value is the probability that two random variables with correlation @rho are respectively each less than @a and @b</para>
+      <para>CUM_BIV_NORM_DIST calculates the cumulative bivariate normal distribution from parameters a, b &amp; rho.  The return value is the probability that two random variables with correlation @rho are respectively each less than @a and @b.</para>
       <para/>
     </refsect1>
     <refsect1>
@@ -4490,7 +4490,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>DURATION calucates the duration of a security.</para>
+      <para>DURATION calculates the duration of a security.</para>
       <para/>
       <para>@settlement is the settlement date of the security. @maturity is the maturity date of the security. @issue is the issue date of the security. @rate is the interest rate set to the security. @pr is the price per $100 face value of the security. @basis is the type of day counting system you want to use:</para>
       <para/>
@@ -4585,7 +4585,7 @@
       <para>    GRD	(Greek)</para>
       <para>    IEP	(Ireland)</para>
       <para>    ITL	(Italy)</para>
-      <para>    LUF	(Luxemburg)</para>
+      <para>    LUF	(Luxembourg)</para>
       <para>    NLG	(Netherlands)</para>
       <para>    PTE	(Portugal)</para>
       <para/>
@@ -4628,7 +4628,7 @@
       <para>    GRD	(Greek)</para>
       <para>    IEP	(Ireland)</para>
       <para>    ITL	(Italy)</para>
-      <para>    LUF	(Luxemburg)</para>
+      <para>    LUF	(Luxembourg)</para>
       <para>    NLG	(Netherlands)</para>
       <para>    PTE	(Portugal)</para>
       <para/>
@@ -4661,7 +4661,7 @@
       <title>Description</title>
       <para>FV computes the future value of an investment. This is based on periodic, constant payments and a constant interest rate. The interest rate per period is @rate, @nper is the number of periods in an annuity, @pmt is the payment made each period, @pv is the present value and @type is when the payment is made.</para>
       <para/>
-      <para>* If @type = 1 then the payment is made at the begining of the period.</para>
+      <para>* If @type = 1 then the payment is made at the beginning of the period.</para>
       <para>* If @type = 0 it is made at the end of each period.</para>
       <para/>
     </refsect1>
@@ -5010,7 +5010,7 @@
       <title>Description</title>
       <para>NPER calculates number of periods of an investment based on periodic constant payments and a constant interest rate.</para>
       <para/>
-      <para>The interest rate per period is @rate, @pmt is the payment made each period, @pv is the present value, @fv is the future value and @type is when the payments are due. If @type = 1, payments are due at the begining of the period, if @type = 0, payments are due at the end of the period.</para>
+      <para>The interest rate per period is @rate, @pmt is the payment made each period, @pv is the present value, @fv is the future value and @type is when the payments are due. If @type = 1, payments are due at the beginning of the period, if @type = 0, payments are due at the end of the period.</para>
       <para/>
       <para>* If @rate &lt;= 0, NPER returns #DIV0 error.</para>
       <para/>
@@ -5042,7 +5042,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>NPV calculates the net present value of an investment generating peridic payments.  @rate is the periodic interest rate and @v1, @v2, ... are the periodic payments.  If the schedule of the cash flows are not periodic use the XNPV function.</para>
+      <para>NPV calculates the net present value of an investment generating periodic payments.  @rate is the periodic interest rate and @v1, @v2, ... are the periodic payments.  If the schedule of the cash flows are not periodic use the XNPV function.</para>
     </refsect1>
     <refsect1>
       <title>Examples</title>
@@ -5271,7 +5271,7 @@
       <para>@time is the number of days to maturity of the option</para>
       <para>@rate is the risk annualised free rate of interest</para>
       <para>@volatility is the annualised volatility in price of the underlying</para>
-      <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yieldi</para>
+      <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.</para>
       <para/>
     </refsect1>
     <refsect1>
@@ -5338,15 +5338,17 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>OPT_BS_CARRYCOST uses the Black-Scholes model to calculate the &quot;elasticity&quot; of a European option struck at @strike on an assetwith spot price @spot.</para>
+      <para>OPT_BS_CARRYCOST uses the Black-Scholes model to calculate the &quot;elasticity&quot; of a European option struck at @strike on an asset with spot price @spot.</para>
       <para>@call_put_flag is c or p to indicate whether the option is a call or a put</para>
       <para/>
-      <para>(The elasticity of an option is the rate of change of its pricewith respect to its cost of carry.)</para>
+      <para>(The elasticity of an option is the rate of change of its price with respect to its cost of carry.)</para>
       <para/>
       <para>@volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.  @time is the time to maturity of the option expressed in years</para>
       <para>@rate is the risk-free interest rate to the exercise date, in percent.</para>
-      <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield</para>
-      <para>* The returned value will be expressed as the rate of change of option value, per 100% volatilty.</para>
+      <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.</para>
+      <para/>
+      <para>* The returned value will be expressed as the rate of change of option value, per 100% volatility.</para>
+      <para/>
     </refsect1>
     <refsect1>
       <title>Examples</title>
@@ -5422,6 +5424,7 @@
       <para>@volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.</para>
       <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield</para>
       <para>* The returned value will be expressed as the rate of change of delta per unit change in @spot.</para>
+      <para/>
     </refsect1>
     <refsect1>
       <title>Examples</title>
@@ -5459,6 +5462,7 @@
       <para>@rate is the risk-free interest rate to the exercise date, in percent.</para>
       <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield</para>
       <para>* The returned value will be expressed as the rate of change of option value, per 100% change in @rate.</para>
+      <para/>
     </refsect1>
     <refsect1>
       <title>Examples</title>
@@ -5497,6 +5501,7 @@
       <para>@volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.</para>
       <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield</para>
       <para>* The returned value will be expressed as minus the rate of change of option value, per 365.25 days.</para>
+      <para/>
     </refsect1>
     <refsect1>
       <title>Examples</title>
@@ -5532,8 +5537,10 @@
       <para>@volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.</para>
       <para> @time is the time to maturity of the option expressed in years</para>
       <para>@rate is the risk-free interest rate to the exercise date, in percent.</para>
-      <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield</para>
-      <para>* The returned value will be expressed as the rate of change of option value, per 100% volatilty.</para>
+      <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.</para>
+      <para/>
+      <para>* The returned value will be expressed as the rate of change of option value, per 100% volatility.</para>
+      <para/>
     </refsect1>
     <refsect1>
       <title>Examples</title>
@@ -5568,7 +5575,7 @@
       <para>@spot is the spot price of the underlying asset</para>
       <para>@strike_call is the strike price at which the option is struck</para>
       <para>@strike_put is the strike price at which the option is struck</para>
-      <para>@time is the time in years until the holder choses a put or a call option</para>
+      <para>@time is the time in years until the holder chooses a put or a call option</para>
       <para>@time_call is the time in years to maturity of the call option if chosen</para>
       <para>@time_put is the time in years  to maturity of the put option if chosen</para>
       <para>@rate is the risk annualised free rate of interest</para>
@@ -5613,6 +5620,7 @@
       <para>@volatility is the annualised volatility in price of the underlying</para>
       <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield</para>
       <para>@lambda is the jump rate for executives. The model assumes executives forfeit their options if they leave the company.</para>
+      <para/>
     </refsect1>
     <refsect1>
       <title>Examples</title>
@@ -5642,7 +5650,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>OPT_EXTENDIBLE_WRITER models the theoretical price of extendible writer options. These are options that can be excercised at an initial period, @time1, or their maturity extended to @time2 if the option is out of the money at @time1</para>
+      <para>OPT_EXTENDIBLE_WRITER models the theoretical price of extendible writer options. These are options that can be exercised at an initial period, @time1, or their maturity extended to @time2 if the option is out of the money at @time1</para>
       <para>@call_put_flag is c or p to indicate whether the option is a call or a put</para>
       <para>@spot is the spot price of the underlying asset</para>
       <para>@strike1 is the strike price at which the option is struck</para>
@@ -5723,12 +5731,13 @@
       <para>OPT_FRENCH values the theoretical price of a European option adjusted for trading day volatility, struck at @strike on an asset with spot price @spot.</para>
       <para>@call_put_flag is c or p to indicate whether the option is a call or a put</para>
       <para>@volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.</para>
-      <para> @time the number of calander days to exercise divided by calander days in the year</para>
-      <para>@t2 is the numvber of trading days to excercise dividded by trading days in the year</para>
+      <para> @time the number of calendar days to exercise divided by calander days in the year</para>
+      <para>@t2 is the number of trading days to exercise divided by trading days in the year</para>
       <para>@rate is the risk-free interest rate</para>
-      <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yieldto the exercise date, in percent.</para>
+      <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield to the exercise date, in percent.</para>
       <para/>
-      <para>* The returned value will be expressed as the rate of change of option value, per 100% volatilty.</para>
+      <para>* The returned value will be expressed as the rate of change of option value, per 100% volatility.</para>
+      <para/>
     </refsect1>
     <refsect1>
       <title>Examples</title>
@@ -5754,7 +5763,7 @@
       <refpurpose/>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domesitc_rate,foreign_rate,volatility[,cost_of_carry])</synopsis>
+      <synopsis>OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domestic_rate,foreign_rate,volatility[,cost_of_carry])</synopsis>
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
@@ -5765,7 +5774,8 @@
       <para>@domestic_rate is the domestic risk-free interest rate to the exercise date</para>
       <para>@foreign_rate is the foreign risk-free interest rate to the exercise date, in percent.</para>
       <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield</para>
-      <para>* The returned value will be expressed as the rate of change of option value, per 100% volatilty.</para>
+      <para>* The returned value will be expressed as the rate of change of option value, per 100% volatility.</para>
+      <para/>
     </refsect1>
     <refsect1>
       <title>Examples</title>
@@ -5795,15 +5805,16 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>OPT_JUMP_DIFF models the theoretical price of an option according to the Jump Diffussion process (Merton).</para>
+      <para>OPT_JUMP_DIFF models the theoretical price of an option according to the Jump Diffusion process (Merton).</para>
       <para>@call_put_flag is c or p to indicate whether the option is a call or a put</para>
       <para>@spot is the spot price of the underlying</para>
       <para>@strike is the strike price of the option</para>
       <para>@time is the time to maturity of the option expressed in years</para>
       <para>@rate is the annualised rate of interest</para>
-      <para>@volatility is the annulised volatility of the underlying asset</para>
+      <para>@volatility is the annualized volatility of the underlying asset</para>
       <para>@lambda is expected number of 'jumps' per year</para>
       <para>@gamma is proportion of volatility explained by the 'jumps'</para>
+      <para/>
     </refsect1>
     <refsect1>
       <title>Examples</title>
@@ -5840,14 +5851,15 @@
       <para>@x is is the strike price</para>
       <para>@t1 is the time to maturity of the option</para>
       <para>@t2 is the time to maturity of the underlying commodity futures contract</para>
-      <para>@v_s is the volatility of the spot comodity price</para>
-      <para>@v_e is the volatitlity of the future convenience yeild</para>
+      <para>@v_s is the volatility of the spot commodity price</para>
+      <para>@v_e is the volatility of the future convenience yield</para>
       <para>@v_f is the volatility of the forward rate of interest</para>
       <para>@rho_se is correlation between the spot commodity price and the convenience yield</para>
       <para>@rho_sf is correlation between the spot commodity price and the forward interest rate</para>
       <para>@rho_ef is correlation between the forward interest rate and the convenience yield</para>
       <para>@kappa_e is the speed of mean reversion of the convenience yield</para>
       <para>@kappa_f is the speed of mean reversion of the forward interest rate</para>
+      <para/>
     </refsect1>
     <refsect1>
       <title>Examples</title>
@@ -5883,7 +5895,7 @@
       <para>@strike1 is the strike price at which the option is struck</para>
       <para>@strike2 is the strike price at which the option is struck</para>
       <para>@time1 is the time in years to maturity of the option</para>
-      <para>@time2 is the timee in years to the maturity of the underlying option</para>
+      <para>@time2 is the time in years to the maturity of the underlying option</para>
       <para>(@time2 &gt;= @time1)</para>
       <para>@rate is the risk annualised free rate of interest</para>
       <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield</para>
@@ -5920,13 +5932,13 @@
       <title>Description</title>
       <para>OPT_RGW models the theoretical price of an american option according to the Roll-Geske-Whaley approximation where:</para>
       <para>@call_put_flag is c or p to indicate whether the option is a call or a put</para>
-      <para>@spot is the spot price of the unerlying asset</para>
+      <para>@spot is the spot price of the underlying asset</para>
       <para>@strike is the strike price at which the option is struck</para>
       <para>@t1 is the time to the dividend payout</para>
       <para>@t2 is the time to option expiration.</para>
       <para>@rate is the annualised rate of interest</para>
       <para>@d is the amount of the dividend to be paid</para>
-      <para>@volatility is the annulised rate of volatility of the underlying asset</para>
+      <para>@volatility is the annualized rate of volatility of the underlying asset</para>
       <para/>
     </refsect1>
     <refsect1>
@@ -5999,10 +6011,10 @@
       <para>@call_put_flag is c or p to indicate whether the option is a call or a put</para>
       <para>@spot is the spot price of the underlying asset</para>
       <para>@strike is the strike price at which the option is struck</para>
-      <para>@a is the amount recieved for each time period as discussed above</para>
+      <para>@a is the amount received for each time period as discussed above</para>
       <para>@time is the maturity of the option in years</para>
       <para>@m is the number of time units the option has already met the condition</para>
-      <para>@dt is the agreed upon discretef time period (often a day) expressed as a fraction of a year</para>
+      <para>@dt is the agreed upon discrete time period (often a day) expressed as a fraction of a year</para>
       <para>@rate is the risk annualised free rate of interest</para>
       <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield</para>
     </refsect1>
@@ -6234,7 +6246,7 @@
       <title>Description</title>
       <para>PV calculates the present value of an investment. @rate is the periodic interest rate, @nper is the number of periods used for compounding. @pmt is the payment made each period, @fv is the future value and @type is when the payment is made.</para>
       <para/>
-      <para>* If @type = 1 then the payment is made at the begining of the period.</para>
+      <para>* If @type = 1 then the payment is made at the beginning of the period.</para>
       <para>* If @type = 0 (or omitted) it is made at the end of each period.</para>
     </refsect1>
     <refsect1>
@@ -6294,7 +6306,7 @@
       <title>Description</title>
       <para>RECEIVED calculates and returns the amount to be received at maturity date for a security bond.</para>
       <para/>
-      <para>@settlement is the settlement date of the security.  @maturity is the maturity date of the security.  The amount of investement is specified in @investment.  @rate is the security's discount rate.</para>
+      <para>@settlement is the settlement date of the security.  @maturity is the maturity date of the security.  The amount of investment is specified in @investment.  @rate is the security's discount rate.</para>
       <para/>
       <para>@basis is the type of day counting system you want to use:</para>
       <para/>
@@ -6338,10 +6350,10 @@
       <para/>
       <para>The formula is:</para>
       <para/>
-      <para>Depriciation expense = ( @cost - @salvage_value ) / @life</para>
+      <para>Depreciation expense = ( @cost - @salvage_value ) / @life</para>
       <para/>
       <para>@cost is the cost of an asset when acquired (market value).</para>
-      <para>@salvage_value is the amount you get when asset is sold at the end of the assets's useful life.</para>
+      <para>@salvage_value is the amount you get when asset is sold at the end of the asset's useful life.</para>
       <para>@life is the anticipated life of an asset.</para>
       <para/>
       <para>* If @life &lt;= 0, SLN returns #NUM! error.</para>
@@ -6377,7 +6389,7 @@
       <para/>
       <para>The Formula used for sum-of-years digits depreciation is:</para>
       <para/>
-      <para>Depriciation expense =</para>
+      <para>Depreciation expense =</para>
       <para/>
       <para>	 ( @cost - @salvage_value ) * (@life - @period + 1) * 2 / @life * (@life + 1).</para>
       <para/>
@@ -6771,7 +6783,7 @@
     <refsect1>
       <title>Examples</title>
       <para/>
-      <para>CEll(&quot;format&quot;,A1) returns the code of the format of the cell A1.</para>
+      <para>Cell(&quot;format&quot;,A1) returns the code of the format of the cell A1.</para>
       <para/>
     </refsect1>
     <refsect1>
@@ -7481,7 +7493,7 @@
       <title>Description</title>
       <para>IF function can be used to evaluate conditionally other expressions. IF evaluates @condition.  If @condition returns a non-zero value the result of the IF expression is the @if-true expression, otherwise IF evaluates to the value of @if-false.</para>
       <para/>
-      <para>* If ommitted @if-true defaults to TRUE and @if-false to FALSE.</para>
+      <para>* If omitted @if-true defaults to TRUE and @if-false to FALSE.</para>
       <para>* This function is Excel compatible.</para>
       <para/>
     </refsect1>
@@ -7838,7 +7850,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>HLOOKUP function finds the col in range that has a first row cell similar to @value.  If @approximate is not true it finds the col with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the col with value less than @value it returns the value in the col found at a 1-based offset in @row rows into the @range.  @as_index returns the 0-based offset that matched rather than the value.</para>
+      <para>HLOOKUP function finds the col in range that has a first row cell similar to @value.  If @approximate is not true it finds the col with an exact equivalence.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the col with value less than @value it returns the value in the col found at a 1-based offset in @row rows into the @range.  @as_index returns the 0-based offset that matched rather than the value.</para>
       <para/>
       <para>* HLOOKUP returns #NUM! if @row &lt; 0.</para>
       <para>* HLOOKUP returns #REF! if @row falls outside @range.</para>
@@ -7898,7 +7910,7 @@
       <title>Description</title>
       <para>INDEX gives a reference to a cell in the given @array.The cell is pointed out by @row and @col, which count the rows and columns in the array.</para>
       <para/>
-      <para>* If @row and @col are ommited the are assumed to be 1.</para>
+      <para>* If @row and @col are omited the are assumed to be 1.</para>
       <para>* If the reference falls outside the range of the @array, INDEX returns a #REF! error.</para>
       <para/>
     </refsect1>
@@ -7926,7 +7938,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>INDIRECT function returns the contents of the cell pointed to by the @ref_text string. The string specifices a single cell reference the format of which is either A1 or R1C1 style. The style is set by the @format boolean, which defaults to the A1 style.</para>
+      <para>INDIRECT function returns the contents of the cell pointed to by the @ref_text string. The string specifies a single cell reference the format of which is either A1 or R1C1 style. The style is set by the @format boolean, which defaults to the A1 style.</para>
       <para/>
       <para>* If @ref_text is not a valid reference returns #REF!</para>
     </refsect1>
@@ -8151,7 +8163,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>VLOOKUP function finds the row in range that has a first column similar to @value.  If @approximate is not true it finds the row with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the row with value less than @value.  It returns the value in the row found at a 1-based offset in @column columns into the @range.  @as_index returns the 0-based offset that matched rather than the value.</para>
+      <para>VLOOKUP function finds the row in range that has a first column similar to @value.  If @approximate is not true it finds the row with an exact equivalence.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the row with value less than @value.  It returns the value in the row found at a 1-based offset in @column columns into the @range.  @as_index returns the 0-based offset that matched rather than the value.</para>
       <para/>
       <para>* VLOOKUP returns #NUM! if @column &lt; 0.</para>
       <para>* VLOOKUP returns #REF! if @column falls outside @range.</para>
@@ -8800,7 +8812,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>EXP computes the value of e (the base of natural logarithmns) raised to the power of @x.</para>
+      <para>EXP computes the value of e (the base of natural logarithms) raised to the power of @x.</para>
       <para/>
       <para>* This function is Excel compatible.</para>
       <para/>
@@ -9536,11 +9548,11 @@
       <refpurpose/>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>QUOTIENT(numerator,denumerator)</synopsis>
+      <synopsis>QUOTIENT(numerator,denominator)</synopsis>
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>QUOTIENT function returns the integer portion of a division.  @numerator is the divided number and @denumerator is the divisor.</para>
+      <para>QUOTIENT function returns the integer portion of a division.  @numerator is the divided number and @denominator is the divisor.</para>
       <para/>
       <para>* This function is Excel compatible.</para>
       <para/>
@@ -9753,7 +9765,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>SERIESSUM function returns the sum of a power series.  @x is the base of the power series, @n is the initial power to raise @x, @m is the increment to the power for each term in the series, and @coefficients is the coefficents by which each successive power of @x is multiplied.</para>
+      <para>SERIESSUM function returns the sum of a power series.  @x is the base of the power series, @n is the initial power to raise @x, @m is the increment to the power for each term in the series, and @coefficients are the coefficients by which each successive power of @x is multiplied.</para>
       <para/>
       <para>* This function is Excel compatible.</para>
       <para/>
@@ -10673,7 +10685,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>RANDCAUCHY returns a cauchy-distributed random number with scale parameter a. The Cauchy distribution is also known as the Lorentz distribution.</para>
+      <para>RANDCAUCHY returns a Cauchy-distributed random number with scale parameter a. The Cauchy distribution is also known as the Lorentz distribution.</para>
       <para/>
       <para>* If @a &lt; 0 RANDCAUCHY returns #NUM! error.</para>
       <para/>
@@ -10732,7 +10744,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>RANDDISCRETE returns one of the values in the @val_range. The probablilites for each value are given in the @prob_range.</para>
+      <para>RANDDISCRETE returns one of the values in the @val_range. The probabilities for each value are given in the @prob_range.</para>
       <para/>
       <para>* If @prob_range is omitted, the uniform discrete distribution is assumed.</para>
       <para>* If the sum of all values in @prob_range is other than one, RANDDISCRETE returns #NUM! error.</para>
@@ -10800,7 +10812,7 @@
       <para>	p(x) dx = {1 over 2 a Gamma(1+1/b)} exp(-|x/a|^b) dx, for x &gt;= 0.</para>
       <para/>
       <para>* For @b = 1 this reduces to the Laplace distribution.</para>
-      <para>* For @b = 2 it has the same form as a gaussian distribution with sigma = a/sqrt(2).</para>
+      <para>* For @b = 2 it has the same form as a Gaussian distribution with sigma = a/sqrt(2).</para>
       <para/>
     </refsect1>
     <refsect1>
@@ -10887,7 +10899,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>RANDGAUSSIAN returns a gaussian-distributed random number.</para>
+      <para>RANDGAUSSIAN returns a Gaussian-distributed random number.</para>
       <para/>
       <para>* If @stdev &lt; 0 RANDGAUSSIAN returns #NUM! error.</para>
       <para/>
@@ -11290,7 +11302,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>RANDPOISSON returns a poisson-distributed random number.</para>
+      <para>RANDPOISSON returns a Poisson-distributed random number.</para>
       <para/>
       <para>* If @lambda &lt; 0 RANDPOISSON returns #NUM! error.</para>
       <para/>
@@ -11476,7 +11488,7 @@
       <para/>
       <para>With the simulation tool and the SIMTABLE function you can test given decision variables. Each SIMTABLE function contains the possible values of a simulation variable. In most valid simulation models you should have the same number of values @dN for all decision variables.  If the simulation is run more rounds than there are values defined, SIMTABLE returns #N/A! error (e.g. if A1 contains `=SIMTABLE(1)' and A2 `=SIMTABLE(1,2)', A1 yields #N/A! error on the second round).</para>
       <para/>
-      <para>The successive use of the simulation tool also requires that you give to the tool at least one input variable having RAND() or any other RAND&lt;distribution name&gt;() function in it. On each round, the simulation tool iterates for thegiven number of rounds over all the input variables to reevaluate them. On each iteration, the values of the output variables are stored, and when the round is completed, descriptive statistical information is created according to the values.</para>
+      <para>The successive use of the simulation tool also requires that you give to the tool at least one input variable having RAND() or any other RAND&lt;distribution name&gt;() function in it. On each round, the simulation tool iterates for the given number of rounds over all the input variables to reevaluate them. On each iteration, the values of the output variables are stored, and when the round is completed, descriptive statistical information is created according to the values.</para>
       <para/>
     </refsect1>
     <refsect1>
@@ -11664,7 +11676,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>BETAINV function returns the inverse of cumulative beta distribution.  @a is the optional lower bound of @x and @b is the optinal upper bound of @x.</para>
+      <para>BETAINV function returns the inverse of cumulative beta distribution.  @a is the optional lower bound of @x and @b is the optional upper bound of @x.</para>
       <para/>
       <para>* If @a is not given, BETAINV uses 0.</para>
       <para>* If @b is not given, BETAINV uses 1.</para>
@@ -12644,7 +12656,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>HYPGEOMDIST function returns the hypergeometric distribution. @x is the number of successes in the sample, @n is the number of trials, @M is the number of successes overall, and @N is thepopulation size.</para>
+      <para>HYPGEOMDIST function returns the hypergeometric distribution. @x is the number of successes in the sample, @n is the number of trials, @M is the number of successes overall, and @N is the population size.</para>
       <para/>
       <para>* If @x,@n,@M or @N is a non-integer it is truncated.</para>
       <para>* If @x,@n,@M or @N &lt; 0 HYPGEOMDIST returns #NUM! error.</para>
@@ -13590,7 +13602,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>PERCENTRANK function returns the rank of a data point in a data set.  @array is the range of numeric values, @x is the data point which you want to rank, and the optional @significance indentifies the number of significant digits for the returned value, truncating the remainder.  If @significance is omitted, PERCENTRANK uses three digits.</para>
+      <para>PERCENTRANK function returns the rank of a data point in a data set.  @array is the range of numeric values, @x is the data point which you want to rank, and the optional @significance specifies the number of significant digits for the returned value, truncating the remainder.  If @significance is omitted, PERCENTRANK uses three digits.</para>
       <para/>
       <para>* If @array contains no data points, PERCENTRANK returns #NUM! error.</para>
       <para>* If @significance is less than one, PERCENTRANK returns #NUM! error.</para>
@@ -13660,7 +13672,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>POISSON function returns the Poisson distribution. @x is the number of events, @mean is the expected numeric value @cumulative describes whether to return the sum of the poisson function from 0 to @x.</para>
+      <para>POISSON function returns the Poisson distribution. @x is the number of events, @mean is the expected numeric value @cumulative describes whether to return the sum of the Poisson function from 0 to @x.</para>
       <para/>
       <para>* If @x is a non-integer it is truncated.</para>
       <para>* If @x &lt; 0 POISSON returns #NUM! error.</para>
@@ -15369,7 +15381,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>UNICHAR returns the unicode character represented by the number @x.</para>
+      <para>UNICHAR returns the Unicode character represented by the number @x.</para>
       <para/>
     </refsect1>
     <refsect1>
@@ -15400,7 +15412,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>UNICODE returns the unicode number for the character @char.</para>
+      <para>UNICODE returns the Unicode number for the character @char.</para>
       <para/>
       <para/>
     </refsect1>
@@ -15439,7 +15451,7 @@
     <refsect1>
       <title>Examples</title>
       <para/>
-      <para>UPPER(&quot;canceled&quot;) equals &quot;CANCELED&quot;.</para>
+      <para>UPPER(&quot;cancelled&quot;) equals &quot;CANCELLED&quot;.</para>
       <para/>
     </refsect1>
     <refsect1>

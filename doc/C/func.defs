@@ -612,7 +612,7 @@ IMTANH("1+j") equals 1.083923+0.2717526j.
 
 @field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
 
-@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''. 
 Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.
 If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.
 
@@ -647,7 +647,7 @@ DAVERAGE(A1:C7, "Age", A9:B11) equals 36.
 
 @field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
 
-@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''. 
 Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.
 If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.
 
@@ -681,7 +681,7 @@ DCOUNT(A1:C7, "Name", A9:B11) equals 0.
 
 @field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
 
-@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''. 
 Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.
 If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.
 
@@ -715,7 +715,7 @@ DCOUNTA(A1:C7, "Name", A9:B11) equals 2.
 
 @field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
 
-@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''. 
 Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.
 If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.
 
@@ -751,7 +751,7 @@ DGET(A1:C7, "Name", A9:A10) equals "Clark".
 
 @field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
 
-@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''. 
 Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.
 If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.
 
@@ -785,7 +785,7 @@ DMAX(A1:C7, "Age", A9:B11) equals 43.
 
 @field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
 
-@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''. 
 Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.
 If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.
 
@@ -818,7 +818,7 @@ DMIN(A1:C7, "Age", A9:B11) equals 29.
 
 @field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
 
-@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''. 
 Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.
 If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.
 
@@ -850,7 +850,7 @@ DPRODUCT(A1:C7, "Age", A9:B11) equals 1247.
 
 @field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
 
-@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''. 
 Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.
 If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.
 
@@ -883,7 +883,7 @@ DSTDEV(A1:C7, "Salary", A9:B11) equals 9135.112506.
 
 @field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
 
-@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''. 
 Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.
 If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.
 
@@ -916,7 +916,7 @@ DSTDEVP(A1:C7, "Salary", A9:B11) equals 6459.5.
 
 @field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
 
-@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''. 
 Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.
 If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.
 
@@ -949,7 +949,7 @@ DSUM(A1:C7, "Salary", A9:B11) equals 81565.
 
 @field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
 
-@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''. 
 Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.
 If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.
 
@@ -982,7 +982,7 @@ DVAR(A1:C7, "Salary", A9:B11) equals 83450280.5.
 
 @field specifies which column is used in the function.  If @field is an integer, for example 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
 
-@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criteria are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifying a value, e.g. ``3'' or ``John''. 
 Each row in @criteria specifies a separate condition. If a row in @database matches a row in @criteria, then that row is counted. Technically speaking, this a boolean OR operation between the rows in @criteria.
 If @criteria specifies more than one column, then each of the conditions in the specified columns must be true for the row in @database to match. Technically speaking, this is a boolean AND operation between the columns in @criteria.
 
@@ -1020,7 +1020,7 @@ DVARP(A1:C7, "Salary", A9:B11) equals 41725140.25.
 @CATEGORY=Date/Time
 @FUNCTION=DATE
 @SYNTAX=DATE (year,month,day)
-@DESCRIPTION=DATE returns the number of days since the 1st of january of 1900(the date serial number) for the given year, month and day.
+@DESCRIPTION=DATE returns the number of days since the 1st of January of 1900(the date serial number) for the given year, month and day.
 
 * If @month < 1 or @month > 12, the year will be corrected.  A similar correction takes place for days.
 * The @years should be at least 1900.  If @years < 1900, it is assumed to be 1900 + @years.
@@ -1361,7 +1361,7 @@ YEAR(DATE(2003, 4, 30)) equals 2003.
 @SYNTAX=BESSELI(x,y)
 @DESCRIPTION=BESSELI function returns the Neumann, Weber or Bessel function.
 
-@x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.
+@x is where the function is evaluated. @y is the order of the Bessel function, if non-integer it is truncated.
 
 * If @x or @y are not numeric a #VALUE! error is returned.
 * If @y < 0 a #NUM! error is returned.
@@ -1375,7 +1375,7 @@ BESSELI(0.7,3) equals 0.007367374.
 @CATEGORY=Engineering
 @FUNCTION=BESSELJ
 @SYNTAX=BESSELJ(x,y)
-@DESCRIPTION=BESSELJ function returns the bessel function with @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.
+@DESCRIPTION=BESSELJ function returns the Bessel function with @x is where the function is evaluated. @y is the order of the Bessel function, if non-integer it is truncated.
 
 * If @x or @y are not numeric a #VALUE! error is returned.
 * If @y < 0 a #NUM! error is returned.
@@ -1389,7 +1389,7 @@ BESSELJ(0.89,3) equals 0.013974004.
 @CATEGORY=Engineering
 @FUNCTION=BESSELK
 @SYNTAX=BESSELK(x,y)
-@DESCRIPTION=BESSELK function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.
+@DESCRIPTION=BESSELK function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the Bessel function, if non-integer it is truncated.
 
 * If @x or @y are not numeric a #VALUE! error is returned.
 * If @y < 0 a #NUM! error is returned.
@@ -1405,7 +1405,7 @@ BESSELK(3,9) equals 397.95880.
 @SYNTAX=BESSELY(x,y)
 @DESCRIPTION=BESSELY function returns the Neumann, Weber or Bessel function.
 
-@x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.
+@x is where the function is evaluated. @y is the order of the Bessel function, if non-integer it is truncated.
 
 * If @x or @y are not numeric a #VALUE! error is returned.
 * If @y < 0 a #NUM! error is returned.
@@ -1988,7 +1988,7 @@ COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 5
 @CATEGORY=Finance
 @FUNCTION=COUPPCD
 @SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])
-@DESCRIPTION=COUPPCD returns the coupon date preceeding settlement.
+@DESCRIPTION=COUPPCD returns the coupon date preceding settlement.
 
 @settlement is the settlement date of the security.
 @maturity is the maturity date of the security.
@@ -2019,7 +2019,7 @@ COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 29-Nov-2002
 @CATEGORY=Finance
 @FUNCTION=CUM_BIV_NORM_DIST
 @SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)
-@DESCRIPTION=CUM_BIV_NORM_DIST calculates the cumulative bivariate normal distribution from parameters a, b & rho.  The return value is the probability that two random variables with correlation @rho are respectively each less than @a and @b
+@DESCRIPTION=CUM_BIV_NORM_DIST calculates the cumulative bivariate normal distribution from parameters a, b & rho.  The return value is the probability that two random variables with correlation @rho are respectively each less than @a and @b.
 
 @EXAMPLES=
 
@@ -2142,7 +2142,7 @@ COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 29-Nov-2002
 @CATEGORY=Finance
 @FUNCTION=DURATION
 @SYNTAX=DURATION(settlement,maturity,coup,yield,freq[,basis])
-@DESCRIPTION=DURATION calucates the duration of a security.
+@DESCRIPTION=DURATION calculates the duration of a security.
 
 @settlement is the settlement date of the security. @maturity is the maturity date of the security. @issue is the issue date of the security. @rate is the interest rate set to the security. @pr is the price per $100 face value of the security. @basis is the type of day counting system you want to use:
 
@@ -2200,7 +2200,7 @@ For example if you wanted to find out how much you are actually paying interest 
     GRD	(Greek)
     IEP	(Ireland)
     ITL	(Italy)
-    LUF	(Luxemburg)
+    LUF	(Luxembourg)
     NLG	(Netherlands)
     PTE	(Portugal)
 
@@ -2225,7 +2225,7 @@ EURO("DEM") returns 1.95583.
     GRD	(Greek)
     IEP	(Ireland)
     ITL	(Italy)
-    LUF	(Luxemburg)
+    LUF	(Luxembourg)
     NLG	(Netherlands)
     PTE	(Portugal)
 
@@ -2240,7 +2240,7 @@ EUROCONVERT(2.1,"DEM","EUR") returns 1.07.
 @SYNTAX=FV(rate,nper,pmt[,pv,type])
 @DESCRIPTION=FV computes the future value of an investment. This is based on periodic, constant payments and a constant interest rate. The interest rate per period is @rate, @nper is the number of periods in an annuity, @pmt is the payment made each period, @pv is the present value and @type is when the payment is made.
 
-* If @type = 1 then the payment is made at the begining of the period.
+* If @type = 1 then the payment is made at the beginning of the period.
 * If @type = 0 it is made at the end of each period.
 
 @EXAMPLES=
@@ -2396,7 +2396,7 @@ where:
 @SYNTAX=NPER(rate,pmt,pv,fv,type)
 @DESCRIPTION=NPER calculates number of periods of an investment based on periodic constant payments and a constant interest rate.
 
-The interest rate per period is @rate, @pmt is the payment made each period, @pv is the present value, @fv is the future value and @type is when the payments are due. If @type = 1, payments are due at the begining of the period, if @type = 0, payments are due at the end of the period.
+The interest rate per period is @rate, @pmt is the payment made each period, @pv is the present value, @fv is the future value and @type is when the payments are due. If @type = 1, payments are due at the beginning of the period, if @type = 0, payments are due at the end of the period.
 
 * If @rate <= 0, NPER returns #DIV0 error.
 
@@ -2408,7 +2408,7 @@ For example, if you deposit $10,000 in a savings account that earns an interest 
 @CATEGORY=Finance
 @FUNCTION=NPV
 @SYNTAX=NPV(rate,v1,v2,...)
-@DESCRIPTION=NPV calculates the net present value of an investment generating peridic payments.  @rate is the periodic interest rate and @v1, @v2, ... are the periodic payments.  If the schedule of the cash flows are not periodic use the XNPV function. 
+@DESCRIPTION=NPV calculates the net present value of an investment generating periodic payments.  @rate is the periodic interest rate and @v1, @v2, ... are the periodic payments.  If the schedule of the cash flows are not periodic use the XNPV function. 
 @EXAMPLES=
 NPV(0.17,-10000,3340,2941,2493,3233,1732,2932) equals 186.30673.
 
@@ -2524,7 +2524,7 @@ NPV(0.17,-10000,3340,2941,2493,3233,1732,2932) equals 186.30673.
 @time is the number of days to maturity of the option
 @rate is the risk annualised free rate of interest
 @volatility is the annualised volatility in price of the underlying 
-@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yieldi
+@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.
 
 @EXAMPLES=
 
@@ -2547,15 +2547,17 @@ NPV(0.17,-10000,3340,2941,2493,3233,1732,2932) equals 186.30673.
 @CATEGORY=Finance
 @FUNCTION=OPT_BS_CARRYCOST
 @SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility[,cost_of_carry])
-@DESCRIPTION=OPT_BS_CARRYCOST uses the Black-Scholes model to calculate the "elasticity" of a European option struck at @strike on an assetwith spot price @spot.
+@DESCRIPTION=OPT_BS_CARRYCOST uses the Black-Scholes model to calculate the "elasticity" of a European option struck at @strike on an asset with spot price @spot.
 @call_put_flag is c or p to indicate whether the option is a call or a put 
 
-(The elasticity of an option is the rate of change of its pricewith respect to its cost of carry.)
+(The elasticity of an option is the rate of change of its price with respect to its cost of carry.)
 
 @volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.  @time is the time to maturity of the option expressed in years
 @rate is the risk-free interest rate to the exercise date, in percent.
-@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield
-* The returned value will be expressed as the rate of change of option value, per 100% volatilty.
+@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.
+
+* The returned value will be expressed as the rate of change of option value, per 100% volatility.
+
 @EXAMPLES=
 
 @SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA
@@ -2587,6 +2589,7 @@ Where @time is the time to maturity of the option expressed in years
 @volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.  
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield
 * The returned value will be expressed as the rate of change of delta per unit change in @spot.
+
 @EXAMPLES=
 
 @SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA
@@ -2602,6 +2605,7 @@ Where @time is the time to maturity of the option expressed in years
 @rate is the risk-free interest rate to the exercise date, in percent.
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield
 * The returned value will be expressed as the rate of change of option value, per 100% change in @rate.
+
 @EXAMPLES=
 
 @SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA
@@ -2618,6 +2622,7 @@ and @rate is the risk-free interest rate to the exercise date, in percent.
 @volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield
 * The returned value will be expressed as minus the rate of change of option value, per 365.25 days.
+
 @EXAMPLES=
 
 @SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA
@@ -2630,8 +2635,10 @@ and @rate is the risk-free interest rate to the exercise date, in percent.
 @volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.
  @time is the time to maturity of the option expressed in years
 @rate is the risk-free interest rate to the exercise date, in percent.
-@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield
-* The returned value will be expressed as the rate of change of option value, per 100% volatilty.
+@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.
+
+* The returned value will be expressed as the rate of change of option value, per 100% volatility.
+
 @EXAMPLES=
 
 @SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA
@@ -2644,7 +2651,7 @@ and @rate is the risk-free interest rate to the exercise date, in percent.
 @spot is the spot price of the underlying asset 
 @strike_call is the strike price at which the option is struck 
 @strike_put is the strike price at which the option is struck 
-@time is the time in years until the holder choses a put or a call option 
+@time is the time in years until the holder chooses a put or a call option 
 @time_call is the time in years to maturity of the call option if chosen
 @time_put is the time in years  to maturity of the put option if chosen
 @rate is the risk annualised free rate of interest 
@@ -2667,6 +2674,7 @@ One would expect this to always be a call option
 @volatility is the annualised volatility in price of the underlying 
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield
 @lambda is the jump rate for executives. The model assumes executives forfeit their options if they leave the company.
+
 @EXAMPLES=
 
 @SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA
@@ -2674,7 +2682,7 @@ One would expect this to always be a call option
 @CATEGORY=Finance
 @FUNCTION=OPT_EXTENDIBLE_WRITER
 @SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,rate,cost_of_carry,volatility)
-@DESCRIPTION=OPT_EXTENDIBLE_WRITER models the theoretical price of extendible writer options. These are options that can be excercised at an initial period, @time1, or their maturity extended to @time2 if the option is out of the money at @time1 
+@DESCRIPTION=OPT_EXTENDIBLE_WRITER models the theoretical price of extendible writer options. These are options that can be exercised at an initial period, @time1, or their maturity extended to @time2 if the option is out of the money at @time1 
 @call_put_flag is c or p to indicate whether the option is a call or a put 
 @spot is the spot price of the underlying asset 
 @strike1 is the strike price at which the option is struck 
@@ -2711,19 +2719,20 @@ One would expect this to always be a call option
 @DESCRIPTION=OPT_FRENCH values the theoretical price of a European option adjusted for trading day volatility, struck at @strike on an asset with spot price @spot.
 @call_put_flag is c or p to indicate whether the option is a call or a put 
 @volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.
- @time the number of calander days to exercise divided by calander days in the year 
-@t2 is the numvber of trading days to excercise dividded by trading days in the year
+ @time the number of calendar days to exercise divided by calander days in the year 
+@t2 is the number of trading days to exercise divided by trading days in the year
 @rate is the risk-free interest rate 
-@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yieldto the exercise date, in percent.
+@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield to the exercise date, in percent.
 
-* The returned value will be expressed as the rate of change of option value, per 100% volatilty.
+* The returned value will be expressed as the rate of change of option value, per 100% volatility.
+
 @EXAMPLES=
 
 @SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_GARMAN_KOHLHAGEN
-@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domesitc_rate,foreign_rate,volatility[,cost_of_carry])
+@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domestic_rate,foreign_rate,volatility[,cost_of_carry])
 @DESCRIPTION=OPT_GARMAN_KOHLHAGEN values the theoretical price of a European currency option struck at @strike on an asset with spot price @spot.
 @call_put_flag is c or p to indicate whether the option is a call or a put 
 @volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date. 
@@ -2731,7 +2740,8 @@ One would expect this to always be a call option
 @domestic_rate is the domestic risk-free interest rate to the exercise date 
 @foreign_rate is the foreign risk-free interest rate to the exercise date, in percent.
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield
-* The returned value will be expressed as the rate of change of option value, per 100% volatilty.
+* The returned value will be expressed as the rate of change of option value, per 100% volatility.
+
 @EXAMPLES=
 
 @SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA
@@ -2739,15 +2749,16 @@ One would expect this to always be a call option
 @CATEGORY=Finance
 @FUNCTION=OPT_JUMP_DIFF
 @SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,lambda,gamma)
-@DESCRIPTION=OPT_JUMP_DIFF models the theoretical price of an option according to the Jump Diffussion process (Merton).
+@DESCRIPTION=OPT_JUMP_DIFF models the theoretical price of an option according to the Jump Diffusion process (Merton).
 @call_put_flag is c or p to indicate whether the option is a call or a put 
 @spot is the spot price of the underlying
 @strike is the strike price of the option
 @time is the time to maturity of the option expressed in years
 @rate is the annualised rate of interest
-@volatility is the annulised volatility of the underlying asset
+@volatility is the annualized volatility of the underlying asset
 @lambda is expected number of 'jumps' per year
 @gamma is proportion of volatility explained by the 'jumps'
+
 @EXAMPLES=
 
 @SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA
@@ -2762,14 +2773,15 @@ One would expect this to always be a call option
 @x is is the strike price 
 @t1 is the time to maturity of the option 
 @t2 is the time to maturity of the underlying commodity futures contract 
-@v_s is the volatility of the spot comodity price 
-@v_e is the volatitlity of the future convenience yeild 
+@v_s is the volatility of the spot commodity price 
+@v_e is the volatility of the future convenience yield 
 @v_f is the volatility of the forward rate of interest 
 @rho_se is correlation between the spot commodity price and the convenience yield
 @rho_sf is correlation between the spot commodity price and the forward interest rate 
 @rho_ef is correlation between the forward interest rate and the convenience yield 
 @kappa_e is the speed of mean reversion of the convenience yield 
 @kappa_f is the speed of mean reversion of the forward interest rate 
+
 @EXAMPLES=
 
 @SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA
@@ -2783,7 +2795,7 @@ One would expect this to always be a call option
 @strike1 is the strike price at which the option is struck 
 @strike2 is the strike price at which the option is struck 
 @time1 is the time in years to maturity of the option 
-@time2 is the timee in years to the maturity of the underlying option 
+@time2 is the time in years to the maturity of the underlying option 
 (@time2 >= @time1)
 @rate is the risk annualised free rate of interest 
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield
@@ -2798,13 +2810,13 @@ One would expect this to always be a call option
 @SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)
 @DESCRIPTION=OPT_RGW models the theoretical price of an american option according to the Roll-Geske-Whaley approximation where: 
 @call_put_flag is c or p to indicate whether the option is a call or a put 
-@spot is the spot price of the unerlying asset
+@spot is the spot price of the underlying asset
 @strike is the strike price at which the option is struck
 @t1 is the time to the dividend payout
 @t2 is the time to option expiration.
 @rate is the annualised rate of interest
 @d is the amount of the dividend to be paid 
-@volatility is the annulised rate of volatility of the underlying asset
+@volatility is the annualized rate of volatility of the underlying asset
 
 @EXAMPLES=
 
@@ -2833,10 +2845,10 @@ The holder receives @a * @dt for each period dt that the asset price was greater
 @call_put_flag is c or p to indicate whether the option is a call or a put 
 @spot is the spot price of the underlying asset 
 @strike is the strike price at which the option is struck 
-@a is the amount recieved for each time period as discussed above
+@a is the amount received for each time period as discussed above
 @time is the maturity of the option in years 
 @m is the number of time units the option has already met the condition 
-@dt is the agreed upon discretef time period (often a day) expressed as a fraction of a year 
+@dt is the agreed upon discrete time period (often a day) expressed as a fraction of a year 
 @rate is the risk annualised free rate of interest 
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield
 @EXAMPLES=
@@ -2952,7 +2964,7 @@ IPMT(per) = amount of interest for period @per
 @SYNTAX=PV(rate,nper,pmt[,fv,type])
 @DESCRIPTION=PV calculates the present value of an investment. @rate is the periodic interest rate, @nper is the number of periods used for compounding. @pmt is the payment made each period, @fv is the future value and @type is when the payment is made.
 
-* If @type = 1 then the payment is made at the begining of the period.
+* If @type = 1 then the payment is made at the beginning of the period.
 * If @type = 0 (or omitted) it is made at the end of each period.
 @EXAMPLES=
 
@@ -2975,7 +2987,7 @@ IPMT(per) = amount of interest for period @per
 @SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])
 @DESCRIPTION=RECEIVED calculates and returns the amount to be received at maturity date for a security bond.
 
-@settlement is the settlement date of the security.  @maturity is the maturity date of the security.  The amount of investement is specified in @investment.  @rate is the security's discount rate.
+@settlement is the settlement date of the security.  @maturity is the maturity date of the security.  The amount of investment is specified in @investment.  @rate is the security's discount rate.
 
 @basis is the type of day counting system you want to use:
 
@@ -3001,10 +3013,10 @@ IPMT(per) = amount of interest for period @per
 
 The formula is:
 
-Depriciation expense = ( @cost - @salvage_value ) / @life
+Depreciation expense = ( @cost - @salvage_value ) / @life
 
 @cost is the cost of an asset when acquired (market value).
-@salvage_value is the amount you get when asset is sold at the end of the assets's useful life.
+@salvage_value is the amount you get when asset is sold at the end of the asset's useful life.
 @life is the anticipated life of an asset.
 
 * If @life <= 0, SLN returns #NUM! error.
@@ -3022,7 +3034,7 @@ This will return the yearly depreciation figure of $930.
 
 The Formula used for sum-of-years digits depreciation is:
 
-Depriciation expense =
+Depreciation expense =
 
 	 ( @cost - @salvage_value ) * (@life - @period + 1) * 2 / @life * (@life + 1).
 
@@ -3210,7 +3222,7 @@ GNUMERIC_VERSION().
 * This function is Excel compatible.
 
 @EXAMPLES=
-CEll("format",A1) returns the code of the format of the cell A1.
+Cell("format",A1) returns the code of the format of the cell A1.
 
 @SEEALSO=
 
@@ -3508,7 +3520,7 @@ FALSE() equals FALSE.
 @SYNTAX=IF(condition[,if-true,if-false])
 @DESCRIPTION=IF function can be used to evaluate conditionally other expressions. IF evaluates @condition.  If @condition returns a non-zero value the result of the IF expression is the @if-true expression, otherwise IF evaluates to the value of @if-false.
 
-* If ommitted @if-true defaults to TRUE and @if-false to FALSE.
+* If omitted @if-true defaults to TRUE and @if-false to FALSE.
 * This function is Excel compatible.
 
 @EXAMPLES=
@@ -3656,7 +3668,7 @@ COLUMNS(H2:J3) equals 3.
 @CATEGORY=Lookup
 @FUNCTION=HLOOKUP
 @SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])
-@DESCRIPTION=HLOOKUP function finds the col in range that has a first row cell similar to @value.  If @approximate is not true it finds the col with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the col with value less than @value it returns the value in the col found at a 1-based offset in @row rows into the @range.  @as_index returns the 0-based offset that matched rather than the value.
+@DESCRIPTION=HLOOKUP function finds the col in range that has a first row cell similar to @value.  If @approximate is not true it finds the col with an exact equivalence.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the col with value less than @value it returns the value in the col found at a 1-based offset in @row rows into the @range.  @as_index returns the 0-based offset that matched rather than the value.
 
 * HLOOKUP returns #NUM! if @row < 0.
 * HLOOKUP returns #REF! if @row falls outside @range.
@@ -3680,7 +3692,7 @@ HYPERLINK("www.gnome.org","GNOME").
 @SYNTAX=INDEX(array,[row, col, area])
 @DESCRIPTION=INDEX gives a reference to a cell in the given @array.The cell is pointed out by @row and @col, which count the rows and columns in the array.
 
-* If @row and @col are ommited the are assumed to be 1.
+* If @row and @col are omited the are assumed to be 1.
 * If the reference falls outside the range of the @array, INDEX returns a #REF! error.
 
 @EXAMPLES=Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25.9
@@ -3690,7 +3702,7 @@ HYPERLINK("www.gnome.org","GNOME").
 @CATEGORY=Lookup
 @FUNCTION=INDIRECT
 @SYNTAX=INDIRECT(ref_text,[format])
-@DESCRIPTION=INDIRECT function returns the contents of the cell pointed to by the @ref_text string. The string specifices a single cell reference the format of which is either A1 or R1C1 style. The style is set by the @format boolean, which defaults to the A1 style.
+@DESCRIPTION=INDIRECT function returns the contents of the cell pointed to by the @ref_text string. The string specifies a single cell reference the format of which is either A1 or R1C1 style. The style is set by the @format boolean, which defaults to the A1 style.
 
 * If @ref_text is not a valid reference returns #REF! 
 @EXAMPLES=
@@ -3778,7 +3790,7 @@ ROWS(H7:I13) equals 7.
 @CATEGORY=Lookup
 @FUNCTION=VLOOKUP
 @SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])
-@DESCRIPTION=VLOOKUP function finds the row in range that has a first column similar to @value.  If @approximate is not true it finds the row with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the row with value less than @value.  It returns the value in the row found at a 1-based offset in @column columns into the @range.  @as_index returns the 0-based offset that matched rather than the value.
+@DESCRIPTION=VLOOKUP function finds the row in range that has a first column similar to @value.  If @approximate is not true it finds the row with an exact equivalence.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the row with value less than @value.  It returns the value in the row found at a 1-based offset in @column columns into the @range.  @as_index returns the 0-based offset that matched rather than the value.
 
 * VLOOKUP returns #NUM! if @column < 0.
 * VLOOKUP returns #REF! if @column falls outside @range.
@@ -4036,7 +4048,7 @@ EVEN(5.4) equals 6.
 @CATEGORY=Mathematics
 @FUNCTION=EXP
 @SYNTAX=EXP(x)
-@DESCRIPTION=EXP computes the value of e (the base of natural logarithmns) raised to the power of @x.
+@DESCRIPTION=EXP computes the value of e (the base of natural logarithms) raised to the power of @x.
 
 * This function is Excel compatible.
 
@@ -4337,8 +4349,8 @@ PRODUCT(2,5,9) equals 90.
 
 @CATEGORY=Mathematics
 @FUNCTION=QUOTIENT
-@SYNTAX=QUOTIENT(numerator,denumerator)
-@DESCRIPTION=QUOTIENT function returns the integer portion of a division.  @numerator is the divided number and @denumerator is the divisor.
+@SYNTAX=QUOTIENT(numerator,denominator)
+@DESCRIPTION=QUOTIENT function returns the integer portion of a division.  @numerator is the divided number and @denominator is the divisor.
 
 * This function is Excel compatible.
  
@@ -4439,7 +4451,7 @@ ROUNDUP(1501.15,-2) equals 1600.0.
 @CATEGORY=Mathematics
 @FUNCTION=SERIESSUM
 @SYNTAX=SERIESSUM(x,n,m,coefficients)
-@DESCRIPTION=SERIESSUM function returns the sum of a power series.  @x is the base of the power series, @n is the initial power to raise @x, @m is the increment to the power for each term in the series, and @coefficients is the coefficents by which each successive power of @x is multiplied.
+@DESCRIPTION=SERIESSUM function returns the sum of a power series.  @x is the base of the power series, @n is the initial power to raise @x, @m is the increment to the power for each term in the series, and @coefficients are the coefficients by which each successive power of @x is multiplied.
 
 * This function is Excel compatible.
 
@@ -4789,7 +4801,7 @@ RANDBINOM(0.5,2).
 @CATEGORY=Random Numbers
 @FUNCTION=RANDCAUCHY
 @SYNTAX=RANDCAUCHY(a)
-@DESCRIPTION=RANDCAUCHY returns a cauchy-distributed random number with scale parameter a. The Cauchy distribution is also known as the Lorentz distribution.
+@DESCRIPTION=RANDCAUCHY returns a Cauchy-distributed random number with scale parameter a. The Cauchy distribution is also known as the Lorentz distribution.
 
 * If @a < 0 RANDCAUCHY returns #NUM! error.
 
@@ -4811,7 +4823,7 @@ RANDCHISQ(0.5).
 @CATEGORY=Random Numbers
 @FUNCTION=RANDDISCRETE
 @SYNTAX=RANDDISCRETE(val_range[,prob_range])
-@DESCRIPTION=RANDDISCRETE returns one of the values in the @val_range. The probablilites for each value are given in the @prob_range.
+@DESCRIPTION=RANDDISCRETE returns one of the values in the @val_range. The probabilities for each value are given in the @prob_range.
 
 * If @prob_range is omitted, the uniform discrete distribution is assumed.
 * If the sum of all values in @prob_range is other than one, RANDDISCRETE returns #NUM! error.
@@ -4841,7 +4853,7 @@ RANDEXP(0.5).
 	p(x) dx = {1 over 2 a Gamma(1+1/b)} exp(-|x/a|^b) dx, for x >= 0.
 
 * For @b = 1 this reduces to the Laplace distribution.
-* For @b = 2 it has the same form as a gaussian distribution with sigma = a/sqrt(2).
+* For @b = 2 it has the same form as a Gaussian distribution with sigma = a/sqrt(2).
 
 @EXAMPLES=
 RANDEXPPOW(0.5,0.1).
@@ -4873,7 +4885,7 @@ RANDGAMMA(1,2).
 @CATEGORY=Random Numbers
 @FUNCTION=RANDGAUSSIAN
 @SYNTAX=RANDGAUSSIAN(mean,stdev)
-@DESCRIPTION=RANDGAUSSIAN returns a gaussian-distributed random number.
+@DESCRIPTION=RANDGAUSSIAN returns a Gaussian-distributed random number.
 
 * If @stdev < 0 RANDGAUSSIAN returns #NUM! error.
 
@@ -5041,7 +5053,7 @@ RANDPARETO(1,2).
 @CATEGORY=Random Numbers
 @FUNCTION=RANDPOISSON
 @SYNTAX=RANDPOISSON(lambda)
-@DESCRIPTION=RANDPOISSON returns a poisson-distributed random number.
+@DESCRIPTION=RANDPOISSON returns a Poisson-distributed random number.
 
 * If @lambda < 0 RANDPOISSON returns #NUM! error.
 
@@ -5116,7 +5128,7 @@ RANDWEIBULL(1,2).
 
 With the simulation tool and the SIMTABLE function you can test given decision variables. Each SIMTABLE function contains the possible values of a simulation variable. In most valid simulation models you should have the same number of values @dN for all decision variables.  If the simulation is run more rounds than there are values defined, SIMTABLE returns #N/A! error (e.g. if A1 contains `=SIMTABLE(1)' and A2 `=SIMTABLE(1,2)', A1 yields #N/A! error on the second round).
 
-The successive use of the simulation tool also requires that you give to the tool at least one input variable having RAND() or any other RAND<distribution name>() function in it. On each round, the simulation tool iterates for thegiven number of rounds over all the input variables to reevaluate them. On each iteration, the values of the output variables are stored, and when the round is completed, descriptive statistical information is created according to the values.
+The successive use of the simulation tool also requires that you give to the tool at least one input variable having RAND() or any other RAND<distribution name>() function in it. On each round, the simulation tool iterates for the given number of rounds over all the input variables to reevaluate them. On each iteration, the values of the output variables are stored, and when the round is completed, descriptive statistical information is created according to the values.
 
 @EXAMPLES=
 SIMTABLE(TRUE,FALSE) returns TRUE on the first simulation round and FALSE on the second round.
@@ -5195,7 +5207,7 @@ BETADIST(0.12,2,3) equals 0.07319808.
 @CATEGORY=Statistics
 @FUNCTION=BETAINV
 @SYNTAX=BETAINV(p,alpha,beta[,a,b])
-@DESCRIPTION=BETAINV function returns the inverse of cumulative beta distribution.  @a is the optional lower bound of @x and @b is the optinal upper bound of @x.
+@DESCRIPTION=BETAINV function returns the inverse of cumulative beta distribution.  @a is the optional lower bound of @x and @b is the optional upper bound of @x.
 
 * If @a is not given, BETAINV uses 0.
 * If @b is not given, BETAINV uses 1.
@@ -5611,7 +5623,7 @@ HARMEAN(A1:A5) equals 19.529814427.
 @CATEGORY=Statistics
 @FUNCTION=HYPGEOMDIST
 @SYNTAX=HYPGEOMDIST(x,n,M,N)
-@DESCRIPTION=HYPGEOMDIST function returns the hypergeometric distribution. @x is the number of successes in the sample, @n is the number of trials, @M is the number of successes overall, and @N is thepopulation size.
+@DESCRIPTION=HYPGEOMDIST function returns the hypergeometric distribution. @x is the number of successes in the sample, @n is the number of trials, @M is the number of successes overall, and @N is the population size.
 
 * If @x,@n,@M or @N is a non-integer it is truncated.
 * If @x,@n,@M or @N < 0 HYPGEOMDIST returns #NUM! error.
@@ -6005,7 +6017,7 @@ PERCENTILE(A1:A5,0.42) equals 20.02.
 @CATEGORY=Statistics
 @FUNCTION=PERCENTRANK
 @SYNTAX=PERCENTRANK(array,x[,significance])
-@DESCRIPTION=PERCENTRANK function returns the rank of a data point in a data set.  @array is the range of numeric values, @x is the data point which you want to rank, and the optional @significance indentifies the number of significant digits for the returned value, truncating the remainder.  If @significance is omitted, PERCENTRANK uses three digits.
+@DESCRIPTION=PERCENTRANK function returns the rank of a data point in a data set.  @array is the range of numeric values, @x is the data point which you want to rank, and the optional @significance specifies the number of significant digits for the returned value, truncating the remainder.  If @significance is omitted, PERCENTRANK uses three digits.
 
 * If @array contains no data points, PERCENTRANK returns #NUM! error.
 * If @significance is less than one, PERCENTRANK returns #NUM! error.
@@ -6033,7 +6045,7 @@ PERMUT(7,3) equals 210.
 @CATEGORY=Statistics
 @FUNCTION=POISSON
 @SYNTAX=POISSON(x,mean,cumulative)
-@DESCRIPTION=POISSON function returns the Poisson distribution. @x is the number of events, @mean is the expected numeric value @cumulative describes whether to return the sum of the poisson function from 0 to @x.
+@DESCRIPTION=POISSON function returns the Poisson distribution. @x is the number of events, @mean is the expected numeric value @cumulative describes whether to return the sum of the Poisson function from 0 to @x.
 
 * If @x is a non-integer it is truncated.
 * If @x < 0 POISSON returns #NUM! error.
@@ -6745,7 +6757,7 @@ TRIM("  a bbb  cc") equals "a bbb cc".
 @CATEGORY=String
 @FUNCTION=UNICHAR
 @SYNTAX=UNICHAR(x)
-@DESCRIPTION=UNICHAR returns the unicode character represented by the number @x.
+@DESCRIPTION=UNICHAR returns the Unicode character represented by the number @x.
 
 @EXAMPLES=
 UNICHAR(65) equals A.
@@ -6756,7 +6768,7 @@ UNICHAR(8232) equals an carriage return error.
 @CATEGORY=String
 @FUNCTION=UNICODE
 @SYNTAX=UNICODE(char)
-@DESCRIPTION=UNICODE returns the unicode number for the character @char.
+@DESCRIPTION=UNICODE returns the Unicode number for the character @char.
 
 
 @EXAMPLES=
@@ -6772,7 +6784,7 @@ UNICODE("A") equals 65.
 * This function is Excel compatible.
 
 @EXAMPLES=
-UPPER("canceled") equals "CANCELED".
+UPPER("cancelled") equals "CANCELLED".
 
 @SEEALSO=LOWER
 
