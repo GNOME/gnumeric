@@ -30,7 +30,6 @@
 #include "utils-dialog.h"
 #include "widgets/gnumeric-expr-entry.h"
 
-#include <stdio.h>
 #define SOLVER_KEY            "solver-dialog"
 
 typedef struct {
@@ -64,10 +63,11 @@ typedef struct {
 
 
 /* Different constraint types */
-static char const * constraint_strs[] = {
+static char const * constraint_strs_untranslated[] = {
         N_("<="),
 	N_(">="),
 	N_("="),
+ /* xgettext: Int == Integer constraint for the linear program */
 	N_("Int"),
 /*	N_("Bool"), */
 	NULL
@@ -76,6 +76,7 @@ static char const * constraint_strs[] = {
 typedef struct {
 	GtkCList *c_listing;
 	GSList *c_list;
+	Sheet *sheet;
 } constraint_conversion_t;
 
 typedef enum {
@@ -83,7 +84,8 @@ typedef enum {
 	CONSTRAINT_GREATER_EQUAL = 1,
 	CONSTRAINT_EQUAL = 2,
 	CONSTRAINT_INTEGER = 3,
-	CONSTRAINT_BOOLEAN = 4
+	CONSTRAINT_BOOLEAN = 4,
+	CONSTRAINT_NOSUCH_TYPE = 3
 } constraint_type_t;
 
 typedef struct {
@@ -301,7 +303,7 @@ cb_dialog_add_clicked (GtkWidget *button, SolverState *state)
 					     the_constraint->lhs_value->v_range.cell.a.row,
 					     the_constraint->rhs_value->v_range.cell.a.col, 
 					     the_constraint->rhs_value->v_range.cell.a.row,
-					     constraint_strs[the_constraint->type],
+					     constraint_strs_untranslated[the_constraint->type],
 					     the_constraint->lhs_value->v_range.cell.b.col -
 					     the_constraint->lhs_value->v_range.cell.a.col + 1,
 					     the_constraint->lhs_value->v_range.cell.b.row -
@@ -312,7 +314,7 @@ cb_dialog_add_clicked (GtkWidget *button, SolverState *state)
 		texts[0] = write_constraint_str (the_constraint->lhs_value->v_range.cell.a.col, 
 					     the_constraint->lhs_value->v_range.cell.a.row,
 					     0, 0,
-					     constraint_strs[the_constraint->type],
+					     constraint_strs_untranslated[the_constraint->type],
 					     the_constraint->lhs_value->v_range.cell.b.col -
 					     the_constraint->lhs_value->v_range.cell.a.col + 1,
 					     the_constraint->lhs_value->v_range.cell.b.row -
@@ -561,7 +563,8 @@ cb_dialog_close_clicked (GtkWidget *button, SolverState *state)
 static Value *
 grab_cells (Sheet *sheet, int col, int row, Cell *cell, void *user_data) 
 {
-	GList ** the_list = user_data;
+	GList ** the_list;
+	the_list = user_data;
 
 	*the_list = g_list_prepend (*the_list, cell);
 	return NULL;
@@ -595,7 +598,7 @@ check_int_constraints (Value *input_range, GtkCList *constraint_list)
  *  convert_constraint_format:
  *  @conv: 
  *  
- *  We really shouldn't need this if we change the engine to 
+ *  We really shouldn't need this if we change the engine and mps to
  *  understand `value' based constraints.
  */
 static void
@@ -616,7 +619,8 @@ convert_constraint_format (constraint_conversion_t * conv)
 			- a_constraint->lhs_value->v_range.cell.a.row +1;
 		engine_constraint->cols  = a_constraint->lhs_value->v_range.cell.b.col 
 			- a_constraint->lhs_value->v_range.cell.a.col +1;
-		engine_constraint->type = g_strdup (constraint_strs[a_constraint->type]);
+		engine_constraint->type = g_strdup (constraint_strs_untranslated
+						    [a_constraint->type]);
 		if ((a_constraint->type == CONSTRAINT_INTEGER) 
 		    || (a_constraint->type == CONSTRAINT_BOOLEAN)) {
 			engine_constraint->rhs.col  = 0;
@@ -630,11 +634,67 @@ convert_constraint_format (constraint_conversion_t * conv)
 		engine_constraint->str = write_constraint_str (
 			engine_constraint->lhs.col, engine_constraint->lhs.row,
 			engine_constraint->rhs.col, engine_constraint->rhs.row,
-			constraint_strs[a_constraint->type], engine_constraint->cols,
+			constraint_strs_untranslated[a_constraint->type], 
+			engine_constraint->cols,
 			engine_constraint->rows);
 		conv->c_list = g_slist_prepend (conv->c_list, engine_constraint);
 	}
 	return;	
+}
+
+/*
+ *  get_constraint_type:
+ *  @type_str: 
+ *  
+ */
+static constraint_type_t
+get_constraint_type (const char* type_str) 
+{
+	constraint_type_t i;
+	
+	for (i=0; constraint_strs_untranslated[i] != NULL; i++)
+		if (strcmp (type_str, constraint_strs_untranslated[i]) == 0)
+			return i;
+	return CONSTRAINT_NOSUCH_TYPE;
+} 
+
+/*
+ *  revert_constraint_format:
+ *  @conv: 
+ *  
+ *  We really shouldn't need this if we change the engine and mps to
+ *  understand `value' based constraints.
+ */
+static void
+revert_constraint_format (constraint_conversion_t * conv)
+{
+	constraint_t * a_constraint;
+	GSList *engine_constraint_list = conv->c_list;
+	SolverConstraint *engine_constraint;
+	gchar *text[2] = {NULL, NULL};
+	Range r;
+
+	while (engine_constraint_list != NULL) {
+		engine_constraint = (SolverConstraint *) engine_constraint_list->data;
+		a_constraint = g_new(constraint_t,1);
+		r.start.col = engine_constraint->lhs.col;
+		r.start.row = engine_constraint->lhs.row;
+		r.end.col = r.start.col + engine_constraint->cols - 1;
+		r.end.row = r.start.row + engine_constraint->rows - 1;
+		a_constraint->lhs_value = value_new_cellrange_r (conv->sheet, &r);
+		r.start.col = engine_constraint->rhs.col;
+		r.start.row = engine_constraint->rhs.row;
+		r.end.col = r.start.col + engine_constraint->cols - 1;
+		r.end.row = r.start.row + engine_constraint->rows - 1;
+		a_constraint->rhs_value = value_new_cellrange_r (conv->sheet, &r);
+		a_constraint->type = get_constraint_type (engine_constraint->type);
+		text[0] = engine_constraint->str;
+		gtk_clist_set_row_data_full(conv->c_listing,
+					    gtk_clist_prepend (conv->c_listing, text),
+					    a_constraint,
+					    (GtkDestroyNotify) release_constraint);
+		engine_constraint_list = engine_constraint_list->next;
+	}
 }
 
 /**
@@ -692,16 +752,20 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 	Value              *input_range;
         CellList           *input_cells = NULL;
 	Value              *result;
-	EvalPos            *pos = g_new (EvalPos, 1);
+	EvalPos            *pos;
 	CellPos            cellpos = {0, 0};
 	gint               i;
 	gboolean           answer, sensitivity, limits;
 
-	pos = eval_pos_init (pos, state->sheet, &cellpos);
+	pos = g_new (EvalPos, 1);
+	pos = eval_pos_init(pos, state->sheet, &cellpos);
 
 	text = gtk_entry_get_text (GTK_ENTRY (state->target_entry));
 	target_range = global_range_parse (state->sheet, text);
 	text = gtk_entry_get_text (GTK_ENTRY (state->change_cell_entry));
+	if (state->sheet->solver_parameters.input_entry_str != NULL)
+		g_free(state->sheet->solver_parameters.input_entry_str);
+	state->sheet->solver_parameters.input_entry_str = g_strdup(text);
 	input_range = global_range_parse (state->sheet, text);
 
 	state->sheet->solver_parameters.target_cell = sheet_cell_fetch (state->sheet, 
@@ -732,7 +796,8 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 	i = check_int_constraints (input_range, state->constraint_list);
 	
 	if (i == -1) {
-		constraint_conversion_t conv = {NULL, NULL};
+		constraint_conversion_t conv = {NULL, NULL, NULL};
+		conv.sheet = state->sheet;
 		conv.c_listing = state->constraint_list;
 		convert_constraint_format (&conv);
 		if (state->sheet->solver_parameters.constraints != NULL) {
@@ -822,6 +887,7 @@ static gboolean
 dialog_init (SolverState *state)
 {
 	GtkTable *table;
+	constraint_conversion_t conv;
 
 	state->gui = gnumeric_glade_xml_new (state->wbcg, "solver.glade");
         if (state->gui == NULL)
@@ -974,6 +1040,34 @@ dialog_init (SolverState *state)
 
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (dialog_destroy), state);
+
+/* Loading the old solver specs... from state->sheet->solver_parameters  */
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget(state->gui, "lin_model_button")),
+			state->sheet->solver_parameters.options.assume_linear_model);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget(state->gui, "non_neg_button")),
+			state->sheet->solver_parameters.options.assume_non_negative);
+	if (state->sheet->solver_parameters.input_entry_str != NULL)
+		gtk_entry_set_text (GTK_ENTRY(state->change_cell_entry), 
+				    state->sheet->solver_parameters.input_entry_str );
+	if (state->sheet->solver_parameters.target_cell != NULL) 
+		gtk_entry_set_text (GTK_ENTRY(state->target_entry), 
+				    cell_name(state->sheet->solver_parameters.target_cell));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget(state->gui, "max_button")),
+			state->sheet->solver_parameters.problem_type == SolverMaximize);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget(state->gui, "min_button")),
+			state->sheet->solver_parameters.problem_type == SolverMinimize);
+
+	conv.c_listing = state->constraint_list;
+	conv.c_list = state->sheet->solver_parameters.constraints;
+	conv.sheet = state->sheet;
+	revert_constraint_format (&conv);
+
+/* Done */
 
 	gtk_widget_grab_focus (GTK_WIDGET (state->target_entry));
 

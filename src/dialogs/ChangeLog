@@ -1,3 +1,13 @@
+2001-11-2  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-solver.c (dialog_init) : Reload solver state (constraints, 
+	  target cell, etc.) on invocation.
+	(get_constraint_type) : translate string type into numeric type
+	(revert_constraint_format) : translate solver engine constraint format 
+	  to dialog format
+	(cb_dialog_solve_clicked) : also store user visible strings describing
+	  the constraints
+
 2001-11-01  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-autocorrect.c (cb_remove_clicked) : generalize and fix leak.
