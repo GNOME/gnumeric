@@ -19,6 +19,7 @@ Jody:
 Morten:
 	* Fix SUBSTITUTE.  [#165996]
 	* Fix numeric inputs in xbase. [#166311]
+	* Fix #decimals issue for print page setup.
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.2

@@ -1,3 +1,9 @@
+2005-02-18  Morten Welinder  <terra@gnome.org>
+
+	* dialog-printer-setup.c (spin_button_adapt_to_unit): Fix
+	#decimals for mm.
+	(canvas_update): Setup the spin button correctly.
+
 2005-01-17  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.2
