@@ -145,6 +145,9 @@ void     gnm_gconf_set_default_font_name (char const *str);
 void     gnm_gconf_set_default_font_bold (gboolean val);
 void     gnm_gconf_set_default_font_italic (gboolean val);
 
+/* hf font */
+void     gnm_gconf_set_hf_font (GnmStyle const *mstyle);
+
 /**************************************************************/
 
 char	*go_conf_get_short_desc     (char const *key);

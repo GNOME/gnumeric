@@ -1,5 +1,10 @@
 2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/gnumeric-gconf.c (gnm_gconf_set_hf_font): new
+	* src/gnumeric-gconf.h (gnm_gconf_set_hf_font): new
+
+2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/gnumeric-gconf.c (gnm_gconf_set_default_font_name): avoid 
 	  warning
 

@@ -962,3 +962,26 @@ gnm_gconf_set_default_font_italic (gboolean val)
 	go_conf_set_bool (GNM_CONF_FONT_ITALIC, val);
 }
 
+void
+gnm_gconf_set_hf_font (GnmStyle const *mstyle)
+{
+	GnmStyle *old_style = (prefs.printer_decoration_font != NULL) ?
+		prefs.printer_decoration_font :
+		mstyle_new_default ();
+	
+	prefs.printer_decoration_font = mstyle_copy_merge (old_style, mstyle);
+	mstyle_unref (old_style);
+	
+	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_SIZE))
+		go_conf_set_double (PRINTSETUP_GCONF_HF_FONT_SIZE,
+			mstyle_get_font_size (mstyle));
+	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_NAME))
+		go_conf_set_string (PRINTSETUP_GCONF_HF_FONT_NAME,
+			mstyle_get_font_name (mstyle));
+	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_BOLD))
+		go_conf_set_bool (PRINTSETUP_GCONF_HF_FONT_BOLD,
+			mstyle_get_font_bold (mstyle));
+	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
+		go_conf_set_bool (PRINTSETUP_GCONF_HF_FONT_ITALIC,
+			mstyle_get_font_italic (mstyle));
+}
