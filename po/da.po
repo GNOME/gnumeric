@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
 "POT-Creation-Date: 2000-05-29 20:46+0200\n"
-"PO-Revision-Date: 2000-05-27 23:30+02:00\n"
+"PO-Revision-Date: 2000-05-29 23:30+02:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1108,13 +1108,13 @@ msgid "Parse error while trying to parse data into cellregion"
 msgstr "Fortolkningsfejl under førsøg på at fortolke data i en celleregion"
 
 #: src/cmd-edit.c:313
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "destination has a different shape (%dRx%dC) than the original (%dRx%dC)\n"
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"målet er ikke et lige gange antallet af kilderækker (%d mod %d)\n"
+"målet har hra en form (%dRx%dC) forskellig fra den oprindelige (%dRx%dC)\n"
 " \n"
 "Prøv at vælge en enkelt celle eller et område med samme form og størrelse."
 
@@ -1128,7 +1128,7 @@ msgstr "Indsæt"
 
 #: src/command-context.c:116
 msgid "Would split an array."
-msgstr ""
+msgstr "Ville opsplitte et array"
 
 #: src/commands.c:411 src/commands.c:508
 msgid "Set Text"
