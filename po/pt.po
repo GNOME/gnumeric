@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-11 23:32+0100\n"
-"PO-Revision-Date: 2004-08-11 23:40+0000\n"
+"POT-Creation-Date: 2004-08-14 19:56+0200\n"
+"PO-Revision-Date: 2004-08-15 01:15+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -1387,8 +1387,8 @@ msgid "MS Excel (tm) 97/2000/XP"
 msgstr "MS Excel (tm) 97/2000/XP"
 
 #: plugins/excel/plugin.xml.in.h:6
-msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
-msgstr "MS Excel (tm) 97/2000/XP & 5.0/95"
+msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
+msgstr "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:7
 msgid "MS Excel (tm) XML"
@@ -4578,6 +4578,11 @@ msgstr ""
 "@SEEALSO=NETWORKDAYS"
 
 #. Path of the current directory or folder.
+#. Absolute A1-style reference, as text, prepended with "$A:"
+#. * for Lotus 1-2-3 release 3.x compatibility. Returns the cell
+#. * reference of the top and leftmost cell visible in the
+#. * window, based on the current scrolling position.
+#.
 #: plugins/fn-date/functions.c:900 plugins/fn-eng/functions.c:100
 #: plugins/fn-info/functions.c:1276 plugins/fn-info/functions.c:1292
 msgid "Unimplemented"
@@ -17270,8 +17275,8 @@ msgid "HTML"
 msgstr "HTML"
 
 #: plugins/html/plugin.xml.in.h:2
-msgid "HTML & TeX"
-msgstr "HTML & TeX"
+msgid "HTML &amp; TeX"
+msgstr "HTML &amp; TeX"
 
 #: plugins/html/plugin.xml.in.h:3
 msgid "HTML (*.html) fragment"
@@ -20774,6 +20779,10 @@ msgid "Text (%s) to Columns (%s)"
 msgstr "Texto (%s) para Colunas (%s)"
 
 #. Fill in the header titles.
+#.
+#. * Fill in the titles.
+#.
+#. Fill in the header titles.
 #: src/commands.c:6283 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
@@ -23736,6 +23745,12 @@ msgstr "Nível Livro Trabalho"
 
 #.
 #. * Fill in the labels of `Target Cell' section.
+#.
+#.
+#. * Fill in the labels of `Adjustable Cells' section.
+#.
+#.
+#. * Fill in the labels of `Constraints' section.
 #.
 #: src/dialogs/dialog-goto-cell.c:296 src/dialogs/dialog-search.c:398
 #: src/dialogs/tabulate.glade.h:2 src/tools/solver/reports-write.c:80
@@ -29547,6 +29562,9 @@ msgstr "Relatório de Sensibilidade"
 #.
 #. * Fill in the labels of `Adjustable Cells' section.
 #.
+#.
+#. * Fill in the labels of `Constraints' section.
+#.
 #: src/tools/solver/reports-write.c:230 src/tools/solver/reports-write.c:276
 msgid "Final"
 msgstr "Final"
@@ -29741,6 +29759,7 @@ msgid "OS"
 msgstr "SO"
 
 #. Set the `CPU Model'.
+#. Set the `CPU Mhz'.
 #: src/tools/solver/reports-write.c:676 src/tools/solver/reports-write.c:679
 #: src/tools/solver/reports-write.c:683
 msgid "Unknown"
