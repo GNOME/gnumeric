@@ -1,3 +1,24 @@
+2001-08-30  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook.h (WORKBOOK_FOREACH_SHEET): New macro.
+	(WORKBOOK_FOREACH_DEPENDENT): Re-factor.
+	(Workbook): Move dependents to DependencyContainer, see below.
+	Introduce new external_dependents, not yet used.
+	
+	* src/sheet.h (SHEET_FOREACH_DEPENDENT): New macro.
+
+	* src/eval.h: (DependencyContainer): type moved from eval.c and
+ 	renamed from DependencyData.  Add dependent_list member which used
+ 	to be in Workbook.
+	(DEPENDENT_IS_CELL): New macro.  Put into used lots of places.
+	(DEPENDENT_CONTAINER_FOREACH_DEPENDENT): New macro.
+
+	* src/eval.c (cb_dependent_queue_recalc): Allocate single list
+ 	element on stack, not heap.
+	(dependent_queue_recalc_list): Don't essentailly copy all lists.
+	(UNLINK_DEP): Take only dep arguement and find the container from
+ 	that.
+
 2001-08-29  Morten Welinder  <terra@diku.dk>
 
 	* src/eval.c (workbook_queue_all_recalc): Avoid listifying.

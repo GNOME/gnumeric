@@ -35,10 +35,10 @@
 #include "cell.h"
 #include "sheet.h"
 
-#define UNLINK_DEP(wb,dep)						\
+#define UNLINK_DEP(dep)							\
   do {									\
-	if (wb->dependents == dep)					\
-		wb->dependents = dep->next_dep;				\
+	if (dep->sheet->deps->dependent_list == dep)			\
+		dep->sheet->deps->dependent_list = dep->next_dep;	\
 	if (dep->next_dep)						\
 		dep->next_dep->prev_dep = dep->prev_dep;		\
 	if (dep->prev_dep)						\
@@ -180,16 +180,23 @@ dependent_queue_recalc_list (GSList *list, gboolean recurse)
 		work = work->next;
 		g_slist_free_1 (list);
 
-		if ((DEPENDENT_TYPE (dep)) == DEPENDENT_CELL) {
+		if (DEPENDENT_IS_CELL (dep)) {
 			GSList *deps = cell_list_deps (DEP_TO_CELL (dep));
-			for (list = deps; list != NULL ; list = list->next) {
+			GSList *waste = NULL;
+			GSList *next;
+			for (list = deps; list != NULL ; list = next) {
 				Dependent *dep = list->data;
-				if (!(dep->flags & DEPENDENT_NEEDS_RECALC)) {
+				next = list->next;
+				if (dep->flags & DEPENDENT_NEEDS_RECALC) {
+					list->next = waste;
+					waste = list;
+				} else {
 					dependent_queue_recalc (dep);
-					work = g_slist_prepend (work, dep);
+					list->next = work;
+					work = list;
 				}
 			}
-			g_slist_free (deps);
+			g_slist_free (waste);
 		}
 	}
 }
@@ -201,28 +208,13 @@ cb_dependent_queue_recalc (Dependent *dep, gpointer ignore)
 	g_return_if_fail (dep != NULL);
 
 	if (!(dep->flags & DEPENDENT_NEEDS_RECALC)) {
-		GSList *list = g_slist_prepend (NULL, dep);
-		dependent_queue_recalc_list (list, TRUE);
-		g_slist_free (list);
+		GSList listrec;
+		listrec.next = NULL;
+		listrec.data =dep;
+		dependent_queue_recalc_list (&listrec, TRUE);
 	}
 }
 
-
-/*
- * dependent_unqueue:
- * @dep: the dependent to remove from the recomputation queue
- *
- * Removes a dependent that has been previously added to the recalc
- * queue.  Used internally when a dependent that was queued is changed or
- * removed.
- */
-void
-dependent_unqueue (Dependent *dep)
-{
-	g_return_if_fail (dep != NULL);
-
-	dep->flags &= ~(DEPENDENT_NEEDS_RECALC);
-}
 
 /**************************************************************************
  * Data structures for managing dependencies between objects.
@@ -265,19 +257,6 @@ typedef struct {
 	GSList  *dependent_list;
 } DependencySingle;
 
-struct _DependencyData {
-	/*
-	 *   Large ranges hashed on 'range' to accelerate duplicate
-	 * culling. This is tranversed by g_hash_table_foreach mostly.
-	 */
-	GHashTable *range_hash;
-	/*
-	 *   Single ranges, this maps an EvalPos * to a GSList of its
-	 * dependencies.
-	 */
-	GHashTable *single_hash;
-};
-
 typedef enum {
 	REMOVE_DEPS = 0,
 	ADD_DEPS = 1
@@ -287,9 +266,9 @@ static void
 handle_cell_single_dep (Dependent *dep, CellPos const *pos,
 			CellRef const *a, DepOperation operation)
 {
-	DependencyData   *deps;
+	DependencyContainer *deps;
 	DependencySingle *single;
-	DependencySingle  lookup;
+	DependencySingle lookup;
 
 	if (a->sheet == NULL)
 		deps = dep->sheet->deps;
@@ -330,7 +309,7 @@ handle_cell_single_dep (Dependent *dep, CellPos const *pos,
 }
 
 static void
-add_range_dep (DependencyData *deps, Dependent *dependent,
+add_range_dep (DependencyContainer *deps, Dependent *dependent,
 	       DependencyRange const *range)
 {
 	/* Look it up */
@@ -357,7 +336,7 @@ add_range_dep (DependencyData *deps, Dependent *dependent,
 }
 
 static void
-drop_range_dep (DependencyData *deps, Dependent *dependent,
+drop_range_dep (DependencyContainer *deps, Dependent *dependent,
 		DependencyRange const *range)
 {
 	DependencyRange *result;
@@ -414,7 +393,7 @@ handle_cell_range_deps (Dependent *dep, CellPos const *pos,
 			CellRef const *a, CellRef const *b, DepOperation operation)
 {
 	DependencyRange range;
-	DependencyData *depsa, *depsb;
+	DependencyContainer *depsa, *depsb;
 
 	deprange_init (&range, pos, a, b);
 
@@ -556,7 +535,7 @@ handle_tree_deps (Dependent *dep, CellPos const *pos,
 void
 dependent_link (Dependent *dep, CellPos const *pos)
 {
-	Workbook *wb;
+	Sheet *sheet;
 
 	g_return_if_fail (dep != NULL);
 	g_return_if_fail (dep->expression != NULL);
@@ -564,14 +543,14 @@ dependent_link (Dependent *dep, CellPos const *pos)
 	g_return_if_fail (IS_SHEET (dep->sheet));
 	g_return_if_fail (dep->sheet->deps != NULL);
 
-	wb = dep->sheet->workbook;
+	sheet = dep->sheet;
 
 	/* Make this the new head of the dependent list.  */
 	dep->prev_dep = NULL;
-	dep->next_dep = wb->dependents;
+	dep->next_dep = sheet->deps->dependent_list;
 	if (dep->next_dep)
 		dep->next_dep->prev_dep = dep;
-	wb->dependents = dep;
+	sheet->deps->dependent_list = dep;
 	dep->flags |= DEPENDENT_IN_EXPR_LIST;
 
 	handle_tree_deps (dep, pos, dep->expression, ADD_DEPS);
@@ -590,8 +569,6 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 	g_return_if_fail (dep != NULL);
 
 	if (dep->sheet != NULL) {
-		Workbook *wb;
-
 		g_return_if_fail (dep->expression != NULL);
 		g_return_if_fail (dep->flags & DEPENDENT_IN_EXPR_LIST);
 		g_return_if_fail (IS_SHEET (dep->sheet));
@@ -600,9 +577,8 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 		if (dep->sheet->deps != NULL)
 			handle_tree_deps (dep, pos, dep->expression, REMOVE_DEPS);
 
-		wb = dep->sheet->workbook;
 		dep->flags &= ~(DEPENDENT_IN_EXPR_LIST | DEPENDENT_NEEDS_RECALC);
-		UNLINK_DEP (wb, dep);
+		UNLINK_DEP (dep);
 	}
 }
 
@@ -626,7 +602,7 @@ dependent_unlink_sheet (Sheet *sheet)
 	WORKBOOK_FOREACH_DEPENDENT (wb, dep,
 		 if (dep->sheet == sheet) {
 			 dep->flags &= ~DEPENDENT_IN_EXPR_LIST;
-			 UNLINK_DEP (wb, dep);
+			 UNLINK_DEP (dep);
 		 });
 }
 
@@ -782,9 +758,9 @@ static void
 cell_foreach_single_dep (Sheet const *sheet, int col, int row,
 			 DepFunc func, gpointer user)
 {
-	DependencySingle  lookup, *single;
-	DependencyData   *deps = sheet->deps;
-	GSList		 *ptr;
+	DependencySingle lookup, *single;
+	DependencyContainer *deps = sheet->deps;
+	GSList *ptr;
 
 	lookup.pos.col = col;
 	lookup.pos.row = row;
@@ -855,9 +831,8 @@ sheet_region_queue_recalc (Sheet const *sheet, Range const *r)
 	g_return_if_fail (sheet->deps != NULL);
 
 	if (r == NULL) {
-		WORKBOOK_FOREACH_DEPENDENT (sheet->workbook, dep, {
-			if (dep->sheet == sheet)
-				dependent_queue_recalc (dep);
+		SHEET_FOREACH_DEPENDENT (sheet, dep, {
+			dependent_queue_recalc (dep);
 		});
 
 		/* Find anything that depends on a range in this sheet */
@@ -870,13 +845,12 @@ sheet_region_queue_recalc (Sheet const *sheet, Range const *r)
 	} else {
 		int ix, iy, end_col, end_row;
 
-		WORKBOOK_FOREACH_DEPENDENT (sheet->workbook, dep, {
-				 Cell *cell = DEP_TO_CELL (dep);
-				 if (dep->sheet == sheet &&
-				     (DEPENDENT_TYPE (dep) == DEPENDENT_CELL) &&
-				     range_contains (r, cell->pos.col, cell->pos.row))
-					 dependent_queue_recalc (dep);
-			});
+		SHEET_FOREACH_DEPENDENT (sheet, dep, {
+			Cell *cell = DEP_TO_CELL (dep);
+			if (DEPENDENT_IS_CELL (dep) &&
+			    range_contains (r, cell->pos.col, cell->pos.row))
+				dependent_queue_recalc (dep);
+		});
 
 		g_hash_table_foreach (sheet->deps->range_hash,
 				      &cb_region_contained_depend,
@@ -994,7 +968,7 @@ cb_single_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 static void
 do_deps_destroy (Sheet *sheet, ExprRewriteInfo const *rwinfo)
 {
-	DependencyData *deps;
+	DependencyContainer *deps;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -1043,7 +1017,6 @@ void
 workbook_deps_destroy (Workbook *wb)
 {
 	ExprRewriteInfo rwinfo;
-	unsigned i;
 
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (wb->sheets != NULL);
@@ -1051,8 +1024,9 @@ workbook_deps_destroy (Workbook *wb)
 	rwinfo.type = EXPR_REWRITE_WORKBOOK;
 	rwinfo.u.workbook = wb;
 
-	for (i = 0; i < wb->sheets->len ; i++)
-		do_deps_destroy (g_ptr_array_index (wb->sheets, i), &rwinfo);
+	WORKBOOK_FOREACH_SHEET (wb, sheet, {
+		do_deps_destroy (sheet, &rwinfo);
+	});
 }
 
 void
@@ -1154,10 +1128,12 @@ depsingle_equal (gconstpointer ai, gconstpointer bi)
 		a->pos.col == b->pos.col);
 }
 
-DependencyData *
+DependencyContainer *
 dependency_data_new (void)
 {
-	DependencyData *deps  = g_new (DependencyData, 1);
+	DependencyContainer *deps = g_new (DependencyContainer, 1);
+
+	deps->dependent_list = NULL;
 
 	deps->range_hash  = g_hash_table_new (deprange_hash_func,
 					      deprange_equal_func);
@@ -1214,7 +1190,7 @@ dump_single_dep (gpointer key, gpointer value, gpointer closure)
 void
 sheet_dump_dependencies (Sheet const *sheet)
 {
-	DependencyData *deps;
+	DependencyContainer *deps;
 
 	g_return_if_fail (sheet != NULL);
 

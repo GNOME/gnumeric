@@ -32,6 +32,22 @@ typedef enum {
 } DependentFlags;
 
 #define DEPENDENT_TYPE(dep) ((dep)->flags & DEPENDENT_TYPE_MASK)
+#define DEPENDENT_IS_CELL(dep) (DEPENDENT_TYPE(dep) == DEPENDENT_CELL)
+
+struct _DependencyContainer {
+	Dependent *dependent_list;
+
+	/*
+	 *   Large ranges hashed on 'range' to accelerate duplicate
+	 * culling. This is tranversed by g_hash_table_foreach mostly.
+	 */
+	GHashTable *range_hash;
+	/*
+	 *   Single ranges, this maps an EvalPos * to a GSList of its
+	 * dependencies.
+	 */
+	GHashTable *single_hash;
+};
 
 typedef void (*DepFunc) (Dependent *dep, gpointer user);
 
@@ -61,9 +77,20 @@ void sheet_deps_destroy		 (Sheet *sheet);
 void workbook_deps_destroy	 (Workbook *wb);
 void workbook_queue_all_recalc	 (Workbook *wb);
 
-DependencyData *dependency_data_new (void);
+DependencyContainer *dependency_data_new (void);
 
 void sheet_dump_dependencies	 (Sheet const *sheet);
 void dependent_debug_name	 (Dependent const *dep, FILE *out);
+
+#define DEPENDENT_CONTAINER_FOREACH_DEPENDENT(dc, dep, code)	\
+  do {								\
+	Dependent *dep = (dc)->dependent_list;			\
+	while (dep) {						\
+		Dependent *_next = dep->next_dep;		\
+		code;						\
+		dep = _next;					\
+	}							\
+  } while (0)
+
 
 #endif /* GNUMERIC_EVAL_H */

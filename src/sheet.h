@@ -71,7 +71,7 @@ struct _Sheet {
         /* Solver parameters */
         SolverParameters solver_parameters;
 
-	DependencyData  *deps;
+	DependencyContainer *deps;
 
 	GSList		 *list_merged;
 	GHashTable	 *hash_merged;
@@ -327,5 +327,13 @@ do {									\
 		code							\
 	}								\
 } while (0)
+
+
+#define SHEET_FOREACH_DEPENDENT(sheet, dep, code)					\
+  do {											\
+	if ((sheet)->deps) {								\
+		DEPENDENT_CONTAINER_FOREACH_DEPENDENT ((sheet)->deps, dep, code);	\
+	}										\
+  } while (0)
 
 #endif /* GNUMERIC_SHEET_H */

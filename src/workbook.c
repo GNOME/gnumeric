@@ -161,10 +161,12 @@ workbook_destroy (GtkObject *wb_object)
 			sheet_dump_dependencies (sheet);
 	}
 
+#ifdef BIT_ROT
 	if (wb->dependents != NULL) {
 		/* Nobody expects the Spanish Inquisition!  */
 		g_warning ("Trouble at the Mill.  Please report.");
 	}
+#endif
 
 	/* Now remove the sheets themselves */
 	for (ptr = sheets; ptr != NULL ; ptr = ptr->next) {
@@ -287,7 +289,7 @@ workbook_is_pristine (Workbook *wb)
 	if (workbook_is_dirty (wb))
 		return FALSE;
 
-	if (wb->names || wb->dependents ||
+	if (wb->names || wb->external_dependents ||
 #ifdef ENABLE_BONOBO
 	    wb->priv->workbook_views ||
 #endif

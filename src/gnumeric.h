@@ -57,35 +57,35 @@ typedef GSList  ColRowVisList;
 typedef GSList  ColRowSizeList;
 typedef GSList  ColRowRLESizeList;
 typedef GList   ColRowIndexList;
-typedef struct _ColRowIndexSet ColRowIndexSet;
-typedef  gboolean (*ColRowHandler)(ColRowInfo *info, void *user_data);
+typedef struct _ColRowIndexSet          ColRowIndexSet;
+typedef gboolean (*ColRowHandler)(ColRowInfo *info, void *user_data);
 
-typedef struct _CellPos		CellPos;
-typedef struct _CellRef		CellRef;
-typedef struct _Range		Range;
-typedef struct _GlobalRange	GlobalRange;
-typedef struct _RangeRef	RangeRef;
+typedef struct _CellPos		        CellPos;
+typedef struct _CellRef		        CellRef;
+typedef struct _Range		        Range;
+typedef struct _GlobalRange	        GlobalRange;
+typedef struct _RangeRef	        RangeRef;
 
-typedef struct _MStyle		  MStyle;
+typedef struct _MStyle		        MStyle;
 
-typedef struct _SheetStyleData	SheetStyleData;
-typedef struct _StyleRegion	StyleRegion;
+typedef struct _SheetStyleData	        SheetStyleData;
+typedef struct _StyleRegion	        StyleRegion;
 
-typedef struct _EvalPos		   EvalPos;
-typedef struct _ParsePos	   ParsePos;
-typedef struct _FunctionEvalInfo   FunctionEvalInfo;
-typedef struct _FunctionDefinition FunctionDefinition;
+typedef struct _EvalPos		        EvalPos;
+typedef struct _ParsePos	        ParsePos;
+typedef struct _FunctionEvalInfo        FunctionEvalInfo;
+typedef struct _FunctionDefinition      FunctionDefinition;
 
-typedef struct _PrintInformation PrintInformation;
-typedef struct _String	 	 String;
+typedef struct _PrintInformation        PrintInformation;
+typedef struct _String	 	        String;
 
-typedef struct _DependencyData   DependencyData;
+typedef struct _DependencyContainer     DependencyContainer;
 
-typedef struct _StyleFormat	  StyleFormat;
-typedef struct _StyleFont	  StyleFont;
-typedef struct _StyleColor	  StyleColor;
-typedef struct _StyleBorder	  StyleBorder;
-typedef struct _StyleRow	  StyleRow;
+typedef struct _StyleFormat	        StyleFormat;
+typedef struct _StyleFont	        StyleFont;
+typedef struct _StyleColor	        StyleColor;
+typedef struct _StyleBorder	        StyleBorder;
+typedef struct _StyleRow	        StyleRow;
 
 typedef struct _GnmGraph		GnmGraph;
 typedef struct _GnmGraphVector		GnmGraphVector;
@@ -115,6 +115,6 @@ typedef enum _SpanCalcFlags {
 	SPANCALC_NO_DRAW	= 0x8,	/* Do not queue a redraw */
 } SpanCalcFlags;
 
-typedef struct _SearchReplace SearchReplace;
+typedef struct _SearchReplace           SearchReplace;
 
 #endif /* GNUMERIC_H */

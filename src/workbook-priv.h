@@ -37,7 +37,7 @@ struct _Workbook {
 	GList      *names;
 
 	/* All objects with expressions */
-	Dependent  *dependents;
+	Dependent  *external_dependents;
 
 	/* Attached summary information */
 	SummaryInfo *summary_info;
@@ -150,18 +150,27 @@ do {										\
 	WORKBOOK_FOREACH_VIEW((wb), view, 				\
 		WORKBOOK_VIEW_FOREACH_CONTROL(view, control, code);)
 
+
+#define WORKBOOK_FOREACH_SHEET(wb, sheet, code)					\
+  do {										\
+	unsigned _sheetno;							\
+	for (_sheetno = 0; _sheetno < (wb)->sheets->len; _sheetno++) {		\
+		Sheet *sheet = g_ptr_array_index ((wb)->sheets, _sheetno);	\
+		code;								\
+	}									\
+  } while (0)
+
 /*
  * Walk the dependents.  WARNING: Note, that it is only valid to muck with
  * the current dependency in the code.
  */
-#define WORKBOOK_FOREACH_DEPENDENT(wb, dep, code)	\
-  do {							\
-	Dependent *dep = (wb)->dependents;		\
-	while (dep) {					\
-		Dependent *_next = dep->next_dep;	\
-		code;					\
-		dep = _next;				\
-	}						\
+#define WORKBOOK_FOREACH_DEPENDENT(wb, dep, code)			\
+  do {									\
+	/* Maybe external deps here.  */				\
+									\
+	WORKBOOK_FOREACH_SHEET(wb, _wfd_sheet, {			\
+		SHEET_FOREACH_DEPENDENT (_wfd_sheet, dep, code);	\
+	});								\
   } while (0)
 
 #endif
