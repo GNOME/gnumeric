@@ -104,6 +104,9 @@ preview_page_destroy (dialog_print_info_t *dpi)
 	if (dpi->preview.o_page){
 		gtk_object_unref (GTK_OBJECT (dpi->preview.o_page));
 		gtk_object_unref (GTK_OBJECT (dpi->preview.o_page_shadow));
+
+		dpi->preview.o_page = NULL;
+		dpi->preview.o_page_shadow = NULL;
 	}
 }
 

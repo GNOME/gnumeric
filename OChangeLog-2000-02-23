@@ -1,3 +1,11 @@
+1999-07-21  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/dialog-printer-setup.c (preview_page_destroy): Clear the
+	pointers after unrefing.
+
+	* src/print.c (setup_rotation): Add the rotation code for the
+	vertical/horizontal printing.
+
 1999-07-22  Michael Meeks  <michael@edenproject.org>
 
 	* src/dialog-define-names.c (dialog_define_names): Removed all the

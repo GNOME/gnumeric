@@ -528,9 +528,18 @@ print_job_info_destroy (PrintJobInfo *pj)
 }
 
 static void
-setup_rotation (GnomePrintContext *pc)
+setup_rotation (PrintJobInfo *pj)
 {
-	g_warning ("Should rotate here");
+	double affine [6];
+
+	if (pj->pi->orientation == PRINT_ORIENT_VERTICAL)
+		return;
+	
+	art_affine_rotate (affine, 90.0);
+	gnome_print_concat (pj->print_context, affine);
+
+	art_affine_translate (affine, 0, -pj->height);
+	gnome_print_concat (pj->print_context, affine);
 }
 
 void
@@ -561,7 +570,7 @@ workbook_print (Workbook *wb)
 	pj->print_context = gnome_print_context_new (printer);
 	
 	if (pj->pi->orientation == PRINT_ORIENT_HORIZONTAL){
-		setup_rotation (pj->print_context);
+		setup_rotation (pj);
 	}
 	
 	for (i = 0; i < loop; i++){

@@ -36,7 +36,6 @@ Gnumeric Spread Sheet task list
    (This is not a claim that these are all.)
 
 * Printing
-  * Screen layout is broken for right justified text.
   * Save print information in workbook
   * Load print information from workbook
   * Preview
@@ -44,8 +43,6 @@ Gnumeric Spread Sheet task list
     * Implement Print Preview, Options buttons
     * Improve layout 
     * Provide GUI for margin editing.
-  * Add headers and footers
-  * Add left, middle right header/footer support
   * Add the missing options to the Print Dialog
   * Display printing status (pages to go).
   * Add column/row title printing
