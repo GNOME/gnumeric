@@ -390,24 +390,24 @@ guint8 *pln_get_str (guint8 const *ch, unsigned len);
 guint8 *
 pln_get_str (guint8 const *ch, unsigned len)
 {
-	guint8 *start = g_strndup (ch, len);
-	guint8 *ptr = start, *res = start;
+	GString *buf = g_string_sized_new (len);
+	guint8 const *end = ch + len;
+	gchar const *test;
 
-	while (*res) {
-		if (32 <= *res && *res <= 126)
-			*ptr++ = *res++;
-		else if (*res == 0xC0) {
-			char buf [16]; /* be pedantic */
-			int len = g_unichar_to_utf8 (
-				map_wp_char (res[2],res[1]), buf);
-			strncpy (ptr, buf, len);
-			ptr += len;
-			res += 4;
-		} else if (*res == 0xC3 || *res == 0xC4)
-			res += 3; /* ignore */
+	while (ch < end) {
+		if (32 <= *ch && *ch <= 126)
+			g_string_append_c (buf, *ch++);
+		else if (*ch == 0xC0) {
+			g_string_append_unichar (buf,
+				map_wp_char (ch[2], ch[1]));
+			ch += 4;
+		} else if (*ch == 0xC3 || *ch == 0xC4)
+			ch += 3; /* ignore */
 		else
-			res++;
+			ch++;
 	}
-	return start;
-}
 
+	g_return_val_if_fail (g_utf8_validate (buf->str, -1, &test), g_strdup (""));
+
+	return g_string_free (buf, FALSE);
+}

@@ -13,7 +13,7 @@ typedef struct {
 	Sheet		*sheet;
 } LotusWk1Read;
 
-Value	 *lotus_new_string (LotusWk1Read *state, gchar const *data);
+GnmValue *lotus_new_string (LotusWk1Read *state, gchar const *data);
 gboolean  lotus_wk1_read   (LotusWk1Read *state);
 
 #endif

@@ -350,18 +350,18 @@ xml_node_set_double (xmlNodePtr node, char const *name, double val,
 
 /*
  * Reads a value which is stored using a format '%d:%s' where %d is the
- * ValueType and %s is the string containing the value.
+ * GnmValueType and %s is the string containing the value.
  */
-static Value *
+static GnmValue *
 xml_node_get_value (xmlNodePtr node, char const *name)
 {
 	xmlChar   *str;
-	Value     *value;
-	ValueType type;
+	GnmValue     *value;
+	GnmValueType type;
 	gchar     *vstr;
 
 	str  = xml_node_get_cstr (node, name);
-	type = (ValueType) atoi (str);
+	type = (GnmValueType) atoi (str);
 	vstr = g_strrstr (str, ":") + 1;
 
 	value = value_new_from_string (type, vstr, NULL, FALSE);
@@ -371,7 +371,7 @@ xml_node_get_value (xmlNodePtr node, char const *name)
 }
 
 static void
-xml_node_set_value (xmlNodePtr node, char const *name, Value const *value)
+xml_node_set_value (xmlNodePtr node, char const *name, GnmValue const *value)
 {
         GString *str;
 
@@ -410,7 +410,7 @@ xml_node_set_color (xmlNodePtr node, char const *name, StyleColor const *val)
 }
 
 static gboolean
-xml_node_get_cellpos (xmlNodePtr node, char const *name, CellPos *val)
+xml_node_get_cellpos (xmlNodePtr node, char const *name, GnmCellPos *val)
 {
 	xmlChar *buf;
 	gboolean res;
@@ -424,7 +424,7 @@ xml_node_get_cellpos (xmlNodePtr node, char const *name, CellPos *val)
 }
 
 static void
-xml_node_set_cellpos (xmlNodePtr node, char const *name, CellPos const *val)
+xml_node_set_cellpos (xmlNodePtr node, char const *name, GnmCellPos const *val)
 {
 	xml_node_set_cstr (node, name, cellpos_as_string (val));
 }
@@ -486,7 +486,7 @@ xml_node_get_print_margin (xmlNodePtr node, double *points)
 }
 
 static gboolean
-xml_node_get_range (xmlNodePtr tree, Range *r)
+xml_node_get_range (xmlNodePtr tree, GnmRange *r)
 {
 	gboolean res =
 	    xml_node_get_int (tree, "startCol", &r->start.col) &&
@@ -501,7 +501,7 @@ xml_node_get_range (xmlNodePtr tree, Range *r)
 }
 
 static void
-xml_node_set_range (xmlNodePtr tree, Range const *r)
+xml_node_set_range (xmlNodePtr tree, GnmRange const *r)
 {
 	g_return_if_fail (range_is_sane (r));
 
@@ -514,8 +514,8 @@ xml_node_set_range (xmlNodePtr tree, Range const *r)
 static void
 xml_read_selection_info (XmlParseContext *ctxt, xmlNodePtr tree)
 {
-	Range r;
-	CellPos pos;
+	GnmRange r;
+	GnmCellPos pos;
 	SheetView *sv = sheet_get_view (ctxt->sheet, ctxt->wb_view);
 	xmlNodePtr sel, selections = e_xml_get_child_by_name (tree, CC2XML ("Selections"));
 
@@ -549,7 +549,7 @@ xml_write_selection_info (XmlParseContext *ctxt, Sheet const *sheet,
 	copy = g_list_copy (sv->selections);
 	ptr = g_list_reverse (copy);
 	for (; ptr != NULL ; ptr = ptr->next) {
-		Range const *r = ptr->data;
+		GnmRange const *r = ptr->data;
 		xmlNodePtr child = xmlNewChild (tree, ctxt->ns,
 						CC2XML ("Selection"),
 						NULL);
@@ -653,7 +653,7 @@ xml_write_style (XmlParseContext *ctxt,
 	xmlNodePtr  cur, child;
 	xmlChar    *tstr;
 	GnmHLink   const *link;
-	Validation const *v;
+	GnmValidation const *v;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("Style"),
 			     NULL);
@@ -877,7 +877,7 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 		if (position != NULL) {
 			xmlChar *pos_txt = xml_node_get_cstr (position, NULL);
 			if (pos_txt != NULL) {
-				CellRef tmp;
+				GnmCellRef tmp;
 				char const *res = cellref_parse (&tmp, CXML2C (pos_txt), &pp.eval);
 				if (res != NULL && *res == '\0') {
 					pp.eval.col = tmp.col;
@@ -1283,7 +1283,7 @@ xml_read_print_repeat_range (XmlParseContext *ctxt, xmlNodePtr tree,
 		xmlChar *s = xml_node_get_cstr (child, "value");
 
 		if (s) {
-			Range r;
+			GnmRange r;
 			if (parse_range (CXML2C (s), &r)) {
 				range->range = r;
 				range->use   = TRUE;
@@ -1660,7 +1660,7 @@ xml_write_style_region (XmlParseContext *ctxt, StyleRegion const *region)
  * Return an mstyle and a range in the @range parameter
  */
 static MStyle*
-xml_read_style_region_ex (XmlParseContext *ctxt, xmlNodePtr tree, Range *range)
+xml_read_style_region_ex (XmlParseContext *ctxt, xmlNodePtr tree, GnmRange *range)
 {
 	xmlNodePtr child;
 	MStyle    *style = NULL;
@@ -1688,7 +1688,7 @@ static void
 xml_read_style_region (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	MStyle *style;
-	Range range;
+	GnmRange range;
 
 	style = xml_read_style_region_ex (ctxt, tree, &range);
 
@@ -1934,7 +1934,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 	gboolean is_post_52_array = FALSE;
 	gboolean is_new_cell = TRUE;
 	gboolean is_value = FALSE;
-	ValueType value_type = VALUE_EMPTY; /* Make compiler shut up */
+	GnmValueType value_type = VALUE_EMPTY; /* Make compiler shut up */
 	StyleFormat *value_fmt = NULL;
 
 	if (strcmp (tree->name, "Cell")) {
@@ -2134,7 +2134,7 @@ xml_write_merged_regions (XmlParseContext const *ctxt,
 
 	container = xmlNewChild (sheet, ctxt->ns, CC2XML ("MergedRegions"), NULL);
 	for (; ptr != NULL ; ptr = ptr->next) {
-		Range const * const range = ptr->data;
+		GnmRange const * const range = ptr->data;
 		xmlNewChild (container, ctxt->ns, CC2XML ("Merge"), CC2XML (range_name (range)));
 	}
 }
@@ -2144,7 +2144,7 @@ xml_read_sheet_layout (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	SheetView *sv = sheet_get_view (ctxt->sheet, ctxt->wb_view);
 	xmlNodePtr child;
-	CellPos tmp, frozen_tl, unfrozen_tl;
+	GnmCellPos tmp, frozen_tl, unfrozen_tl;
 
 	tree = e_xml_get_child_by_name (tree, CC2XML ("SheetLayout"));
 	if (tree == NULL)
@@ -2186,9 +2186,9 @@ static struct { char const *op, *valtype, *val; } filter_expr_attrs[] = {
 static GnmFilterCondition *
 xml_read_filter_expr (XmlParseContext *ctxt, xmlNode *field)
 {
-	ValueType value_type;
+	GnmValueType value_type;
 	GnmFilterOp op[2];
-	Value *v[2];
+	GnmValue *v[2];
 	int i, j;
 	xmlChar *tmp;
 
@@ -2326,7 +2326,7 @@ static void
 xml_read_sheet_filters (XmlParseContext *ctxt, xmlNode const *container)
 {
 	xmlNode *filter_node, *field;
-	Range	 r;
+	GnmRange	 r;
 	xmlChar   *area;
 	GnmFilter *filter;
 
@@ -2591,7 +2591,7 @@ xml_read_scenarios (XmlParseContext *ctxt, xmlNodePtr tree)
 		scenario_t *s;
 		xmlChar    *str;
 		int        rows, cols, i;
-		Value      *range;
+		GnmValue      *range;
 
 		s = g_new0 (scenario_t, 1);
 
@@ -2610,7 +2610,7 @@ xml_read_scenarios (XmlParseContext *ctxt, xmlNodePtr tree)
 		s->cell_sel_str = g_strdup ((const gchar *)str);
 		range = global_range_parse (sheet, str);
 		if (range) {
-		        ValueRange *vrange = (ValueRange *) range;
+		        GnmValueRange *vrange = (GnmValueRange *) range;
 
 		        s->range.start.col = vrange->cell.a.col;
 		        s->range.start.row = vrange->cell.a.row;
@@ -2623,7 +2623,7 @@ xml_read_scenarios (XmlParseContext *ctxt, xmlNodePtr tree)
 		/* Scenario: values. */
 		rows = s->range.end.row - s->range.start.row + 1;
 		cols = s->range.end.col - s->range.start.col + 1;
-		s->changing_cells = g_new (Value *, rows * cols);
+		s->changing_cells = g_new (GnmValue *, rows * cols);
 		for (i = 0; i < cols * rows; i++) {
 		        GString *name;
 
@@ -2881,7 +2881,7 @@ xml_read_merged_regions (XmlParseContext const *ctxt, xmlNodePtr sheet)
 	for (region = container->xmlChildrenNode; region; region = region->next)
 		if (!xmlIsBlankNode (region)) {
 			xmlChar *content = xml_node_get_cstr (region, NULL);
-			Range r;
+			GnmRange r;
 			if (content != NULL) {
 				if (parse_range (CXML2C (content), &r))
 					sheet_merge_add (ctxt->sheet, &r, FALSE, NULL);
@@ -3154,7 +3154,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 	int array_cols, array_rows, shared_expr_index = -1;
 	gboolean is_post_52_array = FALSE;
 	gboolean is_value = FALSE;
-	ValueType value_type = VALUE_EMPTY; /* Make compiler shut up */
+	GnmValueType value_type = VALUE_EMPTY; /* Make compiler shut up */
 	StyleFormat *value_fmt = NULL;
 	ParsePos pp;
 
@@ -3213,7 +3213,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 							     value_fmt,
 							     FALSE);
 		else {
-			Value *val;
+			GnmValue *val;
 			GnmExpr const *expr;
 			GnmDateConventions const *date_conv =
 				ctxt->wb ? workbook_date_conv (ctxt->wb) : NULL;
@@ -3327,7 +3327,7 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar *buffer, int len
 	if (l != NULL)
 		for (l = l->xmlChildrenNode; l != NULL ; l = l->next)
 			if (!xmlIsBlankNode (l)) {
-				Range r;
+				GnmRange r;
 				xmlChar *content = (char *)xmlNodeGetContent (l);
 				if (parse_range (CXML2C (content), &r))
 					cr->merged = g_slist_prepend (cr->merged,
@@ -3392,7 +3392,7 @@ xml_cellregion_write (WorkbookControl *wbc, CellRegion *cr, int *size)
 	if (cr->merged != NULL)
 		container = xmlNewChild (clipboard, clipboard->ns, CC2XML ("MergedRegions"), NULL);
 	for (ptr = cr->merged ; ptr != NULL ; ptr = ptr->next) {
-		Range const *m_range = ptr->data;
+		GnmRange const *m_range = ptr->data;
 		xmlNewChild (container, container->ns, CC2XML ("Merge"),
 			     CC2XML (range_name (m_range)));
 	}

@@ -60,7 +60,7 @@ typedef GList CellCopyList;
 
 struct _CellRegion {
 	Sheet		*origin_sheet; /* can be NULL */
-	CellPos		 base;
+	GnmCellPos	 base;
 	int		 cols, rows;
 	CellCopyList	*content;
 	StyleList	*styles;
@@ -70,16 +70,16 @@ struct _CellRegion {
 
 struct _PasteTarget {
 	Sheet      *sheet;
-	Range	    range;
+	GnmRange    range;
 	int         paste_flags;
 };
 
-CellRegion *clipboard_copy_range   (Sheet *sheet, Range const *r);
+CellRegion *clipboard_copy_range   (Sheet *sheet, GnmRange const *r);
 gboolean    clipboard_paste_region (CellRegion const *content,
 				    PasteTarget const *pt,
 				    CommandContext *cc);
 PasteTarget*paste_target_init      (PasteTarget *pt,
-				    Sheet *sheet, Range const *r, int flags);
+				    Sheet *sheet, GnmRange const *r, int flags);
 
 CellRegion *cellregion_new	 (Sheet *origin_sheet);
 void        cellregion_free      (CellRegion *content);

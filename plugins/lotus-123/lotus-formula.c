@@ -219,7 +219,7 @@ parse_list_push_expr (GnmExprList **list, GnmExpr const *pd)
 }
 
 static void
-parse_list_push_value (GnmExprList **list, Value *v)
+parse_list_push_value (GnmExprList **list, GnmValue *v)
 {
 	parse_list_push_expr (list, gnm_expr_new_constant (v));
 }
@@ -365,7 +365,7 @@ sign_extend (guint16 num)
 
 /* FIXME: dodgy stuff, hacked for now */
 static void
-get_cellref (CellRef *ref, guint8 const *dataa, guint8 const *datab,
+get_cellref (GnmCellRef *ref, guint8 const *dataa, guint8 const *datab,
 	     guint32 orig_col, guint32 orig_row)
 {
 	guint16 i;
@@ -401,7 +401,7 @@ lotus_parse_formula (LotusWk1Read *state, guint32 col, guint32 row,
 {
 	GnmExprList *stack = NULL;
 	guint     i;
-	CellRef   a, b;
+	GnmCellRef   a, b;
 	gboolean  done  = FALSE;
 
 	for (i = 0; (i < len) & !done;) {

@@ -25,16 +25,16 @@
 
 /* ------------------------------------------------------------------------- */
 
-SearchReplace *
+GnmSearchReplace *
 search_replace_new (void)
 {
-	return g_new0 (SearchReplace, 1);
+	return g_new0 (GnmSearchReplace, 1);
 }
 
 /* ------------------------------------------------------------------------- */
 
 void
-search_replace_free (SearchReplace *sr)
+search_replace_free (GnmSearchReplace *sr)
 {
 	g_free (sr->search_text);
 	g_free (sr->replace_text);
@@ -49,7 +49,7 @@ search_replace_free (SearchReplace *sr)
 /* ------------------------------------------------------------------------- */
 
 static int
-search_replace_compile (SearchReplace *sr, gboolean repl)
+search_replace_compile (GnmSearchReplace *sr, gboolean repl)
 {
 	const char *pattern;
 	char *tmp;
@@ -92,10 +92,10 @@ search_replace_compile (SearchReplace *sr, gboolean repl)
 
 /* ------------------------------------------------------------------------- */
 
-SearchReplace *
-search_replace_copy (const SearchReplace *sr)
+GnmSearchReplace *
+search_replace_copy (const GnmSearchReplace *sr)
 {
-	SearchReplace *dst = search_replace_new ();
+	GnmSearchReplace *dst = search_replace_new ();
 	gboolean repl = (sr->replace_text != NULL);
 
 	*dst = *sr;
@@ -112,7 +112,7 @@ search_replace_copy (const SearchReplace *sr)
 /* ------------------------------------------------------------------------- */
 
 char *
-search_replace_verify (SearchReplace *sr, gboolean repl)
+search_replace_verify (GnmSearchReplace *sr, gboolean repl)
 {
 	int err;
 	g_return_val_if_fail (sr != NULL, NULL);
@@ -174,7 +174,7 @@ search_replace_verify (SearchReplace *sr, gboolean repl)
 /* ------------------------------------------------------------------------- */
 
 static gboolean
-match_is_word (SearchReplace *sr, const char *src,
+match_is_word (GnmSearchReplace *sr, const char *src,
 	       const regmatch_t *pm, gboolean bolp)
 {
 	/* The empty string is not a word.  */
@@ -241,7 +241,7 @@ inspect_case (const char *p, const char *pend)
 
 
 static char *
-calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
+calculate_replacement (GnmSearchReplace *sr, const char *src, const regmatch_t *pm)
 {
 	char *res;
 
@@ -325,7 +325,7 @@ calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 /* ------------------------------------------------------------------------- */
 
 gboolean
-search_match_string (SearchReplace *sr, const char *src)
+search_match_string (GnmSearchReplace *sr, const char *src)
 {
 	int flags = 0;
 
@@ -367,7 +367,7 @@ search_match_string (SearchReplace *sr, const char *src)
  * Returns NULL if nothing changed, or a g_malloc string otherwise.
  */
 char *
-search_replace_string (SearchReplace *sr, const char *src)
+search_replace_string (GnmSearchReplace *sr, const char *src)
 {
 	int nmatch;
 	regmatch_t *pmatch;
@@ -490,7 +490,7 @@ cb_order_sheet_col_row (const void *_a, const void *_b)
 	return i;
 }
 
-static Value *
+static GnmValue *
 search_collect_cells_cb (Sheet *sheet, int col, int row,
 			 Cell *cell, GPtrArray *cells)
 {
@@ -508,7 +508,7 @@ search_collect_cells_cb (Sheet *sheet, int col, int row,
 
 /* Collect a list of all cells subject to search.  */
 GPtrArray *
-search_collect_cells (SearchReplace *sr, Sheet *sheet)
+search_collect_cells (GnmSearchReplace *sr, Sheet *sheet)
 {
 	GPtrArray *cells;
 
@@ -570,7 +570,7 @@ search_collect_cells_free (GPtrArray *cells)
  */
 
 GPtrArray *
-search_filter_matching (SearchReplace *sr, const GPtrArray *cells)
+search_filter_matching (GnmSearchReplace *sr, const GPtrArray *cells)
 {
 	unsigned i;
 	GPtrArray *result = g_ptr_array_new ();
@@ -627,7 +627,7 @@ search_filter_matching_free (GPtrArray *matches)
 /* ------------------------------------------------------------------------- */
 
 gboolean
-search_replace_comment (SearchReplace *sr,
+search_replace_comment (GnmSearchReplace *sr,
 			const EvalPos *ep,
 			gboolean repl,
 			SearchReplaceCommentResult *res)
@@ -657,13 +657,13 @@ search_replace_comment (SearchReplace *sr,
 /* ------------------------------------------------------------------------- */
 
 gboolean
-search_replace_cell (SearchReplace *sr,
+search_replace_cell (GnmSearchReplace *sr,
 		     const EvalPos *ep,
 		     gboolean repl,
 		     SearchReplaceCellResult *res)
 {
 	Cell *cell;
-	Value *v;
+	GnmValue *v;
 	gboolean is_expr, is_value, is_string, is_other;
 
 	g_return_val_if_fail (res, FALSE);
@@ -721,7 +721,7 @@ search_replace_cell (SearchReplace *sr,
 /* ------------------------------------------------------------------------- */
 
 gboolean
-search_replace_value (SearchReplace *sr,
+search_replace_value (GnmSearchReplace *sr,
 		      const EvalPos *ep,
 		      SearchReplaceValueResult *res)
 {

@@ -84,7 +84,7 @@ typedef struct {
  *  @cell:
  *  @data: pointer to a data_set_t
  */
-static Value *
+static GnmValue *
 cb_store_data (G_GNUC_UNUSED Sheet *sheet,
 	       G_GNUC_UNUSED int col,
 	       G_GNUC_UNUSED int row, Cell *cell, void *user_data)
@@ -121,20 +121,20 @@ cb_store_data (G_GNUC_UNUSED Sheet *sheet,
 
 /*
  *  new_data_set:
- *  @range: Value *       the data location, usually a single column or row
+ *  @range: GnmValue *       the data location, usually a single column or row
  *  @ignore_non_num: gboolean   whether simply to ignore non-numerical values
  *  @read_label: gboolean       whether the first entry contains a label
  *  @format: char*              format string for default label
  *  @i: guint                    index for default label
  */
 static data_set_t *
-new_data_set (Value *range, gboolean ignore_non_num, gboolean read_label,
+new_data_set (GnmValue *range, gboolean ignore_non_num, gboolean read_label,
 	      char *format, gint i, Sheet* sheet)
 {
-	Value *result;
+	GnmValue *result;
 	EvalPos  *pos = g_new (EvalPos, 1);
 	data_set_t * the_set = g_new (data_set_t, 1);
-	CellPos cellpos = {0, 0};
+	GnmCellPos cellpos = {0, 0};
 
 	pos = eval_pos_init (pos, sheet, &cellpos);
 	the_set->data = g_array_new (FALSE, FALSE, sizeof (gnm_float)),
@@ -179,7 +179,7 @@ destroy_data_set (data_set_t *data_set)
 static void
 cb_get_data_set_list (gpointer data, gpointer user_data)
 {
-	Value * the_range = (Value *) data;
+	GnmValue * the_range = (GnmValue *) data;
 	data_list_specs_t *specs = (data_list_specs_t *)user_data;
 
 	specs->length++;
@@ -356,8 +356,8 @@ strip_missing (GArray * data, GSList * missing)
 static void
 cb_cut_into_cols (gpointer data, gpointer user_data)
 {
-	Value *range = (Value *)data;
-	Value *col_value;
+	GnmValue *range = (GnmValue *)data;
+	GnmValue *col_value;
 	GSList **list_of_units = (GSList **) user_data;
 	gint col;
 
@@ -394,8 +394,8 @@ cb_cut_into_cols (gpointer data, gpointer user_data)
 static void
 cb_cut_into_rows (gpointer data, gpointer user_data)
 {
-	Value *range = (Value *)data;
-	Value *row_value;
+	GnmValue *range = (GnmValue *)data;
+	GnmValue *row_value;
 	GSList **list_of_units = (GSList **) user_data;
 	gint row;
 
@@ -468,7 +468,7 @@ typedef struct {
 static void
 cb_check_hom (gpointer data, gpointer user_data)
 {
-	Value *range = (Value *)data;
+	GnmValue *range = (GnmValue *)data;
 	homogeneity_check_t *state = (homogeneity_check_t *) user_data;
 	gint this_size;
 
@@ -608,7 +608,7 @@ set_cell_text_row (data_analysis_output_t *dao, int col, int row, const char *te
 }
 
 /* Callbacks for write */
-static Value *
+static GnmValue *
 WriteData_ForeachCellCB (Sheet *sheet, int col, int row,
 			      Cell *cell, GArray* data)
 {
@@ -673,7 +673,7 @@ analysis_tool_calc_length (analysis_tools_data_generic_t *info)
 	GSList        *dataset;
 
 	for (dataset = info->input; dataset; dataset = dataset->next) {
-		Value    *current = dataset->data;
+		GnmValue    *current = dataset->data;
 		int      given_length;
 
 		given_length = current->v_range.cell.b.row - current->v_range.cell.a.row + 1;
@@ -2774,7 +2774,7 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 			/* Point number */
 			dao_set_cell_int (dao, n_data * 4 + 0, i + 1, rank[i].point);
 
-			/* Value */
+			/* GnmValue */
 			dao_set_cell_float (dao, n_data * 4 + 1, i + 1, rank[i].x);
 
 			/* Rank */
@@ -3267,7 +3267,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 	GPtrArray *col_labels = NULL;
 	GPtrArray *row_labels = NULL;
 	GPtrArray *row_data = NULL;
-	Value *input_cp;
+	GnmValue *input_cp;
 	gint df_r, df_c, df_rc, df_e, df_total;
 	gnm_float ss_r = 0.0, ss_c = 0.0, ss_rc = 0.0, ss_e = 0.0, ss_total = 0.0;
 	gnm_float ms_r, ms_c, ms_rc, ms_e;
@@ -3797,7 +3797,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		gnm_float skip;
 		gboolean value_set;
 		char        *text;
-		Value       *val;
+		GnmValue       *val;
 
 		if (!info->max_given) {
 			value_set = FALSE;
@@ -3885,7 +3885,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		a_bin->label = _("More");
 	} else {
 		char        *text;
-		Value       *val;
+		GnmValue       *val;
 
 		val = value_new_float(info->max);
 		text = format_value (NULL, val, NULL, 10,

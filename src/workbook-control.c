@@ -209,11 +209,11 @@ wb_control_cur_sheet_view (WorkbookControl const *wbc)
 gboolean
 wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 {
-	RangeRef const *r;
-	CellPos tmp;
+	GnmRangeRef const *r;
+	GnmCellPos tmp;
 	Sheet *sheet  = wb_control_cur_sheet (wbc);
 	SheetView *sv;
-	Value *target;
+	GnmValue *target;
 
 	if (text == NULL || *text == '\0')
 		return FALSE;
@@ -227,12 +227,12 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 
 		/* If no name, or just a placeholder exists create a name */
 		if (nexpr == NULL || expr_name_is_placeholder (nexpr)) {
-			Range const *r = selection_first_range (
+			GnmRange const *r = selection_first_range (
 				wb_control_cur_sheet_view (wbc),
 				COMMAND_CONTEXT (wbc),
 				_("Define Name"));
 			if (r != NULL) {
-				CellRef a, b;
+				GnmCellRef a, b;
 				GnmExpr const *target_range;
 
 				a.sheet = b.sheet = sheet;

@@ -38,7 +38,7 @@ typedef enum {
 	VALIDATION_OP_LTE
 } ValidationOp;
 
-struct _Validation {
+struct _GnmValidation {
 	int              ref_count;
 
 	GnmString       *title;
@@ -51,17 +51,17 @@ struct _Validation {
 	gboolean	 use_dropdown;
 };
 
-Validation *validation_new   (ValidationStyle style,
-			      ValidationType  type,
-			      ValidationOp    op,
-			      char const *title, char const *msg,
-			      GnmExpr const *expr0, GnmExpr const *expr1,
-			      gboolean allow_blank, gboolean use_dropdown);
+GnmValidation *validation_new   (ValidationStyle style,
+				 ValidationType  type,
+				 ValidationOp    op,
+				 char const *title, char const *msg,
+				 GnmExpr const *expr0, GnmExpr const *expr1,
+				 gboolean allow_blank, gboolean use_dropdown);
 
-void        validation_ref    (Validation *v);
-void        validation_unref  (Validation *v);
+void        validation_ref    (GnmValidation *v);
+void        validation_unref  (GnmValidation *v);
 ValidationStatus validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
-				  Sheet *sheet, CellPos const *pos,
+				  Sheet *sheet, GnmCellPos const *pos,
 				  gboolean *showed_dialog);
 
 #endif /* GNUMERIC_VALIDATION_H */

@@ -192,8 +192,8 @@ gnm_python_object_get (ErrorInfo **err)
 static void
 cb_interpreter_switched (GnmPyInterpreter *interpreter, GnmPython *gpy)
 {
-	g_return_if_fail (GNM_IS_PY_INTERPRETER (interpreter));
-	g_return_if_fail (GNM_IS_PYTHON (gpy));
+	g_return_if_fail (IS_GNM_PY_INTERPRETER (interpreter));
+	g_return_if_fail (IS_GNM_PYTHON (gpy));
 
 	gpy->current_interpreter = interpreter;
 	g_signal_emit (
@@ -205,8 +205,8 @@ gnm_python_new_interpreter (GnmPython *gpy, GnmPlugin *plugin)
 {
 	GnmPyInterpreter *interpreter;
 
-	g_return_val_if_fail (GNM_IS_PYTHON (gpy), NULL);
-	g_return_val_if_fail (GNM_IS_PLUGIN (plugin), NULL);
+	g_return_val_if_fail (IS_GNM_PYTHON (gpy), NULL);
+	g_return_val_if_fail (IS_GNM_PLUGIN (plugin), NULL);
 
 	interpreter = gnm_py_interpreter_new (plugin);
 	GNM_SLIST_PREPEND (gpy->interpreters, interpreter);
@@ -222,8 +222,8 @@ gnm_python_new_interpreter (GnmPython *gpy, GnmPlugin *plugin)
 void
 gnm_python_destroy_interpreter (GnmPython *gpy, GnmPyInterpreter *interpreter)
 {
-	g_return_if_fail (GNM_IS_PYTHON (gpy));
-	g_return_if_fail (GNM_IS_PY_INTERPRETER (interpreter));
+	g_return_if_fail (IS_GNM_PYTHON (gpy));
+	g_return_if_fail (IS_GNM_PY_INTERPRETER (interpreter));
 	g_return_if_fail (interpreter != gpy->default_interpreter);
 
 	GNM_SLIST_REMOVE (gpy->interpreters, interpreter);
@@ -234,7 +234,7 @@ gnm_python_destroy_interpreter (GnmPython *gpy, GnmPyInterpreter *interpreter)
 GnmPyInterpreter *
 gnm_python_get_current_interpreter (GnmPython *gpy)
 {
-	g_return_val_if_fail (GNM_IS_PYTHON (gpy), NULL);
+	g_return_val_if_fail (IS_GNM_PYTHON (gpy), NULL);
 
 	return gpy->current_interpreter;
 }
@@ -242,7 +242,7 @@ gnm_python_get_current_interpreter (GnmPython *gpy)
 GnmPyInterpreter *
 gnm_python_get_default_interpreter (GnmPython *gpy)
 {
-	g_return_val_if_fail (GNM_IS_PYTHON (gpy), NULL);
+	g_return_val_if_fail (IS_GNM_PYTHON (gpy), NULL);
 
 	return gpy->default_interpreter;
 }
@@ -250,7 +250,7 @@ gnm_python_get_default_interpreter (GnmPython *gpy)
 GSList *
 gnm_python_get_interpreters (GnmPython *gpy)
 {
-	g_return_val_if_fail (GNM_IS_PYTHON (gpy), NULL);
+	g_return_val_if_fail (IS_GNM_PYTHON (gpy), NULL);
 
 	return gpy->interpreters;
 }
@@ -258,7 +258,7 @@ gnm_python_get_interpreters (GnmPython *gpy)
 void
 gnm_python_clear_error_if_needed (GnmPython *gpy)
 {
-	g_return_if_fail (GNM_IS_PYTHON (gpy));
+	g_return_if_fail (IS_GNM_PYTHON (gpy));
 
 	if (PyErr_Occurred () != NULL) {
 		PyErr_Clear ();

@@ -312,7 +312,7 @@ restore_original_values (SolverResults *res)
  */
 
 static int
-get_col_nbr (SolverResults *res, CellPos *pos)
+get_col_nbr (SolverResults *res, GnmCellPos *pos)
 {
         int  i;
         Cell *cell;
@@ -734,9 +734,9 @@ void
 solver_insert_rows (Sheet *sheet, int row, int count)
 {
 	SolverParameters *param = sheet->solver_parameters;
-	GSList           *constraints;
-        Value            *input_range;
-	Range            range;
+	GSList	 *constraints;
+        GnmValue *input_range;
+	GnmRange	  range;
 
 	/* Adjust the input range. */
 	input_range = global_range_parse (sheet, param->input_entry_str);
@@ -777,9 +777,9 @@ void
 solver_insert_cols (Sheet *sheet, int col, int count)
 {
 	SolverParameters *param = sheet->solver_parameters;
-	GSList           *constraints;
-        Value            *input_range;
-	Range            range;
+	GSList	 *constraints;
+        GnmValue *input_range;
+	GnmRange	  range;
 
 	/* Adjust the input range. */
 	input_range = global_range_parse (sheet, param->input_entry_str);
@@ -820,9 +820,9 @@ void
 solver_delete_rows (Sheet *sheet, int row, int count)
 {
 	SolverParameters *param = sheet->solver_parameters;
-	GSList           *constraints;
-        Value            *input_range;
-	Range            range;
+	GSList	 *constraints;
+        GnmValue *input_range;
+	GnmRange	  range;
 
 	/* Adjust the input range. */
 	input_range = global_range_parse (sheet, param->input_entry_str);
@@ -867,9 +867,9 @@ void
 solver_delete_cols (Sheet *sheet, int col, int count)
 {
 	SolverParameters *param = sheet->solver_parameters;
-	GSList           *constraints;
-        Value            *input_range;
-	Range            range;
+	GSList	 *constraints;
+        GnmValue *input_range;
+	GnmRange	  range;
 
 	/* Adjust the input range. */
 	input_range = global_range_parse (sheet, param->input_entry_str);

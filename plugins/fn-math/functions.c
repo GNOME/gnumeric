@@ -50,7 +50,7 @@ typedef struct {
         int    num;
 } math_sums_t;
 
-static Value *
+static GnmValue *
 callback_function_sumxy (Sheet *sheet, int col, int row,
 			 Cell *cell, void *user_data)
 {
@@ -90,7 +90,7 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 typedef struct {
         GSList              *list;
         criteria_test_fun_t fun;
-        Value               *test_value;
+        GnmValue               *test_value;
         int                 num;
         int                 total_num;
         gboolean            actual_range;
@@ -98,12 +98,12 @@ typedef struct {
         GSList              *current;
 } math_criteria_t;
 
-static Value *
+static GnmValue *
 callback_function_criteria (Sheet *sheet, int col, int row,
 			    Cell *cell, void *user_data)
 {
         math_criteria_t *mm = user_data;
-	Value           *v;
+	GnmValue           *v;
 
 	mm->total_num++;
 	if (cell != NULL) {
@@ -178,7 +178,7 @@ range_gcd (gnm_float const *xs, int n, gnm_float *res)
 		return 1;
 }
 
-static Value *
+static GnmValue *
 gnumeric_gcd (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return float_range_function (nodes, ei,
@@ -234,7 +234,7 @@ range_lcm (gnm_float const *xs, int n, gnm_float *res)
 		return 1;
 }
 
-static Value *
+static GnmValue *
 gnumeric_lcm (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return float_range_function (nodes, ei,
@@ -265,8 +265,8 @@ static char const *help_abs = {
 	   "@SEEALSO=CEIL, FLOOR")
 };
 
-static Value *
-gnumeric_abs (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_abs (FunctionEvalInfo *ei, GnmValue **args)
 {
 	return value_new_float (gnumabs (value_get_as_float (args [0])));
 }
@@ -293,8 +293,8 @@ static char const *help_acos = {
 	   "@SEEALSO=COS, SIN, DEGREES, RADIANS")
 };
 
-static Value *
-gnumeric_acos (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_acos (FunctionEvalInfo *ei, GnmValue **args)
 {
 	gnm_float t;
 
@@ -326,8 +326,8 @@ static char const *help_acosh = {
 	   "@SEEALSO=ACOS, ASINH, DEGREES, RADIANS ")
 };
 
-static Value *
-gnumeric_acosh (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_acosh (FunctionEvalInfo *ei, GnmValue **args)
 {
 	gnm_float t;
 
@@ -359,8 +359,8 @@ static char const *help_asin = {
 	   "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS")
 };
 
-static Value *
-gnumeric_asin (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_asin (FunctionEvalInfo *ei, GnmValue **args)
 {
 	gnm_float t;
 
@@ -389,8 +389,8 @@ static char const *help_asinh = {
 	   "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS")
 };
 
-static Value *
-gnumeric_asinh (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_asinh (FunctionEvalInfo *ei, GnmValue **args)
 {
 	return value_new_float (asinhgnum (value_get_as_float (args [0])));
 }
@@ -414,8 +414,8 @@ static char const *help_atan = {
 	   "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS")
 };
 
-static Value *
-gnumeric_atan (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_atan (FunctionEvalInfo *ei, GnmValue **args)
 {
 	return value_new_float (atangnum (value_get_as_float (args [0])));
 }
@@ -441,8 +441,8 @@ static char const *help_atanh = {
 	   "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS")
 };
 
-static Value *
-gnumeric_atanh (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_atanh (FunctionEvalInfo *ei, GnmValue **args)
 {
 	gnm_float t;
 
@@ -474,8 +474,8 @@ static char const *help_atan2 = {
 	   "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS")
 };
 
-static Value *
-gnumeric_atan2 (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_atan2 (FunctionEvalInfo *ei, GnmValue **args)
 {
 	return value_new_float (atan2gnum (value_get_as_float (args [1]),
 					   value_get_as_float (args [0])));
@@ -499,8 +499,8 @@ static char const *help_ceil = {
 	   "@SEEALSO=ABS, FLOOR, INT")
 };
 
-static Value *
-gnumeric_ceil (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_ceil (FunctionEvalInfo *ei, GnmValue **args)
 {
 	return value_new_float (gnumeric_fake_ceil
 				(value_get_as_float (args [0])));
@@ -528,15 +528,15 @@ static char const *help_countif = {
 	   "@SEEALSO=COUNT,SUMIF")
 };
 
-static Value *
-gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_countif (FunctionEvalInfo *ei, GnmValue **argv)
 {
-        Value           *range = argv[0];
+        GnmValue           *range = argv[0];
 	Sheet           *sheet;
 	CellIterFlags    iter_flags;
 
 	math_criteria_t  items;
-	Value           *ret;
+	GnmValue           *ret;
 	GSList          *list;
 
 	items.num  = 0;
@@ -602,7 +602,7 @@ static char const *help_sumif = {
 	   "@SEEALSO=COUNTIF, SUM")
 };
 
-static Value *
+static GnmValue *
 callback_function_sumif (Sheet *sheet, int col, int row,
 			 Cell *cell, void *user_data)
 {
@@ -642,14 +642,14 @@ callback_function_sumif (Sheet *sheet, int col, int row,
 	return NULL;
 }
 
-static Value *
-gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_sumif (FunctionEvalInfo *ei, GnmValue **argv)
 {
-        Value          *range = argv[0];
-	Value          *actual_range = argv[2];
+        GnmValue          *range = argv[0];
+	GnmValue          *actual_range = argv[2];
 
 	math_criteria_t items;
-	Value          *ret;
+	GnmValue          *ret;
 	gnm_float      sum;
 	GSList         *list;
 	CellIterFlags   iter_flags;
@@ -690,7 +690,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 		sum = 0;
 
 		while (list != NULL) {
-		        Value *v = list->data;
+		        GnmValue *v = list->data;
 
 			if (v != NULL) {
 			        sum += value_get_as_float (v);
@@ -744,8 +744,8 @@ static char const *help_ceiling = {
 	   "@SEEALSO=CEIL")
 };
 
-static Value *
-gnumeric_ceiling (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_ceiling (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float number = value_get_as_float (argv[0]);
         gnm_float s;
@@ -780,8 +780,8 @@ static char const *help_cos = {
 	   "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES")
 };
 
-static Value *
-gnumeric_cos (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_cos (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_float (cosgnum (value_get_as_float (argv [0])));
 }
@@ -805,8 +805,8 @@ static char const *help_cosh = {
 	   "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP")
 };
 
-static Value *
-gnumeric_cosh (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_cosh (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_float (coshgnum (value_get_as_float (argv [0])));
 }
@@ -828,8 +828,8 @@ static char const *help_degrees = {
 	   "@SEEALSO=RADIANS, PI")
 };
 
-static Value *
-gnumeric_degrees (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_degrees (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_float ((value_get_as_float (argv [0]) * 180.0) /
 				M_PIgnum);
@@ -852,8 +852,8 @@ static char const *help_exp = {
 	   "@SEEALSO=LOG, LOG2, LOG10")
 };
 
-static Value *
-gnumeric_exp (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_exp (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_float (expgnum (value_get_as_float (argv [0])));
 }
@@ -875,8 +875,8 @@ static char const *help_fact = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_fact (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_fact (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 	gboolean x_is_integer = (x == floorgnum (x));
@@ -914,8 +914,8 @@ static char const *help_beta = {
 	   "@SEEALSO=BETALN,GAMMALN")
 };
 
-static Value *
-gnumeric_beta (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_beta (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
@@ -943,8 +943,8 @@ static char const *help_betaln = {
 	   "@SEEALSO=BETA,GAMMALN")
 };
 
-static Value *
-gnumeric_betaln (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_betaln (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
@@ -974,8 +974,8 @@ static char const *help_combin = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_combin (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_combin (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int n = value_get_as_int (argv[0]);
 	int k = value_get_as_int (argv[1]);
@@ -1007,8 +1007,8 @@ static char const *help_floor = {
 	   "@SEEALSO=CEIL, ABS, INT")
 };
 
-static Value *
-gnumeric_floor (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_floor (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float number, s;
 
@@ -1042,8 +1042,8 @@ static char const *help_int = {
 	   "@SEEALSO=FLOOR, CEIL, ABS")
 };
 
-static Value *
-gnumeric_int (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_int (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_float (gnumeric_fake_floor
 				(value_get_as_float (argv [0])));
@@ -1068,8 +1068,8 @@ static char const *help_log = {
 	   "@SEEALSO=LN, LOG2, LOG10")
 };
 
-static Value *
-gnumeric_log (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_log (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float t = value_get_as_float (argv [0]);
 	gnm_float base = argv[1] ? value_get_as_float (argv[1]) : 10;
@@ -1101,8 +1101,8 @@ static char const *help_ln = {
 	   "@SEEALSO=EXP, LOG2, LOG10")
 };
 
-static Value *
-gnumeric_ln (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_ln (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float t = value_get_as_float (argv [0]);
 
@@ -1133,8 +1133,8 @@ static char const *help_power = {
 	   "@SEEALSO=EXP")
 };
 
-static Value *
-gnumeric_power (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_power (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x = value_get_as_float (argv [0]);
 	gnm_float y = value_get_as_float (argv [1]);
@@ -1164,8 +1164,8 @@ static char const *help_log2 = {
 	   "@SEEALSO=EXP, LOG10, LOG")
 };
 
-static Value *
-gnumeric_log2 (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_log2 (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float t = value_get_as_float (argv [0]);
 	if (t <= 0.0)
@@ -1191,8 +1191,8 @@ static char const *help_log10 = {
 	   "@SEEALSO=EXP, LOG2, LOG")
 };
 
-static Value *
-gnumeric_log10 (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_log10 (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float t;
 
@@ -1231,8 +1231,8 @@ static char const *help_mod = {
  * MOD(-10.6,-2) = -1.4
  */
 
-static Value *
-gnumeric_mod (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_mod (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float a, b, babs, r;
 
@@ -1271,8 +1271,8 @@ static char const *help_radians = {
 	   "@SEEALSO=PI,DEGREES")
 };
 
-static Value *
-gnumeric_radians (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_radians (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_float ((value_get_as_float (argv [0]) * M_PIgnum) /
 				180);
@@ -1295,8 +1295,8 @@ static char const *help_sin = {
 	   "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES")
 };
 
-static Value *
-gnumeric_sin (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_sin (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_float (singnum (value_get_as_float (argv [0])));
 }
@@ -1319,8 +1319,8 @@ static char const *help_sinh = {
 	   "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP")
 };
 
-static Value *
-gnumeric_sinh (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_sinh (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_float (sinhgnum (value_get_as_float (argv [0])));
 }
@@ -1343,8 +1343,8 @@ static char const *help_sqrt = {
 	   "@SEEALSO=POWER")
 };
 
-static Value *
-gnumeric_sqrt (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_sqrt (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 	if (x < 0)
@@ -1374,7 +1374,7 @@ static char const *help_suma = {
 	   "@SEEALSO=AVERAGE, SUM, COUNT")
 };
 
-static Value *
+static GnmValue *
 gnumeric_suma (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return float_range_function (nodes, ei,
@@ -1405,7 +1405,7 @@ static char const *help_sumsq = {
 };
 
 
-static Value *
+static GnmValue *
 gnumeric_sumsq (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return float_range_function (nodes, ei,
@@ -1434,7 +1434,7 @@ static char const *help_multinomial = {
 };
 
 
-static Value *
+static GnmValue *
 gnumeric_multinomial (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return float_range_function (nodes, ei,
@@ -1462,7 +1462,7 @@ static char const *help_g_product = {
 	   "@SEEALSO=SUM, COUNT")
 };
 
-static Value *
+static GnmValue *
 gnumeric_g_product (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return float_range_function (nodes, ei,
@@ -1490,8 +1490,8 @@ static char const *help_tan = {
 	   "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS")
 };
 
-static Value *
-gnumeric_tan (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_tan (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_float (tangnum (value_get_as_float (argv [0])));
 }
@@ -1513,8 +1513,8 @@ static char const *help_tanh = {
 	   "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS")
 };
 
-static Value *
-gnumeric_tanh (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_tanh (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_float (tanhgnum (value_get_as_float (argv [0])));
 }
@@ -1538,8 +1538,8 @@ static char const *help_pi = {
 	   "@SEEALSO=SQRTPI")
 };
 
-static Value *
-gnumeric_pi (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_pi (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_float (M_PIgnum);
 }
@@ -1564,8 +1564,8 @@ static char const *help_trunc = {
 	   "@SEEALSO=INT")
 };
 
-static Value *
-gnumeric_trunc (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_trunc (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float number, p10;
         int digits;
@@ -1597,8 +1597,8 @@ static char const *help_even = {
 	   "@SEEALSO=ODD")
 };
 
-static Value *
-gnumeric_even (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_even (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float number, ceiled;
 	int     sign = 1;
@@ -1635,8 +1635,8 @@ static char const *help_odd = {
 	   "@SEEALSO=EVEN")
 };
 
-static Value *
-gnumeric_odd (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_odd (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float number, ceiled;
 	int     sign = 1;
@@ -1676,8 +1676,8 @@ static char const *help_factdouble = {
 	   "@SEEALSO=FACT")
 };
 
-static Value *
-gnumeric_factdouble (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_factdouble (FunctionEvalInfo *ei, GnmValue **argv)
 
 {
         int number;
@@ -1712,8 +1712,8 @@ static char const *help_fib = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_fib (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_fib (FunctionEvalInfo *ei, GnmValue **argv)
 
 {
 	static int fibs[47];
@@ -1760,8 +1760,8 @@ static char const *help_quotient = {
 	   "@SEEALSO=MOD")
 };
 
-static Value *
-gnumeric_quotient (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_quotient (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float num, den;
 
@@ -1793,8 +1793,8 @@ static char const *help_sign = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_sign (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_sign (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float n;
 
@@ -1825,8 +1825,8 @@ static char const *help_sqrtpi = {
 	   "@SEEALSO=PI")
 };
 
-static Value *
-gnumeric_sqrtpi (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_sqrtpi (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float n;
 
@@ -1865,8 +1865,8 @@ static char const *help_rounddown = {
 	   "@SEEALSO=ROUND,ROUNDUP")
 };
 
-static Value *
-gnumeric_rounddown (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_rounddown (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float number, p10;
         int digits;
@@ -1909,8 +1909,8 @@ static char const *help_round = {
 	   "@SEEALSO=ROUNDDOWN,ROUNDUP")
 };
 
-static Value *
-gnumeric_round (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_round (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float number, p10;
         int     digits;
@@ -1950,8 +1950,8 @@ static char const *help_roundup = {
 	   "@SEEALSO=ROUND,ROUNDDOWN")
 };
 
-static Value *
-gnumeric_roundup (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_roundup (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float number, p10;
         int digits;
@@ -1988,8 +1988,8 @@ static char const *help_mround = {
 	   "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP")
 };
 
-static Value *
-gnumeric_mround (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_mround (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float const accuracy_limit = 0.0000003;
         gnm_float number, multiple;
@@ -2051,8 +2051,8 @@ static char const *help_roman = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_roman (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	char const letter[] = { 'M', 'D', 'C', 'L', 'X', 'V', 'I' };
 	int  const largest = 1000;
@@ -2313,13 +2313,13 @@ static char const *help_sumx2my2 = {
 	   "@SEEALSO=SUMSQ,SUMX2PY2")
 };
 
-static Value *
-gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_sumx2my2 (FunctionEvalInfo *ei, GnmValue **argv)
 {
-        Value      *values_x = argv[0];
-        Value      *values_y = argv[1];
+        GnmValue      *values_x = argv[0];
+        GnmValue      *values_y = argv[1];
 	math_sums_t items_x, items_y;
-	Value      *ret;
+	GnmValue      *ret;
 	gnm_float  sum;
 	GSList     *list1, *list2;
 
@@ -2427,13 +2427,13 @@ static char const *help_sumx2py2 = {
 	   "@SEEALSO=SUMSQ,SUMX2MY2")
 };
 
-static Value *
-gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_sumx2py2 (FunctionEvalInfo *ei, GnmValue **argv)
 {
-        Value      *values_x = argv[0];
-        Value      *values_y = argv[1];
+        GnmValue      *values_x = argv[0];
+        GnmValue      *values_y = argv[1];
 	math_sums_t items_x, items_y;
-	Value      *ret;
+	GnmValue      *ret;
 	gnm_float  sum;
 	GSList     *list1, *list2;
 
@@ -2538,13 +2538,13 @@ static char const *help_sumxmy2 = {
 	   "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2")
 };
 
-static Value *
-gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_sumxmy2 (FunctionEvalInfo *ei, GnmValue **argv)
 {
-        Value      *values_x = argv[0];
-        Value      *values_y = argv[1];
+        GnmValue      *values_x = argv[0];
+        GnmValue      *values_y = argv[1];
 	math_sums_t items_x, items_y;
-	Value      *ret;
+	GnmValue      *ret;
 	gnm_float  sum;
 	GSList     *list1, *list2;
 
@@ -2671,7 +2671,7 @@ range_seriessum (gnm_float const *xs, int n, gnm_float *res)
 }
 
 
-static Value *
+static GnmValue *
 gnumeric_seriessum (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return float_range_function (nodes, ei,
@@ -2703,7 +2703,7 @@ static char const *help_minverse = {
 };
 
 
-static Value *
+static GnmValue *
 callback_function_mmult_validate (Sheet *sheet, int col, int row,
 				  Cell *cell, void *user_data)
 {
@@ -2718,11 +2718,11 @@ callback_function_mmult_validate (Sheet *sheet, int col, int row,
 }
 
 static gboolean
-validate_range_numeric_matrix (EvalPos const *ep, Value * matrix,
+validate_range_numeric_matrix (EvalPos const *ep, GnmValue * matrix,
 			       int *rows, int *cols,
 			       GnmStdError *err)
 {
-	Value *res;
+	GnmValue *res;
 	int cell_count = 0;
 
 	*cols = value_area_get_width (matrix, ep);
@@ -2759,7 +2759,7 @@ validate_range_numeric_matrix (EvalPos const *ep, Value * matrix,
 }
 
 static gnm_float **
-value_to_matrix (Value const *v, int cols, int rows, EvalPos const *ep)
+value_to_matrix (GnmValue const *v, int cols, int rows, EvalPos const *ep)
 {
 	gnm_float **res = g_new (gnm_float *, rows);
 	int r, c;
@@ -2786,15 +2786,15 @@ free_matrix (gnm_float **mat, G_GNUC_UNUSED int cols, int rows)
 }
 
 
-static Value *
-gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_minverse (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	EvalPos const * const ep = ei->pos;
 
 	int	r, rows;
 	int	c, cols;
-	Value *res;
-        Value *values = argv[0];
+	GnmValue *res;
+        GnmValue *values = argv[0];
 	gnm_float **matrix;
 	GnmStdError err;
 
@@ -2814,7 +2814,7 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 
 	res = value_new_array_non_init (cols, rows);
 	for (c = 0; c < cols; ++c) {
-		res->v_array.vals[c] = g_new (Value *, rows);
+		res->v_array.vals[c] = g_new (GnmValue *, rows);
 		for (r = 0; r < rows; ++r) {
 			gnm_float tmp = matrix[r][c];
 			res->v_array.vals[c][r] = value_new_float (tmp);
@@ -2843,15 +2843,15 @@ static char const *help_mmult = {
 };
 
 
-static Value *
-gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_mmult (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	EvalPos const * const ep = ei->pos;
 	int	r, rows_a, rows_b;
 	int	c, cols_a, cols_b;
-        Value *res;
-        Value *values_a = argv[0];
-        Value *values_b = argv[1];
+        GnmValue *res;
+        GnmValue *values_a = argv[0];
+        GnmValue *values_b = argv[1];
 	gnm_float *A, *B, *product;
 	GnmStdError err;
 
@@ -2874,14 +2874,14 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 
 	for (c = 0; c < cols_a; c++)
 	        for (r = 0; r < rows_a; r++) {
-		        Value const * a =
+		        GnmValue const * a =
 			     value_area_get_x_y (values_a, c, r, ep);
 		        A[r + c * rows_a] = value_get_as_float (a);
 		}
 
 	for (c = 0; c < cols_b; c++)
 	        for (r = 0; r < rows_b; r++) {
-		        Value const * b =
+		        GnmValue const * b =
 			     value_area_get_x_y (values_b, c, r, ep);
 		        B[r + c * rows_b] = value_get_as_float (b);
 		}
@@ -2889,7 +2889,7 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 	mmult (A, B, cols_a, rows_a, cols_b, product);
 
 	for (c = 0; c < cols_b; c++) {
-	        res->v_array.vals[c] = g_new (Value *, rows_a);
+	        res->v_array.vals[c] = g_new (GnmValue *, rows_a);
 	        for (r = 0; r < rows_a; r++)
 		        res->v_array.vals[c][r] =
 			    value_new_float (product [r + c * rows_a]);
@@ -2923,14 +2923,14 @@ static char const *help_mdeterm = {
 	   "@SEEALSO=MMULT, MINVERSE")
 };
 
-static Value *
-gnumeric_mdeterm (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_mdeterm (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	EvalPos const * const ep = ei->pos;
 
 	int	rows, cols;
         gnm_float res;
-        Value   *values = argv[0];
+        GnmValue   *values = argv[0];
 	gnm_float **matrix;
 	GnmStdError err;
 
@@ -2973,11 +2973,11 @@ static char const *help_sumproduct = {
 	   "@SEEALSO=SUM,PRODUCT")
 };
 
-static Value *
+static GnmValue *
 gnumeric_sumproduct (FunctionEvalInfo *ei, GnmExprList *args)
 {
 	gnm_float **data;
-	Value *result;
+	GnmValue *result;
 	int i, argc;
 	GnmExprList *l;
 	gboolean size_error = FALSE;
@@ -2992,7 +2992,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GnmExprList *args)
 	for (l = args, i = 0; l; l = l->next, i++) {
 		int thissizex, thissizey, x, y;
 		GnmExpr const *expr = l->data;
-		Value    *val = gnm_expr_eval (expr, ei->pos,
+		GnmValue    *val = gnm_expr_eval (expr, ei->pos,
 					   GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
 					   GNM_EXPR_EVAL_PERMIT_EMPTY);
 
@@ -3009,7 +3009,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GnmExprList *args)
 		for (y = 0; y < thissizey; y++) {
 			for (x = 0; x < thissizex; x++) {
 				/* FIXME: efficiency worries?  */
-				Value const *v = value_area_fetch_x_y (val, x, y, ei->pos);
+				GnmValue const *v = value_area_fetch_x_y (val, x, y, ei->pos);
 				if (v->type == VALUE_ERROR) {
 					/*
 					 * We carefully tranverse the argument

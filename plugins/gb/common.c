@@ -6,7 +6,7 @@
 #include "str.h"
 
 GBValue *
-value_to_gb (Value *val)
+value_to_gb (GnmValue *val)
 {
 	if (val == NULL)
 		return NULL;
@@ -39,7 +39,7 @@ value_to_gb (Value *val)
 	}
 }
 
-Value *
+GnmValue *
 gb_to_value (GBValue *v)
 {
 	switch (gb_value_from_gtk_type (v->gtk_type)) {

@@ -2199,7 +2199,7 @@ cb_edit_duplicate_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 
 static void
-common_cell_goto (WorkbookControlGUI *wbcg, Sheet *sheet, CellPos const *pos)
+common_cell_goto (WorkbookControlGUI *wbcg, Sheet *sheet, GnmCellPos const *pos)
 {
 	SheetView *sv = sheet_get_view (sheet,
 		wb_control_view (WORKBOOK_CONTROL (wbcg)));
@@ -2212,7 +2212,7 @@ common_cell_goto (WorkbookControlGUI *wbcg, Sheet *sheet, CellPos const *pos)
 }
 
 static int
-cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
+cb_edit_search_replace_query (SearchReplaceQuery q, GnmSearchReplace *sr, ...)
 {
 	int res = 0;
 	va_list pvar;
@@ -2263,7 +2263,7 @@ cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
 
 	case SRQ_querycommment: {
 		Sheet *sheet = va_arg (pvar, Sheet *);
-		CellPos *cp = va_arg (pvar, CellPos *);
+		GnmCellPos *cp = va_arg (pvar, GnmCellPos *);
 		const char *old_text = va_arg (pvar, const char *);
 		const char *new_text = va_arg (pvar, const char *);
 		char *pos_name = g_strdup_printf (_("Comment in cell %s!%s"),
@@ -2285,7 +2285,7 @@ cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
 
 static gboolean
 cb_edit_search_replace_action (WorkbookControlGUI *wbcg,
-			       SearchReplace *sr)
+			       GnmSearchReplace *sr)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
@@ -2317,9 +2317,9 @@ cb_edit_fill_autofill (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	Sheet	  *sheet = wb_control_cur_sheet (wbc);
 
-	Range const *total = selection_first_range (sv, COMMAND_CONTEXT (wbc), _("Autofill"));
+	GnmRange const *total = selection_first_range (sv, COMMAND_CONTEXT (wbc), _("Autofill"));
 	if (total) {
-		Range src = *total;
+		GnmRange src = *total;
 		gboolean do_loop;
 		GSList *merges, *ptr;
 
@@ -2333,7 +2333,7 @@ cb_edit_fill_autofill (GtkWidget *unused, WorkbookControlGUI *wbcg)
 			do_loop = FALSE;
 			merges = sheet_merge_get_overlap (sheet, &src);
 			for (ptr = merges ; ptr != NULL ; ptr = ptr->next) {
-				Range const *r = ptr->data;
+				GnmRange const *r = ptr->data;
 				if (src.end.col < r->end.col) {
 					src.end.col = r->end.col;
 					do_loop = TRUE;
@@ -2403,7 +2403,7 @@ cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 	scg_mode_edit (SHEET_CONTROL (scg));
 	if (scg->active_panes == 1) {
-		CellPos frozen_tl, unfrozen_tl;
+		GnmCellPos frozen_tl, unfrozen_tl;
 		GnmCanvas const *gcanvas = scg_pane (scg, 0);
 		frozen_tl = gcanvas->first;
 		unfrozen_tl = sv->edit_pos;
@@ -2444,7 +2444,7 @@ cb_insert_current_date (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
 		Workbook const *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-		Value *v = value_new_int (datetime_timet_to_serial (time (NULL),
+		GnmValue *v = value_new_int (datetime_timet_to_serial (time (NULL),
 								    workbook_date_conv (wb)));
 		char *txt = format_value (style_format_default_date (), v, NULL, -1,
 				workbook_date_conv (wb));
@@ -2459,7 +2459,7 @@ cb_insert_current_time (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
 		Workbook const *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-		Value *v = value_new_float (datetime_timet_to_seconds (time (NULL)) / (24.0 * 60 * 60));
+		GnmValue *v = value_new_float (datetime_timet_to_seconds (time (NULL)) / (24.0 * 60 * 60));
 		char *txt = format_value (style_format_default_time (), v, NULL, -1,
 				workbook_date_conv (wb));
 		value_release (v);
@@ -2480,7 +2480,7 @@ cb_insert_rows (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet     *sheet = wb_control_cur_sheet (wbc);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
-	Range const *sel;
+	GnmRange const *sel;
 
 	wbcg_edit_finish (wbcg, FALSE, NULL);
 
@@ -2499,7 +2499,7 @@ cb_insert_cols (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
-	Range const *sel;
+	GnmRange const *sel;
 
 	wbcg_edit_finish (wbcg, FALSE, NULL);
 
@@ -2543,7 +2543,7 @@ cb_sheet_order (GtkWidget *widget, WorkbookControlGUI *wbcg)
         dialog_sheet_order (wbcg);
 }
 
-static Value *
+static GnmValue *
 cb_rerender_zeroes (Sheet *sheet, int col, int row, Cell *cell,
 		    gpointer ignored)
 {
@@ -2898,9 +2898,9 @@ cb_auto_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 #warning Add undo/redo
 	if (filter == NULL) {
-		Range const *src = selection_first_range (sv,
+		GnmRange const *src = selection_first_range (sv,
 			COMMAND_CONTEXT (wbcg), _("Add Filter"));
-		Range region = *src;
+		GnmRange region = *src;
 
 		/* only one row selected -- assume that the user wants to
 		 * filter the region below this row. */
@@ -2967,7 +2967,7 @@ hide_show_detail_real (WorkbookControlGUI *wbcg, gboolean is_cols, gboolean show
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = show ? _("Show Detail") : _("Hide Detail");
-	Range const *r = selection_first_range (sv, COMMAND_CONTEXT (wbc),
+	GnmRange const *r = selection_first_range (sv, COMMAND_CONTEXT (wbc),
 						operation);
 
 	/* This operation can only be performed on a whole existing group */
@@ -2986,7 +2986,7 @@ hide_show_detail (WorkbookControlGUI *wbcg, gboolean show)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = show ? _("Show Detail") : _("Hide Detail");
-	Range const *r = selection_first_range (sv, COMMAND_CONTEXT (wbc),
+	GnmRange const *r = selection_first_range (sv, COMMAND_CONTEXT (wbc),
 						operation);
 	gboolean is_cols;
 
@@ -3032,7 +3032,7 @@ group_ungroup_colrow (WorkbookControlGUI *wbcg, gboolean group)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = group ? _("Group") : _("Ungroup");
-	Range const *r = selection_first_range (sv, COMMAND_CONTEXT (wbc), operation);
+	GnmRange const *r = selection_first_range (sv, COMMAND_CONTEXT (wbc), operation);
 	gboolean is_cols;
 
 	/* We only operate on a single selection */
@@ -3148,10 +3148,10 @@ static void
 sort_by_rows (WorkbookControlGUI *wbcg, int asc)
 {
 	SheetView *sv;
-	Range *sel;
-	Range const *tmp;
-	SortData *data;
-	SortClause *clause;
+	GnmRange *sel;
+	GnmRange const *tmp;
+	GnmSortData *data;
+	GnmSortClause *clause;
 	int numclause, i;
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
@@ -3165,7 +3165,7 @@ sort_by_rows (WorkbookControlGUI *wbcg, int asc)
 	range_clip_to_finite (sel, sv_sheet (sv));
 
 	numclause = range_width (sel);
-	clause = g_new0 (SortClause, numclause);
+	clause = g_new0 (GnmSortClause, numclause);
 	for (i=0; i < numclause; i++) {
 		clause[i].offset = i;
 		clause[i].asc = asc;
@@ -3173,7 +3173,7 @@ sort_by_rows (WorkbookControlGUI *wbcg, int asc)
 		clause[i].val = TRUE;
 	}
 
-	data = g_new (SortData, 1);
+	data = g_new (GnmSortData, 1);
 	data->sheet = sv_sheet (sv);
 	data->range = sel;
 	data->num_clause = numclause;
@@ -4289,7 +4289,7 @@ cb_statusbox_focus (GtkEntry *entry, GdkEventFocus *event,
 
 /******************************************************************************/
 
-static Value *
+static GnmValue *
 cb_share_a_cell (Sheet *sheet, int col, int row, Cell *cell, gpointer _es)
 {
 	if (cell && cell_has_expr (cell)) {

@@ -73,7 +73,7 @@ thrash_insert (Sheet *sheet)
 	mstyle_set_font_size   (style2, 20.0);
 
 	for (j = 0; j < INSERT_HEIGHT; j++) {
-		Range r;
+		GnmRange r;
 		int i;
 
 		for (i = 0; i < INSERT_WIDTH; i++) {

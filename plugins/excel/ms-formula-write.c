@@ -147,7 +147,7 @@ excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 		break;
 
 	case GNM_EXPR_OP_CONSTANT: {
-		Value const *v = expr->constant.value;
+		GnmValue const *v = expr->constant.value;
 		if (v->type == VALUE_CELLRANGE) {
 			ExcelSheetPair pair;
 			pair.a = v->v_range.cell.a.sheet;
@@ -285,7 +285,7 @@ push_guint32 (PolishData *pd, guint32 b)
 }
 
 static void
-write_cellref_v7 (PolishData *pd, CellRef const *ref,
+write_cellref_v7 (PolishData *pd, GnmCellRef const *ref,
 		  guint8 *out_col, guint8 *out_row)
 {
 	guint    row, col;
@@ -312,7 +312,7 @@ write_cellref_v7 (PolishData *pd, CellRef const *ref,
 }
 
 static void
-write_cellref_v8 (PolishData *pd, CellRef const *ref,
+write_cellref_v8 (PolishData *pd, GnmCellRef const *ref,
 		  guint8 *out_col, guint8 *out_row)
 {
 	guint    row, col;
@@ -346,7 +346,7 @@ write_string (PolishData *pd, gchar const *txt)
 }
 
 static void
-excel_formula_write_CELLREF (PolishData *pd, CellRef const *ref,
+excel_formula_write_CELLREF (PolishData *pd, GnmCellRef const *ref,
 			     Sheet *sheet_b, XLOpType target_type)
 {
 	guint8 data[24];
@@ -404,7 +404,7 @@ excel_formula_write_CELLREF (PolishData *pd, CellRef const *ref,
 }
 
 static void
-excel_formula_write_AREA (PolishData *pd, CellRef const *a, CellRef const *b,
+excel_formula_write_AREA (PolishData *pd, GnmCellRef const *a, GnmCellRef const *b,
 			  XLOpType target_type)
 {
 	guint8 data[24];
@@ -693,7 +693,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 		break;
 
         case GNM_EXPR_OP_CONSTANT : {
-		Value const *v = expr->constant.value;
+		GnmValue const *v = expr->constant.value;
 		switch (v->type) {
 
 		case VALUE_INTEGER : {
@@ -834,7 +834,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 static void
 write_arrays (PolishData *pd)
 {
-	Value const *array;
+	GnmValue const *array;
 	GSList  *ptr;
 	int  	 x, y;
 	guint8   data[8];
@@ -856,7 +856,7 @@ write_arrays (PolishData *pd)
 
 		for (y = 0; y < array->v_array.y; y++) {
 			for (x = 0; x < array->v_array.x; x++) {
-				Value const *v = array->v_array.vals[x][y];
+				GnmValue const *v = array->v_array.vals[x][y];
 
 				if (VALUE_IS_NUMBER (v)) {
 					push_guint8 (pd, 1);

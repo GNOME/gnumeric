@@ -111,7 +111,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
 		char const *expr_txt = NULL;
 
 		/* BE CAREFUL the standard fmts must not NOT include '@' */
-		Value *value = format_match (txt, mstyle_get_format (mstyle),
+		GnmValue *value = format_match (txt, mstyle_get_format (mstyle),
 					     workbook_date_conv (sheet->workbook));
 		if (value != NULL)
 			value_release (value);
@@ -206,7 +206,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
 	} else {
 		if (sv == wb_control_cur_sheet_view (wbc)) {
 			/* Redraw the cell contents in case there was a span */
-			Range tmp; tmp.start = tmp.end = sv->edit_pos;
+			GnmRange tmp; tmp.start = tmp.end = sv->edit_pos;
 			sheet_range_bounding_box (sv->sheet, &tmp);
 			sv_redraw_range (wb_control_cur_sheet_view (wbc), &tmp);
 		}

@@ -79,7 +79,7 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 			if (cell == NULL)
 				dao_set_cell (dao, i - input_col_b, r, NULL);
 			else {
-				Value *value = value_duplicate (cell->value);
+				GnmValue *value = value_duplicate (cell->value);
 				dao_set_cell_value (dao, i - input_col_b, r,
 						    value);
 			}
@@ -94,7 +94,7 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 					dao_set_cell (dao, i - input_col_b, r,
 						      NULL);
 				else {
-					Value *value =
+					GnmValue *value =
 						value_duplicate (cell->value);
 					dao_set_cell_value (dao,
 							    i - input_col_b, r,
@@ -113,8 +113,8 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 gint
 advanced_filter (WorkbookControl        *wbc,
 		 data_analysis_output_t *dao,
-		 Value                  *database,
-		 Value                  *criteria,
+		 GnmValue               *database,
+		 GnmValue               *criteria,
 		 gboolean               unique_only_flag)
 {
         GSList  *crit, *rows;

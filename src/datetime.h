@@ -28,13 +28,13 @@ struct _GnmDateConventions {
 #define WEEKNUM_METHOD_ISO    150
 
 /* These do not round and produces fractional values, i.e., includes time.  */
-gnm_float datetime_value_to_serial_raw (Value const *v, GnmDateConventions const *conv);
+gnm_float datetime_value_to_serial_raw (GnmValue const *v, GnmDateConventions const *conv);
 gnm_float datetime_timet_to_serial_raw (time_t t,	GnmDateConventions const *conv);
 
 /* These are date-only, no time.  */
-int      datetime_value_to_serial	(Value const *v, GnmDateConventions const *conv);
+int      datetime_value_to_serial	(GnmValue const *v, GnmDateConventions const *conv);
 int      datetime_timet_to_serial	(time_t t,		GnmDateConventions const *conv);
-gboolean datetime_value_to_g		(GDate *res, Value const *v, GnmDateConventions const *conv);
+gboolean datetime_value_to_g		(GDate *res, GnmValue const *v, GnmDateConventions const *conv);
 int      datetime_g_to_serial		(GDate const *date,	 GnmDateConventions const *conv);
 void     datetime_serial_to_g		(GDate *res, int serial, GnmDateConventions const *conv);
 time_t   datetime_serial_to_timet	(int serial,		 GnmDateConventions const *conv);
@@ -42,7 +42,7 @@ int      datetime_serial_raw_to_serial	(gnm_float raw);
 
 /* These are time-only assuming a 24h day.  It probably loses completely on */
 /* days with summer time ("daylight savings") changes.  */
-int datetime_value_to_seconds (Value const *v);
+int datetime_value_to_seconds (GnmValue const *v);
 int datetime_timet_to_seconds (time_t t);
 int datetime_serial_raw_to_seconds (gnm_float raw);
 
@@ -74,7 +74,7 @@ typedef enum { /* see doc/fn-financial-basis.txt for details */
 
 gint32  days_between_basis (GDate const *from, GDate const *to, basis_t basis);
 gnm_float yearfrac         (GDate const *from, GDate const *to, basis_t basis);
-int     annual_year_basis  (Value const *value_date, basis_t basis,
+int     annual_year_basis  (GnmValue const *value_date, basis_t basis,
 			    GnmDateConventions const *date_conv);
 
 typedef struct {

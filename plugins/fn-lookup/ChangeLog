@@ -1,3 +1,7 @@
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
 2003-10-05  Jody Goldberg <jody@gnome.org>
 
 	* functions.c : Have lookup/hlookup/vlookup/match use the new 'B' arg

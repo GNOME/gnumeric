@@ -142,7 +142,7 @@ afg_get_cell_style (PreviewGrid *pg, int col, int row)
 	return format_template_get_style (ag->ft, row, col);
 }
 
-static Value *
+static GnmValue *
 afg_get_cell_value (G_GNUC_UNUSED PreviewGrid *pg, int col, int row)
 {
 	char const *text;

@@ -608,7 +608,7 @@ format_match_create (StyleFormat *fmt)
  *
  * returns : an error if there is one, or NULL.
  */
-static Value *
+static GnmValue *
 value_is_error (char const * const str)
 {
 	GnmStdError e;
@@ -729,7 +729,7 @@ extract_text (char const *str, const regmatch_t *mp)
  * Currently the code cannot mix a MATCH_NUMBER with any
  * of the date/time matching.
  */
-static Value *
+static GnmValue *
 compute_value (char const *s, const regmatch_t *mp,
 	       GByteArray *array, GnmDateConventions const *date_conv)
 {
@@ -1099,7 +1099,7 @@ compute_value (char const *s, const regmatch_t *mp,
  * 				VALUE_STRING that will break the parsers
  * 				handling of named expressions.
  */
-Value *
+GnmValue *
 format_match_simple (char const *text)
 {
 	/* Is it a boolean?  */
@@ -1110,7 +1110,7 @@ format_match_simple (char const *text)
 
 	/* Is it an error?  */
 	if (*text == '#') {
-		Value *err = value_is_error (text);
+		GnmValue *err = value_is_error (text);
 		if (err != NULL)
 			return err;
 	}
@@ -1162,11 +1162,11 @@ format_match_simple (char const *text)
  * Attempts to parse the supplied string to see if it matches a known value
  * format.  The caller is responsible for releasing the resulting value.
  **/
-Value *
+GnmValue *
 format_match (char const *text, StyleFormat *cur_fmt,
 	      GnmDateConventions const *date_conv)
 {
-	Value  *v;
+	GnmValue  *v;
 	GSList *l;
 	regmatch_t mp[NM + 1];
 
@@ -1274,11 +1274,11 @@ format_match (char const *text, StyleFormat *cur_fmt,
  * additional references.   The caller is responsible for releasing the
  * resulting value.  Will ONLY return numbers.
  */
-Value *
+GnmValue *
 format_match_number (char const *text, StyleFormat *cur_fmt,
 		     GnmDateConventions const *date_conv)
 {
-	Value *res = format_match (text, cur_fmt, date_conv);
+	GnmValue *res = format_match (text, cur_fmt, date_conv);
 
 	if (res != NULL) {
 		if (VALUE_IS_NUMBER (res))

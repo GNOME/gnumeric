@@ -39,7 +39,7 @@
 typedef struct {
 	int text_start;
 	int text_end;
-	RangeRef ref;
+	GnmRangeRef ref;
 	gboolean  is_valid;
 } Rangesel;
 
@@ -124,7 +124,7 @@ gee_rangesel_reset (GnmExprEntry *gee)
 
 	rs->text_start = 0;
 	rs->text_end = 0;
-	memset (&rs->ref, 0, sizeof (Range));
+	memset (&rs->ref, 0, sizeof (GnmRange));
 
 	/* restore the default based on the flags */
 	rs->ref.a.col_relative = rs->ref.b.col_relative = (gee->flags & GNM_EE_ABS_COL) != 0;
@@ -521,7 +521,7 @@ GSF_CLASS_FULL (GnmExprEntry, gnm_expr_entry,
  * Adjust @dst as necessary to conform to @gee's requirements
  **/
 static void
-gee_prepare_range (GnmExprEntry const *gee, RangeRef *dst)
+gee_prepare_range (GnmExprEntry const *gee, GnmRangeRef *dst)
 {
 	Rangesel const *rs = &gee->rangesel;
 
@@ -538,8 +538,8 @@ gee_prepare_range (GnmExprEntry const *gee, RangeRef *dst)
 
 	/* special case a single merge to be only corner */
 	if (!(gee->flags & (GNM_EE_FULL_ROW|GNM_EE_FULL_COL))) {
-		Range const *merge;
-		CellPos  corner;
+		GnmRange const *merge;
+		GnmCellPos  corner;
 
 		corner.col = MIN (dst->a.col, dst->b.col);
 		corner.row = MIN (dst->a.row, dst->b.row);
@@ -559,7 +559,7 @@ gee_prepare_range (GnmExprEntry const *gee, RangeRef *dst)
 static char *
 gee_rangesel_make_text (GnmExprEntry const *gee)
 {
-	RangeRef ref;
+	GnmRangeRef ref;
 	ParsePos pp;
 	GString *target = g_string_new (NULL);
 
@@ -620,7 +620,7 @@ gnm_expr_expr_find_range (GnmExprEntry *gee)
 {
 	gboolean  single, formula_only;
 	char const *text, *cursor, *tmp, *ptr;
-	RangeRef  range;
+	GnmRangeRef  range;
 	Rangesel *rs;
 	ParsePos  pp;
 	int len;
@@ -908,8 +908,8 @@ gnm_expr_entry_thaw (GnmExprEntry *gee)
  * %GNM_EE_SINGLE_RANGE      Entry will only hold a single range.
  * %GNM_EE_ABS_COL           Column reference must be absolute.
  * %GNM_EE_ABS_ROW           Row reference must be absolute.
- * %GNM_EE_FULL_COL          Range consists of full columns.
- * %GNM_EE_FULL_ROW          Range consists of full rows.
+ * %GNM_EE_FULL_COL          GnmRange consists of full columns.
+ * %GNM_EE_FULL_ROW          GnmRange consists of full rows.
  * %GNM_EE_SHEET_OPTIONAL    Current sheet name not auto-added.
  **/
 void
@@ -1037,7 +1037,7 @@ gnm_expr_entry_load_from_expr (GnmExprEntry *gee,
 /**
  * gnm_expr_entry_load_from_range
  * @gee: a #GnmExprEntry
- * @r:          a #Range
+ * @r:          a #GnmRange
  * @sheet:      a #sheet
  * @pos:        position
  *
@@ -1050,7 +1050,7 @@ gnm_expr_entry_load_from_expr (GnmExprEntry *gee,
  **/
 gboolean
 gnm_expr_entry_load_from_range (GnmExprEntry *gee,
-				Sheet *sheet, Range const *r)
+				Sheet *sheet, GnmRange const *r)
 {
 	Rangesel *rs;
 	gboolean needs_change = FALSE;
@@ -1096,19 +1096,19 @@ gnm_expr_entry_load_from_range (GnmExprEntry *gee,
 /**
  * gnm_expr_entry_get_rangesel
  * @gee: a #GnmExprEntry
- * @r:          address to receive #Range
+ * @r:          address to receive #GnmRange
  * @sheet:      address to receive #sheet
  *
- * Get the range selection. Range is copied, Sheet is not. If sheet
+ * Get the range selection. GnmRange is copied, Sheet is not. If sheet
  * argument is NULL, the corresponding value is not returned.
  * Returns TRUE if the returned range is indeed valid.
  * The resulting range is normalized.
  **/
 gboolean
 gnm_expr_entry_get_rangesel (GnmExprEntry *gee,
-			     Range *r, Sheet **sheet)
+			     GnmRange *r, Sheet **sheet)
 {
-	RangeRef ref;
+	GnmRangeRef ref;
 	Rangesel const *rs = &gee->rangesel;
 
 	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
@@ -1248,7 +1248,7 @@ gnm_expr_entry_parse (GnmExprEntry *gee, ParsePos const *pp,
 		return NULL;
 
 	if (gee->flags & GNM_EE_SINGLE_RANGE) {
-		Value *range = gnm_expr_get_range (expr) ;
+		GnmValue *range = gnm_expr_get_range (expr) ;
 		if (range == NULL) {
 			if (perr != NULL) {
 				perr->err = g_error_new (1, PERR_SINGLE_RANGE,
@@ -1299,10 +1299,10 @@ gnm_expr_entry_get_text	(GnmExprEntry const *gee)
  * @sheet: the sheet where the cell range is evaluated. This really only needed if
  *         the range given does not include a sheet specification.
  *
- * Returns a (Value *) of type VALUE_CELLRANGE if the @range was
+ * Returns a (GnmValue *) of type VALUE_CELLRANGE if the @range was
  *	succesfully parsed or NULL on failure.
  */
-Value *
+GnmValue *
 gnm_expr_entry_parse_as_value (GnmExprEntry *gee, Sheet *sheet)
 {
 	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
@@ -1342,7 +1342,7 @@ gboolean
 gnm_expr_entry_is_cell_ref (GnmExprEntry *gee, Sheet *sheet,
 			    gboolean allow_multiple_cell)
 {
-        Value *val;
+        GnmValue *val;
 	gboolean res;
 
 	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
@@ -1383,7 +1383,7 @@ gnm_expr_entry_is_blank	(GnmExprEntry *gee)
 char *
 gnm_expr_entry_global_range_name (GnmExprEntry *gee, Sheet *sheet)
 {
-	Value *val;
+	GnmValue *val;
 	char *text = NULL;
 
 	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);

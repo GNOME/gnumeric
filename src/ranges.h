@@ -52,66 +52,65 @@
 #define range_valid(r)          ((r)->start.col <= (r)->end.col && \
 				 (r)->start.row <= (r)->end.row)
 
-Range	   *range_init_full_sheet   (Range *r);
-Range	   *range_init_rangeref	    (Range *range, RangeRef const *rr);
-Range	   *range_init_value	    (Range *range, Value const *v);
-Range      *range_init_cellpos	    (Range *r, CellPos const *start, CellPos const *end);
+GnmRange   *range_init_full_sheet   (GnmRange *r);
+GnmRange   *range_init_rangeref	    (GnmRange *range, GnmRangeRef const *rr);
+GnmRange   *range_init_value	    (GnmRange *range, GnmValue const *v);
+GnmRange   *range_init_cellpos	    (GnmRange *r, GnmCellPos const *start, GnmCellPos const *end);
 
-Range      *range_init              (Range *r, int start_col, int start_row,
+GnmRange   *range_init              (GnmRange *r, int start_col, int start_row,
 				     int end_col, int end_row);
-Value      *range_parse             (Sheet *sheet, char const *range, gboolean strict);
-gboolean    parse_range 	    (char const *text, Range *r);
+GnmValue   *range_parse             (Sheet *sheet, char const *range, gboolean strict);
+gboolean    parse_range 	    (char const *text, GnmRange *r);
 void        range_list_destroy      (GSList *ranges);
 
-int	    range_width		(Range const *r);
-int	    range_height	(Range const *r);
-gboolean    range_is_singleton  (Range const *r);
-gboolean    range_is_infinite   (Range const *r);
-gboolean    range_is_full	(Range const *r, gboolean is_cols);
-void        range_clip_to_finite(Range *range, Sheet *sheet);
-gboolean    range_contained     (Range const *a, Range const *b);
-gboolean    range_adjacent      (Range const *a, Range const *b);
-Range       range_merge         (Range const *a, Range const *b);
-gboolean    range_intersection  (Range *r,
-				 Range const *a,
-				 Range const *b);
-void        range_normalize     (Range *src);
-Range       range_union         (Range const *a, Range const *b);
-void        range_ensure_sanity (Range *range);
-gboolean    range_is_sane	(Range const *range);
-gboolean    range_translate     (Range *range, int col_offset, int row_offset);
-gboolean    range_transpose     (Range *range, CellPos const *origin);
+int	    range_width		(GnmRange const *r);
+int	    range_height	(GnmRange const *r);
+gboolean    range_is_singleton  (GnmRange const *r);
+gboolean    range_is_infinite   (GnmRange const *r);
+gboolean    range_is_full	(GnmRange const *r, gboolean is_cols);
+void        range_clip_to_finite(GnmRange *range, Sheet *sheet);
+gboolean    range_contained     (GnmRange const *a, GnmRange const *b);
+gboolean    range_adjacent      (GnmRange const *a, GnmRange const *b);
+GnmRange    range_merge         (GnmRange const *a, GnmRange const *b);
+gboolean    range_intersection  (GnmRange *r,
+				 GnmRange const *a,
+				 GnmRange const *b);
+void        range_normalize     (GnmRange *src);
+GnmRange    range_union         (GnmRange const *a, GnmRange const *b);
+void        range_ensure_sanity (GnmRange *range);
+gboolean    range_is_sane	(GnmRange const *range);
+gboolean    range_translate     (GnmRange *range, int col_offset, int row_offset);
+gboolean    range_transpose     (GnmRange *range, GnmCellPos const *origin);
 
 /* TODO : Do these 2 belong here ? or in sheet.h
  * Probably sheet.h but that is overfull.
  */
-gboolean    range_trim		(Sheet const *sheet, Range *r,
+gboolean    range_trim		(Sheet const *sheet, GnmRange *r,
 				 gboolean cols);
-gboolean    range_has_header    (Sheet const *sheet, Range const *src,
+gboolean    range_has_header    (Sheet const *sheet, GnmRange const *src,
 				 gboolean top, gboolean ignore_styles);
 
-char const *range_name          (Range const *src);
-void        range_dump          (Range const *src, char const *suffix);
-Range      *range_dup		(Range const *src);
+char const *range_name          (GnmRange const *src);
+void        range_dump          (GnmRange const *src, char const *suffix);
+GnmRange   *range_dup		(GnmRange const *src);
 
-GSList     *range_split_ranges    (Range const *hard, Range const *soft);
-GSList     *range_fragment        (Range const *a, Range const *b);
+GSList     *range_split_ranges    (GnmRange const *hard, GnmRange const *soft);
+GSList     *range_fragment        (GnmRange const *a, GnmRange const *b);
 void        range_fragment_free   (GSList *fragments);
 
-GlobalRange *global_range_new     (Sheet *sheet, Range const *r);
-gboolean     value_to_global_range(Value const *v, GlobalRange *res);
-void         global_range_free    (GlobalRange *gr);
-gboolean     global_range_overlap (GlobalRange const *a, GlobalRange const *b);
-GlobalRange *global_range_dup     (GlobalRange const *src);
-Value       *global_range_parse   (Sheet *sheet, char const *range);
-char        *global_range_name    (Sheet *sheet, Range const *r);
+GnmGlobalRange *global_range_new   (Sheet *sheet, GnmRange const *r);
+GnmGlobalRange *global_range_dup   (GnmGlobalRange const *src);
+gboolean     value_to_global_range (GnmValue const *v, GnmGlobalRange *res);
+void         global_range_free     (GnmGlobalRange *gr);
+gboolean     global_range_overlap  (GnmGlobalRange const *a, GnmGlobalRange const *b);
+GnmValue    *global_range_parse    (Sheet *sheet, char const *range);
+char        *global_range_name     (Sheet *sheet, GnmRange const *r);
 
 GSList      *global_range_list_parse   (Sheet *sheet, char const *str);
-Value	    *global_range_list_foreach (GSList *gr_list, EvalPos const *ep,
+GnmValue    *global_range_list_foreach (GSList *gr_list, EvalPos const *ep,
 					CellIterFlags	flags,
 					CellIterFunc	handler,
 					gpointer	closure);
-gboolean    global_range_contained (Value *a, Value *b);
-
+gboolean    global_range_contained (GnmValue *a, GnmValue *b);
 
 #endif /* GNUMERIC_RANGES_H */

@@ -24,40 +24,40 @@ typedef enum {
 } GnmFilterOp;
 
 struct _GnmFilterCondition {
-	GnmFilterOp op[2];
-	Value	*value[2];
+	GnmFilterOp  op[2];
+	GnmValue    *value[2];
 	gboolean is_and;
 	int	 count;
 };
 
 struct _GnmFilter {
 	Sheet *sheet;
-	Range  r;
+	GnmRange  r;
 
 	GPtrArray *fields;
 	gboolean   is_active;
 };
 
-GnmFilterCondition *gnm_filter_condition_new_single (GnmFilterOp op, Value *v);
-GnmFilterCondition *gnm_filter_condition_new_double (GnmFilterOp op1, Value *v1,
+GnmFilterCondition *gnm_filter_condition_new_single (GnmFilterOp op, GnmValue *v);
+GnmFilterCondition *gnm_filter_condition_new_double (GnmFilterOp op1, GnmValue *v1,
 						     gboolean join_with_and,
-						     GnmFilterOp op2, Value *v2);
+						     GnmFilterOp op2, GnmValue *v2);
 GnmFilterCondition *gnm_filter_condition_new_bucket (gboolean top,
 						     gboolean absolute,
 						     unsigned n);
 void		    gnm_filter_condition_unref 	    (GnmFilterCondition *cond);
 
-GnmFilter 		 *gnm_filter_new	    (Sheet *sheet, Range const *r);
+GnmFilter 		 *gnm_filter_new	    (Sheet *sheet, GnmRange const *r);
 void	   		  gnm_filter_free	    (GnmFilter *filter);
 void	   		  gnm_filter_remove	    (GnmFilter *filter);
 GnmFilterCondition const *gnm_filter_get_condition  (GnmFilter const *filter, unsigned i);
 void	   		  gnm_filter_set_condition  (GnmFilter *filter, unsigned i,
 						     GnmFilterCondition *cond,
 						     gboolean apply);
-gboolean		  gnm_filter_overlaps_range (GnmFilter const *filter, Range const *r);
-gboolean		  gnm_filter_overlaps_range (GnmFilter const *filter, Range const *r);
+gboolean		  gnm_filter_overlaps_range (GnmFilter const *filter, GnmRange const *r);
+gboolean		  gnm_filter_overlaps_range (GnmFilter const *filter, GnmRange const *r);
 
-void sheet_filter_guess_region  (Sheet *sheet, Range *region);
+void sheet_filter_guess_region  (Sheet *sheet, GnmRange *region);
 void sheet_filter_insdel_colrow (Sheet *sheet, gboolean is_cols, gboolean is_insert,
 				 int start, int count);
 

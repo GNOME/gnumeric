@@ -47,7 +47,7 @@ typedef PluginServiceGObjectLoaderClass GogPlotEngineServiceClass;
 static GHashTable *pending_engines = NULL;
 
 static char *
-gog_plot_engine_service_get_description (PluginService *service)
+gog_plot_engine_service_get_description (GnmPluginService *service)
 {
 	return g_strdup (_("Plot Engine"));
 }
@@ -55,7 +55,7 @@ gog_plot_engine_service_get_description (PluginService *service)
 static void
 gog_plot_engine_service_class_init (PluginServiceGObjectLoaderClass *gobj_loader_class)
 {
-	PluginServiceClass *ps_class = GPS_CLASS (gobj_loader_class);
+	GnmPluginServiceClass *ps_class = GPS_CLASS (gobj_loader_class);
 
 	ps_class->get_description = gog_plot_engine_service_get_description;
 
@@ -74,7 +74,7 @@ gog_plot_new_by_name (char const *id)
 
 	if (type == 0) {
 		ErrorInfo *err = NULL;
-		PluginService *service = g_hash_table_lookup (pending_engines, id);
+		GnmPluginService *service = g_hash_table_lookup (pending_engines, id);
 
 		g_return_val_if_fail (service != NULL, NULL);
 		g_return_val_if_fail (!service->is_loaded, NULL);
@@ -201,7 +201,7 @@ pending_plot_types_load ()
 }
 
 static void
-gog_plot_type_service_read_xml (PluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+gog_plot_type_service_read_xml (GnmPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
 {
 	char    *path;
 	xmlNode *ptr;
@@ -225,7 +225,7 @@ gog_plot_type_service_read_xml (PluginService *service, xmlNode *tree, ErrorInfo
 }
 
 static char *
-gog_plot_type_service_get_description (PluginService *service)
+gog_plot_type_service_get_description (GnmPluginService *service)
 {
 	return g_strdup (_("Plot Type"));
 }
@@ -261,7 +261,7 @@ gog_plot_type_service_init (GObject *obj)
 static void
 gog_plot_type_service_class_init (GObjectClass *gobject_klass)
 {
-	PluginServiceClass *ps_class = GPS_CLASS (gobject_klass);
+	GnmPluginServiceClass *ps_class = GPS_CLASS (gobject_klass);
 
 	plot_type_parent_klass = g_type_class_peek_parent (gobject_klass);
 	gobject_klass->finalize		= gog_plot_type_service_finalize;
@@ -286,7 +286,7 @@ typedef PluginServiceSimple GogThemeService;
 typedef PluginServiceSimpleClass GogThemeServiceClass;
 
 static void
-gog_theme_service_read_xml (PluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+gog_theme_service_read_xml (GnmPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
 {
 	char    *path;
 	xmlNode *ptr;
@@ -307,13 +307,13 @@ gog_theme_service_read_xml (PluginService *service, xmlNode *tree, ErrorInfo **r
 }
 
 static char *
-gog_theme_service_get_description (PluginService *service)
+gog_theme_service_get_description (GnmPluginService *service)
 {
 	return g_strdup (_("Chart Theme"));
 }
 
 static void
-gog_theme_service_class_init (PluginServiceClass *ps_class)
+gog_theme_service_class_init (GnmPluginServiceClass *ps_class)
 {
 	ps_class->read_xml	  = gog_theme_service_read_xml;
 	ps_class->get_description = gog_theme_service_get_description;

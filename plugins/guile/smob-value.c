@@ -37,17 +37,17 @@ static long value_tag;
 
 typedef struct _SCM_Value
 {
-	Value *v;
+	GnmValue *v;
 	SCM update_func;
 } SCM_Value;
 
 /**
- * The Value in the smob has to be a clone of v, since the original may be
+ * The GnmValue in the smob has to be a clone of v, since the original may be
  * released in C-land, and there is no way to tell the Guile garbage
  * collector.
  */
 SCM
-make_new_smob (Value *v)
+make_new_smob (GnmValue *v)
 {
 	SCM_Value *value;
 
@@ -63,7 +63,7 @@ make_new_smob (Value *v)
  * C-land, since the returned value may be released. There may be leaks, but
  * freing memory twice is worse.
  */
-Value *
+GnmValue *
 get_value_from_smob (SCM value_smob)
 {
 	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
@@ -80,7 +80,7 @@ scm_i_scm2bool (SCM obj)
 static SCM
 make_value (SCM scm)
 {
-	Value *v;
+	GnmValue *v;
 	SCM_Value *value;
 
 	/*
@@ -154,7 +154,7 @@ equalp_value (SCM value_smob_1, SCM value_smob_2)
 static SCM
 scm_value_new_bool (SCM scm)
 {
-	Value *v;
+	GnmValue *v;
 	SCM_Value *value;
 
 	if (SCM_BOOLP (scm))
@@ -172,7 +172,7 @@ scm_value_new_bool (SCM scm)
 static SCM
 scm_value_new_float (SCM scm)
 {
-	Value *v;
+	GnmValue *v;
 	SCM_Value *value;
 
 	if ((SCM_NFALSEP (scm_number_p(scm))))
@@ -190,7 +190,7 @@ scm_value_new_float (SCM scm)
 static SCM
 scm_value_new_string (SCM scm)
 {
-	Value *v;
+	GnmValue *v;
 	SCM_Value *value;
 
 	if (SCM_NIMP (scm) && SCM_STRINGP (scm))

@@ -30,8 +30,8 @@
 
 #undef RANGE_DEBUG
 
-Range *
-range_init_full_sheet (Range *r)
+GnmRange *
+range_init_full_sheet (GnmRange *r)
 {
 	r->start.col = 0;
 	r->start.row = 0;
@@ -40,8 +40,8 @@ range_init_full_sheet (Range *r)
 	return r;
 }
 
-Range *
-range_init_rangeref (Range *range, RangeRef const *rr)
+GnmRange *
+range_init_rangeref (GnmRange *range, GnmRangeRef const *rr)
 {
 	g_return_val_if_fail (range != NULL && rr != NULL, NULL);
 
@@ -53,8 +53,8 @@ range_init_rangeref (Range *range, RangeRef const *rr)
 }
 
 
-Range *
-range_init_value (Range *range, Value const *v)
+GnmRange *
+range_init_value (GnmRange *range, GnmValue const *v)
 {
 	g_return_val_if_fail (range != NULL && v != NULL &&
 			      v->type == VALUE_CELLRANGE, NULL);
@@ -62,8 +62,8 @@ range_init_value (Range *range, Value const *v)
 	return range_init_rangeref (range, &v->v_range.cell);
 }
 
-Range *
-range_init_cellpos (Range *r, CellPos const *start, CellPos const *end)
+GnmRange *
+range_init_cellpos (GnmRange *r, GnmCellPos const *start, GnmCellPos const *end)
 {
 	r->start = *start;
 	r->end = *end;
@@ -71,8 +71,8 @@ range_init_cellpos (Range *r, CellPos const *start, CellPos const *end)
 	return r;
 }
 
-Range *
-range_init (Range *r, int start_col, int start_row,
+GnmRange *
+range_init (GnmRange *r, int start_col, int start_row,
 	    int end_col, int end_row)
 {
 	g_return_val_if_fail (r != NULL, r);
@@ -92,14 +92,14 @@ range_init (Range *r, int start_col, int start_row,
  * @range: a range specification (ex: "A1", "A1:C3").
  * @strict: if FALSE, allow extra characters after range text.
  *
- * Returns a (Value *) of type VALUE_CELLRANGE if the @range was
+ * Returns a (GnmValue *) of type VALUE_CELLRANGE if the @range was
  * succesfully parsed or NULL on failure.
  */
-Value *
+GnmValue *
 range_parse (Sheet *sheet, char const *range, gboolean strict)
 {
-	CellRef a, b;
-	CellPos tmp;
+	GnmCellRef a, b;
+	GnmCellPos tmp;
 
 	g_return_val_if_fail (range != NULL, NULL);
 
@@ -138,7 +138,7 @@ range_parse (Sheet *sheet, char const *range, gboolean strict)
  * Should be merged with range_parse
  */
 gboolean
-parse_range (char const *text, Range *r)
+parse_range (char const *text, GnmRange *r)
 {
 	text = cellpos_parse (text, &r->start, FALSE);
 	if (!text)
@@ -168,7 +168,7 @@ range_list_destroy (GSList *ranges)
 	GSList *l;
 
 	for (l = ranges; l; l = l->next){
-		Value *value = l->data;
+		GnmValue *value = l->data;
 
 		value_release (value);
 	}
@@ -189,7 +189,7 @@ range_list_destroy (GSList *ranges)
  * Return value: if they share a side of equal length
  **/
 gboolean
-range_adjacent (Range const *a, Range const *b)
+range_adjacent (GnmRange const *a, GnmRange const *b)
 {
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);
@@ -209,8 +209,8 @@ range_adjacent (Range const *a, Range const *b)
 
 /**
  * range_merge:
- * @a: Range a.
- * @b: Range b.
+ * @a: GnmRange a.
+ * @b: GnmRange b.
  *
  * This routine coalesces two adjacent regions, eg.
  * (A1, B1) would return A1:B1 or (A1:B2, C1:D2)) would
@@ -221,10 +221,10 @@ range_adjacent (Range const *a, Range const *b)
  *
  * Return value: the merged range.
  **/
-Range
-range_merge (Range const *a, Range const *b)
+GnmRange
+range_merge (GnmRange const *a, GnmRange const *b)
 {
-	Range ans;
+	GnmRange ans;
 
 	ans.start.col = 0;
 	ans.start.row = 0;
@@ -257,7 +257,7 @@ range_merge (Range const *a, Range const *b)
 }
 
 char const *
-range_name (Range const *src)
+range_name (GnmRange const *src)
 {
 	static char buffer[(2 + 4 * sizeof (long)) * 2 + 1];
 
@@ -283,7 +283,7 @@ range_name (Range const *src)
 /**
  * range_has_header:
  * @sheet: Sheet to check
- * @src: Range to check
+ * @src: GnmRange to check
  * @top: Flag
  *
  * This routine takes a sheet and a range and checks for a header row
@@ -293,11 +293,11 @@ range_name (Range const *src)
  * Return value: Whether or not the range has a header
  **/
 gboolean
-range_has_header (Sheet const *sheet, Range const *src,
+range_has_header (Sheet const *sheet, GnmRange const *src,
 		  gboolean top, gboolean ignore_styles)
 {
 	Cell *ca, *cb;
-	Value *valuea, *valueb;
+	GnmValue *valuea, *valueb;
 	MStyle *stylea, *styleb;
 	int length, i;
 
@@ -360,7 +360,7 @@ range_has_header (Sheet const *sheet, Range const *src,
 }
 
 void
-range_dump (Range const *src, char const *suffix)
+range_dump (GnmRange const *src, char const *suffix)
 {
 	/*
 	 * keep these as 2 print statements, because
@@ -402,7 +402,7 @@ ranges_dump (GList *l, char const *txt)
  * Return value:
  **/
 gboolean
-range_contained (Range const *a, Range const *b)
+range_contained (GnmRange const *a, GnmRange const *b)
 {
 	if (a->start.row < b->start.row)
 		return FALSE;
@@ -431,7 +431,7 @@ range_contained (Range const *a, Range const *b)
  * Return value: A list of fragments.
  **/
 GSList *
-range_split_ranges (Range const *hard, Range const *soft)
+range_split_ranges (GnmRange const *hard, GnmRange const *soft)
 {
 	/*
 	 * There are lots of cases so think carefully.
@@ -445,18 +445,18 @@ range_split_ranges (Range const *hard, Range const *soft)
 	 *     of long rows.
 	 */
 	GSList *split  = NULL;
-	Range *middle, *sp;
+	GnmRange *middle, *sp;
 	gboolean split_left  = FALSE;
 	gboolean split_right = FALSE;
 
 	g_return_val_if_fail (range_overlap (hard, soft), NULL);
 
-	middle = g_new (Range, 1);
+	middle = g_new (GnmRange, 1);
 	*middle = *soft;
 
 	/* Split off left entirely */
 	if (hard->start.col > soft->start.col) {
-		sp = g_new (Range, 1);
+		sp = g_new (GnmRange, 1);
 		sp->start.col = soft->start.col;
 		sp->start.row = soft->start.row;
 		sp->end.col   = hard->start.col - 1;
@@ -469,7 +469,7 @@ range_split_ranges (Range const *hard, Range const *soft)
 
 	/* Split off right entirely */
 	if (hard->end.col < soft->end.col) {
-		sp = g_new (Range, 1);
+		sp = g_new (GnmRange, 1);
 		sp->start.col = hard->end.col + 1;
 		sp->start.row = soft->start.row;
 		sp->end.col   = soft->end.col;
@@ -484,7 +484,7 @@ range_split_ranges (Range const *hard, Range const *soft)
 	if (split_left && split_right) {
 		if (hard->start.row > soft->start.row) {
 			/* The top middle bit */
-			sp = g_new (Range, 1);
+			sp = g_new (GnmRange, 1);
 			sp->start.col = hard->start.col;
 			sp->start.row = soft->start.row;
 			sp->end.col   = hard->end.col;
@@ -496,7 +496,7 @@ range_split_ranges (Range const *hard, Range const *soft)
 	} else if (split_left) {
 		if (hard->start.row > soft->start.row) {
 			/* The top middle + right bits */
-			sp = g_new (Range, 1);
+			sp = g_new (GnmRange, 1);
 			sp->start.col = hard->start.col;
 			sp->start.row = soft->start.row;
 			sp->end.col   = soft->end.col;
@@ -508,7 +508,7 @@ range_split_ranges (Range const *hard, Range const *soft)
 	} else if (split_right) {
 		if (hard->start.row > soft->start.row) {
 			/* The top middle + left bits */
-			sp = g_new (Range, 1);
+			sp = g_new (GnmRange, 1);
 			sp->start.col = soft->start.col;
 			sp->start.row = soft->start.row;
 			sp->end.col   = hard->end.col;
@@ -520,7 +520,7 @@ range_split_ranges (Range const *hard, Range const *soft)
 	} else {
 		if (hard->start.row > soft->start.row) {
 			/* Hack off the top bit */
-			sp = g_new (Range, 1);
+			sp = g_new (GnmRange, 1);
 			sp->start.col = soft->start.col;
 			sp->start.row = soft->start.row;
 			sp->end.col   = soft->end.col;
@@ -535,7 +535,7 @@ range_split_ranges (Range const *hard, Range const *soft)
 	if (split_left && split_right) {
 		if (hard->end.row < soft->end.row) {
 			/* The bottom middle bit */
-			sp = g_new (Range, 1);
+			sp = g_new (GnmRange, 1);
 			sp->start.col = hard->start.col;
 			sp->start.row = hard->end.row + 1;
 			sp->end.col   = hard->end.col;
@@ -547,7 +547,7 @@ range_split_ranges (Range const *hard, Range const *soft)
 	} else if (split_left) {
 		if (hard->end.row < soft->end.row) {
 			/* The bottom middle + right bits */
-			sp = g_new (Range, 1);
+			sp = g_new (GnmRange, 1);
 			sp->start.col = hard->start.col;
 			sp->start.row = hard->end.row + 1;
 			sp->end.col   = soft->end.col;
@@ -559,7 +559,7 @@ range_split_ranges (Range const *hard, Range const *soft)
 	} else if (split_right) {
 		if (hard->end.row < soft->end.row) {
 			/* The bottom middle + left bits */
-			sp = g_new (Range, 1);
+			sp = g_new (GnmRange, 1);
 			sp->start.col = soft->start.col;
 			sp->start.row = hard->end.row + 1;
 			sp->end.col   = hard->end.col;
@@ -571,7 +571,7 @@ range_split_ranges (Range const *hard, Range const *soft)
 	} else {
 		if (hard->end.row < soft->end.row) {
 			/* Hack off the bottom bit */
-			sp = g_new (Range, 1);
+			sp = g_new (GnmRange, 1);
 			sp->start.col = soft->start.col;
 			sp->start.row = hard->end.row + 1;
 			sp->end.col   = soft->end.col;
@@ -591,20 +591,20 @@ range_split_ranges (Range const *hard, Range const *soft)
  *
  * Copies the @a range.
  *
- * Return value: A copy of the Range.
+ * Return value: A copy of the GnmRange.
  */
-Range *
-range_dup (Range const *a)
+GnmRange *
+range_dup (GnmRange const *a)
 {
-	Range *r = g_new (Range, 1);
+	GnmRange *r = g_new (GnmRange, 1);
 	*r = *a;
 	return r;
 }
 
 /**
  * range_fragment:
- * @a: Range a
- * @b: Range b
+ * @a: GnmRange a
+ * @b: GnmRange b
  *
  * Fragments the ranges into totaly non-overlapping regions,
  *
@@ -612,7 +612,7 @@ range_dup (Range const *a)
  * simply a and b.
  **/
 GSList *
-range_fragment (Range const *a, Range const *b)
+range_fragment (GnmRange const *a, GnmRange const *b)
 {
 	GSList *split, *ans = NULL;
 
@@ -656,7 +656,7 @@ range_fragment_free (GSList *fragments)
  * Return value: True if the ranges intersect, false otherwise
  **/
 gboolean
-range_intersection (Range *r, Range const *a, Range const *b)
+range_intersection (GnmRange *r, GnmRange const *a, GnmRange const *b)
 {
 	g_return_val_if_fail (range_overlap (a, b), FALSE);
 
@@ -676,7 +676,7 @@ range_intersection (Range *r, Range const *a, Range const *b)
  * Ensures that start <= end for rows and cols.
  **/
 void
-range_normalize (Range *src)
+range_normalize (GnmRange *src)
 {
 	int tmp;
 
@@ -707,7 +707,7 @@ range_normalize (Range *src)
  * Return value: TRUE if the range was totally empty, else FALSE.
  **/
 gboolean
-range_trim (Sheet const *sheet, Range *range, gboolean cols)
+range_trim (Sheet const *sheet, GnmRange *range, gboolean cols)
 {
 	int start, *move;
 
@@ -749,14 +749,14 @@ range_trim (Sheet const *sheet, Range *range, gboolean cols)
  * diagram this would be A U B
  * NB. totally commutative. Also, this may
  * include cells not in either range since
- * it must return a Range.
+ * it must return a GnmRange.
  *
  * Return value: the union
  **/
-Range
-range_union (Range const *a, Range const *b)
+GnmRange
+range_union (GnmRange const *a, GnmRange const *b)
 {
-	Range ans;
+	GnmRange ans;
 
 	if (a->start.col < b->start.col)
 		ans.start.col = a->start.col;
@@ -782,7 +782,7 @@ range_union (Range const *a, Range const *b)
 }
 
 gboolean
-range_is_singleton (Range const *r)
+range_is_singleton (GnmRange const *r)
 {
 	return r->start.col == r->end.col && r->start.row == r->end.row;
 }
@@ -797,7 +797,7 @@ range_is_singleton (Range const *r)
  * Return value: TRUE if it is infinite else FALSE
  **/
 gboolean
-range_is_full (Range const *r, gboolean is_cols)
+range_is_full (GnmRange const *r, gboolean is_cols)
 {
 	if (is_cols)
 		return (r->start.col <= 0 && r->end.col >= SHEET_MAX_COLS - 1);
@@ -815,7 +815,7 @@ range_is_full (Range const *r, gboolean is_cols)
  * Return value: TRUE if it is infinite else FALSE
  **/
 gboolean
-range_is_infinite (Range const *r)
+range_is_infinite (GnmRange const *r)
 {
 	return range_is_full (r, TRUE) || range_is_full (r, TRUE);
 }
@@ -829,9 +829,9 @@ range_is_infinite (Range const *r)
  * WARNING THIS IS EXPENSIVE!
  */
 void
-range_clip_to_finite (Range *range, Sheet *sheet)
+range_clip_to_finite (GnmRange *range, Sheet *sheet)
 {
-	Range extent;
+	GnmRange extent;
 
 	/* FIXME : This seems expensive.  We should see if there is a faster
 	 * way of doing this.  possibly using a flag for content changes, and
@@ -845,14 +845,14 @@ range_clip_to_finite (Range *range, Sheet *sheet)
 }
 
 int
-range_width (Range const *r)
+range_width (GnmRange const *r)
 {
 	g_return_val_if_fail (r != NULL, 0);
 	return ABS (r->end.col - r->start.col) + 1;
 }
 
 int
-range_height (Range const *r)
+range_height (GnmRange const *r)
 {
 	g_return_val_if_fail (r != NULL, 0);
 	return ABS (r->end.row - r->start.row) + 1;
@@ -869,7 +869,7 @@ range_height (Range const *r)
  * return TRUE if the range is no longer valid.
  **/
 gboolean
-range_translate (Range *range, int col_offset, int row_offset)
+range_translate (GnmRange *range, int col_offset, int row_offset)
 {
 	range->start.col += col_offset;
 	range->end.col   += col_offset;
@@ -894,7 +894,7 @@ range_translate (Range *range, int col_offset, int row_offset)
  * outside the valid bounds.  Does NOT fix inverted ranges.
  */
 void
-range_ensure_sanity (Range *range)
+range_ensure_sanity (GnmRange *range)
 {
 	if (range->start.col < 0)
 		range->start.col = 0;
@@ -913,7 +913,7 @@ range_ensure_sanity (Range *range)
  * Generate warnings if the range is out of bounds or inverted.
  */
 gboolean
-range_is_sane (Range const *range)
+range_is_sane (GnmRange const *range)
 {
 	g_return_val_if_fail (range != NULL, FALSE);
 	g_return_val_if_fail (range->start.col >= 0, FALSE);
@@ -937,10 +937,10 @@ range_is_sane (Range const *range)
  * Return value: whether we clipped the range.
  **/
 gboolean
-range_transpose (Range *range, CellPos const *origin)
+range_transpose (GnmRange *range, GnmCellPos const *origin)
 {
 	gboolean clipped = FALSE;
-	Range    src;
+	GnmRange    src;
 	int      t;
 
 	g_return_val_if_fail (range != NULL, TRUE);
@@ -997,10 +997,10 @@ range_transpose (Range *range, CellPos const *origin)
 	return clipped;
 }
 
-GlobalRange *
-global_range_new (Sheet *sheet, Range const *r)
+GnmGlobalRange *
+global_range_new (Sheet *sheet, GnmRange const *r)
 {
-	GlobalRange *gr = g_new0 (GlobalRange, 1);
+	GnmGlobalRange *gr = g_new0 (GnmGlobalRange, 1);
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (r != NULL, NULL);
@@ -1019,7 +1019,7 @@ global_range_new (Sheet *sheet, Range const *r)
  * convert @v into a global range and return in @res
  **/
 gboolean
-value_to_global_range (Value const *v, GlobalRange *res)
+value_to_global_range (GnmValue const *v, GnmGlobalRange *res)
 {
 	g_return_val_if_fail (v->type == VALUE_CELLRANGE, FALSE);
 
@@ -1030,7 +1030,7 @@ value_to_global_range (Value const *v, GlobalRange *res)
 }
 
 void
-global_range_free (GlobalRange *gr)
+global_range_free (GnmGlobalRange *gr)
 {
 	g_return_if_fail (gr != NULL);
 
@@ -1038,7 +1038,7 @@ global_range_free (GlobalRange *gr)
 }
 
 gboolean
-global_range_overlap (GlobalRange const *a, GlobalRange const *b)
+global_range_overlap (GnmGlobalRange const *a, GnmGlobalRange const *b)
 {
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);
@@ -1049,8 +1049,8 @@ global_range_overlap (GlobalRange const *a, GlobalRange const *b)
 	return FALSE;
 }
 
-GlobalRange *
-global_range_dup (GlobalRange const *src)
+GnmGlobalRange *
+global_range_dup (GnmGlobalRange const *src)
 {
 	g_return_val_if_fail (src != NULL, NULL);
 
@@ -1058,7 +1058,7 @@ global_range_dup (GlobalRange const *src)
 }
 
 char *
-global_range_name    (Sheet *sheet, Range const *r)
+global_range_name    (Sheet *sheet, GnmRange const *r)
 {
 	char const * the_range_name = range_name (r);
 
@@ -1074,10 +1074,10 @@ global_range_name    (Sheet *sheet, Range const *r)
  *         the range given does not include a sheet specification.
  * @str: a range specification (ex: "A1", "A1:C3", "Sheet1!A1:C3).
  *
- * Returns a (Value *) of type VALUE_CELLRANGE if the @range was
+ * Returns a (GnmValue *) of type VALUE_CELLRANGE if the @range was
  * succesfully parsed or NULL on failure.
  */
-Value *
+GnmValue *
 global_range_parse (Sheet *sheet, char const *str)
 {
 	ParsePos  pp;
@@ -1094,7 +1094,7 @@ global_range_parse (Sheet *sheet, char const *str)
 		NULL);
 
 	if (expr != NULL)  {
-		Value *value = gnm_expr_get_range (expr);
+		GnmValue *value = gnm_expr_get_range (expr);
 		gnm_expr_unref (expr);
 		return value;
 	}
@@ -1118,7 +1118,7 @@ global_range_list_parse (Sheet *sheet, char const *str)
 	ParsePos  pp;
 	GnmExpr const *expr;
 	GSList   *ranges = NULL;
-	Value	 *v;
+	GnmValue	 *v;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (str != NULL, NULL);
@@ -1154,13 +1154,13 @@ global_range_list_parse (Sheet *sheet, char const *str)
 	return g_slist_reverse (ranges);
 }
 
-Value *
+GnmValue *
 global_range_list_foreach (GSList *gr_list, EvalPos const *ep,
 			   CellIterFlags flags,
 			   CellIterFunc  handler,
 			   gpointer	 closure)
 {
-	Value *v;
+	GnmValue *v;
 	for (; gr_list != NULL; gr_list = gr_list->next) {
 		v = workbook_foreach_cell_in_range (ep, gr_list->data,
 			flags, handler, closure);
@@ -1181,7 +1181,7 @@ global_range_list_foreach (GSList *gr_list, EvalPos const *ep,
  * we do not handle 3d ranges
  **/
 gboolean
-global_range_contained (Value *a, Value *b)
+global_range_contained (GnmValue *a, GnmValue *b)
 {
 	if ((a->type != VALUE_CELLRANGE) || (b->type != VALUE_CELLRANGE))
 		return FALSE;

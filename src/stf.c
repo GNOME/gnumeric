@@ -121,7 +121,7 @@ stf_apply_formats (StfParseOptions_t *parseoptions,
 		   Sheet *sheet, int col, int start_row, int end_row)
 {
 	unsigned int ui;
-	Range range;
+	GnmRange range;
 
 	/* If we didn't use the stf dialog, then formats will be NULL */
 	if (parseoptions->formats == NULL)
@@ -220,7 +220,7 @@ stf_read_workbook (GnmFileOpener const *fo,  gchar const *enc,
 		stf_dialog_result_free (dialogresult);
 }
 
-static Value *
+static GnmValue *
 cb_get_content (Sheet *sheet, int col, int row,
 		Cell *cell, GsfOutput *buf)
 {
@@ -257,8 +257,8 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 	DialogStfResult_t *dialogresult = NULL;
 	SheetView	*sv;
 	Sheet		*src_sheet, *target_sheet;
-	Range const	*src;
-	Range		 target;
+	GnmRange const	*src;
+	GnmRange		 target;
 	GsfOutputMemory	*buf;
 	guint8 const	*data;
 	size_t data_len;

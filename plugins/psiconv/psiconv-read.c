@@ -57,7 +57,7 @@ typedef struct {
 } PsiState;
 
 
-static Value *
+static GnmValue *
 psi_new_string (PsiState *state, gchar const *data)
 {
 	return value_new_string_nocopy (
@@ -79,8 +79,8 @@ append_zeros (char *s, int n)
 }
 
 
-static CellRef *
-cellref_init (CellRef *res,
+static GnmCellRef *
+cellref_init (GnmCellRef *res,
 	      int row, gboolean row_abs,
 	      int col, gboolean col_abs)
 {
@@ -234,7 +234,7 @@ set_style(Sheet *sheet, int row, int col,
 	sheet_style_set_pos(sheet,col,row,style);
 }
 
-static Value *
+static GnmValue *
 value_new_from_psi_cell(PsiState *state, const psiconv_sheet_cell psi_cell)
 {
 	switch (psi_cell->type) {
@@ -266,7 +266,7 @@ parse_subexpr(PsiState *state, const psiconv_formula psi_formula)
 	               -1 for unknown */
 	psiconv_formula psi_form1,psi_form2;
 	GnmExpr *expr1=NULL,*expr2=NULL;
-	CellRef *cr1=NULL,*cr2=NULL;
+	GnmCellRef *cr1=NULL,*cr2=NULL;
 
 	switch(psi_formula->type) {
 		/* Translates values */
@@ -323,7 +323,7 @@ parse_subexpr(PsiState *state, const psiconv_formula psi_formula)
 		return NULL;
 	} else if (kind == 0) {
 		/* Handling data */
-		Value *v = NULL;
+		GnmValue *v = NULL;
 		switch(psi_formula->type) {
 		case psiconv_formula_dat_float:
 			v = value_new_float(psi_formula->data.dat_float);
@@ -335,7 +335,7 @@ parse_subexpr(PsiState *state, const psiconv_formula psi_formula)
 			v = psi_new_string(state, psi_formula->data.dat_string);
 			break;
 		case psiconv_formula_dat_cellblock: {
-			CellRef cr1, cr2;
+			GnmCellRef cr1, cr2;
 
 			cellref_init (&cr1,
 				psi_formula->data.dat_cellblock.first.row.offset,
@@ -409,7 +409,7 @@ parse_subexpr(PsiState *state, const psiconv_formula psi_formula)
 	} else if (kind == 3) {
 		switch(psi_formula->type) {
 		case psiconv_formula_dat_cellref: {
-			CellRef cr;
+			GnmCellRef cr;
 			return gnm_expr_new_cellref (cellref_init (&cr,
 				psi_formula->data.dat_cellref.row.offset,
 			        psi_formula->data.dat_cellref.row.absolute,
@@ -446,7 +446,7 @@ add_cell (PsiState *state, Sheet *sheet, const psiconv_sheet_cell psi_cell,
 	  const psiconv_formula_list psi_formulas, const MStyle * default_style)
 {
 	Cell *cell;
-	Value *val;
+	GnmValue *val;
 	GnmExpr *expr;
 	psiconv_formula psi_formula;
 

@@ -46,7 +46,7 @@ typedef struct {
 	GtkWidget          *dialog;
 	GtkWidget          *ok_button;
 	GtkWidget          *cancel_button;
-	Range const        *sel;
+	GnmRange const        *sel;
 	Sheet              *sheet;
 	GladeXML           *gui;
 } DeleteCellState;
@@ -127,7 +127,7 @@ dialog_delete_cells (WorkbookControlGUI *wbcg)
 	DeleteCellState *state;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView	*sv  = wb_control_cur_sheet_view (wbc);
-	Range const *sel;
+	GnmRange const *sel;
 	GladeXML    *gui;
 	int  cols, rows;
 

@@ -32,7 +32,7 @@ excel_gb_worksheet_function_deref (GBEvalContext  *ec,
 	if ((fd = gnm_func_lookup (ref->name, funcs->sheet->workbook))) {
 		GPtrArray *args = g_ptr_array_new ();
 		EvalPos    ep;
-		Value     *ret;
+		GnmValue  *ret;
 		GBValue   *gb_ret;
 		GSList    *l;
 
@@ -51,7 +51,7 @@ excel_gb_worksheet_function_deref (GBEvalContext  *ec,
 		eval_pos_init_sheet (&ep, funcs->sheet);
 
 		ret = function_def_call_with_values (
-			&ep, fd, args->len, (Value **)args->pdata);
+			&ep, fd, args->len, (GnmValue **)args->pdata);
 
 		if (ret) {
 			gb_ret = value_to_gb (ret);

@@ -54,7 +54,7 @@
  * size of the region not the exact placement.
  **/
 static void
-get_bounding_box (GSList const *granges, Range *box)
+get_bounding_box (GSList const *granges, GnmRange *box)
 {
 	GSList const *l;
 	int max_x, max_y;
@@ -64,7 +64,7 @@ get_bounding_box (GSList const *granges, Range *box)
 
 	max_x = max_y = 0;
 	for (l = granges; l != NULL; l = l->next) {
-		GlobalRange *gr = l->data;
+		GnmGlobalRange *gr = l->data;
 		int ext_x = gr->range.end.col - gr->range.start.col;
 		int ext_y = gr->range.end.row - gr->range.start.row;
 
@@ -83,7 +83,7 @@ get_bounding_box (GSList const *granges, Range *box)
 
 
 static int
-cb_value_compare (Value const *a, Value const *b)
+cb_value_compare (GnmValue const *a, GnmValue const *b)
 {
 	ValueCompare vc = value_compare (a, b, TRUE);
 
@@ -101,12 +101,12 @@ cb_value_compare (Value const *a, Value const *b)
 
 /**********************************************************************************/
 
-Consolidate *
+GnmConsolidate *
 consolidate_new (void)
 {
-	Consolidate *cs;
+	GnmConsolidate *cs;
 
-	cs = g_new0 (Consolidate, 1);
+	cs = g_new0 (GnmConsolidate, 1);
 	cs->fd = NULL;
 	cs->src = NULL;
 	cs->mode = CONSOLIDATE_PUT_VALUES;
@@ -115,7 +115,7 @@ consolidate_new (void)
 }
 
 void
-consolidate_free (Consolidate *cs, gboolean content_only)
+consolidate_free (GnmConsolidate *cs, gboolean content_only)
 {
 	GSList *l;
 
@@ -127,7 +127,7 @@ consolidate_free (Consolidate *cs, gboolean content_only)
 	}
 
 	for (l = cs->src; l != NULL; l = l->next)
-		global_range_free ((GlobalRange *) l->data);
+		global_range_free ((GnmGlobalRange *) l->data);
 	g_slist_free (cs->src);
 	cs->src = NULL;
 
@@ -136,7 +136,7 @@ consolidate_free (Consolidate *cs, gboolean content_only)
 }
 
 void
-consolidate_set_function (Consolidate *cs, GnmFunc *fd)
+consolidate_set_function (GnmConsolidate *cs, GnmFunc *fd)
 {
 	g_return_if_fail (cs != NULL);
 	g_return_if_fail (fd != NULL);
@@ -149,7 +149,7 @@ consolidate_set_function (Consolidate *cs, GnmFunc *fd)
 }
 
 void
-consolidate_set_mode (Consolidate *cs, ConsolidateMode mode)
+consolidate_set_mode (GnmConsolidate *cs, GnmConsolidateMode mode)
 {
 	g_return_if_fail (cs != NULL);
 
@@ -157,10 +157,10 @@ consolidate_set_mode (Consolidate *cs, ConsolidateMode mode)
 }
 
 gboolean
-consolidate_check_destination (Consolidate *cs, data_analysis_output_t *dao)
+consolidate_check_destination (GnmConsolidate *cs, data_analysis_output_t *dao)
 {
-	GlobalRange *new;
-	Range r;
+	GnmGlobalRange *new;
+	GnmRange r;
 	GSList const *l;
 
 	g_return_val_if_fail (cs != NULL, FALSE);
@@ -175,7 +175,7 @@ consolidate_check_destination (Consolidate *cs, data_analysis_output_t *dao)
 	new = global_range_new (dao->sheet, &r);
 
 	for (l = cs->src; l != NULL; l = l->next) {
-		GlobalRange const *gr = l->data;
+		GnmGlobalRange const *gr = l->data;
 
 		if (global_range_overlap (new, gr)) {
 			global_range_free (new);
@@ -188,14 +188,14 @@ consolidate_check_destination (Consolidate *cs, data_analysis_output_t *dao)
 }
 
 gboolean
-consolidate_add_source (Consolidate *cs, Value *range)
+consolidate_add_source (GnmConsolidate *cs, GnmValue *range)
 {
-	GlobalRange *new;
+	GnmGlobalRange *new;
 
 	g_return_val_if_fail (cs != NULL, FALSE);
 	g_return_val_if_fail (range != NULL, FALSE);
 
-	new = g_new (GlobalRange, 1);
+	new = g_new (GnmGlobalRange, 1);
 
 	new->sheet = range->v_range.cell.a.sheet;
 	range_init_value (&new->range, range);
@@ -211,12 +211,12 @@ consolidate_add_source (Consolidate *cs, Value *range)
  **********************************************************************************/
 
 typedef struct {
-	Value const *key;
+	GnmValue const *key;
 	GSList      *val;
 } TreeItem;
 
 static int
-cb_tree_free (Value const *key, TreeItem *ti,
+cb_tree_free (GnmValue const *key, TreeItem *ti,
 	      G_GNUC_UNUSED gpointer user_data)
 {
 	g_return_val_if_fail (key != NULL, FALSE);
@@ -229,7 +229,7 @@ cb_tree_free (Value const *key, TreeItem *ti,
 		GSList *l;
 
 		for (l = ti->val; l != NULL; l = l->next)
-			global_range_free ((GlobalRange *) l->data);
+			global_range_free ((GnmGlobalRange *) l->data);
 
 		g_slist_free (ti->val);
 	}
@@ -269,7 +269,7 @@ tree_free (GTree *tree)
  * The tree will be sorted automatically.
  **/
 static GTree *
-retrieve_row_tree (Consolidate *cs)
+retrieve_row_tree (GnmConsolidate *cs)
 {
 	GTree *tree;
 	GSList *l;
@@ -279,19 +279,19 @@ retrieve_row_tree (Consolidate *cs)
 	tree = g_tree_new ((GCompareFunc) cb_value_compare);
 
 	for (l = cs->src; l != NULL; l = l->next) {
-		GlobalRange const *sgr = l->data;
+		GnmGlobalRange const *sgr = l->data;
 		int row;
 
 		for (row = sgr->range.start.row; row <= sgr->range.end.row; row++) {
-			Value const *v = sheet_cell_get_value (sgr->sheet, sgr->range.start.col, row);
+			GnmValue const *v = sheet_cell_get_value (sgr->sheet, sgr->range.start.col, row);
 
 			if (v && v->type != VALUE_EMPTY) {
-				GlobalRange *gr;
+				GnmGlobalRange *gr;
 				GSList *granges;
 				TreeItem *ti;
-				Range s;
+				GnmRange s;
 
-				ti = g_tree_lookup (tree, (Value *) v);
+				ti = g_tree_lookup (tree, (GnmValue *) v);
 
 				if (ti)
 					granges = ti->val;
@@ -316,7 +316,7 @@ retrieve_row_tree (Consolidate *cs)
 				}
 				ti->val = granges;
 
-				g_tree_insert (tree, (Value *) ti->key, ti);
+				g_tree_insert (tree, (GnmValue *) ti->key, ti);
 			}
 		}
 	}
@@ -328,7 +328,7 @@ retrieve_row_tree (Consolidate *cs)
  * Same as retrieve_row_tree, but for cols
  **/
 static GTree *
-retrieve_col_tree (Consolidate *cs)
+retrieve_col_tree (GnmConsolidate *cs)
 {
 	GTree *tree;
 	GSList *l;
@@ -338,19 +338,19 @@ retrieve_col_tree (Consolidate *cs)
 	tree = g_tree_new ((GCompareFunc) cb_value_compare);
 
 	for (l = cs->src; l != NULL; l = l->next) {
-		GlobalRange const *sgr = l->data;
+		GnmGlobalRange const *sgr = l->data;
 		int col;
 
 		for (col = sgr->range.start.col; col <= sgr->range.end.col; col++) {
-			Value const *v = sheet_cell_get_value (sgr->sheet, col, sgr->range.start.row);
+			GnmValue const *v = sheet_cell_get_value (sgr->sheet, col, sgr->range.start.row);
 
 			if (v && v->type != VALUE_EMPTY) {
-				GlobalRange *gr;
+				GnmGlobalRange *gr;
 				GSList *granges;
 				TreeItem *ti;
-				Range s;
+				GnmRange s;
 
-				ti = g_tree_lookup (tree, (Value *) v);
+				ti = g_tree_lookup (tree, (GnmValue *) v);
 
 				if (ti)
 					granges = ti->val;
@@ -375,7 +375,7 @@ retrieve_col_tree (Consolidate *cs)
 				}
 				ti->val = granges;
 
-				g_tree_insert (tree, (Value *) ti->key, ti);
+				g_tree_insert (tree, (GnmValue *) ti->key, ti);
 			}
 		}
 	}
@@ -384,19 +384,19 @@ retrieve_col_tree (Consolidate *cs)
 }
 
 static gboolean
-cb_key_find (Value const *current, Value const *wanted)
+cb_key_find (GnmValue const *current, GnmValue const *wanted)
 {
 	return !(value_compare (current, wanted, TRUE) == IS_EQUAL);
 }
 
 static GSList *
-key_list_get (Consolidate *cs, gboolean is_cols)
+key_list_get (GnmConsolidate *cs, gboolean is_cols)
 {
 	GSList *keys = NULL;
 	GSList *l;
 
 	for (l = cs->src; l != NULL; l = l->next) {
-		GlobalRange *sgr = l->data;
+		GnmGlobalRange *sgr = l->data;
 		int i = is_cols
 			? sgr->range.start.col
 			: sgr->range.start.row;
@@ -413,7 +413,7 @@ key_list_get (Consolidate *cs, gboolean is_cols)
 		 */
 		i++;
 		for (; i <= max; i++) {
-			Value const *v = sheet_cell_get_value (sgr->sheet,
+			GnmValue const *v = sheet_cell_get_value (sgr->sheet,
 							       is_cols ? i : sgr->range.start.col,
 							       is_cols ? sgr->range.start.row : i);
 			/*
@@ -422,8 +422,8 @@ key_list_get (Consolidate *cs, gboolean is_cols)
 			 * not change during the consolidation.
 			 */
 			if (v && v->type != VALUE_EMPTY
-			    && g_slist_find_custom (keys, (Value *) v, (GCompareFunc) cb_key_find) == NULL)
-				keys = g_slist_insert_sorted (keys, (Value *) v, (GCompareFunc) cb_value_compare);
+			    && g_slist_find_custom (keys, (GnmValue *) v, (GCompareFunc) cb_key_find) == NULL)
+				keys = g_slist_insert_sorted (keys, (GnmValue *) v, (GCompareFunc) cb_value_compare);
 		}
 	}
 
@@ -458,9 +458,9 @@ simple_consolidate (GnmFunc *fd, GSList const *src,
 		    data_analysis_output_t *dao)
 {
 	GSList const *l;
-	Range box;
+	GnmRange box;
 	Sheet *prev_sheet = NULL;
-	RangeRef *prev_r = NULL;
+	GnmRangeRef *prev_r = NULL;
 	int x, y;
 
 	g_return_if_fail (fd != NULL);
@@ -477,9 +477,9 @@ simple_consolidate (GnmFunc *fd, GSList const *src,
 			GnmExprList *args = NULL;
 
 			for (l = src; l != NULL; l = l->next) {
-				GlobalRange const *gr = l->data;
-				Value *val;
-				Range r;
+				GnmGlobalRange const *gr = l->data;
+				GnmValue *val;
+				GnmRange r;
 
 				/*
 				 * We don't want to include this range
@@ -535,7 +535,7 @@ simple_consolidate (GnmFunc *fd, GSList const *src,
 }
 
 typedef struct {
-	Consolidate *cs;
+	GnmConsolidate *cs;
 	data_analysis_output_t *dao;
 	WorkbookControl *wbc;
 } ConsolidateContext;
@@ -547,9 +547,9 @@ typedef struct {
  * row and share the same key into a single target range.
  **/
 static int
-cb_row_tree (Value const *key, TreeItem *ti, ConsolidateContext *cc)
+cb_row_tree (GnmValue const *key, TreeItem *ti, ConsolidateContext *cc)
 {
-	Consolidate *cs = cc->cs;
+	GnmConsolidate *cs = cc->cs;
 
 	if (cs->mode & CONSOLIDATE_COPY_LABELS)
 		dao_set_cell_value (cc->dao, -1, 0, value_duplicate (key)); 
@@ -569,7 +569,7 @@ cb_row_tree (Value const *key, TreeItem *ti, ConsolidateContext *cc)
  * simple consolidation for each row.
  **/
 static void
-row_consolidate (Consolidate *cs, data_analysis_output_t *dao)
+row_consolidate (GnmConsolidate *cs, data_analysis_output_t *dao)
 {
 	ConsolidateContext cc;
 	GTree *tree;
@@ -595,9 +595,9 @@ row_consolidate (Consolidate *cs, data_analysis_output_t *dao)
  * column and share the same key into a single target range.
  **/
 static gboolean
-cb_col_tree (Value const *key, TreeItem *ti, ConsolidateContext *cc)
+cb_col_tree (GnmValue const *key, TreeItem *ti, ConsolidateContext *cc)
 {
-	Consolidate *cs = cc->cs;
+	GnmConsolidate *cs = cc->cs;
 
 	if (cs->mode & CONSOLIDATE_COPY_LABELS)
 		dao_set_cell_value (cc->dao, 0, -1, value_duplicate (key)); 
@@ -617,7 +617,7 @@ cb_col_tree (Value const *key, TreeItem *ti, ConsolidateContext *cc)
  * simple consolidation for each column.
  **/
 static void
-col_consolidate (Consolidate *cs, data_analysis_output_t *dao)
+col_consolidate (GnmConsolidate *cs, data_analysis_output_t *dao)
 {
 	ConsolidateContext cc;
 	GTree *tree;
@@ -638,13 +638,13 @@ col_consolidate (Consolidate *cs, data_analysis_output_t *dao)
 }
 
 static GnmExprList *
-colrow_formula_args_build (Value const *row_name, Value const *col_name, GSList *granges)
+colrow_formula_args_build (GnmValue const *row_name, GnmValue const *col_name, GSList *granges)
 {
 	GSList const *l;
 	GnmExprList *args = NULL;
 
 	for (l = granges; l != NULL; l = l->next) {
-		GlobalRange *gr = l->data;
+		GnmGlobalRange *gr = l->data;
 		int rx, ry;
 
 		/*
@@ -654,14 +654,14 @@ colrow_formula_args_build (Value const *row_name, Value const *col_name, GSList 
 		 * a cell is found we append it to the formula
 		 */
 		for (ry = gr->range.start.row + 1; ry <= gr->range.end.row; ry++) {
-			Value const *rowtxt = sheet_cell_get_value (gr->sheet, gr->range.start.col, ry);
+			GnmValue const *rowtxt = sheet_cell_get_value (gr->sheet, gr->range.start.col, ry);
 
 			if (rowtxt == NULL || value_compare (rowtxt, row_name, TRUE) != IS_EQUAL)
 				continue;
 
 			for (rx = gr->range.start.col + 1; rx <= gr->range.end.col; rx++) {
-				Value const *coltxt = sheet_cell_get_value (gr->sheet, rx, gr->range.start.row);
-				CellRef ref;
+				GnmValue const *coltxt = sheet_cell_get_value (gr->sheet, rx, gr->range.start.row);
+				GnmCellRef ref;
 
 				if (coltxt == NULL || value_compare (coltxt, col_name, TRUE) != IS_EQUAL)
 					continue;
@@ -681,7 +681,7 @@ colrow_formula_args_build (Value const *row_name, Value const *col_name, GSList 
 }
 
 static void
-colrow_consolidate (Consolidate *cs, data_analysis_output_t *dao)
+colrow_consolidate (GnmConsolidate *cs, data_analysis_output_t *dao)
 {
 	GSList *rows;
 	GSList *cols;
@@ -697,12 +697,12 @@ colrow_consolidate (Consolidate *cs, data_analysis_output_t *dao)
 
 	if (cs->mode & CONSOLIDATE_COPY_LABELS) {
 		for (l = rows, y = 1; l != NULL; l = l->next, y++) {
-			Value const *row_name = l->data;
+			GnmValue const *row_name = l->data;
 			
 			dao_set_cell_value (dao, 0, y, value_duplicate (row_name));
 		}
 		for (m = cols, x = 1; m != NULL; m = m->next, x++) {
-			Value const *col_name = m->data;
+			GnmValue const *col_name = m->data;
 			
 			dao_set_cell_value (dao, x, 0, value_duplicate (col_name));
 		}
@@ -711,10 +711,10 @@ colrow_consolidate (Consolidate *cs, data_analysis_output_t *dao)
 	}
 
 	for (l = rows, y = 0; l != NULL; l = l->next, y++) {
-		Value const *row_name = l->data;
+		GnmValue const *row_name = l->data;
 
 		for (m = cols, x = 0; m != NULL; m = m->next, x++) {
-			Value const *col_name = m->data;
+			GnmValue const *col_name = m->data;
 			GnmExprList *args;
 
 			args = colrow_formula_args_build (row_name, col_name, cs->src);
@@ -733,7 +733,7 @@ colrow_consolidate (Consolidate *cs, data_analysis_output_t *dao)
 }
 
 static gboolean
-consolidate_apply (Consolidate *cs, 
+consolidate_apply (GnmConsolidate *cs, 
 		   data_analysis_output_t *dao)
 {
 /* 	WorkbookView *wbv = wb_control_view (wbc); */
@@ -766,7 +766,7 @@ gboolean
 tool_consolidate_engine (data_analysis_output_t *dao, gpointer specs, 
 			 analysis_tool_engine_t selector, gpointer result)
 {
-	Consolidate *cs = specs;
+	GnmConsolidate *cs = specs;
 
 	switch (selector) {
 	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
@@ -774,7 +774,7 @@ tool_consolidate_engine (data_analysis_output_t *dao, gpointer specs,
 						result) == NULL);
 	case TOOL_ENGINE_UPDATE_DAO: 
 	{
-		Range r;
+		GnmRange r;
 
 		range_init (&r, 0, 0, 0, 0);
 		get_bounding_box (cs->src, &r);

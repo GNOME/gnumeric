@@ -479,7 +479,7 @@ preview_grid_set_property (GObject *obj, guint param_id,
 		break;
 	}
 	case PREVIEW_GRID_PROP_DEFAULT_VALUE : { /* steal ownership */
-		Value *val = g_value_get_pointer (value);
+		GnmValue *val = g_value_get_pointer (value);
 		g_return_if_fail (val != NULL);
 		if (pg->defaults.value != val) {
 			value_release (pg->defaults.value);

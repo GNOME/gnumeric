@@ -28,7 +28,7 @@ excel_gb_selection_interior (GBRunEvalContext *ec,
 {
 	Sheet           *sheet;
 	ExcelGBInterior *interior;
-	const Range     *first_range;
+	GnmRange const  *first_range;
 
 	sheet = EXCEL_GB_SELECTION (object)->sheet;
 

@@ -110,11 +110,11 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	WorkbookControl         *wbc;
 	gchar                   *name;
 	gchar                   *comment;
-	Value                   *cell_range;
+	GnmValue                   *cell_range;
 	GtkWidget               *entry, *comment_view;
 	GtkTextBuffer           *buf;
 	GtkTextIter             start, end;
-	RangeRef                *rr;
+	GnmRangeRef            *rr;
 	gboolean                res;
 	scenario_t              *scenario;
 

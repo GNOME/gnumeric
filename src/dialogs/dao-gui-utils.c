@@ -95,7 +95,7 @@ tool_set_focus_output_range (G_GNUC_UNUSED GtkWidget *widget,
 void 
 dialog_tool_preset_to_range (GenericToolState *state)
 {
-	Range const *sel;
+	GnmRange const *sel;
 	GtkWidget *w = glade_xml_get_widget (state->gui,
 						  "notebook1");
 
@@ -185,7 +185,7 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
 data_analysis_output_t *
 parse_output (GenericToolState *state, data_analysis_output_t *dao)
 {
-        Value *output_range;
+        GnmValue *output_range;
 	GtkWidget *button;
 
 

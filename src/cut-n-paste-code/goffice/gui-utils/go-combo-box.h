@@ -31,7 +31,7 @@ G_BEGIN_DECLS
 #define GNM_COMBO_BOX_TYPE          (gnm_combo_box_get_type())
 #define GNM_COMBO_BOX(obj)	    G_TYPE_CHECK_INSTANCE_CAST (obj, gnm_combo_box_get_type (), GnmComboBox)
 #define GNM_COMBO_BOX_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, gnm_combo_box_get_type (), GnmComboBoxClass)
-#define GNM_IS_COMBO_BOX(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, gnm_combo_box_get_type ())
+#define IS_GNM_COMBO_BOX(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, gnm_combo_box_get_type ())
 
 typedef struct _GnmComboBox	   GnmComboBox;
 typedef struct _GnmComboBoxPrivate GnmComboBoxPrivate;

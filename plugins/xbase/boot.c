@@ -72,11 +72,11 @@ xb_setdouble (guint8 *p, double d)
 
 #endif
 
-static Value *
+static GnmValue *
 xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 {
 	gchar *s = g_strndup (content, field->len);
-	Value *val;
+	GnmValue *val;
 
 	switch (field->type) {
 	case 'C': {
@@ -159,7 +159,7 @@ xbase_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	char	  *name;
 	Sheet	  *sheet = NULL;
 	Cell	  *cell;
-	Value	  *val;
+	GnmValue	  *val;
 	XBfield	  *field;
 	ErrorInfo *open_error;
 	guint row, i;
@@ -183,7 +183,7 @@ xbase_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		cell_set_text (cell, file->format [i]->name);
 	}
 	{
-		Range r;
+		GnmRange r;
 		MStyle *bold = mstyle_new ();
 		mstyle_set_font_bold (bold, TRUE);
 		sheet_style_apply_range	(sheet,

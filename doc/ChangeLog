@@ -1,3 +1,12 @@
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-10-05  Jody Goldberg <jody@gnome.org>
+
+	* developer/writing-functions.sgml : document 'B' a scalar argument
+	  that includes even blanks and errors.
+
 2003-09-17  Jody Goldberg <jody@gnome.org>
 
 	* xmldocs.make : Make the magic sym link relative to keep rpm happy.

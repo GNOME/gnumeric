@@ -54,7 +54,7 @@
 
 #if USE_RV_POOLS
 /* Memory pool for strings.  */
-static gnm_mem_chunk *rendered_value_pool;
+static GnmMemChunk *rendered_value_pool;
 #define CHUNK_ALLOC(T,p) ((T*)gnm_mem_chunk_alloc (p))
 #define CHUNK_FREE(p,v) gnm_mem_chunk_free ((p), (v))
 #else
@@ -116,7 +116,7 @@ rendered_value_render (GString *str,
 				if (wdigit > 0.0) {
 					double cell_width;
 					if (cell_is_merged (cell)) {
-						Range const *merged =
+						GnmRange const *merged =
 							sheet_merge_is_corner (sheet, &cell->pos);
 
 						cell_width = sheet_col_get_distance_pts (sheet,
@@ -388,7 +388,7 @@ cell_get_entered_text (Cell const *cell)
 			char const *tmp = cell->value->v_str.val->str;
 
 			if (tmp[0] != '\'' && !gnm_expr_char_start_p (tmp)) {
-				Value *val = format_match_number (tmp,
+				GnmValue *val = format_match_number (tmp,
 					cell_get_format	(cell),
 					workbook_date_conv (cell->base.sheet->workbook));
 				if (val == NULL)

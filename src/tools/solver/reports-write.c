@@ -499,7 +499,7 @@ solver_performance_report (WorkbookControl *wbc,
         data_analysis_output_t dao;
 	int                    mat_size, i;
 	struct                 utsname unamedata;
-	Value                  *v;
+	GnmValue              *v;
 
 	dao_init (&dao, NewSheetOutput);
         dao_prepare_output (wbc, &dao, _("Performance Report"));
@@ -681,14 +681,14 @@ solver_performance_report (WorkbookControl *wbc,
 	/* Set the `OS Name'. */
 	if (uname (&unamedata) == -1) {
 	        char  *tmp = g_strdup_printf (_("Unknown"));
-		Value *r = value_new_string (tmp);
+		GnmValue *r = value_new_string (tmp);
 		g_free (tmp);
 		dao_set_cell_value (&dao, 4, 30, r);
 	} else {
 	        char  *tmp = g_strdup_printf (_("%s (%s)"),
 					      unamedata.sysname,
 					      unamedata.release);
-		Value *r = value_new_string (tmp);
+		GnmValue *r = value_new_string (tmp);
 		g_free (tmp);
 		dao_set_cell_value (&dao, 4, 30, r);
 	}

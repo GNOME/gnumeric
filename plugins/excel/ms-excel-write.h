@@ -126,6 +126,6 @@ int excel_write_get_externsheet_idx (ExcelWriteState *wb,
 				     Sheet *gnum_sheeta,
 				     Sheet *gnum_sheetb);
 
-int excel_write_map_errcode (Value const * const v);
+int excel_write_map_errcode (GnmValue const *v);
 
 #endif

@@ -80,7 +80,7 @@ gnumeric_error_calc (CommandContext *context, char const *msg)
 void
 gnumeric_error_splits_array (CommandContext *context,
 			     G_GNUC_UNUSED char const *cmd,
-			     Range const *array)
+			     GnmRange const *array)
 {
 	GError *err;
 

@@ -38,10 +38,10 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 static GdaClient* connection_pool = NULL;
 
-static Value *
+static GnmValue *
 display_recordset (GdaDataModel *recset, FunctionEvalInfo *ei)
 {
-	Value* array = NULL;
+	GnmValue* array = NULL;
 	gint   col;
 	gint   row;
 	gint   fieldcount = 0;
@@ -149,10 +149,10 @@ static char const *help_execSQL = {
 	   "@SEEALSO=READDBTABLE")
 };
 
-static Value *
-gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_execSQL (FunctionEvalInfo *ei, GnmValue **args)
 {
-	Value*         ret;
+	GnmValue*         ret;
 	gchar*         dsn_name;
 	gchar*         user_name;
 	gchar*         password;
@@ -216,10 +216,10 @@ static char const *help_readDBTable = {
 	   "@SEEALSO=EXECSQL")
 };
 
-static Value *
-gnumeric_readDBTable (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_readDBTable (FunctionEvalInfo *ei, GnmValue **args)
 {
-	Value*         ret;
+	GnmValue*         ret;
 	gchar*         dsn_name;
 	gchar*         user_name;
 	gchar*         password;

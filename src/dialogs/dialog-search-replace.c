@@ -99,7 +99,7 @@ ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	GtkDialog *dialog = dd->dialog;
 	WorkbookControlGUI *wbcg = dd->wbcg;
 	SearchDialogCallback cb = dd->cb;
-	SearchReplace *sr;
+	GnmSearchReplace *sr;
 	char *err;
 	int i;
 
@@ -294,7 +294,7 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 
 int
 dialog_search_replace_query (WorkbookControlGUI *wbcg,
-			     SearchReplace *sr,
+			     GnmSearchReplace *sr,
 			     const char *location,
 			     const char *old_text,
 			     const char *new_text)

@@ -611,7 +611,7 @@ struct _gnm_mem_chunk_block {
 #endif
 };
 
-struct _gnm_mem_chunk {
+struct _GnmMemChunk {
 	char *name;
 	size_t atom_size, user_atom_size, chunk_size, alignment;
 	int atoms_per_block;
@@ -628,11 +628,11 @@ struct _gnm_mem_chunk {
 };
 
 
-gnm_mem_chunk *
+GnmMemChunk *
 gnm_mem_chunk_new (char const *name, size_t user_atom_size, size_t chunk_size)
 {
 	int atoms_per_block;
-	gnm_mem_chunk *res;
+	GnmMemChunk *res;
 	size_t user_alignment, alignment, atom_size;
 	size_t maxalign = 1 + ((sizeof (void *) - 1) |
 			       (sizeof (long) - 1) |
@@ -661,7 +661,7 @@ gnm_mem_chunk_new (char const *name, size_t user_atom_size, size_t chunk_size)
 		 chunk_size);
 #endif
 
-	res = g_new (gnm_mem_chunk, 1);
+	res = g_new (GnmMemChunk, 1);
 	res->alignment = alignment;
 	res->name = g_strdup (name);
 	res->user_atom_size = user_atom_size;
@@ -678,7 +678,7 @@ gnm_mem_chunk_new (char const *name, size_t user_atom_size, size_t chunk_size)
 }
 
 void
-gnm_mem_chunk_destroy (gnm_mem_chunk *chunk, gboolean expect_leaks)
+gnm_mem_chunk_destroy (GnmMemChunk *chunk, gboolean expect_leaks)
 {
 	GSList *l;
 
@@ -718,7 +718,7 @@ gnm_mem_chunk_destroy (gnm_mem_chunk *chunk, gboolean expect_leaks)
 }
 
 gpointer
-gnm_mem_chunk_alloc (gnm_mem_chunk *chunk)
+gnm_mem_chunk_alloc (GnmMemChunk *chunk)
 {
 	gnm_mem_chunk_block *block;
 	char *res;
@@ -772,7 +772,7 @@ gnm_mem_chunk_alloc (gnm_mem_chunk *chunk)
 }
 
 gpointer
-gnm_mem_chunk_alloc0 (gnm_mem_chunk *chunk)
+gnm_mem_chunk_alloc0 (GnmMemChunk *chunk)
 {
 	gpointer res = gnm_mem_chunk_alloc (chunk);
 	memset (res, 0, chunk->user_atom_size);
@@ -780,7 +780,7 @@ gnm_mem_chunk_alloc0 (gnm_mem_chunk *chunk)
 }
 
 void
-gnm_mem_chunk_free (gnm_mem_chunk *chunk, gpointer mem)
+gnm_mem_chunk_free (GnmMemChunk *chunk, gpointer mem)
 {
 	gnm_mem_chunk_freeblock *fb = mem;
 	gnm_mem_chunk_block *block =
@@ -826,7 +826,7 @@ gnm_mem_chunk_free (gnm_mem_chunk *chunk, gpointer mem)
  * from the chunk in the callback.
  */
 void
-gnm_mem_chunk_foreach_leak (gnm_mem_chunk *chunk, GFunc cb, gpointer user)
+gnm_mem_chunk_foreach_leak (GnmMemChunk *chunk, GFunc cb, gpointer user)
 {
 	GSList *l, *leaks = NULL;
 

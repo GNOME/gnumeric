@@ -8,10 +8,11 @@
 
 void     py_initgnumeric (GnmPyInterpreter *interpreter);
 
-Value    *call_python_function (PyObject *python_fn, const EvalPos *eval_pos, gint n_args, Value **args);
-gchar    *py_exc_to_string (void);
-PyObject      *py_new_Sheet_object (Sheet *sheet);
-PyObject      *py_new_Workbook_object (Workbook *wb);
-PyObject      *py_new_Gui_object (WorkbookControlGUI *wbcg);
+GnmValue *call_python_function	 (PyObject *python_fn, EvalPos const *eval_pos,
+				  gint n_args, GnmValue **args);
+gchar    *py_exc_to_string	 (void);
+PyObject *py_new_Sheet_object	 (Sheet *sheet);
+PyObject *py_new_Workbook_object (Workbook *wb);
+PyObject *py_new_Gui_object	 (WorkbookControlGUI *wbcg);
 
 #endif /* PLUGIN_PY_GNUMERIC_H */

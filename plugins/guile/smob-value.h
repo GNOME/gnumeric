@@ -30,7 +30,7 @@
 
 void init_value_type (void);
 
-SCM make_new_smob (Value *);
-Value *get_value_from_smob (SCM);
+SCM make_new_smob (GnmValue *);
+GnmValue *get_value_from_smob (SCM);
 
 #endif

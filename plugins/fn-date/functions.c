@@ -49,8 +49,8 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 #define DAY_SECONDS (3600*24)
 #define DATE_CONV(ep)		workbook_date_conv (ep->sheet->workbook)
 
-static Value *
-make_date (Value *res)
+static GnmValue *
+make_date (GnmValue *res)
 {
 	value_set_fmt (res, style_format_default_date ());
 	return res;
@@ -79,8 +79,8 @@ static char const *help_date = {
 	   "@SEEALSO=TODAY, NOW")
 };
 
-static Value *
-gnumeric_date (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_date (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int year, month, day;
 	GDate date;
@@ -143,8 +143,8 @@ static char const *help_unix2date = {
 	   "@SEEALSO=NOW, DATE, DATE2UNIX")
 };
 
-static Value *
-gnumeric_unix2date (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_unix2date (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float futime = value_get_as_float (argv [0]);
 	time_t     utime  = (time_t)futime;
@@ -176,8 +176,8 @@ static char const *help_date2unix = {
 	   "@SEEALSO=NOW, DATE, UNIX2DATE")
 };
 
-static Value *
-gnumeric_date2unix (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_date2unix (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float fserial = value_get_as_float (argv [0]);
 	int        serial  = (int)fserial;
@@ -210,8 +210,8 @@ static char const *help_datevalue = {
 	   "@SEEALSO=DATE")
 };
 
-static Value *
-gnumeric_datevalue (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_datevalue (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_int (datetime_value_to_serial (argv[0], DATE_CONV (ei->pos)));
 }
@@ -329,8 +329,8 @@ datedif_opt_md (GDate *gdate1, GDate *gdate2, gboolean excel_compat)
 	return datetime_g_days_between (gdate1, gdate2);
 }
 
-static Value *
-gnumeric_datedif (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_datedif (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int date1, date2;
 	char const *opt;
@@ -387,12 +387,12 @@ static char const *help_edate = {
 	   "@SEEALSO=DATE")
 };
 
-static Value *
-gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_edate (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int    serial, months;
 	GDate  date;
-	Value *res;
+	GnmValue *res;
 	GnmDateConventions const *conv = DATE_CONV (ei->pos);
 
 	serial = value_get_as_int(argv[0]);
@@ -432,8 +432,8 @@ static char const *help_today = {
 	   "@SEEALSO=NOW")
 };
 
-static Value *
-gnumeric_today (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_today (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return make_date (value_new_int (datetime_timet_to_serial (time (NULL), DATE_CONV (ei->pos))));
 }
@@ -463,8 +463,8 @@ static char const *help_now = {
 	   "@SEEALSO=TODAY")
 };
 
-static Value *
-gnumeric_now (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_now (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_float (datetime_timet_to_serial_raw (time (NULL), DATE_CONV (ei->pos)));
 }
@@ -485,8 +485,8 @@ static char const *help_time = {
 	   "@SEEALSO=HOUR")
 };
 
-static Value *
-gnumeric_time (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_time (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float hours, minutes, seconds;
 
@@ -516,8 +516,8 @@ static char const *help_timevalue = {
 	   "@SEEALSO=HOUR,MINUTE")
 };
 
-static Value *
-gnumeric_timevalue (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_timevalue (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float raw = datetime_value_to_serial_raw (argv[0], DATE_CONV (ei->pos));
 	return value_new_float (raw - (int)raw);
@@ -544,8 +544,8 @@ static char const *help_hour = {
 	   "@SEEALSO=MINUTE, NOW, TIME, SECOND")
 };
 
-static Value *
-gnumeric_hour (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_hour (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int secs;
 	secs = datetime_value_to_seconds (argv[0]);
@@ -573,8 +573,8 @@ static char const *help_minute = {
 	   "@SEEALSO=HOUR, NOW, TIME, SECOND")
 };
 
-static Value *
-gnumeric_minute (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_minute (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int secs;
 
@@ -603,8 +603,8 @@ static char const *help_second = {
 	   "@SEEALSO=HOUR, MINUTE, NOW, TIME")
 };
 
-static Value *
-gnumeric_second (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_second (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int secs;
 
@@ -632,8 +632,8 @@ static char const *help_year = {
 	   "@SEEALSO=DAY, MONTH, TIME, NOW")
 };
 
-static Value *
-gnumeric_year (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_year (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int res = 1900;
 	GDate date;
@@ -663,8 +663,8 @@ static char const *help_month = {
 	   "@SEEALSO=DAY, TIME, NOW, YEAR")
 };
 
-static Value *
-gnumeric_month (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_month (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int res = 1;
 	GDate date;
@@ -694,8 +694,8 @@ static char const *help_day = {
 	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
 };
 
-static Value *
-gnumeric_day (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_day (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int res = 1;
 	GDate date;
@@ -732,8 +732,8 @@ static char const *help_weekday = {
 	   "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR")
 };
 
-static Value *
-gnumeric_weekday (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_weekday (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	GDate date;
 	int   res;
@@ -788,8 +788,8 @@ static char const *help_days360 = {
 	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
 };
 
-static Value *
-gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_days360 (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	basis_t basis;
 	GDate date1, date2;
@@ -830,10 +830,10 @@ static char const *help_eomonth = {
 	   "@SEEALSO=MONTH")
 };
 
-static Value *
-gnumeric_eomonth (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_eomonth (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	Value *res;
+	GnmValue *res;
 	int months = 0;
 	GDate date;
 	GnmDateConventions const *conv = DATE_CONV (ei->pos);
@@ -880,8 +880,8 @@ static char const *help_workday = {
 	   "@SEEALSO=NETWORKDAYS")
 };
 
-static Value *
-gnumeric_workday (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_workday (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int days;
 	GDateWeekday weekday;
@@ -977,8 +977,8 @@ typedef struct
 	int res;
 } networkdays_holiday_closure;
 
-static Value *
-networkdays_holiday_callback (Value const *v, EvalPos const *ep,
+static GnmValue *
+networkdays_holiday_callback (GnmValue const *v, EvalPos const *ep,
 			      void *user_data)
 {
 	networkdays_holiday_closure * close =
@@ -1004,8 +1004,8 @@ networkdays_holiday_callback (Value const *v, EvalPos const *ep,
 	return NULL;
 }
 
-static Value *
-gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_networkdays (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int start_serial;
 	int end_serial;
@@ -1075,8 +1075,8 @@ static char const *help_isoweeknum = {
 	   "@SEEALSO=WEEKNUM, ISOYEAR")
 };
 
-static Value *
-gnumeric_isoweeknum (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_isoweeknum (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	GDate date;
 	datetime_value_to_g (&date, argv[0], DATE_CONV (ei->pos));
@@ -1110,8 +1110,8 @@ static char const *help_isoyear = {
 	   "@SEEALSO=ISOWEEKNUM")
 };
 
-static Value *
-gnumeric_isoyear (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_isoyear (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	GDate date;
 	int year;
@@ -1160,8 +1160,8 @@ static char const *help_weeknum = {
 	   "@SEEALSO=ISOWEEKNUM")
 };
 
-static Value *
-gnumeric_weeknum (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_weeknum (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	GDate date;
 	int method = argv[1] ? value_get_as_int (argv[1]) : 1;
@@ -1193,8 +1193,8 @@ static char const *help_yearfrac = {
 	   "@SEEALSO=DATEDIF")
 };
 
-static Value *
-gnumeric_yearfrac (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_yearfrac (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	GnmDateConventions const *conv = DATE_CONV (ei->pos);
 	GDate start_date, end_date;

@@ -93,7 +93,7 @@ struct _GnmPlugin {
 	GSList *dependencies;
 	gchar *loader_id;
 	GHashTable *loader_attrs;
-	GnumericPluginLoader *loader;
+	GnmPluginLoader *loader;
 	GSList *services;
 
 	char *saved_textdomain;
@@ -394,7 +394,7 @@ plugin_info_read_full_info_if_needed (GnmPlugin *pinfo)
 const gchar *
 gnm_plugin_get_textdomain (GnmPlugin *plugin)
 {
-	g_return_val_if_fail (GNM_IS_PLUGIN (plugin), NULL);
+	g_return_val_if_fail (IS_GNM_PLUGIN (plugin), NULL);
 
 	if (plugin->saved_textdomain == NULL) {
 		plugin->saved_textdomain = g_strconcat ("gnumeric__", plugin->id, NULL);
@@ -412,7 +412,7 @@ gnm_plugin_get_textdomain (GnmPlugin *plugin)
 gboolean
 gnm_plugin_is_active (GnmPlugin *plugin)
 {
-	g_return_val_if_fail (GNM_IS_PLUGIN (plugin), FALSE);
+	g_return_val_if_fail (IS_GNM_PLUGIN (plugin), FALSE);
 
 	if (!plugin->has_full_info) {
 		return FALSE;
@@ -430,7 +430,7 @@ gnm_plugin_is_active (GnmPlugin *plugin)
 const gchar *
 gnm_plugin_get_dir_name (GnmPlugin *pinfo)
 {
-	g_return_val_if_fail (GNM_IS_PLUGIN (pinfo), NULL);
+	g_return_val_if_fail (IS_GNM_PLUGIN (pinfo), NULL);
 
 	return pinfo->dir_name;
 }
@@ -446,7 +446,7 @@ gnm_plugin_get_dir_name (GnmPlugin *pinfo)
 const gchar *
 gnm_plugin_get_id (GnmPlugin *pinfo)
 {
-	g_return_val_if_fail (GNM_IS_PLUGIN (pinfo), NULL);
+	g_return_val_if_fail (IS_GNM_PLUGIN (pinfo), NULL);
 
 	return pinfo->id;
 }
@@ -462,7 +462,7 @@ gnm_plugin_get_id (GnmPlugin *pinfo)
 const gchar *
 gnm_plugin_get_name (GnmPlugin *pinfo)
 {
-	g_return_val_if_fail (GNM_IS_PLUGIN (pinfo), NULL);
+	g_return_val_if_fail (IS_GNM_PLUGIN (pinfo), NULL);
 
 	if (!plugin_info_read_full_info_if_needed (pinfo)) {
 		return _("Unknown name");
@@ -481,7 +481,7 @@ gnm_plugin_get_name (GnmPlugin *pinfo)
 const gchar *
 gnm_plugin_get_description (GnmPlugin *pinfo)
 {
-	g_return_val_if_fail (GNM_IS_PLUGIN (pinfo), NULL);
+	g_return_val_if_fail (IS_GNM_PLUGIN (pinfo), NULL);
 
 	if (!plugin_info_read_full_info_if_needed (pinfo)) {
 		return NULL;
@@ -498,13 +498,13 @@ gnm_plugin_get_description (GnmPlugin *pinfo)
 gboolean
 gnm_plugin_is_loaded (GnmPlugin *pinfo)
 {
-	g_return_val_if_fail (GNM_IS_PLUGIN (pinfo), FALSE);
+	g_return_val_if_fail (IS_GNM_PLUGIN (pinfo), FALSE);
 
 	if (!pinfo->has_full_info) {
 		return FALSE;
 	}
 	return pinfo->loader != NULL &&
-	       gnumeric_plugin_loader_is_base_loaded (pinfo->loader);
+	       gnm_plugin_loader_is_base_loaded (pinfo->loader);
 }
 
 /* - */
@@ -518,10 +518,10 @@ gnm_plugin_is_loaded (GnmPlugin *pinfo)
  * consists of loader's plugin id and service id concatenated using colon).
  * All requests to create new loader object of this type will be passed to
  * @service.
- * This function is intended for use by PluginService objects.
+ * This function is intended for use by GnmPluginService objects.
  */
 void
-plugins_register_loader (const gchar *loader_id, PluginService *service)
+plugins_register_loader (const gchar *loader_id, GnmPluginService *service)
 {
 	g_return_if_fail (loader_id != NULL);
 	g_return_if_fail (service != NULL);
@@ -536,7 +536,7 @@ plugins_register_loader (const gchar *loader_id, PluginService *service)
  * Unregisters a type of plugin loader identified by @loader_id. After
  * callingthis function Gnumeric will be unable to load plugins supported
  * by the specified loader.
- * This function is intended for use by PluginService objects.
+ * This function is intended for use by GnmPluginService objects.
  */
 void
 plugins_unregister_loader (const gchar *loader_id)
@@ -549,7 +549,7 @@ plugins_unregister_loader (const gchar *loader_id)
 static GType
 get_loader_type_by_id (const gchar *id_str, ErrorInfo **ret_error)
 {
-	PluginService *loader_service;
+	GnmPluginService *loader_service;
 	ErrorInfo *error;
 	GType loader_type;
 
@@ -557,7 +557,7 @@ get_loader_type_by_id (const gchar *id_str, ErrorInfo **ret_error)
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	if (strcmp (id_str, BUILTIN_LOADER_MODULE_ID) == 0) {
-		return TYPE_GNUMERIC_PLUGIN_LOADER_MODULE;
+		return TYPE_GNM_PLUGIN_LOADER_MODULE;
 	}
 	loader_service = g_hash_table_lookup (loader_services, id_str);
 	if (loader_service == NULL) {
@@ -635,7 +635,7 @@ plugin_info_read_service_list (GnmPlugin *plugin, xmlNode *tree, ErrorInfo **ret
 	node = node->xmlChildrenNode;
 	for (i = 0; node != NULL; i++, node = node->next) {
 		if (strcmp (node->name, "service") == 0) {
-			PluginService *service;
+			GnmPluginService *service;
 			ErrorInfo *service_error;
 
 			service = plugin_service_new (plugin, node, &service_error);
@@ -717,7 +717,7 @@ plugin_info_read (GnmPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_erro
 	GHashTable *loader_attrs;
 	gboolean require_explicit_enabling = FALSE;
 
-	g_return_if_fail (GNM_IS_PLUGIN (plugin));
+	g_return_if_fail (IS_GNM_PLUGIN (plugin));
 	g_return_if_fail (dir_name != NULL);
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
@@ -867,7 +867,7 @@ plugin_get_loader_if_needed (GnmPlugin *pinfo, ErrorInfo **ret_error)
 	GType loader_type;
 	ErrorInfo *error;
 
-	g_return_if_fail (GNM_IS_PLUGIN (pinfo));
+	g_return_if_fail (IS_GNM_PLUGIN (pinfo));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	if (!plugin_info_read_full_info_if_needed_error_info (pinfo, ret_error)) {
@@ -878,14 +878,14 @@ plugin_get_loader_if_needed (GnmPlugin *pinfo, ErrorInfo **ret_error)
 	}
 	loader_type = get_loader_type_by_id (pinfo->loader_id, &error);
 	if (error == NULL) {
-		GnumericPluginLoader *loader;
+		GnmPluginLoader *loader;
 		ErrorInfo *error;
 
-		loader = GNUMERIC_PLUGIN_LOADER (g_object_new (loader_type, NULL));
-		gnumeric_plugin_loader_set_attributes (loader, pinfo->loader_attrs, &error);
+		loader = GNM_PLUGIN_LOADER (g_object_new (loader_type, NULL));
+		gnm_plugin_loader_set_attributes (loader, pinfo->loader_attrs, &error);
 		if (error == NULL) {
 			pinfo->loader = loader;
-			gnumeric_plugin_loader_set_plugin (loader, pinfo);
+			gnm_plugin_loader_set_plugin (loader, pinfo);
 		} else {
 			g_object_unref (loader);
 			loader = NULL;
@@ -916,7 +916,7 @@ gnm_plugin_activate (GnmPlugin *pinfo, ErrorInfo **ret_error)
 	gint i;
 	static GSList *activate_stack = NULL;
 
-	g_return_if_fail (GNM_IS_PLUGIN (pinfo));
+	g_return_if_fail (IS_GNM_PLUGIN (pinfo));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	if (g_slist_find (activate_stack, pinfo) != NULL) {
@@ -964,7 +964,7 @@ gnm_plugin_activate (GnmPlugin *pinfo, ErrorInfo **ret_error)
 	}
 
 	for (l = pinfo->services, i = 0; l != NULL; l = l->next, i++) {
-		PluginService *service = l->data;
+		GnmPluginService *service = l->data;
 		ErrorInfo *service_error;
 
 		plugin_service_activate (service, &service_error);
@@ -1006,7 +1006,7 @@ gnm_plugin_deactivate (GnmPlugin *pinfo, ErrorInfo **ret_error)
 	GSList *l;
 	gint i;
 
-	g_return_if_fail (GNM_IS_PLUGIN (pinfo));
+	g_return_if_fail (IS_GNM_PLUGIN (pinfo));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	if (!pinfo->has_full_info || !pinfo->is_active) {
@@ -1017,7 +1017,7 @@ gnm_plugin_deactivate (GnmPlugin *pinfo, ErrorInfo **ret_error)
 		return;
 	}
 	for (l = pinfo->services, i = 0; l != NULL; l = l->next, i++) {
-		PluginService *service = l->data;
+		GnmPluginService *service = l->data;
 		ErrorInfo *service_error;
 
 		plugin_service_deactivate (service, &service_error);
@@ -1057,7 +1057,7 @@ gnm_plugin_deactivate (GnmPlugin *pinfo, ErrorInfo **ret_error)
 gboolean
 gnm_plugin_can_deactivate (GnmPlugin *pinfo)
 {
-	g_return_val_if_fail (GNM_IS_PLUGIN (pinfo), FALSE);
+	g_return_val_if_fail (IS_GNM_PLUGIN (pinfo), FALSE);
 
 	if (!pinfo->is_active) {
 		return FALSE;
@@ -1136,7 +1136,7 @@ gnm_plugin_load_base (GnmPlugin *plugin, ErrorInfo **ret_error)
 		return;
 	}
 
-	gnumeric_plugin_loader_load_base (plugin->loader, &error);
+	gnm_plugin_loader_load_base (plugin->loader, &error);
 	if (error != NULL) {
 		*ret_error = error;
 		return;
@@ -1152,12 +1152,12 @@ gnm_plugin_load_base (GnmPlugin *plugin, ErrorInfo **ret_error)
  *
  * Loads base part of the plugin if is not loaded and then loads given
  * plugin service (prepares necessary part of the plugin for direct use).
- * This function is intended for use by PluginService objects.
+ * This function is intended for use by GnmPluginService objects.
  */
 void
-gnm_plugin_load_service (GnmPlugin *pinfo, PluginService *service, ErrorInfo **ret_error)
+gnm_plugin_load_service (GnmPlugin *pinfo, GnmPluginService *service, ErrorInfo **ret_error)
 {
-	g_return_if_fail (GNM_IS_PLUGIN (pinfo));
+	g_return_if_fail (IS_GNM_PLUGIN (pinfo));
 	g_return_if_fail (service != NULL);
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
@@ -1165,7 +1165,7 @@ gnm_plugin_load_service (GnmPlugin *pinfo, PluginService *service, ErrorInfo **r
 	if (*ret_error != NULL) {
 		return;
 	}
-	gnumeric_plugin_loader_load_service (pinfo->loader, service, ret_error);
+	gnm_plugin_loader_load_service (pinfo->loader, service, ret_error);
 }
 
 /**
@@ -1175,12 +1175,12 @@ gnm_plugin_load_service (GnmPlugin *pinfo, PluginService *service, ErrorInfo **r
  * @ret_error   : Pointer used to report errors
  *
  * ...
- * This function is intended for use by PluginService objects.
+ * This function is intended for use by GnmPluginService objects.
  */
 void
-gnm_plugin_unload_service (GnmPlugin *pinfo, PluginService *service, ErrorInfo **ret_error)
+gnm_plugin_unload_service (GnmPlugin *pinfo, GnmPluginService *service, ErrorInfo **ret_error)
 {
-	g_return_if_fail (GNM_IS_PLUGIN (pinfo));
+	g_return_if_fail (IS_GNM_PLUGIN (pinfo));
 	g_return_if_fail (pinfo->loader != NULL);
 	g_return_if_fail (service != NULL);
 
@@ -1188,7 +1188,7 @@ gnm_plugin_unload_service (GnmPlugin *pinfo, PluginService *service, ErrorInfo *
 	if (!plugin_info_read_full_info_if_needed_error_info (pinfo, ret_error)) {
 		return;
 	}
-	gnumeric_plugin_loader_unload_service (pinfo->loader, service, ret_error);
+	gnm_plugin_loader_unload_service (pinfo->loader, service, ret_error);
 }
 
 /**
@@ -1198,7 +1198,7 @@ gnm_plugin_unload_service (GnmPlugin *pinfo, PluginService *service, ErrorInfo *
 void
 gnm_plugin_use_ref (GnmPlugin *plugin)
 {
-	g_return_if_fail (GNM_IS_PLUGIN (plugin));
+	g_return_if_fail (IS_GNM_PLUGIN (plugin));
 	g_return_if_fail (plugin->is_active);
 
 	plugin->use_refcount++;
@@ -1214,7 +1214,7 @@ gnm_plugin_use_ref (GnmPlugin *plugin)
 void
 gnm_plugin_use_unref (GnmPlugin *plugin)
 {
-	g_return_if_fail (GNM_IS_PLUGIN (plugin));
+	g_return_if_fail (IS_GNM_PLUGIN (plugin));
 	g_return_if_fail (plugin->is_active);
 	g_return_if_fail (plugin->use_refcount > 0);
 
@@ -1254,7 +1254,7 @@ gnm_plugin_get_dependencies_ids (GnmPlugin *plugin)
 GSList *
 gnm_plugin_get_services (GnmPlugin *plugin)
 {
-	g_return_val_if_fail (GNM_IS_PLUGIN (plugin), NULL);
+	g_return_val_if_fail (IS_GNM_PLUGIN (plugin), NULL);
 
 	return plugin->services;
 }
@@ -1539,7 +1539,7 @@ plugins_get_plugin_by_id (const gchar *plugin_id)
 void
 plugin_db_mark_plugin_for_deactivation (GnmPlugin *pinfo, gboolean mark)
 {
-	g_return_if_fail (GNM_IS_PLUGIN (pinfo));
+	g_return_if_fail (IS_GNM_PLUGIN (pinfo));
 
 	if (mark) {
 		if (plugins_marked_for_deactivation_hash == NULL) {

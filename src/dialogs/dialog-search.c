@@ -131,8 +131,8 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 			g_value_set_static_string (value, _("Result"));
 			return;
 		case SRL_contents: {
-			Value *v = cell->value;
-			const char *type;
+			GnmValue *v = cell->value;
+			char const *type;
 
 			gboolean is_expr = cell_has_expr (cell);
 			gboolean is_value = !is_expr && !cell_is_empty (cell) && v;
@@ -271,7 +271,7 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	GladeXML *gui = dd->gui;
 	WorkbookControlGUI *wbcg = dd->wbcg;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	SearchReplace *sr;
+	GnmSearchReplace *sr;
 	char *err;
 	int i;
 

@@ -506,7 +506,7 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet)
 	/* 0	0x800 (biff8 only) no page break mode*/
 	guint16 options = 0x0A0;
 	guint8 *data;
-	CellPos top_left;
+	GnmCellPos top_left;
 	Sheet const *sheet = esheet->gnum_sheet;
 	SheetView const *sv = sheet_get_view (sheet, esheet->ewb->gnum_wb_view);
 	StyleColor *sheet_auto   = sheet_style_get_auto_pattern_color (sheet);
@@ -599,7 +599,7 @@ excel_write_MERGECELLS (BiffPut *bp, ExcelWriteSheet *esheet)
 	/* Find the set of regions that we can safely export */
 	for (merged = esheet->gnum_sheet->list_merged; merged != NULL ; merged = merged->next) {
 		/* TODO : Add a warning entry in the log about ignoring the missing elements */
-		Range const *r = merged->data;
+		GnmRange const *r = merged->data;
 		if (r->start.row <= USHRT_MAX && r->end.row <= USHRT_MAX &&
 		    r->start.col <= UCHAR_MAX && r->end.col <= UCHAR_MAX)
 			remainder++;
@@ -618,7 +618,7 @@ excel_write_MERGECELLS (BiffPut *bp, ExcelWriteSheet *esheet)
 		GSF_LE_SET_GUINT16 (record, len);
 		ptr = record + 2;
 		for (; merged != NULL && len-- > 0 ; merged = merged->next) {
-			Range const *r = merged->data;
+			GnmRange const *r = merged->data;
 			if (r->start.row <= USHRT_MAX && r->end.row <= USHRT_MAX &&
 			    r->start.col <= UCHAR_MAX && r->end.col <= UCHAR_MAX) {
 				GSF_LE_SET_GUINT16 (ptr+0, r->start.row);
@@ -635,7 +635,7 @@ excel_write_MERGECELLS (BiffPut *bp, ExcelWriteSheet *esheet)
 /****************************************************************************/
 
 typedef struct {
-	Validation  *v;
+	GnmValidation  *v;
 	GnmInputMsg *msg;
 	GSList	    *ranges;
 } ValInputPair;
@@ -662,7 +662,7 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 	guint32 options;
 	guint8 data[8];
 	int col, row;
-	Range const *r;
+	GnmRange const *r;
 
 	ms_biff_put_var_next (bp, BIFF_DV);
 
@@ -769,7 +769,7 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 	GSF_LE_SET_GUINT16 (data, range_count);
 	ms_biff_put_var_write (bp, data, 2);
 	for (ptr = vip->ranges; ptr != NULL ; ptr = ptr->next) {
-		Range const *r = ptr->data;
+		GnmRange const *r = ptr->data;
 		GSF_LE_SET_GUINT16 (data+0, r->start.row);
 		GSF_LE_SET_GUINT16 (data+2, r->end.row >= MsBiffMaxRowsV8 ? (MsBiffMaxRowsV8-1) : r->end.row);
 		GSF_LE_SET_GUINT16 (data+4, r->start.col);
@@ -843,7 +843,7 @@ excel_write_prep_validations (ExcelWriteSheet *esheet)
 {
 	StyleList *ptr = esheet->validations;
 	StyleRegion const *sr;
-	Validation  const *v;
+	GnmValidation  const *v;
 
 	for (; ptr != NULL ; ptr = ptr->next) {
 		sr = ptr->data;
@@ -2348,7 +2348,7 @@ excel_write_XFs (ExcelWriteState *ewb)
 }
 
 int
-excel_write_map_errcode (Value const *v)
+excel_write_map_errcode (GnmValue const *v)
 {
 	switch (value_error_classify (v)) {
 	case GNM_ERROR_NULL: return 0;
@@ -2374,7 +2374,7 @@ excel_write_map_errcode (Value const *v)
  * Write cell value to file
  **/
 static void
-excel_write_value (ExcelWriteState *ewb, Value *v, guint32 col, guint32 row, guint16 xf)
+excel_write_value (ExcelWriteState *ewb, GnmValue *v, guint32 col, guint32 row, guint16 xf)
 {
 	switch (v->type) {
 
@@ -2408,7 +2408,7 @@ excel_write_value (ExcelWriteState *ewb, Value *v, guint32 col, guint32 row, gui
 
 		d (3, fprintf (stderr, "Writing %d %d\n", vint, v->v_int.val););
 		if (((vint<<2)>>2) != vint) { /* Chain to floating point then. */
-			Value *vf = value_new_float (v->v_int.val);
+			GnmValue *vf = value_new_float (v->v_int.val);
 			excel_write_value (ewb, vf, col, row, xf);
 			value_release (vf);
 		} else {
@@ -2437,7 +2437,7 @@ excel_write_value (ExcelWriteState *ewb, Value *v, guint32 col, guint32 row, gui
 		/* FIXME : Add test for double with 2 digits of fraction
 		 * and represent it as a mode 3 RK (val*100) construct */
 		if (is_int) { /* not nice but functional */
-			Value *vi = value_new_int (val);
+			GnmValue *vi = value_new_int (val);
 			excel_write_value (ewb, vi, col, row, xf);
 			value_release (vi);
 		} else if (ewb->bp->version >= MS_BIFF_V7) { /* See: S59DAC.HTM */
@@ -2502,7 +2502,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, Cell const *
 	guint32  len;
 	gboolean string_result = FALSE;
 	gint     col, row;
-	Value   *v;
+	GnmValue   *v;
 	GnmExpr const *expr;
 
 	g_return_if_fail (ewb);
@@ -2612,7 +2612,7 @@ excel_write_comments_biff7 (BiffPut *bp, ExcelWriteSheet *esheet)
 
 	for (l = comments; l; l = l->next) {
 		CellComment const *cc = l->data;
-		Range const *pos     = sheet_object_range_get (SHEET_OBJECT (cc));
+		GnmRange const *pos     = sheet_object_range_get (SHEET_OBJECT (cc));
 		char const  *in = cell_comment_text_get (cc);
 		unsigned in_bytes, out_bytes;
 		unsigned len = excel_write_string_len (in, &in_bytes);
@@ -2923,7 +2923,7 @@ static char const *
 excel_write_DOPER (GnmFilterCondition const *cond, int i, guint8 *buf)
 {
 	char const *str = NULL;
-	Value const *v = cond->value[i];
+	GnmValue const *v = cond->value[i];
 	int tmp;
 
 	if (cond->op[i] == GNM_FILTER_UNUSED)
@@ -3080,7 +3080,7 @@ excel_write_autofilter_names (ExcelWriteState *ewb)
 }
 
 static void
-excel_write_anchor (guint8 *buf, Range const *r)
+excel_write_anchor (guint8 *buf, GnmRange const *r)
 {
 	GSF_LE_SET_GUINT16 (buf +  0, r->start.col);
 	GSF_LE_SET_GUINT16 (buf +  4, r->start.row);
@@ -3146,7 +3146,7 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 	GnmFilterCondition const *cond;
 	BiffPut *bp = esheet->ewb->bp;
 	unsigned i;
-	Range r;
+	GnmRange r;
 	
 	if (esheet->gnum_sheet->filters == NULL)
 		return;
@@ -3225,7 +3225,7 @@ excel_write_chart (ExcelWriteSheet *esheet, SheetObject *sog)
 	GnmFilterCondition const *cond;
 	BiffPut *bp = esheet->ewb->bp;
 	unsigned i;
-	Range r;
+	GnmRange r;
 	
 	ms_biff_put_var_next (bp, BIFF_MS_O_DRAWING);
 	memcpy (buf, obj_v8, sizeof obj_v8);
@@ -3437,7 +3437,7 @@ excel_write_SELECTION (BiffPut *bp, ExcelWriteSheet *esheet)
 
 	data += 9;
 	for (ptr = sv->selections ; ptr != NULL ; ptr = ptr->next, data += 6) {
-		Range const *r = ptr->data;
+		GnmRange const *r = ptr->data;
 		GSF_LE_SET_GUINT16 (data + 0, r->start.row);
 		GSF_LE_SET_GUINT16 (data + 2, r->end.row);
 		GSF_LE_SET_GUINT8  (data + 4, r->start.col);
@@ -3742,7 +3742,7 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *gnum_sheet,
 {
 	int const maxrows = biff7 ? MsBiffMaxRowsV7 : MsBiffMaxRowsV8;
 	ExcelWriteSheet *esheet = g_new (ExcelWriteSheet, 1);
-	Range       extent;
+	GnmRange       extent;
 
 	g_return_val_if_fail (gnum_sheet, NULL);
 	g_return_val_if_fail (ewb, NULL);

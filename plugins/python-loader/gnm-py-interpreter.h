@@ -7,20 +7,20 @@
 
 #define GNM_PY_INTERPRETER_TYPE     (gnm_py_interpreter_get_type ())
 #define GNM_PY_INTERPRETER(o)       (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PY_INTERPRETER_TYPE, GnmPyInterpreter))
-#define GNM_IS_PY_INTERPRETER(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PY_INTERPRETER_TYPE))
+#define IS_GNM_PY_INTERPRETER(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PY_INTERPRETER_TYPE))
 
 GType gnm_py_interpreter_get_type (void);
 typedef struct _GnmPyInterpreter GnmPyInterpreter;
 
-GnmPyInterpreter *gnm_py_interpreter_new (GnmPlugin *plugin);
-void              gnm_py_interpreter_destroy (GnmPyInterpreter *interpreter,
-                                              GnmPyInterpreter *new_interpreter);
-void              gnm_py_interpreter_switch_to (GnmPyInterpreter *interpreter);
+GnmPyInterpreter *gnm_py_interpreter_new	(GnmPlugin *plugin);
+void              gnm_py_interpreter_destroy	(GnmPyInterpreter *interpreter,
+						 GnmPyInterpreter *new_interpreter);
+void              gnm_py_interpreter_switch_to	(GnmPyInterpreter *interpreter);
 void              gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter,
-                                                 const char *str,
-                                                 char **opt_stdout, char **opt_stderr);
-const char       *gnm_py_interpreter_get_name (GnmPyInterpreter *interpreter);
-GnmPlugin        *gnm_py_interpreter_get_plugin (GnmPyInterpreter *interpreter);
-int               gnm_py_interpreter_compare (gconstpointer a, gconstpointer b);
+                                                 char const *str,
+						 char **opt_stdout, char **opt_stderr);
+const char       *gnm_py_interpreter_get_name	(GnmPyInterpreter *interpreter);
+GnmPlugin        *gnm_py_interpreter_get_plugin	(GnmPyInterpreter *interpreter);
+int               gnm_py_interpreter_compare	(gconstpointer a, gconstpointer b);
 
 #endif /* PLUGIN_GNM_PY_INTERPRETER_H */

@@ -1791,7 +1791,7 @@ format_number (GString *result,
 }
 
 static gboolean
-style_format_condition (StyleFormatEntry const *entry, Value const *value)
+style_format_condition (StyleFormatEntry const *entry, GnmValue const *value)
 {
 	if (entry->restriction_type == '*')
 		return TRUE;
@@ -1933,7 +1933,7 @@ fmt_general_int (GString *result, int val, int col_width)
  */
 void
 format_value_gstring (GString *result, StyleFormat const *format,
-		      Value const *value, StyleColor **color,
+		      GnmValue const *value, StyleColor **color,
 		      double col_width, GnmDateConventions const *date_conv)
 {
 	StyleFormatEntry const *entry = NULL; /* default to General */
@@ -2045,7 +2045,7 @@ format_value_gstring (GString *result, StyleFormat const *format,
 }
 
 gchar *
-format_value (StyleFormat const *format, Value const *value, StyleColor **color,
+format_value (StyleFormat const *format, GnmValue const *value, StyleColor **color,
 	      double col_width, GnmDateConventions const *date_conv)
 {
 	GString *result = g_string_sized_new (20);

@@ -14,9 +14,9 @@ a complete reference.
 f : A floating point (double) value.
 s : A string (char*)
 b : A boolean
-r : A Range eg. A1:A5 - See 'A'
+r : A GnmRange eg. A1:A5 - See 'A'
 a : An Array eg. {1,2,3;4,5,6} ( a 3x2 array ) - See 'A'
-A : Either an Array or a Range: Use the
+A : Either an Array or a GnmRange: Use the
     value_area set of functions to simplify the code.
     see expr.h.
 ? : Any type, the type must be checked from value->type.   
@@ -111,11 +111,11 @@ fibo)
 You are now able to use you newly designed formula with:
 =FIBO(number)
 
-5. Using gnumeric Value implementation.
+5. Using gnumeric GnmValue implementation.
 
 The Guile plugin has support for gnumeric value implementation;
 this is used by creating a new smob that adds
-Value as new Guile data type. 
+GnmValue as new Guile data type. 
 
 -To create a new value the following set of functions:
 

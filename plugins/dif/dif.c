@@ -277,7 +277,7 @@ dif_file_save (GnmFileSaver const *fs, IOContext *io_context,
                WorkbookView const *wbv, GsfOutput *output)
 {
 	Sheet *sheet;
-	Range r;
+	GnmRange r;
 	gint row, col;
 	gboolean res;
 

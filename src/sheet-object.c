@@ -191,7 +191,7 @@ sheet_object_unrealize (SheetObject *so)
 static void
 sheet_objects_max_extent (Sheet *sheet)
 {
-	CellPos max_pos = { 0, 0 };
+	GnmCellPos max_pos = { 0, 0 };
 	GList *ptr;
 
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ) {
@@ -336,7 +336,7 @@ sheet_object_get_view (SheetObject *so, gpointer key)
  * and they change position.
  */
 void
-sheet_object_update_bounds (SheetObject *so, CellPos const *pos)
+sheet_object_update_bounds (SheetObject *so, GnmCellPos const *pos)
 {
 	GList *l;
 	gboolean is_hidden = TRUE;
@@ -549,7 +549,7 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 
 	tmp = (char *) xmlGetProp (tree, (xmlChar *)"ObjectBound");
 	if (tmp != NULL) {
-		Range r;
+		GnmRange r;
 		if (parse_range (tmp, &r))
 			so->anchor.cell_bound = r;
 		xmlFree (tmp);
@@ -622,7 +622,7 @@ sheet_object_write_xml (SheetObject const *so, XmlParseContext const *ctxt)
 	return tree;
 }
 
-Range const *
+GnmRange const *
 sheet_object_range_get (SheetObject const *so)
 {
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
@@ -683,7 +683,7 @@ void
 sheet_object_position_pixels_get (SheetObject const *so,
 				  SheetControl const *sc, double *coords)
 {
-	Range const *r;
+	GnmRange const *r;
 
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 	g_return_if_fail (IS_SHEET (so->sheet));
@@ -748,7 +748,7 @@ sheet_object_default_size (SheetObject *so, double *w, double *h)
 void
 sheet_object_position_pts_get (SheetObject const *so, double *coords)
 {
-	Range const *r;
+	GnmRange const *r;
 
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 	g_return_if_fail (coords != NULL);
@@ -788,7 +788,7 @@ void
 sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
 {
 	GList   *ptr, *next;
-	Range	 dest;
+	GnmRange	 dest;
 	gboolean clear, change_sheets;
 
 	g_return_if_fail (rinfo != NULL);
@@ -804,7 +804,7 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
 		GList *copy = g_list_copy (rinfo->target_sheet->sheet_objects);
 		for (ptr = copy; ptr != NULL ; ptr = ptr->next ) {
 			SheetObject *so = SHEET_OBJECT (ptr->data);
-			Range const *r  = &so->anchor.cell_bound;
+			GnmRange const *r  = &so->anchor.cell_bound;
 			if (range_contains (&dest, r->start.col, r->start.row))
 				g_object_unref (G_OBJECT (so));
 		}
@@ -814,7 +814,7 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
 	ptr = rinfo->origin_sheet->sheet_objects;
 	for (; ptr != NULL ; ptr = next ) {
 		SheetObject *so = SHEET_OBJECT (ptr->data);
-		Range       *r  = &so->anchor.cell_bound;
+		GnmRange       *r  = &so->anchor.cell_bound;
 
 		next = ptr->next;
 		if (update && !so->move_with_cells)
@@ -855,7 +855,7 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
  * Containing all objects of exactly the specified type (inheritence does not count).
  */
 GSList *
-sheet_objects_get (Sheet const *sheet, Range const *r, GType t)
+sheet_objects_get (Sheet const *sheet, GnmRange const *r, GType t)
 {
 	GSList *res = NULL;
 	GList *ptr;
@@ -883,7 +883,7 @@ sheet_objects_get (Sheet const *sheet, Range const *r, GType t)
  * removes the objects in the region.
  */
 void
-sheet_objects_clear (Sheet const *sheet, Range const *r, GType t)
+sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t)
 {
 	GList *ptr, *next;
 
@@ -963,7 +963,7 @@ sheet_object_clone (SheetObject const *so, Sheet *sheet)
  * Clones the objects of the src sheet and attaches them into the dst sheet
  **/
 void
-sheet_object_clone_sheet (Sheet const *src, Sheet *dst, Range *range)
+sheet_object_clone_sheet (Sheet const *src, Sheet *dst, GnmRange *range)
 {
 	SheetObject *so;
 	SheetObject *new_so;
@@ -1037,14 +1037,14 @@ sheet_object_rubber_band_directly (SheetObject const *so)
  */
 void
 sheet_object_anchor_init (SheetObjectAnchor *anchor,
-			  Range const *r, float const *offsets,
+			  GnmRange const *r, float const *offsets,
 			  SheetObjectAnchorType const *types,
 			  SheetObjectDirection direction)
 {
 	int i;
 
 	if (r == NULL) {
-		static Range const defaultVal = { { 0, 0 }, { 1, 1 } };
+		static GnmRange const defaultVal = { { 0, 0 }, { 1, 1 } };
 		r = &defaultVal;
 	}
 	anchor->cell_bound = *r;

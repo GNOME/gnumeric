@@ -83,7 +83,7 @@ get_plugin_file_savers_hash (GnmPlugin *plugin)
 static void
 plugin_service_init (GObject *obj)
 {
-	PluginService *service = GNM_PLUGIN_SERVICE (obj);
+	GnmPluginService *service = GNM_PLUGIN_SERVICE (obj);
 
 	service->id = NULL;
 	service->is_active = FALSE;
@@ -96,7 +96,7 @@ plugin_service_init (GObject *obj)
 static void
 plugin_service_finalize (GObject *obj)
 {
-	PluginService *service = GNM_PLUGIN_SERVICE (obj);
+	GnmPluginService *service = GNM_PLUGIN_SERVICE (obj);
 	GObjectClass *parent_class;
 
 	g_free (service->id);
@@ -111,7 +111,7 @@ plugin_service_finalize (GObject *obj)
 static void
 plugin_service_class_init (GObjectClass *gobject_class)
 {
-	PluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+	GnmPluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
 
 	gobject_class->finalize = plugin_service_finalize;
 	plugin_service_class->read_xml = NULL;
@@ -120,7 +120,8 @@ plugin_service_class_init (GObjectClass *gobject_class)
 	plugin_service_class->get_description = NULL;
 }
 
-GSF_CLASS (PluginService, plugin_service, plugin_service_class_init, plugin_service_init,
+GSF_CLASS (GnmPluginService, plugin_service,
+	   plugin_service_class_init, plugin_service_init,
            G_TYPE_OBJECT)
 
 
@@ -131,11 +132,11 @@ GSF_CLASS (PluginService, plugin_service, plugin_service_class_init, plugin_serv
  */
 
 typedef struct{
-	PluginServiceClass plugin_service_class;
+	GnmPluginServiceClass plugin_service_class;
 } PluginServiceGeneralClass;
 
 struct _PluginServiceGeneral {
-	PluginService plugin_service;
+	GnmPluginService plugin_service;
 	PluginServiceGeneralCallbacks cbs;
 };
 
@@ -151,7 +152,7 @@ plugin_service_general_init (GObject *obj)
 }
 
 static void
-plugin_service_general_activate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_general_activate (GnmPluginService *service, ErrorInfo **ret_error)
 {
 	PluginServiceGeneral *service_general = GNM_PLUGIN_SERVICE_GENERAL (service);
 	ErrorInfo *error = NULL;
@@ -176,7 +177,7 @@ plugin_service_general_activate (PluginService *service, ErrorInfo **ret_error)
 }
 
 static void
-plugin_service_general_deactivate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_general_deactivate (GnmPluginService *service, ErrorInfo **ret_error)
 {
 	PluginServiceGeneral *service_general = GNM_PLUGIN_SERVICE_GENERAL (service);
 	ErrorInfo *error = NULL;
@@ -194,7 +195,7 @@ plugin_service_general_deactivate (PluginService *service, ErrorInfo **ret_error
 }
 
 static char *
-plugin_service_general_get_description (PluginService *service)
+plugin_service_general_get_description (GnmPluginService *service)
 {
 	return g_strdup (_("General"));
 }
@@ -202,7 +203,7 @@ plugin_service_general_get_description (PluginService *service)
 static void
 plugin_service_general_class_init (GObjectClass *gobject_class)
 {
-	PluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+	GnmPluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
 
 	plugin_service_class->activate = plugin_service_general_activate;
 	plugin_service_class->deactivate = plugin_service_general_deactivate;
@@ -220,11 +221,11 @@ GSF_CLASS (PluginServiceGeneral, plugin_service_general,
  */
 
 typedef struct{
-	PluginServiceClass plugin_service_class;
+	GnmPluginServiceClass plugin_service_class;
 } PluginServiceClipboardClass;
 
 struct _PluginServiceClipboard {
-	PluginService plugin_service;
+	GnmPluginService plugin_service;
 	PluginServiceClipboardCallbacks cbs;
 };
 
@@ -239,7 +240,7 @@ plugin_service_clipboard_init (GObject *obj)
 }
 
 static void
-plugin_service_clipboard_activate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_clipboard_activate (GnmPluginService *service, ErrorInfo **ret_error)
 {
 #if 0
 	PluginServiceClipboard *service_clipboard = GNM_PLUGIN_SERVICE_CLIPBOARD (service);
@@ -258,7 +259,7 @@ plugin_service_clipboard_activate (PluginService *service, ErrorInfo **ret_error
 }
 
 static void
-plugin_service_clipboard_deactivate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_clipboard_deactivate (GnmPluginService *service, ErrorInfo **ret_error)
 {
 #if 0
 	PluginServiceClipboard *service_clipboard = GNM_PLUGIN_SERVICE_CLIPBOARD (service);
@@ -269,7 +270,7 @@ plugin_service_clipboard_deactivate (PluginService *service, ErrorInfo **ret_err
 }
 
 static char *
-plugin_service_clipboard_get_description (PluginService *service)
+plugin_service_clipboard_get_description (GnmPluginService *service)
 {
 	return g_strdup (_("Clipboard"));
 }
@@ -277,7 +278,7 @@ plugin_service_clipboard_get_description (PluginService *service)
 static void
 plugin_service_clipboard_class_init (GObjectClass *gobject_class)
 {
-	PluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+	GnmPluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
 
 	plugin_service_class->activate		= plugin_service_clipboard_activate;
 	plugin_service_class->deactivate	= plugin_service_clipboard_deactivate;
@@ -296,7 +297,7 @@ static GSF_CLASS (PluginServiceClipboard, plugin_service_clipboard,
  */
 
 typedef struct _GnmPluginFileOpener GnmPluginFileOpener;
-static GnmPluginFileOpener *gnm_plugin_file_opener_new (PluginService *service);
+static GnmPluginFileOpener *gnm_plugin_file_opener_new (GnmPluginService *service);
 
 typedef enum {FILE_PATTERN_SHELL, FILE_PATTERN_LAST} InputFilePatternType;
 
@@ -315,11 +316,11 @@ typedef struct _InputFileSaveInfo InputFileSaveInfo;
 
 
 typedef struct{
-	PluginServiceClass plugin_service_class;
+	GnmPluginServiceClass plugin_service_class;
 } PluginServiceFileOpenerClass;
 
 struct _PluginServiceFileOpener {
-	PluginService plugin_service;
+	GnmPluginService plugin_service;
 
 	gint priority;
 	gboolean has_probe;
@@ -373,7 +374,7 @@ plugin_service_file_opener_finalize (GObject *obj)
 }
 
 static void
-plugin_service_file_opener_read_xml (PluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+plugin_service_file_opener_read_xml (GnmPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
 {
 	int priority;
 	gboolean has_probe;
@@ -449,7 +450,7 @@ plugin_service_file_opener_read_xml (PluginService *service, xmlNode *tree, Erro
 }
 
 static void
-plugin_service_file_opener_activate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_file_opener_activate (GnmPluginService *service, ErrorInfo **ret_error)
 {
 	PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (service);
 
@@ -461,7 +462,7 @@ plugin_service_file_opener_activate (PluginService *service, ErrorInfo **ret_err
 }
 
 static void
-plugin_service_file_opener_deactivate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_file_opener_deactivate (GnmPluginService *service, ErrorInfo **ret_error)
 {
 	PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (service);
 
@@ -471,7 +472,7 @@ plugin_service_file_opener_deactivate (PluginService *service, ErrorInfo **ret_e
 }
 
 static char *
-plugin_service_file_opener_get_description (PluginService *service)
+plugin_service_file_opener_get_description (GnmPluginService *service)
 {
 	PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (service);
 
@@ -482,7 +483,7 @@ plugin_service_file_opener_get_description (PluginService *service)
 static void
 plugin_service_file_opener_class_init (GObjectClass *gobject_class)
 {
-	PluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+	GnmPluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
 
 	gobject_class->finalize = plugin_service_file_opener_finalize;
 	plugin_service_class->read_xml = plugin_service_file_opener_read_xml;
@@ -512,7 +513,7 @@ typedef struct {
 struct _GnmPluginFileOpener {
 	GnmFileOpener parent;
 
-	PluginService *service;
+	GnmPluginService *service;
 };
 
 static void
@@ -630,7 +631,7 @@ GSF_CLASS (GnmPluginFileOpener, gnm_plugin_file_opener,
 	   TYPE_GNM_FILE_OPENER)
 
 static GnmPluginFileOpener *
-gnm_plugin_file_opener_new (PluginService *service)
+gnm_plugin_file_opener_new (GnmPluginService *service)
 {
 	PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (service);
 	GnmPluginFileOpener *fo;
@@ -656,15 +657,15 @@ gnm_plugin_file_opener_new (PluginService *service)
  */
 
 typedef struct _GnmPluginFileSaver GnmPluginFileSaver;
-static GnmPluginFileSaver *gnm_plugin_file_saver_new (PluginService *service);
+static GnmPluginFileSaver *gnm_plugin_file_saver_new (GnmPluginService *service);
 
 
 typedef struct{
-	PluginServiceClass plugin_service_class;
+	GnmPluginServiceClass plugin_service_class;
 } PluginServiceFileSaverClass;
 
 struct _PluginServiceFileSaver {
-	PluginService plugin_service;
+	GnmPluginService plugin_service;
 
 	gchar *file_extension;
 	FileFormatLevel format_level;
@@ -710,7 +711,7 @@ plugin_service_file_saver_finalize (GObject *obj)
 }
 
 static void
-plugin_service_file_saver_read_xml (PluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+plugin_service_file_saver_read_xml (GnmPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
 {
 	gchar *file_extension;
 	xmlNode *information_node;
@@ -770,7 +771,7 @@ plugin_service_file_saver_read_xml (PluginService *service, xmlNode *tree, Error
 }
 
 static void
-plugin_service_file_saver_activate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_file_saver_activate (GnmPluginService *service, ErrorInfo **ret_error)
 {
 	PluginServiceFileSaver *service_file_saver = GNM_PLUGIN_SERVICE_FILE_SAVER (service);
 	GHashTable *file_savers_hash;
@@ -790,7 +791,7 @@ plugin_service_file_saver_activate (PluginService *service, ErrorInfo **ret_erro
 }
 
 static void
-plugin_service_file_saver_deactivate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_file_saver_deactivate (GnmPluginService *service, ErrorInfo **ret_error)
 {
 	PluginServiceFileSaver *service_file_saver = GNM_PLUGIN_SERVICE_FILE_SAVER (service);
 	GHashTable *file_savers_hash;
@@ -803,7 +804,7 @@ plugin_service_file_saver_deactivate (PluginService *service, ErrorInfo **ret_er
 }
 
 static char *
-plugin_service_file_saver_get_description (PluginService *service)
+plugin_service_file_saver_get_description (GnmPluginService *service)
 {
 	PluginServiceFileSaver *service_file_saver = GNM_PLUGIN_SERVICE_FILE_SAVER (service);
 
@@ -814,7 +815,7 @@ plugin_service_file_saver_get_description (PluginService *service)
 static void
 plugin_service_file_saver_class_init (GObjectClass *gobject_class)
 {
-	PluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+	GnmPluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
 
 	gobject_class->finalize = plugin_service_file_saver_finalize;
 	plugin_service_class->read_xml = plugin_service_file_saver_read_xml;
@@ -844,7 +845,7 @@ typedef struct {
 struct _GnmPluginFileSaver {
 	GnmFileSaver parent;
 
-	PluginService *service;
+	GnmPluginService *service;
 };
 
 static void
@@ -887,7 +888,7 @@ GSF_CLASS (GnmPluginFileSaver, gnm_plugin_file_saver,
 	   TYPE_GNM_FILE_SAVER)
 
 static GnmPluginFileSaver *
-gnm_plugin_file_saver_new (PluginService *service)
+gnm_plugin_file_saver_new (GnmPluginService *service)
 {
 	GnmPluginFileSaver *fs;
 	PluginServiceFileSaver *service_file_saver = GNM_PLUGIN_SERVICE_FILE_SAVER (service);
@@ -918,11 +919,11 @@ gnm_plugin_file_saver_new (PluginService *service)
  */
 
 typedef struct{
-	PluginServiceClass plugin_service_class;
+	GnmPluginServiceClass plugin_service_class;
 } PluginServiceFunctionGroupClass;
 
 struct _PluginServiceFunctionGroup {
-	PluginService plugin_service;
+	GnmPluginService plugin_service;
 
 	gchar *category_name, *translated_category_name;
 	GSList *function_name_list;
@@ -962,7 +963,7 @@ plugin_service_function_group_finalize (GObject *obj)
 }
 
 static void
-plugin_service_function_group_read_xml (PluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+plugin_service_function_group_read_xml (GnmPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
 {
 	xmlNode *category_node, *translated_category_node, *functions_node;
 	gchar *category_name, *translated_category_name;
@@ -1042,7 +1043,7 @@ static gboolean
 plugin_service_function_group_func_desc_load (GnmFunc const *fn_def,
 					      GnmFuncDescriptor *res)
 {
-	PluginService *service;
+	GnmPluginService *service;
 	PluginServiceFunctionGroup *service_function_group;
 	ErrorInfo *error = NULL;
 
@@ -1063,10 +1064,10 @@ plugin_service_function_group_func_desc_load (GnmFunc const *fn_def,
 static void
 plugin_service_function_group_func_ref_notify  (GnmFunc *fn_def, int refcount)
 {
-	PluginService *service;
+	GnmPluginService *service;
 
 	service = gnm_func_get_user_data (fn_def);
-	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
+	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 	if (refcount == 0) {
 		gnm_plugin_use_unref (service->plugin);
 	} else {
@@ -1075,7 +1076,7 @@ plugin_service_function_group_func_ref_notify  (GnmFunc *fn_def, int refcount)
 }
 
 static void
-plugin_service_function_group_activate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_function_group_activate (GnmPluginService *service, ErrorInfo **ret_error)
 {
 	PluginServiceFunctionGroup *service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 
@@ -1096,7 +1097,7 @@ plugin_service_function_group_activate (PluginService *service, ErrorInfo **ret_
 }
 
 static void
-plugin_service_function_group_deactivate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_function_group_deactivate (GnmPluginService *service, ErrorInfo **ret_error)
 {
 	PluginServiceFunctionGroup *service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 
@@ -1108,7 +1109,7 @@ plugin_service_function_group_deactivate (PluginService *service, ErrorInfo **re
 }
 
 static char *
-plugin_service_function_group_get_description (PluginService *service)
+plugin_service_function_group_get_description (GnmPluginService *service)
 {
 	PluginServiceFunctionGroup *service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 	int n_functions;
@@ -1130,7 +1131,7 @@ plugin_service_function_group_get_description (PluginService *service)
 static void
 plugin_service_function_group_class_init (GObjectClass *gobject_class)
 {
-	PluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+	GnmPluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
 
 	gobject_class->finalize = plugin_service_function_group_finalize;
 	plugin_service_class->read_xml = plugin_service_function_group_read_xml;
@@ -1149,11 +1150,11 @@ GSF_CLASS (PluginServiceFunctionGroup, plugin_service_function_group,
  */
 
 typedef struct{
-	PluginServiceClass plugin_service_class;
+	GnmPluginServiceClass plugin_service_class;
 } PluginServicePluginLoaderClass;
 
 struct _PluginServicePluginLoader {
-	PluginService plugin_service;
+	GnmPluginService plugin_service;
 	PluginServicePluginLoaderCallbacks cbs;
 };
 
@@ -1167,7 +1168,7 @@ plugin_service_plugin_loader_init (GObject *obj)
 }
 
 GType
-plugin_service_plugin_loader_generate_type (PluginService *service, ErrorInfo **ret_error)
+plugin_service_plugin_loader_generate_type (GnmPluginService *service, ErrorInfo **ret_error)
 {
 	PluginServicePluginLoader *service_plugin_loader = GNM_PLUGIN_SERVICE_PLUGIN_LOADER (service);
 	ErrorInfo *error = NULL;
@@ -1190,7 +1191,7 @@ plugin_service_plugin_loader_generate_type (PluginService *service, ErrorInfo **
 }
 
 static void
-plugin_service_plugin_loader_activate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_plugin_loader_activate (GnmPluginService *service, ErrorInfo **ret_error)
 {
 	gchar *full_id;
 
@@ -1203,7 +1204,7 @@ plugin_service_plugin_loader_activate (PluginService *service, ErrorInfo **ret_e
 }
 
 static void
-plugin_service_plugin_loader_deactivate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_plugin_loader_deactivate (GnmPluginService *service, ErrorInfo **ret_error)
 {
 	gchar *full_id;
 
@@ -1216,7 +1217,7 @@ plugin_service_plugin_loader_deactivate (PluginService *service, ErrorInfo **ret
 }
 
 static char *
-plugin_service_plugin_loader_get_description (PluginService *service)
+plugin_service_plugin_loader_get_description (GnmPluginService *service)
 {
 	return g_strdup (_("Plugin loader"));
 }
@@ -1224,7 +1225,7 @@ plugin_service_plugin_loader_get_description (PluginService *service)
 static void
 plugin_service_plugin_loader_class_init (GObjectClass *gobject_class)
 {
-	PluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+	GnmPluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
 
 	plugin_service_class->activate = plugin_service_plugin_loader_activate;
 	plugin_service_class->deactivate = plugin_service_plugin_loader_deactivate;
@@ -1243,11 +1244,11 @@ GSF_CLASS (PluginServicePluginLoader, plugin_service_plugin_loader,
 #include <workbook-control-gui.h>
 
 typedef struct{
-	PluginServiceClass plugin_service_class;
+	GnmPluginServiceClass plugin_service_class;
 } PluginServiceUIClass;
 
 struct _PluginServiceUI {
-	PluginService plugin_service;
+	GnmPluginService plugin_service;
 
 	char *file_name;
 	GSList *verbs;
@@ -1284,7 +1285,7 @@ plugin_service_ui_finalize (GObject *obj)
 }
 
 static void
-plugin_service_ui_read_xml (PluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+plugin_service_ui_read_xml (GnmPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
 {
 	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
 	char *file_name;
@@ -1320,7 +1321,7 @@ plugin_service_ui_read_xml (PluginService *service, xmlNode *tree, ErrorInfo **r
 static void
 ui_verb_fn (BonoboUIComponent *uic, gpointer user_data, gchar const *cname)
 {
-	PluginService *service = GNM_PLUGIN_SERVICE (user_data);
+	GnmPluginService *service = GNM_PLUGIN_SERVICE (user_data);
 	ErrorInfo *load_error = NULL;
 
 	plugin_service_load (service, &load_error);
@@ -1346,7 +1347,7 @@ ui_verb_fn (BonoboUIComponent *uic, gpointer user_data, gchar const *cname)
 }
 
 static void
-plugin_service_ui_activate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_ui_activate (GnmPluginService *service, ErrorInfo **ret_error)
 {
 	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
 	char *full_file_name;
@@ -1380,7 +1381,7 @@ plugin_service_ui_activate (PluginService *service, ErrorInfo **ret_error)
 }
 
 static void
-plugin_service_ui_deactivate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_ui_deactivate (GnmPluginService *service, ErrorInfo **ret_error)
 {
 	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
 
@@ -1390,7 +1391,7 @@ plugin_service_ui_deactivate (PluginService *service, ErrorInfo **ret_error)
 }
 
 static char *
-plugin_service_ui_get_description (PluginService *service)
+plugin_service_ui_get_description (GnmPluginService *service)
 {
 	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
 	int n_verbs;
@@ -1407,7 +1408,7 @@ plugin_service_ui_get_description (PluginService *service)
 static void
 plugin_service_ui_class_init (GObjectClass *gobject_class)
 {
-	PluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+	GnmPluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
 
 	gobject_class->finalize = plugin_service_ui_finalize;
 	plugin_service_class->read_xml = plugin_service_ui_read_xml;
@@ -1427,13 +1428,13 @@ GSF_CLASS (PluginServiceUI, plugin_service_ui,
  */
 
 static char *
-plugin_service_gobject_loader_get_description (PluginService *service)
+plugin_service_gobject_loader_get_description (GnmPluginService *service)
 {
 	return g_strdup (_("GObject loader"));
 }
 
 static void
-plugin_service_gobject_loader_read_xml (PluginService *service,
+plugin_service_gobject_loader_read_xml (GnmPluginService *service,
 					G_GNUC_UNUSED xmlNode *tree,
 					G_GNUC_UNUSED ErrorInfo **ret_error)
 {
@@ -1445,7 +1446,7 @@ plugin_service_gobject_loader_read_xml (PluginService *service,
 static void
 plugin_service_gobject_loader_class_init (PluginServiceGObjectLoaderClass *gobj_loader_class)
 {
-	PluginServiceClass *psc = GPS_CLASS (gobj_loader_class);
+	GnmPluginServiceClass *psc = GPS_CLASS (gobj_loader_class);
 
 	psc->get_description	= plugin_service_gobject_loader_get_description;
 	psc->read_xml		= plugin_service_gobject_loader_read_xml;
@@ -1461,13 +1462,13 @@ GSF_CLASS (PluginServiceGObjectLoader, plugin_service_gobject_loader,
  */
 
 static void
-plugin_service_simple_activate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_simple_activate (GnmPluginService *service, ErrorInfo **ret_error)
 {
 	service->is_active = TRUE;
 }
 
 static void
-plugin_service_simple_deactivate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_simple_deactivate (GnmPluginService *service, ErrorInfo **ret_error)
 {
 	service->is_active = FALSE;
 }
@@ -1475,7 +1476,7 @@ plugin_service_simple_deactivate (PluginService *service, ErrorInfo **ret_error)
 static void
 plugin_service_simple_class_init (GObjectClass *gobject_class)
 {
-	PluginServiceClass *psc = GPS_CLASS (gobject_class);
+	GnmPluginServiceClass *psc = GPS_CLASS (gobject_class);
 
 	psc->activate		= plugin_service_simple_activate;
 	psc->deactivate		= plugin_service_simple_deactivate;
@@ -1489,9 +1490,9 @@ GSF_CLASS (PluginServiceSimple, plugin_service_simple,
 /* ---------------------------------------------------------------------- */
 
 void
-plugin_service_load (PluginService *service, ErrorInfo **ret_error)
+plugin_service_load (GnmPluginService *service, ErrorInfo **ret_error)
 {
-	g_return_if_fail (GNM_IS_PLUGIN_SERVICE (service));
+	g_return_if_fail (IS_GNM_PLUGIN_SERVICE (service));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 
@@ -1503,11 +1504,11 @@ plugin_service_load (PluginService *service, ErrorInfo **ret_error)
 }
 
 void
-plugin_service_unload (PluginService *service, ErrorInfo **ret_error)
+plugin_service_unload (GnmPluginService *service, ErrorInfo **ret_error)
 {
 	ErrorInfo *error = NULL;
 
-	g_return_if_fail (GNM_IS_PLUGIN_SERVICE (service));
+	g_return_if_fail (IS_GNM_PLUGIN_SERVICE (service));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	if (!service->is_loaded) {
@@ -1521,15 +1522,15 @@ plugin_service_unload (PluginService *service, ErrorInfo **ret_error)
 	}
 }
 
-PluginService *
+GnmPluginService *
 plugin_service_new (GnmPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error)
 {
-	PluginService *service = NULL;
+	GnmPluginService *service = NULL;
 	char *type_str;
 	ErrorInfo *service_error = NULL;
 	GnmPluginServiceCreate ctor;
 
-	g_return_val_if_fail (GNM_IS_PLUGIN (plugin), NULL);
+	g_return_val_if_fail (IS_GNM_PLUGIN (plugin), NULL);
 	g_return_val_if_fail (tree != NULL, NULL);
 	g_return_val_if_fail (strcmp (tree->name, "service") == 0, NULL);
 
@@ -1568,17 +1569,17 @@ plugin_service_new (GnmPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error)
 }
 
 char const *
-plugin_service_get_id (PluginService *service)
+plugin_service_get_id (GnmPluginService *service)
 {
-	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE (service), NULL);
+	g_return_val_if_fail (IS_GNM_PLUGIN_SERVICE (service), NULL);
 
 	return service->id;
 }
 
 char const *
-plugin_service_get_description (PluginService *service)
+plugin_service_get_description (GnmPluginService *service)
 {
-	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE (service), NULL);
+	g_return_val_if_fail (IS_GNM_PLUGIN_SERVICE (service), NULL);
 
 	if (service->saved_description == NULL) {
 		service->saved_description = GPS_GET_CLASS (service)->get_description (service);
@@ -1588,26 +1589,26 @@ plugin_service_get_description (PluginService *service)
 }
 
 GnmPlugin *
-plugin_service_get_plugin (PluginService *service)
+plugin_service_get_plugin (GnmPluginService *service)
 {
-	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE (service), NULL);
+	g_return_val_if_fail (IS_GNM_PLUGIN_SERVICE (service), NULL);
 
 	return service->plugin;
 }
 
 gpointer
-plugin_service_get_cbs (PluginService *service)
+plugin_service_get_cbs (GnmPluginService *service)
 {
-	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE (service), NULL);
+	g_return_val_if_fail (IS_GNM_PLUGIN_SERVICE (service), NULL);
 	g_return_val_if_fail (service->cbs_ptr != NULL, NULL);
 
 	return service->cbs_ptr;
 }
 
 void
-plugin_service_activate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_activate (GnmPluginService *service, ErrorInfo **ret_error)
 {
-	g_return_if_fail (GNM_IS_PLUGIN_SERVICE (service));
+	g_return_if_fail (IS_GNM_PLUGIN_SERVICE (service));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	if (service->is_active) {
@@ -1630,9 +1631,9 @@ plugin_service_activate (PluginService *service, ErrorInfo **ret_error)
 }
 
 void
-plugin_service_deactivate (PluginService *service, ErrorInfo **ret_error)
+plugin_service_deactivate (GnmPluginService *service, ErrorInfo **ret_error)
 {
-	g_return_if_fail (GNM_IS_PLUGIN_SERVICE (service));
+	g_return_if_fail (IS_GNM_PLUGIN_SERVICE (service));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	if (!service->is_active) {

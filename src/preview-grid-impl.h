@@ -18,7 +18,7 @@ struct _PreviewGrid {
 		int     col_width;
 		int     row_height;
 		MStyle *style;
-		Value  *value;
+		GnmValue  *value;
 	} defaults;
 
 	gboolean gridlines;
@@ -31,7 +31,7 @@ typedef struct {
 	int      (* get_col_width)  (PreviewGrid *pg, int col);
 	int      (* get_row_height) (PreviewGrid *pg, int row);
 	MStyle * (* get_cell_style) (PreviewGrid *pg, int col, int row);
-	Value *  (* get_cell_value) (PreviewGrid *pg, int col, int row);
+	GnmValue*(* get_cell_value) (PreviewGrid *pg, int col, int row);
 } PreviewGridClass;
 
 #define PREVIEW_GRID_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), preview_grid_get_type (), PreviewGridClass))

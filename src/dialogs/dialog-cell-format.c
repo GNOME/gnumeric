@@ -144,7 +144,7 @@ typedef struct _FormatState
 
 	Sheet		*sheet;
 	SheetView	*sv;
-	Value		*value;
+	GnmValue	*value;
 	MStyle		*style, *result;
 	StyleBorder *borders[STYLE_BORDER_EDGE_MAX];
 
@@ -1881,7 +1881,7 @@ cb_validation_rebuild (G_GNUC_UNUSED void *ignored,
 static void
 fmt_dialog_init_validation_page (FormatState *state)
 {
-	Validation const *v = NULL;
+	GnmValidation const *v = NULL;
 	g_return_if_fail (state != NULL);
 
 	/* Setup widgets */
@@ -1935,7 +1935,7 @@ fmt_dialog_init_validation_page (FormatState *state)
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_VALIDATION))
 		v = mstyle_get_validation (state->style);
 	if (v != NULL) {
-		Validation const *v = mstyle_get_validation (state->style);
+		GnmValidation const *v = mstyle_get_validation (state->style);
 		ParsePos pp;
 
 		gtk_option_menu_set_history (state->validation.error.action, v->style);
@@ -2401,7 +2401,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 
 static gboolean
 fmt_dialog_selection_type (SheetView *sv,
-			   Range const *range,
+			   GnmRange const *range,
 			   gpointer user_data)
 {
 	FormatState *state = user_data;
@@ -2409,7 +2409,7 @@ fmt_dialog_selection_type (SheetView *sv,
 	gboolean allow_multi =
 		merged == NULL ||
 		merged->next != NULL ||
-		!range_equal ((Range *)merged->data, range);
+		!range_equal ((GnmRange *)merged->data, range);
 	g_slist_free (merged);
 
 	if (allow_multi) {

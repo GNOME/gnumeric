@@ -79,7 +79,7 @@ comment_get_points (SheetControl *sc, SheetObject *so)
 {
 	FooCanvasPoints *points;
 	int x, y, i, far_col;
-	Range const *r;
+	GnmRange const *r;
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
 
 	r = sheet_merge_is_corner (so->sheet, &so->anchor.cell_bound.start);
@@ -134,7 +134,7 @@ cell_comment_event (FooCanvasItem *view, GdkEvent *event, SheetControlGUI *scg)
 {
 	CellComment *cc;
 	SheetObject *so;
-	Range const *r;
+	GnmRange const *r;
 
 	switch (event->type) {
 	default:
@@ -326,7 +326,7 @@ cell_comment_text_set (CellComment *cc, char const *text)
 
 /* convenience routine */
 void
-cell_comment_set_cell (CellComment *cc, CellPos const *pos)
+cell_comment_set_cell (CellComment *cc, GnmCellPos const *pos)
 {
 	/* top right */
 	static SheetObjectAnchorType const anchor_types [4] = {
@@ -336,7 +336,7 @@ cell_comment_set_cell (CellComment *cc, CellPos const *pos)
 		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START
 	};
 	SheetObjectAnchor anchor;
-	Range	     	  r;
+	GnmRange	  r;
 
 	g_return_if_fail (IS_CELL_COMMENT (cc));
 
@@ -347,7 +347,7 @@ cell_comment_set_cell (CellComment *cc, CellPos const *pos)
 }
 
 CellComment *
-cell_set_comment (Sheet *sheet, CellPos const *pos,
+cell_set_comment (Sheet *sheet, GnmCellPos const *pos,
 		  char const *author, char const *text)
 {
 	CellComment *cc;

@@ -59,7 +59,7 @@ typedef struct {
 	long max_x, max_y;
 
 	/* XXX doesn't really belong here at all */
-	ValueType val_type;
+	GnmValueType val_type;
 	char *val_s;
 	long val_l;
 	double val_d;
@@ -196,7 +196,7 @@ sylk_rtd_c_parse (SylkReadState *state, const char *str)
 			cell_set_text (cell, state->val_s);
 
 		else {
-			Value *v;
+			GnmValue *v;
 
 			if (state->val_type == VALUE_FLOAT)
 				v = value_new_float (state->val_d);

@@ -49,7 +49,7 @@ struct _GnumericApplication {
 	/* Clipboard */
 	SheetView	*clipboard_sheet_view;
 	CellRegion	*clipboard_copied_contents;
-	Range		 clipboard_cut_range;
+	GnmRange	 clipboard_cut_range;
 
 	/* History for file menu */
 	GSList           *history_list;
@@ -209,7 +209,7 @@ application_clipboard_unant (void)
  */
 void
 application_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
-				SheetView *sv, Range const *area,
+				SheetView *sv, GnmRange const *area,
 				gboolean animate_cursor)
 {
 	g_return_if_fail (IS_SHEET_VIEW (sv));
@@ -272,7 +272,7 @@ application_clipboard_contents_get (void)
 	return app->clipboard_copied_contents;
 }
 
-Range const *
+GnmRange const *
 application_clipboard_area_get (void)
 {
 	/*

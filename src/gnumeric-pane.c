@@ -91,7 +91,7 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 	FooCanvasItem	 *item;
 	FooCanvasGroup *gcanvas_group;
 	Sheet *sheet;
-	Range r;
+	GnmRange r;
 	int i;
 
 	g_return_if_fail (!pane->is_active);
@@ -192,7 +192,7 @@ gnm_pane_bound_set (GnumericPane *pane,
 		    int start_col, int start_row,
 		    int end_col, int end_row)
 {
-	Range r;
+	GnmRange r;
 
 	g_return_if_fail (pane != NULL);
 	g_return_if_fail (pane->gcanvas != NULL);
@@ -324,7 +324,7 @@ gnm_pane_reposition_cursors (GnumericPane *pane)
 }
 
 gboolean
-gnm_pane_cursor_bound_set (GnumericPane *pane, Range const *r)
+gnm_pane_cursor_bound_set (GnumericPane *pane, GnmRange const *r)
 {
 	return item_cursor_bound_set (pane->cursor.std, r);
 }
@@ -332,12 +332,12 @@ gnm_pane_cursor_bound_set (GnumericPane *pane, Range const *r)
 /****************************************************************************/
 
 gboolean
-gnm_pane_rangesel_bound_set (GnumericPane *pane, Range const *r)
+gnm_pane_rangesel_bound_set (GnumericPane *pane, GnmRange const *r)
 {
 	return item_cursor_bound_set (pane->cursor.rangesel, r);
 }
 void
-gnm_pane_rangesel_start (GnumericPane *pane, Range const *r)
+gnm_pane_rangesel_start (GnumericPane *pane, GnmRange const *r)
 {
 	FooCanvas *canvas = FOO_CANVAS (pane->gcanvas);
 	FooCanvasItem *tmp;
@@ -386,7 +386,7 @@ gnm_pane_rangesel_stop (GnumericPane *pane)
 /****************************************************************************/
 
 gboolean
-gnm_pane_special_cursor_bound_set (GnumericPane *pane, Range const *r)
+gnm_pane_special_cursor_bound_set (GnumericPane *pane, GnmRange const *r)
 {
 	return item_cursor_bound_set (pane->cursor.special, r);
 }
@@ -433,7 +433,7 @@ gnm_pane_edit_start (GnumericPane *pane)
 {
 	GnmCanvas const *gcanvas = pane->gcanvas;
 	SheetView const *sv = sc_view (SHEET_CONTROL (gcanvas->simple.scg));
-	CellPos const *edit_pos;
+	GnmCellPos const *edit_pos;
 
 	g_return_if_fail (pane->editor == NULL);
 

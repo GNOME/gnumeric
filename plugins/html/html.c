@@ -372,7 +372,7 @@ write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t 
  * Call write_cell for each cell.
  */
 static void
-write_row (GsfOutput *output, Sheet *sheet, gint row, Range *range, html_version_t version)
+write_row (GsfOutput *output, Sheet *sheet, gint row, GnmRange *range, html_version_t version)
 {
 	gint col;
 	ColRowInfo const * ri;
@@ -383,8 +383,8 @@ write_row (GsfOutput *output, Sheet *sheet, gint row, Range *range, html_version
 
 	for (col = range->start.col; col <= range->end.col; col++) {
 		CellSpanInfo const *the_span;
-		Range const *merge_range;
-		CellPos pos;
+		GnmRange const *merge_range;
+		GnmCellPos pos;
 		pos.col = col;
 		pos.row = row;
 
@@ -427,7 +427,7 @@ static void
 write_sheet (GsfOutput *output, Sheet *sheet, 
 	     html_version_t version, FileSaveScope save_scope)
 {
-	Range total_range;
+	GnmRange total_range;
 	gint row;
 
 	switch (version) {

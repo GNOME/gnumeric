@@ -34,7 +34,7 @@ to build upon the experience of and pitfalls of the Michael's work.
 
 	c) Specify the range:
 
-	   Range range
+	   GnmRange range
 
 	   range.start.col = 0;
 	   range.start.row = 0;

@@ -148,7 +148,7 @@ gnm_go_data_set_sheet (GOData *dat, Sheet *sheet)
 struct _GnmGODataScalar {
 	GODataScalar	 base;
 	Dependent	 dep;
-	Value		*val;
+	GnmValue	*val;
 	char		*val_str;
 };
 typedef GODataScalarClass GnmGODataScalarClass;
@@ -157,7 +157,7 @@ typedef GODataScalarClass GnmGODataScalarClass;
 
 static GObjectClass *scalar_parent_klass;
 
-static Value *
+static GnmValue *
 scalar_get_val (GnmGODataScalar *scalar)
 {
 	if (scalar->val != NULL) {
@@ -273,7 +273,7 @@ gnm_go_data_scalar_new_expr (Sheet *sheet, GnmExpr const *expr)
 struct _GnmGODataVector {
 	GODataVector	base;
 	Dependent	 dep;
-	Value		*val;
+	GnmValue	*val;
 	gboolean	 as_col;
 };
 typedef GODataVectorClass GnmGODataVectorClass;
@@ -318,7 +318,7 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 {
 	GnmGODataVector *vec = (GnmGODataVector *)dat;
 	EvalPos ep;
-	Range r;
+	GnmRange r;
 	Sheet *start_sheet, *end_sheet;
 	unsigned h, w;
 	int old_len = dat->len;
@@ -383,11 +383,11 @@ struct assign_closure {
 	unsigned i;
 };
 
-static Value *
+static GnmValue *
 cb_assign_val (Sheet *sheet, int col, int row,
 	       Cell *cell, struct assign_closure *dat)
 {
-	Value *v;
+	GnmValue *v;
 	double res;
 
 	if (cell != NULL) {
@@ -427,11 +427,11 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 {
 	GnmGODataVector *vec = (GnmGODataVector *)dat;
 	EvalPos ep;
-	Range r;
+	GnmRange r;
 	Sheet *start_sheet, *end_sheet;
 	int len = go_data_vector_get_len (dat); /* force calculation */
 	double *vals, minimum, maximum;
-	Value *v;
+	GnmValue *v;
 	struct assign_closure closure;
 
 	if (dat->len <= 0) {
@@ -492,7 +492,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 				vals[len] = gnm_nan;
 				continue;
 			} else if (v->type == VALUE_STRING) {
-				Value *tmp = format_match_number (v->v_str.val->str, NULL,
+				GnmValue *tmp = format_match_number (v->v_str.val->str, NULL,
 						workbook_date_conv (vec->dep.sheet->workbook));
 				if (tmp != NULL) {
 					vals[len] = value_get_as_float (tmp);
@@ -537,7 +537,7 @@ static double
 gnm_go_data_vector_get_value (GODataVector *dat, unsigned i)
 {
 	GnmGODataVector *vec = (GnmGODataVector *)dat;
-	Value *v;
+	GnmValue *v;
 	EvalPos ep;
 	gboolean valid;
 
@@ -562,7 +562,7 @@ static char *
 gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 {
 	GnmGODataVector *vec = (GnmGODataVector *)dat;
-	Value const *v;
+	GnmValue const *v;
 	EvalPos ep;
 	StyleFormat const *format = NULL;
 	GnmDateConventions const *date_conv = NULL;
@@ -577,7 +577,7 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 	if (v->type == VALUE_CELLRANGE) {
 		Sheet *start_sheet, *end_sheet;
 		Cell  *cell;
-		Range  r;
+		GnmRange  r;
 
 		rangeref_normalize (&v->v_range.cell, &ep,
 				    &start_sheet, &end_sheet, &r);

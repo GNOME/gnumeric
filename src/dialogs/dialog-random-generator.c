@@ -227,8 +227,8 @@ random_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	gboolean   ready  = FALSE;
 	gint       count, vars, i;
 	gnm_float a_float, b_float, from_val, to_val, p_val;
-        Value      *output_range;
-	Value      *disc_prob_range;
+        GnmValue      *output_range;
+	GnmValue      *disc_prob_range;
 	random_distribution_t the_dist;
 
         output_range = gnm_expr_entry_parse_as_value
@@ -733,7 +733,7 @@ dialog_random_tool_init (RandomToolState *state)
 	const DistributionStrs *ds;
 	GList *distribution_type_strs = NULL;
 	GtkTable *table;
-	Range const *first;
+	GnmRange const *first;
 
 	state->distribution = UniformDistribution;
 

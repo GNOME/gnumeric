@@ -61,46 +61,46 @@ static struct {
 };
 
 
-Value *
+GnmValue *
 value_new_empty (void)
 {
 	/* This is a constant.  No need to allocate any memory.  */
-	static ValueAny v = { VALUE_EMPTY, NULL };
-	return (Value *)&v;
+	static GnmValueAny v = { VALUE_EMPTY, NULL };
+	return (GnmValue *)&v;
 }
 
 /* Memory pool for ints and bools.  */
-static gnm_mem_chunk *value_int_pool;
-Value *
+static GnmMemChunk *value_int_pool;
+GnmValue *
 value_new_bool (gboolean b)
 {
-	ValueBool *v = CHUNK_ALLOC (ValueBool, value_int_pool);
-	*((ValueType *)&(v->type)) = VALUE_BOOLEAN;
+	GnmValueBool *v = CHUNK_ALLOC (GnmValueBool, value_int_pool);
+	*((GnmValueType *)&(v->type)) = VALUE_BOOLEAN;
 	v->fmt = NULL;
 	v->val = b;
-	return (Value *)v;
+	return (GnmValue *)v;
 }
 
-Value *
+GnmValue *
 value_new_int (int i)
 {
-	ValueInt *v = CHUNK_ALLOC (ValueInt, value_int_pool);
-	*((ValueType *)&(v->type)) = VALUE_INTEGER;
+	GnmValueInt *v = CHUNK_ALLOC (GnmValueInt, value_int_pool);
+	*((GnmValueType *)&(v->type)) = VALUE_INTEGER;
 	v->fmt = NULL;
 	v->val = i;
-	return (Value *)v;
+	return (GnmValue *)v;
 }
 
-static gnm_mem_chunk *value_float_pool;
-Value *
+static GnmMemChunk *value_float_pool;
+GnmValue *
 value_new_float (gnm_float f)
 {
 	if (finitegnum (f)) {
-		ValueFloat *v = CHUNK_ALLOC (ValueFloat, value_float_pool);
-		*((ValueType *)&(v->type)) = VALUE_FLOAT;
+		GnmValueFloat *v = CHUNK_ALLOC (GnmValueFloat, value_float_pool);
+		*((GnmValueType *)&(v->type)) = VALUE_FLOAT;
 		v->fmt = NULL;
 		v->val = f;
-		return (Value *)v;
+		return (GnmValue *)v;
 	} else {
 		/* FIXME: bogus ep sent here.  What to do?  */
 		return value_new_error_NUM (NULL);
@@ -108,28 +108,28 @@ value_new_float (gnm_float f)
 }
 
 /* Memory pool for error values.  */
-static gnm_mem_chunk *value_error_pool;
-Value *
+static GnmMemChunk *value_error_pool;
+GnmValue *
 value_new_error (EvalPos const *ep, char const *mesg)
 {
-	ValueErr *v = CHUNK_ALLOC (ValueErr, value_error_pool);
-	*((ValueType *)&(v->type)) = VALUE_ERROR;
+	GnmValueErr *v = CHUNK_ALLOC (GnmValueErr, value_error_pool);
+	*((GnmValueType *)&(v->type)) = VALUE_ERROR;
 	v->fmt = NULL;
 	v->mesg = gnm_string_get (mesg);
-	return (Value *)v;
+	return (GnmValue *)v;
 }
 
-Value *
+GnmValue *
 value_new_error_str (EvalPos const *ep, GnmString *mesg)
 {
-	ValueErr *v = CHUNK_ALLOC (ValueErr, value_error_pool);
-	*((ValueType *)&(v->type)) = VALUE_ERROR;
+	GnmValueErr *v = CHUNK_ALLOC (GnmValueErr, value_error_pool);
+	*((GnmValueType *)&(v->type)) = VALUE_ERROR;
 	v->fmt = NULL;
 	v->mesg = gnm_string_ref (mesg);
-	return (Value *)v;
+	return (GnmValue *)v;
 }
 
-Value *
+GnmValue *
 value_new_error_std (EvalPos const *pos, GnmStdError err)
 {
 	size_t i = (size_t)err;
@@ -139,49 +139,49 @@ value_new_error_std (EvalPos const *pos, GnmStdError err)
 }
 
 
-Value *
+GnmValue *
 value_new_error_NULL (EvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_NULL].locale_name_str);
 }
 
-Value *
+GnmValue *
 value_new_error_DIV0 (EvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_DIV0].locale_name_str);
 }
 
-Value *
+GnmValue *
 value_new_error_VALUE (EvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_VALUE].locale_name_str);
 }
 
-Value *
+GnmValue *
 value_new_error_REF (EvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_REF].locale_name_str);
 }
 
-Value *
+GnmValue *
 value_new_error_NAME (EvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_NAME].locale_name_str);
 }
 
-Value *
+GnmValue *
 value_new_error_NUM (EvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_NUM].locale_name_str);
 }
 
-Value *
+GnmValue *
 value_new_error_NA (EvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_NA].locale_name_str);
 }
 
-Value *
+GnmValue *
 value_new_error_RECALC (EvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_RECALC].locale_name_str);
@@ -206,18 +206,18 @@ value_error_name (GnmStdError err, gboolean translated)
  *
  * Change the position of a ValueError.
  */
-Value *
-value_error_set_pos (ValueErr *err, EvalPos const *pos)
+GnmValue *
+value_error_set_pos (GnmValueErr *err, EvalPos const *pos)
 {
     g_return_val_if_fail (err != NULL, NULL);
     g_return_val_if_fail (err->type == VALUE_ERROR, NULL);
 
     err->src = *pos;
-    return (Value *)err;
+    return (GnmValue *)err;
 }
 
 GnmStdError
-value_error_classify (Value const *v)
+value_error_classify (GnmValue const *v)
 {
 	size_t i;
 
@@ -234,41 +234,41 @@ value_error_classify (Value const *v)
 }
 
 
-static gnm_mem_chunk *value_string_pool;
+static GnmMemChunk *value_string_pool;
 
 /* NOTE : absorbs the reference */
-Value *
+GnmValue *
 value_new_string_str (GnmString *str)
 {
-	ValueStr *v = CHUNK_ALLOC (ValueStr, value_string_pool);
-	*((ValueType *)&(v->type)) = VALUE_STRING;
+	GnmValueStr *v = CHUNK_ALLOC (GnmValueStr, value_string_pool);
+	*((GnmValueType *)&(v->type)) = VALUE_STRING;
 	v->fmt = NULL;
 	v->val = str;
-	return (Value *)v;
+	return (GnmValue *)v;
 }
 
-Value *
+GnmValue *
 value_new_string (char const *str)
 {
 	return value_new_string_str (gnm_string_get (str));
 }
 
-Value *
+GnmValue *
 value_new_string_nocopy (char *str)
 {
 	return value_new_string_str (gnm_string_get_nocopy (str));
 }
 
-static gnm_mem_chunk *value_range_pool;
-Value *
-value_new_cellrange_unsafe (CellRef const *a, CellRef const *b)
+static GnmMemChunk *value_range_pool;
+GnmValue *
+value_new_cellrange_unsafe (GnmCellRef const *a, GnmCellRef const *b)
 {
-	ValueRange *v = CHUNK_ALLOC (ValueRange, value_range_pool);
-	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
+	GnmValueRange *v = CHUNK_ALLOC (GnmValueRange, value_range_pool);
+	*((GnmValueType *)&(v->type)) = VALUE_CELLRANGE;
 	v->fmt = NULL;
 	v->cell.a = *a;
 	v->cell.b = *b;
-	return (Value *)v;
+	return (GnmValue *)v;
 }
 
 /**
@@ -280,14 +280,14 @@ value_new_cellrange_unsafe (CellRef const *a, CellRef const *b)
  * users of these values need to use the utility routines to
  * evaluate the ranges in their context and normalize then.
  */
-Value *
-value_new_cellrange (CellRef const *a, CellRef const *b,
+GnmValue *
+value_new_cellrange (GnmCellRef const *a, GnmCellRef const *b,
 		     int eval_col, int eval_row)
 {
-	ValueRange *v = CHUNK_ALLOC (ValueRange, value_range_pool);
+	GnmValueRange *v = CHUNK_ALLOC (GnmValueRange, value_range_pool);
 	int tmp;
 
-	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
+	*((GnmValueType *)&(v->type)) = VALUE_CELLRANGE;
 	v->fmt = NULL;
 	v->cell.a = *a;
 	v->cell.b = *b;
@@ -323,16 +323,16 @@ value_new_cellrange (CellRef const *a, CellRef const *b,
 		v->cell.b.row_relative = a->row_relative;
 	}
 
-	return (Value *)v;
+	return (GnmValue *)v;
 }
 
-Value *
-value_new_cellrange_r (Sheet *sheet, Range const *r)
+GnmValue *
+value_new_cellrange_r (Sheet *sheet, GnmRange const *r)
 {
-	ValueRange *v = CHUNK_ALLOC (ValueRange, value_range_pool);
-	CellRef *a, *b;
+	GnmValueRange *v = CHUNK_ALLOC (GnmValueRange, value_range_pool);
+	GnmCellRef *a, *b;
 
-	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
+	*((GnmValueType *)&(v->type)) = VALUE_CELLRANGE;
 	v->fmt = NULL;
 	a = &v->cell.a;
 	b = &v->cell.b;
@@ -346,55 +346,55 @@ value_new_cellrange_r (Sheet *sheet, Range const *r)
 	a->col_relative = b->col_relative = FALSE;
 	a->row_relative = b->row_relative = FALSE;
 
-	return (Value *)v;
+	return (GnmValue *)v;
 }
 
-static gnm_mem_chunk *value_array_pool;
-Value *
+static GnmMemChunk *value_array_pool;
+GnmValue *
 value_new_array_non_init (guint cols, guint rows)
 {
-	ValueArray *v = CHUNK_ALLOC (ValueArray, value_array_pool);
-	*((ValueType *)&(v->type)) = VALUE_ARRAY;
+	GnmValueArray *v = CHUNK_ALLOC (GnmValueArray, value_array_pool);
+	*((GnmValueType *)&(v->type)) = VALUE_ARRAY;
 	v->fmt = NULL;
 	v->x = cols;
 	v->y = rows;
-	v->vals = g_new (Value **, cols);
-	return (Value *)v;
+	v->vals = g_new (GnmValue **, cols);
+	return (GnmValue *)v;
 }
 
-Value *
+GnmValue *
 value_new_array (guint cols, guint rows)
 {
 	guint x, y;
-	ValueArray *v = (ValueArray *)value_new_array_non_init (cols, rows);
+	GnmValueArray *v = (GnmValueArray *)value_new_array_non_init (cols, rows);
 
 	for (x = 0; x < cols; x++) {
-		v->vals[x] = g_new (Value *, rows);
+		v->vals[x] = g_new (GnmValue *, rows);
 		for (y = 0; y < rows; y++)
 			v->vals[x][y] = value_new_int (0);
 	}
-	return (Value *)v;
+	return (GnmValue *)v;
 }
 
-Value *
+GnmValue *
 value_new_array_empty (guint cols, guint rows)
 {
 	guint x, y;
-	ValueArray *v = (ValueArray *)value_new_array_non_init (cols, rows);
+	GnmValueArray *v = (GnmValueArray *)value_new_array_non_init (cols, rows);
 
 	for (x = 0; x < cols; x++) {
-		v->vals[x] = g_new (Value *, rows);
+		v->vals[x] = g_new (GnmValue *, rows);
 		for (y = 0; y < rows; y++)
 			v->vals[x][y] = NULL;
 	}
-	return (Value *)v;
+	return (GnmValue *)v;
 }
 
-Value *
-value_new_from_string (ValueType t, char const *str, StyleFormat *sf,
+GnmValue *
+value_new_from_string (GnmValueType t, char const *str, StyleFormat *sf,
 		       gboolean translated)
 {
-	Value *res = NULL;
+	GnmValue *res = NULL;
 	switch (t) {
 	case VALUE_EMPTY:
 		res = value_new_empty ();
@@ -472,7 +472,7 @@ value_new_from_string (ValueType t, char const *str, StyleFormat *sf,
 }
 
 void
-value_release (Value *value)
+value_release (GnmValue *value)
 {
 	g_return_if_fail (value != NULL);
 
@@ -510,7 +510,7 @@ value_release (Value *value)
 		return;
 
 	case VALUE_ARRAY: {
-		ValueArray *v = (ValueArray *)value;
+		GnmValueArray *v = (GnmValueArray *)value;
 		int x, y;
 
 		for (x = 0; x < v->x; x++) {
@@ -542,12 +542,12 @@ value_release (Value *value)
 }
 
 /*
- * Makes a copy of a Value
+ * Makes a copy of a GnmValue
  */
-Value *
-value_duplicate (Value const *src)
+GnmValue *
+value_duplicate (GnmValue const *src)
 {
-	Value *res;
+	GnmValue *res;
 
 	g_return_val_if_fail (src != NULL, NULL);
 
@@ -585,15 +585,15 @@ value_duplicate (Value const *src)
 
 	case VALUE_ARRAY: {
 		int x, y;
-		ValueArray *array = (ValueArray *)value_new_array_non_init (
+		GnmValueArray *array = (GnmValueArray *)value_new_array_non_init (
 			src->v_array.x, src->v_array.y);
 
 		for (x = 0; x < array->x; x++) {
-			array->vals[x] = g_new (Value *, array->y);
+			array->vals[x] = g_new (GnmValue *, array->y);
 			for (y = 0; y < array->y; y++)
 				array->vals[x][y] = value_duplicate (src->v_array.vals[x][y]);
 		}
-		res = (Value *)array;
+		res = (GnmValue *)array;
 		break;
 	}
 
@@ -615,8 +615,8 @@ value_duplicate (Value const *src)
 int
 value_cmp (void const *ptr_a, void const *ptr_b)
 {
-	Value const *a = *(Value const **)ptr_a;
-	Value const *b = *(Value const **)ptr_b;
+	GnmValue const *a = *(GnmValue const **)ptr_a;
+	GnmValue const *b = *(GnmValue const **)ptr_b;
 	switch (value_compare (a, b, TRUE)) {
 	case IS_EQUAL :   return  0;
 	case IS_LESS :    return -1;
@@ -630,8 +630,8 @@ value_cmp (void const *ptr_a, void const *ptr_b)
 int
 value_cmp_reverse (void const *ptr_a, void const *ptr_b)
 {
-	Value const *a = *(Value const **)ptr_a;
-	Value const *b = *(Value const **)ptr_b;
+	GnmValue const *a = *(GnmValue const **)ptr_a;
+	GnmValue const *b = *(GnmValue const **)ptr_b;
 	switch (value_compare (a, b, TRUE)) {
 	case IS_EQUAL :   return  0;
 	case IS_LESS :	  return  1;
@@ -643,7 +643,7 @@ value_cmp_reverse (void const *ptr_a, void const *ptr_b)
 }
 
 gint
-value_equal (Value const *a, Value const *b)
+value_equal (GnmValue const *a, GnmValue const *b)
 {
 	if (a->type != b->type)
 		return FALSE;
@@ -693,7 +693,7 @@ value_equal (Value const *a, Value const *b)
 }
 
 guint
-value_hash (Value const *v)
+value_hash (GnmValue const *v)
 {
 	switch (v->type) {
 	case VALUE_BOOLEAN:
@@ -748,7 +748,7 @@ value_hash (Value const *v)
 
 
 gboolean
-value_get_as_bool (Value const *v, gboolean *err)
+value_get_as_bool (GnmValue const *v, gboolean *err)
 {
 	*err = FALSE;
 
@@ -786,7 +786,7 @@ value_get_as_bool (Value const *v, gboolean *err)
  * use only if you are sure the value is ok
  */
 gboolean
-value_get_as_checked_bool (Value const *v)
+value_get_as_checked_bool (GnmValue const *v)
 {
 	gboolean result, err;
 
@@ -798,7 +798,7 @@ value_get_as_checked_bool (Value const *v)
 }
 
 void
-value_get_as_gstring (GString *target, Value const *v,
+value_get_as_gstring (GString *target, GnmValue const *v,
 		      GnmExprConventions const *conv)
 {
 	if (v == NULL)
@@ -867,7 +867,7 @@ value_get_as_gstring (GString *target, Value const *v,
 				g_string_append (target, col_sep);
 
 			for (x = 0; x < v->v_array.x; x++){
-				Value const *val = v->v_array.vals[x][y];
+				GnmValue const *val = v->v_array.vals[x][y];
 
 				if (x)
 					g_string_append (target, row_sep);
@@ -888,7 +888,7 @@ value_get_as_gstring (GString *target, Value const *v,
 		/* Note: this makes only sense for absolute references or
 		 *       references relative to A1
 		 */
-		Range range;
+		GnmRange range;
 		range_init_value (&range, v);
 		tmp = global_range_name (v->v_range.cell.a.sheet, &range);
 		g_string_append (target, tmp);
@@ -913,7 +913,7 @@ value_get_as_gstring (GString *target, Value const *v,
  * Returns a string that must be freed.
  */
 char *
-value_get_as_string (Value const *v)
+value_get_as_string (GnmValue const *v)
 {
 	GString *res = g_string_sized_new (10);
 	value_get_as_gstring (res, v, gnm_expr_conventions_default);
@@ -925,7 +925,7 @@ value_get_as_string (Value const *v)
  * further calls to this function are made.
  */
 char const *
-value_peek_string (Value const *v)
+value_peek_string (GnmValue const *v)
 {
 	g_return_val_if_fail (v, "");
 
@@ -949,7 +949,7 @@ value_peek_string (Value const *v)
  * FIXME FIXME FIXME : Support errors
  */
 int
-value_get_as_int (Value const *v)
+value_get_as_int (GnmValue const *v)
 {
 	if (v == NULL)
 		return 0;
@@ -990,7 +990,7 @@ value_get_as_int (Value const *v)
  * FIXME FIXME FIXME : Support errors
  */
 gnm_float
-value_get_as_float (Value const *v)
+value_get_as_float (GnmValue const *v)
 {
 	if (v == NULL)
 		return 0.;
@@ -1036,14 +1036,14 @@ value_get_as_float (Value const *v)
  * If the value can be used as a number return that number
  * otherwise free it at return an appropriate error
  **/
-Value *
-value_coerce_to_number (Value *v, gboolean *valid, EvalPos const *ep)
+GnmValue *
+value_coerce_to_number (GnmValue *v, gboolean *valid, EvalPos const *ep)
 {
 	g_return_val_if_fail (v != NULL, NULL);
 
 	*valid = FALSE;
 	if (v->type == VALUE_STRING) {
-		Value *tmp = format_match_number (value_peek_string (v), NULL,
+		GnmValue *tmp = format_match_number (value_peek_string (v), NULL,
 			workbook_date_conv (ep->sheet->workbook));
 		value_release (v);
 		if (tmp == NULL)
@@ -1062,7 +1062,7 @@ value_coerce_to_number (Value *v, gboolean *valid, EvalPos const *ep)
 }
 
 void
-value_array_set (Value *array, int col, int row, Value *v)
+value_array_set (GnmValue *array, int col, int row, GnmValue *v)
 {
 	g_return_if_fail (v);
 	g_return_if_fail (array->type == VALUE_ARRAY);
@@ -1077,11 +1077,11 @@ value_array_set (Value *array, int col, int row, Value *v)
 }
 
 void
-value_array_resize (Value *v, int width, int height)
+value_array_resize (GnmValue *v, int width, int height)
 {
 	int x, y, xcpy, ycpy;
-	Value *newval;
-	Value ***tmp;
+	GnmValue *newval;
+	GnmValue ***tmp;
 
 	g_warning ("Totally untested");
 	g_return_if_fail (v);
@@ -1110,7 +1110,7 @@ value_array_resize (Value *v, int width, int height)
 }
 
 static ValueCompare
-compare_bool_bool (Value const *va, Value const *vb)
+compare_bool_bool (GnmValue const *va, GnmValue const *vb)
 {
 	gboolean err; /* Ignored */
 	gboolean const a = value_get_as_bool (va, &err);
@@ -1121,7 +1121,7 @@ compare_bool_bool (Value const *va, Value const *vb)
 }
 
 static ValueCompare
-compare_int_int (Value const *va, Value const *vb)
+compare_int_int (GnmValue const *va, GnmValue const *vb)
 {
 	int const a = value_get_as_int (va);
 	int const b = value_get_as_int (vb);
@@ -1134,7 +1134,7 @@ compare_int_int (Value const *va, Value const *vb)
 }
 
 static ValueCompare
-compare_float_float (Value const *va, Value const *vb)
+compare_float_float (GnmValue const *va, GnmValue const *vb)
 {
 	gnm_float const a = value_get_as_float (va);
 	gnm_float const b = value_get_as_float (vb);
@@ -1157,9 +1157,9 @@ compare_float_float (Value const *va, Value const *vb)
  * Returns a non-negative difference between 2 values
  */
 gnm_float
-value_diff (Value const *a, Value const *b)
+value_diff (GnmValue const *a, GnmValue const *b)
 {
-	ValueType ta, tb;
+	GnmValueType ta, tb;
 
 	/* Handle trivial and double NULL case */
 	if (a == b)
@@ -1241,9 +1241,9 @@ value_diff (Value const *a, Value const *b)
  * IGNORES format.
  */
 ValueCompare
-value_compare (Value const *a, Value const *b, gboolean case_sensitive)
+value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
 {
-	ValueType ta, tb;
+	GnmValueType ta, tb;
 
 	/* Handle trivial and double NULL case */
 	if (a == b)
@@ -1336,7 +1336,7 @@ value_compare (Value const *a, Value const *b, gboolean case_sensitive)
 }
 
 void
-value_set_fmt (Value *v, StyleFormat const *fmt)
+value_set_fmt (GnmValue *v, StyleFormat const *fmt)
 {
 	if (fmt != NULL)
 		style_format_ref ((StyleFormat *)fmt);
@@ -1348,7 +1348,7 @@ value_set_fmt (Value *v, StyleFormat const *fmt)
 /****************************************************************************/
 
 static gboolean
-criteria_test_equal (Value const *x, Value const *y)
+criteria_test_equal (GnmValue const *x, GnmValue const *y)
 {
 	g_return_val_if_fail (x != NULL, FALSE);
 	g_return_val_if_fail (y != NULL, FALSE);
@@ -1361,7 +1361,7 @@ criteria_test_equal (Value const *x, Value const *y)
 }
 
 static gboolean
-criteria_test_unequal (Value const *x, Value const *y)
+criteria_test_unequal (GnmValue const *x, GnmValue const *y)
 {
 	if (x == NULL)
 		return y != NULL;
@@ -1377,7 +1377,7 @@ criteria_test_unequal (Value const *x, Value const *y)
 }
 
 static gboolean
-criteria_test_less (Value const *x, Value const *y)
+criteria_test_less (GnmValue const *x, GnmValue const *y)
 {
 	g_return_val_if_fail (x != NULL, FALSE);
 	g_return_val_if_fail (y != NULL, FALSE);
@@ -1388,7 +1388,7 @@ criteria_test_less (Value const *x, Value const *y)
 }
 
 static gboolean
-criteria_test_greater (Value const *x, Value const *y)
+criteria_test_greater (GnmValue const *x, GnmValue const *y)
 {
 	g_return_val_if_fail (x != NULL, FALSE);
 	g_return_val_if_fail (y != NULL, FALSE);
@@ -1399,7 +1399,7 @@ criteria_test_greater (Value const *x, Value const *y)
 }
 
 static gboolean
-criteria_test_less_or_equal (Value const *x, Value const *y)
+criteria_test_less_or_equal (GnmValue const *x, GnmValue const *y)
 {
 	g_return_val_if_fail (x != NULL, FALSE);
 	g_return_val_if_fail (y != NULL, FALSE);
@@ -1410,7 +1410,7 @@ criteria_test_less_or_equal (Value const *x, Value const *y)
 }
 
 static gboolean
-criteria_test_greater_or_equal (Value const *x, Value const *y)
+criteria_test_greater_or_equal (GnmValue const *x, GnmValue const *y)
 {
 	g_return_val_if_fail (x != NULL, FALSE);
 	g_return_val_if_fail (y != NULL, FALSE);
@@ -1424,7 +1424,7 @@ criteria_test_greater_or_equal (Value const *x, Value const *y)
  * Finds a column index of a field.
  */
 int
-find_column_of_field (EvalPos const *ep, Value *database, Value *field)
+find_column_of_field (EvalPos const *ep, GnmValue *database, GnmValue *field)
 {
         Sheet *sheet;
         Cell  *cell;
@@ -1500,9 +1500,9 @@ free_criterias (GSList *criterias)
 
 /**
  * parse_criteria :
- * @crit_val : #Value 
+ * @crit_val : #GnmValue 
  * @fun : #criteria_test_fun_t result
- * @test_value : #Value the value to compare against.
+ * @test_value : #GnmValue the value to compare against.
  * @iter_flags :
  * @date_conv : #GnmDateConventions
  *
@@ -1511,7 +1511,7 @@ free_criterias (GSList *criterias)
  * operators.  Caller is responsible for freeing @test_value.
  **/
 void
-parse_criteria (Value *crit_val, criteria_test_fun_t *fun, Value **test_value,
+parse_criteria (GnmValue *crit_val, criteria_test_fun_t *fun, GnmValue **test_value,
 		CellIterFlags *iter_flags, GnmDateConventions const *date_conv)
 {
 	int len;
@@ -1598,7 +1598,7 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
  * Parses the criteria cell range.
  */
 GSList *
-parse_database_criteria (EvalPos const *ep, Value *database, Value *criteria)
+parse_database_criteria (EvalPos const *ep, GnmValue *database, GnmValue *criteria)
 {
 	Sheet	*sheet;
 	Cell	*cell;
@@ -1721,9 +1721,9 @@ filter_row:
 
 /****************************************************************************/
 
-ValueErr const value_terminate_err = { VALUE_ERROR, NULL, NULL };
-static ValueInt const the_value_zero = { VALUE_INTEGER, NULL, 0 };
-Value const *value_zero = (Value const *)&the_value_zero;
+GnmValueErr const value_terminate_err = { VALUE_ERROR, NULL, NULL };
+static GnmValueInt const the_value_zero = { VALUE_INTEGER, NULL, 0 };
+GnmValue const *value_zero = (GnmValue const *)&the_value_zero;
 
 void
 value_init (void)
@@ -1737,35 +1737,35 @@ value_init (void)
 	}
 
 #if USE_VALUE_POOLS
-	/* ValueInt and ValueBool ought to have the same size.  */
+	/* GnmValueInt and GnmValueBool ought to have the same size.  */
 	value_int_pool =
 		gnm_mem_chunk_new ("value int/bool pool",
-				   MAX (sizeof (ValueInt), sizeof (ValueBool)),
+				   MAX (sizeof (GnmValueInt), sizeof (GnmValueBool)),
 				   16 * 1024 - 128);
 
 	value_float_pool =
 		gnm_mem_chunk_new ("value float pool",
-				   sizeof (ValueFloat),
+				   sizeof (GnmValueFloat),
 				   16 * 1024 - 128);
 
 	value_error_pool =
 		gnm_mem_chunk_new ("value error pool",
-				   sizeof (ValueErr),
+				   sizeof (GnmValueErr),
 				   16 * 1024 - 128);
 
 	value_string_pool =
 		gnm_mem_chunk_new ("value string pool",
-				   sizeof (ValueStr),
+				   sizeof (GnmValueStr),
 				   16 * 1024 - 128);
 
 	value_range_pool =
 		gnm_mem_chunk_new ("value range pool",
-				   sizeof (ValueRange),
+				   sizeof (GnmValueRange),
 				   16 * 1024 - 128);
 
 	value_array_pool =
 		gnm_mem_chunk_new ("value array pool",
-				   sizeof (ValueArray),
+				   sizeof (GnmValueArray),
 				   16 * 1024 - 128);
 #endif
 }

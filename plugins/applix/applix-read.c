@@ -171,7 +171,7 @@ applix_sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb)
 }
 
 static char const *
-applix_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
+applix_rangeref_parse (GnmRangeRef *res, char const *start, ParsePos const *pp)
 {
 	char const *ptr = start, *tmp1, *tmp2;
 	Workbook *wb = pp->wb;
@@ -842,7 +842,7 @@ applix_parse_sheet (ApplixReadState *state, unsigned char **buffer,
 
 static char *
 applix_parse_cellref (ApplixReadState *state, unsigned char *buffer,
-		      Sheet **sheet, CellPos *pos,
+		      Sheet **sheet, GnmCellPos *pos,
 		      char const separator)
 {
 	*sheet = applix_parse_sheet (state, &buffer, separator);
@@ -906,12 +906,12 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 			continue;
 
 		if (!a_strncmp (buffer, "View Top Left: ")) {
-			CellPos pos;
+			GnmCellPos pos;
 			if (applix_parse_cellref (state, buffer+15, &sheet, &pos, ':'))
 				sv_set_initial_top_left (sheet_get_view (sheet, state->wb_view),
 							 pos.col, pos.row);
 		} else if (!a_strncmp (buffer, "View Open Cell: ")) {
-			CellPos pos;
+			GnmCellPos pos;
 			if (applix_parse_cellref (state, buffer+16, &sheet, &pos, ':'))
 				sv_selection_set (sheet_get_view (sheet, state->wb_view),
 						  &pos, pos.col, pos.row, pos.col, pos.row);
@@ -990,7 +990,7 @@ applix_read_cells (ApplixReadState *state)
 	Sheet *sheet;
 	MStyle *style;
 	Cell *cell;
-	CellPos pos;
+	GnmCellPos pos;
 	ParseError  perr;
 	unsigned char content_type, *tmp, *ptr;
 
@@ -1025,8 +1025,8 @@ applix_read_cells (ApplixReadState *state)
 		case '.' : { /* instance of a shared formula */
 			ParsePos	 pos;
 			GnmExpr	const	*expr;
-			Value		*val = NULL;
-			Range		 r;
+			GnmValue		*val = NULL;
+			GnmRange		 r;
 			char *expr_string;
 
 			ptr = applix_parse_value (ptr+2, &expr_string);
@@ -1131,7 +1131,7 @@ applix_read_cells (ApplixReadState *state)
 		}
 
 		case ':' : { /* simple value */
-			Value *val = NULL;
+			GnmValue *val = NULL;
 
 			ptr += 2;
 #if 0
@@ -1162,7 +1162,7 @@ static int
 applix_read_row_list (ApplixReadState *state, unsigned char *ptr)
 {
 	unsigned char *tmp;
-	Range	r;
+	GnmRange	r;
 	Sheet *sheet = applix_parse_sheet (state, &ptr, ' ');
 
 	if (ptr == NULL)
@@ -1242,7 +1242,7 @@ static gboolean
 applix_read_absolute_name (ApplixReadState *state, char *buffer)
 {
 	char *end;
-	RangeRef ref;
+	GnmRangeRef ref;
 	ParsePos pp;
 	GnmExpr const *expr;
 
@@ -1274,7 +1274,7 @@ applix_read_relative_name (ApplixReadState *state, char *buffer)
 {
 	int dummy;
 	char *end;
-	RangeRef ref, flag;
+	GnmRangeRef ref, flag;
 	ParsePos pp;
 	GnmExpr const *expr;
 
@@ -1314,7 +1314,7 @@ static int
 applix_read_impl (ApplixReadState *state)
 {
 	Sheet *sheet;
-	CellPos pos;
+	GnmCellPos pos;
 	int ext_links = -1;
 	unsigned char *real_name = NULL;
 	char top_cell_addr[30] = "";

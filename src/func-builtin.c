@@ -47,7 +47,7 @@ static const char *help_sum = {
 	   "@SEEALSO=AVERAGE, COUNT")
 };
 
-Value *
+GnmValue *
 gnumeric_sum (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return float_range_function (nodes, ei,
@@ -86,7 +86,7 @@ range_bogusproduct (const gnm_float *xs, int n, gnm_float *res)
 		return range_product (xs, n, res);
 }
 
-Value *
+GnmValue *
 gnumeric_product (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return float_range_function (nodes, ei,
@@ -113,8 +113,8 @@ static const char *help_gnumeric_version = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_version (FunctionEvalInfo *ei, Value *argv [])
+static GnmValue *
+gnumeric_version (FunctionEvalInfo *ei, GnmValue *argv [])
 {
 	return value_new_string (GNUMERIC_VERSION);
 }

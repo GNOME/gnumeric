@@ -79,7 +79,7 @@ void dao_set_cell_printf      (data_analysis_output_t *dao,
 			       int col, int row, char const *fmt, ...)
                            G_GNUC_PRINTF (4, 5);
 void dao_set_cell_value       (data_analysis_output_t *dao, int col, int row,
-			       Value *v);
+			       GnmValue *v);
 void dao_set_cell_expr       (data_analysis_output_t *dao, int col, int row,
 			       GnmExpr const *expr);
 void dao_set_cell_float       (data_analysis_output_t *dao,

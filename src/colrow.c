@@ -605,7 +605,7 @@ cb_autofit_height_no_shrink (ColRowInfo *info, void *sheet)
  * resize the row heights to make the text fit nicely.
  **/
 void
-rows_height_update (Sheet *sheet, Range const * range, gboolean shrink)
+rows_height_update (Sheet *sheet, GnmRange const * range, gboolean shrink)
 {
 	/* FIXME : this needs to check font sizes and contents rather than
 	 * just contents.  Empty cells will cause resize also
@@ -699,7 +699,7 @@ colrow_get_outline_toggle (Sheet const *sheet, gboolean is_cols, gboolean visibl
 }
 
 static void
-cb_colrow_visibility (SheetView *sv, Range const *r, void *closure)
+cb_colrow_visibility (SheetView *sv, GnmRange const *r, void *closure)
 {
 	ColRowVisiblity * const dat = (ColRowVisiblity *)closure;
 	int first, last;
@@ -875,7 +875,7 @@ colrow_set_visibility (Sheet *sheet, gboolean is_cols,
 {
 	int i, step, prev_outline   = 0;
 	gboolean changed = FALSE;
-	Range * const bound   = &sheet->priv->unhidden_region;
+	GnmRange * const bound   = &sheet->priv->unhidden_region;
 	gboolean const fwd = is_cols ? sheet->outline_symbols_right : sheet->outline_symbols_below;
 
 	g_return_if_fail (IS_SHEET (sheet));

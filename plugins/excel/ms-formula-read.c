@@ -436,7 +436,7 @@ expr_tree_error (ExcelReadSheet const *esheet, int col, int row,
  * storage structure.
  **/
 static void
-getRefV7 (CellRef *cr,
+getRefV7 (GnmCellRef *cr,
 	  guint8 col, guint16 gbitrw, int curcol, int currow,
 	  gboolean const shared)
 {
@@ -480,7 +480,7 @@ getRefV7 (CellRef *cr,
  * storage structure.
  **/
 static void
-getRefV8 (CellRef *cr,
+getRefV8 (GnmCellRef *cr,
 	  guint16 row, guint16 gbitcl, int curcol, int currow,
 	  gboolean const shared)
 {
@@ -524,7 +524,7 @@ parse_list_push (GnmExprList **list, GnmExpr const *pd)
 }
 
 static void
-parse_list_push_raw (GnmExprList **list, Value *v)
+parse_list_push_raw (GnmExprList **list, GnmValue *v)
 {
 	parse_list_push (list, gnm_expr_new_constant (v));
 }
@@ -805,7 +805,7 @@ excel_parse_formula (MSContainer const *container,
 		case FORMULA_PTG_EXPR: {
 			GnmExpr const *expr;
 			XLSharedFormula *sf;
-			CellPos top_left;
+			GnmCellPos top_left;
 
 			top_left.row = GSF_LE_GET_GUINT16 (cur+0);
 			top_left.col = GSF_LE_GET_GUINT16 (cur+2);
@@ -1095,8 +1095,7 @@ excel_parse_formula (MSContainer const *container,
 			/* Use 0 for unknown sizes, and ignore the trailing
 			 * extended info completely for now.
 			 */
-			static int const extended_ptg_size[] =
-			{
+			static int const extended_ptg_size[] = {
 				/* 0x00 */ 0,  /* Reserved */
 				/* 0x01 */ 4,  /* eptgElfLel,	No,  Err */
 				/* 0x02 */ 4,  /* eptgElfRw,	No,  Ref */
@@ -1161,7 +1160,7 @@ excel_parse_formula (MSContainer const *container,
 			 */
 			if (eptg_type == 0x06 || /* eptgElfRwV,	 No,  Value */
 			    eptg_type == 0x07) { /* eptgElfColV, No,  Value */
-				CellRef ref;
+				GnmCellRef ref;
 
 				getRefV8 (&ref,
 					  GSF_LE_GET_GUINT16(cur + 1),
@@ -1194,7 +1193,7 @@ excel_parse_formula (MSContainer const *container,
 			unsigned cols = GSF_LE_GET_GUINT8  (array_data + 0);
 			unsigned rows = GSF_LE_GET_GUINT16 (array_data + 1);
 			unsigned lpx, lpy, elem_len = 0;
-			Value *v, *elem;
+			GnmValue *v, *elem;
 			guint8 val_type;
 
 			if (ver >= MS_BIFF_V8) {
@@ -1370,7 +1369,7 @@ excel_parse_formula (MSContainer const *container,
 			break;
 
 		case FORMULA_PTG_REF: case FORMULA_PTG_REFN: {
-			CellRef ref;
+			GnmCellRef ref;
 			if (ver >= MS_BIFF_V8) {
 				getRefV8 (&ref,
 					  GSF_LE_GET_GUINT16(cur),
@@ -1389,7 +1388,7 @@ excel_parse_formula (MSContainer const *container,
 		}
 
 		case FORMULA_PTG_AREA: case FORMULA_PTG_AREAN: {
-			CellRef first, last;
+			GnmCellRef first, last;
 			if (ver >= MS_BIFF_V8) {
 				getRefV8 (&first,
 					  GSF_LE_GET_GUINT16(cur+0),
@@ -1495,7 +1494,7 @@ excel_parse_formula (MSContainer const *container,
 		break;
 
 		case FORMULA_PTG_REF_3D : { /* see S59E2B.HTM */
-			CellRef first, last;
+			GnmCellRef first, last;
 			if (ver >= MS_BIFF_V8) {
 				getRefV8 (&first,
 					  GSF_LE_GET_GUINT16 (cur + 2),
@@ -1523,7 +1522,7 @@ excel_parse_formula (MSContainer const *container,
 
 		case FORMULA_PTG_AREA_3D : { /* see S59E2B.HTM */
 			/* See comments in FORMULA_PTG_REF_3D for correct handling of external references */
-			CellRef first, last;
+			GnmCellRef first, last;
 
 			if (ver >= MS_BIFF_V8) {
 				getRefV8 (&first,

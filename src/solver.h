@@ -143,8 +143,8 @@ struct _SolverOptions {
 };
 
 struct _SolverConstraint {
-        CellPos              lhs;		/* left hand side */
-        CellPos              rhs;  		/* right hand side */
+        GnmCellPos           lhs;		/* left hand side */
+        GnmCellPos           rhs;  		/* right hand side */
         gint                 rows;              /* number of rows */
         gint                 cols;              /* number of columns */
         SolverConstraintType type;	        /* <=, =, >=, int, bool */

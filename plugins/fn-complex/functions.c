@@ -49,7 +49,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
  * 1 if an error occurred.
  */
 static int
-value_get_as_complex (Value *val, complex_t *res, char *imunit)
+value_get_as_complex (GnmValue *val, complex_t *res, char *imunit)
 {
 	if (VALUE_IS_NUMBER (val)) {
 		complex_real (res, value_get_as_float (val));
@@ -62,7 +62,7 @@ value_get_as_complex (Value *val, complex_t *res, char *imunit)
 	}
 }
 
-static Value *
+static GnmValue *
 value_new_complex (const complex_t *c, char imunit)
 {
 	if (complex_real_p (c))
@@ -96,8 +96,8 @@ static char const *help_complex = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_complex (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_complex (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c;
 	char const *suffix;
@@ -131,8 +131,8 @@ static char const *help_imaginary = {
 	   "@SEEALSO=IMREAL")
 };
 
-static Value *
-gnumeric_imaginary (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imaginary (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c;
 	char imunit;
@@ -164,8 +164,8 @@ static char const *help_imabs = {
 };
 
 
-static Value *
-gnumeric_imabs (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imabs (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c;
 	char imunit;
@@ -197,8 +197,8 @@ static char const *help_imreal = {
 };
 
 
-static Value *
-gnumeric_imreal (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imreal (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c;
 	char imunit;
@@ -230,8 +230,8 @@ static char const *help_imconjugate = {
 	   "@SEEALSO=IMAGINARY,IMREAL")
 };
 
-static Value *
-gnumeric_imconjugate (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imconjugate (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -264,8 +264,8 @@ static char const *help_iminv = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_iminv (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_iminv (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -295,8 +295,8 @@ static char const *help_imneg = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_imneg (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imneg (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -326,8 +326,8 @@ static char const *help_imcos = {
 	   "@SEEALSO=IMSIN,IMTAN")
 };
 
-static Value *
-gnumeric_imcos (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imcos (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -357,8 +357,8 @@ static char const *help_imtan = {
 	   "@SEEALSO=IMSIN,IMCOS")
 };
 
-static Value *
-gnumeric_imtan (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imtan (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -389,8 +389,8 @@ static char const *help_imsec = {
 	   "@SEEALSO=IMCSC,IMCOT")
 };
 
-static Value *
-gnumeric_imsec (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imsec (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -422,8 +422,8 @@ static char const *help_imcsc = {
 	   "@SEEALSO=IMSEC,IMCOT")
 };
 
-static Value *
-gnumeric_imcsc (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imcsc (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -455,8 +455,8 @@ static char const *help_imcot = {
 	   "@SEEALSO=IMSEC,IMCSC")
 };
 
-static Value *
-gnumeric_imcot (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imcot (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -487,8 +487,8 @@ static char const *help_imexp = {
 	   "@SEEALSO=IMLN")
 };
 
-static Value *
-gnumeric_imexp (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imexp (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -520,8 +520,8 @@ static char const *help_imargument = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_imargument (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imargument (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c;
 	char imunit;
@@ -555,8 +555,8 @@ static char const *help_imln = {
 	   "@SEEALSO=IMEXP,IMLOG2,IMLOG10")
 };
 
-static Value *
-gnumeric_imln (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imln (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -586,8 +586,8 @@ static char const *help_imlog2 = {
 	   "@SEEALSO=IMLN,IMLOG10")
 };
 
-static Value *
-gnumeric_imlog2 (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imlog2 (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -618,8 +618,8 @@ static char const *help_imlog10 = {
 	   "@SEEALSO=IMLN,IMLOG2")
 };
 
-static Value *
-gnumeric_imlog10 (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imlog10 (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -652,8 +652,8 @@ static char const *help_impower = {
 	   "@SEEALSO=IMSQRT")
 };
 
-static Value *
-gnumeric_impower (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_impower (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t a, b, res;
 	char imunit;
@@ -689,8 +689,8 @@ static char const *help_imdiv = {
 	   "@SEEALSO=IMPRODUCT")
 };
 
-static Value *
-gnumeric_imdiv (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imdiv (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t a, b, res;
 	char imunit;
@@ -725,8 +725,8 @@ static char const *help_imsin = {
 	   "@SEEALSO=IMCOS,IMTAN")
 };
 
-static Value *
-gnumeric_imsin (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imsin (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -757,8 +757,8 @@ static char const *help_imsinh = {
 	   "@SEEALSO=IMCOSH,IMTANH")
 };
 
-static Value *
-gnumeric_imsinh (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imsinh (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -788,8 +788,8 @@ static char const *help_imcosh = {
 	   "@SEEALSO=IMSINH,IMTANH")
 };
 
-static Value *
-gnumeric_imcosh (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imcosh (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -819,8 +819,8 @@ static char const *help_imtanh = {
 	   "@SEEALSO=IMSINH,IMCOSH")
 };
 
-static Value *
-gnumeric_imtanh (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imtanh (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -850,8 +850,8 @@ static char const *help_imsech = {
 	   "@SEEALSO=IMCSCH,IMCOTH")
 };
 
-static Value *
-gnumeric_imsech (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imsech (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -881,8 +881,8 @@ static char const *help_imcsch = {
 	   "@SEEALSO=IMSECH,IMCOTH")
 };
 
-static Value *
-gnumeric_imcsch (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imcsch (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -912,8 +912,8 @@ static char const *help_imcoth = {
 	   "@SEEALSO=IMSECH,IMCSCH")
 };
 
-static Value *
-gnumeric_imcoth (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imcoth (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -944,8 +944,8 @@ static char const *help_imarcsin = {
 	   "@SEEALSO=IMARCCOS,IMARCTAN")
 };
 
-static Value *
-gnumeric_imarcsin (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imarcsin (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -976,8 +976,8 @@ static char const *help_imarccos = {
 	   "@SEEALSO=IMARCSIN,IMARCTAN")
 };
 
-static Value *
-gnumeric_imarccos (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imarccos (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1008,8 +1008,8 @@ static char const *help_imarctan = {
 	   "@SEEALSO=IMARCSIN,IMARCCOS")
 };
 
-static Value *
-gnumeric_imarctan (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imarctan (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1039,8 +1039,8 @@ static char const *help_imarcsec = {
 	   "@SEEALSO=IMARCCSC,IMARCCOT")
 };
 
-static Value *
-gnumeric_imarcsec (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imarcsec (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1070,8 +1070,8 @@ static char const *help_imarccsc = {
 	   "@SEEALSO=IMARCSEC,IMARCCOT")
 };
 
-static Value *
-gnumeric_imarccsc (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imarccsc (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1101,8 +1101,8 @@ static char const *help_imarccot = {
 	   "@SEEALSO=IMARCSEC,IMARCCSC")
 };
 
-static Value *
-gnumeric_imarccot (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imarccot (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1133,8 +1133,8 @@ static char const *help_imarcsinh = {
 	   "@SEEALSO=IMARCCOSH,IMARCTANH")
 };
 
-static Value *
-gnumeric_imarcsinh (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imarcsinh (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1165,8 +1165,8 @@ static char const *help_imarccosh = {
 	   "@SEEALSO=IMARCSINH,IMARCTANH")
 };
 
-static Value *
-gnumeric_imarccosh (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imarccosh (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1197,8 +1197,8 @@ static char const *help_imarctanh = {
 	   "@SEEALSO=IMARCSINH,IMARCCOSH")
 };
 
-static Value *
-gnumeric_imarctanh (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imarctanh (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1229,8 +1229,8 @@ static char const *help_imarcsech = {
 	   "@SEEALSO=IMARCCSCH,IMARCCOTH")
 };
 
-static Value *
-gnumeric_imarcsech (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imarcsech (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1260,8 +1260,8 @@ static char const *help_imarccsch = {
 	   "@SEEALSO=IMARCSECH,IMARCCOTH")
 };
 
-static Value *
-gnumeric_imarccsch (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imarccsch (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1292,8 +1292,8 @@ static char const *help_imarccoth = {
 	   "@SEEALSO=IMARCSECH,IMARCCSCH")
 };
 
-static Value *
-gnumeric_imarccoth (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imarccoth (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1323,8 +1323,8 @@ static char const *help_imsqrt = {
 	   "@SEEALSO=IMPOWER")
 };
 
-static Value *
-gnumeric_imsqrt (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imsqrt (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -1354,8 +1354,8 @@ static char const *help_imsub = {
 	   "@SEEALSO=IMSUM")
 };
 
-static Value *
-gnumeric_imsub (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_imsub (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	complex_t a, b, res;
 	char imunit;
@@ -1399,8 +1399,8 @@ typedef struct {
         eng_imoper_type_t type;
 } eng_imoper_t;
 
-static Value *
-callback_function_imoper (const EvalPos *ep, Value *value, void *closure)
+static GnmValue *
+callback_function_imoper (const EvalPos *ep, GnmValue *value, void *closure)
 {
         eng_imoper_t *result = closure;
 	complex_t c;
@@ -1424,10 +1424,10 @@ callback_function_imoper (const EvalPos *ep, Value *value, void *closure)
         return NULL;
 }
 
-static Value *
+static GnmValue *
 gnumeric_improduct (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
-	Value *v;
+	GnmValue *v;
         eng_imoper_t p;
 
 	p.type = Improduct;
@@ -1460,10 +1460,10 @@ static char const *help_imsum = {
 	   "@SEEALSO=IMSUB")
 };
 
-static Value *
+static GnmValue *
 gnumeric_imsum (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
-	Value *v;
+	GnmValue *v;
         eng_imoper_t p;
 
 	p.type = Imsum;

@@ -83,7 +83,7 @@ sv_wbv (SheetView const *sv)
 static void
 sv_init_sc (SheetView const *sv, SheetControl *sc)
 {
-	CellPos initial;
+	GnmCellPos initial;
 
 	sc_set_zoom_factor (sc);
 
@@ -286,9 +286,9 @@ sv_make_cell_visible (SheetView *sv, int col, int row,
 }
 
 void
-sv_redraw_range	(SheetView *sv, Range const *r)
+sv_redraw_range	(SheetView *sv, GnmRange const *r)
 {
-	Range tmp = *r;
+	GnmRange tmp = *r;
 	if (sv->sheet == NULL) /* beware initialization */
 		return;
 	sheet_range_bounding_box (sv->sheet, &tmp);
@@ -299,7 +299,7 @@ sv_redraw_range	(SheetView *sv, Range const *r)
 void
 sv_redraw_headers (SheetView const *sv,
 		   gboolean col, gboolean row,
-		   Range const* r /* optional == NULL */)
+		   GnmRange const* r /* optional == NULL */)
 {
 	SHEET_VIEW_FOREACH_CONTROL (sv, control,
 		sc_redraw_headers (control, col, row, r););
@@ -308,7 +308,7 @@ sv_redraw_headers (SheetView const *sv,
 gboolean
 sv_selection_copy (SheetView *sv, WorkbookControl *wbc)
 {
-	Range const *sel;
+	GnmRange const *sel;
 
 	if (!(sel = selection_first_range (sv, COMMAND_CONTEXT (wbc), _("Copy"))))
 		return FALSE;
@@ -321,7 +321,7 @@ sv_selection_copy (SheetView *sv, WorkbookControl *wbc)
 gboolean
 sv_selection_cut (SheetView *sv, WorkbookControl *wbc)
 {
-	Range const *sel;
+	GnmRange const *sel;
 
 	/* 'cut' is a poor description of what we're
 	 * doing here.  'move' would be a better
@@ -358,12 +358,12 @@ sv_selection_cut (SheetView *sv, WorkbookControl *wbc)
  */
 void
 sv_cursor_set (SheetView *sv,
-	       CellPos const *edit,
+	       GnmCellPos const *edit,
 	       int base_col, int base_row,
 	       int move_col, int move_row,
-	       Range const *bound)
+	       GnmRange const *bound)
 {
-	Range r;
+	GnmRange r;
 
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 
@@ -400,9 +400,9 @@ sv_cursor_set (SheetView *sv,
 }
 
 void
-sv_set_edit_pos (SheetView *sv, CellPos const *pos)
+sv_set_edit_pos (SheetView *sv, GnmCellPos const *pos)
 {
-	CellPos old;
+	GnmCellPos old;
 
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 	g_return_if_fail (pos != NULL);
@@ -414,7 +414,7 @@ sv_set_edit_pos (SheetView *sv, CellPos const *pos)
 	old = sv->edit_pos;
 
 	if (old.col != pos->col || old.row != pos->row) {
-		Range const *merged = sheet_merge_is_corner (sv->sheet, &old);
+		GnmRange const *merged = sheet_merge_is_corner (sv->sheet, &old);
 
 		sv->edit_pos_changed.location =
 		sv->edit_pos_changed.content =
@@ -422,7 +422,7 @@ sv_set_edit_pos (SheetView *sv, CellPos const *pos)
 
 		/* Redraw before change */
 		if (merged == NULL) {
-			Range tmp; tmp.start = tmp.end = old;
+			GnmRange tmp; tmp.start = tmp.end = old;
 			sv_redraw_range (sv, &tmp);
 		} else
 			sv_redraw_range (sv, merged);
@@ -432,7 +432,7 @@ sv_set_edit_pos (SheetView *sv, CellPos const *pos)
 		/* Redraw after change (handling merged cells) */
 		merged = sheet_merge_contains_pos (sv->sheet, &sv->edit_pos_real);
 		if (merged == NULL) {
-			Range tmp; tmp.start = tmp.end = *pos;
+			GnmRange tmp; tmp.start = tmp.end = *pos;
 			sv_redraw_range (sv, &tmp);
 			sv->edit_pos = sv->edit_pos_real;
 		} else {
@@ -454,7 +454,7 @@ sv_set_edit_pos (SheetView *sv, CellPos const *pos)
  * updated if appropriate.
  */
 void
-sv_flag_status_update_pos (SheetView *sv, CellPos const *pos)
+sv_flag_status_update_pos (SheetView *sv, GnmCellPos const *pos)
 {
 	/* if a part of the selected region changed value update
 	 * the auto expressions
@@ -483,7 +483,7 @@ sv_flag_status_update_pos (SheetView *sv, CellPos const *pos)
  * updated if appropriate.
  */
 void
-sv_flag_status_update_range (SheetView *sv, Range const *range)
+sv_flag_status_update_range (SheetView *sv, GnmRange const *range)
 {
 	/* Force an update */
 	if (range == NULL) {
@@ -515,7 +515,7 @@ sv_flag_status_update_range (SheetView *sv, Range const *range)
  * Flag format changes that will require updating the format indicators.
  */
 void
-sv_flag_format_update_range (SheetView *sv, Range const *range)
+sv_flag_format_update_range (SheetView *sv, GnmRange const *range)
 {
 	if (range_contains (range, sv->edit_pos.col, sv->edit_pos.row))
 		sv->edit_pos_changed.format = TRUE;
@@ -575,7 +575,7 @@ sv_update (SheetView *sv)
 	}
 }
 
-static Value *
+static GnmValue *
 fail_if_not_selected (Sheet *sheet, int col, int row, Cell *cell, void *sv)
 {
 	if (!sv_is_pos_selected (sv, col, row))
@@ -594,7 +594,7 @@ GnmFilter *
 sv_first_selection_in_filter (SheetView const *sv)
 {
 	GSList *ptr;
-	Range const *r;
+	GnmRange const *r;
 
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
 	g_return_val_if_fail (sv->selections != NULL, NULL);
@@ -618,7 +618,7 @@ sv_first_selection_in_filter (SheetView const *sv)
  * features of a cell rather than just the existance of the cell.
  */
 gboolean
-sv_is_region_empty_or_selected (SheetView const *sv, Range const *r)
+sv_is_region_empty_or_selected (SheetView const *sv, GnmRange const *r)
 {
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), TRUE);
 
@@ -637,8 +637,8 @@ sv_is_region_empty_or_selected (SheetView const *sv, Range const *r)
  */
 void
 sv_freeze_panes (SheetView *sv,
-		 CellPos const *frozen,
-		 CellPos const *unfrozen)
+		 GnmCellPos const *frozen,
+		 GnmCellPos const *unfrozen)
 {
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 
@@ -698,8 +698,8 @@ void
 sv_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
 			gboolean is_insert, int start, int count)
 {
-	CellPos tl = sv->frozen_top_left;	/* _copy_ them */
-	CellPos br = sv->unfrozen_top_left;
+	GnmCellPos tl = sv->frozen_top_left;	/* _copy_ them */
+	GnmCellPos br = sv->unfrozen_top_left;
 
 	if (is_cols) {
 		/* ignore if not frozen, or acting in unfrozen region */

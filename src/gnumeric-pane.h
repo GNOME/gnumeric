@@ -53,11 +53,11 @@ void gnm_pane_colrow_resize_move	(GnumericPane *pane,
 					 gboolean is_cols, int resize_pos);
 
 void gnm_pane_reposition_cursors		(GnumericPane *pane);
-gboolean gnm_pane_cursor_bound_set	 	(GnumericPane *pane, Range const *r);
-gboolean gnm_pane_rangesel_bound_set		(GnumericPane *pane, Range const *r);
-void gnm_pane_rangesel_start			(GnumericPane *pane, Range const *r);
+gboolean gnm_pane_cursor_bound_set	 	(GnumericPane *pane, GnmRange const *r);
+gboolean gnm_pane_rangesel_bound_set		(GnumericPane *pane, GnmRange const *r);
+void gnm_pane_rangesel_start			(GnumericPane *pane, GnmRange const *r);
 void gnm_pane_rangesel_stop			(GnumericPane *pane);
-gboolean gnm_pane_special_cursor_bound_set	(GnumericPane *pane, Range const *r);
+gboolean gnm_pane_special_cursor_bound_set	(GnumericPane *pane, GnmRange const *r);
 void gnm_pane_special_cursor_start 		(GnumericPane *pane, int style, int button);
 void gnm_pane_special_cursor_stop		(GnumericPane *pane);
 void gnm_pane_mouse_cursor_set                  (GnumericPane *pane, GdkCursor *c);

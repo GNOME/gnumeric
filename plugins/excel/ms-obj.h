@@ -107,7 +107,7 @@ struct _MSObj {
 	char const	*excel_type_name;
 
 	/* a kludge for now until the indicator and the box have distinct objects */
-	CellPos		 comment_pos;
+	GnmCellPos	 comment_pos;
 	gboolean	 ignore_combo_in_filter;
 	gboolean	 is_linked;
 	GHashTable	*attrs;

@@ -109,13 +109,13 @@ typedef struct {
 } PrintJobInfo;
 
 static void
-print_titles (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
+print_titles (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 	      double base_x, double base_y)
 {
 }
 
 static void
-print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
+print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 		     double base_x, double base_y)
 {
 	GList *l;
@@ -177,7 +177,7 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 }
 
 static void
-print_page_cells (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
+print_page_cells (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 		  double base_x, double base_y)
 {
 	/* Invert PostScript Y coordinates to make X&Y cases the same */
@@ -199,8 +199,8 @@ print_page_repeated_rows (PrintJobInfo const *pj, Sheet const *sheet,
 			  int start_col, int end_col,
 			  double base_x, double base_y)
 {
-	Range const *r = &pj->pi->repeat_top.range;
-	Range range;
+	GnmRange const *r = &pj->pi->repeat_top.range;
+	GnmRange range;
 
 	range_init (&range, start_col, MIN (r->start.row, r->end.row),
 			    end_col,   MAX (r->start.row, r->end.row));
@@ -218,8 +218,8 @@ print_page_repeated_cols (PrintJobInfo const *pj, Sheet const *sheet,
 			  int start_row, int end_row,
 			  double base_x, double base_y)
 {
-	Range const *r = &pj->pi->repeat_left.range;
-	Range range;
+	GnmRange const *r = &pj->pi->repeat_left.range;
+	GnmRange range;
 
 	range_init (&range, MIN (r->start.col, r->end.col), start_row,
 			    MAX (r->start.col, r->end.col), end_row);
@@ -434,7 +434,7 @@ setup_scale (PrintJobInfo const *pj)
 
 }
 
-static Value *
+static GnmValue *
 cb_range_empty (Sheet *sheet, int col, int row, Cell *cell, gpointer flags)
 {
 	ColRowInfo const *cri = sheet_col_get_info (sheet, col);
@@ -460,7 +460,7 @@ cb_range_empty (Sheet *sheet, int col, int row, Cell *cell, gpointer flags)
  * regular flow.
  */
 static int
-print_page (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
+print_page (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 	    gboolean output)
 {
 	PrintMargins *margins = &pj->pi->margins;
@@ -723,7 +723,7 @@ compute_scale_fit_to (PrintJobInfo const *pj, Sheet const *sheet,
 
 static int
 print_range_down_then_right (PrintJobInfo const *pj, Sheet const *sheet,
-			     Range const *r, gboolean output)
+			     GnmRange const *r, gboolean output)
 {
 	float usable_x, usable_x_initial, usable_x_repeating;
 	float usable_y, usable_y_initial, usable_y_repeating;
@@ -800,7 +800,7 @@ print_range_down_then_right (PrintJobInfo const *pj, Sheet const *sheet,
 					   usable_x, sheet_col_get_info);
 
 		while (row <= r->end.row) {
-			Range range;
+			GnmRange range;
 			int row_count;
 
 			if (row <= pj->pi->repeat_top.range.end.row) {
@@ -835,7 +835,7 @@ print_range_down_then_right (PrintJobInfo const *pj, Sheet const *sheet,
 
 static int
 print_range_right_then_down (PrintJobInfo const *pj, Sheet const *sheet,
-			     Range const *r, gboolean output)
+			     GnmRange const *r, gboolean output)
 {
 	float usable_x, usable_x_initial, usable_x_repeating;
 	float usable_y, usable_y_initial, usable_y_repeating;
@@ -912,7 +912,7 @@ print_range_right_then_down (PrintJobInfo const *pj, Sheet const *sheet,
 					   usable_y, sheet_row_get_info);
 
 		while (col <= r->end.col) {
-			Range range;
+			GnmRange range;
 			int col_count;
 
 			if (col <= pj->pi->repeat_left.range.end.col) {
@@ -961,7 +961,7 @@ print_range_right_then_down (PrintJobInfo const *pj, Sheet const *sheet,
  */
 static int
 print_sheet_range (PrintJobInfo *pj, Sheet const *sheet,
-		   Range const *r, gboolean output)
+		   GnmRange const *r, gboolean output)
 {
 	int pages;
 
@@ -977,7 +977,7 @@ static double
 print_range_used_units (Sheet const *sheet, gboolean compute_rows,
 			PrintRepeatRange const *range)
 {
-	Range const *r = &range->range;
+	GnmRange const *r = &range->range;
 	if (compute_rows)
 		return sheet_row_get_distance_pts
 			(sheet, r->start.row, r->end.row+1);
@@ -1020,7 +1020,7 @@ print_job_info_init_sheet (PrintJobInfo *pj, Sheet const *sheet)
 typedef struct _PageCountInfo {
 	int pages;
 	PrintJobInfo *pj;
-	Range r;
+	GnmRange r;
 	int current_output_sheet;
 } PageCountInfo;
 
@@ -1028,7 +1028,7 @@ static void
 compute_sheet_pages (PageCountInfo *pc, Sheet const *sheet)
 {
 	PrintJobInfo *pj = pc->pj;
-	Range r;
+	GnmRange r;
 
 	/* only count pages we are printing */
 	if (pj->range == PRINT_SHEET_RANGE) {
@@ -1056,7 +1056,7 @@ compute_sheet_pages (PageCountInfo *pc, Sheet const *sheet)
  */
 static int
 compute_pages (PrintJobInfo *pj,
-	       Workbook const *wb, Sheet const *sheet, Range const *r)
+	       Workbook const *wb, Sheet const *sheet, GnmRange const *r)
 {
 	PageCountInfo *pc = g_new0 (PageCountInfo, 1);
 	int pages;
@@ -1082,7 +1082,7 @@ print_sheet (gpointer value, gpointer user_data)
 {
 	PrintJobInfo *pj    = user_data;
 	Sheet const  *sheet = value;
-	Range extent;
+	GnmRange extent;
 
 	g_return_if_fail (pj != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -1108,8 +1108,8 @@ static void
 sheet_print_selection (PrintJobInfo *pj, Sheet const *sheet,
 		       WorkbookControl *wbc)
 {
-	Range const *sel;
-	Range extent;
+	GnmRange const *sel;
+	GnmRange extent;
 
 	if (!(sel = selection_first_range (sheet_get_view (sheet, wb_control_view (wbc)),
 					   COMMAND_CONTEXT (wbc), _("Print Region"))))

@@ -43,9 +43,9 @@ struct _SheetControlGUI {
 	/* Keep track of a rangeselector state */
 	struct {
 		gboolean active;
-		CellPos	 base_corner;	/* Corner remains static when rubber banding */
-		CellPos	 move_corner;	/* Corner to move when extending */
-		Range	 displayed;	/* The range to display */
+		GnmCellPos	 base_corner;	/* Corner remains static when rubber banding */
+		GnmCellPos	 move_corner;	/* Corner to move when extending */
+		GnmRange	 displayed;	/* The range to display */
 	} rangesel;
 
 	/* Comments */

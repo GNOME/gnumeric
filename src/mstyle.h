@@ -131,8 +131,8 @@ gboolean            mstyle_get_content_locked (const MStyle *st);
 void                mstyle_set_content_hidden (MStyle *st, gboolean f);
 gboolean            mstyle_get_content_hidden (const MStyle *st);
 
-void                mstyle_set_validation	(MStyle *st, Validation *v);
-Validation         *mstyle_get_validation	(const MStyle *st);
+void                mstyle_set_validation	(MStyle *st, GnmValidation *v);
+GnmValidation      *mstyle_get_validation	(const MStyle *st);
 
 void                mstyle_set_hlink		(MStyle *st, GnmHLink *link);
 GnmHLink	   *mstyle_get_hlink		(const MStyle *st);

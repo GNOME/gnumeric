@@ -47,11 +47,11 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 /**
  * FIXME: In the long term this needs optimising.
  **/
-static Value *
-val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
+static GnmValue *
+val_to_base (FunctionEvalInfo *ei, GnmValue **argv, int num_argv,
 	     int src_base, int dest_base)
 {
-	Value *value;
+	GnmValue *value;
 	int max, places;
 	char *err, buffer[80];
 	char const *str;
@@ -126,8 +126,8 @@ static char const *help_bin2dec = {
 	   "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX")
 };
 
-static Value *
-gnumeric_bin2dec (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_bin2dec (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return val_to_base (ei, argv, 1, 2, 10);
 }
@@ -152,8 +152,8 @@ static char const *help_bin2oct = {
 	   "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX")
 };
 
-static Value *
-gnumeric_bin2oct (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_bin2oct (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return val_to_base (ei, argv, 2, 2, 8);
 }
@@ -178,8 +178,8 @@ static char const *help_bin2hex = {
 	   "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC")
 };
 
-static Value *
-gnumeric_bin2hex (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_bin2hex (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return val_to_base (ei, argv, 2, 2, 16);
 }
@@ -204,8 +204,8 @@ static char const *help_dec2bin = {
 	   "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX")
 };
 
-static Value *
-gnumeric_dec2bin (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_dec2bin (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return val_to_base (ei, argv, 2, 10, 2);
 }
@@ -230,8 +230,8 @@ static char const *help_dec2oct = {
 	   "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX")
 };
 
-static Value *
-gnumeric_dec2oct (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_dec2oct (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return val_to_base (ei, argv, 2, 10, 8);
 }
@@ -256,8 +256,8 @@ static char const *help_dec2hex = {
 	   "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT")
 };
 
-static Value *
-gnumeric_dec2hex (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_dec2hex (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return val_to_base (ei, argv, 2, 10, 16);
 }
@@ -279,8 +279,8 @@ static char const *help_oct2dec = {
 	   "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX")
 };
 
-static Value *
-gnumeric_oct2dec (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_oct2dec (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return val_to_base (ei, argv, 1, 8, 10);
 }
@@ -305,8 +305,8 @@ static char const *help_oct2bin = {
 	   "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX")
 };
 
-static Value *
-gnumeric_oct2bin (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_oct2bin (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return val_to_base (ei, argv, 2, 8, 2);
 }
@@ -331,8 +331,8 @@ static char const *help_oct2hex = {
 	   "@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC")
 };
 
-static Value *
-gnumeric_oct2hex (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_oct2hex (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return val_to_base (ei, argv, 2, 8, 16);
 }
@@ -357,8 +357,8 @@ static char const *help_hex2bin = {
 	   "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC")
 };
 
-static Value *
-gnumeric_hex2bin (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_hex2bin (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return val_to_base (ei, argv, 2, 16, 2);
 }
@@ -383,8 +383,8 @@ static char const *help_hex2oct = {
 	   "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC")
 };
 
-static Value *
-gnumeric_hex2oct (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_hex2oct (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return val_to_base (ei, argv, 2, 16, 8);
 }
@@ -406,8 +406,8 @@ static char const *help_hex2dec = {
 	   "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT")
 };
 
-static Value *
-gnumeric_hex2dec (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_hex2dec (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return val_to_base (ei, argv, 1, 16, 10);
 }
@@ -436,8 +436,8 @@ static char const *help_besseli = {
 };
 
 
-static Value *
-gnumeric_besseli (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_besseli (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x, order;
 
@@ -473,8 +473,8 @@ static char const *help_besselk = {
 	   "@SEEALSO=BESSELI,BESSELJ,BESSELY")
 };
 
-static Value *
-gnumeric_besselk (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_besselk (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x, order;
 
@@ -509,8 +509,8 @@ static char const *help_besselj = {
 	   "@SEEALSO=BESSELI,BESSELK,BESSELY")
 };
 
-static Value *
-gnumeric_besselj (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_besselj (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int x, y;
 
@@ -546,8 +546,8 @@ static char const *help_bessely = {
 	   "@SEEALSO=BESSELI,BESSELJ,BESSELK")
 };
 
-static Value *
-gnumeric_bessely (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_bessely (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int y;
 	if (argv[0]->type != VALUE_INTEGER &&
@@ -707,11 +707,11 @@ get_constant_of_unit(const eng_convert_unit_t units[],
 
 /* See also http://physics.nist.gov/cuu/Units/prefixes.html */
 
-static Value *
+static GnmValue *
 convert (const eng_convert_unit_t units[],
 	 const eng_convert_unit_t prefixes[],
 	 char const *from_unit, char const *to_unit,
-	 gnm_float n, Value **v, const EvalPos *ep)
+	 gnm_float n, GnmValue **v, const EvalPos *ep)
 {
         gnm_float from_c, from_prefix, to_c, to_prefix;
 
@@ -733,8 +733,8 @@ convert (const eng_convert_unit_t units[],
 	return NULL;
 }
 
-static Value *
-gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_convert (FunctionEvalInfo *ei, GnmValue **argv)
 {
         /* Weight and mass constants */
         #define one_g_to_sg     0.00006852205001
@@ -922,7 +922,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 
 	gnm_float n;
 	char const *from_unit, *to_unit;
-	Value *v;
+	GnmValue *v;
 
 	n = value_get_as_float (argv[0]);
 	from_unit = value_peek_string (argv[1]);
@@ -1008,8 +1008,8 @@ static char const *help_erf = {
 };
 
 
-static Value *
-gnumeric_erf (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_erf (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float ans, lower, upper;
 
@@ -1044,8 +1044,8 @@ static char const *help_erfc = {
 	   "@SEEALSO=ERF")
 };
 
-static Value *
-gnumeric_erfc (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_erfc (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x;
 
@@ -1074,12 +1074,12 @@ static char const *help_delta = {
 };
 
 
-static Value *
-gnumeric_delta (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_delta (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	Value *err = NULL;
+	GnmValue *err = NULL;
 	gboolean ans = FALSE;
-	Value *vx, *vy;
+	GnmValue *vx, *vy;
 
 	vx = argv[0];
 	if (argv[1])
@@ -1128,12 +1128,12 @@ static char const *help_gestep = {
 };
 
 
-static Value *
-gnumeric_gestep (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_gestep (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	Value *err = NULL;
+	GnmValue *err = NULL;
 	gboolean ans = FALSE;
-	Value *vx, *vy;
+	GnmValue *vx, *vy;
 
 	vx = argv[0];
 	if (argv[1])

@@ -137,7 +137,7 @@ cb_dialog_goto_update_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 				   GotoState *state)
 {
 	GtkEntry *entry = GTK_ENTRY (gnome_entry_gtk_entry (state->goto_text));
-	Value *val = global_range_parse (wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
+	GnmValue *val = global_range_parse (wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
 					 gtk_entry_get_text (entry));
 	if (val != NULL) {
 		gtk_widget_set_sensitive (state->go_button, TRUE);

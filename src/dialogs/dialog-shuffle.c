@@ -69,7 +69,7 @@ static void
 shuffle_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 			       ShuffleState *state)
 {
-        Value *input_range = gnm_expr_entry_parse_as_value (
+        GnmValue *input_range = gnm_expr_entry_parse_as_value (
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 	if (input_range == NULL) {
 		gtk_label_set_text (GTK_LABEL (state->warning),
@@ -97,7 +97,7 @@ shuffle_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button, ShuffleState *state)
 	data_analysis_output_t  *dao;
 	data_shuffling_t        *ds;
 	WorkbookControl         *wbc;
-	Value                   *input;
+	GnmValue                *input;
 	int                     type;
 
 	/* This is free'ed by cmd_data_shuffle_finalize. */
@@ -133,7 +133,7 @@ dialog_shuffle (WorkbookControlGUI *wbcg)
 	WorkbookControl *wbc;
 	GtkWidget *w;
 	char const *type;
-	Range const *r;
+	GnmRange const *r;
 
 	g_return_if_fail (wbcg != NULL);
 

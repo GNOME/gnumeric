@@ -117,7 +117,7 @@ dhl_get_target_cur_wb (HyperlinkState *state, gboolean *success)
 	GnmExprEntry *gee = state->internal_link_ee;
 	char const *target = gnm_expr_entry_get_text (gee);
 	Sheet *sheet = sc_sheet (state->sc);
-	Value *val;
+	GnmValue *val;
 
 	*success = FALSE;
 	if (strlen (target) == 0) {

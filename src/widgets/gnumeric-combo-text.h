@@ -8,7 +8,7 @@ G_BEGIN_DECLS
 
 #define GNM_TYPE_COMBO_TEXT	(gnm_combo_text_get_type ())
 #define GNM_COMBO_TEXT(obj)	(G_TYPE_CHECK_INSTANCE_CAST (obj, GNM_TYPE_COMBO_TEXT, GnmComboText))
-#define GNM_IS_COMBO_TEXT(obj)	(G_TYPE_CHECK_INSTANCE_TYPE (obj, GNM_TYPE_COMBO_TEXT))
+#define IS_GNM_COMBO_TEXT(obj)	(G_TYPE_CHECK_INSTANCE_TYPE (obj, GNM_TYPE_COMBO_TEXT))
 
 typedef struct _GnmComboText	   GnmComboText;
 

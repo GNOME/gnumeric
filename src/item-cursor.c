@@ -46,7 +46,7 @@ struct _ItemCursor {
 	FooCanvasItem canvas_item;
 
 	SheetControlGUI *scg;
-	Range		 pos;
+	GnmRange		 pos;
 
 	/* Offset of dragging cell from top left of pos */
 	int col_delta, row_delta;
@@ -66,7 +66,7 @@ struct _ItemCursor {
 	 *     started.
 	 */
 	int   base_x, base_y;
-	Range autofill_src;
+	GnmRange autofill_src;
 	int   autofill_hsize, autofill_vsize;
 
 	/* Cached values of the last bounding box information used */
@@ -478,7 +478,7 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 }
 
 gboolean
-item_cursor_bound_set (ItemCursor *ic, Range const *new_bound)
+item_cursor_bound_set (ItemCursor *ic, GnmRange const *new_bound)
 {
 	g_return_val_if_fail (IS_ITEM_CURSOR (ic), FALSE);
 	g_return_val_if_fail (range_is_sane (new_bound), FALSE);
@@ -1055,7 +1055,7 @@ item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 {
 	/* Only do the operation if something moved */
 	SheetView const *sv = ((SheetControl *) ic->scg)->view;
-	Range const *target = selection_first_range (sv, NULL, NULL);
+	GnmRange const *target = selection_first_range (sv, NULL, NULL);
 
 	wb_control_gui_set_status_text (ic->scg->wbcg, "");
 	if (range_equal (target, &ic->pos)) {
@@ -1074,12 +1074,12 @@ item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 static void
 item_cursor_set_bounds_visibly (ItemCursor *ic,
 				int visible_col,int visible_row,
-				CellPos const *corner,
+				GnmCellPos const *corner,
 				int end_col, int end_row)
 {
 	FooCanvasItem *item = FOO_CANVAS_ITEM (ic);
 	GnmCanvas  *gcanvas = GNM_CANVAS (item->canvas);
-	Range r;
+	GnmRange r;
 
 	/* Handle visibility here rather than in the slide handler because we
 	 * need to constrain movement some times.  eg no sense scrolling the
@@ -1129,7 +1129,7 @@ cb_move_cursor (GnmCanvas *gcanvas, int col, int row, gpointer user_data)
 	ItemCursor *ic = user_data;
 	int const w = (ic->pos.end.col - ic->pos.start.col);
 	int const h = (ic->pos.end.row - ic->pos.start.row);
-	CellPos corner;
+	GnmCellPos corner;
 
 	corner.col = col - ic->col_delta;
 	if (corner.col < 0)
@@ -1199,7 +1199,7 @@ static gboolean
 cb_autofill_scroll (GnmCanvas *gcanvas, int col, int row, gpointer user_data)
 {
 	ItemCursor *ic = user_data;
-	Range r = ic->autofill_src;
+	GnmRange r = ic->autofill_src;
 
 	/* compass offsets are distances (in cells) from the edges of the
 	 * selected area to the mouse cursor

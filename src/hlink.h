@@ -6,9 +6,9 @@
 
 #define GNM_HLINK_TYPE		(gnm_hlink_get_type ())
 #define GNM_HLINK(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_HLINK_TYPE, GnmHLink))
-#define GNM_IS_HLINK(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_HLINK_TYPE))
+#define IS_GNM_HLINK(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_HLINK_TYPE))
 
-GnmHLink	*sheet_hlink_find   (Sheet const *sheet, CellPos const *pos);
+GnmHLink	*sheet_hlink_find   (Sheet const *sheet, GnmCellPos const *pos);
 
 GType gnm_hlink_get_type (void);
 gboolean         gnm_hlink_activate   (GnmHLink *l, WorkbookControl *wbc);

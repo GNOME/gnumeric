@@ -29,7 +29,7 @@
 
 G_BEGIN_DECLS
 
-struct _PluginService {
+struct _GnmPluginService {
 	GObject   g_object;
 
 	char   *id;
@@ -47,33 +47,33 @@ struct _PluginService {
 typedef struct{
 	GObjectClass g_object_class;
 
-	void (*read_xml) (PluginService *service, xmlNode *tree, ErrorInfo **ret_error);
-	void (*activate) (PluginService *service, ErrorInfo **ret_error);
-	void (*deactivate) (PluginService *service, ErrorInfo **ret_error);
-	char *(*get_description) (PluginService *service);
-} PluginServiceClass;
+	void (*read_xml) (GnmPluginService *service, xmlNode *tree, ErrorInfo **ret_error);
+	void (*activate) (GnmPluginService *service, ErrorInfo **ret_error);
+	void (*deactivate) (GnmPluginService *service, ErrorInfo **ret_error);
+	char *(*get_description) (GnmPluginService *service);
+} GnmPluginServiceClass;
 
-#define GPS_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GNM_PLUGIN_SERVICE_TYPE, PluginServiceClass))
+#define GPS_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GNM_PLUGIN_SERVICE_TYPE, GnmPluginServiceClass))
 #define GPS_GET_CLASS(o) GPS_CLASS (G_OBJECT_GET_CLASS (o))
 
 typedef struct{
-	PluginServiceClass plugin_service_class;
+	GnmPluginServiceClass plugin_service_class;
 	GHashTable *pending; /* has service instances by type names */
 } PluginServiceGObjectLoaderClass;
 
 struct _PluginServiceGObjectLoader {
-	PluginService plugin_service;
+	GnmPluginService plugin_service;
 };
 
 #define GPS_GOBJECT_LOADER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GNM_PLUGIN_SERVICE_TYPE, PluginServiceGObjectLoaderClass))
 #define GPS_GOBJECT_LOADER_GET_CLASS(o) GPS_GOBJECT_LOADER_CLASS (G_OBJECT_GET_CLASS (o))
 
 typedef struct{
-	PluginServiceClass plugin_service_class;
+	GnmPluginServiceClass plugin_service_class;
 } PluginServiceSimpleClass;
 
 struct _PluginServiceSimple {
-	PluginService plugin_service;
+	GnmPluginService plugin_service;
 };
 
 G_END_DECLS

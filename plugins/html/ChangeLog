@@ -1,3 +1,7 @@
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
 2003-10-07  Morten Welinder  <terra@gnome.org>
 
 	* html_read.c (html_read_row): Plug leaks.

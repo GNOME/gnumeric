@@ -75,7 +75,7 @@ struct _ItemGrid {
 		GdkGC      *bound;	/* the black line at the edge */
 	} gc;
 
-	Range bound;
+	GnmRange bound;
 
 	struct {
 		double x, y;
@@ -195,7 +195,7 @@ item_grid_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags)
 static void
 item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 			     int start_x, int start_y,
-			     Range const *view, Range const *range,
+			     GnmRange const *view, GnmRange const *range,
 			     gboolean draw_selection)
 {
 	int l, r, t, b, last;
@@ -290,7 +290,7 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *ig,
 }
 
 static gint
-merged_col_cmp (Range const *a, Range const *b)
+merged_col_cmp (GnmRange const *a, GnmRange const *b)
 {
 	return a->start.col - b->start.col;
 }
@@ -331,7 +331,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	StyleBorder const *none =
 		sheet->hide_grid ? NULL : style_border_none ();
 
-	Range     view;
+	GnmRange     view;
 	GSList	 *merged_active, *merged_active_seen,
 		 *merged_used, *merged_unused, *ptr, **lag;
 
@@ -442,7 +442,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		view.start.row = row;
 		lag = &merged_unused;
 		for (ptr = merged_unused; ptr != NULL; ) {
-			Range * const r = ptr->data;
+			GnmRange * const r = ptr->data;
 
 			if (r->start.row <= row) {
 				GSList *tmp = ptr;
@@ -476,7 +476,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 			if (!ci->visible) {
 				if (merged_active != NULL) {
-					Range const *r = merged_active->data;
+					GnmRange const *r = merged_active->data;
 					if (r->end.col == col) {
 						ptr = merged_active;
 						merged_active = merged_active->next;
@@ -496,7 +496,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 			/* Skip any merged regions */
 			if (merged_active != NULL) {
-				Range const *r = merged_active->data;
+				GnmRange const *r = merged_active->data;
 				if (r->start.col <= col) {
 					gboolean clear_top, clear_bottom = FALSE;
 					int i, first = r->start.col;
@@ -628,7 +628,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 		/* In case there were hidden merges that trailed off the end */
 		while (merged_active != NULL) {
-			Range const *r = merged_active->data;
+			GnmRange const *r = merged_active->data;
 			ptr = merged_active;
 			merged_active = merged_active->next;
 			if (r->end.row <= row) {
@@ -867,7 +867,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	SheetControlGUI *scg = ig->scg;
 	SheetControl *sc = (SheetControl *) scg;
 	Sheet *sheet = sc->sheet;
-	CellPos	pos;
+	GnmCellPos	pos;
 	int x, y;
 	gboolean edit_showed_dialog;
 	gboolean already_selected;
@@ -878,7 +878,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	pos.col = gnm_canvas_find_col (gcanvas, x, NULL);
 	pos.row = gnm_canvas_find_row (gcanvas, y, NULL);
 
-	/* Range check first */
+	/* GnmRange check first */
 	if (pos.col >= SHEET_MAX_COLS)
 		return TRUE;
 	if (pos.row >= SHEET_MAX_ROWS)
@@ -1038,7 +1038,7 @@ cb_cursor_come_to_rest (ItemGrid *ig)
 	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	GnmHLink *link;
 	int x, y;
-	CellPos pos;
+	GnmCellPos pos;
 	const char *tiptext;
 
 	/* Be anal and look it up in case something has destroyed the link
@@ -1070,7 +1070,7 @@ cb_cursor_motion (ItemGrid *ig)
 	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	int x, y;
 	GdkCursor *cursor;
-	CellPos pos;
+	GnmCellPos pos;
 	GnmHLink *old_link;
 	GdkDisplay *display;
 
@@ -1160,7 +1160,7 @@ item_grid_event (FooCanvasItem *item, GdkEvent *event)
 				wbcg_get_entry_logical (scg->wbcg), TRUE);
 
 		if (selecting == ITEM_GRID_SELECTING_CELL_RANGE) {
-			CellPos const *pos = sv_is_singleton_selected (sc_view (sc));
+			GnmCellPos const *pos = sv_is_singleton_selected (sc_view (sc));
 			if (pos != NULL) {
 				GnmHLink *link;
 				/* check for hyper links */
@@ -1255,7 +1255,7 @@ item_grid_set_property (GObject *obj, guint param_id,
 			GValue const *value, GParamSpec *pspec)
 {
 	ItemGrid *ig = ITEM_GRID (obj);
-	Range const *r;
+	GnmRange const *r;
 
 	switch (param_id) {
 	case ITEM_GRID_PROP_SHEET_CONTROL_GUI :

@@ -17,9 +17,9 @@
 #include "workbook.h"
 #include "parse-util.h"
 
-/* Debugging utility to print a Value */
+/* Debugging utility to print a GnmValue */
 void
-value_dump (Value const *value)
+value_dump (GnmValue const *value)
 {
 	switch (value->type){
 	case VALUE_EMPTY:
@@ -61,7 +61,7 @@ value_dump (Value const *value)
 		 * Do NOT normalize the ranges.
 		 * Lets see them in their inverted glory if need be.
 		 */
-		CellRef const *c = &value->v_range.cell.a;
+		GnmCellRef const *c = &value->v_range.cell.a;
 		Sheet const *sheet = c->sheet;
 
 		printf ("CellRange\n");
@@ -88,12 +88,12 @@ value_dump (Value const *value)
 }
 
 int
-value_area_get_width (Value const *v, EvalPos const *ep)
+value_area_get_width (GnmValue const *v, EvalPos const *ep)
 {
 	g_return_val_if_fail (v, 0);
 
 	if (v->type == VALUE_CELLRANGE) {
-		RangeRef const *r = &v->v_range.cell;
+		GnmRangeRef const *r = &v->v_range.cell;
 		int ans = r->b.col - r->a.col;
 
 		if (r->a.col_relative) {
@@ -110,12 +110,12 @@ value_area_get_width (Value const *v, EvalPos const *ep)
 }
 
 int
-value_area_get_height (Value const *v, EvalPos const *ep)
+value_area_get_height (GnmValue const *v, EvalPos const *ep)
 {
 	g_return_val_if_fail (v, 0);
 
 	if (v->type == VALUE_CELLRANGE) {
-		RangeRef const *r = &v->v_range.cell;
+		GnmRangeRef const *r = &v->v_range.cell;
 		int ans = r->b.row - r->a.row;
 
 		if (r->a.row_relative) {
@@ -132,10 +132,10 @@ value_area_get_height (Value const *v, EvalPos const *ep)
 	return 1;
 }
 
-Value const *
-value_area_fetch_x_y (Value const *v, int x, int y, EvalPos const *ep)
+GnmValue const *
+value_area_fetch_x_y (GnmValue const *v, int x, int y, EvalPos const *ep)
 {
-	Value const * const res = value_area_get_x_y (v, x, y, ep);
+	GnmValue const * const res = value_area_get_x_y (v, x, y, ep);
 	if (res && res->type != VALUE_EMPTY)
 		return res;
 
@@ -146,8 +146,8 @@ value_area_fetch_x_y (Value const *v, int x, int y, EvalPos const *ep)
  * An internal routine to get a cell from an array or range.  If any
  * problems occur a NULL is returned.
  */
-Value const *
-value_area_get_x_y (Value const *v, int x, int y, EvalPos const *ep)
+GnmValue const *
+value_area_get_x_y (GnmValue const *v, int x, int y, EvalPos const *ep)
 {
 	g_return_val_if_fail (v, NULL);
 
@@ -157,8 +157,8 @@ value_area_get_x_y (Value const *v, int x, int y, EvalPos const *ep)
 				      NULL);
 		return v->v_array.vals [x][y];
 	} else if (v->type == VALUE_CELLRANGE) {
-		CellRef const * const a = &v->v_range.cell.a;
-		CellRef const * const b = &v->v_range.cell.b;
+		GnmCellRef const * const a = &v->v_range.cell.a;
+		GnmCellRef const * const b = &v->v_range.cell.b;
 		int a_col = a->col;
 		int a_row = a->row;
 		int b_col = b->col;
@@ -226,12 +226,12 @@ typedef struct
 	void	      *real_data;
 } WrapperClosure;
 
-static Value *
+static GnmValue *
 cb_wrapper_foreach_cell_in_area (Sheet *sheet, int col, int row,
 				 Cell *cell, void *user_data)
 {
 	WrapperClosure *wrap = (WrapperClosure *)user_data;
-	Value const *v;
+	GnmValue const *v;
 	if (cell != NULL) {
 		cell_eval (cell);
 		v = cell->value;
@@ -250,14 +250,14 @@ cb_wrapper_foreach_cell_in_area (Sheet *sheet, int col, int row,
  *    non-NULL on error, or VALUE_TERMINATE if some invoked routine requested
  *    to stop (by returning non-NULL).
  */
-Value *
-value_area_foreach (Value const *v, EvalPos const *ep,
+GnmValue *
+value_area_foreach (GnmValue const *v, EvalPos const *ep,
 		    CellIterFlags flags,
 		    ValueAreaFunc callback,
 		    void *closure)
 {
 	int x, y;
-	Value *tmp;
+	GnmValue *tmp;
 
 	g_return_val_if_fail (callback != NULL, NULL);
 

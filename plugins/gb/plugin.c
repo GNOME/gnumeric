@@ -68,13 +68,13 @@ plugin_cleanup_general (ErrorInfo **ret_error)
 	gb_shutdown ();
 }
 
-static Value *
+static GnmValue *
 generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 {
 	GSList  *args = NULL;
 	GList   *l;
 	GBValue *gb_ans;
-	Value   *ans;
+	GnmValue   *ans;
 	GBWorkbookData *wd;
 
 	ExcelGBApplication *application;
@@ -107,7 +107,7 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 		 * this can be relaxed.  We do not need to require
 		 * non emptiness, or scalarness.
 		 */
-		Value *v = gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+		GnmValue *v = gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 
 		args = g_slist_prepend (args, value_to_gb (v));
 

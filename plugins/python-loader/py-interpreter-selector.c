@@ -202,7 +202,7 @@ gnm_py_interpreter_selector_new (ErrorInfo **err)
 	sel->py_object = gnm_python_object_get (err);
 	if (sel->py_object == NULL) {
 		gtk_object_sink (GTK_OBJECT (obj));
-		return;
+		return NULL;
 	}
 	g_signal_connect (
 		sel->py_object, "created_interpreter",
@@ -219,7 +219,7 @@ gnm_py_interpreter_selector_new (ErrorInfo **err)
 	);
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (sel), menu);
 	g_slist_free (interpreters);
-											return GTK_WIDGET (sel);
+	return GTK_WIDGET (sel);
 }
 
 GnmPyInterpreter *

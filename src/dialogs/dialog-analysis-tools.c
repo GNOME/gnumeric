@@ -443,7 +443,7 @@ dialog_tool_init (GenericToolState *state,
 void
 tool_load_selection (GenericToolState *state, gboolean allow_multiple)
 {
-	Range const *first = selection_first_range (state->sv, NULL, NULL);
+	GnmRange const *first = selection_first_range (state->sv, NULL, NULL);
 
 	if (first != NULL) {
 		if (allow_multiple) {
@@ -489,9 +489,9 @@ tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	gboolean output_ready  = FALSE;
 
 	int i;
-        Value *output_range;
+        GnmValue *output_range;
         GSList *input_range;
-        Value *input_range_2;
+        GnmValue *input_range_2;
 
         output_range = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->output_entry), state->sheet);
@@ -1022,7 +1022,7 @@ desc_stat_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	gboolean ready  = FALSE;
 	int i, j, an_int;
 	gnm_float a_float;
-        Value *output_range;
+        GnmValue *output_range;
         GSList *input_range;
 
         output_range = gnm_expr_entry_parse_as_value
@@ -1274,9 +1274,9 @@ ttest_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	gboolean alpha_ready = FALSE;
 	int i, err;
 	gnm_float mean_diff, alpha;
-        Value *output_range;
-        Value *input_range;
-        Value *input_range_2;
+        GnmValue *output_range;
+        GnmValue *input_range;
+        GnmValue *input_range_2;
 
 	output_range = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
@@ -1603,9 +1603,9 @@ ftest_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	gboolean alpha_ready = FALSE;
 	int i, err;
 	gnm_float  alpha;
-        Value *output_range;
-        Value *input_range;
-        Value *input_range_2;
+        GnmValue *output_range;
+        GnmValue *input_range;
+        GnmValue *input_range_2;
 
 	output_range = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
@@ -1706,7 +1706,7 @@ sampling_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 {
 	gboolean ready  = FALSE;
 	int i, periodic, size, number, err_size, err_number;
-        Value *output_range;
+        GnmValue *output_range;
         GSList *input_range;
 
         output_range = gnm_expr_entry_parse_as_value
@@ -2022,9 +2022,9 @@ regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	gboolean output_ready  = FALSE;
 	int i, err;
 	gnm_float confidence;
-        Value *output_range;
+        GnmValue *output_range;
         GSList *input_range;
-        Value *input_range_2;
+        GnmValue *input_range_2;
 
         output_range = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
@@ -2168,7 +2168,7 @@ exp_smoothing_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	gboolean ready  = FALSE;
 	int i, err;
 	gnm_float damp_fact;
-        Value *output_range;
+        GnmValue *output_range;
         GSList *input_range;
 
         output_range = gnm_expr_entry_parse_as_value
@@ -2309,7 +2309,7 @@ average_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 {
 	gboolean ready  = FALSE;
 	int i, interval, err;
-        Value *output_range;
+        GnmValue *output_range;
         GSList *input_range;
 
         output_range = gnm_expr_entry_parse_as_value
@@ -2410,9 +2410,9 @@ histogram_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	int i;
 	int the_n;
 	gboolean predetermined_bins;
-        Value *output_range = NULL;
+        GnmValue *output_range = NULL;
         GSList *input_range;
-        Value *input_range_2 = NULL;
+        GnmValue *input_range_2 = NULL;
 
         input_range = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -2704,7 +2704,7 @@ anova_single_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	gboolean ready  = FALSE;
 	int i, err;
 	gnm_float alpha;
-        Value *output_range;
+        GnmValue *output_range;
         GSList *input_range;
 
         output_range = gnm_expr_entry_parse_as_value
@@ -2909,8 +2909,8 @@ anova_two_factor_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	gboolean ready  = FALSE;
 	int i, replication, err_alpha, err_replication;
 	gnm_float alpha;
-        Value *output_range;
-        Value *input_range;
+        GnmValue *output_range;
+        GnmValue *input_range;
 
         output_range = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.output_entry),

@@ -25,7 +25,7 @@ void  gnumeric_error_error_info	(CommandContext *cc, ErrorInfo *error);
 
 /* some gnumeric specific utility routines */
 void  gnumeric_error_splits_array   (CommandContext *cc, char const *cmd,
-				     Range const *array);
+				     GnmRange const *array);
 
 /* An initial set of std errors */
 GQuark gnm_error_system  (void);

@@ -65,14 +65,14 @@ cb_autofilter_destroy (AutoFilterState *state)
 	g_free (state);
 }
 
-static Value *
+static GnmValue *
 map_op (AutoFilterState *state, GnmFilterOp *op,
 	char const *op_widget, char const *val_widget)
 {
 	int i;
 	GtkWidget *w = glade_xml_get_widget (state->gui, val_widget);
 	char const *txt = gtk_entry_get_text (GTK_ENTRY (w));
-	Value *v = NULL;
+	GnmValue *v = NULL;
 
 	*op = GNM_FILTER_UNUSED;
 	if (txt == NULL || *txt == '\0')
@@ -127,11 +127,11 @@ cb_autofilter_ok (G_GNUC_UNUSED GtkWidget *button,
 
 	if (state->is_expr) {
 		GnmFilterOp op0;
-		Value *v0 = map_op (state, &op0, "op0", "value0");
+		GnmValue *v0 = map_op (state, &op0, "op0", "value0");
 
 		if (op0 != GNM_FILTER_UNUSED) {
 			GnmFilterOp op1;
-			Value *v1 = map_op (state, &op1, "op1", "value1");
+			GnmValue *v1 = map_op (state, &op1, "op1", "value1");
 			if (op1 != GNM_FILTER_UNUSED) {
 				w = glade_xml_get_widget (state->gui, "and_button");
 				cond = gnm_filter_condition_new_double (op0, v0,
@@ -182,7 +182,7 @@ cb_top10_type_changed (GtkOptionMenu *menu,
 }
 
 static void
-init_operator (AutoFilterState *state, GnmFilterOp op, Value const *v,
+init_operator (AutoFilterState *state, GnmFilterOp op, GnmValue const *v,
 	       char const *op_widget, char const *val_widget)
 {
 	GtkWidget *w = glade_xml_get_widget (state->gui, op_widget);

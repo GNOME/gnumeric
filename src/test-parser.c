@@ -24,7 +24,7 @@ char *exp [] = {
 int
 main ()
 {
-	Value *v;
+	GnmValue *v;
 	EvalTree *node;
 	ParseError perr;
 	int i;

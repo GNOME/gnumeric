@@ -111,8 +111,8 @@ typedef struct {
 
 
 typedef struct {
-	Value                *lhs_value;
-	Value                *rhs_value;
+	GnmValue                *lhs_value;
+	GnmValue                *rhs_value;
 	SolverConstraintType type;
 } constraint_t;
 
@@ -143,8 +143,8 @@ static gboolean
 is_hom_row_or_col_ref (GnmExprEntry *entry_1, GnmExprEntry *entry_2,
 		       Sheet *sheet)
 {
-        Value    *input_range_1;
-        Value    *input_range_2;
+        GnmValue    *input_range_1;
+        GnmValue    *input_range_2;
 	gboolean res;
 
 	input_range_1 = gnm_expr_entry_parse_as_value (entry_1, sheet);
@@ -221,9 +221,9 @@ constraint_select_click (G_GNUC_UNUSED GtkWidget      *clist,
 			 G_GNUC_UNUSED GdkEventButton *event,
 			 SolverState    *state)
 {
-	const constraint_t *constr =
+	constraint_t const *constr =
 		gtk_clist_get_row_data (state->constraint_list, row);
-	Range range;
+	GnmRange range;
 
         state->selected_row = row;
 	dialog_set_sec_button_sensitivity (NULL, state);
@@ -592,7 +592,7 @@ cb_dialog_close_clicked (G_GNUC_UNUSED GtkWidget *button,
  *  @cell:
  *  @data: pointer to a data_set_t
  */
-static Value *
+static GnmValue *
 grab_cells (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	GList **the_list = user_data;
@@ -609,7 +609,7 @@ grab_cells (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
  *  @data: pointer to a data_set_t
  */
 static gint
-check_int_constraints (Value *input_range, GtkCList *constraint_list)
+check_int_constraints (GnmValue *input_range, GtkCList *constraint_list)
 {
 	gint i;
 
@@ -695,7 +695,7 @@ revert_constraint_format (constraint_conversion_t * conv)
 	while (engine_constraint_list != NULL) {
 		const SolverConstraint *engine_constraint =
 			engine_constraint_list->data;
-		Range r;
+		GnmRange r;
 		constraint_t *a_constraint = g_new (constraint_t, 1);
 
 		r.start.col = engine_constraint->lhs.col;
@@ -869,7 +869,7 @@ static void
 solver_add_scenario (SolverState *state, SolverResults *res, gchar *name)
 {
 	SolverParameters *param = res->param;
-	Value            *input_range;
+	GnmValue            *input_range;
 	const gchar      *comment = _("Optimal solution created by solver.\n");
 	scenario_t       *scenario;
 
@@ -896,10 +896,10 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 {
 	constraint_conversion_t conv = {NULL, NULL, NULL};
 	SolverResults           *res;
-	Value                   *target_range;
-	Value                   *input_range;
+	GnmValue                   *target_range;
+	GnmValue                   *input_range;
         GSList			*input_cells = NULL;
-	Value                   *result;
+	GnmValue                   *result;
 	EvalPos                 pos;
 	gint                    i;
 	gboolean                answer, sensitivity, limits, performance;

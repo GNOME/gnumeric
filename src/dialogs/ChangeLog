@@ -1,3 +1,7 @@
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
 2003-10-05  Jody Goldberg <jody@gnome.org>
 
 	* dialog-define-names.c (cb_name_guru_destroy) : reload the position

@@ -55,7 +55,7 @@
 
 #if USE_EXPR_POOLS
 /* Memory pool for expressions.  */
-static gnm_mem_chunk *expression_pool;
+static GnmMemChunk *expression_pool;
 #define CHUNK_ALLOC(T,p) ((T*)gnm_mem_chunk_alloc (p))
 #define CHUNK_FREE(p,v) gnm_mem_chunk_free ((p), (v))
 #else
@@ -84,7 +84,7 @@ gnm_expr_constant_eq (GnmExprConstant const *a,
  * Absorbs the value.
  **/
 GnmExpr const *
-gnm_expr_new_constant (Value *v)
+gnm_expr_new_constant (GnmValue *v)
 {
 	GnmExprConstant *ans;
 
@@ -237,7 +237,7 @@ gnm_expr_cellref_hash (GnmExprCellRef const *expr)
 #endif
 
 GnmExpr const *
-gnm_expr_new_cellref (CellRef const *cr)
+gnm_expr_new_cellref (GnmCellRef const *cr)
 {
 	GnmExprCellRef *ans;
 
@@ -360,7 +360,7 @@ do_gnm_expr_unref (GnmExpr const *expr)
 		break;
 
 	case GNM_EXPR_OP_CONSTANT:
-		value_release ((Value *)expr->constant.value);
+		value_release ((GnmValue *)expr->constant.value);
 		break;
 
 	case GNM_EXPR_OP_CELLREF:
@@ -485,7 +485,7 @@ gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 
 static Cell *
 expr_array_corner (GnmExpr const *expr,
-			Sheet const *sheet, CellPos const *pos)
+		   Sheet const *sheet, GnmCellPos const *pos)
 {
 	Cell *corner = sheet_cell_get (sheet,
 		pos->col - expr->array.x, pos->row - expr->array.y);
@@ -502,13 +502,13 @@ expr_array_corner (GnmExpr const *expr,
 }
 
 static gboolean
-gnm_expr_extract_ref (CellRef *res, GnmExpr const *expr,
+gnm_expr_extract_ref (GnmCellRef *res, GnmExpr const *expr,
 		      EvalPos const *pos, GnmExprEvalFlags flags)
 {
 	switch (expr->any.oper) {
 	case GNM_EXPR_OP_FUNCALL : {
 		gboolean failed = TRUE;
-		Value *v;
+		GnmValue *v;
 		FunctionEvalInfo ei;
 		ei.pos = pos;
 		ei.func_call = (GnmExprFunction const *)expr;
@@ -530,7 +530,7 @@ gnm_expr_extract_ref (CellRef *res, GnmExpr const *expr,
 		return FALSE;
 
 	case GNM_EXPR_OP_CONSTANT: {
-		Value const *v = expr->constant.value;
+		GnmValue const *v = expr->constant.value;
 		if (v->type == VALUE_CELLRANGE &&
 		    cellref_equal (&v->v_range.cell.a, &v->v_range.cell.b)) {
 			*res = v->v_range.cell.a;
@@ -549,8 +549,8 @@ gnm_expr_extract_ref (CellRef *res, GnmExpr const *expr,
 	return TRUE;
 }
 
-static inline Value *
-handle_empty (Value *res, GnmExprEvalFlags flags)
+static inline GnmValue *
+handle_empty (GnmValue *res, GnmExprEvalFlags flags)
 {
 	if (res == NULL)
 		return (flags & GNM_EXPR_EVAL_PERMIT_EMPTY)
@@ -583,11 +583,11 @@ handle_empty (Value *res, GnmExprEvalFlags flags)
  *     NULL if there is no intersection
  * Returns the upper left corner of an array.
  **/
-static Value *
-value_intersection (Value *v, EvalPos const *pos)
+static GnmValue *
+value_intersection (GnmValue *v, EvalPos const *pos)
 {
-	Value *res = NULL;
-	Range r;
+	GnmValue *res = NULL;
+	GnmRange r;
 	Sheet *start_sheet, *end_sheet;
 	gboolean found = FALSE;
 
@@ -641,7 +641,7 @@ value_intersection (Value *v, EvalPos const *pos)
 	return value_new_error_VALUE (pos);
 }
 #if 0
-static Value *
+static GnmValue *
 cb_range_eval (Sheet *sheet, int col, int row, Cell *cell, void *ignore)
 {
 	cell_eval (cell);
@@ -649,7 +649,7 @@ cb_range_eval (Sheet *sheet, int col, int row, Cell *cell, void *ignore)
 }
 #endif
 
-static Value *
+static GnmValue *
 bin_cmp (GnmExprOp op, ValueCompare comp, EvalPos const *pos)
 {
 	if (comp == TYPE_MISMATCH) {
@@ -683,8 +683,8 @@ bin_cmp (GnmExprOp op, ValueCompare comp, EvalPos const *pos)
 
 #ifdef NOT_READY_YET
 /* args will be 'EE' */
-static Value *
-func_bin_cmp (FunctionEvalInfo *ei, Value *argv [])
+static GnmValue *
+func_bin_cmp (FunctionEvalInfo *ei, GnmValue *argv [])
 {
 	if (argv[0]->type == VALUE_ERROR)
 		return argv[0];
@@ -704,11 +704,11 @@ func_bin_cmp (FunctionEvalInfo *ei, Value *argv [])
  * if GNM_EXPR_EVAL_PERMIT_EMPTY is not set then return int(0) if the
  * expression returns empty, or the  value of an unused cell.
  */
-Value *
+GnmValue *
 gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 	       GnmExprEvalFlags flags)
 {
-	Value *res = NULL, *a = NULL, *b = NULL;
+	GnmValue *res = NULL, *a = NULL, *b = NULL;
 	ValueCompare comp;
 
 	g_return_val_if_fail (expr != NULL, handle_empty (NULL, flags));
@@ -767,7 +767,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 
 		/* 2) #!VALUE error if A is not a number */
 		if (a->type == VALUE_STRING) {
-			Value *tmp = format_match_number (a->v_str.val->str, NULL,
+			GnmValue *tmp = format_match_number (a->v_str.val->str, NULL,
 				workbook_date_conv (pos->sheet->workbook));
 
 			value_release (a);
@@ -788,7 +788,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 
 		/* 4) #!VALUE error if B is not a number */
 		if (b->type == VALUE_STRING) {
-			Value *tmp = format_match_number (b->v_str.val->str, NULL,
+			GnmValue *tmp = format_match_number (b->v_str.val->str, NULL,
 				workbook_date_conv (pos->sheet->workbook));
 
 			value_release (b);
@@ -983,9 +983,9 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 		return value_new_error_REF (pos);
 
 	case GNM_EXPR_OP_CELLREF: {
-		CellRef const * const ref = &expr->cellref.ref;
+		GnmCellRef const * const ref = &expr->cellref.ref;
 		Cell *cell;
-		CellPos dest;
+		GnmCellPos dest;
 
 		cellref_get_abs_pos (ref, &pos->eval, &dest);
 
@@ -1032,7 +1032,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 				flags | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 
 			/* Store real result (cast away const)*/
-			*((Value **)&(expr->array.corner.value)) = a;
+			*((GnmValue **)&(expr->array.corner.value)) = a;
 		} else {
 			Cell *corner = expr_array_corner (expr,
 				pos->sheet, &pos->eval);
@@ -1061,7 +1061,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 			if (x >= num_x || y >= num_y)
 				return value_new_error_NA (pos);
 
-			a = (Value *)value_area_get_x_y (a, x, y, &tmp_ep);
+			a = (GnmValue *)value_area_get_x_y (a, x, y, &tmp_ep);
 		}
 
 		return handle_empty ((a != NULL) ? value_duplicate (a) : NULL, flags);
@@ -1070,7 +1070,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 		return value_new_error_VALUE (pos);
 
 	case GNM_EXPR_OP_RANGE_CTOR: {
-		CellRef a, b;
+		GnmCellRef a, b;
 		if (gnm_expr_extract_ref (&a, expr->binary.value_a, pos, flags) ||
 		    gnm_expr_extract_ref (&b, expr->binary.value_b, pos, flags))
 			return value_new_error_REF (pos);
@@ -1087,7 +1087,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 	}
 
 	case GNM_EXPR_OP_INTERSECT: {
-		CellRef a, b;
+		GnmCellRef a, b;
 		if (gnm_expr_extract_ref (&a, expr->binary.value_a, pos, flags) ||
 		    gnm_expr_extract_ref (&b, expr->binary.value_b, pos, flags))
 			return value_new_error_REF (pos);
@@ -1215,7 +1215,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 	}
 
 	case GNM_EXPR_OP_CONSTANT: {
-		Value const *v = expr->constant.value;
+		GnmValue const *v = expr->constant.value;
 		size_t prelen = target->len;
 
 		if (v->type == VALUE_STRING) {
@@ -1313,7 +1313,7 @@ typedef enum {
  * range changes when it should not.
  */
 static CellRefRelocate
-cellref_relocate (CellRef *ref, GnmExprRelocateInfo const *rinfo)
+cellref_relocate (GnmCellRef *ref, GnmExprRelocateInfo const *rinfo)
 {
 	/* For row or column refs
 	 * Ref	From	To
@@ -1420,7 +1420,7 @@ cellref_relocate (CellRef *ref, GnmExprRelocateInfo const *rinfo)
  * into the target range then we want to adjust the range.
  */
 static gboolean
-cellref_shift (CellRef const *ref, GnmExprRelocateInfo const *rinfo)
+cellref_shift (GnmCellRef const *ref, GnmExprRelocateInfo const *rinfo)
 {
 	if (rinfo->col_offset == 0) {
 		int col = ref->col;
@@ -1439,7 +1439,7 @@ cellref_shift (CellRef const *ref, GnmExprRelocateInfo const *rinfo)
 }
 
 static GnmExpr const *
-cellrange_relocate (Value const *v, GnmExprRelocateInfo const *rinfo)
+cellrange_relocate (GnmValue const *v, GnmExprRelocateInfo const *rinfo)
 {
 	/*
 	 * If either end is an error then the whole range is an error.
@@ -1450,8 +1450,8 @@ cellrange_relocate (Value const *v, GnmExprRelocateInfo const *rinfo)
 	 *	in only 1 dimension, and the
 	 * otherwise remain static
 	 */
-	CellRef ref_a = v->v_range.cell.a;
-	CellRef ref_b = v->v_range.cell.b;
+	GnmCellRef ref_a = v->v_range.cell.a;
+	GnmCellRef ref_b = v->v_range.cell.b;
 	int needs = 0;
 
 	/* FIXME : should not be necessary.  We need to audit the code to
@@ -1476,7 +1476,7 @@ cellrange_relocate (Value const *v, GnmExprRelocateInfo const *rinfo)
 	}
 
 	if (needs != 0) {
-		Value *res;
+		GnmValue *res;
 		Sheet const *sheet_a = ref_a.sheet;
 		Sheet const *sheet_b = ref_b.sheet;
 
@@ -1679,7 +1679,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 			return NULL;
 
 		default : {
-			CellRef res = expr->cellref.ref; /* Copy */
+			GnmCellRef res = expr->cellref.ref; /* Copy */
 
 			switch (cellref_relocate (&res, &rwinfo->u.relocate)) {
 			case CELLREF_NO_RELOCATE :
@@ -1695,19 +1695,19 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		return NULL;
 
 	case GNM_EXPR_OP_CONSTANT: {
-		Value const *v = expr->constant.value;
+		GnmValue const *v = expr->constant.value;
 
 		if (v->type == VALUE_CELLRANGE) {
-			CellRef const *ref_a = &v->v_range.cell.a;
-			CellRef const *ref_b = &v->v_range.cell.b;
+			GnmCellRef const *ref_a = &v->v_range.cell.a;
+			GnmCellRef const *ref_b = &v->v_range.cell.b;
 
 			if (rwinfo->type == GNM_EXPR_REWRITE_SHEET) {
-				Value *v = NULL;
+				GnmValue *v = NULL;
 
 				if (ref_a->sheet == rwinfo->u.sheet) {
 					if (ref_b->sheet != NULL &&
 					    ref_b->sheet != rwinfo->u.sheet) {
-						CellRef new_a = *ref_a;
+						GnmCellRef new_a = *ref_a;
 						new_a.sheet = workbook_sheet_by_index (ref_a->sheet->workbook,
 							(ref_a->sheet->index_in_wb < ref_b->sheet->index_in_wb)
 							? ref_a->sheet->index_in_wb + 1
@@ -1715,7 +1715,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 						v = value_new_cellrange_unsafe (&new_a, ref_b);
 					}
 				} else if (ref_b->sheet == rwinfo->u.sheet) {
-					CellRef new_b = *ref_b;
+					GnmCellRef new_b = *ref_b;
 					new_b.sheet = workbook_sheet_by_index (ref_b->sheet->workbook,
 						(ref_b->sheet->index_in_wb > ref_a->sheet->index_in_wb)
 						? ref_b->sheet->index_in_wb - 1
@@ -1808,7 +1808,7 @@ gnm_expr_first_func (GnmExpr const *expr)
 }
 
 static void
-cellref_boundingbox (CellRef const *cr, Range *bound)
+cellref_boundingbox (GnmCellRef const *cr, GnmRange *bound)
 {
 	if (cr->col_relative) {
 		if (cr->col >= 0) {
@@ -1878,7 +1878,7 @@ do_referenced_sheets (GnmExpr const *expr, GSList *sheets)
 		return g_slist_insert_unique (sheets, expr->cellref.ref.sheet);
 
 	case GNM_EXPR_OP_CONSTANT: {
-		Value const *v = expr->constant.value;
+		GnmValue const *v = expr->constant.value;
 		if (v->type != VALUE_CELLRANGE)
 			return sheets;
 		return g_slist_insert_unique (
@@ -1963,7 +1963,7 @@ gnm_expr_containts_subtotal (GnmExpr const *expr)
  * out of bounds.
  */
 void
-gnm_expr_get_boundingbox (GnmExpr const *expr, Range *bound)
+gnm_expr_get_boundingbox (GnmExpr const *expr, GnmRange *bound)
 {
 	g_return_if_fail (expr != NULL);
 
@@ -2002,7 +2002,7 @@ gnm_expr_get_boundingbox (GnmExpr const *expr, Range *bound)
 		break;
 
 	case GNM_EXPR_OP_CONSTANT: {
-		Value const *v = expr->constant.value;
+		GnmValue const *v = expr->constant.value;
 
 		if (v->type == VALUE_CELLRANGE) {
 			cellref_boundingbox (&v->v_range.cell.a, bound);
@@ -2027,7 +2027,7 @@ gnm_expr_get_boundingbox (GnmExpr const *expr, Range *bound)
  * If this expression contains a single range return it.
  * Caller is responsible for value_releasing the result.
  */
-Value *
+GnmValue *
 gnm_expr_get_range (GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
@@ -2058,7 +2058,7 @@ gnm_expr_get_range (GnmExpr const *expr)
  *
  * If this expression consists of just a constant, return it.
  */
-Value const *
+GnmValue const *
 gnm_expr_get_constant (GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, NULL);

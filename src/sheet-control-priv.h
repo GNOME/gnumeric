@@ -19,10 +19,10 @@ typedef struct {
 	void (*resize)			(SheetControl *sc, gboolean force_scroll);
 	void (*set_zoom_factor)		(SheetControl *sc);
 	void (*redraw_all)		(SheetControl *sc, gboolean headers);
-	void (*redraw_range)		(SheetControl *sc, Range const *r);
+	void (*redraw_range)		(SheetControl *sc, GnmRange const *r);
 	void (*redraw_headers)		(SheetControl *sc,
 					 gboolean const col, gboolean const row,
-					 Range const * r);
+					 GnmRange const * r);
 	void (*ant)			(SheetControl *sc);
 	void (*unant)			(SheetControl *sc);
 	void (*adjust_preferences)	(SheetControl *sc);
@@ -33,7 +33,7 @@ typedef struct {
 					 gboolean full_recompute);
 	void (*make_cell_visible)	(SheetControl  *sc, int col, int row,
 					 gboolean couple_panes);
-	void (*cursor_bound)		(SheetControl *sc, Range const *r);
+	void (*cursor_bound)		(SheetControl *sc, GnmRange const *r);
 	void (*set_panes)		(SheetControl *sc);
 	float (*colrow_distance_get)	(SheetControl const *sc, gboolean is_col,
 					 int start, int end);

@@ -246,7 +246,7 @@ cb_colrow_compute_pixels_from_pts (ColRowInfo *cri, void *data)
 
 /****************************************************************************/
 
-static Value *
+static GnmValue *
 cb_clear_rendered_values (Sheet *sheet, int col, int row, Cell *cell,
 			  gpointer ignored)
 {
@@ -268,7 +268,7 @@ cb_clear_rendered_values (Sheet *sheet, int col, int row, Cell *cell,
  * the cached version of the rendered text in the cell.
  **/
 void
-sheet_range_calc_spans (Sheet *sheet, Range const *r, SpanCalcFlags flags)
+sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, SpanCalcFlags flags)
 {
 	sheet->modified = TRUE;
 	if (flags & SPANCALC_RE_RENDER)
@@ -290,7 +290,7 @@ sheet_cell_calc_span (Cell *cell, SpanCalcFlags flags)
 	gboolean render = (flags & SPANCALC_RE_RENDER);
 	gboolean const resize = (flags & SPANCALC_RESIZE);
 	gboolean existing = FALSE;
-	Range const *merged;
+	GnmRange const *merged;
 
 	g_return_if_fail (cell != NULL);
 
@@ -386,7 +386,7 @@ sheet_cell_calc_span (Cell *cell, SpanCalcFlags flags)
  */
 void
 sheet_apply_style (Sheet       *sheet,
-		   Range const *range,
+		   GnmRange const *range,
 		   MStyle      *style)
 {
 	SpanCalcFlags const spanflags = required_updates_for_style (style);
@@ -534,7 +534,7 @@ sheet_row_add (Sheet *sheet, ColRowInfo *rp)
 }
 
 static void
-sheet_reposition_objects (Sheet const *sheet, CellPos const *pos)
+sheet_reposition_objects (Sheet const *sheet, GnmCellPos const *pos)
 {
 	GList *ptr;
 
@@ -575,7 +575,7 @@ sheet_flag_status_update_cell (Cell const *cell)
  * updated if appropriate.
  */
 void
-sheet_flag_status_update_range (Sheet const *sheet, Range const *range)
+sheet_flag_status_update_range (Sheet const *sheet, GnmRange const *range)
 {
 	SHEET_FOREACH_VIEW (sheet, sv,
 		sv_flag_status_update_range (sv, range););
@@ -589,7 +589,7 @@ sheet_flag_status_update_range (Sheet const *sheet, Range const *range)
  * Flag format changes that will require updating the format indicators.
  */
 void
-sheet_flag_format_update_range (Sheet const *sheet, Range const *range)
+sheet_flag_format_update_range (Sheet const *sheet, GnmRange const *range)
 {
 	SHEET_FOREACH_VIEW (sheet, sv,
 		sv_flag_format_update_range (sv, range););
@@ -770,7 +770,7 @@ Cell *
 sheet_cell_get (Sheet const *sheet, int col, int row)
 {
 	Cell *cell;
-	CellPos pos;
+	GnmCellPos pos;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
@@ -812,7 +812,7 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
  * to find out if a group can be ungrouped.
  **/
 gboolean
-sheet_colrow_can_group (Sheet *sheet, Range const *r, gboolean is_cols)
+sheet_colrow_can_group (Sheet *sheet, GnmRange const *r, gboolean is_cols)
 {
 	ColRowInfo const *start_cri, *end_cri;
 	int start, end;
@@ -839,7 +839,7 @@ sheet_colrow_can_group (Sheet *sheet, Range const *r, gboolean is_cols)
 }
 
 gboolean
-sheet_colrow_group_ungroup (Sheet *sheet, Range const *r,
+sheet_colrow_group_ungroup (Sheet *sheet, GnmRange const *r,
 			     gboolean is_cols, gboolean group)
 {
 	int i, new_size, start, end;
@@ -905,7 +905,7 @@ sheet_colrow_gutter (Sheet *sheet, gboolean is_cols, int max_outline)
 }
 
 struct sheet_extent_data {
-	Range range;
+	GnmRange range;
 	gboolean spans_and_merges_extend;
 };
 
@@ -933,7 +933,7 @@ cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
 
 	/* Cannot span AND merge */
 	if (cell_is_merged (cell)) {
-		Range const *merged =
+		GnmRange const *merged =
 			sheet_merge_is_corner (cell->base.sheet, &cell->pos);
 		res->range = range_union (&res->range, merged);
 	} else {
@@ -962,10 +962,10 @@ cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
  *
  * Return value: the range.
  **/
-Range
+GnmRange
 sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 {
-	static Range const dummy = { { 0,0 }, { 0,0 } };
+	static GnmRange const dummy = { { 0,0 }, { 0,0 } };
 	struct sheet_extent_data closure;
 	GList *l;
 
@@ -1009,7 +1009,7 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
  * Callback for sheet_foreach_cell_in_range to find the maximum width
  * in a range.
  */
-static Value *
+static GnmValue *
 cb_max_cell_width (Sheet *sheet, int col, int row, Cell *cell,
 		   int *max)
 {
@@ -1064,7 +1064,7 @@ sheet_col_size_fit_pixels (Sheet *sheet, int col)
  * Callback for sheet_foreach_cell_in_range to find the maximum height
  * in a range.
  */
-static Value *
+static GnmValue *
 cb_max_cell_height (Sheet *sheet, int col, int row, Cell *cell,
 		   int *max)
 {
@@ -1187,12 +1187,12 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
  * to a range.
  */
 typedef struct {
-	Value         *val;
+	GnmValue         *val;
 	GnmExpr const *expr;
-	Range	       expr_bound;
+	GnmRange	       expr_bound;
 } closure_set_cell_value;
 
-static Value *
+static GnmValue *
 cb_set_cell_content (Sheet *sheet, int col, int row, Cell *cell,
 		     closure_set_cell_value *info)
 {
@@ -1223,9 +1223,9 @@ cb_set_cell_content (Sheet *sheet, int col, int row, Cell *cell,
 	return NULL;
 }
 
-static Value *
+static GnmValue *
 cb_clear_non_corner (Sheet *sheet, int col, int row, Cell *cell,
-		     Range const *merged)
+		     GnmRange const *merged)
 {
 	if (merged->start.col != col || merged->start.row != row)
 		cell_set_value (cell, value_new_empty ());
@@ -1244,7 +1244,7 @@ cb_clear_non_corner (Sheet *sheet, int col, int row, Cell *cell,
  * Does NOT generate spans.
  */
 void
-sheet_range_set_text (ParsePos const *pos, Range const *r, char const *str)
+sheet_range_set_text (ParsePos const *pos, GnmRange const *r, char const *str)
 {
 	closure_set_cell_value	closure;
 	GSList *merged, *ptr;
@@ -1269,7 +1269,7 @@ sheet_range_set_text (ParsePos const *pos, Range const *r, char const *str)
 
 	merged = sheet_merge_get_overlap (pos->sheet, r);
 	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
-		Range const *tmp = ptr->data;
+		GnmRange const *tmp = ptr->data;
 		sheet_foreach_cell_in_range (pos->sheet, CELL_ITER_ALL,
 			tmp->start.col, tmp->start.row, tmp->end.col, tmp->end.row,
 			(CellIterFunc)&cb_clear_non_corner, (gpointer)tmp);
@@ -1295,7 +1295,7 @@ sheet_range_set_text (ParsePos const *pos, Range const *r, char const *str)
  * Retrieve the value of a cell. The returned value must
  * NOT be freed or tampered with.
  **/
-Value const *
+GnmValue const *
 sheet_cell_get_value (Sheet *sheet, int const col, int const row)
 {
 	Cell *cell;
@@ -1319,7 +1319,7 @@ void
 sheet_cell_set_text (Cell *cell, char const *text)
 {
 	GnmExpr const *expr;
-	Value	      *val;
+	GnmValue	      *val;
 	ParsePos       pp;
 
 	g_return_if_fail (cell != NULL);
@@ -1382,7 +1382,7 @@ sheet_cell_set_expr (Cell *cell, GnmExpr const *expr)
  * NOTE : This DOES check for array partitioning.
  */
 void
-sheet_cell_set_value (Cell *cell, Value *v)
+sheet_cell_set_value (Cell *cell, GnmValue *v)
 {
 	/* TODO : if the value is unchanged do not assign it */
 	cell_set_value (cell, v);
@@ -1404,11 +1404,11 @@ sheet_cell_set_value (Cell *cell, Value *v)
  * It intelligently handles spans and merged ranges
  */
 void
-sheet_range_bounding_box (Sheet const *sheet, Range *bound)
+sheet_range_bounding_box (Sheet const *sheet, GnmRange *bound)
 {
 	GSList *ptr;
 	int	row;
-	Range	r = *bound;
+	GnmRange	r = *bound;
 
 	g_return_if_fail (range_is_sane	(bound));
 
@@ -1451,7 +1451,7 @@ sheet_range_bounding_box (Sheet const *sheet, Range *bound)
 	/* TODO : this may get expensive if there are alot of merged ranges */
 	/* no need to iterate, one pass is enough */
 	for (ptr = sheet->list_merged ; ptr != NULL ; ptr = ptr->next) {
-		Range const * const test = ptr->data;
+		GnmRange const * const test = ptr->data;
 		if (r.start.row <= test->end.row || r.end.row >= test->start.row) {
 			if (bound->start.col > test->start.col)
 				bound->start.col = test->start.col;
@@ -1470,7 +1470,7 @@ sheet_redraw_region (Sheet const *sheet,
 		     int start_col, int start_row,
 		     int end_col,   int end_row)
 {
-	Range bound;
+	GnmRange bound;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -1481,7 +1481,7 @@ sheet_redraw_region (Sheet const *sheet,
 }
 
 void
-sheet_redraw_range (Sheet const *sheet, Range const *range)
+sheet_redraw_range (Sheet const *sheet, GnmRange const *range)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (range != NULL);
@@ -1495,7 +1495,7 @@ static void
 sheet_redraw_partial_row (Sheet const *sheet, int const row,
 			  int const start_col, int const end_col)
 {
-	Range r;
+	GnmRange r;
 	range_init (&r, start_col, row, end_col, row);
 	SHEET_FOREACH_CONTROL (sheet, view, control,
 		sc_redraw_range (control, &r););
@@ -1506,7 +1506,7 @@ sheet_redraw_cell (Cell const *cell)
 {
 	CellSpanInfo const * span;
 	int start_col, end_col;
-	Range const *merged;
+	GnmRange const *merged;
 
 	g_return_if_fail (cell != NULL);
 
@@ -1574,8 +1574,8 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 	gboolean keep_looking = FALSE;
 	int new_col, prev_col, lagged_start_col;
 	int iterations = 0;
-	Range check_merge;
-	Range const * const bound = &sheet->priv->unhidden_region;
+	GnmRange check_merge;
+	GnmRange const * const bound = &sheet->priv->unhidden_region;
 
 	/* Jumping to bounds requires steping cell by cell */
 	g_return_val_if_fail (count == 1 || count == -1 || !jump_to_boundaries, start_col);
@@ -1595,7 +1595,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 		lagged_start_col = check_merge.start.col = check_merge.end.col = start_col;
 		merged = sheet_merge_get_overlap (sheet, &check_merge);
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
-			Range const * const r = ptr->data;
+			GnmRange const * const r = ptr->data;
 			if (count > 0) {
 				if (start_col < r->end.col)
 					start_col = r->end.col;
@@ -1672,8 +1672,8 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 	gboolean keep_looking = FALSE;
 	int new_row, prev_row, lagged_start_row;
 	int iterations = 0;
-	Range check_merge;
-	Range const * const bound = &sheet->priv->unhidden_region;
+	GnmRange check_merge;
+	GnmRange const * const bound = &sheet->priv->unhidden_region;
 
 	/* Jumping to bounds requires steping cell by cell */
 	g_return_val_if_fail (count == 1 || count == -1 || !jump_to_boundaries, start_row);
@@ -1693,7 +1693,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 		lagged_start_row = check_merge.start.row = check_merge.end.row = start_row;
 		merged = sheet_merge_get_overlap (sheet, &check_merge);
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
-			Range const * const r = ptr->data;
+			GnmRange const * const r = ptr->data;
 			if (count > 0) {
 				if (start_row < r->end.row)
 					start_row = r->end.row;
@@ -1758,9 +1758,9 @@ typedef struct _ArrayCheckData {
 	Sheet const *sheet;
 	int flags;
 	int start, end;
-	Range const *ignore;
+	GnmRange const *ignore;
 
-	Range error;
+	GnmRange error;
 } ArrayCheckData;
 
 static gboolean
@@ -1857,7 +1857,7 @@ cb_check_array_vertical (ColRowInfo *row, void *user)
  */
 gboolean
 sheet_range_splits_array (Sheet const *sheet,
-			  Range const *r, Range const *ignore,
+			  GnmRange const *r, GnmRange const *ignore,
 			  CommandContext *cc, char const *cmd)
 {
 	ArrayCheckData closure;
@@ -1927,7 +1927,7 @@ sheet_range_splits_array (Sheet const *sheet,
  */
 gboolean
 sheet_range_splits_region (Sheet const *sheet,
-			   Range const *r, Range const *ignore,
+			   GnmRange const *r, GnmRange const *ignore,
 			   CommandContext *cc, char const *cmd_name)
 {
 	GSList *merged;
@@ -1943,7 +1943,7 @@ sheet_range_splits_region (Sheet const *sheet,
 		GSList *ptr;
 
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
-			Range const *m = ptr->data;
+			GnmRange const *m = ptr->data;
 			if (ignore != NULL && range_contained (m, ignore))
 				continue;
 			if (!range_contained (m, r))
@@ -1978,14 +1978,14 @@ sheet_ranges_split_region (Sheet const * sheet, GSList const *ranges,
 
 	/* Check for array subdivision */
 	for (l = ranges; l != NULL; l = l->next) {
-		Range const *r = l->data;
+		GnmRange const *r = l->data;
 		if (sheet_range_splits_region (sheet, r, NULL, cc, cmd))
 			return TRUE;
 	}
 	return FALSE;
 }
 
-static Value *
+static GnmValue *
 cb_cell_is_array (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	return cell_is_array (cell) ? VALUE_TERMINATE : NULL;
@@ -2004,7 +2004,7 @@ cb_cell_is_array (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
  * arrays.  Report an error to the @cc if it is supplied.
  */
 gboolean
-sheet_range_contains_region (Sheet const *sheet, Range const *r,
+sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
 			     CommandContext *cc, char const *cmd)
 {
 	GSList *merged;
@@ -2190,14 +2190,14 @@ sheet_colrow_get_info (Sheet const *sheet, int colrow, gboolean is_cols)
  * If your code depends on any particular ordering, please add a very visible
  * comment near the call.
  */
-Value *
+GnmValue *
 sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 			     int start_col, int start_row,
 			     int end_col,   int end_row,
 			     CellIterFunc callback, void *closure)
 {
 	int i, j;
-	Value *cont;
+	GnmValue *cont;
 	gboolean const visiblity_matters = (flags & CELL_ITER_IGNORE_HIDDEN);
 	gboolean const only_existing = (flags & CELL_ITER_IGNORE_BLANK);
 	gboolean const subtotal_magic = (flags & CELL_ITER_IGNORE_SUBTOTAL);
@@ -2277,7 +2277,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 }
 
 
-static Value *
+static GnmValue *
 cb_sheet_cells_collect (Sheet *sheet, int col, int row,
 			Cell *cell, void *user_data)
 {
@@ -2313,7 +2313,7 @@ sheet_cells (Sheet *sheet,
 	     gboolean comments)
 {
 	GPtrArray *cells = g_ptr_array_new ();
-	Range r;
+	GnmRange r;
 	GSList *scomments, *ptr;
 
 	g_return_val_if_fail (IS_SHEET (sheet), cells);
@@ -2329,7 +2329,7 @@ sheet_cells (Sheet *sheet,
 	scomments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
 	for (ptr = scomments; ptr; ptr = ptr->next) {
 		CellComment *c = ptr->data;
-		Range const *loc = sheet_object_range_get (SHEET_OBJECT (c));
+		GnmRange const *loc = sheet_object_range_get (SHEET_OBJECT (c));
 		Cell *cell = sheet_cell_get (sheet, loc->start.col, loc->start.row);
 		if (!cell) {
 			/* If cells does not exist, we haven't seen it...  */
@@ -2346,7 +2346,7 @@ sheet_cells (Sheet *sheet,
 }
 
 
-static Value *
+static GnmValue *
 fail_if_exist (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	return cell_is_empty (cell) ? NULL : VALUE_TERMINATE;
@@ -2364,7 +2364,7 @@ fail_if_exist (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
  * contain any cells
  */
 gboolean
-sheet_is_region_empty (Sheet *sheet, Range const *r)
+sheet_is_region_empty (Sheet *sheet, GnmRange const *r)
 {
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
@@ -2494,7 +2494,7 @@ sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
 		sheet->workbook->recursive_dirty_enabled);
 }
 
-static Value *
+static GnmValue *
 cb_free_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	sheet_cell_destroy (sheet, cell, FALSE);
@@ -2747,7 +2747,7 @@ sheet_destroy (Sheet *sheet)
  * WARNING : This does NOT regenerate spans that were interupted by
  * this cell and can now continue.
  */
-static Value *
+static GnmValue *
 cb_empty_cell (Sheet *sheet, int col, int row, Cell *cell, gpointer flag)
 {
 #if 0
@@ -2778,7 +2778,7 @@ sheet_clear_region (Sheet *sheet,
 		    int clear_flags,
 		    CommandContext *cc)
 {
-	Range r;
+	GnmRange r;
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (start_col <= end_col);
@@ -2922,7 +2922,7 @@ sheet_is_pristine (Sheet const *sheet)
  * Callback for sheet_foreach_cell_in_range to remove a cell from the sheet
  * hash, unlink from the dependent collection and put it in a temporary list.
  */
-static Value *
+static GnmValue *
 cb_collect_cell (Sheet *sheet, int col, int row, Cell *cell,
 		 void *user_data)
 {
@@ -3101,7 +3101,7 @@ sheet_insert_cols (Sheet *sheet,
 		   GnmRelocUndo *reloc_storage, CommandContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
-	Range region;
+	GnmRange region;
 	int   i;
 
 	g_return_val_if_fail (reloc_storage != NULL, TRUE);
@@ -3219,7 +3219,7 @@ sheet_insert_rows (Sheet *sheet,
 		   GnmRelocUndo *reloc_storage, CommandContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
-	Range region;
+	GnmRange region;
 	int   i;
 
 	g_return_val_if_fail (reloc_storage != NULL, TRUE);
@@ -3342,7 +3342,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 {
 	GList *cells = NULL;
 	Cell  *cell;
-	Range  dst;
+	GnmRange  dst;
 	gboolean out_of_range;
 
 	g_return_if_fail (rinfo != NULL);
@@ -3386,7 +3386,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 			reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
 
 			while (invalid) {
-				Range *r = invalid->data;
+				GnmRange *r = invalid->data;
 				invalid = g_slist_remove (invalid, r);
 				if (!range_overlap (r, &rinfo->origin)) {
 					reloc_info.origin = *r;
@@ -3860,9 +3860,9 @@ sheet_clone_colrow_info (Sheet const *src, Sheet *dst)
 static void
 sheet_clone_styles (Sheet const *src, Sheet *dst)
 {
-	Range r;
+	GnmRange r;
 	StyleList *styles;
-	CellPos	corner = { 0, 0 };
+	GnmCellPos	corner = { 0, 0 };
 
 	styles = sheet_style_get_list (src, range_init_full_sheet (&r));
 	sheet_style_set_list (dst, &corner, FALSE, styles);

@@ -55,7 +55,7 @@ struct closure_colrow_resize {
 };
 
 static gboolean
-cb_colrow_collect (SheetView *sv, Range const *r, gpointer user_data)
+cb_colrow_collect (SheetView *sv, GnmRange const *r, gpointer user_data)
 {
 	struct closure_colrow_resize *info = user_data;
 	int first, last;

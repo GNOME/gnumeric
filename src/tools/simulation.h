@@ -36,10 +36,10 @@ typedef struct {
 
 	int max_time;
 
-	Value    *inputs;
-	Value    *outputs;
-	RangeRef *ref_inputs;
-	RangeRef *ref_outputs;
+	GnmValue    *inputs;
+	GnmValue    *outputs;
+	GnmRangeRef *ref_inputs;
+	GnmRangeRef *ref_outputs;
 	GSList   *list_inputs;
 	GSList   *list_outputs;
 	gchar    **cellnames;

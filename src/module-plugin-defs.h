@@ -73,10 +73,10 @@ prefix ## _get_type (void) \
 /* All fields in this structure are PRIVATE. */
 typedef struct {
 	guint32 magic_number;
-	gchar gnumeric_plugin_version[64];
+	gchar   version[64];
 } ModulePluginFileStruct;
+
 #define GNUMERIC_MODULE_PLUGIN_MAGIC_NUMBER             0x476e756d
 #define GNUMERIC_MODULE_PLUGIN_FILE_STRUCT_INITIALIZER  {GNUMERIC_MODULE_PLUGIN_MAGIC_NUMBER, GNUMERIC_VERSION}
-
 
 #endif /* GNUMERIC_MODULE_PLUGIN_DEFS_H */

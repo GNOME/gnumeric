@@ -252,7 +252,7 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 	if (sv != NULL) {
 		char buffer [10 + 2 * 4 * sizeof (int)];
 		char const *sel_descr = buffer;
-		Range const *r, *m;
+		GnmRange const *r, *m;
 
 		g_return_if_fail (IS_SHEET_VIEW (sv));
 		g_return_if_fail (sv->selections);
@@ -367,10 +367,10 @@ wb_view_auto_expr_value_display (WorkbookView *wbv)
 }
 
 static void
-accumulate_regions (SheetView *sv,  Range const *r, gpointer closure)
+accumulate_regions (SheetView *sv,  GnmRange const *r, gpointer closure)
 {
 	GnmExprList	**selection = closure;
-	CellRef a, b;
+	GnmCellRef a, b;
 
 	a.sheet = b.sheet = sv_sheet (sv);
 	a.col_relative = a.row_relative = b.col_relative = b.row_relative = FALSE;
@@ -389,7 +389,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 	FunctionEvalInfo ei;
 	EvalPos		 ep;
 	GnmExprList	*selection = NULL;
-	Value		*v;
+	GnmValue	*v;
 	SheetView	*sv;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));

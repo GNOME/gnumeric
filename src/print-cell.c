@@ -504,7 +504,7 @@ print_cell_background (GnomePrintContext *context,
 static void
 print_merged_range (GnomePrintContext *context, Sheet const *sheet,
 		    double start_x, double start_y,
-		    Range const *view, Range const *range)
+		    GnmRange const *view, GnmRange const *range)
 {
 	float l, r, t, b;
 	Cell  const *cell    = sheet_cell_get (sheet, range->start.col, range->start.row);
@@ -537,14 +537,14 @@ print_merged_range (GnomePrintContext *context, Sheet const *sheet,
 }
 
 static gint
-merged_col_cmp (Range const *a, Range const *b)
+merged_col_cmp (GnmRange const *a, GnmRange const *b)
 {
 	return a->start.col - b->start.col;
 }
 
 void
 print_cell_range (GnomePrintContext *context,
-		  Sheet const *sheet, Range *range,
+		  Sheet const *sheet, GnmRange *range,
 		  double base_x, double base_y,
 		  gboolean hide_grid)
 {
@@ -559,7 +559,7 @@ print_cell_range (GnomePrintContext *context,
 	StyleBorder const *none =
 		hide_grid ? NULL : style_border_none ();
 
-	Range     view;
+	GnmRange     view;
 	GSList	 *merged_active, *merged_active_seen,
 		 *merged_used, *merged_unused, *ptr, **lag;
 
@@ -651,7 +651,7 @@ print_cell_range (GnomePrintContext *context,
 		view.start.row = row;
 		lag = &merged_unused;
 		for (ptr = merged_unused; ptr != NULL; ) {
-			Range * const r = ptr->data;
+			GnmRange * const r = ptr->data;
 
 			if (r->start.row <= row) {
 				GSList *tmp = ptr;
@@ -685,7 +685,7 @@ print_cell_range (GnomePrintContext *context,
 
 			if (!ci->visible) {
 				if (merged_active != NULL) {
-					Range const *r = merged_active->data;
+					GnmRange const *r = merged_active->data;
 					if (r->end.col == col) {
 						ptr = merged_active;
 						merged_active = merged_active->next;
@@ -705,7 +705,7 @@ print_cell_range (GnomePrintContext *context,
 
 			/* Skip any merged regions */
 			if (merged_active) {
-				Range const *r = merged_active->data;
+				GnmRange const *r = merged_active->data;
 				if (r->start.col <= col) {
 					gboolean clear_top, clear_bottom = TRUE;
 					int i, first = r->start.col;
@@ -819,7 +819,7 @@ print_cell_range (GnomePrintContext *context,
 
 		/* In case there were hidden merges that trailed off the end */
 		while (merged_active != NULL) {
-			Range const *r = merged_active->data;
+			GnmRange const *r = merged_active->data;
 			ptr = merged_active;
 			merged_active = merged_active->next;
 			if (r->end.row <= row) {

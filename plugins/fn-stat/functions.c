@@ -77,8 +77,8 @@ setup_stat_closure (stat_closure_t *cl)
 	cl->sum = 0.0;
 }
 
-static Value *
-callback_function_stat (EvalPos const *ep, Value *value, void *closure)
+static GnmValue *
+callback_function_stat (EvalPos const *ep, GnmValue *value, void *closure)
 {
 	stat_closure_t *mm = closure;
 	gnm_float x, dx, dm;
@@ -110,12 +110,12 @@ callback_function_stat (EvalPos const *ep, Value *value, void *closure)
  * FIXME : this is also a kludge, but at least it is more localized
  * than before.  We should not have to do this
  */
-static Value *
-stat_helper (stat_closure_t *cl, EvalPos const *ep, Value *val)
+static GnmValue *
+stat_helper (stat_closure_t *cl, EvalPos const *ep, GnmValue *val)
 {
 	GnmExprConstant expr;
 	GnmExprList *expr_node_list;
-	Value *err;
+	GnmValue *err;
 
 	setup_stat_closure (cl);
 
@@ -154,7 +154,7 @@ static char const *help_varp = {
 	   "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR")
 };
 
-static Value *
+static GnmValue *
 gnumeric_varp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
@@ -188,7 +188,7 @@ static char const *help_var = {
 	   "@SEEALSO=VARP,STDEV")
 };
 
-static Value *
+static GnmValue *
 gnumeric_var (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
@@ -218,7 +218,7 @@ static char const *help_stdev = {
 	   "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR")
 };
 
-static Value *
+static GnmValue *
 gnumeric_stdev (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
@@ -248,7 +248,7 @@ static char const *help_stdevp = {
 	   "@SEEALSO=STDEV,STDEVA,STDEVPA")
 };
 
-static Value *
+static GnmValue *
 gnumeric_stdevp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
@@ -287,7 +287,7 @@ typedef struct {
         int     rank;
 } stat_rank_t;
 
-static Value *
+static GnmValue *
 callback_function_rank (Sheet *sheet, int col, int row,
 			Cell *cell, void *user_data)
 {
@@ -324,11 +324,11 @@ callback_function_rank (Sheet *sheet, int col, int row,
 	return NULL;
 }
 
-static Value *
-gnumeric_rank (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_rank (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	stat_rank_t p;
-	Value      *ret;
+	GnmValue      *ret;
 
 	p.x = value_get_as_float (argv[0]);
 	if (argv[2])
@@ -403,7 +403,7 @@ range_trimmean (const gnm_float *xs, int n, gnm_float *res)
 	return 0;
 }
 
-static Value *
+static GnmValue *
 gnumeric_trimmean (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
@@ -435,8 +435,8 @@ static char const *help_covar = {
 	   "@SEEALSO=CORREL,FISHER,FISHERINV")
 };
 
-static Value *
-gnumeric_covar (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_covar (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return float_range_function2 (argv[0], argv[1],
 				      ei,
@@ -467,8 +467,8 @@ static char const *help_correl = {
 	   "@SEEALSO=COVAR,FISHER,FISHERINV")
 };
 
-static Value *
-gnumeric_correl (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_correl (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return float_range_function2 (argv[0], argv[1],
 				      ei,
@@ -500,8 +500,8 @@ static char const *help_negbinomdist = {
 	   "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT")
 };
 
-static Value *
-gnumeric_negbinomdist (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_negbinomdist (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int x, r;
 	gnm_float p;
@@ -535,8 +535,8 @@ static char const *help_normsdist = {
            "@SEEALSO=NORMDIST")
 };
 
-static Value *
-gnumeric_normsdist (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_normsdist (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float x;
 
@@ -565,8 +565,8 @@ static char const *help_normsinv = {
 };
 
 
-static Value *
-gnumeric_normsinv (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_normsinv (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float p;
 
@@ -599,8 +599,8 @@ static char const *help_lognormdist = {
            "@SEEALSO=NORMDIST")
 };
 
-static Value *
-gnumeric_lognormdist (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_lognormdist (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float x, mean, stddev;
 
@@ -639,8 +639,8 @@ static char const *help_loginv = {
            "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST")
 };
 
-static Value *
-gnumeric_loginv (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_loginv (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float p, mean, stddev;
 
@@ -673,8 +673,8 @@ static char const *help_fisherinv = {
            "@SEEALSO=FISHER")
 };
 
-static Value *
-gnumeric_fisherinv (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_fisherinv (FunctionEvalInfo *ei, GnmValue **argv)
 {
        gnm_float y = value_get_as_float (argv[0]);
 
@@ -705,7 +705,7 @@ static char const *help_mode = {
            "@SEEALSO=AVERAGE,MEDIAN")
 };
 
-static Value *
+static GnmValue *
 gnumeric_mode (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -737,7 +737,7 @@ static char const *help_harmean = {
 	   "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN")
 };
 
-static Value *
+static GnmValue *
 gnumeric_harmean (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -768,7 +768,7 @@ static char const *help_geomean = {
 	   "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN")
 };
 
-static Value *
+static GnmValue *
 gnumeric_geomean (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -799,10 +799,10 @@ static char const *help_count = {
 	   "@SEEALSO=AVERAGE")
 };
 
-static Value *
-callback_function_count (EvalPos const *ep, Value *value, void *closure)
+static GnmValue *
+callback_function_count (EvalPos const *ep, GnmValue *value, void *closure)
 {
-	Value *result = (Value *) closure;
+	GnmValue *result = (GnmValue *) closure;
 
 	if (value && 
 	    (value->type == VALUE_INTEGER || value->type == VALUE_FLOAT))
@@ -810,10 +810,10 @@ callback_function_count (EvalPos const *ep, Value *value, void *closure)
 	return NULL;
 }
 
-static Value *
+static GnmValue *
 gnumeric_count (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
-	Value *result = value_new_int (0);
+	GnmValue *result = value_new_int (0);
 
 	/* no need to check for error, this is not strict */
 	function_iterate_argument_values (ei->pos,
@@ -843,19 +843,19 @@ static char const *help_counta = {
            "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM")
 };
 
-static Value *
-callback_function_counta (EvalPos const *ep, Value *value, void *closure)
+static GnmValue *
+callback_function_counta (EvalPos const *ep, GnmValue *value, void *closure)
 {
-        Value *result = (Value *) closure;
+        GnmValue *result = (GnmValue *) closure;
 
 	result->v_int.val++;
 	return NULL;
 }
 
-static Value *
+static GnmValue *
 gnumeric_counta (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
-        Value *result = value_new_int (0);
+        GnmValue *result = value_new_int (0);
 
 	/* no need to check for error, this is not strict */
         function_iterate_argument_values (ei->pos,
@@ -885,7 +885,7 @@ static char const *help_average = {
 	   "@SEEALSO=SUM, COUNT")
 };
 
-static Value *
+static GnmValue *
 gnumeric_average (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -927,7 +927,7 @@ range_min0 (const gnm_float *xs, int n, gnm_float *res)
 		return range_min (xs, n, res);
 }
 
-static Value *
+static GnmValue *
 gnumeric_min (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -969,7 +969,7 @@ range_max0 (const gnm_float *xs, int n, gnm_float *res)
 		return range_max (xs, n, res);
 }
 
-static Value *
+static GnmValue *
 gnumeric_max (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -1007,7 +1007,7 @@ static char const *help_skew = {
 	   "@SEEALSO=AVERAGE,VAR,SKEWP,KURT")
 };
 
-static Value *
+static GnmValue *
 gnumeric_skew (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -1040,7 +1040,7 @@ static char const *help_skewp = {
 	   "@SEEALSO=AVERAGE,VARP,SKEW,KURTP")
 };
 
-static Value *
+static GnmValue *
 gnumeric_skewp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -1073,8 +1073,8 @@ static char const *help_expondist = {
 	   "@SEEALSO=POISSON")
 };
 
-static Value *
-gnumeric_expondist (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_expondist (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x, y;
 	int cuml;
@@ -1126,8 +1126,8 @@ random_bernoulli_pdf (int k, gnm_float p)
 	        return 0;
 }
 
-static Value *
-gnumeric_bernoulli (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_bernoulli (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float k = value_get_as_int (argv[0]);
 	gnm_float p = value_get_as_float (argv[1]);
@@ -1158,8 +1158,8 @@ static char const *help_gammaln = {
 	   "@SEEALSO=POISSON")
 };
 
-static Value *
-gnumeric_gammaln (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_gammaln (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x;
 
@@ -1196,8 +1196,8 @@ static char const *help_gammadist = {
 	   "@SEEALSO=GAMMAINV")
 };
 
-static Value *
-gnumeric_gammadist (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_gammadist (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x, alpha, beta;
 	int     cum;
@@ -1236,8 +1236,8 @@ static char const *help_gammainv = {
            "@SEEALSO=GAMMADIST")
 };
 
-static Value *
-gnumeric_gammainv (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_gammainv (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float p, alpha, beta;
 
@@ -1272,8 +1272,8 @@ static char const *help_chidist = {
 	   "@SEEALSO=CHIINV,CHITEST")
 };
 
-static Value *
-gnumeric_chidist (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_chidist (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x;
 	int     dof;
@@ -1306,8 +1306,8 @@ static char const *help_chiinv = {
            "@SEEALSO=CHIDIST,CHITEST")
 };
 
-static Value *
-gnumeric_chiinv (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_chiinv (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float p;
 	int dof;
@@ -1350,8 +1350,8 @@ typedef struct {
         int rows;
 } stat_chitest_t;
 
-static Value *
-callback_function_chitest_actual (EvalPos const *ep, Value *value,
+static GnmValue *
+callback_function_chitest_actual (EvalPos const *ep, GnmValue *value,
 				  void *closure)
 {
 	stat_chitest_t *mm = closure;
@@ -1383,8 +1383,8 @@ typedef struct {
         gnm_float sum;
 } stat_chitest_t_t;
 
-static Value *
-callback_function_chitest_theoretical (EvalPos const *ep, Value *value,
+static GnmValue *
+callback_function_chitest_theoretical (EvalPos const *ep, GnmValue *value,
 				       void *closure)
 {
 	stat_chitest_t_t *mm = closure;
@@ -1412,13 +1412,13 @@ callback_function_chitest_theoretical (EvalPos const *ep, Value *value,
 	return NULL;
 }
 
-static Value *
-gnumeric_chitest (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_chitest (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	stat_chitest_t   p1;
 	stat_chitest_t_t p2;
 	GSList           *tmp;
-	Value           *ret;
+	GnmValue           *ret;
 
 	p1.row = p1.col = 0;
 	p1.columns = p1.column = NULL;
@@ -1483,8 +1483,8 @@ static char const *help_betadist = {
 	   "@SEEALSO=BETAINV")
 };
 
-static Value *
-gnumeric_betadist (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_betadist (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x, alpha, beta, a, b;
 
@@ -1524,8 +1524,8 @@ static char const *help_betainv = {
 	   "@SEEALSO=BETADIST")
 };
 
-static Value *
-gnumeric_betainv (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_betainv (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float p, alpha, beta, a, b;
 
@@ -1562,8 +1562,8 @@ static char const *help_tdist = {
 	   "@SEEALSO=TINV,TTEST")
 };
 
-static Value *
-gnumeric_tdist (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_tdist (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x;
 	int     dof, tails;
@@ -1597,8 +1597,8 @@ static char const *help_tinv = {
            "@SEEALSO=TDIST,TTEST")
 };
 
-static Value *
-gnumeric_tinv (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_tinv (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float p;
 	int dof;
@@ -1633,8 +1633,8 @@ static char const *help_fdist = {
 	   "@SEEALSO=FINV")
 };
 
-static Value *
-gnumeric_fdist (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_fdist (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x;
 	int     dof1, dof2;
@@ -1782,8 +1782,8 @@ random_landau_pdf (gnm_float x)
 	return DENLAN;
 }
 
-static Value *
-gnumeric_landau (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_landau (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 
@@ -1811,8 +1811,8 @@ static char const *help_finv = {
            "@SEEALSO=FDIST")
 };
 
-static Value *
-gnumeric_finv (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_finv (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float p;
 	int dof1, dof2;
@@ -1852,8 +1852,8 @@ static char const *help_binomdist = {
 	   "@SEEALSO=POISSON")
 };
 
-static Value *
-gnumeric_binomdist (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_binomdist (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int n, trials, cuml;
 	gboolean err;
@@ -1892,8 +1892,8 @@ static char const *help_cauchy = {
            "@SEEALSO=RANDCAUCHY")
 };
 
-static Value *
-gnumeric_cauchy (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_cauchy (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float a = value_get_as_float (argv[1]);
@@ -1937,8 +1937,8 @@ static char const *help_critbinom = {
            "@SEEALSO=BINOMDIST")
 };
 
-static Value *
-gnumeric_critbinom (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_critbinom (FunctionEvalInfo *ei, GnmValue **argv)
 {
         int trials;
         gnm_float p, alpha;
@@ -1974,8 +1974,8 @@ static char const *help_permut = {
 	   "@SEEALSO=COMBIN")
 };
 
-static Value *
-gnumeric_permut (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_permut (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int n, k;
 
@@ -2011,8 +2011,8 @@ static char const *help_hypgeomdist = {
 	   "@SEEALSO=BINOMDIST,POISSON")
 };
 
-static Value *
-gnumeric_hypgeomdist (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_hypgeomdist (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int x, n, M, N;
 
@@ -2049,8 +2049,8 @@ static char const *help_confidence = {
 	   "@SEEALSO=AVERAGE")
 };
 
-static Value *
-gnumeric_confidence (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_confidence (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x, stddev;
 	int size;
@@ -2089,8 +2089,8 @@ static char const *help_standardize = {
 	   "@SEEALSO=AVERAGE")
 };
 
-static Value *
-gnumeric_standardize (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_standardize (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x, mean, stddev;
 
@@ -2128,8 +2128,8 @@ static char const *help_weibull = {
            "@SEEALSO=POISSON")
 };
 
-static Value *
-gnumeric_weibull (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_weibull (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float x, alpha, beta;
         int cuml;
@@ -2173,8 +2173,8 @@ static char const *help_normdist = {
 };
 
 
-static Value *
-gnumeric_normdist (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_normdist (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float x, mean, stddev;
         int cuml;
@@ -2219,8 +2219,8 @@ static char const *help_norminv = {
            "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST")
 };
 
-static Value *
-gnumeric_norminv (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_norminv (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float p, mean, stddev;
 
@@ -2262,7 +2262,7 @@ static char const *help_kurt = {
            "@SEEALSO=AVERAGE,VAR,SKEW,KURTP")
 };
 
-static Value *
+static GnmValue *
 gnumeric_kurt (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -2295,7 +2295,7 @@ static char const *help_kurtp = {
            "@SEEALSO=AVERAGE,VARP,SKEWP,KURT")
 };
 
-static Value *
+static GnmValue *
 gnumeric_kurtp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -2326,7 +2326,7 @@ static char const *help_avedev = {
            "@SEEALSO=STDEV")
 };
 
-static Value *
+static GnmValue *
 gnumeric_avedev (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -2359,7 +2359,7 @@ static char const *help_devsq = {
            "@SEEALSO=STDEV")
 };
 
-static Value *
+static GnmValue *
 gnumeric_devsq (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -2390,8 +2390,8 @@ static char const *help_fisher = {
            "@SEEALSO=SKEW")
 };
 
-static Value *
-gnumeric_fisher (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_fisher (FunctionEvalInfo *ei, GnmValue **argv)
 {
         gnm_float x;
 
@@ -2429,8 +2429,8 @@ static char const *help_poisson = {
 	   "@SEEALSO=NORMDIST, WEIBULL")
 };
 
-static Value *
-gnumeric_poisson (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_poisson (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float mean;
 	int x, cuml;
@@ -2467,8 +2467,8 @@ static char const *help_pearson = {
 	   "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX")
 };
 
-static Value *
-gnumeric_pearson (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_pearson (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return gnumeric_correl (ei, argv);
 }
@@ -2493,8 +2493,8 @@ static char const *help_rsq = {
 	   "STEYX,TREND")
 };
 
-static Value *
-gnumeric_rsq (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_rsq (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return float_range_function2 (argv[0], argv[1],
 				      ei,
@@ -2526,7 +2526,7 @@ static char const *help_median = {
            "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SSMEDIAN,SUM")
 };
 
-static Value *
+static GnmValue *
 gnumeric_median (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -2589,11 +2589,11 @@ gnumeric_ssmedian_calc (gnm_float *sorted_data, int len, gnm_float mid_val,
 	return L_lower + (len / 2e0 - f_below) * interval / f_within;
 }
 
-static Value *
-gnumeric_ssmedian (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_ssmedian (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float *data;
-	Value *result = NULL;
+	GnmValue *result = NULL;
 	int n;
 
 	data = collect_floats_value (argv[0], ei->pos,
@@ -2676,7 +2676,7 @@ range_large (gnm_float *xs, int n, gnm_float *res)
 	return range_min_k_nonconst (xs, n, res, n - k);
 }
 
-static Value *
+static GnmValue *
 gnumeric_large (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -2723,7 +2723,7 @@ range_small (gnm_float *xs, int n, gnm_float *res)
 	return range_min_k_nonconst (xs, n, res, k - 1);
 }
 
-static Value *
+static GnmValue *
 gnumeric_small (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -2740,7 +2740,7 @@ typedef struct {
         int    num;
 } stat_list_t;
 
-static Value *
+static GnmValue *
 callback_function_list (Sheet *sheet, int col, int row,
 			Cell *cell, void *user_data)
 {
@@ -2783,11 +2783,11 @@ static char const *help_prob = {
 	   "@SEEALSO=BINOMDIST,CRITBINOM")
 };
 
-static Value *
-gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_prob (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	Value *res;
-	Value *error = NULL;
+	GnmValue *res;
+	GnmValue *error = NULL;
 	int i, prob_n, x_n;
 	gnm_float *prob_vals = NULL, *x_vals = NULL;
 	gnm_float lower_limit, upper_limit;
@@ -2873,16 +2873,16 @@ static char const *help_steyx = {
 	   "@SEEALSO=PEARSON,RSQ,SLOPE")
 };
 
-static Value *
-gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_steyx (FunctionEvalInfo *ei, GnmValue **argv)
 {
-        Value       *known_y = argv[0];
-        Value       *known_x = argv[1];
+        GnmValue       *known_y = argv[0];
+        GnmValue       *known_x = argv[1];
 	stat_list_t items_x, items_y;
 	gnm_float  sum_x, sum_y, sum_xy, sqrsum_x, sqrsum_y;
 	gnm_float  num, den, k, n;
 	GSList      *list1, *list2;
-	Value       *ret;
+	GnmValue       *ret;
 
 	items_x.num  = 0;
 	items_x.list = NULL;
@@ -3036,8 +3036,8 @@ typedef struct {
         gnm_float sqrsum;
 } stat_ztest_t;
 
-static Value *
-callback_function_ztest (EvalPos const *ep, Value *value, void *closure)
+static GnmValue *
+callback_function_ztest (EvalPos const *ep, GnmValue *value, void *closure)
 {
 	stat_ztest_t *mm = closure;
 	gnm_float last;
@@ -3055,11 +3055,11 @@ callback_function_ztest (EvalPos const *ep, Value *value, void *closure)
 	return NULL;
 }
 
-static Value *
+static GnmValue *
 gnumeric_ztest (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	stat_ztest_t p;
-	Value       *status;
+	GnmValue       *status;
 	gnm_float   stddev;
 
 	p.num    = 0;
@@ -3110,7 +3110,7 @@ static char const *help_averagea = {
 	   "@SEEALSO=AVERAGE")
 };
 
-static Value *
+static GnmValue *
 gnumeric_averagea (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -3146,7 +3146,7 @@ static char const *help_maxa = {
 	   "@SEEALSO=MAX,MINA")
 };
 
-static Value *
+static GnmValue *
 gnumeric_maxa (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -3182,7 +3182,7 @@ static char const *help_mina = {
 	   "@SEEALSO=MIN,MAXA")
 };
 
-static Value *
+static GnmValue *
 gnumeric_mina (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -3218,7 +3218,7 @@ static char const *help_vara = {
 	   "@SEEALSO=VAR,VARPA")
 };
 
-static Value *
+static GnmValue *
 gnumeric_vara (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -3254,7 +3254,7 @@ static char const *help_varpa = {
 	   "@SEEALSO=VARA,VARP")
 };
 
-static Value *
+static GnmValue *
 gnumeric_varpa (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -3290,7 +3290,7 @@ static char const *help_stdeva = {
 	   "@SEEALSO=STDEV,STDEVPA")
 };
 
-static Value *
+static GnmValue *
 gnumeric_stdeva (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -3326,7 +3326,7 @@ static char const *help_stdevpa = {
 	   "@SEEALSO=STDEVA,STDEVP")
 };
 
-static Value *
+static GnmValue *
 gnumeric_stdevpa (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -3375,8 +3375,8 @@ typedef struct {
         int     equal;
 } stat_percentrank_t;
 
-static Value *
-callback_function_percentrank (EvalPos const *ep, Value *value,
+static GnmValue *
+callback_function_percentrank (EvalPos const *ep, GnmValue *value,
 			       void *user_data)
 {
         stat_percentrank_t *p = user_data;
@@ -3401,13 +3401,13 @@ callback_function_percentrank (EvalPos const *ep, Value *value,
 	return NULL;
 }
 
-static Value *
-gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_percentrank (FunctionEvalInfo *ei, GnmValue **argv)
 {
         stat_percentrank_t p;
         gnm_float         x, k, pr;
         int                significance;
-	Value		   *ret;
+	GnmValue		   *ret;
 
 	x = value_get_as_float (argv[1]);
 
@@ -3471,11 +3471,11 @@ static char const *help_percentile = {
 	   "@SEEALSO=QUARTILE")
 };
 
-static Value *
-gnumeric_percentile (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_percentile (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float *data;
-	Value *result = NULL;
+	GnmValue *result = NULL;
 	int n;
 
 	data = collect_floats_value (argv[0], ei->pos,
@@ -3527,11 +3527,11 @@ static char const *help_quartile = {
 	   "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL")
 };
 
-static Value *
-gnumeric_quartile (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_quartile (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float *data;
-	Value *result = NULL;
+	GnmValue *result = NULL;
 	int n;
 
 	data = collect_floats_value (argv[0], ei->pos,
@@ -3574,13 +3574,13 @@ static char const *help_ftest = {
 	   "@SEEALSO=FDIST,FINV")
 };
 
-static Value *
-gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
+static GnmValue *
+gnumeric_ftest (FunctionEvalInfo *ei, GnmValue *argv[])
 {
 	stat_closure_t cl;
 	gnm_float     var1, var2, p;
 	int            dof1, dof2;
-	Value         *err;
+	GnmValue         *err;
 
 	if (NULL != (err = stat_helper (&cl, ei->pos, argv [0])))
 		return err;
@@ -3646,8 +3646,8 @@ typedef struct {
         gboolean first;
 } stat_ttest_t;
 
-static Value *
-callback_function_ttest (EvalPos const *ep, Value *value, void *closure)
+static GnmValue *
+callback_function_ttest (EvalPos const *ep, GnmValue *value, void *closure)
 {
 	stat_ttest_t *mm = closure;
 	gnm_float   x;
@@ -3672,8 +3672,8 @@ callback_function_ttest (EvalPos const *ep, Value *value, void *closure)
 	return NULL;
 }
 
-static Value *
-gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
+static GnmValue *
+gnumeric_ttest (FunctionEvalInfo *ei, GnmValue *argv[])
 {
 	stat_closure_t cl;
 	stat_ttest_t   t_cl;
@@ -3682,7 +3682,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 	gnm_float     mean1, mean2, x;
 	gnm_float     s, var1, var2, dof;
 	int            n1, n2;
-	Value         *err;
+	GnmValue         *err;
 
 	tails = value_get_as_int (argv[2]);
 	type = value_get_as_int (argv[3]);
@@ -3794,12 +3794,12 @@ static char const *help_frequency = {
 };
 
 
-static Value *
-gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
+static GnmValue *
+gnumeric_frequency (FunctionEvalInfo *ei, GnmValue *argv[])
 {
 	CollectFlags flags = COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS |
 		COLLECT_IGNORE_BLANKS;
-	Value *error = NULL, *res;
+	GnmValue *error = NULL, *res;
 	int *counts;
 	int i, nvalues, nbins;
 	gnm_float *values = NULL, *bins = NULL;
@@ -3837,7 +3837,7 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 	}
 
 	res = value_new_array_non_init (1, nbins + 1);
-	res->v_array.vals[0] = g_new (Value *, nbins + 1);
+	res->v_array.vals[0] = g_new (GnmValue *, nbins + 1);
 	for (i = 0; i < nbins + 1; i++)
 		res->v_array.vals[0][i] = value_new_float (counts[i]);
 	g_free (counts);
@@ -3899,11 +3899,11 @@ static char const *help_linest = {
  * be contiguous so far as I can tell.
  */
 
-static Value *
-gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
+static GnmValue *
+gnumeric_linest (FunctionEvalInfo *ei, GnmValue *argv[])
 {
-	gnm_float        **xss = NULL, *ys = NULL;
-	Value             *result = NULL;
+	gnm_float       **xss = NULL, *ys = NULL;
+	GnmValue         *result = NULL;
 	int               nx, ny, dim, i;
 	int               xarg = 0;
 	gnm_float        *linres = NULL;
@@ -3961,7 +3961,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 	}
 	else if (ytype == SINGLE_COL){
 		int firstcol, lastcol;
-		Value *copy;
+		GnmValue *copy;
 		xarg = 1;
 		firstcol = argv[1]->v_range.cell.a.col;
 		lastcol  = argv[1]->v_range.cell.b.col;
@@ -3998,7 +3998,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 	}
 	else if (ytype == SINGLE_ROW){
 		int firstrow, lastrow;
-		Value *copy;
+		GnmValue *copy;
 		xarg = 1;
 		firstrow = argv[1]->v_range.cell.a.row;
 		lastrow  = argv[1]->v_range.cell.b.row;
@@ -4175,11 +4175,11 @@ static char const *help_logreg = {
  * one x-range.
  */
 
-static Value *
-gnumeric_logreg (FunctionEvalInfo *ei, Value *argv[])
+static GnmValue *
+gnumeric_logreg (FunctionEvalInfo *ei, GnmValue *argv[])
 {
 	gnm_float        **xss = NULL, *ys = NULL;
-	Value             *result = NULL;
+	GnmValue             *result = NULL;
 	int               nx, ny, dim, i;
 	int               xarg = 0;
 	gnm_float        *logreg_res = NULL;
@@ -4237,7 +4237,7 @@ gnumeric_logreg (FunctionEvalInfo *ei, Value *argv[])
 	}
 	else if (ytype == SINGLE_COL){
 		int firstcol, lastcol;
-		Value *copy;
+		GnmValue *copy;
 		xarg = 1;
 		firstcol = argv[1]->v_range.cell.a.col;
 		lastcol  = argv[1]->v_range.cell.b.col;
@@ -4274,7 +4274,7 @@ gnumeric_logreg (FunctionEvalInfo *ei, Value *argv[])
 	}
 	else if (ytype == SINGLE_ROW){
 	int firstrow, lastrow;
-		Value *copy;
+		GnmValue *copy;
 		xarg = 1;
 		firstrow = argv[1]->v_range.cell.a.row;
 		lastrow  = argv[1]->v_range.cell.b.row;
@@ -4442,11 +4442,11 @@ static char const *help_logfit = {
  * but then the success depends on the choosing of suitable starting values.
  * Also, determination of `sign' would be complicated.
  */
-static Value *
-gnumeric_logfit (FunctionEvalInfo *ei, Value *argv[])
+static GnmValue *
+gnumeric_logfit (FunctionEvalInfo *ei, GnmValue *argv[])
 {
         gnm_float         *xs = NULL, *ys = NULL;
-	Value              *result = NULL;
+	GnmValue              *result = NULL;
 	int                nx, ny, i;
 	gnm_float         *logfit_res = NULL;
 
@@ -4526,11 +4526,11 @@ static char const *help_trend = {
 	   "@SEEALSO=LINEST")
 };
 
-static Value *
-gnumeric_trend (FunctionEvalInfo *ei, Value *argv[])
+static GnmValue *
+gnumeric_trend (FunctionEvalInfo *ei, GnmValue *argv[])
 {
 	gnm_float  *xs = NULL, *ys = NULL, *nxs = NULL;
-	Value    *result = NULL;
+	GnmValue    *result = NULL;
 	int      nx, ny, nnx, i, dim;
 	gboolean affine, err;
 	gnm_float  linres[2];
@@ -4645,11 +4645,11 @@ static char const *help_logest = {
 	   "@SEEALSO=GROWTH,TREND")
 };
 
-static Value *
-gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
+static GnmValue *
+gnumeric_logest (FunctionEvalInfo *ei, GnmValue *argv[])
 {
 	gnm_float        **xss = NULL, *ys = NULL;
-	Value             *result = NULL;
+	GnmValue             *result = NULL;
 	int               affine, nx, ny, dim, i;
 	int               xarg = 0;
 	gnm_float        *expres = NULL;
@@ -4707,7 +4707,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 	}
 	else if (ytype == SINGLE_COL){
 		int firstcol, lastcol;
-		Value *copy;
+		GnmValue *copy;
 		xarg = 1;
 		firstcol = argv[1]->v_range.cell.a.col;
 		lastcol  = argv[1]->v_range.cell.b.col;
@@ -4743,7 +4743,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 	}
 	else if (ytype == SINGLE_ROW){
 		int firstrow, lastrow;
-		Value *copy;
+		GnmValue *copy;
 		xarg = 1;
 		firstrow = argv[1]->v_range.cell.a.row;
 		lastrow  = argv[1]->v_range.cell.b.row;
@@ -4889,11 +4889,11 @@ static char const *help_growth = {
 	   "@SEEALSO=LOGEST,GROWTH,TREND")
 };
 
-static Value *
-gnumeric_growth (FunctionEvalInfo *ei, Value *argv[])
+static GnmValue *
+gnumeric_growth (FunctionEvalInfo *ei, GnmValue *argv[])
 {
 	gnm_float  *xs = NULL, *ys = NULL, *nxs = NULL;
-	Value    *result = NULL;
+	GnmValue    *result = NULL;
 	gboolean affine, err;
 	int      nx, ny, nnx, i, dim;
 	gnm_float  expres[2];
@@ -5001,11 +5001,11 @@ static char const *help_forecast = {
 };
 
 
-static Value *
-gnumeric_forecast (FunctionEvalInfo *ei, Value *argv[])
+static GnmValue *
+gnumeric_forecast (FunctionEvalInfo *ei, GnmValue *argv[])
 {
 	gnm_float x, *xs = NULL, *ys = NULL;
-	Value *result = NULL;
+	GnmValue *result = NULL;
 	int nx, ny, dim;
 	gnm_float linres[2];
 
@@ -5084,8 +5084,8 @@ range_intercept (const gnm_float *xs, const gnm_float *ys, int n, gnm_float *res
 	return 0;
 }
 
-static Value *
-gnumeric_intercept (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_intercept (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return float_range_function2 (argv[1], argv[0],
 				      ei,
@@ -5128,8 +5128,8 @@ range_slope (const gnm_float *xs, const gnm_float *ys, int n, gnm_float *res)
 	return 0;
 }
 
-static Value *
-gnumeric_slope (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_slope (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return float_range_function2 (argv[1], argv[0],
 				      ei,
@@ -5175,11 +5175,11 @@ static char const *help_subtotal = {
 	   "@SEEALSO=COUNT,SUM")
 };
 
-static Value *
+static GnmValue *
 gnumeric_subtotal (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
         GnmExpr const *expr;
-	Value *val;
+	GnmValue *val;
 	int   fun_nbr;
 	float_range_function_t func;
 	GnmStdError err = GNM_ERROR_DIV0;
@@ -5256,7 +5256,7 @@ static char const *help_cronbach = {
 };
 
 static inline void
-free_values (Value **values, int top)
+free_values (GnmValue **values, int top)
 {
 	int i;
 
@@ -5266,12 +5266,12 @@ free_values (Value **values, int top)
 	g_free (values);
 }
 
-static inline Value *
+static inline GnmValue *
 function_marshal_arg (FunctionEvalInfo *ei,
 		      GnmExpr         *t,
-		      Value            **type_mismatch)
+		      GnmValue            **type_mismatch)
 {
-	Value *v;
+	GnmValue *v;
 
 	*type_mismatch = NULL;
 
@@ -5299,11 +5299,11 @@ function_marshal_arg (FunctionEvalInfo *ei,
 	return v;
 }
 
-static Value *
+static GnmValue *
 gnumeric_cronbach (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	int         k, i, j;
-	Value **values;
+	GnmValue **values;
 	gnm_float sum_variance = 0.0;
 	gnm_float sum_covariance = 0.0;
 	GnmExprList *list = expr_node_list;
@@ -5314,7 +5314,7 @@ gnumeric_cronbach (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 	        return value_new_error_VALUE (ei->pos);
 
 	for (i = 0; i < k && list; list = list->next, ++i) {
-		Value *fl_val;
+		GnmValue *fl_val;
 
 		short_list = gnm_expr_list_prepend (NULL, list->data);
 		fl_val = float_range_function (short_list, ei,
@@ -5328,11 +5328,11 @@ gnumeric_cronbach (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 	}
 
 
-	values = g_new0 (Value *, k);
+	values = g_new0 (GnmValue *, k);
 	list = expr_node_list;
 
 	for (i = 0; list; list = list->next, ++i) {
-		Value *type_mismatch;
+		GnmValue *type_mismatch;
 
 		values[i] = function_marshal_arg (ei, list->data, &type_mismatch);
 		if (type_mismatch || values[i] == NULL) {
@@ -5349,7 +5349,7 @@ gnumeric_cronbach (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 	/* We now have an array of array values and an expression list */
 	for (i = 0; i < k; ++i) {
 		for (j = i + 1; j < k; ++j) {
-			Value *fl_val;
+			GnmValue *fl_val;
 			fl_val = float_range_function2 (values[i], values[j],
 							ei,
 							range_covar, 0,
@@ -5388,8 +5388,8 @@ static char const *help_geomdist = {
            "@SEEALSO=RANDGEOM")
 };
 
-static Value *
-gnumeric_geomdist (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_geomdist (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int        k   = value_get_as_int (argv[0]);
 	gnm_float p   = value_get_as_float (argv[1]);
@@ -5428,8 +5428,8 @@ random_logistic_pdf (gnm_float x, gnm_float a)
 	return u / (gnumabs (a) * (1 + u) * (1 + u));
 }
 
-static Value *
-gnumeric_logistic (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_logistic (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float a = value_get_as_float (argv[1]);
@@ -5465,8 +5465,8 @@ random_pareto_pdf (gnm_float x, gnm_float a, gnm_float b)
 	        return 0;
 }
 
-static Value *
-gnumeric_pareto (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_pareto (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float a = value_get_as_float (argv[1]);
@@ -5506,8 +5506,8 @@ random_rayleigh_pdf (gnm_float x, gnm_float sigma)
 	}
 }
 
-static Value *
-gnumeric_rayleigh (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_rayleigh (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x     = value_get_as_float (argv[0]);
 	gnm_float sigma = value_get_as_float (argv[1]);
@@ -5548,8 +5548,8 @@ random_rayleigh_tail_pdf (gnm_float x, gnm_float a, gnm_float sigma)
 	}
 }
 
-static Value *
-gnumeric_rayleightail (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_rayleightail (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x     = value_get_as_float (argv[0]);
 	gnm_float a     = value_get_as_float (argv[1]);
@@ -5578,8 +5578,8 @@ static char const *help_exppowdist = {
            "@SEEALSO=RANDEXPPOW")
 };
 
-static Value *
-gnumeric_exppowdist (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_exppowdist (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float a = value_get_as_float (argv[1]);
@@ -5608,8 +5608,8 @@ static char const *help_laplace = {
            "@SEEALSO=RANDLAPLACE")
 };
 
-static Value *
-gnumeric_laplace (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_laplace (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float a = value_get_as_float (argv[1]);

@@ -25,7 +25,7 @@ GnmNamedExpr *expr_name_add    (ParsePos const *pp, char const *name,
 void	 expr_name_ref	      (GnmNamedExpr *nexpr);
 void	 expr_name_unref      (GnmNamedExpr *nexpr);
 void     expr_name_remove     (GnmNamedExpr *nexpr);
-Value   *expr_name_eval       (GnmNamedExpr const *ne, EvalPos const *ep,
+GnmValue*expr_name_eval       (GnmNamedExpr const *ne, EvalPos const *ep,
 			       GnmExprEvalFlags flags);
 char    *expr_name_as_string  (GnmNamedExpr const *ne, ParsePos const *pp,
 			       GnmExprConventions const *fmt);
@@ -40,7 +40,7 @@ int      expr_name_cmp_by_name    (GnmNamedExpr const *a, GnmNamedExpr const *b)
 gboolean expr_name_check_for_loop (char const *name, GnmExpr const *expr);
 
 GList	   *sheet_names_get_available (Sheet const *sheet);
-char const *sheet_names_check	      (Sheet const *sheet, Range const *r);
+char const *sheet_names_check	      (Sheet const *sheet, GnmRange const *r);
 
 /******************************************************************************/
 

@@ -64,7 +64,7 @@ static GnmFuncFlags do_af_suggest_list (GnmExprList *list,
 
 struct cb_af_suggest { GnmFuncFlags typ; StyleFormat **explicit; };
 
-static Value *
+static GnmValue *
 cb_af_suggest (G_GNUC_UNUSED Sheet *sheet,
 	       G_GNUC_UNUSED int col, G_GNUC_UNUSED int row,
 	       Cell *cell, void *_data)
@@ -156,7 +156,7 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 	}
 
 	case GNM_EXPR_OP_CONSTANT: {
-		const Value *v = expr->constant.value;
+		GnmValue const *v = expr->constant.value;
 
 		switch (v->type) {
 		case VALUE_STRING:
@@ -186,9 +186,9 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 
 	case GNM_EXPR_OP_CELLREF: {
 		Sheet const *sheet;
-		CellRef const *ref;
+		GnmCellRef const *ref;
 		Cell const *cell;
-		CellPos pos;
+		GnmCellPos pos;
 
 		ref = &expr->cellref.ref;
 		sheet = eval_sheet (ref->sheet, epos->sheet);

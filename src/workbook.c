@@ -625,14 +625,14 @@ workbook_unref (Workbook *wb)
  *    non-NULL on error, or VALUE_TERMINATE if some invoked routine requested
  *    to stop (by returning non-NULL).
  */
-Value *
+GnmValue *
 workbook_foreach_cell_in_range (EvalPos const *pos,
-				Value const	*cell_range,
+				GnmValue const	*cell_range,
 				CellIterFlags	 flags,
 				CellIterFunc	 handler,
 				gpointer	 closure)
 {
-	Range  r;
+	GnmRange  r;
 	Sheet *start_sheet, *end_sheet;
 
 	g_return_val_if_fail (pos != NULL, NULL);
@@ -643,7 +643,7 @@ workbook_foreach_cell_in_range (EvalPos const *pos,
 			    &start_sheet, &end_sheet, &r);
 
 	if (start_sheet != end_sheet) {
-		Value *res;
+		GnmValue *res;
 		Workbook const *wb = start_sheet->workbook;
 		int i = start_sheet->index_in_wb;
 		int stop = end_sheet->index_in_wb;
@@ -817,7 +817,7 @@ workbook_sheet_count (Workbook const *wb)
 static void
 cb_dep_unlink (Dependent *dep, gpointer value, gpointer user_data)
 {
-	CellPos *pos = NULL;
+	GnmCellPos *pos = NULL;
 	if (dependent_is_cell (dep))
 		pos = &DEP_TO_CELL (dep)->pos;
 	dependent_unlink (dep, pos);
@@ -838,7 +838,7 @@ pre_sheet_index_change (Workbook *wb)
 static void
 cb_dep_link (Dependent *dep, gpointer value, gpointer user_data)
 {
-	CellPos *pos = NULL;
+	GnmCellPos *pos = NULL;
 	if (dependent_is_cell (dep))
 		pos = &DEP_TO_CELL (dep)->pos;
 	dependent_link (dep, pos);

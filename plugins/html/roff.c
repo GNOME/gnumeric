@@ -100,7 +100,7 @@ roff_file_save (GnmFileSaver const *fs, IOContext *io_context,
 	sheets = workbook_sheets (wb);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
-		Range r = sheet_get_extent (sheet, FALSE);
+		GnmRange r = sheet_get_extent (sheet, FALSE);
 
 		gsf_output_printf (output, "%s\n\n", sheet->name_unquoted);
 		gsf_output_printf (output, ".TS H\n");

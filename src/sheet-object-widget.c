@@ -535,7 +535,7 @@ sheet_widget_adjustment_set_value (SheetWidgetAdjustment *swa, gfloat new_val)
 static void
 adjustment_eval (Dependent *dep)
 {
-	Value *v;
+	GnmValue *v;
 	EvalPos pos;
 
 	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep),
@@ -553,11 +553,11 @@ adjustment_debug_name (Dependent const *dep, FILE *out)
 
 static DEPENDENT_MAKE_TYPE (adjustment, NULL)
 
-static CellRef *
+static GnmCellRef *
 sheet_widget_adjustment_get_ref (SheetWidgetAdjustment const *swa,
-				CellRef *res, gboolean force_sheet)
+				GnmCellRef *res, gboolean force_sheet)
 {
-	Value *target;
+	GnmValue *target;
 	g_return_val_if_fail (swa != NULL, NULL);
 
 	if (swa->dep.expression == NULL)
@@ -582,7 +582,7 @@ static void
 cb_adjustment_value_changed (GtkAdjustment *adjustment,
 			    SheetWidgetAdjustment *swa)
 {
-	CellRef ref;
+	GnmCellRef ref;
 
 	if (swa->being_updated)
 		return;
@@ -607,7 +607,7 @@ cb_adjustment_value_changed (GtkAdjustment *adjustment,
 }
 
 static void
-sheet_widget_adjustment_init_full (SheetWidgetAdjustment *swa, CellRef const *ref)
+sheet_widget_adjustment_init_full (SheetWidgetAdjustment *swa, GnmCellRef const *ref)
 {
 	g_return_if_fail (swa != NULL);
 
@@ -652,7 +652,7 @@ sheet_widget_adjustment_clone (SheetObject const *src_so, Sheet *new_sheet)
 	SheetWidgetAdjustment *src_swa = SHEET_WIDGET_ADJUSTMENT (src_so);
 	SheetWidgetAdjustment *swa = g_object_new (SHEET_WIDGET_ADJUSTMENT_TYPE, NULL);
 	GtkAdjustment *adjust, *src_adjust;
-	CellRef ref;
+	GnmCellRef ref;
 
 	sheet_widget_adjustment_init_full (swa,
 		sheet_widget_adjustment_get_ref (src_swa, &ref, FALSE));
@@ -1107,7 +1107,7 @@ sheet_widget_checkbox_set_active (SheetWidgetCheckbox *swc)
 static void
 checkbox_eval (Dependent *dep)
 {
-	Value *v;
+	GnmValue *v;
 	EvalPos pos;
 	gboolean err, result;
 
@@ -1133,7 +1133,7 @@ static DEPENDENT_MAKE_TYPE (checkbox, NULL)
 
 static void
 sheet_widget_checkbox_init_full (SheetWidgetCheckbox *swc,
-				 CellRef const *ref, char const *label)
+				 GnmCellRef const *ref, char const *label)
 {
 	static int counter = 0;
 
@@ -1170,11 +1170,11 @@ sheet_widget_checkbox_finalize (GObject *obj)
 	(*sheet_object_widget_class->finalize) (obj);
 }
 
-static CellRef *
+static GnmCellRef *
 sheet_widget_checkbox_get_ref (SheetWidgetCheckbox const *swc,
-			       CellRef *res, gboolean force_sheet)
+			       GnmCellRef *res, gboolean force_sheet)
 {
-	Value *target;
+	GnmValue *target;
 	g_return_val_if_fail (swc != NULL, NULL);
 
 	if (swc->dep.expression == NULL)
@@ -1198,7 +1198,7 @@ sheet_widget_checkbox_get_ref (SheetWidgetCheckbox const *swc,
 static void
 cb_checkbox_toggled (GtkToggleButton *button, SheetWidgetCheckbox *swc)
 {
-	CellRef ref;
+	GnmCellRef ref;
 
 	if (swc->being_updated)
 		return;
@@ -1238,7 +1238,7 @@ sheet_widget_checkbox_clone (SheetObject const *src_so, Sheet *new_sheet)
 {
 	SheetWidgetCheckbox *src_swc = SHEET_WIDGET_CHECKBOX (src_so);
 	SheetWidgetCheckbox *swc = g_object_new (SHEET_WIDGET_CHECKBOX_TYPE, NULL);
-	CellRef ref;
+	GnmCellRef ref;
 
 	sheet_widget_checkbox_init_full (swc,
 		sheet_widget_checkbox_get_ref (src_swc, &ref, FALSE),
@@ -1543,7 +1543,7 @@ typedef SheetObjectWidgetClass SheetWidgetRadioButtonClass;
 static void
 radio_button_eval (Dependent *dep)
 {
-	Value *v;
+	GnmValue *v;
 	EvalPos pos;
 	gboolean err;
 	int result;
@@ -1678,7 +1678,7 @@ typedef SheetObjectWidgetClass SheetWidgetListClass;
 static void
 list_eval (Dependent *dep)
 {
-	Value *v;
+	GnmValue *v;
 	EvalPos pos;
 	gboolean err;
 	int result;
@@ -1775,7 +1775,7 @@ typedef SheetObjectWidgetClass SheetWidgetComboClass;
 static void
 combo_input_eval (Dependent *dep)
 {
-	Value *v;
+	GnmValue *v;
 	EvalPos pos;
 	gboolean err;
 	int result;
@@ -1801,7 +1801,7 @@ static DEPENDENT_MAKE_TYPE (combo_input, NULL)
 static void
 combo_output_eval (Dependent *dep)
 {
-	Value *v;
+	GnmValue *v;
 	EvalPos pos;
 	gboolean err;
 	int result;

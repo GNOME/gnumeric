@@ -84,7 +84,7 @@ datetime_serial_to_g (GDate *res, int serial, GnmDateConventions const *conv)
 /* ------------------------------------------------------------------------- */
 
 gnm_float
-datetime_value_to_serial_raw (Value const *v, GnmDateConventions const *conv)
+datetime_value_to_serial_raw (GnmValue const *v, GnmDateConventions const *conv)
 {
 	gnm_float serial;
 
@@ -92,7 +92,7 @@ datetime_value_to_serial_raw (Value const *v, GnmDateConventions const *conv)
 		serial = value_get_as_float (v);
 	else {
 		char const *str = value_peek_string (v);
-		Value *conversion = format_match (str, NULL, conv);
+		GnmValue *conversion = format_match (str, NULL, conv);
 
 		if (conversion) {
 			if (VALUE_IS_NUMBER (conversion))
@@ -133,7 +133,7 @@ datetime_serial_raw_to_serial (gnm_float raw)
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_value_to_serial (Value const *v, GnmDateConventions const *conv)
+datetime_value_to_serial (GnmValue const *v, GnmDateConventions const *conv)
 {
 	return datetime_serial_raw_to_serial (
 		datetime_value_to_serial_raw (v, conv));
@@ -164,7 +164,7 @@ datetime_serial_to_timet (int serial, GnmDateConventions const *conv)
 /* ------------------------------------------------------------------------- */
 
 gboolean
-datetime_value_to_g (GDate *res, Value const *v, GnmDateConventions const *conv)
+datetime_value_to_g (GDate *res, GnmValue const *v, GnmDateConventions const *conv)
 {
 	int serial = datetime_value_to_serial (v, conv);
 	if (serial == 0)
@@ -187,7 +187,7 @@ datetime_serial_raw_to_seconds (gnm_float raw)
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_value_to_seconds (Value const *v)
+datetime_value_to_seconds (GnmValue const *v)
 {
 	/* we just want the seconds, actual date does not matter. So we can ignore
 	 * the date convention (1900 vs 1904) */
@@ -606,7 +606,7 @@ gnm_date_convention_base (GnmDateConventions const *conv)
  * year).
  */
 int
-annual_year_basis (Value const *value_date, basis_t basis,
+annual_year_basis (GnmValue const *value_date, basis_t basis,
 		   GnmDateConventions const *date_conv)
 {
         GDate    date;

@@ -49,7 +49,7 @@
  * @expr0 : absorb the reference to the expression.
  * @expr1 : absorb the reference to the expression.
  */
-Validation *
+GnmValidation *
 validation_new (ValidationStyle style,
 		ValidationType  type,
 		ValidationOp    op,
@@ -57,9 +57,9 @@ validation_new (ValidationStyle style,
 		GnmExpr const *expr0, GnmExpr const *expr1,
 		gboolean allow_blank, gboolean use_dropdown)
 {
-	Validation *v;
+	GnmValidation *v;
 
-	v = g_new0 (Validation, 1);
+	v = g_new0 (GnmValidation, 1);
 	v->ref_count = 1;
 
 	v->title = title ? gnm_string_get (title) : NULL;
@@ -76,14 +76,14 @@ validation_new (ValidationStyle style,
 }
 
 void
-validation_ref (Validation *v)
+validation_ref (GnmValidation *v)
 {
 	g_return_if_fail (v != NULL);
 	v->ref_count++;
 }
 
 void
-validation_unref (Validation *v)
+validation_unref (GnmValidation *v)
 {
 	int i;
 
@@ -118,9 +118,9 @@ validation_unref (Validation *v)
  **/
 ValidationStatus
 validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
-		 Sheet *sheet, CellPos const *pos, gboolean *showed_dialog)
+		 Sheet *sheet, GnmCellPos const *pos, gboolean *showed_dialog)
 {
-	Validation *v;
+	GnmValidation *v;
 	Cell	   *cell;
 	char	   *msg = NULL;
 	gboolean    allocated_msg = FALSE;
@@ -144,7 +144,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 				       cell_name (cell));
 	} else {
 		GnmExpr const *val_expr = NULL, *expr = NULL;
-		Value *val = cell->value;
+		GnmValue *val = cell->value;
 
 		switch (v->type) {
 		case VALIDATION_TYPE_ANY :
@@ -154,7 +154,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 		case VALIDATION_TYPE_AS_NUMBER :
 		case VALIDATION_TYPE_AS_DATE :		/* What the hell does this do */
 		case VALIDATION_TYPE_AS_TIME : {	/* What the hell does this do */
-			Value *res = NULL;
+			GnmValue *res = NULL;
 			/* we know it is not empty */
 			if (val->type == VALUE_ERROR) {
 				msg = g_strdup_printf (_("'%s' is an error"),
@@ -245,7 +245,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 			ParsePos  pp;
 			EvalPos   ep;
 			char	 *expr_str;
-			Value    *val;
+			GnmValue    *val;
 			gboolean  dummy, valid;
 
 			eval_pos_init_cell (&ep, cell);

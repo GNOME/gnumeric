@@ -178,7 +178,7 @@ record_destroy (record_t *r)
 }
 
 static Cell *
-insert_value (Sheet *sheet, guint32 col, guint32 row, Value *val)
+insert_value (Sheet *sheet, guint32 col, guint32 row, GnmValue *val)
 {
 	Cell *cell;
 
@@ -222,7 +222,7 @@ lotus_wk1_read (LotusWk1Read *state)
 	gboolean result = TRUE;
 	int sheetidx = 0;
 	Cell    *cell;
-	Value	*v;
+	GnmValue	*v;
 	guint16  fmt;	/* Format code of Lotus Cell */
 	record_t *r;
 
@@ -247,7 +247,7 @@ lotus_wk1_read (LotusWk1Read *state)
 			break;
 
 		case LOTUS_INTEGER : {
-			Value *v = value_new_int (GSF_LE_GET_GINT16 (r->data + 5));
+			GnmValue *v = value_new_int (GSF_LE_GET_GINT16 (r->data + 5));
 			int i = GSF_LE_GET_GUINT16 (r->data + 1);
 			int j = GSF_LE_GET_GUINT16 (r->data + 3);
 			fmt = *(guint8 *)(r->data);
@@ -258,7 +258,7 @@ lotus_wk1_read (LotusWk1Read *state)
 			break;
 		}
 		case LOTUS_NUMBER : {
-			Value *v = value_new_float (gsf_le_get_double (r->data + 5));
+			GnmValue *v = value_new_float (gsf_le_get_double (r->data + 5));
 			int i = GSF_LE_GET_GUINT16 (r->data + 1);
 			int j = GSF_LE_GET_GUINT16 (r->data + 3);
 			fmt = *(guint8 *)(r->data);
@@ -271,7 +271,7 @@ lotus_wk1_read (LotusWk1Read *state)
 		case LOTUS_LABEL : {
 			/* one of '\', '''', '"', '^' */
 /*			gchar format_prefix = *(r->data + 5);*/
-			Value *v = lotus_new_string (state, r->data + 6);
+			GnmValue *v = lotus_new_string (state, r->data + 6);
 			int i = GSF_LE_GET_GUINT16 (r->data + 1);
 			int j = GSF_LE_GET_GUINT16 (r->data + 3);
 			fmt = *(guint8 *)(r->data);
@@ -333,7 +333,7 @@ lotus_wk1_read (LotusWk1Read *state)
 	return result;
 }
 
-Value *
+GnmValue *
 lotus_new_string (LotusWk1Read *state, gchar const *data)
 {
 	return value_new_string_nocopy (

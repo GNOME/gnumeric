@@ -121,7 +121,7 @@ static const translate_t translate_table[] = {
 	{ "h:mm:ss", "D8" }
 };
 
-static Value *
+static GnmValue *
 translate_cell_format (StyleFormat const *format)
 {
 	int i;
@@ -159,11 +159,11 @@ retrieve_format_info (Sheet *sheet, int col, int row)
 }
 
 /* TODO : turn this into a range based routine */
-static Value *
-gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	char const *info_type = value_peek_string (argv[0]);
-	CellRef const *ref = &argv [1]->v_range.cell.a;
+	GnmCellRef const *ref = &argv [1]->v_range.cell.a;
 
 	/* from CELL - limited usefulness! */
 	if (!g_ascii_strcasecmp(info_type, "address")) {
@@ -181,7 +181,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 	/* from later 123 versions - USEFUL! */
 	} else if (!g_ascii_strcasecmp(info_type, "coord")) {
 		ParsePos pp;
-		CellRef tmp = *ref;
+		GnmCellRef tmp = *ref;
 		GString *str = g_string_new (NULL);
 
 		if (tmp.sheet == NULL)
@@ -1166,14 +1166,14 @@ static char const *help_expression = {
 	   "@SEEALSO=TEXT")
 };
 
-static Value *
-gnumeric_expression (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_expression (FunctionEvalInfo *ei, GnmValue **args)
 {
-	Value const * const v = args[0];
+	GnmValue const * const v = args[0];
 	if (v->type == VALUE_CELLRANGE) {
 		Cell *cell;
-		CellRef const * a = &v->v_range.cell.a;
-		CellRef const * b = &v->v_range.cell.b;
+		GnmCellRef const * a = &v->v_range.cell.a;
+		GnmCellRef const * b = &v->v_range.cell.b;
 
 		if (a->col != b->col || a->row != b->row || a->sheet !=b->sheet)
 			return value_new_error_REF (ei->pos);
@@ -1210,7 +1210,7 @@ static char const *help_countblank = {
            "@SEEALSO=COUNT")
 };
 
-static Value *
+static GnmValue *
 cb_countblank (Sheet *sheet, int col, int row,
 	       Cell *cell, void *user_data)
 {
@@ -1220,11 +1220,11 @@ cb_countblank (Sheet *sheet, int col, int row,
 	return NULL;
 }
 
-static Value *
-gnumeric_countblank (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_countblank (FunctionEvalInfo *ei, GnmValue **args)
 {
 	Sheet *start_sheet, *end_sheet;
-	Range r;
+	GnmRange r;
 	int count;
 
 	rangeref_normalize (&args[0]->v_range.cell, ei->pos,
@@ -1267,8 +1267,8 @@ static char const *help_info = {
 };
 
 
-static Value *
-gnumeric_info (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_info (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	char const * const info_type = value_peek_string (argv[0]);
 	if (!g_ascii_strcasecmp (info_type, "directory")) {
@@ -1343,8 +1343,8 @@ static char const *help_iserror = {
 	   "@SEEALSO=ERROR")
 };
 
-static Value *
-gnumeric_iserror (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_iserror (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_bool (argv[0]->type == VALUE_ERROR);
 }
@@ -1369,8 +1369,8 @@ static char const *help_isna = {
  * We need to operator directly in the input expression in order to bypass
  * the error handling mechanism
  */
-static Value *
-gnumeric_isna (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_isna (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_bool (value_error_classify (argv[0]) == GNM_ERROR_NA);
 }
@@ -1391,8 +1391,8 @@ static char const *help_iserr = {
 	   "@SEEALSO=ISERROR")
 };
 
-static Value *
-gnumeric_iserr (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_iserr (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_bool (argv[0]->type == VALUE_ERROR &&
 			       value_error_classify (argv[0]) != GNM_ERROR_NA);
@@ -1421,8 +1421,8 @@ static char const *help_error_type = {
 	   "@SEEALSO=ISERROR")
 };
 
-static Value *
-gnumeric_error_type (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_error_type (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	switch (value_error_classify (argv[0])) {
 	case GNM_ERROR_NULL: return value_new_int (1);
@@ -1453,8 +1453,8 @@ static char const *help_na = {
 	   "@SEEALSO=ISNA")
 };
 
-static Value *
-gnumeric_na (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_na (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_error_NA (ei->pos);
 }
@@ -1474,8 +1474,8 @@ static char const *help_error = {
 	   "@SEEALSO=ISERROR")
 };
 
-static Value *
-gnumeric_error (FunctionEvalInfo *ei, Value *argv[])
+static GnmValue *
+gnumeric_error (FunctionEvalInfo *ei, GnmValue *argv[])
 {
 	return value_new_error (ei->pos, value_peek_string (argv[0]));
 }
@@ -1496,7 +1496,7 @@ static char const *help_isblank = {
 	   "@SEEALSO=")
 };
 
-static Value *
+static GnmValue *
 gnumeric_isblank (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	gboolean result = FALSE;
@@ -1519,9 +1519,9 @@ gnumeric_isblank (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 	}
 
 	if (expr->any.oper == GNM_EXPR_OP_CELLREF) {
-		CellRef const *ref = &expr->cellref.ref;
+		GnmCellRef const *ref = &expr->cellref.ref;
 		Sheet const *sheet = eval_sheet (ref->sheet, ei->pos->sheet);
-		CellPos pos;
+		GnmCellPos pos;
 		Cell *cell;
 
 		cellref_get_abs_pos (ref, &ei->pos->eval, &pos);
@@ -1552,8 +1552,8 @@ static char const *help_iseven = {
 	   "@SEEALSO=ISODD")
 };
 
-static Value *
-gnumeric_iseven (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_iseven (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_bool (!(value_get_as_int (argv[0]) & 1));
 }
@@ -1574,8 +1574,8 @@ static char const *help_islogical = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_islogical (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_islogical (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_bool (argv[0]->type == VALUE_BOOLEAN);
 }
@@ -1596,8 +1596,8 @@ static char const *help_isnontext = {
 	   "@SEEALSO=ISTEXT")
 };
 
-static Value *
-gnumeric_isnontext (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_isnontext (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_bool (argv[0]->type != VALUE_STRING);
 }
@@ -1618,8 +1618,8 @@ static char const *help_isnumber = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_isnumber (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_isnumber (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_bool (argv[0]->type == VALUE_INTEGER ||
 			       argv[0]->type == VALUE_FLOAT);
@@ -1641,8 +1641,8 @@ static char const *help_isodd = {
 	   "@SEEALSO=ISEVEN")
 };
 
-static Value *
-gnumeric_isodd (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_isodd (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_bool (value_get_as_int (argv[0]) & 1);
 }
@@ -1663,7 +1663,7 @@ static char const *help_isref = {
 	   "@SEEALSO=")
 };
 
-static Value *
+static GnmValue *
 gnumeric_isref (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	GnmExpr *t;
@@ -1695,8 +1695,8 @@ static char const *help_istext = {
 	   "@SEEALSO=ISNONTEXT")
 };
 
-static Value *
-gnumeric_istext (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_istext (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_bool (argv[0]->type == VALUE_STRING);
 }
@@ -1718,11 +1718,11 @@ static char const *help_n = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_n (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_n (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	char const *str;
-	Value *v;
+	GnmValue *v;
 
 	if (argv[0]->type == VALUE_BOOLEAN)
 		return value_new_int (value_get_as_int(argv[0]));
@@ -1763,8 +1763,8 @@ static char const *help_type = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_type (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_type (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	switch (argv[0]->type) {
 	/* case VALUE_EMPTY : not possible, S arguments convert this to int(0)
@@ -1806,8 +1806,8 @@ static char const *help_getenv = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_getenv (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_getenv (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	char const *var = value_peek_string (argv[0]);
 	char const *val = getenv (var);

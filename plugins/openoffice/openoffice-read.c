@@ -332,7 +332,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static char const *
-oo_cellref_parse (CellRef *ref, char const *start, ParsePos const *pp)
+oo_cellref_parse (GnmCellRef *ref, char const *start, ParsePos const *pp)
 {
 	char const *tmp1, *tmp2, *ptr = start;
 	/* sheet name cannot contain '.' */
@@ -377,7 +377,7 @@ oo_cellref_parse (CellRef *ref, char const *start, ParsePos const *pp)
 }
 
 static char const *
-oo_rangeref_parse (RangeRef *ref, char const *start, ParsePos const *pp)
+oo_rangeref_parse (GnmRangeRef *ref, char const *start, ParsePos const *pp)
 {
 	char const *ptr;
 
@@ -402,7 +402,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin;
 	GnmExpr const	*expr = NULL;
-	Value		*val = NULL;
+	GnmValue		*val = NULL;
 	gboolean	 bool_val;
 	gnm_float	 float_val;
 	int array_cols = -1, array_rows = -1;
@@ -474,7 +474,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (style != NULL) {
 		mstyle_ref (style);
 		if (state->col_inc > 1) {
-			Range tmp;
+			GnmRange tmp;
 			range_init (&tmp,
 				state->pos.eval.col, state->pos.eval.row,
 				state->pos.eval.col + state->col_inc - 1,
@@ -526,7 +526,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		state->simple_content = TRUE;
 
 	if (merge_cols > 0 && merge_rows > 0) {
-		Range r;
+		GnmRange r;
 		range_init (&r,
 			state->pos.eval.col, state->pos.eval.row,
 			state->pos.eval.col + merge_cols - 1,
@@ -598,7 +598,7 @@ oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (state->simple_content || state->error_content) {
 		Cell *cell = sheet_cell_fetch (state->pos.sheet, state->pos.eval.col, state->pos.eval.row);
-		Value *v;
+		GnmValue *v;
 
 		if (state->simple_content)
 			v = value_new_string (state->base.content->str);
@@ -750,7 +750,7 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 			if (expr != NULL)
 				gnm_expr_unref (expr);
 		} else {
-			CellRef const *ref = &expr->cellref.ref;
+			GnmCellRef const *ref = &expr->cellref.ref;
 			parse_pos_init (&pp, state->pos.wb, ref->sheet,
 					ref->col, ref->row);
 

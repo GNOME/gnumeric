@@ -54,7 +54,7 @@ excel_gb_worksheet_activecell (GBRunEvalContext *ec,
 {
 	Sheet        *sheet;
 	ExcelGBRange *range;
-	Range         tmp;
+	GnmRange         tmp;
 
 	sheet = EXCEL_GB_WORKSHEET (object)->sheet;
 
@@ -139,7 +139,7 @@ excel_gb_worksheet_cells (GBRunEvalContext *ec,
 {
 	Sheet        *sheet;
 	ExcelGBRange *range;
-	Range         tmp;
+	GnmRange         tmp;
 
 	sheet = EXCEL_GB_WORKSHEET (object)->sheet;
 

@@ -30,7 +30,7 @@
 
 #if USE_MSTYLE_POOL
 /* Memory pool for mstyles.  */
-static gnm_mem_chunk *mstyle_pool;
+static GnmMemChunk *mstyle_pool;
 #define CHUNK_ALLOC(T,p) ((T*)gnm_mem_chunk_alloc (p))
 #define CHUNK_ALLOC0(T,p) ((T*)gnm_mem_chunk_alloc0 (p))
 #define CHUNK_FREE(p,v) gnm_mem_chunk_free ((p), (v))
@@ -82,7 +82,7 @@ typedef struct {
 		gboolean         content_locked;
 		gboolean         content_hidden;
 
-		Validation      *validation;
+		GnmValidation   *validation;
 		GnmHLink        *hlink;
 		GnmInputMsg	*input_msg;
 
@@ -1553,7 +1553,7 @@ mstyle_get_content_hidden (const MStyle *style)
 }
 
 void
-mstyle_set_validation (MStyle *style, Validation *v)
+mstyle_set_validation (MStyle *style, GnmValidation *v)
 {
 	g_return_if_fail (style != NULL);
 
@@ -1562,7 +1562,7 @@ mstyle_set_validation (MStyle *style, Validation *v)
 	style->elements[MSTYLE_VALIDATION].u.validation = v;
 }
 
-Validation *
+GnmValidation *
 mstyle_get_validation (const MStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_VALIDATION), NULL);

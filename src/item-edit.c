@@ -53,7 +53,7 @@ struct _ItemEdit {
 	PangoLayout	*layout;
 
 	/* Where are we */
-	CellPos	   pos;
+	GnmCellPos	   pos;
 	gboolean   cursor_visible;
 	int        blink_timer;
 
@@ -91,7 +91,7 @@ ie_destroy_feedback_range (ItemEdit *ie)
 static void
 ie_scan_for_range (ItemEdit *ie)
 {
-	Range  range;
+	GnmRange  range;
 	Sheet *sheet = sc_sheet (SHEET_CONTROL (ie->scg));
 	Sheet *parse_sheet;
 	GnmExprEntry *gee = GNM_EXPR_ENTRY (
@@ -214,7 +214,7 @@ ie_layout (FooCanvasItem *item)
 	ColRowInfo const *cri;
 	Sheet	   const *sheet  = sc_sheet (SHEET_CONTROL (ie->scg));
 	StyleFont  const *style_font = ie->style_font;
-	Range	   const *merged;
+	GnmRange	   const *merged;
 	int end_col, end_row, tmp, width, height, col_size;
 	char const *text, *entered_text;
 	PangoAttrList	*attrs;

@@ -69,8 +69,8 @@ static char const *help_char = {
 	   "@SEEALSO=CODE")
 };
 
-static Value *
-gnumeric_char (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_char (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int c = value_get_as_int (argv[0]);
 
@@ -112,8 +112,8 @@ static char const *help_unichar = {
 	   "@SEEALSO=CHAR,UNICODE,CODE")
 };
 
-static Value *
-gnumeric_unichar (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_unichar (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int c = value_get_as_int (argv[0]);
 
@@ -144,14 +144,14 @@ static char const *help_code = {
 	   "@SEEALSO=CHAR")
 };
 
-static Value *
-gnumeric_code (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_code (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	char const *s = value_peek_string (argv[0]);
 	const unsigned char *us = (const unsigned char *)s;
 	gsize written, clen;
 	char *str;
-	Value *res;
+	GnmValue *res;
 
 	if (*us == 0)
 		value_new_error_VALUE (ei->pos);
@@ -188,8 +188,8 @@ static char const *help_unicode = {
 	   "@SEEALSO=UNICHAR,CODE,CHAR")
 };
 
-static Value *
-gnumeric_unicode (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_unicode (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	char const *s = value_peek_string (argv[0]);
 
@@ -217,8 +217,8 @@ static char const *help_exact = {
 	   "@SEEALSO=LEN, SEARCH, DELTA")
 };
 
-static Value *
-gnumeric_exact (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_exact (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_bool (g_utf8_collate (value_peek_string (argv[0]),
 					       value_peek_string (argv[1])) == 0);
@@ -240,8 +240,8 @@ static char const *help_len = {
 	   "@SEEALSO=CHAR, CODE")
 };
 
-static Value *
-gnumeric_len (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_len (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_int (g_utf8_strlen (value_peek_string (argv[0]), -1));
 }
@@ -263,8 +263,8 @@ static char const *help_left = {
 	   "@SEEALSO=MID, RIGHT")
 };
 
-static Value *
-gnumeric_left (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_left (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	char const *peek;
 	int         count, newlen;
@@ -298,8 +298,8 @@ static char const *help_lower = {
 	   "@SEEALSO=UPPER")
 };
 
-static Value *
-gnumeric_lower (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_lower (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_string_nocopy (g_utf8_strdown (value_peek_string (argv[0]), -1));
 }
@@ -321,8 +321,8 @@ static char const *help_mid = {
 	   "@SEEALSO=LEFT, RIGHT")
 };
 
-static Value *
-gnumeric_mid (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_mid (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	char       *upos;
 	char const *source;
@@ -367,8 +367,8 @@ static char const *help_right = {
 	   "@SEEALSO=MID, LEFT")
 };
 
-static Value *
-gnumeric_right (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_right (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int count, slen;
 	char const *os;
@@ -409,8 +409,8 @@ static char const *help_upper = {
 	   "@SEEALSO=LOWER")
 };
 
-static Value *
-gnumeric_upper (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_upper (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_string_nocopy (g_utf8_strup (value_peek_string (argv[0]), -1));
 }
@@ -431,7 +431,7 @@ static char const *help_concatenate = {
 	   "@SEEALSO=LEFT, MID, RIGHT")
 };
 
-static Value *
+static GnmValue *
 gnumeric_concatenate (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return string_range_function (nodes, ei,
@@ -455,8 +455,8 @@ static char const *help_rept = {
 	   "@SEEALSO=CONCATENATE")
 };
 
-static Value *
-gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_rept (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	GString    *res;
 	char const *source;
@@ -501,8 +501,8 @@ static char const *help_clean = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_clean (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_clean (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	char const *s = value_peek_string (argv[0]);
 	GString *res = g_string_sized_new (strlen (s));
@@ -536,8 +536,8 @@ static char const *help_find = {
 	   "@SEEALSO=EXACT, LEN, MID, SEARCH")
 };
 
-static Value *
-gnumeric_find (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_find (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int count, haystacksize;
 	char const *haystack, *needle;
@@ -594,8 +594,8 @@ static char const *help_fixed = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_fixed (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int decimals;
 	gnm_float num;
@@ -663,8 +663,8 @@ static char const *help_proper = {
  * (e.g. "US Of A" -> "US of A", "Cent'S Worth" -> "Cent's Worth")
  * but this is how Excel does it
  */
-static Value *
-gnumeric_proper (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_proper (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	char const *p;
 	GString    *res    = g_string_new (NULL);
@@ -710,8 +710,8 @@ static char const *help_replace = {
 	   "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM")
 };
 
-static Value *
-gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_replace (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	GString *res;
 	gint start, num, oldlen;
@@ -762,8 +762,8 @@ static char const *help_t_ = {
 
 /* Note: gnumeric_t is a reserved symbol.  */
 
-static Value *
-gnumeric_t_ (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_t_ (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	if (argv[0]->type == VALUE_STRING)
 		return value_duplicate (argv[0]);
@@ -787,19 +787,19 @@ static char const *help_text = {
 	   "@SEEALSO=DOLLAR")
 };
 
-static Value *
-gnumeric_text (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_text (FunctionEvalInfo *ei, GnmValue **args)
 {
 	StyleFormat *format = style_format_new_XL (value_peek_string (args[1]),
 						   TRUE);
-	Value       *res, *tmp = NULL;
-	Value const *arg  = args[0];
+	GnmValue       *res, *tmp = NULL;
+	GnmValue const *arg  = args[0];
 	gboolean    ok = FALSE;
 	GnmDateConventions const *conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
 	if (arg->type == VALUE_STRING) {
-		Value *match = format_match (value_peek_string (arg), NULL, conv);
+		GnmValue *match = format_match (value_peek_string (arg), NULL, conv);
 		ok = (match != NULL);
 		if (ok)
 			tmp = match;
@@ -836,8 +836,8 @@ static char const *help_trim = {
 	   "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE")
 };
 
-static Value *
-gnumeric_trim (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_trim (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	char const *s;
 	GString  *res   = g_string_new (NULL);
@@ -888,8 +888,8 @@ static char const *help_value = {
 	   "@SEEALSO=DOLLAR, FIXED, TEXT")
 };
 
-static Value *
-gnumeric_value (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_value (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	switch (argv[0]->type) {
 	case VALUE_EMPTY:
@@ -899,7 +899,7 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 		return value_duplicate (argv[0]);
 
 	default: {
-		Value *v;
+		GnmValue *v;
 		char const *p, *arg = value_peek_string (argv[0]);
 
 		/* Skip leading spaces */
@@ -933,8 +933,8 @@ static char const *help_substitute = {
 	   "@SEEALSO=REPLACE, TRIM")
 };
 
-static Value *
-gnumeric_substitute (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_substitute (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	char const *p;
 	int oldlen, newlen, len, inst;
@@ -988,13 +988,13 @@ static char const *help_dollar = {
 	   "@SEEALSO=FIXED, TEXT, VALUE")
 };
 
-static Value *
-gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_dollar (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	FormatCharacteristics info;
 	StyleFormat *sf;
 	gnm_float p10;
-	Value *v;
+	GnmValue *v;
 	char *s, *end;
         gnm_float number = value_get_as_float (argv[0]);
         int decimals = argv[1] ? value_get_as_int (argv[1]) : 2;
@@ -1060,8 +1060,8 @@ static char const *help_search = {
 	   "@SEEALSO=FIND")
 };
 
-static Value *
-gnumeric_search (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_search (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	char const *needle = value_peek_string (argv[0]);
 	char const *haystack = value_peek_string (argv[1]);
@@ -1069,7 +1069,7 @@ gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 	char const *hay2;
 	gnumeric_regex_t r;
 	regmatch_t rm;
-	Value *res = NULL;
+	GnmValue *res = NULL;
 	int i;
 
 	start--;

@@ -244,7 +244,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 			scg_set_top_row (gcanvas->simple.scg, sv->edit_pos.row);
 		} else if (end_mode) {
 			/* Same as ctrl-end.  */
-			Range r = sheet_get_extent (sheet, FALSE);
+			GnmRange r = sheet_get_extent (sheet, FALSE);
 			(*movefn)(gcanvas->simple.scg, r.end.col - sv->edit_pos.col, FALSE, TRUE);
 			(*movefn)(gcanvas->simple.scg, r.end.row - sv->edit_pos.row, FALSE, FALSE);
 		} else {
@@ -263,7 +263,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 			scg_set_left_col (gcanvas->simple.scg, new_col);
 			scg_set_top_row (gcanvas->simple.scg, new_row);
 		} else if ((event->state & GDK_CONTROL_MASK)) {	
-			Range r = sheet_get_extent (sheet, FALSE);
+			GnmRange r = sheet_get_extent (sheet, FALSE);
 
 			/* do the ctrl-end jump to the extent in 2 steps */
 			(*movefn)(gcanvas->simple.scg, r.end.col - sv->edit_pos.col, FALSE, TRUE);
@@ -956,14 +956,14 @@ gnm_canvas_compute_visible_region (GnmCanvas *gcanvas,
 }
 
 void
-gnm_canvas_redraw_range (GnmCanvas *gcanvas, Range const *r)
+gnm_canvas_redraw_range (GnmCanvas *gcanvas, GnmRange const *r)
 {
 	SheetControlGUI *scg;
 	FooCanvas *canvas;
 	int x1, y1, x2, y2;
-	Range tmp;
+	GnmRange tmp;
 
-	g_return_if_fail (GNM_IS_CANVAS (gcanvas));
+	g_return_if_fail (IS_GNM_CANVAS (gcanvas));
 
 	scg = gcanvas->simple.scg;
 	canvas = FOO_CANVAS (gcanvas);
@@ -1220,7 +1220,7 @@ gnm_canvas_handle_motion (GnmCanvas *gcanvas,
 	int pane, left, top, x, y, width, height;
 	int dx = 0, dy = 0;
 
-	g_return_val_if_fail (GNM_IS_CANVAS (gcanvas), FALSE);
+	g_return_val_if_fail (IS_GNM_CANVAS (gcanvas), FALSE);
 	g_return_val_if_fail (FOO_IS_CANVAS (canvas), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 	g_return_val_if_fail (slide_handler != NULL, FALSE);
@@ -1336,7 +1336,7 @@ gnm_canvas_slide_init (GnmCanvas *gcanvas)
 {
 	GnmCanvas *gcanvas0, *gcanvas1, *gcanvas3;
 
-	g_return_if_fail (GNM_IS_CANVAS (gcanvas));
+	g_return_if_fail (IS_GNM_CANVAS (gcanvas));
 
 	gcanvas0 = scg_pane (gcanvas->simple.scg, 0);
 	gcanvas1 = scg_pane (gcanvas->simple.scg, 1);

@@ -46,7 +46,7 @@
 #include "mathfunc.h"
 
 
-static Value *
+static GnmValue *
 tabulation_eval (Workbook *wb, int dims,
 		 const gnm_float *x, Cell **xcells, Cell *ycell)
 {
@@ -116,7 +116,7 @@ do_tabulation (WorkbookControl *wbc,
 
 		sheets = g_new (Sheet *, counts[dim]);
 		for (i = 0; i < counts[dim]; i++) {
-			Value *v = value_new_float (val);
+			GnmValue *v = value_new_float (val);
 			char *base_name = format_value (sf, v, NULL, -1,
 						workbook_date_conv (wb));
 			char *unique_name =
@@ -147,7 +147,7 @@ do_tabulation (WorkbookControl *wbc,
 	}
 
 	while (1) {
-		Value *v;
+		GnmValue *v;
 		Cell *cell;
 		int dim;
 
@@ -155,7 +155,7 @@ do_tabulation (WorkbookControl *wbc,
 			int i;
 
 			for (i = 0; i < data->dims; i++) {
-				Value *v = value_new_float (values[i]);
+				GnmValue *v = value_new_float (values[i]);
 				value_set_fmt (v, formats[i]);
 				sheet_cell_set_value (
 					sheet_cell_fetch (sheet, i, row), v);
@@ -169,7 +169,7 @@ do_tabulation (WorkbookControl *wbc,
 
 			/* Fill-in top header.  */
 			if (row == 1 && data->dims >= 2) {
-				Value *v = value_new_float (values[1]);
+				GnmValue *v = value_new_float (values[1]);
 				value_set_fmt (v, formats[1]);
 				sheet_cell_set_value (
 					sheet_cell_fetch (thissheet, col, 0), v);
@@ -177,7 +177,7 @@ do_tabulation (WorkbookControl *wbc,
 
 			/* Fill-in left header.  */
 			if (col == 1 && data->dims >= 1) {
-				Value *v = value_new_float (values[0]);
+				GnmValue *v = value_new_float (values[0]);
 				value_set_fmt (v, formats[0]);
 				sheet_cell_set_value (
 					sheet_cell_fetch (thissheet, 0, row), v);
@@ -186,7 +186,7 @@ do_tabulation (WorkbookControl *wbc,
 			/* Make a horizon line on top between header and table.  */
 			if (row == 1 && col == 1) {
 				MStyle *mstyle = mstyle_new ();
-				Range range;
+				GnmRange range;
 				StyleBorder *border;
 
 				range.start.col = 0;
@@ -206,7 +206,7 @@ do_tabulation (WorkbookControl *wbc,
 			/* Make a vertical line on left between header and table.  */
 			if (row == 1 && col == 1) {
 				MStyle *mstyle = mstyle_new ();
-				Range range;
+				GnmRange range;
 				StyleBorder *border;
 
 				range.start.col = 0;

@@ -145,7 +145,7 @@ gboolean analysis_tool_ranking_engine (data_analysis_output_t *dao, gpointer spe
 
 typedef struct {
 	analysis_tools_data_generic_t base;
-	Value      *y_input;
+	GnmValue      *y_input;
 	gnm_float alpha;
 	gint       intercept;
 
@@ -164,8 +164,8 @@ gboolean analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer 
 typedef struct {
 	analysis_tools_error_code_t err;
 	WorkbookControl *wbc;
-	Value *range_1;
-	Value *range_2;
+	GnmValue *range_1;
+	GnmValue *range_2;
 	gboolean   labels;
 	gnm_float alpha;
 } analysis_tools_data_ftest_t;
@@ -212,7 +212,7 @@ gboolean analysis_tool_ztest_engine (data_analysis_output_t *dao, gpointer specs
 typedef struct {
 	analysis_tools_error_code_t err;
 	WorkbookControl *wbc;
-	Value     *input;
+	GnmValue     *input;
 	group_by_t group_by;
 	gboolean   labels;
 	GSList    *row_input_range;

@@ -37,7 +37,7 @@ void	  gnm_expr_entry_set_scg	(GnmExprEntry *e,
 					 SheetControlGUI *scg);
 GtkEntry *gnm_expr_entry_get_entry	(GnmExprEntry *e);
 gboolean  gnm_expr_entry_get_rangesel	(GnmExprEntry *e,
-					 Range *r, Sheet **sheet);
+					 GnmRange *r, Sheet **sheet);
 void	  gnm_expr_expr_find_range	(GnmExprEntry *e);
 void	  gnm_expr_entry_rangesel_stop	(GnmExprEntry *e,
 					 gboolean clear_string);
@@ -48,22 +48,22 @@ gboolean  gnm_expr_entry_is_cell_ref	(GnmExprEntry *e,
 					 Sheet *sheet,
 					 gboolean allow_multiple_cell);
 
-char const *gnm_expr_entry_get_text	(GnmExprEntry const *ee);
-Value	 *gnm_expr_entry_parse_as_value	(GnmExprEntry *ee, Sheet *sheet);
-GSList	 *gnm_expr_entry_parse_as_list	(GnmExprEntry *ee, Sheet *sheet);
-GnmExpr const  *gnm_expr_entry_parse	(GnmExprEntry *e,
-					 ParsePos const *pp,
-					 ParseError *perr, gboolean start_sel,
-					 GnmExprParseFlags flags);
-char     *gnm_expr_entry_global_range_name (GnmExprEntry *e, Sheet *sheet);
-void	  gnm_expr_entry_load_from_text	(GnmExprEntry *e, char const *str);
-void	  gnm_expr_entry_load_from_dep	(GnmExprEntry *e,
+char const *gnm_expr_entry_get_text	  (GnmExprEntry const *ee);
+GnmValue   *gnm_expr_entry_parse_as_value (GnmExprEntry *ee, Sheet *sheet);
+GSList	   *gnm_expr_entry_parse_as_list  (GnmExprEntry *ee, Sheet *sheet);
+GnmExpr const  *gnm_expr_entry_parse	  (GnmExprEntry *e,
+					   ParsePos const *pp,
+					   ParseError *perr, gboolean start_sel,
+					   GnmExprParseFlags flags);
+char    *gnm_expr_entry_global_range_name (GnmExprEntry *e, Sheet *sheet);
+void	 gnm_expr_entry_load_from_text	(GnmExprEntry *e, char const *str);
+void	 gnm_expr_entry_load_from_dep	(GnmExprEntry *e,
 					 Dependent const *dep);
-void	  gnm_expr_entry_load_from_expr	(GnmExprEntry *e,
+void	 gnm_expr_entry_load_from_expr	(GnmExprEntry *e,
 					 GnmExpr const *expr,
 					 ParsePos const *pp);
-gboolean  gnm_expr_entry_load_from_range (GnmExprEntry *e,
-					  Sheet *sheet, Range const *r);
+gboolean gnm_expr_entry_load_from_range (GnmExprEntry *e,
+					 Sheet *sheet, GnmRange const *r);
 
 void gnm_expr_entry_set_update_policy (GnmExprEntry *e,
 					    GtkUpdateType  policy);

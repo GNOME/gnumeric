@@ -97,7 +97,7 @@ gnm_named_expr_collection_insert (GnmNamedExprCollection const *scope,
 
 typedef struct {
 	Sheet const *sheet;
-	Range const *r;
+	GnmRange const *r;
 	GnmNamedExpr *res;
 } CheckName;
 
@@ -105,7 +105,7 @@ static void
 cb_check_name (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
 	       CheckName *user)
 {
-	Value *v;
+	GnmValue *v;
 
 	if (!nexpr->active || nexpr->is_hidden)
 		return;
@@ -113,7 +113,7 @@ cb_check_name (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
 	v = gnm_expr_get_range (nexpr->expr);
 	if (v != NULL) {
 		if (v->type == VALUE_CELLRANGE) {
-			RangeRef const *ref = &v->v_range.cell;
+			GnmRangeRef const *ref = &v->v_range.cell;
 			if (!ref->a.col_relative &&
 			    !ref->b.col_relative &&
 			    !ref->a.row_relative &&
@@ -131,7 +131,7 @@ cb_check_name (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
 }
 static GnmNamedExpr *
 gnm_named_expr_collection_check (GnmNamedExprCollection *scope,
-				 Sheet const *sheet, Range const *r)
+				 Sheet const *sheet, GnmRange const *r)
 {
 	CheckName user;
 
@@ -482,7 +482,7 @@ expr_name_as_string (GnmNamedExpr const *nexpr, ParsePos const *pp,
 	return gnm_expr_as_string (nexpr->expr, pp, fmt);
 }
 
-Value *
+GnmValue *
 expr_name_eval (GnmNamedExpr const *nexpr, EvalPos const *pos,
 		GnmExprEvalFlags flags)
 {
@@ -702,10 +702,10 @@ sheet_names_get_available (Sheet const *sheet)
  * Preference is given to workbook scope over sheet.
  **/
 char const *
-sheet_names_check (Sheet const *sheet, Range const *r)
+sheet_names_check (Sheet const *sheet, GnmRange const *r)
 {
 	GnmNamedExpr *nexpr;
-	Range tmp;
+	GnmRange tmp;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (r != NULL, NULL);

@@ -105,7 +105,7 @@ scg_redraw_all (SheetControl *sc, gboolean headers)
 }
 
 static void
-scg_redraw_range (SheetControl *sc, Range const *r)
+scg_redraw_range (SheetControl *sc, GnmRange const *r)
 {
 	SheetControlGUI *scg = (SheetControlGUI *)sc;
 
@@ -122,7 +122,7 @@ scg_redraw_range (SheetControl *sc, Range const *r)
 static void
 scg_redraw_headers (SheetControl *sc,
 		    gboolean const col, gboolean const row,
-		    Range const * r /* optional == NULL */)
+		    GnmRange const * r /* optional == NULL */)
 {
 	SheetControlGUI *scg = (SheetControlGUI *)sc;
 	GnumericPane *pane;
@@ -300,8 +300,8 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 		foo_canvas_set_scroll_region (scg->pane[0].row.canvas,
 			0, 0, w / zoom, GNUMERIC_CANVAS_FACTOR_Y / zoom);
 	} else {
-		CellPos const *tl = &sc->view->frozen_top_left;
-		CellPos const *br = &sc->view->unfrozen_top_left;
+		GnmCellPos const *tl = &sc->view->frozen_top_left;
+		GnmCellPos const *br = &sc->view->unfrozen_top_left;
 		int const l = scg_colrow_distance_get (scg, TRUE,
 			0, tl->col);
 		int const r = scg_colrow_distance_get (scg, TRUE,
@@ -688,7 +688,7 @@ void
 scg_set_left_col (SheetControlGUI *scg, int col)
 {
 	Sheet const *sheet;
-	Range const *bound;
+	GnmRange const *bound;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
@@ -748,7 +748,7 @@ void
 scg_set_top_row (SheetControlGUI *scg, int row)
 {
 	Sheet const *sheet;
-	Range const *bound;
+	GnmRange const *bound;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
@@ -826,7 +826,7 @@ gnm_canvas_make_cell_visible (GnmCanvas *gcanvas, int col, int row,
 	Sheet *sheet;
 	int   new_first_col, new_first_row;
 
-	g_return_if_fail (GNM_IS_CANVAS (gcanvas));
+	g_return_if_fail (IS_GNM_CANVAS (gcanvas));
 
 	/* Avoid calling this before the canvas is realized: We do not know the
 	 * visible area, and would unconditionally scroll the cell to the top
@@ -912,7 +912,7 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 		       gboolean force_scroll, gboolean couple_panes)
 {
 	SheetView const *sv = ((SheetControl *) scg)->view;
-	CellPos const *tl, *br;
+	GnmCellPos const *tl, *br;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
@@ -996,8 +996,8 @@ scg_set_panes (SheetControl *sc)
 		return;
 
 	if (being_frozen) {
-		CellPos const *tl = &sc->view->frozen_top_left;
-		CellPos const *br = &sc->view->unfrozen_top_left;
+		GnmCellPos const *tl = &sc->view->frozen_top_left;
+		GnmCellPos const *br = &sc->view->unfrozen_top_left;
 		gboolean const freeze_h = br->col > tl->col;
 		gboolean const freeze_v = br->row > tl->row;
 
@@ -1078,7 +1078,7 @@ scg_set_panes (SheetControl *sc)
 	scg_resize (SHEET_CONTROL (scg), TRUE);
 
 	if (being_frozen) {
-		CellPos const *tl = &sc->view->frozen_top_left;
+		GnmCellPos const *tl = &sc->view->frozen_top_left;
 
 		if (scg->pane[1].is_active)
 			gnm_canvas_set_left_col (scg->pane[1].gcanvas, tl->col);
@@ -1293,7 +1293,7 @@ scg_ant (SheetControl *sc)
 		scg_unant (sc);
 
 	for (l = sc->view->ants; l; l = l->next) {
-		Range const *r = l->data;
+		GnmRange const *r = l->data;
 
 		SCG_FOREACH_PANE (scg, pane, {
 			ItemCursor *ic = ITEM_CURSOR (foo_canvas_item_new (
@@ -1578,7 +1578,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 	 * accordingly
 	 */
 	for (l = sc->view->selections; l != NULL; l = l->next) {
-		Range const *r = l->data;
+		GnmRange const *r = l->data;
 
 		if (r->start.row == 0 && r->end.row == SHEET_MAX_ROWS - 1)
 			sensitivity_filter |= CONTEXT_DISABLE_FOR_ROWS;
@@ -1600,7 +1600,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 }
 
 static gboolean
-cb_redraw_sel (SheetView *sv, Range const *r, gpointer user_data)
+cb_redraw_sel (SheetView *sv, GnmRange const *r, gpointer user_data)
 {
 	SheetControl *sc = user_data;
 	scg_redraw_range (sc, r);
@@ -2115,7 +2115,7 @@ scg_colrow_distance_get_virtual (SheetControl const *sc, gboolean is_cols,
 /*************************************************************************/
 
 static void
-scg_cursor_bound (SheetControl *sc, Range const *r)
+scg_cursor_bound (SheetControl *sc, GnmRange const *r)
 {
 	SheetControlGUI *scg = (SheetControlGUI *) sc;
 	SCG_FOREACH_PANE (scg, pane, gnm_pane_cursor_bound_set (pane, r););
@@ -2161,7 +2161,7 @@ scg_rangesel_changed (SheetControlGUI *scg,
 {
 	GnmExprEntry *expr_entry;
 	gboolean ic_changed;
-	Range *r, last_r;
+	GnmRange *r, last_r;
 	Sheet *sheet;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
@@ -2217,7 +2217,7 @@ scg_rangesel_start (SheetControlGUI *scg,
 		    int base_col, int base_row,
 		    int move_col, int move_row)
 {
-	Range r;
+	GnmRange r;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
@@ -2322,7 +2322,7 @@ scg_rangesel_move (SheetControlGUI *scg, int n, gboolean jump_to_bound,
 		   gboolean horiz)
 {
 	SheetView *sv = sc_view ((SheetControl *) scg);
-	CellPos tmp;
+	GnmCellPos tmp;
 
 	if (!scg->rangesel.active) {
 		tmp.col = sv->edit_pos_real.col;
@@ -2353,7 +2353,7 @@ scg_rangesel_extend (SheetControlGUI *scg, int n,
 	Sheet *sheet = ((SheetControl *) scg)->sheet;
 
 	if (scg->rangesel.active) {
-		CellPos tmp = scg->rangesel.move_corner;
+		GnmCellPos tmp = scg->rangesel.move_corner;
 
 		if (horiz)
 			tmp.col = sheet_find_boundary_horizontal (sheet,
@@ -2393,7 +2393,7 @@ scg_cursor_move (SheetControlGUI *scg, int n,
 		 gboolean jump_to_bound, gboolean horiz)
 {
 	SheetView *sv = sc_view ((SheetControl *) scg);
-	CellPos tmp = sv->edit_pos_real;
+	GnmCellPos tmp = sv->edit_pos_real;
 
 	if (!wbcg_edit_finish (scg->wbcg, TRUE, NULL))
 		return;
@@ -2427,8 +2427,8 @@ scg_cursor_extend (SheetControlGUI *scg, int n,
 		   gboolean jump_to_bound, gboolean horiz)
 {
 	SheetView *sv = ((SheetControl *) scg)->view;
-	CellPos move = sv->cursor.move_corner;
-	CellPos visible = scg->pane[0].gcanvas->first;
+	GnmCellPos move = sv->cursor.move_corner;
+	GnmCellPos visible = scg->pane[0].gcanvas->first;
 
 	if (horiz)
 		visible.col = move.col = sheet_find_boundary_horizontal (sv->sheet,
@@ -2511,7 +2511,7 @@ scg_special_cursor_stop (SheetControlGUI *scg)
 }
 
 gboolean
-scg_special_cursor_bound_set (SheetControlGUI *scg, Range const *r)
+scg_special_cursor_bound_set (SheetControlGUI *scg, GnmRange const *r)
 {
 	gboolean changed = FALSE;
 

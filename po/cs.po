@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
-"POT-Creation-Date: 2003-10-06 20:44+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-10-08 18:26-0400\n"
 "PO-Revision-Date: 2003-10-06 20:43GMT\n"
 "Last-Translator: Michal Bukovjan <bukm@centrum.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "X-Generator: KBabel 1.0.2\n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
@@ -1013,7 +1013,7 @@ msgstr "Finanční deriváty"
 msgid "Functions related to financial derivatives"
 msgstr "Funkce spojené s finančními deriváty"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5273
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5272
 #: plugins/mps/mps.c:549 src/xml-io.c:3927
 msgid "Reading file..."
 msgstr "Načítá se soubor..."
@@ -1108,40 +1108,40 @@ msgstr "Neočekávaný atribut %s::%s == '%s'."
 msgid "XML document not well formed!"
 msgstr "XML dokument není syntakticky správný!"
 
-#: plugins/excel/ms-excel-read.c:999 src/value.c:60
+#: plugins/excel/ms-excel-read.c:998 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#NEZNÁMÝ!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1090 plugins/excel/ms-excel-read.c:1101
+#: plugins/excel/ms-excel-read.c:1089 plugins/excel/ms-excel-read.c:1100
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "List %d"
 
-#: plugins/excel/ms-excel-read.c:1104
+#: plugins/excel/ms-excel-read.c:1103
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1107
+#: plugins/excel/ms-excel-read.c:1106
 #, c-format
 msgid "Chart%d"
 msgstr "Graf%d"
 
-#: plugins/excel/ms-excel-read.c:1110
+#: plugins/excel/ms-excel-read.c:1109
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:2800
+#: plugins/excel/ms-excel-read.c:2799
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Chyba při zpracování názvu '%s'"
 
-#: plugins/excel/ms-excel-read.c:2856
+#: plugins/excel/ms-excel-read.c:2855
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1150,7 +1150,7 @@ msgstr ""
 "Odkazy DDE nejsou podporovány.\n"
 "Název '%s' bude ztracen.\n"
 
-#: plugins/excel/ms-excel-read.c:2862
+#: plugins/excel/ms-excel-read.c:2861
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1159,23 +1159,23 @@ msgstr ""
 "Odkazy OLE nejsou podporovány.\n"
 "Název '%s' bude ztracen.\n"
 
-#: plugins/excel/ms-excel-read.c:2920
+#: plugins/excel/ms-excel-read.c:2919
 msgid "Failure parsing AutoFilter."
 msgstr "Chyba při zpracování AutoFiltru."
 
-#: plugins/excel/ms-excel-read.c:4685
+#: plugins/excel/ms-excel-read.c:4684
 msgid "external references"
 msgstr "externí odkazy"
 
-#: plugins/excel/ms-excel-read.c:5419
+#: plugins/excel/ms-excel-read.c:5418
 msgid "No password supplied"
 msgstr "Nebylo zadáno žádné heslo"
 
-#: plugins/excel/ms-excel-read.c:5423
+#: plugins/excel/ms-excel-read.c:5422
 msgid "Invalid password"
 msgstr "Neplatné heslo"
 
-#: plugins/excel/ms-excel-read.c:5524
+#: plugins/excel/ms-excel-read.c:5523
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nepodařilo se nalézt platný sešit MS Excel"
 
@@ -8247,7 +8247,7 @@ msgstr "%s verze %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:497
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:500
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:114
 #: src/dialogs/dialog-cell-format.c:2278 src/dialogs/dialog-cell-format.c:2283
 #: src/dialogs/dialog-cell-format.c:2293 src/workbook-format-toolbar.c:837
@@ -16931,7 +16931,7 @@ msgstr "Není číslo Guile"
 msgid "Not a Guile string"
 msgstr "Není řetězec Guile"
 
-#: plugins/html/html_read.c:473
+#: plugins/html/html_read.c:480
 msgid "Unable to parse the html."
 msgstr "Nepodařilo se zpracovat html."
 
@@ -17012,10 +17012,10 @@ msgstr "Objektivní funkce:"
 msgid "Constraints:"
 msgstr "Omezení:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5727
+#: plugins/mps/mps.c:247 src/commands.c:5726
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:987
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:106
-#: src/dialogs/dialog-define-names.c:493 src/dialogs/dialog-formula-guru.c:815
+#: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
 #: src/dialogs/dialog-function-select.c:449
 #: src/dialogs/dialog-function-select.c:471 src/dialogs/dialog-scenarios.c:361
 #: src/dialogs/dialog-simulation.c:234 src/dialogs/dialog-zoom.c:198
@@ -17114,7 +17114,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -17505,25 +17505,25 @@ msgstr "Spustit _v:"
 msgid "C_ommand:"
 msgstr "_Příkaz:"
 
-#: plugins/python-loader/py-gnumeric.c:237
+#: plugins/python-loader/py-gnumeric.c:238
 msgid "Python list is not an array"
 msgstr "Seznam Python není pole"
 
-#: plugins/python-loader/py-gnumeric.c:244
+#: plugins/python-loader/py-gnumeric.c:245
 #, c-format
 msgid "Unsupported Python type: %s"
 msgstr "Nepodporovaný typ jazyka Python: %s"
 
-#: plugins/python-loader/py-gnumeric.c:271
+#: plugins/python-loader/py-gnumeric.c:272
 msgid "Unknown error"
 msgstr "Neznámá chyba"
 
-#: plugins/python-loader/py-gnumeric.c:277
+#: plugins/python-loader/py-gnumeric.c:278
 #, c-format
 msgid "Python exception (%s: %s)"
 msgstr "Python výjimka (%s: %s)"
 
-#: plugins/python-loader/py-gnumeric.c:281
+#: plugins/python-loader/py-gnumeric.c:282
 #, c-format
 msgid "Python exception (%s)"
 msgstr "Python výjimka (%s)"
@@ -17546,43 +17546,43 @@ msgstr "Modul \"%s\" neexistuje."
 msgid "Execution of module \"%s\" failed."
 msgstr "Spuštění modulu \"%s\" selhalo."
 
-#: plugins/python-loader/python-loader.c:298
+#: plugins/python-loader/python-loader.c:297
 msgid "Some name"
 msgstr "Nějaký název"
 
-#: plugins/python-loader/python-loader.c:360
-#: plugins/python-loader/python-loader.c:453
-#: plugins/python-loader/python-loader.c:676
-#: plugins/python-loader/python-loader.c:793
+#: plugins/python-loader/python-loader.c:359
+#: plugins/python-loader/python-loader.c:452
+#: plugins/python-loader/python-loader.c:675
+#: plugins/python-loader/python-loader.c:792
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Soubor Python \"%s\" má neplatný formát."
 
-#: plugins/python-loader/python-loader.c:364
-#: plugins/python-loader/python-loader.c:458 src/plugin-loader-module.c:360
+#: plugins/python-loader/python-loader.c:363
+#: plugins/python-loader/python-loader.c:457 src/plugin-loader-module.c:360
 #: src/plugin-loader-module.c:421
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "Soubor neobsahuje funkci \"%s\"."
 
-#: plugins/python-loader/python-loader.c:681
-#: plugins/python-loader/python-loader.c:798
+#: plugins/python-loader/python-loader.c:680
+#: plugins/python-loader/python-loader.c:797
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "Soubor neobsahuje slovník \"%s\"."
 
-#: plugins/python-loader/python-loader.c:686
-#: plugins/python-loader/python-loader.c:803
+#: plugins/python-loader/python-loader.c:685
+#: plugins/python-loader/python-loader.c:802
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Objekt \"%s\" není slovník."
 
-#: plugins/python-loader/python-loader.c:741 src/plugin-loader-module.c:610
+#: plugins/python-loader/python-loader.c:740 src/plugin-loader-module.c:610
 #, c-format
 msgid "Unknown verb: %s"
 msgstr "Neznámé sloveso: %s"
 
-#: plugins/python-loader/python-loader.c:746
+#: plugins/python-loader/python-loader.c:745
 #, c-format
 msgid "Not a valid function for verb: %s"
 msgstr "Není platná funkce pro sloveso: %s"
@@ -17735,7 +17735,7 @@ msgstr "Toto je zpráva ze zásuvného modulu \"%s\"."
 msgid "Error while opening xbase file."
 msgstr "Chyba při otevírání souboru Xbase."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4547
+#: plugins/xbase/boot.c:175 src/commands.c:4546
 #: src/dialogs/dialog-goto-cell.c:290 src/dialogs/dialog-search.c:397
 #: src/dialogs/print.glade.h:21 src/print-info.c:477 src/workbook.c:1041
 #: src/xml-io.c:3585
@@ -18916,7 +18916,7 @@ msgid "Jump to a specified cell"
 msgstr "Přejde na zadanou buňku"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:542
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:545
 #: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Titulek"
@@ -20092,302 +20092,302 @@ msgstr "Nastavení šířky sloupců %s na výchozí"
 msgid "Setting height of rows %s to default"
 msgstr "Nastavení výšky řádků %s na výchozí"
 
-#: src/commands.c:2019 src/dialogs/dialog-preferences.c:1412
+#: src/commands.c:2018 src/dialogs/dialog-preferences.c:1412
 msgid "Sorting"
 msgstr "Třídění"
 
-#: src/commands.c:2039
+#: src/commands.c:2038
 #, c-format
 msgid "Sorting %s"
 msgstr "Třídění %s"
 
-#: src/commands.c:2172
+#: src/commands.c:2171
 msgid "Unhide columns"
 msgstr "Zobrazení skrytých sloupců"
 
-#: src/commands.c:2172
+#: src/commands.c:2171
 msgid "Hide columns"
 msgstr "Skrytí sloupců"
 
-#: src/commands.c:2173
+#: src/commands.c:2172
 msgid "Unhide rows"
 msgstr "Zobrazení skrytých řádků"
 
-#: src/commands.c:2173
+#: src/commands.c:2172
 msgid "Hide rows"
 msgstr "Skrytí řádků"
 
-#: src/commands.c:2256
+#: src/commands.c:2255
 msgid "Expand columns"
 msgstr "Rozbalení sloupců"
 
-#: src/commands.c:2256
+#: src/commands.c:2255
 msgid "Collapse columns"
 msgstr "Sbalení sloupců"
 
-#: src/commands.c:2257
+#: src/commands.c:2256
 msgid "Expand rows"
 msgstr "Rozbalení řádků"
 
-#: src/commands.c:2257
+#: src/commands.c:2256
 msgid "Collapse rows"
 msgstr "Sbalení řádků"
 
-#: src/commands.c:2284
+#: src/commands.c:2283
 #, c-format
 msgid "Show column outline %d"
 msgstr "Zobrazit přehled sloupců %d"
 
-#: src/commands.c:2284
+#: src/commands.c:2283
 #, c-format
 msgid "Show row outline %d"
 msgstr "Zobrazit přehled řádků %d"
 
-#: src/commands.c:2351
+#: src/commands.c:2350
 msgid "Those columns are already grouped"
 msgstr "Tyto sloupce už jsou seskupeny"
 
-#: src/commands.c:2352
+#: src/commands.c:2351
 msgid "Those rows are already grouped"
 msgstr "Tyto řádky už jsou seskupeny"
 
-#: src/commands.c:2375
+#: src/commands.c:2374
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Tyto sloupce nejsou ve skupině, takže je nemůžete rozeskupit"
 
-#: src/commands.c:2376
+#: src/commands.c:2375
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Tyto řádky nejsou ve skupině, takže je nemůžete rozeskupit"
 
-#: src/commands.c:2390
+#: src/commands.c:2389
 #, c-format
 msgid "Group columns %s"
 msgstr "Seskupit sloupce %s"
 
-#: src/commands.c:2390
+#: src/commands.c:2389
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Rozeskupit sloupce %s"
 
-#: src/commands.c:2392
+#: src/commands.c:2391
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Seskupit řádky %d:%d"
 
-#: src/commands.c:2392
+#: src/commands.c:2391
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Rozeskupit řádky %d:%d"
 
-#: src/commands.c:2600
+#: src/commands.c:2599
 #, c-format
 msgid "Moving %s"
 msgstr "Přesun %s"
 
-#: src/commands.c:2609 src/commands.c:2820
+#: src/commands.c:2608 src/commands.c:2819
 msgid "is beyond sheet boundaries"
 msgstr "je mimo okraje listu"
 
 #. FIXME?
-#: src/commands.c:2764
+#: src/commands.c:2763
 #, c-format
 msgid "Pasting into %s"
 msgstr "Vložení do %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2998 src/commands.c:2999 src/workbook-control-gui.c:2320
+#: src/commands.c:2997 src/commands.c:2998 src/workbook-control-gui.c:2320
 msgid "Autofill"
 msgstr "Automatické vyplňování"
 
 #. Changed in initial redo.
-#: src/commands.c:3022
+#: src/commands.c:3021
 #, c-format
 msgid "Autofilling %s"
 msgstr "Automatické vyplňování %s"
 
-#: src/commands.c:3172
+#: src/commands.c:3171
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automatický formát %s"
 
-#: src/commands.c:3282
+#: src/commands.c:3281
 #, c-format
 msgid "Unmerging %s"
 msgstr "Rozdělení buněk %s"
 
-#: src/commands.c:3420
+#: src/commands.c:3419
 #, c-format
 msgid "Merging %s"
 msgstr "Spojení %s"
 
 #. Corrected below.
-#: src/commands.c:3803 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:3802 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Hledat a nahradit"
 
-#: src/commands.c:3901
+#: src/commands.c:3900
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Nastavení výchozí šířky sloupců na %.2f bodů"
 
-#: src/commands.c:3902
+#: src/commands.c:3901
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Nastavení výchozí výšky řádků na %.2f bodů"
 
-#: src/commands.c:4020
+#: src/commands.c:4019
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zvětšení %s na %.0f%%"
 
-#: src/commands.c:4091
+#: src/commands.c:4090
 msgid "Insert object"
 msgstr "Vložit objekt"
 
-#: src/commands.c:4151
+#: src/commands.c:4150
 msgid "Delete object"
 msgstr "Odstranit objekt"
 
-#: src/commands.c:4233
+#: src/commands.c:4232
 msgid "Resize object"
 msgstr "Změnit velikost objektu"
 
-#: src/commands.c:4233
+#: src/commands.c:4232
 msgid "Move object"
 msgstr "Přesunout objekt"
 
-#: src/commands.c:4791
+#: src/commands.c:4790
 msgid "Reordering Sheets"
 msgstr "Změna pořadí listů"
 
-#: src/commands.c:4794
+#: src/commands.c:4793
 msgid "Renaming Sheets"
 msgstr "Přejmenování listů"
 
-#: src/commands.c:4797
+#: src/commands.c:4796
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Připojuji %i listů"
 
-#: src/commands.c:4801
+#: src/commands.c:4800
 msgid "Changing Tab Colors"
 msgstr "Změna barev záložky"
 
-#: src/commands.c:4804
+#: src/commands.c:4803
 msgid "Changing Sheet Protection"
 msgstr "Změna ochrany listu"
 
-#: src/commands.c:4807
+#: src/commands.c:4806
 msgid "Delete sheets"
 msgstr "Odstranit listy"
 
-#: src/commands.c:4810
+#: src/commands.c:4809
 msgid "Delete a sheet"
 msgstr "Odstranit list"
 
-#: src/commands.c:4813
+#: src/commands.c:4812
 msgid "Reorganizing Sheets"
 msgstr "Reorganizace listů"
 
-#: src/commands.c:4963
+#: src/commands.c:4962
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Smazání komentáře %s"
 
-#: src/commands.c:4964
+#: src/commands.c:4963
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Nastavení komentáře %s"
 
-#: src/commands.c:5346
+#: src/commands.c:5345
 #, c-format
 msgid "Merging data into %s"
 msgstr "Spojení dat do %s"
 
-#: src/commands.c:5448
+#: src/commands.c:5447
 msgid "Changing summary info"
 msgstr "Změna souhrnných informací"
 
-#: src/commands.c:5540
+#: src/commands.c:5539
 msgid "Raise object"
 msgstr "Přesun objektu výše"
 
-#: src/commands.c:5543
+#: src/commands.c:5542
 msgid "Lower object"
 msgstr "Přesun objektu níže"
 
-#: src/commands.c:5546
+#: src/commands.c:5545
 msgid "Raise object to top"
 msgstr "Přesun objektu nahoru"
 
-#: src/commands.c:5549
+#: src/commands.c:5548
 msgid "Lower object to bottom"
 msgstr "Přesun objektu dolů"
 
-#: src/commands.c:5665
+#: src/commands.c:5664
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Nastavení stránky pro %s"
 
-#: src/commands.c:5667
+#: src/commands.c:5666
 msgid "Page Setup For All Sheets"
 msgstr "Nastavení stránky pro všechny listy"
 
-#: src/commands.c:5784
+#: src/commands.c:5783
 msgid "has a circular reference"
 msgstr "obsahuje cyklický odkaz"
 
-#: src/commands.c:5807
+#: src/commands.c:5806
 #, c-format
 msgid "Define Name %s"
 msgstr "Definovat název %s"
 
-#: src/commands.c:5810
+#: src/commands.c:5809
 #, c-format
 msgid "Update Name %s"
 msgstr "Aktualizovat název %s"
 
-#: src/commands.c:5875
+#: src/commands.c:5874
 msgid "Add scenario"
 msgstr "Přidat scénář"
 
-#: src/commands.c:5951
+#: src/commands.c:5950
 msgid "Scenario Show"
 msgstr "Zobrazení Scénáře"
 
-#: src/commands.c:6016
+#: src/commands.c:6015
 msgid "Shuffle Data"
 msgstr "Zamíchat data"
 
 #. FIXME?
-#: src/commands.c:6128
+#: src/commands.c:6127
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) do sloupců (%s)"
 
 #. Fill in the header titles.
-#: src/commands.c:6277 src/dialogs/solver.glade.h:24
+#: src/commands.c:6276 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
 msgid "Solver"
 msgstr "Řešitel"
 
-#: src/commands.c:6365
+#: src/commands.c:6364
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Hledání cíle (%s)"
 
-#: src/commands.c:6509
+#: src/commands.c:6508
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplikuji %s"
 
-#: src/commands.c:6590
+#: src/commands.c:6589
 msgid "Tabulating Dependencies"
 msgstr "Tabeluji závislosti"
 
-#: src/commands.c:6667
+#: src/commands.c:6666
 msgid "Reconfigure Graph"
 msgstr "Přenastavit graf"
 
@@ -20417,7 +20417,7 @@ msgid "O_utside"
 msgstr "_Okolo"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:444
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:447
 msgid "_Cross"
 msgstr "_Napříč"
 
@@ -20449,28 +20449,28 @@ msgstr "_Okolo"
 msgid "_Show Labels"
 msgstr "_Zobrazit jmenovky"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:440
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:443
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:441
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:444
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:442
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:445
 msgid "Ma_jor Ticks"
 msgstr "H_lavní značky"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:443
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:446
 msgid "Mi_nor Ticks"
 msgstr "Ve_dlejší značky"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:504
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:507
 msgid "Bounds"
 msgstr "Hranice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:509
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:512
 msgid "Details"
 msgstr "Podrobnosti"
 
@@ -21887,7 +21887,7 @@ msgstr "První písmeno"
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
 #: src/format.c:2146 src/format.c:2275 src/format.c:2281 src/format.c:2357
-#: src/plugin-service.c:199 src/widgets/widget-format-selector.c:75
+#: src/plugin-service.c:200 src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Všeobecné"
 
@@ -22674,13 +22674,15 @@ msgstr "John Gotts, balíčky RPM."
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:65
-msgid "Andreas J. Glzow, Gnumeric hacker."
+#, fuzzy
+msgid "Andreas J. Gülzow, Gnumeric hacker."
 msgstr "Andreas J. Gülzow, Gnumeric hacker."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:68
-msgid "Jon Kre Hellan, Gnumeric hacker."
+#, fuzzy
+msgid "Jon Kåre Hellan, Gnumeric hacker."
 msgstr "Jon Kåre Hellan, Gnumeric hacker."
 
 #: src/dialogs/dialog-about.c:69
@@ -23183,11 +23185,11 @@ msgstr "Výstupní oblast se překrývá se vstupními oblastmi."
 msgid "Could not create the Consolidate dialog."
 msgstr "Nemohu vytvořit dialog Konsolidovat."
 
-#: src/dialogs/dialog-define-names.c:358
+#: src/dialogs/dialog-define-names.c:359
 msgid "Why would you want to define a name to be #NAME?"
 msgstr "Proč byste měl chtít definovat název jako #NAME?"
 
-#: src/dialogs/dialog-define-names.c:579
+#: src/dialogs/dialog-define-names.c:580
 msgid "Could not create the Name Guru."
 msgstr "Není možné vytvořit Guru názvů."
 
@@ -27749,107 +27751,107 @@ msgstr "Modul neobsahuje funkci \"%s\"."
 msgid "Service '%s' not supported by loader."
 msgstr "Služba '%s' není podporovaná načítačem."
 
-#: src/plugin-service.c:163 src/plugin-service.c:253 src/plugin-service.c:1186
+#: src/plugin-service.c:164 src/plugin-service.c:254 src/plugin-service.c:1187
 msgid "Error while loading plugin service."
 msgstr "Chyba při načítání služby pro zásuvné moduly."
 
-#: src/plugin-service.c:171
+#: src/plugin-service.c:172
 msgid "Initializing function inside plugin returned error."
 msgstr "Inicializační funkce v zásuvném modulu vrátila chybu."
 
-#: src/plugin-service.c:189
+#: src/plugin-service.c:190
 msgid "Cleanup function inside plugin returned error."
 msgstr "Čistící funkce v zásuvném modulu vrátila chybu."
 
-#: src/plugin-service.c:274
+#: src/plugin-service.c:275
 msgid "Clipboard"
 msgstr "Schránka"
 
-#: src/plugin-service.c:447
+#: src/plugin-service.c:448
 msgid "File opener has no description"
 msgstr "Otvírač souborů nemá popis"
 
-#: src/plugin-service.c:479
+#: src/plugin-service.c:480
 #, c-format
 msgid "File opener - %s"
 msgstr "Otvírač souborů - %s"
 
-#: src/plugin-service.c:610
+#: src/plugin-service.c:611
 msgid "Error while reading file."
 msgstr "Chyba při čtení souboru."
 
-#: src/plugin-service.c:765
+#: src/plugin-service.c:766
 msgid "File saver has no description"
 msgstr "Ukladač souborů s nemá popis"
 
-#: src/plugin-service.c:811
+#: src/plugin-service.c:812
 #, c-format
 msgid "File saver - %s"
 msgstr "Ukladač souborů - %s"
 
-#: src/plugin-service.c:873
+#: src/plugin-service.c:874
 msgid "Error while saving file."
 msgstr "Chyba při ukládání souboru."
 
-#: src/plugin-service.c:1026
+#: src/plugin-service.c:1027
 msgid "Missing function category name."
 msgstr "Chybějící název kategorie funkce."
 
-#: src/plugin-service.c:1030
+#: src/plugin-service.c:1031
 msgid "Function group is empty."
 msgstr "Skupina funkce je prázdná."
 
-#: src/plugin-service.c:1124
+#: src/plugin-service.c:1125
 #, c-format
 msgid "%d function in category \"%s\""
 msgstr "%d funkcí v kategorii \"%s\""
 
-#: src/plugin-service.c:1125
+#: src/plugin-service.c:1126
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr "Skupina %d funkcí v kategorii \"%s\""
 
-#: src/plugin-service.c:1221
+#: src/plugin-service.c:1222
 msgid "Plugin loader"
 msgstr "Načítač zásuvných modulů"
 
-#: src/plugin-service.c:1298
+#: src/plugin-service.c:1299
 msgid "Missing file name."
 msgstr "Chybějící název souboru."
 
-#: src/plugin-service.c:1364
+#: src/plugin-service.c:1365
 #, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr "Nelze přečíst popis UI ze souboru XML %s."
 
-#: src/plugin-service.c:1401
+#: src/plugin-service.c:1402
 #, c-format
 msgid "User interface with %d action"
 msgstr "Uživatelské rozhraní s %d akcí"
 
-#: src/plugin-service.c:1402
+#: src/plugin-service.c:1403
 #, c-format
 msgid "User interface with %d actions"
 msgstr "Uživatelské rozhraní s %d akcemi"
 
-#: src/plugin-service.c:1432
+#: src/plugin-service.c:1433
 msgid "GObject loader"
 msgstr "Načítač GObject"
 
-#: src/plugin-service.c:1539
+#: src/plugin-service.c:1540
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "Chybí atribut \"type\" v elementu \"service\"."
 
-#: src/plugin-service.c:1545
+#: src/plugin-service.c:1546
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Neznámý typ služby: %s."
 
-#: src/plugin-service.c:1561
+#: src/plugin-service.c:1562
 msgid "Error reading service information."
 msgstr "Chyba při čtení informací o službě."
 
-#: src/plugin-service.c:1623
+#: src/plugin-service.c:1624
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."

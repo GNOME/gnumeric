@@ -152,7 +152,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 			xmlAttrPtr   props;
 			int colspan = 1;
 			int rowspan = 1;
-			CellPos pos;
+			GnmCellPos pos;
 			MStyle *mstyle;
 
 			/* Check whether we need to skip merges from above */
@@ -207,8 +207,8 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 
 			/* If necessary create the merge */
 			if (colspan > 1 || rowspan > 1) {
-				Range range;
-				Range *r = &range;
+				GnmRange range;
+				GnmRange *r = &range;
 
 				range_init (r, col + 1, tc->row, col + colspan, tc->row + rowspan - 1);
 				sheet_merge_add (tc->sheet, r, FALSE, NULL);

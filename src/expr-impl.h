@@ -9,7 +9,7 @@ struct _GnmExprConstant {
 	GnmExprOp oper;
 	int       ref_count;
 
-	Value const *value;
+	GnmValue const *value;
 };
 
 struct _GnmExprFunction {
@@ -49,7 +49,7 @@ struct _GnmExprCellRef {
 	GnmExprOp oper;
 	int       ref_count;
 
-	CellRef ref;
+	GnmCellRef ref;
 };
 
 struct _GnmExprArray {
@@ -60,7 +60,7 @@ struct _GnmExprArray {
 	int cols, rows;
 	struct {
 		/* Upper left corner */
-		Value *value;		/* Last array result */
+		GnmValue *value;	/* Last array result */
 		GnmExpr const *expr;	/* Real Expression */
 	} corner;
 };

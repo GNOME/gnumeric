@@ -381,9 +381,9 @@ select_row (GtkWidget *list, int row)
 }
 
 void
-font_selector_set_value (FontSelector *fs, Value const *v)
+font_selector_set_value (FontSelector *fs, GnmValue const *v)
 {
-	Value *val;
+	GnmValue *val;
 
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 

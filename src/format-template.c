@@ -130,12 +130,12 @@ format_template_member_free (TemplateMember *member)
  * NOTE : This simply calculates the rectangle, it does not calculate repetitions
  *        or anything. That you'll have to do yourself :-)
  *
- * Return value: a Range containing the effective rectangle of @member
+ * Return value: a GnmRange containing the effective rectangle of @member
  **/
-static Range
-format_template_member_get_rect (TemplateMember *member, Range const *r)
+static GnmRange
+format_template_member_get_rect (TemplateMember *member, GnmRange const *r)
 {
-	Range res;
+	GnmRange res;
 
 	res.start.row = res.end.row = 0;
 	res.start.col = res.end.col = 0;
@@ -771,7 +771,7 @@ format_template_filter_style (FormatTemplate *ft, MStyle *mstyle, gboolean fill_
 /*
  * Callback used for calculating the styles
  */
-typedef void (* PCalcCallback) (FormatTemplate *ft, Range *r, MStyle *mstyle, gpointer data);
+typedef void (* PCalcCallback) (FormatTemplate *ft, GnmRange *r, MStyle *mstyle, gpointer data);
 
 /**
  * format_template_range_check:
@@ -785,7 +785,7 @@ typedef void (* PCalcCallback) (FormatTemplate *ft, Range *r, MStyle *mstyle, gp
  * Return value: TRUE if @s is big enough, FALSE if not.
  **/
 static gboolean
-format_template_range_check (FormatTemplate *ft, Range const *r,
+format_template_range_check (FormatTemplate *ft, GnmRange const *r,
 			     CommandContext *optional_cc)
 {
 	GSList *iterator;
@@ -798,7 +798,7 @@ format_template_range_check (FormatTemplate *ft, Range const *r,
 	iterator = ft->members;
 	while (iterator) {
 		TemplateMember *member = iterator->data;
-		Range range = format_template_member_get_rect (member, r);
+		GnmRange range = format_template_member_get_rect (member, r);
 
 		if (!range_valid (&range)) {
 			int diff_col = (range.start.col - range.end.col);
@@ -948,7 +948,7 @@ format_template_transform_edges (FormatTemplate const *origft)
  *
  **/
 static void
-format_template_calculate (FormatTemplate *origft, Range const *r, PCalcCallback pc, gpointer cb_data)
+format_template_calculate (FormatTemplate *origft, GnmRange const *r, PCalcCallback pc, gpointer cb_data)
 {
 	FormatTemplate *ft = origft;
 	GSList *iterator;
@@ -965,14 +965,14 @@ format_template_calculate (FormatTemplate *origft, Range const *r, PCalcCallback
 	while (iterator) {
 		TemplateMember *member = iterator->data;
 		MStyle const *mstyle = member->mstyle;
-		Range range = format_template_member_get_rect (member, r);
+		GnmRange range = format_template_member_get_rect (member, r);
 
 		if (member->direction == FREQ_DIRECTION_NONE)
 			pc (ft, &range, mstyle_copy (mstyle), cb_data);
 
 		else if (member->direction == FREQ_DIRECTION_HORIZONTAL) {
 			int col_repeat = member->repeat;
-			Range hr = range;
+			GnmRange hr = range;
 
 			while (col_repeat != 0) {
 				pc (ft, &hr, mstyle_copy (mstyle), cb_data);
@@ -992,7 +992,7 @@ format_template_calculate (FormatTemplate *origft, Range const *r, PCalcCallback
 			}
 		} else if (member->direction == FREQ_DIRECTION_VERTICAL) {
 			int row_repeat = member->repeat;
-			Range vr = range;
+			GnmRange vr = range;
 
 			while (row_repeat != 0) {
 				pc (ft, &vr, mstyle_copy (mstyle), cb_data);
@@ -1024,7 +1024,7 @@ format_template_calculate (FormatTemplate *origft, Range const *r, PCalcCallback
  ******************************************************************************/
 
 static void
-cb_format_hash_style (FormatTemplate *ft, Range *r, MStyle *mstyle, GHashTable *table)
+cb_format_hash_style (FormatTemplate *ft, GnmRange *r, MStyle *mstyle, GHashTable *table)
 {
 	int row, col;
 
@@ -1056,7 +1056,7 @@ cb_format_hash_style (FormatTemplate *ft, Range *r, MStyle *mstyle, GHashTable *
 static void
 format_template_recalc_hash (FormatTemplate *ft)
 {
-	Range r;
+	GnmRange r;
 
 	g_return_if_fail (ft != NULL);
 
@@ -1114,7 +1114,7 @@ format_template_get_style (FormatTemplate *ft, int row, int col)
  ******************************************************************************/
 
 static void
-cb_format_sheet_style (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *sheet)
+cb_format_sheet_style (FormatTemplate *ft, GnmRange *r, MStyle *mstyle, Sheet *sheet)
 {
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (r != NULL);

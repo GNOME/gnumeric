@@ -29,8 +29,8 @@ typedef struct {
 	GnmDateConventions const *date_conv;
 } collect_floats_t;
 
-static Value *
-callback_function_collect (EvalPos const *ep, Value *value, void *closure)
+static GnmValue *
+callback_function_collect (EvalPos const *ep, GnmValue *value, void *closure)
 {
 	gnm_float x;
 	collect_floats_t *cl = (collect_floats_t *)closure;
@@ -142,9 +142,9 @@ callback_function_collect (EvalPos const *ep, Value *value, void *closure)
  */
 static gnm_float *
 collect_floats (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags,
-		int *n, Value **error, GSList **info)
+		int *n, GnmValue **error, GSList **info)
 {
-	Value * err;
+	GnmValue * err;
 	collect_floats_t cl;
 	CellIterFlags iter_flags = (flags & COLLECT_IGNORE_BLANKS)
 		? CELL_ITER_IGNORE_BLANK : CELL_ITER_ALL;
@@ -186,8 +186,8 @@ collect_floats (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags,
    Presumably most useful when the value is an array.  */
 
 gnm_float *
-collect_floats_value (Value const *val, EvalPos const *ep,
-		      CollectFlags flags, int *n, Value **error)
+collect_floats_value (GnmValue const *val, EvalPos const *ep,
+		      CollectFlags flags, int *n, GnmValue **error)
 {
 	GnmExprList *exprlist;
 	GnmExprConstant expr_val;
@@ -205,9 +205,9 @@ collect_floats_value (Value const *val, EvalPos const *ep,
 /* Like collect_floats_value, but keeps info on missing values */
 
 static gnm_float *
-collect_floats_value_with_info (Value const *val, EvalPos const *ep,
+collect_floats_value_with_info (GnmValue const *val, EvalPos const *ep,
 				CollectFlags flags, int *n, GSList **info,
-				Value **error)
+				GnmValue **error)
 {
 	GnmExprList *exprlist;
 	GnmExprConstant expr_val;
@@ -227,13 +227,13 @@ collect_floats_value_with_info (Value const *val, EvalPos const *ep,
 
 /* ------------------------------------------------------------------------- */
 
-Value *
+GnmValue *
 float_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
 		      float_range_function_t func,
 		      CollectFlags flags,
 		      GnmStdError func_error)
 {
-	Value *error = NULL;
+	GnmValue *error = NULL;
 	gnm_float *vals, res;
 	int n, err;
 
@@ -352,16 +352,16 @@ strip_missing (GArray * data, GSList **missing)
 }
 
 
-Value *
-float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
+GnmValue *
+float_range_function2 (GnmValue *val0, GnmValue *val1, FunctionEvalInfo *ei,
 		       float_range_function2_t func,
 		       CollectFlags flags,
 		       GnmStdError func_error)
 {
 	gnm_float *vals0, *vals1;
 	int n0, n1;
-	Value *error = NULL;
-	Value *res;
+	GnmValue *error = NULL;
+	GnmValue *res;
 	GSList *missing0 = NULL;
 	GSList *missing1 = NULL;
 
@@ -429,8 +429,8 @@ typedef struct {
 	CollectFlags  flags;
 } collect_strings_t;
 
-static Value *
-callback_function_collect_strings (EvalPos const *ep, Value *value, void *closure)
+static GnmValue *
+callback_function_collect_strings (EvalPos const *ep, GnmValue *value, void *closure)
 {
 	char *text = NULL;
 	collect_strings_t *cl = (collect_strings_t *)closure;
@@ -485,9 +485,9 @@ callback_function_collect_strings (EvalPos const *ep, Value *value, void *closur
  */
 
 static GSList *
-collect_strings (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags, Value **error)
+collect_strings (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags, GnmValue **error)
 {
-	Value * err;
+	GnmValue * err;
 	collect_strings_t cl;
 
 	cl.data = NULL;
@@ -509,13 +509,13 @@ collect_strings (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags, V
 }
 
 
-Value *
+GnmValue *
 string_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
 		       string_range_function_t func,
 		       CollectFlags flags,
 		       GnmStdError func_error)
 {
-	Value *error = NULL;
+	GnmValue *error = NULL;
 	GSList *vals;
 	char *res = NULL;
 	int err;

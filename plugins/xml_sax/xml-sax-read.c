@@ -138,7 +138,7 @@ xml_sax_attr_int (xmlChar const * const *attrs, char const *name, int *res)
 }
 
 static gboolean
-xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, CellPos *val)
+xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, GnmCellPos *val)
 {
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -177,7 +177,7 @@ xml_sax_attr_color (xmlChar const * const *attrs, char const *name, StyleColor *
 }
 
 static gboolean
-xml_sax_attr_range (xmlChar const * const *attrs, Range *res)
+xml_sax_attr_range (xmlChar const * const *attrs, GnmRange *res)
 {
 	int flags = 0;
 	for (; attrs[0] && attrs[1] ; attrs += 2)
@@ -233,10 +233,10 @@ typedef struct {
 	} validation;
 
 	gboolean  style_range_init;
-	Range	  style_range;
+	GnmRange	  style_range;
 	MStyle   *style;
 
-	CellPos cell;
+	GnmCellPos cell;
 	int expr_id, array_rows, array_cols;
 	int value_type;
 	StyleFormat *value_fmt;
@@ -584,7 +584,7 @@ xml_sax_selection_range (GsfXMLIn *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
-	Range r;
+	GnmRange r;
 	if (xml_sax_attr_range (attrs, &r))
 		sv_selection_add_range (
 			sheet_get_view (state->sheet, state->wb_view),
@@ -621,7 +621,7 @@ xml_sax_selection_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
-	CellPos const pos = state->cell;
+	GnmCellPos const pos = state->cell;
 	state->cell.col = state->cell.row = -1;
 	sv_set_edit_pos (sheet_get_view (state->sheet, state->wb_view), &pos);
 }
@@ -631,7 +631,7 @@ xml_sax_sheet_layout (GsfXMLIn *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
-	CellPos tmp;
+	GnmCellPos tmp;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (xml_sax_attr_cellpos (attrs, "TopLeft", &tmp))
@@ -647,7 +647,7 @@ xml_sax_sheet_freezepanes (GsfXMLIn *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
-	CellPos frozen_tl, unfrozen_tl;
+	GnmCellPos frozen_tl, unfrozen_tl;
 	int flags = 0;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -1195,7 +1195,7 @@ xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 		} else if (state->version >= GNUM_XML_V3 ||
 			   xml_not_used_old_array_spec (cell, content)) {
 			if (value_type > 0) {
-				Value *v = value_new_from_string (value_type, content, value_fmt, FALSE);
+				GnmValue *v = value_new_from_string (value_type, content, value_fmt, FALSE);
 				cell_set_value (cell, v);
 			} else
 				cell_set_text (cell, content);
@@ -1239,7 +1239,7 @@ xml_sax_merge (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
-	Range r;
+	GnmRange r;
 	g_return_if_fail (state->base.content->len > 0);
 
 	if (parse_range (state->base.content->str, &r))
@@ -1266,7 +1266,7 @@ xml_sax_named_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	parse_pos_init_sheet (&pos, state->sheet);
 	if (state->name.position) {
-		CellRef tmp;
+		GnmCellRef tmp;
 		char const *res = cellref_parse (&tmp, state->name.position, &pos.eval);
 		if (res != NULL && *res == '\0') {
 			pos.eval.col = tmp.col;

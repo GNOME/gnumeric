@@ -60,9 +60,9 @@ static void
 advanced_filter_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				       AdvancedFilterState *state)
 {
-        Value *output_range   = NULL;
-        Value *input_range    = NULL;
-        Value *criteria_range = NULL;
+        GnmValue *output_range   = NULL;
+        GnmValue *input_range    = NULL;
+        GnmValue *criteria_range = NULL;
 
 	int i;
 
@@ -119,8 +119,8 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			       AdvancedFilterState *state)
 {
 	data_analysis_output_t  dao;
-	Value                   *input;
-	Value                   *criteria;
+	GnmValue                   *input;
+	GnmValue                   *criteria;
 	char                    *text;
 	GtkWidget               *w;
 	int                     err = 0;

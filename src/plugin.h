@@ -14,7 +14,7 @@
 
 #define GNM_PLUGIN_TYPE        (gnm_plugin_get_type ())
 #define GNM_PLUGIN(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_TYPE, GnmPlugin))
-#define GNM_IS_PLUGIN(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_TYPE))
+#define IS_GNM_PLUGIN(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_TYPE))
 
 GType gnm_plugin_get_type (void);
 
@@ -22,8 +22,8 @@ void         gnm_plugin_activate (GnmPlugin *pinfo, ErrorInfo **ret_error);
 void         gnm_plugin_deactivate (GnmPlugin *pinfo, ErrorInfo **ret_error);
 gboolean     gnm_plugin_is_active (GnmPlugin *pinfo);
 gboolean     gnm_plugin_can_deactivate (GnmPlugin *pinfo);
-void         gnm_plugin_load_service (GnmPlugin *pinfo, PluginService *service, ErrorInfo **ret_error);
-void         gnm_plugin_unload_service (GnmPlugin *pinfo, PluginService *service, ErrorInfo **ret_error);
+void         gnm_plugin_load_service (GnmPlugin *pinfo, GnmPluginService *service, ErrorInfo **ret_error);
+void         gnm_plugin_unload_service (GnmPlugin *pinfo, GnmPluginService *service, ErrorInfo **ret_error);
 gboolean     gnm_plugin_is_loaded (GnmPlugin *pinfo);
 void         gnm_plugin_use_ref (GnmPlugin *pinfo);
 void         gnm_plugin_use_unref (GnmPlugin *pinfo);
@@ -42,7 +42,7 @@ GSList      *gnm_plugin_get_services (GnmPlugin *pinfo);
 
 void         plugins_init (CommandContext *context);
 void         plugins_shutdown (void);
-void         plugins_register_loader (const gchar *id_str, PluginService *service);
+void         plugins_register_loader (const gchar *id_str, GnmPluginService *service);
 void         plugins_unregister_loader (const gchar *id_str);
 GnmPlugin   *plugins_get_plugin_by_id (const gchar *plugin_id);
 GSList      *plugins_get_available_plugins (void);

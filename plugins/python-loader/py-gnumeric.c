@@ -23,6 +23,7 @@
 #include "func.h"
 #include "str.h"
 #include "plugin.h"
+#include "parse-util.h"
 #include "gnm-py-interpreter.h"
 #include "py-gnumeric.h"
 
@@ -42,8 +43,8 @@ typedef struct _py_CellRef_object py_CellRef_object;
 
 static PyTypeObject py_RangeRef_object_type;
 typedef struct _py_RangeRef_object py_RangeRef_object;
-static PyObject *py_new_RangeRef_object (const RangeRef *range_ref);
-static RangeRef *py_RangeRef_as_RangeRef (py_RangeRef_object *self);
+static PyObject *py_new_RangeRef_object (GnmRangeRef const *range_ref);
+static GnmRangeRef *py_RangeRef_as_RangeRef (py_RangeRef_object *self);
 
 static PyTypeObject py_MStyle_object_type;
 typedef struct _py_MStyle_object py_MStyle_object;
@@ -75,7 +76,7 @@ Available types, attributes, methods, etc.:
 
 Boolean:
 
-CellPos:
+GnmCellPos:
 	Attributes (read-only):
 	- col
 	- row
@@ -159,7 +160,7 @@ Module Gnumeric:
 	- plugin_info   (value of type GnmPlugin)
 	Methods:
 	- MStyle   (creates MStyle object with default style, uses mstyle_new_default())
-	- CellPos  (creates CellPos object)
+	- GnmCellPos  (creates GnmCellPos object)
 	- Range    (creates Range Object)
 	- workbooks
 	- workbook_new
@@ -175,11 +176,11 @@ Module Gnumeric:
 #define SET_EVAL_POS(val) \
 	GNUMERIC_MODULE_SET ("Gnumeric_eval_pos", PyCObject_FromVoidPtr (val, NULL))
 
-static Value *
+static GnmValue *
 py_obj_to_gnm_value (const EvalPos *eval_pos, PyObject *py_val)
 {
 	PyObject *py_val_type;
-	Value *ret_val;
+	GnmValue *ret_val;
 
 	g_return_val_if_fail (eval_pos != NULL, NULL);
 	g_return_val_if_fail (py_val != NULL, NULL);
@@ -199,7 +200,7 @@ py_obj_to_gnm_value (const EvalPos *eval_pos, PyObject *py_val)
 	} else if (PyString_Check (py_val)) {
 		ret_val = value_new_string (PyString_AsString (py_val));
 	} else if (py_val_type == (PyObject *) &py_RangeRef_object_type) {
-		RangeRef *range_ref;
+		GnmRangeRef *range_ref;
 
 		range_ref = py_RangeRef_as_RangeRef ((py_RangeRef_object *) py_val);
 		ret_val = value_new_cellrange_unsafe (&range_ref->a, &range_ref->b);
@@ -292,18 +293,18 @@ py_exc_to_string (void)
 	return error_str;
 }
 
-static Value *
+static GnmValue *
 py_exc_to_gnm_value (const EvalPos *eval_pos)
 {
 	gchar *error_str = py_exc_to_string ();
-	Value *ret_value = value_new_error (eval_pos, error_str);
+	GnmValue *ret_value = value_new_error (eval_pos, error_str);
 
 	g_free (error_str);
 	return ret_value;
 }
 
 static PyObject *
-gnm_value_to_py_obj (const EvalPos *eval_pos, const Value *val)
+gnm_value_to_py_obj (const EvalPos *eval_pos, const GnmValue *val)
 {
 	PyObject *py_val = NULL;
 
@@ -370,7 +371,7 @@ static PyObject *
 python_call_gnumeric_function (GnmFunc *fn_def, const EvalPos *opt_eval_pos, PyObject *args)
 {
 	gint n_args, i;
-	Value **values, *ret_val;
+	GnmValue **values, *ret_val;
 	PyObject *py_ret_val;
 	const EvalPos *eval_pos;
 
@@ -389,7 +390,7 @@ python_call_gnumeric_function (GnmFunc *fn_def, const EvalPos *opt_eval_pos, PyO
 	}
 
 	n_args = PySequence_Length (args);
-	values = g_new (Value *, n_args);
+	values = g_new (GnmValue *, n_args);
 	for (i = 0; i < n_args; i++) {
 		PyObject *py_val;
 
@@ -409,13 +410,13 @@ python_call_gnumeric_function (GnmFunc *fn_def, const EvalPos *opt_eval_pos, PyO
 	return py_ret_val;
 }
 
-Value *
-call_python_function (PyObject *python_fn, const EvalPos *eval_pos, gint n_args, Value **args)
+GnmValue *
+call_python_function (PyObject *python_fn, const EvalPos *eval_pos, gint n_args, GnmValue **args)
 {
 	PyObject *python_args;
 	PyObject *python_ret_value;
 	gint i;
-	Value *ret_value;
+	GnmValue *ret_value;
 	gboolean eval_pos_set;
 
 	g_return_val_if_fail (python_fn != NULL && PyCallable_Check (python_fn), NULL);
@@ -516,12 +517,12 @@ static PyTypeObject py_Boolean_object_type = {
 };
 
 /*
- * CellPos
+ * GnmCellPos
  */
 
 struct _py_CellPos_object {
 	PyObject_HEAD
-	CellPos cell_pos;
+	GnmCellPos cell_pos;
 };
 
 static PyObject *
@@ -533,7 +534,7 @@ static struct PyMethodDef py_CellPos_object_methods[] = {
 	{NULL, NULL}
 };
 
-static CellPos *
+static GnmCellPos *
 py_CellPos_as_CellPos (py_CellPos_object *self)
 {
 	return &self->cell_pos;
@@ -575,7 +576,7 @@ py_CellPos_object_str (py_CellPos_object *self)
 }
 
 static PyObject *
-py_new_CellPos_object (const CellPos *cell_pos)
+py_new_CellPos_object (const GnmCellPos *cell_pos)
 {
 	py_CellPos_object *self;
 
@@ -591,7 +592,7 @@ py_new_CellPos_object (const CellPos *cell_pos)
 static PyObject *
 py_new_CellPos_object_from_col_row (gint col, gint row)
 {
-	CellPos cell_pos;
+	GnmCellPos cell_pos;
 
 	cell_pos.col = col;
 	cell_pos.row = row;
@@ -630,7 +631,7 @@ static PyTypeObject py_CellPos_object_type = {
 
 struct _py_Range_object {
 	PyObject_HEAD
-	Range range;
+	GnmRange range;
 };
 
 static PyObject *
@@ -642,7 +643,7 @@ static struct PyMethodDef py_Range_object_methods[] = {
 	{NULL, NULL}
 };
 
-static Range *
+static GnmRange *
 py_Range_as_Range (py_Range_object *self)
 {
 	return &self->range;
@@ -679,7 +680,7 @@ py_Range_object_dealloc (py_Range_object *self)
 }
 
 static PyObject *
-py_new_Range_object (const Range *range)
+py_new_Range_object (GnmRange const *range)
 {
 	py_Range_object *self;
 
@@ -693,9 +694,9 @@ py_new_Range_object (const Range *range)
 }
 
 static PyObject *
-py_new_Range_object_from_start_end (const CellPos *start, const CellPos *end)
+py_new_Range_object_from_start_end (const GnmCellPos *start, const GnmCellPos *end)
 {
-	Range range;
+	GnmRange range;
 
 	range.start = *start;
 	range.end = *end;
@@ -734,7 +735,7 @@ static PyTypeObject py_Range_object_type = {
 
 struct _py_CellRef_object {
 	PyObject_HEAD
-	CellRef cell_ref;
+	GnmCellRef cell_ref;
 };
 
 static struct PyMethodDef py_CellRef_object_methods[] = {
@@ -742,7 +743,7 @@ static struct PyMethodDef py_CellRef_object_methods[] = {
 	{NULL, NULL}
 };
 
-static CellRef *
+static GnmCellRef *
 py_CellRef_as_CellRef (py_CellRef_object *self)
 {
 	return &self->cell_ref;
@@ -761,7 +762,7 @@ py_CellRef_object_dealloc (py_CellRef_object *self)
 }
 
 static PyObject *
-py_new_CellRef_object (const CellRef *cell_ref)
+py_new_CellRef_object (GnmCellRef const *cell_ref)
 {
 	py_CellRef_object *self;
 
@@ -805,7 +806,7 @@ static PyTypeObject py_CellRef_object_type = {
 
 struct _py_RangeRef_object {
 	PyObject_HEAD
-	RangeRef range_ref;
+	GnmRangeRef range_ref;
 };
 
 static struct PyMethodDef py_RangeRef_object_methods[] = {
@@ -813,7 +814,7 @@ static struct PyMethodDef py_RangeRef_object_methods[] = {
 	{NULL, NULL}
 };
 
-static RangeRef *
+static GnmRangeRef *
 py_RangeRef_as_RangeRef (py_RangeRef_object *self)
 {
 	return &self->range_ref;
@@ -832,7 +833,7 @@ py_RangeRef_object_dealloc (py_RangeRef_object *self)
 }
 
 static PyObject *
-py_new_RangeRef_object (const RangeRef *range_ref)
+py_new_RangeRef_object (const GnmRangeRef *range_ref)
 {
 	py_RangeRef_object *self;
 
@@ -1457,7 +1458,7 @@ py_sheet_style_set_pos_method (py_Sheet_object *self, PyObject *args)
 static PyObject *
 py_sheet_get_extent_method (py_Sheet_object *self, PyObject *args)
 {
-	Range range;
+	GnmRange range;
 
 	if (!PyArg_ParseTuple (args, (char *) ":get_extent")) {
 		return NULL;
@@ -2121,7 +2122,7 @@ py_gnumeric_Range_method (PyObject *self, PyObject *args)
 
 	if (PyArg_ParseTuple (args, (char *) "iiii:Range",
 	                      &start_col, &start_row, &end_col, &end_row)) {
-		CellPos start, end;
+		GnmCellPos start, end;
 		start.col = start_col; start.row = start_row;
 		end.col = end_col; end.row = end_row;
 		result = py_new_Range_object_from_start_end (&start, &end);
@@ -2202,7 +2203,7 @@ static PyMethodDef GnumericMethods[] = {
 static void
 init_err (PyObject *module_dict, const char *name, GnmStdError e)
 {
-	Value *v = value_new_error_std (NULL, e);
+	GnmValue *v = value_new_error_std (NULL, e);
 
 	PyDict_SetItemString
 		(module_dict, (char *)name,

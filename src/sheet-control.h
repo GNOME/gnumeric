@@ -23,10 +23,10 @@ WorkbookControl *sc_wbc		(SheetControl const *sc);
 void sc_resize			(SheetControl *sc, gboolean force_scroll);
 void sc_set_zoom_factor		(SheetControl *sc);
 void sc_redraw_all		(SheetControl *sc, gboolean headers);
-void sc_redraw_range		(SheetControl *sc, Range const *r);
+void sc_redraw_range		(SheetControl *sc, GnmRange const *r);
 void sc_redraw_headers		(SheetControl *sc,
 				 gboolean const col, gboolean const row,
-				 Range const * r /* optional == NULL */);
+				 GnmRange const * r /* optional == NULL */);
 void sc_ant			(SheetControl *sc);
 void sc_unant			(SheetControl *sc);
 
@@ -40,7 +40,7 @@ void sc_compute_visible_region	(SheetControl *sc, gboolean full_recompute);
 void sc_make_cell_visible      	(SheetControl *sc, int col, int row,
 				 gboolean couple_panes);
 
-void sc_cursor_bound		(SheetControl *sc, Range const *r);
+void sc_cursor_bound		(SheetControl *sc, GnmRange const *r);
 void sc_set_panes		(SheetControl *sc);
 float sc_colrow_distance_get	(SheetControl const *sc, gboolean is_col,
 				 int start, int end);

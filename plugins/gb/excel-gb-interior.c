@@ -100,7 +100,7 @@ palette_from_color (StyleColor *color)
 
 
 static void
-real_set_style (Sheet *sheet, Range *range, MStyle *style)
+real_set_style (Sheet *sheet, GnmRange *range, MStyle *style)
 {
 	sheet_apply_style (sheet, range, style);
 }
@@ -306,7 +306,7 @@ excel_gb_interior_get_type (void)
 }
 
 ExcelGBInterior *
-excel_gb_interior_new (Sheet *sheet, Range range)
+excel_gb_interior_new (Sheet *sheet, GnmRange range)
 {
 	ExcelGBInterior *interior = gtk_type_new (EXCEL_TYPE_GB_INTERIOR);
 

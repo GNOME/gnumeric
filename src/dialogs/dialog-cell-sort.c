@@ -86,7 +86,7 @@ typedef struct {
 	GdkPixbuf *image_ascending;
 	GdkPixbuf *image_descending;
 
-	Value     *sel;
+	GnmValue  *sel;
 	gboolean   header;
 	gboolean   is_cols;
 	int        sort_items;
@@ -129,7 +129,7 @@ col_row_name (Sheet *sheet, int col, int row, gboolean header, gboolean is_cols)
 }
 
 static gboolean
-translate_range (Value *range, SortFlowState *state)
+translate_range (GnmValue *range, SortFlowState *state)
 {
 	gboolean old_header = state->header;
 	gboolean old_is_cols = state->is_cols;
@@ -218,7 +218,7 @@ load_model_data (SortFlowState *state)
 static void
 cb_update_add_sensitivity (SortFlowState *state)
 {
-        Value *range_add;
+        GnmValue *range_add;
 
         range_add = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->add_entry), state->sheet);
@@ -226,7 +226,7 @@ cb_update_add_sensitivity (SortFlowState *state)
 	if (state->sel == NULL || range_add == NULL) {
 		gtk_widget_set_sensitive (state->add_button, FALSE);
 	} else {
-		GlobalRange a, b;
+		GnmGlobalRange a, b;
 		value_to_global_range (state->sel, &a);
 		value_to_global_range (range_add, &b);
 		gtk_widget_set_sensitive (state->add_button,
@@ -239,7 +239,7 @@ cb_update_add_sensitivity (SortFlowState *state)
 static void
 cb_update_sensitivity (SortFlowState *state)
 {
-        Value *range;
+        GnmValue *range;
 	int items;
 
         range = gnm_expr_entry_parse_as_value
@@ -321,15 +321,15 @@ static void
 cb_dialog_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		      SortFlowState *state)
 {
-	SortData *data;
-	SortClause *array, *this_array_item;
+	GnmSortData *data;
+	GnmSortClause *array, *this_array_item;
 	int item = 0;
 	GtkTreeIter iter;
 	gboolean descending, case_sensitive, sort_by_value, move_format;
 	gint number;
 	gint base;
 
-	array = g_new (SortClause, state->sort_items);
+	array = g_new (GnmSortClause, state->sort_items);
 	this_array_item = array;
 	base = (state->is_cols ? state->sel->v_range.cell.a.col : state->sel->v_range.cell.a.row);
 
@@ -351,9 +351,9 @@ cb_dialog_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	}
 
 
-	data = g_new (SortData, 1);
+	data = g_new (GnmSortData, 1);
 	data->sheet = state->sel->v_range.cell.a.sheet;
-	data->range = g_new (Range, 1);
+	data->range = g_new (GnmRange, 1);
 	data->range = range_init (data->range, state->sel->v_range.cell.a.col
 				  + ((state->header && !state->is_cols) ? 1 : 0),
 				  state->sel->v_range.cell.a.row
@@ -390,7 +390,7 @@ cb_dialog_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 static void
 dialog_load_selection (SortFlowState *state)
 {
-	Range const *first;
+	GnmRange const *first;
 
 	first = selection_first_range (state->sv, NULL, NULL);
 
@@ -545,9 +545,9 @@ cb_delete_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 static void
 cb_add_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 {
-        Value *range_add;
-	GlobalRange grange_sort, grange_add;
-	Range intersection;
+        GnmValue *range_add;
+	GnmGlobalRange grange_sort, grange_add;
+	GnmRange intersection;
 	int start;
 	int end;
 	int index;

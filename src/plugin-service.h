@@ -11,60 +11,60 @@
 #include "plugin.h"
 
 #define GNM_PLUGIN_SERVICE_TYPE         (plugin_service_get_type ())
-#define GNM_PLUGIN_SERVICE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_TYPE, PluginService))
-#define GNM_IS_PLUGIN_SERVICE(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_TYPE))
+#define GNM_PLUGIN_SERVICE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_TYPE, GnmPluginService))
+#define IS_GNM_PLUGIN_SERVICE(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_TYPE))
 
 GType plugin_service_get_type (void);
 
 #define GNM_PLUGIN_SERVICE_GENERAL_TYPE  (plugin_service_general_get_type ())
 #define GNM_PLUGIN_SERVICE_GENERAL(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_GENERAL_TYPE, PluginServiceGeneral))
-#define GNM_IS_PLUGIN_SERVICE_GENERAL(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_GENERAL_TYPE))
+#define IS_GNM_PLUGIN_SERVICE_GENERAL(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_GENERAL_TYPE))
 
 GType plugin_service_general_get_type (void);
 typedef struct _PluginServiceGeneral PluginServiceGeneral;
 typedef struct {
-	void (*plugin_func_init) (PluginService *service, ErrorInfo **ret_error);
-	void (*plugin_func_cleanup) (PluginService *service, ErrorInfo **ret_error);
+	void (*plugin_func_init) (GnmPluginService *service, ErrorInfo **ret_error);
+	void (*plugin_func_cleanup) (GnmPluginService *service, ErrorInfo **ret_error);
 } PluginServiceGeneralCallbacks;
 
 
 #define GNM_PLUGIN_SERVICE_CLIPBOARD_TYPE  (plugin_service_general_get_type ())
 #define GNM_PLUGIN_SERVICE_CLIPBOARD(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_CLIPBOARD_TYPE, PluginServiceClipboard))
-#define GNM_IS_PLUGIN_SERVICE_CLIPBOARD(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_CLIPBOARD_TYPE))
+#define IS_GNM_PLUGIN_SERVICE_CLIPBOARD(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_CLIPBOARD_TYPE))
 
 GType plugin_service_general_get_type (void);
 typedef struct _PluginServiceClipboard PluginServiceClipboard;
 typedef struct {
-	guint8     *(*write_content) (PluginService *service, CellRegion *cr, int *size);
-	CellRegion *(*read_content)  (PluginService *service, ErrorInfo **ret_error);
+	guint8     *(*write_content) (GnmPluginService *service, CellRegion *cr, int *size);
+	CellRegion *(*read_content)  (GnmPluginService *service, ErrorInfo **ret_error);
 } PluginServiceClipboardCallbacks;
 
 #define GNM_PLUGIN_SERVICE_FILE_OPENER_TYPE  (plugin_service_file_opener_get_type ())
 #define GNM_PLUGIN_SERVICE_FILE_OPENER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_FILE_OPENER_TYPE, PluginServiceFileOpener))
-#define GNM_IS_PLUGIN_SERVICE_FILE_OPENER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_FILE_OPENER_TYPE))
+#define IS_GNM_PLUGIN_SERVICE_FILE_OPENER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_FILE_OPENER_TYPE))
 
 GType plugin_service_file_opener_get_type (void);
 typedef struct _PluginServiceFileOpener PluginServiceFileOpener;
 typedef struct {
 	/* plugin_func_file_probe may be NULL */
 	gboolean (*plugin_func_file_probe) (
-	         GnmFileOpener const *fo, PluginService *service,
+	         GnmFileOpener const *fo, GnmPluginService *service,
 	         GsfInput *input, FileProbeLevel pl);
 	void     (*plugin_func_file_open) (
-	         GnmFileOpener const *fo, PluginService *service,
+	         GnmFileOpener const *fo, GnmPluginService *service,
 	         IOContext *io_context, WorkbookView *wbv, GsfInput *input);
 } PluginServiceFileOpenerCallbacks;
 
 
 #define GNM_PLUGIN_SERVICE_FILE_SAVER_TYPE  (plugin_service_file_saver_get_type ())
 #define GNM_PLUGIN_SERVICE_FILE_SAVER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_FILE_SAVER_TYPE, PluginServiceFileSaver))
-#define GNM_IS_PLUGIN_SERVICE_FILE_SAVER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_FILE_SAVER_TYPE))
+#define IS_GNM_PLUGIN_SERVICE_FILE_SAVER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_FILE_SAVER_TYPE))
 
 GType plugin_service_file_saver_get_type (void);
 typedef struct _PluginServiceFileSaver PluginServiceFileSaver;
 typedef struct {
 	void  (*plugin_func_file_save) (
-	      GnmFileSaver const *fs, PluginService *service,
+	      GnmFileSaver const *fs, GnmPluginService *service,
 	      IOContext *io_context, WorkbookView const *wbv,
 	      GsfOutput *output);
 } PluginServiceFileSaverCallbacks;
@@ -72,28 +72,28 @@ typedef struct {
 
 #define GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE  (plugin_service_function_group_get_type ())
 #define GNM_PLUGIN_SERVICE_FUNCTION_GROUP(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE, PluginServiceFunctionGroup))
-#define GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE))
+#define IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE))
 
 GType plugin_service_function_group_get_type (void);
 typedef struct _PluginServiceFunctionGroup PluginServiceFunctionGroup;
 typedef struct {
-	gboolean (*func_desc_load) (PluginService *service, char const *name,
+	gboolean (*func_desc_load) (GnmPluginService *service, char const *name,
 				    GnmFuncDescriptor *res);
 } PluginServiceFunctionGroupCallbacks;
 
 
 #define GNM_PLUGIN_SERVICE_PLUGIN_LOADER_TYPE  (plugin_service_plugin_loader_get_type ())
 #define GNM_PLUGIN_SERVICE_PLUGIN_LOADER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_PLUGIN_LOADER_TYPE, PluginServicePluginLoader))
-#define GNM_IS_PLUGIN_SERVICE_PLUGIN_LOADER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_PLUGIN_LOADER_TYPE))
+#define IS_GNM_PLUGIN_SERVICE_PLUGIN_LOADER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_PLUGIN_LOADER_TYPE))
 
 GType plugin_service_plugin_loader_get_type (void);
 typedef struct _PluginServicePluginLoader PluginServicePluginLoader;
 typedef struct {
 	GType (*plugin_func_get_loader_type) (
-	      PluginService *service, ErrorInfo **ret_error);
+	      GnmPluginService *service, ErrorInfo **ret_error);
 } PluginServicePluginLoaderCallbacks;
 
-GType plugin_service_plugin_loader_generate_type (PluginService *service,
+GType plugin_service_plugin_loader_generate_type (GnmPluginService *service,
                                                   ErrorInfo **ret_error);
 
 #ifdef WITH_BONOBO
@@ -102,13 +102,13 @@ GType plugin_service_plugin_loader_generate_type (PluginService *service,
 
 #define GNM_PLUGIN_SERVICE_UI_TYPE  (plugin_service_ui_get_type ())
 #define GNM_PLUGIN_SERVICE_UI(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_UI_TYPE, PluginServiceUI))
-#define GNM_IS_PLUGIN_SERVICE_UI(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_UI_TYPE))
+#define IS_GNM_PLUGIN_SERVICE_UI(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_UI_TYPE))
 
 GType plugin_service_ui_get_type (void);
 typedef struct _PluginServiceUI PluginServiceUI;
 typedef struct {
 	void (*plugin_func_exec_verb) (
-		PluginService *service, WorkbookControlGUI *wbcg,
+		GnmPluginService *service, WorkbookControlGUI *wbcg,
 		BonoboUIComponent *uic, char const *cname, ErrorInfo **ret_error);
 } PluginServiceUICallbacks;
 
@@ -118,7 +118,7 @@ typedef struct {
 
 #define GNM_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE  (plugin_service_gobject_loader_get_type ())
 #define GNM_PLUGIN_SERVICE_GOBJECT_LOADER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE, PluginServiceGObjectLoader))
-#define GNM_IS_PLUGIN_SERVICE_GOBJECT_LOADER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE))
+#define IS_GNM_PLUGIN_SERVICE_GOBJECT_LOADER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE))
 
 GType plugin_service_gobject_loader_get_type (void);
 typedef struct _PluginServiceGObjectLoader PluginServiceGObjectLoader;
@@ -126,22 +126,22 @@ typedef struct _PluginServiceGObjectLoader PluginServiceGObjectLoader;
 /****************************************************************************/
 #define GNM_PLUGIN_SERVICE_SIMPLE_TYPE  (plugin_service_simple_get_type ())
 #define GNM_PLUGIN_SERVICE_SIMPLE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_SIMPLE_TYPE, PluginServiceSimple))
-#define GNM_IS_PLUGIN_SERVICE_SIMPLE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_SIMPLE_TYPE))
+#define IS_GNM_PLUGIN_SERVICE_SIMPLE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_SIMPLE_TYPE))
 
 GType plugin_service_simple_get_type (void);
 typedef struct _PluginServiceSimple PluginServiceSimple;
 
 /****************************************************************************/
 
-PluginService  *plugin_service_new (GnmPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error);
-char const     *plugin_service_get_id (PluginService *service);
-char const     *plugin_service_get_description (PluginService *service);
-GnmPlugin      *plugin_service_get_plugin (PluginService *service);
-gpointer	plugin_service_get_cbs (PluginService *service);
-void		plugin_service_activate (PluginService *service, ErrorInfo **ret_error);
-void		plugin_service_deactivate (PluginService *service, ErrorInfo **ret_error);
-void		plugin_service_load   (PluginService *service, ErrorInfo **ret_error);
-void		plugin_service_unload (PluginService *service, ErrorInfo **ret_error);
+GnmPluginService  *plugin_service_new (GnmPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error);
+char const     *plugin_service_get_id (GnmPluginService *service);
+char const     *plugin_service_get_description (GnmPluginService *service);
+GnmPlugin      *plugin_service_get_plugin (GnmPluginService *service);
+gpointer	plugin_service_get_cbs (GnmPluginService *service);
+void		plugin_service_activate (GnmPluginService *service, ErrorInfo **ret_error);
+void		plugin_service_deactivate (GnmPluginService *service, ErrorInfo **ret_error);
+void		plugin_service_load   (GnmPluginService *service, ErrorInfo **ret_error);
+void		plugin_service_unload (GnmPluginService *service, ErrorInfo **ret_error);
 
 typedef GType (*GnmPluginServiceCreate) (void);
 void plugin_services_init     (void);

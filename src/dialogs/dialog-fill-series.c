@@ -68,8 +68,8 @@ cb_fill_series_update_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 	gboolean   ready  = FALSE;
 	gboolean   step, stop;
 	gint       i;
-        Value      *output_range;
-	gnm_float      a_float;
+        GnmValue  *output_range;
+	gnm_float  a_float;
 
         output_range = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
@@ -165,7 +165,7 @@ dialog_fill_series_tool_init (FillSeriesState *state)
 {
 	GtkWidget   *radio;
 	char const  *button;
-	Range const *sel;
+	GnmRange const *sel;
 	gboolean prefer_rows = FALSE;
 
 	sel = selection_first_range (state->base.sv, NULL, NULL);

@@ -73,7 +73,7 @@ ColRowInfo
    int pixels
 
 Cell
-   CellPos pos
+   GnmCellPos pos
    StyleFormat *parse_format	// The format used to parse the input text
 
 ------------ Summary : long list of items and their values -----------

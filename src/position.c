@@ -32,8 +32,8 @@
 #include "ranges.h"
 
 
-CellRef *
-cellref_set (CellRef *ref, Sheet *sheet, int col, int row, gboolean relative)
+GnmCellRef *
+cellref_set (GnmCellRef *ref, Sheet *sheet, int col, int row, gboolean relative)
 {
 	ref->sheet = sheet;
 	ref->col   = col;
@@ -44,7 +44,7 @@ cellref_set (CellRef *ref, Sheet *sheet, int col, int row, gboolean relative)
 }
 
 EvalPos *
-eval_pos_init (EvalPos *ep, Sheet *sheet, CellPos const *pos)
+eval_pos_init (EvalPos *ep, Sheet *sheet, GnmCellPos const *pos)
 {
 	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (sheet != NULL, NULL);
@@ -68,7 +68,7 @@ eval_pos_init_dep (EvalPos *ep, Dependent const *dep)
 	if (dependent_is_cell (dep)) {
 		ep->eval = DEP_TO_CELL (dep)->pos;
 	} else {
-		static CellPos const pos = { 0, 0 };
+		static GnmCellPos const pos = { 0, 0 };
 		ep->eval = pos;
 	}
 	return ep;
@@ -89,7 +89,7 @@ eval_pos_init_cell (EvalPos *ep, Cell const *cell)
 EvalPos *
 eval_pos_init_sheet (EvalPos *ep, Sheet *sheet)
 {
-	static CellPos const pos = { 0, 0 };
+	static GnmCellPos const pos = { 0, 0 };
 
 	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -188,7 +188,7 @@ parse_pos_init_sheet (ParsePos *pp, Sheet *sheet)
 /********************************************************************************/
 
 gboolean
-cellref_equal (CellRef const *a, CellRef const *b)
+cellref_equal (GnmCellRef const *a, GnmCellRef const *b)
 {
 	return (a->col == b->col) &&
 	       (a->col_relative == b->col_relative) &&
@@ -198,7 +198,7 @@ cellref_equal (CellRef const *a, CellRef const *b)
 }
 
 int
-cellref_get_abs_col (CellRef const *ref, EvalPos const *ep)
+cellref_get_abs_col (GnmCellRef const *ref, EvalPos const *ep)
 {
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (ep != NULL, 0);
@@ -213,7 +213,7 @@ cellref_get_abs_col (CellRef const *ref, EvalPos const *ep)
 }
 
 int
-cellref_get_abs_row (CellRef const *ref, EvalPos const *ep)
+cellref_get_abs_row (GnmCellRef const *ref, EvalPos const *ep)
 {
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (ep != NULL, 0);
@@ -228,9 +228,9 @@ cellref_get_abs_row (CellRef const *ref, EvalPos const *ep)
 }
 
 void
-cellref_get_abs_pos (CellRef const *cell_ref,
-		     CellPos const *pos,
-		     CellPos *res)
+cellref_get_abs_pos (GnmCellRef const *cell_ref,
+		     GnmCellPos const *pos,
+		     GnmCellPos *res)
 {
 	g_return_if_fail (cell_ref != NULL);
 	g_return_if_fail (res != NULL);
@@ -251,7 +251,7 @@ cellref_get_abs_pos (CellRef const *cell_ref,
 }
 
 void
-cellref_make_abs (CellRef *dest, CellRef const *src, EvalPos const *ep)
+cellref_make_abs (GnmCellRef *dest, GnmCellRef const *src, EvalPos const *ep)
 {
 	g_return_if_fail (dest != NULL);
 	g_return_if_fail (src != NULL);
@@ -275,7 +275,7 @@ cellref_make_abs (CellRef *dest, CellRef const *src, EvalPos const *ep)
 
 
 guint
-cellref_hash (const CellRef *cr)
+cellref_hash (GnmCellRef const *cr)
 {
 	guint h = ((cr->row << 8) ^ cr->col) * 4;
 	if (cr->col_relative) h |= 1;
@@ -283,14 +283,14 @@ cellref_hash (const CellRef *cr)
 	return h;
 }
 
-RangeRef *
-value_to_rangeref (Value *v, gboolean release)
+GnmRangeRef *
+value_to_rangeref (GnmValue *v, gboolean release)
 {
-	RangeRef *gr;
+	GnmRangeRef *gr;
 
 	g_return_val_if_fail (v->type == VALUE_CELLRANGE, NULL);
 
-	gr = g_new0 (RangeRef, 1);
+	gr = g_new0 (GnmRangeRef, 1);
 	*gr = v->v_range.cell;
 
 	if (release)
@@ -306,8 +306,8 @@ value_to_rangeref (Value *v, gboolean release)
  *     by converting to absolute coords and handling inversions.
  */
 void
-rangeref_normalize (RangeRef const *ref, EvalPos const *ep,
-		    Sheet **start_sheet, Sheet **end_sheet, Range *dest)
+rangeref_normalize (GnmRangeRef const *ref, EvalPos const *ep,
+		    Sheet **start_sheet, Sheet **end_sheet, GnmRange *dest)
 {
 	g_return_if_fail (ref != NULL);
 	g_return_if_fail (ep != NULL);

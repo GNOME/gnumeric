@@ -473,7 +473,7 @@ gnm_combo_text_add_item (GnmComboText *ct,
 void
 gnm_combo_text_clear (GnmComboText *ct)
 {
-	g_return_if_fail (GNM_IS_COMBO_TEXT (ct));
+	g_return_if_fail (IS_GNM_COMBO_TEXT (ct));
 
 	gtk_list_clear_items (GTK_LIST (ct->list), 0, -1);
 }

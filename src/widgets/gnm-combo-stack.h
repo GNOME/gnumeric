@@ -33,7 +33,7 @@ G_BEGIN_DECLS
 
 #define GNM_COMBO_STACK_TYPE    (gnm_combo_stack_get_type ())
 #define GNM_COMBO_STACK(obj)	G_TYPE_CHECK_INSTANCE_CAST (obj, gnm_combo_stack_get_type (), GnmComboStack)
-#define GNM_IS_COMBO_STACK(obj) G_TYPE_CHECK_INSTANCE_TYPE (obj, gnm_combo_stack_get_type ())
+#define IS_GNM_COMBO_STACK(obj) G_TYPE_CHECK_INSTANCE_TYPE (obj, gnm_combo_stack_get_type ())
 
 typedef struct _GnmComboStack	     GnmComboStack;
 

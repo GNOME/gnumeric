@@ -589,7 +589,7 @@ style_default_halign (MStyle const *mstyle, Cell const *c)
 	StyleHAlignFlags align = mstyle_get_align_h (mstyle);
 
 	if (align == HALIGN_GENERAL) {
-		Value *v;
+		GnmValue *v;
 
 		g_return_val_if_fail (c != NULL, HALIGN_RIGHT);
 

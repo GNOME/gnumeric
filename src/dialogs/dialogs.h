@@ -32,7 +32,7 @@ void	 dialog_zoom		(WorkbookControlGUI *wbcg, Sheet *sheet);
 void	 dialog_about		(WorkbookControlGUI *wbcg);
 void	 dialog_define_names	(WorkbookControlGUI *wbcg);
 void	 dialog_cell_comment	(WorkbookControlGUI *wbcg,
-				 Sheet *sheet, CellPos const *pos);
+				 Sheet *sheet, GnmCellPos const *pos);
 void	 dialog_cell_sort	(WorkbookControlGUI *wbcg);
 void	 dialog_workbook_attr	(WorkbookControlGUI *wbcg);
 void	 dialog_goal_seek	(WorkbookControlGUI *wbcg, Sheet *sheet);
@@ -62,13 +62,13 @@ GtkWidget *dialog_col_row       (WorkbookControlGUI *wbcg, char const *operation
 				 ColRowCallback_t callback,
 				 gpointer data);
 
-typedef gboolean (*SearchDialogCallback) (WorkbookControlGUI *wbcg, SearchReplace *sr);
+typedef gboolean (*SearchDialogCallback) (WorkbookControlGUI *wbcg, GnmSearchReplace *sr);
 void dialog_search_replace (WorkbookControlGUI *wbcg, SearchDialogCallback cb);
 int dialog_search_replace_query (WorkbookControlGUI *wbcg,
-				 SearchReplace *sr,
-				 const char *location,
-				 const char *old_text,
-				 const char *new_text);
+				 GnmSearchReplace *sr,
+				 char const *location,
+				 char const *old_text,
+				 char const *new_text);
 
 void dialog_search (WorkbookControlGUI *wbcg);
 
@@ -101,7 +101,7 @@ typedef enum {
 } ttest_type;
 
 int dialog_ttest_tool    (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test);
-char *dialog_get_password (GtkWindow *parent, const char *filename);
+char *dialog_get_password (GtkWindow *parent, char const *filename);
 
 /* Modeless dialogs */
 void	 dialog_summary_update  (WorkbookControlGUI *wbcg, gboolean open_dialogs);

@@ -630,7 +630,7 @@ static void
 latex2e_write_blank_cell (GsfOutput *output, gint col, gint row, gint index,
 			  StyleBorderType *borders, Sheet *sheet)
 {
-	CellPos pos;
+	GnmCellPos pos;
 	StyleBorderType left_border = STYLE_BORDER_NONE;
 	StyleBorderType right_border = STYLE_BORDER_NONE;
 
@@ -928,8 +928,8 @@ latex2e_find_hhlines (StyleBorderType *clines, int length, int col, int row,
 {
 	MStyle *mstyle;
 	StyleBorder	   *border;
- 	Range const *merge_range;
-	CellPos pos;
+ 	GnmRange const *merge_range;
+	GnmCellPos pos;
 
 	mstyle = sheet_style_get (sheet, col, row);
 	border = mstyle_get_border (mstyle, type);
@@ -1023,8 +1023,8 @@ latex_file_save (GnmFileSaver const *fs, IOContext *io_context,
 {
 	Cell *cell;
 	Sheet *current_sheet;
-	Range total_range;
- 	Range const *merge_range;
+	GnmRange total_range;
+ 	GnmRange const *merge_range;
 	int row, col, num_cols, length;
 	int num_merged_cols, num_merged_rows;
 	StyleBorderType *clines, *this_clines;

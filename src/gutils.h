@@ -41,7 +41,7 @@ GSList   *g_slist_map        (GSList const *list, GnmMapFunc map_func);
 GSList    *g_create_slist	     (gpointer item1, ...);
 void      g_slist_free_custom (GSList *list, GFreeFunc free_func);
 #define   g_string_slist_copy(list) g_slist_map (list, (GnmMapFunc) g_strdup)
-GSList    *g_strsplit_to_slist (const gchar *string, const gchar *delimiter);
+GSList    *g_strsplit_to_slist (char const *string, char const *delimiter);
 #define GNM_SLIST_FOREACH(list,valtype,val,stmnt) \
 G_STMT_START { \
 	GSList const *gnm_l; \
@@ -66,33 +66,33 @@ G_STMT_START { \
 
 guint     gnumeric_ascii_strcase_hash  (gconstpointer v);
 gint      gnumeric_ascii_strcase_equal (gconstpointer v, gconstpointer v2);
-gint      gnumeric_utf8_collate_casefold (const char *a, const char *b);
+gint      gnumeric_utf8_collate_casefold (char const *a, char const *b);
 
-const char *gnm_guess_encoding (const char *raw, size_t len,
-				const char *user_guess,
+char const *gnm_guess_encoding (char const *raw, size_t len,
+				char const *user_guess,
 				char **utf8_str);
 
 /**
  * System and user paths
  */
-char *    gnumeric_sys_lib_dir    (const char *subdir);
-char *    gnumeric_sys_data_dir   (const char *subdir);
+char *    gnumeric_sys_lib_dir    (char const *subdir);
+char *    gnumeric_sys_data_dir   (char const *subdir);
 char *    gnumeric_sys_glade_dir  (void);
 char *    gnumeric_sys_plugin_dir (void);
 
-char *    gnumeric_usr_dir        (const char *subdir);
+char *    gnumeric_usr_dir        (char const *subdir);
 char *    gnumeric_usr_plugin_dir (void);
 
-void      gnm_strescape (GString *target, const char *string);
-const char *gnm_strunescape (GString *target, const char *string);
+void      gnm_strescape (GString *target, char const *string);
+char const *gnm_strunescape (GString *target, char const *string);
 
-char *    gnumeric_utf8_strcapital (const char *p, ssize_t len);
+char *    gnumeric_utf8_strcapital (char const *p, ssize_t len);
 
-gnm_mem_chunk *gnm_mem_chunk_new (const char *, size_t, size_t);
-void gnm_mem_chunk_destroy (gnm_mem_chunk *, gboolean);
-gpointer gnm_mem_chunk_alloc (gnm_mem_chunk *);
-gpointer gnm_mem_chunk_alloc0 (gnm_mem_chunk *);
-void gnm_mem_chunk_free (gnm_mem_chunk *, gpointer);
-void gnm_mem_chunk_foreach_leak (gnm_mem_chunk *, GFunc, gpointer);
+GnmMemChunk *gnm_mem_chunk_new		(char const *, size_t, size_t);
+void	     gnm_mem_chunk_destroy	(GnmMemChunk *, gboolean);
+gpointer     gnm_mem_chunk_alloc	(GnmMemChunk *);
+gpointer     gnm_mem_chunk_alloc0	(GnmMemChunk *);
+void         gnm_mem_chunk_free		(GnmMemChunk *, gpointer);
+void         gnm_mem_chunk_foreach_leak (GnmMemChunk *, GFunc, gpointer);
 
 #endif /* GNUMERIC_UTILS_H */

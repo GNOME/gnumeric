@@ -44,7 +44,7 @@ static void dynamic_dep_debug_name (Dependent const *dep, FILE *out);
 static void name_dep_eval 	   (Dependent *dep);
 static void name_dep_debug_name	   (Dependent const *dep, FILE *out);
 
-static CellPos const dummy = { 0, 0 };
+static GnmCellPos const dummy = { 0, 0 };
 static GPtrArray *dep_classes = NULL;
 static DependentClass dynamic_dep_class = {
 	dynamic_dep_eval,
@@ -203,7 +203,7 @@ dependent_set_sheet (Dependent *dep, Sheet *sheet)
 
 	dep->sheet = sheet;
 	if (dep->expression != NULL) {
-		CellPos const *pos = (dependent_is_cell (dep))
+		GnmCellPos const *pos = (dependent_is_cell (dep))
 			? &DEP_TO_CELL(dep)->pos : &dummy;
 		dependent_link (dep, pos);
 		dependent_changed (dep);
@@ -521,7 +521,7 @@ typedef GSList *	DepCollection;
  */
 typedef struct {
 	DepCollection	deps;	/* Must be first */
-	Range  range;
+	GnmRange  range;
 } DependencyRange;
 
 /*
@@ -533,7 +533,7 @@ typedef struct {
  */
 typedef struct {
 	DepCollection	deps;	/* Must be first */
-	CellPos pos;
+	GnmCellPos pos;
 } DependencySingle;
 
 /* A utility type */
@@ -565,7 +565,7 @@ depsingle_equal (DependencySingle const *a, DependencySingle const *b)
 }
 
 static DependentFlags
-link_single_dep (Dependent *dep, CellPos const *pos, CellRef const *ref)
+link_single_dep (Dependent *dep, GnmCellPos const *pos, GnmCellRef const *ref)
 {
 	DependencySingle lookup;
 	DependencySingle *single;
@@ -595,7 +595,7 @@ link_single_dep (Dependent *dep, CellPos const *pos, CellRef const *ref)
 }
 
 static void
-unlink_single_dep (Dependent *dep, CellPos const *pos, CellRef const *a)
+unlink_single_dep (Dependent *dep, GnmCellPos const *pos, GnmCellRef const *a)
 {
 	DependencySingle lookup;
 	DependencySingle *single;
@@ -673,8 +673,8 @@ unlink_range_dep (GnmDepContainer *deps, Dependent *dep,
 }
 
 static DependentFlags
-link_cellrange_dep (Dependent *dep, CellPos const *pos,
-		    CellRef const *a, CellRef const *b)
+link_cellrange_dep (Dependent *dep, GnmCellPos const *pos,
+		    GnmCellRef const *a, GnmCellRef const *b)
 {
 	DependencyRange range;
 	DependentFlags flag = DEPENDENT_NO_FLAG;
@@ -709,8 +709,8 @@ link_cellrange_dep (Dependent *dep, CellPos const *pos,
 	return flag;
 }
 static void
-unlink_cellrange_dep (Dependent *dep, CellPos const *pos,
-		      CellRef const *a, CellRef const *b)
+unlink_cellrange_dep (Dependent *dep, GnmCellPos const *pos,
+		      GnmCellRef const *a, GnmCellRef const *b)
 {
 	DependencyRange range;
 
@@ -738,7 +738,7 @@ unlink_cellrange_dep (Dependent *dep, CellPos const *pos,
 }
 
 static DependentFlags
-link_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
+link_expr_dep (Dependent *dep, GnmCellPos const *pos, GnmExpr const *tree)
 {
 	g_return_val_if_fail (tree != NULL, DEPENDENT_NO_FLAG);
 
@@ -786,7 +786,7 @@ link_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 	case GNM_EXPR_OP_ARRAY:
 		if (tree->array.x != 0 || tree->array.y != 0) {
 			/* Non-corner cells depend on the corner */
-			CellRef a;
+			GnmCellRef a;
 
 			/* We cannot support array expressions unless
 			 * we have a position.
@@ -824,7 +824,7 @@ link_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 }
 
 static void
-unlink_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
+unlink_expr_dep (Dependent *dep, GnmCellPos const *pos, GnmExpr const *tree)
 {
 	switch (tree->any.oper) {
 	case GNM_EXPR_OP_ANY_BINARY:
@@ -871,7 +871,7 @@ unlink_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 	case GNM_EXPR_OP_ARRAY:
 		if (tree->array.x != 0 || tree->array.y != 0) {
 			/* Non-corner cells depend on the corner */
-			CellRef a;
+			GnmCellRef a;
 
 			/* We cannot support array expressions unless
 			 * we have a position.
@@ -953,11 +953,11 @@ dynamic_dep_debug_name (Dependent const *dep, FILE *out)
 	fprintf (out, "DynamicDep%p", dep);
 }
 void
-dependent_add_dynamic_dep (Dependent *dep, ValueRange const *v)
+dependent_add_dynamic_dep (Dependent *dep, GnmValueRange const *v)
 {
 	DependentFlags   flags;
 	DynamicDep	*dyn;
-	CellPos const	*pos;
+	GnmCellPos const	*pos;
 	DependencyRange  range;
 
 	g_return_if_fail (dep != NULL);
@@ -983,10 +983,10 @@ dependent_add_dynamic_dep (Dependent *dep, ValueRange const *v)
 	cellref_get_abs_pos (&v->cell.b, pos, &range.range.end);
 	if (range_is_singleton (&range.range)) {
 		flags = link_single_dep (&dyn->base, pos, &v->cell.a);
-		dyn->singles = g_slist_prepend (dyn->singles, value_duplicate ((Value *)v));
+		dyn->singles = g_slist_prepend (dyn->singles, value_duplicate ((GnmValue *)v));
 	} else {
 		flags = link_cellrange_dep (&dyn->base, pos, &v->cell.a, &v->cell.b);
-		dyn->ranges = g_slist_prepend (dyn->ranges, value_duplicate ((Value *)v));
+		dyn->ranges = g_slist_prepend (dyn->ranges, value_duplicate ((GnmValue *)v));
 	}
 	if (flags & DEPENDENT_HAS_3D)
 		workbook_link_3d_dep (dep);
@@ -1008,7 +1008,7 @@ dependent_clear_dynamic_deps (Dependent *dep)
  * Adds the dependent to the workbook wide list of dependents.
  */
 void
-dependent_link (Dependent *dep, CellPos const *pos)
+dependent_link (Dependent *dep, GnmCellPos const *pos)
 {
 	Sheet *sheet;
 
@@ -1045,7 +1045,7 @@ dependent_link (Dependent *dep, CellPos const *pos)
  * removes the linkages to what it depends on.
  */
 void
-dependent_unlink (Dependent *dep, CellPos const *pos)
+dependent_unlink (Dependent *dep, GnmCellPos const *pos)
 {
 	GnmDepContainer *contain;
 
@@ -1089,7 +1089,7 @@ gboolean
 cell_eval_content (Cell *cell)
 {
 	static Cell *iterating = NULL;
-	Value   *v;
+	GnmValue   *v;
 	EvalPos	 pos;
 	int	 max_iteration;
 
@@ -1298,7 +1298,7 @@ cb_search_rangedeps (gpointer key, G_GNUC_UNUSED gpointer value,
 {
 	search_rangedeps_closure_t const *c = closure;
 	DependencyRange const *deprange = key;
-	Range const *range = &(deprange->range);
+	GnmRange const *range = &(deprange->range);
 
 #if 0
 	/* When things get slow this is a good test to enable */
@@ -1375,8 +1375,8 @@ cb_range_contained_depend (gpointer key, G_GNUC_UNUSED gpointer value,
 			   gpointer user)
 {
 	DependencyRange const *deprange  = key;
-	Range const *range = &deprange->range;
-	Range const *target = user;
+	GnmRange const *range = &deprange->range;
+	GnmRange const *target = user;
 
 	if (range_overlap (target, range))
 		dep_collection_foreach_list (deprange->deps, list,
@@ -1389,7 +1389,7 @@ cb_single_contained_depend (gpointer key,
 			    gpointer user)
 {
 	DependencySingle const *depsingle  = key;
-	Range const *target = user;
+	GnmRange const *target = user;
 
 	if (range_contains (target, depsingle->pos.col, depsingle->pos.row))
 		dep_collection_foreach_list (depsingle->deps, list,
@@ -1407,7 +1407,7 @@ cb_single_contained_depend (gpointer key,
  * If @range is NULL the entire sheet is used.
  */
 void
-sheet_region_queue_recalc (Sheet const *sheet, Range const *r)
+sheet_region_queue_recalc (Sheet const *sheet, GnmRange const *r)
 {
 	int i;
 
@@ -1551,7 +1551,7 @@ dependents_link (GSList *deps, GnmExprRewriteInfo const *rwinfo)
 }
 
 typedef struct {
-	Range const *target;
+	GnmRange const *target;
 	GSList *list;
 } CollectClosure;
 
@@ -1560,7 +1560,7 @@ cb_range_contained_collect (DependencyRange const *deprange,
 			    G_GNUC_UNUSED gpointer ignored,
 			    CollectClosure *user)
 {
-	Range const *range = &deprange->range;
+	GnmRange const *range = &deprange->range;
 
 	if (range_overlap (user->target, range))
 		dep_collection_foreach_dep (deprange->deps, dep, {
@@ -1601,7 +1601,7 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 	Dependent *dep;
 	GSList    *l, *dependents = NULL, *undo_info = NULL;
 	Sheet	  *sheet;
-	Range const   *r;
+	GnmRange const   *r;
 	GnmExpr const *newtree;
 	int i;
 	CollectClosure collect;
@@ -1688,7 +1688,7 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 				 * This avoids a link/unlink/link tuple
 				 */
 				if (t == DEPENDENT_CELL) {
-					CellPos const *pos = &DEP_TO_CELL (dep)->pos;
+					GnmCellPos const *pos = &DEP_TO_CELL (dep)->pos;
 					if (dep->sheet != sheet ||
 					    !range_contains (r, pos->col, pos->row))
 						dependent_link (dep, pos);
@@ -2133,15 +2133,15 @@ static void
 dynamic_dep_free (DynamicDep *dyn)
 {
 	Dependent *dep = dyn->container;
-	CellPos const *pos = (dependent_is_cell (dep))
+	GnmCellPos const *pos = (dependent_is_cell (dep))
 		? &DEP_TO_CELL(dep)->pos : &dummy;
-	ValueRange *v;
+	GnmValueRange *v;
 	GSList *ptr;
 
 	for (ptr = dyn->singles ; ptr != NULL ; ptr = ptr->next) {
 		v = ptr->data;
 		unlink_single_dep (&dyn->base, pos, &v->cell.a);
-		value_release ((Value *)v);
+		value_release ((GnmValue *)v);
 	}
 	g_slist_free (dyn->singles);
 	dyn->singles = NULL;
@@ -2149,7 +2149,7 @@ dynamic_dep_free (DynamicDep *dyn)
 	for (ptr = dyn->ranges ; ptr != NULL ; ptr = ptr->next) {
 		v = ptr->data;
 		unlink_cellrange_dep (&dyn->base, pos, &v->cell.a, &v->cell.b);
-		value_release ((Value *)v);
+		value_release ((GnmValue *)v);
 	}
 	g_slist_free (dyn->ranges);
 	dyn->ranges = NULL;
@@ -2207,7 +2207,7 @@ dump_range_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 		G_GNUC_UNUSED gpointer closure)
 {
 	DependencyRange const *deprange = key;
-	Range const *range = &(deprange->range);
+	GnmRange const *range = &(deprange->range);
 
 	/* 2 calls to col_name and row_name.  It uses a static buffer */
 	printf ("\t%s:", cellpos_as_string (&range->start));

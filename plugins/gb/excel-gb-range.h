@@ -20,7 +20,7 @@ typedef struct {
 	GBRunObject object;
 
 	Sheet      *sheet;
-	Range       range;
+	GnmRange       range;
 } ExcelGBRange;
 
 typedef struct {
@@ -31,7 +31,7 @@ GtkType       excel_gb_range_get_type (void);
 
 ExcelGBRange *excel_gb_range_new      (GBRunEvalContext *ec,
 				       Sheet            *sheet,
-				       Range             range);
+				       GnmRange             range);
 
 ExcelGBRange *excel_gb_range_new_ref  (GBRunEvalContext *ec,
 				       Sheet            *sheet,

@@ -1144,7 +1144,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 			    parseoptions->col_import_array[lcol]) {
 				char *text = g_ptr_array_index (line, lcol);
 				if (text) {
-					Value *v;
+					GnmValue *v;
 					StyleFormat *fmt = mstyle_get_format 
 						(sheet_style_get (sheet,
 								  start_col + lcol_target, 
@@ -1197,7 +1197,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 
 				if (text) {
 					CellCopy *ccopy;
-					Value *v;
+					GnmValue *v;
 					StyleFormat *fmt = g_ptr_array_index 
 						(parseoptions->formats, col);
 

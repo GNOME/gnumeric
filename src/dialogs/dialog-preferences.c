@@ -468,7 +468,7 @@ cb_value_edited (GtkCellRendererText *cell,
 	gint        the_int;
 	gnm_float  the_float;
 	gboolean    the_bool;
-	Value       *value;
+	GnmValue       *value;
 	GConfClient *client = application_get_gconf_client ();
 	GConfSchema *the_schema;
 	gboolean     err;

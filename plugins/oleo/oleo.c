@@ -57,7 +57,7 @@ append_zeros (GString *s, int n)
 static void
 oleo_set_style (Sheet *sheet, int col, int row, MStyle *mstyle)
 {
-	Range range;
+	GnmRange range;
 
 	if (!sheet)
 		return;
@@ -134,7 +134,7 @@ oleo_get_gnumeric_expr (char const *o_expr,
 
 	while (*from) {
 		if (*from == 'r') {
-			CellRef start, end;
+			GnmCellRef start, end;
 
 			from++;
 			oleo_get_ref_value (&start.row, &start.row_relative,
@@ -255,7 +255,7 @@ oleo_deal_with_cell (OleoParseState *state, guint8 *str, int *ccol, int *crow, M
 		expr = oleo_parse_formula (state, formula, *ccol, *crow);
 
 	if (cval != NULL) {
-		Value *val = format_match_simple (cval);
+		GnmValue *val = format_match_simple (cval);
 
 		if (val == NULL) {
 			char *last = cval + strlen (cval) - 1;

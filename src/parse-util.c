@@ -186,7 +186,7 @@ row_parse (char const *str, int *res, unsigned char *relative)
 /***************************************************************************/
 
 inline static int
-cellref_abs_col (CellRef const *ref, ParsePos const *pp)
+cellref_abs_col (GnmCellRef const *ref, ParsePos const *pp)
 {
 	int col = (ref->col_relative) ? pp->eval.col + ref->col : ref->col;
 
@@ -198,7 +198,7 @@ cellref_abs_col (CellRef const *ref, ParsePos const *pp)
 }
 
 inline static int
-cellref_abs_row (CellRef const *ref, ParsePos const *pp)
+cellref_abs_row (GnmCellRef const *ref, ParsePos const *pp)
 {
 	int row = (ref->row_relative) ? pp->eval.row + ref->row : ref->row;
 
@@ -221,7 +221,7 @@ cellref_abs_row (CellRef const *ref, ParsePos const *pp)
  **/
 void
 cellref_as_string (GString *target, GnmExprConventions const *conv,
-		   CellRef const *cell_ref,
+		   GnmCellRef const *cell_ref,
 		   ParsePos const *pp, gboolean no_sheetname)
 {
 	int col, row;
@@ -278,9 +278,9 @@ cellref_as_string (GString *target, GnmExprConventions const *conv,
  **/
 void
 rangeref_as_string (GString *target, GnmExprConventions const *conv,
-		    RangeRef const *ref, ParsePos const *pp)
+		    GnmRangeRef const *ref, ParsePos const *pp)
 {
-	Range r;
+	GnmRange r;
 
 	r.start.col = cellref_abs_col (&ref->a, pp);
 	r.end.col   = cellref_abs_col (&ref->b, pp);
@@ -344,7 +344,7 @@ rangeref_as_string (GString *target, GnmExprConventions const *conv,
 }
 
 static char const *
-cellref_a1_get (CellRef *out, char const *in, CellPos const *pos)
+cellref_a1_get (GnmCellRef *out, char const *in, GnmCellPos const *pos)
 {
 	int col;
 	int row;
@@ -414,7 +414,7 @@ r1c1_get_item (int *num, unsigned char *rel, char const * *in)
 }
 
 static char const *
-cellref_r1c1_get (CellRef *out, char const *in, CellPos const *pos)
+cellref_r1c1_get (GnmCellRef *out, char const *in, GnmCellPos const *pos)
 {
 	out->row_relative = FALSE;
 	out->col_relative = FALSE;
@@ -443,7 +443,7 @@ cellref_r1c1_get (CellRef *out, char const *in, CellPos const *pos)
 
 /**
  * cellref_parse:
- * @out: destination CellRef
+ * @out: destination GnmCellRef
  * @in: reference description text, no leading
  *      whitespace allowed.
  * @pos:
@@ -454,7 +454,7 @@ cellref_r1c1_get (CellRef *out, char const *in, CellPos const *pos)
  * Return value: a pointer to the character following the cellref.
  **/
 char const *
-cellref_parse (CellRef *out, char const *in, CellPos const *pos)
+cellref_parse (GnmCellRef *out, char const *in, GnmCellPos const *pos)
 {
 	char const *res;
 
@@ -484,7 +484,7 @@ cell_coord_name (int col, int row)
 }
 
 char const *
-cellpos_as_string (CellPos const *pos)
+cellpos_as_string (GnmCellPos const *pos)
 {
 	g_return_val_if_fail (pos != NULL, "ERROR");
 
@@ -511,7 +511,7 @@ cell_name (Cell const *cell)
  * (In the strict case, that would be a pointer to the \0 or NULL.)
  */
 char const *
-cellpos_parse (char const *cell_str, CellPos *res, gboolean strict)
+cellpos_parse (char const *cell_str, GnmCellPos *res, gboolean strict)
 {
 	unsigned char dummy_relative;
 
@@ -579,17 +579,17 @@ gnm_expr_char_start_p (char const * c)
  *
  * @pos : If the string looks like an expression parse it at this location.
  * @text: The text to be parsed.
- * @val : Returns a Value * if the text was a value, otherwise NULL.
+ * @val : Returns a GnmValue * if the text was a value, otherwise NULL.
  * @expr: Returns an GnmExpr * if the text was an expression, otherwise NULL.
  * @cur_fmt : Optional, current number format.
  * @date_conv : Optional, date parse conventions
  *
- * If there is a parse failure for an expression an error Value with the syntax
+ * If there is a parse failure for an expression an error GnmValue with the syntax
  * error is returned.
  */
 void
 parse_text_value_or_expr (ParsePos const *pos, char const *text,
-			  Value **val, GnmExpr const **expr,
+			  GnmValue **val, GnmExpr const **expr,
 			  StyleFormat *cur_fmt,
 			  GnmDateConventions const *date_conv)
 {
@@ -774,7 +774,7 @@ sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb,
  * If the result != @start then @res is valid.
  **/
 char const *
-rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
+rangeref_parse (GnmRangeRef *res, char const *start, ParsePos const *pp)
 {
 	char const *ptr = start, *start_sheet, *tmp1, *tmp2;
 	Workbook *wb;
@@ -865,7 +865,7 @@ rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 
 
 char const *
-gnm_1_0_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
+gnm_1_0_rangeref_parse (GnmRangeRef *res, char const *start, ParsePos const *pp)
 {
 	char const *ptr = start, *tmp1, *tmp2;
 	Workbook *wb;
@@ -1058,7 +1058,7 @@ test_row_stuff (void)
 static void
 test_cellpos_stuff (void)
 {
-	CellPos cp;
+	GnmCellPos cp;
 	char const *end, *str;
 
 	end = cellpos_parse ((str = "A1"), &cp, TRUE);

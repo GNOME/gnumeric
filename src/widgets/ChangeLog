@@ -1,3 +1,7 @@
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
 2003-10-05  Jon K Hellan  <hellan@acm.org>
 
 	* gtk-combo-box.[ch]: gtk_combo_box renamed to gnm_combo_box.

@@ -51,23 +51,23 @@ typedef struct {
 } BiffBoundsheetData;
 
 typedef struct {
-	CellPos key;
+	GnmCellPos key;
 	guint8 *data;
 	guint32 data_len;
 	gboolean is_array;
 } XLSharedFormula;
 
 typedef struct {
-	CellPos key;
+	GnmCellPos key;
 	guint8 *data;
 	guint32 data_len;
 } XLDataTable;
 
 /* Use the upper left corner as the key to a collection of shared formulas */
 XLSharedFormula *excel_sheet_shared_formula (ExcelReadSheet const *sheet,
-					     CellPos const    *key);
+					     GnmCellPos const    *key);
 XLDataTable	*excel_sheet_data_table	    (ExcelReadSheet const *esheet,
-					     CellPos const    *key);
+					     GnmCellPos const    *key);
 
 typedef struct {
 	int *red;
@@ -120,8 +120,8 @@ struct _ExcelWorkbook {
 	Workbook            *gnum_wb;
 };
 
-char       *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length);
-Value *biff_get_error (EvalPos const *pos, guint8 const err);
+char     *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length);
+GnmValue *biff_get_error (EvalPos const *pos, guint8 const err);
 
 Sheet		*excel_externsheet_v7	 (MSContainer const *container, gint16 i);
 ExcelExternSheetV8 const *excel_externsheet_v8 (ExcelWorkbook const *wb, gint16 i);

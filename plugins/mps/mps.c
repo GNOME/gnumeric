@@ -88,7 +88,7 @@ mps_set_style (Sheet *sh, int c1, int r1, int c2, int r2,
 	       gboolean italic, gboolean bold, gboolean ulined)
 {
         MStyle *mstyle;
-	Range  range;
+	GnmRange  range;
 
 	mstyle = mstyle_new ();
 	range_init (&range, c1, r1, c2, r2);
@@ -286,7 +286,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	int     i, n, r, ecol, inc2;
 	int     n_rows_per_fn;
 	GString *var_range [2];
-	Range   range, v_range;
+	GnmRange   range, v_range;
 	Cell    *cell;
 	GString *buf;
 
@@ -336,7 +336,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 		  int                col, r;
 		  GnmExpr            *expr;
 		  GnmExprList        *args;
-		  CellRef            ref1, ref2;
+		  GnmCellRef          ref1, ref2;
 
 		  static const gchar *type_str[] = {
 			  "=", "<=", ">="

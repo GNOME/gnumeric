@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.4\n"
-"Report-Msgid-Bugs-To: Duarte Loreto <happyguy_pt@hotmail.com>\n"
-"POT-Creation-Date: 2003-10-08 22:57+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-10-08 18:26-0400\n"
 "PO-Revision-Date: 2003-10-08 23:00+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
@@ -17344,10 +17344,10 @@ msgstr "Função objectiva:"
 msgid "Constraints:"
 msgstr "Restrições:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5727
+#: plugins/mps/mps.c:247 src/commands.c:5726
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:987
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:106
-#: src/dialogs/dialog-define-names.c:493 src/dialogs/dialog-formula-guru.c:815
+#: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
 #: src/dialogs/dialog-function-select.c:449
 #: src/dialogs/dialog-function-select.c:471 src/dialogs/dialog-scenarios.c:361
 #: src/dialogs/dialog-simulation.c:234 src/dialogs/dialog-zoom.c:198
@@ -17840,25 +17840,25 @@ msgstr "E_xecutar em:"
 msgid "C_ommand:"
 msgstr "C_omando:"
 
-#: plugins/python-loader/py-gnumeric.c:237
+#: plugins/python-loader/py-gnumeric.c:238
 msgid "Python list is not an array"
 msgstr "Lista Python não é uma matriz"
 
-#: plugins/python-loader/py-gnumeric.c:244
+#: plugins/python-loader/py-gnumeric.c:245
 #, c-format
 msgid "Unsupported Python type: %s"
 msgstr "Tipo Python não suportado: %s"
 
-#: plugins/python-loader/py-gnumeric.c:271
+#: plugins/python-loader/py-gnumeric.c:272
 msgid "Unknown error"
 msgstr "Erro desconhecido"
 
-#: plugins/python-loader/py-gnumeric.c:277
+#: plugins/python-loader/py-gnumeric.c:278
 #, c-format
 msgid "Python exception (%s: %s)"
 msgstr "Excepção Python (%s: %s)"
 
-#: plugins/python-loader/py-gnumeric.c:281
+#: plugins/python-loader/py-gnumeric.c:282
 #, c-format
 msgid "Python exception (%s)"
 msgstr "Excepção Python (%s)"
@@ -17881,43 +17881,43 @@ msgstr "Módulo \"%s\" não existe."
 msgid "Execution of module \"%s\" failed."
 msgstr "Execução do módulo \"%s\" falhou."
 
-#: plugins/python-loader/python-loader.c:298
+#: plugins/python-loader/python-loader.c:297
 msgid "Some name"
 msgstr "Um nome"
 
-#: plugins/python-loader/python-loader.c:360
-#: plugins/python-loader/python-loader.c:453
-#: plugins/python-loader/python-loader.c:676
-#: plugins/python-loader/python-loader.c:793
+#: plugins/python-loader/python-loader.c:359
+#: plugins/python-loader/python-loader.c:452
+#: plugins/python-loader/python-loader.c:675
+#: plugins/python-loader/python-loader.c:792
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Ficheiro Python \"%s\" tem um formato inválido."
 
-#: plugins/python-loader/python-loader.c:364
-#: plugins/python-loader/python-loader.c:458 src/plugin-loader-module.c:360
+#: plugins/python-loader/python-loader.c:363
+#: plugins/python-loader/python-loader.c:457 src/plugin-loader-module.c:360
 #: src/plugin-loader-module.c:421
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "Ficheiro não contém função \"%s\"."
 
-#: plugins/python-loader/python-loader.c:681
-#: plugins/python-loader/python-loader.c:798
+#: plugins/python-loader/python-loader.c:680
+#: plugins/python-loader/python-loader.c:797
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "Ficheiro não contém dicionário \"%s\"."
 
-#: plugins/python-loader/python-loader.c:686
-#: plugins/python-loader/python-loader.c:803
+#: plugins/python-loader/python-loader.c:685
+#: plugins/python-loader/python-loader.c:802
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Objecto \"%s\" não é um dicionário."
 
-#: plugins/python-loader/python-loader.c:741 src/plugin-loader-module.c:610
+#: plugins/python-loader/python-loader.c:740 src/plugin-loader-module.c:610
 #, c-format
 msgid "Unknown verb: %s"
 msgstr "Verbo desconhecido: %s"
 
-#: plugins/python-loader/python-loader.c:746
+#: plugins/python-loader/python-loader.c:745
 #, c-format
 msgid "Not a valid function for verb: %s"
 msgstr "Função inválida para o verbo: %s"
@@ -18071,7 +18071,7 @@ msgstr "Esta é uma mensagem do plugin \"%s\"."
 msgid "Error while opening xbase file."
 msgstr "Erro ao abrir ficheiro xbase."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4547
+#: plugins/xbase/boot.c:175 src/commands.c:4546
 #: src/dialogs/dialog-goto-cell.c:290 src/dialogs/dialog-search.c:397
 #: src/dialogs/print.glade.h:21 src/print-info.c:477 src/workbook.c:1041
 #: src/xml-io.c:3585
@@ -20449,302 +20449,302 @@ msgstr "A definir largura das colunas %s por omissão"
 msgid "Setting height of rows %s to default"
 msgstr "A definir altura das linhas %s por omissão"
 
-#: src/commands.c:2019 src/dialogs/dialog-preferences.c:1412
+#: src/commands.c:2018 src/dialogs/dialog-preferences.c:1412
 msgid "Sorting"
 msgstr "A ordenar"
 
-#: src/commands.c:2039
+#: src/commands.c:2038
 #, c-format
 msgid "Sorting %s"
 msgstr "A ordenar %s"
 
-#: src/commands.c:2172
+#: src/commands.c:2171
 msgid "Unhide columns"
 msgstr "Mostrar colunas"
 
-#: src/commands.c:2172
+#: src/commands.c:2171
 msgid "Hide columns"
 msgstr "Esconder colunas"
 
-#: src/commands.c:2173
+#: src/commands.c:2172
 msgid "Unhide rows"
 msgstr "Mostrar linhas"
 
-#: src/commands.c:2173
+#: src/commands.c:2172
 msgid "Hide rows"
 msgstr "Esconder linhas"
 
-#: src/commands.c:2256
+#: src/commands.c:2255
 msgid "Expand columns"
 msgstr "Expandir colunas"
 
-#: src/commands.c:2256
+#: src/commands.c:2255
 msgid "Collapse columns"
 msgstr "Recolher colunas"
 
-#: src/commands.c:2257
+#: src/commands.c:2256
 msgid "Expand rows"
 msgstr "Expandir linhas"
 
-#: src/commands.c:2257
+#: src/commands.c:2256
 msgid "Collapse rows"
 msgstr "Recolher linhas"
 
-#: src/commands.c:2284
+#: src/commands.c:2283
 #, c-format
 msgid "Show column outline %d"
 msgstr "Mostrar resumo coluna %d"
 
-#: src/commands.c:2284
+#: src/commands.c:2283
 #, c-format
 msgid "Show row outline %d"
 msgstr "Mostrar resumo linha %d"
 
-#: src/commands.c:2351
+#: src/commands.c:2350
 msgid "Those columns are already grouped"
 msgstr "Essas colunas já se encontram agrupadas"
 
-#: src/commands.c:2352
+#: src/commands.c:2351
 msgid "Those rows are already grouped"
 msgstr "Essas linhas já se encontram agrupadas"
 
-#: src/commands.c:2375
+#: src/commands.c:2374
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Essas colunas não estão agrupadas, não as pode desagrupar"
 
-#: src/commands.c:2376
+#: src/commands.c:2375
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Essas linhas não estão agrupadas, não as pode desagrupar"
 
-#: src/commands.c:2390
+#: src/commands.c:2389
 #, c-format
 msgid "Group columns %s"
 msgstr "Agrupar colunas %s"
 
-#: src/commands.c:2390
+#: src/commands.c:2389
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Desagrupar colunas %s"
 
-#: src/commands.c:2392
+#: src/commands.c:2391
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Agrupar linhas %d:%d"
 
-#: src/commands.c:2392
+#: src/commands.c:2391
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Desagrupar linhas %d:%d"
 
-#: src/commands.c:2600
+#: src/commands.c:2599
 #, c-format
 msgid "Moving %s"
 msgstr "A mover %s"
 
-#: src/commands.c:2609 src/commands.c:2820
+#: src/commands.c:2608 src/commands.c:2819
 msgid "is beyond sheet boundaries"
 msgstr "está para além das fronteiras da folha"
 
 #. FIXME?
-#: src/commands.c:2764
+#: src/commands.c:2763
 #, c-format
 msgid "Pasting into %s"
 msgstr "A colar em %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2998 src/commands.c:2999 src/workbook-control-gui.c:2320
+#: src/commands.c:2997 src/commands.c:2998 src/workbook-control-gui.c:2320
 msgid "Autofill"
 msgstr "Auto-enchimento"
 
 #. Changed in initial redo.
-#: src/commands.c:3022
+#: src/commands.c:3021
 #, c-format
 msgid "Autofilling %s"
 msgstr "A auto-encher %s"
 
-#: src/commands.c:3172
+#: src/commands.c:3171
 #, c-format
 msgid "Autoformatting %s"
 msgstr "A auto-formatar %s"
 
-#: src/commands.c:3282
+#: src/commands.c:3281
 #, c-format
 msgid "Unmerging %s"
 msgstr "A separar %s"
 
-#: src/commands.c:3420
+#: src/commands.c:3419
 #, c-format
 msgid "Merging %s"
 msgstr "A juntar %s"
 
 #. Corrected below.
-#: src/commands.c:3803 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:3802 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Procurar e Substituir"
 
-#: src/commands.c:3901
+#: src/commands.c:3900
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "A definir largura por omissão das colunas para %.2fpts"
 
-#: src/commands.c:3902
+#: src/commands.c:3901
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "A definir altura por omissão das linhas para %.2fpts"
 
-#: src/commands.c:4020
+#: src/commands.c:4019
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s para %.0f%%"
 
-#: src/commands.c:4091
+#: src/commands.c:4090
 msgid "Insert object"
 msgstr "Inserir objecto"
 
-#: src/commands.c:4151
+#: src/commands.c:4150
 msgid "Delete object"
 msgstr "Apagar objecto"
 
-#: src/commands.c:4233
+#: src/commands.c:4232
 msgid "Resize object"
 msgstr "Redimensionar objecto"
 
-#: src/commands.c:4233
+#: src/commands.c:4232
 msgid "Move object"
 msgstr "Mover objecto"
 
-#: src/commands.c:4791
+#: src/commands.c:4790
 msgid "Reordering Sheets"
 msgstr "A Re-ordenar Folhas"
 
-#: src/commands.c:4794
+#: src/commands.c:4793
 msgid "Renaming Sheets"
 msgstr "A Renomear Folhas"
 
-#: src/commands.c:4797
+#: src/commands.c:4796
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "A Adicionar %i Folhas"
 
-#: src/commands.c:4801
+#: src/commands.c:4800
 msgid "Changing Tab Colors"
 msgstr "A Alterar Cores Separadores"
 
-#: src/commands.c:4804
+#: src/commands.c:4803
 msgid "Changing Sheet Protection"
 msgstr "A Alterar Protecção Folha"
 
-#: src/commands.c:4807
+#: src/commands.c:4806
 msgid "Delete sheets"
 msgstr "Apagar folhas"
 
-#: src/commands.c:4810
+#: src/commands.c:4809
 msgid "Delete a sheet"
 msgstr "Apagar uma folha"
 
-#: src/commands.c:4813
+#: src/commands.c:4812
 msgid "Reorganizing Sheets"
 msgstr "A Reorganizar Folhas"
 
-#: src/commands.c:4963
+#: src/commands.c:4962
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "A limpar comentário de %s"
 
-#: src/commands.c:4964
+#: src/commands.c:4963
 #, c-format
 msgid "Setting comment of %s"
 msgstr "A definir comentário de %s"
 
-#: src/commands.c:5346
+#: src/commands.c:5345
 #, c-format
 msgid "Merging data into %s"
 msgstr "A juntar dados em %s"
 
-#: src/commands.c:5448
+#: src/commands.c:5447
 msgid "Changing summary info"
 msgstr "A alterar info de resumo"
 
-#: src/commands.c:5540
+#: src/commands.c:5539
 msgid "Raise object"
 msgstr "Subir objecto"
 
-#: src/commands.c:5543
+#: src/commands.c:5542
 msgid "Lower object"
 msgstr "Descer objecto"
 
-#: src/commands.c:5546
+#: src/commands.c:5545
 msgid "Raise object to top"
 msgstr "Subir objecto para o topo"
 
-#: src/commands.c:5549
+#: src/commands.c:5548
 msgid "Lower object to bottom"
 msgstr "Descer objecto para o fundo"
 
-#: src/commands.c:5665
+#: src/commands.c:5664
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Configuração Página Para %s"
 
-#: src/commands.c:5667
+#: src/commands.c:5666
 msgid "Page Setup For All Sheets"
 msgstr "Configuração Página Para Todas As Folhas"
 
-#: src/commands.c:5784
+#: src/commands.c:5783
 msgid "has a circular reference"
 msgstr "tem uma referência circular"
 
-#: src/commands.c:5807
+#: src/commands.c:5806
 #, c-format
 msgid "Define Name %s"
 msgstr "Definir Nome %s"
 
-#: src/commands.c:5810
+#: src/commands.c:5809
 #, c-format
 msgid "Update Name %s"
 msgstr "Actualizar Nome %s"
 
-#: src/commands.c:5875
+#: src/commands.c:5874
 msgid "Add scenario"
 msgstr "Adicionar cenário"
 
-#: src/commands.c:5951
+#: src/commands.c:5950
 msgid "Scenario Show"
 msgstr "Apresentação Cenário"
 
-#: src/commands.c:6016
+#: src/commands.c:6015
 msgid "Shuffle Data"
 msgstr "Misturar Dados"
 
 #. FIXME?
-#: src/commands.c:6128
+#: src/commands.c:6127
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Texto (%s) para Colunas (%s)"
 
 #. Fill in the header titles.
-#: src/commands.c:6277 src/dialogs/solver.glade.h:24
+#: src/commands.c:6276 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
 msgid "Solver"
 msgstr "Solucionador"
 
-#: src/commands.c:6365
+#: src/commands.c:6364
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Pesquisar Objectivos (%s)"
 
-#: src/commands.c:6509
+#: src/commands.c:6508
 #, c-format
 msgid "Duplicating %s"
 msgstr "A Duplicar %s"
 
-#: src/commands.c:6590
+#: src/commands.c:6589
 msgid "Tabulating Dependencies"
 msgstr "A Tabular Dependências"
 
-#: src/commands.c:6667
+#: src/commands.c:6666
 msgid "Reconfigure Graph"
 msgstr "Reconfigurar Gráfico"
 
@@ -22245,7 +22245,7 @@ msgstr "Primeira Letra"
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
 #: src/format.c:2146 src/format.c:2275 src/format.c:2281 src/format.c:2357
-#: src/plugin-service.c:199 src/widgets/widget-format-selector.c:75
+#: src/plugin-service.c:200 src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Geral"
 
@@ -23553,11 +23553,11 @@ msgstr "A área de saída sobrepõe-se com a área de entrada."
 msgid "Could not create the Consolidate dialog."
 msgstr "Incapaz de criar o diálogo de Consolidar."
 
-#: src/dialogs/dialog-define-names.c:358
+#: src/dialogs/dialog-define-names.c:359
 msgid "Why would you want to define a name to be #NAME?"
 msgstr "Porque deseja definir um nome como #NOME?"
 
-#: src/dialogs/dialog-define-names.c:579
+#: src/dialogs/dialog-define-names.c:580
 msgid "Could not create the Name Guru."
 msgstr "Incapaz de criar o Guru de Nomes."
 
@@ -28153,107 +28153,107 @@ msgstr "Módulo não contém função \"%s\"."
 msgid "Service '%s' not supported by loader."
 msgstr "Serviço '%s' não suportado pelo carregador."
 
-#: src/plugin-service.c:163 src/plugin-service.c:253 src/plugin-service.c:1186
+#: src/plugin-service.c:164 src/plugin-service.c:254 src/plugin-service.c:1187
 msgid "Error while loading plugin service."
 msgstr "Erro ao carregar o serviço de plugin."
 
-#: src/plugin-service.c:171
+#: src/plugin-service.c:172
 msgid "Initializing function inside plugin returned error."
 msgstr "Função de inicialização dentro do plugin retornou erro."
 
-#: src/plugin-service.c:189
+#: src/plugin-service.c:190
 msgid "Cleanup function inside plugin returned error."
 msgstr "Função de limpeza dentro do plugin devolveu erro."
 
-#: src/plugin-service.c:274
+#: src/plugin-service.c:275
 msgid "Clipboard"
 msgstr "Área de Transferência"
 
-#: src/plugin-service.c:447
+#: src/plugin-service.c:448
 msgid "File opener has no description"
 msgstr "Abre ficheiros não tem descrição"
 
-#: src/plugin-service.c:479
+#: src/plugin-service.c:480
 #, c-format
 msgid "File opener - %s"
 msgstr "Abre ficheiros - %s"
 
-#: src/plugin-service.c:610
+#: src/plugin-service.c:611
 msgid "Error while reading file."
 msgstr "Erro ao ler ficheiro."
 
-#: src/plugin-service.c:765
+#: src/plugin-service.c:766
 msgid "File saver has no description"
 msgstr "Gravador de ficheiros não tem descrição"
 
-#: src/plugin-service.c:811
+#: src/plugin-service.c:812
 #, c-format
 msgid "File saver - %s"
 msgstr "Gravador de ficheiros - %s"
 
-#: src/plugin-service.c:873
+#: src/plugin-service.c:874
 msgid "Error while saving file."
 msgstr "Erro ao gravar ficheiro."
 
-#: src/plugin-service.c:1026
+#: src/plugin-service.c:1027
 msgid "Missing function category name."
 msgstr "Falta o nome de categoria da função."
 
-#: src/plugin-service.c:1030
+#: src/plugin-service.c:1031
 msgid "Function group is empty."
 msgstr "Grupo de função está vazio."
 
-#: src/plugin-service.c:1124
+#: src/plugin-service.c:1125
 #, c-format
 msgid "%d function in category \"%s\""
 msgstr "%d função na categoria \"%s\""
 
-#: src/plugin-service.c:1125
+#: src/plugin-service.c:1126
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr "Grupo de %d funções na categoria \"%s\""
 
-#: src/plugin-service.c:1221
+#: src/plugin-service.c:1222
 msgid "Plugin loader"
 msgstr "Leitor plugin"
 
-#: src/plugin-service.c:1298
+#: src/plugin-service.c:1299
 msgid "Missing file name."
 msgstr "Nome de ficheiro em falta."
 
-#: src/plugin-service.c:1364
+#: src/plugin-service.c:1365
 #, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr "Incapaz de ler descição de IG do ficheiro XML %s."
 
-#: src/plugin-service.c:1401
+#: src/plugin-service.c:1402
 #, c-format
 msgid "User interface with %d action"
 msgstr "Interface utilizador com %d acção"
 
-#: src/plugin-service.c:1402
+#: src/plugin-service.c:1403
 #, c-format
 msgid "User interface with %d actions"
 msgstr "Interface utilizador com %d acções"
 
-#: src/plugin-service.c:1432
+#: src/plugin-service.c:1433
 msgid "GObject loader"
 msgstr "Leitor GObject"
 
-#: src/plugin-service.c:1539
+#: src/plugin-service.c:1540
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "Nenhum atributo \"tipo\" no elemento \"serviço\"."
 
-#: src/plugin-service.c:1545
+#: src/plugin-service.c:1546
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Tipo de serviço desconhecido: %s."
 
-#: src/plugin-service.c:1561
+#: src/plugin-service.c:1562
 msgid "Error reading service information."
 msgstr "Erro ao ler informação de serviço."
 
-#: src/plugin-service.c:1623
+#: src/plugin-service.c:1624
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."

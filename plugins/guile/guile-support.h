@@ -4,7 +4,7 @@
 #include <libguile.h>
 #include "gnumeric.h"
 
-SCM value_to_scm (Value const *val, CellRef cell_ref);
-Value* scm_to_value (SCM scm);
+SCM value_to_scm (GnmValue const *val, GnmCellRef cell_ref);
+GnmValue* scm_to_value (SCM scm);
 
 #endif

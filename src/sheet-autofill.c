@@ -105,11 +105,11 @@ typedef struct _FillItem {
 	StyleFormat *fmt;
 	MStyle	    *style;
 
-	CellPos	     merged_size;
+	GnmCellPos	     merged_size;
 
 	union {
 		GnmExpr const *expr;
-		Value     *value;
+		GnmValue     *value;
 		GnmString *str;
 		struct {
 			AutoFillList const *list;
@@ -262,12 +262,12 @@ fill_item_destroy (FillItem *fi)
 static FillItem *
 fill_item_new (Sheet *sheet, int col, int row)
 {
-	Value     *value;
-	ValueType  value_type;
+	GnmValue     *value;
+	GnmValueType  value_type;
 	FillItem  *fi;
 	Cell *cell;
-	CellPos	pos;
-	Range const *merged;
+	GnmCellPos	pos;
+	GnmRange const *merged;
 
 	pos.col = col;
 	pos.row = row;
@@ -612,7 +612,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 			   "\nsetup used to generate it.");
 	case FILL_NUMBER: {
 		FillItem const *delta = fi->group_last;
-		Value *v;
+		GnmValue *v;
 
 		if (delta->delta_is_float) {
 			gnm_float d = value_get_as_float (delta->v.value);
@@ -628,7 +628,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 
 	case FILL_MONTHS :
 	case FILL_YEARS : {
-		Value *v;
+		GnmValue *v;
 		FillItem *delta = fi->group_last;
 		int d = idx * delta->delta.d_int;
 		GDate date;
@@ -821,7 +821,7 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 		sheet_style_set_pos (sheet, col, row, fi->style);
 
 		if (fi->merged_size.col != 1 || fi->merged_size.row != 1) {
-			Range tmp;
+			GnmRange tmp;
 			range_init (&tmp, col, row,
 				    col + fi->merged_size.col - 1,
 				    row + fi->merged_size.row - 1);

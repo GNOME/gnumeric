@@ -47,7 +47,7 @@ typedef enum {
 
 /* we can't use cellpos_parse b/c it doesn't support 0 bases (A0, B0, ...) */
 static gboolean
-sc_cellname_to_coords (const char *cellname, int *col, int *row)
+sc_cellname_to_coords (char const *cellname, int *col, int *row)
 {
 	int mult;
 
@@ -95,9 +95,9 @@ err_out:
 
 
 static void
-sc_parse_coord (const char **strdata, int *col, int *row)
+sc_parse_coord (char const **strdata, int *col, int *row)
 {
-	const char *s = *strdata, *eq;
+	char const *s = *strdata, *eq;
 	int len = strlen (s);
 	char tmpstr[16];
 	size_t tmplen;
@@ -131,11 +131,11 @@ sc_parse_coord (const char **strdata, int *col, int *row)
 
 
 static gboolean
-sc_parse_label (Sheet *sheet, const char *cmd, const char *str, int col, int row)
+sc_parse_label (Sheet *sheet, char const *cmd, char const *str, int col, int row)
 {
 	Cell *cell;
 	char *s = NULL, *tmpout;
-	const char *tmpstr;
+	char const *tmpstr;
 	gboolean result = FALSE;
 	sc_string_cmd_t cmdtype;
 
@@ -202,13 +202,13 @@ err_out:
 
 #if 0
 static GSList *
-sc_parse_cell_name_list (Sheet *sheet, const char *cell_name_str,
+sc_parse_cell_name_list (Sheet *sheet, char const *cell_name_str,
 		         int *error_flag)
 {
         char     *buf;
 	GSList   *cells = NULL;
 	Cell     *cell;
-	CellPos   pos;
+	GnmCellPos   pos;
 	int      i, n;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
@@ -245,10 +245,10 @@ sc_parse_cell_name_list (Sheet *sheet, const char *cell_name_str,
 
 
 static char const *
-sc_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
+sc_rangeref_parse (GnmRangeRef *res, char const *start, ParsePos const *pp)
 {
 	/* This is a hack.  We still cannot handle sc's row 0.  */
-	const char *end = rangeref_parse (res, start, pp);
+	char const *end = rangeref_parse (res, start, pp);
 	if (end != start) {
 		res->a.row++;
 		res->b.row++;
@@ -257,12 +257,12 @@ sc_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 }
 
 static gboolean
-sc_parse_let (Sheet *sheet, const char *cmd, const char *str, int col, int row)
+sc_parse_let (Sheet *sheet, char const *cmd, char const *str, int col, int row)
 {
-	const GnmExpr *tree;
+	GnmExpr const *tree;
 	Cell *cell;
 	ParsePos pos;
-	const Value *v;
+	GnmValue const *v;
 
 	g_return_val_if_fail (sheet, FALSE);
 	g_return_val_if_fail (cmd, FALSE);
@@ -302,15 +302,15 @@ out:
 
 
 typedef struct {
-	const char *name;
+	char const *name;
 	int namelen;
-	gboolean (*handler) (Sheet *sheet, const char *name,
-			     const char *str, int col, int row);
+	gboolean (*handler) (Sheet *sheet, char const *name,
+			     char const *str, int col, int row);
 	unsigned have_coord : 1;
 } sc_cmd_t;
 
 
-static const sc_cmd_t sc_cmd_list[] = {
+static sc_cmd_t const sc_cmd_list[] = {
 	{ "leftstring", 10, sc_parse_label, 1 },
 	{ "rightstring", 11, sc_parse_label, 1 },
 	{ "label", 5, sc_parse_label, 1 },
@@ -322,9 +322,9 @@ static const sc_cmd_t sc_cmd_list[] = {
 static gboolean
 sc_parse_line (Sheet *sheet, char *buf)
 {
-	const char *space;
+	char const *space;
 	int i, cmdlen;
-	const sc_cmd_t *cmd;
+	sc_cmd_t const *cmd;
 
 	g_return_val_if_fail (sheet, FALSE);
 	g_return_val_if_fail (buf, FALSE);
@@ -342,7 +342,7 @@ sc_parse_line (Sheet *sheet, char *buf)
 		if (cmd->namelen == cmdlen &&
 		    strncmp (cmd->name, buf, cmdlen) == 0) {
 			int col = -1, row = -1;
-			const char *strdata = space;
+			char const *strdata = space;
 
 			if (cmd->have_coord)
 				sc_parse_coord (&strdata, &col, &row);

@@ -89,11 +89,11 @@ SC_VIRTUAL (set_zoom_factor, (SheetControl *sc), (sc))
 
 SC_VIRTUAL (redraw_all, (SheetControl *sc, gboolean headers), (sc, headers))
 SC_VIRTUAL (redraw_range,
-	    (SheetControl *sc, Range const *r),
+	    (SheetControl *sc, GnmRange const *r),
 	    (sc, r))
 SC_VIRTUAL (redraw_headers,
 	    (SheetControl *sc,
-	     gboolean const col, gboolean const row, Range const * r),
+	     gboolean const col, gboolean const row, GnmRange const * r),
 	    (sc, col, row, r))
 
 SC_VIRTUAL (ant, (SheetControl *sc), (sc))
@@ -115,7 +115,7 @@ SC_VIRTUAL (make_cell_visible,
 	    (SheetControl *sc, int col, int row, gboolean couple_panes),
 	    (sc, col, row, couple_panes));
 
-SC_VIRTUAL (cursor_bound, (SheetControl *sc, Range const *r), (sc, r))
+SC_VIRTUAL (cursor_bound, (SheetControl *sc, GnmRange const *r), (sc, r))
 SC_VIRTUAL (set_panes, (SheetControl *sc), (sc))
 
 SC_VIRTUAL (object_create_view,	(SheetControl *sc, SheetObject *so), (sc, so));

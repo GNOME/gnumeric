@@ -68,8 +68,8 @@ static char const *help_and = {
 	   "@SEEALSO=OR, NOT")
 };
 
-static Value *
-callback_function_and (const EvalPos *ep, Value *value, void *closure)
+static GnmValue *
+callback_function_and (const EvalPos *ep, GnmValue *value, void *closure)
 {
 	int *result = closure;
 	gboolean err;
@@ -81,13 +81,13 @@ callback_function_and (const EvalPos *ep, Value *value, void *closure)
 	return NULL;
 }
 
-static Value *
+static GnmValue *
 gnumeric_and (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	int result = -1;
 
 	/* Yes, AND is actually strict.  */
-	Value *v = function_iterate_argument_values (ei->pos,
+	GnmValue *v = function_iterate_argument_values (ei->pos,
 		callback_function_and, &result, nodes,
 		TRUE, CELL_ITER_IGNORE_BLANK);
 	if (v != NULL)
@@ -119,8 +119,8 @@ static char const *help_not = {
 	   "@SEEALSO=AND, OR")
 };
 
-static Value *
-gnumeric_not (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_not (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gboolean err, val = value_get_as_bool (argv [0], &err);
 	if (err)
@@ -155,8 +155,8 @@ static char const *help_or = {
 	   "@SEEALSO=AND, NOT")
 };
 
-static Value *
-callback_function_or (const EvalPos *ep, Value *value, void *closure)
+static GnmValue *
+callback_function_or (const EvalPos *ep, GnmValue *value, void *closure)
 {
 	int *result = closure;
 	gboolean err;
@@ -168,13 +168,13 @@ callback_function_or (const EvalPos *ep, Value *value, void *closure)
 	return NULL;
 }
 
-static Value *
+static GnmValue *
 gnumeric_or (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	int result = -1;
 
 	/* Yes, OR is actually strict.  */
-	Value *v = function_iterate_argument_values (ei->pos,
+	GnmValue *v = function_iterate_argument_values (ei->pos,
 		callback_function_or, &result, nodes,
 		TRUE, CELL_ITER_IGNORE_BLANK);
 	if (v != NULL)
@@ -212,8 +212,8 @@ static char const *help_xor = {
 	   "@SEEALSO=OR, AND, NOT")
 };
 
-static Value *
-callback_function_xor (const EvalPos *ep, Value *value, void *closure)
+static GnmValue *
+callback_function_xor (const EvalPos *ep, GnmValue *value, void *closure)
 {
 	int *result = closure;
 	gboolean err;
@@ -225,13 +225,13 @@ callback_function_xor (const EvalPos *ep, Value *value, void *closure)
 	return NULL;
 }
 
-static Value *
+static GnmValue *
 gnumeric_xor (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	int result = -1;
 
 	/* Yes, XOR is actually strict.  */
-	Value *v = function_iterate_argument_values (ei->pos,
+	GnmValue *v = function_iterate_argument_values (ei->pos,
 		callback_function_xor, &result, nodes,
 		TRUE, CELL_ITER_IGNORE_BLANK);
 	if (v != NULL)
@@ -265,8 +265,8 @@ static char const *help_if = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_if (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_if (FunctionEvalInfo *ei, GnmValue **args)
 {
 	gboolean err;
 	int res = value_get_as_bool (args[0], &err) ? 1 : 2;
@@ -290,8 +290,8 @@ static char const *help_true = {
 	   "@SEEALSO=FALSE")
 };
 
-static Value *
-gnumeric_true (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_true (FunctionEvalInfo *ei, GnmValue **args)
 {
 	return value_new_bool (TRUE);
 }
@@ -312,8 +312,8 @@ static char const *help_false = {
 	   "@SEEALSO=TRUE")
 };
 
-static Value *
-gnumeric_false (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_false (FunctionEvalInfo *ei, GnmValue **args)
 {
 	return value_new_bool (FALSE);
 }

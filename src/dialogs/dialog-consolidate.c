@@ -131,13 +131,13 @@ adjust_source_areas (ConsolidateState *state)
  * state of all the widgets in the dialog, this can
  * be used to actually "execute" a consolidation
  **/
-static Consolidate *
+static GnmConsolidate *
 construct_consolidate (ConsolidateState *state, data_analysis_output_t  *dao)
 {
-	Consolidate      *cs   = consolidate_new ();
-	ConsolidateMode  mode = 0;
+	GnmConsolidate      *cs   = consolidate_new ();
+	GnmConsolidateMode  mode = 0;
 	const char       *func;
-	Value            *range_value;
+	GnmValue         *range_value;
 	GtkTreeIter      iter;
 
 	switch (gtk_option_menu_get_history (state->function)) {
@@ -287,7 +287,7 @@ cb_dialog_destroy (G_GNUC_UNUSED GtkObject *w, ConsolidateState *state)
 static void
 cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 {
-	Consolidate *cs;
+	GnmConsolidate *cs;
 	data_analysis_output_t  *dao;
 
 	if (state->cellrenderer->entry)
@@ -476,7 +476,7 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 }
 
 static gboolean
-add_source_area (SheetView *sv, Range const *r, gpointer closure)
+add_source_area (SheetView *sv, GnmRange const *r, gpointer closure)
 {
 	ConsolidateState *state = closure;
 	char *range_name = global_range_name (sv_sheet (sv), r);
@@ -505,7 +505,7 @@ add_source_area (SheetView *sv, Range const *r, gpointer closure)
 static void
 dialog_consolidate_tool_init (ConsolidateState *state)
 {
-	Range const *r = NULL;
+	GnmRange const *r = NULL;
 
 	state->areas_index = -1;
 

@@ -80,7 +80,7 @@ paste_op_to_expr_op (int paste_flags)
 }
 
 #warning handle formating
-static Value *
+static GnmValue *
 apply_paste_oper_to_values (Cell const *old_cell, Cell const *copied_cell,
 			    Cell const *new_cell, int paste_flags)
 {
@@ -133,7 +133,7 @@ paste_cell_with_operation (Sheet *dest_sheet,
 		cell_relocate (new_cell, rwinfo);
 		gnm_expr_unref (new_expr);
 	} else {
-		Value *new_val = apply_paste_oper_to_values (new_cell, c_copy->u.cell,
+		GnmValue *new_val = apply_paste_oper_to_values (new_cell, c_copy->u.cell,
 							     new_cell, paste_flags);
 
 		cell_set_value (new_cell, new_val);
@@ -148,9 +148,9 @@ paste_link (PasteTarget const *pt, int top, int left,
 	    CellRegion const *content)
 {
 	Cell *cell;
-	CellPos pos;
+	GnmCellPos pos;
 	GnmExpr const *expr;
-	CellRef source_cell_ref;
+	GnmCellRef source_cell_ref;
 	int x, y;
 
 	/* Not possible to link to arbitrary (non gnumeric) sources yet. */
@@ -200,7 +200,7 @@ paste_cell (Sheet *dest_sheet,
 #warning we need to dup the author too
 	if ((paste_flags & PASTE_COMMENTS) && c_copy->comment) {
 		CellComment   *cell_comment;
-		CellPos       pos;
+		GnmCellPos       pos;
 		pos.col = target_col;
 		pos.row = target_row;
 
@@ -264,7 +264,7 @@ clipboard_paste_region (CellRegion const *content,
 {
 	int repeat_horizontal, repeat_vertical, clearFlags;
 	int dst_cols, dst_rows, src_cols, src_rows, tmp;
-	Range const *r;
+	GnmRange const *r;
 	gboolean has_content, adjust_merges = TRUE;
 
 	g_return_val_if_fail (pt != NULL, TRUE);
@@ -279,7 +279,7 @@ clipboard_paste_region (CellRegion const *content,
 	/* If the source is a single cell */
 	/* Treat a target of a single merge specially, don't split the merge */
 	if (src_cols == 1 && src_rows == 1) {
-		Range const *merge = sheet_merge_is_corner (pt->sheet, &r->start);
+		GnmRange const *merge = sheet_merge_is_corner (pt->sheet, &r->start);
 		if (merge != NULL && range_equal (r, merge)) {
 			dst_cols = dst_rows = 1;
 			adjust_merges = FALSE;
@@ -388,7 +388,7 @@ clipboard_paste_region (CellRegion const *content,
 
 			/* Move the styles on here so we get correct formats before recalc */
 			if (pt->paste_flags & PASTE_FORMATS) {
-				CellPos pos;
+				GnmCellPos pos;
 				pos.col = left;
 				pos.row = top;
 				sheet_style_set_list (pt->sheet, &pos,
@@ -399,7 +399,7 @@ clipboard_paste_region (CellRegion const *content,
 			if (has_content && !(pt->paste_flags & PASTE_DONT_MERGE)) {
 				GSList *ptr;
 				for (ptr = content->merged; ptr != NULL ; ptr = ptr->next) {
-					Range tmp = *((Range const *)ptr->data);
+					GnmRange tmp = *((GnmRange const *)ptr->data);
 					if (pt->paste_flags & PASTE_TRANSPOSE) {
 						int x;
 						x = tmp.start.col; tmp.start.col = tmp.start.row;  tmp.start.row = x;
@@ -458,7 +458,7 @@ clipboard_paste_region (CellRegion const *content,
 	return FALSE;
 }
 
-static Value *
+static GnmValue *
 clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	CellRegion *cr = user_data;
@@ -498,7 +498,7 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_d
 static void
 clipboard_prepend_comment (SheetObject const *so, void *user_data)
 {
-	Range const *r = sheet_object_range_get (so);
+	GnmRange const *r = sheet_object_range_get (so);
 	Sheet       *sheet = sheet_object_get_sheet (so);
 	Cell        *the_cell = sheet_cell_get (sheet, r->start.col, r->start.row);
 
@@ -514,7 +514,7 @@ clipboard_prepend_comment (SheetObject const *so, void *user_data)
  * Entry point to the clipboard copy code
  */
 CellRegion *
-clipboard_copy_range (Sheet *sheet, Range const *r)
+clipboard_copy_range (Sheet *sheet, GnmRange const *r)
 {
 	CellRegion *cr;
 	GSList *merged, *ptr;
@@ -540,7 +540,7 @@ clipboard_copy_range (Sheet *sheet, Range const *r)
 
 	merged = sheet_merge_get_overlap (sheet, r);
 	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
-		Range *tmp = range_dup (ptr->data);
+		GnmRange *tmp = range_dup (ptr->data);
 		range_translate (tmp, -r->start.col, -r->start.row);
 		cr->merged = g_slist_prepend (cr->merged, tmp);
 	}
@@ -550,7 +550,7 @@ clipboard_copy_range (Sheet *sheet, Range const *r)
 }
 
 PasteTarget*
-paste_target_init (PasteTarget *pt, Sheet *sheet, Range const *r, int flags)
+paste_target_init (PasteTarget *pt, Sheet *sheet, GnmRange const *r, int flags)
 {
 	pt->sheet = sheet;
 	pt->range = *r;

@@ -11,8 +11,8 @@
 
 gint advanced_filter (WorkbookControl        *wbc,
 		      data_analysis_output_t *dao,
-		      Value                  *database, Value *criteria,
-		      gboolean               unique_only_flag);
+		      GnmValue               *database, GnmValue *criteria,
+		      gboolean                unique_only_flag);
 
 void filter_show_all (Sheet *sheet);
 

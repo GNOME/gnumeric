@@ -404,7 +404,7 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 			DETAILS_ID, "",
 			-1);
 		services = gnm_plugin_get_services (pinfo);
-		GNM_SLIST_FOREACH (services, PluginService, service,
+		GNM_SLIST_FOREACH (services, GnmPluginService, service,
 			gtk_tree_store_append (pm_gui->model_details, &iter3, &iter2);
 			gtk_tree_store_set (
 				pm_gui->model_details, &iter3,

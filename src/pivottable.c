@@ -26,8 +26,8 @@
 #include <gnumeric-i18n.h>
 
 GnmPivotTable *
-gnm_pivottable_new (Sheet *src_sheet, Range const *src,
-		    Sheet *dst_sheet, Range const *dst)
+gnm_pivottable_new (Sheet *src_sheet, GnmRange const *src,
+		    Sheet *dst_sheet, GnmRange const *dst)
 {
 	GnmPivotTable *res;
 

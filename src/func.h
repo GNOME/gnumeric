@@ -36,7 +36,7 @@ GnmFuncGroup *gnm_func_group_fetch_with_translation (char const *name,
  * and those who don't.
  *
  * The former kind of functions receives a precomputed array of
- * Value pointers.
+ * GnmValue pointers.
  *
  * The latter sort of functions receives the plain ExprNodes and
  * it is up to that routine to do the value computations and range
@@ -121,8 +121,8 @@ typedef enum {
 } GnmFuncTestStatus;
 typedef struct _GnmFuncDescriptor GnmFuncDescriptor;
 
-typedef Value 		*(*GnmFuncArgs)	  (FunctionEvalInfo *ei, Value **args);
-typedef Value 		*(*GnmFuncNodes)  (FunctionEvalInfo *ei, GnmExprList *l);
+typedef GnmValue 		*(*GnmFuncArgs)	  (FunctionEvalInfo *ei, GnmValue **args);
+typedef GnmValue 		*(*GnmFuncNodes)  (FunctionEvalInfo *ei, GnmExprList *l);
 typedef DependentFlags	 (*GnmFuncLink)	  (FunctionEvalInfo *ei);
 typedef void		 (*GnmFuncUnlink) (FunctionEvalInfo *ei);
 
@@ -212,26 +212,26 @@ char       *function_def_get_arg_name  (GnmFunc const *fn_def,
 
 /*************************************************************************/
 
-Value *function_call_with_list	     (FunctionEvalInfo *ei, GnmExprList *args,
+GnmValue *function_call_with_list	     (FunctionEvalInfo *ei, GnmExprList *args,
 				      GnmExprEvalFlags flags);
-Value *function_call_with_values     (EvalPos const *ep, char const *name,
-                                      gint argc, Value *values []);
-Value *function_def_call_with_values (EvalPos const *ep, GnmFunc const *fn,
-                                      gint argc, Value *values []);
+GnmValue *function_call_with_values     (EvalPos const *ep, char const *name,
+                                      gint argc, GnmValue *values []);
+GnmValue *function_def_call_with_values (EvalPos const *ep, GnmFunc const *fn,
+                                      gint argc, GnmValue *values []);
 
 /* Utilies to interate through ranges and argument lists */
-typedef Value * (*FunctionIterateCB) (EvalPos const *ep,
-                                      Value *value, gpointer user_data);
-Value *function_iterate_argument_values	(EvalPos const	   *ep,
+typedef GnmValue * (*FunctionIterateCB) (EvalPos const *ep,
+                                      GnmValue *value, gpointer user_data);
+GnmValue *function_iterate_argument_values	(EvalPos const	   *ep,
                                          FunctionIterateCB  cb,
                                          gpointer           user_data,
                                          GnmExprList       *expr_node_list,
                                          gboolean           strict,
                                          CellIterFlags	    iter_flags);
-Value *function_iterate_do_value	(EvalPos const      *ep,
+GnmValue *function_iterate_do_value	(EvalPos const      *ep,
 					 FunctionIterateCB   cb,
 					 gpointer            user_data,
-					 Value              *value,
+					 GnmValue              *value,
 					 gboolean            strict,
 					 CellIterFlags	     iter_flags);
 

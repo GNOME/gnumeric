@@ -35,7 +35,7 @@ typedef enum {
 } SheetObjectDirection;
 
 struct _SheetObjectAnchor {
-	Range	cell_bound; /* cellpos containg corners */
+	GnmRange	cell_bound; /* cellpos containg corners */
 	float	offset [4];
 	SheetObjectAnchorType type [4];
 	SheetObjectDirection direction;
@@ -58,8 +58,8 @@ xmlNodePtr    sheet_object_write_xml	 (SheetObject const *so,
 void          sheet_object_print	 (SheetObject const *so,
 					  GnomePrintContext *ctx,
 					  double width, double height);
-void          sheet_object_clone_sheet   (Sheet const *src, Sheet *dst, Range *range);
-void          sheet_object_update_bounds (SheetObject *so, CellPos const *p);
+void          sheet_object_clone_sheet   (Sheet const *src, Sheet *dst, GnmRange *range);
+void          sheet_object_update_bounds (SheetObject *so, GnmCellPos const *p);
 void	      sheet_object_default_size	 (SheetObject *so,
 					  double *w, double *h);
 
@@ -70,7 +70,7 @@ SheetObject  *sheet_object_view_obj	 (GObject *view);
 SheetControl *sheet_object_view_control  (GObject *view);
 gpointer      sheet_object_view_key	 (GObject *view);
 
-Range const	*sheet_object_range_get	 (SheetObject const *so);
+GnmRange const	*sheet_object_range_get	 (SheetObject const *so);
 void		 sheet_object_anchor_set (SheetObject *so,
 					  SheetObjectAnchor const *anchor);
 SheetObjectAnchor const *sheet_object_anchor_get (SheetObject const *so);
@@ -86,15 +86,15 @@ gint sheet_object_lower_bottom	           (SheetObject *so);
 
 /* Object Management */
 void    sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update);
-void	sheet_objects_clear    (Sheet const *sheet, Range const *r, GType t);
-GSList *sheet_objects_get      (Sheet const *sheet, Range const *r, GType t);
+void	sheet_objects_clear    (Sheet const *sheet, GnmRange const *r, GType t);
+GSList *sheet_objects_get      (Sheet const *sheet, GnmRange const *r, GType t);
 
 void     sheet_object_direction_set (SheetObject *so, gdouble *coords);
 gboolean sheet_object_rubber_band_directly (SheetObject const *so);
 
 /* Anchor utilities */
 void sheet_object_anchor_init	    (SheetObjectAnchor *anchor,
-				     Range const *cell_bound,
+				     GnmRange const *cell_bound,
 				     float const	offset [4],
 				     SheetObjectAnchorType const type [4],
 				     SheetObjectDirection direction);

@@ -216,12 +216,12 @@ make_undo_text (char const *src, int max_len, gboolean *truncated)
  *
  * char const *undo_global_range_name
  *
- * @pos: CellPos
+ * @pos: GnmCellPos
  *
  * Returns :
  */
 static char *
-undo_global_range_name (Sheet *sheet, Range const *range)
+undo_global_range_name (Sheet *sheet, GnmRange const *range)
 {
 	gboolean show_sheet_name = gnm_app_prefs->show_sheet_name;
 	return global_range_name (show_sheet_name ? sheet : NULL, range);
@@ -239,7 +239,7 @@ undo_global_range_name (Sheet *sheet, Range const *range)
  */
 
 static gboolean
-cmd_cell_range_is_locked_effective (Sheet *sheet, Range *range,
+cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange *range,
 				    WorkbookControl *wbc, char const *cmd_name)
 {
 	int i, j;
@@ -278,7 +278,7 @@ static gboolean
 cmd_dao_is_locked_effective (data_analysis_output_t  *dao,
 			     WorkbookControl *wbc, char const *cmd_name)
 {
-	Range range;
+	GnmRange range;
 	range_init (&range, dao->start_col, dao->start_row,
 		    dao->start_col +  dao->cols - 1,  dao->start_row +  dao->rows - 1);
 	return (dao->type != NewWorkbookOutput &&
@@ -301,7 +301,7 @@ cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,
 				   WorkbookControl *wbc, char const *cmd_name)
 {
 	for (; selection; selection = selection->next) {
-		Range *range = (Range *)selection->data;
+		GnmRange *range = (GnmRange *)selection->data;
 		if (cmd_cell_range_is_locked_effective (sheet, range, wbc, cmd_name))
 			return TRUE;
 	}
@@ -313,14 +313,14 @@ cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,
  *
  * char *cmd_cell_pos_name_utility
  *
- * @pos: CellPos
+ * @pos: GnmCellPos
  *
  * Returns :
  */
 char *
-cmd_cell_pos_name_utility (Sheet *sheet, CellPos const *pos)
+cmd_cell_pos_name_utility (Sheet *sheet, GnmCellPos const *pos)
 {
-	Range range;
+	GnmRange range;
 
 	range.start = *pos;
 	range.end   = *pos;
@@ -393,7 +393,7 @@ update_after_action (Sheet *sheet)
  *                       automatically truncated to max_descriptor_width ().
  *                       The caller should free the GString that is returned.
  *
- * @ranges : GSList containing Range *'s
+ * @ranges : GSList containing GnmRange *'s
  */
 GString *
 cmd_range_list_to_string_utility (Sheet *sheet, GSList const *ranges)
@@ -407,7 +407,7 @@ cmd_range_list_to_string_utility (Sheet *sheet, GSList const *ranges)
 
 	names = g_string_new (NULL);
 	for (l = ranges; l != NULL; l = l->next) {
-		Range const *r = l->data;
+		GnmRange const *r = l->data;
 
                 name = undo_global_range_name (sheet , r);
                 g_string_append (names, name);
@@ -430,13 +430,13 @@ cmd_range_list_to_string_utility (Sheet *sheet, GSList const *ranges)
 }
 
 char *
-cmd_range_to_str_utility (Sheet *sheet, Range const *range)
+cmd_range_to_str_utility (Sheet *sheet, GnmRange const *range)
 {
 	GSList  *list   = NULL;
 	GString *string = NULL;
 	char    *text   = NULL;
 
-	list = g_slist_prepend (list, (Range *)range);
+	list = g_slist_prepend (list, (GnmRange *)range);
 	string = cmd_range_list_to_string_utility (sheet, list);
 	g_slist_free (list);
 	text = string->str;
@@ -816,7 +816,7 @@ static gboolean
 cmd_set_text_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdSetText *me = CMD_SET_TEXT (cmd);
-	Range r;
+	GnmRange r;
 	PasteTarget pt;
 
 	r.start = r.end = me->pos.eval;
@@ -844,7 +844,7 @@ cmd_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 			eval_pos_init (&ep, me->cmd.sheet, &me->pos.eval));
 		if (sf) {
 			MStyle *new_style = mstyle_new ();
-			Range r;
+			GnmRange r;
 
 			mstyle_set_format (new_style, sf);
 			style_format_unref (sf);
@@ -868,7 +868,7 @@ cmd_set_text_finalize (GObject *cmd)
 
 gboolean
 cmd_set_text (WorkbookControl *wbc,
-	      Sheet *sheet, CellPos const *pos,
+	      Sheet *sheet, GnmCellPos const *pos,
 	      char const *new_text)
 {
 	GObject *obj;
@@ -877,7 +877,7 @@ cmd_set_text (WorkbookControl *wbc,
 	Cell const *cell;
 	char *where;
 	gboolean truncated;
-	Range r;
+	GnmRange r;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (new_text != NULL, TRUE);
@@ -955,7 +955,7 @@ cmd_area_set_text_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me->old_content != NULL, TRUE);
 
 	for (ranges = me->selection; ranges != NULL ; ranges = ranges->next) {
-		Range const *r = ranges->data;
+		GnmRange const *r = ranges->data;
 		CellRegion * c;
 		PasteTarget pt;
 
@@ -1015,7 +1015,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	/* Everything is ok. Store previous contents and perform the operation */
 	for (l = me->selection ; l != NULL ; l = l->next) {
-		Range const *r = l->data;
+		GnmRange const *r = l->data;
 		me->old_content = g_slist_prepend (me->old_content,
 			clipboard_copy_range (me->cmd.sheet, r));
 
@@ -1095,7 +1095,7 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 			me->selection != NULL && me->selection->next == NULL);
 	if (me->as_array) {
 		/* parse the array expr relative to the top left */
-		Range const *r = me->selection->data;
+		GnmRange const *r = me->selection->data;
 		parse_pos_init (&me->pp, NULL, sv_sheet (sv),
 			MIN (r->start.col, r->end.col),
 			MIN (r->start.row, r->end.row));
@@ -1134,7 +1134,7 @@ typedef struct
 	gboolean         is_cut;
 	int		 index;
 	int		 count;
-	Range           *cutcopied;
+	GnmRange           *cutcopied;
 	SheetView	*cut_copy_view;
 
 	ColRowStateList *saved_states;
@@ -1151,7 +1151,7 @@ cmd_ins_del_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	int index;
 	GnmRelocUndo	tmp;
 	gboolean trouble;
-	Range r;
+	GnmRange r;
 	PasteTarget pt;
 
 	g_return_val_if_fail (me != NULL, TRUE);
@@ -1213,7 +1213,7 @@ static gboolean
 cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdInsDelColRow *me = CMD_INS_DEL_COLROW (cmd);
-	Range r;
+	GnmRange r;
 	gboolean trouble;
 	int first, last;
 
@@ -1292,7 +1292,7 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	 * for the shift of col/rows.
 	 */
 	if (!trouble && me->cutcopied != NULL && me->cut_copy_view != NULL) {
-		Range s = *me->cutcopied;
+		GnmRange s = *me->cutcopied;
 		int key = me->is_insert ? me->count : -me->count;
 		int threshold = me->is_insert ? me->index : me->index + 1;
 
@@ -1468,7 +1468,7 @@ cmd_clear_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	sv_selection_reset (sv);
 
 	for (ranges = me->selection; ranges != NULL ; ranges = ranges->next) {
-		Range const *r = ranges->data;
+		GnmRange const *r = ranges->data;
 		CellRegion  *c;
 		PasteTarget pt;
 
@@ -1513,7 +1513,7 @@ cmd_clear_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		return TRUE;
 
 	for (l = me->selection ; l != NULL ; l = l->next) {
-		Range const *r = l->data;
+		GnmRange const *r = l->data;
 		me->old_content =
 			g_slist_prepend (me->old_content,
 				clipboard_copy_range (me->cmd.sheet, r));
@@ -1623,7 +1623,7 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 #define CMD_FORMAT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_FORMAT_TYPE, CmdFormat))
 
 typedef struct {
-	CellPos pos;
+	GnmCellPos pos;
 	StyleList *styles;
 } CmdFormatOldStyle;
 
@@ -1653,7 +1653,7 @@ cmd_format_undo (GnumericCommand *cmd,
 		GSList *l2 = me->selection;
 
 		for (; l1; l1 = l1->next, l2 = l2->next) {
-			Range const *r;
+			GnmRange const *r;
 			CmdFormatOldStyle *os = l1->data;
 			SpanCalcFlags flags = sheet_style_set_list (me->cmd.sheet,
 				&os->pos, FALSE, os->styles);
@@ -1775,7 +1775,7 @@ cmd_selection_format (WorkbookControl *wbc,
 	me->old_styles = NULL;
 	for (l = me->selection; l; l = l->next) {
 		CmdFormatOldStyle *os;
-		Range range = *((Range const *)l->data);
+		GnmRange range = *((GnmRange const *)l->data);
 
 		/* Store the containing range to handle borders */
 		if (borders != NULL) {
@@ -1961,13 +1961,12 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 #define CMD_SORT_TYPE        (cmd_sort_get_type ())
 #define CMD_SORT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SORT_TYPE, CmdSort))
 
-typedef struct
-{
+typedef struct {
 	GnumericCommand cmd;
 
-	SortData   *data;
-	int        *perm;
-	int        *inv;
+	GnmSortData *data;
+	int         *perm;
+	int         *inv;
 } CmdSort;
 
 GNUMERIC_MAKE_COMMAND (CmdSort, cmd_sort);
@@ -2028,7 +2027,7 @@ cmd_sort_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	return FALSE;
 }
 gboolean
-cmd_sort (WorkbookControl *wbc, SortData *data)
+cmd_sort (WorkbookControl *wbc, GnmSortData *data)
 {
 	GObject *obj;
 	CmdSort *me;
@@ -2296,7 +2295,7 @@ typedef struct
 {
 	GnumericCommand cmd;
 
-	Range          range;
+	GnmRange          range;
 	gboolean       is_cols;
 	gboolean       group;
 	int            gutter_size;
@@ -2337,7 +2336,7 @@ cmd_selection_group (WorkbookControl *wbc,
 	GObject   *obj;
 	CmdGroup  *me;
 	SheetView *sv;
-	Range	   r;
+	GnmRange	   r;
 
 	g_return_val_if_fail (wbc != NULL, TRUE);
 
@@ -2503,7 +2502,7 @@ static gboolean
 cmd_paste_cut_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdPasteCut *me = CMD_PASTE_CUT (cmd);
-	Range  tmp;
+	GnmRange  tmp;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->paste_content == NULL, TRUE);
@@ -2527,7 +2526,7 @@ cmd_paste_cut_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		 */
 		GSList *ptr, *frag = range_split_ranges (&me->info.origin, &tmp);
 		for (ptr = frag ; ptr != NULL ; ptr = ptr->next) {
-			Range *r = ptr->data;
+			GnmRange *r = ptr->data;
 
 			if (!range_overlap (&me->info.origin, r)) {
 				PasteContent *pc = g_new (PasteContent, 1);
@@ -2584,7 +2583,7 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 {
 	GObject *obj;
 	CmdPasteCut *me;
-	Range r;
+	GnmRange r;
 	char *where;
 
 	g_return_val_if_fail (info != NULL, TRUE);
@@ -2787,7 +2786,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 	} else if  (content->cols != 1 || content->rows != 1) {
 		/* Note: when the source is a single cell, a single target merge is special */
 		/* see clipboard.c (clipboard_paste_region)                                 */
-		Range const *merge = sheet_merge_is_corner (pt->sheet, &me->dst.range.start);
+		GnmRange const *merge = sheet_merge_is_corner (pt->sheet, &me->dst.range.start);
 		if (merge != NULL && range_equal (&me->dst.range, merge)) {
 			/* destination is a single merge */
 			/* enlarge it such that the source fits */
@@ -2954,7 +2953,7 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 {
 	GObject *obj;
 	CmdAutofill *me;
-	Range target, src;
+	GnmRange target, src;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
@@ -3032,7 +3031,7 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 #define CMD_AUTOFORMAT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_AUTOFORMAT_TYPE, CmdAutoFormat))
 
 typedef struct {
-	CellPos pos;
+	GnmCellPos pos;
 	StyleList *styles;
 } CmdAutoFormatOldStyle;
 
@@ -3060,7 +3059,7 @@ cmd_autoformat_undo (GnumericCommand *cmd,
 		GSList *l2 = me->selection;
 
 		for (; l1; l1 = l1->next, l2 = l2->next) {
-			Range *r;
+			GnmRange *r;
 			CmdAutoFormatOldStyle *os = l1->data;
 			SpanCalcFlags flags = sheet_style_set_list (me->cmd.sheet,
 					    &os->pos, FALSE, os->styles);
@@ -3152,7 +3151,7 @@ cmd_selection_autoformat (WorkbookControl *wbc, FormatTemplate *ft)
 	me->old_styles = NULL;
 	for (l = me->selection; l; l = l->next) {
 		CmdFormatOldStyle *os;
-		Range range = *((Range const *) l->data);
+		GnmRange range = *((GnmRange const *) l->data);
 
 		/* Store the containing range to handle borders */
 		if (range.start.col > 0) range.start.col--;
@@ -3202,7 +3201,7 @@ cmd_unmerge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me->unmerged_regions != NULL, TRUE);
 
 	for (i = 0 ; i < me->unmerged_regions->len ; ++i) {
-		Range const *tmp = &(g_array_index (me->unmerged_regions, Range, i));
+		GnmRange const *tmp = &(g_array_index (me->unmerged_regions, GnmRange, i));
 		sheet_redraw_range (me->cmd.sheet, tmp);
 		sheet_merge_add (me->cmd.sheet, tmp, FALSE, COMMAND_CONTEXT (wbc));
 		sheet_range_calc_spans (me->cmd.sheet, tmp, SPANCALC_RE_RENDER);
@@ -3223,12 +3222,12 @@ cmd_unmerge_cells_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->unmerged_regions == NULL, TRUE);
 
-	me->unmerged_regions = g_array_new (FALSE, FALSE, sizeof (Range));
+	me->unmerged_regions = g_array_new (FALSE, FALSE, sizeof (GnmRange));
 	for (i = 0 ; i < me->ranges->len ; ++i) {
 		GSList *ptr, *merged = sheet_merge_get_overlap (me->cmd.sheet,
-			&(g_array_index (me->ranges, Range, i)));
+			&(g_array_index (me->ranges, GnmRange, i)));
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
-			Range const tmp = *(Range *)(ptr->data);
+			GnmRange const tmp = *(GnmRange *)(ptr->data);
 			g_array_append_val (me->unmerged_regions, tmp);
 			sheet_merge_remove (me->cmd.sheet, &tmp, COMMAND_CONTEXT (wbc));
 			sheet_range_calc_spans (me->cmd.sheet, &tmp,
@@ -3283,11 +3282,11 @@ cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 	g_string_free (names, TRUE);
 
 	me->unmerged_regions = NULL;
-	me->ranges = g_array_new (FALSE, FALSE, sizeof (Range));
+	me->ranges = g_array_new (FALSE, FALSE, sizeof (GnmRange));
 	for ( ; selection != NULL ; selection = selection->next) {
 		GSList *merged = sheet_merge_get_overlap (sheet, selection->data);
 		if (merged != NULL) {
-			g_array_append_val (me->ranges, *(Range *)selection->data);
+			g_array_append_val (me->ranges, *(GnmRange *)selection->data);
 			g_slist_free (merged);
 		}
 	}
@@ -3323,12 +3322,12 @@ cmd_merge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	for (i = 0 ; i < me->ranges->len ; ++i) {
-		Range const *r = &(g_array_index (me->ranges, Range, i));
+		GnmRange const *r = &(g_array_index (me->ranges, GnmRange, i));
 		sheet_merge_remove (me->cmd.sheet, r, COMMAND_CONTEXT (wbc));
 	}
 
 	for (i = 0 ; i < me->ranges->len ; ++i) {
-		Range const *r = &(g_array_index (me->ranges, Range, i));
+		GnmRange const *r = &(g_array_index (me->ranges, GnmRange, i));
 		PasteTarget pt;
 		CellRegion * c;
 
@@ -3358,7 +3357,7 @@ cmd_merge_cells_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	sheet = me->cmd.sheet;
 	for (i = 0 ; i < me->ranges->len ; ++i) {
-		Range const *r = &(g_array_index (me->ranges, Range, i));
+		GnmRange const *r = &(g_array_index (me->ranges, GnmRange, i));
 		GSList *ptr, *merged = sheet_merge_get_overlap (sheet, r);
 
 		/* save content before removing contained merged regions */
@@ -3421,16 +3420,16 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 						     names->str);
 	g_string_free (names, TRUE);
 
-	me->ranges = g_array_new (FALSE, FALSE, sizeof (Range));
+	me->ranges = g_array_new (FALSE, FALSE, sizeof (GnmRange));
 	for ( ; selection != NULL ; selection = selection->next) {
-		Range const *exist;
-		Range const *r = selection->data;
+		GnmRange const *exist;
+		GnmRange const *r = selection->data;
 		if (range_is_singleton (selection->data))
 			continue;
 		if (NULL != (exist = sheet_merge_is_corner (sheet, &r->start)) &&
 		    range_equal (r, exist))
 			continue;
-		g_array_append_val (me->ranges, *(Range *)selection->data);
+		g_array_append_val (me->ranges, *(GnmRange *)selection->data);
 	}
 
 	if (me->ranges->len <= 0) {
@@ -3450,7 +3449,7 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 typedef struct
 {
 	GnumericCommand cmd;
-	SearchReplace *sr;
+	GnmSearchReplace *sr;
 
 	/*
 	 * Undo/redo use this list of SearchReplaceItems to do their
@@ -3570,14 +3569,14 @@ static gboolean
 cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 			    gboolean test_run)
 {
-	SearchReplace *sr = me->sr;
+	GnmSearchReplace *sr = me->sr;
 
 	SearchReplaceCellResult cell_res;
 	SearchReplaceCommentResult comment_res;
 
 	if (search_replace_cell (sr, ep, TRUE, &cell_res)) {
 		GnmExpr const *expr;
-		Value *val;
+		GnmValue *val;
 		gboolean err;
 		ParsePos pp;
 
@@ -3708,7 +3707,7 @@ cmd_search_replace_do (CmdSearchReplace *me,
 		       G_GNUC_UNUSED Workbook *wb, Sheet *sheet,
 		       gboolean test_run)
 {
-	SearchReplace *sr = me->sr;
+	GnmSearchReplace *sr = me->sr;
 	GPtrArray *cells;
 	gboolean result = FALSE;
 	unsigned i;
@@ -3784,7 +3783,7 @@ cmd_search_replace_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_search_replace (WorkbookControl *wbc, Sheet *sheet, SearchReplace *sr)
+cmd_search_replace (WorkbookControl *wbc, Sheet *sheet, GnmSearchReplace *sr)
 {
 	GObject *obj;
 	CmdSearchReplace *me;
@@ -4280,7 +4279,7 @@ cmd_reorganize_sheets_delete_get_this_sheet_info (Workbook *wb, guint pos)
 {
 	cmd_reorganize_sheets_delete_t *data;
 	Sheet *sheet;
-	Range r;
+	GnmRange r;
 	GList *l;
 
 	g_return_val_if_fail (wb != NULL, NULL);
@@ -4400,7 +4399,7 @@ cmd_reorganize_sheets_delete_recreate_sheet (WorkbookControl *wbc, Workbook *wb,
 	}
 	if (sheet->content) {
 		PasteTarget pt;
-		Range r;
+		GnmRange r;
 		
 		clipboard_paste_region (sheet->content,
 					paste_target_init (&pt, a_new_sheet, 
@@ -4874,7 +4873,7 @@ typedef struct
 	GnumericCommand cmd;
 
 	Sheet           *sheet;
-	CellPos	        pos;
+	GnmCellPos	        pos;
 	gchar		*new_text;
 	gchar		*old_text;
 } CmdSetComment;
@@ -4882,7 +4881,7 @@ typedef struct
 GNUMERIC_MAKE_COMMAND (CmdSetComment, cmd_set_comment);
 
 static gboolean
-cmd_set_comment_apply (Sheet *sheet, CellPos *pos, char const *text)
+cmd_set_comment_apply (Sheet *sheet, GnmCellPos *pos, char const *text)
 {
 	CellComment   *comment;
 
@@ -4891,7 +4890,7 @@ cmd_set_comment_apply (Sheet *sheet, CellPos *pos, char const *text)
 		if (text)
 			cell_comment_text_set (comment, text);
 		else {
-			Range r;
+			GnmRange r;
 			r.start = *pos;
 			r.end   = *pos;
 			sheet_objects_clear (sheet, &r, CELL_COMMENT_TYPE);
@@ -4937,7 +4936,7 @@ cmd_set_comment_finalize (GObject *cmd)
 
 gboolean
 cmd_set_comment (WorkbookControl *wbc,
-	      Sheet *sheet, CellPos const *pos,
+	      Sheet *sheet, GnmCellPos const *pos,
 	      char const *new_text)
 {
 	GObject       *obj;
@@ -4992,7 +4991,7 @@ typedef struct
 
 	ColRowStateList         *col_info;
 	ColRowStateList         *row_info;
-	Range                   old_range;
+	GnmRange                   old_range;
 	CellRegion              *old_content;
 } CmdAnalysis_Tool;
 
@@ -5190,7 +5189,7 @@ cmd_analysis_tool (WorkbookControl *wbc, G_GNUC_UNUSED Sheet *sheet,
 typedef struct
 {
 	GnumericCommand cmd;
-	Value *merge_zone;
+	GnmValue *merge_zone;
 	GSList *merge_fields;
 	GSList *merge_data;
 	GSList *sheet_list;
@@ -5229,13 +5228,13 @@ cmd_merge_data_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	CmdMergeData *me = CMD_MERGE_DATA (cmd);
 	int i;
 	CellRegion *merge_content;
-	RangeRef *cell = &me->merge_zone->v_range.cell;
+	GnmRangeRef *cell = &me->merge_zone->v_range.cell;
 	PasteTarget pt;
 	GSList *this_field = me->merge_fields;
 	GSList *this_data = me->merge_data;
 	Sheet *source_sheet = cell->a.sheet;
 	GSList *target_sheet;
-	Range target_range;
+	GnmRange target_range;
 	ColRowStateList *state_col;
 	ColRowStateList *state_row;
 
@@ -5269,11 +5268,11 @@ cmd_merge_data_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		int col_target, row_target;
 
 		g_return_val_if_fail (this_data != NULL, TRUE);
-		cell = &((Value *)this_field->data)->v_range.cell;
+		cell = &((GnmValue *)this_field->data)->v_range.cell;
 		col_target = cell->a.col;
 		row_target =  cell->a.row;
 
-		cell = &((Value *)this_data->data)->v_range.cell;
+		cell = &((GnmValue *)this_data->data)->v_range.cell;
 		col_source = cell->a.col;
 		row_source =  cell->a.row;
 		source_sheet = cell->a.sheet;
@@ -5325,11 +5324,11 @@ cmd_merge_data_finalize (GObject *cmd)
 
 gboolean
 cmd_merge_data (WorkbookControl *wbc, Sheet *sheet,
-		Value *merge_zone, GSList *merge_fields, GSList *merge_data)
+		GnmValue *merge_zone, GSList *merge_fields, GSList *merge_data)
 {
 	GObject       *obj;
 	CmdMergeData *me;
-	RangeRef *cell;
+	GnmRangeRef *cell;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (merge_zone != NULL, TRUE);
@@ -5350,7 +5349,7 @@ cmd_merge_data (WorkbookControl *wbc, Sheet *sheet,
 	me->merge_data = merge_data;
 	me->sheet_list = 0;
 
-	cell = &((Value *)merge_data->data)->v_range.cell;
+	cell = &((GnmValue *)merge_data->data)->v_range.cell;
 	me->n = cell->b.row - cell->a.row + 1;
 
 	/* Register the command object */
@@ -6029,7 +6028,7 @@ typedef struct
 
 	CellRegion      *content;
 	PasteTarget      dst;
-	Range            src;
+	GnmRange            src;
 	Sheet           *src_sheet;
 	ColRowStateList *saved_sizes;
 } CmdTextToColumns;
@@ -6110,8 +6109,8 @@ cmd_text_to_columns_finalize (GObject *cmd)
 
 gboolean
 cmd_text_to_columns (WorkbookControl *wbc,
-		     Range const *src, Sheet *src_sheet, 
-		     Range const *target, Sheet *target_sheet, 
+		     GnmRange const *src, Sheet *src_sheet, 
+		     GnmRange const *target, Sheet *target_sheet, 
 		     CellRegion *content)
 {
 	GObject *obj;
@@ -6299,14 +6298,14 @@ typedef struct
 	GnumericCommand cmd;
 
 	Cell	  *cell;
-	Value	  *ov;
-	Value	  *nv;
+	GnmValue	  *ov;
+	GnmValue	  *nv;
 } CmdGoalSeek;
 
 GNUMERIC_MAKE_COMMAND (CmdGoalSeek, cmd_goal_seek);
 
 static gboolean
-cmd_goal_seek_impl (Cell *cell, Value *value)
+cmd_goal_seek_impl (Cell *cell, GnmValue *value)
 {
 	sheet_cell_set_value (cell, value_duplicate(value));
 	workbook_recalc (cell->base.sheet->workbook);
@@ -6344,11 +6343,11 @@ cmd_goal_seek_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_goal_seek (WorkbookControl *wbc, Cell *cell, Value *ov, Value *nv)
+cmd_goal_seek (WorkbookControl *wbc, Cell *cell, GnmValue *ov, GnmValue *nv)
 {
 	GObject *obj;
 	CmdGoalSeek *me;
-	Range range;
+	GnmRange range;
 
 	g_return_val_if_fail (cell != NULL, TRUE);
 	g_return_val_if_fail (ov != NULL || nv != NULL, TRUE);
@@ -6388,7 +6387,7 @@ typedef struct
 	GnumericCommand cmd;
 
 	SheetView *sv;
-	CellPos	   pos;
+	GnmCellPos	   pos;
 } CmdFreezePanes;
 
 GNUMERIC_MAKE_COMMAND (CmdFreezePanes, cmd_freeze_panes);
@@ -6428,7 +6427,7 @@ cmd_freeze_panes_finalize (GObject *cmd)
  **/
 gboolean
 cmd_freeze_panes (WorkbookControl *wbc, SheetView *sv,
-		  CellPos const *frozen, CellPos const *unfrozen)
+		  GnmCellPos const *frozen, GnmCellPos const *unfrozen)
 {
 	GObject		*obj;
 	CmdFreezePanes	*me;

@@ -36,6 +36,7 @@
 #include <workbook.h>
 #include <workbook-control.h>
 #include <workbook-edit.h>
+#include <workbook-view.h>
 #include <gui-util.h>
 #include <parse-util.h>
 #include <value.h>

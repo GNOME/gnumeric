@@ -157,7 +157,7 @@ static guint8 const signature[] =
     { 0xff, 'W','P','C', 0x10, 0, 0, 0, 0x9, 0xa };
 
 /* in charset.c. */
-guint8 *pln_get_str (guint8 const *ch, unsigned len);
+guint8 *pln_get_str (guint8 const *ch, int len);
 
 static char const *
 pln_get_func_table1 (unsigned i)
@@ -279,7 +279,7 @@ pln_get_addr (ParsePos const *pp, guint8 const *ch)
 {
 	guint16 r = GSF_LE_GET_GUINT16 (ch);
 	guint16 c = GSF_LE_GET_GUINT16 (ch+2);
-	CellRef ref;
+	GnmCellRef ref;
 	GString *str = g_string_new (NULL);
 
 	ref.sheet = NULL;
@@ -490,17 +490,17 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 	int i, rcode, rlength;
 	guint8 const *data;
 	Cell    *cell;
-	Value   *v;
+	GnmValue   *v;
 	GnmExpr const *expr;
 	MStyle  *style;
 	ParsePos pp;
-	Range    r;
+	GnmRange r;
 
 	range_init (&r, 0,0,0, SHEET_MAX_ROWS);
 	parse_pos_init_sheet (&pp, state->sheet);
 
-	data = gsf_input_read (input, 6, NULL);
-	if (data == NULL || GSF_LE_GET_GUINT16 (data + 2) != 0)
+	data = gsf_input_read (input, 16, NULL);
+	if (data == NULL || GSF_LE_GET_GUINT16 (data + 12) != 0)
 		return error_info_new_str (_("PLN : Spreadsheet is password encrypted"));
 
 	/* Process the record based sections

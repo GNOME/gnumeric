@@ -36,7 +36,7 @@ void		number_format_selector_set_focus (NumberFormatSelector *nfs);
 void		number_format_selector_set_style_format (NumberFormatSelector *nfs,
 							 StyleFormat *style_format);
 void		number_format_selector_set_value (NumberFormatSelector *nfs,
-						  Value const *value);
+						  GnmValue const *value);
 void		number_format_selector_set_date_conv (NumberFormatSelector *nfs,
 						      GnmDateConventions const *date_conv);
 void		number_format_selector_editable_enters (NumberFormatSelector *nfs,

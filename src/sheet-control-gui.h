@@ -67,7 +67,7 @@ void scg_cursor_extend		(SheetControlGUI *scg, int n,
 
 void scg_special_cursor_start	(SheetControlGUI *scg, int style, int button);
 void scg_special_cursor_stop	(SheetControlGUI *scg);
-gboolean scg_special_cursor_bound_set (SheetControlGUI *scg, Range const *r);
+gboolean scg_special_cursor_bound_set (SheetControlGUI *scg, GnmRange const *r);
 
 void scg_set_left_col		(SheetControlGUI *scg, int new_first_col);
 void scg_set_top_row		(SheetControlGUI *scg, int new_first_row);

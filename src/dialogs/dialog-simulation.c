@@ -64,9 +64,9 @@ static void
 simulation_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				  SimulationState *state)
 {
-        Value *output_range = NULL;
-        Value *input_range  = NULL;
-        Value *output_vars  = NULL;
+        GnmValue *output_range = NULL;
+        GnmValue *input_range  = NULL;
+        GnmValue *output_vars  = NULL;
 
 	int i;
 

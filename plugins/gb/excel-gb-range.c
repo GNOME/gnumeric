@@ -43,7 +43,7 @@ excel_gb_range_set_arg (GBRunEvalContext *ec,
 	switch (property) {
 
 	case VALUE: {
-		Value *value;
+		GnmValue *value;
 		Cell    *cell;
 
 		value = gb_to_value (val);
@@ -236,7 +236,7 @@ excel_gb_range_get_type (void)
 ExcelGBRange *
 excel_gb_range_new (GBRunEvalContext *ec,
 		    Sheet            *sheet,
-		    Range             area)
+		    GnmRange             area)
 {
 	ExcelGBRange *range;
 
@@ -253,7 +253,7 @@ excel_gb_range_new_ref (GBRunEvalContext *ec,
 			Sheet            *sheet,
 			const char       *text)
 {
-	Range         tmp;
+	GnmRange         tmp;
 	int           len;
 
 	if (!cellpos_parse (text, &tmp.start, FALSE, &len)) {

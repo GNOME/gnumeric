@@ -265,7 +265,7 @@ ms_sheet_create_image (MSObj *obj, MSEscherBlip *blip)
 static gboolean
 ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
 			    guint8 const *raw_anchor,
-			    Range *range, float offset[4])
+			    GnmRange *range, float offset[4])
 {
 	/* NOTE :
 	 * float const row_denominator = (ver >= MS_BIFF_V8) ? 256. : 1024.;
@@ -323,7 +323,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 {
 	float offsets[4];
 	char const *label;
-	Range range;
+	GnmRange range;
 	ExcelReadSheet *esheet;
 	MSObjAttr *anchor;
 
@@ -984,7 +984,7 @@ excel_read_EXSST (BiffQuery *q, ExcelWorkbook *ewb)
 		       GSF_LE_GET_GUINT16 (q->data), (q->length - 2) / 8););
 }
 
-Value *
+GnmValue *
 biff_get_error (EvalPos const *pos, guint8 err)
 {
 	switch (err) {
@@ -1684,7 +1684,7 @@ excel_set_xf_segment (ExcelReadSheet *esheet,
 			 int start_col, int end_col,
 			 int start_row, int end_row, guint16 xfidx)
 {
-	Range   range;
+	GnmRange   range;
 	MStyle * const mstyle  = excel_get_style_from_xf (esheet, xfidx);
 
 	if (mstyle == NULL)
@@ -2135,7 +2135,7 @@ static GnmExpr const *
 excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, Cell *cell)
 {
 	guint16 opcode, data_len;
-	Range   r;
+	GnmRange   r;
 	gboolean is_array;
 	GnmExpr const *expr;
 	guint8 const *data;
@@ -2219,7 +2219,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	guint offset, val_offset;
 	GnmExpr const *expr;
 	Cell	 *cell;
-	Value	 *val = NULL;
+	GnmValue	 *val = NULL;
 
 	excel_set_xf (esheet, col, row, xf_index);
 
@@ -2416,7 +2416,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 
 XLSharedFormula *
 excel_sheet_shared_formula (ExcelReadSheet const *esheet,
-			       CellPos const    *key)
+			    GnmCellPos const    *key)
 {
 	g_return_val_if_fail (esheet != NULL, NULL);
 
@@ -2427,7 +2427,7 @@ excel_sheet_shared_formula (ExcelReadSheet const *esheet,
 
 XLDataTable *
 excel_sheet_data_table (ExcelReadSheet const *esheet,
-			CellPos const    *key)
+			GnmCellPos const    *key)
 {
 	g_return_val_if_fail (esheet != NULL, NULL);
 
@@ -2438,7 +2438,7 @@ excel_sheet_data_table (ExcelReadSheet const *esheet,
 
 static void
 excel_sheet_insert_val (ExcelReadSheet *esheet, int xfidx,
-			   int col, int row, Value *v)
+			   int col, int row, GnmValue *v)
 {
 	BiffXFData const *xf = excel_get_xf (esheet, xfidx);
 
@@ -2464,7 +2464,7 @@ excel_sheet_insert_blank (ExcelReadSheet *esheet, int xfidx,
 static void
 excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	CellPos	pos;
+	GnmCellPos	pos;
 
 	pos.row = EX_GETROW (q);
 	pos.col = EX_GETCOL (q);
@@ -2714,7 +2714,7 @@ excel_workbook_destroy (ExcelWorkbook *ewb)
 /**
  * Unpacks a MS Excel RK structure,
  **/
-static Value *
+static GnmValue *
 biff_get_rk (guint8 const *ptr)
 {
 	gint32 number;
@@ -2903,9 +2903,9 @@ static void
 excel_prepare_autofilter (ExcelWorkbook *ewb, GnmNamedExpr *nexpr)
 {
 	if (nexpr->pos.sheet != NULL) {
-		Value *v = gnm_expr_get_range (nexpr->expr);
+		GnmValue *v = gnm_expr_get_range (nexpr->expr);
 		if (v != NULL) {
-			GlobalRange r;
+			GnmGlobalRange r;
 			gboolean valid = value_to_global_range (v, &r);
 			value_release (v);
 
@@ -3085,7 +3085,7 @@ excel_read_XCT (BiffQuery *q, ExcelWorkbook *ewb)
 	int count;
 	Sheet *sheet = NULL;
 	Cell  *cell;
-	Value *v;
+	GnmValue *v;
 	EvalPos ep;
 
 	if (ewb->container.ver >= MS_BIFF_V8) {
@@ -3405,13 +3405,13 @@ excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 	 */
 	/* int const pane_number	= GSF_LE_GET_GUINT8 (q->data); */
 
-	CellPos edit_pos, tmp;
+	GnmCellPos edit_pos, tmp;
 	/* the range containing the edit_pos */
 	int i, j = GSF_LE_GET_GUINT16 (q->data + 5);
 	int num_refs = GSF_LE_GET_GUINT16 (q->data + 7);
 	guint8 *refs;
 	SheetView *sv = sheet_get_view (esheet->sheet, esheet->container.ewb->wbv);
-	Range r;
+	GnmRange r;
 
 	edit_pos.row = GSF_LE_GET_GUINT16 (q->data + 1);
 	edit_pos.col = GSF_LE_GET_GUINT16 (q->data + 3);
@@ -3590,7 +3590,7 @@ excel_read_MULRK (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	guint32 col, row, lastcol;
 	guint8 const *ptr = q->data;
-	Value *v;
+	GnmValue *v;
 
 	row = GSF_LE_GET_GUINT16 (q->data);
 	col = GSF_LE_GET_GUINT16 (q->data + 2);
@@ -3653,7 +3653,7 @@ excel_read_MULBLANK (BiffQuery *q, ExcelReadSheet *esheet)
 }
 
 static guint8 const *
-excel_read_range (Range *r, guint8 const *data)
+excel_read_range (GnmRange *r, guint8 const *data)
 {
 	r->start.row = GSF_LE_GET_GUINT16 (data);
 	r->end.row = GSF_LE_GET_GUINT16   (data + 2);
@@ -3673,7 +3673,7 @@ excel_read_MERGECELLS (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	int num_merged = GSF_LE_GET_GUINT16 (q->data);
 	guint8 const *data = q->data + 2;
-	Range r;
+	GnmRange r;
 
 	g_return_if_fail (q->length == (unsigned int)(2 + 8 * num_merged));
 
@@ -3687,7 +3687,7 @@ excel_read_MERGECELLS (BiffQuery *q, ExcelReadSheet *esheet)
 static void
 excel_read_DIMENSIONS (BiffQuery *q, ExcelWorkbook *ewb)
 {
-	Range r;
+	GnmRange r;
 
 	/* What the heck was a 0x00 ? */
 	if (q->opcode != 0x200)
@@ -3800,7 +3800,7 @@ excel_read_PANE (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 		guint16 rwTop = GSF_LE_GET_GUINT16 (q->data + 4);
 		guint16 colLeft = GSF_LE_GET_GUINT16 (q->data + 6);
 		SheetView *sv = sheet_get_view (esheet->sheet, esheet->container.ewb->wbv);
-		CellPos frozen, unfrozen;
+		GnmCellPos frozen, unfrozen;
 
 		frozen = unfrozen = sv->initial_top_left;
 		if (x > 0)
@@ -4034,7 +4034,7 @@ static void
 excel_read_CONDFMT (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	guint16 num_fmts, options, num_areas;
-	Range  region;
+	GnmRange  region;
 	unsigned i;
 	guint8 const *data;
 
@@ -4081,7 +4081,7 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 	guint8 const *data, *expr1_dat, *expr2_dat;
 	guint8 const *end = q->data + q->length;
 	int i, col, row;
-	Range r;
+	GnmRange r;
 	ValidationStyle style;
 	ValidationType  type;
 	ValidationOp    op;
@@ -4181,7 +4181,7 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 	};
 
 	if (ranges != NULL) {
-		Range const *r = ranges->data;
+		GnmRange const *r = ranges->data;
 		col = r->start.col;
 		row = r->start.row;
 	} else
@@ -4209,7 +4209,7 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 			gnm_input_msg_new (input_msg, input_title));
 
 	for (ptr = ranges; ptr != NULL ; ptr = ptr->next) {
-		Range *r = ptr->data;
+		GnmRange *r = ptr->data;
 		mstyle_ref (mstyle);
 		sheet_style_apply_range (esheet->sheet, r, mstyle);
 		d (1, range_dump (r, "\n"););
@@ -4290,7 +4290,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 		0x03, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 		0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46,
 	};
-	Range	r;
+	GnmRange	r;
 	guint32 options, len;
 	guint16 next_opcode;
 	guint8 const *data = q->data;
@@ -4388,7 +4388,7 @@ excel_read_BG_PIC (BiffQuery *q, ExcelReadSheet *esheet)
 	/* Looks like a bmp.  OpenCalc has a basic parser for 24 bit files */
 }
 
-static Value *
+static GnmValue *
 read_DOPER (guint8 const *doper, gboolean is_equal,
 	    unsigned *str_len, GnmFilterOp *op)
 {
@@ -4400,7 +4400,7 @@ read_DOPER (guint8 const *doper, gboolean is_equal,
 		GNM_FILTER_OP_NOT_EQUAL,
 		GNM_FILTER_OP_GTE
 	};
-	Value *res = NULL;
+	GnmValue *res = NULL;
 
 	*str_len = 0;
 	*op = GNM_FILTER_UNUSED;
@@ -4457,8 +4457,8 @@ excel_read_AUTOFILTER (BiffQuery *q, ExcelReadSheet *esheet)
 		unsigned     len0, len1;
 		GnmFilterOp  op0,  op1;
 		guint8 const *data;
-		Value *v0 = read_DOPER (q->data + 4,  flags & 4, &len0, &op0);
-		Value *v1 = read_DOPER (q->data + 14, flags & 8, &len1, &op1);
+		GnmValue *v0 = read_DOPER (q->data + 4,  flags & 4, &len0, &op0);
+		GnmValue *v1 = read_DOPER (q->data + 14, flags & 8, &len1, &op1);
 
 		data = q->data + 24;
 		if (len0 > 0) {
@@ -4712,7 +4712,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		/* Apply the default style */
 		MStyle *mstyle= excel_get_style_from_xf (esheet, 15);
 		if (mstyle != NULL) {
-			Range r;
+			GnmRange r;
 			sheet_style_set_range (esheet->sheet,
 				range_init_full_sheet (&r), mstyle);
 	 	}
@@ -4776,14 +4776,14 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		}
 
 		case BIFF_INTEGER: { /* Extinct in modern Excel */
-			Value *v = value_new_int (GSF_LE_GET_GUINT16 (q->data + 7));
+			GnmValue *v = value_new_int (GSF_LE_GET_GUINT16 (q->data + 7));
 			excel_sheet_insert_val (esheet, EX_GETXF (q), EX_GETCOL (q),
 						   EX_GETROW (q), v);
 			break;
 		}
 
 		case BIFF_NUMBER: { /* S59DAC.HTM */
-			Value *v;
+			GnmValue *v;
 			if (esheet->container.ver == MS_BIFF_V2) {
 				v = value_new_float (gsf_le_get_double (q->data + 7));
 			} else {
@@ -4810,8 +4810,8 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		}
 
 		case BIFF_BOOLERR: { /* S59D5F.HTM */
-			Value *v;
-			CellPos pos;
+			GnmValue *v;
+			GnmCellPos pos;
 			guint8 const val = GSF_LE_GET_GUINT8 (q->data + 6);
 
 			pos.col = EX_GETCOL (q);
@@ -4952,7 +4952,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		case BIFF_COLINFO:	excel_read_COLINFO (q, esheet);		break;
 
 		case BIFF_RK: { /* See: S59DDA.HTM */
-			Value *v = biff_get_rk (q->data + 6);
+			GnmValue *v = biff_get_rk (q->data + 6);
 			d (2, {
 				fprintf (stderr,"RK number: 0x%x, length 0x%x\n", q->opcode, q->length);
 				gsf_mem_dump (q->data, q->length);

@@ -18,7 +18,7 @@
 
 #if USE_STRING_POOLS
 /* Memory pool for strings.  */
-static gnm_mem_chunk *string_pool;
+static GnmMemChunk *string_pool;
 #define CHUNK_ALLOC(T,p) ((T*)gnm_mem_chunk_alloc (p))
 #define CHUNK_FREE(p,v) gnm_mem_chunk_free ((p), (v))
 #else

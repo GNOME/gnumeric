@@ -171,7 +171,7 @@ table_cellregion_read (WorkbookControl *wbc, const char *reader_id,
 	wb = wb_view_workbook (wb_view);
 	l = workbook_sheets (wb);
 	if (l) {
-		Range r;
+		GnmRange r;
 		Sheet *tmpsheet = (Sheet *) l->data;
 
 		r.start.col = 0;
@@ -364,7 +364,7 @@ table_cellregion_write (WorkbookControl *wbc, CellRegion *cr,
 	WorkbookView *wb_view;
 	Sheet *sheet;
 	PasteTarget pt;
-	Range r;
+	GnmRange r;
 	
 	*size = 0;
 	if (!saver)
@@ -419,7 +419,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 	gboolean to_gnumeric = FALSE, content_needs_free = FALSE;
 	CellRegion *clipboard = application_clipboard_contents_get ();
 	Sheet *sheet = application_clipboard_sheet_get ();
-	Range const *a = application_clipboard_area_get ();
+	GnmRange const *a = application_clipboard_area_get ();
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 
 	/*

@@ -51,9 +51,9 @@
 void
 cmd_select_cur_row (SheetView *sv)
 {
-	Range const *sel = selection_first_range (sv,  NULL, NULL);
+	GnmRange const *sel = selection_first_range (sv,  NULL, NULL);
 	if (sel != NULL) {
-		Range r = *sel;
+		GnmRange r = *sel;
 		sv_selection_reset (sv);
 		sv_selection_add_range (sv,
 			sv->edit_pos.col, sv->edit_pos.row,
@@ -71,9 +71,9 @@ cmd_select_cur_row (SheetView *sv)
 void
 cmd_select_cur_col (SheetView *sv)
 {
-	Range const *sel = selection_first_range (sv,  NULL, NULL);
+	GnmRange const *sel = selection_first_range (sv,  NULL, NULL);
 	if (sel != NULL) {
-		Range r = *sel;
+		GnmRange r = *sel;
 		sv_selection_reset (sv);
 		sv_selection_add_range (sv,
 			sv->edit_pos.col, sv->edit_pos.row,
@@ -168,7 +168,7 @@ cmd_select_cur_depends (SheetView *sv)
 		Cell *cell = deps->data;
 		sv_selection_add_pos (sv, cell->pos.col, cell->pos.row);
 	} else {
-		Range *cur = NULL;
+		GnmRange *cur = NULL;
 		ptr = NULL;
 
 		/* Merge the sorted list of cells into rows */
@@ -180,7 +180,7 @@ cmd_select_cur_depends (SheetView *sv)
 			    cur->end.col+1 != cell->pos.col) {
 				if (cur)
 					ptr = g_list_prepend (ptr, cur);
-				cur = g_new (Range, 1);
+				cur = g_new (GnmRange, 1);
 				cur->start.row = cur->end.row = cell->pos.row;
 				cur->start.col = cur->end.col = cell->pos.col;
 			} else
@@ -194,11 +194,11 @@ cmd_select_cur_depends (SheetView *sv)
 		/* Merge the coalesced rows into ranges */
 		deps = ptr;
 		for (ptr = NULL ; deps ; ) {
-			Range *r1 = deps->data;
+			GnmRange *r1 = deps->data;
 			GList *fwd;
 
 			for (fwd = deps->next ; fwd ; ) {
-				Range *r2 = fwd->data;
+				GnmRange *r2 = fwd->data;
 
 				if (r1->start.col == r2->start.col &&
 				    r1->end.col == r2->end.col &&
@@ -216,7 +216,7 @@ cmd_select_cur_depends (SheetView *sv)
 
 		/* now select the ranges */
 		while (ptr) {
-			Range *r = ptr->data;
+			GnmRange *r = ptr->data;
 			sv_selection_add_range (sv,
 						r->start.col, r->start.row,
 						r->start.col, r->start.row,
@@ -272,7 +272,7 @@ void
 cmd_paste (WorkbookControl *wbc, PasteTarget const *pt)
 {
 	CellRegion  *content;
-	Range const *src_range;
+	GnmRange const *src_range;
 
 	g_return_if_fail (pt != NULL);
 	g_return_if_fail (IS_SHEET (pt->sheet));
@@ -289,7 +289,7 @@ cmd_paste (WorkbookControl *wbc, PasteTarget const *pt)
 		int const cols = (src_range->end.col - src_range->start.col);
 		int const rows = (src_range->end.row - src_range->start.row);
 
-		Range dst = pt->range;
+		GnmRange dst = pt->range;
 
 		if (range_is_singleton (&dst)) {
 			dst.end.col = dst.start.col + cols;
@@ -338,7 +338,7 @@ cmd_paste (WorkbookControl *wbc, PasteTarget const *pt)
 void
 cmd_paste_to_selection (WorkbookControl *wbc, SheetView *dest_sv, int paste_flags)
 {
-	Range const *r;
+	GnmRange const *r;
 	PasteTarget pt;
 
 	if (!(r = selection_first_range (dest_sv, COMMAND_CONTEXT (wbc), _("Paste"))))

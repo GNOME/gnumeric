@@ -1,5 +1,9 @@
 2003-10-08  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.2.1
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
 	* ms-chart.c (conditional_set_double) : Use the new const val GOData
 	  to support manual axis bounds and invert the logic to be correct.
 	(BC_R(seriestext)) : store the text associated with axis and chart

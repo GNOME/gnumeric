@@ -154,7 +154,7 @@ load_hf (char const *type, char const *a, char const *b, char const *c)
 }
 
 static gboolean
-load_range (char const *name, Range *r)
+load_range (char const *name, GnmRange *r)
 {
 	gboolean success = FALSE;
 	char *str = gnome_config_get_string (name);

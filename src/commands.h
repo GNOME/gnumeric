@@ -11,11 +11,11 @@ void command_setup_combos	(WorkbookControl *wbc);
 void command_list_release	(GSList *cmds);
 
 GString *cmd_range_list_to_string_utility (Sheet *sheet, GSList const *ranges);
-char *cmd_range_to_str_utility  (Sheet *sheet, Range const *range);
-char *cmd_cell_pos_name_utility (Sheet *sheet, CellPos const *pos);
+char *cmd_range_to_str_utility  (Sheet *sheet, GnmRange const *range);
+char *cmd_cell_pos_name_utility (Sheet *sheet, GnmCellPos const *pos);
 
 gboolean cmd_set_text		(WorkbookControl *wbc, Sheet *sheet,
-				 CellPos const *pos, const char *new_text);
+				 GnmCellPos const *pos, const char *new_text);
 
 gboolean cmd_area_set_text	(WorkbookControl *wbc, SheetView *sv,
 				 char const *text, gboolean as_array);
@@ -40,7 +40,7 @@ gboolean cmd_paste_cut		(WorkbookControl *wbc,
 gboolean cmd_paste_copy		(WorkbookControl *wbc,
 				 PasteTarget const *pt, CellRegion *content);
 
-gboolean cmd_sort		(WorkbookControl *wbc, SortData *data);
+gboolean cmd_sort		(WorkbookControl *wbc, GnmSortData *data);
 
 gboolean cmd_autofill		(WorkbookControl *wbc, Sheet *sheet,
 				 gboolean default_increment,
@@ -72,7 +72,8 @@ gboolean cmd_merge_cells	(WorkbookControl *wbc, Sheet *sheet,
 gboolean cmd_unmerge_cells	(WorkbookControl *wbc, Sheet *sheet,
 				 GSList const *selection);
 
-gboolean cmd_search_replace     (WorkbookControl *wbc, Sheet *sheet, SearchReplace *sr);
+gboolean cmd_search_replace     (WorkbookControl *wbc, Sheet *sheet,
+				 GnmSearchReplace *sr);
 
 gboolean cmd_colrow_std_size    (WorkbookControl *wbc, Sheet *sheet,
 				 gboolean is_cols, double new_default);
@@ -95,14 +96,14 @@ gboolean cmd_rename_sheet	(WorkbookControl *wbc, Sheet *sheet,
 				 char const *old_name, char const *new_name);
 
 gboolean cmd_set_comment	(WorkbookControl *wbc, Sheet *sheet,
-				 CellPos const *pos, const char *new_text);
+				 GnmCellPos const *pos, const char *new_text);
 
 gboolean cmd_analysis_tool	(WorkbookControl *wbc, Sheet *sheet,
 				 data_analysis_output_t *dao, gpointer specs,
 				 analysis_tool_engine engine);
 
 gboolean cmd_merge_data		(WorkbookControl *wbc, Sheet *sheet,
-				 Value *merge_zone, GSList *merge_fields, GSList *merge_data);
+				 GnmValue *merge_zone, GSList *merge_fields, GSList *merge_data);
 
 gboolean cmd_change_summary	(WorkbookControl *wbc, GSList *sin_changes);
 gboolean cmd_print_setup	(WorkbookControl *wbc, Sheet *sheet, PrintInformation const *pi);
@@ -129,15 +130,15 @@ gboolean cmd_data_shuffle (WorkbookControl *wbc, struct _data_shuffling_t *sc, S
 
 
 gboolean cmd_text_to_columns (WorkbookControl *wbc,
-			      Range const *src, Sheet *src_sheet, 
-			      Range const *target, Sheet *target_sheet, 
+			      GnmRange const *src, Sheet *src_sheet, 
+			      GnmRange const *target, Sheet *target_sheet, 
 			      CellRegion *content);
 
 gboolean cmd_solver (WorkbookControl *wbc, 
 		     GSList *cells, GSList *ov, GSList *nv);
 
 gboolean cmd_goal_seek (WorkbookControl *wbc,
-			Cell *cell, Value *ov, Value *nv);
+			Cell *cell, GnmValue *ov, GnmValue *nv);
 
 gboolean cmd_clone_sheet (WorkbookControl *wbc, Sheet *sheet);
 

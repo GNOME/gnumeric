@@ -15,13 +15,13 @@
 
 
 SCM
-value_to_scm (Value const *val, CellRef cell_ref)
+value_to_scm (GnmValue const *val, GnmCellRef cell_ref)
 {
-	Value *v = (Value *) val;
+	GnmValue *v = (GnmValue *) val;
 	return make_new_smob (v);
 }
 
-Value*
+GnmValue*
 scm_to_value (SCM value_smob)
 {
 	return get_value_from_smob (value_smob);

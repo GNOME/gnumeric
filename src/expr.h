@@ -43,7 +43,7 @@ typedef enum {
 	case GNM_EXPR_OP_EXP: case GNM_EXPR_OP_CAT
 #define GNM_EXPR_OP_ANY_UNARY GNM_EXPR_OP_UNARY_NEG: case GNM_EXPR_OP_UNARY_PLUS : case GNM_EXPR_OP_PERCENTAGE
 
-GnmExpr const *gnm_expr_new_constant	(Value *v);
+GnmExpr const *gnm_expr_new_constant	(GnmValue *v);
 GnmExpr const *gnm_expr_new_unary	(GnmExprOp op, GnmExpr const *e);
 GnmExpr const *gnm_expr_new_binary	(GnmExpr const *l, GnmExprOp op,
 					 GnmExpr const *r);
@@ -51,14 +51,14 @@ GnmExpr const *gnm_expr_new_funcall	(GnmFunc *func,
 					 GnmExprList *args);
 GnmExpr const *gnm_expr_new_name	(GnmNamedExpr *name,
 					 Sheet *sheet_scope, Workbook *wb_scope);
-GnmExpr const *gnm_expr_new_cellref	(CellRef const *cr);
+GnmExpr const *gnm_expr_new_cellref	(GnmCellRef const *cr);
 GnmExpr const *gnm_expr_new_array	(int x, int y, int cols, int rows,
 					 GnmExpr const *expr);
 GnmExpr const *gnm_expr_new_set		(GnmExprList *args);
 
 GnmExpr const *gnm_expr_first_func   (GnmExpr const *expr);
-Value	      *gnm_expr_get_range    (GnmExpr const *expr);
-Value const *  gnm_expr_get_constant (GnmExpr const *expr);
+GnmValue      *gnm_expr_get_range    (GnmExpr const *expr);
+GnmValue const*gnm_expr_get_constant (GnmExpr const *expr);
 GnmFunc       *gnm_expr_get_func_def (GnmExpr const *expr);
 
 void	  gnm_expr_ref		     (GnmExpr const *expr);
@@ -72,14 +72,14 @@ char	 *gnm_expr_as_string	     (GnmExpr const *expr, ParsePos const *pp,
 void      gnm_expr_as_gstring	     (GString *target,
 				      GnmExpr const *expr, ParsePos const *pp,
 				      const GnmExprConventions *fmt);
-void	  gnm_expr_get_boundingbox   (GnmExpr const *expr, Range *bound);
+void	  gnm_expr_get_boundingbox   (GnmExpr const *expr, GnmRange *bound);
 GSList	 *gnm_expr_referenced_sheets (GnmExpr const *expr);
 gboolean  gnm_expr_containts_subtotal(GnmExpr const *expr);
 
 struct _GnmExprRelocateInfo {
 	EvalPos pos;
 
-	Range   origin;	        /* References to cells in origin_sheet!range */
+	GnmRange   origin;	        /* References to cells in origin_sheet!range */
 	Sheet  *origin_sheet;	/* should to adjusted */
 
 	Sheet  *target_sheet;	/* to point at this sheet */
@@ -108,8 +108,8 @@ struct _GnmExprRewriteInfo {
 GnmExpr const *gnm_expr_rewrite	(GnmExpr const *expr,
 				 GnmExprRewriteInfo const *rwinfo);
 
-Value *gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
-		      GnmExprEvalFlags flags);
+GnmValue *gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
+			 GnmExprEvalFlags flags);
 
 /*****************************************************************************/
 

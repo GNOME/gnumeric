@@ -47,8 +47,8 @@
 
 
 typedef struct {
-	CellPos a;
-	CellPos b;
+	GnmCellPos a;
+	GnmCellPos b;
 } swap_t;
 
 static void
@@ -111,7 +111,7 @@ shuffle_area (data_shuffling_t *ds)
 }
 
 static void
-init_shuffling_tool (data_shuffling_t *st, Sheet *sheet, Value *range,
+init_shuffling_tool (data_shuffling_t *st, Sheet *sheet, GnmValue *range,
 		     data_analysis_output_t *dao)
 {
 	st->a_col   = range->v_range.cell.a.col;
@@ -285,7 +285,7 @@ data_shuffling_t *
 data_shuffling (WorkbookControl        *wbc,
 		data_analysis_output_t *dao,
 		Sheet                  *sheet,
-		Value                  *input_range, 
+		GnmValue               *input_range, 
 		int                    shuffling_type)
 {
 	data_shuffling_t *st = g_new (data_shuffling_t, 1);

@@ -93,7 +93,7 @@ struct _FormatTemplate {
 	GHashTable *table;
 	gboolean invalidate_hash;
 
-	Range dimension;
+	GnmRange dimension;
 };
 
 typedef struct {

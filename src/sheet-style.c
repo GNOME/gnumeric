@@ -270,7 +270,7 @@ union _CellTile {
 
 #if USE_TILE_POOLS
 static int tile_pool_users;
-static gnm_mem_chunk *tile_pools[5];
+static GnmMemChunk *tile_pools[5];
 #define CHUNK_ALLOC(T,p) ((T*)gnm_mem_chunk_alloc (p))
 #define CHUNK_FREE(p,v) gnm_mem_chunk_free ((p), (v))
 #else
@@ -396,7 +396,7 @@ cell_tile_ptr_matrix_new (CellTile *t)
 }
 
 static CellTile *
-cell_tile_matrix_set (CellTile *t, Range const *indic, ReplacementStyle *rs)
+cell_tile_matrix_set (CellTile *t, GnmRange const *indic, ReplacementStyle *rs)
 {
 	int i, r, c;
 	CellTileStyleMatrix *res;
@@ -681,7 +681,7 @@ vector_apply_pstyle (MStyle **styles, int n, ReplacementStyle *rs)
 }
 
 static gboolean
-col_indicies (int corner_col, int w, Range const *apply_to,
+col_indicies (int corner_col, int w, GnmRange const *apply_to,
 	      int *first_index, int *last_index)
 {
 	int i, tmp;
@@ -702,7 +702,7 @@ col_indicies (int corner_col, int w, Range const *apply_to,
 }
 
 static gboolean
-row_indicies (int corner_row, int h, Range const *apply_to,
+row_indicies (int corner_row, int h, GnmRange const *apply_to,
 	      int *first_index, int *last_index)
 {
 	int i, tmp;
@@ -729,7 +729,7 @@ row_indicies (int corner_row, int h, Range const *apply_to,
 static void
 cell_tile_apply (CellTile **tile, int level,
 		 int corner_col, int corner_row,
-		 Range const *apply_to,
+		 GnmRange const *apply_to,
 		 ReplacementStyle *rs)
 {
 	int const width = tile_widths [level+1];
@@ -740,7 +740,7 @@ cell_tile_apply (CellTile **tile, int level,
 				     apply_to->end.col >= (corner_col+width-1));
 	gboolean const full_height = (apply_to->start.row <= corner_row &&
 				      apply_to->end.row >= (corner_row+height-1));
-	Range indic;
+	GnmRange indic;
 	CellTile *res = NULL;
 	CellTileType type;
 	int c, r, i;
@@ -873,10 +873,10 @@ cell_tile_apply (CellTile **tile, int level,
 static void
 foreach_tile (CellTile *tile, int level,
 	      int corner_col, int corner_row,
-	      Range const *apply_to,
+	      GnmRange const *apply_to,
 	      void (*handler) (MStyle *style,
 			       int corner_col, int corner_row, int width, int height,
-			       Range const *apply_to, gpointer user),
+			       GnmRange const *apply_to, gpointer user),
 	      gpointer user)
 {
 	int const width = tile_widths [level+1];
@@ -1034,7 +1034,7 @@ tail_recursion :
  * This function absorbs a reference to the new @style.
  */
 void
-sheet_style_set_range (Sheet *sheet, Range const *range,
+sheet_style_set_range (Sheet *sheet, GnmRange const *range,
 		       MStyle *style)
 {
 	ReplacementStyle rs;
@@ -1313,7 +1313,7 @@ style_row_init (StyleBorder const * * *prev_vert,
  * The routine absorbs a reference to the partial style.
  */
 void
-sheet_style_apply_range (Sheet *sheet, Range const *range, MStyle *pstyle)
+sheet_style_apply_range (Sheet *sheet, GnmRange const *range, MStyle *pstyle)
 {
 	ReplacementStyle rs;
 
@@ -1327,7 +1327,7 @@ sheet_style_apply_range (Sheet *sheet, Range const *range, MStyle *pstyle)
 }
 
 static void
-apply_border (Sheet *sheet, Range const *r,
+apply_border (Sheet *sheet, GnmRange const *r,
 	      StyleBorderLocation side,
 	      StyleBorder *border)
 {
@@ -1351,7 +1351,7 @@ apply_border (Sheet *sheet, Range const *r,
  */
 void
 sheet_style_apply_border (Sheet       *sheet,
-			  Range const *range,
+			  GnmRange const *range,
 			  StyleBorder **borders)
 {
 	MStyle *pstyle = NULL;
@@ -1361,7 +1361,7 @@ sheet_style_apply_border (Sheet       *sheet,
 
 	if (borders [STYLE_BORDER_TOP]) {
 		/* 1.1 top inner */
-		Range r = *range;
+		GnmRange r = *range;
 		r.end.row = r.start.row;
 		apply_border (sheet, &r, STYLE_BORDER_TOP,
 			      borders [STYLE_BORDER_TOP]);
@@ -1377,7 +1377,7 @@ sheet_style_apply_border (Sheet       *sheet,
 
 	if (borders [STYLE_BORDER_BOTTOM]) {
 		/* 2.1 bottom inner */
-		Range r = *range;
+		GnmRange r = *range;
 		r.start.row = r.end.row;
 		apply_border (sheet, &r, STYLE_BORDER_BOTTOM,
 			      borders [STYLE_BORDER_BOTTOM]);
@@ -1393,7 +1393,7 @@ sheet_style_apply_border (Sheet       *sheet,
 
 	if (borders [STYLE_BORDER_LEFT]) {
 		/* 3.1 left inner */
-		Range r = *range;
+		GnmRange r = *range;
 		r.end.col = r.start.col;
 		apply_border (sheet, &r, STYLE_BORDER_LEFT,
 			      borders [STYLE_BORDER_LEFT]);
@@ -1409,7 +1409,7 @@ sheet_style_apply_border (Sheet       *sheet,
 
 	if (borders [STYLE_BORDER_RIGHT]) {
 		/* 4.1 right inner */
-		Range r = *range;
+		GnmRange r = *range;
 		r.start.col = r.end.col;
 		apply_border (sheet, &r, STYLE_BORDER_RIGHT,
 			      borders [STYLE_BORDER_RIGHT]);
@@ -1427,14 +1427,14 @@ sheet_style_apply_border (Sheet       *sheet,
 	if (borders [STYLE_BORDER_HORIZ] != NULL) {
 		/* 5.1 horizontal interior top */
 		if (range->start.row != range->end.row) {
-			Range r = *range;
+			GnmRange r = *range;
 			++r.start.row;
 			apply_border (sheet, &r, STYLE_BORDER_TOP,
 				      borders [STYLE_BORDER_HORIZ]);
 		}
 		/* 5.2 interior bottom */
 		if (range->start.row != range->end.row) {
-			Range r = *range;
+			GnmRange r = *range;
 			--r.end.row;
 			apply_border (sheet, &r, STYLE_BORDER_BOTTOM,
 				      style_border_none ());
@@ -1445,7 +1445,7 @@ sheet_style_apply_border (Sheet       *sheet,
 	if (borders [STYLE_BORDER_VERT] != NULL) {
 		/* 6.1 vertical interior left */
 		if (range->start.col != range->end.col) {
-			Range r = *range;
+			GnmRange r = *range;
 			++r.start.col;
 			apply_border (sheet, &r, STYLE_BORDER_LEFT,
 				      borders [STYLE_BORDER_VERT]);
@@ -1453,7 +1453,7 @@ sheet_style_apply_border (Sheet       *sheet,
 
 		/* 6.2 The vertical interior right */
 		if (range->start.col != range->end.col) {
-			Range r = *range;
+			GnmRange r = *range;
 			--r.end.col;
 			apply_border (sheet, &r, STYLE_BORDER_RIGHT,
 				      style_border_none ());
@@ -1481,7 +1481,7 @@ sheet_style_apply_border (Sheet       *sheet,
 static void
 cb_filter_style (MStyle *style,
 		 int corner_col, int corner_row, int width, int height,
-		 Range const *apply_to, gpointer user)
+		 GnmRange const *apply_to, gpointer user)
 {
 	MStyle *accumulator = user;
 	mstyle_compare (accumulator, style);
@@ -1542,7 +1542,7 @@ border_mask_vec (gboolean *known, StyleBorder **borders,
  * Find out what style elements are common to every cell in a range.
  */
 void
-sheet_style_get_uniform	(Sheet const *sheet, Range const *r,
+sheet_style_get_uniform	(Sheet const *sheet, GnmRange const *r,
 			 MStyle **style, StyleBorder **borders)
 {
 	int n, col, row, start_col, end_col;
@@ -1662,7 +1662,7 @@ sheet_style_get_uniform	(Sheet const *sheet, Range const *r,
 void
 sheet_style_relocate (GnmExprRelocateInfo const *rinfo)
 {
-	CellPos corner;
+	GnmCellPos corner;
 	StyleList *styles;
 
 	g_return_if_fail (rinfo != NULL);
@@ -1689,9 +1689,9 @@ sheet_style_relocate (GnmExprRelocateInfo const *rinfo)
 void
 sheet_style_insert_colrow (GnmExprRelocateInfo const *rinfo)
 {
-	CellPos corner;
+	GnmCellPos corner;
 	StyleList *ptr, *styles = NULL;
-	Range r;
+	GnmRange r;
 
 	g_return_if_fail (rinfo != NULL);
 	g_return_if_fail (rinfo->origin_sheet == rinfo->target_sheet);
@@ -1735,7 +1735,7 @@ sheet_style_insert_colrow (GnmExprRelocateInfo const *rinfo)
 static void
 cb_visible_content (MStyle *style,
 		    int corner_col, int corner_row, int width, int height,
-		    Range const *apply_to, gpointer res)
+		    GnmRange const *apply_to, gpointer res)
 {
 	*((gboolean *)res) |= mstyle_visible_in_blank (style);
 }
@@ -1751,7 +1751,7 @@ cb_visible_content (MStyle *style,
  * edges IF they have been seen before.
  */
 gboolean
-sheet_style_has_visible_content (Sheet const *sheet, Range *src)
+sheet_style_has_visible_content (Sheet const *sheet, GnmRange *src)
 {
 	gboolean res = FALSE;
 	foreach_tile (sheet->style_data->styles,
@@ -1761,14 +1761,14 @@ sheet_style_has_visible_content (Sheet const *sheet, Range *src)
 }
 
 typedef struct {
-	Range *res;
+	GnmRange *res;
 	MStyle **most_common_in_cols;
 } StyleExtentData;
 
 static void
 cb_style_extent (MStyle *style,
 		 int corner_col, int corner_row, int width, int height,
-		 Range const *apply_to, gpointer user)
+		 GnmRange const *apply_to, gpointer user)
 {
 	StyleExtentData *data = user;
 	if (mstyle_visible_in_blank (style)) {
@@ -1807,11 +1807,11 @@ cb_style_extent (MStyle *style,
  * boundary calculations.
  */
 void
-sheet_style_get_extent (Sheet const *sheet, Range *res,
+sheet_style_get_extent (Sheet const *sheet, GnmRange *res,
 			MStyle **most_common_in_cols)
 {
 	StyleExtentData data;
-	Range r;
+	GnmRange r;
 
 	if (most_common_in_cols != NULL) {
 		unsigned i;
@@ -1830,7 +1830,7 @@ sheet_style_get_extent (Sheet const *sheet, Range *res,
 /****************************************************************************/
 
 static StyleRegion *
-style_region_new (Range const *range, MStyle *mstyle)
+style_region_new (GnmRange const *range, MStyle *mstyle)
 {
 	StyleRegion *sr;
 
@@ -1860,12 +1860,12 @@ typedef struct {
 static void
 cb_style_list_add_node (MStyle *style,
 			int corner_col, int corner_row, int width, int height,
-			Range const *apply_to, gpointer user)
+			GnmRange const *apply_to, gpointer user)
 {
 	StyleListMerge *mi = user;
 	StyleRegion *sr = NULL;
-	CellPos	key;
-	Range range;
+	GnmCellPos	key;
+	GnmRange range;
 
 	range.start.col = corner_col;
 	range.start.row = corner_row;
@@ -1910,7 +1910,7 @@ cb_hash_merge_horiz (gpointer hash_key, gpointer value, gpointer user)
 {
 	StyleListMerge *mi = user;
 	StyleRegion *sr = value, *srh;
-	CellPos	key;
+	GnmCellPos	key;
 
 #ifdef DEBUG_STYLE_LIST
 	range_dump (&sr->range, "\n");
@@ -1968,7 +1968,7 @@ cb_hash_to_list (gpointer key, gpointer	value, gpointer	user_data)
  * Caller is responsible for freeing.
  */
 StyleList *
-sheet_style_get_list (Sheet const *sheet, Range const *r)
+sheet_style_get_list (Sheet const *sheet, GnmRange const *r)
 {
 	StyleList *res = NULL;
 	StyleListMerge mi;
@@ -1997,7 +1997,7 @@ static void
 cb_style_list_add_validation (MStyle *style,
 			      int corner_col, int corner_row,
 			      int width, int height,
-			      Range const *apply_to, gpointer user)
+			      GnmRange const *apply_to, gpointer user)
 {
 	/* collect only the area with validation */
 	if (NULL != mstyle_get_validation (style) ||
@@ -2023,7 +2023,7 @@ style_validation_equal (MStyle const *a, MStyle const *b)
  * Caller is responsible for freeing.
  */
 StyleList *
-sheet_style_get_validation_list (Sheet const *sheet, Range const *r)
+sheet_style_get_validation_list (Sheet const *sheet, GnmRange const *r)
 {
 	StyleList *res = NULL;
 	StyleListMerge mi;
@@ -2060,7 +2060,7 @@ sheet_style_get_validation_list (Sheet const *sheet, Range const *r)
  * transposing the ranges
  */
 SpanCalcFlags
-sheet_style_set_list (Sheet *sheet, CellPos const *corner,
+sheet_style_set_list (Sheet *sheet, GnmCellPos const *corner,
 		      gboolean transpose, StyleList const *list)
 {
 	SpanCalcFlags spanflags = SPANCALC_SIMPLE;
@@ -2071,7 +2071,7 @@ sheet_style_set_list (Sheet *sheet, CellPos const *corner,
 	/* Sluggish but simple implementation for now */
 	for (l = list; l; l = l->next) {
 		StyleRegion const *sr = l->data;
-		Range              r  = sr->range;
+		GnmRange              r  = sr->range;
 
 		range_translate (&r, +corner->col, +corner->row);
 		if (transpose)
@@ -2113,7 +2113,7 @@ style_list_free (StyleList *list)
  * The resulting style does not have its reference count bumped.
  */
 MStyle const *
-style_list_get_style (StyleList const *list, CellPos const *pos)
+style_list_get_style (StyleList const *list, GnmCellPos const *pos)
 {
 	StyleList const *l;
 
@@ -2121,7 +2121,7 @@ style_list_get_style (StyleList const *list, CellPos const *pos)
 
 	for (l = list; l; l = l->next) {
 		StyleRegion const *sr = l->data;
-		Range const *r = &sr->range;
+		GnmRange const *r = &sr->range;
 		if (range_contains (r, pos->col, pos->row))
 			return sr->style;
 	}
@@ -2131,7 +2131,7 @@ style_list_get_style (StyleList const *list, CellPos const *pos)
 static void
 cb_accumulate_count (MStyle *style,
 		     int corner_col, int corner_row, int width, int height,
-		     Range const *apply_to, gpointer accumulator)
+		     GnmRange const *apply_to, gpointer accumulator)
 {
 	gpointer count;
 
@@ -2176,7 +2176,7 @@ sheet_style_most_common_in_col (Sheet const *sheet, int col)
 {
 	MostCommon  res;
 	GHashTable *accumulator;
-	Range       r;
+	GnmRange       r;
 
 	r.start.col = r.end.col = col;
 	r.start.row = 0; r.end.row = SHEET_MAX_ROWS-1;
@@ -2194,7 +2194,7 @@ sheet_style_most_common_in_col (Sheet const *sheet, int col)
 static void
 cb_find_link (MStyle *style,
 	      int corner_col, int corner_row, int width, int height,
-	      Range const *apply_to, gpointer user)
+	      GnmRange const *apply_to, gpointer user)
 {
 	GnmHLink **link = user;
 	if (*link == NULL)
@@ -2210,7 +2210,7 @@ cb_find_link (MStyle *style,
  * and returns the 1st one it finds.
  **/
 GnmHLink *
-sheet_style_region_contains_link (Sheet const *sheet, Range const *r)
+sheet_style_region_contains_link (Sheet const *sheet, GnmRange const *r)
 {
 	GnmHLink *res = NULL;
 
@@ -2227,10 +2227,10 @@ sheet_style_region_contains_link (Sheet const *sheet, Range const *r)
 static void
 cb_validate (MStyle *style,
 	     int corner_col, int corner_row, int width, int height,
-	     Range const *apply_to, Sheet const *sheet)
+	     GnmRange const *apply_to, Sheet const *sheet)
 {
 	if (g_hash_table_lookup (sheet->style_data->style_hash, style) == NULL) {
-		Range r;
+		GnmRange r;
 		range_init (&r,
 			   corner_col, corner_row,
 			   corner_col+width -1, corner_row+height-1);

@@ -225,8 +225,8 @@ walk_for_phi (int p, int v, void *data)
 	*((int *)data) *= intpow (p, v - 1) * (p - 1);
 }
 
-static Value *
-gnumeric_phi (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_phi (FunctionEvalInfo *ei, GnmValue **args)
 {
 	int n, phi = 1;
 
@@ -264,8 +264,8 @@ walk_for_mu (int p, int v, void *data)
 	*((int *)data) = (v >= 2) ?  0 : - *((int *)data) ;
 }
 
-static Value *
-gnumeric_nt_mu (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_nt_mu (FunctionEvalInfo *ei, GnmValue **args)
 {
 	int n, mu = 1;
 
@@ -298,8 +298,8 @@ walk_for_d (int p, int v, void *data)
 	* (int *) data *= (v + 1);
 }
 
-static Value *
-gnumeric_d (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_d (FunctionEvalInfo *ei, GnmValue **args)
 {
 	int n, d = 1;
 
@@ -332,8 +332,8 @@ walk_for_sigma (int p, int v, void *data)
 		  ( v == 1 ? p + 1 : (intpow (p, v + 1) - 1) / (p - 1) );
 }
 
-static Value *
-gnumeric_sigma (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_sigma (FunctionEvalInfo *ei, GnmValue **args)
 {
 	int n, sigma = 1;
 
@@ -359,8 +359,8 @@ static char const *help_ithprime = {
 	   "@SEEALSO=NT_D, NT_SIGMA")
 };
 
-static Value *
-gnumeric_ithprime (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_ithprime (FunctionEvalInfo *ei, GnmValue **args)
 {
 	int i, p;
 
@@ -385,8 +385,8 @@ static char const *help_isprime = {
 	   "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA")
 };
 
-static Value *
-gnumeric_isprime (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_isprime (FunctionEvalInfo *ei, GnmValue **args)
 {
 	int i, yesno;
 
@@ -410,8 +410,8 @@ static char const *help_nt_pi = {
 	   "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA")
 };
 
-static Value *
-gnumeric_nt_pi (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_nt_pi (FunctionEvalInfo *ei, GnmValue **args)
 {
 	int n, pi;
 
@@ -436,8 +436,8 @@ static char const *help_bitor = {
 	   "@SEEALSO=BITXOR,BITAND")
 };
 
-static Value *
-func_bitor (FunctionEvalInfo *ei, Value *argv [])
+static GnmValue *
+func_bitor (FunctionEvalInfo *ei, GnmValue *argv [])
 {
         return value_new_int (value_get_as_int (argv [0]) |
 			      value_get_as_int (argv [1]));
@@ -456,8 +456,8 @@ static char const *help_bitxor = {
 	   "@SEEALSO=BITOR,BITAND")
 };
 
-static Value *
-func_bitxor (FunctionEvalInfo *ei, Value *argv [])
+static GnmValue *
+func_bitxor (FunctionEvalInfo *ei, GnmValue *argv [])
 {
         return value_new_int (value_get_as_int (argv [0]) ^
 			      value_get_as_int (argv [1]));
@@ -476,8 +476,8 @@ static char const *help_bitand = {
 };
 
 
-static Value *
-func_bitand (FunctionEvalInfo *ei, Value *argv [])
+static GnmValue *
+func_bitand (FunctionEvalInfo *ei, GnmValue *argv [])
 {
         return value_new_int (value_get_as_int (argv [0]) &
 			      value_get_as_int (argv [1]));
@@ -496,8 +496,8 @@ static char const *help_bitlshift = {
 	   "@SEEALSO=BITRSHIFT")
 };
 
-static Value *
-func_bitlshift (FunctionEvalInfo *ei, Value *argv [])
+static GnmValue *
+func_bitlshift (FunctionEvalInfo *ei, GnmValue *argv [])
 {
 	int l = value_get_as_int (argv [0]);
 	int r = value_get_as_int (argv [1]);
@@ -523,8 +523,8 @@ static char const *help_bitrshift = {
 	   "@SEEALSO=BITLSHIFT")
 };
 
-static Value *
-func_bitrshift (FunctionEvalInfo *ei, Value *argv [])
+static GnmValue *
+func_bitrshift (FunctionEvalInfo *ei, GnmValue *argv [])
 {
 	int l = value_get_as_int (argv [0]);
 	int r = value_get_as_int (argv [1]);

@@ -56,7 +56,7 @@
 
 typedef struct {
 	gint n;
-	Value **values;
+	GnmValue **values;
 	gnm_float *cumul_p;
 } discrete_random_tool_local_t;
 
@@ -82,7 +82,7 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 					    discrete_random_tool_local_t **continuity)
 {
 	discrete_random_tool_local_t *data;
-	Value *range = param->range;
+	GnmValue *range = param->range;
 	gnm_float cumprob = 0;
 	int j = 0;
 	int i;
@@ -90,12 +90,12 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 	data = *continuity = g_new0 (discrete_random_tool_local_t, 1);
 	data->n = range->v_range.cell.b.row - range->v_range.cell.a.row + 1;
 	data->cumul_p = g_new (gnm_float, data->n);
-	data->values = g_new0 (Value *, data->n);
+	data->values = g_new0 (GnmValue *, data->n);
 
 	for (i = range->v_range.cell.a.row;
 	     i <= range->v_range.cell.b.row;
 	     i++, j++) {
-		Value *v;
+		GnmValue *v;
 		gnm_float thisprob;
 		Cell *cell = sheet_cell_get (range->v_range.cell.a.sheet,
 					     range->v_range.cell.a.col + 1, i);

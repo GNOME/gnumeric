@@ -86,7 +86,7 @@ xml_out_add_stylecolor (GsfXMLOut *xml, char const *id, StyleColor *sc)
 }
 
 static void
-xml_out_add_range (GsfXMLOut *xml, Range const *r)
+xml_out_add_range (GsfXMLOut *xml, GnmRange const *r)
 {
 	g_return_if_fail (range_is_sane (r));
 
@@ -97,7 +97,7 @@ xml_out_add_range (GsfXMLOut *xml, Range const *r)
 }
 
 static void
-xml_out_add_cellpos (GsfXMLOut *xml, char const *name, CellPos const *val)
+xml_out_add_cellpos (GsfXMLOut *xml, char const *name, GnmCellPos const *val)
 {
 	gsf_xml_out_add_cstr_unchecked (xml, name, cellpos_as_string (val));
 }
@@ -367,7 +367,7 @@ xml_write_style (GnmOutputXML *state, MStyle const *style)
 		GMR "Rev-Diagonal"
 	};
 	GnmHLink   const *link;
-	Validation const *v;
+	GnmValidation const *v;
 	int i;
 
 	gsf_xml_out_start_element (state->output, GMR "Style");
@@ -622,7 +622,7 @@ xml_write_selection_info (GnmOutputXML *state)
 	copy = g_list_copy (sv->selections);
 	ptr = g_list_reverse (copy);
 	for (; ptr != NULL ; ptr = ptr->next) {
-		Range const *r = ptr->data;
+		GnmRange const *r = ptr->data;
 		gsf_xml_out_start_element (state->output, GMR "Selection");
 		xml_out_add_range (state->output, r);
 		gsf_xml_out_end_element (state->output); /* </gmr:Selection> */

@@ -1,3 +1,7 @@
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
 2003-10-07  Jody Goldberg <jody@gnome.org>
 
 	* src/graph.c (gnm_go_data_get_dep) : Its ok to have other GOData's.

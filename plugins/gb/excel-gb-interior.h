@@ -20,7 +20,7 @@ typedef struct {
 	GBRunObject object;
 
 	Sheet      *sheet;
-	Range       range;
+	GnmRange       range;
 } ExcelGBInterior;
 
 typedef struct {
@@ -28,6 +28,6 @@ typedef struct {
 } ExcelGBInteriorClass;
 
 GtkType          excel_gb_interior_get_type (void);
-ExcelGBInterior *excel_gb_interior_new      (Sheet *sheet, Range range);
+ExcelGBInterior *excel_gb_interior_new      (Sheet *sheet, GnmRange range);
 
 #endif /* EXCEL_GB_INTERIOR_H */

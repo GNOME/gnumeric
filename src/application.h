@@ -40,7 +40,7 @@ gboolean     application_workbook_foreach  (WorkbookCallback cback,
 
 void         application_clipboard_clear	(gboolean drop_selection);
 void         application_clipboard_cut_copy	(WorkbookControl *wbc, gboolean is_cut,
-						 SheetView *sv, Range const *area,
+						 SheetView *sv, GnmRange const *area,
 						 gboolean animate_range);
 void	     application_clipboard_unant          (void);
 gboolean     application_clipboard_is_empty	  (void);
@@ -48,7 +48,7 @@ gboolean     application_clipboard_is_cut         (void);
 Sheet *      application_clipboard_sheet_get	  (void);
 SheetView *  application_clipboard_sheet_view_get (void);
 CellRegion * application_clipboard_contents_get	  (void);
-Range const* application_clipboard_area_get	  (void);
+GnmRange const* application_clipboard_area_get	  (void);
 
 GSList const*application_history_get_list	(gboolean force_reload);
 void	     application_history_add		(char const *filename);

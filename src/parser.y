@@ -231,12 +231,12 @@ static GnmExpr *
 fold_negative (GnmExpr *expr)
 {
 	if (expr->any.oper == GNM_EXPR_OP_CONSTANT) {
-		Value const *v = expr->constant.value;
+		GnmValue const *v = expr->constant.value;
 
 		if (v->type == VALUE_INTEGER)
-			((Value *)v)->v_int.val   = -v->v_int.val;
+			((GnmValue *)v)->v_int.val   = -v->v_int.val;
 		else if (v->type == VALUE_FLOAT)
-			((Value *)v)->v_float.val = -v->v_float.val;
+			((GnmValue *)v)->v_float.val = -v->v_float.val;
 		else
 			return NULL;
 		return expr;
@@ -289,7 +289,7 @@ build_not (GnmExpr *expr)
 static GnmExpr *
 build_array (GSList *cols)
 {
-	Value *array;
+	GnmValue *array;
 	GSList *row;
 	int x, mx, y;
 
@@ -313,7 +313,7 @@ build_array (GSList *cols)
 		x = 0;
 		while (row && x < mx) {
 			GnmExpr    *expr = row->data;
-			Value const *v = expr->constant.value;
+			GnmValue const *v = expr->constant.value;
 
 			g_assert (expr->any.oper == GNM_EXPR_OP_CONSTANT);
 
@@ -380,13 +380,13 @@ build_set (GnmExprList *list)
  * parse_string_as_value :
  *
  * Try to parse the entered text as a basic value (empty, bool, int,
- * float, err) if this succeeds, we store this as a Value otherwise, we
+ * float, err) if this succeeds, we store this as a GnmValue otherwise, we
  * return a string.
  */
 static GnmExpr *
 parse_string_as_value (GnmExpr *str)
 {
-	Value *v = format_match_simple (str->constant.value->v_str.val->str);
+	GnmValue *v = format_match_simple (str->constant.value->v_str.val->str);
 
 	if (v != NULL) {
 		unregister_allocation (str);
@@ -408,7 +408,7 @@ parser_simple_val_or_name (GnmExpr *str_expr)
 {
 	GnmExpr const	*res;
 	char const	*str = str_expr->constant.value->v_str.val->str;
-	Value		*v   = format_match_simple (str);
+	GnmValue		*v   = format_match_simple (str);
 
 	/* if it is not a simple value see if it is a name */
 	if (v == NULL) {
@@ -469,8 +469,8 @@ int yyparse (void);
 
 %union {
 	GnmExpr		*expr;
-	Value		*value;
-	CellRef		*cell;
+	GnmValue	*value;
+	GnmCellRef	*cell;
 	GnmExprList	*list;
 	Sheet		*sheet;
 	Workbook	*wb;
@@ -834,7 +834,7 @@ yylex (void)
 {
 	gunichar c;
 	char const *start, *end;
-	RangeRef ref;
+	GnmRangeRef ref;
 	gboolean is_number = FALSE;
 	gboolean is_space = FALSE;
 	gboolean error_token = FALSE;
@@ -884,7 +884,7 @@ yylex (void)
 			char const *quotes_end;
 			char const *p;
 			char *string, *s;
-			Value *v;
+			GnmValue *v;
 
 			if (*state->ptr == 'q') {
 				quotes_end = "&quot;";
@@ -1046,7 +1046,7 @@ yylex (void)
 	}
 
 	if (is_number) {
-		Value *v = NULL;
+		GnmValue *v = NULL;
 
 		if (c == state->decimal_point || c == 'e' || c == 'E') {
 			/* This is float */
@@ -1157,12 +1157,12 @@ yylex (void)
 		state->ptr = (char *)end;
 
 		if (error_token) {
-			Value *v = value_new_error (NULL, s->str);
+			GnmValue *v = value_new_error (NULL, s->str);
 			yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
 			g_string_free (s, TRUE);
 			return CONSTANT;
 		} else {
-			Value *v = value_new_string_nocopy (g_string_free (s, FALSE));
+			GnmValue *v = value_new_string_nocopy (g_string_free (s, FALSE));
 			yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
 			return QUOTED_STRING;
 		}

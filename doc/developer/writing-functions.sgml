@@ -250,8 +250,9 @@ With intersection and iteration support
     b : boolean		identical to f, Do we need this ?
     f : float 		no errors, string conversion attempted
     s : string		no errors
-    S : scalar		any scalar non-error value
-    E : scalar		including errors
+    S : scalar		any scalar non-error, non blank value
+    E : scalar		any scalar non blank value
+    B : scalar		any scalar even a blank
 
 Without intersection or iteration support
     r : cell range	content is _NOT_ guaranteed to have been evaluated yet

@@ -60,16 +60,16 @@ static SCM
 scm_gnumeric_funcall (SCM funcname, SCM arglist)
 {
 	int i, num_args;
-	Value **argvals;
-	Value *retval;
+	GnmValue **argvals;
+	GnmValue *retval;
 	SCM retsmob;
-	CellRef cell_ref = { 0, 0, 0, 0 };
+	GnmCellRef cell_ref = { 0, 0, 0, 0 };
 
 	SCM_ASSERT (SCM_NIMP (funcname) && SCM_STRINGP (funcname), funcname, SCM_ARG1, "gnumeric-funcall");
 	SCM_ASSERT (SCM_NFALSEP (scm_list_p (arglist)), arglist, SCM_ARG2, "gnumeric-funcall");
 
 	num_args = scm_ilength (arglist);
-	argvals = g_new (Value *, num_args);
+	argvals = g_new (GnmValue *, num_args);
 	for (i = 0; i < num_args; ++i) {
 		argvals[i] = scm_to_value (SCM_CAR (arglist));
 		arglist = SCM_CDR (arglist);
@@ -111,7 +111,7 @@ gnm_guile_catcher (void *data, SCM tag, SCM throw_args)
 	SCM res;
 	char *guilestr = NULL;
 	char *msg;
-	Value *v;
+	GnmValue *v;
 
 	func = scm_c_eval_string ("gnm:error->string");
 	if (scm_procedure_p (func)) {
@@ -135,12 +135,12 @@ gnm_guile_catcher (void *data, SCM tag, SCM throw_args)
 	return smob;
 }
 
-static Value*
-func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
+static GnmValue*
+func_marshal_func (FunctionEvalInfo *ei, GnmValue *argv[])
 {
 	GnmFunc const *fndef;
 	SCM args = SCM_EOL, result, function;
-	CellRef dummy = { 0, 0, 0, 0 };
+	GnmCellRef dummy = { 0, 0, 0, 0 };
 	EvalPos const *old_eval_pos;
 	GnmGuileCallRec ggcr;
 	int i, min, max;

@@ -2,7 +2,7 @@
 #define GNUMERIC_SHEET_PRIVATE_H
 
 struct _SheetPrivate {
-	Range		 unhidden_region;
+	GnmRange	 unhidden_region;
 
 	/* State of menu items */
 	unsigned char    enable_showhide_detail;
@@ -13,7 +13,7 @@ struct _SheetPrivate {
 	unsigned char	 recompute_max_row_group;
 	unsigned char	 resize_scrollbar;
 	unsigned char	 resize;
-	CellPos		 reposition_objects;
+	GnmCellPos	 reposition_objects;
 	unsigned char	 filters_changed;
 };
 

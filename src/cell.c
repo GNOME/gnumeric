@@ -86,7 +86,7 @@ cell_cleanout (Cell *cell)
 }
 
 /* The pool from which all cells are allocated.  */
-static gnm_mem_chunk *cell_pool;
+static GnmMemChunk *cell_pool;
 
 /**
  * cell_new:
@@ -209,8 +209,8 @@ void
 cell_set_text (Cell *cell, char const *text)
 {
 	GnmExpr const *expr;
-	Value	    *val;
-	ParsePos     pos;
+	GnmValue      *val;
+	ParsePos       pos;
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
@@ -246,7 +246,7 @@ cell_set_text (Cell *cell, char const *text)
  * NOTE : This DOES NOT check for array partitioning.
  */
 void
-cell_assign_value (Cell *cell, Value *v)
+cell_assign_value (Cell *cell, GnmValue *v)
 {
 	g_return_if_fail (cell);
 	g_return_if_fail (v);
@@ -269,7 +269,7 @@ cell_assign_value (Cell *cell, Value *v)
  * NOTE : This DOES check for array partitioning.
  **/
 void
-cell_set_value (Cell *cell, Value *v)
+cell_set_value (Cell *cell, GnmValue *v)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (v != NULL);
@@ -293,7 +293,7 @@ cell_set_value (Cell *cell, Value *v)
  * NOTE : This DOES check for array partitioning.
  */
 void
-cell_set_expr_and_value (Cell *cell, GnmExpr const *expr, Value *v,
+cell_set_expr_and_value (Cell *cell, GnmExpr const *expr, GnmValue *v,
 			 gboolean link_expr)
 {
 	g_return_if_fail (cell != NULL);
@@ -470,7 +470,7 @@ cell_is_blank (Cell const * cell)
 		(VALUE_IS_STRING (cell->value) && *(cell->value->v_str.val->str) == '\0');
 }
 
-Value *
+GnmValue *
 cell_is_error (Cell const * cell)
 {
 	g_return_val_if_fail (cell != NULL, NULL);
@@ -491,7 +491,7 @@ cell_is_number (Cell const *cell)
 gboolean
 cell_is_zero (Cell const *cell)
 {
-	Value const * const v = cell->value;
+	GnmValue const * const v = cell->value;
 	if (v == NULL)
 		return FALSE;
 	switch (v->type) {
@@ -620,7 +620,7 @@ cell_get_format (Cell const *cell)
 void
 cell_set_format (Cell *cell, char const *format)
 {
-	Range r;
+	GnmRange r;
 	MStyle *mstyle = mstyle_new ();
 
 	g_return_if_fail (mstyle != NULL);
@@ -663,21 +663,21 @@ cell_convert_expr_to_value (Cell *cell)
 }
 
 guint
-cellpos_hash (CellPos const *key)
+cellpos_hash (GnmCellPos const *key)
 {
 	return (key->row << 8) | key->col;
 }
 
 gint
-cellpos_cmp (CellPos const * a, CellPos const * b)
+cellpos_cmp (GnmCellPos const *a, GnmCellPos const *b)
 {
 	return (a->row == b->row && a->col == b->col);
 }
 
 CellComment *
-cell_has_comment_pos (const Sheet *sheet, const CellPos *pos)
+cell_has_comment_pos (Sheet const *sheet, GnmCellPos const *pos)
 {
-	Range r;
+	GnmRange r;
 	GSList *comments;
 	CellComment *res;
 

@@ -19,11 +19,11 @@ typedef enum {
 struct _Cell {
 	Dependent base;
 	/* Mandatory state information */
-	CellPos	     pos;
+	GnmCellPos   pos;
 	ColRowInfo  *col_info;
 	ColRowInfo  *row_info;
 
-	Value         *value;	/* computed or entered (Must be non NULL) */
+	GnmValue         *value;	/* computed or entered (Must be non NULL) */
 	RenderedValue *rendered_value;
 };
 
@@ -43,11 +43,11 @@ void	  cell_relocate     (Cell *cell, GnmExprRewriteInfo const *rwinfo);
 #define	    cell_has_expr(cell)		((cell)->base.expression != NULL)
 #define	    cell_is_linked(cell)	((cell)->base.flags & CELL_IN_SHEET_LIST)
 #define	    cell_is_merged(cell)	((cell)->base.flags & CELL_IS_MERGED)
-CellComment     *cell_has_comment_pos   (const Sheet *sheet, const CellPos *pos);
+CellComment     *cell_has_comment_pos   (Sheet const *sheet, GnmCellPos const *pos);
 CellComment     *cell_has_comment	(Cell const *cell);
 gboolean	 cell_is_empty		(Cell const *cell);
 gboolean	 cell_is_blank		(Cell const *cell); /* empty, or "" */
-Value *		 cell_is_error		(Cell const *cell);
+GnmValue	*cell_is_error		(Cell const *cell);
 gboolean	 cell_is_number		(Cell const *cell);
 gboolean	 cell_is_zero		(Cell const *cell);
 gboolean	 cell_is_partial_array	(Cell const *cell);
@@ -57,9 +57,9 @@ GnmExprArray const *cell_is_array	(Cell const *cell);
  * Utilities to assign the contents of a cell
  */
 void cell_set_text		(Cell *c, char const *text);
-void cell_assign_value		(Cell *c, Value *v);
-void cell_set_value		(Cell *c, Value *v);
-void cell_set_expr_and_value	(Cell *c, GnmExpr const *expr, Value *v,
+void cell_assign_value		(Cell *c, GnmValue *v);
+void cell_set_value		(Cell *c, GnmValue *v);
+void cell_set_expr_and_value	(Cell *c, GnmExpr const *expr, GnmValue *v,
 				 gboolean link_expr);
 void cell_set_expr		(Cell *c, GnmExpr const *expr);
 void cell_set_expr_unsafe 	(Cell *cell, GnmExpr const *expr);
@@ -83,8 +83,8 @@ const PangoColor* cell_get_render_color	(Cell const * cell);
 char *	cell_get_entered_text	(Cell const * cell);
 char *  cell_get_rendered_text  (Cell *cell);
 
-guint cellpos_hash (CellPos const *key);
-gint  cellpos_cmp  (CellPos const *a, CellPos const *b);
+guint cellpos_hash (GnmCellPos const *key);
+gint  cellpos_cmp  (GnmCellPos const *a, GnmCellPos const *b);
 
 void cell_init (void);
 void cell_shutdown (void);

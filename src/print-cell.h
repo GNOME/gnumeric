@@ -5,7 +5,7 @@
 #include <libgnomeprint/gnome-print.h>
 
 void print_cell_range (GnomePrintContext *context,
-		       Sheet const *sheet, Range *range,
+		       Sheet const *sheet, GnmRange *range,
 		       double base_x, double base_y,
 		       gboolean hide_grid);
 

@@ -133,7 +133,7 @@ dialog_row_height_load_value (RowHeightState *state)
 		value = sheet_row_get_default_size_pts (state->sheet);
 	} else {
 		for (l = state->sv->selections; l; l = l->next){
-			Range *ss = l->data;
+			GnmRange *ss = l->data;
 			int row;
 
 			for (row = ss->start.row; row <= ss->end.row; row++){

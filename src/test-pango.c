@@ -85,7 +85,7 @@ main (int argc, char *argv [])
 
 	ctx = gnumeric_arg_parse (argc, argv);
 
-	ccs = command_context_stderr_new ();
+	cc = command_context_stderr_new ();
 	ioc = gnumeric_io_context_new (cc);
 	g_object_unref (cc);
 

@@ -105,7 +105,7 @@ single_cell (Sheet *sheet, GnmExprEntry *gee)
 {
 	int col, row;
 	gboolean issingle;
-	Value *v = gnm_expr_entry_parse_as_value (gee, sheet);
+	GnmValue *v = gnm_expr_entry_parse_as_value (gee, sheet);
 
 	if (!v) return NULL;
 

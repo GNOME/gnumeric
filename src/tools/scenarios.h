@@ -8,8 +8,8 @@ typedef struct _scenario_t {
         Sheet *sheet;
         gchar *name;
 
-        Value **changing_cells;
-        Range range;
+        GnmValue **changing_cells;
+        GnmRange  range;
 
         gchar *comment;
         gchar *cell_sel_str;
@@ -33,7 +33,7 @@ void        scenario_insert_rows  (GList *list, int row, int count);
 void        scenario_insert_cols  (GList *list, int row, int count);
 void        scenario_delete_rows  (GList *list, int row, int count);
 void        scenario_delete_cols  (GList *list, int row, int count);
-void        scenario_move_range   (GList *list, const Range *origin,
+void        scenario_move_range   (GList *list, GnmRange const *origin,
 				   int col_offset, int row_offset);
 
 void        scenario_manager_ok   (Sheet *sheet);
@@ -42,7 +42,7 @@ scenario_t *scenario_show         (WorkbookControl        *wbc,
 				   scenario_t             *old_values,
 				   data_analysis_output_t *dao);
 gboolean    scenario_add_new      (gchar *name,
-				   Value *changing_cells,
+				   GnmValue *changing_cells,
 				   gchar *cell_sel_str,
 				   gchar *comment,
 				   Sheet *sheet, scenario_t **new_scenario);

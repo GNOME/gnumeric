@@ -4,29 +4,26 @@
 #include "gnumeric.h"
 
 typedef struct {
-	int offset;
-	int asc;
+	int	 offset;
+	int	 asc;
 	gboolean cs;
 	gboolean val;
-} SortClause;
+} GnmSortClause;
 
-struct _SortData {
-	Sheet      *sheet;
-	Range      *range;
-	int         num_clause;
-	SortClause *clauses;
-	gboolean    top;
-	gboolean retain_formats;
+struct _GnmSortData {
+	Sheet		*sheet;
+	GnmRange	*range;
+	int		 num_clause;
+	GnmSortClause	*clauses;
+	gboolean	 top;
+	gboolean	 retain_formats;
 };
 
-void        sort_clause_destroy (SortClause *clause);
-void        sort_data_destroy (SortData *data);
-
-void        sort_position (SortData *data, int *perm, CommandContext *cc);
-
-int         *sort_contents (SortData *data, CommandContext *cc);
-
-int         sort_data_length	 (SortData const *data);
-int         *sort_permute_invert (int const *perm, int length);
+void sort_clause_destroy (GnmSortClause *clause);
+void sort_data_destroy   (GnmSortData *data);
+void sort_position 	 (GnmSortData *data, int *perm, CommandContext *cc);
+int *sort_contents 	 (GnmSortData *data, CommandContext *cc);
+int  sort_data_length	 (GnmSortData const *data);
+int *sort_permute_invert (int const *perm, int length);
 
 #endif /* GNUMERIC_SORT_H */

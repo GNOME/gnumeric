@@ -61,13 +61,13 @@ struct _GnmDepContainer {
 	 * is tranversed by g_hash_table_foreach mostly.
 	 */
 	GHashTable **range_hash;
-	gnm_mem_chunk *range_pool;
+	GnmMemChunk *range_pool;
 
 	/* Single ranges, this maps an EvalPos * to a GSList of its
 	 * dependencies.
 	 */
 	GHashTable *single_hash;
-	gnm_mem_chunk *single_pool;
+	GnmMemChunk *single_pool;
 
 	/* All of the ExprNames that refer to this container */
 	GHashTable *referencing_names;
@@ -84,11 +84,11 @@ void	 dependent_types_shutdown  (void);
 
 void	 dependent_set_expr	   (Dependent *dependent, GnmExpr const *new_expr);
 void	 dependent_set_sheet	   (Dependent *dependent, Sheet *sheet);
-void	 dependent_link		   (Dependent *dep, CellPos const *pos);
-void	 dependent_unlink	   (Dependent *dep, CellPos const *pos);
+void	 dependent_link		   (Dependent *dep, GnmCellPos const *pos);
+void	 dependent_unlink	   (Dependent *dep, GnmCellPos const *pos);
 gboolean dependent_eval		   (Dependent *dep);
 void	 dependent_queue_recalc	   (Dependent *dep);
-void	 dependent_add_dynamic_dep (Dependent *dep, ValueRange const *v);
+void	 dependent_add_dynamic_dep (Dependent *dep, GnmValueRange const *v);
 
 GSList  *dependents_relocate	    (GnmExprRelocateInfo const *info);
 void     dependents_unrelocate      (GSList *info);
@@ -107,7 +107,7 @@ gboolean cell_eval_content	    (Cell *cell);
 	}								\
 }
 
-void sheet_region_queue_recalc	 (Sheet const *sheet, Range const *range);
+void sheet_region_queue_recalc	 (Sheet const *sheet, GnmRange const *range);
 void sheet_deps_destroy		 (Sheet *sheet);
 void workbook_deps_destroy	 (Workbook *wb);
 void workbook_queue_all_recalc	 (Workbook *wb);

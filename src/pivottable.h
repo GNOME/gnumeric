@@ -18,7 +18,7 @@ struct _GnmPivotTableField {
 };
 
 typedef struct {
-	GlobalRange src, dst;
+	GnmGlobalRange src, dst;
 
 	GPtrArray *pages;
 	GPtrArray *rows;
@@ -27,8 +27,8 @@ typedef struct {
 	GPtrArray *unused;
 } GnmPivotTable;
 
-GnmPivotTable  *gnm_pivottable_new    (Sheet *src_sheet, Range const *src,
-				       Sheet *dst_sheet, Range const *dst);
+GnmPivotTable  *gnm_pivottable_new    (Sheet *src_sheet, GnmRange const *src,
+				       Sheet *dst_sheet, GnmRange const *dst);
 void		gnm_pivottable_free   (GnmPivotTable *filter);
 void		gnm_pivottable_link   (GnmPivotTable *filter);
 void		gnm_pivottable_unlink (GnmPivotTable *filter);

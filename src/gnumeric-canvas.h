@@ -6,7 +6,7 @@
 
 #define GNM_CANVAS_TYPE	 (gnm_canvas_get_type ())
 #define GNM_CANVAS(o)	 (G_TYPE_CHECK_INSTANCE_CAST((o), GNM_CANVAS_TYPE, GnmCanvas))
-#define GNM_IS_CANVAS(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_CANVAS_TYPE))
+#define IS_GNM_CANVAS(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_CANVAS_TYPE))
 
 #define GNUMERIC_CANVAS_FACTOR_X 1000000
 #define GNUMERIC_CANVAS_FACTOR_Y 6000000
@@ -20,7 +20,7 @@ struct _GnmCanvas {
 
 	GnumericPane *pane;
 
-	CellPos first, last_full, last_visible, first_offset;
+	GnmCellPos first, last_full, last_visible, first_offset;
 
 	FooCanvasGroup *anted_group;
 	FooCanvasGroup *object_group;
@@ -47,7 +47,7 @@ GnmCanvas *gnm_canvas_new (SheetControlGUI *scg, GnumericPane *pane);
 
 int  gnm_canvas_find_col (GnmCanvas *gsheet, int x, int *col_origin);
 int  gnm_canvas_find_row (GnmCanvas *gsheet, int y, int *row_origin);
-void gnm_canvas_redraw_range (GnmCanvas *gsheet, Range const *r);
+void gnm_canvas_redraw_range (GnmCanvas *gsheet, GnmRange const *r);
 void gnm_canvas_compute_visible_region (GnmCanvas *gsheet,
 					gboolean const full_recompute);
 

@@ -71,7 +71,7 @@ scenario_by_name (GList *scenarios, const gchar *name, gboolean *all_deleted)
 	return res;
 }
 
-typedef Value * (*ScenarioValueCB) (int col, int row, Value *v, gpointer data);
+typedef GnmValue * (*ScenarioValueCB) (int col, int row, GnmValue *v, gpointer data);
 
 static void
 scenario_for_each_value (scenario_t *s, ScenarioValueCB fn, gpointer data)
@@ -147,8 +147,8 @@ typedef struct {
 	Sheet    *sheet;
 } collect_cb_t;
 
-static Value *
-collect_cb (int col, int row, Value *v, collect_cb_t *p)
+static GnmValue *
+collect_cb (int col, int row, GnmValue *v, collect_cb_t *p)
 {
 	Cell *cell = sheet_cell_fetch (p->sheet, col, row);
 
@@ -162,16 +162,16 @@ collect_cb (int col, int row, Value *v, collect_cb_t *p)
  * expression return TRUE so that the user can be warned about it.
  */
 static gboolean
-collect_values (Sheet *sheet, scenario_t *s, ValueRange *range)
+collect_values (Sheet *sheet, scenario_t *s, GnmValueRange *range)
 {
 	int          cols, rows;
 	collect_cb_t cb;
 
-	range_init_value (&s->range, (Value *) range);
+	range_init_value (&s->range, (GnmValue *) range);
 
 	rows = s->range.end.row - s->range.start.row + 1;
 	cols = s->range.end.col - s->range.start.col + 1;
-	s->changing_cells = g_new (Value *, rows * cols);
+	s->changing_cells = g_new (GnmValue *, rows * cols);
 
 	cb.expr_flag = FALSE;
 	cb.sheet     = sheet;
@@ -183,14 +183,14 @@ collect_values (Sheet *sheet, scenario_t *s, ValueRange *range)
 /* Doesn't actually add the new scenario into the sheet's scenario list. */
 gboolean
 scenario_add_new (gchar *name,
-		  Value *changing_cells,
+		  GnmValue *changing_cells,
 		  gchar *cell_sel_str,
 		  gchar *comment,
 		  Sheet *sheet,
 		  scenario_t **new_scenario)
 {
 	scenario_t *scenario = scenario_new (sheet, name, comment);
-	gboolean   res = collect_values (sheet, scenario, (ValueRange *) changing_cells);
+	gboolean    res = collect_values (sheet, scenario, (GnmValueRange *) changing_cells);
 
 	scenario->cell_sel_str = g_strdup (cell_sel_str);
 	sheet_redraw_all (sheet, TRUE);
@@ -215,8 +215,8 @@ typedef struct {
 	scenario_t *dest;
 } copy_cb_t;
 
-static Value *
-copy_cb (int col, int row, Value *v, copy_cb_t *p)
+static GnmValue *
+copy_cb (int col, int row, GnmValue *v, copy_cb_t *p)
 {
 	p->dest->changing_cells [col - p->col_offset +
 				 (row - p->row_offset) * p->cols] = 
@@ -246,7 +246,7 @@ scenario_copy (scenario_t *s, Sheet *new_sheet)
 	cb.row_offset = s->range.start.row;
 	cb.dest       = p;
 
-	p->changing_cells = g_new (Value *, cb.rows * cb.cols);
+	p->changing_cells = g_new (GnmValue *, cb.rows * cb.cols);
 	scenario_for_each_value (s, (ScenarioValueCB) copy_cb, &cb);
 
 	return p;
@@ -267,8 +267,8 @@ scenario_copy_all (GList *list, Sheet *ns)
 
 /* Scenario: Remove sheet *************************************************/
 
-static Value *
-cb_value_free (int col, int row, Value *v, gpointer data)
+static GnmValue *
+cb_value_free (int col, int row, GnmValue *v, gpointer data)
 {
 	value_release (v);
 
@@ -335,8 +335,8 @@ scenario_delete (GList *scenarios, gchar *name)
 /* Scenario: Show **********************************************************/
 
 
-static Value *
-show_cb (int col, int row, Value *v, data_analysis_output_t *dao)
+static GnmValue *
+show_cb (int col, int row, GnmValue *v, data_analysis_output_t *dao)
 {
 	dao_set_cell_value (dao, col, row, value_duplicate (v));
 
@@ -368,7 +368,7 @@ scenario_show (WorkbookControl        *wbc,
 	stored_values->range = s->range;
 	rows = s->range.end.row - s->range.start.row + 1;
 	cols = s->range.end.col - s->range.start.col + 1;
-	stored_values->changing_cells = g_new (Value *, rows * cols);
+	stored_values->changing_cells = g_new (GnmValue *, rows * cols);
 
 	cb.sheet = dao->sheet;
 	scenario_for_each_value (stored_values, (ScenarioValueCB) collect_cb,
@@ -476,7 +476,7 @@ scenario_delete_rows (GList *list, int row, int count)
 }
 
 static void
-move_range (scenario_t *s, const Range *origin, int col_offset, int row_offset)
+move_range (scenario_t *s, GnmRange const *origin, int col_offset, int row_offset)
 {
 	/* FIXME when multiple ranges are supported. */
 	if (range_equal (&s->range, origin)) {
@@ -491,7 +491,7 @@ move_range (scenario_t *s, const Range *origin, int col_offset, int row_offset)
 }
 
 void
-scenario_move_range (GList *list, const Range *origin, int col_offset,
+scenario_move_range (GList *list, const GnmRange *origin, int col_offset,
 		     int row_offset)
 {
 	while (list != NULL) {
@@ -554,8 +554,8 @@ typedef struct {
 	GSList     *results;
 } summary_cb_t;
 
-static Value *
-summary_cb (int col, int row, Value *v, summary_cb_t *p)
+static GnmValue *
+summary_cb (int col, int row, GnmValue *v, summary_cb_t *p)
 {
 	char  *tmp = dao_find_name (p->sheet, col, row);
 	int   *index;
@@ -584,7 +584,7 @@ summary_cb (int col, int row, Value *v, summary_cb_t *p)
 		/* Changing cell name. */
 		dao_set_cell (&p->dao, 0, 3 + p->row, tmp);
 		
-		/* Value of the cell in this scenario. */
+		/* GnmValue of the cell in this scenario. */
 		dao_set_cell_value (&p->dao, 2 + p->col, 3 + p->row, 
 				    value_duplicate (v));
 		
@@ -620,7 +620,7 @@ scenario_summary_res_cells (WorkbookControl *wbc, GSList *results,
 {
 	data_analysis_output_t dao;
 	int        i, j, col, tmp_row = 4 + cb->row;
-	Range      r;
+	GnmRange      r;
 
 	dao_init (&dao, NewSheetOutput);
 	dao.sheet = cb->sheet;
@@ -628,7 +628,7 @@ scenario_summary_res_cells (WorkbookControl *wbc, GSList *results,
 	dao_set_cell (&cb->dao, 0, 3 + cb->row++, _("Result Cells:"));
 
 	while (results != NULL) {
-		range_init_value (&r, (Value *) results->data);
+		range_init_value (&r, (GnmValue *) results->data);
 		for (i = r.start.col; i <= r.end.col; i++)
 			for (j = r.start.row; j <= r.end.row; j++) {
 				scenario_t *ov = NULL;

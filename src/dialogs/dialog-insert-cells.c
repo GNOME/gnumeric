@@ -46,7 +46,7 @@ typedef struct {
 	GtkWidget          *dialog;
 	GtkWidget          *ok_button;
 	GtkWidget          *cancel_button;
-	Range const        *sel;
+	GnmRange const     *sel;
 	Sheet              *sheet;
 	GladeXML           *gui;
 } InsertCellState;
@@ -128,7 +128,7 @@ dialog_insert_cells (WorkbookControlGUI *wbcg)
 	InsertCellState *state;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView       *sv = wb_control_cur_sheet_view (wbc);
-	Range const *sel;
+	GnmRange const *sel;
 	int  cols, rows;
 
 	g_return_if_fail (wbcg != NULL);

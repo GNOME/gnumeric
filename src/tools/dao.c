@@ -93,7 +93,7 @@ dao_init (data_analysis_output_t *dao,
 char *
 dao_range_name (data_analysis_output_t *dao)
 {
-	Range range;
+	GnmRange range;
 	range_init (&range, dao->start_col, dao->start_row,
 		    dao->start_col + dao->cols - 1, 
 		    dao->start_row + dao->rows - 1);
@@ -228,7 +228,7 @@ gboolean
 dao_format_output (data_analysis_output_t *dao, char const *cmd)
 {
 	int clear_flags = 0;
-	Range range;
+	GnmRange range;
 
 	range_init (&range, dao->start_col, dao->start_row,
 		    dao->start_col + dao->cols - 1, 
@@ -297,7 +297,7 @@ dao_set_cell_expr       (data_analysis_output_t *dao, int col, int row,
  **/
 
 void
-dao_set_cell_value (data_analysis_output_t *dao, int col, int row, Value *v)
+dao_set_cell_value (data_analysis_output_t *dao, int col, int row, GnmValue *v)
 {
         Cell *cell;
 
@@ -465,8 +465,8 @@ void
 dao_set_cell_comment (data_analysis_output_t *dao, int col, int row,
 		      const char *comment)
 {
-	CellPos pos;
-	const char *author = NULL;
+	GnmCellPos pos;
+	char const *author = NULL;
 
 	/* Check that the output is in the given range, but allow singletons
 	 * to expand
@@ -565,7 +565,7 @@ static void
 dao_set_style (data_analysis_output_t *dao, int col1, int row1,
 	      int col2, int row2, MStyle *mstyle)
 {
-	Range  range;
+	GnmRange  range;
 
 	range.start.col = col1 + dao->start_col + dao->offset_col;
 	range.start.row = row1 + dao->start_row + dao->offset_row;
@@ -606,7 +606,7 @@ dao_set_bold (data_analysis_output_t *dao, int col1, int row1,
 	      int col2, int row2)
 {
 	MStyle *mstyle = mstyle_new ();
-	Range  range;
+	GnmRange  range;
 
 	range.start.col = col1 + dao->start_col;
 	range.start.row = row1 + dao->start_row;
@@ -634,7 +634,7 @@ dao_set_underlined (data_analysis_output_t *dao, int col1, int row1,
 		    int col2, int row2)
 {
 	MStyle *mstyle = mstyle_new ();
-	Range  range;
+	GnmRange  range;
 
 	range.start.col = col1 + dao->start_col;
 	range.start.row = row1 + dao->start_row;
@@ -954,7 +954,7 @@ dao_convert_to_values (data_analysis_output_t *dao)
 void
 dao_redraw_respan (data_analysis_output_t *dao)
 {
-	Range r;
+	GnmRange r;
 
 	range_init (&r, dao->start_col, dao->start_row, 
 		    dao->start_col + dao->cols - 1, 

@@ -350,7 +350,7 @@ stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 	GString *separator;
 	gboolean error = FALSE;
 	int col, row;
-	Range r;
+	GnmRange r;
 
 	g_return_val_if_fail (export_options != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);

@@ -31,7 +31,7 @@ struct _Sheet {
 	double      last_zoom_factor_used;
 
 	GList       *sheet_objects;	/* List of objects in this sheet */
-	CellPos	     max_object_extent;
+	GnmCellPos   max_object_extent;
 
 	gboolean    pristine;
 	gboolean    modified;
@@ -90,7 +90,7 @@ Cell       *sheet_cell_fetch		(Sheet *sheet, int col, int row);
 Cell       *sheet_cell_new		(Sheet *sheet, int col, int row);
 void        sheet_cell_remove		(Sheet *sheet, Cell *cell, gboolean redraw);
 
-Value      *sheet_foreach_cell_in_range	(Sheet *sheet, CellIterFlags flags,
+GnmValue   *sheet_foreach_cell_in_range	(Sheet *sheet, CellIterFlags flags,
 					 int start_col, int start_row,
 					 int end_col, int end_row,
 					 CellIterFunc callback,
@@ -102,7 +102,7 @@ GPtrArray  *sheet_cells                  (Sheet *sheet,
 
 void        sheet_recompute_spans_for_col     (Sheet *sheet, int col);
 
-gboolean    sheet_is_region_empty 	      (Sheet *sheet, Range const *r);
+gboolean    sheet_is_region_empty 	      (Sheet *sheet, GnmRange const *r);
 gboolean    sheet_is_cell_empty 	      (Sheet *sheet, int col, int row);
 
 gboolean    sheet_col_is_hidden		   (Sheet const *sheet, int col);
@@ -183,36 +183,36 @@ void    sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels);
 int     sheet_col_size_fit_pixels    (Sheet *sheet, int col);
 int     sheet_row_size_fit_pixels    (Sheet *sheet, int row);
 
-gboolean sheet_colrow_can_group	     (Sheet *sheet, Range const *r,
+gboolean sheet_colrow_can_group	     (Sheet *sheet, GnmRange const *r,
 				      gboolean is_cols);
-gboolean sheet_colrow_group_ungroup  (Sheet *sheet, Range const *r,
+gboolean sheet_colrow_group_ungroup  (Sheet *sheet, GnmRange const *r,
 				      gboolean is_cols, gboolean inc);
 void     sheet_colrow_gutter 	     (Sheet *sheet,
 				      gboolean is_cols, int max_outline);
 
 gboolean sheet_range_splits_array    (Sheet const *sheet,
-				      Range const *r, Range const *ignore,
+				      GnmRange const *r, GnmRange const *ignore,
 				      CommandContext *cc, char const *cmd);
 gboolean sheet_range_splits_region   (Sheet const *sheet,
-				      Range const *r, Range const *ignore,
+				      GnmRange const *r, GnmRange const *ignore,
 				      CommandContext *cc, char const *cmd);
 gboolean sheet_ranges_split_region   (Sheet const *sheet, GSList const *ranges,
 				      CommandContext *cc, char const *cmd);
-gboolean sheet_range_contains_region (Sheet const *sheet, Range const *r,
+gboolean sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
 				      CommandContext *cc, char const *cmd);
-void	 sheet_range_bounding_box    (Sheet const *sheet, Range *r);
+void	 sheet_range_bounding_box    (Sheet const *sheet, GnmRange *r);
 
 /* Redraw */
 void     sheet_redraw_all       (Sheet const *sheet, gboolean header);
 void     sheet_redraw_cell      (Cell const *cell);
-void     sheet_redraw_range     (Sheet const *sheet, Range const *r);
+void     sheet_redraw_range     (Sheet const *sheet, GnmRange const *r);
 void     sheet_redraw_region    (Sheet const *sheet,
 				 int start_col, int start_row,
 				 int end_col,   int end_row);
 
 void	 sheet_flag_status_update_cell	(Cell const *c);
-void	 sheet_flag_status_update_range	(Sheet const *s, Range const *r);
-void     sheet_flag_format_update_range	(Sheet const *s, Range const *r);
+void	 sheet_flag_status_update_range	(Sheet const *s, GnmRange const *r);
+void     sheet_flag_format_update_range	(Sheet const *s, GnmRange const *r);
 void	 sheet_flag_recompute_spans	(Sheet const *s);
 void	 sheet_update_only_grid		(Sheet const *s);
 void     sheet_update                   (Sheet const *s);
@@ -222,7 +222,7 @@ void     sheet_adjust_preferences	(Sheet const *s,
 
 void     sheet_set_dirty	(Sheet *sheet, gboolean is_dirty);
 gboolean sheet_is_pristine	(Sheet const *sheet);
-Range    sheet_get_extent	(Sheet const *sheet,
+GnmRange    sheet_get_extent	(Sheet const *sheet,
 				 gboolean spans_and_merges_extend);
 
 char	*sheet_name_quote	(char const *unquoted_name);
@@ -233,13 +233,13 @@ char	*sheet_name_quote	(char const *unquoted_name);
  * division of arrays.
  */
 void	     sheet_cell_set_expr    (Cell *cell, GnmExpr const *expr);
-void	     sheet_cell_set_value   (Cell *cell, Value *v);
+void	     sheet_cell_set_value   (Cell *cell, GnmValue *v);
 void	     sheet_cell_set_text    (Cell *cell, char const *str);
-Value const *sheet_cell_get_value   (Sheet *sheet, int const col, int const row);
-void	     sheet_range_set_text   (ParsePos const *pos, Range const *r, char const *str);
-void	     sheet_apply_style	    (Sheet  *sheet, Range const *range, MStyle *mstyle);
+GnmValue const *sheet_cell_get_value   (Sheet *sheet, int const col, int const row);
+void	     sheet_range_set_text   (ParsePos const *pos, GnmRange const *r, char const *str);
+void	     sheet_apply_style	    (Sheet  *sheet, GnmRange const *range, MStyle *mstyle);
 void	     sheet_queue_respan     (Sheet const *sheet, int start_row, int end_row);
-void	     sheet_range_calc_spans (Sheet *sheet, Range const *r, SpanCalcFlags flags);
+void	     sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, SpanCalcFlags flags);
 void	     sheet_cell_calc_span   (Cell *cell, SpanCalcFlags flags);
 
 void	     sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols);

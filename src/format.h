@@ -75,10 +75,10 @@ StyleFormat   *style_format_default_money	(void);
 #define style_format_is_general(sf) ((sf)->family == FMT_GENERAL)
 #define style_format_is_text(sf) ((sf)->family == FMT_TEXT)
 
-char  *format_value   (StyleFormat const *format, Value const *value, StyleColor **color,
+char  *format_value   (StyleFormat const *format, GnmValue const *value, StyleColor **color,
 		       double col_width, GnmDateConventions const *date_conv);
 void   format_value_gstring (GString *result, StyleFormat const *format,
-			     Value const *value, StyleColor **color,
+			     GnmValue const *value, StyleColor **color,
 			     double col_width, GnmDateConventions const *date_conv);
 
 void   format_color_init     (void);

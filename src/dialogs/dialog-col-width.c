@@ -133,7 +133,7 @@ dialog_col_width_load_value (ColWidthState *state)
 		value = sheet_col_get_default_size_pts (state->sheet);
 	} else {
 		for (l = state->sv->selections; l; l = l->next){
-			Range *ss = l->data;
+			GnmRange *ss = l->data;
 			int col;
 
 			for (col = ss->start.col; col <= ss->end.col; col++){

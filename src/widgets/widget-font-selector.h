@@ -15,7 +15,7 @@ typedef struct _FontSelector FontSelector;
 GType    font_selector_get_type (void);
 GtkWidget *font_selector_new      (void);
 
-void font_selector_set_value       (FontSelector *fs, Value const *v);
+void font_selector_set_value       (FontSelector *fs, GnmValue const *v);
 void font_selector_set_name        (FontSelector *fs, char const *font_name);
 void font_selector_set_style       (FontSelector *fs,
 				    gboolean is_bold, gboolean is_italic);

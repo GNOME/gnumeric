@@ -26,25 +26,25 @@ typedef enum {
 	 * otherwise we put formulas
 	 */
 	CONSOLIDATE_PUT_VALUES   = 1 << 3
-} ConsolidateMode;
+} GnmConsolidateMode;
 
-struct _Consolidate {
+struct _GnmConsolidate {
 	GnmFunc *fd;
 
 	GSList      *src;
 
-	ConsolidateMode mode;
+	GnmConsolidateMode mode;
 };
 
-Consolidate *consolidate_new  (void);
-void         consolidate_free (Consolidate *cs, gboolean content_only);
+GnmConsolidate *consolidate_new  (void);
+void         consolidate_free (GnmConsolidate *cs, gboolean content_only);
 
-void         consolidate_set_function    (Consolidate *cs, GnmFunc *fd);
-void         consolidate_set_mode        (Consolidate *cs, 
-					  ConsolidateMode mode);
+void         consolidate_set_function    (GnmConsolidate *cs, GnmFunc *fd);
+void         consolidate_set_mode        (GnmConsolidate *cs, 
+					  GnmConsolidateMode mode);
 
-gboolean     consolidate_add_source      (Consolidate *cs, Value *range);
-gboolean     consolidate_check_destination (Consolidate *cs, 
+gboolean     consolidate_add_source      (GnmConsolidate *cs, GnmValue *range);
+gboolean     consolidate_check_destination (GnmConsolidate *cs, 
 					    data_analysis_output_t *dao);
 
 gboolean tool_consolidate_engine (data_analysis_output_t *dao, gpointer specs, 

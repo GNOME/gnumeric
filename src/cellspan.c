@@ -202,8 +202,8 @@ cell_calc_span (Cell const *cell, int *col1, int *col2)
 	int cell_width_pixel, indented_w;
 	MStyle *mstyle;
 	ColRowInfo const *ri;
-	Range const *merge_left;
-	Range const *merge_right;
+	GnmRange const *merge_left;
+	GnmRange const *merge_right;
 
 	g_return_if_fail (cell != NULL);
 
@@ -392,7 +392,7 @@ void
 row_calc_spans (ColRowInfo *rinfo, Sheet const *sheet)
 {
 	int left, right, col, row = rinfo->pos;
-	Range const *merged;
+	GnmRange const *merged;
 	Cell *cell;
 	int const last = sheet->cols.max_used;
 

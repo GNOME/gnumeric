@@ -80,7 +80,7 @@ typedef struct {
 	Cell *set_cell;
 	Cell *change_cell;
 	Cell *old_cell;
-	Value *old_value;
+	GnmValue *old_value;
 	GtkWidget *warning_dialog;
 	gboolean cancelled;
 } GoalSeekState;
@@ -345,8 +345,8 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	char *status_str;
 	GoalSeekStatus status;
   	gnm_float max_range_val = 1e24;
-	Value *target;
-	RangeRef const *r;
+	GnmValue *target;
+	GnmRangeRef const *r;
 	StyleFormat *format;
 
 	if (state->warning_dialog != NULL)
@@ -445,7 +445,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		const char *actual_str;
 		const char *solution_str;
 		StyleFormat *format = style_format_general ();
-		Value *error_value = value_new_float (state->target_value -
+		GnmValue *error_value = value_new_float (state->target_value -
 						      value_get_as_float (state->set_cell->value));
   		char *target_str = format_value (format, error_value, NULL, 0,
 						 workbook_date_conv (state->wb));
@@ -515,7 +515,7 @@ dialog_realized (G_GNUC_UNUSED GtkWidget *dialog,
 static void
 dialog_preload_selection (GoalSeekState *state, GnmExprEntry *entry)
 {
-	Range const *sel;
+	GnmRange const *sel;
 
 	sel = selection_first_range 
 		(wb_control_cur_sheet_view 

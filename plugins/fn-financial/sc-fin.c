@@ -115,7 +115,7 @@ Duration (GDate *nSettle, GDate *nMat, gnm_float fCoup, gnm_float fYield,
 
 /***************************************************************************/
 
-Value *
+GnmValue *
 get_amordegrc (gnm_float fCost, GDate *nDate, GDate *nFirstPer, 
 	       gnm_float fRestVal, gint nPer, gnm_float fRate,
 	       gint nBase)
@@ -165,7 +165,7 @@ get_amordegrc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
 
 /***************************************************************************/
 
-Value *
+GnmValue *
 get_amorlinc (gnm_float fCost, GDate *nDate, GDate *nFirstPer, 
 	      gnm_float fRestVal, gint nPer, gnm_float fRate, gint nBase)
 {
@@ -190,7 +190,7 @@ get_amorlinc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
 
 /***************************************************************************/
 
-Value *	   get_yieldmat  (GDate *nSettle, GDate *nMat, GDate *nIssue,
+GnmValue *	   get_yieldmat  (GDate *nSettle, GDate *nMat, GDate *nIssue,
 			  gnm_float fRate, gnm_float fPrice, gint nBase)
 {
         gnm_float   fIssMat = yearfrac ( nIssue, nMat, nBase );
@@ -207,9 +207,10 @@ Value *	   get_yieldmat  (GDate *nSettle, GDate *nMat, GDate *nIssue,
 
 /***************************************************************************/
 
-Value *    get_duration  (GDate *nSettle, GDate *nMat, gnm_float fCoup,
-			  gnm_float fYield, gint nFreq, gint nBase,
-			  gnm_float fNumOfCoups)
+GnmValue *
+get_duration  (GDate *nSettle, GDate *nMat, gnm_float fCoup,
+	       gnm_float fYield, gint nFreq, gint nBase,
+	       gnm_float fNumOfCoups)
 {
         return value_new_float ( Duration (nSettle, nMat, fCoup, fYield, nFreq,
 					   nBase, fNumOfCoups) );
@@ -217,9 +218,10 @@ Value *    get_duration  (GDate *nSettle, GDate *nMat, gnm_float fCoup,
 
 /***************************************************************************/
 
-Value *    get_mduration (GDate *nSettle, GDate *nMat, gnm_float fCoup,
-			  gnm_float fYield, gint nFreq, gint nBase,
-			  gnm_float fNumOfCoups)
+GnmValue *
+get_mduration (GDate *nSettle, GDate *nMat, gnm_float fCoup,
+	       gnm_float fYield, gint nFreq, gint nBase,
+	       gnm_float fNumOfCoups)
 {
 	gnm_float fRet = Duration (nSettle, nMat, fCoup, fYield, nFreq, nBase,
 				    fNumOfCoups);
@@ -231,8 +233,9 @@ Value *    get_mduration (GDate *nSettle, GDate *nMat, gnm_float fCoup,
 
 /***************************************************************************/
 
-Value *    get_cumprinc  (gnm_float fRate, gint nNumPeriods, gnm_float fVal,
-			  gint nStart, gint nEnd, gint nPayType)
+GnmValue *
+get_cumprinc  (gnm_float fRate, gint nNumPeriods, gnm_float fVal,
+	       gint nStart, gint nEnd, gint nPayType)
 {
         gnm_float fRmz, fKapZ;
 	gint       i;
@@ -264,8 +267,9 @@ Value *    get_cumprinc  (gnm_float fRate, gint nNumPeriods, gnm_float fVal,
 
 /***************************************************************************/
 
-Value *    get_cumipmt   (gnm_float fRate, gint nNumPeriods, gnm_float fVal,
-			  gint nStart, gint nEnd, gint nPayType)
+GnmValue *
+get_cumipmt (gnm_float fRate, gint nNumPeriods, gnm_float fVal,
+	     gint nStart, gint nEnd, gint nPayType)
 {
         gnm_float fRmz, fZinsZ;
 	gint       i;
@@ -374,7 +378,7 @@ ScInterVDB (gnm_float cost, gnm_float salvage, gnm_float life,
         return fVdb;
 }
 
-Value *
+GnmValue *
 get_vdb (gnm_float cost, gnm_float salvage, gnm_float life,
 	 gnm_float start_period, gnm_float end_period, gnm_float factor,
 	 gboolean flag)

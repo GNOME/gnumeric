@@ -22,20 +22,20 @@
 
 typedef struct {
 	int index;
-	SortData *data;
+	GnmSortData *data;
 } SortDataPerm;
 
 
 /* Clause stuff */
 void
-sort_clause_destroy (SortClause *clause)
+sort_clause_destroy (GnmSortClause *clause)
 {
 	g_free (clause);
 }
 
 /* Data stuff */
 void
-sort_data_destroy (SortData *data)
+sort_data_destroy (GnmSortData *data)
 {
 	sort_clause_destroy (data->clauses);
 	g_free (data->range);
@@ -43,7 +43,7 @@ sort_data_destroy (SortData *data)
 }
 
 int
-sort_data_length (const SortData *data)
+sort_data_length (const GnmSortData *data)
 {
 	if (data->top)
 		return range_height (data->range);
@@ -53,10 +53,10 @@ sort_data_length (const SortData *data)
 
 /* The routines to do the sorting */
 static int
-sort_compare_cells (const Cell *ca, const Cell *cb, SortClause *clause)
+sort_compare_cells (const Cell *ca, const Cell *cb, GnmSortClause *clause)
 {
-	Value *a, *b;
-	ValueType ta, tb;
+	GnmValue *a, *b;
+	GnmValueType ta, tb;
 	ValueCompare comp = IS_EQUAL;
 	int ans = 0;
 
@@ -94,7 +94,7 @@ sort_compare_cells (const Cell *ca, const Cell *cb, SortClause *clause)
 }
 
 static int
-sort_compare_sets (const SortData *data, int indexa, int indexb)
+sort_compare_sets (const GnmSortData *data, int indexa, int indexb)
 {
 	Cell *ca, *cb;
 	int clause = 0;
@@ -141,7 +141,7 @@ sort_qsort_compare (const void *_a, const void *_b)
 
 
 static void
-sort_permute_range (SortData *data, Range *range, int adj)
+sort_permute_range (GnmSortData *data, GnmRange *range, int adj)
 {
 	if (data->top) {
 		range->start.row = data->range->start.row + adj;
@@ -172,7 +172,7 @@ sort_permute_invert (const int *perm, int length)
 #undef DEBUG_SORT
 
 static void
-sort_permute (SortData *data, const int *perm, int length,
+sort_permute (GnmSortData *data, const int *perm, int length,
 	      CommandContext *cc)
 {
 	int i, *rperm;
@@ -193,7 +193,7 @@ sort_permute (SortData *data, const int *perm, int length,
 	rperm = sort_permute_invert (perm, length);
 
 	for (i = 0; i < length; i++) {
-		Range range1, range2;
+		GnmRange range1, range2;
 		CellRegion *rcopy1, *rcopy2 = NULL;
 		int i1, i2;
 
@@ -246,7 +246,7 @@ sort_permute (SortData *data, const int *perm, int length,
 }
 
 void
-sort_position (SortData *data, int *perm, CommandContext *cc)
+sort_position (GnmSortData *data, int *perm, CommandContext *cc)
 {
 	int length;
 
@@ -255,7 +255,7 @@ sort_position (SortData *data, int *perm, CommandContext *cc)
 }
 
 int *
-sort_contents (SortData *data, CommandContext *cc)
+sort_contents (GnmSortData *data, CommandContext *cc)
 {
 	ColRowInfo const *cra;
 	SortDataPerm *perm;

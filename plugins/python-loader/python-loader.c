@@ -30,10 +30,10 @@
 #include "gnm-python.h"
 #include "python-loader.h"
 
-typedef struct _GnumericPluginLoaderPython GnumericPluginLoaderPython;
+typedef struct _GnmPluginLoaderPython GnmPluginLoaderPython;
 
-struct _GnumericPluginLoaderPython {
-	GnumericPluginLoader loader;
+struct _GnmPluginLoaderPython {
+	GnmPluginLoader loader;
 
 	gchar *module_name;
 
@@ -44,22 +44,22 @@ struct _GnumericPluginLoaderPython {
 };
 
 typedef struct {
-	GnumericPluginLoaderClass parent_class;
-} GnumericPluginLoaderPythonClass;
+	GnmPluginLoaderClass parent_class;
+} GnmPluginLoaderPythonClass;
 
 static GObjectClass *parent_class = NULL;
 
-static void gplp_set_attributes (GnumericPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error);
-static void gplp_load_base (GnumericPluginLoader *loader, ErrorInfo **ret_error);
-static void gplp_unload_base (GnumericPluginLoader *loader, ErrorInfo **ret_error);
-static void gplp_load_service_file_opener (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
-static void gplp_load_service_file_saver (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
-static void gplp_load_service_function_group (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
-static void gplp_unload_service_function_group (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
-static void gplp_load_service_ui (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
+static void gplp_set_attributes (GnmPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error);
+static void gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error);
+static void gplp_unload_base (GnmPluginLoader *loader, ErrorInfo **ret_error);
+static void gplp_load_service_file_opener (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
+static void gplp_load_service_file_saver (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
+static void gplp_load_service_function_group (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
+static void gplp_unload_service_function_group (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
+static void gplp_load_service_ui (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
 
 #define PLUGIN_GET_LOADER(plugin) \
-	GNUMERIC_PLUGIN_LOADER_PYTHON (g_object_get_data (G_OBJECT (plugin), "python-loader"))
+	GNM_PLUGIN_LOADER_PYTHON (g_object_get_data (G_OBJECT (plugin), "python-loader"))
 #define SERVICE_GET_LOADER(service) \
 	PLUGIN_GET_LOADER (plugin_service_get_plugin (service))
 #define SWITCH_TO_PLUGIN(plugin) \
@@ -67,9 +67,9 @@ static void gplp_load_service_ui (GnumericPluginLoader *loader, PluginService *s
 
 
 static void
-gplp_set_attributes (GnumericPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error)
+gplp_set_attributes (GnmPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderPython *loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
+	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (loader);
 	gchar *module_name = NULL;
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
@@ -83,9 +83,9 @@ gplp_set_attributes (GnumericPluginLoader *loader, GHashTable *attrs, ErrorInfo 
 }
 
 static void
-gplp_load_base (GnumericPluginLoader *loader, ErrorInfo **ret_error)
+gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderPython *loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
+	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (loader);
 	const gchar *python_file_extensions[]
 		= {"py", "pyc", "pyo", NULL}, **file_ext;
 	GnmPython *py_object;
@@ -163,9 +163,9 @@ gplp_load_base (GnumericPluginLoader *loader, ErrorInfo **ret_error)
 }
 
 static void
-gplp_unload_base (GnumericPluginLoader *loader, ErrorInfo **ret_error)
+gplp_unload_base (GnmPluginLoader *loader, ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderPython *loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
+	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (loader);
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	g_object_steal_data (G_OBJECT (loader->plugin), "python-loader");
@@ -175,9 +175,9 @@ gplp_unload_base (GnumericPluginLoader *loader, ErrorInfo **ret_error)
 }
 
 static void
-gplp_init (GnumericPluginLoaderPython *loader_python)
+gplp_init (GnmPluginLoaderPython *loader_python)
 {
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_PYTHON (loader_python));
+	g_return_if_fail (IS_GNM_PLUGIN_LOADER_PYTHON (loader_python));
 
 	loader_python->module_name = NULL;
 	loader_python->py_object = NULL;
@@ -187,7 +187,7 @@ gplp_init (GnumericPluginLoaderPython *loader_python)
 static void
 gplp_finalize (GObject *obj)
 {
-	GnumericPluginLoaderPython *loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (obj);
+	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (obj);
 
 	g_free (loader_python->module_name);
 	loader_python->module_name = NULL;
@@ -198,7 +198,7 @@ gplp_finalize (GObject *obj)
 static void
 gplp_class_init (GObjectClass *gobject_class)
 {
-	GnumericPluginLoaderClass *loader_class =  GNUMERIC_PLUGIN_LOADER_CLASS (gobject_class);
+	GnmPluginLoaderClass *loader_class =  GNM_PLUGIN_LOADER_CLASS (gobject_class);
 
 	parent_class = g_type_class_peek_parent (gobject_class);
 
@@ -216,10 +216,9 @@ gplp_class_init (GObjectClass *gobject_class)
 #endif
 }
 
-PLUGIN_CLASS (
-	GnumericPluginLoaderPython, gnumeric_plugin_loader_python,
-	gplp_class_init,
-	gplp_init, TYPE_GNUMERIC_PLUGIN_LOADER)
+PLUGIN_CLASS (GnmPluginLoaderPython, gnm_plugin_loader_python,
+	      gplp_class_init, gplp_init,
+	      TYPE_GNM_PLUGIN_LOADER)
 
 /*
  * Service - file_opener
@@ -239,7 +238,7 @@ gplp_loader_data_opener_free (ServiceLoaderDataFileOpener *loader_data)
 }
 
 static gboolean
-gplp_func_file_probe (GnmFileOpener const *fo, PluginService *service,
+gplp_func_file_probe (GnmFileOpener const *fo, GnmPluginService *service,
 		      GsfInput *input, FileProbeLevel pl)
 {
 	ServiceLoaderDataFileOpener *loader_data;
@@ -247,7 +246,7 @@ gplp_func_file_probe (GnmFileOpener const *fo, PluginService *service,
 	PyObject *input_wrapper;
 	gboolean result;
 
-	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_OPENER (service), FALSE);
+	g_return_val_if_fail (IS_GNM_PLUGIN_SERVICE_FILE_OPENER (service), FALSE);
 	g_return_val_if_fail (input != NULL, FALSE);
 	g_return_val_if_fail (_PyGObject_API != NULL, FALSE);
 
@@ -279,7 +278,7 @@ gplp_func_file_probe (GnmFileOpener const *fo, PluginService *service,
 
 static void
 gplp_func_file_open (GnmFileOpener const *fo, 
-		     PluginService *service,
+		     GnmPluginService *service,
 		     IOContext *io_context, 
 		     WorkbookView *wb_view,
 		     GsfInput *input)
@@ -289,7 +288,7 @@ gplp_func_file_open (GnmFileOpener const *fo,
 	PyObject *open_result = NULL;
 	PyObject *input_wrapper;
 
-	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_OPENER (service));
+	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FILE_OPENER (service));
 	g_return_if_fail (input != NULL);
 	g_return_if_fail (_PyGObject_API != NULL);
 
@@ -317,15 +316,15 @@ gplp_func_file_open (GnmFileOpener const *fo,
 }
 
 static void
-gplp_load_service_file_opener (GnumericPluginLoader *loader,
-			       PluginService *service,
+gplp_load_service_file_opener (GnmPluginLoader *loader,
+			       GnmPluginService *service,
 			       ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderPython *loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
+	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (loader);
 	gchar *func_name_file_probe, *func_name_file_open;
 	PyObject *python_func_file_probe, *python_func_file_open;
 
-	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_OPENER (service));
+	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FILE_OPENER (service));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	gnm_py_interpreter_switch_to (loader_python->py_interpreter_info);
@@ -384,7 +383,7 @@ gplp_loader_data_saver_free (ServiceLoaderDataFileSaver *loader_data)
 }
 
 static void
-gplp_func_file_save (GnmFileSaver const *fs, PluginService *service,
+gplp_func_file_save (GnmFileSaver const *fs, GnmPluginService *service,
 		     IOContext *io_context, WorkbookView const *wb_view,
 		     GsfOutput *output)
 {
@@ -393,7 +392,7 @@ gplp_func_file_save (GnmFileSaver const *fs, PluginService *service,
 	PyObject *save_result = NULL;
 	PyObject *output_wrapper;
 
-	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_SAVER (service));
+	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FILE_SAVER (service));
 	g_return_if_fail (output != NULL);
 	g_return_if_fail (_PyGObject_API != NULL);
 
@@ -418,15 +417,15 @@ gplp_func_file_save (GnmFileSaver const *fs, PluginService *service,
 }
 
 static void
-gplp_load_service_file_saver (GnumericPluginLoader *loader,
-			      PluginService *service,
+gplp_load_service_file_saver (GnmPluginLoader *loader,
+			      GnmPluginService *service,
 			      ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderPython *loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
+	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (loader);
 	gchar *func_name_file_save;
 	PyObject *python_func_file_save;
 
-	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_SAVER (service));
+	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FILE_SAVER (service));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	gnm_py_interpreter_switch_to (loader_python->py_interpreter_info);
@@ -478,10 +477,10 @@ gplp_loader_data_fngroup_free (ServiceLoaderDataFunctionGroup *loader_data)
 	g_free (loader_data);
 }
 
-static Value *
-call_python_function_args (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+call_python_function_args (FunctionEvalInfo *ei, GnmValue **args)
 {
-	PluginService *service;
+	GnmPluginService *service;
 	ServiceLoaderDataFunctionGroup *loader_data;
 	PyObject *fn_info_tuple;
 	PyObject *python_fn;
@@ -494,7 +493,7 @@ call_python_function_args (FunctionEvalInfo *ei, Value **args)
 	g_return_val_if_fail (args != NULL, NULL);
 
 	fndef = ei->func_call->func;
-	service = (PluginService *) gnm_func_get_user_data (fndef);
+	service = (GnmPluginService *) gnm_func_get_user_data (fndef);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
 	fn_info_tuple = PyDict_GetItemString (loader_data->python_fn_info_dict,
@@ -508,30 +507,30 @@ call_python_function_args (FunctionEvalInfo *ei, Value **args)
 	return call_python_function (python_fn, ei->pos, n_args, args);
 }
 
-static Value *
+static GnmValue *
 call_python_function_nodes (FunctionEvalInfo *ei, GnmExprList *expr_tree_list)
 {
-	PluginService *service;
+	GnmPluginService *service;
 	ServiceLoaderDataFunctionGroup *loader_data;
 	PyObject *python_fn;
 	GnmFunc const * fndef;
-	Value **values;
+	GnmValue **values;
 	gint n_args, i;
 	GnmExprList *l;
-	Value *ret_value;
+	GnmValue *ret_value;
 
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_call != NULL, NULL);
 
 	fndef = ei->func_call->func;
-	service = (PluginService *) gnm_func_get_user_data (fndef);
+	service = (GnmPluginService *) gnm_func_get_user_data (fndef);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
 	python_fn = PyDict_GetItemString (loader_data->python_fn_info_dict,
 	                                  (gchar *) gnm_func_get_name (fndef));
 
 	n_args = gnm_expr_list_length (expr_tree_list);
-	values = g_new (Value *, n_args);
+	values = g_new (GnmValue *, n_args);
 	for (i = 0, l = expr_tree_list; l != NULL; i++, l = l->next) {
 		values[i] = gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 	}
@@ -575,14 +574,14 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 }
 
 static gboolean
-gplp_func_desc_load (PluginService *service,
+gplp_func_desc_load (GnmPluginService *service,
 		     char const *name,
 		     GnmFuncDescriptor *res)
 {
 	ServiceLoaderDataFunctionGroup *loader_data;
 	PyObject *fn_info_obj;
 
-	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service), FALSE);
+	g_return_val_if_fail (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service), FALSE);
 	g_return_val_if_fail (name != NULL, FALSE);
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
@@ -641,15 +640,15 @@ gplp_func_desc_load (PluginService *service,
 }
 
 static void
-gplp_load_service_function_group (GnumericPluginLoader *loader,
-				  PluginService *service,
+gplp_load_service_function_group (GnmPluginLoader *loader,
+				  GnmPluginService *service,
 				  ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderPython *loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
+	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (loader);
 	gchar *fn_info_dict_name;
 	PyObject *python_fn_info_dict;
 
-	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
+	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	gnm_py_interpreter_switch_to (loader_python->py_interpreter_info);
@@ -691,14 +690,14 @@ gplp_load_service_function_group (GnumericPluginLoader *loader,
 }
 
 static void
-gplp_unload_service_function_group (GnumericPluginLoader *loader,
-				    PluginService *service,
+gplp_unload_service_function_group (GnmPluginLoader *loader,
+				    GnmPluginService *service,
 				    ErrorInfo **ret_error)
 {
 	ServiceLoaderDataFunctionGroup *loader_data;
 
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_PYTHON (loader));
-	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
+	g_return_if_fail (IS_GNM_PLUGIN_LOADER_PYTHON (loader));
+	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
@@ -719,7 +718,7 @@ gplp_loader_data_ui_free (ServiceLoaderDataUI *loader_data)
 }
 
 static void
-gplp_func_exec_verb (PluginService *service,
+gplp_func_exec_verb (GnmPluginService *service,
 		     WorkbookControlGUI *wbcg,
 		     BonoboUIComponent *uic,
 		     const gchar *cname,
@@ -728,7 +727,7 @@ gplp_func_exec_verb (PluginService *service,
 	ServiceLoaderDataUI *loader_data;
 	PyObject *fn, *ret;
 
-	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_UI (service));
+	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_UI (service));
 	g_return_if_fail (cname != NULL);
 	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (_PyGObject_API != NULL);
@@ -757,16 +756,16 @@ gplp_func_exec_verb (PluginService *service,
 }
 
 static void 
-gplp_load_service_ui (GnumericPluginLoader *loader,
-		      PluginService *service,
+gplp_load_service_ui (GnmPluginLoader *loader,
+		      GnmPluginService *service,
 		      ErrorInfo **ret_error)
 {
 
-	GnumericPluginLoaderPython *loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
+	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (loader);
 	gchar *ui_verb_names;
 	PyObject *ui_verbs;
 
-	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_UI (service));
+	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_UI (service));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	gnm_py_interpreter_switch_to (loader_python->py_interpreter_info);

@@ -293,7 +293,7 @@ extract_arg_types (GnmFunc *def)
 	def->fn.args.arg_types[i] = 0;
 }
 
-static Value *
+static GnmValue *
 error_function_no_full_info (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return value_new_error (ei->pos, _("Function implementation not available."));
@@ -463,7 +463,7 @@ gnm_func_add (GnmFuncGroup *fn_group,
 }
 
 /* Handle unknown functions on import without losing their names */
-static Value *
+static GnmValue *
 unknownFunctionHandler (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return value_new_error_NAME (ei->pos);
@@ -748,7 +748,7 @@ function_def_get_arg_name (GnmFunc const *fn_def,
 /* ------------------------------------------------------------------------- */
 
 static inline void
-free_values (Value **values, int top)
+free_values (GnmValue **values, int top)
 {
 	int i;
 
@@ -767,14 +767,14 @@ free_values (Value **values, int top)
  *
  * Returns the result.
  **/
-Value *
+GnmValue *
 function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 			 GnmExprEvalFlags flags)
 {
 	GnmFunc const *fn_def;
 	int	  argc, i, iter_count, iter_width = 0, iter_height = 0;
 	char	  arg_type;
-	Value	 **args, *tmp = NULL;
+	GnmValue	 **args, *tmp = NULL;
 	GnmExpr  *expr;
 	int 	 *iter_item = NULL;
 
@@ -797,7 +797,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 					_("Invalid number of arguments"));
 	}
 
-	args = g_alloca (sizeof (Value *) * fn_def->fn.args.max_args);
+	args = g_alloca (sizeof (GnmValue *) * fn_def->fn.args.max_args);
 	iter_count = (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR) ? 0 : -1;
 
 	for (i = 0; l; l = l->next, ++i) {
@@ -808,7 +808,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 
 		if (arg_type == 'A' || arg_type == 'r') {
 			if (expr->any.oper == GNM_EXPR_OP_CELLREF) {
-				CellRef r;
+				GnmCellRef r;
 				cellref_make_abs (&r, &expr->cellref.ref, ei->pos);
 				args[i] = value_new_cellrange_unsafe (&r, &r);
 				/* TODO decide on the semantics of these argument types */
@@ -926,10 +926,10 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 
 	if (iter_item != NULL) {
 		int x, y;
-		Value *res = value_new_array_empty (iter_width, iter_height);
-		Value const *elem, *err;
-		Value **iter_vals = g_alloca (sizeof (Value *) * iter_count);
-		Value **iter_args = g_alloca (sizeof (Value *) * iter_count);
+		GnmValue *res = value_new_array_empty (iter_width, iter_height);
+		GnmValue const *elem, *err;
+		GnmValue **iter_vals = g_alloca (sizeof (GnmValue *) * iter_count);
+		GnmValue **iter_args = g_alloca (sizeof (GnmValue *) * iter_count);
 
 		/* collect the args we will iterate on */
 		for (i = 0 ; i < iter_count; i++)
@@ -991,9 +991,9 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
  * Use this to invoke a register function: the only drawback is that
  * you have to compute/expand all of the values to use this
  */
-Value *
+GnmValue *
 function_call_with_values (EvalPos const *ep, char const *fn_name,
-			   int argc, Value *values [])
+			   int argc, GnmValue *values [])
 {
 	GnmFunc *fn_def;
 
@@ -1008,13 +1008,13 @@ function_call_with_values (EvalPos const *ep, char const *fn_name,
 	return function_def_call_with_values (ep, fn_def, argc, values);
 }
 
-Value *
+GnmValue *
 function_def_call_with_values (EvalPos const *ep,
                                GnmFunc const *fn_def,
                                gint    argc,
-                               Value  *values [])
+                               GnmValue  *values [])
 {
-	Value *retval;
+	GnmValue *retval;
 	GnmExprFunction	ef;
 	FunctionEvalInfo fs;
 
@@ -1070,12 +1070,12 @@ typedef struct {
  * Helper routine used by the function_iterate_do_value routine.
  * Invoked by the sheet cell range iterator.
  */
-static Value *
+static GnmValue *
 cb_iterate_cellrange (Sheet *sheet, int col, int row,
 		      Cell *cell, gpointer user_data)
 {
 	IterateCallbackClosure *data = user_data;
-	Value *res;
+	GnmValue *res;
 	EvalPos ep;
 
 	if (cell == NULL) {
@@ -1106,15 +1106,15 @@ cb_iterate_cellrange (Sheet *sheet, int col, int row,
  *
  * Helper routine for function_iterate_argument_values.
  */
-Value *
+GnmValue *
 function_iterate_do_value (EvalPos const *ep,
 			   FunctionIterateCB  callback,
 			   gpointer	 closure,
-			   Value	*value,
+			   GnmValue	*value,
 			   gboolean      strict,
 			   CellIterFlags iter_flags)
 {
-	Value *res = NULL;
+	GnmValue *res = NULL;
 
 	switch (value->type){
 	case VALUE_ERROR:
@@ -1174,21 +1174,21 @@ function_iterate_do_value (EvalPos const *ep,
  * @strict:           If TRUE, the function is considered "strict".  This means
  *                   that if an error value occurs as an argument, the iteration
  *                   will stop and that error will be returned.  If FALSE, an
- *                   error will be passed on to the callback (as a Value *
+ *                   error will be passed on to the callback (as a GnmValue *
  *                   of type VALUE_ERROR).
  * @iter_flags:
  *
  * Return value:
  *    NULL            : if no errors were reported.
- *    Value *         : if an error was found during strict evaluation
+ *    GnmValue *         : if an error was found during strict evaluation
  *    VALUE_TERMINATE : if the callback requested termination of the iteration.
  *
  * This routine provides a simple way for internal functions with variable
  * number of arguments to be written: this would iterate over a list of
  * expressions (expr_node_list) and will invoke the callback for every
- * Value found on the list (this means that ranges get properly expaned).
+ * GnmValue found on the list (this means that ranges get properly expaned).
  */
-Value *
+GnmValue *
 function_iterate_argument_values (EvalPos const		*ep,
 				  FunctionIterateCB	 callback,
 				  void			*callback_closure,
@@ -1196,12 +1196,12 @@ function_iterate_argument_values (EvalPos const		*ep,
 				  gboolean		 strict,
 				  CellIterFlags		 iter_flags)
 {
-	Value * result = NULL;
+	GnmValue * result = NULL;
 
 	for (; result == NULL && expr_node_list;
 	     expr_node_list = expr_node_list->next) {
 		GnmExpr const *expr = expr_node_list->data;
-		Value *val;
+		GnmValue *val;
 
 		if (iter_flags & CELL_ITER_IGNORE_SUBTOTAL &&
 		    gnm_expr_containts_subtotal (expr))

@@ -20,62 +20,62 @@ typedef enum {
 	VALUE_STRING	= 60,
 	VALUE_CELLRANGE = 70,
 	VALUE_ARRAY	= 80
-} ValueType;
+} GnmValueType;
 
 typedef struct {
-	ValueType const type;
+	GnmValueType const type;
 	StyleFormat *fmt;
-} ValueAny;
-struct _ValueBool {
-	ValueType const type;
+} GnmValueAny;
+struct _GnmValueBool {
+	GnmValueType const type;
 	StyleFormat *fmt;
 	gboolean val;
 };
-struct _ValueInt {
-	ValueType const type;
+struct _GnmValueInt {
+	GnmValueType const type;
 	StyleFormat *fmt;
 	int val;
 };
-struct _ValueFloat {
-	ValueType const type;
+struct _GnmValueFloat {
+	GnmValueType const type;
 	StyleFormat *fmt;
 	gnm_float val;
 };
-struct _ValueErr {
-	ValueType const type;
+struct _GnmValueErr {
+	GnmValueType const type;
 	StyleFormat *fmt;
 	GnmString   *mesg;
 	/* Currently unused.  Intended to support audit functions */
 	EvalPos  src;
 };
-struct _ValueStr {
-	ValueType const type;
+struct _GnmValueStr {
+	GnmValueType const type;
 	StyleFormat *fmt;
 	GnmString   *val;
 };
-struct _ValueRange {
-	ValueType const type;
+struct _GnmValueRange {
+	GnmValueType const type;
 	StyleFormat *fmt;
-	RangeRef cell;
+	GnmRangeRef cell;
 };
-struct _ValueArray {
-	ValueType const type;
+struct _GnmValueArray {
+	GnmValueType const type;
 	StyleFormat *fmt;
 	int x, y;
-	Value ***vals;  /* Array [x][y] */
+	GnmValue ***vals;  /* Array [x][y] */
 };
 
 /* FIXME */
-union _Value {
-	ValueType const type;
-	ValueAny	v_any;
-	ValueBool	v_bool;
-	ValueInt	v_int;
-	ValueFloat	v_float;
-	ValueErr	v_err;
-	ValueStr	v_str;
-	ValueRange	v_range;
-	ValueArray	v_array;
+union _GnmValue {
+	GnmValueType const type;
+	GnmValueAny	v_any;
+	GnmValueBool	v_bool;
+	GnmValueInt	v_int;
+	GnmValueFloat	v_float;
+	GnmValueErr	v_err;
+	GnmValueStr	v_str;
+	GnmValueRange	v_range;
+	GnmValueArray	v_array;
 };
 
 #define	VALUE_TYPE(v)			((v)->v_any.type)
@@ -94,106 +94,107 @@ typedef enum {
 	TYPE_MISMATCH
 } ValueCompare;
 
-Value       *value_new_empty            (void);
-Value       *value_new_bool             (gboolean b);
-Value       *value_new_int              (int i);
-Value       *value_new_float            (gnm_float f);
-Value       *value_new_error            (EvalPos const *pos, char const *mesg);
-Value       *value_new_error_str        (EvalPos const *pos, GnmString *mesg);
-Value       *value_new_error_std        (EvalPos const *pos, GnmStdError err);
-Value       *value_new_error_NULL       (EvalPos const *pos);
-Value       *value_new_error_DIV0       (EvalPos const *pos);
-Value       *value_new_error_VALUE      (EvalPos const *pos);
-Value       *value_new_error_REF        (EvalPos const *pos);
-Value       *value_new_error_NAME       (EvalPos const *pos);
-Value       *value_new_error_NUM        (EvalPos const *pos);
-Value       *value_new_error_NA         (EvalPos const *pos);
-Value       *value_new_error_RECALC     (EvalPos const *pos);
-Value       *value_new_string           (char const *str);
-Value       *value_new_string_nocopy    (char *str);
-Value       *value_new_string_str       (GnmString *str);
-Value       *value_new_cellrange_unsafe (CellRef const *a, CellRef const *b);
-Value       *value_new_cellrange        (CellRef const *a, CellRef const *b,
+GnmValue       *value_new_empty            (void);
+GnmValue       *value_new_bool             (gboolean b);
+GnmValue       *value_new_int              (int i);
+GnmValue       *value_new_float            (gnm_float f);
+GnmValue       *value_new_error            (EvalPos const *pos, char const *mesg);
+GnmValue       *value_new_error_str        (EvalPos const *pos, GnmString *mesg);
+GnmValue       *value_new_error_std        (EvalPos const *pos, GnmStdError err);
+GnmValue       *value_new_error_NULL       (EvalPos const *pos);
+GnmValue       *value_new_error_DIV0       (EvalPos const *pos);
+GnmValue       *value_new_error_VALUE      (EvalPos const *pos);
+GnmValue       *value_new_error_REF        (EvalPos const *pos);
+GnmValue       *value_new_error_NAME       (EvalPos const *pos);
+GnmValue       *value_new_error_NUM        (EvalPos const *pos);
+GnmValue       *value_new_error_NA         (EvalPos const *pos);
+GnmValue       *value_new_error_RECALC     (EvalPos const *pos);
+GnmValue       *value_new_string           (char const *str);
+GnmValue       *value_new_string_nocopy    (char *str);
+GnmValue       *value_new_string_str       (GnmString *str);
+GnmValue       *value_new_cellrange_unsafe (GnmCellRef const *a, GnmCellRef const *b);
+GnmValue       *value_new_cellrange        (GnmCellRef const *a, GnmCellRef const *b,
 				         int eval_col, int eval_row);
-Value       *value_new_cellrange_r      (Sheet *sheet, Range const *r);
-Value       *value_new_array            (guint cols, guint rows);
-Value       *value_new_array_empty      (guint cols, guint rows);
-Value 	    *value_new_array_non_init   (guint cols, guint rows);
-Value 	    *value_new_from_string	(ValueType t, char const *str, StyleFormat *sf, gboolean translated);
+GnmValue       *value_new_cellrange_r      (Sheet *sheet, GnmRange const *r);
+GnmValue       *value_new_array            (guint cols, guint rows);
+GnmValue       *value_new_array_empty      (guint cols, guint rows);
+GnmValue 	    *value_new_array_non_init   (guint cols, guint rows);
+GnmValue 	    *value_new_from_string	(GnmValueType t, char const *str,
+					 StyleFormat *sf, gboolean translated);
 
-void         value_release         (Value *v);
-void	     value_set_fmt	   (Value *v, StyleFormat const *fmt);
-void         value_dump            (Value const *v);
-Value       *value_duplicate       (Value const *v);
-gnm_float   value_diff		   (Value const *a, Value const *b);
-ValueCompare value_compare         (Value const *a, Value const *b,
+void         value_release         (GnmValue *v);
+void	     value_set_fmt	   (GnmValue *v, StyleFormat const *fmt);
+void         value_dump            (GnmValue const *v);
+GnmValue       *value_duplicate       (GnmValue const *v);
+gnm_float   value_diff		   (GnmValue const *a, GnmValue const *b);
+ValueCompare value_compare         (GnmValue const *a, GnmValue const *b,
 				    gboolean case_sensitive);
 int	     value_cmp		   (void const *ptr_a, void const *ptr_b);
 int	     value_cmp_reverse	   (void const *ptr_a, void const *ptr_b);
-gint	     value_equal	   (Value const *a, Value const *b);
-guint        value_hash		   (Value const *v);
+gint	     value_equal	   (GnmValue const *a, GnmValue const *b);
+guint        value_hash		   (GnmValue const *v);
 
-gboolean    value_get_as_bool         (Value const *v, gboolean *err);
-gboolean    value_get_as_checked_bool (Value const *v);
-void        value_get_as_gstring (GString *target, Value const *v,
-				  const GnmExprConventions *conv);
-char       *value_get_as_string       (Value const *v);
-char const *value_peek_string         (Value const *v);
-int         value_get_as_int          (Value const *v);
-gnm_float  value_get_as_float        (Value const *v);
-Value	   *value_coerce_to_number    (Value *v, gboolean *valid,
+gboolean    value_get_as_bool		(GnmValue const *v, gboolean *err);
+gboolean    value_get_as_checked_bool	(GnmValue const *v);
+void        value_get_as_gstring	(GString *target, GnmValue const *v,
+					 GnmExprConventions const *conv);
+char       *value_get_as_string       (GnmValue const *v);
+char const *value_peek_string         (GnmValue const *v);
+int         value_get_as_int          (GnmValue const *v);
+gnm_float  value_get_as_float        (GnmValue const *v);
+GnmValue	   *value_coerce_to_number    (GnmValue *v, gboolean *valid,
 				       EvalPos const *ep);
 
-Value       *value_error_set_pos      (ValueErr *err, EvalPos const *pos);
-GnmStdError value_error_classify      (const Value *v);
+GnmValue       *value_error_set_pos      (GnmValueErr *err, EvalPos const *pos);
+GnmStdError value_error_classify      (const GnmValue *v);
 const char *value_error_name          (GnmStdError err, gboolean translated);
 
 /* Area functions ( works on VALUE_RANGE or VALUE_ARRAY */
 /* The EvalPos provides a Sheet context; this allows
    calculation of relative references. 'x','y' give the position */
-typedef Value *(*ValueAreaFunc) (Value const *v, EvalPos const *ep, void *user);
-Value 	    *value_area_foreach	   (Value const *v, EvalPos const *ep,
+typedef GnmValue *(*ValueAreaFunc) (GnmValue const *v, EvalPos const *ep, void *user);
+GnmValue 	    *value_area_foreach	   (GnmValue const *v, EvalPos const *ep,
 				    CellIterFlags flags,
 				    ValueAreaFunc func, gpointer user);
-int          value_area_get_width  (Value const *v, EvalPos const *ep);
-int          value_area_get_height (Value const *v, EvalPos const *ep);
-Value const *value_area_fetch_x_y  (Value const *v, int x, int y,
+int          value_area_get_width  (GnmValue const *v, EvalPos const *ep);
+int          value_area_get_height (GnmValue const *v, EvalPos const *ep);
+GnmValue const *value_area_fetch_x_y  (GnmValue const *v, int x, int y,
 				    EvalPos const *ep);
-Value const *value_area_get_x_y	   (Value const *v, int x, int y,
+GnmValue const *value_area_get_x_y	   (GnmValue const *v, int x, int y,
 				    EvalPos const *ep);
 
 
-extern ValueErr const value_terminate_err;
-#define VALUE_TERMINATE ((Value *)&value_terminate_err)
+extern GnmValueErr const value_terminate_err;
+#define VALUE_TERMINATE ((GnmValue *)&value_terminate_err)
 
 /* A zero integer, not to be freed or changed.  */
-extern Value const *value_zero;
+extern GnmValue const *value_zero;
 
-void value_array_set       (Value *array, int col, int row, Value *v);
-void value_array_resize    (Value *v, int width, int height);
+void value_array_set       (GnmValue *array, int col, int row, GnmValue *v);
+void value_array_resize    (GnmValue *v, int width, int height);
 
 /* FIXME: this stuff below ought to go elsewhere.  */
 typedef struct {
         int    row;
         GSList *conditions;
 } database_criteria_t;
-typedef gboolean (*criteria_test_fun_t) (Value const *x, Value const *y);
+typedef gboolean (*criteria_test_fun_t) (GnmValue const *x, GnmValue const *y);
 typedef struct {
         criteria_test_fun_t fun;
-        Value               *x;
+        GnmValue               *x;
         int                 column;
 } func_criteria_t;
-void	parse_criteria		(Value *criteria,
+void	parse_criteria		(GnmValue *criteria,
 				 criteria_test_fun_t *fun,
-				 Value **test_value,
+				 GnmValue **test_value,
 				 CellIterFlags *iter_flags,
 				 GnmDateConventions const *date_conv);
 void	free_criterias		(GSList *criterias);
 GSList *find_rows_that_match	(Sheet *sheet, int first_col,
 				 int first_row, int last_col, int last_row,
 				 GSList *criterias, gboolean unique_only);
-GSList *parse_database_criteria (EvalPos const *ep, Value *database, Value *criteria);
-int     find_column_of_field	(EvalPos const *ep, Value *database, Value *field);
+GSList *parse_database_criteria (EvalPos const *ep, GnmValue *database, GnmValue *criteria);
+int     find_column_of_field	(EvalPos const *ep, GnmValue *database, GnmValue *field);
 
 void value_init (void);
 void value_shutdown (void);

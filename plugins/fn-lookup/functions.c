@@ -51,7 +51,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 
 static gboolean
-find_type_valid (Value const *find)
+find_type_valid (GnmValue const *find)
 {
 	/* Excel does not lookup errors or blanks */
 	if (VALUE_IS_EMPTY (find))
@@ -60,7 +60,7 @@ find_type_valid (Value const *find)
 }
 
 static gboolean
-find_compare_type_valid (Value const *find, Value const *val)
+find_compare_type_valid (GnmValue const *find, GnmValue const *val)
 {
 	if (!val) {
 		return FALSE;
@@ -135,10 +135,10 @@ find_bound_walk (int l, int h, int start, gboolean up, gboolean reset)
 }
 
 static int
-find_index_linear (FunctionEvalInfo *ei, Value *find, Value *data,
+find_index_linear (FunctionEvalInfo *ei, GnmValue *find, GnmValue *data,
 		   gint type, gboolean height)
 {
-	Value const *index_val = NULL;
+	GnmValue const *index_val = NULL;
 	ValueCompare comp;
 	int length, lp, index = -1;
 
@@ -148,7 +148,7 @@ find_index_linear (FunctionEvalInfo *ei, Value *find, Value *data,
 		length = value_area_get_width (data, ei->pos);
 
 	for (lp = 0; lp < length; lp++){
-		Value const *v;
+		GnmValue const *v;
 
 		if (height)
 			v = value_area_fetch_x_y (data, 0, lp, ei->pos);
@@ -195,7 +195,7 @@ find_index_linear (FunctionEvalInfo *ei, Value *find, Value *data,
 }
 
 static int
-find_index_bisection (FunctionEvalInfo *ei, Value *find, Value *data,
+find_index_bisection (FunctionEvalInfo *ei, GnmValue *find, GnmValue *data,
 		      gint type, gboolean height)
 {
 	ValueCompare comp = TYPE_MISMATCH;
@@ -212,7 +212,7 @@ find_index_bisection (FunctionEvalInfo *ei, Value *find, Value *data,
 	}
 
 	while (low <= high) {
-		Value const *v = NULL;
+		GnmValue const *v = NULL;
 		int start;
 
 		if ((type >= 1) != (comp == IS_LESS)) {
@@ -355,8 +355,8 @@ static char const *help_address = {
 	   "@SEEALSO=COLUMNNUMBER")
 };
 
-static Value *
-gnumeric_address (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_address (FunctionEvalInfo *ei, GnmValue **args)
 {
         int   row, col, abs_num, a1;
 	gchar *sheet_name, *buf;
@@ -440,7 +440,7 @@ static char const *help_areas = {
 };
 
 /* TODO : we need to rethink EXPR_SET as an operator vs a value type */
-static Value *
+static GnmValue *
 gnumeric_areas (FunctionEvalInfo *ei, GnmExprList *l)
 {
 	GnmExpr const *expr;
@@ -468,7 +468,7 @@ restart :
 		break;
 
 	case GNM_EXPR_OP_FUNCALL: {
-		Value *v = gnm_expr_eval (expr, ei->pos,
+		GnmValue *v = gnm_expr_eval (expr, ei->pos,
 			GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 		if (expr->constant.value->type == VALUE_CELLRANGE)
 			res = 1;
@@ -516,12 +516,12 @@ static char const *help_choose = {
 	   "@SEEALSO=IF")
 };
 
-static Value *
+static GnmValue *
 gnumeric_choose (FunctionEvalInfo *ei, GnmExprList *l)
 {
 	int     index;
 	int     argc;
-	Value  *v;
+	GnmValue  *v;
 
 	argc =  gnm_expr_list_length (l);
 
@@ -572,8 +572,8 @@ static char const *help_vlookup = {
 	   "@SEEALSO=HLOOKUP")
 };
 
-static Value *
-gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_vlookup (FunctionEvalInfo *ei, GnmValue **args)
 {
 	int      col_idx, index = -1;
 	gboolean approx;
@@ -596,7 +596,7 @@ gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 		return value_new_int (index);
 
 	if (index >= 0) {
-	        Value const *v;
+	        GnmValue const *v;
 
 		v = value_area_fetch_x_y (args [1], col_idx-1, index, ei->pos);
 		g_return_val_if_fail (v != NULL, NULL);
@@ -631,8 +631,8 @@ static char const *help_hlookup = {
 	   "@SEEALSO=VLOOKUP")
 };
 
-static Value *
-gnumeric_hlookup (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_hlookup (FunctionEvalInfo *ei, GnmValue **args)
 {
 	int row_idx, index = -1;
 	gboolean approx;
@@ -655,7 +655,7 @@ gnumeric_hlookup (FunctionEvalInfo *ei, Value **args)
 		return value_new_int (index);
 
 	if (index >= 0) {
-	        Value const *v;
+	        GnmValue const *v;
 
 		v = value_area_fetch_x_y (args[1], index, row_idx-1, ei->pos);
 		g_return_val_if_fail (v != NULL, NULL);
@@ -688,11 +688,11 @@ static char const *help_lookup = {
 	   "@SEEALSO=VLOOKUP,HLOOKUP")
 };
 
-static Value *
-gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_lookup (FunctionEvalInfo *ei, GnmValue **args)
 {
 	int index = -1;
-	Value *result = args[2];
+	GnmValue *result = args[2];
 	int width = value_area_get_width (args[1], ei->pos);
 	int height = value_area_get_height (args[1], ei->pos);
 
@@ -714,7 +714,7 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 				      width > height ? FALSE : TRUE);
 
 	if (index >= 0) {
-	        Value const *v = NULL;
+	        GnmValue const *v = NULL;
 		int width = value_area_get_width (result, ei->pos);
 		int height = value_area_get_height (result, ei->pos);
 
@@ -756,8 +756,8 @@ static char const *help_match = {
 	   "@SEEALSO=LOOKUP")
 };
 
-static Value *
-gnumeric_match (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_match (FunctionEvalInfo *ei, GnmValue **args)
 {
 	int type, index = -1;
 	int width = value_area_get_width (args[1], ei->pos);
@@ -808,8 +808,8 @@ static char const *help_indirect = {
 	   "@SEEALSO=AREAS,INDEX,")
 };
 
-static Value *
-gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_indirect (FunctionEvalInfo *ei, GnmValue **args)
 {
 #if 0
 	/* What good is this ? the parser handles both forms */
@@ -819,7 +819,7 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 	char const *text = value_peek_string (args[0]);
 	GnmExpr const *expr = gnm_expr_parse_str_simple (text,
 		parse_pos_init_evalpos (&pp, ei->pos));
-	Value *res = NULL;
+	GnmValue *res = NULL;
 
 	if (expr != NULL) {
 		res = gnm_expr_get_range (expr);
@@ -850,14 +850,14 @@ static char const *help_index = {
 	"@SEEALSO=")
 };
 
-static Value *
+static GnmValue *
 gnumeric_index (FunctionEvalInfo *ei, GnmExprList *l)
 {
 	GnmExpr const *source;
 	int elem[3] = { 0, 0, 0 };
 	unsigned i = 0;
 	gboolean valid;
-	Value *v, *res;
+	GnmValue *v, *res;
 
 	if (l == NULL)
 		return value_new_error_VALUE (ei->pos);
@@ -917,10 +917,10 @@ static char const *help_column = {
 	   "@SEEALSO=COLUMNS,ROW,ROWS")
 };
 
-static Value *
-gnumeric_column (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_column (FunctionEvalInfo *ei, GnmValue **args)
 {
-	Value *ref = args[0];
+	GnmValue *ref = args[0];
 
 	if (!ref)
 		return value_new_int (ei->pos->eval.col + 1);
@@ -929,10 +929,10 @@ gnumeric_column (FunctionEvalInfo *ei, Value **args)
 	case VALUE_CELLRANGE: {
 		int width = value_area_get_width (ref, ei->pos);
 		int height = value_area_get_height (ref, ei->pos);
-		CellRef const *const refa = &ref->v_range.cell.a;
+		GnmCellRef const *const refa = &ref->v_range.cell.a;
 		int col = cellref_get_abs_col (refa, ei->pos) + 1;
 		int i, j;
-		Value *res;
+		GnmValue *res;
 
 		if (width == 1 && height == 1)
 			return value_new_int (col);
@@ -969,8 +969,8 @@ static char const *help_columnnumber = {
 	   "@SEEALSO=ADDRESS")
 };
 
-static Value *
-gnumeric_columnnumber (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_columnnumber (FunctionEvalInfo *ei, GnmValue **args)
 {
 	char const *name = value_peek_string (args[0]);
 	int colno;
@@ -1002,8 +1002,8 @@ static char const *help_columns = {
 	   "@SEEALSO=COLUMN,ROW,ROWS")
 };
 
-static Value *
-gnumeric_columns (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_columns (FunctionEvalInfo *ei, GnmValue **args)
 {
 	return value_new_int (value_area_get_width (args [0], ei->pos));
 }
@@ -1029,15 +1029,15 @@ static char const *help_offset = {
 	   "@SEEALSO=COLUMN,COLUMNS,ROWS,INDEX,INDIRECT,ADDRESS")
 };
 
-static Value *
-gnumeric_offset (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_offset (FunctionEvalInfo *ei, GnmValue **args)
 {
 	int width, height;
 	int row_offset, col_offset;
 
 	/* Copy the references so we can change them */
-	CellRef a = args[0]->v_range.cell.a;
-	CellRef b = args[0]->v_range.cell.b;
+	GnmCellRef a = args[0]->v_range.cell.a;
+	GnmCellRef b = args[0]->v_range.cell.b;
 
 	row_offset = value_get_as_int (args[1]);
 	col_offset = value_get_as_int (args[2]);
@@ -1085,10 +1085,10 @@ static char const *help_row = {
 	   "@SEEALSO=COLUMN,COLUMNS,ROWS")
 };
 
-static Value *
-gnumeric_row (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_row (FunctionEvalInfo *ei, GnmValue **args)
 {
-	Value *ref = args[0];
+	GnmValue *ref = args[0];
 
 	if (!ref)
 		return value_new_int (ei->pos->eval.row + 1);
@@ -1097,10 +1097,10 @@ gnumeric_row (FunctionEvalInfo *ei, Value **args)
 	case VALUE_CELLRANGE: {
 		int width  = value_area_get_width (ref, ei->pos);
 		int height = value_area_get_height (ref, ei->pos);
-		CellRef const *const refa = &ref->v_range.cell.a;
+		GnmCellRef const *const refa = &ref->v_range.cell.a;
 		int row    = cellref_get_abs_row (refa, ei->pos) + 1;
 		int i, j;
-		Value *res;
+		GnmValue *res;
 
 		if (width == 1 && height == 1)
 			return value_new_int (row);
@@ -1138,8 +1138,8 @@ static char const *help_rows = {
 	   "@SEEALSO=COLUMN,COLUMNS,ROW")
 };
 
-static Value *
-gnumeric_rows (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_rows (FunctionEvalInfo *ei, GnmValue **args)
 {
 	return value_new_int (value_area_get_height (args [0], ei->pos));
 }
@@ -1160,10 +1160,10 @@ static char const *help_hyperlink = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_hyperlink (FunctionEvalInfo *ei, Value **args)
+static GnmValue *
+gnumeric_hyperlink (FunctionEvalInfo *ei, GnmValue **args)
 {
-	Value const * v = args[1];
+	GnmValue const * v = args[1];
 	if (v == NULL)
 		v = args[0];
 	return value_duplicate (v);
@@ -1185,13 +1185,13 @@ static char const *help_transpose = {
 };
 
 
-static Value *
-gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
+static GnmValue *
+gnumeric_transpose (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	EvalPos const * const ep = ei->pos;
-        Value const * const matrix = argv[0];
+        GnmValue const * const matrix = argv[0];
 	int	r, c;
-        Value *res;
+        GnmValue *res;
 
 	int const cols = value_area_get_width (matrix, ep);
 	int const rows = value_area_get_height (matrix, ep);
@@ -1204,7 +1204,7 @@ gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
 	res = value_new_array_non_init (rows, cols);
 
 	for (r = 0; r < rows; ++r){
-		res->v_array.vals [r] = g_new (Value *, cols);
+		res->v_array.vals [r] = g_new (GnmValue *, cols);
 		for (c = 0; c < cols; ++c)
 			res->v_array.vals[r][c] = value_duplicate(
 				value_area_get_x_y (matrix, c, r, ep));

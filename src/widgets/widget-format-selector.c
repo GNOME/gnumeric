@@ -113,13 +113,13 @@ typedef enum {
 } FormatWidget;
 
 struct  _NumberFormatSelector {
-	GtkHBox 	box;
-	GladeXML 	*gui;
+	GtkHBox   box;
+	GladeXML *gui;
 
-	Value		*value;
-	char *  	locale;
+	GnmValue *value;
+	char	 *locale;
 
-	gboolean	enable_edit;
+	gboolean  enable_edit;
 
 	GnmDateConventions const *date_conv;
 
@@ -1108,7 +1108,7 @@ number_format_selector_set_style_format (NumberFormatSelector *nfs,
 
 void
 number_format_selector_set_value (NumberFormatSelector *nfs,
-				  Value const *value)
+				  GnmValue const *value)
 {
   	g_return_if_fail (IS_NUMBER_FORMAT_SELECTOR (nfs));
 	g_return_if_fail (value != NULL);

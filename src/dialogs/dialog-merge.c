@@ -190,7 +190,7 @@ cb_merge_cancel_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 static void
 cb_merge_find_shortest_column (gpointer data, gpointer lp)
 {
-	Value *range = data;
+	GnmValue *range = data;
 	int *length = lp;
 	int r_length = range->v_range.cell.b.row - range->v_range.cell.a.row + 1;
 
@@ -201,7 +201,7 @@ cb_merge_find_shortest_column (gpointer data, gpointer lp)
 static void
 cb_merge_find_longest_column (gpointer data, gpointer lp)
 {
-	Value *range = data;
+	GnmValue *range = data;
 	int *length = lp;
 	int r_length = range->v_range.cell.b.row - range->v_range.cell.a.row + 1;
 
@@ -212,7 +212,7 @@ cb_merge_find_longest_column (gpointer data, gpointer lp)
 static void
 cb_merge_trim_data (gpointer data, gpointer lp)
 {
-	Value *range = data;
+	GnmValue *range = data;
 	int *length = lp;
 	int r_length = range->v_range.cell.b.row - range->v_range.cell.a.row + 1;
 
@@ -230,7 +230,7 @@ cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	gint n = 0;
 	char *data_string = NULL, *field_string = NULL;
 	GSList *data_list = NULL, *field_list = NULL;
-	Value *v_zone;
+	GnmValue *v_zone;
 	gint field_problems = 0;
 	gint min_length = SHEET_MAX_ROWS;
 	gint max_length = 0;
@@ -240,7 +240,7 @@ cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 
 	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
 					       &this_iter, NULL, n)) {
-		Value *v_data, *v_field;
+		GnmValue *v_data, *v_field;
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &this_iter,
 				    DATA_RANGE, &data_string,
 				    FIELD_LOCATION, &field_string,
@@ -322,7 +322,7 @@ dialog_merge (WorkbookControlGUI *wbcg)
 	GtkWidget *scrolled;
 	GtkTreeViewColumn *column;
 	GtkTreeSelection  *selection;
-	Range const *r;
+	GnmRange const *r;
 
 	g_return_if_fail (wbcg != NULL);
 

@@ -21,7 +21,7 @@ typedef enum {
 } random_distribution_t;
 
 typedef struct {
-	Value *range;
+	GnmValue *range;
 } discrete_random_tool_t;
 
 typedef struct {

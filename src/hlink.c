@@ -57,13 +57,13 @@
 gboolean
 gnm_hlink_activate (GnmHLink *lnk, WorkbookControl *wbc)
 {
-	g_return_val_if_fail (GNM_IS_HLINK (lnk), FALSE);
+	g_return_val_if_fail (IS_GNM_HLINK (lnk), FALSE);
 
 	return GET_CLASS (lnk)->Activate (lnk, wbc);
 }
 
 GnmHLink *
-sheet_hlink_find (Sheet const *sheet, CellPos const *pos)
+sheet_hlink_find (Sheet const *sheet, GnmCellPos const *pos)
 {
 	MStyle const *style = sheet_style_get (sheet, pos->col, pos->row);
 	return mstyle_get_hlink (style);
@@ -104,7 +104,7 @@ GSF_CLASS_ABSTRACT (GnmHLink, gnm_hlink,
 guchar const *
 gnm_hlink_get_target (GnmHLink const *lnk)
 {
-	g_return_val_if_fail (GNM_IS_HLINK (lnk), NULL);
+	g_return_val_if_fail (IS_GNM_HLINK (lnk), NULL);
 	return lnk->target;
 }
 
@@ -113,7 +113,7 @@ gnm_hlink_set_target (GnmHLink *lnk, guchar const *target)
 {
 	guchar *tmp;
 
-	g_return_if_fail (GNM_IS_HLINK (lnk));
+	g_return_if_fail (IS_GNM_HLINK (lnk));
 
 	tmp = g_strdup (target);
 	g_free (lnk->target);
@@ -123,7 +123,7 @@ gnm_hlink_set_target (GnmHLink *lnk, guchar const *target)
 guchar const *
 gnm_hlink_get_tip (GnmHLink const *l)
 {
-	g_return_val_if_fail (GNM_IS_HLINK (l), NULL);
+	g_return_val_if_fail (IS_GNM_HLINK (l), NULL);
 	return l->tip;
 }
 
@@ -132,7 +132,7 @@ gnm_hlink_set_tip (GnmHLink *l, guchar const *tip)
 {
 	guchar *tmp;
 
-	g_return_if_fail (GNM_IS_HLINK (l));
+	g_return_if_fail (IS_GNM_HLINK (l));
 
 	tmp = g_strdup (tip);
 	g_free (l->tip);
@@ -150,12 +150,12 @@ typedef struct {
 static gboolean
 gnm_hlink_cur_wb_activate (GnmHLink *lnk, WorkbookControl *wbc)
 {
-	RangeRef const *r;
-	CellPos tmp;
+	GnmRangeRef const *r;
+	GnmCellPos tmp;
 	Sheet	  *target_sheet;
 	Sheet	  *sheet = wb_control_cur_sheet      (wbc);
 	SheetView *sv	 = wb_control_cur_sheet_view (wbc);
-	Value *target = global_range_parse (sheet, lnk->target);
+	GnmValue *target = global_range_parse (sheet, lnk->target);
 
 	/* not an address, is it a name ? */
 	if (target == NULL) {

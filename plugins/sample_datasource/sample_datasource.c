@@ -204,8 +204,8 @@ plugin_cleanup (void)
 	watchers = NULL;
 }
 
-static Value *
-atl_last (FunctionEvalInfo *ei, Value *argv[])
+static GnmValue *
+atl_last (FunctionEvalInfo *ei, GnmValue *argv[])
 {
 	WatchedValue *val = watched_value_fetch (value_peek_string (argv[0]));
 

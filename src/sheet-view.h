@@ -17,19 +17,19 @@ struct _SheetView {
 	 * a normalized version of SheetView::{cursor.base_corner:move_corner}
 	 */
 	GList	*selections;
-	CellPos	 edit_pos;	/* Cell that would be edited */
-	CellPos	 edit_pos_real;	/* Even in the middle of a merged cell */
+	GnmCellPos	 edit_pos;	/* Cell that would be edited */
+	GnmCellPos	 edit_pos_real;	/* Even in the middle of a merged cell */
 
 	struct {
 		/* Static corner to rubber band the selection range around */
-		CellPos	 base_corner;
+		GnmCellPos	 base_corner;
 		/* Corner that is moved when the selection range is extended */
-		CellPos	 move_corner;
+		GnmCellPos	 move_corner;
 	} cursor;
 
-	CellPos initial_top_left;
-	CellPos frozen_top_left;
-	CellPos unfrozen_top_left;
+	GnmCellPos initial_top_left;
+	GnmCellPos frozen_top_left;
+	GnmCellPos unfrozen_top_left;
 
 	/* state flags */
 	unsigned char enable_insert_rows;
@@ -73,12 +73,12 @@ WorkbookView *sv_wbv		(SheetView const *sv);
 gboolean      sv_is_frozen	(SheetView const *sv);
 GnmFilter    *sv_first_selection_in_filter   (SheetView const *sv);
 gboolean      sv_is_region_empty_or_selected (SheetView const *sv,
-					      Range const *r);
+					      GnmRange const *r);
 
 /* Manipulation */
-void	 sv_flag_status_update_pos   (SheetView *sv, CellPos const *pos);
-void	 sv_flag_status_update_range (SheetView *sv, Range const *r);
-void	 sv_flag_format_update_range (SheetView *sv, Range const *r);
+void	 sv_flag_status_update_pos   (SheetView *sv, GnmCellPos const *pos);
+void	 sv_flag_status_update_range (SheetView *sv, GnmRange const *r);
+void	 sv_flag_format_update_range (SheetView *sv, GnmRange const *r);
 void	 sv_flag_selection_change    (SheetView *sv);
 
 void	 sv_unant		(SheetView *sv);
@@ -88,20 +88,20 @@ gboolean sv_selection_cut	(SheetView *sv, WorkbookControl *wbc);
 
 void	 sv_make_cell_visible	(SheetView *sv, int col, int row,
 				 gboolean couple_panes);
-void	 sv_redraw_range	(SheetView *sv, Range const *r);
+void	 sv_redraw_range	(SheetView *sv, GnmRange const *r);
 void	 sv_redraw_headers	(SheetView const *sheet,
 				 gboolean col, gboolean row,
-				 Range const* r /* optional == NULL */);
+				 GnmRange const* r /* optional == NULL */);
 void     sv_cursor_set		(SheetView *sv,
-				 CellPos const *edit,
+				 GnmCellPos const *edit,
 				 int base_col, int base_row,
 				 int move_col, int move_row,
-				 Range const *cursor_bound);
-void     sv_set_edit_pos	(SheetView *sv, CellPos const *pos);
+				 GnmRange const *cursor_bound);
+void     sv_set_edit_pos	(SheetView *sv, GnmCellPos const *pos);
 
 void	 sv_freeze_panes	(SheetView *sv,
-				 CellPos const *frozen_top_left,
-				 CellPos const *unfrozen_top_left);
+				 GnmCellPos const *frozen_top_left,
+				 GnmCellPos const *unfrozen_top_left);
 void	 sv_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
 				 gboolean is_insert, int start, int count);
 void	 sv_set_initial_top_left(SheetView *sv, int col, int row);

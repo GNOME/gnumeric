@@ -70,7 +70,7 @@ static GType filter_field_get_type (void);
 
 
 GnmFilterCondition *
-gnm_filter_condition_new_single (GnmFilterOp op, Value *v)
+gnm_filter_condition_new_single (GnmFilterOp op, GnmValue *v)
 {
 	GnmFilterCondition *res = g_new0 (GnmFilterCondition, 1);
 	res->op[0] = op;	res->op[1] = GNM_FILTER_UNUSED;
@@ -79,9 +79,9 @@ gnm_filter_condition_new_single (GnmFilterOp op, Value *v)
 }
 
 GnmFilterCondition *
-gnm_filter_condition_new_double (GnmFilterOp op0, Value *v0,
+gnm_filter_condition_new_double (GnmFilterOp op0, GnmValue *v0,
 				 gboolean join_with_and,
-				 GnmFilterOp op1, Value *v1)
+				 GnmFilterOp op1, GnmValue *v1)
 {
 	GnmFilterCondition *res = g_new0 (GnmFilterCondition, 1);
 	res->op[0] = op0;	res->op[1] = op1;
@@ -243,7 +243,7 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 	    gtk_tree_selection_get_selected (gtk_tree_view_get_selection (list),
 					     NULL, &iter)) {
 		char	*label;
-		Value   *val;
+		GnmValue   *val;
 		int	 type;
 		gboolean set_condition = TRUE;
 
@@ -312,7 +312,7 @@ typedef struct {
 	GHashTable *hash;
 } UniqueCollection;
 
-static Value *
+static GnmValue *
 cb_collect_unique (Sheet *sheet, int col, int row, Cell *cell,
 		   UniqueCollection *uc)
 {
@@ -324,7 +324,7 @@ cb_collect_unique (Sheet *sheet, int col, int row, Cell *cell,
 	return NULL;
 }
 static void
-cb_copy_hash_to_array (Value *key, gpointer value, gpointer sorted)
+cb_copy_hash_to_array (GnmValue *key, gpointer value, gpointer sorted)
 {
 	g_ptr_array_add (sorted, key);
 }
@@ -339,9 +339,9 @@ collect_unique_elements (GnmFilterField *field,
 	GPtrArray    *sorted = g_ptr_array_new ();
 	unsigned i;
 	gboolean is_custom = FALSE;
-	Range	 r = field->filter->r;
-	Value const *check = NULL;
-	Value	    *check_num = NULL; /* XL stores numbers as string @$^!@$ */
+	GnmRange	 r = field->filter->r;
+	GnmValue const *check = NULL;
+	GnmValue	    *check_num = NULL; /* XL stores numbers as string @$^!@$ */
 
 	if (field->cond != NULL &&
 	    field->cond->op[0] == GNM_FILTER_OP_EQUAL &&
@@ -387,9 +387,9 @@ collect_unique_elements (GnmFilterField *field,
 	g_hash_table_foreach (uc.hash,
 		(GHFunc) cb_copy_hash_to_array, sorted);
 	qsort (&g_ptr_array_index (sorted, 0),
-	       sorted->len, sizeof (Value *), value_cmp);
+	       sorted->len, sizeof (GnmValue *), value_cmp);
 	for (i = 0; i < sorted->len ; i++) {
-		Value const *v = g_ptr_array_index (sorted, i);
+		GnmValue const *v = g_ptr_array_index (sorted, i);
 		gtk_list_store_append (model, &iter);
 		gtk_list_store_set (model, &iter,
 			0, value_peek_string (v),
@@ -608,7 +608,7 @@ GSF_CLASS (GnmFilterField, filter_field,
 
 typedef struct  {
 	GnmFilterCondition const *cond;
-	Value		 *val[2];
+	GnmValue		 *val[2];
 	gnumeric_regex_t  regexp[2];
 	GnmDateConventions const *date_conv;
 } FilterExpr;
@@ -618,7 +618,7 @@ filter_expr_init (FilterExpr *fexpr, unsigned i,
 		  GnmFilterCondition const *cond,
 		  GnmFilter const *filter)
 {
-	Value *tmp = cond->value[i];
+	GnmValue *tmp = cond->value[i];
 	fexpr->date_conv = workbook_date_conv (filter->sheet->workbook);
 
 	if (VALUE_IS_STRING (tmp)) {
@@ -644,8 +644,8 @@ filter_expr_release (FilterExpr *fexpr, unsigned i)
 }
 
 static gboolean
-filter_expr_eval (GnmFilterOp op, Value const *src, gnumeric_regex_t const *regexp,
-		  Value *target)
+filter_expr_eval (GnmFilterOp op, GnmValue const *src, gnumeric_regex_t const *regexp,
+		  GnmValue *target)
 {
 	ValueCompare cmp;
 
@@ -677,7 +677,7 @@ filter_expr_eval (GnmFilterOp op, Value const *src, gnumeric_regex_t const *rege
 	};
 }
 
-static Value *
+static GnmValue *
 cb_filter_expr (Sheet *sheet, int col, int row, Cell *cell,
 		FilterExpr const *fexpr)
 {
@@ -703,7 +703,7 @@ cb_filter_expr (Sheet *sheet, int col, int row, Cell *cell,
 
 /*****************************************************************************/
 
-static Value *
+static GnmValue *
 cb_filter_non_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
 {
 	if (cell_is_blank (cell))
@@ -711,7 +711,7 @@ cb_filter_non_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
 	return NULL;
 }
 
-static Value *
+static GnmValue *
 cb_filter_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
 {
 	if (!cell_is_blank (cell))
@@ -725,14 +725,14 @@ typedef struct {
 	unsigned count;
 	unsigned elements;
 	gboolean find_max;
-	Value const **vals;
+	GnmValue const **vals;
 } FilterItems;
 
-static Value *
+static GnmValue *
 cb_filter_find_items (Sheet *sheet, int col, int row, Cell *cell,
 		      FilterItems *data)
 {
-	Value const *v = cell->value;
+	GnmValue const *v = cell->value;
 	if (data->elements >= data->count) {
 		unsigned j, i = data->elements;
 		ValueCompare const cond = data->find_max ? IS_GREATER : IS_LESS;
@@ -747,20 +747,20 @@ cb_filter_find_items (Sheet *sheet, int col, int row, Cell *cell,
 		data->vals [data->elements++] = v;
 		if (data->elements == data->count) {
 			qsort (data->vals, data->elements,
-			       sizeof (Value *),
+			       sizeof (GnmValue *),
 			       data->find_max ? value_cmp : value_cmp_reverse);
 		}
 	}
 	return NULL;
 }
 
-static Value *
+static GnmValue *
 cb_hide_unwanted_items (Sheet *sheet, int col, int row, Cell *cell,
 			FilterItems const *data)
 {
 	if (cell != NULL) {
 		int i = data->elements;
-		Value const *v = cell->value;
+		GnmValue const *v = cell->value;
 
 		while (i-- > 0)
 			if (data->vals[i] == v)
@@ -777,7 +777,7 @@ typedef struct {
 	gnm_float	low, high;
 } FilterPercentage;
 
-static Value *
+static GnmValue *
 cb_filter_find_percentage (Sheet *sheet, int col, int row, Cell *cell,
 			   FilterPercentage *data)
 {
@@ -797,7 +797,7 @@ cb_filter_find_percentage (Sheet *sheet, int col, int row, Cell *cell,
 	return NULL;
 }
 
-static Value *
+static GnmValue *
 cb_hide_unwanted_percentage (Sheet *sheet, int col, int row, Cell *cell,
 			     FilterPercentage const *data)
 {
@@ -878,7 +878,7 @@ filter_field_apply (GnmFilterField *field)
 			data.find_max = (field->cond->op[0] & 0x1) ? FALSE : TRUE;
 			data.elements    = 0;
 			data.count  = field->cond->count;
-			data.vals   = g_alloca (sizeof (Value *) * data.count);
+			data.vals   = g_alloca (sizeof (GnmValue *) * data.count);
 			sheet_foreach_cell_in_range (filter->sheet,
 				CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
 				col, start_row, col, end_row,
@@ -917,7 +917,7 @@ gnm_filter_add_field (GnmFilter *filter, int i)
 	};
 	static float const offsets [4] = { .0, .0, 0., 0. };
 	int n;
-	Range tmp;
+	GnmRange tmp;
 	SheetObjectAnchor anchor;
 	GnmFilterField *field = g_object_new (filter_field_get_type (), NULL);
 
@@ -945,7 +945,7 @@ gnm_filter_add_field (GnmFilter *filter, int i)
  * Init a filter
  **/
 GnmFilter *
-gnm_filter_new (Sheet *sheet, Range const *r)
+gnm_filter_new (Sheet *sheet, GnmRange const *r)
 {
 	GnmFilter	*filter;
 	int i;
@@ -1098,12 +1098,12 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 /**
  * gnm_filter_overlaps_range :
  * @filter : #GnmFilter
- * @r : #Range
+ * @r : #GnmRange
  *
- * Does the range filter by @filter overlap with Range @r
+ * Does the range filter by @filter overlap with GnmRange @r
  **/
 gboolean
-gnm_filter_overlaps_range (GnmFilter const *filter, Range const *r)
+gnm_filter_overlaps_range (GnmFilter const *filter, GnmRange const *r)
 {
 	g_return_val_if_fail (filter != NULL, FALSE);
 
@@ -1123,11 +1123,11 @@ sheet_cell_or_one_below_is_not_empty (Sheet *sheet, int col, int row)
 /**
  * sheet_filter_guess_region :
  * @sheet : #Sheet
- * @range : #Range
+ * @range : #GnmRange
  *
  **/
 void
-sheet_filter_guess_region (Sheet *sheet, Range *region)
+sheet_filter_guess_region (Sheet *sheet, GnmRange *region)
 {
 	int col;
 	int end_row;

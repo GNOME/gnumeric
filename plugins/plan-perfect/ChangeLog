@@ -1,3 +1,14 @@
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-10-03  Jody Goldberg <jody@gnome.org>
+
+	* charset.c (pln_get_str) : do not assume strings are null terminated.
+
+	* pln.c (pln_parse_sheet) : do not depend on probe routine seeking the
+	  file.
+
 2003-09-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.0

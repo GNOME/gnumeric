@@ -43,14 +43,14 @@ typedef struct _Dependent		Dependent;
 typedef struct _Cell			Cell;
 typedef struct _CellComment		CellComment;
 
-typedef union _Value			Value;
-typedef struct _ValueBool		ValueBool;
-typedef struct _ValueInt		ValueInt;
-typedef struct _ValueFloat		ValueFloat;
-typedef struct _ValueErr		ValueErr;
-typedef struct _ValueStr		ValueStr;
-typedef struct _ValueRange		ValueRange;
-typedef struct _ValueArray		ValueArray;
+typedef union  _GnmValue		GnmValue;
+typedef struct _GnmValueBool		GnmValueBool;
+typedef struct _GnmValueInt		GnmValueInt;
+typedef struct _GnmValueFloat		GnmValueFloat;
+typedef struct _GnmValueErr		GnmValueErr;
+typedef struct _GnmValueStr		GnmValueStr;
+typedef struct _GnmValueRange		GnmValueRange;
+typedef struct _GnmValueArray		GnmValueArray;
 
 typedef enum {
 	GNM_ERROR_NULL,
@@ -96,11 +96,11 @@ typedef GList   ColRowIndexList;
 typedef struct _ColRowIndexSet          ColRowIndexSet;
 typedef gboolean (*ColRowHandler)(ColRowInfo *info, void *user_data);
 
-typedef struct _CellPos		        CellPos;
-typedef struct _CellRef		        CellRef;
-typedef struct _Range		        Range;
-typedef struct _GlobalRange	        GlobalRange;
-typedef struct _RangeRef	        RangeRef;
+typedef struct _GnmCellPos	        GnmCellPos;
+typedef struct _GnmCellRef	        GnmCellRef;
+typedef struct _GnmRange	        GnmRange;
+typedef struct _GnmGlobalRange	        GnmGlobalRange;
+typedef struct _GnmRangeRef	        GnmRangeRef;
 
 typedef struct _GnmExprConventions      GnmExprConventions;
 typedef struct _GnmDateConventions      GnmDateConventions;
@@ -131,23 +131,23 @@ typedef struct _StyleRow	        StyleRow;
 typedef struct _StyleCondition          StyleCondition;
 typedef struct _FormatTemplate          FormatTemplate;
 
-typedef struct _Validation              Validation;
+typedef struct _GnmValidation		GnmValidation;
 
 typedef struct _GnmFilter		GnmFilter;
 typedef struct _GnmFilterCondition	GnmFilterCondition;
 
 /* Used to locate cells in a sheet */
-struct _CellPos {
+struct _GnmCellPos {
 	int col, row;
 };
 
-struct _Range {
-	CellPos start, end;
+struct _GnmRange {
+	GnmCellPos start, end;
 };
 
-struct _GlobalRange {
+struct _GnmGlobalRange {
 	Sheet *sheet;
-	Range  range;
+	GnmRange  range;
 };
 
 typedef enum {
@@ -158,8 +158,8 @@ typedef enum {
 	/* contains SUBTOTAL, or hidden row in a filter */
 	CELL_ITER_IGNORE_SUBTOTAL = 1 << 2
 } CellIterFlags;
-typedef Value *(*CellIterFunc) (Sheet *sheet, int col, int row,
-				Cell *cell, gpointer user_data);
+typedef GnmValue *(*CellIterFunc) (Sheet *sheet, int col, int row,
+				   Cell *cell, gpointer user_data);
 
 typedef enum {
 	SPANCALC_SIMPLE 	= 0x0,	/* Just calc spans */
@@ -168,22 +168,21 @@ typedef enum {
 	SPANCALC_RENDER		= 0x4	/* Render and Size any unrendered cells */
 } SpanCalcFlags;
 
-typedef enum
-{
+typedef enum {
 	GNM_EXPR_EVAL_SCALAR_NON_EMPTY	= 0,
 	GNM_EXPR_EVAL_PERMIT_NON_SCALAR	= 0x1,
 	GNM_EXPR_EVAL_PERMIT_EMPTY	= 0x2
 } GnmExprEvalFlags;
 
-typedef struct _SearchReplace           SearchReplace;
+typedef struct _GnmSearchReplace	GnmSearchReplace;
 
-typedef struct _gnm_mem_chunk		gnm_mem_chunk;
+typedef struct _GnmMemChunk		GnmMemChunk;
 
-typedef struct _GnmPlugin            GnmPlugin;
-typedef struct _PluginService        PluginService;
-typedef struct _GnumericPluginLoader GnumericPluginLoader;
+typedef struct _GnmPlugin		GnmPlugin;
+typedef struct _GnmPluginService	GnmPluginService;
+typedef struct _GnmPluginLoader		GnmPluginLoader;
 
-typedef struct _Consolidate Consolidate;
-typedef struct _SortData SortData;
+typedef struct _GnmConsolidate		GnmConsolidate;
+typedef struct _GnmSortData		GnmSortData;
 
 #endif /* GNUMERIC_H */

@@ -58,7 +58,7 @@ typedef struct {
 
 typedef struct {
 	gboolean use;
-	Range range;
+	GnmRange range;
 } PrintRepeatRange;
 
 struct _PrintInformation {
@@ -96,7 +96,7 @@ typedef struct {
 	Sheet const *sheet;
 	int       page;
 	int       pages;
-	Value     *date_time;
+	GnmValue *date_time;
 } HFRenderInfo;
 
 PrintInformation *print_info_new         (void);

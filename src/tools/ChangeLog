@@ -1,3 +1,7 @@
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
 2003-09-29  Morten Welinder  <terra@gnome.org>
 
 	* analysis-tools.c (analysis_tool_covariance_engine_run):

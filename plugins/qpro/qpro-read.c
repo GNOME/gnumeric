@@ -102,7 +102,7 @@ typedef struct {
 	GIConv          converter;
 } QProReadState;
 
-static Value *
+static GnmValue *
 qpro_new_string (QProReadState *state, gchar const *data)
 {
 	return value_new_string_nocopy (
@@ -355,7 +355,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 	int length = GSF_LE_GET_GUINT16 (data + 10);
 #endif
 	guint16 ref_offset = GSF_LE_GET_GUINT16 (data + 12);
-	Value   *val;
+	GnmValue   *val;
 	GSList  *stack = NULL;
 	GnmExpr const *expr;
 	guint8 const *refs, *fmla;
@@ -390,7 +390,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 			break;
 
 		case QPRO_OP_CELLREF: {
-			CellRef ref;
+			GnmCellRef ref;
 			guint16 tmp = GSF_LE_GET_GUINT16 (refs + 4);
 			ref.sheet = NULL;
 			ref.col = *((gint8 *)(refs + 2));
@@ -406,7 +406,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 		}
 
 		case QPRO_OP_RANGEREF: {
-			CellRef a, b;
+			GnmCellRef a, b;
 			guint16 tmp;
 
 			tmp = GSF_LE_GET_GUINT16 (refs + 4);
