@@ -383,7 +383,7 @@ gnumeric_daverage (FunctionEvalInfo *ei, Value **argv)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        return (FuncReturn *)value_new_float (sum / count);
+        FUNC_RETURN_VAL (value_new_float (sum / count));
 }
 
 static char *help_dcount = {
@@ -446,7 +446,7 @@ gnumeric_dcount (FunctionEvalInfo *ei, Value **argv)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        return (FuncReturn *)value_new_int (count);
+        FUNC_RETURN_VAL (value_new_int (count));
 }
 
 static char *help_dcounta = {
@@ -506,7 +506,7 @@ gnumeric_dcounta (FunctionEvalInfo *ei, Value **argv)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        return (FuncReturn *)value_new_int (count);
+        FUNC_RETURN_VAL (value_new_int (count));
 }
 
 static char *help_dget = {
@@ -581,7 +581,7 @@ gnumeric_dget (FunctionEvalInfo *ei, Value **argv)
 	if (count > 1)
 		return function_error (ei, gnumeric_err_NUM);
 
-        return (FuncReturn *)value_new_float (value_get_as_float (cell->value));
+        FUNC_RETURN_VAL (value_new_float (value_get_as_float (cell->value)));
 }
 
 static char *help_dmax = {
@@ -650,7 +650,7 @@ gnumeric_dmax (FunctionEvalInfo *ei, Value **argv)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        return (FuncReturn *)value_new_float (max);
+        FUNC_RETURN_VAL (value_new_float (max));
 }
 
 static char *help_dmin = {
@@ -719,7 +719,7 @@ gnumeric_dmin (FunctionEvalInfo *ei, Value **argv)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        return (FuncReturn *)value_new_float (min);
+        FUNC_RETURN_VAL (value_new_float (min));
 }
 
 static char *help_dproduct = {
@@ -787,7 +787,7 @@ gnumeric_dproduct (FunctionEvalInfo *ei, Value **argv)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        return (FuncReturn *)value_new_float (product);
+        FUNC_RETURN_VAL (value_new_float (product));
 }
 
 static char *help_dstdev = {
@@ -857,7 +857,7 @@ gnumeric_dstdev (FunctionEvalInfo *ei, Value **argv)
 	if (p.N - 1 == 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-        return (FuncReturn *)value_new_float (sqrt(p.Q / (p.N - 1)));
+        FUNC_RETURN_VAL (value_new_float (sqrt(p.Q / (p.N - 1))));
 }
 
 static char *help_dstdevp = {
@@ -927,7 +927,7 @@ gnumeric_dstdevp (FunctionEvalInfo *ei, Value **argv)
 	if (p.N == 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-        return (FuncReturn *)value_new_float (sqrt(p.Q / p.N));
+        FUNC_RETURN_VAL (value_new_float (sqrt(p.Q / p.N)));
 }
 
 static char *help_dsum = {
@@ -995,7 +995,7 @@ gnumeric_dsum (FunctionEvalInfo *ei, Value **argv)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        return (FuncReturn *)value_new_float (sum);
+        FUNC_RETURN_VAL (value_new_float (sum));
 }
 
 static char *help_dvar = {
@@ -1065,7 +1065,7 @@ gnumeric_dvar (FunctionEvalInfo *ei, Value **argv)
 	if (p.N - 1 == 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-        return (FuncReturn *)value_new_float (p.Q / (p.N - 1));
+        FUNC_RETURN_VAL (value_new_float (p.Q / (p.N - 1)));
 }
 
 static char *help_dvarp = {
@@ -1135,7 +1135,7 @@ gnumeric_dvarp (FunctionEvalInfo *ei, Value **argv)
 	if (p.N == 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-        return (FuncReturn *) value_new_float (p.Q / p.N);
+        FUNC_RETURN_VAL ( value_new_float (p.Q / p.N));
 }
 
 void

@@ -42,7 +42,7 @@ static char *help_ = {
  * FIXME: In the long term this needs optimising.
  **/
 static FuncReturn *
-val_to_base (FunctionEvalInfo *s, int num_args,
+val_to_base (FunctionEvalInfo *ei, Value **args, int num_args,
 	     int src_base, int dest_base)
 {
 	Value *value, *val_places;
@@ -51,26 +51,22 @@ val_to_base (FunctionEvalInfo *s, int num_args,
 	char *err="\0", buffer[40], *str;
 	double v;
 	
-	value = s->a.args[0];
+	value = args[0];
 	if (num_args > 1)
-		val_places = s->a.args[1];
+		val_places = args[1];
 	else
 		val_places = NULL;
 
-	if (src_base<=1 || dest_base<=1){
-		s->error_string = _("Base error");
-		return NULL;
-	}
+	if (src_base<=1 || dest_base<=1)
+		return function_error (ei, _("Base error"));
 
-	if (val_places){
+	if (val_places) {
 		if (val_places->type != VALUE_INTEGER &&
-		    val_places->type != VALUE_FLOAT){
-			s->error_string = _("#VALUE!");
-			return NULL;
-		}
+		    val_places->type != VALUE_FLOAT)
+			return function_error (ei, gnumeric_err_VALUE);
+
 		places = value_get_as_int (val_places);
-	}
-	else
+	} else
 		places = 0;
 
 /*	printf ("Type: %d\n", value->type); */
@@ -87,21 +83,18 @@ val_to_base (FunctionEvalInfo *s, int num_args,
 		str = buffer;
 		break;
 	default:
-		s->error_string = _("#NUM!");
-		return NULL;
+		return function_error (ei, gnumeric_err_NUM);
 	}
 
 	v = strtol (str, &err, src_base);
-	if (*err){
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (*err)
+		return function_error (ei, gnumeric_err_NUM);
 
 	if (v >= (pow (src_base, 10)/2.0)) /* N's complement */
 		v = -v;
 
 	if (dest_base == 10)
-		return (FuncReturn *)(value_new_int (v));
+		FUNC_RETURN_VAL ((value_new_int (v)));
 
 	if (v<0){
 		neg = 1;
@@ -121,10 +114,8 @@ val_to_base (FunctionEvalInfo *s, int num_args,
 
 	if (places>max)
 		max = places;
-	if (max > 15){
-		s->error_string = _("Unimplemented");
-		return NULL;
-	}
+	if (max > 15)
+		return function_error (ei, _("Unimplemented"));
 
 	ans = buffer;
 	p = &ans[max-1];
@@ -141,14 +132,13 @@ val_to_base (FunctionEvalInfo *s, int num_args,
 		if (places>0 && lp>=places){
 			if (v == 0)
 				break;
-			else {
-				s->error_string = _("#NUM!");
-				return NULL;
-			}
+			else
+				return function_error (ei, gnumeric_err_NUM);
 		}
 	}
 	ans[max] = '\0';
-	return (FuncReturn *)value_new_string (ans);
+
+	FUNC_RETURN_VAL (value_new_string (ans));
 }
 
 static char *help_bin2dec = {
@@ -164,9 +154,9 @@ static char *help_bin2dec = {
 };
 
 static FuncReturn *
-gnumeric_bin2dec (FunctionEvalInfo *s)
+gnumeric_bin2dec (FunctionEvalInfo *ei, Value **args)
 {
-	return val_to_base (s, 1, 2, 10);
+	return val_to_base (ei, args, 1, 2, 10);
 }
 
 static char *help_bin2oct = {
@@ -184,9 +174,9 @@ static char *help_bin2oct = {
 };
 
 static FuncReturn *
-gnumeric_bin2oct (FunctionEvalInfo *s)
+gnumeric_bin2oct (FunctionEvalInfo *ei, Value **args)
 {
-	return val_to_base (s, 2, 2, 8);
+	return val_to_base (ei, args, 2, 2, 8);
 }
 
 static char *help_bin2hex = {
@@ -204,9 +194,9 @@ static char *help_bin2hex = {
 };
 
 static FuncReturn *
-gnumeric_bin2hex (FunctionEvalInfo *s)
+gnumeric_bin2hex (FunctionEvalInfo *ei, Value **args)
 {
-	return val_to_base (s, 2, 2, 16);
+	return val_to_base (ei, args, 2, 2, 16);
 }
 
 static char *help_dec2bin = {
@@ -224,9 +214,9 @@ static char *help_dec2bin = {
 };
 
 static FuncReturn *
-gnumeric_dec2bin (FunctionEvalInfo *s)
+gnumeric_dec2bin (FunctionEvalInfo *ei, Value **args)
 {
-	return val_to_base (s, 2, 10, 2);
+	return val_to_base (ei, args, 2, 10, 2);
 }
 
 static char *help_dec2oct = {
@@ -244,9 +234,9 @@ static char *help_dec2oct = {
 };
 
 static FuncReturn *
-gnumeric_dec2oct (FunctionEvalInfo *s)
+gnumeric_dec2oct (FunctionEvalInfo *ei, Value **args)
 {
-	return val_to_base (s, 2, 10, 8);
+	return val_to_base (ei, args, 2, 10, 8);
 }
 
 static char *help_dec2hex = {
@@ -264,9 +254,9 @@ static char *help_dec2hex = {
 };
 
 static FuncReturn *
-gnumeric_dec2hex (FunctionEvalInfo *s)
+gnumeric_dec2hex (FunctionEvalInfo *ei, Value **args)
 {
-	return val_to_base (s, 2, 10, 16);
+	return val_to_base (ei, args, 2, 10, 16);
 }
 
 static char *help_oct2dec = {
@@ -282,9 +272,9 @@ static char *help_oct2dec = {
 };
 
 static FuncReturn *
-gnumeric_oct2dec (FunctionEvalInfo *s)
+gnumeric_oct2dec (FunctionEvalInfo *ei, Value **args)
 {
-	return val_to_base (s, 1, 8, 10);
+	return val_to_base (ei, args, 1, 8, 10);
 }
 
 static char *help_oct2bin = {
@@ -302,9 +292,9 @@ static char *help_oct2bin = {
 };
 
 static FuncReturn *
-gnumeric_oct2bin (FunctionEvalInfo *s)
+gnumeric_oct2bin (FunctionEvalInfo *ei, Value **args)
 {
-	return val_to_base (s, 2, 8, 2);
+	return val_to_base (ei, args, 2, 8, 2);
 }
 
 static char *help_oct2hex = {
@@ -322,9 +312,9 @@ static char *help_oct2hex = {
 };
 
 static FuncReturn *
-gnumeric_oct2hex (FunctionEvalInfo *s)
+gnumeric_oct2hex (FunctionEvalInfo *ei, Value **args)
 {
-	return val_to_base (s, 2, 8, 16);
+	return val_to_base (ei, args, 2, 8, 16);
 }
 
 static char *help_hex2bin = {
@@ -342,9 +332,9 @@ static char *help_hex2bin = {
 };
 
 static FuncReturn *
-gnumeric_hex2bin (FunctionEvalInfo *s)
+gnumeric_hex2bin (FunctionEvalInfo *ei, Value **args)
 {
-	return val_to_base (s, 2, 16, 2);
+	return val_to_base (ei, args, 2, 16, 2);
 }
 
 static char *help_hex2oct = {
@@ -362,9 +352,9 @@ static char *help_hex2oct = {
 };
 
 static FuncReturn *
-gnumeric_hex2oct (FunctionEvalInfo *s)
+gnumeric_hex2oct (FunctionEvalInfo *ei, Value **args)
 {
-	return val_to_base (s, 2, 16, 8);
+	return val_to_base (ei, args, 2, 16, 8);
 }
 
 static char *help_hex2dec = {
@@ -380,9 +370,9 @@ static char *help_hex2dec = {
 };
 
 static FuncReturn *
-gnumeric_hex2dec (FunctionEvalInfo *s)
+gnumeric_hex2dec (FunctionEvalInfo *ei, Value **args)
 {
-	return val_to_base (s, 1, 16, 10);
+	return val_to_base (ei, args, 1, 16, 10);
 }
 
 static char *help_besselj = {
@@ -403,21 +393,19 @@ static char *help_besselj = {
 };
 
 static FuncReturn *
-gnumeric_besselj (FunctionEvalInfo *s)
+gnumeric_besselj (FunctionEvalInfo *ei, Value **args)
 {
 	int y;
-	if (s->a.args[0]->type != VALUE_INTEGER &&
-	    s->a.args[1]->type != VALUE_INTEGER &&
-	    s->a.args[0]->type != VALUE_FLOAT &&
-	    s->a.args[1]->type != VALUE_FLOAT){
-		s->error_string = _("#VALUE!");
-		return NULL;
-	}
-	if ((y=value_get_as_int(s->a.args[1]))<0){
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
-	return (FuncReturn *)value_new_float (jn (y, value_get_as_float (s->a.args[0])));
+	if (args[0]->type != VALUE_INTEGER &&
+	    args[1]->type != VALUE_INTEGER &&
+	    args[0]->type != VALUE_FLOAT &&
+	    args[1]->type != VALUE_FLOAT)
+		return function_error (ei, _("#VALUE!"));
+
+	if ((y=value_get_as_int(args[1])) < 0)
+		return function_error (ei, _("#NUM!"));
+
+	FUNC_RETURN_VAL (value_new_float (jn (y, value_get_as_float (args[0]))));
 }
 
 static char *help_bessely = {
@@ -439,21 +427,19 @@ static char *help_bessely = {
 };
 
 static FuncReturn *
-gnumeric_bessely (FunctionEvalInfo *s)
+gnumeric_bessely (FunctionEvalInfo *ei, Value **args)
 {
 	int y;
-	if (s->a.args[0]->type != VALUE_INTEGER &&
-	    s->a.args[1]->type != VALUE_INTEGER &&
-	    s->a.args[0]->type != VALUE_FLOAT &&
-	    s->a.args[1]->type != VALUE_FLOAT){
-		s->error_string = _("#VALUE!");
-		return NULL;
-	}
-	if ((y=value_get_as_int(s->a.args[1]))<0){
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
-	return (FuncReturn *)value_new_float (yn (y, value_get_as_float (s->a.args[0])));
+	if (args[0]->type != VALUE_INTEGER &&
+	    args[1]->type != VALUE_INTEGER &&
+	    args[0]->type != VALUE_FLOAT &&
+	    args[1]->type != VALUE_FLOAT)
+		return function_error (ei, gnumeric_err_VALUE);
+
+	if ((y=value_get_as_int(args[1]))<0)
+		return function_error (ei, gnumeric_err_NUM);
+
+	FUNC_RETURN_VAL (value_new_float (yn (y, value_get_as_float (args[0]))));
 }
 
 
@@ -563,7 +549,7 @@ create_inumber (float_t real, float_t im, char *suffix)
 	static char buf[256];
 
 	if (im == 0)
-	        return (FuncReturn *)value_new_float (real);
+	        FUNC_RETURN_VAL (value_new_float (real));
 
 	if (suffix == NULL)
 	        suffix = "i";
@@ -583,7 +569,7 @@ create_inumber (float_t real, float_t im, char *suffix)
 	else  
 	        sprintf(buf, "%g%+g%s", real, im, suffix);
 
-	return (FuncReturn *)value_new_string (buf);
+	FUNC_RETURN_VAL (value_new_string (buf));
 }
 
 static char *help_complex = {
@@ -602,24 +588,22 @@ static char *help_complex = {
 };
 
 static FuncReturn *
-gnumeric_complex (FunctionEvalInfo *s)
+gnumeric_complex (FunctionEvalInfo *ei, Value **args)
 {
         float_t     r, i;
 	char        *suffix;
 
-	r = value_get_as_float (s->a.args[0]);
-	i = value_get_as_float (s->a.args[1]);
+	r = value_get_as_float (args[0]);
+	i = value_get_as_float (args[1]);
 
-	if (s->a.args[2] == NULL)
+	if (args[2] == NULL)
 	        suffix = "i";
 	else
-	        suffix = s->a.args[2]->v.str->str;
+	        suffix = args[2]->v.str->str;
 
 	if (strcmp(suffix, "i") != 0 &&
-	    strcmp(suffix, "j") != 0) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	}
+	    strcmp(suffix, "j") != 0)
+		return function_error (ei, gnumeric_err_VALUE);
 
 	return create_inumber (r, i, suffix);
 }
@@ -635,25 +619,21 @@ static char *help_imaginary = {
 };
 
 static FuncReturn *
-gnumeric_imaginary (FunctionEvalInfo *s)
+gnumeric_imaginary (FunctionEvalInfo *ei, Value **args)
 {
         float_t real, im;
 	char    *suffix;
 
-	if (VALUE_IS_NUMBER(s->a.args[0]))
-	        return (FuncReturn *)value_new_int (0);
+	if (VALUE_IS_NUMBER(args[0]))
+	        FUNC_RETURN_VAL (value_new_int (0));
 
-	if (s->a.args[0]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	}
+	if (args[0]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
 
-	if (get_real_and_imaginary(s->a.args[0]->v.str->str, &real, &im, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (get_real_and_imaginary(args[0]->v.str->str, &real, &im, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 	
-	return (FuncReturn *)value_new_float (im);
+	FUNC_RETURN_VAL (value_new_float (im));
 }
 
 static char *help_imreal = {
@@ -667,25 +647,21 @@ static char *help_imreal = {
 
 
 static FuncReturn *
-gnumeric_imreal (FunctionEvalInfo *s) 
+gnumeric_imreal (FunctionEvalInfo *ei, Value **args) 
 {
         float_t real, im;
 	char    *suffix;
 
-	if (VALUE_IS_NUMBER(s->a.args[0]))
-	        return (FuncReturn *)value_new_float (value_get_as_float (s->a.args[0]));
+	if (VALUE_IS_NUMBER(args[0]))
+	        FUNC_RETURN_VAL (value_new_float (value_get_as_float (args[0])));
 
-	if (s->a.args[0]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	}
+	if (args[0]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
 
-	if (get_real_and_imaginary(s->a.args[0]->v.str->str, &real, &im, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (get_real_and_imaginary(args[0]->v.str->str, &real, &im, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 	
-	return (FuncReturn *)value_new_float (real);
+	FUNC_RETURN_VAL (value_new_float (real));
 }
 
 static char *help_imabs = {
@@ -699,27 +675,23 @@ static char *help_imabs = {
 
 
 static FuncReturn *
-gnumeric_imabs (FunctionEvalInfo *s) 
+gnumeric_imabs (FunctionEvalInfo *ei, Value **args) 
 {
         float_t real, im;
 	char    *suffix;
 
-	if (VALUE_IS_NUMBER(s->a.args[0])) {
-	        real = value_get_as_float (s->a.args[0]);
-	        return (FuncReturn *)value_new_float (sqrt(real * real));
+	if (VALUE_IS_NUMBER(args[0])) {
+	        real = value_get_as_float (args[0]);
+	        FUNC_RETURN_VAL (value_new_float (sqrt(real * real)));
 	}
 
-	if (s->a.args[0]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	}
+	if (args[0]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
 
-	if (get_real_and_imaginary(s->a.args[0]->v.str->str, &real, &im, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (get_real_and_imaginary(args[0]->v.str->str, &real, &im, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 	
-	return (FuncReturn *)value_new_float (sqrt(real*real + im*im));
+	FUNC_RETURN_VAL (value_new_float (sqrt(real*real + im*im)));
 }
 
 static char *help_imconjugate = {
@@ -732,25 +704,21 @@ static char *help_imconjugate = {
 };
 
 static FuncReturn *
-gnumeric_imconjugate (FunctionEvalInfo *s) 
+gnumeric_imconjugate (FunctionEvalInfo *ei, Value **args) 
 {
         float_t real, im;
 	char    *suffix;
 
-	if (VALUE_IS_NUMBER(s->a.args[0])) {
-	        real = value_get_as_float (s->a.args[0]);
-	        return (FuncReturn *)value_new_float (real);
+	if (VALUE_IS_NUMBER(args[0])) {
+	        real = value_get_as_float (args[0]);
+	        FUNC_RETURN_VAL (value_new_float (real));
 	}
 
-	if (s->a.args[0]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	}
+	if (args[0]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
 
-	if (get_real_and_imaginary(s->a.args[0]->v.str->str, &real, &im, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (get_real_and_imaginary(args[0]->v.str->str, &real, &im, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 	
 	return create_inumber (real, -im, suffix);
 }
@@ -765,22 +733,19 @@ static char *help_imcos = {
 };
 
 static FuncReturn *
-gnumeric_imcos (FunctionEvalInfo *s) 
+gnumeric_imcos (FunctionEvalInfo *ei, Value **args) 
 {
         float_t real, im;
 	char    *suffix;
 
-	if (VALUE_IS_NUMBER(s->a.args[0])) {
-	        real = value_get_as_float (s->a.args[0]);
+	if (VALUE_IS_NUMBER(args[0])) {
+	        real = value_get_as_float (args[0]);
 	        im = 0;
-	} else if (s->a.args[0]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (get_real_and_imaginary(s->a.args[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	} else if (args[0]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (get_real_and_imaginary(args[0]->v.str->str,
+					&real, &im, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 	
 	return create_inumber (cos(real)*cosh(im),
 			       -sin(real)*sinh(im), suffix);
@@ -796,22 +761,19 @@ static char *help_imexp = {
 };
 
 static FuncReturn *
-gnumeric_imexp (FunctionEvalInfo *s) 
+gnumeric_imexp (FunctionEvalInfo *ei, Value **args) 
 {
         float_t real, im, e;
 	char    *suffix;
 
-	if (VALUE_IS_NUMBER(s->a.args[0])) {
-	        real = value_get_as_float (s->a.args[0]);
+	if (VALUE_IS_NUMBER(args[0])) {
+	        real = value_get_as_float (args[0]);
 	        im = 0;
-	} else if (s->a.args[0]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (get_real_and_imaginary(s->a.args[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	} else if (args[0]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (get_real_and_imaginary(args[0]->v.str->str,
+					&real, &im, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 
 	e = exp(real);
 
@@ -828,26 +790,23 @@ static char *help_imargument = {
 };
 
 static FuncReturn *
-gnumeric_imargument (FunctionEvalInfo *s) 
+gnumeric_imargument (FunctionEvalInfo *ei, Value **args) 
 {
         float_t real, im, theta;
 	char    *suffix;
 
-	if (VALUE_IS_NUMBER(s->a.args[0])) {
-	        real = value_get_as_float (s->a.args[0]);
+	if (VALUE_IS_NUMBER(args[0])) {
+	        real = value_get_as_float (args[0]);
 	        im = 0;
-	} else if (s->a.args[0]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (get_real_and_imaginary(s->a.args[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	} else if (args[0]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (get_real_and_imaginary(args[0]->v.str->str,
+					&real, &im, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 
 	theta = atan(im / real);
 
-	return (FuncReturn *)value_new_float (theta);
+	FUNC_RETURN_VAL (value_new_float (theta));
 }
 
 static char *help_imln = {
@@ -871,27 +830,22 @@ complex_ln(float_t *real, float_t *im)
 }
 
 static FuncReturn *
-gnumeric_imln (FunctionEvalInfo *s) 
+gnumeric_imln (FunctionEvalInfo *ei, Value **args) 
 {
         float_t real, im;
 	char    *suffix;
 
-	if (VALUE_IS_NUMBER(s->a.args[0])) {
-	        real = value_get_as_float (s->a.args[0]);
+	if (VALUE_IS_NUMBER(args[0])) {
+	        real = value_get_as_float (args[0]);
 	        im = 0;
-	} else if (s->a.args[0]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (get_real_and_imaginary(s->a.args[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	} else if (args[0]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (get_real_and_imaginary(args[0]->v.str->str,
+					&real, &im, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 	
-	if (real == 0) {
-		s->error_string = _("#DIV/0!");
-		return NULL;
-	}
+	if (real == 0)
+		return function_error (ei, gnumeric_err_DIV0);
 	
 	complex_ln(&real, &im);
 
@@ -908,28 +862,23 @@ static char *help_imlog2 = {
 };
 
 static FuncReturn *
-gnumeric_imlog2 (FunctionEvalInfo *s) 
+gnumeric_imlog2 (FunctionEvalInfo *ei, Value **args) 
 {
         float_t real, im;
 	float_t ln_2;
 	char    *suffix;
 
-	if (VALUE_IS_NUMBER(s->a.args[0])) {
-	        real = value_get_as_float (s->a.args[0]);
+	if (VALUE_IS_NUMBER(args[0])) {
+	        real = value_get_as_float (args[0]);
 	        im = 0;
-	} else if (s->a.args[0]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (get_real_and_imaginary(s->a.args[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	} else if (args[0]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (get_real_and_imaginary(args[0]->v.str->str,
+					&real, &im, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 	
-	if (real == 0) {
-		s->error_string = _("#DIV/0!");
-		return NULL;
-	}
+	if (real == 0)
+		return function_error (ei, gnumeric_err_DIV0);
 	
 	complex_ln(&real, &im);
 	ln_2 = log(2);
@@ -947,28 +896,23 @@ static char *help_imlog10 = {
 };
 
 static FuncReturn *
-gnumeric_imlog10 (FunctionEvalInfo *s) 
+gnumeric_imlog10 (FunctionEvalInfo *ei, Value **args) 
 {
         float_t real, im;
 	float_t ln_10;
 	char    *suffix;
 
-	if (VALUE_IS_NUMBER(s->a.args[0])) {
-	        real = value_get_as_float (s->a.args[0]);
+	if (VALUE_IS_NUMBER(args[0])) {
+	        real = value_get_as_float (args[0]);
 	        im = 0;
-	} else if (s->a.args[0]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (get_real_and_imaginary(s->a.args[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	} else if (args[0]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (get_real_and_imaginary(args[0]->v.str->str,
+					&real, &im, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 	
-	if (real == 0) {
-		s->error_string = _("#DIV/0!");
-		return NULL;
-	}
+	if (real == 0)
+		return function_error (ei, gnumeric_err_DIV0);
 	
 	complex_ln(&real, &im);
 	ln_10 = log(10);
@@ -988,29 +932,24 @@ static char *help_impower = {
 };
 
 static FuncReturn *
-gnumeric_impower (FunctionEvalInfo *s) 
+gnumeric_impower (FunctionEvalInfo *ei, Value **args) 
 {
         float_t real, im, n, r, theta, power;
 	char    *suffix;
 
-	if (VALUE_IS_NUMBER(s->a.args[0])) {
-	        real = value_get_as_float (s->a.args[0]);
+	if (VALUE_IS_NUMBER(args[0])) {
+	        real = value_get_as_float (args[0]);
 	        im = 0;
-	} else if (s->a.args[0]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (get_real_and_imaginary(s->a.args[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	} else if (args[0]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (get_real_and_imaginary(args[0]->v.str->str,
+					&real, &im, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 
-	n = value_get_as_float (s->a.args[1]);
+	n = value_get_as_float (args[1]);
 	
-	if (real == 0) {
-		s->error_string = _("#DIV/0!");
-		return NULL;
-	}
+	if (real == 0)
+		return function_error (ei, gnumeric_err_DIV0);
 	
 	r = sqrt(real*real + im*im);
 	theta = atan(im / real);
@@ -1030,41 +969,33 @@ static char *help_imdiv = {
 };
 
 static FuncReturn *
-gnumeric_imdiv (FunctionEvalInfo *s) 
+gnumeric_imdiv (FunctionEvalInfo *ei, Value **args) 
 {
         float_t a, b, c, d, den;
 	char    *suffix;
 
-	if (VALUE_IS_NUMBER(s->a.args[0])) {
-	        a = value_get_as_float (s->a.args[0]);
+	if (VALUE_IS_NUMBER(args[0])) {
+	        a = value_get_as_float (args[0]);
 	        b = 0;
-	} else if (s->a.args[0]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (get_real_and_imaginary(s->a.args[0]->v.str->str,
-					  &a, &b, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	} else if (args[0]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (get_real_and_imaginary(args[0]->v.str->str,
+					&a, &b, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 
-	if (VALUE_IS_NUMBER(s->a.args[1])) {
-	        c = value_get_as_float (s->a.args[1]);
+	if (VALUE_IS_NUMBER(args[1])) {
+	        c = value_get_as_float (args[1]);
 	        d = 0;
-	} else if (s->a.args[1]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (get_real_and_imaginary(s->a.args[1]->v.str->str,
-					  &c, &d, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	} else if (args[1]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (get_real_and_imaginary(args[1]->v.str->str,
+					  &c, &d, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 
 	den = c*c + d*d;
 
-	if (den == 0) {
-		s->error_string = _("#DIV/0!");
-		return NULL;
-	}
+	if (den == 0)
+		return function_error (ei, gnumeric_err_DIV0);
 	
 	return create_inumber ((a*c+b*d) / den, (b*c-a*d) / den, suffix);
 }
@@ -1079,22 +1010,19 @@ static char *help_imsin = {
 };
 
 static FuncReturn *
-gnumeric_imsin (FunctionEvalInfo *s) 
+gnumeric_imsin (FunctionEvalInfo *ei, Value **args) 
 {
         float_t real, im;
 	char    *suffix;
 
-	if (VALUE_IS_NUMBER(s->a.args[0])) {
-	        real = value_get_as_float (s->a.args[0]);
+	if (VALUE_IS_NUMBER(args[0])) {
+	        real = value_get_as_float (args[0]);
 	        im = 0;
-	} else if (s->a.args[0]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (get_real_and_imaginary(s->a.args[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	} else if (args[0]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (get_real_and_imaginary(args[0]->v.str->str,
+					&real, &im, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 	
 	return create_inumber (sin(real)*cosh(im),
 			       -cos(real)*sinh(im), suffix);
@@ -1110,22 +1038,19 @@ static char *help_imsqrt = {
 };
 
 static FuncReturn *
-gnumeric_imsqrt (FunctionEvalInfo *s) 
+gnumeric_imsqrt (FunctionEvalInfo *ei, Value **args) 
 {
         float_t real, im, r, theta;
 	char    *suffix;
 
-	if (VALUE_IS_NUMBER(s->a.args[0])) {
-	        real = value_get_as_float (s->a.args[0]);
+	if (VALUE_IS_NUMBER(args[0])) {
+	        real = value_get_as_float (args[0]);
 	        im = 0;
-	} else if (s->a.args[0]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (get_real_and_imaginary(s->a.args[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	} else if (args[0]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (get_real_and_imaginary(args[0]->v.str->str,
+					&real, &im, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 
 	r = sqrt(sqrt(real*real + im*im));
 	theta = atan(im / real) / 2;
@@ -1143,34 +1068,28 @@ static char *help_imsub = {
 };
 
 static FuncReturn *
-gnumeric_imsub (FunctionEvalInfo *s) 
+gnumeric_imsub (FunctionEvalInfo *ei, Value **args) 
 {
         float_t a, b, c, d;
 	char    *suffix;
 
-	if (VALUE_IS_NUMBER(s->a.args[0])) {
-	        a = value_get_as_float (s->a.args[0]);
+	if (VALUE_IS_NUMBER(args[0])) {
+	        a = value_get_as_float (args[0]);
 	        b = 0;
-	} else if (s->a.args[0]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (get_real_and_imaginary(s->a.args[0]->v.str->str,
-					  &a, &b, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	} else if (args[0]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (get_real_and_imaginary(args[0]->v.str->str,
+					&a, &b, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 
-	if (VALUE_IS_NUMBER(s->a.args[1])) {
-	        c = value_get_as_float (s->a.args[1]);
+	if (VALUE_IS_NUMBER(args[1])) {
+	        c = value_get_as_float (args[1]);
 	        d = 0;
-	} else if (s->a.args[1]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (get_real_and_imaginary(s->a.args[1]->v.str->str,
-					  &c, &d, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	} else if (args[1]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (get_real_and_imaginary(args[1]->v.str->str,
+					&c, &d, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 
 	return create_inumber (a-c, b-d, suffix);
 }
@@ -1185,34 +1104,28 @@ static char *help_improduct = {
 };
 
 static FuncReturn *
-gnumeric_improduct (FunctionEvalInfo *s) 
+gnumeric_improduct (FunctionEvalInfo *ei, Value **args) 
 {
         float_t a, b, c, d;
 	char    *suffix;
 
-	if (VALUE_IS_NUMBER(s->a.args[0])) {
-	        a = value_get_as_float (s->a.args[0]);
+	if (VALUE_IS_NUMBER(args[0])) {
+	        a = value_get_as_float (args[0]);
 	        b = 0;
-	} else if (s->a.args[0]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (get_real_and_imaginary(s->a.args[0]->v.str->str,
-					  &a, &b, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	} else if (args[0]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (get_real_and_imaginary(args[0]->v.str->str,
+					&a, &b, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 
-	if (VALUE_IS_NUMBER(s->a.args[1])) {
-	        c = value_get_as_float (s->a.args[1]);
+	if (VALUE_IS_NUMBER(args[1])) {
+	        c = value_get_as_float (args[1]);
 	        d = 0;
-	} else if (s->a.args[1]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (get_real_and_imaginary(s->a.args[1]->v.str->str,
-					  &c, &d, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	} else if (args[1]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (get_real_and_imaginary(args[1]->v.str->str,
+					&c, &d, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 
 	return create_inumber (a*c-b*d, a*d+b*c, suffix);
 }
@@ -1227,34 +1140,28 @@ static char *help_imsum = {
 };
 
 static FuncReturn *
-gnumeric_imsum (FunctionEvalInfo *s) 
+gnumeric_imsum (FunctionEvalInfo *ei, Value **args) 
 {
         float_t a, b, c, d;
 	char    *suffix;
 
-	if (VALUE_IS_NUMBER(s->a.args[0])) {
-	        a = value_get_as_float (s->a.args[0]);
+	if (VALUE_IS_NUMBER(args[0])) {
+	        a = value_get_as_float (args[0]);
 	        b = 0;
-	} else if (s->a.args[0]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (get_real_and_imaginary(s->a.args[0]->v.str->str,
-					  &a, &b, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	} else if (args[0]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (get_real_and_imaginary(args[0]->v.str->str,
+					&a, &b, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 
-	if (VALUE_IS_NUMBER(s->a.args[1])) {
-	        c = value_get_as_float (s->a.args[1]);
+	if (VALUE_IS_NUMBER(args[1])) {
+	        c = value_get_as_float (args[1]);
 	        d = 0;
-	} else if (s->a.args[1]->type != VALUE_STRING) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (get_real_and_imaginary(s->a.args[1]->v.str->str,
-					  &c, &d, &suffix)) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	} else if (args[1]->type != VALUE_STRING)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (get_real_and_imaginary(args[1]->v.str->str,
+					&c, &d, &suffix))
+		return function_error (ei, gnumeric_err_NUM);
 
 	return create_inumber (a+c, b+d, suffix);
 }
@@ -1392,7 +1299,7 @@ static int
 convert(eng_convert_unit_t units[],
 	eng_convert_unit_t prefixes[],
 	char *from_unit, char *to_unit,
-	float_t n, Value **v, char **error_string)
+	float_t n, Value **v, ErrorMessage *error)
 {
         float_t from_c, from_prefix, to_c, to_prefix;
 
@@ -1400,7 +1307,7 @@ convert(eng_convert_unit_t units[],
 				 &from_prefix)) {
 	        if (!get_constant_of_unit(units, prefixes,
 					 to_unit, &to_c, &to_prefix)) {
-		        *error_string = _("#NUM!");
+			error_message_set (error, gnumeric_err_NUM);
 			*v = NULL;
 			return 1;
 		}
@@ -1413,7 +1320,7 @@ convert(eng_convert_unit_t units[],
 }	
 
 static FuncReturn *
-gnumeric_convert (FunctionEvalInfo *s) 
+gnumeric_convert (FunctionEvalInfo *ei, Value **args) 
 {
         /* Weight and mass constants */
         #define one_g_to_sg     0.00006852205001
@@ -1595,58 +1502,57 @@ gnumeric_convert (FunctionEvalInfo *s)
 	char    *from_unit, *to_unit;
 	Value   *v;
 
-	n = value_get_as_float (s->a.args[0]);
-	from_unit = s->a.args[1]->v.str->str;
-	to_unit = s->a.args[2]->v.str->str;
+	n = value_get_as_float (args[0]);
+	from_unit = args[1]->v.str->str;
+	to_unit = args[2]->v.str->str;
 
 	if (strcmp(from_unit, "C") == 0 && strcmp(to_unit, "F") == 0)
-	        return (FuncReturn *)value_new_float (1.8*n+32);
+	        FUNC_RETURN_VAL (value_new_float (1.8*n+32));
 	else if (strcmp(from_unit, "F") == 0 && strcmp(to_unit, "C") == 0)
-	        return (FuncReturn *)value_new_float ((n-32)/1.8);
+	        FUNC_RETURN_VAL (value_new_float ((n-32)/1.8));
 	else if (strcmp(from_unit, "F") == 0 && strcmp(to_unit, "F") == 0)
-	        return (FuncReturn *)value_new_float (n);
+	        FUNC_RETURN_VAL (value_new_float (n));
 	else if (strcmp(from_unit, "F") == 0 && strcmp(to_unit, "K") == 0)
-	        return (FuncReturn *)value_new_float ((n-32)/1.8 + one_C_to_K-1);
+	        FUNC_RETURN_VAL (value_new_float ((n-32)/1.8 + one_C_to_K-1));
 	else if (strcmp(from_unit, "K") == 0 && strcmp(to_unit, "F") == 0)
-	        return (FuncReturn *)value_new_float (1.8*(n-one_C_to_K+1)+32);
+	        FUNC_RETURN_VAL (value_new_float (1.8*(n-one_C_to_K+1)+32));
 	else if (strcmp(from_unit, "C") == 0 && strcmp(to_unit, "K") == 0)
-	        return (FuncReturn *)value_new_float (n + one_C_to_K-1);
+	        FUNC_RETURN_VAL (value_new_float (n + one_C_to_K-1));
 	else if (strcmp(from_unit, "K") == 0 && strcmp(to_unit, "C") == 0)
-	        return (FuncReturn *)value_new_float (n - one_C_to_K+1);
+	        FUNC_RETURN_VAL (value_new_float (n - one_C_to_K+1));
 
 	if (convert(weight_units, prefixes, from_unit, to_unit, n, &v,
-		    &s->error_string))
-	        return (FuncReturn *)v;
+		    ei->error))
+	        FUNC_RETURN_VAL (v);
 	if (convert(distance_units, prefixes, from_unit, to_unit, n, &v,
-		    &s->error_string))
-	        return (FuncReturn *)v;
+		    ei->error))
+	        FUNC_RETURN_VAL (v);
 	if (convert(time_units, NULL, from_unit, to_unit, n, &v,
-		    &s->error_string))
-	        return (FuncReturn *)v;
+		    ei->error))
+	        FUNC_RETURN_VAL (v);
 	if (convert(pressure_units, prefixes, from_unit, to_unit, n, &v,
-		    &s->error_string))
-	        return (FuncReturn *)v;
+		    ei->error))
+	        FUNC_RETURN_VAL (v);
 	if (convert(force_units, prefixes, from_unit, to_unit, n, &v,
-		    &s->error_string))
-	        return (FuncReturn *)v;
+		    ei->error))
+	        FUNC_RETURN_VAL (v);
 	if (convert(energy_units, prefixes, from_unit, to_unit, n, &v,
-		    &s->error_string))
-	        return (FuncReturn *)v;
+		    ei->error))
+	        FUNC_RETURN_VAL (v);
 	if (convert(power_units, prefixes, from_unit, to_unit, n, &v,
-		    &s->error_string))
-	        return (FuncReturn *)v;
+		    ei->error))
+	        FUNC_RETURN_VAL (v);
 	if (convert(magnetism_units, prefixes, from_unit, to_unit, n, &v,
-		    &s->error_string))
-	        return (FuncReturn *)v;
+		    ei->error))
+	        FUNC_RETURN_VAL (v);
 	if (convert(liquid_units, prefixes, from_unit, to_unit, n, &v,
-		    &s->error_string))
-	        return (FuncReturn *)v;
+		    ei->error))
+	        FUNC_RETURN_VAL (v);
 	if (convert(magnetism_units, prefixes, from_unit, to_unit, n, &v,
-		    &s->error_string))
-	        return (FuncReturn *)v;
+		    ei->error))
+	        FUNC_RETURN_VAL (v);
 
-	s->error_string = _("#NUM!");
-	return NULL;
+	return function_error (ei, gnumeric_err_NUM);
 }
 
 static char *help_erf = {
@@ -1667,24 +1573,22 @@ static char *help_erf = {
 
 
 static FuncReturn *
-gnumeric_erf (FunctionEvalInfo *s)
+gnumeric_erf (FunctionEvalInfo *ei, Value **args)
 {
 	float_t ans, lower, upper=0.0;
 
-	lower = value_get_as_float (s->a.args[0]);
-	if (s->a.args[1])
-		upper = value_get_as_float (s->a.args[1]);
+	lower = value_get_as_float (args[0]);
+	if (args[1])
+		upper = value_get_as_float (args[1]);
 	
-	if (lower < 0.0 || upper < 0.0){
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (lower < 0.0 || upper < 0.0)
+		return function_error (ei, gnumeric_err_NUM);
 	       
 	ans = erf(lower);
-	if (s->a.args[1])
+	if (args[1])
 		ans = erf(upper) - ans;
 	
-	return (FuncReturn *)value_new_float (ans);
+	FUNC_RETURN_VAL (value_new_float (ans));
 }
 
 static char *help_erfc = {
@@ -1703,14 +1607,13 @@ static char *help_erfc = {
 };
 
 static FuncReturn *
-gnumeric_erfc (FunctionEvalInfo *s)
+gnumeric_erfc (FunctionEvalInfo *ei, Value **args)
 {
 	float_t x;
-	if ((x=value_get_as_float (s->a.args[0]))<0){
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
-	return (FuncReturn *)value_new_float (erfc (x));
+	if ((x=value_get_as_float (args[0]))<0)
+		return function_error (ei, gnumeric_err_NUM);
+
+	FUNC_RETURN_VAL (value_new_float (erfc (x)));
 }
 
 static char *help_delta = {
@@ -1730,14 +1633,14 @@ static char *help_delta = {
 
 
 static FuncReturn *
-gnumeric_delta (FunctionEvalInfo *s)
+gnumeric_delta (FunctionEvalInfo *ei, Value **args)
 {
 	int ans = 0;
 	Value *vx, *vy;
 
-	vx = s->a.args[0];
-	if (s->a.args[1])
-		vy = s->a.args[1];
+	vx = args[0];
+	if (args[1])
+		vy = args[1];
 	else
 		vy = value_new_int (0);
 
@@ -1755,7 +1658,7 @@ gnumeric_delta (FunctionEvalInfo *s)
 				ans = 1;
 			break;
 		default:
-			s->error_string = _("Impossible");
+			return function_error (ei, _("Impossible"));
 			return NULL;
 		}
 		break;
@@ -1771,18 +1674,18 @@ gnumeric_delta (FunctionEvalInfo *s)
 				ans = 1;
 			break;
 		default:
-			s->error_string = _("Impossible");
+			return function_error (ei, _("Impossible"));
 			return NULL;
 		}
 		break;
 	default:
-		s->error_string = _("Impossible");
+		return function_error (ei, _("Impossible"));
 		return NULL;
 	}
 	       
-	if (!s->a.args[1])
+	if (!args[1])
 		value_release (vy);
-	return (FuncReturn *)value_new_int (ans);
+	FUNC_RETURN_VAL (value_new_int (ans));
 }
 
 static char *help_gestep = {
@@ -1801,14 +1704,14 @@ static char *help_gestep = {
 
 
 static FuncReturn *
-gnumeric_gestep (FunctionEvalInfo *s)
+gnumeric_gestep (FunctionEvalInfo *ei, Value **args)
 {
 	int ans = 0;
 	Value *vx, *vy;
 
-	vx = s->a.args[0];
-	if (s->a.args[1])
-		vy = s->a.args[1];
+	vx = args[0];
+	if (args[1])
+		vy = args[1];
 	else
 		vy = value_new_int (0);
 
@@ -1826,7 +1729,7 @@ gnumeric_gestep (FunctionEvalInfo *s)
 				ans = 1;
 			break;
 		default:
-			s->error_string = _("Impossible");
+			return function_error (ei, _("Impossible"));
 			return NULL;
 		}
 		break;
@@ -1842,96 +1745,96 @@ gnumeric_gestep (FunctionEvalInfo *s)
 				ans = 1;
 			break;
 		default:
-			s->error_string = _("Impossible");
+			return function_error (ei, _("Impossible"));
 			return NULL;
 		}
 		break;
 	default:
-		s->error_string = _("Impossible");
+		return function_error (ei, _("Impossible"));
 		return NULL;
 	}
 	       
-	if (!s->a.args[1])
+	if (!args[1])
 		value_release (vy);
-	return (FuncReturn *)value_new_int (ans);
+	FUNC_RETURN_VAL (value_new_int (ans));
 }
 
 void eng_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Engineering"));
 
-	function_new (cat, "bessely",     "ff",   "xnum,ynum",                &help_bessely,
-		      FUNCTION_ARGS, gnumeric_bessely);
-	function_new (cat, "besselj",     "ff",   "xnum,ynum",                &help_besselj,
-		      FUNCTION_ARGS, gnumeric_besselj);
-	function_new (cat, "bin2dec",     "?",    "number",                   &help_bin2dec,
-		      FUNCTION_ARGS, gnumeric_bin2dec);
-	function_new (cat, "bin2hex",     "?|f",  "xnum,ynum",                &help_bin2hex,
-		      FUNCTION_ARGS, gnumeric_bin2hex);
-	function_new (cat, "bin2oct",     "?|f",  "xnum,ynum",                &help_bin2oct,
-		      FUNCTION_ARGS, gnumeric_bin2oct);
-	function_new (cat, "complex",     "ff|s", "real,im[,suffix]",         &help_complex,
-		      FUNCTION_ARGS, gnumeric_complex);
-	function_new (cat, "convert",     "fss",  "number,from_unit,to_unit", &help_convert,
-		      FUNCTION_ARGS, gnumeric_convert);
-	function_new (cat, "dec2bin",     "?|f",  "xnum,ynum",                &help_dec2bin,
-		      FUNCTION_ARGS, gnumeric_dec2bin);
-	function_new (cat, "dec2oct",     "?|f",  "xnum,ynum",                &help_dec2oct,
-		      FUNCTION_ARGS, gnumeric_dec2oct);
-	function_new (cat, "dec2hex",     "?|f",  "xnum,ynum",                &help_dec2hex,
-		      FUNCTION_ARGS, gnumeric_dec2hex);
-	function_new (cat, "delta",       "f|f",  "xnum,ynum",                &help_delta,
-		      FUNCTION_ARGS, gnumeric_delta);
-	function_new (cat, "erf",         "f|f",  "lower,upper",              &help_erf,
-		      FUNCTION_ARGS, gnumeric_erf );
-	function_new (cat, "erfc",        "f",    "number",                   &help_erfc,
-		      FUNCTION_ARGS, gnumeric_erfc);
-	function_new (cat, "gestep",      "f|f",  "xnum,ynum",                &help_gestep,
-		      FUNCTION_ARGS, gnumeric_gestep);
-	function_new (cat, "hex2bin",     "?|f",  "xnum,ynum",                &help_hex2bin,
-		      FUNCTION_ARGS, gnumeric_hex2bin);
-	function_new (cat, "hex2dec",     "?",    "number",                   &help_hex2dec,
-		      FUNCTION_ARGS, gnumeric_hex2dec);
-	function_new (cat, "hex2oct",     "?|f",  "xnum,ynum",                &help_hex2oct,
-		      FUNCTION_ARGS, gnumeric_hex2oct);
-	function_new (cat, "imabs",       "?",  "inumber",                    &help_imabs,
-		      FUNCTION_ARGS, gnumeric_imabs);
-	function_new (cat, "imaginary",   "?",  "inumber",                    &help_imaginary,
-		      FUNCTION_ARGS, gnumeric_imaginary);
-	function_new (cat, "imargument",  "?",  "inumber",                    &help_imargument,
-		      FUNCTION_ARGS, gnumeric_imargument);
-	function_new (cat, "imconjugate", "?",  "inumber",                    &help_imconjugate,
-		      FUNCTION_ARGS, gnumeric_imconjugate);
-	function_new (cat, "imcos",       "?",  "inumber",                    &help_imcos,
-		      FUNCTION_ARGS, gnumeric_imcos);
-	function_new (cat, "imdiv",       "??", "inumber,inumber",            &help_imdiv,
-		      FUNCTION_ARGS, gnumeric_imdiv);
-	function_new (cat, "imexp",       "?",  "inumber",                    &help_imexp,
-		      FUNCTION_ARGS, gnumeric_imexp);
-	function_new (cat, "imln",        "?",  "inumber",                    &help_imln,
-		      FUNCTION_ARGS, gnumeric_imln);
-	function_new (cat, "imlog10",     "?",  "inumber",                    &help_imlog10,
-		      FUNCTION_ARGS, gnumeric_imlog10);
-	function_new (cat, "imlog2",      "?",  "inumber",                    &help_imlog2,
-		      FUNCTION_ARGS, gnumeric_imlog2);
-	function_new (cat, "impower",     "?f", "inumber,number",             &help_impower,
-		      FUNCTION_ARGS, gnumeric_impower);
-	function_new (cat, "improduct",   "??", "inumber,inumber",            &help_improduct,
-		      FUNCTION_ARGS, gnumeric_improduct);
-	function_new (cat, "imreal",      "?",  "inumber",                    &help_imreal,
-		      FUNCTION_ARGS, gnumeric_imreal);
-	function_new (cat, "imsin",       "?",  "inumber",                    &help_imsin,
-		      FUNCTION_ARGS, gnumeric_imsin);
-	function_new (cat, "imsqrt",      "?",  "inumber",                    &help_imsqrt,
-		      FUNCTION_ARGS, gnumeric_imsqrt);
-	function_new (cat, "imsub",       "??", "inumber,inumber",            &help_imsub,
-		      FUNCTION_ARGS, gnumeric_imsub);
-	function_new (cat, "imsum",       "??", "inumber,inumber",            &help_imsum,
-		      FUNCTION_ARGS, gnumeric_imsum);
-	function_new (cat, "oct2bin",     "?|f",  "xnum,ynum",                &help_oct2bin,
-		      FUNCTION_ARGS, gnumeric_oct2bin);
-	function_new (cat, "oct2dec",     "?",    "number",                   &help_oct2dec,
-		      FUNCTION_ARGS, gnumeric_oct2dec);
-	function_new (cat, "oct2hex",     "?|f",  "xnum,ynum",                &help_oct2hex,
-		      FUNCTION_ARGS, gnumeric_oct2hex);
+	function_add_args (cat, "bessely",     "ff",   "xnum,ynum",                &help_bessely,
+			   gnumeric_bessely);
+	function_add_args (cat, "besselj",     "ff",   "xnum,ynum",                &help_besselj,
+			   gnumeric_besselj);
+	function_add_args (cat, "bin2dec",     "?",    "number",                   &help_bin2dec,
+			   gnumeric_bin2dec);
+	function_add_args (cat, "bin2hex",     "?|f",  "xnum,ynum",                &help_bin2hex,
+			   gnumeric_bin2hex);
+	function_add_args (cat, "bin2oct",     "?|f",  "xnum,ynum",                &help_bin2oct,
+			   gnumeric_bin2oct);
+	function_add_args (cat, "complex",     "ff|s", "real,im[,suffix]",         &help_complex,
+			   gnumeric_complex);
+	function_add_args (cat, "convert",     "fss",  "number,from_unit,to_unit", &help_convert,
+			   gnumeric_convert);
+	function_add_args (cat, "dec2bin",     "?|f",  "xnum,ynum",                &help_dec2bin,
+			   gnumeric_dec2bin);
+	function_add_args (cat, "dec2oct",     "?|f",  "xnum,ynum",                &help_dec2oct,
+			   gnumeric_dec2oct);
+	function_add_args (cat, "dec2hex",     "?|f",  "xnum,ynum",                &help_dec2hex,
+			   gnumeric_dec2hex);
+	function_add_args (cat, "delta",       "f|f",  "xnum,ynum",                &help_delta,
+			   gnumeric_delta);
+	function_add_args (cat, "erf",         "f|f",  "lower,upper",              &help_erf,
+			   gnumeric_erf );
+	function_add_args (cat, "erfc",        "f",    "number",                   &help_erfc,
+			   gnumeric_erfc);
+	function_add_args (cat, "gestep",      "f|f",  "xnum,ynum",                &help_gestep,
+			   gnumeric_gestep);
+	function_add_args (cat, "hex2bin",     "?|f",  "xnum,ynum",                &help_hex2bin,
+			   gnumeric_hex2bin);
+	function_add_args (cat, "hex2dec",     "?",    "number",                   &help_hex2dec,
+			   gnumeric_hex2dec);
+	function_add_args (cat, "hex2oct",     "?|f",  "xnum,ynum",                &help_hex2oct,
+			   gnumeric_hex2oct);
+	function_add_args (cat, "imabs",       "?",  "inumber",                    &help_imabs,
+			   gnumeric_imabs);
+	function_add_args (cat, "imaginary",   "?",  "inumber",                    &help_imaginary,
+			   gnumeric_imaginary);
+	function_add_args (cat, "imargument",  "?",  "inumber",                    &help_imargument,
+			   gnumeric_imargument);
+	function_add_args (cat, "imconjugate", "?",  "inumber",                    &help_imconjugate,
+			   gnumeric_imconjugate);
+	function_add_args (cat, "imcos",       "?",  "inumber",                    &help_imcos,
+			   gnumeric_imcos);
+	function_add_args (cat, "imdiv",       "??", "inumber,inumber",            &help_imdiv,
+			   gnumeric_imdiv);
+	function_add_args (cat, "imexp",       "?",  "inumber",                    &help_imexp,
+			   gnumeric_imexp);
+	function_add_args (cat, "imln",        "?",  "inumber",                    &help_imln,
+			   gnumeric_imln);
+	function_add_args (cat, "imlog10",     "?",  "inumber",                    &help_imlog10,
+			   gnumeric_imlog10);
+	function_add_args (cat, "imlog2",      "?",  "inumber",                    &help_imlog2,
+			   gnumeric_imlog2);
+	function_add_args (cat, "impower",     "?f", "inumber,number",             &help_impower,
+			   gnumeric_impower);
+	function_add_args (cat, "improduct",   "??", "inumber,inumber",            &help_improduct,
+			   gnumeric_improduct);
+	function_add_args (cat, "imreal",      "?",  "inumber",                    &help_imreal,
+			   gnumeric_imreal);
+	function_add_args (cat, "imsin",       "?",  "inumber",                    &help_imsin,
+			   gnumeric_imsin);
+	function_add_args (cat, "imsqrt",      "?",  "inumber",                    &help_imsqrt,
+			   gnumeric_imsqrt);
+	function_add_args (cat, "imsub",       "??", "inumber,inumber",            &help_imsub,
+			   gnumeric_imsub);
+	function_add_args (cat, "imsum",       "??", "inumber,inumber",            &help_imsum,
+			   gnumeric_imsum);
+	function_add_args (cat, "oct2bin",     "?|f",  "xnum,ynum",                &help_oct2bin,
+			   gnumeric_oct2bin);
+	function_add_args (cat, "oct2dec",     "?",    "number",                   &help_oct2dec,
+			   gnumeric_oct2dec);
+	function_add_args (cat, "oct2hex",     "?|f",  "xnum,ynum",                &help_oct2hex,
+			   gnumeric_oct2hex);
 }
