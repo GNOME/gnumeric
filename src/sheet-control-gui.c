@@ -466,7 +466,8 @@ static int
 horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetControlGUI *scg)
 {
 	if (event->type == GDK_BUTTON_PRESS){
-		scg->tip = gnumeric_create_tooltip ();
+		if (!scg->tip)
+			scg->tip = gnumeric_create_tooltip ();
 		horizontal_scroll_change (GTK_ADJUSTMENT (scg->ha), scg);
 		gnumeric_position_tooltip (scg->tip, 1);
 		gtk_widget_show_all (gtk_widget_get_toplevel (scg->tip));
@@ -495,7 +496,8 @@ static int
 vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetControlGUI *scg)
 {
 	if (event->type == GDK_BUTTON_PRESS){
-		scg->tip = gnumeric_create_tooltip ();
+		if (!scg->tip)
+			scg->tip = gnumeric_create_tooltip ();
 		vertical_scroll_change (GTK_ADJUSTMENT (scg->va), scg);
 		gnumeric_position_tooltip (scg->tip, 0);
 		gtk_widget_show_all (gtk_widget_get_toplevel (scg->tip));
