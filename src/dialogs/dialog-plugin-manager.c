@@ -288,9 +288,6 @@ cb_pm_button_directory_add_clicked (G_GNUC_UNUSED GtkButton *button,
 	/* We'll pass on this one for now -- it looks utterly different. */
 	/* gtk_file_chooser_set_folder_mode (fsel, TRUE); */
 
-	gnm_fixup_filechooser_size (GTK_WIDGET (fsel),
-				    gtk_window_get_screen (wbcg_toplevel (pm_gui->wbcg)));
-
 	/* Show no files.  */
 	gtk_file_chooser_set_filter (fsel, gtk_file_filter_new ());
 

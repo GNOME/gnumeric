@@ -131,6 +131,4 @@ GdkPixbuf* gnm_pixbuf_intelligent_scale (GdkPixbuf *pixbuf,
 					 guint width, guint height);
 void	   gnm_widget_disable_focus (GtkWidget *w);
 
-void       gnm_fixup_filechooser_size (GtkWidget *fsel, GdkScreen *screen);
-
 #endif /* GNUMERIC_GUI_UTIL_H */

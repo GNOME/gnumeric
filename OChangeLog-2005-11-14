@@ -1,3 +1,8 @@
+2004-02-18  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnm_fixup_filechooser_size): Remove this.  No
+	longer needed.
+
 2004-02-17  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-file.c (gui_file_open): Destroy file selector before

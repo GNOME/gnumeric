@@ -218,8 +218,6 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
 
-	gnm_fixup_filechooser_size (GTK_WIDGET (fsel), NULL);
-
 	/* Filters */
 	{	
 		GtkFileFilter *filter;
@@ -283,6 +281,9 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	g_list_free (openers);
 
 	if (file_name) {
+		/* Make sure dialog goes away right now.  */
+		while (g_main_context_iteration (NULL, FALSE));
+
 		gui_file_read (wbcg, file_name, fo, encoding);
 		g_free (file_name);
 	}
@@ -440,8 +441,6 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 				GTK_STOCK_SAVE, GTK_RESPONSE_OK,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
-
-	gnm_fixup_filechooser_size (GTK_WIDGET (fsel), NULL);
 
 	/* Filters */
 	{	

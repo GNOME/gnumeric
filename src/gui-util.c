@@ -1490,15 +1490,3 @@ gnm_widget_disable_focus (GtkWidget *w)
 			(GtkCallback) gnm_widget_disable_focus, NULL);
 	GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
 }
-
-void
-gnm_fixup_filechooser_size (GtkWidget *fsel, GdkScreen *screen)
-{
-	if (!screen)
-		screen = gtk_widget_get_screen (fsel);
-
-#warning "FIXME: this is a gross way to set size."
-	gtk_window_set_default_size (GTK_WINDOW (fsel),
-				     gdk_screen_get_width (screen) / 3,
-				     gdk_screen_get_width (screen) / 3);
-}
