@@ -46,6 +46,7 @@ struct _GnumericExprEntry {
 	GtkHBox	parent;
 
 	GtkEntry		*entry;
+	GtkWidget		*icon;
 	SheetControlGUI		*scg;	/* the source of the edit */
 	WorkbookControlGUI	*wbcg;	/* from scg */
 	Sheet			*sheet;	/* from scg */
@@ -63,7 +64,7 @@ struct _GnumericExprEntry {
 };
 
 typedef struct _GnumericExprEntryClass {
-	GtkHBoxClass parent_class;
+	GtkHBoxClass base;
 
 	void (* update)  (GnumericExprEntry *gee);
 	void (* changed) (GnumericExprEntry *gee);
@@ -73,13 +74,16 @@ typedef struct _GnumericExprEntryClass {
 enum {
 	UPDATE,
 	CHANGED,
+	ACTIVATE,
 	LAST_SIGNAL
 };
 
 /* Properties */
 enum {
 	PROP_0,
-	PROP_UPDATE_POLICY
+	PROP_UPDATE_POLICY,
+	PROP_WITH_ICON,
+	PROP_WBCG,
 };
 
 static GQuark signals [LAST_SIGNAL] = { 0 };
@@ -91,9 +95,6 @@ static void     gee_set_property (GObject *object, guint prop_id,
 				  GValue const *value, GParamSpec *pspec);
 static void     gee_get_property (GObject *object, guint prop_id,
 				  GValue *value, GParamSpec *pspec);
-static void     gee_class_init (GtkObjectClass *klass);
-static void     gee_init (GnumericExprEntry *entry);
-static void     gee_cell_editable_init (GtkCellEditableIface *iface);
 
 
 /* GtkHBox methods
@@ -104,14 +105,10 @@ static void     gee_cell_editable_init (GtkCellEditableIface *iface);
  */
 static void     gee_start_editing (GtkCellEditable *cell_editable,
 						   GdkEvent *event);
-static void     gnumeric_cell_editable_entry_activated (gpointer data,
-							GnumericExprEntry *entry);
-
 
 /* Call Backs
  */
 static void     cb_scg_destroy (GnumericExprEntry *gee, SheetControlGUI *scg);
-static void     cb_entry_changed (GtkEntry *ignored, GnumericExprEntry *gee);
 static gint     cb_gee_key_press_event (GtkEntry *entry, GdkEventKey *key_event,
 					GnumericExprEntry *gee);
 
@@ -123,11 +120,10 @@ static void     gee_detach_scg (GnumericExprEntry *gee);
 static gboolean gee_update_timeout (gpointer data);
 static void     gee_remove_update_timer (GnumericExprEntry *range);
 static void     gee_reset_update_timer (GnumericExprEntry *gee);
-static void     gee_destroy (GtkObject *object);
 static void     gee_notify_cursor_position (GObject *object, GParamSpec *pspec,
 					    GnumericExprEntry *gee);
 
-static GtkHBoxClass *gnumeric_expr_entry_parent_class = NULL;
+static GtkObjectClass *parent_class = NULL;
 
 static gboolean
 split_char_p (unsigned char const *c)
@@ -141,76 +137,6 @@ split_char_p (unsigned char const *c)
 	default :
 		return FALSE;
 	}
-}
-
-GType
-gnumeric_expr_entry_get_type(void)
-{
-        static GType type = 0;
-        if (!type){
-                static GtkTypeInfo const object_info = {
-			(char *) "GnumericExprEntry",
-			sizeof (GnumericExprEntry),
-                        sizeof (GnumericExprEntryClass),
-                        (GtkClassInitFunc) gee_class_init,
-			(GtkObjectInitFunc) gee_init,
-                        NULL,
-                        NULL,   /* class_data */
-                        (GtkClassInitFunc) NULL,
-                };
-
-		static GInterfaceInfo const cell_editable_info = {
-			(GInterfaceInitFunc) gee_cell_editable_init,
-			NULL,
-			NULL
-		};
-
-		type = gtk_type_unique (GTK_TYPE_HBOX, &object_info);
-		g_type_add_interface_static (type,
-					     GTK_TYPE_CELL_EDITABLE,
-					     &cell_editable_info);
-        }
-        return type;
-}
-
-static void
-gee_class_init (GtkObjectClass *klass)
-{
-	GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
-
-	gnumeric_expr_entry_parent_class
-		= g_type_class_peek (gtk_hbox_get_type());
-
-	gobject_class->set_property = gee_set_property;
-	gobject_class->get_property = gee_get_property;
-	klass->destroy		    = gee_destroy;
-
-	signals [UPDATE] = g_signal_new ("update",
-		GNUMERIC_TYPE_EXPR_ENTRY,
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (GnumericExprEntryClass, update),
-		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__VOID,
-		G_TYPE_NONE,
-		0, G_TYPE_NONE);
-	signals [CHANGED] = g_signal_new ("changed",
-		GNUMERIC_TYPE_EXPR_ENTRY,
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (GnumericExprEntryClass, changed),
-		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__VOID,
-		G_TYPE_NONE,
-		0, G_TYPE_NONE);
-
-	g_object_class_install_property (gobject_class,
-		PROP_UPDATE_POLICY,
-		g_param_spec_enum ("update_policy",
-			"Update policy",
-			"How frequently changes to the entry should be applied",
-			GTK_TYPE_UPDATE_TYPE,
-			GTK_UPDATE_CONTINUOUS,
-			G_PARAM_READWRITE));
-
 }
 
 static void
@@ -230,6 +156,230 @@ gee_rangesel_reset (GnumericExprEntry *gee)
 }
 
 static void
+gee_destroy (GtkObject *object)
+{
+	gee_detach_scg (GNUMERIC_EXPR_ENTRY (object));
+	parent_class->destroy (object);
+}
+
+static void
+gee_set_property (GObject      *object,
+		  guint         prop_id,
+		  GValue const *value,
+		  GParamSpec   *pspec)
+{
+	GnumericExprEntry *gee = GNUMERIC_EXPR_ENTRY (object);
+	switch (prop_id) {
+	case PROP_UPDATE_POLICY:
+		gnumeric_expr_entry_set_update_policy (gee, g_value_get_enum (value));
+		break;
+
+	case PROP_WITH_ICON:
+		if (g_value_get_boolean (value)) {
+			if (gee->icon == NULL) {
+				gee->icon = gtk_image_new_from_stock (
+					"Gnumeric_ExprEntry", GTK_ICON_SIZE_BUTTON);
+				gtk_box_pack_start (GTK_BOX (gee), gee->icon, FALSE, FALSE, 0);
+				gtk_widget_show (gee->icon);
+			}
+		} else if (gee->icon != NULL)
+			gtk_object_destroy (GTK_OBJECT (gee->icon));
+		break;
+
+	case PROP_WBCG:
+		g_return_if_fail (gee->wbcg == NULL);
+		gee->wbcg =  WORKBOOK_CONTROL_GUI (g_value_get_object (value));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+	}
+}
+
+static void
+gee_get_property (GObject      *object,
+		  guint         prop_id,
+		  GValue       *value,
+		  GParamSpec   *pspec)
+{
+	GnumericExprEntry *gee = GNUMERIC_EXPR_ENTRY (object);
+	switch (prop_id) {
+	case PROP_UPDATE_POLICY:
+		g_value_set_enum (value, gee->update_policy);
+		break;
+	case PROP_WITH_ICON:
+		g_value_set_boolean (value, gee->icon != NULL);
+		break;
+	case PROP_WBCG:
+		g_value_set_object (value, G_OBJECT (gee->wbcg));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+	}
+}
+
+static void
+cb_entry_activate (G_GNUC_UNUSED GtkWidget *w, GObject *gee)
+{
+	g_signal_emit (G_OBJECT (gee), signals [ACTIVATE], 0);
+}
+
+static void
+cb_entry_changed (G_GNUC_UNUSED GtkEntry *ignored,
+		  GnumericExprEntry *gee)
+{
+	if (!gee->ignore_changes) {
+		if (!gee->is_cell_renderer &&
+		    !gnm_expr_entry_can_rangesel (gee) &&
+		    gee->scg != NULL)
+			scg_rangesel_stop (gee->scg, FALSE);
+	}
+
+	g_signal_emit (G_OBJECT (gee), signals [CHANGED], 0);
+}
+
+static gboolean
+cb_gee_key_press_event (GtkEntry	  *entry,
+			GdkEventKey	  *event,
+			GnumericExprEntry *gee)
+{
+	WorkbookControlGUI *wbcg  = gee->wbcg;
+	int state = gnumeric_filter_modifiers (event->state);
+
+	switch (event->keyval) {
+	case GDK_Up:	case GDK_KP_Up:
+	case GDK_Down:	case GDK_KP_Down:
+		if (gee->is_cell_renderer)
+			return FALSE;
+		/* Ignore these keys */
+		return TRUE;
+
+	case GDK_F4: {
+		/* Cycle absolute reference mode through the sequence rel/rel,
+		 * abs/abs, rel/abs, abs/rel and back to rel/rel. Update text
+		 * displayed in entry.
+		 */
+		Rangesel *rs = &gee->rangesel;
+		gboolean abs_cols = (gee->flags & GNM_EE_ABS_COL);
+		gboolean abs_rows = (gee->flags & GNM_EE_ABS_ROW);
+
+		/* FIXME: since the range can't have changed we should just be able to */
+		/*        look it up rather than reparse */
+
+		/* Look for a range */
+		if (rs->text_start >= rs->text_end)
+			gnm_expr_expr_find_range (gee);
+
+		/* no range found */
+		if (rs->text_start >= rs->text_end)
+			return TRUE;
+
+		/* rows must be absolute */
+		if (abs_rows) {
+			if (abs_cols)
+				return TRUE;
+			rs->ref.b.col_relative = rs->ref.a.col_relative =
+				!rs->ref.a.col_relative;
+		} else if (abs_cols)
+			rs->ref.b.row_relative = rs->ref.a.row_relative =
+				!rs->ref.a.row_relative;
+		else {
+			/* It's late. I'm doing this the straightforward way. */
+			rs->ref.b.row_relative = rs->ref.a.row_relative =
+				(rs->ref.a.row_relative != rs->ref.a.col_relative);
+			rs->ref.b.col_relative = rs->ref.a.col_relative =
+				!rs->ref.a.col_relative;
+		}
+
+		gee_rangesel_update_text (gee);
+
+		return TRUE;
+	}
+
+	case GDK_Escape:
+		if (gee->is_cell_renderer) {
+			entry->editing_canceled = TRUE;
+			gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (gee));
+			gtk_cell_editable_remove_widget (GTK_CELL_EDITABLE (gee));
+			return TRUE;
+		} else
+			wbcg_edit_finish (wbcg, FALSE);
+		return TRUE;
+
+	case GDK_KP_Enter:
+	case GDK_Return: {
+		SheetView *sv;
+
+		if (gee->is_cell_renderer)
+			return FALSE;
+		/* Is this the right way to append a newline ?? */
+		if (state == GDK_MOD1_MASK) {
+			gint pos = gtk_editable_get_position (GTK_EDITABLE (entry));
+			gtk_editable_insert_text (GTK_EDITABLE (entry), "\n", 1, &pos);
+			gtk_editable_set_position (GTK_EDITABLE (entry), pos);
+			return TRUE;
+		}
+
+		/* Ctrl-enter is only applicable for the main entry */
+		if (!wbcg_is_editing (wbcg))
+			break;
+
+		/* Be careful to use the editing sheet */
+		sv = sheet_get_view (wbcg->wb_control.editing_sheet,
+			wb_control_view (WORKBOOK_CONTROL (wbcg)));
+
+		if (state == GDK_CONTROL_MASK ||
+		    state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK)) {
+			gboolean const is_array = (state & GDK_SHIFT_MASK);
+			char const *text = gtk_entry_get_text (
+				wbcg_get_entry (wbcg));
+
+			cmd_area_set_text (WORKBOOK_CONTROL (wbcg), sv,
+				text, is_array);
+
+			/* do NOT store the results If the assignment was
+			 * successful it will have taken care of that.
+			 */
+			wbcg_edit_finish (wbcg, FALSE);
+		} else if (wbcg_edit_finish (wbcg, TRUE)) {
+			/* move the edit pos */
+			gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
+			sv_selection_walk_step (sv, direction, FALSE);
+			sv_update (sv);
+		}
+		return TRUE;
+	}
+	default:
+		break;
+	}
+
+	return FALSE;
+}
+
+static gboolean
+cb_gee_button_press_event (G_GNUC_UNUSED GtkEntry *entry,
+			   G_GNUC_UNUSED GdkEventButton *event,
+			   GnumericExprEntry *gee)
+{
+	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
+
+	if (gee->scg) {
+		scg_rangesel_stop (gee->scg, FALSE);
+		gnm_expr_expr_find_range (gee);
+		g_signal_emit (G_OBJECT (gee), signals [CHANGED], 0);
+	}
+
+	return FALSE;
+}
+
+static gboolean
+gee_mnemonic_activate (GtkWidget *w, gboolean group_cycling)
+{
+	GnumericExprEntry *gee = GNUMERIC_EXPR_ENTRY (w);
+	gtk_widget_grab_focus (gee->entry);
+	return TRUE;
+}
+
+static void
 gee_init (GnumericExprEntry *gee)
 {
 	gee->editing_canceled = FALSE;
@@ -239,7 +389,87 @@ gee_init (GnumericExprEntry *gee)
 	gee->scg = NULL;
 	gee->sheet = NULL;
 	gee->wbcg = NULL;
+	gee->freeze_count = 0;
+	gee->update_timeout_id = 0;
 	gee_rangesel_reset (gee);
+
+	gee->entry = GTK_ENTRY (gtk_entry_new ());
+	g_signal_connect (G_OBJECT (gee->entry),
+		"activate",
+		G_CALLBACK (cb_entry_activate), gee);
+	g_signal_connect (G_OBJECT (gee->entry),
+		"changed",
+		G_CALLBACK (cb_entry_changed), gee);
+	g_signal_connect (G_OBJECT (gee->entry),
+		"key_press_event",
+		G_CALLBACK (cb_gee_key_press_event), gee);
+	g_signal_connect (G_OBJECT (gee->entry),
+		"button_press_event",
+		G_CALLBACK (cb_gee_button_press_event), gee);
+	g_signal_connect (G_OBJECT (gee->entry),
+		"notify::cursor-position",
+		G_CALLBACK (gee_notify_cursor_position), gee);
+	gtk_box_pack_start (GTK_BOX (gee), GTK_WIDGET (gee->entry),
+		TRUE, TRUE, 0);
+}
+
+static void
+gee_class_init (GObjectClass *gobject_class)
+{
+	GtkObjectClass *gtk_object_class = (GtkObjectClass *)gobject_class;
+	GtkWidgetClass *widget_class = (GtkWidgetClass *)gobject_class;
+
+	parent_class = g_type_class_peek_parent (gobject_class);
+
+	gobject_class->set_property	= gee_set_property;
+	gobject_class->get_property	= gee_get_property;
+	gtk_object_class->destroy	= gee_destroy;
+	widget_class->mnemonic_activate = gee_mnemonic_activate;
+
+	signals [UPDATE] = g_signal_new ("update",
+		GNUMERIC_TYPE_EXPR_ENTRY,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnumericExprEntryClass, update),
+		(GSignalAccumulator) NULL, NULL,
+		gnm__VOID__VOID,
+		G_TYPE_NONE,
+		0, G_TYPE_NONE);
+	signals [CHANGED] = g_signal_new ("changed",
+		GNUMERIC_TYPE_EXPR_ENTRY,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnumericExprEntryClass, changed),
+		(GSignalAccumulator) NULL, NULL,
+		gnm__VOID__VOID,
+		G_TYPE_NONE,
+		0, G_TYPE_NONE);
+	signals[ACTIVATE] =
+		g_signal_new ("activate",
+		G_OBJECT_CLASS_TYPE (gobject_class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (GtkEntryClass, activate),
+		(GSignalAccumulator) NULL, NULL,
+		gnm__VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	g_object_class_install_property (gobject_class,
+		PROP_UPDATE_POLICY,
+		g_param_spec_enum ("update_policy", "Update policy",
+			"How frequently changes to the entry should be applied",
+			GTK_TYPE_UPDATE_TYPE, GTK_UPDATE_CONTINUOUS,
+			G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		PROP_WITH_ICON,
+		g_param_spec_boolean ("with_icon", "With icon",
+			"Should there be an icon to the right of the entry",
+			TRUE,
+			G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		PROP_WBCG,
+		g_param_spec_object ("wbcg", "WorkbookControlGUI",
+			"The GUI container associated with the entry.",
+			WORKBOOK_CONTROL_GUI_TYPE,
+			G_PARAM_READWRITE));
+
 }
 
 static void
@@ -248,27 +478,31 @@ gee_cell_editable_init (GtkCellEditableIface *iface)
 	iface->start_editing = gee_start_editing;
 }
 
-
-static void
-gee_start_editing (GtkCellEditable *cell_editable,
-		   G_GNUC_UNUSED GdkEvent *event)
-{
-  GNUMERIC_EXPR_ENTRY (cell_editable)->is_cell_renderer = TRUE;
-
-  g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (GNUMERIC_EXPR_ENTRY (cell_editable))),
-		    "activate",
-		    G_CALLBACK (gnumeric_cell_editable_entry_activated), cell_editable);
-
-  gtk_widget_grab_focus (GTK_WIDGET (gnm_expr_entry_get_entry (GNUMERIC_EXPR_ENTRY
-							       (cell_editable))));
-
-}
+GSF_CLASS_FULL (GnumericExprEntry, gnumeric_expr_entry,
+		gee_class_init, gee_init,
+		GTK_TYPE_HBOX, 0,
+		GSF_INTERFACE (gee_cell_editable_init, GTK_TYPE_CELL_EDITABLE))
 
 static void
 gnumeric_cell_editable_entry_activated (G_GNUC_UNUSED gpointer data,
 					GnumericExprEntry *entry)
 {
 	gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (entry));
+}
+
+static void
+gee_start_editing (GtkCellEditable *cell_editable,
+		   G_GNUC_UNUSED GdkEvent *event)
+{
+	GtkEntry *entry = gnm_expr_entry_get_entry (GNUMERIC_EXPR_ENTRY (cell_editable));
+
+	GNUMERIC_EXPR_ENTRY (cell_editable)->is_cell_renderer = TRUE;
+
+	g_signal_connect (G_OBJECT (entry),
+		"activate",
+		G_CALLBACK (gnumeric_cell_editable_entry_activated), cell_editable);
+
+	gtk_widget_grab_focus (GTK_WIDGET (entry));
 }
 
 /**
@@ -551,147 +785,6 @@ gee_reset_update_timer (GnumericExprEntry *gee)
 		gee_update_timeout, gee);
 }
 
-static void
-gee_destroy (GtkObject *object)
-{
-	gee_detach_scg (GNUMERIC_EXPR_ENTRY (object));
-	GTK_OBJECT_CLASS (gnumeric_expr_entry_parent_class)->destroy (object);
-}
-
-static gboolean
-cb_gee_button_press_event (G_GNUC_UNUSED GtkEntry *entry,
-			   G_GNUC_UNUSED GdkEventButton *event,
-			   GnumericExprEntry *gee)
-{
-	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
-
-	if (gee->scg) {
-		scg_rangesel_stop (gee->scg, FALSE);
-		gnm_expr_expr_find_range (gee);
-		g_signal_emit (G_OBJECT (gee), signals [CHANGED], 0);
-	}
-
-	return FALSE;
-}
-
-
-static gboolean
-cb_gee_key_press_event (GtkEntry	  *entry,
-			GdkEventKey	  *event,
-			GnumericExprEntry *gee)
-{
-	WorkbookControlGUI *wbcg  = gee->wbcg;
-	int state = gnumeric_filter_modifiers (event->state);
-
-	switch (event->keyval) {
-	case GDK_Up:	case GDK_KP_Up:
-	case GDK_Down:	case GDK_KP_Down:
-		if (gee->is_cell_renderer)
-			return FALSE;
-		/* Ignore these keys */
-		return TRUE;
-
-	case GDK_F4: {
-		/* Cycle absolute reference mode through the sequence rel/rel,
-		 * abs/abs, rel/abs, abs/rel and back to rel/rel. Update text
-		 * displayed in entry.
-		 */
-		Rangesel *rs = &gee->rangesel;
-		gboolean abs_cols = (gee->flags & GNM_EE_ABS_COL);
-		gboolean abs_rows = (gee->flags & GNM_EE_ABS_ROW);
-
-		/* FIXME: since the range can't have changed we should just be able to */
-		/*        look it up rather than reparse */
-
-		/* Look for a range */
-		if (rs->text_start >= rs->text_end)
-			gnm_expr_expr_find_range (gee);
-
-		/* no range found */
-		if (rs->text_start >= rs->text_end)
-			return TRUE;
-
-		/* rows must be absolute */
-		if (abs_rows) {
-			if (abs_cols)
-				return TRUE;
-			rs->ref.b.col_relative = rs->ref.a.col_relative =
-				!rs->ref.a.col_relative;
-		} else if (abs_cols)
-			rs->ref.b.row_relative = rs->ref.a.row_relative =
-				!rs->ref.a.row_relative;
-		else {
-			/* It's late. I'm doing this the straightforward way. */
-			rs->ref.b.row_relative = rs->ref.a.row_relative =
-				(rs->ref.a.row_relative != rs->ref.a.col_relative);
-			rs->ref.b.col_relative = rs->ref.a.col_relative =
-				!rs->ref.a.col_relative;
-		}
-
-		gee_rangesel_update_text (gee);
-
-		return TRUE;
-	}
-
-	case GDK_Escape:
-		if (gee->is_cell_renderer) {
-			entry->editing_canceled = TRUE;
-			gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (gee));
-			gtk_cell_editable_remove_widget (GTK_CELL_EDITABLE (gee));
-			return TRUE;
-		} else
-			wbcg_edit_finish (wbcg, FALSE);
-		return TRUE;
-
-	case GDK_KP_Enter:
-	case GDK_Return: {
-		SheetView *sv;
-
-		if (gee->is_cell_renderer)
-			return FALSE;
-		/* Is this the right way to append a newline ?? */
-		if (state == GDK_MOD1_MASK) {
-			gint pos = gtk_editable_get_position (GTK_EDITABLE (entry));
-			gtk_editable_insert_text (GTK_EDITABLE (entry), "\n", 1, &pos);
-			gtk_editable_set_position (GTK_EDITABLE (entry), pos);
-			return TRUE;
-		}
-
-		/* Ctrl-enter is only applicable for the main entry */
-		if (!wbcg_is_editing (wbcg))
-			break;
-
-		/* Be careful to use the editing sheet */
-		sv = sheet_get_view (wbcg->wb_control.editing_sheet,
-			wb_control_view (WORKBOOK_CONTROL (wbcg)));
-
-		if (state == GDK_CONTROL_MASK ||
-		    state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK)) {
-			gboolean const is_array = (state & GDK_SHIFT_MASK);
-			char const *text = gtk_entry_get_text (
-				wbcg_get_entry (wbcg));
-
-			cmd_area_set_text (WORKBOOK_CONTROL (wbcg), sv,
-				text, is_array);
-
-			/* do NOT store the results If the assignment was
-			 * successful it will have taken care of that.
-			 */
-			wbcg_edit_finish (wbcg, FALSE);
-		} else if (wbcg_edit_finish (wbcg, TRUE)) {
-			/* move the edit pos */
-			gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
-			sv_selection_walk_step (sv, direction, FALSE);
-			sv_update (sv);
-		}
-		return TRUE;
-	}
-	default:
-		break;
-	}
-
-	return FALSE;
-}
 
 static void
 gee_notify_cursor_position (G_GNUC_UNUSED GObject *object,
@@ -731,52 +824,6 @@ gnumeric_expr_entry_set_update_policy (GnumericExprEntry *gee,
 	g_object_notify (G_OBJECT (gee), "update_policy");
 }
 
-static void
-gee_set_property (GObject      *object,
-		  guint         prop_id,
-		  GValue const *value,
-		  GParamSpec   *pspec)
-{
-	GnumericExprEntry *gee = GNUMERIC_EXPR_ENTRY (object);
-	switch (prop_id) {
-	case PROP_UPDATE_POLICY:
-		gnumeric_expr_entry_set_update_policy (gee, g_value_get_enum (value));
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-	}
-}
-
-static void
-gee_get_property (GObject      *object,
-		  guint         prop_id,
-		  GValue       *value,
-		  GParamSpec   *pspec)
-{
-	GnumericExprEntry *gee = GNUMERIC_EXPR_ENTRY (object);
-	switch (prop_id) {
-	case PROP_UPDATE_POLICY:
-		g_value_set_enum (value, gee->update_policy);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-	}
-}
-
-static void
-cb_entry_changed (G_GNUC_UNUSED GtkEntry *ignored,
-		  GnumericExprEntry *gee)
-{
-	if (!gee->ignore_changes) {
-		if (!gee->is_cell_renderer &&
-		    !gnm_expr_entry_can_rangesel (gee) &&
-		    gee->scg != NULL)
-			scg_rangesel_stop (gee->scg, FALSE);
-	}
-
-	g_signal_emit (G_OBJECT (gee), signals [CHANGED], 0);
-}
-
 /**
  * gnumeric_expr_entry_new:
  *
@@ -790,40 +837,10 @@ cb_entry_changed (G_GNUC_UNUSED GtkEntry *ignored,
 GnumericExprEntry *
 gnumeric_expr_entry_new (WorkbookControlGUI *wbcg, gboolean with_icon)
 {
-	GnumericExprEntry *gee;
-
-	gee = gtk_type_new (gnumeric_expr_entry_get_type ());
-
-	gee->entry = GTK_ENTRY (gtk_entry_new ());
-	g_signal_connect (G_OBJECT (gee->entry),
-		"changed",
-		G_CALLBACK (cb_entry_changed), gee);
-	g_signal_connect (G_OBJECT (gee->entry),
-			  "key_press_event",
-			  G_CALLBACK (cb_gee_key_press_event), gee);
-	g_signal_connect (G_OBJECT (gee->entry),
-			  "button_press_event",
-			  G_CALLBACK (cb_gee_button_press_event), gee);
-	g_signal_connect (G_OBJECT (gee->entry),
-		"notify::cursor-position",
-		G_CALLBACK (gee_notify_cursor_position), gee);
-	gtk_box_pack_start (GTK_BOX (gee), GTK_WIDGET (gee->entry),
-		TRUE, TRUE, 0);
-
-	if (with_icon) {
-		GtkWidget *icon = gtk_image_new_from_stock (
-			"Gnumeric_ExprEntry", GTK_ICON_SIZE_BUTTON);
-		gtk_box_pack_start (GTK_BOX (gee), icon, FALSE, FALSE, 0);
-		gtk_widget_show (icon);
-	}
-	gtk_widget_show (GTK_WIDGET (gee->entry));
-
-	gee->flags = 0;
-	gee->wbcg = wbcg;
-	gee->freeze_count = 0;
-	gee->update_timeout_id = 0;
-
-	return gee;
+	return g_object_new (GNUMERIC_TYPE_EXPR_ENTRY,
+			     "wbcg",	 wbcg,
+			     "with_icon", with_icon,
+			     NULL);
 }
 
 void

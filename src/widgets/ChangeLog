@@ -1,3 +1,10 @@
+2003-04-22  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c : make with_icon, and wbcg parameters and move
+	  the majority of _new into _init.  Then add gee_mnemonic_activate and
+	  link it to GtkWidget inclass_init so that entries can be selected
+	  via mnemonics in labels.
+
 2003-03-18  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_thaw) : send an update signal
