@@ -1248,10 +1248,9 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 			Cell *corner = expr_array_corner (expr,
 				pp->sheet, &pp->eval);
 			if (corner) {
-				ParsePos tmp_pos;
-				tmp_pos.wb  = pp->wb;
-				tmp_pos.eval.col = pp->eval.col - x;
-				tmp_pos.eval.row = pp->eval.row - y;
+				ParsePos tmp_pos = *pp;
+				tmp_pos.eval.col -= x;
+				tmp_pos.eval.row -= y;
 				do_expr_as_string (
 					target,
 					corner->base.expression->array.corner.expr,

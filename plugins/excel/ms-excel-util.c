@@ -226,6 +226,7 @@ init_xl_font_widths (void)
 	 *    width 1 unit larger.  Take the pixel difference.
 	 */
 	static struct XL_font_width const widths[] = {
+	    {  96, 114, "Albany" },
 	    {  96, 114, "Arial" },
 	    {  96, 104, "Arial Baltic" },
 	    { 114, 122, "Arial Black" },

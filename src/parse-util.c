@@ -49,7 +49,7 @@
 static void
 col_name_internal (GString *target, int col)
 {
-	static const int steps[] = {
+	static int const steps[] = {
 		26,
 		26 * 26,
 		26 * 26 * 26,
@@ -220,7 +220,7 @@ cellref_abs_row (CellRef const *ref, ParsePos const *pp)
  * suppress the addition of the sheetname for non-local references.
  **/
 void
-cellref_as_string (GString *target, const GnmExprConventions *conv,
+cellref_as_string (GString *target, GnmExprConventions const *conv,
 		   CellRef const *cell_ref,
 		   ParsePos const *pp, gboolean no_sheetname)
 {
@@ -277,7 +277,7 @@ cellref_as_string (GString *target, const GnmExprConventions *conv,
  *
  **/
 void
-rangeref_as_string (GString *target, const GnmExprConventions *conv,
+rangeref_as_string (GString *target, GnmExprConventions const *conv,
 		    RangeRef const *ref, ParsePos const *pp)
 {
 	Range r;
@@ -735,7 +735,7 @@ sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb,
 		gboolean allow_3d)
 {
 	GString *sheet_name;
-	const char *end;
+	char const *end;
 
 	*sheet = NULL;
 	if (*start == '\'' || *start == '"') {
@@ -920,11 +920,11 @@ gnm_1_0_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 
 static void
 def_expr_name_handler (GString *target,
-		       const ParsePos *pp,
-		       const GnmExprName *name,
-		       const GnmExprConventions *conv)
+		       ParsePos const *pp,
+		       GnmExprName const *name,
+		       GnmExprConventions const *conv)
 {
-	const GnmNamedExpr *thename = name->name;
+	GnmNamedExpr const *thename = name->name;
 
 	if (!thename->active) {
 		g_string_append (target,
@@ -982,7 +982,7 @@ static void
 test_col_stuff (void)
 {
 	int col;
-	const char *end, *str;
+	char const *end, *str;
 	unsigned char col_relative;
 
 	g_assert (strcmp ("A", col_name (0)) == 0);
@@ -1016,7 +1016,7 @@ static void
 test_row_stuff (void)
 {
 	int row;
-	const char *end, *str;
+	char const *end, *str;
 	unsigned char row_relative;
 
 	g_assert (strcmp ("1", row_name (0)) == 0);
@@ -1059,7 +1059,7 @@ static void
 test_cellpos_stuff (void)
 {
 	CellPos cp;
-	const char *end, *str;
+	char const *end, *str;
 
 	end = cellpos_parse ((str = "A1"), &cp, TRUE);
 	g_assert (end == str + strlen (str) && cp.col == 0 && cp.row == 0);

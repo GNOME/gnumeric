@@ -3,7 +3,6 @@ Gnumeric 1.2.1
 Adrian Custer:
 	* More documentation.
 
-
 J.H.M. Dassen (Ray):
 	* Update debian control files.
 
@@ -11,6 +10,8 @@ Jody:
 	* Fix infinite loop on empty axis under solaris.
 	* Fix leak loading charts.
 	* Don't pad zero sized children.
+	* Correctly show unqualified sheet local names in array exprs
+	* Add 'Albany' to excel plugin's font table
 
 Morten:
 	* Invalid memory read in marker combo.

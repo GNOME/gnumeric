@@ -1,3 +1,8 @@
+2003-09-16  Jody Goldberg <jody@gnome.org>
+
+	* src/expr.c (do_expr_as_string) : fill in ParsePos::sheet too so that
+	  names get properly qualified.
+
 2003-09-15  Jody Goldberg <jody@gnome.org>
 
 	* src/graph.c (gnm_go_data_vector_load_len) : don't get confused by

@@ -20,7 +20,7 @@ void        cellref_as_string   (GString *target, const GnmExprConventions *conv
 char const *cellref_parse	(CellRef *out, char const *in,
 				 CellPos const *pos);
 
-void        rangeref_as_string (GString *target, const GnmExprConventions *conv,
+void        rangeref_as_string (GString *target, GnmExprConventions const *conv,
 				RangeRef const *ref, ParsePos const *pp);
 char const *rangeref_parse	(RangeRef *res, char const *in,
 				 ParsePos const *pp);
