@@ -122,29 +122,39 @@ AM_CONDITIONAL(WITH_PYTHON, $python_val)
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
-AC_MSG_CHECKING(For Bonobo > 0.2)
-if gnome-config --libs bonobo > /dev/null 2>&1; then
-	vers=`gnome-config --modversion bonobo`
-	case $vers
-	in
-      	    bonobo-0.2) bonobo_ok=true ;;
-	    *) bonobo_ok=false ;;
-        esac
-else
-        bonobo_ok=false
-fi
+try_bonobo=true
+bonobo=
+bonobo_msg=no
+have_bonobo=false
+AC_ARG_WITH(bonobo,
+	[--{with,without}-bonobo    Compile with Bonobo support or without it],
+	if test x$withval = xno; then
+		try_bonobo=false
+	fi
+)
 
-if $bonobo_ok; then
-        AC_MSG_RESULT(found)
-	AC_DEFINE(ENABLE_BONOBO)
-	have_bonobo=true
-	bonobo=bonobo
-	bonobo_msg=yes
-else
-        AC_MSG_RESULT(not found)
-	bonobo=
-	bonobo_msg=no
-	have_bonobo=false
+if $try_bonobo; then
+	AC_MSG_CHECKING(For Bonobo > 0.2)
+	if gnome-config --libs bonobo > /dev/null 2>&1; then
+		vers=`gnome-config --modversion bonobo`
+		case $vers
+		in
+		    bonobo-0.2) bonobo_ok=true ;;
+		    *) bonobo_ok=false ;;
+		esac
+	else
+		bonobo_ok=false
+	fi
+	
+	if $bonobo_ok; then
+		AC_MSG_RESULT(found)
+		AC_DEFINE(ENABLE_BONOBO)
+		have_bonobo=true
+		bonobo=bonobo
+		bonobo_msg=yes
+	else
+		AC_MSG_RESULT(not found)
+	fi
 fi
 AM_CONDITIONAL(BONOBO, $have_bonobo)
 

@@ -40,8 +40,18 @@ Jay:
 	* Implemented BESSELI, BESSELK completing the engineering functions.
 
 Miguel:
-
+	* Bonobo support is working again.
+	* Added Moniker support for the Workbooks
+	* Made the Workbook a GtkObject;
+	* Made Workbook a GnomeContainer object
+	* EmbeddableGrids now can be returned from get_object to provide linking support.
+	* Added a signal for cell_content_changed for the speech support.
 	* Removed function wizard.
+	* Fixed locale setting and switching for file IO.
+	* Updated the CORBA interface for setting cell attributes.
+	* Killed some dead code.
+	* All IO code now takes an existing workbook to load information into, 
+	  rather than creating a new workbook and returning it.
 	* Scrolling sheet tabs.
 
 --------------------------------------------------------------------------

@@ -1,3 +1,15 @@
+1999-08-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c (workbook_class_init): Added cell_content_changed
+	signal.  
+	(workbook_do_destroy): Do not enable widgets to be focused.
+
+	* src/cell.c (cell_content_changed): Calls workbook_cell_changed.
+	This is for Paolo and his speech system for GNOME.
+	
+	* configure.in: New bonobo detection code and support for not
+	compiling Bonobo support even if it is present on the system
+	
 1999-08-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* samples/statfuns.xls: Updated the tests of LINEST and TREND to

@@ -44,7 +44,15 @@ static int workbook_count;
 
 static GList *workbook_list = NULL;
 
+/*
+ * For the Workbook class
+ */
+enum {
+	CELL_CONTENT_CHANGED,
+	LAST_SIGNAL,
+};
 static WORKBOOK_PARENT_CLASS *workbook_parent_class;
+static guint wb_signals [LAST_SIGNAL] = { 0, };
 
 static void workbook_set_focus (GtkWindow *window, GtkWidget *focus, Workbook *wb);
 
@@ -272,7 +280,6 @@ workbook_do_destroy (Workbook *wb)
 	gtk_signal_disconnect_by_func (
 		GTK_OBJECT (wb->toplevel),
 		GTK_SIGNAL_FUNC (workbook_set_focus), wb);
-	gtk_window_set_focus (wb->toplevel, NULL);
 	
 	/*
 	 * Do all deletions that leave the workbook in a working
@@ -307,6 +314,7 @@ workbook_do_destroy (Workbook *wb)
 	g_list_free (wb->eval_queue);
 	wb->eval_queue = NULL;
 
+	gtk_window_set_focus (GTK_WINDOW (wb->toplevel), NULL);
 	/* Detach and destroy all sheets.  */
 	{
 		GList *sheets, *l;
@@ -332,8 +340,18 @@ workbook_do_destroy (Workbook *wb)
 				g_hash_table_foreach (sheet->dependency_hash, dump_dep, NULL);
 			}
 
+			/*
+			 * Make sure we alwayws keep the focus on an
+			 * existing widget (otherwise the destruction
+			 * code for wb->toplvel will try to focus a
+			 * dead widget at the end of this routine)
+			 */
+			gtk_window_set_focus (GTK_WINDOW (wb->toplevel), NULL);
+
 			workbook_detach_sheet (sheet->workbook, sheet, TRUE);
 			sheet_destroy (sheet);
+
+			gtk_window_set_focus (GTK_WINDOW (wb->toplevel), NULL);
 		}
 		g_list_free (sheets);
 	}
@@ -1927,8 +1945,23 @@ workbook_init (GtkObject *object)
 static void
 workbook_class_init (GtkObjectClass *object_class)
 {
+	WorkbookClass *workbook_class = (WorkbookClass *) object_class;
+	
 	workbook_parent_class = gtk_type_class (WORKBOOK_PARENT_CLASS_TYPE);
 	object_class->destroy = workbook_destroy;
+
+	wb_signals [CELL_CONTENT_CHANGED] =
+		gtk_signal_new (
+			"cell_content_changed",
+			GTK_RUN_LAST,
+			object_class->type,
+			GTK_SIGNAL_OFFSET (WorkbookClass, cell_content_changed),
+			gtk_marshal_NONE__POINTER,
+			GTK_TYPE_NONE, 0);
+
+	workbook_class->cell_content_changed = NULL;
+	
+	gtk_object_class_add_signals (object_class, wb_signals, LAST_SIGNAL);
 }
 
 GtkType
@@ -2802,4 +2835,12 @@ workbook_selection_to_string (Workbook *wb, Sheet *base_sheet)
 	g_string_free (info.result, FALSE);
 
 	return result;
+}
+
+void
+workbook_cell_changed (Workbook *wb, void *c)
+{
+	Cell *cell = c;
+
+	gtk_signal_emit (GTK_OBJECT (wb), wb_signals [CELL_CONTENT_CHANGED], cell);
 }
