@@ -15,6 +15,6 @@ GogGraph    *sheet_object_graph_get_gog (SheetObject *sog);
 void	     sheet_object_graph_set_gog (SheetObject *sog, GogGraph *graph);
 
 void sheet_object_graph_guru (WorkbookControlGUI *wbcg, GogGraph *graph,
-			      GogGuruRegister handler, gpointer handler_data);
+			      GClosure *closure);
 
 #endif /* GNUMERIC_SHEET_OBJECT_GRAPH_H */

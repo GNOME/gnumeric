@@ -28,11 +28,12 @@
 G_BEGIN_DECLS
 
 /* This interface _will_ change */
-typedef void (*GogGuruRegister) (GogGraph *graph, gpointer user);
+/* The callback in the closure should match the following prototype: */
+/* typedef void (*GogGuruRegister) (GogGraph *graph, gpointer user); */
 
 GtkWidget *gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 		     CommandContext *cc, GtkWindow *toplevel,
-		     GogGuruRegister handler, gpointer handler_data);
+		     GClosure *closure);
 
 G_END_DECLS
 

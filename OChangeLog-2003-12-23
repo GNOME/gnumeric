@@ -1,3 +1,13 @@
+2003-08-24  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/sheet-object-graph.c (cmd_so_graph_config): use
+	  sheet_object_graph_user_config_t
+	(sheet_object_graph_user_config_free_data): new
+	(sheet_object_graph_user_config): use gclosure
+	(sheet_object_graph_guru): ditto
+	* src/sheet-object-graph.h (sheet_object_graph_guru): use gclosure
+	* src/workbook-control-gui.c (cb_launch_chart_guru): use gclosure
+
 2003-08-24  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=120541

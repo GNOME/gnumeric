@@ -1,3 +1,10 @@
+2003-08-24  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* graph/gog-guru.c (gog_guru): store and ref gclosure
+	(graph_guru_state_destroy): unref closure
+	(cb_graph_guru_clicked): invoke gclosure
+	* graph/gog-guru.h (gog_guru): use gclosure
+
 2003-08-23  Jody Goldberg <jody@gnome.org>
 
 	* graph/plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_update) : doh!

@@ -198,29 +198,49 @@ sheet_object_graph_print (SheetObject const *so, GnomePrintContext *ctx,
 	gog_graph_print_to_gnome_print (sog->graph, ctx, width, height);
 }
 
-static void
-cb_update_graph (GogGraph *graph, SheetObjectGraph *sog)
-{
-	WorkbookControl *wbc = g_object_get_data (G_OBJECT (sog),
-						  "wbc");
+typedef struct {
+	SheetObject *so;
+	WorkbookControl *wbc;
+} sheet_object_graph_user_config_t;
 
-	cmd_so_graph_config (wbc,
-			     SHEET_OBJECT (sog), G_OBJECT (graph), 
-			     G_OBJECT (sog->graph));
+static void
+sheet_object_graph_user_config_free_data (gpointer data,
+                                             GClosure *closure)
+{
+	g_free (data);
+	closure->data = NULL;
+}
+
+static void
+cb_update_graph (GogGraph *graph, sheet_object_graph_user_config_t *data)
+{
+	cmd_so_graph_config (data->wbc, data->so, G_OBJECT (graph), 
+			     G_OBJECT (SHEET_OBJECT_GRAPH (data->so)->graph));
 }
 
 static void
 sheet_object_graph_user_config (SheetObject *so, SheetControl *sc)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-	WorkbookControlGUI *wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
+	WorkbookControlGUI *wbcg;
+	sheet_object_graph_user_config_t *data;
+	GClosure *closure;
 
 	g_return_if_fail (sog != NULL);
+	g_return_if_fail (sc != NULL);
 
-	g_object_set_data (G_OBJECT (so),"wbc",  wbcg);
-
-	sheet_object_graph_guru (wbcg, sog->graph,
-		(GogGuruRegister)cb_update_graph, so);
+	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
+	
+	data = g_new0 (sheet_object_graph_user_config_t, 1);
+	data->so = so;
+	data->wbc = WORKBOOK_CONTROL (wbcg);
+ 
+	closure = g_cclosure_new (G_CALLBACK (cb_update_graph),
+				  data, (GClosureNotify)
+				  sheet_object_graph_user_config_free_data);
+	
+ 	sheet_object_graph_guru (wbcg, sog->graph, closure);
+	g_closure_sink (closure);
 }
 
 static gboolean
@@ -379,11 +399,11 @@ cb_graph_guru_done (WorkbookControlGUI *wbcg)
 
 void
 sheet_object_graph_guru (WorkbookControlGUI *wbcg, GogGraph *graph,
-			 GogGuruRegister handler, gpointer handler_data)
+			 GClosure *closure)
 {
 	GtkWidget *dialog = gog_guru (graph, GOG_DATA_ALLOCATOR (wbcg),
 		       COMMAND_CONTEXT (wbcg), wbcg_toplevel (wbcg),
-		       handler, handler_data);
+		       closure);
 	wbcg_edit_attach_guru (wbcg, dialog);
 	g_object_set_data_full (G_OBJECT (dialog),
 		"guru", wbcg, (GDestroyNotify) cb_graph_guru_done);

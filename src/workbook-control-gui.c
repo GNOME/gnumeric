@@ -3198,7 +3198,10 @@ cb_add_graph (GogGraph *graph, gpointer wbcg)
 static void
 cb_launch_chart_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	sheet_object_graph_guru (wbcg, NULL, cb_add_graph, wbcg);
+	GClosure *closure = g_cclosure_new (G_CALLBACK (cb_add_graph),
+					    wbcg, NULL);
+	sheet_object_graph_guru (wbcg, NULL, closure);
+	g_closure_sink (closure);
 }
 
 #ifdef WITH_BONOBO

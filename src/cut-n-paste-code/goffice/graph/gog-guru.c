@@ -53,8 +53,7 @@ struct _GraphGuruState {
 
 	CommandContext	 *cc;
 	GogDataAllocator *dalloc;
-	GogGuruRegister   register_graph;
-	gpointer	  register_graph_data;
+	GClosure         *register_closure;
 
 	/* GUI accessors */
 	GladeXML    *gui;
@@ -479,6 +478,11 @@ graph_guru_state_destroy (GraphGuruState *state)
 	if (state->gui != NULL) {
 		g_object_unref (state->gui);
 		state->gui = NULL;
+	}
+
+	if (state->register_closure != NULL) {
+		g_closure_unref (state->register_closure);
+		state->register_closure = NULL;
 	}
 
 	state->dialog = NULL;
@@ -1031,8 +1035,30 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *s)
 		graph_guru_set_page (s, (s->current_page + 1) % 2);
 		return;
 	} else if (button == s->button_ok &&
-		   s->register_graph != NULL && s->graph != NULL)
-		(s->register_graph) (s->graph, s->register_graph_data);
+		   s->register_closure != NULL && s->graph != NULL) {
+		/* Invoking closure */
+		GValue instance_and_params[2];
+		gpointer data = s->register_closure->is_invalid ? 
+			NULL : s->register_closure->data;
+		
+		instance_and_params[0].g_type = 0;
+		g_value_init (&instance_and_params[0], GOG_GRAPH_TYPE);
+		g_value_set_instance (&instance_and_params[0], s->graph);
+
+		instance_and_params[1].g_type = 0;
+		g_value_init (&instance_and_params[1], G_TYPE_POINTER);
+		g_value_set_pointer (&instance_and_params[1], data);
+
+		g_closure_set_marshal (s->register_closure,
+				       g_cclosure_marshal_VOID__POINTER);
+
+		g_closure_invoke (s->register_closure,
+				  NULL,
+				  2,
+				  instance_and_params,
+				  NULL);
+
+	}
 
 	gtk_widget_destroy (GTK_WIDGET (s->dialog));
 }
@@ -1221,7 +1247,7 @@ graph_guru_init (GraphGuruState *s)
 GtkWidget *
 gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	  CommandContext *cc, GtkWindow *toplevel,
-	  GogGuruRegister handler, gpointer handler_data)
+	  GClosure *closure)
 {
 	int page = (graph != NULL) ? 1 : 0;
 	GraphGuruState *state;
@@ -1233,9 +1259,9 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	state->gui	= NULL;
 	state->cc       = cc;
 	state->dalloc   = dalloc;
-	state->register_graph	   = handler;
-	state->register_graph_data = handler_data;
 	state->current_page	= -1;
+	state->register_closure	= closure;
+	g_closure_ref (closure);
 
 	if (graph != NULL) {
 		g_return_val_if_fail (IS_GOG_GRAPH (graph), NULL);
