@@ -36,4 +36,10 @@ GtkWidget *gtk_combo_stack_new       (const gchar *stock_name,
 void       gtk_combo_stack_push_item (GtkComboStack *combo_stack,
 				      const gchar *item);
 
+void       gtk_combo_stack_remove_top (GtkComboStack *combo_stack,
+				       gint num);
+void       gtk_combo_stack_pop       (GtkComboStack *combo_stack,
+				      gint num);
+void       gtk_combo_stack_clear     (GtkComboStack *combo_stack);
+
 #endif

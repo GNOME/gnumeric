@@ -77,25 +77,42 @@ gtk_combo_stack_get_type (void)
 	return type;
 }
 
-static void
+void
 gtk_combo_stack_pop (GtkComboStack *combo,
 		     gint num)
+{
+	/*
+	gtk_combo_stack_remove_top (combo, num);
+	*/
+	gtk_signal_emit_by_name (GTK_OBJECT (combo), "pop", num);
+}
+
+void
+gtk_combo_stack_remove_top (GtkComboStack *combo,
+			    gint num)
 {
 	if (combo->num_items == 0)
 		return;
 
+	if (num > combo->num_items)
+		num = combo->num_items;
+	
 	gtk_list_clear_items (GTK_LIST (combo->list), 0, num - 1);
 	gtk_container_remove (GTK_CONTAINER (combo->list),
 			      GTK_LIST (combo->list)->children->data);
 
-	gtk_signal_emit_by_name (GTK_OBJECT (combo), "pop", num);
-
 	combo->num_items -= num;
 	if (!combo->num_items)
-	{
-		gtk_widget_set_sensitive (combo->button, FALSE);
-		gtk_combo_box_set_arrow_sensitive (GTK_COMBO_BOX (combo), FALSE);
-	}
+		gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
+}
+
+void
+gtk_combo_stack_clear (GtkComboStack *combo)
+{
+	combo->num_items = 0;
+
+	gtk_list_clear_items (GTK_LIST (combo->list), 0, -1);
+	gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
 }
 
 static void
@@ -133,8 +150,6 @@ gtk_combo_stack_construct (GtkComboStack *combo,
 	pixmap = gnome_stock_new_with_icon (stock_name);
 	gtk_widget_show (pixmap);
 	gtk_container_add (GTK_CONTAINER (button), pixmap);
-	gtk_widget_set_sensitive (button, FALSE);
-	gtk_combo_box_set_arrow_sensitive (GTK_COMBO_BOX (combo), FALSE);
 	
 	if (is_scrolled) {
 		display_widget = scroll = gtk_scrolled_window_new (NULL, NULL);
@@ -166,6 +181,7 @@ gtk_combo_stack_construct (GtkComboStack *combo,
 	gtk_widget_show (display_widget);
 	gtk_widget_show (button);
 	gtk_combo_box_construct (GTK_COMBO_BOX (combo), button, display_widget);
+	gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
 }
 
 GtkWidget*
@@ -190,7 +206,7 @@ gtk_combo_stack_push_item (GtkComboStack *combo,
 	GtkWidget *listitem;
 	GList *tmp_list; /* We can only prepend GLists to a GtkList */
 	
-	g_return_if_fail (item);
+	g_return_if_fail (item != NULL);
 
 	combo->num_items++;
 
@@ -205,8 +221,7 @@ gtk_combo_stack_push_item (GtkComboStack *combo,
 	gtk_list_prepend_items (GTK_LIST (combo->list),
 				tmp_list);
 
-	gtk_widget_set_sensitive (combo->button, TRUE);
-	gtk_combo_box_set_arrow_sensitive (GTK_COMBO_BOX (combo), TRUE);
+	gtk_widget_set_sensitive (GTK_WIDGET (combo), TRUE);
 	
 /*	g_list_free (tmp_list);*/
 }
