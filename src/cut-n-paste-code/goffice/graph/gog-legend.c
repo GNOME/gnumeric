@@ -156,7 +156,7 @@ static void
 gog_legend_class_init (GogLegendClass *klass)
 {
 	static GogObjectRole const roles[] = {
-		{ N_("Title"), "GogLabel",
+		{ N_("Title"), "GogLabel",	0,
 		  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, GOG_OBJECT_NAME_BY_ROLE,
 		  NULL, NULL, NULL, NULL, NULL, NULL },
 	};

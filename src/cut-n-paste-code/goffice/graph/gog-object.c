@@ -406,6 +406,8 @@ gog_role_cmp (GogObjectRole const *a, GogObjectRole const *b)
 		return 1;
 	else if (index_a > index_b)
 		return -1;
+	if (a->priority != b->priority)
+		return b->priority - a->priority;
 	return g_utf8_collate (a->id, b->id);
 }
 
@@ -585,7 +587,6 @@ gog_object_set_parent (GogObject *child, GogObject *parent,
 {
 	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (child);
 	GSList **step;
-	int order;
 
 	g_return_val_if_fail (GOG_OBJECT (child), FALSE);
 	g_return_val_if_fail (child->parent == NULL, FALSE);
@@ -596,10 +597,9 @@ gog_object_set_parent (GogObject *child, GogObject *parent,
 	child->position = role->default_position;
 
 	/* Insert sorted based on hokey little ordering */
-	order = gog_object_position_cmp (child->position);
 	step = &parent->children;
 	while (*step != NULL &&
-	       order >= gog_object_position_cmp (GOG_OBJECT ((*step)->data)->position))
+	       gog_role_cmp (GOG_OBJECT ((*step)->data)->role, role) >= 0)
 		step = &((*step)->next);
 	*step = g_slist_prepend (*step, child);
 

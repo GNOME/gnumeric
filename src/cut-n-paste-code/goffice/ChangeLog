@@ -1,3 +1,10 @@
+2003-08-22  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-object.c (gog_role_cmp) : use the new priority field to
+	  be smarter.
+	(gog_object_set_parent) : use gog_role_cmp instead of just using the
+	  position.
+
 2003-08-21  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-guru.c (gog_guru) : use gog_graph_dup now that styles

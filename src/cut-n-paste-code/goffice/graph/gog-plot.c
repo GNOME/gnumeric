@@ -161,7 +161,7 @@ static void
 gog_plot_class_init (GogObjectClass *gog_klass)
 {
 	static GogObjectRole const roles[] = {
-		{ N_("Series"), "GogSeries",
+		{ N_("Series"), "GogSeries",	0,
 		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 		  role_series_can_add, role_series_can_remove,
 		  role_series_allocate,

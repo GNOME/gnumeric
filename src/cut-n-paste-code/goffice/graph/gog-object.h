@@ -36,8 +36,9 @@ typedef enum {
 
 struct _GogObjectRole {
 	char const *id;	/* for persistence */
-
 	char const *is_a_typename;
+	unsigned    priority;
+
 	guint32		  	allowable_positions;
 	GogObjectPosition 	default_position;
 	GogObjectNamingConv	naming_conv;

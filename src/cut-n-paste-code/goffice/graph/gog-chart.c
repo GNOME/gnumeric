@@ -165,27 +165,27 @@ static void z_axis_post_add    (GogObject *parent, GogObject *child)  { axis_pos
 static void z_axis_pre_remove  (GogObject *parent, GogObject *child)  { axis_pre_remove (child, GOG_AXIS_Z); }
 
 static GogObjectRole const roles[] = {
-	{ N_("Plot"), "GogPlot",
-	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_TYPE,
-	  NULL, NULL, NULL, role_plot_post_add, role_plot_pre_remove, NULL, { -1 } },
-	{ N_("Legend"), "GogLegend",
+	{ N_("Legend"), "GogLegend",	0,
 	  GOG_POSITION_COMPASS, GOG_POSITION_E|GOG_POSITION_ALIGN_CENTER, GOG_OBJECT_NAME_BY_ROLE,
 	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
-	{ N_("Title"), "GogLabel",
+	{ N_("Title"), "GogLabel",	1,
 	  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, GOG_OBJECT_NAME_BY_ROLE,
 	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
-	{ N_("X-Axis"), "GogAxis",
+	{ N_("X-Axis"), "GogAxis",	0,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  x_axis_can_add, NULL, NULL, x_axis_post_add, x_axis_pre_remove, NULL,
 	  { GOG_AXIS_X } },
-	{ N_("Y-Axis"), "GogAxis",
+	{ N_("Y-Axis"), "GogAxis",	1,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  y_axis_can_add, NULL, NULL, y_axis_post_add, y_axis_pre_remove, NULL,
 	  { GOG_AXIS_Y } },
-	{ N_("Z-Axis"), "GogAxis",
+	{ N_("Z-Axis"), "GogAxis",	2,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  z_axis_can_add, NULL, NULL, z_axis_post_add, z_axis_pre_remove, NULL,
-	  { GOG_AXIS_Z } }
+	  { GOG_AXIS_Z } },
+	{ N_("Plot"), "GogPlot",	3,	/* keep the axis before the plots */
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_TYPE,
+	  NULL, NULL, NULL, role_plot_post_add, role_plot_pre_remove, NULL, { -1 } }
 };
 static void
 gog_chart_class_init (GogObjectClass *gog_klass)
@@ -377,7 +377,6 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 	for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next)
 		if (!gog_plot_axis_set_assign (ptr->data, axis_set))
 			return FALSE;
-
 
 	/* remove any existing axis that do not fit this scheme */
 	for (ptr = GOG_OBJECT (chart)->children ; ptr != NULL ; ) {
