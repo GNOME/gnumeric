@@ -1,3 +1,9 @@
+2001-06-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (workbook_menu_format_row) : avoid
+	  duplicate use of 'H' as accelerator.
+	* src/GNOME_Gnumeric.xml : Ditto.
+
 2001-06-08  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/embeddable-grid.c (grid_view_activate): Use

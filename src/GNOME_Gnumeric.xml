@@ -357,14 +357,14 @@
 	    </submenu>
 
 	    <submenu _label="_Row">
+		<menuitem name="Size" verb="RowSize"
+		    pixtype="stock" pixname="Gnumeric_RowSize"
+		    _label="H_eight..."
+		    _tip="Change height of the selected rows" />
+
 		<menuitem name="AutoFit" verb="RowAutoSize"
 		    _label="_Auto fit selection"
 		    _tip="Ensure rows are just tall enough to display content" />
-
-		<menuitem name="Size" verb="RowSize"
-		    pixtype="stock" pixname="Gnumeric_RowSize"
-		    _label="_Height..."
-		    _tip="Change height of the selected rows" />
 
 		<menuitem name="Hide" verb="RowHide"
 		    pixtype="stock" pixname="Gnumeric_RowHide"

@@ -2338,12 +2338,12 @@ static GnomeUIInfo workbook_menu_format_column [] = {
 };
 
 static GnomeUIInfo workbook_menu_format_row [] = {
+	GNOMEUIINFO_ITEM_STOCK (N_("H_eight..."),
+		N_("Change height of the selected rows"),
+		sheet_dialog_set_row_height, "Menu_Gnumeric_RowSize"),
 	GNOMEUIINFO_ITEM_NONE (N_("_Auto fit selection"),
 		N_("Ensure rows are just tall enough to display content"),
 		workbook_cmd_format_row_auto_fit),
-	GNOMEUIINFO_ITEM_STOCK (N_("_Height..."),
-		N_("Change height of the selected rows"),
-		sheet_dialog_set_row_height, "Menu_Gnumeric_RowSize"),
 	GNOMEUIINFO_ITEM_STOCK (N_("_Hide"),
 		N_("Hide the selected rows"),
 		workbook_cmd_format_row_hide, "Menu_Gnumeric_RowHide"),
