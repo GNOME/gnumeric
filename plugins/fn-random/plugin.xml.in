@@ -35,6 +35,7 @@
 				<function name="randpareto"/>
 				<function name="randpoisson"/>
 				<function name="randrayleigh"/>
+				<function name="randrayleightail"/>
 				<function name="randtdist"/>
 				<function name="randuniform"/>
 				<function name="randweibull"/>

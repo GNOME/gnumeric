@@ -424,6 +424,33 @@ gnumeric_randrayleigh (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static const char *help_randrayleightail = {
+        N_("@FUNCTION=RANDRAYLEIGHTAIL\n"
+           "@SYNTAX=RANDRAYLEIGHTAIL(a,sigma)\n"
+
+           "@DESCRIPTION="
+           "RANDRAYLEIGHTAIL returns  a random variate from the tail of the "
+	   "Rayleigh distribution with scale parameter sigma and a lower limit "
+	   "of a. The distribution is, p(x) dx = {x over sigma^2} exp "
+	   "((a^2 - x^2) /(2 sigma^2)) dx, for x > a. "
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDRAYLEIGHTAIL(0.3,1).\n"
+           "\n"
+           "@SEEALSO=RAND,RANDRAYLEIGH")
+};
+
+static Value *
+gnumeric_randrayleightail (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float a     = value_get_as_float (argv[0]);
+	gnum_float sigma = value_get_as_float (argv[1]);
+
+        return value_new_float (random_rayleigh_tail (a, sigma));
+}
+
+/***************************************************************************/
+
 static const char *help_randgamma = {
         N_("@FUNCTION=RANDGAMMA\n"
            "@SYNTAX=RANDGAMMA(a,b)\n"
@@ -832,6 +859,8 @@ const ModulePluginFunctionInfo random_functions[] = {
 	  gnumeric_randpoisson, NULL, NULL, NULL },
         { "randrayleigh", "f", N_("sigma"), &help_randrayleigh,
 	  gnumeric_randrayleigh, NULL, NULL, NULL },
+        { "randrayleightail", "ff", N_("a,sigma"), &help_randrayleightail,
+	  gnumeric_randrayleightail, NULL, NULL, NULL },
         { "randtdist", "f", N_("nu"), &help_randtdist,
 	  gnumeric_randtdist, NULL, NULL, NULL },
         { "randuniform", "ff", N_("a,b"), &help_randuniform,

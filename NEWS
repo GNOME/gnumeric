@@ -61,12 +61,13 @@ Jukka:
 	  RANDBETA(), RANDCAUCHY(), RANDCHISQ(), RANDEXPPOW(), RANDFDIST(),
 	  RANDGAMMA(), RANDGAUSSIAN(), RANDGEOM(), RANDGUMBEL(), RANDHYPERG(),
 	  RANDLAPLACE(), RANDLEVY(), RANDLOG(), RANDLOGISTIC(), RANDLOGNORM(),
-	  RANDPARETO(), RANDRAYLEIGH(), RANDTDIST(), RANDUNIFORM(), and
-	  RANDWEIBULL().
+	  RANDPARETO(), RANDRAYLEIGH(), RANDRAYLEIGHTAIL(), RANDTDIST(),
+	  RANDUNIFORM(), and RANDWEIBULL().
 	* New random distributions for the random number generation tool:
 	  Beta, Cauchy, Chi-Squared, Exponential power, F, Gamma, Geometric,
 	  Laplace, Levy alpha-Stable, Logarithmic, Logistic, Lognormal,
-	  Pareto, Rayleigh, T, Type I Gumbel, Type II Gumbel, and Weibull.
+	  Pareto, Rayleigh, Rayleigh tail, T, Type I Gumbel, Type II Gumbel,
+	  and Weibull.
 
 Morten:
 	* Improve the Applix importer.
