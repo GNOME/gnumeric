@@ -587,9 +587,10 @@ wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
 			GError const *save_err;
 			gnm_file_saver_save (fs, io_context, wbv, GSF_OUTPUT (output));
 			save_err = gsf_output_error (GSF_OUTPUT (output));
-			if (save_err)
+			if (save_err) {
 				msg = g_strdup (save_err->message);
-			else {
+				g_object_unref (G_OBJECT (output));
+			} else {
 				g_object_unref (G_OBJECT (output));
 				g_free (filename_utf8);
 				return;
