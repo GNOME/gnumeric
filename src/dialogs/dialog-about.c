@@ -54,7 +54,6 @@ dialog_about (Workbook *wb)
 				 _("The GNOME spreadsheet.\n"
 				   "http://www.gnome.org/gnumeric"),
 				 NULL);
-	gtk_window_set_modal (GTK_WINDOW (about), TRUE);
 	gnome_dialog_set_parent (GNOME_DIALOG (about), GTK_WINDOW (wb->toplevel));
 	gnome_dialog_set_close (GNOME_DIALOG (about), TRUE);
         gtk_widget_show (about);

@@ -1,3 +1,12 @@
+1999-04-05  Morten Wellinder <terra@diku.dk>
+
+	* src/cell.c (cell_set_rendered_text): Fix for circular
+	references.  
+
+1999-04-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+	
+	* src/about.c (dialog_about): Do not make the about box modal.
+
 1999-04-05 Michael Meeks  <michael@imaginator.com>
 
 	* src/func.c (tokenised_help_new, tokenised_help_destroy),

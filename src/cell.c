@@ -493,15 +493,18 @@ cell_set_border (Cell *cell,
 void
 cell_set_rendered_text (Cell *cell, char *rendered_text)
 {
+	String *oldtext;
+	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (rendered_text != NULL);
-	
+
 	cell_modified (cell);
 
-	if (cell->text)
-		string_unref (cell->text);
-
+	oldtext = cell->text;
 	cell->text = string_get (rendered_text);
+	if (oldtext)
+		string_unref (oldtext);
+	
 	cell_calc_dimensions (cell);
 }
 
