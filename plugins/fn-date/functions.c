@@ -571,13 +571,14 @@ static char *help_day = {
 	   "@SYNTAX=DAY (serial_number)\n"
 
 	   "@DESCRIPTION="
-	   "Converts a serial number to a day."
+	   "Converts a serial number to a day of month."
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "day (\"10/24/1968\") equals 24.\n"
 	   "\n"
 	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
 };
@@ -606,15 +607,19 @@ static char *help_weekday = {
 	   "@SYNTAX=WEEKDAY (serial_number)\n"
 
 	   "@DESCRIPTION="
-	   "Converts a serial number to a weekday.  FIXME: explain."
+	   "Converts a serial number to a weekday.\n"
+	   "\n"
+	   "This function returns an integer in the range 0-6, where "
+	   "Saturday is 0, Sunday is 1, etc.\n"
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "WEEKDAY(\"10/24/1968\") equals 5 (Thursday).\n"
 	   "\n"
-	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
+	   "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR")
 };
 
 static Value *
@@ -748,6 +753,8 @@ static char *help_eomonth = {
 	   "Returns #NUM! if start_date or months are invalid."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "If A1 contains 12/21/00 then EOMONTH(A1,0)=12/31/00, "
+	   "EOMONTH(A1,5)=5/31/01, and EOMONTH(A1,2)=2/28/01\n"
 	   "\n"
 	   "@SEEALSO=MONTH")
 };
