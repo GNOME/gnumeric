@@ -18,12 +18,12 @@
 				<suffix>xlt</suffix>
 			</suffixes>
 		</service>
+		<!-- Enable when more is in place
 		<service type="file_opener" id="excel_xml" priority="1" probe="FALSE">
 			<information>
-				<_description>MS Excel (tm) XML</_description>
+				<_description>MS Excel (tm) SpreadsheetML</_description>
 			</information>
 		</service>
-		<!-- Enable when more is in place
 		-->
 		<service type="file_saver" id="excel_biff7" file_extension="xls"
 		         format_level="auto" overwrite_files="TRUE">
