@@ -1,5 +1,15 @@
 2002-02-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-analysis-tools.c (error_in_entry) : gnumeric-expr-
+	  entries are not gtkentries.
+	(tool_destroy) : use g_object_unref
+	(tool_load_selection) : gnumeric-expr-entries are not 
+	  gtkentries.
+	(dialog_random_tool_init) : load selection into gnumeric-
+	  expr-entry rather than gtkentry
+	
+2002-02-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* autocorrect-glade : don't set has_focus for a widget on an
 	  inactive notebook page
 	

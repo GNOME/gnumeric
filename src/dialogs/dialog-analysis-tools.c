@@ -212,11 +212,15 @@ error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str)
         gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
 				  &(state->warning_dialog),
 				  GTK_MESSAGE_ERROR, err_str);
-
-	gtk_widget_grab_focus (entry);
-	gtk_entry_set_position (GTK_ENTRY (entry), 0);
-	gtk_entry_select_region (GTK_ENTRY (entry), 0,
-				 GTK_ENTRY (entry)->text_length);
+	
+	if (IS_GNUMERIC_EXPR_ENTRY (entry)) 
+		gnm_expr_entry_grab_focus (GNUMERIC_EXPR_ENTRY (entry), TRUE);
+	else {
+		gtk_widget_grab_focus (entry);
+		gtk_entry_set_position (GTK_ENTRY (entry), 0);
+		gtk_entry_select_region (GTK_ENTRY (entry), 0,
+					 GTK_ENTRY (entry)->text_length);
+	}
 }
 
 /**
@@ -327,7 +331,7 @@ tool_destroy (GtkObject *w, GenericToolState  *state)
 	g_return_val_if_fail (state != NULL, FALSE);
 
 	if (state->accel != NULL) {
-		gtk_accel_group_unref (state->accel);
+		g_object_unref (G_OBJECT (state->accel));
 		state->accel = NULL;
 	}
 
@@ -583,10 +587,7 @@ tool_load_selection (GenericToolState *state, gboolean allow_multiple)
 	}
 
 	gtk_widget_show (state->dialog);
-	gtk_widget_grab_focus (GTK_WIDGET (state->input_entry));
-	gtk_editable_select_region (
-		GTK_EDITABLE (gnm_expr_entry_get_entry (state->input_entry)),
-		0, -1);
+	gnm_expr_entry_grab_focus (GNUMERIC_EXPR_ENTRY (state->input_entry), FALSE);
 }
 
 /**********************************************/
@@ -2280,7 +2281,7 @@ distribution_parbox_config (RandomToolState *state,
 	if (state->distribution_accel != NULL) {
 		gtk_window_remove_accel_group (GTK_WINDOW (state->dialog),
 					       state->distribution_accel);
-		gtk_accel_group_unref (state->distribution_accel);
+		state->distribution_accel = NULL;
 	}
 	state->distribution_accel = gtk_accel_group_new ();
 
@@ -2422,7 +2423,6 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 			if (state->distribution_accel) {
 				gtk_window_remove_accel_group (GTK_WINDOW (state->dialog),
 							       state->distribution_accel);
-				gtk_accel_group_unref (state->distribution_accel);
 				state->distribution_accel = NULL;
 			}
 			gtk_widget_destroy (state->dialog);
@@ -2481,15 +2481,9 @@ dialog_random_tool_init (RandomToolState *state)
         if (state->dialog == NULL)
                 return TRUE;
 
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (tool_destroy), state);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"realize",
-		G_CALLBACK (dialog_random_realized), state);
 
 	state->accel = NULL;
+	state->distribution_accel = NULL;
 	state->distribution = DiscreteDistribution;
 
 	dialog_tool_init_buttons ((GenericToolState *)state,
@@ -2507,7 +2501,6 @@ dialog_random_tool_init (RandomToolState *state)
 	state->vars_entry = glade_xml_get_widget (state->gui, "vars_entry");
 	state->count_entry = glade_xml_get_widget (state->gui, "count_entry");
 	int_to_entry (GTK_ENTRY (state->count_entry), 1);
-	state->distribution_accel = NULL;
 
 	for (i = 0, dist_str_no = 0; distribution_strs[i].name != NULL; i++) {
 		distribution_type_strs
@@ -2557,6 +2550,13 @@ dialog_random_tool_init (RandomToolState *state)
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->count_entry));
 
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	g_signal_connect (G_OBJECT (state->dialog),
+		"destroy",
+		G_CALLBACK (tool_destroy), state);
+	g_signal_connect (G_OBJECT (state->dialog),
+		"realize",
+		G_CALLBACK (dialog_random_realized), state);
 	g_signal_connect_after (G_OBJECT (state->vars_entry),
 		"changed",
 		G_CALLBACK (random_tool_update_sensitivity_cb), state);
@@ -2578,10 +2578,8 @@ dialog_random_tool_init (RandomToolState *state)
 
 	first = selection_first_range (state->sheet, NULL, NULL);
 	if (first != NULL) {
-		gtk_entry_set_text (GTK_ENTRY (state->output_entry), state->sheet->name_quoted);
-		gtk_entry_append_text (GTK_ENTRY (state->output_entry), "!");
-		gtk_entry_append_text (GTK_ENTRY (state->output_entry), range_name (first));
-
+		gnm_expr_entry_load_from_range (state->output_entry,
+						state->sheet, first);
 		int_to_entry (GTK_ENTRY (state->count_entry),
 			      first->end.row - first->start.row + 1);
 		int_to_entry (GTK_ENTRY (state->vars_entry),
