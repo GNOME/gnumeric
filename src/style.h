@@ -81,8 +81,6 @@ SpanCalcFlags	 required_updates_for_style (MStyle *style);
 StyleHAlignFlags style_default_halign (MStyle const *mstyle, Cell const *c);
 
 extern StyleFont *gnumeric_default_font;
-extern StyleFont *gnumeric_default_bold_font;
-extern StyleFont *gnumeric_default_italic_font;
 
 #include "mstyle.h"
 
