@@ -3,45 +3,25 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.54+\n"
-"POT-Creation-Date: 2000-07-20 21:44+0000\n"
-"PO-Revision-Date: 2000-07-20 22:09+00:00\n"
+"POT-Creation-Date: 2000-08-10 16:12+0000\n"
+"PO-Revision-Date: 2000-08-10 16:15+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=koi8-r\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: graph/main.c:48
-msgid "I could not initialize Bonobo"
-msgstr "Невозможно инициализировать Bonobo"
+#: plugins/applix/boot.c:105
+msgid "Applix (*.as) file format"
+msgstr "Файл в формате Applix (*.as)"
 
-#: graph/sample.c:206
-msgid "Chart type"
-msgstr "Тип диаграммы"
+#: plugins/applix/boot.c:109
+msgid "Applix"
+msgstr "Applix"
 
-#: graph/sample.c:207
-msgid "Plot mode"
-msgstr "Вид графика"
-
-#: graph/sample.c:208
-msgid "Col/bar mode"
-msgstr "Вид колонки/строки"
-
-#: graph/sample.c:209
-msgid "Direction mode"
-msgstr "Вид направления"
-
-#: graph/sample.c:210
-msgid "Line mode"
-msgstr "Вид линии"
-
-#: graph/sample.c:211
-msgid "Scatter mode"
-msgstr "Вид рассеивания"
-
-#: graph/sample.c:212
-msgid "Scatter connection"
-msgstr "Соединение рассеивания"
+#: plugins/applix/boot.c:110
+msgid "Imports version 4.[234] spreadsheets"
+msgstr "Импорт таблиц версии 4.[234]"
 
 #.
 #. * Add Sheet
@@ -109,16 +89,16 @@ msgstr "#НЕИЗВЕСТНОЕ!"
 msgid "Sheet%d"
 msgstr "Лист%d"
 
-#: plugins/excel/ms-excel-read.c:3911
+#: plugins/excel/ms-excel-read.c:3945
 msgid "No book or workbook streams found."
 msgstr "Не найден поток книги или рабочей книги."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4213
+#: plugins/excel/ms-excel-read.c:4247
 msgid "Password protected workbooks are not supported yet."
 msgstr "Защищенные паролем книги пока не поддерживаются."
 
-#: plugins/excel/ms-excel-read.c:4383
+#: plugins/excel/ms-excel-read.c:4408
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Не удалось найти рабочую книгу MS Excel"
 
@@ -158,11 +138,11 @@ msgstr "Доступ к базам данных"
 msgid "Enables database access"
 msgstr "Включить доступ к базам данных"
 
-#: plugins/guile/plugin.c:282 src/func.c:524
+#: plugins/guile/plugin.c:282 src/func.c:535
 #: src/functions/fn-information.c:574 src/functions/fn-information.c:642
 #: src/functions/fn-information.c:669 src/functions/fn-information.c:695
 #: src/functions/fn-information.c:744 src/functions/fn-information.c:773
-#: src/functions/fn-information.c:836 src/functions/fn-logical.c:194
+#: src/functions/fn-information.c:836 src/functions/fn-logical.c:196
 #: src/functions/fn-string.c:343
 msgid "Invalid number of arguments"
 msgstr "Неверное число аргументов"
@@ -248,7 +228,7 @@ msgstr "Lotus 123"
 msgid "Imports Lotus 123 files"
 msgstr "Импорт файлов Lotus 123"
 
-#: plugins/numtheory/numtheory.c:180
+#: plugins/numtheory/numtheory.c:193
 msgid ""
 "@FUNCTION=NT_PHI\n"
 "@SYNTAX=NT_PHI(n)\n"
@@ -266,7 +246,22 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:215
+#: plugins/numtheory/numtheory.c:228
+msgid ""
+"@FUNCTION=NT_MU\n"
+"@SYNTAX=NT_MU(n)\n"
+"@DESCRIPTION=The NT_MU function (MЖbius mu function) returns \n"
+"0  if @n is divisible by the square of a prime .\n"
+"Otherwise it returns: \n"
+"-1 if @n has an odd  number of different prime factors .\n"
+"1  if @n has an even number of different prime factors .\n"
+"If @n=1 it returns 1\n"
+"\n"
+"@EXAMPLES=\n"
+"@SEEALSO=NT_D, ITHPRIME, NT_PHI"
+msgstr ""
+
+#: plugins/numtheory/numtheory.c:267
 msgid ""
 "@FUNCTION=NT_D\n"
 "@SYNTAX=NT_D(n)\n"
@@ -282,7 +277,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:249
+#: plugins/numtheory/numtheory.c:301
 msgid ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
@@ -299,7 +294,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
-#: plugins/numtheory/numtheory.c:284
+#: plugins/numtheory/numtheory.c:336
 msgid ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
@@ -316,7 +311,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:312
+#: plugins/numtheory/numtheory.c:364
 msgid ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
@@ -332,7 +327,7 @@ msgstr ""
 "Эта функция принимает только один аргумент. \n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:338
+#: plugins/numtheory/numtheory.c:390
 msgid ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
@@ -348,15 +343,15 @@ msgstr ""
 "Эта функция принимает только один аргумент.\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:440 plugins/numtheory/numtheory.c:467
+#: plugins/numtheory/numtheory.c:513 plugins/numtheory/numtheory.c:545
 msgid "Number Theory"
 msgstr "Теория чисел"
 
-#: plugins/numtheory/numtheory.c:455
+#: plugins/numtheory/numtheory.c:531
 msgid "Bitwise Operations"
 msgstr "Поразрядные операции"
 
-#: plugins/numtheory/numtheory.c:468
+#: plugins/numtheory/numtheory.c:546
 msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
 "simple bitwise operations"
@@ -465,15 +460,15 @@ msgstr "MultiPlan (SYLK)"
 msgid "Imports MultiPlan (SYLK) files"
 msgstr "Импорт файлов MultiPlan (SYLK)"
 
-#: plugins/xbase/boot.c:207
+#: plugins/xbase/boot.c:231
 msgid "Xbase (*.dbf) file format"
 msgstr "Файл в формате Xbase (*.dbf)"
 
-#: plugins/xbase/boot.c:211
+#: plugins/xbase/boot.c:235
 msgid "XBase"
 msgstr "XBase"
 
-#: plugins/xbase/boot.c:212
+#: plugins/xbase/boot.c:236
 msgid "Imports XBase files"
 msgstr "Импорт файлов XBase"
 
@@ -1156,7 +1151,7 @@ msgid "Undo Clear"
 msgstr "Откат очистки"
 
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:987 src/sheet.c:2380
+#: src/commands.c:987 src/sheet.c:2386
 msgid "Clear"
 msgstr "Очистить"
 
@@ -1561,14 +1556,12 @@ msgstr "Входной диапазон:"
 #: src/dialogs/analysis-tools.glade.h:55 src/dialogs/analysis-tools.glade.h:86
 #: src/dialogs/analysis-tools.glade.h:100
 #: src/dialogs/analysis-tools.glade.h:111 src/workbook.c:1321
-#: wizards/graphics/graphics.glade.h:23
 msgid "_Columns"
 msgstr "Столбцы"
 
 #: src/dialogs/analysis-tools.glade.h:56 src/dialogs/analysis-tools.glade.h:87
 #: src/dialogs/analysis-tools.glade.h:99
 #: src/dialogs/analysis-tools.glade.h:110 src/workbook.c:1318
-#: wizards/graphics/graphics.glade.h:22
 msgid "_Rows"
 msgstr "Строки"
 
@@ -1673,13 +1666,12 @@ msgstr "Не делать заглавными после:"
 #: src/dialogs/autocorrect-exceptions.glade.h:9
 #: src/dialogs/autocorrect-exceptions.glade.h:13
 #: src/dialogs/dialog-stf.glade.h:54 src/dialogs/solver.glade.h:25
-#: wizards/graphics/graphics.glade.h:28
 msgid "_Add"
 msgstr "Добавить"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:10
 #: src/dialogs/autocorrect-exceptions.glade.h:14
-#: src/dialogs/dialog-stf.glade.h:55 wizards/graphics/graphics.glade.h:29
+#: src/dialogs/dialog-stf.glade.h:55
 msgid "_Remove"
 msgstr "Удалить"
 
@@ -1870,7 +1862,7 @@ msgstr "По горизонтали"
 msgid "_Justify"
 msgstr "По формату"
 
-#: src/dialogs/cell-format.glade.h:34 wizards/graphics/graphics.glade.h:61
+#: src/dialogs/cell-format.glade.h:34
 msgid "_Right"
 msgstr "Вправо"
 
@@ -1882,7 +1874,7 @@ msgstr "Заполнение"
 msgid "_Center"
 msgstr "По центру"
 
-#: src/dialogs/cell-format.glade.h:37 wizards/graphics/graphics.glade.h:62
+#: src/dialogs/cell-format.glade.h:37
 msgid "_Left"
 msgstr "Влево"
 
@@ -1947,7 +1939,7 @@ msgid "Color"
 msgstr "Окрашивание"
 
 #: src/dialogs/cell-format.glade.h:54 src/dialogs/cell-format.glade.h:82
-#: src/dialogs/cell-format.glade.h:91 wizards/graphics/graphics.glade.h:43
+#: src/dialogs/cell-format.glade.h:91
 msgid "_Automatic"
 msgstr "Автоматическое"
 
@@ -1979,8 +1971,8 @@ msgstr ""
 "Двойное\n"
 
 #: src/dialogs/cell-format.glade.h:63 src/dialogs/cell-format.glade.h:74
-#: src/dialogs/cell-format.glade.h:81 src/dialogs/dialog-cell-format.c:1198
-#: src/dialogs/dialog-cell-format.c:1260 src/dialogs/dialog-paste-special.c:32
+#: src/dialogs/cell-format.glade.h:81 src/dialogs/dialog-cell-format.c:1197
+#: src/dialogs/dialog-cell-format.c:1259 src/dialogs/dialog-paste-special.c:32
 msgid "None"
 msgstr "Нет"
 
@@ -2222,7 +2214,7 @@ msgid "Add"
 msgstr "Добавить"
 
 #: src/dialogs/cell-sort.glade.h:9 src/dialogs/plugin-manager.glade.h:9
-#: src/sheet-object.c:1068
+#: src/sheet-object.c:1070
 msgid "Remove"
 msgstr "Удалить"
 
@@ -2646,7 +2638,8 @@ msgid "You should introduce a valid cell range in 'Bin Range:'"
 msgstr "Вы должны ввести подходящий диапазон ячеек в \"Двоичный диапазон:\""
 
 #: src/dialogs/dialog-analysis-tools.c:2454
-msgid "Given input range contains non-numeric data. "
+#: src/dialogs/dialog-analysis-tools.c:2905
+msgid "Given input range contains non-numeric data."
 msgstr "Заданный входной диапазон содержит нечисловые данные."
 
 #: src/dialogs/dialog-analysis-tools.c:2459
@@ -2657,10 +2650,6 @@ msgstr "Заданный двоичный диапазон содержит нечисловые данные."
 msgid "Each sample should contain the same number of rows (`Rows per sample:')"
 msgstr ""
 "Каждая выборка должна содержать равное число строк (\"Строк на выборку:\")"
-
-#: src/dialogs/dialog-analysis-tools.c:2905
-msgid "Given input range contains non-numeric data."
-msgstr "Заданный входной диапазон содержит нечисловые данные."
 
 #: src/dialogs/dialog-analysis-tools.c:2910
 msgid ""
@@ -2691,15 +2680,15 @@ msgid "_);[Red]("
 msgstr "_);[Red]("
 
 #. There must be a better way than this
-#: src/dialogs/dialog-cell-format.c:1194 src/dialogs/dialog-cell-format.c:1261
+#: src/dialogs/dialog-cell-format.c:1193 src/dialogs/dialog-cell-format.c:1260
 msgid "Single"
 msgstr "Одиночный"
 
-#: src/dialogs/dialog-cell-format.c:1196 src/dialogs/dialog-cell-format.c:1262
+#: src/dialogs/dialog-cell-format.c:1195 src/dialogs/dialog-cell-format.c:1261
 msgid "Double"
 msgstr "Двойной"
 
-#: src/dialogs/dialog-cell-format.c:2065
+#: src/dialogs/dialog-cell-format.c:2064
 msgid "Format Cells"
 msgstr "Формат ячеек"
 
@@ -2784,7 +2773,11 @@ msgstr "Массив"
 msgid "Range/Array"
 msgstr "Диапазон/Массив"
 
-#: src/dialogs/dialog-function-wizard.c:410
+#: src/dialogs/dialog-function-wizard.c:409
+msgid "Scalar"
+msgstr "Скаляр"
+
+#: src/dialogs/dialog-function-wizard.c:411
 msgid "Any"
 msgstr "Любой"
 
@@ -3356,7 +3349,6 @@ msgstr ""
 "автоопределения столбца пытается автоматически распознать столбцы в тексте."
 
 #: src/dialogs/dialog-stf.glade.h:51 src/dialogs/dialog-stf.glade.h:62
-#: wizards/graphics/graphic-type.c:289
 msgid "Column"
 msgstr "Столбец"
 
@@ -4271,228 +4263,236 @@ msgid "0.0"
 msgstr "0.0"
 
 #: src/formats.c:38
+msgid "$#,##0;"
+msgstr "$#,##0"
+
+#: src/formats.c:39
 msgid "$#,##0_);($#,##0)"
 msgstr "$#,##0_);($#,##0)"
 
-#: src/formats.c:39
+#: src/formats.c:40
 msgid "$#,##0_);[Red]($#,##0)"
 msgstr "$#,##0_);[Red]($#,##0)"
 
-#: src/formats.c:40
+#: src/formats.c:41
+msgid "$#,##0.00"
+msgstr "$#,##0.00"
+
+#: src/formats.c:42
 msgid "$#,##0.00_);($#,##0.00)"
 msgstr "$#,##0.00_);($#,##0.00)"
 
-#: src/formats.c:41
+#: src/formats.c:43
 msgid "$#,##0.00_);[Red]($#,##0.00)"
 msgstr "$#,##0.00_);[Red]($#,##0.00)"
 
-#: src/formats.c:48
+#: src/formats.c:50
 msgid "_($* #,##0_);_($* (#,##0);_($* \"-\"_);_(@_)"
 msgstr "_($* #,##0_);_($* (#,##0);_($* \"-\"_);_(@_)"
 
-#: src/formats.c:49
+#: src/formats.c:51
 msgid "_(* #,##0_);_(* (#,##0);_(* \"-\"_);_(@_)"
 msgstr "_(* #,##0_);_(* (#,##0);_(* \"-\"_);_(@_)"
 
-#: src/formats.c:50
+#: src/formats.c:52
 msgid "_($* #,##0.00_);_($* (#,##0.00);_($* \"-\"??_);_(@_)"
 msgstr "_($* #,##0.00_);_($* (#,##0.00);_($* \"-\"??_);_(@_)"
 
-#: src/formats.c:51
+#: src/formats.c:53
 msgid "_(* #,##0.00_);_(* (#,##0.00);_(* \"-\"??_);_(@_)"
 msgstr "_(* #,##0.00_);_(* (#,##0.00);_(* \"-\"??_);_(@_)"
 
-#: src/formats.c:57
+#: src/formats.c:59
 msgid "m/d/yy"
 msgstr "m/d/yy"
 
-#: src/formats.c:58
+#: src/formats.c:60
 msgid "m/d/yyyy"
 msgstr "m/d/yyyy"
 
-#: src/formats.c:59
+#: src/formats.c:61
 msgid "d-mmm-yy"
 msgstr "d-mmm-yy"
 
-#: src/formats.c:60
+#: src/formats.c:62
 msgid "d-mmm-yyyy"
 msgstr "d-mmm-yyyy"
 
-#: src/formats.c:61
+#: src/formats.c:63
 msgid "d-mmm"
 msgstr "d-mmm"
 
-#: src/formats.c:62
+#: src/formats.c:64
 msgid "d-mm"
 msgstr "d-mm"
 
-#: src/formats.c:63
+#: src/formats.c:65
 msgid "mmm/d"
 msgstr "mmm/d"
 
-#: src/formats.c:64
+#: src/formats.c:66
 msgid "mm/d"
 msgstr "mm/d"
 
-#: src/formats.c:65
+#: src/formats.c:67
 msgid "mm/dd/yy"
 msgstr "mm/dd/yy"
 
-#: src/formats.c:66
+#: src/formats.c:68
 msgid "mm/dd/yyyy"
 msgstr "mm/dd/yyyy"
 
-#: src/formats.c:67
+#: src/formats.c:69
 msgid "mmm/dd/yy"
 msgstr "mmm/dd/yy"
 
-#: src/formats.c:68
+#: src/formats.c:70
 msgid "mmm/dd/yyyy"
 msgstr "mmm/dd/yyyy"
 
-#: src/formats.c:69
+#: src/formats.c:71
 msgid "mmm/ddd/yy"
 msgstr "mmm/ddd/yy"
 
-#: src/formats.c:70
+#: src/formats.c:72
 msgid "mmm/ddd/yyyy"
 msgstr "mmm/ddd/yyyy"
 
-#: src/formats.c:71
+#: src/formats.c:73
 msgid "mm/ddd/yy"
 msgstr "mm/ddd/yy"
 
-#: src/formats.c:72
+#: src/formats.c:74
 msgid "mm/ddd/yyyy"
 msgstr "mm/ddd/yyyy"
 
-#: src/formats.c:73
+#: src/formats.c:75
 msgid "mmm-yy"
 msgstr "mmm-yy"
 
-#: src/formats.c:74
+#: src/formats.c:76
 msgid "mmm-yyyy"
 msgstr "mmm-yyyy"
 
-#: src/formats.c:75
+#: src/formats.c:77
 msgid "mmmm-yy"
 msgstr "mmmm-yy"
 
-#: src/formats.c:76
+#: src/formats.c:78
 msgid "mmmm-yyyy"
 msgstr "mmmm-yyyy"
 
-#: src/formats.c:77 src/formats.c:98
+#: src/formats.c:79 src/formats.c:100
 msgid "m/d/yy h:mm"
 msgstr "m/d/yy h:mm"
 
-#: src/formats.c:78
+#: src/formats.c:80
 msgid "m/d/yyyy h:mm"
 msgstr "m/d/yyyy h:mm"
 
-#: src/formats.c:79
+#: src/formats.c:81
 msgid "yyyy/mm/d"
 msgstr "yyyy/mm/d"
 
-#: src/formats.c:80
+#: src/formats.c:82
 msgid "yyyy/mmm/d"
 msgstr "yyyy/mmm/d"
 
-#: src/formats.c:81
+#: src/formats.c:83
 msgid "yyyy/mm/dd"
 msgstr "yyyy/mm/dd"
 
-#: src/formats.c:82
+#: src/formats.c:84
 msgid "yyyy/mmm/dd"
 msgstr "yyyy/mmm/dd"
 
-#: src/formats.c:83
+#: src/formats.c:85
 msgid "yyyy-mm-d"
 msgstr "yyyy-mm-d"
 
-#: src/formats.c:84
+#: src/formats.c:86
 msgid "yyyy-mmm-d"
 msgstr "yyyy-mmm-d"
 
-#: src/formats.c:85
+#: src/formats.c:87
 msgid "yyyy-mm-dd"
 msgstr "yyyy-mm-dd"
 
-#: src/formats.c:86
+#: src/formats.c:88
 msgid "yyyy-mmm-dd"
 msgstr "yyyy-mmm-dd"
 
-#: src/formats.c:87
+#: src/formats.c:89
 msgid "yy"
 msgstr "yy"
 
-#: src/formats.c:88
+#: src/formats.c:90
 msgid "yyyy"
 msgstr "yyyy"
 
-#: src/formats.c:94
+#: src/formats.c:96
 msgid "h:mm AM/PM"
 msgstr "h:mm AM/PM"
 
-#: src/formats.c:95
+#: src/formats.c:97
 msgid "h:mm:ss AM/PM"
 msgstr "h:mm:ss AM/PM"
 
-#: src/formats.c:96
+#: src/formats.c:98
 msgid "h:mm"
 msgstr "h:mm"
 
-#: src/formats.c:97
+#: src/formats.c:99
 msgid "h:mm:ss"
 msgstr "h:mm:ss"
 
-#: src/formats.c:99
+#: src/formats.c:101
 msgid "mm:ss"
 msgstr "mm:ss"
 
-#: src/formats.c:100
+#: src/formats.c:102
 msgid "mm:ss.0"
 msgstr "mm:ss.0"
 
-#: src/formats.c:101
+#: src/formats.c:103
 msgid "[h]:mm:ss"
 msgstr "[h]:mm:ss"
 
-#: src/formats.c:102
+#: src/formats.c:104
 msgid "[h]:mm"
 msgstr "[h]:mm"
 
-#: src/formats.c:103
+#: src/formats.c:105
 msgid "[mm]:ss"
 msgstr "[mm]:ss"
 
-#: src/formats.c:104
+#: src/formats.c:106
 msgid "[ss]"
 msgstr "[ss]"
 
-#: src/formats.c:110
+#: src/formats.c:112
 #, c-format
 msgid "0%"
 msgstr "0%"
 
-#: src/formats.c:111 src/workbook-format-toolbar.c:52
+#: src/formats.c:113 src/workbook-format-toolbar.c:52
 #, c-format
 msgid "0.00%"
 msgstr "0.00%"
 
-#: src/formats.c:117
+#: src/formats.c:119
 msgid "# ?/?"
 msgstr "# ?/?"
 
-#: src/formats.c:118
+#: src/formats.c:120
 msgid "# ??/??"
 msgstr "# ??/??"
 
-#: src/formats.c:124
+#: src/formats.c:126
 msgid "0.00E+00"
 msgstr "0.00E+00"
 
-#: src/formats.c:125
+#: src/formats.c:127
 msgid "##0.0E+0"
 msgstr "##0.0E+0"
 
@@ -4509,1311 +4509,1311 @@ msgstr "##0.0E+0"
 #. * for each currency.  They MUST start with '[$'
 #. * The second column has the long names of the currencies.
 #.
-#: src/formats.c:167
+#: src/formats.c:169
 msgid "[$ADP]"
 msgstr "[$ADP]"
 
-#: src/formats.c:167
+#: src/formats.c:169
 msgid "Andorran peseta"
 msgstr "Андоррская песета"
 
-#: src/formats.c:168
+#: src/formats.c:170
 msgid "[$AED]"
 msgstr "[$AED]"
 
-#: src/formats.c:168
+#: src/formats.c:170
 msgid "UAE dirham"
 msgstr "Динары ОАЭ"
 
-#: src/formats.c:169
+#: src/formats.c:171
 msgid "[$AFA]"
 msgstr "[$AFA]"
 
-#: src/formats.c:169
+#: src/formats.c:171
 msgid "Afghanistan afghani"
 msgstr "Афганские афгани"
 
-#: src/formats.c:170
+#: src/formats.c:172
 msgid "[$ALL]"
 msgstr "[$ALL]"
 
-#: src/formats.c:170
+#: src/formats.c:172
 msgid "Albanian lek"
 msgstr "Албанские леки"
 
-#: src/formats.c:171
+#: src/formats.c:173
 msgid "[$ANG]"
 msgstr "[$ANG]"
 
-#: src/formats.c:171
+#: src/formats.c:173
 msgid "Netherlands Antillian guilder"
 msgstr "Нидерландские гульдены"
 
-#: src/formats.c:172
+#: src/formats.c:174
 msgid "[$AON]"
 msgstr "[$AON]"
 
-#: src/formats.c:172
+#: src/formats.c:174
 msgid "Angolan new kwanza"
 msgstr "Ангольские новые кванза"
 
-#: src/formats.c:173
+#: src/formats.c:175
 msgid "[$ARA]"
 msgstr "[$ARA]"
 
-#: src/formats.c:173
+#: src/formats.c:175
 msgid "Argentine austral"
 msgstr "Аргентинские австрали"
 
-#: src/formats.c:174
+#: src/formats.c:176
 msgid "[$ATS]"
 msgstr "[$ATS]"
 
-#: src/formats.c:174
+#: src/formats.c:176
 msgid "Austrian schilling"
 msgstr "Австрийский шиллинг"
 
-#: src/formats.c:175
+#: src/formats.c:177
 msgid "[$AUD]"
 msgstr "[$AUD]"
 
-#: src/formats.c:175
+#: src/formats.c:177
 msgid "Australian dollar"
 msgstr "Австралийский доллар"
 
-#: src/formats.c:176
+#: src/formats.c:178
 msgid "[$AWG]"
 msgstr "[$AWG]"
 
-#: src/formats.c:176
+#: src/formats.c:178
 msgid "Aruban guilder"
 msgstr "Арубанский гульден"
 
-#: src/formats.c:177
+#: src/formats.c:179
 msgid "[$BBD]"
 msgstr "[$BBD]"
 
-#: src/formats.c:177
+#: src/formats.c:179
 msgid "Barbados dollar"
 msgstr "Барбадосский доллар"
 
-#: src/formats.c:178
+#: src/formats.c:180
 msgid "[$BDT]"
 msgstr "[$BDT]"
 
-#: src/formats.c:178
+#: src/formats.c:180
 msgid "Bangladeshi taka"
 msgstr "Бангладешские така"
 
-#: src/formats.c:179
+#: src/formats.c:181
 msgid "[$BEF]"
 msgstr "[$BEF]"
 
-#: src/formats.c:179
+#: src/formats.c:181
 msgid "Belgian franc"
 msgstr "Бельгийские франки"
 
-#: src/formats.c:180
+#: src/formats.c:182
 msgid "[$BGL]"
 msgstr "[$BGL]"
 
-#: src/formats.c:180
+#: src/formats.c:182
 msgid "Bulgarian lev"
 msgstr "Болгарские левы"
 
-#: src/formats.c:181
+#: src/formats.c:183
 msgid "[$BHD]"
 msgstr "[$BHD]"
 
-#: src/formats.c:181
+#: src/formats.c:183
 msgid "Bahraini dinar"
 msgstr "Динар Бахрейна"
 
-#: src/formats.c:182
+#: src/formats.c:184
 msgid "[$BIF]"
 msgstr "[$BIF]"
 
-#: src/formats.c:182
+#: src/formats.c:184
 msgid "Burundi franc"
 msgstr "Бурундийский франк"
 
-#: src/formats.c:183
+#: src/formats.c:185
 msgid "[$BMD]"
 msgstr "[$BMD]"
 
-#: src/formats.c:183
+#: src/formats.c:185
 msgid "Bermudian dollar"
 msgstr "Бермудский доллар"
 
-#: src/formats.c:184
+#: src/formats.c:186
 msgid "[$BND]"
 msgstr "[$BND]"
 
-#: src/formats.c:184
+#: src/formats.c:186
 msgid "Brunei dollar"
 msgstr "Брунейский доллар"
 
-#: src/formats.c:185
+#: src/formats.c:187
 msgid "[$BOB]"
 msgstr "[$BOB]"
 
-#: src/formats.c:185
+#: src/formats.c:187
 msgid "Bolivian boliviano"
 msgstr "Боливийское боливиано"
 
-#: src/formats.c:186
+#: src/formats.c:188
 msgid "[$BRE]"
 msgstr "[$BRE]"
 
-#: src/formats.c:186
+#: src/formats.c:188
 msgid "Brazilian cruzeiro"
 msgstr "Бразильские крузейро"
 
-#: src/formats.c:187
+#: src/formats.c:189
 msgid "[$BSD]"
 msgstr "[$BSD]"
 
-#: src/formats.c:187
+#: src/formats.c:189
 msgid "Bahamian dollar"
 msgstr "Багамский доллар"
 
-#: src/formats.c:188
+#: src/formats.c:190
 msgid "[$BTN]"
 msgstr "[$BTN]"
 
-#: src/formats.c:188
+#: src/formats.c:190
 msgid "Bhutan ngultrum"
 msgstr "Бутанский нгултрум"
 
-#: src/formats.c:189
+#: src/formats.c:191
 msgid "[$BWP]"
 msgstr "[$BWP]"
 
-#: src/formats.c:189
+#: src/formats.c:191
 msgid "Botswanian pula"
 msgstr "Ботсванская пула"
 
-#: src/formats.c:190
+#: src/formats.c:192
 msgid "[$BYB]"
 msgstr "[$BYB]"
 
-#: src/formats.c:190
+#: src/formats.c:192
 msgid "Belarussian ruble"
 msgstr "Белорусские рубли"
 
-#: src/formats.c:191
+#: src/formats.c:193
 msgid "[$BZD]"
 msgstr "[$BZD]"
 
-#: src/formats.c:191
+#: src/formats.c:193
 msgid "Belize dollar"
 msgstr "Белизский доллар"
 
-#: src/formats.c:192
+#: src/formats.c:194
 msgid "[$CAD]"
 msgstr "[$CAD]"
 
-#: src/formats.c:192
+#: src/formats.c:194
 msgid "Canadian dollar"
 msgstr "Канадский доллар"
 
-#: src/formats.c:193
+#: src/formats.c:195
 msgid "[$CHF]"
 msgstr "[$CHF]"
 
-#: src/formats.c:193
+#: src/formats.c:195
 msgid "Swiss franc"
 msgstr "Щвейцарский франк"
 
-#: src/formats.c:194
+#: src/formats.c:196
 msgid "[$CLP]"
 msgstr "[$CLP]"
 
-#: src/formats.c:194
+#: src/formats.c:196
 msgid "Chilean peso"
 msgstr "Чилийское песо"
 
-#: src/formats.c:195
+#: src/formats.c:197
 msgid "[$CNY]"
 msgstr "[$CNY]"
 
-#: src/formats.c:195
+#: src/formats.c:197
 msgid "Chinese yuan renminbi"
 msgstr "Китайские юани"
 
-#: src/formats.c:196
+#: src/formats.c:198
 msgid "[$COP]"
 msgstr "[$COP]"
 
-#: src/formats.c:196
+#: src/formats.c:198
 msgid "Colombian peso"
 msgstr "Колумбийские песо"
 
-#: src/formats.c:197
+#: src/formats.c:199
 msgid "[$CRC]"
 msgstr "[$CRC]"
 
-#: src/formats.c:197
+#: src/formats.c:199
 msgid "Costa Rican colon"
 msgstr "Коста-Риканский колон"
 
-#: src/formats.c:198
+#: src/formats.c:200
 msgid "[$CSK]"
 msgstr "[$CSK]"
 
-#: src/formats.c:198
+#: src/formats.c:200
 msgid "Czech Koruna"
 msgstr "Чешские кроны"
 
-#: src/formats.c:199
+#: src/formats.c:201
 msgid "[$CUP]"
 msgstr "[$CUP]"
 
-#: src/formats.c:199
+#: src/formats.c:201
 msgid "Cuban peso"
 msgstr "Кубинские песо"
 
-#: src/formats.c:200
+#: src/formats.c:202
 msgid "[$CVE]"
 msgstr "[$CVE]"
 
-#: src/formats.c:200
+#: src/formats.c:202
 msgid "Cape Verde escudo"
 msgstr "Эскудо Cape Verde"
 
-#: src/formats.c:201
+#: src/formats.c:203
 msgid "[$CYP]"
 msgstr "[$CYP]"
 
-#: src/formats.c:201
+#: src/formats.c:203
 msgid "Cyprus pound"
 msgstr "Кипрский фунт"
 
-#: src/formats.c:202
+#: src/formats.c:204
 msgid "[$DEM]"
 msgstr "[$DEM]"
 
-#: src/formats.c:202
+#: src/formats.c:204
 msgid "Deutsche mark"
 msgstr "Германские марки"
 
-#: src/formats.c:203
+#: src/formats.c:205
 msgid "[$DJF]"
 msgstr "[$DJF]"
 
-#: src/formats.c:203
+#: src/formats.c:205
 msgid "Djibouti franc"
 msgstr "Франк Джибути"
 
-#: src/formats.c:204
+#: src/formats.c:206
 msgid "[$DKK]"
 msgstr "[$DKK]"
 
-#: src/formats.c:204
+#: src/formats.c:206
 msgid "Danish krone"
 msgstr "Датские кроны"
 
-#: src/formats.c:205
+#: src/formats.c:207
 msgid "[$DOP]"
 msgstr "[$DOP]"
 
-#: src/formats.c:205
+#: src/formats.c:207
 msgid "Dominican peso"
 msgstr "Доминиканские песо"
 
-#: src/formats.c:206
+#: src/formats.c:208
 msgid "[$DZD]"
 msgstr "[$DZD]"
 
-#: src/formats.c:206
+#: src/formats.c:208
 msgid "Algerian dinar"
 msgstr "Алжирские динары"
 
-#: src/formats.c:207
+#: src/formats.c:209
 msgid "[$ECS]"
 msgstr "[$ECS]"
 
-#: src/formats.c:207
+#: src/formats.c:209
 msgid "Ecuador sucre"
 msgstr "Эквадорские сукре"
 
-#: src/formats.c:208
+#: src/formats.c:210
 msgid "[$EGP]"
 msgstr "[$EGP]"
 
-#: src/formats.c:208
+#: src/formats.c:210
 msgid "Egyptian pound"
 msgstr "Египетские фунты"
 
-#: src/formats.c:209
+#: src/formats.c:211
 msgid "[$ESP]"
 msgstr "[$ESP]"
 
-#: src/formats.c:209
+#: src/formats.c:211
 msgid "Spanish peseta"
 msgstr "Испанские песеты"
 
-#: src/formats.c:210
+#: src/formats.c:212
 msgid "[$ETB]"
 msgstr "[$ETB]"
 
-#: src/formats.c:210
+#: src/formats.c:212
 msgid "Ethiopian birr"
 msgstr "Эфиопские бирры"
 
-#: src/formats.c:211
+#: src/formats.c:213
 msgid "[$EUR]"
 msgstr "[$EUR]"
 
-#: src/formats.c:211
+#: src/formats.c:213
 msgid "Euro"
 msgstr "Евро"
 
-#: src/formats.c:212
+#: src/formats.c:214
 msgid "[$FIM]"
 msgstr "[$FIM]"
 
-#: src/formats.c:212
+#: src/formats.c:214
 msgid "Finnish markka"
 msgstr "Финские марки"
 
-#: src/formats.c:213
+#: src/formats.c:215
 msgid "[$FJD]"
 msgstr "[$FJD]"
 
-#: src/formats.c:213
+#: src/formats.c:215
 msgid "Fiji dollar"
 msgstr "Доллары Фиджи"
 
-#: src/formats.c:214
+#: src/formats.c:216
 msgid "[$FKP]"
 msgstr "[$FKP]"
 
-#: src/formats.c:214
+#: src/formats.c:216
 msgid "Falkland Islands pound"
 msgstr "Фунты Фолклендских о-вов"
 
-#: src/formats.c:215
+#: src/formats.c:217
 msgid "[$FRF]"
 msgstr "[$FRF]"
 
-#: src/formats.c:215
+#: src/formats.c:217
 msgid "French franc"
 msgstr "Французские франки"
 
-#: src/formats.c:216
+#: src/formats.c:218
 msgid "[$GBP]"
 msgstr "[$GBP]"
 
-#: src/formats.c:216
+#: src/formats.c:218
 msgid "UK pound sterling"
 msgstr "Британские фунты стерлингов"
 
-#: src/formats.c:217
+#: src/formats.c:219
 msgid "[$GHC]"
 msgstr "[$GHC]"
 
-#: src/formats.c:217
+#: src/formats.c:219
 msgid "Ghanaian cedi"
 msgstr "Ганские седи"
 
-#: src/formats.c:218
+#: src/formats.c:220
 msgid "[$GIP]"
 msgstr "[$GIP]"
 
-#: src/formats.c:218
+#: src/formats.c:220
 msgid "Gibraltar pound"
 msgstr "Гибралтарский фунт"
 
-#: src/formats.c:219
+#: src/formats.c:221
 msgid "[$GMD]"
 msgstr "[$GMD]"
 
-#: src/formats.c:219
+#: src/formats.c:221
 msgid "Gambian dalasi"
 msgstr "Гамбианские даласи"
 
-#: src/formats.c:220
+#: src/formats.c:222
 msgid "[$GNF]"
 msgstr "[$GNF]"
 
-#: src/formats.c:220
+#: src/formats.c:222
 msgid "Guinea franc"
 msgstr "Гвинейские франки"
 
-#: src/formats.c:221
+#: src/formats.c:223
 msgid "[$GRD]"
 msgstr "[$GRD]"
 
-#: src/formats.c:221
+#: src/formats.c:223
 msgid "Greek drachma"
 msgstr "Греческие драхмы"
 
-#: src/formats.c:222
+#: src/formats.c:224
 msgid "[$GTQ]"
 msgstr "[$GTQ]"
 
-#: src/formats.c:222
+#: src/formats.c:224
 msgid "Guatemalan quetzal"
 msgstr "Гватемальские кветцали"
 
-#: src/formats.c:223
+#: src/formats.c:225
 msgid "[$GWP]"
 msgstr "[$GWP]"
 
-#: src/formats.c:223
+#: src/formats.c:225
 msgid "Guinea-Bissau peso"
 msgstr "Песо Гвинеи-Биссау"
 
-#: src/formats.c:224
+#: src/formats.c:226
 msgid "[$GYD]"
 msgstr "[$GYD]"
 
-#: src/formats.c:224
+#: src/formats.c:226
 msgid "Guyanan dollar"
 msgstr "Гвианские доллары"
 
-#: src/formats.c:225
+#: src/formats.c:227
 msgid "[$HKD]"
 msgstr "[$HKD]"
 
-#: src/formats.c:225
+#: src/formats.c:227
 msgid "Hong Kong dollar"
 msgstr "Гонг-Конгские доллары"
 
-#: src/formats.c:226
+#: src/formats.c:228
 msgid "[$HNL]"
 msgstr "[$HNL]"
 
-#: src/formats.c:226
+#: src/formats.c:228
 msgid "Honduran lempira"
 msgstr "Гондурасские лемпиры"
 
-#: src/formats.c:227
+#: src/formats.c:229
 msgid "[$HRK]"
 msgstr "[$HRK]"
 
-#: src/formats.c:227
+#: src/formats.c:229
 msgid "Croatian kuna"
 msgstr "Хорватские куны"
 
-#: src/formats.c:228
+#: src/formats.c:230
 msgid "[$HTG]"
 msgstr "[$HTG]"
 
-#: src/formats.c:228
+#: src/formats.c:230
 msgid "Haitian gourde"
 msgstr "Гаитянские гурды"
 
-#: src/formats.c:229
+#: src/formats.c:231
 msgid "[$HUF]"
 msgstr "[$HUF]"
 
-#: src/formats.c:229
+#: src/formats.c:231
 msgid "Hungarian forint"
 msgstr "Венгерские форинты"
 
-#: src/formats.c:230
+#: src/formats.c:232
 msgid "[$IDR]"
 msgstr "[$IDR]"
 
-#: src/formats.c:230
+#: src/formats.c:232
 msgid "Indonesian rupiah"
 msgstr "Индонезийские рупии"
 
-#: src/formats.c:231
+#: src/formats.c:233
 msgid "[$IEP]"
 msgstr "[$IEP]"
 
-#: src/formats.c:231
+#: src/formats.c:233
 msgid "Irish punt"
 msgstr "Ирландский фунт"
 
-#: src/formats.c:232
+#: src/formats.c:234
 msgid "[$IEX]"
 msgstr "[$IEX]"
 
-#: src/formats.c:232
+#: src/formats.c:234
 msgid "Irish pence ***"
 msgstr "Ирландские пенсы ***"
 
-#: src/formats.c:233
+#: src/formats.c:235
 msgid "[$ILS]"
 msgstr "[$ILS]"
 
-#: src/formats.c:233
+#: src/formats.c:235
 msgid "Israeli shekel"
 msgstr "Израильские шекели"
 
-#: src/formats.c:234
+#: src/formats.c:236
 msgid "[$INR]"
 msgstr "[$INR]"
 
-#: src/formats.c:234
+#: src/formats.c:236
 msgid "Indian rupee"
 msgstr "Индийские рупии"
 
-#: src/formats.c:235
+#: src/formats.c:237
 msgid "[$IQD]"
 msgstr "[$IQD]"
 
-#: src/formats.c:235
+#: src/formats.c:237
 msgid "Iraqi dinar"
 msgstr "Иракские динары"
 
-#: src/formats.c:236
+#: src/formats.c:238
 msgid "[$IRR]"
 msgstr "[$IRR]"
 
-#: src/formats.c:236
+#: src/formats.c:238
 msgid "Iranian rial"
 msgstr "Иранские риалы"
 
-#: src/formats.c:237
+#: src/formats.c:239
 msgid "[$ISK]"
 msgstr "[$ISK]"
 
-#: src/formats.c:237
+#: src/formats.c:239
 msgid "Iceland krona"
 msgstr "Исландские кроны"
 
-#: src/formats.c:238
+#: src/formats.c:240
 msgid "[$ITL]"
 msgstr "[$ITL]"
 
-#: src/formats.c:238
+#: src/formats.c:240
 msgid "Italian lira"
 msgstr "Итальянские лиры"
 
-#: src/formats.c:239
+#: src/formats.c:241
 msgid "[$JMD]"
 msgstr "[$JMD]"
 
-#: src/formats.c:239
+#: src/formats.c:241
 msgid "Jamaican dollar"
 msgstr "Доллары Ямайки"
 
-#: src/formats.c:240
+#: src/formats.c:242
 msgid "[$JOD]"
 msgstr "[$JOD]"
 
-#: src/formats.c:240
+#: src/formats.c:242
 msgid "Jordanian dinar"
 msgstr "Иорданские динары"
 
-#: src/formats.c:241
+#: src/formats.c:243
 msgid "[$JPY]"
 msgstr "[$JPY]"
 
-#: src/formats.c:241
+#: src/formats.c:243
 msgid "Japanese yen"
 msgstr "Японские йены"
 
-#: src/formats.c:242
+#: src/formats.c:244
 msgid "[$KES]"
 msgstr "[$KES]"
 
-#: src/formats.c:242
+#: src/formats.c:244
 msgid "Kenyan shilling"
 msgstr "Кенийские шиллинги"
 
-#: src/formats.c:243
+#: src/formats.c:245
 msgid "[$KHR]"
 msgstr "[$KHR]"
 
-#: src/formats.c:243
+#: src/formats.c:245
 msgid "Kampuchean riel"
 msgstr "Кампучийские риэлы"
 
-#: src/formats.c:244
+#: src/formats.c:246
 msgid "[$KMF]"
 msgstr "[$KMF]"
 
-#: src/formats.c:244
+#: src/formats.c:246
 msgid "Comoros franc"
 msgstr "Коморосские франки"
 
-#: src/formats.c:245
+#: src/formats.c:247
 msgid "[$KPW]"
 msgstr "[$KPW]"
 
-#: src/formats.c:245
+#: src/formats.c:247
 msgid "North Korean won"
 msgstr "Северокорейские воны"
 
-#: src/formats.c:246
+#: src/formats.c:248
 msgid "[$KRW]"
 msgstr "[$KRW]"
 
-#: src/formats.c:246
+#: src/formats.c:248
 msgid "Republic of Korea won"
 msgstr "Воны Республики Корея"
 
-#: src/formats.c:247
+#: src/formats.c:249
 msgid "[$KWD]"
 msgstr "[$KWD]"
 
-#: src/formats.c:247
+#: src/formats.c:249
 msgid "Kuwaiti dinar"
 msgstr "Кувейтские динары"
 
-#: src/formats.c:248
+#: src/formats.c:250
 msgid "[$KYD]"
 msgstr "[$KYD]"
 
-#: src/formats.c:248
+#: src/formats.c:250
 msgid "Cayman Islands dollar"
 msgstr "Доллары Каймановых о-вов"
 
-#: src/formats.c:249
+#: src/formats.c:251
 msgid "[$LAK]"
 msgstr "[$LAK]"
 
-#: src/formats.c:249
+#: src/formats.c:251
 msgid "Lao kip"
 msgstr "Лаосские кипы"
 
-#: src/formats.c:250
+#: src/formats.c:252
 msgid "[$LBP]"
 msgstr "[$LBP]"
 
-#: src/formats.c:250
+#: src/formats.c:252
 msgid "Lebanese pound"
 msgstr "Либанезские фунты"
 
-#: src/formats.c:251
+#: src/formats.c:253
 msgid "[$LKR]"
 msgstr "[$LKR]"
 
-#: src/formats.c:251
+#: src/formats.c:253
 msgid "Sri Lanka rupee"
 msgstr "Рупии Шри-Ланка"
 
-#: src/formats.c:252
+#: src/formats.c:254
 msgid "[$LRD]"
 msgstr "[$LRD]"
 
-#: src/formats.c:252
+#: src/formats.c:254
 msgid "Liberian dollar"
 msgstr "Либерийский доллар"
 
-#: src/formats.c:253
+#: src/formats.c:255
 msgid "[$LSL]"
 msgstr "[$LSL]"
 
-#: src/formats.c:253
+#: src/formats.c:255
 msgid "Lesotho loti"
 msgstr "Лоты Лесото"
 
-#: src/formats.c:254
+#: src/formats.c:256
 msgid "[$LUF]"
 msgstr "[$LUF]"
 
-#: src/formats.c:254
+#: src/formats.c:256
 msgid "Luxembourg franc"
 msgstr "Люксембургские франки"
 
-#: src/formats.c:255
+#: src/formats.c:257
 msgid "[$LYD]"
 msgstr "[$LYD]"
 
-#: src/formats.c:255
+#: src/formats.c:257
 msgid "Libyan dinar"
 msgstr "Ливийские динары"
 
-#: src/formats.c:256
+#: src/formats.c:258
 msgid "[$MAD]"
 msgstr "[$MAD]"
 
-#: src/formats.c:256
+#: src/formats.c:258
 msgid "Moroccan dirham"
 msgstr "Марокканские динары"
 
-#: src/formats.c:257
+#: src/formats.c:259
 msgid "[$MDL]"
 msgstr "[$MDL]"
 
-#: src/formats.c:257
+#: src/formats.c:259
 msgid "Moldovan leu"
 msgstr "Молдавский лев"
 
-#: src/formats.c:258
+#: src/formats.c:260
 msgid "[$MGF]"
 msgstr "[$MGF]"
 
-#: src/formats.c:258
+#: src/formats.c:260
 msgid "Malagasy franc"
 msgstr "Малагазийские франки"
 
-#: src/formats.c:259
+#: src/formats.c:261
 msgid "[$MLF]"
 msgstr "[$MLF]"
 
-#: src/formats.c:259
+#: src/formats.c:261
 msgid "Mali franc"
 msgstr "Франки Мали"
 
-#: src/formats.c:260
+#: src/formats.c:262
 msgid "[$MMK]"
 msgstr "[$MMK]"
 
-#: src/formats.c:260
+#: src/formats.c:262
 msgid "Myanmar kyat"
 msgstr "Мианмарские куаты"
 
-#: src/formats.c:261
+#: src/formats.c:263
 msgid "[$MNT]"
 msgstr "[$MNT]"
 
-#: src/formats.c:261
+#: src/formats.c:263
 msgid "Mongolian tugrik"
 msgstr "Монгольские тугрики"
 
-#: src/formats.c:262
+#: src/formats.c:264
 msgid "[$MOP]"
 msgstr "[$MOP]"
 
-#: src/formats.c:262
+#: src/formats.c:264
 msgid "Macau pataca"
 msgstr "Макау патака"
 
-#: src/formats.c:263
+#: src/formats.c:265
 msgid "[$MRO]"
 msgstr "[$MRO]"
 
-#: src/formats.c:263
+#: src/formats.c:265
 msgid "Mauritanian ouguiya"
 msgstr "Мавританские оугуия"
 
-#: src/formats.c:264
+#: src/formats.c:266
 msgid "[$MTL]"
 msgstr "[$MTL]"
 
-#: src/formats.c:264
+#: src/formats.c:266
 msgid "Maltese lira"
 msgstr "Мальтийские лиры"
 
-#: src/formats.c:265
+#: src/formats.c:267
 msgid "[$MUR]"
 msgstr "[$MUR]"
 
-#: src/formats.c:265
+#: src/formats.c:267
 msgid "Mauritius rupee"
 msgstr "Мавритские рупии"
 
-#: src/formats.c:266
+#: src/formats.c:268
 msgid "[$MVR]"
 msgstr "[$MVR]"
 
-#: src/formats.c:266
+#: src/formats.c:268
 msgid "Maldive rupee"
 msgstr "Мальдивские рупии"
 
-#: src/formats.c:267
+#: src/formats.c:269
 msgid "[$MWK]"
 msgstr "[$MWK]"
 
-#: src/formats.c:267
+#: src/formats.c:269
 msgid "Malawi kwacha"
 msgstr "Малавийские квача"
 
-#: src/formats.c:268
+#: src/formats.c:270
 msgid "[$MXP]"
 msgstr "[$MXP]"
 
-#: src/formats.c:268
+#: src/formats.c:270
 msgid "Mexican peso"
 msgstr "Мексиканские песо"
 
-#: src/formats.c:269
+#: src/formats.c:271
 msgid "[$MYR]"
 msgstr "[$MYR]"
 
-#: src/formats.c:269
+#: src/formats.c:271
 msgid "Malaysian ringgit"
 msgstr "Малазийские ринггиты"
 
-#: src/formats.c:270
+#: src/formats.c:272
 msgid "[$MZM]"
 msgstr "[$MZM]"
 
-#: src/formats.c:270
+#: src/formats.c:272
 msgid "Mozambique metical"
 msgstr "Мозамбикские метикалы"
 
-#: src/formats.c:271
+#: src/formats.c:273
 msgid "[$NGN]"
 msgstr "[$NGN]"
 
-#: src/formats.c:271
+#: src/formats.c:273
 msgid "Nigerian naira"
 msgstr "Нигерийские наиры"
 
-#: src/formats.c:272
+#: src/formats.c:274
 msgid "[$NIO]"
 msgstr "[$NIO]"
 
-#: src/formats.c:272
+#: src/formats.c:274
 msgid "Nicaraguan cordoba oro"
 msgstr "Никарагуанские кордоба оро"
 
-#: src/formats.c:273
+#: src/formats.c:275
 msgid "[$NLG]"
 msgstr "[$NLG]"
 
-#: src/formats.c:273
+#: src/formats.c:275
 msgid "Netherlands guilder"
 msgstr "Нидерландские гульдены"
 
-#: src/formats.c:274
+#: src/formats.c:276
 msgid "[$NOK]"
 msgstr "[$NOK]"
 
-#: src/formats.c:274
+#: src/formats.c:276
 msgid "Norwegian krone"
 msgstr "Норвежские кроны"
 
-#: src/formats.c:275
+#: src/formats.c:277
 msgid "[$NPR]"
 msgstr "[$NPR]"
 
-#: src/formats.c:275
+#: src/formats.c:277
 msgid "Nepalese rupee"
 msgstr "Непальские рупии"
 
-#: src/formats.c:276
+#: src/formats.c:278
 msgid "[$NZD]"
 msgstr "[$NZD]"
 
-#: src/formats.c:276
+#: src/formats.c:278
 msgid "New Zealand dollar"
 msgstr "Новозеландские доллары"
 
-#: src/formats.c:277
+#: src/formats.c:279
 msgid "[$OMR]"
 msgstr "[$OMR]"
 
-#: src/formats.c:277
+#: src/formats.c:279
 msgid "Rial Omani"
 msgstr "Оманские риалы"
 
-#: src/formats.c:278
+#: src/formats.c:280
 msgid "[$PAB]"
 msgstr "[$PAB]"
 
-#: src/formats.c:278
+#: src/formats.c:280
 msgid "Panamanian balboa"
 msgstr "Панамские балбоа"
 
-#: src/formats.c:279
+#: src/formats.c:281
 msgid "[$PEI]"
 msgstr "[$PEI]"
 
-#: src/formats.c:279
+#: src/formats.c:281
 msgid "Peruvian inti"
 msgstr "Перуанские инти"
 
-#: src/formats.c:280
+#: src/formats.c:282
 msgid "[$PGK]"
 msgstr "[$PGK]"
 
-#: src/formats.c:280
+#: src/formats.c:282
 msgid "Papua New Guinea kina"
 msgstr "Папуа Новогвинейские кина"
 
-#: src/formats.c:281
+#: src/formats.c:283
 msgid "[$PHP]"
 msgstr "[$PHP]"
 
-#: src/formats.c:281
+#: src/formats.c:283
 msgid "Philippino peso"
 msgstr "Филиппинские песо"
 
-#: src/formats.c:282
+#: src/formats.c:284
 msgid "[$PKR]"
 msgstr "[$PKR]"
 
-#: src/formats.c:282
+#: src/formats.c:284
 msgid "Pakistan rupee"
 msgstr "Пакистанские рупии"
 
-#: src/formats.c:283
+#: src/formats.c:285
 msgid "[$PLZ]"
 msgstr "[$PLZ]"
 
-#: src/formats.c:283
+#: src/formats.c:285
 msgid "Polish zloty"
 msgstr "Польские злотые"
 
-#: src/formats.c:284
+#: src/formats.c:286
 msgid "[$PTE]"
 msgstr "[$PTE]"
 
-#: src/formats.c:284
+#: src/formats.c:286
 msgid "Portuguese escudo"
 msgstr "Португальские эскудо"
 
-#: src/formats.c:285
+#: src/formats.c:287
 msgid "[$PYG]"
 msgstr "[$PYG]"
 
-#: src/formats.c:285
+#: src/formats.c:287
 msgid "Paraguay guarani"
 msgstr "Парагвайские гуарани"
 
-#: src/formats.c:286
+#: src/formats.c:288
 msgid "[$QAR]"
 msgstr "[$QAR]"
 
-#: src/formats.c:286
+#: src/formats.c:288
 msgid "Qatari rial"
 msgstr "Кутарские риалы"
 
-#: src/formats.c:287
+#: src/formats.c:289
 msgid "[$ROL]"
 msgstr "[$ROL]"
 
-#: src/formats.c:287
+#: src/formats.c:289
 msgid "Romanian leu"
 msgstr "Румынские лео"
 
-#: src/formats.c:288
+#: src/formats.c:290
 msgid "[$RWF]"
 msgstr "[$RWF]"
 
-#: src/formats.c:288
+#: src/formats.c:290
 msgid "Rwanda franc"
 msgstr "Руандские франки"
 
-#: src/formats.c:289
+#: src/formats.c:291
 msgid "[$SAR]"
 msgstr "[$SAR]"
 
-#: src/formats.c:289
+#: src/formats.c:291
 msgid "Saudi Arabian riyal"
 msgstr "Риалы Саудовской Аравии"
 
-#: src/formats.c:290
+#: src/formats.c:292
 msgid "[$SBD]"
 msgstr "[$SBD]"
 
-#: src/formats.c:290
+#: src/formats.c:292
 msgid "Solomon Islands dollar"
 msgstr "Доллары Соломоновых о-вов"
 
-#: src/formats.c:291
+#: src/formats.c:293
 msgid "[$SCR]"
 msgstr "[$SCR]"
 
-#: src/formats.c:291
+#: src/formats.c:293
 msgid "Seychelles rupee"
 msgstr "Сейшельские рупии"
 
-#: src/formats.c:292
+#: src/formats.c:294
 msgid "[$SDP]"
 msgstr "[$SDP]"
 
-#: src/formats.c:292
+#: src/formats.c:294
 msgid "Sudanese pound"
 msgstr "Суданские фунты"
 
-#: src/formats.c:293
+#: src/formats.c:295
 msgid "[$SEK]"
 msgstr "[$SEK]"
 
-#: src/formats.c:293
+#: src/formats.c:295
 msgid "Swedish krona"
 msgstr "Шведские кроны"
 
-#: src/formats.c:294
+#: src/formats.c:296
 msgid "[$SGD]"
 msgstr "[$SGD]"
 
-#: src/formats.c:294
+#: src/formats.c:296
 msgid "Singapore dollar"
 msgstr "Сингапурские доллары"
 
-#: src/formats.c:295
+#: src/formats.c:297
 msgid "[$SHP]"
 msgstr "[$SHP]"
 
-#: src/formats.c:295
+#: src/formats.c:297
 msgid "St.Helena pound"
 msgstr "Фунты Св.Елены"
 
-#: src/formats.c:296
+#: src/formats.c:298
 msgid "[$SLL]"
 msgstr "[$SLL]"
 
-#: src/formats.c:296
+#: src/formats.c:298
 msgid "Sierra Leone leone"
 msgstr "Леоны Сьерра-Леоны"
 
-#: src/formats.c:297
+#: src/formats.c:299
 msgid "[$SOS]"
 msgstr "[$SOS]"
 
-#: src/formats.c:297
+#: src/formats.c:299
 msgid "Somali shilling"
 msgstr "Сомалийские шиллинги"
 
-#: src/formats.c:298
+#: src/formats.c:300
 msgid "[$SRG]"
 msgstr "[$SRG]"
 
-#: src/formats.c:298
+#: src/formats.c:300
 msgid "Suriname guilder"
 msgstr "Суринамские гульдены"
 
-#: src/formats.c:299
+#: src/formats.c:301
 msgid "[$STD]"
 msgstr "[$STD]"
 
-#: src/formats.c:299
+#: src/formats.c:301
 msgid "Sao Tome and Principe dobra"
 msgstr "Сао Том и Принципийские добра"
 
-#: src/formats.c:300
+#: src/formats.c:302
 msgid "[$SUR]"
 msgstr "[$SUR]"
 
-#: src/formats.c:300
+#: src/formats.c:302
 msgid "USSR rouble"
 msgstr "Рубли СССР"
 
-#: src/formats.c:301
+#: src/formats.c:303
 msgid "[$SVC]"
 msgstr "[$SVC]"
 
-#: src/formats.c:301
+#: src/formats.c:303
 msgid "El Salvador colon"
 msgstr "Сальвадорские колоны"
 
-#: src/formats.c:302
+#: src/formats.c:304
 msgid "[$SYP]"
 msgstr "[$SYP]"
 
-#: src/formats.c:302
+#: src/formats.c:304
 msgid "Syrian pound"
 msgstr "Сирийские фунты"
 
-#: src/formats.c:303
+#: src/formats.c:305
 msgid "[$SZL]"
 msgstr "[$SZL]"
 
-#: src/formats.c:303
+#: src/formats.c:305
 msgid "Swaziland lilangeni"
 msgstr "Свазилендские лилангени"
 
-#: src/formats.c:304
+#: src/formats.c:306
 msgid "[$THB]"
 msgstr "[$THB]"
 
-#: src/formats.c:304
+#: src/formats.c:306
 msgid "Thai baht"
 msgstr "Тайские бахты"
 
-#: src/formats.c:305
+#: src/formats.c:307
 msgid "[$TND]"
 msgstr "[$TND]"
 
-#: src/formats.c:305
+#: src/formats.c:307
 msgid "Tunisian dinar"
 msgstr "Тунисские динары"
 
-#: src/formats.c:306
+#: src/formats.c:308
 msgid "[$TOP]"
 msgstr "[$TOP]"
 
-#: src/formats.c:306
+#: src/formats.c:308
 msgid "Tongan pa'anga"
 msgstr "Паанга Тонги"
 
-#: src/formats.c:307
+#: src/formats.c:309
 msgid "[$TPE]"
 msgstr "[$TPE]"
 
-#: src/formats.c:307
+#: src/formats.c:309
 msgid "East Timor escudo"
 msgstr "Восточнотиморские эскудо"
 
-#: src/formats.c:308
+#: src/formats.c:310
 msgid "[$TRL]"
 msgstr "[$TRL]"
 
-#: src/formats.c:308
+#: src/formats.c:310
 msgid "Turkish lira"
 msgstr "Турецкие лиры"
 
-#: src/formats.c:309
+#: src/formats.c:311
 msgid "[$TTD]"
 msgstr "[$TTD]"
 
-#: src/formats.c:309
+#: src/formats.c:311
 msgid "Trinidad and Tobago dollar"
 msgstr "Доллары Тринидада и Тобаго"
 
-#: src/formats.c:310
+#: src/formats.c:312
 msgid "[$TWD]"
 msgstr "[$TWD]"
 
-#: src/formats.c:310
+#: src/formats.c:312
 msgid "New Taiwan dollar"
 msgstr "Новые Тайваньские доллары"
 
-#: src/formats.c:311
+#: src/formats.c:313
 msgid "[$TZS]"
 msgstr "[$TZS]"
 
-#: src/formats.c:311
+#: src/formats.c:313
 msgid "Tanzanian shilling"
 msgstr "Танзанские шиллинги"
 
-#: src/formats.c:312
+#: src/formats.c:314
 msgid "[$UAH]"
 msgstr "[$UAH]"
 
-#: src/formats.c:312
+#: src/formats.c:314
 msgid "Ukrainian hryvnia"
 msgstr "Украинские гривны"
 
-#: src/formats.c:313
+#: src/formats.c:315
 msgid "[$UGX]"
 msgstr "[$UGX]"
 
-#: src/formats.c:313
+#: src/formats.c:315
 msgid "Ugandan shilling"
 msgstr "Угандские шиллинги"
 
-#: src/formats.c:314
+#: src/formats.c:316
 msgid "[$USD]"
 msgstr "[$USD]"
 
-#: src/formats.c:314
+#: src/formats.c:316
 msgid "US dollar"
 msgstr "Доллары США"
 
-#: src/formats.c:315
+#: src/formats.c:317
 msgid "[$UYP]"
 msgstr "[$UYP]"
 
-#: src/formats.c:315
+#: src/formats.c:317
 msgid "Uruguayan peso"
 msgstr "Уругвайские песо"
 
-#: src/formats.c:316
+#: src/formats.c:318
 msgid "[$VEB]"
 msgstr "[$VEB]"
 
-#: src/formats.c:316
+#: src/formats.c:318
 msgid "Venezuelan bolivar"
 msgstr "Венесуэльские боливары"
 
-#: src/formats.c:317
+#: src/formats.c:319
 msgid "[$VND]"
 msgstr "[$VND]"
 
-#: src/formats.c:317
+#: src/formats.c:319
 msgid "Vietnamese dong"
 msgstr "Вьетнамские донги"
 
-#: src/formats.c:318
+#: src/formats.c:320
 msgid "[$VUV]"
 msgstr "[$VUV]"
 
-#: src/formats.c:318
+#: src/formats.c:320
 msgid "Vanuatu vatu"
 msgstr "Вануатские вату"
 
-#: src/formats.c:319
+#: src/formats.c:321
 msgid "[$WST]"
 msgstr "[$WST]"
 
-#: src/formats.c:319
+#: src/formats.c:321
 msgid "Samoan tala"
 msgstr "Самоанские тала"
 
-#: src/formats.c:320
+#: src/formats.c:322
 msgid "[$XCD]"
 msgstr "[$XCD]"
 
-#: src/formats.c:320
+#: src/formats.c:322
 msgid "East Caribbean dollar"
 msgstr "Восточнокарибские доллары"
 
-#: src/formats.c:321
+#: src/formats.c:323
 msgid "[$XEU]"
 msgstr "[$XEU]"
 
-#: src/formats.c:321
+#: src/formats.c:323
 msgid "European currency unit"
 msgstr "Евро"
 
-#: src/formats.c:322
+#: src/formats.c:324
 msgid "[$YDD]"
 msgstr "[$YDD]"
 
-#: src/formats.c:322
+#: src/formats.c:324
 msgid "Democratic Yemeni dinar"
 msgstr "Динары демократического Йемена"
 
-#: src/formats.c:323
+#: src/formats.c:325
 msgid "[$YER]"
 msgstr "[$YER]"
 
-#: src/formats.c:323
+#: src/formats.c:325
 msgid "Yemeni rial"
 msgstr "Йеменские риалы"
 
-#: src/formats.c:324
+#: src/formats.c:326
 msgid "[$YUN]"
 msgstr "[$YUN]"
 
-#: src/formats.c:324
+#: src/formats.c:326
 msgid "New Yugoslavia dinar"
 msgstr "Новые Югославские динары"
 
-#: src/formats.c:325
+#: src/formats.c:327
 msgid "[$ZAL]"
 msgstr "[$ZAL]"
 
-#: src/formats.c:325
+#: src/formats.c:327
 msgid "South African rand funds code"
 msgstr "Денежные коды южноафриканских рэндов"
 
-#: src/formats.c:326
+#: src/formats.c:328
 msgid "[$ZAR]"
 msgstr "[$ZAR]"
 
-#: src/formats.c:326
+#: src/formats.c:328
 msgid "South African rand"
 msgstr "Южноафриканские рэнды"
 
-#: src/formats.c:327
+#: src/formats.c:329
 msgid "[$ZMK]"
 msgstr "[$ZMK]"
 
-#: src/formats.c:327
+#: src/formats.c:329
 msgid "Zambian kwacha"
 msgstr "Замбийские квача"
 
-#: src/formats.c:328
+#: src/formats.c:330
 msgid "[$ZRZ]"
 msgstr "[$ZRZ]"
 
-#: src/formats.c:328
+#: src/formats.c:330
 msgid "Zaire Zaire"
 msgstr "Заирские заиры"
 
-#: src/formats.c:329
+#: src/formats.c:331
 msgid "[$ZWD]"
 msgstr "[$ZWD]"
 
-#: src/formats.c:329
+#: src/formats.c:331
 msgid "Zimbabwe dollar"
 msgstr "Зимбабвийские доллары"
 
-#: src/formats.c:461
+#: src/formats.c:463
 msgid "[Red]"
 msgstr "[Red]"
 
@@ -5826,7 +5826,7 @@ msgstr "Невозможно создать файл %s\n"
 msgid "Unknown Function"
 msgstr "Неизвестная функция"
 
-#: src/func.c:567
+#: src/func.c:578
 msgid "Function does not exist"
 msgstr "Функция не существует"
 
@@ -6052,7 +6052,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:99
+#: src/functions/fn-date.c:101
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -6076,7 +6076,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:147
+#: src/functions/fn-date.c:149
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
@@ -6094,7 +6094,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE, NOW"
 
-#: src/functions/fn-date.c:168
+#: src/functions/fn-date.c:170
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -6122,7 +6122,7 @@ msgstr ""
 "\n"
 "@SEEALSO= DATE, TODAY"
 
-#: src/functions/fn-date.c:197
+#: src/functions/fn-date.c:199
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -6138,7 +6138,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-date.c:224
+#: src/functions/fn-date.c:226
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -6156,7 +6156,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-date.c:247
+#: src/functions/fn-date.c:252
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -6179,7 +6179,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:274
+#: src/functions/fn-date.c:279
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -6201,7 +6201,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:302
+#: src/functions/fn-date.c:307
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -6223,7 +6223,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
-#: src/functions/fn-date.c:330
+#: src/functions/fn-date.c:335
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -6243,7 +6243,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, MONTH, NOW, TIME"
 
-#: src/functions/fn-date.c:360
+#: src/functions/fn-date.c:370
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -6263,7 +6263,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, NOW, TIME, YEAR"
 
-#: src/functions/fn-date.c:390
+#: src/functions/fn-date.c:405
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -6283,7 +6283,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NOW, MONTH, TIME, YEAR"
 
-#: src/functions/fn-date.c:420
+#: src/functions/fn-date.c:440
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serial_number)\n"
@@ -6303,7 +6303,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NOW, MONTH, TIME, YEAR"
 
-#: src/functions/fn-date.c:450
+#: src/functions/fn-date.c:475
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -6333,11 +6333,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:486
+#: src/functions/fn-date.c:511
 msgid "Unsupported method"
 msgstr "Неподдерживаемый метод"
 
-#: src/functions/fn-date.c:547
+#: src/functions/fn-date.c:576
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -6357,12 +6357,13 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH"
 
-#: src/functions/fn-date.c:590
+#: src/functions/fn-date.c:623
+#, fuzzy
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
 "@DESCRIPTION=Returns the day which is @days working days from the "
-"@start_date.  Weekends and holidays optionaly supplied in @holidays are "
+"@start_date.  Weekends and holidays optionally supplied in @holidays are "
 "respected.\n"
 "Returns #NUM! if @start_date or @days are invalid.\n"
 "@EXAMPLES=\n"
@@ -6382,7 +6383,7 @@ msgstr ""
 #. 1 if the cell is formatted in color for negative values;
 #. * otherwise returns 0 (zero).
 #.
-#: src/functions/fn-date.c:620 src/functions/fn-eng.c:122
+#: src/functions/fn-date.c:657 src/functions/fn-eng.c:122
 #: src/functions/fn-information.c:159 src/functions/fn-information.c:171
 #: src/functions/fn-information.c:186 src/functions/fn-information.c:189
 #: src/functions/fn-information.c:208 src/functions/fn-information.c:275
@@ -6390,12 +6391,13 @@ msgstr ""
 msgid "Unimplemented"
 msgstr "Не реализовано"
 
-#: src/functions/fn-date.c:655
+#: src/functions/fn-date.c:692
+#, fuzzy
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
 "@DESCRIPTION=Returns the number of non-weekend non-holidays between "
-"@start_date and @end_date.  Holidays optionaly supplied in @holidays.\n"
+"@start_date and @end_date.  Holidays optionally supplied in @holidays.\n"
 "Returns #NUM if start_date or end_date are invalid\n"
 "@EXAMPLES=\n"
 "\n"
@@ -6410,7 +6412,7 @@ msgstr ""
 "\n"
 "@SEEALSO=WORKDAY"
 
-#: src/functions/fn-date.c:768
+#: src/functions/fn-date.c:816
 msgid "Date / Time"
 msgstr "Дата / Время"
 
@@ -8038,7 +8040,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV"
 
-#: src/functions/fn-financial.c:1405
+#: src/functions/fn-financial.c:1406
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -8053,7 +8055,7 @@ msgid ""
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1450
+#: src/functions/fn-financial.c:1451
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -8069,7 +8071,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1491
+#: src/functions/fn-financial.c:1492
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -8084,7 +8086,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 msgstr ""
 
-#: src/functions/fn-financial.c:1532
+#: src/functions/fn-financial.c:1533
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -8100,7 +8102,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:1627
+#: src/functions/fn-financial.c:1628
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -8135,7 +8137,7 @@ msgstr ""
 "IRR(A1:A8) равняется 0.04375.\n"
 "@SEEALSO=FV,NPV,PV"
 
-#: src/functions/fn-financial.c:1732
+#: src/functions/fn-financial.c:1734
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
@@ -8160,11 +8162,11 @@ msgstr ""
 "\n"
 "@SEEALSO=FV,PMT,PPMT"
 
-#: src/functions/fn-financial.c:1761
+#: src/functions/fn-financial.c:1763
 msgid "pv - domain error"
 msgstr "pv - ошибка диапазона"
 
-#: src/functions/fn-financial.c:1777
+#: src/functions/fn-financial.c:1779
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -8188,7 +8190,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,XNPV"
 
-#: src/functions/fn-financial.c:1831
+#: src/functions/fn-financial.c:1833
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -8213,7 +8215,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV,PV"
 
-#: src/functions/fn-financial.c:1890
+#: src/functions/fn-financial.c:1892
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -8254,7 +8256,7 @@ msgstr ""
 "0.224838.\n"
 "@SEEALSO=IRR,XNPV"
 
-#: src/functions/fn-financial.c:1994
+#: src/functions/fn-financial.c:1996
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -8280,7 +8282,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: src/functions/fn-financial.c:2033
+#: src/functions/fn-financial.c:2035
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -8291,7 +8293,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2062
+#: src/functions/fn-financial.c:2064
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -8307,7 +8309,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2109
+#: src/functions/fn-financial.c:2111
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -8323,7 +8325,7 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2158
+#: src/functions/fn-financial.c:2160
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -8357,7 +8359,7 @@ msgstr ""
 "можете удвоить свои сбережения только к концу 12-ого года.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2207
+#: src/functions/fn-financial.c:2209
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -8379,7 +8381,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2244
+#: src/functions/fn-financial.c:2246
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -8394,7 +8396,7 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2288
+#: src/functions/fn-financial.c:2290
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -8440,7 +8442,7 @@ msgstr ""
 "EURO(\"DEM\") возвращает 1.95583.\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2370
+#: src/functions/fn-financial.c:2372
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency,basis)\n"
@@ -8456,7 +8458,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2394
+#: src/functions/fn-financial.c:2396
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency,basis)\n"
@@ -8472,7 +8474,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2412
+#: src/functions/fn-financial.c:2414
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption,basis)\n"
@@ -8488,7 +8490,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2430
+#: src/functions/fn-financial.c:2432
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr,basis)\n"
@@ -8504,7 +8506,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2448
+#: src/functions/fn-financial.c:2450
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -8522,7 +8524,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2466
+#: src/functions/fn-financial.c:2468
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,f"
@@ -8540,7 +8542,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2484
+#: src/functions/fn-financial.c:2486
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequ"
@@ -8558,7 +8560,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2502
+#: src/functions/fn-financial.c:2504
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,freque"
@@ -8576,7 +8578,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2520
+#: src/functions/fn-financial.c:2522
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,basis)"
@@ -8595,7 +8597,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AMORLINC"
 
-#: src/functions/fn-financial.c:2539
+#: src/functions/fn-financial.c:2541
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate,basis)\n"
@@ -8612,7 +8614,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AMORDEGRC"
 
-#: src/functions/fn-financial.c:2558
+#: src/functions/fn-financial.c:2560
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -8630,7 +8632,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2603
+#: src/functions/fn-financial.c:2610
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
@@ -8647,7 +8649,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2648
+#: src/functions/fn-financial.c:2660
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
@@ -8665,7 +8667,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2668
+#: src/functions/fn-financial.c:2680
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
@@ -8681,7 +8683,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-financial.c:2712
+#: src/functions/fn-financial.c:2729
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
@@ -8697,7 +8699,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2731
+#: src/functions/fn-financial.c:2748
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
@@ -8715,7 +8717,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2772
+#: src/functions/fn-financial.c:2794
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -8733,7 +8735,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-financial.c:2792
+#: src/functions/fn-financial.c:2814
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -8751,7 +8753,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2812
+#: src/functions/fn-financial.c:2834
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -8769,7 +8771,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2831
+#: src/functions/fn-financial.c:2853
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -8787,7 +8789,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DB"
 
-#: src/functions/fn-financial.c:2854
+#: src/functions/fn-financial.c:2876
 msgid "Financial"
 msgstr "Финансовые"
 
@@ -9228,7 +9230,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OR, NOT"
 
-#: src/functions/fn-logical.c:82
+#: src/functions/fn-logical.c:83
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -9252,11 +9254,11 @@ msgstr ""
 "\n"
 "@SEEALSO=AND, OR"
 
-#: src/functions/fn-logical.c:102 src/functions/fn-string.c:525
+#: src/functions/fn-logical.c:103 src/functions/fn-string.c:525
 msgid "Type Mismatch"
 msgstr "Несоответствие типов"
 
-#: src/functions/fn-logical.c:109
+#: src/functions/fn-logical.c:110
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -9290,7 +9292,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AND, NOT"
 
-#: src/functions/fn-logical.c:165
+#: src/functions/fn-logical.c:167
 msgid ""
 "@FUNCTION=IF\n"
 "@SYNTAX=IF(condition[,if-true,if-false])\n"
@@ -9316,7 +9318,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-logical.c:228
+#: src/functions/fn-logical.c:230
 msgid ""
 "@FUNCTION=TRUE\n"
 "@SYNTAX=TRUE()\n"
@@ -9336,7 +9338,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FALSE"
 
-#: src/functions/fn-logical.c:250
+#: src/functions/fn-logical.c:252
 msgid ""
 "@FUNCTION=FALSE\n"
 "@SYNTAX=FALSE()\n"
@@ -9356,7 +9358,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FALSE"
 
-#: src/functions/fn-logical.c:275
+#: src/functions/fn-logical.c:277
 msgid "Logical"
 msgstr "Логические"
 
@@ -9730,7 +9732,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GCD"
 
-#: src/functions/fn-math.c:224
+#: src/functions/fn-math.c:225
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -9754,7 +9756,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, FLOOR"
 
-#: src/functions/fn-math.c:249
+#: src/functions/fn-math.c:250
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -9780,7 +9782,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:281
+#: src/functions/fn-math.c:282
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -9804,7 +9806,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACOS, ASINH, DEGREES, RADIANS "
 
-#: src/functions/fn-math.c:312
+#: src/functions/fn-math.c:313
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -9828,7 +9830,7 @@ msgstr ""
 "\n"
 "@SEEALSO= SIN, COS, ASINH, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:343
+#: src/functions/fn-math.c:344
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -9852,7 +9854,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ASIN, ACOS, SIN, COS, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:367
+#: src/functions/fn-math.c:368
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -9875,7 +9877,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:392
+#: src/functions/fn-math.c:393
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -9901,7 +9903,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:424
+#: src/functions/fn-math.c:425
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -9928,7 +9930,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:452
+#: src/functions/fn-math.c:453
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -9952,7 +9954,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
-#: src/functions/fn-math.c:476
+#: src/functions/fn-math.c:477
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -9982,7 +9984,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUMIF"
 
-#: src/functions/fn-math.c:554
+#: src/functions/fn-math.c:555
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
@@ -10019,7 +10021,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNTIF, SUM"
 
-#: src/functions/fn-math.c:707
+#: src/functions/fn-math.c:708
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -10047,7 +10049,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL"
 
-#: src/functions/fn-math.c:748
+#: src/functions/fn-math.c:749
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -10069,7 +10071,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/functions/fn-math.c:772
+#: src/functions/fn-math.c:773
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -10093,7 +10095,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: src/functions/fn-math.c:797
+#: src/functions/fn-math.c:798
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -10113,7 +10115,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RADIANS, PI"
 
-#: src/functions/fn-math.c:819
+#: src/functions/fn-math.c:820
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -10133,7 +10135,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: src/functions/fn-math.c:842
+#: src/functions/fn-math.c:843
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -10155,7 +10157,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:883
+#: src/functions/fn-math.c:884
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -10180,7 +10182,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:917
+#: src/functions/fn-math.c:918
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
@@ -10209,7 +10211,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, ABS, INT"
 
-#: src/functions/fn-math.c:954
+#: src/functions/fn-math.c:955
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -10234,7 +10236,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 
-#: src/functions/fn-math.c:980
+#: src/functions/fn-math.c:981
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -10258,7 +10260,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LN, LOG2, LOG10"
 
-#: src/functions/fn-math.c:1019
+#: src/functions/fn-math.c:1020
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -10278,7 +10280,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/functions/fn-math.c:1049
+#: src/functions/fn-math.c:1050
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -10300,7 +10302,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP"
 
-#: src/functions/fn-math.c:1083
+#: src/functions/fn-math.c:1084
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -10320,7 +10322,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: src/functions/fn-math.c:1111
+#: src/functions/fn-math.c:1112
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -10340,7 +10342,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: src/functions/fn-math.c:1140
+#: src/functions/fn-math.c:1141
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -10362,7 +10364,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT,FLOOR,CEIL"
 
-#: src/functions/fn-math.c:1188
+#: src/functions/fn-math.c:1189
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -10382,7 +10384,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/functions/fn-math.c:1210
+#: src/functions/fn-math.c:1211
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -10402,7 +10404,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDBETWEEN"
 
-#: src/functions/fn-math.c:1233
+#: src/functions/fn-math.c:1234
 msgid ""
 "@FUNCTION=RandExp\n"
 "@SYNTAX=RandExp(b)\n"
@@ -10420,7 +10422,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1256
+#: src/functions/fn-math.c:1257
 msgid ""
 "@FUNCTION=RandPoisson\n"
 "@SYNTAX=RandPoisson(lambda)\n"
@@ -10439,7 +10441,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1282
+#: src/functions/fn-math.c:1283
 msgid ""
 "@FUNCTION=RandBinom\n"
 "@SYNTAX=RandBinom(p,trials)\n"
@@ -10462,7 +10464,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST"
 
-#: src/functions/fn-math.c:1312
+#: src/functions/fn-math.c:1313
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -10486,7 +10488,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1343
+#: src/functions/fn-math.c:1344
 msgid ""
 "@FUNCTION=RandBernoulli\n"
 "@SYNTAX=RandBernoulli(p)\n"
@@ -10507,7 +10509,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1371
+#: src/functions/fn-math.c:1372
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -10528,7 +10530,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/functions/fn-math.c:1394
+#: src/functions/fn-math.c:1395
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -10550,7 +10552,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/functions/fn-math.c:1417
+#: src/functions/fn-math.c:1418
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -10572,7 +10574,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POWER"
 
-#: src/functions/fn-math.c:1445
+#: src/functions/fn-math.c:1446
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -10596,7 +10598,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/functions/fn-math.c:1474
+#: src/functions/fn-math.c:1475
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -10626,7 +10628,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: src/functions/fn-math.c:1505
+#: src/functions/fn-math.c:1506
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -10650,7 +10652,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: src/functions/fn-math.c:1535
+#: src/functions/fn-math.c:1536
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -10670,7 +10672,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM"
 
-#: src/functions/fn-math.c:1595
+#: src/functions/fn-math.c:1596
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -10692,7 +10694,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT, G_PRODUCT"
 
-#: src/functions/fn-math.c:1632
+#: src/functions/fn-math.c:1633
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -10714,7 +10716,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: src/functions/fn-math.c:1659
+#: src/functions/fn-math.c:1660
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -10734,7 +10736,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:1682
+#: src/functions/fn-math.c:1683
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -10756,7 +10758,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:1705
+#: src/functions/fn-math.c:1706
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -10777,7 +10779,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SQRTPI"
 
-#: src/functions/fn-math.c:1729
+#: src/functions/fn-math.c:1730
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -10801,7 +10803,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT"
 
-#: src/functions/fn-math.c:1768
+#: src/functions/fn-math.c:1769
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -10821,7 +10823,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ODD"
 
-#: src/functions/fn-math.c:1806
+#: src/functions/fn-math.c:1807
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -10841,7 +10843,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EVEN"
 
-#: src/functions/fn-math.c:1844
+#: src/functions/fn-math.c:1845
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -10865,7 +10867,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FACT"
 
-#: src/functions/fn-math.c:1882
+#: src/functions/fn-math.c:1883
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -10886,7 +10888,7 @@ msgstr ""
 " \n"
 "@SEEALSO=MOD"
 
-#: src/functions/fn-math.c:1913
+#: src/functions/fn-math.c:1914
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -10911,7 +10913,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:1947
+#: src/functions/fn-math.c:1948
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -10931,7 +10933,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI"
 
-#: src/functions/fn-math.c:1976
+#: src/functions/fn-math.c:1977
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -10956,7 +10958,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: src/functions/fn-math.c:2010
+#: src/functions/fn-math.c:2011
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -10991,7 +10993,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDUP"
 
-#: src/functions/fn-math.c:2057
+#: src/functions/fn-math.c:2058
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -11027,7 +11029,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
-#: src/functions/fn-math.c:2098
+#: src/functions/fn-math.c:2099
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -11062,7 +11064,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
 
-#: src/functions/fn-math.c:2145
+#: src/functions/fn-math.c:2146
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -11090,7 +11092,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
-#: src/functions/fn-math.c:2195
+#: src/functions/fn-math.c:2196
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -11130,7 +11132,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:2464
+#: src/functions/fn-math.c:2465
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -11165,14 +11167,14 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2PY2"
 
-#: src/functions/fn-math.c:2518 src/functions/fn-math.c:2533
-#: src/functions/fn-math.c:2616 src/functions/fn-math.c:2632
-#: src/functions/fn-math.c:2713 src/functions/fn-math.c:2729
-#: src/functions/fn-stat.c:2688 src/functions/fn-stat.c:2718
+#: src/functions/fn-math.c:2519 src/functions/fn-math.c:2534
+#: src/functions/fn-math.c:2617 src/functions/fn-math.c:2633
+#: src/functions/fn-math.c:2714 src/functions/fn-math.c:2730
+#: src/functions/fn-stat.c:2692 src/functions/fn-stat.c:2722
 msgid "Array version not implemented!"
 msgstr "Версия массива не реализована!"
 
-#: src/functions/fn-math.c:2562
+#: src/functions/fn-math.c:2563
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -11207,7 +11209,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
 
-#: src/functions/fn-math.c:2659
+#: src/functions/fn-math.c:2660
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -11242,7 +11244,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: src/functions/fn-math.c:2758
+#: src/functions/fn-math.c:2759
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -11299,7 +11301,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: src/functions/fn-math.c:2851
+#: src/functions/fn-math.c:2852
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -11316,7 +11318,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:2974
+#: src/functions/fn-math.c:2975
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -11340,11 +11342,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: src/functions/fn-math.c:3022
+#: src/functions/fn-math.c:3023
 msgid "#3D MULT?"
 msgstr "#3D MULT?"
 
-#: src/functions/fn-math.c:3101
+#: src/functions/fn-math.c:3102
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -11364,7 +11366,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: src/functions/fn-math.c:3177
+#: src/functions/fn-math.c:3178
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -11392,7 +11394,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: src/functions/fn-math.c:3235
+#: src/functions/fn-math.c:3236
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -11423,7 +11425,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: src/functions/fn-math.c:3348
+#: src/functions/fn-math.c:3349
 msgid "Maths / Trig."
 msgstr "Матем. / Триг."
 
@@ -11588,15 +11590,16 @@ msgstr ""
 "@SEEALSO=PERCENTRANK"
 
 #: src/functions/fn-stat.c:332
+#, fuzzy
 msgid ""
 "@FUNCTION=TRIMMEAN\n"
-"@SYNTAX=TRIMMEAN(ref,percent)\n"
+"@SYNTAX=TRIMMEAN(ref,fraction)\n"
 "@DESCRIPTION=TRIMMEAN returns the mean of the interior of a data set. @ref "
-"is the list of numbers whose mean you want to calculate and @percent is the "
-"percentage of number excluded from the mean. For example, if @percent=0.2 "
-"and the data set contains 40 numbers, 8 numbers are trimmed from the data "
-"set (40 x 0.2), 4 from the top and 4 from the bottom of the set. This "
-"function is Excel compatible. \n"
+"is the list of numbers whose mean you want to calculate and @fraction is the "
+"fraction of the data set excluded from the mean. For example, if "
+"@fraction=0.2 and the data set contains 40 numbers, 8 numbers are trimmed "
+"from the data set (40 x 0.2), 4 from the top and 4 from the bottom of the "
+"set. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
@@ -11639,10 +11642,11 @@ msgstr ""
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 
 #: src/functions/fn-stat.c:422
+#, fuzzy
 msgid ""
 "@FUNCTION=CORREL\n"
 "@SYNTAX=CORREL(array1,array2)\n"
-"@DESCRIPTION=CORREL returns the correllation coefficient of two data sets.\n"
+"@DESCRIPTION=CORREL returns the correlation coefficient of two data sets.\n"
 "Strings and empty cells are simply ignored. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
@@ -11843,11 +11847,13 @@ msgstr ""
 "@SEEALSO=AVERAGE,MEDIAN"
 
 #: src/functions/fn-stat.c:750
+#, fuzzy
 msgid ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
-"@DESCRIPTION=HARMEAN returns the harmonic mean of the N data points. This "
-"function is Excel compatible. \n"
+"@DESCRIPTION=HARMEAN returns the harmonic mean of the N data points (that "
+"is, N divided by the sum of the inverses of the data points). This function "
+"is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1.  Then\n"
@@ -11866,7 +11872,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE,TRIMMEAN"
 
-#: src/functions/fn-stat.c:779
+#: src/functions/fn-stat.c:781
 msgid ""
 "@FUNCTION=GEOMEAN\n"
 "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
@@ -11892,7 +11898,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HARMEAN,MEDIAN,MEAN,MODE,TRIMMEAN"
 
-#: src/functions/fn-stat.c:809
+#: src/functions/fn-stat.c:811
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -11916,7 +11922,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:850
+#: src/functions/fn-stat.c:853
 msgid ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=COUNTA(b1, b2, ...)\n"
@@ -11940,7 +11946,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 
-#: src/functions/fn-stat.c:892
+#: src/functions/fn-stat.c:896
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -11967,7 +11973,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: src/functions/fn-stat.c:923
+#: src/functions/fn-stat.c:927
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -11993,7 +11999,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,ABS"
 
-#: src/functions/fn-stat.c:964
+#: src/functions/fn-stat.c:968
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -12019,7 +12025,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MIN,ABS"
 
-#: src/functions/fn-stat.c:1005
+#: src/functions/fn-stat.c:1009
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -12055,7 +12061,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 
-#: src/functions/fn-stat.c:1042
+#: src/functions/fn-stat.c:1046
 msgid ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(n1, n2, ...)\n"
@@ -12081,7 +12087,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 
-#: src/functions/fn-stat.c:1074
+#: src/functions/fn-stat.c:1078
 msgid ""
 "@FUNCTION=EXPONDIST\n"
 "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
@@ -12107,7 +12113,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:1117
+#: src/functions/fn-stat.c:1121
 msgid ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
@@ -12130,7 +12136,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:1154
+#: src/functions/fn-stat.c:1158
 msgid ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
@@ -12156,7 +12162,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GAMMAINV"
 
-#: src/functions/fn-stat.c:1195
+#: src/functions/fn-stat.c:1199
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -12180,7 +12186,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GAMMADIST"
 
-#: src/functions/fn-stat.c:1231
+#: src/functions/fn-stat.c:1235
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -12204,7 +12210,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIINV,CHITEST"
 
-#: src/functions/fn-stat.c:1267
+#: src/functions/fn-stat.c:1271
 msgid ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
@@ -12228,7 +12234,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIDIST,CHITEST"
 
-#: src/functions/fn-stat.c:1301
+#: src/functions/fn-stat.c:1305
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
@@ -12252,7 +12258,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIDIST,CHIINV"
 
-#: src/functions/fn-stat.c:1444
+#: src/functions/fn-stat.c:1448
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -12280,7 +12286,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETAINV"
 
-#: src/functions/fn-stat.c:1493
+#: src/functions/fn-stat.c:1497
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -12309,7 +12315,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETADIST"
 
-#: src/functions/fn-stat.c:1539
+#: src/functions/fn-stat.c:1543
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -12335,7 +12341,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TINV,TTEST"
 
-#: src/functions/fn-stat.c:1579
+#: src/functions/fn-stat.c:1583
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -12359,7 +12365,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TDIST,TTEST"
 
-#: src/functions/fn-stat.c:1613
+#: src/functions/fn-stat.c:1617
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -12385,7 +12391,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FINV"
 
-#: src/functions/fn-stat.c:1650
+#: src/functions/fn-stat.c:1654
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=FINV(p,dof1,dof2)\n"
@@ -12408,7 +12414,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST"
 
-#: src/functions/fn-stat.c:1686
+#: src/functions/fn-stat.c:1690
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -12440,7 +12446,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:1732
+#: src/functions/fn-stat.c:1736
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -12472,7 +12478,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:1772
+#: src/functions/fn-stat.c:1776
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -12496,7 +12502,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COMBIN"
 
-#: src/functions/fn-stat.c:1807
+#: src/functions/fn-stat.c:1811
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
@@ -12524,7 +12530,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,POISSON"
 
-#: src/functions/fn-stat.c:1847
+#: src/functions/fn-stat.c:1851
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -12552,7 +12558,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:1888
+#: src/functions/fn-stat.c:1892
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
@@ -12578,7 +12584,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:1926
+#: src/functions/fn-stat.c:1930
 msgid ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -12606,7 +12612,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:1972
+#: src/functions/fn-stat.c:1976
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
@@ -12633,7 +12639,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:2017
+#: src/functions/fn-stat.c:2021
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stdev)\n"
@@ -12661,7 +12667,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 
-#: src/functions/fn-stat.c:2055
+#: src/functions/fn-stat.c:2059
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -12696,7 +12702,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 
-#: src/functions/fn-stat.c:2094
+#: src/functions/fn-stat.c:2098
 msgid ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -12724,7 +12730,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 
-#: src/functions/fn-stat.c:2127
+#: src/functions/fn-stat.c:2131
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -12748,7 +12754,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
-#: src/functions/fn-stat.c:2157
+#: src/functions/fn-stat.c:2161
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -12775,7 +12781,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
-#: src/functions/fn-stat.c:2189
+#: src/functions/fn-stat.c:2193
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -12797,7 +12803,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SKEW"
 
-#: src/functions/fn-stat.c:2224
+#: src/functions/fn-stat.c:2228
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -12825,12 +12831,13 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST, WEIBULL"
 
-#: src/functions/fn-stat.c:2267
+#: src/functions/fn-stat.c:2271
+#, fuzzy
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
-"@DESCRIPTION=PEARSON returns the Pearson correllation coefficient of two "
-"data sets.\n"
+"@DESCRIPTION=PEARSON returns the Pearson correlation coefficient of two data "
+"sets.\n"
 "Strings and empty cells are simply ignored. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
@@ -12846,11 +12853,12 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 
-#: src/functions/fn-stat.c:2292
+#: src/functions/fn-stat.c:2296
+#, fuzzy
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
-"@DESCRIPTION=RSQ returns the square of the Pearson correllation coefficient "
+"@DESCRIPTION=RSQ returns the square of the Pearson correlation coefficient "
 "of two data sets.\n"
 "Strings and empty cells are simply ignored. This function is Excel "
 "compatible. \n"
@@ -12867,7 +12875,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 
-#: src/functions/fn-stat.c:2322
+#: src/functions/fn-stat.c:2326
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -12895,7 +12903,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
-#: src/functions/fn-stat.c:2372
+#: src/functions/fn-stat.c:2376
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -12925,7 +12933,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 
-#: src/functions/fn-stat.c:2424
+#: src/functions/fn-stat.c:2428
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -12955,7 +12963,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 
-#: src/functions/fn-stat.c:2500
+#: src/functions/fn-stat.c:2504
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])\n"
@@ -12983,7 +12991,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
 
-#: src/functions/fn-stat.c:2624
+#: src/functions/fn-stat.c:2628
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -13013,7 +13021,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 
-#: src/functions/fn-stat.c:2779
+#: src/functions/fn-stat.c:2783
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
@@ -13041,7 +13049,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 
-#: src/functions/fn-stat.c:2860
+#: src/functions/fn-stat.c:2864
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -13071,7 +13079,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:2894
+#: src/functions/fn-stat.c:2898
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -13103,7 +13111,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: src/functions/fn-stat.c:2928
+#: src/functions/fn-stat.c:2932
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -13134,7 +13142,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MIN,MAXA"
 
-#: src/functions/fn-stat.c:2962
+#: src/functions/fn-stat.c:2966
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -13165,7 +13173,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VAR,VARPA"
 
-#: src/functions/fn-stat.c:2996
+#: src/functions/fn-stat.c:3000
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -13198,7 +13206,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VARP,VARP"
 
-#: src/functions/fn-stat.c:3030
+#: src/functions/fn-stat.c:3034
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -13230,7 +13238,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: src/functions/fn-stat.c:3064
+#: src/functions/fn-stat.c:3068
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -13262,7 +13270,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEVA,STDEVP"
 
-#: src/functions/fn-stat.c:3098
+#: src/functions/fn-stat.c:3102
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -13293,12 +13301,14 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 
-#: src/functions/fn-stat.c:3213
+#: src/functions/fn-stat.c:3217
+#, fuzzy
 msgid ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
-"@DESCRIPTION=PERCENTILE function returns the k-th percentile of the given "
-"data points.  \n"
+"@DESCRIPTION=PERCENTILE function returns the 100*@k-th percentile of the "
+"given data points (that is, a number x such that a fraction @k of the data "
+"points are less than x).  \n"
 "If @array is empty, PERCENTILE returns #NUM! error. If @k < 0 or @k > 1, "
 "PERCENTILE returns #NUM! error. This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -13321,7 +13331,7 @@ msgstr ""
 "\n"
 "@SEEALSO=QUARTILE"
 
-#: src/functions/fn-stat.c:3278
+#: src/functions/fn-stat.c:3284
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -13364,7 +13374,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 
-#: src/functions/fn-stat.c:3345
+#: src/functions/fn-stat.c:3352
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -13392,7 +13402,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: src/functions/fn-stat.c:3429
+#: src/functions/fn-stat.c:3436
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -13448,7 +13458,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: src/functions/fn-stat.c:3653
+#: src/functions/fn-stat.c:3660
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -13474,7 +13484,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-stat.c:3756
+#: src/functions/fn-stat.c:3763
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -13527,7 +13537,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: src/functions/fn-stat.c:4027
+#: src/functions/fn-stat.c:4034
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -13563,7 +13573,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
-#: src/functions/fn-stat.c:4139
+#: src/functions/fn-stat.c:4146
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -13590,7 +13600,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4394
+#: src/functions/fn-stat.c:4401
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -13610,7 +13620,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4508
+#: src/functions/fn-stat.c:4515
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -13629,7 +13639,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4579
+#: src/functions/fn-stat.c:4586
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -13647,7 +13657,7 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4628
+#: src/functions/fn-stat.c:4635
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -13673,7 +13683,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: src/functions/fn-stat.c:4674
+#: src/functions/fn-stat.c:4681
 msgid "Statistics"
 msgstr "Статистические"
 
@@ -14590,17 +14600,17 @@ msgstr "вырезать"
 msgid "Button"
 msgstr "Кнопка"
 
-#: src/sheet-object.c:812 src/sheet-object.c:815 src/workbook.c:1142
+#: src/sheet-object.c:814 src/sheet-object.c:817 src/workbook.c:1142
 #: src/workbook.c:1145
 msgid "Select an object to add"
 msgstr "Выбрать объект для добавления"
 
-#: src/sheet-object.c:1406
+#: src/sheet-object.c:1408
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Не было возможности активировать объект %s"
 
-#: src/sheet-object.c:1418
+#: src/sheet-object.c:1420
 msgid "I was unable to the bind object"
 msgstr "Не было возможности связать объект"
 
@@ -14614,23 +14624,23 @@ msgstr "Строка: %d"
 msgid "Column: %s"
 msgstr "Столбец: %s"
 
-#: src/sheet.c:1080
+#: src/sheet.c:1086
 msgid "Internal ERROR"
 msgstr "Внутренняя ОШИБКА"
 
-#: src/sheet.c:2861 src/sheet.c:2870
+#: src/sheet.c:2867 src/sheet.c:2876
 msgid "Insert Columns"
 msgstr "Вставить столбцы"
 
-#: src/sheet.c:2940
+#: src/sheet.c:2946
 msgid "Delete Columns"
 msgstr "Удалить столбцы"
 
-#: src/sheet.c:3009 src/sheet.c:3018
+#: src/sheet.c:3015 src/sheet.c:3024
 msgid "Insert Rows"
 msgstr "Вставить строки"
 
-#: src/sheet.c:3088
+#: src/sheet.c:3094
 msgid "Delete Rows"
 msgstr "Удалить строки"
 
@@ -14781,23 +14791,23 @@ msgstr "Импорт текстового файла"
 msgid "Text File Export (*.csv)"
 msgstr "Экспорт тестового файла (*.csv)"
 
-#: src/style.c:443 src/style.c:445
+#: src/style.c:449 src/style.c:451
 msgid "<Has not been set>"
 msgstr "<Не был установлен>"
 
 #. Translators: the first %s will be changed with string
 #. "does not have a valid entry for Helvetica" or
 #. "could not be found in the expected location"
-#: src/style.c:450
+#: src/style.c:456
 msgid "Gnumeric failed to find a suitable default font.\n"
 msgstr ""
 "Gnumeric не удалось найти подходящий шрифт используемый по умолчанию.\n"
 
-#: src/style.c:472
+#: src/style.c:478
 msgid "does not have a valid entry for Helvetica"
 msgstr "нет подходящей записи для шрифта Helvetica"
 
-#: src/style.c:473
+#: src/style.c:479
 msgid "could not be found in the expected location"
 msgstr "невозможно найти в ожидаемом месте"
 
@@ -15757,343 +15767,18 @@ msgstr "Переименовать этот лист"
 msgid "Re-order sheets"
 msgstr "Переупорядочить листы"
 
-#: src/xml-io.c:3196
+#: src/xml-io.c:3197
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Неправильные XML данные в буфере обмена. Дерево пусто?"
 
-#: src/xml-io.c:3237
+#: src/xml-io.c:3238
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Испорченный XML-файл. Дерево пусто?"
 
-#: src/xml-io.c:3251
+#: src/xml-io.c:3252
 msgid "Is not an Workbook file"
 msgstr "Это не файл книги"
 
-#: src/xml-io.c:3310
+#: src/xml-io.c:3311
 msgid "Gnumeric XML file format"
 msgstr "Формат файла Gnumeric XML"
-
-#: wizards/graphics/graphic-context.c:150
-#, c-format
-msgid "\"Series %d\""
-msgstr "\"Серии %d\""
-
-#: wizards/graphics/graphic-type.c:25
-msgid "Clustered columns.  Compares values between categories"
-msgstr "Объединенные столбцы. Сравнение значений между категориями"
-
-#: wizards/graphics/graphic-type.c:37
-msgid "Stacked columns.  Compares the values brought by each category"
-msgstr "Стопка столбцов. Сравнение приведенных значений для каждой категории"
-
-#: wizards/graphics/graphic-type.c:50
-msgid ""
-"Stacked columns, 100%.  Compares between the categories the values broght to "
-"a total"
-msgstr ""
-"Стопка столбцов, 100%. Сравнение между категориями значений приведенных к "
-"сумме"
-
-#: wizards/graphics/graphic-type.c:66
-msgid "Clustered bars.  Compares values between categories"
-msgstr "Объединенные строки. Сравнение значений между категориями"
-
-#: wizards/graphics/graphic-type.c:78
-msgid "Stacked bars.  Compares the values brought by each category"
-msgstr "Стопка строк. Сравнение приведенных значений для каждой категории"
-
-#: wizards/graphics/graphic-type.c:91
-msgid ""
-"Stacked bars, 100%.  Compares between the categories the values broght to a "
-"total"
-msgstr ""
-"Стопка строк, 100%. Сравнение между категорями значений приведенных к сумме"
-
-#: wizards/graphics/graphic-type.c:107
-msgid "Lines.  FIXME: Add nice explanation"
-msgstr "Линии. Объяснение будет позже."
-
-#: wizards/graphics/graphic-type.c:120
-msgid "Stacked Lines.  FIXME: Add nice explanation"
-msgstr "Стопка линий. Объяснение будет позже."
-
-#: wizards/graphics/graphic-type.c:134
-msgid "Stacked lines, 100%.  FIXME: Add nice explanation"
-msgstr "Стопка линий, 100%. Объяснение будет позже."
-
-#: wizards/graphics/graphic-type.c:147
-msgid "Lines with markers.  FIXME: Add nice explanation"
-msgstr "Линии с маркерами. Объяснение будет позже."
-
-#: wizards/graphics/graphic-type.c:160
-msgid "Stacked lines with markers.  FIXME: Add nice explanation"
-msgstr "Стопка строк с маркерами. Объяснение будет позже."
-
-#: wizards/graphics/graphic-type.c:173
-msgid "Stacked lines with markers, 100%.  FIXME: Add nice explanation"
-msgstr "Стопка строк с маркерами, 100%. Объяснение будет позже."
-
-#: wizards/graphics/graphic-type.c:190
-msgid "Scatter points"
-msgstr "Рассеянные точки"
-
-#: wizards/graphics/graphic-type.c:207
-msgid "Scatter points connected with lines"
-msgstr "Рассеянные точки соединенные линиями"
-
-#: wizards/graphics/graphic-type.c:224
-msgid "Scatter data connected with lines"
-msgstr "Рассеянные данные соединенные линиями"
-
-#: wizards/graphics/graphic-type.c:245
-msgid "Area 1: FIXME add nice description"
-msgstr "Область 1: Объяснение будет позже."
-
-#: wizards/graphics/graphic-type.c:257
-msgid "Stacked area.  FIXME: add nic description"
-msgstr "Стопка областей. Объяснение будет позже."
-
-#: wizards/graphics/graphic-type.c:270
-msgid "Stacked Area, 100%.  FIXME: add nice description"
-msgstr "Стопка областей, 100%. Объяснение будет позже"
-
-#: wizards/graphics/graphic-type.c:290
-msgid "Bar"
-msgstr "Строка"
-
-#: wizards/graphics/graphic-type.c:291
-msgid "Lines"
-msgstr "Линии"
-
-#: wizards/graphics/graphic-type.c:292
-msgid "Scatter"
-msgstr "Рассеяние"
-
-#: wizards/graphics/graphic-type.c:293
-msgid "Areas"
-msgstr "Области"
-
-#.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
-#. * DO NOT compile it as part of your application.
-#.
-#: wizards/graphics/graphics.glade.h:7
-msgid "dialog3"
-msgstr "диалог3"
-
-#: wizards/graphics/graphics.glade.h:8
-msgid "Cancel"
-msgstr "Отмена"
-
-#: wizards/graphics/graphics.glade.h:9
-msgid "<< _Previous"
-msgstr "<< Пред."
-
-#: wizards/graphics/graphics.glade.h:10
-msgid "_Next step >>"
-msgstr "След. шаг >>"
-
-#: wizards/graphics/graphics.glade.h:11
-msgid "_Finish"
-msgstr "Закончить"
-
-#: wizards/graphics/graphics.glade.h:12
-msgid "_Graphic type:"
-msgstr "Тип графика:"
-
-#: wizards/graphics/graphics.glade.h:13
-msgid "Graphic subtype:"
-msgstr "Подтип графика:"
-
-#: wizards/graphics/graphics.glade.h:14
-msgid "label15"
-msgstr "метка15"
-
-#: wizards/graphics/graphics.glade.h:15
-msgid "label16"
-msgstr "метка16"
-
-#: wizards/graphics/graphics.glade.h:16
-msgid "Plot description"
-msgstr "Описание графика:"
-
-#: wizards/graphics/graphics.glade.h:17
-msgid "_Show sample"
-msgstr "Показать образец"
-
-#: wizards/graphics/graphics.glade.h:18
-msgid "Standard Types"
-msgstr "Стандартные типы"
-
-#: wizards/graphics/graphics.glade.h:19
-msgid "Custom types"
-msgstr "Другие типы"
-
-#: wizards/graphics/graphics.glade.h:20
-msgid "Step1"
-msgstr "Шаг 1"
-
-#: wizards/graphics/graphics.glade.h:21
-msgid "_Data Range:"
-msgstr "Диапазон данных:"
-
-#: wizards/graphics/graphics.glade.h:24
-msgid "Series in:"
-msgstr "Серии в:"
-
-#: wizards/graphics/graphics.glade.h:25
-msgid "Data ranges"
-msgstr "Диапазоны данных"
-
-#: wizards/graphics/graphics.glade.h:26
-msgid "Serie:"
-msgstr "Серия:"
-
-#: wizards/graphics/graphics.glade.h:27
-msgid "label27"
-msgstr "метка27"
-
-#: wizards/graphics/graphics.glade.h:30
-msgid "_Name:"
-msgstr "Название:"
-
-#: wizards/graphics/graphics.glade.h:31
-msgid "_Value:"
-msgstr "Значения:"
-
-#: wizards/graphics/graphics.glade.h:32
-msgid "Labels for the _X axis:"
-msgstr "Метки для оси X:"
-
-#: wizards/graphics/graphics.glade.h:33
-msgid "Series"
-msgstr "Серии"
-
-#: wizards/graphics/graphics.glade.h:34
-msgid "Step2"
-msgstr "Шаг 2"
-
-#: wizards/graphics/graphics.glade.h:35
-msgid "_Plot title:"
-msgstr "Заголовок графика:"
-
-#: wizards/graphics/graphics.glade.h:36
-msgid "_X axis label:"
-msgstr "Метка оси X:"
-
-#: wizards/graphics/graphics.glade.h:37
-msgid "_Y axis label:"
-msgstr "Метка оси Y:"
-
-#: wizards/graphics/graphics.glade.h:38
-msgid "_Second X axis values:"
-msgstr "Значения второй оси X:"
-
-#: wizards/graphics/graphics.glade.h:39
-msgid "S_econd Y axis values:"
-msgstr "Значения второй оси Y:"
-
-#: wizards/graphics/graphics.glade.h:40
-msgid "Titles"
-msgstr "Заголовки"
-
-#: wizards/graphics/graphics.glade.h:41
-msgid "Principal Axis"
-msgstr "Главная ось"
-
-#: wizards/graphics/graphics.glade.h:42
-msgid "_X axis"
-msgstr "Ось X"
-
-#: wizards/graphics/graphics.glade.h:44
-msgid "_Category"
-msgstr "Категории"
-
-#: wizards/graphics/graphics.glade.h:45
-msgid "_Scale"
-msgstr "Масштаб"
-
-#: wizards/graphics/graphics.glade.h:46
-msgid "_Y axis"
-msgstr "Ось Y"
-
-#: wizards/graphics/graphics.glade.h:47
-msgid "_Z axis"
-msgstr "Ось Z"
-
-#: wizards/graphics/graphics.glade.h:48
-msgid "Axis"
-msgstr "Ось"
-
-#: wizards/graphics/graphics.glade.h:49
-msgid " X axis "
-msgstr "Ось X"
-
-#: wizards/graphics/graphics.glade.h:50
-msgid "_Main line divisions"
-msgstr "Разделители главной линии"
-
-#: wizards/graphics/graphics.glade.h:51
-msgid "_Secondary line divisions"
-msgstr "Разделители вторичной линии"
-
-#: wizards/graphics/graphics.glade.h:52
-msgid " Y axis "
-msgstr "Ось Y"
-
-#: wizards/graphics/graphics.glade.h:53
-msgid "M_ain line divisions"
-msgstr "Разделители главной линии"
-
-#: wizards/graphics/graphics.glade.h:54
-msgid "S_econdary line divisions"
-msgstr "Разделители вторичной линии"
-
-#: wizards/graphics/graphics.glade.h:55
-msgid "Division lines"
-msgstr "Разделяющие строки"
-
-#: wizards/graphics/graphics.glade.h:56
-msgid "_Show legend"
-msgstr "Показывать подпись"
-
-#: wizards/graphics/graphics.glade.h:57
-msgid " Location "
-msgstr " Положение "
-
-#: wizards/graphics/graphics.glade.h:58
-msgid "_Down"
-msgstr "Снизу"
-
-#: wizards/graphics/graphics.glade.h:59
-msgid "_Corner"
-msgstr "В углу"
-
-#: wizards/graphics/graphics.glade.h:60
-msgid "_Up"
-msgstr "Сверху"
-
-#: wizards/graphics/graphics.glade.h:63
-msgid "Legends"
-msgstr "Подписи"
-
-#: wizards/graphics/graphics.glade.h:64
-msgid "Step3"
-msgstr "Шаг 3"
-
-#: wizards/graphics/main.c:86
-msgid "Step 1 of 3: Select graphic type"
-msgstr "Первый шаг из трех: Выбор типа графика"
-
-#: wizards/graphics/main.c:89
-msgid "Step 2 of 3: Select data ranges"
-msgstr "Второй шаг из трех: Выбор диапазона данных"
-
-#: wizards/graphics/main.c:92
-msgid "Step 3 of 3: Customize graphic"
-msgstr "Третий шаг из трех: Настройка графика"
-
-#: wizards/graphics/main.c:175
-msgid "Unable to launch the graphics service"
-msgstr "Невозможно запустить графический сервис"
