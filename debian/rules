@@ -146,10 +146,11 @@ install: build
 	dh_clean -k
 	dh_installdirs
 
+	#	prefix=`pwd`/../debian/tmp/usr 
 	cd build && env GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 \
 		RPM_BUILD_ROOT=fake_so_scrollkeeper-update_wont_be_called \
 		$(MAKE) install \
-		prefix=`pwd`/../debian/tmp/usr \
+		DESTDIR=`pwd`/../debian/tmp/ \
 		sysconfdir=`pwd`/../debian/tmp/etc \
 		localstatedir=`pwd`/../debian/tmp/var/lib \
 		libexecdir=`pwd`/../debian/tmp/usr/bin

@@ -77,13 +77,14 @@ Package: gnumeric-plugins-extra
 Architecture: any
 Depends: gnumeric (= ${Source-Version}), ${shlibs:Depends}
 Conflicts: gnumeric1.0-python, gnumeric1.0-gda, gnumeric-python, gnumeric-gda
-Replaces: gnumeric1.0-gda, gnumeric1.0-python, gnumeric-python, gnumeric-gda
+Replaces: gnumeric1.0-gda, gnumeric1.0-python, gnumeric-python, gnumeric-gda, gnumeric (<= 1.3.92-1)
 Description: Additional plugins for the GNOME spreadsheet
  Gnumeric ships with a number of plugins; this package contains those
  plugins that require additional packages above what the 'gnumeric' package
  needs.
  .
  This includes
+  o The Perl plugin
   o The Python plugin
   o The Python plugin loader
   o Additional Python functions
