@@ -188,7 +188,7 @@ go_conf_load_str_list (char const *key)
 }
 
 char *
-go_conf_get_short_desc (char const *key);
+go_conf_get_short_desc (char const *key)
 {
 }
 char *
