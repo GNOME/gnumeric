@@ -477,11 +477,12 @@ image_write (GnmCellRegion *cr, Sheet *sheet, gchar const *mime_type,
 	     int *size)
 {
 	guchar *ret = NULL;
-	SheetObject *so;
+	SheetObject *so = NULL;
 	const char *format;
 	GsfOutput *output;
 	GsfOutputMemory *omem;
 	gsf_off_t osize;
+	GSList *l;
 
 	*size = -1;
 
@@ -491,10 +492,17 @@ image_write (GnmCellRegion *cr, Sheet *sheet, gchar const *mime_type,
 
 	if (strncmp (mime_type, "image/", 6) != 0)
 		return ret;
-	if (!IS_SHEET_OBJECT_IMAGEABLE (so)) {
+	for (l = cr->objects; l != NULL; l = l->next) {
+		if (IS_SHEET_OBJECT_IMAGEABLE (SHEET_OBJECT (l->data))) {
+			so = SHEET_OBJECT (l->data);
+			break;
+		}
+	}
+	if (so == NULL) {
 		g_warning ("non imageable object requested as image\n");
 		return ret;
 	}
+
 	format = mime_type + 6;
 	output = gsf_output_memory_new ();
 	omem   = GSF_OUTPUT_MEMORY (output);

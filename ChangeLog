@@ -1,5 +1,8 @@
 2005-03-28  Jon K Hellan  <hellan@acm.org>
 
+	* src/gui-clipboard.c (image_write): Look harder for selected
+	imageable objects.
+
 	* src/item-grid.c (drag_start): Remove.
 	(item_grid_button_press): Don't call drag_start.
 
