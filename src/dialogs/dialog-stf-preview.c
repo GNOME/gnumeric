@@ -56,7 +56,6 @@
  * stf_preview_format_line
  * @renderdata : renderdata struct
  * @data : a GPtrArray containing strings
- * @colcount : number of items in @list
  *
  * formats a single list of strings
  *

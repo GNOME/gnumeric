@@ -15,7 +15,6 @@
 #include "gnumeric.h"
 #include "item-bar.h"
 
-#include "style.h"
 #include "style-color.h"
 #include "sheet.h"
 #include "sheet-control-gui-priv.h"
@@ -108,65 +107,46 @@ item_bar_calc_size (ItemBar *ib)
 	Sheet const *sheet = ((SheetControl *) scg)->sheet;
 	double const zoom_factor = sheet->last_zoom_factor_used;
 	PangoContext *context;
-	const PangoFontDescription *desc = wbcg_get_font_desc (scg->wbcg);
-	char const *font_name;
-	int size;
-
-	size      = pango_font_description_get_size (desc) / PANGO_SCALE;
-	font_name = pango_font_description_get_family (desc);
+	const PangoFontDescription *src_desc = wbcg_get_font_desc (scg->wbcg);
+	PangoFontDescription *desc;
+	PangoLanguage *language;
+	PangoFontMetrics *metrics;
+	int size = pango_font_description_get_size (src_desc);
 
 	ib_fonts_unref (ib);
+
 	context = gtk_widget_get_pango_context (GTK_WIDGET (ib->gcanvas));
+	language = pango_language_from_string ("C");
+	desc = pango_font_description_copy (src_desc);
+	pango_font_description_set_size (desc, zoom_factor * size);
 
-	{
-		StyleFont *font =
-			style_font_new_simple (context,
-					       font_name, size,
-					       zoom_factor, FALSE, FALSE);
-		ib->normal_font = font->pango.font;
-		g_object_ref (ib->normal_font);
-		ib->normal_font_ascent = PANGO_PIXELS
-			(pango_font_metrics_get_ascent (font->pango.metrics));
-		style_font_unref (font);
-	}
+	ib->normal_font = pango_context_load_font (context, desc);
+	metrics = pango_font_get_metrics (ib->normal_font, language);
+	ib->normal_font_ascent = PANGO_PIXELS (pango_font_metrics_get_ascent (metrics));
+	pango_font_metrics_unref (metrics);
 
-	{
-		StyleFont *font =
-			style_font_new_simple (context,
-					       font_name, size,
-					       zoom_factor, TRUE, FALSE);
-		ib->bold_font = font->pango.font;
-		g_object_ref (ib->bold_font);
-		ib->bold_font_ascent = PANGO_PIXELS
-			(pango_font_metrics_get_ascent (font->pango.metrics));
-		style_font_unref (font);
-	}
+	pango_font_description_set_weight (desc, PANGO_WEIGHT_BOLD);
+	ib->bold_font = pango_context_load_font (context, desc);
+	metrics = pango_font_get_metrics (ib->bold_font, language);
+	ib->bold_font_ascent = PANGO_PIXELS (pango_font_metrics_get_ascent (metrics));
 
-	{
-		PangoLayout *layout = pango_layout_new (context);
-		PangoFontDescription *bold_desc = pango_font_describe (ib->bold_font);
-		int width, height;
+	/*
+	 * Use the size of the bold header font to size the free dimensions.
+	 * Add 2 pixels above and below
+	 */
+	ib->cell_height = 2 + 2 +
+		PANGO_PIXELS (pango_font_metrics_get_ascent (metrics) +
+			      pango_font_metrics_get_descent (metrics));
 
-		pango_layout_set_font_description (layout, bold_desc);
-		pango_layout_set_text (layout, "188888", -1);
-		pango_layout_get_pixel_size (layout, &width, &height);
-		pango_font_description_free (bold_desc);
-		g_object_unref (layout);
+	/* 5 pixels left and right plus the width of the widest string I can think of */
+	ib->cell_width = 5 + 5 + gnm_measure_string (context, desc, "188888");
 
-		/* Use the size of the bold header font to size the free dimensions No
-		 * need to zoom, the size of the font takes that into consideration.
-		 * 2 pixels above and below
-		 */
-		ib->cell_height = 2 + 2 + height;
-
-		/* 5 pixels left and right plus the width of the widest string I can think of */
-		ib->cell_width = 5 + 5 + width;
-	}
+	pango_font_metrics_unref (metrics);
+	pango_font_description_free (desc);
 
 	ib->pango.item->analysis.font = g_object_ref (ib->normal_font);
 	ib->pango.item->analysis.shape_engine =
-		pango_font_find_shaper (ib->normal_font,
-					pango_language_from_string ("C"), 'A');
+		pango_font_find_shaper (ib->normal_font, language, 'A');
 
 	ib->indent = ib->is_col_header
 		? ib_compute_pixels_from_indent (sheet, TRUE)
@@ -178,7 +158,7 @@ item_bar_calc_size (ItemBar *ib)
 		(ib->is_col_header ? ib->cell_height : ib->cell_width);
 }
 
-PangoFont const *
+PangoFont *
 item_bar_normal_font (ItemBar const *ib)
 {
 	return ib->normal_font;

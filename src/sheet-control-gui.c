@@ -227,13 +227,10 @@ scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
 					   "is_cols", GINT_TO_POINTER (1));
 	}
 
-	{
-		PangoFont const *pf = item_bar_normal_font (ib);
-		style = gtk_style_new ();
-		if (style->font_desc)
-			pango_font_description_free (style->font_desc);
-		style->font_desc = pango_font_describe (pf);
-	}
+	style = gtk_style_new ();
+	if (style->font_desc)
+		pango_font_description_free (style->font_desc);
+	style->font_desc = pango_font_describe (item_bar_normal_font (ib));
 
 	/* size all of the button so things work after a zoom */
 	for (i = 0 ; i < btns->len ; i++) {
