@@ -1,3 +1,7 @@
+2004-09-15  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-error-bar.c (gog_error_bar_get_minmax): add assertions.
+
 2004-09-14  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-axis.c (gog_axis_map_is_valid): add assertion.
