@@ -41,7 +41,7 @@
 	    _tip="Summary information"/>
 
 	<cmd name="FileClose"
-	    _label="Close"
+	    _label="_Close"
 	    _tip="Close the current file"
 	    pixtype="stock" pixname="Close"
 	    accel="*Control*w"/>
