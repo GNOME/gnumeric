@@ -1,5 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- *//* vim: set sw=8: */
-
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * god-shape.c: MS Office Graphic Object support
  *
@@ -24,7 +23,7 @@
  * USA
  */
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include "drawing/god-shape.h"
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>

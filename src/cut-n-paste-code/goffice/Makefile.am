@@ -12,7 +12,8 @@ libgoffice_la_LIBADD = 				\
 
 libgoffice_la_SOURCES = 	\
 	goffice.c		\
-	goffice.h
+	goffice.h		\
+	goffice-config.h
 
 # prune this when the code moves
 INCLUDES = -I$(top_srcdir) 					\

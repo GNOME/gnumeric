@@ -1,7 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- *//* vim: set sw=8: */
-#ifndef GO_MS_PARSER_H
-#define GO_MS_PARSER_H
-
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * go-drawing-ms.h: MS Office Graphic Object I/O support
  *
@@ -12,6 +9,9 @@
  *
  * (C) 1998-2004 Michael Meeks, Jody Goldberg, Chris Lahey
  **/
+
+#ifndef GO_MS_PARSER_H
+#define GO_MS_PARSER_H
 
 #include <gsf/gsf.h>
 

@@ -10,7 +10,7 @@
  * Copyright (C) 2002 Sun Microsystems, Inc.
  */
 
-#include "gnumeric-config.h"
+#include "goffice/goffice-config.h"
 #include <glib/gi18n.h>
 #include <string.h>
 #include <goffice/gui-utils/go-dock-item-grip.h>

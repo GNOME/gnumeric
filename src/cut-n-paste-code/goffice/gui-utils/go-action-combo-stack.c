@@ -1,5 +1,4 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  * go-action-combo-stack.c: A custom GtkAction to handle undo/redo menus/toolbars
  *
@@ -19,7 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include "go-action-combo-stack.h"
 #include "go-combo-box.h"
 #include <src/gui-util.h>

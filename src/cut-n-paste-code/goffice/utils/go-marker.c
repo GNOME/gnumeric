@@ -2,7 +2,7 @@
 /*
  * go-marker.c :
  *
- * Copyright (C) 2003 Emmanuel Pacaud (emmanuel.pacaud@univ-poitiers.fr)
+ * Copyright (C) 2003-2004 Emmanuel Pacaud (emmanuel.pacaud@univ-poitiers.fr)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -19,7 +19,7 @@
  * USA
  */
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include "go-marker.h"
 #include "go-color.h"
 #include <goffice/gui-utils/go-combo-color.h>

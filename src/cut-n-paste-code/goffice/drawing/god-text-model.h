@@ -1,7 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- *//* vim: set sw=8: */
-#ifndef GOD_TEXT_MODEL_H
-#define GOD_TEXT_MODEL_H
-
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * god-text-model.h: MS Office Graphic Object support
  *
@@ -12,6 +9,8 @@
  *
  * (C) 1998-2003 Michael Meeks, Jody Goldberg, Chris Lahey
  **/
+#ifndef GOD_TEXT_MODEL_H
+#define GOD_TEXT_MODEL_H
 
 #include <glib-object.h>
 #include <glib.h>

@@ -27,7 +27,7 @@
   @NOTATION@
 */
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include <glib/gi18n.h>
 #include <string.h>
 #include <gtk/gtk.h>

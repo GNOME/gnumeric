@@ -1,7 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- *//* vim: set sw=8: */
-#ifndef GO_DRAWING_MS_H
-#define GO_DRAWING_MS_H
-
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * god-drawing-ms.h: MS Office Graphic Object I/O support
  *
@@ -12,6 +9,9 @@
  *
  * (C) 1998-2004 Michael Meeks, Jody Goldberg, Chris Lahey
  **/
+
+#ifndef GO_DRAWING_MS_H
+#define GO_DRAWING_MS_H
 
 #include <drawing/god-drawing.h>
 #include <drawing/god-drawing-group.h>

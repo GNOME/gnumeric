@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* 
  * load_ppt.c - 
  * Copyright (C) 2003, Christopher James Lahey
@@ -21,7 +21,7 @@
  * Boston, MA 02111-1307, USA.
  **/
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include "load-ppt.h"
 #include "ppt-types.h"
 #include "god-drawing-ms-client-handler-ppt.h"

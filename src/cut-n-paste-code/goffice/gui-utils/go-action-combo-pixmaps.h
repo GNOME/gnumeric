@@ -1,4 +1,5 @@
-/**
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
  * go-action-combo-pixmaps.h: A custom GtkAction to chose among a set of images
  *
  * Copyright (C) 2004 Jody Goldberg (jody@gnome.org)

@@ -1,9 +1,8 @@
-
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gog-outlined-object.c : some utility classes for objects with outlines.
  *
- * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -20,7 +19,7 @@
  * USA
  */
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include <goffice/graph/gog-outlined-object.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>

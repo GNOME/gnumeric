@@ -1,7 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- *//* vim: set sw=8: */
-#ifndef GOD_DRAWING_GROUP_H
-#define GOD_DRAWING_GROUP_H
-
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * god-drawing-group.h: MS Office Graphic Object support
  *
@@ -12,6 +9,9 @@
  *
  * (C) 1998-2003 Michael Meeks, Jody Goldberg, Chris Lahey
  **/
+
+#ifndef GOD_DRAWING_GROUP_H
+#define GOD_DRAWING_GROUP_H
 
 #include <glib-object.h>
 #include <glib.h>
@@ -39,8 +39,6 @@ typedef struct {
 GType            god_drawing_group_get_type  (void);
 
 GodDrawingGroup *god_drawing_group_new       (void);
-
-
 
 G_END_DECLS
 

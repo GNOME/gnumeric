@@ -19,7 +19,7 @@
  * USA
  */
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include <src/gui-util.h>
 #include "gog-error-bar.h"
 #include "gog-series-impl.h"
@@ -40,6 +40,8 @@
 #include <gtk/gtklabel.h>
 #include <glade/glade-xml.h>
 #include <glib/gi18n.h>
+
+#include <string.h>
 
 #define CC2XML(s) ((const xmlChar *)(s))
 

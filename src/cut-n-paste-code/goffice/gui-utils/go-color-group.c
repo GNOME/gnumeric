@@ -26,7 +26,7 @@
  * 02111-1307, USA.
  */
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include "go-color-group.h"
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>

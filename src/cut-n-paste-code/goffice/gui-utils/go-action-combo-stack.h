@@ -1,4 +1,5 @@
-/**
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
  * go-action-combo-stack.h: A custom GtkAction to handle undo/redo style combos
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)

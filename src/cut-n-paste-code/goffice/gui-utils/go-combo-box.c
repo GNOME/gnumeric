@@ -24,7 +24,7 @@
  * 02111-1307, USA.
  */
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include "go-combo-box.h"
 #include "go-marshalers.h"
 

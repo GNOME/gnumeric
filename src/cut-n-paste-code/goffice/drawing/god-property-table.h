@@ -1,7 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- *//* vim: set sw=8: */
-#ifndef GOD_PROPERTY_TABLE_H
-#define GOD_PROPERTY_TABLE_H
-
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * god-property-table.h: MS Office Graphic Object support
  *
@@ -12,6 +9,9 @@
  *
  * (C) 1998-2003 Michael Meeks, Jody Goldberg, Chris Lahey
  **/
+
+#ifndef GOD_PROPERTY_TABLE_H
+#define GOD_PROPERTY_TABLE_H
 
 #include <glib-object.h>
 #include <glib.h>

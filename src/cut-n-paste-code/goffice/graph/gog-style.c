@@ -2,7 +2,7 @@
 /*
  * gog-style.c :
  *
- * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -22,7 +22,7 @@
 #undef GTK_DISABLE_DEPRECATED
 #warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-styled-object.h>
 #include <goffice/utils/go-color.h>

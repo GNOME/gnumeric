@@ -1,5 +1,4 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  * go-data-simple.c : 
  *
@@ -19,7 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include <goffice/graph/go-data-simple.h>
 #include <goffice/graph/go-data-impl.h>
 

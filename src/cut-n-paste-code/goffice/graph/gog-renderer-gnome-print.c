@@ -2,7 +2,7 @@
 /*
  * gog-renderer-gnome-print.c :
  *
- * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -19,7 +19,7 @@
  * USA
  */
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 /* <style.h> is only needed for gnm_font_find_closest_from_weight_slant */
 #include <style.h>
 #include <goffice/graph/gog-renderer-gnome-print.h>

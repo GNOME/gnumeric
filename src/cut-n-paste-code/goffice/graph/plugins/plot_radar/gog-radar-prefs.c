@@ -2,7 +2,7 @@
 /*
  * gog-radar-prefs.c
  *
- * Copyright (C) 2003 Michael Devine (mdevine@cs.stanford.edu)
+ * Copyright (C) 2003-2004 Michael Devine (mdevine@cs.stanford.edu)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -19,7 +19,7 @@
  * USA
  */
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include "gog-radar.h"
 #include <src/plugin.h>
 #include <src/gui-util.h>

@@ -1,5 +1,4 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  * go-action-combo-pixmaps.c: A custom GtkAction to chose among a set of images
  *
@@ -19,7 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include "go-action-combo-pixmaps.h"
 #include "go-combo-pixmaps.h"
 #include "go-combo-box.h"

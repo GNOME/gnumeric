@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* 
  * god-drawing-ms.h - 
  * Copyright (C) 2003-2004, Christopher James Lahey
@@ -21,7 +21,7 @@
  * Boston, MA 02111-1307, USA.
  **/
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include "ms-compat/god-drawing-ms.h"
 #include <ms-compat/go-ms-parser.h>
 #include <drawing/god-property-table.h>

@@ -22,7 +22,7 @@
    Author: Ettore Perazzoli <ettore@comm2000.it>
 */
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include <glib/gi18n.h>
 #include <string.h>
 #include <gdk/gdkkeysyms.h>

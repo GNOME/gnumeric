@@ -23,7 +23,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include "go-locale.h"
 #include <stdio.h>
 #include <string.h>

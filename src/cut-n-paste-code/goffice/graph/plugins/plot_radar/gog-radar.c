@@ -19,7 +19,7 @@
  * USA
  */
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include "gog-radar.h"
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-view.h>

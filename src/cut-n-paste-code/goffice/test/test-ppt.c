@@ -22,7 +22,7 @@
  **/
 
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include <stdio.h>
 #include <gsf/gsf-utils.h>
 #include <glib.h>

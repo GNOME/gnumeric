@@ -3,7 +3,7 @@
 /*
  * go-graph-guru.c:  The Graph guru
  *
- * Copyright (C) 2000-2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 
 #include <goffice/graph/gog-guru.h>
 #include <goffice/graph/gog-object.h>

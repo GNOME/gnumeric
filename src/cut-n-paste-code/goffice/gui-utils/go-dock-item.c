@@ -33,7 +33,7 @@
  * bin-compat.
  */
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include <glib/gi18n.h>
 #include <goffice/gui-utils/go-dock-item.h>
 #include <goffice/gui-utils/go-dock-band.h>

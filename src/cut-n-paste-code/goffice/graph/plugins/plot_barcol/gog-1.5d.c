@@ -2,7 +2,7 @@
 /*
  * go-1.5d.c
  *
- * Copyright (C) 2003
+ * Copyright (C) 2003-2004
  *	Jody Goldberg (jody@gnome.org)
  *	Emmanuel Pacaud (emmanuel.pacaud@univ-poitiers.fr)
  *
@@ -21,7 +21,7 @@
  * USA
  */
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include "gog-1.5d.h"
 #include "gog-line.h"
 #include "gog-barcol.h"
