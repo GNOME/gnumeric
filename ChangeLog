@@ -1,3 +1,10 @@
+2002-12-13  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (gnm_expr_list_as_string): Take accumulator argument
+	and no prefix.  All callers changed.
+	(do_expr_as_string): Take accumulator argument and clean up
+	otherwise.
+
 2002-12-12  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet-filter.c (cb_filter_expr): Fix "and" semantics.

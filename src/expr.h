@@ -110,8 +110,6 @@ Value *gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 #define gnm_expr_list_free	   g_slist_free
 void 	 gnm_expr_list_unref	  (GnmExprList *list);
 gboolean gnm_expr_list_equal	  (GnmExprList const *a, GnmExprList const *b);
-char    *gnm_expr_list_as_string  (GnmExprList const *list, ParsePos const *p,
-				   char const *prefix, GnmExprConventions const *fmt);
 
 /*****************************************************************************/
 

@@ -1111,45 +1111,52 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 	return value_new_error (pos, _("Unknown evaluation error"));
 }
 
+static void
+gnm_expr_list_as_string (GString *target,
+			 GnmExprList const *list, ParsePos const *pp,
+			 GnmExprConventions const *fmt);
+
+
 /*
  * Converts a parsed tree into its string representation
  * assuming that we are evaluating at col, row
  *
  * This routine is pretty simple: it walks the GnmExpr and
- * creates a string representation.
+ * appends a string representation to the target.
  */
-static char *
-do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
+static void
+do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 		   int paren_level, GnmExprConventions const *fmt)
 {
 	static struct {
-		char const *name;
-		int prec;	              /* Precedences -- should match parser.y  */
-		int assoc_left, assoc_right;  /* 0: no, 1: yes.  */
+		const char name[4];
+		guint8 prec;	                 /* Precedences -- should match parser.y  */
+		guint8 assoc_left, assoc_right;  /* 0: no, 1: yes.  */
+		guint8 is_prefix;                /* for unary operators */
 	} const operations[] = {
-		{ "=",  1, 1, 0 },
-		{ ">",  1, 1, 0 },
-		{ "<",  1, 1, 0 },
-		{ ">=", 1, 1, 0 },
-		{ "<=", 1, 1, 0 },
-		{ "<>", 1, 1, 0 },
-		{ "+",  3, 1, 0 },
-		{ "-",  3, 1, 0 },
-		{ "*",  4, 1, 0 },
-		{ "/",  4, 1, 0 },
-		{ "^",  5, 0, 1 },
-		{ "&",  2, 1, 0 },
-		{ NULL, 0, 0, 0 }, /* Funcall  */
-		{ NULL, 0, 0, 0 }, /* Name     */
-		{ NULL, 0, 0, 0 }, /* Constant */
-		{ NULL, 0, 0, 0 }, /* Var      */
-		{ "-",  7, 0, 0 }, /* Unary -  */
-		{ "+",  7, 0, 0 }, /* Unary +  */
-		{ "%",  6, 0, 0 }, /* Percentage (NOT MODULO) */
-		{ NULL, 0, 0, 0 }, /* Array    */
-		{ NULL, 0, 0, 0 }, /* Set      */
-		{ ":",  9, 1, 0 }, /* Range Ctor   */
-		{ " ",  8, 1, 0 }  /* Intersection */
+		{ "=",  1, 1, 0, 0 },
+		{ ">",  1, 1, 0, 0 },
+		{ "<",  1, 1, 0, 0 },
+		{ ">=", 1, 1, 0, 0 },
+		{ "<=", 1, 1, 0, 0 },
+		{ "<>", 1, 1, 0, 0 },
+		{ "+",  3, 1, 0, 0 },
+		{ "-",  3, 1, 0, 0 },
+		{ "*",  4, 1, 0, 0 },
+		{ "/",  4, 1, 0, 0 },
+		{ "^",  5, 0, 1, 0 },
+		{ "&",  2, 1, 0, 0 },
+		{ "",   0, 0, 0, 0 }, /* Funcall  */
+		{ "",   0, 0, 0, 0 }, /* Name     */
+		{ "",   0, 0, 0, 0 }, /* Constant */
+		{ "",   0, 0, 0, 0 }, /* Var      */
+		{ "-",  7, 0, 0, 1 }, /* Unary -  */
+		{ "+",  7, 0, 0, 1 }, /* Unary +  */
+		{ "%",  6, 0, 0, 0 }, /* Percentage (NOT MODULO) */
+		{ "",   0, 0, 0, 0 }, /* Array    */
+		{ "",   0, 0, 0, 0 }, /* Set      */
+		{ ":",  9, 1, 0, 0 }, /* Range Ctor   */
+		{ " ",  8, 1, 0, 0 }  /* Intersection */
 	};
 	int const op = expr->any.oper;
 
@@ -1157,105 +1164,107 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY: {
-		char *a, *b, *res;
-		char const *opname;
-		int const prec = operations[op].prec;
+		char const *opname = operations[op].name;
+		int prec = operations[op].prec;
+		gboolean need_par = (prec <= paren_level);
 
-		a = do_expr_as_string (expr->binary.value_a, pp,
-				       prec - operations[op].assoc_left, fmt);
-		b = do_expr_as_string (expr->binary.value_b, pp,
-				       prec - operations[op].assoc_right, fmt);
-		opname = operations[op].name;
-
-		if (prec <= paren_level)
-			res = g_strconcat ("(", a, opname, b, ")", NULL);
-		else
-			res = g_strconcat (a, opname, b, NULL);
-
-		g_free (a);
-		g_free (b);
-		return res;
+		if (need_par) g_string_append_c (target, '(');
+		do_expr_as_string (target, expr->binary.value_a, pp,
+				   prec - operations[op].assoc_left, fmt);
+		g_string_append (target, opname);
+		do_expr_as_string (target, expr->binary.value_b, pp,
+				   prec - operations[op].assoc_right, fmt);
+		if (need_par) g_string_append_c (target, ')');
+		return;
 	}
 
 	case GNM_EXPR_OP_ANY_UNARY: {
-		char *res, *a;
-		char const *opname;
-		int const prec = operations[op].prec;
+		char const *opname = operations[op].name;
+		int prec = operations[op].prec;
+		gboolean is_prefix = operations[op].is_prefix;
+		gboolean need_par = (prec <= paren_level);
 
-		a = do_expr_as_string (expr->unary.value, pp,
-				       operations[op].prec, fmt);
-		opname = operations[op].name;
-
-		if (expr->any.oper != GNM_EXPR_OP_PERCENTAGE) {
-			if (prec <= paren_level)
-				res = g_strconcat ("(", opname, a, ")", NULL);
-			else
-				res = g_strconcat (opname, a, NULL);
-		} else {
-			if (prec <= paren_level)
-				res = g_strconcat ("(", a, opname, ")", NULL);
-			else
-				res = g_strconcat (a, opname, NULL);
-		}
-		g_free (a);
-		return res;
+		if (need_par) g_string_append_c (target, '(');
+		if (is_prefix) g_string_append (target, opname);
+		do_expr_as_string (target, expr->unary.value, pp, prec, fmt);
+		if (!is_prefix) g_string_append (target, opname);
+		if (need_par) g_string_append_c (target, ')');
+		return;
 	}
 
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmExprList const * const arg_list = expr->func.arg_list;
+		const char *name = gnm_func_get_name (expr->func.func);
 
-		if (arg_list != NULL)
-			return gnm_expr_list_as_string (arg_list, pp,
-				gnm_func_get_name (expr->func.func), fmt);
-		else
-			return g_strconcat (gnm_func_get_name (expr->func.func),
-					    "()", NULL);
+		g_string_append (target, name);
+		gnm_expr_list_as_string (target, arg_list, pp, fmt);
+		return;
 	}
 
 	case GNM_EXPR_OP_NAME:
-		if (!expr->name.name->active)
-			return g_strdup (gnumeric_err_REF);
+		if (!expr->name.name->active) {
+			g_string_append (target, gnumeric_err_REF);
+			return;
+		}
 		if (expr->name.optional_scope != NULL) {
-			if (expr->name.optional_scope->workbook != pp->wb)
-				return g_strconcat (
-					"[", expr->name.optional_wb_scope->filename, "]",
-					expr->name.name->name->str, NULL);
-			return g_strconcat (expr->name.optional_scope->name_quoted, "!",
-					    expr->name.name->name->str, NULL);
+			if (expr->name.optional_scope->workbook != pp->wb) {
+				g_string_append_c (target, '[');
+				g_string_append (target, expr->name.optional_wb_scope->filename);
+				g_string_append_c (target, ']');
+			} else {
+				g_string_append (target, expr->name.optional_scope->name_quoted);
+				g_string_append_c (target, '!');
+			}
 		} else if (pp->sheet != NULL &&
 			   expr->name.name->pos.sheet != NULL &&
-			   expr->name.name->pos.sheet != pp->sheet)
-			return g_strconcat (expr->name.name->pos.sheet->name_quoted, "!",
-					    expr->name.name->name->str, NULL);
+			   expr->name.name->pos.sheet != pp->sheet) {
+			g_string_append (target, expr->name.name->pos.sheet->name_quoted);
+			g_string_append_c (target, '!');
+		}
 
-		return g_strdup (expr->name.name->name->str);
+		g_string_append (target, expr->name.name->name->str);
+		return;
 
-	case GNM_EXPR_OP_CELLREF:
-		return cellref_as_string (&expr->cellref.ref, pp, FALSE);
+	case GNM_EXPR_OP_CELLREF: {
+		char *tmp = cellref_as_string (&expr->cellref.ref, pp, FALSE);
+		g_string_append (target, tmp);
+		g_free (tmp);
+		return;
+	}
 
 	case GNM_EXPR_OP_CONSTANT: {
-		char *res;
+		const char *res;
 		Value const *v = expr->constant.value;
-		if (v->type == VALUE_STRING)
-			return gnumeric_strescape (v->v_str.val->str);
-		if (v->type == VALUE_CELLRANGE)
-			return rangeref_as_string (&v->v_range.cell, pp);
+		gboolean need_par;
 
-		res = value_get_as_string (v);
+		if (v->type == VALUE_STRING) {
+			char *tmp = gnumeric_strescape (v->v_str.val->str);
+			g_string_append (target, tmp);
+			g_free (tmp);
+			return;
+		}
+
+		if (v->type == VALUE_CELLRANGE) {
+			char *tmp = rangeref_as_string (&v->v_range.cell, pp);
+			g_string_append (target, tmp);
+			g_free (tmp);
+			return;
+		}
+
+		res = value_peek_string (v);
 
 		/* If the number has a sign, pretend that it is the result of
 		 * OPER_UNARY_{NEG,PLUS}.  It is not clear how we would
 		 * currently get negative numbers here, but some loader might
 		 * do it.
 		 */
-		if ((v->type == VALUE_INTEGER || v->type == VALUE_FLOAT) &&
-		    (res[0] == '-' || res[0] == '+') &&
-		    operations[GNM_EXPR_OP_UNARY_NEG].prec <= paren_level) {
-			char *new_res = g_strconcat ("(", res, ")", NULL);
-			g_free (res);
-			return new_res;
-		}
-		return res;
+		need_par = (res[0] == '-' || res[0] == '+') &&
+			operations[GNM_EXPR_OP_UNARY_NEG].prec <= paren_level;
+
+		if (need_par) g_string_append_c (target, '(');
+		g_string_append (target, res);
+		if (need_par) g_string_append_c (target, ')');
+		return;
 	}
 
 	case GNM_EXPR_OP_ARRAY: {
@@ -1269,31 +1278,40 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 				tmp_pos.wb  = pp->wb;
 				tmp_pos.eval.col = pp->eval.col - x;
 				tmp_pos.eval.row = pp->eval.row - y;
-				return do_expr_as_string (
+				do_expr_as_string (
+					target,
 					corner->base.expression->array.corner.expr,
 					&tmp_pos, 0, fmt);
 			} else
-				return g_strdup ("<ERROR>");
+				g_string_append (target, "<ERROR>");
 		} else
-			return do_expr_as_string (
+			do_expr_as_string (
+				target,
 				expr->array.corner.expr, pp, 0, fmt);
+		return;
         }
 
-	case GNM_EXPR_OP_SET:
-		return gnm_expr_list_as_string (expr->set.set, pp, "", fmt);
+	case GNM_EXPR_OP_SET: {
+		gnm_expr_list_as_string (target, expr->set.set, pp, fmt);
+		return;
+	}
 	};
 
-	return g_strdup ("0");
+	g_assert_not_reached ();
+	g_string_append_c (target, '?');
 }
 
 char *
 gnm_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 		    GnmExprConventions const *fmt)
 {
+	GString *res;
 	g_return_val_if_fail (expr != NULL, NULL);
 	g_return_val_if_fail (pp != NULL, NULL);
 
-	return do_expr_as_string (expr, pp, 0, fmt);
+	res = g_string_new ("");
+	do_expr_as_string (res, expr, pp, 0, fmt);
+	return g_string_free (res, FALSE);
 }
 
 typedef enum {
@@ -2141,45 +2159,20 @@ gnm_expr_list_eq (GnmExprList const *la, GnmExprList const *lb)
 	return (la == NULL) && (lb == NULL);
 }
 
-char *
-gnm_expr_list_as_string (GnmExprList const *list, ParsePos const *pp,
-			 char const *prefix, GnmExprConventions const *fmt)
+static void
+gnm_expr_list_as_string (GString *target,
+			 GnmExprList const *list, ParsePos const *pp,
+			 GnmExprConventions const *fmt)
 {
-	int i, len = 0, *lengths;
-	int argc = gnm_expr_list_length ((GnmExprList *)list);
-	char sep, *sum, *ptr, **args;
 	GnmExprList const *l;
+	char sep = format_get_arg_sep ();
 
-	sep = format_get_arg_sep ();
-
-	i = 0;
-	args = g_alloca (sizeof (char *) * argc);
-	lengths = g_alloca (sizeof (int) * argc);
-	for (l = list; l; l = l->next, i++) {
-		args[i] = do_expr_as_string (l->data, pp, 0, fmt);
-		len += 1 + (lengths[i] = strlen (args[i]));
+	g_string_append_c (target, '(');
+	for (l = list; l; l = l->next) {
+		do_expr_as_string (target, l->data, pp, 0, fmt);
+		if (l->next) g_string_append_c (target, sep);
 	}
-	i = strlen (prefix);
-	sum = g_malloc (i + len + 4);
-
-	ptr = sum;
-	strcpy (ptr, prefix);
-	ptr += i;
-	*ptr++ = '(';
-	for (l = list; l != NULL; ) {
-		strcpy (ptr, *args++);
-		ptr += *lengths++;
-		l = l->next;
-		if (l != NULL)
-			*ptr++ = sep;
-	}
-	ptr[0] = ')';
-	ptr[1] = '\0';
-
-	while (argc-- > 0)
-		g_free (*(--args));
-
-	return sum;
+	g_string_append_c (target, ')');
 }
 
 /***************************************************************************/
