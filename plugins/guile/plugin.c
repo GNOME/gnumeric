@@ -178,7 +178,7 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 
 	function_def_count_args (fndef, &min, &max);
 
-	function = function_def_get_user_data (fndef);
+	function = (SCM) function_def_get_user_data (fndef);
 
 	for (i = min - 1; i >= 0; --i)
 		args = scm_cons (value_to_scm (argv [i], dummy), args);

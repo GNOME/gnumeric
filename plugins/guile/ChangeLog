@@ -1,3 +1,7 @@
+2000-11-01  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (func_marshal_func): Added a nice SCM cast to remove warning.
+
 2000-10-30  Ariel Rios  <ariel@arcavia.com>
 
 	* guile-support.c (value_to_scm): Correct the VALUE_ARRAY case. 
