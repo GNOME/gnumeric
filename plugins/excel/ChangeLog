@@ -1,3 +1,7 @@
+2003-03-18  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (write_externsheets) : export the _UN_quoted name.
+
 2003-01-03  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* Release 1.0.12

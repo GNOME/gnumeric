@@ -404,7 +404,7 @@ write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 
 		if (esheet == ignore) continue;
 
-		len = biff_convert_text (&buf, esheet->gnum_sheet->name_quoted, wb->ver);
+		len = biff_convert_text (&buf, esheet->gnum_sheet->name_unquoted, wb->ver);
 		ms_biff_put_var_next (bp, BIFF_EXTERNSHEET);
 		MS_OLE_SET_GUINT8(data, len);
 		MS_OLE_SET_GUINT8(data + 1, 3); /* Magic */

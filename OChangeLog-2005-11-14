@@ -1,3 +1,11 @@
+2003-03-18  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=103571
+	* src/format.c (append_hour_elapsed) : back port fix to rounding error.
+	(format_number) : cast the 8bit chars to unsigned to ensure that
+	  switching on an unsigned quantity does not get tripped up comparing
+	  to signed char constants.
+
 2003-01-07  Morten Welinder  <terra@diku.dk>
 
 	* src/xml-io.c (XML_INPUT_BUFFER_SIZE): Up the size to 10M.

@@ -4,6 +4,11 @@ Jody
 	* lotus-123 : fix incorrect import of logarithmic functions
 	    log -> log instead of log10
 	    ln -> ln   instead of log
+	* XL95 export : Use unquoted names in externsheets
+	* Fix a problem with the euro/yen/pound symbols
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=103571
+	* Back port fix for 
 
 Morten
 	* Use even blunter instrument on xml importer.

@@ -318,11 +318,21 @@ append_hour (GString *string, int n, struct tm const *time_split,
  * Renders the hour.
  */
 static void
-append_hour_elapsed (GString *string, struct tm const *time_split, int number)
+append_hour_elapsed (GString *string, struct tm *tm, gnm_float number)
 {
 	char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
-	double hours = number * 24. + time_split->tm_hour;
-	snprintf (buf, sizeof (buf), "%.0f", hours);
+	double res, int_part;
+
+	/* ick.  round assuming no more than 100th of a second, we really need
+	 * to know the precision earlier */
+	res = gnumeric_fake_round (number * 24. * 60. * 60. * 100.);
+	res = modf (res / (60. * 60. * 100.), &int_part);
+	tm->tm_hour = int_part;
+	res *= ((res < 0.) ? -3600. : 3600.);
+	tm->tm_min = res / 60.;
+	tm->tm_sec = res - tm->tm_min * 60;
+
+	snprintf (buf, sizeof (buf), "%d", tm->tm_hour);
 	g_string_append (string, buf);
 }
 
@@ -1171,9 +1181,9 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 
 		case ' ': /* eg # ?/? */
 		case '$':
-		case '£':
-		case '¥':
-		case '¤':
+		case (unsigned)'£':
+		case (unsigned)'¥':
+		case (unsigned)'¤':
 		case ')':
 			if (can_render_number && !info.rendered)
 				do_render_number (number, &info, result);
