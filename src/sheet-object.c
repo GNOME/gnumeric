@@ -454,7 +454,7 @@ sheet_object_print (SheetObject const *so, GnomePrintContext *ctx,
 }
 
 GnmRange const *
-sheet_object_range_get (SheetObject const *so)
+sheet_object_get_range (SheetObject const *so)
 {
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
 
@@ -462,7 +462,7 @@ sheet_object_range_get (SheetObject const *so)
 }
 
 SheetObjectAnchor const *
-sheet_object_anchor_get (SheetObject const *so)
+sheet_object_get_anchor (SheetObject const *so)
 {
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
 
@@ -470,7 +470,7 @@ sheet_object_anchor_get (SheetObject const *so)
 }
 
 void
-sheet_object_anchor_set (SheetObject *so, SheetObjectAnchor const *anchor)
+sheet_object_set_anchor (SheetObject *so, SheetObjectAnchor const *anchor)
 {
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 

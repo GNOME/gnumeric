@@ -4524,8 +4524,8 @@ cmd_object_move_redo (GnmCommand *cmd,
 	else {
 		SheetObjectAnchor tmp;
 
-		sheet_object_anchor_cpy	(&tmp, sheet_object_anchor_get (me->so));
-		sheet_object_anchor_set	(me->so, &me->anchor);
+		sheet_object_anchor_cpy	(&tmp, sheet_object_get_anchor (me->so));
+		sheet_object_set_anchor	(me->so, &me->anchor);
 		sheet_object_anchor_cpy	(&me->anchor, &tmp);
 	}
 

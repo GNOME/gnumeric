@@ -1878,7 +1878,7 @@ scg_object_calc_position (SheetControlGUI *scg, SheetObject *so, double const *c
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 	g_return_if_fail (coords != NULL);
 
-	sheet_object_anchor_cpy (&anchor, sheet_object_anchor_get (so));
+	sheet_object_anchor_cpy (&anchor, sheet_object_get_anchor (so));
 
 	if (coords [0] > coords [2]) {
 		tmp [0] = coords [2];
@@ -1915,7 +1915,7 @@ scg_object_calc_position (SheetControlGUI *scg, SheetObject *so, double const *c
 	anchor.cell_bound.end.row = calc_obj_place (gcanvas, pixels [3], FALSE,
 		so->anchor.type [3], anchor.offset + 3);
 
-	sheet_object_anchor_set (so, &anchor);
+	sheet_object_set_anchor (so, &anchor);
 }
 
 void

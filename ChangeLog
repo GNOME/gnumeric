@@ -1,5 +1,11 @@
 2004-09-27  Jody Goldberg <jody@gnome.org>
 
+	* src/application.c (gnm_app_clipboard_cut_copy_obj) : translate the
+	  anchor back to a pseudo origin to make pasting easier.
+
+	* src/clipboard.c (clipboard_paste_region) : handle paste contents
+	  with only objects.  No need to do tiling or to clear things.
+
 	* src/gutils.c (gnm_ptr_array_insert) : Make this smarter.
 	  Just append if the requested element is >= len
 

@@ -2393,7 +2393,7 @@ sheet_cells (Sheet *sheet,
 	scomments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
 	for (ptr = scomments; ptr; ptr = ptr->next) {
 		GnmComment *c = ptr->data;
-		GnmRange const *loc = sheet_object_range_get (SHEET_OBJECT (c));
+		GnmRange const *loc = sheet_object_get_range (SHEET_OBJECT (c));
 		GnmCell *cell = sheet_cell_get (sheet, loc->start.col, loc->start.row);
 		if (!cell) {
 			/* If cells does not exist, we haven't seen it...  */

@@ -238,9 +238,9 @@ paste_object (GnmPasteTarget const *pt, SheetObject const *src, int left, int to
 	    G_OBJECT_TYPE (src) == CELL_COMMENT_TYPE) {
 		SheetObject *dst = sheet_object_dup (src);
 		SheetObjectAnchor tmp;
-		sheet_object_anchor_cpy (&tmp, sheet_object_anchor_get (src));
+		sheet_object_anchor_cpy (&tmp, sheet_object_get_anchor (src));
 		range_translate (&tmp.cell_bound, left, top);
-		sheet_object_anchor_set (dst, &tmp);
+		sheet_object_set_anchor (dst, &tmp);
 		sheet_object_set_sheet (dst, pt->sheet);
 		g_object_unref (dst);
 	}
@@ -267,11 +267,21 @@ clipboard_paste_region (GnmCellRegion const *content,
 	int repeat_horizontal, repeat_vertical, clearFlags;
 	int dst_cols, dst_rows, src_cols, src_rows;
 	int i, j;
+	GSList *ptr;
 	GnmRange const *r;
 	gboolean has_content, adjust_merges = TRUE;
 
 	g_return_val_if_fail (pt != NULL, TRUE);
 	g_return_val_if_fail (content != NULL, TRUE);
+
+	/* we do not need any of this fancy stuff when pasting a simple object */
+	if (content->content == NULL && content->objects != NULL) {
+		if (pt->paste_flags & (PASTE_COMMENTS | PASTE_OBJECTS))
+			for (ptr = content->objects; ptr; ptr = ptr->next)
+				paste_object (pt, ptr->data,
+					pt->range.start.col, pt->range.start.row);
+		return FALSE;
+	}
 
 	r = &pt->range;
 	dst_cols = range_width (r);
@@ -369,7 +379,7 @@ clipboard_paste_region (GnmCellRegion const *content,
 		for (j = 0; j < repeat_vertical ; j++) {
 			int const left = i * src_cols + pt->range.start.col;
 			int const top = j * src_rows + pt->range.start.row;
-			CellCopyList *ptr;
+			CellCopyList *c_ptr;
 			GnmExprRewriteInfo   rwinfo;
 			GnmExprRelocateInfo *rinfo;
 
@@ -400,7 +410,6 @@ clipboard_paste_region (GnmCellRegion const *content,
 			}
 
 			if (has_content && !(pt->paste_flags & PASTE_DONT_MERGE)) {
-				GSList *ptr;
 				for (ptr = content->merged; ptr != NULL ; ptr = ptr->next) {
 					GnmRange tmp = *((GnmRange const *)ptr->data);
 					if (pt->paste_flags & PASTE_TRANSPOSE) {
@@ -419,8 +428,8 @@ clipboard_paste_region (GnmCellRegion const *content,
 			}
 
 
-			for (ptr = content->content; ptr; ptr = ptr->next) {
-				CellCopy *c_copy = ptr->data;
+			for (c_ptr = content->content; c_ptr; c_ptr = c_ptr->next) {
+				CellCopy *c_copy = c_ptr->data;
 				int target_col = left;
 				int target_row = top;
 
@@ -499,9 +508,9 @@ cb_dup_objects (SheetObject const *src, GnmCellRegion *cr)
 {
 	SheetObject *dst = sheet_object_dup (src);
 	SheetObjectAnchor tmp;
-	sheet_object_anchor_cpy (&tmp, sheet_object_anchor_get (src));
+	sheet_object_anchor_cpy (&tmp, sheet_object_get_anchor (src));
 	range_translate (&tmp.cell_bound, - cr->base.col, - cr->base.row);
-	sheet_object_anchor_set (dst, &tmp);
+	sheet_object_set_anchor (dst, &tmp);
 	cr->objects = g_slist_prepend (cr->objects, dst);
 }
 

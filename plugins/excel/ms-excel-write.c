@@ -2671,7 +2671,7 @@ excel_write_comments_biff7 (BiffPut *bp, ExcelWriteSheet *esheet)
 
 	for (l = comments; l; l = l->next) {
 		GnmComment const *cc = l->data;
-		GnmRange const *pos     = sheet_object_range_get (SHEET_OBJECT (cc));
+		GnmRange const *pos     = sheet_object_get_range (SHEET_OBJECT (cc));
 		char const  *in = cell_comment_text_get (cc);
 		unsigned in_bytes, out_bytes;
 		unsigned len = excel_write_string_len (in, &in_bytes);
@@ -3314,7 +3314,7 @@ excel_write_chart (ExcelWriteSheet *esheet, SheetObject *so)
 
 	memcpy (buf, obj_v8, sizeof obj_v8);
 	GSF_LE_SET_GUINT32 (buf + 16, id);
-	excel_write_anchor (buf + 0x5a, sheet_object_anchor_get (so));
+	excel_write_anchor (buf + 0x5a, sheet_object_get_anchor (so));
 	ms_biff_put_var_write (bp, buf, sizeof obj_v8);
 	ms_biff_put_commit (bp);
 
@@ -3444,7 +3444,7 @@ excel_write_image (ExcelWriteSheet *esheet, BlipInf *bi)
 	memcpy (buf, obj_v8, sizeof obj_v8);
 	GSF_LE_SET_GUINT32 (buf + 16, id);
 	GSF_LE_SET_GUINT32 (buf + 40, blip_id);
-	excel_write_anchor (buf + 0x3c, sheet_object_anchor_get (bi->so));
+	excel_write_anchor (buf + 0x3c, sheet_object_get_anchor (bi->so));
 	ms_biff_put_var_write (bp, buf, sizeof obj_v8);
 	ms_biff_put_commit (bp);
 
@@ -3547,7 +3547,7 @@ excel_write_textbox (ExcelWriteSheet *esheet, SheetObject *so)
 	memcpy (buf, obj_v8, sizeof obj_v8);
 	GSF_LE_SET_GUINT32 (buf + 16, id);
 	GSF_LE_SET_GUINT32 (buf + 4, sizeof obj_v8);
-	excel_write_anchor (buf + 0x54, sheet_object_anchor_get (so));
+	excel_write_anchor (buf + 0x54, sheet_object_get_anchor (so));
 	ms_biff_put_var_write (bp, buf, sizeof obj_v8);
 	ms_biff_put_commit (bp);
 

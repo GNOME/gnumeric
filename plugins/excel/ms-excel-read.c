@@ -401,7 +401,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 
 	sheet_object_anchor_init (&anchor, &range,
 		offsets, anchor_types, direction);
-	sheet_object_anchor_set (so, &anchor);
+	sheet_object_set_anchor (so, &anchor);
 	sheet_object_set_sheet (so, esheet->sheet);
 
 	label = ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_TEXT, NULL);

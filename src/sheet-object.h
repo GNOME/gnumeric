@@ -65,10 +65,10 @@ SheetObject  *sheet_object_view_obj	 (GObject *view);
 SheetControl *sheet_object_view_control  (GObject *view);
 gpointer      sheet_object_view_key	 (GObject *view);
 
-GnmRange const	*sheet_object_range_get	 (SheetObject const *so);
-void		 sheet_object_anchor_set (SheetObject *so,
+GnmRange const	*sheet_object_get_range	 (SheetObject const *so);
+void		 sheet_object_set_anchor (SheetObject *so,
 					  SheetObjectAnchor const *anchor);
-SheetObjectAnchor const *sheet_object_anchor_get (SheetObject const *so);
+SheetObjectAnchor const *sheet_object_get_anchor (SheetObject const *so);
 
 void sheet_object_position_pts_get	   (SheetObject const *so, double *pos);
 void sheet_object_position_pixels_get	   (SheetObject const *so,

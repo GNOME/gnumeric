@@ -22,6 +22,7 @@
 #include "auto-correct.h"
 #include "gutils.h"
 #include "ranges.h"
+#include "sheet-object.h"
 #include "pixmaps/gnumeric-stock-pixbufs.h"
 
 #include <gnumeric-gconf.h>
@@ -280,7 +281,9 @@ gnm_app_clipboard_cut_copy_obj (WorkbookControl *wbc, gboolean is_cut,
 	gnm_app_clipboard_clear (FALSE);
 
 	if (wb_control_claim_selection (wbc)) {
+		GnmRange *r;
 		Sheet *sheet = sv_sheet (sv);
+
 		app->clipboard_cut_range = NULL;
 		sv_weak_ref (sv, &(app->clipboard_sheet_view));
 
@@ -290,6 +293,11 @@ gnm_app_clipboard_cut_copy_obj (WorkbookControl *wbc, gboolean is_cut,
 			sheet_object_clear_sheet (so);
 		} else
 			so = sheet_object_dup (so);
+
+		r = (GnmRange *) sheet_object_get_range	(so);
+		range_translate (r,
+			-MIN (r->start.col, r->end.col),
+			-MIN (r->start.row, r->end.row));
 		app->clipboard_copied_contents->objects = g_slist_prepend (
 			app->clipboard_copied_contents->objects, so);
 

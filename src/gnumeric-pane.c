@@ -846,7 +846,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 				GDK_POINTER_MOTION_MASK |
 				GDK_BUTTON_RELEASE_MASK,
 				NULL, event->button.time);
-			sheet_object_anchor_cpy (&scg->old_anchor, sheet_object_anchor_get (so));
+			sheet_object_anchor_cpy (&scg->old_anchor, sheet_object_get_anchor (so));
 			scg->object_was_resized = FALSE;
 			scg->last_x = event->button.x;
 			scg->last_y = event->button.y;
@@ -1082,7 +1082,7 @@ cb_sheet_object_canvas_event (FooCanvasItem *view, GdkEvent *event,
 				GDK_POINTER_MOTION_MASK |
 				GDK_BUTTON_RELEASE_MASK,
 				NULL, event->button.time);
-			sheet_object_anchor_cpy (&scg->old_anchor, sheet_object_anchor_get (so));
+			sheet_object_anchor_cpy (&scg->old_anchor, sheet_object_get_anchor (so));
 			scg->object_was_resized = FALSE;
 			scg->last_x = event->button.x;
 			scg->last_y = event->button.y;

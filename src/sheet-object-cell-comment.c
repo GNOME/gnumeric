@@ -198,7 +198,7 @@ cell_comment_event (FooCanvasItem *view, GdkEvent *event, SheetControlGUI *scg)
 		break;
 
 	case GDK_2BUTTON_PRESS:
-		r = sheet_object_range_get (so);
+		r = sheet_object_get_range (so);
 		dialog_cell_comment (scg->wbcg, so->sheet, &r->start);
  		break;
 
@@ -407,7 +407,7 @@ cell_comment_set_cell (GnmComment *cc, GnmCellPos const *pos)
 	r.start = r.end = *pos;
 	sheet_object_anchor_init (&anchor, &r, NULL,
 		anchor_types, SO_DIR_DOWN_RIGHT);
-	sheet_object_anchor_set (SHEET_OBJECT (cc), &anchor);
+	sheet_object_set_anchor (SHEET_OBJECT (cc), &anchor);
 }
 
 GnmComment *
