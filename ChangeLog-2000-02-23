@@ -1,5 +1,16 @@
 1999-11-19  Jody Goldberg <jgoldberg@home.com>
 
+	* src/cell.c (cell_relocate) : optionally do a bounds check on
+	  relocated expressions.  Do this by 'moving' the expression from its
+	  new location to its new location.  Some extra work is performed but
+	  the expression is checked for boundedness.
+
+	* src/sheet.c (sheet_move_range) : Use new interface for
+	  cell_relocate.
+	(colrow_move) : Ditto.
+
+	* src/clipboard.c (paste_cell) : Ditto.
+
 	* src/item-bar.c (item_bar_fonts_init) : Use the sheet's zoom factor.
 	(item_bar_realize) : Adjust to new item_bar_fonts_init interface.
 

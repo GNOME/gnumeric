@@ -45,28 +45,28 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell,
 {
 	g_return_val_if_fail (target_col < SHEET_MAX_COLS, 0);
 	g_return_val_if_fail (target_row < SHEET_MAX_ROWS, 0);
-	
+
 	sheet_cell_add (dest_sheet, new_cell, target_col, target_row);
-	
+
 	if (!(paste_flags & PASTE_FORMULAS)){
 		if (new_cell->parsed_node){
 			expr_tree_unref (new_cell->parsed_node);
 			new_cell->parsed_node = NULL;
 		}
 	}
-	
+
 	if (new_cell->parsed_node){
 		if (paste_flags & PASTE_FORMULAS){
-			cell_relocate (new_cell);
+			cell_relocate (new_cell, TRUE);
 			cell_content_changed (new_cell);
 		}
-		else 
+		else
 			cell_make_value (new_cell);
 	}
 
 	if (new_cell->value)
 		cell_render_value (new_cell);
-	
+
 	sheet_redraw_cell_region (dest_sheet,
 				  target_col, target_row,
 				  target_col, target_row);
@@ -91,12 +91,12 @@ paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
 		}
 	} else {
 		Cell *new_cell;
-		
+
 		if (c_copy->type != CELL_COPY_TYPE_TEXT) {
 			Range r;
 
 			new_cell = cell_copy (c_copy->u.cell.cell);
-			
+
 			r.start.col = target_col;
 			r.start.row = target_row;
 			r.end.col   = target_col;
@@ -106,7 +106,7 @@ paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
 				sheet_style_attach (dest_sheet, r,
 						    c_copy->u.cell.mstyle);
 			}
-			
+
 			return paste_cell (
 				dest_sheet, new_cell,
 				target_col, target_row, paste_flags);
@@ -155,7 +155,7 @@ do_clipboard_paste_cell_region (CellRegion *region, Sheet *dest_sheet,
 					  dest_col, dest_row,
 					  dest_col + paste_width - 1,
 					  dest_row + paste_height - 1);
-	
+
 	/* Paste each element */
 	if (paste_flags & PASTE_TRANSPOSE) {
 		col_inc = region->rows;
@@ -178,7 +178,7 @@ do_clipboard_paste_cell_region (CellRegion *region, Sheet *dest_sheet,
 					target_col = col + dest_col + c_copy->col_offset;
 					target_row = row + dest_row + c_copy->row_offset;
 				}
-				
+
 				if (target_col > dest_col + paste_width - 1)
 					continue;
 
@@ -191,7 +191,7 @@ do_clipboard_paste_cell_region (CellRegion *region, Sheet *dest_sheet,
 			}
 		}
 	}
-	
+
 	deps = region_get_dependencies (
 		dest_sheet,
 		dest_col, dest_row,
@@ -217,24 +217,24 @@ new_node (GList *list, char *data, char *p, int col, int row)
 	/* Eliminate spaces */
 	while (*data == ' ' && *data)
 		data++;
-	
+
 	text = g_malloc (p-data+1);
 	text = strncpy (text, data, p-data);
 	text [p-data] = 0;
-	
+
 	c_copy = g_new (CellCopy, 1);
 	c_copy->type = CELL_COPY_TYPE_TEXT;
 	c_copy->col_offset = col;
 	c_copy->row_offset = row;
 	c_copy->u.text = text;
-	
+
 	return g_list_prepend (list, c_copy);
 }
 
 /**
  * x_selection_to_cell_region:
  * @data: points to an array of chars are received.
- * @len:  The length of the @data buffer as received. 
+ * @len:  The length of the @data buffer as received.
  *
  * Creates a CellRegion based on the X selection
  *
@@ -254,7 +254,7 @@ x_selection_to_cell_region (char *data, int len)
 		if (*p == '\t' || *p == ';' || *p == ',' || *p == '\n'){
 			if (p != data)
 				list = new_node (list, data, p, cur_col, rows);
-			
+
 			if (*p == '\n'){
 				rows++;
 				cur_col = 0;
@@ -275,9 +275,9 @@ x_selection_to_cell_region (char *data, int len)
 		if (cur_col > cols)
 			cols = cur_col;
 	}
-	
+
 	/* Return the CellRegion */
-	cr = g_new (CellRegion, 1);	
+	cr = g_new (CellRegion, 1);
 	cr->list = list;
 	cr->cols = cols ? cols : 1;
 	cr->rows = rows + 1;
@@ -310,10 +310,10 @@ sheet_paste_selection (Sheet *sheet, CellRegion *content, SheetSelection *ss, cl
 		paste_width = SHEET_MAX_COLS - pc->dest_col;
 	if (pc->dest_row + paste_height > SHEET_MAX_ROWS)
 		paste_height = SHEET_MAX_ROWS - pc->dest_row;
-	
+
 	if (pc->paste_flags & PASTE_TRANSPOSE){
 		int t;
-		
+
 		end_col = pc->dest_col + paste_height - 1;
 		end_row = pc->dest_row + paste_width - 1;
 
@@ -368,7 +368,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 	CellRegion *content;
 
 	ss = pc->dest_sheet->selections->data;
-	
+
 	/* Did X provide any selection? */
 	if (sel->length < 0){
 		content = pc->region;
@@ -378,7 +378,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 		content = x_selection_to_cell_region (sel->data, sel->length);
 
 	sheet_paste_selection (pc->dest_sheet, content, ss, pc);
-			    
+
 	/* Release the resources we used */
 	if (sel->length >= 0)
 		clipboard_release (content);
@@ -401,7 +401,7 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint 
 	gboolean content_needs_free = FALSE;
 	CellRegion *clipboard = application_clipboard_contents_get ();
 	char *rendered_selection;
-	
+
 	if (clipboard == NULL) {
 		Sheet *sheet = application_clipboard_sheet_get ();
 		Range const *a = application_clipboard_area_get ();
@@ -415,7 +415,7 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint 
 	g_return_if_fail (clipboard != NULL);
 
 	rendered_selection = cell_region_render_ascii (clipboard);
-	
+
 	gtk_selection_data_set (
 		selection_data, GDK_SELECTION_TYPE_STRING, 8,
 		rendered_selection, strlen (rendered_selection));
@@ -449,7 +449,7 @@ x_clipboard_bind_workbook (Workbook *wb)
 {
 	wb->have_x_selection = FALSE;
 	wb->clipboard_paste_callback_data = NULL;
-	
+
 	gtk_signal_connect (
 		GTK_OBJECT (wb->toplevel), "selection_clear_event",
 		GTK_SIGNAL_FUNC (x_selection_clear), wb);
@@ -501,7 +501,7 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_d
 	copy->u.cell.mstyle = sheet_style_compute (sheet, col, row);
 	copy->col_offset    = col - c->base_col;
 	copy->row_offset    = row - c->base_row;
-	
+
 	c->r->list = g_list_prepend (c->r->list, copy);
 
 	return NULL;
@@ -518,7 +518,7 @@ clipboard_copy_cell_range (Sheet *sheet,
 			   int end_col, int end_row)
 {
 	append_cell_closure_t c;
-	
+
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (start_col <= end_col, NULL);
@@ -530,7 +530,7 @@ clipboard_copy_cell_range (Sheet *sheet,
 	c.base_row = start_row;
 	c.r->cols = end_col - start_col + 1;
 	c.r->rows = end_row - start_row + 1;
-	
+
 	sheet_cell_foreach_range (
 		sheet, TRUE, start_col, start_row, end_col, end_row,
 		clipboard_prepend_cell, &c);
@@ -539,7 +539,7 @@ clipboard_copy_cell_range (Sheet *sheet,
 	c.r->list = g_list_reverse (c.r->list);
 
 	clipboard_export_cell_region (sheet->workbook);
-	
+
 	return c.r;
 }
 
@@ -547,7 +547,7 @@ static gboolean
 workbook_selection_locator (Workbook *wb, gpointer data)
 {
 	Workbook **target = data;
-	
+
 	if (wb->have_x_selection)
 		*target = wb;
 
@@ -558,7 +558,7 @@ static Workbook *
 find_local_workbook_with_selection (void)
 {
 	Workbook *result = NULL;
-	
+
 	workbook_foreach (workbook_selection_locator, &result);
 
 	return result;
@@ -582,12 +582,12 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
 {
 	clipboard_paste_closure_t *data;
 	Workbook *workbook_holding_selection;
-	
+
 	g_return_if_fail (dest_sheet != NULL);
 	g_return_if_fail (IS_SHEET (dest_sheet));
 
 	if (dest_sheet->workbook->clipboard_paste_callback_data != NULL) {
-		g_free (dest_sheet->workbook->clipboard_paste_callback_data);	
+		g_free (dest_sheet->workbook->clipboard_paste_callback_data);
 		dest_sheet->workbook->clipboard_paste_callback_data = NULL;
 	}
 
@@ -618,11 +618,11 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
 	workbook_holding_selection = find_local_workbook_with_selection ();
 	if (workbook_holding_selection && region){
 		CellRegion *content;
-		
+
 		content = region;
 
 		sheet_paste_selection (dest_sheet, content, dest_sheet->selections->data, data);
-		
+
 		/* Check that this has not already been freed */
 		if (workbook_holding_selection->clipboard_paste_callback_data != NULL) {
 			workbook_holding_selection->clipboard_paste_callback_data = NULL;
@@ -646,10 +646,10 @@ clipboard_release (CellRegion *region)
 	CellCopyList *l;
 
 	g_return_if_fail (region != NULL);
-	
+
 	for (l = region->list; l; l = l->next){
 		CellCopy *this_cell = l->data;
-		
+
 		if (this_cell->type != CELL_COPY_TYPE_TEXT) {
 			/* The cell is not really in the rows or columns */
 			this_cell->u.cell.cell->sheet = NULL;
@@ -666,5 +666,4 @@ clipboard_release (CellRegion *region)
 	g_list_free (region->list);
 	g_free (region);
 }
-
 

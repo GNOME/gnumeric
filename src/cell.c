@@ -112,7 +112,7 @@ cell_set_formula (Cell *cell, const char *text)
 			return;
 		}
 
-		/* 
+		/*
 		 * NOTE : The wrapper supplied by the parser will be released
 		 *        and recreated.  new_expr will NOT be valid on exit
 		 *        from cell_set_array_formula.
@@ -360,7 +360,7 @@ cell_get_formatted_val (Cell *cell, StyleColor **col)
 {
 	MStyle *mstyle;
 	char *txt;
-	
+
 	mstyle = sheet_style_compute (cell->sheet, cell->col->pos,
 				      cell->row->pos);
 	if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT))
@@ -489,7 +489,7 @@ cell_set_text_simple (Cell *cell, const char *text)
 				set = 1;
 			}
 		}
-		
+
 		if (!set) {
 			double d;
 			d = strtod (text, &end);
@@ -593,7 +593,7 @@ cell_set_formula_tree_simple (Cell *cell, ExprTree *formula)
  * @col_b:   The right column in the destination region.
  * @formula: an expression tree with the formula
  *
- * Uses cell_set_formula_tree_simple to store the formula as an 
+ * Uses cell_set_formula_tree_simple to store the formula as an
  * 'array-formula'.  The supplied expression is wrapped in an array
  * operator for each cell in the range and scheduled for recalc.  The
  * upper left corner is handled as a special case and care is taken to
@@ -856,14 +856,15 @@ cell_comment_reposition (Cell *cell)
 
 /*
  * cell_relocate:
- * @cell:     The cell that is changing position
+ * @cell:           The cell that is changing position
+ * @check_bonunds : Should expressions be bounds checked.
  *
  * This routine is used to move a cell to a different location:
  *
  * Auxiliary items canvas items attached to the cell are moved.
  */
 void
-cell_relocate (Cell *cell)
+cell_relocate (Cell *cell, gboolean const check_bounds)
 {
 	g_return_if_fail (cell != NULL);
 
@@ -891,6 +892,30 @@ cell_relocate (Cell *cell)
 					sheet_cell_get (cell->sheet,
 							cell->col->pos - x,
 							cell->row->pos - y);
+		}
+
+		/* We do not actually need to change any references
+		 * the move is from its current location to its current
+		 * location.  All the move is doing is a bounds check.
+		 */
+		if (check_bounds) {
+			struct expr_relocate_info	rinfo;
+			EvalPosition     		pos;
+			ExprTree    	*expr = cell->parsed_node;
+
+			rinfo.origin.start.col =
+				rinfo.origin.end.col = cell->col->pos;
+			rinfo.origin.start.row =
+				rinfo.origin.end.row = cell->row->pos;
+			rinfo.origin_sheet = rinfo.target_sheet = cell->sheet;
+			rinfo.col_offset = 0;
+			rinfo.row_offset = 0;
+			expr = expr_relocate (expr, eval_pos_cell (&pos, cell), &rinfo);
+
+			if (expr != NULL) {
+				expr_tree_unref (cell->parsed_node);
+				cell->parsed_node = expr;
+			}
 		}
 
 		/* The following call also relinks the cell.  */
@@ -1406,8 +1431,8 @@ cell_set_mstyle (const Cell *cell, MStyle *mstyle)
 
 /**
  * cell_style_changed:
- * @cell: 
- * 
+ * @cell:
+ *
  * Re-draws as neccessary on a cells span, and re-calcs dimensions.
  * to test, enter a long string in a cell & alter
  * the horizontal alignment.

@@ -151,7 +151,7 @@ void        cell_set_rendered_text       (Cell *cell, const char *rendered_text)
 MStyle     *cell_get_mstyle              (const Cell *cell);
 void        cell_set_mstyle              (const Cell *cell, MStyle *mstyle);
 void        cell_style_changed           (Cell *cell);
-void        cell_relocate                (Cell *cell);
+void        cell_relocate                (Cell *cell, gboolean const check_bounds);
 
 void        cell_get_span                (Cell *cell, int *col1, int *col2);
 char       *cell_get_text                (Cell *cell);

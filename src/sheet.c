@@ -3109,7 +3109,7 @@ colrow_move (Sheet *sheet,
 		cell = cells->data;
 
 		sheet_cell_add_to_hash (sheet, cell);
-		cell_relocate (cell);
+		cell_relocate (cell, FALSE);
 	}
 }
 
@@ -3463,7 +3463,7 @@ sheet_move_range (struct expr_relocate_info const * rinfo)
 			sheet_cell_formula_link (cell);
 
 		/* Move comments */
-		cell_relocate (cell);
+		cell_relocate (cell, FALSE);
 	}
 
 	/* 5. Slide styles */
