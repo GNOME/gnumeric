@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 1999-02-06 22:52-0600\n"
+"POT-Creation-Date: 1999-02-09 20:08-0600\n"
 "PO-Revision-Date: 1998-10-03 17:59+01:00\n"
 "Last-Translator: Nuno Ferreira <nmrf@rnl.ist.utl.pt>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -1473,7 +1473,7 @@ msgstr ""
 msgid "Cut"
 msgstr "Cortar"
 
-#: src/item-grid.c:524 src/sheet.c:2432 src/workbook.c:840
+#: src/item-grid.c:524 src/sheet.c:2456 src/workbook.c:840
 msgid "Paste"
 msgstr "Colar"
 
@@ -1911,19 +1911,32 @@ msgstr "Média"
 msgid "Count"
 msgstr "Contar"
 
-#: src/workbook.c:1268
+#: src/workbook.c:1270
 msgid "Untitled.gnumeric"
 msgstr ""
 
-#: src/workbook.c:1352
+#: src/workbook.c:1354
 msgid "Zoom out"
 msgstr "Reduzir"
 
-#: src/workbook.c:1359
+#: src/workbook.c:1361
 msgid "Zoom in"
 msgstr "Ampliar"
 
-#: src/workbook.c:1490 src/workbook.c:1511
+#: src/workbook.c:1446
+#, c-format
+msgid "Are you sure you want to remove the sheet called `%s' "
+msgstr ""
+
+#: src/workbook.c:1473
+msgid "Add another sheet"
+msgstr ""
+
+#: src/workbook.c:1474
+msgid "Remove this sheet"
+msgstr ""
+
+#: src/workbook.c:1698 src/workbook.c:1726
 #, c-format
 msgid "Sheet %d"
 msgstr "Folha %d"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.4\n"
-"POT-Creation-Date: 1999-02-06 22:52-0600\n"
+"POT-Creation-Date: 1999-02-09 20:08-0600\n"
 "PO-Revision-Date: 1998-12-27 12:25+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@fib.hl.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -1497,7 +1497,7 @@ msgstr "Flytt celler til høyre og flytt"
 msgid "Cut"
 msgstr "Klipp ut"
 
-#: src/item-grid.c:524 src/sheet.c:2432 src/workbook.c:840
+#: src/item-grid.c:524 src/sheet.c:2456 src/workbook.c:840
 msgid "Paste"
 msgstr "Lim inn"
 
@@ -1933,19 +1933,32 @@ msgstr "Gjennomsnitt"
 msgid "Count"
 msgstr "Teller"
 
-#: src/workbook.c:1268
+#: src/workbook.c:1270
 msgid "Untitled.gnumeric"
 msgstr "Navnløs.gnumeric"
 
-#: src/workbook.c:1352
+#: src/workbook.c:1354
 msgid "Zoom out"
 msgstr "Zoom ut"
 
-#: src/workbook.c:1359
+#: src/workbook.c:1361
 msgid "Zoom in"
 msgstr "Zoom inn"
 
-#: src/workbook.c:1490 src/workbook.c:1511
+#: src/workbook.c:1446
+#, c-format
+msgid "Are you sure you want to remove the sheet called `%s' "
+msgstr ""
+
+#: src/workbook.c:1473
+msgid "Add another sheet"
+msgstr ""
+
+#: src/workbook.c:1474
+msgid "Remove this sheet"
+msgstr ""
+
+#: src/workbook.c:1698 src/workbook.c:1726
 #, c-format
 msgid "Sheet %d"
 msgstr "Ark %d"

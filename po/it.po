@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 1999-02-06 22:52-0600\n"
+"POT-Creation-Date: 1999-02-09 20:08-0600\n"
 "Content-Type: text/plain; charset=\n"
 "Date: 1998-09-02 18:03:00+0200\n"
 "From: Tristan Tarrant <tst@decp3229.etnoteam.it>\n"
@@ -1554,7 +1554,7 @@ msgstr "Sposta celle a destra e sposta"
 msgid "Cut"
 msgstr "Taglia"
 
-#: src/item-grid.c:524 src/sheet.c:2432 src/workbook.c:840
+#: src/item-grid.c:524 src/sheet.c:2456 src/workbook.c:840
 msgid "Paste"
 msgstr "Incolla"
 
@@ -2005,21 +2005,34 @@ msgstr "Media"
 msgid "Count"
 msgstr "Conto"
 
-#: src/workbook.c:1268
+#: src/workbook.c:1270
 msgid "Untitled.gnumeric"
 msgstr ""
 
-#: src/workbook.c:1352
+#: src/workbook.c:1354
 #, fuzzy
 msgid "Zoom out"
 msgstr "Zoom"
 
-#: src/workbook.c:1359
+#: src/workbook.c:1361
 #, fuzzy
 msgid "Zoom in"
 msgstr "Zoom"
 
-#: src/workbook.c:1490 src/workbook.c:1511
+#: src/workbook.c:1446
+#, c-format
+msgid "Are you sure you want to remove the sheet called `%s' "
+msgstr ""
+
+#: src/workbook.c:1473
+msgid "Add another sheet"
+msgstr ""
+
+#: src/workbook.c:1474
+msgid "Remove this sheet"
+msgstr ""
+
+#: src/workbook.c:1698 src/workbook.c:1726
 #, c-format
 msgid "Sheet %d"
 msgstr "Foglio %d"

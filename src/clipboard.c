@@ -53,8 +53,10 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell, int target_col, int target_row, i
 	}
 	
 	if (new_cell->parsed_node){
-		if (paste_flags & PASTE_FORMULAS)
+		if (paste_flags & PASTE_FORMULAS){
 			cell_relocate (new_cell, 0, 0);
+			cell_content_changed (new_cell);
+		}
 		else 
 			cell_make_value (new_cell);
 	}

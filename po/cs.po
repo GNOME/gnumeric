@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 1999-02-06 22:52-0600\n"
+"POT-Creation-Date: 1999-02-09 20:08-0600\n"
 "Content-Type: text/plain; charset=iso8859-2\n"
 "Date: 1998-09-30 00:38:13-0500\n"
 "From: Petr Vyyhnalek <petr.vyhnalek@email.cz>\n"
@@ -1475,7 +1475,7 @@ msgstr "Posuò buòky doprava a pøesuò"
 msgid "Cut"
 msgstr "Vyjmout"
 
-#: src/item-grid.c:524 src/sheet.c:2432 src/workbook.c:840
+#: src/item-grid.c:524 src/sheet.c:2456 src/workbook.c:840
 msgid "Paste"
 msgstr "Vlo¾it"
 
@@ -1916,19 +1916,32 @@ msgstr "Prumìr"
 msgid "Count"
 msgstr "Souèet"
 
-#: src/workbook.c:1268
+#: src/workbook.c:1270
 msgid "Untitled.gnumeric"
 msgstr "Bezjmena.gnumeric"
 
-#: src/workbook.c:1352
+#: src/workbook.c:1354
 msgid "Zoom out"
 msgstr "Zmen¹ení"
 
-#: src/workbook.c:1359
+#: src/workbook.c:1361
 msgid "Zoom in"
 msgstr "Zvìt¹ení"
 
-#: src/workbook.c:1490 src/workbook.c:1511
+#: src/workbook.c:1446
+#, c-format
+msgid "Are you sure you want to remove the sheet called `%s' "
+msgstr ""
+
+#: src/workbook.c:1473
+msgid "Add another sheet"
+msgstr ""
+
+#: src/workbook.c:1474
+msgid "Remove this sheet"
+msgstr ""
+
+#: src/workbook.c:1698 src/workbook.c:1726
 #, c-format
 msgid "Sheet %d"
 msgstr "Se¹it %d"

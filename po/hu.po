@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-02-06 22:52-0600\n"
+"POT-Creation-Date: 1999-02-09 20:08-0600\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
 "Language-Team: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
@@ -1702,7 +1702,7 @@ msgstr "Jobbra tolás és áthelyezés"
 msgid "Cut"
 msgstr "Kivágás"
 
-#: src/item-grid.c:524 src/sheet.c:2432 src/workbook.c:840
+#: src/item-grid.c:524 src/sheet.c:2456 src/workbook.c:840
 msgid "Paste"
 msgstr "Beillesztés"
 
@@ -2144,19 +2144,32 @@ msgstr "Átlag"
 msgid "Count"
 msgstr "Darabszám"
 
-#: src/workbook.c:1268
+#: src/workbook.c:1270
 msgid "Untitled.gnumeric"
 msgstr "Névtelen.gnumeric"
 
-#: src/workbook.c:1352
+#: src/workbook.c:1354
 msgid "Zoom out"
 msgstr "Kicsinyítés"
 
-#: src/workbook.c:1359
+#: src/workbook.c:1361
 msgid "Zoom in"
 msgstr "Nagyítás"
 
-#: src/workbook.c:1490 src/workbook.c:1511
+#: src/workbook.c:1446
+#, c-format
+msgid "Are you sure you want to remove the sheet called `%s' "
+msgstr ""
+
+#: src/workbook.c:1473
+msgid "Add another sheet"
+msgstr ""
+
+#: src/workbook.c:1474
+msgid "Remove this sheet"
+msgstr ""
+
+#: src/workbook.c:1698 src/workbook.c:1726
 #, c-format
 msgid "Sheet %d"
 msgstr "Munka%d"

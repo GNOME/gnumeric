@@ -194,11 +194,13 @@ gnumeric_lower (struct FunctionDefinition *i, Value *argv [], char **error_strin
 	}
 
 	v = g_new (Value, 1);
+	v->type = VALUE_STRING;
 	p = s = strdup (argv [0]->v.str->str);
-	while (*p)
-		*p = tolower (*p++);
-	v->v.str = string_get (p);
-	g_free (p);
+	for (; *p; p++){
+		*p = tolower (*p);
+	}
+	v->v.str = string_get (s);
+	g_free (s);
 
 	return v;
 }
@@ -313,11 +315,14 @@ gnumeric_upper (struct FunctionDefinition *i, Value *argv [], char **error_strin
 	}
 
 	v = g_new (Value, 1);
+	v->type = VALUE_STRING;
 	p = s = strdup (argv [0]->v.str->str);
-	while (*p)
-		*p = toupper (*p++);
-	v->v.str = string_get (p);
-	g_free (p);
+
+	for (;*p; p++){
+		*p = toupper (*p);
+	}
+	v->v.str = string_get (s);
+	g_free (s);
 
 	return v;
 }

@@ -1,3 +1,20 @@
+1999-02-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/cell.c (cell_relocate): When relocating a cell with a
+	formula, always mark it as changed.  We were doing that before
+	only for the case where the location had changed, but we use
+	cell_relocate in other cases as well.
+
+	* src/fn-string.c (gnumeric_lower, gnumeric_upper): These
+	functions were wrong.  They were never incrementing the pointer
+	and they were releasing the wrong pointer.
+
+	* src/clipboard.c (paste_cell): When pasting a cell, mark the
+	contents as modified.
+
+	* src/file.c (file_saver_is_default_format): Make sure the saver
+	is always set.
+
 1999-02-10  Michael Meeks  <michael@imaginator.com>
 
 	* plugins/excel/ms-excel.c (ms_excel_read_cell): BOOLERR booleans

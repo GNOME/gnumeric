@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.4\n"
-"POT-Creation-Date: 1999-02-06 22:52-0600\n"
+"POT-Creation-Date: 1999-02-09 20:08-0600\n"
 "PO-Revision-Date: 1998-12-21 16:48 +1\n"
 "Last-Translator: Ralf Baechle <ralf@gnu.org>\n"
 "Language-Team:\n"
@@ -1846,7 +1846,7 @@ msgstr "Zellen rechsverschieben und bewegen"
 msgid "Cut"
 msgstr "Ausschneiden"
 
-#: src/item-grid.c:524 src/sheet.c:2432 src/workbook.c:840
+#: src/item-grid.c:524 src/sheet.c:2456 src/workbook.c:840
 msgid "Paste"
 msgstr "Einfügen"
 
@@ -2282,19 +2282,32 @@ msgstr "Durchschnitt"
 msgid "Count"
 msgstr "Anzahl"
 
-#: src/workbook.c:1268
+#: src/workbook.c:1270
 msgid "Untitled.gnumeric"
 msgstr "Namenlos.gnumeric"
 
-#: src/workbook.c:1352
+#: src/workbook.c:1354
 msgid "Zoom out"
 msgstr "Verkleinern"
 
-#: src/workbook.c:1359
+#: src/workbook.c:1361
 msgid "Zoom in"
 msgstr "Vergrößern"
 
-#: src/workbook.c:1490 src/workbook.c:1511
+#: src/workbook.c:1446
+#, c-format
+msgid "Are you sure you want to remove the sheet called `%s' "
+msgstr ""
+
+#: src/workbook.c:1473
+msgid "Add another sheet"
+msgstr ""
+
+#: src/workbook.c:1474
+msgid "Remove this sheet"
+msgstr ""
+
+#: src/workbook.c:1698 src/workbook.c:1726
 #, c-format
 msgid "Sheet %d"
 msgstr "Blatt %d"

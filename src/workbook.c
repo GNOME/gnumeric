@@ -1439,7 +1439,7 @@ sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
 	/*
 	 * If this is the last sheet left, ignore the request
 	 */
-	if (g_hash_table_size (wb) == 1)
+	if (workbook_sheet_count (wb->sheets) == 1)
 		return;
 	
 	message = g_strdup_printf (
@@ -1637,7 +1637,7 @@ workbook_detach_sheet (Workbook *wb, Sheet *sheet)
 
 		w = gtk_notebook_get_nth_page (notebook, i);
 
-		this_sheet = gtk_object_get_data (w, "sheet");
+		this_sheet = gtk_object_get_data (GTK_OBJECT (w), "sheet");
 
 		if (this_sheet == sheet){
 			gtk_notebook_remove_page (notebook, i);

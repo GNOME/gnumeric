@@ -887,8 +887,8 @@ cell_relocate (Cell *cell, int col_diff, int row_diff)
 	cell_modified (cell);
 
 	/* 2. If the cell contains a formula, relocate the formula */
-	if (col_diff != 0 || row_diff != 0){
-		if (cell->parsed_node){
+	if (cell->parsed_node){
+		if (col_diff != 0 || row_diff != 0){
 			ExprTree *new_tree;
 			char *text, *formula;
 			
@@ -896,8 +896,8 @@ cell_relocate (Cell *cell, int col_diff, int row_diff)
 
 			expr_tree_unref (cell->parsed_node);
 			cell->parsed_node = new_tree;
-			cell_formula_changed (cell);
 		}
+		cell_formula_changed (cell);
 	}
 	
 	/* 3. Move any auxiliary canvas items */

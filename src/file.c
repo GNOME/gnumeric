@@ -176,8 +176,11 @@ file_saver_is_default_format (FileSaver *saver)
 	if (current_saver == saver)
 		return TRUE;
 
-	if (strcmp (saver->extension, ".gnumeric") == 0)
+	if (strcmp (saver->extension, ".gnumeric") == 0){
+		if (current_saver == NULL)
+			current_saver = saver;
 		return TRUE;
+	}
 	return FALSE;
 }
 
@@ -226,6 +229,19 @@ make_format_chooser (void)
 	return box;
 }
 
+static FileSaver *
+insure_saver (FileSaver *current)
+{
+	GList *l;
+
+	if (current)
+		return current;
+
+	for (l = gnumeric_file_savers; l; l = l->next){
+		return l->data;
+	}
+}
+
 void
 workbook_save_as (Workbook *wb)
 {
@@ -245,6 +261,7 @@ workbook_save_as (Workbook *wb)
 	format_selector = make_format_chooser ();
 	gtk_box_pack_start (GTK_BOX (fsel->action_area), format_selector,
 			    FALSE, TRUE, 0);
+
 	
 	/* Connect the signals for Ok and Cancel */
 	gtk_signal_connect (GTK_OBJECT (fsel->ok_button), "clicked",
@@ -264,7 +281,11 @@ workbook_save_as (Workbook *wb)
 		if (name [strlen (name)-1] != '/'){
 			workbook_set_filename (wb, name);
 
-			current_saver->save (wb, wb->filename);
+			current_saver = insure_saver (current_saver);
+			if (!current_saver)
+				gnumeric_notice (_("Sorry, there are no file savers loaded, I can not save"));
+			else
+				current_saver->save (wb, wb->filename);
 		}
 	}
 	gtk_widget_destroy (GTK_WIDGET (fsel));

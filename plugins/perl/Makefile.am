@@ -25,6 +25,8 @@ plugin_PROGRAMS = perl.so
 .c.o:
 	$(CC) $(CFLAGS) -c $<
 
+perl_so_SOURCES = perl.c
+
 perl.so: perl.o xsinit.o ext.timestamp
 	$(PERL_LD) $(PERL_LDDLFLAGS) -o perl.so perl.o xsinit.o $(PERL_LDOPTS)
 
