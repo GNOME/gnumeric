@@ -694,7 +694,7 @@ colrow_get_outline_toggle (Sheet const *sheet, gboolean is_cols, gboolean visibl
 }
 
 static void
-cb_colrow_visibility (Sheet *sheet, Range const *r, void *closure)
+cb_colrow_visibility (SheetView *sv, Range const *r, void *closure)
 {
 	colrow_visiblity * const dat = (colrow_visiblity *)closure;
 	int first, last;
@@ -706,7 +706,7 @@ cb_colrow_visibility (Sheet *sheet, Range const *r, void *closure)
 		first = r->start.row;
 		last = r->end.row;
 	}
-	colrow_visibility (sheet, dat, first, last, FALSE);
+	colrow_visibility (sv_sheet (sv), dat, first, last, FALSE);
 }
 
 /**
@@ -722,7 +722,7 @@ cb_colrow_visibility (Sheet *sheet, Range const *r, void *closure)
  *        selection_apply.
  */
 ColRowVisList *
-colrow_get_visiblity_toggle (Sheet *sheet, gboolean is_cols,
+colrow_get_visiblity_toggle (SheetView *sv, gboolean is_cols,
 			     gboolean visible)
 {
 	colrow_visiblity closure;
@@ -730,7 +730,7 @@ colrow_get_visiblity_toggle (Sheet *sheet, gboolean is_cols,
 	closure.visible = visible;
 	closure.elements = NULL;
 
-	selection_apply (sheet, &cb_colrow_visibility, FALSE, &closure);
+	selection_apply (sv, &cb_colrow_visibility, FALSE, &closure);
 
 	return closure.elements;
 }

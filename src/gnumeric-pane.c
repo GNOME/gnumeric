@@ -410,7 +410,7 @@ void
 gnm_pane_edit_start (GnumericPane *pane)
 {
 	GnumericCanvas const *gcanvas = pane->gcanvas;
-	Sheet const *sheet = sc_sheet (SHEET_CONTROL (gcanvas->simple.scg));
+	SheetView const *sv = sc_view (SHEET_CONTROL (gcanvas->simple.scg));
 	CellPos const *edit_pos;
 
 	g_return_if_fail (pane->editor == NULL);
@@ -420,7 +420,7 @@ gnm_pane_edit_start (GnumericPane *pane)
 	 * we could make item-edit smarter, and have it bound check on the
 	 * entire region rather than only its canvas.
 	 */
-	edit_pos = &sheet->edit_pos;
+	edit_pos = &sv->edit_pos;
 	if (edit_pos->col >= gcanvas->first.col &&
 	    edit_pos->col <= gcanvas->last_visible.col &&
 	    edit_pos->row >= gcanvas->first.row &&

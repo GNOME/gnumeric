@@ -117,27 +117,27 @@ cb_delete_cell_cancel_clicked (GtkWidget *button, DeleteCellState *state)
 }
 
 void
-dialog_delete_cells (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_delete_cells (WorkbookControlGUI *wbcg)
 {
 	DeleteCellState *state;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	SheetView	*sv  = wb_control_cur_sheet_view (wbc);
 	Range const *sel;
 	int  cols, rows;
 
 	g_return_if_fail (wbcg != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
 
-	if (!(sel = selection_first_range (sheet, wbc, _("Delete"))))
+	if (!(sel = selection_first_range (sv, wbc, _("Delete"))))
 		return;
 	cols = sel->end.col - sel->start.col + 1;
 	rows = sel->end.row - sel->start.row + 1;
 
 	if (range_is_full (sel, FALSE)) {
-		cmd_delete_cols (wbc, sheet, sel->start.col, cols);
+		cmd_delete_cols (wbc, sv_sheet (sv), sel->start.col, cols);
 		return;
 	}
 	if (range_is_full (sel, TRUE)) {
-		cmd_delete_rows (wbc, sheet, sel->start.row, rows);
+		cmd_delete_rows (wbc, sv_sheet (sv), sel->start.row, rows);
 		return;
 	}
 
@@ -147,7 +147,7 @@ dialog_delete_cells (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state = g_new (DeleteCellState, 1);
 	state->wbcg  = wbcg;
 	state->sel   = sel;
-	state->sheet = sheet;
+	state->sheet = sv_sheet (sv);
 
 	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
 	g_return_if_fail (state->gui != NULL);

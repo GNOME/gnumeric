@@ -103,7 +103,8 @@ sheet_init_sc (Sheet const *sheet, SheetControl *sc)
 	sc_scrollbar_config (sc);
 
 	/* Set the visible bound, not the logical bound */
-	sc_cursor_bound (sc, selection_first_range (sheet, NULL, NULL));
+	sc_cursor_bound (sc,
+		selection_first_range (sc_view (sc), NULL, NULL));
 	sc_ant (sc);
 }
 
@@ -158,18 +159,11 @@ sheet_new (Workbook *wb, char const *name)
 #endif
 
 	/* Init, focus, and load handle setting these if/when necessary */
-	sheet->priv->edit_pos.location_changed = TRUE;
-	sheet->priv->edit_pos.content_changed  = TRUE;
-	sheet->priv->edit_pos.format_changed   = TRUE;
-
-	sheet->priv->selection_content_changed = TRUE;
-	sheet->priv->reposition_selection = TRUE;
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
 	sheet->priv->reposition_objects.row = SHEET_MAX_ROWS;
 	sheet->priv->reposition_objects.col = SHEET_MAX_COLS;
 
-	sheet->priv->auto_expr_timer = 0;
 	range_init_full_sheet (&sheet->priv->unhidden_region);
 
 	sheet->signature = SHEET_SIGNATURE;
@@ -205,8 +199,6 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->cell_hash = g_hash_table_new ((GHashFunc)&cellpos_hash,
 					     (GCompareFunc)&cellpos_cmp);
 
-	sheet_selection_add (sheet, 0, 0);
-
 	/* Force the zoom change inorder to initialize things */
 	sheet_set_zoom_factor (sheet, gnm_gconf_get_zoom (), TRUE, TRUE);
 
@@ -230,9 +222,6 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->tab_text_color = NULL;
 
 	/* Init menu states */
-	sheet->priv->enable_insert_rows = TRUE;
-	sheet->priv->enable_insert_cols = TRUE;
-	sheet->priv->enable_insert_cells = TRUE;
 	sheet->priv->enable_showhide_detail = TRUE;
 
 	sheet->names = NULL;
@@ -595,23 +584,8 @@ sheet_reposition_objects (Sheet const *sheet, CellPos const *pos)
 void
 sheet_flag_status_update_cell (Cell const *cell)
 {
-	Sheet const *sheet = cell->base.sheet;
-	CellPos const *pos = &cell->pos;
-
-	/* if a part of the selected region changed value update
-	 * the auto expressions
-	 */
-	if (sheet_is_cell_selected (sheet, pos->col, pos->row))
-		sheet->priv->selection_content_changed = TRUE;
-
-	/* If the edit cell changes value update the edit area
-	 * and the format toolbar
-	 */
-	if (pos->col == sheet->edit_pos.col &&
-	    pos->row == sheet->edit_pos.row) {
-		sheet->priv->edit_pos.content_changed =
-		sheet->priv->edit_pos.format_changed  = TRUE;
-	}
+	SHEET_FOREACH_VIEW (cell->base.sheet, sv,
+		sv_flag_status_update_pos (sv, &cell->pos););
 }
 
 /**
@@ -629,28 +603,8 @@ sheet_flag_status_update_cell (Cell const *cell)
 void
 sheet_flag_status_update_range (Sheet const *sheet, Range const *range)
 {
-	/* Force an update */
-	if (range == NULL) {
-		sheet->priv->selection_content_changed = TRUE;
-		sheet->priv->edit_pos.location_changed =
-		sheet->priv->edit_pos.content_changed =
-		sheet->priv->edit_pos.format_changed = TRUE;
-		return;
-	}
-
-	/* if a part of the selected region changed value update
-	 * the auto expressions
-	 */
-	if (sheet_is_range_selected (sheet, range))
-		sheet->priv->selection_content_changed = TRUE;
-
-	/* If the edit cell changes value update the edit area
-	 * and the format toolbar
-	 */
-	if (range_contains (range, sheet->edit_pos.col, sheet->edit_pos.row)) {
-		sheet->priv->edit_pos.content_changed =
-		sheet->priv->edit_pos.format_changed = TRUE;
-	}
+	SHEET_FOREACH_VIEW (sheet, sv,
+		sv_flag_status_update_range (sv, range););
 }
 
 /**
@@ -663,22 +617,8 @@ sheet_flag_status_update_range (Sheet const *sheet, Range const *range)
 void
 sheet_flag_format_update_range (Sheet const *sheet, Range const *range)
 {
-	if (range_contains (range, sheet->edit_pos.col, sheet->edit_pos.row))
-		sheet->priv->edit_pos.format_changed = TRUE;
-}
-
-/**
- * sheet_flag_selection_change :
- *    flag the sheet as requiring an update to the status display
- *
- * @sheet :
- *
- * Will cause auto expressions to be updated
- */
-void
-sheet_flag_selection_change (Sheet const *sheet)
-{
-	sheet->priv->selection_content_changed = TRUE;
+	SHEET_FOREACH_VIEW (sheet, sv,
+		sv_flag_format_update_range (sv, range););
 }
 
 /**
@@ -745,20 +685,21 @@ sheet_update_only_grid (Sheet const *sheet)
 		sheet->priv->recompute_max_row_group = FALSE;
 	}
 
-	if (p->reposition_selection) {
-		p->reposition_selection = FALSE;
-                /* when moving we cleared the selection before
-                 * arriving in here.
-                 */
-                if (sheet->selections != NULL)
-			sheet_selection_set ((Sheet *)sheet, /* cheat */
-					     sheet->edit_pos_real.col,
-					     sheet->edit_pos_real.row,
-					     sheet->cursor.base_corner.col,
-					     sheet->cursor.base_corner.row,
-					     sheet->cursor.move_corner.col,
-					     sheet->cursor.move_corner.row);
-	}
+	SHEET_FOREACH_VIEW (sheet, sv, {
+		if (sv->reposition_selection) {
+			sv->reposition_selection = FALSE;
+
+			/* when moving we cleared the selection before
+			 * arriving in here.
+			 */
+			if (sv->selections != NULL)
+				sv_selection_set (sv, &sv->edit_pos_real,
+						  sv->cursor.base_corner.col,
+						  sv->cursor.base_corner.row,
+						  sv->cursor.move_corner.col,
+						  sv->cursor.move_corner.row);
+		}
+	});
 
 	if (p->recompute_spans) {
 		p->recompute_spans = FALSE;
@@ -816,32 +757,6 @@ sheet_update_only_grid (Sheet const *sheet)
 	}
 }
 
-static void
-auto_expr_timer_clear (SheetPrivate *p)
-{
-	if (p->auto_expr_timer != 0) {
-		g_source_remove (p->auto_expr_timer);
-		p->auto_expr_timer = 0;
-	}
-}
-
-static gboolean
-cb_sheet_update_auto_expr (gpointer data)
-{
-	Sheet *sheet = (Sheet *) data;
-	SheetPrivate *p;
-
-	p = sheet->priv;
-	WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
-	{
-		if (wb_view_cur_sheet (view) == sheet)
-			wb_view_auto_expr_recalc (view, TRUE);
-	});
-
-	p->auto_expr_timer = 0;
-	return FALSE;
-}
-
 /**
  * sheet_update:
  *
@@ -851,55 +766,11 @@ cb_sheet_update_auto_expr (gpointer data)
 void
 sheet_update (Sheet const *sheet)
 {
-	SheetPrivate *p;
-
 	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet_update_only_grid (sheet);
 
-	p = sheet->priv;
-
-	if (p->edit_pos.content_changed) {
-		p->edit_pos.content_changed = FALSE;
-		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
-		{
-			if (wb_view_cur_sheet (view) == sheet)
-				wb_view_edit_line_set (view, NULL);
-		});
-	}
-
-	if (p->edit_pos.format_changed) {
-		p->edit_pos.format_changed = FALSE;
-		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
-		{
-			if (wb_view_cur_sheet (view) == sheet)
-				wb_view_format_feedback (view, TRUE);
-		});
-	}
-
-	/* FIXME : decide whether to do this here or in workbook view */
-	if (p->edit_pos.location_changed) {
-		char const *new_pos = cell_pos_name (&sheet->edit_pos);
-
-		p->edit_pos.location_changed = FALSE;
-		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
-		{
-			if (wb_view_cur_sheet (view) == sheet) {
-				WORKBOOK_VIEW_FOREACH_CONTROL (view, control,
-					wb_control_selection_descr_set (control, new_pos););
-			}
-		});
-	}
-
-	if (p->selection_content_changed) {
-		int const lag = application_auto_expr_recalc_lag ();
-		p->selection_content_changed = FALSE;
-		if (p->auto_expr_timer == 0 || lag < 0) {
-			auto_expr_timer_clear (p);
-			p->auto_expr_timer = g_timeout_add_full (0, abs (lag), /* seems ok */
-				cb_sheet_update_auto_expr, (gpointer) sheet, NULL);
-		}
-	}
+	SHEET_FOREACH_VIEW (sheet, sv, sv_update (sv););
 }
 
 /**
@@ -1020,7 +891,8 @@ sheet_colrow_group_ungroup (Sheet *sheet, Range const *r,
 		new_size = sheet_colrow_fit_gutter (sheet, is_cols);
 
 	sheet_colrow_gutter (sheet, is_cols, new_size);
-	sheet_redraw_headers (sheet, is_cols, !is_cols, NULL);
+	SHEET_FOREACH_VIEW (sheet, sv,
+		sv_redraw_headers (sv, is_cols, !is_cols, NULL););
 
 	return TRUE;
 }
@@ -1538,44 +1410,39 @@ sheet_cell_set_value (Cell *cell, Value *v)
  * It intelligently handles spans and merged ranges
  */
 void
-sheet_redraw_region (Sheet const *sheet,
-		     int start_col, int start_row,
-		     int end_col,   int end_row)
+sheet_range_bounding_box (Sheet const *sheet, Range *bound)
 {
 	GSList *ptr;
-	int min_col = start_col, max_col = end_col;
-	int row, min_row = start_row, max_row = end_row;
+	int	row;
+	Range	r = *bound;
 
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (start_col >= 0);
-	g_return_if_fail (start_col <= end_col);
-	g_return_if_fail (end_col < SHEET_MAX_COLS);
-	g_return_if_fail (start_row >= 0);
-	g_return_if_fail (start_row <= end_row);
-	g_return_if_fail (end_row < SHEET_MAX_ROWS);
+	g_return_if_fail (range_is_sane	(bound));
 
-	/*
-	 * Check the first and last columns for spans
-	 * and extend the region to include the maximum extent.
+	/* Check the first and last columns for spans and extend the region to
+	 * include the maximum extent.
 	 */
-	for (row = start_row; row <= end_row; row++){
+	for (row = r.start.row; row <= r.end.row; row++){
 		ColRowInfo const * const ri = sheet_row_get (sheet, row);
 
 		if (ri != NULL) {
 			CellSpanInfo const * span0 =
-			    row_span_get (ri, start_col);
+			    row_span_get (ri, r.start.col);
 
 			if (span0 != NULL) {
-				min_col = MIN (span0->left, min_col);
-				max_col = MAX (span0->right, max_col);
+				if (bound->start.col < span0->left)
+					bound->start.col = span0->left;
+				if (bound->end.col > span0->right)
+					bound->end.col = span0->right;
 			}
-			if (start_col != end_col) {
+			if (r.start.col != r.end.col) {
 				CellSpanInfo const * span1 =
-					row_span_get (ri, end_col);
+					row_span_get (ri, r.end.col);
 
 				if (span1 != NULL) {
-					min_col = MIN (span1->left, min_col);
-					max_col = MAX (span1->right, max_col);
+					if (bound->start.col < span0->left)
+						bound->start.col = span0->left;
+					if (bound->end.col > span0->right)
+						bound->end.col = span0->right;
 				}
 			}
 			/* skip segments with no cells */
@@ -1591,21 +1458,32 @@ sheet_redraw_region (Sheet const *sheet,
 	/* no need to iterate, one pass is enough */
 	for (ptr = sheet->list_merged ; ptr != NULL ; ptr = ptr->next) {
 		Range const * const test = ptr->data;
-		if (start_row <= test->end.row || end_row >= test->start.row) {
-			if (min_col > test->start.col)
-				min_col = test->start.col;
-			if (max_col < test->end.col)
-				max_col = test->end.col;
-			if (min_row > test->start.row)
-				min_row = test->start.row;
-			if (max_row < test->end.row)
-				max_row = test->end.row;
+		if (r.start.row <= test->end.row || r.end.row >= test->start.row) {
+			if (bound->start.col > test->start.col)
+				bound->start.col = test->start.col;
+			if (bound->end.col < test->end.col)
+				bound->end.col = test->end.col;
+			if (bound->start.row > test->start.row)
+				bound->start.row = test->start.row;
+			if (bound->end.row < test->end.row)
+				bound->end.row = test->end.row;
 		}
 	}
+}
 
+void
+sheet_redraw_region (Sheet const *sheet,
+		     int start_col, int start_row,
+		     int end_col,   int end_row)
+{
+	Range bound;
+
+	g_return_if_fail (IS_SHEET (sheet));
+
+	sheet_range_bounding_box (sheet, 
+		range_init (&bound, start_col, start_row, end_col, end_row));
 	SHEET_FOREACH_CONTROL (sheet, view, control,
-		sc_redraw_region (control,
-			min_col, min_row, max_col, max_row););
+		sc_redraw_range (control, &bound););
 }
 
 void
@@ -1623,9 +1501,10 @@ static void
 sheet_redraw_partial_row (Sheet const *sheet, int const row,
 			  int const start_col, int const end_col)
 {
+	Range r;
+	range_init (&r, start_col, row, end_col, row);
 	SHEET_FOREACH_CONTROL (sheet, view, control,
-		sc_redraw_region (control,
-			start_col, row, end_col, row););
+		sc_redraw_range (control, &r););
 }
 
 void
@@ -1640,9 +1519,7 @@ sheet_redraw_cell (Cell const *cell)
 	merged = sheet_merge_is_corner (cell->base.sheet, &cell->pos);
 	if (merged != NULL) {
 		SHEET_FOREACH_CONTROL (cell->base.sheet, view, control,
-			sc_redraw_region (control,
-				merged->start.col, merged->start.row,
-				merged->end.col, merged->end.row););
+			sc_redraw_range (control, merged););
 		return;
 	}
 
@@ -2467,40 +2344,6 @@ sheet_cells (Sheet *sheet,
 
 
 static Value *
-fail_if_not_selected (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
-{
-	if (!sheet_is_cell_selected (sheet, col, row))
-		return VALUE_TERMINATE;
-	else
-		return NULL;
-}
-
-/**
- * sheet_is_region_empty_or_selected:
- * @sheet: sheet to check
- * @start_col: starting column
- * @start_row: starting row
- * @end_col:   end column
- * @end_row:   end row
- *
- * Returns TRUE if the specified region of the @sheet does not
- * contain any cells that are not selected.
- *
- * FIXME: Perhaps this routine should be extended to allow testing for specific
- * features of a cell rather than just the existance of the cell.
- */
-gboolean
-sheet_is_region_empty_or_selected (Sheet *sheet, Range const *r)
-{
-	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-
-	return sheet_foreach_cell_in_range (
-		sheet, TRUE, r->start.col, r->start.row, r->end.col, r->end.row,
-		fail_if_not_selected, NULL) == NULL;
-
-}
-
-static Value *
 fail_if_exist (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	return cell_is_blank (cell) ? NULL : VALUE_TERMINATE;
@@ -2832,8 +2675,6 @@ sheet_destroy (Sheet *sheet)
 			g_warning ("Unexpected left over views");
 	}
 
-	auto_expr_timer_clear (sheet->priv);
-
 	if (sheet->print_info) {
 		print_info_free (sheet->print_info);
 		sheet->print_info = NULL;
@@ -2852,8 +2693,6 @@ sheet_destroy (Sheet *sheet)
 		if (sheet->sheet_objects != NULL)
 			g_warning ("There is a problem with sheet objects");
 	}
-
-	sheet_selection_free (sheet);
 
 	g_free (sheet->name_quoted);
 	g_free (sheet->name_unquoted);
@@ -3074,112 +2913,6 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 }
 
 /*****************************************************************************/
-
-void
-sheet_make_cell_visible (Sheet *sheet, int col, int row,
-			 gboolean couple_panes)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-	SHEET_FOREACH_CONTROL(sheet, view, control,
-		sc_make_cell_visible (control, col, row, couple_panes););
-}
-
-void
-sheet_set_edit_pos (Sheet *sheet, int col, int row)
-{
-	CellPos old;
-
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (col >= 0);
-	g_return_if_fail (col < SHEET_MAX_COLS);
-	g_return_if_fail (row >= 0);
-	g_return_if_fail (row < SHEET_MAX_ROWS);
-
-	old = sheet->edit_pos;
-
-	if (old.col != col || old.row != row) {
-		Range const *merged = sheet_merge_is_corner (sheet, &old);
-
-		sheet->priv->edit_pos.location_changed =
-		sheet->priv->edit_pos.content_changed =
-		sheet->priv->edit_pos.format_changed = TRUE;
-
-		/* Redraw before change */
-		if (merged != NULL)
-			sheet_redraw_range (sheet, merged);
-		else
-			sheet_redraw_region (sheet, old.col, old.row,
-					     old.col, old.row);
-
-		sheet->edit_pos_real.col = col;
-		sheet->edit_pos_real.row = row;
-
-		/* Redraw after change (handling merged cells) */
-		merged = sheet_merge_contains_pos (sheet, &sheet->edit_pos_real);
-		if (merged != NULL) {
-			sheet_redraw_range (sheet, merged);
-			sheet->edit_pos = merged->start;
-		} else {
-			sheet_redraw_region (sheet, col, row, col, row);
-			sheet->edit_pos = sheet->edit_pos_real;
-		}
-	}
-}
-
-
-/**
- * sheet_cursor_set :
- * @sheet : The sheet
- * @edit_col :
- * @edit_row :
- * @base_col :
- * @base_row :
- * @move_col :
- * @move_row :
- * @bound    : An optionally NULL range that should contain all the supplied points
- */
-void
-sheet_cursor_set (Sheet *sheet,
-		  int edit_col, int edit_row,
-		  int base_col, int base_row,
-		  int move_col, int move_row,
-		  Range const *bound)
-{
-	Range r;
-
-	g_return_if_fail (IS_SHEET (sheet));
-
-	/* Change the edit position */
-	sheet_set_edit_pos (sheet, edit_col, edit_row);
-
-	sheet->cursor.base_corner.col = base_col;
-	sheet->cursor.base_corner.row = base_row;
-	sheet->cursor.move_corner.col = move_col;
-	sheet->cursor.move_corner.row = move_row;
-
-	if (bound == NULL) {
-		if (base_col < move_col) {
-			r.start.col =  base_col;
-			r.end.col =  move_col;
-		} else {
-			r.end.col =  base_col;
-			r.start.col =  move_col;
-		}
-		if (base_row < move_row) {
-			r.start.row =  base_row;
-			r.end.row =  move_row;
-		} else {
-			r.end.row =  base_row;
-			r.start.row =  move_row;
-		}
-		bound = &r;
-	}
-
-	g_return_if_fail (range_is_sane	(bound));
-
-	SHEET_FOREACH_CONTROL(sheet, view, control,
-		sc_cursor_bound (control, bound););
-}
 
 /**
  * sheet_name_quote:
@@ -4110,37 +3843,6 @@ sheet_adjust_preferences (Sheet const *sheet, gboolean redraw, gboolean resize)
 	});
 }
 
-void
-sheet_menu_state_enable_insert (Sheet *sheet, gboolean col, gboolean row)
-{
-	int flags = 0;
-
-	g_return_if_fail (IS_SHEET (sheet));
-
-	if (sheet->priv->enable_insert_cols != col) {
-		flags |= MS_INSERT_COLS;
-		sheet->priv->enable_insert_cols = col;
-	}
-	if (sheet->priv->enable_insert_rows != row) {
-		flags |= MS_INSERT_ROWS;
-		sheet->priv->enable_insert_rows = row;
-	}
-	if (sheet->priv->enable_insert_cells != (col|row)) {
-		flags |= MS_INSERT_CELLS;
-		sheet->priv->enable_insert_cells = (col|row);
-	}
-
-	if (!flags)
-		return;
-
-	WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
-		if (sheet == wb_view_cur_sheet (view)) {
-			WORKBOOK_VIEW_FOREACH_CONTROL(view, wbc,
-				wb_control_menu_state_update (wbc, flags););
-		}
-	});
-}
-
 /*****************************************************************************/
 typedef struct
 {
@@ -4195,37 +3897,6 @@ sheet_clone_merged_regions (Sheet const *src, Sheet *dst)
 	GSList *ptr;
 	for (ptr = src->list_merged ; ptr != NULL ; ptr = ptr->next)
 		sheet_merge_add (NULL, dst, ptr->data, FALSE);
-}
-
-static void
-sheet_clone_selection (Sheet const *src, Sheet *dst)
-{
-	GList *selections, *ptr;
-
-	if (src->selections == NULL)
-		return;
-
-	/* A new sheet has A1 selected by default */
-	sheet_selection_reset (dst);
-
-	selections = g_list_copy (src->selections);
-	selections = g_list_reverse (selections);
-	for (ptr = selections ; ptr != NULL && ptr->next != NULL ; ptr = ptr->next) {
-		Range const *range = ptr->data;
-		g_return_if_fail (range != NULL);
-		sheet_selection_add_range (dst,
-					   range->start.col, range->start.row,
-					   range->start.col, range->start.row,
-					   range->end.col,   range->end.row);
-	}
-	g_list_free (selections);
-	sheet_selection_add_range (dst,
-				   src->edit_pos_real.col,
-				   src->edit_pos_real.row,
-				   src->cursor.base_corner.col,
-				   src->cursor.base_corner.row,
-				   src->cursor.move_corner.col,
-				   src->cursor.move_corner.row);
 }
 
 static void
@@ -4345,7 +4016,6 @@ sheet_dup (Sheet const *src)
 	sheet_clone_styles         (src, dst);
 	sheet_clone_merged_regions (src, dst);
 	sheet_clone_colrow_info    (src, dst);
-	sheet_clone_selection      (src, dst);
 	sheet_clone_names          (src, dst);
 	sheet_clone_cells          (src, dst);
 	sheet_object_clone_sheet   (src, dst, NULL);
@@ -4502,4 +4172,23 @@ sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols)
 	else
 		colrow_adjust_outline_dir (&sheet->rows,
 					   sheet->outline_symbols_below);
+}
+
+/**
+ * sheet_get_view :
+ * @sheet :
+ * @wbv   :
+ *
+ * Find the sheetview corresponding to the supplied @wbv.
+ */
+SheetView *
+sheet_get_view (Sheet const *sheet, WorkbookView const *wbv)
+{
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	SHEET_FOREACH_VIEW (sheet, view, {
+		if (sv_wbv (view) == wbv)
+			return view;
+	});
+	return NULL;
 }

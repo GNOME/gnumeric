@@ -19,7 +19,7 @@ char *cmd_cell_pos_name_utility (Sheet *sheet, CellPos const *pos);
 gboolean cmd_set_text		(WorkbookControl *wbc, Sheet *sheet,
 				 CellPos const *pos, const char *new_text);
 
-gboolean cmd_area_set_text	(WorkbookControl *wbc, ParsePos const *pos,
+gboolean cmd_area_set_text	(WorkbookControl *wbc, SheetView *sv,
 				 char const *text, gboolean as_array);
 
 gboolean cmd_insert_cols	(WorkbookControl *wbc, Sheet *sheet,
@@ -44,29 +44,29 @@ gboolean cmd_paste_copy		(WorkbookControl *wbc,
 
 gboolean cmd_sort		(WorkbookControl *wbc, SortData *data);
 
-gboolean cmd_format		(WorkbookControl *wbc, Sheet *sheet,
-				 MStyle *style, StyleBorder **borders,
-				 char const *opt_translated_name);
-
 gboolean cmd_autofill		(WorkbookControl *wbc, Sheet *sheet,
 				 gboolean default_increment,
 				 int base_col, int base_row,
 				 int w, int h, int end_col, int end_row,
 				 gboolean inverse_autofill);
 
-gboolean cmd_clear_selection	(WorkbookControl *wbc, Sheet *sheet,
-				 int clear_flags);
+/* currently these operate on the current sheet, and it calling control's
+ * selection.  In the future we should pass in a virtualized selection.
+ */
+gboolean cmd_selection_format		(WorkbookControl *wbc,
+					 MStyle *style, StyleBorder **borders,
+					 char const *opt_translated_name);
+gboolean cmd_selection_clear		(WorkbookControl *wbc, int clear_flags);
+gboolean cmd_selection_colrow_hide	(WorkbookControl *wbc,
+					 gboolean is_cols, gboolean visible);
+gboolean cmd_selection_outline_change	(WorkbookControl *wbc,
+					 gboolean is_cols, int index, int depth);
+gboolean cmd_selection_group		(WorkbookControl *wbc,
+					 gboolean is_cols, gboolean group);
+gboolean cmd_selection_autoformat	(WorkbookControl *wbc, FormatTemplate *ft);
 
-gboolean cmd_autoformat         (WorkbookControl *wbc, Sheet *sheet,
-				 FormatTemplate *ft);
+/******************************************************************************************/
 
-gboolean cmd_colrow_hide_selection (WorkbookControl *wbc, Sheet *sheet,
-				    gboolean is_cols, gboolean visible);
-gboolean cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
-				    gboolean is_cols, int index, int depth);
-
-gboolean cmd_group              (WorkbookControl *wbc, Sheet *sheet,
-				 gboolean is_cols, gboolean group);
 
 gboolean cmd_merge_cells	(WorkbookControl *wbc, Sheet *sheet,
 				 GSList const *selection);

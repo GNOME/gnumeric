@@ -101,7 +101,7 @@ int		 colrow_find_outline_bound	(Sheet const *sheet, gboolean is_cols,
 						 int index, int depth, gboolean inc);
 ColRowVisList	*colrow_get_outline_toggle	(Sheet const *sheet, gboolean is_cols,
 						 gboolean visible, int first, int last);
-ColRowVisList	*colrow_get_visiblity_toggle	(Sheet *sheet, gboolean is_cols,
+ColRowVisList	*colrow_get_visiblity_toggle	(SheetView *sv, gboolean is_cols,
 						 gboolean visible);
 void		 colrow_set_visibility		(Sheet *sheet, gboolean is_cols,
 						 gboolean visible, int first, int last);

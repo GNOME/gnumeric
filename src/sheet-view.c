@@ -22,16 +22,47 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 
-#include "sheet.h"
 #include "sheet-view.h"
+#include "sheet.h"
+#include "sheet-merge.h"
+#include "sheet-private.h"
 #include "sheet-control.h"
 #include "sheet-control-priv.h"
+#include "workbook-view.h"
+#include "workbook-control.h"
 #include "ranges.h"
 #include "selection.h"
 #include "application.h"
+#include "value.h"
+#include "parse-util.h"
 
 #include <gal/util/e-util.h>
 #include <libgnome/gnome-i18n.h>
+
+/*************************************************************************/
+
+static void
+auto_expr_timer_clear (SheetView *sv)
+{
+	if (sv->auto_expr_timer != 0) {
+		g_source_remove (sv->auto_expr_timer);
+		sv->auto_expr_timer = 0;
+	}
+}
+
+static gboolean
+cb_update_auto_expr (gpointer data)
+{
+	SheetView *sv = (SheetView *) data;
+
+	if (wb_view_cur_sheet_view (sv->wbv) == sv)
+		wb_view_auto_expr_recalc (sv->wbv, TRUE);
+
+	sv->auto_expr_timer = 0;
+	return FALSE;
+}
+
+/*************************************************************************/
 
 Sheet *
 sv_sheet (SheetView const *sv)
@@ -122,6 +153,8 @@ s_view_finalize (GObject *object)
 	}
 
 	sv_unant (sv);
+	sv_selection_free (sv);
+	auto_expr_timer_clear (sv);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -137,8 +170,28 @@ sheet_view_class_init (GObjectClass *klass)
 	klass->finalize = s_view_finalize;
 }
 
+static void
+sheet_view_init (GObject *object)
+{
+	SheetView *sv = SHEET_VIEW (object);
+
+	/* Init menu states */
+	sv->enable_insert_rows = TRUE;
+	sv->enable_insert_cols = TRUE;
+	sv->enable_insert_cells = TRUE;
+
+	sv->edit_pos_changed.location = TRUE;
+	sv->edit_pos_changed.content  = TRUE;
+	sv->edit_pos_changed.format   = TRUE;
+	sv->selection_content_changed = TRUE;
+	sv->reposition_selection = TRUE;
+	sv->auto_expr_timer = 0;
+	sv_selection_add_pos (sv, 0, 0);
+}
+
 E_MAKE_TYPE (sheet_view, "SheetView", SheetView,
-	     sheet_view_class_init, NULL, G_TYPE_OBJECT);
+	     sheet_view_class_init, sheet_view_init,
+	     G_TYPE_OBJECT);
 
 SheetView *
 sheet_view_new (Sheet *sheet, WorkbookView *wbv)
@@ -190,12 +243,41 @@ sv_ant (SheetView *sv, GList *ranges)
 		sc_ant (control););
 }
 
+void
+sv_make_cell_visible (SheetView *sv, int col, int row,
+		      gboolean couple_panes)
+{
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+	SHEET_VIEW_FOREACH_CONTROL(sv, control,
+		sc_make_cell_visible (control, col, row, couple_panes););
+}
+
+void
+sv_redraw_range	(SheetView *sv, Range const *r)
+{
+	Range tmp = *r;
+	if (sv->sheet == NULL) /* beware initialization */
+		return;
+	sheet_range_bounding_box (sv->sheet, &tmp);
+	SHEET_VIEW_FOREACH_CONTROL (sv, control,
+		sc_redraw_range (control, &tmp););
+}
+
+void
+sv_redraw_headers (SheetView const *sv,
+		   gboolean col, gboolean row,
+		   Range const* r /* optional == NULL */)
+{
+	SHEET_VIEW_FOREACH_CONTROL (sv, control,
+		sc_redraw_headers (control, col, row, r););
+}
+
 gboolean
 sv_selection_copy (SheetView *sv, WorkbookControl *wbc)
 {
 	Range const *sel;
 
-	if (!(sel = selection_first_range (sv_sheet (sv), wbc, _("Copy"))))
+	if (!(sel = selection_first_range (sv, wbc, _("Copy"))))
 		return FALSE;
 
 	application_clipboard_cut_copy (wbc, FALSE, sv, sel, TRUE);
@@ -220,7 +302,7 @@ sv_selection_cut (SheetView *sv, WorkbookControl *wbc)
 	 */
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
 
-	if (!(sel = selection_first_range (sv_sheet (sv), wbc, _("Cut"))))
+	if (!(sel = selection_first_range (sv, wbc, _("Cut"))))
 		return FALSE;
 
 	if (sheet_range_splits_region (sv_sheet (sv), sel, NULL, wbc, _("Cut")))
@@ -229,4 +311,262 @@ sv_selection_cut (SheetView *sv, WorkbookControl *wbc)
 	application_clipboard_cut_copy (wbc, TRUE, sv, sel, TRUE);
 
 	return TRUE;
+}
+
+/**
+ * sv_cursor_set :
+ * @sv : The sheet
+ * @edit_col :
+ * @edit_row :
+ * @base_col :
+ * @base_row :
+ * @move_col :
+ * @move_row :
+ * @bound    : An optionally NULL range that should contain all the supplied points
+ */
+void
+sv_cursor_set (SheetView *sv,
+	       CellPos const *edit,
+	       int base_col, int base_row,
+	       int move_col, int move_row,
+	       Range const *bound)
+{
+	Range r;
+
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+
+	/* Change the edit position */
+	sv_set_edit_pos (sv, edit);
+
+	sv->cursor.base_corner.col = base_col;
+	sv->cursor.base_corner.row = base_row;
+	sv->cursor.move_corner.col = move_col;
+	sv->cursor.move_corner.row = move_row;
+
+	if (bound == NULL) {
+		if (base_col < move_col) {
+			r.start.col =  base_col;
+			r.end.col =  move_col;
+		} else {
+			r.end.col =  base_col;
+			r.start.col =  move_col;
+		}
+		if (base_row < move_row) {
+			r.start.row =  base_row;
+			r.end.row =  move_row;
+		} else {
+			r.end.row =  base_row;
+			r.start.row =  move_row;
+		}
+		bound = &r;
+	}
+
+	g_return_if_fail (range_is_sane	(bound));
+
+	SHEET_VIEW_FOREACH_CONTROL(sv, control,
+		sc_cursor_bound (control, bound););
+}
+
+void
+sv_set_edit_pos (SheetView *sv, CellPos const *pos)
+{
+	CellPos old;
+
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (pos != NULL);
+	g_return_if_fail (pos->col >= 0);
+	g_return_if_fail (pos->col < SHEET_MAX_COLS);
+	g_return_if_fail (pos->row >= 0);
+	g_return_if_fail (pos->row < SHEET_MAX_ROWS);
+
+	old = sv->edit_pos;
+
+	if (old.col != pos->col || old.row != pos->row) {
+		Range const *merged = sheet_merge_is_corner (sv->sheet, &old);
+
+		sv->edit_pos_changed.location =
+		sv->edit_pos_changed.content =
+		sv->edit_pos_changed.format = TRUE;
+
+		/* Redraw before change */
+		if (merged == NULL) {
+			Range tmp; tmp.start = tmp.end = old;
+			sv_redraw_range (sv, &tmp);
+		} else
+			sv_redraw_range (sv, merged);
+
+		sv->edit_pos_real = *pos;
+
+		/* Redraw after change (handling merged cells) */
+		merged = sheet_merge_contains_pos (sv->sheet, &sv->edit_pos_real);
+		if (merged == NULL) {
+			Range tmp; tmp.start = tmp.end = *pos;
+			sv_redraw_range (sv, &tmp);
+			sv->edit_pos = sv->edit_pos_real;
+		} else {
+			sv_redraw_range (sv, merged);
+			sv->edit_pos = merged->start;
+		}
+	}
+}
+
+/**
+ * sv_flag_status_update_pos:
+ *    flag the view as requiring an update to the status display
+ *    if the supplied cell location is the edit cursor, or part of the
+ *    selected region.
+ *
+ * @cell : The cell that has changed.
+ *
+ * Will cause the format toolbar, the edit area, and the auto expressions to be
+ * updated if appropriate.
+ */
+void
+sv_flag_status_update_pos (SheetView *sv, CellPos const *pos)
+{
+	/* if a part of the selected region changed value update
+	 * the auto expressions
+	 */
+	if (sv_is_cell_selected (sv, pos->col, pos->row))
+		sv->selection_content_changed = TRUE;
+
+	/* If the edit cell changes value update the edit area
+	 * and the format toolbar
+	 */
+	if (pos->col == sv->edit_pos.col && pos->row == sv->edit_pos.row)
+		sv->edit_pos_changed.content =
+		sv->edit_pos_changed.format = TRUE;
+}
+
+/**
+ * sheet_flag_status_update_range:
+ *    flag the sheet as requiring an update to the status display
+ *    if the supplied cell location contains the edit cursor, or intersects of
+ *    the selected region.
+ *
+ * @sheet :
+ * @range : If NULL then force an update.
+ *
+ * Will cause the format toolbar, the edit area, and the auto expressions to be
+ * updated if appropriate.
+ */
+void
+sv_flag_status_update_range (SheetView *sv, Range const *range)
+{
+	/* Force an update */
+	if (range == NULL) {
+		sv->selection_content_changed = TRUE;
+		sv->edit_pos_changed.location =
+		sv->edit_pos_changed.content =
+		sv->edit_pos_changed.format = TRUE;
+		return;
+	}
+
+	/* if a part of the selected region changed value update
+	 * the auto expressions
+	 */
+	if (sv_is_range_selected (sv, range))
+		sv->selection_content_changed = TRUE;
+
+	/* If the edit cell changes value update the edit area
+	 * and the format toolbar
+	 */
+	if (range_contains (range, sv->edit_pos.col, sv->edit_pos.row))
+		sv->edit_pos_changed.content = sv->edit_pos_changed.format = TRUE;
+}
+
+/**
+ * sv_flag_format_update_range :
+ * @sheet : The sheet being changed
+ * @range : the range that is changing.
+ *
+ * Flag format changes that will require updating the format indicators.
+ */
+void
+sv_flag_format_update_range (SheetView *sv, Range const *range)
+{
+	if (range_contains (range, sv->edit_pos.col, sv->edit_pos.row))
+		sv->edit_pos_changed.format = TRUE;
+}
+
+/**
+ * sv_flag_selection_change :
+ *    flag the sheet as requiring an update to the status display
+ *
+ * @sheet :
+ *
+ * Will cause auto expressions to be updated
+ */
+void
+sv_flag_selection_change (SheetView *sv)
+{
+	sv->selection_content_changed = TRUE;
+}
+
+void
+sv_update (SheetView *sv)
+{
+	if (sv->edit_pos_changed.content) {
+		sv->edit_pos_changed.content = FALSE;
+		if (wb_view_cur_sheet_view (sv->wbv) == sv)
+			wb_view_edit_line_set (sv->wbv, NULL);
+	}
+
+	if (sv->edit_pos_changed.format) {
+		sv->edit_pos_changed.format = FALSE;
+		if (wb_view_cur_sheet_view (sv->wbv) == sv)
+			wb_view_format_feedback (sv->wbv, TRUE);
+	}
+
+	if (sv->edit_pos_changed.location) {
+		sv->edit_pos_changed.location = FALSE;
+		if (wb_view_cur_sheet_view (sv->wbv) == sv) {
+			char const *new_pos = cell_pos_name (&sv->edit_pos);
+			SHEET_VIEW_FOREACH_CONTROL (sv, sc,
+				wb_control_selection_descr_set (sc_wbc (sc), new_pos););
+		}
+	}
+
+	if (sv->selection_content_changed) {
+		int const lag = application_auto_expr_recalc_lag ();
+		sv->selection_content_changed = FALSE;
+		if (sv->auto_expr_timer == 0 || lag < 0) {
+			auto_expr_timer_clear (sv);
+			sv->auto_expr_timer = g_timeout_add_full (0, abs (lag), /* seems ok */
+				cb_update_auto_expr, (gpointer) sv, NULL);
+		}
+	}
+}
+
+static Value *
+fail_if_not_selected (Sheet *sheet, int col, int row, Cell *cell, void *sv)
+{
+	if (!sv_is_cell_selected (sv, col, row))
+		return VALUE_TERMINATE;
+	else
+		return NULL;
+}
+
+/**
+ * sheet_is_region_empty_or_selected:
+ * @sheet: sheet to check
+ * @start_col: starting column
+ * @start_row: starting row
+ * @end_col:   end column
+ * @end_row:   end row
+ *
+ * Returns TRUE if the specified region of the @sheet does not
+ * contain any cells that are not selected.
+ *
+ * FIXME: Perhaps this routine should be extended to allow testing for specific
+ * features of a cell rather than just the existance of the cell.
+ */
+gboolean
+sv_is_region_empty_or_selected (SheetView const *sv, Range const *r)
+{
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), TRUE);
+
+	return sheet_foreach_cell_in_range (
+		sv->sheet, TRUE, r->start.col, r->start.row, r->end.col, r->end.row,
+		fail_if_not_selected, (gpointer)sv) == NULL;
 }

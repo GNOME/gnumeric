@@ -61,6 +61,7 @@ typedef struct {
 	GtkWidget *update_button;
 
 	Sheet	  *sheet;
+	SheetView *sv;
 	Workbook  *wb;
 	WorkbookControlGUI  *wbcg;
 	ParsePos   pp;
@@ -490,15 +491,15 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 
 	state->wbcg  = wbcg;
 	state->wb   = wb;
-	state->sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sv_sheet (state->sv);
 	state->gui = gnumeric_glade_xml_new (state->wbcg, "names.glade");
         if (state->gui == NULL)
                 return TRUE;
 
 	parse_pos_init (&state->pp, state->wb, state->sheet,
-			state->sheet->edit_pos.col,
-			state->sheet->edit_pos.row);
-
+			state->sv->edit_pos.col,
+			state->sv->edit_pos.row);
 
 	state->dialog = glade_xml_get_widget (state->gui, "NameGuru");
 	table2 = GTK_TABLE (glade_xml_get_widget (state->gui, "table2"));

@@ -211,7 +211,9 @@ gboolean
 wb_control_parse_and_jump (WorkbookControl *wbc, const char *text)
 {
 	RangeRef const *r;
+	CellPos tmp;
 	Sheet *sheet  = wb_control_cur_sheet (wbc);
+	SheetView *sv;
 	Value *target = global_range_parse (sheet, text);
 
 	/* not an address, is it a name ? */
@@ -222,7 +224,8 @@ wb_control_parse_and_jump (WorkbookControl *wbc, const char *text)
 
 		/* Not a name, create one */
 		if (nexpr == NULL) {
-			Range const *r = selection_first_range (sheet,  wbc,
+			Range const *r = selection_first_range (
+				wb_control_cur_sheet_view (wbc),  wbc,
 				_("Define Name"));
 			if (r != NULL) {
 				char const *err;
@@ -254,9 +257,11 @@ wb_control_parse_and_jump (WorkbookControl *wbc, const char *text)
 
 	r = &target->v_range.cell;
 	sheet = r->a.sheet;
-	sheet_selection_set (r->a.sheet, r->a.col, r->a.row,
-			     r->a.col, r->a.row, r->b.col, r->b.row);
-	sheet_make_cell_visible (sheet, r->a.col, r->a.row, FALSE);
+	sv = sheet_get_view (sheet, wb_control_view (wbc)),
+	tmp.col = r->a.col;
+	tmp.row = r->a.row;
+	sv_selection_set (sv, &tmp, r->a.col, r->a.row, r->b.col, r->b.row);
+	sv_make_cell_visible (sv, r->a.col, r->a.row, FALSE);
 	if (wb_control_cur_sheet (wbc) != sheet)
 		wb_view_sheet_focus (wbc->wb_view, sheet);
 	value_release (target);

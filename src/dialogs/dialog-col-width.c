@@ -43,6 +43,7 @@ typedef struct {
 	GladeXML           *gui;
 	WorkbookControlGUI *wbcg;
 	Sheet              *sheet;
+	SheetView	   *sv;
 	GtkWidget          *dialog;
 	GtkWidget          *ok_button;
 	GtkWidget          *apply_button;
@@ -64,14 +65,14 @@ static void
 dialog_col_width_button_sensitivity (ColWidthState *state)
 {
 	gnum_float value = gtk_spin_button_get_value (state->spin);
-	gboolean use_default = gtk_toggle_button_get_active 
+	gboolean use_default = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->default_check));
 	gboolean changed_info;
 
 	if (state->set_default_value) {
 		changed_info = (state->orig_value != value);
 	} else {
-		changed_info = (((!state->orig_all_equal || (state->orig_value != value) 
+		changed_info = (((!state->orig_all_equal || (state->orig_value != value)
 				  || state->orig_some_default) && !use_default)
 				|| (use_default && !state->orig_is_default));
 
@@ -125,11 +126,11 @@ dialog_col_width_load_value (ColWidthState *state)
 	state->adjusting = TRUE;
 	if (state->set_default_value) {
 		value = sheet_col_get_default_size_pts (state->sheet);
-	} else {	
-		for (l = state->sheet->selections; l; l = l->next){
+	} else {
+		for (l = state->sv->selections; l; l = l->next){
 			Range *ss = l->data;
 			int col;
-			
+
 			for (col = ss->start.col; col <= ss->end.col; col++){
 				ColRowInfo const *ri = sheet_col_get_info (state->sheet, col);
 				if (ri->hard_size)
@@ -144,7 +145,7 @@ dialog_col_width_load_value (ColWidthState *state)
 				}
 			}
 		}
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->default_check), 
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->default_check),
 					      state->orig_is_default);
 	}
 	state->orig_value = value;
@@ -168,7 +169,7 @@ cb_dialog_col_width_default_check_toggled (GtkToggleButton *togglebutton, ColWid
 	if (!state->adjusting) {
 		if (gtk_toggle_button_get_active (togglebutton)) {
 			state->adjusting = TRUE;
-			dialog_col_width_set_value (sheet_col_get_default_size_pts (state->sheet), 
+			dialog_col_width_set_value (sheet_col_get_default_size_pts (state->sheet),
 						     state);
 			state->adjusting = FALSE;
 		}
@@ -184,19 +185,19 @@ cb_dialog_col_width_apply_clicked (GtkWidget *button, ColWidthState *state)
 		state->sheet->last_zoom_factor_used *
 		application_display_dpi_get (FALSE) / 72.;
 	int size_pixels = (int)(value * scale + 0.5);
-	gboolean use_default = gtk_toggle_button_get_active 
+	gboolean use_default = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->default_check));
-	
+
 	if (state->set_default_value) {
-		cmd_colrow_std_size (WORKBOOK_CONTROL (state->wbcg), 
+		cmd_colrow_std_size (WORKBOOK_CONTROL (state->wbcg),
 				     state->sheet, TRUE, value);
 		dialog_col_width_load_value (state);
 	} else {
 		if (use_default)
 			size_pixels = 0;
-		
+
 		workbook_cmd_resize_selected_colrow (WORKBOOK_CONTROL (state->wbcg),
-						     TRUE, state->sheet, 
+						     TRUE, state->sheet,
 						     size_pixels);
 		dialog_col_width_load_value (state);
 	}
@@ -217,7 +218,7 @@ static void
 dialog_col_width_set_mode (gboolean set_default, ColWidthState *state)
 {
 	state->set_default_value = set_default;
-	
+
 	if (set_default) {
 		gtk_widget_hide (state->default_check);
 		gtk_label_set_text (GTK_LABEL (state->description),
@@ -233,7 +234,7 @@ dialog_col_width_set_mode (gboolean set_default, ColWidthState *state)
 		g_free (text);
 		g_free (name);
 	}
-	
+
 }
 
 void
@@ -248,7 +249,8 @@ dialog_col_width (WorkbookControlGUI *wbcg, gboolean use_default)
 
 	state = g_new (ColWidthState, 1);
 	state->wbcg  = wbcg;
-	state->sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sv_sheet (state->sv);
 	state->adjusting = FALSE;
 	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
 	g_return_if_fail (state->gui != NULL);
@@ -258,7 +260,7 @@ dialog_col_width (WorkbookControlGUI *wbcg, gboolean use_default)
 	state->description = GTK_WIDGET (glade_xml_get_widget (state->gui, "description"));
 
 	state->spin  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "spin"));
-	gtk_spin_button_get_adjustment (state->spin)->lower = 
+	gtk_spin_button_get_adjustment (state->spin)->lower =
 		state->sheet->cols.default_style.margin_a +
 		state->sheet->cols.default_style.margin_b;
 	g_signal_connect (G_OBJECT (state->spin),
@@ -292,7 +294,7 @@ dialog_col_width (WorkbookControlGUI *wbcg, gboolean use_default)
 		"destroy",
 		G_CALLBACK (dialog_col_width_destroy), state);
 
-	
+
 	dialog_col_width_set_mode (use_default, state);
 	dialog_col_width_load_value (state);
 
@@ -301,8 +303,3 @@ dialog_col_width (WorkbookControlGUI *wbcg, gboolean use_default)
 			       COL_WIDTH_DIALOG_KEY);
 	gtk_widget_show (state->dialog);
 }
-
-
-
-
-

@@ -169,7 +169,7 @@ wbcg_set_transient_for (WorkbookControlGUI *wbcg, GtkWindow *window)
 	gnumeric_set_transient (wbcg, window);
 }
 
-#warning merge these and clarfy whether we want the visible scg, or the logical (view) scg
+//#warning merge these and clarfy whether we want the visible scg, or the logical (view) scg
 
 /**
  * wbcg_focus_cur_scg :
@@ -1003,19 +1003,20 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	Sheet *sheet = wb_control_cur_sheet (wbc);
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
 
 	g_return_if_fail (wbcg != NULL);
 
 #ifndef WITH_BONOBO
 	if (MS_INSERT_COLS & flags)
 		change_menu_sensitivity (wbcg->menu_item_insert_cols,
-					 sheet->priv->enable_insert_cols);
+					 sv->enable_insert_cols);
 	if (MS_INSERT_ROWS & flags)
 		change_menu_sensitivity (wbcg->menu_item_insert_rows,
-					 sheet->priv->enable_insert_rows);
+					 sv->enable_insert_rows);
 	if (MS_INSERT_CELLS & flags)
 		change_menu_sensitivity (wbcg->menu_item_insert_cells,
-					 sheet->priv->enable_insert_cells);
+					 sv->enable_insert_cells);
 	if (MS_SHOWHIDE_DETAIL & flags) {
 		change_menu_sensitivity (wbcg->menu_item_show_detail,
 					 sheet->priv->enable_showhide_detail);
@@ -1041,13 +1042,13 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 #else
 	if (MS_INSERT_COLS & flags)
 		change_menu_sensitivity (wbcg, "/commands/InsertColumns",
-					 sheet->priv->enable_insert_cols);
+					 sv->enable_insert_cols);
 	if (MS_INSERT_ROWS & flags)
 		change_menu_sensitivity (wbcg, "/commands/InsertRows",
-					 sheet->priv->enable_insert_rows);
+					 sv->enable_insert_rows);
 	if (MS_INSERT_CELLS & flags)
 		change_menu_sensitivity (wbcg, "/commands/InsertCells",
-					 sheet->priv->enable_insert_cells);
+					 sv->enable_insert_cells);
 	if (MS_SHOWHIDE_DETAIL & flags) {
 		change_menu_sensitivity (wbcg, "/commands/DataOutlineShowDetail",
 					 sheet->priv->enable_showhide_detail);
@@ -1728,33 +1729,29 @@ cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_edit_clear_all (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	cmd_clear_selection (wbc, wb_control_cur_sheet (wbc),
-			     CLEAR_VALUES | CLEAR_FORMATS | CLEAR_COMMENTS);
+	cmd_selection_clear (WORKBOOK_CONTROL (wbcg),
+		CLEAR_VALUES | CLEAR_FORMATS | CLEAR_COMMENTS);
 }
 
 static void
 cb_edit_clear_formats (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	cmd_clear_selection (wbc, wb_control_cur_sheet (wbc),
-			     CLEAR_FORMATS);
+	cmd_selection_clear (WORKBOOK_CONTROL (wbcg),
+		CLEAR_FORMATS);
 }
 
 static void
 cb_edit_clear_comments (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	cmd_clear_selection (wbc, wb_control_cur_sheet (wbc),
-			     CLEAR_COMMENTS);
+	cmd_selection_clear (WORKBOOK_CONTROL (wbcg),
+		CLEAR_COMMENTS);
 }
 
 static void
 cb_edit_clear_content (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	cmd_clear_selection (wbc, wb_control_cur_sheet (wbc),
-			     CLEAR_VALUES);
+	cmd_selection_clear (WORKBOOK_CONTROL (wbcg),
+		CLEAR_VALUES);
 }
 
 static void
@@ -1765,22 +1762,22 @@ cb_edit_select_all (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_edit_select_row (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	cmd_select_cur_row (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)));
+	cmd_select_cur_row (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
 }
 static void
 cb_edit_select_col (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	cmd_select_cur_col (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)));
+	cmd_select_cur_col (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
 }
 static void
 cb_edit_select_array (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	cmd_select_cur_array (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)));
+	cmd_select_cur_array (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
 }
 static void
 cb_edit_select_depend (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	cmd_select_cur_depends (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)));
+	cmd_select_cur_depends (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
 }
 
 static void
@@ -1850,26 +1847,24 @@ static void
 cb_edit_paste (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	cmd_paste_to_selection (wbc, sheet, PASTE_DEFAULT);
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
+	cmd_paste_to_selection (wbc, sv, PASTE_DEFAULT);
 }
 
 static void
 cb_edit_paste_special (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	int flags = dialog_paste_special (wbcg);
 	if (flags != 0)
-		cmd_paste_to_selection (wbc, sheet, flags);
+		cmd_paste_to_selection (wbc, sv, flags);
 }
 
 static void
 cb_edit_delete (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	dialog_delete_cells (wbcg, sheet);
+	dialog_delete_cells (wbcg);
 }
 
 static void
@@ -1898,18 +1893,17 @@ cb_edit_duplicate_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 
 static void
-common_cell_goto (Sheet *sheet, const CellPos *cp)
+common_cell_goto (WorkbookControlGUI *wbcg, Sheet *sheet, CellPos const *pos)
 {
-	int col = cp->col;
-	int row = cp->row;
+	SheetView *sv = sheet_get_view (sheet,
+		wb_control_view (WORKBOOK_CONTROL (wbcg)));
 
-	WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
-		wb_view_sheet_focus (view, sheet);
-	});
-	sheet_selection_set (sheet, col, row, col, row, col, row);
-	sheet_make_cell_visible (sheet, col, row, FALSE);
+	wb_view_sheet_focus (sv_wbv (sv), sheet);
+	sv_selection_set (sv, pos,
+		pos->col, pos->row,
+		pos->col, pos->row);
+	sv_make_cell_visible (sv, pos->col, pos->row, FALSE);
 }
-
 
 static int
 cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
@@ -1953,7 +1947,7 @@ cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
 		char *pos_name = g_strconcat (sheet->name_unquoted, "!",
 					      cell_name (cell), NULL);
 
-		common_cell_goto (sheet, &cell->pos);
+		common_cell_goto (wbcg, sheet, &cell->pos);
 
 		res = dialog_search_replace_query (wbcg, sr, pos_name,
 						   old_text, new_text);
@@ -1969,7 +1963,7 @@ cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
 		char *pos_name = g_strdup_printf (_("Comment in cell %s!%s"),
 						  sheet->name_unquoted,
 						  cell_pos_name (cp));
-		common_cell_goto (sheet, cp);
+		common_cell_goto (wbcg, sheet, cp);
 
 		res = dialog_search_replace_query (wbcg, sr, pos_name,
 						   old_text, new_text);
@@ -2014,9 +2008,10 @@ static void
 cb_edit_fill_autofill (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
+	Sheet	  *sheet = wb_control_cur_sheet (wbc);
 
-	Range const *total = selection_first_range (sheet, wbc, _("Autofill"));
+	Range const *total = selection_first_range (sv, wbc, _("Autofill"));
 	if (total) {
 		Range src = *total;
 		gboolean do_loop;
@@ -2085,7 +2080,8 @@ static void
 cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
+	Sheet	  *sheet = wb_control_cur_sheet (wbc);
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 
 	scg_mode_edit (SHEET_CONTROL (scg));
@@ -2093,7 +2089,7 @@ cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 		CellPos frozen_tl, unfrozen_tl;
 		GnumericCanvas const *gcanvas = scg_pane (scg, 0);
 		frozen_tl = gcanvas->first;
-		unfrozen_tl = sheet->edit_pos;
+		unfrozen_tl = sv->edit_pos;
 
 		if (unfrozen_tl.col <= gcanvas->first.col ||
 		    unfrozen_tl.col > gcanvas->last_full.col)
@@ -2170,7 +2166,8 @@ static void
 cb_insert_rows (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
+	Sheet     *sheet = wb_control_cur_sheet (wbc);
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	Range const *sel;
 
 	wbcg_edit_finish (wbcg, FALSE);
@@ -2179,7 +2176,7 @@ cb_insert_rows (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	 * selected region, (use selection_apply).  Arrays and Merged regions
 	 * are permitted.
 	 */
-	if (!(sel = selection_first_range (sheet, wbc, _("Insert rows"))))
+	if (!(sel = selection_first_range (sv, wbc, _("Insert rows"))))
 		return;
 	cmd_insert_rows (wbc, sheet, sel->start.row, range_height (sel));
 }
@@ -2189,6 +2186,7 @@ cb_insert_cols (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	Range const *sel;
 
 	wbcg_edit_finish (wbcg, FALSE);
@@ -2197,7 +2195,7 @@ cb_insert_cols (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	 * selected region, (use selection_apply).  Arrays and Merged regions
 	 * are permitted.
 	 */
-	if (!(sel = selection_first_range (sheet, wbc, _("Insert columns"))))
+	if (!(sel = selection_first_range (sv, wbc, _("Insert columns"))))
 		return;
 	cmd_insert_cols (wbc, sheet, sel->start.col, range_width (sel));
 }
@@ -2205,8 +2203,7 @@ cb_insert_cols (GtkWidget *unused, WorkbookControlGUI *wbcg)
 static void
 cb_insert_cells (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_insert_cells (wbcg, wb_control_cur_sheet (wbc));
+	dialog_insert_cells (wbcg);
 }
 
 static void
@@ -2214,7 +2211,8 @@ cb_insert_comment (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	dialog_cell_comment (wbcg, sheet, &sheet->edit_pos);
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
+	dialog_cell_comment (wbcg, sheet, &sv->edit_pos);
 }
 
 /****************************************************************************/
@@ -2319,8 +2317,7 @@ TOGGLE_HANDLER (outline_symbols_right,{
 static void
 cb_format_cells (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_cell_format (wbcg, wb_control_cur_sheet (wbc), FD_CURRENT);
+	dialog_cell_format (wbcg, FD_CURRENT);
 }
 
 static void
@@ -2517,8 +2514,7 @@ cb_tools_random_generator (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_data_sort (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_cell_sort (wbcg, wb_control_cur_sheet (wbc));
+	dialog_cell_sort (wbcg);
 }
 
 static void
@@ -2530,43 +2526,40 @@ cb_data_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_data_validate (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_cell_format (wbcg, wb_control_cur_sheet (wbc), FD_VALIDATION);
+	dialog_cell_format (wbcg, FD_VALIDATION);
 }
 
 static void
 cb_data_consolidate (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-
-	dialog_consolidate (wbcg, wb_control_cur_sheet (wbc));
+	dialog_consolidate (wbcg);
 }
 
 static void
 hide_show_detail_real (WorkbookControlGUI *wbcg, gboolean is_cols, gboolean show)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = show ? _("Show Detail") : _("Hide Detail");
-	Range const *r = selection_first_range (sheet, wbc, operation);
+	Range const *r = selection_first_range (sv, wbc, operation);
 	
 	/* This operation can only be performed on a whole existing group */
-	if (sheet_colrow_can_group (sheet, r, is_cols)) {
+	if (sheet_colrow_can_group (sv_sheet (sv), r, is_cols)) {
 		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), operation,
 					_("can only be performed on an existing group"));
 		return;
 	}
 
-	cmd_colrow_hide_selection (wbc, sheet, is_cols, show);
+	cmd_selection_colrow_hide (wbc, is_cols, show);
 }
 
 static void
 hide_show_detail (WorkbookControlGUI *wbcg, gboolean show)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = show ? _("Show Detail") : _("Hide Detail");
-	Range const *r = selection_first_range (sheet, wbc, operation);
+	Range const *r = selection_first_range (sv, wbc, operation);
 	gboolean is_cols;
 
 	/* We only operate on a single selection */
@@ -2600,21 +2593,18 @@ cb_data_show_detail (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
-group_ungroup_colrow_real (WorkbookControlGUI *wbcg, gboolean is_cols, gboolean group)
+group_ungroup_colrow_real (WorkbookControl *wbc, gboolean is_cols, gboolean group)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-
-	cmd_group (wbc, sheet, is_cols, group);
+	cmd_selection_group (wbc, is_cols, group);
 }
 
 static void
 group_ungroup_colrow (WorkbookControlGUI *wbcg, gboolean group)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = group ? _("Group") : _("Ungroup");
-	Range const *r = selection_first_range (sheet, wbc, operation);
+	Range const *r = selection_first_range (sv, wbc, operation);
 	gboolean is_cols;
 
 	/* We only operate on a single selection */
@@ -2632,7 +2622,7 @@ group_ungroup_colrow (WorkbookControlGUI *wbcg, gboolean group)
 		return;
 	}
 
-	group_ungroup_colrow_real (wbcg, is_cols, group);
+	group_ungroup_colrow_real (WORKBOOK_CONTROL (wbcg), is_cols, group);
 }
 
 static void
@@ -2719,7 +2709,7 @@ cb_formula_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 sort_by_rows (WorkbookControlGUI *wbcg, int asc)
 {
-	Sheet *sheet;
+	SheetView *sv;
 	Range *sel;
 	Range const *tmp;
 	SortData *data;
@@ -2728,14 +2718,13 @@ sort_by_rows (WorkbookControlGUI *wbcg, int asc)
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
-	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	g_return_if_fail (IS_SHEET (sheet));
+	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 
-	if (!(tmp = selection_first_range (sheet, WORKBOOK_CONTROL (wbcg), _("Sort"))))
+	if (!(tmp = selection_first_range (sv, WORKBOOK_CONTROL (wbcg), _("Sort"))))
 		return;
 
 	sel = range_dup (tmp);
-	range_clip_to_finite (sel, sheet);
+	range_clip_to_finite (sel, sv_sheet (sv));
 
 	numclause = range_width (sel);
 	clause = g_new0 (SortClause, numclause);
@@ -2747,7 +2736,7 @@ sort_by_rows (WorkbookControlGUI *wbcg, int asc)
 	}
 
 	data = g_new (SortData, 1);
-	data->sheet = sheet;
+	data->sheet = sv_sheet (sv);
 	data->range = sel;
 	data->num_clause = numclause;
 	data->clauses = clause;

@@ -1,3 +1,9 @@
+2002-06-20  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (cb_gee_key_press_event) : We are already
+	  operating on the selection in the sheet view, why pretent to be
+	  generic by passing a ParsePos.  Just pass the view.
+
 2002-06-15 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=85383

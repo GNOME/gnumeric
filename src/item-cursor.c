@@ -897,7 +897,7 @@ item_cursor_target_region_ok (ItemCursor *ic)
 	g_return_val_if_fail (gci != NULL, FALSE);
 	g_return_val_if_fail (gci->canvas != NULL, FALSE);
 
-	if (sheet_is_region_empty_or_selected (sc->sheet, &ic->pos))
+	if (sv_is_region_empty_or_selected (sc->view, &ic->pos))
 		return TRUE;
 
 	return gnumeric_dialog_question_yes_no 
@@ -1044,8 +1044,8 @@ static void
 item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 {
 	/* Only do the operation if something moved */
-	Sheet const *sheet = ((SheetControl *) ic->scg)->sheet;
-	Range const *target = selection_first_range (sheet, NULL, NULL);
+	SheetView const *sv = ((SheetControl *) ic->scg)->view;
+	Range const *target = selection_first_range (sv, NULL, NULL);
 
 	wb_control_gui_set_status_text (ic->scg->wbcg, "");
 	if (range_equal (target, &ic->pos)) {

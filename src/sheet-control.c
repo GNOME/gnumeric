@@ -88,10 +88,9 @@ SC_VIRTUAL (resize, (SheetControl *sc, gboolean force_scroll), (sc, force_scroll
 SC_VIRTUAL (set_zoom_factor, (SheetControl *sc), (sc))
 
 SC_VIRTUAL (redraw_all, (SheetControl *sc, gboolean headers), (sc, headers))
-SC_VIRTUAL (redraw_region,
-	    (SheetControl *sc,
-	     int start_col, int start_row, int end_col, int end_row),
-	    (sc, start_col, start_row, end_col, end_row))
+SC_VIRTUAL (redraw_range,
+	    (SheetControl *sc, Range const *r),
+	    (sc, r))
 SC_VIRTUAL (redraw_headers,
 	    (SheetControl *sc,
 	     gboolean const col, gboolean const row, Range const * r),

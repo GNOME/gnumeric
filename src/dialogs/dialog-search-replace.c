@@ -251,8 +251,9 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
-	selection_text = selection_to_string (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)),
-								    TRUE);
+	selection_text = selection_to_string (
+		wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)),
+		TRUE);
 	gnm_expr_entry_load_from_text  (dd->rangetext, selection_text);
 	g_free (selection_text);
 	gtk_widget_show (GTK_WIDGET (dd->rangetext));

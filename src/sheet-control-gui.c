@@ -97,15 +97,12 @@ scg_redraw_all (SheetControl *sc, gboolean headers)
 }
 
 static void
-scg_redraw_region (SheetControl *sc,
-		   int start_col, int start_row,
-		   int end_col, int end_row)
+scg_redraw_range (SheetControl *sc, Range const *r)
 {
 	SheetControlGUI *scg = (SheetControlGUI *)sc;
 
 	SCG_FOREACH_PANE (scg, pane,
-		gnm_canvas_redraw_region (pane->gcanvas,
-			start_col, start_row, end_col, end_row););
+		gnm_canvas_redraw_range (pane->gcanvas, r););
 }
 
 /* A rough guess of the trade off point between of redrawing all
@@ -404,17 +401,17 @@ scg_colrow_size_set (SheetControlGUI *scg,
 {
 	SheetControl *sc = (SheetControl *) scg;
 	WorkbookControl *wbc = sc->wbc;
-	Sheet *sheet = sc->sheet;
+	SheetView *sv = sc->view;
 
 	/* If all cols/rows in the selection are completely selected
 	 * then resize all of them, otherwise just resize the selected col/row.
 	 */
-	if (!sheet_selection_full_cols_rows (sheet, is_cols, index)) {
+	if (!sheet_selection_full_cols_rows (sv, is_cols, index)) {
 		ColRowIndexList *s = colrow_get_index_list (index, index, NULL);
-		cmd_resize_colrow (wbc, sheet, is_cols, s, new_size_pixels);
+		cmd_resize_colrow (wbc, sv->sheet, is_cols, s, new_size_pixels);
 	} else
 		workbook_cmd_resize_selected_colrow (wbc, is_cols,
-						     sheet, new_size_pixels);
+			sv->sheet, new_size_pixels);
 }
 
 void
@@ -430,8 +427,8 @@ scg_select_all (SheetControlGUI *scg)
 	} else if (!wbcg_edit_has_guru (scg->wbcg)) {
 		scg_mode_edit (SHEET_CONTROL (sc));
 		wbcg_edit_finish (scg->wbcg, FALSE);
-		sheet_selection_reset (sheet);
-		sheet_selection_add_range (sheet, 0, 0, 0, 0,
+		sv_selection_reset (sc->view);
+		sv_selection_add_range (sc->view, 0, 0, 0, 0,
 			SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 	}
 	sheet_update (sheet);
@@ -442,7 +439,7 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 		   int index, int modifiers)
 {
 	SheetControl *sc = (SheetControl *) scg;
-	Sheet *sheet = sc->sheet;
+	SheetView *sv = sc_view (sc);
 	gboolean const rangesel = wbcg_rangesel_possible (scg->wbcg);
 
 	if (!rangesel)
@@ -457,13 +454,13 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 				scg_rangesel_extend_to (scg, -1, index);
 		} else {
 			if (is_cols)
-				sheet_selection_extend_to (sheet, index, -1);
+				sv_selection_extend_to (sv, index, -1);
 			else
-				sheet_selection_extend_to (sheet, -1, index);
+				sv_selection_extend_to (sv, -1, index);
 		}
 	} else {
 		if (!rangesel && !(modifiers & GDK_CONTROL_MASK))
-			sheet_selection_reset (sheet);
+			sv_selection_reset (sv);
 
 		if (rangesel) {
 			if (is_cols)
@@ -475,14 +472,14 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 		} else if (is_cols) {
 			GnumericCanvas *gcanvas =
 				scg_pane (scg, scg->active_panes > 1 ? 3 : 0);
-			sheet_selection_add_range (sheet,
+			sv_selection_add_range (sv,
 				index, gcanvas->first.row,
 				index, 0,
 				index, SHEET_MAX_ROWS-1);
 		} else {
 			GnumericCanvas *gcanvas =
 				scg_pane (scg, scg->active_panes > 1 ? 1 : 0);
-			sheet_selection_add_range (sheet,
+			sv_selection_add_range (sv,
 				gcanvas->first.col, index,
 				0, index,
 				SHEET_MAX_COLS-1, index);
@@ -490,7 +487,7 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 	}
 
 	/* The edit pos, and the selection may have changed */
-	sheet_update (sheet);
+	sheet_update (sv->sheet);
 	return TRUE;
 }
 
@@ -1337,46 +1334,46 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 		sv_selection_copy (sv, wbc);
 		break;
 	case CONTEXT_PASTE :
-		cmd_paste_to_selection (wbc, sheet, PASTE_DEFAULT);
+		cmd_paste_to_selection (wbc, sv, PASTE_DEFAULT);
 		break;
 	case CONTEXT_PASTE_SPECIAL : {
 		int flags = dialog_paste_special (wbcg);
 		if (flags != 0)
-			cmd_paste_to_selection (wbc, sheet, flags);
+			cmd_paste_to_selection (wbc, sv, flags);
 		break;
 	}
 	case CONTEXT_INSERT :
-		dialog_insert_cells (wbcg, sheet);
+		dialog_insert_cells (wbcg);
 		break;
 	case CONTEXT_DELETE :
-		dialog_delete_cells (wbcg, sheet);
+		dialog_delete_cells (wbcg);
 		break;
 	case CONTEXT_CLEAR_CONTENT :
-		cmd_clear_selection (wbc, sheet, CLEAR_VALUES);
+		cmd_selection_clear (wbc, CLEAR_VALUES);
 		break;
 	case CONTEXT_FORMAT_CELL :
-		dialog_cell_format (wbcg, sheet, FD_CURRENT);
+		dialog_cell_format (wbcg, FD_CURRENT);
 		break;
 	case CONTEXT_COL_WIDTH :
 		sheet_dialog_set_column_width (NULL, wbcg);
 		break;
 	case CONTEXT_COL_HIDE :
-		cmd_colrow_hide_selection (wbc, sheet, TRUE, FALSE);
+		cmd_selection_colrow_hide (wbc, TRUE, FALSE);
 		break;
 	case CONTEXT_COL_UNHIDE :
-		cmd_colrow_hide_selection (wbc, sheet, TRUE, TRUE);
+		cmd_selection_colrow_hide (wbc, TRUE, TRUE);
 		break;
 	case CONTEXT_ROW_HEIGHT :
 		sheet_dialog_set_row_height (NULL, wbcg);
 		break;
 	case CONTEXT_ROW_HIDE :
-		cmd_colrow_hide_selection (wbc, sheet, FALSE, FALSE);
+		cmd_selection_colrow_hide (wbc, FALSE, FALSE);
 		break;
 	case CONTEXT_ROW_UNHIDE :
-		cmd_colrow_hide_selection (wbc, sheet, FALSE, TRUE);
+		cmd_selection_colrow_hide (wbc, FALSE, TRUE);
 		break;
 	case CONTEXT_COMMENT_EDIT:
-		dialog_cell_comment (wbcg, sheet, &sheet->edit_pos);
+		dialog_cell_comment (wbcg, sheet, &sv->edit_pos);
 		break;
 	default :
 		break;
@@ -1486,7 +1483,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 	 * whole row or a whole column and disable the insert/delete col/row menu items
 	 * accordingly
 	 */
-	for (l = sc->sheet->selections; l != NULL; l = l->next) {
+	for (l = sc->view->selections; l != NULL; l = l->next) {
 		Range const *r = l->data;
 
 		if (r->start.row == 0 && r->end.row == SHEET_MAX_ROWS - 1)
@@ -1502,11 +1499,10 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 }
 
 static gboolean
-cb_redraw_sel (Sheet *sheet, Range const *r, gpointer user_data)
+cb_redraw_sel (SheetView *sv, Range const *r, gpointer user_data)
 {
 	SheetControl *sc = user_data;
-	scg_redraw_region (sc,
-		r->start.col, r->start.row, r->end.col, r->end.row);
+	scg_redraw_range (sc, r);
 	scg_redraw_headers (sc, TRUE, TRUE, r);
 	return TRUE;
 }
@@ -1523,7 +1519,7 @@ scg_cursor_visible (SheetControlGUI *scg, gboolean is_visible)
 	SCG_FOREACH_PANE (scg, pane,
 		item_cursor_set_visibility (pane->cursor.std, is_visible););
 
-	selection_foreach_range (sc->sheet, TRUE, cb_redraw_sel, sc);
+	selection_foreach_range (sc->view, TRUE, cb_redraw_sel, sc);
 }
 
 /***************************************************************************/
@@ -2207,21 +2203,21 @@ void
 scg_rangesel_move (SheetControlGUI *scg, int n, gboolean jump_to_bound,
 		   gboolean horiz)
 {
-	Sheet *sheet = ((SheetControl *) scg)->sheet;
+	SheetView *sv = sc_view ((SheetControl *) scg);
 	CellPos tmp;
 
 	if (!scg->rangesel.active)
 		scg_rangesel_start (scg,
-			sheet->edit_pos_real.col, sheet->edit_pos_real.row,
-			sheet->edit_pos_real.col, sheet->edit_pos_real.row);
+			sv->edit_pos_real.col, sv->edit_pos_real.row,
+			sv->edit_pos_real.col, sv->edit_pos_real.row);
 
 	tmp = scg->rangesel.base_corner;
 	if (horiz)
 		tmp.col = sheet_find_boundary_horizontal (
-			sheet, tmp.col, tmp.row, tmp.row, n, jump_to_bound);
+			sv_sheet (sv), tmp.col, tmp.row, tmp.row, n, jump_to_bound);
 	else
 		tmp.row = sheet_find_boundary_vertical (
-			sheet, tmp.col, tmp.row, tmp.col, n, jump_to_bound);
+			sv_sheet (sv), tmp.col, tmp.row, tmp.col, n, jump_to_bound);
 
 	scg_rangesel_changed (scg, tmp.col, tmp.row, tmp.col, tmp.row);
 	scg_make_cell_visible (scg, tmp.col, tmp.row, FALSE, TRUE);
@@ -2271,26 +2267,26 @@ void
 scg_cursor_move (SheetControlGUI *scg, int n,
 		 gboolean jump_to_bound, gboolean horiz)
 {
-	Sheet *sheet = ((SheetControl *) scg)->sheet;
-	CellPos tmp = sheet->edit_pos_real;
+	SheetView *sv = sc_view ((SheetControl *) scg);
+	CellPos tmp = sv->edit_pos_real;
 
 	if (!wbcg_edit_finish (scg->wbcg, TRUE))
 		return;
 
 	if (horiz)
-		tmp.col = sheet_find_boundary_horizontal (sheet,
+		tmp.col = sheet_find_boundary_horizontal (sv->sheet,
 			tmp.col, tmp.row, tmp.row,
 			n, jump_to_bound);
 	else
-		tmp.row = sheet_find_boundary_vertical (sheet,
+		tmp.row = sheet_find_boundary_vertical (sv->sheet,
 			tmp.col, tmp.row, tmp.col,
 			n, jump_to_bound);
 
-	sheet_selection_reset (sheet);
-	sheet_cursor_set (sheet, tmp.col, tmp.row, tmp.col, tmp.row,
-			  tmp.col, tmp.row, NULL);
-	sheet_make_cell_visible (sheet, tmp.col, tmp.row, TRUE);
-	sheet_selection_add (sheet, tmp.col, tmp.row);
+	sv_selection_reset (sv);
+	sv_cursor_set (sv, &tmp,
+		       tmp.col, tmp.row, tmp.col, tmp.row, NULL);
+	sv_make_cell_visible (sv, tmp.col, tmp.row, TRUE);
+	sv_selection_add_pos (sv, tmp.col, tmp.row);
 }
 
 /**
@@ -2305,21 +2301,21 @@ void
 scg_cursor_extend (SheetControlGUI *scg, int n,
 		   gboolean jump_to_bound, gboolean horiz)
 {
-	Sheet *sheet = ((SheetControl *) scg)->sheet;
-	CellPos move = sheet->cursor.move_corner;
+	SheetView *sv = ((SheetControl *) scg)->view;
+	CellPos move = sv->cursor.move_corner;
 	CellPos visible = scg->pane[0].gcanvas->first;
 
 	if (horiz)
-		visible.col = move.col = sheet_find_boundary_horizontal (sheet,
-			move.col, move.row, sheet->cursor.base_corner.row,
+		visible.col = move.col = sheet_find_boundary_horizontal (sv->sheet,
+			move.col, move.row, sv->cursor.base_corner.row,
 			n, jump_to_bound);
 	else
-		visible.row = move.row = sheet_find_boundary_vertical (sheet,
-			move.col, move.row, sheet->cursor.base_corner.col,
+		visible.row = move.row = sheet_find_boundary_vertical (sv->sheet,
+			move.col, move.row, sv->cursor.base_corner.col,
 			n, jump_to_bound);
 
-	sheet_selection_extend_to (sheet, move.col, move.row);
-	sheet_make_cell_visible (sheet, visible.col, visible.row, FALSE);
+	sv_selection_extend_to (sv, move.col, move.row);
+	sv_make_cell_visible (sv, visible.col, visible.row, FALSE);
 }
 
 GtkWidget *
@@ -2433,7 +2429,7 @@ scg_class_init (GObjectClass *object_class)
 	sc_class->resize                 = scg_resize;
 	sc_class->set_zoom_factor        = scg_set_zoom_factor;
 	sc_class->redraw_all             = scg_redraw_all;
-	sc_class->redraw_region     	 = scg_redraw_region;
+	sc_class->redraw_range     	 = scg_redraw_range;
 	sc_class->redraw_headers         = scg_redraw_headers;
 	sc_class->ant                    = scg_ant;
 	sc_class->unant                  = scg_unant;

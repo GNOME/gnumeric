@@ -136,8 +136,6 @@ xml_sax_attr_int (xmlChar const * const *attrs, char const *name, int *res)
 static gboolean
 xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, CellPos *val)
 {
-	CellPos tmp;
-
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
@@ -145,12 +143,11 @@ xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, CellPos *v
 	if (strcmp (attrs[0], name))
 		return FALSE;
 
-	if (!parse_cell_name ((gchar *)attrs[1], &tmp.col, &tmp.row, TRUE, NULL)) {
+	if (!parse_cell_name ((gchar *)attrs[1], val, TRUE, NULL)) {
 		g_warning ("Invalid attribute '%s', expected cellpos, received '%s'",
 			   name, attrs[1]);
 		return FALSE;
 	}
-	*val = tmp;
 	return TRUE;
 }
 
@@ -819,10 +816,11 @@ xml_sax_selection_range (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	Range r;
 	if (xml_sax_attr_range (attrs, &r))
-		sheet_selection_add_range (state->sheet,
-					   r.start.col, r.start.row,
-					   r.start.col, r.start.row,
-					   r.end.col, r.end.row);
+		sv_selection_add_range (
+			sheet_get_view (state->sheet, state->wb_view),
+			r.start.col, r.start.row,
+			r.start.col, r.start.row,
+			r.end.col, r.end.row);
 }
 
 static void
@@ -830,7 +828,7 @@ xml_sax_selection (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	int col = -1, row = -1;
 
-	sheet_selection_reset (state->sheet);
+	sv_selection_reset (sheet_get_view (state->sheet, state->wb_view));
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (xml_sax_attr_int (attrs, "CursorCol", &col)) ;
@@ -850,13 +848,8 @@ static void
 xml_sax_selection_end (XMLSaxParseState *state)
 {
 	CellPos const pos = state->cell;
-
 	state->cell.col = state->cell.row = -1;
-
-	g_return_if_fail (pos.col >= 0);
-	g_return_if_fail (pos.row >= 0);
-
-	sheet_set_edit_pos (state->sheet, pos.col, pos.row);
+	sv_set_edit_pos (sheet_get_view (state->sheet, state->wb_view), &pos);
 }
 
 static void

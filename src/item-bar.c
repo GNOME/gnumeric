@@ -285,6 +285,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 	GnumericCanvas const   *gcanvas = ib->gcanvas;
 	SheetControlGUI const *scg    = gcanvas->simple.scg;
 	Sheet const           *sheet  = ((SheetControl *) scg)->sheet;
+	SheetView const	      *sv     = ((SheetControl *) scg)->view;
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item)->canvas);
 	ColRowInfo const *cri;
 	int pixels;
@@ -329,7 +330,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			 */
 			cri = sheet_col_get_info (sheet, col);
 			if (col != -1 && ib->colrow_being_resized == col)
-			/* || selection_contains_colrow (sheet, col, TRUE))) */
+			/* || sv_is_colrow_selected (sheet, col, TRUE))) */
 				pixels = ib->colrow_resize_size;
 			else
 				pixels = cri->size_pixels;
@@ -344,7 +345,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 					rect.width = pixels;
 					ib_draw_cell (ib, drawable,
 						       has_object ? COL_ROW_NO_SELECTION
-						       : sheet_col_selection_type (sheet, col),
+						       : sheet_col_selection_type (sv, col),
 						       col_name (col), &rect);
 
 					if (len > 0) {
@@ -448,7 +449,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			 */
 			cri = sheet_row_get_info (sheet, row);
 			if (row != -1 && ib->colrow_being_resized == row)
-			/* || selection_contains_colrow (sheet, row, FALSE))) */
+			/* || sv_is_colrow_selected (sheet, row, FALSE))) */
 				pixels = ib->colrow_resize_size;
 			else
 				pixels = cri->size_pixels;
@@ -463,7 +464,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 					rect.height = pixels;
 					ib_draw_cell (ib, drawable,
 						       has_object ? COL_ROW_NO_SELECTION
-						       : sheet_row_selection_type (sheet, row),
+						       : sheet_row_selection_type (sv, row),
 						       row_name (row), &rect);
 
 					if (len > 0) {
@@ -677,8 +678,7 @@ outline_button_press (ItemBar const *ib, int element, int pixel)
 
 	step = pixel / inc;
 
-	cmd_colrow_outline_change (sc->wbc, sheet,
-				   ib->is_col_header, element, step);
+	cmd_selection_outline_change (sc->wbc, ib->is_col_header, element, step);
 	return TRUE;
 }
 
@@ -792,7 +792,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			/* If the selection does not contain the current row/col
 			 * then clear the selection and add it.
 			 */
-			if (!selection_contains_colrow (sheet, element, is_cols))
+			if (!sv_is_colrow_selected (sc->view, element, is_cols))
 				scg_colrow_select (scg, is_cols,
 						   element, e->button.state);
 

@@ -82,6 +82,7 @@ WorkbookView *wb_control_view		(WorkbookControl const *wbc);
 Workbook     *wb_control_workbook	(WorkbookControl const *wbc);
 Sheet        *wb_control_cur_sheet	(WorkbookControl const *wbc);
 SheetView    *wb_control_cur_sheet_view	(WorkbookControl const *wbc);
+SheetControl *wb_control_cur_sheet_ctrl	(WorkbookControl const *wbc);
 
 gboolean      wb_control_parse_and_jump (WorkbookControl *wbc, char const *text);
 

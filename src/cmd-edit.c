@@ -43,77 +43,75 @@
 
 /**
  * cmd_select_cur_row:
- * @sheet: The sheet
+ * @sv: The sheet
  *
  * Selects an entire row
  */
 void
-cmd_select_cur_row (Sheet *sheet)
+cmd_select_cur_row (SheetView *sv)
 {
-	Range const *sel = selection_first_range (sheet,  NULL, NULL);
+	Range const *sel = selection_first_range (sv,  NULL, NULL);
 	if (sel != NULL) {
 		Range r = *sel;
-		sheet_selection_reset (sheet);
-		sheet_selection_add_range (sheet,
-			sheet->edit_pos.col, sheet->edit_pos.row,
+		sv_selection_reset (sv);
+		sv_selection_add_range (sv,
+			sv->edit_pos.col, sv->edit_pos.row,
 			0, r.start.row, SHEET_MAX_COLS-1, r.end.row);
-		sheet_update (sheet);
+		sheet_update (sv->sheet);
 	}
 }
 
 /**
  * cmd_select_cur_col:
- * @sheet: The sheet
+ * @sv: The sheet
  *
  * Selects an entire column
  */
 void
-cmd_select_cur_col (Sheet *sheet)
+cmd_select_cur_col (SheetView *sv)
 {
-	Range const *sel = selection_first_range (sheet,  NULL, NULL);
+	Range const *sel = selection_first_range (sv,  NULL, NULL);
 	if (sel != NULL) {
 		Range r = *sel;
-		sheet_selection_reset (sheet);
-		sheet_selection_add_range (sheet,
-			sheet->edit_pos.col, sheet->edit_pos.row,
+		sv_selection_reset (sv);
+		sv_selection_add_range (sv,
+			sv->edit_pos.col, sv->edit_pos.row,
 			r.start.col, 0, r.end.col, SHEET_MAX_ROWS-1);
-		sheet_update (sheet);
+		sheet_update (sv->sheet);
 	}
 }
 
 /**
  * cmd_select_cur_array :
- * @sheet: The sheet
+ * @sv: The sheet
  *
  * if the current cell is part of an array select
  * the entire array.
  */
 void
-cmd_select_cur_array (Sheet *sheet)
+cmd_select_cur_array (SheetView *sv)
 {
 	GnmExprArray const *array;
 	int col, row;
 
-	g_return_if_fail (IS_SHEET (sheet));
-
-	col = sheet->edit_pos.col;
-	row = sheet->edit_pos.row;
-	array = cell_is_array (sheet_cell_get (sheet, col, row));
+	col = sv->edit_pos.col;
+	row = sv->edit_pos.row;
+	array = cell_is_array (sheet_cell_get (sv->sheet, col, row));
 
 	if (array == NULL)
 		return;
 
-	sheet_selection_reset (sheet);
+	sv_selection_reset (sv);
 	/*
 	 * leave the edit cell where it is,
 	 * select the entire array.
 	 */
-	sheet_selection_add_range (sheet, col, row,
+	sv_selection_add_range (sv, col, row,
 				   col - array->x, row - array->y,
 				   col - array->x + array->cols - 1,
 				   row - array->y + array->rows - 1);
 
-	sheet_update (sheet);
+	sheet_update (sv->sheet);
 }
 
 static gint
@@ -140,21 +138,21 @@ cb_collect_deps (Dependent *dep, gpointer user)
 
 /**
  * cmd_select_cur_depends :
- * @sheet: The sheet
+ * @sv: The sheet
  *
  * Select all cells that depend on the expression in the current cell.
  */
 void
-cmd_select_cur_depends (Sheet *sheet)
+cmd_select_cur_depends (SheetView *sv)
 {
 	Cell  *cur_cell;
 	GList *deps = NULL, *ptr = NULL;
 
-	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (IS_SHEET_VIEW (sv));
 
-	cur_cell = sheet_cell_get (sheet,
-				   sheet->edit_pos.col,
-				   sheet->edit_pos.row);
+	cur_cell = sheet_cell_get (sv->sheet,
+				   sv->edit_pos.col,
+				   sv->edit_pos.row);
 	if (cur_cell == NULL)
 		return;
 
@@ -162,12 +160,12 @@ cmd_select_cur_depends (Sheet *sheet)
 	if (deps == NULL)
 		return;
 
-	sheet_selection_reset (sheet);
+	sv_selection_reset (sv);
 
 	/* Short circuit */
 	if (g_list_length (deps) == 1) {
 		Cell *cell = deps->data;
-		sheet_selection_add (sheet, cell->pos.col, cell->pos.row);
+		sv_selection_add_pos (sv, cell->pos.col, cell->pos.row);
 	} else {
 		Range *cur = NULL;
 		ptr = NULL;
@@ -218,40 +216,40 @@ cmd_select_cur_depends (Sheet *sheet)
 		/* now select the ranges */
 		while (ptr) {
 			Range *r = ptr->data;
-			sheet_selection_add_range (sheet,
-						   r->start.col, r->start.row,
-						   r->start.col, r->start.row,
-						   r->end.col, r->end.row);
+			sv_selection_add_range (sv,
+						r->start.col, r->start.row,
+						r->start.col, r->start.row,
+						r->end.col, r->end.row);
 			g_free (ptr->data);
 			ptr = g_list_remove (ptr, r);
 		}
 	}
-	sheet_update (sheet);
+	sheet_update (sv->sheet);
 }
 
 /**
  * cmd_select_cur_inputs :
- * @sheet: The sheet
+ * @sv: The sheet
  *
  * Select all cells that are direct potential inputs to the
  * current cell.
  */
 void
-cmd_select_cur_inputs (Sheet *sheet)
+cmd_select_cur_inputs (SheetView *sv)
 {
 	Cell *cell;
 
-	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (IS_SHEET_VIEW (sv));
 
-	cell = sheet_cell_get (sheet,
-			       sheet->edit_pos.col,
-			       sheet->edit_pos.row);
+	cell = sheet_cell_get (sv->sheet,
+			       sv->edit_pos.col,
+			       sv->edit_pos.row);
 
 	if (cell == NULL || !cell_has_expr (cell))
 		return;
 
 	/* TODO : finish this */
-	sheet_update (sheet);
+	sheet_update (sv->sheet);
 }
 
 /**
@@ -330,24 +328,24 @@ cmd_paste (WorkbookControl *wbc, PasteTarget const *pt)
 
 /**
  * cmd_paste_to_selection :
- * @dest_sheet: The sheet into which things should be pasted
+ * @dest_sv: The sheet into which things should be pasted
  * @flags: special paste flags (eg transpose)
  *
  * Using the current selection as a target
  * Full undo support.
  */
 void
-cmd_paste_to_selection (WorkbookControl *wbc, Sheet *dest_sheet, int paste_flags)
+cmd_paste_to_selection (WorkbookControl *wbc, SheetView *dest_sv, int paste_flags)
 {
 	Range const *r;
 	PasteTarget pt;
 
-	if (!(r = selection_first_range (dest_sheet, wbc, _("Paste"))))
+	if (!(r = selection_first_range (dest_sv, wbc, _("Paste"))))
 		return;
 
 	g_return_if_fail (r !=NULL);
 
-	pt.sheet = dest_sheet;
+	pt.sheet = dest_sv->sheet;
 	pt.range = *r;
 	pt.paste_flags = paste_flags;
 	cmd_paste (wbc, &pt);

@@ -540,9 +540,9 @@ cb_gee_button_press_event (GtkEntry *entry, GdkEventButton *event, GnumericExprE
 
 
 static gboolean
-cb_gee_key_press_event (GtkEntry *entry,
-		     GdkEventKey *event,
-		     GnumericExprEntry *gee)
+cb_gee_key_press_event (GtkEntry	  *entry,
+			GdkEventKey	  *event,
+			GnumericExprEntry *gee)
 {
 	WorkbookControlGUI *wbcg  = gee->wbcg;
 	int state = gnumeric_filter_modifiers (event->state);
@@ -619,16 +619,14 @@ cb_gee_key_press_event (GtkEntry *entry,
 
 		if (state == GDK_CONTROL_MASK ||
 		    state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK)) {
-			ParsePos pos;
 			gboolean const is_array = (state & GDK_SHIFT_MASK);
 			char const *text = gtk_entry_get_text (
 				wbcg_get_entry (wbcg));
-			Sheet *sheet = wbcg->editing_sheet;
 
 			/* Be careful to use the editing sheet */
 			cmd_area_set_text (WORKBOOK_CONTROL (wbcg),
-				parse_pos_init (&pos, NULL, sheet,
-					sheet->edit_pos.col, sheet->edit_pos.row),
+				sheet_get_view (wbcg->editing_sheet,
+						wb_control_view (WORKBOOK_CONTROL (wbcg))),
 				text, is_array);
 
 			/* Finish editing but do NOT store the results

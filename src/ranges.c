@@ -32,6 +32,15 @@
 #undef RANGE_DEBUG
 
 Range *
+range_init_pos (Range *r, CellPos const *start, CellPos const *end)
+{
+	r->start = *start;
+	r->end = *end;
+
+	return r;
+}
+
+Range *
 range_init (Range *r, int start_col, int start_row,
 	    int end_col, int end_row)
 {
@@ -95,6 +104,7 @@ Value *
 range_parse (Sheet *sheet, char const *range, gboolean strict)
 {
 	CellRef a, b;
+	CellPos tmp;
 	int n_read;
 
 	g_return_val_if_fail (range != NULL, FALSE);
@@ -104,15 +114,19 @@ range_parse (Sheet *sheet, char const *range, gboolean strict)
 	a.row_relative = 0;
 	b.row_relative = 0;
 
-	if (!parse_cell_name (range, &a.col, &a.row, FALSE, &n_read))
+	if (!parse_cell_name (range, &tmp, FALSE, &n_read))
 		return FALSE;
 
 	a.sheet = sheet;
+	a.col   = tmp.col;
+	a.row   = tmp.row;
 
 	if (range[n_read] == ':') {
-		if (!parse_cell_name (&range[n_read+1], &b.col, &b.row, strict, NULL))
+		if (!parse_cell_name (&range[n_read+1], &tmp, strict, NULL))
 			return FALSE;
 		b.sheet = sheet;
+		b.col   = tmp.col;
+		b.row   = tmp.row;
 	} else if (strict && range[n_read])
 		return FALSE;
 	else
@@ -133,14 +147,14 @@ parse_range (char const *text, Range *r)
 {
 	int len;
 
-	if (!parse_cell_name (text, &r->start.col, &r->start.row, FALSE, &len))
+	if (!parse_cell_name (text, &r->start, FALSE, &len))
 		return FALSE;
 	if (text [len] == '\0') {
 		r->end = r->start;
 		return TRUE;
 	}
 	return (text[len] == ':' &&
-		parse_cell_name (text + len + 1, &r->end.col, &r->end.row, TRUE, NULL));
+		parse_cell_name (text + len + 1, &r->end, TRUE, NULL));
 }
 
 /**

@@ -4,7 +4,7 @@
  * position.c: Utility routines for various types of positional
  *         coordinates.
  *
- * Copyright (C) 2000 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2002 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -139,7 +139,6 @@ parse_pos_init_dep (ParsePos *pp, Dependent const *dep)
 ParsePos *
 parse_pos_init_cell (ParsePos *pp, Cell const *cell)
 {
-	g_return_val_if_fail (pp != NULL, NULL);
 	g_return_val_if_fail (cell != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (cell->base.sheet), NULL);
 	g_return_val_if_fail (cell->base.sheet->workbook != NULL, NULL);
@@ -151,11 +150,21 @@ parse_pos_init_cell (ParsePos *pp, Cell const *cell)
 ParsePos *
 parse_pos_init_evalpos (ParsePos *pp, EvalPos const *ep)
 {
-	g_return_val_if_fail (pp != NULL, NULL);
 	g_return_val_if_fail (ep != NULL, NULL);
 
 	return parse_pos_init (pp, NULL, ep->sheet, ep->eval.col, ep->eval.row);
 }
+
+ParsePos *
+parse_pos_init_editpos (ParsePos *pp, SheetView const *sv)
+{
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
+
+	return parse_pos_init (pp, NULL, sv_sheet (sv),
+		sv->edit_pos.col, sv->edit_pos.row);
+}
+
+/********************************************************************************/
 
 gboolean
 cellref_equal (CellRef const *a, CellRef const *b)

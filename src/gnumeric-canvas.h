@@ -47,11 +47,9 @@ GnumericCanvas *gnumeric_canvas_new      (SheetControlGUI *scg, GnumericPane *pa
 int gnm_canvas_find_col (GnumericCanvas *gsheet, int x, int *col_origin);
 int gnm_canvas_find_row (GnumericCanvas *gsheet, int y, int *row_origin);
 
-void gnm_canvas_compute_visible_region	(GnumericCanvas *gsheet,
-					 gboolean const full_recompute);
-void gnm_canvas_redraw_region		(GnumericCanvas *gsheet,
-					 int start_col, int start_row,
-					 int end_col, int end_row);
+void gnm_canvas_compute_visible_region (GnumericCanvas *gsheet,
+					gboolean const full_recompute);
+void gnm_canvas_redraw_range (GnumericCanvas *gsheet, Range const *r);
 
 typedef enum {
 	GNM_SLIDE_X = 1,

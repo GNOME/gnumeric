@@ -23,10 +23,13 @@ typedef gboolean (*XmlSheetObjectReadFn)  (xmlNodePtr   tree,
 
 struct _XmlParseContext {
 	xmlDocPtr doc;		/* Xml document */
-	xmlNsPtr ns;		/* Main name space */
-	Sheet *sheet;		/* the associated sheet */
-	Workbook *wb;		/* the associated workbook */
-	IOContext *io_context;
+	xmlNsPtr  ns;		/* Main name space */
+
+	Sheet	     *sheet;	/* the associated sheet */
+	Workbook     *wb;	/* the associated workbook */
+	WorkbookView *wb_view;
+	IOContext    *io_context;
+
 	GHashTable *style_table;/* old style styles compatibility */
 	GHashTable *expr_map;	/*
 				 * Emitted expressions with ref count > 1
@@ -48,19 +51,19 @@ void gnumeric_xml_write_workbook (GnumFileSaver const *fs, IOContext *context,
                                   WorkbookView *wbv, gchar const *filename);
 
 XmlParseContext *xml_parse_ctx_new      (xmlDocPtr             doc,
-					 xmlNsPtr              ns);
+					 xmlNsPtr              ns,
+					 WorkbookView	      *wb_view);
 XmlParseContext *xml_parse_ctx_new_full (xmlDocPtr             doc,
 					 xmlNsPtr              ns,
+					 WorkbookView	      *wb_view,
 					 GnumericXMLVersion    version,
 					 XmlSheetObjectReadFn  read_fn,
 					 XmlSheetObjectWriteFn write_fn,
 					 gpointer              user_data);
 void             xml_parse_ctx_destroy  (XmlParseContext      *ctxt);
 
-xmlNodePtr       xml_workbook_write     (XmlParseContext      *ctx,
-					 WorkbookView         *wbv);
+xmlNodePtr       xml_workbook_write     (XmlParseContext      *ctx);
 gboolean         xml_workbook_read      (IOContext            *context,
-					 WorkbookView	      *new_wb,
 					 XmlParseContext      *ctx,
 					 xmlNodePtr           tree);
 

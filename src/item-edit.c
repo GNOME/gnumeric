@@ -478,7 +478,7 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	GnomeCanvasItem *item      = GNOME_CANVAS_ITEM (o);
 	ItemEdit        *item_edit = ITEM_EDIT (o);
 	GnumericCanvas  *gcanvas    = GNUMERIC_CANVAS (item->canvas);
-	Sheet		*sheet;
+	SheetView const	*sv;
 	GtkEntry        *entry;
 
 	/* We can only set the sheet-control-gui once */
@@ -486,9 +486,9 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	g_return_if_fail (item_edit->scg == NULL);
 
 	item_edit->scg = GTK_VALUE_POINTER (*arg);
-	sheet = ((SheetControl *) item_edit->scg)->sheet;
+	sv = ((SheetControl *) item_edit->scg)->view;
 	item_edit->entry = wbcg_get_entry (item_edit->scg->wbcg);
-	item_edit->pos = sheet->edit_pos;
+	item_edit->pos = sv->edit_pos;
 
 	entry = item_edit->entry;
 	item_edit->signal_changed = g_signal_connect (G_OBJECT (gtk_widget_get_parent (
@@ -510,9 +510,9 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	/* set the font and the upper left corner if this is the first pass */
 	if (item_edit->font == NULL) {
-		MStyle *mstyle = sheet_style_get (sheet,
+		MStyle *mstyle = sheet_style_get (sv->sheet,
 			item_edit->pos.col, item_edit->pos.row);
-		StyleFont *sf = scg_get_style_font (sheet, mstyle);
+		StyleFont *sf = scg_get_style_font (sv->sheet, mstyle);
 
 		item_edit->font = style_font_gdk_font (sf);
 		item_edit->font_height = style_font_get_height (sf);

@@ -89,10 +89,7 @@ wb_view_sheet_focus (WorkbookView *wbv, Sheet *sheet)
 			wb_control_sheet_focus (control, sheet););
 
 		wbv->current_sheet = sheet;
-		SHEET_FOREACH_VIEW (sheet, view, {
-			if (sv_wbv (view) == wbv)
-				wbv->current_sheet_view = view;
-		});
+		wbv->current_sheet_view = sheet_get_view (sheet, wbv);
 		wb_view_selection_desc (wbv, TRUE, NULL);
 		wb_view_edit_line_set (wbv, NULL);
 		wb_view_format_feedback (wbv, TRUE);
@@ -114,10 +111,7 @@ wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
 	new_view = sheet_view_new (new_sheet, wbv);
 	if (wbv->current_sheet == NULL) {
 		wbv->current_sheet = new_sheet;
-		SHEET_FOREACH_VIEW (new_sheet, view, {
-			if (sv_wbv (view) == wbv)
-				wbv->current_sheet_view = view;
-		});
+		wbv->current_sheet_view = sheet_get_view (new_sheet, wbv);
 		wb_view_format_feedback (wbv, FALSE);
 		wb_view_menus_update (wbv);
 		wb_view_auto_expr_recalc (wbv, FALSE);
@@ -181,15 +175,15 @@ wb_view_prefs_update (WorkbookView *view)
 void
 wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 {
-	Sheet *sheet;
+	SheetView *sv;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 
-	sheet = wbv->current_sheet;
-	if (sheet != NULL) {
-		MStyle *mstyle = sheet_style_get (sheet,
-			sheet->edit_pos.col,
-			sheet->edit_pos.row);
+	sv = wbv->current_sheet_view;
+	if (sv != NULL) {
+		MStyle *mstyle = sheet_style_get (sv->sheet,
+			sv->edit_pos.col,
+			sv->edit_pos.row);
 
 		mstyle_ref (mstyle);
 		if (wbv->current_format != NULL) {
@@ -229,23 +223,23 @@ void
 wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 			WorkbookControl *optional_wbc)
 {
-	Sheet *sheet;
+	SheetView *sv;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 
-	sheet = wbv->current_sheet;
-	if (sheet != NULL) {
+	sv = wbv->current_sheet_view;
+	if (sv != NULL) {
 		char buffer [10 + 2 * 4 * sizeof (int)];
 		char const *sel_descr = buffer;
 		Range const *r, *m;
 
-		g_return_if_fail (IS_SHEET (sheet));
-		g_return_if_fail (sheet->selections);
+		g_return_if_fail (IS_SHEET_VIEW (sv));
+		g_return_if_fail (sv->selections);
 
-		r = sheet->selections->data;
+		r = sv->selections->data;
 
 		if (use_pos || range_is_singleton (r) ||
-		    (NULL != (m = sheet_merge_is_corner (sheet, &r->start)) &&
+		    (NULL != (m = sheet_merge_is_corner (sv->sheet, &r->start)) &&
 		     range_equal (r, m)))
 			sel_descr = cell_pos_name (&r->start);
 		else
@@ -273,19 +267,19 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 void
 wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 {
-	Sheet *sheet;
+	SheetView *sv;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 
-	sheet = wbv->current_sheet;
-	if (sheet != NULL) {
+	sv = wbv->current_sheet_view;
+	if (sv != NULL) {
 		Cell     *cell;
 		char     *text;
 		GnmExprArray const* ar;
 
-		cell = sheet_cell_get (sheet,
-				       sheet->edit_pos.col,
-				       sheet->edit_pos.row);
+		cell = sheet_cell_get (sv->sheet,
+				       sv->edit_pos.col,
+				       sv->edit_pos.row);
 
 		if (cell) {
 			text = cell_get_entered_text (cell);
@@ -500,6 +494,7 @@ workbook_view_new (Workbook *wb)
 
 	/* Guess at the current sheet */
 	wbv->current_sheet = NULL;
+	wbv->current_sheet_view = NULL;
 	if (wb != NULL) {
 		GList *sheets = workbook_sheets (wb);
 		if (sheets != NULL) {

@@ -84,8 +84,9 @@ typedef struct _BiffFormatData {
 
 typedef struct _ExcelWorkbook
 {
-	MSContainer  container;
-	IOContext   *context;
+	MSContainer	  container;
+	IOContext	 *context;
+	WorkbookView	 *wbv;
 
 	GPtrArray	 *excel_sheets;
 	GHashTable	 *boundsheet_data_by_stream;

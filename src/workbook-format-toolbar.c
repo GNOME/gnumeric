@@ -56,7 +56,6 @@ set_selection_halign (WorkbookControlGUI *wbcg, StyleHAlignFlags halign)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	WorkbookView	*wb_view;
-	Sheet *sheet = wb_control_cur_sheet (wbc);
 	MStyle *style;
 
 	/* If the user did not initiate this action ignore it.
@@ -80,7 +79,7 @@ set_selection_halign (WorkbookControlGUI *wbcg, StyleHAlignFlags halign)
 	mstyle_set_align_h (style, halign);
 	workbook_format_halign_feedback_set (wbcg, halign);
 
-	cmd_format (wbc, sheet, style, NULL,
+	cmd_selection_format (wbc, style, NULL,
 		    _("Set Horizontal Alignment"));
 }
 
@@ -113,7 +112,8 @@ cb_merge_cells (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	GSList *range_list = selection_get_ranges (sheet, FALSE);
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
+	GSList *range_list = selection_get_ranges (sv, FALSE);
 	cmd_merge_cells (wbc, sheet, range_list);
 	range_fragment_free (range_list);
 }
@@ -123,7 +123,8 @@ cb_unmerge_cells (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	GSList *range_list = selection_get_ranges (sheet, FALSE);
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
+	GSList *range_list = selection_get_ranges (sv, FALSE);
 	cmd_unmerge_cells (wbc, sheet, range_list);
 	range_fragment_free (range_list);
 }
@@ -143,6 +144,7 @@ change_selection_font (WorkbookControlGUI *wbcg,
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	MStyle *new_style, *current_style;
 
 	/* If the user did not initiate this action ignore it.
@@ -156,8 +158,8 @@ change_selection_font (WorkbookControlGUI *wbcg,
 
 	new_style = mstyle_new ();
 	current_style = sheet_style_get (sheet,
-		sheet->edit_pos.col,
-		sheet->edit_pos.row);
+		sv->edit_pos.col,
+		sv->edit_pos.row);
 
 	if (bold)
 		mstyle_set_font_bold (new_style,
@@ -177,7 +179,7 @@ change_selection_font (WorkbookControlGUI *wbcg,
 					!mstyle_get_font_strike (current_style));
 
 	if (bold || italic || underline || strikethrough)
-		cmd_format (wbc, sheet, new_style, NULL,
+		cmd_selection_format (wbc, new_style, NULL,
 			    _("Set Font Style"));
 	else
 		mstyle_unref (new_style);
@@ -195,8 +197,7 @@ change_selection_font (WorkbookControlGUI *wbcg,
 static void
 cb_font_name (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_cell_format (wbcg, wb_control_cur_sheet (wbc), FD_FONT);
+	dialog_cell_format (wbcg, FD_FONT);
 }
 
 static void
@@ -244,7 +245,7 @@ change_font_in_selection_cmd (GtkWidget *caller, WorkbookControlGUI *wbcg)
 
 		mstyle = mstyle_new ();
 		mstyle_set_font_name (mstyle, font_name);
-		cmd_format (wbc, sheet, mstyle, NULL,
+		cmd_selection_format (wbc, mstyle, NULL,
 			    _("Set Font"));
 
 		/* Restore the focus to the sheet */
@@ -256,7 +257,6 @@ static void
 change_font_size_in_selection_cmd (GtkEntry *entry, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
 	MStyle *mstyle;
 	double size;
 
@@ -277,7 +277,7 @@ change_font_size_in_selection_cmd (GtkEntry *entry, WorkbookControlGUI *wbcg)
 	mstyle = mstyle_new ();
 	mstyle_set_font_size (mstyle, size);
 
-	cmd_format (wbc, sheet, mstyle, NULL,
+	cmd_selection_format (wbc, mstyle, NULL,
 		    _("Set Font Size"));
 
 	/* Restore the focus to the sheet */
@@ -289,11 +289,10 @@ apply_number_format (WorkbookControlGUI *wbcg,
 		     char const *translated_format, char const *descriptor)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
 	MStyle *mstyle = mstyle_new ();
 
 	mstyle_set_format_text (mstyle, translated_format);
-	cmd_format (wbc, sheet, mstyle, NULL, descriptor);
+	cmd_selection_format (wbc, mstyle, NULL, descriptor);
 }
 
 static void
@@ -322,7 +321,6 @@ modify_format (WorkbookControlGUI *wbcg,
 	       char const *descriptor)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
 	WorkbookView const *wbv;
 	char *new_fmt;
 
@@ -334,7 +332,7 @@ modify_format (WorkbookControlGUI *wbcg,
 	if (new_fmt != NULL) {
 		MStyle *style = mstyle_new ();
 		mstyle_set_format_text (style, new_fmt);
-		cmd_format (wbc, sheet, style, NULL, descriptor);
+		cmd_selection_format (wbc, style, NULL, descriptor);
 		g_free (new_fmt);
 	}
 }
@@ -355,7 +353,6 @@ static void
 cb_format_inc_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
 	WorkbookView const *wbv;
 	int i;
 
@@ -370,7 +367,7 @@ cb_format_inc_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 		if (HALIGN_LEFT != mstyle_get_align_h (wbv->current_format))
 			mstyle_set_align_h (style, HALIGN_LEFT);
 		mstyle_set_indent (style, i+1);
-		cmd_format (wbc, sheet, style, NULL,
+		cmd_selection_format (wbc, style, NULL,
 			    _("Increase Indent"));
 	}
 }
@@ -379,7 +376,6 @@ static void
 cb_format_dec_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
 	WorkbookView const *wbv;
 	int i;
 
@@ -392,7 +388,7 @@ cb_format_dec_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 		MStyle *style = mstyle_new ();
 
 		mstyle_set_indent (style, i-1);
-		cmd_format (wbc, sheet, style, NULL,
+		cmd_selection_format (wbc, style, NULL,
 			    _("Decrease Indent"));
 	}
 }
@@ -512,7 +508,6 @@ cb_fore_color_changed (ColorCombo *combo, GdkColor *c,
 		       WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
 	MStyle *mstyle;
 
 	/* Color was set programatically, bail out */
@@ -541,7 +536,7 @@ cb_fore_color_changed (ColorCombo *combo, GdkColor *c,
 		}
 	});
 
-	cmd_format (wbc, sheet, mstyle, NULL,
+	cmd_selection_format (wbc, mstyle, NULL,
 		    _("Set Foreground Color"));
 }
 
@@ -551,7 +546,6 @@ cb_back_color_changed (ColorCombo *combo, GdkColor *c,
 		       WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
 	MStyle *mstyle;
 
 	/* Color was set programatically, bail out */
@@ -576,7 +570,7 @@ cb_back_color_changed (ColorCombo *combo, GdkColor *c,
 				  if (control != wbc) color_combo_set_color (
 					  COLOR_COMBO (WORKBOOK_CONTROL_GUI (control)->back_color), c););
 
-	cmd_format (wbc, sheet, mstyle, NULL,
+	cmd_selection_format (wbc, mstyle, NULL,
 		    _("Set Background Color"));
 }
 
@@ -736,8 +730,8 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbc
 		return;
 	}
 
-	cmd_format (WORKBOOK_CONTROL (wbcg), sheet, NULL, borders,
-		    _("Set Borders"));
+	cmd_selection_format (WORKBOOK_CONTROL (wbcg), NULL, borders,
+			      _("Set Borders"));
 }
 
 void

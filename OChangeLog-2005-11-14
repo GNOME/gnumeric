@@ -1,3 +1,66 @@
+2002-06-21  Jody Goldberg <jody@gnome.org>
+
+	* src/parse-util.c (parse_cell_name) : take a cellpos *
+
+	* src/func-builtin.c (gnumeric_selection) : dummy out for now until a
+	  different approach is available.
+
+	* src/commands.c : convert to sheetview.
+	  s/parent/cmd/ to make things more readable
+	(cmd_selection_clear) : rename from cmd_clear_selection so that we can
+	  start to group the operations that currently operate on selections.
+	(cmd_selection_format) : rename from cmd_format.
+	(cmd_selection_colrow_hide) : rename from cmd_colrow_hide_selection.
+	(cmd_selection_outline_change) : rename from cmd_colrow_outline_change.
+	(cmd_selection_group) : rename from cmd_group.
+	(cmd_selection_autoformat) : rename from cmd_autoformat.
+	(cmd_colrow_hide_correct_selection) : take a control.
+
+	* src/colrow.c (cb_colrow_visibility) : selections are now part of
+	  sheetview.
+	(colrow_get_visiblity_toggle) : ditto.
+
+	* src/cmd-edit.c (cmd_select_cur_row) : convert to sheetview.
+	(cmd_select_cur_col) : ditto.
+	(cmd_select_cur_array) : ditto.
+	(cmd_select_cur_depends) : ditto.
+	(cmd_select_cur_inputs) : ditto.
+	(cmd_paste_to_selection) : ditto.
+
+	* src/bonobo-io.c (deserialize_wb_from_xml_stream) : pass the wbv into
+	  the context directly.
+	(gnumeric_bonobo_write_workbook) : ditto.
+	(gnumeric_bonobo_read_workbook) : ditto.
+
+	* src/consolidate.c (redraw_respan_and_select) : set selection only
+	  for the calling view.
+	(row_consolidate) : pass in the view.
+	(col_consolidate) : ditto.
+	(colrow_consolidate) : ditto.
+	(consolidate_apply) : Take a control so that we can extract the view.
+
+	* src/commands.c (cmd_consolidate_redo) : Pass the control.
+
+2002-06-20  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-view.c (sheet_view_init) : init the selection.
+
+	* src/workbook-view.c (workbook_view_new) : init current_sheet_view.
+	(wb_view_format_feedback) : operate on the sheetview.
+	(wb_view_selection_desc) : ditto.
+	(wb_view_edit_line_set) : ditto.
+
+2002-06-20  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-view.c (wb_view_sheet_add) : Use sheet_get_view.
+	(wb_view_sheet_focus) : ditto.
+	* src/xml-io.c (xml_write_selection_info) : ditto.
+	(xml_read_selection_info): ditto.
+	(xml_workbook_write) : now that the view is in the context don't
+	  bother passing it.
+	(xml_write_wbv_attributes) : ditto.
+	(xml_read_wbv_attributes) : ditto.
+
 2002-06-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/application.h (gnumeric_application_get_app) : new

@@ -433,15 +433,14 @@ parse_col_name (char const *cell_str, char const **endptr)
 /**
  * parse_cell_name
  * @cell_name:   a string representation of a cell name.
- * @col:         result col
- * @row:         result row
+ * @pos:         result
  * @strict:      if this is TRUE, then parsing stops at possible errors,
  *               otherwise an attempt is made to return cell names with trailing garbage.
  *
  * Return value: true if the cell_name could be successfully parsed
  */
 gboolean
-parse_cell_name (char const *cell_str, int *col, int *row, gboolean strict, int *chars_read)
+parse_cell_name (char const *cell_str, CellPos *res, gboolean strict, int *chars_read)
 {
 	char const * const original = cell_str;
 	unsigned char c;
@@ -456,20 +455,20 @@ parse_cell_name (char const *cell_str, int *col, int *row, gboolean strict, int 
 	if (c < 'A' || c > 'Z')
 		return FALSE;
 
-	*col = c - 'A';
+	res->col = c - 'A';
 	c = toupper ((unsigned char)*cell_str);
 	if (c >= 'A' && c <= 'Z') {
-		*col = ((*col + 1) * ('Z' - 'A' + 1)) + (c - 'A');
+		res->col = ((res->col + 1) * ('Z' - 'A' + 1)) + (c - 'A');
 		cell_str++;
 	}
-	if (*col >= SHEET_MAX_COLS)
+	if (res->col >= SHEET_MAX_COLS)
 		return FALSE;
 
 	if (*cell_str == '$')
 		cell_str++;
 
 	/* Parse row number: a sequence of digits.  */
-	for (*row = 0; *cell_str; cell_str++) {
+	for (res->row = 0; *cell_str; cell_str++) {
 		if (*cell_str < '0' || *cell_str > '9') {
 			if (found_digits && strict == FALSE) {
 				break;
@@ -477,15 +476,15 @@ parse_cell_name (char const *cell_str, int *col, int *row, gboolean strict, int 
 				return FALSE;
 		}
 		found_digits = TRUE;
-		*row = *row * 10 + (*cell_str - '0');
-		if (*row > SHEET_MAX_ROWS) /* Note: ">" is deliberate.  */
+		res->row = res->row * 10 + (*cell_str - '0');
+		if (res->row > SHEET_MAX_ROWS) /* Note: ">" is deliberate.  */
 			return FALSE;
 	}
-	if (*row == 0)
+	if (res->row == 0)
 		return FALSE;
 
 	/* Internal row numbers are one less than the displayed.  */
-	(*row)--;
+	(res->row)--;
 
 	if (chars_read)
 		*chars_read = cell_str - original;

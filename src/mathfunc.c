@@ -3100,7 +3100,6 @@ gnum_float bessel_i(gnum_float x, gnum_float alpha, gnum_float expo)
 {
     long nb, ncalc, ize;
     gnum_float *bi;
-    char *vmax;
 
 #ifdef IEEE_754
     /* NaNs propagated correctly */
@@ -3573,7 +3572,6 @@ gnum_float bessel_k(gnum_float x, gnum_float alpha, gnum_float expo)
 {
     long nb, ncalc, ize;
     gnum_float *bk;
-    char *vmax;
 
 #ifdef IEEE_754
     /* NaNs propagated correctly */

@@ -28,6 +28,7 @@
 #include <func.h>
 #include <gui-util.h>
 #include <ranges.h>
+#include <sheet-view.h>
 #include <selection.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <workbook-edit.h>
@@ -37,6 +38,7 @@
 
 typedef struct {
 	WorkbookControlGUI *wbcg;
+	SheetView	   *sv;
 	Sheet              *sheet;
 	GladeXML           *glade_gui;
 	GtkWidget          *warning_dialog;
@@ -419,10 +421,10 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 }
 
 static gboolean
-cb_add_source_area (Sheet *sheet, Range const *range, gpointer user_data)
+cb_add_source_area (SheetView *sv, Range const *range, gpointer user_data)
 {
 	ConsolidateState *state = user_data;
-	char const *name = global_range_name (sheet, range);
+	char const *name = global_range_name (sv_sheet (sv), range);
 	char const *t[2];
 
 	t[0] = name;
@@ -433,7 +435,7 @@ cb_add_source_area (Sheet *sheet, Range const *range, gpointer user_data)
 }
 
 void
-dialog_consolidate (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_consolidate (WorkbookControlGUI *wbcg)
 {
 	GladeXML *glade_gui;
 	ConsolidateState *state;
@@ -450,7 +452,8 @@ dialog_consolidate (WorkbookControlGUI *wbcg, Sheet *sheet)
 	/* Primary static initialization */
 	state = g_new0 (ConsolidateState, 1);
 	state->wbcg        = wbcg;
-	state->sheet       = sheet;
+	state->sv	   = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	state->sheet	   = sv_sheet (state->sv);
 	state->glade_gui   = glade_gui;
 	state->warning_dialog = NULL;
 	state->areas_index = -1;
@@ -466,8 +469,8 @@ dialog_consolidate (WorkbookControlGUI *wbcg, Sheet *sheet)
 	 * When there are non-singleton selections add them all to the
 	 * source range list for convenience
 	 */
-	if ((r = selection_first_range (sheet, NULL, NULL)) != NULL && !range_is_singleton (r)) {
-		selection_foreach_range (sheet, TRUE, cb_add_source_area, state);
+	if ((r = selection_first_range (state->sv, NULL, NULL)) != NULL && !range_is_singleton (r)) {
+		selection_foreach_range (state->sv, TRUE, cb_add_source_area, state);
 		gtk_clist_select_row (state->gui.areas, state->gui.areas->rows - 1, 0);
 		gtk_clist_moveto (state->gui.areas, state->gui.areas->rows - 1, 0, 0.5, 0.5);
 		gtk_widget_set_sensitive (GTK_WIDGET (state->gui.clear), TRUE);

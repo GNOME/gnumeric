@@ -3302,6 +3302,7 @@ write_sheet_tail (IOContext *context, BiffPut *bp, ExcelSheet *esheet)
 	}
 
 	/* See: S59DE2.HTM */
+#warning YUCK! store the real selection
 	data = ms_biff_put_len_next (bp, BIFF_SELECTION, 15);
 	MS_OLE_SET_GUINT32 (data +  0, 0x00000103);
 	MS_OLE_SET_GUINT32 (data +  4, 0x01000000);

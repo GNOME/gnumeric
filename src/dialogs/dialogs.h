@@ -26,17 +26,17 @@ void	   dialog_formula_guru	(WorkbookControlGUI *wbcg, FunctionDefinition const 
 void	   dialog_plugin_manager  (WorkbookControlGUI *wbcg);
 void	   dialog_goto_cell       (WorkbookControlGUI *wbcg);
 GtkWidget *dialog_cell_number_fmt (WorkbookControlGUI *wbcg, Value *sample_val);
-void	   dialog_cell_format     (WorkbookControlGUI *wbcg, Sheet *sheet,
+void	   dialog_cell_format     (WorkbookControlGUI *wbcg,
 				   FormatDialogPosition_t pageno);
 int	   dialog_paste_special   (WorkbookControlGUI *wbcg);
-void	   dialog_insert_cells    (WorkbookControlGUI *wbcg, Sheet *sheet);
-void	   dialog_delete_cells    (WorkbookControlGUI *wbcg, Sheet *sheet);
+void	   dialog_insert_cells    (WorkbookControlGUI *wbcg);
+void	   dialog_delete_cells    (WorkbookControlGUI *wbcg);
 void	   dialog_zoom            (WorkbookControlGUI *wbcg, Sheet *sheet);
 void   	 dialog_about           (WorkbookControlGUI *wbcg);
 void   	 dialog_define_names    (WorkbookControlGUI *wbcg);
 void   	 dialog_cell_comment    (WorkbookControlGUI *wbcg,
 				 Sheet *sheet, CellPos const *pos);
-void   	 dialog_cell_sort       (WorkbookControlGUI *wbcg, Sheet *sheet);
+void   	 dialog_cell_sort       (WorkbookControlGUI *wbcg);
 void   	 dialog_workbook_attr   (WorkbookControlGUI *wbcg);
 void   	 dialog_goal_seek       (WorkbookControlGUI *wbcg, Sheet *sheet);
 void   	 dialog_solver          (WorkbookControlGUI *wbcg, Sheet *sheet);
@@ -46,7 +46,7 @@ void   	 dialog_advanced_filter (WorkbookControlGUI *wbcg);
 void   	 dialog_autosave        (WorkbookControlGUI *wbcg);
 gboolean dialog_autosave_prompt (WorkbookControlGUI *wbcg);
 void     dialog_autoformat      (WorkbookControlGUI *wbcg);
-void     dialog_consolidate     (WorkbookControlGUI *wbcg, Sheet *sheet);
+void     dialog_consolidate     (WorkbookControlGUI *wbcg);
 void     dialog_sheet_order     (WorkbookControlGUI *wbcg);
 void     dialog_row_height      (WorkbookControlGUI *wbcg, gboolean set_default);
 void     dialog_col_width       (WorkbookControlGUI *wbcg, gboolean set_default);

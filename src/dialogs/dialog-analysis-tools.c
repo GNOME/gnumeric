@@ -389,11 +389,11 @@ dialog_tool_init (GenericToolState *state, const char *gui_name,
 void
 tool_load_selection (GenericToolState *state, gboolean allow_multiple)
 {
-	Range const *first = selection_first_range (state->sheet, NULL, NULL);
+	Range const *first = selection_first_range (state->sv, NULL, NULL);
 
 	if (first != NULL) {
 		if (allow_multiple) {
-			char *text = selection_to_string (state->sheet, TRUE);
+			char *text = selection_to_string (state->sv, TRUE);
 			gnm_expr_entry_load_from_text  (state->input_entry, text);
 			g_free (text);
 		} else

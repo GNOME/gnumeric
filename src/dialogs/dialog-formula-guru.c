@@ -897,7 +897,7 @@ dialog_formula_guru_show (FormulaGuruState *state)
 void
 dialog_formula_guru (WorkbookControlGUI *wbcg, FunctionDefinition const *fd)
 {
-	Sheet	  *sheet;
+	SheetView *sv;
 	Cell	  *cell;
 	GtkWidget *dialog;
 	FormulaGuruState *state;
@@ -940,10 +940,8 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, FunctionDefinition const *fd)
 	state->active_path = NULL;
 	state->pos = NULL;
 	
-	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	cell = sheet_cell_get (sheet,
-			       sheet->edit_pos.col,
-			       sheet->edit_pos.row);
+	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	cell = sheet_cell_get (sv_sheet (sv), sv->edit_pos.col, sv->edit_pos.row);
 	if (cell != NULL && cell_has_expr (cell))
 		expr = gnm_expr_first_func (cell->base.expression);
 

@@ -1103,7 +1103,7 @@ entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update)
 
 int
 entry_to_float_with_format_default (GtkEntry *entry, gnum_float *the_float, gboolean update, 
-			    StyleFormat *format, gnum_float num)
+				    StyleFormat *format, gnum_float num)
 {
 	char const *text = gtk_entry_get_text (entry);
 	gboolean need_default = (text == NULL);

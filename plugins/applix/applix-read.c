@@ -757,7 +757,7 @@ applix_get_sheet (ApplixReadState *state, unsigned char **buffer,
 
 static char *
 applix_parse_cellref (ApplixReadState *state, unsigned char *buffer,
-		      Sheet **sheet, int *col, int *row,
+		      Sheet **sheet, CellPos *pos,
 		      char const separator)
 {
 	int len;
@@ -765,11 +765,11 @@ applix_parse_cellref (ApplixReadState *state, unsigned char *buffer,
 	*sheet = applix_get_sheet (state, &buffer, separator);
 
 	/* Get cell addr */
-	if (*sheet && parse_cell_name (buffer, col, row, FALSE, &len))
+	if (*sheet && parse_cell_name (buffer, pos, FALSE, &len))
 		return buffer + len;
 
 	*sheet = NULL;
-	*col = *row = -1;
+	pos->col = pos->row = -1;
 	return NULL;
 }
 
@@ -800,6 +800,7 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 {
 	Sheet *sheet = NULL;
 	unsigned char *name = buffer + 19;
+	gboolean ignore;
 	int len = strlen (name);
 
 	g_return_val_if_fail (len > 1 && name [len-1] == '~', -1);
@@ -813,27 +814,24 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 	else
 		name [len-1] = '\0';
 
-	while (NULL != (buffer = applix_get_line (state))) {
-		if (!a_strncmp (buffer, "View Top Left: ")) {
-			int col, row;
-			if (applix_parse_cellref (state, buffer+15, &sheet, &col, &row, ':'))
-				sheet_set_initial_top_left (sheet, col, row);
-			if (!strcmp (name, "Current")) /* ignore current */
-				    sheet = NULL;
-			continue;
-		} else if (!a_strncmp (buffer, "View Open Cell: ")) {
-			int col, row;
-			if (applix_parse_cellref (state, buffer+16, &sheet, &col, &row, ':'))
-				sheet_selection_set (sheet, col, row, col, row, col, row);
-			if (!strcmp (name, "Current")) /* ignore current */
-				    sheet = NULL;
-			continue;
-		}
+	ignore = !strcmp (name, "Current"); /* ignore current */
 
-		if (sheet == NULL)
+	while (NULL != (buffer = applix_get_line (state))) {
+		if (!a_strncmp (buffer, "View End, Name: ~"))
+			break;
+		if (ignore)
 			continue;
-		
-		if (!a_strncmp (buffer, "View Default Column Width ")) {
+
+		if (!a_strncmp (buffer, "View Top Left: ")) {
+			CellPos pos;
+			if (applix_parse_cellref (state, buffer+15, &sheet, &pos, ':'))
+				sheet_set_initial_top_left (sheet, pos.col, pos.row);
+		} else if (!a_strncmp (buffer, "View Open Cell: ")) {
+			CellPos pos;
+			if (applix_parse_cellref (state, buffer+16, &sheet, &pos, ':'))
+				sv_selection_set (sheet_get_view (sheet, state->wb_view),
+						  &pos, pos.col, pos.row, pos.col, pos.row);
+		} else if (!a_strncmp (buffer, "View Default Column Width ")) {
 			char *ptr, *tmp = buffer + 26;
 			int width = strtol (tmp, &ptr, 10);
 			if (tmp == ptr || width <= 0)
@@ -895,8 +893,7 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 							   applix_width_to_pixels (width),
 							   TRUE);
 			} while (ptr[0] == ' ' && isalpha ((unsigned char) ptr[1]));
-		} else if (!a_strncmp (buffer, "View End, Name: ~"))
-			break;
+		}
 	}
 
 	return 0;
@@ -906,9 +903,9 @@ static int
 applix_read_cells (ApplixReadState *state)
 {
 	Sheet *sheet;
-	int col, row;
 	MStyle *style;
 	Cell *cell;
+	CellPos pos;
 	ParseError  perr;
 	unsigned char content_type, *tmp, *ptr;
 
@@ -928,15 +925,15 @@ applix_read_cells (ApplixReadState *state)
 		}
 
 		/* Get cell */
-		ptr = applix_parse_cellref (state, ptr, &sheet, &col, &row, '!');
+		ptr = applix_parse_cellref (state, ptr, &sheet, &pos, '!');
 		if (ptr == NULL) {
 			mstyle_unref (style);
 			return applix_parse_error (state, "Expression did not specify target cell");
 		}
-		cell = sheet_cell_fetch (sheet, col, row);
+		cell = sheet_cell_fetch (sheet, pos.col, pos.row);
 
 		/* Apply the formating */
-		sheet_style_set_pos (sheet, col, row, style);
+		sheet_style_set_pos (sheet, pos.col, pos.row, style);
 		content_type = *ptr;
 		switch (content_type) {
 		case ';' : /* First of a shared formula */
@@ -971,14 +968,14 @@ applix_read_cells (ApplixReadState *state)
 				if (*expr_string == '~') {
 					Sheet *start_sheet, *end_sheet;
 					tmp = applix_parse_cellref (state, expr_string+1, &start_sheet,
-								    &r.start.col, &r.start.row, ':');
+								    &r.start, ':');
 					if (start_sheet == NULL || tmp == NULL || tmp[0] != '.' || tmp[1] != '.') {
 						(void) applix_parse_error (state, "Invalid array expression");
 						continue;
 					}
 
 					tmp = applix_parse_cellref (state, tmp+2, &end_sheet,
-								    &r.end.col, &r.end.row, ':');
+								    &r.end, ':');
 					if (end_sheet == NULL || tmp == NULL || tmp[0] != '~') {
 						(void) applix_parse_error (state, "Invalid array expression");
 						continue;
@@ -1141,7 +1138,7 @@ static int
 applix_read_impl (ApplixReadState *state)
 {
 	Sheet *sheet;
-	int col, row;
+	CellPos pos;
 	int ext_links = -1;
 	unsigned char *real_name = NULL;
 	char top_cell_addr[30] = "";
@@ -1253,7 +1250,7 @@ applix_read_impl (ApplixReadState *state)
 		return -1;
 
 	/* We only need the sheet, the visible cell, and edit pos are already set */
-	if (applix_parse_cellref (state, cur_cell_addr, &sheet, &col, &row, ':'))
+	if (applix_parse_cellref (state, cur_cell_addr, &sheet, &pos, ':'))
 		wb_view_sheet_focus (state->wb_view, sheet);
 
 	return 0;

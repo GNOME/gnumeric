@@ -1,3 +1,8 @@
+2002-06-20  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_workbook_new) : store the workbookview.
+	(ms_excel_read_selection) : selection is now in the view.
+
 2002-06-06  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (ms_excel_read_workbook) : convert to gsf.

@@ -41,6 +41,8 @@ typedef struct {
 	GtkWidget *new_workbook;
 	GtkWidget *output_range;
 	Sheet	  *sheet;
+#warning warning warning THIS NEEDS TO BE INITIALIZED
+	SheetView *sv;
 	Workbook  *wb;
 	WorkbookControlGUI  *wbcg;
 	GtkAccelGroup *accel;

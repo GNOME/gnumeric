@@ -555,7 +555,7 @@ dialog_random_tool_init (RandomToolState *state)
 	gnumeric_keyed_dialog (state->base.wbcg, GTK_WINDOW (state->base.dialog),
 			       RANDOM_KEY);
 
-	first = selection_first_range (state->base.sheet, NULL, NULL);
+	first = selection_first_range (state->base.sv, NULL, NULL);
 	if (first != NULL) {
 		gnm_expr_entry_load_from_range (state->base.output_entry,
 						state->base.sheet, first);

@@ -142,6 +142,7 @@ static const char *help_selection = {
 	   "@SEEALSO=")
 };
 
+#if 0
 typedef struct
 {
 	GSList * res;
@@ -149,20 +150,20 @@ typedef struct
 } selection_accumulator;
 
 static void
-accumulate_regions (Sheet *sheet,  Range const *r, gpointer closure)
+accumulate_regions (SheetView *sv,  Range const *r, gpointer closure)
 {
 	selection_accumulator *accum = closure;
 	CellRef a, b;
 
 	/* Fill it in */
 	/* start */
-	a.sheet = sheet;
+	a.sheet = sv->sheet;
 	a.col_relative = a.row_relative = FALSE;
 	a.col = r->start.col;
 	a.row = r->start.row;
 
 	/* end */
-	b.sheet = sheet;
+	b.sheet = sv->sheet;
 	b.col_relative = b.row_relative = FALSE;
 	b.col = r->end.col;
 	b.row = r->end.row;
@@ -200,6 +201,14 @@ gnumeric_selection (FunctionEvalInfo *ei, Value *argv [])
 		value_array_set (res, i, 0, range);
 	}
 	return res;
+}
+#endif
+
+#warning we can no longer ue this method, think of another way
+static Value *
+gnumeric_selection (FunctionEvalInfo *ei, Value *argv [])
+{
+	return value_new_float (12.34);
 }
 
 /***************************************************************************/

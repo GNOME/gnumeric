@@ -120,7 +120,7 @@ Sheet_cursor_set (PortableServer_Servant servant,
 	verify ((base_row >= start_row) && (base_row <= end_row) &&
 		(base_col >= start_col) && (base_col <= end_col));
 
-	sheet_selection_set (sheet, base_col, base_row, start_col, start_row, end_col, end_row);
+	sv_selection_set (sheet, base_col, base_row, start_col, start_row, end_col, end_row);
 }
 
 static void
@@ -131,26 +131,18 @@ Sheet_cursor_move (PortableServer_Servant servant, const CORBA_long col, const C
 	verify_col (col);
 	verify_row (row);
 
-	sheet_selection_set (sheet, col, row, col, row, col, row);
+	sv_selection_set (sheet, col, row, col, row, col, row);
 }
 
 static void
 Sheet_make_cell_visible (PortableServer_Servant servant, const CORBA_long col, const CORBA_long row, CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
+	SheetView *sv = sheet_view_from_servant (servant);
 
 	verify_col (col);
 	verify_row (row);
 
-	sheet_make_cell_visible (sheet, col, row, FALSE);
-}
-
-static CORBA_boolean
-Sheet_is_all_selected (PortableServer_Servant servant, CORBA_Environment *ev)
-{
-	Sheet *sheet = sheet_from_servant (servant);
-
-	return sheet_is_all_selected (sheet);
+	sv_make_cell_visible (sv, col, row, FALSE);
 }
 
 static void
@@ -158,12 +150,12 @@ Sheet_selection_append (PortableServer_Servant servant,
 			const CORBA_long col, const CORBA_long row,
 			CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
+	SheetView *sv = sv_from_servant (servant);
 
 	verify_col (col);
 	verify_row (row);
 
-	sheet_selection_add (sheet, col, row);
+	sv_selection_add_pos (sheet, col, row);
 }
 
 static void
@@ -172,14 +164,14 @@ Sheet_selection_append_range (PortableServer_Servant servant,
 			      const CORBA_long end_col, const CORBA_long end_row,
 			      CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
+	SheetView *sv = sv_from_servant (servant);
 
 	verify_region (start_col, start_row, end_col, end_row);
 
-	sheet_selection_add_range (sheet,
-				   start_col, start_row,
-				   start_col, start_row,
-				   end_col, end_row);
+	sv_selection_add_range (sv,
+				start_col, start_row,
+				start_col, start_row,
+				end_col, end_row);
 }
 
 static void
@@ -303,8 +295,8 @@ Sheet_cell_set_value (PortableServer_Servant servant,
 	case GNOME_Gnumeric_VALUE_CELLRANGE: {
 		CellRef a, b;
 
-		parse_cell_name (value->_u.cell_range.cell_a, &a.col, &a.row, TRUE, NULL);
-		parse_cell_name (value->_u.cell_range.cell_b, &b.col, &b.row, TRUE, NULL);
+		parse_cell_name (value->_u.cell_range.cell_a, &a, TRUE, NULL);
+		parse_cell_name (value->_u.cell_range.cell_b, &b, TRUE, NULL);
 		a.sheet = sheet;
 		b.sheet = sheet;
 		a.col_relative = 0;

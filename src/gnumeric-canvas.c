@@ -58,6 +58,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 {
 	SheetControl *sc = (SheetControl *) gcanvas->simple.scg;
 	Sheet *sheet = sc->sheet;
+	SheetView *sv = sc->view;
 	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
 	gboolean const jump_to_bounds = event->state & GDK_CONTROL_MASK;
 	int state = gnumeric_filter_modifiers (event->state);
@@ -130,7 +131,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 				MStyle *mstyle = mstyle_new ();
 
 				mstyle_set_format_text (mstyle, fmt);
-				cmd_format (WORKBOOK_CONTROL (wbcg), sheet, mstyle, NULL, desc);
+				cmd_selection_format (WORKBOOK_CONTROL (wbcg), mstyle, NULL, desc);
 				return TRUE;
 			}
 		}
@@ -203,8 +204,8 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 	case GDK_KP_Home:
 	case GDK_Home:
 		if (event->state & GDK_MOD5_MASK) { /* Scroll Lock */
-			scg_set_left_col (gcanvas->simple.scg, sheet->edit_pos.col);
-			scg_set_top_row (gcanvas->simple.scg, sheet->edit_pos.row);
+			scg_set_left_col (gcanvas->simple.scg, sv->edit_pos.col);
+			scg_set_top_row (gcanvas->simple.scg, sv->edit_pos.row);
 		} else {
 			/* do the ctrl-home jump to A1 in 2 steps */
 			(*movefn)(gcanvas->simple.scg, -SHEET_MAX_COLS, FALSE, TRUE);
@@ -216,17 +217,17 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 	case GDK_KP_End:
 	case GDK_End:
 		if (event->state & GDK_MOD5_MASK) { /* Scroll Lock */
-			int new_col = sheet->edit_pos.col - (gcanvas->last_full.col - gcanvas->first.col);
-			int new_row = sheet->edit_pos.row - (gcanvas->last_full.row - gcanvas->first.row);
+			int new_col = sv->edit_pos.col - (gcanvas->last_full.col - gcanvas->first.col);
+			int new_row = sv->edit_pos.row - (gcanvas->last_full.row - gcanvas->first.row);
 			scg_set_left_col (gcanvas->simple.scg, new_col);
 			scg_set_top_row (gcanvas->simple.scg, new_row);
 		} else {
 			Range r = sheet_get_extent (sheet, FALSE);
 
 			/* do the ctrl-end jump to the extent in 2 steps */
-			(*movefn)(gcanvas->simple.scg, r.end.col - sheet->edit_pos.col, FALSE, TRUE);
+			(*movefn)(gcanvas->simple.scg, r.end.col - sv->edit_pos.col, FALSE, TRUE);
 			if ((event->state & GDK_CONTROL_MASK))
-				(*movefn)(gcanvas->simple.scg, r.end.row - sheet->edit_pos.row, FALSE, FALSE);
+				(*movefn)(gcanvas->simple.scg, r.end.row - sv->edit_pos.row, FALSE, FALSE);
 		}
 		break;
 
@@ -237,7 +238,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 		if (state == GDK_CONTROL_MASK)
 			sv_selection_copy (sc_view (sc), WORKBOOK_CONTROL (wbcg));
 		else if (state == GDK_SHIFT_MASK)
-			cmd_paste_to_selection (WORKBOOK_CONTROL (wbcg), sheet, PASTE_DEFAULT);
+			cmd_paste_to_selection (WORKBOOK_CONTROL (wbcg), sv, PASTE_DEFAULT);
 		break;
 
 	case GDK_KP_Delete:
@@ -248,7 +249,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 			scg_mode_edit (sc);
 			sv_selection_cut (sc_view (sc), WORKBOOK_CONTROL (wbcg));
 		} else
-			cmd_clear_selection (WORKBOOK_CONTROL (wbcg), sheet, CLEAR_VALUES);
+			cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_VALUES);
 		break;
 
 	/*
@@ -283,7 +284,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 			gboolean const horizontal = (event->keyval == GDK_KP_Enter ||
 						     event->keyval == GDK_Return) ? FALSE : TRUE;
 
-			sheet_selection_walk_step (sheet, direction, horizontal);
+			sv_selection_walk_step (sv, direction, horizontal);
 		}
 		break;
 
@@ -309,8 +310,8 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 	case GDK_BackSpace:
 		/* Re-center the view on the active cell */
 		if (!wbcg->editing && (event->state & GDK_CONTROL_MASK) != 0) {
-			scg_make_cell_visible (gcanvas->simple.scg, sheet->edit_pos.col,
-					       sheet->edit_pos.row, FALSE, TRUE);
+			scg_make_cell_visible (gcanvas->simple.scg, sv->edit_pos.col,
+					       sv->edit_pos.row, FALSE, TRUE);
 			break;
 		}
 
@@ -843,45 +844,44 @@ gnm_canvas_compute_visible_region (GnumericCanvas *gcanvas,
 }
 
 void
-gnm_canvas_redraw_region (GnumericCanvas *gcanvas,
-			  int start_col, int start_row,
-			  int end_col, int end_row)
+gnm_canvas_redraw_range (GnumericCanvas *gcanvas, Range const *r)
 {
 	SheetControlGUI *scg;
 	GnomeCanvas *canvas;
 	int x1, y1, x2, y2;
+	Range tmp;
 
 	g_return_if_fail (IS_GNUMERIC_CANVAS (gcanvas));
 
 	scg = gcanvas->simple.scg;
 	canvas = GNOME_CANVAS (gcanvas);
 
-	if ((end_col < gcanvas->first.col) ||
-	    (end_row < gcanvas->first.row) ||
-	    (start_col > gcanvas->last_visible.col) ||
-	    (start_row > gcanvas->last_visible.row))
+	if ((r->end.col < gcanvas->first.col) ||
+	    (r->end.row < gcanvas->first.row) ||
+	    (r->start.col > gcanvas->last_visible.col) ||
+	    (r->start.row > gcanvas->last_visible.row))
 		return;
 
 	/* Only draw those regions that are visible */
-	start_col = MAX (gcanvas->first.col, start_col);
-	start_row = MAX (gcanvas->first.row, start_row);
-	end_col =  MIN (gcanvas->last_visible.col, end_col);
-	end_row =  MIN (gcanvas->last_visible.row, end_row);
+	tmp.start.col = MAX (gcanvas->first.col, r->start.col);
+	tmp.start.row = MAX (gcanvas->first.row, r->start.row);
+	tmp.end.col =  MIN (gcanvas->last_visible.col, r->end.col);
+	tmp.end.row =  MIN (gcanvas->last_visible.row, r->end.row);
 
 	/* redraw a border of 2 pixels around the region to handle thick borders
 	 * NOTE the 2nd coordinates are excluded so add 1 extra (+2border +1include)
 	 */
-	x1 = scg_colrow_distance_get (scg, TRUE, gcanvas->first.col, start_col) +
+	x1 = scg_colrow_distance_get (scg, TRUE, gcanvas->first.col, tmp.start.col) +
 		gcanvas->first_offset.col;
-	y1 = scg_colrow_distance_get (scg, FALSE, gcanvas->first.row, start_row) +
+	y1 = scg_colrow_distance_get (scg, FALSE, gcanvas->first.row, tmp.start.row) +
 		gcanvas->first_offset.row;
-	x2 = (end_col < (SHEET_MAX_COLS-1))
+	x2 = (tmp.end.col < (SHEET_MAX_COLS-1))
 		? 4 + 1 + x1 + scg_colrow_distance_get (scg, TRUE,
-							start_col, end_col+1)
+							tmp.start.col, tmp.end.col+1)
 		: INT_MAX;
-	y2 = (end_row < (SHEET_MAX_ROWS-1))
+	y2 = (tmp.end.row < (SHEET_MAX_ROWS-1))
 		? 4 + 1 + y1 + scg_colrow_distance_get (scg, FALSE,
-							start_row, end_row+1)
+							tmp.start.row, tmp.end.row+1)
 		: INT_MAX;
 
 #if 0

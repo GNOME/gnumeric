@@ -169,15 +169,16 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 {
 	int l, r, t, b, last;
 	GdkGC *gc = ig->gc.empty;
-	Sheet const *sheet = ((SheetControl *) ig->scg)->sheet;
-	Cell  const *cell    = sheet_cell_get (sheet, range->start.col, range->start.row);
+	SheetView const *sv = ((SheetControl *) ig->scg)->view;
+	Sheet const *sheet  = sv->sheet;
+	Cell  const *cell   = sheet_cell_get (sheet, range->start.col, range->start.row);
 
 	/* load style from corner which may not be visible */
 	MStyle const *style = sheet_style_get (sheet, range->start.col, range->start.row);
 	gboolean const is_selected = draw_selection &&
-		(sheet->edit_pos.col != range->start.col ||
-		 sheet->edit_pos.row != range->start.row) &&
-		sheet_is_full_range_selected (sheet, range);
+		(sv->edit_pos.col != range->start.col ||
+		 sv->edit_pos.row != range->start.row) &&
+		sv_is_full_range_selected (sv, range);
 
 	l = r = start_x;
 	if (view->start.col < range->start.col)
@@ -237,11 +238,11 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *ig,
 			   int col, int row, int x, int y, int w, int h,
 			   gboolean draw_selection)
 {
-	GdkGC                 *gc    = ig->gc.empty;
-	Sheet const           *sheet = ((SheetControl *) ig->scg)->sheet;
+	GdkGC           *gc = ig->gc.empty;
+	SheetView const *sv = ((SheetControl *) ig->scg)->view;
 	gboolean const is_selected = draw_selection &&
-		(sheet->edit_pos.col != col || sheet->edit_pos.row != row) &&
-		sheet_is_cell_selected (sheet, col, row);
+		(sv->edit_pos.col != col || sv->edit_pos.row != row) &&
+		sv_is_cell_selected (sv, col, row);
 	gboolean const has_back =
 		gnumeric_background_set_gc (style, gc,
 					    ig->canvas_item.canvas,
@@ -794,18 +795,22 @@ ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 
 static int
 item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
-		    ItemGrid *ig, int col, int row, int x, int y)
+		    ItemGrid *ig, int x, int y)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ig);
-	GnomeCanvas   *canvas = item->canvas;
+	GnomeCanvas    *canvas = item->canvas;
 	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (canvas);
 	SheetControl *sc = (SheetControl *) scg;
 	Sheet *sheet = sc->sheet;
+	CellPos	pos;
+
+	pos.col = gnm_canvas_find_col (gcanvas, x, NULL);
+	pos.row = gnm_canvas_find_row (gcanvas, y, NULL);
 
 	/* Range check first */
-	if (col >= SHEET_MAX_COLS)
+	if (pos.col >= SHEET_MAX_COLS)
 		return 1;
-	if (row >= SHEET_MAX_ROWS)
+	if (pos.row >= SHEET_MAX_ROWS)
 		return 1;
 
 	/* A new object is ready to be realized and inserted */
@@ -827,9 +832,9 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	if (scg->rangesel.active) {
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		if (event->state & GDK_SHIFT_MASK)
-			scg_rangesel_extend_to (scg, col, row);
+			scg_rangesel_extend_to (scg, pos.col, pos.row);
 		else
-			scg_rangesel_bound (scg, col, row, col, row);
+			scg_rangesel_bound (scg, pos.col, pos.row, pos.col, pos.row);
 		gnm_canvas_slide_init (gcanvas);
 		gnm_simple_canvas_grab (item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
@@ -841,7 +846,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	 * enable the dynamic cell selection mode.
 	 */
 	if (wbcg_rangesel_possible (scg->wbcg)) {
-		scg_rangesel_start (scg, col, row, col, row);
+		scg_rangesel_start (scg, pos.col, pos.row, pos.col, pos.row);
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		gnm_canvas_slide_init (gcanvas);
 		gnm_simple_canvas_grab (item,
@@ -861,15 +866,15 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 		return 1;
 
 	if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
-		sheet_selection_reset (sheet);
+		sv_selection_reset (sc->view);
 
 	ig->selecting = ITEM_GRID_SELECTING_CELL_RANGE;
 
-	if ((event->state & GDK_SHIFT_MASK) && sheet->selections)
-		sheet_selection_extend_to (sheet, col, row);
+	if ((event->state & GDK_SHIFT_MASK) && sc->view->selections != NULL)
+		sv_selection_extend_to (sc->view, pos.col, pos.row);
 	else {
-		sheet_selection_add (sheet, col, row);
-		sheet_make_cell_visible (sheet, col, row, FALSE);
+		sv_selection_add_pos (sc->view, pos.col, pos.row);
+		sv_make_cell_visible (sc->view, pos.col, pos.row, FALSE);
 	}
 	sheet_update (sheet);
 
@@ -907,7 +912,7 @@ drag_start (GtkWidget *widget, GdkEvent *event, Sheet *sheet)
 static gboolean
 cb_extend_cell_range (GnumericCanvas *gcanvas, int col, int row, gpointer ignored)
 {
-	sheet_selection_extend_to (((SheetControl *) gcanvas->simple.scg)->sheet, col, row);
+	sv_selection_extend_to (((SheetControl *) gcanvas->simple.scg)->view, col, row);
 	return TRUE;
 }
 
@@ -944,7 +949,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	SheetControlGUI *scg = ig->scg;
 	SheetControl *sc = (SheetControl *) scg;
 	Sheet *sheet = sc->sheet;
-	int col, row, x, y;
+	int x, y;
 
 	switch (event->type){
 	case GDK_ENTER_NOTIFY:
@@ -1031,12 +1036,9 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		gnome_canvas_w2c (canvas, event->button.x, event->button.y,
 				  &x, &y);
-		col = gnm_canvas_find_col (gcanvas, x, NULL);
-		row = gnm_canvas_find_row (gcanvas, y, NULL);
-
 		if (event->button.button == 1)
 			return item_grid_button_1 (scg, &event->button,
-						   ig, col, row, x, y);
+						   ig, x, y);
 
 		/* While a guru is up ignore clicks */
 		if (wbcg_edit_has_guru (scg->wbcg))

@@ -25,22 +25,6 @@ struct _Sheet {
 
 	GHashTable  *cell_hash;	/* The cells in hashed format */
 
-	CellPos	 edit_pos;	/* Cell that would be edited */
-	CellPos	 edit_pos_real;	/* Even in the middle of a merged cell */
-
-	struct {
-		/* Static corner to rubber band the selection range around */
-		CellPos	 base_corner;
-		/* Corner that is moved when the selection range is extended */
-		CellPos	 move_corner;
-	} cursor;
-
-	/*
-	 * an ordered list of SheetSelections, the first of
-	 * which corresponds to the range base_corner:move_corner
-	 */
-	GList       *selections;
-
 	/* User defined names */
 	GList      *names;
 
@@ -93,21 +77,11 @@ void	    sheet_freeze_panes		(Sheet *sheet,
 					 CellPos const *frozen_top_left,
 					 CellPos const *unfrozen_top_left);
 gboolean    sheet_is_frozen		(Sheet const *sheet);
-void	    sheet_set_tab_color		(Sheet *sheet, StyleColor *tab_color, 
+void	    sheet_set_tab_color		(Sheet *sheet, StyleColor *tab_color,
 					 StyleColor *text_color);
 
 void        sheet_set_zoom_factor	(Sheet *sheet, double factor,
 					 gboolean force, gboolean respan);
-void        sheet_cursor_set		(Sheet *sheet,
-					 int edit_col, int edit_row,
-					 int base_col, int base_row,
-					 int move_col, int move_row,
-					 Range const *cursor_bound);
-void        sheet_set_edit_pos		(Sheet *sheet, int col, int row);
-
-/* deprecated : this will be removed when sheetViews are added */
-void        sheet_make_cell_visible	(Sheet *sheet, int col, int row,
-					 gboolean couple_panes);
 
 /* Cell management */
 Cell       *sheet_cell_get		(Sheet const *sheet, int col, int row);
@@ -229,6 +203,7 @@ gboolean sheet_ranges_split_region   (Sheet const *sheet,
 				      WorkbookControl *wbc, char const *cmd);
 gboolean sheet_range_contains_region (Sheet const *sheet, Range const *r,
 				      WorkbookControl *wbc, char const *cmd);
+void	 sheet_range_bounding_box    (Sheet const *sheet, Range *r);
 
 /* Redraw */
 void        sheet_redraw_all              (Sheet const *sheet, gboolean header);
@@ -237,9 +212,6 @@ void        sheet_redraw_range            (Sheet const *sheet, Range const *r);
 void        sheet_redraw_region      	  (Sheet const *sheet,
 				           int start_col, int start_row,
 				           int end_col,   int end_row);
-void	    sheet_redraw_headers          (Sheet const *sheet,
-					   gboolean col, gboolean row,
-					   Range const* r /* optional == NULL */);
 
 void        sheet_unant                    (Sheet *sheet);
 void        sheet_ant                      (Sheet *sheet, GList *ranges);
@@ -254,8 +226,6 @@ void        sheet_update                   (Sheet const *s);
 void	    sheet_scrollbar_config	   (Sheet const *s);
 void        sheet_adjust_preferences   	   (Sheet const *s,
 					    gboolean redraw, gboolean resize);
-void        sheet_menu_state_enable_insert (Sheet *s,
-					    gboolean col, gboolean row);
 
 void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);
 gboolean    sheet_is_pristine             (Sheet const *sheet);
@@ -323,6 +293,7 @@ void  sheet_clear_region (WorkbookControl *context,
 
 void	sheet_attach_view (Sheet *sheet, SheetView *sv);
 void    sheet_detach_view (SheetView *sv);
+SheetView *sheet_get_view (Sheet const *sheet, WorkbookView const *wbv);
 
 #define SHEET_FOREACH_VIEW(sheet, view, code)					\
 do {										\

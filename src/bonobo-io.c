@@ -229,8 +229,8 @@ deserialize_wb_from_xml_stream (StreamIOCtxt *sc, IOContext *ioc,
 			ioc, _("Does not contain a Workbook file"));
 		return -1;
 	}
-	xc = xml_parse_ctx_new_full (doc, gmr, version, NULL, NULL, NULL);
-	xml_workbook_read (ioc, wb_view, xc, doc->xmlRootNode);
+	xc = xml_parse_ctx_new_full (doc, gmr, wb_view, version, NULL, NULL, NULL);
+	xml_workbook_read (ioc, xc, doc->xmlRootNode);
 	
 	xml_parse_ctx_destroy (xc);
 	xmlFreeDoc (doc);
@@ -577,10 +577,10 @@ gnumeric_bonobo_write_workbook (GnumFileSaver const *fs,
 		return;
 	}
 	ctxt = xml_parse_ctx_new_full (
-		xml, NULL, GNUM_XML_LATEST, NULL,
+		xml, NULL, wb_view, GNUM_XML_LATEST, NULL,
 		gnumeric_bonobo_obj_write, storage);
 
-	xml->xmlRootNode = xml_workbook_write (ctxt, wb_view);
+	xml->xmlRootNode = xml_workbook_write (ctxt);
 	xml_parse_ctx_destroy (ctxt);
 
 	/*
@@ -697,11 +697,11 @@ gnumeric_bonobo_read_workbook (GnumFileOpener const *fo,
 	}
 
 	ctxt = xml_parse_ctx_new_full (
-		doc, gmr, version,
+		doc, gmr, wb_view, version,
 		gnumeric_bonobo_obj_read,
 		NULL, storage);
 
-	xml_workbook_read (context, wb_view, ctxt, doc->xmlRootNode);
+	xml_workbook_read (context, ctxt, doc->xmlRootNode);
 	workbook_set_saveinfo (wb_view_workbook (wb_view),
 	                       (char *) filename, FILE_FL_AUTO,
 	                       gnumeric_bonobo_saver);

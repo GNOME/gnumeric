@@ -129,15 +129,17 @@ sheet_merge_add (WorkbookControl *wbc,
 				    &dummy, &dummy);
 
 	/* Ensure that edit pos is not in the center of a region. */
-	if (range_contains (r, sheet->edit_pos.col, sheet->edit_pos.row))
-		sheet_set_edit_pos (sheet, r->start.col, r->start.row);
+	SHEET_FOREACH_VIEW (sheet, sv, {
+		sv->reposition_selection = TRUE;
+		if (range_contains (r, sv->edit_pos.col, sv->edit_pos.row))
+			sv_set_edit_pos (sv, &r->start);
+	});
 
 	comment = cell_has_comment_pos (sheet, &r->start);
 	if (comment != NULL)
 		sheet_object_update_bounds (SHEET_OBJECT (comment), NULL);
 
 	sheet_flag_status_update_range (sheet, r);
-	sheet->priv->reposition_selection = TRUE;
 	return FALSE;
 }
 
@@ -179,7 +181,7 @@ sheet_merge_remove (WorkbookControl *wbc, Sheet *sheet, Range const *r)
 
 	g_free (r_copy);
 	sheet_flag_status_update_range (sheet, r);
-	sheet->priv->reposition_selection = TRUE;
+	SHEET_FOREACH_VIEW (sheet, sv, sv->reposition_selection = TRUE;);
 	return FALSE;
 }
 

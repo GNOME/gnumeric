@@ -281,15 +281,15 @@ cursor_change (ETable *et, int row, DialogState *dd)
 
 	if (matchno >= 0 && matchno <= lastmatch) {
 		SearchFilterResult *item = g_ptr_array_index (dd->matches, matchno);
-		Sheet *sheet = item->ep.sheet;
 		int col = item->ep.eval.col;
 		int row = item->ep.eval.row;
+		WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (dd->wbcg));
+		SheetView *sv;
 
-		WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
-			wb_view_sheet_focus (view, sheet);
-		});
-		sheet_selection_set (sheet, col, row, col, row, col, row);
-		sheet_make_cell_visible (sheet, col, row, FALSE);
+		wb_view_sheet_focus (wbv, item->ep.sheet);
+		sv = wb_view_cur_sheet_view (wbv);
+		sv_selection_set (sv, &item->ep.eval, col, row, col, row);
+		sv_make_cell_visible (sv, col, row, FALSE);
 	}
 }
 
@@ -481,8 +481,9 @@ dialog_search (WorkbookControlGUI *wbcg)
 			  1, 2, 6, 7,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
-	selection_text = selection_to_string (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)),
-								    TRUE);
+	selection_text = selection_to_string (
+		wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)),
+		TRUE);
 	gnm_expr_entry_load_from_text  (dd->rangetext, selection_text);
 	g_free (selection_text);
 	
@@ -546,7 +547,7 @@ dialog_search (WorkbookControlGUI *wbcg)
 		"toggled",
 		G_CALLBACK (cb_focus_on_entry), dd->rangetext);
 
-/* FIXME: Add correct helpfile address */
+#warning FIXME: Add correct helpfile address 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (gui, "help_button"),
 		"search.html");

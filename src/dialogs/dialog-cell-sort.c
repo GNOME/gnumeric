@@ -53,9 +53,10 @@
 #define CELL_SORT_KEY "cell-sort-dialog"
 
 typedef struct {
-	Sheet     *sheet;
 	WorkbookControlGUI  *wbcg;
 	Workbook  *wb;
+	SheetView *sv;
+	Sheet     *sheet;
 
 	GladeXML  *gui;
 	GtkWidget *dialog;
@@ -395,7 +396,7 @@ dialog_load_selection (SortFlowState *state)
 {
 	Range const *first;
 
-	first = selection_first_range (state->sheet, NULL, NULL);
+	first = selection_first_range (state->sv, NULL, NULL);
 
 	if (first != NULL) {
 		gtk_toggle_button_set_active (
@@ -823,20 +824,20 @@ dialog_init (SortFlowState *state)
  * Main entry point for the Cell Sort dialog box
  */
 void
-dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_cell_sort (WorkbookControlGUI *wbcg)
 {
 	SortFlowState* state;
 
 	g_return_if_fail (wbcg != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, CELL_SORT_KEY))
 		return;
 
 	state = g_new (SortFlowState, 1);
 	state->wbcg  = wbcg;
-	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->sheet = sheet;
+	state->wb    = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sv    = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sv_sheet (state->sv);
 	state->warning_dialog = NULL;
 	state->sel = NULL;
 	state->sort_items = 0;

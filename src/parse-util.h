@@ -23,7 +23,7 @@ char const *cell_name                (Cell const *cell);
 
 /* Various parsing routines */
 int         parse_col_name           (char const *cell_str, char const **endptr);
-gboolean    parse_cell_name          (char const *cell_str, int *col, int *row,
+gboolean    parse_cell_name          (char const *cell_str, CellPos *res,
 				      gboolean strict, int *chars_read);
 gboolean    parse_cell_range         (Sheet *sheet, char const *range, Value **v);
 

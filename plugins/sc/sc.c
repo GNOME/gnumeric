@@ -203,7 +203,8 @@ sc_parse_cell_name_list (Sheet *sheet, const char *cell_name_str,
         char     *buf;
 	GSList   *cells = NULL;
 	Cell     *cell;
-	int      i, n, col, row;
+	CellPos   pos;
+	int      i, n;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -217,14 +218,14 @@ sc_parse_cell_name_list (Sheet *sheet, const char *cell_name_str,
 		    (!cell_name_str [i])){
 		        buf [n] = '\0';
 
-			if (!parse_cell_name (buf, &col, &row)){
+			if (!parse_cell_name (buf, &pos)){
 			        *error_flag = 1;
 				g_free (buf);
 				g_slist_free (cells);
 				return NULL;
 			}
 
-			cell = sheet_cell_fetch (sheet, col, row);
+			cell = sheet_cell_fetch (sheet, pos.col, pos.row);
 			cells = g_slist_append (cells, (gpointer) cell);
 			n = 0;
 		} else

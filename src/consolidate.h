@@ -45,6 +45,7 @@ gboolean     consolidate_set_destination (Consolidate *cs, Value *range);
 gboolean     consolidate_add_source      (Consolidate *cs, Value *range);
 
 Range        consolidate_get_dest_bounding_box (Consolidate *cs);
-void         consolidate_apply                 (Consolidate *cs);
+void         consolidate_apply                 (Consolidate *cs,
+						WorkbookControl *wbc);
 
 #endif

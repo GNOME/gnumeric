@@ -143,13 +143,13 @@ excel_gb_range_select (GBRunEvalContext *ec,
 {
 	ExcelGBRange   *range = EXCEL_GB_RANGE (object);
 
-	sheet_selection_add_range (range->sheet,
-				   range->range.start.col,
-				   range->range.start.row,
-				   range->range.start.col,
-				   range->range.start.row,
-				   range->range.end.col,
-				   range->range.end.row);
+	sv_selection_add_range (range->sheet,
+				range->range.start.col,
+				range->range.start.row,
+				range->range.start.col,
+				range->range.start.row,
+				range->range.end.col,
+				range->range.end.row);
 
 	sheet_selection_redraw (range->sheet);
 
@@ -258,13 +258,13 @@ excel_gb_range_new_ref (GBRunEvalContext *ec,
 	Range         tmp;
 	int           len;
 
-	if (!parse_cell_name (text, &tmp.start.col, &tmp.start.row, FALSE, &len)) {
+	if (!parse_cell_name (text, &tmp.start, FALSE, &len)) {
 		gbrun_exception_firev (ec, "Invalid range '%s'", text);
 		return NULL;
 	}
 
 	if (text [len] == ':') {
-		if (!parse_cell_name (text + len + 1, &tmp.end.col, &tmp.end.row, TRUE, NULL)) {
+		if (!parse_cell_name (text + len + 1, &tmp.end, &tmp.end, TRUE, NULL)) {
 			gbrun_exception_firev (ec, "Invalid range '%s'", text);
 			return NULL;
 		}

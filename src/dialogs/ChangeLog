@@ -1,3 +1,33 @@
+2002-06-21  Jody Goldberg <jody@gnome.org>
+
+	* tool-dialogs.h : toss in a sheetview.
+	TODO : this needs to be initialized.
+
+	* dialog-search-replace.c (dialog_search_replace) : sheet->sheetview
+	* dialog-search.c (dialog_search) : ditto.
+	(cursor_change) : only tweak the current view.
+
+	* dialog-cell-format.c (dialog_cell_format) : no need to pass in the
+	  sheet.  Use the same convention as the other dialogs and use the
+	  current sheet.
+	(fmt_dialog_selection_type) : sheet -> sheetview.
+	* dialog-cell-sort.c (dialog_cell_sort) : ditto.
+	(dialog_load_selection) : use the sheetview.
+	* dialog-consolidate.c (dialog_consolidate) :
+	(cb_add_source_area) : ditto.
+	* dialog-insert-cells.c (dialog_insert_cells) : ditto.
+
+	* dialog-define-names.c (name_guru_init) : edit_pos is in the
+	  sheetview now.
+	* dialog-formula-guru.c (dialog_formula_guru) : ditto.
+
+2002-06-19  Jody Goldberg <jody@gnome.org>
+
+	* dialog-row-height.c (dialog_row_height) : store the view.
+	(dialog_row_height_load_value) : selection is in the view now.
+	* dialog-col-width.c (dialog_col_width) : store the view.
+	(dialog_col_width_load_value) : selection is in the view now.
+
 2002-06-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-sheet-order.c (cb_toggled_lock) : new
@@ -265,11 +295,7 @@
 
 2002-04-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-<<<<<<< ChangeLog
-	* dialog-preferences.c : add mor eitems to file/xml
-=======
 	* dialog-preferences.c : add more items to file/xml
->>>>>>> 1.508
 	  preference page
 
 2002-04-17  Andreas J. Guelzow <aguelzow@taliesin.ca>

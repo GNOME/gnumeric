@@ -370,13 +370,10 @@ previews_load (AutoFormatState *state, int topindex)
 static void
 cb_ok_clicked (GtkButton *button, AutoFormatState *state)
 {
-	if (state->selected_template) {
-		WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
-		Sheet *sheet = wb_control_cur_sheet (wbc);
-
-		cmd_autoformat (wbc, sheet,
+	if (state->selected_template)
+		cmd_selection_autoformat (WORKBOOK_CONTROL (state->wbcg),
 			format_template_clone (state->selected_template));
-	}
+
 	gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
 

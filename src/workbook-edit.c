@@ -73,6 +73,7 @@ gboolean
 wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 {
 	Sheet *sheet;
+	SheetView *sv;
 	WorkbookControl *wbc;
 	WorkbookView	*wbv;
 
@@ -101,13 +102,14 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 	g_return_val_if_fail (IS_SHEET (wbcg->editing_sheet), TRUE);
 
 	sheet = wbcg->editing_sheet;
+	sv = sheet_get_view (sheet, wbv);
 
 	/* Save the results before changing focus */
 	if (accept) {
 		ValidationStatus valid;
 		char *free_txt = NULL;
 		char const *txt = wbcg_edit_get_display_text (wbcg);
-		MStyle *mstyle = sheet_style_get (sheet, sheet->edit_pos.col, sheet->edit_pos.row);
+		MStyle *mstyle = sheet_style_get (sheet, sv->edit_pos.col, sv->edit_pos.row);
 		char const *expr_txt = NULL;
 
 		/* BE CAREFUL the standard fmts must not NOT include '@' */
@@ -122,9 +124,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 			ParsePos    pp;
 			ParseError  perr;
 
-			parse_pos_init (&pp, sheet->workbook, sheet,
-					sheet->edit_pos.col, sheet->edit_pos.row);
-
+			parse_pos_init_editpos (&pp, sv);
 			parse_error_init (&perr);
 			expr = gnm_expr_parse_str (expr_txt,
 				&pp, GNM_EXPR_PARSE_DEFAULT, &perr);
@@ -164,8 +164,8 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 		/* NOTE we assign the value BEFORE validating in case
 		 * a validation condition depends on the new value.
 		 */
-		cmd_set_text (wbc, sheet, &sheet->edit_pos, txt);
-		valid = validation_eval (wbc, mstyle, sheet, &sheet->edit_pos);
+		cmd_set_text (wbc, sheet, &sv->edit_pos, txt);
+		valid = validation_eval (wbc, mstyle, sheet, &sv->edit_pos);
 
 		if (free_txt != NULL)
 			g_free (free_txt);
@@ -181,10 +181,12 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 		} else
 			accept = TRUE;
 	} else {
-		/* Redraw the cell contents in case there was a span */
-		int const c = sheet->edit_pos.col;
-		int const r = sheet->edit_pos.row;
-		sheet_redraw_region (sheet, c, r, c, r);
+		if (sv == wb_control_cur_sheet_view (wbc)) {
+			/* Redraw the cell contents in case there was a span */
+			Range tmp; tmp.start = tmp.end = sv->edit_pos;
+			sheet_range_bounding_box (sv->sheet, &tmp);
+			sv_redraw_range (wb_control_cur_sheet_view (wbc), &tmp);
+		}
 
 		/* Reload the entry widget with the original contents */
 		wb_view_edit_line_set (wbv, wbc);
@@ -276,7 +278,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 		 gboolean blankp, gboolean cursorp)
 {
 	static gboolean inside_editing = FALSE;
-	Sheet *sheet;
+	SheetView *sv;
 	SheetControlGUI *scg;
 	Cell *cell;
 	char *text = NULL;
@@ -294,11 +296,11 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	inside_editing = TRUE;
 
 	wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
-	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	scg = wbcg_cur_scg (wbcg);
 
-	col = sheet->edit_pos.col;
-	row = sheet->edit_pos.row;
+	col = sv->edit_pos.col;
+	row = sv->edit_pos.row;
 
 	/* don't edit a locked cell */
 	/* TODO : extend this to disable edits that can not succeed
@@ -306,9 +308,9 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	 * information if we look at the selection.
 	 */
 	if (wb_view_is_protected (wbv, TRUE) &&
-	    mstyle_get_content_locked (sheet_style_get (sheet, col, row))) {
+	    mstyle_get_content_locked (sheet_style_get (sv->sheet, col, row))) {
 		char *pos =  g_strdup_printf ( _("%s!%s is locked"),
-			sheet->name_quoted, cell_coord_name (col, row));
+			sv->sheet->name_quoted, cell_coord_name (col, row));
 		gnumeric_error_invalid (COMMAND_CONTEXT (wbcg), pos,
 			wb_view_is_protected (wbv, FALSE)
 			 ? _("Unprotect the workbook to enable editing.")
@@ -321,7 +323,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	application_clipboard_unant ();
 	wb_control_edit_set_sensitive (WORKBOOK_CONTROL (wbcg), TRUE, FALSE);
 
-	cell = sheet_cell_get (sheet, col, row);
+	cell = sheet_cell_get (sv->sheet, col, row);
 	if (!blankp) {
 		if (cell != NULL)
 			text = cell_get_entered_text (cell);
@@ -342,13 +344,13 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	scg_edit_start (scg);
 
 	/* Redraw the cell contents in case there was a span */
-	sheet_redraw_region (sheet, col, row, col, row);
+	sheet_redraw_region (sv->sheet, col, row, col, row);
 
 	/* Activate auto-completion if this is not an expression */
 	if (wbv->do_auto_completion &&
 	    (text == NULL || isalpha ((unsigned char)*text))) {
 		wbcg->auto_complete = complete_sheet_new (
-			sheet, col, row,
+			sv->sheet, col, row,
 			workbook_edit_complete_notify, wbcg);
 		wbcg->auto_completing = TRUE;
 		wbcg->auto_max_size = 0;
@@ -361,7 +363,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 				      GTK_WIDGET (wbcg_get_entry (wbcg)));
 
 	wbcg->editing = TRUE;
-	wbcg->editing_sheet = sheet;
+	wbcg->editing_sheet = sv->sheet;
 	wbcg->editing_cell = cell;
 
 	/* If this assert fails, it means editing was not shut down

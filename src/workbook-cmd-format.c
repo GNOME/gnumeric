@@ -46,8 +46,8 @@ workbook_cmd_mutate_borders (WorkbookControl *wbc, Sheet *sheet, gboolean add)
 		else
 			borders[i] = NULL;
 
-	cmd_format (wbc, sheet, NULL, borders,
-		    add ? _("Add Borders") : _("Remove borders"));
+	cmd_selection_format (wbc, NULL, borders,
+			      add ? _("Add Borders") : _("Remove borders"));
 }
 
 struct closure_colrow_resize {
@@ -56,7 +56,7 @@ struct closure_colrow_resize {
 };
 
 static gboolean
-cb_colrow_collect (Sheet *sheet, Range const *r, gpointer user_data)
+cb_colrow_collect (SheetView *sv, Range const *r, gpointer user_data)
 {
 	struct closure_colrow_resize *info = user_data;
 	int first, last;
@@ -80,7 +80,8 @@ workbook_cmd_resize_selected_colrow (WorkbookControl *wbc, gboolean is_cols,
 	struct closure_colrow_resize closure;
 	closure.is_cols = is_cols;
 	closure.selection = NULL;
-	selection_foreach_range (sheet, TRUE, &cb_colrow_collect, &closure);
+	selection_foreach_range (sheet_get_view (sheet, wb_control_view (wbc)),
+				 TRUE, &cb_colrow_collect, &closure);
 	cmd_resize_colrow (wbc, sheet, is_cols, closure.selection, new_size_pixels);
 }
 
@@ -113,15 +114,13 @@ sheet_dialog_set_row_height (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 void
 workbook_cmd_format_column_hide (GtkWidget *widget, WorkbookControl *wbc)
 {
-	cmd_colrow_hide_selection (wbc, wb_control_cur_sheet (wbc),
-				   TRUE, FALSE);
+	cmd_selection_colrow_hide (wbc, TRUE, FALSE);
 }
 
 void
 workbook_cmd_format_column_unhide (GtkWidget *widget, WorkbookControl *wbc)
 {
-	cmd_colrow_hide_selection (wbc, wb_control_cur_sheet (wbc),
-				   TRUE, TRUE);
+	cmd_selection_colrow_hide (wbc, TRUE, TRUE);
 }
 
 void
@@ -139,13 +138,11 @@ workbook_cmd_format_row_std_height (GtkWidget *widget, WorkbookControl *wbc)
 void
 workbook_cmd_format_row_hide (GtkWidget *widget, WorkbookControl *wbc)
 {
-	cmd_colrow_hide_selection (wbc, wb_control_cur_sheet (wbc),
-				   FALSE, FALSE);
+	cmd_selection_colrow_hide (wbc, FALSE, FALSE);
 }
 
 void
 workbook_cmd_format_row_unhide (GtkWidget *widget, WorkbookControl *wbc)
 {
-	cmd_colrow_hide_selection (wbc, wb_control_cur_sheet (wbc),
-				   FALSE, TRUE);
+	cmd_selection_colrow_hide (wbc, FALSE, TRUE);
 }

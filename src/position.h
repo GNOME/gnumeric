@@ -33,6 +33,7 @@ ParsePos *parse_pos_init         (ParsePos *pp, Workbook *wb,
 ParsePos *parse_pos_init_dep	 (ParsePos *pp, Dependent const *dep);
 ParsePos *parse_pos_init_cell    (ParsePos *pp, Cell const *cell);
 ParsePos *parse_pos_init_evalpos (ParsePos *pp, EvalPos const *pos);
+ParsePos *parse_pos_init_editpos (ParsePos *pp, SheetView const *sv);
 
 /*****************************************************************************/
 

@@ -34,6 +34,7 @@
 #include "value.h"
 #include "str.h"
 #include "workbook.h"
+#include "workbook-control.h"
 
 /**********************************************************************************
  * UTILITY ROUTINES
@@ -114,12 +115,13 @@ set_cell_value (Sheet *sheet, int col, int row, Value const *value)
 }
 
 static void
-redraw_respan_and_select (Sheet *sheet, int start_col, int start_row, int end_col, int end_row,
-			  gboolean values)
+redraw_respan_and_select (Sheet *sheet, CellPos const *start,
+			  int end_col, int end_row,
+			  gboolean values, WorkbookView *wbv)
 {
 	Range r;
 
-	range_init (&r, start_col, start_row, end_col, end_row);
+	range_init (&r, start->col, start->row, end_col, end_row);
 	sheet_range_calc_spans (sheet, &r, SPANCALC_RESIZE | SPANCALC_RENDER);
 	sheet_region_queue_recalc (sheet, &r);
 
@@ -127,8 +129,8 @@ redraw_respan_and_select (Sheet *sheet, int start_col, int start_row, int end_co
 		int row, col;
 
 		workbook_recalc (sheet->workbook);
-		for (row = start_row; row <= end_row; row++) {
-			for (col = start_col; col <= end_col; col++) {
+		for (row = start->row; row <= end_row; row++) {
+			for (col = start->col; col <= end_col; col++) {
 				Cell *cell = sheet_cell_fetch (sheet, col, row);
 
 				if (cell_has_expr (cell))
@@ -138,9 +140,9 @@ redraw_respan_and_select (Sheet *sheet, int start_col, int start_row, int end_co
 	}
 
 	sheet_redraw_range (sheet, &r);
-	sheet_selection_set (sheet, end_col, end_row,
-			     start_col, start_row,
-			     end_col, end_row);
+	sv_selection_set (sheet_get_view (sheet, wbv), start,
+			  start->col, start->row,
+			  end_col, end_row);
 }
 
 static int
@@ -638,6 +640,7 @@ simple_consolidate (FunctionDefinition *fd, GlobalRange const *dst, GSList const
 typedef struct {
 	Consolidate *cs;
 	GlobalRange *colrow;
+	WorkbookControl *wbc;
 } ConsolidateContext;
 
 /**
@@ -675,7 +678,7 @@ cb_row_tree (Value const *key, TreeItem *ti, ConsolidateContext *cc)
  * simple consolidation for each row.
  **/
 static void
-row_consolidate (Consolidate *cs)
+row_consolidate (Consolidate *cs, WorkbookView *wbv)
 {
 	ConsolidateContext cc;
 	GTree *tree;
@@ -694,12 +697,10 @@ row_consolidate (Consolidate *cs)
 	g_tree_traverse (tree, (GTraverseFunc) cb_row_tree,
 			 G_IN_ORDER, &cc);
 
-	redraw_respan_and_select (cs->dst->sheet,
-				  cs->dst->range.start.col,
-				  cs->dst->range.start.row,
+	redraw_respan_and_select (cs->dst->sheet, &cs->dst->range.start,
 				  cc.colrow->range.end.col,
 				  cc.colrow->range.end.row - 1,
-				  cs->mode & CONSOLIDATE_PUT_VALUES);
+				  cs->mode & CONSOLIDATE_PUT_VALUES, wbv);
 
 	global_range_free (cc.colrow);
 	cc.colrow = NULL;
@@ -746,7 +747,7 @@ cb_col_tree (Value const *key, TreeItem *ti, ConsolidateContext *cc)
  * simple consolidation for each column.
  **/
 static void
-col_consolidate (Consolidate *cs)
+col_consolidate (Consolidate *cs, WorkbookView *wbv)
 {
 	ConsolidateContext cc;
 	GTree *tree;
@@ -765,12 +766,10 @@ col_consolidate (Consolidate *cs)
 	g_tree_traverse (tree, (GTraverseFunc) cb_col_tree,
 			 G_IN_ORDER, &cc);
 
-	redraw_respan_and_select (cs->dst->sheet,
-				  cs->dst->range.start.col,
-				  cs->dst->range.start.row,
+	redraw_respan_and_select (cs->dst->sheet, &cs->dst->range.start,
 				  cc.colrow->range.end.col - 1,
 				  cc.colrow->range.end.row,
-				  cs->mode & CONSOLIDATE_PUT_VALUES);
+				  cs->mode & CONSOLIDATE_PUT_VALUES, wbv);
 
 	global_range_free (cc.colrow);
 	cc.colrow = NULL;
@@ -822,7 +821,7 @@ colrow_formula_args_build (Value const *row_name, Value const *col_name, GSList 
 }
 
 static void
-colrow_consolidate (Consolidate *cs)
+colrow_consolidate (Consolidate *cs, WorkbookView *wbv)
 {
 	GSList *rows;
 	GSList *cols;
@@ -875,12 +874,10 @@ colrow_consolidate (Consolidate *cs)
 		}
 	}
 
-	redraw_respan_and_select (cs->dst->sheet,
-				  cs->dst->range.start.col,
-				  cs->dst->range.start.row,
+	redraw_respan_and_select (cs->dst->sheet, &cs->dst->range.start,
 				  cs->dst->range.end.col + x - 1,
 				  cs->dst->range.end.row + y - 1,
-				  cs->mode & CONSOLIDATE_PUT_VALUES);
+				  cs->mode & CONSOLIDATE_PUT_VALUES, wbv);
 
 	/*
 	 * No need to free the values in these
@@ -915,8 +912,10 @@ consolidate_get_dest_bounding_box (Consolidate *cs)
 }
 
 void
-consolidate_apply (Consolidate *cs)
+consolidate_apply (Consolidate *cs, WorkbookControl *wbc)
 {
+	WorkbookView *wbv = wb_control_view (wbc);
+
 	g_return_if_fail (cs != NULL);
 
 	/*
@@ -928,19 +927,17 @@ consolidate_apply (Consolidate *cs)
 		return;
 
 	if ((cs->mode & CONSOLIDATE_ROW_LABELS) && (cs->mode & CONSOLIDATE_COL_LABELS))
-		colrow_consolidate (cs);
+		colrow_consolidate (cs, wbv);
 	else if (cs->mode & CONSOLIDATE_ROW_LABELS)
-		row_consolidate (cs);
+		row_consolidate (cs, wbv);
 	else if (cs->mode & CONSOLIDATE_COL_LABELS)
-		col_consolidate (cs);
+		col_consolidate (cs, wbv);
 	else {
 		int end_row, end_col;
 
 		simple_consolidate (cs->fd, cs->dst, cs->src, FALSE, &end_col, &end_row);
-		redraw_respan_and_select (cs->dst->sheet,
-					  cs->dst->range.start.col,
-					  cs->dst->range.start.row,
+		redraw_respan_and_select (cs->dst->sheet, &cs->dst->range.start,
 					  end_col, end_row,
-					  cs->mode & CONSOLIDATE_PUT_VALUES);
+					  cs->mode & CONSOLIDATE_PUT_VALUES, wbv);
 	}
 }

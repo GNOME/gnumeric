@@ -613,7 +613,7 @@ format_template_new_from_file (char const *filename, CommandContext *cc)
 		xmlNs *ns = xmlSearchNsByHref (doc, doc->xmlRootNode,
 			(xmlChar *)"http://www.gnome.org/gnumeric/format-template/v1");
 		if (ns != NULL && !strcmp (doc->xmlRootNode->name, "FormatTemplate")) {
-			XmlParseContext *ctxt = xml_parse_ctx_new (doc, ns);
+			XmlParseContext *ctxt = xml_parse_ctx_new (doc, ns, NULL);
 
 			ft = format_template_new ();
 			if (xml_read_format_template_members (ctxt, ft, doc->xmlRootNode)) {
@@ -735,7 +735,7 @@ format_template_save (FormatTemplate const *ft, CommandContext *cc)
 	if (file != NULL) {
 		xmlDoc *doc = xmlNewDoc ((xmlChar *)"1.0");
 		if (doc != NULL) {
-			XmlParseContext *ctxt = xml_parse_ctx_new (doc, NULL);
+			XmlParseContext *ctxt = xml_parse_ctx_new (doc, NULL, NULL);
 			doc->xmlRootNode = xml_write_format_template_members (ctxt, ft);
 			xml_parse_ctx_destroy (ctxt);
 			xmlSetDocCompressMode (doc, 0);

@@ -1,3 +1,14 @@
+2002-06-21  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_parse_cellref) : take a CellPos.
+	(applix_read_cells) : tidy a smidge.
+	(applix_read_impl) :
+
+2002-06-20  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_read_view) : selection is in the view now.
+	  Tweak the logic to truely ignore the 'Current' view.
+
 2002-06-20  Morten Welinder <terra@diku.dk>
 
 	* applix-read.c (applix_read_impl): Initialize vars.

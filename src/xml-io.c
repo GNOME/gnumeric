@@ -94,6 +94,7 @@ gnumeric_xml_get_saver (void)
 XmlParseContext *
 xml_parse_ctx_new_full (xmlDocPtr             doc,
 			xmlNsPtr              ns,
+			WorkbookView	     *wb_view,
 			GnumericXMLVersion    version,
 			XmlSheetObjectReadFn  read_fn,
 			XmlSheetObjectWriteFn write_fn,
@@ -111,12 +112,13 @@ xml_parse_ctx_new_full (xmlDocPtr             doc,
 	ctxt->read_fn      = read_fn;
 	ctxt->user_data    = user_data;
 
+	ctxt->wb_view      = wb_view;
+
 	return ctxt;
 }
 
 XmlParseContext *
-xml_parse_ctx_new (xmlDocPtr doc,
-		   xmlNsPtr  ns)
+xml_parse_ctx_new (xmlDocPtr doc, xmlNsPtr  ns, WorkbookView *wb_view)
 {
 	/* HACK : For now we cheat.
 	 * We should always be able to read versions from 1.0.x
@@ -126,7 +128,7 @@ xml_parse_ctx_new (xmlDocPtr doc,
 	 * Freeze the exported version at V9 for now.
 	 */
 	return xml_parse_ctx_new_full (
-		doc, ns, GNUM_XML_V9, NULL, NULL, NULL);
+		doc, ns, wb_view, GNUM_XML_V9, NULL, NULL, NULL);
 }
 
 void
@@ -261,8 +263,7 @@ xml_node_get_cellpos (xmlNodePtr node, char const *name, CellPos *val)
 	buf = xml_node_get_cstr (node, name);
 	if (val == NULL)
 		return FALSE;
-	res = parse_cell_name ((const char *)buf, &val->col, &val->row, TRUE,
-			       &dummy);
+	res = parse_cell_name ((const char *)buf, val, TRUE, &dummy);
 	xmlFree (buf);
 	return res;
 }
@@ -398,24 +399,24 @@ static void
 xml_read_selection_info (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	Range r;
-	int row, col;
-	Sheet *sheet = ctxt->sheet;
+	CellPos pos;
+	SheetView *sv = sheet_get_view (ctxt->sheet, ctxt->wb_view);
 	xmlNodePtr sel, selections = e_xml_get_child_by_name (tree, (xmlChar const *)"Selections");
 
 	if (selections == NULL)
 		return;
 
-	sheet_selection_reset (sheet);
+	sv_selection_reset (sv);
 	for (sel = selections->xmlChildrenNode; sel; sel = sel->next)
 		if (!xmlIsBlankNode (sel) && xml_node_get_range (sel, &r))
-			sheet_selection_add_range (sheet,
-						   r.start.col, r.start.row,
-						   r.start.col, r.start.row,
-						   r.end.col, r.end.row);
+			sv_selection_add_range (sv,
+						r.start.col, r.start.row,
+						r.start.col, r.start.row,
+						r.end.col, r.end.row);
 
-	if (xml_node_get_int (selections, "CursorCol", &col) &&
-	    xml_node_get_int (selections, "CursorRow", &row))
-		sheet_set_edit_pos (sheet, col, row);
+	if (xml_node_get_int (selections, "CursorCol", &pos.col) &&
+	    xml_node_get_int (selections, "CursorRow", &pos.row))
+		sv_set_edit_pos (sv, &pos);
 }
 
 static void
@@ -423,11 +424,13 @@ xml_write_selection_info (XmlParseContext *ctxt, Sheet const *sheet,
 			  xmlNodePtr tree)
 {
 	GList *ptr, *copy;
-	tree = xmlNewChild (tree, ctxt->ns, (xmlChar const *)"Selections",
-			    NULL);
+	SheetView *sv = sheet_get_view (sheet, ctxt->wb_view);
+
+	tree = xmlNewChild (tree, ctxt->ns,
+		(xmlChar const *)"Selections", NULL);
 
 	/* Insert the selections in REVERSE order */
-	copy = g_list_copy (sheet->selections);
+	copy = g_list_copy (sv->selections);
 	ptr = g_list_reverse (copy);
 	for (; ptr != NULL ; ptr = ptr->next) {
 		Range const *r = ptr->data;
@@ -438,8 +441,8 @@ xml_write_selection_info (XmlParseContext *ctxt, Sheet const *sheet,
 	}
 	g_list_free (copy);
 
-	xml_node_set_int (tree, "CursorCol", sheet->edit_pos_real.col);
-	xml_node_set_int (tree, "CursorRow", sheet->edit_pos_real.row);
+	xml_node_set_int (tree, "CursorCol", sv->edit_pos_real.col);
+	xml_node_set_int (tree, "CursorRow", sv->edit_pos_real.row);
 }
 
 /*
@@ -913,24 +916,24 @@ xml_write_attribute (xmlNode *parent, char const *name, char const *value)
 }
 
 static xmlNodePtr
-xml_write_wbv_attributes (XmlParseContext *ctxt, WorkbookView *wbv)
+xml_write_wbv_attributes (XmlParseContext *ctxt)
 {
 	xmlNodePtr attributes = xmlNewDocNode (ctxt->doc, ctxt->ns, "Attributes", NULL);
 	xml_write_attribute (attributes, "WorkbookView::show_horizontal_scrollbar",
-		wbv->show_horizontal_scrollbar ? "TRUE" : "FALSE");
+		ctxt->wb_view->show_horizontal_scrollbar ? "TRUE" : "FALSE");
 	xml_write_attribute (attributes, "WorkbookView::show_vertical_scrollbar",
-		wbv->show_vertical_scrollbar ? "TRUE" : "FALSE");
+		ctxt->wb_view->show_vertical_scrollbar ? "TRUE" : "FALSE");
 	xml_write_attribute (attributes, "WorkbookView::show_notebook_tabs",
-		wbv->show_notebook_tabs ? "TRUE" : "FALSE");
+		ctxt->wb_view->show_notebook_tabs ? "TRUE" : "FALSE");
 	xml_write_attribute (attributes, "WorkbookView::do_auto_completion",
-		wbv->do_auto_completion ? "TRUE" : "FALSE");
+		ctxt->wb_view->do_auto_completion ? "TRUE" : "FALSE");
 	xml_write_attribute (attributes, "WorkbookView::is_protected",
-		wbv->is_protected ? "TRUE" : "FALSE");
+		ctxt->wb_view->is_protected ? "TRUE" : "FALSE");
 	return attributes;
 }
 
 static void
-xml_read_wbv_attributes (XmlParseContext *ctxt, WorkbookView *wbv, xmlNodePtr tree)
+xml_read_wbv_attributes (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNode *attr, *tmp;
 	char *name, *value;
@@ -958,11 +961,11 @@ xml_read_wbv_attributes (XmlParseContext *ctxt, WorkbookView *wbv, xmlNodePtr tr
 			continue;
 		}
 
-		wb_view_set_attribute (wbv, name, value);
+		wb_view_set_attribute (ctxt->wb_view, name, value);
 		xmlFree (name);
 		xmlFree (value);
 	}
-	wb_view_prefs_update (wbv);
+	wb_view_prefs_update (ctxt->wb_view);
 }
 
 static xmlNodePtr
@@ -2803,7 +2806,7 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar *buffer, int len
 		return NULL;
 	}
 
-	ctxt = xml_parse_ctx_new (doc, NULL);
+	ctxt = xml_parse_ctx_new (doc, NULL, NULL);
 	cr = cellregion_new (NULL);
 
 	xml_node_get_int (clipboard, "Cols", &cr->cols);
@@ -2870,7 +2873,7 @@ xml_cellregion_write (WorkbookControl *wbc, CellRegion *cr, int *size)
 	g_return_val_if_fail (IS_SHEET (cr->origin_sheet), NULL);
 
 	/* Create the tree */
-	ctxt = xml_parse_ctx_new (xmlNewDoc ((xmlChar const *)"1.0"), NULL);
+	ctxt = xml_parse_ctx_new (xmlNewDoc ((xmlChar const *)"1.0"), NULL, NULL), NULL;
 	clipboard = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar const *)"ClipboardRange", NULL);
 	xml_node_set_int (clipboard, "Cols", cr->cols);
 	xml_node_set_int (clipboard, "Rows", cr->rows);
@@ -2970,13 +2973,13 @@ xml_check_version (xmlDocPtr doc, GnumericXMLVersion *version)
  * Create an XML subtree of doc equivalent to the given Workbook.
  */
 xmlNodePtr
-xml_workbook_write (XmlParseContext *ctxt, WorkbookView *wb_view)
+xml_workbook_write (XmlParseContext *ctxt)
 {
 	xmlNodePtr cur;
 	xmlNodePtr child;
 	GList *sheets, *sheets0;
 	char *old_num_locale, *old_monetary_locale, *old_msg_locale;
-	Workbook *wb = wb_view_workbook (wb_view);
+	Workbook *wb = wb_view_workbook (ctxt->wb_view);
 
 	/*
 	 * General informations about the Sheet.
@@ -3005,7 +3008,7 @@ xml_workbook_write (XmlParseContext *ctxt, WorkbookView *wb_view)
 	old_msg_locale = g_strdup (textdomain (NULL));
 	textdomain ("C");
 
-	child = xml_write_wbv_attributes (ctxt, wb_view);
+	child = xml_write_wbv_attributes (ctxt);
 	if (child)
 		xmlAddChild (cur, child);
 
@@ -3042,8 +3045,8 @@ xml_workbook_write (XmlParseContext *ctxt, WorkbookView *wb_view)
 	xmlAddChild (cur, child);*/
 
 	child = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar const *)"Geometry", NULL);
-	xml_node_set_int (child, "Width", wb_view->preferred_width);
-	xml_node_set_int (child, "Height", wb_view->preferred_height);
+	xml_node_set_int (child, "Width", ctxt->wb_view->preferred_width);
+	xml_node_set_int (child, "Height", ctxt->wb_view->preferred_height);
 	xmlAddChild (cur, child);
 
 	/* sheet content */
@@ -3053,7 +3056,7 @@ xml_workbook_write (XmlParseContext *ctxt, WorkbookView *wb_view)
 	g_list_free (sheets0);
 
 	child = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar const *)"UIData", NULL);
-	xml_node_set_int (child, "SelectedTab", wb_view_cur_sheet (wb_view)->index_in_wb);
+	xml_node_set_int (child, "SelectedTab", wb_view_cur_sheet (ctxt->wb_view)->index_in_wb);
 	xmlAddChild (cur, child);
 
 	textdomain (old_msg_locale);
@@ -3142,13 +3145,13 @@ xml_read_workbook_n_elements (xmlNodePtr tree)
  * Create a Workbook equivalent to the XML subtree of doc.
  */
 gboolean
-xml_workbook_read (IOContext *context, WorkbookView *wb_view,
+xml_workbook_read (IOContext *context,
 		   XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	Sheet *sheet;
 	xmlNodePtr child, c;
 	char *old_num_locale, *old_monetary_locale, *old_msg_locale;
-	Workbook *wb = wb_view_workbook (wb_view);
+	Workbook *wb = wb_view_workbook (ctxt->wb_view);
 
 	if (strcmp (tree->name, "Workbook")){
 		fprintf (stderr,
@@ -3175,7 +3178,7 @@ xml_workbook_read (IOContext *context, WorkbookView *wb_view,
 
 		xml_node_get_int (child, "Width", &width);
 		xml_node_get_int (child, "Height", &height);
-		wb_view_preferred_size	  (wb_view, width, height);
+		wb_view_preferred_size	  (ctxt->wb_view, width, height);
 	}
 
 /*	child = xml_search_child (tree, "Style");
@@ -3220,13 +3223,13 @@ xml_workbook_read (IOContext *context, WorkbookView *wb_view,
 
 	child = e_xml_get_child_by_name (tree, "Attributes");
 	if (child && ctxt->version >= GNUM_XML_V5)
-		xml_read_wbv_attributes (ctxt, wb_view, child);
+		xml_read_wbv_attributes (ctxt, child);
 
 	child = e_xml_get_child_by_name (tree, (xmlChar const *)"UIData");
 	if (child) {
 		int sheet_index = 0;
 		if (xml_node_get_int (child, "SelectedTab", &sheet_index))
-			wb_view_sheet_focus (wb_view,
+			wb_view_sheet_focus (ctxt->wb_view,
 				workbook_sheet_by_index (ctxt->wb, sheet_index));
 	}
 
@@ -3318,7 +3321,7 @@ gnumeric_xml_set_compression (xmlDoc *doc, int compression)
 void
 gnumeric_xml_read_workbook (GnumFileOpener const *fo,
                             IOContext *context,
-                            WorkbookView *wbv,
+                            WorkbookView *wb_view,
                             GsfInput *input)
 {
 	xmlParserCtxtPtr pctxt;
@@ -3377,11 +3380,12 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 	}
 
 	/* Parse the file */
-	ctxt = xml_parse_ctx_new (res, gmr);
+	ctxt = xml_parse_ctx_new (res, gmr, wb_view);
 	ctxt->version = version;
-	xml_workbook_read (context, wbv, ctxt, res->xmlRootNode);
-	workbook_set_saveinfo (wb_view_workbook (wbv), gsf_input_name (input), FILE_FL_AUTO,
-	                       gnumeric_xml_get_saver ());
+	xml_workbook_read (context, ctxt, res->xmlRootNode);
+	workbook_set_saveinfo (wb_view_workbook (ctxt->wb_view),
+		gsf_input_name (input), FILE_FL_AUTO,
+		gnumeric_xml_get_saver ());
 	xml_parse_ctx_destroy (ctxt);
 	xmlFreeDoc (res);
 }
@@ -3409,8 +3413,9 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 		gnumeric_io_error_save (context, "");
 		return;
 	}
-	ctxt = xml_parse_ctx_new (xml, NULL);
-	xml->xmlRootNode = xml_workbook_write (ctxt, wb_view);
+	ctxt = xml_parse_ctx_new (xml, NULL, wb_view);
+	ctxt->io_context = context;
+	xml->xmlRootNode = xml_workbook_write (ctxt);
 	xml_parse_ctx_destroy (ctxt);
 
 	/* If the suffix is .xml disable compression */

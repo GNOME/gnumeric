@@ -53,6 +53,7 @@
 				 (r)->start.row <= (r)->end.row)
 
 Range	   *range_init_full_sheet   (Range *r);
+Range      *range_init_pos          (Range *r, CellPos const *start, CellPos const *end);
 Range      *range_init              (Range *r, int start_col, int start_row,
 				     int end_col, int end_row);
 Value      *range_parse             (Sheet *sheet, char const *range, gboolean strict);

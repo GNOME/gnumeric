@@ -2365,7 +2365,7 @@ ms_wb_get_fmt (MSContainer const *container, guint16 indx)
 }
 
 static ExcelWorkbook *
-ms_excel_workbook_new (MsBiffVersion ver, IOContext *context)
+ms_excel_workbook_new (MsBiffVersion ver, IOContext *context, WorkbookView *wbv)
 {
 	static MSContainerClass const vtbl = {
 		NULL, NULL,
@@ -2382,6 +2382,7 @@ ms_excel_workbook_new (MsBiffVersion ver, IOContext *context)
 	ans->container.ver = ver;
 
 	ans->context = context;
+	ans->wbv = wbv;
 
 	ans->extern_sheet_v8 = NULL;
 	ans->extern_sheet_v7 = NULL;
@@ -3016,6 +3017,7 @@ ms_excel_read_selection (BiffQuery *q, ExcelSheet *esheet)
 	int const act_col	= GSF_LE_GET_GUINT16 (q->data + 3);
 	int num_refs		= GSF_LE_GET_GUINT16 (q->data + 7);
 	guint8 *refs;
+	SheetView *sv = sheet_get_view (esheet->gnum_sheet, esheet->wb->wbv);
 
 	d (1, printf ("Start selection\n"););
 	d (6, printf ("Cursor: %d %d\n", act_col, act_row););
@@ -3023,7 +3025,7 @@ ms_excel_read_selection (BiffQuery *q, ExcelSheet *esheet)
 	/* FIXME : pane_number will be relevant for split panes.
 	 * because frozen panes are bound together this does not matter.
 	 */
-	sheet_selection_reset (esheet->gnum_sheet);
+	sv_selection_reset (sv);
 	for (refs = q->data + 9; num_refs > 0; refs += 6, num_refs--) {
 		int const start_row = GSF_LE_GET_GUINT16 (refs + 0);
 		int const start_col = GSF_LE_GET_GUINT8 (refs + 4);
@@ -3032,11 +3034,10 @@ ms_excel_read_selection (BiffQuery *q, ExcelSheet *esheet)
 		d (6, printf ("Ref %d = %d %d %d %d\n", num_refs,
 			      start_col, start_row, end_col, end_row););
 
-		/* FIXME: This should not trigger a recalc */
-		sheet_selection_add_range (esheet->gnum_sheet,
-					   start_col, start_row,
-					   start_col, start_row,
-					   end_col, end_row);
+		sv_selection_add_range (sv,
+					start_col, start_row,
+					start_col, start_row,
+					end_col, end_row);
 	}
 #if 0
 	/* FIXME: Disable for now.  We need to reset the index of the
@@ -4479,7 +4480,7 @@ ms_excel_read_bof (BiffQuery	 *q,
 		ver->version = vv;
 
 	if (ver->type == MS_BIFF_TYPE_Workbook) {
-		ewb = ms_excel_workbook_new (ver->version, context);
+		ewb = ms_excel_workbook_new (ver->version, context, wb_view);
 		ewb->gnum_wb = wb_view_workbook (wb_view);
 		if (ver->version >= MS_BIFF_V8) {
 			guint32 ver = GSF_LE_GET_GUINT32 (q->data + 4);

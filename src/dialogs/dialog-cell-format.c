@@ -124,6 +124,7 @@ typedef struct _FormatState
 	GtkWidget	*ok_button;
 
 	Sheet		*sheet;
+	SheetView	*sv;
 	Value		*value;
 	MStyle		*style, *result;
 	StyleBorder *borders[STYLE_BORDER_EDGE_MAX];
@@ -2423,8 +2424,8 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
 			borders[i] = border_get_mstyle (state, i);
 
-		cmd_format (WORKBOOK_CONTROL (state->wbcg),
-			    state->sheet, state->result, borders, NULL);
+		cmd_selection_format (WORKBOOK_CONTROL (state->wbcg),
+			    state->result, borders, NULL);
 
 		mstyle_unref (state->result);
 		sheet_update (state->sheet);
@@ -2774,12 +2775,12 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 }
 
 static gboolean
-fmt_dialog_selection_type (Sheet *sheet,
+fmt_dialog_selection_type (SheetView *sv,
 			   Range const *range,
 			   gpointer user_data)
 {
 	FormatState *state = user_data;
-	GSList *merged = sheet_merge_get_overlap (sheet, range);
+	GSList *merged = sheet_merge_get_overlap (sv->sheet, range);
 	gboolean allow_multi =
 		merged == NULL ||
 		merged->next != NULL ||
@@ -2799,28 +2800,29 @@ fmt_dialog_selection_type (Sheet *sheet,
 }
 
 void
-dialog_cell_format (WorkbookControlGUI *wbcg, Sheet *sheet, FormatDialogPosition_t pageno)
+dialog_cell_format (WorkbookControlGUI *wbcg, FormatDialogPosition_t pageno)
 {
 	GladeXML     *gui;
 	Cell	     *edit_cell;
 	FormatState  *state;
 
 	g_return_if_fail (wbcg != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
 
 	gui = gnumeric_glade_xml_new (wbcg, "cell-format.glade");
         if (gui == NULL)
                 return;
 
-	edit_cell = sheet_cell_get (sheet,
-				    sheet->edit_pos.col,
-				    sheet->edit_pos.row);
-
 	/* Initialize */
 	state = g_new (FormatState, 1);
-	state->wbcg		= wbcg;
-	state->gui		= gui;
-	state->sheet		= sheet;
+	state->wbcg	= wbcg;
+	state->gui	= gui;
+	state->sv	= wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	state->sheet	= sv_sheet (state->sv);
+
+	edit_cell = sheet_cell_get (state->sheet,
+				    state->sv->edit_pos.col,
+				    state->sv->edit_pos.row);
+
 	state->value	        = (edit_cell != NULL) ? edit_cell->value : NULL;
 	state->style		= NULL;
 	state->result		= mstyle_new ();
@@ -2828,7 +2830,7 @@ dialog_cell_format (WorkbookControlGUI *wbcg, Sheet *sheet, FormatDialogPosition
 	state->dialog_changed	= NULL;
 	state->dialog_changed_user_data = NULL;
 
-	(void) selection_foreach_range (sheet, TRUE,
+	(void) selection_foreach_range (state->sv, TRUE,
 					fmt_dialog_selection_type,
 					state);
 	state->selection_mask	= 1 << state->selection_mask;
