@@ -14,8 +14,6 @@
 	(perl): Fix a typo, and a few cosmetic changes.
 	(AC_OUTPUT): Remove plugins/perl/*.
 	* plugins/perl/*: Removed.
-	* plugins/perl-loader/perl-loader.c: GnmPluginLoader renamed to
-	  GOPluginLoader.
 
 2005-04-04  Morten Welinder  <terra@gnome.org>
 

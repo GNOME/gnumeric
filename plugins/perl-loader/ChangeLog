@@ -1,3 +1,8 @@
+2005-04-04  Stepan Kasal  <kasal@ucw.cz>
+
+	* plugins/perl-loader/perl-loader.c: GnmPluginLoader renamed to
+	  GOPluginLoader.
+
 2004-11-02  Morten Welinder  <terra@gnome.org>
 
 	* perl-loader.c (call_perl_function_args): C99 Fix.
