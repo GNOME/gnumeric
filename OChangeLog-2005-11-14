@@ -1,5 +1,10 @@
 2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/commands.c: revert all the sheet pointer/index
+	  changes thoughout
+
+2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/commands.c (cmd_search_replace_undo): update
 	  sheet pointer in cells
 	(cmd_search_replace_redo): ditto

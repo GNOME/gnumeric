@@ -35,7 +35,6 @@
 #include "sheet.h"
 #include "ranges.h"
 #include "style.h"
-#include "sheet.h"
 #include "sheet-style.h"
 #include "workbook.h"
 #include "workbook-control.h"
@@ -73,7 +72,6 @@ dao_init (data_analysis_output_t *dao,
 	dao->cols              = SHEET_MAX_COLS;
 	dao->rows              = SHEET_MAX_ROWS;
 	dao->sheet             = NULL;
-	dao->sheet_idx         = -1;
 	dao->autofit_flag      = TRUE;
 	dao->clear_outputrange = TRUE;
 	dao->retain_format     = FALSE;
@@ -185,8 +183,6 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 {
 	char *unique_name;
 
-	dao_update_sheet_pointer (dao, TRUE);
-
 	if (wbc)
 		dao->wbc = wbc;
 
@@ -217,8 +213,6 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 		dao->cols = SHEET_MAX_COLS - dao->start_col;
 	dao->offset_col = 0;
 	dao->offset_row = 0;
-
-	dao->sheet_idx = (dao->sheet != NULL) ? dao->sheet->index_in_wb : -1;
 }
 
 /**
@@ -970,18 +964,4 @@ dao_redraw_respan (data_analysis_output_t *dao)
 	sheet_region_queue_recalc (dao->sheet, &r);
 	dao_convert_to_values (dao);	
 	sheet_redraw_range (dao->sheet, &r);
-}
-
-
-void 
-dao_update_sheet_pointer (data_analysis_output_t *dao, gboolean old_only)
-{
-	g_return_if_fail (dao != NULL);
-
-	if (!old_only || dao->type == RangeOutput 
-	    || dao->type == InPlaceOutput)
-		dao->sheet = (dao->sheet_idx == -1) ? NULL :
-			workbook_sheet_by_index 
-			(wb_control_workbook (dao->wbc), 
-			 dao->sheet_idx);
 }

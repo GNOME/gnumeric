@@ -1,3 +1,7 @@
+2003-08-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.[ch] (dao_update_sheet_pointer): delete
+
 2003-08-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dao.h (dao_update_sheet_pointer): add `old_only' argument
