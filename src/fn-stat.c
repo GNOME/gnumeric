@@ -256,8 +256,8 @@ static char *help_expondist = {
 	   "The EXPONDIST function returns the exponential distribution "
 	   "If the cumulative boolean is false it will return: "
 	   "y * exp (-y*x), otherwise it will return 1 - exp (-y*x). "
-	   "If x<0 or y<=0 this will return an error"
 	   "\n"
+	   "If x<0 or y<=0 this will return an error"
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "\n"
 	   "@SEEALSO=POISSON")

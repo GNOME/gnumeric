@@ -48,11 +48,12 @@ GNUMERIC_BASE_SOURCES =			\
 	func.c				\
 	func.h				\
 	fn-date.c			\
+	fn-eng.c			\
 	fn-financial.c			\
 	fn-math.c			\
-	fn-stat.c			\
 	fn-misc.c			\
 	fn-sheet.c			\
+	fn-stat.c			\
 	fn-string.c			\
 	format.c			\
 	format.h			\

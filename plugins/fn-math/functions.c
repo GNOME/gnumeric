@@ -382,56 +382,6 @@ gnumeric_ceil (struct FunctionDefinition *i, Value *argv [], char **error_string
 	return value_float (ceil (value_get_as_double (argv [0])));
 }
 
-static char *help_bin2dec = {
-	N_("@FUNCTION=BIN2DEC\n"
-	   "@SYNTAX=BIN2DEC(x)\n"
-
-	   "@DESCRIPTION="
-	   "The BIN2DEC function converts a binary number "
-	   "in string or number to its decimal equivalent."
-	   "\n"
-
-	   "Performing this function on a string or empty cell simply does nothing."
-	   "\n"
-	   "@SEEALSO=DEC2BIN")
-};
-
-static Value *
-gnumeric_bin2dec (struct FunctionDefinition *i, Value *argv [], char **error_string)
-{
-	int  result, v, n, bit;
-	char *p;
-
-	result = 0;
-	switch (argv [0]->type){
-	case VALUE_INTEGER:
-		v = argv [0]->v.v_int;
-		n = 0;
-		for (n = 0; v; n++){
-			bit = v % 10;
-			v   = v / 10;
-			result |= bit << n;
-		}
-		break;
-		
-	case VALUE_STRING:
-		p = argv [0]->v.str->str;
-		for (;*p; p++){
-			if (!(*p == '0' || *p == '1')){
-				*error_string = "#NUM!";
-				return NULL;
-			}
-			result = result << 1 | (*p - '0');
-		}
-		break;
-		
-	default:
-		*error_string = "#NUM!";
-		return NULL;
-	}
-	return value_int (result);
-}
-
 static char *help_cos = {
 	N_("@FUNCTION=COS\n"
 	   "@SYNTAX=COS(x)\n"
@@ -1218,11 +1168,6 @@ FunctionDefinition math_functions [] = {
 	{ "atan2",   "ff",   "xnum,ynum", &help_atan2, NULL, gnumeric_atan2 },
 	/* avedev */
 	{ "average", 0,      "",          &help_average, gnumeric_average, NULL },
-	/* besseli */
-	/* besselj */
-	/* besselk */
-	/* bessely */
-	{ "bin2dec", "?",    "number",    &help_bin2dec, NULL, gnumeric_bin2dec },
 	{ "cos",     "f",    "number",    &help_cos,     NULL, gnumeric_cos },
 	{ "cosh",    "f",    "number",    &help_cosh,    NULL, gnumeric_cosh },
 	{ "count",   0,      "",          &help_count,   gnumeric_count, NULL },

@@ -1,3 +1,18 @@
+1999-03-13  Michael Meeks <michael@imaginator.com>
+
+	* src/fn-eng.c: Created
+	(gnumeric_erf, gnumeric_erfc, gnumeric_bessely)
+	(gnumeric_besselj): Implemented
+	(gnumeric_bin2dec): Moved from fn-math.c
+
+	* src/fn-math.c (gnumeric_bin2dec): Moved to fn-eng
+
+	* src/func.c (functions_init): Added eng_functions.
+
+	* src/fn-stat.c: Cleaned functions help.
+
+	* src/Makefile.am: Added fn-eng.c
+
 1999-03-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/clipboard.c (sheet_paste_selection): New routine.  Abstracts
