@@ -980,7 +980,7 @@ cb_align_h_toggle (GtkToggleButton *button, FormatState *state)
 	if (!gtk_toggle_button_get_active (button))
 		return;
 
-	mstyle_set_align_v (
+	mstyle_set_align_h (
 		state->style,
 		GPOINTER_TO_INT (gtk_object_get_data (
 		GTK_OBJECT (button), "align")));
