@@ -3,9 +3,9 @@
 # Sung-Hyun Nam <namsh@lgic.co.kr>, 1998
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.5\n"
-"POT-Creation-Date: 1999-03-30 18:29-0600\n"
-"PO-Revision-Date: 1999-01-17 05:32:56+0900\n"
+"Project-Id-Version: gnumeric 0.21\n"
+"POT-Creation-Date: 1999-04-01 17:27+0900\n"
+"PO-Revision-Date: 1999-04-01 08:30:46+0900\n"
 "Last-Translator: Sung-Hyun Nam <namsh@lgic.co.kr>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -14,11 +14,11 @@ msgstr ""
 
 #: plugins/excel/boot.c:67
 msgid "Microsoft(R) Excel file format"
-msgstr ""
+msgstr "마이크로소프트(R) 엑셀 파일 형식"
 
 #: plugins/guile/plugin.c:220
 msgid "Argument must be a Guile expression"
-msgstr ""
+msgstr "인자는 Guile 형식이어야 합니다"
 
 #: plugins/guile/plugin.c:241 src/expr.c:509 src/fn-math.c:1311
 #: src/fn-sheet.c:38 src/fn-sheet.c:83 src/fn-string.c:302
@@ -27,86 +27,51 @@ msgstr "인자 갯수가 틀림"
 
 #: plugins/guile/plugin.c:248 plugins/guile/plugin.c:254
 msgid "First argument to SCM must be a Guile expression"
-msgstr ""
+msgstr "SCM에 넘길 첫번째 인자는 Guile 형식이어야 합니다"
 
 #: plugins/guile/plugin.c:260
 msgid "Undefined scheme function"
-msgstr ""
+msgstr "정의되지 않은 스킴 함수"
 
 #: plugins/guile/plugin.c:278
 msgid "Could not evaluate argument"
-msgstr ""
+msgstr "인자 값을 구할 수 없습니다"
 
 #: plugins/guile/plugin.c:386
-#, fuzzy
 msgid "Unable to lookup Guile function."
-msgstr "모듈 파일 열 수 없슴: "
+msgstr "Guild 함수를 찾을 수 없습니다."
 
 #: plugins/guile/plugin.c:454
-#, fuzzy
 msgid "Guile Plugin"
-msgstr "Gnumeric 프러그인"
+msgstr "Guile 플러그인"
 
 #: plugins/python/python.c:99
 msgid "Unable to lookup Python code object."
-msgstr ""
+msgstr "Python 코드 개체를 찾을 수 없습니다."
 
 #: plugins/python/python.c:115
 msgid "Python exception."
-msgstr ""
+msgstr "Python 예외."
 
 #: plugins/python/python.c:137
 msgid "object must be callable"
-msgstr ""
+msgstr "개체는 불려질 수 있어야 합니다"
 
 #: plugins/python/python.c:143
 msgid "could not alloc FuncDef"
-msgstr ""
+msgstr "FuncDef를 할당할 수 없습니다"
 
 #: plugins/python/python.c:177
 msgid "Gnumeric/Python module initialized\n"
-msgstr ""
+msgstr "Gnumeric/Python 모듈이 초기화되었습니다\n"
 
 #: plugins/python/python.c:190
 msgid "Python Plugin"
+msgstr "Python 플러그인"
+
+#: plugins/stat/stat.c:20
+msgid "OLD Statistics Plugin, not required anymore"
 msgstr ""
-
-#: plugins/stat/stat.c:12
-msgid ""
-"@FUNCTION=STDEV\n"
-"@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard "
-"deviation of all the values and cells referenced in the argument list. This "
-"is equivalent to the square root of the variance.\n"
-"@SEEALSO=VARIANCE"
-msgstr ""
-
-#: plugins/stat/stat.c:23
-msgid ""
-"@FUNCTION=VARIANCE\n"
-"@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Computes the variation "
-"of all the values and cells referenced in the argument list. This "
-"is\tequivalent to the sum of (value - average)^2, divided by the number of "
-"values minus 1. If you want it divided by N instead of N - 1, use "
-"NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
-msgstr ""
-
-#: plugins/stat/stat.c:34
-msgid ""
-"@FUNCTION=NVARIANCE\n"
-"@SYNTAX = NVARIANVE(value1, value2, ...)@DESCRIPTION=Computes the variation "
-"of all the values and cells references in the argument list. This is "
-"equivalent to the sum of (value - average)^2, divided by the number of "
-"values. If you want it divided by N - 1 instead of N, use "
-"VARIANCE.@SEEALSO=AVERAGE, VARIANCE"
-msgstr ""
-
-#: plugins/stat/stat.c:69
-msgid "Statistics Plugin"
-msgstr "통계 플러그인"
-
-#: plugins/stat/stat.c:102
-msgid "variance - division by 0"
-msgstr "불일치 - 0으로 나눔"
 
 #: src/about.c:23
 msgid "Miguel de Icaza, main programmer."
@@ -168,11 +133,11 @@ msgstr ""
 msgid "Jukka-Pekka Iivonen, numerous functions"
 msgstr ""
 
-#: src/about.c:52
+#: src/about.c:51
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/about.c:55
+#: src/about.c:54
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric"
@@ -629,7 +594,7 @@ msgstr "확대율은 최대 900%입니다."
 #: src/dump.c:29
 #, c-format
 msgid "Can not create file %s\n"
-msgstr ""
+msgstr "%s 파일을 생성할 수 없습니다\n"
 
 #: src/expr.c:59
 msgid "Syntax error"
@@ -664,9 +629,8 @@ msgid "Unknown evaluation error"
 msgstr "모르는 계산 에러"
 
 #: src/file.c:218
-#, fuzzy
 msgid "File format:"
-msgstr "셀 형식"
+msgstr "파일 형식:"
 
 #: src/file.c:257
 msgid "Save workbook as"
@@ -674,7 +638,7 @@ msgstr "워크북을 다른 이름으로 저장"
 
 #: src/file.c:289
 msgid "Sorry, there are no file savers loaded, I can not save"
-msgstr ""
+msgstr "죄송, 파일 저장기가 적재되지 않아서 저장할 수가 없습니다"
 
 #: src/file.c:327
 msgid "Load file"
@@ -963,14 +927,13 @@ msgid ""
 msgstr ""
 
 #: src/fn-math.c:408
-#, fuzzy
 msgid "#VALUE!"
-msgstr "#값"
+msgstr "#값!"
 
 #. -0
 #: src/fn-math.c:415 src/fn-math.c:946 src/fn-math.c:954 src/fn-math.c:1135
 msgid "#NUM!"
-msgstr ""
+msgstr "#숫자!"
 
 #: src/fn-math.c:440
 msgid ""
@@ -1271,9 +1234,8 @@ msgid ""
 msgstr ""
 
 #: src/fn-misc.c:34
-#, fuzzy
 msgid "Argument mismatch"
-msgstr "유형이 서로 틀림"
+msgstr "인자가 서로 틀림"
 
 #: src/fn-sheet.c:17
 msgid ""
@@ -1356,9 +1318,8 @@ msgid ""
 msgstr ""
 
 #: src/fn-string.c:200 src/fn-string.c:617
-#, fuzzy
 msgid "Invalid arguments"
-msgstr "인자 갯수가 틀림"
+msgstr "비정상적인 인자"
 
 #: src/fn-string.c:218
 msgid ""
@@ -1396,9 +1357,8 @@ msgstr ""
 #. start position too high or low
 #: src/fn-string.c:353 src/fn-string.c:433 src/fn-string.c:440
 #: src/fn-string.c:479
-#, fuzzy
 msgid "Invalid argument"
-msgstr "인자 갯수가 틀림"
+msgstr "비정상적인 인자"
 
 #: src/fn-string.c:373
 msgid ""
@@ -1754,11 +1714,11 @@ msgstr "수직선"
 #: src/gnumeric-sheet.c:910 src/gnumeric-sheet.c:913 src/gnumeric-sheet.c:916
 #: src/gnumeric-sheet.c:919
 msgid "Diagonal lines"
-msgstr ""
+msgstr "대각선"
 
 #: src/gnumeric-sheet.c:922
 msgid "Crossed diagonals"
-msgstr ""
+msgstr "교차 대각선"
 
 #: src/gnumeric-sheet.c:925
 msgid "Bricks"
@@ -1770,6 +1730,9 @@ msgid ""
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
 msgstr ""
+"드래그된 셀의 내용이 원래 영역에 있던 셀의 내용에\n"
+"덮어써지게 될겁니다. 이 영역의 내용을 바꾸기를\n"
+"원하십니까?"
 
 #: src/item-cursor.c:579 src/item-grid.c:527 src/workbook.c:849
 msgid "Copy"
@@ -1883,7 +1846,7 @@ msgstr "세로: %s"
 
 #: src/sheet.c:674
 msgid "ERROR"
-msgstr ""
+msgstr "에러"
 
 #: src/workbook.c:284
 msgid "Warning"
@@ -1924,7 +1887,7 @@ msgstr "플러그인(_g)..."
 
 #: src/workbook.c:681
 msgid "Gnumeric plugins"
-msgstr "Gnumeric 프러그인"
+msgstr "Gnumeric 플러그인"
 
 #: src/workbook.c:695
 msgid "_All"
@@ -2055,7 +2018,6 @@ msgid "Insert new columns"
 msgstr "새로운 열 삽입"
 
 #: src/workbook.c:771
-#, fuzzy
 msgid "_Add/modify comment"
 msgstr "코멘트 추가/수정(_A)"
 
@@ -2088,14 +2050,12 @@ msgid "Modify the formatting of the selected cells"
 msgstr "선택된 셀의 형식 수정"
 
 #: src/workbook.c:803
-#, fuzzy
 msgid "_Sort"
-msgstr "형식(_o)"
+msgstr "정렬(_S)"
 
 #: src/workbook.c:804
-#, fuzzy
 msgid "Sort the selected cells"
-msgstr "선택된 셀 지움"
+msgstr "선택된 셀 정렬"
 
 #: src/workbook.c:806
 msgid "C_olumn"
@@ -2118,7 +2078,6 @@ msgid "New"
 msgstr "새 쉬트"
 
 #: src/workbook.c:834
-#, fuzzy
 msgid "Creates a new sheet"
 msgstr "새 쉬트 생성"
 
@@ -2155,31 +2114,28 @@ msgid "Left align"
 msgstr "왼쪽 정렬"
 
 #: src/workbook.c:858
-#, fuzzy
 msgid "Left justifies the cell contents"
-msgstr "셀 내용을 중간으로"
+msgstr "셀 내용을 왼쪽으로 정렬"
 
 #: src/workbook.c:861
 msgid "Centers the cell contents"
-msgstr "셀 내용을 중간으로"
+msgstr "셀 내용을 중간으로 정렬"
 
 #: src/workbook.c:864
 msgid "Right align"
 msgstr "오른쪽 정렬"
 
 #: src/workbook.c:864
-#, fuzzy
 msgid "Right justifies the cell contents"
-msgstr "셀 내용을 중간으로"
+msgstr "셀 내용을 오른쪽으로 정렬"
 
 #: src/workbook.c:869
 msgid "Bold"
 msgstr "강조"
 
 #: src/workbook.c:869
-#, fuzzy
 msgid "Sets the bold font"
-msgstr "셀에 굵은 속성 설정"
+msgstr "굵은 속성 설정"
 
 #: src/workbook.c:872
 msgid "Italic"
@@ -2187,7 +2143,7 @@ msgstr "이탤릭"
 
 #: src/workbook.c:872
 msgid "Makes the font italic"
-msgstr ""
+msgstr "기울임 글꼴로 만듦"
 
 #: src/workbook.c:878
 msgid "Line"
@@ -2276,11 +2232,11 @@ msgstr ""
 
 #: src/workbook.c:1501
 msgid "Add another sheet"
-msgstr ""
+msgstr "다른 쉬트 추가"
 
 #: src/workbook.c:1502
 msgid "Remove this sheet"
-msgstr ""
+msgstr "이 쉬트 삭제"
 
 #: src/workbook.c:1763 src/workbook.c:1791
 #, c-format
@@ -2294,12 +2250,3 @@ msgstr ""
 #: src/xml-io.c:1599
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML 파일 형식"
-
-#~ msgid "Sets the cell alignment to the left"
-#~ msgstr "셀을 왼쪽으로 정렬시킴"
-
-#~ msgid "Sets the cell alignment to the right"
-#~ msgstr "셀을 오른쪽으로 정렬시킴"
-
-#~ msgid "Sets the italic attribute on the cell"
-#~ msgstr "셀에 이탤릭 속성 설정"
