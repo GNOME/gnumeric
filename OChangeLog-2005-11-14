@@ -1,5 +1,7 @@
 2001-05-07  Morten Welinder  <terra@diku.dk>
 
+	* src/item-grid.c (drag_start): Plug leak.
+
 	* src/plugin.c (plugin_info_read): Fix truck-size leak.
 	(plugin_file_state_from_string): Plug leak.
 

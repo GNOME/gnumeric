@@ -827,6 +827,8 @@ drag_start (GtkWidget *widget, GdkEvent *event, Sheet *sheet)
                                    | GDK_ACTION_LINK | GDK_ACTION_ASK),
                                   event->button.button, event);
         gtk_drag_set_icon_default (context);
+
+	gtk_target_list_unref (list);
 }
 
 /*
