@@ -14,10 +14,10 @@ Requirements
 ------------
 
 You need:				Debian package name
-	glib		>= 2.3.1	libglib2.0-dev
-	gtk+		>= 2.3.1	libgtk2.0-dev
-	libgnomeprint	>= 2.4.2	libgnomeprint2.4-dev
-	libgnomeprintui	>= 2.4.2	libgnomeprintui2.4-dev
+	glib		>= 2.4.0	libglib2.0-dev
+	gtk+		>= 2.4.0	libgtk2.0-dev
+	libgnomeprint	>= 2.5.2	libgnomeprint2.4-dev
+	libgnomeprintui	>= 2.5.2	libgnomeprintui2.4-dev
 	libgsf		>= 1.8.2	libgsf-1-dev + libgsf-gnome-1-dev
 	libglade	>= 2.0.0	libglade2-dev
 	intltool	>= 0.27.2	intltool
