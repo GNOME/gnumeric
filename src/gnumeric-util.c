@@ -189,9 +189,11 @@ char *
 font_get_bold_name (const char *fontname, int units)
 {
 	char *f;
-
-	/* FIXME: this scheme is poor: in some cases, the fount strength is called 'bold',
-	whereas in some others it is 'black', in others... Look font_get_italic_name  */
+	
+	/*
+	 * FIXME: this scheme is poor: in some cases, the fount strength is called 'bold', 
+	 * whereas in some others it is 'black', in others... Look font_get_italic_name
+	 */
 	f = font_change_component (fontname, 2, "bold");
 
 	return f;

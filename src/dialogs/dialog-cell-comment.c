@@ -59,5 +59,5 @@ dialog_cell_comment (Workbook *wb, Cell *cell)
 		}
 	}
 
-	gtk_object_unref (GTK_OBJECT (dialog));
+	gtk_object_destroy (GTK_OBJECT (dialog));
 }
