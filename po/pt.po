@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.4\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-11-26 22:20-0500\n"
-"PO-Revision-Date: 2003-11-13 21:55+0000\n"
+"Project-Id-Version: 2.6\n"
+"Report-Msgid-Bugs-To: Duarte Loreto <happyguy_pt@hotmail.com>\n"
+"POT-Creation-Date: 2003-12-01 18:37+0000\n"
+"PO-Revision-Date: 2003-12-01 18:40+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -24427,8 +24427,8 @@ msgid "Could not create the Simulation dialog."
 msgstr "Incapaz de criar o diálogo de Simulação."
 
 #: src/dialogs/dialog-solver.c:100
-msgid "Revised Simplex (GLPK 3.2)"
-msgstr "Simplex Revisto (GLPK 3.2)"
+msgid "Revised Simplex (GLPK 4.2)"
+msgstr "Simplex Revisto (GLPK 4.2)"
 
 #: src/dialogs/dialog-solver.c:101
 msgid "Simplex (LP Solve 3.2)"
