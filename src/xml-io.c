@@ -308,7 +308,7 @@ xmlSetGnomeCanvasPoints (xmlNodePtr node, const char *name,
 		}
 		child = child->next;
 	}
-	xmlNewChild (node, NULL, name, base);
+	xmlNewChild (node, NULL, name, xmlEncodeEntities(node->doc, base));
 	free (base);
 }
 
@@ -790,7 +790,7 @@ writeXmlStyleBorder (parseXmlContextPtr ctxt, StyleBorder *border)
 	if ((border->left == BORDER_NONE) && (border->right == BORDER_NONE) &&
 	 (border->left == BORDER_NONE) && (border->right == BORDER_NONE))
 		return NULL;
-	cur = xmlNewNode (ctxt->ns, "StyleBorder", NULL);
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "StyleBorder", NULL);
 	if (border->left != BORDER_NONE){
 		side = xmlNewChild (cur, ctxt->ns, "Left", BorderTypes[border->left]);
 		xmlSetColorValue (side, "Color", border->left_color);
@@ -868,7 +868,7 @@ writeXmlStyle (parseXmlContextPtr ctxt, Style * style)
 	    (style->font == NULL) && (style->border == NULL))
 		return NULL;
 
-	cur = xmlNewNode (ctxt->ns, "Style", NULL);
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Style", NULL);
 	xmlSetIntValue (cur, "HAlign", style->halign);
 	xmlSetIntValue (cur, "VAlign", style->valign);
 	xmlSetIntValue (cur, "Fit", style->fit_in_cell);
@@ -892,7 +892,9 @@ writeXmlStyle (parseXmlContextPtr ctxt, Style * style)
 			sprintf (str, "#%s", name);
 			xmlNewProp (child, "HREF", str);
 		} else {
-			child = xmlNewChild (cur, ctxt->ns, "Font", style->font->font_name);
+			child = xmlNewChild (cur, ctxt->ns, "Font", 
+			           xmlEncodeEntities(ctxt->doc,
+				                     style->font->font_name));
 			xmlSetIntValue (child, "Unit", style->font->units);
 			sprintf (str, "FontDef%d", ctxt->fontIdx++);
 			xmlNewProp (child, "NAME", str);
@@ -923,7 +925,7 @@ readXmlStyle (parseXmlContextPtr ctxt, xmlNodePtr tree, Style * ret)
 
 	if (strcmp (tree->name, "Style")){
 		fprintf (stderr,
-			 "readXmlStyle: invalid element type %s, 'Style' expected`\n",
+			 "readXmlStyle: invalid element type %s, 'Style' expected\n",
 			 tree->name);
 	}
 	if (ret == NULL)
@@ -1020,7 +1022,7 @@ writeXmlStyleRegion (parseXmlContextPtr ctxt, StyleRegion *region)
 {
 	xmlNodePtr cur, child;
 
-	cur = xmlNewNode (ctxt->ns, "StyleRegion", NULL);
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "StyleRegion", NULL);
 	xmlSetIntValue (cur, "startCol", region->range.start_col);
 	xmlSetIntValue (cur, "endCol", region->range.end_col);
 	xmlSetIntValue (cur, "startRow", region->range.start_row);
@@ -1072,9 +1074,9 @@ writeXmlColRowInfo (parseXmlContextPtr ctxt, ColRowInfo *info, int col)
 	xmlNodePtr cur;
 
 	if (col)
-		cur = xmlNewNode (ctxt->ns, "ColInfo", NULL);
+		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "ColInfo", NULL);
 	else
-		cur = xmlNewNode (ctxt->ns, "RowInfo", NULL);
+		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "RowInfo", NULL);
 
 	xmlSetIntValue (cur, "No", info->pos);
 	xmlSetIntValue (cur, "Unit", info->units);
@@ -1136,7 +1138,7 @@ writeXmlObject (parseXmlContextPtr ctxt, SheetObject *object)
 	case SHEET_OBJECT_RECTANGLE:{
 			SheetFilledObject *fo = (SheetFilledObject *) object;
 
-			cur = xmlNewNode (ctxt->ns, "Rectangle", NULL);
+			cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Rectangle", NULL);
 			if (fo->fill_color != NULL)
 				xmlSetStringValue (cur, "FillColor", fo->fill_color);
 			xmlSetIntValue (cur, "Pattern", fo->pattern);
@@ -1145,17 +1147,17 @@ writeXmlObject (parseXmlContextPtr ctxt, SheetObject *object)
 	case SHEET_OBJECT_ELLIPSE:{
 			SheetFilledObject *fo = (SheetFilledObject *) object;
 
-			cur = xmlNewNode (ctxt->ns, "Ellipse", NULL);
+			cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Ellipse", NULL);
 			if (fo->fill_color != NULL)
 				xmlSetStringValue (cur, "FillColor", fo->fill_color);
 			xmlSetIntValue (cur, "Pattern", fo->pattern);
 			break;
 		}
 	case SHEET_OBJECT_ARROW:
-		cur = xmlNewNode (ctxt->ns, "Arrow", NULL);
+		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Arrow", NULL);
 		break;
 	case SHEET_OBJECT_LINE:
-		cur = xmlNewNode (ctxt->ns, "Line", NULL);
+		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Line", NULL);
 		break;
 	}
 	if (cur == NULL)
@@ -1226,13 +1228,15 @@ writeXmlCell (parseXmlContextPtr ctxt, Cell *cell)
 {
 	xmlNodePtr cur, child;
 
-	cur = xmlNewNode (ctxt->ns, "Cell", cell->entered_text->str);
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Cell", NULL);
 	xmlSetIntValue (cur, "Col", cell->col->pos);
 	xmlSetIntValue (cur, "Row", cell->row->pos);
 	child = writeXmlStyle (ctxt, cell->style);
 
 	if (child)
 		xmlAddChild (cur, child);
+	xmlNewChild(cur, ctxt->ns, "Content", 
+	            xmlEncodeEntities(ctxt->doc, cell->entered_text->str));
 
 	return cur;
 }
@@ -1245,11 +1249,13 @@ readXmlCell (parseXmlContextPtr ctxt, xmlNodePtr tree)
 {
 	Style *style;
 	Cell *ret;
+	xmlNodePtr childs;
 	int row = 0, col = 0;
+	char *content = NULL;
 
 	if (strcmp (tree->name, "Cell")){
 		fprintf (stderr,
-			 "readXmlCell: invalid element type %s, 'Cell' expected`\n",
+		 "readXmlCell: invalid element type %s, 'Cell' expected`\n",
 			 tree->name);
 		return NULL;
 	}
@@ -1262,25 +1268,44 @@ readXmlCell (parseXmlContextPtr ctxt, xmlNodePtr tree)
 	if (ret == NULL)
 		return NULL;
 
-	style = readXmlStyle (ctxt, tree->childs, NULL);
-	if (style){
-		style_merge_to (style, ret->style);
-		style_destroy (ret->style);
-		ret->style = style;
+	childs = tree->childs;
+	while (childs != NULL) {
+	        if (!strcmp (childs->name, "Style")) {
+		        style = readXmlStyle (ctxt, childs, NULL);
+			if (style){
+				style_merge_to (style, ret->style);
+				style_destroy (ret->style);
+				ret->style = style;
+			}
+		}
+	        if (!strcmp (childs->name, "Content")) {
+		        if (childs->content != NULL)
+				content = strdup (childs->content);
+			else
+				content = xmlNodeListGetString(ctxt->doc,
+						       childs->childs, 1);
+		}
+		childs = childs->next;
 	}
-	if (tree->content != NULL){
-		char *v = g_strdup (tree->content);
-		char *p = v + strlen (v);
+	if (content == NULL) {
+		if (tree->content != NULL)
+			content = strdup (tree->content);
+		else
+			content = xmlNodeListGetString(ctxt->doc,
+			                               tree->childs, 1);
+	}
+	if (content != NULL) {
+		char *p = content + strlen (content);
 
-		while (p > v){
+		while (p > content){
 			p--;
 			if (*p != ' ' && *p != '\n')
 				break;
 			*p = 0;
 		}
 
-		cell_set_text_simple (ret, v);
-		g_free (v);
+		cell_set_text_simple (ret, content);
+		free (content);
 	} else
 		cell_set_text_simple (ret, "");
 
@@ -1318,10 +1343,11 @@ writeXmlSheet (parseXmlContextPtr ctxt, Sheet *sheet)
 	/*
 	 * General informations about the Sheet.
 	 */
-	cur = xmlNewNode (ctxt->ns, "Sheet", NULL);
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Sheet", NULL);
 	if (cur == NULL)
 		return NULL;
-	xmlNewChild (cur, ctxt->ns, "Name", sheet->name);
+	xmlNewChild (cur, ctxt->ns, "Name", 
+	             xmlEncodeEntities(ctxt->doc, sheet->name));
 	sprintf (str, "%d", sheet->max_col_used);
 	xmlNewChild (cur, ctxt->ns, "MaxCol", str);
 	sprintf (str, "%d", sheet->max_row_used);
@@ -1510,7 +1536,7 @@ writeXmlWorkbook (parseXmlContextPtr ctxt, Workbook *wb)
 	/*
 	 * General informations about the Sheet.
 	 */
-	cur = xmlNewNode (ctxt->ns, "Workbook", NULL);	/* the Workbook name !!! */
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Workbook", NULL);	/* the Workbook name !!! */
 	if (cur == NULL)
 		return NULL;
 
@@ -1518,7 +1544,7 @@ writeXmlWorkbook (parseXmlContextPtr ctxt, Workbook *wb)
 	if (child)
 		xmlAddChild (cur, child);
 
-	child = xmlNewNode (ctxt->ns, "Geometry", NULL);
+	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "Geometry", NULL);
 	xmlSetIntValue (child, "Width", wb->toplevel->allocation.width);
 	xmlSetIntValue (child, "Height", wb->toplevel->allocation.height);
 	xmlAddChild (cur, child);
