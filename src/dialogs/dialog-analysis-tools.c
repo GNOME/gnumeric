@@ -2844,7 +2844,7 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 	case 1: /* non-numeric probability (DiscreteDistribution) */
 		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry),
 				_("The probability input range contains a non-numeric value.\n"
-				  "All probabilities must be positive numbers."));
+				  "All probabilities must be non-negative numbers."));
 		break;
         case 2: /* probabilities are all zero  (DiscreteDistribution) */
 		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry),
