@@ -1,8 +1,12 @@
 1999-01-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
-	* src/widget-editable-label.c (el_button_press_event): WOW.  I am
-	amazed.  I now gtk grab add and if I receive a widget->window
-	different than the canvas, I drop the grab and stop editing.	
+	* src/widget-editable-label.c 	(el_init): Set the scroll region
+	to something very big.  This fixes the label-sliding problem.
+	Thanks to Federico for his quick debugging eye.
+	
+	(el_button_press_event): WOW.  I am amazed.  I now gtk grab add
+	and if I receive a widget->window different than the canvas, I
+	drop the grab and stop editing.
 
 1999-01-19  Francisco Bustamante  <pancho@nuclecu.unam.mx>
 

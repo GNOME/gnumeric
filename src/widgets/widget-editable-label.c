@@ -323,7 +323,7 @@ el_class_init (ElClass *class)
 static void
 el_init (El *el)
 {
-	
+	gnome_canvas_set_scroll_region (GNOME_CANVAS (el), 0, 0, 32000, 32000);
 }
 
 GtkType
