@@ -1,3 +1,15 @@
+2002-02-28  Jody Goldberg <jody@gnome.org>
+
+	* src/expr-name.c (expr_name_set_expr) : always relink.
+
+	* src/eval.c (handle_tree_deps) : ignore inactive names.
+
+2002-02-27  Jody Goldberg <jody@gnome.org>
+
+	* src/global-gnome-font.c (global_gnome_font_init) : fix leak.
+
+	* src/style.c (style_font_new_simple) : fix leak.
+
 2002-02-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gui-util.h (entry_to_float_with_format) : new

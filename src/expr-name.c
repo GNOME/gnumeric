@@ -489,11 +489,10 @@ expr_name_set_expr (NamedExpression *nexpr, ExprTree *new_expr)
 		expr_tree_unref (nexpr->t.expr_tree);
 	}
 	nexpr->t.expr_tree = new_expr;
+	expr_name_link_deps (deps);
 
-	if (new_expr != NULL) {
-		expr_name_link_deps (deps);
+	if (new_expr != NULL)
 		expr_name_handle_references (nexpr, TRUE);
-	}
 }
 
 void
@@ -532,10 +531,10 @@ name_sheet_title (FunctionEvalInfo *ei, Value **args)
 		return value_new_string (ei->pos->sheet->name_quoted);
 }
 
-static const struct {
-	gchar *name;
+static struct {
+	gchar const *name;
 	FunctionArgs *fn;
-} builtins[] =
+} const builtins[] =
 {
 	/* Consolidate_Area
 	   Auto_Open

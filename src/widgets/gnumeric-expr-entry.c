@@ -220,8 +220,8 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 	text = gtk_entry_get_text (gee->entry);
 	cursor = gtk_editable_get_position (GTK_EDITABLE (gee->entry));
 	last = (text == NULL) ? 0 : strlen (text);
-	rs->abs_col = FALSE;
-	rs->abs_row = FALSE;
+	rs->abs_col = (gee->flags & GNUM_EE_ABS_COL) != 0;
+	rs->abs_row = (gee->flags & GNUM_EE_ABS_ROW) != 0;
 	rs->sheet = gee->target_sheet;
 	if (text == NULL)
 		return;

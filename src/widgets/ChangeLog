@@ -1,3 +1,8 @@
+2002-02-28  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_rangesel_start) : Init to the
+	  selected flags even if there is no text.
+
 2002-02-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-expr-entry.h (gnm_expr_entry_grab_focus) : new
