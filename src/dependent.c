@@ -394,48 +394,20 @@ static void
 drop_range_dep (DependencyData *deps, Dependent *dependent,
 		DependencyRange const *range)
 {
-	/* Look it up */
 	DependencyRange *result;
 
 	if (!deps)
 		return;
 
 	result = g_hash_table_lookup (deps->range_hash, range);
-
-#ifdef DEBUG_EVALUATION
-	if (dependency_debugging > 0) {
-		Range const *r = &(range->range);
-		printf ("Dropping range deps of ");,
-		dependent_debug_name (dep, stdout);
-		printf (" on range %s%d:",
-			col_name (r->start.col),
-			r->start.row + 1);
-		printf ("%s%d\n",
-			col_name (r->end.col),
-			r->end.row + 1);
-	}
-#endif
-
 	if (result) {
-		GList *cl = g_list_find (result->dependent_list, dependent);
-
-		if (!cl) {
-/*			g_warning ("Range referenced twice + by some other cells"); */
-			return;
-		}
-
-		result->dependent_list = g_list_remove_link (result->dependent_list, cl);
-		g_list_free_1 (cl);
-
-		if (!result->dependent_list) {
+		result->dependent_list =
+			g_list_remove (result->dependent_list, dependent);
+		if (result->dependent_list == NULL) {
 			g_hash_table_remove (deps->range_hash, result);
 			g_free (result);
 		}
 	}
-#if 0
-	else
-		g_warning ("Unusual; range referenced twice in same formula");
-#endif
 }
 
 static void

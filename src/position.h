@@ -24,8 +24,6 @@ struct _ParsePos {
 EvalPos  *eval_pos_init          (EvalPos *pp, Sheet *s, CellPos const *pos);
 EvalPos  *eval_pos_init_dep 	 (EvalPos *eval_pos, Dependent const *dep);
 EvalPos  *eval_pos_init_cell     (EvalPos *pp, Cell const *cell);
-EvalPos  *eval_pos_init_cellref  (EvalPos *dest, EvalPos const *src,
-				  CellRef const *);
 
 /* Initialization routines for Parse Positions */
 ParsePos *parse_pos_init         (ParsePos *pp, Workbook *wb,

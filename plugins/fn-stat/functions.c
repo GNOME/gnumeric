@@ -54,8 +54,36 @@ setup_stat_closure (stat_closure_t *cl)
 	cl->sum = 0.0;
 }
 
+/**
+ * FIXME : this is also a kludge, but at least it is more localized
+ * than before.  We should not have to do this
+ */
+static Value *
+stat_helper (stat_closure_t *cl, EvalPos const *ep, Value *val)
+{
+	ExprTree *tree;
+	GList *expr_node_list;
+	Value *err;
+
+	setup_stat_closure (cl);
+
+	tree = expr_tree_new_constant (val);
+	expr_node_list = g_list_append (NULL, tree);
+	err = function_iterate_argument_values (ep,
+		&callback_function_stat, cl, expr_node_list,
+		TRUE, FALSE);
+	g_list_free (expr_node_list);
+	g_free (tree); /* ICK!  this is necessary to avoid freeing the value */
+
+	if (err != NULL)
+		return err;
+	if (cl->N <= 1)
+		return value_new_error (ep, gnumeric_err_VALUE);
+	return NULL;
+}
+
 Value *
-callback_function_stat (const EvalPos *ep, Value *value, void *closure)
+callback_function_stat (EvalPos const *ep, Value *value, void *closure)
 {
 	stat_closure_t *mm = closure;
 	gnum_float x, dx, dm;
@@ -89,7 +117,7 @@ typedef struct {
 } make_list_t;
 
 static Value *
-callback_function_make_list (const EvalPos *ep, Value *value,
+callback_function_make_list (EvalPos const *ep, Value *value,
 			     void *closure)
 {
 	make_list_t *mm = closure;
@@ -109,11 +137,29 @@ callback_function_make_list (const EvalPos *ep, Value *value,
 	return NULL;
 }
 
-static void
-init_make_list_closure (make_list_t *p)
+/**
+ * FIXME : this is a kludge.
+ * I've trimmed the code to avoid replicating it, but this is a stupid way to
+ * do this.
+ */
+static Value *
+make_list (make_list_t *p, EvalPos const *ep, Value *val)
 {
+	ExprTree *tree;
+	GList *expr_node_list;
+	Value *err;
+
         p->n = 0;
 	p->entries = NULL;
+
+	tree = expr_tree_new_constant (val);
+	expr_node_list = g_list_append (NULL, tree);
+	err = function_iterate_argument_values (ep,
+		&callback_function_make_list, p, expr_node_list,
+		TRUE, FALSE);
+	g_list_free (expr_node_list);
+	g_free (tree); /* ICK!  this is necessary to avoid freeing the value */
+	return err;
 }
 
 /***************************************************************************/
@@ -688,7 +734,7 @@ typedef struct {
 } stat_mode_t;
 
 static Value *
-callback_function_mode (const EvalPos *ep, Value *value, void *closure)
+callback_function_mode (EvalPos const *ep, Value *value, void *closure)
 {
        stat_mode_t *mm = closure;
        gnum_float  key;
@@ -718,6 +764,7 @@ callback_function_mode (const EvalPos *ep, Value *value, void *closure)
 static Value *
 gnumeric_mode (FunctionEvalInfo *ei, GList *expr_node_list)
 {
+       Value  *err;
        GSList *tmp;
        stat_mode_t pr;
 
@@ -727,9 +774,9 @@ gnumeric_mode (FunctionEvalInfo *ei, GList *expr_node_list)
        pr.mode       = 0.0;
        pr.count      = 0;
 
-       function_iterate_argument_values (ei->pos, callback_function_mode,
-                                         &pr, expr_node_list,
-					 TRUE, TRUE);
+       err = function_iterate_argument_values (ei->pos,
+		callback_function_mode, &pr, expr_node_list,
+		TRUE, TRUE);
 
        g_hash_table_destroy (pr.hash_table);
        tmp = pr.items;
@@ -739,10 +786,9 @@ gnumeric_mode (FunctionEvalInfo *ei, GList *expr_node_list)
        }
        g_slist_free (pr.items);
 
-#if 0
-       if (error_message_is_set (ei->error))
-	       return NULL;
-#endif
+       /* no need to check for terminate */
+       if (err != NULL)
+	       return err;
 
        if (pr.count < 2)
 		return value_new_error (ei->pos, gnumeric_err_NA);
@@ -833,7 +879,7 @@ static char *help_count = {
 };
 
 static Value *
-callback_function_count (const EvalPos *ep, Value *value, void *closure)
+callback_function_count (EvalPos const *ep, Value *value, void *closure)
 {
 	Value *result = (Value *) closure;
 
@@ -845,12 +891,12 @@ callback_function_count (const EvalPos *ep, Value *value, void *closure)
 Value *
 gnumeric_count (FunctionEvalInfo *ei, GList *expr_node_list)
 {
-	Value *result;
+	Value *result = value_new_int (0);
 
-	result = value_new_int (0);
-	function_iterate_argument_values (ei->pos, callback_function_count,
-					  result, expr_node_list,
-					  FALSE, TRUE);
+	/* no need to check for error, this is not strict */
+	function_iterate_argument_values (ei->pos,
+		callback_function_count, result, expr_node_list,
+		FALSE, TRUE);
 
 	return result;
 }
@@ -876,7 +922,7 @@ static char *help_counta = {
 };
 
 static Value *
-callback_function_counta (const EvalPos *ep, Value *value, void *closure)
+callback_function_counta (EvalPos const *ep, Value *value, void *closure)
 {
         Value *result = (Value *) closure;
 
@@ -887,13 +933,12 @@ callback_function_counta (const EvalPos *ep, Value *value, void *closure)
 Value *
 gnumeric_counta (FunctionEvalInfo *ei, GList *expr_node_list)
 {
-        Value *result;
+        Value *result = value_new_int (0);
 
-        result = value_new_int (0);
-
-        function_iterate_argument_values (ei->pos, callback_function_counta,
-					  result, expr_node_list,
-					  FALSE, TRUE);
+	/* no need to check for error, this is not strict */
+        function_iterate_argument_values (ei->pos,
+		callback_function_counta, result, expr_node_list,
+		FALSE, TRUE);
 
         return result;
 }
@@ -1342,7 +1387,7 @@ typedef struct {
 } stat_chitest_t;
 
 static Value *
-callback_function_chitest_actual (const EvalPos *ep, Value *value,
+callback_function_chitest_actual (EvalPos const *ep, Value *value,
 				  void *closure)
 {
 	stat_chitest_t *mm = closure;
@@ -1375,7 +1420,7 @@ typedef struct {
 } stat_chitest_t_t;
 
 static Value *
-callback_function_chitest_theoretical (const EvalPos *ep, Value *value,
+callback_function_chitest_theoretical (EvalPos const *ep, Value *value,
 				       void *closure)
 {
 	stat_chitest_t_t *mm = closure;
@@ -2526,45 +2571,15 @@ static char *help_prob = {
 static Value *
 gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 {
-	ExprTree     *tree;
-	GList        *expr_node_list;
 	make_list_t  x_cl, prob_cl;
-	EvalPos      ep;
 	Value        *err;
 	gnum_float   sum, total_sum;
 	gnum_float   lower_limit, upper_limit;
 	GSList       *list1, *list2;
 
-	init_make_list_closure (&x_cl);
-	init_make_list_closure (&prob_cl);
-
-	tree = expr_tree_new_constant (argv[0]);
-	expr_node_list = g_list_append (NULL, tree);
-
-	err = function_iterate_argument_values
-	    (eval_pos_init (&ep, ei->pos->sheet, &ei->pos->eval),
-	     &callback_function_make_list, &x_cl, expr_node_list,
-	     TRUE, FALSE);
-
-	if (err != NULL)
-	        return value_new_error (ei->pos, gnumeric_err_NA);
-
-	g_free (tree);
-	g_list_free (expr_node_list);
-
-	tree = expr_tree_new_constant (argv[1]);
-	expr_node_list = g_list_append (NULL, tree);
-
-	err = function_iterate_argument_values
-	    (eval_pos_init (&ep, ei->pos->sheet, &ei->pos->eval),
-	     &callback_function_make_list, &prob_cl, expr_node_list,
-	     TRUE, FALSE);
-
-	if (err != NULL)
-	        return value_new_error (ei->pos, gnumeric_err_NA);
-
-	g_free (tree);
-	g_list_free (expr_node_list);
+	if ((err = make_list (&x_cl, ei->pos, argv [0])) ||
+	    (err = make_list (&prob_cl, ei->pos, argv [1])))
+		return err;
 
 	if (x_cl.n != prob_cl.n) {
 		list1 = x_cl.entries;
@@ -2809,7 +2824,7 @@ typedef struct {
 } stat_ztest_t;
 
 static Value *
-callback_function_ztest (const EvalPos *ep, Value *value, void *closure)
+callback_function_ztest (EvalPos const *ep, Value *value, void *closure)
 {
 	stat_ztest_t *mm = closure;
 	gnum_float last;
@@ -2839,8 +2854,8 @@ gnumeric_ztest (FunctionEvalInfo *ei, GList *expr_node_list)
 	p.sqrsum = 0;
 
 	status = function_iterate_argument_values (ei->pos,
-						   callback_function_ztest,
-						   &p, expr_node_list, TRUE, TRUE);
+		callback_function_ztest, &p, expr_node_list,
+		TRUE, TRUE);
 	if (status != NULL)
 		return status;
 
@@ -3139,7 +3154,7 @@ typedef struct {
 } stat_percentrank_t;
 
 static Value *
-callback_function_percentrank (const EvalPos *ep, Value *value,
+callback_function_percentrank (EvalPos const *ep, Value *value,
 			       void *user_data)
 {
         stat_percentrank_t *p = user_data;
@@ -3378,53 +3393,19 @@ static Value *
 gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
 {
 	stat_closure_t cl;
-	ExprTree       *tree;
-	GList          *expr_node_list;
 	gnum_float     var1, var2, p;
 	int            dof1, dof2;
-	EvalPos        ep;
 	Value         *err;
 
-	setup_stat_closure (&cl);
-
-	tree = expr_tree_new_constant (argv[0]);
-	expr_node_list = g_list_append (NULL, tree);
-
-	err = function_iterate_argument_values
-	    (eval_pos_init_cellref (&ep, ei->pos, &argv[0]->v_range.cell.a),
-	     &callback_function_stat, &cl, expr_node_list, TRUE, FALSE);
-
-	if (err != NULL)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
-
-	g_free (tree);
-	g_list_free (expr_node_list);
-
-	if (cl.N <= 1)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
-
-	var1 = cl.Q / (cl.N - 1);
+	if (NULL != (err = stat_helper (&cl, ei->pos, argv [0])))
+		return err;
 	dof1 = cl.N - 1;
+	var1 = cl.Q / (cl.N - 1);
 
-	setup_stat_closure (&cl);
-
-	tree = expr_tree_new_constant (argv[1]);
-	expr_node_list = g_list_append (NULL, tree);
-
-	err = function_iterate_argument_values
-		(eval_pos_init_cellref (&ep, ei->pos, &argv[1]->v_range.cell.a),
-		 &callback_function_stat, &cl, expr_node_list, TRUE, FALSE);
-	if (err != NULL)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
-
-	g_free (tree);
-	g_list_free (expr_node_list);
-
-	if (cl.N <= 1)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
-
-	var2 = cl.Q / (cl.N - 1);
+	if (NULL != (err = stat_helper (&cl, ei->pos, argv [1])))
+		return err;
 	dof2 = cl.N - 1;
+	var2 = cl.Q / (cl.N - 1);
 
 	if (var2 == 0)
 	        return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -3481,7 +3462,7 @@ typedef struct {
 } stat_ttest_t;
 
 static Value *
-callback_function_ttest (const EvalPos *ep, Value *value, void *closure)
+callback_function_ttest (EvalPos const *ep, Value *value, void *closure)
 {
 	stat_ttest_t *mm = closure;
 	gnum_float   x;
@@ -3517,7 +3498,6 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 	gnum_float     mean1, mean2, x, p;
 	gnum_float     s, var1, var2, dof;
 	int            n1, n2;
-	EvalPos        ep;
 	Value         *err;
 
 	tails = value_get_as_int (argv[2]);
@@ -3536,31 +3516,26 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 
 		tree = expr_tree_new_constant (argv[0]);
 		expr_node_list = g_list_append (NULL, tree);
-
-		err = function_iterate_argument_values
-		    (eval_pos_init_cellref (&ep, ei->pos, &argv[0]->v_range.cell.a),
-		     &callback_function_ttest, &t_cl, expr_node_list, TRUE, FALSE);
-		if (err != NULL)
-		        return value_new_error (&ep, gnumeric_err_VALUE);
-
-		g_free (tree);
+		err = function_iterate_argument_values (ei->pos,
+			 &callback_function_ttest, &t_cl, expr_node_list,
+			 TRUE, FALSE);
 		g_list_free (expr_node_list);
+		g_free (tree);
+		if (err != NULL)
+		        return err;
 
 	        t_cl.first = FALSE;
 		t_cl.current = t_cl.entries;
 
 		tree = expr_tree_new_constant (argv[1]);
 		expr_node_list = g_list_append (NULL, tree);
-
-		err = function_iterate_argument_values
-		    (eval_pos_init_cellref (&ep, ei->pos, &argv[1]->v_range.cell.a),
-		     &callback_function_ttest, &t_cl, expr_node_list, TRUE, FALSE);
-
-		if (err != NULL)
-		        return value_new_error (&ep, gnumeric_err_VALUE);
-
-		g_free (tree);
+		err = function_iterate_argument_values (ei->pos,
+			 &callback_function_ttest, &t_cl, expr_node_list,
+			 TRUE, FALSE);
 		g_list_free (expr_node_list);
+		g_free (tree);
+		if (err != NULL)
+		        return err;
 
 		current = t_cl.entries;
 		dx = dm = M = Q = N = sum = 0;
@@ -3581,84 +3556,39 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		g_slist_free (t_cl.entries);
 
 		if (N - 1 == 0 || N == 0)
-		        return value_new_error (&ep, gnumeric_err_NUM);
+		        return value_new_error (ei->pos, gnumeric_err_NUM);
 
 		s = sqrt (Q / (N - 1));
 		mean1 = sum / N;
 		x = mean1 / (s / sqrt (N));
 		dof = N - 1;
-
-		if (tails == 1)
-		        p = 1.0 - pt (fabs (x), dof);
-		else
-		        p = (1.0 - pt (fabs (x), dof)) * 2;
-
-		return value_new_float (p);
 	} else {
-	        setup_stat_closure (&cl);
-
-		tree = expr_tree_new_constant (argv[0]);
-		expr_node_list = g_list_append (NULL, tree);
-
-		err = function_iterate_argument_values
-		    (eval_pos_init_cellref (&ep, ei->pos, &argv[0]->v_range.cell.a),
-		     &callback_function_stat, &cl, expr_node_list, TRUE, FALSE);
-
-		if (err != NULL)
-			return value_new_error (ei->pos, gnumeric_err_VALUE);
-
-		g_free (tree);
-		g_list_free (expr_node_list);
-
-		if (cl.N <= 1)
-			return value_new_error (ei->pos, gnumeric_err_VALUE);
-
+	        if ((err = stat_helper (&cl, ei->pos, argv [0])))
+			return err;
 		var1 = cl.Q / (cl.N - 1);
 		mean1 = cl.sum / cl.N;
 		n1 = cl.N;
 
-	        setup_stat_closure (&cl);
-
-		tree = expr_tree_new_constant (argv[1]);
-		expr_node_list = g_list_append (NULL, tree);
-
-		err = function_iterate_argument_values
-		    (eval_pos_init_cellref (&ep, ei->pos, &argv[1]->v_range.cell.a),
-		     &callback_function_stat,
-		     &cl, expr_node_list,
-		     TRUE, FALSE);
-
-		if (err != NULL)
-			return value_new_error (ei->pos, gnumeric_err_VALUE);
-
-		g_free (tree);
-		g_list_free (expr_node_list);
-
-		if (cl.N <= 1)
-			return value_new_error (ei->pos, gnumeric_err_VALUE);
-
+	        if ((err = stat_helper (&cl, ei->pos, argv [1])))
+			return err;
 		var2 = cl.Q / (cl.N - 1);
 		mean2 = cl.sum / cl.N;
 		n2 = cl.N;
 
-		if (type == 2)
-		        dof = n1 + n2 - 2;
-		else {
-		        gnum_float c;
-
-			c = (var1 / n1) / (var1 / n1 + var2 / n2);
+		if (type != 2) {
+		        gnum_float c = (var1 / n1) / (var1 / n1 + var2 / n2);
 			dof = 1.0 / ((c * c) / (n1 - 1) + ((1 - c) * (1 - c)) / (n2 - 1));
-		}
+		} else
+		        dof = n1 + n2 - 2;
 
 		x = (mean1 - mean2) / sqrt (var1 / n1 + var2 / n2);
-
-		if (tails == 1)
-		        p = 1.0 - pt (fabs (x), dof);
-		else
-		        p = (1.0 - pt (fabs (x), dof)) * 2;
-
-		return value_new_float (p);
 	}
+
+	if (tails == 1)
+		p = 1.0 - pt (fabs (x), dof);
+	else
+		p = (1.0 - pt (fabs (x), dof)) * 2;
+	return value_new_float (p);
 }
 
 /***************************************************************************/
@@ -3686,43 +3616,15 @@ static char *help_frequency = {
 static Value *
 gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 {
-	ExprTree     *tree;
-	GList        *expr_node_list;
 	GSList       *current;
 	make_list_t  data_cl, bin_cl;
-	EvalPos ep;
 	Value        *err, *res;
 	gnum_float   *bin_array;
 	int          *count, i;
 
-	init_make_list_closure (&data_cl);
-	init_make_list_closure (&bin_cl);
-
-	tree = expr_tree_new_constant (argv[0]);
-	expr_node_list = g_list_append (NULL, tree);
-
-	err = function_iterate_argument_values
-	    (eval_pos_init (&ep, ei->pos->sheet, &ei->pos->eval),
-	     &callback_function_make_list, &data_cl, expr_node_list, TRUE, FALSE);
-
-	if (err != NULL)
-	        return value_new_error (ei->pos, gnumeric_err_NA);
-
-	g_free (tree);
-	g_list_free (expr_node_list);
-
-	tree = expr_tree_new_constant (argv[1]);
-	expr_node_list = g_list_append (NULL, tree);
-
-	err = function_iterate_argument_values
-	    (eval_pos_init (&ep, ei->pos->sheet, &ei->pos->eval),
-	     &callback_function_make_list, &bin_cl, expr_node_list, TRUE, FALSE);
-
-	if (err != NULL)
-	        return value_new_error (ei->pos, gnumeric_err_NA);
-
-	g_free (tree);
-	g_list_free (expr_node_list);
+	if ((err = make_list (&data_cl, ei->pos, argv [0])) ||
+	    (err = make_list (&bin_cl, ei->pos, argv [1])))
+	        return err;
 
 	if (bin_cl.n == 0)
 	        return value_new_int (data_cl.n);

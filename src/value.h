@@ -84,7 +84,6 @@ Value       *value_new_int              (int i);
 Value       *value_new_float            (gnum_float f);
 Value       *value_new_error            (EvalPos const *pos, char const *mesg);
 Value       *value_new_error_str        (EvalPos const *pos, String *mesg);
-Value       *value_new_error_err        (EvalPos const *pos, ValueErr *err);
 Value       *value_new_string           (char const *str);
 Value       *value_new_string_str       (String *str);
 Value       *value_new_cellrange_unsafe (CellRef const *a, CellRef const *b);
@@ -109,6 +108,8 @@ char       *value_get_as_string       (Value const *v);
 char const *value_peek_string         (Value const *v);
 int         value_get_as_int          (Value const *v);
 gnum_float  value_get_as_float        (Value const *v);
+
+Value       *value_error_set_pos      (ValueErr *err, EvalPos const *pos);
 
 char *value_cellrange_get_as_string   (Value const *v, gboolean use_relative);
 void  value_cellrange_normalize	      (EvalPos const *ep, Value const *v,

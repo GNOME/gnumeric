@@ -127,14 +127,13 @@ collect_floats (GList *exprlist, const EvalPos *ep, CollectFlags flags,
 	cl.flags = flags;
 
 	err = function_iterate_argument_values (ep, &callback_function_collect,
-						&cl, exprlist, TRUE,
-						flags&COLLECT_IGNORE_BLANKS);
+		&cl, exprlist,
+		TRUE, flags&COLLECT_IGNORE_BLANKS);
 
 	if (err) {
 		g_assert (err->type == VALUE_ERROR);
 		g_free (cl.data);
-		/* Be careful not to make value_terminate into a real value */
-		*error = (err != value_terminate ())? value_duplicate (err) : err;
+		*error = err;
 		return NULL;
 	}
 

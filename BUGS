@@ -8,10 +8,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-- function_iterate_argument_values returns errors found in arguments without
-  duplicating them.  This definitely causes problems with a1 : na() a2 : and(a1:b1)
-  Check all the callers.
-
 - smarter support for unicode characters that do not convert to the
   current encoding during XL import.	(Vlad is looking at this)
   Apply Vlads patch for 0.66
@@ -127,15 +123,9 @@ Dialogs
     : Editing nested functions.  How best to express this.
     : Switching between multiple function at the same level.
 
-- Recalc Engine
-    : Evaluate the cost of queueing depends when things change not when they
-      eval.
-
 Function Breakage
 -----------------
 - Index : does not support 0,0 or reference syntax.
-- ftest : Needs auditing.  All calls to eval_pos_init_cellref are
-    questionable.
 - address : This code is a duplicate.  Have the function use the standard
     routines.
 - There are a number of #UNIMPLEMENTED! things to take care of in the

@@ -557,7 +557,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *expr,
 
 		/* 1) Error from A */
 		if (a->type == VALUE_ERROR)
-			return value_new_error_err (pos, &a->v_err);
+			return value_error_set_pos (&a->v_err, pos);
 
 		/* 2) #!VALUE error if A is not a number */
 		if (a->type == VALUE_STRING) {
@@ -590,7 +590,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *expr,
 		/* 3) Error from B */
 		if (b->type == VALUE_ERROR) {
 			value_release (a);
-			return value_new_error_err (pos, &b->v_err);
+			return value_error_set_pos (&b->v_err, pos);
 		}
 
 		/* 4) #!VALUE error if B is not a number */

@@ -62,17 +62,6 @@ eval_pos_init_cell (EvalPos *eval_pos, Cell const *cell)
 	return eval_pos_init (eval_pos, cell->base.sheet, &cell->pos);
 }
 
-EvalPos *
-eval_pos_init_cellref (EvalPos *dest, EvalPos const *src,
-		       CellRef const *ref)
-{
-	/* FIXME : This is a place to catch all of the strange
-	 * usages.  Please figure out what they were trying to do.
-	 */
-	*dest = *src;
-	return dest;
-}
-
 /*
  * parse_pos_init :
  *

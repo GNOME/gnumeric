@@ -826,8 +826,8 @@ cb_iterate_cellrange (Sheet *sheet, int col, int row,
 		      Cell *cell, void *user_data)
 {
 	IterateCallbackClosure *data = user_data;
-	EvalPos ep;
 	Value *res;
+	EvalPos ep;
 
 	if (cell == NULL) {
 		ep.sheet = sheet;
@@ -837,14 +837,14 @@ cb_iterate_cellrange (Sheet *sheet, int col, int row,
 	}
 
 	cell_eval (cell);
+	eval_pos_init_cell (&ep, cell);
 
 	/* If we encounter an error for the strict case, short-circuit here.  */
 	if (data->strict && (NULL != (res = cell_is_error (cell))))
-		return res;
+		return value_new_error_str (&ep, res->v_err.mesg);
 
 	/* All other cases -- including error -- just call the handler.  */
-	return (*data->callback)(eval_pos_init_cell (&ep, cell),
-				 cell->value, data->closure);
+	return (*data->callback)(&ep, cell->value, data->closure);
 }
 
 /*
@@ -945,7 +945,7 @@ function_iterate_argument_values (const EvalPos      *ep,
 	Value * result = NULL;
 
 	for (; result == NULL && expr_node_list;
-	     expr_node_list = expr_node_list->next){
+	     expr_node_list = expr_node_list->next) {
 		ExprTree const * tree = (ExprTree const *) expr_node_list->data;
 		Value *val;
 
@@ -957,9 +957,9 @@ function_iterate_argument_values (const EvalPos      *ep,
 			continue;
 
 		if (strict && val->type == VALUE_ERROR) {
-			/* A strict function with an error */
+			/* Be careful not to make value_terminate into a real value */
 			/* FIXME : Make the new position of the error here */
-			return val;
+			return (val != value_terminate ())? value_duplicate (val) : val;
 		}
 
 		result = function_iterate_do_value (ep, callback, callback_closure,

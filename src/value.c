@@ -75,8 +75,15 @@ value_new_error_str (EvalPos const *ep, String *mesg)
 	return (Value *)v;
 }
 
+/**
+ * value_error_set_pos :
+ * @err :
+ * @pos :
+ *
+ * Change the position of a ValueError.
+ */
 Value *
-value_new_error_err (EvalPos const *pos, ValueErr *err)
+value_error_set_pos (ValueErr *err, EvalPos const *pos)
 {
     g_return_val_if_fail (err != NULL, NULL);
     g_return_val_if_fail (err->type == VALUE_ERROR, NULL);

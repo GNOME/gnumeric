@@ -1,3 +1,15 @@
+2001-05-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/value.c (value_new_error_err) : change name from
+	  value_new_error_err since we don't actually new anything.
+
+	* src/position.c (eval_pos_init_cellref) : delete broken crap.
+
+	* src/func.c (cb_iterate_cellrange) : duplicate error here.
+	(function_iterate_argument_values) : duplicate the non-terminate
+	  error here.
+	* src/collect.c (collect_floats) : not here.
+
 2001-05-30  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-control-gui-priv.h: New file. Implementation details

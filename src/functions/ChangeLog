@@ -1,3 +1,16 @@
+2001-05-29  Jody Goldberg <jgoldberg@home.com>
+
+	* fn-stat.c (gnumeric_mode) : Handle errors.
+	(gnumeric_count) : ditto.
+	(gnumeric_counta) : ditto.
+	(gnumeric_prob) : return the correct error, and simplfy.
+	(gnumeric_frequency) : ditto.
+	(make_list) : renamed from init_make_list_closure, and moved
+	  replicated code here.
+	(stat_helper) : helper routine.
+	(gnumeric_ftest) : use here.
+	(gnumeric_ttest) : and here.
+
 2001-05-25  Jody Goldberg <jgoldberg@home.com>
 
 	* fn-financial.c (gnumeric_fv) : Make another few arguments optional.
