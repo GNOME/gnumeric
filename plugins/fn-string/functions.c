@@ -91,6 +91,8 @@ gnumeric_char (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static GIConv CODE_iconv;
+
 static const char *help_code = {
 	N_("@FUNCTION=CODE\n"
 	   "@SYNTAX=CODE(char)\n"
@@ -108,7 +110,28 @@ static const char *help_code = {
 static Value *
 gnumeric_code (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_int (*(unsigned char *)value_peek_string (argv[0]));
+	const char *s = value_peek_string (argv[0]);
+	const unsigned char *us = (const unsigned char *)s;
+	gsize written, clen;
+	char *str;
+	Value *res;
+
+	if (*us == 0)
+		value_new_error (ei->pos, gnumeric_err_VALUE);
+
+	if (*us <= 127)
+		return value_new_int (*us);
+
+	clen = g_utf8_next_char (s) - s;
+	str = g_convert_with_iconv (s, clen, CODE_iconv,
+				    NULL, &written, NULL);
+	if (written)
+		res = value_new_int ((unsigned char)*str);
+	else
+		res = value_new_error (ei->pos, gnumeric_err_VALUE);
+	g_free (str);
+
+	return res;
 }
 
 /***************************************************************************/
@@ -1327,11 +1350,12 @@ plugin_init (void)
 {
 	int codepage = gsf_msole_iconv_win_codepage ();
 	CHAR_iconv = gsf_msole_iconv_open_for_import (codepage);
+	CODE_iconv = gsf_msole_iconv_open_for_export ();
 }
 
 void
 plugin_cleanup (void)
 {
 	gsf_iconv_close (CHAR_iconv);
-	CHAR_iconv = (GIConv)-1;
+	gsf_iconv_close (CODE_iconv);
 }

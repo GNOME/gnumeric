@@ -33,6 +33,8 @@ Morten:
 	* Fix precision of GAMMALN.
 	* Fix precision of FACT and extend it to negative non-integers.
 	* Add BETA and BETALN functions.
+	* Make CHAR function UTF-8 safe.
+	* Make CODE function mostly UTF-8 safe.
 
 Nick Lamb:
 	* Initial support for pre-ole xls files.

@@ -1,6 +1,7 @@
 2002-11-08  Morten Welinder  <terra@diku.dk>
 
 	* functions.c (gnumeric_char): Attempt a fix for 0x80-0xff.
+	(gnumeric_code): Mostly make UTF-8 safe.
 
 2002-11-01  Jody Goldberg <jody@gnome.org>
 
