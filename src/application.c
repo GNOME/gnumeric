@@ -25,6 +25,8 @@ typedef struct
 
 	/* History for file menu */
 	GList           *history_list;
+
+	gboolean         edit_auto_complete;
 } GnumericApplication;
 
 static GnumericApplication app;
@@ -61,11 +63,11 @@ application_init (void)
 
 	gnome_config_push_prefix ("Gnumeric/Screen_Resolution/"); 
 	app.horizontal_dpi =
-	    gnome_config_get_float_with_default ("Horizontal_dpi=96", 
-						 &h_was_default);
+		gnome_config_get_float_with_default ("Horizontal_dpi=96", 
+						     &h_was_default);
 	app.vertical_dpi = 
-	    gnome_config_get_float_with_default ("Vertical_dpi=96", 
-						 &v_was_default);
+		gnome_config_get_float_with_default ("Vertical_dpi=96", 
+						     &v_was_default);
 
 	if (h_was_default)
 		gnome_config_set_float ("Horizontal_dpi", app.horizontal_dpi);
@@ -75,6 +77,12 @@ application_init (void)
 		gnome_config_sync ();
 
 	gnome_config_pop_prefix ();
+
+	gnome_config_push_prefix ("Gnumeric/Editing");
+	app.edit_auto_complete =
+		gnome_config_get_bool ("AutoComplete=true");
+	gnome_config_pop_prefix ();
+	
 }
 
 /**
@@ -423,3 +431,14 @@ application_history_write_config (void)
 	app.history_list = NULL;
 }
 
+gboolean
+application_use_auto_complete_get (void)
+{
+	return app.edit_auto_complete;
+}
+
+void
+application_use_auto_complete_set (gboolean use_auto_complete)
+{
+	app.edit_auto_complete = use_auto_complete;
+}

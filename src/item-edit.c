@@ -22,9 +22,6 @@
 #include "gnumeric-util.h"
 #include "complete-sheet.h"
 
-/* Gnumeric Setting: auto complete during cell editing */
-static gboolean edit_auto_complete = FALSE;
-
 static GnomeCanvasItem *item_edit_parent_class;
 
 /* The arguments we take */
@@ -418,7 +415,7 @@ entry_changed (GtkEntry *entry, void *data)
 	text = gtk_entry_get_text (entry);
 	if (gnumeric_char_start_expr_p (text))
 		scan_for_range (item_edit, text);
-	else if (edit_auto_complete)
+	else if (application_use_auto_complete_get ())
 		complete_start (item_edit->auto_complete, text);
 	
 	gnome_canvas_item_request_update (item);
@@ -433,7 +430,7 @@ item_edit_destroy (GtkObject *o)
 	if (item_edit->text_offsets != NULL)
 		g_slist_free (item_edit->text_offsets);
 
-	if (item_edit->auto_complete)
+	if (application_use_auto_complete_get ())
 		gtk_object_unref (GTK_OBJECT (item_edit->auto_complete));
 	
 	item_edit_cursor_blink_stop (item_edit);
@@ -497,7 +494,7 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	/*
 	 * Init the auto-completion
 	 */
-	if (edit_auto_complete)
+	if (application_use_auto_complete_get ())
 		item_edit->auto_complete = complete_sheet_new (
 			sheet, item_edit->col, item_edit->row,
 			item_edit_complete_notify, item_edit);

@@ -1,3 +1,12 @@
+2000-04-28  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/item-edit.c (entry_changed): Update here.
+
+	* src/application.c (application_init): Load auto-complete state
+	here.
+	(application_use_auto_complete_set): accesor function.
+	(application_use_auto_complete_get): ditto.
+
 2000-04-28  Jody Goldberg <jgoldberg@home.com>
 
 	* src/complete.c (complete_start) : Do not install an idle handler if
