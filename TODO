@@ -105,7 +105,7 @@ drawn.
 	keeps track of the correct zoom factor and addresses the basic
 	drawing needs required for an Excel-like spreadsheet.
 
+* Doom
 
-
-
-
+	We need to get a GtkDoom widget, for putting it on the About
+	box of the spreadsheet.
