@@ -11,4 +11,10 @@ else
 PERL =
 endif
 
-SUBDIRS = sample $(PYTHON) $(PERL) stat excel
+if GUILE
+GUILE_DIR = guile
+else
+GUILE_DIR =
+endif
+
+SUBDIRS = sample $(PYTHON) $(PERL) stat excel $(GUILE_DIR)

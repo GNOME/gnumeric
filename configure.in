@@ -17,6 +17,7 @@ AM_PROG_LIBTOOL
 GNOME_COMPILE_WARNINGS
 GNOME_X_CHECKS
 GNOME_XML_CHECK
+GNOME_CHECK_GUILE
 
 dnl
 dnl Check for ORBit
@@ -114,6 +115,7 @@ plugins/python/Makefile
 plugins/perl/Makefile
 plugins/perl/ext/Makefile.PL
 plugins/stat/Makefile
+plugins/guile/Makefile
 intl/Makefile
 po/Makefile.in
 macros/Makefile

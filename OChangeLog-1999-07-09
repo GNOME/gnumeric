@@ -1,3 +1,7 @@
+1998-11-11  Mark Probst  <schani@obiwan.unix.cslab.tuwien.ac.at>
+
+	* plugins/guile: Added guile plug-in.
+
 1998-11-11  Michael Meeks    <michael@imaginator.com>
 
 	* plugins/excel/ms-biff.h, plugins/excel/ms-excel.c: Removed fatal

@@ -10,7 +10,8 @@ INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
 	-I$(includedir)				 	\
-	$(GNOME_INCLUDEDIR)
+	$(GNOME_INCLUDEDIR)				\
+	$(GUILE_INCS)
 
 GNUMERIC_BASE_SOURCES =			\
 	about.c				\
@@ -126,6 +127,7 @@ gnumeric_LDADD = 			\
 	$(GNOME_LIBDIR) 		\
 	$(GNOMEUI_LIBS)			\
 	$(GNOME_XML_LIB) 		\
+	$(GUILE_LIBS)			\
 	$(INTLLIBS)
 
 

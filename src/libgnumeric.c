@@ -8,6 +8,10 @@
 #include "number-match.h"
 #include "dump.h"
 
+#ifdef HAVE_GUILE
+#include <libguile.h>
+#endif
+
 static char *dump_file_name = NULL;
 
 static const struct poptOption options[] = {
@@ -15,8 +19,8 @@ static const struct poptOption options[] = {
   {NULL, '\0', 0, NULL, 0}
 };
 
-int
-main (int argc, char *argv [])
+static void
+gnumeric_main (void *closure, int argc, char *argv [])
 {
 	GList *l;
 	poptContext ctx;
@@ -70,3 +74,13 @@ main (int argc, char *argv [])
 	return 0;
 }
 
+int
+main (int argc, char *argv [])
+{
+#ifdef HAVE_GUILE
+	scm_boot_guile(argc, argv, gnumeric_main, 0);
+#else
+	gnumeric_main(0, argc, argv);
+#endif
+	return 0;
+}
