@@ -1544,3 +1544,21 @@ ms_biff_query_destroy (BIFF_QUERY *bq)
 		g_free (bq);
 	}
 }
+
+#if G_BYTE_ORDER != G_LITTLE_ENDIAN
+double biff_getdouble(guint8 *p)
+{
+    double d;
+    int i;
+    guint8 *t = (guint8 *)&d;
+
+    p += 4;
+    for (i = 0; i < 4; i++)
+        *t++ = *p++;
+
+    p -= 8;
+    for (i = 0; i < 4; i++)
+	*t++ = *p++;
+    return d;
+}
+#endif

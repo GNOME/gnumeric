@@ -22,20 +22,12 @@ typedef guint64 DLONG ;
 		        (*(p+3)<<24))
 #define BIFF_GETDLONG(p) (DLONG)(BIFF_GETLONG(p)+(((DLONG)BIFF_GETLONG(p+4))<<32))
 
+double biff_getdouble(guint8 *p);
+	
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
-        #define BIFF_GETDOUBLE(p) (*((double*)(p)))
+#     define BIFF_GETDOUBLE(p) (*((double*)(p)))
 #else
-static double biff_getdouble(guint8 *p)
-{
-    double d;
-    int i;
-    guint8 *t = (guint8 *)&d + 8;
-
-    for (i = 0; i < 8; i++)
-        *--t = *p++;
-    return d;
-}
-        #define BIFF_GETDOUBLE(p) (biff_getdouble(p))
+#     define BIFF_GETDOUBLE(p) (biff_getdouble(p))
 #endif
 /**
  * Returns query data, it is imperative that copies of

@@ -1,3 +1,8 @@
+1999-04-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* ms-ole.c (biff_getdouble): Move biff_getdouble here, and apply
+	fix from Tung Nguyen (tung.nguyen@pgs.com)
+
 1999-04-03  Michael Meeks  <michael@imaginator.com>
 
 	* ms-excel.c (ms_excel_read_sheet): removed fixup_array_formulae.
