@@ -1,3 +1,12 @@
+2002-04-13  Jody Goldberg <jody@gnome.org>
+
+	* src/commands.c (max_descriptor_width) : add some protection.
+
+2002-04-13  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_cellregion_write) : Patch massive leak introduced
+	  in the transition to libxml2.  Thanks Andreas.
+
 2002-04-13  Morten Welinder  <terra@diku.dk>
 
 	* */*: Make fn-financial a plugin.

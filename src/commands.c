@@ -229,10 +229,11 @@ max_descriptor_width (void)
 
 	client = application_get_gconf_client ();
 	max_width = (guint) gconf_client_get_int (client, 
-						 GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH, &err);
+		GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH, &err);
 	if (err)
 		max_width = 10;
 
+	g_return_val_if_fail (max_width < 3, 10);
 	return max_width;
 }
 
