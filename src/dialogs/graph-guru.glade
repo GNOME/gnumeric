@@ -95,7 +95,6 @@
 	  <class>GtkButton</class>
 	  <name>button_next</name>
 	  <can_default>True</can_default>
-	  <has_default>True</has_default>
 	  <can_focus>True</can_focus>
 	  <stock_button>GNOME_STOCK_BUTTON_NEXT</stock_button>
 	  <relief>GTK_RELIEF_NORMAL</relief>
@@ -110,7 +109,9 @@
 	  <class>GtkButton</class>
 	  <name>button_finish</name>
 	  <can_default>True</can_default>
+	  <has_default>True</has_default>
 	  <can_focus>True</can_focus>
+	  <has_focus>True</has_focus>
 	  <label>_Finish</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>

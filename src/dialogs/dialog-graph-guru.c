@@ -689,8 +689,10 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 
 	if (button == state->button_finish) {
 		graph_guru_apply_changes (state);
-		gtk_object_ref (GTK_OBJECT (state->graph));
-		scg_mode_create_object (state->scg, SHEET_OBJECT (state->graph));
+		if (state->initial_page == 0) {
+			gtk_object_ref (GTK_OBJECT (state->graph));
+			scg_mode_create_object (state->scg, SHEET_OBJECT (state->graph));
+		}
 	}
 
 	gtk_object_destroy (GTK_OBJECT (state->dialog));

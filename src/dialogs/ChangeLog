@@ -1,5 +1,12 @@
 2001-10-16  Jody Goldberg <jgoldberg@home.com>
 
+	* graph-guru.glade : Make Finish the default button.
+
+	* dialog-graph-guru.c (cb_graph_guru_clicked) : don't start creating
+	  the object if all we were doing was editing.
+
+2001-10-16  Jody Goldberg <jgoldberg@home.com>
+
 	* dialog-graph-guru.c (graph_guru_apply_changes) : new function.
 	(graph_guru_set_page) : split from here.
 	(cb_graph_guru_clicked) : used here.
