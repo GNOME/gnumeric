@@ -142,7 +142,7 @@ cursor_vertical_move (GnumericSheet *gsheet, int count,
 	Sheet *sheet = gsheet->scg->sheet;
 	int const new_row = sheet_find_boundary_vertical (sheet,
 		sheet->edit_pos_real.col, sheet->edit_pos_real.row,
-		sheet->edit_pos_real.row, count, jump_to_boundaries);
+		sheet->edit_pos_real.col, count, jump_to_boundaries);
 	move_cursor (gsheet, sheet->edit_pos_real.col, new_row, TRUE);
 }
 
@@ -445,7 +445,7 @@ rangesel_vertical_move (GnumericSheet *gsheet, int dir, gboolean jump_to_boundar
 	ic = gsheet->sel_cursor;
 	ic->base.row = sheet_find_boundary_vertical (gsheet->scg->sheet,
 		ic->base.col, ic->base.row,
-		ic->base.row, dir, jump_to_boundaries);
+		ic->base.col, dir, jump_to_boundaries);
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
 		ic->base.col, ic->base.row, ic->base.col, ic->base.row);

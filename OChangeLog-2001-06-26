@@ -1,5 +1,10 @@
 2000-12-17  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gnumeric-sheet.c (cursor_vertical_move) : fix cut-n-paste-o.
+	(rangesel_vertical_move) : Ditto.
+
+2000-12-17  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet.c (sheet_find_boundary_horizontal) : support merged cells
 	  fully.
 	(sheet_find_boundary_vertical) : Ditto.
