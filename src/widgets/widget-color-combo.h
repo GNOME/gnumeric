@@ -16,7 +16,7 @@ typedef struct _ColorCombo ColorCombo;
 GtkType    color_combo_get_type (void);
 
 GtkWidget *color_combo_new      (char **icon, char const * const no_color_label,
-				 GdkColor *default_color);
+				 GdkColor *default_color, gchar *group_name);
 
 END_GNOME_DECLS
 

@@ -1,3 +1,54 @@
+2000-09-06  Jody Goldberg <jgoldberg@home.com>
+
+	* color-group.c (color_group_new_named) : strdup the name if it is
+	  supplied by the user.
+	(color_group_class_init) : Use the destroy method.
+
+2000-09-03 Michael Levy  <mlevy@genoscope.cns.fr>
+
+	* color-group.c : Re-write of color-combo-group.c to allow
+	for arbitrary widgets to share a common color history.
+
+	* widget-color-combo.c : 
+	Extracted all the code required to make the color table and moved it to a
+	new object (ColorPalette). Changed the ColorCombo so that it uses
+	the ColorPalette (and the shared color hsitory provided by the groupped
+	ColorPalettes).
+	All the code that refered to the creation of the color table was
+	removed, and when appropriate, moved to color-palette.c
+	Removed all mention of ColorComboGroups (as these no longer exist).
+	
+	* color-palette.c : Extracted from widget-color-combo.c
+	(color_palette_new) : Creates a color palette.
+	(color_palette_get_current_color) : returns the current color.
+	
+
+2000-07-30  Michael Levy  <mlevy@genoscope.cns.fr>
+
+	* color-combo-group.c : New GtkObject meant to group color combo boxes so
+	that their custom color histories are shared.
+	Includes functions to create and destroy the object, as
+	well as those required size, and navigate through the custom color history.
+
+	* widget-color-combo.c 
+	(group_new_custom_color) : New function to handle the
+	new_custom_color signal emitted by the ColorComboGroup
+	(custom_color_history_setup) : New function which initialises a
+	combo box's custom color history with the one stored in the group
+	(color_table_setup) : Added call to custom_color_history_setup.
+	(cust_color_set) : Removed call to cust_color_row_shift and moved
+	it to group_new_custom_color. Also added call to
+	color_combo_group_add_color in order to notify group of change
+	(color_combo_new_with_vals) : Added mandatory group name to
+	function prototype. Also added call to color_combo_group_new_named
+	and connected the "new_custom_color" signal emitted by the newly
+	created group to group_new_custom_color
+	(color_combo_new) : Added mandatory group name to function
+	prototype.
+
+	* widget-color-combo.c (color_combo_new) : Added mandatory group
+	name to function prototype.
+	
 2000-07-24  Jody Goldberg <jgoldberg@home.com>
 
 	* widget-font-selector.c (reload_preview) : adjust to the changes in

@@ -26,4 +26,8 @@ libwidgets_a_SOURCES =				\
 	gtk-combo-text.c			\
 	gtk-combo-text.h			\
 	gtk-combo-stack.c			\
-	gtk-combo-stack.h
+	gtk-combo-stack.h			\
+	color-group.c				\
+	color-group.h				\
+	color-palette.c				\
+	color-palette.h
