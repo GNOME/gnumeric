@@ -1,3 +1,7 @@
+2002-01-24  Kevin Breit  <mrproper@ximian.com>
+
+	* new/printing.xml: XMLized this document
+	
 2002-01-23  Kevin Breit  <mrproper@ximian.com>
 
 	* new/menus.xml: Made build.  It is now fully XMLized.  The indenting is kind of obnoxious, but we'll deal with that later.

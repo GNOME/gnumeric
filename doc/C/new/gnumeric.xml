@@ -18,8 +18,8 @@ GNU oleo">
 <!ENTITY cellrefer	SYSTEM "cell_refer.xml">
 <!ENTITY selections	SYSTEM "selections.xml">
 <!ENTITY copying-moving	SYSTEM "copying-moving.xml">
+<!ENTITY printing	SYSTEM "printing.xml">
 <!--
-<!ENTITY printing	SYSTEM "printing.sgml">
 <!ENTITY autofill	SYSTEM "autofill.sgml">
 <!ENTITY introduction	SYSTEM "introduction.sgml">
 -->
@@ -27,7 +27,6 @@ GNU oleo">
 <!--
 <!ENTITY autosave	SYSTEM "autosave.sgml">
 <!ENTITY functions	SYSTEM "functions.sgml">
-<!ENTITY printing	SYSTEM "printing.sgml">
 -->
 <!ENTITY analysis-tools	SYSTEM "analysis-tools.xml">
 <!ENTITY solver		SYSTEM "solver.xml">
@@ -93,7 +92,7 @@ GNU oleo">
     <title>Gnumeric Menus</title>
     &menus;
   </chapter>
-<!--  
+  <!--  
   <chapter id="toolbars">
     <title>Gnumeric Toolbars</title>
     &toolbars;
@@ -135,12 +134,12 @@ GNU oleo">
     <title>Autosave</title>
     &autosave;
   </chapter>
-
+-->
   <chapter id="printing">
     <title>Printing</title>
     &printing;
   </chapter>
--->
+
   <chapter id="filters">
     <title>Data Filters</title>
     &filter;

@@ -1,0 +1,410 @@
+<sect1 id="print">
+  <title>Printing to a Printer or a File.</title>
+  <para>
+  The <interface>Print dialog</interface> includes some options 
+   related to printing. More detailed options related to printing are in the <interface>
+  Print Setup dialog</interface>, detailed in <xref
+   linkend="print-setup" /> 
+  Press the <guibutton>Print</guibutton>
+  to print out the workbook. Press the <guibutton>Preview</guibutton> 
+  button to display the <interface>Print Preview dialog</interface>. 
+
+  </para>
+  <figure id="print-workbook-fig">
+    <title><interface>Print Dialog</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/print-worksheet.png" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <para>
+    Click on the <guimenuitem>Printer</guimenuitem> radiobutton and
+    click on <interface>Print</interface> to send the document to your
+    printer. You can also send the printed document to a
+    <keycap>postscript</keycap> file. 
+  </para>
+  <para>
+    You may also select a multiple number of copies, or print a subset
+    of the pages of the document.
+  </para>
+  <para>
+    If you are not sure which pages you need, click on the preview button to see the layout of the printed document.
+    </para>
+    <para>
+    If you need to change your page size or scale the output to fit
+    properly onto your page, see the <xref linkend="print-setup" />
+    </para>
+</sect1>
+
+<sect1 id="print-setup">
+  <title>Print Setup.</title>
+    <para>
+    The <interface>Print Setup Dialog</interface> can be used to configure
+    various options related to printing out a workbook. Click on <menuchoice> <guimenu>File Menu</guimenu> <guimenuitem>Print Setup</guimenuitem> </menuchoice> to activate the <interface>Print Setup</interface>.
+    </para>
+    <tip>
+    <title>TIP</title>
+    <para>
+    Remember that at any time you can click on the <interface>Print
+    preview</interface> button to see what your document looks like
+    with your selected options. See the <xref linkend="print-preview" />
+     </para>
+     </tip> 
+    <sect2 id="print-setup-page">
+    <title>Print Setup Dialog - Page</title>
+    <figure id="print-setup-page-fig">
+     <title><interface>Print Setup Dialog - Page</interface></title>
+      <mediaobject>
+	<imageobject>
+	  <imagedata fileref="figures/printing-setup-page"
+	  format="PNG" srccredit="Wayne Schuller" />
+	</imageobject>
+      </mediaobject>
+    </figure>
+    <para>
+      Select portrait or landscape to suit the best layout for your
+      document.
+    </para>
+    <para>
+    Change the scale your image to fit it to your page size
+    suitably. The scaling can both enlarge and diminish the size of
+    your printed document. 
+    </para>
+    <para>
+      The <interface>Fit to</interface> option is not available yet.
+    </para>
+  </sect2>
+  <sect2 id="print-setup-margins">
+    <title>Print Setup Dialog - Margins</title>
+    <figure id="print-setup-margins-fig">
+      <title><interface>Print Setup Dialog - Margins</interface></title>
+      <mediaobject>
+	<imageobject>
+	  <imagedata fileref="figures/printing-setup-margins"
+		     format="PNG" srccredit="Wayne Schuller" />
+	</imageobject>
+      </mediaobject>
+    </figure>
+    <para>
+      Adjust the margins by clicking on the arrow buttons for each
+      margin. You will see the <interface>preview pane</interface>
+      follow your changes.
+    </para>
+    <para>
+    You may set the margin to be measured in centimetres, millimetres,
+    points or inches.
+    </para>
+  </sect2>
+  <sect2 id="print-setup-header">
+    <title>Print Setup Dialog - Headers and Footers</title>
+    <figure id="print-setup-header-fig">
+      <title><interface>Print Dialog - Headers and Footers</interface></title>
+      <mediaobject>
+	<imageobject>
+	  <imagedata fileref="figures/printing-setup-header"
+	  format="PNG" srccredit="Wayne Schuller" />
+	</imageobject>
+      </mediaobject>
+    </figure>
+    <para>
+      Click on the option menu to choose from a range of different
+      header and footer styles.  Customize the header or footer by
+      choosing the last option on the menu. 
+    </para>
+    
+    <tip>
+      <title>TIP</title>
+      <para>
+	Double clicking on the header or footer preview will quickly
+	allow you to customize that header or footer.
+      </para>
+     </tip> 
+    
+  </sect2>
+  <sect2 id="print-setup-header-config">
+    <title>Customizing Headers and Footers</title>
+    <figure id="print-setup-header-config-fig">
+      <title><interface>Print Dialog - Customize Header/Footer</interface></title>
+      <mediaobject>
+	<imageobject>
+	  <imagedata fileref="figures/printing-setup-header-config"
+		     format="PNG" srccredit="Wayne Schuller" />
+	</imageobject>
+      </mediaobject>	
+    </figure>
+    <para>
+    Enter what text you would like to appear in the header or
+    footer. There are a number of special <keycap>opcodes</keycap> for
+    common options. These are:
+
+    </para>
+    <variablelist>
+      <varlistentry>
+	<term>&amp;[TAB]</term>
+	<listitem>
+	  <para>
+	    Name of the workbook.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[PAGE]</term>
+	<listitem>
+	  <para>
+	    Page number in the printing.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[PAGES]</term>
+	<listitem>
+	  <para>
+	    Total number of pages in the printout.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[DATE]</term>
+	<listitem>
+	  <para>
+	    Current date.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[TIME]</term>
+	<listitem>
+	  <para>
+	    Current time.
+	  </para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+  </sect2>
+  
+  <sect2 id="print-setup-sheet">
+    <title>Print Setup Dialog - Sheet</title>
+      <figure id="print-setup-sheet-fig">
+	<title><interface>Print Setup Dialog - Sheet</interface></title>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="figures/printing-setup-sheet"
+		       format="PNG" srccredit="Wayne Schuller" />
+	  </imageobject>
+	</mediaobject>
+      </figure>
+    <para>
+      You can select row or column titles to print by clicking in
+      the <interface>expr-entry widget</interface> and selecting
+      the rows or columns with the mouse.
+    </para>
+    <para>
+      Select <interface>Grid lines</interface> to print the cell
+      grid lines with your document. Unselect the button to hide
+      the grid lines from your print output.
+    </para>
+    <para>
+      Select <interface>Black and white</interface> to convert the
+      colours in your document to a greyscale range.
+    </para>
+    <para>
+      Select <interface>Styles with no content</interface> to
+      ensure cells with style changes will be printed, even if
+      they are empty. For example, if you have a number of cells
+      with the background color changed but no data in them, you
+      can select this option to ensure they are in the printed
+      output.
+
+    </para>
+  </sect2>
+</sect1>
+
+<sect1 id="print-preview">
+  <title>Print Preview.</title>
+  <para>
+    The <interface>Print Preview Dialog</interface> is used to display
+    what the printed output will look like. The Print Preview dialog
+    can be used to check whether you have the desired formating and
+    layout before you print out the workbook. 
+  </para>
+
+  <figure id="print-preview-fig">
+    <title><interface>Print Preview Dialog</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="figures/printing-preview" format="PNG"
+		   srccredit="Thomas Canty" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <sect2 id="menu-bar">
+    <title>Menu Bar</title>
+    <variablelist>
+      <varlistentry>
+      <term><guimenu>View</guimenu></term>
+      <listitem>
+	<para>
+	  This menu contains:
+	  <itemizedlist>
+	    <listitem>
+	      <para>
+		<guimenuitem>First Page</guimenuitem>
+		&mdash;Shows the first page in the workbook.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		<guimenuitem>Previous Page</guimenuitem>
+		&mdash;Shows the previous page in the workbook.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		<guimenuitem>Next Page</guimenuitem>
+		&mdash;Shows the next page in the workbook.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		<guimenuitem>Last Page</guimenuitem>
+		&mdash;Shows the last page in the workbook.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		<guimenuitem>Zoom in</guimenuitem>
+		&mdash;Zooms the current page in, showing more detail.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		<guimenuitem>Zoom out</guimenuitem>
+		&mdash;Zooms the current page out, showing less detail.
+	      </para>
+	    </listitem>
+	  </itemizedlist>
+	</para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+</sect2>
+ 
+ <sect2>
+   <title>Toolbar</title>
+   <variablelist>
+      <varlistentry>
+        <term>
+          <guiicon><inlinegraphic fileref="figures/print-large.png"></inlinegraphic>
+            Print
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Prints the current worksheet to a file or a printer.</para>
+        </listitem>
+      </varlistentry>
+
+       <varlistentry>
+        <term>
+          <guiicon><inlinegraphic fileref="figures/print-preview-first.png"></inlinegraphic>
+          First
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Show the first page in the workbook.</para>
+        </listitem>
+      </varlistentry>
+
+        <varlistentry>
+        <term>
+          <guiicon><inlinegraphic fileref="figures/print-preview-back.png"></inlinegraphic>
+          Back
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Show the previous page in the workbook.</para>
+        </listitem>
+      </varlistentry>
+ 
+        <varlistentry>
+        <term>
+          <guiicon><inlinegraphic fileref="figures/print-preview-next.png"></inlinegraphic>
+          Next
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Show the next page in the workbook.</para>
+        </listitem>
+      </varlistentry>
+
+         <varlistentry>
+        <term>
+          <guiicon><inlinegraphic fileref="figures/print-preview-last.png"></inlinegraphic>
+          Last
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Show the last page in the workbook.</para>
+        </listitem>
+      </varlistentry>
+  
+       <varlistentry>
+        <term>
+          <guiicon><inlinegraphic fileref="figures/print-preview-zoomin.png"></inlinegraphic>
+          Zoom in
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Zooms the current page in, showing greater detail.</para>
+        </listitem>
+      </varlistentry>
+
+       <varlistentry>
+        <term>
+          <guiicon><inlinegraphic fileref="figures/print-preview-zoomout.png"></inlinegraphic>
+          Zoom out
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Zooms the current page out, showing less detail.</para>
+        </listitem>
+      </varlistentry>
+
+       <varlistentry>
+        <term>
+          <guiicon><inlinegraphic fileref="figures/print-preview-fit.png"></inlinegraphic>
+          Fit
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Fits the whole page into the screen space.</para>
+        </listitem>
+      </varlistentry>
+
+       <varlistentry>
+        <term>
+          <guiicon><inlinegraphic fileref="figures/print-preview-fitwide.png"></inlinegraphic>
+          Fit Wide
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Fits the whole width of the page into the screen space.</para>
+        </listitem>
+      </varlistentry>
+
+       <varlistentry>
+        <term>
+          <guiicon><inlinegraphic fileref="figures/print-preview-fittall.png"></inlinegraphic>
+          Fit Tall
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Fits the whole height of the page into the screen space.</para>
+        </listitem>
+      </varlistentry>
+   </variablelist>
+  </sect2>
+</sect1>
