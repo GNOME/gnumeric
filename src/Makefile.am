@@ -2,7 +2,7 @@
 # Gnumeric's Makefile.
 # Author: Miguel de Icaza (miguel@kernel.org)
 
-SUBDIRS = dialogs functions pixmaps widgets tools
+SUBDIRS = pixmaps dialogs functions widgets tools
 
 bin_PROGRAMS = gnumeric
 #noinst_PROGRAMS = number-match

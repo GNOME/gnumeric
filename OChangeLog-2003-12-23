@@ -1,3 +1,8 @@
+2002-03-19  Juan Pablo Mendoza <jpablo@gnome.org>
+
+	* src/Makefile.am: Changue subdirs order to build pixmaps before
+	  dialogs. This fix the cvs build.
+
 2002-03-18  Morten Welinder  <terra@diku.dk>
 
 	* src/rangefunc.c (float_hash): Fix for long double case (which
