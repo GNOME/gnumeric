@@ -34,6 +34,7 @@
 #include "dialogs.h"
 #include "mstyle.h"
 #include "value.h"
+#include "ranges.h"
 #include "mathfunc.h"
 #include "analysis-tools.h"
 #include "api.h"
@@ -698,7 +699,8 @@ solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet)
 		*new = *old;
 		new->str = g_strdup (old->str);
 
-		dst_param->constraints = g_slist_prepend (dst_param->constraints, new);
+		dst_param->constraints =
+		        g_slist_prepend (dst_param->constraints, new);
 	}
 	dst_param->constraints = g_slist_reverse (dst_param->constraints);
 
@@ -709,10 +711,90 @@ solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet)
 
 		new_cell = cell_copy (cell);
 		new_cell->base.sheet = new_sheet;
-		dst_param->input_cells = g_slist_prepend (dst_param->input_cells,
-			(gpointer) new_cell);
+		dst_param->input_cells =
+		        g_slist_prepend (dst_param->input_cells,
+					 (gpointer) new_cell);
 	}
 	dst_param->input_cells = g_slist_reverse (dst_param->input_cells);
 
 	return dst_param;
 }
+
+/*
+ * Adjusts the row indecies in the Solver's data structures when rows
+ * are inserted.
+ */
+void
+solver_insert_rows (Sheet *sheet, int row, int count)
+{
+	SolverParameters *param = sheet->solver_parameters;
+	GSList           *constraints;
+        Value            *input_range;
+	Range            range;
+
+	/* Adjust the input range. */
+	input_range = global_range_parse (sheet, param->input_entry_str);
+	if (input_range != NULL) {
+	        if (input_range->v_range.cell.a.row >= row) {
+		        range.start.col = input_range->v_range.cell.a.col;
+		        range.start.row = input_range->v_range.cell.a.row +
+			        count;
+		        range.end.col   = input_range->v_range.cell.b.col;
+		        range.end.row   = input_range->v_range.cell.b.row +
+			        count;
+			param->input_entry_str =
+			        g_strdup (global_range_name (sheet, &range));
+		}
+	}
+
+	/* Adjust the constraints. */
+	for (constraints = param->constraints; constraints;
+	     constraints = constraints->next) {
+		SolverConstraint *c = constraints->data;
+
+		if (c->lhs.row >= row)
+		        c->lhs.row += count;
+		if (c->rhs.row >= row)
+		        c->rhs.row += count;
+	}
+}
+
+/*
+ * Adjusts the column indecies in the Solver's data structures when columns
+ * are inserted.
+ */
+void
+solver_insert_cols (Sheet *sheet, int col, int count)
+{
+	SolverParameters *param = sheet->solver_parameters;
+	GSList           *constraints;
+        Value            *input_range;
+	Range            range;
+
+	/* Adjust the input range. */
+	input_range = global_range_parse (sheet, param->input_entry_str);
+	if (input_range != NULL) {
+	        if (input_range->v_range.cell.a.col >= col) {
+		        range.start.col = input_range->v_range.cell.a.col +
+			        count;
+		        range.start.row = input_range->v_range.cell.a.row;
+		        range.end.col   = input_range->v_range.cell.b.col +
+			        count;
+		        range.end.row   = input_range->v_range.cell.b.row;
+			param->input_entry_str =
+			        g_strdup (global_range_name (sheet, &range));
+		}
+	}
+
+	/* Adjust the constraints. */
+	for (constraints = param->constraints; constraints;
+	     constraints = constraints->next) {
+		SolverConstraint *c = constraints->data;
+
+		if (c->lhs.col >= col)
+		        c->lhs.col += count;
+		if (c->rhs.col >= col)
+		        c->rhs.col += count;
+	}
+}
+
