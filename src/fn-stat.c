@@ -232,7 +232,7 @@ gnumeric_var (Sheet *sheet, GList *expr_node_list, int eval_col,
 		return NULL;
 
 	if (cl.N <= 1) {
-		*error_string = gnumeric_err_NUM;
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 

@@ -2062,17 +2062,14 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		}
 		case BIFF_BOOLERR: /* S59D5F.HTM */
 		{
+			ExprTree *e;
 			if (BIFF_GETBYTE(q->data + 7)) /* Error */
-				ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q),
-						       EX_GETROW (q), 
-						       biff_get_error_text (BIFF_GETBYTE(q->data + 6))) ;
+				e = expr_tree_new_error (biff_get_error_text (BIFF_GETBYTE(q->data + 6)));
 			else /* Boolean */
-			{
-				char *bl = "0" ; /* FALSE */
-				if (BIFF_GETBYTE(q->data + 6))
-					bl = "1" ; /* TRUE */
-				ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), bl) ;
-			}
+				e = expr_tree_new_constant (value_new_bool (BIFF_GETBYTE(q->data + 6)));
+			ms_excel_sheet_insert_form (sheet, EX_GETXF (q), EX_GETCOL (q),
+						    EX_GETROW (q), e);
+			expr_tree_unref (e);
 			break;
 		}
 		default:

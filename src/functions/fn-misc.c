@@ -137,10 +137,14 @@ static Value *
 gnumeric_error_type (Sheet *sheet, GList *expr_node_list,
 		     int eval_col, int eval_row, char **error_string)
 {
-	int res, retval = 0;
-	if (gnumeric_check_for_err (sheet, expr_node_list,
-				    eval_col, eval_row, error_string))
-	{
+	int res, retval;
+	res = gnumeric_check_for_err (sheet, expr_node_list,
+				      eval_col, eval_row, error_string);
+	if (res == -1)
+		return NULL;
+	else if (res == 0)
+		retval = 0;
+	else {
 		if (!strcmp (gnumeric_err_NULL, *error_string))
 			retval = 1;
 		else if (!strcmp (gnumeric_err_DIV0, *error_string))

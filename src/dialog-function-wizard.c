@@ -31,7 +31,6 @@ create_description (FunctionDefinition *fd)
 {
 	GtkBox  *vbox;
 	TokenizedHelp *tok;
-	#define TEXT_WIDTH 80
 
 	tok = tokenized_help_new (fd);
 
@@ -45,7 +44,7 @@ create_description (FunctionDefinition *fd)
 
 	{ /* Description */
 		GtkText *text;
-		char *txt = tokenized_help_find (tok, "DESCRIPTION");
+		const char *txt = tokenized_help_find (tok, "DESCRIPTION");
 		text = GTK_TEXT (gtk_text_new (NULL, NULL));
 		gtk_text_set_editable (text, FALSE);
 		gtk_text_insert (text, NULL, NULL, NULL,
@@ -74,6 +73,7 @@ static void
 arg_data_list_new (State *state)
 {
 	gchar *copy_args;
+	const gchar *syntax;
 	gchar *ptr, *start = NULL;
 	gchar *type;
 	int optional = 0;
@@ -102,14 +102,14 @@ arg_data_list_new (State *state)
 		return;
 	}
 
-	copy_args = tokenized_help_find (state->tok, "SYNTAX");
-	if (!copy_args){
+	syntax = tokenized_help_find (state->tok, "SYNTAX");
+	if (!syntax){
 		g_ptr_array_free (state->args, FALSE);
 		state->args = NULL;
+		return;
 	}
-	copy_args = g_strdup (copy_args);
+	ptr = copy_args = g_strdup (syntax);
 
-	ptr = copy_args;
 	while (*ptr){
 		if (*ptr == '(' && !start)
 			start = ptr+1;

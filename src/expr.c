@@ -123,13 +123,19 @@ expr_tree_new_var (const CellRef *cr)
 ExprTree *
 expr_tree_new_error (const char *txt)
 {
-	ExprTree *val, *call;
 	Symbol *func;
+	GList *args = NULL;
 
-	val = expr_tree_new_constant (value_new_string (txt));
-	func = symbol_lookup (global_symbol_table, "ERROR");
+	if (strcmp (txt, gnumeric_err_NA) == 0) {
+		func = symbol_lookup (global_symbol_table, "NA");
+	} else {
+		func = symbol_lookup (global_symbol_table, "ERROR");
+		args = g_list_prepend (NULL,
+				       expr_tree_new_constant (value_new_string (txt)));
+	}
+
 	symbol_ref (func);
-	return expr_tree_new_funcall (func, g_list_prepend (NULL, val));
+	return expr_tree_new_funcall (func, args);
 }
 
 

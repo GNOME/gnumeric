@@ -49,6 +49,7 @@ get_value_class (ExprTree *expr, Sheet *sheet, int col, int row)
 			res = VALUE_CLASS_BOGUS;
 			break;
 		}
+		value_release (value);
 	} else
 		res = VALUE_CLASS_ERROR;
 

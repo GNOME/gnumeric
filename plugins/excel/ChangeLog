@@ -1,3 +1,11 @@
+1999-06-21  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel-read.c (ms_excel_read_cell): Handle errors and boolean
+ 	constants without going through text.  (In particular, this gets
+ 	errors right and prepares for a proper bool type.)
+
+	* ms-formula-read.c (ms_excel_parse_formula): Fix error constants.
+
 1999-06-21  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-read.c (ms_excel_read_cell): Remove Jody's

@@ -108,7 +108,7 @@ typedef struct {
 } stat_closure_t;
 
 TokenizedHelp *tokenized_help_new     (FunctionDefinition *fd) ;
-char          *tokenized_help_find    (TokenizedHelp *tok, char *token) ;
+const char    *tokenized_help_find    (TokenizedHelp *tok, const char *token) ;
 void           tokenized_help_destroy (TokenizedHelp *tok) ;
 
 float_t combin (int n, int k);

@@ -335,7 +335,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 258 */	{ "GETTOOLBAR", -2 },
 /* 259 */	{ "GETTOOL", -2 },
 /* 260 */	{ "SPELLINGCHECK", -2 },
-/* 261 */	{ "ERRORTYPE", 1 },
+/* 261 */	{ "ERROR.TYPE", 1 },
 /* 262 */	{ "APPTITLE", -2 },
 /* 263 */	{ "WINDOWTITLE", -2 },
 /* 264 */	{ "SAVETOOLBAR", -2 },
@@ -672,9 +672,9 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 				numargs = fd->num_args ;
 			else if (fd->num_args == -2)
 				g_warning("This sheet uses an Excel function "
-					  "('%s') for which we do not have "
-					  "adequate documentation.\n"
-					  "Please forward a copy (if possible) to "
+					  "('%s') for which we do \n"
+					  "not have adequate documentation.  "
+					  "Please forward a copy (if possible) to\n"
 					  "gnumeric-list@gnome.org.  Thanks\n",
 					  fd->prefix);
 
@@ -1067,8 +1067,10 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 		}
 		case FORMULA_PTG_ERR:
 		{
-			parse_list_push_raw (&stack,
-					     value_new_string (biff_get_error_text(BIFF_GETBYTE(cur))));
+			const char *errtxt = biff_get_error_text (BIFF_GETBYTE(cur));
+			/* FIXME: we do not have errors as first-class values, so we
+			   must build an expression that generates the error.  */
+			parse_list_push (&stack, expr_tree_new_error (errtxt));
 			ptg_length = 1 ;
 			break ;
 		}

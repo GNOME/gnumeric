@@ -226,8 +226,8 @@ tokenized_help_new (FunctionDefinition *fd)
 /**
  * Use to find a token eg. "FUNCTION"'s value.
  **/
-char *
-tokenized_help_find (TokenizedHelp *tok, char *token)
+const char *
+tokenized_help_find (TokenizedHelp *tok, const char *token)
 {
 	int lp;
 
@@ -235,13 +235,13 @@ tokenized_help_find (TokenizedHelp *tok, char *token)
 		return "Incorrect Function Description.";
 
 	for (lp = 0; lp < tok->sections->len-1; lp++){
-		char *cmp = g_ptr_array_index (tok->sections, lp);
+		const char *cmp = g_ptr_array_index (tok->sections, lp);
 
 		if (strcasecmp (cmp, token) == 0){
 			return g_ptr_array_index (tok->sections, lp+1);
 		}
 	}
-	return "Can not find token";
+	return "Cannot find token";
 }
 
 void
