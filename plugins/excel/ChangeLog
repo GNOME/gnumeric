@@ -1,3 +1,7 @@
+1999-02-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* ms-ole.c (ms_ole_write_sb): Do not use C++ comments.
+
 1999-02-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* ms-ole.c (ms_ole_destroy): Free the correct pointer (we were

@@ -1085,7 +1085,7 @@ ms_ole_write_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 			SET_GUINT32(GET_SB_CHAIN_PTR(s->file, block), END_OF_CHAIN);
 			s->end_block = block;
 			printf ("Linked stuff\n");
-//			dump_allocation(s->file);
+/*			dump_allocation(s->file); */
 		}
 		
 		dest = GET_SB_START_PTR(s->file, block) + offset;
@@ -1128,7 +1128,7 @@ ms_ole_write_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 				cnt++;
 			}
 
-//			g_assert (cnt==BB_BLOCK_SIZE/SB_BLOCK_SIZE);
+/*			g_assert (cnt==BB_BLOCK_SIZE/SB_BLOCK_SIZE); */
 			free_allocation (s->file, sb_start_block, 0);
 
 			/* Continue the interrupted write */
