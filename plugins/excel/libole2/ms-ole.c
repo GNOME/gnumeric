@@ -418,19 +418,17 @@ pps_get_text (guint8 *ptr, int length)
 		return 0;
 	}
 	
-	ans = (char *)g_malloc (sizeof(char) * length + 1);
+	ans = (char *) g_malloc (sizeof (char) * length + 1);
 	
-	c = MS_OLE_GET_GUINT16(ptr);
-	if (c<0x30) /* Magic unicode number I made up */
-		inb = ptr + 2;
-	else
-		inb = ptr;
-	for (lp=0;lp<length;lp++) {
-		c = MS_OLE_GET_GUINT16(inb);
-		ans[lp] = (char)c;
-		inb+=2;
+	c = MS_OLE_GET_GUINT16 (ptr);
+	inb = ptr;
+	for (lp = 0; lp < length; lp++) {
+		c = MS_OLE_GET_GUINT16 (inb);
+		ans [lp] = (char) c;
+		inb += 2;
 	}
-	ans[lp] = 0;
+	ans [lp] = 0;
+
 	return ans;
 }
 
