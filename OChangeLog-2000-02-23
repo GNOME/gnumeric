@@ -1,3 +1,18 @@
+2000-01-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_new) : paste_special is only disabled for
+	  cut not for standard actions.
+
+	* src/value-sheet.c (value_is_error) : New routine to look up errors.
+	(gnumeric_error_init) : New routine.
+	(constants_init) : Used here.
+
+	* src/parser.y (yylex) : If a string begins with '#' it may be an
+	  explicit error string.
+
+	* src/xml-io.c (xml_write_style_border) : Write BORDER_NONE's too,
+	  this makes it possible to save and restore the NONEs that erase borders.
+
 2000-01-03  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/about.c (dialog_about): Add Ariel.

@@ -631,8 +631,7 @@ xml_write_style_border (parse_xml_context_t *ctxt,
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_REV_DIAGONAL; i++) {
 		MStyleBorder const *border;
 		if (mstyle_is_element_set (style, i) &&
-		    NULL != (border = mstyle_get_border (style, i)) &&
-		    border->line_type != STYLE_BORDER_NONE) {
+		    NULL != (border = mstyle_get_border (style, i))) {
 			break;
 		}
 	}
@@ -644,8 +643,7 @@ xml_write_style_border (parse_xml_context_t *ctxt,
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_REV_DIAGONAL; i++) {
 		MStyleBorder const *border;
 		if (mstyle_is_element_set (style, i) &&
-		    NULL != (border = mstyle_get_border (style, i)) &&
-		    border->line_type != STYLE_BORDER_NONE) {
+		    NULL != (border = mstyle_get_border (style, i))) {
 			StyleBorderType t = border->line_type;
 			StyleColor *col   = border->color;
  			side = xmlNewChild (cur, ctxt->ns,

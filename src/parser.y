@@ -508,7 +508,8 @@ try_symbol (char *string, gboolean try_cellref_and_number)
 	return make_string_return (string, try_cellref_and_number);
 }
 
-int yylex (void)
+int
+yylex (void)
 {
 	int c;
 	const char *p, *tmp;
@@ -575,6 +576,20 @@ int yylex (void)
 		parser_expr = tmp;
 		return NUMBER;
 	}
+
+	case '#' :
+	{
+		int offset = 0;
+		/* we already took the leading '#' off */
+		Value *err = value_is_error (parser_expr-1, &offset);
+		if (err != NULL) {
+			yylval.tree = expr_tree_new_constant (err);
+			parser_expr += offset - 1;
+			return CONSTANT;
+		}
+	}
+	break;
+
 	case '\'':
 	case '"': {
 		char *string, *s;
@@ -607,6 +622,7 @@ int yylex (void)
 		v = try_symbol (string, FALSE);
 		return v;
 	}
+
 	}
 	
 	if (isalpha ((unsigned char)c) || c == '_' || c == '$'){
@@ -845,7 +861,7 @@ gnumeric_expr_parser (const char *expr, const ParsePosition *pp,
 	if (parser_error == PARSE_OK)
 		alloc_list_free ();
 	else {
-		printf ("Parser error!\n");
+		fprintf (stderr, "Unable to parse '%s'\n", expr);
 		alloc_clean ();
 		*parser_result = NULL;
 	}

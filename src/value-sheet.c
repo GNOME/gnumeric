@@ -339,9 +339,55 @@ char const *gnumeric_err_NAME  = "#NAME?";
 char const *gnumeric_err_NUM   = "#NUM!";
 char const *gnumeric_err_NA    = "#N/A";
 
+static struct gnumeric_error_info
+{
+	char const *str;
+	int len;
+} gnumeric_error_data[7];
+
+static char const *
+gnumeric_error_init (int const indx, char const * str)
+{
+	g_return_val_if_fail (indx >= 0, str);
+	g_return_val_if_fail (indx < sizeof(gnumeric_error_data)/sizeof(struct gnumeric_error_info), str);
+
+	gnumeric_error_data[indx].str = str;
+	gnumeric_error_data[indx].len = strlen(str);
+	return str;
+}
+
+/*
+ * value_is_error : Check to see if a string begins with one of the magic
+ * error strings.
+ *
+ * @str : The string to test
+ * @offset : A place to store the size of the leading error string if it
+ *           exists.
+ *
+ * returns : an error if there is one, or NULL.
+ */
+Value *
+value_is_error (char const * const str, int *offset)
+{
+	int i = sizeof(gnumeric_error_data)/sizeof(struct gnumeric_error_info);
+
+	g_return_value_if_error (str != NULL, NULL);
+
+	while (--i >= 0) {
+		int const len = gnumeric_error_data[i].len;
+		if (strncmp (str, gnumeric_error_data[i].str, len) == 0) {
+			*offset = len;
+			return value_new_error (NULL, gnumeric_error_data[i].str);
+		}
+	}
+	return NULL;
+}
+
 void
 constants_init (void)
 {
+	int i = 0;
+
 	symbol_install (global_symbol_table, "FALSE", SYMBOL_VALUE,
 			value_new_bool (FALSE));
 	symbol_install (global_symbol_table, "TRUE", SYMBOL_VALUE,
@@ -349,11 +395,11 @@ constants_init (void)
 	symbol_install (global_symbol_table, "GNUMERIC_VERSION", SYMBOL_VALUE,
 			value_new_float (atof (GNUMERIC_VERSION)));
 
-	gnumeric_err_NULL = _("#NULL!");
-	gnumeric_err_DIV0 = _("#DIV/0!");
-	gnumeric_err_VALUE = _("#VALUE!");
-	gnumeric_err_REF = _("#REF!");
-	gnumeric_err_NAME = _("#NAME?");
-	gnumeric_err_NUM = _("#NUM!");
-	gnumeric_err_NA = _("#N/A");
+	gnumeric_err_NULL	= gnumeric_error_init (i++, _("#NULL!"));
+	gnumeric_err_DIV0	= gnumeric_error_init (i++, _("#DIV/0!"));
+	gnumeric_err_VALUE	= gnumeric_error_init (i++, _("#VALUE!"));
+	gnumeric_err_REF	= gnumeric_error_init (i++, _("#REF!"));
+	gnumeric_err_NAME	= gnumeric_error_init (i++, _("#NAME?"));
+	gnumeric_err_NUM	= gnumeric_error_init (i++, _("#NUM!"));
+	gnumeric_err_NA		= gnumeric_error_init (i++, _("#N/A"));
 }

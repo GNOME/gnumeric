@@ -107,6 +107,8 @@ void value_array_set       (Value *array, guint col, guint row, Value *v);
 void value_array_resize    (Value *v, guint width, guint height);
 void value_array_copy_to   (Value *dest, const Value *src);
 
+Value * value_is_error (char const * const str, int *offset);
+
 /* Some utility constants to make sure we all spell correctly */
 extern char const *gnumeric_err_NULL;
 extern char const *gnumeric_err_DIV0;

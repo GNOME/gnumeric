@@ -2190,10 +2190,11 @@ workbook_new (void)
 	workbook_view_set_undo_redo_state (wb, FALSE, FALSE);
 
 	/*
-	 * Disable paste & paste special, they will be enabled when
-	 * there is something to paste
+	 * Enable paste special, this assumes that the default is to
+	 * paste from the X clipboard.  It will be disabled when
+	 * something is cut.
 	 */
-	workbook_view_set_paste_special_state (wb, FALSE);
+	workbook_view_set_paste_special_state (wb, TRUE);
 
  	workbook_create_toolbars (wb);
 

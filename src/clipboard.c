@@ -621,7 +621,7 @@ clipboard_paste_region (CommandContext *context,
 	 */
 
 	workbook_holding_selection = find_local_workbook_with_selection ();
-	if (workbook_holding_selection && region){
+	if (workbook_holding_selection && region) {
 		CellRegion *content;
 
 		content = region;
