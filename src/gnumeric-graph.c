@@ -33,6 +33,10 @@
 #include "workbook-private.h"
 #include "value.h"
 #include "ranges.h"
+#include "formats.h"
+#include "format.h"
+#include "mstyle.h"
+#include "sheet-style.h"
 #include "sheet-object-container.h"
 
 #include "dialogs.h"
@@ -222,7 +226,8 @@ gnm_graph_vector_eval (Dependent *dep)
 
 	CORBA_exception_init (&ev);
 	switch (vector->type) {
-	case GNM_VECTOR_SCALAR : {
+	case GNM_VECTOR_SCALAR :
+	case GNM_VECTOR_DATE : {
 		GNOME_Gnumeric_Scalar_Seq *seq =
 			gnm_graph_vector_seq_scalar (vector);
 		GNOME_Gnumeric_Scalar_Vector_changed (
@@ -258,7 +263,8 @@ impl_scalar_vector_value (PortableServer_Servant servant,
 	GnmGraphVector *vector = SERVANT_TO_GRAPH_VECTOR (servant);
 
 	g_return_if_fail (IS_GNUMERIC_GRAPH_VECTOR (vector));
-	g_return_if_fail (vector->type == GNM_VECTOR_SCALAR);
+	g_return_if_fail (vector->type == GNM_VECTOR_SCALAR ||
+			  vector->type == GNM_VECTOR_DATE);
 
 	*values = gnm_graph_vector_seq_scalar (vector);
 }
@@ -370,6 +376,7 @@ gnm_graph_vector_corba_init (GnmGraphVector *vector)
 
 	switch (vector->type) {
 	case GNM_VECTOR_SCALAR :
+	case GNM_VECTOR_DATE :
 		vector->servant.scalar.vepv = &scalar_vector_vepv;
 		POA_GNOME_Gnumeric_Scalar_Vector__init (
 			&vector->servant.scalar, &ev);
@@ -436,6 +443,7 @@ gnm_graph_vector_corba_destroy (GnmGraphVector *vector)
 	if (vector->initialized) {
 		switch (vector->type) {
 		case GNM_VECTOR_SCALAR :
+		case GNM_VECTOR_DATE :
 			POA_GNOME_Gnumeric_Scalar_Vector__fini (
 				&vector->servant.scalar, &ev);
 			break;
@@ -660,12 +668,25 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 		eval_pos_init_dep (&ep, &vector->dep), flags);
 
 	if (type == GNM_VECTOR_AUTO) {
-		if (vector->value == NULL ||
-		    value_area_foreach (&ep, vector->value,
-			&cb_check_range_for_pure_string, NULL) != NULL)
-			type = GNM_VECTOR_SCALAR;
-		else
-			type = GNM_VECTOR_STRING;
+		type = GNM_VECTOR_SCALAR;
+		if (vector->value != NULL) {
+			if (value_area_foreach (&ep, vector->value, &cb_check_range_for_pure_string, NULL) != NULL &&
+			    vector->value->type == VALUE_CELLRANGE) {
+				Range  r;
+				Sheet *start_sheet, *end_sheet;
+				char *fmt;
+				FormatCharacteristics info;
+				FormatFamily family;
+					
+				value_cellrange_normalize (&ep, vector->value, &start_sheet, &end_sheet, &r);
+				fmt = cell_get_format (sheet_cell_get (start_sheet, r.start.col, r.start.row));
+				family = cell_format_classify (fmt, &info);
+				g_free (fmt);
+				if (family == FMT_DATE)
+					type = GNM_VECTOR_DATE;
+			} else
+				type = GNM_VECTOR_STRING;
+		}
 	}
 
 	vector->is_column = (vector->value != NULL &&

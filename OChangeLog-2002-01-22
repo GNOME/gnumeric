@@ -1,3 +1,12 @@
+2002-01-20  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-graph.c (gnm_graph_add_vector) : auto probe for date
+	  vectors too.
+	(gnm_graph_vector_eval) : support dates.
+	(impl_scalar_vector_value) : ditto.
+	(gnm_graph_vector_corba_init) : ditto.
+	(gnm_graph_vector_corba_destroy) : ditto.
+
 2002-01-19  Jody Goldberg <jody@gnome.org>
 
 	* src/GNOME_Gnumeric.xml : move the tabulate and random numbers into

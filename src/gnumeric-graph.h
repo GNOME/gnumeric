@@ -9,6 +9,7 @@
 
 typedef enum {
 	GNM_VECTOR_SCALAR  = 0,	/* See idl for details */
+	GNM_VECTOR_DATE    = 1,
 	GNM_VECTOR_STRING  = 2,
 	GNM_VECTOR_AUTO	   = 99
 } GnmGraphVectorType;
