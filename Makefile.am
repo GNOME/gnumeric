@@ -9,7 +9,9 @@ EXTRA_DIST = \
 	gnumeric.gnorba $(change_logs)
 
 appicondir = $(datadir)/pixmaps
-appicon_DATA = gnome-gnumeric.png gnome-gnumeric-xl.png
+appicon_DATA = gnome-gnumeric.png \
+               gnome-application-x-gnumeric.png \
+               gnome-application-x-xls.png
 
 Applicationsdir = $(datadir)/gnome/apps/Applications
 Applications_DATA = gnumeric.desktop

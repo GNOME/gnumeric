@@ -1,3 +1,8 @@
+2000-01-31  Matthias Warkus  <mawa@iname.com>
+
+	* *.png, Makefile.am, gnumeric.keys.in: New file type icons. Flame
+	me if anything went wrong.
+
 2000-01-31  Yuan-Chung Cheng <platin@linux.org.tw>
 
         * configure.in: Added "zh_CN.GB2312" to ALL_LINGUAS.
