@@ -36,7 +36,9 @@ Jody:
 	* fix scrollwheels for gnome2.
 
 Jon Kåre:
-	* More correct import of "automatic" colors from Excel
+	* More correct import of "automatic" colors from Excel.
+	* Export "automatic" colors to Excel.
+	* Simplify and fix bugs in Excel color import and export.
 
 Joshua R. Odom:
 	* Reorganize the custom pixmaps.
