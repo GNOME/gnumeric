@@ -127,12 +127,12 @@ gog_object_generate_name (GogObject *obj)
 	unsigned name_len, i, max_index = 0;
 	GSList *ptr;
 
-	g_return_val_if_fail (klass != NULL, FALSE);
-	g_return_val_if_fail (klass->type_name != NULL, FALSE);
+	g_return_val_if_fail (klass != NULL, NULL);
+	g_return_val_if_fail (klass->type_name != NULL, NULL);
 
 	type_name = (*klass->type_name) (obj);
 
-	g_return_val_if_fail (type_name != NULL, FALSE);
+	g_return_val_if_fail (type_name != NULL, NULL);
 	name_len = strlen (type_name);
 
 	for (ptr = obj->parent->children; ptr != NULL ; ptr = ptr->next) {
