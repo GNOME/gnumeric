@@ -1,5 +1,10 @@
 2002-10-12  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-edit.c (wbcg_edit_finish) : clear the guru before
+	  destroying it in case the destruction tries to finish editing too.
+
+2002-10-12  Jody Goldberg <jody@gnome.org>
+
 	* src/func-builtin.c (func_builtin_init) : jump to the new interface.
 
 	* src/func.h : some renaming and api cleanup.

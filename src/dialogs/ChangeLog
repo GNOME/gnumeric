@@ -1,3 +1,8 @@
+2002-10-12  Jody Goldberg <jody@gnome.org>
+
+	* dialog-function-select.c (dialog_function_load_recent_funcs) : don't
+	  free the list.  We are using the Applications copy now.
+
 2002-10-11  Morten Welinder  <terra@diku.dk>
 
 	* dialog-autoformat.c (dialog_autoformat): Elminate

@@ -83,15 +83,13 @@ dialog_function_load_recent_funcs (FunctionSelectState *state)
 	recent_funcs = gnm_app_prefs->recent_funcs;
 
 	for (this_funcs = recent_funcs; this_funcs; this_funcs = this_funcs->next) {
-		char *name = this_funcs->data;
-		if (name) {
-			fd = gnm_func_lookup (name, NULL);
-			g_free (name);
-			if (fd)
-				state->recent_funcs = g_slist_prepend (state->recent_funcs, fd);
-		}
+		char const *name = this_funcs->data;
+		if (name == NULL)
+			continue;
+		fd = gnm_func_lookup (name, NULL);
+		if (fd)
+			state->recent_funcs = g_slist_prepend (state->recent_funcs, fd);
 	}
-	g_slist_free (recent_funcs);
 }
 
 static void
@@ -107,9 +105,9 @@ dialog_function_write_recent_func (FunctionSelectState *state, GnmFunc const *fd
 	while (g_slist_length (state->recent_funcs) > ulimit)
 		state->recent_funcs = g_slist_remove (state->recent_funcs,
 						      g_slist_last (state->recent_funcs)->data);
-	
+
 	for (rec_funcs = state->recent_funcs; rec_funcs; rec_funcs = rec_funcs->next) {
-		gconf_value_list = g_slist_prepend 
+		gconf_value_list = g_slist_prepend
 			(gconf_value_list, g_strdup (gnm_func_get_name (rec_funcs->data)));
 	}
 	gnm_gconf_set_recent_funcs (gconf_value_list);
@@ -119,25 +117,14 @@ dialog_function_write_recent_func (FunctionSelectState *state, GnmFunc const *fd
 }
 
 
-/**
- * dialog_function_select_destroy:
- * @window:
- * @state:
- *
- * Destroy the dialog and associated data structures.
- *
- **/
-static gboolean
-dialog_function_select_destroy (GtkObject *w, FunctionSelectState  *state)
+static void
+dialog_function_select_destroy (FunctionSelectState  *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
-	if (state->formula_guru_key && 
+	if (state->formula_guru_key &&
 	    gnumeric_dialog_raise_if_exists (state->wbcg, state->formula_guru_key)) {
 		/* The formula guru is waiting for us.*/
 		state->formula_guru_key = NULL;
-		dialog_formula_guru (state->wbcg, NULL);	
+		dialog_formula_guru (state->wbcg, NULL);
 	}
 
 	if (state->gui != NULL) {
@@ -146,8 +133,6 @@ dialog_function_select_destroy (GtkObject *w, FunctionSelectState  *state)
 	}
 	state->dialog = NULL;
 	g_free (state);
-
-	return FALSE;
 }
 
 /**
@@ -231,7 +216,7 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 
 
 static void
-cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection, 
+cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection,
 					     FunctionSelectState *state)
 {
 	GtkTreeIter  iter;
@@ -265,7 +250,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 							  NULL,
 							  "weight",
 							  PANGO_WEIGHT_BOLD,
-							  NULL);  
+							  NULL);
 			gtk_text_buffer_get_iter_at_offset (state->description,
 							    &start, 0);
 			gtk_text_buffer_get_iter_at_offset (state->description,
@@ -283,7 +268,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 					tag = gtk_text_buffer_create_tag
 						(state->description,
 						 NULL, "style",
-						 PANGO_STYLE_ITALIC, NULL);  
+						 PANGO_STYLE_ITALIC, NULL);
 					gtk_text_buffer_get_iter_at_offset
 						(state->description, &start,
 						 cursor - f_desc - i);
@@ -310,19 +295,19 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 						 &start, &end);
 
 					/* Make notes to look cooler. */
-					for (i = 2; cursor[i] 
+					for (i = 2; cursor[i]
 						     && cursor[i] != '\n'; i++)
 						;
 
 					tag = gtk_text_buffer_create_tag
 						(state->description, NULL,
 						 "scale", 0.85, NULL);
-					
+
 					gtk_text_buffer_get_iter_at_offset
 						(state->description,
 						 &start, cursor - f_desc + 1);
 					gtk_text_buffer_get_iter_at_offset
-						(state->description, &end, 
+						(state->description, &end,
 						 cursor - f_desc + i);
 					gtk_text_buffer_apply_tag
 						(state->description, tag,
@@ -342,7 +327,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 }
 
 static void
-cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection, 
+cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection,
 					     FunctionSelectState *state)
 {
 	GtkTreeIter  iter;
@@ -357,13 +342,13 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 				    CATEGORY, &cat,
 				    -1);
 		if (cat != NULL) {
-			funcs = g_list_sort (g_list_copy (cat->functions), 
+			funcs = g_list_sort (g_list_copy (cat->functions),
 					     dialog_function_select_by_name);
 			for (this_func = funcs; this_func; this_func = this_func->next) {
 				GnmFunc const *a_func = this_func->data;
 				TokenizedHelp *help = tokenized_help_new (a_func);
 				char const *f_syntax = tokenized_help_find (help, "SYNTAX");
-				
+
 				gtk_list_store_append (state->model_f, &iter);
 				gtk_list_store_set (state->model_f, &iter,
 						    FUN_NAME, f_syntax,
@@ -374,13 +359,13 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 			g_list_free (funcs);
 		} else {
 			GSList *rec_funcs;
-			for (rec_funcs = state->recent_funcs; rec_funcs; 
+			for (rec_funcs = state->recent_funcs; rec_funcs;
 			     rec_funcs = rec_funcs->next) {
 				GnmFunc const *a_func = rec_funcs->data;
 
 				TokenizedHelp *help = tokenized_help_new (a_func);
 				char const *f_syntax = tokenized_help_find (help, "SYNTAX");
-				
+
 				gtk_list_store_append (state->model_f, &iter);
 				gtk_list_store_set (state->model_f, &iter,
 						    FUN_NAME, f_syntax,
@@ -399,10 +384,10 @@ dialog_function_select_init (FunctionSelectState *state)
 	GtkTreeViewColumn *column;
 	GtkTreeSelection *selection;
 	GtkTextView *textview;
-	
+
 	dialog_function_load_recent_funcs (state);
 
-	g_object_set_data (G_OBJECT (state->dialog), FUNCTION_SELECT_DIALOG_KEY, 
+	g_object_set_data (G_OBJECT (state->dialog), FUNCTION_SELECT_DIALOG_KEY,
 			   state);
 
 	/* Set-up first treeview */
@@ -448,7 +433,7 @@ dialog_function_select_init (FunctionSelectState *state)
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->treeview_f));
 	/* Finished set-up of second treeview */
 
-	gtk_paned_set_position (GTK_PANED (glade_xml_get_widget 
+	gtk_paned_set_position (GTK_PANED (glade_xml_get_widget
 					   (state->gui, "vpaned1")), 300);
 
 	textview = GTK_TEXT_VIEW (glade_xml_get_widget (state->gui, "description"));
@@ -466,10 +451,8 @@ dialog_function_select_init (FunctionSelectState *state)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		"cell-sort.html");
-
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (dialog_function_select_destroy), state);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) dialog_function_select_destroy);
 
 	return FALSE;
 }

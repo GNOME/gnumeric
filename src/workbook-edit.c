@@ -198,8 +198,11 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 	wbcg->wb_control.editing_sheet = NULL;
 	wbcg->wb_control.editing_cell = NULL;
 
-	if (wbcg->edit_line.guru != NULL)
-		gtk_widget_destroy (wbcg->edit_line.guru);
+	if (wbcg->edit_line.guru != NULL) {
+		GtkWidget *w = wbcg->edit_line.guru;
+		wbcg->edit_line.guru = NULL;
+		gtk_widget_destroy (w);
+	}
 	wb_control_edit_set_sensitive (wbc, FALSE, TRUE);
 
 	/* restore focus to original sheet in case things were being selected

@@ -3,7 +3,7 @@
  * dialog-function-wizard.c:  The formula guru
  *
  * Authors:
- *  Jody Goldberg <jody@gnome.org> 
+ *  Jody Goldberg <jody@gnome.org>
  *  Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * Copyright (C) 2000 Jody Goldberg (jody@gnome.org)
@@ -95,7 +95,7 @@ enum {
 };
 
 static void dialog_formula_guru_update_parent (GtkTreeIter *child, FormulaGuruState *state,
-					       GtkTreePath *origin, 
+					       GtkTreePath *origin,
 					       gint sel_start, gint sel_length);
 
 static void
@@ -120,14 +120,14 @@ dialog_formula_guru_delete_children (GtkTreeIter *parent, FormulaGuruState *stat
 {
 	GtkTreeIter iter;
 
-	while (gtk_tree_model_iter_children (GTK_TREE_MODEL(state->model), 
-					     &iter, parent)) 
+	while (gtk_tree_model_iter_children (GTK_TREE_MODEL(state->model),
+					     &iter, parent))
 		gtk_tree_store_remove (state->model, &iter);
 }
 
 static void
 dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *state,
-					GtkTreePath *origin, gint sel_start, gint sel_length) 
+					GtkTreePath *origin, gint sel_start, gint sel_length)
 {
 	GString  *text = g_string_sized_new  (AV_FORMULA_SIZE);
 	gboolean is_non_fun;
@@ -161,14 +161,14 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 				text = g_string_append_c (text, format_get_arg_sep ());
 				text = g_string_append_c (text, ' ');
 			}
-			
+
 			if (find_origin && origin != NULL) {
-				GtkTreePath *b = gtk_tree_model_get_path 
+				GtkTreePath *b = gtk_tree_model_get_path
 					(GTK_TREE_MODEL (state->model), &iter);
 				if (0 == gtk_tree_path_compare (origin, b)) {
 					sel_start += g_utf8_strlen (text->str, text->len);
 					gtk_tree_path_free (origin);
-					origin = gtk_tree_model_get_path 
+					origin = gtk_tree_model_get_path
 						(GTK_TREE_MODEL (state->model), parent);
 					find_origin = FALSE;
 				}
@@ -179,7 +179,7 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 			g_free (argument);
 			not_first = TRUE;
 			arg_num++;
-			
+
 		} while (gtk_tree_model_iter_next (GTK_TREE_MODEL(state->model), &iter));
 	}
 
@@ -187,7 +187,7 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 
 	gtk_tree_store_set (state->model, parent,
 			    FUN_ARG_ENTRY, text->str,
-			    -1);	
+			    -1);
 	if (origin == NULL) {
 		sel_start = 0;
 		sel_length = g_utf8_strlen (text->str, text->len);
@@ -195,7 +195,7 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 	}
 
 	if (0 ==  gtk_tree_store_iter_depth (state->model, parent))
-		dialog_formula_guru_write (text, state, sel_start, sel_length);	
+		dialog_formula_guru_write (text, state, sel_start, sel_length);
 
 	g_string_free (text, TRUE);
 
@@ -204,13 +204,13 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 
 static void
 dialog_formula_guru_update_parent (GtkTreeIter *child, FormulaGuruState *state,
-				   GtkTreePath *origin, gint sel_start, gint sel_length) 
+				   GtkTreePath *origin, gint sel_start, gint sel_length)
 {
 	GtkTreeIter iter;
 
 	if (gtk_tree_model_iter_parent (GTK_TREE_MODEL (state->model), &iter,
 					child)) {
-		dialog_formula_guru_update_this_parent (&iter, state, origin, sel_start, 
+		dialog_formula_guru_update_this_parent (&iter, state, origin, sel_start,
 							sel_length);
 	} else
 		gtk_tree_path_free (origin);
@@ -218,7 +218,7 @@ dialog_formula_guru_update_parent (GtkTreeIter *child, FormulaGuruState *state,
 
 static void
 dialog_formula_guru_update_this_child (GtkTreeIter *child, FormulaGuruState *state,
-				   GtkTreePath *origin, gint sel_start, gint sel_length) 
+				   GtkTreePath *origin, gint sel_start, gint sel_length)
 {
 	GtkTreeIter iter;
 	char *text;
@@ -234,7 +234,7 @@ dialog_formula_guru_update_this_child (GtkTreeIter *child, FormulaGuruState *sta
 			g_free (text);
 			origin = gtk_tree_model_get_path (GTK_TREE_MODEL(state->model), child);
 		}
-		dialog_formula_guru_update_this_parent (&iter, state, origin, sel_start, 
+		dialog_formula_guru_update_this_parent (&iter, state, origin, sel_start,
 						   sel_length);
 	}
 }
@@ -248,7 +248,7 @@ dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc const *fd,
 	GtkTreeIter iter;
 	gint min_arg, max_arg, args = 0, i;
 	char *arg_name;
-	
+
 
 	if (fd == NULL) {
 		gtk_tree_model_get (GTK_TREE_MODEL(state->model), parent,
@@ -263,18 +263,18 @@ dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc const *fd,
 		}
 	}
 	g_return_if_fail (fd != NULL);
-	
+
 	gtk_tree_model_get (GTK_TREE_MODEL(state->model), parent,
 			    MIN_ARG, &min_arg,
 			    MAX_ARG, &max_arg,
 			    -1);
 	if (max_arg == G_MAXINT) {
-		args = MAX (MIN_VAR_ARGS_DISPLAYED + min_arg, 
+		args = MAX (MIN_VAR_ARGS_DISPLAYED + min_arg,
 			    gtk_tree_model_iter_n_children (GTK_TREE_MODEL(state->model),
 							    parent));
-	} else 
+	} else
 		args = max_arg;
-	
+
 	while  (gtk_tree_model_iter_nth_child (GTK_TREE_MODEL(state->model),
 					       &iter, parent, args))
 		gtk_tree_store_remove (state->model, &iter);
@@ -343,7 +343,7 @@ dialog_formula_guru_adjust_varargs (GtkTreeIter *iter, FormulaGuruState *state)
 
 
 static void
-dialog_formula_guru_load_fd (GtkTreePath *path, GnmFunc const *fd, 
+dialog_formula_guru_load_fd (GtkTreePath *path, GnmFunc const *fd,
 			     FormulaGuruState *state)
 {
 	GtkTreeIter iter;
@@ -354,20 +354,20 @@ dialog_formula_guru_load_fd (GtkTreePath *path, GnmFunc const *fd,
 
 	if (path == NULL) {
 		gtk_tree_store_clear (state->model);
-		gtk_tree_store_append (state->model, &iter, NULL); 
+		gtk_tree_store_append (state->model, &iter, NULL);
 	} else if (!gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), &iter, path)) {
 		GtkTreePath *new_path = gtk_tree_path_copy (path);
-		if (gtk_tree_path_prev (new_path) && 
-		    gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), 
+		if (gtk_tree_path_prev (new_path) &&
+		    gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
 				      &iter, new_path)) {
 			dialog_formula_guru_adjust_varargs (&iter, state);
-			if (!gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), 
+			if (!gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
 						      &iter, path)) {
 				gtk_tree_store_clear (state->model);
 				gtk_tree_path_free (new_path);
 				return;
 			}
- 		}		
+ 		}
 		gtk_tree_path_free (new_path);
 	}
 
@@ -390,7 +390,7 @@ dialog_formula_guru_load_fd (GtkTreePath *path, GnmFunc const *fd,
 	gtk_tree_view_expand_row (state->treeview, new_path, FALSE);
 	gtk_tree_path_free (new_path);
 
-	
+
 }
 
 static void
@@ -402,22 +402,22 @@ dialog_formula_guru_load_string (GtkTreePath * path,
 
 	g_return_if_fail (path != NULL);
 
-	if (!gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), 
+	if (!gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
 				      &iter, path)) {
 		GtkTreePath *new_path = gtk_tree_path_copy (path);
 
-		if (gtk_tree_path_prev (new_path) && 
-		    gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), 
+		if (gtk_tree_path_prev (new_path) &&
+		    gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
 				      &iter, new_path)) {
 			dialog_formula_guru_adjust_varargs (&iter, state);
-			okay = gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), 
+			okay = gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
 							&iter, path);
  		} else
 			okay = FALSE;
 		gtk_tree_path_free (new_path);
 	}
 
-	g_return_if_fail (okay); 
+	g_return_if_fail (okay);
 
 	dialog_formula_guru_delete_children (&iter, state);
 	gtk_tree_store_set (state->model, &iter,
@@ -428,13 +428,13 @@ dialog_formula_guru_load_string (GtkTreePath * path,
 			    MAX_ARG, 0,
 			    -1);
 
-	dialog_formula_guru_update_parent (&iter, state, gtk_tree_model_get_path 
-					   (GTK_TREE_MODEL (state->model), &iter), 
+	dialog_formula_guru_update_parent (&iter, state, gtk_tree_model_get_path
+					   (GTK_TREE_MODEL (state->model), &iter),
 					   0, argument ? g_utf8_strlen (argument, -1) : 0);
 }
 
 static void
-dialog_formula_guru_load_expr (GtkTreePath const *parent_path, gint child_num, 
+dialog_formula_guru_load_expr (GtkTreePath const *parent_path, gint child_num,
 			       GnmExpr const *expr, FormulaGuruState *state)
 {
 	GtkTreePath *path;
@@ -453,16 +453,16 @@ dialog_formula_guru_load_expr (GtkTreePath const *parent_path, gint child_num,
 
 	switch (expr->any.oper) {
 	case GNM_EXPR_OP_FUNCALL:
-		dialog_formula_guru_load_fd (path, expr->func.func, state);		
+		dialog_formula_guru_load_fd (path, expr->func.func, state);
 		for (args = expr->func.arg_list, i = 0; args; args = args->next, i++)
-			dialog_formula_guru_load_expr (path, i, 
-						       (GnmExpr const *) args->data, 
+			dialog_formula_guru_load_expr (path, i,
+						       (GnmExpr const *) args->data,
 						       state);
 		gtk_tree_path_append_index (path, i - 1);
 		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
                                              &iter, path))
 			dialog_formula_guru_adjust_varargs (&iter, state);
-		
+
 		break;
 	case GNM_EXPR_OP_ANY_BINARY:
 	case GNM_EXPR_OP_UNARY_NEG:
@@ -471,7 +471,7 @@ dialog_formula_guru_load_expr (GtkTreePath const *parent_path, gint child_num,
 		dialog_formula_guru_load_string (path, text, state);
 		g_free (text);
 		break;
-		
+
 	}
 	gtk_tree_path_free (path);
 }
@@ -485,14 +485,11 @@ dialog_formula_guru_load_expr (GtkTreePath const *parent_path, gint child_num,
  * Destroy the dialog and associated data structures.
  *
  **/
-static gboolean
-dialog_formula_guru_destroy (GtkObject *w, FormulaGuruState *state)
+static void
+dialog_formula_guru_destroy (FormulaGuruState *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
-	wbcg_edit_finish (state->wbcg, FALSE);
 	wbcg_edit_detach_guru (state->wbcg);
+	wbcg_edit_finish (state->wbcg, FALSE);
 
 	g_free (state->prefix);
 	state->prefix = NULL;
@@ -507,8 +504,6 @@ dialog_formula_guru_destroy (GtkObject *w, FormulaGuruState *state)
 	}
 	state->dialog = NULL;
 	g_free (state);
-
-	return FALSE;
 }
 
 
@@ -523,7 +518,6 @@ static void
 cb_dialog_formula_guru_cancel_clicked (GtkWidget *button, FormulaGuruState *state)
 {
 	wbcg_edit_finish (state->wbcg, FALSE);
-	return;
 }
 
 /**
@@ -539,7 +533,7 @@ cb_dialog_formula_guru_zoom_toggled (GtkWidget *button, FormulaGuruState *state)
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->treeview);
 	GtkTreeIter iter;
 	GtkTreePath *path;
-	
+
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button))) {
 		gtk_widget_hide (state->main_button_area);
@@ -568,7 +562,7 @@ cb_dialog_formula_guru_zoom_toggled (GtkWidget *button, FormulaGuruState *state)
 					     state->old_height_request);
 		gtk_window_resize (GTK_WINDOW (state->dialog), state->old_width,
 				   state->old_height);
-	} 
+	}
 	/* FIXME: this should keep the selection in sight, unfortunately it does not for */
 	/* the size reduction case.                                                      */
 	if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
@@ -630,7 +624,7 @@ cb_dialog_formula_guru_clear_clicked (GtkWidget *button, FormulaGuruState *state
 				    MAX_ARG, 0,
 				    -1);
 		dialog_formula_guru_delete_children (&parent, state);
-		dialog_formula_guru_update_parent (&parent, state, gtk_tree_model_get_path 
+		dialog_formula_guru_update_parent (&parent, state, gtk_tree_model_get_path
 					   (GTK_TREE_MODEL (state->model), &parent), 0, 0);
 	} else
 	    g_warning ("We should never be here!?");
@@ -657,7 +651,7 @@ cb_dialog_formula_guru_ok_clicked (GtkWidget *button, FormulaGuruState *state)
 }
 
 static void
-cb_dialog_formula_guru_selection_changed (GtkTreeSelection *the_selection, 
+cb_dialog_formula_guru_selection_changed (GtkTreeSelection *the_selection,
 					     FormulaGuruState *state)
 {
 	GtkTreeIter iter;
@@ -669,7 +663,7 @@ cb_dialog_formula_guru_selection_changed (GtkTreeSelection *the_selection,
 		return;
 	}
 
-	gtk_widget_set_sensitive (state->clear_button, 
+	gtk_widget_set_sensitive (state->clear_button,
 				  0 != gtk_tree_store_iter_depth (state->model,
 								  &iter));
 	gtk_widget_set_sensitive (state->selector_button, TRUE);
@@ -678,7 +672,7 @@ cb_dialog_formula_guru_selection_changed (GtkTreeSelection *the_selection,
 }
 
 /* We shouln't need that if it weren't for a GTK+ bug*/
-static void        
+static void
 cb_dialog_formula_guru_row_collapsed (GtkTreeView *treeview, GtkTreeIter *iter,
 				      GtkTreePath *path, FormulaGuruState *state)
 {
@@ -698,17 +692,17 @@ cb_dialog_formula_guru_edited (GtkCellRendererText *cell,
 	GtkTreePath *path;
 
 	path = gtk_tree_path_new_from_string (path_string);
-	
+
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), &iter, path);
 	gtk_tree_store_set (state->model, &iter, FUN_ARG_ENTRY, new_text, -1);
-	
+
 	if (g_utf8_strlen (new_text, -1) > 0)
 		dialog_formula_guru_adjust_varargs (&iter, state);
 
 	gtk_tree_path_free (path);
 
-	dialog_formula_guru_update_parent (&iter, state, gtk_tree_model_get_path 
-					   (GTK_TREE_MODEL (state->model), &iter), 
+	dialog_formula_guru_update_parent (&iter, state, gtk_tree_model_get_path
+					   (GTK_TREE_MODEL (state->model), &iter),
 					   0, g_utf8_strlen (new_text, -1));
 }
 
@@ -787,13 +781,13 @@ dialog_formula_guru_init (FormulaGuruState *state)
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
 
-	g_object_set_data (G_OBJECT (state->dialog), FORMULA_GURU_KEY_DIALOG, 
+	g_object_set_data (G_OBJECT (state->dialog), FORMULA_GURU_KEY_DIALOG,
 			   state);
 
 	/* Set-up treeview */
 	scrolled = glade_xml_get_widget (state->gui, "scrolled");
 	state->model = gtk_tree_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_BOOLEAN,
-					   G_TYPE_STRING, G_TYPE_STRING, 
+					   G_TYPE_STRING, G_TYPE_STRING,
 					   G_TYPE_INT, G_TYPE_INT, G_TYPE_POINTER);
 	state->treeview = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));
@@ -820,7 +814,7 @@ dialog_formula_guru_init (FormulaGuruState *state)
 			  G_CALLBACK (cb_dialog_formula_guru_edited), state);
 	column = gtk_tree_view_column_new_with_attributes (_("Function/Argument"),
 							   renderer,
-							   "text", FUN_ARG_ENTRY, 
+							   "text", FUN_ARG_ENTRY,
 							   "editable", IS_NON_FUN,
 							   NULL);
 	state->column = column;
@@ -831,7 +825,7 @@ dialog_formula_guru_init (FormulaGuruState *state)
 	g_signal_connect (state->treeview,
 			  "button_press_event",
 			  G_CALLBACK (start_editing_cb), state),
-	
+
 	/* Finished set-up of treeview */
 
 	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
@@ -867,10 +861,8 @@ dialog_formula_guru_init (FormulaGuruState *state)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		"cell-sort.html");
-
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (dialog_formula_guru_destroy), state);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) dialog_formula_guru_destroy);
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 
@@ -882,9 +874,9 @@ dialog_formula_guru_show (FormulaGuruState *state)
 {
 	GtkTreeIter iter;
 
-	if ((!gtk_tree_model_get_iter_first   (GTK_TREE_MODEL (state->model), &iter)) || 
+	if ((!gtk_tree_model_get_iter_first   (GTK_TREE_MODEL (state->model), &iter)) ||
 	    gtk_tree_model_iter_n_children (GTK_TREE_MODEL(state->model), &iter) == 0)
-		wbcg_edit_finish (state->wbcg, TRUE);			
+		wbcg_edit_finish (state->wbcg, TRUE);
 	else
 		gtk_widget_show_all (state->dialog);
 }
@@ -940,7 +932,7 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->active_path = NULL;
 	state->pos = NULL;
-	
+
 	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	cell = sheet_cell_get (sv_sheet (sv), sv->edit_pos.col, sv->edit_pos.row);
 	if (cell != NULL && cell_has_expr (cell))
@@ -954,7 +946,7 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 		char const *sub_str;
 		char const *full_str = gtk_entry_get_text (wbcg_get_entry (wbcg));
 		char *func_str;
-		
+
 		state->pos = g_new (ParsePos, 1);
 		func_str = gnm_expr_as_string (expr,
 			parse_pos_init_cell (state->pos, cell));
@@ -965,10 +957,10 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 		sub_str = strstr (full_str, func_str);
 
 		g_return_if_fail (sub_str != NULL);
-		
+
 		state->prefix = g_strndup (full_str, sub_str - full_str);
 		state->suffix = g_strdup (sub_str + strlen (func_str));
-		g_free (func_str);		
+		g_free (func_str);
 	}
 
 	/* Get the dialog and check for errors */
@@ -978,19 +970,19 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 			g_free (state);
 			return;
 	}
-	
+
 	state->dialog = glade_xml_get_widget (state->gui, "formula_guru");
-	
+
 	if (dialog_formula_guru_init (state)) {
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the formula guru."));
 		g_free (state);
 		return;
 	}
-	
+
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       FORMULA_GURU_KEY);
-	
+
 	gtk_widget_show_all (GTK_DIALOG (state->dialog)->vbox);
 	gtk_widget_realize (state->dialog);
 
@@ -1006,7 +998,7 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 		gtk_tree_store_append (state->model, &iter, NULL);
 		dialog_formula_guru_load_expr (NULL, 0, expr, state);
 	}
-	
+
 	gtk_widget_show_all (state->dialog);
 	return;
 }
