@@ -27,6 +27,7 @@ dialog_cell_comment (Workbook *wb, Cell *cell)
 		GNOME_STOCK_BUTTON_CANCEL,
 		NULL);
 	
+	gnome_dialog_set_default (GNOME_DIALOG(dialog), GNOME_OK);
 	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (wb->toplevel));
 
 	text = gtk_text_new (NULL, NULL);
