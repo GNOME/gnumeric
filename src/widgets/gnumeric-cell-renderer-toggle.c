@@ -46,7 +46,7 @@ static void gnumeric_cell_renderer_toggle_render (GtkCellRenderer *cell,
 						  GdkRectangle    *background_area,
 						  GdkRectangle    *cell_area,
 						  GdkRectangle    *expose_area,
-						  guint            flags);
+						  GtkCellRendererState flags);
 
 static void gnumeric_cell_renderer_toggle_class_init    
                                       (GnumericCellRendererToggleClass *cell_toggle_class);
@@ -222,7 +222,7 @@ gnumeric_cell_renderer_toggle_render (GtkCellRenderer *cell,
 				      G_GNUC_UNUSED GdkRectangle *background_area,
 				      GdkRectangle    *cell_area,
 				      G_GNUC_UNUSED GdkRectangle *expose_area,
-				      G_GNUC_UNUSED guint flags)
+				      G_GNUC_UNUSED GtkCellRendererState flags)
 {
 	GnumericCellRendererToggle *cellpixbuf = (GnumericCellRendererToggle *) cell;
 	GdkPixbuf *pixbuf;

@@ -273,7 +273,7 @@ static void
 cb_dialog_delete_clicked (G_GNUC_UNUSED GtkWidget *button, SolverState *state)
 {
 	GtkTreeIter iter;
-	GtkListStore *store;
+	GtkTreeModel *store;
 	if (state->constr != NULL) {
 		release_constraint (state->constr);
 		state->constr = NULL;
@@ -281,8 +281,8 @@ cb_dialog_delete_clicked (G_GNUC_UNUSED GtkWidget *button, SolverState *state)
 		return;
 	gtk_tree_selection_get_selected (
 		gtk_tree_view_get_selection (state->constraint_list),
-		(GtkTreeModel**) &store, &iter);
-	gtk_list_store_remove (store, &iter);
+		&store, &iter);
+	gtk_list_store_remove ((GtkListStore*)store, &iter);
 }
 
 static  constraint_t*
@@ -360,7 +360,7 @@ static void
 cb_dialog_change_clicked (GtkWidget *button, SolverState *state)
 {
 	GtkTreeIter iter;
-	GtkListStore *store;
+	GtkTreeModel *store;
 	if (state->constr != NULL) {
 		release_constraint (state->constr);
 		state->constr = NULL;
@@ -368,8 +368,8 @@ cb_dialog_change_clicked (GtkWidget *button, SolverState *state)
 		return;
 	gtk_tree_selection_get_selected (
 		gtk_tree_view_get_selection (state->constraint_list),
-		(GtkTreeModel**) &store, &iter);
-	state->constr = constraint_fill_row (state, store, &iter);
+		&store, &iter);
+	state->constr = constraint_fill_row (state, (GtkListStore *)store, &iter);
 }
 
 /**

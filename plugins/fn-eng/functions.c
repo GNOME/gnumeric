@@ -1280,7 +1280,7 @@ const GnmFuncDescriptor engineering_functions[] = {
 	  gnumeric_hex2oct, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-	{ "invsuminv",    0, "",              &help_invsuminv,
+	{ "invsuminv",    NULL, "",           &help_invsuminv,
 	  NULL, gnumeric_invsuminv, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 

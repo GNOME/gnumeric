@@ -1,3 +1,9 @@
+2004-07-28  Morten Welinder  <terra@gnome.org>
+
+	* dialog-plugin-manager.c (cb_active_toggled): Call
+	gnm_plugin_is_active instead of simply checking that its address
+	is non-NULL.
+
 2004-07-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (dialog_ftest_tool): Enable the `put' 

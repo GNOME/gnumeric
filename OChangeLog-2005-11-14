@@ -35,7 +35,7 @@
 
 2004-07-23  Morten Welinder  <terra@gnome.org>
 
-	* src/wbcg-actions.c: Add Ctrl-Sift-D for double underline.
+	* src/wbcg-actions.c: Add Ctrl-Shift-D for double underline.
 
 	* src/commands.c (cmd_merge_data): Fix 0/NULL mixup.
 	* src/complete.c (complete_finalize): Ditto.

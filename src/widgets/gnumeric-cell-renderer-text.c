@@ -51,13 +51,13 @@ gnumeric_cell_renderer_text_get_type (void)
 }
 
 static void
-gnumeric_cell_renderer_text_render (GtkCellRenderer    *cell,
-				    GdkWindow          *window,
-				    GtkWidget          *widget,
-				    GdkRectangle       *background_area,
-				    GdkRectangle       *cell_area,
-				    GdkRectangle       *expose_area,
-				    guint               flags)
+gnumeric_cell_renderer_text_render (GtkCellRenderer     *cell,
+				    GdkWindow           *window,
+				    GtkWidget           *widget,
+				    GdkRectangle        *background_area,
+				    GdkRectangle        *cell_area,
+				    GdkRectangle        *expose_area,
+				    GtkCellRendererState flags)
 
 {
 	GtkCellRendererText *celltext = (GtkCellRendererText *) cell;
@@ -126,7 +126,6 @@ gnumeric_cell_renderer_text_class_init (GnumericCellRendererTextClass *class)
 	parent_class = g_type_class_peek_parent (object_class);
 
 	cell_class->render = gnumeric_cell_renderer_text_render;
-
 }
 
 

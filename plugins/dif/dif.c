@@ -265,7 +265,7 @@ dif_file_open (GnmFileOpener const *fo, IOContext *io_context,
 			gnumeric_io_error_push (io_context,
 				error_info_new_str (_("Error while reading DIF file.")));
 		dif_input_context_destroy (ctxt);
-	} else if (!gnumeric_io_error_occurred)
+	} else if (!gnumeric_io_error_occurred (io_context))
 		gnumeric_io_error_unknown (io_context);
 }
 

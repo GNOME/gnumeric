@@ -45,7 +45,7 @@ char const *output_group[] = {
 	"newworkbook-button",
 	"outputrange-button",
 	"inplace-button",          /* used only in advanced filter  */
-	0
+	NULL
 };
 
 /**

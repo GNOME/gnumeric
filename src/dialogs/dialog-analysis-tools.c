@@ -84,7 +84,7 @@ static const char *grouped_by_group[] = {
 	"grouped_by_row",
 	"grouped_by_col",
 	"grouped_by_area",
-	0
+	NULL
 };
 
 typedef struct {

@@ -410,11 +410,11 @@ make_matches_table (GtkTreeModel *model)
 
 	tree_view = GTK_TREE_VIEW (gtk_tree_view_new_with_model (model));
 #ifdef NOT_YET
-	/* Gtk+ isn't really yet -- 20031224.  */
+	/* Gtk+ isn't ready yet -- 20031224.  */
 	g_object_set (tree_view, "fixed_height_mode", TRUE, NULL);
 #endif
 
-	for (i = 0; i < G_N_ELEMENTS (columns); i++) {
+	for (i = 0; i < (int)G_N_ELEMENTS (columns); i++) {
 		GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
 		GtkTreeViewColumn *column =
 			gtk_tree_view_column_new_with_attributes (_(columns[i].title), cell,

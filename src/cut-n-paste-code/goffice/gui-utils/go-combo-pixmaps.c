@@ -304,7 +304,7 @@ go_combo_pixmaps_get_selected (GOComboPixmaps const *combo, int *index)
 GtkWidget *
 go_combo_pixmaps_get_preview (GOComboPixmaps const *combo)
 {
-	g_return_val_if_fail (IS_GO_COMBO_PIXMAPS (combo), 0);
+	g_return_val_if_fail (IS_GO_COMBO_PIXMAPS (combo), NULL);
 	return combo->preview_button;
 }
 

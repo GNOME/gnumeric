@@ -629,7 +629,7 @@ cb_active_toggled (G_GNUC_UNUSED GtkCellRendererToggle *celltoggle,
 	if (error != NULL) {
 		ErrorInfo *new_error;
 
-		if (gnm_plugin_is_active) {
+		if (gnm_plugin_is_active (plugin)) {
 			new_error = error_info_new_printf (
 				_("Error while deactivating plugin \"%s\"."),
 				gnm_plugin_get_name (plugin));

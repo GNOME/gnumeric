@@ -42,7 +42,7 @@ lazy_list_class_init (GnumericLazyListClass *class)
 
 
 /* Fulfill the GtkTreeModel requirements */
-static guint
+static GtkTreeModelFlags
 lazy_list_get_flags (GtkTreeModel *tree_model)
 {
 	g_return_val_if_fail (GNUMERIC_IS_LAZY_LIST (tree_model), 0);

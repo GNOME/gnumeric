@@ -1,3 +1,12 @@
+2004-07-28  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-cell-renderer-text.c
+	(gnumeric_cell_renderer_text_render): Fix type of flags.
+	* gnumeric-cell-renderer-toggle.c
+	(gnumeric_cell_renderer_toggle_render): Ditto.
+
+	* gnumeric-lazy-list.c (lazy_list_get_flags): Correct return type.
+
 2004-07-19  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.1
