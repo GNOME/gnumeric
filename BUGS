@@ -8,6 +8,8 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    - src/functions/fn-string.c needs lots of TLC in argument handling.
+
     - defining file patterns in plugin spec overrides 'has_probe' flag silently.
 
     - pasting with singleton destination circumvents checks for arrays and
