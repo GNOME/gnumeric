@@ -244,7 +244,9 @@ get_lp_coeff (Cell *target, Cell *change, gnum_float *x0)
 {
         gnum_float tmp = *x0;
 
-	sheet_cell_set_value (change, value_new_float (1.0));
+	cell_set_value (change, value_new_float (1.0));
+	cell_queue_recalc (change);
+
 	cell_eval (target);
 	*x0 = value_get_as_float (target->value);
 
@@ -335,8 +337,8 @@ clear_input_vars (int n_variables, SolverResults *res)
  */
 static SolverProgram
 lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
-		   SolverResults *res, SolverLPAlgorithm *alg, gnum_float start_time,
-		   gchar **errmsg)
+		   SolverResults *res, SolverLPAlgorithm *alg,
+		   gnum_float start_time, gchar **errmsg)
 {
         SolverProgram     program;
 	Cell              *target;
@@ -465,7 +467,9 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 		res->ilp_flag = TRUE;
 	}
 
+#if 0
 	alg->print_fn (program);
+#endif
 
 	return program;
 }
