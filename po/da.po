@@ -4,7 +4,7 @@
 # Kenneth Christiansen <kenneth@ripen.dk>, 1999-2000.
 # Birger Langkjer <birger.langkjer@image.dk>, 1999.
 # Keld Simonsen <keld@dkuug.dk>, 2000-2001.
-# Morten Welinder <terra@diku.dk>, 2000.
+# Morten Welinder <terra@diku.dk>, 2000-2001.
 # Ole Laursen <olau@hardworking.dk>, 2001.
 #
 # Kontakt dansk@klid.dk før du ændrer i denne fil.
@@ -31,6 +31,7 @@
 # custom -> selvvalgt, brugerdefineret (afhængig af sammenhæng)
 # paste special -> avanceret indsætning
 # df (degree freedom) -> fg (frihedsgrader)
+# formulae/formulas -> formler (ikke "formularer", altsaa "blanketter")
 #
 # Formater og formatér er med ét 't'. Eksemplerne under tekstrutinerne
 # er danskificerede. Den mærkelige mani med at sætte et mellemrum foran
@@ -3628,7 +3629,7 @@ msgstr "Store cirkler"
 #: src/dialogs/cell-format.glade.h:58
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr ""
-"Låsning af celler eller skjulning af formularer påvirker kun beskyttede ark."
+"Låsning af celler eller skjulning af formler påvirker kun beskyttede ark."
 
 #: src/dialogs/cell-format.glade.h:59
 msgid "Message :"
