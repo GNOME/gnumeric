@@ -14,6 +14,8 @@ INCLUDES = \
 
 lib_LIBRARIES = libfoocanvas.a
 
+RENDER_LIBS=
+NULL=
 libfoocanvas_a_LIBADD = \
 	$(RENDER_LIBS)				\
 	$(NULL)

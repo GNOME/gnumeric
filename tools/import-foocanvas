@@ -71,8 +71,12 @@ sub copy_subsystem {
 	s/\.la/\.a/;
 
 	next if /^\s*\\$/;
-
 	next if /^libfoocanvasinclude_HEADERS\s*=/ ... !/\\\s*$/;
+
+	if (/^libfoocanvas_a_LIBADD\s*=/) {
+	    print DST "RENDER_LIBS=\n";
+	    print DST "NULL=\n";
+	}
 
 	print DST;
     }
