@@ -48,6 +48,7 @@
 #endif
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
+#include <errno.h>
 
 static GObjectClass *workbook_parent_class;
 
@@ -80,12 +81,15 @@ workbook_dispose (GObject *wb_object)
 
 	wb->during_destruction = TRUE;
 
-#warning "Use workbook_set_saveinfo instead."
-	if (wb->file_saver != NULL) {
-		g_object_weak_unref (G_OBJECT (wb->file_saver),
-			(GWeakNotify) cb_saver_finalize, wb);
-		wb->file_saver = NULL;
+	if (wb->uri) {
+		if (wb->file_format_level >= FILE_FL_MANUAL_REMEMBER)
+			gnm_app_history_add (wb->uri);
+	       g_free (wb->uri);
+	       wb->uri = NULL;
 	}
+
+	if (wb->file_saver)
+		workbook_set_saveinfo (wb, wb->file_format_level, NULL);
 
 	/* Remove all the sheet controls to avoid displaying while we exit */
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
@@ -115,13 +119,6 @@ workbook_dispose (GObject *wb_object)
 			gnm_dep_container_dump (sheet->deps);
 	}
 
-#ifdef BIT_ROT
-	if (wb->dependents != NULL) {
-		/* Nobody expects the Spanish Inquisition!  */
-		g_warning ("Trouble at the Mill.  Please report.");
-	}
-#endif
-
 	/* Now remove the sheets themselves */
 	for (ptr = sheets; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
@@ -143,6 +140,11 @@ workbook_dispose (GObject *wb_object)
 			g_warning ("Unexpected left over views");
 	}
 
+	if (wb->sheet_local_functions != NULL) {
+		g_hash_table_destroy (wb->sheet_local_functions);
+		wb->sheet_local_functions = NULL;
+	}
+
 	G_OBJECT_CLASS (workbook_parent_class)->dispose (wb_object);
 }
 
@@ -156,11 +158,6 @@ workbook_finalize (GObject *wb_object)
 	summary_info_free (wb->summary_info);
 	wb->summary_info = NULL;
 
-	if (wb->sheet_local_functions != NULL) {
-		g_hash_table_destroy (wb->sheet_local_functions);
-		wb->sheet_local_functions = NULL;
-	}
-
 	/* Remove ourselves from the list of workbooks.  */
 	gnm_app_workbook_list_remove (wb);
 
@@ -171,13 +168,6 @@ workbook_finalize (GObject *wb_object)
 
 	g_ptr_array_free (wb->sheets, TRUE);
 	wb->sheets = NULL;
-
-	if (wb->uri) {
-		if (wb->file_format_level >= FILE_FL_MANUAL_REMEMBER)
-			gnm_app_history_add (wb->uri);
-	       g_free (wb->uri);
-	       wb->uri = NULL;
-	}
 
 	/* this has no business being here */
 #ifdef WITH_GTK
@@ -455,44 +445,39 @@ workbook_new (void)
 /**
  * workbook_sheet_name_strip_number:
  * @name: name to strip number from
- * @number: returns the number stripped off in *number
+ * @number: returns the number stripped off, or 1 if no number.
  *
  * Gets a name in the form of "Sheet (10)", "Stuff" or "Dummy ((((,"
- * and returns the real name of the sheet "Sheet","Stuff","Dummy ((((,"
+ * and returns the real name of the sheet "Sheet ", "Stuff", "Dummy ((((,"
  * without the copy number.
  **/
 static void
-workbook_sheet_name_strip_number (char *name, int* number)
+workbook_sheet_name_strip_number (char *name, unsigned int *number)
 {
-	char *end;
-	int p10 = 1;
-	int n = 0;
-	*number = 1;
+	char *end, *p, *pend;
+	unsigned long ul;
 
+	*number = 1;
 	g_return_if_fail (*name != 0);
 
 	end = name + strlen (name) - 1;
 	if (*end != ')')
 		return;
 
-	while (end > name) {
-		int dig;
-		end = g_utf8_prev_char (end);
+	for (p = end; p > name; p--)
+		if (!g_ascii_isdigit (p[-1]))
+			break;
 
-		if (*end == '(') {
-			*number = n;
-			*end = 0;
-			return;
-		}
+	if (p == name || p[-1] != '(')
+		return;
 
-		dig = g_unichar_digit_value (g_utf8_get_char (end));
-		if (dig == -1)
-			return;
+	errno = 0;
+	ul = strtoul (p, &pend, 10);
+	if (pend != end || ul != (unsigned int)ul || errno == ERANGE)
+		return;
 
-		/* FIXME: check for overflow.  */
-		n += p10 * dig;
-		p10 *= 10;
-	}
+	*number = (unsigned)ul;
+	p[-1] = 0;
 }
 
 /**
@@ -1222,7 +1207,7 @@ workbook_sheet_get_free_name (Workbook *wb,
 {
 	const char *name_format;
 	char *name, *base_name;
-	int i = 0;
+	unsigned int i = 0;
 	int limit;
 
 	g_return_val_if_fail (wb != NULL, NULL);
@@ -1233,13 +1218,14 @@ workbook_sheet_get_free_name (Workbook *wb,
 	base_name = g_strdup (base);
 	if (handle_counter) {
 		workbook_sheet_name_strip_number (base_name, &i);
-		name_format = "%s(%d)";
+		name_format = "%s(%u)";
 	} else
-		name_format = "%s%d";
+		name_format = "%s%u";
 
-	limit = i + workbook_sheet_count (wb) + 2;
+	limit = workbook_sheet_count (wb) + 2;
 	name = g_malloc (strlen (base_name) + strlen (name_format) + 10);
-	for ( ; ++i < limit ; ){
+	while (limit > 0) {
+		i++;
 		sprintf (name, name_format, base_name, i);
 		if (workbook_sheet_by_name (wb, name) == NULL) {
 			g_free (base_name);

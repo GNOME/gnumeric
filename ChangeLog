@@ -1,3 +1,14 @@
+2005-03-21  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (workbook_dispose): Simplify using
+	workbook_set_saveinfo.  Move destruction of local functions to
+	here.
+	(workbook_finalize): From here.
+	(workbook_sheet_name_strip_number): Fix docs; handle overflow;
+	return unsigned value.
+	(workbook_sheet_get_free_name): Adapt to changes in
+	workbook_sheet_name_strip_number.
+
 2005-03-21  Stepan Kasal  <kasal@ucw.cz>
 
 	* autogen.sh: Remove the unfortunate TRANSL_ONLY; fix the explanation
