@@ -35,12 +35,12 @@
 #define MOVE_INDEX          4
 
 typedef enum {
-	MODE_MOVE_ON_CLICK,
-	MODE_MOVING,
+	MODE_MOVE,
+	MODE_MOVE_DRAGGING,
 	MODE_ZOOM_IN,
 	MODE_ZOOM_OUT
 } PreviewMode;
-	
+
 struct _PrintPreview {
 	GnomeApp *toplevel;
 
@@ -51,7 +51,7 @@ struct _PrintPreview {
 	 */
 	GnomePrintContext    *preview;
 	GnomePrintContext    *metafile;
-	
+
 	/*
 	 * Preview canvas
 	 */
@@ -74,7 +74,8 @@ struct _PrintPreview {
 	/*
 	 * Used for dragging the sheet
 	 */
-	double               base_x, base_y;
+	int                 drag_anchor_x, drag_anchor_y;
+	int                 drag_ofs_x, drag_ofs_y;
 
 	/*
 	 * Signal ID for the sheet destroy watcher
@@ -125,7 +126,7 @@ goto_page (PrintPreview *pp, int page)
 		return;
 
 	pp->current_page = page;
-	
+
 	text = g_strdup_printf ("%d", page+1);
 	gtk_entry_set_text (GTK_ENTRY (pp->page_entry), text);
 	g_free (text);
@@ -138,7 +139,7 @@ change_page_cmd (GtkEntry *entry, PrintPreview *pp)
 {
 	char *text = gtk_entry_get_text (entry);
 	int p;
-	
+
 	p = atoi (text);
 	p--;
 	if (p < 0){
@@ -155,75 +156,150 @@ change_page_cmd (GtkEntry *entry, PrintPreview *pp)
 static void
 do_zoom (PrintPreview *pp, int factor)
 {
-	double change = (pp->canvas->pixels_per_unit / 2) * factor;
-	
-	gnome_canvas_set_pixels_per_unit (
-		pp->canvas,
-		pp->canvas->pixels_per_unit + change);
-	render_page (pp, pp->current_page);
+	double zoom;
+
+	if (factor > 0)
+		zoom = pp->canvas->pixels_per_unit * 1.25;
+	else if (factor < 0)
+		zoom = pp->canvas->pixels_per_unit / 1.25;
+	else
+		zoom = 1.0;
+
+	gnome_canvas_set_pixels_per_unit (pp->canvas, zoom);
 }
 
-static int
-preview_canvas_event (GnomeCanvas *canvas, GdkEvent *event, PrintPreview *pp)
+/* Button press handler for the print preview canvas */
+static gint
+preview_canvas_button_press (GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	switch (event->type){
-	case GDK_BUTTON_PRESS:
-		if (pp->mode == MODE_MOVE_ON_CLICK){
-			gtk_grab_add (GTK_WIDGET (canvas));
-			pp->mode = MODE_MOVING;
-			gnome_canvas_w2c_d (
-				canvas, event->button.x, event->button.y,
-				&pp->base_x, &pp->base_y);
-			break;
-		} 
-		break;
-		
-	case GDK_BUTTON_RELEASE:
-		if (pp->mode == MODE_MOVING){
-			gtk_grab_remove (GTK_WIDGET (canvas));
-			pp->mode = MODE_MOVE_ON_CLICK;
-			break;
-		} else if (pp->mode == MODE_ZOOM_OUT){
-			do_zoom (pp, -1);
-		} else if (pp->mode == MODE_ZOOM_IN){
-			do_zoom (pp, 1);
-		}
-		break;
-		
-	case GDK_MOTION_NOTIFY:
-		if (pp->mode == MODE_MOVING){
-			GtkAdjustment *va, *ha;
-			double dx, dy;
-			double ex, ey;
-			
-			va = gtk_scrolled_window_get_vadjustment (
-				GTK_SCROLLED_WINDOW (pp->scrolled_window));
-			ha = gtk_scrolled_window_get_hadjustment (
-				GTK_SCROLLED_WINDOW (pp->scrolled_window));
+	PrintPreview *pp;
+	int retval;
 
-			gnome_canvas_w2c_d (canvas,
-					    event->motion.x, event->motion.y,
-					    &ex, &ey);
-			
-			dx = pp->base_x - ex;
-			dy = pp->base_y - ey;
-			gtk_adjustment_set_value (
-				va,
-				CLAMP (va->value + dy, va->lower, va->upper - va->page_size));
-			gtk_adjustment_set_value (
-				ha,
-				CLAMP (ha->value + dx, ha->lower, ha->upper - ha->page_size));
+	pp = data;
+	retval = FALSE;
 
-			pp->base_x = ex;
-			pp->base_y = ey;
+	switch (pp->mode) {
+	case MODE_MOVE:
+		if (event->button != 1)
 			break;
-		}
+
+		pp->mode = MODE_MOVE_DRAGGING;
+		pp->drag_anchor_x = event->x;
+		pp->drag_anchor_y = event->y;
+		gnome_canvas_get_scroll_offsets (GNOME_CANVAS (widget),
+						 &pp->drag_ofs_x,
+						 &pp->drag_ofs_y);
+
+		gdk_pointer_grab (widget->window, FALSE,
+				  (GDK_POINTER_MOTION_MASK
+				   | GDK_POINTER_MOTION_HINT_MASK
+				   | GDK_BUTTON_RELEASE_MASK),
+				  NULL,
+				  cursor_get (GNUMERIC_CURSOR_HAND_CLOSED),
+				  event->time);
+
+		retval = TRUE;
+		break;
+
+	case MODE_ZOOM_IN:
+		if (event->button != 1)
+			break;
+
+		do_zoom (pp, 1);
+		retval = TRUE;
+		break;
+
+	case MODE_ZOOM_OUT:
+		do_zoom (pp, -1);
+		retval = TRUE;
 		break;
 
 	default:
-		return FALSE;
+		break;
 	}
-	return TRUE;
+
+	return retval;
+}
+
+/* Drags the print preview canvas to the specified position */
+static void
+drag_to (PrintPreview *pp, int x, int y)
+{
+	int dx, dy;
+
+	dx = pp->drag_anchor_x - x;
+	dy = pp->drag_anchor_y - y;
+
+	/* Right now this will suck for diagonal movement.  GtkLayout does not
+	 * have a way to scroll itself diagonally, i.e. you have to change the
+	 * vertical and horizontal adjustments independently, leading to ugly
+	 * visual results.  The canvas freezes and thaws the layout in case of
+	 * diagonal movement, forcing it to repaint everything.
+	 *
+	 * This will be resolved in the canvas.
+	 */
+	gnome_canvas_scroll_to (pp->canvas, pp->drag_ofs_x + dx, pp->drag_ofs_y + dy);
+}
+
+/* Button release handler for the print preview canvas */
+static gint
+preview_canvas_button_release (GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+	PrintPreview *pp;
+	int retval;
+
+	pp = data;
+	retval = FALSE;
+
+	switch (pp->mode) {
+	case MODE_MOVE_DRAGGING:
+		if (event->button != 1)
+			break;
+
+		drag_to (pp, event->x, event->y);
+		pp->mode = MODE_MOVE;
+
+		gdk_pointer_ungrab (event->time);
+		retval = TRUE;
+		break;
+
+	default:
+		break;
+	}
+
+	return retval;
+}
+
+/* Motion notify handler for the print preview canvas */
+static gint
+preview_canvas_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
+{
+	PrintPreview *pp;
+	int retval;
+	gint x, y;
+	GdkModifierType mods;
+
+	pp = data;
+	retval = FALSE;
+
+	switch (pp->mode) {
+	case MODE_MOVE_DRAGGING:
+		if (event->is_hint)
+			gdk_window_get_pointer (widget->window, &x, &y, &mods);
+		else {
+			x = event->x;
+			y = event->y;
+		}
+
+		drag_to (pp, x, y);
+		retval = TRUE;
+		break;
+
+	default:
+		break;
+	}
+
+	return retval;
 }
 
 static void
@@ -233,16 +309,24 @@ create_preview_canvas (PrintPreview *pp)
 	GtkWidget *box, *status;
 	const GnomePaper *paper;
 	const char *paper_name;
-	
+
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
-	
+
 	pp->scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	pp->canvas = GNOME_CANVAS (gnome_canvas_new_aa ());
 	gnome_canvas_set_pixels_per_unit (pp->canvas, 1.0);
-	gtk_signal_connect (GTK_OBJECT (pp->canvas), "event",
-			    GTK_SIGNAL_FUNC (preview_canvas_event), pp);
-	
+
+	gtk_signal_connect (GTK_OBJECT (pp->canvas), "button_press_event",
+			    GTK_SIGNAL_FUNC (preview_canvas_button_press),
+			    pp);
+	gtk_signal_connect (GTK_OBJECT (pp->canvas), "button_release_event",
+			    GTK_SIGNAL_FUNC (preview_canvas_button_release),
+			    pp);
+	gtk_signal_connect (GTK_OBJECT (pp->canvas), "motion_notify_event",
+			    GTK_SIGNAL_FUNC (preview_canvas_motion),
+			    pp);
+
 	gtk_container_add (GTK_CONTAINER (pp->scrolled_window), GTK_WIDGET (pp->canvas));
 
 	/*
@@ -294,12 +378,12 @@ create_preview_canvas (PrintPreview *pp)
 	gtk_box_pack_start (GTK_BOX (status), pp->page_entry, FALSE, FALSE, 0);
 	pp->last = gtk_label_new ("");
 	gtk_box_pack_start (GTK_BOX (status), pp->last, FALSE, FALSE, 0);
-	
+
 	gtk_box_pack_start (GTK_BOX (box), status, FALSE, FALSE, 3);
 	gtk_box_pack_start (GTK_BOX (box), pp->scrolled_window, TRUE, TRUE, 0);
 	gnome_app_set_contents (pp->toplevel, box);
 	gtk_widget_show_all (box);
-	
+
 	return;
 }
 
@@ -365,7 +449,7 @@ static void
 zoom_state (PrintPreview *pp, int toolbar_button)
 {
 	int i;
-	
+
 	for (i = 0; i < 3; i++){
 		gtk_toggle_button_set_active (
 			GTK_TOGGLE_BUTTON (pp->toolbar [i + TOOLBAR_BUTTON_BASE].widget),
@@ -398,11 +482,11 @@ move_cmd (GtkToggleButton *t, PrintPreview *pp)
 {
 	if (t->active){
 		zoom_state (pp, 0);
-		cursor_set_widget (pp->canvas, GNUMERIC_CURSOR_MOVE);
-		pp->mode = MODE_MOVE_ON_CLICK;
+		cursor_set_widget (pp->canvas, GNUMERIC_CURSOR_HAND_OPEN);
+		pp->mode = MODE_MOVE;
 	}
 }
- 
+
 static GnomeUIInfo preview_file_menu [] = {
 	GNOMEUIINFO_MENU_PRINT_ITEM (preview_file_print_cmd, NULL),
 	GNOMEUIINFO_MENU_CLOSE_ITEM (preview_close_cmd, NULL),
@@ -464,7 +548,7 @@ create_toplevel (PrintPreview *pp)
 	char *name, *txta, *txtb;
 	gint width, height;
 	const GnomePaper *paper;
-	
+
 	g_return_if_fail (pp != NULL);
 	g_return_if_fail (pp->sheet != NULL);
 	g_return_if_fail (pp->sheet->workbook != NULL);
@@ -481,13 +565,13 @@ create_toplevel (PrintPreview *pp)
 	paper  = pp->sheet->print_info->paper;
 	width  = gnome_paper_pswidth  (paper) + PAGE_PAD * 3;
 	height = gnome_paper_psheight (paper) + PAGE_PAD * 3;
-	
+
 	if (width > gdk_screen_width () - 40)
 		width = gdk_screen_width () - 40;
 
 	if (height > gdk_screen_height () - 100)
 		height = gdk_screen_height () - 100;
-	
+
 	gtk_widget_set_usize (toplevel, width, height);
 	gtk_window_set_policy (GTK_WINDOW (toplevel), TRUE, TRUE, FALSE);
 
@@ -497,9 +581,9 @@ create_toplevel (PrintPreview *pp)
 
 	pp->toolbar = g_malloc (sizeof (toolbar));
 	memcpy (pp->toolbar, toolbar, sizeof (toolbar));
-	
+
 	gnome_app_create_toolbar_with_data (pp->toplevel, pp->toolbar, pp);
-	
+
 	gtk_signal_connect (
 		GTK_OBJECT (pp->toplevel), "destroy",
 		GTK_SIGNAL_FUNC (preview_destroyed), pp);
@@ -509,7 +593,7 @@ GnomePrintContext *
 print_preview_context (PrintPreview *pp)
 {
 	GnomePrintMeta *meta;
-	
+
 	g_return_val_if_fail (pp != NULL, NULL);
 
 	meta = gnome_print_meta_new ();
@@ -532,11 +616,11 @@ print_preview_new (Sheet *sheet)
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	
+
 	pp = g_new0 (PrintPreview, 1);
 
 	pp->sheet = sheet;
-	
+
 	create_toplevel (pp);
 	create_preview_canvas (pp);
 
@@ -552,7 +636,7 @@ void
 print_preview_print_done (PrintPreview *pp)
 {
 	char *text;
-	
+
 	g_return_if_fail (pp != NULL);
 
 	gtk_widget_show (GTK_WIDGET (pp->toplevel));
@@ -560,7 +644,7 @@ print_preview_print_done (PrintPreview *pp)
 	pp->current_page = -1;
 	gnome_print_context_close (pp->metafile);
 	pp->pages = gnome_print_meta_pages (GNOME_PRINT_META (pp->metafile));
-	
+
 	goto_page (pp, 0);
 
 	text = g_strdup_printf ("/%d", pp->pages);

@@ -1,3 +1,29 @@
+1999-11-02  Federico Mena Quintero  <federico@redhat.com>
+
+	* src/print-preview.c (PreviewMode): Renamed the move modes to
+	MODE_MOVE and MOVE_MODE_DRAGGING.
+	(preview_canvas_button_press): Split the event handling code
+	between several functions.  Rationale:  we will want drag-zoom and
+	we need different modes for this, and the code in a single
+	function would get unwieldy.  In addition, grab the pointer and
+	use GDK_POINTER_MOTION_HINT_MASK for better behavior.
+	(PrintPreview): Added fields for drag anchor and drag offset.
+	(drag_to): New function to drag/scroll.
+	(create_preview_canvas): Connect to the different event handlers.
+	(do_zoom): We do not need to re-render the page; just set the zoom
+	factor.  Also, use exponential zooming for better behavior.
+
+	* src/cursors.h: Moved the cursor #defines to an enum.  This way
+	we can check for a max value in cursor_get().  Moved the cursor
+	array to the .c file and made it private.
+
+	* src/cursors.c (cursors_init): Added sanity check so that all
+	cursors are defined.
+	(cursor_get): New function to get a cursor based on its type.
+	(cursors): Added hand cursors.
+
+	* src/pixmaps/cursor_hand_{open,closed}.xpm: Added hand cursors.
+
 1999-11-01  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-grid.c (item_grid_realize) : Set the default background

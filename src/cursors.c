@@ -11,21 +11,31 @@
 #include "pixmaps/cursor_cross.xpm"
 #include "pixmaps/cursor_zoom_in.xpm"
 #include "pixmaps/cursor_zoom_out.xpm"
+#include "pixmaps/cursor_hand_open.xpm"
+#include "pixmaps/cursor_hand_closed.xpm"
 
 #define GDK_INTERNAL_CURSOR -1
 
-GnumericCursorDef gnumeric_cursors [] = {
+typedef struct {
+	GdkCursor *cursor;
+	int       hot_x, hot_y;
+	char      **xpm;
+} CursorDef;
+
+static CursorDef cursors [] = {
 	{ NULL, 17, 17, cursor_cross_xpm },
 	{ NULL, GDK_INTERNAL_CURSOR,   GDK_CROSSHAIR,         NULL },
 	{ NULL, GDK_INTERNAL_CURSOR,   GDK_ARROW,             NULL },
 	{ NULL, GDK_INTERNAL_CURSOR,   GDK_FLEUR,             NULL },
-	{ NULL, 24, 24, cursor_zoom_in_xpm }, 
-	{ NULL, 24, 24, cursor_zoom_out_xpm }, 
+	{ NULL, 24, 24, cursor_zoom_in_xpm },
+	{ NULL, 24, 24, cursor_zoom_out_xpm },
 	{ NULL, GDK_INTERNAL_CURSOR,   GDK_SB_H_DOUBLE_ARROW, NULL },
 	{ NULL, GDK_INTERNAL_CURSOR,   GDK_SB_V_DOUBLE_ARROW, NULL },
 	{ NULL, GDK_INTERNAL_CURSOR,   GDK_SIZING,            NULL },
 	{ NULL, GDK_INTERNAL_CURSOR,   GDK_SIZING,            NULL },
 	{ NULL, GDK_INTERNAL_CURSOR,   GDK_HAND2,             NULL },
+	{ NULL, 10, 10, cursor_hand_open_xpm },
+	{ NULL, 10, 10, cursor_hand_closed_xpm },
 	{ NULL, 0,    0,  NULL }
 };
 
@@ -52,7 +62,7 @@ create_bitmap_and_mask_from_xpm (GdkBitmap **bitmap, GdkBitmap **mask, gchar **x
 	for (y = 0; y < 32; y++){
 		for (x = 0; x < 32;){
 			char value = 0, maskv = 0;
-			
+
 			for (pix = 0; pix < 8; pix++, x++){
 				if (xpm [y + yofs][x] != transparent_color){
 					maskv |= 1 << pix;
@@ -81,36 +91,44 @@ cursors_init (void)
 {
 	int i;
 
-	for (i = 0; gnumeric_cursors [i].hot_x; i++){
+	for (i = 0; cursors [i].hot_x; i++){
 		GdkBitmap *bitmap, *mask;
 
-
-		if (gnumeric_cursors [i].hot_x < 0)
-			gnumeric_cursors [i].cursor = gdk_cursor_new (
-				gnumeric_cursors [i].hot_y);
+		if (cursors [i].hot_x < 0)
+			cursors [i].cursor = gdk_cursor_new (cursors [i].hot_y);
 		else {
-			create_bitmap_and_mask_from_xpm (
-				&bitmap, &mask, gnumeric_cursors [i].xpm);
+			create_bitmap_and_mask_from_xpm (&bitmap, &mask, cursors [i].xpm);
 
 			/* The foreground and background colours are reversed.
 			 * See comment above for explanation.
 			 */
-			gnumeric_cursors [i].cursor =
+			cursors [i].cursor =
 				gdk_cursor_new_from_pixmap (
 					bitmap, mask,
 					&gs_black, &gs_white,
-					gnumeric_cursors [i].hot_x,
-					gnumeric_cursors [i].hot_y);
+					cursors [i].hot_x,
+					cursors [i].hot_y);
 		}
 	}
+
+	g_assert (i == GNUMERIC_CURSOR_NUM_CURSORS);
 }
 
 void
 cursors_shutdown (void)
 {
 	int i;
-	
-	for (i = 0; gnumeric_cursors [i].hot_x; i++)
-		gdk_cursor_destroy (gnumeric_cursors [i].cursor);
+
+	for (i = 0; cursors [i].hot_x; i++)
+		gdk_cursor_destroy (cursors [i].cursor);
 }
 
+
+/* Returns a cursor given its type */
+GdkCursor *
+cursor_get (CursorType type)
+{
+	g_return_val_if_fail (type >= 0 && type < GNUMERIC_CURSOR_NUM_CURSORS, NULL);
+
+	return cursors[type].cursor;
+}

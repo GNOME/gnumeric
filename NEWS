@@ -19,6 +19,11 @@ Jody:
 Daniel:
 	* Excel Name export.
 
+Federico:
+	* Improved dragging and zooming behavior in the print preview.
+	* Added "open hand" and "closed hand" cursors for dragging the 
+	  print preview.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.39
