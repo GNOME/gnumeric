@@ -36,8 +36,8 @@ my %argoverride = ();
     $funcs{'dlnorm'} = $funcs{'plnorm'} = $funcs{'qlnorm'} =
 	[\&distribution,
 	 'log-normal',
-	 ({ 'logmean' => "logarithm of the mean $of.",
-	    'logsd' => "logarithm of the standard deviation $of.",
+	 ({ 'logmean' => "mean of the underlying normal distribution.",
+	    'logsd' => "standard deviation of the underlying normal distribution.",
 	    @common })];
 
     $funcs{'dgamma'} = $funcs{'pgamma'} = $funcs{'qgamma'} =
@@ -68,7 +68,7 @@ my %argoverride = ();
 
 my %type_getter =
     ('gnm_float' => 'value_get_as_float',
-     'gboolean' => 'value_get_as_int', # Sorry
+     'gboolean' => '!!value_get_as_int', # Sorry
      );
 
 my %type_spec =

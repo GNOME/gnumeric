@@ -37,7 +37,7 @@ gnumeric_r_dnorm (FunctionEvalInfo *ei, GnmValue **args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float mu = value_get_as_float (args[1]);
 	gnm_float sigma = value_get_as_float (args[2]);
-	gboolean give_log = args[3] ? value_get_as_int (args[3]) : FALSE;
+	gboolean give_log = args[3] ? !!value_get_as_int (args[3]) : FALSE;
 
 	return value_new_float (dnorm (x, mu, sigma, give_log));
 }
@@ -69,8 +69,8 @@ gnumeric_r_pnorm (FunctionEvalInfo *ei, GnmValue **args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float mu = value_get_as_float (args[1]);
 	gnm_float sigma = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
+	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
 
 	return value_new_float (pnorm (x, mu, sigma, lower_tail, log_p));
 }
@@ -103,8 +103,8 @@ gnumeric_r_qnorm (FunctionEvalInfo *ei, GnmValue **args)
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float mu = value_get_as_float (args[1]);
 	gnm_float sigma = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
+	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
 
 	return value_new_float (qnorm (p, mu, sigma, lower_tail, log_p));
 }
@@ -118,8 +118,8 @@ static GnmFuncHelp const help_r_plnorm[] = {
 	   "@SYNTAX=R.PLNORM(x,logmean,logsd[,lower_tail,log_p])\n"
 	   "@DESCRIPTION=R.PLNORM function return the cumulative probability density function of the log-normal distribution.\n"
 	   "\n"
-	   "* @logmean: logarithm of the mean of the distribution.\n"
-	   "* @logsd: logarithm of the standard deviation of the distribution.\n"
+	   "* @logmean: mean of the underlying normal distribution.\n"
+	   "* @logsd: standard deviation of the underlying normal distribution.\n"
 	   "* @lower_tail: if true (the default), the lower tail of the distribution is considered.\n"
 	   "* @log_p: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.\n"
 	   "\n"
@@ -136,8 +136,8 @@ gnumeric_r_plnorm (FunctionEvalInfo *ei, GnmValue **args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float logmean = value_get_as_float (args[1]);
 	gnm_float logsd = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
+	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
 
 	return value_new_float (plnorm (x, logmean, logsd, lower_tail, log_p));
 }
@@ -151,8 +151,8 @@ static GnmFuncHelp const help_r_qlnorm[] = {
 	   "@SYNTAX=R.QLNORM(x,logmean,logsd[,lower_tail,log_p])\n"
 	   "@DESCRIPTION=R.QLNORM function return the probability quantile function of the log-normal distribution.\n"
 	   "\n"
-	   "* @logmean: logarithm of the mean of the distribution.\n"
-	   "* @logsd: logarithm of the standard deviation of the distribution.\n"
+	   "* @logmean: mean of the underlying normal distribution.\n"
+	   "* @logsd: standard deviation of the underlying normal distribution.\n"
 	   "* @lower_tail: if true (the default), the lower tail of the distribution is considered.\n"
 	   "* @log_p: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.\n"
 	   "\n"
@@ -169,8 +169,8 @@ gnumeric_r_qlnorm (FunctionEvalInfo *ei, GnmValue **args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float logmean = value_get_as_float (args[1]);
 	gnm_float logsd = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
+	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
 
 	return value_new_float (qlnorm (x, logmean, logsd, lower_tail, log_p));
 }
@@ -201,7 +201,7 @@ gnumeric_r_dgamma (FunctionEvalInfo *ei, GnmValue **args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
 	gnm_float scale = value_get_as_float (args[2]);
-	gboolean give_log = args[3] ? value_get_as_int (args[3]) : FALSE;
+	gboolean give_log = args[3] ? !!value_get_as_int (args[3]) : FALSE;
 
 	return value_new_float (dgamma (x, shape, scale, give_log));
 }
@@ -233,8 +233,8 @@ gnumeric_r_pgamma (FunctionEvalInfo *ei, GnmValue **args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float p = value_get_as_float (args[1]);
 	gnm_float scale = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
+	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
 
 	return value_new_float (pgamma (x, p, scale, lower_tail, log_p));
 }
@@ -266,8 +266,8 @@ gnumeric_r_qgamma (FunctionEvalInfo *ei, GnmValue **args)
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float alpha = value_get_as_float (args[1]);
 	gnm_float scale = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
+	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
 
 	return value_new_float (qgamma (p, alpha, scale, lower_tail, log_p));
 }
@@ -298,7 +298,7 @@ gnumeric_r_dbeta (FunctionEvalInfo *ei, GnmValue **args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float a = value_get_as_float (args[1]);
 	gnm_float b = value_get_as_float (args[2]);
-	gboolean give_log = args[3] ? value_get_as_int (args[3]) : FALSE;
+	gboolean give_log = args[3] ? !!value_get_as_int (args[3]) : FALSE;
 
 	return value_new_float (dbeta (x, a, b, give_log));
 }
@@ -330,8 +330,8 @@ gnumeric_r_pbeta (FunctionEvalInfo *ei, GnmValue **args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float a = value_get_as_float (args[1]);
 	gnm_float b = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
+	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
 
 	return value_new_float (pbeta (x, a, b, lower_tail, log_p));
 }
@@ -363,8 +363,8 @@ gnumeric_r_qbeta (FunctionEvalInfo *ei, GnmValue **args)
 	gnm_float alpha = value_get_as_float (args[0]);
 	gnm_float a = value_get_as_float (args[1]);
 	gnm_float b = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
+	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
 
 	return value_new_float (qbeta (alpha, a, b, lower_tail, log_p));
 }
@@ -393,7 +393,7 @@ gnumeric_r_dt (FunctionEvalInfo *ei, GnmValue **args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
-	gboolean give_log = args[2] ? value_get_as_int (args[2]) : FALSE;
+	gboolean give_log = args[2] ? !!value_get_as_int (args[2]) : FALSE;
 
 	return value_new_float (dt (x, n, give_log));
 }
@@ -423,8 +423,8 @@ gnumeric_r_pt (FunctionEvalInfo *ei, GnmValue **args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
-	gboolean lower_tail = args[2] ? value_get_as_int (args[2]) : TRUE;
-	gboolean log_p = args[3] ? value_get_as_int (args[3]) : FALSE;
+	gboolean lower_tail = args[2] ? !!value_get_as_int (args[2]) : TRUE;
+	gboolean log_p = args[3] ? !!value_get_as_int (args[3]) : FALSE;
 
 	return value_new_float (pt (x, n, lower_tail, log_p));
 }
@@ -455,8 +455,8 @@ gnumeric_r_qt (FunctionEvalInfo *ei, GnmValue **args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
-	gboolean lower_tail = args[2] ? value_get_as_int (args[2]) : TRUE;
-	gboolean log_p = args[3] ? value_get_as_int (args[3]) : FALSE;
+	gboolean lower_tail = args[2] ? !!value_get_as_int (args[2]) : TRUE;
+	gboolean log_p = args[3] ? !!value_get_as_int (args[3]) : FALSE;
 
 	return value_new_float (qt (p, n, lower_tail, log_p));
 }
