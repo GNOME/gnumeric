@@ -97,7 +97,7 @@ struct _GnmExprRewriteInfo {
 	enum {
 		GNM_EXPR_REWRITE_SHEET,
 		GNM_EXPR_REWRITE_WORKBOOK,
-		GNM_EXPR_REWRITE_RELOCATE,
+		GNM_EXPR_REWRITE_RELOCATE
 	} type;
 
 	union {
