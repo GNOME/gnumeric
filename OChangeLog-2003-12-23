@@ -1,3 +1,8 @@
+2002-11-10  Jody Goldberg <jody@gnome.org>
+
+	* src/parser.y (yylex) : fix the handling of negative numbers in
+	  inline arrays.
+
 2002-11-08  Jody Goldberg <jody@gnome.org>
 
 	* src/stf.c (stf_preparse) : quicky fix for 97672.  Pending removal of

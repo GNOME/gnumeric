@@ -996,7 +996,17 @@ yylex (void)
 		if (!g_unichar_isdigit (g_utf8_get_char (state->ptr)))
 			return c;
 		is_number = TRUE;
-	} else if (g_unichar_isdigit (c)) {
+	} else if (c == '-') {
+		/* Could be a number or a stand alone  */
+		if (!g_unichar_isdigit (g_utf8_get_char (state->ptr)))
+			return c;
+		c = g_utf8_get_char (state->ptr);
+		/* we will fall through into the next if (at the expense of an
+		 * extra character lookup) */
+	}
+	
+	if (g_unichar_isdigit (c)) {
+		/* find the end of the first portion of the number */
 		do {
 			c = g_utf8_get_char (state->ptr);
 			state->ptr = g_utf8_next_char (state->ptr);
