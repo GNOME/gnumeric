@@ -1691,7 +1691,7 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 	if (sheet->deps == NULL) {
 		filter = DEPENDENT_GOES_INTERBOOK;
 		if (rwinfo->type == GNM_EXPR_REWRITE_SHEET)
-			    filter |= DEPENDENT_GOES_INTERSHEET;
+			filter |= DEPENDENT_GOES_INTERSHEET;
 	}
 
 	/* Now we remove any links from dependents in this sheet to

@@ -4756,7 +4756,6 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		char *dir = gnumeric_sys_data_dir (NULL);
 		bonobo_ui_util_set_ui (wbcg->uic, dir,
 			"GNOME_Gnumeric.xml", "gnumeric", NULL);
-		g_free (dir);
 	}
 #ifdef ENABLE_EVOLUTION
 	bonobo_ui_component_set_translate (wbcg->uic, "/menu/File",

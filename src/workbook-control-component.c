@@ -297,7 +297,6 @@ workbook_control_component_activate (WorkbookControlComponent *wbcc,
 	bonobo_ui_util_set_ui
 		(uic, dir, "GNOME_Gnumeric_Component.xml", "gnumeric", NULL);
 	bonobo_ui_component_thaw (uic, NULL);
-	g_free (dir);
 }
 
 static void

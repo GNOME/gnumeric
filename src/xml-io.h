@@ -2,9 +2,6 @@
 #define GNUMERIC_XML_IO_H
 
 #include <gdk/gdktypes.h>
-#ifdef WITH_BONOBO
-#include <bonobo/bonobo-stream.h>
-#endif
 #include "gnumeric.h"
 #include "xml-io-version.h"
 #include "file.h"
