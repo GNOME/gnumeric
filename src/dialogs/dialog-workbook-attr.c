@@ -76,12 +76,6 @@ cb_page_select (GtkNotebook *notebook, GtkNotebookPage *page,
 	attr_dialog_page = page_num;
 }
 
-static void
-cb_notebook_destroy (GtkObject *obj, AttrState *state)
-{
-	gtk_signal_disconnect (obj, state->page_signal);
-}
-
 /*****************************************************************************/
 
 /* Handler for the apply button */
@@ -99,7 +93,13 @@ cb_attr_dialog_dialog_apply (GtkObject *w, int page, AttrState *state)
 static gboolean
 cb_attr_dialog_dialog_destroy (GtkObject *w, AttrState *state)
 {
+	GnomePropertyBox *box = state->dialog;
+	
+	gtk_signal_disconnect (GTK_OBJECT (box->notebook), 
+			       state->page_signal);
+	gtk_object_unref (GTK_OBJECT (state->gui));
 	g_free (state);
+
 	return FALSE;
 }
 
@@ -179,10 +179,6 @@ attr_dialog_impl (AttrState *state)
 		GTK_OBJECT (GNOME_PROPERTY_BOX (dialog)->notebook),
 		"switch_page", GTK_SIGNAL_FUNC (cb_page_select),
 		NULL);
-	gtk_signal_connect (
-		GTK_OBJECT (GNOME_PROPERTY_BOX (dialog)->notebook),
-		"destroy", GTK_SIGNAL_FUNC (cb_notebook_destroy),
-		state);
 
 	/* Setup help */
 	gtk_signal_connect (GTK_OBJECT (dialog), "help",
@@ -228,4 +224,5 @@ dialog_workbook_attr (Workbook *wb)
 
 	attr_dialog_impl (state);
 }
+
 

@@ -1,3 +1,9 @@
+2000-09-20  JP Rosevear  <jpr@helixcode.com>
+
+	* dialog-workbook-attr.c (cb_attr_dialog_dialog_destroy): Disconnect
+	the page change signal here.
+	(attr_dialog_impl): Don't hook up a notebook destroy signal
+
 2000-09-20  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-cell-format.c (fillin_negative_samples) : Use locale specific
