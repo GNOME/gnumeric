@@ -3525,6 +3525,8 @@ void stat_functions_init()
 			    gnumeric_fisher);
         function_add_args  (cat, "fisherinv", "f",    "",          &help_fisherinv,
 			    gnumeric_fisherinv);
+	function_add_args  (cat, "ftest",     "rr",   "arr1,arr2", &help_ftest,
+			    gnumeric_ftest);
 	function_add_args  (cat, "gammaln",   "f",    "number",    &help_gammaln,
 			    gnumeric_gammaln);
 	function_add_args  (cat, "gammadist", "fffb", "number,alpha,beta,cum",    &help_gammadist,
@@ -3595,12 +3597,14 @@ void stat_functions_init()
 			    gnumeric_stdevpa);
 	function_add_args  (cat, "steyx", "AA", "known_y's,known_x's",
 			    &help_steyx,   gnumeric_steyx);
-	function_add_args  (cat, "tdist",   "fff",  "",            &help_tdist,
+	function_add_args  (cat, "tdist",   "fff",    "",          &help_tdist,
 			    gnumeric_tdist);
-	function_add_args  (cat, "tinv",    "ff",  "",             &help_tinv,
+	function_add_args  (cat, "tinv",    "ff",     "",          &help_tinv,
 			    gnumeric_tinv);
 	function_add_nodes (cat, "trimmean",  0,      "",          &help_trimmean,
 			    gnumeric_trimmean);
+	function_add_args  (cat, "ttest",   "rrff",   "",          &help_ttest,
+			    gnumeric_ttest);
 	function_add_nodes (cat, "var",       0,      "",          &help_var,
 			    gnumeric_var);
 	function_add_nodes (cat, "vara",      0,      "",          &help_vara,

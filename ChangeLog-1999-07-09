@@ -1,3 +1,11 @@
+1999-06-24    <michael@edenproject.org>
+
+	* src/fn-math.c: Add sumproduct back in.
+
+1999-06-24  Michael Meeks  <michael@edenproject.org>
+
+	* src/fn-stat.c: Added ftest, ttest again.
+
 1999-06-23  Michael Meeks  <michael@edenproject.org>
 
 	* src/sheet.c (sheet_update_auto_expr): Add check for cached

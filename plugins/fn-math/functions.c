@@ -2426,6 +2426,104 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 	return value_new_float (p.sum);
 }
 
+static char *help_sumproduct = {
+	N_("@FUNCTION=SUMPRODUCT\n"
+	   "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
+	   "@DESCRIPTION="
+	   "SUMPRODUCT function multiplies corresponding data entries in the "
+	   "given arrays or ranges, and then returns the sum of those "
+	   "products.  If an array entry is not numeric, the value zero is "
+	   "used instead. "
+	   "\n"
+	   "If array or range arguments do not have the same dimentions, "
+	   "SUMPRODUCT returns #VALUE! error. "
+	   "\n"
+	   "@SEEALSO=SUM,PRODUCT")
+};
+
+typedef struct {
+        GSList   *components;
+        GSList   *current;
+        gboolean first;
+} math_sumproduct_t;
+
+static int
+callback_function_sumproduct (const EvalPosition *ep, Value *value,
+			      ErrorMessage *error, void *closure)
+{
+	math_sumproduct_t *mm = closure;
+	float_t           x;
+
+	if (!VALUE_IS_NUMBER (value))
+		x = 0;
+	else
+	        x = value_get_as_float (value);
+
+	if (mm->first) {
+	        gpointer p;
+		p = g_new(float_t, 1);
+		*((float_t *) p) = x;
+		mm->components = g_slist_append(mm->components, p);
+	} else {
+	        if (mm->current == NULL)
+		        return FALSE;
+		*((float_t *) mm->current->data) *= x;
+		mm->current = mm->current->next;
+	}
+
+	return TRUE;
+}
+
+static Value *
+gnumeric_sumproduct (FunctionEvalInfo *ei, GList *expr_node_list)
+{
+        math_sumproduct_t p;
+	GSList            *current;
+	float_t           sum;
+	int               result=1;
+
+	if (expr_node_list == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
+	p.components = NULL;
+	p.first      = TRUE;
+
+	for ( ; result && expr_node_list;
+	      expr_node_list = expr_node_list->next) {
+		ExprTree *tree = (ExprTree *) expr_node_list->data;
+		Value    *val;
+
+		val = eval_expr (ei, tree);
+
+		if (val) {
+		        p.current = p.components;
+			result = function_iterate_do_value (
+				&ei->pos, callback_function_sumproduct, &p,
+				val, ei->error, TRUE);
+
+			value_release (val);
+		} else
+		        break;
+		p.first = FALSE;
+	}
+
+	sum = 0;
+	current = p.components;
+	while (current != NULL) {
+	        gpointer p = current->data;
+	        sum += *((float_t *) p);
+		g_free(current->data);
+	        current = current->next;
+	}
+	
+	g_slist_free(p.components);
+
+	if (expr_node_list)
+		return function_error (ei, gnumeric_err_VALUE);
+
+	return value_new_float (sum);
+}
+
 void math_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Maths / Trig."));
@@ -2505,6 +2603,8 @@ void math_functions_init()
 	function_add_nodes (cat, "suma",    0,      "number1,number2,...",    &help_suma,
 			    gnumeric_suma);
 	function_add_args  (cat, "sumif",   "r?",   "range,criteria", &help_sumif, gnumeric_sumif);
+	function_add_nodes (cat, "sumproduct",   0, "range1,range2,...",
+			    &help_sumproduct, gnumeric_sumproduct);
 	function_add_nodes (cat, "sumsq",   0,      "number",    &help_sumsq,
 			    gnumeric_sumsq);
 	function_add_args  (cat, "sumx2my2", "AA", "array1,array2", &help_sumx2my2, gnumeric_sumx2my2);
