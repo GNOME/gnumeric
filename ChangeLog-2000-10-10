@@ -1,3 +1,10 @@
+2000-07-05  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* src/stf-parse.c:
+	(stf_parse_options_fixed_autodiscover): When a column has right
+	and left aligned text split and has 2 or more spaces in the
+	middle split the column in two. (Suggested by Morten)
+
 2000-07-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-edit.c (workbook_edit_detach_guru) : Nat having a

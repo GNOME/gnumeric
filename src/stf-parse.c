@@ -1532,10 +1532,105 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 	}
 
 	/*
-	 * Remove empty columns here if needed
+	 * Do some corrections to the initial columns
+	 * detected here, we obviously don't need to
+	 * do this if there are no columns at all.
 	 */
 	if (parseoptions->splitpositions->len > 0) {
-	
+
+		/*
+		 * Try to find columns that look like :
+		 *
+		 * Example     100
+		 * Example2      9
+		 *
+		 * (In other words : Columns with left & right justification with
+		 *  a minimum of 2 spaces in the middle)
+		 * Split these columns in 2
+		 */
+
+		for (i = 0; i < parseoptions->splitpositions->len - 1; i++) {
+			int begin = g_array_index (parseoptions->splitpositions, int, i);
+			int end   = g_array_index (parseoptions->splitpositions, int, i + 1);
+			int num_spaces   = -1;
+			int spaces_start = 0;
+			gboolean right_aligned = TRUE;
+			gboolean left_aligned  = TRUE;
+			gboolean has_2_spaces  = TRUE;
+
+			iterator = data;
+			lines = 0;
+			while (*iterator) {
+				gboolean trigger = FALSE;
+				gboolean space_trigger = FALSE;
+				int pos = 0;
+
+				num_spaces   = -1;
+				spaces_start = 0;
+				while (*iterator && *iterator != parseoptions->terminator) {
+
+					if (pos == begin) {
+					
+						if (*iterator == ' ')
+							left_aligned = FALSE;
+
+						trigger = TRUE;
+					} else if (pos == end - 1) {
+					
+						if (*iterator == ' ')
+							right_aligned = FALSE;
+
+						trigger = FALSE;
+					}
+
+					if (trigger) {
+						if (!space_trigger && *iterator == ' ') {
+			
+							space_trigger = TRUE;
+							spaces_start = pos;
+						} else if (space_trigger && *iterator != ' ') {
+						
+							space_trigger = FALSE;
+							num_spaces = pos - spaces_start;
+						}
+					}
+						    
+					iterator++;
+					pos++;
+				}
+
+				if (num_spaces < 2)
+					has_2_spaces = FALSE;
+					
+				if (*iterator)
+					iterator++;
+
+				lines++;
+			
+				if (lines >= data_lines)
+					break;
+			}
+
+			/*
+			 * If this column meets all the criteria
+			 * split it into two at the last measured
+			 * spaces_start + num_spaces
+			 */
+			if (has_2_spaces && right_aligned && left_aligned) {
+				int val = (((spaces_start + num_spaces) - spaces_start) / 2) + spaces_start;
+
+				g_array_insert_val (parseoptions->splitpositions, i + 1, val);
+
+				/*
+				 * Skip over the inserted column
+				 */
+				i++;
+			}
+		}
+		
+		/*
+		 * Remove empty columns here if needed
+		 */	 
 		for (i = 0; i < parseoptions->splitpositions->len - 1; i++) {
 			int begin = g_array_index (parseoptions->splitpositions, int, i);
 			int end = g_array_index (parseoptions->splitpositions, int, i + 1);
@@ -1548,6 +1643,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 				int pos = 0;
 			
 				while (*iterator && *iterator != parseoptions->terminator) {
+
 
 					if (pos == begin)
 						trigger = TRUE;
@@ -1581,7 +1677,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 				g_array_remove_index (parseoptions->splitpositions, i);
 		}
 	}
-	
+
 	g_free (line_begin_hits);
 	g_free (line_end_hits);
 }
