@@ -223,6 +223,7 @@ get_rotated_layout_bounds (PangoLayout *layout, int *width, int *height)
 void
 rendered_value_remeasure (RenderedValue *rv)
 {
+#ifdef HAVE_PANGO_CONTEXT_SET_MATRIX
 	if (rv->rotation) {
 		PangoMatrix rotmat = PANGO_MATRIX_INIT;
 		PangoContext *context = pango_layout_get_context (rv->layout);
@@ -233,11 +234,11 @@ rendered_value_remeasure (RenderedValue *rv)
 		get_rotated_layout_bounds (rv->layout, &rv->layout_natural_width, &rv->layout_natural_height);
 		pango_context_set_matrix (context, NULL);
 		pango_layout_context_changed (rv->layout);
-	} else {
+	} else
+#endif
 		pango_layout_get_size (rv->layout,
 				       &rv->layout_natural_width,
 				       &rv->layout_natural_height);
-	}
 }
 
 
