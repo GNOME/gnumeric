@@ -1,0 +1,170 @@
+<sect1>
+<title>Autofill</title>
+
+   <para>When dealing with spreadsheets it's pretty typical to want to
+   add a set of cells that contain a series of numbers or dates or other
+   values. While this can be done by hand, Gnumeric implements an autofill
+   option to allow these sorts of series to be easily fill in.</para>
+
+
+  <para>A typical example of when you want to use this feature is to fill
+  a series of numbers maybe a list of part numbers, or a perhaps a list
+  of TV channels. To create a list like this, all the user needs to do
+  is to enter the first number into a cell and click on the autofill
+  cursor in the bottom right corner of the cell border and drag it in
+  the direction to fill. If the first cell contains a '1', for example,
+  dragging the autofill button(see figure 1), down three or four cells
+  will fill the cells with 1,2,3,4 automatically.(see figure 2)</para>
+
+  <itemizedlist>
+     <listitem><para>Select the cell that marks the begining of the 
+     area to autofill</para></listitem>
+
+     <listitem><para>Enter the starting value into this cell</para></listitem>
+
+     <listitem><para>Click the small rectangle in the bottom right corner
+     of the first cell, and drag it to the end of the area to fill.</para></listitem>
+
+     <listitem><para>Release the mouse button. The cells in the selected area should
+     nwo be field with autofilled values</para></listitem>
+  </itemizedlist>
+
+  <screenshot>
+       <screeninfo>Figure 1. 
+	 </screeninfo>
+       <graphic fileref="autofill-1.jpg"></graphic>
+  </screenshot>
+
+   <screenshot>
+       <screeninfo>Figure 2. A set of cells being autofill'ed
+	 </screeninfo>
+       <graphic fileref="autofill-2.jpg"></graphic>
+  </screenshot>
+
+  <para>As handy as being able to simply and quickly generate series of
+  numbers incremented by one, autofill can do much much more. The next simplest
+  example is autofilling with a series with an increment other than 1. For example,
+ to create a series that consist of odd numbers starting at 11, just enter 11 into
+ a cell and 13 into the next cell. Then select both cells, and stretch it to the
+ cover the cells to be filled. If you select the next 5 cells for example, it will
+ fill with values 11,13,15,17,19,21,23. See figures 3 and 4 for example.</para>
+
+  <screenshot>
+       <screeninfo>Figure 3. 
+	 </screeninfo>
+       <graphic fileref="autofill-3.jpg"></graphic>
+  </screenshot>
+
+   <screenshot>
+       <screeninfo>Figure 4. A set of cells being autofill'ed
+	 </screeninfo>
+       <graphic fileref="autofill-4.jpg"></graphic>
+  </screenshot>
+
+
+  <sect2>
+   <title>Filling with Dates</title>
+
+   <para>Oh, but numbers are easy you say! The real painful stuff is entering
+   in cell by cell dates and times and other info. But never fear, Gnumeric is there
+   to help you. Gnumeric has the ability to autofill dates, months, days of the week,
+   and more. </para>
+
+   <para> For an example, think of a typical business invoice, where everything is
+   logged by the month. So it is quite typically to want to fill a series of cells
+   with the months of the year in order. To do this is quite simple, essentially the
+   same steps as making a numerical fill.</para>
+
+   <para>Starting from cell B2 for example, if you want to fill the next 12 cells
+   with the months, just enter the string "January" in B2. Then, click the fill button
+   and stretch it over the next 12 cells, and release. Simple as that. See Figures 5 and
+   6. </para>
+ 
+
+ <screenshot> 
+       <screeninfo>Figure 5. 
+	 </screeninfo>
+       <graphic fileref="autofill-5.jpg"></graphic>
+  </screenshot>
+
+   <screenshot>
+       <screeninfo>Figure 6. A set of cells being autofill'ed
+	 </screeninfo>
+       <graphic fileref="autofill-6.jpg"></graphic>
+  </screenshot>
+
+  <screenshot>
+       <screeninfo>Figure 7. A set of cells being autofill'ed
+	 </screeninfo>
+       <graphic fileref="autofill-7.jpg"></graphic>
+  </screenshot>
+
+   <para> Other examples of strings that can be autofilled include days of
+   the week (Monday, Tuesday,...), short weekdays (Mon, Tues, ....),
+   short months (Jan, Feb,...) </para>
+
+   <para> More string fill types to follow </para>
+   </sect2>
+
+
+   <sect2>
+   <title>String And Number autofill</title>
+
+   <para>Gnumeric tries to be intelligent about autofilling number values that
+   embedded into text strings. So its possible to autofill cells with values
+   like "9 lives to live","8 lives to live", etc. </para>
+
+   <para>See Figure 8 for some contrived examples.</para>
+
+  <screenshot>
+       <screeninfo>Figure 8. 
+	 </screeninfo>
+       <graphic fileref="autofill-8.jpg"></graphic>
+  </screenshot>
+  </sect2>
+
+  <sect2>
+  <title>Formula autofill</title>
+ 
+  <para>Probabaly the most useful of all the autofill capabilties is
+  the abilty to autofill functions. In practice it works essentialy the
+  same as all the other autofill methods, it just transfers the funtions
+  of course. </para>
+
+  <para>See Figures  9 and 10 for a simple example.</para>
+
+ <screenshot>
+       <screeninfo>Figure 9. 
+	 </screeninfo>
+       <graphic fileref="autofill-9.jpg"></graphic>
+  </screenshot>
+ 
+
+ <screenshot>
+       <screeninfo>Figure 10. 
+	 </screeninfo>
+       <graphic fileref="autofill-10.jpg"></graphic>
+  </screenshot>
+ 
+ </sect2>
+
+ <sect2>
+ <title>Other Notes on autofill</title>
+
+
+ <itemizedlist>
+        <listitem><para>Autofills only work to the down and to the right of a cell.</para>
+          </listitem>
+        <listitem><para>To make a series that decrements insteads of incrementing, enter the 
+highest value into the first cell, then the next value in the second cell and select
+them both in the first step outlined above. </para>
+          </listitem>
+        <listitem><para>Starting a series with more than two inital values can result in
+       some unexpected results. Use with care.</para>
+          </listitem>
+  
+
+  </itemizedlist>
+ </sect2>
+
+</sect1>

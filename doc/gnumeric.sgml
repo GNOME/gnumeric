@@ -1,5 +1,6 @@
 <!doctype book PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
 <!entity editing SYSTEM "editing.sgml">
+<!entity autofill SYSTEM "autofill.sgml">
 <!entity numberformat SYSTEM "number-format.sgml">
 ]>
 <book>
@@ -64,6 +65,11 @@
     <title>Number formatting.</title>
     &numberformat
   </chapter>
+
+ <chapter id="autofill">
+     <title>Autofill.</title>
+       &autofill;
+</chapter>
 </book>
 	
 
