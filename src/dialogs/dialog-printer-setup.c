@@ -1037,15 +1037,31 @@ text_get (GtkEditable *text_widget)
 }
 
 static void
-hf_customize_apply (GnomePropertyBox *dialog, gint page_num, PrinterSetupState *state)
+hf_customize_cancel (GtkWidget *button, GtkWidget *dialog)
+{
+		gtk_widget_destroy (dialog);
+}
+
+static void hf_customize_apply (GtkWidget *button, GtkWidget *dialog);
+
+static void
+hf_customize_ok (GtkWidget *button, GtkWidget *dialog)
+{
+	hf_customize_apply (button, dialog);
+	gtk_widget_destroy (dialog);
+}
+
+static void
+hf_customize_apply (GtkWidget *button, GtkWidget *dialog)
 {
 	GladeXML *gui;
 	GtkEntry *left, *middle, *right;
 	char *left_format, *right_format, *middle_format;
 	PrintHF **config = NULL;
 	gboolean header;
+	PrinterSetupState *state;
 
-	g_return_if_fail (state != NULL);
+	g_return_if_fail (dialog != NULL);
 
 	gui = glade_get_widget_tree (GTK_WIDGET (dialog));
 
@@ -1061,6 +1077,7 @@ hf_customize_apply (GnomePropertyBox *dialog, gint page_num, PrinterSetupState *
 	right_format  = text_get (GTK_EDITABLE (right));
 
 	header = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (dialog), "header"));
+	state = gtk_object_get_data (GTK_OBJECT (dialog), "state");
 
 	if (header)
 		config = &state->header;
@@ -1078,16 +1095,20 @@ hf_customize_apply (GnomePropertyBox *dialog, gint page_num, PrinterSetupState *
 
 	do_setup_hf_menus (state);
 	display_hf_preview (state, header);
+
+	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "apply_button"), FALSE);
+	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "ok_button"), FALSE);
 }
 
-static void
-hf_customize_help (GnomePropertyBox *dialog, gint page_num, gpointer ignore)
+static gboolean 
+hf_changed (GtkWidget *dummy,  GladeXML *gui)
 {
-	gnumeric_help_display ("print-setup.html#PRINT-SETUP-HEADER-CONFIG");
+	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "apply_button"), TRUE);
+	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "ok_button"), TRUE);	
 }
 
 /*
- * Open up a GnomePropertyBox to allow the user to customize the header
+ * Open up a DIALOG to allow the user to customize the header
  * or the footer.
  */
 static void
@@ -1096,7 +1117,6 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	GladeXML *gui;
 	GtkEntry *left, *middle, *right;
 	GtkWidget *dialog;
-	GtkLabel *label;
 	PrintHF **config = NULL;
 
 	/* Check if this dialog isn't already created. */
@@ -1119,60 +1139,72 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	left   = GTK_ENTRY (glade_xml_get_widget (gui, "left-format"));
 	middle = GTK_ENTRY (glade_xml_get_widget (gui, "middle-format"));
 	right  = GTK_ENTRY (glade_xml_get_widget (gui, "right-format"));
-	label  = GTK_LABEL (glade_xml_get_widget (gui, "tab-label"));
 	dialog = glade_xml_get_widget (gui, "hf-config");
 
 	if (header) {
 		config = &state->header;
 		state->customize_header = dialog;
 		gtk_window_set_title (GTK_WINDOW (dialog), _("Custom header configuration"));
-		gtk_label_set_text (label, _("Customize header"));
 
 	} else {
 		config = &state->footer;
 		state->customize_footer = dialog;
 		gtk_window_set_title (GTK_WINDOW (dialog), _("Custom footer configuration"));
-		gtk_label_set_text (label, _("Customize footer"));
 	}
 
 	gtk_entry_set_text (left, (*config)->left_format);
 	gtk_entry_set_text (middle, (*config)->middle_format);
 	gtk_entry_set_text (right, (*config)->right_format);
 
-	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog), GTK_EDITABLE (left));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog), GTK_EDITABLE (middle));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog), GTK_EDITABLE (right));
+	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (left));
+	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (middle));
+	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (right));
 
-	g_signal_connect (G_OBJECT (dialog), "apply", G_CALLBACK (hf_customize_apply), state);
-	g_signal_connect (G_OBJECT (dialog), "help", G_CALLBACK (hf_customize_help), NULL);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "apply_button")), "clicked",
+			  G_CALLBACK (hf_customize_apply), dialog);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "ok_button")), "clicked",
+			  G_CALLBACK (hf_customize_ok), dialog);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "cancel_button")), "clicked",
+			  G_CALLBACK (hf_customize_cancel), dialog);
+	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "apply_button"), FALSE);
+	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "ok_button"), FALSE);	
 
 	if (header)
-		g_signal_connect (G_OBJECT (dialog), "destroy", G_CALLBACK (gtk_widget_destroyed), &state->customize_header);
+		g_signal_connect (G_OBJECT (dialog), "destroy", 
+				  G_CALLBACK (gtk_widget_destroyed), &state->customize_header);
 	else
-		g_signal_connect (G_OBJECT (dialog), "destroy", G_CALLBACK (gtk_widget_destroyed), &state->customize_footer);
+		g_signal_connect (G_OBJECT (dialog), "destroy", 
+				  G_CALLBACK (gtk_widget_destroyed), &state->customize_footer);
 
 
 	/* Remember whether it is customizing header or footer. */
 	gtk_object_set_data (GTK_OBJECT (dialog), "header", GINT_TO_POINTER (header));
+	gtk_object_set_data (GTK_OBJECT (dialog), "state", state);
 
-	/* Setup bindings to mark when the property box entries modified. */
-	gtk_signal_connect_object (GTK_OBJECT (left), "key-press-event",
-			G_CALLBACK (gnome_property_box_changed),
-			GTK_OBJECT (dialog));
+	/* Setup bindings to mark when the entries are modified. */
+	g_signal_connect (GTK_OBJECT (left), "changed",
+			G_CALLBACK (hf_changed), gui);
+	g_signal_connect (GTK_OBJECT (middle), "changed",
+			G_CALLBACK (hf_changed), gui);
+	g_signal_connect (GTK_OBJECT (right), "changed",
+			G_CALLBACK (hf_changed), gui);
 
-	gtk_signal_connect_object (GTK_OBJECT (middle), "key-press-event",
-			G_CALLBACK (gnome_property_box_changed),
-			GTK_OBJECT (dialog));
 
-	gtk_signal_connect_object (GTK_OBJECT (right), "key-press-event",
-			G_CALLBACK (gnome_property_box_changed),
-			GTK_OBJECT (dialog));
+/* FIXME: Add correct helpfile address */
+	if (header)
+		gnumeric_init_help_button (
+			glade_xml_get_widget (gui, "help_button"),
+			"header-customization.html");
+	else
+		gnumeric_init_help_button (
+			glade_xml_get_widget (gui, "help_button"),
+			"footer-customization.html");
 
 	/* Let them begin typing into the first entry widget. */
 	gtk_widget_grab_focus (GTK_WIDGET (left));
 
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (state->dialog));
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (state->dialog));
+	gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
 
 	gtk_widget_show (dialog);
 }
@@ -1861,6 +1893,10 @@ dialog_printer_setup (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (!state)
 		return;
 
+/* FIXME: Add correct helpfile address */
+	gnumeric_init_help_button (
+		glade_xml_get_widget (state->gui, "help_button"),
+		"print-setup.html");
 	gnumeric_keyed_dialog (
 		wbcg, GTK_WINDOW (state->dialog), PRINTER_SETUP_KEY);
 	gtk_widget_show (state->dialog);

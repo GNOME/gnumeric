@@ -63,26 +63,6 @@ gnumeric_notice (WorkbookControlGUI *wbcg, GtkMessageType type, char const *str)
 	gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
 }
 
-/**
- * gnumeric_destroy_dialog:
- * @window:
- * @state:
- *
- * NULL the reference before.
- * This is used to have small keyed-dialog style dialogs whose
- * parent is just another dialog
- *
- **/
-static gboolean
-gnumeric_destroy_dialog (GtkObject *w, GtkWindow **ref)
-{
-	g_return_val_if_fail (w != NULL, FALSE);
-
-	*ref = NULL;
-	return FALSE;
-}
-
-
 void
 gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref, GtkMessageType type, char const *str)
 {
@@ -91,7 +71,7 @@ gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref, GtkMessageType typ
 	if (*ref != NULL)
 		gtk_widget_destroy (*ref);
 
-	dialog = gtk_message_dialog_new (parent, GTK_DIALOG_DESTROY_WITH_PARENT, type,
+	*ref = dialog = gtk_message_dialog_new (parent, GTK_DIALOG_DESTROY_WITH_PARENT, type,
 					 GTK_BUTTONS_OK, str);
 
 	gtk_signal_connect_object (GTK_OBJECT (dialog), "response",
@@ -99,10 +79,9 @@ gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref, GtkMessageType typ
 				   GTK_OBJECT (dialog));
 	g_signal_connect (G_OBJECT (dialog),
 		"destroy",
-		G_CALLBACK (gnumeric_destroy_dialog), ref);
+		G_CALLBACK (gtk_widget_destroyed), ref);
 
 	gtk_widget_show (dialog);
-	*ref = dialog;
 
 	return;
 }

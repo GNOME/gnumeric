@@ -1,5 +1,11 @@
 2002-03-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-printer-setup.c : complete port to gnome2
+	* print.glade : add help button
+	* hf-config.glade : port to gnome2
+
+2002-03-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-printer-setup.c : port to gnome2 (except header/footer
 	 customization)
 	* print.glade : ditto

@@ -24,6 +24,50 @@
             <property name="visible">yes</property>
 
             <child>
+              <widget class="GtkButton" id="help_button">
+                <property name="can_default">yes</property>
+                <property name="can_focus">yes</property>
+                <property name="visible">yes</property>
+                <property name="label">gtk-help</property>
+                <property name="use_stock">yes</property>
+                <property name="use_underline">yes</property>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkButton" id="cancel">
+                <property name="can_default">yes</property>
+                <property name="can_focus">yes</property>
+                <property name="visible">yes</property>
+                <property name="label">gtk-cancel</property>
+                <property name="use_stock">yes</property>
+                <property name="use_underline">yes</property>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkButton" id="options">
+                <property name="can_default">yes</property>
+                <property name="can_focus">yes</property>
+                <property name="label" translatable="yes">Options</property>
+                <property name="visible">yes</property>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkButton" id="preview">
+                <property name="can_default">yes</property>
+                <property name="can_focus">yes</property>
+                <property name="label" translatable="yes">Print preview</property>
+                <property name="visible">yes</property>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkButton" id="print">
+                <property name="can_default">yes</property>
+                <property name="can_focus">yes</property>
+                <property name="label" translatable="yes">Print</property>
+                <property name="visible">yes</property>
+              </widget>
+            </child>
+            <child>
               <widget class="GtkButton" id="ok">
                 <property name="can_default">yes</property>
                 <property name="has_default">yes</property>
@@ -35,43 +79,6 @@
               </widget>
             </child>
 
-            <child>
-              <widget class="GtkButton" id="print">
-                <property name="can_default">yes</property>
-                <property name="can_focus">yes</property>
-                <property name="label" translatable="yes">Print</property>
-                <property name="visible">yes</property>
-              </widget>
-            </child>
-
-            <child>
-              <widget class="GtkButton" id="preview">
-                <property name="can_default">yes</property>
-                <property name="can_focus">yes</property>
-                <property name="label" translatable="yes">Print preview</property>
-                <property name="visible">yes</property>
-              </widget>
-            </child>
-
-            <child>
-              <widget class="GtkButton" id="options">
-                <property name="can_default">yes</property>
-                <property name="can_focus">yes</property>
-                <property name="label" translatable="yes">Options</property>
-                <property name="visible">yes</property>
-              </widget>
-            </child>
-
-            <child>
-              <widget class="GtkButton" id="cancel">
-                <property name="can_default">yes</property>
-                <property name="can_focus">yes</property>
-                <property name="visible">yes</property>
-                <property name="label">gtk-cancel</property>
-                <property name="use_stock">yes</property>
-                <property name="use_underline">yes</property>
-              </widget>
-            </child>
           </widget>
           <packing>
             <property name="padding">0</property>

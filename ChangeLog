@@ -1,3 +1,8 @@
+2002-03-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gui-util.c (gnumeric_destroy_dialog) : replaced by call to
+	  gtk_widget_destroyed
+
 2002-03-27  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : Include the necessary gconf setup to install schemas.
