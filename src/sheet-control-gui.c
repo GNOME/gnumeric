@@ -38,14 +38,19 @@
 
 static GtkTableClass *sheet_view_parent_class;
 
-#define gnome_canvas_item_grab(a,b,c,d)	{		 \
-	fprintf (stderr, "%d : grab OBJ %p\n", __LINE__, a); \
-	gnome_canvas_item_grab (a, b, c,d);		 \
-}
-#define gnome_canvas_item_ungrab(a,b)	{		 \
-	fprintf (stderr, "%d : ungrab OBJ %p\n", __LINE__, a); \
-	gnome_canvas_item_ungrab (a, b);		 \
-}
+#ifndef __GNUC__
+#define __FUNCTION__ __FILE__
+#endif
+#define gnome_canvas_item_grab(a,b,c,d) do {		\
+	fprintf (stderr, "%s %d: grab OBJ %p\n",	\
+		 __FUNCTION__, __LINE__, a);		\
+	gnome_canvas_item_grab (a, b, c,d);		\
+} while (0)
+#define gnome_canvas_item_ungrab(a,b) do {		\
+	fprintf (stderr, "%s %d: ungrab OBJ %p\n",	\
+		 __FUNCTION__, __LINE__, a);		\
+	gnome_canvas_item_ungrab (a, b);		\
+} while (0)
 
 void
 sheet_view_redraw_all (SheetControlGUI *scg)

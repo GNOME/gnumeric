@@ -1,5 +1,10 @@
 2000-12-04  Morten Welinder  <terra@diku.dk>
 
+	* src/item-bar.c: Make debug-code statement-safe, just in case.
+	* src/item-cursor.c: Ditto.
+	* src/item-grid.c: Ditto.
+	* src/sheet-control-gui.c: Ditto.
+
 	* src/sheet-object-widget.c (sheet_widget_checkbox_user_config):
  	Plug leak.
 

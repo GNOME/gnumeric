@@ -30,14 +30,20 @@ static void   item_bar_marshal      (GtkObject *,
 typedef void (*ItemBarSignal1) (GtkObject *, gint arg1, gpointer data);
 typedef void (*ItemBarSignal2) (GtkObject *, gint arg1, gint arg2, gpointer data);
 
-#define gnome_canvas_item_grab(a,b,c,d)	{		 \
-	fprintf (stderr, "%d : grab BAR %p\n", __LINE__, a); \
-	gnome_canvas_item_grab (a, b, c,d);		 \
-}
-#define gnome_canvas_item_ungrab(a,b)	{		 \
-	fprintf (stderr, "%d : ungrab BAR %p\n", __LINE__, a); \
-	gnome_canvas_item_ungrab (a, b);		 \
-}
+#ifndef __GNUC__
+#define __FUNCTION__ __FILE__
+#endif
+#define gnome_canvas_item_grab(a,b,c,d)	do {		\
+	fprintf (stderr, "%s %d: grab BAR %p\n",	\
+		 __FUNCTION__, __LINE__, a);		\
+	gnome_canvas_item_grab (a, b, c,d);		\
+} while (0)
+#define gnome_canvas_item_ungrab(a,b) do {		\
+	fprintf (stderr, "%s %d: ungrab BAR %p\n",	\
+		 __FUNCTION__, __LINE__, a);		\
+	gnome_canvas_item_ungrab (a, b);		\
+} while (0)
+
 /* The signals we emit */
 enum {
 	SELECTION_CHANGED,
