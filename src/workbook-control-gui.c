@@ -1092,9 +1092,12 @@ static gboolean
 wbcg_claim_selection (WorkbookControl *wbc)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	gboolean clipboard_owner_set =  gtk_selection_owner_set (GTK_WIDGET (wbcg->toplevel),
+								 GDK_SELECTION_CLIPBOARD,
+								 GDK_CURRENT_TIME);
 	return gtk_selection_owner_set (GTK_WIDGET (wbcg->toplevel),
 					GDK_SELECTION_PRIMARY,
-					GDK_CURRENT_TIME);
+					GDK_CURRENT_TIME) || clipboard_owner_set;
 }
 
 static void

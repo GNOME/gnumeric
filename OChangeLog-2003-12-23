@@ -1,3 +1,12 @@
+2002-04-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/application.c (application_clipboard_clear) : also clear CLIPBOARD
+	* src/gui-clipboard.c (x_selection_clear) : clear selection only if PRIMARY 
+	  is asserted elsewhere
+	(x_clipboard_bind_workbook) : set CLIPBOARD targets
+	* src/workbook-control-gui.c (wbcg_claim_selection) : claim PRIMARY and
+	  CLIPBOARD
+
 2002-04-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_analysis_tool_undo) : reset column widths and

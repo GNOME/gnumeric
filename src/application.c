@@ -225,10 +225,14 @@ application_clipboard_clear (gboolean drop_selection)
 		app.clipboard_sheet = NULL;
 
 		/* Release the selection */
-		if (drop_selection)
+		if (drop_selection) {
 			gtk_selection_owner_set (NULL,
 						 GDK_SELECTION_PRIMARY,
 						 GDK_CURRENT_TIME);
+			gtk_selection_owner_set (NULL,
+						 GDK_SELECTION_CLIPBOARD,
+						 GDK_CURRENT_TIME);
+		}
 	}
 }
 
