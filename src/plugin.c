@@ -381,7 +381,9 @@ plugin_info_list_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error)
 		xmlNodePtr node;
 		GList *plugin_error_list = NULL;
 
-		for (i = 0, node = doc->root->childs; node != NULL; i++, node = node->next) {
+		for (i = 0, node = doc->root->xmlChildrenNode;
+		     node != NULL;
+		     i++, node = node->next) {
 			if (xmlStrcmp (node->name, "plugin") == 0) {
 				PluginInfo *pinfo;
 				ErrorInfo *error;

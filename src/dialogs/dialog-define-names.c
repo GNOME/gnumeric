@@ -165,14 +165,14 @@ static void cb_name_guru_select_name (GtkWidget *list, NameGuruState *state);
 static void
 name_guru_set_expr (NameGuruState *state, NamedExpression *expr_name)
 {
-	gchar *txt;
-
 	g_return_if_fail (state != NULL);
 
-	/* don't recurse */
+	/* Don't recur.  */
 	state->updating = TRUE;
 
 	if (expr_name) {
+		gchar *txt;
+
 		/* Display the name */
 		gtk_entry_set_text (state->name, expr_name->name->str);
 
@@ -609,9 +609,9 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 			    GTK_SIGNAL_FUNC (cb_name_guru_destroy), state);
 	gtk_signal_connect (GTK_OBJECT (state->name), "changed",
 			    GTK_SIGNAL_FUNC (name_guru_update_sensitivity_cb), state);
-	/* We need to conect after because this is an expresion, and it will be changed
-	 * by the mouse selecting a range, update after the entry is updated with the
-	 * new text
+	/* We need to connect after because this is an expresion, and it will
+	 * be changed by the mouse selecting a range, update after the entry
+	 * is updated with the new text.
 	 */
 	gtk_signal_connect_after (GTK_OBJECT (state->value), "changed",
 				  GTK_SIGNAL_FUNC (name_guru_update_sensitivity_cb), state);

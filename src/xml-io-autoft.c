@@ -385,7 +385,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
 	 * xml_read_format_template_member to fill
 	 * the FormatTemplate one by one
 	 */
-	c = child->childs;
+	c = child->xmlChildrenNode;
 
 	while (c != NULL) {
 		if (!xml_read_format_template_member (ctxt, ft, c))
