@@ -56,7 +56,7 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 	radio_cb_data	cb_data[NUM_RADIO_BUTTONS];
 
 	GtkCList *list;
-	GtkWidget *dialog;
+	GtkWidget *dialog, *focus_target;
 	GtkRadioButton *radio, *custom;
 	GtkSpinButton *zoom;
 	GList *l, *sheets;
@@ -72,6 +72,7 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 	gtk_signal_connect (GTK_OBJECT (zoom), "focus_in_event",
 			    GTK_SIGNAL_FUNC (custom_selected),
 			    custom);
+	focus_target = GTK_WIDGET (custom);
 
 	for (i = NUM_RADIO_BUTTONS; --i >= 0; ) {
 		radio  = GTK_RADIO_BUTTON (glade_xml_get_widget (gui, buttons[i].name));
@@ -87,6 +88,7 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 		if (cur_sheet->last_zoom_factor_used == buttons[i].factor) {
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio), TRUE);
 			is_custom = FALSE;
+			focus_target = GTK_WIDGET (radio);
 		}
 	}
 
@@ -125,9 +127,10 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (wb->toplevel));
 
 	/* Hitting enter in the spin box should Press 'Ok' */
-	gnome_dialog_editable_enters(GNOME_DIALOG(dialog),
-				     GTK_EDITABLE(zoom));
+	gnome_dialog_editable_enters (GNOME_DIALOG(dialog),
+				      GTK_EDITABLE(zoom));
 
+	gtk_widget_grab_focus (focus_target);
 	/* Bring up the dialog */
 	res = gnome_dialog_run (GNOME_DIALOG (dialog));
 	if (res == 0) {

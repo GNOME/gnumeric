@@ -715,7 +715,7 @@ do_print_preview_cb (GtkWidget *w, dialog_print_info_t *dpi)
 static void
 do_setup_main_dialog (dialog_print_info_t *dpi)
 {
-	GtkWidget *notebook, *old_parent;
+	GtkWidget *notebook, *old_parent, *focus_target;
 	int i;
 
 	g_return_if_fail (dpi != NULL);
@@ -742,6 +742,9 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 	
 	gtk_widget_queue_resize (notebook);
 
+	focus_target = glade_xml_get_widget (dpi->gui, "vertical-radio");
+	gtk_widget_grab_focus (focus_target);
+	
 	for (i = 1; i < 5; i++) {
 		GtkWidget *w;
 		char *print = g_strdup_printf ("print-%d", i);

@@ -257,6 +257,8 @@ workbook_do_destroy (Workbook *wb)
 		GTK_OBJECT (wb->toplevel),
 		GTK_SIGNAL_FUNC (workbook_set_focus), wb);
 
+	gtk_timeout_remove (wb->autosave_timer);
+
 	/*
 	 * Do all deletions that leave the workbook in a working
 	 * order.
@@ -520,7 +522,7 @@ workbook_can_close (Workbook *wb)
 	in_can_close = TRUE;
 	while (workbook_is_dirty (wb) && !done) {
 
-		GtkWidget *d, *l;
+		GtkWidget *d, *l, *cancel_button;
 		int button;
 		char *s;
 
@@ -532,6 +534,8 @@ workbook_can_close (Workbook *wb)
 			GNOME_STOCK_BUTTON_NO,
 			GNOME_STOCK_BUTTON_CANCEL,
 			NULL);
+		cancel_button = g_list_last (GNOME_DIALOG (d)->buttons)->data;
+		gtk_widget_grab_focus (cancel_button);
 		gnome_dialog_set_parent (GNOME_DIALOG (d), GTK_WINDOW (wb->toplevel));
 		
 		if (wb->filename)

@@ -207,7 +207,7 @@
 	  <editable>False</editable>
 	  <text_visible>True</text_visible>
 	  <text_max_length>20</text_max_length>
-	  <text>AaBbCcDdEeJj12345</text>
+	  <text>AaBbCcDdEe12345</text>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>

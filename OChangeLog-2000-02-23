@@ -1,3 +1,19 @@
+2000-01-19  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook.c (workbook_do_destroy): Remove autosave timer.
+
+	* src/dialogs/dialog-zoom.c (dialog_zoom_impl): Set initial focus
+	to selected radio button.
+
+	* src/dialogs/font-sel.glade.h, src/dialogs/font-sel.glade: Fix
+	typo in preview text
+
+	* src/dialogs/dialog-printer-setup.c (do_setup_main_dialog): 
+	Set Initial focus for print setup dialog.
+	
+	* src/workbook.c (workbook_can_close): Yes/No dialog: Give cancel
+	button initial keyboard focus.
+
 2000-01-19  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-cursor.c (item_cursor_animation_callback) : Return TRUE
