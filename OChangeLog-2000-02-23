@@ -1,3 +1,14 @@
+2000-01-07  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/eval.c (sheet_recalc_dependencies): add precondition, use
+	the single dependency hash instead for more speed. Always do the
+	workbook_recalc to clearl the queue.
+	(cb_cell_get_all_depends): rename to (cb_single_get_all_depends):
+	and simplify. (cb_sheet_get_all_depends): clean slightly.
+	(search_range_deps): Use g_list_concat + g_list_copy instead.
+	(sheet_region_get_deps): clip the range to the sheet extent for vital
+	speedup.
+
 2000-01-07  Jody Goldberg <jgoldberg@home.com>
 
 	* src/commands.c (cmd_ins_del_row_col_*) : Implement.

@@ -952,14 +952,11 @@ search_range_deps (gpointer key, gpointer value, gpointer closure)
 	DependencyRange *deprange  =  key;
 	Range           *range     = &(deprange->range);
 	get_range_dep_closure_t *c =  closure;
-	GList                   *l;
 
 	if (!range_overlap (range, &c->r))
 		return;
 
-	/* concat a copy of depend list */
-	for (l = deprange->cell_list; l; l = l->next)
-		c->list = g_list_prepend (c->list, l->data);
+	c->list = g_list_concat (c->list, g_list_copy (deprange->cell_list));
 }
 
 GList *
@@ -980,6 +977,12 @@ sheet_region_get_deps (Sheet *sheet, int start_col, int start_row,
 	g_hash_table_foreach (sheet->deps->range_hash,
 			      &search_range_deps, &closure);
 
+	if (end_col > sheet->cols.max_used)
+		end_col = sheet->cols.max_used;
+
+	if (end_row > sheet->rows.max_used)
+		end_row = sheet->rows.max_used;
+
 	/*
 	 * FIXME : Only an existing cell can depend on things.
 	 * we should clip this.
@@ -998,23 +1001,19 @@ sheet_region_get_deps (Sheet *sheet, int start_col, int start_row,
 static void
 cb_sheet_get_all_depends (gpointer key, gpointer value, gpointer closure)
 {
-	DependencyRange *deprange  =  key;
-	GList 		*l, *res = *((GList **)closure);
+	DependencyRange *deprange = key;
+	GList          **deps     = closure;
 
-	/* concat a copy of depend list */
-	for (l = deprange->cell_list; l; l = l->next)
-		res = g_list_prepend (res, l->data);
-	*((GList **)closure) = res;
+	*deps = g_list_concat (*deps, g_list_copy (deprange->cell_list));
 }
 
 static void
-cb_cell_get_all_depends (gpointer key, gpointer value, gpointer closure)
+cb_single_get_all_depends (gpointer key, gpointer value, gpointer closure)
 {
-	Cell	*cell = (Cell *) value;
-	GList *l = get_single_dependencies (cell->sheet,
-					    cell->col->pos,
-					    cell->row->pos);
-	*((GList **)closure) = g_list_concat (l, *((GList **)closure));
+	DependencySingle *single = value;
+	GList           **deps = closure;
+
+	*deps = g_list_concat (*deps, g_list_copy (single->cell_list));
 }
 
 /**
@@ -1032,18 +1031,18 @@ sheet_recalc_dependencies (Sheet *sheet)
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (sheet->deps != NULL);
 
-	/* Find anything that depends on something in this sheet */
+	/* Find anything that depends on a range in this sheet */
 	g_hash_table_foreach (sheet->deps->range_hash,
 			      &cb_sheet_get_all_depends, &deps);
 
-	/* Find anything that depends on existing cells. */
-	g_hash_table_foreach (sheet->cell_hash,
-			      &cb_cell_get_all_depends, &deps);
+	/* Find anything that depends on a single reference within this sheet */
+	g_hash_table_foreach (sheet->deps->single_hash,
+			      &cb_single_get_all_depends, &deps);
 
-	if (deps) {
+	if (deps)
 		cell_queue_recalc_list (deps, TRUE);
-		workbook_recalc (sheet->workbook);
-	}
-}
 
+	workbook_recalc (sheet->workbook);
+}
