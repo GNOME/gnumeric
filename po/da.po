@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
 "POT-Creation-Date: 2000-06-19 22:02-0400\n"
-"PO-Revision-Date: 2000-06-29 02:30+02:00\n"
+"PO-Revision-Date: 2000-06-30 02:30+02:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2737,7 +2737,7 @@ msgstr "sortér"
 msgid "then by"
 msgstr "så efter"
 
-#: src/dialogs/dialog-define-names.c:181
+#: src/dialogs/dialog-define-names.c:186
 msgid "You can not redefine a builtin name."
 msgstr "Man kan ikke omdefinere et indbygget navn."
 
@@ -4038,27 +4038,27 @@ msgstr "Indbygget"
 msgid "Error: no sheet"
 msgstr "Fejl: intet ark"
 
-#: src/expr.c:197
+#: src/expr.c:198
 msgid "Syntax error"
 msgstr "Syntaksfejl"
 
-#: src/expr.c:201
+#: src/expr.c:202
 msgid "Missing quote"
 msgstr "Manglende anførselstegn"
 
-#: src/expr.c:205
+#: src/expr.c:206
 msgid "Impossible!"
 msgstr "Umuligt!"
 
-#: src/expr.c:526
+#: src/expr.c:527
 msgid "Internal type error"
 msgstr "Intern typefejl"
 
-#: src/expr.c:681
+#: src/expr.c:682
 msgid "Unknown operator"
 msgstr "Ukendt operator"
 
-#: src/expr.c:900
+#: src/expr.c:901
 msgid "Unknown evaluation error"
 msgstr "Ukendt evalueringsfejl"
 
@@ -9506,7 +9506,27 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-logical.c:253
+#: src/functions/fn-logical.c:250
+msgid ""
+"@FUNCTION=FALSE\n"
+"@SYNTAX=FALSE()\n"
+"@DESCRIPTION=FALSE returns boolean value false.  This function is Excel "
+"compatible. \n"
+"@EXAMPLES=\n"
+"FALSE() equals FALSE.\n"
+"\n"
+"@SEEALSO=TRUE"
+msgstr ""
+"@FUNCTION=FALSE\n"
+"@SYNTAX=FALSE()\n"
+"@DESCRIPTION=FALSE returnerer sandhedsværdien FALSK. Denne funktion er Excel "
+"kompatibel. \n"
+"@EXAMPLES=\n"
+"FALSE() er lig FALSK.\n"
+"\n"
+"@SEEALSO=TRUE"
+
+#: src/functions/fn-logical.c:275
 msgid "Logical"
 msgstr "Logisk"
 
