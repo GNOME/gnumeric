@@ -1,3 +1,8 @@
+1999-11-29  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/workbook.c (wb_edit_key_pressed): Remove set_dirty.
+	(cb_sheet_check_dirty): Add check for input area.
+
 1999-11-28  Jody Goldberg <jgoldberg@home.com>
 
 	* src/Makefile.am : Add new files.

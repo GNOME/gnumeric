@@ -1126,7 +1126,7 @@ sheet_stop_editing (Sheet *sheet)
 {
 	sheet->editing = FALSE;
 
-	if (sheet->editing_saved_text){
+	if (sheet->editing_saved_text) {
 		string_unref (sheet->editing_saved_text);
 		sheet->editing_saved_text = NULL;
 		sheet->editing_cell = NULL;
@@ -1248,7 +1248,7 @@ sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 
 	sheet->editing = TRUE;
 	cell = sheet_cell_get (sheet, sheet->cursor_col, sheet->cursor_row);
-	if (cell){
+	if (cell) {
 		char *text;
 
 		text = cell_get_text (cell);

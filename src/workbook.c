@@ -405,8 +405,24 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 	int button;
 	char *s;
 
-	if (!sheet->modified)
-		return;
+	if (!sheet->modified) {
+		GtkEntry   *entry = GTK_ENTRY (sheet->workbook->ea_input);
+		const char *txt   = gtk_entry_get_text (entry);
+		Cell       *cell;
+
+		cell = sheet_cell_get (sheet, sheet->cursor_col,
+				       sheet->cursor_row);
+		if (!cell) {
+			if (!strlen (txt))
+				return;
+		} else {
+			char *cell_txt = cell_get_text (cell);
+			gboolean same  = !strcmp (txt, cell_txt);
+			g_free (cell_txt);
+			if (same)
+				return;
+		}
+	}
 
 	if (*allow_close != CLOSE_ALLOW)
 		return;
@@ -1359,7 +1375,6 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 		return TRUE;
 
 	default:
-		workbook_set_dirty (wb, TRUE);
 		return FALSE;
 	}
 }

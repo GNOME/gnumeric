@@ -170,6 +170,8 @@ expr_name_add (Workbook *wb, Sheet *sheet, char const *name,
 
 	g_return_val_if_fail (name != NULL, 0);
 	g_return_val_if_fail (expr != NULL, 0);
+
+	printf ("Adding name '%s' to %p %p\n", name, wb, sheet);
 	
 	if ((expr_name = expr_name_lookup (wb, sheet, name))) {
 		*error_msg = _("already defined");
