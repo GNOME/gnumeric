@@ -124,7 +124,7 @@ update_lc (void)
 	if (g_string_equal (lc_thousand, lc_decimal)) {
 		g_string_assign (lc_thousand,
 				 (lc_decimal->str[0] == ',') ? "." : ",");
-		g_warning ("Monetary thousands separator is the same as the decimal seperator; converting '%s' to '%s'",
+		g_warning ("Monetary thousands separator is the same as the decimal separator; converting '%s' to '%s'",
 			   lc_decimal->str, lc_thousand->str);
 	}
 

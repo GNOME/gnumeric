@@ -822,7 +822,7 @@ static inline int
 eat_space (ParserState *state, int res)
 {
 	/* help the user by ignoring pointless spaces after a
-	 * seperator.  We know they are going to be errors and
+	 * separator.  We know they are going to be errors and
 	 * the spaces can not be operators in this context */
 	while (*state->ptr == ' ')
 		state->ptr++;
