@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * expr.c: Expression evaluation in Gnumeric
  *
@@ -1655,28 +1656,58 @@ expr_tree_first_func (ExprTree const *expr)
 	return NULL;
 }
 
+static void
+cellref_boundingbox (CellRef const *cr, Range *bound)
+{
+	if (cr->col_relative) {
+		if (cr->col >= 0) {
+			int const c = SHEET_MAX_COLS - cr->col - 1;
+			if (bound->end.col > c)
+				bound->end.col = c;
+		} else {
+			int const c = -cr->col;
+			if (bound->start.col < c)
+				bound->start.col = c;
+		}
+	}
+	if (cr->row_relative) {
+		if (cr->row >= 0) {
+			int const r = SHEET_MAX_ROWS - cr->row - 1;
+			if (bound->end.row > r)
+				bound->end.row = r;
+		} else {
+			int const r = -cr->row;
+			if (bound->start.row < r)
+				bound->start.row = r;
+		}
+	}
+}
+
 /**
- * expr_tree_container :
+ * expr_tree_boundingbox :
+ *
+ * Returns the range of cells in which the expression can be used without going
+ * out of bounds.
  */
 void
-expr_boundingbox (ExprTree const *expr, CellPos const *pos, Range *bound)
+expr_tree_boundingbox (ExprTree const *expr, Range *bound)
 {
 	g_return_if_fail (expr != NULL);
 
 	switch (expr->any.oper) {
 	case OPER_ANY_BINARY:
-		expr_boundingbox (expr->binary.value_a, pos, bound);
-		expr_boundingbox (expr->binary.value_b, pos, bound);
+		expr_tree_boundingbox (expr->binary.value_a, bound);
+		expr_tree_boundingbox (expr->binary.value_b, bound);
 		break;
 
 	case OPER_ANY_UNARY:
-		expr_boundingbox (expr->unary.value, pos, bound);
+		expr_tree_boundingbox (expr->unary.value, bound);
 		break;
 
 	case OPER_FUNCALL: {
 		GList *l;
 		for (l = expr->func.arg_list; l; l = l->next)
-			expr_boundingbox (l->data, pos, bound);
+			expr_tree_boundingbox (l->data, bound);
 		break;
 	}
 
@@ -1686,12 +1717,15 @@ expr_boundingbox (ExprTree const *expr, CellPos const *pos, Range *bound)
 		break;
 
 	case OPER_VAR:
+		cellref_boundingbox (&expr->var.ref, bound);
 		break;
 
 	case OPER_CONSTANT: {
 		Value const *v = expr->constant.value;
 
 		if (v->type == VALUE_CELLRANGE) {
+			cellref_boundingbox (&v->v_range.cell.a, bound);
+			cellref_boundingbox (&v->v_range.cell.b, bound);
 		}
 		break;
 	}
@@ -1699,10 +1733,11 @@ expr_boundingbox (ExprTree const *expr, CellPos const *pos, Range *bound)
 	case OPER_ARRAY: {
 		ExprArray const *a = &expr->array;
 		if (a->x == 0 && a->y == 0)
-			expr_boundingbox (a->corner.expr, pos, bound);
+			expr_tree_boundingbox (a->corner.expr, bound);
 		break;
 	}
-	}
 
-	g_assert_not_reached ();
+	default :
+		g_assert_not_reached ();
+	}
 }

@@ -1,3 +1,8 @@
+2001-05-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr.c (cellref_boundingbox) : new function.
+	(expr_tree_boundingbox) : implement.
+
 2001-05-14  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/colrow.c (rows_height_update): Add shrink flag.

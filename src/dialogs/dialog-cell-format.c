@@ -252,6 +252,7 @@ setup_pattern_button (GladeXML  *gui,
 static void
 setup_color_pickers (ColorPicker *picker,
 	             char const * const color_group,
+	             char const * const container,
 		     char const * const default_caption,
 		     char const * const caption,
 		     GdkColor *default_color,
@@ -261,9 +262,9 @@ setup_color_pickers (ColorPicker *picker,
 		     MStyle	 *mstyle)
 {
 	StyleColor *mcolor = NULL;
-	GtkWidget *combo;
+	GtkWidget *combo, *box, *frame;
 	ColorGroup *cg;
-	
+
 	cg = color_group_fetch (color_group, wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
 	combo = color_combo_new (NULL, default_caption, default_color, cg);
 	gtk_signal_connect (GTK_OBJECT (combo), "changed",
@@ -279,7 +280,7 @@ setup_color_pickers (ColorPicker *picker,
 
 	picker->combo          = combo;
 	picker->preview_update = preview_update;
-	
+
 	if (e != MSTYLE_ELEMENT_UNSET
 	    && !mstyle_is_element_conflict (mstyle, e)
 	    && mstyle_get_pattern (mstyle) != 0)
@@ -287,6 +288,14 @@ setup_color_pickers (ColorPicker *picker,
 
 	if (mcolor != NULL)
 		color_combo_set_color (COLOR_COMBO (combo), &mcolor->color);
+
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
+	gtk_container_add (GTK_CONTAINER (frame), combo);
+
+	box = glade_xml_get_widget (state->gui, container);
+	gtk_box_pack_start (GTK_BOX (box), frame, FALSE, FALSE, 0);
+	gtk_widget_show_all (frame);
 }
 
 static StyleColor *
@@ -1324,7 +1333,7 @@ draw_pattern_preview (FormatState *state)
 		if (state->back.pattern_item != NULL) {
 			gtk_object_destroy (GTK_OBJECT (state->back.pattern_item));
 			state->back.pattern_item = NULL;
-			
+
 			/* This will recursively call draw_pattern_preview */
 			gtk_toggle_button_set_active (state->back.pattern.default_button,
 						      TRUE);
@@ -1424,7 +1433,7 @@ cb_back_preview_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatS
 		state->back.back_color.rgba =
 			GNOME_CANVAS_COLOR_A (c->red>>8, c->green>>8, c->blue>>8, 0x00);
 	}
-	
+
 	state->back.back_color_is_default = (c == NULL);
 	draw_pattern_preview (state);
 }
@@ -2126,41 +2135,26 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	 * This cannot come from the style.  It is a UI element not a display item */
 	gtk_toggle_button_set_active (state->border.pattern.default_button, TRUE);
 
-	/* Create the font colour combo box.  */
-	setup_color_pickers (&state->font.color, "fore_color_group", _("Automatic"),
-			     _("Foreground"), &gs_black, state,
+	setup_color_pickers (&state->font.color, "fore_color_group",
+			     "font_color_hbox",
+			     _("Automatic"), _("Foreground"), &gs_black, state,
 			     cb_font_preview_color, MSTYLE_COLOR_FORE,
 			     state->style);
-	gtk_box_pack_end_defaults (GTK_BOX (glade_xml_get_widget (state->gui, "font_color_hbox")),
-				   state->font.color.combo);
-	gtk_widget_show (state->font.color.combo);
-				    
-	/* Create the border colour combo box */
-	setup_color_pickers (&state->border.color, "border_color_group", _("Automatic"),
-			     _("Border"), &gs_black, state,
+	setup_color_pickers (&state->border.color, "border_color_group",
+			     "border_color_hbox",
+			     _("Automatic"), _("Border"), &gs_black, state,
 			     cb_border_color, MSTYLE_ELEMENT_UNSET,
 			     state->style);
-	gtk_box_pack_end_defaults (GTK_BOX (glade_xml_get_widget (state->gui, "border_color_hbox")),
-				   state->border.color.combo);
-	gtk_widget_show (state->border.color.combo);
-				   
-	/* Create the background colour combo box */
-	setup_color_pickers (&state->back.back_color, "back_color_group", _("Clear Background"),
-			     _("Background"), NULL, state,
+	setup_color_pickers (&state->back.back_color, "back_color_group",
+			     "back_color_hbox",
+			     _("Clear Background"), _("Background"), NULL, state,
 			     cb_back_preview_color, MSTYLE_COLOR_BACK,
 			     state->style);
-	gtk_box_pack_end_defaults (GTK_BOX (glade_xml_get_widget (state->gui, "back_color_hbox")),
-				   state->back.back_color.combo);
-	gtk_widget_show (state->back.back_color.combo);
-
-	/* Create the pattern colour combo box */
-	setup_color_pickers (&state->back.pattern_color, "pattern_color_group", _("Automatic"),
-			     _("Pattern"), &gs_black, state,
+	setup_color_pickers (&state->back.pattern_color, "pattern_color_group",
+			     "pattern_color_hbox",
+			     _("Automatic"), _("Pattern"), &gs_black, state,
 			     cb_pattern_preview_color, MSTYLE_COLOR_PATTERN,
 			     state->style);
-	gtk_box_pack_end_defaults (GTK_BOX (glade_xml_get_widget (state->gui, "pattern_color_hbox")),
-				   state->back.pattern_color.combo);
-	gtk_widget_show (state->back.pattern_color.combo);
 
 	/* Setup the border images */
 	for (i = 0; (name = border_buttons[i]) != NULL; ++i) {
