@@ -1,3 +1,8 @@
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-axis.c (gog_axis_num_markers) : we can't use the max_val
+	  as a fallback if there is no data defining it.
+
 2003-09-15  Morten Welinder  <terra@gnome.org>
 
 	* utils/go-marker.c (go_marker_selector): Terminate the array as

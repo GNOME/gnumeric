@@ -827,7 +827,9 @@ gog_axis_num_markers (GogAxis *axis)
 	if (axis->is_discrete) {
 		if (axis->labels != NULL)
 			return go_data_vector_get_len (axis->labels);
-		return gnumeric_fake_trunc (axis->max_val);
+		if (axis->max_val >= axis->min_val)	/* case there is no data */
+			return gnumeric_fake_trunc (axis->max_val);
+		return 0;
 	} else {
 		double major_tick = axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK);
 		if (major_tick <= 0. ||

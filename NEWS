@@ -1,3 +1,12 @@
+Gnumeric 1.2.1
+
+Jody:
+	* Fix infinite loop on empty axis under solaris.
+
+Morten:
+	* Invalid memory read in marker combo.
+
+--------------------------------------------------------------------------
 Gnumeric 1.2.0
 
 Andreas:

@@ -6,6 +6,10 @@
 
 2003-09-15  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : bump the gsf-gnome req to 1.8.2 also.
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : post release version bump
 
 2003-09-15  Jody Goldberg <jody@gnome.org>
