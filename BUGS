@@ -14,6 +14,13 @@ Release Critical
 - the selection cursor is confused by making selection via the item-bars
 - Fix Borders
 
+- > 1. Rename Sheet1 to Sheet1a.
+  > 2. Duplicate Sheet1a.
+  > 3. Remove Sheet1a.
+  > 4. Undo renaming.
+  > ** CRITICAL **: file commands.c: line 226 (command_undo): assertion `wb->undo_commands != NULL' failed.
+
+
 Long term breakage
 ------------------
 
