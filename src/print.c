@@ -313,6 +313,8 @@ print_hf_element (PrintJobInfo const *pj, char const *format,
 	g_return_if_fail (pj != NULL);
 	g_return_if_fail (pj->render_info != NULL);
 
+	if (format == NULL)
+		return;
 	text = hf_format_render (format, pj->render_info, HF_RENDER_PRINT);
 
 	g_return_if_fail (text != NULL);

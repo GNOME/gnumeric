@@ -579,14 +579,14 @@ gnm_app_release_pref_dialog (void)
 		gtk_widget_destroy (app->pref_dialog);
 }
 
-#warning FIXME FIXME FIXME clear outthe last few calls
-/* A convenience wrapper for old code to look up an pixuf from an icon theme. */
+#warning "FIXME FIXME FIXME clear out the last few calls"
+/* A convenience wrapper for old code to look up an pixbuf from an icon theme. */
 GdkPixbuf *
 gnm_app_get_pixbuf (const char *name)
 {
 	return gtk_icon_theme_load_icon (
 		gtk_icon_theme_get_default (),
-		name, 0, 0, NULL);
+		name, 16, 0, NULL);
 }
 
 static void

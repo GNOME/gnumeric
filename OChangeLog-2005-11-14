@@ -1,3 +1,10 @@
+2005-03-24  Morten Welinder  <terra@gnome.org>
+
+	* src/application.c (gnm_app_get_pixbuf): Use non-zero size.
+
+	* src/print.c (print_hf_element): If we have no format, don't
+	print anything.
+
 2005-03-23  Morten Welinder  <terra@gnome.org>
 
 	* src/numbers.h: For long double support, include sunmath.c if we
