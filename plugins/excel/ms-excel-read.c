@@ -859,7 +859,7 @@ biff_name_data_get_name (ExcelSheet *sheet, int idx)
 				parse_pos_init (&ep, NULL, sheet->gnum_sheet, 0, 0);
 				printf ("Parsed name : '%s' = '%s'\n",
 					bnd->name, tree
-					? expr_decode_tree (tree, &ep)
+					? expr_tree_as_string (tree, &ep)
 					: "error");
 			}
 #endif

@@ -1,3 +1,8 @@
+2000-06-15  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c (write_formula) : Incorrect offsets for formula
+	  values with booleans and errors.
+
 2000-06-14  Morten Welinder  <terra@diku.dk>
 
 	* ms-formula-write.c (ms_excel_write_formula): Plug leak.

@@ -2358,13 +2358,13 @@ write_formula (BiffPut *bp, ExcelSheet *sheet, const Cell *cell, gint16 xf)
 
 	case VALUE_BOOLEAN :
 		MS_OLE_SET_GUINT32 (data +  6,
-				    (v->v_bool.val ? 0x100 : 0x0) | 0x00000001);
+				    v->v_bool.val ? 0x10001 : 0x1);
 		MS_OLE_SET_GUINT32 (data + 10, 0xffff0000);
 		break;
 
 	case VALUE_ERROR :
 		MS_OLE_SET_GUINT32 (data +  6,
-				    0x00000002 | (ms_excel_write_map_errcode (v) << 8));
+				    0x00000002 | (ms_excel_write_map_errcode (v) << 16));
 		MS_OLE_SET_GUINT32 (data + 10, 0xffff0000);
 		break;
 
@@ -2430,7 +2430,7 @@ write_cell (BiffPut *bp, ExcelSheet *sheet, const ExcelCell *cell)
 		printf ("Writing cell at %s '%s' = '%s', xf = 0x%x\n",
 			cell_name (gnum_cell),
 			(cell_has_expr (gnum_cell) ?
-			 expr_decode_tree (gnum_cell->u.expression,
+			 expr_tree_as_string (gnum_cell->u.expression,
 					   parse_pos_init_cell (&tmp, gnum_cell)) :
 			 "none"),
 			(gnum_cell->value ?
