@@ -66,7 +66,6 @@ typedef struct {
 	GtkListStore  *model_directories;
 	GtkTreeView   *list_directories;
 	GtkTreeSelection   *selection_directory;
-	guint directories_changed_notification;
 } PluginManagerGUI;
 
 enum {
@@ -258,7 +257,13 @@ cb_pm_button_directory_add_clicked (G_GNUC_UNUSED GtkButton *button,
 {
 	GtkFileSelection *fs = GTK_FILE_SELECTION (gtk_file_selection_new ("Select directory"));
 	if (gnumeric_dialog_dir_selection (pm_gui->wbcg, fs)) {
-		char *dir_name = g_path_get_dirname (gtk_file_selection_get_filename (fs));
+		char const *path = gtk_file_selection_get_filename (fs);
+		char *dir_name;
+
+		if (g_file_test (path, G_FILE_TEST_IS_DIR))
+			dir_name = g_strdup (path);
+		else
+			dir_name = g_path_get_dirname (path);
 
 		if (g_slist_find_custom ((GSList *)gnm_app_prefs->plugin_extra_dirs,
 					 dir_name, g_str_compare) == NULL) {
@@ -729,9 +734,6 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 
 	pm_dialog_init (pm_gui);
 	(void) gnumeric_dialog_run (wbcg, pm_gui->dialog_pm);
-
-	pm_gui->directories_changed_notification = gnm_gconf_rm_notification
-		(pm_gui->directories_changed_notification);
 
 	g_free (pm_gui);
 	g_object_unref (G_OBJECT (gui));

@@ -1,5 +1,12 @@
 2003-06-05  Jody Goldberg <jody@gnome.org>
 
+	* dialog-plugin-manager.c (cb_pm_button_directory_add_clicked) : doh!
+	  be marginally smarter about selecitng a directory name.  It would be
+	  nice if the fileselector had a 'select directory mode' so that
+	  ordinary files couldn't be selected.
+
+2003-06-05  Jody Goldberg <jody@gnome.org>
+
 	* dialog-plugin-manager.c (cb_pm_button_rescan_directories_clicked) :
 	  use connect_swapped to get rid of the unused argument
 	(cb_pm_button_directory_add_clicked) : merge in pm_add_dir
@@ -11,6 +18,8 @@
 	  reload the directories for now.  Eventually we should
 	  just monitor the notify signal of something.
 	(cb_dir_changed_notification) : delete.
+	(dialog_plugin_manager) : no need to remove the gconf notification
+	  we're no longer watching for.
 
 	* dialog-paste-special.c (dialog_paste_special) : begin transition
 	  from modal dialog by moving the calls to cmd_paste_to_selection here.

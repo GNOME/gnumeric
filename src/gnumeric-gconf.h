@@ -55,7 +55,6 @@ extern GnmAppPrefs const *gnm_app_prefs;
 
 void     gnm_conf_init (void);
 void     gnm_conf_sync (void);
-guint    gnm_gconf_rm_notification (guint id);
 
 /* autocorrect */
 void     gnm_gconf_set_autocorrect_init_caps (gboolean val);

@@ -162,13 +162,6 @@ gnm_conf_sync (void)
 	gconf_client_suggest_sync (application_get_gconf_client (), NULL);
 }
 
-guint
-gnm_gconf_rm_notification (guint id)
-{
-	gconf_client_notify_remove (application_get_gconf_client (), id);
-	return 0;
-}
-
 void
 gnm_gconf_set_plugin_file_states (GSList *list)
 {

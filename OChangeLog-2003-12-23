@@ -1,5 +1,7 @@
 2003-06-05  Jody Goldberg <jody@gnome.org>
 
+	* src/gnumeric-gconf.c (gnm_gconf_rm_notification) : delete.
+
 	* src/plugin.c (gnumeric_extra_plugin_dirs) : clarify the ownership of
 	  the lists.
 	(plugins_init) : ditto.
