@@ -1,5 +1,12 @@
 2001-10-18  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-chart.c (BC_R(bar)) : typo.
+
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c (BC_R(dropbar)) : The docs lie.  it is ok to have
+	  values > 100
+
 	* ms-chart.c (BC_R(store_chartgroup_type)) : store the type as a
 	  property rather than a child.
 	(BC_R(bar)) : store the attributes as children rather than props.

@@ -686,7 +686,7 @@ BC_R(bar)(ExcelChartHandler const *handle,
 	tmp = xmlNewChild (fmt, fmt->ns, "percentage_space_between_items", NULL);
 	xml_node_set_int (tmp, NULL, MS_OLE_GET_GUINT16 (q->data));
 	tmp = xmlNewChild (fmt, fmt->ns, "percentage_space_between_groups", NULL);
-	xml_node_set_int (fmt, NULL, MS_OLE_GET_GUINT16 (q->data+2));
+	xml_node_set_int (tmp, NULL, MS_OLE_GET_GUINT16 (q->data+2));
 
 	return FALSE;
 }
@@ -1009,8 +1009,10 @@ static gboolean
 BC_R(dropbar)(ExcelChartHandler const *handle,
 	      ExcelChartReadState *s, BiffQuery *q)
 {
-	guint16 const width = MS_OLE_GET_GUINT16 (q->data);	/* 0-100 */
-	g_return_val_if_fail (width <= 100, FALSE);
+	/* NOTE : The docs lie.  values > 100 seem legal.  My guess based on
+	 * the ui is 500.
+	guint16 const width = MS_OLE_GET_GUINT16 (q->data);
+	 */
 	return FALSE;
 }
 
