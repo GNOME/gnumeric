@@ -23,6 +23,13 @@ Release Critical
 Long term breakage
 ------------------
 
+- Search-and-replace.
+  * Comments for empty cells are not found.
+  * Regexp replace for "foo $1 bar" is not implemented.
+  * It is doubtful whether the regexp selection belongs on the first page.
+  * Querying is not implemented.
+  * Expression replacement is not implemented.
+
 - Entering "=1e11111" yields "Syntax Error", not "overflow".
   In general parsing needs better error messages.
 

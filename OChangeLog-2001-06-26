@@ -1,5 +1,8 @@
 2001-01-23  Morten Welinder  <terra@diku.dk>
 
+	* src/commands.c (cmd_search_replace_do): Implement
+ 	search-and-replace in range.
+
 	* src/search.c (calculate_replacement): New function.  Implements
  	case preservation.
 

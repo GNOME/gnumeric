@@ -119,8 +119,16 @@ search_replace_verify (SearchReplace *sr)
 		return g_strdup (_("Replacement string must be set."));
 
 	if (sr->scope == SRS_range) {
+		int start_col, start_row, end_col, end_row;
+
 		if (!sr->range_text || sr->range_text[0] == 0)
 			return g_strdup (_("You must specify a range to search."));
+
+		/* FIXME: what about sheet name?  */
+		if (!parse_range (sr->range_text,
+				  &start_col, &start_row,
+				  &end_col, &end_row))
+			return g_strdup (_("The search range is invalid."));
 	}
 
 	err = search_replace_compile (sr);
@@ -250,8 +258,6 @@ search_replace_string (SearchReplace *sr, const char *src)
 	pmatch = g_new (regmatch_t, nmatch);
 
 	while ((ret = regexec (sr->comp_search, src, nmatch, pmatch, flags)) == 0) {
-		gboolean bolp = (flags & REG_NOTBOL) != 0;
-
 		if (!res) {
 			/* The size here is a bit arbitrary.  */
 			int size = strlen (src) +
@@ -266,7 +272,8 @@ search_replace_string (SearchReplace *sr, const char *src)
 				g_string_append_c (res, src[i]);
 		}
 
-		if (sr->match_words && !match_is_word (sr, src, pmatch, bolp)) {
+		if (sr->match_words && !match_is_word (sr, src, pmatch,
+						       (flags & REG_NOTBOL) != 0)) {
 			/*  We saw a fake match.  */
 			if (pmatch[0].rm_so < pmatch[0].rm_eo) {
 				g_string_append_c (res, src[pmatch[0].rm_so]);

@@ -2742,7 +2742,7 @@ cmd_search_replace_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 			break;
 		case SRI_comment:
 			{
-				CellComment *comment = NULL /* cell_has_comment (cell) */;
+				CellComment *comment = cell_has_comment (cell);
 				if (comment) {
 					cell_comment_text_set (comment, sri->old.comment);
 				} else {
@@ -2778,7 +2778,7 @@ cmd_search_replace_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 			break;
 		case SRI_comment:
 			{
-				CellComment *comment = NULL /* cell_has_comment (cell)*/;
+				CellComment *comment = cell_has_comment (cell);
 				if (comment) {
 					cell_comment_text_set (comment, sri->new.comment);
 				} else {
@@ -2848,7 +2848,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, WorkbookControl *wbc,
 	}
 
 	if (!test_run && sr->replace_comments) {
-		CellComment *comment = NULL /* cell_has_comment (cell) */;
+		CellComment *comment = cell_has_comment (cell);
 		if (comment) {
 			const char *old_text = cell_comment_text_get (comment);
 			char *new_text = search_replace_string (sr, old_text);
@@ -2961,8 +2961,21 @@ cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc,
 		break;
 
 	case SRS_range:
-		g_warning ("Unimplemented.");
+	{
+		int start_col, start_row, end_col, end_row;
+
+		/* FIXME: what about sheet name?  */
+		parse_range (sr->range_text,
+			     &start_col, &start_row,
+			     &end_col, &end_row);
+
+		sheet_foreach_cell_in_range (sheet, TRUE,
+					     start_col, start_row,
+					     end_col, end_row,
+					     cb_search_replace_collect,
+					     cells);
 		break;
+	}
 
 	default:
 		g_assert_not_reached ();

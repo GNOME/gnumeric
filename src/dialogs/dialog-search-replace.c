@@ -82,7 +82,7 @@ dialog_search_replace (WorkbookControlGUI *wbcg)
         if (gui == NULL)
                 return NULL;
 
-	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "dialog"));
+	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "search_replace_dialog"));
 
 #if 0
 	gnome_dialog_set_default (dialog, BUTTON_CLOSE);
