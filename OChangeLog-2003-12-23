@@ -1,10 +1,13 @@
 2000-02-28  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-view.c (button_select_all) : Redraw after selection.
+
 	* src/selection.c (sheet_selection_walk_step) : Don't wrap when moving
 	  the singleton cursor.
 
-	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Shift tab
-	  should be horizonzontal.
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) :
+	   - Shift tab should be horizonzontal.
+	   - Shift/None Tab/Enter should accept pending input.
 
 2000-02-28  Jody Goldberg <jgoldberg@home.com>
 

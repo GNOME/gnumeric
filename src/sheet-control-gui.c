@@ -128,7 +128,7 @@ sheet_view_redraw_headers (SheetView *sheet_view,
 	gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 
 	if (col) {
-		int left = 0, right = INT_MAX;
+		int left = 0, right = INT_MAX-1;
 		if (r != NULL) {
 			int const size = r->end.col - r->start.col;
 /* A rough heuristic guess of the number of when the
@@ -151,7 +151,7 @@ sheet_view_redraw_headers (SheetView *sheet_view,
 	}
 
 	if (row) {
-		int top = 0, bottom = INT_MAX;
+		int top = 0, bottom = INT_MAX-1;
 		if (r != NULL) {
 			int const size = r->end.row - r->start.row;
 /* A rough heuristic guess of the number of when the
@@ -423,6 +423,7 @@ static void
 button_select_all (GtkWidget *the_button, SheetView *sheet_view)
 {
 	sheet_select_all (sheet_view->sheet);
+	sheet_redraw_all (sheet_view->sheet);
 }
 
 static void

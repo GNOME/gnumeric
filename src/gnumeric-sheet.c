@@ -769,6 +769,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
 		gboolean const horizontal = (event->keyval == GDK_KP_Enter ||
 					     event->keyval == GDK_Return) ? FALSE : TRUE;
+
+		sheet_accept_pending_input (sheet);
 		sheet_selection_walk_step (sheet, direction, horizontal);
 		break;
 	}
