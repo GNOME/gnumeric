@@ -8,8 +8,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-Pending for 1.4.1
------------------
     : Use GNOME Recent for the gnome build
     : tie the custom ui into action sensitivity pools
     : kasal's popt patch
@@ -20,6 +18,10 @@ Pending for 1.4.1
     : support array evaluation for =LARGE and friends
     http://bugzilla.gnome.org/show_bug.cgi?id=157997
     : image import from xl95
+    http://bugzilla.gnome.org/show_bug.cgi?id=159745
+    : warnings with autoformat
+    http://bugzilla.gnome.org/show_bug.cgi?id=159581
+    : undo has dep leaks
 
 Worries
 -------
