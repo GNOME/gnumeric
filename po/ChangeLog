@@ -1,3 +1,17 @@
+2001-07-03  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* POTFILES.in:
+	Added files: plugins/applix/applix-read.c, plugins/html/roff.c,
+	src/dialogs/dialog-graph-guru.c, src/dialogs/dialog-validate.c,
+	src/expr-name.c, src/file-autoft.c, src/format-template.c,
+	src/gnumeric-sheet.c, src/gui-clipboard.c, src/parser.c,
+	src/sheet-merge.c, src/sheet-object-bonobo.c, src/workbook-control.c.
+	Removed files: plugins/applix/boot.c, plugins/html/boot.c,
+	plugins/html/html.c, plugins/lotus-123/boot.c, plugins/oleo/boot.c,
+	plugins/perl/perl.c, src/dialogs/dialog-function-select.c,
+	src/workbook-private.c.
+	Sorted everything.
+
 2001-07-02  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* POTFILES.in: Added src/plugin-service.c.
@@ -17,8 +31,6 @@
 2001-06-28  Jody Goldberg <jgoldberg@home>
 
 	* Release 0.67
-
-
 
 2001-06-28  Jody Goldberg <jgoldberg@home.com>
 
