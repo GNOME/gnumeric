@@ -589,7 +589,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	void (*movefn_horizontal) (GnumericSheet *, int);
 	void (*movefn_vertical)   (GnumericSheet *, int);
 	int  cursor_move = gnumeric_sheet_can_move_cursor (gsheet);
-
+	
 	if ((event->state & GDK_SHIFT_MASK) != 0){
 		if (cursor_move){
 			movefn_horizontal = selection_expand_horizontal;
@@ -661,30 +661,37 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	}
 
 	switch (event->keyval){
+	case GDK_KP_Left:
 	case GDK_Left:
 		(*movefn_horizontal)(gsheet, -1);
 		break;
 
+	case GDK_KP_Right:
 	case GDK_Right:
 		(*movefn_horizontal)(gsheet, 1);
 		break;
 
+	case GDK_KP_Up:
 	case GDK_Up:
 		(*movefn_vertical)(gsheet, -1);
 		break;
 
+	case GDK_KP_Down:
 	case GDK_Down:
 		(*movefn_vertical)(gsheet, 1);
 		break;
 
+	case GDK_KP_Page_Up:
 	case GDK_Page_Up:
 	        (*movefn_vertical)(gsheet, -(gsheet->last_visible_row-gsheet->top_row));
 		break;
 
+	case GDK_KP_Page_Down:
 	case GDK_Page_Down:
 	        (*movefn_vertical)(gsheet, gsheet->last_visible_row-gsheet->top_row);
 		break;
 
+	case GDK_KP_Home:
 	case GDK_Home:
 		if ((event->state & GDK_CONTROL_MASK) != 0){
 			sheet_make_cell_visible (sheet, 0, 0);
@@ -699,6 +706,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		sheet_selection_clear (sheet);
 		break;
 
+	case GDK_KP_Enter:
 	case GDK_Return:
 		if ((event->state & GDK_CONTROL_MASK) != 0){
 			if (gsheet->item_editor){
@@ -755,8 +763,9 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 			if ((event->state & (GDK_MOD1_MASK|GDK_CONTROL_MASK)) != 0)
 				return 0;
 			
-			if (event->keyval >= 0x20 && event->keyval <= 0xff)
-			    sheet_start_editing_at_cursor (sheet);
+			if ((event->keyval >= 0x20 && event->keyval <= 0xff) ||
+			    (event->keyval >= GDK_KP_Add && event->keyval <= GDK_KP_9))
+				sheet_start_editing_at_cursor (sheet);
 		}
 		gnumeric_sheet_stop_cell_selection (gsheet);
 		
