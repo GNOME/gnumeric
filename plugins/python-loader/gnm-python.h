@@ -12,7 +12,7 @@
 GType gnm_python_get_type (void);
 typedef struct _GnmPython GnmPython;
 
-GnmPython        *gnm_python_object_get (void);
+GnmPython        *gnm_python_object_get (ErrorInfo **err);
 GnmPyInterpreter *gnm_python_new_interpreter (GnmPython *gpy, GnmPlugin *plugin);
 void              gnm_python_destroy_interpreter (GnmPython *gpy, GnmPyInterpreter *interpreter);
 GnmPyInterpreter *gnm_python_get_current_interpreter (GnmPython *gpy);

@@ -135,25 +135,9 @@ cb_destroyed_interpreter (GnmPyInterpreterSelector *sel,
 static void
 gnm_py_interpreter_selector_init (GnmPyInterpreterSelector *sel)
 {
-	GSList *interpreters;
-	GtkWidget *menu;
-
-	sel->py_object = gnm_python_object_get ();
-	g_signal_connect (
-		sel->py_object, "created_interpreter",
-		G_CALLBACK (cb_created_interpreter), sel);
+	sel->py_object = NULL;
+	sel->cur_interpreter = NULL;
 	sel->added_interpreters = NULL;
-	sel->cur_interpreter = gnm_python_get_default_interpreter (sel->py_object);
-
-	interpreters = g_slist_copy (gnm_python_get_interpreters (sel->py_object));
-	GNM_SLIST_SORT (interpreters, gnm_py_interpreter_compare);
-	g_assert (interpreters != NULL);
-	menu = gtk_menu_new ();
-	GNM_SLIST_FOREACH (interpreters, GnmPyInterpreter, interpreter,
-		menu_add_item_with_interpreter (sel, menu, interpreter, -1);
-	);
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (sel), menu);
-	g_slist_free (interpreters);
 }
 
 static void
@@ -161,8 +145,10 @@ gnm_py_interpreter_selector_finalize (GObject *obj)
 {
 	GnmPyInterpreterSelector *sel = GNM_PY_INTERPRETER_SELECTOR (obj);
 
-	g_signal_handlers_disconnect_by_func (
-		sel->py_object, G_CALLBACK (cb_created_interpreter), sel);
+	if (sel->py_object != NULL)
+		g_signal_handlers_disconnect_by_func (
+			sel->py_object, G_CALLBACK (cb_created_interpreter), 
+			sel);
 	GNM_SLIST_FOREACH (sel->added_interpreters, GnmPyInterpreter, interpreter,
 		g_object_weak_unref (
 			G_OBJECT (interpreter), (GWeakNotify) cb_destroyed_interpreter, sel);
@@ -205,9 +191,35 @@ GSF_CLASS (
 
 
 GtkWidget *
-gnm_py_interpreter_selector_new (void)
+gnm_py_interpreter_selector_new (ErrorInfo **err)
 {
-	return g_object_new (GNM_PY_INTERPRETER_SELECTOR_TYPE, NULL);
+	GSList *interpreters;
+	GtkWidget *menu;
+	GObject *obj = g_object_new (GNM_PY_INTERPRETER_SELECTOR_TYPE, NULL);
+	GnmPyInterpreterSelector *sel = GNM_PY_INTERPRETER_SELECTOR (obj);
+	
+	GNM_INIT_RET_ERROR_INFO (err);
+	sel->py_object = gnm_python_object_get (err);
+	if (sel->py_object == NULL) {
+		gtk_object_sink (GTK_OBJECT (obj));
+		return;
+	}
+	g_signal_connect (
+		sel->py_object, "created_interpreter",
+		G_CALLBACK (cb_created_interpreter), sel);
+	sel->added_interpreters = NULL;
+	sel->cur_interpreter = gnm_python_get_default_interpreter (sel->py_object);
+
+	interpreters = g_slist_copy (gnm_python_get_interpreters (sel->py_object));
+	GNM_SLIST_SORT (interpreters, gnm_py_interpreter_compare);
+	g_assert (interpreters != NULL);
+	menu = gtk_menu_new ();
+	GNM_SLIST_FOREACH (interpreters, GnmPyInterpreter, interpreter,
+		menu_add_item_with_interpreter (sel, menu, interpreter, -1);
+	);
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (sel), menu);
+	g_slist_free (interpreters);
+											return GTK_WIDGET (sel);
 }
 
 GnmPyInterpreter *

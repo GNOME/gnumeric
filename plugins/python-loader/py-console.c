@@ -10,6 +10,7 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#include <command-context.h>
 #include <workbook-control-gui.h>
 #include <plugin.h>
 #include <module-plugin-defs.h>
@@ -141,24 +142,30 @@ show_python_console (WorkbookControlGUI *wbcg)
 	GtkWidget *vbox, *sc_win, *hbox, *sel, *cline, *w;
 	GtkTextIter enditer;
 	PangoFontDescription *font_desc;
+	ErrorInfo *err = NULL;
 
 	if (app != NULL) {
 		gtk_window_present (GTK_WINDOW (app->win));
 		return;
 	}
 
+	sel = gnm_py_interpreter_selector_new (&err);
+	if (err != NULL) {
+		gnumeric_error_error_info (COMMAND_CONTEXT (wbcg), err);
+		error_info_free (err);
+		return;
+	}
 	app = g_new (App, 1);
 	app->win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title (GTK_WINDOW (app->win), _("Gnumeric Python console"));
-	vbox = gtk_vbox_new (FALSE, 0);
-
-	hbox = gtk_hbox_new (FALSE, 0);
-	sel = gnm_py_interpreter_selector_new ();
 	app->cur_interpreter =
 		gnm_py_interpreter_selector_get_current (GNM_PY_INTERPRETER_SELECTOR (sel));
 	g_signal_connect_object (
 		G_OBJECT (sel), "interpreter_changed", 
 		G_CALLBACK (app_interpreter_changed), app->win, 0);
+	vbox = gtk_vbox_new (FALSE, 0);
+
+	hbox = gtk_hbox_new (FALSE, 0);
 	w = gtk_label_new_with_mnemonic (_("E_xecute in:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), sel);
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, TRUE, 4);

@@ -9,8 +9,10 @@
 #include <gnumeric.h>
 #include <Python.h>
 #include <glib.h>
+#include "pygobject.h"
 #include "application.h"
 #include "workbook.h"
+#include "workbook-control-gui.h"
 #include "cell.h"
 #include "mstyle.h"
 #include "sheet.h"
@@ -54,6 +56,9 @@ typedef struct _py_Sheet_object py_Sheet_object;
 
 static PyTypeObject py_Workbook_object_type;
 typedef struct _py_Workbook_object py_Workbook_object;
+
+static PyTypeObject py_Gui_object_type;
+typedef struct _py_Gui_object py_Gui_object;
 
 static PyTypeObject py_GnmPlugin_object_type;
 typedef struct _py_GnmPlugin_object py_GnmPlugin_object;
@@ -126,6 +131,12 @@ Workbook:
 	Methods:
 	- sheets
 	- sheet_add ([name, insert_after_position])
+	- gui_add
+
+Gui:
+        Methods:
+	- get_workbook
+	- get_window
 
 GnumericFunc:
 	call
@@ -151,7 +162,7 @@ Module Gnumeric:
 	- CellPos  (creates CellPos object)
 	- Range    (creates Range Object)
 	- workbooks
-	- workbook_add
+	- workbook_new
 
 */
 
@@ -557,6 +568,13 @@ py_CellPos_object_dealloc (py_CellPos_object *self)
 }
 
 static PyObject *
+py_CellPos_object_str (py_CellPos_object *self)
+{
+	return PyString_FromString 
+		((char *) cellpos_as_string (&self->cell_pos));
+}
+
+static PyObject *
 py_new_CellPos_object (const CellPos *cell_pos)
 {
 	py_CellPos_object *self;
@@ -598,7 +616,7 @@ static PyTypeObject py_CellPos_object_type = {
 	0, /* tp_as_mapping */
 	0, /* tp_hash */
 	0, /* tp_call */
-	0, /* tp_str */
+	(reprfunc) &py_CellPos_object_str, /* tp_str */
 	0, /* tp_getattro */
 	0, /* tp_setattro */
 	0, /* tp_as_buffer */
@@ -1222,7 +1240,7 @@ py_Cell_get_entered_text_method (py_Cell_object *self, PyObject *args)
 	gchar *text;
 	PyObject *py_text;
 
-	if (!PyArg_ParseTuple (args, (char *)" :get_entered_text")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_entered_text")) {
 		return NULL;
 	}
 
@@ -1608,6 +1626,25 @@ py_Workbook_sheet_add (py_Workbook_object *self, PyObject *args)
 }
 
 static PyObject *
+py_Workbook_gui_add (py_Workbook_object *self, PyObject *args)
+{
+	GList *sheets;
+	Sheet *sheet;
+
+	if (!PyArg_ParseTuple (args, (char *) ":gui_add"))
+		return NULL;
+	
+	sheets = workbook_sheets (self->wb);
+	if (g_list_length (sheets) == 0)
+		sheet = workbook_sheet_add (self->wb, NULL, FALSE);
+		
+	workbook_control_gui_new (NULL, self->wb, NULL);
+
+	Py_INCREF (Py_None);
+	return Py_None;
+}
+
+static PyObject *
 py_Workbook_object_getattr (py_Workbook_object *self, gchar *name)
 {
 	static struct PyMethodDef methods [] = {
@@ -1615,7 +1652,8 @@ py_Workbook_object_getattr (py_Workbook_object *self, gchar *name)
 		 METH_VARARGS},
 		{ (char *) "sheet_add",	(PyCFunction) py_Workbook_sheet_add,
 		 METH_VARARGS},
-
+		{ (char *) "gui_add",	(PyCFunction) py_Workbook_gui_add,
+		 METH_VARARGS},
 		{NULL, NULL}
 	};
 	return Py_FindMethod (methods, (PyObject *) self, name);
@@ -1650,6 +1688,104 @@ static PyTypeObject py_Workbook_object_type = {
 	(destructor) &py_Workbook_object_dealloc,   /* tp_dealloc */
 	0, /* tp_print */
 	(getattrfunc) &py_Workbook_object_getattr,  /* tp_getattr */
+	0, /* tp_setattr */
+	0, /* tp_compare */
+	0, /* tp_repr */
+	0, /* tp_as_number */
+	0, /* tp_as_sequence */
+	0, /* tp_as_mapping */
+	0, /* tp_hash */
+	0, /* tp_call */
+	0, /* tp_str */
+	0, /* tp_getattro */
+	0, /* tp_setattro */
+	0, /* tp_as_buffer */
+	0, /* tp_flags */
+	0  /* tp_doc */
+};
+
+/*
+ * Gui
+ */
+
+struct _py_Gui_object {
+	PyObject_HEAD
+	WorkbookControlGUI *wbcg;
+};
+
+static PyObject *
+py_Gui_get_workbook (py_Gui_object *self, PyObject *args)
+{
+	Workbook *workbook;
+
+	if (!PyArg_ParseTuple (args, (char *) ":get_workbook")) {
+		return NULL;
+	}
+	
+	workbook = wb_control_workbook (WORKBOOK_CONTROL (self->wbcg));
+
+	return py_new_Workbook_object (workbook);
+}
+
+static PyObject *
+py_Gui_get_window (py_Gui_object *self, PyObject *args)
+{
+	GtkWindow *toplevel;
+
+	if (!PyArg_ParseTuple (args, (char *) ":get_window")) {
+		return NULL;
+	}
+	
+	g_return_val_if_fail (_PyGObject_API != NULL, NULL);
+
+	toplevel = wbcg_toplevel (self->wbcg);
+	
+	return pygobject_new (G_OBJECT(toplevel));
+}
+
+static PyObject *
+py_Gui_object_getattr (py_Workbook_object *self, gchar *name)
+{
+	static struct PyMethodDef methods [] = {
+		{ (char *) "get_workbook",  (PyCFunction) py_Gui_get_workbook,
+		 METH_VARARGS},
+		{ (char *) "get_window", (PyCFunction) py_Gui_get_window,
+		 METH_VARARGS},
+
+		{NULL, NULL}
+	};
+	return Py_FindMethod (methods, (PyObject *) self, name);
+}
+
+static void
+py_Gui_object_dealloc (py_Workbook_object *self)
+{
+	free (self);
+}
+
+PyObject *
+py_new_Gui_object (WorkbookControlGUI *wbcg)
+{
+	py_Gui_object *self;
+
+	self = PyObject_NEW (py_Gui_object, &py_Gui_object_type);
+	if (self == NULL) {
+		return NULL;
+	}
+	self->wbcg = wbcg;
+	
+	return (PyObject *) self;
+}
+
+static PyTypeObject py_Gui_object_type = {
+	PyObject_HEAD_INIT(0)
+	0, /* ob_size */
+	(char *) "Gui",  /* tp_name */
+	sizeof (py_Gui_object),                /* tp_size */
+	0, /* tp_itemsize */
+	(destructor) &py_Gui_object_dealloc,   /* tp_dealloc */
+	0, /* tp_print */
+	(getattrfunc) &py_Gui_object_getattr,  /* tp_getattr */
 	0, /* tp_setattr */
 	0, /* tp_compare */
 	0, /* tp_repr */
@@ -2046,7 +2182,7 @@ py_gnumeric_workbook_new (PyObject *self, PyObject *args)
 {
 	Workbook *workbook = NULL;
 
-	if (!PyArg_ParseTuple (args, (char *) "|O:workbook_add"))
+	if (!PyArg_ParseTuple (args, (char *) "|O:workbook_new"))
 		return NULL;
 
 	workbook =  workbook_new ();
@@ -2079,7 +2215,8 @@ init_err (PyObject *module_dict, const char *name, GnmStdError e)
 void
 py_initgnumeric (GnmPyInterpreter *interpreter)
 {
-	PyObject *module, *module_dict;
+	PyObject *module, *module_dict, *py_pinfo;
+	GnmPlugin *pinfo;
 
 	py_Boolean_object_type.ob_type          =
 	py_CellPos_object_type.ob_type          =
@@ -2090,6 +2227,7 @@ py_initgnumeric (GnmPyInterpreter *interpreter)
 	py_Cell_object_type.ob_type             =
 	py_Sheet_object_type.ob_type            =
 	py_Workbook_object_type.ob_type         =
+	py_Gui_object_type.ob_type              =
 	py_GnumericFunc_object_type.ob_type     =
 	py_GnumericFuncDict_object_type.ob_type =
 	py_GnmPlugin_object_type.ob_type        = &PyType_Type;
@@ -2120,7 +2258,13 @@ py_initgnumeric (GnmPyInterpreter *interpreter)
 		(module_dict, (char *) "functions",
 		 py_new_GnumericFuncDict_object (module_dict));
 
-	(void) PyDict_SetItemString
-		(module_dict, (char *) "plugin_info",
-		py_new_GnmPlugin_object (gnm_py_interpreter_get_plugin (interpreter)));
+	pinfo = gnm_py_interpreter_get_plugin (interpreter);
+	if (pinfo) {
+		py_pinfo = py_new_GnmPlugin_object (pinfo);
+	} else {
+		py_pinfo = Py_None;
+		Py_INCREF (Py_None);
+	}
+	(void) PyDict_SetItemString (module_dict, 
+				     (char *) "plugin_info", py_pinfo);
 }

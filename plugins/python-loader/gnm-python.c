@@ -5,18 +5,19 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <Python.h>
+#include <pygobject.h>
 #include <glib.h>
 #include <gutils.h>
 #include <plugin.h>
+#include <error-info.h>
 #include <module-plugin-defs.h>
 #include "gnm-py-interpreter.h"
 #include "gnm-python.h"
+#include "py-gnumeric.h"
 
 #include <unistd.h>
-#ifdef BROKEN_PY_INITIALIZE
-#include <stdlib.h>
-#endif
 
 struct _GnmPython {
 	GObject parent_instance;
@@ -109,33 +110,74 @@ PLUGIN_CLASS (
 
 /* ---------- */
 
-#ifdef BROKEN_PY_INITIALIZE
-extern char **environ;
-#define BROKEN_PY_ENV  "GNUMERIC_PYTHON_DUPLICATED_ENVIRONMENT"
-#endif
 
+/* Initialize _PyGObject_API. To get the gtk2 version of gobject, we first 
+ * have to do the C equivalent of  
+ * 	import pygtk
+ * 	pygtk.require('2.0')
+ *      import gobject
+ */
+static void
+gnm_init_pygobject (ErrorInfo **err)
+{
+	PyObject *pygtk, *mdict, *require, *ret, *gobject, *cobject;
+	
+	GNM_INIT_RET_ERROR_INFO (err);
+	_PyGObject_API = NULL;
+	pygtk = PyImport_ImportModule((char *) "pygtk");
+	if (pygtk == NULL) {
+		if (err != NULL)
+			*err = error_info_new_printf (_("Could not import %s."), 
+						      "pygtk");
+		return;
+	}
+	mdict = PyModule_GetDict (pygtk);
+	require = PyDict_GetItemString (mdict, (char *) "require");
+	if (!PyFunction_Check (require)) {
+		*err = error_info_new_printf (_("Could not find %s."),
+					      "pygtk.require");
+		return;
+	} else {
+		ret = PyObject_CallFunction 
+			(require, (char *) "O", 
+			 PyString_FromString ((char *) "2.0"));
+		if (!ret) {
+			*err = error_info_new_printf (_("Could not initialize Python bindings for Gtk+, etc: %s"),
+						      py_exc_to_string ());
+			return;
+		}
+	}
+	gobject = PyImport_ImportModule((char *) "gobject");
+	if (gobject == NULL) {
+		*err = error_info_new_printf (_("Could not import %s."), 
+					      "gobject");
+		return;
+	}
+        mdict = PyModule_GetDict(gobject);
+        cobject = PyDict_GetItemString(mdict, (char *) "_PyGObject_API");
+        if (!PyCObject_Check(cobject)) {
+		*err = error_info_new_printf (_("Could not find %s"),
+					      "_PyGObject_API");
+		return;
+        } else {
+		_PyGObject_API = (struct _PyGObject_Functions *)PyCObject_AsVoidPtr(cobject);
+	}
+}
 
 GnmPython *
-gnm_python_object_get (void)
+gnm_python_object_get (ErrorInfo **err)
 {
+	GNM_INIT_RET_ERROR_INFO (err);
 	if (!Py_IsInitialized ()) {
-#ifdef BROKEN_PY_INITIALIZE
-		if (getenv (BROKEN_PY_ENV) != NULL) {
-			int i;
-
-			/* Before Python 2.0, Python's convertenviron would write to
-			   the strings in the environment.  We had little choice but
-			   to allocate a copy of everything. */
-			for (i = 0; environ[i]; i++) {
-				environ[i] = g_strdup (environ[i]);
-			}
-			setenv (BROKEN_PY_ENV, "1", FALSE);
-		}
-#endif
 		Py_Initialize ();
 #ifdef WITH_THREAD
 		PyEval_InitThreads ();
 #endif
+	}
+	gnm_init_pygobject (err);
+	if (err && *err != NULL) {
+		Py_Finalize ();
+		return NULL;
 	}
 
 	if (gnm_python_obj == NULL) {

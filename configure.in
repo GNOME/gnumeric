@@ -546,6 +546,7 @@ if $try_python; then
 	python_msg="unable to find python"
 	AC_CHECK_PROG(python_val, "$python_prog", true, false)
 	if $python_val; then
+		  AC_MSG_CHECKING(for python >= 2.0)
 		  PY_PREFIX=`$python_prog -c 'import sys ; print sys.prefix'`
 		  PY_EXEC_PREFIX=`$python_prog -c 'import sys ; print sys.exec_prefix'`
 		  changequote(<<, >>)dnl
@@ -557,6 +558,15 @@ if int(sys.version[0]) < 2:
 else:
     print "no"'`
 		  changequote([, ])dnl
+	  	  if test "x$broken_py_initialize" = "xyes"; then
+			  AC_MSG_RESULT(no)
+			  python_val=false
+			  python_msg="NO.  Python version is too old."
+		  else	
+			  AC_MSG_RESULT(yes)
+		  fi
+	fi
+	if $python_val; then
 		  AC_MSG_CHECKING(Look for $PY_PREFIX/include/python$PY_VERSION/Python.h)
 		  if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
 			  AC_MSG_RESULT(yes)
@@ -572,10 +582,6 @@ else:
 			  AC_SUBST(PY_LIB_LOC)
 			  AC_SUBST(PY_CFLAGS)
 			  AC_SUBST(PY_EXTRA_LIBS)
-			  if test "x$broken_py_initialize" = "xyes"; then
-			  	AC_DEFINE(BROKEN_PY_INITIALIZE, 1,
-				[Define if the available python is so old as to have broken initialisation])
-			  fi
 		  else
 			  AC_MSG_RESULT(no)
 			  python_val=false
@@ -606,22 +612,18 @@ EOF
 		cd ..
 		rm -rf testpython
 	fi
+	if $python_val; then
+		PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= 1.99.10,
+				  [python_msg="yes"],
+		        	  [python_msg="NO.  pygtk problem"])
+		AC_SUBST(PYGTK_CFLAGS)
+		if test "x$python_msg" != "xyes"; then
+			python_val=false
+		fi
+	fi
 	AM_CONDITIONAL(WITH_PYTHON, $python_val)
-	try_pygtk=$python_val
 else
 	AM_CONDITIONAL(WITH_PYTHON, false)
-fi
-pygtk_msg="no"
-if test "x$try_pygtk" = "xtrue"; then
-	PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= 1.99.10,
-			  [pygtk_msg="yes"],
-		          [pygtk_msg="NO.  pygtk problem"])
-	AC_SUBST(PYGTK_CFLAGS)
-fi
-if test "x$pygtk_msg" = "xyes"; then
-	AC_DEFINE(WITH_PYGTK, 1,
-		[Define if the Python bindings for GTK+ and related libraries are available]
-	)
 fi
 
 dnl **************************************************

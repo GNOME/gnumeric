@@ -37,7 +37,7 @@ def save_sheet_as_po(sheet, output):
 		output.write(len(str), str)
 
 def po_file_save(wb, output):
-	for sheet in wb.get_sheets():
+	for sheet in wb.sheets():
 		if sheet[0, 0].get_value_as_string() == 'Term':
 			save_sheet_as_po (sheet, output)
 			break

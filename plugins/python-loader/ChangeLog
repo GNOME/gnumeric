@@ -1,3 +1,58 @@
+2003-08-04  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c: Rename all
+	gnumeric_plugin_loader_python_blah_blah functions to
+	gplp_blah_blah.
+	(gplp_load_base): Check for errors from gnm_python_object_get.
+	(gplp_loader_data_opener_free, gplp_loader_data_saver_free,
+	gplp_loader_data_fngroup_free, gplp_loader_data_ui_free): New
+	functions to free loader data.
+	(gplp_load_service_file_opener, gplp_load_service_file_saver)
+	(gplp_load_service_function_group): Ref PyObjects in loader data,
+	and replace g_object_set_data with g_object_set_data_full to make
+	sure that they are unrefed when loader data is destroyed.
+	(gplp_func_exec_verb): New function. Invoke a python function when
+	a verb is executed.
+	(gplp_load_service_ui): New function. Load UI service.
+	(gplp_func_file_probe, gplp_func_file_open, gplp_func_file_save):
+	Remove #ifndef WITH_PYGTK branch. Plugin now depends on Pygtk.
+
+	* py-interpreter-selector.c (gnm_py_interpreter_selector_init):
+	Move meat to gnm_py_interpreter_selector_new so that errors can be
+	reported.
+	(gnm_py_interpreter_selector_finalize): Check that py_object !=
+	NULL.
+	(gnm_py_interpreter_selector_new): Check for errors from
+	gnm_python_object_get and report them.
+
+	* py-interpreter-selector.[ch] (gnm_py_interpreter_selector_new):
+	Report errors.
+
+	* py-gnumeric.h (py_new_Gui_object): New function. Export it.
+
+	* py-gnumeric.c (py_CellPos_object_str): New function. Wraps
+	cellpos_as_string. Returns e.g. B7.
+	(py_Cell_get_entered_text_method): Fix typo.
+	(py_Workbook_gui_add): New function. Add a GUI to workbook.
+	(py_Workbook_object_getattr): Add gui_add method.
+	(struct _py_Gui_object, py_Gui_get_workbook, py_Gui_get_window,
+	py_Gui_object_getattr, py_Gui_object_dealloc, py_new_Gui_object,
+	py_Gui_object_type): New struct/functions/variable to wrap
+	WorkbookControlGUI.
+	(py_gnumeric_workbook_new): Fix typo.
+	(py_initgnumeric): Set plugin_info to None when C
+	counterpart is NULL. Add Gui object type.
+
+	* py-console.c (show_python_console): Report errors from
+	gnm_py_interpreter_selector_new.
+
+	* gnm-python.[ch] (gnm_python_object_get): Report errors.
+	
+	* gnm-python.c (gnm_init_pygobject): Resurrect. This time ask for
+	the gtk2 version of gobject and report errors.
+	(gnm_python_object_get): Remove Python 1.5 compatibility code. Call
+	gnm_init_pygobject.
+
 2003-07-26  Jon K Hellan  <hellan@acm.org>
 
 	* py-gnumeric.c (py_Workbook_object_getattr): Reverse accidental

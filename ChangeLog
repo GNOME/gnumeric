@@ -1,3 +1,9 @@
+2003-08-04  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in: Make Python plugin depend on python >= 2.0 and
+	pygtk-2.0. Remove WITH_PYGTK and BROKEN_PY_INITIALIZE
+	conditionals.
+
 2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_ins_del_colrow*): use sheet info in 

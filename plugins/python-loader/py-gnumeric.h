@@ -12,5 +12,6 @@ Value    *call_python_function (PyObject *python_fn, const EvalPos *eval_pos, gi
 gchar    *py_exc_to_string (void);
 PyObject      *py_new_Sheet_object (Sheet *sheet);
 PyObject      *py_new_Workbook_object (Workbook *wb);
+PyObject      *py_new_Gui_object (WorkbookControlGUI *wbcg);
 
 #endif /* PLUGIN_PY_GNUMERIC_H */
