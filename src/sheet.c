@@ -1189,6 +1189,9 @@ sheet_cell_set_text (Cell *cell, char const *text)
 	format = parse_text_value_or_expr (eval_pos_init_cell (&pos, cell),
 					   text, &val, &expr, cformat);
 
+	/* Queue a redraw before incase the span changes */
+	sheet_redraw_cell (cell);
+
 	if (expr != NULL) {
 		cell_set_expr (cell, expr, format);
 		expr_tree_unref (expr);

@@ -1,5 +1,12 @@
 2001-02-11  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet.c (sheet_cell_set_text) : Queue a redraw before changing
+	  in case span shrinks after change.
+
+	* src/sheet-merge.c (sheet_merge_add) : Clear spans
+
+2001-02-11  Jody Goldberg <jgoldberg@home.com>
+
 	* README : bump GAL req.
 	* gnumeric.spec.in : ditto.
 	* configure.in : Ditto.

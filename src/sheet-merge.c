@@ -26,6 +26,7 @@
 #include "sheet-private.h"
 #include "ranges.h"
 #include "cell.h"
+#include "cellspan.h"
 #include "sheet-style.h"
 #include "mstyle.h"
 #include "expr.h"
@@ -107,8 +108,10 @@ sheet_merge_add (WorkbookControl *wbc,
 						    (GCompareFunc)range_row_cmp);
 
 	cell = sheet_cell_get (sheet, r->start.col, r->start.row);
-	if (cell != NULL)
+	if (cell != NULL) {
 		cell->base.flags |= CELL_IS_MERGED;
+		cell_unregister_span (cell);
+	}
 
 	sheet->priv->reposition_selection = TRUE;
 	return FALSE;
