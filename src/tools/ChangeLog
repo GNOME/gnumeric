@@ -1,3 +1,15 @@
+2002-03-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.[hc] : new files, code extracted from 
+	  src/tools/analysis-tools.[ch] and 
+	  src/dialogs/dialog-analysis-tools.c, various
+	  functions renamed (prepended dao_)
+	* analysis-tools.[ch] : some code moved to
+	  src/dialogs/dao-gui-utils.[hc] and dao.[hc], change of 
+	  names of utility functions now in 
+	  src/dialogs/dao-gui-utils.[hc] or dao.[hc]
+	* Makefile.am : added dao.[hc]
+
 2002-03-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.1

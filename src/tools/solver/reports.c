@@ -114,7 +114,7 @@ fill_header_titles (data_analysis_output_t *dao, gchar *title, Sheet *sheet)
 	buf = g_string_new ("");
 	g_string_sprintfa (buf, "%s %s %s", 
 			   _("Gnumeric Solver"), VERSION, title);
-	set_cell (dao, 0, 0, buf->str);
+	dao_set_cell (dao, 0, 0, buf->str);
 	g_string_free (buf, FALSE);
 
 	buf = g_string_new ("");
@@ -122,7 +122,7 @@ fill_header_titles (data_analysis_output_t *dao, gchar *title, Sheet *sheet)
 			   _("Worksheet:"),
 			   workbook_get_filename (sheet->workbook),
 			   sheet->name_quoted);
-	set_cell (dao, 0, 1, buf->str);
+	dao_set_cell (dao, 0, 1, buf->str);
 	g_string_free (buf, FALSE);
 
 	buf = g_string_new ("");
@@ -135,7 +135,7 @@ fill_header_titles (data_analysis_output_t *dao, gchar *title, Sheet *sheet)
 	tm_s.tm_hour = (t.tv_sec / 3600) % 24;
 	tmp = asctime (&tm_s);
 	g_string_append (buf, tmp);
-	set_cell (dao, 0, 2, buf->str);
+	dao_set_cell (dao, 0, 2, buf->str);
 	g_string_free (buf, FALSE);
 
 	set_bold (dao->sheet, 0, 0, 0, 2);
@@ -154,67 +154,67 @@ solver_answer_report (WorkbookControl *wbc,
 	Cell                   *cell;
 	int                    i, vars;
 
-	dao.type = NewSheetOutput;
-        prepare_output (wbc, &dao, _("Answer Report"));
+	dao_init (&dao, NewSheetOutput);
+        dao_prepare_output (wbc, &dao, _("Answer Report"));
 
 	dao.sheet->hide_grid = TRUE;
 	vars                 = res->param->n_variables;
 
 	/* Set this to fool the autofit_column function.  (It will be
 	 * overwriten). */
-	set_cell (&dao, 0, 0, "A");
+	dao_set_cell (&dao, 0, 0, "A");
 
 
 	/*
 	 * Fill in the labels of `Target Cell' section.
 	 */
-	set_cell (&dao, 1, 6, _("Cell"));
-	set_cell (&dao, 2, 6, _("Name"));
-	set_cell (&dao, 3, 6, _("Original Value"));
-	set_cell (&dao, 4, 6, _("Final Value"));
+	dao_set_cell (&dao, 1, 6, _("Cell"));
+	dao_set_cell (&dao, 2, 6, _("Name"));
+	dao_set_cell (&dao, 3, 6, _("Original Value"));
+	dao_set_cell (&dao, 4, 6, _("Final Value"));
 	set_bold (dao.sheet, 0, 6, 4, 6);
 
 	/* Set `Cell' field (cell reference to the target cell). */
-	set_cell (&dao, 1, 7, cell_name (res->param->target_cell));
+	dao_set_cell (&dao, 1, 7, cell_name (res->param->target_cell));
 
 	/* Set `Name' field */
-	set_cell (&dao, 2, 7, find_name (sheet,
+	dao_set_cell (&dao, 2, 7, find_name (sheet,
 					 res->param->target_cell->pos.col,
 					 res->param->target_cell->pos.row));
 
 	/* Set `Original Value' field */
-	set_cell_float (&dao, 3, 7, res->original_value_of_obj_fn);
+	dao_set_cell_float (&dao, 3, 7, res->original_value_of_obj_fn);
 
 	/* Set `Final Value' field */
 	cell = sheet_cell_get (sheet, res->param->target_cell->pos.col,
 			       res->param->target_cell->pos.row);
-	set_cell_value (&dao, 4, 7, value_duplicate (cell->value));
+	dao_set_cell_value (&dao, 4, 7, value_duplicate (cell->value));
 
 
 	/*
 	 * Fill in the labels of `Adjustable Cells' section.
 	 */
-	set_cell (&dao, 1, 11,   _("Cell"));
-	set_cell (&dao, 2, 11,   _("Name"));
-	set_cell (&dao, 3, 11,   _("Original Value"));
-	set_cell (&dao, 4, 11,   _("Final Value"));
+	dao_set_cell (&dao, 1, 11,   _("Cell"));
+	dao_set_cell (&dao, 2, 11,   _("Name"));
+	dao_set_cell (&dao, 3, 11,   _("Original Value"));
+	dao_set_cell (&dao, 4, 11,   _("Final Value"));
 	set_bold (dao.sheet, 0, 11, 4, 11);
 
 	for (i = 0; i < vars; i++) {
 		/* Set `Cell' column */
 	        cell = get_solver_input_var (res, i);
-		set_cell (&dao, 1, 12 + i, cell_name (cell));
+		dao_set_cell (&dao, 1, 12 + i, cell_name (cell));
 
 		/* Set `Name' column */
-		set_cell (&dao, 2, 12 + i, find_name (sheet, cell->pos.col,
+		dao_set_cell (&dao, 2, 12 + i, find_name (sheet, cell->pos.col,
 						      cell->pos.row));
 
 		/* Set `Original Value' column */
-		set_cell_value (&dao, 3, 12 + i,
+		dao_set_cell_value (&dao, 3, 12 + i,
 				value_new_float (res->original_values[i]));
 
 		/* Set `Final Value' column */
-		set_cell_value (&dao, 4, 12 + i,
+		dao_set_cell_value (&dao, 4, 12 + i,
 				value_duplicate (cell->value));
 	}
 
@@ -222,12 +222,12 @@ solver_answer_report (WorkbookControl *wbc,
 	/*
 	 * Fill in the labels of `Constraints' section.
 	 */
-	set_cell (&dao, 1, 15 + vars, _("Cell"));
-	set_cell (&dao, 2, 15 + vars, _("Name"));
-	set_cell (&dao, 3, 15 + vars, _("Cell Value"));
-	set_cell (&dao, 4, 15 + vars, _("Formula"));
-	set_cell (&dao, 5, 15 + vars, _("Status"));
-	set_cell (&dao, 6, 15 + vars, _("Slack"));
+	dao_set_cell (&dao, 1, 15 + vars, _("Cell"));
+	dao_set_cell (&dao, 2, 15 + vars, _("Name"));
+	dao_set_cell (&dao, 3, 15 + vars, _("Cell Value"));
+	dao_set_cell (&dao, 4, 15 + vars, _("Formula"));
+	dao_set_cell (&dao, 5, 15 + vars, _("Status"));
+	dao_set_cell (&dao, 6, 15 + vars, _("Slack"));
 	set_bold (dao.sheet, 0, 15 + vars, 6, 15 + vars);
 
 	for (i = 0; i < res->param->n_constraints +
@@ -236,41 +236,39 @@ solver_answer_report (WorkbookControl *wbc,
 		gnum_float       lhs, rhs;
 
 		/* Set `Cell' column */
-		set_cell (&dao, 1, 16 + vars + i,
+		dao_set_cell (&dao, 1, 16 + vars + i,
 			  cell_coord_name (c->lhs.col, c->lhs.row));
 
 		/* Set `Name' column */
-		set_cell (&dao, 2, 16 + vars + i,
+		dao_set_cell (&dao, 2, 16 + vars + i,
 			  find_name (sheet, c->lhs.col, c->lhs.row));
 
 		/* Set `Cell Value' column */
 		cell = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
 		lhs = value_get_as_float (cell->value);
-		set_cell_value (&dao, 3, 16 + vars + i,
+		dao_set_cell_value (&dao, 3, 16 + vars + i,
 				value_duplicate (cell->value));
 
 	        /* Set `Formula' column */
-	        set_cell (&dao, 4, 16 + vars + i, c->str);
+	        dao_set_cell (&dao, 4, 16 + vars + i, c->str);
 
 		/* Set `Status' column */
 		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
 		rhs = value_get_as_float (cell->value);
 		if (gnumabs (lhs - rhs) < 0.001)
-		        set_cell (&dao, 5, 16 + vars + i, _("Binding"));
+		        dao_set_cell (&dao, 5, 16 + vars + i, _("Binding"));
 		else
-		        set_cell (&dao, 5, 16 + vars + i, _("Not Binding"));
+		        dao_set_cell (&dao, 5, 16 + vars + i, _("Not Binding"));
 
 		/* Set `Slack' column */
-		set_cell_float (&dao, 6, 16 + vars + i, gnumabs (lhs - rhs));
+		dao_set_cell_float (&dao, 6, 16 + vars + i, gnumabs (lhs - rhs));
 	}
 
 	/*
 	 * Autofit columns to make the sheet more readable.
 	 */
 
-	for (i = 0; i <= 5; i++)
-	        autofit_column (&dao, i);
-
+	dao_autofit_these_columns (&dao, 0, 5);
 
 	/*
 	 * Fill in the titles.
@@ -278,16 +276,16 @@ solver_answer_report (WorkbookControl *wbc,
 
 	/* Fill in the column A labels into the answer report sheet. */
 	if (res->param->problem_type == SolverMaximize)
-	        set_cell (&dao, 0, 5, _("Target Cell (Maximize)"));
+	        dao_set_cell (&dao, 0, 5, _("Target Cell (Maximize)"));
 	else
-	        set_cell (&dao, 0, 5, _("Target Cell (Minimize)"));
+	        dao_set_cell (&dao, 0, 5, _("Target Cell (Minimize)"));
 
 	/* Fill in the header titles. */
 	fill_header_titles (&dao, _("Answer Report"), sheet);
 
 	/* Fill in other titles. */
-	set_cell (&dao, 0, 10, _("Adjustable Cells"));
-	set_cell (&dao, 0, 14 + vars, _("Constraints"));
+	dao_set_cell (&dao, 0, 10, _("Adjustable Cells"));
+	dao_set_cell (&dao, 0, 14 + vars, _("Constraints"));
 }
 
 
@@ -303,54 +301,54 @@ solver_sensitivity_report (WorkbookControl *wbc,
 	Cell                   *cell;
 	int                    i, vars;
 
-	dao.type = NewSheetOutput;
-        prepare_output (wbc, &dao, _("Sensitivity Report"));
+	dao_init (&dao, NewSheetOutput);
+        dao_prepare_output (wbc, &dao, _("Sensitivity Report"));
 
 	dao.sheet->hide_grid = TRUE;
 	vars                 = res->param->n_variables;
 
 	/* Set this to fool the autofit_column function.  (It will be
 	 * overwriten). */
-	set_cell (&dao, 0, 0, "A");
+	dao_set_cell (&dao, 0, 0, "A");
 
 
 	/*
 	 * Fill in the labels of `Adjustable Cells' section.
 	 */
 
-	set_cell (&dao, 3, 6, _("Final"));
-	set_cell (&dao, 4, 6, _("Reduced"));
-	set_cell (&dao, 5, 6, _("Objective"));
-	set_cell (&dao, 6, 6, _("Allowable"));
-	set_cell (&dao, 7, 6, _("Allowable"));
+	dao_set_cell (&dao, 3, 6, _("Final"));
+	dao_set_cell (&dao, 4, 6, _("Reduced"));
+	dao_set_cell (&dao, 5, 6, _("Objective"));
+	dao_set_cell (&dao, 6, 6, _("Allowable"));
+	dao_set_cell (&dao, 7, 6, _("Allowable"));
 
-	set_cell (&dao, 1, 7, _("Cell"));
-	set_cell (&dao, 2, 7, _("Name"));
-	set_cell (&dao, 3, 7, _("Value"));
-	set_cell (&dao, 4, 7, _("Cost"));
-	set_cell (&dao, 5, 7, _("Coefficient"));
-	set_cell (&dao, 6, 7, _("Increase"));
-	set_cell (&dao, 7, 7, _("Decrease"));
+	dao_set_cell (&dao, 1, 7, _("Cell"));
+	dao_set_cell (&dao, 2, 7, _("Name"));
+	dao_set_cell (&dao, 3, 7, _("Value"));
+	dao_set_cell (&dao, 4, 7, _("Cost"));
+	dao_set_cell (&dao, 5, 7, _("Coefficient"));
+	dao_set_cell (&dao, 6, 7, _("Increase"));
+	dao_set_cell (&dao, 7, 7, _("Decrease"));
 	set_bold (dao.sheet, 0, 6, 7, 7);
 
 	for (i = 0; i < vars; i++) {
 		/* Set `Cell' column */
 	        cell = get_solver_input_var (res, i);
-		set_cell (&dao, 1, 8 + i, cell_name (cell));
+		dao_set_cell (&dao, 1, 8 + i, cell_name (cell));
 
 		/* Set `Name' column */
-		set_cell (&dao, 2, 8 + i, find_name (sheet, cell->pos.col,
+		dao_set_cell (&dao, 2, 8 + i, find_name (sheet, cell->pos.col,
 						     cell->pos.row));
 
 		/* Set `Final Value' column */
-		set_cell_value (&dao, 3, 8 + i,
+		dao_set_cell_value (&dao, 3, 8 + i,
 				value_duplicate (cell->value));
 
 		/* Set `Reduced Cost' column */
 		/* FIXME: Set this also?? */
 
 		/* Set `Objective Coefficient' column */
-		set_cell_float (&dao, 5, 8 + i, res->obj_coeff[i]);
+		dao_set_cell_float (&dao, 5, 8 + i, res->obj_coeff[i]);
 
 		/* FIXME: Set this also?? */
 
@@ -365,19 +363,19 @@ solver_sensitivity_report (WorkbookControl *wbc,
 	/*
 	 * Fill in the labels of `Constraints' section.
 	 */
-	set_cell (&dao, 3, 10 + vars, _("Final"));
-	set_cell (&dao, 4, 10 + vars, _("Shadow"));
-	set_cell (&dao, 5, 10 + vars, _("Constraint"));
-	set_cell (&dao, 6, 10 + vars, _("Allowable"));
-	set_cell (&dao, 7, 10 + vars, _("Allowable"));
+	dao_set_cell (&dao, 3, 10 + vars, _("Final"));
+	dao_set_cell (&dao, 4, 10 + vars, _("Shadow"));
+	dao_set_cell (&dao, 5, 10 + vars, _("Constraint"));
+	dao_set_cell (&dao, 6, 10 + vars, _("Allowable"));
+	dao_set_cell (&dao, 7, 10 + vars, _("Allowable"));
 
-	set_cell (&dao, 1, 11 + vars, _("Cell"));
-	set_cell (&dao, 2, 11 + vars, _("Name"));
-	set_cell (&dao, 3, 11 + vars, _("Value"));
-	set_cell (&dao, 4, 11 + vars, _("Price"));
-	set_cell (&dao, 5, 11 + vars, _("R.H. Side"));
-	set_cell (&dao, 6, 11 + vars, _("Increase"));
-	set_cell (&dao, 7, 11 + vars, _("Decrease"));
+	dao_set_cell (&dao, 1, 11 + vars, _("Cell"));
+	dao_set_cell (&dao, 2, 11 + vars, _("Name"));
+	dao_set_cell (&dao, 3, 11 + vars, _("Value"));
+	dao_set_cell (&dao, 4, 11 + vars, _("Price"));
+	dao_set_cell (&dao, 5, 11 + vars, _("R.H. Side"));
+	dao_set_cell (&dao, 6, 11 + vars, _("Increase"));
+	dao_set_cell (&dao, 7, 11 + vars, _("Decrease"));
 	set_bold (dao.sheet, 0, 10 + vars, 7, 11 + vars);
 
 	for (i = 0; i < res->param->n_constraints +
@@ -385,25 +383,25 @@ solver_sensitivity_report (WorkbookControl *wbc,
 	        SolverConstraint *c = res->constraints_array[i];
 
 		/* Set `Cell' column */
-		set_cell (&dao, 1, 12 + vars + i,
+		dao_set_cell (&dao, 1, 12 + vars + i,
 			  cell_coord_name (c->lhs.col, c->lhs.row));
 
 		/* Set `Name' column */
-		set_cell (&dao, 2, 12 + vars + i,
+		dao_set_cell (&dao, 2, 12 + vars + i,
 			  find_name (sheet, c->lhs.col, c->lhs.row));
 
 		/* Set `Final Value' column */
 		cell = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
-		set_cell_value (&dao, 3, 12 + vars + i,
+		dao_set_cell_value (&dao, 3, 12 + vars + i,
 				value_duplicate (cell->value));
 
 		/* Set `Shadow Price' */
-		set_cell_value (&dao, 4, 12 + vars + i,
+		dao_set_cell_value (&dao, 4, 12 + vars + i,
 				value_new_float (res->shadow_prizes[i]));
 
 		/* Set `Constraint R.H. Side' column */
 		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
-		set_cell_value (&dao, 5, 12 + vars + i,
+		dao_set_cell_value (&dao, 5, 12 + vars + i,
 				value_duplicate (cell->value));
 
 	}
@@ -413,8 +411,7 @@ solver_sensitivity_report (WorkbookControl *wbc,
 	 * Autofit columns to make the sheet more readable.
 	 */
 
-	for (i = 0; i <= 4; i++)
-	        autofit_column (&dao, i);
+	dao_autofit_these_columns (&dao, 0, 4);
 
 
 	/*
@@ -425,8 +422,8 @@ solver_sensitivity_report (WorkbookControl *wbc,
 	fill_header_titles (&dao, _("Sensitivity Report"), sheet);
 
 	/* Fill in other titles. */
-	set_cell (&dao, 0, 5, _("Adjustable Cells"));
-	set_cell (&dao, 0, 9 + vars, _("Constraints"));
+	dao_set_cell (&dao, 0, 5, _("Adjustable Cells"));
+	dao_set_cell (&dao, 0, 9 + vars, _("Constraints"));
 }
 
 
@@ -442,44 +439,44 @@ solver_limits_report (WorkbookControl *wbc,
 	Cell                   *cell;
 	int                    vars, i;
 
-	dao.type = NewSheetOutput;
-        prepare_output (wbc, &dao, _("Limits Report"));
+	dao_init (&dao, NewSheetOutput);
+        dao_prepare_output (wbc, &dao, _("Limits Report"));
 
 	dao.sheet->hide_grid = TRUE;
 	vars                 = res->param->n_variables;
 
 	/* Set this to fool the autofit_column function.  (It will be
 	 * overwriten). */
-	set_cell (&dao, 0, 0, "A");
-	set_cell (&dao, 4, 3, "A");
-	set_cell (&dao, 7, 3, "A");
+	dao_set_cell (&dao, 0, 0, "A");
+	dao_set_cell (&dao, 4, 3, "A");
+	dao_set_cell (&dao, 7, 3, "A");
 
 
 	/*
 	 * Fill in the labels.
 	 */
 
-	set_cell (&dao, 2, 5, _("Target"));
-	set_cell (&dao, 1, 6, _("Cell"));
-	set_cell (&dao, 2, 6, _("Name"));
-	set_cell (&dao, 3, 6, _("Value"));
+	dao_set_cell (&dao, 2, 5, _("Target"));
+	dao_set_cell (&dao, 1, 6, _("Cell"));
+	dao_set_cell (&dao, 2, 6, _("Name"));
+	dao_set_cell (&dao, 3, 6, _("Value"));
 	set_bold (dao.sheet, 2, 5, 2, 5);
 	set_bold (dao.sheet, 0, 6, 3, 6);
 
-	set_cell (&dao, 2, 10, _("Adjustable"));
-	set_cell (&dao, 1, 11, _("Cell"));
-	set_cell (&dao, 2, 11, _("Name"));
-	set_cell (&dao, 3, 11, _("Value"));
+	dao_set_cell (&dao, 2, 10, _("Adjustable"));
+	dao_set_cell (&dao, 1, 11, _("Cell"));
+	dao_set_cell (&dao, 2, 11, _("Name"));
+	dao_set_cell (&dao, 3, 11, _("Value"));
 
-	set_cell (&dao, 5, 10, _("Lower"));
-	set_cell (&dao, 6, 10, _("Target"));
-	set_cell (&dao, 5, 11, _("Limit"));
-	set_cell (&dao, 6, 11, _("Result"));
+	dao_set_cell (&dao, 5, 10, _("Lower"));
+	dao_set_cell (&dao, 6, 10, _("Target"));
+	dao_set_cell (&dao, 5, 11, _("Limit"));
+	dao_set_cell (&dao, 6, 11, _("Result"));
 
-	set_cell (&dao, 8, 10, _("Upper"));
-	set_cell (&dao, 9, 10, _("Target"));
-	set_cell (&dao, 8, 11, _("Limit"));
-	set_cell (&dao, 9, 11, _("Result"));
+	dao_set_cell (&dao, 8, 10, _("Upper"));
+	dao_set_cell (&dao, 9, 10, _("Target"));
+	dao_set_cell (&dao, 8, 11, _("Limit"));
+	dao_set_cell (&dao, 9, 11, _("Result"));
 
 	set_bold (dao.sheet, 2, 10, 9, 10);
 	set_bold (dao.sheet, 0, 11, 9, 11);
@@ -490,17 +487,17 @@ solver_limits_report (WorkbookControl *wbc,
 	 */
 
 	/* Set `Target Cell' field (cell reference to the target cell). */
-	set_cell (&dao, 1, 7, cell_name (res->param->target_cell));
+	dao_set_cell (&dao, 1, 7, cell_name (res->param->target_cell));
 
 	/* Set `Target Name' field */
-	set_cell (&dao, 2, 7, find_name (sheet,
+	dao_set_cell (&dao, 2, 7, find_name (sheet,
 					 res->param->target_cell->pos.col,
 					 res->param->target_cell->pos.row));
 
 	/* Set `Target Value' field */
         cell = sheet_cell_get (sheet, res->param->target_cell->pos.col,
                                res->param->target_cell->pos.row);
-        set_cell_value (&dao, 3, 7, value_duplicate (cell->value));
+        dao_set_cell_value (&dao, 3, 7, value_duplicate (cell->value));
 
 
 	/*
@@ -510,29 +507,29 @@ solver_limits_report (WorkbookControl *wbc,
 	for (i = 0; i < vars; i++) {
 		/* Set `Adjustable Cell' column */
 	        cell = get_solver_input_var (res, i);
-		set_cell (&dao, 1, 12 + i, cell_name (cell));
+		dao_set_cell (&dao, 1, 12 + i, cell_name (cell));
 
 		/* Set `Adjustable Name' column */
-		set_cell (&dao, 2, 12 + i, find_name (sheet, cell->pos.col,
+		dao_set_cell (&dao, 2, 12 + i, find_name (sheet, cell->pos.col,
 						      cell->pos.row));
 
 		/* Set `Adjustable Value' column */
-		set_cell_value (&dao, 3, 12 + i,
+		dao_set_cell_value (&dao, 3, 12 + i,
 				value_duplicate (cell->value));
 
 
 		/* Set `Lower Limit' column */
-		set_cell_float (&dao, 5, 12 + i, res->limits[i].lower_limit);
+		dao_set_cell_float (&dao, 5, 12 + i, res->limits[i].lower_limit);
 
 		/* Set `Target Result' column */
-		set_cell_float (&dao, 6, 12 + i, res->limits[i].lower_result);
+		dao_set_cell_float (&dao, 6, 12 + i, res->limits[i].lower_result);
 
 
 		/* Set `Upper Limit' column */
-		set_cell_float (&dao, 8, 12 + i, res->limits[i].upper_limit);
+		dao_set_cell_float (&dao, 8, 12 + i, res->limits[i].upper_limit);
 
 		/* Set `Target Result' column */
-		set_cell_float (&dao, 9, 12 + i, res->limits[i].upper_result);
+		dao_set_cell_float (&dao, 9, 12 + i, res->limits[i].upper_result);
 	}
 
 
@@ -540,13 +537,11 @@ solver_limits_report (WorkbookControl *wbc,
 	 * Autofit columns to make the sheet more readable.
 	 */
 
-	for (i = 0; i <= 9; i++)
-	        autofit_column (&dao, i);
+	dao_autofit_these_columns (&dao, 0, 9);
 
 	/* Clear these after autofit calls */
-	set_cell (&dao, 4, 3, "");
-	set_cell (&dao, 7, 3, "");
-
+	dao_set_cell (&dao, 4, 3, "");
+	dao_set_cell (&dao, 7, 3, "");
 
 	/*
 	 * Fill in the titles.
@@ -608,151 +603,151 @@ solver_performance_report (WorkbookControl *wbc,
 			   SolverResults   *res)
 {
         data_analysis_output_t dao;
-	int                    i, mat_size, zeros;
+	int                    mat_size, zeros;
 	struct                 utsname unamedata;
 	Value                  *v;
 	gchar                  model_name [256], cpu_mhz [256];
 
-	dao.type = NewSheetOutput;
-        prepare_output (wbc, &dao, _("Performance Report"));
+	dao_init (&dao, NewSheetOutput);
+        dao_prepare_output (wbc, &dao, _("Performance Report"));
 
 	dao.sheet->hide_grid = TRUE;
 
 	/* Set this to fool the autofit_column function.  (It will be
 	 * overwriten). */
-	set_cell (&dao, 0, 0, "A");
+	dao_set_cell (&dao, 0, 0, "A");
 
 
 	/*
 	 * Fill in the labels of `General Statistics' section.
 	 */
 
-	set_cell (&dao, 2, 6, _("Variables"));
-	set_cell (&dao, 3, 6, _("Constraints"));
-	set_cell (&dao, 4, 6, _("Int Constraints"));
-	set_cell (&dao, 5, 6, _("Bool Constraints"));
-	set_cell (&dao, 1, 7, _("Number of"));
+	dao_set_cell (&dao, 2, 6, _("Variables"));
+	dao_set_cell (&dao, 3, 6, _("Constraints"));
+	dao_set_cell (&dao, 4, 6, _("Int Constraints"));
+	dao_set_cell (&dao, 5, 6, _("Bool Constraints"));
+	dao_set_cell (&dao, 1, 7, _("Number of"));
 	set_bold (dao.sheet, 0, 6, 5, 6);
 	set_bold (dao.sheet, 1, 7, 1, 7);
 
 	/* Set the `Nbr of Variables'. */
-	set_cell_value (&dao, 2, 7, value_new_float (res->param->n_variables));
+	dao_set_cell_value (&dao, 2, 7, value_new_float (res->param->n_variables));
 
 	/* Set the `Nbr of Constraints'. */
-	set_cell_value (&dao, 3, 7, value_new_float (res->param->n_constraints));
+	dao_set_cell_value (&dao, 3, 7, value_new_float (res->param->n_constraints));
 
 	/* Set the `Nbr of Int Constraints'. */
-	set_cell_value (&dao, 4, 7, /* FIXME: Bools */
+	dao_set_cell_value (&dao, 4, 7, /* FIXME: Bools */
 			value_new_float (res->param->n_int_bool_constraints));
 
 	/* Set the `Nbr of Bool Constraints'. */
-	set_cell_value (&dao, 5, 7, value_new_float (0)); /* FIXME: Bools */
+	dao_set_cell_value (&dao, 5, 7, value_new_float (0)); /* FIXME: Bools */
 
 
 	/*
 	 * Fill in the labels of `Data Sparsity' section.
 	 */
 
-	set_cell (&dao, 2, 11, _("Matrix Elements"));
-	set_cell (&dao, 3, 11, _("Non-zeros (constr.)"));
-	set_cell (&dao, 4, 11, _("Zeros (constr.)"));
-	set_cell (&dao, 5, 11, _("Non-zeros (obj. fn)"));
-	set_cell (&dao, 6, 11, _("Zeros (obj. fn)"));
-	set_cell (&dao, 1, 12, _("Number of"));
-	set_cell (&dao, 1, 13, _("Ratio"));
+	dao_set_cell (&dao, 2, 11, _("Matrix Elements"));
+	dao_set_cell (&dao, 3, 11, _("Non-zeros (constr.)"));
+	dao_set_cell (&dao, 4, 11, _("Zeros (constr.)"));
+	dao_set_cell (&dao, 5, 11, _("Non-zeros (obj. fn)"));
+	dao_set_cell (&dao, 6, 11, _("Zeros (obj. fn)"));
+	dao_set_cell (&dao, 1, 12, _("Number of"));
+	dao_set_cell (&dao, 1, 13, _("Ratio"));
 	set_bold (dao.sheet, 0, 11, 6, 11);
 	set_bold (dao.sheet, 1, 12, 1, 13);
 
 	/* Set the `Nbr of Matrix Elements'. */
 	mat_size = res->param->n_variables * res->param->n_constraints;
-	set_cell_value (&dao, 2, 12, value_new_float (mat_size));
+	dao_set_cell_value (&dao, 2, 12, value_new_float (mat_size));
 
 	/* Set the `Ratio of Matrix Elements'. */
 	v = value_new_float (1);
 	value_set_fmt (v, style_format_default_percentage ());
-	set_cell_value (&dao, 2, 13, v);
+	dao_set_cell_value (&dao, 2, 13, v);
 
 	/* Set the `Nbr of Non-zeros (constr.)'. */
-	set_cell_value (&dao, 3, 12, value_new_float (res->n_nonzeros_in_mat));
+	dao_set_cell_value (&dao, 3, 12, value_new_float (res->n_nonzeros_in_mat));
 
 	/* Set the `Nbr of Zeros (constr.)'. */
 	zeros = mat_size - res->n_nonzeros_in_mat;
-	set_cell_value (&dao, 4, 12, value_new_float (zeros));
+	dao_set_cell_value (&dao, 4, 12, value_new_float (zeros));
 
 	/* Set the `Ratio of Non-zeros (constr.)'. */
 	v = value_new_float ((gnum_float) res->n_nonzeros_in_mat / mat_size);
 	value_set_fmt (v, style_format_default_percentage ());
-	set_cell_value (&dao, 3, 13, v);
+	dao_set_cell_value (&dao, 3, 13, v);
 
 	/* Set the `Ratio of Zeros (constr.)'. */
 	v = value_new_float ((gnum_float) zeros / mat_size);
 	value_set_fmt (v, style_format_default_percentage ());
-	set_cell_value (&dao, 4, 13, v);
+	dao_set_cell_value (&dao, 4, 13, v);
 
 
 	/* Set the `Nbr of Non-zeros (obj. fn)'. */
-	set_cell_value (&dao, 5, 12, value_new_float (res->n_nonzeros_in_obj));
+	dao_set_cell_value (&dao, 5, 12, value_new_float (res->n_nonzeros_in_obj));
 
 	/* Set the `Nbr of Zeros (obj. fn)'. */
 	zeros = res->param->n_variables - res->n_nonzeros_in_obj;
-	set_cell_value (&dao, 6, 12, value_new_float (zeros));
+	dao_set_cell_value (&dao, 6, 12, value_new_float (zeros));
 
 	/* Set the `Ratio of Non-zeros (obj. fn)'. */
 	v = value_new_float ((gnum_float) res->n_nonzeros_in_obj /
 			     res->param->n_variables);
 	value_set_fmt (v, style_format_default_percentage ());
-	set_cell_value (&dao, 5, 13, v);
+	dao_set_cell_value (&dao, 5, 13, v);
 			
 	/* Set the `Ratio of Zeros (obj. fn)'. */
 	v = value_new_float ((gnum_float) zeros / res->param->n_variables);
 	value_set_fmt (v, style_format_default_percentage ());
-	set_cell_value (&dao, 6, 13, v);
+	dao_set_cell_value (&dao, 6, 13, v);
 
 
 	/*
 	 * Fill in the labels of `Computing Time' section.
 	 */
 
-	set_cell (&dao, 2, 17, _("User"));
-	set_cell (&dao, 3, 17, _("System"));
-	set_cell (&dao, 4, 17, _("Real"));
-	set_cell (&dao, 1, 18, _("Time (sec.)"));
+	dao_set_cell (&dao, 2, 17, _("User"));
+	dao_set_cell (&dao, 3, 17, _("System"));
+	dao_set_cell (&dao, 4, 17, _("Real"));
+	dao_set_cell (&dao, 1, 18, _("Time (sec.)"));
 	set_bold (dao.sheet, 0, 17, 4, 17);
 	set_bold (dao.sheet, 1, 18, 1, 18);
 
 	/* Set the `User Time'. */
-	set_cell_value (&dao, 2, 18, value_new_float (res->time_user));
+	dao_set_cell_value (&dao, 2, 18, value_new_float (res->time_user));
 
 	/* Set the `System Time'. */
-	set_cell_value (&dao, 3, 18, value_new_float (res->time_system));
+	dao_set_cell_value (&dao, 3, 18, value_new_float (res->time_system));
 
 	/* Set the `Real Time'. */
-	set_cell_value (&dao, 4, 18, value_new_float (res->time_real));
+	dao_set_cell_value (&dao, 4, 18, value_new_float (res->time_real));
 
 
 	/*
 	 * Fill in the labels of `System Information' section.
 	 */
 
-	set_cell (&dao, 2, 22, _("CPU Model"));
-	set_cell (&dao, 3, 22, _("CPU MHz"));
-	set_cell (&dao, 4, 22, _("OS"));
-	set_cell (&dao, 1, 23, _("Name"));
+	dao_set_cell (&dao, 2, 22, _("CPU Model"));
+	dao_set_cell (&dao, 3, 22, _("CPU MHz"));
+	dao_set_cell (&dao, 4, 22, _("OS"));
+	dao_set_cell (&dao, 1, 23, _("Name"));
 	set_bold (dao.sheet, 0, 22, 3, 22);
 	set_bold (dao.sheet, 1, 23, 1, 23);
 
 	if (get_cpu_info (model_name, cpu_mhz, 255)) {
 	        /* Set the `CPU Model'. */
-	        set_cell (&dao, 2, 23, model_name);
+	        dao_set_cell (&dao, 2, 23, model_name);
 
 	        /* Set the `CPU Mhz'. */
-	        set_cell (&dao, 3, 23, cpu_mhz);
+	        dao_set_cell (&dao, 3, 23, cpu_mhz);
 	} else {
 	        /* Set the `CPU Model'. */
-	        set_cell (&dao, 2, 23, _("Unknown"));
+	        dao_set_cell (&dao, 2, 23, _("Unknown"));
 
 	        /* Set the `CPU Mhz'. */
-	        set_cell (&dao, 3, 23, _("Unknown"));
+	        dao_set_cell (&dao, 3, 23, _("Unknown"));
 	}
 
 	/* Set the `OS Name'. */
@@ -760,14 +755,14 @@ solver_performance_report (WorkbookControl *wbc,
 	        char  *tmp = g_strdup_printf (_("Unknown"));
 		Value *r = value_new_string (tmp);
 		g_free (tmp);
-		set_cell_value (&dao, 4, 23, r);
+		dao_set_cell_value (&dao, 4, 23, r);
 	} else {
 	        char  *tmp = g_strdup_printf (_("%s (%s)"),
 					      unamedata.sysname,
 					      unamedata.release);
 		Value *r = value_new_string (tmp);
 		g_free (tmp);
-		set_cell_value (&dao, 4, 23, r);
+		dao_set_cell_value (&dao, 4, 23, r);
 	}
 
 
@@ -775,8 +770,7 @@ solver_performance_report (WorkbookControl *wbc,
 	 * Autofit columns to make the sheet more readable.
 	 */
 
-	for (i = 0; i <= 6; i++)
-	        autofit_column (&dao, i);
+	dao_autofit_these_columns (&dao, 0, 6);
 
 
 	/*
@@ -787,10 +781,10 @@ solver_performance_report (WorkbookControl *wbc,
 	fill_header_titles (&dao, _("Performance Report"), sheet);
 
 	/* Fill in other titles. */
-	set_cell (&dao, 0, 5, _("General Statistics"));
-	set_cell (&dao, 0, 10, _("Data Sparsity"));
-	set_cell (&dao, 0, 16, _("Computing Time"));
-	set_cell (&dao, 0, 21, _("System Information"));
+	dao_set_cell (&dao, 0, 5, _("General Statistics"));
+	dao_set_cell (&dao, 0, 10, _("Data Sparsity"));
+	dao_set_cell (&dao, 0, 16, _("Computing Time"));
+	dao_set_cell (&dao, 0, 21, _("System Information"));
 }
 
 
@@ -805,8 +799,8 @@ solver_program_report (WorkbookControl *wbc,
 	Cell                   *cell;
 	int                    i, col, max_col, n, vars;
 
-	dao.type = NewSheetOutput;
-        prepare_output (wbc, &dao, _("Program Report"));
+	dao_init (&dao, NewSheetOutput);
+        dao_prepare_output (wbc, &dao, _("Program Report"));
 
 	dao.sheet->hide_grid = TRUE;
 	vars                 = res->param->n_variables;
@@ -814,8 +808,8 @@ solver_program_report (WorkbookControl *wbc,
 
 	/* Set this to fool the autofit_column function.  (It will be
 	 * overwriten). */
-	set_cell (&dao, 0, 0, "A");
-	set_cell (&dao, 1, 3, "A");
+	dao_set_cell (&dao, 0, 0, "A");
+	dao_set_cell (&dao, 1, 3, "A");
 
 
 	/* Print the objective function. */
@@ -824,18 +818,18 @@ solver_program_report (WorkbookControl *wbc,
 	        if (res->obj_coeff[i] != 0) {
 		        /* Print the sign. */
 		        if (res->obj_coeff[i] < 0)
-			        set_cell (&dao, 1 + col*3, 6, "-");
+			        dao_set_cell (&dao, 1 + col*3, 6, "-");
 			else if (col > 0)
-			        set_cell (&dao, 1 + col*3, 6, "+");
+			        dao_set_cell (&dao, 1 + col*3, 6, "+");
 
 			/* Print the coefficent. */
 			if (gnumabs (res->obj_coeff[i]) != 1)
-			        set_cell_float (&dao, 2 + col*3, 6,
+			        dao_set_cell_float (&dao, 2 + col*3, 6,
 						gnumabs (res->obj_coeff[i]));
 
 			/* Print the name of the variable. */
 			cell = get_solver_input_var (res, i);
-			set_cell (&dao, 3 + col*3, 6,
+			dao_set_cell (&dao, 3 + col*3, 6,
 				  find_name (sheet, cell->pos.col,
 					     cell->pos.row));
 			col++;
@@ -856,18 +850,18 @@ solver_program_report (WorkbookControl *wbc,
 		        if (res->constr_coeff[i][n] != 0) {
 			        /* Print the sign. */
 			        if (res->constr_coeff[i][n] < 0)
-				        set_cell (&dao, 1 + col*3, 10 + i, "-");
+				        dao_set_cell (&dao, 1 + col*3, 10 + i, "-");
 				else if (col > 0)
-				        set_cell (&dao, 1 + col*3, 10 + i, "+");
+				        dao_set_cell (&dao, 1 + col*3, 10 + i, "+");
 
 				/* Print the coefficent. */
 				if (gnumabs (res->constr_coeff[i][n]) != 1)
-				        set_cell_float (&dao, 2 + col*3, 10 + i,
+				        dao_set_cell_float (&dao, 2 + col*3, 10 + i,
 					     gnumabs (res->constr_coeff[i][n]));
 
 				/* Print the name of the variable. */
 				cell = get_solver_input_var (res, n);
-				set_cell (&dao, 3 + col*3, 10 + i,
+				dao_set_cell (&dao, 3 + col*3, 10 + i,
 					  find_name (sheet, cell->pos.col,
 						     cell->pos.row));
 				col++;
@@ -880,17 +874,17 @@ solver_program_report (WorkbookControl *wbc,
 		/* Print the type. */
 		switch (c->type) {
 		case SolverLE:
-		        set_cell (&dao, col*3 + 1, 10 + i, "<");
+		        dao_set_cell (&dao, col*3 + 1, 10 + i, "<");
 			set_underlined (dao.sheet, col*3 + 1, 10 + i,
 					col*3 + 1, 10 + i);
 		        break;
 		case SolverGE:
-		        set_cell (&dao, col*3 + 1, 10 + i, ">");
+		        dao_set_cell (&dao, col*3 + 1, 10 + i, ">");
 			set_underlined (dao.sheet, col*3 + 1, 10 + i,
 					col*3 + 1, 10 + i);
 		        break;
 		case SolverEQ:
-		        set_cell (&dao, col*3 + 1, 10 + i, "=");
+		        dao_set_cell (&dao, col*3 + 1, 10 + i, "=");
 		        break;
 		case SolverINT:
 		        break;
@@ -902,7 +896,7 @@ solver_program_report (WorkbookControl *wbc,
 
 		/* Set RHS column. */
 		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
-		set_cell_value (&dao, col*3 + 2, 10 + i,
+		dao_set_cell_value (&dao, col*3 + 2, 10 + i,
 				value_duplicate (cell->value));
 	}
 
@@ -911,34 +905,32 @@ solver_program_report (WorkbookControl *wbc,
 	 * Autofit columns to make the sheet more readable.
 	 */
 
-	for (i = 0; i <= max_col*3 + 2; i++)
-	        autofit_column (&dao, i);
-
+	dao_autofit_these_columns (&dao, 0, max_col*3 + 2);
 
 	/*
 	 * Fill in the titles.
 	 */
 
 	/* Fill in the header titles. */
-	set_cell (&dao, 1, 3, "");
+	dao_set_cell (&dao, 1, 3, "");
 	fill_header_titles (&dao, _("Program Report"), sheet);
 
 	/* Print the type of the program. */
 	switch (res->param->problem_type) {
 	case SolverMinimize:
-	        set_cell (&dao, 0, 5, _("Minimize"));
+	        dao_set_cell (&dao, 0, 5, _("Minimize"));
 		break;
 	case SolverMaximize:
-	        set_cell (&dao, 0, 5, _("Maximize"));
+	        dao_set_cell (&dao, 0, 5, _("Maximize"));
 		break;
 	case SolverEqualTo:
-	        set_cell (&dao, 0, 5, _("Equal to"));
+	        dao_set_cell (&dao, 0, 5, _("Equal to"));
 		break;
 	}
 	set_bold (dao.sheet, 0, 5, 0, 5);
 
 	/* Print `Subject to' title. */
-	set_cell (&dao, 0, 9, _("Subject to"));
+	dao_set_cell (&dao, 0, 9, _("Subject to"));
 	set_bold (dao.sheet, 0, 9, 0, 9);
 }
 
@@ -952,14 +944,14 @@ solver_dual_program_report (WorkbookControl *wbc,
 {
         data_analysis_output_t dao;
 
-	dao.type = NewSheetOutput;
-        prepare_output (wbc, &dao, _("Dual Program Report"));
+	dao_init (&dao, NewSheetOutput);
+        dao_prepare_output (wbc, &dao, _("Dual Program Report"));
 
 	dao.sheet->hide_grid = TRUE;
 
 	/* Set this to fool the autofit_column function.  (It will be
 	 * overwriten). */
-	set_cell (&dao, 0, 0, "A");
+	dao_set_cell (&dao, 0, 0, "A");
 
 	/*
 	 * Fill in the titles.

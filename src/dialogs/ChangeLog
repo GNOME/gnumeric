@@ -1,3 +1,18 @@
+2002-03-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao-gui-utils.[hc] : new files, code extracted from 
+	  src/tools/analysis-tools.[ch] and 
+	  src/dialogs/dialog-analysis-tools.c, various
+	  functions renamed (prepended dao_)
+	* dialog-analysis-tools.c : some code moved to
+	  dao-gui-utils.[hc] and src/tools/dao.[hc], change of 
+	  names of utility functions now in dao-gui-utils.[hc]
+	  or src/tools/dao.[hc]
+	* src/dialogs/dialog-advanced-filter.c : change of 
+	  names of utility functions now in dao-gui-utils.[hc]
+	  or src/tools/dao.[hc]
+	* Makefile.am : added dao-gui-utils.[hc]
+
 2002-03-11  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-format.c : changes to color combo.

@@ -1,0 +1,53 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+/*
+ * dao-gui-utils.h:
+ *
+ * Authors:
+ *   Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
+ *   Andreas J. Guelzow  <aguelzow@taliesin.ca>
+ *
+ * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
+ * (C) Copyright 2001, 2002 by Andreas J. Guelzow  <aguelzow@taliesin.ca>
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ */
+
+#ifndef GNUMERIC_DAO_GUI_UTILS_H
+#define GNUMERIC_DAO_GUI_UTILS_H
+
+#include "gnumeric.h"
+#include "numbers.h"
+#include <widgets/gnumeric-expr-entry.h>
+#include <glade/glade.h>
+#include "tools.h"
+#include "dao-gui-utils.h"
+
+
+#define ANALYSISTOOLS_OUTPUT_GROUP static const char *output_group[] = {\
+	"newsheet-button",\
+	"newworkbook-button",\
+	"outputrange-button",\
+	"inplace-button",          /* used only in advanced filter  */\
+	0\
+};
+
+
+void dialog_tool_init_outputs (GenericToolState *state, GCallback sensitivity_cb);
+int parse_output          (GenericToolState *state, data_analysis_output_t *dao);
+
+
+#endif

@@ -18,6 +18,8 @@ noinst_LIBRARIES = libtools.a
 libtools_a_SOURCES =					\
 	analysis-tools.c				\
 	analysis-tools.h				\
+	dao.c						\
+	dao.h						\
 	auto-correct.c					\
 	auto-correct.h					\
 	goal-seek.c					\

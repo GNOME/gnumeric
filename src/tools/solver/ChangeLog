@@ -1,3 +1,8 @@
+2002-03-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* reports.c : changed names of utility functions now in 
+	  src/tools/dao.[hc]
+
 2002-03-11  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* reports.c (fill_header_titles): Added also the printing of the

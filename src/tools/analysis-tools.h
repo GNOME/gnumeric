@@ -5,24 +5,7 @@
 #include "numbers.h"
 #include <widgets/gnumeric-expr-entry.h>
 #include <glade/glade.h>
-
-typedef enum {
-        NewSheetOutput, NewWorkbookOutput, RangeOutput, InPlaceOutput
-} data_analysis_output_type_t;
-
-typedef struct {
-        data_analysis_output_type_t type;
-        Sheet                       *sheet;
-        int                         start_col, cols;
-        int                         start_row, rows;
-	int                         offset_col, offset_row;
-        gboolean                    labels_flag; /* deprecated, will be removed */
-	gboolean                    autofit_flag : 1;
-	gboolean                    clear_outputrange : 1;
-	gboolean                    retain_format : 1;
-	gboolean                    retain_comments : 1;
-	WorkbookControl             *wbc;
-} data_analysis_output_t;
+#include "dao.h"
 
 typedef enum {
 	TOOL_ENGINE_UPDATE_DAO = 0,
@@ -47,14 +30,6 @@ typedef enum {
 	GROUPED_BY_BIN = 3
 } group_by_t;
 
-
-#define ANALYSISTOOLS_OUTPUT_GROUP static const char *output_group[] = {\
-	"newsheet-button",\
-	"newworkbook-button",\
-	"outputrange-button",\
-	"inplace-button",          /* only in advanced filter  */\
-	0\
-};
 
 typedef struct {
         gboolean summary_statistics;
@@ -134,80 +109,5 @@ typedef struct {
 	gnum_float min;
 	gint n;
 } histogram_calc_bin_info_t;
-
-typedef enum {
-	TOOL_CORRELATION = 1,       /* use GenericToolState */
-	TOOL_COVARIANCE = 2,        /* use GenericToolState */
-	TOOL_RANK_PERCENTILE = 3,   /* use GenericToolState */
-	TOOL_HISTOGRAM = 5,   /* use GenericToolState */
-	TOOL_FOURIER = 6,   /* use GenericToolState */
-	TOOL_GENERIC = 10,          /* all smaller types are generic */
-	TOOL_DESC_STATS = 11,
-	TOOL_TTEST = 12,
-	TOOL_SAMPLING = 13,
-	TOOL_AVERAGE = 14,
-	TOOL_REGRESSION = 15,
-	TOOL_ANOVA_SINGLE = 16,
-	TOOL_ANOVA_TWO_FACTOR = 17,
-	TOOL_FTEST = 18,
-	TOOL_RANDOM = 19,
-	TOOL_EXP_SMOOTHING = 20,
-	TOOL_ADVANCED_FILTER = 21
-} ToolType;
-
-#define GENERIC_TOOL_STATE     ToolType  const type;\
-	GladeXML  *gui;\
-	GtkWidget *dialog;\
-	GnumericExprEntry *input_entry;\
-	GnumericExprEntry *input_entry_2;\
-	GnumericExprEntry *output_entry;\
-        GtkWidget *clear_outputrange_button;\
-        GtkWidget *retain_format_button;\
-        GtkWidget *retain_comments_button;\
-	GtkWidget *ok_button;\
-	GtkWidget *cancel_button;\
-	GtkWidget *apply_button;\
-	GtkWidget *help_button;\
-	const char *help_link;\
-	char *input_var1_str;\
-	char *input_var2_str;\
-	GtkWidget *new_sheet;\
-	GtkWidget *new_workbook;\
-	GtkWidget *output_range;\
-	Sheet	  *sheet;\
-	Workbook  *wb;\
-	WorkbookControlGUI  *wbcg;\
-	GtkAccelGroup *accel;\
-	GtkWidget *warning_dialog;\
-	GtkWidget *warning;
-
-typedef struct {
-	GENERIC_TOOL_STATE
-} GenericToolState;
-
-
-void autofit_column  (data_analysis_output_t *dao, int col);
-void autofit_columns (data_analysis_output_t *dao, int from, int to);
-
-void set_cell        (data_analysis_output_t *dao, int col, int row, const char *text);
-void set_cell_printf (data_analysis_output_t *dao,
-		      int col, int row, const char *fmt, ...)
-		      G_GNUC_PRINTF (4, 5);
-void set_cell_value  (data_analysis_output_t *dao, int col, int row, Value *v);
-void set_cell_float  (data_analysis_output_t *dao,
-		      int col, int row, gnum_float v);
-void set_cell_int    (data_analysis_output_t *dao,
-		      int col, int row, int v);
-void set_cell_na     (data_analysis_output_t *dao,
-		      int col, int row);
-
-void prepare_output  (WorkbookControl *wbc,
-		      data_analysis_output_t *dao, const char *name);
-void tool_load_selection (GenericToolState *state, gboolean allow_multiple);
-gboolean tool_destroy (GtkObject *w, GenericToolState  *state);
-void dialog_tool_init_outputs (GenericToolState *state, GCallback sensitivity_cb);
-void dialog_tool_init_buttons (GenericToolState *state, GCallback ok_function);
-void error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str);
-int parse_output (GenericToolState *state, data_analysis_output_t *dao);
 
 #endif

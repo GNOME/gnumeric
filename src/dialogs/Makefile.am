@@ -22,6 +22,8 @@ INCLUDES = 								\
 noinst_LIBRARIES = libdialogs.a
 
 base_files =					\
+	dao-gui-utils.c				\
+	dao-gui-utils.h				\
 	dialog-about.c				\
 	dialog-advanced-filter.c		\
 	dialog-analysis-tools.c			\

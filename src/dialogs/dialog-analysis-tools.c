@@ -21,6 +21,7 @@
 #include <parse-util.h>
 #include <format.h>
 #include <tools.h>
+#include <dao-gui-utils.h>
 #include <sheet.h>
 #include <expr.h>
 #include <number-match.h>
@@ -56,7 +57,7 @@
 #define ANOVA_SINGLE_KEY      "analysistools-anova-single-factor-dialog"
 #define RANDOM_KEY            "analysistools-random-dialog"
 
-ANALYSISTOOLS_OUTPUT_GROUP       /* defined in analysis-tools.h */
+ANALYSISTOOLS_OUTPUT_GROUP       /* defined in dao.h */
 
 static const char *grouped_by_group[] = {
 	"grouped_by_row",
@@ -225,111 +226,6 @@ error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str)
 }
 
 /**
- * parse_output:
- *
- * @state:
- * @dao:
- *
- * fill dao with information fromm dialog
- */
-int
-parse_output (GenericToolState *state, data_analysis_output_t *dao)
-{
-        Value *output_range;
-	GtkWidget *button;
-
-	dao->start_col = 0;
-	dao->start_row = 0;
-	dao->cols = SHEET_MAX_COLS;
-	dao->rows = SHEET_MAX_ROWS;
-	dao->sheet = NULL;
-	dao->autofit_flag = TRUE;
-	dao->clear_outputrange = TRUE;
-	dao->retain_format = TRUE;
-	dao->retain_comments = TRUE;
-
-	switch (gnumeric_glade_group_value (state->gui, output_group)) {
-	case 0:
-	default:
-	        dao->type = NewSheetOutput;
-		break;
-	case 1:
-	        dao->type = NewWorkbookOutput;
-		break;
-	case 2:
-		output_range = gnm_expr_entry_parse_as_value
-			(GNUMERIC_EXPR_ENTRY (state->output_entry), state->sheet);
-		g_return_val_if_fail (output_range != NULL, 1);
-		g_return_val_if_fail (output_range->type == VALUE_CELLRANGE, 1);
-
-	        dao->type = RangeOutput;
-		dao->start_col = output_range->v_range.cell.a.col;
-		dao->start_row = output_range->v_range.cell.a.row;
-		dao->cols = output_range->v_range.cell.b.col
-			- output_range->v_range.cell.a.col + 1;
-		dao->rows = output_range->v_range.cell.b.row
-			- output_range->v_range.cell.a.row + 1;
-		dao->sheet = output_range->v_range.cell.a.sheet;
-
-		value_release (output_range);
-		break;
-	case 3:
-		output_range = gnm_expr_entry_parse_as_value (
-			state->input_entry, state->sheet);
-
-		g_return_val_if_fail (output_range != NULL, 1);
-		g_return_val_if_fail (output_range->type == VALUE_CELLRANGE, 1);
-
-	        dao->type = InPlaceOutput;
-		dao->start_col = output_range->v_range.cell.a.col;
-		dao->start_row = output_range->v_range.cell.a.row;
-		dao->cols = output_range->v_range.cell.b.col
-			- output_range->v_range.cell.a.col + 1;
-		dao->rows = output_range->v_range.cell.b.row
-			- output_range->v_range.cell.a.row + 1;
-		dao->sheet = output_range->v_range.cell.a.sheet;
-
-		value_release (output_range);
-		break;
-	}
-
-	button = glade_xml_get_widget (state->gui, "autofit_button");
-	if (button != NULL)
-		dao->autofit_flag = gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (button));
-
-	if (state->clear_outputrange_button != NULL) 
-		dao->clear_outputrange = gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (button));
-
-	if (state->retain_format_button != NULL)
-		dao->retain_format = gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (button));
-
-	if (state->retain_comments_button != NULL)
-		dao->retain_comments = gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (button));
-
-	return 0;
-}
-
-/**
- * focus_on_entry:
- * @widget:
- * @entry:
- *
- * callback to focus on an entry when the output
- * range button is pressed.
- *
- **/
-static void
-focus_on_entry (GtkWidget *widget, GtkWidget *entry)
-{
-        if (GTK_TOGGLE_BUTTON (widget)->active)
-		gtk_widget_grab_focus (entry);
-}
-
-/**
  * tool_destroy:
  * @window:
  * @state:
@@ -378,73 +274,7 @@ cb_tool_cancel_clicked (GtkWidget *button, GenericToolState *state)
 	return;
 }
 
-/**
- * tool_set_focus_output_range:
- * @widget:
- * @focus_widget:
- * @state:
- *
- * Output range entry was focused. Switch to output range.
- *
- **/
-static void
-tool_set_focus_output_range (GtkWidget *widget, GdkEventFocus *event,
-			GenericToolState *state)
-{
-	    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->output_range), TRUE);
-}
 
-/**
- * dialog_tool_init_outputs:
- * @state:
- * @sensitivity_cb:
- *
- * Setup the output range.
- *
- **/
-void
-dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
-{
-	GtkTable *table;
-
-	state->new_sheet  = glade_xml_get_widget (state->gui, "newsheet-button");
-	state->new_workbook  = glade_xml_get_widget (state->gui, "newworkbook-button");
-	state->output_range  = glade_xml_get_widget (state->gui, "outputrange-button");
-	state->clear_outputrange_button = glade_xml_get_widget 
-		(state->gui, "clear_outputrange_button");
-	state->retain_format_button = glade_xml_get_widget 
-		(state->gui, "retain_format_button");
-	state->retain_comments_button = glade_xml_get_widget 
-		(state->gui, "retain_comments_button");
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "output-table"));
-	state->output_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
-	gnm_expr_entry_set_flags (state->output_entry,
-                                      GNUM_EE_SINGLE_RANGE,
-                                      GNUM_EE_MASK);
-        gnm_expr_entry_set_scg (state->output_entry, wbcg_cur_scg (state->wbcg));
-	gtk_table_attach (table, GTK_WIDGET (state->output_entry),
-			  1, 2, 2, 3,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
-	g_signal_connect (G_OBJECT (state->output_range),
-		"toggled",
-		G_CALLBACK (focus_on_entry), state->output_entry);
-	g_signal_connect (G_OBJECT (state->output_entry),
-		"focus-in-event",
-		G_CALLBACK (tool_set_focus_output_range), state);
-	g_signal_connect_after (G_OBJECT (state->output_entry),
-		"changed",
-		G_CALLBACK (sensitivity_cb), state);
-	g_signal_connect_after (G_OBJECT (state->output_range),
-		"toggled",
-		G_CALLBACK (sensitivity_cb), state);
-
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_WIDGET (state->output_entry));
-	gtk_widget_show (GTK_WIDGET (state->output_entry));
-
-	return;
-}
 
 /**
  * dialog_tool_init_buttons:

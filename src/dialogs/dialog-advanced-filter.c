@@ -18,7 +18,8 @@
 #include <ranges.h>
 #include <func-util.h>
 #include <gui-util.h>
-#include <analysis-tools.h>
+#include <tools.h>
+#include <dao-gui-utils.h>
 #include <value.h>
 #include <workbook-edit.h>
 
@@ -73,10 +74,10 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 		for (i=input_col_b; i<=input_col_e; i++) {
 			cell = sheet_cell_get (sheet, i, input_row_b);
 			if (cell == NULL)
-				set_cell (dao, i - input_col_b, r, NULL);
+				dao_set_cell (dao, i - input_col_b, r, NULL);
 			else {
 				Value *value = value_duplicate (cell->value);
-				set_cell_value (dao, i - input_col_b, r, value);
+				dao_set_cell_value (dao, i - input_col_b, r, value);
 			}
 		}
 		++r;
@@ -86,10 +87,10 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 			for (i=input_col_b; i<=input_col_e; i++) {
 				cell = sheet_cell_get (sheet, i, *row);
 				if (cell == NULL)
-					set_cell (dao, i - input_col_b, r, NULL);
+					dao_set_cell (dao, i - input_col_b, r, NULL);
 				else {
 					Value *value = value_duplicate (cell->value);
-					set_cell_value (dao, i - input_col_b, r, value);
+					dao_set_cell_value (dao, i - input_col_b, r, value);
 				}
 			}
 			++r;
@@ -129,7 +130,7 @@ advanced_filter (WorkbookControl *wbc,
 		return NO_RECORDS_FOUND;
 
 
-	prepare_output (wbc, dao, "Filtered");
+	dao_prepare_output (wbc, dao, "Filtered");
 
 	filter (dao, database->v_range.cell.a.sheet, rows, database->v_range.cell.a.col,
 		database->v_range.cell.b.col, database->v_range.cell.a.row,
@@ -137,7 +138,7 @@ advanced_filter (WorkbookControl *wbc,
 
 	free_rows (rows);
 
-	autofit_columns (dao, 0, database->v_range.cell.b.col - database->v_range.cell.a.col);
+	dao_autofit_columns (dao);
 
 	return OK;
 }
