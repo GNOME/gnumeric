@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-12 12:32-0500\n"
-"PO-Revision-Date: 2005-01-11 02:27+0100\n"
+"PO-Revision-Date: 2005-03-26 17:38+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3014,7 +3014,7 @@ msgstr "Usar UTF-8 al exportar a LaTeX"
 
 #: src/cut-n-paste-code/goffice/app/file.c:513
 msgid "Not a valid UTF-8 filename."
-msgstr ""
+msgstr "No es un nombre de archivo válido UTF-8"
 
 #: src/cut-n-paste-code/goffice/app/file.c:523
 msgid "Saving over old files of this type is disabled for safety."
@@ -3206,9 +3206,9 @@ msgstr "El cargado no tiene el método load_base.\n"
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader.c:107
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "Service '%s' not supported by l."
-msgstr "El servicio «%s» no está soportado por el cargador."
+msgstr "El servicio «%s» no está soportado por l."
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader-module.c:44
 msgid "Module file name not given."
@@ -4152,46 +4152,39 @@ msgstr "Diagramas de línea, área, barras y columnas"
 #. * eg The 2nd box-plot in a chart will be called
 #. * 	BoxPlot2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:103
-#, fuzzy
 msgid "Box-Plot"
-msgstr "Gráfico"
+msgstr "Box-Plot"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:340
-#, fuzzy
 msgid "Invalid data."
-msgstr "El patrón de búsqueda no es válido."
+msgstr "Datos inválidos."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:1
 msgid ""
 "Box-Plot. You must provide five values to the plot engine in this order: "
 "minimum, first quartile, median, third quartile, and maximum, not the raw "
 "data."
-msgstr ""
+msgstr "Box-Plot. Debe proporcionar cinco valores para el motor de dibujo en este orden:mínimo, primer cuartil, mediana, tercer cuartil, y máximo, no el dato en bruto."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:2
-#, fuzzy
 msgid "BoxPlot"
-msgstr "Gráfico"
+msgstr "BoxPlot"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:3
-#, fuzzy
 msgid "BoxPlots"
-msgstr "Gráfico"
+msgstr "BoxPlots"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:1
-#, fuzzy
 msgid "Box-Plots"
-msgstr "Gráfico"
+msgstr "Box-Plots"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:2
-#, fuzzy
 msgid "Box-plot plotting engine"
-msgstr "Motor de dibujo de barras/columnas"
+msgstr "Motor de dibujo de BoxPlots"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:3
-#, fuzzy
 msgid "Charting : Box-Plots"
-msgstr "Gráficas: Diagramas radiales"
+msgstr "Gráficas: Box-Plots"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:4
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:2
@@ -4530,11 +4523,8 @@ msgid "X Error bars"
 msgstr "Barras de error de X"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:2
-#, fuzzy
 msgid "Interpolate between multi-dimensional points with Bezier splines."
-msgstr ""
-"Interpolar linealmente entre puntos multidimensionales, con marcadores en "
-"cada punto."
+msgstr "Interpolar entre  puntos multidimensionales con splines Bèzier."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:3
 msgid ""
@@ -4574,9 +4564,8 @@ msgid "XY Points"
 msgstr "Puntos XY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:12
-#, fuzzy
 msgid "XY Splines"
-msgstr "Líneas XY"
+msgstr "Splines XY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
 msgid "2D plots"
@@ -4987,7 +4976,7 @@ msgstr "Cursiva"
 #. * characters specific to the target alphabet.
 #: src/cut-n-paste-code/goffice/gui-utils/go-font-sel.c:446
 msgid "AaBbCcDdEe12345"
-msgstr ""
+msgstr "AaBbCcDdEe12345"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-font-sel.glade.h:1
 #: src/dialogs/anova-two.glade.h:1 src/dialogs/autocorrect.glade.h:1
@@ -8333,7 +8322,6 @@ msgstr ""
 "herramientas de gnumeric."
 
 #: src/dialogs/dialog-preferences.c:724
-#, fuzzy
 msgid "The items on this page are related to copy. cut and paste."
 msgstr "Los elementos de esta página se refieren a copiar, cortar y pegar."
 
@@ -13672,13 +13660,12 @@ msgid "Reconfigure Graph"
 msgstr "Reconfigurar la gráfica"
 
 #: src/commands.c:7137
-#, fuzzy
 msgid "Left to Right"
-msgstr "_Izquierda-derecha"
+msgstr "Izquierda a derecha"
 
 #: src/commands.c:7137
 msgid "Right to Left"
-msgstr ""
+msgstr "Derecha a izquierda"
 
 #: src/consolidate.c:771
 #, c-format
@@ -14275,13 +14262,10 @@ msgstr ""
 "libdir := «%s»\n"
 
 #: src/mathfunc.c:7252
-#, fuzzy
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
-msgstr ""
-"Esta versión de Gnumeric ha sido compilada con una precisión inadecuada en "
-"yngnum."
+msgstr "Esta versión de Gnumeric ha sido compilada con una precisión inadecuada en gnm_yn."
 
 #: src/parser.y:298
 msgid "An array must have at least 1 element"
@@ -14751,9 +14735,8 @@ msgid "ENCODING"
 msgstr "CODIFICACIÓN"
 
 #: src/ssconvert.c:54
-#, fuzzy
 msgid "Optionally specify which importer to use"
-msgstr "Opcionalmente especificar qué exportador usar"
+msgstr "Opcionalmente especificar qué importador usar"
 
 #: src/ssconvert.c:56
 msgid "Optionally specify which exporter to use"
@@ -14804,13 +14787,13 @@ msgstr ""
 "Intente --list-exportes para ver una lista de posibilidades.\n"
 
 #: src/ssconvert.c:149
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unknown importer '%s'.\n"
 "Try --list-importers to see a list of possibilities.\n"
 msgstr ""
-"Exportador desconocido «%s»\n"
-"Pruebe con --list-exporters para ver una lista de posibilidades.\n"
+"Importador desconocido «%s».\n"
+"Pruebe con --list-importers para ver una lista de posibilidades.\n"
 
 #: src/ssconvert.c:166
 #, c-format
@@ -15621,13 +15604,12 @@ msgid "Decrease the zoom to make things smaller"
 msgstr "Decrementar la ampliación para hacer las cosas más pequeñas"
 
 #: src/wbcg-actions.c:1652
-#, fuzzy
 msgid "Direction"
-msgstr "Dirección:"
+msgstr "Dirección"
 
 #: src/wbcg-actions.c:1653
 msgid "Toggle sheet direction, left to right vs right to left"
-msgstr ""
+msgstr "Cambiar la dirección de la hoja, de izquierda a derecha vs derecha a izquierda"
 
 #: src/wbcg-actions.c:1658
 msgid "Insert new cells"
