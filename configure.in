@@ -431,6 +431,8 @@ plugins/plan-perfect/Makefile
 plugins/gda/Makefile
 intl/Makefile
 po/Makefile.in
+templates/Makefile
+templates/english/Makefile
 macros/Makefile
 gnumeric.desktop
 stamp.h
