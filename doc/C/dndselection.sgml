@@ -1,4 +1,4 @@
-<sect1>
+<sect1 id="movingcells">
   <title>Moving Cells</title>
   
   <para>Gnumeric allows the user to move and copy cells
