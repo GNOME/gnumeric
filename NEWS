@@ -68,6 +68,8 @@ Morten:
 	* Constify C strings.
 	* Switch to newer R sources.
 	* Fix "make -j" in plugins.
+	* Add extra tests for singularity and near-singularity in
+	  regression.
 
 Scott Ananian:
 	* Update the debian control files.
