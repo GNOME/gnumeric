@@ -93,8 +93,6 @@ struct _WorkbookControlGUI {
 	GtkWidget  *menu_item_hide_detail;
 
 	GtkWidget  *menu_item_sheet_remove;
-	GtkWidget  *menu_item_sheets_edit_reorder;
-	GtkWidget  *menu_item_sheets_format_reorder;
 
 	GtkWidget  *menu_item_page_setup;
 	GtkWidget  *menu_item_search_replace;
