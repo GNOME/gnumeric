@@ -1,3 +1,9 @@
+2004-07-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/hlink.h (GNM_HLINK_URL_TYPE): new
+	(GNM_HLINK_URL): new
+	(IS_GNM_HLINK_URL): new
+
 2004-07-27  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Check for log1p also.
