@@ -248,8 +248,13 @@ iterate :
 		}
 		g_return_val_if_fail (iterating, TRUE);
 		iterating = NULL;
-	} else
-		cell_assign_value (cell, v, NULL);
+	} else {
+		/* do not use cell_assign_value unless you pass in the format */
+		if (cell->value != NULL)
+			value_release (cell->value);
+		cell->value = v;
+		cell_render_value (cell, TRUE);
+	}
 
 	if (iterating == cell)
 		iterating = NULL;
@@ -310,7 +315,7 @@ cell_relocate (Cell *cell, ExprRewriteInfo *rwinfo)
  *
  * If the text is an expression it IS queued for recalc.
  *        the format prefered by the expression is stored for later use.
- * If the text is a value it is NOT rendered and spans are NOT calculated.
+ * If the text is a value it is rendered and spans are NOT calculated.
  *        the format that matched the text is stored for later use.
  *
  * WARNING : This is an internal routine that does not queue redraws,
@@ -338,15 +343,15 @@ cell_set_text (Cell *cell, char const *text)
 					   text, &val, &expr, cformat);
 
 	if (val != NULL) {	/* String was a value */
+		if (format)
+			style_format_ref (format);
 		cell_cleanout (cell);
-
-		cell->base.flags &= ~CELL_HAS_EXPRESSION;
 		cell->value = val;
+		/* parse_text already refed the format */
 		cell->format = format;
 		cell_render_value (cell, TRUE);
 	} else {		/* String was an expression */
 		cell_set_expr (cell, expr, format);
-		if (format) style_format_unref (format);
 		expr_tree_unref (expr);
 	}
 }
@@ -373,10 +378,10 @@ cell_assign_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 	g_return_if_fail (cell);
 	g_return_if_fail (v);
 
-	if (cell->format)
-		style_format_unref (cell->format);
 	if (opt_fmt)
 		style_format_ref (opt_fmt);
+	if (cell->format)
+		style_format_unref (cell->format);
 	cell->format = opt_fmt;
 
 	if (cell->value != NULL)

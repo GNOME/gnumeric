@@ -21,6 +21,8 @@ Jody:
 	* Fix FV arguments.
 	* Support conditional number formats.
 	* Obscure referencing bug.
+	* Scaled printing.
+	* Some number formating bugs.
 
 Juan Pablo Mendoza:
 	* Handle {caps,number,scroll}lock.

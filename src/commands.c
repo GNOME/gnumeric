@@ -3394,8 +3394,6 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 		char *new_text = search_replace_string (sr, old_text + (initial_quote ? 1 : 0));
 
 		if (new_text) {
-			MStyle *mstyle;
-			StyleFormat *sf, *cf;
 			ExprTree *expr;
 			Value *val;
 			gboolean err;
@@ -3412,10 +3410,9 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 				new_text = tmp;
 			}
 
-			mstyle = cell_get_mstyle (cell);
-			cf = mstyle_get_format (mstyle);
-			sf = parse_text_value_or_expr (ep, new_text,
-						       &val, &expr, cf);
+			parse_text_value_or_expr (ep, new_text, &val, &expr,
+				mstyle_get_format (cell_get_mstyle (cell)));
+
 			/*
 			 * FIXME: this is a hack, but parse_text_value_or_expr
 			 * does not have a better way of signaling an error.
@@ -3424,7 +3421,6 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 
 			if (val) value_release (val);
 			if (expr) expr_tree_unref (expr);
-			if (sf) style_format_unref (sf);
 
 			if (err) {
 				if (test_run) {

@@ -1,3 +1,19 @@
+2001-06-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (cmd_search_replace_do_cell) : Adjust to ref
+	  semantics change.
+ 
+	* src/number-match.c (format_match) : do not add a ref to the
+	  resulting format.
+
+	* src/sheet.c (sheet_cell_set_text) : no need to unref anymore.
+	(sheet_range_set_text) : ditto.
+
+	* src/cell.c (cell_assign_value) : ref before unref.
+	(cell_eval_content) : Use a simplified assignment to avoid refing and
+	  unrefing the formats.
+	(cell_set_text) : cleanup reference handling.
+
 2001-06-19  Morten Welinder  <terra@diku.dk>
 
 	* src/number-match.c (compute_value): Don't g_barf on invalid

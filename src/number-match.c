@@ -1030,8 +1030,21 @@ format_match_simple (const char *text)
 
 #define NM 40
 
+/**
+ * format_match :
+ *
+ * @text : The text to parse
+ * @current_format : The current format for the value (potentially NULL)
+ * @format : An optional place to store the target format
+ *
+ * Attempts to parse the supplied string to see if it matches a known value format.
+ * Will eventually use the current cell format in preference to canned formats.
+ * If @format is supplied it will get a copy of the matching format with no
+ * additional references.   The caller is responsible for releasing the
+ * resulting value.
+ */
 Value *
-format_match (const char *text, StyleFormat const *current_format,
+format_match (char const *text, StyleFormat const *current_format,
 	      StyleFormat **format)
 {
 	Value   *v;
@@ -1100,7 +1113,7 @@ format_match (const char *text, StyleFormat const *current_format,
 #endif
 		if (b) {
 			if (format)
-				style_format_ref ((*format = fp->format));
+				*format = fp->format;
 			return value_new_float (result);
 		}
 	}

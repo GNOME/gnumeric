@@ -1444,8 +1444,6 @@ sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str)
 	g_slist_free (merged);
 
 	sheet_region_queue_recalc (pos->sheet, r);
-	if (closure.format)
-		style_format_unref (closure.format);
 
 	if (closure.val)
 		value_release (closure.val);
@@ -1515,8 +1513,6 @@ sheet_cell_set_text (Cell *cell, char const *text)
 		sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
 	}
 	cell_queue_recalc (cell);
-	if (format)
-		style_format_unref (format);
 	sheet_flag_status_update_cell (cell);
 }
 
