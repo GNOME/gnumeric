@@ -13,18 +13,18 @@ typedef enum {
 } CollectFlags;
 
 
-float_t *collect_floats_1 (ExprTree *expr, const CellRef *cr,
+float_t *collect_floats_1 (ExprTree *expr, const EvalPosition *cr,
 			   CollectFlags flags,
-			   int *n, char **error_string);
-float_t *collect_floats (GList *exprlist, const CellRef *cr,
-			 CollectFlags flags,
-			 int *n, char **error_string);
+			   int *n, ErrorMessage *error);
+float_t *collect_floats   (GList *exprlist, const EvalPosition *cr,
+			   CollectFlags flags,
+			   int *n, ErrorMessage *error);
 
 typedef int (*float_range_function_t) (const float_t *, int, float_t *);
 
-Value *float_range_function (GList *exprlist, Sheet *sheet, int col, int row,
+Value *float_range_function (GList *exprlist, FunctionEvalInfo *ei,
 			     float_range_function_t func,
 			     CollectFlags flags,
-			     char *func_error, char **error_string);
+			     char *func_error, ErrorMessage *error);
 
 #endif

@@ -10,7 +10,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-/* typedef struct {
+typedef struct {
 	int alloc_count;
 	float_t *data;
 	int count;
@@ -36,7 +36,7 @@ callback_function_collect (const EvalPosition *ep, Value *value,
 		else if (cl->flags & COLLECT_ZERO_STRINGS)
 			x = 0;
 		else {
-			*error_string = gnumeric_err_VALUE;
+			error_message_set (error, gnumeric_err_VALUE);
 			return FALSE;
 		}
 		break;
@@ -76,9 +76,9 @@ callback_function_collect (const EvalPosition *ep, Value *value,
  * Evaluate a list of expressions and return the result as an array of
  * float_t.
  */
-/*float_t *
-collect_floats (GList *exprlist, const CellRef *cr, CollectFlags flags,
-		int *n, char **error_string)
+float_t *
+collect_floats (GList *exprlist, const EvalPosition *ep, CollectFlags flags,
+		int *n, ErrorMessage *error)
 {
 	collect_floats_t cl;
 
@@ -87,65 +87,59 @@ collect_floats (GList *exprlist, const CellRef *cr, CollectFlags flags,
 	cl.count = 0;
 	cl.flags = flags;
 
-	if (function_iterate_argument_values (cr->sheet, callback_function_collect,
+	if (function_iterate_argument_values (ep, callback_function_collect,
 					      &cl, exprlist,
-					      cr->col, cr->row,
-					      error_string, TRUE)) {
+					      error, TRUE)) {
 		*n = cl.count;
 		return cl.data;
 	} else {
 		g_free (cl.data);
 		return NULL;
 	}
-}*/
+}
 
 /* ------------------------------------------------------------------------- */
 
 /*
  * Single-expression version of collect_floats, which see.
  */
-/*float_t *
-collect_floats_1 (ExprTree *expr, const CellRef *cr, CollectFlags flags,
-		  int *n, char **error_string)
+float_t *
+collect_floats_1 (ExprTree *expr, const EvalPosition *ep, CollectFlags flags,
+		  int *n, ErrorMessage *error)
 {
 	GList *l;
 	float_t *res;
 
 	l = g_list_prepend (NULL, expr);
-	res = collect_floats (l, cr, flags, n, error_string);
+	res = collect_floats (l, ep, flags, n, error);
 	g_list_free_1 (l);
 
 	return res;
-}*/
+}
 
 /* ------------------------------------------------------------------------- */
 
-/*Value *
-float_range_function (GList *exprlist, Sheet *sheet, int col, int row,
+Value *
+float_range_function (GList *exprlist, FunctionEvalInfo *ei,
 		      float_range_function_t func,
 		      CollectFlags flags,
-		      char *func_error, char **error_string)
+		      char *func_error, ErrorMessage *error)
 {
 	float_t *vals, res;
 	int n, err;
-	CellRef cr;
 
-	cr.sheet = sheet;
-	cr.col = col;
-	cr.row = row;
 
-	vals = collect_floats (exprlist, &cr, flags, &n, error_string);
+	vals = collect_floats (exprlist, &ei->pos, flags, &n, error);
 	if (!vals)
 		return NULL;
 
 	err = func (vals, n, &res);
 	g_free (vals);
 
-	if (err) {
-		*error_string = func_error;
-		return NULL;
-	} else
+	if (err)
+		return function_error (ei, func_error);
+	else
 		return value_new_float (res);
-}*/
+}
 
 /* ------------------------------------------------------------------------- */
