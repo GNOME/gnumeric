@@ -304,7 +304,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 static GogObject *
 gog_xy_view_point (GogView *view, double x, double y)
 {
-	return FALSE;
+	return NULL;
 }
 
 static void
