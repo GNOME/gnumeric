@@ -1,3 +1,7 @@
+2000-03-25  Jon K Hellan  <hellan@acm.org>
+
+	* src/dialogs/workbook-attr.glade: Deflickerize + set initial focus.
+
 2000-03-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/print.c (print_page) : Call setup_rotation unconditionally it

@@ -22,6 +22,7 @@
 <widget>
   <class>GnomePropertyBox</class>
   <name>WorkbookAttr</name>
+  <visible>False</visible>
 
   <widget>
     <class>GtkNotebook</class>
@@ -64,6 +65,7 @@
 	    <class>GtkCheckButton</class>
 	    <name>Workbook::show_horizontal_scrollbar</name>
 	    <can_focus>True</can_focus>
+	    <has_focus>True</has_focus>
 	    <label>Horizontal Scrollbar</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
