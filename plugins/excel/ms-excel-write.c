@@ -1711,6 +1711,35 @@ xf_get_mstyle (ExcelWriteState *ewb, gint idx)
 	return two_way_table_idx_to_key (ewb->xf.two_way_table, idx);
 }
 
+static GArray *
+txomarkup_new (ExcelWriteState *ewb, PangoAttrList *markup, GnmStyle *style)
+{
+	ExcelFont *efont;
+	gint tmp[2];
+	PangoAttrIterator *iter = pango_attr_list_get_iterator (markup);
+	GArray *txo = g_array_sized_new (FALSE, FALSE, sizeof (int), 8);
+	GSList *attrs;
+
+	do {
+		/* trim start */
+		attrs = pango_attr_iterator_get_attrs (iter);
+		if (txo->len == 0 && attrs == NULL)
+			continue;
+		
+		efont = excel_font_new (style);
+		excel_font_overlay_pango (efont, attrs);
+		pango_attr_iterator_range (iter, tmp, NULL);
+		tmp[1] = put_efont (efont, ewb);
+		g_array_append_vals (txo, (gpointer)tmp, 2);
+	} while (pango_attr_iterator_next (iter));
+	/* trim end */
+	if (txo->len > 2 && attrs == NULL)
+		g_array_set_size (txo, txo->len - 2);
+	pango_attr_iterator_destroy (iter);
+
+	return txo;
+}
+
 /***************************************************************************/
 
 static void
@@ -1730,32 +1759,11 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 		/* Collect unique fonts in rich text */
 		if (cell->value->type == VALUE_STRING &&
 		    style_format_is_markup (fmt)) {
-			ExcelFont *efont;
-			gint tmp[2];
-			PangoAttrIterator *iter =
-				pango_attr_list_get_iterator (fmt->markup);
-			GArray *txo =
-				g_array_sized_new (FALSE, FALSE, sizeof (int), 8);
-			GSList *attrs;
+			GArray *txo = txomarkup_new (ewb, 
+						     fmt->markup, style);
 
-			do {
-				/* trim start */
-				attrs = pango_attr_iterator_get_attrs (iter);
-				if (txo->len == 0 && attrs == NULL)
-					continue;
-
-				efont = excel_font_new (style);
-				excel_font_overlay_pango (efont, attrs);
-				pango_attr_iterator_range (iter, tmp, NULL);
-				tmp[1] = put_efont (efont, ewb);
-				g_array_append_vals (txo, (gpointer)tmp, 2);
-			} while (pango_attr_iterator_next (iter));
-			/* trim end */
-			if (txo->len > 2 && attrs == NULL)
-				g_array_set_size (txo, txo->len - 2);
-			pango_attr_iterator_destroy (iter);
-
-			g_hash_table_insert (ewb->cell_markup, (gpointer)cell, txo);
+			g_hash_table_insert (ewb->cell_markup, 
+					     (gpointer)cell, txo);
 			return; /* we use RSTRING, no need to add to SST */
 		}
 
@@ -3458,17 +3466,16 @@ excel_write_image (ExcelWriteSheet *esheet, BlipInf *bi)
 }
 
 static void
-excel_write_ClientTextbox(BiffPut *bp, SheetObject *so)
+excel_write_ClientTextbox(ExcelWriteState *ewb, SheetObject *so)
 {
-	static guint8 const nullmarkup[] = {
-		0,   0, 0, 0, 0x7d, 0, 0x17, 0,
-		0x10, 0, 0, 0,    0, 0,  0,   0
-	};
 	guint8 buf [18];
 	int txo_len = 18;
 	int draw_len = 8;
 	int char_len;
 	char *label;
+	int markuplen;
+	BiffPut *bp = ewb->bp;
+	GArray *markup = g_hash_table_lookup (ewb->cell_markup, so);
 		
 	ms_biff_put_var_next (bp,  BIFF_MS_O_DRAWING);
 	memset (buf, 0, draw_len);
@@ -3482,18 +3489,37 @@ excel_write_ClientTextbox(BiffPut *bp, SheetObject *so)
 	g_object_get (G_OBJECT (so), "label", &label, NULL);
 	char_len = excel_write_string_len (label, NULL);
 	GSF_LE_SET_GUINT16 (buf + 10, char_len);
-	GSF_LE_SET_GUINT16 (buf + 12, sizeof nullmarkup);
+	if (markup)
+		markuplen = 8 + markup->len * 4;
+	else
+		markuplen = 16;
+	GSF_LE_SET_GUINT16 (buf + 12, markuplen);
 	ms_biff_put_var_write (bp, buf, txo_len);
 	ms_biff_put_commit (bp);
-	
+
 	ms_biff_put_var_next (bp, BIFF_CONTINUE);
 	excel_write_string(bp, STR_NO_LENGTH, label);
 	ms_biff_put_commit (bp);
 	
 	ms_biff_put_var_next (bp, BIFF_CONTINUE);
-	memcpy (buf, nullmarkup, sizeof nullmarkup);
-	GSF_LE_SET_GUINT16 (buf + 8, char_len);
-	ms_biff_put_var_write (bp, buf, sizeof nullmarkup);
+	memset (buf, 0, 8);
+	if (markup ) {
+		int n = markup->len / 2;
+		int i;
+
+		for (i = 0; i < n ; i++) {
+			GSF_LE_SET_GUINT16 (buf,
+				g_array_index (markup, gint, i*2));
+			GSF_LE_SET_GUINT16 (buf + 2,
+				g_array_index (markup, gint, i*2+1));
+			ms_biff_put_var_write  (ewb->bp, buf, 8);
+		}
+	} else {
+		ms_biff_put_var_write  (ewb->bp, buf, 8);
+	}
+	memset (buf, 0, 8);
+	GSF_LE_SET_GUINT16 (buf, char_len);
+	ms_biff_put_var_write (bp, buf, 8);
 	ms_biff_put_commit (bp);
 }
 
@@ -3540,7 +3566,7 @@ excel_write_textbox (ExcelWriteSheet *esheet, SheetObject *so)
 
 	ms_biff_put_commit (bp);
 
-	excel_write_ClientTextbox(bp, so);
+	excel_write_ClientTextbox(ewb, so);
 }
 
 /* See: S59D76.HTM */
@@ -5001,6 +5027,23 @@ extract_gog_object_style (ExcelWriteState *ewb, GogObject *obj)
 		extract_gog_object_style (ewb, ptr->data);
 }
 
+/* extract markup for text objects. Has to happen early, so that the font 
+ * gets saved */
+static void
+extract_txomarkup (ExcelWriteState *ewb, SheetObject *so)
+{
+	PangoAttrList *markup;
+	GArray *txo;
+
+	g_object_get (G_OBJECT (so), "markup", &markup, NULL);
+	if (!markup) return;
+
+	txo = txomarkup_new (ewb, markup, ewb->xf.default_style);
+	/* It isn't a cell, but that doesn't matter here */
+	g_hash_table_insert (ewb->cell_markup, (gpointer)so, txo);
+	
+}
+
 static void cb_g_array_free (GArray *array) { g_array_free (array, TRUE); }
 ExcelWriteState *
 excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
@@ -5009,7 +5052,7 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 	ExcelWriteState *ewb = g_new (ExcelWriteState, 1);
 	ExcelWriteSheet *esheet;
 	Sheet		*sheet;
-	GSList		*charts, *ptr;
+	GSList		*objs, *ptr;
 	int i;
 
 	g_return_val_if_fail (ewb != NULL, NULL);
@@ -5055,12 +5098,17 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 			excel_write_prep_validations (esheet); /* validation */
 		if (sheet->filters != NULL)
 			excel_write_prep_sheet (ewb, sheet);	/* filters */
-		charts = sheet_objects_get (sheet,
+		objs = sheet_objects_get (sheet,
 			NULL, SHEET_OBJECT_GRAPH_TYPE);
-		for (ptr = charts ; ptr != NULL ; ptr = ptr->next)
+		for (ptr = objs ; ptr != NULL ; ptr = ptr->next)
 			extract_gog_object_style (ewb,
 				(GogObject *)sheet_object_graph_get_gog (ptr->data));
-		g_slist_free (charts);
+		g_slist_free (objs);
+		objs = sheet_objects_get (sheet,
+			NULL, SHEET_OBJECT_TEXT_TYPE);
+		for (ptr = objs ; ptr != NULL ; ptr = ptr->next)
+			extract_txomarkup (ewb, ptr->data);
+		g_slist_free (objs);
 	}
 
 	if (biff8) {

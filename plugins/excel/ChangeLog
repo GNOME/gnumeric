@@ -1,3 +1,14 @@
+2004-09-15  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.c (txomarkup_new): New. Factored out of
+	cb_cell_pre_pass. 
+	(cb_cell_pre_pass): See above.
+	(excel_write_ClientTextbox): Change first parameter to
+	ExcelWriteState. Save markup.
+	(excel_write_textbox): See above.
+	(extract_txomarkup): New. Extract markup for text object and store
+	in hash table.
+
 2004-09-14  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-util.c (init_xl_font_widths) : rework the font table
