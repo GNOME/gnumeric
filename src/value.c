@@ -108,6 +108,15 @@ value_new_string (char const *str)
 	return (Value *)v;
 }
 
+Value *
+value_new_string_nocopy (char *str)
+{
+	ValueStr *v = g_new (ValueStr, 1);
+	*((ValueType *)&(v->type)) = VALUE_STRING;
+	v->val = string_get_nocopy (str);
+	return (Value *)v;
+}
+
 /* NOTE : absorbs the reference */
 Value *
 value_new_string_str (String *str)

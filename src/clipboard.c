@@ -234,13 +234,9 @@ paste_cell (Sheet *dest_sheet,
 		} else
 				cell_set_value (new_cell, value_duplicate (src_cell->value), src_cell->format);
 
-	} else {
-		Cell *new_cell = sheet_cell_new (dest_sheet,
-						 target_col, target_row);
-
-		if (c_copy->u.text)
-			cell_set_text (new_cell, c_copy->u.text);
-	}
+	} else if (c_copy->u.text)
+		cell_set_text (sheet_cell_fetch (dest_sheet, target_col, target_row),
+			       c_copy->u.text);
 }
 
 /**

@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * stf-parse.c : Structured Text Format parser. (STF)
  *               A general purpose engine for parsing data
@@ -27,6 +28,10 @@
 #include "stf-parse.h"
 
 #include "clipboard.h"
+#include "sheet-style.h"
+#include "value.h"
+#include "mstyle.h"
+#include "number-match.h"
 
 #include <ctype.h>
 #ifdef HAVE_WCTYPE_H
@@ -1171,8 +1176,11 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 Sheet *
 stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet)
 {
-	GList *res, *l;
-	int row;
+	StyleFormat *fmt;
+	Value *v;
+	GList *res, *l, *mres, *m;
+	char  *text;
+	int col, row;
 
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
@@ -1180,31 +1188,23 @@ stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet
 
 	res = stf_parse_general (parseoptions, data);
 	for (row = 0, l = res; l != NULL; l = l->next, row++) {
-		GList *mres = l->data;
-		GList *m;
-		int col;
-
+		mres = l->data;
+  
+		/* format is the same for the entire column */
+		fmt = mstyle_get_format (sheet_style_get (sheet, 0, row));
+  
 		for (col = 0, m = mres; m != NULL; m = m->next, col++) {
-			char *text = m->data;
-			
-			if (text) {
-				Cell *newcell = sheet_cell_new (sheet, col, row);
-
-				/* The '@' character appears to be somewhat magic, so
-				 * if the line starts with an '@' character we have to prepend an '=' char and quotes
-				 */
-				if (text[0] == '@') {
-					char *tmp = g_strdup_printf ("=\"%s\"", text);
-
+			text = m->data;
+  			if (text) {
+				v = format_match (text, fmt, NULL);
+				if (v == NULL)
+					v = value_new_string_nocopy (text);
+				else
 					g_free (text);
-					text = tmp;
-				}
-				
-				cell_set_text (newcell, text);
-				g_free (text);
-			}
+				cell_set_value (sheet_cell_fetch (sheet, col, row),
+						v, fmt);
+  			}
 		}
-		
 		g_list_free (mres);
 	}
 	

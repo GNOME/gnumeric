@@ -66,7 +66,8 @@
 #define POINT_SIZE_PRECISION 3
 
 /* FIXME - tune the values below */
-#define XML_INPUT_BUFFER_SIZE      4096
+/* libxml1 parser bug breaks multibyte characters on buffer margins */
+#define XML_INPUT_BUFFER_SIZE      1024*1024
 #define N_ELEMENTS_BETWEEN_UPDATES 20
 
 /* ------------------------------------------------------------------------- */
@@ -3356,7 +3357,6 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 	xmlNsPtr gmr;
 	XmlParseContext *ctxt;
 	GnumericXMLVersion    version;
-	gboolean xml_parser_flag;
 
 	g_return_if_fail (filename != NULL);
 
@@ -3390,13 +3390,11 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 	bytes = gzread (f, buffer, 4);
 	pctxt = xmlCreatePushParserCtxt (NULL, NULL, buffer, bytes, filename);
 
-	xml_parser_flag = xmlUseNewParser (TRUE);
 	while ((bytes = gzread (f, buffer, XML_INPUT_BUFFER_SIZE)) > 0) {
 		xmlParseChunk (pctxt, buffer, bytes, 0);
 		value_io_progress_update (context, lseek (fd, 0, SEEK_CUR));
 	}
 	xmlParseChunk (pctxt, buffer, 0, 1);
-	xmlUseNewParser (xml_parser_flag);
 
 	res = pctxt->myDoc;
 	xmlFreeParserCtxt (pctxt);

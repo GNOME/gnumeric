@@ -1,3 +1,16 @@
+2002-12-20  Jody Goldberg <jody@gnome.org>
+
+	* src/value.c (value_new_string_nocopy) : backport.
+
+	* src/xml-io.c : remove patch from 2002-11-24, and use _really_ big
+	  buffers to ameliorate the worst of the libxml1 bug.  Using libxml2
+	  parser is not feasbile with non-utf8 internals.
+
+	Back port small stf cleanup.
+	* src/stf-parse.c (stf_parse_sheet) : use cell_set_value and simplify.
+
+	* src/clipboard.c (paste_cell) : fix leak.
+
 2002-12-16  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=101204
