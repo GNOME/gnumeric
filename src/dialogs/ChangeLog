@@ -1,3 +1,18 @@
+2002-08-04  Zbigniew Chyla  <cyba@gnome.pl>
+
+	Welcome back "activate all" / "deactivate all" buttons
+
+	* dialog-plugin-manager.c
+	(PluginManagerGUI): Added button_activate_all, button_deactivate_all
+	(dialog_plugin_manager): Initalize them here
+	(pm_dialog_init): Set up signal handlers
+	(cb_pm_button_activate_all_clicked,
+	cb_pm_button_activate_all_clicked): New
+
+	* plugin-manager.glade
+	Added "activate all" / "deactivate all" buttons at the bottom of the
+	first page.
+
 2002-08-03  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* dialog-plugin-manager.c
