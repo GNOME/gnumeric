@@ -113,10 +113,10 @@ sub import_file {
 
 	    # Constants.
 	    s/\b(M_LN2|M_PI|M_PI_2|M_SQRT2|M_2PI)\b/$1gnum/g;
-	    s/([-+]?\d*\.(\d{10,})([eE][-+]?\d+)?)/GNUM_const\($1\)/g;
+	    s/([-+]?\d*\.(\d{10,})([eE][-+]?\d+)?)/GNM_const\($1\)/g;
 
 	    # Fix constant quotients.
-	    s~([-+]?\d+\.\d*)(\s*/\s*)([-+e0-9.]+)~GNUM_const\($1\)$2$3~;
+	    s~([-+]?\d+\.\d*)(\s*/\s*)([-+e0-9.]+)~GNM_const\($1\)$2$3~;
 
 	    # These are made static.
 	    s/^gnm_float\s+(pbeta_both|stirlerr|bd0|dpois_raw|chebyshev_eval|lgammacor|lbeta|pbeta_raw|dbinom_raw)/static gnm_float $1/;

@@ -9,17 +9,17 @@ This has some coding style consequences...
    losing precision and the answer will also have reduced range and
    precision.
 
-2. For exact, fractional constants, use GNUM_const(273.18).  That will
+2. For exact, fractional constants, use GNM_const(273.18).  That will
    expand to either "273.18" or "273.18L", i.e., a constant with the
    right precision.  Don't bother for fractions that are a power of 2,
    i.e., for 232.25.  Also, don't bother for constants that aren't
    exact to begin with.  Note: make very sure you have a decimal point
-   or an "e" in the argument to GNUM_const.
+   or an "e" in the argument to GNM_const.
 
-   Use GNUM_const also for huge numbers, e.g., GNUM_const (1e100).
+   Use GNM_const also for huge numbers, e.g., GNM_const (1e100).
 
 3. Various <float.h> constants have "gnum" counterparts.  See numbers.h.
-   For example, GNUM_dig.
+   For example, GNUM_DIG.
 
 4. Various <math.h> constants have "gnum" counterparts.  See mathfunc.h.
    For example, M_PIgnum and M_LN2gnum.
