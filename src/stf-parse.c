@@ -363,10 +363,8 @@ stf_parse_csv_is_separator (char const *character, char const *chr, GSList const
 		char const *s;
 		
 		for (s = chr; *s != '\0'; s++) {
-			if (*character == *s) {
+			if (*character == *s)
 				return character + 1;
-				break;
-			}
 		}
 	}
 
@@ -421,15 +419,11 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 				break;
 
 			if ((s = stf_parse_csv_is_separator (cur, parseoptions->sep.chr, parseoptions->sep.str))) {
-				char const *r;
-				
-				if (parseoptions->duplicates) {
-					if ((r = stf_parse_csv_is_separator (s, parseoptions->sep.chr, parseoptions->sep.str))) {
-						cur = r;
-						continue;
-					}
-				}
 				cur = s;
+				if (parseoptions->duplicates) {
+					if (stf_parse_csv_is_separator (s, parseoptions->sep.chr, parseoptions->sep.str))
+						continue;
+				}
 				break;
 			}
 		}
@@ -687,17 +681,12 @@ stf_parse_get_colcount (StfParseOptions_t *parseoptions, char const *data)
 			}
 
 			if ((s = stf_parse_csv_is_separator (iterator, parseoptions->sep.chr, parseoptions->sep.str))) {
-			
-				if (parseoptions->duplicates) {
-					char const *r;
-
-					if ((r = stf_parse_csv_is_separator (s, parseoptions->sep.chr, parseoptions->sep.str))) {
-						iterator = r;
-						continue;
-					}
-				}
-				
 				iterator = s;
+				if (parseoptions->duplicates) {
+					if (stf_parse_csv_is_separator (s, parseoptions->sep.chr, parseoptions->sep.str))
+						continue;
+				}
+
 				tempcount++;
 			} else
 				iterator++;
@@ -766,20 +755,16 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, char const *data, int c
 			
 			if ((s = stf_parse_csv_is_separator (iterator, parseoptions->sep.chr, parseoptions->sep.str))) {
 
+				iterator = s;
 				if (parseoptions->duplicates) {
-					char const *r;
-
-					if ((r = stf_parse_csv_is_separator (s, parseoptions->sep.chr, parseoptions->sep.str))) {
-						iterator = r;
+					if (stf_parse_csv_is_separator (s, parseoptions->sep.chr, parseoptions->sep.str))
 						continue;
-					}
 				}
 
 				if (col == index && colwidth > width)
 					width = colwidth;
 
 				colwidth = 0;
-				iterator = s;
 				col++;
 			} else {
 				colwidth++;

@@ -1,3 +1,11 @@
+2001-10-10  Almer S. Tigelaar  <almer@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=62006
+	* src/stf-parse.c (stf_parse_csv_is_separator): Tidy.
+	(stf_parse_csv_cell): Fix handling of multiple separators.
+	(stf_parse_get_colcount): Idem.
+	(stf_parse_get_colwidth): Idem.
+
 2001-10-10  Jody Goldberg <jgoldberg@home.com>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=62031
