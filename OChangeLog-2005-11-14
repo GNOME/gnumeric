@@ -1,3 +1,12 @@
+2005-03-28  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-view.c (wb_view_auto_expr_precision): New function.
+
+	* src/workbook-control-gui.c (cb_auto_expr_precision_toggled): New
+	function.
+	(cb_select_auto_expr): Add a check item to control whether maximum
+	precision is used.
+
 2005-03-28  Jon K Hellan  <hellan@acm.org>
 
 	* src/clipboard.[ch]: (clipboard_copy_obj): New. Returns a cell

@@ -79,6 +79,7 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkseparatormenuitem.h>
+#include <gtk/gtkcheckmenuitem.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtklabel.h>
@@ -1837,8 +1838,18 @@ cb_auto_expr_changed (GtkWidget *item, WorkbookControlGUI *wbcg)
 		g_object_get_data (G_OBJECT (item), "expr"));
 }
 
+static void
+cb_auto_expr_precision_toggled (GtkWidget *item, WorkbookControlGUI *wbcg)
+{
+	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	if (wbcg->updating_ui)
+		return;
+
+	wb_view_auto_expr_precision (wbv, !wbv->auto_expr_use_max_precision);
+}
+
 static gboolean
-cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
+cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WorkbookControlGUI *wbcg)
 {
 	/*
 	 * WARNING * WARNING * WARNING
@@ -1867,7 +1878,6 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
 	};
 
 	GtkWidget *menu;
-	GtkWidget *item;
 	int i;
 
 	if (event->button != 3)
@@ -1879,6 +1889,7 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
 		GnmParsePos pp;
 		const char *expr = quick_compute_routines [i].function;
 		const GnmExpr *new_auto_expr;
+		GtkWidget *item;
 
 		/* Test the expression...  */
 		parse_pos_init (&pp, wb_control_workbook (WORKBOOK_CONTROL (wbcg)), NULL, 0, 0);
@@ -1895,6 +1906,25 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
 		g_signal_connect (G_OBJECT (item),
 			"activate",
 			G_CALLBACK (cb_auto_expr_changed), wbcg);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+		gtk_widget_show (item);
+	}
+
+	{
+		GtkWidget *item = gtk_separator_menu_item_new ();
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+		gtk_widget_show (item);
+	}
+
+	{
+		GtkWidget *item = gtk_check_menu_item_new_with_label
+			(_("Use maximum precision"));
+		WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item),
+						wbv->auto_expr_use_max_precision);
+		g_signal_connect (G_OBJECT (item),
+			"activate",
+			G_CALLBACK (cb_auto_expr_precision_toggled), wbcg);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 		gtk_widget_show (item);
 	}

@@ -28,6 +28,7 @@ struct _WorkbookView {
 	GnmExpr const *auto_expr;
 	char	  *auto_expr_desc;
 	char	  *auto_expr_value_as_string;
+	gboolean  auto_expr_use_max_precision;
 
 	/* selection */
 	char	  *selection_description;
@@ -76,6 +77,8 @@ void		 wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display);
 void		 wb_view_auto_expr	  (WorkbookView *wbv,
 					   char const *name,
 					   char const *func_name);
+void             wb_view_auto_expr_precision (WorkbookView *wbv,
+					      gboolean use_max_precision);
 
 /* I/O routines */
 gboolean wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs,

@@ -363,6 +363,20 @@ wb_view_auto_expr (WorkbookView *wbv, char const *descr, char const *func_name)
 		wb_view_auto_expr_recalc (wbv, TRUE);
 }
 
+void
+wb_view_auto_expr_precision (WorkbookView *wbv, gboolean use_max_precision)
+{
+	use_max_precision = !!use_max_precision;
+
+	if (wbv->auto_expr_use_max_precision == use_max_precision)
+		return;
+
+	wbv->auto_expr_use_max_precision = use_max_precision;
+	if (wbv->current_sheet != NULL)
+		wb_view_auto_expr_recalc (wbv, TRUE);
+}
+
+
 static void
 wb_view_auto_expr_value_display (WorkbookView *wbv)
 {
@@ -395,7 +409,6 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 	GnmExprList	*selection = NULL;
 	GnmValue	*v;
 	SheetView	*sv;
-	gboolean        no_auto_expr_format = FALSE;  /* FIXME */
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 	g_return_if_fail (wbv->auto_expr != NULL);
@@ -419,7 +432,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 		GOFormat *tmp_format = NULL;
 
 		g_string_append_c (str, '=');
-		if (!no_auto_expr_format) {
+		if (!wbv->auto_expr_use_max_precision) {
 			format = VALUE_FMT (v);
 			if (!format) {
 				const GnmExpr *fcall =
@@ -565,6 +578,7 @@ workbook_view_new (Workbook *wb)
 	wbv->auto_expr      = NULL;
 	wbv->auto_expr_desc = NULL;
 	wbv->auto_expr_value_as_string = NULL;
+	wbv->auto_expr_use_max_precision = FALSE;
 	wb_view_auto_expr (wbv, _("Sum"), "sum");
 
 	wbv->current_format = NULL;
