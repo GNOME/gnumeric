@@ -1,5 +1,9 @@
 2005-03-21  Morten Welinder  <terra@gnome.org>
 
+	* generate: Add more distributions.
+
+2005-03-21  Morten Welinder  <terra@gnome.org>
+
 	* generate (distribution): Fix [dpq]lnorm descriptions.
 
 2005-03-18  Jon K Hellan  <hellan@acm.org>

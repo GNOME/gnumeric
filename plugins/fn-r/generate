@@ -12,19 +12,22 @@ my %argoverride = ();
 {
     my $of = "of the distribution";
     my @common = ('give_log' =>
-	      "if true, log of the result will be returned instead.  " .
-	      "This is useful if the result would otherwise underflow to 0.  " .
-	      "Defaults to false.",
+		  "if true, log of the result will be returned instead.  " .
+		  "This is useful if the result would otherwise underflow to 0.  " .
+		  "Defaults to false.",
 	      
-	      'lower_tail' =>
-	      "if true (the default), the lower tail of the distribution is considered.",
+		  'lower_tail' =>
+		  "if true (the default), the lower tail of the distribution is considered.",
 
-	      'log_p' => "if true, log of the probability is used.  " .
-	      "This is useful if the probability would otherwise underflow to 0.  " .
-	      "Defaults to false.",
+		  'log_p' => "if true, log of the probability is used.  " .
+		  "This is useful if the probability would otherwise underflow to 0.  " .
+		  "Defaults to false.",
 
-	      'p' => 'probability.'
-	      );
+		  'p' => 'probability.',
+
+		  'shape' => "the shape parameter $of",
+		  'scale' => "the scale parameter $of",
+		  );
 
     $funcs{'dnorm'} = $funcs{'pnorm'} = $funcs{'qnorm'} =
 	[\&distribution,
@@ -43,9 +46,7 @@ my %argoverride = ();
     $funcs{'dgamma'} = $funcs{'pgamma'} = $funcs{'qgamma'} =
 	[\&distribution,
 	 'gamma',
-	 ({ 'shape' => "the shape parameter $of",
-	    'scale' => "the scale parameter $of",
-	    @common })];
+	 ({ @common })];
 
     $funcs{'dbeta'} = $funcs{'pbeta'} = $funcs{'qbeta'} =
 	[\&distribution,
@@ -64,6 +65,77 @@ my %argoverride = ();
 	 ({ 'n' => "the number of degrees of freedom $of",
 	    @common })];
     $argoverride{"qt:ndf"} = "n";
+
+    $funcs{'df'} = $funcs{'pf'} = $funcs{'qf'} =
+	[\&distribution,
+	 'F',
+	 ({ 'n1' => "the first number of degrees of freedom $of",
+	    'n2' => "the first number of degrees of freedom $of",
+	    @common })];
+
+    $funcs{'dchisq'} = $funcs{'pchisq'} = $funcs{'qchisq'} =
+	[\&distribution,
+	 'chi-square',
+	 ({ 'df' => "the number of degrees of freedom $of",
+	    @common })];
+
+    $funcs{'dweibull'} = $funcs{'pweibull'} = $funcs{'qweibull'} =
+	[\&distribution,
+	 'Weibull',
+	 ({ @common })];
+
+    $funcs{'dpois'} = $funcs{'ppois'} = $funcs{'qpois'} =
+	[\&distribution,
+	 'Poisson',
+	 ({ 'lambda' => "the mean $of",
+	    @common })];
+
+    $funcs{'dexp'} = $funcs{'pexp'} = $funcs{'qexp'} =
+	[\&distribution,
+	 'exponential',
+	 ({ @common })];
+
+    $funcs{'dbinom'} = $funcs{'pbinom'} = $funcs{'qbinom'} =
+	[\&distribution,
+	 'binomial',
+	 ({ 'n' => 'the number of trials',
+	    'psuc' => "the probability of success in each trial",
+	    @common })];
+    $argoverride{"dbinom:p"} = $argoverride{"pbinom:p"} = $argoverride{"qbinom:p"} =
+	"psuc";
+
+    $funcs{'dnbinom'} = $funcs{'pnbinom'} = $funcs{'qnbinom'} =
+	[\&distribution,
+	 'negative binomial',
+	 ({ 'n' => 'the number of trials',
+	    'psuc' => "the probability of success in each trial",
+	    @common })];
+    $argoverride{"dnbinom:p"} = $argoverride{"pnbinom:p"} = $argoverride{"qnbinom:pr"} =
+	"psuc";
+
+    $funcs{'dhyper'} = $funcs{'phyper'} = $funcs{'qhyper'} =
+	[\&distribution,
+	 'hypergeometric',
+	 ({ 'r' => "the number of red balls",
+	    'b' => "the number of black balls",
+	    'n' => "the number of balls drawn",	    
+	    @common })];
+    $argoverride{"phyper:NR"} = 'r';
+    $argoverride{"phyper:NB"} = 'b';
+
+    $funcs{'dcauchy'} = $funcs{'pcauchy'} = $funcs{'qcauchy'} =
+	[\&distribution,
+	 'Cauchy',
+	 ({ 'location' => "the center $of",
+	    @common })];
+
+    $funcs{'dgeom'} = $funcs{'pgeom'} = $funcs{'qgeom'} =
+	[\&distribution,
+	 'geometric',
+	 ({ 'psuc' => "the probability of success in each trial",
+	    @common })];
+    $argoverride{"dgeom:p"} = $argoverride{"pgeom:p"} = $argoverride{"qgeom:p"} =
+	"psuc";
 }
 
 my %type_getter =
@@ -196,7 +268,7 @@ sub distribution {
 	("\@FUNCTION=" . uc ("r.$func") . "\n" .
 	 "\@SYNTAX=" . uc ("r.$func") . "($helpargs)\n" .
 	 "\@DESCRIPTION=" .
-	 uc ("r.$func") . " function return the $what " .
+	 uc ("r.$func") . " function returns the $what " .
 	 "of the $distname distribution.\n\n" .
 	 "$helpargsdesc\n" .
 	 "\@EXAMPLES=\n\n" .

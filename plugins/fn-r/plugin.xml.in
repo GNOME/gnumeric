@@ -12,18 +12,41 @@
 			<_category>Statistics</_category>
 			<functions>
 				<function name="r.dbeta"/>
+				<function name="r.dbinom"/>
+				<function name="r.dcauchy"/>
+				<function name="r.dexp"/>
 				<function name="r.dgamma"/>
+				<function name="r.dgeom"/>
+				<function name="r.dhyper"/>
+				<function name="r.dnbinom"/>
 				<function name="r.dnorm"/>
+				<function name="r.dpois"/>
 				<function name="r.dt"/>
+				<function name="r.dweibull"/>
 				<function name="r.pbeta"/>
+				<function name="r.pbinom"/>
+				<function name="r.pcauchy"/>
+				<function name="r.pchisq"/>
+				<function name="r.pexp"/>
+				<function name="r.pf"/>
 				<function name="r.pgamma"/>
+				<function name="r.pgeom"/>
+				<function name="r.phyper"/>
 				<function name="r.plnorm"/>
+				<function name="r.pnbinom"/>
 				<function name="r.pnorm"/>
+				<function name="r.ppois"/>
 				<function name="r.pt"/>
+				<function name="r.pweibull"/>
 				<function name="r.qbeta"/>
+				<function name="r.qbinom"/>
+				<function name="r.qchisq"/>
+				<function name="r.qf"/>
 				<function name="r.qgamma"/>
 				<function name="r.qlnorm"/>
+				<function name="r.qnbinom"/>
 				<function name="r.qnorm"/>
+				<function name="r.qpois"/>
 				<function name="r.qt"/>
 			</functions>
 		</service>
