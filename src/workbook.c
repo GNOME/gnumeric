@@ -1084,7 +1084,7 @@ workbook_sheet_delete (Sheet *sheet)
 
 	wb = sheet->workbook;
 
-	if (!sheet_is_pristine (sheet)) {
+	if (!sheet->pristine) {
 		/*
 		 * FIXME : Deleting a sheet plays havoc with our data structures.
 		 * Be safe for now and empty the undo/redo queues
