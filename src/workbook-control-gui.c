@@ -2810,6 +2810,10 @@ static GnomeUIInfo workbook_menu_insert [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
+	GNOMEUIINFO_ITEM_STOCK (N_("_Function..."),
+		N_("Insert a function into the selected cell"),
+		cb_formula_guru, "Gnumeric_FormulaGuru"),
+
 	GNOMEUIINFO_SUBTREE(N_("_Name"), workbook_menu_names),
 
 	GNOMEUIINFO_ITEM_STOCK (N_("_Add / Modify comment..."),
@@ -3249,6 +3253,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("InsertRows", cb_insert_rows),
 	BONOBO_UI_UNSAFE_VERB ("InsertColumns", cb_insert_cols),
 	BONOBO_UI_UNSAFE_VERB ("InsertCells", cb_insert_cells),
+	BONOBO_UI_UNSAFE_VERB ("InsertFormula", cb_formula_guru),
 	BONOBO_UI_UNSAFE_VERB ("InsertComment", cb_insert_comment),
 
 	BONOBO_UI_UNSAFE_VERB ("ColumnAutoSize",

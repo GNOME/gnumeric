@@ -15,6 +15,7 @@ Andreas:
 	* Fix csv importer crash.
 	* Port summary dialog and make it modeless.
 	* Make summary changes undoable.
+	* Fixed #68048.
 
 Jody:
 	* Fix XL import of external function names.
