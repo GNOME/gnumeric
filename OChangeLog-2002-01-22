@@ -1,3 +1,8 @@
+2001-07-13  Morten Welinder  <terra@diku.dk>
+
+	* src/analysis-tools.c (ttest_eq_var_tool): Fixed for pooled
+ 	variance from Prof. Dr. Andreas J. Guelzow.
+
 2001-07-12  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c (range_multinomial): New function.

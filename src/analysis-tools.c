@@ -1433,13 +1433,13 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 	var1 = (set_one.sqrsum - set_one.sum2 / set_one.n) / (set_one.n - 1);
 	var2 = (set_two.sqrsum - set_two.sum2 / set_two.n) / (set_two.n - 1);
 
-	var = (set_one.sqrsum + set_two.sqrsum - (set_one.sum + set_two.sum) *
-	       (set_one.sum + set_two.sum)/ (set_one.n + set_two.n)) /
-		(set_one.n + set_two.n - 1);  /* TODO: Correct??? */
-
 	df = set_one.n + set_two.n - 2;
+
+	var = ((set_one.sqrsum - set_one.sum2 / set_one.n) +
+	       (set_two.sqrsum - set_two.sum2 / set_two.n)) / df;
+
 	t = fabs (mean1 - mean2 - mean_diff) /
-		sqrt (var1 / set_one.n + var2 / set_two.n);
+		sqrt (var / set_one.n + var / set_two.n);
 	p = 1.0 - pt (t, df);
 
 	/* Mean */
