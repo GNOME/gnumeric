@@ -41,8 +41,8 @@ void         consolidate_free (Consolidate *cs);
 void         consolidate_set_function    (Consolidate *cs, FunctionDefinition *fd);
 void         consolidate_set_mode        (Consolidate *cs, ConsolidateMode mode);
 
-gboolean     consolidate_set_destination (Consolidate *cs, Sheet *sheet, Range const *r);
-gboolean     consolidate_add_source      (Consolidate *cs, Sheet *sheet, Range const *r);
+gboolean     consolidate_set_destination (Consolidate *cs, Value *range);
+gboolean     consolidate_add_source      (Consolidate *cs, Value *range);
 
 Range        consolidate_get_dest_bounding_box (Consolidate *cs);
 void         consolidate_apply                 (Consolidate *cs);

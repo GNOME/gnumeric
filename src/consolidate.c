@@ -2,6 +2,7 @@
  * consolidate.c : Implementation of the data consolidation feature.
  *
  * Copyright (C) Almer S. Tigelaar <almer@gnome.org>
+ * Copyright (C) Andreas J Guelzow <aguelzow@taliesin.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -227,17 +228,24 @@ consolidate_set_mode (Consolidate *cs, ConsolidateMode mode)
 }
 
 gboolean
-consolidate_set_destination (Consolidate *cs, Sheet *sheet, Range const *r)
+consolidate_set_destination (Consolidate *cs, Value *range)
 {
 	GlobalRange *new;
 	GSList const *l;
 	
 	g_return_val_if_fail (cs != NULL, FALSE);
-	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-	g_return_val_if_fail (r != NULL, FALSE);
+	g_return_val_if_fail (range != NULL, FALSE);
 
-	new = global_range_new (sheet, r);
-	
+	new = g_new (GlobalRange, 1);
+
+	new->sheet = range->v_range.cell.a.sheet;
+	new->range.start.col = range->v_range.cell.a.col;
+	new->range.start.row = range->v_range.cell.a.row;
+	new->range.end.col = range->v_range.cell.b.col;
+	new->range.end.row = range->v_range.cell.b.row;
+
+	value_release (range);
+
 	/*
 	 * Don't allow the destination to overlap
 	 * with any of the source ranges
@@ -253,19 +261,29 @@ consolidate_set_destination (Consolidate *cs, Sheet *sheet, Range const *r)
 	
 	if (cs->dst)
 		global_range_free (cs->dst);
+
 	cs->dst = new;
 	
 	return TRUE;
 }
 
 gboolean
-consolidate_add_source (Consolidate *cs, Sheet *sheet, Range const *r)
+consolidate_add_source (Consolidate *cs, Value *range)
 {
 	GlobalRange *tmp, *new;
 
 	g_return_val_if_fail (cs != NULL, FALSE);
-	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-	g_return_val_if_fail (r != NULL, FALSE);
+	g_return_val_if_fail (range != NULL, FALSE);
+
+	new = g_new (GlobalRange, 1);
+
+	new->sheet = range->v_range.cell.a.sheet;
+	new->range.start.col = range->v_range.cell.a.col;
+	new->range.start.row = range->v_range.cell.a.row;
+	new->range.end.col = range->v_range.cell.b.col;
+	new->range.end.row = range->v_range.cell.b.row;
+
+	value_release (range);
 
 	/*
 	 * Make sure the range that is added doesn't overlap
@@ -278,11 +296,11 @@ consolidate_add_source (Consolidate *cs, Sheet *sheet, Range const *r)
 	 * larger) we do a strict sanity check here.
 	 */
 	tmp = global_range_dup (cs->dst);
-	tmp->range.end.col = tmp->range.start.col + (r->end.col - r->start.col);
-	tmp->range.end.row = tmp->range.start.row + (r->end.row - r->start.row);
+	tmp->range.end.col = tmp->range.start.col + 
+		(new->range.end.col - new->range.start.col);
+	tmp->range.end.row = tmp->range.start.row + 
+		(new->range.end.row - new->range.start.row);
 
-	new = global_range_new (sheet, r);
-	
 	if (global_range_overlap (tmp, new)) {
 		global_range_free (new);
 		global_range_free (tmp);

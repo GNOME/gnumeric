@@ -1,5 +1,19 @@
 2002-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* consolidate.glade : add help button
+	* dialog-consolidate.c (gnumeric_expr_entry_parse_to_value) : 
+	  new procedure
+	(construct_consolidate) : use gnumeric_expr_entry_parse_to_value
+	  and global_range_parse
+	(is_cell_ref) : new procedure
+	(dialog_set_button_sensitivity) : new callback
+	(cb_source_changed) : use is_cell_ref
+	(cb_add_source_area) : use global_range_name
+	(setup_widgets) : attach help button and connect new callbacks
+	(cb_help_clicked) : new callback
+
+2002-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* consolidate.glade : make gnome2 compatible
 	* dialog-consolidate.c (cb_dialog_destroy) : glade gui is 
 	  not gtk-object

@@ -13,6 +13,7 @@ Andreas:
 	* Make the goal-seek warnings non-modal
 	* Port consolidate dialog to gnome2
 	* Make the consolidate warning dialogs non-modal
+	* Allow cross-sheet consolidation
 
 Jody:
 	* Initial port to gnome2.
