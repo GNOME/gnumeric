@@ -1,5 +1,11 @@
 2003-12-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=129049
+	* src/session.c (interaction_function): stick dialogs and workbook 
+	  windows to ensure they are visible for logout conversation
+
+2003-12-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=129444
 	* src/print-cell.c (cell_split_text_no_wrap): new
 	(print_cell): check for non-word-wrapped cells with line breaks

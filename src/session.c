@@ -130,13 +130,19 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 						    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 			gtk_dialog_add_button (GTK_DIALOG(d), GTK_STOCK_SAVE, GTK_RESPONSE_YES);
 			gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_YES);
+
+#warning We are making these windows sticky to work around a session manager bug that may make them inaccessible
+			gtk_window_stick (GTK_WINDOW (wbcg_toplevel (wbcg)));
+			gtk_window_stick (GTK_WINDOW (d));
 			
 			button = gnumeric_dialog_run (wbcg, GTK_DIALOG (d));
+
 			g_free (msg);
 			
 			switch (button) {
 			case GTK_RESPONSE_YES:
 				if (!gui_file_save (wbcg, wb_view)) {
+					gtk_window_unstick (GTK_WINDOW (wbcg_toplevel (wbcg)));
 					do_not_cancel = TRUE;
 					goto finished;
 				}
@@ -144,6 +150,7 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 				
 			case (- GTK_RESPONSE_YES):
 				if (!gui_file_save (wbcg, wb_view)) {
+					gtk_window_unstick (GTK_WINDOW (wbcg_toplevel (wbcg)));
 					do_not_cancel = TRUE;
 					goto finished;
 				}
@@ -154,14 +161,17 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 				break;
 				
 			case (- GTK_RESPONSE_NO):
+				gtk_window_unstick (GTK_WINDOW (wbcg_toplevel (wbcg)));
 				goto finished;
 				break;
 				
 			default:  /* CANCEL */
+				gtk_window_unstick (GTK_WINDOW (wbcg_toplevel (wbcg)));
 				do_not_cancel = TRUE;
 				goto finished;
 				break;
 			}
+			gtk_window_unstick (GTK_WINDOW (wbcg_toplevel (wbcg)));
 			
 		}
 	}
