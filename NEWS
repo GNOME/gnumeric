@@ -6,6 +6,7 @@ Andreas:
 
 Morten:
 	* Improve goal seek.
+	* Fixed parsing of numbers is scientific context.
 
 --------------------------------------------------------------------------
 Gnumeric 0.72

@@ -32,6 +32,7 @@
 #include "style.h"
 #include "format.h"
 #include "value.h"
+#include "mathfunc.h"
 
 #undef DEBUG_NUMBER_MATCH
 
@@ -148,7 +149,7 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 				break;
 			}
 
-		case '^': 
+		case '^':
 		case '|':
 		case ']' :
 		case '$' :
@@ -376,7 +377,7 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 					g_string_append_c (regexp, '\\');
 					/* Fall through.  */
 				default:
-					g_string_append_c (regexp, *q);					
+					g_string_append_c (regexp, *q);
 				}
 			}
 
@@ -807,17 +808,40 @@ compute_value (char const *s, const regmatch_t *mp,
 			}
 			break;
 
-		case MATCH_NUMBER_DECIMALS:
+		case MATCH_NUMBER_DECIMALS: {
+			char *exppart = NULL;
 			if (*str == decimal) {
 				char *end;
-				errno = 0; /* strtol sets errno, but does not clear it.  */
+				errno = 0; /* strtod sets errno, but does not clear it.  */
 				if (seconds < 0) {
-					number += strtod (str, &end);
+					gnum_float fraction;
+
+					for (end = str; *end && *end != 'e' && *end != 'E'; )
+						end++;
+					if (*end) {
+						exppart = end + 1;
+						*end = 0;
+					}
+
+					fraction = strtod (str, &end);
+					if (number >= 0)
+						number += fraction;
+					else
+						number -= fraction;
 					is_number = TRUE;
 				} else
 					seconds += strtod (str, &end);
 			}
+			if (exppart) {
+				char *end;
+				int exponent;
+
+				errno = 0; /* strtol sets errno, but does not clear it.  */
+				exponent = strtol (exppart, &end, 10);
+				number *= gpow10 (exponent);
+			}
 			break;
+		}
 
 		case MATCH_HOUR:
 			hours = atoi (str);

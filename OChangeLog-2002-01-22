@@ -1,5 +1,10 @@
 2001-10-19  Morten Welinder  <terra@diku.dk>
 
+	* src/number-match.c (compute_value): Fix parsing of decimal
+ 	fractions and exponents.
+
+2001-10-19  Morten Welinder  <terra@diku.dk>
+
 	* src/goal-seek.c (goal_seek_newton): Deliberately overshoot in
  	each iteration.  This makes it more likely that we get to hit both
  	sides of the root.
