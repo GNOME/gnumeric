@@ -7,10 +7,12 @@
 #include <config.h>
 #include <gnome.h>
 #include <gdk/gdkkeysyms.h>
+#include <bonobo/bonobo-ui-component.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "gnumeric-type-util.h"
 #include "sheet-control-gui.h"
+#include "workbook-control-gui-priv.h"
 #include "dialogs.h"
 #include "sheet-object-item.h"
 
@@ -26,6 +28,7 @@ sheet_object_item_new_view (SheetObject *so, SheetControlGUI *s_control)
 	 */
 	so_view = bonobo_client_site_new_item (
 		SHEET_OBJECT_BONOBO (so)->client_site,
+		bonobo_ui_component_get_container (s_control->wbcg->uic),
 		s_control->object_group);
 
 	scg_object_register (so, so_view);
