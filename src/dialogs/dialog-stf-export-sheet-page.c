@@ -284,6 +284,7 @@ stf_export_dialog_sheet_page_init (GladeXML *gui, Workbook *wb)
 {
 	StfE_SheetPageData_t *data;
 	GList *sheets, *ptr;
+	GtkCList *clist;
 
 	g_return_val_if_fail (gui != NULL, NULL);
 	g_return_val_if_fail (wb != NULL, NULL);
@@ -308,14 +309,19 @@ stf_export_dialog_sheet_page_init (GladeXML *gui, Workbook *wb)
 	data->sheet_run_export_index = -1;
 
 	sheets = workbook_sheets (wb);
+	if (g_list_length (sheets) == 1)
+		clist = data->sheet_export;
+	else
+		clist = data->sheet_avail;
+		
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
 		char *t[1];
 		int index;
 
 		t[0] = sheet->name_quoted;
-		index = gtk_clist_append (data->sheet_avail, t);
-		gtk_clist_set_row_data (data->sheet_avail, index, sheet);
+		index = gtk_clist_append (clist, t);
+		gtk_clist_set_row_data (clist, index, sheet);
 	}
 	g_list_free (sheets);
 

@@ -1,5 +1,16 @@
 2003-01-04  Jon K Hellan  <hellan@acm.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=84791
+
+	* dialog-stf-export-sheet-page.c
+	(stf_export_dialog_sheet_page_init): When only one sheet in
+	workbook, put it in export clist right away.
+
+	* dialog-stf-export.c (stf_export_dialog): Skip sheet page when
+	only one sheet in workbook. Fixes 
+
+2003-01-04  Jon K Hellan  <hellan@acm.org>
+
 	* dialog-hyperlink.c (struct HyperlinkState): Add sheet control,
 	internal link expr entry and is_new flag.
 	(dialog_hyperlink_free, cb_cancel, cb_ok)

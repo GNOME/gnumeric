@@ -27,6 +27,7 @@
 
 #include <command-context.h>
 #include <gdk/gdkkeysyms.h>
+#include <workbook.h>
 
 #define GLADE_FILE "dialog-stf-export.glade"
 
@@ -384,6 +385,12 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 	gtk_widget_grab_default (druid_data.druid->next);
 
 	gnumeric_set_transient (wbcg, druid_data.window);
+	if (workbook_sheet_count (wb) == 1) {
+		stf_export_dialog_druid_page_next (druid_data.sheet_page,
+						   druid_data.druid,
+						   &druid_data);
+		gnome_druid_set_buttons_sensitive (druid_data.druid,
+						   FALSE, TRUE, TRUE, TRUE);	}
 	gtk_widget_show (GTK_WIDGET (druid_data.window));
 
 	gtk_main ();
