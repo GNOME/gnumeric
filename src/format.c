@@ -823,7 +823,11 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 		case '$':
 			g_string_append_c (result, *format);
 			break;
-			
+	
+		case '£':
+			g_string_append_c (result, *format);
+			break;
+		
 		case ')':
 			if (can_render_number && !info.rendered)
 				g_string_append (result, do_render_number (number, &info));
