@@ -50,6 +50,29 @@ gcd (int a, int b)
 	return a;
 }
 
+static float_t
+pow10 (int n)
+{
+	float_t res = 1.0;
+	float_t p;
+	const int maxn = 300;
+
+	if (n >= 0) {
+		p = 10.0;
+		n = (n > maxn) ? maxn : n;
+	} else {
+		p = 0.1;
+		/* Note carefully that we avoid overflow.  */
+		n = (n < -maxn) ? maxn : -n;
+	}
+	while (n > 0) {
+		if (n & 1) res *= p;
+		p *= p;
+		n >>= 1;
+	}
+	return res;
+}
+
 
 typedef struct {
         GSList *list;
@@ -1513,57 +1536,34 @@ static char *help_trunc = {
 	   "@SYNTAX=TRUNC(number[,digits])\n"
 
 	   "@DESCRIPTION=The TRUNC function returns the value of @number "
-	   "truncated to the number of digits specified.  If @digits is omited "
+	   "truncated to the number of digits specified.  If @digits is omitted "
 	   "then @digits defaults to zero."
 	   "\n"
 
 	   "\n"
 	   "@SEEALSO=")
 };
+
 static Value *
-gnumeric_trunc (Sheet *sheet, GList *expr_node_list,
-		int eval_col, int eval_row, char **error_string)
+gnumeric_trunc (struct FunctionDefinition *i,
+		Value *argv [], char **error_string)
 {
-	Value *number;
-	int args = g_list_length (expr_node_list);
-	int decimals = 0;
-	double v, integral, fraction;
+        float_t number, p10;
+        int digits;
 
-	if (args < 1 || args > 2){
-		*error_string = _("Invalid number of arguments");
-		return NULL;
-	}
+	number = value_get_as_float (argv[0]);
+	if (argv[1] == NULL)
+	        digits = 0;
+	else
+	        digits = value_get_as_int (argv[1]);
 
-	number = eval_expr (sheet, (ExprTree *) expr_node_list->data,
-			    eval_col, eval_row, error_string);
-	if (!number)
-		return NULL;
-
-	v = number->v.v_float;
-	value_release (number);
-
-	if (args == 2){
-		Value *value;
-
-		value = eval_expr (sheet,
-				   (ExprTree *) expr_node_list->next->data,
-				   eval_col, eval_row, error_string);
-		if (!value){
-			return NULL;
-		}
-
-		decimals = value_get_as_int (value);
-		value_release (value);
-	}
-
-	fraction = modf (v, &integral);
-	if (decimals){
-		double pot = pow (10, decimals);
-
-		return value_new_float (integral + floor (fraction * pot) / pot);
-	} else
-		return value_new_float (integral);
+	p10 = pow10 (digits);
+	if (number < 0)
+		return value_new_float (-floor (-number * p10) / p10);
+	else
+		return value_new_float (floor (number * p10) / p10);
 }
+
 
 static char *help_even = {
 	N_("@FUNCTION=EVEN\n"
@@ -1766,6 +1766,7 @@ gnumeric_randbetween (struct FunctionDefinition *i,
 		return value_new_float (r);
 }
 
+
 static char *help_rounddown = {
 	N_("@FUNCTION=ROUNDDOWN\n"
 	   "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -1789,8 +1790,8 @@ static Value *
 gnumeric_rounddown (struct FunctionDefinition *i,
 		    Value *argv [], char **error_string)
 {
-        float_t number;
-        int     digits, k, n;
+        float_t number, p10;
+        int digits;
 
 	number = value_get_as_float (argv[0]);
 	if (argv[1] == NULL)
@@ -1798,19 +1799,11 @@ gnumeric_rounddown (struct FunctionDefinition *i,
 	else
 	        digits = value_get_as_int (argv[1]);
 
-	if (digits > 0) {
-	        k=1;
-		for (n=0; n<digits; n++)
-		        k *= 10;
-	        return value_new_float ((float_t) ((int) (number * k)) / k);
-	} else if (digits == 0) {
-	        return value_new_int ((int) number);
-	} else {
-	        k=1;
-		for (n=0; n<-digits; n++)
-		        k *= 10;
-		return value_new_float ((float_t) ((int) (number / k)) * k);
-	}
+	p10 = pow10 (digits);
+	if (number < 0)
+		return value_new_float (-ceil (-number * p10) / p10);
+	else
+		return value_new_float (floor (number * p10) / p10);
 }
 
 static char *help_round = {
@@ -1836,8 +1829,8 @@ static Value *
 gnumeric_round (struct FunctionDefinition *i,
 		Value *argv [], char **error_string)
 {
-        float_t number;
-        int     digits, k, n;
+        float_t number, p10;
+        int     digits;
 
 	number = value_get_as_float (argv[0]);
 	if (argv[1] == NULL)
@@ -1845,19 +1838,8 @@ gnumeric_round (struct FunctionDefinition *i,
 	else
 	        digits = value_get_as_int (argv[1]);
 
-	if (digits > 0) {
-	        k=1;
-		for (n=0; n<digits; n++)
-		        k *= 10;
-	        return value_new_float ( rint(number * k) / k);
-	} else if (digits == 0) {
-	        return value_new_int ((int) number);
-	} else {
-	        k=1;
-		for (n=0; n<-digits; n++)
-		        k *= 10;
-		return value_new_float (rint(number / k) * k);
-	}
+	p10 = pow10 (digits);
+	return value_new_float (rint (number * p10) / p10);
 }
 
 static char *help_roundup = {
@@ -1883,8 +1865,8 @@ static Value *
 gnumeric_roundup (struct FunctionDefinition *i,
 		  Value *argv [], char **error_string)
 {
-        float_t number, sign;
-        int     digits, k, n;
+        float_t number, p10;
+        int digits;
 
 	number = value_get_as_float (argv[0]);
 	if (argv[1] == NULL)
@@ -1892,23 +1874,11 @@ gnumeric_roundup (struct FunctionDefinition *i,
 	else
 	        digits = value_get_as_int (argv[1]);
 
-	sign = (number < 0) ? -1.0 : 1.0;
-
-	if (digits > 0) {
-	        k=1;
-		for (n=0; n<digits; n++)
-		        k *= 10;
-	        return value_new_float (sign * (ceil (fabs(number) * k)) / k);
-	} else if (digits == 0) {
-	        return value_new_int (sign * ceil(fabs(number)));
-	} else {
-	        k=1;
-		for (n=0; n<-digits; n++)
-		        k *= 10;
-		if (fabs(number) < k)
-		        return value_new_float (0);
-		return value_new_float (sign * (ceil (fabs(number) / k)) * k);
-	}
+	p10 = pow10 (digits);
+	if (number < 0)
+		return value_new_float (-floor (-number * p10) / p10);
+	else
+		return value_new_float (ceil (number * p10) / p10);
 }
 
 static char *help_mround = {
@@ -2632,8 +2602,7 @@ FunctionDefinition math_functions [] = {
 	  NULL, gnumeric_sumxmy2 },
 	{ "tan",     "f",    "number",    &help_tan,     NULL, gnumeric_tan },
 	{ "tanh",    "f",    "number",    &help_tanh,    NULL, gnumeric_tanh },
-	{ "trunc",   "f",    "number",    &help_trunc,
-	  gnumeric_trunc, NULL },
+	{ "trunc",   "f|f",  "number,digits",    &help_trunc,   NULL, gnumeric_trunc },
 	{ "pi",      "",     "",          &help_pi,      NULL, gnumeric_pi },
 	{ NULL, NULL },
 };

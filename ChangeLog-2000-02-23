@@ -1,10 +1,14 @@
 1999-06-14  Morten Welinder  <terra@diku.dk>
 
-	* src/fn-math.c (gnumeric_fact): Improve precision.  Extend domain
- 	to all positive numbers.
+	* src/fn-math.c (pow10): New function.
+	(gnumeric_rounddown): Simplify and correct.
+	(gnumeric_round): Ditto.
+	(gnumeric_roundup): Ditto.
+	(gnumeric_trunc): Ditto.
+	(gnumeric_fact): Improve precision.  Extend domain to all positive
+ 	numbers.
 	(gnumeric_factdouble): Use float_t instead of int.
-
-	* src/fn-math.c (gnumeric_atan2): Swap args to atan2.
+	(gnumeric_atan2): Swap args to atan2.
 
 1999-06-13  Morten Welinder  <terra@diku.dk>
 
