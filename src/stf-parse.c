@@ -476,7 +476,7 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 		char *field = stf_parse_csv_cell (src, parseoptions);
 
 		trim_spaces_inplace (field, parseoptions);
-		list = g_list_append (list, field);
+		list = g_list_prepend (list, field);
 
 		if (++col >= SHEET_MAX_COLS) {
 			g_warning (WARN_TOO_MANY_COLS, col);
@@ -484,7 +484,7 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 		}
 	}
 
-	return list;
+	return g_list_reverse (list);
 }
 
 /**
@@ -558,7 +558,7 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 		char *field = stf_parse_fixed_cell (src, parseoptions);
 
 		trim_spaces_inplace (field, parseoptions);
-		list = g_list_append (list, field);
+		list = g_list_prepend (list, field);
 
 		if (++col >= SHEET_MAX_COLS) {
 			g_warning (WARN_TOO_MANY_COLS, col);
@@ -568,7 +568,7 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 		src->splitpos++;
 	}
 
-	return list;
+	return g_list_reverse (list);
 }
 
 /**
@@ -622,12 +622,12 @@ stf_parse_general (StfParseOptions_t *parseoptions, char const *data)
 		r = parseoptions->parsetype == PARSE_TYPE_CSV
 			? stf_parse_csv_line (&src, parseoptions)
 			: stf_parse_fixed_line (&src, parseoptions);
-		l = g_list_append (l, r);
+		l = g_list_prepend (l, r);
 		
 		src.position++;
 	}
 
-	return l;
+	return g_list_reverse (l);
 }
 
 /**

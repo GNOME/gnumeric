@@ -3,9 +3,11 @@ Gnumeric 0.68
 Almer:
 	* Fix backspace key.
 	* Fix autosave dialog.
+	* Fix double-click autofill.
 	* Fix scrollbars.
 	* Shine-up string functions.
 	* Fix STF for CRLF terminated files.
+	* Fix bounds handling and leakage in STF.
 	* Add csv default importing + probing.
 	* Improve font preview in cell format dialog.
 

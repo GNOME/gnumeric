@@ -14,9 +14,11 @@
 #include "gnumeric-sheet.h"
 #include "sheet-control-gui-priv.h"
 #include "style-color.h"
+#include "cell.h"
 #include "clipboard.h"
 #include "selection.h"
 #include "sheet.h"
+#include "value.h"
 #include "workbook.h"
 #include "workbook-edit.h"
 #include "gnumeric-util.h"
@@ -601,6 +603,18 @@ item_cursor_set_cursor (GnomeCanvas *canvas, ItemCursor *ic, int x, int y)
 	e_cursor_set_widget (canvas, cursor);
 }
 
+static Value *
+cb_autofill_bound (Sheet *sheet, int col, int row,
+		   Cell *cell, gpointer want_cols)
+{
+	gboolean cols = GPOINTER_TO_INT (want_cols);
+	
+	if (!cell_is_blank (cell))
+		return cols ? value_new_int (col) : value_new_int (row);
+	else
+		return NULL;
+}
+
 static gint
 item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 {
@@ -711,7 +725,8 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		SheetControl *sc = (SheetControl *) ic->scg;
 		Sheet *sheet = sc->sheet;
 		int final_col = ic->pos.end.col;
-		int final_row = ic->pos.end.col;
+		int final_row = ic->pos.end.row;
+		Value *tmp = NULL;
 
 		if (ic->drag_button != (int)event->button.button)
 			return TRUE;
@@ -741,6 +756,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (event->button.state & GDK_MOD1_MASK) {
 			int template_col = ic->pos.end.col + 1;
 			int template_row = ic->pos.start.row - 1;
+
 			if (template_row < 0 ||
 			    sheet_is_cell_empty (sheet, ic->pos.start.col,
 						 template_row)) {
@@ -759,12 +775,28 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 			final_col = sheet_find_boundary_horizontal (sheet,
 				ic->pos.end.col, template_row,
 				template_row, 1, TRUE);
-			if (final_row <= ic->pos.end.row)
+			if (final_col <= ic->pos.end.col)
 				return TRUE;
-			/* FIXME : shorten based on fill target content */
+
+			/* Make sure we don't overwrite the contents of the fill target */
+			for (x = ic->pos.end.col + 1; x <= final_col; x++) {
+				tmp = sheet_foreach_cell_in_range (
+					sheet, TRUE, x, ic->pos.start.row, x,
+					ic->pos.end.row, (ForeachCellCB) cb_autofill_bound,
+					GINT_TO_POINTER (TRUE));
+
+				if (tmp) {
+					int bound = value_get_as_int (tmp);
+					if (final_col >= bound)
+						final_col = bound - 1;
+					value_release (tmp);
+					break;
+				}
+			}
 		} else {
 			int template_row = ic->pos.end.row + 1;
 			int template_col = ic->pos.start.col - 1;
+			
 			if (template_col < 0 ||
 			    sheet_is_cell_empty (sheet, template_col,
 						 ic->pos.start.row)) {
@@ -772,6 +804,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 				template_col = ic->pos.end.col + 1;
 				if (template_col >= SHEET_MAX_COLS ||
 				    sheet_is_cell_empty (sheet, template_col,
+
 							 ic->pos.start.row))
 					return TRUE;
 			}
@@ -785,12 +818,28 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 				template_col, 1, TRUE);
 			if (final_row <= ic->pos.end.row)
 				return TRUE;
-			/* FIXME : shorten based on fill target content */
+
+			/*
+			 * Make sure we don't overwrite the contents of the fill target
+			 * NOTE : We assume the traversal order is 'do all cols in a row and
+			 *        move on to the next row' here!
+			 */
+			tmp = sheet_foreach_cell_in_range (
+				sheet, TRUE, ic->pos.start.col, ic->pos.end.row + 1,
+				ic->pos.end.col, final_row, (ForeachCellCB) cb_autofill_bound,
+				GINT_TO_POINTER (FALSE));
+
+			if (tmp) {
+				int bound = value_get_as_int (tmp);
+				if (final_row >= bound)
+					final_row = bound - 1;
+				value_release (tmp);
+			}
 		}
 
 		/* fill the row/column */
 		cmd_autofill (sc->wbc, sheet,
-			      ic->pos.start.col,    ic->pos.start.row,
+			      ic->pos.start.col, ic->pos.start.row,
 			      ic->pos.end.col - ic->pos.start.col + 1,
 			      ic->pos.end.row - ic->pos.start.row + 1,
 			      final_col, final_row);

@@ -1,3 +1,14 @@
+2001-07-16  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/stf-parse.c (stf_parse_csv_line): Use g_list_append and
+	g_list_reverse.
+	(stf_parse_fixed_line): Idem.
+	(stf_parse_general): Idem.
+
+ 	* src/item-cursor.c (item_cursor_selection_event): Fix horizontal
+	double-click filling and add extra bound check for vertical
+	double-click filling.
+
 2001-07-16  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/file-priv.h
