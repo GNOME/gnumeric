@@ -14,7 +14,7 @@ Gnumeric Spread Sheet task list
 * Component
 
    Make sheet_selection_changed_hook execute a list of hooks 
-   Remove the hardcoded workbook hooks from the sheet.
+   Remove the hard-coded workbook hooks from the sheet.
    Initialize the hooks on the workbook_new routine.
 
    The model is somewhat broken.  sheet_new creates a sheet_view by
@@ -25,7 +25,7 @@ Gnumeric Spread Sheet task list
 
 * Cell editing
 
-   * Support for entering multiline cells, and <Alt-Enter> adding an
+   * Support for entering multi-line cells, and <Alt-Enter> adding an
      embedded newline.
 
    * Colouring a parsed formula for editing.
@@ -33,8 +33,7 @@ Gnumeric Spread Sheet task list
    * The mouse can select a range as the current argument while editing a
      formula without changing to a different cell.
 
-
-* Expresions
+* Expressions
 
     * Rework the handling of input ranges for functions/operators that take
       scalars.  To either take implicit intersection of calling cell and range
@@ -74,7 +73,7 @@ Gnumeric Spread Sheet task list
   * Get the list of *valid* fonts from GnomePrint
   * Create a simplistic dialog (to map to font-bold yes/no).
 
-* Cell dimension computation is broken on font change for multilines.
+* Cell dimension computation is broken on font change for multi-lines.
 
 * Number formatting
 
@@ -101,7 +100,7 @@ Gnumeric Spread Sheet task list
 
 ** Headers for Columns and Rows
 
-   The captions should be customizable, ie instaed of "A1", it should
+   The captions should be customizable, ie instead of "A1", it should
    be possible to display "Sales".  We can use this with Michael's
    name support. 
 
@@ -119,7 +118,7 @@ Gnumeric Spread Sheet task list
 ** Queueing redraws as we are doing it now is broken.
 
    Currently I queue the entire changed region for redraw, I should
-   only queue the differnce and possibly the borders (after a cell 
+   only queue the difference and possibly the borders (after a cell 
    border has changed).
 
    This causes the slowdown when selecting large sheets.
@@ -129,7 +128,7 @@ Gnumeric Spread Sheet task list
 
 * Searching
 
-   Searching text on the spreadhseet.
+   Searching text on the spreadsheet.
 
 * EDITION
 
@@ -139,11 +138,10 @@ Gnumeric Spread Sheet task list
 
    Object properties.
 
-** Cut vs Paste
+** Cut, Copy, Paste
 
-  - A cut formula keeps relative cell references as absolute. They
-    should not shift relative to the destination as they would with
-    copy.
+    - References to cut cells (even references within the cells
+      need to be relocated to point to the paste location.
 
 ** Paste special 
 
@@ -189,6 +187,8 @@ Gnumeric Spread Sheet task list
    Double clicking changes the name
    Right clicking gets:
      insert
+
+ - Decrease flicker when paging between sheets.
 
 * Sheets
 
@@ -236,3 +236,6 @@ Office 2000 and 'explorer' compatibility.
 
   * Hack Array support into the parser.
 
+Selection
+ - Move selection code into a new file
+ - Handle multiple overlapping selections without double counting.
