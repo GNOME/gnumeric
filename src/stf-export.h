@@ -16,7 +16,7 @@ typedef enum {
 } StfTerminatorType_t;
 
 typedef enum {
-	QUOTING_MODE_AUTO    = 1 << 0, /* Automatically qoute where needed */
+	QUOTING_MODE_AUTO    = 1 << 0, /* Automatically quote where needed */
 	QUOTING_MODE_ALWAYS  = 1 << 1, /* Always quote */
 	QUOTING_MODE_NEVER   = 1 << 2, /* Never quote */
 	QUOTING_MODE_UNKNOWN = 1 << 3  /* Dummy entry */
@@ -36,6 +36,8 @@ typedef struct
 	StfQuotingMode_t    quoting_mode;         /* When to quote */
 	char                quoting_char;         /* Quoting char */
 
+	char const *		    charset;	  /* Desired charset */
+
 	StfEWriteFunc       write_func;           /* Write callback routine */
 	gpointer            write_data;           /* Data to pass to callback routine (2nd param)*/
 } StfExportOptions_t;
@@ -53,6 +55,7 @@ void stf_export_options_set_terminator_type (StfExportOptions_t *export_options,
 void stf_export_options_set_cell_separator  (StfExportOptions_t *export_options, char cell_separator);
 void stf_export_options_set_quoting_mode    (StfExportOptions_t *export_options, StfQuotingMode_t quoting_mode);
 void stf_export_options_set_quoting_char    (StfExportOptions_t *export_options, char quoting_char);
+void stf_export_options_set_charset 	    (StfExportOptions_t *export_options, char const * charset);
 void stf_export_options_set_write_callback  (StfExportOptions_t *export_options, StfEWriteFunc write_func, gpointer data);
 void stf_export_options_sheet_list_clear    (StfExportOptions_t *export_options);
 void stf_export_options_sheet_list_add      (StfExportOptions_t *export_options, Sheet *sheet);

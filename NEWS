@@ -6,6 +6,9 @@ Andreas:
 	* Fix csv parsing (#80806), finally
 	* Fix #100529
 
+Emmanuel Pacaud:
+	* Add encoding selector to stf export
+
 Jody:
 	* Improve handling of files with content type != extension
 	* A few small bugs in XL97 export.

@@ -56,6 +56,7 @@ stf_export_options_new (void)
 	export_options->quoting_char      = '\0';
 	export_options->sheet_list        = NULL;
 	export_options->quoting_mode      = QUOTING_MODE_UNKNOWN;
+	export_options->charset	  	  = NULL;
 
 	export_options->write_func        = NULL;
 	export_options->write_data        = NULL;
@@ -74,7 +75,7 @@ stf_export_options_free (StfExportOptions_t *export_options)
 {
 	if (export_options->sheet_list)
 		g_slist_free (export_options->sheet_list);
-
+	
 	g_free (export_options);
 }
 
@@ -144,6 +145,22 @@ stf_export_options_set_quoting_char (StfExportOptions_t *export_options, char qu
 	export_options->quoting_char = quoting_char;
 }
 
+/**
+ * stf_export_options_set_charset:
+ * @export_options: an export options struct
+ * @charset: charset selection string
+ *
+ * Select the export charset
+ **/
+
+void
+stf_export_options_set_charset (StfExportOptions_t *export_options, char const * charset)
+{
+	g_return_if_fail (export_options != NULL);
+ 	g_return_if_fail (charset != NULL);
+	
+	export_options->charset = charset;
+}
 void
 stf_export_options_set_write_callback (StfExportOptions_t *export_options,
 				       StfEWriteFunc write_func, gpointer data)
@@ -218,6 +235,38 @@ stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
 		const char *s = text;
 		GString *res = g_string_new (NULL);
 
+		gsize bytes_read;
+		gsize bytes_written;
+		GError * error = NULL;
+		char * encoded_text = NULL;
+
+		if (export_options->charset != NULL)
+		{
+		  if (!g_str_equal (export_options->charset, "UTF-8"))
+		  {
+		    encoded_text = g_convert_with_fallback (text,
+							    strlen (text),
+							    export_options->charset,
+							    "UTF-8",
+							    NULL,
+							    &bytes_read,
+							    &bytes_written,
+							    &error);
+		    if (error != NULL)
+		    {
+		      g_warning ("stf-export.c in %s charset : %s", 
+				 export_options->charset,
+				 error->message);
+		      g_warning ("the following cell will be exported as UTF-8 :\n%s", s);
+		      g_error_free (error);
+		    }
+		    else 
+		    {
+		      s = encoded_text;
+		    }
+		  }
+		}
+
 		if (export_options->quoting_mode == QUOTING_MODE_AUTO) {
 
 			if (strchr (s, export_options->cell_separator) ||
@@ -249,6 +298,7 @@ stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
 		if (!export_options->write_func (res->str, export_options->write_data))
 			return FALSE;
 
+		g_free (encoded_text);
 		g_string_free (res, TRUE);
 		g_free (text);
 	}
