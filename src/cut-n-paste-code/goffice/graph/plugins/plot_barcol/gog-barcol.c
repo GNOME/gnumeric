@@ -140,7 +140,7 @@ gog_barcol_plot_update (GogObject *obj)
 {
 	GogBarColPlot *model = GOG_BARCOL_PLOT (obj);
 	GogBarColSeries const *series;
-	unsigned i, j, num_elements, num_series;;
+	unsigned i, j, num_elements, num_series;
 	double **vals, neg_sum, pos_sum, tmp, minimum, maximum;
 	unsigned *lengths;
 	GSList *ptr;
