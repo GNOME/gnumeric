@@ -183,13 +183,13 @@ ms_parse_object_anchor (int anchor[4],
 		    margin *= .75;
 		}
 #ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 1) {
 			printf ("%f units (%d pixels) from ",
 				margin, (int)(margin));
 			if (i & 1)
 				printf ("row %d;\n", pos + 1);
 			else
 				printf ("col %s (%d);\n", col_name(pos), pos);
-		if (ms_excel_read_debug > 1) {
 		}
 #endif
 
