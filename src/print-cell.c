@@ -361,8 +361,8 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 		} while (halign == HALIGN_FILL && total < cell->col_info->size_pts && len > 0);
 	} else {
 		GList *lines, *l;
-		int line_count, x_offset, y_offset;
-		double inter_space;
+		int line_count;
+		double x_offset, y_offset, inter_space;
 
 		lines = cell_split_text (print_font, text, cell->col_info->size_pts);
 		line_count = g_list_length (lines);
@@ -378,12 +378,12 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 
 		switch (valign) {
 		case VALIGN_TOP:
-			y_offset = 0;
+			y_offset = 0.;
 			inter_space = font_height;
 			break;
 
 		case VALIGN_CENTER:
-			y_offset = - ((cell->row_info->size_pts -
+			y_offset = ((cell->row_info->size_pts -
 				       (line_count * font_height)) / 2);
 			inter_space = font_height;
 			break;
@@ -403,7 +403,7 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 			/* Else, we become a VALIGN_BOTTOM line */
 
 		case VALIGN_BOTTOM:
-			y_offset = - (cell->row_info->size_pts - (line_count * font_height));
+			y_offset = (cell->row_info->size_pts - (line_count * font_height));
 			inter_space = font_height;
 			break;
 

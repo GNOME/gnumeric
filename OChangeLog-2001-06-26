@@ -1,5 +1,9 @@
 2000-05-18  Jody Goldberg <jgoldberg@home.com>
 
+	* src/print-cell.c (print_cell) : Correct double negative that was
+	  breaking printing for cells with multiple lines that were bottom
+	  or center aligned.
+
 	* src/normal-args.c : Adjust includes to remove warning.
 
 2000-05-18  Michael Meeks  <michael@helixcode.com>
