@@ -1,10 +1,6 @@
-2001-11-05  gettextize  <bug-gnu-utils@gnu.org>
+2001-11-05  Jody Goldberg <jgoldberg@home.com>
 
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
-
-2001-11-05  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
+	* es.po : Committed for German Poo Caamaqo <gpoo@ubiobio.cl>
 
 2001-11-05  Jody Goldberg <jgoldberg@home,com>
 
