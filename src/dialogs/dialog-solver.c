@@ -789,8 +789,8 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 						   state->sheet, res,
 						   FALSE, FALSE, FALSE, program);
 
-
 			}
+			solver_results_free (res);
 		} else {
 		        printf ("NLP not implemented yet!\n");
 		}

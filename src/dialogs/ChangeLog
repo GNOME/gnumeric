@@ -1,3 +1,7 @@
+2002-03-09  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* dialog-solver.c (cb_dialog_solve_clicked): Plug a leak.
+
 2002-03-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* sheet-order.glade : change button order
