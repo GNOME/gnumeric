@@ -47,8 +47,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
-"POT-Creation-Date: 2002-09-02 10:59-0400\n"
-"PO-Revision-Date: 2002-09-01 00:11+0100\n"
+"POT-Creation-Date: 2002-09-04 02:28+0200\n"
+"PO-Revision-Date: 2002-09-04 02:28+0100\n"
 "Last-Translator: Christian Neumair <christian-neumair@web.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -57,15 +57,15 @@ msgstr ""
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
-msgstr "Gnumeric-Arbeitsbuch"
+msgstr "Gnumeric Arbeitsbuch"
 
 #: GNOME_Gnumeric.server.in.in.h:2
 msgid "Gnumeric Workbook Viewer"
-msgstr "Gnumeric-Arbeitsbuch-Betrachter"
+msgstr "Gnumeric Arbeitsbuch-Betrachter"
 
 #: GNOME_Gnumeric.server.in.in.h:3
 msgid "Gnumeric Workbook viewer factory"
-msgstr "Gnumeric-Arbeitsbuch-Betrachterfabrik"
+msgstr "Gnumeric Arbeitsbuch-Betrachterfabrik"
 
 #: gnumeric.desktop.in.h:1
 msgid "Gnumeric Spreadsheet"
@@ -694,6 +694,20 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=IMINV\n"
+"@SYNTAX=IMINV(iZahl)\n"
+"@DESCRIPTION=IMINV liefert die Inverse, oder Reziproke, der komplexen Zahl z "
+"(@iZahl), wobei\n"
+"\n"
+"\t1/z = (x - i y)/(x^2 + y^2).\n"
+"\n"
+"* Falls @iZahl keine gültige komplexe Zahl ist, liefert IMINV einen #WERT!-"
+"Fehler.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMINV(\"1-j\") liefert 0.5+0.5j.\n"
+"\n"
+"@SEEALSO="
 
 # FIXME: check for mathematical correctness
 #: plugins/fn-complex/functions.c:282
@@ -712,6 +726,20 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=IMNEG\n"
+"@SYNTAX=IMNEG(iZahl)\n"
+"@DESCRIPTION=IMNEG liefert das negative der komplexen Zahl z (@iZahl), "
+"wobei\n"
+"\n"
+"\t-z = (-x) + i(-y).\n"
+"\n"
+"* Falls @iZahl keine gültige komplexe Zahl ist, liefert IMNEG einen #WERT!-"
+"Fehler.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMNEG(\"1-j\") liefert -1+j.\n"
+"\n"
+"@SEEALSO="
 
 #: plugins/fn-complex/functions.c:313
 msgid ""
@@ -783,6 +811,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMCSC,IMCOT"
 msgstr ""
+"@FUNCTION=IMSEK\n"
+"@SYNTAX=IMSEK(iZahl)\n"
+"@DESCRIPTION=IMSEK liefert die komplexe Sekante der komplexen Zahl z "
+"(@iZahl), wobei\n"
+"\n"
+"\tsec(z) = 1/cos(z).\n"
+"\n"
+"* Falls @iZahl keine gültige komplexe Zahl ist, liefert IMSEK einen #WERT!-"
+"Fehler.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMSEK(\"2-j\") liefert -0.413149-0.687527j.\n"
+"\n"
+"@SEEALSO=IMCOSEK,IMCOTAN"
 
 #: plugins/fn-complex/functions.c:408
 msgid ""
@@ -817,6 +859,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMSEC,IMCSC"
 msgstr ""
+"@FUNCTION=IMCOTAN\n"
+"@SYNTAX=IMCOTAN(iZahl)\n"
+"@DESCRIPTION=IMCOTAN liefert den komplexen Cotangens der komplexen Zahl z "
+"(@iZahl), wobei\n"
+"\n"
+"\tcot(z) = 1/tan(z).\n"
+"\n"
+"* Falls @iZahl keine gültige komplexe Zahl ist, liefert IMCOTAN einen #WERT!-"
+"Fehler.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMCOTAN(\"2-j\") liefert -0.171384+0.821330j.\n"
+"\n"
+"@SEEALSO=IMSEK,IMCSEK"
 
 # FIXME: check for mathematical correctness
 #: plugins/fn-complex/functions.c:474
@@ -1040,6 +1096,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMCOSH,IMTANH"
 msgstr ""
+"@FUNCTION=IMSINHYP\n"
+"@SYNTAX=IMSINHYP(iZahl)\n"
+"@DESCRIPTION=IMSINHYP liefert den komplexen hyperbolischen Sinus der "
+"komplexen Zahl z (@iZahl), wobei\n"
+"\n"
+"\tsinh(z) = (exp(z) - exp(-z))/2.\n"
+"\n"
+"* Falls @iZahl keine gültige komplexe Zahl ist, liefert IMSINHYP einen "
+"#WERT!-Fehler.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMSINHYP(\"1+j\") liefert 0.63496+1.29846j.\n"
+"\n"
+"@SEEALSO=IMCOSHYP,IMTANHYP"
 
 #: plugins/fn-complex/functions.c:772
 msgid ""
@@ -1153,6 +1223,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMSECH,IMCSCH"
 msgstr ""
+"@FUNCTION=IMCOTANHYP\n"
+"@SYNTAX=IMCOTANHYP(iZahl)\n"
+"@DESCRIPTION=IMCOTANHYP liefert den komplexen hyperbolischen Cotangens der "
+"komplexen Zahl z (@iZahl), wobei:\n"
+"\n"
+"\tcoth(z) = 1/tanh(z).\n"
+"\n"
+"* Falls @iZahl keine gültige komplexe Zahl ist, liefert IMCOTANHYP einen "
+"#WERT!-Fehler.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMCOTH(\"1+j\") liefert 0.868014-0.217622j.\n"
+"\n"
+"@SEEALSO=IMSEKHYP"
 
 #: plugins/fn-complex/functions.c:927
 msgid ""
@@ -1257,6 +1341,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSEC,IMARCSC"
 msgstr ""
+"@FUNCTION=IMARCCOTAN\n"
+"@SYNTAX=IMARCCOTAN(iZahl)\n"
+"@DESCRIPTION=IMARCCOTAN liefert den komplexen Arcus Cotangens der komplexen "
+"Zahl z (@iZahl), wobei\n"
+"\n"
+"\tarccot(z) = arctan(1/z).\n"
+"\n"
+"* Falls @iZahl keine gültige komplexe Zahl ist, liefert IMARCCOTAN einen "
+"#WERT!-Fehler.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCCOTAN(\"1+j\") liefert 0.553574+0.4023595j.\n"
+"\n"
+"@SEEALSO="
 
 #: plugins/fn-complex/functions.c:1116
 msgid ""
@@ -1361,6 +1459,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSECH,IMARCSCH"
 msgstr ""
+"@FUNCTION=IMARCCOTHYP\n"
+"@SYNTAX=IMARCCOTHYP(iZahl)\n"
+"@DESCRIPTION=IMARCCOTHYP liefert den komplexen hyperbolischen Arcus Tangens "
+"der Zahl z (@iZahl), wobei\n"
+"\n"
+"\tarccoth(z) = arctanh(1/z).\n"
+"\n"
+"* Falls @iZahl keine gültige komplexe Zahl ist, liefert IMARCCOTHYP einen "
+"#WERT!-Fehler.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCCOTHYP(\"1+j\") liefert 0.40235948-0.5535744j.\n"
+"\n"
+"@SEEALSO=IMARCSECHYP,IMARCSEKHYP"
 
 #: plugins/fn-complex/functions.c:1307
 msgid ""
@@ -5849,6 +5961,19 @@ msgid ""
 "\n"
 "@SEEALSO=CEIL, FLOOR"
 msgstr ""
+"@FUNCTION=ABS\n"
+"@SYNTAX=ABS(b1)\n"
+"@DESCRIPTION=ABS liefert den Absoluten Wert von b1: Das Ergebnis verliert "
+"das negative Vorzeichen (falls vorhanden). Dies funktioniert mit Ganzzahlen "
+"und Fließkomma-Zahlen.\n"
+"\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"ABS(7) liefert 7.\n"
+"ABS(-3.14) liefert 3.14.\n"
+"\n"
+"@SEEALSO=OBERGRENZE, UNTERGRENZE"
 
 #: plugins/fn-math/functions.c:274
 msgid ""
@@ -11714,7 +11839,7 @@ msgstr "Eine Scrollleiste erzeugen"
 msgid "Create an arrow"
 msgstr "Einen Pfeil erzeugen"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1397
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1405
 msgid "Cu_t"
 msgstr "_Ausschneiden"
 
@@ -12020,9 +12145,8 @@ msgstr "Beschriftung"
 # (dict.leo.org)
 #: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:3134
 #: src/workbook-control-gui.c:3543
-#, fuzzy
 msgid "Launch the Graph Guru"
-msgstr "Diagramm-Druide"
+msgstr "Den Diagramm-Druiden ausführen"
 
 #: src/GNOME_Gnumeric.xml.h:134 src/dialogs/cell-format.glade.h:52
 #: src/workbook-format-toolbar.c:622
@@ -12553,7 +12677,7 @@ msgstr "_Varianzanalyse"
 msgid "_About..."
 msgstr "_Info..."
 
-#: src/GNOME_Gnumeric.xml.h:256 src/sheet-control-gui.c:1430
+#: src/GNOME_Gnumeric.xml.h:256 src/sheet-control-gui.c:1438
 #: src/workbook-control-gui.c:3147
 msgid "_Add / Modify comment..."
 msgstr "Kommentar _hinzufügen/ändern..."
@@ -12604,7 +12728,7 @@ msgid "_Content"
 msgstr "I_nhalt"
 
 #: src/GNOME_Gnumeric.xml.h:266 src/item-cursor.c:1012
-#: src/sheet-control-gui.c:1399
+#: src/sheet-control-gui.c:1407
 msgid "_Copy"
 msgstr "_Kopieren"
 
@@ -12622,7 +12746,7 @@ msgstr "Da_ten"
 msgid "_Define..."
 msgstr "_Festlegen..."
 
-#: src/GNOME_Gnumeric.xml.h:270 src/sheet-control-gui.c:1417
+#: src/GNOME_Gnumeric.xml.h:270 src/sheet-control-gui.c:1425
 #: src/workbook-control-gui.c:3030
 msgid "_Delete..."
 msgstr "Zellen lösch_en..."
@@ -12701,8 +12825,8 @@ msgstr "_Gruppierung und Umrisse"
 msgid "_Help"
 msgstr "_Hilfe"
 
-#: src/GNOME_Gnumeric.xml.h:289 src/sheet-control-gui.c:1442
-#: src/sheet-control-gui.c:1450 src/workbook-control-gui.c:3163
+#: src/GNOME_Gnumeric.xml.h:289 src/sheet-control-gui.c:1450
+#: src/sheet-control-gui.c:1458 src/workbook-control-gui.c:3163
 #: src/workbook-control-gui.c:3182
 msgid "_Hide"
 msgstr "_Verbergen"
@@ -12769,7 +12893,7 @@ msgstr "Ö_ffnen..."
 msgid "_Paired Samples: T-Test"
 msgstr "Ge_paarte Stichproben: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:305 src/sheet-control-gui.c:1401
+#: src/GNOME_Gnumeric.xml.h:305 src/sheet-control-gui.c:1409
 msgid "_Paste"
 msgstr "E_infügen"
 
@@ -12894,8 +13018,8 @@ msgstr "_Rückgängig"
 msgid "_Ungroup"
 msgstr "Gr_uppierung aufheben"
 
-#: src/GNOME_Gnumeric.xml.h:333 src/sheet-control-gui.c:1444
-#: src/sheet-control-gui.c:1452 src/workbook-control-gui.c:3166
+#: src/GNOME_Gnumeric.xml.h:333 src/sheet-control-gui.c:1452
+#: src/sheet-control-gui.c:1460 src/workbook-control-gui.c:3166
 #: src/workbook-control-gui.c:3185
 msgid "_Unhide"
 msgstr "_Hervorholen"
@@ -15630,34 +15754,34 @@ msgstr "Schritt 3 von 3: Diagramm anpassen"
 msgid "Format Graph"
 msgstr "Diagramm formatieren"
 
-#: src/dialogs/dialog-graph-guru.c:1421
-#, fuzzy
+#: src/dialogs/dialog-graph-guru.c:1423
 msgid "Plot Type"
-msgstr "Plot-Name"
+msgstr "Diagrammtyp"
 
 #. Set up sample button
-#: src/dialogs/dialog-graph-guru.c:1508
-#, fuzzy
+#: src/dialogs/dialog-graph-guru.c:1522
 msgid ""
 "Show\n"
 "Sample"
-msgstr "Vorschau"
+msgstr ""
+"Beispiel\n"
+"anzeigen"
 
-#: src/dialogs/dialog-graph-guru.c:1516
+#: src/dialogs/dialog-graph-guru.c:1530
 #: src/dialogs/dialog-plugin-manager.c:680
 #: src/dialogs/dialog-preferences.c:502
 msgid "Description"
 msgstr "Beschreibung"
 
-#: src/dialogs/dialog-graph-guru.c:1523
+#: src/dialogs/dialog-graph-guru.c:1537
 msgid "Basic Types"
 msgstr ""
 
-#: src/dialogs/dialog-graph-guru.c:1561
+#: src/dialogs/dialog-graph-guru.c:1575
 msgid "Plot name"
 msgstr "Plot-Name"
 
-#: src/dialogs/dialog-graph-guru.c:1564
+#: src/dialogs/dialog-graph-guru.c:1578
 msgid "Series name"
 msgstr "Reihenname"
 
@@ -16095,7 +16219,7 @@ msgstr ""
 
 #: src/dialogs/dialog-random-generator.c:168
 msgid "Student t"
-msgstr ""
+msgstr "Student t"
 
 #: src/dialogs/dialog-random-generator.c:168
 msgid "nu Value:"
@@ -19220,11 +19344,11 @@ msgstr "_Datei/Druck_vorschau..."
 msgid "File/"
 msgstr "Datei/"
 
-#: src/hlink.c:169
+#: src/hlink.c:168
 msgid "Link target"
 msgstr "Verknüpfungsziel"
 
-#: src/hlink.c:221
+#: src/hlink.c:220
 #, c-format
 msgid "Unable to activate the url '%s'"
 msgstr "Die Adresse »%s« konnte nicht aktiviert werden"
@@ -19976,7 +20100,7 @@ msgstr "Ungültiger Rückstrich am Ende der Ersetzung (\"trailing backslash\")."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "kann nicht mit mehreren markierten Bereichen durchgeführt werden."
 
-#: src/sheet-control-gui.c:1403
+#: src/sheet-control-gui.c:1411
 msgid "Paste _Special"
 msgstr "Einfügen _spezial"
 
@@ -19987,56 +20111,55 @@ msgstr "Einfügen _spezial"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1415
+#: src/sheet-control-gui.c:1423
 msgid "_Insert..."
 msgstr "Zellen _einfügen..."
 
-#: src/sheet-control-gui.c:1419
+#: src/sheet-control-gui.c:1427
 msgid "_Insert Column(s)"
 msgstr "Spalt_e(n) einfügen"
 
-#: src/sheet-control-gui.c:1421
+#: src/sheet-control-gui.c:1429
 msgid "_Delete Column(s)"
 msgstr "Spa_lte(n) löschen"
 
-#: src/sheet-control-gui.c:1423
+#: src/sheet-control-gui.c:1431
 msgid "_Insert Row(s)"
 msgstr "Z_eile(n) einfügen"
 
-#: src/sheet-control-gui.c:1425
+#: src/sheet-control-gui.c:1433
 msgid "_Delete Row(s)"
 msgstr "Zei_le(n) löschen"
 
-#: src/sheet-control-gui.c:1428
+#: src/sheet-control-gui.c:1436
 msgid "Clear Co_ntents"
 msgstr "_Inhalt löschen"
 
-#: src/sheet-control-gui.c:1436
+#: src/sheet-control-gui.c:1444
 msgid "_Format Cells..."
 msgstr "Zellen _formatieren..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1440
+#: src/sheet-control-gui.c:1448
 msgid "Column _Width..."
 msgstr "Spalten_breite..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1448
+#: src/sheet-control-gui.c:1456
 msgid "_Row Height..."
 msgstr "_Zeilenhöhe..."
 
-#: src/sheet-control-gui.c:1455
+#: src/sheet-control-gui.c:1463
 msgid "_Hyperlink"
-msgstr ""
+msgstr "_Verweis"
 
-#: src/sheet-control-gui.c:1457
+#: src/sheet-control-gui.c:1466
 msgid "Edit _Hyperlink"
-msgstr ""
+msgstr "_Verweis bearbeiten"
 
-#: src/sheet-control-gui.c:1459
-#, fuzzy
-msgid "_Remove _Hyperlink"
-msgstr "Aktu_ellen entfernen"
+#: src/sheet-control-gui.c:1469
+msgid "_Remove Hyperlink"
+msgstr "Verweis ent_fernen"
 
 # "�berlappt"?
 # 2001-07-15 06:40:24 CEST -ke-
@@ -21225,8 +21348,8 @@ msgid "Discard All"
 msgstr "Alle Verwerfen"
 
 #: src/workbook-control-gui.c:1389 src/workbook-control-gui.c:1396
-#: src/workbook-control-gui.c:1402 src/workbook-control-gui.c:4860
-#: src/workbook-control-gui.c:4865
+#: src/workbook-control-gui.c:1402 src/workbook-control-gui.c:4859
+#: src/workbook-control-gui.c:4864
 msgid "Discard"
 msgstr "Verwerfen"
 
@@ -21436,9 +21559,8 @@ msgstr ""
 "markierten Spalte."
 
 #: src/workbook-control-gui.c:3542
-#, fuzzy
 msgid "_Graph"
-msgstr "_Diagramm..."
+msgstr "_Diagramm"
 
 #: src/workbook-control-gui.c:4602
 #, c-format
@@ -21453,11 +21575,11 @@ msgstr "Verschicken"
 msgid "Send the current file in email"
 msgstr "Aktuelle Datei als E-Mail verschicken"
 
-#: src/workbook-control-gui.c:4859
+#: src/workbook-control-gui.c:4858
 msgid "Re-Edit"
 msgstr "Wieder _Bearbeiten"
 
-#: src/workbook-control-gui.c:4864
+#: src/workbook-control-gui.c:4863
 msgid "Accept"
 msgstr "Akzeptieren"
 
@@ -21734,37 +21856,32 @@ msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
 
 #: schemas/plot-types.xml.in.h:1
-#, fuzzy
 msgid "3 series"
-msgstr "Reihen"
+msgstr "3 Reihen"
 
 #: schemas/plot-types.xml.in.h:2
 msgid "3D Adjacent Bars"
 msgstr ""
 
 #: schemas/plot-types.xml.in.h:3
-#, fuzzy
 msgid "3D Adjacent Columns"
-msgstr "Spalten löschen"
+msgstr ""
 
 #: schemas/plot-types.xml.in.h:4
-#, fuzzy
 msgid "3D Percentage Bars"
-msgstr "Pro_zente"
+msgstr ""
 
 #: schemas/plot-types.xml.in.h:5
-#, fuzzy
 msgid "3D Percentage Columns"
-msgstr "Spalten löschen"
+msgstr ""
 
 #: schemas/plot-types.xml.in.h:6
-#, fuzzy
 msgid "3D Percentage Lines"
-msgstr "Pro_zente"
+msgstr ""
 
 #: schemas/plot-types.xml.in.h:7
 msgid "3D Pie"
-msgstr ""
+msgstr "3D Kreis"
 
 #: schemas/plot-types.xml.in.h:8
 msgid "3D Split Pie"
@@ -21775,41 +21892,36 @@ msgid "3D Stacked Bars"
 msgstr ""
 
 #: schemas/plot-types.xml.in.h:10
-#, fuzzy
 msgid "3D Stacked Columns"
-msgstr "Spalten löschen"
+msgstr ""
 
 #: schemas/plot-types.xml.in.h:11
 msgid "3D Stacked Lines"
 msgstr ""
 
 #: schemas/plot-types.xml.in.h:12
-#, fuzzy
 msgid "3D lines"
-msgstr "_Gitterlinien"
+msgstr "3D Linien"
 
 #: schemas/plot-types.xml.in.h:13
-#, fuzzy
 msgid "4 series"
-msgstr "Reihen"
+msgstr "4 Reihen"
 
 #: schemas/plot-types.xml.in.h:14
 msgid "4 series (2)"
-msgstr ""
+msgstr "4 Reihen (2)"
 
 #: schemas/plot-types.xml.in.h:15
-#, fuzzy
 msgid "5 series"
-msgstr "Reihen"
+msgstr "5 Reihen"
 
 #: schemas/plot-types.xml.in.h:16
 msgid "Adjacent Bars"
 msgstr ""
 
 #: schemas/plot-types.xml.in.h:17
-#, fuzzy
 msgid "Adjacent Columns"
-msgstr "Spalten einfügen"
+msgstr ""
 
 #: schemas/plot-types.xml.in.h:18
 msgid "Adjacent horizontal 3D bars grouped by major and minor categories."
@@ -21829,12 +21941,11 @@ msgstr ""
 
 #: schemas/plot-types.xml.in.h:22
 msgid "Bar"
-msgstr ""
+msgstr "Balken"
 
 #: schemas/plot-types.xml.in.h:23
-#, fuzzy
 msgid "Bubble"
-msgstr "Doppelt"
+msgstr "Blase"
 
 #: schemas/plot-types.xml.in.h:24
 msgid "Category versus value as lines in pseudo-3D."
@@ -21850,7 +21961,7 @@ msgstr ""
 
 #: schemas/plot-types.xml.in.h:28
 msgid "High, Low, Close."
-msgstr ""
+msgstr "Hoch, Tief, Schluss."
 
 #: schemas/plot-types.xml.in.h:29
 msgid ""
@@ -21863,7 +21974,7 @@ msgstr ""
 
 #: schemas/plot-types.xml.in.h:31
 msgid "Interpolated points"
-msgstr ""
+msgstr "Interpolierte Punkte"
 
 #: schemas/plot-types.xml.in.h:33
 msgid ""
@@ -21877,7 +21988,7 @@ msgstr ""
 
 #: schemas/plot-types.xml.in.h:35
 msgid "Linearly interpolated points"
-msgstr ""
+msgstr "Linear interpolierte Punkte"
 
 #: schemas/plot-types.xml.in.h:36
 msgid ""
@@ -21899,9 +22010,8 @@ msgid "Marked linearly interpolated points"
 msgstr ""
 
 #: schemas/plot-types.xml.in.h:40
-#, fuzzy
 msgid "Marked lines"
-msgstr "_Gitterlinien"
+msgstr "Markierte Zeilen"
 
 #: schemas/plot-types.xml.in.h:41
 msgid ""
@@ -21972,29 +22082,24 @@ msgid ""
 msgstr ""
 
 #: schemas/plot-types.xml.in.h:53
-#, fuzzy
 msgid "Multi-pie"
-msgstr "Multiplizieren"
+msgstr ""
 
 #: schemas/plot-types.xml.in.h:54
-#, fuzzy
 msgid "Multi-pie-bars"
-msgstr "Mehrere Fehler\n"
+msgstr ""
 
 #: schemas/plot-types.xml.in.h:55
-#, fuzzy
 msgid "Percentage Bars"
-msgstr "Pro_zente"
+msgstr ""
 
 #: schemas/plot-types.xml.in.h:56
-#, fuzzy
 msgid "Percentage Columns"
-msgstr "Spalten löschen"
+msgstr ""
 
 #: schemas/plot-types.xml.in.h:57
-#, fuzzy
 msgid "Percentage lines"
-msgstr "Pro_zente"
+msgstr ""
 
 #: schemas/plot-types.xml.in.h:58
 msgid "Percentage of each contributor in 3D pie."
@@ -22013,64 +22118,53 @@ msgid "Percentage of each contributor."
 msgstr ""
 
 #: schemas/plot-types.xml.in.h:62
-#, fuzzy
 msgid "Pie"
-msgstr "Preis"
+msgstr "Kreis"
 
 #: schemas/plot-types.xml.in.h:63
 msgid "Plot X, Y and bubble size."
-msgstr ""
+msgstr "X, Y und Blasengröße ausgeben."
 
 #: schemas/plot-types.xml.in.h:64
 msgid "Plot one series per axis."
-msgstr ""
+msgstr "Eine Reihe pro Achse ausgeben."
 
 #: schemas/plot-types.xml.in.h:65
-#, fuzzy
 msgid "Points"
 msgstr "Punkt"
 
 #: schemas/plot-types.xml.in.h:66
-#, fuzzy
 msgid "Scatter"
-msgstr "Muster"
+msgstr "XY"
 
 #: schemas/plot-types.xml.in.h:67
-#, fuzzy
 msgid "Split Pie"
-msgstr "Teilen"
+msgstr ""
 
 #: schemas/plot-types.xml.in.h:68
 msgid "Stacked Bars"
 msgstr ""
 
 #: schemas/plot-types.xml.in.h:69
-#, fuzzy
 msgid "Stacked Columns"
-msgstr "Spalten löschen"
+msgstr ""
 
 #: schemas/plot-types.xml.in.h:70
 msgid "Stacked lines"
 msgstr ""
 
 #: schemas/plot-types.xml.in.h:71
-#, fuzzy
 msgid "Stock"
-msgstr "Stock-Icon"
+msgstr "Aktie"
 
 #: schemas/plot-types.xml.in.h:72
 msgid "Volume, High, Low, Close."
-msgstr ""
+msgstr "Handelsvolumen, Hoch, Tief, Schluss."
 
 #: schemas/plot-types.xml.in.h:73
 msgid "Volume, Open, High, Low, Close."
-msgstr ""
+msgstr "Handelsvolumen, Eröffnung, Hoch, Tief, Schluss."
 
 #: schemas/plot-types.xml.in.h:74
 msgid "open, High, Low, Close."
-msgstr ""
-
-# This has to be different from "Paste"
-# 2000-04-13 03:37:38 CEST -ke-
-#~ msgid "Insert an image..."
-#~ msgstr "Ein Bild einfügen..."
+msgstr "Eröffnung , Hoch, Tief, Schluss."
