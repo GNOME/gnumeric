@@ -1,5 +1,9 @@
 2003-05-12  Jody Goldberg <jody@gnome.org>
 
+	* omf-install/Makefile.am : add missing ;
+
+2003-05-12  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : post release version bump
 
 2003-05-11  Jody Goldberg <jody@gnome.org>
