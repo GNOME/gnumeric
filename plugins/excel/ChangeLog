@@ -1,3 +1,8 @@
+2002-03-22  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-read.c (ms_excel_get_style_from_xf): Be prepared for
+	color 65 as pattern color.
+
 2002-03-20  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (ms_excel_read_sheet) : 15 is the

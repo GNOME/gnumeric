@@ -1500,12 +1500,21 @@ ms_excel_get_style_from_xf (ExcelSheet *esheet, guint16 xfidx)
 		break;
 	}
 
-	if (pattern_index == 64)
+	switch (pattern_index) {
+	case 64:		/* Normal case for auto pattern color */
 		pattern_color = sheet_style_get_auto_pattern_color
 			(esheet->gnum_sheet);
-	else
+		break;
+	case 65:
+		/* Mutated form, also observed in the wild, but only for
+		solid fill. I. e.: this color is not visible. */
+		pattern_color = style_color_auto_back ();
+		break;
+	default:
 		pattern_color = ms_excel_palette_get (esheet->wb->palette,
 						      pattern_index);
+		break;
+	}
 
 	g_return_val_if_fail (back_color && pattern_color && font_color, NULL);
 
