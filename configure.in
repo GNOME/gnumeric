@@ -133,6 +133,7 @@ AC_OUTPUT([
 gnumeric.spec
 Makefile
 src/Makefile
+wizards/graphics
 doc/Makefile
 doc/C/Makefile
 doc/es/Makefile
