@@ -1,3 +1,7 @@
+2001-10-12  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-about.c (dialog_about) : Use the nice new icon.
+
 2001-10-12 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=62008

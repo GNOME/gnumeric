@@ -82,7 +82,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 				 _("(C) 1998-2001 Miguel de Icaza"),
 				 authors,
 				 NULL,
-				 NULL);
+				 "gnome-gnumeric.png");
 
 	hbox = gtk_hbox_new (TRUE, 0);
 	{
