@@ -13,7 +13,8 @@ Release Critical
 
 - 1. C5=22
   2. Select C5:E7
-  3. Format-Row->Hide
+  3. Click Center-across-selection, then Merge.
+  4. Format->Row->Hide
   ==> ** CRITICAL **: file item-grid.c: line 580 (item_grid_draw): assertion `merged_unused == NULL' failed.
   (One per screen redraw)
 
