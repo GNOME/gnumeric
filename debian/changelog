@@ -1,8 +1,29 @@
-gnumeric (1.0.10-3) unstable; urgency=low
-
-  * UNRELEASED
+gnumeric (1.0.11-XXX) unstable; urgency=medium
 
  -- <not_a_debian_release>  Wed, 30 Oct 2002 21:40:02 +0100
+
+gnumeric (1.0.11-1) unstable; urgency=medium
+
+  * New upstream release, includes improved formatting toolbar help. 
+    (Closes: #171844)
+  * Updated Standards-Version.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 13 Dec 2002 00:11:15 +0100
+
+gnumeric (1.0.10-4) unstable; urgency=medium
+
+  * Updated build dependencies to reflect libgal21 being the current gal in
+    sid.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 10 Nov 2002 16:17:47 +0100
+
+gnumeric (1.0.10-3) unstable; urgency=medium
+
+  * Corrected gnumeric-doc's section.
+  * Updates from CVS (see NEWS), in particular Andrew Moise's fix for
+    structured text file detection. (Closes: #167269)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri,  1 Nov 2002 20:47:02 +0100
 
 gnumeric (1.0.10-2) unstable; urgency=medium
 
