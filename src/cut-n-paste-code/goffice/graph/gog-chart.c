@@ -474,7 +474,6 @@ typedef struct {
 
 	/* indents */
 	double pre_x, post_x;
-
 } GogChartView;
 typedef GogOutlinedViewClass	GogChartViewClass;
 

@@ -247,7 +247,7 @@ gog_plot_make_similar (GogPlot *dst, GogPlot const *src)
 	return FALSE;
 }
 
- /* convenience routines */
+/* convenience routines */
 GogSeries *
 gog_plot_new_series (GogPlot *plot)
 {

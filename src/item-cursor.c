@@ -249,6 +249,7 @@ static void
 item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		  GdkEventExpose *expose)
 {
+	GdkGCValues values;
 	ItemCursor *ic = ITEM_CURSOR (item);
 	int dx0, dy0, dx1, dy1;
 	GdkPoint points [5];
@@ -355,6 +356,8 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		GDK_LINE_SOLID, GDK_CAP_BUTT, GDK_JOIN_MITER);
 	gdk_gc_set_rgb_fg_color (ic->gc, &gs_black);
 	gdk_gc_set_rgb_bg_color (ic->gc, &gs_white);
+	values.function   = GDK_INVERT;
+	gdk_gc_set_values (ic->gc, &values, GDK_GC_FUNCTION);
 
 	if (draw_external) {
 		switch (draw_handle) {

@@ -61,13 +61,12 @@ gog_styled_object_set_property (GObject *obj, guint param_id,
 		style = g_value_get_object (value);
 		if (gso->style == style)
 			return;
+		style = gog_style_dup (style);
 
 		/* which fields are we interested in for this object */
 		gog_styled_object_apply_theme (gso, style);
 		gog_styled_object_style_changed (GOG_STYLED_OBJECT (obj));
 		resize = gog_style_is_different_size (gso->style, style);
-		if (style != NULL)
-			g_object_ref (style);
 		if (gso->style != NULL)
 			g_object_unref (gso->style);
 		gso->style = style;
@@ -81,7 +80,7 @@ gog_styled_object_set_property (GObject *obj, guint param_id,
 
 static void
 gog_styled_object_get_property (GObject *obj, guint param_id,
-			     GValue *value, GParamSpec *pspec)
+				GValue *value, GParamSpec *pspec)
 {
 	GogStyledObject *gso = GOG_STYLED_OBJECT (obj);
 

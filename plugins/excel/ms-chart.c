@@ -42,6 +42,7 @@
 
 #include <gsf/gsf-utils.h>
 #include <math.h>
+#include <string.h>
 #include <stdio.h>
 
 /* #define NO_DEBUG_EXCEL */
@@ -972,9 +973,9 @@ BC_R(lineformat)(XLChartHandler const *handle,
 		break;
 	case  0 : s->style->line.width = 1; /* 'normal' */
 		break;
-	case  1 : s->style->line.width = 3; /* 'medium' */
+	case  1 : s->style->line.width = 2; /* 'medium' */
 		break;
-	case  2 : s->style->line.width = 5; /* 'wide' */
+	case  2 : s->style->line.width = 3; /* 'wide' */
 		break;
 	}
 	s->style->line.color      = BC_R(color) (q->data, "LineColor");
@@ -985,6 +986,9 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	d (0, fprintf (stderr, "Lines are %f pts wide.\n", s->style->line.width););
 	d (0, fprintf (stderr, "Lines have a %s pattern.\n",
 		       ms_line_pattern [s->style->line.pattern ]););
+
+	if (s->style->line.pattern == 5) /* invisible */
+		s->style->line.width = -1;
 
 	return FALSE;
 }
@@ -1030,6 +1034,7 @@ BC_R(markerformat)(XLChartHandler const *handle,
 	go_marker_set_fill_color (marker, 
 		(flags & 0x10) ? 0 : BC_R(color) (q->data + 4, "MarkerBack"));
 
+	s->style->marker.auto_shape = shape > 0;
 	s->style->marker.auto_outline_color =
 		s->style->marker.auto_fill_color = auto_color;
 
@@ -1722,6 +1727,30 @@ BC_R(end)(XLChartHandler const *handle,
 
 		g_return_val_if_fail (s->plot != NULL, TRUE);
 
+		if (s->default_plot_style != NULL) {
+			char const  *type = G_OBJECT_TYPE_NAME (s->plot);
+			GogStyle const *style = s->default_plot_style;
+			
+			if (type != NULL && 0 == strcmp (type, "GogXYPlot")) {
+				if (style->marker.mark != NULL)
+					g_object_set (G_OBJECT (s->plot),
+						"default-style-has-markers",
+						style->marker.mark->shape != GO_MARKER_NONE,
+						NULL);
+				g_object_set (G_OBJECT (s->plot),
+					"default-style-has-lines", style->line.width >= 0,
+					NULL);
+			} else if (type != NULL && 0 == strcmp (type, "GogLinePlot")) {
+				if (style->marker.mark != NULL)
+					g_object_set (G_OBJECT (s->plot),
+						"default-style-has-markers",
+						style->marker.mark->shape != GO_MARKER_NONE,
+						NULL);
+			}
+			g_object_unref (s->default_plot_style);
+			s->default_plot_style = NULL;
+		}
+
 		for (i = 0 ; i < s->series->len; i++ ) {
 			eseries = g_ptr_array_index (s->series, i);
 			if (eseries->chart_group != s->plot_counter)
@@ -1734,8 +1763,6 @@ BC_R(end)(XLChartHandler const *handle,
 					eseries->data [j].data = NULL;
 				}
 			style = eseries->style;
-			if (style == NULL)
-				style = s->default_plot_style;
 			if (style != NULL)
 				g_object_set (G_OBJECT (series),
 					"style", style,
@@ -1745,17 +1772,13 @@ BC_R(end)(XLChartHandler const *handle,
 		gog_object_add_by_name (GOG_OBJECT (s->chart),
 			"Plot", GOG_OBJECT (s->plot));
 		s->plot = NULL;
-		if (s->default_plot_style != NULL) {
-			g_object_unref (s->default_plot_style);
-			s->default_plot_style = NULL;
-		}
 		break;
 	}
 
 	case BIFF_CHART_dataformat :
 		if (s->style == NULL)
 			break;
-		else if (s->currentSeries != NULL && s->style_element < 0) {
+		if (s->currentSeries != NULL && s->style_element < 0) {
 			g_return_val_if_fail (s->currentSeries->style == NULL, TRUE);
 			s->currentSeries->style = s->style;
 		} else if (s->plot != NULL) {

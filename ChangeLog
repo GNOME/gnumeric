@@ -1,3 +1,9 @@
+2003-11-18  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=64297
+	* src/item-cursor.c (item_cursor_draw) : invert selection rectangle
+	  outlining the content to keep it visible on dark backgrounds.
+
 2003-11-18  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/print-info.c (print_info_new): disable page setup continuity 

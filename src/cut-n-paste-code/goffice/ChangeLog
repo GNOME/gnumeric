@@ -1,3 +1,9 @@
+2003-11-18  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-styled-object.c (gog_styled_object_set_property) : dup the
+	  style to avoid themes stomping on shared styles.  refcounting is not
+	  an ideal semantic for GogStyle.
+
 2003-11-17  Morten Welinder  <terra@gnome.org>
 
 	* graph/gog-object-xml.c (gog_object_write_property): Plug leak.
