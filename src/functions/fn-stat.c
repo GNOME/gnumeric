@@ -3610,6 +3610,202 @@ gnumeric_small (void *tsheet, GList *expr_node_list,
 	return value_float (r);
 }
 
+typedef struct {
+        GSList *list;
+        int    num;
+} stat_list_t;
+
+static int
+callback_function_list (Sheet *sheet, int col, int row,
+			Cell *cell, void *user_data)
+{
+        stat_list_t *mm = user_data;
+        float_t     x;
+	gpointer    p;
+
+	if (cell == NULL || cell->value == NULL)
+	        return TRUE;
+
+        switch (cell->value->type) {
+	case VALUE_INTEGER:
+	        x = cell->value->v.v_int;
+		break;
+	case VALUE_FLOAT:
+	        x = cell->value->v.v_float;
+		break;
+	default:
+	        return TRUE;
+	}
+
+	p = g_new(float_t, 1);
+	*((float_t *) p) = x;
+	mm->list = g_slist_append(mm->list, p);
+	mm->num++;
+
+	return TRUE;
+}
+
+static char *help_prob = {
+	N_("@FUNCTION=PROB\n"
+	   "@SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])\n"
+
+	   "@DESCRIPTION="
+	   "PROB function returns the probability that values in a range or "
+	   "an array are between two limits. If @upper_limit is not "
+	   "given, PROB returns the probability that values in @x_range "
+	   "are equal to @lower_limit."
+	   "\n"
+	   "If the sum of the probabilities in @prob_range is not equal to 1 "
+	   "PROB returns #NUM! error. "
+	   "If any value in @prob_range is <=0 or > 1, PROB returns #NUM! "
+	   "error. "
+	   "If @x_range and @prob_range contain a different number of data "
+	   "entries, PROB returns #N/A! error. "
+	   "\n"
+	   "@SEEALSO=BINOMDIST,CRITBINOM")
+};
+
+static Value *
+gnumeric_prob (struct FunctionDefinition *i,
+	       Value *argv [], char **error_string)
+{
+        Value       *range_x = argv[0];
+        Value       *prob_range = argv[1];
+	stat_list_t items_x, items_prob;
+	int         ret;
+	float_t     sum, total_sum;
+	float_t     lower_limit, upper_limit;
+	GSList      *list1, *list2;
+
+	items_x.num     = 0;
+	items_x.list    = NULL;
+	items_prob.num  = 0;
+	items_prob.list = NULL;
+
+        if (range_x->type == VALUE_CELLRANGE) {
+		ret = sheet_cell_foreach_range (
+		  range_x->v.cell_range.cell_a.sheet, TRUE,
+		  range_x->v.cell_range.cell_a.col, 
+		  range_x->v.cell_range.cell_a.row,
+		  range_x->v.cell_range.cell_b.col,
+		  range_x->v.cell_range.cell_b.row,
+		  callback_function_list,
+		  &items_x);
+		if (ret == FALSE) {
+		        *error_string = _("#VALUE!");
+
+			list1 = items_x.list;
+			list2 = items_prob.list;
+			while (list1 != NULL) {
+			        g_free(list1->data);
+				list1 = list1->next;
+			}
+			while (list2 != NULL) {
+			        g_free(list2->data);
+				list2 = list2->next;
+			}
+			g_slist_free(items_x.list);
+			g_slist_free(items_prob.list);
+
+			return NULL;
+		}
+	} else {
+		*error_string = _("Array version not implemented!");
+		return NULL;
+	}
+	
+        if (prob_range->type == VALUE_CELLRANGE) {
+		ret = sheet_cell_foreach_range (
+		  prob_range->v.cell_range.cell_a.sheet, TRUE,
+		  prob_range->v.cell_range.cell_a.col, 
+		  prob_range->v.cell_range.cell_a.row,
+		  prob_range->v.cell_range.cell_b.col,
+		  prob_range->v.cell_range.cell_b.row,
+		  callback_function_list,
+		  &items_prob);
+		if (ret == FALSE) {
+		        *error_string = _("#VALUE!");
+
+			list1 = items_x.list;
+			list2 = items_prob.list;
+			while (list1 != NULL) {
+			        g_free(list1->data);
+				list1 = list1->next;
+			}
+			while (list2 != NULL) {
+			        g_free(list2->data);
+				list2 = list2->next;
+			}
+			g_slist_free(items_x.list);
+			g_slist_free(items_prob.list);
+
+			return NULL;
+		}
+	} else {
+		*error_string = _("Array version not implemented!");
+		return NULL;
+	}
+
+	if (items_x.num != items_prob.num) {
+	        *error_string = _("#N/A!");
+
+		list1 = items_x.list;
+		list2 = items_prob.list;
+		while (list1 != NULL) {
+		        g_free(list1->data);
+			list1 = list1->next;
+		}
+		while (list2 != NULL) {
+		        g_free(list2->data);
+			list2 = list2->next;
+		}
+		g_slist_free(items_x.list);
+		g_slist_free(items_prob.list);
+
+		return NULL;
+	}
+
+	lower_limit = value_get_as_double (argv[2]);
+	if (argv[3] == NULL)
+	        upper_limit = lower_limit;
+	else
+	        upper_limit = value_get_as_double (argv[3]);
+
+	list1 = items_x.list;
+	list2 = items_prob.list;
+	sum = total_sum = 0;
+
+	while (list1 != NULL) {
+	        float_t  x, prob;
+
+		x = *((float_t *) list1->data);
+		prob = *((float_t *) list2->data);
+
+		if (prob <= 0 || prob > 1) 
+		        prob = 2; /* Force error in total sum check */
+
+		total_sum += prob;
+
+		if (x >= lower_limit && x <= upper_limit)
+		        sum += prob;
+
+		g_free(list1->data);
+		g_free(list2->data);
+		list1 = list1->next;
+		list2 = list2->next;
+	}
+
+	g_slist_free(items_x.list);
+	g_slist_free(items_prob.list);
+
+	if (total_sum != 1) {
+	        *error_string = _("#NUM!");
+		return NULL;
+	}
+
+	return value_float (sum);
+}
+
 static char *help_ztest = {
 	N_("@FUNCTION=ZTEST\n"
 	   "@SYNTAX=ZTEST(ref,x)\n"
@@ -3741,6 +3937,8 @@ FunctionDefinition stat_functions [] = {
 	{ "normsdist",  "f",  "",           &help_normsdist,  NULL, gnumeric_normsdist },
 	{ "normsinv",  "f",  "",            &help_normsinv,  NULL, gnumeric_normsinv },
 	{ "pearson",   0,      "",          &help_pearson,   gnumeric_pearson, NULL },
+	{ "prob", "AAf|f", "x_range,prob_range,lower_limit,upper_limit",
+	  &help_prob,   NULL, gnumeric_prob },
 	{ "rank",      0,      "",          &help_rank,      gnumeric_rank, NULL },
 	{ "rsq",       0,      "",          &help_rsq,      gnumeric_rsq, NULL },
 	{ "skew",      0,      "",          &help_skew,      gnumeric_skew, NULL },
