@@ -24,7 +24,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "drawing/god-image.h"
+#include <goffice/drawing/god-image.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 

@@ -15,7 +15,7 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <drawing/god-text-model.h>
+#include <goffice/drawing/god-text-model.h>
 
 G_BEGIN_DECLS
 

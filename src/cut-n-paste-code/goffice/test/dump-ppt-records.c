@@ -22,7 +22,7 @@
  * Parts of this code are taken from libole2/test/test-ole.c
  */
 
-#include <ms-compat/go-ms-parser.h>
+#include <goffice/ms-compat/go-ms-parser.h>
 
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-memory.h>

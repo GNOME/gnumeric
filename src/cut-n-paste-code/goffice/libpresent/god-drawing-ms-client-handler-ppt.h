@@ -15,8 +15,8 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <ms-compat/god-drawing-ms-client-handler.h>
-#include <libpresent/present-slide.h>
+#include <goffice/ms-compat/god-drawing-ms-client-handler.h>
+#include <goffice/libpresent/present-slide.h>
 
 G_BEGIN_DECLS
 

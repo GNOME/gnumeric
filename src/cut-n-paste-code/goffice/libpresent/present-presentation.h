@@ -15,9 +15,9 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <libpresent/present-slide.h>
-#include <drawing/god-drawing-group.h>
-#include <drawing/god-anchor.h>
+#include <goffice/libpresent/present-slide.h>
+#include <goffice/drawing/god-drawing-group.h>
+#include <goffice/drawing/god-anchor.h>
 
 G_BEGIN_DECLS
 

@@ -22,11 +22,11 @@
  **/
 
 #include <goffice/goffice-config.h>
-#include "ms-compat/god-drawing-ms.h"
-#include <ms-compat/go-ms-parser.h>
-#include <ms-compat/god-image-ms.h>
-#include <drawing/god-property-table.h>
-#include <drawing/god-shape.h>
+#include <goffice/ms-compat/god-drawing-ms.h>
+#include <goffice/ms-compat/go-ms-parser.h>
+#include <goffice/ms-compat/god-image-ms.h>
+#include <goffice/drawing/god-property-table.h>
+#include <goffice/drawing/god-shape.h>
 #include <glib/gmacros.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>

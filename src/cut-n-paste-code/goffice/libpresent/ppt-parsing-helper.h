@@ -24,7 +24,7 @@
 #ifndef PRESENT_PARSING_HELPER_H
 #define PRESENT_PARSING_HELPER_H
 
-#include <drawing/god-text-model.h>
+#include <goffice/drawing/god-text-model.h>
 #include <glib.h>
 
 void ppt_parsing_helper_parse_style_text_prop_atom (const char *data, int length, GodTextModel *model, GPtrArray *fonts);

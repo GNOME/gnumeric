@@ -24,7 +24,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "drawing/god-drawing.h"
+#include <goffice/drawing/god-drawing.h>
 #include <gsf/gsf-impl-utils.h>
 
 static GObjectClass *parent_class;

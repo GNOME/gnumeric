@@ -25,7 +25,7 @@
 #include "load-ppt.h"
 #include "ppt-types.h"
 #include "god-drawing-ms-client-handler-ppt.h"
-#include "utils/go-units.h"
+#include <goffice/utils/go-units.h>
 #include "ppt-parsing-helper.h"
 
 #include <gsf/gsf-input-stdio.h>
@@ -34,8 +34,8 @@
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
 #include <gsf/gsf-msole-utils.h>
-#include <ms-compat/god-drawing-ms.h>
-#include <ms-compat/go-ms-parser.h>
+#include <goffice/ms-compat/god-drawing-ms.h>
+#include <goffice/ms-compat/go-ms-parser.h>
 
 #include <string.h>
 

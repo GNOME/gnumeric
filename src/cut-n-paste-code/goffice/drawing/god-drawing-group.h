@@ -15,7 +15,7 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <drawing/god-image-store.h>
+#include <goffice/drawing/god-image-store.h>
 
 G_BEGIN_DECLS
 

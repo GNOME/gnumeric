@@ -25,7 +25,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "libpresent/present-view.h"
+#include <goffice/libpresent/present-view.h>
 #include <goffice/drawing/god-drawing-view.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>

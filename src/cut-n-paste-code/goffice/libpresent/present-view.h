@@ -15,7 +15,7 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <libpresent/present-presentation.h>
+#include <goffice/libpresent/present-presentation.h>
 #include <gtk/gtkeventbox.h>
 
 G_BEGIN_DECLS

@@ -25,7 +25,7 @@
 #include "ppt-parsing-helper.h"
 
 #include <gsf/gsf-utils.h>
-#include "utils/go-units.h"
+#include <goffice/utils/go-units.h>
 
 #include <string.h>
 

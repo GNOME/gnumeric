@@ -15,8 +15,8 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <drawing/god-drawing.h>
-#include <drawing/god-anchor.h>
+#include <goffice/drawing/god-drawing.h>
+#include <goffice/drawing/god-anchor.h>
 #include <gdk/gdkdrawable.h>
 #include <gtk/gtkdrawingarea.h>
 

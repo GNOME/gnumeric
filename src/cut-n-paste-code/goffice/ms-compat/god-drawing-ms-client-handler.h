@@ -15,8 +15,8 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <drawing/god-text-model.h>
-#include <drawing/god-anchor.h>
+#include <goffice/drawing/god-text-model.h>
+#include <goffice/drawing/god-anchor.h>
 #include <gsf/gsf.h>
 
 G_BEGIN_DECLS

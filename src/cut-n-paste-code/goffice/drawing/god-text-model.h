@@ -15,8 +15,8 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <drawing/god-paragraph-attributes.h>
-#include <drawing/god-default-attributes.h>
+#include <goffice/drawing/god-paragraph-attributes.h>
+#include <goffice/drawing/god-default-attributes.h>
 #include <pango/pango-attributes.h>
 
 G_BEGIN_DECLS

@@ -25,7 +25,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "libpresent/present-slide.h"
+#include <goffice/libpresent/present-slide.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 

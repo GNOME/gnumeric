@@ -1,3 +1,8 @@
+2005-02-17  Stepan Kasal  <kasal@ucw.cz>
+
+	* Makefile.am (INCLUDES): Remove -I$(top_srcdir)/src/cut-n-paste-code/goffice.
+	Fix the remaining includes.
+
 2005-02-17  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* gui-utils/go-gui-utils.c: include errno.h

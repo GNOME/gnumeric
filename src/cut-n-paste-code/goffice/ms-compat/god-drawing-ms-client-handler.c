@@ -24,7 +24,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "ms-compat/god-drawing-ms-client-handler.h"
+#include <goffice/ms-compat/god-drawing-ms-client-handler.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-input.h>
 #include <string.h>

@@ -24,14 +24,14 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "libpresent/god-drawing-ms-client-handler-ppt.h"
+#include <goffice/libpresent/god-drawing-ms-client-handler-ppt.h>
 #include "ppt-types.h"
-#include <utils/go-units.h>
+#include <goffice/utils/go-units.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
 #include <string.h>
-#include <ms-compat/go-ms-parser.h>
+#include <goffice/ms-compat/go-ms-parser.h>
 #include "ppt-parsing-helper.h"
 
 #define CVS_VERSION "$Id$"

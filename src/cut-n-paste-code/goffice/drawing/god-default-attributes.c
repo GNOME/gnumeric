@@ -24,7 +24,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "drawing/god-default-attributes.h"
+#include <goffice/drawing/god-default-attributes.h>
 
 #include <pango/pango-attributes.h>
 

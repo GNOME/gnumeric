@@ -27,7 +27,7 @@
 #include <gsf/gsf-utils.h>
 #include <glib.h>
 
-#include <libpresent/load-ppt.h>
+#include <goffice/libpresent/load-ppt.h>
 
 static void
 dump_text (const char *text)

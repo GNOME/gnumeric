@@ -15,7 +15,7 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <utils/go-units.h>
+#include <goffice/utils/go-units.h>
 
 G_BEGIN_DECLS
 

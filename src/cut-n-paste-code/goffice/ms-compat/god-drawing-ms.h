@@ -13,9 +13,9 @@
 #ifndef GO_DRAWING_MS_H
 #define GO_DRAWING_MS_H
 
-#include <drawing/god-drawing.h>
-#include <drawing/god-drawing-group.h>
-#include <ms-compat/god-drawing-ms-client-handler.h>
+#include <goffice/drawing/god-drawing.h>
+#include <goffice/drawing/god-drawing-group.h>
+#include <goffice/ms-compat/god-drawing-ms-client-handler.h>
 #include <gsf/gsf.h>
 
 GodDrawing      *god_drawing_read_ms             (GsfInput                   *input,

@@ -24,7 +24,7 @@
 #ifndef GOFFICE_PRESENT_LOAD_PPT_H
 #define GOFFICE_PRESENT_LOAD_PPT_H
 
-#include <libpresent/present-presentation.h>
+#include <goffice/libpresent/present-presentation.h>
 
 PresentPresentation *
 load_ppt (char *input_file);

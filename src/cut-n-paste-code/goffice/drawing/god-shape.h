@@ -14,9 +14,9 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <drawing/god-property-table.h>
-#include <drawing/god-anchor.h>
-#include <drawing/god-text-model.h>
+#include <goffice/drawing/god-property-table.h>
+#include <goffice/drawing/god-anchor.h>
+#include <goffice/drawing/god-text-model.h>
 
 G_BEGIN_DECLS
 

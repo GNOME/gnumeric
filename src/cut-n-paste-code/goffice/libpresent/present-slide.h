@@ -15,8 +15,8 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <libpresent/present-text.h>
-#include <drawing/god-drawing.h>
+#include <goffice/libpresent/present-text.h>
+#include <goffice/drawing/god-drawing.h>
 
 G_BEGIN_DECLS
 

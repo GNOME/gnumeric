@@ -30,8 +30,8 @@
 #include <gtk/gtkmain.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <libpresent/load-ppt.h>
-#include <libpresent/present-view.h>
+#include <goffice/libpresent/load-ppt.h>
+#include <goffice/libpresent/present-view.h>
 
 gint window_count;
 

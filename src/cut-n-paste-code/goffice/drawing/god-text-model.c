@@ -24,8 +24,8 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "drawing/god-text-model.h"
-#include <drawing/god-default-attributes.h>
+#include <goffice/drawing/god-text-model.h>
+#include <goffice/drawing/god-default-attributes.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 

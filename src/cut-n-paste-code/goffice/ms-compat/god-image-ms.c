@@ -24,7 +24,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "ms-compat/god-image-ms.h"
+#include <goffice/ms-compat/god-image-ms.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 

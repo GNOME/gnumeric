@@ -24,7 +24,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "drawing/god-property-table.h"
+#include <goffice/drawing/god-property-table.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <gsf/gsf-utils.h>

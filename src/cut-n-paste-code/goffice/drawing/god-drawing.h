@@ -14,8 +14,8 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <drawing/god-shape.h>
-#include <drawing/god-drawing-group.h>
+#include <goffice/drawing/god-shape.h>
+#include <goffice/drawing/god-drawing-group.h>
 
 G_BEGIN_DECLS
 
