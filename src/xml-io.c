@@ -238,7 +238,8 @@ void
 xml_node_set_color (xmlNodePtr node, char const *name, StyleColor const *val)
 {
 	char str[4 * sizeof (val->color)];
-	sprintf (str, "%X:%X:%X", val->color.red, val->color.green, val->color.blue);
+	sprintf (str, "%X:%X:%X", val->color.red, val->color.green,
+		 val->color.blue);
 	xml_node_set_cstr (node, name, str);
 }
 
@@ -252,7 +253,8 @@ xml_node_get_cellpos (xmlNodePtr node, char const *name, CellPos *val)
 	buf = xml_node_get_cstr (node, name);
 	if (val == NULL)
 		return FALSE;
-	res = parse_cell_name ((const char *)buf, &val->col, &val->row, TRUE, &dummy);
+	res = parse_cell_name ((const char *)buf, &val->col, &val->row, TRUE,
+			       &dummy);
 	xmlFree (buf);
 	return res;
 }
@@ -381,17 +383,21 @@ xml_read_selection_info (XmlParseContext *ctxt, xmlNodePtr tree)
 }
 
 static void
-xml_write_selection_info (XmlParseContext *ctxt, Sheet const *sheet, xmlNodePtr tree)
+xml_write_selection_info (XmlParseContext *ctxt, Sheet const *sheet,
+			  xmlNodePtr tree)
 {
 	GList *ptr, *copy;
-	tree = xmlNewChild (tree, ctxt->ns, (xmlChar const *)"Selections", NULL);
+	tree = xmlNewChild (tree, ctxt->ns, (xmlChar const *)"Selections",
+			    NULL);
 
 	/* Insert the selections in REVERSE order */
 	copy = g_list_copy (sheet->selections);
 	ptr = g_list_reverse (copy);
 	for (; ptr != NULL ; ptr = ptr->next) {
 		Range const *r = ptr->data;
-		xmlNodePtr child = xmlNewChild (tree, ctxt->ns, (xmlChar const *)"Selection", NULL);
+		xmlNodePtr child = xmlNewChild (tree, ctxt->ns,
+						(xmlChar const *)"Selection",
+						NULL);
 		xml_node_set_range (child, r);
 	}
 	g_list_free (copy);
@@ -431,7 +437,8 @@ xml_write_style_border (XmlParseContext *ctxt,
 	if (i > MSTYLE_BORDER_DIAGONAL)
 		return NULL;
 
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar const *)"StyleBorder", NULL);
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns,
+			     (xmlChar const *)"StyleBorder", NULL);
 
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
 		StyleBorder const *border;
@@ -461,8 +468,8 @@ xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, MStyle *mstyle)
 
 	if (strcmp (tree->name, "StyleBorder")){
 		fprintf (stderr,
-			 "xml_read_style_border: invalid element type %s, 'StyleBorder' expected`\n",
-			 tree->name);
+			 "xml_read_style_border: invalid element type %s, "
+			 "'StyleBorder' expected`\n", tree->name);
 	}
 
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
@@ -491,31 +498,39 @@ xml_write_style (XmlParseContext *ctxt,
 	xmlNodePtr  cur, child;
 	xmlChar       *tstr;
 
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar const *)"Style", NULL);
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar const *)"Style",
+			     NULL);
 
 	if (mstyle_is_element_set (style, MSTYLE_ALIGN_H))
 		xml_node_set_int (cur, "HAlign", mstyle_get_align_h (style));
 	if (mstyle_is_element_set (style, MSTYLE_ALIGN_V))
 		xml_node_set_int (cur, "VAlign", mstyle_get_align_v (style));
 	if (mstyle_is_element_set (style, MSTYLE_WRAP_TEXT))
-		xml_node_set_int (cur, "WrapText", mstyle_get_wrap_text (style));
+		xml_node_set_int (cur, "WrapText",
+				  mstyle_get_wrap_text (style));
 	if (mstyle_is_element_set (style, MSTYLE_ORIENTATION))
-		xml_node_set_int (cur, "Orient", mstyle_get_orientation (style));
+		xml_node_set_int (cur, "Orient",
+				  mstyle_get_orientation (style));
 	if (mstyle_is_element_set (style, MSTYLE_PATTERN))
 		xml_node_set_int (cur, "Shade", mstyle_get_pattern (style));
 	if (mstyle_is_element_set (style, MSTYLE_INDENT))
 		xml_node_set_int (cur, "Indent", mstyle_get_indent (style));
 	if (mstyle_is_element_set (style, MSTYLE_CONTENT_LOCKED))
-		xml_node_set_int (cur, "Locked", mstyle_get_content_locked (style));
+		xml_node_set_int (cur, "Locked",
+				  mstyle_get_content_locked (style));
 	if (mstyle_is_element_set (style, MSTYLE_CONTENT_HIDDEN))
-		xml_node_set_int (cur, "Hidden", mstyle_get_content_hidden (style));
+		xml_node_set_int (cur, "Hidden",
+				  mstyle_get_content_hidden (style));
 
 	if (mstyle_is_element_set (style, MSTYLE_COLOR_FORE))
-		xml_node_set_color (cur, "Fore", mstyle_get_color (style, MSTYLE_COLOR_FORE));
+		xml_node_set_color (cur, "Fore",
+				    mstyle_get_color (style, MSTYLE_COLOR_FORE));
 	if (mstyle_is_element_set (style, MSTYLE_COLOR_BACK))
-		xml_node_set_color (cur, "Back", mstyle_get_color (style, MSTYLE_COLOR_BACK));
+		xml_node_set_color (cur, "Back",
+				    mstyle_get_color (style, MSTYLE_COLOR_BACK));
 	if (mstyle_is_element_set (style, MSTYLE_COLOR_PATTERN))
-		xml_node_set_color (cur, "PatternColor", mstyle_get_color (style, MSTYLE_COLOR_PATTERN));
+		xml_node_set_color (cur, "PatternColor",
+				    mstyle_get_color (style, MSTYLE_COLOR_PATTERN));
 	if (mstyle_is_element_set (style, MSTYLE_FORMAT)) {
 		char *fmt = style_format_as_XL (mstyle_get_format (style), FALSE);
 		xml_node_set_cstr (cur, "Format", fmt);
@@ -535,8 +550,10 @@ xml_write_style (XmlParseContext *ctxt,
 		else /* backwards compatibility */
 			fontname = "Helvetica";
 
-		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, (xmlChar const *)fontname);
-		child = xmlNewChild (cur, ctxt->ns, (xmlChar const *)"Font", tstr);
+		tstr = xmlEncodeEntitiesReentrant (ctxt->doc,
+						   (xmlChar const *)fontname);
+		child = xmlNewChild (cur, ctxt->ns, (xmlChar const *)"Font",
+				     tstr);
 		if (tstr) xmlFree (tstr);
 
 		if (mstyle_is_element_set (style, MSTYLE_FONT_SIZE))
@@ -561,7 +578,8 @@ xml_write_style (XmlParseContext *ctxt,
 		ParsePos    pp;
 		char	   *tmp;
 
-		child = xmlNewChild (cur, ctxt->ns, (xmlChar const *)"Validation", NULL);
+		child = xmlNewChild (cur, ctxt->ns,
+				     (xmlChar const *)"Validation", NULL);
 		xml_node_set_int (child, "Style", v->style);
 		xml_node_set_int (child, "Type", v->type);
 		switch (v->type) {
@@ -576,9 +594,11 @@ xml_write_style (XmlParseContext *ctxt,
 			break;
 		}
 
-		e_xml_set_bool_prop_by_name (child, (xmlChar const *)"AllowBlank",
+		e_xml_set_bool_prop_by_name (child,
+					     (xmlChar const *)"AllowBlank",
 			v->allow_blank);
-		e_xml_set_bool_prop_by_name (child, (xmlChar const *)"UseDropdown",
+		e_xml_set_bool_prop_by_name (child,
+					     (xmlChar const *)"UseDropdown",
 			v->use_dropdown);
 
 		if (v->title != NULL && v->title->str[0] != '\0') {
@@ -1903,7 +1923,8 @@ xml_write_sheet_layout (XmlParseContext *ctxt, xmlNodePtr tree, Sheet const *she
 	if (sheet_is_frozen (sheet)) {
 		xmlNodePtr freeze = xmlNewChild (tree, ctxt->ns, (xmlChar const *)"FreezePanes", NULL);
 		xml_node_set_cellpos (freeze, "FrozenTopLeft", &sheet->frozen_top_left);
-		xml_node_set_cellpos (freeze, "UnfrozenTopLeft", &sheet->unfrozen_top_left);
+		xml_node_set_cellpos (freeze, "UnfrozenTopLeft",
+				      &sheet->unfrozen_top_left);
 	}
 }
 
@@ -1916,7 +1937,8 @@ xml_write_styles (XmlParseContext *ctxt, StyleList *styles)
 	if (!styles)
 		return NULL;
 
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar const *)"Styles", NULL);
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar const *)"Styles",
+			     NULL);
 	for (ptr = styles; ptr; ptr = ptr->next) {
 		StyleRegion *sr = ptr->data;
 
@@ -1994,8 +2016,27 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 					       c->type, c->cols, c->rows);
 
 		param->constraints = g_slist_append (param->constraints, c);
-		child = e_xml_get_child_by_name (child, (xmlChar const *)"Constr");
+		child = e_xml_get_child_by_name (child,
+						 (xmlChar const *)"Constr");
 	}
+
+	/* The options of the Solver. */
+	xml_node_get_int (tree, "MaxTime", &(param->options.max_time_sec));
+	xml_node_get_int (tree, "MaxIter", &(param->options.max_iter));
+	xml_node_get_int (tree, "NonNeg", 
+			  &(param->options.assume_non_negative));
+	xml_node_get_int (tree, "Discr", &(param->options.assume_discrete));
+	xml_node_get_int (tree, "AutoScale",
+			  &(param->options.automatic_scaling));
+	xml_node_get_int (tree, "ShowIter",
+			  &(param->options.show_iter_results));
+	xml_node_get_int (tree, "AnswerR", &(param->options.answer_report));
+	xml_node_get_int (tree, "SensitivityR",
+			  &(param->options.sensitivity_report));
+	xml_node_get_int (tree, "LimitsR", &(param->options.limits_report));
+	xml_node_get_int (tree, "PerformR",
+			  &(param->options.performance_report));
+	xml_node_get_int (tree, "ProgramR", &(param->options.program_report));
 }
 
 static xmlNodePtr
@@ -2006,7 +2047,8 @@ xml_write_solver (XmlParseContext *ctxt, SolverParameters const *param)
 	xmlNodePtr       prev = NULL;
 	GSList           *constraints;
 
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar const *)"Solver", NULL);
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns,
+			     (xmlChar const *)"Solver", NULL);
 
 	if (param->target_cell != NULL) {
 	        xml_node_set_int (cur, "TargetCol",
@@ -2026,7 +2068,8 @@ xml_write_solver (XmlParseContext *ctxt, SolverParameters const *param)
 	        const SolverConstraint *c =
 			(const SolverConstraint *)constraints->data;
 
-		constr = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar const *)"Constr", NULL);
+		constr = xmlNewDocNode (ctxt->doc, ctxt->ns,
+					(xmlChar const *)"Constr", NULL);
 		xml_node_set_int (constr, "Lcol", c->lhs.col);
 		xml_node_set_int (constr, "Lrow", c->lhs.row);
 		xml_node_set_int (constr, "Rcol", c->rhs.col);
@@ -2063,6 +2106,21 @@ xml_write_solver (XmlParseContext *ctxt, SolverParameters const *param)
 		prev = constr;
 		constraints = constraints->next;
 	}
+
+	/* The options of the Solver. */
+	xml_node_set_int (cur, "MaxTime", param->options.max_time_sec);
+	xml_node_set_int (cur, "MaxIter", param->options.max_iter);
+	xml_node_set_int (cur, "NonNeg", 
+			  param->options.assume_non_negative);
+	xml_node_set_int (cur, "Discr", param->options.assume_discrete);
+	xml_node_set_int (cur, "AutoScale", param->options.automatic_scaling);
+	xml_node_set_int (cur, "ShowIter", param->options.show_iter_results);
+	xml_node_set_int (cur, "AnswerR", param->options.answer_report);
+	xml_node_set_int (cur, "SensitivityR",
+			  param->options.sensitivity_report);
+	xml_node_set_int (cur, "LimitsR", param->options.limits_report);
+	xml_node_set_int (cur, "PerformR", param->options.performance_report);
+	xml_node_set_int (cur, "ProgramR", param->options.program_report);
 
 	return cur;
 }

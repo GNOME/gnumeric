@@ -3,6 +3,9 @@ Gnumeric 1.1.3
 Andreas:
 	* Port print-setup dialog (except custom headers/footers)
 
+Jukka:
+	* More solver improvements.
+
 --------------------------------------------------------------------------
 Gnumeric 1.1.2
 
