@@ -125,7 +125,7 @@ dependent_set_expr (Dependent *dep, ExprTree *expr)
  * queues it.
  * NOTE : it does NOT recursively dirty dependencies.
  */
-#define dependent_queue_recalc (dep) dep->flags |= DEPENDENT_NEEDS_RECALC
+#define dependent_queue_recalc(dep) dep->flags |= DEPENDENT_NEEDS_RECALC
 
 void
 cb_dependent_queue_recalc (Dependent *dep, gpointer ignore)
