@@ -1817,7 +1817,7 @@ cb_edit_search_action (WorkbookControlGUI *wbcg,
 				break;
 		}
 
-		if (search_replace_comment (sr, ep, TRUE, &comment_res)) {
+		if (search_replace_comment (sr, ep, FALSE, &comment_res)) {
 			char *pos_name = g_strdup_printf (_("Comment in cell %s!%s"),
 							  ep->sheet->name_unquoted,
 							  cell_pos_name (&ep->eval));
