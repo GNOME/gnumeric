@@ -1,3 +1,8 @@
+2004-05-20  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+	http://bugzilla.gnome.org/show_bug.cgi?id=142212
+	* graph/plugins/plot-barcol/gog-line.c (gog_line_view_render) : don't
+	use '0' if Y value is missing.
+	
 2004-05-15  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-plot.c (gog_plot_get_axis_bounds) : add some safety.

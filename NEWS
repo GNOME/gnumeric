@@ -4,6 +4,10 @@ Andreas:
 	http://bugzilla.gnome.org/show_bug.cgi?id=142219
 	* Handle borders in latex export correctly (broken in 1.2.12 only)
 
+Emmanuel Pacaud:
+	http://bugzilla.gnome.org/show_bug.cgi?id=142212
+	* In a line graph, don't use '0' if Y value is missing.
+
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=141940
 	* Fix MS XL crash when there are too many strings
