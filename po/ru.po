@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.54+\n"
-"POT-Creation-Date: 2000-07-14 20:25+0000\n"
-"PO-Revision-Date: 2000-07-14 20:30+00:00\n"
+"POT-Creation-Date: 2000-07-18 13:31+0000\n"
+"PO-Revision-Date: 2000-07-18 13:42+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -99,26 +99,26 @@ msgstr "Формат файла Excel(R) 97"
 msgid "Excel(R) 95 file format"
 msgstr "Формат файла Excel(R) 95"
 
-#: plugins/excel/ms-excel-read.c:423
+#: plugins/excel/ms-excel-read.c:425
 msgid "#UNKNOWN!"
 msgstr "#НЕИЗВЕСТНОЕ!"
 
-#: plugins/excel/ms-excel-read.c:594 plugins/html/html.c:409
+#: plugins/excel/ms-excel-read.c:596 plugins/html/html.c:409
 #: plugins/lotus-123/lotus.c:224 plugins/oleo/oleo.c:44 src/workbook.c:3345
 #, c-format
 msgid "Sheet%d"
 msgstr "Лист%d"
 
-#: plugins/excel/ms-excel-read.c:3722
+#: plugins/excel/ms-excel-read.c:3911
 msgid "No book or workbook streams found."
 msgstr "Не найден поток книги или рабочей книги."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4026
+#: plugins/excel/ms-excel-read.c:4213
 msgid "Password protected workbooks are not supported yet."
 msgstr "Защищенные паролем книги пока не поддерживаются."
 
-#: plugins/excel/ms-excel-read.c:4199
+#: plugins/excel/ms-excel-read.c:4383
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Не удалось найти рабочую книгу MS Excel"
 
@@ -130,15 +130,11 @@ msgstr "Слишком много строк для этого формата"
 msgid "Can't open stream for writing\n"
 msgstr "Невозможно открыть поток для записи\n"
 
-#: plugins/excel/ms-formula-read.c:651 src/func.c:270
-msgid "Unknown Function"
-msgstr "Неизвестная функция"
-
-#: plugins/excel/ms-formula-read.c:698
+#: plugins/excel/ms-formula-read.c:664
 msgid "Broken function"
 msgstr "Ошибочная функция"
 
-#: plugins/excel/ms-formula-read.c:1454
+#: plugins/excel/ms-formula-read.c:1419
 msgid " Unknown formula"
 msgstr " Неизвестная формула"
 
@@ -364,7 +360,9 @@ msgstr "Поразрядные операции"
 msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
 "simple bitwise operations"
-msgstr "Несколько основных инструментов для простых чисел, Пи, Фи, Сигма. Также поддерживает некоторые простые поразрядные операции"
+msgstr ""
+"Несколько основных инструментов для простых чисел, Пи, Фи, Сигма. Также "
+"поддерживает некоторые простые поразрядные операции"
 
 #: plugins/oleo/boot.c:87
 msgid "GNU Oleo (*.oleo) file format"
@@ -1031,7 +1029,7 @@ msgstr "Частота"
 msgid "Cumulative %"
 msgstr "Кумулятивный %"
 
-#: src/clipboard.c:283
+#: src/clipboard.c:303
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -1042,11 +1040,11 @@ msgstr ""
 "\n"
 "Попробуйте выделить одну ячейку или область такой же формы и размера."
 
-#: src/clipboard.c:286 src/clipboard.c:297 src/clipboard.c:304
+#: src/clipboard.c:306 src/clipboard.c:317 src/clipboard.c:324
 msgid "Unable to paste"
 msgstr "Невозможно вставить"
 
-#: src/clipboard.c:294
+#: src/clipboard.c:314
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -1057,19 +1055,19 @@ msgstr ""
 "\n"
 "Попробуйте выделить одну ячейку или область такой же формы и размера."
 
-#: src/clipboard.c:305
+#: src/clipboard.c:325
 msgid "result passes the sheet boundary"
 msgstr ""
 
-#: src/clipboard.c:584
+#: src/clipboard.c:611
 msgid "Error while trying to pre-convert clipboard data"
 msgstr "Ошибка при попытке предконвертирования данных буфера обмена"
 
-#: src/clipboard.c:590
+#: src/clipboard.c:617
 msgid "This data on the clipboard does not seem to be valid text"
 msgstr "Данные в буфере обмена не похожи на нормальный текст"
 
-#: src/clipboard.c:604
+#: src/clipboard.c:631
 msgid "Parse error while trying to parse data into cellregion"
 msgstr ""
 "Ошибка синтаксического анализа при попытке проанализировать данные в "
@@ -1836,7 +1834,7 @@ msgstr "Использовать разделитель для тысяч"
 msgid "S_ymbol:"
 msgstr "Символ:"
 
-#: src/dialogs/cell-format.glade.h:24
+#: src/dialogs/cell-format.glade.h:24 src/dialogs/names.glade.h:11
 msgid "\n"
 msgstr "\n"
 
@@ -1982,7 +1980,7 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:63 src/dialogs/cell-format.glade.h:74
 #: src/dialogs/cell-format.glade.h:81 src/dialogs/dialog-cell-format.c:1198
-#: src/dialogs/dialog-cell-format.c:1260 src/dialogs/dialog-paste-special.c:28
+#: src/dialogs/dialog-cell-format.c:1260 src/dialogs/dialog-paste-special.c:32
 msgid "None"
 msgstr "Нет"
 
@@ -2218,7 +2216,7 @@ msgstr "Защита"
 msgid "Sort..."
 msgstr "Сортировка..."
 
-#: src/dialogs/cell-sort.glade.h:8 src/dialogs/names.glade.h:13
+#: src/dialogs/cell-sort.glade.h:8 src/dialogs/names.glade.h:8
 #: src/dialogs/plugin-manager.glade.h:8
 msgid "Add"
 msgstr "Добавить"
@@ -2294,7 +2292,7 @@ msgstr "Ширина столбца:"
 msgid "Delete cells"
 msgstr "Удалить ячейки"
 
-#: src/dialogs/delete-cells.glade.h:8 src/dialogs/names.glade.h:14
+#: src/dialogs/delete-cells.glade.h:8 src/dialogs/names.glade.h:9
 #: src/dialogs/sheet-order.glade.h:12
 msgid "Delete"
 msgstr "Удалить"
@@ -2753,7 +2751,11 @@ msgstr "сортировать"
 msgid "then by"
 msgstr "затем по"
 
-#: src/dialogs/dialog-define-names.c:148
+#: src/dialogs/dialog-define-names.c:55 src/dialogs/dialog-define-names.c:59
+msgid "Workbook"
+msgstr "Рабочая книга"
+
+#: src/dialogs/dialog-define-names.c:191
 msgid "You can not redefine a builtin name."
 msgstr "Вы не можете переопределить встроенное имя."
 
@@ -2867,53 +2869,61 @@ msgstr "Перейти к..."
 msgid "insert cells"
 msgstr "вставить ячейки"
 
-#: src/dialogs/dialog-paste-special.c:20
+#: src/dialogs/dialog-paste-special.c:24
 msgid "All"
 msgstr "Все"
 
-#: src/dialogs/dialog-paste-special.c:21
+#: src/dialogs/dialog-paste-special.c:25
 msgid "Formulas"
 msgstr "Формулы"
 
-#: src/dialogs/dialog-paste-special.c:22
+#: src/dialogs/dialog-paste-special.c:26
 msgid "Values"
 msgstr "Значения"
 
-#: src/dialogs/dialog-paste-special.c:23
+#: src/dialogs/dialog-paste-special.c:27
 msgid "Formats"
 msgstr "Формат"
 
-#: src/dialogs/dialog-paste-special.c:29
+#: src/dialogs/dialog-paste-special.c:33
 msgid "Add "
 msgstr "Добавить "
 
-#: src/dialogs/dialog-paste-special.c:30
+#: src/dialogs/dialog-paste-special.c:34
 msgid "Subtract"
 msgstr "Вычесть"
 
-#: src/dialogs/dialog-paste-special.c:31
+#: src/dialogs/dialog-paste-special.c:35
 msgid "Multiply"
 msgstr "Перемножить"
 
-#: src/dialogs/dialog-paste-special.c:32
+#: src/dialogs/dialog-paste-special.c:36
 msgid "Divide"
 msgstr "Разделить"
 
-#: src/dialogs/dialog-paste-special.c:64
+#: src/dialogs/dialog-paste-special.c:103
 msgid "Paste special"
 msgstr "Cспециальная вставка"
 
-#: src/dialogs/dialog-paste-special.c:68
+#: src/dialogs/dialog-paste-special.c:106
+msgid "Paste Link"
+msgstr "Вставить ссылку"
+
+#: src/dialogs/dialog-paste-special.c:111
 msgid "Paste type"
 msgstr "Вставить тип"
 
-#: src/dialogs/dialog-paste-special.c:72
+#: src/dialogs/dialog-paste-special.c:115
 msgid "Operation"
 msgstr "Действие"
 
-#: src/dialogs/dialog-paste-special.c:104
+#: src/dialogs/dialog-paste-special.c:155
 msgid "Transpose"
 msgstr "Переместить"
+
+#: src/dialogs/dialog-paste-special.c:164
+msgid "Skip Blanks"
+msgstr "Оставить пустыми"
 
 #: src/dialogs/dialog-plugin-manager.c:91
 msgid "File name:"
@@ -3573,28 +3583,12 @@ msgstr "Вставить столбец(ы)"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/names.glade.h:7
+msgid "Name Guru"
+msgstr "Гуру названий"
+
+#: src/dialogs/names.glade.h:10
 msgid "Define Name"
 msgstr "Определить имена"
-
-#: src/dialogs/names.glade.h:8
-msgid "Names in "
-msgstr "Имена в "
-
-#: src/dialogs/names.glade.h:9
-msgid ""
-"Workbook\n"
-"Sheet\n"
-msgstr ""
-"Рабочей книге\n"
-"Таблице\n"
-
-#: src/dialogs/names.glade.h:12
-msgid "Workbook"
-msgstr "Рабочая книга"
-
-#: src/dialogs/names.glade.h:15
-msgid "Refers to:"
-msgstr "Ссылка на:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -4097,7 +4091,7 @@ msgstr "Ошибка встроенного типа"
 msgid "Unknown operator"
 msgstr "Неизвестный оператор"
 
-#: src/expr.c:901
+#: src/expr.c:896
 msgid "Unknown evaluation error"
 msgstr "Неизвестная ошибка в выражении"
 
@@ -5828,6 +5822,10 @@ msgstr "[Red]"
 msgid "Can not create file %s\n"
 msgstr "Невозможно создать файл %s\n"
 
+#: src/func.c:270
+msgid "Unknown Function"
+msgstr "Неизвестная функция"
+
 #: src/func.c:567
 msgid "Function does not exist"
 msgstr "Функция не существует"
@@ -7436,54 +7434,46 @@ msgstr ""
 #: src/functions/fn-eng.c:1664
 msgid ""
 "@FUNCTION=ERF\n"
-"@SYNTAX=ERF(lower limit[,upper_limit])\n"
-"@DESCRIPTION=ERF function returns the integral of the error function between "
-"the limits.  If the @upper_limit ommitted ERF returns the integral between "
-"zero and the @lower_limit.\n"
-"If either @lower_limit or @upper_limit are not numeric a #VALUE! error is "
-"returned.  If either @lower_limit or @upper_limit are < 0 a #NUM! error is "
-"returned. This function is Excel compatible. \n"
+"@SYNTAX=ERF([lower limit,]upper_limit)\n"
+"@DESCRIPTION=With a single argument ERF returns the error function, defined "
+"as erf(x) = 2/sqrt(pi)* integral from 0 to x of exp(-t*t) dt. If two "
+"arguments are supplied, they are the lower and upper limits of the "
+"integral.\n"
+"If either @lower_limit or @upper_limit is not numeric a #VALUE! error is "
+"returned.  This function is upward-compatible with that in Excel. (If two "
+"arguments are supplied, Excel will not allow either to be negative.) \n"
 "@EXAMPLES=\n"
 "ERF(0.4) equals 0.428392355.\n"
+"ERF(1.6448536269515/SQRT(2)) equals 0.90.\n"
 "\n"
+"The second example shows that a random variable with a normal distribution "
+"has a 90 percent chance of falling within approximately 1.645 standard "
+"deviations of the mean.\n"
 "@SEEALSO=ERFC"
 msgstr ""
-"@FUNCTION=ERF\n"
-"@SYNTAX=ERF(lower_limit[,upper_limit])\n"
-"@DESCRIPTION=Функция ERF возвращает интегральную функцию ошибки между "
-"пределами. Если @upper_limit опущен, то ERF возвращает интеграл между 0 и "
-"@lower_limit.\n"
-"Если @lower_limit или @upper_limit не являются числами, то возвращается "
-"ошибка #VALUE!. Если @lower_limit или @upper_limit < 0, возвращается ошибка "
-"#NUM!. Эта функция Excel-совместима. \n"
-"@EXAMPLES=\n"
-"ERF(0.4) равняется 0.428392355.\n"
-"\n"
-"@SEEALSO=ERFC"
 
-#: src/functions/fn-eng.c:1708
+#: src/functions/fn-eng.c:1711
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
-"@DESCRIPTION=The ERFC function returns the integral of the complimentary "
-"error function between the limits 0 and @x.\n"
-"If @x is not numeric a #VALUE! error is returned.  If @x < 0 a #NUM! error "
-"is returned.\n"
+"@DESCRIPTION=The ERFC function returns the complimentary error function, "
+"defined as 1 - erf(x). erfc(x) is calculated more accurately than erf(x) for "
+"arguments larger than about 0.5.\n"
+"If @x is not numeric a #VALUE! error is returned.  \n"
 "@EXAMPLES=\n"
+"ERFC(6) equals 2.15197367e-17.\n"
 "\n"
 "@SEEALSO=ERF"
 msgstr ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
-"@DESCRIPTION=Функция ERFC возвращает комплиментарную функцию ошибки между "
-"пределами 0 и @x.\n"
-"Если @x не является числом, возвращается ошибка #VALUE!. Если @x < 0, "
-"возвращается ошибка #NUM!.\n"
+"@DESCRIPTION=Функция ERFC возвращает комплиментарную функцию ошибки между пределами 0 и @x, определяемую как 1 - erf(@x). erfc(x) для аргументов больших чем 0.5 вычисляется более точно чем erf(@x).\n"
+"Если @x не является числом, возвращается ошибка #VALUE!.\n"
 "@EXAMPLES=\n"
-"\n"
+"ERFC(6) равняется 2.15197367e-17.\n"
 "@SEEALSO=ERF"
 
-#: src/functions/fn-eng.c:1737
+#: src/functions/fn-eng.c:1741
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -7508,11 +7498,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT,GESTEP"
 
-#: src/functions/fn-eng.c:1782 src/functions/fn-eng.c:1836
+#: src/functions/fn-eng.c:1786 src/functions/fn-eng.c:1840
 msgid "Impossible"
 msgstr "Невозможно"
 
-#: src/functions/fn-eng.c:1793
+#: src/functions/fn-eng.c:1797
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -7537,7 +7527,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DELTA"
 
-#: src/functions/fn-eng.c:1849
+#: src/functions/fn-eng.c:1853
 msgid "Engineering"
 msgstr "Инженерные"
 
