@@ -656,8 +656,10 @@ coupdaybs(GDate *settlement, GDate *maturity, int freq, int basis)
 	}
 }
 
-/* Returns the number of days from the settlement date to the next
- * coupon date.  */
+/*
+ * Returns the number of days from the settlement date to the next
+ * coupon date.
+ */
 static int
 coupdaysnc(GDate *settlement, GDate *maturity, int freq, int basis)
 {
@@ -837,9 +839,16 @@ static char *help_accrint = {
 	   "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,"
 	   "frequency[,basis])\n"
 	   "@DESCRIPTION="
-	   "ACCRINT calculates the accrued interest for a "
-	   "security that pays periodic interest.  The @rate is the annual "
-	   "rate of the security and @par is the par value of the security. "
+	   "ACCRINT calculates the accrued interest for a security that "
+	   "pays periodic interest.  "
+	   "@issue is the issue date of the security.  @first_interest is "
+	   "the first interest date of the security.  @settlement is the "
+	   "settlement date of the sequrity.  The settlement date is always "
+	   "after the issue date (the date when the security is bought). "
+	   "@rate is the annual rate of the security and @par is the par "
+	   "value of the security. "
+	   "@frequency is the number of coupon payments per year. "
+	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
 	   "@basis is the type of day counting system you want to use:\n"
 	   "\n"
 	   "0  US 30/360\n"
@@ -848,9 +857,11 @@ static char *help_accrint = {
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
 	   "\n"
-	   "If @issue date or @settlement date is not valid, ACCRINT returns "
-	   "#NUM! error. "
-	   "If @rate or @par is zero or negative, ACCRINT returns #NUM! error. "
+	   "If @issue date, @first_interest date, or @settlement date is not "
+	   "valid, ACCRINT returns #NUM! error. "
+	   "The dates must be @issue < @first_interest < @settlement, or "
+	   "ACCRINT returns #NUM! error. "
+	   "If @rate <= 0 or @par <= 0 , ACCRINT returns #NUM! error. "
 	   "If @basis is omitted, US 30/360 is applied. "
 	   "If @basis < 0 or @basis > 4, ACCRINT returns #NUM! error. "
 	   "If @issue date is after @settlement date or they are the same, "
@@ -864,13 +875,27 @@ static char *help_accrint = {
 static Value *
 gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
 {
+        GDate      *settlement;
+        GDate      *first_interest;
+        GDate      *maturity;
 	gnum_float rate, a, d, par, freq, coefficient, x;
-	int basis;
+	int        basis;
 
-	rate = value_get_as_float (argv[3]);
-	par = value_get_as_float (argv[4]);
-	freq = value_get_as_float (argv[5]);
-	basis = argv[6] ? value_get_as_int (argv[6]) : 0;
+        settlement     = datetime_value_to_g (argv[0]);
+	first_interest = datetime_value_to_g (argv[1]);
+        maturity       = datetime_value_to_g (argv[2]);
+	rate           = value_get_as_float (argv[3]);
+	par            = value_get_as_float (argv[4]);
+	freq           = value_get_as_float (argv[5]);
+	basis          = argv[6] ? value_get_as_int (argv[6]) : 0;
+
+        if (settlement == NULL || first_interest == NULL || maturity == NULL)
+                return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
+	    || g_date_compare (settlement, first_interest) > 0
+	    || g_date_compare (first_interest, maturity) > 0)
+                return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	a = days_monthly_basis (argv[0], argv[2], basis);
 	d = annual_year_basis (argv[0], basis);
@@ -892,7 +917,9 @@ static char *help_accrintm = {
 	   "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
 	   "@DESCRIPTION="
 	   "ACCRINTM calculates and returns the accrued interest for a "
-	   "security from @issue to @maturity date.  @rate is the annual "
+	   "security from @issue to @maturity date.  "
+	   "@issue is the issue date of the security.  @maturity is "
+	   "the maturity date of the security.  @rate is the annual "
 	   "rate of the security and @par is the par value of the security. "
 	   "If you omit @par, ACCRINTM applies $1,000 instead.  "
 	   "@basis is the type of day counting system you want to use:\n"
@@ -905,7 +932,7 @@ static char *help_accrintm = {
 	   "\n"
 	   "If @issue date or @maturity date is not valid, ACCRINTM returns "
 	   "#NUM! error. "
-	   "If @rate or @par is zero or negative, ACCRINTM returns #NUM! error. "
+	   "If @rate <= 0 or @par <= 0, ACCRINTM returns #NUM! error. "
 	   "If @basis is omitted, US 30/360 is applied. "
 	   "If @basis < 0 or @basis > 4, ACCRINTM returns #NUM! error. "
 	   "If @issue date is after @maturity date or they are the same, "
@@ -922,8 +949,8 @@ gnumeric_accrintm (FunctionEvalInfo *ei, Value **argv)
 	gnum_float rate, a, d, par;
 	int basis;
 
-	rate = value_get_as_float (argv[2]);
-	par = argv[3] ? value_get_as_float (argv[3]) : 1000;
+	rate  = value_get_as_float (argv[2]);
+	par   = argv[3] ? value_get_as_float (argv[3]) : 1000;
 	basis = argv[4] ? value_get_as_int (argv[4]) : 0;
 
 	a = days_monthly_basis (argv[0], argv[1], basis);
@@ -943,7 +970,8 @@ static char *help_intrate = {
 	   "[,basis])\n"
 	   "@DESCRIPTION="
 	   "INTRATE calculates and returns the interest rate of a fully "
-	   "vested security. "
+	   "vested security.  @settlement is the settlement date of the "
+	   "security.  @maturity is the maturity date of the security. "
 	   "@investment is the prize of the security paid at @settlement "
 	   "date and @redemption is the amount to be received at @maturity "
 	   "date.  "
@@ -955,8 +983,8 @@ static char *help_intrate = {
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
 	   "\n"
-	   "If @settlement date or @maturity date is not valid, INTRATE returns "
-	   "#NUM! error. "
+	   "If @settlement date or @maturity date is not valid, INTRATE "
+	   "returns #NUM! error. "
 	   "If @basis is omitted, US 30/360 is applied. "
 	   "If @basis < 0 or @basis > 4, INTRATE returns #NUM! error. "
 	   "If @settlement date is after @maturity date or they are the same, "
@@ -983,7 +1011,7 @@ gnumeric_intrate (FunctionEvalInfo *ei, Value **argv)
 
 	investment = value_get_as_float (argv[2]);
 	redemption = value_get_as_float (argv[3]);
-	basis = argv[4] ? value_get_as_int (argv[4]) : 0;
+	basis      = argv[4] ? value_get_as_int (argv[4]) : 0;
 
 	a = days_monthly_basis (argv[0], argv[1], basis);
 	d = annual_year_basis (argv[0], basis);
@@ -1002,7 +1030,10 @@ static char *help_received = {
 	   "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
 	   "@DESCRIPTION="
 	   "RECEIVED calculates and returns the amount to be received at "
-	   "@maturity date for a security bond. "
+	   "@maturity date for a security bond.  @settlement is the "
+	   "settlement date of the security.  @maturity is the maturity date "
+	   "of the security.  The amount of investement is specified in "
+	   "@investment.  @rate is the security's discount rate. "
 	   "@basis is the type of day counting system you want to "
 	   "use:\n"
 	   "\n"
@@ -1031,8 +1062,8 @@ gnumeric_received (FunctionEvalInfo *ei, Value **argv)
 	int basis;
 
 	investment = value_get_as_float (argv[2]);
-	discount = value_get_as_float (argv[3]);
-	basis = argv[4] ? value_get_as_int (argv[4]) : 0;
+	discount   = value_get_as_float (argv[3]);
+	basis      = argv[4] ? value_get_as_int (argv[4]) : 0;
 
 	a = days_monthly_basis (argv[0], argv[1], basis);
 	d = annual_year_basis (argv[0], basis);
@@ -1056,9 +1087,10 @@ static char *help_pricedisc = {
 	   "@DESCRIPTION="
 	   "PRICEDISC calculates and returns the price per $100 face value "
 	   "of a security bond.  The security does not pay interest at "
-	   "maturity.  @discount is the rate for which the security "
-	   "is discounted.  @redemption is the amount to be received on "
-	   "@maturity date.  "
+	   "maturity.  @settlement is the settlement date of the security. "
+	   "@maturity is the maturity date of the security.  @discount is "
+	   "the rate for which the security is discounted.  @redemption is "
+	   "the amount to be received on @maturity date.  "
 	   "@basis is the type of day counting system you want to use:\n"
 	   "\n"
 	   "0  US 30/360\n"
@@ -1085,9 +1117,9 @@ gnumeric_pricedisc (FunctionEvalInfo *ei, Value **argv)
 	gnum_float discount, redemption, a, d;
 	int basis;
 
-	discount = value_get_as_float (argv[2]);
+	discount   = value_get_as_float (argv[2]);
 	redemption = value_get_as_float (argv[3]);
-	basis = argv[4] ? value_get_as_int (argv[4]) : 0;
+	basis      = argv[4] ? value_get_as_int (argv[4]) : 0;
 
 	a = days_monthly_basis (argv[0], argv[1], basis);
 	d = annual_year_basis (argv[0], basis);
@@ -1106,6 +1138,10 @@ static char *help_pricemat = {
 	   "@DESCRIPTION="
 	   "PRICEMAT calculates and returns the price per $100 face value "
 	   "of a security.  The security pays interest at maturity. "
+	   "@settlement is the settlement date of the security.  @maturity is "
+	   "the maturity date of the security.  @issue is the issue date of "
+	   "the security.  @rate is the discount rate of the security. "
+	   "@yield is the annual yield of the security. "
 	   "@basis is the type of day counting system you want to use:\n"
 	   "\n"
 	   "0  US 30/360\n"
@@ -1133,13 +1169,13 @@ gnumeric_pricemat (FunctionEvalInfo *ei, Value **argv)
 	int basis;
 
 	discount = value_get_as_float (argv[3]);
-	yield = value_get_as_float (argv[4]);
-	basis = argv[5] ? value_get_as_int (argv[5]) : 0;
+	yield    = value_get_as_float (argv[4]);
+	basis    = argv[5] ? value_get_as_int (argv[5]) : 0;
 
 	dsm = days_monthly_basis (argv[0], argv[1], basis);
 	dim = days_monthly_basis (argv[2], argv[1], basis);
-	a = days_monthly_basis (argv[2], argv[0], basis);
-	b = annual_year_basis (argv[0], basis);
+	a   = days_monthly_basis (argv[2], argv[0], basis);
+	b   = annual_year_basis (argv[0], basis);
 
 	if (a <= 0 || b <= 0 || dsm <= 0 || dim <= 0 || basis < 0 ||
 	    basis > 4)
@@ -1160,6 +1196,10 @@ static char *help_disc = {
 	   "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
 	   "@DESCRIPTION="
 	   "DISC calculates and returns the discount rate for a sequrity. "
+	   "@settlement is the settlement date of the security.  @maturity "
+	   "is the maturity date of the security.  @par is the price per $100 "
+	   "face value of the security.  @redemption is the redeption value "
+	   "per $100 face value of the security. "
 	   "@basis is the type of day counting system you want to use:\n"
 	   "\n"
 	   "0  US 30/360\n"
@@ -1186,9 +1226,9 @@ gnumeric_disc (FunctionEvalInfo *ei, Value **argv)
 	gnum_float par, redemption, dsm, b;
 	int basis;
 
-	par = value_get_as_float (argv[2]);
+	par        = value_get_as_float (argv[2]);
 	redemption = value_get_as_float (argv[3]);
-	basis = argv[4] ? value_get_as_int (argv[4]) : 0;
+	basis      = argv[4] ? value_get_as_int (argv[4]) : 0;
 
 	b = annual_year_basis (argv[0], basis);
 	dsm = days_monthly_basis (argv[0], argv[1], basis);
@@ -1310,9 +1350,9 @@ gnumeric_ispmt (FunctionEvalInfo *ei, Value **argv)
 	int nper, per;
 
 	rate = value_get_as_float (argv[0]);
-	per = value_get_as_int (argv[1]);
+	per  = value_get_as_int (argv[1]);
 	nper = value_get_as_int (argv[2]);
-	pv = value_get_as_float (argv[3]);
+	pv   = value_get_as_float (argv[3]);
 
 	if (per < 1 || per > nper)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -1350,11 +1390,11 @@ gnumeric_db (FunctionEvalInfo *ei, Value **argv)
 	gnum_float total;
 	int i;
 
-	cost = value_get_as_float (argv[0]);
+	cost    = value_get_as_float (argv[0]);
 	salvage = value_get_as_float (argv[1]);
-	life = value_get_as_float (argv[2]);
-	period = value_get_as_float (argv[3]);
-	month = argv[4] ? value_get_as_float (argv[4]) : 12;
+	life    = value_get_as_float (argv[2]);
+	period  = value_get_as_float (argv[3]);
+	month   = argv[4] ? value_get_as_float (argv[4]) : 12;
 
 	/* The third disjunct is a bit of a guess -- MW.  */
 	if (cost == 0 || life <= 0 || salvage / cost < 0)
@@ -1405,11 +1445,11 @@ gnumeric_ddb (FunctionEvalInfo *ei, Value **argv)
 	gnum_float total;
 	int i;
 
-	cost = value_get_as_float (argv[0]);
+	cost    = value_get_as_float (argv[0]);
 	salvage = value_get_as_float (argv[1]);
-	life = value_get_as_float (argv[2]);
-	period = value_get_as_float (argv[3]);
-	factor = argv[4] ? value_get_as_float (argv[4]) : 2;
+	life    = value_get_as_float (argv[2]);
+	period  = value_get_as_float (argv[3]);
+	factor  = argv[4] ? value_get_as_float (argv[4]) : 2;
 
 	if (life <= 0)
 	        return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -1467,9 +1507,9 @@ gnumeric_sln (FunctionEvalInfo *ei, Value **argv)
 {
 	gnum_float cost,salvage_value,life;
 
-	cost = value_get_as_float (argv[0]);
+	cost          = value_get_as_float (argv[0]);
 	salvage_value = value_get_as_float (argv[1]);
-	life = value_get_as_float (argv[2]);
+	life          = value_get_as_float (argv[2]);
 
 	/* Life of an asset cannot be negative */
 	if (life <= 0)
@@ -1484,7 +1524,7 @@ static char *help_syd = {
 	N_("@FUNCTION=SYD\n"
 	   "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
 	   "@DESCRIPTION="
-	   "The SYD function calculates the sum-of-years digits depriciation "
+	   "SYD function calculates the sum-of-years digits depriciation "
 	   "for an asset based on its cost, salvage value, anticipated life "
 	   "and a particular period. This method accelerates the rate of the "
 	   "depreciation, so that more depreciation expense occurs in "
@@ -1520,10 +1560,10 @@ gnumeric_syd (FunctionEvalInfo *ei, Value **argv)
 {
 	gnum_float cost, salvage_value, life, period;
 
-	cost   = value_get_as_float (argv[0]);
+	cost          = value_get_as_float (argv[0]);
 	salvage_value = value_get_as_float (argv[1]);
-	life   = value_get_as_float (argv[2]);
-	period = value_get_as_float (argv[3]);
+	life          = value_get_as_float (argv[2]);
+	period        = value_get_as_float (argv[3]);
 
 	/* Life of an asset cannot be negative */
 	if (life <= 0)
@@ -1542,6 +1582,8 @@ static char *help_dollarde = {
 	   "@DESCRIPTION="
 	   "DOLLARDE converts a dollar price expressed as a "
 	   "fraction into a dollar price expressed as a decimal number. "
+	   "@fractional_dollar is the fractional number to be converted. "
+	   "@fraction is the denominator of the fraction. "
 	   "\n"
 	   "If @fraction is non-integer it is truncated. "
 	   "If @fraction <= 0, DOLLARDE returns #NUM! error. "
@@ -1555,11 +1597,11 @@ static Value *
 gnumeric_dollarde (FunctionEvalInfo *ei, Value **argv)
 {
         gnum_float fractional_dollar;
-	int fraction, n, tmp;
+	int        fraction, n, tmp;
 	gnum_float floored, rest;
 
 	fractional_dollar = value_get_as_float (argv[0]);
-	fraction = value_get_as_int (argv[1]);
+	fraction          = value_get_as_int (argv[1]);
 
 	if (fraction <= 0)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -1601,7 +1643,7 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 	gnum_float floored, rest;
 
 	fractional_dollar = value_get_as_float (argv[0]);
-	fraction = value_get_as_int (argv[1]);
+	fraction          = value_get_as_int (argv[1]);
 
 	if (fraction <= 0)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -1706,8 +1748,8 @@ gnumeric_tbilleq (FunctionEvalInfo *ei, Value **argv)
 	gnum_float dsm, divisor;
 
 	settlement = datetime_value_to_serial (argv[0]);
-	maturity = datetime_value_to_serial (argv[1]);
-	discount = value_get_as_float (argv[2]);
+	maturity   = datetime_value_to_serial (argv[1]);
+	discount   = value_get_as_float (argv[2]);
 
 	dsm = maturity - settlement;
 
@@ -1751,8 +1793,8 @@ gnumeric_tbillprice (FunctionEvalInfo *ei, Value **argv)
 	gnum_float res, dsm;
 
 	settlement = datetime_value_to_serial (argv[0]);
-	maturity = datetime_value_to_serial (argv[1]);
-	discount = value_get_as_float (argv[2]);
+	maturity   = datetime_value_to_serial (argv[1]);
+	discount   = value_get_as_float (argv[2]);
 
 	dsm = maturity - settlement;
 
@@ -1792,8 +1834,8 @@ gnumeric_tbillyield (FunctionEvalInfo *ei, Value **argv)
 	gnum_float res, dsm;
 
 	settlement = datetime_value_to_serial (argv[0]);
-	maturity = datetime_value_to_serial (argv[1]);
-	pr = value_get_as_float (argv[2]);
+	maturity   = datetime_value_to_serial (argv[1]);
+	pr         = value_get_as_float (argv[2]);
 
 	dsm = maturity - settlement;
 
@@ -1811,7 +1853,7 @@ static char *help_rate = {
 	N_("@FUNCTION=RATE\n"
 	   "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
 	   "@DESCRIPTION="
-	   "RATE calculates rate of an investment."
+	   "RATE calculates the rate of an investment."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -1857,17 +1899,17 @@ gnumeric_rate_df (gnum_float rate, gnum_float *y, void *user_data)
 static Value *
 gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 {
-	GoalSeekData data;
-	GoalSeekStatus status;
+	GoalSeekData    data;
+	GoalSeekStatus  status;
 	gnumeric_rate_t udata;
-	gnum_float rate0;
+	gnum_float      rate0;
 
 	udata.nper = value_get_as_int (argv[0]);
 	udata.pmt  = value_get_as_float (argv[1]);
 	udata.pv   = value_get_as_float (argv[2]);
 	udata.fv   = argv[3] ? value_get_as_float (argv[3]) : 0.0;
 	udata.type = argv[4] ? value_get_as_int (argv[4]) : 0;
-	rate0 = argv[5] ?  value_get_as_float (argv[5]) : 0.1;
+	rate0      = argv[5] ?  value_get_as_float (argv[5]) : 0.1;
 
 	if (udata.nper <= 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -2498,9 +2540,9 @@ gnumeric_nper (FunctionEvalInfo *ei, Value **argv)
 	int type;
 
 	rate = value_get_as_float (argv[0]);
-	pmt = value_get_as_float (argv[1]);
-	pv = value_get_as_float (argv[2]);
-	fv = value_get_as_float (argv[3]);
+	pmt  = value_get_as_float (argv[1]);
+	pv   = value_get_as_float (argv[2]);
+	fv   = value_get_as_float (argv[3]);
 	type = !!value_get_as_int (argv[4]);
 
 	if (rate <= 0.0)
@@ -2537,8 +2579,8 @@ gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
 	gnum_float rate,pv,fv;
 
 	rate = value_get_as_float (argv[0]);
-	pv = value_get_as_float (argv[1]);
-	fv = value_get_as_float (argv[2]);
+	pv   = value_get_as_float (argv[1]);
+	fv   = value_get_as_float (argv[2]);
 
 	if (rate <= 0)
 		return value_new_error (ei->pos, gnumeric_err_DIV0);
@@ -2578,7 +2620,7 @@ gnumeric_fvschedule (FunctionEvalInfo *ei, Value **argv)
 	Value *result = NULL;
 	int i, n;
 
-	pv = value_get_as_float (argv[0]);
+	pv       = value_get_as_float (argv[0]);
 	schedule = collect_floats_value (argv[1], ei->pos,
 					 0, &n, &result);
 	if (result)
@@ -2789,7 +2831,7 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
         gnum_float a, d, e, n;
 	gnum_float coeff, num, den;
 	gnum_float rate, par, redemption;
-	gint freq, basis;
+	gint       freq, basis;
 	
         settlement = datetime_value_to_g (argv[0]);
         maturity   = datetime_value_to_g (argv[1]);
@@ -2899,6 +2941,8 @@ static char *help_oddfprice = {
 	   "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,"
 	   "yld,redemption,frequency[,basis])\n"
 	   "@DESCRIPTION="
+	   "ODDFPRICE returns the price per $100 face value of a security. "
+	   "The security should have an odd short or long first period. "
 	   "@frequency is the number of coupon payments per year. "
 	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
 	   "@basis is the type of day counting system you want to use:\n"
@@ -2922,7 +2966,57 @@ static char *help_oddfprice = {
 static Value *
 gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+        GDate      *settlement;
+        GDate      *maturity;
+        GDate      *issue;
+	GDate      *first_coupon;
+        gnum_float a, ds, df, e, n;
+	gnum_float term1, term2, last_term, sum;
+	gnum_float rate, yield, redemption;
+	gint       freq, basis, k;
+	
+        settlement   = datetime_value_to_g (argv[0]);
+        maturity     = datetime_value_to_g (argv[1]);
+        issue        = datetime_value_to_g (argv[2]);
+        first_coupon = datetime_value_to_g (argv[3]);
+	rate         = value_get_as_float (argv[4]);
+	yield        = value_get_as_float (argv[5]);
+	redemption   = value_get_as_float (argv[6]);
+        freq         = value_get_as_int (argv[7]);
+        basis        = argv[8] ? value_get_as_int (argv[8]) : 0;
+
+        if (settlement == NULL || maturity == NULL || issue == NULL
+	    || first_coupon == NULL)
+                return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+        if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
+            || g_date_compare (issue, settlement) > 0
+	    || g_date_compare (settlement, first_coupon) > 0
+	    || g_date_compare (first_coupon, maturity) > 0)
+                return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        if (rate < 0.0 || yield < 0.0 || redemption <= 0.0)
+                return value_new_error (ei->pos, gnumeric_err_NUM);
+
+	a = coupdaybs (settlement, maturity, freq, basis);
+	ds = -1; /* FIXME */
+	df = -1; /* FIXME */
+	e = coupdays (settlement, maturity, freq, basis);
+	n = coupnum (settlement, maturity, freq, basis);
+
+	/*
+	 * FIXME: Check if odd long first coupon and implement the branch
+	 */
+
+	/* Odd short first coupon */
+	term1 = redemption / pow (1.0 + yield/freq, n-1.0 + ds/e);
+	term2 = (100.0 * rate/freq * df/e) / pow (1.0 + yield/freq, ds/e);;
+	last_term = 100.0 * rate/freq * a/e;
+	sum = 0;
+	for (k=1; k<n; k++)
+	        sum += (100.0 * rate/freq) / pow (1 + yield/freq, k + ds/e);
+
+	return value_new_float (term1 + term2 + sum - last_term);
 }
 
 /***************************************************************************/
@@ -3371,9 +3465,9 @@ gnumeric_coupnum (FunctionEvalInfo *ei, Value **argv)
         gnum_float n;
 
         settlement = datetime_value_to_g (argv[0]);
-        maturity = datetime_value_to_g (argv[1]);
-        freq = value_get_as_int (argv[2]);
-	basis = argv[3] ? value_get_as_int (argv[3]) : 0;
+        maturity   = datetime_value_to_g (argv[1]);
+        freq       = value_get_as_int (argv[2]);
+	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
 
         if (settlement == NULL || maturity == NULL)
                 return value_new_error (ei->pos, gnumeric_err_VALUE);
