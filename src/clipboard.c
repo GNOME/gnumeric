@@ -129,6 +129,7 @@ paste_cell_with_operation (Sheet *dest_sheet,
 		GnmExpr const *new_expr    = gnm_expr_new_binary (old_expr, op, copied_expr);
 		cell_set_expr (new_cell, new_expr);
 		cell_relocate (new_cell, rwinfo);
+		gnm_expr_unref (new_expr);
 	} else {
 		Value *new_val = apply_paste_oper_to_values (new_cell, c_copy->u.cell,
 							     new_cell, paste_flags);
@@ -174,6 +175,7 @@ paste_link (PasteTarget const *pt, int top, int left,
 			source_cell_ref.row = content->base.row + y;
 			expr = gnm_expr_new_cellref (&source_cell_ref);
 			cell_set_expr (cell, expr);
+			gnm_expr_unref (expr);
 		}
 	}
 }
