@@ -1048,7 +1048,6 @@ global_range_list_parse (Sheet *sheet, char const *str)
 		GNM_PARSER_PERMIT_MULTIPLE_EXPRESSIONS, NULL, NULL);
 
 	if (expr != NULL)  {
-		puts (expr_tree_as_string (expr, &pp));
 		if (expr->any.oper == OPER_SET) {
 			ExprList *l;
 			for (l = expr->set.set; l != NULL; l = l->next) {

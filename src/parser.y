@@ -33,7 +33,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
-/* #define YYDEBUG 1 */
+#define YYDEBUG 1
 /* ------------------------------------------------------------------------- */
 /* Allocation with disposal-on-error */
 
@@ -394,7 +394,7 @@ line:	opt_exp exp {
 	}
 	;
 
-opt_exp : opt_exp exp ',' {
+opt_exp : opt_exp exp  SEPARATOR {
 	       unregister_allocation ($2);
 	       $$ = expr_list_prepend ($1, $2);
 	}
@@ -1056,7 +1056,7 @@ expr_parse_str (char const *expr_text, ParsePos const *pos,
 		/* Do we have multiple expressions */
 		if (pstate.result->next != NULL) {
 			if (flags & GNM_PARSER_PERMIT_MULTIPLE_EXPRESSIONS)
-				expr = expr_tree_new_set (pstate.result);
+				expr = expr_tree_new_set (g_slist_reverse (pstate.result));
 			else {
 				expr_list_unref (pstate.result);
 				gnumeric_parse_error (&pstate, PERR_MULTIPLE_EXPRESSIONS,

@@ -1,3 +1,10 @@
+2001-11-26  Jody Goldberg <jody@gnome.org>
+
+	* src/ranges.c (global_range_list_parse) : remove debug spew.
+
+	* src/parser.y (force_explicit_sheet_references) : Use SEPARATOR not ','
+	(expr_parse_str) : reverse the list.
+
 2001-11-25  Jody Goldberg <jody@gnome.org>
 
 	* src/eval.c (handle_tree_deps) : add OPER_SET.
