@@ -49,7 +49,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <math.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-config-dialog"
 
@@ -75,10 +75,10 @@ sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)		\
 	so_class->read_xml = fn_read_xml;				\
 	object_class->finalize = & sheet_widget_ ## n1 ## _finalize;	\
 }									\
-E_MAKE_TYPE (sheet_widget_ ## n1, "SheetWidget" #n2, SheetWidget ## n2, \
-	     &sheet_widget_ ## n1 ## _class_init,			\
-	     &sheet_widget_ ## n1 ## _init,				\
-	     SHEET_OBJECT_WIDGET_TYPE);
+GSF_CLASS (SheetWidget ## n2, sheet_widget_ ## n1,			\
+	   &sheet_widget_ ## n1 ## _class_init,				\
+	   &sheet_widget_ ## n1 ## _init,				\
+	   SHEET_OBJECT_WIDGET_TYPE);
 
 typedef struct _SheetObjectWidget SheetObjectWidget;
 
@@ -163,10 +163,10 @@ sheet_object_widget_init (SheetObjectWidget *sow)
 	so->type = SHEET_OBJECT_ACTION_CAN_PRESS;
 }
 
-static E_MAKE_TYPE (sheet_object_widget, "SheetObjectWidget", SheetObjectWidget,
-		    sheet_object_widget_class_init,
-		    sheet_object_widget_init,
-		    SHEET_OBJECT_TYPE);
+static GSF_CLASS (SheetObjectWidget, sheet_object_widget,
+		  sheet_object_widget_class_init,
+		  sheet_object_widget_init,
+		  SHEET_OBJECT_TYPE);
 
 /****************************************************************************/
 #define SHEET_WIDGET_LABEL_TYPE     (sheet_widget_label_get_type ())

@@ -21,9 +21,10 @@
 #include "pixmaps/gnumeric-stock-pixbufs.h"
 #include "gnm-marshalers.h"
 
-#include <gtk/gtk.h>
 #include <gnumeric-gconf.h>
+#include <gsf/gsf-impl-utils.h>
 #include <gal/util/e-util.h>
+#include <gtk/gtk.h>
 
 /* Signals */
 enum {
@@ -628,6 +629,6 @@ gnumeric_application_init (GObject *obj)
 	app = gnm_app;
 }
 
-E_MAKE_TYPE (gnumeric_application, "GnumericApplication", GnumericApplication,
-	     gnumeric_application_class_init, gnumeric_application_init,
-	     G_TYPE_OBJECT);
+GSF_CLASS (GnumericApplication, gnumeric_application,
+	   gnumeric_application_class_init, gnumeric_application_init,
+	   G_TYPE_OBJECT);

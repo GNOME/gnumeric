@@ -44,7 +44,7 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <ctype.h>
 #include <stdio.h>
 

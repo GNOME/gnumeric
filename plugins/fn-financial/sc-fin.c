@@ -78,8 +78,8 @@ GetDiffParam (GDate *nStartDate, GDate *nEndDate, gint nMode, gint *rYears,
 	gint  nDay1,   nDay2;
 	gint  nMonth1, nMonth2;
 	gint  nYear1,  nYear2;
-	gint  nYears;
-	gint  nDayDiff, nDaysInYear;
+	gint  nYears = 0;
+	gint  nDayDiff = 0, nDaysInYear = 0;
 
         if ( g_date_compare (nStartDate, nEndDate) == 1 ) {
                 GDate *tmp = nEndDate;

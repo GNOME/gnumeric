@@ -43,6 +43,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/widget-color-combo.h>
+#include <gal/util/e-util.h>
 
 typedef struct {
 	WorkbookControlGUI  *wbcg;

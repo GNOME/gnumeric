@@ -10,7 +10,7 @@
 #include <gnumeric.h>
 #include "gnumeric-dashed-canvas-line.h"
 
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
 static void gnumeric_dashed_canvas_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
@@ -156,8 +156,9 @@ gnumeric_dashed_canvas_line_init (GnumericDashedCanvasLine *line)
 	line->dash_style_index = STYLE_BORDER_THIN;
 }
 
-E_MAKE_TYPE (gnumeric_dashed_canvas_line, "GnumericDashedCanvasLine", GnumericDashedCanvasLine,
-	     gnumeric_dashed_canvas_line_class_init, gnumeric_dashed_canvas_line_init, GNOME_TYPE_CANVAS_LINE)
+GSF_CLASS (GnumericDashedCanvasLine, gnumeric_dashed_canvas_line,
+	   gnumeric_dashed_canvas_line_class_init,
+	   gnumeric_dashed_canvas_line_init, GNOME_TYPE_CANVAS_LINE)
 
 void
 gnumeric_dashed_canvas_line_set_dash_index (GnumericDashedCanvasLine *line,

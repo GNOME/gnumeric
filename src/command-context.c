@@ -10,7 +10,7 @@
 #include "gnumeric.h"
 #include "command-context-priv.h"
 
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <libgnome/gnome-i18n.h>
 
 #define CC_CLASS(o) COMMAND_CONTEXT_CLASS (G_OBJECT_GET_CLASS (o))
@@ -159,5 +159,5 @@ command_context_pop_err_template (CommandContext *context)
 	}
 }
 
-E_MAKE_TYPE (command_context, "CommandContext", CommandContext,
-	     NULL, NULL, G_TYPE_OBJECT)
+GSF_CLASS (CommandContext, command_context,
+	   NULL, NULL, G_TYPE_OBJECT)

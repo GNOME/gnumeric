@@ -20,6 +20,7 @@
 #include "command-context.h"
 #include "gui-util.h"
 
+#include <gsf/gsf-impl-utils.h>
 #include <limits.h>
 #include <sys/time.h>
 #include <sys/stat.h>
@@ -65,9 +66,9 @@ io_context_class_init (IOContextClass *klass)
 	G_OBJECT_CLASS (klass)->finalize = io_context_finalize;
 }
 
-E_MAKE_TYPE (io_context, "GnumIOContext", IOContext, \
-             io_context_class_init, io_context_init, \
-             G_TYPE_OBJECT)
+GSF_CLASS (IOContext, io_context,
+	   io_context_class_init, io_context_init,
+	   G_TYPE_OBJECT)
 
 IOContext *
 gnumeric_io_context_new (CommandContext *cc)

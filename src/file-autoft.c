@@ -30,16 +30,16 @@
 #include "format-template.h"
 #include "gnumeric-gconf.h"
 
+#include <gsf/gsf-impl-utils.h>
+
+#include <libgnome/gnome-i18n.h>
+#include <gal/util/e-util.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <string.h>
 #include <errno.h>
-#include <libgnome/gnome-util.h>
-#include <libgnome/gnome-i18n.h>
-
-#include <gal/util/e-util.h>
 
 #define TEMPLATE_FILE_EXT    ".xml"
 
@@ -99,7 +99,7 @@ category_get_templates_list (FormatTemplateCategory *category,
 			gchar *full_entry_name;
 			FormatTemplate *ft;
 
-			full_entry_name = g_concat_dir_and_file (category->directory, entry->d_name);
+			full_entry_name = g_build_filename (category->directory, entry->d_name, NULL);
 			ft = format_template_new_from_file (full_entry_name, cc);
 			if (ft == NULL) {
 				g_warning (_("Invalid template file: %s"), full_entry_name);
@@ -145,7 +145,7 @@ category_list_get_from_dir_list (GSList *dir_list)
 			gchar *full_entry_name;
 			struct stat entry_info;
 
-			full_entry_name = g_concat_dir_and_file (dir_name, entry->d_name);
+			full_entry_name = g_build_filename (dir_name, entry->d_name, NULL);
 			if (entry->d_name[0] != '.' && stat (full_entry_name, &entry_info) == 0 && S_ISDIR(entry_info.st_mode)) {
 				FormatTemplateCategory *category;
 

@@ -23,7 +23,7 @@
 #include "commands.h"
 
 #include <libgnome/gnome-i18n.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #define GNUMERIC_ITEM "BAR"
 #include "item-debug.h"
 
@@ -979,6 +979,6 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 	object_class->set_arg   = item_bar_set_arg;
 }
 
-E_MAKE_TYPE (item_bar, "ItemBar", ItemBar,
-	     item_bar_class_init, item_bar_init,
-	     GNOME_TYPE_CANVAS_ITEM);
+GSF_CLASS (ItemBar, item_bar,
+	   item_bar_class_init, item_bar_init,
+	   GNOME_TYPE_CANVAS_ITEM);

@@ -24,6 +24,7 @@ Jody:
 	* Read edit_pos from xls for multi-selection case.
 	* Save selection correctly for xls.
 	* Move freeze state to SheetView.
+	* Decrease dependence on gal in favour of libgsf.
 
 Jukka:
 	* More solver enhancements:

@@ -29,7 +29,7 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtkmain.h>
 #include <gdk/gdkkeysyms.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 
 #include <string.h>
 
@@ -246,8 +246,8 @@ el_init (GObject *obj)
 	g_signal_connect (obj, "parent_set", G_CALLBACK (cb_el_parent_set), NULL);
 }
 
-E_MAKE_TYPE (editable_label, "EditableLabel", EditableLabel,
-	     el_class_init, el_init, BASE_TYPE)
+GSF_CLASS (EditableLabel, editable_label,
+	   el_class_init, el_init, BASE_TYPE)
 
 void
 editable_label_set_text (EditableLabel *el, char const *text)

@@ -30,6 +30,7 @@ struct _Sheet {
 
 	double      last_zoom_factor_used;
 
+	GHashTable  *hyper_links;	/* hash on the cellpos */
 	GList       *sheet_objects;	/* List of objects in this sheet */
 	CellPos	     max_object_extent;
 

@@ -28,7 +28,7 @@
 #include "parse-util.h"
 #include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-cursors.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #define GNUMERIC_ITEM "CURSOR"
 #include "item-debug.h"
 
@@ -1419,6 +1419,6 @@ item_cursor_init (ItemCursor *ic)
 	ic->drag_button = -1;
 }
 
-E_MAKE_TYPE (item_cursor, "ItemCursor", ItemCursor,
-	     item_cursor_class_init, item_cursor_init,
-	     GNOME_TYPE_CANVAS_ITEM);
+GSF_CLASS (ItemCursor, item_cursor,
+	   item_cursor_class_init, item_cursor_init,
+	   GNOME_TYPE_CANVAS_ITEM);

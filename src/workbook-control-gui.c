@@ -78,7 +78,7 @@
 #endif
 #endif
 
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <gal/widgets/widget-color-combo.h>
 #include <gal/widgets/gtk-combo-stack.h>
 
@@ -4823,9 +4823,9 @@ workbook_control_gui_ctor_class (GObjectClass *object_class)
 	wbcg_class->set_transient        = wbcg_set_transient_for;
 }
 
-E_MAKE_TYPE(workbook_control_gui, "WorkbookControlGUI", WorkbookControlGUI,
-	    workbook_control_gui_ctor_class, NULL,
-	    WORKBOOK_CONTROL_TYPE);
+GSF_CLASS (WorkbookControlGUI, workbook_control_gui,
+	   workbook_control_gui_ctor_class, NULL,
+	   WORKBOOK_CONTROL_TYPE);
 
 WorkbookControl *
 workbook_control_gui_new (WorkbookView *optional_view, Workbook *wb)

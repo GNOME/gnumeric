@@ -1,3 +1,15 @@
+2002-07-07  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric.h : Add GnmHLink.
+
+	* src/item-grid.c : include hlink.h
+	(item_grid_event) : a button release on an h-link activates it.
+
+	* src/Makefile.am : Add hlink.[ch]
+
+	* src/sheet.h : Lets take a break from architecture and add something
+	  simple like hyper-links.
+
 2002-07-07  Jon K Hellan  <hellan@acm.org>
 
 	* src/datetime.c (date_init, datetime_g_to_serial,

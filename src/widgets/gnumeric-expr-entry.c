@@ -26,7 +26,7 @@
 #include <commands.h>
 #include <gnm-marshalers.h>
 
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtkcelleditable.h>
 #include <ctype.h>

@@ -2,7 +2,6 @@
 #define GNUMERIC_COMMAND_CONTEXT_H
 
 #include "gnumeric.h"
-#include "error-info.h"
 #include <glib-object.h>
 
 #define COMMAND_CONTEXT_TYPE        (command_context_get_type ())

@@ -26,9 +26,10 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "gutils.h"
+#include "error-info.h"
 
 #include <gsf/gsf-input.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <string.h>
 #include <libgnome/gnome-i18n.h>
 
@@ -83,9 +84,9 @@ gnum_file_opener_class_init (GnumFileOpenerClass *klass)
 	klass->open = gnum_file_opener_open_real;
 }
 
-E_MAKE_TYPE (gnum_file_opener, "GnumFileOpener", GnumFileOpener,
-             gnum_file_opener_class_init, gnum_file_opener_init,
-             G_TYPE_OBJECT)
+GSF_CLASS (GnumFileOpener, gnum_file_opener,
+	   gnum_file_opener_class_init, gnum_file_opener_init,
+	   G_TYPE_OBJECT)
 
 /**
  * gnum_file_opener_setup:
@@ -256,7 +257,7 @@ gnum_file_saver_save_to_stream_real (GnumFileSaver const *fs,
 	gint old_umask;
 	gint fd;
 
-	tmp_name = g_concat_dir_and_file (g_get_tmp_dir (), "gnumeric-file-XXXXXX");
+	tmp_name = g_build_filename (g_get_tmp_dir (), "gnumeric-file-XXXXXX", NULL);
 	old_umask = umask (0077);
 	fd = mkstemp (tmp_name);
 	if (fd == -1) {
@@ -332,9 +333,9 @@ gnum_file_saver_class_init (GnumFileSaverClass *klass)
 	klass->save = gnum_file_saver_save_real;
 }
 
-E_MAKE_TYPE (gnum_file_saver, "GnumFileSaver", GnumFileSaver,
-             gnum_file_saver_class_init, gnum_file_saver_init,
-             G_TYPE_OBJECT)
+GSF_CLASS (GnumFileSaver, gnum_file_saver,
+	   gnum_file_saver_class_init, gnum_file_saver_init,
+	   G_TYPE_OBJECT)
 
 /**
  * gnum_file_saver_setup:

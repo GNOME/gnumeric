@@ -65,8 +65,9 @@
 #include "tools/dao.h"
 #include "gnumeric-gconf.h"
 
-#include <libgnome/gnome-i18n.h>
+#include <gsf/gsf-impl-utils.h>
 #include <gal/util/e-util.h>
+#include <libgnome/gnome-i18n.h>
 #include <ctype.h>
 
 /*
@@ -131,8 +132,8 @@ typedef struct {
 	RedoCmd		redo_cmd;
 } GnumericCommandClass;
 
-static E_MAKE_TYPE (gnumeric_command, "GnumericCommand", GnumericCommand,
-		    NULL, NULL, G_TYPE_OBJECT);
+GSF_CLASS (GnumericCommand, gnumeric_command,
+	   NULL, NULL, G_TYPE_OBJECT);
 
 /* Store the real GObject dtor pointer */
 static void (* g_object_dtor) (GObject *object) = NULL;
@@ -171,8 +172,8 @@ func ## _class_init (GnumericCommandClass * const parent)		\
 typedef struct {							\
 	GnumericCommandClass cmd;					\
 } type ## Class;							\
-static E_MAKE_TYPE (func, #type, type,					\
-		    func ## _class_init, NULL, GNUMERIC_COMMAND_TYPE);
+static GSF_CLASS (type, func,						\
+		  func ## _class_init, NULL, GNUMERIC_COMMAND_TYPE);
 
 /******************************************************************/
 

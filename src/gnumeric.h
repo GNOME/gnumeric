@@ -23,6 +23,7 @@ typedef struct _SolverParameters	SolverParameters;
 
 typedef struct _SheetObject		SheetObject;
 typedef struct _SheetObjectAnchor	SheetObjectAnchor;
+typedef struct _GnmHLink		GnmHLink;
 
 typedef struct _GnmDepContainer		GnmDepContainer;
 typedef struct _Dependent		Dependent;

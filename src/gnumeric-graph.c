@@ -46,7 +46,7 @@
 
 #include <idl/GNOME_Gnumeric_Graph.h>
 #include <bonobo.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <gal/util/e-xml-utils.h>
 #include <libxml/parser.h>
 
@@ -548,9 +548,9 @@ gnm_graph_vector_init (GtkObject *obj)
 	vector->initialized	= FALSE;
 }
 
-E_MAKE_TYPE (gnm_graph_vector,"GnmGraphVector",GnmGraphVector,
-	     gnm_graph_vector_class_init, gnm_graph_vector_init, GTK_TYPE_OBJECT)
-
+GSF_CLASS (GraphVector, gnm_graph_vector,
+	   gnm_graph_vector_class_init, gnm_graph_vector_init,
+	   GTK_TYPE_OBJECT);
 
 /***************************************************************************/
 
@@ -1183,11 +1183,11 @@ gnm_graph_class_init (GtkObjectClass *object_class)
 }
 
 #ifdef GNOME2_CONVERSION_COMPLETE
-E_MAKE_TYPE (gnm_graph, "GnmGraph", GnmGraph,
-	     gnm_graph_class_init, gnm_graph_init, SHEET_OBJECT_CONTAINER_TYPE)
+GSF_CLASS (gnm_graph, GnmGraph,
+	   gnm_graph_class_init, gnm_graph_init, SHEET_OBJECT_CONTAINER_TYPE)
 #else
-E_MAKE_TYPE (gnm_graph, "GnmGraph", GnmGraph,
-	     gnm_graph_class_init, gnm_graph_init, 42)
+GSF_CLASS (gnm_graph, GnmGraph,
+	   gnm_graph_class_init, gnm_graph_init, 42)
 #endif
 
 /*****************************************************************************/

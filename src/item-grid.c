@@ -33,10 +33,11 @@
 #include "style-color.h"
 #include "pattern.h"
 #include "commands.h"
+#include "hlink.h"
 
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <gtk/gtkdnd.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <gal/widgets/e-cursors.h>
 #include <math.h>
 #define GNUMERIC_ITEM "GRID"
@@ -964,7 +965,20 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnm_canvas_slide_stop (gcanvas);
 
 		switch (ig->selecting) {
-		case ITEM_GRID_NO_SELECTION: return TRUE;
+		case ITEM_GRID_NO_SELECTION: {
+			/* check for hyper links */
+			GnmHLink *link;
+			CellPos	pos;
+
+			gnome_canvas_w2c (canvas, event->button.x, event->button.y,
+					  &x, &y);
+			pos.col = gnm_canvas_find_col (gcanvas, x, NULL);
+			pos.row = gnm_canvas_find_row (gcanvas, y, NULL);
+			link = sheet_hlink_find (sheet, &pos);
+			if (link != NULL)
+				gnm_hlink_activate (link);
+		}
+		return TRUE;
 
 		case ITEM_GRID_SELECTING_FORMULA_RANGE :
 			send_finished_signal = TRUE;
@@ -1008,7 +1022,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			/* TODO : motion is still too granular along the internal axis
 			 * when the other axis is external.
 			 * eg  drag from middle of sheet down.  The x axis is still internal
-			 * onlt the y is external, however, since we are autoscrolling
+			 * only the y is external, however, since we are autoscrolling
 			 * we are limited to moving with col/row coords, not x,y.
 			 * Possible solution would be to change the EXTERIOR_ONLY flag
 			 * to something like USE_PIXELS_INSTEAD_OF_COLROW and change
@@ -1134,6 +1148,6 @@ item_grid_class_init (ItemGridClass *item_grid_class)
 	item_class->event       = item_grid_event;
 }
 
-E_MAKE_TYPE (item_grid, "ItemGrid", ItemGrid,
-	     item_grid_class_init, item_grid_init,
-	     GNOME_TYPE_CANVAS_ITEM);
+GSF_CLASS (ItemGrid, item_grid,
+	   item_grid_class_init, item_grid_init,
+	   GNOME_TYPE_CANVAS_ITEM);

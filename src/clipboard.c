@@ -279,8 +279,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 
 	/* If the source is a single cell */
 	/* Treat a target of a single merge specially, don't split the merge */
-	if (src_cols == 1 && src_rows == 1)
-	{
+	if (src_cols == 1 && src_rows == 1) {
 		Range const *merge = sheet_merge_is_corner (pt->sheet, &r->start);
 		if (merge != NULL && range_equal (r, merge)) {
 			dst_cols = dst_rows = 1;

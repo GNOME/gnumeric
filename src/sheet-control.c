@@ -24,7 +24,7 @@
 #include "gnumeric.h"
 #include "sheet-control-priv.h"
 
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 
 #define SC_CLASS(o) SHEET_CONTROL_CLASS (G_OBJECT_GET_CLASS (o))
 #define SC_VIRTUAL_FULL(func, handle, arglist, call)		\
@@ -59,8 +59,8 @@ sc_class_init (GObjectClass *object_class)
 	object_class->finalize = sc_finalize;
 }
 
-E_MAKE_TYPE (sheet_control, "SheetControl", SheetControl,
-	     sc_class_init, NULL, G_TYPE_OBJECT);
+GSF_CLASS (SheetControl, sheet_control,
+	   sc_class_init, NULL, G_TYPE_OBJECT);
 
 WorkbookControl *
 sc_wbc (SheetControl const *sc)

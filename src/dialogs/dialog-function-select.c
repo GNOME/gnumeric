@@ -35,10 +35,11 @@
 #include <application.h>
 #include <gnumeric-gconf.h>
 
-#include <ctype.h>
+#include <gsf/gsf-impl-utils.h>
 #include <glade/glade.h>
-#include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
+#include <libgnome/gnome-i18n.h>
+#include <ctype.h>
 
 #define GLADE_FILE "function-select.glade"
 
@@ -428,4 +429,3 @@ dialog_function_select (WorkbookControlGUI *wbcg, char const *key)
 
 	return;
 }
-

@@ -16,7 +16,7 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <bonobo/bonobo-ui-component.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 
 #ifdef GNOME2_CONVERSION_COMPLETE
 static SheetObject *sheet_object_item_parent_class;
@@ -61,7 +61,7 @@ sheet_object_item_class_init (GtkObjectClass *object_class)
 	sheet_object_class->update_bounds = sheet_object_item_update_bounds;
 }
 
-E_MAKE_TYPE (sheet_object_item, "SheetObjectItem", SheetObjectItem,
-	     sheet_object_item_class_init, NULL,
-	     SHEET_OBJECT_BONOBO_TYPE);
+GSF_CLASS (SheetObjectItem, sheet_object_item,
+	   sheet_object_item_class_init, NULL,
+	   SHEET_OBJECT_BONOBO_TYPE);
 #endif

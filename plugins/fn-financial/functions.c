@@ -3009,7 +3009,7 @@ gnumeric_amordegrc (FunctionEvalInfo *ei, Value **argv)
 {
         GDate      *nDate, *nFirstPer;
 	gnum_float fRestVal, fRate, fCost;
-	gint       n, nBase, nPer;
+	gint       nBase, nPer;
 	Value      *result;
 
 	fCost      = value_get_as_float (argv[0]);

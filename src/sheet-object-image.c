@@ -14,7 +14,7 @@
 #include "gnumeric-canvas.h"
 #include "gnumeric-pane.h"
 
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
@@ -366,6 +366,6 @@ sheet_object_image_init (GObject *obj)
 	so->anchor.direction = SO_DIR_NONE_MASK;
 }
 
-E_MAKE_TYPE (sheet_object_image, "SheetObjectImage", SheetObjectImage,
-	     sheet_object_image_class_init, sheet_object_image_init,
-	     SHEET_OBJECT_TYPE);
+GSF_CLASS (SheetObjectImage, sheet_object_image,
+	   sheet_object_image_class_init, sheet_object_image_init,
+	   SHEET_OBJECT_TYPE);

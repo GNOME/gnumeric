@@ -21,7 +21,7 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <gal/widgets/e-colors.h>
 #include <gal/widgets/widget-color-combo.h>
 #include <math.h>
@@ -631,9 +631,9 @@ sheet_object_graphic_init (GObject *obj)
 	so->anchor.direction = SO_DIR_NONE_MASK;
 }
 
-E_MAKE_TYPE (sheet_object_graphic, "SheetObjectGraphic", SheetObjectGraphic,
-	     sheet_object_graphic_class_init, sheet_object_graphic_init,
-	     SHEET_OBJECT_TYPE);
+GSF_CLASS (SheetObjectGraphic, sheet_object_graphic,
+	   sheet_object_graphic_class_init, sheet_object_graphic_init,
+	   SHEET_OBJECT_TYPE);
 
 /************************************************************************/
 
@@ -1137,6 +1137,6 @@ sheet_object_filled_init (GObject *obj)
 		style_color_new_name ("white"));
 }
 
-E_MAKE_TYPE (sheet_object_filled, "SheetObjectFilled", SheetObjectFilled,
-	     sheet_object_filled_class_init, sheet_object_filled_init,
-	     SHEET_OBJECT_GRAPHIC_TYPE);
+GSF_CLASS (SheetObjectFilled, sheet_object_filled,
+	   sheet_object_filled_class_init, sheet_object_filled_init,
+	   SHEET_OBJECT_GRAPHIC_TYPE);

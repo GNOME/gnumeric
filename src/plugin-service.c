@@ -25,8 +25,10 @@
 #include <gsf/gsf-input.h>
 #include <libxml/tree.h>
 #include <libxml/globals.h>
-#include <gal/util/e-xml-utils.h>
+#include <gsf/gsf-impl-utils.h>
+
 #include <gal/util/e-util.h>
+#include <gal/util/e-xml-utils.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <string.h>
@@ -321,9 +323,9 @@ gnum_plugin_file_opener_class_init (GnumPluginFileOpenerClass *klass)
 	gnum_file_opener_klass->open = gnum_plugin_file_opener_open;
 }
 
-E_MAKE_TYPE (gnum_plugin_file_opener, "GnumPluginFileOpener", GnumPluginFileOpener, \
-             gnum_plugin_file_opener_class_init, gnum_plugin_file_opener_init, \
-             TYPE_GNUM_FILE_OPENER)
+GSF_CLASS (GnumPluginFileOpener, gnum_plugin_file_opener,
+	   gnum_plugin_file_opener_class_init, gnum_plugin_file_opener_init,
+	   TYPE_GNUM_FILE_OPENER)
 
 static GnumPluginFileOpener *
 gnum_plugin_file_opener_new (PluginService *service)
@@ -630,9 +632,9 @@ gnum_plugin_file_saver_class_init (GnumPluginFileSaverClass *klass)
 	gnum_file_saver_klass->save = gnum_plugin_file_saver_save;
 }
 
-E_MAKE_TYPE (gnum_plugin_file_saver, "GnumPluginFileSaver", GnumPluginFileSaver, \
-             gnum_plugin_file_saver_class_init, gnum_plugin_file_saver_init, \
-             TYPE_GNUM_FILE_SAVER)
+GSF_CLASS (GnumPluginFileSaver, gnum_plugin_file_saver,
+	   gnum_plugin_file_saver_class_init, gnum_plugin_file_saver_init,
+	   TYPE_GNUM_FILE_SAVER)
 
 static GnumPluginFileSaver *
 gnum_plugin_file_saver_new (PluginService *service)

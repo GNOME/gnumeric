@@ -10,7 +10,7 @@
 #include "workbook-control-corba.h"
 
 #include "workbook-control-priv.h"
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 
 #define CCG_CLASS(o) CMD_CONTEXT_CORBA_CLASS (G_OBJECT_GET_CLASS (o))
 
@@ -64,8 +64,8 @@ wbcc_init_class (GtkObjectClass *object_class)
 	cc_class->error.invalid	= &wbcc_error_invalid;
 }
 
-static E_MAKE_TYPE (workbook_control_corba, "WorkbookControlCorba", WorkbookControlCorba,
-		    wbcc_init_class, NULL, WORKBOOK_CONTROL_TYPE);
+GSF_CLASS (WorkbookControlCorba, workbook_control_corba,
+	   wbcc_init_class, NULL, WORKBOOK_CONTROL_TYPE);
 
 CommandContext *
 command_context_corba_new (void)

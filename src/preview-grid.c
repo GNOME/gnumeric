@@ -37,7 +37,7 @@
 #include "value.h"
 #include "gnm-marshalers.h"
 
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 
 struct _PreviewGrid {
 	GnomeCanvasItem canvas_item;
@@ -682,5 +682,6 @@ preview_grid_class_init (PreviewGridClass *preview_grid_class)
 			GTK_TYPE_POINTER, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 }
 
-E_MAKE_TYPE (preview_grid, "PreviewGrid", PreviewGrid,
-	     preview_grid_class_init, preview_grid_init, GNOME_TYPE_CANVAS_ITEM);
+GSF_CLASS (PreviewGrid, preview_grid,
+	   preview_grid_class_init, preview_grid_init,
+	   GNOME_TYPE_CANVAS_ITEM);

@@ -953,7 +953,7 @@ plugin_init_general (ErrorInfo **ret_error)
 		/* Add gnumeric python directory to sys.path, so that we can
 		 * import modules  from there */
 		dir = gnumeric_sys_data_dir ("python");
-		name = g_concat_dir_and_file (dir, "gnumeric_startup.py");
+		name = g_build_filename (dir, "gnumeric_startup.py", NULL);
 
 		ret = PyRun_SimpleString ((char *) "import sys");
 		if (ret == 0) {

@@ -40,6 +40,7 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
+#include <gsf/gsf-impl-utils.h>
 #include <gal/util/e-util.h>
 
 typedef struct {

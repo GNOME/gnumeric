@@ -32,6 +32,7 @@
 #include "item-debug.h"
 #define GNUMERIC_ITEM "EDIT"
 
+#include <gsf/gsf-impl-utils.h>
 #include <ctype.h>
 #include <string.h>
 
@@ -562,9 +563,9 @@ item_edit_class_init (ItemEditClass *item_edit_class)
 	item_class->event       = item_edit_event;
 }
 
-E_MAKE_TYPE (item_edit, "ItemEdit", ItemEdit,
-	     item_edit_class_init, item_edit_init,
-	     GNOME_TYPE_CANVAS_ITEM);
+GSF_CLASS (ItemEdit, item_edit,
+	   item_edit_class_init, item_edit_init,
+	   GNOME_TYPE_CANVAS_ITEM);
 
 void
 item_edit_disable_highlight (ItemEdit *item_edit)

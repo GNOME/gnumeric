@@ -33,7 +33,7 @@
 #include "ranges.h"
 #include "expr-name.h"
 
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <libgnome/gnome-i18n.h>
 
 #define WBC_CLASS(o) WORKBOOK_CONTROL_CLASS (G_OBJECT_GET_CLASS (o))
@@ -309,8 +309,9 @@ workbook_control_init (GObject *obj)
 		G_CALLBACK (cb_wbc_clipboard_modified), wbc);
 }
 
-E_MAKE_TYPE (workbook_control, "WorkbookControl", WorkbookControl,
-	     workbook_control_class_init, workbook_control_init, COMMAND_CONTEXT_TYPE);
+GSF_CLASS (WorkbookControl, workbook_control,
+	   workbook_control_class_init, workbook_control_init,
+	   COMMAND_CONTEXT_TYPE);
 
 void
 workbook_control_set_view (WorkbookControl *wbc,

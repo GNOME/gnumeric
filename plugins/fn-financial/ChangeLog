@@ -1,3 +1,8 @@
+2002-07-07  Jody Goldberg <jody@gnome.org>
+
+	* sc-fin.c (GetDiffParam) : avoid compiler warnings.
+	* functions.c (gnumeric_amordegrc) : ditto.
+
 2002-07-07  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* functions.c (gnumeric_yield): Fixed.

@@ -16,7 +16,7 @@
 #include <preview-grid.h>
 #include <style-color.h>
 
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/libgnomeui.h>
 #include <stdlib.h>
@@ -359,8 +359,8 @@ fs_class_init (GtkObjectClass *klass)
 			GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
 }
 
-E_MAKE_TYPE (font_selector, "FontSelector", FontSelector,
-	     fs_class_init, fs_init, GTK_TYPE_HBOX)
+GSF_CLASS (FontSelector, font_selector,
+	   fs_class_init, fs_init, GTK_TYPE_HBOX)
 
 GtkWidget *
 font_selector_new (void)

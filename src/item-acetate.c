@@ -12,7 +12,7 @@
 #include "gnumeric-canvas.h"
 
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #define GNUMERIC_ITEM "ACETATE"
 #include "item-debug.h"
 
@@ -44,6 +44,6 @@ item_acetate_class_init (GnomeCanvasItemClass *item_class)
 	item_class->point = item_acetate_point;
 }
 
-E_MAKE_TYPE (item_acetate, "ItemAcetate", ItemAcetate,
-	     item_acetate_class_init, NULL,
-	     GNOME_TYPE_CANVAS_RECT);
+GSF_CLASS (ItemAcetate, item_acetate,
+	   item_acetate_class_init, NULL,
+	   GNOME_TYPE_CANVAS_RECT);

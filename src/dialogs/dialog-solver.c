@@ -39,9 +39,10 @@
 #include <ranges.h>
 #include <widgets/gnumeric-expr-entry.h>
 
+#include <glade/glade.h>
+#include <gal/util/e-util.h>
 #include <libgnome/gnome-i18n.h>
 #include <string.h>
-#include <glade/glade.h>
 
 #define SOLVER_KEY            "solver-dialog"
 

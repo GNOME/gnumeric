@@ -39,10 +39,13 @@
 #include <locale.h>
 #include <gmodule.h>
 #include <application.h>
-#include <libgnome/libgnome.h>
+
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
+#include <gsf/gsf-impl-utils.h>
+
+#include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
 
@@ -716,7 +719,7 @@ plugin_info_read (PluginInfo *pinfo, const gchar *dir_name, ErrorInfo **ret_erro
 	g_return_if_fail (dir_name != NULL);
 	g_return_if_fail (ret_error != NULL);
 
-	file_name = g_concat_dir_and_file (dir_name, PLUGIN_INFO_FILE_NAME);
+	file_name = g_build_filename (dir_name, PLUGIN_INFO_FILE_NAME, NULL);
 	doc = xmlParseFile (file_name);
 	if (doc == NULL || doc->xmlRootNode == NULL || strcmp (doc->xmlRootNode->name, "plugin") != 0) {
 		if (access (file_name, R_OK) != 0) {
@@ -1275,7 +1278,7 @@ plugin_info_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error)
 	g_return_val_if_fail (ret_error != NULL, NULL);
 
 	*ret_error = NULL;
-	file_name = g_concat_dir_and_file (dir_name, PLUGIN_INFO_FILE_NAME);
+	file_name = g_build_filename (dir_name, PLUGIN_INFO_FILE_NAME, NULL);
 	file_state = get_file_state_as_string (file_name);
 	if (file_state == NULL) {
 		g_free (file_name);
@@ -1339,7 +1342,7 @@ plugin_info_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret
 		if (strcmp (entry->d_name, ".") == 0 || strcmp (entry->d_name, "..") == 0) {
 			continue;
 		}
-		full_entry_name = g_concat_dir_and_file (dir_name, entry->d_name);
+		full_entry_name = g_build_filename (dir_name, entry->d_name, NULL);
 		pinfo = plugin_info_read_for_dir (full_entry_name, &error);
 		if (pinfo != NULL) {
 			plugin_info_list = g_slist_prepend (plugin_info_list, pinfo);

@@ -4,7 +4,7 @@
 #include "gnumeric-simple-canvas.h"
 
 #include "sheet-control-gui-priv.h"
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 
 static GtkWidgetClass const *parent;
 static gint
@@ -36,9 +36,9 @@ gnm_simple_canvas_class_init (GtkWidgetClass *klass)
 	klass->key_release_event = gnm_simple_canvas_key_release;
 }
 
-E_MAKE_TYPE (gnm_simple_canvas, "GnmSimpleCanvas", GnmSimpleCanvas,
-	     gnm_simple_canvas_class_init, NULL,
-	     GNOME_TYPE_CANVAS);
+GSF_CLASS (GnmSimpleCanvas, gnm_simple_canvas,
+	   gnm_simple_canvas_class_init, NULL,
+	   GNOME_TYPE_CANVAS);
 
 GnomeCanvas *
 gnm_simple_canvas_new (SheetControlGUI *scg)

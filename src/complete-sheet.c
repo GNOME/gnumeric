@@ -19,7 +19,7 @@
 #include "str.h"
 #include "value.h"
 
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
 #define SEARCH_STEPS	50
@@ -142,4 +142,5 @@ complete_sheet_new (Sheet *sheet, int col, int row, CompleteMatchNotifyFn notify
 	return COMPLETE (cs);
 }
 
-E_MAKE_TYPE(complete_sheet, "CompleteSheet", CompleteSheet, complete_sheet_class_init, NULL, PARENT_TYPE);
+GSF_CLASS (CompleteSheet, complete_sheet,
+	   complete_sheet_class_init, NULL, PARENT_TYPE);

@@ -22,7 +22,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <math.h>
 #include <libgnome/gnome-i18n.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <bonobo/bonobo-item-container.h>
 #include <bonobo/bonobo-exception.h>
 
@@ -201,6 +201,7 @@ sheet_object_container_new_file (Workbook *wb, char const *fname)
 	return so;
 }
 
-E_MAKE_TYPE (sheet_object_container, "SheetObjectContainer", SheetObjectContainer,
-	sheet_object_container_class_init, NULL, SHEET_OBJECT_BONOBO_TYPE);
+GSF_CLASS (SheetObjectContainer, sheet_object_container,
+	   sheet_object_container_class_init, NULL,
+	   SHEET_OBJECT_BONOBO_TYPE);
 #endif

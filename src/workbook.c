@@ -42,12 +42,12 @@
 #include "sheet-object-bonobo.h"
 #endif
 
-#include <gtk/gtk.h>
-#include <libgnome/gnome-i18n.h>
+#include <gtk/gtkmain.h> /* for gtk_main_quit */
+#include <gsf/gsf-impl-utils.h>
 #include <gal/util/e-util.h>
+#include <libgnome/gnome-i18n.h>
 #include <ctype.h>
 #include <string.h>
-#include <stdlib.h>
 
 static GObjectClass *workbook_parent_class;
 
@@ -1287,6 +1287,6 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 	return FALSE;
 }
 
-E_MAKE_TYPE (workbook, "Workbook", Workbook,
-	     workbook_class_init, workbook_init,
-	     G_TYPE_OBJECT);
+GSF_CLASS (Workbook, workbook,
+	   workbook_class_init, workbook_init,
+	   G_TYPE_OBJECT);

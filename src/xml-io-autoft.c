@@ -58,7 +58,7 @@ gnumeric_xml_read_format_template_category (char const *dir_name)
 
 	g_return_val_if_fail (dir_name != NULL, NULL);
 
-	file_name = g_concat_dir_and_file (dir_name, CATEGORY_FILE_NAME);
+	file_name = g_build_filename (dir_name, CATEGORY_FILE_NAME, NULL);
 	doc = xmlParseFile (file_name);
 	if (doc != NULL && doc->xmlRootNode != NULL
 	    && xmlSearchNsByHref (doc, doc->xmlRootNode, (xmlChar *)"http://www.gnome.org/gnumeric/format-template-category/v1") != NULL

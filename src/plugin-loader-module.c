@@ -15,7 +15,7 @@
 
 #include <libgnome/libgnome.h>
 #include <gal/util/e-xml-utils.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
@@ -101,8 +101,8 @@ gnumeric_plugin_loader_module_load (GnumericPluginLoader *loader, ErrorInfo **re
 		ModulePluginFileStruct *plugin_file_struct = NULL;
 		gpointer plugin_init_func = NULL, plugin_cleanup_func = NULL;
 
-		full_module_file_name = g_concat_dir_and_file (plugin_info_peek_dir_name (loader->plugin),
-		                                               loader_module->module_file_name);
+		full_module_file_name = g_build_filename (plugin_info_peek_dir_name (loader->plugin),
+							  loader_module->module_file_name, NULL);
 		handle = g_module_open (full_module_file_name, 0);
 		if (handle != NULL) {
 			g_module_symbol (handle, "plugin_file_struct", (gpointer) &plugin_file_struct);
@@ -245,7 +245,9 @@ gnumeric_plugin_loader_module_class_init (GnumericPluginLoaderModuleClass *klass
 	gtk_object_class->destroy = gnumeric_plugin_loader_module_destroy;
 }
 
-E_MAKE_TYPE (gnumeric_plugin_loader_module, "GnumericPluginLoaderModule", GnumericPluginLoaderModule, &gnumeric_plugin_loader_module_class_init, gnumeric_plugin_loader_module_init, PARENT_TYPE)
+GSF_CLASS (GnumericPluginLoaderModule, gnumeric_plugin_loader_module,
+	   gnumeric_plugin_loader_module_class_init,
+	   gnumeric_plugin_loader_module_init, PARENT_TYPE)
 
 /*
  * Service - general

@@ -33,7 +33,7 @@
 #  include "sheet-object-container.h"
 #endif
 #include <gal/widgets/e-cursors.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 
 static GnomeCanvasClass *gcanvas_parent_class;
 
@@ -612,9 +612,9 @@ gnm_canvas_init (GnumericCanvas *gcanvas)
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_DEFAULT);
 }
 
-E_MAKE_TYPE (gnumeric_canvas, "GnumericCanvas", GnumericCanvas,
-	     gnm_canvas_class_init, gnm_canvas_init,
-	     GNM_SIMPLE_CANVAS_TYPE);
+GSF_CLASS (GnumericCanvas, gnumeric_canvas,
+	   gnm_canvas_class_init, gnm_canvas_init,
+	   GNM_SIMPLE_CANVAS_TYPE);
 
 GnumericCanvas *
 gnumeric_canvas_new (SheetControlGUI *scg, GnumericPane *pane)

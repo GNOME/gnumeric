@@ -23,7 +23,7 @@
 #include "gnumeric.h"
 #include "complete.h"
 
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkmain.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -113,4 +113,5 @@ complete_class_init (GObjectClass *object_class)
 	complete_class->search_iteration = default_search_iteration;
 }
 
-E_MAKE_TYPE(complete, "Complete", Complete, &complete_class_init, NULL, PARENT_TYPE);
+GSF_CLASS (Complete, complete,
+	   &complete_class_init, NULL, PARENT_TYPE);

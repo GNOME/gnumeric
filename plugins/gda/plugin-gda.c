@@ -51,27 +51,29 @@ display_recordset (GdaDataModel *recset)
 	rowcount = gda_data_model_get_n_rows (GDA_DATA_MODEL (recset));
 
 	/* convert the GdaDataModel in an array */
-	if (rowcount > 0) {
-		array = value_new_array_empty (fieldcount, rowcount);
-		for (row = 0; row < rowcount; row++) {
-			for (col = 0; col < fieldcount; col++) {
-				gchar *str;
-				const GdaValue *value;
+	if (rowcount <= 0)
+		return value_new_empty ();
 
-				value = gda_data_model_get_value_at (GDA_DATA_MODEL (recset),
-								     col, row);
-				str = gda_value_stringify ((GdaValue *) value);
-				value_array_set (array,
-						 col,
-						 row,
-						 value_new_string(str));
+	if (rowcount >= SHEET_MAX_ROWS)
+		return value_new_error (ei->pos, _("Too much data returned"));
 
-				g_free (str);
-			}
+	array = value_new_array_empty (fieldcount, rowcount);
+	for (row = 0; row < rowcount; row++) {
+		for (col = 0; col < fieldcount; col++) {
+			gchar *str;
+			const GdaValue *value;
+
+			value = gda_data_model_get_value_at (GDA_DATA_MODEL (recset),
+							     col, row);
+			str = gda_value_stringify ((GdaValue *) value);
+			value_array_set (array,
+					 col,
+					 row,
+					 value_new_string(str));
+
+			g_free (str);
 		}
 	}
-	else
-		array = value_new_array_empty (1, 1);
 
 	return array;
 }
@@ -138,8 +140,7 @@ gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
 
 		g_list_foreach (recset_list, (GFunc) g_object_unref, NULL);
 		g_list_free (recset_list);
-	}
-	else
+	} else
 		ret = value_new_empty ();
 
 	return ret;

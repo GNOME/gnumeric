@@ -799,7 +799,7 @@ gnumeric_glade_xml_new (WorkbookControlGUI *wbcg, char const * gladefile)
 {
 	GladeXML *gui;
 	char *d = gnumeric_sys_glade_dir ();
-	char *f = g_concat_dir_and_file (d, gladefile);
+	char *f = g_build_filename (d, gladefile, NULL);
 	gui = glade_xml_new (f, NULL, "gnumeric");
 
 	/* Onlt report errors if the context is non-null */

@@ -483,13 +483,15 @@ mps_add_bound (MpsInputContext *ctxt, MpsBoundType type, gchar *bound_name,
 static gboolean
 mps_parse_ranges (MpsInputContext *ctxt)
 {
-	gchar        type[3], n1[10], n2[10], v1[20], n3[10], v2[20];
+	/* gchar        type[3], n1[10], n2[10], v1[20], n3[10], v2[20]; */
 
 	if (strncmp (ctxt->line, "ENDATA", 6) == 0)
 	        return TRUE;
 
 	if (strncmp (ctxt->line, "RANGES", 6) != 0 || ctxt->line[6] != '\0')
 	        return TRUE;
+
+	return FALSE;
 }
 
 /*

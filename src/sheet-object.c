@@ -30,7 +30,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkstock.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 
 #include <string.h>
 
@@ -283,9 +283,9 @@ sheet_object_class_init (GObjectClass *object_class)
 	sheet_object_class->default_height_pts = 36.;	/* 1/2 inch */
 }
 
-E_MAKE_TYPE (sheet_object, "SheetObject", SheetObject,
-	     sheet_object_class_init, sheet_object_init,
-	     G_TYPE_OBJECT);
+GSF_CLASS (SheetObject, sheet_object,
+	   sheet_object_class_init, sheet_object_init,
+	   G_TYPE_OBJECT);
 
 SheetObject *
 sheet_object_view_obj (GObject *view)

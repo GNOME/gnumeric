@@ -2,7 +2,7 @@
 #include "gnumeric.h"
 #include "gutils.h"
 #include "workbook-control-component-priv.h"
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <bonobo/bonobo-zoomable.h>
 
 #include "commands.h"
@@ -385,10 +385,9 @@ workbook_control_component_ctor_class (GObjectClass *object_class)
 	wbcg_class->set_transient        = wbcc_set_transient_for;
 }
 
-E_MAKE_TYPE(workbook_control_component, "WorkbookControlComponent",
-	    WorkbookControlComponent,
-	    workbook_control_component_ctor_class, NULL,
-	    WORKBOOK_CONTROL_GUI_TYPE);
+GSF_CLASS (WorkbookControlComponent, workbook_control_component,
+	   workbook_control_component_ctor_class, NULL,
+	   WORKBOOK_CONTROL_GUI_TYPE);
 
 WorkbookControl *
 workbook_control_component_new (WorkbookView *optional_view, Workbook *wb)

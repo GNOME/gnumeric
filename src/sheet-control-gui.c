@@ -43,7 +43,7 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <gal/widgets/e-colors.h>
 #include <gal/widgets/e-cursors.h>
 
@@ -2438,5 +2438,5 @@ scg_class_init (GObjectClass *object_class)
 	sc_class->object_destroy_view	 = scg_object_destroy_view;
 }
 
-E_MAKE_TYPE (sheet_control_gui, "SheetControlGUI", SheetControlGUI,
-	     scg_class_init, scg_init, SHEET_CONTROL_TYPE)
+GSF_CLASS (SheetControlGUI, sheet_control_gui,
+	   scg_class_init, scg_init, SHEET_CONTROL_TYPE)

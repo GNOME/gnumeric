@@ -37,11 +37,12 @@
 #include <gnumeric-gconf.h>
 #include <application.h>
 
+#include <glade/glade.h>
+#include <gsf/gsf-impl-utils.h>
+#include <gal/util/e-util.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <string.h>
-#include <glade/glade.h>
-#include <gal/util/e-util.h>
-#include <stdio.h>
 
 typedef struct {
 	WorkbookControlGUI *wbcg;

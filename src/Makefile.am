@@ -115,6 +115,8 @@ GNUMERIC_BASE =					\
 	gui-gnumeric.h				\
 	gutils.c				\
 	gutils.h				\
+	hlink.c					\
+	hlink.h					\
 	history.c				\
 	history.h				\
 	item-acetate.c				\

@@ -1,3 +1,7 @@
+2002-07-07  Jody Goldberg <jody@gnome.org>
+
+	* parser.c (mps_parse_ranges) : avoid warnings.
+
 2002-07-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* mps.c (mps_prepare): Added support for FX bounds.

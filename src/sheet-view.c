@@ -36,7 +36,7 @@
 #include "value.h"
 #include "parse-util.h"
 
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <libgnome/gnome-i18n.h>
 
 /*************************************************************************/
@@ -201,9 +201,9 @@ sheet_view_init (GObject *object)
 	sv_selection_add_pos (sv, 0, 0);
 }
 
-E_MAKE_TYPE (sheet_view, "SheetView", SheetView,
-	     sheet_view_class_init, sheet_view_init,
-	     G_TYPE_OBJECT);
+GSF_CLASS (SheetView, sheet_view,
+	   sheet_view_class_init, sheet_view_init,
+	   G_TYPE_OBJECT);
 
 static void
 sv_init_sc (SheetView const *sv, SheetControl *sc)

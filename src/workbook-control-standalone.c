@@ -1,7 +1,7 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "workbook-control-standalone-priv.h"
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 
 static void
 workbook_control_standalone_ctor_class (GObjectClass *object_class)
@@ -12,7 +12,6 @@ workbook_control_standalone_ctor_class (GObjectClass *object_class)
 	g_return_if_fail (wbcg_class != NULL);
 }
 
-E_MAKE_TYPE(workbook_control_standalone, "WorkbookControlStandalone",
-	    WorkbookControlStandalone,
-	    workbook_control_standalone_ctor_class, NULL,
-	    WORKBOOK_CONTROL_GUI_TYPE);
+GSF_CLASS (WorkbookControlStandalone, workbook_control_standalone,
+	   workbook_control_standalone_ctor_class, NULL,
+	   WORKBOOK_CONTROL_GUI_TYPE);

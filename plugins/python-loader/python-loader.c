@@ -13,7 +13,7 @@
 #include <glib.h>
 #include <libgnome/libgnome.h>
 #include <gal/util/e-xml-utils.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
@@ -290,8 +290,9 @@ gnumeric_plugin_loader_python_class_init (GnumericPluginLoaderPythonClass *klass
 	gtk_object_class->destroy = gnumeric_plugin_loader_python_destroy;
 }
 
-E_MAKE_TYPE (gnumeric_plugin_loader_python, "GnumericPluginLoaderPython", GnumericPluginLoaderPython,
-	     &gnumeric_plugin_loader_python_class_init, gnumeric_plugin_loader_python_init, PARENT_TYPE)
+GSF_CLASS (GnumericPluginLoaderPython, gnumeric_plugin_loader_python,
+	   gnumeric_plugin_loader_python_class_init,
+	   gnumeric_plugin_loader_python_init, PARENT_TYPE)
 
 /*
  * Service - file_opener

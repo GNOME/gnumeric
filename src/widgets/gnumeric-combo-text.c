@@ -12,7 +12,7 @@
 #include <gtk/gtklist.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkscrolledwindow.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 
 #define GNM_COMBO_TEXT_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, gnm_combo_text_get_type (), GnmComboTextClass)
 typedef struct _GnmComboTextClass   GnmComboTextClass;
@@ -305,9 +305,9 @@ gnm_combo_text_glade_new (void)
 	return gnm_combo_text_new (NULL);
 }
 
-E_MAKE_TYPE(gnm_combo_text, "GnmComboText", GnmComboText,
-	    gnm_combo_text_class_init, gnm_combo_text_init,
-	    gtk_combo_box_get_type ())
+GSF_CLASS (GnmComboText, gnm_combo_text,
+	   gnm_combo_text_class_init, gnm_combo_text_init,
+	   gtk_combo_box_get_type ())
 
 /**
  * gnm_combo_text_set_text :

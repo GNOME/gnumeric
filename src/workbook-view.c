@@ -49,7 +49,7 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <locale.h>
 #include <string.h>
 
@@ -470,8 +470,8 @@ workbook_view_class_init (GObjectClass *klass)
 	klass->finalize = wb_view_finalize;
 }
 
-E_MAKE_TYPE (workbook_view, "WorkbookView", WorkbookView,
-	     workbook_view_class_init, NULL, G_TYPE_OBJECT);
+GSF_CLASS (WorkbookView, workbook_view,
+	   workbook_view_class_init, NULL, G_TYPE_OBJECT);
 
 WorkbookView *
 workbook_view_new (Workbook *wb)

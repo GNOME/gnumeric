@@ -12,7 +12,7 @@
 #include "plugin-service.h"
 
 #include <libgnome/libgnome.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 
 #define PARENT_TYPE (gtk_object_get_type ())
 #define PL_GET_CLASS(loader)	GNUMERIC_PLUGIN_LOADER_CLASS (G_OBJECT_GET_CLASS (loader))
@@ -160,7 +160,9 @@ gnumeric_plugin_loader_class_init (GnumericPluginLoaderClass *klass)
 	GTK_OBJECT_CLASS (klass)->destroy = gnumeric_plugin_loader_destroy;
 }
 
-E_MAKE_TYPE (gnumeric_plugin_loader, "GnumericPluginLoader", GnumericPluginLoader, &gnumeric_plugin_loader_class_init, gnumeric_plugin_loader_init, PARENT_TYPE)
+GSF_CLASS (GnumericPluginLoader, gnumeric_plugin_loader,
+	   gnumeric_plugin_loader_class_init,
+	   gnumeric_plugin_loader_init, PARENT_TYPE)
 
 void
 gnumeric_plugin_loader_set_attributes (GnumericPluginLoader *loader,

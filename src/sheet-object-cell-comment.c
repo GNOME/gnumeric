@@ -32,7 +32,7 @@
 
 
 #include <libxml/globals.h>
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <gal/widgets/e-cursors.h>
 #include <libgnomecanvas/gnome-canvas-polygon.h>
 
@@ -279,8 +279,8 @@ cell_comment_class_init (GObjectClass *object_class)
 	sheet_object_class->clone         = &cell_comment_clone;
 }
 
-E_MAKE_TYPE (cell_comment, "CellComment", CellComment,
-	     cell_comment_class_init, NULL, SHEET_OBJECT_TYPE);
+GSF_CLASS (CellComment, cell_comment,
+	   cell_comment_class_init, NULL, SHEET_OBJECT_TYPE);
 
 char const  *
 cell_comment_author_get (CellComment const *cc)
@@ -350,7 +350,3 @@ cell_set_comment (Sheet *sheet, CellPos const *pos,
 	sheet_object_set_sheet (SHEET_OBJECT (cc), sheet);
 	return cc;
 }
-
-/*
- * Use this for hyperlinks gnome_url_show (url);
- */

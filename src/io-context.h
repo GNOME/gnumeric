@@ -1,11 +1,9 @@
 #ifndef GNUMERIC_IO_CONTEXT_H
 #define GNUMERIC_IO_CONTEXT_H
 
-#include <stdio.h>
-#include <gtk/gtkobject.h>
-#include <gal/util/e-util.h>
 #include "gnumeric.h"
-#include "error-info.h"
+#include <glib-object.h>
+#include <stdio.h>
 
 /* typedef struct _IOContext IOContext; */
 typedef struct _IOContextClass IOContextClass;

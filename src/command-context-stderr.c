@@ -11,7 +11,7 @@
 #include "gnumeric.h"
 #include "command-context-stderr.h"
 #include "command-context-priv.h"
-#include <gal/util/e-util.h>
+#include <gsf/gsf-impl-utils.h>
 #include <libgnome/gnome-i18n.h>
 #include "error-info.h"
 #include "ranges.h"
@@ -144,6 +144,5 @@ ccs_class_init (GObjectClass *object_class)
 	cc_class->error.error_info   = ccs_error_info;
 }
 
-E_MAKE_TYPE (command_context_stderr, "CommandContextStderr",
-	     CommandContextStderr, ccs_class_init, ccs_init,
-	     COMMAND_CONTEXT_TYPE);
+GSF_CLASS (CommandContextStderr, command_context_stderr,
+	   ccs_class_init, ccs_init, COMMAND_CONTEXT_TYPE);
