@@ -40,7 +40,6 @@
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
 #include "solver.h"
-#include "e-memory.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <stdlib.h>
