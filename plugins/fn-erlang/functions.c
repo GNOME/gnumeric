@@ -25,10 +25,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include <func.h>
-
 #include <parse-util.h>
 #include <str.h>
 #include <cell.h>
@@ -38,13 +36,14 @@
 #include <workbook.h>
 #include <sheet.h>
 #include <tools/goal-seek.h>
+#include <gnm-i18n.h>
+
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
-
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
 
 /*
  * comp_gos == 1 - gos
@@ -117,8 +116,9 @@ calculate_gos (gnm_float traffic, gnm_float circuits, gboolean comp)
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /***************************************************************************/
-static char const *help_probblock = {
-	N_("@FUNCTION=PROBBLOCK\n"
+static GnmFuncHelp const help_probblock[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=PROBBLOCK\n"
 	   "@SYNTAX=PROBBLOCK(traffic,circuits)\n"
 
 	   "@DESCRIPTION="
@@ -131,6 +131,8 @@ static char const *help_probblock = {
 	   "PROBBLOCK(24,30) returns 0.4012.\n"
 	   "\n"
 	   "@SEEALSO=OFFTRAF, DIMCIRC, OFFCAP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -146,8 +148,9 @@ gnumeric_probblock (FunctionEvalInfo *ei, GnmValue **argv)
 		return value_new_error_VALUE (ei->pos);
 }
 
-static char const *help_offtraf = {
-	N_("@FUNCTION=OFFTRAF\n"
+static GnmFuncHelp const help_offtraf[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=OFFTRAF\n"
 	   "@SYNTAX=OFFTRAF(traffic,circuits)\n"
 
 	   "@DESCRIPTION="
@@ -161,6 +164,8 @@ static char const *help_offtraf = {
 	   "OFFTRAF(24,30) returns 25.527.\n"
 	   "\n"
 	   "@SEEALSO=PROBBLOCK, DIMCIRC, OFFCAP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 typedef struct {
@@ -212,8 +217,9 @@ gnumeric_offtraf (FunctionEvalInfo *ei, GnmValue **argv)
 		return value_new_error_VALUE (ei->pos);
 }
 
-static char const *help_dimcirc = {
-	N_("@FUNCTION=DIMCIRC\n"
+static GnmFuncHelp const help_dimcirc[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=DIMCIRC\n"
 	   "@SYNTAX=DIMCIRC(traffic,gos)\n"
 
 	   "@DESCRIPTION="
@@ -224,6 +230,8 @@ static char const *help_dimcirc = {
 	   "DIMCIRC(24,1%) returns 35.\n"
 	   "\n"
 	   "@SEEALSO=OFFCAP, OFFTRAF, PROBBLOCK")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -254,8 +262,9 @@ gnumeric_dimcirc (FunctionEvalInfo *ei, GnmValue **argv)
 	return value_new_float (high);
 }
 
-static char const *help_offcap = {
-	N_("@FUNCTION=OFFCAP\n"
+static GnmFuncHelp const help_offcap[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=OFFCAP\n"
 	   "@SYNTAX=OFFCAP(circuits,gos)\n"
 
 	   "@DESCRIPTION="
@@ -266,6 +275,8 @@ static char const *help_offcap = {
 	   "OFFCAP(30,1%) returns 20.337.\n"
 	   "\n"
 	   "@SEEALSO=DIMCIRC, OFFTRAF, PROBBLOCK")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 typedef struct {
@@ -319,22 +330,22 @@ gnumeric_offcap (FunctionEvalInfo *ei, GnmValue **argv)
 }
 
 GnmFuncDescriptor const erlang_functions[] = {
-	{ "probblock",        "ff",  N_("traffic,circuits"), &help_probblock,
+	{ "probblock",        "ff",  N_("traffic,circuits"), help_probblock,
 	  gnumeric_probblock, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_PERCENT,
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "offtraf",        "ff",  N_("traffic,circuits"), &help_offtraf,
+	{ "offtraf",        "ff",  N_("traffic,circuits"), help_offtraf,
 	  gnumeric_offtraf, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE,
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "dimcirc",        "ff",  N_("traffic,gos"), &help_dimcirc,
+	{ "dimcirc",        "ff",  N_("traffic,gos"), help_dimcirc,
 	  gnumeric_dimcirc, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE,
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "offcap",        "ff",  N_("circuits,gos"), &help_offcap,
+	{ "offcap",        "ff",  N_("circuits,gos"), help_offcap,
 	  gnumeric_offcap, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE,
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,

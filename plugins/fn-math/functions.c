@@ -22,10 +22,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include <func.h>
-
 #include <cell.h>
 #include <sheet.h>
 #include <workbook.h>
@@ -35,12 +33,13 @@
 #include <value.h>
 #include <expr.h>
 #include <regression.h>
-
-#include <math.h>
-#include <string.h>
+#include <gnm-i18n.h>
 
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/module-plugin-defs.h>
+
+#include <math.h>
+#include <string.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -87,8 +86,9 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 }
 /***************************************************************************/
 
-static char const *help_gcd = {
-	N_("@FUNCTION=GCD\n"
+static GnmFuncHelp const help_gcd[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=GCD\n"
 	   "@SYNTAX=GCD(number1,number2,...)\n"
 
 	   "@DESCRIPTION="
@@ -104,6 +104,8 @@ static char const *help_gcd = {
 	   "GCD(470,770,1495) equals 5.\n"
 	   "\n"
 	   "@SEEALSO=LCM")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static int
@@ -139,8 +141,9 @@ gnumeric_gcd (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static char const *help_lcm = {
-	N_("@FUNCTION=LCM\n"
+static GnmFuncHelp const help_lcm[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=LCM\n"
 	   "@SYNTAX=LCM(number1,number2,...)\n"
 
 	   "@DESCRIPTION="
@@ -157,6 +160,8 @@ static char const *help_lcm = {
 	   "LCM(4,7,5) equals to 140.\n"
 	   "\n"
 	   "@SEEALSO=GCD")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static int
@@ -196,8 +201,9 @@ gnumeric_lcm (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static char const *help_hypot = {
-	N_("@FUNCTION=HYPOT\n"
+static GnmFuncHelp const help_hypot[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=HYPOT\n"
 	   "@SYNTAX=HYPOT(number1,number2,...)\n"
 
 	   "@DESCRIPTION="
@@ -207,6 +213,8 @@ static char const *help_hypot = {
 	   "HYPOT(3,4) equals to 5.\n"
 	   "\n"
 	   "@SEEALSO=MIN,MAX")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -223,8 +231,9 @@ gnumeric_hypot (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static char const *help_abs = {
-	N_("@FUNCTION=ABS\n"
+static GnmFuncHelp const help_abs[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ABS\n"
 	   "@SYNTAX=ABS(b1)\n"
 
 	   "@DESCRIPTION="
@@ -238,6 +247,8 @@ static char const *help_abs = {
 	   "ABS(-3.14) equals 3.14.\n"
 	   "\n"
 	   "@SEEALSO=CEIL, CEILING, FLOOR, INT, MOD")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -248,8 +259,9 @@ gnumeric_abs (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_acos = {
-	N_("@FUNCTION=ACOS\n"
+static GnmFuncHelp const help_acos[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ACOS\n"
 	   "@SYNTAX=ACOS(x)\n"
 
 	   "@DESCRIPTION="
@@ -266,6 +278,8 @@ static char const *help_acos = {
 	   "ACOS(-0.1) equals 1.670964.\n"
 	   "\n"
 	   "@SEEALSO=COS, SIN, DEGREES, RADIANS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -282,8 +296,9 @@ gnumeric_acos (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_acosh = {
-	N_("@FUNCTION=ACOSH\n"
+static GnmFuncHelp const help_acosh[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ACOSH\n"
 	   "@SYNTAX=ACOSH(x)\n"
 
 	   "@DESCRIPTION="
@@ -299,6 +314,8 @@ static char const *help_acosh = {
 	   "ACOSH(5.3) equals 2.35183.\n"
 	   "\n"
 	   "@SEEALSO=ACOS, ASINH, DEGREES, RADIANS ")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -315,8 +332,9 @@ gnumeric_acosh (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_asin = {
-	N_("@FUNCTION=ASIN\n"
+static GnmFuncHelp const help_asin[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ASIN\n"
 	   "@SYNTAX=ASIN(x)\n"
 
 	   "@DESCRIPTION="
@@ -332,6 +350,8 @@ static char const *help_asin = {
 	   "ASIN(1) equals 1.570797.\n"
 	   "\n"
 	   "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -348,8 +368,9 @@ gnumeric_asin (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_asinh = {
-	N_("@FUNCTION=ASINH\n"
+static GnmFuncHelp const help_asinh[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ASINH\n"
 	   "@SYNTAX=ASINH(x)\n"
 
 	   "@DESCRIPTION="
@@ -362,6 +383,8 @@ static char const *help_asinh = {
 	   "ASINH(1.0) equals 0.881374.\n"
 	   "\n"
 	   "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -372,8 +395,9 @@ gnumeric_asinh (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_atan = {
-	N_("@FUNCTION=ATAN\n"
+static GnmFuncHelp const help_atan[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ATAN\n"
 	   "@SYNTAX=ATAN(x)\n"
 
 	   "@DESCRIPTION="
@@ -387,6 +411,8 @@ static char const *help_atan = {
 	   "ATAN(1) equals 0,785398.\n"
 	   "\n"
 	   "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -397,8 +423,9 @@ gnumeric_atan (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_atanh = {
-	N_("@FUNCTION=ATANH\n"
+static GnmFuncHelp const help_atanh[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ATANH\n"
 	   "@SYNTAX=ATANH(x)\n"
 
 	   "@DESCRIPTION="
@@ -414,6 +441,8 @@ static char const *help_atanh = {
 	   "ATANH(0.8) equals 1.098612.\n"
 	   "\n"
 	   "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -430,8 +459,9 @@ gnumeric_atanh (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_atan2 = {
-	N_("@FUNCTION=ATAN2\n"
+static GnmFuncHelp const help_atan2[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ATAN2\n"
 	   "@SYNTAX=ATAN2(b1,b2)\n"
 
 	   "@DESCRIPTION="
@@ -447,6 +477,8 @@ static char const *help_atan2 = {
 	   "ATAN2(-0.5,2.0) equals 1.815775.\n"
 	   "\n"
 	   "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -458,8 +490,9 @@ gnumeric_atan2 (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_ceil = {
-	N_("@FUNCTION=CEIL\n"
+static GnmFuncHelp const help_ceil[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=CEIL\n"
 	   "@SYNTAX=CEIL(x)\n"
 
 	   "@DESCRIPTION="
@@ -471,6 +504,8 @@ static char const *help_ceil = {
 	   "CEIL(-2.9) equals -2.\n"
 	   "\n"
 	   "@SEEALSO=CEILING, FLOOR, ABS, INT, MOD")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -482,8 +517,9 @@ gnumeric_ceil (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_countif = {
-	N_("@FUNCTION=COUNTIF\n"
+static GnmFuncHelp const help_countif[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=COUNTIF\n"
 	   "@SYNTAX=COUNTIF(range,criteria)\n"
 
 	   "@DESCRIPTION="
@@ -500,6 +536,8 @@ static char const *help_countif = {
 	   "COUNTIF(A1:A5,\">28\") equals 2.\n"
 	   "\n"
 	   "@SEEALSO=COUNT,SUMIF")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 typedef struct {
@@ -557,8 +595,9 @@ gnumeric_countif (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_sumif = {
-	N_("@FUNCTION=SUMIF\n"
+static GnmFuncHelp const help_sumif[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SUMIF\n"
 	   "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
 
 	   "@DESCRIPTION="
@@ -578,6 +617,8 @@ static char const *help_sumif = {
 	   "SUMIF(A1:A5,\"<=27\",B1:B5) equals 8.\n"
 	   "\n"
 	   "@SEEALSO=COUNTIF, SUM")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 typedef struct {
@@ -675,8 +716,9 @@ gnumeric_sumif (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_ceiling = {
-	N_("@FUNCTION=CEILING\n"
+static GnmFuncHelp const help_ceiling[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=CEILING\n"
 	   "@SYNTAX=CEILING(x[,significance])\n"
 
 	   "@DESCRIPTION="
@@ -694,6 +736,8 @@ static char const *help_ceiling = {
 	   "CEILING(123.123,3) equals 126.\n"
 	   "\n"
 	   "@SEEALSO=CEIL, FLOOR, ABS, INT, MOD")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -722,8 +766,9 @@ gnumeric_ceiling (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_cos = {
-	N_("@FUNCTION=COS\n"
+static GnmFuncHelp const help_cos[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=COS\n"
 	   "@SYNTAX=COS(x)\n"
 
 	   "@DESCRIPTION="
@@ -736,6 +781,8 @@ static char const *help_cos = {
 	   "COS(1) equals 0.540302.\n"
 	   "\n"
 	   "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -746,8 +793,9 @@ gnumeric_cos (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_cosh = {
-	N_("@FUNCTION=COSH\n"
+static GnmFuncHelp const help_cosh[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=COSH\n"
 	   "@SYNTAX=COSH(x)\n"
 
 	   "@DESCRIPTION="
@@ -761,6 +809,8 @@ static char const *help_cosh = {
 	   "COSH(1) equals 1.543081.\n"
 	   "\n"
 	   "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -771,8 +821,9 @@ gnumeric_cosh (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_degrees = {
-	N_("@FUNCTION=DEGREES\n"
+static GnmFuncHelp const help_degrees[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=DEGREES\n"
 	   "@SYNTAX=DEGREES(x)\n"
 
 	   "@DESCRIPTION="
@@ -784,6 +835,8 @@ static char const *help_degrees = {
 	   "DEGREES(2.5) equals 143.2394.\n"
 	   "\n"
 	   "@SEEALSO=RADIANS, PI")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -795,8 +848,9 @@ gnumeric_degrees (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_exp = {
-	N_("@FUNCTION=EXP\n"
+static GnmFuncHelp const help_exp[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=EXP\n"
 	   "@SYNTAX=EXP(x)\n"
 
 	   "@DESCRIPTION="
@@ -808,6 +862,8 @@ static char const *help_exp = {
 	   "EXP(2) equals 7.389056.\n"
 	   "\n"
 	   "@SEEALSO=LOG, LOG2, LOG10")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -818,8 +874,9 @@ gnumeric_exp (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_expm1 = {
-	N_("@FUNCTION=EXPM1\n"
+static GnmFuncHelp const help_expm1[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=EXPM1\n"
 	   "@SYNTAX=EXPM1(x)\n"
 
 	   "@DESCRIPTION="
@@ -829,6 +886,8 @@ static char const *help_expm1 = {
 	   "EXPM1(0.01) equals 0.01005.\n"
 	   "\n"
 	   "@SEEALSO=EXP, LN1P")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -839,8 +898,9 @@ gnumeric_expm1 (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_fact = {
-	N_("@FUNCTION=FACT\n"
+static GnmFuncHelp const help_fact[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=FACT\n"
 	   "@SYNTAX=FACT(x)\n"
 
 	   "@DESCRIPTION="
@@ -852,6 +912,8 @@ static char const *help_fact = {
 	   "FACT(9) equals 362880.\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -876,8 +938,9 @@ gnumeric_fact (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_beta = {
-	N_("@FUNCTION=BETA\n"
+static GnmFuncHelp const help_beta[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BETA\n"
 	   "@SYNTAX=BETA(a,b)\n"
 
 	   "@DESCRIPTION="
@@ -892,6 +955,8 @@ static char const *help_beta = {
 	   "BETA(-0.5,0.5) equals #NUM!.\n"
 	   "\n"
 	   "@SEEALSO=BETALN,GAMMALN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -906,8 +971,9 @@ gnumeric_beta (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_betaln = {
-	N_("@FUNCTION=BETALN\n"
+static GnmFuncHelp const help_betaln[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BETALN\n"
 	   "@SYNTAX=BETALN(a,b)\n"
 
 	   "@DESCRIPTION="
@@ -921,6 +987,8 @@ static char const *help_betaln = {
 	   "BETALN(-0.5,0.5) equals #NUM!.\n"
 	   "\n"
 	   "@SEEALSO=BETA,GAMMALN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -935,8 +1003,9 @@ gnumeric_betaln (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_combin = {
-	N_("@FUNCTION=COMBIN\n"
+static GnmFuncHelp const help_combin[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=COMBIN\n"
 	   "@SYNTAX=COMBIN(n,k)\n"
 
 	   "@DESCRIPTION="
@@ -952,6 +1021,8 @@ static char const *help_combin = {
 	   "COMBIN(6,2) equals 15.\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -968,8 +1039,9 @@ gnumeric_combin (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_floor = {
-	N_("@FUNCTION=FLOOR\n"
+static GnmFuncHelp const help_floor[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=FLOOR\n"
 	   "@SYNTAX=FLOOR(x[,significance])\n"
 
 	   "@DESCRIPTION="
@@ -985,6 +1057,8 @@ static char const *help_floor = {
 	   "FLOOR(-5,2) equals #NUM!.\n"
 	   "\n"
 	   "@SEEALSO=CEIL, CEILING, ABS, INT, MOD")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1012,8 +1086,9 @@ gnumeric_floor (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_int = {
-	N_("@FUNCTION=INT\n"
+static GnmFuncHelp const help_int[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=INT\n"
 	   "@SYNTAX=INT(a)\n"
 
 	   "@DESCRIPTION="
@@ -1026,6 +1101,8 @@ static char const *help_int = {
 	   "INT(-5.5) equals -6.\n"
 	   "\n"
 	   "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1037,8 +1114,9 @@ gnumeric_int (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_log = {
-	N_("@FUNCTION=LOG\n"
+static GnmFuncHelp const help_log[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=LOG\n"
 	   "@SYNTAX=LOG(x[,base])\n"
 
 	   "@DESCRIPTION="
@@ -1052,6 +1130,8 @@ static char const *help_log = {
 	   "LOG(8192,2) equals 13.\n"
 	   "\n"
 	   "@SEEALSO=LN, LOG2, LOG10")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1071,8 +1151,9 @@ gnumeric_log (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_ln = {
-	N_("@FUNCTION=LN\n"
+static GnmFuncHelp const help_ln[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=LN\n"
 	   "@SYNTAX=LN(x)\n"
 
 	   "@DESCRIPTION="
@@ -1085,6 +1166,8 @@ static char const *help_ln = {
 	   "LN(7) equals 1.94591.\n"
 	   "\n"
 	   "@SEEALSO=EXP, LOG2, LOG10")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1100,8 +1183,9 @@ gnumeric_ln (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_ln1p = {
-	N_("@FUNCTION=LN1P\n"
+static GnmFuncHelp const help_ln1p[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=LN1P\n"
 	   "@SYNTAX=LN1P(x)\n"
 
 	   "@DESCRIPTION="
@@ -1114,6 +1198,8 @@ static char const *help_ln1p = {
 	   "LN1P(0.01) equals 0.00995.\n"
 	   "\n"
 	   "@SEEALSO=LN, EXPM1")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1129,8 +1215,9 @@ gnumeric_ln1p (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_power = {
-	N_("@FUNCTION=POWER\n"
+static GnmFuncHelp const help_power[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=POWER\n"
 	   "@SYNTAX=POWER(x,y)\n"
 
 	   "@DESCRIPTION="
@@ -1146,6 +1233,8 @@ static char const *help_power = {
 	   "POWER(3,3.141) equals 31.523749.\n"
 	   "\n"
 	   "@SEEALSO=EXP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1165,8 +1254,9 @@ gnumeric_power (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_log2 = {
-	N_("@FUNCTION=LOG2\n"
+static GnmFuncHelp const help_log2[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=LOG2\n"
 	   "@SYNTAX=LOG2(x)\n"
 
 	   "@DESCRIPTION="
@@ -1177,6 +1267,8 @@ static char const *help_log2 = {
 	   "LOG2(1024) equals 10.\n"
 	   "\n"
 	   "@SEEALSO=EXP, LOG10, LOG")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1191,8 +1283,9 @@ gnumeric_log2 (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_log10 = {
-	N_("@FUNCTION=LOG10\n"
+static GnmFuncHelp const help_log10[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=LOG10\n"
 	   "@SYNTAX=LOG10(x)\n"
 
 	   "@DESCRIPTION="
@@ -1204,6 +1297,8 @@ static char const *help_log10 = {
 	   "LOG10(7) equals 0.845098.\n"
 	   "\n"
 	   "@SEEALSO=EXP, LOG2, LOG")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1220,8 +1315,9 @@ gnumeric_log10 (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_mod = {
-	N_("@FUNCTION=MOD\n"
+static GnmFuncHelp const help_mod[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=MOD\n"
 	   "@SYNTAX=MOD(number,divisor)\n"
 
 	   "@DESCRIPTION="
@@ -1235,6 +1331,8 @@ static char const *help_mod = {
 	   "MOD(23,7) equals 2.\n"
 	   "\n"
 	   "@SEEALSO=CEIL, CEILING, FLOOR, ABS, INT, ABS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 /*
@@ -1271,8 +1369,9 @@ gnumeric_mod (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_radians = {
-	N_("@FUNCTION=RADIANS\n"
+static GnmFuncHelp const help_radians[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=RADIANS\n"
 	   "@SYNTAX=RADIANS(x)\n"
 
 	   "@DESCRIPTION="
@@ -1284,6 +1383,8 @@ static char const *help_radians = {
 	   "RADIANS(180) equals 3.14159.\n"
 	   "\n"
 	   "@SEEALSO=PI,DEGREES")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1295,8 +1396,9 @@ gnumeric_radians (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_sin = {
-	N_("@FUNCTION=SIN\n"
+static GnmFuncHelp const help_sin[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SIN\n"
 	   "@SYNTAX=SIN(x)\n"
 
 	   "@DESCRIPTION="
@@ -1308,6 +1410,8 @@ static char const *help_sin = {
 	   "SIN(0.5) equals 0.479426.\n"
 	   "\n"
 	   "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1318,8 +1422,9 @@ gnumeric_sin (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_sinh = {
-	N_("@FUNCTION=SINH\n"
+static GnmFuncHelp const help_sinh[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SINH\n"
 	   "@SYNTAX=SINH(x)\n"
 
 	   "@DESCRIPTION="
@@ -1332,6 +1437,8 @@ static char const *help_sinh = {
 	   "SINH(0.5) equals 0.521095.\n"
 	   "\n"
 	   "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1342,8 +1449,9 @@ gnumeric_sinh (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_sqrt = {
-	N_("@FUNCTION=SQRT\n"
+static GnmFuncHelp const help_sqrt[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SQRT\n"
 	   "@SYNTAX=SQRT(x)\n"
 
 	   "@DESCRIPTION="
@@ -1356,6 +1464,8 @@ static char const *help_sqrt = {
 	   "SQRT(2) equals 1.4142136.\n"
 	   "\n"
 	   "@SEEALSO=POWER")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1370,8 +1480,9 @@ gnumeric_sqrt (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_suma = {
-	N_("@FUNCTION=SUMA\n"
+static GnmFuncHelp const help_suma[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SUMA\n"
 	   "@SYNTAX=SUMA(value1, value2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -1387,6 +1498,8 @@ static char const *help_suma = {
 	   "SUMA(A1:A5) equals 107.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE, SUM, COUNT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1402,8 +1515,9 @@ gnumeric_suma (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static char const *help_sumsq = {
-	N_("@FUNCTION=SUMSQ\n"
+static GnmFuncHelp const help_sumsq[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SUMSQ\n"
 	   "@SYNTAX=SUMSQ(value1, value2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -1417,6 +1531,8 @@ static char const *help_sumsq = {
 	   "SUMSQ(A1:A5) equals 2925.\n"
 	   "\n"
 	   "@SEEALSO=SUM, COUNT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -1433,8 +1549,9 @@ gnumeric_sumsq (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static char const *help_multinomial = {
-	N_("@FUNCTION=MULTINOMIAL\n"
+static GnmFuncHelp const help_multinomial[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=MULTINOMIAL\n"
 	   "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -1446,6 +1563,8 @@ static char const *help_multinomial = {
 	   "MULTINOMIAL(2,3,4) equals 1260.\n"
 	   "\n"
 	   "@SEEALSO=SUM")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -1462,8 +1581,9 @@ gnumeric_multinomial (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static char const *help_g_product = {
-	N_("@FUNCTION=G_PRODUCT\n"
+static GnmFuncHelp const help_g_product[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=G_PRODUCT\n"
 	   "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -1475,6 +1595,8 @@ static char const *help_g_product = {
 	   "G_PRODUCT(2,5,9) equals 90.\n"
 	   "\n"
 	   "@SEEALSO=SUM, COUNT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1490,8 +1612,9 @@ gnumeric_g_product (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static char const *help_tan = {
-	N_("@FUNCTION=TAN\n"
+static GnmFuncHelp const help_tan[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=TAN\n"
 	   "@SYNTAX=TAN(x)\n"
 
 	   "@DESCRIPTION="
@@ -1503,6 +1626,8 @@ static char const *help_tan = {
 	   "TAN(3) equals -0.1425465.\n"
 	   "\n"
 	   "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1513,8 +1638,9 @@ gnumeric_tan (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_tanh = {
-	N_("@FUNCTION=TANH\n"
+static GnmFuncHelp const help_tanh[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=TANH\n"
 	   "@SYNTAX=TANH(x)\n"
 
 	   "@DESCRIPTION="
@@ -1526,6 +1652,8 @@ static char const *help_tanh = {
 	   "TANH(2) equals 0.96402758.\n"
 	   "\n"
 	   "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1536,8 +1664,9 @@ gnumeric_tanh (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_pi = {
-	N_("@FUNCTION=PI\n"
+static GnmFuncHelp const help_pi[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=PI\n"
 	   "@SYNTAX=PI()\n"
 
 	   "@DESCRIPTION="
@@ -1551,6 +1680,8 @@ static char const *help_pi = {
 	   "PI() equals about 3.141593.\n"
 	   "\n"
 	   "@SEEALSO=SQRTPI")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1561,8 +1692,9 @@ gnumeric_pi (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_trunc = {
-	N_("@FUNCTION=TRUNC\n"
+static GnmFuncHelp const help_trunc[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=TRUNC\n"
 	   "@SYNTAX=TRUNC(number[,digits])\n"
 
 	   "@DESCRIPTION="
@@ -1577,6 +1709,8 @@ static char const *help_trunc = {
 	   "TRUNC(4.15,1) equals 4.1.\n"
 	   "\n"
 	   "@SEEALSO=INT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1597,8 +1731,9 @@ gnumeric_trunc (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_even = {
-	N_("@FUNCTION=EVEN\n"
+static GnmFuncHelp const help_even[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=EVEN\n"
 	   "@SYNTAX=EVEN(number)\n"
 
 	   "@DESCRIPTION="
@@ -1611,6 +1746,8 @@ static char const *help_even = {
 	   "EVEN(-5.4) equals -6.\n"
 	   "\n"
 	   "@SEEALSO=ODD")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1636,8 +1773,9 @@ gnumeric_even (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_odd = {
-	N_("@FUNCTION=ODD\n"
+static GnmFuncHelp const help_odd[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ODD\n"
 	   "@SYNTAX=ODD(number)\n"
 
 	   "@DESCRIPTION="
@@ -1650,6 +1788,8 @@ static char const *help_odd = {
 	   "ODD(-4.4) equals -5.\n"
 	   "\n"
 	   "@SEEALSO=EVEN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1675,8 +1815,9 @@ gnumeric_odd (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_factdouble = {
-	N_("@FUNCTION=FACTDOUBLE\n"
+static GnmFuncHelp const help_factdouble[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=FACTDOUBLE\n"
 	   "@SYNTAX=FACTDOUBLE(number)\n"
 
 	   "@DESCRIPTION="
@@ -1691,6 +1832,8 @@ static char const *help_factdouble = {
 	   "FACTDOUBLE(5) equals 15.\n"
 	   "\n"
 	   "@SEEALSO=FACT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1713,8 +1856,9 @@ gnumeric_factdouble (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_fib = {
-	N_("@FUNCTION=FIB\n"
+static GnmFuncHelp const help_fib[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=FIB\n"
 	   "@SYNTAX=FIB(number)\n"
 
 	   "@DESCRIPTION="
@@ -1727,6 +1871,8 @@ static char const *help_fib = {
 	   "FIB(12) equals 144.\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1761,8 +1907,9 @@ gnumeric_fib (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_quotient = {
-	N_("@FUNCTION=QUOTIENT\n"
+static GnmFuncHelp const help_quotient[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=QUOTIENT\n"
 	   "@SYNTAX=QUOTIENT(numerator,denominator)\n"
 
 	   "@DESCRIPTION="
@@ -1775,6 +1922,8 @@ static char const *help_quotient = {
 	   "QUOTIENT(23,5) equals 4.\n"
 	   "\n"
 	   "@SEEALSO=MOD")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1793,8 +1942,9 @@ gnumeric_quotient (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_sign = {
-	N_("@FUNCTION=SIGN\n"
+static GnmFuncHelp const help_sign[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SIGN\n"
 	   "@SYNTAX=SIGN(number)\n"
 
 	   "@DESCRIPTION="
@@ -1808,6 +1958,8 @@ static char const *help_sign = {
 	   "SIGN(0) equals 0.\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1827,8 +1979,9 @@ gnumeric_sign (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_sqrtpi = {
-	N_("@FUNCTION=SQRTPI\n"
+static GnmFuncHelp const help_sqrtpi[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SQRTPI\n"
 	   "@SYNTAX=SQRTPI(number)\n"
 
 	   "@DESCRIPTION="
@@ -1840,6 +1993,8 @@ static char const *help_sqrtpi = {
 	   "SQRTPI(2) equals 2.506628275.\n"
 	   "\n"
 	   "@SEEALSO=PI")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1856,8 +2011,9 @@ gnumeric_sqrtpi (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_rounddown = {
-	N_("@FUNCTION=ROUNDDOWN\n"
+static GnmFuncHelp const help_rounddown[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ROUNDDOWN\n"
 	   "@SYNTAX=ROUNDDOWN(number[,digits])\n"
 
 	   "@DESCRIPTION="
@@ -1880,6 +2036,8 @@ static char const *help_rounddown = {
 	   "ROUNDDOWN(1501.15,-2) equals 1500.0.\n"
 	   "\n"
 	   "@SEEALSO=ROUND,ROUNDUP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1902,8 +2060,9 @@ gnumeric_rounddown (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_round = {
-	N_("@FUNCTION=ROUND\n"
+static GnmFuncHelp const help_round[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ROUND\n"
 	   "@SYNTAX=ROUND(number[,digits])\n"
 
 	   "@DESCRIPTION="
@@ -1926,6 +2085,8 @@ static char const *help_round = {
 	   "ROUND(1501.15,-2) equals 1500.0.\n"
 	   "\n"
 	   "@SEEALSO=ROUNDDOWN,ROUNDUP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1943,8 +2104,9 @@ gnumeric_round (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_roundup = {
-	N_("@FUNCTION=ROUNDUP\n"
+static GnmFuncHelp const help_roundup[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ROUNDUP\n"
 	   "@SYNTAX=ROUNDUP(number[,digits])\n"
 
 	   "@DESCRIPTION="
@@ -1968,6 +2130,8 @@ static char const *help_roundup = {
 	   "ROUNDUP(1501.15,-2) equals 1600.0.\n"
 	   "\n"
 	   "@SEEALSO=ROUND,ROUNDDOWN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1990,8 +2154,9 @@ gnumeric_roundup (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_mround = {
-	N_("@FUNCTION=MROUND\n"
+static GnmFuncHelp const help_mround[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=MROUND\n"
 	   "@SYNTAX=MROUND(number,multiple)\n"
 
 	   "@DESCRIPTION="
@@ -2008,6 +2173,8 @@ static char const *help_mround = {
 	   "MROUND(321.123,0.12) equals 321.12.\n"
 	   "\n"
 	   "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2044,8 +2211,9 @@ gnumeric_mround (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_roman = {
-	N_("@FUNCTION=ROMAN\n"
+static GnmFuncHelp const help_roman[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ROMAN\n"
 	   "@SYNTAX=ROMAN(number[,type])\n"
 
 	   "@DESCRIPTION="
@@ -2071,6 +2239,8 @@ static char const *help_roman = {
 	   "ROMAN(999,4) equals IM.\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2310,8 +2480,9 @@ gnumeric_roman (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_sumx2my2 = {
-	N_("@FUNCTION=SUMX2MY2\n"
+static GnmFuncHelp const help_sumx2my2[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SUMX2MY2\n"
 	   "@SYNTAX=SUMX2MY2(array1,array2)\n"
 
 	   "@DESCRIPTION="
@@ -2333,6 +2504,8 @@ static char const *help_sumx2my2 = {
 	   "SUMX2MY2(A1:A5,B1:B5) equals -1299.\n"
 	   "\n"
 	   "@SEEALSO=SUMSQ,SUMX2PY2")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2424,8 +2597,9 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_sumx2py2 = {
-	N_("@FUNCTION=SUMX2PY2\n"
+static GnmFuncHelp const help_sumx2py2[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SUMX2PY2\n"
 	   "@SYNTAX=SUMX2PY2(array1,array2)\n"
 
 	   "@DESCRIPTION="
@@ -2447,6 +2621,8 @@ static char const *help_sumx2py2 = {
 	   "SUMX2PY2(A1:A5,B1:B5) equals 7149.\n"
 	   "\n"
 	   "@SEEALSO=SUMSQ,SUMX2MY2")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2535,8 +2711,9 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, GnmValue **argv)
 	return ret;
 }
 
-static char const *help_sumxmy2 = {
-	N_("@FUNCTION=SUMXMY2\n"
+static GnmFuncHelp const help_sumxmy2[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SUMXMY2\n"
 	   "@SYNTAX=SUMXMY2(array1,array2)\n"
 
 	   "@DESCRIPTION="
@@ -2558,6 +2735,8 @@ static char const *help_sumxmy2 = {
 	   "SUMXMY2(A1:A5,B1:B5) equals 409.\n"
 	   "\n"
 	   "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2648,8 +2827,9 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_seriessum = {
-	N_("@FUNCTION=SERIESSUM\n"
+static GnmFuncHelp const help_seriessum[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SERIESSUM\n"
 	   "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
 
 	   "@DESCRIPTION="
@@ -2666,6 +2846,8 @@ static char const *help_seriessum = {
 	   "SERIESSUM(3,1,2.23,A1:A5) equals 251416.43018.\n"
 	   "\n"
 	   "@SEEALSO=COUNT,SUM")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static int
@@ -2706,8 +2888,9 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static char const *help_minverse = {
-	N_("@FUNCTION=MINVERSE\n"
+static GnmFuncHelp const help_minverse[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=MINVERSE\n"
 	   "@SYNTAX=MINVERSE(matrix)\n"
 
 	   "@DESCRIPTION="
@@ -2722,6 +2905,8 @@ static char const *help_minverse = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=MMULT, MDETERM")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -2849,8 +3034,9 @@ gnumeric_minverse (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_mmult = {
-	N_("@FUNCTION=MMULT\n"
+static GnmFuncHelp const help_mmult[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=MMULT\n"
 	   "@SYNTAX=MMULT(array1,array2)\n"
 
 	   "@DESCRIPTION="
@@ -2862,6 +3048,8 @@ static char const *help_mmult = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=TRANSPOSE,MINVERSE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -2925,8 +3113,9 @@ gnumeric_mmult (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_mdeterm = {
-	N_("@FUNCTION=MDETERM\n"
+static GnmFuncHelp const help_mdeterm[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=MDETERM\n"
 	   "@SYNTAX=MDETERM(matrix)\n"
 
 	   "@DESCRIPTION="
@@ -2943,6 +3132,8 @@ static char const *help_mdeterm = {
 	   "MDETERM(A1:D4) equals 148.\n"
 	   "\n"
 	   "@SEEALSO=MMULT, MINVERSE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2972,8 +3163,9 @@ gnumeric_mdeterm (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_sumproduct = {
-	N_("@FUNCTION=SUMPRODUCT\n"
+static GnmFuncHelp const help_sumproduct[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SUMPRODUCT\n"
 	   "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
 	   "@DESCRIPTION="
 	   "SUMPRODUCT function multiplies corresponding data entries in the "
@@ -2992,6 +3184,8 @@ static char const *help_sumproduct = {
 	   "SUMPRODUCT(A1:A5,B1:B5) equals 3370.\n"
 	   "\n"
 	   "@SEEALSO=SUM,PRODUCT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -3092,221 +3286,221 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GnmExprList *args)
 /***************************************************************************/
 
 GnmFuncDescriptor const math_functions[] = {
-	{ "abs",     "f", N_("number"),    &help_abs,
+	{ "abs",     "f", N_("number"),    help_abs,
 	  gnumeric_abs, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "acos",    "f", N_("number"),    &help_acos,
+	{ "acos",    "f", N_("number"),    help_acos,
 	  gnumeric_acos, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "acosh",   "f", N_("number"),    &help_acosh,
+	{ "acosh",   "f", N_("number"),    help_acosh,
 	  gnumeric_acosh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "asin",    "f", N_("number"),    &help_asin,
+	{ "asin",    "f", N_("number"),    help_asin,
 	  gnumeric_asin, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "asinh",   "f", N_("number"),    &help_asinh,
+	{ "asinh",   "f", N_("number"),    help_asinh,
 	  gnumeric_asinh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "atan",    "f", N_("number"),    &help_atan,
+	{ "atan",    "f", N_("number"),    help_atan,
 	  gnumeric_atan, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "atanh",   "f", N_("number"),    &help_atanh,
+	{ "atanh",   "f", N_("number"),    help_atanh,
 	  gnumeric_atanh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "atan2",   "ff", N_("xnum,ynum"), &help_atan2,
+	{ "atan2",   "ff", N_("xnum,ynum"), help_atan2,
 	  gnumeric_atan2, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "cos",     "f", N_("number"),    &help_cos,
+	{ "cos",     "f", N_("number"),    help_cos,
 	  gnumeric_cos, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "beta",     "ff", N_("a,b"),     &help_beta,
+	{ "beta",     "ff", N_("a,b"),     help_beta,
 	  gnumeric_beta, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "betaln",   "ff", N_("a,b"),     &help_betaln,
+	{ "betaln",   "ff", N_("a,b"),     help_betaln,
 	  gnumeric_betaln, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "cosh",    "f", N_("number"),    &help_cosh,
+	{ "cosh",    "f", N_("number"),    help_cosh,
 	  gnumeric_cosh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 
 /* MS Excel puts this in statistical */
-	{ "countif", "rS", N_("range,criteria"), &help_countif,
+	{ "countif", "rS", N_("range,criteria"), help_countif,
 	  gnumeric_countif, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-	{ "ceil",    "f", N_("number"),    &help_ceil,
+	{ "ceil",    "f", N_("number"),    help_ceil,
 	  gnumeric_ceil, NULL, NULL, NULL, NULL,	  
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "ceiling", "f|f", N_("number,significance"), &help_ceiling,
+	{ "ceiling", "f|f", N_("number,significance"), help_ceiling,
 	  gnumeric_ceiling, NULL, NULL, NULL, NULL,	  
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "degrees", "f", N_("number"),    &help_degrees,
+	{ "degrees", "f", N_("number"),    help_degrees,
 	  gnumeric_degrees, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "even",    "f", N_("number"),    &help_even,
+	{ "even",    "f", N_("number"),    help_even,
 	  gnumeric_even, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "exp",     "f", N_("number"),    &help_exp,
+	{ "exp",     "f", N_("number"),    help_exp,
 	  gnumeric_exp, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "expm1",   "f", N_("number"),    &help_expm1,
+	{ "expm1",   "f", N_("number"),    help_expm1,
 	  gnumeric_expm1, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "fact",    "f", N_("number"),    &help_fact,
+	{ "fact",    "f", N_("number"),    help_fact,
 	  gnumeric_fact, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_SUPERSET, GNM_FUNC_TEST_STATUS_BASIC },
 
 /* MS Excel puts this in the engineering functions */
-	{ "factdouble", "f", N_("number"), &help_factdouble,
+	{ "factdouble", "f", N_("number"), help_factdouble,
 	  gnumeric_factdouble, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-	{ "fib", "f", N_("number"), &help_fib,
+	{ "fib", "f", N_("number"), help_fib,
 	  gnumeric_fib, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "combin",  "ff", N_("n,k"),      &help_combin,
+	{ "combin",  "ff", N_("n,k"),      help_combin,
 	  gnumeric_combin, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "floor",   "f|f", N_("number"),  &help_floor,
+	{ "floor",   "f|f", N_("number"),  help_floor,
 	  gnumeric_floor, NULL, NULL, NULL, NULL,	  
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "gcd", NULL, N_("number,number"), &help_gcd,
+	{ "gcd", NULL, N_("number,number"), help_gcd,
 	  NULL, gnumeric_gcd, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "hypot", NULL, "",            &help_hypot,
+	{ "hypot", NULL, "",            help_hypot,
 	  NULL, gnumeric_hypot, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "int",     "f", N_("number"),    &help_int,
+	{ "int",     "f", N_("number"),    help_int,
 	  gnumeric_int, NULL, NULL, NULL, NULL,	  
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "lcm", NULL, "",            &help_lcm,
+	{ "lcm", NULL, "",            help_lcm,
 	  NULL, gnumeric_lcm, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "ln",      "f", N_("number"),    &help_ln,
+	{ "ln",      "f", N_("number"),    help_ln,
 	  gnumeric_ln, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "ln1p",    "f", N_("number"),    &help_ln1p,
+	{ "ln1p",    "f", N_("number"),    help_ln1p,
 	  gnumeric_ln1p, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "log",     "f|f", N_("number,base"), &help_log,
+	{ "log",     "f|f", N_("number,base"), help_log,
 	  gnumeric_log, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "log2",    "f", N_("number"),    &help_log2,
+	{ "log2",    "f", N_("number"),    help_log2,
 	  gnumeric_log2, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "log10",   "f", N_("number"),    &help_log10,
+	{ "log10",   "f", N_("number"),    help_log10,
 	  gnumeric_log10, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "mod",     "ff", N_("numerator,denominator"), &help_mod,
+	{ "mod",     "ff", N_("numerator,denominator"), help_mod,
 	  gnumeric_mod, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "mround",  "ff", N_("number,multiple"), &help_mround,
+	{ "mround",  "ff", N_("number,multiple"), help_mround,
 	  gnumeric_mround, NULL, NULL, NULL, NULL,	  
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "multinomial", NULL, "", &help_multinomial,
+	{ "multinomial", NULL, "", help_multinomial,
 	  NULL, gnumeric_multinomial, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "odd" ,    "f", N_("number"),    &help_odd,
+	{ "odd" ,    "f", N_("number"),    help_odd,
 	  gnumeric_odd, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "power",   "ff", N_("base,exponent"),      &help_power,
+	{ "power",   "ff", N_("base,exponent"),      help_power,
 	  gnumeric_power, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "g_product", NULL, N_("number"),    &help_g_product,
+	{ "g_product", NULL, N_("number"),    help_g_product,
 	  NULL, gnumeric_g_product, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "quotient" , "ff", N_("numerator,denominator"), &help_quotient,
+	{ "quotient" , "ff", N_("numerator,denominator"), help_quotient,
 	  gnumeric_quotient, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "radians", "f", N_("number"),    &help_radians,
+	{ "radians", "f", N_("number"),    help_radians,
 	  gnumeric_radians, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "roman",      "f|f", N_("number,type"), &help_roman,
+	{ "roman",      "f|f", N_("number,type"), help_roman,
 	  gnumeric_roman, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "round",      "f|f", N_("number,digits"), &help_round,
+	{ "round",      "f|f", N_("number,digits"), help_round,
 	  gnumeric_round, NULL, NULL, NULL, NULL,	  
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "rounddown",  "f|f", N_("number,digits"), &help_rounddown,
+	{ "rounddown",  "f|f", N_("number,digits"), help_rounddown,
 	  gnumeric_rounddown, NULL, NULL, NULL, NULL,	  
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "roundup",    "f|f", N_("number,digits"), &help_roundup,
+	{ "roundup",    "f|f", N_("number,digits"), help_roundup,
 	  gnumeric_roundup, NULL, NULL, NULL, NULL,	  
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "seriessum", NULL, N_("x,n,m,coefficients"), &help_seriessum,
+	{ "seriessum", NULL, N_("x,n,m,coefficients"), help_seriessum,
 	  NULL, gnumeric_seriessum, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "sign",    "f", N_("number"),    &help_sign,
+	{ "sign",    "f", N_("number"),    help_sign,
 	  gnumeric_sign, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "sin",     "f", N_("number"),    &help_sin,
+	{ "sin",     "f", N_("number"),    help_sin,
 	  gnumeric_sin, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "sinh",    "f", N_("number"),    &help_sinh,
+	{ "sinh",    "f", N_("number"),    help_sinh,
 	  gnumeric_sinh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "sqrt",    "f", N_("number"),    &help_sqrt,
+	{ "sqrt",    "f", N_("number"),    help_sqrt,
 	  gnumeric_sqrt, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "sqrtpi",  "f", N_("number"),    &help_sqrtpi,
+	{ "sqrtpi",  "f", N_("number"),    help_sqrtpi,
 	  gnumeric_sqrtpi, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "suma", NULL, N_("number,number,"), &help_suma,
+	{ "suma", NULL, N_("number,number,"), help_suma,
 	  NULL, gnumeric_suma, NULL, NULL, NULL,	  
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "sumif",   "rS|r", N_("range,criteria,actual_range"), &help_sumif,
+	{ "sumif",   "rS|r", N_("range,criteria,actual_range"), help_sumif,
 	  gnumeric_sumif, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "sumproduct", NULL, N_("range,range,"), &help_sumproduct,
+	{ "sumproduct", NULL, N_("range,range,"), help_sumproduct,
 	  NULL, gnumeric_sumproduct, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "sumsq", NULL, N_("number"),      &help_sumsq,
+	{ "sumsq", NULL, N_("number"),      help_sumsq,
 	  NULL, gnumeric_sumsq, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "sumx2my2", "AA", N_("array1,array2"), &help_sumx2my2,
+	{ "sumx2my2", "AA", N_("array1,array2"), help_sumx2my2,
 	  gnumeric_sumx2my2, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "sumx2py2", "AA", N_("array1,array2"), &help_sumx2py2,
+	{ "sumx2py2", "AA", N_("array1,array2"), help_sumx2py2,
 	  gnumeric_sumx2py2, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "sumxmy2",  "AA", N_("array1,array2"), &help_sumxmy2,
+	{ "sumxmy2",  "AA", N_("array1,array2"), help_sumxmy2,
 	  gnumeric_sumxmy2, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "tan",     "f", N_("number"),    &help_tan,
+	{ "tan",     "f", N_("number"),    help_tan,
 	  gnumeric_tan, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "tanh",    "f", N_("number"),    &help_tanh,
+	{ "tanh",    "f", N_("number"),    help_tanh,
 	  gnumeric_tanh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "trunc",   "f|f", N_("number,digits"), &help_trunc,
+	{ "trunc",   "f|f", N_("number,digits"), help_trunc,
 	  gnumeric_trunc, NULL, NULL, NULL, NULL,	  
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "pi",      "", "",           &help_pi,
+	{ "pi",      "", "",           help_pi,
 	  gnumeric_pi, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "mmult",   "AA", N_("array1,array2"), &help_mmult,
+	{ "mmult",   "AA", N_("array1,array2"), help_mmult,
 	  gnumeric_mmult, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "minverse","A", N_("array"),     &help_minverse,
+	{ "minverse","A", N_("array"),     help_minverse,
 	  gnumeric_minverse, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "mdeterm", "A", N_("array,matrix_type,bandsize"), &help_mdeterm,
+	{ "mdeterm", "A", N_("array,matrix_type,bandsize"), help_mdeterm,
 	  gnumeric_mdeterm, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 #if 0
 	{ "logmdeterm", "A|si", N_("array,matrix_type,bandsize"),
-	  &help_logmdeterm, gnumeric_logmdeterm, NULL, NULL, NULL },
+	  help_logmdeterm, gnumeric_logmdeterm, NULL, NULL, NULL },
 #endif
         {NULL}
 };

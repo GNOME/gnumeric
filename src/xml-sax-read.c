@@ -825,7 +825,7 @@ xml_sax_styleregion_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 		else if (xml_sax_attr_int (attrs, "WrapText", &val))
 			mstyle_set_wrap_text (state->style, val);
-		else if (xml_sax_attr_int (attrs, "ShrinkToFit", &val))
+		else if (xml_sax_attr_bool (attrs, "ShrinkToFit", &val))
 			mstyle_set_shrink_to_fit (state->style, val);
 		else if (xml_sax_attr_int (attrs, "Rotation", &val))
 			mstyle_set_rotation (state->style, val);
@@ -1600,6 +1600,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
 	GSF_XML_IN_NODE (SHEET_LAYOUT, SHEET_FREEZEPANES, GNM, "FreezePanes", FALSE, &xml_sax_sheet_freezepanes, NULL),
 
       GSF_XML_IN_NODE (SHEET, SHEET_SOLVER, GNM, "Solver", FALSE, NULL, NULL),
+#warning TODO : add Solver import
 
       GSF_XML_IN_NODE (SHEET, SHEET_OBJECTS, GNM, "Objects", FALSE, NULL, NULL),
         /* Old crufty IO */

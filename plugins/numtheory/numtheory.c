@@ -21,14 +21,12 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
-#include <glib.h>
-
 #include "func.h"
+#include "value.h"
+#include <gnm-i18n.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/module-plugin-defs.h>
-#include "value.h"
 #include <limits.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
@@ -207,8 +205,9 @@ isprime (int n)
 
 /* ------------------------------------------------------------------------- */
 
-static char const *help_phi = {
-	N_("@FUNCTION=NT_PHI\n"
+static GnmFuncHelp const help_phi[] = {
+    { GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=NT_PHI\n"
 	   "@SYNTAX=NT_PHI(n)\n"
 	   "@DESCRIPTION="
 	   "NT_PHI function calculates the number of integers less "
@@ -216,6 +215,8 @@ static char const *help_phi = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA")
+    },
+    { GNM_FUNC_HELP_END }
 };
 
 static void
@@ -241,9 +242,10 @@ gnumeric_phi (FunctionEvalInfo *ei, GnmValue **args)
 
 /* ------------------------------------------------------------------------- */
 
-static char const *help_nt_mu = {
+static GnmFuncHelp const help_nt_mu[] = {
+    { GNM_FUNC_HELP_OLD,
 	/* xgettext: you can translate the funny character as an 'o' if unicode is not available. */
-	N_("@FUNCTION=NT_MU\n"
+	F_("@FUNCTION=NT_MU\n"
 	   "@SYNTAX=NT_MU(n)\n"
 	   "@DESCRIPTION="
 	   "NT_MU function (Möbius mu function) returns \n"
@@ -255,6 +257,8 @@ static char const *help_nt_mu = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=NT_D, ITHPRIME, NT_PHI")
+    },
+    { GNM_FUNC_HELP_END }
 };
 
 static void
@@ -281,14 +285,17 @@ gnumeric_nt_mu (FunctionEvalInfo *ei, GnmValue **args)
 
 /* ------------------------------------------------------------------------- */
 
-static char const *help_d = {
-	N_("@FUNCTION=NT_D\n"
+static GnmFuncHelp const help_d[] = {
+    { GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=NT_D\n"
 	   "@SYNTAX=NT_D(n)\n"
 	   "@DESCRIPTION="
 	   "NT_D function calculates the number of divisors of @n.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA")
+    },
+    { GNM_FUNC_HELP_END }
 };
 
 static void
@@ -314,14 +321,17 @@ gnumeric_d (FunctionEvalInfo *ei, GnmValue **args)
 
 /* ------------------------------------------------------------------------- */
 
-static char const *help_sigma = {
-	N_("@FUNCTION=NT_SIGMA\n"
+static GnmFuncHelp const help_sigma[] = {
+    { GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=NT_SIGMA\n"
 	   "@SYNTAX=NT_SIGMA(n)\n"
 	   "@DESCRIPTION="
 	   "NT_SIGMA function calculates the sum of the divisors of @n.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=NT_D, ITHPRIME, NT_PHI")
+    },
+    { GNM_FUNC_HELP_END }
 };
 
 static void
@@ -348,14 +358,17 @@ gnumeric_sigma (FunctionEvalInfo *ei, GnmValue **args)
 
 /* ------------------------------------------------------------------------- */
 
-static char const *help_ithprime = {
-	N_("@FUNCTION=ITHPRIME\n"
+static GnmFuncHelp const help_ithprime[] = {
+    { GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ITHPRIME\n"
 	   "@SYNTAX=ITHPRIME(i)\n"
 	   "@DESCRIPTION="
 	   "ITHPRIME function returns the @ith prime.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=NT_D, NT_SIGMA")
+    },
+    { GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -375,13 +388,16 @@ gnumeric_ithprime (FunctionEvalInfo *ei, GnmValue **args)
 
 /* ------------------------------------------------------------------------- */
 
-static char const *help_isprime = {
-	N_("@FUNCTION=ISPRIME\n"
+static GnmFuncHelp const help_isprime[] = {
+    { GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ISPRIME\n"
 	   "@SYNTAX=ISPRIME(i)\n"
 	   "@DESCRIPTION="
 	   "ISPRIME function returns TRUE if @i is prime and FALSE otherwise.\n"
 	   "\n"
 	   "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA")
+    },
+    { GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -423,8 +439,9 @@ prime_factor (int n)
 	return n;
 }
 
-static char const *help_pfactor = {
-	N_("@FUNCTION=PFACTOR\n"
+static GnmFuncHelp const help_pfactor[] = {
+    { GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=PFACTOR\n"
 	   "@SYNTAX=PFACTOR(n)\n"
 	   "@DESCRIPTION="
 	   "PFACTOR function returns the smallest prime factor of its argument.\n"
@@ -432,6 +449,8 @@ static char const *help_pfactor = {
 	   "The argument must be at least 2, or else a #VALUE! error is returned.\n"
 	   "\n"
 	   "@SEEALSO=ITHPRIME")
+    },
+    { GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -452,14 +471,17 @@ gnumeric_pfactor (FunctionEvalInfo *ei, GnmValue **args)
 
 /* ------------------------------------------------------------------------- */
 
-static char const *help_nt_pi = {
-	N_("@FUNCTION=NT_PI\n"
+static GnmFuncHelp const help_nt_pi[] = {
+    { GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=NT_PI\n"
 	   "@SYNTAX=NT_PI(n)\n"
 	   "@DESCRIPTION="
 	   "NT_PI function returns the number of primes less than or equal "
 	   "to @n.\n"
 	   "\n"
 	   "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA")
+    },
+    { GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -478,14 +500,17 @@ gnumeric_nt_pi (FunctionEvalInfo *ei, GnmValue **args)
 
 /* ------------------------------------------------------------------------- */
 
-static char const *help_bitor = {
-	N_("@FUNCTION=BITOR\n"
+static GnmFuncHelp const help_bitor[] = {
+    { GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BITOR\n"
 	   "@SYNTAX=BITOR(a,b)\n"
 	   "@DESCRIPTION="
 	   "BITOR function returns bitwise or-ing of its arguments.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=BITXOR,BITAND")
+    },
+    { GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -497,8 +522,9 @@ func_bitor (FunctionEvalInfo *ei, GnmValue *argv [])
 
 /* ------------------------------------------------------------------------- */
 
-static char const *help_bitxor = {
-	N_("@FUNCTION=BITXOR\n"
+static GnmFuncHelp const help_bitxor[] = {
+    { GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BITXOR\n"
 	   "@SYNTAX=BITXOR(a,b)\n"
 	   "@DESCRIPTION="
 	   "BITXOR function returns bitwise exclusive or-ing of its "
@@ -506,6 +532,8 @@ static char const *help_bitxor = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=BITOR,BITAND")
+    },
+    { GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -517,14 +545,17 @@ func_bitxor (FunctionEvalInfo *ei, GnmValue *argv [])
 
 /* ------------------------------------------------------------------------- */
 
-static char const *help_bitand = {
-	N_("@FUNCTION=BITAND\n"
+static GnmFuncHelp const help_bitand[] = {
+    { GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BITAND\n"
 	   "@SYNTAX=BITAND(a,b)\n"
 	   "@DESCRIPTION="
 	   "BITAND function returns bitwise and-ing of its arguments.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=BITOR,BITXOR")
+    },
+    { GNM_FUNC_HELP_END }
 };
 
 
@@ -537,8 +568,9 @@ func_bitand (FunctionEvalInfo *ei, GnmValue *argv [])
 
 /* ------------------------------------------------------------------------- */
 
-static char const *help_bitlshift = {
-	N_("@FUNCTION=BITLSHIFT\n"
+static GnmFuncHelp const help_bitlshift[] = {
+    { GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BITLSHIFT\n"
 	   "@SYNTAX=BITLSHIFT(x,n)\n"
 	   "@DESCRIPTION="
 	   "BITLSHIFT function returns @x bit-shifted left by @n bits.\n\n"
@@ -546,6 +578,8 @@ static char const *help_bitlshift = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=BITRSHIFT")
+    },
+    { GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -564,8 +598,9 @@ func_bitlshift (FunctionEvalInfo *ei, GnmValue *argv [])
 
 /* ------------------------------------------------------------------------- */
 
-static char const *help_bitrshift = {
-	N_("@FUNCTION=BITRSHIFT\n"
+static GnmFuncHelp const help_bitrshift[] = {
+    { GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BITRSHIFT\n"
 	   "@SYNTAX=BITRSHIFT(x,n)\n"
 	   "@DESCRIPTION="
 	   "BITRSHIFT function returns @x bit-shifted right by @n bits.\n\n"
@@ -573,6 +608,8 @@ static char const *help_bitrshift = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=BITLSHIFT")
+    },
+    { GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -599,28 +636,28 @@ go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 }
 
 const GnmFuncDescriptor num_theory_functions[] = {
-	{"ithprime", "f", "number", &help_ithprime,
+	{"ithprime", "f", "number", help_ithprime,
 	 &gnumeric_ithprime, NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{"pfactor", "f", "number", &help_pfactor,
+	{"pfactor", "f", "number", help_pfactor,
 	 &gnumeric_pfactor, NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{"nt_phi",   "f", "number", &help_phi,
+	{"nt_phi",   "f", "number", help_phi,
 	 &gnumeric_phi,      NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{"nt_d",     "f", "number", &help_d,
+	{"nt_d",     "f", "number", help_d,
 	 &gnumeric_d,        NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{"nt_sigma", "f", "number", &help_sigma,
+	{"nt_sigma", "f", "number", help_sigma,
 	 &gnumeric_sigma,    NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{"isprime",  "f", "number", &help_isprime,
+	{"isprime",  "f", "number", help_isprime,
 	 &gnumeric_isprime,  NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{"nt_pi",    "f", "number", &help_nt_pi,
+	{"nt_pi",    "f", "number", help_nt_pi,
 	 &gnumeric_nt_pi,    NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{"nt_mu",    "f", "number", &help_nt_mu,
+	{"nt_mu",    "f", "number", help_nt_mu,
 	 &gnumeric_nt_mu,    NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
@@ -628,19 +665,19 @@ const GnmFuncDescriptor num_theory_functions[] = {
 };
 
 const GnmFuncDescriptor bitwise_functions[] = {
-	{"bitor",     "ff", "A,B", &help_bitor,
+	{"bitor",     "ff", "A,B", help_bitor,
 	 &func_bitor,     NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{"bitxor",    "ff", "A,B", &help_bitxor,
+	{"bitxor",    "ff", "A,B", help_bitxor,
 	 &func_bitxor,    NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{"bitand",    "ff", "A,B", &help_bitand,
+	{"bitand",    "ff", "A,B", help_bitand,
 	 &func_bitand,    NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{"bitlshift", "ff", "X,N", &help_bitlshift,
+	{"bitlshift", "ff", "X,N", help_bitlshift,
 	 &func_bitlshift, NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{"bitrshift", "ff", "N,N", &help_bitrshift,
+	{"bitrshift", "ff", "N,N", help_bitrshift,
 	 &func_bitrshift, NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{NULL}

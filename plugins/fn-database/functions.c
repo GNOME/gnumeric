@@ -21,7 +21,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include <func.h>
 
@@ -33,6 +32,7 @@
 #include <number-match.h>
 #include <collect.h>
 #include <rangefunc.h>
+#include <gnm-i18n.h>
 
 #include <math.h>
 #include <string.h>
@@ -264,8 +264,9 @@ database_value_range_function (FunctionEvalInfo *ei,
 
 /***************************************************************************/
 
-static char const *help_daverage = {
-        N_("@FUNCTION=DAVERAGE\n"
+static GnmFuncHelp const help_daverage[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=DAVERAGE\n"
            "@SYNTAX=DAVERAGE(database,field,criteria)\n"
 
            "@DESCRIPTION="
@@ -319,6 +320,8 @@ static char const *help_daverage = {
 	   "DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
 	   "\n"
            "@SEEALSO=DCOUNT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -338,8 +341,9 @@ gnumeric_daverage (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_dcount = {
-        N_("@FUNCTION=DCOUNT\n"
+static GnmFuncHelp const help_dcount[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=DCOUNT\n"
            "@SYNTAX=DCOUNT(database,field,criteria)\n"
 
            "@DESCRIPTION="
@@ -392,6 +396,8 @@ static char const *help_dcount = {
            "DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
 	   "\n"
            "@SEEALSO=DAVERAGE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -411,8 +417,9 @@ gnumeric_dcount (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_dcounta = {
-        N_("@FUNCTION=DCOUNTA\n"
+static GnmFuncHelp const help_dcounta[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=DCOUNTA\n"
            "@SYNTAX=DCOUNTA(database,field,criteria)\n"
 
            "@DESCRIPTION="
@@ -465,6 +472,8 @@ static char const *help_dcounta = {
            "DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
 	   "\n"
            "@SEEALSO=DCOUNT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -482,8 +491,9 @@ gnumeric_dcounta (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_dget = {
-        N_("@FUNCTION=DGET\n"
+static GnmFuncHelp const help_dget[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=DGET\n"
            "@SYNTAX=DGET(database,field,criteria)\n"
 
            "@DESCRIPTION="
@@ -540,6 +550,8 @@ static char const *help_dget = {
            "DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
 	   "\n"
            "@SEEALSO=DCOUNT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static int
@@ -565,8 +577,9 @@ gnumeric_dget (FunctionEvalInfo *ei, GnmValue **argv)
 					      GNM_ERROR_NUM);
 }
 
-static char const *help_dmax = {
-        N_("@FUNCTION=DMAX\n"
+static GnmFuncHelp const help_dmax[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=DMAX\n"
            "@SYNTAX=DMAX(database,field,criteria)\n"
 
            "@DESCRIPTION="
@@ -619,6 +632,8 @@ static char const *help_dmax = {
            "DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
 	   "\n"
            "@SEEALSO=DMIN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 /***************************************************************************/
@@ -640,8 +655,9 @@ gnumeric_dmax (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_dmin = {
-        N_("@FUNCTION=DMIN\n"
+static GnmFuncHelp const help_dmin[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=DMIN\n"
            "@SYNTAX=DMIN(database,field,criteria)\n"
 
            "@DESCRIPTION="
@@ -693,6 +709,8 @@ static char const *help_dmin = {
            "DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
 	   "\n"
            "@SEEALSO=DMAX")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -712,8 +730,9 @@ gnumeric_dmin (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_dproduct = {
-        N_("@FUNCTION=DPRODUCT\n"
+static GnmFuncHelp const help_dproduct[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=DPRODUCT\n"
            "@SYNTAX=DPRODUCT(database,field,criteria)\n"
 
            "@DESCRIPTION="
@@ -764,6 +783,8 @@ static char const *help_dproduct = {
            "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
 	   "\n"
            "@SEEALSO=DSUM")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -784,8 +805,9 @@ gnumeric_dproduct (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_dstdev = {
-        N_("@FUNCTION=DSTDEV\n"
+static GnmFuncHelp const help_dstdev[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=DSTDEV\n"
            "@SYNTAX=DSTDEV(database,field,criteria)\n"
 
            "@DESCRIPTION="
@@ -838,6 +860,8 @@ static char const *help_dstdev = {
            "DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
 	   "\n"
            "@SEEALSO=DSTDEVP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -857,8 +881,9 @@ gnumeric_dstdev (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_dstdevp = {
-        N_("@FUNCTION=DSTDEVP\n"
+static GnmFuncHelp const help_dstdevp[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=DSTDEVP\n"
            "@SYNTAX=DSTDEVP(database,field,criteria)\n"
 
            "@DESCRIPTION="
@@ -911,6 +936,8 @@ static char const *help_dstdevp = {
            "DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
 	   "\n"
            "@SEEALSO=DSTDEV")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -930,8 +957,9 @@ gnumeric_dstdevp (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_dsum = {
-        N_("@FUNCTION=DSUM\n"
+static GnmFuncHelp const help_dsum[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=DSUM\n"
            "@SYNTAX=DSUM(database,field,criteria)\n"
 
            "@DESCRIPTION="
@@ -983,6 +1011,8 @@ static char const *help_dsum = {
            "DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
 	   "\n"
            "@SEEALSO=DPRODUCT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1003,8 +1033,9 @@ gnumeric_dsum (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_dvar = {
-        N_("@FUNCTION=DVAR\n"
+static GnmFuncHelp const help_dvar[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=DVAR\n"
            "@SYNTAX=DVAR(database,field,criteria)\n"
 
            "@DESCRIPTION="
@@ -1057,6 +1088,8 @@ static char const *help_dvar = {
            "DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
 	   "\n"
            "@SEEALSO=DVARP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1076,8 +1109,9 @@ gnumeric_dvar (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_dvarp = {
-        N_("@FUNCTION=DVARP\n"
+static GnmFuncHelp const help_dvarp[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=DVARP\n"
            "@SYNTAX=DVARP(database,field,criteria)\n"
 
            "@DESCRIPTION="
@@ -1130,6 +1164,8 @@ static char const *help_dvarp = {
            "DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
 	   "\n"
            "@SEEALSO=DVAR")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1149,8 +1185,9 @@ gnumeric_dvarp (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_getpivotdata = {
-        N_("@FUNCTION=GETPIVOTDATA\n"
+static GnmFuncHelp const help_getpivotdata[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=GETPIVOTDATA\n"
            "@SYNTAX=GETPIVOTDATA(pivot_table,field_name)\n"
 
            "@DESCRIPTION="
@@ -1165,6 +1202,8 @@ static char const *help_getpivotdata = {
 	   "@EXAMPLES=\n"
 	   "\n"
            "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1196,45 +1235,45 @@ gnumeric_getpivotdata (FunctionEvalInfo *ei, GnmValue **argv)
 
 const GnmFuncDescriptor database_functions[] = {
 	{ "daverage", "rSr", N_("database,field,criteria"),
-	  &help_daverage,   gnumeric_daverage, NULL, NULL, NULL, NULL,
+	  help_daverage,   gnumeric_daverage, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dcount",   "rSr", N_("database,field,criteria"),
-	  &help_dcount,     gnumeric_dcount, NULL, NULL, NULL, NULL,
+	  help_dcount,     gnumeric_dcount, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dcounta",  "rSr", N_("database,field,criteria"),
-	  &help_dcounta,    gnumeric_dcounta, NULL, NULL, NULL, NULL,
+	  help_dcounta,    gnumeric_dcounta, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dget",     "rSr", N_("database,field,criteria"),
-	  &help_dget,       gnumeric_dget, NULL, NULL, NULL, NULL,
+	  help_dget,       gnumeric_dget, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dmax",     "rSr", N_("database,field,criteria"),
-	  &help_dmax,       gnumeric_dmax, NULL, NULL, NULL, NULL,
+	  help_dmax,       gnumeric_dmax, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dmin",     "rSr", N_("database,field,criteria"),
-	  &help_dmin,       gnumeric_dmin, NULL, NULL, NULL, NULL,
+	  help_dmin,       gnumeric_dmin, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dproduct", "rSr", N_("database,field,criteria"),
-	  &help_dproduct,   gnumeric_dproduct, NULL, NULL, NULL, NULL,
+	  help_dproduct,   gnumeric_dproduct, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dstdev",   "rSr", N_("database,field,criteria"),
-	  &help_dstdev,     gnumeric_dstdev, NULL, NULL, NULL, NULL,
+	  help_dstdev,     gnumeric_dstdev, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dstdevp",  "rSr", N_("database,field,criteria"),
-	  &help_dstdevp,    gnumeric_dstdevp, NULL, NULL, NULL, NULL,
+	  help_dstdevp,    gnumeric_dstdevp, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dsum",     "rSr", N_("database,field,criteria"),
-	  &help_dsum,       gnumeric_dsum, NULL, NULL, NULL, NULL,
+	  help_dsum,       gnumeric_dsum, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dvar",     "rSr", N_("database,field,criteria"),
-	  &help_dvar,       gnumeric_dvar, NULL, NULL, NULL, NULL,
+	  help_dvar,       gnumeric_dvar, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dvarp",    "rSr", N_("database,field,criteria"),
-	  &help_dvarp,      gnumeric_dvarp, NULL, NULL, NULL, NULL,
+	  help_dvarp,      gnumeric_dvarp, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
 /* XL stores in lookup */
 	{ "getpivotdata", "rs", N_("pivot_table,field_name"),
-	  &help_getpivotdata, gnumeric_getpivotdata, NULL, NULL, NULL, NULL,
+	  help_getpivotdata, gnumeric_getpivotdata, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_SUBSET, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
         {NULL}

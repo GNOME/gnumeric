@@ -523,13 +523,12 @@ AC_SUBST(STRIP_DUMMY)
 AC_SUBST(STRIP_BEGIN)
 AC_SUBST(STRIP_END)
 
-dnl **************************************************
-dnl * internationalization support
-dnl **************************************************
-dnl
-dnl Check doc/developer/translating.sgml for a description of how to translate
-dnl and why we have so many translations.
-dnl
+# i18n stuff
+# TRANSLATORS:  Please note that gtk+ has both po/ and po-functions/
+# directories.  If you add a new language to ALL_LINGUAS, please make
+# sure that both po/ and po-functions/ have .po files that correspond
+# to your language.  If you only add one to po/, the build will break
+# in po-functions/.
 ALL_LINGUAS="am az bg ca cs da de el en_CA en_GB es et fi fr ga gl he hr hu it ja ko lv ml mr ms nb nl nn no pl pt pt_BR ro ru sk sr sr@Latn sv tr uk vi zh_CN zh_TW"
 AC_SUBST(ALL_LINGUAS)
 
@@ -539,6 +538,9 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
 	[The package name, for gettext]
 )
 AM_GLIB_GNU_GETTEXT
+AC_OUTPUT_COMMANDS([case "$CONFIG_FILES" in *po-functions/Makefile.in*)
+        sed -e "/POTFILES =/r po-functions/POTFILES" po-functions/Makefile.in > po-functions/Makefile
+      esac])
 
 dnl We do not want to force libgnomeprint 2.8 just yet.
 SAVE_LIBS="$LIBS"
@@ -1012,6 +1014,7 @@ plugins/sample_datasource/Makefile
 plugins/paradox/Makefile
 plugins/uihello/Makefile
 po/Makefile.in
+po-functions/Makefile.in
 schemas/Makefile
 templates/Makefile
 templates/english/Makefile

@@ -24,18 +24,16 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
-
 #include <func.h>
 #include <mathfunc.h>
 #include <rangefunc.h>
 #include <value.h>
-
 #include <expr.h>
 #include <sheet.h>
 #include <cell.h>
 #include <collect.h>
+#include <gnm-i18n.h>
 
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/module-plugin-defs.h>
@@ -44,8 +42,9 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /***************************************************************************/
 
-static char const *help_rand = {
-	N_("@FUNCTION=RAND\n"
+static GnmFuncHelp const help_rand[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=RAND\n"
 	   "@SYNTAX=RAND()\n"
 
 	   "@DESCRIPTION="
@@ -57,6 +56,8 @@ static char const *help_rand = {
 	   "than one.\n"
 	   "\n"
 	   "@SEEALSO=RANDBETWEEN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -67,8 +68,9 @@ gnumeric_rand (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randuniform = {
-	N_("@FUNCTION=RANDUNIFORM\n"
+static GnmFuncHelp const help_randuniform[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=RANDUNIFORM\n"
 	   "@SYNTAX=RANDUNIFORM(a,b)\n"
 
 	   "@DESCRIPTION="
@@ -83,6 +85,8 @@ static char const *help_randuniform = {
 	   "equal to 1.4 but less than 4.2.\n"
 	   "\n"
 	   "@SEEALSO=RANDBETWEEN,RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -99,8 +103,9 @@ gnumeric_randuniform (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randdiscrete = {
-	N_("@FUNCTION=RANDDISCRETE\n"
+static GnmFuncHelp const help_randdiscrete[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=RANDDISCRETE\n"
 	   "@SYNTAX=RANDDISCRETE(val_range[,prob_range])\n"
 
 	   "@DESCRIPTION="
@@ -120,6 +125,8 @@ static char const *help_randdiscrete = {
 	   "RANDDISCRETE(A1:A6) returns one of the values in the range A1:A6.\n"
 	   "\n"
 	   "@SEEALSO=RANDBETWEEN,RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 typedef struct {
@@ -231,8 +238,9 @@ gnumeric_randdiscrete (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randexp = {
-        N_("@FUNCTION=RANDEXP\n"
+static GnmFuncHelp const help_randexp[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDEXP\n"
            "@SYNTAX=RANDEXP(b)\n"
 
            "@DESCRIPTION="
@@ -242,6 +250,8 @@ static char const *help_randexp = {
            "RANDEXP(0.5).\n"
            "\n"
            "@SEEALSO=RAND,RANDBETWEEN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -254,8 +264,9 @@ gnumeric_randexp (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randpoisson = {
-        N_("@FUNCTION=RANDPOISSON\n"
+static GnmFuncHelp const help_randpoisson[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDPOISSON\n"
            "@SYNTAX=RANDPOISSON(lambda)\n"
 
            "@DESCRIPTION="
@@ -267,6 +278,8 @@ static char const *help_randpoisson = {
            "RANDPOISSON(3).\n"
            "\n"
            "@SEEALSO=RAND,RANDBETWEEN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -282,8 +295,9 @@ gnumeric_randpoisson (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randbinom = {
-        N_("@FUNCTION=RANDBINOM\n"
+static GnmFuncHelp const help_randbinom[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDBINOM\n"
            "@SYNTAX=RANDBINOM(p,trials)\n"
 
            "@DESCRIPTION="
@@ -296,6 +310,8 @@ static char const *help_randbinom = {
            "RANDBINOM(0.5,2).\n"
            "\n"
            "@SEEALSO=RAND,RANDBETWEEN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -312,8 +328,9 @@ gnumeric_randbinom (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randbetween = {
-	N_("@FUNCTION=RANDBETWEEN\n"
+static GnmFuncHelp const help_randbetween[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=RANDBETWEEN\n"
 	   "@SYNTAX=RANDBETWEEN(bottom,top)\n"
 
 	   "@DESCRIPTION="
@@ -328,6 +345,8 @@ static char const *help_randbetween = {
 	   "RANDBETWEEN(3,7).\n"
 	   "\n"
 	   "@SEEALSO=RAND,RANDUNIFORM")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -347,8 +366,9 @@ gnumeric_randbetween (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randnegbinom = {
-        N_("@FUNCTION=RANDNEGBINOM\n"
+static GnmFuncHelp const help_randnegbinom[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDNEGBINOM\n"
            "@SYNTAX=RANDNEGBINOM(p,failures)\n"
 
            "@DESCRIPTION="
@@ -362,6 +382,8 @@ static char const *help_randnegbinom = {
            "RANDNEGBINOM(0.5,2).\n"
            "\n"
            "@SEEALSO=RAND,RANDBETWEEN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -378,8 +400,9 @@ gnumeric_randnegbinom (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randbernoulli = {
-        N_("@FUNCTION=RANDBERNOULLI\n"
+static GnmFuncHelp const help_randbernoulli[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDBERNOULLI\n"
            "@SYNTAX=RANDBERNOULLI(p)\n"
 
            "@DESCRIPTION="
@@ -391,6 +414,8 @@ static char const *help_randbernoulli = {
            "RANDBERNOULLI(0.5).\n"
            "\n"
            "@SEEALSO=RAND,RANDBETWEEN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -406,8 +431,9 @@ gnumeric_randbernoulli (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randnorm = {
-        N_("@FUNCTION=RANDNORM\n"
+static GnmFuncHelp const help_randnorm[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDNORM\n"
            "@SYNTAX=RANDNORM(mean,stdev)\n"
 
            "@DESCRIPTION="
@@ -419,6 +445,8 @@ static char const *help_randnorm = {
            "RANDNORM(0,1).\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -435,8 +463,9 @@ gnumeric_randnorm (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randcauchy = {
-        N_("@FUNCTION=RANDCAUCHY\n"
+static GnmFuncHelp const help_randcauchy[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDCAUCHY\n"
            "@SYNTAX=RANDCAUCHY(a)\n"
 
            "@DESCRIPTION="
@@ -450,6 +479,8 @@ static char const *help_randcauchy = {
            "RANDCAUCHY(1).\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -465,8 +496,9 @@ gnumeric_randcauchy (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randlognorm = {
-        N_("@FUNCTION=RANDLOGNORM\n"
+static GnmFuncHelp const help_randlognorm[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDLOGNORM\n"
            "@SYNTAX=RANDLOGNORM(zeta,sigma)\n"
 
            "@DESCRIPTION="
@@ -476,6 +508,8 @@ static char const *help_randlognorm = {
            "RANDLOGNORM(1,2).\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -489,8 +523,9 @@ gnumeric_randlognorm (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randweibull = {
-        N_("@FUNCTION=RANDWEIBULL\n"
+static GnmFuncHelp const help_randweibull[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDWEIBULL\n"
            "@SYNTAX=RANDWEIBULL(a,b)\n"
 
            "@DESCRIPTION="
@@ -500,6 +535,8 @@ static char const *help_randweibull = {
            "RANDWEIBULL(1,2).\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -513,8 +550,9 @@ gnumeric_randweibull (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randlaplace = {
-        N_("@FUNCTION=RANDLAPLACE\n"
+static GnmFuncHelp const help_randlaplace[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDLAPLACE\n"
            "@SYNTAX=RANDLAPLACE(a)\n"
 
            "@DESCRIPTION="
@@ -526,6 +564,8 @@ static char const *help_randlaplace = {
            "RANDLAPLACE(1).\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -538,8 +578,9 @@ gnumeric_randlaplace (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randrayleigh = {
-        N_("@FUNCTION=RANDRAYLEIGH\n"
+static GnmFuncHelp const help_randrayleigh[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDRAYLEIGH\n"
            "@SYNTAX=RANDRAYLEIGH(sigma)\n"
 
            "@DESCRIPTION="
@@ -549,6 +590,8 @@ static char const *help_randrayleigh = {
            "RANDRAYLEIGH(1).\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -561,8 +604,9 @@ gnumeric_randrayleigh (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randrayleightail = {
-        N_("@FUNCTION=RANDRAYLEIGHTAIL\n"
+static GnmFuncHelp const help_randrayleightail[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDRAYLEIGHTAIL\n"
            "@SYNTAX=RANDRAYLEIGHTAIL(a,sigma)\n"
 
            "@DESCRIPTION="
@@ -576,6 +620,8 @@ static char const *help_randrayleightail = {
            "RANDRAYLEIGHTAIL(0.3,1).\n"
            "\n"
            "@SEEALSO=RAND,RANDRAYLEIGH")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -589,8 +635,9 @@ gnumeric_randrayleightail (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randgamma = {
-        N_("@FUNCTION=RANDGAMMA\n"
+static GnmFuncHelp const help_randgamma[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDGAMMA\n"
            "@SYNTAX=RANDGAMMA(a,b)\n"
 
            "@DESCRIPTION="
@@ -602,6 +649,8 @@ static char const *help_randgamma = {
            "RANDGAMMA(1,2).\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -618,8 +667,9 @@ gnumeric_randgamma (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randpareto = {
-        N_("@FUNCTION=RANDPARETO\n"
+static GnmFuncHelp const help_randpareto[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDPARETO\n"
            "@SYNTAX=RANDPARETO(a,b)\n"
 
            "@DESCRIPTION="
@@ -629,6 +679,8 @@ static char const *help_randpareto = {
            "RANDPARETO(1,2).\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -642,8 +694,9 @@ gnumeric_randpareto (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randfdist = {
-        N_("@FUNCTION=RANDFDIST\n"
+static GnmFuncHelp const help_randfdist[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDFDIST\n"
            "@SYNTAX=RANDFDIST(nu1,nu2)\n"
 
            "@DESCRIPTION="
@@ -653,6 +706,8 @@ static char const *help_randfdist = {
            "RANDFDIST(1,2).\n"
            "\n"
            "@SEEALSO=RAND,RANDGAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -666,8 +721,9 @@ gnumeric_randfdist (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randbeta = {
-        N_("@FUNCTION=RANDBETA\n"
+static GnmFuncHelp const help_randbeta[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDBETA\n"
            "@SYNTAX=RANDBETA(a,b)\n"
 
            "@DESCRIPTION="
@@ -677,6 +733,8 @@ static char const *help_randbeta = {
            "RANDBETA(1,2).\n"
            "\n"
            "@SEEALSO=RAND,RANDGAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -690,8 +748,9 @@ gnumeric_randbeta (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randlogistic = {
-        N_("@FUNCTION=RANDLOGISTIC\n"
+static GnmFuncHelp const help_randlogistic[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDLOGISTIC\n"
            "@SYNTAX=RANDLOGISTIC(a)\n"
 
            "@DESCRIPTION="
@@ -704,6 +763,8 @@ static char const *help_randlogistic = {
            "RANDLOGISTIC(1).\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -716,8 +777,9 @@ gnumeric_randlogistic (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randgeom = {
-        N_("@FUNCTION=RANDGEOM\n"
+static GnmFuncHelp const help_randgeom[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDGEOM\n"
            "@SYNTAX=RANDGEOM(p)\n"
 
            "@DESCRIPTION="
@@ -732,6 +794,8 @@ static char const *help_randgeom = {
            "RANDGEOM(0.4).\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -747,8 +811,9 @@ gnumeric_randgeom (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randhyperg = {
-        N_("@FUNCTION=RANDHYPERG\n"
+static GnmFuncHelp const help_randhyperg[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDHYPERG\n"
            "@SYNTAX=RANDHYPERG(n1,n2,t)\n"
 
            "@DESCRIPTION="
@@ -763,6 +828,8 @@ static char const *help_randhyperg = {
            "RANDHYPERG(21,1,9).\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -777,8 +844,9 @@ gnumeric_randhyperg (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randlog = {
-        N_("@FUNCTION=RANDLOG\n"
+static GnmFuncHelp const help_randlog[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDLOG\n"
            "@SYNTAX=RANDLOG(p)\n"
 
            "@DESCRIPTION="
@@ -790,6 +858,8 @@ static char const *help_randlog = {
            "RANDLOG(0.72).\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -805,8 +875,9 @@ gnumeric_randlog (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randchisq = {
-        N_("@FUNCTION=RANDCHISQ\n"
+static GnmFuncHelp const help_randchisq[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDCHISQ\n"
            "@SYNTAX=RANDCHISQ(nu)\n"
 
            "@DESCRIPTION="
@@ -816,6 +887,8 @@ static char const *help_randchisq = {
            "RANDCHISQ(0.5).\n"
            "\n"
            "@SEEALSO=RAND,RANDGAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -828,8 +901,9 @@ gnumeric_randchisq (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randtdist = {
-        N_("@FUNCTION=RANDTDIST\n"
+static GnmFuncHelp const help_randtdist[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDTDIST\n"
            "@SYNTAX=RANDTDIST(nu)\n"
 
            "@DESCRIPTION="
@@ -839,6 +913,8 @@ static char const *help_randtdist = {
            "RANDTDIST(0.5).\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -851,8 +927,9 @@ gnumeric_randtdist (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randgumbel = {
-        N_("@FUNCTION=RANDGUMBEL\n"
+static GnmFuncHelp const help_randgumbel[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDGUMBEL\n"
            "@SYNTAX=RANDGUMBEL(a,b[,type])\n"
 
            "@DESCRIPTION="
@@ -867,6 +944,8 @@ static char const *help_randgumbel = {
            "RANDGUMBEL(0.5,1,2).\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -887,8 +966,9 @@ gnumeric_randgumbel (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randlevy = {
-        N_("@FUNCTION=RANDLEVY\n"
+static GnmFuncHelp const help_randlevy[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDLEVY\n"
            "@SYNTAX=RANDLEVY(c,alpha[,beta])\n"
 
            "@DESCRIPTION="
@@ -905,6 +985,8 @@ static char const *help_randlevy = {
            "RANDLEVY(0.5,0.1,1).\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -922,8 +1004,9 @@ gnumeric_randlevy (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randexppow = {
-        N_("@FUNCTION=RANDEXPPOW\n"
+static GnmFuncHelp const help_randexppow[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDEXPPOW\n"
            "@SYNTAX=RANDEXPPOW(a,b)\n"
 
            "@DESCRIPTION="
@@ -940,6 +1023,8 @@ static char const *help_randexppow = {
            "RANDEXPPOW(0.5,0.1).\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -953,8 +1038,9 @@ gnumeric_randexppow (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randlandau = {
-        N_("@FUNCTION=RANDLANDAU\n"
+static GnmFuncHelp const help_randlandau[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDLANDAU\n"
            "@SYNTAX=RANDLANDAU()\n"
 
            "@DESCRIPTION="
@@ -971,6 +1057,8 @@ static char const *help_randlandau = {
            "RANDLANDAU().\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -981,8 +1069,9 @@ gnumeric_randlandau (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_randnormtail = {
-        N_("@FUNCTION=RANDNORMTAIL\n"
+static GnmFuncHelp const help_randnormtail[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RANDNORMTAIL\n"
            "@SYNTAX=RANDNORMTAIL(a,sigma)\n"
 
            "@DESCRIPTION="
@@ -1004,6 +1093,8 @@ static char const *help_randnormtail = {
            "RANDNORMTAIL(0.5,0.1).\n"
            "\n"
            "@SEEALSO=RAND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1017,8 +1108,9 @@ gnumeric_randnormtail (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_simtable = {
-        N_("@FUNCTION=SIMTABLE\n"
+static GnmFuncHelp const help_simtable[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=SIMTABLE\n"
            "@SYNTAX=SIMTABLE(d1, d2, ..., dN)\n"
 
            "@DESCRIPTION="
@@ -1052,6 +1144,8 @@ static char const *help_simtable = {
            "#3.\n"
            "\n"
            "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 typedef struct {
@@ -1093,100 +1187,100 @@ gnumeric_simtable (FunctionEvalInfo *ei, GnmExprList *nodes)
 /***************************************************************************/
 
 const GnmFuncDescriptor random_functions[] = {
-	{ "rand",    "", "",           &help_rand,
+	{ "rand",    "", "",           help_rand,
 	  gnumeric_rand, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "randbernoulli", "f", N_("p"),   &help_randbernoulli,
+        { "randbernoulli", "f", N_("p"),   help_randbernoulli,
 	  gnumeric_randbernoulli, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randbeta", "ff", N_("a,b"),   &help_randbeta,
+        { "randbeta", "ff", N_("a,b"),   help_randbeta,
 	  gnumeric_randbeta, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randbetween", "ff", N_("bottom,top"), &help_randbetween,
+        { "randbetween", "ff", N_("bottom,top"), help_randbetween,
 	  gnumeric_randbetween, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "randbinom", "ff", N_("p,trials"), &help_randbinom,
+        { "randbinom", "ff", N_("p,trials"), help_randbinom,
 	  gnumeric_randbinom, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randcauchy", "f", N_("a"),   &help_randcauchy,
+        { "randcauchy", "f", N_("a"),   help_randcauchy,
 	  gnumeric_randcauchy, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randchisq", "f", N_("nu"),   &help_randchisq,
+        { "randchisq", "f", N_("nu"),   help_randchisq,
 	  gnumeric_randchisq, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
  	{ "randdiscrete", "r|r", N_("value_range,prob_range"),
-	  &help_randdiscrete, gnumeric_randdiscrete, NULL, NULL, NULL, NULL,
+	  help_randdiscrete, gnumeric_randdiscrete, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "randexp", "f", N_("b"),         &help_randexp,
+	{ "randexp", "f", N_("b"),         help_randexp,
 	  gnumeric_randexp, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randexppow", "ff", N_("a,b"),         &help_randexppow,
+        { "randexppow", "ff", N_("a,b"),         help_randexppow,
 	  gnumeric_randexppow, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randfdist", "ff", N_("nu1,nu2"),      &help_randfdist,
+        { "randfdist", "ff", N_("nu1,nu2"),      help_randfdist,
 	  gnumeric_randfdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randgamma", "ff", N_("a,b"),    &help_randgamma,
+        { "randgamma", "ff", N_("a,b"),    help_randgamma,
 	  gnumeric_randgamma, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randnormtail", "ff", N_("a,sigma"),    &help_randnormtail,
+        { "randnormtail", "ff", N_("a,sigma"),    help_randnormtail,
 	  gnumeric_randnormtail, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randgeom", "f", N_("p"),    &help_randgeom,
+        { "randgeom", "f", N_("p"),    help_randgeom,
 	  gnumeric_randgeom, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randgumbel", "ff|f", N_("a,b,type"),    &help_randgumbel,
+        { "randgumbel", "ff|f", N_("a,b,type"),    help_randgumbel,
 	  gnumeric_randgumbel, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randhyperg", "fff", N_("n1,n2,t"),    &help_randhyperg,
+        { "randhyperg", "fff", N_("n1,n2,t"),    help_randhyperg,
 	  gnumeric_randhyperg, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randlandau", "", "", &help_randlandau,
+        { "randlandau", "", "", help_randlandau,
 	  gnumeric_randlandau, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randlaplace", "f", N_("a"), &help_randlaplace,
+        { "randlaplace", "f", N_("a"), help_randlaplace,
 	  gnumeric_randlaplace, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randlevy", "ff|f", N_("c,alpha,beta"), &help_randlevy,
+        { "randlevy", "ff|f", N_("c,alpha,beta"), help_randlevy,
 	  gnumeric_randlevy, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randlog", "f", N_("p"), &help_randlog,
+        { "randlog", "f", N_("p"), help_randlog,
 	  gnumeric_randlog, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randlogistic", "f", N_("a"), &help_randlogistic,
+        { "randlogistic", "f", N_("a"), help_randlogistic,
 	  gnumeric_randlogistic, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randlognorm", "ff", N_("zeta,sigma"), &help_randlognorm,
+        { "randlognorm", "ff", N_("zeta,sigma"), help_randlognorm,
 	  gnumeric_randlognorm, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randnegbinom", "ff", N_("p,failures"), &help_randnegbinom,
+        { "randnegbinom", "ff", N_("p,failures"), help_randnegbinom,
 	  gnumeric_randnegbinom, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randnorm", "ff", N_("mean,stdev"), &help_randnorm,
+        { "randnorm", "ff", N_("mean,stdev"), help_randnorm,
 	  gnumeric_randnorm, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randpareto", "ff", N_("a,b"), &help_randpareto,
+        { "randpareto", "ff", N_("a,b"), help_randpareto,
 	  gnumeric_randpareto, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randpoisson", "f", N_("lambda"), &help_randpoisson,
+        { "randpoisson", "f", N_("lambda"), help_randpoisson,
 	  gnumeric_randpoisson, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randrayleigh", "f", N_("sigma"), &help_randrayleigh,
+        { "randrayleigh", "f", N_("sigma"), help_randrayleigh,
 	  gnumeric_randrayleigh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randrayleightail", "ff", N_("a,sigma"), &help_randrayleightail,
+        { "randrayleightail", "ff", N_("a,sigma"), help_randrayleightail,
 	  gnumeric_randrayleightail, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randtdist", "f", N_("nu"), &help_randtdist,
+        { "randtdist", "f", N_("nu"), help_randtdist,
 	  gnumeric_randtdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randuniform", "ff", N_("a,b"), &help_randuniform,
+        { "randuniform", "ff", N_("a,b"), help_randuniform,
 	  gnumeric_randuniform, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randweibull", "ff", N_("a,b"), &help_randweibull,
+        { "randweibull", "ff", N_("a,b"), help_randweibull,
 	  gnumeric_randweibull, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "simtable", NULL, N_("d1,d2,...,dN"), &help_simtable,
+	{ "simtable", NULL, N_("d1,d2,...,dN"), help_simtable,
 	  NULL,	gnumeric_simtable, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 

@@ -23,7 +23,6 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include <string.h>
 #include <stdlib.h>
@@ -35,6 +34,7 @@
 #include <expr.h>
 #include <value.h>
 #include <mathfunc.h>
+#include <gnm-i18n.h>
 
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/module-plugin-defs.h>
@@ -75,8 +75,9 @@ value_new_complex (const complex_t *c, char imunit)
 
 /***************************************************************************/
 
-static char const *help_complex = {
-	N_("@FUNCTION=COMPLEX\n"
+static GnmFuncHelp const help_complex[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=COMPLEX\n"
 	   "@SYNTAX=COMPLEX(real,im[,suffix])\n"
 
 	   "@DESCRIPTION="
@@ -93,6 +94,8 @@ static char const *help_complex = {
 	   "COMPLEX(1,-1) equals 1-i.\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -114,8 +117,9 @@ gnumeric_complex (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imaginary = {
-	N_("@FUNCTION=IMAGINARY\n"
+static GnmFuncHelp const help_imaginary[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMAGINARY\n"
 	   "@SYNTAX=IMAGINARY(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMAGINARY returns the imaginary part of a complex "
@@ -128,6 +132,8 @@ static char const *help_imaginary = {
 	   "IMAGINARY(\"132-j\") equals -1.\n"
 	   "\n"
 	   "@SEEALSO=IMREAL")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -147,8 +153,9 @@ gnumeric_imaginary (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imabs = {
-	N_("@FUNCTION=IMABS\n"
+static GnmFuncHelp const help_imabs[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMABS\n"
 	   "@SYNTAX=IMABS(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMABS returns the absolute value of a complex number.\n\n"
@@ -160,6 +167,8 @@ static char const *help_imabs = {
 	   "IMABS(\"2-j\") equals 2.23606798.\n"
 	   "\n"
 	   "@SEEALSO=IMAGINARY,IMREAL")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -177,8 +186,9 @@ gnumeric_imabs (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imreal = {
-	N_("@FUNCTION=IMREAL\n"
+static GnmFuncHelp const help_imreal[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMREAL\n"
 	   "@SYNTAX=IMREAL(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMREAL returns the real part of a complex number.\n\n"
@@ -190,6 +200,8 @@ static char const *help_imreal = {
 	   "imreal(\"132-j\") equals 132.\n"
 	   "\n"
 	   "@SEEALSO=IMAGINARY")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -210,8 +222,9 @@ gnumeric_imreal (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imconjugate = {
-	N_("@FUNCTION=IMCONJUGATE\n"
+static GnmFuncHelp const help_imconjugate[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMCONJUGATE\n"
 	   "@SYNTAX=IMCONJUGATE(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMCONJUGATE returns the complex conjugate of a complex number.\n"
@@ -224,6 +237,8 @@ static char const *help_imconjugate = {
 	   "IMCONJUGATE(\"1-j\") equals 1+j.\n"
 	   "\n"
 	   "@SEEALSO=IMAGINARY,IMREAL")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -241,8 +256,9 @@ gnumeric_imconjugate (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_iminv = {
-	N_("@FUNCTION=IMINV\n"
+static GnmFuncHelp const help_iminv[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMINV\n"
 	   "@SYNTAX=IMINV(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMINV returns the the inverse, or reciprocal, of the complex "
@@ -255,6 +271,8 @@ static char const *help_iminv = {
 	   "IMINV(\"1-j\") equals 0.5+0.5j.\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -272,8 +290,9 @@ gnumeric_iminv (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imneg = {
-	N_("@FUNCTION=IMNEG\n"
+static GnmFuncHelp const help_imneg[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMNEG\n"
 	   "@SYNTAX=IMNEG(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMNEG returns the negative of the complex number z (@inumber), "
@@ -286,6 +305,8 @@ static char const *help_imneg = {
 	   "IMNEG(\"1-j\") equals -1+j.\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -303,8 +324,9 @@ gnumeric_imneg (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imcos = {
-	N_("@FUNCTION=IMCOS\n"
+static GnmFuncHelp const help_imcos[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMCOS\n"
 	   "@SYNTAX=IMCOS(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMCOS returns the cosine of a complex number.\n"
@@ -317,6 +339,8 @@ static char const *help_imcos = {
 	   "IMCOS(\"1+j\") equals 0.833730-0.988898j.\n"
 	   "\n"
 	   "@SEEALSO=IMSIN,IMTAN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -334,8 +358,9 @@ gnumeric_imcos (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imtan = {
-	N_("@FUNCTION=IMTAN\n"
+static GnmFuncHelp const help_imtan[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMTAN\n"
 	   "@SYNTAX=IMTAN(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMTAN returns the tangent of a complex number.\n"
@@ -348,6 +373,8 @@ static char const *help_imtan = {
 	   "IMTAN(\"2-j\") equals -0.2434582-1.1667363j.\n"
 	   "\n"
 	   "@SEEALSO=IMSIN,IMCOS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -365,8 +392,9 @@ gnumeric_imtan (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imsec = {
-	N_("@FUNCTION=IMSEC\n"
+static GnmFuncHelp const help_imsec[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMSEC\n"
 	   "@SYNTAX=IMSEC(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMSEC returns the complex secant of the complex number z "
@@ -380,6 +408,8 @@ static char const *help_imsec = {
 	   "IMSEC(\"2-j\") equals -0.413149-0.687527j.\n"
 	   "\n"
 	   "@SEEALSO=IMCSC,IMCOT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -398,8 +428,9 @@ gnumeric_imsec (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imcsc = {
-	N_("@FUNCTION=IMCSC\n"
+static GnmFuncHelp const help_imcsc[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMCSC\n"
 	   "@SYNTAX=IMCSC(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMCSC returns the complex cosecant of the complex number z "
@@ -413,6 +444,8 @@ static char const *help_imcsc = {
 	   "IMCSC(\"2-j\") equals 0.635494-0.221501j.\n"
 	   "\n"
 	   "@SEEALSO=IMSEC,IMCOT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -431,8 +464,9 @@ gnumeric_imcsc (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imcot = {
-	N_("@FUNCTION=IMCOT\n"
+static GnmFuncHelp const help_imcot[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMCOT\n"
 	   "@SYNTAX=IMCOT(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMCOT returns the complex cotangent of the complex number z "
@@ -446,6 +480,8 @@ static char const *help_imcot = {
 	   "IMCOT(\"2-j\") equals -0.171384+0.821330j.\n"
 	   "\n"
 	   "@SEEALSO=IMSEC,IMCSC")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -464,8 +500,9 @@ gnumeric_imcot (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imexp = {
-	N_("@FUNCTION=IMEXP\n"
+static GnmFuncHelp const help_imexp[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMEXP\n"
 	   "@SYNTAX=IMEXP(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMEXP returns the exponential of a complex number.\n"
@@ -478,6 +515,8 @@ static char const *help_imexp = {
 	   "IMEXP(\"2-j\") equals 3.992324-6.217676j.\n"
 	   "\n"
 	   "@SEEALSO=IMLN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -495,8 +534,9 @@ gnumeric_imexp (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imargument = {
-	N_("@FUNCTION=IMARGUMENT\n"
+static GnmFuncHelp const help_imargument[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMARGUMENT\n"
 	   "@SYNTAX=IMARGUMENT(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMARGUMENT returns the argument theta of a complex number, "
@@ -511,6 +551,8 @@ static char const *help_imargument = {
 	   "IMARGUMENT(\"2-j\") equals -0.463647609.\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -527,8 +569,9 @@ gnumeric_imargument (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imln = {
-	N_("@FUNCTION=IMLN\n"
+static GnmFuncHelp const help_imln[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMLN\n"
 	   "@SYNTAX=IMLN(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMLN returns the natural logarithm of a complex number.\n\n"
@@ -546,6 +589,8 @@ static char const *help_imln = {
 	   "IMLN(\"3-j\") equals 1.15129-0.32175j.\n"
 	   "\n"
 	   "@SEEALSO=IMEXP,IMLOG2,IMLOG10")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -563,8 +608,9 @@ gnumeric_imln (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imlog2 = {
-	N_("@FUNCTION=IMLOG2\n"
+static GnmFuncHelp const help_imlog2[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMLOG2\n"
 	   "@SYNTAX=IMLOG2(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMLOG2 returns the logarithm of a complex number in base 2.\n"
@@ -577,6 +623,8 @@ static char const *help_imlog2 = {
 	   "IMLOG2(\"3-j\") equals 1.66096-0.46419j.\n"
 	   "\n"
 	   "@SEEALSO=IMLN,IMLOG10")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -595,8 +643,9 @@ gnumeric_imlog2 (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imlog10 = {
-	N_("@FUNCTION=IMLOG10\n"
+static GnmFuncHelp const help_imlog10[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMLOG10\n"
 	   "@SYNTAX=IMLOG10(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMLOG10 returns the logarithm of a complex number in base 10.\n"
@@ -609,6 +658,8 @@ static char const *help_imlog10 = {
 	   "IMLOG10(\"3-j\") equals 0.5-0.13973j.\n"
 	   "\n"
 	   "@SEEALSO=IMLN,IMLOG2")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -627,8 +678,9 @@ gnumeric_imlog10 (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_impower = {
-	N_("@FUNCTION=IMPOWER\n"
+static GnmFuncHelp const help_impower[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMPOWER\n"
 	   "@SYNTAX=IMPOWER(inumber1,inumber2)\n"
 	   "@DESCRIPTION="
 	   "IMPOWER returns a complex number raised to a power.  @inumber1 is "
@@ -643,6 +695,8 @@ static char const *help_impower = {
 	   "IMPOWER(\"4-j\",2) equals 15-8j.\n"
 	   "\n"
 	   "@SEEALSO=IMSQRT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -666,8 +720,9 @@ gnumeric_impower (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imdiv = {
-	N_("@FUNCTION=IMDIV\n"
+static GnmFuncHelp const help_imdiv[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMDIV\n"
 	   "@SYNTAX=IMDIV(inumber1,inumber2)\n"
 	   "@DESCRIPTION="
 	   "IMDIV returns the quotient of two complex numbers.\n"
@@ -680,6 +735,8 @@ static char const *help_imdiv = {
 	   "IMDIV(\"2-j\",\"2+j\") equals 0.6-0.8j.\n"
 	   "\n"
 	   "@SEEALSO=IMPRODUCT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -703,8 +760,9 @@ gnumeric_imdiv (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imsin = {
-	N_("@FUNCTION=IMSIN\n"
+static GnmFuncHelp const help_imsin[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMSIN\n"
 	   "@SYNTAX=IMSIN(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMSIN returns the sine of a complex number.\n\n"
@@ -716,6 +774,8 @@ static char const *help_imsin = {
 	   "IMSIN(\"1+j\") equals 1.29846+0.63496j.\n"
 	   "\n"
 	   "@SEEALSO=IMCOS,IMTAN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -733,8 +793,9 @@ gnumeric_imsin (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imsinh = {
-	N_("@FUNCTION=IMSINH\n"
+static GnmFuncHelp const help_imsinh[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMSINH\n"
 	   "@SYNTAX=IMSINH(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMSINH returns the complex hyperbolic sine of the complex "
@@ -748,6 +809,8 @@ static char const *help_imsinh = {
 	   "IMSINH(\"1+j\") equals 0.63496+1.29846j.\n"
 	   "\n"
 	   "@SEEALSO=IMCOSH,IMTANH")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -765,8 +828,9 @@ gnumeric_imsinh (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imcosh = {
-	N_("@FUNCTION=IMCOSH\n"
+static GnmFuncHelp const help_imcosh[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMCOSH\n"
 	   "@SYNTAX=IMCOSH(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMCOSH returns the complex hyperbolic cosine of the complex "
@@ -779,6 +843,8 @@ static char const *help_imcosh = {
 	   "IMCOSH(\"1+j\") equals 0.83373+0.988898j.\n"
 	   "\n"
 	   "@SEEALSO=IMSINH,IMTANH")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -796,8 +862,9 @@ gnumeric_imcosh (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imtanh = {
-	N_("@FUNCTION=IMTANH\n"
+static GnmFuncHelp const help_imtanh[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMTANH\n"
 	   "@SYNTAX=IMTANH(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMTANH returns the complex hyperbolic tangent of the complex "
@@ -810,6 +877,8 @@ static char const *help_imtanh = {
 	   "IMTANH(\"1+j\") equals 1.083923+0.2717526j.\n"
 	   "\n"
 	   "@SEEALSO=IMSINH,IMCOSH")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -827,8 +896,9 @@ gnumeric_imtanh (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imsech = {
-	N_("@FUNCTION=IMSECH\n"
+static GnmFuncHelp const help_imsech[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMSECH\n"
 	   "@SYNTAX=IMSECH(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMSECH returns the complex hyperbolic secant of the complex "
@@ -841,6 +911,8 @@ static char const *help_imsech = {
 	   "IMSECH(\"1+j\") equals 0.498337-0.5910838j.\n"
 	   "\n"
 	   "@SEEALSO=IMCSCH,IMCOTH")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -858,8 +930,9 @@ gnumeric_imsech (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imcsch = {
-	N_("@FUNCTION=IMCSCH\n"
+static GnmFuncHelp const help_imcsch[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMCSCH\n"
 	   "@SYNTAX=IMCSCH(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMCSCH returns the complex hyperbolic cosecant of the "
@@ -872,6 +945,8 @@ static char const *help_imcsch = {
 	   "IMCSCH(\"1+j\") equals 0.303931-0.621518j.\n"
 	   "\n"
 	   "@SEEALSO=IMSECH,IMCOTH")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -889,8 +964,9 @@ gnumeric_imcsch (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imcoth = {
-	N_("@FUNCTION=IMCOTH\n"
+static GnmFuncHelp const help_imcoth[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMCOTH\n"
 	   "@SYNTAX=IMCOTH(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMCOTH returns the complex hyperbolic cotangent of the complex "
@@ -903,6 +979,8 @@ static char const *help_imcoth = {
 	   "IMCOTH(\"1+j\") equals 0.868014-0.217622j.\n"
 	   "\n"
 	   "@SEEALSO=IMSECH,IMCSCH")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -920,8 +998,9 @@ gnumeric_imcoth (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imarcsin = {
-	N_("@FUNCTION=IMARCSIN\n"
+static GnmFuncHelp const help_imarcsin[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMARCSIN\n"
 	   "@SYNTAX=IMARCSIN(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMARCSIN returns the complex arcsine of the complex number "
@@ -935,6 +1014,8 @@ static char const *help_imarcsin = {
 	   "IMARCSIN(\"1+j\") equals 0.6662394+1.061275j.\n"
 	   "\n"
 	   "@SEEALSO=IMARCCOS,IMARCTAN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -952,8 +1033,9 @@ gnumeric_imarcsin (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imarccos = {
-	N_("@FUNCTION=IMARCCOS\n"
+static GnmFuncHelp const help_imarccos[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMARCCOS\n"
 	   "@SYNTAX=IMARCCOS(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMARCCOS returns the complex arccosine of the complex number "
@@ -967,6 +1049,8 @@ static char const *help_imarccos = {
 	   "IMARCCOS(\"1+j\") equals 0.9045569-1.061275j.\n"
 	   "\n"
 	   "@SEEALSO=IMARCSIN,IMARCTAN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -984,8 +1068,9 @@ gnumeric_imarccos (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imarctan = {
-	N_("@FUNCTION=IMARCTAN\n"
+static GnmFuncHelp const help_imarctan[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMARCTAN\n"
 	   "@SYNTAX=IMARCTAN(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMARCTAN returns the complex arctangent of the complex number "
@@ -999,6 +1084,8 @@ static char const *help_imarctan = {
 	   "IMARCTAN(\"1+j\") equals 1.0172220+0.4023595j.\n"
 	   "\n"
 	   "@SEEALSO=IMARCSIN,IMARCCOS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1016,8 +1103,9 @@ gnumeric_imarctan (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imarcsec = {
-	N_("@FUNCTION=IMARCSEC\n"
+static GnmFuncHelp const help_imarcsec[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMARCSEC\n"
 	   "@SYNTAX=IMARCSEC(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMARCSEC returns the complex arcsecant of the complex number "
@@ -1030,6 +1118,8 @@ static char const *help_imarcsec = {
 	   "IMARCSEC(\"1+j\") equals 1.1185179+0.5306375j.\n"
 	   "\n"
 	   "@SEEALSO=IMARCCSC,IMARCCOT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1047,8 +1137,9 @@ gnumeric_imarcsec (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imarccsc = {
-	N_("@FUNCTION=IMARCCSC\n"
+static GnmFuncHelp const help_imarccsc[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMARCCSC\n"
 	   "@SYNTAX=IMARCCSC(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMARCCSC returns the complex arccosecant of the complex "
@@ -1061,6 +1152,8 @@ static char const *help_imarccsc = {
 	   "IMARCCSC(\"1+j\") equals 0.45227845-0.5306375j.\n"
 	   "\n"
 	   "@SEEALSO=IMARCSEC,IMARCCOT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1078,8 +1171,9 @@ gnumeric_imarccsc (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imarccot = {
-	N_("@FUNCTION=IMARCCOT\n"
+static GnmFuncHelp const help_imarccot[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMARCCOT\n"
 	   "@SYNTAX=IMARCCOT(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMARCCOT returns the complex arccotangent of the complex "
@@ -1092,6 +1186,8 @@ static char const *help_imarccot = {
 	   "IMARCCOT(\"1+j\") equals 0.553574+0.4023595j.\n"
 	   "\n"
 	   "@SEEALSO=IMARCSEC,IMARCCSC")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1109,8 +1205,9 @@ gnumeric_imarccot (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imarcsinh = {
-	N_("@FUNCTION=IMARCSINH\n"
+static GnmFuncHelp const help_imarcsinh[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMARCSINH\n"
 	   "@SYNTAX=IMARCSINH(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMARCSINH returns the complex hyperbolic arcsine of the "
@@ -1124,6 +1221,8 @@ static char const *help_imarcsinh = {
 	   "IMARCSINH(\"1+j\") equals 1.061275+0.6662394j.\n"
 	   "\n"
 	   "@SEEALSO=IMARCCOSH,IMARCTANH")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1141,8 +1240,9 @@ gnumeric_imarcsinh (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imarccosh = {
-	N_("@FUNCTION=IMARCCOSH\n"
+static GnmFuncHelp const help_imarccosh[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMARCCOSH\n"
 	   "@SYNTAX=IMARCCOSH(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMARCCOSH returns the complex hyperbolic arccosine of the "
@@ -1156,6 +1256,8 @@ static char const *help_imarccosh = {
 	   "IMARCCOSH(\"1+j\") equals 1.06127506+0.904557j.\n"
 	   "\n"
 	   "@SEEALSO=IMARCSINH,IMARCTANH")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1173,8 +1275,9 @@ gnumeric_imarccosh (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imarctanh = {
-	N_("@FUNCTION=IMARCTANH\n"
+static GnmFuncHelp const help_imarctanh[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMARCTANH\n"
 	   "@SYNTAX=IMARCTANH(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMARCTANH returns the complex hyperbolic arctangent of the "
@@ -1188,6 +1291,8 @@ static char const *help_imarctanh = {
 	   "IMARCTANH(\"1+j\") equals 0.4023595+1.0172220j.\n"
 	   "\n"
 	   "@SEEALSO=IMARCSINH,IMARCCOSH")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1205,8 +1310,9 @@ gnumeric_imarctanh (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imarcsech = {
-	N_("@FUNCTION=IMARCSECH\n"
+static GnmFuncHelp const help_imarcsech[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMARCSECH\n"
 	   "@SYNTAX=IMARCSECH(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMARCSECH returns the complex hyperbolic arcsecant of the "
@@ -1220,6 +1326,8 @@ static char const *help_imarcsech = {
 	   "IMARCSECH(\"1+j\") equals 0.5306375-1.118518j.\n"
 	   "\n"
 	   "@SEEALSO=IMARCCSCH,IMARCCOTH")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1237,8 +1345,9 @@ gnumeric_imarcsech (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imarccsch = {
-	N_("@FUNCTION=IMARCCSCH\n"
+static GnmFuncHelp const help_imarccsch[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMARCCSCH\n"
 	   "@SYNTAX=IMARCCSCH(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMARCCSCH returns the complex hyperbolic arccosecant of the "
@@ -1251,6 +1360,8 @@ static char const *help_imarccsch = {
 	   "IMARCCSCH(\"1+j\") equals 0.5306375-0.452278j.\n"
 	   "\n"
 	   "@SEEALSO=IMARCSECH,IMARCCOTH")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1268,8 +1379,9 @@ gnumeric_imarccsch (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imarccoth = {
-	N_("@FUNCTION=IMARCCOTH\n"
+static GnmFuncHelp const help_imarccoth[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMARCCOTH\n"
 	   "@SYNTAX=IMARCCOTH(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMARCCOTH returns the complex hyperbolic arccotangent of the "
@@ -1283,6 +1395,8 @@ static char const *help_imarccoth = {
 	   "IMARCCOTH(\"1+j\") equals 0.40235948-0.5535744j.\n"
 	   "\n"
 	   "@SEEALSO=IMARCSECH,IMARCCSCH")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1300,8 +1414,9 @@ gnumeric_imarccoth (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imsqrt = {
-	N_("@FUNCTION=IMSQRT\n"
+static GnmFuncHelp const help_imsqrt[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMSQRT\n"
 	   "@SYNTAX=IMSQRT(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMSQRT returns the square root of a complex number.\n"
@@ -1314,6 +1429,8 @@ static char const *help_imsqrt = {
 	   "IMSQRT(\"1+j\") equals 1.09868+0.4550899j.\n"
 	   "\n"
 	   "@SEEALSO=IMPOWER")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1331,8 +1448,9 @@ gnumeric_imsqrt (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_imsub = {
-	N_("@FUNCTION=IMSUB\n"
+static GnmFuncHelp const help_imsub[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMSUB\n"
 	   "@SYNTAX=IMSUB(inumber1,inumber2)\n"
 	   "@DESCRIPTION="
 	   "IMSUB returns the difference of two complex numbers.\n"
@@ -1345,6 +1463,8 @@ static char const *help_imsub = {
 	   "IMSUB(\"3-j\",\"2+j\") equals 1-2j.\n"
 	   "\n"
 	   "@SEEALSO=IMSUM")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1365,8 +1485,9 @@ gnumeric_imsub (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_improduct = {
-	N_("@FUNCTION=IMPRODUCT\n"
+static GnmFuncHelp const help_improduct[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMPRODUCT\n"
 	   "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
 	   "@DESCRIPTION="
 	   "IMPRODUCT returns the product of given complex numbers.\n"
@@ -1379,6 +1500,8 @@ static char const *help_improduct = {
 	   "IMPRODUCT(\"2-j\",\"4-2j\") equals 6-8j.\n"
 	   "\n"
 	   "@SEEALSO=IMDIV")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -1437,8 +1560,9 @@ gnumeric_improduct (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_imsum = {
-	N_("@FUNCTION=IMSUM\n"
+static GnmFuncHelp const help_imsum[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IMSUM\n"
 	   "@SYNTAX=IMSUM(inumber1,inumber2)\n"
 	   "@DESCRIPTION="
 	   "IMSUM returns the sum of two complex numbers.\n"
@@ -1451,6 +1575,8 @@ static char const *help_imsum = {
 	   "IMSUM(\"2-4j\",\"9-j\") equals 11-5j.\n"
 	   "\n"
 	   "@SEEALSO=IMSUB")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1474,131 +1600,131 @@ gnumeric_imsum (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 /***************************************************************************/
 
 GnmFuncDescriptor const complex_functions[] = {
-        { "complex",     "ff|s", N_("real,im,suffix"), &help_complex,
+        { "complex",     "ff|s", N_("real,im,suffix"), help_complex,
 	  gnumeric_complex, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imabs",       "S",    N_("inumber"), &help_imabs,
+        { "imabs",       "S",    N_("inumber"), help_imabs,
 	  gnumeric_imabs, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imaginary",   "S",    N_("inumber"), &help_imaginary,
+        { "imaginary",   "S",    N_("inumber"), help_imaginary,
 	  gnumeric_imaginary, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imargument",  "S",    N_("inumber"), &help_imargument,
+        { "imargument",  "S",    N_("inumber"), help_imargument,
 	  gnumeric_imargument, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imconjugate", "S",    N_("inumber"), &help_imconjugate,
+        { "imconjugate", "S",    N_("inumber"), help_imconjugate,
 	  gnumeric_imconjugate, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imcos",       "S",    N_("inumber"), &help_imcos,
+        { "imcos",       "S",    N_("inumber"), help_imcos,
 	  gnumeric_imcos, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imdiv",       "SS",   N_("inumber,inumber"), &help_imdiv,
+        { "imdiv",       "SS",   N_("inumber,inumber"), help_imdiv,
 	  gnumeric_imdiv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imexp",       "S",    N_("inumber"), &help_imexp,
+        { "imexp",       "S",    N_("inumber"), help_imexp,
 	  gnumeric_imexp, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imln",        "S",    N_("inumber"), &help_imln,
+        { "imln",        "S",    N_("inumber"), help_imln,
 	  gnumeric_imln, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imlog10",     "S",    N_("inumber"), &help_imlog10,
+        { "imlog10",     "S",    N_("inumber"), help_imlog10,
 	  gnumeric_imlog10, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imlog2",      "S",    N_("inumber"), &help_imlog2,
+        { "imlog2",      "S",    N_("inumber"), help_imlog2,
 	  gnumeric_imlog2, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "impower",     "SS",   N_("inumber,inumber"), &help_impower,
+        { "impower",     "SS",   N_("inumber,inumber"), help_impower,
 	  gnumeric_impower, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imreal",      "S",    N_("inumber"), &help_imreal,
+        { "imreal",      "S",    N_("inumber"), help_imreal,
 	  gnumeric_imreal, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imsin",       "S",    N_("inumber"), &help_imsin,
+        { "imsin",       "S",    N_("inumber"), help_imsin,
 	  gnumeric_imsin, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imsqrt",      "S",    N_("inumber"), &help_imsqrt,
+        { "imsqrt",      "S",    N_("inumber"), help_imsqrt,
 	  gnumeric_imsqrt, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imsub",       "SS",   N_("inumber,inumber"), &help_imsub,
+        { "imsub",       "SS",   N_("inumber,inumber"), help_imsub,
 	  gnumeric_imsub, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imsum",       NULL,   N_("inumber,inumber"), &help_imsum,
+        { "imsum",       NULL,   N_("inumber,inumber"), help_imsum,
 	  NULL, gnumeric_imsum, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-        { "iminv",   "S",    N_("inumber"), &help_iminv,
+        { "iminv",   "S",    N_("inumber"), help_iminv,
 	  gnumeric_iminv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "imneg",   "S",    N_("inumber"), &help_imneg,
+        { "imneg",   "S",    N_("inumber"), help_imneg,
 	  gnumeric_imneg, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imtan",       "S",    N_("inumber"), &help_imtan,
+        { "imtan",       "S",    N_("inumber"), help_imtan,
 	  gnumeric_imtan, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "improduct",   NULL,   N_("inumber,inumber"), &help_improduct,
+        { "improduct",   NULL,   N_("inumber,inumber"), help_improduct,
 	  NULL, gnumeric_improduct, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imsec",       "S",    N_("inumber"), &help_imsec,
+        { "imsec",       "S",    N_("inumber"), help_imsec,
 	  gnumeric_imsec, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imcsc",       "S",    N_("inumber"), &help_imcsc,
+        { "imcsc",       "S",    N_("inumber"), help_imcsc,
 	  gnumeric_imcsc, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imcot",       "S",    N_("inumber"), &help_imcot,
+        { "imcot",       "S",    N_("inumber"), help_imcot,
 	  gnumeric_imcot, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imsinh",       "S",   N_("inumber"), &help_imsinh,
+        { "imsinh",       "S",   N_("inumber"), help_imsinh,
 	  gnumeric_imsinh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imcosh",       "S",   N_("inumber"), &help_imcosh,
+        { "imcosh",       "S",   N_("inumber"), help_imcosh,
 	  gnumeric_imcosh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imtanh",       "S",   N_("inumber"), &help_imtanh,
+        { "imtanh",       "S",   N_("inumber"), help_imtanh,
 	  gnumeric_imtanh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imsech",       "S",   N_("inumber"), &help_imsech,
+        { "imsech",       "S",   N_("inumber"), help_imsech,
 	  gnumeric_imsech, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imcsch",       "S",   N_("inumber"), &help_imcsch,
+        { "imcsch",       "S",   N_("inumber"), help_imcsch,
 	  gnumeric_imcsch, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imcoth",       "S",   N_("inumber"), &help_imcoth,
+        { "imcoth",       "S",   N_("inumber"), help_imcoth,
 	  gnumeric_imcoth, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imarcsin",     "S",   N_("inumber"), &help_imarcsin,
+        { "imarcsin",     "S",   N_("inumber"), help_imarcsin,
 	  gnumeric_imarcsin, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imarccos",     "S",   N_("inumber"), &help_imarccos,
+        { "imarccos",     "S",   N_("inumber"), help_imarccos,
 	  gnumeric_imarccos, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imarctan",     "S",   N_("inumber"), &help_imarctan,
+        { "imarctan",     "S",   N_("inumber"), help_imarctan,
 	  gnumeric_imarctan, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imarcsec",     "S",   N_("inumber"), &help_imarcsec,
+        { "imarcsec",     "S",   N_("inumber"), help_imarcsec,
 	  gnumeric_imarcsec, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imarccsc",     "S",   N_("inumber"), &help_imarccsc,
+        { "imarccsc",     "S",   N_("inumber"), help_imarccsc,
 	  gnumeric_imarccsc, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imarccot",     "S",   N_("inumber"), &help_imarccot,
+        { "imarccot",     "S",   N_("inumber"), help_imarccot,
 	  gnumeric_imarccot, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imarcsinh",    "S",   N_("inumber"), &help_imarcsinh,
+        { "imarcsinh",    "S",   N_("inumber"), help_imarcsinh,
 	  gnumeric_imarcsinh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imarccosh",    "S",   N_("inumber"), &help_imarccosh,
+        { "imarccosh",    "S",   N_("inumber"), help_imarccosh,
 	  gnumeric_imarccosh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imarctanh",    "S",   N_("inumber"), &help_imarctanh,
+        { "imarctanh",    "S",   N_("inumber"), help_imarctanh,
 	  gnumeric_imarctanh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imarcsech",    "S",   N_("inumber"), &help_imarcsech,
+        { "imarcsech",    "S",   N_("inumber"), help_imarcsech,
 	  gnumeric_imarcsech, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imarccsch",    "S",   N_("inumber"), &help_imarccsch,
+        { "imarccsch",    "S",   N_("inumber"), help_imarccsch,
 	  gnumeric_imarccsch, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "imarccoth",    "S",   N_("inumber"), &help_imarccoth,
+        { "imarccoth",    "S",   N_("inumber"), help_imarccoth,
 	  gnumeric_imarccoth, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         {NULL}

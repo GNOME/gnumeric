@@ -22,7 +22,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include <func.h>
 
@@ -35,6 +34,7 @@
 #include <src/gnm-format.h>
 #include <workbook.h>
 #include <sheet.h>
+#include <gnm-i18n.h>
 
 #include <math.h>
 #include <string.h>
@@ -57,8 +57,9 @@ make_date (GnmValue *res)
 
 /***************************************************************************/
 
-static char const *help_date = {
-	N_("@FUNCTION=DATE\n"
+static GnmFuncHelp const help_date[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=DATE\n"
 	   "@SYNTAX=DATE (year,month,day)\n"
 
 	   "@DESCRIPTION="
@@ -76,6 +77,8 @@ static char const *help_date = {
 	   "DATE(2001, 3, 30) returns 'Mar 30, 2001'.\n "
 	   "\n"
 	   "@SEEALSO=TODAY, NOW")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -127,8 +130,9 @@ gnumeric_date (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_unix2date = {
-	N_("@FUNCTION=UNIX2DATE\n"
+static GnmFuncHelp const help_unix2date[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=UNIX2DATE\n"
 	   "@SYNTAX=UNIX2DATE(unixtime)\n"
 
 	   "@DESCRIPTION="
@@ -140,6 +144,8 @@ static char const *help_unix2date = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=NOW, DATE, DATE2UNIX")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -158,8 +164,9 @@ gnumeric_unix2date (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_date2unix = {
-	N_("@FUNCTION=DATE2UNIX\n"
+static GnmFuncHelp const help_date2unix[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=DATE2UNIX\n"
 	   "@SYNTAX=DATE2UNIX(serial)\n"
 
 	   "@DESCRIPTION="
@@ -173,6 +180,8 @@ static char const *help_date2unix = {
 	   "DATE2UNIX(\"01/01/2000\") equals 946656000.\n"
 	   "\n"
 	   "@SEEALSO=NOW, DATE, UNIX2DATE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -192,8 +201,9 @@ gnumeric_date2unix (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_datevalue = {
-	N_("@FUNCTION=DATEVALUE\n"
+static GnmFuncHelp const help_datevalue[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=DATEVALUE\n"
 	   "@SYNTAX=DATEVALUE(date_str)\n"
 
 	   "@DESCRIPTION="
@@ -207,6 +217,8 @@ static char const *help_datevalue = {
 	   "DATEVALUE(\"1/1/1999\") equals 36161 (in the 1900 convention)."
 	   "\n"
 	   "@SEEALSO=DATE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -217,8 +229,9 @@ gnumeric_datevalue (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_datedif = {
-	N_("@FUNCTION=DATEDIF\n"
+static GnmFuncHelp const help_datedif[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=DATEDIF\n"
 	   "@SYNTAX=DATEDIF(date1,date2,interval)\n"
 
 	   "@DESCRIPTION="
@@ -241,6 +254,8 @@ static char const *help_datedif = {
 	   "DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\"y\") equals 3.\n"
 	   "\n"
 	   "@SEEALSO=DATE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static int
@@ -366,8 +381,9 @@ gnumeric_datedif (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_edate = {
-	N_("@FUNCTION=EDATE\n"
+static GnmFuncHelp const help_edate[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=EDATE\n"
 	   "@SYNTAX=EDATE(date,months)\n"
 
 	   "@DESCRIPTION="
@@ -384,6 +400,8 @@ static char const *help_edate = {
 	   "EDATE(DATE(2001,12,30),2) returns 'Feb 28, 2002'.\n"
 	   "\n"
 	   "@SEEALSO=DATE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -416,8 +434,9 @@ gnumeric_edate (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_today = {
-	N_("@FUNCTION=TODAY\n"
+static GnmFuncHelp const help_today[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=TODAY\n"
 	   "@SYNTAX=TODAY()\n"
 
 	   "@DESCRIPTION="
@@ -429,6 +448,8 @@ static char const *help_today = {
 	   "TODAY() returns 'Nov 6, 2001' on that particular day.\n "
 	   "\n"
 	   "@SEEALSO=NOW")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -439,8 +460,9 @@ gnumeric_today (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_now = {
-	N_("@FUNCTION=NOW\n"
+static GnmFuncHelp const help_now[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=NOW\n"
 	   "@SYNTAX=NOW ()\n"
 
 	   "@DESCRIPTION="
@@ -460,6 +482,8 @@ static char const *help_now = {
 	   "NOW().\n"
 	   "\n"
 	   "@SEEALSO=TODAY")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -470,8 +494,9 @@ gnumeric_now (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_time = {
-	N_("@FUNCTION=TIME\n"
+static GnmFuncHelp const help_time[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=TIME\n"
 	   "@SYNTAX=TIME (hours,minutes,seconds)\n"
 
 	   "@DESCRIPTION="
@@ -482,6 +507,8 @@ static char const *help_time = {
 	   "TIME(3, 5, 23) equals 3:05AM.\n"
 	   "\n"
 	   "@SEEALSO=HOUR")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -499,8 +526,9 @@ gnumeric_time (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_timevalue = {
-	N_("@FUNCTION=TIMEVALUE\n"
+static GnmFuncHelp const help_timevalue[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=TIMEVALUE\n"
 	   "@SYNTAX=TIMEVALUE (timetext)\n"
 
 	   "@DESCRIPTION="
@@ -513,6 +541,8 @@ static char const *help_timevalue = {
 	   "TIMEVALUE(\"2:24:53 PM\") equals 0.600613.\n"
 	   "\n"
 	   "@SEEALSO=HOUR,MINUTE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -524,8 +554,9 @@ gnumeric_timevalue (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_hour = {
-	N_("@FUNCTION=HOUR\n"
+static GnmFuncHelp const help_hour[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=HOUR\n"
 	   "@SYNTAX=HOUR (date)\n"
 
 	   "@DESCRIPTION="
@@ -541,6 +572,8 @@ static char const *help_hour = {
 	   "HOUR(0.128472) equals 3.\n"
 	   "\n"
 	   "@SEEALSO=MINUTE, NOW, TIME, SECOND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -553,8 +586,9 @@ gnumeric_hour (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_minute = {
-	N_("@FUNCTION=MINUTE\n"
+static GnmFuncHelp const help_minute[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=MINUTE\n"
 	   "@SYNTAX=MINUTE (date)\n"
 
 	   "@DESCRIPTION="
@@ -570,6 +604,8 @@ static char const *help_minute = {
 	   "MINUTE(0.128472) equals 5.\n"
 	   "\n"
 	   "@SEEALSO=HOUR, NOW, TIME, SECOND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -583,8 +619,9 @@ gnumeric_minute (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_second = {
-	N_("@FUNCTION=SECOND\n"
+static GnmFuncHelp const help_second[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SECOND\n"
 	   "@SYNTAX=SECOND (date)\n"
 
 	   "@DESCRIPTION="
@@ -600,6 +637,8 @@ static char const *help_second = {
 	   "SECOND(0.600613) equals 53.\n"
 	   "\n"
 	   "@SEEALSO=HOUR, MINUTE, NOW, TIME")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -613,8 +652,9 @@ gnumeric_second (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_year = {
-	N_("@FUNCTION=YEAR\n"
+static GnmFuncHelp const help_year[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=YEAR\n"
 	   "@SYNTAX=YEAR (date)\n"
 
 	   "@DESCRIPTION="
@@ -629,6 +669,8 @@ static char const *help_year = {
 	   "YEAR(DATE(2003, 4, 30)) equals 2003.\n"
 	   "\n"
 	   "@SEEALSO=DAY, MONTH, TIME, NOW")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -644,8 +686,9 @@ gnumeric_year (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_month = {
-	N_("@FUNCTION=MONTH\n"
+static GnmFuncHelp const help_month[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=MONTH\n"
 	   "@SYNTAX=MONTH (date)\n"
 
 	   "@DESCRIPTION="
@@ -660,6 +703,8 @@ static char const *help_month = {
 	   "MONTH(DATE(2003, 4, 30)) equals 4.\n"
 	   "\n"
 	   "@SEEALSO=DAY, TIME, NOW, YEAR")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -675,8 +720,9 @@ gnumeric_month (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_day = {
-	N_("@FUNCTION=DAY\n"
+static GnmFuncHelp const help_day[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=DAY\n"
 	   "@SYNTAX=DAY (date)\n"
 
 	   "@DESCRIPTION="
@@ -691,6 +737,8 @@ static char const *help_day = {
 	   "DAY(\"10/24/1968\") equals 24.\n"
 	   "\n"
 	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -706,8 +754,9 @@ gnumeric_day (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_weekday = {
-	N_("@FUNCTION=WEEKDAY\n"
+static GnmFuncHelp const help_weekday[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=WEEKDAY\n"
 	   "@SYNTAX=WEEKDAY (date[, method])\n"
 
 	   "@DESCRIPTION="
@@ -729,6 +778,8 @@ static char const *help_weekday = {
 	   "WEEKDAY(\"10/24/1968\") equals 5 (Thursday).\n"
 	   "\n"
 	   "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -757,8 +808,9 @@ gnumeric_weekday (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_days360 = {
-	N_("@FUNCTION=DAYS360 \n"
+static GnmFuncHelp const help_days360[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=DAYS360 \n"
 	   "@SYNTAX=DAYS360 (date1,date2,method)\n"
 
 	   "@DESCRIPTION="
@@ -785,6 +837,8 @@ static char const *help_days360 = {
 	   "DAYS360(DATE(2003, 2, 3), DATE(2007, 4, 2)) equals 1499.\n"
 	   "\n"
 	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -811,8 +865,9 @@ gnumeric_days360 (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_eomonth = {
-	N_("@FUNCTION=EOMONTH\n"
+static GnmFuncHelp const help_eomonth[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=EOMONTH\n"
 	   "@SYNTAX=EOMONTH (start_date,months)\n"
 
 	   "@DESCRIPTION="
@@ -827,6 +882,8 @@ static char const *help_eomonth = {
 	   "EOMONTH(A1,5)=5/31/01, and EOMONTH(A1,2)=2/28/01\n"
 	   "\n"
 	   "@SEEALSO=MONTH")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -860,8 +917,9 @@ gnumeric_eomonth (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_workday = {
-	N_("@FUNCTION=WORKDAY\n"
+static GnmFuncHelp const help_workday[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=WORKDAY\n"
 	   "@SYNTAX=WORKDAY (start_date,days[,holidays])\n"
 
 	   "@DESCRIPTION="
@@ -877,6 +935,8 @@ static char const *help_workday = {
 	   "MONTH(WORKDAY(DATE(2001,1,5),30)) equals 2.\n"
 	   "\n"
 	   "@SEEALSO=NETWORKDAYS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -928,8 +988,9 @@ gnumeric_workday (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_networkdays = {
-	N_("@FUNCTION=NETWORKDAYS\n"
+static GnmFuncHelp const help_networkdays[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=NETWORKDAYS\n"
 	   "@SYNTAX=NETWORKDAYS (start_date,end_date[,holidays])\n"
 
 	   "@DESCRIPTION="
@@ -945,6 +1006,8 @@ static char const *help_networkdays = {
 	   "NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15)) equals 33.\n"
 	   "\n"
 	   "@SEEALSO=WORKDAY")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 /*
@@ -1053,8 +1116,9 @@ gnumeric_networkdays (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_isoweeknum = {
-	N_("@FUNCTION=ISOWEEKNUM\n"
+static GnmFuncHelp const help_isoweeknum[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ISOWEEKNUM\n"
 	   "@SYNTAX=ISOWEEKNUM (date)\n"
 
 	   "@DESCRIPTION="
@@ -1072,6 +1136,8 @@ static char const *help_isoweeknum = {
 	   "If A1 contains 12/21/00 then ISOWEEKNUM(A1)=51"
 	   "\n"
 	   "@SEEALSO=WEEKNUM, ISOYEAR")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1087,8 +1153,9 @@ gnumeric_isoweeknum (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_isoyear = {
-	N_("@FUNCTION=ISOYEAR\n"
+static GnmFuncHelp const help_isoyear[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ISOYEAR\n"
 	   "@SYNTAX=ISOYEAR (date)\n"
 
 	   "@DESCRIPTION="
@@ -1107,6 +1174,8 @@ static char const *help_isoyear = {
 	   "If A1 contains 12/31/2001 then ISOYEAR(A1)=2002"
 	   "\n"
 	   "@SEEALSO=ISOWEEKNUM")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1134,8 +1203,9 @@ gnumeric_isoyear (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_weeknum = {
-	N_("@FUNCTION=WEEKNUM\n"
+static GnmFuncHelp const help_weeknum[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=WEEKNUM\n"
 	   "@SYNTAX=WEEKNUM (date[,method])\n"
 
 	   "@DESCRIPTION="
@@ -1157,6 +1227,8 @@ static char const *help_weeknum = {
 	   "If A1 contains 12/21/00 then WEEKNUM(A1,2)=51"
 	   "\n"
 	   "@SEEALSO=ISOWEEKNUM")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1179,8 +1251,9 @@ gnumeric_weeknum (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_yearfrac = {
-	N_("@FUNCTION=YEARFRAC\n"
+static GnmFuncHelp const help_yearfrac[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=YEARFRAC\n"
 	   "@SYNTAX=YEARFRAC (start_date, end_date [,basis])\n"
 
 	   "@DESCRIPTION="
@@ -1190,6 +1263,8 @@ static char const *help_yearfrac = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=DATEDIF")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1213,104 +1288,104 @@ gnumeric_yearfrac (FunctionEvalInfo *ei, GnmValue **argv)
 /***************************************************************************/
 
 GnmFuncDescriptor const datetime_functions[] = {
-	{ "date",        "fff",  N_("year,month,day"), &help_date,
+	{ "date",        "fff",  N_("year,month,day"), help_date,
 	  gnumeric_date, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_DATE,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "datevalue",   "f",    N_("date_str"), &help_datevalue,
+	{ "datevalue",   "f",    N_("date_str"), help_datevalue,
 	  gnumeric_datevalue, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "datedif",     "ffs",  N_("date1,date2,interval"), &help_datedif,
+	{ "datedif",     "ffs",  N_("date1,date2,interval"), help_datedif,
 	  gnumeric_datedif, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "day",         "f",    N_("date"), &help_day,
+	{ "day",         "f",    N_("date"), help_day,
 	  gnumeric_day, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "days360",     "ff|f", N_("date1,date2,method"), &help_days360,
+	{ "days360",     "ff|f", N_("date1,date2,method"), help_days360,
 	  gnumeric_days360, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "edate",       "ff",   N_("date,months"), &help_edate,
+	{ "edate",       "ff",   N_("date,months"), help_edate,
 	  gnumeric_edate, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_DATE,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "eomonth",     "f|f",  N_("start_date,months"), &help_eomonth,
+	{ "eomonth",     "f|f",  N_("start_date,months"), help_eomonth,
 	  gnumeric_eomonth, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_DATE,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "hour",        "f",    N_("time"), &help_hour,
+	{ "hour",        "f",    N_("time"), help_hour,
 	  gnumeric_hour, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "minute",      "f",    N_("time"), &help_minute,
+	{ "minute",      "f",    N_("time"), help_minute,
 	  gnumeric_minute, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "month",       "f",    N_("date"), &help_month,
+	{ "month",       "f",    N_("date"), help_month,
 	  gnumeric_month, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "networkdays", "ff|?", N_("start_date,end_date,holidays"),
-	  &help_networkdays, gnumeric_networkdays, NULL, NULL, NULL, NULL,
+	  help_networkdays, gnumeric_networkdays, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "now",         "",     "", &help_now,
+	{ "now",         "",     "", help_now,
 	  gnumeric_now, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_VOLATILE + GNM_FUNC_AUTO_TIME,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "second",      "f",    N_("time"), &help_second,
+	{ "second",      "f",    N_("time"), help_second,
 	  gnumeric_second, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "time",        "fff",  N_("hours,minutes,seconds"), &help_time,
+	{ "time",        "fff",  N_("hours,minutes,seconds"), help_time,
 	  gnumeric_time, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_TIME,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "timevalue",   "f",    N_("timetext"), &help_timevalue,
+	{ "timevalue",   "f",    N_("timetext"), help_timevalue,
 	  gnumeric_timevalue, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "today",       "",     "", &help_today,
+	{ "today",       "",     "", help_today,
 	  gnumeric_today, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_VOLATILE + GNM_FUNC_AUTO_DATE,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "weekday",     "f|f",  N_("date"), &help_weekday,
+	{ "weekday",     "f|f",  N_("date"), help_weekday,
 	  gnumeric_weekday, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "weeknum",     "f|f",  N_("date"), &help_weeknum,
+	{ "weeknum",     "f|f",  N_("date"), help_weeknum,
 	  gnumeric_weeknum, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "workday",     "ff|?", N_("date,days,holidays"), &help_workday,
+	{ "workday",     "ff|?", N_("date,days,holidays"), help_workday,
 	  gnumeric_workday, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_DATE,
 	  GNM_FUNC_IMPL_STATUS_SUBSET, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "year",        "f",    N_("date"), &help_year,
+	{ "year",        "f",    N_("date"), help_year,
 	  gnumeric_year, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "yearfrac", 	"ff|f",    N_("date"), &help_yearfrac,
+	{ "yearfrac", 	"ff|f",    N_("date"), help_yearfrac,
 	  gnumeric_yearfrac, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
-	{ "unix2date",   "f",    N_("unixtime"), &help_unix2date,
+	{ "unix2date",   "f",    N_("unixtime"), help_unix2date,
 	  gnumeric_unix2date, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_DATE,
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "date2unix",   "f",    N_("serial"), &help_date2unix,
+	{ "date2unix",   "f",    N_("serial"), help_date2unix,
 	  gnumeric_date2unix, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "isoweeknum",  "f",    N_("date"), &help_isoweeknum,
+	{ "isoweeknum",  "f",    N_("date"), help_isoweeknum,
 	  gnumeric_isoweeknum, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "isoyear",     "f",    N_("date"), &help_isoyear,
+	{ "isoyear",     "f",    N_("date"), help_isoyear,
 	  gnumeric_isoyear, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },

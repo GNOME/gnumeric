@@ -29,13 +29,14 @@
 #include <gnumeric.h>
 
 #include "func.h"
-#include <goffice/utils/numbers.h>
 #include "mathfunc.h"
-#include <goffice/app/go-plugin.h>
 #include "value.h"
+#include "gnm-i18n.h"
+
+#include <goffice/utils/numbers.h>
+#include <goffice/app/go-plugin.h>
 #include <goffice/app/module-plugin-defs.h>
 
-#include <glib/gi18n.h>
 #include <math.h>
 #include <string.h>
 
@@ -153,9 +154,10 @@ cum_biv_norm_dist(FunctionEvalInfo *ei, GnmValue *argv[])
 		return value_new_float (result);
 }
 
-static char const *help_cum_biv_norm_dist = {
+static GnmFuncHelp const help_cum_biv_norm_dist[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=CUM_BIV_NORM_DIST\n"
+	F_("@FUNCTION=CUM_BIV_NORM_DIST\n"
 
 	   "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
 	   "@DESCRIPTION="
@@ -168,6 +170,8 @@ static char const *help_cum_biv_norm_dist = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -213,8 +217,9 @@ opt_bs (FunctionEvalInfo *ei, GnmValue *argv[])
 	return value_new_float (gfresult);
 }
 
-static char const *help_opt_bs = {
-	N_("@FUNCTION=OPT_BS\n"
+static GnmFuncHelp const help_opt_bs[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=OPT_BS\n"
 	   "@SYNTAX=OPT_BS(call_put_flag,spot,strike,time,rate,volatility [,"
 	   "cost_of_carry])\n"
 	   "@DESCRIPTION="
@@ -237,6 +242,8 @@ static char const *help_opt_bs = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 /* Delta for the generalized Black and Scholes formula */
@@ -280,8 +287,9 @@ opt_bs_delta (FunctionEvalInfo *ei, GnmValue *argv[])
 	return value_new_float (gfresult);
 }
 
-static char const *help_opt_bs_delta = {
-	N_("@FUNCTION=OPT_BS_DELTA\n"
+static GnmFuncHelp const help_opt_bs_delta[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=OPT_BS_DELTA\n"
 
 	   "@SYNTAX=OPT_BS_DELTA(call_put_flag,spot,strike,time,rate,"
 	   "volatility[,cost_of_carry])\n"
@@ -305,6 +313,8 @@ static char const *help_opt_bs_delta = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -332,8 +342,9 @@ opt_bs_gamma (FunctionEvalInfo *ei, GnmValue *argv[])
 	return value_new_float (gfresult);
 }
 
-static char const *help_opt_bs_gamma = {
-	N_("@FUNCTION=OPT_BS_GAMMA\n"
+static GnmFuncHelp const help_opt_bs_gamma[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=OPT_BS_GAMMA\n"
 
 	   "@SYNTAX=OPT_BS_GAMMA(spot,strike,time,rate,volatility[,"
 	   "cost_of_carry])\n"
@@ -360,6 +371,8 @@ static char const *help_opt_bs_gamma = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 /* theta for the generalized Black and Scholes formula */
@@ -399,8 +412,9 @@ opt_bs_theta (FunctionEvalInfo *ei, GnmValue *argv[])
 	return value_new_float (gfresult);
 }
 
-static char const *help_opt_bs_theta = {
-	N_("@FUNCTION=OPT_BS_THETA\n"
+static GnmFuncHelp const help_opt_bs_theta[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=OPT_BS_THETA\n"
 
 	   "@SYNTAX=OPT_BS_THETA(call_put_flag,spot,strike,time,rate,"
 	   "volatility[,cost_of_carry])\n"
@@ -426,6 +440,8 @@ static char const *help_opt_bs_theta = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_VEGA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -452,9 +468,10 @@ opt_bs_vega (FunctionEvalInfo *ei, GnmValue *argv[])
 	return value_new_float (opt_bs_vega1 (s,x,t,r,v,b));
 }
 
-static char const *help_opt_bs_vega = {
+static GnmFuncHelp const help_opt_bs_vega[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_BS_VEGA\n"
+	F_("@FUNCTION=OPT_BS_VEGA\n"
 
 	   "@SYNTAX=OPT_BS_VEGA(spot,strike,time,rate,volatility[,"
 	   "cost_of_carry])\n"
@@ -478,6 +495,8 @@ static char const *help_opt_bs_vega = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -522,9 +541,10 @@ opt_bs_rho (FunctionEvalInfo *ei, GnmValue *argv[])
 	return value_new_float (gfresult);
 }
 
-static char const *help_opt_bs_rho = {
+static GnmFuncHelp const help_opt_bs_rho[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_BS_RHO\n"
+	F_("@FUNCTION=OPT_BS_RHO\n"
 
 	   "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility[,"
 	   "cost_of_carry])\n"
@@ -550,6 +570,8 @@ static char const *help_opt_bs_rho = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 /* Carry for the generalized Black and Scholes formula */
@@ -586,9 +608,10 @@ opt_bs_carrycost (FunctionEvalInfo *ei, GnmValue *argv[])
 }
 
 
-static char const *help_opt_bs_carrycost = {
+static GnmFuncHelp const help_opt_bs_carrycost[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_BS_CARRYCOST\n"
+	F_("@FUNCTION=OPT_BS_CARRYCOST\n"
 
 	   "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,"
 	   "volatility[,cost_of_carry])\n"
@@ -616,6 +639,8 @@ static char const *help_opt_bs_carrycost = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -656,9 +681,10 @@ opt_garman_kohlhagen (FunctionEvalInfo *ei, GnmValue *argv[])
 		return value_new_float (gfresult);
 }
 
-static char const *help_opt_garman_kohlhagen = {
+static GnmFuncHelp const help_opt_garman_kohlhagen[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
+	F_("@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
 
 	   "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,"
 	   "domestic_rate,foreign_rate,volatility[,cost_of_carry])\n"
@@ -683,6 +709,8 @@ static char const *help_opt_garman_kohlhagen = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -725,9 +753,10 @@ opt_french (FunctionEvalInfo *ei, GnmValue *argv[])
 		return value_new_float (gfresult);
 }
 
-static char const *help_opt_french = {
+static GnmFuncHelp const help_opt_french[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_FRENCH\n"
+	F_("@FUNCTION=OPT_FRENCH\n"
 
 	   "@SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,volatility[,cost_of_carry])\n"
 	   "@DESCRIPTION="
@@ -748,6 +777,8 @@ static char const *help_opt_french = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 /* Merton jump diffusion model*/
@@ -787,9 +818,10 @@ opt_jump_diff (FunctionEvalInfo *ei, GnmValue *argv[])
 	return value_new_float (gfresult);
 }
 
-static char const *help_opt_jump_diff = {
+static GnmFuncHelp const help_opt_jump_diff[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_JUMP_DIFF\n"
+	F_("@FUNCTION=OPT_JUMP_DIFF\n"
 
 	   "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,"
 	   "volatility,lambda,gamma)\n"
@@ -810,6 +842,8 @@ static char const *help_opt_jump_diff = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -881,9 +915,10 @@ opt_miltersen_schwartz (FunctionEvalInfo *ei, GnmValue *argv[])
 }
 
 
-static char const *help_opt_miltersen_schwartz = {
+static GnmFuncHelp const help_opt_miltersen_schwartz[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
+	F_("@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
 
 	   "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,x,t1,t2,v_s,"
 	   "v_e,v_f,rho_se,rho_sf,rho_ef,kappa_e,kappa_f)\n"
@@ -910,6 +945,8 @@ static char const *help_opt_miltersen_schwartz = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -991,9 +1028,10 @@ opt_rgw(FunctionEvalInfo *ei, GnmValue *argv[])
 	return value_new_float (gfresult);
 }
 
-static char const *help_opt_rgw = {
+static GnmFuncHelp const help_opt_rgw[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_RGW\n"
+	F_("@FUNCTION=OPT_RGW\n"
 
 	   "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)"
 	   "\n"
@@ -1013,6 +1051,8 @@ static char const *help_opt_rgw = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 /* the Barone-Adesi and Whaley (1987) American approximation */
@@ -1045,9 +1085,10 @@ opt_baw_amer (FunctionEvalInfo *ei, GnmValue *argv[])
 	return value_new_float (gfresult);
 }
 
-static char const *help_opt_baw_amer = {
+static GnmFuncHelp const help_opt_baw_amer[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_BAW_AMER\n"
+	F_("@FUNCTION=OPT_BAW_AMER\n"
 
 	   "@SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,"
 	   "cost_of_carry,volatility)\n"
@@ -1067,6 +1108,8 @@ static char const *help_opt_baw_amer = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 /* American call */
@@ -1228,9 +1271,10 @@ opt_bjer_stens (FunctionEvalInfo *ei, GnmValue *argv[])
 }
 
 
-static char const *help_opt_bjer_stens = {
+static GnmFuncHelp const help_opt_bjer_stens[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_BJERSTENS\n"
+	F_("@FUNCTION=OPT_BJERSTENS\n"
 
 	   "@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,"
 	   "volatility[,cost_of_carry])\n"
@@ -1249,6 +1293,8 @@ static char const *help_opt_bjer_stens = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static gnm_float
@@ -1312,9 +1358,10 @@ opt_exec (FunctionEvalInfo *ei, GnmValue *argv[])
 }
 
 
-static char const *help_opt_exec = {
+static GnmFuncHelp const help_opt_exec[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_EXEC\n"
+	F_("@FUNCTION=OPT_EXEC\n"
 
 	   "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
 	   "cost_of_carry,lambda)\n"
@@ -1335,6 +1382,8 @@ static char const *help_opt_exec = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -1360,9 +1409,10 @@ opt_forward_start(FunctionEvalInfo *ei, GnmValue *argv[])
 }
 
 
-static char const *help_opt_forward_start = {
+static GnmFuncHelp const help_opt_forward_start[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_FORWARD_START\n"
+	F_("@FUNCTION=OPT_FORWARD_START\n"
 
 	   "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,"
 	   "volatility,cost_of_carry)\n"
@@ -1383,6 +1433,8 @@ static char const *help_opt_forward_start = {
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
 	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -1423,9 +1475,10 @@ opt_time_switch (FunctionEvalInfo *ei, GnmValue *argv[])
 
 }
 
-static char const *help_opt_time_switch = {
+static GnmFuncHelp const help_opt_time_switch[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_TIME_SWITCH\n"
+	F_("@FUNCTION=OPT_TIME_SWITCH\n"
 
 	   "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
 	   "cost_of_carry,volatility)\n"
@@ -1450,6 +1503,8 @@ static char const *help_opt_time_switch = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -1480,9 +1535,10 @@ opt_simple_chooser(FunctionEvalInfo *ei, GnmValue *argv[])
 
 }
 
-static char const *help_opt_simple_chooser = {
+static GnmFuncHelp const help_opt_simple_chooser[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_SIMPLE_CHOOSER\n"
+	F_("@FUNCTION=OPT_SIMPLE_CHOOSER\n"
 
 	   "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,"
 	   "rate,cost_of_carry,volatility)\n"
@@ -1502,6 +1558,8 @@ static char const *help_opt_simple_chooser = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -1541,9 +1599,10 @@ opt_complex_chooser(FunctionEvalInfo *ei, GnmValue *argv[])
 
 }
 
-static char const *help_opt_complex_chooser = {
+static GnmFuncHelp const help_opt_complex_chooser[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_COMPLEX_CHOOSER\n"
+	F_("@FUNCTION=OPT_COMPLEX_CHOOSER\n"
 
 	   "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,"
 	   "strike_put,time,time_call,time_put,rate,cost_of_carry,volatility)\n"
@@ -1567,6 +1626,8 @@ static char const *help_opt_complex_chooser = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -1656,9 +1717,10 @@ opt_on_options (FunctionEvalInfo *ei, GnmValue *argv[])
 	return value_new_float (gfresult);
 }
 
-static char const *help_opt_on_options = {
+static GnmFuncHelp const help_opt_on_options[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_ON_OPTIONS\n"
+	F_("@FUNCTION=OPT_ON_OPTIONS\n"
 
 	   "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,"
 	   "rate,cost_of_carry,volatility)\n"
@@ -1679,6 +1741,8 @@ static char const *help_opt_on_options = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -1741,9 +1805,10 @@ opt_extendible_writer (FunctionEvalInfo *ei, GnmValue *argv[])
 	return value_new_float (gfresult);
 }
 
-static char const *help_opt_extendible_writer = {
+static GnmFuncHelp const help_opt_extendible_writer[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
+	F_("@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
 
 	   "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,"
 	   "time1,time2,rate,cost_of_carry,volatility)\n"
@@ -1767,6 +1832,8 @@ static char const *help_opt_extendible_writer = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -1803,9 +1870,10 @@ opt_2_asset_correlation(FunctionEvalInfo *ei, GnmValue *argv[])
 	 return value_new_error_NUM (ei->pos); 
 }
 
-static char const *help_opt_2_asset_correlation = {
+static GnmFuncHelp const help_opt_2_asset_correlation[] = {
+	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_2_ASSET_CORRELATION\n"
+	F_("@FUNCTION=OPT_2_ASSET_CORRELATION\n"
 
 	   "@SYNTAX=OPT_2_ASSSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
 	   "time,cost_of_carry1,cost_of_carry2,rate,volatility1,volatility2,rho)\n"
@@ -1829,6 +1897,8 @@ static char const *help_opt_2_asset_correlation = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -1856,9 +1926,10 @@ opt_euro_exchange(FunctionEvalInfo *ei, GnmValue *argv[])
     return value_new_float(q1 * s1 * gnm_exp((b1 - r) * t) * cum_norm_dist(d1) - q2 * s2 * gnm_exp((b2 - r) * t) * cum_norm_dist(d2));
 }
 
-static char const *help_opt_euro_exchange = { 
+static GnmFuncHelp const help_opt_euro_exchange[] = {
+	{ GNM_FUNC_HELP_OLD,
 	 /* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_EURO_EXCHANGE\n" 
+	F_("@FUNCTION=OPT_EURO_EXCHANGE\n" 
 	"@SYNTAX=OPT_EURO_EXCHANGE(spot1,spot2,qty1,qty2,"
 	"time,rate,cost_of_carry1,cost_of_carry2,"
 	"volatility1,volatility2,rho)\n"
@@ -1877,6 +1948,8 @@ static char const *help_opt_euro_exchange = {
 	"@EXAMPLES=\n"
 	"\n"
 	"@SEEALSO=OPT_AMER_EXCHANGE, OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 }; 
 	 
 
@@ -1899,9 +1972,10 @@ opt_amer_exchange(FunctionEvalInfo *ei, GnmValue *argv[])
     	return value_new_float(opt_bjer_stens1(OS_Call, q1 * s1, q2 * s2, t, r - b2, v,b1 - b2));
 }
 
-static char const *help_opt_amer_exchange = { 
+static GnmFuncHelp const help_opt_amer_exchange[] = {
+	{ GNM_FUNC_HELP_OLD,
 	 /* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_AMER_EXCHANGE\n" 
+	F_("@FUNCTION=OPT_AMER_EXCHANGE\n" 
 	"@SYNTAX=OPT_AMER_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1, volatility2, rho)\n"
 	"@DESCRIPTION="
 	"OPT_AMER_EXCHANGE models the theoretical price of an American "
@@ -1918,6 +1992,8 @@ static char const *help_opt_amer_exchange = {
 	"@EXAMPLES=\n"
 	"\n"
 	"@SEEALSO=OPT_EURO_EXCHANGE, OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 }; 
 
 
@@ -1943,9 +2019,10 @@ opt_spread_approx(FunctionEvalInfo *ei, GnmValue *argv[])
     return value_new_float(opt_bs1(call_put_flag, F, 1.0, t, r, v,0.0) * (f2 + x));
 }
 
-static char const *help_opt_spread_approx = { 
+static GnmFuncHelp const help_opt_spread_approx[] = {
+	{ GNM_FUNC_HELP_OLD,
 	 /* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_SPREAD_APPROX\n" 
+	F_("@FUNCTION=OPT_SPREAD_APPROX\n" 
 	"@SYNTAX=OPT_SPREAD_APPROX(call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,volatility2,rho)\n"
 	"@DESCRIPTION="
 	"OPT_SPREAD_APPROX models the theoretical price of a European option on the spread between two futures contracts.\n"
@@ -1960,6 +2037,8 @@ static char const *help_opt_spread_approx = {
 	"@EXAMPLES=\n"
 	"\n"
 	"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 }; 
 
 	
@@ -1996,9 +2075,10 @@ static GnmValue * opt_float_strk_lkbk(FunctionEvalInfo *ei, GnmValue *argv[])
 	return value_new_error_VALUE (ei->pos);
 }
 
-static char const *help_opt_float_strk_lkbk = { 
+static GnmFuncHelp const help_opt_float_strk_lkbk[] = {
+	{ GNM_FUNC_HELP_OLD,
 	 /* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_FLOAT_STRK_LKBK\n" 
+	F_("@FUNCTION=OPT_FLOAT_STRK_LKBK\n" 
 	"@SYNTAX=OPT_FLOAT_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility)\n"
 	"@DESCRIPTION="
 	"OPT_FLOAT_STRK_LKBK models the theoretical price of an option where the holder of the option may exercise on expiry at the most favourable price observed during the options life of the underlying asset.\n"
@@ -2015,6 +2095,8 @@ static char const *help_opt_float_strk_lkbk = {
 	 "@EXAMPLES=\n"
 	 "\n"
 	 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 			   
@@ -2061,9 +2143,10 @@ opt_fixed_strk_lkbk(FunctionEvalInfo *ei, GnmValue *argv[])
 	return value_new_error_VALUE (ei->pos);
 }
 
-static char const *help_opt_fixed_strk_lkbk = { 
+static GnmFuncHelp const help_opt_fixed_strk_lkbk[] = {
+	{ GNM_FUNC_HELP_OLD,
 	 /* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_FIXED_STRK_LKBK\n" 
+	F_("@FUNCTION=OPT_FIXED_STRK_LKBK\n" 
 	"@SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,volatility)\n"
 	"@DESCRIPTION="
 	"OPT_FIXED_STRK_LKBK models the theoretical price of an option where the holder of the option may exercise on expiry at the most favourable price observed during the options life of the underlying asset.\n"
@@ -2081,6 +2164,8 @@ static char const *help_opt_fixed_strk_lkbk = {
 	 "@EXAMPLES=\n"
 	 "\n"
 	 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
  
@@ -2142,9 +2227,10 @@ opt_binomial(FunctionEvalInfo *ei, GnmValue *argv[])
 	return value_new_float(gf_result);
 }
 
-static char const *help_opt_binomial = { 
+static GnmFuncHelp const help_opt_binomial[] = {
+	{ GNM_FUNC_HELP_OLD,
 	 /* xgettext:no-c-format */
-	N_("@FUNCTION=OPT_BINOMIAL\n" 
+	F_("@FUNCTION=OPT_BINOMIAL\n" 
 	"@SYNTAX=OPT_BINOMIAL(amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, volatility, cost_of_carry)\n"
 	"@DESCRIPTION="
 	"OPT_ models the theoretical price of either an American or European style option using a binomial tree.\n"
@@ -2161,6 +2247,8 @@ static char const *help_opt_binomial = {
 	"@EXAMPLES=\n"
 	"\n"
 	"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	},
+	{ GNM_FUNC_HELP_END }
 }; 
 	
 
@@ -2168,148 +2256,148 @@ static char const *help_opt_binomial = {
 GnmFuncDescriptor const derivatives_functions [] = {
 	{ "opt_bs",
 	  "sfffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
-	  &help_opt_bs, opt_bs, NULL, NULL, NULL, NULL,
+	  help_opt_bs, opt_bs, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bs_delta",
 	  "sffffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
-	  &help_opt_bs_delta, opt_bs_delta, NULL, NULL, NULL, NULL,
+	  help_opt_bs_delta, opt_bs_delta, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bs_rho",
 	  "sffffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
-	  &help_opt_bs_rho, opt_bs_rho, NULL, NULL, NULL, NULL,
+	  help_opt_bs_rho, opt_bs_rho, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bs_theta",
 	  "sffffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
-	  &help_opt_bs_theta, opt_bs_theta, NULL, NULL, NULL, NULL,
+	  help_opt_bs_theta, opt_bs_theta, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bs_gamma",
 	  "fffff|f", N_("spot, strike, time, rate, volatility, cost_of_carry"),
-	  &help_opt_bs_gamma, opt_bs_gamma, NULL, NULL, NULL, NULL,
+	  help_opt_bs_gamma, opt_bs_gamma, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bs_vega",
 	  "fffff|f", N_("spot, strike, time, rate, volatility, cost_of_carry"),
-	  &help_opt_bs_vega, opt_bs_vega, NULL, NULL, NULL, NULL,
+	  help_opt_bs_vega, opt_bs_vega, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bs_carrycost",
 	  "sffffff|f", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"),
-	  &help_opt_bs_carrycost, opt_bs_carrycost, NULL, NULL, NULL, NULL,
+	  help_opt_bs_carrycost, opt_bs_carrycost, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "cum_biv_norm_dist",
 	  "fff", N_("a, b, rho"),
-	  &help_cum_biv_norm_dist, cum_biv_norm_dist, NULL, NULL, NULL, NULL,
+	  help_cum_biv_norm_dist, cum_biv_norm_dist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
 	{ "opt_garman_kohlhagen",
 	  "sffffff", N_("call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"),
-	  &help_opt_garman_kohlhagen, opt_garman_kohlhagen, NULL, NULL, NULL, NULL,
+	  help_opt_garman_kohlhagen, opt_garman_kohlhagen, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_french",
 	  "sfffffff", N_("call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"),
-	  &help_opt_french, opt_french, NULL, NULL, NULL, NULL,
+	  help_opt_french, opt_french, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_jump_diff",
 	  "sfffffff", N_("call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"),
-	  &help_opt_jump_diff, opt_jump_diff, NULL, NULL, NULL, NULL,
+	  help_opt_jump_diff, opt_jump_diff, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_exec",
 	  "sfffffff", N_("call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"),
-	  &help_opt_exec, opt_exec, NULL, NULL, NULL, NULL,
+	  help_opt_exec, opt_exec, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_bjer_stens",
 	  "sffffff", N_("call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"),
-	  &help_opt_bjer_stens, opt_bjer_stens, NULL, NULL, NULL, NULL,
+	  help_opt_bjer_stens, opt_bjer_stens, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_miltersen_schwartz",
 	  "sfffffffffffff", N_("call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, kappa_e, kappa_f)"),
-	  &help_opt_miltersen_schwartz, opt_miltersen_schwartz, NULL, NULL, NULL, NULL,
+	  help_opt_miltersen_schwartz, opt_miltersen_schwartz, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_baw_amer",
 	  "sffffff", N_("call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"),
-	  &help_opt_baw_amer, opt_baw_amer, NULL, NULL, NULL, NULL,
+	  help_opt_baw_amer, opt_baw_amer, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_rgw",
 	  "fffffff", N_("call_put_flag, spot, strike, t1, t2, rate, d, volatility"),
-	  &help_opt_rgw, opt_rgw, NULL, NULL, NULL, NULL,
+	  help_opt_rgw, opt_rgw, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_forward_start",
 	  "sfffffff", N_("call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"),
-	  &help_opt_forward_start, opt_forward_start, NULL, NULL, NULL, NULL,
+	  help_opt_forward_start, opt_forward_start, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_time_switch",
 	  "sfffffffff", N_("call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"),
-	  &help_opt_time_switch, opt_time_switch, NULL, NULL, NULL, NULL,
+	  help_opt_time_switch, opt_time_switch, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_simple_chooser",
 	  "fffffff", N_("spot, strike, time1, time2, rate, cost_of_carry, volatility"),
-	  &help_opt_simple_chooser, opt_simple_chooser, NULL, NULL, NULL, NULL,
+	  help_opt_simple_chooser, opt_simple_chooser, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_complex_chooser",
 	  "fffffffff", N_("spot, strike_call, strike_put, time, time_call, time_put, rate, cost_of_carry, volatility"),
-	  &help_opt_complex_chooser, opt_complex_chooser, NULL, NULL, NULL, NULL,
+	  help_opt_complex_chooser, opt_complex_chooser, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_on_options",
 	  "sffffffff", N_("type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, volatility"),
-	  &help_opt_on_options, opt_on_options, NULL, NULL, NULL, NULL,
+	  help_opt_on_options, opt_on_options, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_extendible_writer",
 	  "sffffffff", N_("type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, volatility"),
-	  &help_opt_extendible_writer, opt_extendible_writer, NULL, NULL, NULL, NULL,
+	  help_opt_extendible_writer, opt_extendible_writer, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_2_asset_correlation",
 	  "sfffffffffff", N_("type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, cost_of_carry2, rate, volatility1, volatility2, rho"),
-	  &help_opt_2_asset_correlation, opt_2_asset_correlation, NULL, NULL, NULL, NULL,
+	  help_opt_2_asset_correlation, opt_2_asset_correlation, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_euro_exchange",
 	  "fffffffffff", N_("spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,volatility2,rho"),
-	  &help_opt_euro_exchange, opt_euro_exchange, NULL, NULL, NULL, NULL,
+	  help_opt_euro_exchange, opt_euro_exchange, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 	
 	{ "opt_amer_exchange",
 	  "fffffffffff", N_("spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,volatility2,rho"),
-	  &help_opt_amer_exchange, opt_amer_exchange, NULL, NULL, NULL, NULL,
+	  help_opt_amer_exchange, opt_amer_exchange, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_spread_approx",
 	  "sffffffff", N_("call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,volatility2,rho"),
-	  &help_opt_spread_approx, opt_spread_approx, NULL, NULL, NULL, NULL,
+	  help_opt_spread_approx, opt_spread_approx, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_float_strk_lkbk",
 	  "sfffffff", N_("call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"),
-	  &help_opt_float_strk_lkbk, opt_float_strk_lkbk, NULL, NULL, NULL, NULL,
+	  help_opt_float_strk_lkbk, opt_float_strk_lkbk, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_fixed_strk_lkbk",
 	  "sffffffff", N_("call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,volatility"),
-	  &help_opt_fixed_strk_lkbk, opt_fixed_strk_lkbk, NULL, NULL, NULL, NULL,
+	  help_opt_fixed_strk_lkbk, opt_fixed_strk_lkbk, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 
 	{ "opt_binomial",
 	  "ssffffff|f", N_("amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, volatility, cost_of_carry"),
-	  &help_opt_binomial, opt_binomial, NULL, NULL, NULL, NULL,
+	  help_opt_binomial, opt_binomial, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 

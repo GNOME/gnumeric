@@ -128,11 +128,26 @@ typedef void		 (*GnmFuncUnlink) (FunctionEvalInfo *ei);
 typedef void	 (*GnmFuncRefNotify) (GnmFunc *f, int refcount);
 typedef gboolean (*GnmFuncLoadDesc)  (GnmFunc const *f, GnmFuncDescriptor *fd);
 
+typedef enum {
+	GNM_FUNC_HELP_END,		/* Format */
+					/* ------ */
+	GNM_FUNC_HELP_OLD,		/* old token based format */
+	GNM_FUNC_HELP_NAME,		/* <NAME>:<1 SENTENCE DESCRIPTION>	(translated) */
+	GNM_FUNC_HELP_ARG,		/* <NAME>:<1 SENTENCE DESCRIPTION> 	(translated) */
+	GNM_FUNC_HELP_DESCRIPTION,	/* <LONG DESCRIPTION reference args using @arg> 	(translated) */
+	GNM_FUNC_HELP_EXAMPLES,		/* <TEXT and EXAMPLES ?? get a hook to enter the sample ?? > 	(translated) */
+	GNM_FUNC_HELP_SEEALSO		/* name,name,name ...			(not translated) */
+} GnmFuncHelpType;
+typedef struct {
+    GnmFuncHelpType	 type;
+    char const		*text;
+} GnmFuncHelp;
+
 struct _GnmFuncDescriptor {
 	char const *name;
 	char const *arg_spec;
 	char const *arg_names;
-	char const **help;	/* this is easier for compilers */
+	GnmFuncHelp const *help;
 	GnmFuncArgs	  fn_args;
 	GnmFuncNodes	  fn_nodes;
 	GnmFuncLink	  linker;
@@ -146,7 +161,7 @@ struct _GnmFuncDescriptor {
 struct _GnmFunc {
 	char const *name;
 	char const *arg_names;
-	char const *help;
+	GnmFuncHelp const *help;
 	GnmFuncType fn_type;
 	union {
 		GnmFuncNodes nodes;

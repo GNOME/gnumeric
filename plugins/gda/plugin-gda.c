@@ -18,7 +18,6 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include <libgda/libgda.h>
 #ifdef HAVE_LIBGNOMEDB
@@ -27,11 +26,12 @@
 #endif
 
 #include "func.h"
+#include "expr.h"
+#include "value.h"
+#include "gnm-i18n.h"
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/error-info.h>
 #include <goffice/app/module-plugin-defs.h>
-#include "expr.h"
-#include "value.h"
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -131,8 +131,9 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 /*
  * execSQL function
  */
-static char const *help_execSQL = {
-	N_("@FUNCTION=EXECSQL\n"
+static GnmFuncHelp const help_execSQL[] = {
+    { GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=EXECSQL\n"
 	   "@SYNTAX=EXECSQL(dsn,username,password,sql)\n"
 	   "@DESCRIPTION="
 	   "The EXECSQL function lets you execute a command in a"
@@ -146,6 +147,8 @@ static char const *help_execSQL = {
 	   " in the \"mydatasource\" GDA data source, you would use:\n"
 	   "EXECSQL(\"mydatasource\",\"username\",\"password\",\"SELECT * FROM customers\")\n"
 	   "@SEEALSO=READDBTABLE")
+    },
+    { GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -195,8 +198,9 @@ gnumeric_execSQL (FunctionEvalInfo *ei, GnmValue **args)
 /*
  * readDBTable function
  */
-static char const *help_readDBTable = {
-	N_("@FUNCTION=READDBTABLE\n"
+static GnmFuncHelp const help_readDBTable[] = {
+    { GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=READDBTABLE\n"
 	   "@SYNTAX=READDBTABLE(dsn,username,password,table)\n"
 	   "@DESCRIPTION="
 	   "The READDBTABLE function lets you get the contents of"
@@ -213,6 +217,8 @@ static char const *help_readDBTable = {
 	   " in the \"mydatasource\" GDA data source, you would use:\n"
 	   "READDBTABLE(\"mydatasource\",\"username\",\"password\",\"customers\")\n"
 	   "@SEEALSO=EXECSQL")
+    },
+    { GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -270,7 +276,7 @@ go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 }
 
 GnmFuncDescriptor gdaif_functions[] = {
-	{"execSQL", "ssss", "dsn,username,password,sql", &help_execSQL, &gnumeric_execSQL, NULL, NULL, NULL },
-	{"readDBTable", "ssss", "dsn,username,password,table", &help_readDBTable, &gnumeric_readDBTable, NULL, NULL, NULL },
+	{"execSQL", "ssss", "dsn,username,password,sql", help_execSQL, &gnumeric_execSQL, NULL, NULL, NULL },
+	{"readDBTable", "ssss", "dsn,username,password,table", help_readDBTable, &gnumeric_readDBTable, NULL, NULL, NULL },
 	{NULL}
 };

@@ -22,7 +22,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include <func.h>
 
@@ -32,15 +31,16 @@
 #include <value.h>
 #include <mathfunc.h>
 #include <collect.h>
+#include <gnm-i18n.h>
+
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 
 #include <math.h>
 #include <limits.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -135,8 +135,9 @@ val_to_base (FunctionEvalInfo *ei,
 
 /***************************************************************************/
 
-static char const *help_base = {
-	N_("@FUNCTION=BASE\n"
+static GnmFuncHelp const help_base[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BASE\n"
 	   "@SYNTAX=BASE(number,base[,length])\n"
 
 	   "@DESCRIPTION="
@@ -152,6 +153,8 @@ static char const *help_base = {
 	   "BASE(255,16,4) equals \"00FF\".\n"
 	   "\n"
 	   "@SEEALSO=DECIMAL")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -170,8 +173,9 @@ gnumeric_base (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_bin2dec = {
-	N_("@FUNCTION=BIN2DEC\n"
+static GnmFuncHelp const help_bin2dec[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BIN2DEC\n"
 	   "@SYNTAX=BIN2DEC(x)\n"
 
 	   "@DESCRIPTION="
@@ -183,6 +187,8 @@ static char const *help_bin2dec = {
 	   "BIN2DEC(101) equals 5.\n"
 	   "\n"
 	   "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -193,8 +199,9 @@ gnumeric_bin2dec (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_bin2oct = {
-	N_("@FUNCTION=BIN2OCT\n"
+static GnmFuncHelp const help_bin2oct[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BIN2OCT\n"
 	   "@SYNTAX=BIN2OCT(number[,places])\n"
 
 	   "@DESCRIPTION="
@@ -209,6 +216,8 @@ static char const *help_bin2oct = {
 	   "BIN2OCT(110111) equals 67.\n"
 	   "\n"
 	   "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -219,8 +228,9 @@ gnumeric_bin2oct (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_bin2hex = {
-	N_("@FUNCTION=BIN2HEX\n"
+static GnmFuncHelp const help_bin2hex[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BIN2HEX\n"
 	   "@SYNTAX=BIN2HEX(number[,places])\n"
 
 	   "@DESCRIPTION="
@@ -235,6 +245,8 @@ static char const *help_bin2hex = {
 	   "BIN2HEX(100111) equals 27.\n"
 	   "\n"
 	   "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -245,8 +257,9 @@ gnumeric_bin2hex (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_dec2bin = {
-	N_("@FUNCTION=DEC2BIN\n"
+static GnmFuncHelp const help_dec2bin[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=DEC2BIN\n"
 	   "@SYNTAX=DEC2BIN(number[,places])\n"
 
 	   "@DESCRIPTION="
@@ -261,6 +274,8 @@ static char const *help_dec2bin = {
 	   "DEC2BIN(42) equals 101010.\n"
 	   "\n"
 	   "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -271,8 +286,9 @@ gnumeric_dec2bin (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_dec2oct = {
-	N_("@FUNCTION=DEC2OCT\n"
+static GnmFuncHelp const help_dec2oct[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=DEC2OCT\n"
 	   "@SYNTAX=DEC2OCT(number[,places])\n"
 
 	   "@DESCRIPTION="
@@ -287,6 +303,8 @@ static char const *help_dec2oct = {
 	   "DEC2OCT(42) equals 52.\n"
 	   "\n"
 	   "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -297,8 +315,9 @@ gnumeric_dec2oct (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_dec2hex = {
-	N_("@FUNCTION=DEC2HEX\n"
+static GnmFuncHelp const help_dec2hex[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=DEC2HEX\n"
 	   "@SYNTAX=DEC2HEX(number[,places])\n"
 
 	   "@DESCRIPTION="
@@ -313,6 +332,8 @@ static char const *help_dec2hex = {
 	   "DEC2HEX(42) equals 2A.\n"
 	   "\n"
 	   "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -323,8 +344,9 @@ gnumeric_dec2hex (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_decimal = {
-	N_("@FUNCTION=DECIMAL\n"
+static GnmFuncHelp const help_decimal[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=DECIMAL\n"
 	   "@SYNTAX=DECIMAL(text,base)\n"
 
 	   "@DESCRIPTION="
@@ -337,6 +359,8 @@ static char const *help_decimal = {
 	   "DECIMAL(\"A1\",16) equals 161.\n"
 	   "\n"
 	   "@SEEALSO=BASE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -352,8 +376,9 @@ gnumeric_decimal (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_oct2dec = {
-	N_("@FUNCTION=OCT2DEC\n"
+static GnmFuncHelp const help_oct2dec[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=OCT2DEC\n"
 	   "@SYNTAX=OCT2DEC(x)\n"
 
 	   "@DESCRIPTION="
@@ -365,6 +390,8 @@ static char const *help_oct2dec = {
 	   "OCT2DEC(\"124\") equals 84.\n"
 	   "\n"
 	   "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -375,8 +402,9 @@ gnumeric_oct2dec (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_oct2bin = {
-	N_("@FUNCTION=OCT2BIN\n"
+static GnmFuncHelp const help_oct2bin[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=OCT2BIN\n"
 	   "@SYNTAX=OCT2BIN(number[,places])\n"
 
 	   "@DESCRIPTION="
@@ -391,6 +419,8 @@ static char const *help_oct2bin = {
 	   "OCT2BIN(\"213\") equals 10001011.\n"
 	   "\n"
 	   "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -401,8 +431,9 @@ gnumeric_oct2bin (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_oct2hex = {
-	N_("@FUNCTION=OCT2HEX\n"
+static GnmFuncHelp const help_oct2hex[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=OCT2HEX\n"
 	   "@SYNTAX=OCT2HEX(number[,places])\n"
 
 	   "@DESCRIPTION="
@@ -417,6 +448,8 @@ static char const *help_oct2hex = {
 	   "OCT2HEX(132) equals 5A.\n"
 	   "\n"
 	   "@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -427,8 +460,9 @@ gnumeric_oct2hex (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_hex2bin = {
-	N_("@FUNCTION=HEX2BIN\n"
+static GnmFuncHelp const help_hex2bin[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=HEX2BIN\n"
 	   "@SYNTAX=HEX2BIN(number[,places])\n"
 
 	   "@DESCRIPTION="
@@ -443,6 +477,8 @@ static char const *help_hex2bin = {
 	   "HEX2BIN(\"2A\") equals 101010.\n"
 	   "\n"
 	   "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -453,8 +489,9 @@ gnumeric_hex2bin (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_hex2oct = {
-	N_("@FUNCTION=HEX2OCT\n"
+static GnmFuncHelp const help_hex2oct[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=HEX2OCT\n"
 	   "@SYNTAX=HEX2OCT(number[,places])\n"
 
 	   "@DESCRIPTION="
@@ -469,6 +506,8 @@ static char const *help_hex2oct = {
 	   "HEX2OCT(\"2A\") equals 52.\n"
 	   "\n"
 	   "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -479,8 +518,9 @@ gnumeric_hex2oct (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_hex2dec = {
-	N_("@FUNCTION=HEX2DEC\n"
+static GnmFuncHelp const help_hex2dec[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=HEX2DEC\n"
 	   "@SYNTAX=HEX2DEC(x)\n"
 
 	   "@DESCRIPTION="
@@ -492,6 +532,8 @@ static char const *help_hex2dec = {
 	   "HEX2DEC(\"2A\") equals 42.\n"
 	   "\n"
 	   "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -502,8 +544,9 @@ gnumeric_hex2dec (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_besseli = {
-	N_("@FUNCTION=BESSELI\n"
+static GnmFuncHelp const help_besseli[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BESSELI\n"
 	   "@SYNTAX=BESSELI(x,y)\n"
 
 	   "@DESCRIPTION="
@@ -521,6 +564,8 @@ static char const *help_besseli = {
 	   "BESSELI(0.7,3) equals 0.007367374.\n"
 	   "\n"
 	   "@SEEALSO=BESSELJ,BESSELK,BESSELY")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -540,8 +585,9 @@ gnumeric_besseli (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_besselk = {
-	N_("@FUNCTION=BESSELK\n"
+static GnmFuncHelp const help_besselk[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BESSELK\n"
 	   "@SYNTAX=BESSELK(x,y)\n"
 
 	   "@DESCRIPTION="
@@ -559,6 +605,8 @@ static char const *help_besselk = {
 	   "BESSELK(3,9) equals 397.95880.\n"
 	   "\n"
 	   "@SEEALSO=BESSELI,BESSELJ,BESSELY")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -577,8 +625,9 @@ gnumeric_besselk (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_besselj = {
-	N_("@FUNCTION=BESSELJ\n"
+static GnmFuncHelp const help_besselj[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BESSELJ\n"
 	   "@SYNTAX=BESSELJ(x,y)\n"
 
 	   "@DESCRIPTION="
@@ -595,6 +644,8 @@ static char const *help_besselj = {
 	   "BESSELJ(0.89,3) equals 0.013974004.\n"
 	   "\n"
 	   "@SEEALSO=BESSELI,BESSELK,BESSELY")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -613,8 +664,9 @@ gnumeric_besselj (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_bessely = {
-	N_("@FUNCTION=BESSELY\n"
+static GnmFuncHelp const help_bessely[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BESSELY\n"
 	   "@SYNTAX=BESSELY(x,y)\n"
 
 	   "@DESCRIPTION="
@@ -632,6 +684,8 @@ static char const *help_bessely = {
 	   "BESSELY(4,2) equals 0.215903595.\n"
 	   "\n"
 	   "@SEEALSO=BESSELI,BESSELJ,BESSELK")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -656,8 +710,9 @@ gnumeric_bessely (FunctionEvalInfo *ei, GnmValue **argv)
  * http://en.wikipedia.org/wiki/SI_unit and
  * http://en.wikipedia.org/wiki/SI_prefix) */
 
-static char const *help_convert = {
-	N_("@FUNCTION=CONVERT\n"
+static GnmFuncHelp const help_convert[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=CONVERT\n"
 	   "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
 	   "@DESCRIPTION="
 	   "CONVERT returns a conversion from one measurement system to "
@@ -757,6 +812,8 @@ static char const *help_convert = {
 	   "CONVERT(7.9,\"cal\",\"J\") equals 33.07567.\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 typedef struct {
@@ -1071,8 +1128,9 @@ gnumeric_convert (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_erf = {
-	N_("@FUNCTION=ERF\n"
+static GnmFuncHelp const help_erf[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ERF\n"
 	   "@SYNTAX=ERF([lower limit,]upper_limit)\n"
 
 	   "@DESCRIPTION="
@@ -1097,6 +1155,8 @@ static char const *help_erf = {
 	   "approximately 1.645 standard deviations of the mean."
 	   "\n"
 	   "@SEEALSO=ERFC")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -1118,8 +1178,9 @@ gnumeric_erf (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_erfc = {
-	N_("@FUNCTION=ERFC\n"
+static GnmFuncHelp const help_erfc[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ERFC\n"
 	   "@SYNTAX=ERFC(x)\n"
 
 	   "@DESCRIPTION="
@@ -1134,6 +1195,8 @@ static char const *help_erfc = {
 	   "ERFC(6) equals 2.15197367e-17.\n"
 	   "\n"
 	   "@SEEALSO=ERF")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1148,8 +1211,9 @@ gnumeric_erfc (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_delta = {
-	N_("@FUNCTION=DELTA\n"
+static GnmFuncHelp const help_delta[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=DELTA\n"
 	   "@SYNTAX=DELTA(x[,y])\n"
 
 	   "@DESCRIPTION="
@@ -1163,6 +1227,8 @@ static char const *help_delta = {
 	   "DELTA(42.99,43) equals 0.\n"
 	   "\n"
 	   "@SEEALSO=EXACT,GESTEP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -1203,8 +1269,9 @@ gnumeric_delta (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_gestep = {
-	N_("@FUNCTION=GESTEP\n"
+static GnmFuncHelp const help_gestep[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=GESTEP\n"
 	   "@SYNTAX=GESTEP(x[,y])\n"
 	   "@DESCRIPTION="
 	   "GESTEP function test for if @x is >= @y, returning 1 if it "
@@ -1217,6 +1284,8 @@ static char const *help_gestep = {
 	   "GESTEP(5,4) equals 1.\n"
 	   "\n"
 	   "@SEEALSO=DELTA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -1257,8 +1326,9 @@ gnumeric_gestep (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_invsuminv = {
-	N_("@FUNCTION=INVSUMINV\n"
+static GnmFuncHelp const help_invsuminv[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=INVSUMINV\n"
 	   "@SYNTAX=INVSUMINV(x1,x2,...)\n"
 	   "@DESCRIPTION="
 	   "INVSUMINV sum calculates the inverse of the sum of inverses.\n"
@@ -1273,6 +1343,8 @@ static char const *help_invsuminv = {
 	   "INVSUMINV(2000,2000) equals 1000.\n"
 	   "\n"
 	   "@SEEALSO=HARMEAN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static int
@@ -1311,84 +1383,84 @@ gnumeric_invsuminv (FunctionEvalInfo *ei, GnmExprList *nodes)
 /***************************************************************************/
 
 const GnmFuncDescriptor engineering_functions[] = {
-        { "base",     "Sf|f",   "text,base,length", &help_base,
+        { "base",     "Sf|f",   "text,base,length", help_base,
 	  gnumeric_base, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
-        { "besseli",     "ff",   "xnum,ynum", &help_besseli,
+        { "besseli",     "ff",   "xnum,ynum", help_besseli,
 	  gnumeric_besseli, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "besselj",     "ff",   "xnum,ynum", &help_besselj,
+        { "besselj",     "ff",   "xnum,ynum", help_besselj,
 	  gnumeric_besselj, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "besselk",     "ff",   "xnum,ynum", &help_besselk,
+        { "besselk",     "ff",   "xnum,ynum", help_besselk,
 	  gnumeric_besselk, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "bessely",     "ff",   "xnum,ynum", &help_bessely,
+        { "bessely",     "ff",   "xnum,ynum", help_bessely,
 	  gnumeric_bessely, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-        { "bin2dec",     "S",    "number", &help_bin2dec,
+        { "bin2dec",     "S",    "number", help_bin2dec,
 	  gnumeric_bin2dec, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "bin2hex",     "S|f",  "xnum,ynum", &help_bin2hex,
+        { "bin2hex",     "S|f",  "xnum,ynum", help_bin2hex,
 	  gnumeric_bin2hex, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "bin2oct",     "S|f",  "xnum,ynum", &help_bin2oct,
+        { "bin2oct",     "S|f",  "xnum,ynum", help_bin2oct,
 	  gnumeric_bin2oct, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-        { "convert",     "fss",  "number,from_unit,to_unit", &help_convert,
+        { "convert",     "fss",  "number,from_unit,to_unit", help_convert,
 	  gnumeric_convert, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "dec2bin",     "S|f",  "xnum,ynum", &help_dec2bin,
+        { "dec2bin",     "S|f",  "xnum,ynum", help_dec2bin,
 	  gnumeric_dec2bin, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "dec2oct",     "S|f",  "xnum,ynum", &help_dec2oct,
+        { "dec2oct",     "S|f",  "xnum,ynum", help_dec2oct,
 	  gnumeric_dec2oct, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "dec2hex",     "S|f",  "xnum,ynum", &help_dec2hex,
+        { "dec2hex",     "S|f",  "xnum,ynum", help_dec2hex,
 	  gnumeric_dec2hex, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "decimal",     "Sf",   "text,base", &help_decimal,
+        { "decimal",     "Sf",   "text,base", help_decimal,
 	  gnumeric_decimal, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
-        { "delta",       "f|f",  "xnum,ynum", &help_delta,
+        { "delta",       "f|f",  "xnum,ynum", help_delta,
 	  gnumeric_delta, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "erf",         "f|f",  "lower,upper", &help_erf,
+        { "erf",         "f|f",  "lower,upper", help_erf,
 	  gnumeric_erf , NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "erfc",        "f",    "number", &help_erfc,
+        { "erfc",        "f",    "number", help_erfc,
 	  gnumeric_erfc, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-        { "gestep",      "f|f",  "xnum,ynum", &help_gestep,
+        { "gestep",      "f|f",  "xnum,ynum", help_gestep,
 	  gnumeric_gestep, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-        { "hex2bin",     "S|f",  "xnum,ynum", &help_hex2bin,
+        { "hex2bin",     "S|f",  "xnum,ynum", help_hex2bin,
 	  gnumeric_hex2bin, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "hex2dec",     "S",    "number", &help_hex2dec,
+        { "hex2dec",     "S",    "number", help_hex2dec,
 	  gnumeric_hex2dec, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "hex2oct",     "S|f",  "xnum,ynum", &help_hex2oct,
+        { "hex2oct",     "S|f",  "xnum,ynum", help_hex2oct,
 	  gnumeric_hex2oct, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-	{ "invsuminv",    NULL, "",           &help_invsuminv,
+	{ "invsuminv",    NULL, "",           help_invsuminv,
 	  NULL, gnumeric_invsuminv, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
-        { "oct2bin",     "S|f",  "xnum,ynum", &help_oct2bin,
+        { "oct2bin",     "S|f",  "xnum,ynum", help_oct2bin,
 	  gnumeric_oct2bin, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "oct2dec",     "S",    "number", &help_oct2dec,
+        { "oct2dec",     "S",    "number", help_oct2dec,
 	  gnumeric_oct2dec, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "oct2hex",     "S|f",  "xnum,ynum", &help_oct2hex,
+        { "oct2hex",     "S|f",  "xnum,ynum", help_oct2hex,
 	  gnumeric_oct2hex, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 

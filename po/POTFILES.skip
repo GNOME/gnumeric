@@ -1,3 +1,9 @@
+# List of source files containing translatable strings.
+# Please keep this file sorted alphabetically.
+#
+# Keep gnumeric/po/POTFILES.{in,skip} and
+#      gnumeric/po-functions/POTFILES.{in,skip}
+# in sync
 src/cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas-text.c
 src/cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas.c
 src/test-pango.c

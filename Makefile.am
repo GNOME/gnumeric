@@ -1,4 +1,4 @@
-SUBDIRS = . po src plugins icons templates doc schemas
+SUBDIRS = . po po-functions src plugins icons templates doc schemas
 # automake does not like subdirs that are not directly below
 #if WITH_WIN32
 #  SUBDIRS += src/cut-n-paste-code/goffice/graph/plugins

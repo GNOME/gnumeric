@@ -22,10 +22,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include <func.h>
-
 #include <parse-util.h>
 #include <mathfunc.h>
 #include <rangefunc.h>
@@ -37,13 +35,13 @@
 #include <expr.h>
 #include <expr-impl.h>
 #include <func-builtin.h>
+#include <gnm-i18n.h>
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -134,8 +132,9 @@ stat_helper (stat_closure_t *cl, GnmEvalPos const *ep, GnmValue *val)
 
 /***************************************************************************/
 
-static char const *help_varp = {
-	N_("@FUNCTION=VARP\n"
+static GnmFuncHelp const help_varp[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=VARP\n"
 	   "@SYNTAX=VARP(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -148,6 +147,8 @@ static char const *help_varp = {
 	   "VARP(A1:A5) equals 94.112.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -163,8 +164,9 @@ gnumeric_varp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_var = {
-	N_("@FUNCTION=VAR\n"
+static GnmFuncHelp const help_var[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=VAR\n"
 	   "@SYNTAX=VAR(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -182,6 +184,8 @@ static char const *help_var = {
 	   "VAR(A1:A5) equals 117.64.\n"
 	   "\n"
 	   "@SEEALSO=VARP,STDEV")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -197,8 +201,9 @@ gnumeric_var (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_stdev = {
-	N_("@FUNCTION=STDEV\n"
+static GnmFuncHelp const help_stdev[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=STDEV\n"
 	   "@SYNTAX=STDEV(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -218,6 +223,8 @@ static char const *help_stdev = {
 	   "STDEV(A1:A5) equals 10.84619749.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -233,8 +240,9 @@ gnumeric_stdev (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_stdevp = {
-	N_("@FUNCTION=STDEVP\n"
+static GnmFuncHelp const help_stdevp[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=STDEVP\n"
 	   "@SYNTAX=STDEVP(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -249,6 +257,8 @@ static char const *help_stdevp = {
 	   "STDEVP(A1:A5) equals 9.701133954.\n"
 	   "\n"
 	   "@SEEALSO=STDEV,STDEVA,STDEVPA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -264,8 +274,9 @@ gnumeric_stdevp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_rank = {
-	N_("@FUNCTION=RANK\n"
+static GnmFuncHelp const help_rank[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=RANK\n"
 	   "@SYNTAX=RANK(x,ref[,order])\n"
 
 	   "@DESCRIPTION="
@@ -282,6 +293,8 @@ static char const *help_rank = {
 	   "RANK(17.3,A1:A5) equals 4.\n"
 	   "\n"
 	   "@SEEALSO=PERCENTRANK")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 typedef struct {
@@ -358,8 +371,9 @@ gnumeric_rank (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_trimmean = {
-	N_("@FUNCTION=TRIMMEAN\n"
+static GnmFuncHelp const help_trimmean[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=TRIMMEAN\n"
 	   "@SYNTAX=TRIMMEAN(ref,fraction)\n"
 
 	   "@DESCRIPTION="
@@ -377,6 +391,8 @@ static char const *help_trimmean = {
 	   "TRIMMEAN(A1:A5,0.2) equals 23.2.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static int
@@ -420,8 +436,9 @@ gnumeric_trimmean (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_covar = {
-	N_("@FUNCTION=COVAR\n"
+static GnmFuncHelp const help_covar[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=COVAR\n"
 	   "@SYNTAX=COVAR(array1,array2)\n"
 
 	   "@DESCRIPTION="
@@ -437,6 +454,8 @@ static char const *help_covar = {
 	   "COVAR(A1:A5,B1:B5) equals 65.858.\n"
 	   "\n"
 	   "@SEEALSO=CORREL,FISHER,FISHERINV")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -452,8 +471,9 @@ gnumeric_covar (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_correl = {
-	N_("@FUNCTION=CORREL\n"
+static GnmFuncHelp const help_correl[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=CORREL\n"
 	   "@SYNTAX=CORREL(array1,array2)\n"
 
 	   "@DESCRIPTION="
@@ -469,6 +489,8 @@ static char const *help_correl = {
 	   "CORREL(A1:A5,B1:B5) equals 0.996124788.\n"
 	   "\n"
 	   "@SEEALSO=COVAR,FISHER,FISHERINV")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -484,8 +506,9 @@ gnumeric_correl (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_negbinomdist = {
-	N_("@FUNCTION=NEGBINOMDIST\n"
+static GnmFuncHelp const help_negbinomdist[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=NEGBINOMDIST\n"
 	   "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
 
 	   "@DESCRIPTION="
@@ -502,6 +525,8 @@ static char const *help_negbinomdist = {
 	   "NEGBINOMDIST(2,5,0.55) equals 0.152872629.\n"
 	   "\n"
 	   "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -522,8 +547,9 @@ gnumeric_negbinomdist (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_normsdist = {
-        N_("@FUNCTION=NORMSDIST\n"
+static GnmFuncHelp const help_normsdist[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=NORMSDIST\n"
            "@SYNTAX=NORMSDIST(x)\n"
 
            "@DESCRIPTION="
@@ -537,6 +563,8 @@ static char const *help_normsdist = {
 	   "NORMSDIST(2) equals 0.977249868.\n"
 	   "\n"
            "@SEEALSO=NORMDIST")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -551,8 +579,9 @@ gnumeric_normsdist (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_normsinv = {
-        N_("@FUNCTION=NORMSINV\n"
+static GnmFuncHelp const help_normsinv[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=NORMSINV\n"
            "@SYNTAX=NORMSINV(p)\n"
 
            "@DESCRIPTION="
@@ -566,6 +595,8 @@ static char const *help_normsinv = {
 	   "NORMSINV(0.2) equals -0.841621234.\n"
 	   "\n"
            "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -583,8 +614,9 @@ gnumeric_normsinv (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_lognormdist = {
-        N_("@FUNCTION=LOGNORMDIST\n"
+static GnmFuncHelp const help_lognormdist[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=LOGNORMDIST\n"
            "@SYNTAX=LOGNORMDIST(x,mean,stddev)\n"
 
            "@DESCRIPTION="
@@ -601,6 +633,8 @@ static char const *help_lognormdist = {
 	   "LOGNORMDIST(3,1,2) equals 0.519662338.\n"
 	   "\n"
            "@SEEALSO=NORMDIST")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -623,8 +657,9 @@ gnumeric_lognormdist (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_loginv = {
-        N_("@FUNCTION=LOGINV\n"
+static GnmFuncHelp const help_loginv[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=LOGINV\n"
            "@SYNTAX=LOGINV(p,mean,stddev)\n"
 
            "@DESCRIPTION="
@@ -641,6 +676,8 @@ static char const *help_loginv = {
 	   "LOGINV(0.5,2,3) equals 7.389056099.\n"
 	   "\n"
            "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -660,8 +697,9 @@ gnumeric_loginv (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_fisherinv = {
-        N_("@FUNCTION=FISHERINV\n"
+static GnmFuncHelp const help_fisherinv[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=FISHERINV\n"
            "@SYNTAX=FISHERINV(x)\n"
 
            "@DESCRIPTION="
@@ -675,6 +713,8 @@ static char const *help_fisherinv = {
 	   "FISHERINV(2) equals 0.96402758.\n"
 	   "\n"
            "@SEEALSO=FISHER")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -687,8 +727,9 @@ gnumeric_fisherinv (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_mode = {
-        N_("@FUNCTION=MODE\n"
+static GnmFuncHelp const help_mode[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=MODE\n"
            "@SYNTAX=MODE(n1, n2, ...)\n"
 
            "@DESCRIPTION="
@@ -707,6 +748,8 @@ static char const *help_mode = {
 	   "MODE(A1:A5) equals 11.4.\n"
 	   "\n"
            "@SEEALSO=AVERAGE,MEDIAN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -723,8 +766,9 @@ gnumeric_mode (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_harmean = {
-	N_("@FUNCTION=HARMEAN\n"
+static GnmFuncHelp const help_harmean[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=HARMEAN\n"
 	   "@SYNTAX=HARMEAN(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -739,6 +783,8 @@ static char const *help_harmean = {
 	   "HARMEAN(A1:A5) equals 19.529814427.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -755,8 +801,9 @@ gnumeric_harmean (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_geomean = {
-	N_("@FUNCTION=GEOMEAN\n"
+static GnmFuncHelp const help_geomean[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=GEOMEAN\n"
 	   "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -770,6 +817,8 @@ static char const *help_geomean = {
 	   "GEOMEAN(A1:A5) equals 21.279182482.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -786,8 +835,9 @@ gnumeric_geomean (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_count = {
-	N_("@FUNCTION=COUNT\n"
+static GnmFuncHelp const help_count[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=COUNT\n"
 	   "@SYNTAX=COUNT(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -801,6 +851,8 @@ static char const *help_count = {
 	   "COUNT(A1:A5) equals 5.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -829,8 +881,9 @@ gnumeric_count (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_counta = {
-        N_("@FUNCTION=COUNTA\n"
+static GnmFuncHelp const help_counta[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=COUNTA\n"
            "@SYNTAX=COUNTA(b1, b2, ...)\n"
 
            "@DESCRIPTION="
@@ -845,6 +898,8 @@ static char const *help_counta = {
 	   "COUNTA(A1:A5) equals 5.\n"
 	   "\n"
            "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -871,8 +926,9 @@ gnumeric_counta (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_average = {
-	N_("@FUNCTION=AVERAGE\n"
+static GnmFuncHelp const help_average[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=AVERAGE\n"
 	   "@SYNTAX=AVERAGE(value1, value2,...)\n"
 
 	   "@DESCRIPTION="
@@ -887,6 +943,8 @@ static char const *help_average = {
 	   "AVERAGE(A1:A5) equals 23.2.\n"
 	   "\n"
 	   "@SEEALSO=SUM, COUNT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -903,8 +961,9 @@ gnumeric_average (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_min = {
-	N_("@FUNCTION=MIN\n"
+static GnmFuncHelp const help_min[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=MIN\n"
 	   "@SYNTAX=MIN(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -919,6 +978,8 @@ static char const *help_min = {
 	   "MIN(A1:A5) equals 11.4.\n"
 	   "\n"
 	   "@SEEALSO=MAX,ABS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static int
@@ -945,8 +1006,9 @@ gnumeric_min (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_max = {
-	N_("@FUNCTION=MAX\n"
+static GnmFuncHelp const help_max[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=MAX\n"
 	   "@SYNTAX=MAX(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -961,6 +1023,8 @@ static char const *help_max = {
 	   "MAX(A1:A5) equals 40.1.\n"
 	   "\n"
 	   "@SEEALSO=MIN,ABS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static int
@@ -987,8 +1051,9 @@ gnumeric_max (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_skew = {
-	N_("@FUNCTION=SKEW\n"
+static GnmFuncHelp const help_skew[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SKEW\n"
 	   "@SYNTAX=SKEW(n1, n2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -1009,6 +1074,8 @@ static char const *help_skew = {
 	   "SKEW(A1:A5) equals 0.976798268.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE,VAR,SKEWP,KURT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1025,8 +1092,9 @@ gnumeric_skew (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_skewp = {
-	N_("@FUNCTION=SKEWP\n"
+static GnmFuncHelp const help_skewp[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SKEWP\n"
 	   "@SYNTAX=SKEWP(n1, n2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -1042,6 +1110,8 @@ static char const *help_skewp = {
 	   "SKEWP(A1:A5) equals 0.655256198.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE,VARP,SKEW,KURTP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1058,8 +1128,9 @@ gnumeric_skewp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_expondist = {
-	N_("@FUNCTION=EXPONDIST\n"
+static GnmFuncHelp const help_expondist[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=EXPONDIST\n"
 	   "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
 
 	   "@DESCRIPTION="
@@ -1075,6 +1146,8 @@ static char const *help_expondist = {
 	   "EXPONDIST(2,4,0) equals 0.001341851.\n"
 	   "\n"
 	   "@SEEALSO=POISSON")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1102,8 +1175,9 @@ gnumeric_expondist (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_bernoulli = {
-        N_("@FUNCTION=BERNOULLI\n"
+static GnmFuncHelp const help_bernoulli[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=BERNOULLI\n"
            "@SYNTAX=BERNOULLI(k,p)\n"
 
            "@DESCRIPTION="
@@ -1117,6 +1191,8 @@ static char const *help_bernoulli = {
            "BERNOULLI(0,0.5).\n"
            "\n"
            "@SEEALSO=RANDBERNOULLI")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static gnm_float
@@ -1144,8 +1220,9 @@ gnumeric_bernoulli (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_gammaln = {
-	N_("@FUNCTION=GAMMALN\n"
+static GnmFuncHelp const help_gammaln[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=GAMMALN\n"
 	   "@SYNTAX=GAMMALN(x)\n"
 
 	   "@DESCRIPTION="
@@ -1160,6 +1237,8 @@ static char const *help_gammaln = {
 	   "GAMMALN(23) equals 48.471181352.\n"
 	   "\n"
 	   "@SEEALSO=POISSON")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1181,8 +1260,9 @@ gnumeric_gammaln (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_gammadist = {
-	N_("@FUNCTION=GAMMADIST\n"
+static GnmFuncHelp const help_gammadist[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=GAMMADIST\n"
 	   "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
 
 	   "@DESCRIPTION="
@@ -1198,6 +1278,8 @@ static char const *help_gammadist = {
 	   "GAMMADIST(1,2,3,0) equals 0.07961459.\n"
 	   "\n"
 	   "@SEEALSO=GAMMAINV")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1222,8 +1304,9 @@ gnumeric_gammadist (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_gammainv = {
-        N_("@FUNCTION=GAMMAINV\n"
+static GnmFuncHelp const help_gammainv[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=GAMMAINV\n"
            "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
 
            "@DESCRIPTION="
@@ -1238,6 +1321,8 @@ static char const *help_gammainv = {
 	   "GAMMAINV(0.34,2,4) equals 4.829093908.\n"
 	   "\n"
            "@SEEALSO=GAMMADIST")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1257,8 +1342,9 @@ gnumeric_gammainv (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_chidist = {
-	N_("@FUNCTION=CHIDIST\n"
+static GnmFuncHelp const help_chidist[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=CHIDIST\n"
 	   "@SYNTAX=CHIDIST(x,dof)\n"
 
 	   "@DESCRIPTION="
@@ -1274,6 +1360,8 @@ static char const *help_chidist = {
 	   "CHIDIST(5.3,2) equals 0.070651213.\n"
 	   "\n"
 	   "@SEEALSO=CHIINV,CHITEST")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1293,8 +1381,9 @@ gnumeric_chidist (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_chiinv = {
-        N_("@FUNCTION=CHIINV\n"
+static GnmFuncHelp const help_chiinv[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=CHIINV\n"
            "@SYNTAX=CHIINV(p,dof)\n"
 
            "@DESCRIPTION="
@@ -1308,6 +1397,8 @@ static char const *help_chiinv = {
 	   "CHIINV(0.98,7) equals 1.564293004.\n"
 	   "\n"
            "@SEEALSO=CHIDIST,CHITEST")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1327,8 +1418,9 @@ gnumeric_chiinv (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_chitest = {
-        N_("@FUNCTION=CHITEST\n"
+static GnmFuncHelp const help_chitest[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=CHITEST\n"
            "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
 
            "@DESCRIPTION="
@@ -1343,6 +1435,8 @@ static char const *help_chitest = {
 	   "@EXAMPLES=\n"
 	   "\n"
            "@SEEALSO=CHIDIST,CHIINV")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 typedef struct {
@@ -1465,8 +1559,9 @@ gnumeric_chitest (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_betadist = {
-	N_("@FUNCTION=BETADIST\n"
+static GnmFuncHelp const help_betadist[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BETADIST\n"
 	   "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
 
 	   "@DESCRIPTION="
@@ -1485,6 +1580,8 @@ static char const *help_betadist = {
 	   "BETADIST(0.12,2,3) equals 0.07319808.\n"
 	   "\n"
 	   "@SEEALSO=BETAINV")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1506,8 +1603,9 @@ gnumeric_betadist (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_betainv = {
-	N_("@FUNCTION=BETAINV\n"
+static GnmFuncHelp const help_betainv[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BETAINV\n"
 	   "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
 
 	   "@DESCRIPTION="
@@ -1526,6 +1624,8 @@ static char const *help_betainv = {
 	   "BETAINV(0.45,1.6,1) equals 0.607096629.\n"
 	   "\n"
 	   "@SEEALSO=BETADIST")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1547,8 +1647,9 @@ gnumeric_betainv (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_tdist = {
-	N_("@FUNCTION=TDIST\n"
+static GnmFuncHelp const help_tdist[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=TDIST\n"
 	   "@SYNTAX=TDIST(x,dof,tails)\n"
 
 	   "@DESCRIPTION="
@@ -1567,6 +1668,8 @@ static char const *help_tdist = {
 	   "TDIST(0,5,2) equals 1.\n"
 	   "\n"
 	   "@SEEALSO=TINV,TTEST")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1588,8 +1691,9 @@ gnumeric_tdist (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_tinv = {
-        N_("@FUNCTION=TINV\n"
+static GnmFuncHelp const help_tinv[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=TINV\n"
            "@SYNTAX=TINV(p,dof)\n"
 
            "@DESCRIPTION="
@@ -1603,6 +1707,8 @@ static char const *help_tinv = {
 	   "TINV(0.4,32) equals 0.852998454.\n"
 	   "\n"
            "@SEEALSO=TDIST,TTEST")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1622,8 +1728,9 @@ gnumeric_tinv (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_fdist = {
-	N_("@FUNCTION=FDIST\n"
+static GnmFuncHelp const help_fdist[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=FDIST\n"
 	   "@SYNTAX=FDIST(x,dof1,dof2)\n"
 
 	   "@DESCRIPTION="
@@ -1639,6 +1746,8 @@ static char const *help_fdist = {
 	   "FDIST(2,5,5) equals 0.232511319.\n"
 	   "\n"
 	   "@SEEALSO=FINV")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1659,8 +1768,9 @@ gnumeric_fdist (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_landau = {
-        N_("@FUNCTION=LANDAU\n"
+static GnmFuncHelp const help_landau[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=LANDAU\n"
            "@SYNTAX=LANDAU(x)\n"
 
            "@DESCRIPTION="
@@ -1671,6 +1781,8 @@ static char const *help_landau = {
            "LANDAU(0.34).\n"
            "\n"
            "@SEEALSO=RANDLANDAU")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 /* From the GNU Scientific Library 1.1.1 (randist/landau.c)
@@ -1801,8 +1913,9 @@ gnumeric_landau (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_finv = {
-        N_("@FUNCTION=FINV\n"
+static GnmFuncHelp const help_finv[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=FINV\n"
            "@SYNTAX=FINV(p,dof1,dof2)\n"
 
            "@DESCRIPTION="
@@ -1817,6 +1930,8 @@ static char const *help_finv = {
 	   "FINV(0.2,2,4) equals 2.472135955.\n"
 	   "\n"
            "@SEEALSO=FDIST")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1837,8 +1952,9 @@ gnumeric_finv (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_binomdist = {
-	N_("@FUNCTION=BINOMDIST\n"
+static GnmFuncHelp const help_binomdist[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=BINOMDIST\n"
 	   "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
 
 	   "@DESCRIPTION="
@@ -1858,6 +1974,8 @@ static char const *help_binomdist = {
 	   "BINOMDIST(3,5,0.8,0) equals 0.2048.\n"
 	   "\n"
 	   "@SEEALSO=POISSON")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1883,8 +2001,9 @@ gnumeric_binomdist (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_cauchy = {
-        N_("@FUNCTION=CAUCHY\n"
+static GnmFuncHelp const help_cauchy[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=CAUCHY\n"
            "@SYNTAX=CAUCHY(x,a,cum)\n"
 
            "@DESCRIPTION="
@@ -1898,6 +2017,8 @@ static char const *help_cauchy = {
            "CAUCHY(0.43,1,TRUE) returns 0.370735.\n"
            "\n"
            "@SEEALSO=RANDCAUCHY")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1923,8 +2044,9 @@ gnumeric_cauchy (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_critbinom = {
-        N_("@FUNCTION=CRITBINOM\n"
+static GnmFuncHelp const help_critbinom[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=CRITBINOM\n"
            "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
 
            "@DESCRIPTION="
@@ -1943,6 +2065,8 @@ static char const *help_critbinom = {
 	   "CRITBINOM(10,0.5,0.75) equals 6.\n"
 	   "\n"
            "@SEEALSO=BINOMDIST")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1963,8 +2087,9 @@ gnumeric_critbinom (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_permut = {
-	N_("@FUNCTION=PERMUT\n"
+static GnmFuncHelp const help_permut[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=PERMUT\n"
 	   "@SYNTAX=PERMUT(n,k)\n"
 
 	   "@DESCRIPTION="
@@ -1980,6 +2105,8 @@ static char const *help_permut = {
 	   "PERMUT(7,3) equals 210.\n"
 	   "\n"
 	   "@SEEALSO=COMBIN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1998,8 +2125,9 @@ gnumeric_permut (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_hypgeomdist = {
-	N_("@FUNCTION=HYPGEOMDIST\n"
+static GnmFuncHelp const help_hypgeomdist[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=HYPGEOMDIST\n"
 	   "@SYNTAX=HYPGEOMDIST(x,n,M,N[,cumulative])\n"
 
 	   "@DESCRIPTION="
@@ -2020,6 +2148,8 @@ static char const *help_hypgeomdist = {
 	   "HYPGEOMDIST(1,2,3,10) equals 0.4666667.\n"
 	   "\n"
 	   "@SEEALSO=BINOMDIST,POISSON")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2042,8 +2172,9 @@ gnumeric_hypgeomdist (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_confidence = {
-	N_("@FUNCTION=CONFIDENCE\n"
+static GnmFuncHelp const help_confidence[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=CONFIDENCE\n"
 	   "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
 
 	   "@DESCRIPTION="
@@ -2060,6 +2191,8 @@ static char const *help_confidence = {
 	   "CONFIDENCE(0.05,1,33) equals 0.341185936.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2083,8 +2216,9 @@ gnumeric_confidence (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_standardize = {
-	N_("@FUNCTION=STANDARDIZE\n"
+static GnmFuncHelp const help_standardize[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=STANDARDIZE\n"
 	   "@SYNTAX=STANDARDIZE(x,mean,stddev)\n"
 
 	   "@DESCRIPTION="
@@ -2100,6 +2234,8 @@ static char const *help_standardize = {
 	   "STANDARDIZE(3,2,4) equals 0.25.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2121,8 +2257,9 @@ gnumeric_standardize (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_weibull = {
-        N_("@FUNCTION=WEIBULL\n"
+static GnmFuncHelp const help_weibull[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=WEIBULL\n"
            "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
 
            "@DESCRIPTION="
@@ -2139,6 +2276,8 @@ static char const *help_weibull = {
 	   "WEIBULL(3,2,4,0) equals 0.213668559.\n"
 	   "\n"
            "@SEEALSO=POISSON")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2167,8 +2306,9 @@ gnumeric_weibull (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_normdist = {
-        N_("@FUNCTION=NORMDIST\n"
+static GnmFuncHelp const help_normdist[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=NORMDIST\n"
            "@SYNTAX=NORMDIST(x,mean,stddev,cumulative)\n"
 
            "@DESCRIPTION="
@@ -2183,6 +2323,8 @@ static char const *help_normdist = {
 	   "NORMDIST(2,1,2,0) equals 0.176032663.\n"
 	   "\n"
            "@SEEALSO=POISSON")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -2212,8 +2354,9 @@ gnumeric_normdist (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_norminv = {
-        N_("@FUNCTION=NORMINV\n"
+static GnmFuncHelp const help_norminv[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=NORMINV\n"
            "@SYNTAX=NORMINV(p,mean,stddev)\n"
 
            "@DESCRIPTION="
@@ -2230,6 +2373,8 @@ static char const *help_norminv = {
 	   "NORMINV(0.76,2,3) equals 4.118907689.\n"
 	   "\n"
            "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2250,8 +2395,9 @@ gnumeric_norminv (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_kurt = {
-        N_("@FUNCTION=KURT\n"
+static GnmFuncHelp const help_kurt[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=KURT\n"
            "@SYNTAX=KURT(n1, n2, ...)\n"
 
            "@DESCRIPTION="
@@ -2273,6 +2419,8 @@ static char const *help_kurt = {
 	   "KURT(A1:A5) equals 1.234546305.\n"
 	   "\n"
            "@SEEALSO=AVERAGE,VAR,SKEW,KURTP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2289,8 +2437,9 @@ gnumeric_kurt (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_kurtp = {
-        N_("@FUNCTION=KURTP\n"
+static GnmFuncHelp const help_kurtp[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=KURTP\n"
            "@SYNTAX=KURTP(n1, n2, ...)\n"
 
            "@DESCRIPTION="
@@ -2306,6 +2455,8 @@ static char const *help_kurtp = {
 	   "KURTP(A1:A5) equals -0.691363424.\n"
 	   "\n"
            "@SEEALSO=AVERAGE,VARP,SKEWP,KURT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2322,8 +2473,9 @@ gnumeric_kurtp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_avedev = {
-        N_("@FUNCTION=AVEDEV\n"
+static GnmFuncHelp const help_avedev[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=AVEDEV\n"
            "@SYNTAX=AVEDEV(n1, n2, ...)\n"
 
            "@DESCRIPTION="
@@ -2337,6 +2489,8 @@ static char const *help_avedev = {
 	   "AVEDEV(A1:A5) equals 7.84.\n"
 	   "\n"
            "@SEEALSO=STDEV")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2353,8 +2507,9 @@ gnumeric_avedev (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_devsq = {
-        N_("@FUNCTION=DEVSQ\n"
+static GnmFuncHelp const help_devsq[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=DEVSQ\n"
            "@SYNTAX=DEVSQ(n1, n2, ...)\n"
 
            "@DESCRIPTION="
@@ -2370,6 +2525,8 @@ static char const *help_devsq = {
 	   "DEVSQ(A1:A5) equals 470.56.\n"
 	   "\n"
            "@SEEALSO=STDEV")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2386,8 +2543,9 @@ gnumeric_devsq (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_fisher = {
-        N_("@FUNCTION=FISHER\n"
+static GnmFuncHelp const help_fisher[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=FISHER\n"
            "@SYNTAX=FISHER(x)\n"
 
            "@DESCRIPTION="
@@ -2401,6 +2559,8 @@ static char const *help_fisher = {
 	   "FISHER(0.332) equals 0.345074339.\n"
 	   "\n"
            "@SEEALSO=SKEW")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2421,8 +2581,9 @@ gnumeric_fisher (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_poisson = {
-	N_("@FUNCTION=POISSON\n"
+static GnmFuncHelp const help_poisson[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=POISSON\n"
 	   "@SYNTAX=POISSON(x,mean,cumulative)\n"
 
 	   "@DESCRIPTION="
@@ -2440,6 +2601,8 @@ static char const *help_poisson = {
 	   "POISSON(3,6,0) equals 0.089235078.\n"
 	   "\n"
 	   "@SEEALSO=NORMDIST, WEIBULL")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2464,8 +2627,9 @@ gnumeric_poisson (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_pearson = {
-	N_("@FUNCTION=PEARSON\n"
+static GnmFuncHelp const help_pearson[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=PEARSON\n"
 	   "@SYNTAX=PEARSON(array1,array2)\n"
 
 	   "@DESCRIPTION="
@@ -2478,6 +2642,8 @@ static char const *help_pearson = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2489,8 +2655,9 @@ gnumeric_pearson (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_rsq = {
-	N_("@FUNCTION=RSQ\n"
+static GnmFuncHelp const help_rsq[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=RSQ\n"
 	   "@SYNTAX=RSQ(array1,array2)\n"
 
 	   "@DESCRIPTION="
@@ -2504,6 +2671,8 @@ static char const *help_rsq = {
 	   "\n"
 	   "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,"
 	   "STEYX,TREND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2519,8 +2688,9 @@ gnumeric_rsq (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_median = {
-        N_("@FUNCTION=MEDIAN\n"
+static GnmFuncHelp const help_median[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=MEDIAN\n"
            "@SYNTAX=MEDIAN(n1, n2, ...)\n"
 
            "@DESCRIPTION="
@@ -2537,6 +2707,8 @@ static char const *help_median = {
 	   "MEDIAN(A1:A5) equals 21.3.\n"
 	   "\n"
            "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SSMEDIAN,SUM")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2553,8 +2725,9 @@ gnumeric_median (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_ssmedian = {
-	N_("@FUNCTION=SSMEDIAN\n"
+static GnmFuncHelp const help_ssmedian[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SSMEDIAN\n"
 	   "@SYNTAX=SSMEDIAN(array[,interval)]\n"
 
 	   "@DESCRIPTION="
@@ -2577,6 +2750,8 @@ static char const *help_ssmedian = {
 	   "SSMEDIAN(A1:A3, 1) equals 7.75.\n"
 	   "\n"
 	   "@SEEALSO=MEDIAN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static gnm_float
@@ -2656,8 +2831,9 @@ gnumeric_ssmedian (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_large = {
-	N_("@FUNCTION=LARGE\n"
+static GnmFuncHelp const help_large[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=LARGE\n"
 	   "@SYNTAX=LARGE(n1, n2, ..., k)\n"
 
 	   "@DESCRIPTION="
@@ -2675,6 +2851,8 @@ static char const *help_large = {
 	   "LARGE(A1:A5,4) equals 17.3.\n"
 	   "\n"
 	   "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static int
@@ -2703,8 +2881,9 @@ gnumeric_large (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_small = {
-	N_("@FUNCTION=SMALL\n"
+static GnmFuncHelp const help_small[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SMALL\n"
 	   "@SYNTAX=SMALL(n1, n2, ..., k)\n"
 
 	   "@DESCRIPTION="
@@ -2722,6 +2901,8 @@ static char const *help_small = {
 	   "SMALL(A1:A5,4) equals 25.9.\n"
 	   "\n"
 	   "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static int
@@ -2773,8 +2954,9 @@ callback_function_list (Sheet *sheet, int col, int row,
 
 /***************************************************************************/
 
-static char const *help_prob = {
-	N_("@FUNCTION=PROB\n"
+static GnmFuncHelp const help_prob[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=PROB\n"
 	   "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
 
 	   "@DESCRIPTION="
@@ -2794,6 +2976,8 @@ static char const *help_prob = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=BINOMDIST,CRITBINOM")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -2865,8 +3049,9 @@ gnumeric_prob (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_steyx = {
-	N_("@FUNCTION=STEYX\n"
+static GnmFuncHelp const help_steyx[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=STEYX\n"
 	   "@SYNTAX=STEYX(known_y's,known_x's)\n"
 
 	   "@DESCRIPTION="
@@ -2884,6 +3069,8 @@ static char const *help_steyx = {
 	   "STEYX(A1:A5,B1:B5) equals 1.101509979.\n"
 	   "\n"
 	   "@SEEALSO=PEARSON,RSQ,SLOPE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -3020,8 +3207,9 @@ gnumeric_steyx (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_ztest = {
-	N_("@FUNCTION=ZTEST\n"
+static GnmFuncHelp const help_ztest[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ZTEST\n"
 	   "@SYNTAX=ZTEST(ref,x)\n"
 
 	   "@DESCRIPTION="
@@ -3040,6 +3228,8 @@ static char const *help_ztest = {
 	   "\n"
 	   "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,"
 	   "STANDARDIZE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static int
@@ -3074,8 +3264,9 @@ gnumeric_ztest (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_averagea = {
-	N_("@FUNCTION=AVERAGEA\n"
+static GnmFuncHelp const help_averagea[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=AVERAGEA\n"
 	   "@SYNTAX=AVERAGEA(number1,number2,...)\n"
 
 	   "@DESCRIPTION="
@@ -3094,6 +3285,8 @@ static char const *help_averagea = {
 	   "AVERAGEA(A1:A5) equals 18.94.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -3110,8 +3303,9 @@ gnumeric_averagea (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_maxa = {
-	N_("@FUNCTION=MAXA\n"
+static GnmFuncHelp const help_maxa[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=MAXA\n"
 	   "@SYNTAX=MAXA(number1,number2,...)\n"
 
 	   "@DESCRIPTION="
@@ -3130,6 +3324,8 @@ static char const *help_maxa = {
 	   "MAXA(A1:A5) equals 40.1.\n"
 	   "\n"
 	   "@SEEALSO=MAX,MINA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -3146,8 +3342,9 @@ gnumeric_maxa (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_mina = {
-	N_("@FUNCTION=MINA\n"
+static GnmFuncHelp const help_mina[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=MINA\n"
 	   "@SYNTAX=MINA(number1,number2,...)\n"
 
 	   "@DESCRIPTION="
@@ -3166,6 +3363,8 @@ static char const *help_mina = {
 	   "MINA(A1:A5) equals 0.\n"
 	   "\n"
 	   "@SEEALSO=MIN,MAXA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -3182,8 +3381,9 @@ gnumeric_mina (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_vara = {
-	N_("@FUNCTION=VARA\n"
+static GnmFuncHelp const help_vara[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=VARA\n"
 	   "@SYNTAX=VARA(number1,number2,...)\n"
 
 	   "@DESCRIPTION="
@@ -3208,6 +3408,8 @@ static char const *help_vara = {
 	   "VARA(A1:A5) equals 228.613.\n"
 	   "\n"
 	   "@SEEALSO=VAR,VARPA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -3224,8 +3426,9 @@ gnumeric_vara (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_varpa = {
-	N_("@FUNCTION=VARPA\n"
+static GnmFuncHelp const help_varpa[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=VARPA\n"
 	   "@SYNTAX=VARPA(number1,number2,...)\n"
 
 	   "@DESCRIPTION="
@@ -3245,6 +3448,8 @@ static char const *help_varpa = {
 	   "VARPA(A1:A5) equals 182.8904.\n"
 	   "\n"
 	   "@SEEALSO=VARA,VARP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -3261,8 +3466,9 @@ gnumeric_varpa (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_stdeva = {
-	N_("@FUNCTION=STDEVA\n"
+static GnmFuncHelp const help_stdeva[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=STDEVA\n"
 	   "@SYNTAX=STDEVA(number1,number2,...)\n"
 
 	   "@DESCRIPTION="
@@ -3288,6 +3494,8 @@ static char const *help_stdeva = {
 	   "STDEVA(A1:A5) equals 15.119953704.\n"
 	   "\n"
 	   "@SEEALSO=STDEV,STDEVPA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -3304,8 +3512,9 @@ gnumeric_stdeva (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_stdevpa = {
-	N_("@FUNCTION=STDEVPA\n"
+static GnmFuncHelp const help_stdevpa[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=STDEVPA\n"
 	   "@SYNTAX=STDEVPA(number1,number2,...)\n"
 
 	   "@DESCRIPTION="
@@ -3326,6 +3535,8 @@ static char const *help_stdevpa = {
 	   "STDEVPA(A1:A5) equals 13.523697719.\n"
 	   "\n"
 	   "@SEEALSO=STDEVA,STDEVP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -3342,8 +3553,9 @@ gnumeric_stdevpa (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_percentrank = {
-	N_("@FUNCTION=PERCENTRANK\n"
+static GnmFuncHelp const help_percentrank[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=PERCENTRANK\n"
 	   "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
 
 	   "@DESCRIPTION="
@@ -3366,6 +3578,8 @@ static char const *help_percentrank = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 typedef struct {
@@ -3452,8 +3666,9 @@ gnumeric_percentrank (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_percentile = {
-	N_("@FUNCTION=PERCENTILE\n"
+static GnmFuncHelp const help_percentile[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=PERCENTILE\n"
 	   "@SYNTAX=PERCENTILE(array,k)\n"
 
 	   "@DESCRIPTION="
@@ -3471,6 +3686,8 @@ static char const *help_percentile = {
 	   "PERCENTILE(A1:A5,0.42) equals 20.02.\n"
 	   "\n"
 	   "@SEEALSO=QUARTILE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -3501,8 +3718,9 @@ gnumeric_percentile (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_quartile = {
-	N_("@FUNCTION=QUARTILE\n"
+static GnmFuncHelp const help_quartile[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=QUARTILE\n"
 	   "@SYNTAX=QUARTILE(array,quart)\n"
 
 	   "@DESCRIPTION="
@@ -3527,6 +3745,8 @@ static char const *help_quartile = {
 	   "QUARTILE(A1:A5,1) equals 17.3.\n"
 	   "\n"
 	   "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -3557,8 +3777,9 @@ gnumeric_quartile (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_ftest = {
-	N_("@FUNCTION=FTEST\n"
+static GnmFuncHelp const help_ftest[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=FTEST\n"
 	   "@SYNTAX=FTEST(array1,array2)\n"
 
 	   "@DESCRIPTION="
@@ -3574,6 +3795,8 @@ static char const *help_ftest = {
 	   "FTEST(A1:A5,B1:B5) equals 0.510815017.\n"
 	   "\n"
 	   "@SEEALSO=FDIST,FINV")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -3611,8 +3834,9 @@ gnumeric_ftest (FunctionEvalInfo *ei, GnmValue *argv[])
 
 /***************************************************************************/
 
-static char const *help_ttest = {
-	N_("@FUNCTION=TTEST\n"
+static GnmFuncHelp const help_ttest[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=TTEST\n"
 	   "@SYNTAX=TTEST(array1,array2,tails,type)\n"
 
 	   "@DESCRIPTION="
@@ -3644,6 +3868,8 @@ static char const *help_ttest = {
 	   "TTEST(A1:A5,B1:B5,1,3) equals 0.113821797.\n"
 	   "\n"
 	   "@SEEALSO=FDIST,FINV")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 typedef struct {
@@ -3779,8 +4005,9 @@ gnumeric_ttest (FunctionEvalInfo *ei, GnmValue *argv[])
 
 /***************************************************************************/
 
-static char const *help_frequency = {
-	N_("@FUNCTION=FREQUENCY\n"
+static GnmFuncHelp const help_frequency[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=FREQUENCY\n"
 	   "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
 
 	   "@DESCRIPTION="
@@ -3797,6 +4024,8 @@ static char const *help_frequency = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -3856,8 +4085,9 @@ gnumeric_frequency (FunctionEvalInfo *ei, GnmValue *argv[])
 
 /***************************************************************************/
 
-static char const *help_linest = {
-	N_("@FUNCTION=LINEST\n"
+static GnmFuncHelp const help_linest[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=LINEST\n"
 	   "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
 
 	   "@DESCRIPTION="
@@ -3890,6 +4120,8 @@ static char const *help_linest = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=LOGEST,TREND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 /* Notes for now, to be incorporated into help when it actually works:
@@ -4128,8 +4360,9 @@ gnumeric_linest (FunctionEvalInfo *ei, GnmValue *argv[])
 
 /***************************************************************************/
 
-static char const *help_logreg = {
-	N_("@FUNCTION=LOGREG\n"
+static GnmFuncHelp const help_logreg[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=LOGREG\n"
 	   "@SYNTAX=LOGREG(known_y's[,known_x's[,const[,stat]]])\n"
 
 	   "@DESCRIPTION="
@@ -4164,6 +4397,8 @@ static char const *help_logreg = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=LOGFIT,LINEST,LOGEST")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 /* The following is a copy of "gnumeric_linest" of Gnumeric version 1.1.9 
  * with "linear_regression" replaced by "logarithmic_regression".
@@ -4405,8 +4640,9 @@ gnumeric_logreg (FunctionEvalInfo *ei, GnmValue *argv[])
 
 /***************************************************************************/
 
-static char const *help_logfit = {
-	N_("@FUNCTION=LOGFIT\n"
+static GnmFuncHelp const help_logfit[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=LOGFIT\n"
 	   "@SYNTAX=LOGFIT(known_y's,known_x's)\n"
 
 	   "@DESCRIPTION="
@@ -4439,6 +4675,8 @@ static char const *help_logfit = {
            "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=LOGREG,LINEST,LOGEST")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 /* This function is not available in Excel.
@@ -4505,8 +4743,9 @@ numbers */
 
 /***************************************************************************/
 
-static char const *help_trend = {
-	N_("@FUNCTION=TREND\n"
+static GnmFuncHelp const help_trend[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=TREND\n"
 	   "@SYNTAX=TREND(known_y's[,known_x's[,new_x's[,const]]])\n"
 
 	   "@DESCRIPTION="
@@ -4532,6 +4771,8 @@ static char const *help_trend = {
 	   "TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}.\n"
 	   "\n"
 	   "@SEEALSO=LINEST")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -4620,8 +4861,9 @@ gnumeric_trend (FunctionEvalInfo *ei, GnmValue *argv[])
 
 /***************************************************************************/
 
-static char const *help_logest = {
-	N_("@FUNCTION=LOGEST\n"
+static GnmFuncHelp const help_logest[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=LOGEST\n"
 	   "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
 
 	   "@DESCRIPTION="
@@ -4651,6 +4893,8 @@ static char const *help_logest = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=GROWTH,TREND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -4873,8 +5117,9 @@ gnumeric_logest (FunctionEvalInfo *ei, GnmValue *argv[])
 
 /***************************************************************************/
 
-static char const *help_growth = {
-	N_("@FUNCTION=GROWTH\n"
+static GnmFuncHelp const help_growth[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=GROWTH\n"
 	   "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
 
 	   "@DESCRIPTION="
@@ -4896,6 +5141,8 @@ static char const *help_growth = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=LOGEST,GROWTH,TREND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -4985,8 +5232,9 @@ gnumeric_growth (FunctionEvalInfo *ei, GnmValue *argv[])
 
 /***************************************************************************/
 
-static char const *help_forecast = {
-	N_("@FUNCTION=FORECAST\n"
+static GnmFuncHelp const help_forecast[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=FORECAST\n"
 	   "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
 
 	   "@DESCRIPTION="
@@ -5007,6 +5255,8 @@ static char const *help_forecast = {
 	   "FORECAST(7,A1:A5,B1:B5) equals -10.859397661.\n"
 	   "\n"
 	   "@SEEALSO=INTERCEPT,TREND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -5056,8 +5306,9 @@ gnumeric_forecast (FunctionEvalInfo *ei, GnmValue *argv[])
 
 /***************************************************************************/
 
-static char const *help_intercept = {
-	N_("@FUNCTION=INTERCEPT\n"
+static GnmFuncHelp const help_intercept[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=INTERCEPT\n"
 	   "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
 
 	   "@DESCRIPTION="
@@ -5077,6 +5328,8 @@ static char const *help_intercept = {
 	   "INTERCEPT(A1:A5,B1:B5) equals -20.785117212.\n"
 	   "\n"
 	   "@SEEALSO=FORECAST,TREND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static int
@@ -5106,8 +5359,9 @@ gnumeric_intercept (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_slope = {
-	N_("@FUNCTION=SLOPE\n"
+static GnmFuncHelp const help_slope[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SLOPE\n"
 	   "@SYNTAX=SLOPE(known_y's,known_x's)\n"
 
 	   "@DESCRIPTION="
@@ -5121,6 +5375,8 @@ static char const *help_slope = {
 	   "SLOPE(A1:A5,B1:B5) equals 1.417959936.\n"
 	   "\n"
 	   "@SEEALSO=STDEV,STDEVPA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static int
@@ -5150,8 +5406,9 @@ gnumeric_slope (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_subtotal = {
-	N_("@FUNCTION=SUBTOTAL\n"
+static GnmFuncHelp const help_subtotal[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SUBTOTAL\n"
 	   "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
 
 	   "@DESCRIPTION="
@@ -5182,6 +5439,8 @@ static char const *help_subtotal = {
 	   "SUBTOTAL(11,A1:A5) equals 30.4.\n"
 	   "\n"
 	   "@SEEALSO=COUNT,SUM")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -5250,8 +5509,9 @@ gnumeric_subtotal (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_cronbach = {
-	N_("@FUNCTION=CRONBACH\n"
+static GnmFuncHelp const help_cronbach[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=CRONBACH\n"
 	   "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
 
 	   "@DESCRIPTION="
@@ -5262,6 +5522,8 @@ static char const *help_cronbach = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static inline void
@@ -5379,8 +5641,9 @@ gnumeric_cronbach (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_geomdist = {
-        N_("@FUNCTION=GEOMDIST\n"
+static GnmFuncHelp const help_geomdist[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=GEOMDIST\n"
            "@SYNTAX=GEOMDIST(k,p,cum)\n"
 
            "@DESCRIPTION="
@@ -5395,6 +5658,8 @@ static char const *help_geomdist = {
            "GEOMDIST(2,10.4,TRUE).\n"
            "\n"
            "@SEEALSO=RANDGEOM")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -5415,8 +5680,9 @@ gnumeric_geomdist (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_logistic = {
-        N_("@FUNCTION=LOGISTIC\n"
+static GnmFuncHelp const help_logistic[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=LOGISTIC\n"
            "@SYNTAX=LOGISTIC(x,a)\n"
 
            "@DESCRIPTION="
@@ -5427,6 +5693,8 @@ static char const *help_logistic = {
            "LOGISTIC(0.4,1).\n"
            "\n"
            "@SEEALSO=RANDLOGISTIC")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static gnm_float
@@ -5451,8 +5719,9 @@ gnumeric_logistic (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_pareto = {
-        N_("@FUNCTION=PARETO\n"
+static GnmFuncHelp const help_pareto[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=PARETO\n"
            "@SYNTAX=PARETO(x,a,b)\n"
 
            "@DESCRIPTION="
@@ -5463,6 +5732,8 @@ static char const *help_pareto = {
            "PARETO(0.6,1,2).\n"
            "\n"
            "@SEEALSO=RANDPARETO")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static gnm_float
@@ -5489,8 +5760,9 @@ gnumeric_pareto (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_rayleigh = {
-        N_("@FUNCTION=RAYLEIGH\n"
+static GnmFuncHelp const help_rayleigh[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RAYLEIGH\n"
            "@SYNTAX=RAYLEIGH(x,sigma)\n"
 
            "@DESCRIPTION="
@@ -5501,6 +5773,8 @@ static char const *help_rayleigh = {
            "RAYLEIGH(0.4,1).\n"
            "\n"
            "@SEEALSO=RANDRAYLEIGH")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static gnm_float
@@ -5529,8 +5803,9 @@ gnumeric_rayleigh (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_rayleightail = {
-        N_("@FUNCTION=RAYLEIGHTAIL\n"
+static GnmFuncHelp const help_rayleightail[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=RAYLEIGHTAIL\n"
            "@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
 
            "@DESCRIPTION="
@@ -5542,6 +5817,8 @@ static char const *help_rayleightail = {
            "RAYLEIGHTAIL(0.6,0.3,1).\n"
            "\n"
            "@SEEALSO=RANDRAYLEIGHTAIL")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static gnm_float
@@ -5572,8 +5849,9 @@ gnumeric_rayleightail (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_exppowdist = {
-        N_("@FUNCTION=EXPPOWDIST\n"
+static GnmFuncHelp const help_exppowdist[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=EXPPOWDIST\n"
            "@SYNTAX=EXPPOWDIST(x,a,b)\n"
 
            "@DESCRIPTION="
@@ -5588,6 +5866,8 @@ static char const *help_exppowdist = {
            "EXPPOWDIST(0.4,1,2).\n"
            "\n"
            "@SEEALSO=RANDEXPPOW")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 /* Part of help text quoted from the PEXPDF manpage of the DATAPLOT program 
  * by NIST. */
@@ -5608,8 +5888,9 @@ gnumeric_exppowdist (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_laplace = {
-        N_("@FUNCTION=LAPLACE\n"
+static GnmFuncHelp const help_laplace[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=LAPLACE\n"
            "@SYNTAX=LAPLACE(x,a)\n"
 
            "@DESCRIPTION="
@@ -5620,6 +5901,8 @@ static char const *help_laplace = {
            "LAPLACE(0.4,1).\n"
            "\n"
            "@SEEALSO=RANDLAPLACE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -5638,312 +5921,312 @@ gnumeric_laplace (FunctionEvalInfo *ei, GnmValue **argv)
 
 const GnmFuncDescriptor stat_functions[] = {
         { "avedev", NULL,      N_("number,number,"),
-	  &help_avedev, NULL, gnumeric_avedev, NULL, NULL, NULL,
+	  help_avedev, NULL, gnumeric_avedev, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "average", NULL,      N_("number,number,"),
-	  &help_average, NULL, gnumeric_average, NULL, NULL, NULL,
+	  help_average, NULL, gnumeric_average, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "averagea", NULL,      N_("number,number,"),
-	  &help_averagea, NULL, gnumeric_averagea, NULL, NULL, NULL,
+	  help_averagea, NULL, gnumeric_averagea, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-        { "bernoulli", "ff", N_("k,p"),   &help_bernoulli,
+        { "bernoulli", "ff", N_("k,p"),   help_bernoulli,
 	  gnumeric_bernoulli, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "betadist",     "fff|ff", N_("x,alpha,beta,a,b"),
-	  &help_betadist, gnumeric_betadist, NULL, NULL, NULL, NULL,
+	  help_betadist, gnumeric_betadist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "betainv",      "fff|ff", N_("p,alpha,beta,a,b"),
-	  &help_betainv, gnumeric_betainv, NULL, NULL, NULL, NULL,
+	  help_betainv, gnumeric_betainv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "binomdist",    "fffb", N_("n,t,p,c"),
-	  &help_binomdist, gnumeric_binomdist, NULL, NULL, NULL, NULL,
+	  help_binomdist, gnumeric_binomdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-        { "cauchy", "fff", N_("x,a,cum"),   &help_cauchy,
+        { "cauchy", "fff", N_("x,a,cum"),   help_cauchy,
 	  gnumeric_cauchy, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "chidist",      "ff",  N_("x,dof"),
-	  &help_chidist, gnumeric_chidist, NULL, NULL, NULL, NULL,
+	  help_chidist, gnumeric_chidist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "chiinv",       "ff",  N_("p,dof"),
-	  &help_chiinv, gnumeric_chiinv, NULL, NULL, NULL, NULL,
+	  help_chiinv, gnumeric_chiinv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "chitest",      "rr",  N_("act_range,theo_range"),
-	  &help_chitest, gnumeric_chitest, NULL, NULL, NULL, NULL,
+	  help_chitest, gnumeric_chitest, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "confidence",   "fff",  N_("x,stddev,size"),
-	  &help_confidence, gnumeric_confidence, NULL, NULL, NULL, NULL,
+	  help_confidence, gnumeric_confidence, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "correl",       "AA",   N_("array1,array2"),
-	  &help_correl, gnumeric_correl, NULL, NULL, NULL, NULL,
+	  help_correl, gnumeric_correl, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "count", NULL,      N_("number,number,"),
-	  &help_count, NULL, gnumeric_count, NULL, NULL, NULL,
+	  help_count, NULL, gnumeric_count, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "counta", NULL,      N_("number,number,"),
-	  &help_counta, NULL, gnumeric_counta, NULL, NULL, NULL,
+	  help_counta, NULL, gnumeric_counta, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "covar",        "AA",   N_("array1,array2"),
-	  &help_covar, gnumeric_covar, NULL, NULL, NULL, NULL,
+	  help_covar, gnumeric_covar, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "critbinom",    "fff",  N_("trials,p,alpha"),
-	  &help_critbinom, gnumeric_critbinom, NULL, NULL, NULL, NULL,
+	  help_critbinom, gnumeric_critbinom, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "devsq", NULL,      N_("number,number,"),
-	  &help_devsq, NULL, gnumeric_devsq, NULL, NULL, NULL,
+	  help_devsq, NULL, gnumeric_devsq, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "expondist",    "ffb",  N_("x,y,cumulative"),
-	  &help_expondist, gnumeric_expondist, NULL, NULL, NULL, NULL,
+	  help_expondist, gnumeric_expondist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "fdist",        "fff",  N_("x,dof of num,dof of denom"),
-	  &help_fdist, gnumeric_fdist, NULL, NULL, NULL, NULL,
+	  help_fdist, gnumeric_fdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "finv",         "fff",  N_("p,dof of num,dof of denom"),
-	  &help_finv, gnumeric_finv, NULL, NULL, NULL, NULL,
+	  help_finv, gnumeric_finv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "fisher",       "f",    N_("number"),
-	  &help_fisher, gnumeric_fisher, NULL, NULL, NULL, NULL,
+	  help_fisher, gnumeric_fisher, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "fisherinv",    "f",    N_("number"),
-	  &help_fisherinv, gnumeric_fisherinv, NULL, NULL, NULL, NULL,
+	  help_fisherinv, gnumeric_fisherinv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "forecast",     "frr",   N_("x,known y's,known x's"),
-	  &help_forecast, gnumeric_forecast, NULL, NULL, NULL, NULL,
+	  help_forecast, gnumeric_forecast, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "frequency",    "AA", N_("data_array,bins_array"),
-	  &help_frequency, gnumeric_frequency, NULL, NULL, NULL, NULL,
+	  help_frequency, gnumeric_frequency, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "ftest",        "rr",   N_("arr1,arr2"),
-	  &help_ftest, gnumeric_ftest, NULL, NULL, NULL, NULL,
+	  help_ftest, gnumeric_ftest, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "gammadist",    "fffb", N_("number,alpha,beta,cum"),
-	  &help_gammadist, gnumeric_gammadist, NULL, NULL, NULL, NULL,
+	  help_gammadist, gnumeric_gammadist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "gammainv",     "fff",   N_("number,alpha,beta"),
-	  &help_gammainv, gnumeric_gammainv, NULL, NULL, NULL, NULL,
+	  help_gammainv, gnumeric_gammainv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "gammaln",      "f",    N_("number"),
-	  &help_gammaln, gnumeric_gammaln, NULL, NULL, NULL, NULL,
+	  help_gammaln, gnumeric_gammaln, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "geomean", NULL,      N_("number,number,"),
-	  &help_geomean, NULL, gnumeric_geomean, NULL, NULL, NULL,
+	  help_geomean, NULL, gnumeric_geomean, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "growth",       "A|AAb", N_("known_y's,known_x's,new_x's,const"),
-	  &help_growth, gnumeric_growth, NULL, NULL, NULL, NULL,
+	  help_growth, gnumeric_growth, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "harmean", NULL,      "",
-	  &help_harmean, NULL, gnumeric_harmean, NULL, NULL, NULL,
+	  help_harmean, NULL, gnumeric_harmean, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "hypgeomdist",  "ffff|b", N_("x,n,M,N,cumulative"),
-	  &help_hypgeomdist, gnumeric_hypgeomdist, NULL, NULL, NULL, NULL,
+	  help_hypgeomdist, gnumeric_hypgeomdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "intercept",    "AA",   N_("number,number,"),
-	  &help_intercept, gnumeric_intercept, NULL, NULL, NULL, NULL,
+	  help_intercept, gnumeric_intercept, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "kurt", NULL,      N_("number,number,"),
-	  &help_kurt, NULL, gnumeric_kurt, NULL, NULL, NULL,
+	  help_kurt, NULL, gnumeric_kurt, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "large", NULL,      N_("number,number,"),
-	  &help_large, NULL, gnumeric_large, NULL, NULL, NULL,
+	  help_large, NULL, gnumeric_large, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "linest",       "A|Abb",  N_("known_y's,known_x's,const,stat"),
-	  &help_linest, gnumeric_linest, NULL, NULL, NULL, NULL,
+	  help_linest, gnumeric_linest, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "logest",       "A|Abb",  N_("known_y's,known_x's,const,stat"),
-	  &help_logest, gnumeric_logest, NULL, NULL, NULL, NULL,
+	  help_logest, gnumeric_logest, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "logfit",       "rr",  N_("known_y's,known_x's"),
-	  &help_logfit, gnumeric_logfit, NULL, NULL, NULL, NULL,
+	  help_logfit, gnumeric_logfit, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "loginv",       "fff",  N_("p,mean,stddev"),
-	  &help_loginv, gnumeric_loginv, NULL, NULL, NULL, NULL,
+	  help_loginv, gnumeric_loginv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "lognormdist",  "fff",  N_("x,mean,stddev"),
-	  &help_lognormdist, gnumeric_lognormdist, NULL, NULL, NULL, NULL,
+	  help_lognormdist, gnumeric_lognormdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "logreg",       "A|Abb",  N_("known_y's,known_x's,const,stat"),
-	  &help_logreg, gnumeric_logreg, NULL, NULL, NULL, NULL,
+	  help_logreg, gnumeric_logreg, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "max", NULL,      N_("number,number,"),
-	  &help_max, NULL, gnumeric_max, NULL, NULL, NULL,
+	  help_max, NULL, gnumeric_max, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "maxa", NULL,      N_("number,number,"),
-	  &help_maxa, NULL, gnumeric_maxa, NULL, NULL, NULL,
+	  help_maxa, NULL, gnumeric_maxa, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "median", NULL,      N_("number,number,"),
-	  &help_median, NULL, gnumeric_median, NULL, NULL, NULL,
+	  help_median, NULL, gnumeric_median, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "min", NULL,      N_("number,number,"),
-	  &help_min, NULL, gnumeric_min, NULL, NULL, NULL,
+	  help_min, NULL, gnumeric_min, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "mina", NULL,      N_("number,number,"),
-	  &help_mina, NULL, gnumeric_mina, NULL, NULL, NULL,
+	  help_mina, NULL, gnumeric_mina, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "mode", NULL,      N_("number,number,"),
-	  &help_mode, NULL, gnumeric_mode, NULL, NULL, NULL,
+	  help_mode, NULL, gnumeric_mode, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "negbinomdist", "fff", N_("f,t,p"),
-	  &help_negbinomdist, gnumeric_negbinomdist, NULL, NULL, NULL, NULL,
+	  help_negbinomdist, gnumeric_negbinomdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "normdist",     "fffb",  N_("x,mean,stddev,cumulative"),
-	  &help_normdist, gnumeric_normdist, NULL, NULL, NULL, NULL,
+	  help_normdist, gnumeric_normdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "norminv",      "fff",  N_("p,mean,stddev"),
-	  &help_norminv, gnumeric_norminv, NULL, NULL, NULL, NULL,
+	  help_norminv, gnumeric_norminv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "normsdist",    "f",  N_("number"),
-	  &help_normsdist, gnumeric_normsdist, NULL, NULL, NULL, NULL,
+	  help_normsdist, gnumeric_normsdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "normsinv",     "f",  N_("p"),
-	  &help_normsinv, gnumeric_normsinv, NULL, NULL, NULL, NULL,
+	  help_normsinv, gnumeric_normsinv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "pearson",      "AA",   N_("array1,array2"),
-	  &help_pearson, gnumeric_pearson, NULL, NULL, NULL, NULL,
+	  help_pearson, gnumeric_pearson, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "percentile",   "Af",  N_("array,k"),
-	  &help_percentile, gnumeric_percentile, NULL, NULL, NULL, NULL,
+	  help_percentile, gnumeric_percentile, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "percentrank",  "Af|f", N_("array,x,significance"),
-	  &help_percentrank, gnumeric_percentrank, NULL, NULL, NULL, NULL,
+	  help_percentrank, gnumeric_percentrank, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "permut",       "ff",  N_("n,k"),
-	  &help_permut, gnumeric_permut, NULL, NULL, NULL, NULL,
+	  help_permut, gnumeric_permut, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "poisson",      "ffb",  N_("x,mean,cumulative"),
-	  &help_poisson, gnumeric_poisson, NULL, NULL, NULL, NULL,
+	  help_poisson, gnumeric_poisson, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "prob",         "AAf|f", N_("x_range,prob_range,lower_limit,upper_limit"),
-	  &help_prob, gnumeric_prob, NULL, NULL, NULL, NULL,
+	  help_prob, gnumeric_prob, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "quartile",     "Af",   N_("array,quart"),
-	  &help_quartile, gnumeric_quartile, NULL, NULL, NULL, NULL,
+	  help_quartile, gnumeric_quartile, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "rank",         "fr|f",      "",
-	  &help_rank, gnumeric_rank, NULL, NULL, NULL, NULL,
+	  help_rank, gnumeric_rank, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "slope",        "AA", N_("known_y's,known_x's"),
-	  &help_slope, gnumeric_slope, NULL, NULL, NULL, NULL,
+	  help_slope, gnumeric_slope, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "small", NULL,      N_("number,number,"),
-	  &help_small, NULL, gnumeric_small, NULL, NULL, NULL,
+	  help_small, NULL, gnumeric_small, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "standardize",  "fff",  N_("x,mean,stddev"),
-	  &help_standardize, gnumeric_standardize, NULL, NULL, NULL, NULL,
+	  help_standardize, gnumeric_standardize, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "ssmedian",   "A|f",  N_("array,interval"),
-	  &help_ssmedian, gnumeric_ssmedian, NULL, NULL, NULL, NULL,
+	  help_ssmedian, gnumeric_ssmedian, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "stdev", NULL,      N_("number,number,"),
-	  &help_stdev, NULL, gnumeric_stdev, NULL, NULL, NULL,
+	  help_stdev, NULL, gnumeric_stdev, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "stdeva", NULL,      N_("number,number,"),
-	  &help_stdeva, NULL, gnumeric_stdeva, NULL, NULL, NULL,
+	  help_stdeva, NULL, gnumeric_stdeva, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "stdevp", NULL,      N_("number,number,"),
-	  &help_stdevp, NULL, gnumeric_stdevp, NULL, NULL, NULL,
+	  help_stdevp, NULL, gnumeric_stdevp, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "stdevpa", NULL,      N_("number,number,"),
-	  &help_stdevpa, NULL, gnumeric_stdevpa, NULL, NULL, NULL,
+	  help_stdevpa, NULL, gnumeric_stdevpa, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "steyx",        "AA", N_("known_y's,known_x's"),
-	  &help_steyx, gnumeric_steyx, NULL, NULL, NULL, NULL,
+	  help_steyx, gnumeric_steyx, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "rsq",          "AA",   N_("array1,array2"),
-	  &help_rsq, gnumeric_rsq, NULL, NULL, NULL, NULL,
+	  help_rsq, gnumeric_rsq, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "skew", NULL,      "",
-	  &help_skew, NULL, gnumeric_skew, NULL, NULL, NULL,
+	  help_skew, NULL, gnumeric_skew, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "tdist",        "fff",    N_("x,dof,tails"),
-	  &help_tdist, gnumeric_tdist, NULL, NULL, NULL, NULL,
+	  help_tdist, gnumeric_tdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "tinv",         "ff",     N_("p,dof"),
-	  &help_tinv, gnumeric_tinv, NULL, NULL, NULL, NULL,
+	  help_tinv, gnumeric_tinv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "trend",        "A|AAb", N_("known_y's,known_x's,new_x's,const"),
-	  &help_trend, gnumeric_trend, NULL, NULL, NULL, NULL,
+	  help_trend, gnumeric_trend, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "trimmean", NULL,      N_("ref,fraction"),
-	  &help_trimmean, NULL, gnumeric_trimmean, NULL, NULL, NULL,
+	  help_trimmean, NULL, gnumeric_trimmean, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "ttest",        "rrff",   N_("array1,array2,tails,type"),
-	  &help_ttest, gnumeric_ttest, NULL, NULL, NULL, NULL,
+	  help_ttest, gnumeric_ttest, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "var", NULL,      N_("number,number,"),
-	  &help_var, NULL, gnumeric_var, NULL, NULL, NULL,
+	  help_var, NULL, gnumeric_var, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "vara", NULL,      N_("number,number,"),
-	  &help_vara, NULL, gnumeric_vara, NULL, NULL, NULL,
+	  help_vara, NULL, gnumeric_vara, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "varp", NULL,      N_("number,number,"),
-	  &help_varp, NULL, gnumeric_varp, NULL, NULL, NULL,
+	  help_varp, NULL, gnumeric_varp, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "varpa", NULL,      N_("number,number,"),
-	  &help_varpa, NULL, gnumeric_varpa, NULL, NULL, NULL,
+	  help_varpa, NULL, gnumeric_varpa, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "weibull",      "fffb",  N_("x.alpha,beta,cumulative"),
-	  &help_weibull, gnumeric_weibull, NULL, NULL, NULL, NULL,
+	  help_weibull, gnumeric_weibull, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "ztest", NULL,      N_("ref,x"),
-	  &help_ztest, NULL, gnumeric_ztest, NULL, NULL, NULL,
+	  help_ztest, NULL, gnumeric_ztest, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-        { "exppowdist", "fff", N_("x,a,b"),         &help_exppowdist,
+        { "exppowdist", "fff", N_("x,a,b"),         help_exppowdist,
 	  gnumeric_exppowdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "geomdist", "ffb", N_("k,p"),    &help_geomdist,
+        { "geomdist", "ffb", N_("k,p"),    help_geomdist,
 	  gnumeric_geomdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "kurtp", NULL,      N_("number,number,"),
-	  &help_kurtp, NULL, gnumeric_kurtp, NULL, NULL, NULL,
+	  help_kurtp, NULL, gnumeric_kurtp, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "landau", "f", N_("x"), &help_landau,
+        { "landau", "f", N_("x"), help_landau,
 	  gnumeric_landau, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "laplace", "ff", N_("x,a"), &help_laplace,
+        { "laplace", "ff", N_("x,a"), help_laplace,
 	  gnumeric_laplace, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "logistic", "ff", N_("x,a"), &help_logistic,
+        { "logistic", "ff", N_("x,a"), help_logistic,
 	  gnumeric_logistic, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "pareto", "fff", N_("x,a,b"), &help_pareto,
+        { "pareto", "fff", N_("x,a,b"), help_pareto,
 	  gnumeric_pareto, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "rayleigh", "ff", N_("x,sigma"), &help_rayleigh,
+        { "rayleigh", "ff", N_("x,sigma"), help_rayleigh,
 	  gnumeric_rayleigh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "rayleightail", "fff", N_("x,a,sigma"), &help_rayleightail,
+        { "rayleightail", "fff", N_("x,a,sigma"), help_rayleightail,
 	  gnumeric_rayleightail, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "skewp", NULL,      "",
-	  &help_skewp, NULL, gnumeric_skewp, NULL, NULL, NULL,
+	  help_skewp, NULL, gnumeric_skewp, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "subtotal", NULL,  N_("function_nbr,ref,ref,"),
-	  &help_subtotal,    NULL, gnumeric_subtotal, NULL, NULL, NULL,
+	  help_subtotal,    NULL, gnumeric_subtotal, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "cronbach", NULL,      N_("ref,ref,"),
-	  &help_cronbach, NULL, gnumeric_cronbach, NULL, NULL, NULL,
+	  help_cronbach, NULL, gnumeric_cronbach, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
         {NULL}

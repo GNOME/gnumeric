@@ -23,10 +23,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include <func.h>
-
 #include <parse-util.h>
 #include <cell.h>
 #include <src/gnm-format.h>
@@ -42,12 +40,12 @@
 #include <goffice/utils/regutf8.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-msole-utils.h>
+#include <gnm-i18n.h>
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 
 #include <limits.h>
 #include <string.h>
-
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -55,8 +53,9 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 static GIConv CHAR_iconv;
 
-static char const *help_char = {
-	N_("@FUNCTION=CHAR\n"
+static GnmFuncHelp const help_char[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=CHAR\n"
 	   "@SYNTAX=CHAR(x)\n"
 
 	   "@DESCRIPTION="
@@ -66,6 +65,8 @@ static char const *help_char = {
 	   "CHAR(65) equals A.\n"
 	   "\n"
 	   "@SEEALSO=CODE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -97,8 +98,9 @@ gnumeric_char (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_unichar = {
-	N_("@FUNCTION=UNICHAR\n"
+static GnmFuncHelp const help_unichar[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=UNICHAR\n"
 	   "@SYNTAX=UNICHAR(x)\n"
 
 	   "@DESCRIPTION="
@@ -109,6 +111,8 @@ static char const *help_unichar = {
 	   "UNICHAR(960) equals a small Greek pi.\n"
 	   "\n"
 	   "@SEEALSO=CHAR,UNICODE,CODE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -129,8 +133,9 @@ gnumeric_unichar (FunctionEvalInfo *ei, GnmValue **argv)
 
 static GIConv CODE_iconv;
 
-static char const *help_code = {
-	N_("@FUNCTION=CODE\n"
+static GnmFuncHelp const help_code[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=CODE\n"
 	   "@SYNTAX=CODE(char)\n"
 
 	   "@DESCRIPTION="
@@ -141,6 +146,8 @@ static char const *help_code = {
 	   "CODE(\"A\") equals 65.\n"
 	   "\n"
 	   "@SEEALSO=CHAR")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -174,8 +181,9 @@ gnumeric_code (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_unicode = {
-	N_("@FUNCTION=UNICODE\n"
+static GnmFuncHelp const help_unicode[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=UNICODE\n"
 	   "@SYNTAX=UNICODE(char)\n"
 
 	   "@DESCRIPTION="
@@ -185,6 +193,8 @@ static char const *help_unicode = {
 	   "UNICODE(\"A\") equals 65.\n"
 	   "\n"
 	   "@SEEALSO=UNICHAR,CODE,CHAR")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -200,8 +210,9 @@ gnumeric_unicode (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_exact = {
-	N_("@FUNCTION=EXACT\n"
+static GnmFuncHelp const help_exact[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=EXACT\n"
 	   "@SYNTAX=EXACT(string1, string2)\n"
 
 	   "@DESCRIPTION="
@@ -214,6 +225,8 @@ static char const *help_exact = {
 	   "EXACT(\"key\",\"Key\") equals FALSE.\n"
 	   "\n"
 	   "@SEEALSO=LEN, SEARCH, DELTA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -225,8 +238,9 @@ gnumeric_exact (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_len = {
-	N_("@FUNCTION=LEN\n"
+static GnmFuncHelp const help_len[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=LEN\n"
 	   "@SYNTAX=LEN(string)\n"
 
 	   "@DESCRIPTION="
@@ -236,9 +250,10 @@ static char const *help_len = {
 	   "@EXAMPLES=\n"
 	   "LEN(\"Helsinki\") equals 8.\n"
 	   "\n"
-	   "@SEEALSO=CHAR, CODE")
+	   "@SEEALSO=CHAR, CODE, LENB")
+	},
+	{ GNM_FUNC_HELP_END }
 };
-#warning Add LENB to seealso
 
 static GnmValue *
 gnumeric_len (FunctionEvalInfo *ei, GnmValue **argv)
@@ -247,8 +262,9 @@ gnumeric_len (FunctionEvalInfo *ei, GnmValue **argv)
 }
 
 /***************************************************************************/
-static char const *help_lenb = {
-	N_("@FUNCTION=LENB\n"
+static GnmFuncHelp const help_lenb[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=LENB\n"
 	   "@SYNTAX=LENB(string)\n"
 
 	   "@DESCRIPTION="
@@ -259,6 +275,8 @@ static char const *help_lenb = {
 	   "LENB(\"Helsinki\") equals 8.\n"
 	   "\n"
 	   "@SEEALSO=CHAR, CODE, LEN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -269,8 +287,9 @@ gnumeric_lenb (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_left = {
-	N_("@FUNCTION=LEFT\n"
+static GnmFuncHelp const help_left[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=LEFT\n"
 	   "@SYNTAX=LEFT(text[,num_chars])\n"
 
 	   "@DESCRIPTION="
@@ -282,6 +301,8 @@ static char const *help_left = {
 	   "LEFT(\"Directory\",3) equals \"Dir\".\n"
 	   "\n"
 	   "@SEEALSO=MID, RIGHT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -305,8 +326,9 @@ gnumeric_left (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_lower = {
-	N_("@FUNCTION=LOWER\n"
+static GnmFuncHelp const help_lower[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=LOWER\n"
 	   "@SYNTAX=LOWER(text)\n"
 
 	   "@DESCRIPTION="
@@ -317,6 +339,8 @@ static char const *help_lower = {
 	   "LOWER(\"J. F. Kennedy\") equals \"j. f. kennedy\".\n"
 	   "\n"
 	   "@SEEALSO=UPPER")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -327,8 +351,9 @@ gnumeric_lower (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_mid = {
-	N_("@FUNCTION=MID\n"
+static GnmFuncHelp const help_mid[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=MID\n"
 	   "@SYNTAX=MID(string, position, length)\n"
 
 	   "@DESCRIPTION="
@@ -340,6 +365,8 @@ static char const *help_mid = {
 	   "MID(\"testing\",2,3) equals \"est\".\n"
 	   "\n"
 	   "@SEEALSO=LEFT, RIGHT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -372,8 +399,9 @@ gnumeric_mid (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_right = {
-	N_("@FUNCTION=RIGHT\n"
+static GnmFuncHelp const help_right[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=RIGHT\n"
 	   "@SYNTAX=RIGHT(text[,num_chars])\n"
 
 	   "@DESCRIPTION="
@@ -386,6 +414,8 @@ static char const *help_right = {
 	   "RIGHT(\"end\",2) equals \"nd\".\n"
 	   "\n"
 	   "@SEEALSO=MID, LEFT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -416,8 +446,9 @@ gnumeric_right (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_upper = {
-	N_("@FUNCTION=UPPER\n"
+static GnmFuncHelp const help_upper[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=UPPER\n"
 	   "@SYNTAX=UPPER(text)\n"
 
 	   "@DESCRIPTION="
@@ -428,6 +459,8 @@ static char const *help_upper = {
 	   "UPPER(\"cancelled\") equals \"CANCELLED\".\n"
 	   "\n"
 	   "@SEEALSO=LOWER")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -438,8 +471,9 @@ gnumeric_upper (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_concatenate = {
-	N_("@FUNCTION=CONCATENATE\n"
+static GnmFuncHelp const help_concatenate[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=CONCATENATE\n"
 	   "@SYNTAX=CONCATENATE(string1[,string2...])\n"
 	   "@DESCRIPTION="
 	   "CONCATENATE returns the string obtained by concatenation of "
@@ -450,6 +484,8 @@ static char const *help_concatenate = {
 	   "CONCATENATE(\"aa\",\"bb\") equals \"aabb\".\n"
 	   "\n"
 	   "@SEEALSO=LEFT, MID, RIGHT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -463,8 +499,9 @@ gnumeric_concatenate (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static char const *help_rept = {
-	N_("@FUNCTION=REPT\n"
+static GnmFuncHelp const help_rept[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=REPT\n"
 	   "@SYNTAX=REPT(string,num)\n"
 	   "@DESCRIPTION="
 	   "REPT returns @num repetitions of @string.\n\n"
@@ -474,6 +511,8 @@ static char const *help_rept = {
 	   "REPT(\".\",3) equals \"...\".\n"
 	   "\n"
 	   "@SEEALSO=CONCATENATE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -509,8 +548,9 @@ gnumeric_rept (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_clean = {
-	N_("@FUNCTION=CLEAN\n"
+static GnmFuncHelp const help_clean[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=CLEAN\n"
 	   "@SYNTAX=CLEAN(string)\n"
 	   "@DESCRIPTION="
 	   "CLEAN removes any non-printable characters from @string.\n\n"
@@ -520,6 +560,8 @@ static char const *help_clean = {
 	   "CLEAN(\"one\"\\&char(7)) equals \"one\".\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -542,8 +584,9 @@ gnumeric_clean (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_find = {
-	N_("@FUNCTION=FIND\n"
+static GnmFuncHelp const help_find[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=FIND\n"
 	   "@SYNTAX=FIND(string1,string2[,start])\n"
 	   "@DESCRIPTION="
 	   "FIND returns position of @string1 in @string2 (case-sensitive), "
@@ -555,6 +598,8 @@ static char const *help_find = {
 	   "FIND(\"ac\",\"Jack\") equals 2.\n"
 	   "\n"
 	   "@SEEALSO=EXACT, LEN, MID, SEARCH")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -600,8 +645,9 @@ gnumeric_find (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_fixed = {
-	N_("@FUNCTION=FIXED\n"
+static GnmFuncHelp const help_fixed[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=FIXED\n"
 	   "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
 	   "@DESCRIPTION="
 	   "FIXED returns @num as a formatted string with @decimals numbers "
@@ -613,6 +659,8 @@ static char const *help_fixed = {
 	   "FIXED(1234.567,2) equals \"1,234.57\".\n"
 	   "\n"
 	   "@SEEALSO=TEXT, VALUE, DOLLAR")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -665,8 +713,9 @@ gnumeric_fixed (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_proper = {
-	N_("@FUNCTION=PROPER\n"
+static GnmFuncHelp const help_proper[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=PROPER\n"
 	   "@SYNTAX=PROPER(string)\n"
 
 	   "@DESCRIPTION="
@@ -677,6 +726,8 @@ static char const *help_proper = {
 	   "PROPER(\"j. f. kennedy\") equals \"J. F. Kennedy\".\n"
 	   "\n"
 	   "@SEEALSO=LOWER, UPPER")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 /*
@@ -717,8 +768,9 @@ gnumeric_proper (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_replace = {
-	N_("@FUNCTION=REPLACE\n"
+static GnmFuncHelp const help_replace[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=REPLACE\n"
 	   "@SYNTAX=REPLACE(old,start,num,new)\n"
 	   "@DESCRIPTION="
 	   "REPLACE returns @old with @new replacing @num characters from "
@@ -729,6 +781,8 @@ static char const *help_replace = {
 	   "REPLACE(\"testing\",2,3,\"*****\") equals \"t*****ing\".\n"
 	   "\n"
 	   "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -766,8 +820,9 @@ gnumeric_replace (FunctionEvalInfo *ei, GnmValue **argv)
 /***************************************************************************/
 /* Note: help_t is a reserved symbol.  */
 
-static char const *help_t_ = {
-	N_("@FUNCTION=T\n"
+static GnmFuncHelp const help_t_[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=T\n"
 	   "@SYNTAX=T(value)\n"
 	   "@DESCRIPTION="
 	   "T returns @value if and only if it is text, otherwise a blank "
@@ -779,6 +834,8 @@ static char const *help_t_ = {
 	   "T(64) returns an empty cell.\n"
 	   "\n"
 	   "@SEEALSO=CELL, N, VALUE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 /* Note: gnumeric_t is a reserved symbol.  */
@@ -794,8 +851,9 @@ gnumeric_t_ (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_text = {
-	N_("@FUNCTION=TEXT\n"
+static GnmFuncHelp const help_text[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=TEXT\n"
 	   "@SYNTAX=TEXT(value,format_text)\n"
 	   "@DESCRIPTION="
 	   "TEXT returns @value as a string with the specified format.\n\n"
@@ -806,6 +864,8 @@ static char const *help_text = {
 	   "TEXT(date(1999,4,15),\"mmmm, dd, yy\") equals \"April, 15, 99\".\n"
 	   "\n"
 	   "@SEEALSO=DOLLAR, FIXED, VALUE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -835,8 +895,9 @@ gnumeric_text (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_trim = {
-	N_("@FUNCTION=TRIM\n"
+static GnmFuncHelp const help_trim[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=TRIM\n"
 	   "@SYNTAX=TRIM(text)\n"
 	   "@DESCRIPTION="
 	   "TRIM returns @text with only single spaces between words.\n\n"
@@ -846,6 +907,8 @@ static char const *help_trim = {
 	   "TRIM(\"  a bbb  cc\") equals \"a bbb cc\".\n"
 	   "\n"
 	   "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -887,8 +950,9 @@ gnumeric_trim (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_value = {
-	N_("@FUNCTION=VALUE\n"
+static GnmFuncHelp const help_value[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=VALUE\n"
 	   "@SYNTAX=VALUE(text)\n"
 	   "@DESCRIPTION="
 	   "VALUE returns numeric value of @text.\n\n"
@@ -898,6 +962,8 @@ static char const *help_value = {
 	   "VALUE(\"$1,000\") equals 1000.\n"
 	   "\n"
 	   "@SEEALSO=DOLLAR, FIXED, TEXT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -930,8 +996,9 @@ gnumeric_value (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_substitute = {
-	N_("@FUNCTION=SUBSTITUTE\n"
+static GnmFuncHelp const help_substitute[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SUBSTITUTE\n"
 	   "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
 	   "@DESCRIPTION="
 	   "SUBSTITUTE replaces @old with @new in @text.  Substitutions "
@@ -943,6 +1010,8 @@ static char const *help_substitute = {
 	   "SUBSTITUTE(\"testing\",\"test\",\"wait\") equals \"waiting\".\n"
 	   "\n"
 	   "@SEEALSO=REPLACE, TRIM")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -996,8 +1065,9 @@ gnumeric_substitute (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_dollar = {
-	N_("@FUNCTION=DOLLAR\n"
+static GnmFuncHelp const help_dollar[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=DOLLAR\n"
 	   "@SYNTAX=DOLLAR(num[,decimals])\n"
 	   "@DESCRIPTION="
 	   "DOLLAR returns @num formatted as currency.\n\n"
@@ -1007,6 +1077,8 @@ static char const *help_dollar = {
 	   "DOLLAR(12345) equals \"$12,345.00\".\n"
 	   "\n"
 	   "@SEEALSO=FIXED, TEXT, VALUE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1052,8 +1124,9 @@ gnumeric_dollar (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_search = {
-	N_("@FUNCTION=SEARCH\n"
+static GnmFuncHelp const help_search[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=SEARCH\n"
 	   "@SYNTAX=SEARCH(search_string,text[,start_num])\n"
 	   "@DESCRIPTION="
 	   "SEARCH returns the location of the @search_ string within "
@@ -1079,6 +1152,8 @@ static char const *help_search = {
 	   "SEARCH(\"c\",\"Cancel\",2) equals 4.\n"
 	   "\n"
 	   "@SEEALSO=FIND")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1124,82 +1199,82 @@ gnumeric_search (FunctionEvalInfo *ei, GnmValue **argv)
 /***************************************************************************/
 
 const GnmFuncDescriptor string_functions[] = {
-        { "char",       "f",     N_("number"),                  &help_char,
+        { "char",       "f",     N_("number"),                  help_char,
 	  gnumeric_char, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "unichar",    "f",     N_("number"),                  &help_unichar,
+        { "unichar",    "f",     N_("number"),                  help_unichar,
 	  gnumeric_unichar, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
-        { "clean",      "S",     N_("text"),                    &help_clean,
+        { "clean",      "S",     N_("text"),                    help_clean,
           gnumeric_clean, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "code",       "S",     N_("text"),                    &help_code,
+        { "code",       "S",     N_("text"),                    help_code,
 	  gnumeric_code, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "unicode",    "S",     N_("text"),                    &help_unicode,
+        { "unicode",    "S",     N_("text"),                    help_unicode,
 	  gnumeric_unicode, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
-        { "concatenate", NULL,   N_("text,text,"),            &help_concatenate,
+        { "concatenate", NULL,   N_("text,text,"),            help_concatenate,
 	  NULL, gnumeric_concatenate, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "dollar",     "f|f",   N_("num,decimals"),            &help_dollar,
+        { "dollar",     "f|f",   N_("num,decimals"),            help_dollar,
 	  gnumeric_dollar, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "exact",      "SS",    N_("text1,text2"),             &help_exact,
+        { "exact",      "SS",    N_("text1,text2"),             help_exact,
 	  gnumeric_exact, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "find",       "SS|f",  N_("text1,text2,num"),         &help_find,
+        { "find",       "SS|f",  N_("text1,text2,num"),         help_find,
 	  gnumeric_find, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "fixed",      "f|fb",  N_("num,decs,no_commas"),      &help_fixed,
+        { "fixed",      "f|fb",  N_("num,decs,no_commas"),      help_fixed,
 	  gnumeric_fixed, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "left",       "S|f",   N_("text,num_chars"),          &help_left,
+        { "left",       "S|f",   N_("text,num_chars"),          help_left,
 	  gnumeric_left, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "len",        "S",     N_("text"),                    &help_len,
+        { "len",        "S",     N_("text"),                    help_len,
 	  gnumeric_len, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "lenb",       "S",     N_("text"),                    &help_lenb,
+        { "lenb",       "S",     N_("text"),                    help_lenb,
 	  gnumeric_lenb, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "lower",      "S",     N_("text"),                    &help_lower,
+        { "lower",      "S",     N_("text"),                    help_lower,
 	  gnumeric_lower, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "mid",        "Sff",   N_("text,pos,num"),            &help_mid,
+        { "mid",        "Sff",   N_("text,pos,num"),            help_mid,
 	  gnumeric_mid, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "proper",     "S",     N_("text"),                    &help_proper,
+        { "proper",     "S",     N_("text"),                    help_proper,
 	  gnumeric_proper, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "replace",    "SffS",  N_("old,start,num,new"),       &help_replace,
+        { "replace",    "SffS",  N_("old,start,num,new"),       help_replace,
 	  gnumeric_replace, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "rept",       "Sf",    N_("text,num"),                &help_rept,
+        { "rept",       "Sf",    N_("text,num"),                help_rept,
 	  gnumeric_rept, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "right",      "S|f",   N_("text,num_chars"),          &help_right,
+        { "right",      "S|f",   N_("text,num_chars"),          help_right,
 	  gnumeric_right, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "search",     "SS|f",  N_("search_string,text,start_num"),   &help_search,
+        { "search",     "SS|f",  N_("search_string,text,start_num"),   help_search,
 	  gnumeric_search, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "substitute", "SSS|f", N_("text,old,new,num"),       &help_substitute,
+        { "substitute", "SSS|f", N_("text,old,new,num"),       help_substitute,
 	  gnumeric_substitute, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "t",          "S",     N_("value"),                   &help_t_,
+        { "t",          "S",     N_("value"),                   help_t_,
           gnumeric_t_, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "text",       "Ss",    N_("value,format_text"),       &help_text,
+        { "text",       "Ss",    N_("value,format_text"),       help_text,
 	  gnumeric_text, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "trim",       "S",     N_("text"),                    &help_trim,
+        { "trim",       "S",     N_("text"),                    help_trim,
 	  gnumeric_trim, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "upper",      "S",     N_("text"),                    &help_upper,
+        { "upper",      "S",     N_("text"),                    help_upper,
 	  gnumeric_upper, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "value",      "S",     N_("text"),                    &help_value,
+        { "value",      "S",     N_("text"),                    help_value,
 	  gnumeric_value, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 

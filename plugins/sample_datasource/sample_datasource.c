@@ -21,14 +21,14 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 
 #include "func.h"
-#include <goffice/app/go-plugin.h>
 #include "value.h"
 #include "workbook.h"
 #include "sheet.h"
+#include "gnm-i18n.h"
+#include <goffice/app/go-plugin.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #include <sys/types.h>
@@ -266,9 +266,10 @@ atl_last_unlink (FunctionEvalInfo *ei)
 	puts ("unlink atl_last");
 }
 
-static const char *help_atl_last = {
+static GnmFuncHelp const help_atl_last[] = {
+	{ GNM_FUNC_HELP_OLD,
         /* xgettext:no-c-format */
-	N_("@FUNCTION=atl_last\n"
+	F_("@FUNCTION=atl_last\n"
 	   "@SYNTAX=ATL_LAST (tag)\n"
 	   "@DESCRIPTION="
 	   "ATL_LAST is a sample implemention of a real time data source. "
@@ -281,10 +282,12 @@ static const char *help_atl_last = {
 	   "ATL_LAST(\"IBM\")"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 GnmFuncDescriptor const ATL_functions[] = {
-	{"atl_last", "s", "tag", &help_atl_last, atl_last, NULL, atl_last_link, atl_last_unlink },
+	{"atl_last", "s", "tag", help_atl_last, atl_last, NULL, atl_last_link, atl_last_unlink },
 
 	{NULL}
 };

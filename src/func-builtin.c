@@ -30,7 +30,8 @@
 
 /***************************************************************************/
 
-static const char *help_sum = {
+static GnmFuncHelp const help_sum[] = {
+    { GNM_FUNC_HELP_OLD,
 	N_("@FUNCTION=SUM\n"
 	   "@SYNTAX=SUM(value1, value2, ...)\n"
 
@@ -42,9 +43,10 @@ static const char *help_sum = {
 	   "@EXAMPLES=\n"
 	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
 	   "11, 15, 17, 21, and 43.  Then\n"
-	   "SUM(A1:A5) equals 107.\n"
-	   "\n"
-	   "@SEEALSO=AVERAGE, COUNT")
+	   "SUM(A1:A5) equals 107.")
+    },
+    { GNM_FUNC_HELP_SEEALSO, "AVERAGE, COUNT" },
+    { GNM_FUNC_HELP_END }
 };
 
 GnmValue *
@@ -60,7 +62,8 @@ gnumeric_sum (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static const char *help_product = {
+static GnmFuncHelp const help_product[] = {
+    { GNM_FUNC_HELP_OLD,
 	N_("@FUNCTION=PRODUCT\n"
 	   "@SYNTAX=PRODUCT(value1, value2, ...)\n"
 
@@ -71,9 +74,10 @@ static const char *help_product = {
 	   "that if all cells are empty, the result will be 0.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "PRODUCT(2,5,9) equals 90.\n"
-	   "\n"
-	   "@SEEALSO=SUM, COUNT, G_PRODUCT")
+	   "PRODUCT(2,5,9) equals 90.")
+    },
+    { GNM_FUNC_HELP_SEEALSO, "SUM,COUNT,G_PRODUCT" },
+    { GNM_FUNC_HELP_END }
 };
 
 static int
@@ -99,7 +103,8 @@ gnumeric_product (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static const char *help_gnumeric_version = {
+static GnmFuncHelp const help_gnumeric_version[] = {
+    { GNM_FUNC_HELP_OLD,
 	N_("@FUNCTION=GNUMERIC_VERSION\n"
 	   "@SYNTAX=GNUMERIC_VERSION()\n"
 
@@ -108,9 +113,9 @@ static const char *help_gnumeric_version = {
 
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "GNUMERIC_VERSION().\n"
-	   "\n"
-	   "@SEEALSO=")
+	   "GNUMERIC_VERSION().")
+    },
+    { GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -129,19 +134,19 @@ func_builtin_init (void)
 {
 	static GnmFuncDescriptor const builtins [] = {
 		{	"sum",		NULL,	N_("number,number,"),
-			&help_sum,	NULL,	gnumeric_sum,
+			help_sum,	NULL,	gnumeric_sum,
 			NULL, NULL, NULL, GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 			GNM_FUNC_IMPL_STATUS_COMPLETE,
 			GNM_FUNC_TEST_STATUS_BASIC
 		},
 		{	"product",		NULL,	N_("number,number,"),
-			&help_product,	NULL,	gnumeric_product,
+			help_product,	NULL,	gnumeric_product,
 			NULL, NULL, NULL, GNM_FUNC_SIMPLE,
 			GNM_FUNC_IMPL_STATUS_COMPLETE,
 			GNM_FUNC_TEST_STATUS_BASIC
 		},
 		{	"gnumeric_version",	"",	"",
-			&help_gnumeric_version,	gnumeric_version,
+			help_gnumeric_version,	gnumeric_version,
 			NULL, NULL, NULL, NULL, GNM_FUNC_SIMPLE,
 			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 			GNM_FUNC_TEST_STATUS_EXHAUSTIVE

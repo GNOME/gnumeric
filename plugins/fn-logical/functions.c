@@ -23,7 +23,6 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include <func.h>
 
@@ -31,6 +30,7 @@
 #include <cell.h>
 #include <expr.h>
 #include <value.h>
+#include <gnm-i18n.h>
 
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/module-plugin-defs.h>
@@ -39,8 +39,9 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /***************************************************************************/
 
-static char const *help_and = {
-	N_("@FUNCTION=AND\n"
+static GnmFuncHelp const help_and[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=AND\n"
 	   "@SYNTAX=AND(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -65,6 +66,8 @@ static char const *help_and = {
 	   "AND(A1>3,A2<2) equals TRUE.\n"
 	   "\n"
 	   "@SEEALSO=OR, NOT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -101,8 +104,9 @@ gnumeric_and (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static char const *help_not = {
-	N_("@FUNCTION=NOT\n"
+static GnmFuncHelp const help_not[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=NOT\n"
 	   "@SYNTAX=NOT(number)\n"
 
 	   "@DESCRIPTION="
@@ -116,6 +120,8 @@ static char const *help_not = {
 	   "NOT(TRUE) equals FALSE.\n"
 	   "\n"
 	   "@SEEALSO=AND, OR")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -129,8 +135,9 @@ gnumeric_not (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_or = {
-	N_("@FUNCTION=OR\n"
+static GnmFuncHelp const help_or[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=OR\n"
 	   "@SYNTAX=OR(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -152,6 +159,8 @@ static char const *help_or = {
 	   "OR(3>4,4<3) equals FALSE.\n"
 	   "\n"
 	   "@SEEALSO=AND, NOT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -188,8 +197,9 @@ gnumeric_or (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static char const *help_xor = {
-	N_("@FUNCTION=XOR\n"
+static GnmFuncHelp const help_xor[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=XOR\n"
 	   "@SYNTAX=XOR(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
@@ -209,6 +219,8 @@ static char const *help_xor = {
 	   "XOR(3>4,4<3) equals FALSE.\n"
 	   "\n"
 	   "@SEEALSO=OR, AND, NOT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -245,8 +257,9 @@ gnumeric_xor (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static char const *help_if = {
-	N_("@FUNCTION=IF\n"
+static GnmFuncHelp const help_if[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=IF\n"
 	   "@SYNTAX=IF(condition[,if-true,if-false])\n"
 
 	   "@DESCRIPTION="
@@ -262,6 +275,8 @@ static char const *help_if = {
 	   "IF(FALSE,TRUE,FALSE) equals FALSE.\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -285,8 +300,9 @@ gnumeric_if (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_true = {
-	N_("@FUNCTION=TRUE\n"
+static GnmFuncHelp const help_true[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=TRUE\n"
 	   "@SYNTAX=TRUE()\n"
 
 	   "@DESCRIPTION="
@@ -297,6 +313,8 @@ static char const *help_true = {
 	   "TRUE() equals TRUE.\n"
 	   "\n"
 	   "@SEEALSO=FALSE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -307,8 +325,9 @@ gnumeric_true (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_false = {
-	N_("@FUNCTION=FALSE\n"
+static GnmFuncHelp const help_false[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=FALSE\n"
 	   "@SYNTAX=FALSE()\n"
 
 	   "@DESCRIPTION="
@@ -319,6 +338,8 @@ static char const *help_false = {
 	   "FALSE() equals FALSE.\n"
 	   "\n"
 	   "@SEEALSO=TRUE")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -330,31 +351,31 @@ gnumeric_false (FunctionEvalInfo *ei, GnmValue **args)
 /***************************************************************************/
 
 const GnmFuncDescriptor logical_functions[] = {
-	{ "and", NULL, N_("number,number,"), &help_and, NULL,
+	{ "and", NULL, N_("number,number,"), help_and, NULL,
 	  gnumeric_and, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "or", NULL, N_("number,number,"), &help_or, NULL,
+	{ "or", NULL, N_("number,number,"), help_or, NULL,
 	  gnumeric_or, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "not", "b", N_("number"), &help_not, gnumeric_not,
+	{ "not", "b", N_("number"), help_not, gnumeric_not,
 	  NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "if", "b|EE", N_("condition,if true,if false"), &help_if,
+	{ "if", "b|EE", N_("condition,if true,if false"), help_if,
 	  gnumeric_if, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_SECOND,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "true", "", "", &help_true, gnumeric_true,
+	{ "true", "", "", help_true, gnumeric_true,
 	  NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "false", "", "", &help_false, gnumeric_false,
+	{ "false", "", "", help_false, gnumeric_false,
 	  NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "xor", NULL, N_("number,number,"), &help_xor, NULL,
+	{ "xor", NULL, N_("number,number,"), help_xor, NULL,
 	  gnumeric_xor, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },

@@ -15,6 +15,7 @@ Jody:
 	* Fix OFFSET for asymetric ranges [#166764]
 	* Fix SUMIF for asymetric ranges [#166769]
 	* Import sheet visibility from ms excel
+	* Split function docs into a distinct catalog
 
 Morten:
 	* Work around Pango bug causing XL save crash.  [#166532]

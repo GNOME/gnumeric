@@ -1,3 +1,11 @@
+2005-02-12  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : move function docs into a distinct message catalog
+	* */*.c : modify all function docs to start using the new format.
+	* src/func.c (gnm_func_load_stub) : adjust to new GnmFuncHelp type
+	(gnm_func_add) : ditto
+	(tokenized_help_new) : ditto
+
 2005-02-10  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=165982

@@ -30,10 +30,8 @@
  * copyright on the CELL implementation.
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include <func.h>
-
 #include <parse-util.h>
 #include <cell.h>
 #include <str.h>
@@ -47,6 +45,10 @@
 #include <expr-impl.h>
 #include <sheet-style.h>
 #include <number-match.h>
+#include <gnm-i18n.h>
+
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 
 #ifdef HAVE_UNAME
 #include <sys/utsname.h>
@@ -55,15 +57,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
-
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /***************************************************************************/
 
-static char const *help_cell = {
-	N_("@FUNCTION=CELL\n"
+static GnmFuncHelp const help_cell[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=CELL\n"
 	   "@SYNTAX=CELL(type,ref)\n"
 
 	   "@DESCRIPTION="
@@ -86,6 +86,8 @@ static char const *help_cell = {
 	   "Cell(\"format\",A1) returns the code of the format of the cell A1.\n"
 	   "\n"
 	   "@SEEALSO=INDIRECT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 typedef struct {
@@ -1161,8 +1163,9 @@ End Function
 
 /***************************************************************************/
 
-static char const *help_expression = {
-	N_("@FUNCTION=EXPRESSION\n"
+static GnmFuncHelp const help_expression[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=EXPRESSION\n"
 	   "@SYNTAX=EXPRESSION(cell)\n"
 	   "@DESCRIPTION="
 	   "EXPRESSION returns expression in @cell as a string, or "
@@ -1172,6 +1175,8 @@ static char const *help_expression = {
 	   "entering '=EXPRESSION(A2)' in A1 = 'EXPRESSION(A3)'.\n"
 	   "\n"
 	   "@SEEALSO=TEXT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1204,8 +1209,9 @@ gnumeric_expression (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_countblank = {
-        N_("@FUNCTION=COUNTBLANK\n"
+static GnmFuncHelp const help_countblank[] = {
+	{ GNM_FUNC_HELP_OLD,
+        F_("@FUNCTION=COUNTBLANK\n"
            "@SYNTAX=COUNTBLANK(range)\n"
 
            "@DESCRIPTION="
@@ -1216,6 +1222,8 @@ static char const *help_countblank = {
 	   "COUNTBLANK(A1:A20) returns the number of blank cell in A1:A20.\n"
 	   "\n"
            "@SEEALSO=COUNT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1248,8 +1256,9 @@ gnumeric_countblank (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_info = {
-	N_("@FUNCTION=INFO\n"
+static GnmFuncHelp const help_info[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=INFO\n"
 	   "@SYNTAX=INFO(type)\n"
 
 	   "@DESCRIPTION="
@@ -1272,6 +1281,8 @@ static char const *help_info = {
 	   "INFO(\"system\") returns \"Linux\" on a Linux system.\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -1351,8 +1362,9 @@ gnumeric_info (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_iserror = {
-	N_("@FUNCTION=ISERROR\n"
+static GnmFuncHelp const help_iserror[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ISERROR\n"
 	   "@SYNTAX=ISERROR(value)\n"
 
 	   "@DESCRIPTION="
@@ -1363,6 +1375,8 @@ static char const *help_iserror = {
 	   "ISERROR(NA()) equals TRUE.\n"
 	   "\n"
 	   "@SEEALSO=ERROR")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1373,8 +1387,9 @@ gnumeric_iserror (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_isna = {
-	N_("@FUNCTION=ISNA\n"
+static GnmFuncHelp const help_isna[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ISNA\n"
 	   "@SYNTAX=ISNA(value)\n"
 
 	   "@DESCRIPTION="
@@ -1385,6 +1400,8 @@ static char const *help_isna = {
 	   "ISNA(NA()) equals TRUE.\n"
 	   "\n"
 	   "@SEEALSO=NA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 /*
@@ -1399,8 +1416,9 @@ gnumeric_isna (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_iserr = {
-	N_("@FUNCTION=ISERR\n"
+static GnmFuncHelp const help_iserr[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ISERR\n"
 	   "@SYNTAX=ISERR(value)\n"
 
 	   "@DESCRIPTION="
@@ -1411,6 +1429,8 @@ static char const *help_iserr = {
 	   "ISERR(NA()) return FALSE.\n"
 	   "\n"
 	   "@SEEALSO=ISERROR")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1422,8 +1442,9 @@ gnumeric_iserr (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_error_type = {
-	N_("@FUNCTION=ERROR.TYPE\n"
+static GnmFuncHelp const help_error_type[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ERROR.TYPE\n"
 	   "@SYNTAX=ERROR.TYPE(value)\n"
 
 	   "@DESCRIPTION="
@@ -1441,6 +1462,8 @@ static char const *help_error_type = {
 	   "ERROR.TYPE(NA()) equals 7.\n"
 	   "\n"
 	   "@SEEALSO=ISERROR")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1461,8 +1484,9 @@ gnumeric_error_type (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_na = {
-	N_("@FUNCTION=NA\n"
+static GnmFuncHelp const help_na[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=NA\n"
 	   "@SYNTAX=NA()\n"
 
 	   "@DESCRIPTION="
@@ -1473,6 +1497,8 @@ static char const *help_na = {
 	   "NA() equals #N/A error.\n"
 	   "\n"
 	   "@SEEALSO=ISNA")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1483,8 +1509,9 @@ gnumeric_na (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_error = {
-	N_("@FUNCTION=ERROR\n"
+static GnmFuncHelp const help_error[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ERROR\n"
 	   "@SYNTAX=ERROR(text)\n"
 
 	   "@DESCRIPTION="
@@ -1494,6 +1521,8 @@ static char const *help_error = {
 	   "ERROR(\"#OWN ERROR\").\n"
 	   "\n"
 	   "@SEEALSO=ISERROR")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1504,8 +1533,9 @@ gnumeric_error (FunctionEvalInfo *ei, GnmValue *argv[])
 
 /***************************************************************************/
 
-static char const *help_isblank = {
-	N_("@FUNCTION=ISBLANK\n"
+static GnmFuncHelp const help_isblank[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ISBLANK\n"
 	   "@SYNTAX=ISBLANK(value)\n"
 
 	   "@DESCRIPTION="
@@ -1516,6 +1546,8 @@ static char const *help_isblank = {
 	   "ISBLANK(A1).\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1526,8 +1558,9 @@ gnumeric_isblank (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_iseven = {
-	N_("@FUNCTION=ISEVEN\n"
+static GnmFuncHelp const help_iseven[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ISEVEN\n"
 	   "@SYNTAX=ISEVEN(value)\n"
 
 	   "@DESCRIPTION="
@@ -1538,6 +1571,8 @@ static char const *help_iseven = {
 	   "ISEVEN(4) equals TRUE.\n"
 	   "\n"
 	   "@SEEALSO=ISODD")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1548,8 +1583,9 @@ gnumeric_iseven (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_islogical = {
-	N_("@FUNCTION=ISLOGICAL\n"
+static GnmFuncHelp const help_islogical[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ISLOGICAL\n"
 	   "@SYNTAX=ISLOGICAL(value)\n"
 
 	   "@DESCRIPTION="
@@ -1560,6 +1596,8 @@ static char const *help_islogical = {
 	   "ISLOGICAL(A1).\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1570,8 +1608,9 @@ gnumeric_islogical (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_isnontext = {
-	N_("@FUNCTION=ISNONTEXT\n"
+static GnmFuncHelp const help_isnontext[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ISNONTEXT\n"
 	   "@SYNTAX=ISNONTEXT(value)\n"
 
 	   "@DESCRIPTION="
@@ -1582,6 +1621,8 @@ static char const *help_isnontext = {
 	   "ISNONTEXT(\"text\") equals FALSE.\n"
 	   "\n"
 	   "@SEEALSO=ISTEXT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1592,8 +1633,9 @@ gnumeric_isnontext (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_isnumber = {
-	N_("@FUNCTION=ISNUMBER\n"
+static GnmFuncHelp const help_isnumber[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ISNUMBER\n"
 	   "@SYNTAX=ISNUMBER(value)\n"
 
 	   "@DESCRIPTION="
@@ -1604,6 +1646,8 @@ static char const *help_isnumber = {
 	   "ISNUMBER(\"text\") equals FALSE.\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1615,8 +1659,9 @@ gnumeric_isnumber (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_isodd = {
-	N_("@FUNCTION=ISODD\n"
+static GnmFuncHelp const help_isodd[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ISODD\n"
 	   "@SYNTAX=ISODD(value)\n"
 
 	   "@DESCRIPTION="
@@ -1627,6 +1672,8 @@ static char const *help_isodd = {
 	   "ISODD(3) equals TRUE.\n"
 	   "\n"
 	   "@SEEALSO=ISEVEN")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1637,8 +1684,9 @@ gnumeric_isodd (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_isref = {
-	N_("@FUNCTION=ISREF\n"
+static GnmFuncHelp const help_isref[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ISREF\n"
 	   "@SYNTAX=ISREF(value)\n"
 
 	   "@DESCRIPTION="
@@ -1649,6 +1697,8 @@ static char const *help_isref = {
 	   "ISREF(A1) equals TRUE.\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1669,8 +1719,9 @@ gnumeric_isref (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char const *help_istext = {
-	N_("@FUNCTION=ISTEXT\n"
+static GnmFuncHelp const help_istext[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ISTEXT\n"
 	   "@SYNTAX=ISTEXT(value)\n"
 
 	   "@DESCRIPTION="
@@ -1681,6 +1732,8 @@ static char const *help_istext = {
 	   "ISTEXT(\"text\") equals TRUE.\n"
 	   "\n"
 	   "@SEEALSO=ISNONTEXT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1691,8 +1744,9 @@ gnumeric_istext (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_n = {
-	N_("@FUNCTION=N\n"
+static GnmFuncHelp const help_n[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=N\n"
 	   "@SYNTAX=N(value)\n"
 
 	   "@DESCRIPTION="
@@ -1704,6 +1758,8 @@ static char const *help_n = {
 	   "N(\"42\") equals 42.\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1731,8 +1787,9 @@ gnumeric_n (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_type = {
-	N_("@FUNCTION=TYPE\n"
+static GnmFuncHelp const help_type[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=TYPE\n"
 	   "@SYNTAX=TYPE(value)\n"
 
 	   "@DESCRIPTION="
@@ -1749,6 +1806,8 @@ static char const *help_type = {
 	   "TYPE(\"text\") equals 2.\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1780,8 +1839,9 @@ gnumeric_type (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
-static char const *help_getenv = {
-	N_("@FUNCTION=GETENV\n"
+static GnmFuncHelp const help_getenv[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=GETENV\n"
 	   "@SYNTAX=GETENV(string)\n"
 
 	   "@DESCRIPTION="
@@ -1792,6 +1852,8 @@ static char const *help_getenv = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1809,70 +1871,70 @@ gnumeric_getenv (FunctionEvalInfo *ei, GnmValue **argv)
 /***************************************************************************/
 
 const GnmFuncDescriptor info_functions[] = {
-	{ "cell",	"sr", N_("info_type, cell"), &help_cell,
+	{ "cell",	"sr", N_("info_type, cell"), help_cell,
 	  gnumeric_cell, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_SUBSET_WITH_EXTENSIONS, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "error.type",	"E", N_("value"), &help_error_type,
+	{ "error.type",	"E", N_("value"), help_error_type,
 	  gnumeric_error_type, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "info",	"s", N_("info_type"), &help_info,
+	{ "info",	"s", N_("info_type"), help_info,
 	  gnumeric_info, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "isblank",	"E", N_("value"), &help_isblank,
+	{ "isblank",	"E", N_("value"), help_isblank,
 	  gnumeric_isblank, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "iserr",	"E",   N_("value"), &help_iserr,
+	{ "iserr",	"E",   N_("value"), help_iserr,
 	  gnumeric_iserr, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "iserror",	"E",   N_("value"), &help_iserror,
+	{ "iserror",	"E",   N_("value"), help_iserror,
 	  gnumeric_iserror, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "iseven",	"f", N_("value"), &help_iseven,
+	{ "iseven",	"f", N_("value"), help_iseven,
 	  gnumeric_iseven, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "islogical",	"E", N_("value"), &help_islogical,
+	{ "islogical",	"E", N_("value"), help_islogical,
 	  gnumeric_islogical, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "isna",	"E",   N_("value"), &help_isna,
+	{ "isna",	"E",   N_("value"), help_isna,
 	  gnumeric_isna, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "isnontext",	"E", N_("value"), &help_isnontext,
+	{ "isnontext",	"E", N_("value"), help_isnontext,
 	  gnumeric_isnontext, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "isnumber",	"B", N_("value"), &help_isnumber,
+	{ "isnumber",	"B", N_("value"), help_isnumber,
 	  gnumeric_isnumber, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "isodd",	"S", N_("value"), &help_isodd,
+	{ "isodd",	"S", N_("value"), help_isodd,
 	  gnumeric_isodd, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "isref",	NULL, N_("value"), &help_isref,
+	{ "isref",	NULL, N_("value"), help_isref,
 	  NULL, gnumeric_isref, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "istext",	"E", N_("value"), &help_istext,
+	{ "istext",	"E", N_("value"), help_istext,
 	  gnumeric_istext, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "n",		"S", N_("value"), &help_n,
+	{ "n",		"S", N_("value"), help_n,
 	  gnumeric_n, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "na",		"",  "", &help_na,
+	{ "na",		"",  "", help_na,
 	  gnumeric_na, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "type",	"?", N_("value"), &help_type,
+	{ "type",	"?", N_("value"), help_type,
 	  gnumeric_type, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
 /* XL stores this in statistical ? */
-        { "countblank",	"r",  N_("range"), &help_countblank,
+        { "countblank",	"r",  N_("range"), help_countblank,
 	  gnumeric_countblank, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-	{ "error",	"s",  N_("text"), &help_error,
+	{ "error",	"s",  N_("text"), help_error,
 	  gnumeric_error, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "expression",	"r",   N_("cell"), &help_expression,
+	{ "expression",	"r",   N_("cell"), help_expression,
 	  gnumeric_expression, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "getenv",	"s", N_("string"), &help_getenv,
+	{ "getenv",	"s", N_("string"), help_getenv,
 	  gnumeric_getenv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 

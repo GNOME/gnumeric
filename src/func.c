@@ -172,7 +172,7 @@ function_dump_defs (char const *filename, gboolean as_def)
 		GnmFunc const *fd = g_ptr_array_index (ordered, i);
 		if (as_def) {
 			fprintf (output_file, "@CATEGORY=%s\n%s\n\n",
-				 _(fd->fn_group->display_name->str), _(fd->help));
+				 _(fd->fn_group->display_name->str), _(fd->help[0].text));
 		} else {
 			static struct {
 				char const *name;
@@ -361,7 +361,7 @@ gnm_func_load_stub (GnmFunc *func)
 
 	if (func->fn.load_desc (func, &desc)) {
 		func->arg_names	 = desc.arg_names;
-		func->help	 = desc.help ? *desc.help : NULL;
+		func->help	 = desc.help ? desc.help : NULL;
 		if (desc.fn_args != NULL) {
 			func->fn_type		= GNM_FUNC_TYPE_ARGS;
 			func->fn.args.func	= desc.fn_args;
@@ -468,7 +468,7 @@ gnm_func_add (GnmFuncGroup *fn_group,
 
 	func->name		= desc->name;
 	func->arg_names		= desc->arg_names;
-	func->help		= desc->help ? *desc->help : NULL;
+	func->help		= desc->help ? desc->help : NULL;
 	func->linker		= desc->linker;
 	func->unlinker		= desc->unlinker;
 	func->ref_notify	= desc->ref_notify;
@@ -1313,13 +1313,14 @@ tokenized_help_new (GnmFunc const *func)
 	tok->help_copy = NULL;
 	tok->sections = NULL;
 
-	if (func->help != NULL && func->help [0] != '\0') {
+	if (func->help != NULL && func->help [0].type == GNM_FUNC_HELP_OLD) {
 		char *ptr, *start;
 		gboolean seek_at = TRUE;
 		gboolean last_newline = TRUE;
 
-		ptr = _(func->help);
-		tok->help_is_localized = ptr != func->help;
+#warning fixme
+		ptr = func->help [0].text;
+		tok->help_is_localized = FALSE;
 		tok->help_copy = g_strdup (ptr);
 		tok->sections = g_ptr_array_new ();
 

@@ -1291,7 +1291,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (ctxt->version >= GNM_XML_V6) {
 		if (xml_node_get_int (tree, "WrapText", &val))
 			mstyle_set_wrap_text (mstyle, val);
-		if (xml_node_get_int (tree, "ShrinkToFit", &val))
+		if (xml_node_get_bool (tree, "ShrinkToFit", &val))
 			mstyle_set_shrink_to_fit (mstyle, val);
 	} else if (xml_node_get_int (tree, "Fit", &val))
 		mstyle_set_wrap_text (mstyle, val);
@@ -2293,20 +2293,20 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 	/* The options of the Solver. */
 	xml_node_get_int (tree, "MaxTime", &(param->options.max_time_sec));
 	xml_node_get_int (tree, "MaxIter", &(param->options.max_iter));
-	xml_node_get_int (tree, "NonNeg",
+	xml_node_get_bool (tree, "NonNeg",
 			  &(param->options.assume_non_negative));
-	xml_node_get_int (tree, "Discr", &(param->options.assume_discrete));
-	xml_node_get_int (tree, "AutoScale",
+	xml_node_get_bool (tree, "Discr", &(param->options.assume_discrete));
+	xml_node_get_bool (tree, "AutoScale",
 			  &(param->options.automatic_scaling));
-	xml_node_get_int (tree, "ShowIter",
+	xml_node_get_bool (tree, "ShowIter",
 			  &(param->options.show_iter_results));
-	xml_node_get_int (tree, "AnswerR", &(param->options.answer_report));
-	xml_node_get_int (tree, "SensitivityR",
+	xml_node_get_bool (tree, "AnswerR", &(param->options.answer_report));
+	xml_node_get_bool (tree, "SensitivityR",
 			  &(param->options.sensitivity_report));
-	xml_node_get_int (tree, "LimitsR", &(param->options.limits_report));
-	xml_node_get_int (tree, "PerformR",
+	xml_node_get_bool (tree, "LimitsR", &(param->options.limits_report));
+	xml_node_get_bool (tree, "PerformR",
 			  &(param->options.performance_report));
-	xml_node_get_int (tree, "ProgramR", &(param->options.program_report));
+	xml_node_get_bool (tree, "ProgramR", &(param->options.program_report));
 #endif
 }
 
@@ -2381,17 +2381,17 @@ xml_write_solver (XmlParseContext *ctxt, SolverParameters const *param)
 	/* The options of the Solver. */
 	xml_node_set_int (cur, "MaxTime", param->options.max_time_sec);
 	xml_node_set_int (cur, "MaxIter", param->options.max_iter);
-	xml_node_set_int (cur, "NonNeg",
+	xml_node_set_bool (cur, "NonNeg",
 			  param->options.assume_non_negative);
-	xml_node_set_int (cur, "Discr", param->options.assume_discrete);
-	xml_node_set_int (cur, "AutoScale", param->options.automatic_scaling);
-	xml_node_set_int (cur, "ShowIter", param->options.show_iter_results);
-	xml_node_set_int (cur, "AnswerR", param->options.answer_report);
-	xml_node_set_int (cur, "SensitivityR",
+	xml_node_set_bool (cur, "Discr", param->options.assume_discrete);
+	xml_node_set_bool (cur, "AutoScale", param->options.automatic_scaling);
+	xml_node_set_bool (cur, "ShowIter", param->options.show_iter_results);
+	xml_node_set_bool (cur, "AnswerR", param->options.answer_report);
+	xml_node_set_bool (cur, "SensitivityR",
 			  param->options.sensitivity_report);
-	xml_node_set_int (cur, "LimitsR", param->options.limits_report);
-	xml_node_set_int (cur, "PerformR", param->options.performance_report);
-	xml_node_set_int (cur, "ProgramR", param->options.program_report);
+	xml_node_set_bool (cur, "LimitsR", param->options.limits_report);
+	xml_node_set_bool (cur, "PerformR", param->options.performance_report);
+	xml_node_set_bool (cur, "ProgramR", param->options.program_report);
 	return cur;
 }
 

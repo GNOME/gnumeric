@@ -24,7 +24,6 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include <func.h>
 
@@ -39,12 +38,13 @@
 #include <expr-impl.h>
 #include <expr-name.h>
 #include <parse-util.h>
-
-#include <string.h>
-#include <stdlib.h>
+#include <gnm-i18n.h>
 
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/module-plugin-defs.h>
+
+#include <string.h>
+#include <stdlib.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -319,8 +319,9 @@ find_index_bisection (FunctionEvalInfo *ei, GnmValue *find, GnmValue *data,
 
 /***************************************************************************/
 
-static char const *help_address = {
-	N_("@FUNCTION=ADDRESS\n"
+static GnmFuncHelp const help_address[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ADDRESS\n"
 	   "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
 
 	   "@DESCRIPTION="
@@ -352,6 +353,8 @@ static char const *help_address = {
 	   "ADDRESS(5,4,3,FALSE) equals \"R[5]C4\".\n"
 	   "\n"
 	   "@SEEALSO=COLUMNNUMBER")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -423,8 +426,9 @@ gnumeric_address (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_areas = {
-	N_("@FUNCTION=AREAS\n"
+static GnmFuncHelp const help_areas[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=AREAS\n"
 	   "@SYNTAX=AREAS(reference)\n"
 
 	   "@DESCRIPTION="
@@ -436,6 +440,8 @@ static char const *help_areas = {
 	   "3.\n"
 	   "\n"
 	   "@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 /* TODO : we need to rethink EXPR_SET as an operator vs a value type */
@@ -497,8 +503,9 @@ restart :
 
 /***************************************************************************/
 
-static char const *help_choose = {
-	N_("@FUNCTION=CHOOSE\n"
+static GnmFuncHelp const help_choose[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=CHOOSE\n"
 	   "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
 
 	   "@DESCRIPTION="
@@ -513,6 +520,8 @@ static char const *help_choose = {
 	   "\"Grape\".\n"
 	   "\n"
 	   "@SEEALSO=IF")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -549,8 +558,9 @@ gnumeric_choose (FunctionEvalInfo *ei, GnmExprList *l)
 
 /***************************************************************************/
 
-static char const *help_vlookup = {
-	N_("@FUNCTION=VLOOKUP\n"
+static GnmFuncHelp const help_vlookup[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=VLOOKUP\n"
 	   "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
 
 	   "@DESCRIPTION="
@@ -569,6 +579,8 @@ static char const *help_vlookup = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=HLOOKUP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -607,8 +619,9 @@ gnumeric_vlookup (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_hlookup = {
-	N_("@FUNCTION=HLOOKUP\n"
+static GnmFuncHelp const help_hlookup[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=HLOOKUP\n"
 	   "@SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])\n"
 
 	   "@DESCRIPTION="
@@ -628,6 +641,8 @@ static char const *help_hlookup = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=VLOOKUP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -666,8 +681,9 @@ gnumeric_hlookup (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_lookup = {
-	N_("@FUNCTION=LOOKUP\n"
+static GnmFuncHelp const help_lookup[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=LOOKUP\n"
 	   "@SYNTAX=LOOKUP(value,vector1[,vector2])\n"
 
 	   "@DESCRIPTION="
@@ -685,6 +701,8 @@ static char const *help_lookup = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=VLOOKUP,HLOOKUP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -729,8 +747,9 @@ gnumeric_lookup (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_match = {
-	N_("@FUNCTION=MATCH\n"
+static GnmFuncHelp const help_match[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=MATCH\n"
 	   "@SYNTAX=MATCH(seek,vector[,type])\n"
 
 	   "@DESCRIPTION="
@@ -753,6 +772,8 @@ static char const *help_match = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=LOOKUP")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -784,8 +805,9 @@ gnumeric_match (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_indirect = {
-	N_("@FUNCTION=INDIRECT\n"
+static GnmFuncHelp const help_indirect[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=INDIRECT\n"
 	   "@SYNTAX=INDIRECT(ref_text[,format])\n"
 
 	   "@DESCRIPTION="
@@ -802,6 +824,8 @@ static char const *help_indirect = {
 	   "INDIRECT(A2) equals 3.14.\n"
 	   "\n"
 	   "@SEEALSO=AREAS,INDEX,CELL")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -826,8 +850,9 @@ gnumeric_indirect (FunctionEvalInfo *ei, GnmValue **args)
 
 /*****************************************************************************/
 
-static char const *help_index = {
-	N_(
+static GnmFuncHelp const help_index[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_(
 	"@FUNCTION=INDEX\n"
 	"@SYNTAX=INDEX(array[,row, col, area])\n"
 	"@DESCRIPTION="
@@ -844,6 +869,8 @@ static char const *help_index = {
 	"17.3, 21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25.9\n"
 	"\n"
 	"@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -894,8 +921,9 @@ gnumeric_index (FunctionEvalInfo *ei, GnmExprList *l)
 
 /***************************************************************************/
 
-static char const *help_column = {
-	N_("@FUNCTION=COLUMN\n"
+static GnmFuncHelp const help_column[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=COLUMN\n"
 	   "@SYNTAX=COLUMN([reference])\n"
 
 	   "@DESCRIPTION="
@@ -911,6 +939,8 @@ static char const *help_column = {
 	   "COLUMN() in E1 equals 5.\n"
 	   "\n"
 	   "@SEEALSO=COLUMNS,ROW,ROWS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -949,8 +979,9 @@ gnumeric_column (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_columnnumber = {
-	N_("@FUNCTION=COLUMNNUMBER\n"
+static GnmFuncHelp const help_columnnumber[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=COLUMNNUMBER\n"
 	   "@SYNTAX=COLUMNNUMBER(name)\n"
 
 	   "@DESCRIPTION="
@@ -963,6 +994,8 @@ static char const *help_columnnumber = {
 	   "COLUMNNUMBER(\"E\") equals 5.\n"
 	   "\n"
 	   "@SEEALSO=ADDRESS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -981,8 +1014,9 @@ gnumeric_columnnumber (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_columns = {
-	N_("@FUNCTION=COLUMNS\n"
+static GnmFuncHelp const help_columns[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=COLUMNS\n"
 	   "@SYNTAX=COLUMNS(reference)\n"
 
 	   "@DESCRIPTION="
@@ -996,6 +1030,8 @@ static char const *help_columns = {
 	   "COLUMNS(H2:J3) equals 3.\n"
 	   "\n"
 	   "@SEEALSO=COLUMN,ROW,ROWS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1006,8 +1042,9 @@ gnumeric_columns (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_offset = {
-	N_("@FUNCTION=OFFSET\n"
+static GnmFuncHelp const help_offset[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=OFFSET\n"
 	   "@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
 
 	   "@DESCRIPTION="
@@ -1023,6 +1060,8 @@ static char const *help_offset = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=COLUMN,COLUMNS,ROWS,INDEX,INDIRECT,ADDRESS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1064,8 +1103,9 @@ gnumeric_offset (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_row = {
-	N_("@FUNCTION=ROW\n"
+static GnmFuncHelp const help_row[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ROW\n"
 	   "@SYNTAX=ROW([reference])\n"
 
 	   "@DESCRIPTION="
@@ -1079,6 +1119,8 @@ static char const *help_row = {
 	   "ROW() in G13 equals 13.\n"
 	   "\n"
 	   "@SEEALSO=COLUMN,COLUMNS,ROWS")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1117,8 +1159,9 @@ gnumeric_row (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_rows = {
-	N_("@FUNCTION=ROWS\n"
+static GnmFuncHelp const help_rows[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ROWS\n"
 	   "@SYNTAX=ROWS(reference)\n"
 
 	   "@DESCRIPTION="
@@ -1132,6 +1175,8 @@ static char const *help_rows = {
 	   "ROWS(H7:I13) equals 7.\n"
 	   "\n"
 	   "@SEEALSO=COLUMN,COLUMNS,ROW")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1142,8 +1187,9 @@ gnumeric_rows (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_hyperlink = {
-	N_("@FUNCTION=HYPERLINK\n"
+static GnmFuncHelp const help_hyperlink[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=HYPERLINK\n"
 	   "@SYNTAX=HYPERLINK(link_location[,optional_label])\n"
 
 	   "@DESCRIPTION="
@@ -1154,6 +1200,8 @@ static char const *help_hyperlink = {
 	   "HYPERLINK(\"www.gnome.org\",\"GNOME\").\n"
 	   "\n"
 	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -1167,8 +1215,9 @@ gnumeric_hyperlink (FunctionEvalInfo *ei, GnmValue **args)
 
 /***************************************************************************/
 
-static char const *help_transpose = {
-	N_("@FUNCTION=TRANSPOSE\n"
+static GnmFuncHelp const help_transpose[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=TRANSPOSE\n"
 	   "@SYNTAX=TRANSPOSE(matrix)\n"
 
 	   "@DESCRIPTION="
@@ -1178,6 +1227,8 @@ static char const *help_transpose = {
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=MMULT")
+	},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -1213,55 +1264,55 @@ gnumeric_transpose (FunctionEvalInfo *ei, GnmValue **argv)
 
 GnmFuncDescriptor const lookup_functions[] = {
 	{ "address",   "ff|ffs", N_("row_num,col_num,abs_num,a1,text"),
-	  &help_address,  gnumeric_address, NULL, NULL, NULL, NULL,
+	  help_address,  gnumeric_address, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{ "areas", NULL,	N_("reference"),
-	  &help_areas,	NULL,	gnumeric_areas, NULL, NULL, NULL,
+	  help_areas,	NULL,	gnumeric_areas, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "choose", NULL,	N_("index,value,"),
-	  &help_choose,	NULL,	gnumeric_choose, NULL, NULL, NULL,
+	  help_choose,	NULL,	gnumeric_choose, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "column",     "|A",    N_("ref"),
-	  &help_column,   gnumeric_column, NULL, NULL, NULL, NULL,
+	  help_column,   gnumeric_column, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "columnnumber", "s",    N_("colname"),
-	  &help_columnnumber, gnumeric_columnnumber, NULL, NULL, NULL, NULL,
+	  help_columnnumber, gnumeric_columnnumber, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "columns",   "A",    N_("ref"),
-	  &help_columns, gnumeric_columns, NULL, NULL, NULL, NULL,
+	  help_columns, gnumeric_columns, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "hlookup",   "BAf|bb", N_("val,range,col_idx,approx,as_index"),
-	  &help_hlookup, gnumeric_hlookup, NULL, NULL, NULL, NULL,
+	  help_hlookup, gnumeric_hlookup, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "hyperlink", "s|s", N_("link_location, label"),
-	  &help_hyperlink, gnumeric_hyperlink, NULL, NULL, NULL, NULL,
+	  help_hyperlink, gnumeric_hyperlink, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_SUBSET, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "indirect",  "s|b",N_("ref_string,format"),
-	  &help_indirect, gnumeric_indirect, NULL, NULL, NULL, NULL,
+	  help_indirect, gnumeric_indirect, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "index",     "A|fff",N_("reference,row,col,area"),
-	  &help_index,    NULL, gnumeric_index, NULL, NULL, NULL,
+	  help_index,    NULL, gnumeric_index, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "lookup",    "BA|r", N_("val,range,range"),
-	  &help_lookup,   gnumeric_lookup, NULL, NULL, NULL, NULL,
+	  help_lookup,   gnumeric_lookup, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "match",     "BA|f", N_("val,range,approx"),
-	  &help_match,    gnumeric_match, NULL, NULL, NULL, NULL,
+	  help_match,    gnumeric_match, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "offset",    "rff|ff",N_("ref,row,col,height,width"),
-	  &help_offset,   gnumeric_offset, NULL, NULL, NULL, NULL,
+	  help_offset,   gnumeric_offset, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "row",       "|A",   N_("ref"),
-	  &help_row,      gnumeric_row, NULL, NULL, NULL, NULL,
+	  help_row,      gnumeric_row, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "rows",      "A",    N_("ref"),
-	  &help_rows,     gnumeric_rows, NULL, NULL, NULL, NULL,
+	  help_rows,     gnumeric_rows, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "transpose", "A",    N_("array"),
-	  &help_transpose, gnumeric_transpose, NULL, NULL, NULL, NULL,
+	  help_transpose, gnumeric_transpose, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "vlookup",   "BAf|bb", N_("val,range,col_idx,approx,as_index"),
-	  &help_vlookup, gnumeric_vlookup, NULL, NULL, NULL, NULL,
+	  help_vlookup, gnumeric_vlookup, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
         {NULL}

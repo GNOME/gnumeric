@@ -1,5 +1,9 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
+#
+# Keep gnumeric/po/POTFILES.{in,skip} and
+#      gnumeric/po-functions/POTFILES.{in,skip}
+# in sync
 [encoding: UTF-8]
 GNOME_Gnumeric.server.in.in
 gnumeric.desktop.in
