@@ -453,80 +453,50 @@ button_select_all (GtkWidget *the_button, SheetControlGUI *scg)
 static void
 vertical_scroll_change (GtkAdjustment *adj, SheetControlGUI *scg)
 {
-	if (scg->tip) {
-		char *buffer;
-		buffer = g_strdup_printf (_("Row: %d"), (int) adj->value + 1);
-		gtk_label_set_text (GTK_LABEL (scg->tip), buffer);
-		g_free(buffer);
-	}
+	GnumericSheet  *gsheet = GNUMERIC_SHEET (scg->canvas);
+	int const row = GTK_ADJUSTMENT (scg->va)->value;
+
+	/* NOTE : Excel does not move the cursor, just scrolls the sheet. */
+	gnumeric_sheet_set_top_row (gsheet, row);
 }
 
 static void
 horizontal_scroll_change (GtkAdjustment *adj, SheetControlGUI *scg)
 {
-	if (scg->tip) {
-		char *buffer;
-		buffer = g_strdup_printf(_("Column: %s"), col_name (adj->value));
-		gtk_label_set_text (GTK_LABEL (scg->tip), buffer);
-		g_free(buffer);
-	}
+	GnumericSheet  *gsheet = GNUMERIC_SHEET (scg->canvas);
+	int const col = GTK_ADJUSTMENT (scg->ha)->value;
+
+	/* NOTE : Excel does not move the cursor, just scrolls the sheet. */
+	gnumeric_sheet_set_left_col (gsheet, col);
 }
 
 static int
-horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetControlGUI *scg)
+vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetControlGUI *scg)
 {
-	if (event->type == GDK_BUTTON_PRESS){
-		if (!scg->tip)
-			scg->tip = gnumeric_create_tooltip ();
-		horizontal_scroll_change (GTK_ADJUSTMENT (scg->ha), scg);
-		gnumeric_position_tooltip (scg->tip, 1);
-		gtk_widget_show_all (gtk_widget_get_toplevel (scg->tip));
+	if (event->type == GDK_BUTTON_PRESS) {
+		GnumericSheet  *gsheet      = GNUMERIC_SHEET (scg->canvas);
+		GtkAdjustment  *adjustment  = GTK_ADJUSTMENT (scg->va);
 
-	} else if (event->type == GDK_BUTTON_RELEASE) {
-		GnumericSheet  *gsheet = GNUMERIC_SHEET (scg->canvas);
-		int col;
-
-		/* A button release can be generated without a press by people
-		 * with mouse wheels */
-		if (scg->tip) {
-			gtk_widget_destroy (gtk_widget_get_toplevel (scg->tip));
-			scg->tip = NULL;
+		if (gsheet->row.last_full > adjustment->upper - 1) {
+			gnumeric_sheet_set_top_row (gsheet, adjustment->value + adjustment->step_increment);
+			scg_scrollbar_config (scg);
 		}
-
-		col = GTK_ADJUSTMENT (scg->ha)->value;
-
-		gnumeric_sheet_set_left_col (gsheet, col);
-		/* NOTE : Excel does not move the cursor, just scrolls the sheet. */
 	}
 
 	return FALSE;
 }
 
 static int
-vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetControlGUI *scg)
+horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetControlGUI *scg)
 {
-	if (event->type == GDK_BUTTON_PRESS){
-		if (!scg->tip)
-			scg->tip = gnumeric_create_tooltip ();
-		vertical_scroll_change (GTK_ADJUSTMENT (scg->va), scg);
-		gnumeric_position_tooltip (scg->tip, 0);
-		gtk_widget_show_all (gtk_widget_get_toplevel (scg->tip));
+	if (event->type == GDK_BUTTON_PRESS) {
+		GnumericSheet  *gsheet      = GNUMERIC_SHEET (scg->canvas);
+		GtkAdjustment  *adjustment  = GTK_ADJUSTMENT (scg->ha);
 
-	} else if (event->type == GDK_BUTTON_RELEASE) {
-		GnumericSheet  *gsheet = GNUMERIC_SHEET (scg->canvas);
-		int row;
-
-		/* A button release can be generated without a press by people
-		 * with mouse wheels */
-		if (scg->tip) {
-			gtk_widget_destroy (gtk_widget_get_toplevel (scg->tip));
-			scg->tip = NULL;
+		if (gsheet->col.last_full > adjustment->upper - 1) {
+			gnumeric_sheet_set_left_col (gsheet, adjustment->value + adjustment->step_increment);
+			scg_scrollbar_config (scg);
 		}
-
-		row = GTK_ADJUSTMENT (scg->va)->value;
-
-		gnumeric_sheet_set_top_row (gsheet, row);
-		/* NOTE : Excel does not move the cursor, just scrolls the sheet. */
 	}
 
 	return FALSE;

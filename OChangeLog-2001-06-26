@@ -1,3 +1,12 @@
+2001-02-24  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/sheet-control-gui.c
+	(horizontal_scroll_event) : If we reach the maximum scroll offset
+	increase it so we can keep scrolling down.
+	(vertical_scroll_event) : Idem.
+	(horizontal_scroll_change) : Directly manipulate scroll offset.
+	(vertical_scroll_change) : Idem.
+
 2001-02-23  Jody Goldberg <jgoldberg@home.com>
   
  	* src/commands.c (cmd_merge_cells_redo) : reorder to handle unmerging
