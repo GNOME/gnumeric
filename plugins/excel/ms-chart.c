@@ -22,7 +22,9 @@
 #include <expr.h>
 #include <gutils.h>
 
+#ifdef ENABLE_BONOBO
 #include <gnumeric-graph.h>
+#endif
 #include <xml-io.h>
 #include <gal/util/e-xml-utils.h>
 #include <gnome-xml/tree.h>
@@ -48,7 +50,9 @@ char const *const ms_vector_purpose_type_name [] =
 typedef struct _ExcelChartSeries
 {
 	struct {
+#ifdef ENABLE_BONOBO
 		GnmGraphVectorType type;
+#endif
 		int count, remote_ID;
 	} vector [MS_VECTOR_PURPOSE_MAX];
 
@@ -114,11 +118,15 @@ excel_chart_series_new (void)
 	series->xml = NULL;
 	for (i = MS_VECTOR_PURPOSE_MAX; i-- > 0 ; ) {
 		series->vector [i].remote_ID = -1;
+#ifdef ENABLE_BONOBO
 		series->vector [i].type = GNM_VECTOR_AUTO; /* may be reset later */
+#endif
 	}
 
 	/* labels are always strings */
+#ifdef ENABLE_BONOBO
 	series->vector [MS_VECTOR_PURPOSE_LABELS].type = GNM_VECTOR_STRING;
+#endif
 
 	return series;
 }
@@ -1660,27 +1668,20 @@ BC_R(vector_details)(ExcelChartReadState *s, BiffQuery *q, ExcelChartSeries *ser
 		     MS_VECTOR_PURPOSE purpose,
 		     int type_offset, int count_offset, char const *name)
 {
-	typedef enum {
-		MS_VECTOR_TYPE_DATES		= 0,
-		MS_VECTOR_TYPE_NUMBERS		= 1,
-		MS_VECTOR_TYPE_SEQUENCES	= 2,
-		MS_VECTOR_TYPE_STRINGS		= 3,
-		MS_VECTOR_TYPE_MAX		= 4
-	} MS_VECTOR_TYPE;
-
+#ifdef ENABLE_BONOBO
 	GnmGraphVectorType type;
 	guint16 e_type = MS_OLE_GET_GUINT16 (q->data + type_offset);
 
 	g_return_if_fail (e_type < MS_VECTOR_TYPE_MAX);
 
 	switch (e_type) {
-	case MS_VECTOR_TYPE_DATES :	type = GNM_VECTOR_DATE; break;
-	case MS_VECTOR_TYPE_NUMBERS :	type = GNM_VECTOR_SCALAR; break;
-	case MS_VECTOR_TYPE_SEQUENCES :
+	case 0 : type = GNM_VECTOR_DATE; break;
+	case 1 : type = GNM_VECTOR_SCALAR; break;
+	case 2 :
 		g_warning ("Unsupported vector type 'sequences', converting to scalar");
 		type = GNM_VECTOR_SCALAR; break;
 
-	case MS_VECTOR_TYPE_STRINGS : 	type = GNM_VECTOR_STRING; break;
+	case 3 : type = GNM_VECTOR_STRING; break;
 
 	default :
 		g_warning ("Unsupported vector type '%d', converting to scalar", e_type);
@@ -1688,12 +1689,11 @@ BC_R(vector_details)(ExcelChartReadState *s, BiffQuery *q, ExcelChartSeries *ser
 	};
 
 	series->vector [purpose].type = type;
-	series->vector [purpose].count = MS_OLE_GET_GUINT16 (q->data+count_offset);
-#ifdef ENABLE_BONOBO
 	printf ("%d %s are %s\n",
 		series->vector [purpose].count, name,
 		gnm_graph_vector_type_name [series->vector [purpose].type]);
 #endif
+	series->vector [purpose].count = MS_OLE_GET_GUINT16 (q->data+count_offset);
 }
 
 
