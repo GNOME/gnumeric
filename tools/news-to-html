@@ -91,7 +91,7 @@ sub finish_item {
 sub add_to_item {
     my ($txt) = @_;
 
-    $txt =~ s{\#(\d\d\d\d\d+)}{<a href=\"$bug_prefix$1\"\>Bug $1</a>};
+    $txt =~ s{\#(\d\d\d\d\d+)}{<a href=\"$bug_prefix$1\"\>Bug $1</a>}g;
 
     $item .= "\n\t$txt";
     $have_item = 1;
