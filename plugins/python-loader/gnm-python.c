@@ -16,6 +16,7 @@
 #include "gnm-py-interpreter.h"
 #include "gnm-python.h"
 
+#include <unistd.h>
 
 struct _GnmPython {
 	GObject parent_instance;
@@ -208,7 +209,7 @@ gnm_python_get_default_interpreter (GnmPython *gpy)
 GSList *
 gnm_python_get_interpreters (GnmPython *gpy)
 {
-	g_return_if_fail (GNM_IS_PYTHON (gpy));
+	g_return_val_if_fail (GNM_IS_PYTHON (gpy), NULL);
 
 	return gpy->interpreters;
 }
