@@ -32,6 +32,7 @@
 #include <gsf/gsf-utils.h>
 #include <string.h>
 #include <ms-compat/go-ms-parser.h>
+#include "ppt-parsing-helper.h"
 
 #define CVS_VERSION "$Id$"
 #define ERROR_STRING(cond,str) G_STRLOC "\n<" CVS_VERSION ">\n" str " (" #cond ")"
@@ -61,22 +62,26 @@ static GObjectClass *parent_class;
 
 struct GodDrawingMsClientHandlerPptPrivate_ {
 	PresentSlide *slide;
+	GPtrArray *fonts;
 };
 
 static const GOMSParserRecordType types[] =
 {
 	{	TextCharsAtom,			"TextCharsAtom",		FALSE,	TRUE,	-1,	-1	},
+	{	TextBytesAtom,			"TextBytesAtom",		FALSE,	TRUE,	-1,	-1	},
 	{	OutlineTextRefAtom,		"OutlineTextRefAtom",		FALSE,	TRUE,	-1,	-1	},
+	{	StyleTextPropAtom,		"StyleTextPropAtom",		FALSE,	TRUE,	-1,	-1	},
 };
 
 GodDrawingMsClientHandler *
-god_drawing_ms_client_handler_ppt_new (PresentSlide *slide)
+god_drawing_ms_client_handler_ppt_new (PresentSlide *slide, GPtrArray *fonts)
 {
 	GodDrawingMsClientHandler *handler;
 
 	handler = g_object_new (GOD_DRAWING_MS_CLIENT_HANDLER_PPT_TYPE, NULL);
 
 	GOD_DRAWING_MS_CLIENT_HANDLER_PPT(handler)->priv->slide = slide;
+	GOD_DRAWING_MS_CLIENT_HANDLER_PPT(handler)->priv->fonts = fonts;
 
 	return handler;
 }
@@ -100,8 +105,8 @@ god_drawing_ms_client_handler_ppt_finalize (GObject *object)
 }
 
 typedef struct {
-	char *text;
-	int outline_text_ref;
+	GodTextModel *text_model;
+	GodDrawingMsClientHandlerPpt *handler;
 } TextParseState;
 
 static void
@@ -111,18 +116,60 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 	switch (record->opcode) {
 	case TextCharsAtom:
 		{
+			char *text;
 			ERROR (stack == NULL, "TextCharsAtom is root only inside ClientTextbox.");
-			ERROR (parse_state->text == NULL && parse_state->outline_text_ref == -1, "Only one text per ClientTextbox.");
+			ERROR (parse_state->text_model == NULL, "Only one text per ClientTextbox.");
 			
-			parse_state->text = g_utf16_to_utf8 ((gunichar2 *) data, record->length / 2, NULL, NULL, NULL);
+			text = g_utf16_to_utf8 ((gunichar2 *) data, record->length / 2, NULL, NULL, NULL);
+			parse_state->text_model = god_text_model_new ();
+			god_text_model_set_text (parse_state->text_model, text);
+			g_free (text);
+		}
+		break;
+	case TextBytesAtom:
+		{
+			char *text;
+			ERROR (stack == NULL, "TextBytesAtom is root only inside ClientTextbox.");
+			ERROR (parse_state->text_model == NULL, "Only one text per ClientTextbox.");
+
+			text = g_convert (data, record->length, "utf8", "latin1", NULL, NULL, NULL);
+			parse_state->text_model = god_text_model_new ();
+			god_text_model_set_text (parse_state->text_model, text);
+			g_free (text);
 		}
 		break;
 	case OutlineTextRefAtom:
 		{
+			int outline_text_ref;
+			PresentSlide *slide;
+			int i, text_count;
+
 			ERROR (stack == NULL, "OutlineTextRefAtom is root only inside ClientTextbox.");
-			ERROR (parse_state->text == NULL && parse_state->outline_text_ref == -1, "Only one text per ClientTextbox.");
-			
-			parse_state->outline_text_ref = GSF_LE_GET_GUINT32 (data);
+			ERROR (parse_state->text_model == NULL, "Only one text per ClientTextbox.");
+
+			slide = parse_state->handler->priv->slide;
+
+			outline_text_ref = GSF_LE_GET_GUINT32 (data);
+
+			if (slide) {
+				text_count = present_slide_get_text_count (slide);
+				for (i = 0; i < text_count; i++) {
+					PresentText *text = present_slide_get_text (slide, i);
+					if (present_text_get_text_id (text) == outline_text_ref) {
+						parse_state->text_model = GOD_TEXT_MODEL (text);
+						break;
+					}
+					g_object_unref (text);
+				}
+			}
+		}
+		break;
+	case StyleTextPropAtom:
+		{
+			ERROR (stack == NULL, "StyleTextPropAtom is root only inside ClientTextbox.");
+			ERROR (parse_state->text_model != NULL, "Must have text before StyleTextPropAtom ClientTextbox.");
+
+			ppt_parsing_helper_parse_style_text_prop_atom (data, record->length, parse_state->text_model, parse_state->handler->priv->fonts);
 		}
 		break;
 	}
@@ -141,8 +188,9 @@ god_drawing_ms_client_handler_ppt_handle_client_text    (GodDrawingMsClientHandl
 {
 	TextParseState parse_state;
 
-	parse_state.text = NULL;
-	parse_state.outline_text_ref = -1;
+	parse_state.text_model = NULL;
+	parse_state.handler = GOD_DRAWING_MS_CLIENT_HANDLER_PPT (handler);
+
 	go_ms_parser_read (input,
 			   length,
 			   types,
@@ -150,39 +198,7 @@ god_drawing_ms_client_handler_ppt_handle_client_text    (GodDrawingMsClientHandl
 			   &callbacks,
 			   &parse_state,
 			   NULL);
-
-	if (parse_state.text) {
-		GodTextModel *text_model = god_text_model_new ();
-		god_text_model_set_text (text_model, parse_state.text);
-
-		g_free (parse_state.text);
-		return text_model;
-	} else if (parse_state.outline_text_ref != -1) {
-		PresentSlide *slide = GOD_DRAWING_MS_CLIENT_HANDLER_PPT (handler)->priv->slide;
-		PresentText *text = NULL;
-		int i, text_count;
-
-		if (slide) {
-			text_count = present_slide_get_text_count (slide);
-			for (i = 0; i < text_count; i++) {
-				if (text)
-					g_object_unref (text);
-				text = present_slide_get_text (slide, i);
-				if (present_text_get_text_id (text) == parse_state.outline_text_ref)
-					break;
-			}
-
-			if (i == text_count) {
-				if (text)
-					g_object_unref (text);
-				return NULL;
-			}
-			return GOD_TEXT_MODEL (text);
-		} else {
-			return NULL;
-		}
-	}
-	return NULL;
+	return parse_state.text_model;
 }
 
 static GodAnchor *

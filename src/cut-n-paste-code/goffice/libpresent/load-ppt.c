@@ -26,6 +26,7 @@
 #include "ppt-types.h"
 #include "god-drawing-ms-client-handler-ppt.h"
 #include "utils/go-units.h"
+#include "ppt-parsing-helper.h"
 
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-memory.h>
@@ -205,44 +206,6 @@ slide_list_with_text_parse_state_finish_slide (PresentPresentation *presentation
 #define STACK_TOP GO_MS_PARSER_STACK_TOP(stack)
 #define STACK_SECOND GO_MS_PARSER_STACK_SECOND(stack)
 
-enum {
-	TEXT_FIELD_PROPERTY_EXISTS_BOLD = 0x00000001,
-	TEXT_FIELD_PROPERTY_EXISTS_ITALIC = 0x00000002,
-	TEXT_FIELD_PROPERTY_EXISTS_UNDERLINE = 0x00000004,
-	TEXT_FIELD_PROPERTY_EXISTS_SHADOW = 0x00000010,
-	TEXT_FIELD_PROPERTY_EXISTS_RELIEF = 0x00000200,
-	TEXT_FIELD_PROPERTY_EXISTS_FONT = 0x00010000,
-	TEXT_FIELD_PROPERTY_EXISTS_FONT_SIZE = 0x00020000,
-	TEXT_FIELD_PROPERTY_EXISTS_COLOR = 0x00040000,
-	TEXT_FIELD_PROPERTY_EXISTS_OFFSET = 0x00080000,
-} TextFieldPropExists;
-
-enum {
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_FLAGS     = 0x0000000f,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_CHARACTER = 0x00000080,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_FAMILY    = 0x00000010,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_SIZE      = 0x00000040,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_COLOR     = 0x00000020,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ALIGNMENT        = 0x00000800,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_1        = 0x00000400,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_2        = 0x00000200,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_3        = 0x00000100,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_LINE_FEED        = 0x00001000,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_ABOVE    = 0x00002000,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_BELOW    = 0x00004000,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_4        = 0x00008000,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_5        = 0x00010000,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ASIAN_UNKNOWN    = 0x000e0000,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BIDI             = 0x00200000,
-} TextFieldParagraphPropExists;
-
-enum {
-	PARAGRAPH_ALIGNMENT_LEFT = 0,
-	PARAGRAPH_ALIGNMENT_CENTER = 1,
-	PARAGRAPH_ALIGNMENT_RIGHT = 2,
-	PARAGRAPH_ALIGNMENT_JUSTIFY = 3,
-} ParagraphAlignment;
-
 static void
 handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInput *input, GError **err, gpointer user_data)
 {
@@ -313,10 +276,32 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 				}
 				if (fields & 0x1000)
 					i += 2; /* line feed */
-				if (fields & 0x2000)
+				if (fields & 0x2000) {
+					double space_before = 0;
+					int space;
+					space = GSF_LE_GET_GUINT16 (data + i);
+					if (space & 0x8000) {
+						space = 0x10000 - space;
+					}
+					space_before = space * (UN_PER_IN / 576.0);
+					g_object_set (para_attributes,
+						      "space_before", space_before,
+						      NULL);
 					i += 2; /* upper dist */
-				if (fields & 0x4000)
-					i += 2; /* lower dist */
+				}
+				if (fields & 0x4000) {
+					double space_after = 0;
+					int space;
+					space = GSF_LE_GET_GUINT16 (data + i);
+					if (space & 0x8000) {
+						space = 0x10000 - space;
+					}
+					space_after = space * (UN_PER_IN / 576.0);
+					g_object_set (para_attributes,
+						      "space_after", space_after,
+						      NULL);
+					i += 2; /* upper dist */
+				}
 				if (first) {
 					if (fields & 0x8000) {
 						g_object_set (para_attributes, "indent", (double) (GO_IN_TO_UN ((go_unit_t) GSF_LE_GET_GUINT16 (data + i)) / 576), NULL);
@@ -539,202 +524,7 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 			ERROR (stack && STACK_TOP->opcode == SlideListWithText, "Placement Error");
 			parse_state = stack ? STACK_TOP->parse_state : NULL;
 			if (parse_state) {
-				double space_before = 0;
-				double space_after = 0;
-				int indent_type = 0;
-				int i = 0;
-				int position = 0;
-				const char *text = god_text_model_get_text (GOD_TEXT_MODEL (parse_state->current_text));
-				int text_len = strlen (text);
-				GodParagraphAttributes *para_attr;
-				while (position < text_len) {
-					int sublen = 0;
-					int end;
-					guint fields;
-					int section_length = GSF_LE_GET_GUINT32 (data + i);
-					para_attr = god_paragraph_attributes_new ();
-					sublen += 4;
-					indent_type = GSF_LE_GET_GUINT16 (data + i + sublen);
-					sublen += 2;
-					fields = GSF_LE_GET_GUINT32 (data + i + sublen);
-					sublen += 4;
-					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_FLAGS) {
-						sublen += 2;
-					}
-					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_CHARACTER) {
-						sublen += 2;
-					}
-					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_FAMILY) {
-						sublen += 2;
-					}
-					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_SIZE) {
-						sublen += 2;
-#if 0 /* From OOo */
-						if ( ! ( ( nMask & ( 1 << PPT_ParaAttr_BuHardHeight ) )
-							 && ( nBulFlg && ( 1 << PPT_ParaAttr_BuHardHeight ) ) ) )
-							aSet.mnAttrSet ^= 0x40;
-#endif
-					}
-					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_COLOR) {
-						sublen += 4;
-					}
-					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ALIGNMENT) {
-						g_object_set (para_attr, "alignment", (guint) GSF_LE_GET_GUINT16 (data + i + sublen), NULL);
-						sublen += 2;
-					}
-					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_1) {
-						sublen += 2;
-					}
-					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_2) {
-						sublen += 2;
-					}
-					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_3) {
-						sublen += 2;
-					}
-					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_LINE_FEED) {
-						sublen += 2;
-					}
-
-					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_ABOVE) {
-						int space;
-						space = GSF_LE_GET_GUINT16 (data + i + sublen);
-						if (space & 0x8000) {
-							space = 0x10000 - space;
-						}
-						space_before = space * (UN_PER_IN / 576.0);
-						g_object_set (para_attr,
-							      "space_before", space_before,
-							      NULL);
-						sublen += 2;
-					}
-					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_BELOW) {
-						int space;
-						space = GSF_LE_GET_GUINT16 (data + i + sublen);
-						if (space & 0x8000) {
-							space = 0x10000 - space;
-						}
-						space_after = space * (UN_PER_IN / 576.0);
-						g_object_set (para_attr,
-							      "space_after", space_after,
-							      NULL);
-						sublen += 2;
-					}
-					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_4)
-						sublen += 2;
-					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_5)
-						sublen += 2;
-					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ASIAN_UNKNOWN)
-						sublen += 2;
-					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BIDI)
-						sublen += 2;
-					end = position;
-					while (section_length && end < text_len) {
-						section_length --;
-						end += g_utf8_skip[(guchar) text[end]];
-					}
-					god_text_model_set_paragraph_attributes (GOD_TEXT_MODEL (parse_state->current_text),
-										 position, 
-										 end,
-										 para_attr);
-					god_text_model_set_indent (GOD_TEXT_MODEL (parse_state->current_text),
-								   position, 
-								   end,
-								   indent_type);
-					g_object_unref (para_attr);
-					i += sublen;
-					position = end;
-				}
-
-				position = 0;
-				while (position < text_len) {
-					int sublen = 0;
-					int end;
-					GList *attrs = NULL, *iterator;
-					guint fields;
-					int section_length = GSF_LE_GET_GUINT32 (data + i);
-					sublen += 4;
-					fields = GSF_LE_GET_GUINT32 (data + i + sublen);
-					sublen += 4;
-					if (fields & (TEXT_FIELD_PROPERTY_EXISTS_BOLD |
-						      TEXT_FIELD_PROPERTY_EXISTS_ITALIC |
-						      TEXT_FIELD_PROPERTY_EXISTS_UNDERLINE |
-						      TEXT_FIELD_PROPERTY_EXISTS_SHADOW |
-						      TEXT_FIELD_PROPERTY_EXISTS_RELIEF)) {
-						guint text_fields = GSF_LE_GET_GUINT16 (data + i + sublen);
-						if (fields & TEXT_FIELD_PROPERTY_EXISTS_BOLD)
-							attrs = g_list_append (attrs, pango_attr_weight_new
-									       (text_fields & 0x1 ?
-										PANGO_WEIGHT_BOLD :
-										PANGO_WEIGHT_NORMAL));
-						if (fields & TEXT_FIELD_PROPERTY_EXISTS_ITALIC)
-							attrs = g_list_append (attrs, pango_attr_style_new
-									       (text_fields & 0x2 ?
-										PANGO_STYLE_ITALIC :
-										PANGO_STYLE_NORMAL));
-						if (fields & TEXT_FIELD_PROPERTY_EXISTS_UNDERLINE)
-							attrs = g_list_append (attrs, pango_attr_underline_new
-									       (text_fields & 0x4 ?
-										PANGO_UNDERLINE_SINGLE :
-										PANGO_UNDERLINE_NONE));
-#if 0
-						if (text_fields & 0x10)
-							printf ("shadow\n");
-						if (text_fields & 0x200)
-							printf ("relief\n");
-#endif
-						sublen += 2;
-					}
-					if (fields & TEXT_FIELD_PROPERTY_EXISTS_FONT) {
-						guint font_index = GSF_LE_GET_GUINT16 (data + i + sublen);
-						if (font_index < parse_user_data->fonts->len &&
-						    g_ptr_array_index (parse_user_data->fonts, font_index)) {
-							attrs = g_list_append (attrs, pango_attr_family_new
-									       (g_ptr_array_index (parse_user_data->fonts, font_index)));
-						}
-						sublen += 2;
-					}
-					if (fields & TEXT_FIELD_PROPERTY_EXISTS_FONT_SIZE) {
-						
-						attrs = g_list_append (attrs, pango_attr_size_new
-								       (GSF_LE_GET_GUINT16 (data + i + sublen) * PANGO_SCALE));
-						sublen += 2;
-					}
-					if (fields & (TEXT_FIELD_PROPERTY_EXISTS_COLOR)) {
-#if 0
-						printf ("color: #");
-						printf ("%02X", data[i + sublen++]);
-						printf ("%02X", data[i + sublen++]);
-						printf ("%02X", data[i + sublen++]);
-						printf ("\n");
-						sublen ++;
-#endif
-						sublen += 4;
-					}
-					if (fields & TEXT_FIELD_PROPERTY_EXISTS_OFFSET) {
-#if 0
-						int offset = GSF_LE_GET_GUINT16 (data + i + sublen - 2);
-						if (offset & 0x8000)
-							offset -= 0x10000;
-						printf ("offset: %d\n", offset);
-#endif
-						sublen += 2;
-					}
-					/*					g_print ("position: %d, section_length: %d\n", position, section_length);*/
-					end = position;
-					while (section_length && end < text_len) {
-						section_length --;
-						end += g_utf8_skip[(guchar) text[end]];
-					}
-					god_text_model_set_pango_attributes (GOD_TEXT_MODEL (parse_state->current_text),
-									     position, 
-									     end,
-									     attrs);
-					for (iterator = attrs; iterator; iterator = iterator->next)
-						pango_attribute_destroy (iterator->data);
-					g_list_free (attrs);
-					position = end;
-					i += sublen;
-				}
+				ppt_parsing_helper_parse_style_text_prop_atom (data, record->length, GOD_TEXT_MODEL (parse_state->current_text), parse_user_data->fonts);
 			}
 		}
 		break;
@@ -761,9 +551,9 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 			if (STACK_TOP->opcode == Slide) {
 				SlideParseState *parse_state = STACK_TOP->parse_state;
 
-				handler = god_drawing_ms_client_handler_ppt_new (parse_state->slide);
+				handler = god_drawing_ms_client_handler_ppt_new (parse_state->slide, parse_user_data->fonts);
 			} else {
-				handler = god_drawing_ms_client_handler_ppt_new (NULL);
+				handler = god_drawing_ms_client_handler_ppt_new (NULL, parse_user_data->fonts);
 			}
 
 			drawing = god_drawing_read_ms (input, record->length, handler, NULL);

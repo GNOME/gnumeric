@@ -39,7 +39,7 @@ typedef struct {
 } GodDrawingMsClientHandlerPptClass;
 
 GType                      god_drawing_ms_client_handler_ppt_get_type  (void);
-GodDrawingMsClientHandler *god_drawing_ms_client_handler_ppt_new       (PresentSlide *slide);
+GodDrawingMsClientHandler *god_drawing_ms_client_handler_ppt_new       (PresentSlide *slide, GPtrArray *fonts);
 
 
 

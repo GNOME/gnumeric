@@ -13,6 +13,8 @@ libgoffice_libpresent_la_SOURCES =		\
 	present-text.h				\
 	present-view.c				\
 	present-view.h				\
+	ppt-parsing-helper.c			\
+	ppt-parsing-helper.h			\
 	ppt-types.h
 
 include $(srcdir)/../goffice.mk

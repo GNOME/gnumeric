@@ -346,17 +346,33 @@ static const GOMSParserRecordType types[] =
 };
 
 enum {
-	TEXT_FIELD_PROPERTY_EXISTS_BOLD = 0x00000001,
-	TEXT_FIELD_PROPERTY_EXISTS_ITALIC = 0x00000002,
-	TEXT_FIELD_PROPERTY_EXISTS_UNDERLINE = 0x00000004,
-	TEXT_FIELD_PROPERTY_EXISTS_SHADOW = 0x00000010,
-	TEXT_FIELD_PROPERTY_EXISTS_RELIEF = 0x00000200,
-	TEXT_FIELD_PROPERTY_EXISTS_FONT = 0x00010000,
-	TEXT_FIELD_PROPERTY_EXISTS_FONT_SIZE = 0x00020000,
-	TEXT_FIELD_PROPERTY_EXISTS_COLOR = 0x00040000,
-	TEXT_FIELD_PROPERTY_EXISTS_OFFSET = 0x00080000,
+	TEXT_FIELD_PROPERTY_EXISTS_BOLD              = 0x00000001,
+	TEXT_FIELD_PROPERTY_EXISTS_ITALIC            = 0x00000002,
+	TEXT_FIELD_PROPERTY_EXISTS_UNDERLINE         = 0x00000004,
+	TEXT_FIELD_PROPERTY_EXISTS_SHADOW            = 0x00000010,
+	TEXT_FIELD_PROPERTY_EXISTS_STRIKEOUT         = 0x00000100,
+	TEXT_FIELD_PROPERTY_EXISTS_RELIEF            = 0x00000200,
+	TEXT_FIELD_PROPERTY_EXISTS_RESET_NUMBERING   = 0x00000400,
+	TEXT_FIELD_PROPERTY_EXISTS_ENABLE_NUMBERING1 = 0x00000800,
+	TEXT_FIELD_PROPERTY_EXISTS_ENABLE_NUMBERING2 = 0x00001000,
+	TEXT_FIELD_PROPERTY_EXISTS_FLAGS             = 0x0000ffff,
+	TEXT_FIELD_PROPERTY_EXISTS_FONT              = 0x00010000,
+	TEXT_FIELD_PROPERTY_EXISTS_FONT_SIZE         = 0x00020000,
+	TEXT_FIELD_PROPERTY_EXISTS_COLOR             = 0x00040000,
+	TEXT_FIELD_PROPERTY_EXISTS_OFFSET            = 0x00080000,
+	TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN1          = 0x00100000,
+	TEXT_FIELD_PROPERTY_EXISTS_ASIAN_OR_COMPLEX  = 0x00200000,
+	TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN2          = 0x00400000,
+	TEXT_FIELD_PROPERTY_EXISTS_SYMBOL            = 0x00800000,
+	TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN3          = 0x01000000,
+	TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN4          = 0x02000000,
+	TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN5          = 0x04000000,
+	TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN6          = 0x08000000,
+	TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN7          = 0x10000000,
+	TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN8          = 0x20000000,
+	TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN9          = 0x40000000,
+	TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN10         = 0x80000000,
 } TextFieldPropExists;
-
 
 enum {
 	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_FLAGS     = 0x0000000f,
@@ -378,9 +394,9 @@ enum {
 } TextFieldParagraphPropExists;
 
 enum {
-	PARAGRAPH_ALIGNMENT_LEFT = 0,
-	PARAGRAPH_ALIGNMENT_CENTER = 1,
-	PARAGRAPH_ALIGNMENT_RIGHT = 2,
+	PARAGRAPH_ALIGNMENT_LEFT    = 0,
+	PARAGRAPH_ALIGNMENT_CENTER  = 1,
+	PARAGRAPH_ALIGNMENT_RIGHT   = 2,
 	PARAGRAPH_ALIGNMENT_JUSTIFY = 3,
 } ParagraphAlignment;
 
@@ -431,14 +447,14 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 			g_print (data);
 			g_print ("\n");
 			text_length = g_utf8_strlen (data, -1);
-			g_free (data);
+			g_free ((char *) data);
 			break;
 		case TextBytesAtom:
 			data = g_convert (data, record->length, "utf8", "latin1", NULL, NULL, NULL);
 			g_print (data);
 			g_print ("\n");
 			text_length = g_utf8_strlen (data, -1);
-			g_free (data);
+			g_free ((char *) data);
 			break;
 		case BaseTextPropAtom:
 			gsf_mem_dump (data, record->length);
@@ -702,11 +718,7 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 				fields = GSF_LE_GET_GUINT32 (data + i + sublen);
 				printf ("char fields: 0x%04x\n", fields);
 				sublen += 4;
-				if (fields & (TEXT_FIELD_PROPERTY_EXISTS_BOLD |
-					      TEXT_FIELD_PROPERTY_EXISTS_ITALIC |
-					      TEXT_FIELD_PROPERTY_EXISTS_UNDERLINE |
-					      TEXT_FIELD_PROPERTY_EXISTS_SHADOW |
-					      TEXT_FIELD_PROPERTY_EXISTS_RELIEF)) {
+				if (fields & TEXT_FIELD_PROPERTY_EXISTS_FLAGS) {
 					guint text_fields = GSF_LE_GET_GUINT16 (data + i + sublen);
 					if (text_fields & 0x1)
 						printf ("bold\n");
@@ -724,6 +736,12 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 					printf ("Font: %d=%s\n", (int) GSF_LE_GET_GUINT16 (data + i + sublen), font [GSF_LE_GET_GUINT16 (data + i + sublen)]);
 					sublen += 2;
 				}
+				if (fields & TEXT_FIELD_PROPERTY_EXISTS_ASIAN_OR_COMPLEX)
+					sublen += 2;
+				if (fields & TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN2)
+					sublen += 2;
+				if (fields & TEXT_FIELD_PROPERTY_EXISTS_SYMBOL)
+					sublen += 2;
 				if (fields & TEXT_FIELD_PROPERTY_EXISTS_FONT_SIZE) {
 					printf ("Font size: %d\n", GSF_LE_GET_GUINT16 (data + i + sublen));
 					sublen += 2;
@@ -743,6 +761,24 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 					printf ("offset: %d\n", offset);
 					sublen += 2;
 				}
+				if (fields & TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN1)
+					sublen += 2;
+				if (fields & TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN3)
+					sublen += 2;
+				if (fields & TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN4)
+					sublen += 2;
+				if (fields & TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN5)
+					sublen += 2;
+				if (fields & TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN6)
+					sublen += 2;
+				if (fields & TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN7)
+					sublen += 2;
+				if (fields & TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN8)
+					sublen += 2;
+				if (fields & TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN9)
+					sublen += 2;
+				if (fields & TEXT_FIELD_PROPERTY_EXISTS_UNKNOWN10)
+					sublen += 2;
 				gsf_mem_dump (data + i, sublen);
 				i += sublen;
 			}

@@ -1,3 +1,23 @@
+2004-07-22  Christopher James Lahey  <clahey@ximian.com>
+
+	* libpresent/Makefile.am (libgoffice_libpresent_la_SOURCES): Added
+	ppt-parsing-helper.c and ppt-parsing-helper.h.
+
+	* libpresent/god-drawing-ms-client-handler-ppt.c: Handle
+	TextBytesAtom and StyleTextPropAtom.
+
+	* libpresent/god-drawing-ms-client-handler-ppt.h: Added parameter
+	fonts.
+
+	* libpresent/load-ppt.c: Moved StyleTextPropAtom parsing to
+	ppt-parsing-helper.c.
+
+	* libpresent/ppt-parsing-helper.c,
+	libpresent/ppt-parsing-helper.h: Moved StyleTextPropAtom parsing
+	here.  Improved StyleTextPropAtom parsing.
+
+	* test/dump-ppt-records.c: Improved StyleTextPropAtom parsing.
+
 2004-07-20  Christopher James Lahey  <clahey@ximian.com>
 
 	* libpresent/load-ppt.c (handle_atom), test/dump-ppt-records.c
