@@ -1,3 +1,7 @@
+2000-02-28  Michael Meeks  <michael@helixcode.com>
+
+	* src/xml-io.c (xml_sheet_read, xml_sheet_write): kill for now.
+
 2000-02-28  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/utils.c (parse_cell_name_or_range): Bug fix.  Single cell
