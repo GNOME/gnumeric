@@ -1,5 +1,9 @@
 2004-10-19  Morten Welinder  <terra@gnome.org>
 
+	* src/Makefile.am (GNOME_Gnumeric-gtk.xml): Create this using a
+	sed script for now.  We seem to have relied on intltool bugs not
+	present in all versions.
+
 	* src/print-info.c (render_path): Use go_dirname_from_uri.
 
 	* src/workbook-view.c (cb_cleanup_sendto): Remove directory using
@@ -2746,4 +2750,5 @@
 2003-12-23  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post BRANCH bump
-	  require gtk/glib 2.3.0, that will 
+	  require gtk/glib 2.3.0, that will probably go up shortly
+	  as we depend more on head directly
