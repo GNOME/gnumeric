@@ -1,3 +1,8 @@
+2001-06-13  Morten Welinder  <terra@diku.dk>
+
+	* src/mathfunc.c (gnumeric_add_epsilon): Make non-static.
+	(gpow10): Use table for the range -20 ... +20.
+
 2001-06-12  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/io-context-priv.h

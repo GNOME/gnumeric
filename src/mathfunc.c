@@ -84,7 +84,7 @@ d1mach (int i)
  * absolutely).  This makes ROUND (etc.) behave a little closer to what
  * people want, even if it is a bit bogus.
  */
-static double
+double
 gnumeric_add_epsilon (double x)
 {
   if (!FINITE (x) || x == 0)
@@ -4038,6 +4038,17 @@ gpow10 (int n)
 	gnum_float res = 1.0;
 	gnum_float p;
 	const int maxn = 300;
+
+	static const gnum_float fast[] = {
+		1e-20, 1e-19, 1e-18, 1e-17, 1e-16, 1e-15, 1e-14, 1e-13, 1e-12, 1e-11,
+		1e-10,  1e-9,  1e-8,  1e-7,  1e-6,  1e-5,  1e-4,  1e-3,  1e-2,  1e-1,
+		1,
+		  1e1,   1e2,   1e3,   1e4,   1e5,   1e6,   1e7,   1e8,   1e9,  1e10,
+		 1e11,  1e12,  1e13,  1e14,  1e15,  1e16,  1e17,  1e18,  1e19,  1e20
+	};
+
+	if (n >= -20 && n <= 20)
+		return (fast + 20)[n];
 
 	if (n >= 0) {
 		p = 10.0;
