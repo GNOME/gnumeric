@@ -119,7 +119,7 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 	DialogStfResult_t *dialogresult = NULL;
 	char *name;
 	char *data;
-	unsigned char *c;
+	unsigned char const *c;
 	Sheet *sheet;
 	Workbook *book;
 
