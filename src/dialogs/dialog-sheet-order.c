@@ -37,7 +37,7 @@
 #include <style-color.h>
 #include <commands.h>
 #include <widgets/gnumeric-cell-renderer-text.h>
-#include "pixmaps/gnumeric-stock-pixbufs.h"
+#include "../pixmaps/gnumeric-stock-pixbufs.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
