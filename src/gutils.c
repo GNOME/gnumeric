@@ -28,7 +28,6 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gal/util/e-util.h>
 #ifdef HAVE_FLOATINGPOINT_H
 #include <floatingpoint.h>
 #endif

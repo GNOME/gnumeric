@@ -38,7 +38,6 @@
 
 #include <gtk/gtkmain.h> /* for gtk_main_quit */
 #include <gsf/gsf-impl-utils.h>
-#include <gal/util/e-util.h>
 #include <ctype.h>
 #include <string.h>
 

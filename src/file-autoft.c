@@ -33,7 +33,6 @@
 
 #include <gsf/gsf-impl-utils.h>
 
-#include <gal/util/e-util.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
