@@ -248,7 +248,7 @@ applix_get_colour (ApplixReadState *state, char **buf)
 		return NULL;
 	}
 
-	if (num >= 0 && num < state->colours->len)
+	if (num >= 0 && num < (int)state->colours->len)
 		return style_color_ref (g_ptr_array_index(state->colours, num));
 
 	return style_color_black ();
@@ -545,7 +545,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					char *start = (sep += 2);
 					int font_id = strtol (start, &sep, 10);
 
-					if (start == sep || font_id < 1 || font_id > state->font_names->len)
+					if (start == sep || font_id < 1 || font_id > (int)state->font_names->len)
 						(void) applix_parse_error (state, "Unknown font modifier");
 					else {
 						char const *name = g_ptr_array_index (state->font_names, font_id-1);
@@ -584,7 +584,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 				char *end;
 				int num = strtol (sep += 2, &end, 10);
 
-				if (sep == end || 0 >= num || num >= sizeof(map)/sizeof(int)) {
+				if (sep == end || 0 >= num || num >= (int)(sizeof(map)/sizeof(int))) {
 					(void) applix_parse_error (state, "Unknown pattern");
 					return NULL;
 				}
@@ -626,7 +626,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 				char *end;
 				int num = strtol (++sep, &end, 10);
 
-				if (sep == end || 0 >= num || num >= sizeof(map)/sizeof(int)) {
+				if (sep == end || 0 >= num || num >= (int)(sizeof(map)/sizeof(int))) {
 					(void) applix_parse_error (state, "Unknown border style");
 					return NULL;
 				}
@@ -885,7 +885,7 @@ loop :
 	if (NULL == fgets(ptr, len, state->file))
 		return FALSE;
 
-	if (strlen (ptr) > state->line_len) {
+	if ((int)strlen (ptr) > state->line_len) {
 		/* Clip at the state line length */
 		len -= state->line_len;
 		if (len < 0) {
@@ -1237,7 +1237,7 @@ applix_read_impl (ApplixReadState *state)
 
 			++tmp;
 			do {
-				int attr_index;
+				unsigned attr_index;
 
 				r.start.col = strtol (ptr = tmp+1, &tmp, 10);
 				if (tmp == ptr || r.start.col < 0 || tmp[0] != '-')
