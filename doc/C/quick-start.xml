@@ -438,7 +438,7 @@ c:\Program Files\Gnome-Office\gnumeric
       saving the file which is currently being used can be performed
       by typing jointly the control key and the s key
       (i.e. <keycombo><keysym>Ctrl</keysym><keysym>S</keysym></keycombo>).
-      For further information, see <xref linkend="keybindings"/>.
+      For further information, see <xref linkend="keybinding"/>.
     </para>
   </sect2>
 
