@@ -134,7 +134,7 @@ AC_ARG_WITH(bonobo,
 )
 
 if $try_bonobo; then
-	AC_MSG_CHECKING(For Bonobo > 0.2)
+	AC_MSG_CHECKING(for Bonobo > 0.2)
 	if gnome-config --libs bonobo > /dev/null 2>&1; then
 		vers=`gnome-config --modversion bonobo`
 		case $vers
@@ -161,11 +161,11 @@ AM_CONDITIONAL(BONOBO, $have_bonobo)
 dnl ******************************
 dnl GnomePrint checking
 dnl ******************************
-AC_MSG_CHECKING(For GnomePrint libraries)
+AC_MSG_CHECKING(for GnomePrint libraries)
 if gnome-config --libs print > /dev/null 2>&1; then 
     AC_MSG_RESULT(found)
     . `gnome-config --libdir`/printConf.sh
-    AC_MSG_CHECKING(For GnomePrint >= 0.6)
+    AC_MSG_CHECKING(for GnomePrint >= 0.6)
     case x$MODULE_VERSION in
 	gnome-print-0.[012345])
 		AC_MSG_ERROR(You need at least GNOME print 0.6 for this version of Gnumeric)
@@ -179,7 +179,7 @@ fi
 dnl ******************************
 dnl LibGlade checking
 dnl ******************************
-AC_MSG_CHECKING(For Glade libraries)
+AC_MSG_CHECKING(for Glade libraries)
 if gnome-config --libs libglade > /dev/null 2>&1; then 
     AC_MSG_RESULT(found)
 else

@@ -1,3 +1,7 @@
+1999-09-05  Richard Hestilow  <hestgray@ionet.net>
+
+	* configure.in: Minor s/For/for library check message fix.
+	
 1999-09-03  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/dialogs/dialog-printer-setup.c (draw_margins): Added margin
