@@ -1,13 +1,15 @@
-2000-01-03  Morten Welinder  <terra@diku.dk>
+2000-01-05  Morten Welinder  <terra@diku.dk>
+
+	* src/parser.y (register_allocation, unregister_allocation):
+ 	Ignore NULLs.
+
+2000-01-04  Morten Welinder  <terra@diku.dk>
 
 	* parser.y: revamp the allocation and deallocation system.
 
 	* src/cell.c (cell_set_formula): Plug leak.
 
 	* src/solver-lp.c (solver_simplex): j not used.
-
-	* src/cell.c (cell_cleanout): Not static since prototyped in
- 	cell.h.
 
 2000-01-04  Jody Goldberg <jgoldberg@home.com>
 

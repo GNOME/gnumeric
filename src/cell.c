@@ -68,7 +68,7 @@ cell_cleanout (Cell *cell)
 }
 
 
-void
+static void
 cell_set_formula (Cell *cell, const char *text)
 {
 	ExprTree *new_expr;

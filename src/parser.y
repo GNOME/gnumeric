@@ -112,7 +112,13 @@ deallocate_assert_empty (void)
 static void *
 register_allocation (void *data, ParseDeallocator freer)
 {
-	AllocRec *rec = g_new (AllocRec, 1);
+	AllocRec *rec;
+
+	/* It's handy to be able to register and unregister NULLs.  */
+	if (!data)
+		return;
+
+	rec = g_new (AllocRec, 1);
 	rec->data = data;
 	rec->freer = freer;
 	alloc_list = g_list_prepend (alloc_list, rec);
@@ -132,6 +138,10 @@ static void
 unregister_allocation (const void *data)
 {
 	GList *l;
+
+	/* It's handy to be able to register and unregister NULLs.  */
+	if (!data)
+		return;
 
 	for (l = alloc_list; l; l = l->next) {
 		AllocRec *rec = l->data;
