@@ -92,6 +92,7 @@ object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
 	}
 
 #ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 0)
 		printf ("Anchor position in pixels"
 			" left = %g, top = %g, right = %g, bottom = %g;\n",
 			pixels[0], pixels[1], pixels[2], pixels[3]);
