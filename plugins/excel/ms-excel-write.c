@@ -1358,7 +1358,7 @@ cell_is_used (const ExcelSheet *sheet, int col, int row)
  * proper API for accessing the default style of an existing sheet.
  **/
 static MStyle *
-get_default_mstyle ()
+get_default_mstyle (void)
 {
 	return mstyle_new_default ();
 }

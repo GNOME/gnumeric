@@ -13,7 +13,7 @@
 #include "gnumeric-chart.h"
 
 GnumericChart *
-gnumeric_chart_new ()
+gnumeric_chart_new (void)
 {
 	GnumericChart * res = (GnumericChart *) g_new (GnumericChart, 1);
 	res->series = NULL;

@@ -1,5 +1,13 @@
 2001-04-01  Morten Welinder  <terra@diku.dk>
 
+	* ms-chart.c (BC): Fix prototype.
+
+	* gnumeric-chart.c (gnumeric_chart_new): Fix prototype.
+
+	* ms-excel-write.c (get_default_mstyle): Fix prototype.
+
+2001-04-01  Morten Welinder  <terra@diku.dk>
+
 	* ms-excel-read.c (ms_excel_default_palette): Fix prototype.
 	(ms_excel_read_cleanup): New function.
 

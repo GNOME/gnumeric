@@ -1903,7 +1903,7 @@ BC(register_handler)(ExcelChartHandler const *const handle);
 }
 
 static void
-BC(register_handlers)()
+BC(register_handlers)(void)
 {
 	static gboolean already_initialized = FALSE;
 	int i;
