@@ -1510,6 +1510,7 @@ static void
 new_sheet (ExcelWorkbook *wb, Sheet *value)
 {
 	ExcelSheet     *sheet = g_new (ExcelSheet, 1);
+	Range           extent;
 
 	g_return_if_fail (value);
 	g_return_if_fail (wb);
@@ -1517,8 +1518,9 @@ new_sheet (ExcelWorkbook *wb, Sheet *value)
 	sheet->gnum_sheet = value;
 	sheet->streamPos  = 0x0deadbee;
 	sheet->wb         = wb;
-	sheet->maxx       = sheet->gnum_sheet->cols.max_used + 1;
-	sheet->maxy       = sheet->gnum_sheet->rows.max_used + 1;
+	extent            = sheet_get_extent (sheet->gnum_sheet);
+	sheet->maxx       = extent.end.col + 1;
+	sheet->maxy       = extent.end.row + 1;
 	sheet->dbcells    = g_array_new (FALSE, FALSE, sizeof (MsOlePos));
 
 	g_ptr_array_add (wb->sheets, sheet);

@@ -10,7 +10,7 @@ This plugin provides Lotus 123 I/O
   
         And then ported to gnumeric, some support code snarfed from Sean Atkinson.
   
-        More documentation on the Lotus fule format can be found at:
+        More documentation on the Lotus file format can be found at:
   
         http://www.wotsit.org/ OR http://www.lotus.com/
   

@@ -387,7 +387,7 @@ compute_groups (Sheet *sheet, int start, int end, int usable,
 #define ROW_FIT(row) (row >= SHEET_MAX_ROWS ? (SHEET_MAX_ROWS-1) : row)
 
 static void
-print_sheet_range (Sheet *sheet, int start_col, int start_row, int end_col, int end_row, PrintJobInfo *pj)
+print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj)
 {
 	int usable_x, usable_y;
 	GList *l, *m;
@@ -396,20 +396,20 @@ print_sheet_range (Sheet *sheet, int start_col, int start_row, int end_col, int 
 	usable_x = pj->x_points - pj->titles_used_x - pj->repeat_cols_used_x;
 	usable_y = pj->y_points - pj->titles_used_y - pj->repeat_rows_used_y;
 
-	cols = compute_groups (sheet, start_col, end_col, usable_x, sheet_col_get_info);
-	rows = compute_groups (sheet, start_row, end_row, usable_y, sheet_row_get_info);
+	cols = compute_groups (sheet, r.start.col, r.end.col, usable_x, sheet_col_get_info);
+	rows = compute_groups (sheet, r.start.row, r.end.row, usable_y, sheet_row_get_info);
 
 	pj->render_info->pages = g_list_length (cols) * g_list_length (rows);
 	
-	if (pj->pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT){
-		int col = start_col;
+	if (pj->pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT) {
+		int col = r.start.col;
 
 		pj->render_info->page = 1;
-		for (l = cols; l; l = l->next){
+		for (l = cols; l; l = l->next) {
 			int col_count = GPOINTER_TO_INT (l->data);
-			int row = start_row;
+			int row = r.start.row;
 
-			for (m = rows; m; m = m->next){
+			for (m = rows; m; m = m->next) {
 				int row_count = GPOINTER_TO_INT (m->data);
 				
 				print_page (sheet,
@@ -423,17 +423,18 @@ print_sheet_range (Sheet *sheet, int start_col, int start_row, int end_col, int 
 			col += col_count;
 		}
 	} else {
-		int row = start_row;
+		int row = r.start.row;
 
 		pj->render_info->page = 1;
-		for (l = rows; l; l = l->next){
+		for (l = rows; l; l = l->next) {
 			int row_count = GPOINTER_TO_INT (l->data);
-			int col = start_col;
+			int col = r.start.col;
 			
-			for (m = cols; m; m = m->next){
+			for (m = cols; m; m = m->next) {
 				int col_count = GPOINTER_TO_INT (m->data);
 
-				print_page (sheet, col, row, col + col_count - 1, row + row_count - 1, pj);
+				print_page (sheet, col, row, col + col_count - 1,
+					    row + row_count - 1, pj);
 
 				col += col_count;
 				pj->render_info->page++;
@@ -487,32 +488,39 @@ print_job_info_init_sheet (Sheet *sheet, PrintJobInfo *pj)
 static void
 print_sheet (gpointer key, gpointer value, gpointer user_data)
 {
-	PrintJobInfo *pj = user_data;
-	Sheet *sheet = value;
+	PrintJobInfo *pj    = user_data;
+	Range         extent;
+	Sheet        *sheet = value;
 
 	g_return_if_fail (pj != NULL);
 	g_return_if_fail (sheet != NULL);
 
 	print_job_info_init_sheet (sheet, pj);
+	extent = sheet_get_extent (sheet);
+	extent.end.col++;
+	extent.end.row++;
 
-	print_sheet_range (sheet, 0, 0, sheet->cols.max_used+1, sheet->rows.max_used+1, pj);
+	print_sheet_range (sheet, extent, pj);
 }
 
 static void
 sheet_print_selection (Sheet *sheet, PrintJobInfo *pj)
 {
-	Range const * sel;
+	Range const *sel;
+	Range extent;
+
 	if ((sel = selection_first_range (sheet, FALSE)) == NULL) {
 		gnumeric_notice (
 			sheet->workbook, GNOME_MESSAGE_BOX_ERROR,
 			_("Selection must be a single range"));
 		return;
 	}
+	extent = *sel;
+	extent.end.col++;
+	extent.end.row++;
 
 	print_job_info_init_sheet (sheet, pj);
-	print_sheet_range (sheet,
-			   sel->start.col, sel->start.row,
-			   sel->end.col + 1, sel->end.row + 1, pj);
+	print_sheet_range (sheet, extent, pj);
 }
 
 static void

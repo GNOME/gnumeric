@@ -309,6 +309,7 @@ void           sheet_styles_dump                (Sheet *sheet);
 void           sheet_cells_update               (Sheet *sheet, Range r,
 						 gboolean render_text);
 Range          sheet_get_full_range             (void);
+Range          sheet_get_extent                 (Sheet *sheet);
 
 /* Redraw */
 void        sheet_compute_visible_ranges  (Sheet const *sheet);

@@ -1,3 +1,7 @@
+1999-12-06  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-excel-write.c (new_sheet): Update to sheet_get_extent.
+
 1999-12-01  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-read.c (lookup_base_char_width): Plug leaks.

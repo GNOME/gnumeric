@@ -992,17 +992,19 @@ Sheet_range_set_format (PortableServer_Servant servant,
 static CORBA_long
 Sheet_max_cols_used (PortableServer_Servant servant, CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
+	Sheet *sheet  = sheet_from_servant (servant);
+	Range  extent = sheet_get_extent (sheet);
 
-	return sheet->cols.max_used;
+	return extent.end.col;
 }
 
 static CORBA_long
 Sheet_max_rows_used (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
+	Range  extent = sheet_get_extent (sheet);
 
-	return sheet->rows.max_used;
+	return extent.end.row;
 }
 
 static CORBA_double

@@ -1,5 +1,15 @@
 1999-12-06  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/sheet.c (sheet_get_extent): implement.
+
+	* src/corba-sheet.c (Sheet_max_cols_used, Sheet_max_rows_used):
+	update to use get_extent.
+
+	* src/print.c (print_sheet): use sheet_get_extent.
+	(print_sheet_range): pass a Range. (sheet_print_selection): ditto.
+
+1999-12-06  Michael Meeks  <mmeeks@gnu.org>
+
 	* doc/Styles.txt: Add section 2.1.1, update optimization +
 	example code, type fixes. + 2.4.1 explaining borders.
 

@@ -456,6 +456,38 @@ sheet_row_get_info (Sheet const *sheet, int const row)
 	return (ColRowInfo *) &sheet->rows.default_style;
 }
 
+/**
+ * sheet_get_extent:
+ * @sheet: the sheet
+ * 
+ * calculates the area occupied by cell data.
+ * 
+ * Return value: the range.
+ **/
+Range
+sheet_get_extent (Sheet *sheet)
+{
+	Range r;
+
+	r.start.col = 0;
+	r.start.row = 0;
+	r.end.col   = 0;
+	r.end.row   = 0;
+
+	g_return_val_if_fail (sheet != NULL, r);
+	g_return_val_if_fail (IS_SHEET (sheet), r);
+
+	r.end.col   = sheet->cols.max_used;
+	r.end.row   = sheet->rows.max_used;
+
+	if (r.end.col < 0)
+		r.end.col = 0;
+	if (r.end.row < 0)
+		r.end.row = 0;
+
+	return r;
+}
+
 void
 sheet_compute_visible_ranges (Sheet const *sheet)
 {
