@@ -1259,7 +1259,7 @@ range_is_homogeneous(Sheet *sheet,
 	Value * res = sheet_cell_foreach_range (sheet, TRUE,
 						start_col, start_row, end_col, end_row,
 						&cell_is_homogeneous, closure);
-	if (res)
+	if (res && res != value_terminate ())
 		value_release (res);
 }
 
