@@ -72,7 +72,7 @@
 
                         <child>
                           <widget class="GtkLabel" id="label19">
-                            <property name="label" translatable="yes">Trim :</property>
+                            <property name="label" translatable="yes">Trim:</property>
                             <property name="justify">GTK_JUSTIFY_CENTER</property>
                             <property name="wrap">no</property>
                             <property name="xalign">7.45058e-09</property>
@@ -95,7 +95,7 @@
 
                         <child>
                           <widget class="GtkLabel" id="label20">
-                            <property name="label" translatable="yes">Original data type :</property>
+                            <property name="label" translatable="yes">Original data type:</property>
                             <property name="justify">GTK_JUSTIFY_CENTER</property>
                             <property name="wrap">no</property>
                             <property name="xalign">7.45058e-09</property>
@@ -275,7 +275,7 @@
 
                         <child>
                           <widget class="GtkLabel" id="label2">
-                            <property name="label" translatable="yes">Fr_om line :</property>
+                            <property name="label" translatable="yes">Fr_om line:</property>
                             <property name="justify">GTK_JUSTIFY_LEFT</property>
                             <property name="wrap">no</property>
                             <property name="xalign">0.5</property>
@@ -316,7 +316,7 @@
 
                         <child>
                           <widget class="GtkLabel" id="label18">
-                            <property name="label" translatable="yes">_To line : </property>
+                            <property name="label" translatable="yes">_To line: </property>
                             <property name="justify">GTK_JUSTIFY_CENTER</property>
                             <property name="wrap">no</property>
                             <property name="xalign">0.5</property>
@@ -801,7 +801,7 @@
 
                                 <child>
                                   <widget class="GtkLabel" id="label5">
-                                    <property name="label" translatable="yes">Te_xt indicator : </property>
+                                    <property name="label" translatable="yes">Te_xt indicator: </property>
                                     <property name="justify">GTK_JUSTIFY_CENTER</property>
                                     <property name="wrap">no</property>
                                     <property name="xalign">0.5</property>
@@ -1188,7 +1188,7 @@
 
                                     <child>
                                       <widget class="GtkLabel" id="label17">
-                                        <property name="label" translatable="yes">Co_lumn end : </property>
+                                        <property name="label" translatable="yes">Co_lumn end: </property>
                                         <property name="justify">GTK_JUSTIFY_CENTER</property>
                                         <property name="wrap">no</property>
                                         <property name="xalign">0.5</property>
@@ -1581,7 +1581,7 @@
 
                                 <child>
                                   <widget class="GtkLabel" id="label7">
-                                    <property name="label" translatable="yes">_Format :</property>
+                                    <property name="label" translatable="yes">_Format:</property>
                                     <property name="justify">GTK_JUSTIFY_CENTER</property>
                                     <property name="wrap">no</property>
                                     <property name="xalign">0.5</property>

@@ -432,7 +432,7 @@
                     <property name="label" translatable="yes">Customize the export format. The line terminator is the character sequence used for terminating a line in the text file. Whether the quote character is placed around cells depends on the value chosen for quoting.</property>
                     <property name="justify">GTK_JUSTIFY_LEFT</property>
                     <property name="wrap">yes</property>
-                    <property name="xalign">7.45058e-09</property>
+                    <property name="xalign">0</property>
                     <property name="yalign">0.5</property>
                     <property name="xpad">0</property>
                     <property name="ypad">0</property>
@@ -464,10 +464,10 @@
 
                         <child>
                           <widget class="GtkLabel" id="label11">
-                            <property name="label" translatable="yes">Line termination :</property>
+                            <property name="label" translatable="yes">Line termination:</property>
                             <property name="justify">GTK_JUSTIFY_LEFT</property>
                             <property name="wrap">no</property>
-                            <property name="xalign">7.45058e-09</property>
+                            <property name="xalign">0</property>
                             <property name="yalign">0.5</property>
                             <property name="xpad">0</property>
                             <property name="ypad">0</property>
@@ -502,7 +502,7 @@
                                     <child>
                                       <widget class="GtkAccelLabel" id="convertwidget9">
                                         <property name="label" translatable="yes">Unix (linefeed)</property>
-                                        <property name="xalign">0.0</property>
+                                        <property name="xalign">0</property>
                                         <property name="accel-widget">convertwidget6</property>
                                         <property name="use-underline">yes</property>
                                         <property name="visible">yes</property>
@@ -518,7 +518,7 @@
                                     <child>
                                       <widget class="GtkAccelLabel" id="convertwidget10">
                                         <property name="label" translatable="yes">Macintosh (carriage return)</property>
-                                        <property name="xalign">0.0</property>
+                                        <property name="xalign">0</property>
                                         <property name="accel-widget">convertwidget7</property>
                                         <property name="use-underline">yes</property>
                                         <property name="visible">yes</property>
@@ -534,7 +534,7 @@
                                     <child>
                                       <widget class="GtkAccelLabel" id="convertwidget11">
                                         <property name="label" translatable="yes">Windows (carriage return + linefeed)</property>
-                                        <property name="xalign">0.0</property>
+                                        <property name="xalign">0</property>
                                         <property name="accel-widget">convertwidget8</property>
                                         <property name="use-underline">yes</property>
                                         <property name="visible">yes</property>
@@ -559,10 +559,10 @@
 
                         <child>
                           <widget class="GtkLabel" id="label12">
-                            <property name="label" translatable="yes">Separator :</property>
+                            <property name="label" translatable="yes">Separator:</property>
                             <property name="justify">GTK_JUSTIFY_CENTER</property>
                             <property name="wrap">no</property>
-                            <property name="xalign">7.45058e-09</property>
+                            <property name="xalign">0</property>
                             <property name="yalign">0.5</property>
                             <property name="xpad">0</property>
                             <property name="ypad">0</property>
@@ -611,7 +611,7 @@
                                     <child>
                                       <widget class="GtkLabel" id="convertwidget14">
                                         <property name="label" translatable="yes">&quot;</property>
-                                        <property name="xalign">0.0</property>
+                                        <property name="xalign">0</property>
                                         <property name="visible">yes</property>
                                       </widget>
                                     </child>
@@ -625,7 +625,7 @@
                                     <child>
                                       <widget class="GtkLabel" id="convertwidget16">
                                         <property name="label" translatable="yes">'</property>
-                                        <property name="xalign">0.0</property>
+                                        <property name="xalign">0</property>
                                         <property name="visible">yes</property>
                                       </widget>
                                     </child>
@@ -639,7 +639,7 @@
                                     <child>
                                       <widget class="GtkLabel" id="convertwidget18">
                                         <property name="label" translatable="yes">`</property>
-                                        <property name="xalign">0.0</property>
+                                        <property name="xalign">0</property>
                                         <property name="visible">yes</property>
                                       </widget>
                                     </child>
@@ -653,7 +653,7 @@
                                     <child>
                                       <widget class="GtkLabel" id="convertwidget20">
                                         <property name="label" translatable="yes"></property>
-                                        <property name="xalign">0.0</property>
+                                        <property name="xalign">0</property>
                                         <property name="visible">yes</property>
                                       </widget>
                                     </child>
@@ -691,7 +691,7 @@
                                     <child>
                                       <widget class="GtkAccelLabel" id="convertwidget25">
                                         <property name="label" translatable="yes">Automatic (puts quotes where needed)</property>
-                                        <property name="xalign">0.0</property>
+                                        <property name="xalign">0</property>
                                         <property name="accel-widget">convertwidget22</property>
                                         <property name="use-underline">yes</property>
                                         <property name="visible">yes</property>
@@ -707,7 +707,7 @@
                                     <child>
                                       <widget class="GtkAccelLabel" id="convertwidget26">
                                         <property name="label" translatable="yes">Always</property>
-                                        <property name="xalign">0.0</property>
+                                        <property name="xalign">0</property>
                                         <property name="accel-widget">convertwidget23</property>
                                         <property name="use-underline">yes</property>
                                         <property name="visible">yes</property>
@@ -723,7 +723,7 @@
                                     <child>
                                       <widget class="GtkAccelLabel" id="convertwidget27">
                                         <property name="label" translatable="yes">Never</property>
-                                        <property name="xalign">0.0</property>
+                                        <property name="xalign">0</property>
                                         <property name="accel-widget">convertwidget24</property>
                                         <property name="use-underline">yes</property>
                                         <property name="visible">yes</property>
@@ -748,7 +748,7 @@
 
                         <child>
                           <widget class="GtkLabel" id="label9">
-                            <property name="label" translatable="yes">Quoting :</property>
+                            <property name="label" translatable="yes">Quoting:</property>
                             <property name="justify">GTK_JUSTIFY_LEFT</property>
                             <property name="wrap">no</property>
                             <property name="xalign">0</property>
@@ -771,10 +771,10 @@
 
                         <child>
                           <widget class="GtkLabel" id="label10">
-                            <property name="label" translatable="yes">Quote character :</property>
+                            <property name="label" translatable="yes">Quote character:</property>
                             <property name="justify">GTK_JUSTIFY_LEFT</property>
                             <property name="wrap">no</property>
-                            <property name="xalign">7.45058e-09</property>
+                            <property name="xalign">0</property>
                             <property name="yalign">0.5</property>
                             <property name="xpad">0</property>
                             <property name="ypad">0</property>
@@ -847,7 +847,7 @@
                                     <child>
                                       <widget class="GtkAccelLabel" id="convertwidget40">
                                         <property name="label" translatable="yes">Tab</property>
-                                        <property name="xalign">0.0</property>
+                                        <property name="xalign">0</property>
                                         <property name="accel-widget">convertwidget30</property>
                                         <property name="use-underline">yes</property>
                                         <property name="visible">yes</property>

@@ -84,7 +84,7 @@
 
                 <child>
                   <widget class="GtkLabel" id="label3">
-                    <property name="label" translatable="yes">_Function :</property>
+                    <property name="label" translatable="yes">_Function:</property>
                     <property name="justify">GTK_JUSTIFY_CENTER</property>
                     <property name="wrap">no</property>
                     <property name="xalign">0</property>
@@ -109,7 +109,7 @@
 
                 <child>
                   <widget class="GtkLabel" id="label4">
-                    <property name="label" translatable="yes">_Destination :</property>
+                    <property name="label" translatable="yes">_Destination:</property>
                     <property name="justify">GTK_JUSTIFY_CENTER</property>
                     <property name="wrap">no</property>
                     <property name="xalign">0</property>
@@ -318,7 +318,7 @@
 
                 <child>
                   <widget class="GtkLabel" id="label5">
-                    <property name="label" translatable="yes">_Put :</property>
+                    <property name="label" translatable="yes">_Put:</property>
                     <property name="justify">GTK_JUSTIFY_CENTER</property>
                     <property name="wrap">no</property>
                     <property name="xalign">0</property>

@@ -1,6 +1,13 @@
 2002-02-02  Jody Goldberg <jody@gnome.org>
 
-	* src/dialogs/dialog-autoformat.c : an initial port to gnome2
+	* autoformat.glade : Consistently Use 'label:' rather than 'label :'
+	* cell-format.glade : ditto.
+	* consolidate.glade : ditto.
+	* dialog-stf-export.glade : ditto.
+	* dialog-stf.glade : ditto.
+	* names.glade : ditto.
+
+	* dialog-autoformat.c : an initial port to gnome2
 	  and guru-ification.
 
 2002-02-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
