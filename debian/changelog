@@ -1,3 +1,28 @@
+gnumeric (1.1.90-1) unstable; urgency=low
+
+  * New upstream release.
+    * A dynamic dependencies leak was fixed and the performance when deleting
+      multiple sheets at once was improved. (Closes: #194255)
+    * An issue with expression relocation with cross sheet references was
+      fixed. (Closes: #206873)
+    * A check for zero-size files was fixed which results in a more sensible
+      behaviour when trying to open an empty file. (Closes: #208345)
+    * Data -> Sort now takes along comments. (Closes: #208913)
+  * [debian/rules, debian/gnumeric-doc.files] Updated now that the 
+    documentation is installed in the location where the bonobo-enabled 
+    gnumeric looks (/usr/share/gnumeric/*-bonobo/_share_/gnome/help/...),
+    so our workaround is no longer needed.
+  * [debian/control] gnumeric-doc now Recommends: gnome-desktop-data for
+    gnome-logo-icon.png .
+  * [debian/control, debian/rules] Build against python 2.3 again.
+    (Closes: #209292)
+  * [debian/control] Tightened gda build dependency so gnumeric-gda works again.
+  * [debian/rules, debian/*.files, debian/*.install] Switched to dh_install.
+  * [debian/control, debian/gnumeric-gnome-db.install] Introduced
+    'gnumeric-gnome-db' package.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 10 Sep 2003 11:46:55 +0200
+
 gnumeric (1.1.20-2) unstable; urgency=low
 
   * [doc/C/gnumeric.1] Fixed the incorrect section argument which caused it to

@@ -35,7 +35,7 @@ features:=
 
 # The Python support offers a nice way to extend gnumeric's functionality.
 
-features+= --with-python=python2.2
+features+= --with-python=python2.3
 
 # Bonobo allows us to use parts of other applications as components via
 # CORBA, and allows us to work as a component for other applications.
@@ -145,6 +145,7 @@ install: build
 	dh_installdirs
 
 	cd build && env GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 \
+		RPM_BUILD_ROOT=fake_so_scrollkeeper-update_wont_be_called \
 		$(MAKE) install \
 		prefix=`pwd`/../debian/tmp/usr \
 		sysconfdir=`pwd`/../debian/tmp/etc \
@@ -174,25 +175,31 @@ install: build
 	# Low-colour icon for use by the menu system
 	$(INSTALL) -m 644 debian/gnome-gnumeric.xpm `pwd`/debian/tmp/usr/share/pixmaps/
 
-	# Move files and put in links
-	dh_movefiles
+	dh_install --sourcedir=debian/tmp --list-missing
 	cd debian/gnumeric && \
 		for idl in usr/share/gnumeric/*/idl/*.idl; do \
 			(cd usr/share/idl && ln -s `echo $$idl | sed -e 's,^usr/share,..,'` .); \
 		done
-	cd debian/gnumeric-doc/usr/share/gnumeric/* && \
-		ln -s . share && cd gnome/help/gnumeric/C && \
+	cd debian/gnumeric-doc/usr/share/gnumeric/*/share/gnome/help/gnumeric/C && \
 		mkdir stylesheet && cd stylesheet && \
-		ln -s ../../../../../../../pixmaps/gnome-logo-icon.png .
+		ln -s ../../../../../../../../pixmaps/gnome-logo-icon.png .
 
-	# Clean out empty dirs left over from moving
-	for p in `grep '^Package: ' debian/control | sed -e 's/^Package: //'` ; do \
-		find `pwd`/debian/$$p/ -type d -depth | xargs rmdir 2>&1 >/dev/null || true ; \
+	# Remove a broken/superfluous link
+	rm -f debian/tmp/usr/share/gnumeric/*/gnome
+
+	# Remove files from the main package that belong to a more
+	# specialist package
+	# (dh_install doesn't do the right thing here IMO; perhaps it
+	# doesn't like multiple globs in one line)
+	for p in gnumeric-doc gnumeric-python gnumeric-gda gnumeric-gnome-db ; do \
+		echo "Files in package $$p" ; \
+		while read l ; do \
+			/bin/echo -e "\t$$l" ; \
+			rm -rvf debian/gnumeric/$$l ; \
+		done < debian/$$p.install ; \
 	done
-
-	# Ensure there are no files left over with which we haven't dealt with
-	rmdir `find debian/tmp -type d -depth`
-
+	# Remove dirs that are now empty
+	-find debian/gnumeric -type d -depth | xargs rmdir >/dev/null 2>&1
 
 # Build architecture-independent files here.
 # Pass -i to all debhelper commands in this target to reduce clutter.
