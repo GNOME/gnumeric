@@ -1,3 +1,16 @@
+2000-01-03  Martin Sheppard <martin.sheppard@iname.com>
+
+	* src/expr.c (strescape) : new function to escape strings
+	(do_expr_decode_tree) : fixed so strings are escaped properly
+	
+2000-01-03  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/gnumeric-sheet.c (move_cursor): Fixed the annoying flashing
+	of the cursor/selection problem by reverting to the old code setup.
+
+	I also eliminated some animation of the cursor while doing this.
+
+
 2000-01-03  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/func.c (function_remove, function_is_unused): implement.

@@ -1118,13 +1118,49 @@ cell_get_abs_col_row (CellRef const * const cell_ref,
 }
 
 /*
+ * Escapes all backslashes and quotes in a string. It is based on glib's
+ * g_strescape.
+ */
+static char * 
+strescape (char *string)
+{
+	char *q;
+	char *escaped;
+	int escapechars = 0;
+	char *p = string;
+
+	g_return_val_if_fail (string != NULL, NULL);
+
+	while (*p != '\000') {
+		if (*p == '\\' || *p == '\"')
+			escapechars++;
+		p++;
+	}
+
+	if (!escapechars)
+		return g_strdup (string);
+
+	escaped = g_new (char, strlen (string) + escapechars + 1);
+
+	p = string;
+	q = escaped;
+
+	while (*p != '\000'){
+		if (*p == '\\' || *p == '\"')
+			*q++ = '\\';
+		*q++ = *p++;
+	}
+	*q = '\000';
+
+	return escaped;
+}
+ 
+/*
  * Converts a parsed tree into its string representation
  * assuming that we are evaluating at col, row
  *
  * This routine is pretty simple: it walks the ExprTree and
  * creates a string representation.
- *
- * FIXME: strings containing quotes will come out wrong.
  */
 static char *
 do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
@@ -1278,9 +1314,13 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 			return res;
 		}
 
-		case VALUE_STRING:
-			/* FIXME: handle quotes in string.  */
-			return g_strconcat ("\"", v->v.str->str, "\"", NULL);
+		case VALUE_STRING: {
+			char *str1, *str2;
+			str1 = strescape(v->v.str->str);
+			str2 = g_strconcat ("\"", str1, "\"", NULL);
+			g_free(str1);
+			return str2;
+		}
 
 		case VALUE_EMPTY:
 			return g_strdup ("");
