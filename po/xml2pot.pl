@@ -91,7 +91,7 @@ sub Xmlfiles {
     open OUT, ">>$PACKAGE-xml.pot";
     &addMessages;
     close OUT;
-    `msghack --append gnumeric-xml.pot gnumeric-source.pot > gnumeric.pot`;
+    `msghack --append gnumeric-source.pot gnumeric-xml.pot > gnumeric.pot`;
     unlink "gnumeric-xml.pot";
     unlink "gnumeric-source.pot";
     print "done.\n";
