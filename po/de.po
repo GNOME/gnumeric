@@ -26,15 +26,9 @@
 #       (make sure you know what the word means in gnumeric's context!)
 #     - fix "configure toolbars" dialog. where are these strings?
 #     - fix the inconsistent translations of "array" (Arrary, Feld, Bereich)
-#     - fix all the missing/broken accelerator keys (Search for: FIXME)
-#     - check strings marked with "CHECK" or "fuzzy" in their comment
+#     - check strings marked with "CHECK" in their comment
 #     - check for consistency
-#
-#     Because the function reference should not yet be translated,
-#     the dummy-string "LATER" is added to them so they are not counted
-#     by intltool. Some functions already have (unprecise/incomplete)
-#     translations, but *all* should be checked when it is time to translate
-#     the function-reference, *not now*.
+#     - Decide what to do with the function descriptions.
 #
 # 2002-02-02  Karsten Weiss <knweiss@gmx.de>
 # 	* selection="Auswahl", mark="Markierung"
@@ -59,8 +53,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.x\n"
-"POT-Creation-Date: 2002-02-23 15:13+0100\n"
-"PO-Revision-Date: 2002-02-16 12:48+0100\n"
+"POT-Creation-Date: 2002-02-26 17:50+0100\n"
+"PO-Revision-Date: 2002-02-26 20:00+0100\n"
 "Last-Translator: Karsten Weiss <knweiss@gmx.de>\n"
 "Language-Team: GNOME-DE <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -105,7 +99,6 @@ msgid "Functions related to financial derivatives"
 msgstr "Funktionen aus dem Finanzbereich"
 
 #: plugins/derivatives/options.c:289
-#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_call\n"
 "@SYNTAX=opt_bs_call(strike,price,volatility,days_to_maturity,rate)\n"
@@ -122,10 +115,9 @@ msgid ""
 "@SEEALSO=opt_bs_put, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
-msgstr "LATER"
+msgstr ""
 
 #: plugins/derivatives/options.c:309
-#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_put\n"
 "@SYNTAX=opt_bs_put(strike,price,volatility,days_to_maturity,rate)\n"
@@ -142,10 +134,9 @@ msgid ""
 "@SEEALSO=opt_bs_call, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
-msgstr "LATER"
+msgstr ""
 
 #: plugins/derivatives/options.c:329
-#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_call_delta\n"
 "@SYNTAX=opt_bs_call_delta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -164,10 +155,9 @@ msgid ""
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_put_delta opt_bs_call_rho, "
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
-msgstr "LATER"
+msgstr ""
 
 #: plugins/derivatives/options.c:352
-#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_put_delta\n"
 "@SYNTAX=opt_bs_put_delta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -186,10 +176,10 @@ msgid ""
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_call_rho, "
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
-msgstr "LATER"
+msgstr ""
 
 #: plugins/derivatives/options.c:376
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_call_rho\n"
 "@SYNTAX=opt_bs_call_rho(strike,price,volatility,days_to_maturity,rate)\n"
@@ -208,10 +198,10 @@ msgid ""
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, "
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
-msgstr "LATER"
+msgstr ""
 
 #: plugins/derivatives/options.c:400
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_put_rho\n"
 "@SYNTAX=opt_bs_put_rho(strike,price,volatility,days_to_maturity,rate)\n"
@@ -230,10 +220,9 @@ msgid ""
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, "
 "opt_bs_call_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
-msgstr "LATER"
+msgstr ""
 
 #: plugins/derivatives/options.c:423
-#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_call_theta\n"
 "@SYNTAX=opt_bs_call_theta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -251,10 +240,9 @@ msgid ""
 "\n"
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, "
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma"
-msgstr "LATER"
+msgstr ""
 
 #: plugins/derivatives/options.c:446
-#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_put_theta\n"
 "@SYNTAX=opt_bs_put_theta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -272,10 +260,9 @@ msgid ""
 "\n"
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, "
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_vega, opt_bs_gamma"
-msgstr "LATER"
+msgstr ""
 
 #: plugins/derivatives/options.c:469
-#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_gamma\n"
 "@SYNTAX=opt_bs_gamma(strike,price,volatility,days_to_maturity,rate)\n"
@@ -294,10 +281,10 @@ msgid ""
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, "
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, "
 "opt_bs_vega"
-msgstr "LATER"
+msgstr ""
 
 #: plugins/derivatives/options.c:493
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_vega\n"
 "@SYNTAX=opt_bs_bega(strike,price,volatility,days_to_maturity,rate)\n"
@@ -316,7 +303,7 @@ msgid ""
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, "
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, "
 "opt_bs_gamma"
-msgstr "LATER"
+msgstr ""
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4524
 #: plugins/mps/mps.c:579 src/xml-io.c:3379
@@ -528,7 +515,7 @@ msgstr ""
 "@FUNCTION=EXECSQL\n"
 "@SYNTAX=EXECSQL(i)\n"
 "@DESCRIPTION=Die EXECSQL Funktion ermöglicht es, eine Anfrage an einen\n"
-"Datenbank-Server stellen und das Ergebnis im aktuellen Blatt\n"
+"Datenbank-Server zu stellen und das Ergebnis im aktuellen Blatt\n"
 "anzuzeigen\n"
 "\n"
 "@EXAMPLES=\n"
@@ -770,7 +757,6 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:233
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -824,7 +810,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
-"@DESCRIPTION=Die NT_SIGMA Funktion gerechnet die Summe der Teiler von @n.\n"
+"@DESCRIPTION=Die NT_SIGMA Funktion berechnet die Summe der Teiler von @n.\n"
 "Diese Funktion hat nur ein Argument.\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
@@ -887,11 +873,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=BITOR\n"
 "@SYNTAX=BITOR(a,b)\n"
-"@DESCRIPTION=Die BITOR Funktion gibt das Ergebnis der bitweisen ODER-"
-"Verknüpfung ihrer Argumente zurück.\n"
+"@DESCRIPTION=Die BITOR Funktion gibt das Ergebnis der bitweisen ODER-Verknüpfung ihrer Argumente zurück.\n"
 "\n"
 "@EXAMPLES=\n"
-"@SEEALSO=BITXOR,BITAND"
+"@SEEALSO=BITXOR, BITAND"
 
 #: plugins/numtheory/numtheory.c:441
 msgid ""
@@ -9184,7 +9169,6 @@ msgstr ""
 "die den angegebenen Kriterien entspricht.\n"
 
 #: src/functions/fn-database.c:704
-#, fuzzy
 msgid ""
 "\n"
 "If none of the items match the conditions, DGET returns #VALUE! error. If "
@@ -9196,9 +9180,8 @@ msgid ""
 "@SEEALSO=DCOUNT"
 msgstr ""
 "\n"
-"Wenn keiner der Posten die Bedingungen erfüllt, gibt DGET einen #WERT!-"
-"Fehlerzurück. Erfüllt mehr als ein Posten die Bedingungen, gibt DGET einen "
-"#ZAHL!-Fehler zurück.@EXAMPLES=\n"
+"Wenn keiner der Posten die Bedingungen erfüllt, gibt DGET einen #WERT!-Fehler zurück. Erfüllt mehr als ein Posten die Bedingungen, gibt DGET einen #ZAHL!-Fehler zurück\n"
+"@EXAMPLES=\n"
 "DGET(A1:C7, \"Gehalt\", A9:A10) ergibt 34323.\n"
 "DGET(A1:C7, \"Name\", A9:A10) ergibt \"Clark\".\n"
 "\n"
@@ -9295,7 +9278,7 @@ msgid ""
 "@DESCRIPTION=DSTDEV function returns the estimate of the standard deviation "
 "of a population based on a sample. The populations consists of numbers that "
 "match conditions specified. \n"
-msgstr "LATER\n"
+msgstr ""
 
 #: src/functions/fn-database.c:985
 msgid ""
@@ -9320,7 +9303,7 @@ msgid ""
 "@DESCRIPTION=DSTDEVP function returns the standard deviation of a population "
 "based on the entire populations. The populations consists of numbers that "
 "match conditions specified. \n"
-msgstr "LATER\n"
+msgstr ""
 
 #: src/functions/fn-database.c:1052
 msgid ""
@@ -9373,7 +9356,7 @@ msgid ""
 "@DESCRIPTION=DVAR function returns the estimate of variance of a population "
 "based on a sample. The populations consists of numbers that match conditions "
 "specified. \n"
-msgstr "LATER\n"
+msgstr ""
 
 #: src/functions/fn-database.c:1189
 msgid ""
@@ -9398,7 +9381,7 @@ msgid ""
 "@DESCRIPTION=DVARP function returns the variance of a population based on "
 "the entire populations. The populations consists of numbers that match "
 "conditions specified. \n"
-msgstr "LATER\n"
+msgstr ""
 
 #: src/functions/fn-database.c:1258
 msgid ""
@@ -9440,6 +9423,8 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
+# CHECK ME: Fehler im Originalstring ("year" <-> "years").
+# Datumsformat in der dt. Beschreibung ist falsch.
 #: src/functions/fn-date.c:27
 msgid ""
 "@FUNCTION=DATE\n"
@@ -9462,11 +9447,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (Jahr,Monat,Tag)\n"
-"@DESCRIPTION=Berechnet die Anzahl Tage seit dem 1. Januar 1900 (die "
-"Datumsseriennummer) für die gegebenen Jahr, Monat und Tag.\n"
-"Der @Tag kann negativ sein, um rückwärts zu zählen, und ist relativ zum "
-"vorigen @Monat.  Das @Jahr sollte mindestens 1900 sein.\n"
+"@DESCRIPTION=Berechnet die Anzahl Tage seit dem 1. Januar 1900 (die Datumsseriennummer) für die gegebenen Jahr, Monat und Tag.\n"
+"\n"
+"Wenn @Monat < 1 oder @Monat > 12, dann wird das Jahr korrigiert. Eine ähnliche Korrektur findet für Tage statt.\n"
+"\n"
+"Das @Jahr sollte mindestens 1900 sein. Wenn @Jahr < 1900, dann wird 1900 + @Jahr angenommen.\n"
+"\n"
+"Wenn das gegebene Datum nicht gültig ist, dann gibt DATE den Fehler #ZAHL! zurürck.\n"
+"Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"DATE(2001, 3, 30) ergibt \"Mär 30, 2001\".\n"
 "\n"
 "@SEEALSO=TODAY, NOW"
 
@@ -9482,7 +9472,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=NOW, DATE, DATE2UNIX"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-date.c:127
 msgid ""
@@ -9496,7 +9486,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=NOW, DATE, UNIX2DATE"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-date.c:158
 msgid ""
@@ -9576,11 +9566,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(Datum,Monate)\n"
-"@DESCRIPTION=EDATE gibt die Seriennummer des Datums zurück, das die "
-"angegebene Anzahl von Monaten vor oder nach einem gegebenen Datum liegt.  "
-"@Datum ist das ist die Seriennummer des Anfangsdatums und @Monate ist die "
-"Anzahl von Monaten vor (negative Zahl) oder nach (positive Zahl) dem "
-"Anfangsdatum.\n"
+"@DESCRIPTION=EDATE gibt die Seriennummer des Datums zurück, das die angegebene Anzahl von Monaten vor oder nach einem gegebenen Datum liegt.  @Datum ist das ist die Seriennummer des Anfangsdatums und @Monate ist die Anzahl von Monaten vor (negative Zahl) oder nach (positive Zahl) dem Anfangsdatum.\n"
+"Diese Funktion ist Excel-kompatibel.\n"
 "Wenn @Monate keine Ganzzahl ist, werden Nachkommastellen abgeschnitten.\n"
 "@EXAMPLES=\n"
 "EDATE(DATE(2001,12,30),2) gibt 'Feb 28, 2002' zurück.\n"
@@ -9676,8 +9663,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
-"@DESCRIPTION=Gibt eine Dezimalzahl zwischen 0 und 1 zurück, die die "
-"Tageszeit repräsentiert.\n"
+"@DESCRIPTION=Gibt eine Dezimalzahl zwischen 0 und 1 zurück, die die Tageszeit repräsentiert.\n"
+"Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "TIMEVALUE(\"3:05\") entspricht 0.128472.\n"
 "TIMEVALUE(\"2:24:53 PM\") entspricht 0.600613.\n"
@@ -9861,19 +9848,6 @@ msgid ""
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 msgstr ""
-"@FUNCTION=DAY\n"
-"@SYNTAX=DAY (Seriennummer)\n"
-"@DESCRIPTION=Konvertierung einer Seriennummer in einen Tag.\n"
-"Diese Funktion gibt eine Ganzzahl von 0-6 zurück. Dabei entspricht 0 dem "
-"Samstag, 1 dem Sonntag, usw.\n"
-"Man beachte, dass Gnumeric eine Zeichenkette automatisch in eine "
-"Seriennummer umwandelt, so dass das Datum als Zeichenkette eingegeben werden "
-"kann.\n"
-"Diese Funktion ist Excel-kompatibel. \n"
-"@EXAMPLES=\n"
-"WEEKDAY(\"10/24/1968\") entspricht 5 (Donnerstag).\n"
-"\n"
-"@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/functions/fn-date.c:769
 msgid ""
@@ -9976,7 +9950,6 @@ msgid "Unimplemented"
 msgstr "Nicht implementiert"
 
 #: src/functions/fn-date.c:993
-#, fuzzy
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
@@ -9990,20 +9963,8 @@ msgid ""
 "\n"
 "@SEEALSO=WORKDAY"
 msgstr ""
-"@FUNCTION=WORKDAY\n"
-"@SYNTAX=WORKDAY (Startdatum,Enddatum,Feiertage)\n"
-"@DESCRIPTION=Gibt die Anzahl der Werktage zurück, die zwischen @Startdatum "
-"und @Enddatum liegen. Wochenenden und Feiertage, die als @Feiertage optional "
-"angegeben werden können, werden berücksichtigt.\n"
-"Gibt #ZAHL! zurück, wenn @Startdatum oder @Tage ungültig sind.\n"
-"Diese Funktion ist Excel-kompatibel. \n"
-"@EXAMPLES=\n"
-"NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15)) ergibt 33.\n"
-"\n"
-"@SEEALSO=NETWORKDAYS"
 
 #: src/functions/fn-date.c:1116
-#, fuzzy
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -10016,10 +9977,9 @@ msgid ""
 "@EXAMPLES=\n"
 "If A1 contains 12/21/00 then ISOWEEKNUM(A1)=51\n"
 "@SEEALSO=WEEKNUM"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-date.c:1160
-#, fuzzy
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -10039,7 +9999,7 @@ msgid ""
 "@EXAMPLES=\n"
 "If A1 contains 12/21/00 then WEEKNUM(A1,2)=51\n"
 "@SEEALSO=ISOWEEKNUM"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-date.c:1219
 msgid "Date / Time"
@@ -10062,7 +10022,7 @@ msgstr ""
 "@DESCRIPTION=Die Funktion BIN2DEC wandelt eine als Zeichenkette oder Zahl "
 "gegebene Binärzahl in ihr dezimales Äquivalent um.\n"
 "Diese Funktion ist Excel-kompatibel.\n"
-"@BEISPIELE?\n"
+"@EXAMPLES=\n"
 "BIN2DEC(101) ergibt 5.\n"
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
@@ -10089,7 +10049,7 @@ msgstr ""
 "Wenn @Stellen zu klein oder negativ ist, wird ein #ZAHL! Fehler "
 "zurückgegeben.\n"
 "Diese Funktion ist Excel-kompatibel.\n"
-"@BEISPIELE?\n"
+"@EXAMPLES=\n"
 "BIN2OCT(110111) ergibt 67.\n"
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
@@ -10116,7 +10076,7 @@ msgstr ""
 "Wenn @Stellen zu klein oder negativ ist, wird ein #ZAHL! Fehler "
 "zurückgegeben.\n"
 "Diese Funktion ist Excel-kompatibel.\n"
-"@BEISPIELE?\n"
+"@EXAMPLES=\n"
 "BIN2HEX(100111) ergibt 27.\n"
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
@@ -10143,7 +10103,7 @@ msgstr ""
 "Wenn @Stellen zu klein oder negativ ist, wird ein #ZAHL! Fehler "
 "zurückgegeben.\n"
 "Diese Funktion ist Excel-kompatibel.\n"
-"@BEISPIELE?\n"
+"@EXAMPLES=\n"
 "DEC2BIN(42) ergibt 101010.\n"
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
@@ -10162,15 +10122,6 @@ msgid ""
 "\n"
 "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX"
 msgstr ""
-"@FUNCTION=BIN2DEC\n"
-"@SYNTAX=BIN2DEX(x)\n"
-"@DESCRIPTION=Die Funktion BIN2DEC wandelt eine Binärzahl in einer "
-"Zeichenkette oder Zahl in ihr dezimales Äquivalent um. Diese Funktion ist "
-"Excel-kompatibel.\n"
-"@BEISPIELE?\n"
-"BIN2DEC(101) ist gleich 5.\n"
-"\n"
-"@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
 #: src/functions/fn-eng.c:218
 msgid ""
@@ -10186,15 +10137,6 @@ msgid ""
 "\n"
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 msgstr ""
-"@FUNCTION=BIN2DEC\n"
-"@SYNTAX=BIN2DEX(x)\n"
-"@DESCRIPTION=Die Funktion BIN2DEC wandelt eine Binärzahl in einer "
-"Zeichenkette oder Zahl in ihr dezimales Äquivalent um. Diese Funktion ist "
-"Excel-kompatibel.\n"
-"@BEISPIELE?\n"
-"BIN2DEC(101) ist gleich 5.\n"
-"\n"
-"@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
 #: src/functions/fn-eng.c:244
 msgid ""
@@ -10208,15 +10150,6 @@ msgid ""
 "\n"
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 msgstr ""
-"@FUNCTION=BIN2DEC\n"
-"@SYNTAX=BIN2DEX(x)\n"
-"@DESCRIPTION=Die Funktion BIN2DEC wandelt eine Binärzahl in einer "
-"Zeichenkette oder Zahl in ihr dezimales Äquivalent um. Diese Funktion ist "
-"Excel-kompatibel.\n"
-"@BEISPIELE?\n"
-"BIN2DEC(101) ist gleich 5.\n"
-"\n"
-"@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
 #: src/functions/fn-eng.c:267
 msgid ""
@@ -10232,15 +10165,6 @@ msgid ""
 "\n"
 "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX"
 msgstr ""
-"@FUNCTION=BIN2DEC\n"
-"@SYNTAX=BIN2DEX(x)\n"
-"@DESCRIPTION=Die Funktion BIN2DEC wandelt eine Binärzahl in einer "
-"Zeichenkette oder Zahl in ihr dezimales Äquivalent um. Diese Funktion ist "
-"Excel-kompatibel.\n"
-"@BEISPIELE?\n"
-"BIN2DEC(101) ist gleich 5.\n"
-"\n"
-"@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
 #: src/functions/fn-eng.c:293
 msgid ""
@@ -10256,15 +10180,6 @@ msgid ""
 "\n"
 "@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC"
 msgstr ""
-"@FUNCTION=BIN2DEC\n"
-"@SYNTAX=BIN2DEX(x)\n"
-"@DESCRIPTION=Die Funktion BIN2DEC wandelt eine Binärzahl in einer "
-"Zeichenkette oder Zahl in ihr dezimales Äquivalent um. Diese Funktion ist "
-"Excel-kompatibel.\n"
-"@BEISPIELE?\n"
-"BIN2DEC(101) ist gleich 5.\n"
-"\n"
-"@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
 #: src/functions/fn-eng.c:319
 msgid ""
@@ -10280,15 +10195,6 @@ msgid ""
 "\n"
 "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC"
 msgstr ""
-"@FUNCTION=BIN2DEC\n"
-"@SYNTAX=BIN2DEX(x)\n"
-"@DESCRIPTION=Die Funktion BIN2DEC wandelt eine Binärzahl in einer "
-"Zeichenkette oder Zahl in ihr dezimales Äquivalent um. Diese Funktion ist "
-"Excel-kompatibel.\n"
-"@BEISPIELE?\n"
-"BIN2DEC(101) ist gleich 5.\n"
-"\n"
-"@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
 #: src/functions/fn-eng.c:345
 msgid ""
@@ -10304,15 +10210,6 @@ msgid ""
 "\n"
 "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC"
 msgstr ""
-"@FUNCTION=BIN2DEC\n"
-"@SYNTAX=BIN2DEX(x)\n"
-"@DESCRIPTION=Die Funktion BIN2DEC wandelt eine Binärzahl in einer "
-"Zeichenkette oder Zahl in ihr dezimales Äquivalent um. Diese Funktion ist "
-"Excel-kompatibel.\n"
-"@BEISPIELE?\n"
-"BIN2DEC(101) ist gleich 5.\n"
-"\n"
-"@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
 #: src/functions/fn-eng.c:371
 msgid ""
@@ -10326,15 +10223,6 @@ msgid ""
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 msgstr ""
-"@FUNCTION=BIN2DEC\n"
-"@SYNTAX=BIN2DEX(x)\n"
-"@DESCRIPTION=Die Funktion BIN2DEC wandelt eine Binärzahl in einer "
-"Zeichenkette oder Zahl in ihr dezimales Äquivalent um. Diese Funktion ist "
-"Excel-kompatibel.\n"
-"@BEISPIELE?\n"
-"BIN2DEC(101) ist gleich 5.\n"
-"\n"
-"@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
 #: src/functions/fn-eng.c:394
 msgid ""
@@ -10350,7 +10238,7 @@ msgid ""
 "BESSELI(0.7,3) equals 0.007367374.\n"
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-eng.c:435
 msgid ""
@@ -10366,8 +10254,9 @@ msgid ""
 "BESSELK(3,9) equals 397.95880.\n"
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:475
 msgid ""
 "@FUNCTION=BESSELJ\n"
@@ -10382,8 +10271,9 @@ msgid ""
 "BESSELJ(0.89,3) equals 0.013974004.\n"
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:511
 msgid ""
 "@FUNCTION=BESSELY\n"
@@ -10398,8 +10288,9 @@ msgid ""
 "BESSELY(4,2) equals 0.215903595.\n"
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:583
 msgid ""
 "@FUNCTION=COMPLEX\n"
@@ -10414,7 +10305,7 @@ msgid ""
 "COMPLEX(1,-1) equals 1-i.\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-eng.c:622
 msgid ""
@@ -10430,8 +10321,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(izahl)\n"
-"@DESCRIPTION=IMAGINARY gibt den imaginären Koeffizienten einer komplexen "
-"Zahl zurück. Diese Funktion ist Excel-kompatibel.\n"
+"@DESCRIPTION=IMAGINARY gibt den imaginären Koeffizienten einer komplexen Zahl zurück.\n"
+"Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "IMAGINARY(\"132-j\") ist gleich -1.\n"
 "\n"
@@ -10450,8 +10341,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(izahl)\n"
-"@DESCRIPTION=IMREAL gibt den reellen Koeffizienten einer komplexen Zahl "
-"zurück. Diese Funktion ist Excel-kompatibel.\n"
+"@DESCRIPTION=IMREAL gibt den reellen Koeffizienten einer komplexen Zahl zurück.\n"
+"Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "IMREAL(\"132-j\") ist gleich 132.\n"
 "\n"
@@ -10470,8 +10361,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(izahl)\n"
-"@DESCRIPTION=IMABS gibt den Betrag einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
+"@DESCRIPTION=IMABS gibt den Betrag einer komplexen Zahl zurück.\n"
+"Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "IMABS(\"2-j\") ist gleich 2,23606798.\n"
 "\n"
@@ -10490,8 +10381,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(izahl)\n"
-"@DESCRIPTION=IMCONJUGATE gibt das komplexe Konjugat einer komplexen Zahl "
-"zurück. Diese Funktion ist Excel-kompatibel.\n"
+"@DESCRIPTION=IMCONJUGATE gibt das komplexe Konjugat einer komplexen Zahl zurück.\n"
+"Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "IMCONJUGATE(\"1-j\") ist gleich 1+j.\n"
 "\n"
@@ -10510,8 +10401,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(izahl)\n"
-"@DESCRIPTION=IMCOS gibt den Kosinus einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
+"@DESCRIPTION=IMCOS gibt den Kosinus einer komplexen Zahl zurück.\n"
+"Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "IMCOS(\"1+j\") ist gleich 0,833730-0,988898j..\n"
 "\n"
@@ -10529,12 +10420,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
+"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück.\n"
+"Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 # FIXME: check for mathematical correctness
 #: src/functions/fn-eng.c:801
 msgid ""
@@ -10547,14 +10439,6 @@ msgid ""
 "\n"
 "@SEEALSO=IMLN"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMEXP(izahl)\n"
-"@DESCRIPTION=IMEXP gibt e hoch izahl zurück. Diese Funktion ist Excel-"
-"kompatibel.\n"
-"@EXAMPLES=\n"
-"IMEXP(\"2-j\") ist gleich 3,992324-6,217676j.\n"
-"\n"
-"@SEEALSO=IMLN"
 
 #: src/functions/fn-eng.c:829
 msgid ""
@@ -10576,6 +10460,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:856
 msgid ""
 "@FUNCTION=IMLN\n"
@@ -10590,14 +10475,6 @@ msgid ""
 "\n"
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 msgstr ""
-"@FUNCTION=IMLOG2\n"
-"@SYNTAX=IMLOG2(izahl)\n"
-"@DESCRIPTION=IMSUB gibt den Logarithmus einer komplexen Zahl zur Basis 2 "
-"zurück. Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMLOG2(\"3-j\") ist gleich 1,66096-0,46419j.\n"
-"\n"
-"@SEEALSO=IMLN,IMLOG10"
 
 #: src/functions/fn-eng.c:888
 msgid ""
@@ -10612,13 +10489,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(izahl)\n"
-"@DESCRIPTION=IMSUB gibt den Logarithmus einer komplexen Zahl zur Basis 2 "
-"zurück. Diese Funktion ist Excel-kompatibel.\n"
+"@DESCRIPTION=IMSUB gibt den Logarithmus einer komplexen Zahl zur Basis 2 zurück.\n"
+"Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "IMLOG2(\"3-j\") ist gleich 1,66096-0,46419j.\n"
 "\n"
 "@SEEALSO=IMLN,IMLOG10"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:918
 msgid ""
 "@FUNCTION=IMLOG10\n"
@@ -10630,15 +10508,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMLN,IMLOG2"
 msgstr ""
-"@FUNCTION=IMLOG2\n"
-"@SYNTAX=IMLOG2(izahl)\n"
-"@DESCRIPTION=IMSUB gibt den Logarithmus einer komplexen Zahl zur Basis 2 "
-"zurück. Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMLOG2(\"3-j\") ist gleich 1,66096-0,46419j.\n"
-"\n"
-"@SEEALSO=IMLN,IMLOG10"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:948
 msgid ""
 "@FUNCTION=IMPOWER\n"
@@ -10652,15 +10523,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMSQRT"
 msgstr ""
-"@FUNCTION=IMPRODUCT\n"
-"@SYNTAX=IMPRODUCT(izahl[,izahl,...])\n"
-"@DESCRIPTION=IMPRODUCT gibt das Produkt zweier komplexer Zahlen zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMPRODUCT(\"2-j\",\"4-2j\") ist gleich 6-8j.\n"
-"\n"
-"@SEEALSO=IMDIV"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:984
 msgid ""
 "@FUNCTION=IMDIV\n"
@@ -10672,15 +10536,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMPRODUCT"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:1018
 msgid ""
 "@FUNCTION=IMSIN\n"
@@ -10692,15 +10549,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(izahl)\n"
-"@DESCRIPTION=IMCOS gibt den Kosinus einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") ist gleich 0,833730-0,988898j..\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:1046
 msgid ""
 "@FUNCTION=IMSQRT\n"
@@ -10712,14 +10562,6 @@ msgid ""
 "\n"
 "@SEEALSO=IMPOWER"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(izahl)\n"
-"@DESCRIPTION=IMCOS gibt den Kosinus einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") ist gleich 0,833730-0,988898j..\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: src/functions/fn-eng.c:1074
 msgid ""
@@ -10734,8 +10576,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
+"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück.\n"
+"Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
 "\n"
@@ -10774,13 +10616,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(izahl,izahl)\n"
-"@DESCRIPTION=IMSUM gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
+"@DESCRIPTION=IMSUM gibt die Summe zweier komplexer Zahlen zurück.\n"
+"Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
-"IMSUB(\"2-4j\",\"9-j\") ist gleich 11-5j.\n"
+"IMSUM(\"2-4j\",\"9-j\") ist gleich 11-5j.\n"
 "\n"
 "@SEEALSO=IMSUB"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:1209
 msgid ""
 "@FUNCTION=CONVERT\n"
@@ -10885,8 +10728,9 @@ msgid ""
 "CONVERT(7.9,\"cal\",\"J\") equals 33.07567.\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:1610
 msgid ""
 "@FUNCTION=ERF\n"
@@ -10907,8 +10751,9 @@ msgid ""
 "has a 90 percent chance of falling within approximately 1.645 standard "
 "deviations of the mean.\n"
 "@SEEALSO=ERFC"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:1656
 msgid ""
 "@FUNCTION=ERFC\n"
@@ -10921,10 +10766,10 @@ msgid ""
 "ERFC(6) equals 2.15197367e-17.\n"
 "\n"
 "@SEEALSO=ERF"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:1686
-#, fuzzy
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -10937,14 +10782,14 @@ msgid ""
 "DELTA(42.99,43) equals 0.\n"
 "\n"
 "@SEEALSO=EXACT,GESTEP"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-eng.c:1731 src/functions/fn-eng.c:1785
 msgid "Impossible"
 msgstr "Unmöglich"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:1742
-#, fuzzy
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -10956,12 +10801,13 @@ msgid ""
 "GESTEP(5,4) equals 1.\n"
 "\n"
 "@SEEALSO=DELTA"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-eng.c:1799
 msgid "Engineering"
 msgstr "Ingenieurswissenschaften"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:343
 msgid ""
 "@FUNCTION=ACCRINT\n"
@@ -10991,8 +10837,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ACCRINTM"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:435
 msgid ""
 "@FUNCTION=ACCRINTM\n"
@@ -11018,8 +10865,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ACCRINT"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:488
 msgid ""
 "@FUNCTION=INTRATE\n"
@@ -11048,8 +10896,9 @@ msgid ""
 "the actual/actual basis, the bond discount rate is:\n"
 "=INTRATE(36631, 36799, 100000, 103525, 1) which equals 0.0648 or 6.48%\n"
 "@SEEALSO=RECEIVED, DATE"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:549
 msgid ""
 "@FUNCTION=RECEIVED\n"
@@ -11073,8 +10922,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=INTRATE"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:604
 msgid ""
 "@FUNCTION=PRICEDISC\n"
@@ -11099,8 +10949,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PRICEMAT"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:656
 msgid ""
 "@FUNCTION=PRICEMAT\n"
@@ -11125,8 +10976,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PRICEDISC"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:715
 msgid ""
 "@FUNCTION=DISC\n"
@@ -11150,8 +11002,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:766
 msgid ""
 "@FUNCTION=EFFECT\n"
@@ -11175,12 +11028,13 @@ msgid ""
 "=EFFECT(.19,12) and you would get .2075 or 20.75%. That is the effective "
 "percentage you will pay on your loan.\n"
 "@SEEALSO=NOMINAL"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-financial.c:805
 msgid "effect - domain error"
 msgstr "Effekt - ungültiger Definitionsbereich"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:813
 msgid ""
 "@FUNCTION=NOMINAL\n"
@@ -11197,12 +11051,13 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=EFFECT"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-financial.c:843
 msgid "nominal - domain error"
 msgstr "Nominal - ungültiger Definitionsbereich"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:852
 msgid ""
 "@FUNCTION=ISPMT\n"
@@ -11212,8 +11067,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PV"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:886
 msgid ""
 "@FUNCTION=DB\n"
@@ -11227,8 +11083,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DDB,SLN,SYD"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:942
 msgid ""
 "@FUNCTION=DDB\n"
@@ -11243,8 +11100,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=SLN,SYD"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:990
 msgid ""
 "@FUNCTION=SLN\n"
@@ -11266,12 +11124,13 @@ msgid ""
 "=SLN(10000, 700, 10)\n"
 "This will return the yearly depreciation figure of $930.\n"
 "@SEEALSO=SYD"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-financial.c:1034
 msgid "sln - domain error"
 msgstr "sln - ungültiger Definitionsbereich"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1042
 msgid ""
 "@FUNCTION=SYD\n"
@@ -11296,12 +11155,13 @@ msgid ""
 "following to calculate the second year's depreciation using the SYD method:\n"
 "=SYD(5000, 200, 5, 2) which returns 1,280.00.\n"
 "@SEEALSO=SLN"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-financial.c:1088
 msgid "syd - domain error"
 msgstr "syd - ungültiger Definitionsbereich"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1098
 msgid ""
 "@FUNCTION=DOLLARDE\n"
@@ -11315,8 +11175,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DOLLARFR"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1142
 msgid ""
 "@FUNCTION=DOLLARFR\n"
@@ -11328,8 +11189,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DOLLARDE"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1184
 msgid ""
 "@FUNCTION=MIRR\n"
@@ -11339,8 +11201,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=NPV"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1244
 msgid ""
 "@FUNCTION=TBILLEQ\n"
@@ -11354,8 +11217,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1289
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
@@ -11370,8 +11234,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1330
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
@@ -11385,8 +11250,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLEQ,TBILLPRICE"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1371
 msgid ""
 "@FUNCTION=RATE\n"
@@ -11396,13 +11262,8 @@ msgid ""
 "\n"
 "@SEEALSO=PV,FV"
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (Stunden,Minuten,Sekunden)\n"
-"@DESCRIPTION=Gibt einen Bruch zurück, der die Tageszeit repräsentiert.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=HOUR"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1479
 msgid ""
 "@FUNCTION=IRR\n"
@@ -11421,8 +11282,9 @@ msgid ""
 "9332, 12324, 4334, 1235, -3422.  Then\n"
 "IRR(A1:A8) returns 0.04375. \n"
 "@SEEALSO=FV,NPV,PV"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1602
 msgid ""
 "@FUNCTION=PV\n"
@@ -11435,8 +11297,9 @@ msgid ""
 "each period.@EXAMPLES=\n"
 "\n"
 "@SEEALSO=FV"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1649
 msgid ""
 "@FUNCTION=NPV\n"
@@ -11449,8 +11312,9 @@ msgid ""
 "NPV(0.17,-10000,3340,2941,2493,3233,1732,2932) equals 186.30673.\n"
 "\n"
 "@SEEALSO=PV,XNPV"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1703
 msgid ""
 "@FUNCTION=XNPV\n"
@@ -11464,8 +11328,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=NPV,PV"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1763
 msgid ""
 "@FUNCTION=XIRR\n"
@@ -11487,8 +11352,9 @@ msgid ""
 "04-04\", \"1999-05-09\", \"2000-03-12\", and \"2000-05-1\". Then\n"
 "XIRR(A1:A5,B1:B5) returns 0.224838. \n"
 "@SEEALSO=IRR,XNPV"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1867
 msgid ""
 "@FUNCTION=FV\n"
@@ -11502,8 +11368,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1906
 msgid ""
 "@FUNCTION=PMT\n"
@@ -11519,8 +11386,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PPMT,PV,FV"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1944
 msgid ""
 "@FUNCTION=IPMT\n"
@@ -11535,8 +11403,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PPMT,PV,FV"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1991
 msgid ""
 "@FUNCTION=PPMT\n"
@@ -11551,8 +11420,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=IPMT,PV,FV"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2040
 msgid ""
 "@FUNCTION=NPER\n"
@@ -11570,8 +11440,9 @@ msgid ""
 "=NPER(0.06, 0, -10000, 20000,0)returns 11.895661046 which indicates that you "
 "can double your money just before the end of the 12th year.\n"
 "@SEEALSO=PPMT,PV,FV"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2089
 msgid ""
 "@FUNCTION=DURATION\n"
@@ -11583,8 +11454,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PPMT,PV,FV"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2126
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
@@ -11598,8 +11470,9 @@ msgid ""
 "0.13, 0.09, 0.17, and 0.03.  Then\n"
 "FVSCHEDULE(3000,A1:A5) equals 4942.7911611.\n"
 "@SEEALSO=PV,FV"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2170
 msgid ""
 "@FUNCTION=EURO\n"
@@ -11623,8 +11496,9 @@ msgid ""
 "@EXAMPLES=\n"
 "EURO(\"DEM\") returns 1.95583.\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2252
 msgid ""
 "@FUNCTION=PRICE\n"
@@ -11647,8 +11521,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2342
 msgid ""
 "@FUNCTION=YIELD\n"
@@ -11670,8 +11545,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2432
 msgid ""
 "@FUNCTION=YIELDDISC\n"
@@ -11694,8 +11570,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2468
 msgid ""
 "@FUNCTION=YIELDMAT\n"
@@ -11719,8 +11596,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2505
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
@@ -11745,8 +11623,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2608
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
@@ -11770,8 +11649,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2645
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
@@ -11796,8 +11676,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2682
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
@@ -11821,8 +11702,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2719
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
@@ -11845,8 +11727,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2753
 msgid ""
 "@FUNCTION=AMORLINC\n"
@@ -11869,10 +11752,10 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2787
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -11903,10 +11786,10 @@ msgid ""
 "COUPDAYBS (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 0\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2829
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
@@ -11938,10 +11821,10 @@ msgid ""
 "COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,1,FALSE) = 91\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2872
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
@@ -11972,10 +11855,10 @@ msgid ""
 "COUPDAYSNC (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 89\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2914
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -12005,10 +11888,10 @@ msgid ""
 "COUPNCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 28-Feb-2003\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2955
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -12038,10 +11921,10 @@ msgid ""
 "COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 29-Nov-2002\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2996
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
@@ -12069,8 +11952,9 @@ msgid ""
 "COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0) = 6\n"
 "COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 5\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:3036
 msgid ""
 "@FUNCTION=CUMIPMT\n"
@@ -12080,8 +11964,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:3056
 msgid ""
 "@FUNCTION=CUMPRINC\n"
@@ -12091,8 +11976,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:3076
 msgid ""
 "@FUNCTION=MDURATION\n"
@@ -12102,8 +11988,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:3097
 msgid ""
 "@FUNCTION=VDB\n"
@@ -12113,8 +12000,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DB"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:83
 msgid ""
 "@FUNCTION=CELL\n"
@@ -12136,12 +12024,13 @@ msgid ""
 "CEll(\"format\",A1) returns the code of the format of the cell A1.\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-information.c:273 src/functions/fn-information.c:448
 msgid "Unknown info_type"
 msgstr "Unbekannter Info_Typ"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:279
 msgid ""
 "@FUNCTION=EXPRESSION\n"
@@ -12153,8 +12042,9 @@ msgid ""
 "in A2 EXPRESSION(A3) equals empty.\n"
 "\n"
 "@SEEALSO=TEXT"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:324
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
@@ -12166,14 +12056,8 @@ msgid ""
 "\n"
 "@SEEALSO=COUNT"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:363
 msgid ""
 "@FUNCTION=INFO\n"
@@ -12196,7 +12080,7 @@ msgid ""
 "INFO(\"system\") returns \"Linux\" on a Linux system.\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-information.c:418
 msgid "Unknown version"
@@ -12211,6 +12095,7 @@ msgstr "%s Version %s"
 msgid "Unknown system"
 msgstr "Unbekanntes System"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:454
 msgid ""
 "@FUNCTION=ISERROR\n"
@@ -12222,18 +12107,12 @@ msgid ""
 "\n"
 "@SEEALSO=ERROR"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-information.c:478
 msgid "Argument mismatch"
 msgstr "Unpassende Argumente"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:509
 msgid ""
 "@FUNCTION=ISNA\n"
@@ -12245,14 +12124,8 @@ msgid ""
 "\n"
 "@SEEALSO=NA"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:544
 msgid ""
 "@FUNCTION=ISERR\n"
@@ -12265,16 +12138,9 @@ msgid ""
 "\n"
 "@SEEALSO=ISERROR"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:575
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(value)\n"
@@ -12291,8 +12157,9 @@ msgid ""
 "ERROR.TYPE(NA()) equals 7.\n"
 "\n"
 "@SEEALSO=ISERROR"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:634
 msgid ""
 "@FUNCTION=NA\n"
@@ -12304,14 +12171,8 @@ msgid ""
 "\n"
 "@SEEALSO=ISNA"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:656
 msgid ""
 "@FUNCTION=ERROR\n"
@@ -12323,14 +12184,8 @@ msgid ""
 "\n"
 "@SEEALSO=ISERROR"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:677
 msgid ""
 "@FUNCTION=ISBLANK\n"
@@ -12342,14 +12197,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:726
 msgid ""
 "@FUNCTION=ISEVEN\n"
@@ -12361,14 +12210,8 @@ msgid ""
 "\n"
 "@SEEALSO=ISODD"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:748
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
@@ -12380,14 +12223,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:778
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
@@ -12399,14 +12236,8 @@ msgid ""
 "\n"
 "@SEEALSO=ISTEXT"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:805
 msgid ""
 "@FUNCTION=ISNUMBER\n"
@@ -12418,14 +12249,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:832
 msgid ""
 "@FUNCTION=ISODD\n"
@@ -12437,14 +12262,8 @@ msgid ""
 "\n"
 "@SEEALSO=ISEVEN"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:854
 msgid ""
 "@FUNCTION=ISREF\n"
@@ -12456,14 +12275,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:886
 msgid ""
 "@FUNCTION=ISTEXT\n"
@@ -12475,14 +12288,8 @@ msgid ""
 "\n"
 "@SEEALSO=ISNONTEXT"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:913
 msgid ""
 "@FUNCTION=N\n"
@@ -12495,14 +12302,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:952
 msgid ""
 "@FUNCTION=TYPE\n"
@@ -12515,14 +12316,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:979
 msgid ""
 "@FUNCTION=GETENV\n"
@@ -12534,12 +12329,13 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-information.c:1011
 msgid "Information"
 msgstr "Informationen"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-logical.c:20
 msgid ""
 "@FUNCTION=AND\n"
@@ -12560,8 +12356,9 @@ msgid ""
 "AND(A1>3,A2<2) equals TRUE.\n"
 "\n"
 "@SEEALSO=OR, NOT"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-logical.c:83
 msgid ""
 "@FUNCTION=NOT\n"
@@ -12574,12 +12371,13 @@ msgid ""
 "NOT(TRUE) equals FALSE.\n"
 "\n"
 "@SEEALSO=AND, OR"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-logical.c:103 src/functions/fn-string.c:506
 msgid "Type Mismatch"
 msgstr "Unpassende Typen"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-logical.c:110
 msgid ""
 "@FUNCTION=OR\n"
@@ -12597,8 +12395,9 @@ msgid ""
 "OR(3>4,4<3) equals FALSE.\n"
 "\n"
 "@SEEALSO=AND, NOT"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-logical.c:167
 msgid ""
 "@FUNCTION=IF\n"
@@ -12613,8 +12412,9 @@ msgid ""
 "IF(FALSE,TRUE,FALSE) equals FALSE.\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-logical.c:230
 msgid ""
 "@FUNCTION=TRUE\n"
@@ -12626,14 +12426,8 @@ msgid ""
 "\n"
 "@SEEALSO=FALSE"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-logical.c:252
 msgid ""
 "@FUNCTION=FALSE\n"
@@ -12645,20 +12439,13 @@ msgid ""
 "\n"
 "@SEEALSO=TRUE"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-logical.c:278
 msgid "Logical"
 msgstr "Logik"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:316
-#, fuzzy
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -12681,8 +12468,9 @@ msgid ""
 "ADDRESS(5,4,3,FALSE) equals \"R[5]C4\".\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:428
 msgid ""
 "@FUNCTION=CHOOSE\n"
@@ -12694,12 +12482,13 @@ msgid ""
 "CHOOSE(3,\"Apple\",\"Orange\",\"Grape\",\"Perry\") equals \"Grape\".\n"
 "\n"
 "@SEEALSO=IF"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-lookup.c:453
 msgid "#ARG!"
 msgstr "#ARG!"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:477
 msgid ""
 "@FUNCTION=VLOOKUP\n"
@@ -12715,8 +12504,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=HLOOKUP"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:538
 msgid ""
 "@FUNCTION=HLOOKUP\n"
@@ -12731,8 +12521,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=VLOOKUP"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:599
 msgid ""
 "@FUNCTION=LOOKUP\n"
@@ -12747,8 +12538,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=VLOOKUP,HLOOKUP"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:666
 msgid ""
 "@FUNCTION=MATCH\n"
@@ -12768,8 +12560,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LOOKUP"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:726
 msgid ""
 "@FUNCTION=INDIRECT\n"
@@ -12784,8 +12577,9 @@ msgid ""
 "INDIRECT(A2) equals 3.14.\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:788
 msgid ""
 "@FUNCTION=INDEX\n"
@@ -12800,8 +12594,9 @@ msgid ""
 "@EXAMPLES=Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, "
 "17.3,21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25,9\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:835
 msgid ""
 "@FUNCTION=COLUMN\n"
@@ -12814,8 +12609,9 @@ msgid ""
 "COLUMN() in E1 equals 5.\n"
 "\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:888
 msgid ""
 "@FUNCTION=COLUMNS\n"
@@ -12828,8 +12624,9 @@ msgid ""
 "COLUMNS(H2:J3) equals 3.\n"
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:914
 msgid ""
 "@FUNCTION=OFFSET\n"
@@ -12841,8 +12638,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:977
 msgid ""
 "@FUNCTION=ROW\n"
@@ -12855,8 +12653,9 @@ msgid ""
 "ROW() in G13 equals 13.\n"
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:1030
 msgid ""
 "@FUNCTION=ROWS\n"
@@ -12869,8 +12668,9 @@ msgid ""
 "ROWS(H7:I13) equals 7.\n"
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:1056
 msgid ""
 "@FUNCTION=HYPERLINK\n"
@@ -12883,13 +12683,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=ITHPRIME\n"
-"@SYNTAX=ITHPRIME(i)\n"
-"@DESCRIPTION=Die ITHPRIME Funktion gibt den @i-ten Primteiler zurück.\n"
-"Diese Funktion hat nur ein Argument.\n"
-"@EXAMPLES=\n"
-"@SEEALSO=NT_D, NT_SIGMA"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:1082
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
@@ -12898,12 +12693,13 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MMULT"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-lookup.c:1130
 msgid "Data / Lookup"
 msgstr "Daten / Auffinden"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:118
 msgid ""
 "@FUNCTION=GCD\n"
@@ -12917,10 +12713,10 @@ msgid ""
 "GCD(470,770,1495) equals to 5.\n"
 "\n"
 "@SEEALSO=LCM"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:170
-#, fuzzy
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -12934,8 +12730,9 @@ msgid ""
 "LCM(4,7,5) equals to 140.\n"
 "\n"
 "@SEEALSO=GCD"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:227
 msgid ""
 "@FUNCTION=ABS\n"
@@ -12950,17 +12747,9 @@ msgid ""
 "\n"
 "@SEEALSO=CEIL, FLOOR"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:252
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -12974,17 +12763,9 @@ msgid ""
 "\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=IMLOG2\n"
-"@SYNTAX=IMLOG2(izahl)\n"
-"@DESCRIPTION=IMSUB gibt den Logarithmus einer komplexen Zahl zur Basis 2 "
-"zurück. Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMLOG2(\"3-j\") ist gleich 1,66096-0,46419j.\n"
-"\n"
-"@SEEALSO=IMLN,IMLOG10"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:284
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -12998,17 +12779,9 @@ msgid ""
 "\n"
 "@SEEALSO=ACOS, ASINH, DEGREES, RADIANS "
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:315
-#, fuzzy
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -13022,15 +12795,8 @@ msgid ""
 "\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:346
 msgid ""
 "@FUNCTION=ASINH\n"
@@ -13044,15 +12810,8 @@ msgid ""
 "\n"
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:370
 msgid ""
 "@FUNCTION=ATAN\n"
@@ -13066,17 +12825,9 @@ msgid ""
 "\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:395
-#, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -13090,15 +12841,8 @@ msgid ""
 "\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:427
 msgid ""
 "@FUNCTION=ATAN2\n"
@@ -13113,8 +12857,9 @@ msgid ""
 "ATAN2(-0.5,2.0) equals 1.815775.\n"
 "\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:455
 msgid ""
 "@FUNCTION=CEIL\n"
@@ -13127,8 +12872,9 @@ msgid ""
 "CEIL(-2.9) equals -2.\n"
 "\n"
 "@SEEALSO=ABS, FLOOR, INT"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:479
 msgid ""
 "@FUNCTION=COUNTIF\n"
@@ -13145,8 +12891,9 @@ msgid ""
 "COUNTIF(A1:A5,\">28\") equals 2.\n"
 "\n"
 "@SEEALSO=COUNT,SUMIF"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:557
 msgid ""
 "@FUNCTION=SUMIF\n"
@@ -13166,8 +12913,9 @@ msgid ""
 "SUMIF(A1:A5,\"<=27\",B1:B5) equals 8.\n"
 "\n"
 "@SEEALSO=COUNTIF, SUM"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:710
 msgid ""
 "@FUNCTION=CEILING\n"
@@ -13182,8 +12930,9 @@ msgid ""
 "CEILING(123.123,3) equals 126.\n"
 "\n"
 "@SEEALSO=CEIL"
-msgstr "LATER"
+msgstr ""
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:751
 msgid ""
 "@FUNCTION=COS\n"
@@ -13197,15 +12946,8 @@ msgid ""
 "\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(izahl)\n"
-"@DESCRIPTION=IMCOS gibt den Kosinus einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") ist gleich 0,833730-0,988898j..\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:775
 msgid ""
 "@FUNCTION=COSH\n"
@@ -13219,15 +12961,8 @@ msgid ""
 "\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:800
 msgid ""
 "@FUNCTION=DEGREES\n"
@@ -13240,14 +12975,8 @@ msgid ""
 "\n"
 "@SEEALSO=RADIANS, PI"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 # FIXME: check for mathematical correctness
 #: src/functions/fn-math.c:822
 msgid ""
@@ -13261,15 +12990,8 @@ msgid ""
 "\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMEXP(izahl)\n"
-"@DESCRIPTION=IMEXP gibt e hoch izahl zurück. Diese Funktion ist Excel-"
-"kompatibel.\n"
-"@EXAMPLES=\n"
-"IMEXP(\"2-j\") ist gleich 3,992324-6,217676j.\n"
-"\n"
-"@SEEALSO=IMLN"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:845
 msgid ""
 "@FUNCTION=FACT\n"
@@ -13282,14 +13004,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:886
 msgid ""
 "@FUNCTION=COMBIN\n"
@@ -13304,15 +13020,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:920
 msgid ""
 "@FUNCTION=FLOOR\n"
@@ -13328,15 +13037,8 @@ msgid ""
 "\n"
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:957
 msgid ""
 "@FUNCTION=INT\n"
@@ -13350,15 +13052,8 @@ msgid ""
 "\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:981
 msgid ""
 "@FUNCTION=LOG\n"
@@ -13373,15 +13068,8 @@ msgid ""
 "\n"
 "@SEEALSO=LN, LOG2, LOG10"
 msgstr ""
-"@FUNCTION=IMLOG2\n"
-"@SYNTAX=IMLOG2(izahl)\n"
-"@DESCRIPTION=IMSUB gibt den Logarithmus einer komplexen Zahl zur Basis 2 "
-"zurück. Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMLOG2(\"3-j\") ist gleich 1,66096-0,46419j.\n"
-"\n"
-"@SEEALSO=IMLN,IMLOG10"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:1021
 msgid ""
 "@FUNCTION=LN\n"
@@ -13394,15 +13082,8 @@ msgid ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
-"@FUNCTION=IMLOG2\n"
-"@SYNTAX=IMLOG2(izahl)\n"
-"@DESCRIPTION=IMSUB gibt den Logarithmus einer komplexen Zahl zur Basis 2 "
-"zurück. Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMLOG2(\"3-j\") ist gleich 1,66096-0,46419j.\n"
-"\n"
-"@SEEALSO=IMLN,IMLOG10"
 
+# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:1051
 msgid ""
 "@FUNCTION=POWER\n"
@@ -13416,13 +13097,6 @@ msgid ""
 "\n"
 "@SEEALSO=EXP"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-math.c:1085
 msgid ""
@@ -13434,7 +13108,7 @@ msgid ""
 "LOG2(1024) equals 10.\n"
 "\n"
 "@SEEALSO=EXP, LOG10, LOG"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:1113
 msgid ""
@@ -13448,14 +13122,6 @@ msgid ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr ""
-"@FUNCTION=IMLOG2\n"
-"@SYNTAX=IMLOG2(izahl)\n"
-"@DESCRIPTION=IMSUB gibt den Logarithmus einer komplexen Zahl zur Basis 2 "
-"zurück. Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMLOG2(\"3-j\") ist gleich 1,66096-0,46419j.\n"
-"\n"
-"@SEEALSO=IMLN,IMLOG10"
 
 #: src/functions/fn-math.c:1142
 msgid ""
@@ -13471,14 +13137,6 @@ msgid ""
 "\n"
 "@SEEALSO=INT,FLOOR,CEIL"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1190
 msgid ""
@@ -13492,13 +13150,6 @@ msgid ""
 "\n"
 "@SEEALSO=PI,DEGREES"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-math.c:1212
 msgid ""
@@ -13511,16 +13162,8 @@ msgid ""
 "\n"
 "@SEEALSO=RANDBETWEEN"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-math.c:1235
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDEXP\n"
 "@SYNTAX=RANDEXP(b)\n"
@@ -13529,10 +13172,9 @@ msgid ""
 "RANDEXP(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:1258
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDPOISSON\n"
 "@SYNTAX=RANDPOISSON(lambda)\n"
@@ -13541,10 +13183,9 @@ msgid ""
 "RANDPOISSON(3).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:1284
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDBINOM\n"
 "@SYNTAX=RANDBINOM(p,trials)\n"
@@ -13555,10 +13196,9 @@ msgid ""
 "RANDBINOM(0.5,2).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:1314
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -13570,10 +13210,9 @@ msgid ""
 "RANDNEGBINOM(0.5,2).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:1345
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDBERNOULLI\n"
 "@SYNTAX=RANDBERNOULLI(p)\n"
@@ -13583,7 +13222,7 @@ msgid ""
 "RANDBERNOULLI(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:1373
 msgid ""
@@ -13597,14 +13236,6 @@ msgid ""
 "\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1396
 msgid ""
@@ -13618,14 +13249,6 @@ msgid ""
 "\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1419
 msgid ""
@@ -13639,13 +13262,6 @@ msgid ""
 "\n"
 "@SEEALSO=POWER"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-math.c:1446
 msgid ""
@@ -13661,14 +13277,6 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
-"@FUNCTION=IMPRODUCT\n"
-"@SYNTAX=IMPRODUCT(izahl[,izahl,...])\n"
-"@DESCRIPTION=IMPRODUCT gibt das Produkt zweier komplexer Zahlen zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMPRODUCT(\"2-j\",\"4-2j\") ist gleich 6-8j.\n"
-"\n"
-"@SEEALSO=IMDIV"
 
 #: src/functions/fn-math.c:1476
 msgid ""
@@ -13685,7 +13293,7 @@ msgid ""
 "SUMA(A1:A5) equals 107.\n"
 "\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:1508
 msgid ""
@@ -13701,14 +13309,6 @@ msgid ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
-"@FUNCTION=IMPRODUCT\n"
-"@SYNTAX=IMPRODUCT(izahl[,izahl,...])\n"
-"@DESCRIPTION=IMPRODUCT gibt das Produkt zweier komplexer Zahlen zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMPRODUCT(\"2-j\",\"4-2j\") ist gleich 6-8j.\n"
-"\n"
-"@SEEALSO=IMDIV"
 
 #: src/functions/fn-math.c:1539
 msgid ""
@@ -13722,13 +13322,6 @@ msgid ""
 "\n"
 "@SEEALSO=SUM"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-math.c:1568
 msgid ""
@@ -13743,14 +13336,6 @@ msgid ""
 "\n"
 "@SEEALSO=SUM, COUNT, G_PRODUCT"
 msgstr ""
-"@FUNCTION=IMPRODUCT\n"
-"@SYNTAX=IMPRODUCT(izahl[,izahl,...])\n"
-"@DESCRIPTION=IMPRODUCT gibt das Produkt zweier komplexer Zahlen zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMPRODUCT(\"2-j\",\"4-2j\") ist gleich 6-8j.\n"
-"\n"
-"@SEEALSO=IMDIV"
 
 #: src/functions/fn-math.c:1606
 msgid ""
@@ -13764,14 +13349,6 @@ msgid ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
-"@FUNCTION=IMPRODUCT\n"
-"@SYNTAX=IMPRODUCT(izahl[,izahl,...])\n"
-"@DESCRIPTION=IMPRODUCT gibt das Produkt zweier komplexer Zahlen zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMPRODUCT(\"2-j\",\"4-2j\") ist gleich 6-8j.\n"
-"\n"
-"@SEEALSO=IMDIV"
 
 #: src/functions/fn-math.c:1634
 msgid ""
@@ -13785,14 +13362,6 @@ msgid ""
 "\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1657
 msgid ""
@@ -13806,17 +13375,8 @@ msgid ""
 "\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1680
-#, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -13829,14 +13389,6 @@ msgid ""
 "\n"
 "@SEEALSO=SQRTPI"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1705
 msgid ""
@@ -13852,14 +13404,6 @@ msgid ""
 "\n"
 "@SEEALSO=INT"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1740
 msgid ""
@@ -13873,13 +13417,6 @@ msgid ""
 "\n"
 "@SEEALSO=ODD"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-math.c:1778
 msgid ""
@@ -13893,16 +13430,8 @@ msgid ""
 "\n"
 "@SEEALSO=EVEN"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-math.c:1816
-#, fuzzy
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -13916,17 +13445,8 @@ msgid ""
 "\n"
 "@SEEALSO=FACT"
 msgstr ""
-"@FUNCTION=DATEVALUE\n"
-"@SYNTAX=DATEVALUE(datum_zkette)\n"
-"@DESCRIPTION=DATEVALUE gibt die Seriennummer des Datums zurück.  "
-"@datum_zkette ist die Zeichenkette, die das Datum enthält.  DATEVALUE"
-"(\"1/1/1999\") ergibt z. B. 36160.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DATE"
 
 #: src/functions/fn-math.c:1854
-#, fuzzy
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(numerator,denumerator)\n"
@@ -13939,14 +13459,6 @@ msgid ""
 "\n"
 "@SEEALSO=MOD"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1886
 msgid ""
@@ -13962,14 +13474,6 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1920
 msgid ""
@@ -13983,17 +13487,8 @@ msgid ""
 "\n"
 "@SEEALSO=PI"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1949
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -14006,10 +13501,9 @@ msgid ""
 "RANDBETWEEN(3,7).\n"
 "\n"
 "@SEEALSO=RAND"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:1983
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -14028,7 +13522,7 @@ msgid ""
 "ROUNDDOWN(1501.15,-2) equals 1500.0.\n"
 "\n"
 "@SEEALSO=ROUND,ROUNDUP"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:2027
 msgid ""
@@ -14049,10 +13543,9 @@ msgid ""
 "ROUND(1501.15,-2) equals 1500.0.\n"
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:2068
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -14071,7 +13564,7 @@ msgid ""
 "ROUNDUP(1501.15,-2) equals 1600.0.\n"
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:2112
 msgid ""
@@ -14088,7 +13581,7 @@ msgid ""
 "MROUND(321.123,0.12) equals 321.12.\n"
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:2162
 msgid ""
@@ -14110,10 +13603,9 @@ msgid ""
 "ROMAN(999,4) equals IM.\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:2428
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -14132,7 +13624,7 @@ msgid ""
 "SUMX2MY2(A1:A5,B1:B5) equals -1299.\n"
 "\n"
 "@SEEALSO=SUMSQ,SUMX2PY2"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:2484 src/functions/fn-math.c:2503
 #: src/functions/fn-math.c:2597 src/functions/fn-math.c:2617
@@ -14142,7 +13634,6 @@ msgid "Array version not implemented!"
 msgstr "Feldversion nicht implementiert!"
 
 #: src/functions/fn-math.c:2541
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -14161,10 +13652,9 @@ msgid ""
 "SUMX2PY2(A1:A5,B1:B5) equals 7149.\n"
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:2653
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -14183,7 +13673,7 @@ msgid ""
 "SUMXMY2(A1:A5,B1:B5) equals 409.\n"
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:2767
 msgid ""
@@ -14214,10 +13704,9 @@ msgid ""
 "SUBTOTAL(11,A1:A5) equals 30.4.\n"
 "\n"
 "@SEEALSO=COUNT,SUM"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:2849
-#, fuzzy
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -14232,7 +13721,7 @@ msgid ""
 "SERIESSUM(3,1,2.23,A1:A5) equals 251416.43018.\n"
 "\n"
 "@SEEALSO=COUNT,SUM"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:2972
 msgid ""
@@ -14247,7 +13736,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MMULT, MDETERM"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:3020
 msgid "#3D MULT?"
@@ -14264,7 +13753,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:3175
 msgid ""
@@ -14281,7 +13770,7 @@ msgid ""
 "MDETERM(A1:D4) equals 148.\n"
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:3233
 msgid ""
@@ -14300,7 +13789,7 @@ msgid ""
 "SUMPRODUCT(A1:A5,B1:B5) equals 3370.\n"
 "\n"
 "@SEEALSO=SUM,PRODUCT"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-math.c:3351
 msgid "Maths / Trig."
@@ -14320,7 +13809,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-sheet.c:103
 msgid ""
@@ -14332,13 +13821,6 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-stat.c:159
 msgid ""
@@ -14353,7 +13835,7 @@ msgid ""
 "VARP(A1:A5) equals 94.112.\n"
 "\n"
 "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:191
 msgid ""
@@ -14370,7 +13852,7 @@ msgid ""
 "VAR(A1:A5) equals 117.64.\n"
 "\n"
 "@SEEALSO=VARP,STDEV"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:225
 msgid ""
@@ -14385,7 +13867,7 @@ msgid ""
 "STDEV(A1:A5) equals 10.84619749.\n"
 "\n"
 "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:255
 msgid ""
@@ -14400,7 +13882,7 @@ msgid ""
 "STDEVP(A1:A5) equals 9.701133954.\n"
 "\n"
 "@SEEALSO=STDEV,STDEVA,STDEVPA"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:285
 msgid ""
@@ -14417,7 +13899,7 @@ msgid ""
 "RANK(17.3,A1:A5) equals 4.\n"
 "\n"
 "@SEEALSO=PERCENTRANK"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:377
 msgid ""
@@ -14436,7 +13918,7 @@ msgid ""
 "TRIMMEAN(A1:A5,0.2) equals 23.2.\n"
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:439
 msgid ""
@@ -14452,7 +13934,7 @@ msgid ""
 "COVAR(A1:A5,B1:B5) equals 65.858.\n"
 "\n"
 "@SEEALSO=CORREL,FISHER,FISHERINV"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:471
 msgid ""
@@ -14468,7 +13950,7 @@ msgid ""
 "CORREL(A1:A5,B1:B5) equals 0.996124788.\n"
 "\n"
 "@SEEALSO=COVAR,FISHER,FISHERINV"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:503
 msgid ""
@@ -14485,7 +13967,7 @@ msgid ""
 "NEGBINOMDIST(2,5,0.55) equals 0.152872629.\n"
 "\n"
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:542
 msgid ""
@@ -14499,14 +13981,6 @@ msgid ""
 "\n"
 "@SEEALSO=NORMDIST"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-stat.c:569
 msgid ""
@@ -14521,7 +13995,7 @@ msgid ""
 "NORMSINV(0.2) equals -0.841621234.\n"
 "\n"
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:602
 msgid ""
@@ -14537,7 +14011,7 @@ msgid ""
 "LOGNORMDIST(3,1,2) equals 0.519662338.\n"
 "\n"
 "@SEEALSO=NORMDIST"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:642
 msgid ""
@@ -14553,7 +14027,7 @@ msgid ""
 "LOGINV(0.5,2,3) equals 7.389056099.\n"
 "\n"
 "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:679
 msgid ""
@@ -14568,16 +14042,8 @@ msgid ""
 "\n"
 "@SEEALSO=FISHER"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-stat.c:707
-#, fuzzy
 msgid ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
@@ -14592,7 +14058,7 @@ msgid ""
 "MODE(A1:A5) equals 11.4.\n"
 "\n"
 "@SEEALSO=AVERAGE,MEDIAN"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:743
 msgid ""
@@ -14607,7 +14073,7 @@ msgid ""
 "HARMEAN(A1:A5) equals 19.529814427.\n"
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:775
 msgid ""
@@ -14622,7 +14088,7 @@ msgid ""
 "GEOMEAN(A1:A5) equals 21.279182482.\n"
 "\n"
 "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:806
 msgid ""
@@ -14638,13 +14104,6 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-stat.c:848
 msgid ""
@@ -14659,7 +14118,7 @@ msgid ""
 "COUNTA(A1:A5) equals 5.\n"
 "\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:890
 msgid ""
@@ -14675,7 +14134,7 @@ msgid ""
 "AVERAGE(A1:A5) equals 23.2.\n"
 "\n"
 "@SEEALSO=SUM, COUNT"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:922
 msgid ""
@@ -14691,7 +14150,7 @@ msgid ""
 "MIN(A1:A5) equals 11.4.\n"
 "\n"
 "@SEEALSO=MAX,ABS"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:964
 msgid ""
@@ -14707,7 +14166,7 @@ msgid ""
 "MAX(A1:A5) equals 40.1.\n"
 "\n"
 "@SEEALSO=MIN,ABS"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1006
 msgid ""
@@ -14727,7 +14186,7 @@ msgid ""
 "SKEW(A1:A5) equals 0.976798268.\n"
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1044
 msgid ""
@@ -14742,7 +14201,7 @@ msgid ""
 "SKEWP(A1:A5) equals 0.655256198.\n"
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1077
 msgid ""
@@ -14757,7 +14216,7 @@ msgid ""
 "EXPONDIST(2,4,0) equals 0.001341851.\n"
 "\n"
 "@SEEALSO=POISSON"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1120
 msgid ""
@@ -14773,14 +14232,6 @@ msgid ""
 "\n"
 "@SEEALSO=POISSON"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-stat.c:1157
 msgid ""
@@ -14796,7 +14247,7 @@ msgid ""
 "GAMMADIST(1,2,3,0) equals 0.07961459.\n"
 "\n"
 "@SEEALSO=GAMMAINV"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1198
 msgid ""
@@ -14811,7 +14262,7 @@ msgid ""
 "GAMMAINV(0.34,2,4) equals 4.829093908.\n"
 "\n"
 "@SEEALSO=GAMMADIST"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1234
 msgid ""
@@ -14826,7 +14277,7 @@ msgid ""
 "CHIDIST(5.3,2) equals 0.070651213.\n"
 "\n"
 "@SEEALSO=CHIINV,CHITEST"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1270
 msgid ""
@@ -14841,14 +14292,6 @@ msgid ""
 "\n"
 "@SEEALSO=CHIDIST,CHITEST"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-stat.c:1304
 msgid ""
@@ -14863,7 +14306,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=CHIDIST,CHIINV"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1442
 msgid ""
@@ -14880,7 +14323,7 @@ msgid ""
 "BETADIST(0.12,2,3) equals 0.07319808.\n"
 "\n"
 "@SEEALSO=BETAINV"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1482
 msgid ""
@@ -14897,7 +14340,7 @@ msgid ""
 "BETAINV(0.45,1.6,1) equals 0.607096629.\n"
 "\n"
 "@SEEALSO=BETADIST"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1522
 msgid ""
@@ -14913,7 +14356,7 @@ msgid ""
 "TDIST(2,5,1) equals 0.050969739.\n"
 "\n"
 "@SEEALSO=TINV,TTEST"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1562
 msgid ""
@@ -14928,14 +14371,6 @@ msgid ""
 "\n"
 "@SEEALSO=TDIST,TTEST"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-stat.c:1596
 msgid ""
@@ -14951,7 +14386,7 @@ msgid ""
 "FDIST(2,5,5) equals 0.232511319.\n"
 "\n"
 "@SEEALSO=FINV"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1633
 msgid ""
@@ -14967,14 +14402,6 @@ msgid ""
 "\n"
 "@SEEALSO=FDIST"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-stat.c:1669
 msgid ""
@@ -14992,7 +14419,7 @@ msgid ""
 "BINOMDIST(3,5,0.8,0) equals 0.2048.\n"
 "\n"
 "@SEEALSO=POISSON"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1715
 msgid ""
@@ -15010,7 +14437,7 @@ msgid ""
 "CRITBINOM(10,0.5,0.75) equals 6.\n"
 "\n"
 "@SEEALSO=BINOMDIST"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1755
 msgid ""
@@ -15026,15 +14453,6 @@ msgid ""
 "\n"
 "@SEEALSO=COMBIN"
 msgstr ""
-"@FUNCTION=BIN2DEC\n"
-"@SYNTAX=BIN2DEX(x)\n"
-"@DESCRIPTION=Die Funktion BIN2DEC wandelt eine Binärzahl in einer "
-"Zeichenkette oder Zahl in ihr dezimales Äquivalent um. Diese Funktion ist "
-"Excel-kompatibel.\n"
-"@BEISPIELE?\n"
-"BIN2DEC(101) ist gleich 5.\n"
-"\n"
-"@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
 #: src/functions/fn-stat.c:1790
 msgid ""
@@ -15051,7 +14469,7 @@ msgid ""
 "HYPGEOMDIST(1,2,3,10) equals 0.4666667.\n"
 "\n"
 "@SEEALSO=BINOMDIST,POISSON"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1830
 msgid ""
@@ -15067,7 +14485,7 @@ msgid ""
 "CONFIDENCE(0.05,1,33) equals 0.341185936.\n"
 "\n"
 "@SEEALSO=AVERAGE"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1871
 msgid ""
@@ -15082,7 +14500,7 @@ msgid ""
 "STANDARDIZE(3,2,4) equals 0.25.\n"
 "\n"
 "@SEEALSO=AVERAGE"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1909
 msgid ""
@@ -15099,7 +14517,7 @@ msgid ""
 "WEIBULL(3,2,4,0) equals 0.213668559.\n"
 "\n"
 "@SEEALSO=POISSON"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:1955
 msgid ""
@@ -15114,7 +14532,7 @@ msgid ""
 "NORMDIST(2,1,2,0) equals 0.176032663.\n"
 "\n"
 "@SEEALSO=POISSON"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2000
 msgid ""
@@ -15130,7 +14548,7 @@ msgid ""
 "NORMINV(0.76,2,3) equals 4.118907689.\n"
 "\n"
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2038
 msgid ""
@@ -15151,7 +14569,7 @@ msgid ""
 "KURT(A1:A5) equals 1.234546305.\n"
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2078
 msgid ""
@@ -15167,7 +14585,7 @@ msgid ""
 "KURTP(A1:A5) equals -0.691363424.\n"
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2112
 msgid ""
@@ -15182,7 +14600,7 @@ msgid ""
 "AVEDEV(A1:A5) equals 7.84.\n"
 "\n"
 "@SEEALSO=STDEV"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2143
 msgid ""
@@ -15198,7 +14616,7 @@ msgid ""
 "DEVSQ(A1:A5) equals 470.56.\n"
 "\n"
 "@SEEALSO=STDEV"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2176
 msgid ""
@@ -15213,13 +14631,6 @@ msgid ""
 "\n"
 "@SEEALSO=SKEW"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-stat.c:2211
 msgid ""
@@ -15235,7 +14646,7 @@ msgid ""
 "POISSON(3,6,0) equals 0.089235078.\n"
 "\n"
 "@SEEALSO=NORMDIST, WEIBULL"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2254
 msgid ""
@@ -15249,13 +14660,6 @@ msgid ""
 "\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-stat.c:2279
 msgid ""
@@ -15268,7 +14672,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2309
 msgid ""
@@ -15284,7 +14688,7 @@ msgid ""
 "MEDIAN(A1:A5) equals 21.3.\n"
 "\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2343
 msgid ""
@@ -15301,7 +14705,7 @@ msgid ""
 "LARGE(A1:A5,4) equals 17.3.\n"
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2390
 msgid ""
@@ -15318,10 +14722,9 @@ msgid ""
 "SMALL(A1:A5,4) equals 25.9.\n"
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2461
-#, fuzzy
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
@@ -15336,10 +14739,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2555
-#, fuzzy
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -15355,7 +14757,7 @@ msgid ""
 "STEYX(A1:A5,B1:B5) equals 1.101509979.\n"
 "\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2710
 msgid ""
@@ -15371,7 +14773,7 @@ msgid ""
 "ZTEST(A1:A5,20) equals 0.254717826.\n"
 "\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2791
 msgid ""
@@ -15389,10 +14791,9 @@ msgid ""
 "AVERAGEA(A1:A5) equals 18.94.\n"
 "\n"
 "@SEEALSO=AVERAGE"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2826
-#, fuzzy
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -15408,10 +14809,9 @@ msgid ""
 "MAXA(A1:A5) equals 40.1.\n"
 "\n"
 "@SEEALSO=MAX,MINA"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2861
-#, fuzzy
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -15427,7 +14827,7 @@ msgid ""
 "MINA(A1:A5) equals 0.\n"
 "\n"
 "@SEEALSO=MIN,MAXA"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2896
 msgid ""
@@ -15445,7 +14845,7 @@ msgid ""
 "VARA(A1:A5) equals 228.613.\n"
 "\n"
 "@SEEALSO=VAR,VARPA"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2931
 msgid ""
@@ -15463,7 +14863,7 @@ msgid ""
 "VARPA(A1:A5) equals 182.8904.\n"
 "\n"
 "@SEEALSO=VARP,VARP"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:2966
 msgid ""
@@ -15481,7 +14881,7 @@ msgid ""
 "STDEVA(A1:A5) equals 15.119953704.\n"
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:3001
 msgid ""
@@ -15499,10 +14899,9 @@ msgid ""
 "STDEVPA(A1:A5) equals 13.523697719.\n"
 "\n"
 "@SEEALSO=STDEVA,STDEVP"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:3036
-#, fuzzy
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -15520,7 +14919,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:3146
 msgid ""
@@ -15538,7 +14937,7 @@ msgid ""
 "PERCENTILE(A1:A5,0.42) equals 20.02.\n"
 "\n"
 "@SEEALSO=QUARTILE"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:3195
 msgid ""
@@ -15563,7 +14962,7 @@ msgid ""
 "QUARTILE(A1:A5,1) equals 17.3.\n"
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:3251
 msgid ""
@@ -15579,7 +14978,7 @@ msgid ""
 "FTEST(A1:A5,B1:B5) equals 0.510815017.\n"
 "\n"
 "@SEEALSO=FDIST,FINV"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:3301
 msgid ""
@@ -15609,7 +15008,7 @@ msgid ""
 "TTEST(A1:A5,B1:B5,1,3) equals 0.113821797.\n"
 "\n"
 "@SEEALSO=FDIST,FINV"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:3475
 msgid ""
@@ -15625,7 +15024,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:3550
 msgid ""
@@ -15653,7 +15052,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LOGEST,TREND"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:3821
 msgid ""
@@ -15674,7 +15073,7 @@ msgid ""
 "TREND(A1:A5,B1:B5) equals 156.52.\n"
 "\n"
 "@SEEALSO=LINEST"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:3933
 msgid ""
@@ -15701,7 +15100,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:4188
 msgid ""
@@ -15721,10 +15120,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:4302
-#, fuzzy
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -15742,10 +15140,9 @@ msgid ""
 "FORECAST(7,A1:A5,B1:B5) equals -10.859397661.\n"
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:4373
-#, fuzzy
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -15762,7 +15159,7 @@ msgid ""
 "INTERCEPT(A1:A5,B1:B5) equals -20.785117212.\n"
 "\n"
 "@SEEALSO=FORECAST,TREND"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:4422
 msgid ""
@@ -15777,7 +15174,7 @@ msgid ""
 "SLOPE(A1:A5,B1:B5) equals 1.417959936.\n"
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-stat.c:4470
 msgid "Statistics"
@@ -15792,7 +15189,7 @@ msgid ""
 "CHAR(65) equals A.\n"
 "\n"
 "@SEEALSO=CODE"
-msgstr "LATER"
+msgstr ""
 
 #: src/functions/fn-string.c:56
 msgid ""
@@ -15805,13 +15202,6 @@ msgid ""
 "\n"
 "@SEEALSO=CHAR"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-string.c:78
 msgid ""
@@ -15826,14 +15216,6 @@ msgid ""
 "\n"
 "@SEEALSO=LEN, SEARCH, DELTA"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-string.c:103
 msgid ""
@@ -15846,14 +15228,6 @@ msgid ""
 "\n"
 "@SEEALSO=CHAR, CODE"
 msgstr ""
-"@FUNCTION=IMREAL\n"
-"@SYNTAX=IMREAL(izahl)\n"
-"@DESCRIPTION=IMREAL gibt den reellen Koeffizienten einer komplexen Zahl "
-"zurück. Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMREAL(\"132-j\") ist gleich 132.\n"
-"\n"
-"@SEEALSO=IMAGINARY"
 
 #: src/functions/fn-string.c:125
 msgid ""
@@ -15867,14 +15241,6 @@ msgid ""
 "\n"
 "@SEEALSO=MID, RIGHT"
 msgstr ""
-"@FUNCTION=IMREAL\n"
-"@SYNTAX=IMREAL(izahl)\n"
-"@DESCRIPTION=IMREAL gibt den reellen Koeffizienten einer komplexen Zahl "
-"zurück. Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMREAL(\"132-j\") ist gleich 132.\n"
-"\n"
-"@SEEALSO=IMAGINARY"
 
 #: src/functions/fn-string.c:161
 msgid ""
@@ -15887,14 +15253,6 @@ msgid ""
 "\n"
 "@SEEALSO=UPPER"
 msgstr ""
-"@FUNCTION=IMLOG2\n"
-"@SYNTAX=IMLOG2(izahl)\n"
-"@DESCRIPTION=IMSUB gibt den Logarithmus einer komplexen Zahl zur Basis 2 "
-"zurück. Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMLOG2(\"3-j\") ist gleich 1,66096-0,46419j.\n"
-"\n"
-"@SEEALSO=IMLN,IMLOG10"
 
 #: src/functions/fn-string.c:191
 msgid ""
@@ -15908,14 +15266,6 @@ msgid ""
 "\n"
 "@SEEALSO=LEFT, RIGHT"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
 
 #: src/functions/fn-string.c:217
 msgid "Invalid arguments"
@@ -15934,14 +15284,6 @@ msgid ""
 "\n"
 "@SEEALSO=MID, LEFT"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-string.c:275
 msgid ""
@@ -15954,13 +15296,6 @@ msgid ""
 "\n"
 "@SEEALSO=LOWER"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-string.c:305
 msgid ""
@@ -15973,14 +15308,6 @@ msgid ""
 "\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 msgstr ""
-"@FUNCTION=IMCONJUGATE\n"
-"@SYNTAX=IMCONJUGATE(izahl)\n"
-"@DESCRIPTION=IMCONJUGATE gibt das komplexe Konjugat einer komplexen Zahl "
-"zurück. Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMCONJUGATE(\"1-j\") ist gleich 1+j.\n"
-"\n"
-"@SEEALSO=IMAGINARY,IMREAL"
 
 # FIXME: check for mathematical correctness
 #: src/functions/fn-string.c:347
@@ -15994,14 +15321,6 @@ msgid ""
 "\n"
 "@SEEALSO=CONCATENATE"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMEXP(izahl)\n"
-"@DESCRIPTION=IMEXP gibt e hoch izahl zurück. Diese Funktion ist Excel-"
-"kompatibel.\n"
-"@EXAMPLES=\n"
-"IMEXP(\"2-j\") ist gleich 3,992324-6,217676j.\n"
-"\n"
-"@SEEALSO=IMLN"
 
 #. FIXME: this and above case should probably have the
 #. same error message.
@@ -16020,14 +15339,6 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMREAL\n"
-"@SYNTAX=IMREAL(izahl)\n"
-"@DESCRIPTION=IMREAL gibt den reellen Koeffizienten einer komplexen Zahl "
-"zurück. Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMREAL(\"132-j\") ist gleich 132.\n"
-"\n"
-"@SEEALSO=IMAGINARY"
 
 #: src/functions/fn-string.c:434
 msgid ""
@@ -16041,15 +15352,6 @@ msgid ""
 "\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 msgstr ""
-"@FUNCTION=BIN2DEC\n"
-"@SYNTAX=BIN2DEX(x)\n"
-"@DESCRIPTION=Die Funktion BIN2DEC wandelt eine Binärzahl in einer "
-"Zeichenkette oder Zahl in ihr dezimales Äquivalent um. Diese Funktion ist "
-"Excel-kompatibel.\n"
-"@BEISPIELE?\n"
-"BIN2DEC(101) ist gleich 5.\n"
-"\n"
-"@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
 # FIXME: check for mathematical correctness
 #: src/functions/fn-string.c:476
@@ -16064,14 +15366,6 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMEXP(izahl)\n"
-"@DESCRIPTION=IMEXP gibt e hoch izahl zurück. Diese Funktion ist Excel-"
-"kompatibel.\n"
-"@EXAMPLES=\n"
-"IMEXP(\"2-j\") ist gleich 3,992324-6,217676j.\n"
-"\n"
-"@SEEALSO=IMLN"
 
 # FIXME: check for mathematical correctness
 #: src/functions/fn-string.c:544
@@ -16085,14 +15379,6 @@ msgid ""
 "\n"
 "@SEEALSO=LOWER, UPPER"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMEXP(izahl)\n"
-"@DESCRIPTION=IMEXP gibt e hoch izahl zurück. Diese Funktion ist Excel-"
-"kompatibel.\n"
-"@EXAMPLES=\n"
-"IMEXP(\"2-j\") ist gleich 3,992324-6,217676j.\n"
-"\n"
-"@SEEALSO=IMLN"
 
 #: src/functions/fn-string.c:590
 msgid ""
@@ -16106,14 +15392,6 @@ msgid ""
 "\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 msgstr ""
-"@FUNCTION=IMREAL\n"
-"@SYNTAX=IMREAL(izahl)\n"
-"@DESCRIPTION=IMREAL gibt den reellen Koeffizienten einer komplexen Zahl "
-"zurück. Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMREAL(\"132-j\") ist gleich 132.\n"
-"\n"
-"@SEEALSO=IMAGINARY"
 
 #: src/functions/fn-string.c:640
 msgid ""
@@ -16128,14 +15406,6 @@ msgid ""
 "\n"
 "@SEEALSO=CELL, N, VALUE"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-string.c:666
 msgid ""
@@ -16149,14 +15419,6 @@ msgid ""
 "\n"
 "@SEEALSO=DOLLAR"
 msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(izahl)\n"
-"@DESCRIPTION=IMSUB gibt das Theta-Argument einer komplexen Zahl zurück. "
-"Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") ist gleich -0,463647609.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-string.c:702
 msgid "Type mismatch"
@@ -16173,14 +15435,6 @@ msgid ""
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 msgstr ""
-"@FUNCTION=IMABS\n"
-"@SYNTAX=IMABS(izahl)\n"
-"@DESCRIPTION=IMABS gibt den Betrag einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMABS(\"2-j\") ist gleich 2,23606798.\n"
-"\n"
-"@SEEALSO=IMAGINARY,IMREAL"
 
 #: src/functions/fn-string.c:760
 msgid ""
@@ -16193,13 +15447,6 @@ msgid ""
 "\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(izahl)\n"
-"@DESCRIPTION=IMTAN gibt den Tangens einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-string.c:803
 msgid ""
@@ -16214,14 +15461,6 @@ msgid ""
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 msgstr ""
-"@FUNCTION=IMREAL\n"
-"@SYNTAX=IMREAL(izahl)\n"
-"@DESCRIPTION=IMREAL gibt den reellen Koeffizienten einer komplexen Zahl "
-"zurück. Diese Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMREAL(\"132-j\") ist gleich 132.\n"
-"\n"
-"@SEEALSO=IMAGINARY"
 
 #: src/functions/fn-string.c:919
 msgid ""
@@ -16234,14 +15473,6 @@ msgid ""
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 msgstr ""
-"@FUNCTION=IMABS\n"
-"@SYNTAX=IMABS(izahl)\n"
-"@DESCRIPTION=IMABS gibt den Betrag einer komplexen Zahl zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMABS(\"2-j\") ist gleich 2,23606798.\n"
-"\n"
-"@SEEALSO=IMAGINARY,IMREAL"
 
 #: src/functions/fn-string.c:988
 msgid ""
@@ -16265,7 +15496,7 @@ msgid ""
 "SEARCH(\"c\",\"Cancel\",2) equals 4.\n"
 "\n"
 "@SEEALSO=FIND"
-msgstr "LATER"
+msgstr ""
 
 #: src/gnumeric-canvas.c:87
 msgid "Format as Number"
@@ -18195,21 +17426,3 @@ msgstr "Ist keine gnumeric-Arbeitsbuch-Datei"
 #: src/xml-io.c:3468
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
-
-#~ msgid ""
-#~ "@FUNCTION=RandBinom\n"
-#~ "@SYNTAX=RandBinom(p,trials)\n"
-#~ "@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
-#~ "If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 "
-#~ "RandBinom returns #NUM! error. \n"
-#~ "@EXAMPLES=\n"
-#~ "RandBinom(0.5,2).\n"
-#~ "\n"
-#~ "@SEEALSO=RAND,RANDBETWEEN"
-#~ msgstr "LATER"
-
-#~ msgid "Text File Export (*.csv)"
-#~ msgstr "Textdatei-Export (*.csv)"
-
-#~ msgid "'%f' is not a number"
-#~ msgstr "'%f' ist keine Zahl"
