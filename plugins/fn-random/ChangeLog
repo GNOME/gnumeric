@@ -1,3 +1,8 @@
+2002-07-23  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Moved PDFBERNOULLI() to fn-stat (renamed to
+	BERNOULLI()). Removed PDFGAMMA() and PDFEXP().
+
 2002-07-23  Jukka Pekka  <jiivonen@cs145201.pp.htv.fi>
 
 	* functions.c: Started moving probability density fns to fn-stat

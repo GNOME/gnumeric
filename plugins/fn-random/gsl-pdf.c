@@ -24,61 +24,6 @@
 #include <math.h>
 #include <value.h>
 
-gnum_float
-random_gamma_pdf (gnum_float x, gnum_float a, gnum_float b)
-{
-        if (x < 0)
-	        return 0;
-	else if (x == 0) {
-	        if (a == 1)
-		        return 1 / b;
-		else
-		        return 0;
-	} else if (a == 1)
-	        return expgnum (-x / b) / b;
-	else {
-	        gnum_float p;
-		gnum_float lngamma = lgamma (a);
-
-		p = expgnum ((a - 1) * loggnum (x / b) - x / b - lngamma) / b;
-		return p;
-	}
-}
-
-gnum_float
-random_beta_pdf (gnum_float x, gnum_float a, gnum_float b)
-{
-        if (x < 0 || x > 1)
-	        return 0;
-	else {
-		gnum_float gab = lgamma (a + b);
-		gnum_float ga  = lgamma (a);
-		gnum_float gb  = lgamma (b);
-
-		return expgnum (gab - ga - gb) * powgnum (x, a - 1) *
-		        powgnum (1 - x, b - 1);
-	}
-}
-
-gnum_float
-random_exponential_pdf (gnum_float x, gnum_float mu)
-{
-        if (x < 0)
-	        return 0;
-	else
-	        return expgnum (-x / mu) / mu;
-}
-
-gnum_float
-random_bernoulli_pdf (int k, gnum_float p)
-{
-        if (k == 0)
-	        return 1 - p;
-	else if (k == 1)
-	        return p;
-	else
-	        return 0;
-}
 
 gnum_float
 random_binomial_pdf (int k, gnum_float p, int n)

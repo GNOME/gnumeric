@@ -121,31 +121,6 @@ gnumeric_randexp (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_pdfexp = {
-        N_("@FUNCTION=PDFEXP\n"
-           "@SYNTAX=PDFEXP(x,mu)\n"
-
-           "@DESCRIPTION="
-           "PDFEXP returns the probability density p(x) at @x for "
-	   "Exponential distribution with mean @mu. "
-           "\n"
-           "@EXAMPLES=\n"
-           "PDFEXP(0.4,1).\n"
-           "\n"
-           "@SEEALSO=RANDEXP")
-};
-
-static Value *
-gnumeric_pdfexp (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float x  = value_get_as_float (argv[0]);
-	gnum_float mu = value_get_as_float (argv[1]);
-
-        return value_new_float (random_exponential_pdf (x, mu));
-}
-
-/***************************************************************************/
-
 static const char *help_randpoisson = {
         N_("@FUNCTION=RANDPOISSON\n"
            "@SYNTAX=RANDPOISSON(lambda)\n"
@@ -391,37 +366,6 @@ gnumeric_randbernoulli (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
         return value_new_float (random_bernoulli (p));
-}
-
-/***************************************************************************/
-
-static const char *help_pdfbernoulli = {
-        N_("@FUNCTION=PDFBERNOULLI\n"
-           "@SYNTAX=PDFBERNOULLI(k,p)\n"
-
-           "@DESCRIPTION="
-           "PDFBERNOULLI returns the probability p(k) of obtaining @k "
-	   "from a Bernoulli distribution with probability parameter @p. "
-           "\n"
-           "If @k != 0 and @k != 1 PDFBERNOULLI returns #NUM! error. "
-           "If @p < 0 or @p > 1 PDFBERNOULLI returns #NUM! error. "
-	   "\n"
-           "@EXAMPLES=\n"
-           "PDFBERNOULLI(0,0.5).\n"
-           "\n"
-           "@SEEALSO=RANDBERBOULLI")
-};
-
-static Value *
-gnumeric_pdfbernoulli (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float k = value_get_as_int (argv[0]);
-	gnum_float p = value_get_as_float (argv[1]);
-
-	if (p < 0 || p > 1 || (k != 0 && k != 1))
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-        return value_new_float (random_bernoulli_pdf (k, p));
 }
 
 /***************************************************************************/
@@ -796,37 +740,6 @@ gnumeric_randgamma (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_pdfgamma = {
-        N_("@FUNCTION=PDFGAMMA\n"
-           "@SYNTAX=PDFGAMMA(x,a,b)\n"
-
-           "@DESCRIPTION="
-           "PDFGAMMA returns the probability density p(x) at @x for "
-	   "Gamma distribution with parameters @a and @b. "
-           "\n"
-           "If @a <= 0 PDFGAMMA returns #NUM! error. "
-	   "\n"
-           "@EXAMPLES=\n"
-           "PDFGAMMA(0.7,0.4,1).\n"
-           "\n"
-           "@SEEALSO=RANDGAMMA")
-};
-
-static Value *
-gnumeric_pdfgamma (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float x = value_get_as_float (argv[0]);
-	gnum_float a = value_get_as_float (argv[1]);
-	gnum_float b = value_get_as_float (argv[2]);
-
-	if (a <= 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-        return value_new_float (random_gamma_pdf (x, a, b));
-}
-
-/***************************************************************************/
-
 static const char *help_randpareto = {
         N_("@FUNCTION=RANDPARETO\n"
            "@SYNTAX=RANDPARETO(a,b)\n"
@@ -946,32 +859,6 @@ gnumeric_randbeta (FunctionEvalInfo *ei, Value **argv)
 	gnum_float b = value_get_as_float (argv[1]);
 
         return value_new_float (random_beta (a, b));
-}
-
-/***************************************************************************/
-
-static const char *help_pdfbeta = {
-        N_("@FUNCTION=PDFBETA\n"
-           "@SYNTAX=PDFBETA(x,a,b)\n"
-
-           "@DESCRIPTION="
-           "PDFBETA returns the probability density p(x) at @x for "
-	   "Beta distribution with parameters @a and @b. "
-           "\n"
-           "@EXAMPLES=\n"
-           "PDFBETA(0.7,0.4,1).\n"
-           "\n"
-           "@SEEALSO=RANDBETA")
-};
-
-static Value *
-gnumeric_pdfbeta (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float x = value_get_as_float (argv[0]);
-	gnum_float a = value_get_as_float (argv[1]);
-	gnum_float b = value_get_as_float (argv[2]);
-
-        return value_new_float (random_beta_pdf (x, a, b));
 }
 
 /***************************************************************************/
@@ -1397,22 +1284,14 @@ gnumeric_randgaussiantail (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 const ModulePluginFunctionInfo random_functions[] = {
-        { "pdfbernoulli", "ff", N_("k,p"),   &help_pdfbernoulli,
-	  gnumeric_pdfbernoulli, NULL, NULL, NULL },
-        { "pdfbeta", "fff", N_("x,a,b"),         &help_pdfbeta,
-	  gnumeric_pdfbeta, NULL, NULL, NULL },
         { "pdfbinom", "fff", N_("k,p,trials"), &help_pdfbinom,
 	  gnumeric_pdfbinom, NULL, NULL, NULL },
         { "pdfcauchy", "ff", N_("x,a"),   &help_pdfcauchy,
 	  gnumeric_pdfcauchy, NULL, NULL, NULL },
-        { "pdfexp", "ff", N_("x,mu"),         &help_pdfexp,
-	  gnumeric_pdfexp, NULL, NULL, NULL },
         { "pdfexppow", "fff", N_("x,a,b"),         &help_pdfexppow,
 	  gnumeric_pdfexppow, NULL, NULL, NULL },
         { "pdffdist", "fff", N_("x,nu1,nu2"),      &help_pdffdist,
 	  gnumeric_pdffdist, NULL, NULL, NULL },
-        { "pdfgamma", "fff", N_("x,a,b"),         &help_pdfgamma,
-	  gnumeric_pdfgamma, NULL, NULL, NULL },
         { "pdflandau", "f", N_("x"), &help_pdflandau,
 	  gnumeric_pdflandau, NULL, NULL, NULL },
         { "pdflaplace", "ff", N_("x,a"), &help_pdflaplace,

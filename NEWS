@@ -9,8 +9,9 @@ Jukka:
 	* New financial functions (integrated from the OpenOffice with
 	  some modifications and clean up):
 	  VDB().
-	* New statistical functions (integrated from the R 1.5.1):
-	  GEOMDIST().
+	* New statistical functions (integrated from the R 1.5.1 and
+	  GSL 1.1.1):
+	  BERNOULLI(), GEOMDIST().
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.6

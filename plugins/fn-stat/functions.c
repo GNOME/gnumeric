@@ -1148,6 +1148,48 @@ gnumeric_expondist (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static const char *help_bernoulli = {
+        N_("@FUNCTION=BERNOULLI\n"
+           "@SYNTAX=BERNOULLI(k,p)\n"
+
+           "@DESCRIPTION="
+           "BERNOULLI returns the probability p(k) of obtaining @k "
+	   "from a Bernoulli distribution with probability parameter @p. "
+           "\n"
+           "If @k != 0 and @k != 1 BERNOULLI returns #NUM! error. "
+           "If @p < 0 or @p > 1 BERNOULLI returns #NUM! error. "
+	   "\n"
+           "@EXAMPLES=\n"
+           "BERNOULLI(0,0.5).\n"
+           "\n"
+           "@SEEALSO=RANDBERBOULLI")
+};
+
+static gnum_float
+random_bernoulli_pdf (int k, gnum_float p)
+{
+        if (k == 0)
+	        return 1 - p;
+	else if (k == 1)
+	        return p;
+	else
+	        return 0;
+}
+
+static Value *
+gnumeric_bernoulli (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float k = value_get_as_int (argv[0]);
+	gnum_float p = value_get_as_float (argv[1]);
+
+	if (p < 0 || p > 1 || (k != 0 && k != 1))
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        return value_new_float (random_bernoulli_pdf (k, p));
+}
+
+/***************************************************************************/
+
 static const char *help_gammaln = {
 	N_("@FUNCTION=GAMMALN\n"
 	   "@SYNTAX=GAMMALN(x)\n"
@@ -4735,6 +4777,8 @@ const ModulePluginFunctionInfo stat_functions[] = {
 	  &help_average, NULL, gnumeric_average, NULL, NULL },
 	{ "averagea",     0,      N_("number,number,"),
 	  &help_averagea, NULL, gnumeric_averagea, NULL, NULL },
+        { "bernoulli", "ff", N_("k,p"),   &help_bernoulli,
+	  gnumeric_bernoulli, NULL, NULL, NULL },
 	{ "betadist",     "fff|ff", N_("x,alpha,beta,a,b"),
 	  &help_betadist, gnumeric_betadist, NULL, NULL, NULL },
 	{ "betainv",      "fff|ff", N_("p,alpha,beta,a,b"),

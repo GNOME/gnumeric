@@ -1,11 +1,6 @@
 #ifndef __GSL_PDF_H__
 #define __GSL_PDF_H__
 
-gnum_float random_beta_pdf              (gnum_float x, gnum_float a,
-				         gnum_float b);
-gnum_float random_exponential_pdf       (gnum_float x, gnum_float mu);
-gnum_float random_gamma_pdf             (gnum_float x, gnum_float a,
-				         gnum_float b);
 gnum_float random_bernoulli_pdf         (int k, gnum_float p);
 gnum_float random_binomial_pdf          (int k, gnum_float p, int n);
 gnum_float random_cauchy_pdf            (gnum_float x, gnum_float a);
