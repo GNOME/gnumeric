@@ -237,14 +237,16 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			} else
 				pixels = item_bar->resize_width;
 
-			total += pixels;
-			if (total >= 0) {
-				char const * const str = get_row_name (element);
-				bar_draw_cell (item_bar, drawable,
-					       sheet_row_selection_type (sheet, element),
-					       str,
-					       -x, 1 + total - pixels,
-					       real_width, pixels);
+			if (pixels > 0) {
+				total += pixels;
+				if (total >= 0) {
+					char const * const str = get_row_name (element);
+					bar_draw_cell (item_bar, drawable,
+						       sheet_row_selection_type (sheet, element),
+						       str,
+						       -x, 1 + total - pixels,
+						       real_width, pixels);
+				}
 			}
 			++element;
 		} while (total < height);
@@ -267,13 +269,15 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			} else
 				pixels = item_bar->resize_width;
 
-			total += pixels;
-			if (total >= 0)
-				bar_draw_cell (item_bar, drawable,
-					       sheet_col_selection_type (sheet, element),
-					       col_name (element),
-					       1 + total - pixels, -y,
-					       pixels, real_height);
+			if (pixels > 0) {
+				total += pixels;
+				if (total >= 0)
+					bar_draw_cell (item_bar, drawable,
+						       sheet_col_selection_type (sheet, element),
+						       col_name (element),
+						       1 + total - pixels, -y,
+						       pixels, real_height);
+			}
 
 			++element;
 		} while (total < width);
@@ -299,7 +303,7 @@ is_pointer_on_division (ItemBar *item_bar, int pos, int *the_total, int *the_ele
 {
 	ColRowInfo *cri;
 	Sheet *sheet;
-	int i, total;
+	int i, total, tmp;
 
 	total = 0;
 	sheet = item_bar->sheet_view->sheet;
@@ -315,17 +319,20 @@ is_pointer_on_division (ItemBar *item_bar, int pos, int *the_total, int *the_ele
 			cri = sheet_col_get_info (sheet, i);
 		}
 
-		total += cri->pixels;
-		if ((total - 4 < pos) && (pos < total + 4)){
-			if (the_total)
-				*the_total = total;
-			if (the_element)
-				*the_element = i;
+		tmp = cri->pixels;
+		if (tmp > 0) {
+			total += tmp;
+			if ((total - 4 < pos) && (pos < total + 4)) {
+				if (the_total)
+					*the_total = total;
+				if (the_element)
+					*the_element = i;
 
-			return cri;
+				return cri;
+			}
 		}
 
-		if (total > pos){
+		if (total > pos) {
 			if (the_element)
 				*the_element = i;
 			return NULL;
@@ -404,7 +411,7 @@ get_col_from_pos (ItemBar *item_bar, int pos)
 {
 	ColRowInfo *cri;
 	Sheet *sheet;
-	int i, total;
+	int i, total, tmp;
 
 	total = 0;
 	sheet = item_bar->sheet_view->sheet;
@@ -419,9 +426,12 @@ get_col_from_pos (ItemBar *item_bar, int pos)
 			cri = sheet_col_get_info (sheet, i);
 		}
 
-		total += cri->pixels;
-		if (total > pos)
-			return i;
+		tmp = cri->pixels;
+		if (tmp > 0) {
+			total += tmp;
+			if (total > pos)
+				return i;
+		}
 	}
 	return i;
 }

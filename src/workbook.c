@@ -1180,6 +1180,12 @@ static GnomeUIInfo workbook_menu_format_column [] = {
 	  NULL, workbook_cmd_format_column_auto_fit },
 	{ GNOME_APP_UI_ITEM, N_("_Width"),
 	  NULL, workbook_cmd_format_column_width },
+	{ GNOME_APP_UI_ITEM, N_("_Hide"),
+	  NULL, workbook_cmd_format_column_hide },
+	{ GNOME_APP_UI_ITEM, N_("_Unhide"),
+	  NULL, workbook_cmd_format_column_unhide },
+	{ GNOME_APP_UI_ITEM, N_("_Standard Width"),
+	  NULL, workbook_cmd_format_column_std_width },
 	GNOMEUIINFO_END
 };
 
@@ -1188,6 +1194,12 @@ static GnomeUIInfo workbook_menu_format_row [] = {
 	  NULL,  workbook_cmd_format_row_auto_fit },
 	{ GNOME_APP_UI_ITEM, N_("_Height"),
 	  NULL, workbook_cmd_format_row_height },
+	{ GNOME_APP_UI_ITEM, N_("_Hide"),
+	  NULL, workbook_cmd_format_row_hide },
+	{ GNOME_APP_UI_ITEM, N_("_Unhide"),
+	  NULL, workbook_cmd_format_row_unhide },
+	{ GNOME_APP_UI_ITEM, N_("_Standard Height"),
+	  NULL, workbook_cmd_format_row_std_height },
 	GNOMEUIINFO_END
 };
 

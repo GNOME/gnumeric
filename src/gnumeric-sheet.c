@@ -1078,25 +1078,25 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 	width = GTK_WIDGET (canvas)->allocation.width;
 
 	do {
-		ColRowInfo *ci;
-		int cb;
+		ColRowInfo const * const ci = sheet_col_get_info (gsheet->sheet_view->sheet, col);
+		int const tmp = ci->pixels;
+		if (tmp > 0) {
+			int const cb = pixels + ci->pixels;
 
-		ci = sheet_col_get_info (gsheet->sheet_view->sheet, col);
-		cb = pixels + ci->pixels;
-
-		if (cb == width){
-			gsheet->last_visible_col = col;
-			gsheet->last_full_col = col;
-			break;
-		} if (cb > width){
-			gsheet->last_visible_col = col;
-			if (col == gsheet->left_col)
-				gsheet->last_full_col = gsheet->left_col;
-			else
-				gsheet->last_full_col = col - 1;
-			break;
+			if (cb == width){
+				gsheet->last_visible_col = col;
+				gsheet->last_full_col = col;
+				break;
+			} if (cb > width){
+				gsheet->last_visible_col = col;
+				if (col == gsheet->left_col)
+					gsheet->last_full_col = gsheet->left_col;
+				else
+					gsheet->last_full_col = col - 1;
+				break;
+			}
+			pixels = cb;
 		}
-		pixels = cb;
 		++col;
 	} while (pixels < width && col < SHEET_MAX_COLS);
 
@@ -1110,25 +1110,25 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 	row = gsheet->top_row;
 	height = GTK_WIDGET (canvas)->allocation.height;
 	do {
-		ColRowInfo *ri;
-		int cb;
+		ColRowInfo const * const ri = sheet_row_get_info (gsheet->sheet_view->sheet, row);
+		int const tmp = ri->pixels;
+		if (tmp > 0) {
+			int const cb = pixels + ri->pixels;
 
-		ri = sheet_row_get_info (gsheet->sheet_view->sheet, row);
-		cb = pixels + ri->pixels;
-
-		if (cb == height){
-			gsheet->last_visible_row = row;
-			gsheet->last_full_row = row;
-			break;
-		} if (cb > height){
-			gsheet->last_visible_row = row;
-			if (row == gsheet->top_row)
-				gsheet->last_full_row = gsheet->top_row;
-			else
-				gsheet->last_full_row = row - 1;
-			break;
+			if (cb == height){
+				gsheet->last_visible_row = row;
+				gsheet->last_full_row = row;
+				break;
+			} if (cb > height){
+				gsheet->last_visible_row = row;
+				if (row == gsheet->top_row)
+					gsheet->last_full_row = gsheet->top_row;
+				else
+					gsheet->last_full_row = row - 1;
+				break;
+			}
+			pixels = cb;
 		}
-		pixels = cb;
 		row++;
 	} while (pixels < height && row < SHEET_MAX_ROWS);
 
@@ -1241,17 +1241,18 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 	if (col < gsheet->left_col){
 		new_left_col = col;
 	} else if (col > gsheet->last_full_col){
-		ColRowInfo *ci;
 		int width = GTK_WIDGET (canvas)->allocation.width;
 		int allocated = 0;
 		int first_col;
 
 		for (first_col = col; first_col > 0; first_col--){
-			ci = sheet_col_get_info (sheet, first_col);
-
-			if (allocated + ci->pixels > width)
-				break;
-			allocated += ci->pixels;
+			ColRowInfo const * const ci = sheet_col_get_info (sheet, first_col);
+			int const tmp = ci->pixels;
+			if (tmp > 0) {
+				if (allocated + ci->pixels > width)
+					break;
+				allocated += ci->pixels;
+			}
 		}
 		new_left_col = first_col+1;
 	} else
@@ -1261,17 +1262,18 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 	if (row < gsheet->top_row){
 		new_top_row = row;
 	} else if (row > gsheet->last_full_row){
-		ColRowInfo *ri;
 		int height = GTK_WIDGET (canvas)->allocation.height;
 		int allocated = 0;
 		int first_row;
 
 		for (first_row = row; first_row > 0; first_row--){
-			ri = sheet_row_get_info (sheet, first_row);
-
-			if (allocated + ri->pixels > height)
-				break;
-			allocated += ri->pixels;
+			ColRowInfo const * const ri = sheet_row_get_info (sheet, first_row);
+			int const tmp = ri->pixels;
+			if (tmp > 0) {
+				if (allocated + ri->pixels > height)
+					break;
+				allocated += ri->pixels;
+			}
 		}
 		new_top_row = first_row+1;
 	} else

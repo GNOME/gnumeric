@@ -41,6 +41,9 @@ int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
 
 gboolean    selection_contains_colrow         (Sheet *sheet, int colrow, gboolean is_col);
 
+void        selection_row_col_visible         (Sheet *sheet, gboolean const is_col,
+					       gboolean const is_visible);
+
 /* User visible actions */
 void        sheet_selection_ant               (Sheet *sheet);
 void        sheet_selection_unant             (Sheet *sheet);

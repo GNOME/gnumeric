@@ -1,3 +1,51 @@
+2000-01-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_write_colrow_info) : Save whether or not a row/col
+	  is hidden.
+	(xml_read_colrow_info) : Restore the hidden-ness.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_compute_visible_ranges) :
+	  Col/Row pixel width < 0 indicates the row is hidden.
+	(gnumeric_sheet_make_cell_visible) : Ditto.
+	(colrow_set_units) : Ditto.
+	(sheet_{row,col}_info_set_{height,width}) : Ditto.
+	(sheet_{row,col}_set_internal_{height,width}) : Ditto.
+	(sheet_{row,col}_get_distance) : Ditto.
+	(sheet_{row,col}_get_unit_distance) : Ditto.
+	(sheet_{row,col}_is_hidden) : Utility routines.
+	(sheet_find_boundary_{vertical,horizontal}) : Skip hidden rows/cols.
+	(sheet_row_col_visible) : Mark a contiguous set of rows/cols as
+	  visible or hidden.
+
+	* src/sheet.c (sheet_compute_col_row_new_size) : Ditto.
+
+	* src/item-bar.c (item_bar_draw) : Ditto.
+	(is_pointer_on_division) : Ditto.
+	(get_col_from_pos) : Ditto.
+
+	* src/item-grid.c (item_grid_find_{col,row}) : Ditto.
+	(item_grid_draw) : Skip cells in hidden rows cols.
+	(item_grid_paint_empty_cell) : Ditto, just in case.
+	(item_grid_draw_cell) : Ditto.
+	(context_{col,row}_{hide,unhide}) : New functions.
+	(item_grid_context_menu) : Add new menu items.
+
+	* src/selection.c (selection_row_col_visible) : New function.
+	cb_row_col_visibility : Utility function.
+
+	* src/workbook-cmd-format.c
+	(workbook_cmd_format_{column,row}_{hide,unhide}) : New functions.
+	(workbook_cmd_format_column_std_width) : Stub.
+	(workbook_cmd_format_row_std_height) : Stub.
+
+	* src/workbook.c : Add hide/unhide to the row/col format menus.
+
+2000-01-18  Jody Goldberg <jgoldberg@home.com>
+
+	* configure.in : Add test for gnome-xml >= 1.8.5. This is
+	  required to support the problems with versions 1.8.[234].
+	* gnumeric.spec.in : Ditto.
+
 2000-01-18  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-stat.c (stat_functions_init): Add auto-format

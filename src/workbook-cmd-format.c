@@ -202,4 +202,43 @@ workbook_cmd_format_sheet_change_name (GtkWidget *widget, Workbook *wb)
 	g_free (new_name);
 }
 
+void
+workbook_cmd_format_column_hide (GtkWidget *widget, Workbook *wb)
+{
+	selection_row_col_visible (workbook_get_current_sheet (wb),
+				   TRUE, FALSE);
+}
+
+void
+workbook_cmd_format_column_unhide (GtkWidget *widget, Workbook *wb)
+{
+	selection_row_col_visible (workbook_get_current_sheet (wb),
+				   TRUE, TRUE);
+}
+
+void
+workbook_cmd_format_column_std_width (GtkWidget *widget, Workbook *wb)
+{
+	/* TODO */
+}
+
+void
+workbook_cmd_format_row_hide (GtkWidget *widget, Workbook *wb)
+{
+	selection_row_col_visible (workbook_get_current_sheet (wb),
+				   FALSE, FALSE);
+}
+
+void
+workbook_cmd_format_row_unhide (GtkWidget *widget, Workbook *wb)
+{
+	selection_row_col_visible (workbook_get_current_sheet (wb),
+				   FALSE, TRUE);
+}
+
+void
+workbook_cmd_format_row_std_height (GtkWidget *widget, Workbook *wb)
+{
+	/* TODO */
+}
 

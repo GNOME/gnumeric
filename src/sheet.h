@@ -280,6 +280,10 @@ void        sheet_row_set_selection       (Sheet *sheet,
 					   ColRowInfo *ri, int value);
 void        sheet_set_selection           (Sheet *sheet, SheetSelection const *ss);
 
+void	    sheet_row_col_visible         (Sheet *sheet, gboolean const is_col,
+					   gboolean const visible,
+					   int index, int count);
+
 /* sheet-style.c */
 MStyle        *sheet_style_compute              (Sheet const *sheet,
 						 int col, int row);

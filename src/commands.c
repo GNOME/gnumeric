@@ -1255,4 +1255,5 @@ cmd_resize_row_col (CommandContext *context, gboolean is_col,
  * - Autofill
  * - Array formula creation.
  * - Sorting (jpr is working on this ?)
+ * - Row/Col hide/unhide
  */

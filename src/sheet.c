@@ -291,9 +291,12 @@ sheet_foreach_colrow (Sheet *sheet, ColRowCollection *infos,
 static gboolean
 sheet_compute_col_row_new_size (Sheet *sheet, ColRowInfo *ci, void *data)
 {
-	double pix_per_unit = sheet->last_zoom_factor_used;
+	double const pix_per_unit = sheet->last_zoom_factor_used;
+	gboolean const hidden = (ci->pixels < 0);
 
 	ci->pixels = (ci->units + ci->margin_a_pt + ci->margin_b_pt) * pix_per_unit;
+	if (hidden)
+		ci->pixels *= -1;
 
 	/*
 	 * Ensure that there is at least 1 pixel around every cell so that we
@@ -496,9 +499,10 @@ static void
 colrow_set_units (Sheet *sheet, ColRowInfo *info)
 {
 	double const pix = sheet->last_zoom_factor_used;
+	int p = info->pixels;
+	if (p < 0) p = -p;
 
-	info->units = (info->pixels -
-		       (info->margin_a + info->margin_b - 1)) / pix;
+	info->units = (p - (info->margin_a + info->margin_b - 1)) / pix;
 }
 
 static void
@@ -669,7 +673,7 @@ sheet_row_info_set_height (Sheet *sheet, ColRowInfo *ri, int height, gboolean he
 	if (height_set_by_user)
 		ri->hard_size = TRUE;
 
-	ri->pixels = height;
+	ri->pixels = (ri->pixels >= 0) ? height : -height;
 	colrow_set_units (sheet, ri);
 
 	sheet_compute_visible_ranges (sheet);
@@ -724,6 +728,7 @@ void
 sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, double height)
 {
 	double pix;
+	gboolean hidden;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -734,8 +739,11 @@ sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, double height)
 	if (ri->units == height)
 		return;
 
+	hidden = ri->pixels < 0;
 	ri->units = height;
 	ri->pixels = (ri->units * pix) + (ri->margin_a + ri->margin_b - 1);
+	if (hidden)
+		ri->pixels *= -1;
 
 	sheet_compute_visible_ranges (sheet);
 	sheet_reposition_comments_from_row (sheet, ri->pos);
@@ -755,6 +763,7 @@ void
 sheet_col_set_internal_width (Sheet *sheet, ColRowInfo *ci, double width)
 {
 	double pix;
+	gboolean hidden;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -765,8 +774,11 @@ sheet_col_set_internal_width (Sheet *sheet, ColRowInfo *ci, double width)
 	if (ci->units == width)
 		return;
 
+	hidden = ci->pixels < 0;
 	ci->units = width;
 	ci->pixels = (ci->units * pix) + (ci->margin_a + ci->margin_b - 1);
+	if (hidden)
+		ci->pixels *= -1;
 
 	sheet_compute_visible_ranges (sheet);
 	sheet_reposition_comments_from_col (sheet, ci->pos);
@@ -993,7 +1005,7 @@ sheet_col_info_set_width (Sheet *sheet, ColRowInfo *ci, int width)
 	g_return_if_fail (ci != NULL);
 
 
-	ci->pixels = width;
+	ci->pixels = (ci->pixels >= 0) ? width : -width;
 	colrow_set_units (sheet, ci);
 
 	sheet_compute_visible_ranges (sheet);
@@ -1047,7 +1059,9 @@ sheet_col_get_distance (Sheet const *sheet, int from, int to)
 	/* Do not use sheet_foreach_colrow, it ignores empties */
 	for (i = from ; i < to ; ++i) {
 		ColRowInfo const *ci = sheet_col_get_info (sheet, i);
-		pixels += ci->pixels;
+		int const tmp = ci->pixels;
+		if (tmp > 0)
+			pixels += ci->pixels;
 	}
 
 	return pixels;
@@ -1139,7 +1153,9 @@ sheet_row_get_distance (Sheet const *sheet, int from, int to)
 	/* Do not use sheet_foreach_colrow, it ignores empties */
 	for (i = from ; i < to ; ++i) {
 		ColRowInfo const *ri = sheet_row_get_info (sheet, i);
-		pixels += ri->pixels;
+		int const tmp = ri->pixels;
+		if (tmp > 0)
+			pixels += ri->pixels;
 	}
 
 	return pixels;
@@ -1162,6 +1178,7 @@ sheet_col_get_unit_distance (Sheet const *sheet, int from, int to)
 	/* Do not use sheet_foreach_colrow, it ignores empties */
 	for (i = from ; i < to ; ++i) {
 		ColRowInfo const *ci = sheet_col_get_info (sheet, i);
+		int const tmp = ci->pixels;
 
 		/* I do not know why we subtract 1, but it is required to get
 		 * things to match.
@@ -1169,7 +1186,8 @@ sheet_col_get_unit_distance (Sheet const *sheet, int from, int to)
 		 * We take to floor of the width to get capture the rounding the
 		 * effect of rounding to pixels.
 		 */
-		units += (int)(ci->units + ci->margin_a_pt + ci->margin_b_pt) - 1;
+		if (tmp > 0)
+			units += (int)(ci->units + ci->margin_a_pt + ci->margin_b_pt) - 1;
 	}
 	
 	return units;
@@ -1192,6 +1210,7 @@ sheet_row_get_unit_distance (Sheet const *sheet, int from, int to)
 	/* Do not use sheet_foreach_colrow, it ignores empties */
 	for (i = from ; i < to ; ++i) {
 		ColRowInfo const *ri = sheet_row_get_info (sheet, i);
+		int const tmp = ri->pixels;
 
 		/* I do not know why we subtract 1, but it is required to get
 		 * things to match.
@@ -1199,7 +1218,8 @@ sheet_row_get_unit_distance (Sheet const *sheet, int from, int to)
 		 * We take to floor of the width to get capture the rounding the
 		 * effect of rounding to pixels.
 		 */
-		units += (int)(ri->units + ri->margin_a_pt + ri->margin_b_pt) - 1;
+		if (tmp > 0)
+			units += (int)(ri->units + ri->margin_a_pt + ri->margin_b_pt) - 1;
 	}
 	
 	return units;
@@ -1649,6 +1669,13 @@ sheet_col_check_bound (int col, int diff)
 	return new_val;
 }
 
+static gboolean
+sheet_col_is_hidden (Sheet *sheet, int const col)
+{
+	ColRowInfo const * const res = sheet_col_get (sheet, col);
+	return (res != NULL && res->pixels < 0);
+}
+
 /*
  * sheet_find_boundary_horizontal
  *
@@ -1682,10 +1709,10 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 		keep_looking = FALSE;
 
 		if (new_col < 0)
-			new_col = 0;
-		else if (new_col >= SHEET_MAX_COLS)
-			new_col = SHEET_MAX_COLS-1;
-		else if (jump_to_boundaries) {
+			return 0;
+		if (new_col >= SHEET_MAX_COLS)
+			return SHEET_MAX_COLS-1;
+		if (jump_to_boundaries) {
 			keep_looking = (cell_is_blank (sheet_cell_get (sheet, new_col, row)) == find_first);
 			if (keep_looking)
 				prev_col = new_col;
@@ -1700,9 +1727,16 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 					new_col = prev_col;
 			}
 		}
-	} while (keep_looking);
+	} while (keep_looking || sheet_col_is_hidden (sheet, new_col));
 
 	return new_col;
+}
+
+static gboolean
+sheet_row_is_hidden (Sheet *sheet, int const row)
+{
+	ColRowInfo const * const res = sheet_row_get (sheet, row);
+	return (res != NULL && res->pixels < 0);
 }
 
 /*
@@ -1737,10 +1771,10 @@ sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
 		keep_looking = FALSE;
 
 		if (new_row < 0)
-			new_row = 0;
-		else if (new_row > SHEET_MAX_ROWS-1)
-			new_row = SHEET_MAX_ROWS-1;
-		else if (jump_to_boundaries) {
+			return 0;
+		if (new_row > SHEET_MAX_ROWS-1)
+			return SHEET_MAX_ROWS-1;
+		if (jump_to_boundaries) {
 			keep_looking = (cell_is_blank (sheet_cell_get (sheet, col, new_row)) == find_first);
 			if (keep_looking)
 				prev_row = new_row;
@@ -1755,7 +1789,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
 					new_row = prev_row;
 			}
 		}
-	} while (keep_looking);
+	} while (keep_looking || sheet_row_is_hidden (sheet, new_row));
 
 	return new_row;
 }
@@ -2036,7 +2070,7 @@ sheet_row_get (Sheet const *sheet, int const pos)
 }
 
 /**
- * sheet_row_get:
+ * sheet_row_fetch:
  *
  * Returns an allocated row:  either an existing one, or a fresh copy
  */
@@ -3751,4 +3785,30 @@ sheet_restore_row_col_sizes (Sheet *sheet, gboolean const is_cols,
 	}
 
 	g_free (sizes);
+}
+
+/**
+ * sheet_row_col_visible:
+ * @sheet	: the sheet
+ * @is_col	: Are we dealing with rows or columns.
+ * @visible	: Make things visible or invisible.
+ * @index	: The index of the first row/col.
+ * @count	: The number of rows/cols to change the state.
+ *
+ * Change the visibility of the selected range of contiguous rows/cols.
+ */
+void
+sheet_row_col_visible (Sheet *sheet, gboolean const is_col, gboolean const visible,
+		       int index, int count)
+{
+	g_return_if_fail (sheet != NULL);
+
+	while (--count >= 0) {
+		ColRowInfo * const cri = is_col
+		    ? sheet_col_fetch (sheet, index++)
+		    : sheet_row_fetch (sheet, index++);
+
+		if (visible != (cri->pixels >= 0))
+			cri->pixels *= -1;
+	}
 }

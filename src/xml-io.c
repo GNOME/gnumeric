@@ -1346,6 +1346,7 @@ xml_write_colrow_info (Sheet *sheet, ColRowInfo *info, void *user_data)
 		xml_set_value_double (cur, "MarginA", info->margin_a_pt);
 		xml_set_value_double (cur, "MarginB", info->margin_b);
 		xml_set_value_int (cur, "HardSize", info->hard_size);
+		xml_set_value_int (cur, "Hidden", info->pixels < 0);
 
 		xmlAddChild (closure->container, cur);
 	}
@@ -1387,6 +1388,8 @@ xml_read_colrow_info (parse_xml_context_t *ctxt, xmlNodePtr tree, ColRowInfo *re
 	xml_get_value_double (tree, "MarginB", &ret->margin_b_pt);
 	if (xml_get_value_int (tree, "HardSize", &val))
 		ret->hard_size = val;
+	if (xml_get_value_int (tree, "Hidden", &val) && val)
+		ret->pixels = -1;	/* Any negative will result in things being hidden */
 
 	return ret;
 }

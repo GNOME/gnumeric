@@ -68,6 +68,21 @@ dnl **************************************************
 GNOMEGNORBA_LIBS="$GNOMEGNORBA_LIBS"
 AC_SUBST(GNOMEGNORBA_LIBS)
 
+dnl ******************************
+dnl gnome-xml checking
+dnl ******************************
+AC_MSG_CHECKING(for GnomeXML libraries >= 1.8.5)
+if xml-config --libs print > /dev/null 2>&1; then 
+    vers=`xml-config --version | sed -e "s/libxml //" | awk 'BEGIN { FS = "."; } { print $1 * 1000000 + $2 * 1000 + $3;}'`
+    if test "$vers" -ge 1008005; then
+        AC_MSG_RESULT(found)
+    else
+        AC_MSG_ERROR(You need at least GnomeXML 1.8.5 for this version of Gnumeric)
+    fi
+else
+    AC_MSG_ERROR(Did not find GnomeXML installed)
+fi
+
 
 dnl **************************************************
 dnl * Check for Perl

@@ -1221,3 +1221,49 @@ sheet_selection_height_update (Sheet *sheet)
 	}
 }
 
+struct row_col_visiblity
+{
+	gboolean is_col, visible;
+};
+
+static void
+cb_row_col_visibility (Sheet *sheet,
+		       int start_col, int start_row,
+		       int end_col,   int end_row,
+		       void *closure)
+{
+	struct row_col_visiblity const * dat = closure;
+
+	if (dat->is_col)
+		sheet_row_col_visible (sheet, TRUE, dat->visible,
+				       start_col, end_col-start_col+1);
+	else
+		sheet_row_col_visible (sheet, FALSE, dat->visible,
+				       start_row, end_row-start_row+1);
+}
+
+/*
+ * selection_row_col_visible :
+ * @sheet : The sheet whose selection we are interested in.
+ * @is_col: A flag indicating whether this it is a column or a row.
+ * @is_visible: Should we unhide or hide the cols/rows.
+ *
+ * Searches the selection list and hides/unhides the rows/cols in the
+ * selection.  the entire row/col does not need to be selected.
+ * ie
+ * if A2 is selected the then Col A or row 2 would be hidden.
+ */
+void
+selection_row_col_visible (Sheet *sheet, gboolean const is_col,
+			   gboolean const is_visible)
+{
+	struct row_col_visiblity closure;
+	closure.is_col = is_col;
+	closure.visible = is_visible;
+
+	selection_apply (sheet, &cb_row_col_visibility, FALSE, &closure);
+	sheet_redraw_all (sheet);
+	sheet_redraw_cols (sheet);
+	sheet_redraw_rows (sheet);
+}
+

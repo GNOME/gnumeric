@@ -154,14 +154,18 @@ item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
 
 	do {
 		ColRowInfo *ci = sheet_col_get_info (item_grid->sheet, col);
+		int const tmp = ci->pixels;
 
-		if (x >= pixel && x <= pixel + ci->pixels) {
-			if (col_origin)
-				*col_origin = pixel;
-			return col;
+		if (tmp > 0) {
+			if (x >= pixel && x <= pixel + tmp) {
+				if (col_origin)
+					*col_origin = pixel;
+				return col;
+			}
+			pixel += tmp;
 		}
+
 		col++;
-		pixel += ci->pixels;
 	} while (col < SHEET_MAX_COLS);
 
 	return SHEET_MAX_COLS-1;
@@ -185,14 +189,17 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 
 	do {
 		ColRowInfo *ri = sheet_row_get_info (item_grid->sheet, row);
+		int const tmp = ri->pixels;
 
-		if (y >= pixel && y <= pixel + ri->pixels) {
-			if (row_origin)
-				*row_origin = pixel;
-			return row;
+		if (tmp > 0) {
+			if (y >= pixel && y <= pixel + tmp) {
+				if (row_origin)
+					*row_origin = pixel;
+				return row;
+			}
+			pixel += tmp;
 		}
 		row++;
-		pixel += ri->pixels;
 	} while (row < SHEET_MAX_ROWS);
 	return SHEET_MAX_ROWS-1;
 }
@@ -277,8 +284,12 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 	GdkGC      *gc     = item_grid->gc;
 	GdkColor   *col;
 	int         count  = 1;
-	int         w, h;
 	MStyle     *mstyle;
+	int const w = cell->col->pixels;
+	int const h = cell->row->pixels;
+
+	if (w <= 0 || h <= 0)
+		return 0;
 
 	mstyle = sheet_style_compute (item_grid->sheet, cell->col->pos,
 				      cell->row->pos);
@@ -297,9 +308,6 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 		gdk_gc_set_background (gc, col);
 	} else
 		gdk_gc_set_background (gc, &item_grid->background);
-
-	w = cell->col->pixels;
-	h = cell->row->pixels;
 
 	/* Draw cell contents BEFORE border */
 	if (cell->sheet->display_zero || !cell_is_zero (cell))
@@ -321,6 +329,11 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 {
 	MStyle *mstyle;
 	GdkGC  *gc = item_grid->empty_gc;
+	int const w = ci->pixels;
+	int const h = ri->pixels;
+
+	if (w <= 0 || h <= 0)
+		return;
 
 	mstyle = sheet_style_compute (item_grid->sheet, col, row);
 
@@ -328,9 +341,9 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 		/* Ignore margins. Fill the entire cell (including the right
 		 * hand divider) */
 		gdk_draw_rectangle (drawable, gc, TRUE,
-				    x, y, ci->pixels+1, ri->pixels+1);
+				    x, y, w+1, h+1);
 
-	item_grid_draw_border (drawable, mstyle, x, y, ci->pixels, ri->pixels,
+	item_grid_draw_border (drawable, mstyle, x, y, w, h,
 			       span_count > 1,
 			       span_count > 0);
 
@@ -366,20 +379,24 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	if (sheet->show_grid) {
 		col = paint_col;
 		for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; ++col){
-			ColRowInfo *ci;
+			ColRowInfo const * const ci = sheet_col_get_info (sheet, col);
+			int const tmp = ci->pixels;
 
-			ci = sheet_col_get_info (sheet, col);
-			gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
-			x_paint += ci->pixels;
+			if (tmp > 0) {
+				gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
+				x_paint += ci->pixels;
+			}
 		}
 
 		row = paint_row;
 		for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; ++row){
-			ColRowInfo *ri;
+			ColRowInfo const * const ri = sheet_row_get_info (sheet, row);
+			int const tmp = ri->pixels;
 
-			ri = sheet_row_get_info (sheet, row);
-			gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
-			y_paint += ri->pixels;
+			if (tmp > 0) {
+				gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
+				y_paint += ri->pixels;
+			}
 		}
 	}
 
@@ -388,11 +405,15 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	row = paint_row;
 	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; row++) {
 		ColRowInfo const * const ri = sheet_row_get_info (sheet, row);
+		if (ri->pixels <= 0)
+			continue;
 
 		col = paint_col;
 		for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; ++col) {
 			ColRowInfo const * const ci = sheet_col_get_info (sheet, col);
 			Cell *cell = sheet_cell_get (sheet, col, row);
+			if (ci->pixels <= 0)
+				continue;
 
 			/* If the cell does not exist paint it as an empty cell */
 			if (cell == NULL) {
@@ -427,21 +448,20 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 					 * Either adjust the left part
 					 */
 					for (i = cell->col->pos; i < col; i++) {
-						ColRowInfo *tci;
-
-						tci = sheet_col_get_info (sheet, i);
-						real_x -= tci->pixels;
+						ColRowInfo const * const tci = sheet_col_get_info (sheet, i);
+						int const tmp = tci->pixels;
+						if (tmp > 0)
+							real_x -= tci->pixels;
 					}
 
 					/*
 					 * Or adjust the right part
 					 */
 					for (i = col; i < cell->col->pos; i++) {
-						ColRowInfo *tci;
-
-						tci = sheet_col_get_info (
-							sheet, i);
-						real_x += tci->pixels;
+						ColRowInfo const * const tci = sheet_col_get_info (sheet, i);
+						int const tmp = tci->pixels;
+						if (tmp > 0)
+							real_x += tci->pixels;
 					}
 
 					/*
@@ -459,12 +479,10 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 					end_col = cell->col->pos + count;
 
 					for (i = col+1; i < end_col; i++, col++) {
-						ColRowInfo *tci;
-
-						tci = sheet_col_get_info (
-							sheet, i);
-
-						x_paint += tci->pixels;
+						ColRowInfo const * const tci = sheet_col_get_info (sheet, i);
+						int const tmp = tci->pixels;
+						if (tmp > 0)
+							x_paint += tci->pixels;
 					}
 				} /* if cell */
 			}
@@ -478,25 +496,23 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 
 	row = paint_row;
 	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; row++) {
-		ColRowInfo *ri, *ci;
+		ColRowInfo const * const ri = sheet_row_get_info (sheet, row);
+		if (ri->pixels <= 0)
+			continue;
 
-		ri = sheet_row_get_info (sheet, row);
 		col = paint_col;
-
-		for (x_paint = -diff_x;
-		     x_paint < end_x && col < SHEET_MAX_COLS;
-		     ++col, x_paint += ci->pixels){
-			ci = sheet_col_get_info (sheet, col);
-
-			if (sheet->cursor_col == col && sheet->cursor_row == row)
+		for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; ++col) {
+			ColRowInfo const * const ci = sheet_col_get_info (sheet, col);
+			if (ci->pixels <= 0)
 				continue;
 
-			if (!sheet_selection_is_cell_selected (sheet, col, row))
-				continue;
-
-			gdk_draw_rectangle (drawable, item_grid->gc, TRUE,
-					    x_paint+1, y_paint+1,
-					    ci->pixels-1, ri->pixels-1);
+			if (!(sheet->cursor_col == col && sheet->cursor_row == row) &&
+			    sheet_selection_is_cell_selected (sheet, col, row)) {
+				gdk_draw_rectangle (drawable, item_grid->gc, TRUE,
+						    x_paint+1, y_paint+1,
+						    ci->pixels-1, ri->pixels-1);
+			}
+			x_paint += ci->pixels;
 		}
 		y_paint += ri->pixels;
 	}
@@ -604,6 +620,31 @@ context_row_height (GtkWidget *widget, Sheet *sheet)
 	context_destroy_menu (widget);
 }
 
+static void
+context_col_hide (GtkWidget *widget, Sheet *sheet)
+{
+	selection_row_col_visible (sheet, TRUE, FALSE);
+	context_destroy_menu (widget);
+}
+static void
+context_col_unhide (GtkWidget *widget, Sheet *sheet)
+{
+	selection_row_col_visible (sheet, TRUE, TRUE);
+	context_destroy_menu (widget);
+}
+static void
+context_row_hide (GtkWidget *widget, Sheet *sheet)
+{
+	selection_row_col_visible (sheet, FALSE, FALSE);
+	context_destroy_menu (widget);
+}
+static void
+context_row_unhide (GtkWidget *widget, Sheet *sheet)
+{
+	selection_row_col_visible (sheet, FALSE, TRUE);
+	context_destroy_menu (widget);
+}
+
 typedef enum {
 	IG_ALWAYS,
 	IG_SEPARATOR,
@@ -646,17 +687,17 @@ static struct {
 	{ N_("Column _Width..."),NULL,
 	    &context_column_width, IG_COLUMN },
 	{ N_("_Hide"),		 NULL,
-	    NULL,   IG_COLUMN },
+	    &context_col_hide,   IG_COLUMN },
 	{ N_("_Unhide"),	 NULL,
-	    NULL,   IG_COLUMN },
+	    &context_col_unhide,   IG_COLUMN },
 
 	/* Row specific functions (Note some of the labels are duplicated */
 	{ N_("_Row Height..."),	 NULL,
 	    &context_row_height,   IG_ROW },
 	{ N_("_Hide"),		 NULL,
-	    NULL,   IG_ROW },
+	    &context_row_hide,   IG_ROW },
 	{ N_("_Unhide"),	 NULL,
-	    NULL,   IG_ROW },
+	    &context_row_unhide,   IG_ROW },
 	{ NULL, NULL, NULL, 0 }
 };
 
