@@ -292,6 +292,7 @@ vector_state_fill (VectorState *vs, xmlNode *series)
 	int id;
 
 	g_return_if_fail (!vs->state->updating);
+	g_return_if_fail (series);
 
 	/* clear beforehand to make error handling simpler */
 	vs->series_index =
@@ -549,6 +550,8 @@ graph_guru_select_series (GraphGuruState *s, xmlNode *series)
 {
 	int i;
 	char *name;
+
+	g_return_if_fail (series != NULL);
 
 	if (s->updating)
 		return;

@@ -157,11 +157,11 @@ excel_chart_series_write_xml (ExcelChartSeries *series,
 	for (i = 0 ; i < MS_VECTOR_PURPOSE_MAX; i++ )
 		if (series->vector [i].remote_ID >= 0) {
 #ifdef ENABLE_BONOBO
-			xmlNode * v;
-			v = gnm_graph_series_add_dimension (series->xml,
+			xmlNode *v = gnm_graph_series_add_dimension (series->xml,
 				ms_vector_purpose_type_name [i]);
-			e_xml_set_integer_prop_by_name (v, "ID",
-				series->vector [i].remote_ID);
+			if (v != NULL)
+				e_xml_set_integer_prop_by_name (v, "ID",
+					series->vector [i].remote_ID);
 #endif
 		}
 }

@@ -1,3 +1,8 @@
+2002-01-04  Jody Goldberg <jody@gnome.org>
+
+	* dialog-graph-guru.c (vector_state_fill) : more protection for
+	  missing series.
+
 2002-01-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (anova_two_factor_tool_ok_clicked_cb) :

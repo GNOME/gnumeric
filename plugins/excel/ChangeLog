@@ -1,3 +1,8 @@
+2002-01-04  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (excel_chart_series_write_xml) : more protection for
+	  missing series.
+
 2001-12-31  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.0
