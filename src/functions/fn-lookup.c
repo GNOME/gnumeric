@@ -147,7 +147,7 @@ gnumeric_choose (FunctionEvalInfo *ei, GList *l)
 	if (argc < 1 || !l->data)
 		return function_error (ei, _("#ARG!"));
 
-	v = (Value *)eval_expr (ei, l->data);
+	v = eval_expr (ei, l->data);
 	if (!v)
 		return NULL;
 
@@ -519,7 +519,7 @@ gnumeric_column (FunctionEvalInfo *ei, GList *nodes)
 	if (!nodes || !nodes->data)
 		return value_new_int (ei->pos.eval_col+1);
 
-	v = (Value *)eval_expr (ei, nodes->data);
+	v = eval_expr (ei, nodes->data);
 	if (!v)
 		return NULL;
 
@@ -623,7 +623,7 @@ gnumeric_row (FunctionEvalInfo *ei, GList *nodes)
 	if (!nodes || !nodes->data)
 		return value_new_int (ei->pos.eval_row+1);
 
-	v = (Value *)eval_expr (ei, nodes->data);
+	v = eval_expr (ei, nodes->data);
 	if (!v)
 		return NULL;
 

@@ -510,8 +510,8 @@ gnumeric_correl (FunctionEvalInfo *ei, GList *expr_node_list)
 	if (tmp == 0)
 	        return value_new_float (0);
 	else
-	        return value_new_float ((sum - (pr.sum1*pr.sum2/pr.count) /
-						  sqrt(tmp)));
+	        return value_new_float ((sum - (pr.sum1*pr.sum2/pr.count)) /
+						  sqrt(tmp));
 }
 
 static char *help_negbinomdist = {
@@ -909,14 +909,14 @@ gnumeric_average (FunctionEvalInfo *ei, GList *expr_node_list)
 	Value *vtmp;
 	float_t sum, count;
 
-	vtmp = (Value *)gnumeric_sum (ei, expr_node_list);
+	vtmp = gnumeric_sum (ei, expr_node_list);
 			     
 	if (!vtmp)
 		return NULL;
 	sum = value_get_as_float (vtmp);
 	value_release (vtmp);
 
-	vtmp = (Value *)gnumeric_count (ei, expr_node_list);
+	vtmp = gnumeric_count (ei, expr_node_list);
 			       
 	if (!vtmp)
 		return NULL;
@@ -1547,13 +1547,13 @@ static char *help_binomdist = {
 	   "@n is the number of successes, @trials is the total number of "
            "independent trials, @p is the probability of success in trials, "
            "and @cumulative describes whether to return the sum of the"
-           "binomial function from 0 to n."
+           "binomial function from 0 to @n."
 	   "\n"
 	   "Performing this function on a string or empty cell returns an error."
-	   "if n or trials is a non-integer it is truncated. "
-	   "if n < 0 or trials < 0 BINOMDIST returns #NUM! error. "
-	   "if n > trials BINOMDIST returns #NUM! error. "
-	   "if p < 0 or p > 1 BINOMDIST returns #NUM! error."
+	   "if @n or @trials are non-integer they are truncated. "
+	   "if @n < 0 or @trials < 0 BINOMDIST returns #NUM! error. "
+	   "if @n > trials BINOMDIST returns #NUM! error. "
+	   "if @p < 0 or @p > 1 BINOMDIST returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=POISSON")
 };
@@ -1561,33 +1561,28 @@ static char *help_binomdist = {
 static Value *
 gnumeric_binomdist (FunctionEvalInfo *ei, Value **argv)
 {
-	int n, trials;
+	int n, trials, cuml, err;
 	float_t p;
-	int cuml, err, x;
-
-	if (!VALUE_IS_NUMBER(argv[0]) ||
-	    !VALUE_IS_NUMBER(argv[1]) ||
-	    !VALUE_IS_NUMBER(argv[2]))
-		return function_error (ei, gnumeric_err_VALUE);
 
 	n = value_get_as_int (argv [0]);
 	trials = value_get_as_int (argv [1]);
 	p = value_get_as_float (argv[2]);
-
-	if (n<0 || trials<0 || p<0 || p>1 || n>trials)
-		return function_error (ei, gnumeric_err_NUM);
-
 	cuml = value_get_as_bool (argv[3], &err);
+
+	if (n<0 || trials<0 || p<0 || p>1 || n>trials || err)
+		return function_error (ei, gnumeric_err_NUM);
 
 	if (cuml){
 		float_t v=0;
+		int x;
+
 		for (x=0; x<=n; x++)
 		        v += (combin(trials, x) * pow(p, x) *
 				    pow(1-p, trials-x));
 		return value_new_float (v);
 	} else
-		return value_new_float (combin(trials, n) * pow(p, n *
-						  pow(1-p, trials-n)));
+		return value_new_float (combin(trials, n) * pow(p, n) *
+						  pow(1-p, trials-n));
 }
 
 static char *help_critbinom = {
@@ -1938,14 +1933,14 @@ gnumeric_kurt (FunctionEvalInfo *ei, GList *expr_node_list)
 	pr.num  = 0;
 	pr.sum  = 0.0;
 
-	vtmp = (Value *)gnumeric_average (ei, expr_node_list);
+	vtmp = gnumeric_average (ei, expr_node_list);
 
 	if (!vtmp)
 		return NULL;
 	pr.mean = value_get_as_float (vtmp);
 	value_release (vtmp);
 
-	vtmp = (Value *)gnumeric_stdev (ei, expr_node_list);
+	vtmp = gnumeric_stdev (ei, expr_node_list);
 			       
 	if (!vtmp)
 		return NULL;
@@ -2070,16 +2065,15 @@ static char *help_poisson = {
 static Value *
 gnumeric_poisson (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t x, mean;
-	int cuml, err;
+	float_t mean;
+	int x, cuml, err;
 
 	x = value_get_as_int (argv [0]);
 	mean = value_get_as_float (argv [1]);
-
-	if (x<=0  || mean <=0)
-		return function_error (ei, gnumeric_err_NUM);
-
 	cuml = value_get_as_bool (argv[2], &err);
+
+	if (x<=0 || mean <=0 || err)
+		return function_error (ei, gnumeric_err_NUM);
 
 	if (cuml) {
 	        int k;
@@ -2090,8 +2084,8 @@ gnumeric_poisson (FunctionEvalInfo *ei, Value **argv)
 
 		return value_new_float (sum);
 	} else
-		return value_new_float (exp(-mean)*pow(mean,x /
-						  exp (lgamma (x + 1))));
+		return value_new_float (exp(-mean)*pow(mean,x) /
+						  exp (lgamma (x + 1)));
 }
 
 static char *help_pearson = {
@@ -2116,7 +2110,7 @@ gnumeric_pearson (FunctionEvalInfo *ei, GList *expr_node_list)
 	GSList  *list1, *list2;
 	Value *vtmp;
 
-	vtmp = (Value *)gnumeric_count (ei, expr_node_list);
+	vtmp = gnumeric_count (ei, expr_node_list);
 			       
 	if (!vtmp)
 		return NULL;

@@ -164,7 +164,7 @@ gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 		return function_error (ei, _("Invalid number of arguments"));
 
 	/* Compute the if part */
-	value = (Value *)eval_expr (ei, (ExprTree *) expr_node_list->data);
+	value = eval_expr (ei, (ExprTree *) expr_node_list->data);
 	if (value == NULL)
 		return NULL;
 

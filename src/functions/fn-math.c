@@ -2372,7 +2372,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 	if (tree == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
-	val = (Value *)eval_expr (ei, tree);
+	val = eval_expr (ei, tree);
 	if (!val) return NULL;
 	if (! VALUE_IS_NUMBER(val))
 		return function_error (ei, gnumeric_err_VALUE);
@@ -2386,7 +2386,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 	if (tree == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
-	val = (Value *)eval_expr (ei, tree);
+	val = eval_expr (ei, tree);
 	if (!val) return NULL;
 	if (! VALUE_IS_NUMBER(val)) {
 		value_release (val);
@@ -2402,7 +2402,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 	if (tree == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
-	val = (Value *)eval_expr (ei, tree);
+	val = eval_expr (ei, tree);
 	if (!val) return NULL;
 	if (! VALUE_IS_NUMBER(val)) {
 		value_release (val);

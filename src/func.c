@@ -155,6 +155,7 @@ function_iterate_argument_values (const EvalPosition      *fp,
 		Value *val;
 
 		func_eval_info_pos (&fs, fp);
+		error_message_free (fs.error);
 		fs.error = error;
 		val = eval_expr (&fs, tree);
 
@@ -165,7 +166,7 @@ function_iterate_argument_values (const EvalPosition      *fp,
 			value_release (val);
 		} else if (strict) {
 			/* A strict function -- just short circuit.  */
-			return FALSE;
+			result = FALSE;
 		} else {
 			/* A non-strict function -- call the handler.  */
 			result = (*callback) (fp, val, error, callback_closure);

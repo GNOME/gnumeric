@@ -13,7 +13,7 @@
 #include "color.h"
 #include "gnumeric-util.h"
 
-#define DEBUG_FONTS
+#undef DEBUG_FONTS
 
 #define DEFAULT_FONT "-adobe-helvetica-medium-r-normal--*-*-*-*-*-*-iso8859-*"
 #define DEFAULT_FONT_SIZE 12

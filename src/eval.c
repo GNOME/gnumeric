@@ -36,7 +36,7 @@ cell_eval (Cell *cell)
 	}
 #endif
 
-	v = (Value *)eval_expr (func_eval_info_cell (&s, cell), cell->parsed_node);
+	v = eval_expr (func_eval_info_cell (&s, cell), cell->parsed_node);
 
 #ifdef DEBUG_EVALUATION
 	{
@@ -64,6 +64,8 @@ cell_eval (Cell *cell)
 		cell_render_value (cell);
 		cell->flags &= ~CELL_ERROR;
 	}
+
+	error_message_free (s.error);
 
 	cell_calc_dimensions (cell);
 

@@ -923,8 +923,6 @@ eval_funcall (FunctionEvalInfo *s, ExprTree *tree)
 	eval_col = s->pos.eval_col;
 	eval_row = s->pos.eval_row;
 
-	s->func_def = fd;
-
 	l = tree->u.function.arg_list;
 	argc = g_list_length (l);
 
@@ -932,6 +930,7 @@ eval_funcall (FunctionEvalInfo *s, ExprTree *tree)
 		return function_error (s, _("Internal error"));
 
 	fd = (FunctionDefinition *)sym->data;
+	s->func_def = fd;
 
 	if (fd->fn_type == FUNCTION_NODES) {
 		/* Functions that deal with ExprNodes */		
@@ -972,7 +971,7 @@ eval_funcall (FunctionEvalInfo *s, ExprTree *tree)
 			if ((*arg_type != 'A' &&          /* This is so a cell reference */
 			     *arg_type != 'r') ||         /* can be converted to a cell range */
 			    !t || (t->oper != OPER_VAR)) { /* without being evaluated */
-				if ((v = (Value *)eval_expr (s, t)) == NULL)
+				if ((v = eval_expr (s, t)) == NULL)
 					goto free_list;
 			} else {
 				g_assert (t->oper == OPER_VAR);
@@ -986,7 +985,7 @@ eval_funcall (FunctionEvalInfo *s, ExprTree *tree)
 
 			switch (*arg_type){
 			case 'f':
-
+			case 'b':
 				if (v->type != VALUE_INTEGER &&
 				    v->type != VALUE_FLOAT)
 					type_mismatch = 1;
@@ -1224,11 +1223,11 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 	case OPER_LTE: {
 		int comp;
 
-		a = (Value *)eval_expr (s, tree->u.binary.value_a);
+		a = eval_expr (s, tree->u.binary.value_a);
 		if (!a)
 			return NULL;
 
-		b = (Value *)eval_expr (s, tree->u.binary.value_b);
+		b = eval_expr (s, tree->u.binary.value_b);
 		if (!b) {
 			value_release (a);
 			return NULL;
@@ -1273,7 +1272,7 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 			error_message_set (s->error, _("Internal type error"));
 			res = NULL;
 		}
-		return (Value *)res;
+		return res;
 	}
 
 	case OPER_ADD:
@@ -1281,12 +1280,12 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 	case OPER_MULT:
 	case OPER_DIV:
 	case OPER_EXP:
-		a = (Value *)eval_expr (s, tree->u.binary.value_a);
+		a = eval_expr (s, tree->u.binary.value_a);
 
 		if (!a)
 			return NULL;
 
-		b = (Value *)eval_expr (s, tree->u.binary.value_b);
+		b = eval_expr (s, tree->u.binary.value_b);
 
 		if (!b){
 			value_release (a);
@@ -1399,15 +1398,15 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 		}
 		value_release (a);
 		value_release (b);
-		return (Value *)res;
+		return res;
 
 	case OPER_CONCAT: {
 		char *sa, *sb, *tmp;
 
-		a = (Value *)eval_expr (s, tree->u.binary.value_a);
+		a = eval_expr (s, tree->u.binary.value_a);
 		if (!a)
 			return NULL;
-		b = (Value *)eval_expr (s, tree->u.binary.value_b);
+		b = eval_expr (s, tree->u.binary.value_b);
 		if (!b){
 			value_release (a);
 			return NULL;
@@ -1424,7 +1423,7 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 
 		value_release (a);
 		value_release (b);
-		return (Value *)res;
+		return res;
 	}
 
 	case OPER_FUNCALL:
@@ -1456,7 +1455,7 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 			}
 
 			if (cell->value)
-				return (Value *)value_duplicate (cell->value);
+				return value_duplicate (cell->value);
 			else {
 				if (cell->text)
 					error_message_set (s->error, cell->text->str);
@@ -1466,14 +1465,14 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 			}
 		}
 
-		return (Value *)value_new_int (0);
+		return value_new_int (0);
 	}
 
 	case OPER_CONSTANT:
-		return (Value *)value_duplicate (tree->u.constant);
+		return value_duplicate (tree->u.constant);
 
 	case OPER_NEG:
-		a = (Value *)eval_expr (s, tree->u.value);
+		a = eval_expr (s, tree->u.value);
 		if (!a)
 			return NULL;
 		if (!VALUE_IS_NUMBER (a)){
@@ -1486,7 +1485,7 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 		else
 			res = value_new_float (-a->v.v_float);
 		value_release (a);
-		return (Value *)res;
+		return res;
 	}
 
 	error_message_set (s->error, _("Unknown evaluation error"));

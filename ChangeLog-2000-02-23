@@ -1,4 +1,22 @@
-1999-06-24    <michael@edenproject.org>
+1999-06-23  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (gnumeric_poisson): Fix formula and error
+ 	handling.
+	(gnumeric_binomdist): Ditto.
+	(gnumeric_correl): Ditto.
+
+	* src/expr.c (eval_expr): Remove useless casts.
+	(eval_funcall): Treat 'b' as 'f' for now.  Don't use fd until it
+ 	gets a value.
+
+	* src/func.c (function_iterate_argument_values): Don't leak error
+ 	message.
+
+	* src/eval.c (cell_eval): Don't leak error message.
+
+	* src/*.c: Remove strange casts to (Value *).
+
+1999-06-24  Michael Meeks  <michael@edenproject.org>
 
 	* src/expr.c (error_message_new): Fix stupid bug,
 	such that every error was set.
@@ -21,7 +39,6 @@
 	(workbook_do_destroy): Add freeing of auto_expr_text.
 	(workbook_set_auto_expr): Hacked to cache expression until we
 	have a sheet context.
-
 
 	* src/expr.h: Add extra Parser error type for invalid args.
 

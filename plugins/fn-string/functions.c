@@ -293,7 +293,7 @@ gnumeric_concatenate (FunctionEvalInfo *ei, GList *l)
 	s = g_new(gchar, 1);
 	*s = '\0';
 	while ( l != NULL &&
-		(v=(Value *)eval_expr(ei, l->data)) != NULL) {
+		(v=eval_expr(ei, l->data)) != NULL) {
 /*
 		if (v->type != VALUE_STRING) {
 			return function_error (ei, _("Invalid argument"));
@@ -826,7 +826,7 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 	ag[1] = argv [1];
 	ag[2] = NULL;
 
-	v = (Value *)gnumeric_fixed (ei, ag);
+	v = gnumeric_fixed (ei, ag);
 	if (v == NULL)
 		return NULL;
 

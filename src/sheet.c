@@ -686,6 +686,8 @@ sheet_update_auto_expr (Sheet *sheet)
 		value_release (v);
 	} else
 		workbook_auto_expr_label_set (wb, error_message_txt(ei.error));
+
+	error_message_free (ei.error);
 }
 
 static const char *
