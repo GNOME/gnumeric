@@ -69,12 +69,6 @@ struct _ExcelWriteState {
 	} sst;
 };
 
-typedef enum {
-	AS_PER_VER,  /* Biff7: byte length, UTF8, Biff8: word length, unicode */
-	SIXTEEN_BIT, /* word length, Biff7: UTF8, Biff8: unicode */
-	EIGHT_BIT    /* byte length, Biff7: UTF8, Biff8: unicode */
-} PutType;
-
 #define XF_RESERVED 21
 #define XF_MAGIC 0
 #define FONTS_MINIMUM 5
@@ -91,9 +85,20 @@ typedef enum {
 #define FILL_MAGIC FILL_NONE
 #define BORDER_MAGIC STYLE_BORDER_NONE
 
-int biff_convert_text (char **buf, const char *txt, MsBiffVersion ver);
-int biff_put_text (BiffPut *bp, const char *txt, int len,
-		   gboolean write_len, PutType how);
+typedef enum {
+	STR_NO_LENGTH		= 0,
+	STR_ONE_BYTE_LENGTH	= 1,
+	STR_TWO_BYTE_LENGTH	= 2,
+	STR_LENGTH_MASK		= 3,
+	/* biff7 will always be LEN_IN_BYTES,
+	 * biff8 will respect the flag and default to length in characters */
+	STR_LEN_IN_BYTES	= 4,
+	STR_SUPPRESS_HEADER	= 8
+} WriteStringFlags;
+
+unsigned excel_write_string_len (guint8 const *txt, unsigned *bytes);
+unsigned excel_write_string	(BiffPut *bp, guint8 const *txt,
+				 WriteStringFlags flags);
 
 int excel_write_workbook (ExcelWriteState *wb, GsfOutfile *file);
 

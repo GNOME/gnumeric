@@ -157,6 +157,8 @@ GSF_CLASS (PluginService, plugin_service, plugin_service_class_init, plugin_serv
            G_TYPE_OBJECT)
 
 
+/****************************************************************************/
+
 /*
  * PluginServiceGeneral
  */
@@ -244,6 +246,82 @@ GSF_CLASS (PluginServiceGeneral, plugin_service_general,
            plugin_service_general_class_init, plugin_service_general_init,
            GNM_PLUGIN_SERVICE_TYPE)
 
+/****************************************************************************/
+
+/*
+ * PluginServiceCLipboard
+ */
+
+typedef struct{
+	PluginServiceClass plugin_service_class;
+} PluginServiceClipboardClass;
+
+struct _PluginServiceClipboard {
+	PluginService plugin_service;
+	PluginServiceClipboardCallbacks cbs;
+};
+
+static void
+plugin_service_clipboard_init (GObject *obj)
+{
+	PluginServiceClipboard *service_clipboard = GNM_PLUGIN_SERVICE_CLIPBOARD (obj);
+
+	GNM_PLUGIN_SERVICE (obj)->cbs_ptr = &service_clipboard->cbs;
+	service_clipboard->cbs.write_content = NULL;
+	service_clipboard->cbs.read_content = NULL;
+}
+
+static void
+plugin_service_clipboard_activate (PluginService *service, ErrorInfo **ret_error)
+{
+#if 0
+	PluginServiceClipboard *service_clipboard = GNM_PLUGIN_SERVICE_CLIPBOARD (service);
+#endif
+	ErrorInfo *error = NULL;
+
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	plugin_service_load (service, &error);
+	if (error != NULL) {
+		*ret_error = error_info_new_str_with_details (
+		             _("Error while loading plugin service."),
+		             error);
+		return;
+	}
+	service->is_active = TRUE;
+}
+
+static void
+plugin_service_clipboard_deactivate (PluginService *service, ErrorInfo **ret_error)
+{
+#if 0
+	PluginServiceClipboard *service_clipboard = GNM_PLUGIN_SERVICE_CLIPBOARD (service);
+#endif
+
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	service->is_active = FALSE;
+}
+
+static char *
+plugin_service_clipboard_get_description (PluginService *service)
+{
+	return g_strdup (_("Clipboard"));
+}
+
+static void
+plugin_service_clipboard_class_init (GObjectClass *gobject_class)
+{
+	PluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+
+	plugin_service_class->activate		= plugin_service_clipboard_activate;
+	plugin_service_class->deactivate	= plugin_service_clipboard_deactivate;
+	plugin_service_class->get_description	= plugin_service_clipboard_get_description;
+}
+
+GSF_CLASS (PluginServiceClipboard, plugin_service_clipboard,
+           plugin_service_clipboard_class_init, plugin_service_clipboard_init,
+           GNM_PLUGIN_SERVICE_TYPE)
+
+/****************************************************************************/
 
 /*
  * PluginServiceFileOpener
@@ -1415,6 +1493,7 @@ static struct {
 	GType (*get_type_func) (void);
 } service_types[] = {
 	{"general", plugin_service_general_get_type},
+	{"clipboard", plugin_service_clipboard_get_type},
 	{"file_opener", plugin_service_file_opener_get_type},
 	{"file_saver", plugin_service_file_saver_get_type},
 	{"function_group", plugin_service_function_group_get_type},

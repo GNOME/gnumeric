@@ -73,6 +73,13 @@ typedef struct _BiffPut {
 	int		 len_fixed;
 	GsfOutput	*output;
 	MsBiffVersion	 version;
+
+	/* a buffer for generating unicode */
+	char *buf;
+	unsigned buf_len;
+
+	unsigned codepage;
+	GIConv   convert;
 } BiffPut;
 
 /* Sets up a record on a stream */

@@ -1,3 +1,39 @@
+2002-11-10  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-write.c (write_string) : Use excel_write_string.
+	(write_arrays) : Use it here, but this code is suspect.
+
+	* ms-excel-write.c (excel_write_string_len) : new routine to find char
+	  and byte lengths of strings.
+	(current_workbook_iconv) : delete.
+	(biff_convert_text) : delete.
+	(biff_put_text) : delete.
+	(excel_write_string) : new replacement for biff_put_text that does the
+	  conversion and writting inline rather than from a buffer, has
+	  smarter unicode handling and a more useful set of flags.
+	(excel_write_externsheets_v7) : Use it here.
+	(excel_write_externsheets_v8) : Use it here.
+	(excel_write_NAME_v7) : Use it here.
+	(excel_write_BOUNDSHEET) : Use it here.
+	(excel_write_FONT) : Use it here.
+	(excel_write_FORMAT) : Use it here.
+	(excel_write_value) : Use it here.
+	(excel_write_FORMULA) : Use it here.
+	(excel_write_comments_biff7) : Use it here.
+	(excel_write_SST) : Handle the unicode caes.
+	(excel_write_WRITEACCESS) : new to handle biff7 vs biff8
+	(excel_utf8_has_multibyte) : delete.
+	(write_workbook) : Use excel_write_WRITEACCESS and clean up the
+	  codepage handling to conform to
+	  biff7 == single byte vs biff8 == unicode.
+
+	* ms-excel-biff.h (EX_SETSTRLEN) : delete.
+
+	* ms-biff.c (ms_biff_put_new) : Add a buffer and iconv handler to
+	  simplify string handling.  excel95 gets locale specific handler.
+	  excel97 and up goes to utf16-le.
+	(ms_biff_put_destroy) : cleanup.
+
 2002-11-07  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_state_new) : merge biff7 and biff8

@@ -23,7 +23,6 @@
 #define EX_SETROW(p,d)    (GSF_LE_SET_GUINT16(p + 0, d))
 #define EX_SETCOL(p,d)    (GSF_LE_SET_GUINT16(p + 2, d))
 #define EX_SETXF(p,d)     (GSF_LE_SET_GUINT16(p + 4, d))
-#define EX_SETSTRLEN(p,d) (GSF_LE_SET_GUINT16(p + 6, d))
 
 /* Version info types as found in various Biff records */
 typedef enum { MS_BIFF_TYPE_Workbook=0, MS_BIFF_TYPE_VBModule=1, MS_BIFF_TYPE_Worksheet=2,

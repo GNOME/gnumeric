@@ -20,6 +20,7 @@
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-utils.h>
+#include <gsf/gsf-msole-utils.h>
 
 #define BIFF_DEBUG 0
 
@@ -416,6 +417,17 @@ ms_biff_put_new (GsfOutput *output, MsBiffVersion version)
 	bp->output        = output;
 	bp->version       = version;
 
+	bp->buf_len = 2048;	/* maximum size for a biff7 record */
+	bp->buf = g_malloc (bp->buf_len);
+
+	if (version >= MS_BIFF_V8) {
+		bp->convert = g_iconv_open ("UTF16LE", "UTF-8");
+		bp->codepage = 1200;
+	} else {
+		bp->codepage = gsf_msole_iconv_win_codepage ();
+		bp->convert = gsf_msole_iconv_open_codepage_for_export (bp->codepage);
+	}
+
 	return bp;
 }
 
@@ -430,6 +442,13 @@ ms_biff_put_destroy (BiffPut *bp)
 		g_object_unref (G_OBJECT (bp->output));
 		bp->output = NULL;
 	}
+	g_free (bp->buf);
+	bp->buf = NULL;
+	bp->buf_len = 0;
+
+	gsf_iconv_close (bp->convert);
+	bp->convert = NULL;
+
 	g_free (bp);
 }
 

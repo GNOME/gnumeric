@@ -1124,7 +1124,7 @@ excel_read_FORMAT (BiffQuery *q, ExcelWorkbook *ewb)
 	if (ewb->container.ver >= MS_BIFF_V8) {
 		d->idx = GSF_LE_GET_GUINT16 (q->data);
 		d->name = biff_get_text (q->data + 4, GSF_LE_GET_GUINT16 (q->data + 2), NULL);
-	} else if (ewb->container.ver >= MS_BIFF_V7) { /* Total gues */
+	} else if (ewb->container.ver >= MS_BIFF_V7) { /* Total guess */
 		d->idx = GSF_LE_GET_GUINT16 (q->data);
 		d->name = biff_get_text (q->data + 3, GSF_LE_GET_GUINT8 (q->data + 2), NULL);
 	} else if (ewb->container.ver >= MS_BIFF_V4) { /* Sample sheets suggest this */
@@ -5044,7 +5044,6 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		case BIFF_FORMAT:	excel_read_FORMAT (q, ewb);			break;
 
 		case BIFF_BACKUP: 	break;
-#define BIFF_PRECISION			0x0e	/* 0 */
 		case BIFF_CODEPAGE: { /* DUPLICATE 42 */
 			/* This seems to appear within a workbook */
 			/* MW: And on Excel seems to drive the display

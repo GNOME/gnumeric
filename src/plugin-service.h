@@ -29,6 +29,17 @@ typedef struct {
 } PluginServiceGeneralCallbacks;
 
 
+#define GNM_PLUGIN_SERVICE_CLIPBOARD_TYPE  (plugin_service_general_get_type ())
+#define GNM_PLUGIN_SERVICE_CLIPBOARD(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_CLIPBOARD_TYPE, PluginServiceClipboard))
+#define GNM_IS_PLUGIN_SERVICE_CLIPBOARD(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_CLIPBOARD_TYPE))
+
+GType plugin_service_general_get_type (void);
+typedef struct _PluginServiceClipboard PluginServiceClipboard;
+typedef struct {
+	guint8     *(*write_content) (PluginService *service, CellRegion *cr, int *size);
+	CellRegion *(*read_content)  (PluginService *service, ErrorInfo **ret_error);
+} PluginServiceClipboardCallbacks;
+
 #define GNM_PLUGIN_SERVICE_FILE_OPENER_TYPE  (plugin_service_file_opener_get_type ())
 #define GNM_PLUGIN_SERVICE_FILE_OPENER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_FILE_OPENER_TYPE, PluginServiceFileOpener))
 #define GNM_IS_PLUGIN_SERVICE_FILE_OPENER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_FILE_OPENER_TYPE))

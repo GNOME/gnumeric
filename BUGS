@@ -9,10 +9,12 @@ Release Critical
 
 - validate expression names to ensure that they are not simple values (eg TRUE)
 - height calculation in render value is hosed for embedded new lines
+- fix stf export warnings
 
 Pending Patches
 ---------------
     - ?? more work on D&D based sheet reorg ?
+    - XIM menu http://bugzilla.gnome.org/show_bug.cgi?id=84062
 
 1.2 Targets
 -----------
@@ -39,10 +41,11 @@ Pending Patches
     6.1) biff7 externsheet records in charts			(DONE)
     6.2) 97 export						(DONE)
     6.3) Check xl import of unicode names			(DONE)
-    6.4) Form import
-    6.5) Intersection, union and set export
-    6.6) fix name export now that we sorta understand it
-    6.7) non-ole import (Nick Lamb is working on this)		(DONE)
+    6.4) Fix export of unicode for 95 & 97			(DONE)
+    6.5) Form import
+    6.6) Intersection, union and set export
+    6.7) fix name export now that we sorta understand it
+    6.8) non-ole import (Nick Lamb is working on this)		(DONE)
 9) Manual recalc						(DONE)
     9.1) finish calculation ui in workbook attr dialog		(DONE)
 10) fix highlighting of completion code				(DONE)
@@ -61,10 +64,10 @@ Pending Patches
     12.11) dif
     12.12) psion
 
-13) Reinstate auto-format (=FV(1,2,3,4,5) should yield a monetary format).
+13) Reinstate auto-format
     13.1) Add characterization (units) to StyleFormat
 14) merge open and import dialogs
-15) Notice mismatch between suffix and saver (eg .xls for gnumeric file) (DONE)
+15) Notice mismatch between suffix and saver			(DONE)
 16) Decide whether to turn on the poor man's utf8 regexps.
 17) Outline mode
     17.1) markers above/left instead of below/right
@@ -91,6 +94,7 @@ Probably Post 1.2 Targets
 - load/save of external references
 - input message				(Stored)
 - validation from list
+- clipboard handlers in plugins
 
 Misc stuff that should be fixed
 -------------------------------

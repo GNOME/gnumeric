@@ -3,14 +3,15 @@
  *
  * Author:
  *    Michael Meeks (michael@ximian.com)
+ *    Jody Goldberg (jody@gnome.org)
  *
- * (C) 1998, 1999, 2000 Michael Meeks
+ * (C) 1998-2001 Michael Meeks
+ *          2002 Jody Goldberg
  */
 #ifndef GNUMERIC_MS_FORMULA_W_H
 #define GNUMERIC_MS_FORMULA_W_H
 
-#include <glib.h>
-
+#include <gnumeric.h>
 #include "ms-excel-write.h"
 #include "ms-biff.h"
 #include "formula-types.h"

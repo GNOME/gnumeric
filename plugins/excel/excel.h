@@ -43,7 +43,6 @@ extern FormulaFuncData const formula_func_data[];
 #define FORMULA_FUNC_DATA_LEN 368
 
 #define ROW_BLOCK_MAX_LEN 32
-#define WRITEACCESS_LEN  112
 
 typedef gboolean (*MsExcelReadGbFn) (IOContext *context, Workbook *wb, GsfInput *input);
 extern MsExcelReadGbFn ms_excel_read_gb;

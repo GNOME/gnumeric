@@ -93,6 +93,10 @@ excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 		break;
 	}
 
+	case GNM_EXPR_OP_CELLREF:
+	case GNM_EXPR_OP_CONSTANT:
+		break;
+
 	default:
 		break;
 	}
@@ -205,17 +209,8 @@ write_cellref_v8 (PolishData *pd, CellRef const *ref,
 static void
 write_string (PolishData *pd, gchar const *txt)
 {
-	/* FIXME : Check this logic.  Why would we pass a NULL ? */
-	if (txt == NULL)
-		push_guint8 (pd, FORMULA_PTG_MISSARG);
-	else {
-		gint len;
-		char *buf;
-		push_guint8 (pd, FORMULA_PTG_STR);
-		len = biff_convert_text (&buf, txt, pd->ewb->bp->version);
-		biff_put_text (pd->ewb->bp, buf, len, TRUE, AS_PER_VER);
-		g_free(buf);
-	}
+	push_guint8 (pd, FORMULA_PTG_STR);
+	excel_write_string (pd->ewb->bp, txt, STR_ONE_BYTE_LENGTH);
 }
 
 static void
@@ -613,9 +608,6 @@ write_arrays (PolishData *pd)
 	guint16  lpx, lpy;
 	guint8   data[8];
 
-	g_return_if_fail (pd);
-	g_return_if_fail (pd->arrays);
-
 	array = pd->arrays->data;
 	g_return_if_fail (array->type == VALUE_ARRAY);
 
@@ -628,14 +620,10 @@ write_arrays (PolishData *pd)
 				gsf_le_set_double (data, value_get_as_float (v));
 				ms_biff_put_var_write (pd->ewb->bp, data, 8);
 			} else { /* Can only be a string */
-				gint len;
-				gchar *buf;
-				gchar *txt = value_get_as_string (v);
+				char const *str = value_peek_string (v);
 				push_guint8 (pd, 2);
-				len = biff_convert_text (&buf, txt, pd->ewb->bp->version);
-				biff_put_text (pd->ewb->bp, buf, len, TRUE, AS_PER_VER);
-				g_free (buf);
-				g_free (txt);
+				excel_write_string (pd->ewb->bp, str,
+					STR_ONE_BYTE_LENGTH);
 			}
 		}
 	}
