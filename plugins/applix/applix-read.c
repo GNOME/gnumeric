@@ -170,7 +170,7 @@ applix_get_line (ApplixReadState *state)
 						*(buf++) = *(ptr++);
 					} else if (ptr [1] < 'a' || ptr [1] > 'p' ||
 						   ptr [2] < 'a' || ptr [2] > 'p') {
-						applix_parse_error (state, _("Invalid characters for in encoding '%c%c'"),
+						applix_parse_error (state, _("Invalid characters for encoding '%c%c'"),
 								    ptr[1], ptr[2]);
 						*(buf++) = *(ptr++);
 					} else {
