@@ -160,11 +160,11 @@ parse_pos_init_evalpos (ParsePos *pp, EvalPos const *ep)
 gboolean
 cellref_equal (CellRef const *a, CellRef const *b)
 {
-	return	(a->col_relative == b->col_relative) &&
-		(a->row_relative == b->row_relative) &&
-		(a->col == b->col) &&
-		(a->row == b->row) &&
-		(a->sheet == b->sheet);
+	return (a->col == b->col) &&
+	       (a->col_relative == b->col_relative) &&
+	       (a->row == b->row) &&
+	       (a->row_relative == b->row_relative) &&
+	       (a->sheet == b->sheet);
 }
 
 int

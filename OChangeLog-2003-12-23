@@ -15,6 +15,10 @@
 
 2002-03-19  Morten Welinder  <terra@diku.dk>
 
+	* src/position.c (cellref_equal): Change the order of comparisons
+	a bit.  This works around a purify problem.  (I.e., a problem with
+	purify, not with the gnumeric code.)
+
 	* src/style.c (style_font_new_simple): Work harder at getting widest character.
 
 	* src/format.c (format_number): Fix format breakage.  (Extra "E".)
