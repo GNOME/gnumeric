@@ -352,21 +352,41 @@ print_cell_text (GnomePrintContext *context, Cell *cell,
 }
 
 static void
-print_cell_background (GnomePrintContext *context, StyleColor *back,
+print_cell_background (GnomePrintContext *context, MStyle *mstyle,
 		       double x1, double y1, double x2, double y2)
 {
-	gnome_print_setrgbcolor (
-		context,
-		back->red   / (double) 0xffff,
-		back->green / (double) 0xffff,
-		back->blue  / (double) 0xffff);
+	int pattern;
 
-	gnome_print_moveto (context, x1, y1);
-	gnome_print_lineto (context, x1, y2);
-	gnome_print_lineto (context, x2, y2);
-	gnome_print_lineto (context, x2, y1);
-	gnome_print_lineto (context, x1, y1);
-	gnome_print_fill (context);
+	g_return_if_fail (mstyle != NULL);
+
+	/*
+	 * Draw the background if the PATTERN is non 0
+	 * Draw a stipple too if the pattern is > 1
+	 */
+	if (!mstyle_is_element_set (mstyle, MSTYLE_PATTERN))
+		return;
+
+	pattern = mstyle_get_pattern (mstyle);
+	if (pattern > 0) {
+		StyleColor *back_col =
+			mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
+		g_return_if_fail (back_col != NULL);
+
+		gnome_print_setrgbcolor (context,
+					 back_col->red   / (double) 0xffff,
+					 back_col->green / (double) 0xffff,
+					 back_col->blue  / (double) 0xffff);
+
+		/* TODO : Add borders and patterns */
+		/*	print_cell_border (context, style->border, x1, y1, x2, y2); */
+
+		gnome_print_moveto (context, x1, y1);
+		gnome_print_lineto (context, x1, y2);
+		gnome_print_lineto (context, x2, y2);
+		gnome_print_lineto (context, x2, y1);
+		gnome_print_lineto (context, x1, y1);
+		gnome_print_fill (context);
+	}
 }
 
 static void
@@ -378,13 +398,10 @@ print_cell (GnomePrintContext *context, Cell *cell,
 	
 	g_assert (cell != NULL);
 
-	gnome_print_setrgbcolor (context, 0, 0, 0);
-/*	print_cell_border (context, style->border, x1, y1, x2, y2); */
-	print_cell_background (context, mstyle_get_color (mstyle, MSTYLE_COLOR_BACK),
-			       x1, y1, x2, y2);
-	
+	print_cell_background (context, mstyle, x1, y1, x2, y2);
+
 	gnome_print_setrgbcolor (context,
-				 fore->red   / (double) 0xfff,
+				 fore->red   / (double) 0xffff,
 				 fore->green / (double) 0xffff,
 				 fore->blue  / (double) 0xffff);
 
@@ -402,9 +419,7 @@ print_empty_cell (GnomePrintContext *context, Sheet *sheet, int col, int row,
 	MStyle *mstyle;
 
 	mstyle = sheet_style_compute (sheet, col, row);
-	print_cell_background (context,
-			       mstyle_get_color (mstyle, MSTYLE_COLOR_BACK),
-			       x1, y1, x2, y2);
+	print_cell_background (context, mstyle, x1, y1, x2, y2);
 	
 	mstyle_unref (mstyle);
 }

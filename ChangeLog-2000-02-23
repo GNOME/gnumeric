@@ -1,5 +1,8 @@
 1999-11-05  Jody Goldberg <jgoldberg@home.com>
 
+	* src/print-cell.c (print_cell_background) : Follow the correct
+	  conventions on whether to draw a background.
+
 	* src/sheet.c (sheet_clear_region) : Clear the style also.
 	(sheet_fill_selection_with) : Run a recalc after autofill to ensure
 	  that all formulas get rendered.
