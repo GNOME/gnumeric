@@ -624,8 +624,7 @@ WriteData_ForeachCellCB (Sheet *sheet, int col, int row,
 }
 
 static void
-write_data (G_GNUC_UNUSED WorkbookControl *wbc,
-	    data_analysis_output_t *dao, GArray *data)
+write_data (data_analysis_output_t *dao, GArray *data)
 {
 	gint st_row = dao->start_row + dao->offset_row;
 	gint end_row = dao->start_row + dao->rows - 1;
@@ -1249,7 +1248,7 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 					x = g_array_index (this_data, gnm_float, i);
 					g_array_append_val (sample, x);
 				}
-				write_data (info->base.wbc, dao, sample);
+				write_data (dao, sample);
 			} else {
 				for (i = 0; i < info->size; i++) {
 					guint random_index;
@@ -1264,7 +1263,7 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 					g_array_append_val (sample, x);
 					data_len--;
 				}
-				write_data (info->base.wbc, dao, sample);
+				write_data (dao, sample);
 				for (j = i; j < info->size; j++)
 					dao_set_cell_na (dao, 0, j);
 			}

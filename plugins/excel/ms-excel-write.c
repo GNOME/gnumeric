@@ -3042,7 +3042,7 @@ excel_write_AUTOFILTERINFO (BiffPut *bp, ExcelWriteSheet *esheet)
 {
 	GnmFilterCondition const *cond;
 	GnmFilter const *filter;
-	guint8  *data, buf [24];
+	guint8  buf[24];
 	unsigned count, i;
 	char const *str0 = NULL, *str1 = NULL;
 
@@ -3071,7 +3071,7 @@ excel_write_AUTOFILTERINFO (BiffPut *bp, ExcelWriteSheet *esheet)
 		switch (cond->op[0]) {
 		case GNM_FILTER_OP_BLANKS:
 		case GNM_FILTER_OP_NON_BLANKS:
-			data[5] = (cond->op[0] == GNM_FILTER_OP_BLANKS) ? 0xC : 0xE;
+			buf[5] = (cond->op[0] == GNM_FILTER_OP_BLANKS) ? 0xC : 0xE;
 			break;
 
 		case GNM_FILTER_OP_TOP_N:

@@ -251,6 +251,33 @@ icg_error_error_info (G_GNUC_UNUSED GnmCmdContext *cc,
 }
 
 static void
+icg_set_num_files (IOContext *icg, guint files_total)
+{
+	IO_CONTEXT_GTK (icg)->files_total = files_total;
+}
+
+static void
+icg_processing_file (IOContext *ioc, char const *file)
+{
+	IOContextGtk *icg = IO_CONTEXT_GTK (ioc);
+
+	g_return_if_fail (icg->files_done < icg->files_total);
+
+	icg->files_done++;
+	if (icg->window != NULL && icg->file_bar != NULL) {
+		/* If not iconified raise to the top */
+		if (GTK_WIDGET_VISIBLE (icg->window))
+			gtk_window_present (icg->window);
+
+		if (icg->files_total > 0)
+			gtk_progress_bar_set_fraction (icg->file_bar,
+				 (float) icg->files_done / (float) icg->files_total);
+		gtk_progress_bar_set_text (icg->file_bar, file);
+		gtk_progress_bar_set_fraction (icg->work_bar, 0.0);
+	}
+}
+
+static void
 icg_finalize (GObject *obj)
 {
 	IOContextGtk *icg;
@@ -288,9 +315,12 @@ icg_gnm_cmd_context_init (GnmCmdContextClass *cc_class)
 }
 
 static void
-icg_class_init (GObjectClass *klass)
+icg_class_init (GObjectClass *gobj_klass)
 {
-	klass->finalize = icg_finalize;
+	IOContextClass *ioc_klass = (IOContextClass *)gobj_klass;
+	gobj_klass->finalize	   = icg_finalize;
+	ioc_klass->set_num_files   = icg_set_num_files;
+	ioc_klass->processing_file = icg_processing_file;
 }
 
 static void
@@ -313,32 +343,6 @@ GSF_CLASS_FULL (IOContextGtk, io_context_gtk,
 		icg_class_init, icg_init,
 		TYPE_IO_CONTEXT, 0,
 		GSF_INTERFACE (icg_gnm_cmd_context_init, GNM_CMD_CONTEXT_TYPE))
-
-/* Show the additional "files" progress bar if needed */
-void
-icg_set_files_total (IOContextGtk *icg, guint files_total)
-{
-	g_return_if_fail (IS_IO_CONTEXT_GTK (icg));
-	icg->files_total = files_total;
-}
-
-void
-icg_inc_files_done (IOContextGtk *icg)
-{
-	g_return_if_fail (IS_IO_CONTEXT_GTK (icg));
-	g_return_if_fail (icg->files_done < icg->files_total);
-
-	icg->files_done++;
-	if (icg->window != NULL && icg->file_bar != NULL) {
-		/* If not iconified raise to the top */
-		if (GTK_WIDGET_VISIBLE (icg->window))
-			gtk_window_present (icg->window);
-
-		gtk_progress_bar_set_fraction (icg->file_bar,
-			 (float) icg->files_done / (float) icg->files_total);
-		gtk_progress_bar_set_fraction (icg->work_bar, 0.0);
-	}
-}
 
 void
 icg_set_transient_for (IOContextGtk *icg, GtkWindow *parent_window)

@@ -8,12 +8,10 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=136546
-    : about box i18n (use go_data_vector_str_translation_domain)
-    http://bugzilla.gnome.org/show_bug.cgi?id=140820
-    : undo of tab colour change
+    http://bugzilla.gnome.org/show_bug.cgi?id=142699
+    : we don't re-render on zoom changes
     http://bugzilla.gnome.org/show_bug.cgi?id=127203	[x axis child pos]
-    : X axis label seperation
+    : X axis label seperation {Jody has started work on this}
     : Delete grid then edit chart and see a new grid
     http://bugzilla.gnome.org/show_bug.cgi?id=Bug 142700
     : Zoom box shows the value of the zoom in the preceeding page
@@ -212,12 +210,12 @@ Short Term Goals
 	1.3.15) position
 	1.3.16) image data
     1.4) Decide on model vs view structure			(DONE)
-    1.5) Graph Guru
+    1.5) Graph Guru						(DONE)
 	1.5.1) update when someone else changes the model	(DONE)
 	1.5.2) remove prop pages for deleted items		(DONE)
 	1.5.3) Keep state::chart,plot safe for typeselector	(DONE)
 	       in case they get deleted
-	1.5.4) Allow going backwards if there is only chart
+	1.5.4) Allow going backwards if there is only chart	(DONE)
     1.6) data allocator in gnumeric				(DONE)
 	1.6.1) initial interface				(DONE)
 	1.6.2) generalize container to be a DataSet		(DONE)
@@ -226,36 +224,38 @@ Short Term Goals
 	1.7.1) check overlap percentage for bars		(DONE)
 	1.7.2) Add gog_object_set_position			(DONE)
 	1.7.3) Handle 'use_one_style'				(DONE)
-	1.7.4) override auto series indexing for xls
-	1.7.5) styles						(DONE)
-	    1.7.5.1) Area					(DONE)
-	    1.7.5.2) Line					(DONE)
-	    1.7.5.3) Marker					(DONE)
-	    1.7.5.4) Grid					(DONE)
-	    1.7.5.5) Chart					(DONE)
-	    1.7.5.6) Legend					(DONE)
-	1.7.6) Avoid leaking GODatas when faced with an unknown	(DONE)
+	1.7.4) styles						(DONE)
+	    1.7.4.1) Area					(DONE)
+	    1.7.4.2) Line					(DONE)
+	    1.7.4.3) Marker					(DONE)
+	    1.7.4.4) Grid					(DONE)
+	    1.7.4.5) Chart					(DONE)
+	    1.7.4.6) Legend					(DONE)
+	1.7.5) Avoid leaking GODatas when faced with an unknown	(DONE)
 	       plot type.
-	1.7.7) double axis import on simple_bar2
-	1.7.8) Titles						(DONE)
-	1.7.9) check marker none
-	1.7.10) Axis
-	    1.7.10.1) value format				(DONE)
-	    1.7.10.2) Axis bounds and ticks size		(DONE)
-	    1.7.10.3) log scale					(DONE)
-	    1.7.10.4) deleted axis should not appear
-	1.7.11) Gradients
-	    1.7.11.1) Horizontal x4				(DONE)
-	    1.7.11.2) Vertical x4				(DONE)
-	    1.7.11.3) Diag Up x4				(DONE)
-	    1.7.11.4) Diag Down x4				(DONE)
-	    1.7.11.5) From center
-	    1.7.11.6) From corner
-	    1.7.11.7) Two colour				(DONE)
-	    1.7.11.8) Two colour alpha (is this possible)
-	    1.7.11.9) One colour				(DONE)
-	    1.7.11.10) One colour alpha (is this possible)
-	    1.7.11.11) presets
+	1.7.6) Titles						(DONE)
+	1.7.7) check marker none
+	1.7.8) Axis
+	    1.7.8.1) value format				(DONE)
+	    1.7.8.2) Axis bounds and ticks size			(DONE)
+	    1.7.8.3) log scale					(DONE)
+	    1.7.8.4) deleted axis should not appear		(DONE)
+	    1.7.8.5) double axis import on simple_bar2
+	    1.7.8.6) high/low flag is for partner not self
+	1.7.9) Gradients
+	    1.7.9.1) Horizontal x4				(DONE)
+	    1.7.9.2) Vertical x4				(DONE)
+	    1.7.9.3) Diag Up x4					(DONE)
+	    1.7.9.4) Diag Down x4				(DONE)
+	    1.7.9.5) From center
+	    1.7.9.6) From corner
+	    1.7.9.7) Two colour					(DONE)
+	    1.7.9.8) Two colour alpha (is this possible)
+	    1.7.9.9) One colour					(DONE)
+	    1.7.9.10) One colour alpha (is this possible)
+	    1.7.9.11) presets
+	1.7.10) override auto series indexing for xls
+	1.7.11) error bars
     1.8) data sources						(DONE)
 	1.8.1) vector and scalar data sources from gnumeric	(DONE)
 	1.8.2) Add min/max elements to vector			(DONE)
@@ -283,7 +283,7 @@ Short Term Goals
 	1.11.3)	Percentage					(DONE)
 	1.11.4)	sub type with no-marker by default		(DONE)
 	1.11.5) center points on X index values for Line	(DONE)
-	1.11.6) handle missing points in unstacked lines
+	1.11.6) handle missing points in unstacked lines	(DONE)
     1.12) X/Y (Scatter) Plot
 	1.12.1) Add simple implementation			(DONE)
 	1.12.2) Take marker sizes into account at bounds
@@ -335,7 +335,7 @@ Short Term Goals
 	1.16.9) Add anchor flags to draw_text			(DONE)
 	1.16.10) Clip text to keep it in bounds			(DONE)
     1.17) SheetObject editing					(DONE)
-	1.17.1) Connect SheetObejct::user_config handler	(DONE)
+	1.17.1) Connect SheetObject::user_config handler	(DONE)
 	1.17.2) Create a gog_object_dup to avoid live updating	(DONE)
 	1.17.3) Add undo/redo of full GogGraph assignment       (DONE)
     1.18) Extend sheet object anchor assignment to call object	(DONE)
@@ -505,6 +505,7 @@ Short Term Goals
 	6.13.1) Excel95
 	6.13.1) Excel97
     6.14) chart export
+	6.14.1) Initial
     6.15) Store and round trip macros (functional, but could be prettier)
 	6.15.1) blob CompObj stream				(DONE)
 	6.15.2) blob property streams to get the flags		(DONE)

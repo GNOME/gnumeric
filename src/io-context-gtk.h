@@ -16,8 +16,6 @@ typedef struct _IOContextGtkClass IOContextGtkClass;
     (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_IO_CONTEXT_GTK))
 
 GType io_context_gtk_get_type (void);
-void  icg_set_files_total (IOContextGtk *icg, guint files_total);
-void  icg_inc_files_done  (IOContextGtk *icg);
 void  icg_set_transient_for (IOContextGtk *icg, GtkWindow *parent_window);
 gboolean icg_get_interrupted (IOContextGtk *icg);
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="GOffice_plot_radar">
 	<information>
-		<_name>Radar Charts</_name>
-		<_description>Radar charts</_description>
+		<_name>Charting : Radial plots</_name>
+		<_description>Radial/Radar plots</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="radar.la"/>

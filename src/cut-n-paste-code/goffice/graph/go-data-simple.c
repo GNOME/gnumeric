@@ -431,7 +431,10 @@ static char *
 go_data_vector_str_get_str (GODataVector *vec, unsigned i)
 {
 	GODataVectorStr *strs = (GODataVectorStr *)vec;
-	return g_strdup (strs->str[i]);
+	if (strs->translate_func == NULL)
+		return g_strdup (strs->str[i]);
+	return g_strdup ((strs->translate_func) (strs->str[i],
+						 strs->translate_data));
 }
 
 static void

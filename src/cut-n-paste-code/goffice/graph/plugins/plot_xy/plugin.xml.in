@@ -1,7 +1,7 @@
 <plugin id="GOffice_plot_xy">
 	<information>
-		<_name>XY Charts</_name>
-		<_description>2D Scatter charts</_description>
+		<_name>Charting : XY/Scatter/Bubble</_name>
+		<_description>2D plots</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="xy.la"/>

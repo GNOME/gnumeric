@@ -15,16 +15,16 @@ typedef struct _IOContextClass IOContextClass;
 GType      io_context_get_type (void);
 IOContext *gnumeric_io_context_new        (GnmCmdContext *cc);
 
-void       gnumeric_io_error_unknown      (IOContext *context);
+void       gnumeric_io_error_unknown      (IOContext *ioc);
 
-void       gnumeric_io_error_info_set     (IOContext *context, ErrorInfo *error);
-void       gnumeric_io_error_string       (IOContext *context, const gchar *str);
-void       gnumeric_io_error_push         (IOContext *context, ErrorInfo *error);
-void       gnumeric_io_error_clear        (IOContext *context);
-void       gnumeric_io_error_display      (IOContext *context);
+void       gnumeric_io_error_info_set     (IOContext *ioc, ErrorInfo *error);
+void       gnumeric_io_error_string       (IOContext *ioc, const gchar *str);
+void       gnumeric_io_error_push         (IOContext *ioc, ErrorInfo *error);
+void       gnumeric_io_error_clear        (IOContext *ioc);
+void       gnumeric_io_error_display      (IOContext *ioc);
 
-gboolean   gnumeric_io_error_occurred     (IOContext *context);
-gboolean   gnumeric_io_warning_occurred   (IOContext *context);
+gboolean   gnumeric_io_error_occurred     (IOContext *ioc);
+gboolean   gnumeric_io_warning_occurred   (IOContext *ioc);
 
 void       io_progress_message      (IOContext *io_context, const gchar *msg);
 void       io_progress_update       (IOContext *io_context, gdouble f);
@@ -42,10 +42,12 @@ void       workbook_io_progress_update (IOContext *io_context, gint inc);
 
 void       io_progress_unset      (IOContext *io_context);
 
-void gnm_io_warning			(IOContext *context, char const *fmt, ...) G_GNUC_PRINTF (2, 3);
-void gnm_io_warning_varargs		(IOContext *context, char const *fmt, va_list args);
-void gnm_io_warning_unknown_font	(IOContext *context, char const *font_name);
-void gnm_io_warning_unknown_function	(IOContext *context, char const *funct_name);
-void gnm_io_warning_unsupported_feature	(IOContext *context, char const *feature);
+void gnm_io_context_set_num_files	(IOContext *ioc, guint count);
+void gnm_io_context_processing_file	(IOContext *ioc, char const *name);
+void gnm_io_warning			(IOContext *ioc, char const *fmt, ...) G_GNUC_PRINTF (2, 3);
+void gnm_io_warning_varargs		(IOContext *ioc, char const *fmt, va_list args);
+void gnm_io_warning_unknown_font	(IOContext *ioc, char const *font_name);
+void gnm_io_warning_unknown_function	(IOContext *ioc, char const *funct_name);
+void gnm_io_warning_unsupported_feature	(IOContext *ioc, char const *feature);
 
 #endif /* GNUMERIC_IO_CONTEXT_H */

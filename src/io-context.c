@@ -31,35 +31,37 @@
 #define PROGRESS_UPDATE_STEP_END    (1.0 / 400)
 #define PROGRESS_UPDATE_PERIOD_SEC  0.20
 
-static void
-io_context_init (IOContext *io_context)
-{
-	io_context->impl = NULL;
-	io_context->info = NULL;
-	io_context->error_occurred = FALSE;
-	io_context->warning_occurred = FALSE;
+#define IOC_CLASS(ioc) IO_CONTEXT_CLASS(G_OBJECT_GET_CLASS(ioc))
 
-	io_context->progress_ranges = NULL;
-	io_context->progress_min = 0.0;
-	io_context->progress_max = 1.0;
-	io_context->last_progress = -1.0;
-	io_context->last_time = 0.0;
-	io_context->helper.helper_type = GNM_PROGRESS_HELPER_NONE;
+static void
+io_context_init (IOContext *ioc)
+{
+	ioc->impl = NULL;
+	ioc->info = NULL;
+	ioc->error_occurred = FALSE;
+	ioc->warning_occurred = FALSE;
+
+	ioc->progress_ranges = NULL;
+	ioc->progress_min = 0.0;
+	ioc->progress_max = 1.0;
+	ioc->last_progress = -1.0;
+	ioc->last_time = 0.0;
+	ioc->helper.helper_type = GNM_PROGRESS_HELPER_NONE;
 }
 
 static void
 ioc_finalize (GObject *obj)
 {
-	IOContext *io_context;
+	IOContext *ioc;
 
 	g_return_if_fail (IS_IO_CONTEXT (obj));
 
-	io_context = IO_CONTEXT (obj);
-	error_info_free (io_context->info);
-	if (io_context->impl) {
-		cmd_context_progress_set (io_context->impl, 0.0);
-		cmd_context_progress_message_set (io_context->impl, NULL);
-		g_object_unref (G_OBJECT (io_context->impl));
+	ioc = IO_CONTEXT (obj);
+	error_info_free (ioc->info);
+	if (ioc->impl) {
+		cmd_context_progress_set (ioc->impl, 0.0);
+		cmd_context_progress_message_set (ioc->impl, NULL);
+		g_object_unref (G_OBJECT (ioc->impl));
 	}
 
 	G_OBJECT_CLASS (g_type_class_peek (G_TYPE_OBJECT))->finalize (obj);
@@ -126,16 +128,16 @@ GSF_CLASS_FULL (IOContext, io_context,
 IOContext *
 gnumeric_io_context_new (GnmCmdContext *cc)
 {
-	IOContext *io_context;
+	IOContext *ioc;
 
 	g_return_val_if_fail (IS_GNM_CMD_CONTEXT (cc), NULL);
 
-	io_context = g_object_new (TYPE_IO_CONTEXT, NULL);
+	ioc = g_object_new (TYPE_IO_CONTEXT, NULL);
 	/* The cc is optional for subclasses, but mandatory in this class. */
-	io_context->impl = cc;
-	g_object_ref (G_OBJECT (io_context->impl));
+	ioc->impl = cc;
+	g_object_ref (G_OBJECT (ioc->impl));
 
-	return io_context;
+	return ioc;
 }
 
 void
@@ -209,35 +211,35 @@ gnumeric_io_warning_occurred (IOContext *context)
 }
 
 void
-io_progress_update (IOContext *io_context, gdouble f)
+io_progress_update (IOContext *ioc, gdouble f)
 {
 	gboolean at_end;
 
-	g_return_if_fail (IS_IO_CONTEXT (io_context));
+	g_return_if_fail (IS_IO_CONTEXT (ioc));
 
-	if (io_context->progress_ranges != NULL) {
-		f = f * (io_context->progress_max - io_context->progress_min)
-		    + io_context->progress_min;
+	if (ioc->progress_ranges != NULL) {
+		f = f * (ioc->progress_max - ioc->progress_min)
+		    + ioc->progress_min;
 	}
 
-	at_end = (f - io_context->last_progress > PROGRESS_UPDATE_STEP_END &&
+	at_end = (f - ioc->last_progress > PROGRESS_UPDATE_STEP_END &&
 		  f + PROGRESS_UPDATE_STEP > 1);
-	if (at_end || f - io_context->last_progress >= PROGRESS_UPDATE_STEP) {
+	if (at_end || f - ioc->last_progress >= PROGRESS_UPDATE_STEP) {
 		struct timeval tv;
 		double t;
 
 		(void) gettimeofday (&tv, NULL);
 		t = tv.tv_sec + tv.tv_usec / 1000000.0;
-		if (at_end || t - io_context->last_time >= PROGRESS_UPDATE_PERIOD_SEC) {
+		if (at_end || t - ioc->last_time >= PROGRESS_UPDATE_PERIOD_SEC) {
 			GnmCmdContext *cc;
 
-			if (io_context->impl)
-				cc = io_context->impl;
+			if (ioc->impl)
+				cc = ioc->impl;
 			else
-				cc = GNM_CMD_CONTEXT (io_context);
+				cc = GNM_CMD_CONTEXT (ioc);
 			cmd_context_progress_set (cc, f);
-			io_context->last_time = t;
-			io_context->last_progress = f;
+			ioc->last_time = t;
+			ioc->last_progress = f;
 		}
 	}
 
@@ -247,144 +249,144 @@ io_progress_update (IOContext *io_context, gdouble f)
 }
 
 void
-io_progress_message (IOContext *io_context, const gchar *msg)
+io_progress_message (IOContext *ioc, const gchar *msg)
 {
 	GnmCmdContext *cc;
 
-	g_return_if_fail (IS_IO_CONTEXT (io_context));
+	g_return_if_fail (IS_IO_CONTEXT (ioc));
 
-	if (io_context->impl)
-		cc = io_context->impl;
+	if (ioc->impl)
+		cc = ioc->impl;
 	else
-		cc = GNM_CMD_CONTEXT (io_context);
+		cc = GNM_CMD_CONTEXT (ioc);
 	cmd_context_progress_message_set (cc, msg);
 }
 
 void
-io_progress_range_push (IOContext *io_context, gdouble min, gdouble max)
+io_progress_range_push (IOContext *ioc, gdouble min, gdouble max)
 {
 	ProgressRange *r;
 	gdouble new_min, new_max;
 
-	g_return_if_fail (IS_IO_CONTEXT (io_context));
+	g_return_if_fail (IS_IO_CONTEXT (ioc));
 
 	r = g_new (ProgressRange, 1);
 	r->min = min;
 	r->max = max;
-	io_context->progress_ranges = g_list_append (io_context->progress_ranges, r);
+	ioc->progress_ranges = g_list_append (ioc->progress_ranges, r);
 
-	new_min = min / (io_context->progress_max - io_context->progress_min)
-	          + io_context->progress_min;
-	new_max = max / (io_context->progress_max - io_context->progress_min)
-	          + io_context->progress_min;
-	io_context->progress_min = new_min;
-	io_context->progress_max = new_max;
+	new_min = min / (ioc->progress_max - ioc->progress_min)
+	          + ioc->progress_min;
+	new_max = max / (ioc->progress_max - ioc->progress_min)
+	          + ioc->progress_min;
+	ioc->progress_min = new_min;
+	ioc->progress_max = new_max;
 }
 
 void
-io_progress_range_pop (IOContext *io_context)
+io_progress_range_pop (IOContext *ioc)
 {
 	GList *l;
 
-	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (io_context->progress_ranges != NULL);
+	g_return_if_fail (IS_IO_CONTEXT (ioc));
+	g_return_if_fail (ioc->progress_ranges != NULL);
 
-	l = g_list_last (io_context->progress_ranges);
-	io_context->progress_ranges= g_list_remove_link (io_context->progress_ranges, l);
+	l = g_list_last (ioc->progress_ranges);
+	ioc->progress_ranges= g_list_remove_link (ioc->progress_ranges, l);
 	g_free (l->data);
 	g_list_free_1 (l);
 
-	io_context->progress_min = 0.0;
-	io_context->progress_max = 1.0;
-	for (l = io_context->progress_ranges; l != NULL; l = l->next) {
+	ioc->progress_min = 0.0;
+	ioc->progress_max = 1.0;
+	for (l = ioc->progress_ranges; l != NULL; l = l->next) {
 		ProgressRange *r = l->data;
 		gdouble new_min, new_max;
 
-		new_min = r->min / (io_context->progress_max - io_context->progress_min)
-		          + io_context->progress_min;
-		new_max = r->max / (io_context->progress_max - io_context->progress_min)
-		          + io_context->progress_min;
-		io_context->progress_min = new_min;
-		io_context->progress_max = new_max;
+		new_min = r->min / (ioc->progress_max - ioc->progress_min)
+		          + ioc->progress_min;
+		new_max = r->max / (ioc->progress_max - ioc->progress_min)
+		          + ioc->progress_min;
+		ioc->progress_min = new_min;
+		ioc->progress_max = new_max;
 	}
 }
 
 void
-value_io_progress_set (IOContext *io_context, gint total, gint step)
+value_io_progress_set (IOContext *ioc, gint total, gint step)
 {
-	g_return_if_fail (IS_IO_CONTEXT (io_context));
+	g_return_if_fail (IS_IO_CONTEXT (ioc));
 	g_return_if_fail (total >= 0);
 
-	io_context->helper.helper_type = GNM_PROGRESS_HELPER_VALUE;
-	io_context->helper.v.value.total = MAX (total, 1);
-	io_context->helper.v.value.last = -step;
-	io_context->helper.v.value.step = step;
+	ioc->helper.helper_type = GNM_PROGRESS_HELPER_VALUE;
+	ioc->helper.v.value.total = MAX (total, 1);
+	ioc->helper.v.value.last = -step;
+	ioc->helper.v.value.step = step;
 }
 
 void
-value_io_progress_update (IOContext *io_context, gint value)
+value_io_progress_update (IOContext *ioc, gint value)
 {
 	gdouble complete;
 	gint step, total;
 
-	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (io_context->helper.helper_type == GNM_PROGRESS_HELPER_VALUE);
+	g_return_if_fail (IS_IO_CONTEXT (ioc));
+	g_return_if_fail (ioc->helper.helper_type == GNM_PROGRESS_HELPER_VALUE);
 
-	total = io_context->helper.v.value.total;
-	step = io_context->helper.v.value.step;
+	total = ioc->helper.v.value.total;
+	step = ioc->helper.v.value.step;
 
-	if (value - io_context->helper.v.value.last < step &&
+	if (value - ioc->helper.v.value.last < step &&
 	    value + step < total) {
 		return;
 	}
-	io_context->helper.v.value.last = value;
+	ioc->helper.v.value.last = value;
 
 	complete = (gdouble)value / total;
-	io_progress_update (io_context, complete);
+	io_progress_update (ioc, complete);
 }
 
 void
-count_io_progress_set (IOContext *io_context, gint total, gint step)
+count_io_progress_set (IOContext *ioc, gint total, gint step)
 {
-	g_return_if_fail (IS_IO_CONTEXT (io_context));
+	g_return_if_fail (IS_IO_CONTEXT (ioc));
 	g_return_if_fail (total >= 0);
 
-	io_context->helper.helper_type = GNM_PROGRESS_HELPER_COUNT;
-	io_context->helper.v.count.total = MAX (total, 1);
-	io_context->helper.v.count.last = -step;
-	io_context->helper.v.count.current = 0;
-	io_context->helper.v.count.step = step;
+	ioc->helper.helper_type = GNM_PROGRESS_HELPER_COUNT;
+	ioc->helper.v.count.total = MAX (total, 1);
+	ioc->helper.v.count.last = -step;
+	ioc->helper.v.count.current = 0;
+	ioc->helper.v.count.step = step;
 }
 
 void
-count_io_progress_update (IOContext *io_context, gint inc)
+count_io_progress_update (IOContext *ioc, gint inc)
 {
 	gdouble complete;
 	gint current, step, total;
 
-	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (io_context->helper.helper_type == GNM_PROGRESS_HELPER_COUNT);
+	g_return_if_fail (IS_IO_CONTEXT (ioc));
+	g_return_if_fail (ioc->helper.helper_type == GNM_PROGRESS_HELPER_COUNT);
 
-	current = (io_context->helper.v.count.current += inc);
-	step = io_context->helper.v.count.step;
-	total = io_context->helper.v.count.total;
+	current = (ioc->helper.v.count.current += inc);
+	step = ioc->helper.v.count.step;
+	total = ioc->helper.v.count.total;
 
-	if (current - io_context->helper.v.count.last < step && current + step < total) {
+	if (current - ioc->helper.v.count.last < step && current + step < total) {
 		return;
 	}
-	io_context->helper.v.count.last = current;
+	ioc->helper.v.count.last = current;
 
 	complete = (gdouble)current / total;
-	io_progress_update (io_context, complete);
+	io_progress_update (ioc, complete);
 }
 
 void
-workbook_io_progress_set (IOContext *io_context, Workbook const *wb, gint step)
+workbook_io_progress_set (IOContext *ioc, Workbook const *wb, gint step)
 {
 	gint n = 0;
 	GList *sheets, *l;
 
-	g_return_if_fail (IS_IO_CONTEXT (io_context));
+	g_return_if_fail (IS_IO_CONTEXT (ioc));
 	g_return_if_fail (IS_WORKBOOK (wb));
 
 	sheets = workbook_sheets (wb);
@@ -394,39 +396,57 @@ workbook_io_progress_set (IOContext *io_context, Workbook const *wb, gint step)
 	}
 	g_list_free (sheets);
 
-	io_context->helper.helper_type = GNM_PROGRESS_HELPER_WORKBOOK;
-	io_context->helper.v.workbook.n_elements = MAX (n, 1);
-	io_context->helper.v.workbook.last = -step;
-	io_context->helper.v.workbook.current = 0;
-	io_context->helper.v.workbook.step = step;
+	ioc->helper.helper_type = GNM_PROGRESS_HELPER_WORKBOOK;
+	ioc->helper.v.workbook.n_elements = MAX (n, 1);
+	ioc->helper.v.workbook.last = -step;
+	ioc->helper.v.workbook.current = 0;
+	ioc->helper.v.workbook.step = step;
 }
 
 void
-workbook_io_progress_update (IOContext *io_context, gint inc)
+workbook_io_progress_update (IOContext *ioc, gint inc)
 {
 	gdouble complete;
 
-	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (io_context->helper.helper_type == GNM_PROGRESS_HELPER_WORKBOOK);
+	g_return_if_fail (IS_IO_CONTEXT (ioc));
+	g_return_if_fail (ioc->helper.helper_type == GNM_PROGRESS_HELPER_WORKBOOK);
 
-	io_context->helper.v.workbook.current += inc;
-	if (io_context->helper.v.workbook.current - io_context->helper.v.workbook.last
-	    < io_context->helper.v.workbook.step) {
+	ioc->helper.v.workbook.current += inc;
+	if (ioc->helper.v.workbook.current - ioc->helper.v.workbook.last
+	    < ioc->helper.v.workbook.step) {
 		return;
 	}
-	io_context->helper.v.workbook.last = io_context->helper.v.workbook.current;
+	ioc->helper.v.workbook.last = ioc->helper.v.workbook.current;
 
-	complete = 1.0 * io_context->helper.v.workbook.current
-	           / io_context->helper.v.workbook.n_elements;
-	io_progress_update (io_context, complete);
+	complete = 1.0 * ioc->helper.v.workbook.current
+	           / ioc->helper.v.workbook.n_elements;
+	io_progress_update (ioc, complete);
 }
 
 void
-io_progress_unset (IOContext *io_context)
+io_progress_unset (IOContext *ioc)
 {
-	g_return_if_fail (IS_IO_CONTEXT (io_context));
+	g_return_if_fail (IS_IO_CONTEXT (ioc));
 
-	io_context->helper.helper_type = GNM_PROGRESS_HELPER_NONE;
+	ioc->helper.helper_type = GNM_PROGRESS_HELPER_NONE;
+}
+
+void
+gnm_io_context_set_num_files (IOContext *ioc, guint count)
+{
+	IOContextClass *klass = IOC_CLASS(ioc);
+	g_return_if_fail (klass != NULL);
+	if (klass->set_num_files != NULL)
+		klass->set_num_files (ioc, count);
+}
+
+void
+gnm_io_context_processing_file (IOContext *ioc, char const *name)
+{
+	IOContextClass *klass = IOC_CLASS(ioc);
+	g_return_if_fail (klass != NULL);
+	if (klass->processing_file != NULL)
+		klass->processing_file (ioc, name);
 }
 
 void

@@ -273,6 +273,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 	gog_object_add_by_name (chart, "Plot", GOG_OBJECT (plot));
 	series = gog_plot_new_series (plot);
 	labels = go_data_vector_str_new ( about_types, G_N_ELEMENTS (about_types));
+	go_data_vector_str_set_translation_domain (GO_DATA_VECTOR_STR (labels), NULL);
 	g_object_ref (labels); /* set_dim absorbs the ref, add an extra for next plot */
 	gog_series_set_dim (series, 0, labels, NULL);
 	state->individual_data = go_data_vector_val_new (

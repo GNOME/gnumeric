@@ -1,3 +1,8 @@
+2004-05-24  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=136546
+	* dialog-about.c : Use the translation mechanism
+
 2004-05-26  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* cell-format.glade: changed gnm_combo_text_glade_new to

@@ -967,24 +967,24 @@ cb_tweak_3d (GnmDependent *dep, gpointer value, GnmExprRewriteInfo *rwinfo)
 }
 
 /**
- * workbook_sheet_detach:
- * @wb: workbook.
- * @sheet: the sheet that we want to detach from the workbook
- * @recalc : force a recalc afterward
+ * workbook_sheet_hide_controls :
+ * @wb : #Workbook
+ * @sheet : #Sheet
  *
- * Detaches @sheet from the workbook @wb.
- */
+ * Remove the visible SheetControls of a sheet and shut them down politely.
+ *
+ * Returns TRUE if there are any remaining sheets visible
+ **/
 gboolean
-workbook_sheet_detach (Workbook *wb, Sheet *sheet, gboolean recalc)
+workbook_sheet_hide_controls (Workbook *wb, Sheet *sheet)
 {
 	Sheet *focus = NULL;
 	int sheet_index;
 
-	g_return_val_if_fail (IS_WORKBOOK (wb), FALSE);
-	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-	g_return_val_if_fail (sheet->workbook == wb, FALSE);
-	g_return_val_if_fail (workbook_sheet_by_name (wb, sheet->name_unquoted)
-			      == sheet, FALSE);
+	g_return_val_if_fail (IS_WORKBOOK (wb), TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (sheet->workbook == wb, TRUE);
+	g_return_val_if_fail (workbook_sheet_by_name (wb, sheet->name_unquoted) == sheet, TRUE);
 
 	/* Finish any object editing */
 	SHEET_FOREACH_CONTROL (sheet, view, control,
@@ -1000,19 +1000,41 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet, gboolean recalc)
 		else if ((sheet_index+1) < (int)wb->sheets->len)
 			focus = g_ptr_array_index (wb->sheets, sheet_index+1);
 
-		if (focus != NULL) {
-			WORKBOOK_FOREACH_VIEW (wb, view,
-			{
+		if (focus != NULL)
+			WORKBOOK_FOREACH_VIEW (wb, view, {
 				if (view->current_sheet == sheet)
 					wb_view_sheet_focus (view, focus);
 			});
-		}
 	}
 
 	/* Remove all controls */
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
 		wb_control_sheet_remove (control, sheet););
 
+	return focus != NULL;
+}
+
+/**
+ * workbook_sheet_detach:
+ * @wb: workbook.
+ * @sheet: the sheet that we want to detach from the workbook
+ * @recalc : force a recalc afterward
+ *
+ * Detaches @sheet from the workbook @wb.
+ */
+void
+workbook_sheet_detach (Workbook *wb, Sheet *sheet, gboolean recalc)
+{
+	int sheet_index;
+	gboolean still_visible_sheets;
+
+	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (sheet->workbook == wb);
+	g_return_if_fail (workbook_sheet_by_name (wb, sheet->name_unquoted) == sheet);
+
+	sheet_index = sheet->index_in_wb;
+	still_visible_sheets = workbook_sheet_hide_controls (wb, sheet);
 	pre_sheet_index_change (wb);
 	/* If we are not destroying things, Check for 3d refs that start or end
 	 * on this sheet */
@@ -1033,10 +1055,8 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet, gboolean recalc)
 	sheet_destroy (sheet);
 	post_sheet_index_change (wb);
 
-	if (recalc && focus != NULL)
+	if (recalc && still_visible_sheets)
 		workbook_recalc_all (wb);
-
-	return TRUE;
 }
 
 /**

@@ -4151,8 +4151,15 @@ sheet_toggle_show_formula (Sheet *sheet)
 	sheet_adjust_preferences (sheet, TRUE, FALSE);
 }
 
+/**
+ * sheet_set_visibility :
+ * @sheet : #Sheet
+ * @visible :
+ *
+ * show or hide @sheet.
+ **/
 void	  
-sheet_set_visibility	 (Sheet *sheet, gboolean visible)
+sheet_set_visibility (Sheet *sheet, gboolean visible)
 {
 	g_return_if_fail (sheet != NULL);
 
@@ -4162,6 +4169,9 @@ sheet_set_visibility	 (Sheet *sheet, gboolean visible)
 	sheet->is_visible = visible;
 	sheet_set_dirty (sheet, TRUE);
 
-	/* FIXME: just setting this is clearly not enough, we need */
-	/*        to cause the sheet to be hidden too! */
+#warning make things visible
+	if (sheet->is_visible)
+		;
+	else
+		workbook_sheet_hide_controls (sheet->workbook, sheet);
 }

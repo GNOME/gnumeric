@@ -236,6 +236,7 @@ barcol_draw_rect (GogRenderer *rend, gboolean flip,
 	if (h < 1.)
 		h = 1.;
 
+#warning TODO this has no business being done at this level.  Move it into GogRendererPixbuf
 	/* tweak to make libart happier.  for the common case of hairline
 	 * libart wants to draw 1/2 a pixel above and 1/2 below producing a
 	 * fuzzy outline when antialiased. */

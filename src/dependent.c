@@ -282,7 +282,7 @@ dependent_queue_recalc_list (GSList *list)
 			g_slist_free (waste);
 		} else if (t == DEPENDENT_DYNAMIC_DEP) {
 			DynamicDep const *dyn = (DynamicDep *)dep;
-			if (dependent_needs_recalc (dyn->container)) {
+			if (!dependent_needs_recalc (dyn->container)) {
 				dependent_flag_recalc (dyn->container);
 				work = g_slist_prepend (work, dyn->container);
 			}

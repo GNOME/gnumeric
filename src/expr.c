@@ -502,7 +502,7 @@ expr_array_corner (GnmExpr const *expr,
 }
 
 static gboolean
-gnm_expr_extract_ref (GnmCellRef *res, GnmExpr const *expr,
+gnm_expr_extract_ref (GnmRangeRef *res, GnmExpr const *expr,
 		      GnmEvalPos const *pos, GnmExprEvalFlags flags)
 {
 	switch (expr->any.oper) {
@@ -515,9 +515,8 @@ gnm_expr_extract_ref (GnmCellRef *res, GnmExpr const *expr,
 
 		v = function_call_with_list (&ei, expr->func.arg_list, flags);
 		if (v != NULL) {
-			if (v->type == VALUE_CELLRANGE &&
-			    cellref_equal (&v->v_range.cell.a, &v->v_range.cell.b)) {
-				*res = v->v_range.cell.a;
+			if (v->type == VALUE_CELLRANGE) {
+				*res = v->v_range.cell;
 				failed = FALSE;
 			}
 			value_release (v);
@@ -526,14 +525,14 @@ gnm_expr_extract_ref (GnmCellRef *res, GnmExpr const *expr,
 	}
 
 	case GNM_EXPR_OP_CELLREF :
-		*res = expr->cellref.ref;
+		res->a = expr->cellref.ref;
+		res->b = expr->cellref.ref;
 		return FALSE;
 
 	case GNM_EXPR_OP_CONSTANT: {
 		GnmValue const *v = expr->constant.value;
-		if (v->type == VALUE_CELLRANGE &&
-		    cellref_equal (&v->v_range.cell.a, &v->v_range.cell.b)) {
-			*res = v->v_range.cell.a;
+		if (v->type == VALUE_CELLRANGE) {
+			*res = v->v_range.cell;
 			return FALSE;
 		}
 		return TRUE;
@@ -994,6 +993,38 @@ cb_iter_percentage (GnmValue const *v, GnmEvalPos const *ep,
 	return NULL;
 }
 
+static GnmValue *
+gnm_expr_range_op (GnmExpr const *expr, GnmEvalPos const *ep,
+		   GnmExprEvalFlags flags)
+{
+	GnmRangeRef a_ref, b_ref;
+	GnmRange a_range, b_range, res_range;
+	Sheet *a_start, *a_end, *b_start, *b_end;
+	GnmValue *res = NULL;
+
+	if (gnm_expr_extract_ref (&a_ref, expr->binary.value_a, ep, flags) ||
+	    gnm_expr_extract_ref (&b_ref, expr->binary.value_b, ep, flags))
+		return value_new_error_REF (ep);
+
+	rangeref_normalize (&a_ref, ep, &a_start, &a_end, &a_range);
+	rangeref_normalize (&b_ref, ep, &b_start, &b_end, &b_range);
+
+	if (expr->any.oper != GNM_EXPR_OP_INTERSECT)
+		res_range = range_union (&a_range, &b_range);
+	else if (!range_intersection  (&res_range, &a_range, &b_range))
+		return value_new_error_NULL (ep);
+
+	res = value_new_cellrange_r (a_start, &res_range);
+	dependent_add_dynamic_dep (ep->dep, &res->v_range);
+	if (!(flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)) {
+		res = value_intersection (res, ep);
+		return (res != NULL)
+			? handle_empty (res, flags)
+			: value_new_error_VALUE (ep);
+	}
+	return res;
+}
+
 /**
  * gnm_expr_eval :
  * @expr :
@@ -1019,7 +1050,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	case GNM_EXPR_OP_GTE:
 	case GNM_EXPR_OP_LT:
 	case GNM_EXPR_OP_LTE:
-		flags = (flags | GNM_EXPR_EVAL_PERMIT_EMPTY);
+		flags |= GNM_EXPR_EVAL_PERMIT_EMPTY;
 
 		a = gnm_expr_eval (expr->binary.value_a, pos, flags);
 		if (a != NULL) {
@@ -1121,10 +1152,13 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			return bin_array_op (pos, b, a, b,
 				(BinOpImplicitIteratorFunc) cb_bin_arith,
 				(gpointer) expr);
-		else if (!VALUE_IS_NUMBER (b))
-			res = value_new_error_VALUE (pos);
-		else
-			res = bin_arith (expr, pos, a, b);
+		else if (!VALUE_IS_NUMBER (b)) {
+			value_release (a);
+			value_release (b);
+			return value_new_error_VALUE (pos);
+		}
+
+		res = bin_arith (expr, pos, a, b);
 		value_release (a);
 		value_release (b);
 		return res;
@@ -1133,7 +1167,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	case GNM_EXPR_OP_UNARY_NEG:
 	case GNM_EXPR_OP_UNARY_PLUS:
 	        /* Guarantees value != NULL */
-		flags &= ~(GNM_EXPR_EVAL_PERMIT_EMPTY);
+		flags &= ~GNM_EXPR_EVAL_PERMIT_EMPTY;
 
 		a = gnm_expr_eval (expr->unary.value, pos, flags);
 		if (a->type == VALUE_ERROR)
@@ -1328,33 +1362,10 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	case GNM_EXPR_OP_SET:
 		return value_new_error_VALUE (pos);
 
-	case GNM_EXPR_OP_RANGE_CTOR: {
-		GnmCellRef a, b;
-		if (gnm_expr_extract_ref (&a, expr->binary.value_a, pos, flags) ||
-		    gnm_expr_extract_ref (&b, expr->binary.value_b, pos, flags))
-			return value_new_error_REF (pos);
-
-		res = value_new_cellrange (&a, &b, pos->eval.col, pos->eval.row);
-		dependent_add_dynamic_dep (pos->dep, &res->v_range);
-		if (!(flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)) {
-			res = value_intersection (res, pos);
-			return (res != NULL)
-				? handle_empty (res, flags)
-				: value_new_error_VALUE (pos);
-		}
-		return res;
+	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
+		return gnm_expr_range_op (expr, pos, flags);
 	}
-
-	case GNM_EXPR_OP_INTERSECT: {
-		GnmCellRef a, b;
-		if (gnm_expr_extract_ref (&a, expr->binary.value_a, pos, flags) ||
-		    gnm_expr_extract_ref (&b, expr->binary.value_b, pos, flags))
-			return value_new_error_REF (pos);
-
-		if (eval_sheet (a.sheet, pos->sheet) == eval_sheet (b.sheet, pos->sheet))
-			return value_new_cellrange (&a, &b, pos->eval.col, pos->eval.row);
-	}
-	};
 
 	return value_new_error (pos, _("Unknown evaluation error"));
 }

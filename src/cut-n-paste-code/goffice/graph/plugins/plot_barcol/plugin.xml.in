@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="GOffice_plot_barcol">
 	<information>
-		<_name>1.5d Charts</_name>
-		<_description>Line, Area, Bar and Column charts</_description>
+		<_name>Charting : Bar/Col/Line/Area</_name>
+		<_description>Line, Area, Bar and Column plots</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="barcol.la"/>

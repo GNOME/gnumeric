@@ -1,3 +1,8 @@
+2004-05-24  Jody Goldberg <jody@gnome.org>
+
+	* graph/go-data-simple.c (go_data_vector_str_get_str) : enable the
+	  translation mechanism
+
 2004-05-26  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* gui-utils/Makefile.am: added go-combo-text.h

@@ -474,8 +474,15 @@ gog_axis_update (GogObject *obj)
 	mant = frexpgnum (maxima/step, &expon);
 	axis->auto_bound [AXIS_ELEM_MAX] = step *
 		ceil (ldexpgnum (mant + GNUM_EPSILON, expon));
-	axis->auto_bound [AXIS_ELEM_MAJOR_TICK] = step;
-	axis->auto_bound [AXIS_ELEM_MINOR_TICK] = step / 5.;
+	if (axis->is_discrete) {
+		/* label and tick for every category */
+		axis->auto_bound [AXIS_ELEM_MAJOR_TICK] = 1.;
+		axis->auto_bound [AXIS_ELEM_MINOR_TICK] = 1.;
+		axis->auto_bound [AXIS_ELEM_CROSS_POINT] = 1.;
+	} else {
+		axis->auto_bound [AXIS_ELEM_MAJOR_TICK] = step;
+		axis->auto_bound [AXIS_ELEM_MINOR_TICK] = step / 5.;
+	}
 
 	/* pull to zero if its nearby (do not pull both directions to 0) */
 	if (axis->auto_bound [AXIS_ELEM_MIN] > 0 &&
@@ -563,15 +570,8 @@ cb_axis_bound_changed (GogObject *axis, gboolean resize, ElemToggleData *closure
 
 static void
 make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
-		 GogDataAllocator *dalloc)
+		 GogDataAllocator *dalloc, char const * const *dim_name)
 {
-	static char const *dim_name[] = {
-		N_("M_in"),
-		N_("M_ax"),
-		N_("Ma_jor Ticks"),
-		N_("Mi_nor Ticks"),
-		N_("_Cross")
-	};
 	ElemToggleData *info;
 	GClosure *closure;
 	GtkWidget *editor = gog_data_allocator_editor (dalloc, set, dim, TRUE);
@@ -669,15 +669,36 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 			G_CALLBACK (cb_axis_toggle_changed), axis, 0);
 	}
 
-	if (!axis->is_discrete) {
-		/* Bounds Page */
-		w = gtk_table_new (1, 2, FALSE);
-		table = GTK_TABLE (w);
-		w = gtk_label_new (_("Automatic"));
-		gtk_misc_set_alignment (GTK_MISC (w), 0., .5);
-		gtk_table_attach (table, w, 0, 1, 0, 1, GTK_FILL, 0, 5, 3);
+	/* Bounds Page */
+	w = gtk_table_new (1, 2, FALSE);
+	table = GTK_TABLE (w);
+	w = gtk_label_new (_("Automatic"));
+	gtk_misc_set_alignment (GTK_MISC (w), 0., .5);
+	gtk_table_attach (table, w, 0, 1, 0, 1, GTK_FILL, 0, 5, 3);
+	if (axis->is_discrete) {
+		static char const * const dim_names[] = {
+			NULL,
+			NULL,
+			N_("Categories between _ticks"),
+			N_("Categories between _labels"),
+			N_("_Cross at category #")
+		};
+		for (i = AXIS_ELEM_MAJOR_TICK; i < AXIS_ELEM_MAX_ENTRY ; i++)
+			make_dim_editor (set, table, i, dalloc, dim_names);
+		gtk_widget_show_all (GTK_WIDGET (table));
+		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), GTK_WIDGET (table),
+			gtk_label_new (_("Bounds")));
+	} else {
+		static char const * const dim_names[] = {
+			N_("M_in"),
+			N_("M_ax"),
+			N_("Ma_jor Ticks"),
+			N_("Mi_nor Ticks"),
+			N_("_Cross")
+		};
+
 		for (i = AXIS_ELEM_MIN; i < AXIS_ELEM_MAX_ENTRY ; i++)
-			make_dim_editor (set, table, i, dalloc);
+			make_dim_editor (set, table, i, dalloc, dim_names);
 		gtk_widget_show_all (GTK_WIDGET (table));
 		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), GTK_WIDGET (table),
 			gtk_label_new (_("Bounds")));
@@ -701,7 +722,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 			G_CALLBACK (cb_axis_fmt_assignment_toggled), notebook);
 		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), w, cbox);
 #else
-		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), w,
+		gtk_notebook_append_page (GTK_NOTEBOOK (notebook), w,
 			gtk_label_new (_("Format")));
 #endif
 
@@ -905,6 +926,8 @@ gboolean
 gog_axis_get_bounds (GogAxis const *axis, double *minima, double *maxima)
 {
 	g_return_val_if_fail (GOG_AXIS (axis) != NULL, FALSE);
+	g_return_val_if_fail (minima != NULL, FALSE);
+	g_return_val_if_fail (maxima != NULL, FALSE);
 
 	*minima = axis_get_entry (axis, AXIS_ELEM_MIN, NULL);
 	*maxima = axis_get_entry (axis, AXIS_ELEM_MAX, NULL);
@@ -1118,7 +1141,7 @@ gog_axis_view_size_request (GogView *v, GogViewRequisition *req)
 	GogViewRequisition txt_size, available;
 	gboolean const is_horiz = axis->type == GOG_AXIS_X;
 	char *label;
-	int i;
+	int i, n, step;
 	double total = 0., txt_max = 0., tick_major = 0., tick_minor = 0.;
 	double line_width = gog_renderer_line_size (
 		v->renderer, axis->base.style->line.width);
@@ -1130,7 +1153,9 @@ gog_axis_view_size_request (GogView *v, GogViewRequisition *req)
  * things are too big */
 	if (axis->major_tick_labeled) {
 		gog_renderer_push_style (v->renderer, axis->base.style);
-		for (i = gog_axis_num_markers (axis, NULL, NULL) ; i-- > 0 ; ) {
+		n = gog_axis_num_markers (axis, NULL, NULL);
+		step = 1;
+		for (i = 0 ; i < n ; i += step) {
 			label = gog_axis_get_marker (axis, i);
 			gog_renderer_measure_text (v->renderer, label,
 						   &txt_size);

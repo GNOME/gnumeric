@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="GOffice_plot_pie">
 	<information>
-		<_name>Pie Charts</_name>
-		<_description>Pie charts</_description>
+		<_name>Charting : Pie/Ring</_name>
+		<_description>Pie and Ring plots</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="pie.la"/>

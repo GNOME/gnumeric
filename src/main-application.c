@@ -296,15 +296,13 @@ main (int argc, char const *argv [])
 
 		for (i = 0; startup_files [i]; i++)
 			;
-		/* FIXME: What to do for non GUI case? Make set_files_total
-		 * an io-context method or branch on GUI/non GUI */
-		icg_set_files_total (IO_CONTEXT_GTK (ioc), i);
+
+		gnm_io_context_set_num_files (ioc, i);
 		for (i = 0;
 		     startup_files [i] && !initial_workbook_open_complete;
 		     i++) {
-			wbv = wb_view_new_from_file (startup_files[i],
-						     NULL, ioc, NULL);
-			icg_inc_files_done (IO_CONTEXT_GTK (ioc));
+			gnm_io_context_processing_file (ioc, startup_files[i]);
+			wbv = wb_view_new_from_file (startup_files[i], NULL, ioc, NULL);
 			if (gnumeric_io_error_occurred (ioc) ||
 			    gnumeric_io_warning_occurred (ioc)) {
 				gnumeric_io_error_display (ioc);

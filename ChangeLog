@@ -1,3 +1,27 @@
+2004-05-27  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook.c (workbook_sheet_hide_controls) : split out from.
+	(workbook_sheet_detach) : here.
+
+	* src/dependent.c (dependent_queue_recalc_list) : fix dynamic depends.
+
+	* src/workbook-control-gui.c (cb_wbcg_drag_data_received) : handle
+	  dragging from nautilus -> gnumeric too.
+
+	* src/main-application.c (main) : Use the new virtuals
+
+	* src/io-context.c (gnm_io_context_set_num_files) : new
+	(gnm_io_context_processing_file) : new.
+
+	* src/io-context-gtk.c (icg_processing_file) : renamed from
+	  icg_inc_files_done.
+	(icg_set_num_files) : renamed from icg_set_files_total.
+	(icg_class_init) : hook up the file handlers to the new virtual.
+
+	* src/expr.c (gnm_expr_extract_ref) : return a RangeRef
+	(gnm_expr_range_op) : new to handle intersection and union properly
+	(gnm_expr_eval) : split the common code out of here.
+
 2004-05-26  Morten Welinder  <terra@gnome.org>
 
 	* src/parser.y (yylex): Ignore spaces in lots of places, notably

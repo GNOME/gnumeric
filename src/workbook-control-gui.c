@@ -76,6 +76,11 @@
 #include <goffice/graph/gog-data-set.h>
 
 #include <gsf/gsf-impl-utils.h>
+#ifdef WITH_GNOME
+#include <libgnomevfs/gnome-vfs-uri.h>
+#include <gsf-gnome/gsf-input-gnomevfs.h>
+#endif
+
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkseparatormenuitem.h>
@@ -630,8 +635,8 @@ cb_sheet_label_drag_data_get (GtkWidget *widget, GdkDragContext *context,
 
 static void
 cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
-	gint x, gint y, GtkSelectionData *data, guint info, guint time,
-	WorkbookControlGUI *wbcg)
+				   gint x, gint y, GtkSelectionData *data, guint info, guint time,
+				   WorkbookControlGUI *wbcg)
 {
 	GtkWidget *w_source;
 	gint n_source, n_dest;
@@ -2027,59 +2032,50 @@ cb_wbcg_drag_leave (GtkWidget *widget, GdkDragContext *context,
 	}
 }
 
-#if 0
-#include <libgnomevfs/gnome-vfs-uri.h>
-#endif
-
 static void
 cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
-		gint x, gint y, GtkSelectionData *selection_data,
-		guint info, guint time, WorkbookControlGUI *wbcg)
+			    gint x, gint y, GtkSelectionData *selection_data,
+			    guint info, guint time, WorkbookControlGUI *wbcg)
 {
-	gchar *target_type;
+	gchar *target_type = gdk_atom_name (selection_data->target);
 
-	target_type = gdk_atom_name (selection_data->target);
-
-#if 0
-	/* First possibility: User dropped some filenames. */
-	if (!strcmp (target_type, "text/uri-list")) {
+#if WITH_GNOME
+	if (!strcmp (target_type, "text/uri-list")) { /* filenames from nautilus */
+		WorkbookView *wbv;
+		IOContext *ioc = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbcg));
 		GList *ptr, *uris = gnome_vfs_uri_list_parse (selection_data->data);
-
 		for (ptr = uris; ptr != NULL; ptr = ptr->next) {
-			GnomeVFSURI const *uri = ptr->data;
-			gchar *str = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
-			gchar *msg = g_strdup_printf (_("File \"%s\" has unknown format."), str);
-			gnm_cmd_context_error_import (GNM_CMD_CONTEXT (wbcg), msg);
-			g_free (msg);
-#if 0
-			if (gnome_vfs_uri_is_local (uri)) {
-				if (!wb_view_open (file_name, wbc, FALSE, NULL)) {
-				}
+			GError *err = NULL;
+			GsfInputGnomeVFS *input = gsf_input_gnomevfs_new_uri (ptr->data, &err);
+
+			if (input != NULL) {
+				wbv = wb_view_new_from_input (GSF_INPUT (input),
+					NULL, ioc, NULL);
+				if (wbv != NULL)
+					wb_control_wrapper_new (WORKBOOK_CONTROL (wbcg),
+						wbv, NULL, NULL);
+			} else {
+				gnm_cmd_context_error_import (GNM_CMD_CONTEXT (ioc),
+					err->message);
 			}
-			/* If it wasn't a workbook, see if we have a control for it */
-			SheetObject *so = sheet_object_container_new_file (
-				sc->sheet->workbook, file_name);
-			if (so != NULL)
-				scg_mode_create_object (gcanvas->simple.scg, so);
-#endif
+			if (gnumeric_io_error_occurred (ioc) ||
+			    gnumeric_io_warning_occurred (ioc)) {
+				gnumeric_io_error_display (ioc);
+				gnumeric_io_error_clear (ioc);
+			}
 		}
 		gnome_vfs_uri_list_free (uris);
-
-	/* Second possibility: User dropped a sheet. */
+		g_object_unref (ioc);
 	} else
 #endif
-	if (!strcmp (target_type, "GNUMERIC_SHEET")) {
-		GtkWidget *label;
-		GtkWidget *source_widget;
 
-		/*
-		 * The user wants to reorder the sheets but hasn't dropped
-		 * the sheet onto a label. Never mind. We figure out
-		 * where the arrow is currently located and simulate a drop
-		 * on that label.
-		 */
-		source_widget = gtk_drag_get_source_widget (context);
-		label = wbcg_get_label_for_position (wbcg, source_widget, x);
+	/* The user wants to reorder the sheets but hasn't dropped
+	 * the sheet onto a label. Never mind. We figure out
+	 * where the arrow is currently located and simulate a drop
+	 * on that label.  */
+	if (!strcmp (target_type, "GNUMERIC_SHEET")) {
+		GtkWidget *label = wbcg_get_label_for_position (wbcg, 
+			gtk_drag_get_source_widget (context), x);
 		cb_sheet_label_drag_data_received (label, context, x, y,
 				selection_data, info, time, wbcg);
 
