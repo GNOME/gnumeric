@@ -16,7 +16,9 @@ PKG_NAME="Gnumeric"
 
 . $srcdir/macros/autogen.sh
 
+rm -f xlibtool
 mv libtool xlibtool
+rm -f $srcdir/xltmain.sh
 mv $srcdir/ltmain.sh $srcdir/xltmain.sh
 sed -e 's/^archive_cmds="\(.*\)"$/archive_cmds="\1 \\$deplibs"/' xlibtool > libtool
 sed -e 's/\$show "extracting global C symbols from.*//' <  $srcdir/xltmain.sh > $srcdir/ltmain.sh
