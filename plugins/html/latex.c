@@ -23,6 +23,7 @@
 #include <gnome.h>
 #include "config.h"
 #include "workbook.h"
+#include "sheet.h"
 #include "latex.h"
 #include "font.h"
 #include "cell.h"
