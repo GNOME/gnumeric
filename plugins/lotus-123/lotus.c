@@ -129,6 +129,22 @@ record_new (GsfInput *input)
 	return r;
 }
 
+static guint16
+record_peek_next (record_t *r)
+{
+	guint8 const *header;
+	guint16 type;
+
+	g_return_val_if_fail (r != NULL, FALSE);
+
+	header = gsf_input_read (r->input, 2, NULL);
+	if (header == NULL)
+		return 0xffff;
+	type = gnumeric_get_le_uint16 (header);
+	gsf_input_seek (r->input, -2, GSF_SEEK_CUR);
+	return type;
+}
+
 static gboolean
 record_next (record_t *r)
 {
@@ -206,17 +222,16 @@ read_workbook (Workbook *wb, GsfInput *input)
 {
 	gboolean result = TRUE;
 	int sheetidx = 0;
-	Sheet *sheet = NULL;
+	Cell    *cell;
+	Value	*v;
+	guint16  fmt;	/* Format code of Lotus Cell */
 	record_t *r;
 
-	sheet = attach_sheet (wb, sheetidx++);
+	Sheet *sheet = attach_sheet (wb, sheetidx++);
 
 	r = record_new (input);
 
 	while (record_next (r)) {
-		Cell    *cell;
-		guint16  fmt;	/* Format code of Lotus Cell */
-
 		if (sheetidx == 0 && r->type != 0) {
 			result = FALSE;
 			break;
@@ -269,21 +284,37 @@ read_workbook (Workbook *wb, GsfInput *input)
 		case LOTUS_FORMULA : {
 			/* 5-12 = value */
 			/* 13-14 = formula r->length */
-			Value *v = value_new_float (gnumeric_get_le_double (r->data + 5));
-			int i = gnumeric_get_le_uint16 (r->data + 1);
-			int j = gnumeric_get_le_uint16 (r->data + 3);
-			fmt = *(guint8 *)(r->data);
-			cell = insert_value (sheet, i, j, v);
-			if (cell) {
-				GnmExpr const *f = lotus_parse_formula (sheet, i, j,
-					r->data + 15, /* FIXME: unsafe */
-					gnumeric_get_le_int16 (r->data + 13));
-				cell_set_expr (cell, f);
-				gnm_expr_unref (f);
+			if (r->len >= 15) {
+				int col = gnumeric_get_le_uint16 (r->data + 1);
+				int row = gnumeric_get_le_uint16 (r->data + 3);
+				guint16 const magic = gnumeric_get_le_uint16 (r->data + 11) & 0x7ff8;
+				int len = gnumeric_get_le_int16 (r->data + 13);
+				GnmExpr const *expr;
+
+				fmt = r->data[0];
+
+				puts (cell_coord_name (col, row));
+				gsf_mem_dump (r->data+5,8);
+				if (r->len < (15+len))
+					break;
+
+				expr = lotus_parse_formula (sheet, col, row,
+					r->data + 15, len);
+				v = NULL;
+				if (0x7ff0 == (gnumeric_get_le_uint16 (r->data + 11) & 0x7ff8) &&
+				    LOTUS_STRING == record_peek_next (r)) {
+					record_next (r);
+					v = value_new_string (r->data + 5);
+				} else
+					v = value_new_float (gnumeric_get_le_double (r->data + 5));
+				cell = sheet_cell_fetch (sheet, col, row),
+				cell_set_expr_and_value (cell, expr, v, TRUE);
+				gnm_expr_unref (expr);
 				cell_set_format_from_lotus_format (cell, fmt);
 			}
 			break;
 		}
+
 		default:
 			break;
 		}

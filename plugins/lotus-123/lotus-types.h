@@ -36,5 +36,6 @@
 #define LOTUS_HEADER         0x26
 #define LOTUS_SETUP          0x27
 #define LOTUS_MARGINS        0x28
+#define LOTUS_STRING         0x33
 
 #endif

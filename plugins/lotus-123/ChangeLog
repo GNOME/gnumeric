@@ -1,3 +1,10 @@
+2002-07-15  Jody Goldberg <jody@gnome.org>
+
+	* lotus.c (read_workbook) : use cell_set_expr_and_value for formulas.
+	  Handle the magic exponents that indicate that the previous value was
+	  a string.  We need a sample of a previous value == err or na
+	* lotus-formula.c (sign_extend) : fix.
+
 2002-06-25  Jon K Hellan  <hellan@acm.org>
 
 	* boot.c (lotus_file_probe): Rewind file after probing.
