@@ -32,3 +32,7 @@ intltool-*
 intl
 ABOUT-NLS
 GNOME_Gnumeric.oaf
+depcomp
+install-sh
+missing
+ylwrap
