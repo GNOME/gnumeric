@@ -1086,9 +1086,9 @@ applix_read_cells (ApplixReadState *state)
 				} else
 					expr = gnm_expr_parse_str (expr_string+1,
 						parse_pos_init_cell (&pos, cell),
-						GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-						state->exprconv,
-						parse_error_init (&perr));
+								   GNM_EXPR_PARSE_DEFAULT,
+								   state->exprconv,
+								   parse_error_init (&perr));
 
 				if (expr == NULL) {
 					(void) applix_parse_error (state, _("%s!%s : unable to parse '%s'\n     %s"),

@@ -17,6 +17,7 @@
 #include "datetime.h"
 #include "sheet.h"
 #include "value.h"
+#include "workbook.h"
 
 #include <libgnome/gnome-config.h>
 #include <string.h>

@@ -198,7 +198,6 @@ typedef struct {
 	gunichar array_col_separator;
 
 	/* flags */
-	gboolean create_placeholder_for_unknown_func;
 	gboolean force_absolute_col_references;
 	gboolean force_absolute_row_references;
 	gboolean force_explicit_sheet_references;
@@ -626,10 +625,6 @@ function : STRING '(' arg_list ')' {
 		if (f == NULL) {
 			GnmParseFunctionHandler h =
 				state->convs->unknown_function_handler;
-
-			if (h == NULL && state->create_placeholder_for_unknown_func)
-				h = gnm_func_placeholder_factory;
-
 			if (h)
 				f_call = h (name, $3, NULL);
 		} else
@@ -641,7 +636,7 @@ function : STRING '(' arg_list ')' {
 
 		if (f_call) {
 			$$ = register_expr_allocation (f_call);
-		} else if (!$$) {
+		} else {
 			YYERROR;
 		}
 	}
@@ -1232,7 +1227,6 @@ gnm_expr_parse_str (char const *expr_text, ParsePos const *pos,
 	pstate.start = pstate.ptr = expr_text;
 	pstate.pos   = pos;
 
-	pstate.create_placeholder_for_unknown_func	= flags & GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC;
 	pstate.force_absolute_col_references		= flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_COL_REFERENCES;
 	pstate.force_absolute_row_references		= flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_ROW_REFERENCES;
 	pstate.force_explicit_sheet_references		= flags & GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;

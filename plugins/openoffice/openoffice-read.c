@@ -215,9 +215,8 @@ oo_attr_enum (OOParseState *state, xmlChar const * const *attrs,
 }
 
 #warning "FIXME: expand this later."
-#define oo_expr_parse_str(str, pp, flags, err)				\
-	gnm_expr_parse_str (str, pp,					\
-		GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC |	\
+#define oo_expr_parse_str(str, pp, flags, err)	\
+	gnm_expr_parse_str (str, pp,		\
 		flags, state->exprconv, err)
 
 /****************************************************************************/

@@ -1,3 +1,10 @@
+2002-12-30  Morten Welinder  <terra@diku.dk>
+
+	* src/parse-util.h: Delete
+	GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC flag.
+
+	* src/parser.y: Delete create_placeholder_for_unknown_func flag.
+
 2002-12-30  Jody Goldberg <jody@gnome.org>
 
 	* src/parser.y (parser_sheet_by_name) : fix allocation handling of
