@@ -269,13 +269,16 @@ item_grid_translate (GnomeCanvasItem *item, double dx, double dy)
 /*
  * Handle the selection
  */
+#define convert(c,sx,sy,x,y) gnome_canvas_w2c (c,sx,sy,x,y)
+
 static gint
 item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 {
+	GnomeCanvas *canvas = item->canvas;
 	ItemGrid *item_grid = ITEM_GRID (item);
 	Sheet *sheet = item_grid->sheet;
-	int col, row;
-
+	int col, row, x, y;
+	int scroll_x, scroll_y;
 
 	switch (event->type){
 	case GDK_BUTTON_RELEASE:
@@ -284,22 +287,29 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		return 1;
 		
 	case GDK_MOTION_NOTIFY:
+		scroll_x = scroll_y = 0;
+		if (event->motion.x < 0){
+			event->motion.x = 0;
+			scroll_x = 1;
+		} if (event->motion.y < 0){
+			event->motion.y = 0;
+			scroll_y = 1;
+		}
+		convert (canvas, event->motion.x, event->motion.y, &x, &y);
 		if (!item_grid->selecting)
 			return 1;
+		
 		col = find_col (item_grid, event->motion.x, NULL);
 		row = find_row (item_grid, event->motion.y, NULL);
 		sheet_selection_extend_to (sheet, col, row);
 		return 1;
 		
 	case GDK_BUTTON_PRESS:
+		convert (canvas, event->button.x, event->button.y, &x, &y);
 		col = find_col (item_grid, event->button.x, NULL);
 		row = find_row (item_grid, event->button.y, NULL);
-		if (!(event->button.state & GDK_SHIFT_MASK)){
-			if (sheet_selection_is_cell_selected (sheet, col, row))
-				return 1;
-			
+		if (!(event->button.state & GDK_SHIFT_MASK))
 			sheet_selection_clear (sheet);
-		}
 
 		item_grid->selecting = 1;
 		sheet_selection_append (sheet, col, row);
