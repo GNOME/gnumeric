@@ -1,5 +1,7 @@
 2003-06-10  Morten Welinder  <terra@gnome.org>
 
+	* src/format-template.c: Apply flame thrower.
+
 	* src/stf.c (stf_read_workbook): Make filename handling UTF-8
 	safe.
 	* src/workbook-view.c (wb_view_attach_control): Ditto.

@@ -39,170 +39,7 @@
 #define CC2XML(s) ((const xmlChar *)(s))
 #define CXML2C(s) ((const char *)(s))
 
-/******************************************************************************
- * Hash table related callbacks and functions
- ******************************************************************************
- *
- * These are basically wrapper function around GHashTable ment for use by
- * the FormatTemplate.
- * The hashtable will manage its own resources, it will copy values instead
- * of using the ones passed.
- */
-
-/**
- * hash_table_destroy_entry_cb:
- * @pkey:
- * @pvalue:
- * @data:
- *
- * Callback for destroying a single key/value pair from a GHashTable
- *
- * Returns : Always TRUE
- **/
-static gboolean
-hash_table_destroy_entry_cb (gpointer pkey, gpointer pvalue,
-			     G_GNUC_UNUSED gpointer data)
-{
-	g_free ((guint *) pkey);
-	mstyle_unref ((MStyle *) pvalue);
-
-	return TRUE;
-}
-
-/**
- * hash_table_destroy:
- * @table:
- *
- * Destroy the hashtable (including the keys and values)
- *
- * Returns : Always NULL
- **/
-static GHashTable *
-hash_table_destroy (GHashTable *table)
-{
-	int size, removed;
-
-	if (table == NULL)
-		return NULL;
-
-	/*
-	 * Remove all items from the table, compare the number of
-	 * removed items to the number of items in the table
-	 * before removal as a sanity check
-	 */
-	size = g_hash_table_size (table);
-	removed = g_hash_table_foreach_remove (table, hash_table_destroy_entry_cb, NULL);
-
-	if (removed != size)
-		g_warning ("format-template.c: Not all items removed from hash table!");
-
-	g_hash_table_destroy (table);
-
-	return NULL;
-}
-
-/**
- * hash_table_create:
- *
- * Create a new hashtable for the format template
- *
- * Returns : A new hashtable
- **/
-static GHashTable *
-hash_table_create (void)
-{
-	return g_hash_table_new (g_int_hash, g_int_equal);
-}
-
-/**
- * hash_table_generate_key:
- * @row:
- * @col:
- *
- * Generate a key from row, col coordinates.
- * This key is always unique provided that row and col are
- * both below 65536 (2^16).
- *
- * Return value: The key
- **/
-static guint
-hash_table_generate_key (int row, int col)
-{
-	guint key;
-
-	key = (row << 16) + col;
-
-	return key;
-}
-
-/**
- * hash_table_lookup:
- * @table:
- * @row:
- * @col:
- *
- * Looks up a the value of a row,col pair in the hash table
- *
- * Return value: The MStyle associated with the coordinates
- **/
-static MStyle *
-hash_table_lookup (GHashTable *table, int row, int col)
-{
-	MStyle *result;
-	guint key;
-
-	key = hash_table_generate_key (row, col);
-
-	result = g_hash_table_lookup (table, &key);
-
-	return result;
-}
-
-/**
- * hash_table_insert:
- * @table:
- * @row:
- * @col:
- * @mstyle:
- * @merge_colors:
- *
- * Insert a new entry into the hashtable for row, col. Note that
- * if there is already an existing entry for those coordinates the
- * existing MStyle and the new one will be merges together to form
- * a new style
- **/
-static void
-hash_table_insert (GHashTable *table, int row, int col, MStyle *mstyle)
-{
-	MStyle *orig_value = NULL;
-	guint *orig_key = NULL;
-	guint key;
-
-	g_return_if_fail (table != NULL);
-	g_return_if_fail (mstyle != NULL);
-
-	key = hash_table_generate_key (row, col);
-
-	/*
-	 * If an entry for this col/row combination does not
-	 * yet exist then simply create a new entry in the hash table
-	 */
-	if (!g_hash_table_lookup_extended (table, &key, (gpointer *) &orig_key, (gpointer *) &orig_value)) {
-		guint *pkey = g_new (guint, 1);
-
-		*pkey = key;
-
-		g_hash_table_insert (table, pkey, mstyle_copy (mstyle));
-	} else {
-
-		/*
-		 * Overwrite any existing entry in the hashtable
-		 * FIXME : Is this the right way to handle this?
-		 */
-		mstyle_unref (orig_value);
-		g_hash_table_insert (table, orig_key, mstyle_copy (mstyle));
-	}
-}
+#define ROW_COL_HASH(row,col) GINT_TO_POINTER ((row << 16) + col)
 
 /******************************************************************************
  * FormatTemplateMember - Getters/setters and creation
@@ -421,7 +258,7 @@ format_template_new (void)
 	ft->edges.top    = TRUE;
 	ft->edges.bottom = TRUE;
 
-	ft->table     = hash_table_create ();
+	ft->table     = g_hash_table_new_full (NULL, NULL, NULL, (GDestroyNotify)mstyle_unref);
 	ft->invalidate_hash = TRUE;
 
 	range_init (&ft->dimension, 0,0,0,0);
@@ -448,7 +285,7 @@ format_template_free (FormatTemplate *ft)
 		format_template_member_free (ptr->data);
 	g_slist_free (ft->members);
 
-	ft->table = hash_table_destroy (ft->table);
+	g_hash_table_destroy (ft->table);
 
 	g_free (ft);
 }
@@ -469,12 +306,11 @@ format_template_clone (FormatTemplate const *ft)
 
 	g_return_val_if_fail (ft != NULL, NULL);
 
-	clone = g_new0 (FormatTemplate, 1);
-
-	clone->filename    = g_strdup (ft->filename);
-	clone->author      = g_strdup (ft->author);
-	clone->name        = g_strdup (ft->name);
-	clone->description = g_strdup (ft->description);
+	clone = format_template_new ();
+	format_template_set_author (clone, ft->author);
+	format_template_set_name (clone, ft->name);
+	format_template_set_description (clone, ft->description);
+	g_free (clone->filename); clone->filename = g_strdup (ft->filename);
 
 	clone->category    = ft->category;
 
@@ -854,7 +690,6 @@ format_template_filter_style (FormatTemplate *ft, MStyle *mstyle, gboolean fill_
 	 * have all their elements set
 	 */
 	if (!fill_defaults) {
-
 		if (!ft->number) {
 			mstyle_unset_element (mstyle, MSTYLE_FORMAT);
 		}
@@ -1202,8 +1037,8 @@ cb_format_hash_style (FormatTemplate *ft, Range *r, MStyle *mstyle, GHashTable *
 
 	for (row = r->start.row; row <= r->end.row; row++) {
 		for (col = r->start.col; col <= r->end.col; col++) {
-
-			hash_table_insert (table, row, col, mstyle);
+			g_hash_table_insert (table, ROW_COL_HASH (row, col),
+					     mstyle_copy (mstyle));
 		}
 	}
 
@@ -1227,8 +1062,7 @@ format_template_recalc_hash (FormatTemplate *ft)
 
 	g_return_if_fail (ft != NULL);
 
-	ft->table = hash_table_destroy (ft->table);
-	ft->table = hash_table_create ();
+	g_hash_table_foreach_remove (ft->table, (GHRFunc)g_direct_hash /* :-) */, NULL);
 
 	r = ft->dimension;
 
@@ -1260,8 +1094,6 @@ format_template_recalc_hash (FormatTemplate *ft)
 MStyle *
 format_template_get_style (FormatTemplate *ft, int row, int col)
 {
-	MStyle *mstyle;
-
 	g_return_val_if_fail (ft != NULL, NULL);
 	g_return_val_if_fail (ft->table != NULL, NULL);
 
@@ -1270,14 +1102,11 @@ format_template_get_style (FormatTemplate *ft, int row, int col)
 	 * then refill it
 	 */
 	if (ft->invalidate_hash) {
-
 		ft->invalidate_hash = FALSE;
 		format_template_recalc_hash (ft);
 	}
 
-	mstyle = hash_table_lookup (ft->table, row, col);
-
-	return mstyle;
+	return g_hash_table_lookup (ft->table, ROW_COL_HASH (row, col));
 }
 
 
