@@ -5,6 +5,8 @@ Jody:
 	* Fix recalc problem with MMULT.
 	* Bump libgsf req to 1.7.0
 	* Fixed XL export (apologies to all)
+	* Improve support for negative elapsed time formats.
+	* Minor lotus-123 import issue.
 
 Jon Kåre:
 	* Finish UI for managing hyperlinks of various sorts.
@@ -24,6 +26,10 @@ Morten:
 	  Snappiness, Part 1 of many.)
 	* Eliminate StyleColor member of RenderedValue.  (Operation
 	  Snappiness, Part 2.)
+
+Nicolas Peninguy :
+	http://bugzilla.gnome.org/show_bug.cgi?id=102236
+	* Decrease depenence on glibc regexp extensions.
 
 Theppitak Karoonboonyanan:
 	* Improve XIM support.

@@ -1,3 +1,16 @@
+2003-01-21  Jody Goldberg <jody@gnome.org>
+
+	* src/format.c (append_hour_elapsed) : rewrite to use rounding and to
+	  handle negatives.  Still not really correct and can not handle
+	  fractional seconds.
+	(append_minute_elapsed) : ditto.
+	(append_second_elapsed) : ditto.
+	(split_time) : remove vile static variable.
+
+	For Nicolas Peninguy :
+	http://bugzilla.gnome.org/show_bug.cgi?id=102236
+	* src/formats.c : decrease dependence on glibc regexp extensions.
+
 2003-01-20  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c (table_cellregion_read): New function. Read

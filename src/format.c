@@ -311,9 +311,6 @@ append_day (GString *string, guchar const *format, struct tm const *time_split)
 	return 4;
 }
 
-/*
- * Renders the hour.
- */
 static void
 append_hour (GString *string, int n, struct tm const *time_split,
 	     gboolean want_am_pm)
@@ -327,21 +324,22 @@ append_hour (GString *string, int n, struct tm const *time_split,
 	g_string_append (string, temp);
 }
 
-/*
- * Renders the hour.
- */
 static void
-append_hour_elapsed (GString *string, struct tm const *time_split, int number)
+append_hour_elapsed (GString *string, struct tm *tm, gnm_float number)
 {
 	char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
-	double hours = number * 24. + time_split->tm_hour;
-	snprintf (buf, sizeof (buf), "%.0f", hours);
+	double res, int_part;
+
+	res = modf (gnumeric_fake_round (number * 24.), &int_part);
+	tm->tm_hour = int_part;
+	res *= (res < 0.) ? -3600. : 3600.;
+	tm->tm_min = res * 60.;
+	tm->tm_sec = res - tm->tm_min * 60;
+
+	snprintf (buf, sizeof (buf), "%d", tm->tm_hour);
 	g_string_append (string, buf);
 }
 
-/*
- * Renders the number of minutes.
- */
 static void
 append_minute (GString *string, int n, struct tm const *time_split)
 {
@@ -350,15 +348,16 @@ append_minute (GString *string, int n, struct tm const *time_split)
 	g_string_append (string, temp);
 }
 
-/*
- * Renders the number of minutes, in elapsed format
- */
 static void
-append_minute_elapsed (GString *string, struct tm const *time_split, int number)
+append_minute_elapsed (GString *string, struct tm *tm, gnm_float number)
 {
 	char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
-	double minutes = ((number * 24.) + time_split->tm_hour) * 60. + time_split->tm_min;
-	snprintf (buf, sizeof (buf), "%.0f", minutes);
+	double res, int_part;
+
+	res = modf (gnumeric_fake_round (number * 24. * 60.), &int_part);
+	tm->tm_min = int_part;
+	tm->tm_sec = res * ((res < 0.) ? -60. : 60.);
+	snprintf (buf, sizeof (buf), "%d", tm->tm_min);
 	g_string_append (string, buf);
 }
 
@@ -377,11 +376,11 @@ append_second (GString *string, int n, struct tm const *time_split)
  * Renders the second field in elapsed
  */
 static void
-append_second_elapsed (GString *string, int n, struct tm const *time_split, int number)
+append_second_elapsed (GString *string, gnm_float number)
 {
 	char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
-	double seconds = (((number * 24. + time_split->tm_hour) * 60. + time_split->tm_min) * 60.) + time_split->tm_sec;
-	snprintf (buf, sizeof (buf), "%.0f", seconds);
+	snprintf (buf, sizeof (buf), "%d",
+		(int) gnumeric_fake_round (number * 24. * 3600.));
 	g_string_append (string, buf);
 }
 
@@ -805,25 +804,24 @@ do_render_number (gnm_float number, format_info_t *info, GString *result)
  * > However, import or export date using serial date number will be a problem.
  * > If no one noticed anything wrong, it must be that no one did it that way.
  */
-static struct tm *
-split_time (gnm_float number, GnmDateConventions const *date_conv)
+static gboolean
+split_time (struct tm *tm, gnm_float number, GnmDateConventions const *date_conv)
 {
-	static struct tm tm;
 	guint secs;
 	GDate date;
 
 	datetime_serial_to_g (&date,
 		datetime_serial_raw_to_serial (number), date_conv);
-	g_date_to_struct_tm (&date, &tm);
+	g_date_to_struct_tm (&date, tm);
 
 	secs = datetime_serial_raw_to_seconds (number);
-	tm.tm_hour = secs / 3600;
-	secs -= tm.tm_hour * 3600;
-	tm.tm_min  = secs / 60;
-	secs -= tm.tm_min * 60;
-	tm.tm_sec  = secs;
+	tm->tm_hour = secs / 3600;
+	secs -= tm->tm_hour * 3600;
+	tm->tm_min  = secs / 60;
+	secs -= tm->tm_min * 60;
+	tm->tm_sec  = secs;
 
-	return &tm;
+	return FALSE;
 }
 
 /*
@@ -1075,14 +1073,15 @@ format_number (gnm_float number, int col_width, StyleFormatEntry const *entry,
 	guchar const *format = (guchar *)(entry->format);
 	format_info_t info;
 	gboolean can_render_number = FALSE;
-	int hour_seen = 0;
+	gboolean hour_seen = FALSE;
 	gboolean time_display_elapsed = FALSE;
 	gboolean ignore_further_elapsed = FALSE;
 
 	gunichar fill_char = 0;
 	int fill_start = -1;
 
-	struct tm *time_split = 0;
+	gboolean need_time_split = TRUE;
+	struct tm tm;
 	gnm_float signed_number;
 
 	memset (&info, 0, sizeof (info));
@@ -1324,9 +1323,6 @@ format_number (gnm_float number, int col_width, StyleFormatEntry const *entry,
 		case 'm': {
 			int n;
 
-			if (!time_split)
-				time_split = split_time (signed_number, date_conv);
-
 			/* FIXME : Yuck
 			 * This is a problem waiting to happen.
 			 * rewrite.
@@ -1336,49 +1332,54 @@ format_number (gnm_float number, int col_width, StyleFormatEntry const *entry,
 			if (format[1] == ']')
 				format++;
 			if (time_display_elapsed) {
-				time_display_elapsed = FALSE;
+				need_time_split = time_display_elapsed = FALSE;
 				ignore_further_elapsed = TRUE;
-				append_minute_elapsed (result, time_split, number);
-			} else if (hour_seen ||
-				   (format[1] == ':' &&
-				    (format[2] == 's' || format[2] == 'S'))) {
-				append_minute (result, n, time_split);
+				append_minute_elapsed (result, &tm, signed_number);
+				break;
+			}
+			
+			if (need_time_split)
+				need_time_split = split_time (&tm, signed_number, date_conv);
+			if (hour_seen ||
+			    (format[1] == ':' &&
+			     (format[2] == 's' || format[2] == 'S'))) {
+				append_minute (result, n, &tm);
 			} else
-				append_month (result, n, time_split);
+				append_month (result, n, &tm);
 			break;
 		}
 
 		case 'D':
 		case 'd':
-			if (!time_split)
-				time_split = split_time (signed_number, date_conv);
-			format += append_day (result, format, time_split) - 1;
+			if (need_time_split)
+				need_time_split = split_time (&tm, signed_number, date_conv);
+			format += append_day (result, format, &tm) - 1;
 			break;
 
 		case 'Y':
 		case 'y':
-			if (!time_split)
-				time_split = split_time (signed_number, date_conv);
-			format += append_year (result, format, time_split) - 1;
+			if (need_time_split)
+				need_time_split = split_time (&tm, signed_number, date_conv);
+			format += append_year (result, format, &tm) - 1;
 			break;
 
 		case 'S':
 		case 's': {
 			int n;
 
-			if (!time_split)
-				time_split = split_time (signed_number, date_conv);
-
 			for (n = 1; format[1] == 's' || format[1] == 'S'; format++)
 				n++;
 			if (format[1] == ']')
 				format++;
-			if (time_display_elapsed){
-				time_display_elapsed = FALSE;
+			if (time_display_elapsed) {
+				need_time_split = time_display_elapsed = FALSE;
 				ignore_further_elapsed = TRUE;
-				append_second_elapsed (result, n, time_split, number);
-			} else
-				append_second (result, n, time_split);
+				append_second_elapsed (result, signed_number);
+			} else {
+				if (need_time_split)
+					need_time_split = split_time (&tm, signed_number, date_conv);
+				append_second (result, n, &tm);
+			}
 			break;
 		}
 
@@ -1386,35 +1387,36 @@ format_number (gnm_float number, int col_width, StyleFormatEntry const *entry,
 		case 'h': {
 			int n;
 
-			if (!time_split)
-				time_split = split_time (signed_number, date_conv);
-
 			for (n = 1; format[1] == 'h' || format[1] == 'H'; format++)
 				n++;
 			if (format[1] == ']')
 				format++;
-			if (time_display_elapsed){
-				time_display_elapsed = FALSE;
+			if (time_display_elapsed) {
+				need_time_split = time_display_elapsed = FALSE;
 				ignore_further_elapsed = TRUE;
-				append_hour_elapsed (result, time_split, number);
-			} else
+				append_hour_elapsed (result, &tm, signed_number);
+			} else {
 				/* h == hour optionally in 24 hour mode
 				 * h followed by am/pm puts it in 12 hout mode
 				 *
 				 * multiple h eg 'hh' force 12 hour mode.
 				 * NOTE : This is a non-XL extension
 				 */
-				append_hour (result, n, time_split,
+				if (need_time_split)
+					need_time_split = split_time (&tm, signed_number, date_conv);
+
+				append_hour (result, n, &tm,
 					     entry->want_am_pm || (n > 1));
+			}
 			hour_seen = TRUE;
 			break;
 		}
 
 		case 'A':
 		case 'a':
-			if (!time_split)
-				time_split = split_time (signed_number, date_conv);
-			if (time_split->tm_hour < 12){
+			if (need_time_split)
+				need_time_split = split_time (&tm, signed_number, date_conv);
+			if (tm.tm_hour < 12){
 				g_string_append_c (result, *format);
 				format++;
 				if (*format == 'm' || *format == 'M'){
@@ -1431,9 +1433,9 @@ format_number (gnm_float number, int col_width, StyleFormatEntry const *entry,
 			break;
 
 		case 'P': case 'p':
-			if (!time_split)
-				time_split = split_time (signed_number, date_conv);
-			if (time_split->tm_hour >= 12){
+			if (need_time_split)
+				need_time_split = split_time (&tm, signed_number, date_conv);
+			if (tm.tm_hour >= 12){
 				g_string_append_c (result, *format);
 				if (*(format + 1) == 'm' || *(format + 1) == 'M'){
 					format++;

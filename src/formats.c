@@ -165,7 +165,9 @@ cell_formats [] = {
 };
 
 /* The compiled regexp for cell_format_classify */
-static regex_t re_number_currency;
+static regex_t re_simple_number;
+static regex_t re_red_number;
+static regex_t re_brackets_number;
 static regex_t re_percent_science;
 static regex_t re_account;
 
@@ -178,29 +180,17 @@ currency_date_format_init (void)
 
 	/* Compile the regexps for format classification */
 
-	/* This is the regexp for FMT_NUMBER and FMT_CURRENCY */
+	/* This one is for simple numbers - it is an extended regexp */
+	char const * const simple_number_pattern = "^((\\$|£|¥|€|\\[\\$.{1,3}-?[0-9]{0,3}\\]) ?)?(#,##)?0(\\.0{1,30})?( ?(\\$|£|¥|€|\\[\\$.{1,3}-?[0-9]{0,3}\\]))?$";
 
-	/*
-	 *  1.  "$ #,##0.000"
-	 *   (currency symbol before number)
-	 *  2.  "$ "
-	 *  3.  "$"
-	 *  4.  "#,##"
-	 *  5.  ".000"
-	 *   (currency symbol after number)
-	 *  6.  " $"
-	 *  7.  "$"
-	 *  8.  9 or 11
-	 *  9.  ";[Red]\1"   (\1 means same string as 1)
-	 * 10.  "[Red]"
-	 * 11.  "_);[Red](\1)"
-	 * 12.  "[Red]"
-	 */
+	/* This one is for matching formats like 0.00;[Red]0.00 */
+	char const * const red_number_pattern = "^\\(.*\\);\\[[Rr][Ee][Dd]\\]\\1$";
 
-	char const *pattern_number_currency = "^\\(\\(\\(\\$\\|£\\|¥\\|€\\|\\[\\$.\\{1,3\\}-\\{0,1\\}[0-9]\\{0,3\\}\\]\\) \\{0,1\\}\\)\\{0,1\\}\\(#,##\\)\\{0,1\\}0\\(\\.0\\{1,30\\}\\)\\{0,1\\}\\( \\{0,1\\}\\(\\$\\|£\\|¥\\|€\\|\\[\\$.\\{1,3\\}-\\{0,1\\}[0-9]\\{0,3\\}\\]\\)\\)\\{0,1\\}\\)\\(\\(;\\(\\[[Rr]ed\\]\\)\\{0,1\\}\\1\\)\\|\\(_);\\(\\[[Rr]ed\\]\\)\\{0,1\\}(\\1)\\)\\)\\{0,1\\}$";
+	/* This one is for matching formats like 0.00_);(0.00) */
+	char const * const brackets_number_pattern = "^\\(.*\\)_);\\(\\[[Rr][Ee][Dd]\\]\\)\\{0,1\\}(\\1)$";
 
-	/* This one is for FMT_PERCENT and FMT_SCIENCE */
-	char const *pattern_percent_science = "^0\\(.0\\{1,30\\}\\)\\{0,1\\}\\(%\\|E+00\\)$";
+	/* This one is for FMT_PERCENT and FMT_SCIENCE, extended regexp */
+	char const *pattern_percent_science = "^0(.0{1,30})?(%|E+00)$";
 
 	/* This one is for FMT_ACCOUNT */
 
@@ -215,16 +205,25 @@ currency_date_format_init (void)
 	 *  8. "$"
 	 */
 
-	char const *pattern_account = "^_(\\(\\(\\(\\$\\|£\\|¥\\|€\\|\\|\\[\\$.\\{1,3\\}-\\{0,1\\}[0-9]\\{0,3\\}\\]\\)\\*  \\{0,1\\}\\)\\{0,1\\}\\)\\(#,##0\\(\\.0\\{1,30\\}\\)\\{0,1\\}\\)\\(\\(\\*  \\{0,1\\}\\(\\$\\|£\\|¥\\|€\\|\\[\\$.\\{1,3\\}-\\{0,1\\}[0-9]\\{0,3\\}\\]\\)\\)\\{0,1\\}\\)_);_(\\1(\\4)\\6;_(\\1\"-\"?\\{0,30\\}\\6_);_(@_)$";
+	char const *pattern_account = "^_(\\(\\(\\(.*\\)\\*  \\{0,1\\}\\)\\{0,1\\}\\)\\(#,##0\\(\\.0\\{1,30\\}\\)\\{0,1\\}\\)\\(\\(\\*  \\{0,1\\}\\(.*\\)\\)\\{0,1\\}\\)_);_(\\1(\\4)\\6;_(\\1\"-\"?\\{0,30\\}\\6_);_(@_)$";
 
-	if ((regcomp (&re_number_currency, pattern_number_currency, 0)) != 0)
-		g_warning ("Error in regcomp() for currency");
 
-	if ((regcomp (&re_percent_science, pattern_percent_science, 0)) != 0)
-		g_warning ("Error in regcomp() for percent and science");
+	if ((regcomp (&re_simple_number, simple_number_pattern,
+		      REG_EXTENDED)) != 0)
+		g_warning ("Error in regcomp() for simple number, please report the bug");
+
+	if ((regcomp (&re_red_number, red_number_pattern, 0)) != 0)
+		g_warning ("Error in regcomp() for red number, please report the bug");
+
+	if ((regcomp (&re_brackets_number, brackets_number_pattern, 0)) != 0)
+		g_warning ("Error in regcomp() for brackets number, please report the bug");
+
+	if ((regcomp (&re_percent_science, pattern_percent_science,
+		      REG_EXTENDED)) != 0)
+		g_warning ("Error in regcomp() for percent and science, please report the bug");
 
 	if ((regcomp (&re_account, pattern_account, 0)) != 0)
-		g_warning ("Error in regcomp() for account");
+		g_warning ("Error in regcomp() for account, please report the bug");
 
 	if (precedes) {
 		post_rep = post = (char *)"";
@@ -506,58 +505,80 @@ find_currency (char const *ptr, int len)
 }
 
 static FormatFamily
+cell_format_simple_number (char const * const fmt, FormatCharacteristics *info)
+{
+	FormatFamily result = FMT_NUMBER;
+	int cur = -1;
+
+#define MATCH_SIZE 7
+	regmatch_t match[MATCH_SIZE];
+
+	if (regexec (&re_simple_number, fmt, MATCH_SIZE, match, 0) == 0) {
+
+		if (match[2].rm_eo == -1 && match[6].rm_eo == -1) {
+			result = FMT_NUMBER;
+			info->currency_symbol_index = 0;
+		} else {
+			result = FMT_CURRENCY;
+			if (match[6].rm_eo == -1)
+				cur = find_currency (fmt + match[2].rm_so,
+						     match[2].rm_eo
+						     - match[2].rm_so);
+			else if (match[2].rm_eo == -1)
+				cur = find_currency (fmt + match[6].rm_so,
+						     match[6].rm_eo
+						     - match[6].rm_so);
+			if (cur == -1)
+				return FMT_UNKNOWN;
+			info->currency_symbol_index = cur;
+		}
+
+		if (match[3].rm_eo != -1)
+			info->thousands_sep = TRUE;
+
+		info->num_decimals = 0;
+		if (match[4].rm_eo != -1)
+			info->num_decimals = match[4].rm_eo -
+				match[4].rm_so - 1;
+
+		return result;
+	} else {
+		return FMT_UNKNOWN;
+	}
+}
+
+static FormatFamily
 cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 {
 	FormatFamily result = FMT_NUMBER;
 	char const *ptr = fmt;
 	int cur = -1;
 
-#define MATCH_SIZE 13
+#define MATCH_SIZE 9
 	regmatch_t match[MATCH_SIZE];
 
 	/* FMT_CURRENCY or FMT_NUMBER ? */
-	if (regexec (&re_number_currency, fmt, MATCH_SIZE, match, 0) == 0) {
+	if ((result = cell_format_simple_number (fmt, info)) != FMT_UNKNOWN)
+		return result;
 
-		/* match[3] and match[7] contain the Currency symbol */
-		if (match[3].rm_eo == -1 && match[7].rm_eo == -1) {
-			result = FMT_NUMBER;
-			info->currency_symbol_index = 0;
-		} else {
-			result = FMT_CURRENCY;
-			if (match[7].rm_eo == -1)
-				cur = find_currency (ptr + match[3].rm_so,
-						    match[3].rm_eo
-						    - match[3].rm_so);
-			else if (match[3].rm_eo == -1)
-				cur = find_currency (ptr + match[7].rm_so,
-						    match[7].rm_eo
-						    - match[7].rm_so);
-			else
-				return FMT_UNKNOWN;
+	if (regexec (&re_red_number, fmt, MATCH_SIZE, match, 0) == 0) {
+		char *tmp = g_strndup(fmt+match[1].rm_so,
+				      match[1].rm_eo-match[1].rm_so);
+		result = cell_format_simple_number (tmp, info);
+		g_free(tmp);
+		info->negative_fmt = 1;
+		return result;
+	}
 
-			if (cur == -1)
-				return FMT_UNKNOWN;
-			info->currency_symbol_index = cur;
-		}
-
-		/* match[4] contains the #,## string */
-		if (match[4].rm_eo != -1)
-			info->thousands_sep = TRUE;
-
-		/* match[5] contains the .0000... string */
-		info->num_decimals = 0;
-		if (match[5].rm_eo != -1)
-			info->num_decimals = match[5].rm_eo -
-				match[5].rm_so - 1;
-
-		info->negative_fmt = 0;
-		/* match[10] and match[12] contain the [Red] string */
-		if ((match[10].rm_eo != -1) || (match[12].rm_eo != -1))
-			info->negative_fmt++;
-		/* match[11] contains _);(...) */
-		if (match[11].rm_eo != -1)
-			info->negative_fmt += 2;
-
+	if (regexec (&re_brackets_number, fmt, MATCH_SIZE, match, 0) == 0) {
+		char *tmp = g_strndup(fmt+match[1].rm_so,
+				      match[1].rm_eo-match[1].rm_so);
+		result = cell_format_simple_number (tmp, info);
+		g_free(tmp);
+		if (match[2].rm_eo != -1)
+			info->negative_fmt = 3;
+		else
+			info->negative_fmt = 2;
 		return result;
 	}
 
