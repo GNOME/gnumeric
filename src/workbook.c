@@ -397,23 +397,14 @@ workbook_destroy (GtkObject *wb_object)
 }
 
 static int
-workbook_widget_delete_event (GtkWidget *widget, Workbook *wb)
-{
-#ifdef ENABLE_BONOBO
-	if (wb->bonobo_regions) {
-		gtk_widget_hide (GTK_WIDGET (wb->toplevel));
-		return FALSE;
-	}
-#endif
-/*	gtk_object_unref (GTK_OBJECT (wb)); */
-	return TRUE;
-}
-
-static int
 workbook_delete_event (GtkWidget *widget, GdkEvent *event, Workbook *wb)
 {
 	if (workbook_can_close (wb)){
 #ifdef BONOBO_ENABLED
+		if (wb->bonobo_regions) {
+			gtk_widget_hide (GTK_WIDGET (wb->toplevel));
+			return FALSE;
+		}
 		gnome_object_unref (GNOME_OBJECT (wb));
 #else
 		gtk_object_unref (GTK_OBJECT (wb));
@@ -2038,7 +2029,7 @@ workbook_new (void)
 
 	gtk_signal_connect (
 		GTK_OBJECT (wb->toplevel), "delete_event",
-		GTK_SIGNAL_FUNC (workbook_widget_delete_event), wb);
+		GTK_SIGNAL_FUNC (workbook_delete_event), wb);
 
 #if 0
 	/* Enable toplevel as a drop target */
@@ -2055,12 +2046,6 @@ workbook_new (void)
 
 	/* clipboard setup */
 	x_clipboard_bind_workbook (wb);
-
-	/* delete_event */
-	gtk_signal_connect (
-		GTK_OBJECT (wb->toplevel), "delete_event",
-		GTK_SIGNAL_FUNC (workbook_delete_event), wb);
-
 
 	gtk_widget_show_all (wb->table);
 

@@ -1,3 +1,8 @@
+1999-09-11  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/workbook.c (workbook_delete_event): Fix the delete_event
+	setup. 
+
 1999-09-11  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-object-widget.c (sheet_object_widget_update_bounds) :
