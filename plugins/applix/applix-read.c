@@ -553,10 +553,10 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					char *start = (sep += 2);
 					int font_id = strtol (start, &sep, 10);
 
-					if (start == sep || font_id < 1 || font_id > (int)state->font_names->len)
+					if (start == sep || font_id < 0 || font_id >= (int)state->font_names->len)
 						(void) applix_parse_error (state, "Unknown font modifier");
 					else {
-						char const *name = g_ptr_array_index (state->font_names, font_id-1);
+						char const *name = g_ptr_array_index (state->font_names, font_id);
 						mstyle_set_font_name (style, name);
 					}
 					break;

@@ -1,3 +1,9 @@
+2002-02-10  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=70327
+	* applix-read.c (applix_parse_style) : Looks like the font indicies
+	  are 0 based.
+
 2002-01-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.4
