@@ -315,6 +315,8 @@ main (int argc, char const *argv [])
 
 			gnm_io_context_processing_file (ioc, uri);
 			wbv = wb_view_new_from_uri (uri, NULL, ioc, NULL);
+			g_free (uri);
+
 			if (gnumeric_io_error_occurred (ioc) ||
 			    gnumeric_io_warning_occurred (ioc)) {
 				gnumeric_io_error_display (ioc);
