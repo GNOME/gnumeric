@@ -1,3 +1,6 @@
+Gnumeric 1.0.7
+
+--------------------------------------------------------------------------
 Gnumeric 1.0.6
 
 Andreas:
@@ -24,15 +27,13 @@ Jody:
 	* DOM importer missed sheet scoped names.
 
 Jon Kåre:
+	http://bugzilla.gnome.org/show_bug.cgi?id=78483
 	* Fix HPUX build.
 	* Fully disable the plan perfect plugin.
+	* Fix guile memory and error handling.
 
 Morten:
 	* Fix gnumeric_fake_trunc and thus INT.
-
-Jon Kåre:
-	http://bugzilla.gnome.org/show_bug.cgi?id=78483
-	* fix hpux build
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.5
