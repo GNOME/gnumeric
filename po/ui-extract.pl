@@ -8,7 +8,7 @@
 use strict;
 use Getopt::Long;
 
-my $VERSION     = "0.6.1";
+my $VERSION     = "0.6.5";
 
 my $FILE	= $ARGV[0];
 my $HELP_ARG 	= "0";
@@ -151,7 +151,13 @@ sub Convert($) {
         my $translate = "label|title|text|format|copyright|comments|preview_text|tooltip";
 
         while ($input =~ /<($translate)>(..[^<]*)<\/($translate)>/sg) {
-                $string{$2} = [];
+
+		# We do not want window1, label1 etc.
+
+                if ($2 =~ /(^window[0-9]$|^label[0-9]$)/){
+	 	}else{
+		$string{$2} = []; 
+		}
         }}
     }
 

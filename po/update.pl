@@ -13,9 +13,9 @@
 #  used within.
 
 
-$VERSION = "1.5beta1";
+$VERSION = "1.5beta2";
 $LANG    = $ARGV[0];
-$PACKAGE  = "gnumeric";
+$PACKAGE = "gnumeric";
 $| = 1;
 
 
@@ -104,14 +104,14 @@ sub Maintain{
     @buf1_1 = <BUF1>;
     @buf1_2 = <BUF2>;
 
-    if (-s "POTFILES.ignore"){
-        open FILE, "POTFILES.ignore";
+    if (-s ".potignore"){
+        open FILE, ".potignore";
         while (<FILE>) {
             if ($_=~/^[^#]/o){
                 push @bup, $_;
             }
         }
-        print "Found POTFILES.ignore: Ignoring files...\n";
+        print "Found .potignore: Ignoring files...\n";
         @buf1_2 = (@bup, @buf1_2);
     }
 
@@ -140,11 +140,11 @@ sub Maintain{
        }
 
     if(@result){
-        open OUT, ">POTFILES.in.missing";
+        open OUT, ">missing";
         print OUT @result;
         print "\nHere are the results:\n\n", @result, "\n";
-        print "The file POTFILES.in.missing has been placed in the current directory.\n";
-        print "Files supposed to be ignored should be placed in POTFILES.ignore\n";
+        print "The file \"missing\" has been placed in the current directory.\n";
+        print "Files supposed to be ignored should be placed in \".potignore\"\n";
     }
     else{
         print "\nWell, it's all perfect! Congratulation!\n";
