@@ -1,3 +1,7 @@
+2000-11-11  Jody Goldberg <jgoldberg@home.com>
+
+	* xml2.c (xml2ParseColRow) : support RLE encoded col/row sizes.
+
 2000-10-30  Jody Goldberg <jgoldberg@home.com>
 
 	* xml2.c (xml2ParseColRow) : Add the count attribute.
