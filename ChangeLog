@@ -1,3 +1,7 @@
+2002-11-10  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: Reenabled AM_ACLOCAL_INCLUDE.
+
 2002-11-09  gettextize  <bug-gnu-gettext@gnu.org>
 
 	* Makefile.am (SUBDIRS): Add m4.
