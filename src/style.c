@@ -3,7 +3,7 @@
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
- *  (C) 1998, 1999 Miguel de Icaza
+ *  (C) 1998, 1999, 2000 Miguel de Icaza
  */
 #include <config.h>
 #include <gnome.h>
@@ -11,6 +11,7 @@
 #include "gnumeric.h"
 #include "format.h"
 #include "color.h"
+#include "application.h"
 #include "gnumeric-util.h"
 
 #undef DEBUG_REF_COUNT
@@ -307,8 +308,16 @@ style_color_new (gushort red, gushort green, gushort blue)
 		sc->green = green;
 		sc->blue = blue;
 		sc->name = NULL;
-		
 		sc->color.pixel = color_alloc (red, green, blue);
+
+		/* Make a contrasting selection color with an alpha of .5 */
+		red   += (gs_lavender.red   - red)/2;
+		green += (gs_lavender.green - green)/2;
+		blue  += (gs_lavender.blue  - blue)/2;
+		sc->selected_color.red = red;
+		sc->selected_color.green = green;
+		sc->selected_color.blue = blue;
+		sc->selected_color.pixel = color_alloc (red, green, blue);
 
 		g_hash_table_insert (style_color_hash, sc, sc);
 		sc->ref_count = 0;
@@ -421,10 +430,10 @@ color_hash (gconstpointer v)
 static void
 font_init (void)
 {
-	/* NOTE : these fonts are NOT scaled by resolution.
-	 *        The size of the default rows and columns depend on that.
-	 */
-	gnumeric_default_font = style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE, 1.0, FALSE, FALSE);
+	double const scale = MIN (application_display_dpi_get (TRUE),
+				  application_display_dpi_get (FALSE)) / 72.;
+	gnumeric_default_font = style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
+						       scale, FALSE, FALSE);
 
 	if (!gnumeric_default_font) {
 		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR, 

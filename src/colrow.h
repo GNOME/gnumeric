@@ -11,10 +11,12 @@ struct _ColRowInfo {
 	int	margin_a;  	/* top/left margin */
 	int	margin_b; 	/* bottom/right margin */
 
+	/* Size including margins, and right grid line */
 	float	size_pts;	/* In points */
 	int	size_pixels;	/* In pixels */
 
-	gboolean hard_size;     /* has the user explicitly set the dimensions? */
+	int	 hard_size:1;	/* has the user explicitly set the dimensions? */
+	int	 visible:1;	/* Is the row/col visible */
 
 	/* TODO : Add per row/col min/max */
 
@@ -28,8 +30,8 @@ struct _ColRowCollection
 	GPtrArray * info;
 };
 
-#define COL_INTERNAL_WIDTH(col) ((col)->size_pixels - ((col)->margin_b + (col)->margin_a))
-#define ROW_INTERNAL_HEIGHT(row) ((row)->size_pixels - ((row)->margin_b + (row)->margin_a))
+#define COL_INTERNAL_WIDTH(col) ((col)->size_pixels - ((col)->margin_b + (col)->margin_a + 1))
+#define ROW_INTERNAL_HEIGHT(row) ((row)->size_pixels - ((row)->margin_b + (row)->margin_a + 1))
 
 typedef GSList *ColRowVisList;
 

@@ -96,10 +96,10 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 	min_col = MAX (MIN (first_col, min_col), gsheet->col.first);
 	max_col = MIN (MAX (last_col, max_col), gsheet->col.last_visible);
 
-	x = sheet_col_get_distance (sheet, gsheet->col.first, min_col);
-	y = sheet_row_get_distance (sheet, gsheet->row.first, first_row);
-	w = sheet_col_get_distance (sheet, min_col, max_col+1);
-	h = sheet_row_get_distance (sheet, first_row, last_row+1);
+	x = sheet_col_get_distance_pixels (sheet, gsheet->col.first, min_col);
+	y = sheet_row_get_distance_pixels (sheet, gsheet->row.first, first_row);
+	w = sheet_col_get_distance_pixels (sheet, min_col, max_col+1) + 1;
+	h = sheet_row_get_distance_pixels (sheet, first_row, last_row+1) + 1;
 
 	x += canvas->layout.xoffset - canvas->zoom_xofs;
 	y += canvas->layout.yoffset - canvas->zoom_yofs;
@@ -129,10 +129,10 @@ sheet_view_redraw_headers (SheetView *sheet_view,
 #define COL_HEURISTIC	20
 			if (-COL_HEURISTIC < size && size < COL_HEURISTIC) {
 				left = gsheet->col_offset.first +
-				    sheet_col_get_distance (sheet_view->sheet,
+				    sheet_col_get_distance_pixels (sheet_view->sheet,
 							    gsheet->col.first, r->start.col);
 				right = left +
-				    sheet_col_get_distance (sheet_view->sheet,
+				    sheet_col_get_distance_pixels (sheet_view->sheet,
 							    r->start.col, r->end.col+1);
 			}
 		}
@@ -151,10 +151,10 @@ sheet_view_redraw_headers (SheetView *sheet_view,
 #define ROW_HEURISTIC	50
 			if (-ROW_HEURISTIC < size && size < ROW_HEURISTIC) {
 				top = gsheet->row_offset.first +
-				    sheet_row_get_distance (sheet_view->sheet,
+				    sheet_row_get_distance_pixels (sheet_view->sheet,
 							    gsheet->row.first, r->start.row);
 				bottom = top +
-				    sheet_row_get_distance (sheet_view->sheet,
+				    sheet_row_get_distance_pixels (sheet_view->sheet,
 							    r->start.row, r->end.row+1);
 			}
 		}
@@ -206,9 +206,9 @@ sheet_view_set_zoom_factor (SheetView *sheet_view, double factor)
 
 	/* Recalibrate the starting offsets */
 	gsheet->col_offset.first =
-	    sheet_col_get_distance (sheet_view->sheet, 0, gsheet->col.first);
+	    sheet_col_get_distance_pixels (sheet_view->sheet, 0, gsheet->col.first);
 	gsheet->row_offset.first =
-	    sheet_row_get_distance (sheet_view->sheet, 0, gsheet->row.first);
+	    sheet_row_get_distance_pixels (sheet_view->sheet, 0, gsheet->row.first);
 
 	/* Ensure that the current cell remains visible when we zoom */
 	gnumeric_sheet_make_cell_visible (gsheet,
@@ -340,10 +340,10 @@ sheet_view_col_size_changed (ItemBar *item_bar, int col, int width, SheetView *s
 				continue;
  
  			if (sheet_col_selection_type (sheet, ci->pos) == ITEM_BAR_FULL_SELECTION)
- 				sheet_col_set_width (sheet, ci->pos, width);
+ 				sheet_col_set_size_pixels (sheet, ci->pos, width, TRUE);
  		}
 	} else
- 		sheet_col_set_width (sheet, col, width);
+ 		sheet_col_set_size_pixels (sheet, col, width, TRUE);
 	
 	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (sheet_view->sheet_view));
 }
@@ -398,10 +398,10 @@ sheet_view_row_size_changed (ItemBar *item_bar, int row, int height, SheetView *
 				continue;
 			
 			if (sheet_row_selection_type (sheet, ri->pos) == ITEM_BAR_FULL_SELECTION)
-					sheet_row_set_height (sheet, ri->pos, height, TRUE);
+					sheet_row_set_size_pixels (sheet, ri->pos, height, TRUE);
 		}
 	} else
-		sheet_row_set_height (sheet, row, height, TRUE);
+		sheet_row_set_size_pixels (sheet, row, height, TRUE);
 }
 
 static void
@@ -726,8 +726,8 @@ sheet_view_comment_get_points (SheetView *sheet_view, int col, int row)
 
 	points = gnome_canvas_points_new (3);
 
-	x = sheet_col_get_distance (sheet_view->sheet, 0, col+1);
-	y = 1+sheet_row_get_distance (sheet_view->sheet, 0, row);
+	x = sheet_col_get_distance_pixels (sheet_view->sheet, 0, col+1);
+	y = 1+sheet_row_get_distance_pixels (sheet_view->sheet, 0, row);
 
 	points->coords [0] = x - TRIANGLE_WIDTH;
 	points->coords [1] = y;

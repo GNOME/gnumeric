@@ -1,3 +1,6 @@
+This file is meant to hold a list of small tasks that need doing that would be
+appropriate for new developers.
+
 Description                                             Difficulty  Integration
 ------------------------------------------------------  ----------  -----------
 - Dialog to change the order of sheets.                 Easy        Low
@@ -24,6 +27,9 @@ Description                                             Difficulty  Integration
 
 - Add tooltips for colours in
   src/widgets/widget-color-combo.c			Low	    Low.
+
+- Save/Restore the values of the last selected colours	Low	    Low.
+  from the toolbar for background or font.
 
 
 Difficulty: an estimate of how hard the task would be for the average hacker.

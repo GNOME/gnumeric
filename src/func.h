@@ -1,6 +1,7 @@
 #ifndef GNUMERIC_FUNC_H
 #define GNUMERIC_FUNC_H
 
+#include <gnome.h>
 #include "expr.h"
 #include "sheet.h"
 

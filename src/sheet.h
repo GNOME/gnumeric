@@ -223,35 +223,49 @@ ColRowInfo *sheet_col_fetch               (Sheet *sheet, int pos);
 void        sheet_col_add                 (Sheet *sheet, ColRowInfo *cp);
 void        sheet_row_add                 (Sheet *sheet, ColRowInfo *cp);
 
-/* Return the number of units (points) in a col/row, including margins */
-double      sheet_get_default_external_col_width  (Sheet const *sheet);
-double      sheet_get_default_external_row_height (Sheet const *sheet);
-double      sheet_col_get_external_width  (Sheet const *sheet, int const pos);
-double      sheet_row_get_external_height (Sheet const *sheet, int const pos);
+/*
+ * Definitions of row/col size terminology :
+ *
+ * _pixels == measurments are in screen pixels.
+ * _pts == measurments are in 'points' and should be the same size on all displays
+ *         (printers and monitors).
+ *
+ * distance == pixels from the leading edge of the 'from' col/row
+ *             to the leading edge of the 'to' col/row
+ *             INCLUDING all internal margins.
+ *             INCLUDING the leading grid line
+ *             EXCLUDING the trailing grid line.
+ *
+ * _default == The size of all cols/rows that do not have explicit sizes.
+ */
+/* Col width */
+int     sheet_col_get_distance_pixels   (Sheet const *sheet, int from_col, int to_col);
+double  sheet_col_get_distance_pts      (Sheet const *sheet, int from_col, int to_col);
+void    sheet_col_set_size_pts          (Sheet *sheet, int col, double height_pts,
+					 gboolean set_by_user);
+void    sheet_col_set_size_pixels       (Sheet *sheet, int col, int height_pixels,
+					 gboolean set_by_user);
+double  sheet_col_get_default_size_pts  (Sheet const *sheet);
+void    sheet_col_set_default_size_pts  (Sheet *sheet, double width_pts,
+					 gboolean thick_a, gboolean thick_b);
+void    sheet_col_set_internal_size_pts (Sheet *sheet, ColRowInfo *ri, double height_pts);
 
-/* Measure distances in pixels from one col/row to another */
-int         sheet_col_get_distance        (Sheet const *sheet, int from_col, int to_col);
-int         sheet_row_get_distance        (Sheet const *sheet, int from_row, int to_row);
-double      sheet_row_get_unit_distance   (Sheet const *sheet, int from_row, int to_row);
-double      sheet_col_get_unit_distance   (Sheet const *sheet, int from_col, int to_col);
+/* Row height */
+int     sheet_row_get_distance_pixels   (Sheet const *sheet, int from_row, int to_row);
+double  sheet_row_get_distance_pts      (Sheet const *sheet, int from_row, int to_row);
 
-/* Sets the width/height of a column row in terms of pixels */
-void        sheet_col_set_width           (Sheet *sheet,
-				           int col, int width);
-void        sheet_col_set_width_units     (Sheet *sheet, int col, double width,
-					   gboolean set_by_user);
-void        sheet_col_set_internal_width  (Sheet *sheet, ColRowInfo *ci,
-					   double width);
+void    sheet_row_set_size_pts          (Sheet *sheet, int row, double height_pts,
+					 gboolean set_by_user);
+void    sheet_row_set_size_pixels       (Sheet *sheet, int row, int height_pixels,
+					 gboolean set_by_user);
+double  sheet_row_get_default_size_pts  (Sheet const *sheet);
+void    sheet_row_set_default_size_pts  (Sheet *sheet, double height_pts,
+					 gboolean thick_a, gboolean thick_b);
+void    sheet_row_set_internal_size_pts (Sheet *sheet, ColRowInfo *ri, double height_pts);
 
-void        sheet_row_set_height          (Sheet *sheet,
-				           int row, int height,
-				           gboolean height_set_by_user);
-void        sheet_row_set_height_units    (Sheet *sheet, int row, double height,
-					   gboolean height_set_by_user);
-void        sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, double height);
-
-int         sheet_col_size_fit            (Sheet *sheet, int col);
-int         sheet_row_size_fit            (Sheet *sheet, int row);
+/* Find minimum pixel size to display contents */
+int     sheet_col_size_fit            (Sheet *sheet, int col);
+int     sheet_row_size_fit            (Sheet *sheet, int row);
 
 void        sheet_col_set_selection       (Sheet *sheet,
 					   ColRowInfo *ci, int value);
@@ -380,16 +394,16 @@ gboolean  sheet_insert_cols (CommandContext *context, Sheet *sheet,
 			     int col, int count, GSList **reloc_storage);
 gboolean  sheet_delete_cols (CommandContext *context, Sheet *sheet,
 			     int col, int count, GSList **reloc_storage);
-void  sheet_shift_cols  (CommandContext *context, Sheet *sheet,
-			 int start_col, int end_col,
-			 int row,       int count);
+void      sheet_shift_cols  (CommandContext *context, Sheet *sheet,
+			     int start_col, int end_col,
+			     int row,       int count);
 gboolean  sheet_insert_rows (CommandContext *context, Sheet *sheet,
-			 int row, int count, GSList **reloc_storage);
+			     int row, int count, GSList **reloc_storage);
 gboolean  sheet_delete_rows (CommandContext *context, Sheet *sheet,
-			 int row, int count, GSList **reloc_storage);
-void  sheet_shift_rows  (CommandContext *context, Sheet *sheet,
-			 int col,
-			 int start_row, int end_row, int count);
+			     int row, int count, GSList **reloc_storage);
+void      sheet_shift_rows  (CommandContext *context, Sheet *sheet,
+			     int col,
+			     int start_row, int end_row, int count);
 
 void  sheet_fill_selection_with (CommandContext *context, Sheet *sheet,
 				 const char *text, gboolean const is_array);

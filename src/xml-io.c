@@ -1398,7 +1398,7 @@ xml_write_colrow_info (Sheet *sheet, ColRowInfo *info, void *user_data)
 		xml_set_value_int (cur, "MarginA", info->margin_a);
 		xml_set_value_int (cur, "MarginB", info->margin_b);
 		xml_set_value_int (cur, "HardSize", info->hard_size);
-		xml_set_value_int (cur, "Hidden", info->size_pixels < 0);
+		xml_set_value_int (cur, "Hidden", !info->visible);
 
 		xmlAddChild (closure->container, cur);
 	}
@@ -1441,7 +1441,7 @@ xml_read_colrow_info (parse_xml_context_t *ctxt, xmlNodePtr tree, ColRowInfo *re
 	if (xml_get_value_int (tree, "HardSize", &val))
 		ret->hard_size = val;
 	if (xml_get_value_int (tree, "Hidden", &val) && val)
-		ret->size_pixels = -1;	/* Any negative will result in things being hidden */
+		ret->visible = FALSE;
 
 	return ret;
 }
@@ -1882,7 +1882,7 @@ xml_read_cols_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
 		if (!info)
 			continue;
 		sheet_col_add (sheet, info);
-		sheet_col_set_width_units (ctxt->sheet, info->pos, size_pts, info->hard_size);
+		sheet_col_set_size_pts (ctxt->sheet, info->pos, size_pts, info->hard_size);
 	}
 }
 
@@ -1903,7 +1903,7 @@ xml_read_rows_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
 		if (!info)
 			continue;
 		sheet_row_add (sheet, info);
-		sheet_row_set_height_units (ctxt->sheet, info->pos, size_pts, info->hard_size);
+		sheet_row_set_size_pts (ctxt->sheet, info->pos, size_pts, info->hard_size);
 	}
 }
 

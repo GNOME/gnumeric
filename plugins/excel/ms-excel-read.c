@@ -2460,7 +2460,7 @@ get_units_net_of_margins (double units, const ColRowInfo * cri)
 	/* Return an arbitary non 0 value on catastrophic failure */
 	g_return_val_if_fail (cri != NULL, 1.);
 
-	units -= (cri->margin_a + cri->margin_b);
+	units -= (cri->margin_a + cri->margin_b + 1);
 	if (units < 0)
 		units = 1.;
 	return units;
@@ -2482,17 +2482,32 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 	guint16 const height = MS_OLE_GET_GUINT16(q->data+6);
 	guint16 const flags = MS_OLE_GET_GUINT16(q->data+12);
 	guint16 const xf = MS_OLE_GET_GUINT16(q->data+14) & 0xfff;
+
+	/* If the bit is on it indicates that the row is of 'standard' height.
+	 * However the remaining bits still include the size.
+	 */
+	gboolean const is_std_height = (height & 0x8000) != 0;
+
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1)
 		printf ("Row %d height 0x%x;\n", row+1, height);
 #endif
-	if ((height & 0x8000) == 0) {
+
+	/* TODO : Set put mechanism in place to increase the margins */
+	/* TODO : sync the approach used for the columns with the row.
+	 *       columns actually set the size even when it is the default.
+	 *       Why ?
+	 */
+	/* TODO : We should store the default row style too.
+	 *        Which has precedence rows or cols ??
+	 */
+	if (!is_std_height) {
 		double hu = get_row_height_units (height);
 		/* Subtract margins */
 		hu = get_units_net_of_margins
 			(hu, sheet_row_get_info (sheet->gnum_sheet, row));
 
-		sheet_row_set_height_units (sheet->gnum_sheet, row, hu, TRUE);
+		sheet_row_set_size_pts (sheet->gnum_sheet, row, hu, TRUE);
 	}
 
 	/* FIXME : We should associate a style region with the row segment */
@@ -2549,12 +2564,9 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 	g_return_if_fail (firstcol < SHEET_MAX_COLS);
 
 	if (width != 0) {
+		/* Size seems to include margins and the lower grid line */
 		double const char_width = get_base_char_width (sheet);
 		col_width = (width * char_width) / 256.;
-
-		/* Subtract margins */
-		col_width = get_units_net_of_margins
-		    (col_width, sheet_col_get_info (sheet->gnum_sheet, firstcol));
 	} else
 		/* Columns are of default width */
 		col_width = sheet->gnum_sheet->cols.default_style.size_pts;
@@ -2563,8 +2575,7 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 	if (lastcol >= SHEET_MAX_COLS)
 		lastcol = SHEET_MAX_COLS-1;
 	for (lp = firstcol; lp <= lastcol; ++lp)
-		sheet_col_set_width_units (sheet->gnum_sheet,
-					   lp, col_width, TRUE);
+		sheet_col_set_size_pts (sheet->gnum_sheet, lp, col_width, TRUE);
 
 	/* TODO : We should associate a style region with the columns */
 	if (hidden)
@@ -2915,7 +2926,6 @@ ms_excel_read_default_row_height (BiffQuery *q, ExcelSheet *sheet)
 	guint16 const flags = MS_OLE_GET_GUINT16(q->data);
 	guint16 const height = MS_OLE_GET_GUINT16(q->data+2);
 	double height_units;
-	ColRowInfo *cri;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
@@ -2927,12 +2937,7 @@ ms_excel_read_default_row_height (BiffQuery *q, ExcelSheet *sheet)
 	}
 #endif
 	height_units = get_row_height_units (height);
-	cri = &sheet->gnum_sheet->rows.default_style;
-	/* Subtract margins */
-	height_units = get_units_net_of_margins (height_units, cri);
-	/* Don't know why, but it's too late now to just change the
-	   default */
-	sheet_row_set_internal_height (sheet->gnum_sheet, cri, height_units);
+	sheet_row_set_default_size_pts (sheet->gnum_sheet, height_units, FALSE, FALSE);
 }
 
 /**
@@ -2949,7 +2954,6 @@ ms_excel_read_default_col_width (BiffQuery *q, ExcelSheet *sheet)
 	guint16 const width = MS_OLE_GET_GUINT16(q->data);
 	double char_width = EXCEL_DEFAULT_CHAR_WIDTH;
 	double col_width;
-	ColRowInfo *cri;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
@@ -2958,12 +2962,7 @@ ms_excel_read_default_col_width (BiffQuery *q, ExcelSheet *sheet)
 #endif
 	char_width = get_base_char_width (sheet);
 	col_width = width * char_width;
-	cri = &sheet->gnum_sheet->cols.default_style;
-	/* Subtract margins */
-	col_width = get_units_net_of_margins (col_width, cri);
-	/* Don't know why, but it's too late now to
-	   just change the default */
-	sheet_col_set_internal_width (sheet->gnum_sheet, cri, col_width);
+	sheet_col_set_default_size_pts (sheet->gnum_sheet, col_width, FALSE, FALSE);
 }
 
 static void

@@ -83,9 +83,15 @@ gnumeric_pattern_get_stipple (gint const index)
 	return patterns [index-1];
 }
 
+/*
+ * gnumeric_background_set_gc : Set up a GdkGC to paint the background
+ *                              of a cell.
+ * return : TRUE if there is a background to paint.
+ */
 gboolean
 gnumeric_background_set_gc (MStyle *mstyle, GdkGC *gc,
-			    GnomeCanvas *canvas)
+			    GnomeCanvas *canvas,
+			    gboolean const is_selected)
 {
 	int pattern;
 
@@ -97,9 +103,12 @@ gnumeric_background_set_gc (MStyle *mstyle, GdkGC *gc,
 		return FALSE;
 	pattern = mstyle_get_pattern (mstyle);
 	if (pattern > 0) {
+		GdkColor   *back;
 		StyleColor *back_col =
 			mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
 		g_return_val_if_fail (back_col != NULL, FALSE);
+
+		back = is_selected ? &back_col->color : &back_col->selected_color;
 
 		if (pattern > 1) {
 			StyleColor *pat_col =
@@ -108,19 +117,19 @@ gnumeric_background_set_gc (MStyle *mstyle, GdkGC *gc,
 
 			gdk_gc_set_fill (gc, GDK_OPAQUE_STIPPLED);
 			gdk_gc_set_foreground (gc, &pat_col->color);
-			gdk_gc_set_background (gc, &back_col->color);
+			gdk_gc_set_background (gc, back);
 			gdk_gc_set_stipple (gc, gnumeric_pattern_get_stipple (pattern));
 			gnome_canvas_set_stipple_origin (canvas, gc);
 		} else {
 			gdk_gc_set_fill (gc, GDK_SOLID);
-			gdk_gc_set_foreground (gc, &back_col->color);
+			gdk_gc_set_foreground (gc, back);
 		}
 		return TRUE;
 	} else {
 		/* Set this in case we have a spanning column */
 		gdk_gc_set_fill (gc, GDK_SOLID);
-		gdk_gc_set_foreground (gc, &gs_white);
+		gdk_gc_set_foreground (gc, is_selected ? &gs_lavender : &gs_white);
 	}
-	return FALSE;
+	return is_selected;
 }
 

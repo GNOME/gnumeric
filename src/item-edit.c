@@ -38,13 +38,13 @@ item_edit_get_pixel_coords (ItemEdit *item_edit, int *x, int *y, int *w, int *h)
 	Sheet *sheet = item_edit->sheet;
 
 	*x = gsheet->col_offset.first +
-	    sheet_col_get_distance (sheet, gsheet->col.first, item_edit->col);
+	    sheet_col_get_distance_pixels (sheet, gsheet->col.first, item_edit->col);
 	*y = gsheet->row_offset.first +
-	    sheet_row_get_distance (sheet, gsheet->row.first, item_edit->row);
+	    sheet_row_get_distance_pixels (sheet, gsheet->row.first, item_edit->row);
 
-	*w = sheet_col_get_distance (sheet, item_edit->col,
+	*w = sheet_col_get_distance_pixels (sheet, item_edit->col,
 				     item_edit->col + item_edit->col_span);
-	*h = sheet_row_get_distance (sheet, item_edit->row,
+	*h = sheet_row_get_distance_pixels (sheet, item_edit->row,
 				     item_edit->row + item_edit->row_span);
 }
 

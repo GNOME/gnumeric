@@ -261,7 +261,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 	base_x = 0;
 	base_y = 0;
 
-	print_height = sheet_row_get_unit_distance (sheet, start_row, end_row+1);
+	print_height = sheet_row_get_distance_pts (sheet, start_row, end_row+1);
 
 	if (pj->pi->orientation == PRINT_ORIENT_HORIZONTAL)
 		setup_rotation (pj);
@@ -274,7 +274,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 		base_y = (pj->y_points - print_height)/2;
 	}
 
-	print_width = sheet_col_get_unit_distance (sheet, start_col, end_col+1);
+	print_width = sheet_col_get_distance_pts (sheet, start_col, end_col+1);
 	if (pj->pi->center_horizontally){
 		if (pj->pi->print_titles)
 			print_width += sheet->cols.default_style.size_pts;
@@ -347,20 +347,18 @@ static GList *
 compute_groups (Sheet *sheet, int start, int end, int usable,
 		ColRowInfo *(get_info)(Sheet const *sheet, int const p))
 {
-	GList *result;
-	int size_pts, count, idx;
+	GList *result = NULL;
+	float size_pts = 1.; /* The initial grid line */
+	int idx, count = 0;
 
-	result = NULL;
-	size_pts = 0;
-	count = 0;
 	for (idx = start; idx < end; ){
 		ColRowInfo *info;
 		
 		info = (*get_info) (sheet, idx);
 
 		/* Hidden ColRows are ignored */
-		if (info->size_pixels >= 0) {
-			size_pts += info->size_pts + info->margin_a + info->margin_b;
+		if (info->visible) {
+			size_pts += info->size_pts;
 
 			if (size_pts > usable){
 				if (count == 0){
@@ -455,10 +453,10 @@ print_range_used_units (Sheet *sheet, gboolean compute_rows, PrintRepeatRange *r
 	CellRef *cell_b = &cell_range->v.cell_range.cell_b;
 
 	if (compute_rows)
-		return sheet_row_get_unit_distance
+		return sheet_row_get_distance_pts
 			(sheet, cell_a->row, cell_b->row+1);
 	else
-		return sheet_col_get_unit_distance
+		return sheet_col_get_distance_pts
 			(sheet, cell_a->col, cell_b->col+1);
 }
 

@@ -15,6 +15,7 @@
 #include "application.h"
 #include "workbook.h"
 #include "commands.h"
+#include "sheet-view.h"
 #include "gnumeric-util.h"
 
 /*
@@ -1256,7 +1257,7 @@ cb_set_row_height (Sheet *sheet, ColRowInfo *info, void *dummy)
 	/* If the size was not set by the user then auto resize */
 	if (!info->hard_size) {
 		int const new_size = sheet_row_size_fit (sheet, info->pos);
-		sheet_row_set_internal_height (sheet, info, new_size);
+		sheet_row_set_internal_size_pts (sheet, info, new_size);
 	}
 	return FALSE;
 }

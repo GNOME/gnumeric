@@ -1,3 +1,18 @@
+2000-02-12  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_default_col_width) : Margins are
+	  internal now.
+	(ms_excel_read_default_row_height) : Ditto.
+	(ms_excel_read_colinfo) : Ditto.
+	(ms_excel_read_row) : Adjust to changes in margins and step closer to
+	  handling think margins.
+
+	* ms-excel-write.c (write_rowinfo) : Use the size_pts member directly.
+	(write_colinfos) :
+
+	* ms-obj.c (object_anchor_to_position) : Adjust to name and semantic
+	  changes of size_pixels.  Denominate things in pixels.
+
 2000-02-06  Michael Meeks  <michael@helixcode.com>
 
 	* ms-excel-read.c (ms_excel_read_workbook): Move failed sheet removal

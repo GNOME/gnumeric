@@ -39,7 +39,7 @@ application_init (void)
 	app.clipboard_copied_contents = NULL;
 	app.clipboard_sheet = NULL;
 
-	/* FIXME : 101 as the default will scale Helvetica-10 to Helvetica-14
+	/* FIXME : 96 as the default will scale Helvetica-9 to Helvetica-12
 	 * which is not too ugly.  Ideally we could get the correct values here but,
 	 *
 	 * XFree86-3) lies.  It defaults to 75x75 dpi and only allows the user to 
@@ -47,21 +47,20 @@ application_init (void)
 	 * XFree86-4) Makes a better guess, but still seems to use the same
 	 *            resolution for both directions.
 	 *
-	 * The trouble is that this value is not correct.  To get a pixel match
-	 * my monitor is closer to 120x110.
+	 * XL seems to assume that everything is 96 dpi.
 	 *
 	 * I'll leave it as is for now, and revisit the solution when we shake
 	 * out the flaws in the display code.
 	 */
-	app.horizontal_dpi = 101.;
-	app.vertical_dpi = 101.;
+	app.horizontal_dpi = 96.;
+	app.vertical_dpi = 96.;
 
 	gnome_config_push_prefix ("Gnumeric/Screen_Resolution/"); 
 	app.horizontal_dpi =
-	    gnome_config_get_float_with_default ("Horizontal_dpi=101", 
+	    gnome_config_get_float_with_default ("Horizontal_dpi=96", 
 						 &h_was_default);
 	app.vertical_dpi = 
-	    gnome_config_get_float_with_default ("Vertical_dpi=101", 
+	    gnome_config_get_float_with_default ("Vertical_dpi=96", 
 						 &v_was_default);
 
 	if (h_was_default)

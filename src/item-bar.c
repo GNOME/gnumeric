@@ -208,7 +208,7 @@ bar_draw_cell (ItemBar const * const item_bar,
 			 rect->x, rect->y, rect->width, rect->height);
 	gdk_draw_string (drawable, font, item_bar->gc,
 			 rect->x + (rect->width - len) / 2,
-			 rect->y + (rect->height - texth) / 2 + font->ascent,
+			 rect->y + (rect->height - texth) / 2 + font->ascent + 1,
 			 str);
 }
 
@@ -247,16 +247,16 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			       rect.x, total-1,
 			       rect.x + rect.width, total-1);
 		do {
+			ColRowInfo const *cri;
 			if (element >= SHEET_MAX_ROWS)
 				return;
 
-			if (item_bar->resize_pos != element) {
-				ColRowInfo const *cri = sheet_row_get_info (sheet, element);
-				pixels = cri->size_pixels;
-			} else
-				pixels = item_bar->resize_width;
+			cri = sheet_row_get_info (sheet, element);
+			pixels = (item_bar->resize_pos != element)
+			    ? cri->size_pixels
+			    : item_bar->resize_width;
 
-			if (pixels > 0) {
+			if (cri->visible) {
 				total += pixels;
 				if (total >= 0) {
 					char const * const str = get_row_name (element);
@@ -286,16 +286,16 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			       total-1, rect.y + rect.height);
 
 		do {
+			ColRowInfo const *cri;
 			if (element >= SHEET_MAX_COLS)
 				return;
 
-			if (item_bar->resize_pos != element) {
-				ColRowInfo const *cri = cri = sheet_col_get_info (sheet, element);
-				pixels = cri->size_pixels;
-			} else
-				pixels = item_bar->resize_width;
+			cri = sheet_col_get_info (sheet, element);
+			pixels = (item_bar->resize_pos != element)
+			    ? cri->size_pixels
+			    : item_bar->resize_width;
 
-			if (pixels > 0) {
+			if (cri->visible) {
 				total += pixels;
 				if (total >= 0) {
 					rect.x = total - pixels;
@@ -330,7 +330,7 @@ is_pointer_on_division (ItemBar *item_bar, int pos, int *the_total, int *the_ele
 {
 	ColRowInfo *cri;
 	Sheet *sheet;
-	int i, total, tmp;
+	int i, total;
 
 	total = 0;
 	sheet = item_bar->sheet_view->sheet;
@@ -346,9 +346,8 @@ is_pointer_on_division (ItemBar *item_bar, int pos, int *the_total, int *the_ele
 			cri = sheet_col_get_info (sheet, i);
 		}
 
-		tmp = cri->size_pixels;
-		if (tmp > 0) {
-			total += tmp;
+		if (cri->visible) {
+			total += cri->size_pixels;
 			if ((total - 4 < pos) && (pos < total + 4)) {
 				if (the_total)
 					*the_total = total;
@@ -414,22 +413,22 @@ item_bar_start_resize (ItemBar *bar)
 	 */
 	if (bar->orientation == GTK_ORIENTATION_VERTICAL) {
 		double const y =
-		    sheet_row_get_distance (sheet, 0, bar->resize_pos) / zoom;
+		    sheet_row_get_distance_pixels (sheet, 0, bar->resize_pos) / zoom;
 		points->coords [0] =
-		    sheet_col_get_distance (sheet, 0, gsheet->col.first) / zoom;
+		    sheet_col_get_distance_pixels (sheet, 0, gsheet->col.first) / zoom;
 		points->coords [1] = y;
 		points->coords [2] =
-		    sheet_col_get_distance (sheet, 0, gsheet->col.last_visible+1) / zoom;
+		    sheet_col_get_distance_pixels (sheet, 0, gsheet->col.last_visible+1) / zoom;
 		points->coords [3] = y;
 	} else {
 		double const x =
-		    sheet_col_get_distance (sheet, 0, bar->resize_pos) / zoom;
+		    sheet_col_get_distance_pixels (sheet, 0, bar->resize_pos) / zoom;
 		points->coords [0] = x;
 		points->coords [1] =
-		    sheet_row_get_distance (sheet, 0, gsheet->row.first) / zoom;
+		    sheet_row_get_distance_pixels (sheet, 0, gsheet->row.first) / zoom;
 		points->coords [2] = x;
 		points->coords [3] =
-		    sheet_row_get_distance (sheet, 0, gsheet->row.last_visible+1) / zoom;
+		    sheet_row_get_distance_pixels (sheet, 0, gsheet->row.last_visible+1) / zoom;
 	}
 
 	item = gnome_canvas_item_new ( group,
@@ -446,7 +445,7 @@ get_col_from_pos (ItemBar *item_bar, int pos)
 {
 	ColRowInfo *cri;
 	Sheet *sheet;
-	int i, total, tmp;
+	int i, total;
 
 	total = 0;
 	sheet = item_bar->sheet_view->sheet;
@@ -461,9 +460,8 @@ get_col_from_pos (ItemBar *item_bar, int pos)
 			cri = sheet_col_get_info (sheet, i);
 		}
 
-		tmp = cri->size_pixels;
-		if (tmp > 0) {
-			total += tmp;
+		if (cri->visible) {
+			total += cri->size_pixels;
 			if (total > pos)
 				return i;
 		}
@@ -472,22 +470,17 @@ get_col_from_pos (ItemBar *item_bar, int pos)
 }
 
 static void
-colrow_tip_setlabel (ItemBar *item_bar, gboolean const is_vertical, int size)
+colrow_tip_setlabel (ItemBar *item_bar, gboolean const is_vertical, int size_pixels)
 {
-	/*
-	 * FIXME : This measurement is off.
-	 * We need to take margins into account
-	 */
-	size -= 3;
-
 	if (item_bar->tip) {
 		char buffer [20 + sizeof (long) * 4];
+		double const scale = 72. / application_display_dpi_get (is_vertical);
 		if (is_vertical)
-			snprintf (buffer, sizeof (buffer), _("Height: %.2f"),
-				  size * ROW_HEIGHT_SCALE);
+			snprintf (buffer, sizeof (buffer), _("Height: %.2f (%d pixels)"),
+				  scale*size_pixels, size_pixels);
 		else
-			snprintf (buffer, sizeof (buffer), _("Width: %.2f"),
-				  size * COLUMN_WIDTH_SCALE);
+			snprintf (buffer, sizeof (buffer), _("Width: %.2f (%d pixels)"),
+				  scale*size_pixels, size_pixels);
 		gtk_label_set_text (GTK_LABEL (item_bar->tip), buffer);
 	}
 }

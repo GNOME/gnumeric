@@ -6,6 +6,7 @@
  */
 #include <config.h>
 #include <locale.h>
+#include <gnome.h>
 #include "value.h"
 #include "utils.h"
 #include "symbol.h"

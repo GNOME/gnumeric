@@ -47,13 +47,13 @@ cb_row_col_visibility (Sheet *sheet,
 	/* Find the begining of a segment that will be toggled */
 	while (i <= end) {
 		ColRowInfo *cri = (*fetch) (sheet, i++);
-		if (visible != (cri->size_pixels >= 0)) {
+		if (visible ^ cri->visible) {
 			struct pair_int *res = g_new(struct pair_int, 1);
 
 			/* Find the end */
 			for (j = i; j <= end ;) {
 				ColRowInfo * cri = (*fetch) (sheet, j++);
-				if (visible == (cri->size_pixels >= 0))
+				if (visible ^ cri->visible)
 					break;
 			}
 			res->index = i - 1;

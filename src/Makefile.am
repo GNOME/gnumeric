@@ -59,6 +59,7 @@ GNUMERIC_BASE_SOURCES =				\
 	cell.h					\
 	cell.c					\
 	cell-draw.c				\
+	cell-draw.h				\
 	cellspan.c				\
 	clipboard.c				\
 	clipboard.h				\

@@ -1,3 +1,115 @@
+2000-02-13  Jody Goldberg <jgoldberg@home.com>
+
+	* ./src/sheet-view.c (sheet_view_redraw_cell_region) : redraw the
+	  bounding grid lines too.
+
+	* src/item-cursor.c (item_cursor_get_pixel_coords) : Clip the cursor
+	  region to the visible range.  The layout still needs cleaning to
+	  match the 'correct' way of implementing canvas-items, but this
+	  heuristic saves us lots of iterations through the accumulator for
+	  the size of the entire sheet.
+
+2000-02-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-sheet.c : Use visible flag and adjust to naming and
+	  margin changes.
+
+	* src/item-bar.c (colrow_tip_setlabel) : Use the format provided by
+	  XL2000.  Things are correct for rows, colwidth are quoted in pts
+	  rather than char widths.
+	(get_col_from_pos) : Use visible flag.
+	(item_bar_start_resize) : Function renaming.
+	(is_pointer_on_division) : Ditto.
+	(item_bar_draw) : Changes to margins.
+
+	* src/item-edit.c : Function renaming.
+	* src/item-cursor.c : Ditto.  decrease spacing for auto handle.
+
+	* src/item-grid.c (item_grid_draw) : Remove inversion process for the
+	  selection.  Instead have the cells draw their background
+	  differently.  Use the visible flag.
+	(item_grid_paint_empty_cell) : Ditto.
+	(item_grid_paint_cell) : Ditto.
+
+	* src/mstyle.c (mstyle_new_default) : The default vert alignment is BOTTOM.
+
+	* src/pattern.c (gnumeric_background_set_gc) : Draw the background of
+	  a selected cell differently.
+
+	* src/print-cell.c (DIM) : margins are already included.
+	(print_cell_text) : Adjust argument order to more closely match
+	  cell_draw.  Add support for vertical alignment of 1 line cells.
+	  Invert control of single vs multiple lines.
+	(print_cell) : Adjust to changes in the arguments.
+	(print_cell_range) : Use the visible flag.
+	  Draw line at the boundary rather than pretending there were
+	  additional rows/cols.
+
+	* src/print.c (compute_groups) : size_pts INCLUDES margins.  Use 'visible' flag.
+	(print_page) : Adjust to function renaming.
+	(print_range_used_units) : Ditto.
+
+	* src/selection.c : Include sheet-view directly for now.
+	(cb_set_row_height) : Adjust to function renaming.
+
+	* src/sheet-view.c (sheet_view_redraw_cell_region) : Adjust to function
+	  renaming.
+	(sheet_view_redraw_headers) : Ditto.
+	(sheet_view_set_zoom_factor) : Ditto.
+	(sheet_view_col_size_changed) : Ditto.
+	(sheet_view_row_size_changed) : Ditto.
+	(sheet_view_comment_get_points) : Ditto.
+
+	* src/sheet.[ch] : Rationalize function names, and add glossary.
+	Make the use of margins and sizes (in points and pixels) consistant.
+
+	(sheet_col_get_external_width : Delete.
+	(sheet_row_get_external_height : Delete.
+	(sheet_col_get_distance : Rename sheet_col_get_distance_pixels.
+	(sheet_row_get_distance : Rename sheet_row_get_distance_pixels.
+	(sheet_row_get_unit_distance : Rename sheet_row_get_distance_pts.
+	(sheet_col_get_unit_distance : Rename sheet_col_get_distance_pts.
+	(sheet_col_set_width : Rename sheet_col_set_size_pixels.
+	(sheet_col_set_width_units : Rename sheet_col_set_size_pts.
+	(sheet_row_set_height : Rename sheet_row_set_size_pixels.
+	(sheet_row_set_height_units) : Rename sheet_row_set_size_pts.
+	(sheet_get_default_external_col_width) : Rename sheet_col_get_default_size_pts.
+	(sheet_get_default_external_row_height): Rename sheet_row_get_default_size_pts.
+	(sheet_col_set_internal_width) : sheet_col_set_internal_size_pts.
+	(sheet_row_set_internal_height): sheet_row_set_internal_size_pts.
+	(sheet_{row,col}_set_default_size_pts) : New functions.
+
+	(sheet_init_default_styles) : Tune to match XL defaults.
+
+	* src/sort.c : Use g_strcasecmp, and include <stdlib.h>
+
+	* src/style.c (style_color_new) : Init the selection colour as a 50%
+	  alpha blend with lavender.
+
+	* src/style.h : Change default font to be Helvetica 9 because it will
+	  scale better when the standard 96 dpi resolution is assumed.
+	  Add a selected_color to StyleColor.
+
+	* src/value-sheet.c : Include <gnome.h> to get the
+	  internationalization support.
+
+	* src/workbook-cmd-format.c (workbook_cmd_format_column_auto_fit) :
+	  sheet_col_set_width -> sheet_col_set_size_pixels.
+	(workbook_cmd_format_column_width) :
+	  sheet_col_set_width_units -> sheet_col_set_size_pts.
+	(workbook_cmd_format_row_auto_fit) :
+          sheet_row_set_height -> sheet_row_set_size_pixels
+	(workbook_cmd_format_row_height) :
+	  sheet_row_set_height_units -> sheet_row_set_size_pts.
+
+	* src/xml-io.c (xml_read_rows_info) : Rename
+	  sheet_row_set_height_units -> sheet_row_set_size_pts.
+	(xml_read_cols_info) : Rename
+	  sheet_col_set_height_units -> sheet_col_set_size_pts.
+	(xml_read_colrow_info) : Remove hack with negative pixels.
+	  Use 'visible' flag instead.
+	(xml_write_colrow_info) : Ditto.
+
 2000-02-12  Gregory McLean <gregm@gnu.org>
 
 	* src/functions/fn-financial.c: Added documentation and examples.

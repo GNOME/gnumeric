@@ -2519,7 +2519,7 @@ write_default_row_height (BiffPut *bp, ExcelSheet *sheet)
 	guint16 options = 0x0;
 	guint16 height;
 
-	def_height = sheet_get_default_external_row_height (sheet->gnum_sheet);
+	def_height = sheet_row_get_default_size_pts (sheet->gnum_sheet);
 	height = (guint16) (20. * def_height);
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_write_debug > 1) {
@@ -2625,7 +2625,7 @@ write_default_col_width (BiffPut *bp, ExcelSheet *sheet)
 	double width_chars;
 	guint16 width;
 
-	def_width = sheet_get_default_external_col_width (sheet->gnum_sheet);
+	def_width = sheet_col_get_default_size_pts (sheet->gnum_sheet);
 	width_chars = def_width / get_base_char_width (sheet);
 	width = (guint16) (width_chars + .5);
 
@@ -2696,7 +2696,8 @@ write_colinfos (BiffPut *bp, ExcelSheet *sheet)
 	col.xf    = 0x0f;
 
 	for (i = 0; i < sheet->maxx; i++) {
-		width = sheet_col_get_external_width (sheet->gnum_sheet, i);
+		ColRowInfo const *ci = sheet_col_get_info (sheet->gnum_sheet, i);
+		width = ci->size_pts;
 		if (width != col.width) {
 			if (i > 0) {
 				col.last = i - 1;
@@ -2981,7 +2982,9 @@ write_rowinfo (BiffPut *bp, ExcelSheet *sheet, guint32 row, guint32 width)
 	guint8 *data;
 	MsOlePos pos;
 
-	double points = sheet_row_get_external_height (sheet->gnum_sheet, row);
+	ColRowInfo const *ri = sheet_row_get_info (sheet->gnum_sheet, row);
+	double points = width = ri->size_pts;
+
 	/* We don't worry about standard height. I haven't seen it
 	 * indicated in any actual sheet. */
 	guint16 height = (guint16) (20. * points);

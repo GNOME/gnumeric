@@ -3,9 +3,9 @@
 
 #include <glib.h>
 #include "gnumeric.h"
+
 #include "style.h"
 #include "sheet.h"
-#include "sheet-view.h"
 #include "str.h"
 #include "expr.h"
 
@@ -40,20 +40,20 @@ struct _Cell {
 	ColRowInfo  *col;
 	ColRowInfo  *row;
 
-	/* Text as entered by the user.  This is only used for cells
-	   with parse errors.  */
-	String      *entered_text;
+	String      *text;		/* Text rendered and displayed */
+	String      *entered_text;	/* Text as entered by the user. */
 	
-	/* Type of the content and the actual parsed content */
 	ExprTree    *parsed_node;	/* Parse tree with the expression */
 	Value       *value;		/* Last value computed */
 
-	StyleColor  *render_color;      /* If a manually entered color has been selected */
+	/* Colour supplied by the formater eg [Red]0.00 */
+	StyleColor  *render_color;
 
-	/* computed versions of the cell contents */
-	String      *text;	/* Text rendered and displayed */
-	int         width;	/* Width of text */
-	int         height;	/* Height of text */
+	/*
+	 * Computed sizes of rendered text.
+	 * In pixels EXCLUSIVE of margins and grid lines
+	 */
+	int         width_pixel, height_pixel;
 
 	CellComment *comment;
 	int         flags;
@@ -124,11 +124,6 @@ void        cell_queue_redraw            (Cell *cell);
 int         cell_get_horizontal_align    (const Cell *cell, int align);
 gboolean    cell_is_number  		 (const Cell *cell);
 gboolean    cell_is_zero		 (const Cell *cell);
-
-int         cell_draw                    (Cell *cell, MStyle *mstyle,
-					  SheetView *sheet_view,
-					  GdkGC *gc, GdkDrawable *drawable,
-					  int x, int y);
 
 void        cell_realize                 (Cell *cell);
 void        cell_unrealize               (Cell *cell);

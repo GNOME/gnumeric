@@ -6,7 +6,7 @@
 #include "gnumeric.h"
 
 #define DEFAULT_FONT "Helvetica"
-#define DEFAULT_SIZE 10.0
+#define DEFAULT_SIZE 9.0
 
 /* Alignment definitions */
 enum _StyleHAlignFlags {
@@ -60,6 +60,7 @@ struct _StyleFont {
 struct _StyleColor {
 	int      ref_count;
 	GdkColor color;
+	GdkColor selected_color;
 	char     *name;
 	gushort  red;
 	gushort  green;

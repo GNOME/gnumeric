@@ -506,7 +506,7 @@ mstyle_new_default (void)
 	mstyle = mstyle_new ();
 
 	mstyle_set_format      (mstyle, "General");
-	mstyle_set_align_v     (mstyle, VALIGN_CENTER);
+	mstyle_set_align_v     (mstyle, VALIGN_BOTTOM);
 	mstyle_set_align_h     (mstyle, HALIGN_GENERAL);
 	mstyle_set_orientation (mstyle, ORIENT_HORIZ);
 	mstyle_set_fit_in_cell (mstyle, 0);

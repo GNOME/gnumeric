@@ -512,8 +512,8 @@ cell_set_text_simple (Cell *cell, const char *text)
 				/* It is a floating point number.  */
 				cell->value = value_new_float ((float_t)d);
 			} else {
-				/* It is text.  */
-				cell->value = value_new_string (text);
+				/* It is text. Ignore leading single quotes */
+				cell->value = value_new_string (text[0] == '\'' ? text+1 : text);
 			}
 		}
 
@@ -1016,7 +1016,7 @@ cell_is_zero (const Cell *cell)
 static inline int
 cell_contents_fit_inside_column (const Cell *cell)
 {
-	if (cell->width < COL_INTERNAL_WIDTH (cell->col))
+	if (cell->width_pixel <= COL_INTERNAL_WIDTH (cell->col))
 		return TRUE;
 	else
 		return FALSE;
@@ -1073,7 +1073,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 	case HALIGN_LEFT:
 		*col1 = *col2 = cell->col->pos;
 		pos = cell->col->pos + 1;
-		left = cell->width - COL_INTERNAL_WIDTH (cell->col);
+		left = cell->width_pixel - COL_INTERNAL_WIDTH (cell->col);
 		margin = cell->col->margin_b;
 
 		for (; left > 0 && pos < SHEET_MAX_COLS-1; pos++){
@@ -1101,7 +1101,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 	case HALIGN_RIGHT:
 		*col1 = *col2 = cell->col->pos;
 		pos = cell->col->pos - 1;
-		left = cell->width - COL_INTERNAL_WIDTH (cell->col);
+		left = cell->width_pixel - COL_INTERNAL_WIDTH (cell->col);
 		margin = cell->col->margin_a;
 
 		for (; left > 0 && pos >= 0; pos--){
@@ -1131,7 +1131,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 		int margin_a, margin_b;
 
 		*col1 = *col2 = cell->col->pos;
-		left = cell->width -  COL_INTERNAL_WIDTH (cell->col);
+		left = cell->width_pixel -  COL_INTERNAL_WIDTH (cell->col);
 
 		left_left  = left / 2 + (left % 2);
 		left_right = left / 2;
@@ -1304,20 +1304,21 @@ cell_calc_dimensions (Cell *cell)
 
 		calc_text_dimensions (cell, mstyle, rendered_text, &h, &w);
 
-		cell->width  = cell->col->margin_a + cell->col->margin_b + w;
-		cell->height = cell->row->margin_a + cell->row->margin_b + h;
+		cell->width_pixel  = w;
+		cell->height_pixel = h;
 
 		if (!cell->row->hard_size) {
+			/* Text was measured in pixels.  convert to points */
 			double const scale =
 			    cell->sheet->last_zoom_factor_used *
 			    application_display_dpi_get (FALSE) / 72.;
-			if (cell->height > cell->row->size_pixels)
-				sheet_row_set_internal_height (cell->sheet, cell->row, h/scale);
+			if (cell->height_pixel > ROW_INTERNAL_HEIGHT (cell->row))
+				sheet_row_set_internal_size_pts (cell->sheet, cell->row, h/scale);
 		}
 
 		mstyle_unref (mstyle);
 	} else
-		cell->width = cell->col->margin_a + cell->col->margin_b;
+		cell->width_pixel = 0;
 
 	/* Register the span */
 	cell_get_span (cell, &left, &right);

@@ -15,7 +15,7 @@
 #include <libgnomeprint/gnome-print.h>
 #include "print-cell.h"
 
-#define DIM(cri) (cri->size_pts + cri->margin_a + cri->margin_b)
+#define DIM(cri) (cri->size_pts)
 
 #define CELL_DIM(cell,p) DIM (cell->p)
 #define CELL_HEIGHT(cell) CELL_DIM(cell,row)
@@ -170,23 +170,30 @@ cell_split_text (GnomeFont *font, char const *text, int const width)
 }
 
 static void
-print_cell_text (GnomePrintContext *context, Cell *cell,
-		 double base_x, double base_y, MStyle *mstyle)
+print_cell_text (Cell *cell, MStyle *mstyle,
+		 GnomePrintContext *context,
+		 double base_x, double base_y)
 {
 	StyleFont *style_font = mstyle_get_font (mstyle, 1.0);
 	GnomeFont *print_font = style_font->font;
-	double text_width;
-	double font_height;
-	gboolean do_multi_line;
+	double text_width, width;
+	double font_height, height;
+	gboolean is_single_line;
 	int start_col, end_col;
 	int halign;
 	
 	cell_get_span (cell, &start_col, &end_col);
 	
-	text_width = gnome_font_get_width_string (print_font, cell->text->str);
+	/* Get the sizes exclusive of margins and grids */
+	width  = cell->col->size_pts - cell->col->margin_a - cell->col->margin_b - 1;
+	height = cell->row->size_pts - cell->row->margin_a - cell->row->margin_b - 1;
+
 	font_height = style_font->size;
-		
-	if (text_width > cell->col->size_pts && cell_is_number (cell)) {
+
+	/* TODO : Support vertical alignment for single line cells */
+	text_width = gnome_font_get_width_string (print_font, cell->text->str);
+
+	if (text_width > width && cell_is_number (cell)) {
 		print_overflow (context, cell);
 		style_font_unref (style_font);
 		return;
@@ -194,14 +201,71 @@ print_cell_text (GnomePrintContext *context, Cell *cell,
 
 	halign = cell_get_horizontal_align (cell,
 					    mstyle_get_align_h (mstyle));
-	if (halign == HALIGN_JUSTIFY ||
-	    mstyle_get_align_v (mstyle) == VALIGN_JUSTIFY ||
-	    mstyle_get_fit_in_cell (mstyle))
-		do_multi_line = TRUE;
-	else
-		do_multi_line = FALSE;
 
-	if (do_multi_line) {
+	is_single_line = (halign != HALIGN_JUSTIFY &&
+			  mstyle_get_align_v (mstyle) != VALIGN_JUSTIFY &&
+			  !mstyle_get_fit_in_cell (mstyle));
+
+	if (is_single_line) {
+		double x, diff, total, len;
+
+		/*
+		 * x1, y1 are relative to this cell origin, but the cell might be using
+		 * columns to the left (if it is set to right justify or center justify)
+		 * compute the pixel difference 
+		 */
+		if (start_col != cell->col->pos)
+			diff = -sheet_col_get_distance_pts (cell->sheet, start_col,
+							    cell->col->pos);
+		else
+			diff = 0;
+
+		{
+			static int warn_shown;
+
+			if (!warn_shown) {
+				g_warning ("Set clipping");
+				warn_shown = 1;
+			}
+		}
+		
+		len = 0;
+		switch (halign) {
+		case HALIGN_FILL:
+			g_warning ("Unhandled");
+			len = text_width;
+			/* fall down */
+
+		case HALIGN_LEFT:
+			x = 0;
+			break;
+			
+		case HALIGN_RIGHT:
+			x = cell->col->size_pts - text_width;
+			break;
+
+		case HALIGN_CENTER:
+			x = (cell->col->size_pts - text_width) / 2;
+			break;
+
+		default:
+			g_warning ("Single-line justitfication style not supported\n");
+			x = 0;
+			break;
+		}
+
+		gnome_print_setfont (context, print_font);
+		total = 0;
+		do {
+			gnome_print_moveto (context, base_x + x,
+					    base_y - cell->row->size_pts);
+			gnome_print_show (context, cell->text->str);
+			gnome_print_stroke (context);
+			
+			x += len;
+			total += len;
+		} while (halign == HALIGN_FILL && total < cell->col->size_pts && len > 0);
+	} else {
 		GList *lines, *l;
 		int line_count, x_offset, y_offset;
 		double inter_space;
@@ -287,65 +351,6 @@ print_cell_text (GnomePrintContext *context, Cell *cell,
 			g_free (l->data);
 		}
 		g_list_free (lines);
-	} else {
-		double x, diff, total, len;
-
-		/*
-		 * x1, y1 are relative to this cell origin, but the cell might be using
-		 * columns to the left (if it is set to right justify or center justify)
-		 * compute the pixel difference 
-		 */
-		if (start_col != cell->col->pos)
-			diff = -sheet_col_get_unit_distance (cell->sheet, start_col,
-							     cell->col->pos);
-		else
-			diff = 0;
-
-		{
-			static int warn_shown;
-
-			if (!warn_shown) {
-				g_warning ("Set clipping");
-				warn_shown = 1;
-			}
-		}
-		
-		len = 0;
-		switch (halign) {
-		case HALIGN_FILL:
-			g_warning ("Unhandled");
-			len = text_width;
-			/* fall down */
-
-		case HALIGN_LEFT:
-			x = 0;
-			break;
-			
-		case HALIGN_RIGHT:
-			x = cell->col->size_pts - text_width;
-			break;
-
-		case HALIGN_CENTER:
-			x = (cell->col->size_pts - text_width) / 2;
-			break;
-
-		default:
-			g_warning ("Single-line justitfication style not supported\n");
-			x = 0;
-			break;
-		}
-
-		gnome_print_setfont (context, print_font);
-		total = 0;
-		do {
-			gnome_print_moveto (context, base_x + x,
-					    base_y - cell->row->size_pts);
-			gnome_print_show (context, cell->text->str);
-			gnome_print_stroke (context);
-			
-			x += len;
-			total += len;
-		} while (halign == HALIGN_FILL && total < cell->col->size_pts && len > 0);
 	}
 	style_font_unref (style_font);
 }
@@ -404,10 +409,9 @@ print_cell (GnomePrintContext *context, Cell *cell,
 				 fore->green / (double) 0xffff,
 				 fore->blue  / (double) 0xffff);
 
-	print_cell_text (context, cell,
+	print_cell_text (cell, mstyle, context,
 			 x1 + cell->col->margin_a,
-			 y1 + cell->row->margin_a,
-			 mstyle);
+			 y1 + cell->row->margin_a);
 	mstyle_unref (mstyle);
 }
 
@@ -447,7 +451,7 @@ print_cell_range (GnomePrintContext *context,
 		ri = sheet_row_get_info (sheet, row);
 
 		/* Ignore hidden rows */
-		if (ri->size_pixels < 0)
+		if (!ri->visible)
 			continue;
 
 		x = 0;
@@ -463,7 +467,7 @@ print_cell_range (GnomePrintContext *context,
 
 				ci = cell->col;
 				/* Ignore hidden columns */
-				if (ci->size_pixels < 0)
+				if (!ci->visible)
 				    continue;
 
 				x2 = x1 + CELL_WIDTH (cell);
@@ -474,7 +478,7 @@ print_cell_range (GnomePrintContext *context,
 					
 				ci = sheet_col_get_info (sheet, col);
 				/* Ignore hidden columns */
-				if (ci->size_pixels < 0)
+				if (!ci->visible)
 				    continue;
 
 				x2 = x1 + DIM (ci);
@@ -525,26 +529,23 @@ print_cell_grid (GnomePrintContext *context,
 
 	gnome_print_setlinewidth (context, 0.5);
 
-	end_col++;
-	end_row++;
-	
 	x = base_x;
 	for (col = start_col; col <= end_col; col++) {
 		ColRowInfo *ci = sheet_col_get_info (sheet, col);
-
-		if (ci && ci->size_pixels >= 0) {
+		if (ci && ci->visible) {
 			vline (context, x, base_y, base_y - height);
-			x += ci->size_pts + ci->margin_a + ci->margin_b;
+			x += ci->size_pts;
 		}
 	}
+	vline (context, x, base_y, base_y - height);
 
 	y = base_y;
 	for (row = start_row; row <= end_row; row++){
 		ColRowInfo *ri = sheet_row_get_info (sheet, row);
-
-		if (ri && ri->size_pixels >= 0) {
+		if (ri && ri->visible) {
 			hline (context, base_x, base_x + width, y);
-			y -= ri->size_pts + ri->margin_a + ri->margin_b;
+			y -= ri->size_pts;
 		}
 	}
+	hline (context, base_x, base_x + width, y);
 }

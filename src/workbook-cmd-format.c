@@ -37,7 +37,7 @@ workbook_cmd_format_column_auto_fit (GtkWidget *widget, Workbook *wb)
 			if (ideal_size == 0)
 				continue;
 
-			sheet_col_set_width (sheet, col, ideal_size);
+			sheet_col_set_size_pixels (sheet, col, ideal_size, TRUE);
 		}
 	}
 	sheet_set_dirty (sheet, TRUE);
@@ -97,7 +97,7 @@ workbook_cmd_format_column_width (GtkWidget *widget, Workbook *wb)
 		int col;
 		
 		for (col = ss->user.start.col; col <= ss->user.end.col; col++)
-			sheet_col_set_width_units (sheet, col, value, TRUE);
+			sheet_col_set_size_pts (sheet, col, value, TRUE);
 	}
 	sheet_set_dirty (sheet, TRUE);
 }
@@ -122,7 +122,7 @@ workbook_cmd_format_row_auto_fit (GtkWidget *widget, Workbook *wb)
 			if (ideal_size == 0)
 				continue;
 
-			sheet_row_set_height (sheet, row, ideal_size, FALSE);
+			sheet_row_set_size_pixels (sheet, row, ideal_size, FALSE);
 		}
 	}
 	sheet_set_dirty (sheet, TRUE);
@@ -181,7 +181,7 @@ workbook_cmd_format_row_height (GtkWidget *widget, Workbook *wb)
 		int row;
 		
 		for (row = ss->user.start.row; row <= ss->user.end.row; row++)
-			sheet_row_set_height_units (sheet, row, value, TRUE);
+			sheet_row_set_size_pts (sheet, row, value, TRUE);
 	}
 	sheet_set_dirty (sheet, TRUE);
 }

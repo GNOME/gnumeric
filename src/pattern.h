@@ -9,6 +9,7 @@
 GdkPixmap * gnumeric_pattern_get_stipple(gint const index);
 
 gboolean    gnumeric_background_set_gc	(MStyle *style, GdkGC *gc,
-					 GnomeCanvas *canvas);
+					 GnomeCanvas *canvas,
+					 gboolean const is_selected);
 
 #endif /* GNUMERIC_PATTERN_H */

@@ -22,7 +22,7 @@ static GnomeCanvasItem *item_cursor_parent_class;
 
 static void item_cursor_request_redraw (ItemCursor *item_cursor);
 
-#define AUTO_HANDLE_SPACE	5
+#define AUTO_HANDLE_SPACE	4
 #define CLIP_SAFETY_MARGIN      (AUTO_HANDLE_SPACE + 5)
 #define IS_LITTLE_SQUARE(item,x,y) \
 	(((x) > (item)->canvas_item.x2 - 6) && \
@@ -140,13 +140,19 @@ item_cursor_get_pixel_coords (ItemCursor *item_cursor, int *x, int *y, int *w, i
 	GnumericSheet   *gsheet = GNUMERIC_SHEET (item->canvas);
 	Sheet *sheet = item_cursor->sheet;
 
-	*x = gsheet->col_offset.first +
-	    sheet_col_get_distance (sheet, gsheet->col.first, item_cursor->pos.start.col);
-	*y = gsheet->row_offset.first +
-	    sheet_row_get_distance (sheet, gsheet->row.first, item_cursor->pos.start.row);
+	/* Clip the bounds of the cursor to the visible region of cells */
+	int const left = MAX (gsheet->col.first-1, item_cursor->pos.start.col);
+	int const right = MIN (gsheet->col.last_visible, item_cursor->pos.end.col);
+	int const top = MAX (gsheet->row.first-1, item_cursor->pos.start.row);
+	int const bottom = MIN (gsheet->row.last_visible, item_cursor->pos.end.row);
 
-	*w = sheet_col_get_distance (sheet, item_cursor->pos.start.col, item_cursor->pos.end.col+1);
-	*h = sheet_row_get_distance (sheet, item_cursor->pos.start.row, item_cursor->pos.end.row+1);
+	*x = gsheet->col_offset.first +
+	    sheet_col_get_distance_pixels (sheet, gsheet->col.first, left);
+	*y = gsheet->row_offset.first +
+	    sheet_row_get_distance_pixels (sheet, gsheet->row.first, top);
+
+	*w = sheet_col_get_distance_pixels (sheet, left, right+1);
+	*h = sheet_row_get_distance_pixels (sheet, top, bottom+1);
 }
 
 static void

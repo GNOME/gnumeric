@@ -13,6 +13,8 @@
 #include "utils.h"
 #include "sort.h"
 
+#include <stdlib.h>
+
 /* Clause stuff */
 void
 sort_clause_destroy (SortClause *clause)
@@ -85,7 +87,7 @@ sort_compare_values (const SortData * ain,
 					if (ain->clauses [clause].cs)
 						ans = strcmp (sa, sb);
 					else
-						ans = strcasecmp (sa, sb);
+						ans = g_strcasecmp (sa, sb);
 					g_free (sa);
 					g_free (sb);
 					break;
@@ -108,7 +110,7 @@ sort_compare_values (const SortData * ain,
 		if (ain->clauses [clause].cs)
 			ans = strcmp (sa, sb);
 		else
-			ans = strcasecmp (sa, sb);
+			ans = g_strcasecmp (sa, sb);
 		g_free (sa);
 		g_free (sb);
 	}

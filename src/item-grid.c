@@ -24,6 +24,7 @@
 #include "pattern.h"
 #include "workbook-view.h"
 #include "workbook.h"
+#include "cell-draw.h"
 #include "commands.h"
 
 static GnomeCanvasItemClass *item_grid_parent_class;
@@ -134,7 +135,7 @@ item_grid_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int 
 }
 
 /*
- * item_grid_find_col: return the column where x belongs to
+ * item_grid_find_col: return the column containing pixel x
  */
 int
 item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
@@ -148,26 +149,25 @@ item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
 	if (x < pixel) {
 		do {
 			ColRowInfo *ci = sheet_col_get_info (sheet, col);
-			int const tmp = ci->size_pixels;
-
-			if (tmp > 0) {
-				if (x >= pixel && x <= pixel + tmp) {
+			if (ci->visible) {
+				pixel -= ci->size_pixels;
+				if (pixel <= x) {
 					if (col_origin)
 						*col_origin = pixel;
 					return col;
 				}
-				pixel -= tmp;
 			}
-		} while (col-- >= 0);
+		} while (--col >= 0);
+		if (col_origin)
+			*col_origin = 1;
 		return 0;
 	}
 
 	do {
 		ColRowInfo *ci = sheet_col_get_info (sheet, col);
-		int const tmp = ci->size_pixels;
-
-		if (tmp > 0) {
-			if (x >= pixel && x <= pixel + tmp) {
+		if (ci->visible) {
+			int const tmp = ci->size_pixels;
+			if (x <= pixel + tmp) {
 				if (col_origin)
 					*col_origin = pixel;
 				return col;
@@ -175,7 +175,10 @@ item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
 			pixel += tmp;
 		}
 	} while (++col < SHEET_MAX_COLS);
-
+	if (col_origin) {
+		g_warning ("What goes here ?");
+		*col_origin = pixel;
+	}
 	return SHEET_MAX_COLS-1;
 }
 
@@ -194,10 +197,9 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 	if (y < pixel) {
 		do {
 			ColRowInfo *ri = sheet_row_get_info (sheet, row);
-			int const tmp = ri->size_pixels;
-
-			if (tmp > 0) {
-				if (y >= pixel && y <= pixel + tmp) {
+			if (ri->visible) {
+				int const tmp = ri->size_pixels;
+				if (pixel <= y && y <= pixel + tmp) {
 					if (row_origin)
 						*row_origin = pixel;
 					return row;
@@ -210,10 +212,9 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 
 	do {
 		ColRowInfo *ri = sheet_row_get_info (sheet, row);
-		int const tmp = ri->size_pixels;
-
-		if (tmp > 0) {
-			if (y >= pixel && y <= pixel + tmp) {
+		if (ri->visible) {
+			int const tmp = ri->size_pixels;
+			if (pixel <= y && y <= pixel + tmp) {
 				if (row_origin)
 					*row_origin = pixel;
 				return row;
@@ -222,35 +223,6 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 		}
 	} while (++row < SHEET_MAX_ROWS);
 	return SHEET_MAX_ROWS-1;
-}
-
-/*
- * Sets the gc appropiately for inverting the color of a region
- * in the ItemGrid.
- *
- * We are mainly interested in getting accurrated black/white
- * inversion.
- *
- * On palleted displays, we play the trick of XORing the value
- * (this will render other colors sometimes randomly, depending on the
- * pallette contents).  On non-palleted displays, we can use the
- * GDK_INVERT operation to invert the pixel value.
- */
-static void
-item_grid_invert_gc (ItemGrid *item_grid)
-{
-	GdkGC *gc;
-
-	gc = item_grid->gc;
-	gdk_gc_set_clip_rectangle (gc, NULL);
-
-	if (item_grid->visual_is_paletted) {
-		gdk_gc_set_function (gc, GDK_XOR);
-		gdk_gc_set_foreground (gc, &gs_white);
-	} else {
-		gdk_gc_set_function (gc, GDK_INVERT);
-		gdk_gc_set_foreground (gc, &gs_black);
-	}
 }
 
 /*
@@ -299,39 +271,39 @@ item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
  * Returns the number of columns used by the cell.
  */
 static int
-item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int x1, int y1)
+item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
+		     Cell *cell, int x1, int y1)
 {
+	Sheet      *sheet  = cell->sheet;
+	MStyle     *mstyle = sheet_style_compute (cell->sheet, cell->col->pos, cell->row->pos);
 	GdkGC      *gc     = item_grid->gc;
-	GdkColor   *col;
 	int         count  = 1;
-	MStyle     *mstyle;
+
 	int const w = cell->col->size_pixels;
 	int const h = cell->row->size_pixels;
 
-	if (w <= 0 || h <= 0)
-		return 0;
-
-	mstyle = sheet_style_compute (cell->sheet, cell->col->pos,
-				      cell->row->pos);
+	gboolean const is_selected = !(sheet->cursor_col == cell->col->pos &&
+				       sheet->cursor_row == cell->row->pos) &&
+	    sheet_selection_is_cell_selected (sheet, cell->col->pos, cell->row->pos);
 
 	/* setup foreground */
 	gdk_gc_set_foreground (gc, &item_grid->default_color);
 	if (cell->render_color)
 		gdk_gc_set_foreground (gc, &cell->render_color->color);
-	else if (mstyle_is_element_set (mstyle, MSTYLE_COLOR_FORE)) {
-		col = &mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color;
-		gdk_gc_set_foreground (gc, col);
-	}
+	else if (mstyle_is_element_set (mstyle, MSTYLE_COLOR_FORE))
+		gdk_gc_set_foreground (gc,
+				       &mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color);
 
-	if (mstyle_is_element_set (mstyle, MSTYLE_COLOR_BACK)) {
-		col = &mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color;
-		gdk_gc_set_background (gc, col);
-	} else
+	if (mstyle_is_element_set (mstyle, MSTYLE_COLOR_BACK))
+		gdk_gc_set_background (gc,
+				       &mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color);
+	else
 		gdk_gc_set_background (gc, &item_grid->background);
 
 	/* Draw cell contents BEFORE border */
 	if (cell->sheet->display_zero || !cell_is_zero (cell))
-		count = cell_draw (cell, mstyle, item_grid->sheet_view, gc, drawable, x1, y1);
+		count = cell_draw (cell, mstyle, item_grid->sheet_view, gc, drawable,
+				   x1, y1, is_selected);
 
 	item_grid_draw_border (drawable, mstyle, x1, y1, w, h, count > 1, FALSE);
 
@@ -343,23 +315,25 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 static void
 item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 			    ColRowInfo const * const ci, ColRowInfo const * const ri,
+			    /* Pass the row, col because the ColRowInfos may be the default. */
 			    int col, int row,
 			    int x, int y,
 			    int const span_count)
 {
-	MStyle *mstyle;
-	GdkGC  *gc = item_grid->empty_gc;
-	int const w = ci->size_pixels;
-	int const h = ri->size_pixels;
+	Sheet  *sheet  = item_grid->sheet_view->sheet;
+	GdkGC  *gc     = item_grid->empty_gc;
+	MStyle *mstyle = sheet_style_compute (sheet, col, row);
+	int const w    = ci->size_pixels;
+	int const h    = ri->size_pixels;
 
-	if (w <= 0 || h <= 0)
-		return;
+	gboolean const is_selected = !(sheet->cursor_col == col && sheet->cursor_row == row) &&
+	    sheet_selection_is_cell_selected (sheet, col, row);
 
-	mstyle = sheet_style_compute (item_grid->sheet_view->sheet, col, row);
-
-	if (gnumeric_background_set_gc (mstyle, gc, item_grid->canvas_item.canvas))
-		/* Ignore margins. Fill the entire cell (including the right
-		 * hand divider) */
+	if (gnumeric_background_set_gc (mstyle, gc, item_grid->canvas_item.canvas, is_selected))
+		/*
+		 * Ignore margins. Fill the entire cell
+		 * including the right & left grid line
+		 */
 		gdk_draw_rectangle (drawable, gc, TRUE,
 				    x, y, w+1, h+1);
 
@@ -385,8 +359,10 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	int const paint_col = item_grid_find_col (item_grid, x, &x_paint);
 	int const paint_row = item_grid_find_row (item_grid, y, &y_paint);
 	int const diff_x = x - x_paint;
-	int const end_x  = width + diff_x;
 	int const diff_y = y - y_paint;
+
+	/* One pixel PAST the end of the drawable */
+	int const end_x  = width + diff_x;
 	int const end_y  = height + diff_y;
 
 	/* We can relax this eventually. See comment in item_grid_find_col */
@@ -404,10 +380,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 		gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
 		while (x_paint < end_x && col < SHEET_MAX_COLS) {
 			ColRowInfo const * const ci = sheet_col_get_info (sheet, col++);
-			int const tmp = ci->size_pixels;
-
-			if (tmp > 0) {
-				x_paint += tmp;
+			if (ci->visible) {
+				x_paint += ci->size_pixels;
 				gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
 			}
 		}
@@ -417,10 +391,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 		gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
 		while (y_paint < end_y && row < SHEET_MAX_ROWS) {
 			ColRowInfo const * const ri = sheet_row_get_info (sheet, row++);
-			int const tmp = ri->size_pixels;
-
-			if (tmp > 0) {
-				y_paint += tmp;
+			if (ri->visible) {
+				y_paint += ri->size_pixels;
 				gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
 			}
 		}
@@ -431,17 +403,23 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	row = paint_row;
 	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; row++) {
 		ColRowInfo const * const ri = sheet_row_get_info (sheet, row);
-		if (ri->size_pixels <= 0)
+		if (!ri->visible)
 			continue;
 
 		col = paint_col;
 		for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; ++col) {
+			Cell *cell;
 			ColRowInfo const * const ci = sheet_col_get_info (sheet, col);
-			Cell *cell = sheet_cell_get (sheet, col, row);
-			if (ci->size_pixels <= 0)
+			if (!ci->visible)
 				continue;
 
-			/* If the cell does not exist paint it as an empty cell */
+			/*
+			 * If the cell is empty paint its background.
+			 * If it is being edited pretend it is empty to avoid
+			 *   problems with the a long cells contents extending
+			 *   past the edge of the edit box.
+			 */
+			cell = sheet_cell_get (sheet, col, row);
 			if (cell == NULL || sheet->editing_cell == cell) {
 				item_grid_paint_empty_cell (
 					drawable, item_grid, ci, ri,
@@ -475,9 +453,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 					 */
 					for (i = cell->col->pos; i < col; i++) {
 						ColRowInfo const * const tci = sheet_col_get_info (sheet, i);
-						int const tmp = tci->size_pixels;
-						if (tmp > 0)
-							real_x -= tmp;
+						if (tci->visible)
+							real_x -= tci->size_pixels;
 					}
 
 					/*
@@ -485,9 +462,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 					 */
 					for (i = col; i < cell->col->pos; i++) {
 						ColRowInfo const * const tci = sheet_col_get_info (sheet, i);
-						int const tmp = tci->size_pixels;
-						if (tmp > 0)
-							real_x += tmp;
+						if (tci->visible)
+							real_x += tci->size_pixels;
 					}
 
 					/*
@@ -506,37 +482,10 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 
 					for (i = col+1; i < end_col; i++, col++) {
 						ColRowInfo const * const tci = sheet_col_get_info (sheet, i);
-						int const tmp = tci->size_pixels;
-						if (tmp > 0)
-							x_paint += tmp;
+						if (tci->visible)
+							x_paint += tci->size_pixels;
 					}
 				} /* if cell */
-			}
-			x_paint += ci->size_pixels;
-		}
-		y_paint += ri->size_pixels;
-	}
-
-	/* Now invert any selected cells */
-	item_grid_invert_gc (item_grid);
-
-	row = paint_row;
-	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; row++) {
-		ColRowInfo const * const ri = sheet_row_get_info (sheet, row);
-		if (ri->size_pixels <= 0)
-			continue;
-
-		col = paint_col;
-		for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; ++col) {
-			ColRowInfo const * const ci = sheet_col_get_info (sheet, col);
-			if (ci->size_pixels <= 0)
-				continue;
-
-			if (!(sheet->cursor_col == col && sheet->cursor_row == row) &&
-			    sheet_selection_is_cell_selected (sheet, col, row)) {
-				gdk_draw_rectangle (drawable, item_grid->gc, TRUE,
-						    x_paint+1, y_paint+1,
-						    ci->size_pixels-1, ri->size_pixels-1);
 			}
 			x_paint += ci->size_pixels;
 		}
