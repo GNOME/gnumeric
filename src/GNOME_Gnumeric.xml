@@ -349,7 +349,7 @@
 
 	</menu>
 
-	<dockitem name="StandardToolbar" homogeneous="0" look="icons" relief="none">
+	<dockitem name="StandardToolbar" homogeneous="0"  band_num="1" look="icons" relief="none">
 
 		<toolitem type="std" name="New" pixtype="stock" pixname="New"
 		 _label="New" _descr="Create a new workbook"
@@ -417,7 +417,7 @@
 		<control name="SheetZoom"/>
 	</dockitem>
 
-	<dockitem name="FormatToolbar" homogeneous="0" look="icons" relief="none">
+	<dockitem name="FormatToolbar" band_num="2" homogeneous="0" look="icons" relief="none">
 
 		<control name="FontName"/>
 		<control name="FontSize"/>
@@ -473,7 +473,7 @@
 
 	</dockitem>
 
-	<dockitem name="ObjectToolbar" homogeneous="0" look="icons" relief="none">
+	<dockitem name="ObjectToolbar" band_num="3" homogeneous="0" look="icons" relief="none">
 		<toolitem type="std" name="Label" pixtype="stock" pixname="Gnumeric_Label"
 		 _label="Label" _descr="Create a label" verb="CreateLabel"/>
 		<toolitem type="std" name="Frame" pixtype="stock" pixname="Gnumeric_Frame"
