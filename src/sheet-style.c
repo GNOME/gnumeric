@@ -1091,15 +1091,146 @@ typedef struct {
 	gboolean       border_valid[STYLE_BORDER_EDGE_MAX];
 } UniqueClosure;
 
+static void
+border_invalidate (UniqueClosure *cl, StyleBorderLocation location)
+{
+	cl->border_valid [location] = FALSE;
+	style_border_unref (cl->borders [location]);
+	cl->borders [location] = NULL;
+}
+
+/**
+ * border_mask:
+ * @cl: unique data
+ * @location: which border to deal with
+ * @border: the border to mask against
+ * 
+ * This masks the border at @cl->borders [@location]
+ * it is marked invalid if the border != current value
+ * note it doesn't much matter whether this is an inner
+ * or an outer one since this should be transparent to the
+ * user.
+ *
+ **/
+static void
+border_mask (UniqueClosure *cl, StyleBorderLocation location,
+	     const MStyleBorder *border)
+{
+	if (cl->border_valid [location]) {
+		if (!cl->borders [location])
+			cl->borders [location] = style_border_ref ((MStyleBorder *)border);
+
+		if (cl->borders [location] == style_border_none ()) {
+			style_border_unref (cl->borders [location]);
+			cl->borders [location] = style_border_ref ((MStyleBorder *)border);
+		} else if (border && border != cl->borders [location] &&
+			   border != style_border_none ()) {
+			border_invalidate (cl, location);
+		}
+	}
+}
+	
 /*
-	top,left,right,bottom regions ( 2 thick )
-        for each of these regions do fragment;
-	then foreach compare inner vs. outer via. quick compute.
-	middle region ( 1 less thick than edges )
-        split code to check for homogoneity
-	We need a middle region to differentiate internal to external
-	borders.
-*/
+ * Plenty of room for optimization here
+ */
+static void
+border_check (UniqueClosure *cl, GList *edge_list,
+	      const Range *edge_range, const Range *range, const Range *all,
+	      StyleBorderLocation location)
+{
+	GList *frags, *l;
+
+	frags = range_fragment_list_clip (edge_list, edge_range);
+	for (l = frags; l; l = g_list_next (l)) {
+		Range  *r   = l->data;
+		MStyle *inner_style, *outer_style;
+		const MStyleBorder *inner_border, *outer_border;
+		CellPos inner, outer;
+		
+		inner = r->start;
+		outer = r->start;
+		switch (location) {
+		case STYLE_BORDER_TOP:
+			if (inner.col < range->start.col)
+				inner.col = outer.col = range->start.col;
+			inner.row = range->start.row;
+			outer.row = all->start.row;
+			break;
+		case STYLE_BORDER_BOTTOM:
+			if (inner.col < range->start.col)
+				inner.col = outer.col = range->start.col;
+			inner.row = range->end.row;
+			outer.row = all->end.row;
+			break;
+		case STYLE_BORDER_LEFT:
+			if (inner.row < range->start.row)
+				inner.row = outer.row = range->start.row;
+			inner.col = range->start.col;
+			outer.col = all->start.col;
+			break;
+		case STYLE_BORDER_RIGHT:
+			if (inner.row < range->start.row)
+				inner.row = outer.row = range->start.row;
+			inner.col = range->end.col;
+			outer.col = all->end.col;
+			break;
+		default:
+			g_warning ("Serious internal style border error");
+			break;
+		}
+		if (!range_contains (range, inner.col, inner.row))
+			continue; /* an outer corner */
+
+		/* Calculate the respective styles */
+		inner_style = sheet_mstyle_compute_from_list (edge_list,
+							      inner.col,
+							      inner.row);
+
+		outer_style = sheet_mstyle_compute_from_list (edge_list,
+							      outer.col,
+							      outer.row);
+
+		/* Build up the border maps + do internal borders */
+		switch (location) {
+		case STYLE_BORDER_TOP:
+			inner_border = mstyle_get_border (inner_style, MSTYLE_BORDER_TOP);
+			outer_border = mstyle_get_border (outer_style, MSTYLE_BORDER_BOTTOM);
+			border_mask (cl, STYLE_BORDER_HORIZ,
+				     mstyle_get_border (inner_style, MSTYLE_BORDER_BOTTOM));
+			break;
+		case STYLE_BORDER_BOTTOM:
+			inner_border = mstyle_get_border (inner_style, MSTYLE_BORDER_BOTTOM);
+			outer_border = mstyle_get_border (outer_style, MSTYLE_BORDER_TOP);
+			border_mask (cl, STYLE_BORDER_HORIZ,
+				     mstyle_get_border (inner_style, MSTYLE_BORDER_TOP));
+			break;
+		case STYLE_BORDER_LEFT:
+			inner_border = mstyle_get_border (inner_style, MSTYLE_BORDER_LEFT);
+			outer_border = mstyle_get_border (outer_style, MSTYLE_BORDER_RIGHT);
+			border_mask (cl, STYLE_BORDER_VERT,
+				     mstyle_get_border (inner_style, MSTYLE_BORDER_RIGHT));
+			break;
+		case STYLE_BORDER_RIGHT:
+			inner_border = mstyle_get_border (inner_style, MSTYLE_BORDER_RIGHT);
+			outer_border = mstyle_get_border (outer_style, MSTYLE_BORDER_LEFT);
+			border_mask (cl, STYLE_BORDER_VERT,
+				     mstyle_get_border (inner_style, MSTYLE_BORDER_LEFT));
+			break;
+		default:
+			g_warning ("Serious internal style border error");
+			break;
+		}
+
+		border_mask (cl, location, outer_border);
+		border_mask (cl, location, inner_border);
+		
+		/* Normal compare for styles */
+		mstyle_compare (cl->mstyle, inner_style);
+		mstyle_unref (inner_style);
+		mstyle_unref (outer_style);
+	}
+	range_fragment_free (frags);
+}
 
 static gboolean
 sheet_unique_cb (Sheet *sheet, Range const *range,
@@ -1120,11 +1251,11 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 	if (all.start.col > 0)
 		all.start.col--;
 	if (all.end.col < SHEET_MAX_COLS)
-		all.start.col++;
+		all.end.col++;
  	if (all.start.row > 0)
 		all.start.row--;
 	if (all.end.row < SHEET_MAX_ROWS)
-		all.start.row++;
+		all.end.row++;
 	all_list = sheet_get_region_list_for_range (STYLE_LIST (sheet), &all);
 
 	/* 2. Create the middle range */
@@ -1177,15 +1308,13 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 			edge_list [i] = NULL;
 	}
 	/* 4.2 Create region list for middle */
-	/* Hack for now should be &middle */
-	middle_list = sheet_get_region_list_for_range (all_list, range);
+	if (middle_valid)
+		middle_list = sheet_get_region_list_for_range (all_list, &middle);
+	else
+		middle_list = NULL;
 
-	/*
-	 * Fragment ranges into fully overlapping ones discarding
-	 * overlaps outside the selection.
-	 */
-	/* Hack for now should be &middle */
-	frags = range_fragment_list_clip (middle_list, range);
+	/* 5.1 Check the middle range */
+	frags = range_fragment_list_clip (middle_list, &middle);
 	for (l = frags; l; l = g_list_next (l)) {
 		Range  *r   = l->data;
 		MStyle *tmp = sheet_mstyle_compute_from_list (middle_list,
@@ -1196,11 +1325,55 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 	}
 	range_fragment_free (frags);
 
-	g_list_free (middle_list);
-	g_list_free (all_list);
-	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; i++)
+	/* 5.2 Move the vert / horiz. data into the array */
+	if (middle_valid) {
+		/* 5.2.1 Vertical */
+		if (mstyle_is_element_conflict (cl->mstyle, MSTYLE_BORDER_LEFT) ||
+		    mstyle_is_element_conflict (cl->mstyle, MSTYLE_BORDER_RIGHT))
+			border_invalidate (cl, STYLE_BORDER_VERT);
+		else {
+			border_mask (cl, STYLE_BORDER_VERT,
+				     mstyle_get_border (cl->mstyle, MSTYLE_BORDER_LEFT));
+			border_mask (cl, STYLE_BORDER_VERT,
+				     mstyle_get_border (cl->mstyle, MSTYLE_BORDER_RIGHT));
+		}
+
+		/* 5.2.2 Horizontal */
+		if (mstyle_is_element_conflict (cl->mstyle, MSTYLE_BORDER_TOP) ||
+		    mstyle_is_element_conflict (cl->mstyle, MSTYLE_BORDER_BOTTOM))
+			border_invalidate (cl, STYLE_BORDER_HORIZ);
+		else {
+			border_mask (cl, STYLE_BORDER_HORIZ,
+				     mstyle_get_border (cl->mstyle, MSTYLE_BORDER_TOP));
+			border_mask (cl, STYLE_BORDER_HORIZ,
+				     mstyle_get_border (cl->mstyle, MSTYLE_BORDER_BOTTOM));
+		}
+	}
+
+	/* 5.3 Check the edges  */
+	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; i++) {
 		if (edge_valid [i])
+			border_check (cl, edge_list [i], &edge [i],
+				      range, &all, i);
+	}
+
+	if (!middle_valid) {
+		MStyleBorder *border = style_border_none ();
+		style_border_ref (border);
+		style_border_ref (border);
+		cl->borders [STYLE_BORDER_HORIZ] = border;
+		cl->borders [STYLE_BORDER_VERT]  = border;
+	}
+
+	/* Free up resources */
+	if (middle_list)
+		g_list_free (middle_list);
+	g_list_free (all_list);
+	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; i++) {
+		if (edge_valid [i] && edge_list [i])
 			g_list_free (edge_list [i]);
+		edge_list [i] = NULL;
+	}
 
 	return TRUE;
 }
@@ -1244,6 +1417,11 @@ sheet_selection_get_unique_style (Sheet *sheet, MStyleBorder **borders)
 	}
 
 	selection_foreach_range (sheet, sheet_unique_cb, &cl);
+
+	border_mask (&cl, STYLE_BORDER_REV_DIAG,
+		     mstyle_get_border (cl.mstyle, MSTYLE_BORDER_REV_DIAGONAL));
+	border_mask (&cl, STYLE_BORDER_DIAG,
+		     mstyle_get_border (cl.mstyle, MSTYLE_BORDER_DIAGONAL));
  
 	if (style_debugging > 0) {
 		printf ("Uniq style is\n");

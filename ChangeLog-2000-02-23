@@ -1,3 +1,19 @@
+1999-11-12  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet-style.c (border_invalidate): implement.
+
+1999-11-12  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/dialogs/dialog-cell-format.c (sheet_cell_get_border),
+	(do_check_border): kill. (fmt_dialog_impl): expand to add borders
+	param.
+
+	* src/sheet-style.c (sheet_unique_cb): Expand drastical.
+	(border_check, border_mask): create.
+
+	* src/dialogs/dialog-cell-format.c (init_border_button): Add border
+	parameter (check_border): kill. (cb_check_border): kill.
+
 1999-11-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell.c (cell_set_text_simple) : Store the entered text.
@@ -41,7 +57,6 @@
 	  Call cb_format_changed to update display if "general" is displayed.
 	(set_initial_focus): Set initial focus
 	(fmt_dialog_impl): Set dialog title, set initial focus
-
 
 1999-11-12  Michael Meeks  <mmeeks@gnu.org>
 

@@ -1685,159 +1685,14 @@ typedef struct
 	MStyleBorder const *res;
 } check_border_closure_t;
 
-static MStyleBorder const *
-sheet_cell_get_border (Sheet *sheet, int col, int row, MStyleElementType const t)
-{
-	MStyleBorder const * res;
-	MStyle *style = sheet_style_compute (sheet, col, row);
-	res = mstyle_get_border (style, t);
-	mstyle_unref (style);
-	return res;
-}
-
-static MStyleBorder const *
-do_check_border (Sheet *sheet, Range const *r,
-		 MStyleElementType const t1,
-		 MStyleElementType const t2,
-		 int const x_dual_offset,
-		 int const y_dual_offset,
-		 MStyleBorder const * res)
-{
-	int x, y;
-	int end_col = r->end.col;
-	int end_row = r->end.row;
-
-	for (x = r->start.col ; x <= end_col; ++x)
-		for (y = r->start.row ; y <= end_row; ++y)
-		{
-			MStyleBorder const * border = NULL;
-
-			if (0 <= x && x < SHEET_MAX_COLS &&
-			    0 <= y && y < SHEET_MAX_ROWS) {
-				border = sheet_cell_get_border (sheet, x, y, t1);
-				g_return_val_if_fail (border != NULL, NULL);
-			}
-
-			if ((x_dual_offset != 0 || y_dual_offset != 0) &&
-			    (border == NULL || border->line_type == STYLE_BORDER_NONE) &&
-			    0 <= x + x_dual_offset &&
-			    x + x_dual_offset < SHEET_MAX_COLS &&
-			    0 <= y + y_dual_offset &&
-			    y + y_dual_offset < SHEET_MAX_ROWS)
-				border = sheet_cell_get_border (sheet,
-								x + x_dual_offset,
-								y + y_dual_offset,
-								t2);
-
-			if (res == NULL)
-				res = border;
-			else if (res != border)
-				return NULL;
-		}
-	return res;
-}
-
-/*
- * Check to see if there is a consistent border
- * style, pattern, and colour around a region.
- */
-static gboolean
-cb_check_border (Sheet *sheet,
-		 Range const *range,
-		 gpointer user_data)
-{
-	check_border_closure_t *cl = user_data;
-	Range	  r = *range;
-	int x_offset = 0, y_offset = 0;
-
-	/* Init with a bogus element to pacify the compiler */
-	MStyleElementType t1 = MSTYLE_ELEMENT_UNSET;
-	MStyleElementType t2 = MSTYLE_ELEMENT_UNSET;
-
-	switch (cl->t) {
-	case STYLE_BORDER_TOP :
-		t1 = MSTYLE_BORDER_TOP;
-		t2 = MSTYLE_BORDER_BOTTOM;
-		r.end.row = r.start.row;
-		y_offset = -1;
-		break;
-
-	case STYLE_BORDER_BOTTOM :
-		/* Look for Top 1st */
-		t1 = MSTYLE_BORDER_TOP;
-		t2 = MSTYLE_BORDER_BOTTOM;
-		r.start.row = ++r.end.row;
-		y_offset = -1;
-		break;
-
-	case STYLE_BORDER_LEFT :
-		t1 = MSTYLE_BORDER_LEFT;
-		t2 = MSTYLE_BORDER_RIGHT;
-		r.end.col = r.start.col;
-		x_offset = -1;
-		break;
-
-	case STYLE_BORDER_RIGHT :
-		/* Look for Left 1st */
-		t1 = MSTYLE_BORDER_LEFT;
-		t2 = MSTYLE_BORDER_RIGHT;
-		r.start.col = ++r.end.col;
-		x_offset = -1;
-		break;
-
-	case STYLE_BORDER_REV_DIAG :
-		t1 = MSTYLE_BORDER_REV_DIAGONAL;
-		break;
-
-	case STYLE_BORDER_DIAG :
-		t1 = MSTYLE_BORDER_DIAGONAL;
-		break;
-
-	case STYLE_BORDER_HORIZ :
-		t1 = MSTYLE_BORDER_TOP;
-		t2 = MSTYLE_BORDER_BOTTOM;
-		++r.start.row;
-		y_offset = -1;
-		break;
-
-	case STYLE_BORDER_VERT :
-		t1 = MSTYLE_BORDER_LEFT;
-		t2 = MSTYLE_BORDER_RIGHT;
-		++r.start.col;
-		x_offset = -1;
-		break;
-
-	default :
-		g_assert_not_reached ();
-	};
-
-	cl->res = do_check_border (sheet, &r, t1, t2, x_offset, y_offset, cl->res);
-	return (cl->res != NULL);
-}
-
-static MStyleBorder const *
-check_border (Sheet *sheet, StyleBorderLocation const t)
-{
-	check_border_closure_t cl;
-
-	cl.res     = NULL;
-	cl.t       = t;
-	(void) selection_foreach_range (sheet,
-					&cb_check_border,
-					&cl);
-	return cl.res;
-}
-
 /*
  * Initialize the fields of a BorderPicker, connect signals and
  * hide if needed.
  */
 static void
 init_border_button (FormatState *state, StyleBorderLocation const i,
-		    GtkWidget *button, gboolean const hide)
+		    GtkWidget *button, gboolean const hide, MStyleBorder *border)
 {
-	MStyleBorder const * border = check_border (state->sheet, i);
-
 	if (border == NULL) {
 		state->border.edge[i].rgba = 0;
 		state->border.edge[i].pattern_index = STYLE_BORDER_INCONSISTENT;
@@ -1939,8 +1794,8 @@ static void set_initial_focus (FormatState *state)
 }
 
 static void
-fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, GladeXML *gui,
-		 gboolean is_multi, Value *sample_val)
+fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, MStyleBorder **borders,
+		 GladeXML *gui, gboolean is_multi, Value *sample_val)
 {
 	static GnomeHelpMenuEntry help_ref = { "gnumeric", "formatting.html" };
 
@@ -2097,7 +1952,9 @@ fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, GladeXML *gui,
 	for (i = 0; (name = border_buttons[i]) != NULL; ++i) {
 		GtkWidget * tmp = init_button_image (gui, name);
 		if (tmp != NULL)
-			init_border_button (&state, i, tmp, i >= STYLE_BORDER_HORIZ);
+			init_border_button (&state, i, tmp,
+					    i >= STYLE_BORDER_HORIZ,
+					    borders [i]);
 	}
 
 	/* Get the current background
@@ -2204,7 +2061,7 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 		sample_val = first_upper_left->value;
 
 	mstyle = sheet_selection_get_unique_style (sheet, borders);
-	fmt_dialog_impl (sheet, mstyle, gui, is_multi, sample_val);
+	fmt_dialog_impl (sheet, mstyle, borders, gui, is_multi, sample_val);
 	
 	gtk_object_unref (GTK_OBJECT (gui));
 	mstyle_unref (mstyle);
