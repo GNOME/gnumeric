@@ -1,3 +1,7 @@
+2004-01-14  Jon K Hellan  <hellan@acm.org>
+
+	* README: Spellcheck
+
 2004-01-14  Jody Goldberg <jody@gnome.org>
 
 	* src/wbc-gtk.c : silence some warnings from the zoom combo.  It's not
