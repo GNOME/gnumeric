@@ -1157,7 +1157,7 @@ border_mask (UniqueClosure *cl, StyleBorderLocation location,
 static void
 border_check (UniqueClosure *cl, GList *edge_list,
 	      const Range *edge_range, const Range *range, const Range *all,
-	      StyleBorderLocation location)
+	      StyleBorderLocation location, gboolean do_outer)
 {
 	GList *frags, *l;
 
@@ -1165,7 +1165,7 @@ border_check (UniqueClosure *cl, GList *edge_list,
 	for (l = frags; l; l = g_list_next (l)) {
 		Range  *r   = l->data;
 		MStyle *inner_style, *outer_style;
-		const MStyleBorder *inner_border, *outer_border;
+		const MStyleBorder *inner_border, *outer_border = NULL;
 		CellPos inner, outer;
 		
 		inner = r->start;
@@ -1242,12 +1242,13 @@ border_check (UniqueClosure *cl, GList *edge_list,
 			break;
 		}
 
-		border_mask (cl, location, outer_border);
+		if (do_outer)
+			border_mask (cl, location, outer_border);
 		border_mask (cl, location, inner_border);
 		
 		/* If we have gone from nothing to something along an edge or vv. */
 		if (cl->border_valid [location] &&
-		    outer_border == style_border_none () &&
+		    (!do_outer || outer_border == style_border_none ()) &&
 		    inner_border == style_border_none () &&
 		    cl->borders [location] != style_border_none ())
 			border_invalidate (cl, location);
@@ -1328,13 +1329,10 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 	edge_valid [i] = range_expand (&edge [i], 0, 0, +1, 0);
 
 	/* 4.1 Create Region list for edges */
-	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; i++) {
-		if (edge_valid [i])
-			edge_list [i] = sheet_get_region_list_for_range (all_list,
-									 &edge [i]);
-		else
-			edge_list [i] = NULL;
-	}
+	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; i++)
+		edge_list [i] = sheet_get_region_list_for_range (all_list,
+								 &edge [i]);
+
 	/* 4.2 Create region list for middle */
 	if (middle_valid)
 		middle_list = sheet_get_region_list_for_range (all_list, &middle);
@@ -1379,20 +1377,11 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 	}
 
 	/* 5.3 Check the edges  */
-	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; i++) {
-		if (edge_valid [i])
-			border_check (cl, edge_list [i], &edge [i],
-				      range, &all, i);
-	}
+	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; i++)
+		border_check (cl, edge_list [i], &edge [i],
+			      range, &all, i, edge_valid [i]);
 
-	/* 6. Setup defaults for selector */
-	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; i++) {
-		if (!edge_valid [i])
-			cl->borders [i] = style_border_ref (
-				style_border_none ());
-	}
-
-	/* Free up resources */
+	/* 6. Free up resources */
 	if (middle_list)
 		g_list_free (middle_list);
 	g_list_free (all_list);

@@ -302,7 +302,7 @@ mstyle_elements_equal (const MStyleElement *a,
 	return TRUE;
 }
 
-MStyleElement
+inline MStyleElement
 mstyle_element_ref (MStyleElement e)
 {
 	switch (e.type) {
@@ -324,7 +324,7 @@ mstyle_element_ref (MStyleElement e)
 	return e;
 }
 
-void
+inline void
 mstyle_element_unref (MStyleElement e)
 {
 	switch (e.type) {
@@ -417,14 +417,10 @@ MStyle *
 mstyle_new (void)
 {
 	MStyle *style = g_new (MStyle, 1);
-	int i;
 
 	style->ref_count = 1;
 	style->name = NULL;
-	style->elements  = g_new (MStyleElement, MSTYLE_ELEMENT_MAX);
-
-	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
-		style->elements [i].type = MSTYLE_ELEMENT_UNSET;
+	style->elements  = g_new0 (MStyleElement, MSTYLE_ELEMENT_MAX);
 
 	return style;
 }
@@ -547,7 +543,7 @@ mstyle_do_merge (const GList *list, MStyleElementType max)
 		guint j;
 		MStyle *style = l->data;
 		
-		for (j = 0; j < max; j++) {
+		for (j = max; --j > 0;) {
 			MStyleElement e = style->elements [j];
 
 			if (e.type > MSTYLE_ELEMENT_UNSET &&

@@ -1,5 +1,14 @@
 1999-11-17  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/sheet-style.c (sheet_unique_cb): update border_check call.
+	(border_check): add do_outer argument.
+
+	* src/mstyle.c (mstyle_element_ref): inline.
+	(mstyle_do_merge): count down instead of up.
+	(mstyle_new): g_new0 instead of explicit clear.
+
+1999-11-17  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/sheet-style.c (do_list_check_sorted): split out.
 	(list_check_sorted): make conditional on debug, slugging performance.
 
