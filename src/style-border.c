@@ -130,10 +130,8 @@ style_border_hash (gconstpointer v)
 	 * ->color is a pointer, but the comparison is safe because
 	 * all colours are cached, see style_color_new.
 	 *
-	 * We assume that casting a pointer to (unsigned) does something
-	 * useful.  That's probably ok.
 	 */
- 	return (((unsigned)b->color) ^ b->line_type);
+ 	return (GPOINTER_TO_UINT(b->color) ^ b->line_type);
 }
 
 GnmBorder *

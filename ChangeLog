@@ -1,3 +1,8 @@
+2005-03-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/style-border.c (style_border_hash): use GPOINTER_TO_UINT
+	  rather than just casting.
+
 2005-03-24  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c (x_clipboard_get_cb): Plug leak.
