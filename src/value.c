@@ -134,10 +134,11 @@ value_new_string_str (String *str)
 	return (Value *)v;
 }
 
+static gnm_mem_chunk *value_range_pool;
 Value *
 value_new_cellrange_unsafe (CellRef const *a, CellRef const *b)
 {
-	ValueRange *v = g_new (ValueRange, 1);
+	ValueRange *v = gnm_mem_chunk_alloc (value_range_pool);
 	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
 	v->fmt = NULL;
 	v->cell.a = *a;
@@ -158,7 +159,7 @@ Value *
 value_new_cellrange (CellRef const *a, CellRef const *b,
 		     int eval_col, int eval_row)
 {
-	ValueRange *v = g_new (ValueRange, 1);
+	ValueRange *v = gnm_mem_chunk_alloc (value_range_pool);
 	int tmp;
 
 	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
@@ -203,7 +204,7 @@ value_new_cellrange (CellRef const *a, CellRef const *b,
 Value *
 value_new_cellrange_r (Sheet *sheet, Range const *r)
 {
-	ValueRange *v = g_new (ValueRange, 1);
+	ValueRange *v = gnm_mem_chunk_alloc (value_range_pool);
 	CellRef *a, *b;
 
 	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
@@ -223,10 +224,11 @@ value_new_cellrange_r (Sheet *sheet, Range const *r)
 	return (Value *)v;
 }
 
+static gnm_mem_chunk *value_array_pool;
 Value *
 value_new_array_non_init (guint cols, guint rows)
 {
-	ValueArray *v = g_new (ValueArray, 1);
+	ValueArray *v = gnm_mem_chunk_alloc (value_array_pool);
 	*((ValueType *)&(v->type)) = VALUE_ARRAY;
 	v->fmt = NULL;
 	v->x = cols;
@@ -373,11 +375,13 @@ value_release (Value *value)
 		}
 
 		g_free (v->vals);
-		break;
+		gnm_mem_chunk_free (value_array_pool, value);
+		return;
 	}
 
 	case VALUE_CELLRANGE:
-		break;
+		gnm_mem_chunk_free (value_range_pool, value);
+		return;
 
 	default:
 		/*
@@ -387,11 +391,7 @@ value_release (Value *value)
 		g_warning ("value_release problem.");
 		return;
 	}
-
-	/* poison the type before freeing to help catch dangling pointers */
-	*((ValueType *)&(value->type)) = 9999;
-
-	g_free (value);
+	g_assert_not_reached ();
 }
 
 /*
@@ -1067,6 +1067,16 @@ value_init (void)
 		gnm_mem_chunk_new ("value string pool",
 				   sizeof (ValueStr),
 				   16 * 1024 - 128);
+
+	value_range_pool =
+		gnm_mem_chunk_new ("value range pool",
+				   sizeof (ValueRange),
+				   16 * 1024 - 128);
+
+	value_array_pool =
+		gnm_mem_chunk_new ("value array pool",
+				   sizeof (ValueArray),
+				   16 * 1024 - 128);
 }
 
 void
@@ -1083,6 +1093,12 @@ value_shutdown (void)
 
 	gnm_mem_chunk_destroy (value_string_pool, FALSE);
 	value_string_pool = NULL;
+
+	gnm_mem_chunk_destroy (value_range_pool, FALSE);
+	value_range_pool = NULL;
+
+	gnm_mem_chunk_destroy (value_array_pool, FALSE);
+	value_array_pool = NULL;
 }
 
 /****************************************************************************/

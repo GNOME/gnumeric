@@ -5,6 +5,14 @@
 
 2002-03-29  Morten Welinder  <terra@diku.dk>
 
+	* src/value.c (value_new_cellrange_unsafe, value_new_cellrange,
+	value_new_cellrange_r, value_new_array_non_init, value_release):
+	Use chunk allocator for ranges and arrays.
+	(value_init): Initialise range and array pools.
+	(value_shutdown): Free range and array pools.
+
+2002-03-29  Morten Welinder  <terra@diku.dk>
+
 	* src/gutils.c (gnm_mem_chunk_new, gnm_mem_chunk_destroy,
 	gnm_mem_chunk_alloc, gnm_mem_chunk_free): Keep per-block
 	freelists.
@@ -146,7 +154,7 @@
 	* schemas/ : new directory for schema files
 	* schemas/gnumeric-dialogs.schemas : file for gconf configuration
 	  variables used by the gnumeric dialogs
-	
+
 2002-03-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gui-util.[ch] (focus_on_entry) : new
