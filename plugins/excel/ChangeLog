@@ -1,3 +1,7 @@
+2001-02-11  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_sheet_obj_create) : add option button.
+
 2001-02-10  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-read.c (ms_excel_init_margins): New

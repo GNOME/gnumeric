@@ -141,7 +141,8 @@ cell_split_text (GdkFont *font, char const *text, int const width)
  */
 void
 cell_draw (Cell const *cell, MStyle const *mstyle,
-	   GdkGC *gc, GdkDrawable *drawable, int x1, int y1, int width, int height)
+	   GdkGC *gc, GdkDrawable *drawable,
+	   int x1, int y1, int width, int height, int left_offset)
 {
 	StyleFont    *style_font;
 	GdkFont      *font;
@@ -283,12 +284,12 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 			break;
 
 		case HALIGN_RIGHT:
-			x = rect.x + rect.width - cell_width_pixel;
+			x = rect.x + rect.width - 1 - cell_width_pixel;
 			break;
 
 		case HALIGN_CENTER:
 		case HALIGN_CENTER_ACROSS_SELECTION:
-			x = rect.x + (rect.width - cell_width_pixel) / 2;
+			x = rect.x + left_offset + (ci->size_pixels - cell_width_pixel) / 2;
 			break;
 
 		default:
@@ -297,12 +298,8 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 		}
 
 		total = 0;
-		do {
-			draw_text (drawable, font, gc, x, text_base,
-				   text, strlen (text), len, line_offset, num_lines);
-			x += len;
-			total += len;
-		} while (halign == HALIGN_FILL && total < rect.width && len > 0);
+		draw_text (drawable, font, gc, x, text_base,
+			   text, strlen (text), len, line_offset, num_lines);
 	} else {
 		GList *lines, *l;
 		int line_count;
@@ -370,13 +367,13 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 
 			case HALIGN_RIGHT:
 				len = gdk_string_width (font, str);
-				x = rect.x + rect.width - len;
+				x = rect.x + rect.width - 1 - len;
 				break;
 
 			case HALIGN_CENTER:
 			case HALIGN_CENTER_ACROSS_SELECTION:
 				len = gdk_string_width (font, str);
-				x = rect.x + (rect.width - len) / 2;
+				x = rect.x + left_offset + (ci->size_pixels - len) / 2;
 			}
 
 			draw_text (drawable, font, gc,

@@ -328,7 +328,7 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, i
 			 */
 			if (cell)
 				cell_draw (cell, mstyle, preview_grid->gc, drawable,
-					   x_paint, y_paint, -1, -1);
+					   x_paint, y_paint, -1, -1, /* no spans */ 0);
 
 			mstyle_unref (mstyle);
 

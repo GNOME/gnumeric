@@ -2233,6 +2233,7 @@ ms_sheet_obj_create (MSContainer *container, MSObj *obj)
 #endif
 		    break;
 	case 0x0B : so = sheet_widget_checkbox_new (sheet); break; /* CheckBox*/
+	case 0x0C : so = sheet_widget_radio_button_new (sheet); break; /* OptionButton */
 	case 0x0E : so = sheet_widget_label_new (sheet);    break; /* Label */
 	case 0x12 : so = sheet_widget_list_new (sheet);     break; /* List */
 	case 0x14 : so = sheet_widget_combo_new (sheet);    break; /* Combo */

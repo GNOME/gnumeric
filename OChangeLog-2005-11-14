@@ -1,3 +1,24 @@
+2001-02-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell-draw.c (cell_draw) : Center content on the cell with the
+	  content, not on the width of the span (think about asymetric column
+	  widths on the left and right.
+	* src/print-cell.c (print_cell) : Ditto.
+
+	* src/item-grid.c (item_grid_draw) : Pass the offset from the left
+	  edge to the cell with content.
+	* src/print-cell.c (print_cell) : Ditto.
+
+2001-02-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell-draw.c (cell_draw) : Fence post problem.  Measure right
+	  margin as 'left + width - 1'
+	* src/print-cell.c (print_cell) : ditto.
+
+2001-02-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_draw) : pass the correct width.
+
 2001-02-11  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c (wb_control_gui_focus_cur_sheet) :

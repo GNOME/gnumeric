@@ -220,7 +220,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 		cell_draw (cell, mstyle, grid->cell_gc, drawable,
 			   l, t,
 			   r - l - ci->margin_b - ci->margin_a,
-			   b - t - ri->margin_b - ri->margin_a);
+			   b - t - ri->margin_b - ri->margin_a, 0);
 	}
 }
 
@@ -485,7 +485,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				if (!cell_is_blank (cell) && cell != edit_cell)
 					cell_draw (cell, style,
 						   item_grid->cell_gc, drawable,
-						   x, y, -1, -1);
+						   x, y, -1, -1, 0);
 
 			/* Only draw spaning cells after all the backgrounds
 			 * that we are goign to draw have been drawn.  No need
@@ -497,7 +497,10 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				int const start_span_col = span->left;
 				int const end_span_col = span->right;
 				int real_x = x;
-				int tmp_width = ci->size_pixels;
+				int left_offset = 0;
+				/* TODO : Use the spanning margins */
+				int tmp_width = ci->size_pixels -
+					ci->margin_b - ci->margin_a;
 
 				if (col != cell->pos.col)
 					style = sheet_style_get (sheet,
@@ -507,6 +510,11 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				 * might be using columns to the left (if it is set to right
 				 * justify or center justify) compute the pixel difference
 				 */
+				if (start_span_col != cell->pos.col)
+					left_offset = scg_colrow_distance_get (
+						gsheet->scg, TRUE,
+						start_span_col, cell->pos.col);
+
 				if (start_span_col != col) {
 					int offset = scg_colrow_distance_get (
 						gsheet->scg, TRUE,
@@ -523,7 +531,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 				cell_draw (cell, style,
 					   item_grid->cell_gc, drawable,
-					   real_x, y, tmp_width, -1);
+					   real_x, y, tmp_width, -1, left_offset);
 			} else if (col != span->left)
 				sr.vertical [col] = NULL;
 

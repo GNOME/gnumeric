@@ -440,12 +440,12 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 			break;
 
 		case HALIGN_RIGHT:
-			x = rect_x + rect_width - cell_width_pts;
+			x = rect_x + rect_width - 1 - cell_width_pts;
 			break;
 
 		case HALIGN_CENTER:
 		case HALIGN_CENTER_ACROSS_SELECTION:
-			x = rect_x + (rect_width - cell_width_pts) / 2;
+			x = rect_x + left_offset + (ci->size_pts - cell_width_pts) / 2;
 			break;
 
 		default:
@@ -532,13 +532,13 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 
 			case HALIGN_RIGHT:
 				len = gnome_font_get_width_string (print_font, str);
-				x = rect_x + rect_width - len;
+				x = rect_x + rect_width - 1 - len;
 				break;
 
 			case HALIGN_CENTER:
 			case HALIGN_CENTER_ACROSS_SELECTION:
 				len = gnome_font_get_width_string (print_font, str);
-				x = rect_x + (rect_width - len) / 2;
+				x = rect_x + left_offset + (ci->size_pts - len) / 2;
 			}
 
 			print_text (context,
@@ -643,7 +643,7 @@ print_merged_range (GnomePrintContext *context, Sheet *sheet,
 		print_cell (cell, mstyle, context,
 			    l, t,
 			    r - l - ci->margin_b - ci->margin_a,
-			    b - t - ri->margin_b - ri->margin_a);
+			    b - t - ri->margin_b - ri->margin_a, 0);
 	}
 }
 
@@ -858,7 +858,7 @@ print_cell_range (GnomePrintContext *context,
 				Cell const *cell = sheet_cell_get (sheet, col, row);
 				if (!cell_is_blank (cell))
 					print_cell (cell, style, context,
-						    x, y, -1, -1);
+						    x, y, -1, -1, 0);
 
 			/* Only draw spaning cells after all the backgrounds
 			 * that we are goign to draw have been drawn.  No need
@@ -869,7 +869,10 @@ print_cell_range (GnomePrintContext *context,
 				int const start_span_col = span->left;
 				int const end_span_col = span->right;
 				double real_x = x;
-				double tmp_width = ci->size_pts;
+				double left_offset = 0;
+				/* TODO : Use the spanning margins */
+				double tmp_width = ci->size_pts -
+					ci->margin_b - ci->margin_a;
 
 				if (col != cell->pos.col)
 					style = sheet_style_get (sheet,
@@ -879,6 +882,10 @@ print_cell_range (GnomePrintContext *context,
 				 * might be using columns to the left (if it is set to right
 				 * justify or center justify) compute the pixel difference
 				 */
+				if (start_span_col != cell->pos.col)
+					left_offset = sheet_col_get_distance_pts (
+						sheet, start_span_col, cell->pos.col);
+
 				if (start_span_col != col) {
 					double offset = sheet_col_get_distance_pts (
 						sheet, start_span_col, col);
