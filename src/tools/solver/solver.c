@@ -239,20 +239,16 @@ write_constraint_str (int lhs_col, int lhs_row, int rhs_col,
  * returns the coefficent of the first variable of the objective
  * function.
  */
-static gnum_float
-get_lp_coeff (Cell *target, Cell *change)
+static inline gnum_float
+get_lp_coeff (Cell *target, Cell *change, gnum_float *x0)
 {
-        gnum_float x0, x1;
-
-	sheet_cell_set_value (change, value_new_float (0.0));
-	cell_eval (target);
-	x0 = value_get_as_float (target->value);
+        gnum_float tmp = *x0;
 
 	sheet_cell_set_value (change, value_new_float (1.0));
 	cell_eval (target);
-	x1 = value_get_as_float (target->value);
+	*x0 = value_get_as_float (target->value);
 
-	return x1 - x0;
+	return *x0 - tmp;
 }
 
 /*
@@ -322,6 +318,16 @@ get_col_nbr (SolverResults *res, CellPos *pos)
 
 /* ------------------------------------------------------------------------- */
 
+static void
+clear_input_vars (int n_variables, SolverResults *res)
+{
+        int i;
+
+	for (i = 0; i < n_variables; i++)
+		sheet_cell_set_value (solver_get_input_var (res, i),
+				      value_new_float (0.0));
+}
+
 /*
  * Initializes the program according to the information given in the
  * solver dialog and the related sheet.  After the call, the LP
@@ -334,7 +340,7 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 {
         SolverProgram     program;
 	Cell              *target;
-	gnum_float        x;
+	gnum_float        x, x0, base;
 	int               i, n, ind;
 
 	/* Initialize the SolverProgram structure. */
@@ -342,9 +348,15 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 
 	/* Set up the objective function coefficients. */
 	target = solver_get_target_cell (sheet);
+	clear_input_vars (param->n_variables, res);
+
+	cell_eval (target);
+	x0 = base = value_get_as_float (target->value);
+
 	if (param->options.model_type == SolverLPModel) {
 	        for (i = 0; i < param->n_variables; i++) {
-		        x = get_lp_coeff (target, solver_get_input_var (res, i));
+		        x = get_lp_coeff (target,
+					  solver_get_input_var (res, i), &x0);
 			if (x != 0) {
 			        alg->set_obj_fn (program, i, x);
 				res->n_nonzeros_in_obj += 1;
@@ -352,18 +364,14 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 			}
 		}
 		/* Check that the target cell contains a formula. */
-		for (i = 0; i < param->n_variables; i++) {
-		        if (res->obj_coeff[i] != 0)
-			        goto target_cell_formula_ok;
+		if (! res->n_nonzeros_in_obj) {
+		        *errmsg = _("Target cell should contain a formula.");
+			solver_results_free (res);
+			return NULL;
 		}
-		*errmsg = _("Target cell should contain a formula.");
-		solver_results_free (res);
-		return NULL;
 	} else {
 	        /* FIXME: Init qp */
 	}
-
- target_cell_formula_ok:
 
 	/* Add constraints. */
 	for (i = ind = 0; i < param->n_total_constraints; i++) {
@@ -396,9 +404,11 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 			res->ilp_flag = TRUE;
 		        continue;
 		}
+		clear_input_vars (param->n_variables, res);
+		x0 = base;
 		for (n = 0; n < param->n_variables; n++) {
 		        x = get_lp_coeff (target,
-					  solver_get_input_var (res, n));
+					  solver_get_input_var (res, n), &x0);
 			if (x != 0) {
 			        res->n_nonzeros_in_mat += 1;
 				alg->set_constr_mat_fn (program, n, ind, x);
@@ -438,7 +448,8 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 
 	/* Set options. */
 	if (alg->set_option_fn (program, SolverOptAutomaticScaling,
-				&(param->options.automatic_scaling), NULL, NULL))
+				&(param->options.automatic_scaling),
+				NULL, NULL))
 	        return NULL;
 	if (alg->set_option_fn (program, SolverOptMaxIter, NULL, NULL,
 				&(param->options.max_iter)))

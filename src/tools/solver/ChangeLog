@@ -1,3 +1,7 @@
+2002-03-24  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c : Speed improvements.
+
 2002-03-23  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* solver.c (lp_qp_solver_init): Implemented `Assume Integer'
