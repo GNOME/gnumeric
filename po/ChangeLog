@@ -1,3 +1,8 @@
+2005-02-08  Adam Weinberger  <adamw@gnome.org>
+
+	* en_CA.po: Updated Canadian English translation.
+	* POTFILES.in: Remove deleted file.
+
 2005-02-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.0

@@ -344,7 +344,6 @@ src/widgets/gnumeric-expr-entry.c
 src/widgets/gnumeric-optionmenu.c
 src/widgets/widget-charmap-selector.c
 src/widgets/widget-font-selector.c
-src/widgets/widget-format-selector.c
 src/widgets/widget-locale-selector.c
 src/application.c
 src/bonobo-io.c
