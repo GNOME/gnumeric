@@ -86,11 +86,21 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 	SearchReplace *sr;
 	char *err;
 	int i;
+	GtkWidget *gentry;  /* Gnome Entry containing search text. */
 
 	sr = search_replace_new ();
 
 	sr->search_text = get_text (gui, "searchtext");
 	sr->replace_text = get_text (gui, "replacetext");
+
+	/* Save the contents of both gnome-entry's. */
+	gentry = glade_xml_get_widget (gui, "search_entry");
+	gnome_entry_set_history_id (GNOME_ENTRY (gentry), "search_entry");
+	gnome_entry_append_history (GNOME_ENTRY (gentry), TRUE, sr->search_text);
+
+	gentry = glade_xml_get_widget (gui, "replace_entry");
+	gnome_entry_set_history_id (GNOME_ENTRY (gentry), "replace_entry");
+	gnome_entry_append_history (GNOME_ENTRY (gentry), TRUE, sr->replace_text);
 
 	i = gnumeric_glade_group_value (gui, search_type_group);
 	sr->is_regexp = (i == 1);
@@ -198,6 +208,7 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	GnomeDialog *dialog;
 	GtkBox *hbox;
 	DialogState *dd;
+	GtkWidget *gentry;  /* Gnome Entry containing search text. */
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -221,6 +232,16 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	dd->dialog = dialog;
 
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
+
+	/* Load the contents of both gnome-entry's. */
+	gentry = glade_xml_get_widget (gui, "search_entry");
+	gnome_entry_set_history_id (GNOME_ENTRY (gentry), "search_entry");
+	gnome_entry_load_history (GNOME_ENTRY (gentry));
+
+	gentry = glade_xml_get_widget (gui, "replace_entry");
+	gnome_entry_set_history_id (GNOME_ENTRY (gentry), "replace_entry");
+	gnome_entry_load_history (GNOME_ENTRY (gentry));
+
 
 	dd->rangetext = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
 	gnumeric_expr_entry_set_flags (dd->rangetext, 0, GNUM_EE_MASK);

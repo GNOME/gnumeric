@@ -1,3 +1,10 @@
+2001-12-19  Wayne Schuller  <k_wayne@linuxpower.org>
+
+	* dialog-search-replace.c: (ok_clicked, dialog_search_replace):
+	Save and load the gnome_entry history.
+	* dialog-search.c: (search_clicked, dialog_search): Ditto.
+	* search-replace.glade: Name the gnome_entry widgets properly.
+
 2001-12-19  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-comment.c (dialog_cell_comment) : fix leak.

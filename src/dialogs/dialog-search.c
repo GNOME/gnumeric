@@ -313,6 +313,7 @@ search_clicked (GtkWidget *widget, DialogState *dd)
 	WorkbookControlGUI *wbcg = dd->wbcg;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SearchReplace *sr;
+	GtkWidget *gentry;  /* Gnome Entry containing search text. */
 	char *err;
 	int i;
 
@@ -394,6 +395,11 @@ search_clicked (GtkWidget *widget, DialogState *dd)
 
 	gtk_notebook_set_page (dd->notebook, dd->notebook_matches_page);
 
+	/* Save the contents of the search in the gnome-entry. */
+	gentry = glade_xml_get_widget (gui, "search_entry");
+	gnome_entry_set_history_id (GNOME_ENTRY (gentry), "search_entry");
+	gnome_entry_append_history (GNOME_ENTRY (gentry), TRUE, sr->search_text);
+
 	search_replace_free (sr);
 }
 
@@ -429,6 +435,7 @@ dialog_search (WorkbookControlGUI *wbcg)
 	GladeXML *gui;
 	GnomeDialog *dialog;
 	DialogState *dd;
+	GtkWidget *gentry;
 	const char *spec = "\
 <ETableSpecification cursor-mode=\"line\"\
                      selection-mode=\"single\"\
@@ -468,6 +475,11 @@ dialog_search (WorkbookControlGUI *wbcg)
 	dd->dialog = dialog;
 	dd->matches = g_ptr_array_new ();
 	dd->e_table_strings = g_hash_table_new (g_str_hash, g_str_equal);
+
+	/* Load the contents of the search in the gnome-entry. */
+	gentry = glade_xml_get_widget (gui, "search_entry");
+	gnome_entry_set_history_id (GNOME_ENTRY (gentry), "search_entry");
+	gnome_entry_load_history (GNOME_ENTRY (gentry));
 
 	dd->prev_button = glade_xml_get_widget (gui, "prev_button");
 	dd->next_button = glade_xml_get_widget (gui, "next_button");

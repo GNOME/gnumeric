@@ -2,7 +2,7 @@ Gnumeric 0.99.1
 
 Andreas:
 	* Improved analysis tools documentation
-	
+
 Jody:
 	* Add insert Graph menu item & icon
 	* Fix Exit icon for bonbo build.
@@ -23,13 +23,16 @@ Jody:
 Morten:
 	* Fix DATE.
 
+Wayne Schuller:
+	* Search and search-replace history persistence.
+
 --------------------------------------------------------------------------
 Gnumeric 0.99.0
 
 Andreas:
 	* Fix problem in search & search/replace tool #64989
-	* Permit input from other sheets in Random Number Generator 
-	  (discrete distribution), Rank and Percentile Tools and 
+	* Permit input from other sheets in Random Number Generator
+	  (discrete distribution), Rank and Percentile Tools and
 	  2-factor ANOVAs
 	* Check for valid input in Random Number Generator tool
 	* Fix parsing error in analysis tools expecting sheet references
@@ -43,7 +46,7 @@ Andreas:
 	* Fix crash in parser (# 65896)
 	* Format all numbers preentered in analysis tools dialogs
 	  according to locale (# 65404)
-	* In histogram tool add percentage column and format all 
+	* In histogram tool add percentage column and format all
 	  percentages appropriately (# 62164)
 	* Implement text wrap in LaTeX exporter (# 20898)
 	* Implement math mode in LaTeX exporter (# 63395)
@@ -110,11 +113,11 @@ Alex Barnes:
 
 Andreas:
 	* Fix handling of missing observations in F-test, z-test,
-	  one-factor ANOVA, histogram, regression, and t-tests analysis 
+	  one-factor ANOVA, histogram, regression, and t-tests analysis
           tools.
-	* Permit input from other sheets in F-test, z-test, one-factor 
+	* Permit input from other sheets in F-test, z-test, one-factor
 	  ANOVA, histogram, regression, and t-tests analysis tools.
-	* Fix small errors in F-test, z-test, one-factor 
+	* Fix small errors in F-test, z-test, one-factor
 	  ANOVA, Desc. Stats. and t-tests analysis tools.
 	* Improve Exponential Smoothing and Moving Averages tools.
 	* Implement pareto and labels in histogram tool.
@@ -123,7 +126,7 @@ Andreas:
 
 Jody:
 	* More work on the expr entry.
-	* Fix outline mode. 
+	* Fix outline mode.
 	* Add keyboard support to sheet objects.
 	* Add warning when xls imports non-ole file.
 	* Continue audit and clean out some old code.
@@ -150,7 +153,7 @@ Morten:
 Gnumeric 0.75
 
 Andreas:
-	* Rewrite solver dialog as guru (semi-modal using the 
+	* Rewrite solver dialog as guru (semi-modal using the
           expr-entry widget).
 	* Fix FTEST docs.
 
@@ -207,17 +210,17 @@ Almer:
 	* Improve View menu layout.
 
 Andreas:
-	* Allow analysis tool output to be directed onto a range 
+	* Allow analysis tool output to be directed onto a range
           on another sheet.
-	* Allow analysis tool output ranges to be specified using 
+	* Allow analysis tool output ranges to be specified using
 	  defined names.
-	* Change covariance, correlation, descriptive statistics and 
+	* Change covariance, correlation, descriptive statistics and
 	  sampling tools to allow multiple selections (and defined
           names as input.
-	* Change covariance and correlation tools to handle missing 
+	* Change covariance and correlation tools to handle missing
           observations.
-	* Change sampling tool to permit multiple samples from the 
-          same or different data. 
+	* Change sampling tool to permit multiple samples from the
+          same or different data.
 
 Jody:
 	* Fix autosizing of indented content.
@@ -265,7 +268,7 @@ Almer:
 Andreas:
 	* Rewrite remaining analysis tools
           to use the gnumeric-expr-entry widget.
-	* Rewrite goal seek dialog to use the 
+	* Rewrite goal seek dialog to use the
 	  gnumeric-expr-entry widget.
 
 Jody:
