@@ -295,8 +295,9 @@ value_cast_to_float (Value *v)
 	if (v->type == VALUE_FLOAT)
 		return v;
 	if (v->type == VALUE_BOOLEAN) {
-		value_release (v);
-		return value_new_float(v->v.v_bool ? 1. : 0.);
+		newv = value_new_float(v->v.v_bool ? 1. : 0.);
+ 		value_release (v);
+		return newv;
 	}
 
 	newv = g_new (Value, 1);

@@ -245,12 +245,21 @@ style_font_ref (StyleFont *sf)
 void
 style_font_unref (StyleFont *sf)
 {
+	static gboolean warning_shown = FALSE;
+
 	g_return_if_fail (sf != NULL);
 	g_return_if_fail (sf->ref_count > 0);
 
 	sf->ref_count--;
 	if (sf->ref_count != 0)
 		return;
+
+	if (!warning_shown) {
+		warning_shown = TRUE;
+		g_warning ("FIXME or FIXgnomeprint: How do we get rid of a GnomeDisplayFont?");
+	}
+
+	gtk_object_unref (GTK_OBJECT (sf->font));
 
 	g_hash_table_remove (style_font_hash, sf);
 	g_free (sf->font_name);

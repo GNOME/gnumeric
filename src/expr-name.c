@@ -123,8 +123,9 @@ expr_name_add (Workbook *wb, char const *name,
 {
 	ExprName *expr_name;
 
+	g_return_val_if_fail (wb != NULL, 0);
 	g_return_val_if_fail (name != NULL, 0);
-	g_return_val_if_fail (expr_name != NULL, 0);
+	g_return_val_if_fail (expr != NULL, 0);
 	
 	if ((expr_name = expr_name_lookup (wb, name))) {
 		*error_msg = _("already defined");
@@ -179,6 +180,8 @@ expr_name_remove (ExprName *expr_name)
 		g_assert (g_list_find (wb->names, expr_name) == NULL);
 	} else {
 		printf ("Removing from globals\n");
+		/* FIXME -- this code is not right.  */
+		abort ();
 		g_assert (g_list_find (wb->names, expr_name) != NULL);
 		global_names = g_list_remove (global_names, expr_name);
 		g_assert (g_list_find (wb->names, expr_name) == NULL);

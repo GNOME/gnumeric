@@ -1,3 +1,14 @@
+1999-08-01  Morten Welinder  <terra@diku.dk>
+
+	* src/expr-name.c (expr_name_add): Fix bogus check.
+	(expr_name_remove): Abort until someone fixes this.
+
+	* src/style.c (style_font_unref): Unref the font.
+
+	* src/expr.c (eval_expr_real): Fix OPER_CONCAT case.  From Jody.
+
+	* src/value.c (value_cast_to_float): FMR fix from Jody.
+
 1999-08-01  Manish Vachharajani  <mvachhar@vger.rutgers.edu>
 
 	* src/sheet-object-container.c: fix reference to

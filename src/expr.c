@@ -973,7 +973,7 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 		b = eval_expr_real (s, tree->u.binary.value_b);
 		if (VALUE_IS_PROBLEM(b)) {
 			value_release (a);
-			return NULL;
+			return b;
 		}
 
 		sa = value_get_as_string (a);
