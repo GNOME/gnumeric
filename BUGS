@@ -11,18 +11,14 @@ Release Critical
     http://bugzilla.gnome.org/show_bug.cgi?id=142699
     : we don't re-render on zoom changes
     http://bugzilla.gnome.org/show_bug.cgi?id=127203	[x axis child pos]
-    : X axis label seperation {Jody has started work on this}
+    : X axis label seperation
     : Delete grid then edit chart and see a new grid
     http://bugzilla.gnome.org/show_bug.cgi?id=143525
-    http://bugzilla.gnome.org/show_bug.cgi?id=126442
-    : invert axis for XY plots {emmanual has patch}
+    : unreproducable autofilter crash
     http://bugzilla.gnome.org/show_bug.cgi?id=144112
     : fraction matching
 
 Worries
-    http://bugzilla.gnome.org/show_bug.cgi?id=123403
-    : loading in XL corrupts.  xbat is being lost when xl modifies it ??
-      Likely some libgsf issue
 
     We init gnome_print at sheet creation time.  With cups this can cause
     hangs at startup if the server isn't answering.   --> delay init.

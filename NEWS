@@ -4,11 +4,14 @@ Andreas:
 	* Improve `F-Test' tool
 
 Emmanuel Pacaud:
-
 	* Add logarithmic mapping support to xy plots
 
 Harald Ashburner:
 	* Updates for the option pricers.
+	* Pricers for
+	    : American/European options to exchange one asset for another
+	    : Options on spreads between futures
+	    : Payouts on the most favorable state during a period
 
 Jody:
 	* Use SAX exporter by default.

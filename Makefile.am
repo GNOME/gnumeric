@@ -24,11 +24,13 @@ gnew_DATA = gnumeric.desktop
 Mimedir = $(datadir)/mime-info
 Mime_DATA = gnumeric.keys gnumeric.mime
 
+if WITH_GNOME
 serverdir = $(libdir)/bonobo/servers/
 server_in_files = GNOME_Gnumeric.server.in
 server_DATA	= GNOME_Gnumeric.server
 GNOME_Gnumeric.server.in : GNOME_Gnumeric.server.in.in Makefile
 	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
+endif
 
 @INTLTOOL_SERVER_RULE@
 
