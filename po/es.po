@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-28 12:35+0200\n"
-"PO-Revision-Date: 2003-07-28 19:59+0200\n"
+"POT-Creation-Date: 2003-07-30 04:34+0200\n"
+"PO-Revision-Date: 2003-07-30 08:06+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -8346,7 +8346,7 @@ msgid ""
 "error.\n"
 "* If @frequency is other than 1, 2, or 4, MDURATION returns #NUM! error.\n"
 "* If @basis is omitted, MSRB 30/360 is applied.\n"
-"* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
+"* If @basis is invalid, #NUM! error is returned.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8368,10 +8368,11 @@ msgstr ""
 "\n"
 "* Si la @liquidación o el @vencimiento no son fechas válidas, MDURATION "
 "devuelve un error #NUM!\n"
-"* Si la @frecuencia es distinta de 1,2, o 4 inválida,MDURATION devuelve un "
+"* Si la @frecuencia es distinta de 1, 2, o 4, MDURATION devuelve un "
 "error#NUM!\n"
 "* Si la @base se omite, se aplica MSRB 30/360.\n"
 "* Si la @base es inválida, se devuelve un error #NUM!\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DURATION,G_DURATION"
@@ -17341,11 +17342,11 @@ msgstr "Error de guile"
 
 #: plugins/guile/plugin.xml.in.h:1
 msgid "Guile Plugin"
-msgstr "Extensión Guile"
+msgstr "Complemento Guile"
 
 #: plugins/guile/plugin.xml.in.h:2
 msgid "This plugin enables Guile(scheme) support in Gnumeric"
-msgstr "Esta extensión habilita el soporte de Guile(scheme) en Gnumeric"
+msgstr "Este complemento habilita el soporte de Guile(scheme) en Gnumeric"
 
 #: plugins/guile/smob-value.c:102
 msgid "Unable to convert value from Guile"
@@ -17896,9 +17897,7 @@ msgstr "Funciones en Python"
 
 #: plugins/py-func/plugin.xml.in.h:3
 msgid "Sample Python plugin providing some (useless) functions."
-msgstr ""
-"La extensión de ejemplos de Python provee algunas funciones de ejemplo "
-"(inútiles)."
+msgstr "Complemento de muestra de Python que provee algunas funciones (inútiles) de ejemplo."
 
 #: plugins/python-loader/gnm-py-interpreter.c:258
 msgid "Default interpreter"
@@ -17910,7 +17909,7 @@ msgstr "Cargador de complementos de Pyhton"
 
 #: plugins/python-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Python plugins"
-msgstr "Esta extensión provee soporte para las complementos de Python"
+msgstr "Este complemento proprociona soporte para los complementos de Python"
 
 #: plugins/python-loader/py-console.c:90
 #, c-format
@@ -18201,7 +18200,7 @@ msgstr "Autocorrección reemplaza"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:8
 msgid "List of Active Plugins."
-msgstr "Listas de complementos activas."
+msgstr "Lista de complementos activos."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:9
 msgid "List of Extra Autoformat Directories."
@@ -18221,11 +18220,11 @@ msgstr "Lista de excepciones de capitalización inicial."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:13
 msgid "List of Known Plugins."
-msgstr "Lista de complementos conocidas"
+msgstr "Lista de complementos conocidos"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:14
 msgid "List of Plugin File States."
-msgstr "Lista de estados de archivos de extensión"
+msgstr "Lista de estados de archivos complementos."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:15
 msgid "List of recently used functions."
@@ -18338,18 +18337,18 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:33
 msgid "This list contains all known plugins."
-msgstr "Esta lista contiene todas las complementos conocidas"
+msgstr "Esta lista contiene todos los complementos conocidos."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:34
 msgid "This list contains all plugin file states."
-msgstr "Esta lista contiene el estado de todos los archivos de complementos"
+msgstr "Esta lista contiene el estado de todos los archivos de complementos."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:35
 msgid ""
 "This list contains all plugins that are supposed to be automatically "
 "activated."
 msgstr ""
-"Esta lista contiene todas las complementos que se suponen que son activadas "
+"Esta lista contiene todos los complementos que se suponen que se activan "
 "automáticamente."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:36
@@ -18362,7 +18361,7 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:37
 msgid "This variable determines whether to activate every new encountered plugin."
-msgstr "Esta variable determina si se debe activar cada extensión nueva encontrada."
+msgstr "Esta variable determina si se debe activar cada complemento nuevo encontrado."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:38
 msgid "User Directory for Autoformats"
@@ -19369,7 +19368,7 @@ msgstr "Muestra las filas ocultas que se encuentran dentro de la selección."
 
 #: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:3784
 msgid "Manage available plugin modules"
-msgstr "Administrar el módulo de complementos"
+msgstr "Administrar los módulos de complementos disponibles"
 
 #: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3398
 #: src/workbook-control-gui.c:3615
@@ -22725,7 +22724,7 @@ msgstr "Chris Lahey, motor del formato numérico."
 
 #: src/dialogs/dialog-about.c:72
 msgid "Takashi Matsuda, original text plugin."
-msgstr "Takashi Matsuda, extensión para texto original."
+msgstr "Takashi Matsuda, complemento para texto original."
 
 #: src/dialogs/dialog-about.c:73
 msgid "Michael Meeks, Excel and OLE2 importing."
@@ -23469,35 +23468,37 @@ msgstr "Omitir blancos"
 
 #: src/dialogs/dialog-plugin-manager.c:372
 msgid "Plugin dependencies"
-msgstr "Dependencias de la extensión"
+msgstr "Dependencias del complemento"
 
 #: src/dialogs/dialog-plugin-manager.c:380
 msgid "Unknown plugin"
-msgstr "Nombre desconocido de la extensión."
+msgstr "Complemento desconocido"
 
 #: src/dialogs/dialog-plugin-manager.c:394
 msgid "Plugin services"
-msgstr "Servicios de la extensión"
+msgstr "Servicios del complemento"
 
 #: src/dialogs/dialog-plugin-manager.c:463
 msgid "Errors while activating plugins"
-msgstr "Errores al activar las complementos"
+msgstr "Errores al activar los complementos"
 
 #: src/dialogs/dialog-plugin-manager.c:479
 msgid "Errors while deactivating plugins"
-msgstr "Errores al desactivar las complementos"
+msgstr "Errores al desactivar los complementos"
 
 #: src/dialogs/dialog-plugin-manager.c:575
 msgid ""
 "The following extra plugins must be activated in order to activate this "
 "one:\n"
 "\n"
-msgstr "Las siguientes complementos deben ser activadas para poder activar esta:\n"
+msgstr ""
+"Los siguientes complementos adicionales deben activarse para poder activar este:\n"
+"\n"
 
 #: src/dialogs/dialog-plugin-manager.c:581
 #, c-format
 msgid "Unknown plugin with id=\"%s\"\n"
-msgstr "La extensión con id=«%s» es desconocida\n"
+msgstr "El complemento con id=«%s» es desconocido\n"
 
 #: src/dialogs/dialog-plugin-manager.c:588
 msgid ""
@@ -23505,17 +23506,17 @@ msgid ""
 "Do you want to activate this plugin together with its dependencies?"
 msgstr ""
 "\n"
-"¿Quiere activar esta extensión junto con sus dependencias?"
+"¿Quiere activar este complemento junto con sus dependencias?"
 
 #: src/dialogs/dialog-plugin-manager.c:607
 #, c-format
 msgid "Error while deactivating plugin \"%s\"."
-msgstr "Ha ocurrido un errores al desactivar la extensión «%s»."
+msgstr "Ha ocurrido un error al desactivar el complemento «%s»."
 
 #: src/dialogs/dialog-plugin-manager.c:611
 #, c-format
 msgid "Error while activating plugin \"%s\"."
-msgstr "Ha ocurrido un error al activar la extensión «%s»."
+msgstr "Ha ocurrido un error al activar el complemento «%s»."
 
 #: src/dialogs/dialog-plugin-manager.c:679
 msgid "Active"
@@ -23523,7 +23524,7 @@ msgstr "Activo"
 
 #: src/dialogs/dialog-plugin-manager.c:684
 msgid "Plugin name"
-msgstr "Nombre de la extensión"
+msgstr "Nombre del complemento"
 
 #: src/dialogs/dialog-plugin-manager.c:707
 msgid "ID"
@@ -25327,7 +25328,7 @@ msgstr "_Arriba"
 
 #: src/dialogs/plugin-manager.glade.h:2
 msgid "Activate _new plugins by default"
-msgstr "Activar por omisión las _nuevas complementos"
+msgstr "Activar por omisión los complementos _nuevos"
 
 #: src/dialogs/plugin-manager.glade.h:3
 msgid "Directories"
@@ -25335,11 +25336,11 @@ msgstr "Directorios"
 
 #: src/dialogs/plugin-manager.glade.h:4
 msgid "Do _not activate this plugin next time I start Gnumeric"
-msgstr "_No activar esta extensión la próxima vez que inicia Gnumeric."
+msgstr "_No activar este complemento la próxima vez que inicie Gnumeric"
 
 #: src/dialogs/plugin-manager.glade.h:5
 msgid "Plugin Details"
-msgstr "Detalles de la extensión"
+msgstr "Detalles del complemento"
 
 #: src/dialogs/plugin-manager.glade.h:6
 msgid "Plugin List"
@@ -25347,11 +25348,11 @@ msgstr "Lista de complementos"
 
 #: src/dialogs/plugin-manager.glade.h:7
 msgid "Plugin Manager"
-msgstr "Gestor de complementos"
+msgstr "Administrador de complementos"
 
 #: src/dialogs/plugin-manager.glade.h:8
 msgid "Plugin directory:"
-msgstr "Directorio de la extensión:"
+msgstr "Directorio del complemento:"
 
 #: src/dialogs/plugin-manager.glade.h:9
 msgid ""
@@ -25359,10 +25360,10 @@ msgid ""
 "use the check button below, the plugin won't be activated after restarting "
 "Gnumeric (unless needed by another plugin)."
 msgstr ""
-"No se puede desactivar la extensión debido a que aún se encuentra en uso. "
-"Sin embargo, si usa el botón de verificación inferior, la extensión no será "
-"activada después de reiniciar Gnumeric. (a no ser que la necesite otra "
-"extensión)"
+"No se puede desactivar el complemento debido a que aún se encuentra en uso. "
+"Sin embargo, si usa el botón de verificación inferior, el complemento no será "
+"activado después de reiniciar Gnumeric. (a no ser que lo necesite otro"
+"complemento)."
 
 #: src/dialogs/plugin-manager.glade.h:10
 msgid "_Activate All"
@@ -26507,8 +26508,8 @@ msgstr ""
 #: src/file.c:468
 msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
-"Puede desactivar esta característica en forma segura, para la edición "
-"apropiada del archivo XML de la extensión."
+"Puede desactivar esta característica en forma segura, editando "
+"el archivo plugin.xml apropiado."
 
 #: src/format-template.c:467
 msgid "Error while trying to load autoformat template"
@@ -27794,7 +27795,7 @@ msgstr "El archivo tiene un número mágico erróneo."
 #: src/plugin-loader-module.c:125
 #, c-format
 msgid "Plugin version \"%s\" is different from application \"%s\"."
-msgstr "La versión de la extensión «%s» es diferente de la aplicación «%s»."
+msgstr "La versión del complemento «%s» es diferente de la aplicación «%s»."
 
 #: src/plugin-loader-module.c:134
 msgid "Dynamic module loading is not supported in this system."
@@ -27839,11 +27840,11 @@ msgstr "Ha ocurrido un error al cargar el servicio de complementos."
 
 #: src/plugin-service.c:171
 msgid "Initializing function inside plugin returned error."
-msgstr "La función de inicialización de la extensión ha devuelto un error."
+msgstr "La función de inicialización del complemento ha devuelto un error."
 
 #: src/plugin-service.c:189
 msgid "Cleanup function inside plugin returned error."
-msgstr "La función Cleanup de la extensión ha retornado un error."
+msgstr "La función de limpieza interna del complemento ha devuelto un error."
 
 #: src/plugin-service.c:274
 msgid "Clipboard"
@@ -27972,12 +27973,12 @@ msgstr "Ha ocurrido un error al abrir el archivo «%s» para lectura."
 #, c-format
 msgid "File contains plugin info with invalid id (%s), expected %s."
 msgstr ""
-"El archivo contiene información de la extensión con un identificador "
+"El archivo contiene información del complemento con un identificador "
 "inválido (%s). Se esperaba %s."
 
 #: src/plugin.c:359
 msgid "Couldn't read plugin info from file."
-msgstr "No se puede leer el archivo de información de la extensión."
+msgstr "No se puede leer la información del complemento del archivo."
 
 #: src/plugin.c:468
 msgid "Unknown name"
@@ -28001,69 +28002,65 @@ msgstr "Ha ocurrido un error al leer la información del servicio #%d."
 #: src/plugin.c:729
 #, c-format
 msgid "Can't read plugin info file (\"%s\")."
-msgstr "No se puede leer el archivo de información de la extensión («%s»)."
+msgstr "No se puede leer el archivo de información del complemento («%s»)."
 
 #: src/plugin.c:733
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
-msgstr "El archivo «%s» tiene un formato válido de información de complementos."
+msgstr "El archivo «%s» no es un archivo válido de información de complementos."
 
 #: src/plugin.c:821
 #, c-format
 msgid "Errors while reading services for plugin with id=\"%s\"."
 msgstr ""
-"Ha ocurrido un error al leer los servicios de la extensión con "
+"Han ocurrido errores al leer los servicios del complemento con "
 "identificador=«%s»."
 
 #: src/plugin.c:826
 #, c-format
 msgid "No services defined for plugin with id=\"%s\"."
-msgstr "No hay servicios definidos para la extensión cuyo identificador es «%s»."
+msgstr "No hay servicios definidos para el complemento cuyo identificador es «%s»."
 
 #: src/plugin.c:836
 #, c-format
 msgid "Plugin id contains invalid characters (%s)."
-msgstr "El identificador de la extensión contiene caracteres inválidos (%s)"
+msgstr "El identificador del complemento contiene caracteres inválidos (%s)"
 
 #: src/plugin.c:840
 msgid "Unknown plugin name."
-msgstr "Nombre desconocido de la extensión."
+msgstr "Nombre desconocido del complemento."
 
 #: src/plugin.c:844
 #, c-format
 msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
-msgstr ""
-"No se encuentra definido un cargador para la extensión con identificador=«%"
-"s»."
+msgstr "No se encuentra definido un cargador para el complemento con identificador=«%s»."
 
 #: src/plugin.c:850
 msgid "Plugin has no id."
-msgstr "La extensión no tiene identificador."
+msgstr "El complemento no tiene identificador."
 
 #: src/plugin.c:893
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
-msgstr ""
-"Existe una dependencia con la extensión cuyo identificador es «%s» , la cual "
-"no se puede activar."
+msgstr "Error inicializando el cargador del complemento («%s» )."
 
 #: src/plugin.c:924 src/plugin.c:1081
 msgid "Detected cyclic plugin dependencies."
-msgstr "Se ha detectado un ciclo en las dependencias de la extensión."
+msgstr "Se han detectado dependencias cíclicas del complemento."
 
 #: src/plugin.c:948
 #, c-format
 msgid "Couldn't activate plugin with id=\"%s\"."
-msgstr "No se puede activar la extensión con identificador=«%s»."
+msgstr "No se puede activar el complemento con identificador=«%s»."
 
 #: src/plugin.c:954 src/plugin.c:1127
 #, c-format
 msgid "Couldn't find plugin with id=\"%s\"."
-msgstr "No se encuentra la extensión con identificador=«%s»."
+msgstr "No se encuentra el complemento con identificador=«%s»."
 
 #: src/plugin.c:961
 msgid "Error while activating plugin dependencies."
-msgstr "Error al activar las dependencias de la complementos."
+msgstr "Error al activar las dependencias del complemento."
 
 #: src/plugin.c:975
 #, c-format
@@ -28077,45 +28074,45 @@ msgstr "Ha ocurrido un error al desactivar el servicio de complementos #%d."
 
 #: src/plugin.c:1093 src/plugin.c:1114
 msgid "Cannot load plugin loader."
-msgstr "No se puede cargar la extensión."
+msgstr "No se puede cargar el cargador de complementos."
 
 #: src/plugin.c:1121
 #, c-format
 msgid "Couldn't load plugin with id=\"%s\"."
-msgstr "No se pudo cargar la extensión con identificador=«%s»."
+msgstr "No se pudo cargar el complemento con identificador=«%s»."
 
 #: src/plugin.c:1134
 msgid "Error while loading plugin dependencies."
-msgstr "Error al intentar cargar las dependencias de la complementos."
+msgstr "Error al intentar cargar las dependencias del complemento."
 
 #: src/plugin.c:1310
 #, c-format
 msgid "Errors occurred while reading plugin informations from file \"%s\"."
 msgstr ""
-"Ha ocurrido un error al leer la información de la extensión desde el archivo "
+"Han ocurrido errores al leer la información del complemento desde el archivo "
 "«%s»."
 
 #: src/plugin.c:1459
 #, c-format
 msgid "Couldn't activate plugin \"%s\" (ID: %s)."
-msgstr "No se puede activar la extensión «%s» (ID: %s)."
+msgstr "No se puede activar el complemento «%s» (ID: %s)."
 
 #: src/plugin.c:1494
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
-msgstr "No se puede desactivar la extensión «%s» (ID: %s)."
+msgstr "No se puede desactivar el complemento «%s» (ID: %s)."
 
 #: src/plugin.c:1598 src/plugin.c:1726
 msgid "Errors while reading info about available plugins."
 msgstr ""
-"Ha ocurrido un error al leer la información sobre las complementos "
+"Ha ocurrido un error al leer la información sobre los complementos "
 "disponibles."
 
 #: src/plugin.c:1622
 msgid "Errors while deactivating plugins that are no longer on disk."
 msgstr ""
-"Ha ocurrido un error al desactivar la extensión la cual ya no está "
-"disponible en el disco."
+"Ha ocurrido un error al desactivar el complementos que ya no están"
+"en el disco."
 
 #: src/plugin.c:1643
 #, c-format
@@ -28124,18 +28121,18 @@ msgid ""
 "%s.\n"
 "You should restart Gnumeric now."
 msgstr ""
-"Las siguientes complementos no están más en el disco pero están todavía "
-"activas:\n"
+"Los siguientes complementos no están más en el disco pero están todavía "
+"activos:\n"
 "%s\n"
 "Debería reiniciar Gnumeric ahora."
 
 #: src/plugin.c:1749
 msgid "Errors while activating plugins."
-msgstr "Ha ocurrido un error al activar las complementos."
+msgstr "Han ocurrido errores al activar los complementos."
 
 #: src/plugin.c:1756
 msgid "Errors while initializing plugin system."
-msgstr "Ha ocurrido un error al procesar el sistema de complementos."
+msgstr "Han ocurrido errores al inicializar el sistema de complementos."
 
 #: src/print-info.c:177 src/print-info.c:180 src/print-info.c:181
 #: src/print-info.c:297
@@ -30118,11 +30115,11 @@ msgstr "Científico"
 msgid "Special"
 msgstr "Especial"
 
-#: src/widgets/widget-format-selector.c:926
+#: src/widgets/widget-format-selector.c:929
 msgid "Negative Number Format"
 msgstr "Formato del número negativo"
 
-#: src/widgets/widget-format-selector.c:957
+#: src/widgets/widget-format-selector.c:960
 msgid "Number Formats"
 msgstr "Formatos numéricos"
 
