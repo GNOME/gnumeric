@@ -78,5 +78,5 @@ src/sheet.c
 src/value.c
 src/widgets/widget-font-selector.c
 src/workbook.c
-src/workbook-cmd-format.c
+src/workbook-format-toolbar.c
 src/xml-io.c

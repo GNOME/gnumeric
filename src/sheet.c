@@ -1231,6 +1231,7 @@ cell_is_homogeneous (Sheet *sheet, int col, int row,
 		accum->italic = cell->style->font->is_italic;
 		accum->font = cell->style->font->font;
 		accum->first = FALSE;
+		accum->font_size = cell->style->font->size;
 	} else {
 		if (accum->italic != cell->style->font->is_italic)
 			accum->italic_common = FALSE;
@@ -1238,6 +1239,7 @@ cell_is_homogeneous (Sheet *sheet, int col, int row,
 			accum->bold_common = FALSE;
 		if (accum->font != cell->style->font->font)
 			accum->font_common = FALSE;
+
 		if ((accum->bold_common == FALSE) &&
 		    (accum->italic_common == FALSE) &&
 		    (accum->font_common == FALSE))

@@ -1,3 +1,9 @@
+/*
+ * cursors.c: cursor handling for Gnumeric
+ *
+ * Authors:
+ *   Miguel de Icaza (miguel@gnu.org)
+ */
 #include <config.h>
 #include <gnome.h>
 #include "color.h"

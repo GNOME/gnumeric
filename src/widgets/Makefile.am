@@ -13,11 +13,14 @@ INCLUDES = 						\
 noinst_LIBRARIES = libwidgets.a
 
 libwidgets_a_SOURCES =				\
+	gtk-combo-box.c				\
+	gtk-combo-box.h				\
 	gnumeric-toolbar.c			\
 	gnumeric-toolbar.h			\
+	widget-color-combo.c			\
+	widget-color-combo.h			\
 	widget-editable-label.c			\
 	widget-editable-label.h			\
 	widget-font-selector.c			\
 	widget-font-selector.h
-
 

@@ -1,3 +1,32 @@
+1999-09-21  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/sheet.c (cell_is_homogeneous): Set size here to get correct
+	feedback results.
+
+	* src/workbook-format-toolbar.c (change_font_in_selection_cmd):
+	Simplified to use apply_style_to_selection
+	(apply_style_to_selection): Big nice wrapper.
+	(change_font_size_in_selection_cmd): Implement.
+
+	* src/pixmaps.h: Removed GNUMERIC_TEST_ACTIVE_OBJECT for release. 
+
+	* src/workbook-format-toolbar.c: More toolbar work, now we have
+	color selectors for foreground and background.
+
+	* src/workbook.c: Split the format toolbar
+
+	* src/workbook-format-toolbar.[ch]: Now they contain the
+	format-toolbar code. 
+
+	* src/sheet-object-graphic.c (sheet_object_filled_realize): Width
+	is now in points, not pixels.
+
+	* src/widgets/gtk-combo-box.[ch]: New files, they implement an
+	extensible ComboBox for Gtk.
+
+	* src/widgets/color-combo.[ch]: New files, they implement the
+	ColorCombo box. 
+	
 1999-09-21  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/sheet-object-container.c (make_container_item): Add widget_handle.

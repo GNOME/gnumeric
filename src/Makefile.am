@@ -149,6 +149,9 @@ GNUMERIC_BASE_SOURCES =				\
 	workbook.h				\
 	workbook-cmd-format.c			\
 	workbook-cmd-format.h			\
+	workbook-format-toolbar.c		\
+	workbook-format-toolbar.h		\
+	workbook-private.h			\
 	xml-io.c				\
 	xml-io.h
 
