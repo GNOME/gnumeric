@@ -342,6 +342,7 @@ Misc stuff that should be fixed
     - Sheet object creation
     - Workbook attr changes
     - Fill->series
+    - Data->Text to columns
 
 - drag based col/row resize should support negative sizes to correspond to
   hiding.
