@@ -17,6 +17,10 @@
 #include "workbook-view.h"
 #include "workbook.h"
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-config.h>
+#include <libgnome/gnome-util.h>
 #include <errno.h>
 #include <sys/stat.h>
 #include <gtk/gtk.h>

@@ -22,6 +22,10 @@
 #	include "workbook-private.h"
 #endif
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
+#include <libgnome/gnome-i18n.h>
+
 gboolean
 gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
                                  const gchar *message,

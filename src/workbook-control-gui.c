@@ -53,7 +53,10 @@
 #include "gui-file.h"
 #include "search.h"
 #include "error-info.h"
-#include <gal/widgets/widget-color-combo.h>
+#include "pixmaps/equal-sign.xpm"
+#include "gnumeric-util.h"
+#include "widgets/gnumeric-toolbar.h"
+#include "widgets/widget-editable-label.h"
 
 #ifdef ENABLE_BONOBO
 #include "sheet-object-container.h"
@@ -63,17 +66,17 @@
 #endif
 #endif
 
-#include "gnumeric-util.h"
-#include "widgets/gnumeric-toolbar.h"
-
-#include "widgets/widget-editable-label.h"
 #include <gal/util/e-util.h>
+#include <gal/widgets/widget-color-combo.h>
 #include <gal/widgets/gtk-combo-text.h>
 #include <gal/widgets/gtk-combo-stack.h>
+
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-config.h>
+
 #include <ctype.h>
 #include <stdarg.h>
-
-#include "pixmaps/equal-sign.xpm"
 
 gboolean
 wbcg_ui_update_begin (WorkbookControlGUI *wbcg)

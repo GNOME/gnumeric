@@ -37,6 +37,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-xml-utils.h>
+#include <unistd.h>
 
 #define CATEGORY_FILE_NAME    ".category"
 

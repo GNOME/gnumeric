@@ -47,6 +47,9 @@ extern gboolean EmbeddableGridFactory_init (void);
 #include <gal/widgets/e-cursors.h>
 #include <glade/glade.h>
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-config.h>
+
 #ifdef USE_WM_ICONS
 #include <libgnomeui/gnome-window-icon.h>
 #endif

@@ -8,7 +8,7 @@
  *    Jody Goldberg (jgoldberg@home.com)
  *
  * (C) 1998, 1999, 2000 Miguel de Icaza
- * (C) 2000 Helix Code, Inc.
+ * (C) 2000-2001 Helix Code, Inc.
  */
 #include <config.h>
 
@@ -20,7 +20,7 @@
 #include "command-context.h"
 #include "application.h"
 #include "sheet.h"
-#include "sheet-control-gui.h" /* ICK : remove when mode_edit is virtualized */
+#include "sheet-control.h"
 #include "expr.h"
 #include "expr-name.h"
 #include "eval.h"
@@ -39,6 +39,8 @@
 #include "sheet-object-bonobo.h"
 #endif
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <ctype.h>
 

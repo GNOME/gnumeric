@@ -41,8 +41,10 @@
 #include "parse-util.h"
 #include "io-context.h"
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
-#include <gal/widgets/gtk-combo-stack.h>
 #include <locale.h>
 
 /* Persistent attribute ids */

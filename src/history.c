@@ -14,6 +14,8 @@
 #include "workbook-view.h"
 #include "workbook.h"
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #ifdef ENABLE_BONOBO
 #include <bonobo.h>
 #endif

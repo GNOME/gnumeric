@@ -1,3 +1,20 @@
+2001-08-24  Jody Goldberg <jgoldberg@home.com>
+
+	* idl/Makefile.am : fix.
+
+	* src/gnumeric-canvas.c : add gnome-i18n.
+	* src/gnumeric-util.c : add gnome-{i18n,util}
+	* src/gui-file.c : add gnome-{i18n,config,util}
+	* src/history.c : add gnome-i18n.
+	* src/main.c : add gnome-config.
+	* src/sheet-control-gui.c : add gnome-i18n.
+	* src/workbook.c : Add gnome-i18n, loosen sheet-control-gui req to
+	  just sheet-control.
+	* src/workbook-edit.c : add gnome-i18n.
+	* src/workbook-view.c : add gnome-i18n and gnome-config, remove widget.
+	* src/workbook-control-gui.c : Add gnome-i18n and gnome-config.
+	* src/xml-io-autoft.c : add unistd.h
+
 2001-08-24  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/analysis-tools.c, src/application.c, src/bonobo-io.c,

@@ -9,10 +9,8 @@
 #include <config.h>
 
 #include "sheet-control-gui-priv.h"
-#include "item-bar.h"
 #define GNUMERIC_ITEM "SCG"
 #include "item-debug.h"
-#include "gnumeric-canvas.h"
 #include "sheet.h"
 #include "sheet-merge.h"
 #include "workbook.h"
@@ -25,7 +23,6 @@
 #include "style.h"
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
-#include "item-cursor.h"
 #include "gnumeric-util.h"
 #include "parse-util.h"
 #include "selection.h"
@@ -35,12 +32,18 @@
 #include "commands.h"
 #include "clipboard.h"
 #include "dialogs.h"
-#include "widgets/gnumeric-vscrollbar.h"
-#include "widgets/gnumeric-hscrollbar.h"
-#include "widgets/gnumeric-expr-entry.h"
 #include "sheet-merge.h"
 #include "ranges.h"
 
+#include "gnumeric-canvas.h"
+#include "item-bar.h"
+#include "item-cursor.h"
+#include "widgets/gnumeric-vscrollbar.h"
+#include "widgets/gnumeric-hscrollbar.h"
+#include "widgets/gnumeric-expr-entry.h"
+
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdkx.h>
 #include <gal/util/e-util.h>

@@ -7,11 +7,10 @@
  * (C) 2000 Helix Code, Inc.
  */
 #include <config.h>
+#include "workbook-edit.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
 #include "workbook.h"
-#include "workbook-private.h"
-#include "workbook-edit.h"
 #include "complete-sheet.h"
 #include "application.h"
 #include "commands.h"
@@ -23,6 +22,8 @@
 #include "parse-util.h"
 #include "widgets/gnumeric-expr-entry.h"
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <ctype.h>
 
 /*

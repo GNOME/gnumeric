@@ -8,16 +8,16 @@
  * (C) Copyright 2000 by Jukka-Pekka Iivonen (iivonen@iki.fi)
  **/
 #include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <glade/glade.h>
 #include "gnumeric.h"
 #include "workbook.h"
 #include "workbook-control-gui-priv.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-help.h>
+#include <glade/glade.h>
 
 typedef struct {
         GtkWidget *minutes_entry;
