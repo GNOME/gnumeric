@@ -1312,7 +1312,7 @@ wbc_gtk_init (GObject *obj)
 
 	gtk_window_add_accel_group (wbcg->toplevel, 
 		gtk_ui_manager_get_accel_group (gtk->ui));
-	uifile = g_build_filename (gnumeric_sys_data_dir (NULL),
+	uifile = g_build_filename (gnm_sys_data_dir (NULL),
 				   "GNOME_Gnumeric-gtk.xml", NULL);
 	if (!gtk_ui_manager_add_ui_from_file (gtk->ui, uifile, &error)) {
 		g_message ("building menus failed: %s", error->message);

@@ -462,7 +462,7 @@ out:
 	if (pixbuf)
 		g_object_unref (pixbuf);
 	g_free (uri);
-	g_slist_free_custom (l, soi_free_image_fmt);
+	gnm_slist_free_custom (l, soi_free_image_fmt);
 }
 
 static void
@@ -470,8 +470,8 @@ sheet_object_image_populate_menu (SheetObject *so, GPtrArray *actions)
 {
 	static SheetObjectAction const soi_action =
 		{ GTK_STOCK_SAVE_AS, N_("_Save as image"), NULL, 0, soi_cb_save_as };
-	g_ptr_array_add (actions, (gpointer) &soi_action);
 	sheet_object_image_parent_class->populate_menu (so, actions);
+	gnm_ptr_array_insert (actions, (gpointer) &soi_action, 1);
 }
 
 static gboolean

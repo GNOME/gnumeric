@@ -933,7 +933,7 @@ workbook_sheet_attach (Workbook *wb, Sheet *new_sheet,
 	pre_sheet_index_change (wb);
 	if (insert_after != NULL) {
 		int pos = insert_after->index_in_wb;
-		g_ptr_array_insert (wb->sheets, (gpointer)new_sheet, ++pos);
+		gnm_ptr_array_insert (wb->sheets, (gpointer)new_sheet, ++pos);
 		workbook_sheet_index_update (wb, pos);
 	} else {
 		g_ptr_array_add (wb->sheets, new_sheet);
@@ -1156,7 +1156,7 @@ workbook_sheet_move (Sheet *sheet, int direction)
 		int max_pos = MAX (old_pos, new_pos);
 
 		g_ptr_array_remove_index (wb->sheets, old_pos);
-		g_ptr_array_insert (wb->sheets, sheet, new_pos);
+		gnm_ptr_array_insert (wb->sheets, sheet, new_pos);
 
 		for (; max_pos >= min_pos ; max_pos--) {
 			Sheet *sheet = g_ptr_array_index (wb->sheets, max_pos);
@@ -1324,7 +1324,7 @@ workbook_sheet_rename_check (Workbook *wb,
 				if (new_name->next != NULL &&
 				    g_slist_find_custom (new_name->next, 
 							 the_new_name, 
-							 g_str_compare) != NULL) {
+							 gnm_str_compare) != NULL) {
 					gnm_cmd_context_error_invalid 
 						(cc,
 						 _("You may not use this name twice"),
@@ -1556,7 +1556,7 @@ workbook_sheet_reorder (Workbook *wb, GSList *new_order)
 				int min_pos = MIN (old_pos, new_pos);
 
 				g_ptr_array_remove_index (wb->sheets, old_pos);
-				g_ptr_array_insert (wb->sheets, sheet, new_pos);
+				gnm_ptr_array_insert (wb->sheets, sheet, new_pos);
 				for (; max_pos >= min_pos ; max_pos--) {
 					Sheet *sheet = g_ptr_array_index (wb->sheets, max_pos);
 					sheet->index_in_wb = max_pos;

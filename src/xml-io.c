@@ -2824,8 +2824,11 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
 	else
 		so->anchor.direction = SO_DIR_UNKNOWN;
 
-	sheet_object_set_sheet (so, ctxt->sheet);
-	g_object_unref (G_OBJECT (so));
+	/* Do not assign to a sheet when extracting a cell region */
+	if (NULL != ctxt->sheet) {
+		sheet_object_set_sheet (so, ctxt->sheet);
+		g_object_unref (G_OBJECT (so));
+	}
 	return so;
 }
 
@@ -3482,6 +3485,7 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar *buffer, int len
 		return NULL;
 	}
 
+	/* ctxt->sheet must == NULL or copying objects will break */
 	ctxt = xml_parse_ctx_new (doc, NULL, NULL);
 	cr = cellregion_new (NULL);
 
@@ -3523,7 +3527,8 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar *buffer, int len
 	if (l != NULL)
 		for (l = l->xmlChildrenNode; l != NULL ; l = l->next)
 			if (!xmlIsBlankNode (l))
-				xml_read_sheet_object (ctxt, l);
+				cr->objects = g_slist_prepend (cr->objects,
+							       xml_read_sheet_object (ctxt, l));
 
 	xml_parse_ctx_destroy (ctxt);
 	xmlFreeDoc (doc);
@@ -3601,7 +3606,7 @@ xml_cellregion_write (WorkbookControl *wbc, GnmCellRegion *cr, int *size)
 
 	if (cr->objects != NULL)
 		container = xmlNewChild (clipboard, clipboard->ns, CC2XML ("Objects"), NULL);
-	for (c_ptr = cr->content; c_ptr != NULL ; c_ptr = c_ptr->next) 
+	for (c_ptr = cr->objects; c_ptr != NULL ; c_ptr = c_ptr->next) 
 		xmlAddChild (container, 
 			xml_write_sheet_object (ctxt, c_ptr->data));
 

@@ -2877,7 +2877,7 @@ cmd_paste_copy_finalize (GObject *cmd)
 
 gboolean
 cmd_paste_copy (WorkbookControl *wbc,
-		GnmPasteTarget const *pt, GnmCellRegion *content)
+		GnmPasteTarget const *pt, GnmCellRegion *cr)
 {
 	GObject *obj;
 	CmdPasteCopy *me;
@@ -2894,27 +2894,30 @@ cmd_paste_copy (WorkbookControl *wbc,
 	me->cmd.cmd_descriptor = g_strdup_printf (_("Pasting into %s"),
 						     range_name (&pt->range));
 	me->dst = *pt;
-	me->content = content;
+	me->content = cr;
 	me->has_been_through_cycle = FALSE;
 	me->saved_sizes = NULL;
 
+	/* If the input is only objects ignore all this range stuff */
+	if (cr->cols < 1 || cr->rows < 1) {
+
 	/* If the destination is a singleton paste the entire content */
-	if (range_is_singleton (&me->dst.range)) {
+	} else if (range_is_singleton (&me->dst.range)) {
 		if (pt->paste_flags & PASTE_TRANSPOSE) {
-			me->dst.range.end.col = me->dst.range.start.col + content->rows -1;
-			me->dst.range.end.row = me->dst.range.start.row + content->cols -1;
+			me->dst.range.end.col = me->dst.range.start.col + cr->rows -1;
+			me->dst.range.end.row = me->dst.range.start.row + cr->cols -1;
 		} else {
-			me->dst.range.end.col = me->dst.range.start.col + content->cols -1;
-			me->dst.range.end.row = me->dst.range.start.row + content->rows -1;
+			me->dst.range.end.col = me->dst.range.start.col + cr->cols -1;
+			me->dst.range.end.row = me->dst.range.start.row + cr->rows -1;
 		}
 	} else if (pt->paste_flags & PASTE_TRANSPOSE) {
 		/* when transposed single rows or cols get replicated as needed */
-		if (content->cols == 1 && me->dst.range.start.col == me->dst.range.end.col) {
-			me->dst.range.end.col = me->dst.range.start.col + content->rows -1;
-		} else if (content->rows == 1 && me->dst.range.start.row == me->dst.range.end.row) {
-			me->dst.range.end.row = me->dst.range.start.row + content->cols -1;
+		if (cr->cols == 1 && me->dst.range.start.col == me->dst.range.end.col) {
+			me->dst.range.end.col = me->dst.range.start.col + cr->rows -1;
+		} else if (cr->rows == 1 && me->dst.range.start.row == me->dst.range.end.row) {
+			me->dst.range.end.row = me->dst.range.start.row + cr->cols -1;
 		}
-	} else if  (content->cols != 1 || content->rows != 1) {
+	} else if  (cr->cols != 1 || cr->rows != 1) {
 		/* Note: when the source is a single cell, a single target merge is special */
 		/* see clipboard.c (clipboard_paste_region)                                 */
 		GnmRange const *merge = sheet_merge_is_corner (pt->sheet, &me->dst.range.start);
@@ -2923,22 +2926,22 @@ cmd_paste_copy (WorkbookControl *wbc,
 			/* enlarge it such that the source fits */
 			if (pt->paste_flags & PASTE_TRANSPOSE) {
 				if ((me->dst.range.end.col - me->dst.range.start.col + 1) <
-				    content->rows)
+				    cr->rows)
 					me->dst.range.end.col =
-						me->dst.range.start.col + content->rows -1;
+						me->dst.range.start.col + cr->rows -1;
 				if ((me->dst.range.end.row - me->dst.range.start.row + 1) <
-				    content->cols)
+				    cr->cols)
 					me->dst.range.end.row =
-						me->dst.range.start.row + content->cols -1;
+						me->dst.range.start.row + cr->cols -1;
 			} else {
 				if ((me->dst.range.end.col - me->dst.range.start.col + 1) <
-				    content->cols)
+				    cr->cols)
 					me->dst.range.end.col =
-						me->dst.range.start.col + content->cols -1;
+						me->dst.range.start.col + cr->cols -1;
 				if ((me->dst.range.end.row - me->dst.range.start.row + 1) <
-				    content->rows)
+				    cr->rows)
 					me->dst.range.end.row =
-						me->dst.range.start.row + content->rows -1;
+						me->dst.range.start.row + cr->rows -1;
 			}
 		}
 	}
@@ -2952,8 +2955,9 @@ cmd_paste_copy (WorkbookControl *wbc,
 		return TRUE;
 	}
 
-	/* Check array subdivision & merged regions */
-	if (sheet_range_splits_region (pt->sheet, &me->dst.range,
+	/* no need to test if all we have are objects */
+	if (cr->cols > 0 && cr->rows > 0 &&
+	    sheet_range_splits_region (pt->sheet, &me->dst.range,
 				       NULL, GNM_CMD_CONTEXT (wbc), me->cmd.cmd_descriptor)) {
 		g_object_unref (G_OBJECT (me));
 		return TRUE;

@@ -10,10 +10,11 @@ Release Critical
 
 debian 272697
 
-    : editing text boxes
     : handle pasting clipboards with only objects
     : kasal's popt patch
+    : check cancel in paste-special dialog
 
+    : editing text boxes
     http://bugzilla.gnome.org/show_bug.cgi?id=152528
     : No crash when reading broken xls
 

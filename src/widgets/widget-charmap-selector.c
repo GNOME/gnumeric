@@ -468,8 +468,8 @@ cs_class_init (GtkWidgetClass *widget_klass)
 	       sizeof (charset_trans_array[0]), charset_order);
 
 	encoding_hash =
-		g_hash_table_new_full (gnumeric_ascii_strcase_hash,
-				       gnumeric_ascii_strcase_equal,
+		g_hash_table_new_full (gnm_ascii_strcase_hash,
+				       gnm_ascii_strcase_equal,
 				       (GDestroyNotify)g_free,
 				       NULL);
 

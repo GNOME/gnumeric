@@ -973,7 +973,7 @@ cb_font_underline_changed (G_GNUC_UNUSED GtkWidget *ct,
 		return FALSE;
 
 	for (i = G_N_ELEMENTS (underline_types); i-- > 0; )
-		if (gnumeric_utf8_collate_casefold (new_text, _(underline_types[i].Cname)) == 0) {
+		if (gnm_utf8_collate_casefold (new_text, _(underline_types[i].Cname)) == 0) {
 			res = underline_types[i].ut;
 			break;
 		}

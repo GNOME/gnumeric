@@ -4244,7 +4244,7 @@ static void
 excel_sheet_free (ExcelWriteSheet *esheet)
 {
 	g_slist_free (esheet->textboxes);
-	g_slist_free_custom (esheet->blips, (GFreeFunc) blipinf_free);
+	gnm_slist_free_custom (esheet->blips, (GFreeFunc) blipinf_free);
 	g_free (esheet);
 }
 

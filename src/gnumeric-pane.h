@@ -31,6 +31,7 @@ struct _GnumericPane {
 	GSList		*anted_cursors;
 
 	SheetObject	*drag_object;
+	int		 drag_button;	/* the button that intiated the object drag */
 	FooCanvasItem   *control_points [9]; /* Control points for the current item */
 
 	GdkCursor	*mouse_cursor;

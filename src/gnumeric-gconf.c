@@ -634,12 +634,12 @@ gnm_conf_init_extras (void)
 	tmp = go_conf_load_string (AUTOFORMAT_GCONF_SYS_DIR);
 	if (tmp == NULL)
 		tmp = g_strdup ("autoformat-template");
-	prefs.autoformat.sys_dir = gnumeric_sys_data_dir (tmp);
+	prefs.autoformat.sys_dir = gnm_sys_data_dir (tmp);
 	g_free (tmp);
 	tmp = go_conf_load_string (AUTOFORMAT_GCONF_USR_DIR);
 	if (tmp == NULL)
 		tmp = g_strdup ("autoformat-template");
-	prefs.autoformat.usr_dir = gnumeric_usr_dir (tmp);
+	prefs.autoformat.usr_dir = gnm_usr_dir (tmp);
 	g_free (tmp);
 
 	prefs.xml_compression_level = go_conf_load_int (
@@ -808,7 +808,7 @@ gnm_gconf_set_printer_header (gchar const *left, gchar const *middle,
 	list = g_slist_prepend (list, g_strdup (middle));
 	list = g_slist_prepend (list, g_strdup (left));
 	go_conf_set_str_list (PRINTSETUP_GCONF_HEADER, list);
-	g_slist_free_custom ((GSList *)prefs.printer_header, g_free);
+	gnm_slist_free_custom ((GSList *)prefs.printer_header, g_free);
 	prefs.printer_header = list;
 }
 
@@ -821,7 +821,7 @@ gnm_gconf_set_printer_footer (gchar const *left, gchar const *middle,
 	list = g_slist_prepend (list, g_strdup (middle));
 	list = g_slist_prepend (list, g_strdup (left));
 	go_conf_set_str_list (PRINTSETUP_GCONF_FOOTER, list);
-	g_slist_free_custom ((GSList *)prefs.printer_footer, g_free);
+	gnm_slist_free_custom ((GSList *)prefs.printer_footer, g_free);
 	prefs.printer_footer = list;
 }
 
@@ -893,10 +893,10 @@ gnm_gconf_set_print_header_formats (GSList *left, GSList *middle,
 				    GSList *right)
 {
 	go_conf_set_str_list (PRINTSETUP_GCONF_HEADER_FORMAT_LEFT, left);
-	g_slist_free_custom (left, g_free);
+	gnm_slist_free_custom (left, g_free);
 	go_conf_set_str_list (PRINTSETUP_GCONF_HEADER_FORMAT_MIDDLE, middle);
-	g_slist_free_custom (middle, g_free);
+	gnm_slist_free_custom (middle, g_free);
 	go_conf_set_str_list (PRINTSETUP_GCONF_HEADER_FORMAT_RIGHT, right);
-	g_slist_free_custom (right, g_free);
+	gnm_slist_free_custom (right, g_free);
 }
 

@@ -303,7 +303,7 @@ calculate_replacement (GnmSearchReplace *sr, const char *src, const regmatch_t *
 
 		case SC_Capital:
 		{
-			char *newres = gnumeric_utf8_strcapital (res, -1);
+			char *newres = gnm_utf8_strcapital (res, -1);
 			g_free (res);
 			res = newres;
 			break;

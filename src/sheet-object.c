@@ -95,32 +95,26 @@ cb_so_copy (SheetObject *so, SheetControl *sc)
 	gnm_app_clipboard_cut_copy_obj (sc_wbc (sc), FALSE, sc_view (sc), so);
 }
 
-/**
- * sheet_object_populate_menu:
- * @so:  the sheet object
- * @menu: the menu to insert into
- *
- * Add standard items to the object's popup menu.
- **/
 static void
 sheet_object_populate_menu (SheetObject *so, GPtrArray *actions)
 {
 	static SheetObjectAction const so_actions [] = {
-		{ "gtk-cut",		NULL,		NULL,  0, cb_so_cut },
-		{ "gtk-copy",		NULL,		NULL,  0, cb_so_copy },
-		{ NULL,	NULL, NULL, 0, NULL },
 		{ "gtk-properties",	NULL,		NULL,  0, cb_so_configure },
+		{ NULL,	NULL, NULL, 0, NULL },
 		{ NULL,			N_("_Order"),	NULL,  1, NULL },
 			{ NULL,			N_("Pul_l to Front"),	NULL,  0, cb_so_pull_to_front },
 			{ NULL,			N_("Pull _Forward"),	NULL,  0, cb_so_pull_forward },
 			{ NULL,			N_("Push _Backward"),	NULL,  0, cb_so_push_backward },
 			{ NULL,			N_("Pus_h to Back"),	NULL,  0, cb_so_push_to_back },
 			{ NULL,			NULL,			NULL, -1, NULL },
+		{ NULL,	NULL, NULL, 0, NULL },
+		{ "gtk-cut",		NULL,		NULL,  0, cb_so_cut },
+		{ "gtk-copy",		NULL,		NULL,  0, cb_so_copy },
 		{ "gtk-delete",		NULL,		NULL, 0, cb_so_delete },
 	};
 	unsigned i;
 	for (i = 0 ; i < G_N_ELEMENTS (so_actions); i++)
-		if (i != 3 || SO_CLASS(so)->user_config != NULL)
+		if (i != 0 || SO_CLASS(so)->user_config != NULL)
 			g_ptr_array_add (actions, (gpointer) (so_actions + i));
 }
 

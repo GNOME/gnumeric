@@ -351,7 +351,7 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 	int old_len = dat->len;
 
 	eval_pos_init_dep (&ep, &vec->dep);
-	if (vec->val == NULL)
+	if (vec->val == NULL && vec->dep.expression != NULL)
 		vec->val = gnm_expr_eval (vec->dep.expression, &ep,
 			GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
 

@@ -141,7 +141,7 @@ gnm_plugin_finalize (GObject *obj)
 		plugin->has_full_info = FALSE;
 		g_free (plugin->name);
 		g_free (plugin->description);
-		g_slist_free_custom (plugin->dependencies, plugin_dependency_free);
+		gnm_slist_free_custom (plugin->dependencies, plugin_dependency_free);
 		g_free (plugin->loader_id);
 		if (plugin->loader_attrs != NULL) {
 			g_hash_table_destroy (plugin->loader_attrs);
@@ -149,7 +149,7 @@ gnm_plugin_finalize (GObject *obj)
 		if (plugin->loader != NULL) {
 			g_object_unref (plugin->loader);
 		}
-		g_slist_free_custom (plugin->services, g_object_unref);
+		gnm_slist_free_custom (plugin->services, g_object_unref);
 	}
 	g_free (plugin->saved_textdomain);
 	plugin->saved_textdomain = NULL;
@@ -654,7 +654,7 @@ plugin_info_read_service_list (GnmPlugin *plugin, xmlNode *tree, ErrorInfo **ret
 	if (error_list != NULL) {
 		GNM_SLIST_REVERSE (error_list);
 		*ret_error = error_info_new_from_error_list (error_list);
-		g_slist_free_custom (service_list, g_object_unref);
+		gnm_slist_free_custom (service_list, g_object_unref);
 		return NULL;
 	} else {
 		return g_slist_reverse (service_list);
@@ -844,7 +844,7 @@ plugin_info_read (GnmPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_erro
 		} else
 			*ret_error = error_info_new_str (_("Plugin has no id."));
 
-		g_slist_free_custom (dependency_list, plugin_dependency_free);
+		gnm_slist_free_custom (dependency_list, plugin_dependency_free);
 		g_free (plugin->loader_id);
 		if (plugin->loader_attrs != NULL)
 			g_hash_table_destroy (plugin->loader_attrs);
@@ -1227,7 +1227,7 @@ gnm_plugin_use_unref (GnmPlugin *plugin)
  * All these plugins will be automatically activated before activating
  * the @plugin itself.
  * The caller must free the returned list together with the strings it
- * points to (use g_slist_free_custom (list, g_free) to do this).
+ * points to (use gnm_slist_free_custom (list, g_free) to do this).
  */
 GSList *
 gnm_plugin_get_dependencies_ids (GnmPlugin *plugin)
@@ -1396,10 +1396,10 @@ gnumeric_extra_plugin_dirs (void)
 	GSList *extra_dirs;
 	gchar const *plugin_path_env;
 
-	extra_dirs = g_string_slist_copy (gnm_app_prefs->plugin_extra_dirs);
+	extra_dirs = gnm_string_slist_copy (gnm_app_prefs->plugin_extra_dirs);
 	plugin_path_env = g_getenv ("GNUMERIC_PLUGIN_PATH");
 	if (plugin_path_env != NULL) {
-		GNM_SLIST_CONCAT (extra_dirs, g_strsplit_to_slist (plugin_path_env, ":"));
+		GNM_SLIST_CONCAT (extra_dirs, gnm_strsplit_to_slist (plugin_path_env, ":"));
 	}
 
 	return extra_dirs;
@@ -1416,9 +1416,9 @@ plugin_info_list_read_for_all_dirs (ErrorInfo **ret_error)
 	ErrorInfo *error;
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	dir_list = g_create_slist (gnumeric_sys_plugin_dir (),
-				   gnumeric_usr_plugin_dir (),
-				   NULL);
+	dir_list = gnm_create_slist (gnm_sys_plugin_dir (),
+				     gnm_usr_plugin_dir (),
+				     NULL);
 	GNM_SLIST_CONCAT (dir_list, gnumeric_extra_plugin_dirs ());
 	plugin_info_list = plugin_info_list_read_for_subdirs_of_dir_list (dir_list, &error);
 	g_slist_foreach (dir_list, (GFunc)g_free, NULL);
@@ -1638,7 +1638,7 @@ plugins_rescan (ErrorInfo **ret_error, GSList **ret_new_plugins)
 			_("The following plugins are no longer on disk but are still active:\n"
 			  "%s.\nYou should restart Gnumeric now."), s->str));
 		g_string_free (s, TRUE);
-		g_slist_free_custom (still_active_ids, g_free);
+		gnm_slist_free_custom (still_active_ids, g_free);
 	}
 
 	/* Find previously not available plugins */
@@ -1652,7 +1652,7 @@ plugins_rescan (ErrorInfo **ret_error, GSList **ret_new_plugins)
 			g_object_ref (plugin);
 		}
 	);
-	g_slist_free_custom (new_available_plugins, g_object_unref);
+	gnm_slist_free_custom (new_available_plugins, g_object_unref);
 	if (ret_new_plugins != NULL) {
 		*ret_new_plugins = g_slist_copy (added_plugins);
 	}
@@ -1830,12 +1830,12 @@ plugins_shutdown (void)
 		gnm_gconf_set_plugin_file_states (used_plugin_state_strings);
 		plugin_message (5, "Plugin cache changed\n");
 	} else
-		g_slist_free_custom (used_plugin_state_strings, g_free);
+		gnm_slist_free_custom (used_plugin_state_strings, g_free);
 
 	g_hash_table_destroy (plugin_file_state_dir_hash);
 	g_hash_table_destroy (loader_services);
 	g_hash_table_destroy (available_plugins_id_hash);
-	g_slist_free_custom (available_plugins, gnm_plugin_try_unref);
+	gnm_slist_free_custom (available_plugins, gnm_plugin_try_unref);
 
 	go_conf_sync ();
 }

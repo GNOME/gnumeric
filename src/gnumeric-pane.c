@@ -208,6 +208,7 @@ gnm_pane_init (GnmPane *pane, SheetControlGUI *scg,
 		pane->row.canvas = NULL;
 
 	pane->drag_object = NULL;
+	pane->drag_button = 0;
 	i = G_N_ELEMENTS (pane->control_points);
 	while (i-- > 0)
 		pane->control_points[i] = NULL;
@@ -806,13 +807,15 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 		break;
 
 	case GDK_BUTTON_RELEASE:
-		if (pane->drag_object != so || event->button.button != 1)
+		if (pane->drag_object != so ||
+		    pane->drag_button != event->button.button)
 			return FALSE;
 
 		cmd_object_move (WORKBOOK_CONTROL (scg_get_wbcg (scg)),
 			so, &scg->old_anchor, scg->object_was_resized);
 		gnm_canvas_slide_stop (gcanvas);
 		pane->drag_object = NULL;
+		pane->drag_button = 0;
 		gnm_simple_canvas_ungrab (ctrl_pt, event->button.time);
 		control_point_set_cursor (scg, ctrl_pt);
 		sheet_object_update_bounds (so, NULL);
@@ -838,6 +841,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 			}
 
 			pane->drag_object = so;
+			pane->drag_button = event->button.button;
 			gnm_simple_canvas_grab (ctrl_pt,
 				GDK_POINTER_MOTION_MASK |
 				GDK_BUTTON_RELEASE_MASK,
@@ -1071,6 +1075,7 @@ cb_sheet_object_canvas_event (FooCanvasItem *view, GdkEvent *event,
 		if (event->button.button < 3) {
 			g_return_val_if_fail (pane->drag_object == NULL, FALSE);
 			pane->drag_object = so;
+			pane->drag_button = event->button.button;
 
 			/* grab the acetate */
 			gnm_simple_canvas_grab (pane->control_points [8],

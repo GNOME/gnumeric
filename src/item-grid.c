@@ -1218,8 +1218,8 @@ item_grid_event (FooCanvasItem *item, GdkEvent *event)
 			 * that is more work than I want to do right now.
 			 */
 			if (gnm_canvas_handle_motion (gcanvas, canvas, &event->motion,
-						      GNM_CANVAS_SLIDE_X | GNM_CANVAS_SLIDE_Y,
-						      &cb_extend_object_creation, NULL))
+					      GNM_CANVAS_SLIDE_X | GNM_CANVAS_SLIDE_Y | GNM_CANVAS_SLIDE_EXTERIOR_ONLY,
+					      &cb_extend_object_creation, NULL))
 				ig_obj_create_motion (ig, event->motion.x, event->motion.y);
 
 			return TRUE;

@@ -1144,13 +1144,13 @@ gcanvas_sliding_callback (gpointer data)
  * depending on how far outside the bounds of @gcanvas the @event is.
  * Usually @canvas == @gcanvas however as long as the canvases share a basis
  * space they can be different.
- */
+ **/
 gboolean
 gnm_canvas_handle_motion (GnmCanvas *gcanvas,
-			      FooCanvas *canvas, GdkEventMotion *event,
-			      GnmCanvasSlideFlags slide_flags,
-			      GnmCanvasSlideHandler slide_handler,
-			      gpointer user_data)
+			  FooCanvas *canvas, GdkEventMotion *event,
+			  GnmCanvasSlideFlags slide_flags,
+			  GnmCanvasSlideHandler slide_handler,
+			  gpointer user_data)
 {
 	GnmCanvas *gcanvas0, *gcanvas1, *gcanvas3;
 	int pane, left, top, x, y, width, height;

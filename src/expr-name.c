@@ -645,10 +645,8 @@ expr_name_cmp_by_name (GnmNamedExpr const *a, GnmNamedExpr const *b)
 				      sheetb->name_case_insensitive);
 	}
 
-	if (res == 0) {
-		/* By name.  */
-		res = gnumeric_utf8_collate_casefold (a->name->str, b->name->str);
-	}
+	if (res == 0)	/* By name.  */
+		res = gnm_utf8_collate_casefold (a->name->str, b->name->str);
 
 	return res;
 }

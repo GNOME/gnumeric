@@ -1,3 +1,34 @@
+2004-09-27  Jody Goldberg <jody@gnome.org>
+
+	* src/gutils.c (gnm_ptr_array_insert) : Make this smarter.
+	  Just append if the requested element is >= len
+
+	* src/item-grid.c (item_grid_event) : only auto-slide when we're
+	  outside.  Inside we handle it locally fixes artificial movement that
+	  seems to jump back to the start of the previous row/col
+
+	* src/gnumeric-pane.c (cb_control_point_event) : Store the button that
+	  initiated the object drag and check that when releasing.
+
+	* src/commands.c (cmd_paste_copy) : handle pasting objects with no
+	  content.
+
+	* src/gutils.h : Fix the name spacing to be gnm_ in all cases.
+	  gnumeric_ is too damn big, and we have not business using g_
+	* src/gutils.c (gnm_usr_dir) : Check for empty home_dir
+
+	* src/graph.c (gnm_go_data_vector_load_len) : handle missing
+	  expression
+
+	* src/gnm-so-filled.c (gnm_so_filled_read_xml_dom) : We still need to
+	  Type field even though it is ugly.
+
+	* src/xml-io.c (xml_cellregion_write) : cut-n-paste-o to fix
+	  inter-process pasting
+	(xml_cellregion_read) : Actually store the resulting objects
+	(xml_read_sheet_object) : Don't set the sheet when extracting a
+	  cellregion.
+
 2004-09-27  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c (wb_view_sendto): Bring !WITH_GNOME case a

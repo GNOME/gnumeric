@@ -842,7 +842,7 @@ static GNM_ACTION_DEF (cb_help_docs)
 	GError *error = NULL;
 
 #warning "handle translations when we generate them"
-	argv[1] = gnumeric_sys_data_dir ("doc/C/gnumeric.xml");
+	argv[1] = gnm_sys_data_dir ("doc/C/gnumeric.xml");
 	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
 		NULL, NULL, NULL, &error);
 	g_free (argv[1]);

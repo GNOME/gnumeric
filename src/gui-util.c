@@ -626,7 +626,7 @@ gnm_glade_xml_new (GnmCmdContext *cc, char const *gladefile,
 	g_return_val_if_fail (gladefile != NULL, NULL);
 
 	if (!g_path_is_absolute (gladefile)) {
-		char *d = gnumeric_sys_glade_dir ();
+		char *d = gnm_sys_glade_dir ();
 		f = g_build_filename (d, gladefile, NULL);
 		g_free (d);
 	} else

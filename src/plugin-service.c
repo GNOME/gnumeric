@@ -343,7 +343,7 @@ plugin_service_file_opener_finalize (GObject *obj)
 
 	g_free (service_file_opener->description);
 	service_file_opener->description = NULL;
-	g_slist_free_custom (service_file_opener->suffixes, g_free);
+	gnm_slist_free_custom (service_file_opener->suffixes, g_free);
 	service_file_opener->suffixes = NULL;
 	if (service_file_opener->opener != NULL) {
 		g_object_unref (service_file_opener->opener);
@@ -906,7 +906,7 @@ plugin_service_function_group_finalize (GObject *obj)
 	service_function_group->category_name = NULL;
 	g_free (service_function_group->translated_category_name);
 	service_function_group->translated_category_name = NULL;
-	g_slist_free_custom (service_function_group->function_name_list, g_free);
+	gnm_slist_free_custom (service_function_group->function_name_list, g_free);
 	service_function_group->function_name_list = NULL;
 
 	parent_class = g_type_class_peek (GNM_PLUGIN_SERVICE_TYPE);
@@ -986,7 +986,7 @@ plugin_service_function_group_read_xml (GnmPluginService *service, xmlNode *tree
 
 		g_free (category_name);
 		g_free (translated_category_name);
-		g_slist_free_custom (function_name_list, g_free);
+		gnm_slist_free_custom (function_name_list, g_free);
 	}
 }
 
@@ -1228,7 +1228,7 @@ plugin_service_ui_finalize (GObject *obj)
 
 	g_free (service_ui->file_name);
 	service_ui->file_name = NULL;
-	g_slist_free_custom (service_ui->verbs, g_free);
+	gnm_slist_free_custom (service_ui->verbs, g_free);
 	service_ui->verbs = NULL;
 
 	parent_class = g_type_class_peek (GNM_PLUGIN_SERVICE_TYPE);

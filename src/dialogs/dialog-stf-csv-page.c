@@ -83,7 +83,7 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 					      strcmp (sepc->str, "") == 0 ? NULL : sepc->str,
 					      sepstr);
 	g_string_free (sepc, TRUE);
-	g_slist_free_custom (sepstr, g_free);
+	gnm_slist_free_custom (sepstr, g_free);
 
 	stf_parse_options_csv_set_duplicates (parseoptions,
 					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_duplicates)));

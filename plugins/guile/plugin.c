@@ -237,7 +237,7 @@ plugin_init_general (ErrorInfo **ret_error)
 	scm_c_define_gsubr ("gnumeric-funcall", 2, 0, 0, scm_gnumeric_funcall);
 	scm_c_define_gsubr ("register-function", 5, 0, 0, scm_register_function);
 
-	dir = gnumeric_sys_data_dir ("guile");
+	dir = gnm_sys_data_dir ("guile");
 	name = g_strconcat (dir, "gnumeric_startup.scm", NULL);
 	scm_apply (scm_c_eval_string ("(lambda (filename)"
 				  "  (if (access? filename R_OK)"

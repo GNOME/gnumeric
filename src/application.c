@@ -457,7 +457,7 @@ gnm_app_history_get_list (gboolean force_reload)
 		if (force_reload) {
 			GSList *tmp = app->history_list;
 			app->history_list = NULL;
-			g_slist_free_custom (tmp, g_free);
+			gnm_slist_free_custom (tmp, g_free);
 		} else
 			return app->history_list;
 	}
@@ -488,7 +488,7 @@ gnm_app_history_add (char const *uri)
 	/* force a reload in case max_entries has changed */
 	gnm_app_history_get_list (TRUE);
 	exists = g_slist_find_custom (app->history_list,
-				      uri, g_str_compare);
+				      uri, gnm_str_compare);
 
 	if (exists != NULL) {
 		/* its already the top of the stack no need to do anything */
@@ -508,13 +508,13 @@ gnm_app_history_add (char const *uri)
 	while (*ptr != NULL && max_entries-- > 0)
 		ptr = &((*ptr)->next);
 	if (*ptr != NULL) {
-		g_slist_free_custom (*ptr, g_free);
+		gnm_slist_free_custom (*ptr, g_free);
 		*ptr = NULL;
 	}
 
 	g_object_notify (G_OBJECT (app), "file-history-list");
 	gnm_gconf_set_file_history_files (
-		g_string_slist_copy (app->history_list));
+		gnm_string_slist_copy (app->history_list));
 	go_conf_sync ();
 }
 

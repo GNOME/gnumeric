@@ -219,8 +219,8 @@ SummaryInfo *
 summary_info_new (void)
 {
 	SummaryInfo *sin = g_new (SummaryInfo, 1);
-	sin->names = g_hash_table_new (&gnumeric_ascii_strcase_hash,
-				       &gnumeric_ascii_strcase_equal);
+	sin->names = g_hash_table_new (&gnm_ascii_strcase_hash,
+				       &gnm_ascii_strcase_equal);
 	sin->modified = FALSE;
 	return sin;
 }

@@ -61,9 +61,9 @@ gnumeric_time_counter_pop (void)
 
 /***************************************************************************/
 void
-g_ptr_array_insert (GPtrArray *array, gpointer value, int index)
+gnm_ptr_array_insert (GPtrArray *array, gpointer value, int index)
 {
-	if ((int)array->len != index) {
+	if (index < (int)array->len) {
 		int i = array->len - 1;
 		gpointer last = g_ptr_array_index (array, i);
 		g_ptr_array_add (array, last);
@@ -78,31 +78,7 @@ g_ptr_array_insert (GPtrArray *array, gpointer value, int index)
 }
 
 /**
- * g_create_list:
- * @item1: First item.
- *
- * Creates a GList from NULL-terminated list of arguments.
- *
- * Return value: created list.
- */
-GList *
-g_create_list (gpointer item1, ...)
-{
-	va_list args;
-	GList *list = NULL;
-	gpointer item;
-
-	va_start (args, item1);
-	for (item = item1; item != NULL; item = va_arg (args, gpointer)) {
-		list = g_list_prepend (list, item);
-	}
-	va_end (args);
-
-	return g_list_reverse (list);
-}
-
-/**
- * g_create_list:
+ * gnm_create_slist:
  * @item1: First item.
  *
  * Creates a GList from NULL-terminated list of arguments.
@@ -110,7 +86,7 @@ g_create_list (gpointer item1, ...)
  * Return value: created list.
  */
 GSList *
-g_create_slist (gpointer item1, ...)
+gnm_create_slist (gpointer item1, ...)
 {
 	va_list args;
 	GSList *list = NULL;
@@ -126,7 +102,7 @@ g_create_slist (gpointer item1, ...)
 }
 
 gint
-g_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func)
+gnm_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func)
 {
 	GList *l;
 	gint i;
@@ -141,7 +117,7 @@ g_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func)
 }
 
 /**
- * g_list_free_custom:
+ * gnm_list_free_custom:
  * @list: list of some items
  * @free_func: function freeing list item
  *
@@ -149,7 +125,7 @@ g_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func)
  *
  */
 void
-g_list_free_custom (GList *list, GFreeFunc free_func)
+gnm_list_free_custom (GList *list, GFreeFunc free_func)
 {
 	GList *l;
 
@@ -160,12 +136,12 @@ g_list_free_custom (GList *list, GFreeFunc free_func)
 }
 
 /**
- * g_slist_map:
+ * gnm_slist_map:
  * @list        : list of some items
  * @map_func    : mapping function
  */
 GSList *
-g_slist_map (GSList const *list, GnmMapFunc map_func)
+gnm_slist_map (GSList const *list, GnmMapFunc map_func)
 {
 	GSList *list_copy = NULL;
 
@@ -177,18 +153,17 @@ g_slist_map (GSList const *list, GnmMapFunc map_func)
 }
 
 /**
- * g_strsplit_to_slist:
+ * gnm_strsplit_to_slist:
  * @string: String to split
  * @delimiter: Token delimiter
  *
  * Splits up string into tokens at delim and returns a string list.
  *
- * Return value: string list which you should free after use using function
+ * Returns: string list which you should free after use using function
  * e_free_string_list().
- *
- */
+ **/
 GSList *
-g_strsplit_to_slist (gchar const *string, gchar const *delimiter)
+gnm_strsplit_to_slist (gchar const *string, gchar const *delimiter)
 {
 	gchar **token_v;
 	GSList *string_list = NULL;
@@ -207,15 +182,14 @@ g_strsplit_to_slist (gchar const *string, gchar const *delimiter)
 }
 
 /**
- * g_slist_free_custom:
+ * gnm_slist_free_custom:
  * @list: list of some items
  * @free_func: function freeing list item
  *
  * Clears a list, calling @free_func for each list item.
- *
- */
+ **/
 void
-g_slist_free_custom (GSList *list, GFreeFunc free_func)
+gnm_slist_free_custom (GSList *list, GFreeFunc free_func)
 {
 	GSList *l;
 
@@ -226,7 +200,7 @@ g_slist_free_custom (GSList *list, GFreeFunc free_func)
 }
 
 gint
-gnumeric_utf8_collate_casefold (const char *a, const char *b)
+gnm_utf8_collate_casefold (const char *a, const char *b)
 {
 	char *a2 = g_utf8_casefold (a, -1);
 	char *b2 = g_utf8_casefold (b, -1);
@@ -237,14 +211,14 @@ gnumeric_utf8_collate_casefold (const char *a, const char *b)
 }
 
 gint
-gnumeric_ascii_strcase_equal (gconstpointer v1, gconstpointer v2)
+gnm_ascii_strcase_equal (gconstpointer v1, gconstpointer v2)
 {
 	return g_ascii_strcasecmp ((char const *) v1, (char const *)v2) == 0;
 }
 
 /* a char* hash function from ASU */
 guint
-gnumeric_ascii_strcase_hash (gconstpointer v)
+gnm_ascii_strcase_hash (gconstpointer v)
 {
 	unsigned const char *s = (unsigned const char *)v;
 	unsigned const char *p;
@@ -263,7 +237,7 @@ gnumeric_ascii_strcase_hash (gconstpointer v)
 
 extern char *gnumeric_data_dir;
 char *
-gnumeric_sys_data_dir (char const *subdir)
+gnm_sys_data_dir (char const *subdir)
 {
 	if (subdir == NULL)
 		return (char *)gnumeric_data_dir;
@@ -272,7 +246,7 @@ gnumeric_sys_data_dir (char const *subdir)
 
 extern char *gnumeric_lib_dir;
 char *
-gnumeric_sys_lib_dir (char const *subdir)
+gnm_sys_lib_dir (char const *subdir)
 {
 	return g_build_filename (gnumeric_lib_dir, subdir, NULL);
 }
@@ -281,23 +255,23 @@ gnumeric_sys_lib_dir (char const *subdir)
 #define PLUGIN_SUFFIX	"plugins"
 
 char *
-gnumeric_sys_glade_dir (void)
+gnm_sys_glade_dir (void)
 {
-	return gnumeric_sys_data_dir (GLADE_SUFFIX);
+	return gnm_sys_data_dir (GLADE_SUFFIX);
 }
 
 char *
-gnumeric_sys_plugin_dir (void)
+gnm_sys_plugin_dir (void)
 {
-	return gnumeric_sys_lib_dir (PLUGIN_SUFFIX);
+	return gnm_sys_lib_dir (PLUGIN_SUFFIX);
 }
 
 char *
-gnumeric_usr_dir (char const *subdir)
+gnm_usr_dir (char const *subdir)
 {
 	char const *home_dir = g_get_home_dir ();
 
-	if (home_dir != NULL) {
+	if (home_dir != NULL && *home_dir != '\0') {
 		gboolean has_slash = (home_dir[strlen (home_dir) - 1] == G_DIR_SEPARATOR);
 		return g_strconcat (home_dir, (has_slash ? "" : G_DIR_SEPARATOR_S),
 				    ".gnumeric" G_DIR_SEPARATOR_S GNUMERIC_VERSION G_DIR_SEPARATOR_S,
@@ -308,9 +282,9 @@ gnumeric_usr_dir (char const *subdir)
 }
 
 char *
-gnumeric_usr_plugin_dir (void)
+gnm_usr_plugin_dir (void)
 {
-	return gnumeric_usr_dir (PLUGIN_SUFFIX);
+	return gnm_usr_dir (PLUGIN_SUFFIX);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -634,7 +608,7 @@ atanhgnum (gnm_float x)
 /* ------------------------------------------------------------------------- */
 
 /**
- * gnumeric_utf8_strcapital:
+ * gnm_utf8_strcapital:
  * @p: pointer to UTF-8 string
  * @len: length in bytes, or -1.
  *
@@ -642,10 +616,9 @@ atanhgnum (gnm_float x)
  * creates a string "Very Much Like: This, One".
  *
  * Return value: newly allocated string.
- */
-
+ **/
 char *
-gnumeric_utf8_strcapital (const char *p, ssize_t len)
+gnm_utf8_strcapital (const char *p, ssize_t len)
 {
 	const char *pend = (len < 0 ? NULL : p + len);
 	GString *res = g_string_sized_new (len < 0 ? 1 : len + 1);
@@ -951,7 +924,7 @@ gnm_mem_chunk_foreach_leak (GnmMemChunk *chunk, GFunc cb, gpointer user)
 }
 
 int
-g_str_compare (void const *x, void const *y)
+gnm_str_compare (void const *x, void const *y)
 {
 	if (x == NULL || y == NULL) {
 		if (x == y)

@@ -557,8 +557,7 @@ gnm_vrfy_uri_ext (gchar const *std_ext,
 		*new_uri = g_strconcat (uri, ".", std_ext, NULL);
 	else {
 		if (user_ext != NULL && std_ext != NULL)
-			res = !gnumeric_utf8_collate_casefold (user_ext + 1,
-							       std_ext);
+			res = !gnm_utf8_collate_casefold (user_ext + 1, std_ext);
 		*new_uri = g_strdup (uri);
 	}
 	g_free (base);
@@ -612,7 +611,7 @@ gnm_file_opener_register (GnmFileOpener *fo, gint priority)
 	g_return_if_fail (IS_GNM_FILE_OPENER (fo));
 	g_return_if_fail (priority >=0 && priority <= 100);
 
-	pos = g_list_index_custom (file_opener_priority_list,
+	pos = gnm_list_index_custom (file_opener_priority_list,
 	                           GINT_TO_POINTER (priority),
 	                           cmp_int_less_than);
 	file_opener_priority_list = g_list_insert (

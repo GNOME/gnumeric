@@ -38,7 +38,7 @@ plugin_init_general (ErrorInfo **ret_error)
 
 	*ret_error = NULL;
 	/* Initialize the Perl interpreter. */
-	arg = gnumeric_sys_data_dir ("perl");
+	arg = gnm_sys_data_dir ("perl");
 	argv[1] = g_strconcat("-I", arg, NULL);
 	argv[2] = g_strconcat (arg, "startup.pl", NULL);
 	g_free(arg);

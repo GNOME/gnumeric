@@ -278,7 +278,7 @@ stf_parse_options_remove_line_terminator (StfParseOptions_t *parseoptions, char 
 
 	g_return_if_fail (parseoptions != NULL);
 
-	in_list = g_slist_find_custom (parseoptions->terminator, terminator, g_str_compare);
+	in_list = g_slist_find_custom (parseoptions->terminator, terminator, gnm_str_compare);
 
 	if (in_list) {
 		char *s = in_list->data;
@@ -300,7 +300,7 @@ stf_parse_options_clear_line_terminator (StfParseOptions_t *parseoptions)
 {
 	g_return_if_fail (parseoptions != NULL);
 
-	g_slist_free_custom (parseoptions->terminator, g_free);
+	gnm_slist_free_custom (parseoptions->terminator, g_free);
 	parseoptions->terminator = NULL;
 	compile_terminators (parseoptions);
 }
@@ -333,8 +333,8 @@ stf_parse_options_csv_set_separators (StfParseOptions_t *parseoptions, char cons
 	g_free (parseoptions->sep.chr);
 	parseoptions->sep.chr = g_strdup (character);
 
-	g_slist_free_custom (parseoptions->sep.str, g_free);
-	parseoptions->sep.str = g_slist_map (string, (GnmMapFunc)g_strdup);
+	gnm_slist_free_custom (parseoptions->sep.str, g_free);
+	parseoptions->sep.str = gnm_slist_map (string, (GnmMapFunc)g_strdup);
 }
 
 void
