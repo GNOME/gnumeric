@@ -3051,7 +3051,8 @@ sheet_name_quote (char const *name_unquoted)
 	int         i, j, quotes_embedded = 0;
 	gboolean    needs_quotes;
 	static char quote_chr [] =
-	{ '=', '<', '>', '(', ')', '+', '-', ' ', '^', '&', '%', ':', '\0' };
+	{ '=', '<', '>', '(', ')', '+', '-', ' ', '^', '&', '%', ':', '/',
+	  '*', '\\', '`', '\'', '´', '\0'};
 
 	g_return_val_if_fail (name_unquoted != NULL, NULL);
 
@@ -3061,7 +3062,7 @@ sheet_name_quote (char const *name_unquoted)
 			for (j = 0; quote_chr [j]; j++)
 				if (name_unquoted [i] == quote_chr [j])
 					needs_quotes = TRUE;
-			if (name_unquoted [i] == '\'')
+			if (name_unquoted [i] == '\'' || name_unquoted [i] == '\\')
 				quotes_embedded++;
 		}
 
@@ -3073,7 +3074,7 @@ sheet_name_quote (char const *name_unquoted)
 
 		*ret = '\'';
 		for (src = name_unquoted, dst = ret + 1; *src; src++, dst++) {
-			if (*src == '\'')
+			if (*src == '\'' || *src == '\\')
 				*dst++ = '\\';
 			*dst = *src;
 		}

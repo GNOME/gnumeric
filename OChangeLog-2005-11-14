@@ -6,6 +6,9 @@
 	* workbook-control-gui.c (wb_edit_key_pressed): Use it.
 	* gnumeric-sheet.c (gnumeric_filter_modifiers): Ditto.
 
+	* sheet.c (sheet_name_quote): Escape \ and add more chars to
+	  to quote_chr.
+
 2001-05-27  Jody Goldberg <jgoldberg@home.com>
 
 	* src/eval.c (sheet_region_queue_recalc) : Queue the dependents in the

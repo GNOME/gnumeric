@@ -12,6 +12,7 @@ Jody:
 
 Juan Pablo Mendoza:
 	* Handle {caps,number,scroll}lock.
+	* Improve sheet name quoting.
 
 Morten:
 	* Fix PV.
