@@ -240,6 +240,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 	state->dec = FALSE;
 	for (i = GNM_ABOUT_NUM_TYPES ; i-- > 0 ; )
 		state->contribs[i] = state->individual[i] = 0.;
+	g_object_set_data_full (G_OBJECT (state->about),
+		"state", state, (GDestroyNotify)gnm_about_state_free);
 
 	state->graph = g_object_new (GOG_GRAPH_TYPE, NULL);
 	GOG_STYLED_OBJECT (state->graph)->style->fill.type = GOG_FILL_STYLE_GRADIENT;
@@ -255,6 +257,11 @@ dialog_about (WorkbookControlGUI *wbcg)
 	/* A bar plot of the current contributors activities */
 	chart = gog_object_add_by_name (state->graph, "Chart", NULL);
 	plot = gog_plot_new_by_name ("GogBarColPlot");
+	if (!plot) {
+		/* This can happen if plugins are not available.  */
+		gnm_about_state_free (state);
+		return;
+	}
 	g_object_set (G_OBJECT (plot),
 		"horizontal",			TRUE,
 		"vary_style_by_element",	TRUE,
@@ -298,6 +305,11 @@ dialog_about (WorkbookControlGUI *wbcg)
 	chart = gog_object_add_by_name (state->graph, "Chart", NULL);
 	gog_chart_set_position  (GOG_CHART (chart), 1, 0, 1, 1);
 	plot = gog_plot_new_by_name ("GogPiePlot");
+	if (!plot) {
+		/* This can happen if plugins are not available.  */
+		gnm_about_state_free (state);
+		return;
+	}
 	gog_object_add_by_name (chart, "Plot", GOG_OBJECT (plot));
 	series = gog_plot_new_series (plot);
 	gog_series_set_dim (series, 0, labels, NULL);
@@ -329,8 +341,6 @@ dialog_about (WorkbookControlGUI *wbcg)
 		NULL);
 	gtk_box_pack_start (GTK_BOX (state->about->vbox), state->canvas, TRUE, TRUE, 0);
 
-	g_object_set_data_full (G_OBJECT (state->about),
-		"state", state, (GDestroyNotify)gnm_about_state_free);
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->about), ABOUT_KEY);
 	gtk_widget_show_all (GTK_WIDGET (state->about));
 	g_signal_connect (state->about, "response",
