@@ -76,7 +76,7 @@ col_name (int col)
 {
 	static GString *buffer = NULL;
 	if (!buffer)
-		buffer = g_string_new ("");
+		buffer = g_string_new (NULL);
 	g_string_truncate (buffer, 0);
 
 	col_name_internal (buffer, col);
@@ -89,7 +89,7 @@ cols_name (int start_col, int end_col)
 {
 	static GString *buffer = NULL;
 	if (!buffer)
-		buffer = g_string_new ("");
+		buffer = g_string_new (NULL);
 	g_string_truncate (buffer, 0);
 
 	col_name_internal (buffer, start_col);
@@ -136,7 +136,7 @@ row_name (int row)
 {
 	static GString *buffer = NULL;
 	if (!buffer)
-		buffer = g_string_new ("");
+		buffer = g_string_new (NULL);
 	g_string_truncate (buffer, 0);
 
 	row_name_internal (buffer, row);
@@ -149,7 +149,7 @@ rows_name (int start_row, int end_row)
 {
 	static GString *buffer = NULL;
 	if (!buffer)
-		buffer = g_string_new ("");
+		buffer = g_string_new (NULL);
 	g_string_truncate (buffer, 0);
 
 	row_name_internal (buffer, start_row);
@@ -473,7 +473,7 @@ cell_coord_name (int col, int row)
 {
 	static GString *buffer = NULL;
 	if (!buffer)
-		buffer = g_string_new ("");
+		buffer = g_string_new (NULL);
 	g_string_truncate (buffer, 0);
 
 	col_name_internal (buffer, col);

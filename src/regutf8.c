@@ -464,7 +464,7 @@ main (int argc, char **argv)
 int
 gnumeric_regcomp_XL (gnumeric_regex_t *preg, char const *pattern, int cflags)
 {
-	GString *res = g_string_new ("");
+	GString *res = g_string_new (NULL);
 	int retval;
 
 	while (*pattern) {

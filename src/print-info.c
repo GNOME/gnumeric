@@ -569,7 +569,7 @@ hf_format_render (char const *format, HFRenderInfo *info, HFRenderType render_ty
 
 	g_return_val_if_fail (format != NULL, NULL);
 
-	result = g_string_new ("");
+	result = g_string_new (NULL);
 	for (p = format; *p; p++) {
 		if (*p == '&' && p[1] == '[') {
 			char const *start;
