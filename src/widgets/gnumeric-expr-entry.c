@@ -395,6 +395,9 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 
 			if (ranges != NULL) {
 				if ((ranges->next == NULL) || single) {
+					Sheet *start_sheet, *end_sheet;
+					EvalPos ep;
+
 				       /* Note:
 					* If single is not true, we just have one range here!
 					**/
@@ -402,6 +405,12 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 					value = (Value *) ((g_slist_last (ranges))->data);
 					rs->abs_col = !value->v_range.cell.a.col_relative;
 					rs->abs_row = !value->v_range.cell.a.row_relative;
+					ep.eval.col = 0;
+					ep.eval.row = 0;
+					ep.sheet = NULL;
+					value_cellrange_normalize (&ep, value,
+								   &start_sheet, &end_sheet,
+								   &rs->range);
 					rs->text_start = start;
 					rs->text_end = end;
 					if (single) {
