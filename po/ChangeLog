@@ -1,5 +1,9 @@
 2000-04-15  Karl EICHWALDER  <ke@suse.de>
 
+	* de.po: Major cleanup; add missing shourtcuts.
+
+2000-04-15  Karl EICHWALDER  <ke@suse.de>
+
 	* POTFILES.in: Add src/dialogs/workbook-attr.glade.h; sort
 	alphabetically.
 
