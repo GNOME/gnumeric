@@ -1,4 +1,4 @@
-<sect1>
+<sect1 id="intro">
   <title></title>
   <sect2 id="the-worksheet">
   <title>The Worksheet</title>
@@ -159,7 +159,7 @@
         </listitem>
         <listitem>
          <para>
-          <guisubmenu>Clear -></guisubmenu>
+          <guisubmenu>Clear -&gt;</guisubmenu>
           &mdash; This sub menu contains:
 	    <itemizedlist>
 	      <listitem>
@@ -290,7 +290,7 @@
         </listitem>
         <listitem>
          <para>
-          <guisubmenu>Special -></guisubmenu>
+          <guisubmenu>Special -&gt;</guisubmenu>
           &mdash;This sub menu contains:
 	    <itemizedlist>
 	      <listitem>
@@ -329,7 +329,7 @@
         </listitem>
         <listitem>
          <para>
-          <guisubmenu>Column-></guisubmenu>
+          <guisubmenu>Column-&gt;</guisubmenu>
             &mdash; This submenu contains:
 	    <itemizedlist>
               <listitem>
@@ -367,7 +367,7 @@
         </listitem>
         <listitem>
          <para>
-           <guisubmenu>Row-></guisubmenu>
+           <guisubmenu>Row-&gt;</guisubmenu>
 	   &mdash; This sub menu contains:
 	    <itemizedlist>
               <listitem>
@@ -405,7 +405,7 @@
         </listitem>
         <listitem>
          <para>
-          <guimenuitem>Sheet-></guimenuitem>
+          <guimenuitem>Sheet-&gt;</guimenuitem>
             &mdash; This sub menu contains:
 	    <itemizedlist>
               <listitem>
@@ -652,7 +652,7 @@
 	  <listitem><para>Select every cell in the worksheet.</para></listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><guisubmenu>Clear -></guisubmenu></term>
+	  <term><guisubmenu>Clear -&gt;</guisubmenu></term>
 	  <listitem>
 	    <para>
 	      <variablelist>
@@ -760,7 +760,7 @@
       </varlistentry>
 
       <varlistentry>
-	<term
+	<term>
 	  <guiicon><inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
 	    Save
 	  </guiicon>
@@ -771,7 +771,7 @@
       </varlistentry>
 
        <varlistentry>
-	<term
+	<term>
 	  <guiicon><inlinegraphic fileref="images/print.png"></inlinegraphic>
           Print
 	  </guiicon>
@@ -782,7 +782,7 @@
       </varlistentry>
      
        <varlistentry>
-	<term
+	<term>
 	  <guiicon><inlinegraphic fileref="images/print-preview.png"></inlinegraphic>
           Print Setup
 	  </guiicon>
