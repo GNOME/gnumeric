@@ -859,7 +859,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		sa = value_string (a);
 		sb = value_string (b);
 		
-		tmp = g_copy_strings (sa, sb, NULL);
+		tmp = g_strconcat (sa, sb, NULL);
 		res->v.str = string_get (tmp);
 		g_free (sa);
 		g_free (sb);
@@ -1017,9 +1017,9 @@ do_expr_decode_tree (ExprTree *tree, void *sheet, int col, int row, Operation pa
 		op = binary_operation_names [tree->oper];
 
 		if (bigger_prec (parent_op, tree->oper))
-			res = g_copy_strings ("(", a, op, b, ")", NULL);
+			res = g_strconcat ("(", a, op, b, ")", NULL);
 		else
-			res = g_copy_strings (a, op, b, NULL);
+			res = g_strconcat (a, op, b, NULL);
 		
 		g_free (a);
 		g_free (b);
@@ -1030,7 +1030,7 @@ do_expr_decode_tree (ExprTree *tree, void *sheet, int col, int row, Operation pa
 		char *res, *a;
 
 		a = do_expr_decode_tree (tree->u.value, sheet, col, row, tree->oper);
-		res = g_copy_strings ("-", a);
+		res = g_strconcat ("-", a);
 		g_free (a);
 		return res;
 	}
@@ -1068,7 +1068,7 @@ do_expr_decode_tree (ExprTree *tree, void *sheet, int col, int row, Operation pa
 					strcat (sum, ",");
 			}
 			
-			res = g_copy_strings (
+			res = g_strconcat (
 				fd->name, "(", sum, ")", NULL);
 
 			for (i = 0; i < argc; i++)
@@ -1077,7 +1077,7 @@ do_expr_decode_tree (ExprTree *tree, void *sheet, int col, int row, Operation pa
 
 			return res;
 		} else
-			return g_copy_strings (fd->name, "()", NULL);
+			return g_strconcat (fd->name, "()", NULL);
 	}
 	
 	case OPER_CONSTANT: {
@@ -1089,7 +1089,7 @@ do_expr_decode_tree (ExprTree *tree, void *sheet, int col, int row, Operation pa
 			a = cellref_name (&v->v.cell_range.cell_a, sheet, col, row);
 			b = cellref_name (&v->v.cell_range.cell_b, sheet, col, row);
 
-			res = g_copy_strings (a, ":", b, NULL);
+			res = g_strconcat (a, ":", b, NULL);
 
 			g_free (a);
 			g_free (b);
@@ -1097,7 +1097,7 @@ do_expr_decode_tree (ExprTree *tree, void *sheet, int col, int row, Operation pa
 			return res;
 		} else {
 			if (v->type == VALUE_STRING){
-				return g_copy_strings ("\"", v->v.str->str, "\"", NULL);
+				return g_strconcat ("\"", v->v.str->str, "\"", NULL);
 			} else
 				return value_string (v);
 		}

@@ -1,3 +1,9 @@
+1998-12-30  Jeff Garzik  <jgarzik@pobox.com>
+
+	* plugins/perl/perl.c, src/cell.c, src/expr.c, src/plugin.c,
+	  src/sheet-autofill.c, src/sheet.c, src/workbook.c:
+	s/g_copy_strings/g_strconcat/
+
 1998-12-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* plugins/excel/boot.c: New file, this holds the probing and load

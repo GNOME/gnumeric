@@ -288,7 +288,7 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 	else
 		f = "";
 	
-	s = g_copy_strings (_("Workbook "), f,
+	s = g_strconcat (_("Workbook "), f,
 			    _(" has unsaved changes, save them?"),
 			    NULL);
 	l = gtk_label_new (s);
@@ -1164,7 +1164,7 @@ workbook_auto_expr_label_set (Workbook *wb, char *text)
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (text != NULL);
 	
-	res = g_copy_strings (wb->auto_expr_desc->str, "=",
+	res = g_strconcat (wb->auto_expr_desc->str, "=",
 			      text, NULL);
 	gnome_canvas_item_set (wb->auto_expr_label,
 			       "text", res,
@@ -1422,7 +1422,7 @@ workbook_set_title (Workbook *wb, char *title)
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (title != NULL);
 
-	full_title = g_copy_strings ("Gnumeric: ", title, NULL);
+	full_title = g_strconcat ("Gnumeric: ", title, NULL);
 	
  	gtk_window_set_title (GTK_WINDOW (wb->toplevel), full_title);
 	g_free (full_title);

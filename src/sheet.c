@@ -2328,7 +2328,7 @@ sheet_verify_selection_simple (Sheet *sheet, char *command_name)
 	if (g_list_length (sheet->selections) == 1)
 		return TRUE;
 
-	msg = g_copy_strings (
+	msg = g_strconcat (
 		"The command `", command_name,
 		"' can not be performed with multiple selections", NULL);
 	gnumeric_notice (msg);
@@ -3188,9 +3188,9 @@ cellref_name (CellRef *cell_ref, Sheet *eval_sheet, int eval_col, int eval_row)
 		char *s;
 		
 		if (strchr (sheet->name, ' '))
-			s = g_copy_strings ("'", sheet->name, "'!", buffer, NULL);
+			s = g_strconcat ("'", sheet->name, "'!", buffer, NULL);
 		else
-			s = g_copy_strings (sheet->name, "!", buffer, NULL);
+			s = g_strconcat (sheet->name, "!", buffer, NULL);
 
 		return s;
 	}

@@ -454,12 +454,12 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 			while (*p && isdigit (*p))
 			       p++;
 			
-			v = g_copy_strings (buffer, p, NULL);
+			v = g_strconcat (buffer, p, NULL);
 		} else {
 			char *n = g_strdup (last->v.numstr.str->str);
 			n [last->v.numstr.pos] = 0;
 
-			v = g_copy_strings (n, buffer, NULL);
+			v = g_strconcat (n, buffer, NULL);
 			g_free (n);
 		}
 		cell_set_text (cell, v);

@@ -33,7 +33,7 @@ plugin_load (gchar *modfile)
 	data->handle = g_module_open (modfile, 0);
 	if (!data->handle) {
 		char *str;
-		str = g_copy_strings(_("unable to open module file: "), g_module_error(), NULL);
+		str = g_strconcat(_("unable to open module file: "), g_module_error(), NULL);
 		gnumeric_notice(str);
 		g_free(str);
 		g_free(data);
@@ -91,7 +91,7 @@ plugin_load_plugins_in_dir (char *directory)
 		if (strncmp (e->d_name + strlen (e->d_name) - 3, ".so", 3) == 0){
 			char *plugin_name;
 			
-			plugin_name = g_copy_strings (directory, e->d_name, NULL);
+			plugin_name = g_strconcat (directory, e->d_name, NULL);
 			plugin_load (plugin_name);
 			g_free (plugin_name);
 		}
@@ -109,7 +109,7 @@ plugins_init(void)
 		return;
 
 	/* Load the user plugins */
-	plugin_dir = g_copy_strings (home_dir ? home_dir : "", "/.gnumeric/plugins/", NULL);
+	plugin_dir = g_strconcat (home_dir ? home_dir : "", "/.gnumeric/plugins/", NULL);
 	plugin_load_plugins_in_dir (plugin_dir);
 	g_free (plugin_dir);
 

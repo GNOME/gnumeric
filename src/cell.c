@@ -1503,7 +1503,7 @@ cell_get_text (Cell *cell)
 		char *func, *ret;
 		
 		func = expr_decode_tree (cell->parsed_node, cell->sheet, cell->col->pos, cell->row->pos);
-		ret = g_copy_strings ("=", func, NULL);
+		ret = g_strconcat ("=", func, NULL);
 		g_free (func);
 
 		return ret;
@@ -1542,7 +1542,7 @@ cell_get_content (Cell *cell)
 		char *func, *ret;
 		
 		func = expr_decode_tree (cell->parsed_node, cell->sheet, cell->col->pos, cell->row->pos);
-		ret = g_copy_strings ("=", func, NULL);
+		ret = g_strconcat ("=", func, NULL);
 		g_free (func);
 
 		return ret;

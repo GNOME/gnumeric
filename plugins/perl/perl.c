@@ -32,7 +32,7 @@ init_plugin(PluginData *pd)
 
 	/* Initialize the Perl interpreter. */
 	arg = gnome_unconditional_datadir_file("gnumeric/perl/lib");
-	argv[1] = g_copy_strings("-I", arg, NULL);
+	argv[1] = g_strconcat("-I", arg, NULL);
 	g_free(arg);
 	argv[2] = gnome_unconditional_datadir_file("gnumeric/perl/startup.pl");
 	gnumeric_perl_interp = perl_alloc();
