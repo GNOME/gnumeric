@@ -28,6 +28,8 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
+#define PLUGIN (plugins_get_plugin_by_id ("Gnumeric_python"))
+
 /* Classes we define in Python code, and where we define them. */
 #define GNUMERIC_DEFS_MODULE "gnumeric_defs"
 #define BOOLEAN_CLASS    "Boolean"
@@ -797,6 +799,16 @@ cleanup:
 	return retval;
 }
 
+static void
+function_ref_notify (FunctionDefinition *fn_def, int refcount)
+{
+	if (refcount == 0) {
+		gnm_plugin_use_unref (PLUGIN);
+	} else {
+		gnm_plugin_use_ref (PLUGIN);
+	}
+}
+
 /**
  * register_function
  * @m        Dummy
@@ -843,11 +855,13 @@ register_function (PyObject *m, PyObject *py_args)
 		fndef = function_add_args (cat, g_strdup (name),
 					   g_strdup (args),
 					   g_strdup (named_args), help,
-					   marshal_func_args);
+					   marshal_func_args,
+					   function_ref_notify);
 	else
 		fndef = function_add_nodes (cat, g_strdup (name), NULL,
 					    g_strdup (named_args), help,
-					    marshal_func_nodes);
+					    marshal_func_nodes,
+					    function_ref_notify);
 
 	fdata = g_new (FuncData, 1);
 	fdata->fndef    = fndef;
@@ -893,22 +907,6 @@ initgnumeric (void)
 	if (GnumericError != NULL)
 		PyDict_SetItemString (d, (char *) "error", GnumericError);
 }
-
-/*
-gboolean
-plugin_can_deactivate_general (void)
-{
-	FuncData *fdata;
-	GList *l;
-
-	for (l = funclist; l != NULL; l = l->next) {
-		fdata = (FuncData *) l->data;
-		if (func_get_ref_count (fdata->fndef) != 0)
-			return FALSE;
-	}
-	return TRUE;
-}
-*/
 
 void
 plugin_cleanup_general (ErrorInfo **ret_error)
@@ -996,6 +994,4 @@ plugin_init_general (ErrorInfo **ret_error)
 		g_free (name);
 		g_free (dir);
 	}
-	/* Don't try to deactivate the plugin */
-	gnm_plugin_use_ref (plugins_get_plugin_by_id ("Gnumeric_python"));
 }

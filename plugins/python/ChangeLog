@@ -1,3 +1,12 @@
+2002-08-04  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* python.c 
+	(function_ref_notify): New
+	(register_function): Pass function_ref_notify as the last arg to
+	function_add_args/function_add_nodes.
+	(plugin_init_general): Removed temporary hack.
+	(plugin_can_deactivate_general): Removed (commented out) function.
+
 2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
