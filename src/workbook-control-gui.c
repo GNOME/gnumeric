@@ -4360,7 +4360,14 @@ cb_realize (GtkWindow *toplevel, WorkbookControlGUI *wbcg)
 	allocation = &GTK_WIDGET (toplevel)->allocation;
 	gtk_window_set_default_size (toplevel,
 		allocation->width, allocation->height);
-	wbcg_focus_cur_scg (wbcg);
+
+	/* if we are already initialized set the focus.  Without this loading a
+	 * multpage book sometimes leaves focus on the last book rather than
+	 * the current book.  Which leads to a slew of errors for keystrokes
+	 * until focus is corrected.
+	 */
+	if (wbcg->notebook)
+		wbcg_focus_cur_scg (wbcg);
 }
 
 static void

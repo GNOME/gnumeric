@@ -361,7 +361,6 @@ build_set (GnmExprList *list)
 			return NULL;
 		}
 
-	unregister_allocation (list);
 	return register_expr_allocation (gnm_expr_new_set (list));
 }
 

@@ -1050,8 +1050,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 		return handle_empty ((a != NULL) ? value_duplicate (a) : NULL, flags);
 	}
 	case GNM_EXPR_OP_SET:
-		g_warning ("Not implemented until 1.1");
-		break;
+		return value_new_error (pos, gnumeric_err_VALUE);
 
 	case GNM_EXPR_OP_RANGE_CTOR: {
 		CellRef a, b;
@@ -1061,8 +1060,15 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 		return value_new_cellrange (&a, &b, pos->eval.col, pos->eval.row);
 	}
 	case GNM_EXPR_OP_INTERSECT: {
-	};
+		CellRef a, b;
+		if (gnm_expr_extract_ref (&a, expr->binary.value_a, pos, flags) ||
+		    gnm_expr_extract_ref (&b, expr->binary.value_b, pos, flags))
+			return value_new_error (pos, gnumeric_err_REF);
+
+		if (eval_sheet (a.sheet, pos->sheet) == eval_sheet (b.sheet, pos->sheet))
+			return value_new_cellrange (&a, &b, pos->eval.col, pos->eval.row);
 	}
+	};
 
 	return value_new_error (pos, _("Unknown evaluation error"));
 }

@@ -1,5 +1,13 @@
 2002-09-26  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control-gui.c (cb_realize) : ok, the fix for
+	  loading multisheet workbooks breaks if you load them directly.
+	  Fix that.
+
+	* src/parser.y (build_set) : remove unneccessary deallocation.
+
+2002-09-26  Jody Goldberg <jody@gnome.org>
+
 	* src/parser.y : Make the error handling more consistent.
 
 	* src/expr.c (gnm_expr_list_as_string) : optimize.
