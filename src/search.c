@@ -215,6 +215,47 @@ match_is_word (SearchReplace *sr, const char *src,
 
 /* ------------------------------------------------------------------------- */
 
+typedef enum {
+	SC_Upper,    /* At least one letter.  No lower case.  */
+	SC_Capital,  /* Something Like: This */
+	SC_Other
+} SearchCase;
+
+static SearchCase
+inspect_case (const char *p, const char *pend)
+{
+	gboolean is_upper = TRUE;
+	gboolean is_capital = TRUE;
+	gboolean has_letter = FALSE;
+	gboolean expect_upper = TRUE;
+
+	for (; p < pend; p = g_utf8_next_char (p)) {
+		gunichar c = g_utf8_get_char (p);
+		if (g_unichar_isalpha (c)) {
+			has_letter = TRUE;
+			if (!g_unichar_isupper (c)) {
+				is_upper = FALSE;
+			}
+
+			if (expect_upper ? !g_unichar_isupper (c) : !g_unichar_islower (c)) {
+				is_capital = FALSE;
+			}
+			expect_upper = FALSE;
+		} else
+			expect_upper = TRUE;
+	}
+
+	if (has_letter) {
+		if (is_upper)
+			return SC_Upper;
+		if (is_capital)
+			return SC_Capital;
+	}
+
+	return SC_Other;
+}
+
+
 static char *
 calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 {
@@ -265,47 +306,33 @@ calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 	 * TheSearch -> TheReplace
 	 */
 	if (sr->preserve_case) {
-		gboolean is_upper = TRUE;
-		gboolean is_capital = TRUE;
-		gboolean has_letter = FALSE;
-		gboolean expect_upper = TRUE;
-		/* FIXME: check when we get a utf8 regexp.  */
-		const char *p = src + pm->rm_so;
-		const char *pend = src + pm->rm_eo;
+		SearchCase sc =
+			inspect_case (src + pm->rm_so, src + pm->rm_eo);
 
-		for (; p < pend; p = g_utf8_next_char (p)) {
-			gunichar c = g_utf8_get_char (p);
-			if (g_unichar_isalpha (c)) {
-				has_letter = TRUE;
-				if (!g_unichar_isupper (c)) {
-					is_upper = FALSE;
-				}
-
-				if (expect_upper ? !g_unichar_isupper (c) : !g_unichar_islower (c)) {
-					is_capital = FALSE;
-				}
-				expect_upper = FALSE;
-			} else
-				expect_upper = TRUE;
-		}
-		if (!has_letter)
-			is_upper = is_capital = FALSE;
-
-		if (is_upper) {
+		switch (sc) {
+		case SC_Upper:
+		{
 			char *newres = g_utf8_strup (res, -1);
 			g_free (res);
 			res = newres;
-		} else if (is_capital) {
-			/* FIXME: not yet UTF-8 safe.  */
-			gboolean up = TRUE;
-			unsigned char *p = (unsigned char *)res;
-			for (; *p; p++) {
-				if (isalpha (*p)) {
-					*p = up ? toupper (*p) : tolower (*p);
-					up = FALSE;
-				} else
-					up = TRUE;
-			}
+			break;
+		}
+
+		case SC_Capital:
+		{
+			char *newres = gnumeric_utf8_strcapital (res, -1);
+			g_free (res);
+			res = newres;
+			break;
+		}
+
+		case SC_Other:
+			break;
+
+#ifndef DEBUG_SWITCH_ENUM
+		default:
+			g_assert_not_reached ();
+#endif
 		}
 	}
 

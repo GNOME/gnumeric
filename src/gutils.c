@@ -689,6 +689,57 @@ yngnum (int n, gnum_float x)
 #endif
 
 /* ------------------------------------------------------------------------- */
+/**
+ * gnumeric_utf8_strcapital:
+ * @p: pointer to utf-8 string
+ * @len: length in bytes, or -1.
+ *
+ * Similar to g_utf8_strup and g_utf8_strup, except that this function
+ * creates a string "Very Much Like: This, One".
+ *
+ * Return value: newly allocated string.
+ */
+
+char *
+gnumeric_utf8_strcapital (const char *p, ssize_t len)
+{
+	const char *pend = (len < 0 ? NULL : p + len);
+	GString *res = g_string_sized_new (len < 0 ? 1 : len + 1);
+	gboolean up = TRUE;
+	char *result;
+
+	/*
+	 * This does a simple character-by-character mapping and probably
+	 * is not linguistically correct.
+	 */
+
+	for (; (len < 0 || p < pend) && *p; p = g_utf8_next_char (p)) {
+		gunichar c = g_utf8_get_char (p);
+
+		if (g_unichar_isalpha (c)) {
+			if (up ? g_unichar_isupper (c) : g_unichar_islower (c))
+				/* Correct case -- keep the char.  */
+				g_string_append_unichar (res, c);
+			else {
+				char *tmp = up
+					? g_utf8_strup (p, 1)
+					: g_utf8_strdown (p, 1);
+				g_string_append (res, tmp);
+				g_free (tmp);
+			}
+			up = FALSE;
+		} else {
+			g_string_append_unichar (res, c);
+			up = TRUE;
+		}
+	}
+
+	result = res->str;
+	g_string_free (res, FALSE);
+	return result;	
+}
+
+/* ------------------------------------------------------------------------- */
 
 #undef DEBUG_CHUNK_ALLOCATOR
 

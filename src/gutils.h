@@ -94,6 +94,8 @@ void      gnumeric_set_le_double (void *p, double d);
 
 char *    gnumeric_strescape (const char *string);
 
+char *    gnumeric_utf8_strcapital (const char *p, ssize_t len);
+
 gnm_mem_chunk *gnm_mem_chunk_new (const char *, size_t, size_t);
 void gnm_mem_chunk_destroy (gnm_mem_chunk *, gboolean);
 gpointer gnm_mem_chunk_alloc (gnm_mem_chunk *);

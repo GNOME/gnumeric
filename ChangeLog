@@ -1,7 +1,10 @@
 2002-07-18  Morten Welinder  <terra@diku.dk>
 
-	* src/search.c (calculate_replacement): One step closer to utf-8
-	safety.
+	* src/search.c (calculate_replacement): Make utf-8 safe at last.
+	(inspect_case): New function split out from calculate_replacement.
+
+	* src/gutils.c (gnumeric_utf8_strcapital): New function (that
+	should really be in glib).
 
 	* src/mathfunc.c (random_01): Use unsigned char array, not
 	unsigned int.
