@@ -186,6 +186,12 @@ dialog_delete_cells (WorkbookControlGUI *wbcg)
 		"destroy",
 		G_CALLBACK (delete_cell_destroy), state);
 
+	gtk_toggle_button_set_active 
+		(GTK_TOGGLE_BUTTON (glade_xml_get_widget 
+				    (state->gui, cols < rows 
+				     ? "radio_0" : "radio_1")), 
+		 TRUE);
+
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       DELETE_CELL_DIALOG_KEY);

@@ -6,6 +6,9 @@ Andreas:
 	* Add default header/footer font selector to preference dialog.
 	http://bugzilla.gnome.org/show_bug.cgi?id=125361
 	* Fix printing from Page Setup dialog
+	http://bugzilla.gnome.org/show_bug.cgi?id=125422
+	* Upon deleting of cells try to guess whether to move cells up 
+          or to the left
 
 Jody:
 	* More renaming
