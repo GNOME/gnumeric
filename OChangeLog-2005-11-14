@@ -1,5 +1,8 @@
 2003-12-18  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control-gui.c (wbcg_scroll_wheel_support_cb) : support
+	  scroll wheel zoom, and horizontal scrollwheels.
+
 	* src/xml-io.c (xml_workbook_read) : fix xml import of manual recalc
 	  flag.
 

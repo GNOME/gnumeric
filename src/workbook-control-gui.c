@@ -1225,7 +1225,7 @@ cb_change_zoom (GtkWidget *caller, char *new_zoom, WorkbookControlGUI *wbcg)
 	factor = strtol (new_zoom, &end, 10);
 	if (new_zoom != end && errno != ERANGE && factor == (gnm_float)factor)
 		/* The GSList of sheet passed to cmd_zoom will be freed by cmd_zoom,
-		 * and the sheet will fore an updat eof the zoom combo to keep the
+		 * and the sheet will force an update of the zoom combo to keep the
 		 * display consistent
 		 */
 		cmd_zoom (WORKBOOK_CONTROL (wbcg), g_slist_append (NULL, sheet),
@@ -4613,19 +4613,42 @@ wbcg_scroll_wheel_support_cb (GtkWidget *ignored, GdkEventScroll *event,
 {
 	/* scroll always operates on pane 0 */
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
+	Sheet	 	*sheet = sc_sheet (SHEET_CONTROL (scg));
 	GnmCanvas *gcanvas = scg_pane (scg, 0);
+	gboolean go_horiz = (event->direction == GDK_SCROLL_LEFT ||
+			     event->direction == GDK_SCROLL_RIGHT);
+	gboolean go_back = (event->direction == GDK_SCROLL_UP ||
+			    event->direction == GDK_SCROLL_LEFT);
 
 	if (!GTK_WIDGET_REALIZED (ignored))
 		return FALSE;
 
-	/* Roll Up or Left */
-	/* Roll Down or Right */
-	if ((event->state & GDK_MOD1_MASK)) {
+	if ((event->state & GDK_MOD1_MASK))
+		go_horiz = !go_horiz;
+
+	if ((event->state & GDK_CONTROL_MASK)) {	/* zoom */
+		int zoom = (int)(sheet->last_zoom_factor_used * 100. + .5) - 10;
+
+		if ((zoom % 15) != 0) {
+			zoom = 15 * (int)(zoom/15);
+			if (go_back)
+				zoom += 15;
+		} else {
+			if (go_back)
+				zoom += 15;
+			else
+				zoom -= 15;
+		}
+
+		cmd_zoom (WORKBOOK_CONTROL (wbcg), g_slist_append (NULL, sheet),
+			  (double) (zoom + 10) / 100);
+	} else if ((event->state & GDK_SHIFT_MASK)) {
+		/* XL sort of shows/hides groups */
+	} else if (go_horiz) {
 		int col = (gcanvas->last_full.col - gcanvas->first.col) / 4;
 		if (col < 1)
 			col = 1;
-		if (event->direction == GDK_SCROLL_UP ||
-		    event->direction == GDK_SCROLL_LEFT)
+		if (go_back)
 			col = gcanvas->first.col - col;
 		else
 			col = gcanvas->first.col + col;
@@ -4634,8 +4657,7 @@ wbcg_scroll_wheel_support_cb (GtkWidget *ignored, GdkEventScroll *event,
 		int row = (gcanvas->last_full.row - gcanvas->first.row) / 4;
 		if (row < 1)
 			row = 1;
-		if (event->direction == GDK_SCROLL_UP ||
-		    event->direction == GDK_SCROLL_LEFT)
+		if (go_back)
 			row = gcanvas->first.row - row;
 		else
 			row = gcanvas->first.row + row;
