@@ -421,8 +421,12 @@ cb_free_keyed_dialog_context (KeyedDialogContext *ctxt)
 	ctxt->freed = TRUE;
 
 	g_return_if_fail (g_object_get_data (G_OBJECT (ctxt->wbcg), ctxt->key));
+	/*
+	 * One of these causes a recursive call which will do nothing due to
+	 * ->freed.
+	 */
 	g_object_set_data (G_OBJECT (ctxt->wbcg), ctxt->key, NULL);
-	g_object_set_data (G_OBJECT (ctxt->wbcg), "KeyedDialog", NULL);
+	g_object_set_data (G_OBJECT (ctxt->dialog), "KeyedDialog", NULL);
 	g_free (ctxt);
 }
 

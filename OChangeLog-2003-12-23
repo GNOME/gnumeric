@@ -1,5 +1,8 @@
 2003-05-21  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-util.c (cb_free_keyed_dialog_context): Set the
+	KeyedDialog property on the right object.
+
 	* src/style-border.h (struct _StyleBorder): Add gc_screen field to
 	track the screen that gc belongs to.
 
