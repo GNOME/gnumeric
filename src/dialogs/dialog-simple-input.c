@@ -84,6 +84,8 @@ dialog_get_sheet_name (Workbook *wb, const char *current)
 
 	entry = glade_xml_get_widget (gui, "entry");
 	gtk_entry_set_text (GTK_ENTRY (entry), current);
+	gtk_editable_select_region(GTK_EDITABLE (entry), 0, -1);
+
 	gnome_dialog_editable_enters (dialog, GTK_EDITABLE (entry));	
 
 	gnome_dialog_set_parent (dialog, GTK_WINDOW (wb->toplevel));

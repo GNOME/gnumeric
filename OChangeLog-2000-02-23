@@ -9,6 +9,9 @@
 
 2000-01-07  Mike Kestner <mkestner@enteract.com>
 
+	* src/dialogs/dialog-simple-input.c (dialog_get_sheet_name) :
+	  Preselect the name of the sheet in the dialog.
+
 	* src/workbook.c (sheet_action_rename_sheet) : Enable rename from the
 	  popup menu associated with sheet tabs.
 
