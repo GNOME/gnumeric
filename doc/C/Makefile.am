@@ -68,6 +68,8 @@ entities =  \
      worksheets.xml
 #	functions.xml	# added in gnumeric-doc.make
 
+figdir = figures
+
 include $(top_srcdir)/doc/gnumeric-doc.make
 
 EXTRA_DIST += gnumeric.1 ssconvert.1
