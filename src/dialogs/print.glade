@@ -147,7 +147,7 @@
 		<yfill>False</yfill>
 	      </child>
 	      <can_focus>True</can_focus>
-	      <label>Vertical</label>
+	      <label>Portrait</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>orient-group</group>
@@ -171,7 +171,7 @@
 		<yfill>False</yfill>
 	      </child>
 	      <can_focus>True</can_focus>
-	      <label>Horizontal</label>
+	      <label>Landscape</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>orient-group</group>
@@ -1069,22 +1069,61 @@
 	  </widget>
 
 	  <widget>
-	    <class>GtkEntry</class>
-	    <name>header-entry</name>
+	    <class>GtkHBox</class>
+	    <name>hbox19</name>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
 	      <fill>False</fill>
 	    </child>
-	    <can_focus>True</can_focus>
-	    <editable>True</editable>
-	    <text_visible>True</text_visible>
-	    <text_max_length>0</text_max_length>
-	    <text></text>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
+
+	    <widget>
+	      <class>GtkCombo</class>
+	      <name>header-combo</name>
+	      <border_width>2</border_width>
+	      <child>
+		<padding>0</padding>
+		<expand>True</expand>
+		<fill>True</fill>
+	      </child>
+	      <case_sensitive>False</case_sensitive>
+	      <use_arrows>True</use_arrows>
+	      <use_arrows_always>False</use_arrows_always>
+	      <items></items>
+	    </widget>
+
+	    <widget>
+	      <class>GtkButton</class>
+	      <name>custom-header-button</name>
+	      <border_width>2</border_width>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	      <visible>False</visible>
+	      <can_focus>True</can_focus>
+	      <label>Custom... </label>
+	    </widget>
 	  </widget>
 
 	  <widget>
-	    <class>Placeholder</class>
+	    <class>GtkLabel</class>
+	    <name>label33</name>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	    <label></label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
 	  </widget>
 
 	  <widget>
@@ -1105,18 +1144,44 @@
 	  </widget>
 
 	  <widget>
-	    <class>GtkEntry</class>
-	    <name>footer-entry</name>
+	    <class>GtkHBox</class>
+	    <name>hbox18</name>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
 	      <fill>False</fill>
 	    </child>
-	    <can_focus>True</can_focus>
-	    <editable>True</editable>
-	    <text_visible>True</text_visible>
-	    <text_max_length>0</text_max_length>
-	    <text></text>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
+
+	    <widget>
+	      <class>GtkCombo</class>
+	      <name>footer-combo</name>
+	      <border_width>2</border_width>
+	      <child>
+		<padding>0</padding>
+		<expand>True</expand>
+		<fill>True</fill>
+	      </child>
+	      <case_sensitive>False</case_sensitive>
+	      <use_arrows>True</use_arrows>
+	      <use_arrows_always>False</use_arrows_always>
+	      <items></items>
+	    </widget>
+
+	    <widget>
+	      <class>GtkButton</class>
+	      <name>custom-footer-combo</name>
+	      <border_width>2</border_width>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	      <visible>False</visible>
+	      <can_focus>True</can_focus>
+	      <label>Custom...</label>
+	    </widget>
 	  </widget>
 
 	  <widget>

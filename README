@@ -20,6 +20,19 @@ probably will want to read the doc/Design file.  I have scribbled my
 ideas on how Gnumeric should be developed in the future in the file
 doc/Future-Roadmap.  
 
+Requirements
+------------
+
+You need:
+
+	gnome-libs-1.0
+	gnome-print-0.1.2
+	libxml-1.0
+	libglade-0.2
+
+Optionally:
+	bonobo-0.1
+
 Notes regarding plugins
 -----------------------
 

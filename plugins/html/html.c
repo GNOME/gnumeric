@@ -133,7 +133,7 @@ html_write_cell40 (FILE *fp, Cell *cell)
 			 r, g, b);
 	if (style->font->is_bold)
 		fprintf (fp, "<B>");
-	if (style->font->italic)
+	if (style->font->is_italic)
 		fprintf (fp, "<I>");
 	html_fprintf (fp, cell->text->str);
 	if (style->font->is_bold)
@@ -156,7 +156,6 @@ html_write_wb_html32 (Workbook *wb, const char *filename)
 	Sheet *sheet;
 	Cell *cell;
 	int row, col;
-	unsigned char r,g,b;
 
 	g_return_val_if_fail (wb != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
@@ -285,64 +284,6 @@ html_get_string (char *s, int *flags)
 }
 
 /*
- * change the font of a cell to bold
- */
-static void
-html_cell_bold (Cell *cell)
-{
-	char *old_name, *new_name;
-	Style *style;
-	char *name[] = { "bold", "demibold", "extrabold", "heavy", NULL };
-	int i;
-	StyleFont *sf;
-
-	if (!cell)
-		return;
-	style = cell->style;
-	if (!style)
-		return;
-	for (i = 0; name[i]; i++) {
-		old_name = style->font->font_name;
-		new_name = font_change_component (old_name, 2, name[i]);
-		sf = style_font_new_simple (new_name, style->font->units);
-		g_free (new_name);
-		if (sf) {
-			cell_set_font_from_style (cell, sf);
-			break;
-		}
-	}
-}
-
-/*
- * change the font of a cell to italic
- */
-static void
-html_cell_italic (Cell *cell)
-{
-	char *old_name, *new_name;
-	Style *style;
-	char *name[] = { "i", "o", NULL };
-	int i;
-	StyleFont *sf;
-
-	if (!cell)
-		return;
-	style = cell->style;
-	if (!style)
-		return;
-	for (i = 0; name[i]; i++) {
-		old_name = style->font->font_name;
-		new_name = font_change_component (old_name, 3, name[i]);
-		sf = style_font_new_simple (new_name, style->font->units);
-		g_free (new_name);
-		if (sf) {
-			cell_set_font_from_style (cell, sf);
-			break;
-		}
-	}
-}
-
-/*
  * try at least to read back what we have written before..
  */
 Workbook *
@@ -428,10 +369,10 @@ html_read (const char *filename)
 						 */
 						if (cell->style && cell->style->font && flags) {
 							if (flags & HTML_BOLD) {
-								html_cell_bold (cell);
+/*								html_cell_bold (cell); */
 							}
 							if (flags & HTML_ITALIC) {
-								html_cell_italic (cell);
+/*								html_cell_italic (cell); */
 							}
 							if (flags & HTML_RIGHT) {
 								cell_set_halign (cell, HALIGN_RIGHT);

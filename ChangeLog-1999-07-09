@@ -1,5 +1,8 @@
 1999-07-07  Miguel de Icaza  <miguel@gnu.org>
 
+	* configure.in (EXTRA_GNOME_CFLAGS): Assemble all the flags we
+	will be linking with here.X
+
 	* src/Gnumeric.idl: Small typo fixes.
 
 	* Killed liblgade from here, it is now a requirement.

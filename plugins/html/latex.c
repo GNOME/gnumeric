@@ -118,14 +118,14 @@ html_write_wb_latex (Workbook *wb, const char *filename)
 							fprintf (fp, "\\centering ");	/* doesn't work */
 						if (style->valign & VALIGN_TOP)
 							;
-						if (style->font->hint_is_bold)
+						if (style->font->is_bold)
 							fprintf (fp, "{\\bf ");
-						if (style->font->hint_is_italic)
+						if (style->font->is_italic)
 							fprintf (fp, "{\\em ");
 						latex_fprintf (fp, cell->text->str);
-						if (style->font->hint_is_bold)
+						if (style->font->is_bold)
 							fprintf (fp, "}");
-						if (style->font->hint_is_italic)
+						if (style->font->is_italic)
 							fprintf (fp, "}");
 						/* if (style->halign & HALIGN_CENTER) */
 							/* fprintf (fp, "\\hfill"); */

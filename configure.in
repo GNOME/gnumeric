@@ -125,20 +125,38 @@ dnl ******************************
 AM_PATH_BONOBO(0.1.0, [
 	AC_DEFINE(ENABLE_BONOBO)
 	have_bonobo=true
+	bonobo=bonobo
 ],[
 	have_bonobo=false
+	bonobo=
 ])
 AM_CONDITIONAL(BONOBO, $have_bonobo)
 
 dnl ******************************
 dnl GnomePrint checking
 dnl ******************************
-GNOME_PRINT_LIBS=`gnome-config --libs print`
-GNOME_PRINT_CFLAGS=`gnome-config --cflags print`
-AC_SUBST(GNOME_PRINT_LIBS)
-AC_SUBST(GNOME_PRINT_CFLAGS)
+AC_MSG_CHECKING(For GnomePrint libraries)
+if gnome-config --libs print >& /dev/null; then 
+    AC_MSG_RESULT(found)
+else
+    AC_MSG_ERROR(Did not find GnomePrint installed)
+fi
 
-AM_PATH_LIBGLADE
+dnl ******************************
+dnl LibGlade checking
+dnl ******************************
+AC_MSG_CHECKING(For Glade libraries)
+if gnome-config --libs libglade >& /dev/null; then 
+    AC_MSG_RESULT(found)
+else
+    AC_MSG_ERROR(Did not find libGlade installed)
+fi
+
+EXTRA_GNOME_LIBS=`gnome-config --libs gnomeui print libglade $bonobo`
+EXTRA_GNOME_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo`
+AC_SUBST(EXTRA_GNOME_LIBS)
+AC_SUBST(EXTRA_GNOME_CFLAGS)
+
 
 AC_OUTPUT([
 gnumeric.spec

@@ -46,9 +46,7 @@ INCLUDES = 						\
         -DGNUMERIC_GLADEDIR=\""$(gladedir)"\"           \
 	-DGNUMERIC_ICONDIR=\""$(iconsdir)"\"		\
 	-I$(includedir)				 	\
-	-I$(top_srcdir)/libglade			\
-	$(GNOME_PRINT_CFLAGS)				\
-	$(GNOME_INCLUDEDIR)				\
+	$(EXTRA_GNOME_CFLAGS)				\
 	$(GUILE_INCS)
 
 GNUMERIC_BASE_SOURCES =				\
@@ -214,12 +212,9 @@ gnumeric_bonobo_SOURCES =			\
 gnumeric_LDFLAGS = -export-dynamic
 
 gnumeric_LDADD = 				\
-	$(GNOME_PRINT_LIBS)			\
 	../plugins/excel/libexcel.a		\
 	../plugins/excel/libole2/libole2.a 	\
-	../libglade/glade/libglade.a		\
-	$(GNOME_LIBDIR) 			\
-	$(GNOMEUI_LIBS)				\
+	$(EXTRA_GNOME_LIBS)			\
 	$(GNOME_XML_LIB) 			\
 	$(GUILE_LIBS)				\
 	$(INTLLIBS)
@@ -227,9 +222,7 @@ gnumeric_LDADD = 				\
 gnumeric_bonobo_LDADD =				\
 	../plugins/excel/libexcel.a		\
 	../plugins/excel/libole2/libole2.a 	\
-	../libglade/glade/libglade.a		\
-	$(BONOBO_LIBS)				\
-	$(GNOME_PRINT_LIBS)			\
+	$(EXTRA_GNOME_LIBS)			\
 	$(GNOME_XML_LIB) 			\
 	$(GUILE_LIBS)				\
 	$(INTLLIBS)
