@@ -68,7 +68,7 @@ $(docname).sgml: $(sgml_ents)
 $(docname)/index.html: $(srcdir)/$(docname).sgml
 	-srcdir=`cd $(srcdir) && pwd`;			\
 	if test "$(HAVE_JW)" = 'yes' ; then 		\
-		jw -c /etc/sgml/catalog $$srcdir/$(docname).sgml -o $$srcdir/$(docname); \
+		jw -V '%use-id-as-filename%' -c /etc/sgml/catalog $$srcdir/$(docname).sgml -o $$srcdir/$(docname); \
 	else 						\
 		db2html $$srcdir/$(docname).sgml;	\
 	 fi

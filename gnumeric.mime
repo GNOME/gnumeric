@@ -4,5 +4,8 @@ application/x-gnumeric
 application/vnd.ms-excel
 	ext: xls xlw 
 
-application/x-applix
+application/x-applix-spreadsheet
 	ext: as 
+
+application/vnd.lotus-1-2-3
+	ext: 123 wk4 wk3 wk1

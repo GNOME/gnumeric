@@ -7,3 +7,23 @@ application/vnd.ms-excel:
 	open=gnumeric %f
 	view=gnumeric %f
 	icon-filename=@icondir@/gnome-application-x-xls.png
+
+application/vnd.lotus-1-2-3:
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@icondir@/gnome-application-vnd.lotus-1-2-3.png
+
+application/x-applix-spreadsheet
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@icondir@/gnome-application-x-applix-spreadsheet.png
+
+application/x-oleo
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@icondir@/gnome-application-x-generic-spreadsheet.png
+
+application/x-xbase
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@icondir@/gnome-application-x-generic-spreadsheet.png

@@ -1,11 +1,17 @@
 Jody:
 	* Recompute spans after reading from applix.
+	* Fix the guia2 prop bag import warnings
+	* Improve lotus importer
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=86338
 	* Match cummulative time
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=87106
 	* Fix typo that broke workbook-view attribute import.
+
+J.H.M. Dassen (Ray):
+	* Fix doc build.
+	* Register for more mime types
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.8

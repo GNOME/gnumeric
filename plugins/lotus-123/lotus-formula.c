@@ -187,8 +187,8 @@ parse_list_free (ExprList **list)
 static gint16
 sign_extend (guint16 num)
 {
-	gint16 i = (num << 2);
-	return (i / 4);
+	gint16 i = (num << 3);
+	return (i / 8);
 }
 
 /* FIXME: dodgy stuff, hacked for now */

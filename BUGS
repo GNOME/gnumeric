@@ -8,6 +8,8 @@ Release Critical
 ----------------
 
     - clipboard
+    - range sel for expressions that start with +
+    - 'discard' for invalid expressions enters text as string
 
 Todo
 ----
