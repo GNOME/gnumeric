@@ -1,3 +1,8 @@
+2002-12-27  Morten Welinder  <terra@diku.dk>
+
+	* src/commands.c (truncate_undo_info): Handle undo_max_number==0
+	also.
+
 2002-12-26  Morten Welinder  <terra@diku.dk>
 
 	* src/xml-io.c (xml_workbook_read): Don't call textdomain.

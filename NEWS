@@ -8,6 +8,9 @@ Jody:
 Jon Kåre:
 	* Open DB connections read only
 
+Morten:
+	* Fix crash when no undo information is wanted.
+
 Nicolas Peninguy:
 	* Move the generation of the standard formats into StyleFormat
 

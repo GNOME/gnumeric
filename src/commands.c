@@ -636,7 +636,10 @@ truncate_undo_info (Workbook *wb)
 		if (ok_count >= max_num || (size > size_left && ok_count >= 1)) {
 			/* Current item is too big; truncate list here.  */
 			command_list_release (l);
-			prev->next = NULL;
+			if (prev)
+				prev->next = NULL;
+			else
+				wb->undo_commands = NULL;
 #ifdef DEBUG_TRUNCATE_UNDO
 			fprintf (stderr, "[trunc]\n");
 #endif
