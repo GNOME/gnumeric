@@ -353,6 +353,7 @@ plugin_service_file_opener_probe_func (FileOpener const *fo, const gchar *file_n
 			g_return_val_if_fail (service_file_opener->plugin_func_file_probe != NULL, FALSE);
 			return service_file_opener->plugin_func_file_probe (fo, service, file_name);
 		} else {
+			error_info_print (ignored_error);
 			error_info_free (ignored_error);
 			return FALSE;
 		}

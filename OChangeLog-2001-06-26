@@ -1,3 +1,8 @@
+2001-03-29  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/plugin-service.c (plugin_service_file_opener_probe_func):
+	Print an error on terminal before ignoring it.
+
 2001-03-28  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* sheet.c
