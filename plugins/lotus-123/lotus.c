@@ -27,6 +27,7 @@
 #include "parse-util.h"
 #include "value.h"
 #include "cell.h"
+#include "gutils.h"
 
 #include "lotus.h"
 #include "lotus-types.h"
@@ -34,35 +35,6 @@
 
 #define LOTUS_DEBUG 0
 
-#if G_BYTE_ORDER != G_LITTLE_ENDIAN
-
-/* These really should be in glib */
-
-double
-lotus_getdouble (const guint8 *p)
-{
-	double d;
-	int i;
-	guint8 *t = (guint8 *)&d;
-	int sd = sizeof (d);
-
-	for (i = 0; i < sd; i++)
-		t[i] = p[sd - 1 - i];
-
-	return d;
-}
-
-void
-lotus_setdouble (guint8 *p, double d)
-{
-	int i;
-	guint8 *t = (guint8 *)&d;
-	int sd = sizeof (d);
-
-	for (i = 0; i < sd; i++)
-		p[sd - 1 - i] = t[i];
-}
-#endif
 
 char *lotus_special_formats [16] = {
 	"",
@@ -272,7 +244,7 @@ read_workbook (IOContext *context, Workbook *wb, FILE *f)
 		}
 		case LOTUS_NUMBER:
 		{
-			float_t num = LOTUS_GETDOUBLE (r->data + 5);
+			float_t num = gnumeric_get_le_double (r->data + 5);
 			v = value_new_float (num);
 			i = GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
 		        j = GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
@@ -306,7 +278,7 @@ read_workbook (IOContext *context, Workbook *wb, FILE *f)
 			fmt = *(guint8 *)(r->data);
 			f = lotus_parse_formula (sheet, i, j, r->data + 15, /* FIXME: unsafe */
 						 GINT16_FROM_LE (*(gint16 *)(r->data + 13)));
-			v = value_new_float (LOTUS_GETDOUBLE (r->data + 5));
+			v = value_new_float (gnumeric_get_le_double (r->data + 5));
 			cell = insert_value (sheet, i, j, v);
 			if (cell) {
 				cell_set_expr (cell, f, NULL);

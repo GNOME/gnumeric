@@ -1,3 +1,7 @@
+2000-10-30  Morten Welinder  <terra@diku.dk>
+
+	* *.c: use gutils.c for accessing i386 doubles.
+
 2000-10-29  Jody Goldberg <jgoldberg@home.com>
 
 	* boot.c : Adjust to the signature changes for reading views

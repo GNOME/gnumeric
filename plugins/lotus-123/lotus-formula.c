@@ -16,6 +16,7 @@
 #include "expr.h"
 #include "func.h"
 #include "value.h"
+#include "gutils.h"
 
 #include "lotus.h"
 #include "lotus-types.h"
@@ -306,7 +307,7 @@ lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 	for (i = 0; (i < len) & !done;) {
 		switch (data[i]) {
 		case LOTUS_FORMULA_CONSTANT:
-			v = value_new_float (LOTUS_GETDOUBLE (data + i + 1));
+			v = value_new_float (gnumeric_get_le_double (data + i + 1));
 			parse_list_push_raw (&stack, v);
 			i += 9;
 			break;
