@@ -2756,7 +2756,6 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	 *   cell is selected? May be, but then we can't first make a style,
 	 *   then move around and apply it to different cells.
 	 */
-	gtk_window_set_modal (GTK_WINDOW(dialog), TRUE);
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	
 	gnumeric_dialog_show (state->wbcg, GNOME_DIALOG (dialog), FALSE, TRUE);
