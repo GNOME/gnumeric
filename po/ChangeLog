@@ -1,3 +1,8 @@
+2001-06-06  Almer S. Tigelaar  <almer@gnome.org>
+
+	* POTFILES.in: Added dialog-consolidate.c and
+	consolidate.glade
+
 2001-06-06  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* POTFILES.in: Removed import.glade.
