@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: gnumeric gnumeric-1-2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-12-28 21:53-0500\n"
-"PO-Revision-Date: 2004-01-04 12:38:13-0500\n"
+"PO-Revision-Date: 2004-01-14 07:38:13-0500\n"
 "Last-Translator: Alastair McKinstry <mckinstry@computer.org>\n"
 "Language-Team: Gaeilge <ga@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -11565,7 +11565,7 @@ msgstr "Cóip"
 
 #: src/GNOME_Gnumeric.xml.h:52
 msgid "Copy the selection"
-msgstr ""
+msgstr "Cóipeáil an Roghnú"
 
 #: src/GNOME_Gnumeric.xml.h:53 src/workbook-control-gui.c:4006
 msgid "Copy the selection to the clipboard"
@@ -11667,7 +11667,7 @@ msgstr "Gearr"
 
 #: src/GNOME_Gnumeric.xml.h:76
 msgid "Cut the selection"
-msgstr ""
+msgstr "Gearr an roghnú"
 
 #: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:4003
 msgid "Cut the selection to the clipboard"
@@ -12071,7 +12071,7 @@ msgstr "Greamhaigh"
 
 #: src/GNOME_Gnumeric.xml.h:171
 msgid "Paste the clipboard"
-msgstr ""
+msgstr "Greamaigh an ghearrthaisce"
 
 #: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:4009
 msgid "Paste the contents of the clipboard"
@@ -12114,7 +12114,7 @@ msgstr "Réamhthaispeántas"
 #: src/print.c:1318 src/workbook-control-gui.c:3342
 #: src/workbook-control-gui.c:3997
 msgid "Print preview"
-msgstr ""
+msgstr "Réamhamharc priontála"
 
 #: src/GNOME_Gnumeric.xml.h:182 src/GNOME_Gnumeric_Component.xml.h:7
 msgid "Print the current file"
@@ -12426,7 +12426,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:4270
 msgid "Undo the last action"
-msgstr ""
+msgstr "Cealaigh an gníomh"
 
 #: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3767
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
@@ -12516,7 +12516,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3380
 msgid "_Contents"
-msgstr ""
+msgstr "_Ábhar"
 
 #: src/GNOME_Gnumeric.xml.h:278 src/item-cursor.c:1021
 #: src/sheet-control-gui.c:1488
@@ -12808,7 +12808,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:345 src/workbook-control-gui.c:1574
 msgid "_Undo"
-msgstr ""
+msgstr "_Cealaigh"
 
 #: src/GNOME_Gnumeric.xml.h:346 src/workbook-control-gui.c:3880
 msgid "_Ungroup..."
@@ -13492,7 +13492,7 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:644
 msgid "Details"
-msgstr ""
+msgstr "Sonraí"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:677
 msgid "Bounds"
@@ -22039,7 +22039,7 @@ msgstr ""
 #: src/tools/solver/reports-write.c:676 src/tools/solver/reports-write.c:679
 #: src/tools/solver/reports-write.c:683
 msgid "Unknown"
-msgstr ""
+msgstr "Gan aithint"
 
 #: src/tools/solver/reports-write.c:688
 #, c-format
@@ -22438,31 +22438,31 @@ msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:75
 msgid "Arabic"
-msgstr ""
+msgstr "Araibis"
 
 #: src/widgets/widget-charmap-selector.c:76
 msgid "Baltic"
-msgstr ""
+msgstr "Baltach"
 
 #: src/widgets/widget-charmap-selector.c:77
 msgid "Central European"
-msgstr ""
+msgstr "Lár-Eorpach"
 
 #: src/widgets/widget-charmap-selector.c:78
 msgid "Chinese"
-msgstr ""
+msgstr "Sínis"
 
 #: src/widgets/widget-charmap-selector.c:79
 msgid "Cyrillic"
-msgstr ""
+msgstr "Cirilleach"
 
 #: src/widgets/widget-charmap-selector.c:80
 msgid "Greek"
-msgstr ""
+msgstr "Gréigis"
 
 #: src/widgets/widget-charmap-selector.c:81
 msgid "Hebrew"
-msgstr ""
+msgstr "Eabhrais"
 
 #: src/widgets/widget-charmap-selector.c:82
 msgid "Indian"
@@ -22470,15 +22470,15 @@ msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:83
 msgid "Japanese"
-msgstr ""
+msgstr "Seapáinis"
 
 #: src/widgets/widget-charmap-selector.c:84
 msgid "Korean"
-msgstr ""
+msgstr "Cóiréis"
 
 #: src/widgets/widget-charmap-selector.c:85
 msgid "Turkish"
-msgstr ""
+msgstr "Tuircis"
 
 #: src/widgets/widget-charmap-selector.c:86
 msgid "Unicode"
@@ -22486,11 +22486,11 @@ msgstr "Unicód"
 
 #: src/widgets/widget-charmap-selector.c:87
 msgid "Vietnamese"
-msgstr ""
+msgstr "Vítneaimis"
 
 #: src/widgets/widget-charmap-selector.c:88
 msgid "Western"
-msgstr ""
+msgstr "Iartharach"
 
 #: src/widgets/widget-charmap-selector.c:89
 #: src/widgets/widget-locale-selector.c:76
@@ -23773,7 +23773,7 @@ msgstr ""
 
 #: src/workbook-control-gui.c:5441 src/workbook-control-gui.c:5452
 msgid "_Accept"
-msgstr ""
+msgstr "Gl_ac leis"
 
 #: src/workbook-control.c:233
 msgid "Define Name"
@@ -24452,7 +24452,6 @@ msgstr "15"
 
 msgid "200"
 msgstr "200"
-
 
 msgid "Insert an image..."
 msgstr ""
