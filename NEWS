@@ -11,7 +11,8 @@ Jukka:
 	  VDB().
 	* New statistical functions (integrated from the R 1.5.1 and
 	  GSL 1.1.1):
-	  BERNOULLI(), GEOMDIST().
+	  BERNOULLI(), CAUCHY(), GEOMDIST(), LANDAU(), LOGISTIC(),
+	  PARETO().
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.6

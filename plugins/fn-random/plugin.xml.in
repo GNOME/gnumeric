@@ -12,15 +12,11 @@
 			<_category>Random</_category>
 			<functions>
 				<function name="pdfbinom"/>
-				<function name="pdfcauchy"/>
 				<function name="pdfexppow"/>
 				<function name="pdffdist"/>
-				<function name="pdflandau"/>
 				<function name="pdflaplace"/>
-				<function name="pdflogistic"/>
 				<function name="pdflognorm"/>
 				<function name="pdfnegbinom"/>
-				<function name="pdfpareto"/>
 				<function name="pdfpoisson"/>
 				<function name="pdfrayleigh"/>
 				<function name="pdfrayleightail"/>

@@ -429,36 +429,6 @@ gnumeric_randcauchy (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_pdfcauchy = {
-        N_("@FUNCTION=PDFCAUCHY\n"
-           "@SYNTAX=PDFCAUCHY(x,a)\n"
-
-           "@DESCRIPTION="
-           "PDFCAUCHY returns the probability density p(x) at x for @a "
-	   "Cauchy distribution with scale parameter @a. "
-           "\n"
-           "If @a < 0 PDFCAUCHY returns #NUM! error. "
-	   "\n"
-           "@EXAMPLES=\n"
-           "PDFCAUCHY(0.43,1).\n"
-           "\n"
-           "@SEEALSO=RANDCAUCHY")
-};
-
-static Value *
-gnumeric_pdfcauchy (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float x = value_get_as_float (argv[0]);
-	gnum_float a = value_get_as_float (argv[1]);
-
-	if (a < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-        return value_new_float (random_cauchy_pdf (x, a));
-}
-
-/***************************************************************************/
-
 static const char *help_randlognorm = {
         N_("@FUNCTION=RANDLOGNORM\n"
            "@SYNTAX=RANDLOGNORM(zeta,sigma)\n"
@@ -764,32 +734,6 @@ gnumeric_randpareto (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_pdfpareto = {
-        N_("@FUNCTION=PDFPARETO\n"
-           "@SYNTAX=PDFPARETO(x,a,b)\n"
-
-           "@DESCRIPTION="
-           "PDFPARETO returns the probability density p(x) at @x for a "
-	   "Pareto distribution with exponent @a and scale @b."
-           "\n"
-           "@EXAMPLES=\n"
-           "PDFPARETO(0.6,1,2).\n"
-           "\n"
-           "@SEEALSO=RANDPARETO")
-};
-
-static Value *
-gnumeric_pdfpareto (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float x = value_get_as_float (argv[0]);
-	gnum_float a = value_get_as_float (argv[1]);
-	gnum_float b = value_get_as_float (argv[2]);
-
-        return value_new_float (random_pareto_pdf (x, a, b));
-}
-
-/***************************************************************************/
-
 static const char *help_randfdist = {
         N_("@FUNCTION=RANDFDIST\n"
            "@SYNTAX=RANDFDIST(nu1,nu2)\n"
@@ -884,31 +828,6 @@ gnumeric_randlogistic (FunctionEvalInfo *ei, Value **argv)
 	gnum_float a = value_get_as_float (argv[0]);
 
         return value_new_float (random_logistic (a));
-}
-
-/***************************************************************************/
-
-static const char *help_pdflogistic = {
-        N_("@FUNCTION=PDFLOGISTIC\n"
-           "@SYNTAX=PDFLOGISTIC(x,a)\n"
-
-           "@DESCRIPTION="
-           "PDFLOGISTIC returns the probability density p(x) at @x for a "
-	   "logistic distribution with scale parameter @a."
-           "\n"
-           "@EXAMPLES=\n"
-           "PDFLOGISTIC(0.4,1).\n"
-           "\n"
-           "@SEEALSO=RANDLOGISTIC")
-};
-
-static Value *
-gnumeric_pdflogistic (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float x = value_get_as_float (argv[0]);
-	gnum_float a = value_get_as_float (argv[1]);
-
-        return value_new_float (random_logistic_pdf (x, a));
 }
 
 /***************************************************************************/
@@ -1224,30 +1143,6 @@ gnumeric_randlandau (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_pdflandau = {
-        N_("@FUNCTION=PDFLANDAU\n"
-           "@SYNTAX=PDFLANDAU(x)\n"
-
-           "@DESCRIPTION="
-           "PDFLANDAU returns the probability density p(x) at @x for the "
-	   "Landau distribution using an approximation method. "
-           "\n"
-           "@EXAMPLES=\n"
-           "PDFLANDAU(0.34).\n"
-           "\n"
-           "@SEEALSO=RANDLANDAU")
-};
-
-static Value *
-gnumeric_pdflandau (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float x = value_get_as_float (argv[0]);
-
-	return value_new_float (random_landau_pdf (x));
-}
-
-/***************************************************************************/
-
 static const char *help_randgaussiantail = {
         N_("@FUNCTION=RANDGAUSSIANTAIL\n"
            "@SYNTAX=RANDGAUSSIANTAIL(a,sigma)\n"
@@ -1286,24 +1181,16 @@ gnumeric_randgaussiantail (FunctionEvalInfo *ei, Value **argv)
 const ModulePluginFunctionInfo random_functions[] = {
         { "pdfbinom", "fff", N_("k,p,trials"), &help_pdfbinom,
 	  gnumeric_pdfbinom, NULL, NULL, NULL },
-        { "pdfcauchy", "ff", N_("x,a"),   &help_pdfcauchy,
-	  gnumeric_pdfcauchy, NULL, NULL, NULL },
         { "pdfexppow", "fff", N_("x,a,b"),         &help_pdfexppow,
 	  gnumeric_pdfexppow, NULL, NULL, NULL },
         { "pdffdist", "fff", N_("x,nu1,nu2"),      &help_pdffdist,
 	  gnumeric_pdffdist, NULL, NULL, NULL },
-        { "pdflandau", "f", N_("x"), &help_pdflandau,
-	  gnumeric_pdflandau, NULL, NULL, NULL },
         { "pdflaplace", "ff", N_("x,a"), &help_pdflaplace,
 	  gnumeric_pdflaplace, NULL, NULL, NULL },
-        { "pdflogistic", "ff", N_("x,a"), &help_pdflogistic,
-	  gnumeric_pdflogistic, NULL, NULL, NULL },
         { "pdflognorm", "fff", N_("x,zeta,sigma"), &help_pdflognorm,
 	  gnumeric_pdflognorm, NULL, NULL, NULL },
         { "pdfnegbinom", "fff", N_("k,p,failures"), &help_pdfnegbinom,
 	  gnumeric_pdfnegbinom, NULL, NULL, NULL },
-        { "pdfpareto", "fff", N_("x,a,b"), &help_pdfpareto,
-	  gnumeric_pdfpareto, NULL, NULL, NULL },
         { "pdfpoisson", "ff", N_("k,lambda"), &help_pdfpoisson,
 	  gnumeric_pdfpoisson, NULL, NULL, NULL },
         { "pdfrayleigh", "ff", N_("x,sigma"), &help_pdfrayleigh,

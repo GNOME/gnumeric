@@ -18,6 +18,7 @@
 				<function name="betadist"/>
 				<function name="betainv"/>
 				<function name="binomdist"/>
+				<function name="cauchy"/>
 				<function name="chidist"/>
 				<function name="chiinv"/>
 				<function name="chitest"/>
@@ -50,10 +51,12 @@
 				<function name="intercept"/>
 				<function name="kurt"/>
 				<function name="kurtp"/>
+				<function name="landau"/>
 				<function name="large"/>
 				<function name="linest"/>
 				<function name="logest"/>
 				<function name="loginv"/>
+				<function name="logistic"/>
 				<function name="lognormdist"/>
 				<function name="max"/>
 				<function name="maxa"/>
@@ -66,6 +69,7 @@
 				<function name="norminv"/>
 				<function name="normsdist"/>
 				<function name="normsinv"/>
+				<function name="pareto"/>
 				<function name="percentile"/>
 				<function name="percentrank"/>
 				<function name="pearson"/>

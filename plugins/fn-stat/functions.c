@@ -1700,6 +1700,148 @@ gnumeric_fdist (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static const char *help_landau = {
+        N_("@FUNCTION=LANDAU\n"
+           "@SYNTAX=LANDAU(x)\n"
+
+           "@DESCRIPTION="
+           "LANDAU returns the probability density p(x) at @x for the "
+	   "Landau distribution using an approximation method. "
+           "\n"
+           "@EXAMPLES=\n"
+           "LANDAU(0.34).\n"
+           "\n"
+           "@SEEALSO=RANDLANDAU")
+};
+
+/* From the GNU Scientific Library 1.1.1 (randist/landau.c)
+ *
+ * Copyright (C) 2001 David Morrison
+ */
+static gnum_float
+random_landau_pdf (gnum_float x)
+{
+        static gnum_float P1[5] = {
+	        0.4259894875E0, -0.1249762550E0, 0.3984243700E-1,
+		-0.6298287635E-2, 0.1511162253E-2
+	};
+	static gnum_float P2[5] = {
+	        0.1788541609E0, 0.1173957403E0, 0.1488850518E-1,
+		-0.1394989411E-2, 0.1283617211E-3
+	};
+	static gnum_float P3[5] = {
+	        0.1788544503E0, 0.9359161662E-1, 0.6325387654E-2,
+		0.6611667319E-4, -0.2031049101E-5
+	};
+	static gnum_float P4[5] = {
+	        0.9874054407E0, 0.1186723273E3, 0.8492794360E3,
+		-0.7437792444E3, 0.4270262186E3
+	};
+	static gnum_float P5[5] = {
+	        0.1003675074E1, 0.1675702434E3, 0.4789711289E4,
+		0.2121786767E5, -0.2232494910E5
+	};
+	static gnum_float P6[5] = {
+	        0.1000827619E1, 0.6649143136E3, 0.6297292665E5,
+		0.4755546998E6, -0.5743609109E7
+	};
+
+	static gnum_float Q1[5] = {
+	        1.0, -0.3388260629E0, 0.9594393323E-1,
+		-0.1608042283E-1, 0.3778942063E-2
+	};
+	static gnum_float Q2[5] = {
+	        1.0, 0.7428795082E0, 0.3153932961E0,
+		0.6694219548E-1, 0.8790609714E-2
+	};
+	static gnum_float Q3[5] = {
+	        1.0, 0.6097809921E0, 0.2560616665E0,
+		0.4746722384E-1, 0.6957301675E-2
+	};
+	static gnum_float Q4[5] = {
+	        1.0, 0.1068615961E3, 0.3376496214E3,
+		0.2016712389E4, 0.1597063511E4
+	};
+	static gnum_float Q5[5] = {
+	        1.0, 0.1569424537E3, 0.3745310488E4,
+		0.9834698876E4, 0.6692428357E5
+	};
+	static gnum_float Q6[5] = {
+	        1.0, 0.6514101098E3, 0.5697473333E5,
+		0.1659174725E6, -0.2815759939E7
+	};
+
+	static gnum_float A1[3] = {
+	        0.4166666667E-1, -0.1996527778E-1, 0.2709538966E-1
+	};
+	static gnum_float A2[2] = {
+	        -0.1845568670E1, -0.4284640743E1
+	};
+
+	gnum_float U, V, DENLAN;
+
+	V = x;
+	if (V < -5.5) {
+	        U      = expgnum (V + 1.0);
+		DENLAN = 0.3989422803 * (expgnum ( -1 / U) / sqrtgnum (U)) *
+		        (1 + (A1[0] + (A1[1] + A1[2] * U) * U) * U);
+	} else if (V < -1) {
+	        U = expgnum (-V - 1);
+		DENLAN = expgnum ( -U) * sqrtgnum (U) *
+		        (P1[0] + (P1[1] + (P1[2] + (P1[3] + P1[4] * V) * V)
+				  * V) * V) /
+		        (Q1[0] + (Q1[1] + (Q1[2] + (Q1[3] + Q1[4] * V) * V)
+				  * V) * V);
+	} else if (V < 1) {
+	        DENLAN = (P2[0] + (P2[1] + (P2[2] + (P2[3] + P2[4] * V) * V)
+				   * V) * V) /
+		        (Q2[0] + (Q2[1] + (Q2[2] + (Q2[3] + Q2[4] * V) * V)
+				  * V) * V);
+	} else if (V < 5) {
+	        DENLAN = (P3[0] + (P3[1] + (P3[2] + (P3[3] + P3[4] * V) * V)
+				   * V) * V) /
+		        (Q3[0] + (Q3[1] + (Q3[2] + (Q3[3] + Q3[4] * V) * V)
+				  * V) * V);
+	} else if (V < 12) {
+	        U = 1 / V;
+		DENLAN = U * U *
+		        (P4[0] + (P4[1] + (P4[2] + (P4[3] + P4[4] * U) * U)
+				  * U) * U) /
+		        (Q4[0] + (Q4[1] + (Q4[2] + (Q4[3] + Q4[4] * U) * U)
+				  * U) * U);
+	} else if (V < 50) {
+	        U = 1 / V;
+		DENLAN = U * U *
+		        (P5[0] + (P5[1] + (P5[2] + (P5[3] + P5[4] * U) * U)
+				  * U) * U) /
+		        (Q5[0] + (Q5[1] + (Q5[2] + (Q5[3] + Q5[4] * U) * U)
+				  * U) * U);
+	} else if (V < 300) {
+	        U = 1 / V;
+		DENLAN = U * U *
+		        (P6[0] + (P6[1] + (P6[2] + (P6[3] + P6[4] * U) * U)
+				  * U) * U) /
+		        (Q6[0] + (Q6[1] + (Q6[2] + (Q6[3] + Q6[4] * U) * U)
+				  * U) * U);
+	} else {
+	        U = 1 / (V - V * log(V) / (V + 1));
+		DENLAN = U * U * (1 + (A2[0] + A2[1] * U) * U);
+	}
+
+	return DENLAN;
+}
+
+static Value *
+gnumeric_landau (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float x = value_get_as_float (argv[0]);
+
+	return value_new_float (random_landau_pdf (x));
+}
+
+
+/***************************************************************************/
+
 static const char *help_finv = {
         N_("@FUNCTION=FINV\n"
            "@SYNTAX=FINV(p,dof1,dof2)\n"
@@ -1778,6 +1920,45 @@ gnumeric_binomdist (FunctionEvalInfo *ei, Value **argv)
 		return value_new_float (pbinom (n, trials, p, TRUE, FALSE));
 	else
 		return value_new_float (dbinom (n, trials, p, FALSE));
+}
+
+/***************************************************************************/
+
+static const char *help_cauchy = {
+        N_("@FUNCTION=CAUCHY\n"
+           "@SYNTAX=CAUCHY(x,a)\n"
+
+           "@DESCRIPTION="
+           "CAUCHY returns the probability density p(x) at x for @a "
+	   "Cauchy distribution with scale parameter @a. "
+           "\n"
+           "If @a < 0 CAUCHY returns #NUM! error. "
+	   "\n"
+           "@EXAMPLES=\n"
+           "CAUCHY(0.43,1).\n"
+           "\n"
+           "@SEEALSO=RANDCAUCHY")
+};
+
+
+static gnum_float
+random_cauchy_pdf (gnum_float x, gnum_float a)
+{
+        gnum_float u = x / a;
+
+	return (1 / (M_PI * a)) / (1 + u * u);
+}
+
+static Value *
+gnumeric_cauchy (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float x = value_get_as_float (argv[0]);
+	gnum_float a = value_get_as_float (argv[1]);
+
+	if (a < 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        return value_new_float (random_cauchy_pdf (x, a));
 }
 
 /***************************************************************************/
@@ -4767,6 +4948,74 @@ gnumeric_geomdist (FunctionEvalInfo *ei, Value **argv)
 		return value_new_float (dgeom (k, p));
 }
 
+/***************************************************************************/
+
+static const char *help_logistic = {
+        N_("@FUNCTION=LOGISTIC\n"
+           "@SYNTAX=LOGISTIC(x,a)\n"
+
+           "@DESCRIPTION="
+           "LOGISTIC returns the probability density p(x) at @x for a "
+	   "logistic distribution with scale parameter @a."
+           "\n"
+           "@EXAMPLES=\n"
+           "LOGISTIC(0.4,1).\n"
+           "\n"
+           "@SEEALSO=RANDLOGISTIC")
+};
+
+static gnum_float
+random_logistic_pdf (gnum_float x, gnum_float a)
+{
+        gnum_float u = expgnum (-gnumabs (x) / a);
+
+	return u / (gnumabs (a) * (1 + u) * (1 + u));
+}
+
+static Value *
+gnumeric_logistic (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float x = value_get_as_float (argv[0]);
+	gnum_float a = value_get_as_float (argv[1]);
+
+        return value_new_float (random_logistic_pdf (x, a));
+}
+
+/***************************************************************************/
+
+static const char *help_pareto = {
+        N_("@FUNCTION=PARETO\n"
+           "@SYNTAX=PARETO(x,a,b)\n"
+
+           "@DESCRIPTION="
+           "PARETO returns the probability density p(x) at @x for a "
+	   "Pareto distribution with exponent @a and scale @b."
+           "\n"
+           "@EXAMPLES=\n"
+           "PARETO(0.6,1,2).\n"
+           "\n"
+           "@SEEALSO=RANDPARETO")
+};
+
+static gnum_float
+random_pareto_pdf (gnum_float x, gnum_float a, gnum_float b)
+{
+        if (x >= b)
+	        return (a / b) / powgnum (x / b, a + 1);
+	else
+	        return 0;
+}
+
+static Value *
+gnumeric_pareto (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float x = value_get_as_float (argv[0]);
+	gnum_float a = value_get_as_float (argv[1]);
+	gnum_float b = value_get_as_float (argv[2]);
+
+        return value_new_float (random_pareto_pdf (x, a, b));
+}
+
 
 /***************************************************************************/
 
@@ -4785,6 +5034,8 @@ const ModulePluginFunctionInfo stat_functions[] = {
 	  &help_betainv, gnumeric_betainv, NULL, NULL, NULL },
 	{ "binomdist",    "fffb", N_("n,t,p,c"),
 	  &help_binomdist, gnumeric_binomdist, NULL, NULL, NULL },
+        { "cauchy", "ff", N_("x,a"),   &help_cauchy,
+	  gnumeric_cauchy, NULL, NULL, NULL },
 	{ "chidist",      "ff",  N_("x,dof"),
 	  &help_chidist, gnumeric_chidist, NULL, NULL, NULL },
 	{ "chiinv",       "ff",  N_("p,dof"),
@@ -4849,6 +5100,8 @@ const ModulePluginFunctionInfo stat_functions[] = {
 	  &help_kurt, NULL, gnumeric_kurt, NULL, NULL },
         { "kurtp",        0,      N_("number,number,"),
 	  &help_kurtp, NULL, gnumeric_kurtp, NULL, NULL },
+        { "landau", "f", N_("x"), &help_landau,
+	  gnumeric_landau, NULL, NULL, NULL },
 	{ "large",        0,      N_("number,number,"),
 	  &help_large, NULL, gnumeric_large, NULL, NULL },
 	{ "linest",       "A|Abb",  N_("known_y's,known_x's,const,stat"),
@@ -4857,6 +5110,8 @@ const ModulePluginFunctionInfo stat_functions[] = {
 	  &help_logest, gnumeric_logest, NULL, NULL, NULL },
 	{ "loginv",       "fff",  N_("p,mean,stddev"),
 	  &help_loginv, gnumeric_loginv, NULL, NULL, NULL },
+        { "logistic", "ff", N_("x,a"), &help_logistic,
+	  gnumeric_logistic, NULL, NULL, NULL },
 	{ "lognormdist",  "fff",  N_("x,meean,stdev"),
 	  &help_lognormdist, gnumeric_lognormdist, NULL, NULL, NULL },
 	{ "max",          0,      N_("number,number,"),
@@ -4881,6 +5136,8 @@ const ModulePluginFunctionInfo stat_functions[] = {
 	  &help_normsdist, gnumeric_normsdist, NULL, NULL, NULL },
 	{ "normsinv",     "f",  N_("p"),
 	  &help_normsinv, gnumeric_normsinv, NULL, NULL, NULL },
+        { "pareto", "fff", N_("x,a,b"), &help_pareto,
+	  gnumeric_pareto, NULL, NULL, NULL },
         { "percentile",   "Af",  N_("array,k"),
 	  &help_percentile, gnumeric_percentile, NULL, NULL, NULL },
 	{ "percentrank",  "Af|f", N_("array,x,significance"),
