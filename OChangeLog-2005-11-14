@@ -1,3 +1,8 @@
+2001-05-11  Jon K Hellan  <hellan@acm.org>
+ 
+ 	* src/sheet-control-gui.c (scg_rangesel_changed): Improve handling
+ 	of merged cells. Freeze expr entry display until final range is found.
+ 
 2001-05-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_sheet_delete) : Clear the combos as well as

@@ -39,6 +39,8 @@
 #include "widgets/gnumeric-vscrollbar.h"
 #include "widgets/gnumeric-hscrollbar.h"
 #include "widgets/gnumeric-expr-entry.h"
+#include "sheet-merge.h"
+#include "ranges.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-view-frame.h>
@@ -2064,7 +2066,7 @@ scg_rangesel_changed (SheetControlGUI *scg,
 {
 	GnumericExprEntry *expr_entry;
 	gboolean ic_changed;
-	Range *r;
+	Range *r, last_r;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
@@ -2095,12 +2097,20 @@ scg_rangesel_changed (SheetControlGUI *scg,
 	 * properly.
 	 */
 	expr_entry = workbook_get_entry_logical (scg->wbcg);
+	gnumeric_expr_entry_freeze (expr_entry);
 	ic_changed = gnumeric_expr_entry_set_rangesel_from_range (
 		expr_entry, r, scg->sheet, scg->rangesel.cursor_pos);
 	if (ic_changed)
 		gnumeric_expr_entry_get_rangesel (expr_entry, r, NULL);
 
+	last_r = *r;
 	sheet_merge_find_container (scg->sheet, r);
+	if (!range_equal (&last_r, r)) {
+		(void) gnumeric_expr_entry_set_rangesel_from_range (
+			expr_entry, r, scg->sheet, scg->rangesel.cursor_pos);
+		/* This can't grow the range further */
+	}
+	gnumeric_expr_entry_thaw (expr_entry);
 	gnumeric_sheet_rangesel_bound (GNUMERIC_SHEET (scg->canvas), r);
 }
 
