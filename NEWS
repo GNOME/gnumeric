@@ -30,6 +30,10 @@ Jon Kåre:
 Morten:
 	* Fix gnumeric_fake_trunc and thus INT.
 
+Jon Kåre:
+	http://bugzilla.gnome.org/show_bug.cgi?id=78483
+	* fix hpux build
+
 --------------------------------------------------------------------------
 Gnumeric 1.0.5
 
