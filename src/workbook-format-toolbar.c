@@ -76,42 +76,50 @@ center_cmd (GtkWidget *widget, Workbook *wb)
 /*
  * change_selection_font
  * @wb:  The workbook to operate on
- * @bold: -1 to leave unchanged, 0 to clear, 1 to set
- * @italic: -1 to leave unchanged, 0 to clear, 1 to set
- * @underline: -1 to leave unchanged, 0 to clear, 1 to set
- *
+ * @bold:         TRUE to toggle, FALSE to leave unchanged
+ * @italic:       TRUE to toggle, FALSE to leave unchanged
+ * @underline:    TRUE to toggle, FALSE to leave unchanged
+ * strikethrough: TRUE to toggle, FALSE to leave unchanged
  */
 static void
-change_selection_font (Workbook *wb, int bold, int italic, int underline, int strikethrough)
+change_selection_font (Workbook *wb,
+		       gboolean bold,		gboolean italic,
+		       gboolean underline,	gboolean strikethrough)
 {
-	MStyle *mstyle;
+	MStyle *new_style, *current_style;
 	Sheet  *sheet;
 
-	mstyle = mstyle_new ();
-	sheet  = wb->current_sheet;
 	application_clipboard_unant ();
+	sheet  = wb->current_sheet;
 
-	if (bold >= 0)
-		mstyle_set_font_bold (mstyle, bold);
+	new_style = mstyle_new ();
+	current_style = sheet_style_compute (sheet,
+		sheet->cursor.edit_pos.col,
+		sheet->cursor.edit_pos.row);
 
-	if (italic >= 0)
-		mstyle_set_font_italic (mstyle, italic);
+	if (bold)
+		mstyle_set_font_bold (new_style,
+			!mstyle_get_font_bold (current_style));
 
-	if (underline >= 0)
-		mstyle_set_font_uline (mstyle,
-				       underline ? UNDERLINE_SINGLE : UNDERLINE_NONE);
+	if (italic)
+		mstyle_set_font_italic (new_style,
+			!mstyle_get_font_italic (current_style));
 
-	if (strikethrough >= 0)
-		mstyle_set_font_strike (mstyle, strikethrough);
+	if (underline)
+		mstyle_set_font_uline (new_style,
+			(mstyle_get_font_uline (current_style) == UNDERLINE_NONE)
+			? UNDERLINE_SINGLE : UNDERLINE_NONE);
 
-	if (bold >= 0 ||
-	    italic >= 0 ||
-	    underline >= 0 ||
-	    strikethrough >= 0)
+	if (strikethrough)
+		mstyle_set_font_strike (new_style,
+					!mstyle_get_font_strike (current_style));
+
+	if (bold || italic || underline || strikethrough)
 		cmd_format (workbook_command_context_gui (wb), 
-			    sheet, mstyle, NULL);
+			    sheet, new_style, NULL);
 	else
-		mstyle_unref (mstyle);
+		mstyle_unref (new_style);
+	mstyle_unref (current_style);
 }
 
 /**
@@ -145,28 +153,29 @@ static void
 bold_cmd (GtkToggleButton *t, Workbook *wb)
 {
 	if (toggled_from_toolbar (t))
-		change_selection_font (wb, t->active, -1, -1, -1);
+		change_selection_font (wb, TRUE, FALSE, FALSE, FALSE);
 }
 
 static void
 italic_cmd (GtkToggleButton *t, Workbook *wb)
 {
 	if (toggled_from_toolbar (t))
-		change_selection_font (wb, -1, t->active, -1, -1);
+		change_selection_font (wb, FALSE, TRUE, FALSE, FALSE);
 }
 
 static void
 underline_cmd (GtkToggleButton *t, Workbook *wb)
 {
 	if (toggled_from_toolbar (t))
-		change_selection_font (wb, -1, -1, t->active, -1);
+		change_selection_font (wb, FALSE, FALSE, TRUE, FALSE);
 }
 
 #if 0
 static void
 strikethrough_cmd (GtkToggleButton *t, Workbook *wb)
 {
-	change_selection_font (wb, -1, -1, -1, t->active));
+	if (toggled_from_toolbar (t))
+		change_selection_font (wb, FALSE, FALSE, FALSE, TRUE);
 }
 #endif
 

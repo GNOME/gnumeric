@@ -1,3 +1,9 @@
+2000-10-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-format-toolbar.c (change_selection_font) : Rather than
+	  using the toggle to tell us the state use the current format.  This
+	  lets us share code with the bonobo version which has no widget.
+
 2000-10-04  Jon K Hellan  <hellan@acm.org>
 
 	* src/print.c (print_range_right_then_down): Fix typo. usable_x,
