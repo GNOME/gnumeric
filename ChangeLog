@@ -1,3 +1,10 @@
+2002-07-11  Morten Welinder  <terra@diku.dk>
+
+	* src/search.c (calculate_replacement): Initial work towards UTF-8
+	safety.
+	(search_replace_compile, search_replace_verify): Make UTF-8 safe,
+	except for the fact that our regexp routines are not.
+
 2002-07-10  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-control-component.c (cb_help_about): Remove

@@ -57,6 +57,7 @@ Morten:
 	* Improve precision of HYPGEOMDIST and NEGBINOMDIST.
 	* Fix PERMUT crash.
 	* Fix RANDPOISSON loop and performance.
+	* Start making Search and Search/Replace UTF-8 safe.
 
 Jon Kåre:
 	* Use GsfInput in the Python plugin loader

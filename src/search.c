@@ -64,8 +64,8 @@ search_replace_compile (SearchReplace *sr, gboolean repl)
 		pattern = sr->search_text;
 		tmp = NULL;
 		sr->plain_replace =
-			repl && (strchr (sr->replace_text, '$') == 0 &&
-				 strchr (sr->replace_text, '\\') == 0);
+			repl && (g_utf8_strchr (sr->replace_text, -1, '$') == 0 &&
+				 g_utf8_strchr (sr->replace_text, -1, '\\') == 0);
 	} else {
 		/*
 		 * Create a regular expression equivalent to the search
@@ -74,19 +74,20 @@ search_replace_compile (SearchReplace *sr, gboolean repl)
 		 */
 
 		const char *src = sr->search_text;
+		const char *nextsrc;
 		char *dst = tmp = g_new (char, strlen (src) * 2 + 1);
 		pattern = tmp;
 
-		for (; *src; src++) {
+		for (; *src; src = nextsrc) {
+			nextsrc = g_utf8_next_char (src);
 			switch (*src) {
 			case '.': case '[': case '\\':
 			case '*': case '^': case '$':
 				*dst++ = '\\';
-				/* Fall through. */
-			default:
-				*dst++ = *src;
-				break;
 			}
+
+			memcpy (dst, src, nextsrc - src);
+			dst += (nextsrc - src);
 		}
 		*dst = 0;
 
@@ -155,7 +156,7 @@ search_replace_verify (SearchReplace *sr, gboolean repl)
 	if (repl && !sr->plain_replace) {
 		const char *s;
 
-		for (s = sr->replace_text; *s; s++) {
+		for (s = sr->replace_text; *s; s = g_utf8_next_char (s)) {
 			switch (*s) {
 			case '$':
 				s++;
@@ -196,12 +197,14 @@ match_is_word (SearchReplace *sr, const char *src,
 
 	if (pm->rm_so > 0 || !bolp) {
 		/* We get here when something actually preceded the match.  */
+		/* FIXME: not yet UTF-8 safe.  */
 		char c_pre = src[pm->rm_so - 1];
 		if (isalnum ((unsigned char)c_pre))
 			return FALSE;
 	}
 
 	{
+		/* FIXME: not yet UTF-8 safe.  */
 		char c_post = src[pm->rm_eo];
 		if (c_post != 0 && isalnum ((unsigned char)c_post))
 			return FALSE;
@@ -223,7 +226,7 @@ calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 		const char *s;
 		GString *gres = g_string_sized_new (strlen (sr->replace_text));
 
-		for (s = sr->replace_text; *s; s++) {
+		for (s = sr->replace_text; *s; s = g_utf8_next_char (s)) {
 			switch (*s) {
 			case '$':
 			{
@@ -231,6 +234,7 @@ calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 				s++;
 
 				g_assert (n > 0 && n <= (int)sr->comp_search->re_nsub);
+				/* FIXME: not yet UTF-8 safe.  (maybe).  */
 				g_string_append_len (gres,
 						     src + pm[n].rm_so,
 						     pm[n].rm_eo - pm[n].rm_so);
@@ -239,10 +243,10 @@ calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 			case '\\':
 				s++;
 				g_assert (*s != 0);
-				g_string_append_c (gres, *s);
+				g_string_append_unichar (gres, g_utf8_get_char (s));
 				break;
 			default:
-				g_string_append_c (gres, *s);
+				g_string_append_unichar (gres, g_utf8_get_char (s));
 				break;
 			}
 		}
@@ -264,6 +268,7 @@ calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 		gboolean is_upper, is_capital, has_letter;
 		int i;
 
+		/* FIXME: not yet UTF-8 safe.  */
 		is_upper = TRUE;
 		has_letter = FALSE;
 		for (i = pm->rm_so; i < pm->rm_eo; i++) {
@@ -278,6 +283,7 @@ calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 		}
 		if (!has_letter) is_upper = FALSE;
 
+		/* FIXME: not yet UTF-8 safe.  */
 		if (!is_upper && has_letter) {
 			gboolean up = TRUE;
 			is_capital = TRUE;
@@ -296,12 +302,11 @@ calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 			is_capital = FALSE;
 
 		if (is_upper) {
-			unsigned char *p = (unsigned char *)res;
-			while (*p) {
-				*p = toupper (*p);
-				p++;
-			}
+			char *newres = g_utf8_strup (res, -1);
+			g_free (res);
+			res = newres;
 		} else if (is_capital) {
+			/* FIXME: not yet UTF-8 safe.  */
 			gboolean up = TRUE;
 			unsigned char *p = (unsigned char *)res;
 			for (; *p; p++) {
@@ -384,6 +389,7 @@ search_replace_string (SearchReplace *sr, const char *src)
 		}
 
 		if (pmatch[0].rm_so > 0) {
+			/* FIXME: not yet UTF-8 safe.  */
 			g_string_append_len (res, src, pmatch[0].rm_so);
 		}
 
@@ -391,6 +397,7 @@ search_replace_string (SearchReplace *sr, const char *src)
 						       (flags & REG_NOTBOL) != 0)) {
 			/*  We saw a fake match.  */
 			if (pmatch[0].rm_so < pmatch[0].rm_eo) {
+				/* FIXME: not yet UTF-8 safe.  */
 				g_string_append_c (res, src[pmatch[0].rm_so]);
 				/* Pretend we saw a one-character match.  */
 				pmatch[0].rm_eo = pmatch[0].rm_so + 1;
