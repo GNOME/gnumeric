@@ -12,6 +12,7 @@ plugins/excel/boot.c
 plugins/excel/ms-excel-read.c
 plugins/excel/ms-excel-write.c
 plugins/excel/ms-formula-read.c
+plugins/excel/ms-formula-write.c
 plugins/excel/plugin.xml.in
 plugins/fn-complex/functions.c
 plugins/fn-complex/plugin.xml.in
@@ -48,6 +49,7 @@ plugins/guile/smob-value.c
 plugins/html/html_read.c
 plugins/html/plugin.xml.in
 plugins/html/roff.c
+plugins/lotus-123/boot.c
 plugins/lotus-123/lotus.c
 plugins/lotus-123/plugin.xml.in
 plugins/mps/mps.c
@@ -63,17 +65,23 @@ plugins/plan-perfect/plugin.xml.in
 plugins/psiconv/plugin.xml.in
 plugins/psiconv/psiconv-read.c
 plugins/py-func/plugin.xml.in
+plugins/python-loader/gnm-py-interpreter.c
 plugins/python-loader/plugin.xml.in
+plugins/python-loader/py-console.c
 plugins/python-loader/py-gnumeric.c
 plugins/python-loader/python-loader.c
+plugins/python-loader/ui-console-menu.xml
 plugins/python/plugin.xml.in
 plugins/python/python.c
+plugins/qpro/qpro-read.c
 plugins/qpro/plugin.xml.in
 plugins/sample_datasource/sample_datasource.c
 plugins/sc/plugin.xml.in
 plugins/sc/sc.c
 plugins/sylk/plugin.xml.in
 plugins/sylk/sylk.c
+plugins/uihello/hello.xml
+plugins/uihello/uihello.c
 plugins/xbase/boot.c
 plugins/xbase/plugin.xml.in
 plugins/xml_sax/plugin.xml.in
@@ -87,6 +95,11 @@ src/cmd-edit.c
 src/command-context-stderr.c
 src/commands.c
 src/corba-args.c
+src/cut-n-paste-code/egg/menu/egg-action.c
+src/cut-n-paste-code/egg/menu/egg-markup.c
+src/cut-n-paste-code/egg/menu/egg-menu-merge.c
+src/cut-n-paste-code/egg/toolbar/eggtoolbar.c
+src/cut-n-paste-code/egg/toolbar/eggtoolitem.c
 src/dates.c
 src/dependent.c
 src/dialogs/advanced-filter.glade
@@ -135,6 +148,7 @@ src/dialogs/dialog-row-height.c
 src/dialogs/dialog-search-replace.c
 src/dialogs/dialog-search.c
 src/dialogs/dialog-sheet-order.c
+src/dialogs/dialog-simulation.c
 src/dialogs/dialog-solver.c
 src/dialogs/dialog-stf-csv-page.c
 src/dialogs/dialog-stf-export-format-page.c
@@ -241,6 +255,7 @@ src/style.c
 src/tools/analysis-tools.c
 src/tools/dao.c
 src/tools/random-generator.c
+src/tools/simulation.c
 src/tools/solver/reports-write.c
 src/tools/solver/reports.c
 src/tools/solver/solver.c
