@@ -1,5 +1,9 @@
 2002-04-29  Jody Goldberg <jody@gnome.org>
 
+	* src/gnumeric-pane.c (gnumeric_pane_header_init) : set a
+	  non-contraining scrollregion here in case something scrolls before we
+	  are realized and a real region is assigned.
+
 	* src/sheet-object.c (sheet_object_clone_sheet) : range == NULL is legal
 
 	* src/sheet.c (sheet_clone_colrow_info_item) : Use colrow_copy.
