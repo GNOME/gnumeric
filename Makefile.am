@@ -1,7 +1,9 @@
 SUBDIRS = . intl po macros idl src plugins doc icons templates
 
 change_logs = ChangeLog \
-	OChangeLog-1999-07-09 OChangeLog-2000-02-23 OChangeLog-2000-10-10 
+	OChangeLog-1999-07-09 \
+	OChangeLog-2000-02-23 OChangeLog-2000-10-10  \
+	OChangeLog-2001-06-26
 
 confexecdir=$(libdir)
 confexec_DATA = gnumericConf.sh
