@@ -1,5 +1,19 @@
 2001-03-20  Zbigniew Chyla  <cyba@gnome.pl>
 
+	Moved XL support from Gnumeric binary into real plugin.
+
+	* src/Makefile.am
+	(gnumeric_libs): Removed ../plugins/excel/libexcel.a
+
+	* src/main.c:
+	Removed: 
+	- include "../plugins/excel/boot.h"
+	- xxx_debug variables
+	- (gnumeric_popt_options) excel debugging options
+	- excel_init() and excel_shutdown() calls
+
+2001-03-20  Zbigniew Chyla  <cyba@gnome.pl>
+
 	Added support for plugin dependencies + some fixes.
 
 	* src/gutils.h (g_list_to_vector, g_vector_free_custom):

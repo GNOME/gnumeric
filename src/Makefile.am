@@ -281,7 +281,6 @@ gnumeric_bonobo_SOURCES =			\
 gnumeric_LDFLAGS = -export-dynamic
 
 gnumeric_libs =					\
-	../plugins/excel/libexcel.a		\
 	dialogs/libdialogs.a			\
 	widgets/libwidgets.a			\
 	functions/libfunctions.a

@@ -39,8 +39,6 @@ extern gboolean EmbeddableGridFactory_init (void);
 #include "style.h"
 #include "style-color.h"
 
-#include "../plugins/excel/boot.h"
-
 #include <gal/widgets/e-cursors.h>
 #include <glade/glade.h>
 #include <glade/glade-xml.h>
@@ -64,12 +62,6 @@ int dependency_debugging = 0;
 int immediate_exit_flag = 0;
 int print_debugging = 0;
 gboolean initial_workbook_open_complete = FALSE;
-extern int ms_excel_read_debug;
-extern int ms_excel_formula_debug;
-extern int ms_excel_color_debug;
-extern int ms_excel_chart_debug;
-extern int ms_excel_write_debug;
-extern int ms_excel_object_debug;
 extern gboolean libole2_debug;
 
 static char *dump_file_name = NULL;
@@ -105,30 +97,6 @@ const struct poptOption gnumeric_popt_options [] = {
 	{ "quit", '\0', POPT_ARG_NONE, &immediate_exit_flag, 0,
 	  N_("Exit immediately after loading the selected books (useful for testing)."), NULL },
 
-	{ "debug_excel_read", '\0', POPT_ARG_INT,
-	    &ms_excel_read_debug, 0,
-	  N_("Enables debugging mesgs while reading excel workbooks"),
-	  N_("LEVEL") },
-	{ "debug_excel_formulas", '\0', POPT_ARG_INT,
-	    &ms_excel_formula_debug, 0,
-	  N_("Enables debugging mesgs while reading excel functions"),
-	  N_("LEVEL") },
-	{ "debug_excel_color", '\0', POPT_ARG_INT,
-	    &ms_excel_color_debug, 0,
-	  N_("Enables debugging mesgs while reading excel colors & patterns"),
-	  N_("LEVEL") },
-	{ "debug_excel_objects", '\0', POPT_ARG_INT,
-	    &ms_excel_object_debug, 0,
-	  N_("Enables debugging mesgs while reading excel objects"),
-	  N_("LEVEL") },
-	{ "debug_excel_chart", '\0', POPT_ARG_INT,
-	    &ms_excel_chart_debug, 0,
-	  N_("Enables debugging mesgs while reading excel charts"),
-	  N_("LEVEL") },
-	{ "debug_excel_write", '\0', POPT_ARG_INT,
-	    &ms_excel_write_debug, 0,
-	  N_("Enables debugging mesgs while reading excel workbooks"),
-	  N_("LEVEL") },
 	{ "debug_ole", '\0', POPT_ARG_NONE,
 	    &libole2_debug, 0,
 	  N_("Enables extra consistency checking while reading ole files"),
@@ -182,7 +150,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 
 	/* The statically linked in file formats */
 	xml_init ();
-	excel_init ();
 	stf_init ();
 #ifdef ENABLE_BONOBO
 	gnumeric_bonobo_io_init ();
@@ -250,7 +217,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 		gtk_main ();
 	}
 
-	excel_shutdown ();
 	print_shutdown ();
 	auto_format_shutdown ();
 	e_cursors_shutdown ();
