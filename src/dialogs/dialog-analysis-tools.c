@@ -16,13 +16,12 @@
 
 static descriptive_stat_tool_t ds;
 
-static void
-dummy_fun (Workbook *wb, Sheet *sheet)
-{
-	/* Nothing.  */
-}
 
+static void dialog_correlation_tool(Workbook *wb, Sheet *sheet);
+static void dialog_covariance_tool(Workbook *wb, Sheet *sheet);
+static void dialog_descriptive_stat_tool(Workbook *wb, Sheet *sheet);
 static void dialog_ztest_tool(Workbook *wb, Sheet *sheet);
+static void dialog_sampling_tool(Workbook *wb, Sheet *sheet);
 static void dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet);
 static void dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet);
 static void dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet);
@@ -50,19 +49,24 @@ typedef struct {
 
 
 tool_list_t tools[] = {
-        { { "Correlation", NULL }, dummy_fun },
-        { { "Covariance", NULL }, dummy_fun },
-        { { "Descriptive Statistics", NULL }, dummy_fun },
+        { { "Correlation", NULL },
+	  dialog_correlation_tool },
+        { { "Covariance", NULL },
+	  dialog_covariance_tool },
+        { { "Descriptive Statistics", NULL },
+	  dialog_descriptive_stat_tool },
         { { "F-Test: Two-Sample for Variances", NULL }, 
 	  dialog_ftest_tool },
-        { { "Sampling", NULL }, dummy_fun },
+        { { "Sampling", NULL },
+	  dialog_sampling_tool },
         { { "t-Test: Paired Two Sample for Means", NULL }, 
 	  dialog_ttest_paired_tool },
         { { "t-Test: Two-Sample Assuming Equal Variances", NULL }, 
 	  dialog_ttest_eq_tool },
         { { "t-Test: Two-Sample Assuming Unequal Variances", NULL }, 
 	  dialog_ttest_neq_tool },
-        { { "z-Test: Two Sample for Means", NULL }, dialog_ztest_tool },
+        { { "z-Test: Two Sample for Means", NULL },
+	  dialog_ztest_tool },
 	{ { NULL, NULL }, NULL }
 };
 
@@ -136,213 +140,6 @@ static char *sample_method_ops [] = {
 };
 
 
-static void
-add_check_buttons (GtkWidget *box, check_button_t *cbs)
-{
-	static gboolean do_transpose = FALSE;
-        GtkWidget *button;
-	int       i;
-
-	for (i = 0; cbs[i].name; i++) {
-	        GtkWidget *hbox, *entry;
-
-		hbox = gtk_hbox_new (FALSE, 0);
-	        button = gtk_check_button_new_with_label (cbs[i].name);
-		gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
-		if (cbs[i].entry_flag) {
-		        entry = gtk_entry_new_with_max_length (20);
-			gtk_entry_set_text (GTK_ENTRY (entry),
-					    cbs[i].default_entry);
-			gtk_box_pack_start (GTK_BOX (hbox), entry, 
-					    TRUE, TRUE, 0);
-			ds.entry[i] = entry;
-		}
-
-		gtk_box_pack_start (GTK_BOX (box), hbox, TRUE, TRUE, 0);
-		gtk_signal_connect (GTK_OBJECT (button), "toggled",
-				    GTK_SIGNAL_FUNC (cbs[i].fun),
-				    &do_transpose);
-	}
-}
-
-static void
-tool_dialog_range(Workbook *wb, Sheet *sheet, int ti)
-{
-        static GtkWidget *dialog[8];
-	static GtkWidget *box, *hbox_x, *group_box;
-	static GtkWidget *input_range, *groupped_label;
-	static GtkWidget *input_range_label;
-	static GtkWidget *check_buttons;
-	static GSList    *group_ops, *sampling_ops;
-	static GtkWidget *r;
-	static GtkWidget *sampling_entry[2];
-
-	data_analysis_output_t  dao;
-
-	char  *text;
-	int   selection;
-	static Range range_input;
-	int   i=0, size;
-
-	if (!dialog[ti]) {
-		dialog[ti] = gnome_dialog_new (_(tools[ti].name.col1),
-					   _("OK"),
-					   GNOME_STOCK_BUTTON_CANCEL,
-					   NULL);
-
-                gnome_dialog_close_hides (GNOME_DIALOG (dialog[ti]), TRUE);
-                gnome_dialog_set_parent (GNOME_DIALOG (dialog[ti]),
-                                         GTK_WINDOW (wb->toplevel));
-		box = gtk_vbox_new (FALSE, 0);
-		hbox_x = gtk_hbox_new (FALSE, 0);
-		group_box = gtk_vbox_new (FALSE, 0);
-		gtk_box_pack_start_defaults (GTK_BOX (box), hbox_x);
-
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog[ti])->vbox), box);
-
-		input_range = gtk_entry_new_with_max_length (20);
-		input_range_label = gtk_label_new ("Input Range:");
-
-		gtk_box_pack_start_defaults (GTK_BOX (hbox_x), 
-					     input_range_label);
-		gtk_box_pack_start_defaults (GTK_BOX (hbox_x),
-					     input_range);
-
-		group_ops = NULL;
-		if (ti == 4)
-		        goto skip_groupped;
-		groupped_label = gtk_label_new ("Groupped By:");
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog[ti])->vbox), 
-					     groupped_label);
-		for (i = 0; groupped_ops [i]; i++) {
-			r = gtk_radio_button_new_with_label (group_ops,
-							     _(groupped_ops[i])
-							     );
-			group_ops = GTK_RADIO_BUTTON (r)->group;
-			gtk_box_pack_start_defaults (GTK_BOX (group_box), r);
-		}
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog[ti])->vbox), 
-					     group_box);
-
-	skip_groupped:
-
-		/* Tool specific buttons and entries */
-		if (ti == 2) {
-		        check_buttons = gtk_vbox_new (FALSE, 0);
-		        add_check_buttons(check_buttons, desc_stat_buttons);
-			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG
-						     (dialog[ti])->vbox), 
-					    check_buttons, TRUE, TRUE, 0);
-		} else if (ti == 4) {
-		        GtkWidget *sampling_label =
-			  gtk_label_new ("Sampling Method:");
-			GtkWidget *sampling_box;
-
-			gtk_box_pack_start_defaults
-			  (GTK_BOX (GNOME_DIALOG(dialog[ti])->vbox), 
-			   sampling_label);
-
-		        sampling_box = gtk_vbox_new (FALSE, 0);
-			sampling_ops = NULL;
-			for (i = 0; sample_method_ops [i]; i++) {
-			        GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
-			        GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
-				GtkWidget *label;
-
-				if (i==0)
-				        label = gtk_label_new ("Period:");
-				else
-				        label =
-					  gtk_label_new ("Number of Samples:");
-				sampling_entry[i] =
-				  gtk_entry_new_with_max_length (20);
-			        r = gtk_radio_button_new_with_label
-				  (sampling_ops, _(sample_method_ops[i]));
-				sampling_ops = GTK_RADIO_BUTTON (r)->group;
-				gtk_box_pack_start_defaults (GTK_BOX (hbox),
-							     label);
-				gtk_box_pack_start_defaults(GTK_BOX (hbox),
-							    sampling_entry[i]);
-				gtk_box_pack_start_defaults (GTK_BOX (vbox),
-							     r);
-				gtk_box_pack_start_defaults (GTK_BOX (vbox),
-							     hbox);
-				gtk_box_pack_start_defaults
-				  (GTK_BOX (GNOME_DIALOG(dialog[ti])->vbox),
-				   vbox);
-			}
-			gtk_box_pack_start_defaults
-			  (GTK_BOX (GNOME_DIALOG(dialog[ti])->vbox), 
-			   sampling_box);
-		}
-
-		gtk_widget_show_all (dialog[ti]);
-	} else
-		gtk_widget_show_all (dialog[ti]);
-
-        gtk_widget_grab_focus (input_range);
-
-tool_dialog_loop:
-
-	selection = gnome_dialog_run (GNOME_DIALOG (dialog[ti]));
-	if (selection == 1) {
-	        gnome_dialog_close (GNOME_DIALOG (dialog[ti]));
-		return;
-	}
-
-	if (ti != 4)
-	        i = gtk_radio_group_get_selected (group_ops);
-
-	text = gtk_entry_get_text (GTK_ENTRY (input_range));
-	if (!parse_range (text, &range_input.start_col,
-			  &range_input.start_row,
-			  &range_input.end_col,
-			  &range_input.end_row)) {
-	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-				 _("You should introduce a valid cell range "
-				   "in 'Input Range:'"));
-		gtk_widget_grab_focus (input_range);
-		gtk_entry_set_position(GTK_ENTRY (input_range), 0);
-		gtk_entry_select_region(GTK_ENTRY (input_range), 0, 
-				GTK_ENTRY(input_range)->text_length);
-		goto tool_dialog_loop;
-	}
-
-	/* TODO: radio buttos for outputs */
-	dao.type = NewSheetOutput;
-
-	switch (ti) {
-	case 0:
-	        correlation_tool (wb, sheet, &range_input, !i, &dao);
-		break;
-	case 1:
-		covariance_tool (wb, sheet, &range_input, !i, &dao);
-		break;
-	case 2:
-		text = gtk_entry_get_text (GTK_ENTRY (ds.entry[1]));
-		ds.c_level = atof(text);
-		text = gtk_entry_get_text (GTK_ENTRY (ds.entry[2]));
-		ds.k_largest = atoi(text);
-		text = gtk_entry_get_text (GTK_ENTRY (ds.entry[3]));
-		ds.k_smallest = atoi(text);
-
-	        descriptive_stat_tool(wb, sheet, &range_input, !i, &ds, &dao);
-		break;
-	case 4:
-	        i = gtk_radio_group_get_selected(sampling_ops);
-		text = gtk_entry_get_text (GTK_ENTRY (sampling_entry[i]));
-		size = atoi(text);
-	        sampling_tool (wb, sheet, &range_input, !i, size, &dao);
-		break;
-	}
-
-	workbook_focus_sheet(sheet);
- 	gnome_dialog_close (GNOME_DIALOG (dialog[ti]));
-}
-
 static GtkWidget *
 hbox_pack_label_and_entry(char *str, char *default_str,
 			  int entry_len, GtkWidget *vbox)
@@ -377,6 +174,404 @@ new_dialog(char *name, GtkWidget *win)
 	return dialog;
 }
 
+static GtkWidget *
+new_frame(char *name, GtkWidget *target_box)
+{
+        GtkWidget *frame, *box;
+
+	frame = gtk_frame_new(name);
+	box = gtk_vbox_new(FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (frame), box);
+	gtk_box_pack_start (GTK_BOX (target_box), frame, FALSE, FALSE, 0);
+
+	return box;
+}
+
+void
+error_in_entry(Workbook *wb, GtkWidget *entry, char *err_str)
+{
+        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, err_str);
+
+	gtk_widget_grab_focus (entry);
+	gtk_entry_set_position(GTK_ENTRY (entry), 0);
+	gtk_entry_select_region(GTK_ENTRY (entry), 0, 
+				GTK_ENTRY(entry)->text_length);
+}
+
+static void
+add_check_buttons (GtkWidget *box, check_button_t *cbs)
+{
+	static gboolean do_transpose = FALSE;
+        GtkWidget *button;
+	int       i;
+
+	for (i = 0; cbs[i].name; i++) {
+	        GtkWidget *hbox, *entry;
+
+		hbox = gtk_hbox_new (FALSE, 0);
+	        button = gtk_check_button_new_with_label (cbs[i].name);
+		gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
+		if (cbs[i].entry_flag) {
+		        entry = gtk_entry_new_with_max_length (20);
+			gtk_entry_set_text (GTK_ENTRY (entry),
+					    cbs[i].default_entry);
+			gtk_box_pack_start (GTK_BOX (hbox), entry, 
+					    TRUE, TRUE, 0);
+			ds.entry[i] = entry;
+		}
+
+		gtk_box_pack_start (GTK_BOX (box), hbox, TRUE, TRUE, 0);
+		gtk_signal_connect (GTK_OBJECT (button), "toggled",
+				    GTK_SIGNAL_FUNC (cbs[i].fun),
+				    &do_transpose);
+	}
+}
+
+static void
+dialog_correlation_tool(Workbook *wb, Sheet *sheet)
+{
+        static GtkWidget *dialog, *box, *group_box, *groupped_label;
+	static GtkWidget *range_entry;
+	static GSList    *group_ops;
+
+	data_analysis_output_t  dao;
+
+	char  *text;
+	int   selection;
+	static Range range;
+	int   i=0, size;
+
+	if (!dialog) {
+	        dialog = new_dialog("Correlation", wb->toplevel);
+
+		box = gtk_vbox_new (FALSE, 0);
+		group_box = gtk_vbox_new (FALSE, 0);
+
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		box = new_frame("Input:", box);
+
+		range_entry = hbox_pack_label_and_entry
+		  ("Input Range:", "", 20, box);
+
+		group_ops = NULL;
+		groupped_label = gtk_label_new ("Groupped By:");
+		gtk_box_pack_start_defaults (GTK_BOX (box), groupped_label);
+		for (i = 0; groupped_ops [i]; i++) {
+		        GtkWidget *r;
+
+			r = gtk_radio_button_new_with_label (group_ops,
+							     _(groupped_ops[i])
+							     );
+			group_ops = GTK_RADIO_BUTTON (r)->group;
+			gtk_box_pack_start_defaults (GTK_BOX (group_box), r);
+		}
+		gtk_box_pack_start_defaults (GTK_BOX (box), group_box);
+
+		gtk_widget_show_all (dialog);
+	} else
+		gtk_widget_show_all (dialog);
+
+        gtk_widget_grab_focus (range_entry);
+
+correlation_dialog_loop:
+
+	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (selection == 1) {
+	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		return;
+	}
+
+	i = gtk_radio_group_get_selected (group_ops);
+
+	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
+	if (!parse_range (text, &range.start_col,
+			  &range.start_row,
+			  &range.end_col,
+			  &range.end_row)) {
+	        error_in_entry(wb, range_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Range:'");
+		goto correlation_dialog_loop;
+	}
+
+	/* TODO: radio buttos for outputs */
+	dao.type = NewSheetOutput;
+
+	correlation_tool (wb, sheet, &range, !i, &dao);
+
+	workbook_focus_sheet(sheet);
+ 	gnome_dialog_close (GNOME_DIALOG (dialog));
+}
+
+static void
+dialog_covariance_tool(Workbook *wb, Sheet *sheet)
+{
+        static GtkWidget *dialog, *box, *group_box, *groupped_label;
+	static GtkWidget *range_entry;
+	static GSList    *group_ops;
+
+	data_analysis_output_t  dao;
+
+	char  *text;
+	int   selection;
+	static Range range;
+	int   i=0, size;
+
+	if (!dialog) {
+	        dialog = new_dialog("Covariance", wb->toplevel);
+
+		box = gtk_vbox_new (FALSE, 0);
+		group_box = gtk_vbox_new (FALSE, 0);
+
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		box = new_frame("Input:", box);
+
+		range_entry = hbox_pack_label_and_entry
+		  ("Input Range:", "", 20, box);
+
+		group_ops = NULL;
+		groupped_label = gtk_label_new ("Groupped By:");
+		gtk_box_pack_start_defaults (GTK_BOX (box), groupped_label);
+		for (i = 0; groupped_ops [i]; i++) {
+		        GtkWidget *r;
+
+			r = gtk_radio_button_new_with_label (group_ops,
+							     _(groupped_ops[i])
+							     );
+			group_ops = GTK_RADIO_BUTTON (r)->group;
+			gtk_box_pack_start_defaults (GTK_BOX (group_box), r);
+		}
+		gtk_box_pack_start_defaults (GTK_BOX (box), group_box);
+
+		gtk_widget_show_all (dialog);
+	} else
+		gtk_widget_show_all (dialog);
+
+        gtk_widget_grab_focus (range_entry);
+
+covariance_dialog_loop:
+
+	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (selection == 1) {
+	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		return;
+	}
+
+	i = gtk_radio_group_get_selected (group_ops);
+
+	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
+	if (!parse_range (text, &range.start_col,
+			  &range.start_row,
+			  &range.end_col,
+			  &range.end_row)) {
+	        error_in_entry(wb, range_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Range:'");
+		goto covariance_dialog_loop;
+	}
+
+	/* TODO: radio buttos for outputs */
+	dao.type = NewSheetOutput;
+
+	covariance_tool (wb, sheet, &range, !i, &dao);
+
+	workbook_focus_sheet(sheet);
+ 	gnome_dialog_close (GNOME_DIALOG (dialog));
+}
+
+static void
+dialog_sampling_tool(Workbook *wb, Sheet *sheet)
+{
+        static GtkWidget *dialog, *box, *sampling_box, *sampling_label;
+	static GtkWidget *range_entry, *sampling_entry[2];
+	static GSList    *sampling_ops;
+
+	data_analysis_output_t  dao;
+
+	char  *text;
+	int   selection;
+	static Range range;
+	int   i=0, size;
+
+	if (!dialog) {
+	        dialog = new_dialog("Sampling", wb->toplevel);
+
+		box = gtk_vbox_new (FALSE, 0);
+
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		box = new_frame("Input:", box);
+
+		range_entry = hbox_pack_label_and_entry
+		  ("Input Range:", "", 20, box);
+
+		sampling_label = gtk_label_new ("Sampling Method:");
+
+		gtk_box_pack_start_defaults(GTK_BOX (box), sampling_label);
+
+		sampling_box = gtk_vbox_new (FALSE, 0);
+		sampling_ops = NULL;
+		for (i = 0; sample_method_ops [i]; i++) {
+		        GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+			GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
+			GtkWidget *label, *r;
+
+			if (i==0)
+			        label = gtk_label_new ("Period:");
+			else
+			        label =
+				  gtk_label_new ("Number of Samples:");
+			sampling_entry[i] =
+			        gtk_entry_new_with_max_length (20);
+			r = gtk_radio_button_new_with_label
+			  (sampling_ops, _(sample_method_ops[i]));
+			sampling_ops = GTK_RADIO_BUTTON (r)->group;
+			gtk_box_pack_start_defaults (GTK_BOX (hbox),
+						     label);
+			gtk_box_pack_start_defaults(GTK_BOX (hbox),
+						    sampling_entry[i]);
+			gtk_box_pack_start_defaults (GTK_BOX (vbox),
+						     r);
+			gtk_box_pack_start_defaults (GTK_BOX (vbox),
+						     hbox);
+			gtk_box_pack_start_defaults(GTK_BOX (box), vbox);
+		}
+		gtk_box_pack_start_defaults(GTK_BOX (box), sampling_box);
+
+		gtk_widget_show_all (dialog);
+	} else
+		gtk_widget_show_all (dialog);
+
+        gtk_widget_grab_focus (range_entry);
+
+sampling_dialog_loop:
+
+	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (selection == 1) {
+	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		return;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
+	if (!parse_range (text, &range.start_col,
+			  &range.start_row,
+			  &range.end_col,
+			  &range.end_row)) {
+	        error_in_entry(wb, range_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Range:'");
+		goto sampling_dialog_loop;
+	}
+
+	/* TODO: radio buttos for outputs */
+	dao.type = NewSheetOutput;
+
+	i = gtk_radio_group_get_selected(sampling_ops);
+	text = gtk_entry_get_text (GTK_ENTRY (sampling_entry[i]));
+	size = atoi(text);
+	sampling_tool (wb, sheet, &range, !i, size, &dao);
+
+	workbook_focus_sheet(sheet);
+ 	gnome_dialog_close (GNOME_DIALOG (dialog));
+}
+
+static void
+dialog_descriptive_stat_tool(Workbook *wb, Sheet *sheet)
+{
+        static GtkWidget *dialog, *box, *group_box, *groupped_label;
+	static GtkWidget *range_entry;
+	static GtkWidget *check_buttons;
+	static GSList    *group_ops;
+
+	data_analysis_output_t  dao;
+
+	char  *text;
+	int   selection;
+	static Range range;
+	int   i=0, size;
+
+	if (!dialog) {
+	        dialog = new_dialog("Descriptive Statistics", wb->toplevel);
+
+		box = gtk_vbox_new (FALSE, 0);
+		group_box = gtk_vbox_new (FALSE, 0);
+
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		box = new_frame("Input:", box);
+
+		range_entry = hbox_pack_label_and_entry
+		  ("Input Range:", "", 20, box);
+
+		group_ops = NULL;
+		groupped_label = gtk_label_new ("Groupped By:");
+		gtk_box_pack_start_defaults (GTK_BOX (box), groupped_label);
+		for (i = 0; groupped_ops [i]; i++) {
+		        GtkWidget *r;
+
+			r = gtk_radio_button_new_with_label (group_ops,
+							     _(groupped_ops[i])
+							     );
+			group_ops = GTK_RADIO_BUTTON (r)->group;
+			gtk_box_pack_start_defaults (GTK_BOX (group_box), r);
+		}
+		gtk_box_pack_start_defaults (GTK_BOX (box), group_box);
+
+		check_buttons = gtk_vbox_new (FALSE, 0);
+		add_check_buttons(check_buttons, desc_stat_buttons);
+		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG
+					     (dialog)->vbox), 
+				    check_buttons, TRUE, TRUE, 0);
+
+		gtk_widget_show_all (dialog);
+	} else
+		gtk_widget_show_all (dialog);
+
+        gtk_widget_grab_focus (range_entry);
+
+stat_dialog_loop:
+
+	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (selection == 1) {
+	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		return;
+	}
+
+	i = gtk_radio_group_get_selected (group_ops);
+
+	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
+	if (!parse_range (text, &range.start_col,
+			  &range.start_row,
+			  &range.end_col,
+			  &range.end_row)) {
+	        error_in_entry(wb, range_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Range:'");
+		goto stat_dialog_loop;
+	}
+
+	/* TODO: radio buttos for outputs */
+	dao.type = NewSheetOutput;
+
+	text = gtk_entry_get_text (GTK_ENTRY (ds.entry[1]));
+	ds.c_level = atof(text);
+	text = gtk_entry_get_text (GTK_ENTRY (ds.entry[2]));
+	ds.k_largest = atoi(text);
+	text = gtk_entry_get_text (GTK_ENTRY (ds.entry[3]));
+	ds.k_smallest = atoi(text);
+
+	descriptive_stat_tool(wb, sheet, &range, !i, &ds, &dao);
+
+	workbook_focus_sheet(sheet);
+ 	gnome_dialog_close (GNOME_DIALOG (dialog));
+}
+
 static void
 dialog_ztest_tool(Workbook *wb, Sheet *sheet)
 {
@@ -401,6 +596,8 @@ dialog_ztest_tool(Workbook *wb, Sheet *sheet)
 
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
+
+		box = new_frame("Input:", box);
 
 		range1_entry = hbox_pack_label_and_entry
 		  ("Variable 1 Range:", "", 20, box);
@@ -439,13 +636,9 @@ ztest_dialog_loop:
 			  &range_input1.start_row,
 			  &range_input1.end_col,
 			  &range_input1.end_row)) {
-	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-				 _("You should introduce a valid cell range "
-				   "in 'Variable 1:'"));
-		gtk_widget_grab_focus (range1_entry);
-		gtk_entry_set_position(GTK_ENTRY (range1_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (range1_entry), 0, 
-				GTK_ENTRY(range1_entry)->text_length);
+	        error_in_entry(wb, range1_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Variable 1:'");
 		goto ztest_dialog_loop;
 	}
 
@@ -454,13 +647,9 @@ ztest_dialog_loop:
 			  &range_input2.start_row,
 			  &range_input2.end_col,
 			  &range_input2.end_row)) {
-	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-				 _("You should introduce a valid cell range "
-				   "in 'Variable 2:'"));
-		gtk_widget_grab_focus (range2_entry);
-		gtk_entry_set_position(GTK_ENTRY (range2_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (range2_entry), 0, 
-				GTK_ENTRY(range2_entry)->text_length);
+	        error_in_entry(wb, range2_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Variable 2:'");
 		goto ztest_dialog_loop;
 	}
 	text = gtk_entry_get_text (GTK_ENTRY (mean_diff_entry));
@@ -509,6 +698,8 @@ dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet)
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
+		box = new_frame("Input:", box);
+
 		range1_entry = hbox_pack_label_and_entry
 		  ("Variable 1 Range:", "", 20, box);
 
@@ -540,13 +731,9 @@ ttest_dialog_loop:
 			  &range_input1.start_row,
 			  &range_input1.end_col,
 			  &range_input1.end_row)) {
-	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-				 _("You should introduce a valid cell range "
-				   "in 'Variable 1:'"));
-		gtk_widget_grab_focus (range1_entry);
-		gtk_entry_set_position(GTK_ENTRY (range1_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (range1_entry), 0, 
-				GTK_ENTRY(range1_entry)->text_length);
+	        error_in_entry(wb, range1_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Variable 1:'");
 		goto ttest_dialog_loop;
 	}
 
@@ -555,13 +742,9 @@ ttest_dialog_loop:
 			  &range_input2.start_row,
 			  &range_input2.end_col,
 			  &range_input2.end_row)) {
-	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-				 _("You should introduce a valid cell range "
-				   "in 'Variable 2:'"));
-		gtk_widget_grab_focus (range2_entry);
-		gtk_entry_set_position(GTK_ENTRY (range2_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (range2_entry), 0, 
-				GTK_ENTRY(range2_entry)->text_length);
+	        error_in_entry(wb, range2_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Variable 2:'");
 		goto ttest_dialog_loop;
 	}
 	text = gtk_entry_get_text (GTK_ENTRY (mean_diff_entry));
@@ -605,6 +788,8 @@ dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet)
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
+		box = new_frame("Input:", box);
+
 		range1_entry = hbox_pack_label_and_entry
 		  ("Variable 1 Range:", "", 20, box);
 
@@ -636,13 +821,9 @@ ttest_dialog_loop:
 			  &range_input1.start_row,
 			  &range_input1.end_col,
 			  &range_input1.end_row)) {
-	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-				 _("You should introduce a valid cell range "
-				   "in 'Variable 1:'"));
-		gtk_widget_grab_focus (range1_entry);
-		gtk_entry_set_position(GTK_ENTRY (range1_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (range1_entry), 0, 
-				GTK_ENTRY(range1_entry)->text_length);
+	        error_in_entry(wb, range1_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Variable 1:'");
 		goto ttest_dialog_loop;
 	}
 
@@ -651,13 +832,9 @@ ttest_dialog_loop:
 			  &range_input2.start_row,
 			  &range_input2.end_col,
 			  &range_input2.end_row)) {
-	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-				 _("You should introduce a valid cell range "
-				   "in 'Variable 2:'"));
-		gtk_widget_grab_focus (range2_entry);
-		gtk_entry_set_position(GTK_ENTRY (range2_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (range2_entry), 0, 
-				GTK_ENTRY(range2_entry)->text_length);
+	        error_in_entry(wb, range2_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Variable 2:'");
 		goto ttest_dialog_loop;
 	}
 	text = gtk_entry_get_text (GTK_ENTRY (mean_diff_entry));
@@ -701,6 +878,8 @@ dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet)
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
+		box = new_frame("Input:", box);
+
 		range1_entry = hbox_pack_label_and_entry
 		  ("Variable 1 Range:", "", 20, box);
 
@@ -732,13 +911,9 @@ ttest_dialog_loop:
 			  &range_input1.start_row,
 			  &range_input1.end_col,
 			  &range_input1.end_row)) {
-	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-				 _("You should introduce a valid cell range "
-				   "in 'Variable 1:'"));
-		gtk_widget_grab_focus (range1_entry);
-		gtk_entry_set_position(GTK_ENTRY (range1_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (range1_entry), 0, 
-				GTK_ENTRY(range1_entry)->text_length);
+	        error_in_entry(wb, range1_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Variable 1:'");
 		goto ttest_dialog_loop;
 	}
 
@@ -747,13 +922,9 @@ ttest_dialog_loop:
 			  &range_input2.start_row,
 			  &range_input2.end_col,
 			  &range_input2.end_row)) {
-	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-				 _("You should introduce a valid cell range "
-				   "in 'Variable 2:'"));
-		gtk_widget_grab_focus (range2_entry);
-		gtk_entry_set_position(GTK_ENTRY (range2_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (range2_entry), 0, 
-				GTK_ENTRY(range2_entry)->text_length);
+	        error_in_entry(wb, range2_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Variable 2:'");
 		goto ttest_dialog_loop;
 	}
 	text = gtk_entry_get_text (GTK_ENTRY (mean_diff_entry));
@@ -775,7 +946,7 @@ ttest_dialog_loop:
 static void
 dialog_ftest_tool(Workbook *wb, Sheet *sheet)
 {
-        static GtkWidget *dialog, *box;
+        static GtkWidget *dialog, *box, *vbox;
 	static GtkWidget *range1_entry, *range2_entry;
 	static GtkWidget *alpha_entry;
 
@@ -792,18 +963,19 @@ dialog_ftest_tool(Workbook *wb, Sheet *sheet)
 				    wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
+		vbox = new_frame("Input:", box);
 
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
 		range1_entry = hbox_pack_label_and_entry
-		  ("Variable 1 Range:", "", 20, box);
+		  ("Variable 1 Range:", "", 20, vbox);
 
 		range2_entry = hbox_pack_label_and_entry
-		  ("Variable 2 Range:", "", 20, box);
+		  ("Variable 2 Range:", "", 20, vbox);
 
 		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
-							20, box);
+							20, vbox);
 
 		gtk_widget_show_all (dialog);
 	} else
@@ -824,13 +996,9 @@ ttest_dialog_loop:
 			  &range_input1.start_row,
 			  &range_input1.end_col,
 			  &range_input1.end_row)) {
-	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-				 _("You should introduce a valid cell range "
-				   "in 'Variable 1:'"));
-		gtk_widget_grab_focus (range1_entry);
-		gtk_entry_set_position(GTK_ENTRY (range1_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (range1_entry), 0, 
-				GTK_ENTRY(range1_entry)->text_length);
+	        error_in_entry(wb, range1_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Variable 1:'");
 		goto ttest_dialog_loop;
 	}
 
@@ -839,13 +1007,9 @@ ttest_dialog_loop:
 			  &range_input2.start_row,
 			  &range_input2.end_col,
 			  &range_input2.end_row)) {
-	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-				 _("You should introduce a valid cell range "
-				   "in 'Variable 2:'"));
-		gtk_widget_grab_focus (range2_entry);
-		gtk_entry_set_position(GTK_ENTRY (range2_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (range2_entry), 0, 
-				GTK_ENTRY(range2_entry)->text_length);
+	        error_in_entry(wb, range2_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Variable 2:'");
 		goto ttest_dialog_loop;
 	}
 
@@ -918,9 +1082,6 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
 
 	if (selection == 0) {
 	        g_return_if_fail (tools[selected_row].fun != NULL);
-		if (selected_row >= 5 || selected_row == 3)
-		  tools[selected_row].fun(wb, sheet);
-		else
-		  tool_dialog_range(wb, sheet, selected_row);
+		tools[selected_row].fun(wb, sheet);
 	}
 }

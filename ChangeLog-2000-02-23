@@ -1,5 +1,10 @@
 1999-07-06  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* src/dialog-analysis-tools.c: Cleaned up a lot.  Added input
+ 	frames to input entries.
+
+1999-07-06  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
 	* src/analysis-tools.c, src/dialog-analysis-tools.c,
  	src/dialogs.h: Implemented F-Test tool.
 	
