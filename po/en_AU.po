@@ -1,0 +1,42 @@
+# gnumeric en_AU.po
+# Copyright (C) 2001 Free Software Foundation, Inc.
+# Karl Eichwalder <ke@suse.de>, 2001.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnumeric CVS\n"
+"POT-Creation-Date: 2001-02-11 19:51+0100\n"
+"PO-Revision-Date: 2001-02-11 20:00+01:00\n"
+"Last-Translator: Karl Eichwalder <ke@suse.de>\n"
+"Language-Team: gnome-i18n@gnome.org\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/dialogs/cell-format.glade.h:14
+msgid "Background Color"
+msgstr "Background Colour"
+
+#: src/dialogs/cell-format.glade.h:21
+msgid "Color"
+msgstr "Colour"
+
+#: src/dialogs/cell-format.glade.h:52
+msgid "Pick a Background color"
+msgstr "Pick a Background colour"
+
+#: src/dialogs/cell-format.glade.h:53
+msgid "Pick a Pattern color"
+msgstr "Pick a Pattern colour"
+
+#: src/dialogs/cell-format.glade.h:54
+msgid "Pick a border color"
+msgstr "Pick a border colour"
+
+#: src/dialogs/cell-format.glade.h:55
+msgid "Pick a font color"
+msgstr "Pick a font colour"
+
+#: src/dialogs/cell-format.glade.h:99
+msgid "_No Color"
+msgstr "_No Colour"
