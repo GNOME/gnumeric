@@ -14,6 +14,8 @@ Release Critical
 
     - Check version in xml_parse_ctx_new.
 
+    - Ctrl-C does not seem to work for me.  Why?  (Ctrl-Z does work.)
+
 Pending Patches
 ---------------
 
