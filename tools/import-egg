@@ -7,7 +7,7 @@ $| = 1;
 
 die "$0: must run from top-level gnumeric directory.\n"
     unless -r "gnumeric-config.h";
-my $dst = "src/egg";
+my $dst = "src/cut-n-paste-code/egg";
 
 my $eggdir = $ARGV[0];
 $eggdir = "../libegg" unless defined $eggdir;
@@ -81,7 +81,7 @@ sub copy_subsystem {
 	while (<SRC>) {
 	    chomp;
 	    if (m{^\s*\#\s*include\s*[<\"]libegg/(.*)[>\"]}) {
-		print DST "#include \"egg/$1\"\n";
+		print DST "#include \"cut-n-paste-code/egg/$1\"\n";
 		next LINE;
 	    }
 
