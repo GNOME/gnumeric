@@ -1,3 +1,8 @@
+2004-08-22  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* am.po: Copied translation of "Information" from HEAD so it isn't an
+	invalid XML entity.
+
 2004-08-20  Laurent Dhima  <laurenti@alblinux.net>
 
 	* sq.po: Updated Albanian translation.
