@@ -149,7 +149,8 @@ autocorrect_tool (char const *command)
 
 		for (s = ucommand; *s; s = p+1) {
 		skip_first_letter:
-			for (p = s; *p != '\0' && !ispunct (*p) ; p++)
+			/* We need to find the end of a sentence assume ',' is not */
+			for (p = s; *p != '\0' && !(ispunct (*p) || *p == ',') ; p++)
 				;
 			if (*p == '\0')
 				break;
