@@ -1,4 +1,11 @@
 2003-06-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-function-select.c 
+	(cb_dialog_function_select_fun_selection_changed): carefully
+	  count characters and cursor positions (1-off problems)
+	* format-selector.glade: percentages are not scaled
+
+2003-06-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 	for Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* dialog-stf.glade: small formatting change

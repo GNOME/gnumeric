@@ -275,6 +275,9 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 
 					j = g_utf8_pointer_to_offset (f_desc, cursor);
 
+					if (i > 0)
+						cursor = g_utf8_prev_char (cursor);
+
 					tag = gtk_text_buffer_create_tag
 						(state->description,
 						 NULL, "style",
@@ -322,7 +325,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 						 &start, j + 1);
 					gtk_text_buffer_get_iter_at_offset
 						(state->description, &end,
-						 j + i);
+						 j + i + 1);
 					gtk_text_buffer_apply_tag
 						(state->description, tag,
 						 &start, &end);

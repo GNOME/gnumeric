@@ -9,7 +9,7 @@ Andreas:
 	* Added new function SSMEDIAN (social science median, or 
           median for grouped data)
 	* Added a locale selector to text import.
-	* Fix 115542 (cs_CZ bug)
+	* Fix 115542 (cs_CZ bug) and various others
 	* Fix landscape printing
 
 Emmanuel Pacaud:
