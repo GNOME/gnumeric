@@ -1,3 +1,8 @@
+2002-01-11  Morten Welinder  <terra@diku.dk>
+
+	* src/plugin-util.c (MAP_FAILED): Compilation fix for sick
+	systems.
+
 2002-01-10  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/analysis-tools.c (fourier_fft) : Fast Fourier Transform

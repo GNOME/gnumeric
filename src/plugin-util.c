@@ -30,6 +30,11 @@
 #define MAP_PRIVATE ((void *)-1)
 #endif
 
+#ifndef MAP_FAILED
+/* Someone needs their head examining - BSD ? */
+#define MAP_FAILED ((void *)-1)
+#endif
+
 /**
  * gnumeric_fopen:
  * @context: a gnumeric command context
