@@ -912,6 +912,7 @@ plugins/fn-info/Makefile
 plugins/fn-logical/Makefile
 plugins/fn-lookup/Makefile
 plugins/fn-math/Makefile
+plugins/fn-r/Makefile
 plugins/fn-stat/Makefile
 plugins/fn-string/Makefile
 plugins/fn-random/Makefile

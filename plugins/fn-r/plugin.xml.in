@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_r">
+	<information>
+		<_name>Statistical Functions</_name>
+		<_description>Statistical Functions with naming a calling conventions from The R Project</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="rstat"/>
+	</loader>
+	<services>
+		<service type="function_group" id="stat">
+			<_category>Statistics</_category>
+			<functions>
+				<function name="r.dbeta"/>
+				<function name="r.dgamma"/>
+				<function name="r.dnorm"/>
+				<function name="r.dt"/>
+				<function name="r.pbeta"/>
+				<function name="r.pgamma"/>
+				<function name="r.plnorm"/>
+				<function name="r.pnorm"/>
+				<function name="r.pt"/>
+				<function name="r.qbeta"/>
+				<function name="r.qgamma"/>
+				<function name="r.qlnorm"/>
+				<function name="r.qnorm"/>
+				<function name="r.qt"/>
+			</functions>
+		</service>
+	</services>
+</plugin>
