@@ -1,3 +1,24 @@
+2001-10-10  Jody Goldberg <jgoldberg@home.com>
+
+	* fn-string.c (gnumeric_text) : Make the first arg a scalar to avoid
+	  replication.
+	(gnumeric_trim) : make arg a scalar so support numbers as args.
+	(gnumeric_upper) : ditto.
+	(gnumeric_substitute) : ditto.
+	(gnumeric_search) : ditto.
+	(gnumeric_right) : ditto.
+	(gnumeric_rept) : ditto.
+	(gnumeric_replace) : ditto.
+	(gnumeric_mid) : ditto.
+	(gnumeric_proper) : ditto.
+	(gnumeric_lower) : ditto.
+	(gnumeric_len) : ditto.
+	(gnumeric_left) : ditto.
+	(gnumeric_find) : ditto.
+	(gnumeric_exact) : ditto.
+	(gnumeric_code) : ditto.
+	(gnumeric_clean) : ditto.
+
 2001-10-09  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* fn-financial.c (coupdays): Fixed frequency 1.

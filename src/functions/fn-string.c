@@ -387,7 +387,7 @@ static char *help_clean = {
 	N_("@FUNCTION=CLEAN\n"
 	   "@SYNTAX=CLEAN(string)\n"
 	   "@DESCRIPTION="
-	   "CLEAN cleans the string from any non-printable characters."
+	   "CLEAN removes any non-printable characters from @string."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "CLEAN(\"one\"\\&char(7)) equals \"one\".\n"
@@ -697,15 +697,6 @@ gnumeric_text (FunctionEvalInfo *ei, Value **args)
 	Value *res, *tmp = NULL;
 	Value const *arg  = args[0];
 	gboolean ok = FALSE;
-
-	/* FIXME FIXME FIXME : All this should really be moved
-	 *                     into value_get_as_float
-	 */
-	if (arg->type == VALUE_CELLRANGE || arg->type == VALUE_ARRAY) {
-		if (value_area_get_height (ei->pos, arg) == 1 &&
-		    value_area_get_width (ei->pos, arg) == 1)
-			arg = value_area_fetch_x_y (ei->pos, arg, 0, 0);
-	}
 
 	if (arg->type == VALUE_STRING) {
 		Value *match = format_match (arg->v_str.val->str, NULL, NULL);
@@ -1236,47 +1227,47 @@ string_functions_init (void)
 
 	function_add_args  (cat, "char",       "f",    "number",
 			    &help_char,       gnumeric_char);
-	function_add_args  (cat, "clean",      "s",    "text",
+	function_add_args  (cat, "clean",      "S",    "text",
 			    &help_clean,      gnumeric_clean);
-	function_add_args  (cat, "code",       "s",    "text",
+	function_add_args  (cat, "code",       "S",    "text",
 			    &help_code,       gnumeric_code);
 	function_add_nodes (cat, "concatenate",0,      "text1,text2",
 			    &help_concatenate,gnumeric_concatenate);
 	function_add_args  (cat, "dollar",     "f|f",  "num,decimals",
 			    &help_dollar,     gnumeric_dollar);
-	function_add_args  (cat, "exact",      "ss",   "text1,text2",
+	function_add_args  (cat, "exact",      "SS",   "text1,text2",
 			    &help_exact,      gnumeric_exact);
-	function_add_args  (cat, "find",       "ss|f", "text1,text2,num",
+	function_add_args  (cat, "find",       "SS|f", "text1,text2,num",
 			    &help_find,       gnumeric_find);
 	function_add_args  (cat, "fixed",      "f|fb", "num,decs,no_commas",
 			    &help_fixed,      gnumeric_fixed);
-	function_add_args  (cat, "left",       "s|f",  "text,num_chars",
+	function_add_args  (cat, "left",       "S|f",  "text,num_chars",
 			    &help_left,       gnumeric_left);
-	function_add_args  (cat, "len",        "s",    "text",
+	function_add_args  (cat, "len",        "S",    "text",
 			    &help_len,        gnumeric_len);
-	function_add_args  (cat, "lower",      "s",    "text",
+	function_add_args  (cat, "lower",      "S",    "text",
 			    &help_lower,      gnumeric_lower);
-	function_add_args  (cat, "proper",     "s",    "text",
+	function_add_args  (cat, "proper",     "S",    "text",
 			    &help_proper,     gnumeric_proper);
-	function_add_args  (cat, "mid",        "sff",  "text,pos,num",
+	function_add_args  (cat, "mid",        "Sff",  "text,pos,num",
 			    &help_mid,        gnumeric_mid);
-	function_add_args  (cat, "replace",    "sffs", "old,start,num,new",
+	function_add_args  (cat, "replace",    "SffS", "old,start,num,new",
 			    &help_replace,    gnumeric_replace);
-	function_add_args  (cat, "rept",       "sf",   "text,num",
+	function_add_args  (cat, "rept",       "Sf",   "text,num",
 			    &help_rept,       gnumeric_rept);
-	function_add_args  (cat, "right",      "s|f",  "text,num_chars",
+	function_add_args  (cat, "right",      "S|f",  "text,num_chars",
 			    &help_right,      gnumeric_right);
-	function_add_args  (cat, "search",     "ss|f", "find,within[,start_num]",
+	function_add_args  (cat, "search",     "SS|f", "find,within[,start_num]",
 			    &help_search,     gnumeric_search);
-	function_add_args  (cat, "substitute", "sss|f","text,old,new,num",
+	function_add_args  (cat, "substitute", "SSS|f","text,old,new,num",
 			    &help_substitute, gnumeric_substitute);
 	function_add_args  (cat, "t",          "?",    "value",
 			    &help_t,          gnumeric_t);
-	function_add_args  (cat, "text",       "?s",   "value,format_text",
+	function_add_args  (cat, "text",       "Ss",   "value,format_text",
 			    &help_text,       gnumeric_text);
-	function_add_args  (cat, "trim",       "s",    "text",
+	function_add_args  (cat, "trim",       "S",    "text",
 			    &help_trim,       gnumeric_trim);
-	function_add_args  (cat, "upper",      "s",    "text",
+	function_add_args  (cat, "upper",      "S",    "text",
 			    &help_upper,      gnumeric_upper);
 	function_add_args  (cat, "value",      "?",    "text",
 			    &help_value,      gnumeric_value);
