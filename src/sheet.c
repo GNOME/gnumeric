@@ -1965,7 +1965,7 @@ sheet_cell_remove_simple (Sheet *sheet, Cell *cell)
 		dependent_unqueue_recalc (CELL_TO_DEP (cell));
 
 	if (cell_has_expr (cell))
-		dependent_unlink (CELL_TO_DEP (cell));
+		dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 
 	deps = cell_get_dependencies (cell);
 	if (deps)
@@ -3153,7 +3153,7 @@ sheet_move_range (CommandContext *context,
 		if ((cell->pos.col + rinfo->col_offset) >= SHEET_MAX_COLS ||
 		    (cell->pos.row + rinfo->row_offset) >= SHEET_MAX_ROWS) {
 			if (cell_has_expr (cell))
-				dependent_unlink (CELL_TO_DEP (cell));
+				dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 			cell_unrealize (cell);
 			cell_destroy (cell);
 			continue;
@@ -3163,7 +3163,7 @@ sheet_move_range (CommandContext *context,
 		inter_sheet_expr  = (cell->base.sheet != rinfo->target_sheet &&
 				     cell_has_expr (cell));
 		if (inter_sheet_expr)
-			dependent_unlink (CELL_TO_DEP (cell));
+			dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 
 		/* Update the location */
 		sheet_cell_insert (rinfo->target_sheet, cell,

@@ -195,7 +195,7 @@ dependent_queue_recalc_list (GList *list, gboolean freelist)
 	}
 
 	if (freelist)
-		g_list_free (list0);
+		g_list_free (list);
 }
 
 /*
