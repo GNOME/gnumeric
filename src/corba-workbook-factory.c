@@ -149,7 +149,7 @@ _WorkbookFactory_init (CORBA_Environment *ev)
 	/* Register the server and see if it was already there */
 
 	v = goad_server_register (CORBA_OBJECT_NIL, gnumeric_workbook_factory,
-				  "IDL:GNOME:Gnumeric:WorkbookFactory:1.0", "server", ev);
+				  "IDL:GNOME:Gnumeric:WorkbookFactory:1.0", "object", ev);
 	if (v == 0)
 		return TRUE;
 
