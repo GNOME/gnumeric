@@ -1,3 +1,9 @@
+2002-05-05  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_obj_read_biff8_obj) : tack on a flag to handle the
+	  magic associated with combos for filters.
+	* ms-excel-read.c (ms_sheet_create_obj) : respect the new flag.
+
 2002-04-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.3

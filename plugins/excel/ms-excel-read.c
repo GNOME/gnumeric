@@ -440,7 +440,9 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		   break;
 	case 0x12: so = g_object_new (sheet_widget_list_get_type (), NULL);
 		   break;
-	case 0x14: so = g_object_new (sheet_widget_combo_get_type (), NULL);
+	/* ignore combos associateed with filters */
+	case 0x14: if (!obj->ignore_combo_in_filter)
+			   so = g_object_new (sheet_widget_combo_get_type (), NULL);
 		   break;
 
 	case 0x19: /* Comment */

@@ -533,6 +533,12 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			obj->excel_type = MS_OLE_GET_GUINT16(data+4);
 			obj->id = MS_OLE_GET_GUINT16(data+6);
 
+			/* Undocumented.  It appears that combos for filters are marked
+			 * with flag 0x100
+			 */
+			obj->ignore_combo_in_filter =
+				(obj->excel_type == 0x14) && (options & 0x100);
+
 #ifndef NO_DEBUG_EXCEL
 			/* only print when debug is enabled */
 			if (ms_excel_object_debug == 0)
@@ -551,8 +557,8 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			if (ms_excel_object_debug > 4) {
 				/* According to the docs this should not fail
 				 * but there appears to be a flag at 0x200 for
-				 * scrollbars and 0x100 for checkboxes
-				 * assicated with filters.
+				 * scrollbars and 0x100 for combos
+				 * associated with filters.
 				 */
 				if ((options & 0x9fee) != 0)
 					printf ("WARNING : Why is option not 0 (%x)\n",
@@ -669,6 +675,7 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container, GHashTable *attrs)
 	obj->id = -1;
 	obj->gnum_obj = NULL;
 	obj->attrs = attrs;
+	obj->ignore_combo_in_filter = FALSE;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_object_debug > 0)

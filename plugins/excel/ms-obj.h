@@ -92,6 +92,7 @@ struct _MSObj
 	int		 excel_type;
 	char const	*excel_type_name;
 
+	gboolean	 ignore_combo_in_filter;
 	GHashTable	*attrs;
 };
 
