@@ -37,7 +37,6 @@ Long term breakage
                dialog_solver  [dialog-solver.c:735]
 
 - Search-and-replace.
-  - Comments for empty cells are not found.
   - It is doubtful whether the regexp selection belongs on the first page.
   - Querying is not implemented.
 

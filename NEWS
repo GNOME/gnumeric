@@ -4,6 +4,9 @@ Jody:
 	* Import and draw col/row outlines from XL.
 	* Restore horizontal FILL alignment.
 
+Morten:
+	* Make search-and-destroy work better on comments.
+
 --------------------------------------------------------------------------
 Gnumeric 0.64
 

@@ -1,3 +1,19 @@
+2001-03-26  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook.c (workbook_cells): New function, extracted from
+ 	cmd_search_replace_do.
+
+	* src/sheet.c (sheet_cells): New function, extracted from
+ 	cmd_search_replace_do.
+
+	* src/cell.c (cell_has_comment_pos): New function for those cells
+ 	that aren't really there.
+
+	* src/commands.c (cmd_search_replace_do): Use workbook_cells and
+ 	sheet_cells.
+	(cmd_search_replace_do_cell): Change to take position instead of
+ 	cell.  Handle missing cells without crashing.
+
 2001-03-25  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/commands.c

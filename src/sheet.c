@@ -1894,6 +1894,78 @@ sheet_foreach_cell_in_range (Sheet *sheet, gboolean only_existing,
 	return NULL;
 }
 
+
+static Value *
+cb_sheet_cells_collect (Sheet *sheet, int col, int row,
+			Cell *cell, void *user_data)
+{
+	GPtrArray *cells = user_data;
+	EvalPos *ep = g_new (EvalPos, 1);
+
+	ep->sheet = sheet;
+	ep->eval.col = col;
+	ep->eval.row = row;
+
+	g_ptr_array_add (cells, ep);
+
+	return NULL;
+}
+
+
+/**
+ * sheet_cells:
+ *
+ * @sheet     : The sheet to find cells in.
+ * @start_col : the first column to search.
+ * @start_row : the first row to search.
+ * @end_col   : the last column to search.
+ * @end_row   : the last row to search.
+ * @comments  : If true, include cells with only comments also.
+ *
+ * Collects a GPtrArray of EvalPos pointers for all cells in a sheet.
+ * No particular order should be assumed.
+ */
+GPtrArray *
+sheet_cells (Sheet *sheet,
+	     int start_col, int start_row, int end_col, int end_row,
+	     gboolean comments)
+{
+	GPtrArray *cells = g_ptr_array_new ();
+	Range r;
+	GList *scomments, *tmp;
+
+	g_return_val_if_fail (sheet != NULL, cells);
+
+	sheet_foreach_cell_in_range (sheet, TRUE,
+				     start_col, start_row,
+				     end_col, end_row,
+				     cb_sheet_cells_collect,
+				     cells);
+
+	r.start.col = start_col;
+	r.start.row = start_row;
+	r.end.col = end_col;
+	r.end.row = end_row;
+	scomments = sheet_get_objects (sheet, &r, CELL_COMMENT_TYPE);
+	for (tmp = scomments; tmp; tmp = tmp->next) {
+		CellComment *c = tmp->data;
+		const Range *loc = sheet_object_range_get (SHEET_OBJECT (c));
+		Cell *cell = sheet_cell_get (sheet, loc->start.col, loc->start.row);
+		if (!cell) {
+			/* If cells does not exist, we haven't seen it...  */
+			EvalPos *ep = g_new (EvalPos, 1);
+			ep->sheet = sheet;
+			ep->eval.col = loc->start.col;
+			ep->eval.row = loc->start.row;
+			g_ptr_array_add (cells, ep);
+		}
+	}
+	g_list_free (scomments);
+
+	return cells;
+}
+
+
 static Value *
 fail_if_not_selected (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {

@@ -2903,15 +2903,16 @@ cmd_search_replace_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_search_replace_do_cell (CmdSearchReplace *me, Cell *cell,
+cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 			    gboolean test_run)
 {
 	SearchReplace *sr = me->sr;
 	gboolean is_expr, is_value, is_string, is_other;
-	Value *v = cell->value;
+	Cell *cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
+	Value *v = cell ? cell->value : NULL;
 
-	is_expr = cell_has_expr (cell);
-	is_value = !is_expr && !cell_is_blank (cell) && v;
+	is_expr = cell && cell_has_expr (cell);
+	is_value = cell && !is_expr && !cell_is_blank (cell) && v;
 	is_string = is_value && (v->type == VALUE_STRING);
 	is_other = is_value && !is_string;
 
@@ -3018,7 +3019,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, Cell *cell,
 	}
 
 	if (!test_run && sr->replace_comments) {
-		CellComment *comment = cell_has_comment (cell);
+		CellComment *comment = cell_has_comment_pos (ep->sheet, &ep->eval);
 		if (comment) {
 			const char *old_text = cell_comment_text_get (comment);
 			char *new_text = search_replace_string (sr, old_text);
@@ -3030,8 +3031,8 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, Cell *cell,
 
 				if (doit) {
 					SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
-					sri->pos.sheet = cell->base.sheet;
-					sri->pos.eval = cell->pos;
+					sri->pos.sheet = ep->sheet;
+					sri->pos.eval = ep->eval;
 					sri->old_type = sri->new_type = SRI_comment;
 					sri->old.comment = g_strdup (old_text);
 					sri->new.comment = new_text;
@@ -3045,22 +3046,6 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, Cell *cell,
 	}
 
 	return FALSE;
-}
-
-static Value *
-cb_search_replace_collect (Sheet *sheet, int col, int row,
-			   Cell *cell, void *user_data)
-{
-	GPtrArray *cells = user_data;
-	EvalPos *ep = g_new (EvalPos, 1);
-
-	ep->sheet = sheet;
-	ep->eval.col = col;
-	ep->eval.row = row;
-
-	g_ptr_array_add (cells, ep);
-
-	return NULL;
 }
 
 static int
@@ -3088,7 +3073,7 @@ cmd_search_replace_do (CmdSearchReplace *me, Workbook *wb,
 		       Sheet *sheet, gboolean test_run)
 {
 	SearchReplace *sr = me->sr;
-	GPtrArray *cells;
+	GPtrArray *cells = NULL;
 	gboolean result = FALSE;
 	int i;
 
@@ -3107,31 +3092,15 @@ cmd_search_replace_do (CmdSearchReplace *me, Workbook *wb,
 	}
 
 	/* Collect a list of all cells subject to search.  */
-	cells = g_ptr_array_new ();
 	switch (sr->scope) {
 	case SRS_workbook:
-	{
-		GList *tmp, *sheets = workbook_sheets (wb);
-
-		for (tmp = sheets; tmp; tmp = tmp->next) {
-			Sheet *sheet = tmp->data;
-			sheet_foreach_cell_in_range (sheet, TRUE,
-						     0, 0,
-						     SHEET_MAX_COLS, SHEET_MAX_ROWS,
-						     cb_search_replace_collect,
-						     cells);
-		}
-		g_list_free (sheets);
-
+		cells = workbook_cells (wb, TRUE);
 		break;
-	}
 
 	case SRS_sheet:
-		sheet_foreach_cell_in_range (sheet, TRUE,
-					     0, 0,
-					     SHEET_MAX_COLS, SHEET_MAX_ROWS,
-					     cb_search_replace_collect,
-					     cells);
+		cells = sheet_cells (sheet,
+				     0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
+				     TRUE);
 		break;
 
 	case SRS_range:
@@ -3143,11 +3112,9 @@ cmd_search_replace_do (CmdSearchReplace *me, Workbook *wb,
 			     &start_col, &start_row,
 			     &end_col, &end_row);
 
-		sheet_foreach_cell_in_range (sheet, TRUE,
-					     start_col, start_row,
-					     end_col, end_row,
-					     cb_search_replace_collect,
-					     cells);
+		cells = sheet_cells (sheet,
+				     start_col, start_row, end_col, end_row,
+				     TRUE);
 		break;
 	}
 
@@ -3164,10 +3131,7 @@ cmd_search_replace_do (CmdSearchReplace *me, Workbook *wb,
 	for (i = 0; i < cells->len; i++) {
 		EvalPos *ep = g_ptr_array_index (cells, i);
 		if (!result) {
-			Cell *cell = sheet_cell_get (ep->sheet,
-						     ep->eval.col,
-						     ep->eval.row);
-			result = cmd_search_replace_do_cell (me, cell, test_run);
+			result = cmd_search_replace_do_cell (me, ep, test_run);
 		}
 		g_free (ep);
 	}

@@ -789,14 +789,13 @@ cellpos_cmp (CellPos const * a, CellPos const * b)
 
 
 CellComment *
-cell_has_comment (const Cell *cell)
+cell_has_comment_pos (const Sheet *sheet, const CellPos *pos)
 {
-	const Sheet *sheet = cell->base.sheet;
 	Range r;
 	GList *comments;
 	CellComment *res;
 
-	r.start = r.end = cell->pos;
+	r.start = r.end = *pos;
 	comments = sheet_get_objects (sheet, &r, CELL_COMMENT_TYPE);
 	if (!comments)
 		return NULL;
@@ -805,4 +804,11 @@ cell_has_comment (const Cell *cell)
 	res = comments->data;
 	g_list_free (comments);
 	return res;
+}
+
+
+CellComment *
+cell_has_comment (const Cell *cell)
+{
+	return cell_has_comment_pos (cell->base.sheet, &cell->pos);
 }

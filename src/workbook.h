@@ -111,6 +111,8 @@ Value	   *workbook_foreach_cell_in_range (EvalPos const *pos,
 					    gboolean	   only_existing,
 					    ForeachCellCB  handler,
 					    void	  *closure);
+GPtrArray  *workbook_cells               (Workbook *wb, gboolean comments);
+
 
 /*
  * Does any pending recalculations

@@ -114,6 +114,10 @@ Value      *sheet_foreach_cell_in_range	(Sheet *sheet, gboolean only_existing,
 					 int end_col, int end_row,
 					 ForeachCellCB callback,
 					 void *closure);
+GPtrArray  *sheet_cells                  (Sheet *sheet,
+					  int start_col, int start_row,
+					  int end_col, int end_row,
+					  gboolean comments);
 
 void        sheet_recompute_spans_for_col     (Sheet *sheet, int col);
 

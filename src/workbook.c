@@ -756,6 +756,46 @@ workbook_foreach_cell_in_range (EvalPos const *pos,
 					    handler, closure);
 }
 
+/**
+ * workbook_cells:
+ *
+ * @wb : The workbook to find cells in.
+ * @comments: If true, include cells with only comments also.
+ *
+ * Collects a GPtrArray of EvalPos pointers for all cells in a workbook.
+ * No particular order should be assumed.
+ */
+GPtrArray *
+workbook_cells (Workbook *wb, gboolean comments)
+{
+	GList *tmp, *sheets;
+	GPtrArray *cells = g_ptr_array_new ();
+
+	g_return_val_if_fail (wb != NULL, cells);
+
+	sheets = workbook_sheets (wb);
+	for (tmp = sheets; tmp; tmp = tmp->next) {
+		Sheet *sheet = tmp->data;
+		int oldlen = cells->len;
+		GPtrArray *scells =
+			sheet_cells (sheet,
+				     0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
+				     comments);
+
+		g_ptr_array_set_size (cells, oldlen + scells->len);
+		memcpy (&g_ptr_array_index (cells, oldlen),
+			&g_ptr_array_index (scells, 0),
+			scells->len * sizeof (EvalPos *));
+
+		g_ptr_array_free (scells, TRUE);
+	}
+	g_list_free (sheets);
+
+	return cells;
+}
+
+
+
 void
 workbook_attach_view (Workbook *wb, WorkbookView *wbv)
 {
