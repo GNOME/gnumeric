@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.3\n"
-"POT-Creation-Date: 1999-02-17 17:31-0600\n"
+"POT-Creation-Date: 1999-02-22 20:46-0600\n"
 "PO-Revision-Date: 1998-12-05 07:00+09:00\n"
 "Last-Translator: Mitsuru Oka <95i44@is.kochi-u.ac.jp>\n"
 "Language-Team: \n"
@@ -14,7 +14,66 @@ msgstr ""
 "Content-Type: text/plain; charset=euc-jp\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: plugins/stat/stat.c:10
+#: plugins/excel/boot.c:67
+msgid "Microsoft(R) Excel file format"
+msgstr ""
+
+#: plugins/guile/plugin.c:220
+msgid "Argument must be a Guile expression"
+msgstr ""
+
+#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1158
+#: src/fn-sheet.c:38 src/fn-sheet.c:83
+msgid "Invalid number of arguments"
+msgstr "°ú¿ô¤Î¿ô¤¬ÉÔÀµ¤Ç¤¹"
+
+#: plugins/guile/plugin.c:248 plugins/guile/plugin.c:254
+msgid "First argument to SCM must be a Guile expression"
+msgstr ""
+
+#: plugins/guile/plugin.c:260
+msgid "Undefined scheme function"
+msgstr ""
+
+#: plugins/guile/plugin.c:278
+msgid "Could not evaluate argument"
+msgstr ""
+
+#: plugins/guile/plugin.c:386
+#, fuzzy
+msgid "Unable to lookup Guile function."
+msgstr "¥â¥¸¥å¡¼¥ë¥Õ¥¡¥¤¥ë¤ò³«¤±¤Þ¤»¤ó:"
+
+#: plugins/guile/plugin.c:454
+#, fuzzy
+msgid "Guile Plugin"
+msgstr "¿âÄ¾Àþ"
+
+#: plugins/python/python.c:99
+msgid "Unable to lookup Python code object."
+msgstr ""
+
+#: plugins/python/python.c:115
+msgid "Python exception."
+msgstr ""
+
+#: plugins/python/python.c:137
+msgid "object must be callable"
+msgstr ""
+
+#: plugins/python/python.c:143
+msgid "could not alloc FuncDef"
+msgstr ""
+
+#: plugins/python/python.c:177
+msgid "Gnumeric/Python module initialized\n"
+msgstr ""
+
+#: plugins/python/python.c:190
+msgid "Python Plugin"
+msgstr ""
+
+#: plugins/stat/stat.c:12
 msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard "
@@ -28,7 +87,7 @@ msgstr ""
 "¤¹¡£¤³¤ì¤ÏÊ¬»¶(VARIANCE)¤ÎÊ¿Êýº¬¤ÈÆ±Åù¤Ç¤¹¡£\n"
 "@SEEALSO=VARIANCE"
 
-#: plugins/stat/stat.c:21
+#: plugins/stat/stat.c:23
 msgid ""
 "@FUNCTION=VARIANCE\n"
 "@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Computes the variation "
@@ -44,7 +103,7 @@ msgstr ""
 "¤ÎÂå¤ï¤ê¤Ë N ¤Ç³ä¤ê¤¿¤±¤ì¤Ð¡¢NVARIANCE ¤ò»È¤Ã¤Æ²¼¤µ¤¤¡£\n"
 "@SEEALSO=AVARAGE, NVARIANCE"
 
-#: plugins/stat/stat.c:32
+#: plugins/stat/stat.c:34
 msgid ""
 "@FUNCTION=NVARIANCE\n"
 "@SYNTAX = NVARIANVE(value1, value2, ...)@DESCRIPTION=Computes the variation "
@@ -60,19 +119,67 @@ msgstr ""
 "¤ÎÂå¤ï¤Ë N -1 ¤Ç³ä¤ê¤¿¤±¤ì¤Ð¡¢VARIANCE ¤ò»È¤Ã¤Æ²¼¤µ¤¤¡£\n"
 "@SEEALSO=AVERAGE, VARIANCE"
 
-#: plugins/stat/stat.c:67
+#: plugins/stat/stat.c:69
 msgid "Statistics Plugin"
 msgstr "Åý·×¥×¥é¥°¥¤¥ó"
 
-#: plugins/stat/stat.c:100
+#: plugins/stat/stat.c:102
 msgid "variance - division by 0"
 msgstr "Ê¬»¶ - 0 ¤Ç½ü»»¤·¤Þ¤·¤¿"
 
-#: src/about.c:38
+#: src/about.c:23
+msgid "Miguel de Icaza, main programmer."
+msgstr ""
+
+#: src/about.c:24
+msgid "Daniel Veillard, XML support."
+msgstr ""
+
+#: src/about.c:25
+msgid "Chris Lahey, Number format engine."
+msgstr ""
+
+#: src/about.c:26
+msgid "Tom Dyas, Plugin support."
+msgstr ""
+
+#: src/about.c:27
+msgid "Federico Mena, Canvas support."
+msgstr ""
+
+#: src/about.c:28
+msgid "Adrian Likins, Documentation, debugging"
+msgstr ""
+
+#: src/about.c:29
+msgid "Jakub Jelinek, Gnumeric hacker"
+msgstr ""
+
+#: src/about.c:30
+msgid "Michael Meeks, Excel and OLE2 importing"
+msgstr ""
+
+#: src/about.c:31
+msgid "Sean Atkinson, Excel functions"
+msgstr ""
+
+#: src/about.c:32
+msgid "Bruno Unna, Excel code"
+msgstr ""
+
+#: src/about.c:33
+msgid "Mark Probst, Guile support"
+msgstr ""
+
+#: src/about.c:34
+msgid "Vincent Renardias, CSV support"
+msgstr ""
+
+#: src/about.c:49
 msgid "Gnumeric"
 msgstr ""
 
-#: src/about.c:41
+#: src/about.c:52
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric"
@@ -274,110 +381,110 @@ msgid "Categories"
 msgstr "ÉôÎà"
 
 #. 2.1 Input line
-#: src/dialog-cell-format.c:283
+#: src/dialog-cell-format.c:285
 msgid "Code:"
 msgstr "¥³¡¼¥É:"
 
 #. 2.2 Sample
-#: src/dialog-cell-format.c:292
+#: src/dialog-cell-format.c:294
 msgid "Sample:"
 msgstr "Îã:"
 
-#: src/dialog-cell-format.c:304
+#: src/dialog-cell-format.c:306
 msgid "Format codes"
 msgstr "¥³¡¼¥É·Á¼°"
 
-#: src/dialog-cell-format.c:353 src/formats.c:16 src/number-match.c:450
+#: src/dialog-cell-format.c:355 src/formats.c:16 src/number-match.c:455
 msgid "General"
 msgstr "ÈÆÍÑ"
 
-#: src/dialog-cell-format.c:354
+#: src/dialog-cell-format.c:356
 msgid "Left"
 msgstr "º¸"
 
-#: src/dialog-cell-format.c:355 src/dialog-cell-format.c:364
+#: src/dialog-cell-format.c:357 src/dialog-cell-format.c:366
 #: src/workbook.c:851
 msgid "Center"
 msgstr "Ãæ¿´"
 
-#: src/dialog-cell-format.c:356
+#: src/dialog-cell-format.c:358
 msgid "Right"
 msgstr "±¦"
 
-#: src/dialog-cell-format.c:357
+#: src/dialog-cell-format.c:359
 msgid "Fill"
 msgstr "Ëþ¤¿¤¹"
 
-#: src/dialog-cell-format.c:358 src/dialog-cell-format.c:366
+#: src/dialog-cell-format.c:360 src/dialog-cell-format.c:368
 msgid "Justify"
 msgstr "Â·¤¨¤ë"
 
-#: src/dialog-cell-format.c:363
+#: src/dialog-cell-format.c:365
 msgid "Top"
 msgstr "¾å"
 
-#: src/dialog-cell-format.c:365
+#: src/dialog-cell-format.c:367
 msgid "Bottom"
 msgstr "²¼"
 
 #. Vertical alignment
-#: src/dialog-cell-format.c:421
+#: src/dialog-cell-format.c:423
 msgid "Vertical"
 msgstr "¿âÄ¾"
 
 #. Horizontal alignment
-#: src/dialog-cell-format.c:425
+#: src/dialog-cell-format.c:427
 msgid "Horizontal"
 msgstr "¿åÊ¿"
 
-#: src/dialog-cell-format.c:428
+#: src/dialog-cell-format.c:430
 msgid "Auto return"
 msgstr "¼«Æ°²þ¹Ô"
 
-#: src/dialog-cell-format.c:597
+#: src/dialog-cell-format.c:599
 msgid "Text color"
 msgstr "¥Æ¥­¥¹¥È¥«¥é¡¼"
 
 #. The radio buttons
-#: src/dialog-cell-format.c:601 src/dialog-cell-format.c:634
+#: src/dialog-cell-format.c:603 src/dialog-cell-format.c:636
 #: src/dialog-paste-special.c:28
 msgid "None"
 msgstr "¤Ê¤·"
 
-#: src/dialog-cell-format.c:603
+#: src/dialog-cell-format.c:605
 msgid "Use this color"
 msgstr "¤³¤Î¿§¤ò»È¤¦"
 
-#: src/dialog-cell-format.c:605
+#: src/dialog-cell-format.c:607
 #, fuzzy
 msgid "No change"
 msgstr "¤Ê¤·"
 
-#: src/dialog-cell-format.c:628
+#: src/dialog-cell-format.c:630
 msgid "Background configuration"
 msgstr "¥Ð¥Ã¥¯¥°¥é¥¦¥ó¥É¤ÎÀßÄê"
 
-#: src/dialog-cell-format.c:636
+#: src/dialog-cell-format.c:638
 msgid "Use solid color"
 msgstr "¸ÇÄê¿§¤ò»È¤¦"
 
-#: src/dialog-cell-format.c:638
+#: src/dialog-cell-format.c:640
 msgid "Use a pattern"
 msgstr "¥Ñ¥¿¡¼¥ó¤ò»È¤¦"
 
-#: src/dialog-cell-format.c:891
+#: src/dialog-cell-format.c:893
 msgid "Number"
 msgstr "¿ô"
 
-#: src/dialog-cell-format.c:892
+#: src/dialog-cell-format.c:894
 msgid "Alignment"
 msgstr "ÇÛÃÖ"
 
-#: src/dialog-cell-format.c:893
+#: src/dialog-cell-format.c:895
 msgid "Font"
 msgstr "¥Õ¥©¥ó¥È"
 
-#: src/dialog-cell-format.c:894
+#: src/dialog-cell-format.c:896
 msgid "Coloring"
 msgstr ""
 
@@ -389,7 +496,7 @@ msgstr "Ì¾Á°¤òÄêµÁ"
 msgid "Add"
 msgstr "²Ã»»"
 
-#: src/dialog-define-names.c:27 src/plugin-manager.c:131
+#: src/dialog-define-names.c:27 src/plugin-manager.c:132
 msgid "Remove"
 msgstr "ºï½ü"
 
@@ -527,6 +634,11 @@ msgstr "½Ì¾®Èæ¤ÏºÇ¾® 50% ¤Þ¤Ç"
 msgid "Zoom factor should be at most 900%"
 msgstr "³ÈÂçÈæ¤ÏºÇÂç 900% ¤Þ¤Ç"
 
+#: src/dump.c:29
+#, c-format
+msgid "Can not create file %s\n"
+msgstr ""
+
 #: src/expr.c:59
 msgid "Syntax error"
 msgstr "¹½Ê¸¥¨¥é¡¼¤Ç¤¹"
@@ -535,23 +647,20 @@ msgstr "¹½Ê¸¥¨¥é¡¼¤Ç¤¹"
 msgid "Missing quote"
 msgstr "°úÍÑÉä¤Ë´Ö°ã¤¤¤¬¤¢¤ê¤Þ¤¹"
 
-#: src/expr.c:479 src/fn-math.c:1134 src/fn-sheet.c:38 src/fn-sheet.c:83
-msgid "Invalid number of arguments"
-msgstr "°ú¿ô¤Î¿ô¤¬ÉÔÀµ¤Ç¤¹"
-
-#: src/expr.c:707
-msgid "Type error"
-msgstr "·¿¥¨¥é¡¼¤Ç¤¹"
-
-#: src/expr.c:765 src/expr.c:927 src/fn-misc.c:34
+#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:961
+#: src/fn-misc.c:35
 msgid "Type mismatch"
 msgstr "·¿¤¬¹çÃ×¤·¤Þ¤»¤ó"
 
-#: src/expr.c:791 src/expr.c:827
+#: src/expr.c:734
+msgid "Type error"
+msgstr "·¿¥¨¥é¡¼¤Ç¤¹"
+
+#: src/expr.c:819 src/expr.c:856
 msgid "Division by zero"
 msgstr "¥¼¥í¤Ë¤è¤ë½ü»»¤¬À¸¤¸¤Þ¤·¤¿"
 
-#: src/expr.c:942
+#: src/expr.c:976
 msgid "Unknown evaluation error"
 msgstr "Ì¤ÃÎ¤Î¼°É¾²Á¥¨¥é¡¼¤Ç¤¹"
 
@@ -848,7 +957,7 @@ msgid ""
 "anything else is TRUE.\n"
 "If the values contain strings or empty cells those values are ignored.  If "
 "no logical values are provided, then the error '#VALUE!' is returned. \n"
-"@SEEALSO=OR"
+"@SEEALSO=OR, NOT"
 msgstr ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -861,11 +970,11 @@ msgstr ""
 "óÏÀÍýÃÍ¤¬Í¿¤¨¤é¤ì¤ë¤È¡¢¥¨¥é¡¼ '#ÃÍ!' ¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
 "@SEEALSO=OR"
 
-#: src/fn-math.c:188 src/fn-math.c:919
+#: src/fn-math.c:189 src/fn-math.c:943
 msgid "#VALUE"
 msgstr "#ÃÍ"
 
-#: src/fn-math.c:195
+#: src/fn-math.c:196
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -885,11 +994,11 @@ msgstr ""
 "¤À¤±¼è¤ê¤Þ¤¹¡£\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:216
+#: src/fn-math.c:217
 msgid "asin - domain error"
 msgstr "asin - ÃÍ°è¥¨¥é¡¼"
 
-#: src/fn-math.c:223
+#: src/fn-math.c:224
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -907,7 +1016,7 @@ msgstr ""
 "¤À¤±¼è¤ê¤Þ¤¹¡£\n"
 "@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
 
-#: src/fn-math.c:244
+#: src/fn-math.c:245
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -925,7 +1034,7 @@ msgstr ""
 "¤À¤±¼è¤ê¤Þ¤¹¡£\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:267
+#: src/fn-math.c:268
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -947,11 +1056,11 @@ msgstr ""
 "¤À¤±¼è¤ê¤Þ¤¹¡£\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
-#: src/fn-math.c:290
+#: src/fn-math.c:291
 msgid "atanh: domain error"
 msgstr "atanh: ÃÍ°è¥¨¥é¡¼"
 
-#: src/fn-math.c:297
+#: src/fn-math.c:298
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -972,7 +1081,7 @@ msgstr ""
 "¤±¼è¤ê¤Þ¤¹¡£\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:321
+#: src/fn-math.c:322
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -987,7 +1096,7 @@ msgstr ""
 "¤³¤ì¤Ï°ú¿ô¤Î¹ç·×¤ò°ú¿ô¤Î¿ô¤Ç³ä¤Ã¤¿¤â¤Î¤ÈÆ±Åù¤Ç¤¹¡£\n"
 "@SEEALSO=SUM, COUNT"
 
-#: src/fn-math.c:366
+#: src/fn-math.c:367
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -1002,7 +1111,7 @@ msgstr ""
 "â¹Ô¤¤¤Þ¤»¤ó¡£\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
-#: src/fn-math.c:385
+#: src/fn-math.c:386
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -1018,7 +1127,7 @@ msgstr ""
 "¤³¤Î´Ø¿ô¤òÊ¸»úÎó¤ä¶õÇò¤Î¥»¥ë¤Ç¼Â¹Ô¤¹¤ë¤È²¿¤â¹Ô¤¤¤Þ¤»¤ó¡£\n"
 "@SEEALSO=DEC2BIN"
 
-#: src/fn-math.c:435
+#: src/fn-math.c:436
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -1036,7 +1145,7 @@ msgstr ""
 "±°ú¿ô¤ò¼è¤ê¤Þ¤¹¡£\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:455
+#: src/fn-math.c:456
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -1054,7 +1163,7 @@ msgstr ""
 "ì¤Ä¤À¤±¼è¤ê¤Þ¤¹¡£\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: src/fn-math.c:496
+#: src/fn-math.c:497
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -1068,7 +1177,7 @@ msgstr ""
 "¤³¤Î´Ø¿ô¤òÊ¸»úÎó¤ä¶õÇò¤Î¥»¥ë¤Ç¼Â¹Ô¤¹¤ë¤ÈÃ±¤Ë²¿¤â¹Ô¤¤¤Þ¤»¤ó¡£\n"
 "@SEEALSO=AVERAGE"
 
-#: src/fn-math.c:524
+#: src/fn-math.c:525
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -1082,7 +1191,7 @@ msgstr ""
 "¤³¤Î´Ø¿ô¤òÊ¸»úÎó¤ä¶õÇò¤Î¥»¥ë¤ËÂÐ¤·¤Æ¼Â¹Ô¤¹¤ë¤ÈÃ±¤Ë²¿¤â¹Ô¤¤¤Þ¤»¤ó¡£\n"
 "@SEEALSO=RADIANS, PI"
 
-#: src/fn-math.c:545
+#: src/fn-math.c:546
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -1097,7 +1206,7 @@ msgstr ""
 "¤³¤Î´Ø¿ô¤òÊ¸»úÎó¤ä¶õÇò¤Î¥»¥ë¤Ç¼Â¹Ô¤¹¤ë¤È¥¨¥é¡¼¤òÊÖ¤·¤Þ¤¹¡£\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: src/fn-math.c:572
+#: src/fn-math.c:573
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -1112,7 +1221,7 @@ msgstr ""
 "¤³¤Î´Ø¿ô¤òÊ¸»úÎó¤ä¶õÇò¤Î¥»¥ë¤Ç¼Â¹Ô¤¹¤ë¤È¥¨¥é¡¼¤òÊÖ¤·¤Þ¤¹¡£\n"
 "@SEEALSO="
 
-#: src/fn-math.c:619
+#: src/fn-math.c:620
 #, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
@@ -1128,7 +1237,7 @@ msgstr ""
 "â¹Ô¤¤¤Þ¤»¤ó¡£\n"
 "@SEEALSO=CEIL, ABS, INT"
 
-#: src/fn-math.c:638
+#: src/fn-math.c:639
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(b1, b2, ...)\n"
@@ -1146,7 +1255,7 @@ msgstr ""
 "¤³¤Î´Ø¿ô¤òÊ¸»úÎó¤ä¶õÇò¤Î¥»¥ë¤Ç¼Â¹Ô¤¹¤ë¤È²¿¤â¹Ô¤¤¤Þ¤»¤ó¡£\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 
-#: src/fn-math.c:664
+#: src/fn-math.c:665
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x)\n"
@@ -1160,11 +1269,11 @@ msgstr ""
 "¤³¤Î´Ø¿ô¤òÊ¸»úÎó¤ä¶õÇò¤Î¥»¥ë¤Ç¼Â¹Ô¤¹¤ë¤È¥¨¥é¡¼¤òÊÖ¤·¤Þ¤¹¡£\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:682
+#: src/fn-math.c:683
 msgid "log: domain error"
 msgstr "log: ÃÍ°è¥¨¥é¡¼"
 
-#: src/fn-math.c:689
+#: src/fn-math.c:690
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG2\n"
@@ -1178,11 +1287,11 @@ msgstr ""
 "¤³¤Î´Ø¿ô¤òÊ¸»úÎó¤ä¶õÇò¤Î¥»¥ë¤Ç¼Â¹Ô¤¹¤ë¤È¥¨¥é¡¼¤òÊÖ¤·¤Þ¤¹¡£\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: src/fn-math.c:707
+#: src/fn-math.c:708
 msgid "log2: domain error"
 msgstr "log2: ÃÍ°è¥¨¥é¡¼"
 
-#: src/fn-math.c:714
+#: src/fn-math.c:715
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG10\n"
@@ -1197,11 +1306,11 @@ msgstr ""
 "¤³¤Î´Ø¿ô¤òÊ¸»úÎó¤ä¶õÇò¤Î¥»¥ë¤Ç¼Â¹Ô¤¹¤ë¤È¥¨¥é¡¼¤òÊÖ¤·¤Þ¤¹¡£\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: src/fn-math.c:733
+#: src/fn-math.c:734
 msgid "log10: domain error"
 msgstr "log10: ÃÍ°è¥¨¥é¡¼"
 
-#: src/fn-math.c:740
+#: src/fn-math.c:741
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -1219,7 +1328,7 @@ msgstr ""
 "¤³¤Î´Ø¿ô¤òÊ¸»úÎó¤ä¶õÇò¤Î¥»¥ë¤Ç¼Â¹Ô¤¹¤ë¤ÈÃ±¤Ë²¿¤â¹Ô¤¤¤Þ¤»¤ó¡£\n"
 "@SEEALSO=MAX,ABS"
 
-#: src/fn-math.c:754
+#: src/fn-math.c:755
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -1237,7 +1346,17 @@ msgstr ""
 "¤³¤Î´Ø¿ô¤òÊ¸»úÎó¤ä¶õÇò¤Î¥»¥ë¤Ç¼Â¹Ô¤¹¤ë¤ÈÃ±¤Ë²¿¤â¹Ô¤¤¤Þ¤»¤ó¡£\n"
 "@SEEALSO=MIN,ABS"
 
-#: src/fn-math.c:858
+#: src/fn-math.c:860
+msgid ""
+"@FUNCTION=NOT\n"
+"@SYNTAX=NOT(number)\n"
+"@DESCRIPTION=Implements the logical NOT function: the result is TRUE if the "
+"number is zero;  othewise the result is FALSE.\n"
+"\n"
+"@SEEALSO=AND, OR"
+msgstr ""
+
+#: src/fn-math.c:881
 #, fuzzy
 msgid ""
 "@FUNCTION=OR\n"
@@ -1249,7 +1368,7 @@ msgid ""
 "anything else is TRUE.\n"
 "If the values contain strings or empty cells those values are ignored.  If "
 "no logical values are provided, then the error '#VALUE!'is returned.\n"
-"@SEEALSO=AND"
+"@SEEALSO=AND, NOT"
 msgstr ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -1262,7 +1381,7 @@ msgstr ""
 "ýÃÍ¤¬Í¿¤¨¤é¤ì¤ë¤È¡¢¥¨¥é¡¼ '#ÃÍ!' ¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
 "@SEEALSO=AND"
 
-#: src/fn-math.c:926
+#: src/fn-math.c:950
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1276,7 +1395,7 @@ msgstr ""
 "¤³¤Î´Ø¿ô¤ËÊ¸»úÎó¤ä¶õÇò¤Î¥»¥ë¤òÍ¿¤¨¤Æ¼Â¹Ô¤¹¤ë¤ÈÃ±¤Ë²¿¤â¹Ô¤¤¤Þ¤»¤ó¡£\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:947
+#: src/fn-math.c:971
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1294,7 +1413,7 @@ msgstr ""
 "ì¤Ä¤À¤±¼è¤ê¤Þ¤¹¡£\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:967
+#: src/fn-math.c:991
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1312,7 +1431,7 @@ msgstr ""
 "ì¤Ä¤À¤±¼è¤ê¤Þ¤¹¡£\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:988
+#: src/fn-math.c:1012
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1325,7 +1444,7 @@ msgstr ""
 "@DESCRIPTION=Á´¤Æ¤ÎÃÍ¤È°ú¿ô¥ê¥¹¥È¤Ç»²¾È¤µ¤ì¤¿¥»¥ë¤Î¹ç·×¤òµá¤á¤Þ¤¹¡£\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1055
+#: src/fn-math.c:1079
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1343,7 +1462,7 @@ msgstr ""
 "ú¿ô¤ò°ì¤Ä¤À¤±¼è¤ê¤Þ¤¹¡£\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1075
+#: src/fn-math.c:1099
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1361,7 +1480,7 @@ msgstr ""
 "ì¤Ä¤À¤±¼è¤ê¤Þ¤¹¡£\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1095
+#: src/fn-math.c:1119
 #, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
@@ -1377,7 +1496,7 @@ msgstr ""
 "Æ¤Ð¤ì¤Þ¤¹¡£\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1114
+#: src/fn-math.c:1138
 #, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
@@ -1402,6 +1521,25 @@ msgid ""
 "@DESCRIPTION=Cleans the string from any non-printable characters.\n"
 "@SEEALSO="
 msgstr ""
+
+#: src/fn-misc.c:57
+#, fuzzy
+msgid ""
+"@FUNCTION=ISERROR\n"
+"@SYNTAX=ISERROR(exp)\n"
+"@DESCRIPTION=Returns a TRUE value if the expression has an error\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (»þ,Ê¬,ÉÃ)\n"
+"@DESCRIPTION=Returns a fraction representing the hour\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-misc.c:73
+#, fuzzy
+msgid "Argument mismatch"
+msgstr "·¿¤¬¹çÃ×¤·¤Þ¤»¤ó"
 
 #: src/fn-sheet.c:17
 msgid ""
@@ -1873,7 +2011,7 @@ msgstr "¥»¥ë¤ò±¦¤Ë¤º¤é¤·¤Æ°ÜÆ°"
 msgid "Cut"
 msgstr "¥«¥Ã¥È"
 
-#: src/item-grid.c:528 src/sheet.c:2490 src/workbook.c:842
+#: src/item-grid.c:528 src/sheet.c:2501 src/workbook.c:842
 msgid "Paste"
 msgstr "Å½ÉÕ¤±"
 
@@ -1905,35 +2043,35 @@ msgstr ""
 msgid "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr ""
 
-#: src/plugin-manager.c:94 src/plugin-manager.c:95
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "Name"
 msgstr "Ì¾Á°"
 
-#: src/plugin-manager.c:94 src/plugin-manager.c:95
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "File"
 msgstr "¥Õ¥¡¥¤¥ë"
 
-#: src/plugin-manager.c:125
+#: src/plugin-manager.c:126
 msgid "Close"
 msgstr "ÊÄ¤¸¤ë"
 
-#: src/plugin-manager.c:128
+#: src/plugin-manager.c:129
 msgid "Add..."
 msgstr "²Ã¤¨¤ë..."
 
-#: src/plugin.c:36
+#: src/plugin.c:37
 msgid "unable to open module file: "
 msgstr "¥â¥¸¥å¡¼¥ë¥Õ¥¡¥¤¥ë¤ò³«¤±¤Þ¤»¤ó:"
 
-#: src/plugin.c:45
+#: src/plugin.c:46
 msgid "Plugin must contain init_plugin function."
 msgstr "¥×¥é¥°¥¤¥ó¤Ï init_plugin ´Ø¿ô¤¬´Þ¤Þ¤ì¤Æ¤¤¤Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¡£"
 
-#: src/plugin.c:51
+#: src/plugin.c:52
 msgid "init_plugin returned error"
 msgstr "init_plugin ¤¬¥¨¥é¡¼¤òÊÖ¤·¤Þ¤·¤¿"
 
-#: src/plugin.c:71
+#: src/plugin.c:72
 msgid "Plugin is still in use.\n"
 msgstr "¥×¥é¥°¥¤¥ó¤Ï¤Þ¤À»ÈÍÑÃæ¤Ç¤¹¡£\n"
 

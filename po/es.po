@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.12\n"
-"POT-Creation-Date: 1999-02-18 15:23+0100\n"
+"POT-Creation-Date: 1999-02-22 20:46-0600\n"
 "PO-Revision-Date: 1998-11-25 18:01:18+0100\n"
 "Last-Translator: Pablo Saratxaga <srtxg@chanae.alphanet.ch>\n"
 "Language-Team: \n"
@@ -15,7 +15,65 @@ msgstr ""
 "--keyword=_ --keyword=N_ --files-from=./POTFILES.in\n"
 "Files: src/main.c src/format.c src/workbook.c\n"
 
-#: plugins/stat/stat.c:10
+#: plugins/excel/boot.c:67
+msgid "Microsoft(R) Excel file format"
+msgstr "Formato de archivo Microsoft® Excel"
+
+#: plugins/guile/plugin.c:220
+msgid "Argument must be a Guile expression"
+msgstr ""
+
+#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1158
+#: src/fn-sheet.c:38 src/fn-sheet.c:83
+msgid "Invalid number of arguments"
+msgstr "Número de argumentos inválido"
+
+#: plugins/guile/plugin.c:248 plugins/guile/plugin.c:254
+msgid "First argument to SCM must be a Guile expression"
+msgstr ""
+
+#: plugins/guile/plugin.c:260
+msgid "Undefined scheme function"
+msgstr ""
+
+#: plugins/guile/plugin.c:278
+msgid "Could not evaluate argument"
+msgstr ""
+
+#: plugins/guile/plugin.c:386
+#, fuzzy
+msgid "Unable to lookup Guile function."
+msgstr "es imposible abrir este archivo del módulo: "
+
+#: plugins/guile/plugin.c:454
+msgid "Guile Plugin"
+msgstr "Extensión Guile"
+
+#: plugins/python/python.c:99
+msgid "Unable to lookup Python code object."
+msgstr ""
+
+#: plugins/python/python.c:115
+msgid "Python exception."
+msgstr "Excepción Python."
+
+#: plugins/python/python.c:137
+msgid "object must be callable"
+msgstr ""
+
+#: plugins/python/python.c:143
+msgid "could not alloc FuncDef"
+msgstr ""
+
+#: plugins/python/python.c:177
+msgid "Gnumeric/Python module initialized\n"
+msgstr "Extensión Gnumeric/Python inicializada\n"
+
+#: plugins/python/python.c:190
+msgid "Python Plugin"
+msgstr "Extensión Python"
+
+#: plugins/stat/stat.c:12
 msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard "
@@ -30,7 +88,7 @@ msgstr ""
 "de la varianza.\n"
 "@SEEALSO=VARIANCE"
 
-#: plugins/stat/stat.c:21
+#: plugins/stat/stat.c:23
 msgid ""
 "@FUNCTION=VARIANCE\n"
 "@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Computes the variation "
@@ -47,7 +105,7 @@ msgstr ""
 "de N - 1, use NVARIANCE.\n"
 "@SEEALSO=AVERAGE, NVARIANCE"
 
-#: plugins/stat/stat.c:32
+#: plugins/stat/stat.c:34
 msgid ""
 "@FUNCTION=NVARIANCE\n"
 "@SYNTAX = NVARIANVE(value1, value2, ...)@DESCRIPTION=Computes the variation "
@@ -64,11 +122,11 @@ msgstr ""
 "N, use VARIANCE.\n"
 "@SEEALSO=AVERAGE, VARIANCE"
 
-#: plugins/stat/stat.c:67
+#: plugins/stat/stat.c:69
 msgid "Statistics Plugin"
 msgstr "Extensión de Estadísticas"
 
-#: plugins/stat/stat.c:100
+#: plugins/stat/stat.c:102
 msgid "variance - division by 0"
 msgstr "variance - división entre cero"
 
@@ -120,11 +178,11 @@ msgstr "Mark Probst, soporte Guile."
 msgid "Vincent Renardias, CSV support"
 msgstr "Vincent Renardias, soporte CSV."
 
-#: src/about.c:45
+#: src/about.c:49
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/about.c:48
+#: src/about.c:52
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric"
@@ -330,109 +388,109 @@ msgid "Categories"
 msgstr "Categorías"
 
 #. 2.1 Input line
-#: src/dialog-cell-format.c:283
+#: src/dialog-cell-format.c:285
 msgid "Code:"
 msgstr "Código:"
 
 #. 2.2 Sample
-#: src/dialog-cell-format.c:292
+#: src/dialog-cell-format.c:294
 msgid "Sample:"
 msgstr "Muestra:"
 
-#: src/dialog-cell-format.c:304
+#: src/dialog-cell-format.c:306
 msgid "Format codes"
 msgstr "Códigos de formato"
 
-#: src/dialog-cell-format.c:353 src/formats.c:16 src/number-match.c:450
+#: src/dialog-cell-format.c:355 src/formats.c:16 src/number-match.c:455
 msgid "General"
 msgstr "General"
 
-#: src/dialog-cell-format.c:354
+#: src/dialog-cell-format.c:356
 msgid "Left"
 msgstr "Izquierda"
 
-#: src/dialog-cell-format.c:355 src/dialog-cell-format.c:364
+#: src/dialog-cell-format.c:357 src/dialog-cell-format.c:366
 #: src/workbook.c:851
 msgid "Center"
 msgstr "Centro"
 
-#: src/dialog-cell-format.c:356
+#: src/dialog-cell-format.c:358
 msgid "Right"
 msgstr "Derecha"
 
-#: src/dialog-cell-format.c:357
+#: src/dialog-cell-format.c:359
 msgid "Fill"
 msgstr "Llenar"
 
-#: src/dialog-cell-format.c:358 src/dialog-cell-format.c:366
+#: src/dialog-cell-format.c:360 src/dialog-cell-format.c:368
 msgid "Justify"
 msgstr "Justificar"
 
-#: src/dialog-cell-format.c:363
+#: src/dialog-cell-format.c:365
 msgid "Top"
 msgstr "Arriba"
 
-#: src/dialog-cell-format.c:365
+#: src/dialog-cell-format.c:367
 msgid "Bottom"
 msgstr "Abajo"
 
 #. Vertical alignment
-#: src/dialog-cell-format.c:421
+#: src/dialog-cell-format.c:423
 msgid "Vertical"
 msgstr "Vertical"
 
 #. Horizontal alignment
-#: src/dialog-cell-format.c:425
+#: src/dialog-cell-format.c:427
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: src/dialog-cell-format.c:428
+#: src/dialog-cell-format.c:430
 msgid "Auto return"
 msgstr "Retorno de carro automático"
 
-#: src/dialog-cell-format.c:597
+#: src/dialog-cell-format.c:599
 msgid "Text color"
 msgstr "Color del texto"
 
 #. The radio buttons
-#: src/dialog-cell-format.c:601 src/dialog-cell-format.c:634
+#: src/dialog-cell-format.c:603 src/dialog-cell-format.c:636
 #: src/dialog-paste-special.c:28
 msgid "None"
 msgstr "Ninguno"
 
-#: src/dialog-cell-format.c:603
+#: src/dialog-cell-format.c:605
 msgid "Use this color"
 msgstr "Usar este color"
 
-#: src/dialog-cell-format.c:605
+#: src/dialog-cell-format.c:607
 msgid "No change"
 msgstr "Sin cambios"
 
-#: src/dialog-cell-format.c:628
+#: src/dialog-cell-format.c:630
 msgid "Background configuration"
 msgstr "Configuración del fondo"
 
-#: src/dialog-cell-format.c:636
+#: src/dialog-cell-format.c:638
 msgid "Use solid color"
 msgstr "Usar color sólido"
 
-#: src/dialog-cell-format.c:638
+#: src/dialog-cell-format.c:640
 msgid "Use a pattern"
 msgstr "Usar patrón"
 
-#: src/dialog-cell-format.c:891
+#: src/dialog-cell-format.c:893
 msgid "Number"
 msgstr "Numérico"
 
-#: src/dialog-cell-format.c:892
+#: src/dialog-cell-format.c:894
 msgid "Alignment"
 msgstr "Alineación"
 
-#: src/dialog-cell-format.c:893
+#: src/dialog-cell-format.c:895
 msgid "Font"
 msgstr "Fuente"
 
-#: src/dialog-cell-format.c:894
+#: src/dialog-cell-format.c:896
 msgid "Coloring"
 msgstr "Coloreado"
 
@@ -582,6 +640,11 @@ msgstr "El factor de aplificación debe de ser al menos del 50%"
 msgid "Zoom factor should be at most 900%"
 msgstr "El factor de amplificación no debe de exceder 900%"
 
+#: src/dump.c:29
+#, c-format
+msgid "Can not create file %s\n"
+msgstr "Imposible crear el archivo %s\n"
+
 #: src/expr.c:59
 msgid "Syntax error"
 msgstr "Error de sintaxis"
@@ -590,23 +653,20 @@ msgstr "Error de sintaxis"
 msgid "Missing quote"
 msgstr "Falta una comilla"
 
-#: src/expr.c:479 src/fn-math.c:1134 src/fn-sheet.c:38 src/fn-sheet.c:83
-msgid "Invalid number of arguments"
-msgstr "Número de argumentos inválido"
-
-#: src/expr.c:707
-msgid "Type error"
-msgstr "Tipo erróneo"
-
-#: src/expr.c:765 src/expr.c:927 src/fn-misc.c:34
+#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:961
+#: src/fn-misc.c:35
 msgid "Type mismatch"
 msgstr "Tipo erroneo"
 
-#: src/expr.c:791 src/expr.c:827
+#: src/expr.c:734
+msgid "Type error"
+msgstr "Tipo erróneo"
+
+#: src/expr.c:819 src/expr.c:856
 msgid "Division by zero"
 msgstr "División entre cero"
 
-#: src/expr.c:942
+#: src/expr.c:976
 msgid "Unknown evaluation error"
 msgstr "Error al evaluar"
 
@@ -890,6 +950,7 @@ msgid "acosh - domain error"
 msgstr "acosh - error de dominio"
 
 #: src/fn-math.c:125
+#, fuzzy
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -900,7 +961,7 @@ msgid ""
 "anything else is TRUE.\n"
 "If the values contain strings or empty cells those values are ignored.  If "
 "no logical values are provided, then the error '#VALUE!' is returned. \n"
-"@SEEALSO=OR"
+"@SEEALSO=OR, NOT"
 msgstr ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -913,11 +974,11 @@ msgstr ""
 "ignoradas. Si ningún valor lógico es dado devuelve el error '#VALOR!'. \n"
 "@SEEALSO=OR"
 
-#: src/fn-math.c:188 src/fn-math.c:919
+#: src/fn-math.c:189 src/fn-math.c:943
 msgid "#VALUE"
 msgstr "#VALOR"
 
-#: src/fn-math.c:195
+#: src/fn-math.c:196
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -937,11 +998,11 @@ msgstr ""
 "nada. La función admite un solo argumento.\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:216
+#: src/fn-math.c:217
 msgid "asin - domain error"
 msgstr "asin - error de dominio"
 
-#: src/fn-math.c:223
+#: src/fn-math.c:224
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -959,7 +1020,7 @@ msgstr ""
 "nada. La función admite un solo argumento.\n"
 "@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
 
-#: src/fn-math.c:244
+#: src/fn-math.c:245
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -977,7 +1038,7 @@ msgstr ""
 "nada. La función admite un solo argumento.\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:267
+#: src/fn-math.c:268
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -998,11 +1059,11 @@ msgstr ""
 "nada. La función admite un solo argumento.\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
-#: src/fn-math.c:290
+#: src/fn-math.c:291
 msgid "atanh: domain error"
 msgstr "atanh: error de dominio"
 
-#: src/fn-math.c:297
+#: src/fn-math.c:298
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -1023,7 +1084,7 @@ msgstr ""
 "nada. \n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:321
+#: src/fn-math.c:322
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -1038,7 +1099,7 @@ msgstr ""
 "por la cantidad de argumentos.\n"
 "@SEEALSO=SUM, COUNT"
 
-#: src/fn-math.c:366
+#: src/fn-math.c:367
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -1053,7 +1114,7 @@ msgstr ""
 "simplemente no hace nada.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
-#: src/fn-math.c:385
+#: src/fn-math.c:386
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -1070,7 +1131,7 @@ msgstr ""
 "simplemente no hace nada.\n"
 "@SEEALSO=DEC2BIN"
 
-#: src/fn-math.c:435
+#: src/fn-math.c:436
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -1088,7 +1149,7 @@ msgstr ""
 "simplemente no hace nada. Esta función accepta un solo argumento.\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:455
+#: src/fn-math.c:456
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -1106,7 +1167,7 @@ msgstr ""
 "simplemente no hace nada. Esta función accepta un solo argumento.\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: src/fn-math.c:496
+#: src/fn-math.c:497
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -1121,7 +1182,7 @@ msgstr ""
 "simplemente no hace nada.\n"
 "@SEEALSO=AVERAGE"
 
-#: src/fn-math.c:524
+#: src/fn-math.c:525
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -1137,7 +1198,7 @@ msgstr ""
 "simplemente no hace nada.\n"
 "@SEEALSO=RADIANS, PI"
 
-#: src/fn-math.c:545
+#: src/fn-math.c:546
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -1154,7 +1215,7 @@ msgstr ""
 "devuelve un error.\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: src/fn-math.c:572
+#: src/fn-math.c:573
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -1171,7 +1232,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/fn-math.c:619
+#: src/fn-math.c:620
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x)\n"
@@ -1186,7 +1247,7 @@ msgstr ""
 "simplemente no hace nada.\n"
 "@SEEALSO=CEIL, ABS, INT"
 
-#: src/fn-math.c:638
+#: src/fn-math.c:639
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(b1, b2, ...)\n"
@@ -1205,7 +1266,7 @@ msgstr ""
 "simplemente no hace nada.\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 
-#: src/fn-math.c:664
+#: src/fn-math.c:665
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x)\n"
@@ -1220,11 +1281,11 @@ msgstr ""
 "devuelve un error.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:682
+#: src/fn-math.c:683
 msgid "log: domain error"
 msgstr "log: error de dominio"
 
-#: src/fn-math.c:689
+#: src/fn-math.c:690
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -1239,11 +1300,11 @@ msgstr ""
 "devuelve un error. \n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: src/fn-math.c:707
+#: src/fn-math.c:708
 msgid "log2: domain error"
 msgstr "log2: error de dominio"
 
-#: src/fn-math.c:714
+#: src/fn-math.c:715
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -1258,11 +1319,11 @@ msgstr ""
 "devuelve un error. \n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: src/fn-math.c:733
+#: src/fn-math.c:734
 msgid "log10: domain error"
 msgstr "log10: error de dominio"
 
-#: src/fn-math.c:740
+#: src/fn-math.c:741
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -1281,7 +1342,7 @@ msgstr ""
 "simplemente no hace nada.\n"
 "@SEEALSO=MAX,ABS"
 
-#: src/fn-math.c:754
+#: src/fn-math.c:755
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -1300,7 +1361,18 @@ msgstr ""
 "simplemente no hace nada.\n"
 "@SEEALSO=MIN,ABS"
 
-#: src/fn-math.c:858
+#: src/fn-math.c:860
+msgid ""
+"@FUNCTION=NOT\n"
+"@SYNTAX=NOT(number)\n"
+"@DESCRIPTION=Implements the logical NOT function: the result is TRUE if the "
+"number is zero;  othewise the result is FALSE.\n"
+"\n"
+"@SEEALSO=AND, OR"
+msgstr ""
+
+#: src/fn-math.c:881
+#, fuzzy
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -1311,7 +1383,7 @@ msgid ""
 "anything else is TRUE.\n"
 "If the values contain strings or empty cells those values are ignored.  If "
 "no logical values are provided, then the error '#VALUE!'is returned.\n"
-"@SEEALSO=AND"
+"@SEEALSO=AND, NOT"
 msgstr ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -1324,7 +1396,7 @@ msgstr ""
 "ignoradas. Si ningún valor lógico es dado devuelve el error '#VALOR!'. \n"
 "@SEEALSO=AND"
 
-#: src/fn-math.c:926
+#: src/fn-math.c:950
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1340,7 +1412,7 @@ msgstr ""
 "simplemente no hace nada.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:947
+#: src/fn-math.c:971
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1357,7 +1429,7 @@ msgstr ""
 "simplemente no hace nada. Esta función solo admite un argumento.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:967
+#: src/fn-math.c:991
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1375,7 +1447,7 @@ msgstr ""
 "simplemente no hace nada. Esta función solo admite un argumento.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:988
+#: src/fn-math.c:1012
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1389,7 +1461,7 @@ msgstr ""
 "la lista de argumentos. \n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1055
+#: src/fn-math.c:1079
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1406,7 +1478,7 @@ msgstr ""
 "simplemente no hace nada. Esta función solo admite un argumento.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1075
+#: src/fn-math.c:1099
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1424,7 +1496,7 @@ msgstr ""
 "simplemente no hace nada. Esta función solo admite un argumento.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1095
+#: src/fn-math.c:1119
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1438,7 +1510,7 @@ msgstr ""
 "Esta función no accepta argumentos.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1114
+#: src/fn-math.c:1138
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -1467,6 +1539,25 @@ msgstr ""
 "@SYNTAX=CLEAN(string)\n"
 "@DESCRIPTION=Limpia la cadena string de todo carácter no-afichable.\n"
 "@SEEALSO="
+
+#: src/fn-misc.c:57
+#, fuzzy
+msgid ""
+"@FUNCTION=ISERROR\n"
+"@SYNTAX=ISERROR(exp)\n"
+"@DESCRIPTION=Returns a TRUE value if the expression has an error\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=LOWER\n"
+"@SYNTAX=LOWER(texto)\n"
+"@DESCRIPTION=Devuelve una versión en minúsculas de la cadena @texto.\n"
+"@SEEALSO=UPPER"
+
+#: src/fn-misc.c:73
+#, fuzzy
+msgid "Argument mismatch"
+msgstr "Tipo erroneo"
 
 #: src/fn-sheet.c:17
 msgid ""
@@ -1944,7 +2035,7 @@ msgstr "Desplaza las celdas hacia la derecha y mueve"
 msgid "Cut"
 msgstr "Cortar"
 
-#: src/item-grid.c:528 src/sheet.c:2490 src/workbook.c:842
+#: src/item-grid.c:528 src/sheet.c:2501 src/workbook.c:842
 msgid "Paste"
 msgstr "Pegar"
 
@@ -1977,12 +2068,12 @@ msgid "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr "(([-+]?[0-9\\.])?(,?[0-9]*)?([Ee][-+][0-9]+)?)"
 
 #: src/plugin-manager.c:95 src/plugin-manager.c:96
-msgid "File"
-msgstr "Archivo"
-
-#: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "Name"
 msgstr "Nombre"
+
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
+msgid "File"
+msgstr "Archivo"
 
 #: src/plugin-manager.c:126
 msgid "Close"
@@ -2045,20 +2136,20 @@ msgid ">hh:mm"
 msgstr ">hh:mm"
 
 #: src/workbook.c:662
-msgid "Create a new spreadsheet"
-msgstr "Crea una nueva hoja de cálculo"
-
-#: src/workbook.c:662
 msgid "_New"
 msgstr "_Nuevo"
 
-#: src/workbook.c:673
-msgid "Gnumeric plugins"
-msgstr "Módulos de Gnumeric"
+#: src/workbook.c:662
+msgid "Create a new spreadsheet"
+msgstr "Crea una nueva hoja de cálculo"
 
 #: src/workbook.c:673
 msgid "Plu_g-ins..."
 msgstr "_Extensiones..."
+
+#: src/workbook.c:673
+msgid "Gnumeric plugins"
+msgstr "Módulos de Gnumeric"
 
 #: src/workbook.c:687
 msgid "_All"
@@ -2157,29 +2248,29 @@ msgstr "_Hora actual"
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Inserta la hora actual en las celdas seleccionadas"
 
-#: src/workbook.c:752
-msgid "Insert a new spreadsheet"
-msgstr "Inserta una nueva hoja de cálculo en este libro de trabajo"
-
 #: src/workbook.c:752 src/workbook.c:798
 msgid "_Sheet"
 msgstr "_Hoja"
 
-#: src/workbook.c:754
-msgid "Insert new cells"
-msgstr "Inserta celdas"
+#: src/workbook.c:752
+msgid "Insert a new spreadsheet"
+msgstr "Inserta una nueva hoja de cálculo en este libro de trabajo"
 
 #: src/workbook.c:754 src/workbook.c:792
 msgid "_Cells..."
 msgstr "_Celdas..."
 
-#: src/workbook.c:756
-msgid "Insert new rows"
-msgstr "Inserta renglones"
+#: src/workbook.c:754
+msgid "Insert new cells"
+msgstr "Inserta celdas"
 
 #: src/workbook.c:756
 msgid "_Rows"
 msgstr "_Renglones"
+
+#: src/workbook.c:756
+msgid "Insert new rows"
+msgstr "Inserta renglones"
 
 #: src/workbook.c:758
 msgid "C_olumns"
@@ -2238,12 +2329,12 @@ msgid "F_ormat"
 msgstr "_Formato"
 
 #: src/workbook.c:824
-msgid "Create a new sheet"
-msgstr "Crear una nueva hoja"
-
-#: src/workbook.c:824
 msgid "New"
 msgstr "Nuevo"
+
+#: src/workbook.c:824
+msgid "Create a new sheet"
+msgstr "Crear una nueva hoja"
 
 #: src/workbook.c:827
 msgid "Open"
@@ -2310,12 +2401,12 @@ msgid "Sets the italic attribute on the cell"
 msgstr "Pone el atributo de cursivas en la celda"
 
 #: src/workbook.c:868
-msgid "Creates a line object"
-msgstr "Crea una linea"
-
-#: src/workbook.c:868
 msgid "Line"
 msgstr "Línea"
+
+#: src/workbook.c:868
+msgid "Creates a line object"
+msgstr "Crea una linea"
 
 #: src/workbook.c:871
 msgid "Arrow"
@@ -2326,20 +2417,20 @@ msgid "Creates an arrow object"
 msgstr "Crea una flecha"
 
 #: src/workbook.c:874
-msgid "Creates a rectangle object"
-msgstr "Crea un rectángulo"
-
-#: src/workbook.c:874
 msgid "Rectangle"
 msgstr "Rectángulo"
 
-#: src/workbook.c:877
-msgid "Creates an ellipse object"
-msgstr "Crea una elipse"
+#: src/workbook.c:874
+msgid "Creates a rectangle object"
+msgstr "Crea un rectángulo"
 
 #: src/workbook.c:877
 msgid "Ellipse"
 msgstr "Elipse"
+
+#: src/workbook.c:877
+msgid "Creates an ellipse object"
+msgstr "Crea una elipse"
 
 #: src/workbook.c:957
 msgid "You should introduce a valid cell name"
@@ -2415,71 +2506,44 @@ msgstr "SinNombre"
 msgid "Gnumeric XML file format"
 msgstr "Formato de archivo XML para Gnumeric"
 
-msgid "_Paste"
-msgstr "_Pegar"
+#~ msgid "_Paste"
+#~ msgstr "_Pegar"
 
-msgid "_Copy"
-msgstr "_Copiar"
+#~ msgid "_Copy"
+#~ msgstr "_Copiar"
 
-msgid "C_ut"
-msgstr "Cor_tar"
+#~ msgid "C_ut"
+#~ msgstr "Cor_tar"
 
-msgid "_About..."
-msgstr "_Acerca..."
+#~ msgid "_About..."
+#~ msgstr "_Acerca..."
 
-msgid "E_xit"
-msgstr "_Salir"
+#~ msgid "E_xit"
+#~ msgstr "_Salir"
 
-msgid "_Close"
-msgstr "_Cerrar"
+#~ msgid "_Close"
+#~ msgstr "_Cerrar"
 
-msgid "Save _As..."
-msgstr "Guardar _Como..."
+#~ msgid "Save _As..."
+#~ msgstr "Guardar _Como..."
 
-msgid "_Save"
-msgstr "_Guardar"
+#~ msgid "_Save"
+#~ msgstr "_Guardar"
 
-msgid "_Open..."
-msgstr "_Abrir..."
+#~ msgid "_Open..."
+#~ msgstr "_Abrir..."
 
-msgid "_Help"
-msgstr "A_yuda"
+#~ msgid "_Help"
+#~ msgstr "A_yuda"
 
-msgid "_View"
-msgstr "_Vista"
+#~ msgid "_View"
+#~ msgstr "_Vista"
 
-msgid "_Edit"
-msgstr "_Editar"
+#~ msgid "_Edit"
+#~ msgstr "_Editar"
 
-msgid "_File"
-msgstr "_Archivo"
+#~ msgid "_File"
+#~ msgstr "_Archivo"
 
-msgid "Notice"
-msgstr "Aviso"
-
-msgid "Can not create file %s\n"
-msgstr "Imposible crear el archivo %s\n"
-
-msgid "Microsoft(R) Excel file format"
-msgstr "Formato de archivo Microsoft® Excel"
-
-msgid "Guile Plugin"
-msgstr "Extensión Guile"
-
-msgid "Unable to lookup Python code object."
-msgstr ""
-
-msgid "Python exception."
-msgstr "Excepción Python."
-
-msgid "object must be callable"
-msgstr ""
-
-msgid "could not alloc FuncDef"
-msgstr ""
-
-msgid "Gnumeric/Python module initialized\n"
-msgstr "Extensión Gnumeric/Python inicializada\n"
-
-msgid "Python Plugin"
-msgstr "Extensión Python"
+#~ msgid "Notice"
+#~ msgstr "Aviso"

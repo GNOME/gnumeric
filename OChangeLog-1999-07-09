@@ -1,6 +1,3 @@
-1999-02-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
-
-
 1999-02-22  Tim Mooney  <mooney@dogbert.cc.ndsu.nodak.edu>
 
 	* plugins/guile/plugin.c (func_scm_apply): Initialization of
@@ -13,6 +10,7 @@
 
 	* src/fn-math.c: provide a break for default handlers.
 	* src/item-edit.c (entry_event): ditto
+	* src/sheet-autofill.c (fill_item_destroy): ditto.
 	
 	* src/dialog-cell-format.c (create_number_format_page): Initialize
 	in the body, like above.

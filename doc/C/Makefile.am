@@ -34,6 +34,9 @@ PERL_FILES = 			\
 EXTRA_DIST = \
 	topic.dat		\
 	func.defs		\
+	functions.sgml		\
+	func-list.sgml		\
+	func-index.sgml		\
 	$(SGML_FILES)		\
 	$(PERL_FILES)		\
 	$(TEXT_FILES)
