@@ -304,10 +304,11 @@ gog_view_queue_resize (GogView *view)
 void
 gog_view_size_request (GogView *view, GogViewRequisition *requisition)
 {
-	g_return_if_fail (GOG_VIEW (view) != NULL);
+	GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
+
+	g_return_if_fail (klass != NULL);
 	g_return_if_fail (requisition != NULL);
 
-	GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
 	if (klass->size_request != NULL) {
 		(klass->size_request) (view, requisition);
 		view->requisition = *requisition;
