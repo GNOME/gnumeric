@@ -1,5 +1,12 @@
 2004-09-29  Jody Goldberg <jody@gnome.org>
 
+	* src/commands.c (cmd_object_move) : extend to handle insertion too.
+
+	* src/gnumeric-pane.c (cb_control_point_event) : Play fast and lose
+	  with the undo records when duplicating an object by ctrl-click.
+	  Assign the object the sheet as soon as we duplicate it but do not
+	  list the undo until we record the resize on button release.
+
 	* src/workbook-view.c (gnm_mailto_url_show) : fix.
 
 	* src/session.c : suppress warning in the --without-gnome case

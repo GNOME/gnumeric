@@ -92,7 +92,7 @@ gboolean cmd_object_delete	(WorkbookControl *wbc, SheetObject *so,
 				 char const *name);
 gboolean cmd_object_move	(WorkbookControl *wbc, SheetObject *so,
 				 SheetObjectAnchor const *old_anchor,
-				 gboolean resize);
+				 gboolean resize, gboolean was_a_dup);
 gboolean cmd_object_format	(WorkbookControl *wbc, SheetObject *so,
 				 gpointer orig_style);
 

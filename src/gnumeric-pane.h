@@ -32,6 +32,7 @@ struct _GnumericPane {
 
 	SheetObject	*drag_object;
 	int		 drag_button;	/* the button that intiated the object drag */
+	gboolean	 drag_is_a_dup;
 	FooCanvasItem   *control_points [9]; /* Control points for the current item */
 
 	GdkCursor	*mouse_cursor;

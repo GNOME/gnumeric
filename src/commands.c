@@ -923,7 +923,6 @@ cmd_set_text (WorkbookControl *wbc,
 	obj = g_object_new (CMD_SET_TEXT_TYPE, NULL);
 	me = CMD_SET_TEXT (obj);
 
-	/* Store the specs for the object */
 	me->pos.sheet = sheet;
 	me->pos.eval = *pos;
 	me->text = corrected_text;
@@ -950,7 +949,6 @@ cmd_set_text (WorkbookControl *wbc,
 	me->has_user_format = !style_format_is_general (
 		mstyle_get_format (sheet_style_get (sheet, pos->col, pos->row)));
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -1117,7 +1115,6 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 	obj = g_object_new (CMD_AREA_SET_TEXT_TYPE, NULL);
 	me = CMD_AREA_SET_TEXT (obj);
 
-	/* Store the specs for the object */
 	me->text        = g_strdup (new_text);
 	me->selection   = selection_get_ranges (sv, FALSE /* No intersection */);
 	me->old_content = NULL;
@@ -1151,7 +1148,6 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 
 	g_free (text);
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -1409,7 +1405,6 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 	obj = g_object_new (CMD_INS_DEL_COLROW_TYPE, NULL);
 	me = CMD_INS_DEL_COLROW (obj);
 
-	/* Store the specs for the object */
 	me->sheet = sheet;
 	me->is_cols = is_cols;
 	me->is_insert = is_insert;
@@ -1432,7 +1427,6 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 	me->cmd.size = 1;  /* FIXME?  */
 	me->cmd.cmd_descriptor = descriptor;
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -1628,7 +1622,6 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 	obj = g_object_new (CMD_CLEAR_TYPE, NULL);
 	me = CMD_CLEAR (obj);
 
-	/* Store the specs for the object */
 	me->clear_flags = clear_flags;
 	me->paste_flags = paste_flags;
 	me->old_content = NULL;
@@ -1675,7 +1668,6 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 	g_string_free (names, TRUE);
 	g_string_free (types, TRUE);
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -1884,7 +1876,6 @@ cmd_selection_format (WorkbookControl *wbc,
 	} else
 		me->cmd.cmd_descriptor = g_strdup (opt_translated_name);
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -1970,7 +1961,6 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 	obj = g_object_new (CMD_RESIZE_COLROW_TYPE, NULL);
 	me = CMD_RESIZE_COLROW (obj);
 
-	/* Store the specs for the object */
 	me->sheet = sheet;
 	me->is_cols = is_cols;
 	me->selection = selection;
@@ -2023,7 +2013,6 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 	}
 
 	g_string_free (list, TRUE);
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -2124,7 +2113,6 @@ cmd_sort (WorkbookControl *wbc, GnmSortData *data)
 	me->cmd.size = 1;  /* Changed in initial redo.  */
 	me->cmd.cmd_descriptor = desc;
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -2253,7 +2241,6 @@ cmd_selection_colrow_hide (WorkbookControl *wbc,
 		? (visible ? _("Unhide columns") : _("Hide columns"))
 		: (visible ? _("Unhide rows") : _("Hide rows")));
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -2337,7 +2324,6 @@ cmd_selection_outline_change (WorkbookControl *wbc,
 		? (visible ? _("Expand columns") : _("Collapse columns"))
 		: (visible ? _("Expand rows") : _("Collapse rows")));
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -2364,7 +2350,6 @@ cmd_global_outline_change (WorkbookControl *wbc, gboolean is_cols, int depth)
 	me->cmd.cmd_descriptor = g_strdup_printf (is_cols
 		? _("Show column outline %d") : _("Show row outline %d"), depth);
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -2477,7 +2462,6 @@ cmd_selection_group (WorkbookControl *wbc,
 		: g_strdup_printf (group ? _("Group rows %d:%d") : _("Ungroup rows %d:%d"),
 				   me->range.start.row + 1, me->range.end.row + 1);
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -2737,7 +2721,6 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 	obj = g_object_new (CMD_PASTE_CUT_TYPE, NULL);
 	me = CMD_PASTE_CUT (obj);
 
-	/* Store the specs for the object */
 	me->info = *info;
 	me->paste_content  = NULL;
 	me->deleted_sheet_contents = NULL;
@@ -2761,7 +2744,6 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 	 * Probably when the clear in the original is undone.
 	 */
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -2889,7 +2871,6 @@ cmd_paste_copy (WorkbookControl *wbc,
 	obj = g_object_new (CMD_PASTE_COPY_TYPE, NULL);
 	me = CMD_PASTE_COPY (obj);
 
-	/* Store the specs for the object */
 	me->cmd.sheet = pt->sheet;
 	me->cmd.size = 1;  /* FIXME?  */
 	me->cmd.cmd_descriptor = g_strdup_printf (_("Pasting into %s"),
@@ -2964,7 +2945,6 @@ cmd_paste_copy (WorkbookControl *wbc,
 		return TRUE;
 	}
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -3153,7 +3133,6 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	obj = g_object_new (CMD_AUTOFILL_TYPE, NULL);
 	me = CMD_AUTOFILL (obj);
 
-	/* Store the specs for the object */
 	me->content = NULL;
 	me->dst.sheet = sheet;
 	me->dst.paste_flags = PASTE_CONTENT | PASTE_FORMATS;
@@ -3173,7 +3152,6 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	me->cmd.cmd_descriptor = g_strdup_printf (_("Autofilling %s"),
 		range_name (&me->dst.range));
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -3322,7 +3300,6 @@ cmd_copyrel (WorkbookControl *wbc,
 	obj = g_object_new (CMD_COPYREL_TYPE, NULL);
 	me = CMD_COPYREL (obj);
 
-	/* Store the specs for the object */
 	me->content = NULL;
 	me->dst.sheet = sheet;
 	me->dst.paste_flags = PASTE_CONTENT | PASTE_FORMATS;
@@ -3338,7 +3315,6 @@ cmd_copyrel (WorkbookControl *wbc,
 	me->cmd.size = 1;
 	me->cmd.cmd_descriptor = g_strdup (name);
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -3461,7 +3437,6 @@ cmd_selection_autoformat (WorkbookControl *wbc, FormatTemplate *ft)
 	obj = g_object_new (CMD_AUTOFORMAT_TYPE, NULL);
 	me = CMD_AUTOFORMAT (obj);
 
-	/* Store the specs for the object */
 	me->selection = selection_get_ranges (sv, FALSE); /* Regions may overlap */
 	me->ft  = ft;
 	me->cmd.sheet = sv_sheet (sv);
@@ -3496,7 +3471,6 @@ cmd_selection_autoformat (WorkbookControl *wbc, FormatTemplate *ft)
 						     names->str);
 	g_string_free (names, TRUE);
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -3628,7 +3602,6 @@ cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 		return TRUE;
 	}
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -3796,7 +3769,6 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection,
 		return TRUE;
 	}
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -4168,7 +4140,6 @@ cmd_search_replace (WorkbookControl *wbc, Sheet *sheet, GnmSearchReplace *sr)
 	cmd_search_replace_do (me, wb, sheet, FALSE);
 	me->cmd.size += g_list_length (me->cells);
 
-	/* Register the command object */
 	command_register_undo (wbc, obj);
 	return FALSE;
 }
@@ -4245,7 +4216,6 @@ cmd_colrow_std_size (WorkbookControl *wbc, Sheet *sheet,
 	obj = g_object_new (CMD_COLROW_STD_SIZE_TYPE, NULL);
 	me = CMD_COLROW_STD_SIZE (obj);
 
-	/* Store the specs for the object */
 	me->sheet = sheet;
 	me->is_cols = is_cols;
 	me->new_default = new_default;
@@ -4257,7 +4227,6 @@ cmd_colrow_std_size (WorkbookControl *wbc, Sheet *sheet,
 		? g_strdup_printf (_("Setting default width of columns to %.2fpts"), new_default)
 		: g_strdup_printf (_("Setting default height of rows to %.2fpts"), new_default);
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -4345,7 +4314,6 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 	obj = g_object_new (CMD_ZOOM_TYPE, NULL);
 	me = CMD_ZOOM (obj);
 
-	/* Store the specs for the object */
 	me->sheets = sheets;
 	me->old_factors = g_new0 (double, g_slist_length (sheets));
 	me->new_factor  = factor;
@@ -4376,7 +4344,6 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 
 	g_string_free (namelist, TRUE);
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -4519,7 +4486,7 @@ typedef struct {
 	SheetObject *so;
 
 	SheetObjectAnchor anchor;
-	gboolean first_time;
+	gboolean first_time, was_a_dup;
 } CmdObjectMove;
 
 MAKE_GNM_COMMAND (CmdObjectMove, cmd_object_move, NULL);
@@ -4535,6 +4502,14 @@ cmd_object_move_redo (GnmCommand *cmd,
 	else {
 		SheetObjectAnchor tmp;
 
+		/* For duplicates we also mange the insertion.  This is
+		 * necessary to avoid listing an insert and a move undo record. */
+		if (me->was_a_dup) {
+			if (NULL != sheet_object_get_sheet (me->so))
+				sheet_object_clear_sheet (me->so);
+			else
+				sheet_object_set_sheet (me->so, cmd->sheet);
+		}
 		sheet_object_anchor_cpy	(&tmp, sheet_object_get_anchor (me->so));
 		sheet_object_set_anchor	(me->so, &me->anchor);
 		sheet_object_anchor_cpy	(&me->anchor, &tmp);
@@ -4559,7 +4534,8 @@ cmd_object_move_finalize (GObject *cmd)
 
 gboolean
 cmd_object_move (WorkbookControl *wbc, SheetObject *so,
-		 SheetObjectAnchor const *old_anchor, gboolean is_resize)
+		 SheetObjectAnchor const *old_anchor,
+		 gboolean is_resize, gboolean was_a_dup)
 {
 	GObject *object;
 	CmdObjectMove *me;
@@ -4576,6 +4552,7 @@ cmd_object_move (WorkbookControl *wbc, SheetObject *so,
 	me = CMD_OBJECT_MOVE (object);
 
 	me->first_time = TRUE;
+	me->was_a_dup  = was_a_dup;
 	me->so = so;
 	g_object_ref (G_OBJECT (so));
 
@@ -4583,8 +4560,9 @@ cmd_object_move (WorkbookControl *wbc, SheetObject *so,
 
 	me->cmd.sheet = sheet_object_get_sheet (so);
 	me->cmd.size = 1;
-	me->cmd.cmd_descriptor =
-		g_strdup ((is_resize) ? _("Resize object") : _("Move object"));
+	me->cmd.cmd_descriptor = g_strdup (was_a_dup ? _("Duplicate Object")
+						     : (is_resize ? _("Resize Object")
+								  : _("Move Object")));
 
 	return command_push_undo (wbc, object);
 }
@@ -5927,8 +5905,6 @@ cmd_change_summary (WorkbookControl *wbc, GSList *sin_changes)
 		me->old_info = g_slist_prepend (me->old_info, sit);
 	}
 
-
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -6004,16 +5980,16 @@ cmd_object_raise (WorkbookControl *wbc, SheetObject *so, CmdObjectRaiseSelector 
 	me->cmd.size = 1;
 	switch (dir) {
 	case cmd_object_pull_to_front:
-		me->cmd.cmd_descriptor = g_strdup (_("Pull object to the front"));
+		me->cmd.cmd_descriptor = g_strdup (_("Pull Object to the Front"));
 		break;
 	case cmd_object_pull_forward:
-		me->cmd.cmd_descriptor = g_strdup (_("Pull object forward"));
+		me->cmd.cmd_descriptor = g_strdup (_("Pull Object Forward"));
 		break;
 	case cmd_object_push_backward:
-		me->cmd.cmd_descriptor = g_strdup (_("Push object backward"));
+		me->cmd.cmd_descriptor = g_strdup (_("Push Object Backward"));
 		break;
 	case cmd_object_push_to_back:
-		me->cmd.cmd_descriptor = g_strdup (_("Push object to the back"));
+		me->cmd.cmd_descriptor = g_strdup (_("Push Object to the Back"));
 		break;
 	}
 	me->dir = dir;
@@ -6134,7 +6110,6 @@ cmd_print_setup (WorkbookControl *wbc, Sheet *sheet, PrintInformation const *pi)
 	me->old_pi = NULL;
 	me->new_pi = print_info_dup (pi);
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -6583,7 +6558,6 @@ cmd_text_to_columns (WorkbookControl *wbc,
 	obj = g_object_new (CMD_TEXT_TO_COLUMNS_TYPE, NULL);
 	me = CMD_TEXT_TO_COLUMNS (obj);
 
-	/* Store the specs for the object */
 	me->cmd.sheet = (src_sheet == target_sheet ? src_sheet : NULL);
 	me->cmd.size = 1;  /* FIXME?  */
 	me->cmd.cmd_descriptor = g_strdup_printf (_("Text (%s) to Columns (%s)"),
@@ -6604,7 +6578,6 @@ cmd_text_to_columns (WorkbookControl *wbc,
 		return TRUE;
 	}
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -6729,8 +6702,6 @@ cmd_solver (WorkbookControl *wbc, GSList *cells, GSList *ov, GSList *nv)
 	obj = g_object_new (CMD_SOLVER_TYPE, NULL);
 	me = CMD_SOLVER (obj);
 
-	/* Store the specs for the object */
-
 	me->cmd.sheet = NULL;
 	me->cmd.size = g_slist_length (cells);
 	me->cmd.cmd_descriptor = g_strdup_printf (_("Solver"));
@@ -6744,7 +6715,6 @@ cmd_solver (WorkbookControl *wbc, GSList *cells, GSList *ov, GSList *nv)
 	if (me->nv == NULL)
 		me->nv = cmd_solver_get_cell_values (cells);
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -6814,8 +6784,6 @@ cmd_goal_seek (WorkbookControl *wbc, GnmCell *cell, GnmValue *ov, GnmValue *nv)
 	obj = g_object_new (CMD_GOAL_SEEK_TYPE, NULL);
 	me = CMD_GOAL_SEEK (obj);
 
-	/* Store the specs for the object */
-
 	me->cmd.sheet = cell->base.sheet;
 	me->cmd.size = 1;
 	range_init_cellpos (&range, &cell->pos, &cell->pos);
@@ -6831,7 +6799,6 @@ cmd_goal_seek (WorkbookControl *wbc, GnmCell *cell, GnmValue *ov, GnmValue *nv)
 	if (me->nv == NULL)
 		me->nv = value_dup (cell->value);
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
@@ -6968,7 +6935,6 @@ cmd_clone_sheet (WorkbookControl *wbc, Sheet *sheet)
 	me->cmd.cmd_descriptor =
 		g_strdup_printf (_("Duplicating %s"), sheet->name_unquoted);
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 /******************************************************************/
@@ -7050,7 +7016,6 @@ cmd_tabulate (WorkbookControl *wbc, gpointer data)
 	me->data = data;
 	me->sheet_idx = NULL;
 
-	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 

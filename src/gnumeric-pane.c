@@ -806,7 +806,8 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 			return FALSE;
 
 		cmd_object_move (WORKBOOK_CONTROL (scg_get_wbcg (scg)),
-			so, &scg->old_anchor, scg->object_was_resized);
+			so, &scg->old_anchor, scg->object_was_resized,
+			pane->drag_is_a_dup);
 		gnm_canvas_slide_stop (gcanvas);
 		pane->drag_object = NULL;
 		pane->drag_button = 0;
@@ -823,11 +824,13 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 		case 1:
 		case 2:
 			/* ctrl-click on acetate dups the object */
-			if ((event->button.state & GDK_CONTROL_MASK) != 0 &&
-			    IS_ITEM_ACETATE (ctrl_pt)) {
+			pane->drag_is_a_dup = (event->button.state & GDK_CONTROL_MASK) != 0 &&
+			    IS_ITEM_ACETATE (ctrl_pt);
+			if (pane->drag_is_a_dup) {
+				/* insert manually to avoid a pair of undo records
+				 * button release */
 				so = sheet_object_dup (so);
-				cmd_object_insert ((WorkbookControl *)scg_get_wbcg (scg), so,
-					sc_sheet (SHEET_CONTROL (scg)), _("Duplicate Object"));
+				sheet_object_set_sheet (so, sc_sheet (SHEET_CONTROL (scg)));
 				scg_set_current_object (scg, so);
 				g_object_unref (so);
 			}
