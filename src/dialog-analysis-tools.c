@@ -14,8 +14,6 @@
 #include "utils.h"
 
 
-static descriptive_stat_tool_t ds;
-
 
 static void dialog_correlation_tool(Workbook *wb, Sheet *sheet);
 static void dialog_covariance_tool(Workbook *wb, Sheet *sheet);
@@ -26,6 +24,13 @@ static void dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet);
 static void dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet);
 static void dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet);
 static void dialog_ftest_tool(Workbook *wb, Sheet *sheet);
+static void dialog_random_tool(Workbook *wb, Sheet *sheet);
+
+
+static descriptive_stat_tool_t ds;
+static int                     label_row_flag;
+static random_distribution_t   distribution = DiscreteDistribution;
+
 
 
 typedef void (*tool_fun_ptr_t)(Workbook *wb, Sheet *sheet);
@@ -47,6 +52,14 @@ typedef struct {
         const char    *default_entry;
 } check_button_t;
 
+typedef struct {
+        GtkWidget *dialog;
+        GtkWidget *frame;
+        GtkWidget *discrete_box, *uniform_box, *normal_box;
+        GtkWidget *combo;
+} random_tool_callback_t;
+
+
 
 tool_list_t tools[] = {
         { { "Correlation", NULL },
@@ -57,6 +70,8 @@ tool_list_t tools[] = {
 	  dialog_descriptive_stat_tool },
         { { "F-Test: Two-Sample for Variances", NULL }, 
 	  dialog_ftest_tool },
+        { { "Random Number Generation", NULL },
+	  dialog_random_tool },
         { { "Sampling", NULL },
 	  dialog_sampling_tool },
         { { "t-Test: Paired Two Sample for Means", NULL }, 
@@ -68,6 +83,14 @@ tool_list_t tools[] = {
         { { "z-Test: Two Sample for Means", NULL },
 	  dialog_ztest_tool },
 	{ { NULL, NULL }, NULL }
+};
+
+/* Distribution strings for Random Number Generator */
+static const char *distribution_strs[] = {
+        N_("Discrete"),
+        N_("Normal"),
+        N_("Uniform"),
+        NULL
 };
 
 static void
@@ -94,6 +117,12 @@ kth_smallest_signal_fun()
         ds.kth_smallest = !ds.kth_smallest;
 }
 
+static void
+first_row_label_signal_fun()
+{
+        label_row_flag = !label_row_flag;
+}
+
 static check_button_t desc_stat_buttons[] = {
         { N_("Summary Statistics"), summary_stat_signal_fun, FALSE,
 	  N_("") },
@@ -103,6 +132,12 @@ static check_button_t desc_stat_buttons[] = {
 	  N_("1") },
 	{ N_("Kth Smallest:"), kth_smallest_signal_fun, TRUE,
 	  N_("1") },
+        { NULL, NULL }
+};
+
+static check_button_t first_row_label_button[] = {
+        { N_("Labels in First Row"), first_row_label_signal_fun, FALSE,
+	  N_("") },
         { NULL, NULL }
 };
 
@@ -267,7 +302,7 @@ add_output_frame(GtkWidget *box, GSList **output_ops)
 {
         GtkWidget *r, *hbox, *output_range_entry;
 
-        box = new_frame("Output:", box);
+        box = new_frame("Output options:", box);
 	*output_ops = NULL;
 	r = gtk_radio_button_new_with_label(*output_ops, "New Sheet");
 	*output_ops = GTK_RADIO_BUTTON (r)->group;
@@ -285,12 +320,38 @@ add_output_frame(GtkWidget *box, GSList **output_ops)
 	return output_range_entry;
 }
 
+static GSList *
+add_groupped_by(GtkWidget *box)
+{
+        GtkWidget *r, *groupped_label, *group_box, *hbox;
+	GSList    *group_ops;
+	int       i;
+
+	group_ops = NULL;
+	groupped_label = gtk_label_new ("Groupped By:");
+	hbox = gtk_hbox_new (FALSE, 0);
+	group_box = gtk_vbox_new (FALSE, 0);
+	gtk_box_pack_start_defaults (GTK_BOX (hbox), groupped_label);
+	for (i = 0; groupped_ops [i]; i++) {
+	        r = gtk_radio_button_new_with_label (group_ops,
+						     _(groupped_ops[i]));
+		group_ops = GTK_RADIO_BUTTON (r)->group;
+		gtk_box_pack_start_defaults (GTK_BOX (group_box), r);
+	}
+	gtk_box_pack_start_defaults (GTK_BOX (hbox), group_box);
+	gtk_box_pack_start_defaults (GTK_BOX (box), hbox);
+
+	return group_ops;
+}
+
+
 static void
 dialog_correlation_tool(Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box, *group_box, *groupped_label;
 	static GtkWidget *range_entry, *r, *output_range_entry;
 	static GSList    *group_ops, *output_ops;
+	static int       labels = 0;
 
 	data_analysis_output_t  dao;
 
@@ -299,11 +360,12 @@ dialog_correlation_tool(Workbook *wb, Sheet *sheet)
 	static Range range;
 	int   i=0, output;
 
+	label_row_flag = labels;
+
 	if (!dialog) {
 	        dialog = new_dialog("Correlation", wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
-		group_box = gtk_vbox_new (FALSE, 0);
 
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
@@ -313,17 +375,9 @@ dialog_correlation_tool(Workbook *wb, Sheet *sheet)
 		range_entry = hbox_pack_label_and_entry
 		  ("Input Range:", "", 20, box);
 
-		group_ops = NULL;
-		groupped_label = gtk_label_new ("Groupped By:");
-		gtk_box_pack_start_defaults (GTK_BOX (box), groupped_label);
-		for (i = 0; groupped_ops [i]; i++) {
-			r = gtk_radio_button_new_with_label (group_ops,
-							     _(groupped_ops[i])
-							     );
-			group_ops = GTK_RADIO_BUTTON (r)->group;
-			gtk_box_pack_start_defaults (GTK_BOX (group_box), r);
-		}
-		gtk_box_pack_start_defaults (GTK_BOX (box), group_box);
+		group_ops = add_groupped_by(box);
+
+		add_check_buttons(box, first_row_label_button);
 
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
@@ -362,6 +416,10 @@ correlation_dialog_loop:
 	if (parse_output(output, sheet, output_range_entry, wb, &dao))
 	        goto correlation_dialog_loop;
 
+	labels = label_row_flag;
+	if (labels)
+	        range.start_row++;
+
 	if (correlation_tool (wb, sheet, &range, !i, &dao))
 	        goto correlation_dialog_loop;
 
@@ -375,6 +433,7 @@ dialog_covariance_tool(Workbook *wb, Sheet *sheet)
         static GtkWidget *dialog, *box, *group_box, *groupped_label;
 	static GtkWidget *range_entry, *output_range_entry;
 	static GSList    *group_ops, *output_ops;
+	static int       labels = 0;
 
 	data_analysis_output_t  dao;
 
@@ -383,11 +442,12 @@ dialog_covariance_tool(Workbook *wb, Sheet *sheet)
 	static Range range;
 	int   i=0;
 
+	label_row_flag = labels;
+
 	if (!dialog) {
 	        dialog = new_dialog("Covariance", wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
-		group_box = gtk_vbox_new (FALSE, 0);
 
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
@@ -397,19 +457,8 @@ dialog_covariance_tool(Workbook *wb, Sheet *sheet)
 		range_entry = hbox_pack_label_and_entry
 		  ("Input Range:", "", 20, box);
 
-		group_ops = NULL;
-		groupped_label = gtk_label_new ("Groupped By:");
-		gtk_box_pack_start_defaults (GTK_BOX (box), groupped_label);
-		for (i = 0; groupped_ops [i]; i++) {
-		        GtkWidget *r;
-
-			r = gtk_radio_button_new_with_label (group_ops,
-							     _(groupped_ops[i])
-							     );
-			group_ops = GTK_RADIO_BUTTON (r)->group;
-			gtk_box_pack_start_defaults (GTK_BOX (group_box), r);
-		}
-		gtk_box_pack_start_defaults (GTK_BOX (box), group_box);
+		group_ops = add_groupped_by(box);
+		add_check_buttons(box, first_row_label_button);
 
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
@@ -448,6 +497,10 @@ covariance_dialog_loop:
 	if (parse_output(output, sheet, output_range_entry, wb, &dao))
 	        goto covariance_dialog_loop;
 
+	labels = label_row_flag;
+	if (labels)
+	        range.start_row++;
+
 	if (covariance_tool (wb, sheet, &range, !i, &dao))
 	        goto covariance_dialog_loop;
 
@@ -461,6 +514,7 @@ dialog_sampling_tool(Workbook *wb, Sheet *sheet)
         static GtkWidget *dialog, *box, *sampling_box, *sampling_label;
 	static GtkWidget *range_entry, *output_range_entry, *sampling_entry[2];
 	static GSList    *sampling_ops, *output_ops;
+	static int       labels = 0;
 
 	data_analysis_output_t  dao;
 
@@ -468,6 +522,8 @@ dialog_sampling_tool(Workbook *wb, Sheet *sheet)
 	int   selection, output;
 	static Range range;
 	int   i=0, size;
+
+	label_row_flag = labels;
 
 	if (!dialog) {
 	        dialog = new_dialog("Sampling", wb->toplevel);
@@ -515,6 +571,8 @@ dialog_sampling_tool(Workbook *wb, Sheet *sheet)
 		}
 		gtk_box_pack_start_defaults(GTK_BOX (box), sampling_box);
 
+		add_check_buttons(box, first_row_label_button);
+
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
@@ -555,6 +613,10 @@ sampling_dialog_loop:
 	text = gtk_entry_get_text (GTK_ENTRY (sampling_entry[i]));
 	size = atoi(text);
 
+	labels = label_row_flag;
+	if (labels)
+	        range.start_row++;
+
 	if (sampling_tool (wb, sheet, &range, !i, size, &dao))
 	        goto sampling_dialog_loop;
 
@@ -569,6 +631,7 @@ dialog_descriptive_stat_tool(Workbook *wb, Sheet *sheet)
 	static GtkWidget *range_entry, *output_range_entry;
 	static GtkWidget *check_buttons;
 	static GSList    *group_ops, *output_ops;
+	static int       labels = 0;
 
 	data_analysis_output_t  dao;
 
@@ -577,11 +640,12 @@ dialog_descriptive_stat_tool(Workbook *wb, Sheet *sheet)
 	static Range range;
 	int   i=0;
 
+	label_row_flag = labels;
+
 	if (!dialog) {
 	        dialog = new_dialog("Descriptive Statistics", wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
-		group_box = gtk_vbox_new (FALSE, 0);
 
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
@@ -591,19 +655,8 @@ dialog_descriptive_stat_tool(Workbook *wb, Sheet *sheet)
 		range_entry = hbox_pack_label_and_entry
 		  ("Input Range:", "", 20, box);
 
-		group_ops = NULL;
-		groupped_label = gtk_label_new ("Groupped By:");
-		gtk_box_pack_start_defaults (GTK_BOX (box), groupped_label);
-		for (i = 0; groupped_ops [i]; i++) {
-		        GtkWidget *r;
-
-			r = gtk_radio_button_new_with_label (group_ops,
-							     _(groupped_ops[i])
-							     );
-			group_ops = GTK_RADIO_BUTTON (r)->group;
-			gtk_box_pack_start_defaults (GTK_BOX (group_box), r);
-		}
-		gtk_box_pack_start_defaults (GTK_BOX (box), group_box);
+		group_ops = add_groupped_by(box);
+		add_check_buttons(box, first_row_label_button);
 
 		check_buttons = gtk_vbox_new (FALSE, 0);
 		add_check_buttons(check_buttons, desc_stat_buttons);
@@ -655,6 +708,10 @@ stat_dialog_loop:
 	text = gtk_entry_get_text (GTK_ENTRY (ds.entry[3]));
 	ds.k_smallest = atoi(text);
 
+	labels = label_row_flag;
+	if (labels)
+	        range.start_row++;
+
 	if (descriptive_stat_tool(wb, sheet, &range, !i, &ds, &dao))
 	        goto stat_dialog_loop;
 
@@ -670,6 +727,7 @@ dialog_ztest_tool(Workbook *wb, Sheet *sheet)
 	static GtkWidget *known_var1_entry, *known_var2_entry;
 	static GtkWidget *mean_diff_entry, *alpha_entry;
 	static GSList    *output_ops;
+	static int       labels = 0;
 
 	data_analysis_output_t  dao;
 	float_t mean_diff, alpha, var1, var2;
@@ -677,6 +735,8 @@ dialog_ztest_tool(Workbook *wb, Sheet *sheet)
 	char  *text;
 	int   selection, output;
 	static Range range_input1, range_input2;
+
+	label_row_flag = labels;
 
 	if (!dialog) {
 	        dialog = new_dialog("z-Test: Two Sample for Means",
@@ -706,6 +766,7 @@ dialog_ztest_tool(Workbook *wb, Sheet *sheet)
 
 		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
 							20, box);
+		add_check_buttons(box, first_row_label_button);
 
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
@@ -765,6 +826,12 @@ ztest_dialog_loop:
 	if (parse_output(output, sheet, output_range_entry, wb, &dao))
 	        goto ztest_dialog_loop;
 
+	labels = label_row_flag;
+	if (labels) {
+	        range_input1.start_row++;
+	        range_input2.start_row++;
+	}
+
 	if (ztest_tool (wb, sheet, &range_input1, &range_input2, mean_diff,
 		    var1, var2, alpha, &dao))
 	        goto ztest_dialog_loop;
@@ -780,6 +847,7 @@ dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet)
 	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
 	static GtkWidget *mean_diff_entry, *alpha_entry;
 	static GSList    *output_ops;
+	static int       labels = 0;
 
 	data_analysis_output_t  dao;
 	float_t mean_diff, alpha;
@@ -787,6 +855,8 @@ dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet)
 	char  *text;
 	int   selection, output;
 	static Range range_input1, range_input2;
+
+	label_row_flag = labels;
 
 	if (!dialog) {
 	        dialog = new_dialog("t-Test: Paired Two Sample for Means",
@@ -810,6 +880,7 @@ dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet)
 
 		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
 							20, box);
+		add_check_buttons(box, first_row_label_button);
 
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
@@ -863,6 +934,12 @@ ttest_dialog_loop:
 	if (parse_output(output, sheet, output_range_entry, wb, &dao))
 	        goto ttest_dialog_loop;
 
+	labels = label_row_flag;
+	if (labels) {
+	        range_input1.start_row++;
+	        range_input2.start_row++;
+	}
+
 	if (ttest_paired_tool (wb, sheet, &range_input1, &range_input2,
 			       mean_diff, alpha, &dao))
 	        goto ttest_dialog_loop;
@@ -878,6 +955,7 @@ dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet)
 	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
 	static GtkWidget *mean_diff_entry, *alpha_entry;
 	static GSList    *output_ops;
+	static int       labels = 0;
 
 	data_analysis_output_t  dao;
 	float_t mean_diff, alpha;
@@ -885,6 +963,8 @@ dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet)
 	char  *text;
 	int   selection, output;
 	static Range range_input1, range_input2;
+
+	label_row_flag = labels;
 
 	if (!dialog) {
 	        dialog = new_dialog("t-Test: Two-Sample Assuming "
@@ -909,6 +989,7 @@ dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet)
 
 		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
 							20, box);
+		add_check_buttons(box, first_row_label_button);
 
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
@@ -962,6 +1043,12 @@ ttest_dialog_loop:
 	if (parse_output(output, sheet, output_range_entry, wb, &dao))
 	        goto ttest_dialog_loop;
 
+	labels = label_row_flag;
+	if (labels) {
+	        range_input1.start_row++;
+	        range_input2.start_row++;
+	}
+
 	if (ttest_eq_var_tool (wb, sheet, &range_input1, &range_input2,
 			       mean_diff, alpha, &dao))
 	        goto ttest_dialog_loop;
@@ -977,6 +1064,7 @@ dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet)
 	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
 	static GtkWidget *mean_diff_entry, *alpha_entry;
 	static GSList    *output_ops;
+	static int       labels = 0;
 
 	data_analysis_output_t  dao;
 	float_t mean_diff, alpha;
@@ -984,6 +1072,8 @@ dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet)
 	char  *text;
 	int   selection, output;
 	static Range range_input1, range_input2;
+
+	label_row_flag = labels;
 
 	if (!dialog) {
 	        dialog = new_dialog("t-Test: Two-Sample Assuming "
@@ -1008,6 +1098,7 @@ dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet)
 
 		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
 							20, box);
+		add_check_buttons(box, first_row_label_button);
 
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
@@ -1061,6 +1152,12 @@ ttest_dialog_loop:
 	if (parse_output(output, sheet, output_range_entry, wb, &dao))
 	        goto ttest_dialog_loop;
 
+	labels = label_row_flag;
+	if (labels) {
+	        range_input1.start_row++;
+	        range_input2.start_row++;
+	}
+
 	if (ttest_neq_var_tool (wb, sheet, &range_input1, &range_input2,
 				mean_diff, alpha, &dao))
 	        goto ttest_dialog_loop;
@@ -1076,6 +1173,7 @@ dialog_ftest_tool(Workbook *wb, Sheet *sheet)
 	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
 	static GtkWidget *alpha_entry;
 	static GSList    *output_ops;
+	static int       labels = 0;
 
 	data_analysis_output_t  dao;
 	float_t alpha;
@@ -1102,6 +1200,8 @@ dialog_ftest_tool(Workbook *wb, Sheet *sheet)
 
 		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
 							20, vbox);
+
+		add_check_buttons(vbox, first_row_label_button);
 
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
@@ -1153,8 +1253,241 @@ ftest_dialog_loop:
 	if (parse_output(output, sheet, output_range_entry, wb, &dao))
 	        goto ftest_dialog_loop;
 
+	labels = label_row_flag;
+	if (labels) {
+	        range_input1.start_row++;
+	        range_input2.start_row++;
+	}
+
 	if (ftest_tool (wb, sheet, &range_input1, &range_input2, alpha, &dao))
 	        goto ftest_dialog_loop;
+
+	workbook_focus_sheet(sheet);
+ 	gnome_dialog_close (GNOME_DIALOG (dialog));
+}
+
+
+static GtkWidget *
+pack_label_and_entry(char *str, char *default_str,
+		     int entry_len, GtkWidget *vbox)
+{
+        GtkWidget *box, *label, *entry;
+
+        box = gtk_hbox_new (FALSE, 0);
+	entry = gtk_entry_new_with_max_length (entry_len);
+	label = gtk_label_new (str);
+	gtk_entry_set_text (GTK_ENTRY (entry), default_str);
+
+	gtk_box_pack_start_defaults (GTK_BOX (box), label);
+	gtk_box_pack_start_defaults (GTK_BOX (box), entry);
+	gtk_box_pack_start_defaults (GTK_BOX (vbox), box);
+
+	return entry;
+}
+
+
+static void
+distribution_callback(GtkWidget *widget, random_tool_callback_t *p)
+{
+        char *text;
+
+	switch (distribution) {
+	case UniformDistribution:
+	        gtk_widget_hide (p->uniform_box);
+		break;
+	case NormalDistribution:
+	        gtk_widget_hide (p->normal_box);
+		break;
+	case DiscreteDistribution:
+	        gtk_widget_hide (p->discrete_box);
+		break;
+	default:
+	        break;
+	}
+
+        text = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(p->combo)->entry));
+
+	if (strcmp(text, "Uniform") == 0) {
+	        distribution = UniformDistribution;
+		gtk_widget_show (p->uniform_box);
+	} else if (strcmp(text, "Normal") == 0) {
+	        distribution = NormalDistribution;
+		gtk_widget_show (p->normal_box);
+	} else if (strcmp(text, "Discrete") == 0) {
+	        distribution = DiscreteDistribution;
+		gtk_widget_show (p->discrete_box);
+	}
+}
+
+static void
+dialog_random_tool(Workbook *wb, Sheet *sheet)
+{
+        static GtkWidget *dialog, *box, *param_box, *distribution_combo;
+	static GtkWidget *vars_entry, *count_entry, *output_range_entry;
+	static GtkWidget *discrete_range_entry;
+	static GtkWidget *uniform_upper_entry, *uniform_lower_entry;
+	static GtkWidget *normal_mean_entry, *normal_stdev_entry;
+
+	static GSList    *group_ops, *output_ops;
+	static GList     *distribution_type_strs;
+
+	int    vars, count;
+	random_tool_t    param;
+	data_analysis_output_t  dao;
+
+	static random_tool_callback_t callback_data;
+
+	char  *text;
+	int   selection;
+	static Range range;
+	int   i=0, output;
+
+	if (!dialog) {
+	        dialog = new_dialog("Random Number Generation", wb->toplevel);
+
+	        distribution_type_strs =
+		  add_strings_to_glist (distribution_strs);
+
+		box = gtk_vbox_new (FALSE, 0);
+
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		vars_entry = hbox_pack_label_and_entry
+		  ("Number of Variables:", "", 20, box);
+	
+		count_entry = hbox_pack_label_and_entry
+		  ("Number of Random Numbers:", "", 20, box);
+
+		distribution_combo = gtk_combo_new ();
+		gtk_combo_set_popdown_strings (GTK_COMBO (distribution_combo),
+					       distribution_type_strs);
+		gtk_editable_set_editable
+		  (GTK_EDITABLE (GTK_COMBO(distribution_combo)->entry), FALSE);
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox),
+					     distribution_combo);
+
+		param_box = new_frame("Parameters:", box);
+
+		callback_data.dialog = dialog;
+		callback_data.frame = param_box;
+		callback_data.combo = distribution_combo;
+
+		gtk_signal_connect
+		  (GTK_OBJECT(GTK_COMBO(distribution_combo)->entry),
+		   "changed", GTK_SIGNAL_FUNC (distribution_callback),
+		   &callback_data);
+
+		callback_data.discrete_box = gtk_vbox_new (FALSE, 0);
+		discrete_range_entry = pack_label_and_entry
+		  ("Value and Probability Input Range:", "", 20,
+		   callback_data.discrete_box);
+
+		callback_data.uniform_box = gtk_vbox_new (FALSE, 0);
+		uniform_lower_entry = 
+		  pack_label_and_entry("Between:", "", 20,
+				       callback_data.uniform_box);
+		uniform_upper_entry = 
+		  pack_label_and_entry("And:", "", 20, 
+				       callback_data.uniform_box);
+
+		callback_data.normal_box = gtk_vbox_new (FALSE, 0);
+		normal_mean_entry = pack_label_and_entry
+		  ("Mean = ", "", 20, callback_data.normal_box);
+		normal_stdev_entry = pack_label_and_entry
+		  ("Standard Deviation = ", "", 20, callback_data.normal_box);
+
+		box = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		output_range_entry = add_output_frame(box, &output_ops);
+
+		gtk_container_add(GTK_CONTAINER(param_box),
+				  callback_data.discrete_box);
+
+		gtk_container_add(GTK_CONTAINER(param_box),
+				  callback_data.uniform_box);
+		gtk_container_add(GTK_CONTAINER(param_box),
+				  callback_data.normal_box);
+
+		gtk_widget_show_all (dialog);
+		gtk_widget_hide (callback_data.uniform_box);
+		gtk_widget_hide (callback_data.normal_box);
+	} else {
+		gtk_widget_show_all (dialog);
+		switch (distribution) {
+		case DiscreteDistribution:
+		        gtk_widget_hide (callback_data.uniform_box);
+			gtk_widget_hide (callback_data.normal_box);
+			break;
+		case NormalDistribution:
+		        gtk_widget_hide (callback_data.discrete_box);
+			gtk_widget_hide (callback_data.uniform_box);
+			break;
+		case UniformDistribution:
+		        gtk_widget_hide (callback_data.discrete_box);
+			gtk_widget_hide (callback_data.normal_box);
+			break;
+		default:
+		        break;
+		}
+	}
+
+        gtk_widget_grab_focus (vars_entry);
+
+random_dialog_loop:
+
+	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (selection == 1) {
+	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		return;
+	}
+
+	output = gtk_radio_group_get_selected (output_ops);
+
+	text = gtk_entry_get_text (GTK_ENTRY (vars_entry));
+	vars = atoi(text);
+
+	text = gtk_entry_get_text (GTK_ENTRY (count_entry));
+	count = atoi(text);
+
+        text = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO
+					    (distribution_combo)->entry));
+	if (strcmp(text, "Uniform") == 0) {
+	        distribution = UniformDistribution;
+		text = gtk_entry_get_text (GTK_ENTRY (uniform_lower_entry));
+		param.uniform.lower_limit = atof(text);
+		text = gtk_entry_get_text (GTK_ENTRY (uniform_upper_entry));
+		param.uniform.upper_limit = atof(text);
+	} else if (strcmp(text, "Normal") == 0) {
+	        distribution = NormalDistribution;
+		text = gtk_entry_get_text (GTK_ENTRY (normal_mean_entry));
+		param.normal.mean = atof(text);
+		text = gtk_entry_get_text (GTK_ENTRY (normal_stdev_entry));
+		param.normal.stdev = atof(text);
+	} else if (strcmp(text, "Discrete") == 0) {
+	        distribution = DiscreteDistribution;
+		text = gtk_entry_get_text (GTK_ENTRY (discrete_range_entry));
+		if (!parse_range (text, &param.discrete.start_col,
+			  &param.discrete.start_row,
+			  &param.discrete.end_col,
+			  &param.discrete.end_row)) {
+		        error_in_entry(wb, discrete_range_entry, 
+				       "You should introduce a valid cell "
+				       "range in 'Value and Probability Input "
+				       "Range:'");
+			goto random_dialog_loop;
+		}
+	} else
+	        distribution = UniformDistribution;
+
+	if (parse_output(output, sheet, output_range_entry, wb, &dao))
+	        goto random_dialog_loop;
+
+	if (random_tool (wb, sheet, vars, count, distribution, &param, &dao))
+	        goto random_dialog_loop;
 
 	workbook_focus_sheet(sheet);
  	gnome_dialog_close (GNOME_DIALOG (dialog));
@@ -1173,7 +1506,7 @@ void
 dialog_data_analysis (Workbook *wb, Sheet *sheet)
 
 {
-	static GtkWidget *dialog;
+	static GtkWidget *dialog, *scrolled_win;
 	static GtkWidget *main_label;
 	static GtkWidget *tool_list;
 
@@ -1193,15 +1526,27 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
                 gtk_misc_set_alignment (GTK_MISC(main_label), 0,0);
  		gtk_box_pack_start_defaults (GTK_BOX (box), main_label);
 
+		scrolled_win = gtk_scrolled_window_new (NULL, NULL);
+		gtk_container_set_border_width (GTK_CONTAINER (scrolled_win),
+						5);
+		gtk_widget_set_usize (scrolled_win, 330, 160);
+		gtk_box_pack_start (GTK_BOX (box), scrolled_win,
+				    TRUE, TRUE, 0);
+		gtk_scrolled_window_set_policy
+		  (GTK_SCROLLED_WINDOW (scrolled_win),
+		   GTK_POLICY_AUTOMATIC,
+		   GTK_POLICY_AUTOMATIC);
+
 		tool_list = gtk_clist_new (1);
 		gtk_clist_set_selection_mode (GTK_CLIST (tool_list),
 					      GTK_SELECTION_SINGLE);
+		gtk_scrolled_window_add_with_viewport
+		  (GTK_SCROLLED_WINDOW (scrolled_win), tool_list);
 
 		for (i=0; tools[i].fun; i++)
 		        gtk_clist_append (GTK_CLIST (tool_list),
 					  (char **) &tools[i].name);
 		
-		gtk_box_pack_start_defaults (GTK_BOX (box), tool_list);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 		gtk_signal_connect (GTK_OBJECT(tool_list), "select_row",

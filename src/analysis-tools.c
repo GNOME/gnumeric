@@ -1490,3 +1490,134 @@ ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 
 	return 0;
 }
+
+
+
+/************* Random Number Generation Tool ******************************
+ *
+ * The results are given in a table which can be printed out in a new
+ * sheet, in a new workbook, or simply into an existing sheet.
+ *
+ * TODO: a new workbook output and output to an existing sheet
+ *
+ **/
+
+int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
+		 random_distribution_t distribution,
+		 random_tool_t *param, data_analysis_output_t *dao)
+{
+	char       buf[256];
+	int        i, n, j;
+	float_t    range, p;
+	float_t    *prob, *cumul_p;
+	Value      **values, *v;
+	Cell       *cell;
+
+	if (dao->type == NewSheetOutput) {
+	        dao->sheet = sheet_new(wb, "Random Numbers");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+	}
+
+	switch (distribution) {
+	case DiscreteDistribution:
+	        n = param->discrete.end_row-param->discrete.start_row + 1;
+	        prob = g_new(float_t, n);
+		cumul_p = g_new(float_t, n);
+		values = g_new(Value *, n);
+
+                p = 0;
+		j = 0;
+	        for (i=param->discrete.start_row;
+		     i<=param->discrete.end_row; i++, j++) {
+		        cell = sheet_cell_get(sheet,
+					      param->discrete.start_col+1, i);
+			if (cell != NULL && cell->value != NULL) {
+			        v = cell->value;
+				if (VALUE_IS_NUMBER(v))
+				        prob[j] = value_get_as_float (v);
+				else {
+				        g_free(prob);
+					g_free(cumul_p);
+					g_free(values);
+
+					return 1;
+				}
+			} else {
+			        g_free(prob);
+				g_free(cumul_p);
+				g_free(values);
+
+			        return 1;
+			}
+
+			p += prob[j];
+			cumul_p[j] = p;
+
+		        cell = sheet_cell_get(sheet,
+					      param->discrete.start_col, i);
+			if (cell != NULL && cell->value != NULL)
+			        values[j] = value_duplicate(cell->value);
+			else {
+			        g_free(prob);
+				g_free(cumul_p);
+				g_free(values);
+
+			        return 1;
+			}
+		}
+		
+		if (p != 1) {
+		        g_free(prob);
+			g_free(cumul_p);
+			g_free(values);
+
+		        return 2;
+		}
+			
+	        for (i=0; i<vars; i++) {
+		        for (n=0; n<count; n++) {
+			        float_t x = random_01();
+
+				for (j=0; cumul_p[j] < x; j++)
+				        ;
+
+				if (VALUE_IS_NUMBER(values[j]))
+				        sprintf(buf, "%f", 
+						value_get_as_float(values[j]));
+				else
+				        sprintf(buf, "%s",
+						value_get_as_string(values[j]));
+				set_cell(dao, i, n, buf);
+			}
+		}
+	        break;
+	case NormalDistribution:
+	        for (i=0; i<vars; i++) {
+		        for (n=0; n<count; n++) {
+			        sprintf(buf, "%f", 
+					qnorm(random_01(),
+					      param->normal.mean,
+					      param->normal.stdev));
+				set_cell(dao, i, n, buf);
+			}
+		}
+	        break;
+	case UniformDistribution:
+	        range = param->uniform.upper_limit-param->uniform.lower_limit;
+	        for (i=0; i<vars; i++) {
+		        for (n=0; n<count; n++) {
+			        sprintf(buf, "%f", range*random_01() +
+					param->uniform.lower_limit);
+				set_cell(dao, i, n, buf);
+			}
+		}
+		break;
+	default:
+	        printf("Not implemented yet.\n");
+		break;
+	}
+
+	return 0;
+}
+

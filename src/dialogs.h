@@ -15,6 +15,57 @@ typedef struct {
 } descriptive_stat_tool_t;
 
 typedef enum {
+  DiscreteDistribution, UniformDistribution, NormalDistribution, 
+  BernoulliDistribution, BinomialDistribution, PoissonDistribution,
+  PatternedDistribution
+} random_distribution_t;
+
+typedef struct {
+        int start_col, start_row;
+        int end_col, end_row;
+} discrete_random_tool_t;
+
+typedef struct {
+        float_t lower_limit;
+        float_t upper_limit;
+} uniform_random_tool_t;
+
+typedef struct {
+        float_t mean;
+        float_t stdev;
+} normal_random_tool_t;
+
+typedef struct {
+        float_t p;
+} bernoulli_random_tool_t;
+
+typedef struct {
+        float_t p;
+        int     trials;
+} binomial_random_tool_t;
+
+typedef struct {
+        float_t lambda;
+} poisson_random_tool_t;
+
+typedef struct {
+        float_t from, to;
+        float_t step;
+        int     repeat_number;
+        int     repeat_sequence;
+} patterned_random_tool_t;
+
+typedef union {
+        discrete_random_tool_t  discrete;
+        uniform_random_tool_t   uniform;
+        normal_random_tool_t    normal;
+        bernoulli_random_tool_t bernoulli;
+        binomial_random_tool_t  binomial;
+        poisson_random_tool_t   poisson;
+        patterned_random_tool_t patterned;
+} random_tool_t;
+
+typedef enum {
         NewSheetOutput, NewWorkbookOutput, RangeOutput
 } data_analysis_output_type_t;
 
@@ -74,5 +125,10 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *range_input1,
 		Range *range_input2, float_t mean_diff, 
 		float_t var1, float_t var2, float_t alpha,
 		data_analysis_output_t *dao);
+int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
+		 random_distribution_t distribution,
+		 random_tool_t *param, data_analysis_output_t *dao);
+
+GList *add_strings_to_glist (const char *strs[]);
 
 #endif /* GNUMERIC_DIALOGS_H */

@@ -1,3 +1,13 @@
+1999-07-07  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialog-analysis-tools.c: Cleaned up `groupped by' radio
+ 	button code.  Added `Labels in First Row' check buttons for all
+ 	tools.  Made the tool list inside of a scrolled window.
+
+	* src/dialog-analysis-tools.c, src/analysis-tools.c: Implemented
+ 	`Random Number Generation' tool with the following distributions:
+ 	Discrete, Normal, and Uniform.
+
 1999-07-07  Michael Meeks  <michael@edenproject.org>
 
 	* src/about.c (dialog_about): Add Jody, updated Sean.

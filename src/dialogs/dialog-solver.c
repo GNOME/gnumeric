@@ -111,7 +111,7 @@ add_check_buttons (GtkWidget *box, const char *ops[])
 }
 
 
-static GList *
+GList *
 add_strings_to_glist (const char *strs[])
 {
         int   i;
