@@ -1,3 +1,13 @@
+2002-03-02  Jody Goldberg <jody@gnome.org>
+
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_get_text) : new util.
+	(gnm_expr_entry_parse_as_value) :  add some preconditions.
+	(gnm_expr_entry_parse_as_list) : ditto.
+	(gnm_expr_entry_is_cell_ref) :  ditto.
+	(gnm_expr_entry_global_range_name) : ditto.
+	(gnm_expr_entry_grab_focus) : ditto.
+
 2002-02-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_is_blank) : implement. Was 

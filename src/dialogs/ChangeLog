@@ -1,3 +1,11 @@
+2002-03-02  Jody Goldberg <jody@gnome.org>
+
+	* dialog-formula-guru.c (cb_formula_guru_rolled_entry_changed) : Use
+	  the convenience routines.
+	(formula_guru_set_rolled_state) : partial fix.
+
+	* formula-guru.glade : fix conversion problems.
+
 2002-03-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* Makefile.am : add cell-comment.glade

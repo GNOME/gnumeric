@@ -51,6 +51,10 @@ Jody:
 	* start moving to utf8 internals.
 	* fix pango context leak.
 	* improve xl export.
+	* Implement hooks to support per instanace depends
+	  (eg data sources or INDIRECT)
+	* Fix formula guru.
+	* Initial pass at dumping the translated function docs into a manual.
 
 Jon Kåre:
 	* More correct import of "automatic" colors from Excel.

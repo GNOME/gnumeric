@@ -52,7 +52,7 @@ typedef struct
 	gchar 	  *name;
 	gchar	   type;
 	gboolean   is_optional;
-	gboolean   is_empty;
+	gboolean   is_blank;
 	int	   index;
 } ArgumentState;
 
@@ -163,14 +163,16 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 
 	for (i = 0; i < state->args->len; i++) {
 		ArgumentState *as = g_ptr_array_index (state->args, i);
-		gchar const *val = gtk_entry_get_text (GTK_ENTRY (as->entry));
+		gchar const *val = gnm_expr_entry_get_text (as->entry);
 
 		if (!as->is_optional || (int)i <= state->max_arg || (int)i <= index || strlen (val)) {
 			if (i > 0)
 				g_string_append_c (str, sep);
-			if (i == (guint) index)
+			if (i == (guint) index) {
+				GtkEntry *entry = gnm_expr_entry_get_entry (as->entry);
 				pos = str->len +
-					gtk_editable_get_position (GTK_EDITABLE (as->entry));
+					gtk_editable_get_position (GTK_EDITABLE (entry));
+			}
 
 			g_string_append (str, val);
 		}
@@ -181,7 +183,7 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 
 	entry = wbcg_get_entry (state->wbcg);
 	if (set_text)
-		gtk_entry_set_text (GTK_ENTRY (entry), str->str);
+		gtk_entry_set_text (entry, str->str);
 
 #warning do we still need this ?
 #if 0
@@ -203,8 +205,8 @@ static void
 cb_formula_guru_rolled_entry_changed (GtkEditable *editable,
 				      FormulaGuruState *state)
 {
-	gtk_entry_set_text (GTK_ENTRY (state->cur_arg->entry),
-		gtk_entry_get_text (GTK_ENTRY (state->rolled_entry)));
+	gnm_expr_entry_load_from_text (state->cur_arg->entry,
+		gnm_expr_entry_get_text (state->rolled_entry));
 }
 
 static gboolean
@@ -227,9 +229,9 @@ cb_formula_guru_rolled_entry_event (GtkWidget *w, GdkEvent *ev,
 static void
 cb_formula_guru_entry_changed (GtkEditable *editable, ArgumentState *as)
 {
-	as->is_empty = strlen (gtk_entry_get_text (GTK_ENTRY (as->entry))) <= 0;
+	as->is_blank = gnm_expr_entry_is_blank (as->entry);
 
-	if (as->is_empty) {
+	if (as->is_blank) {
 		if (as->state->max_arg < as->index)
 			as->state->max_arg = as->index;
 	} else if (as->state->max_arg == as->index) {
@@ -237,7 +239,7 @@ cb_formula_guru_entry_changed (GtkEditable *editable, ArgumentState *as)
 		int i = as->index;
 		while (--i > 0) {
 			ArgumentState *tmp = g_ptr_array_index (state->args, i);
-			if (!tmp->is_empty)
+			if (!tmp->is_blank)
 				break;
 		}
 		as->state->max_arg = i;
@@ -262,10 +264,8 @@ formula_guru_set_rolled_state (FormulaGuruState *state, gboolean is_rolled)
 	state->is_rolled = is_rolled;
 	if (is_rolled) {
 		new_entry = state->rolled_entry;
-		gtk_entry_set_text (
-			GTK_ENTRY (new_entry),
-			gtk_entry_get_text (
-				GTK_ENTRY (state->cur_arg->entry)));
+		gnm_expr_entry_load_from_text (new_entry,
+			gnm_expr_entry_get_text	(state->cur_arg->entry));
 		gtk_label_set_text (GTK_LABEL (state->rolled_label),
 			state->cur_arg->name);
 
@@ -435,7 +435,7 @@ formula_guru_arg_new (char * const name,
 	as->name = name ? name : g_strdup_printf (_("Value%d"), row+1);
 	as->is_optional = is_optional;
 	as->type = type;
-	as->is_empty = TRUE;
+	as->is_blank = TRUE;
 	as->state = state;
 
 	switch (as->type){
@@ -664,7 +664,6 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 	if (expr != NULL) {
 		ExprList *l;
 		guint i = 0;
-		char *str;
 		ParsePos pos;
 		parse_pos_init_cell (&pos, cell);
 
@@ -675,11 +674,9 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 				formula_guru_arg_new (NULL, '?', TRUE, state);
 
 			as = g_ptr_array_index (state->args, i);
-			str = expr_tree_as_string (l->data, &pos);
-			gtk_entry_set_text (GTK_ENTRY (as->entry), str);
+			gnm_expr_entry_load_from_expr (as->entry, l->data, &pos);
 			if (i == 0)
-				gtk_widget_grab_focus (GTK_WIDGET (as->entry));
-			g_free (str);
+				gnm_expr_entry_grab_focus (as->entry, TRUE);
 		}
 	}
 	gtk_widget_show_all (state->arg_table);

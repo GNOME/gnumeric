@@ -509,7 +509,7 @@ gnumeric_expr_entry_set_update_policy (GnumericExprEntry *gee,
 static void
 gee_set_property (GObject      *object,
 		  guint         prop_id,
-		  const GValue *value,
+		  GValue const *value,
 		  GParamSpec   *pspec)
 {
 	GnumericExprEntry *gee = GNUMERIC_EXPR_ENTRY (object);
@@ -755,7 +755,7 @@ gnm_expr_entry_load_from_dep (GnumericExprEntry *gee, Dependent const *dep)
  * gnm_expr_entry_load_from_expr
  * @gee: a #GnumericExprEntry
  * @expr: An expression
- * @pp  : The parse position 
+ * @pp  : The parse position
  *
  * Sets the text of the entry, and removes saved information about earlier
  * range selections.
@@ -972,6 +972,20 @@ gnm_expr_entry_parse (GnumericExprEntry *gee, ParsePos const *pp,
 }
 
 /**
+ * gnm_expr_entry_get_text
+ * @ee :
+ *
+ * A small convenience routine.  Think long and hard before using this.
+ * There are lots of parse routines that serve the common case.
+ */
+char const *
+gnm_expr_entry_get_text	(GnumericExprEntry const *gee)
+{
+	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), NULL);
+	return gtk_entry_get_text (gee->entry);
+}
+
+/**
  * gnm_expr_entry_parse_as_value :
  *
  * @gee: GnumericExprEntry
@@ -984,6 +998,8 @@ gnm_expr_entry_parse (GnumericExprEntry *gee, ParsePos const *pp,
 Value *
 gnm_expr_entry_parse_as_value (GnumericExprEntry *gee, Sheet *sheet)
 {
+	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), NULL);
+
 	return global_range_parse (sheet,
 		gtk_entry_get_text (gnm_expr_entry_get_entry (gee)));
 }
@@ -1001,6 +1017,8 @@ gnm_expr_entry_parse_as_value (GnumericExprEntry *gee, Sheet *sheet)
 GSList *
 gnm_expr_entry_parse_as_list (GnumericExprEntry *gee, Sheet *sheet)
 {
+	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), NULL);
+
 	return global_range_list_parse (sheet,
 		gtk_entry_get_text (gnm_expr_entry_get_entry (gee)));
 }
@@ -1013,71 +1031,74 @@ gnm_expr_entry_get_entry (GnumericExprEntry *gee)
 	return gee->entry;
 }
 
-gboolean  
-gnm_expr_entry_is_cell_ref (GnumericExprEntry *e, Sheet *sheet, 
+gboolean
+gnm_expr_entry_is_cell_ref (GnumericExprEntry *gee, Sheet *sheet,
 			    gboolean allow_multiple_cell)
 {
         Value *val;
 	gboolean res;
 
-	val = gnm_expr_entry_parse_as_value (e, sheet);
+	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
 
-        if (val != NULL) {
-		res = ((val->type == VALUE_CELLRANGE)
-		       && ( allow_multiple_cell ||
-			    ((val->v_range.cell.a.col ==
-			     val->v_range.cell.b.col)
-			    && (val->v_range.cell.a.row ==
-				val->v_range.cell.b.row))));
-		value_release (val);
-	} else {
-		res = FALSE;
-	}
+	val = gnm_expr_entry_parse_as_value (gee, sheet);
+        if (val == NULL)
+		return FALSE;
+
+	res = ((val->type == VALUE_CELLRANGE) &&
+	       (allow_multiple_cell ||
+		((val->v_range.cell.a.col == val->v_range.cell.b.col) &&
+		 (val->v_range.cell.a.row == val->v_range.cell.b.row))));
+	value_release (val);
 	return res;
 
 }
 
-gboolean  
-gnm_expr_entry_is_blank	(GnumericExprEntry *e) 
+gboolean
+gnm_expr_entry_is_blank	(GnumericExprEntry *gee)
 {
-	GtkEntry *entry = gnm_expr_entry_get_entry (e);
+	GtkEntry *entry = gnm_expr_entry_get_entry (gee);
 	char const *text = gtk_entry_get_text (entry);
 	char *new_text;
 	int len;
-	
+
+	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
+
 	if (text == NULL)
 		return TRUE;
 
 	new_text = g_strdup (text);
 	len = strlen (g_strstrip(new_text));
 	g_free (new_text);
-	
+
 	return (len == 0);
 }
 
 char *
-gnm_expr_entry_global_range_name (GnumericExprEntry *e, Sheet *sheet)
+gnm_expr_entry_global_range_name (GnumericExprEntry *gee, Sheet *sheet)
 {
 	Value *val;
 	char *text = NULL;
 
-	val = gnm_expr_entry_parse_as_value (e, sheet);
+	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), NULL);
 
+	val = gnm_expr_entry_parse_as_value (gee, sheet);
 	if (val != NULL) {
 		if (val->type == VALUE_CELLRANGE)
 			text = value_get_as_string (val);
 		value_release (val);
 	}
-	
+
 	return text;
 }
 
-void 
-gnm_expr_entry_grab_focus (GnumericExprEntry *e, gboolean select_all)
+void
+gnm_expr_entry_grab_focus (GnumericExprEntry *gee, gboolean select_all)
 {
-	gtk_widget_grab_focus (GTK_WIDGET (e->entry));
+	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
+
+	gtk_widget_grab_focus (GTK_WIDGET (gee->entry));
 	if (select_all) {
-		gtk_entry_set_position (e->entry, 0);
-		gtk_entry_select_region (e->entry, 0, e->entry->text_length);
+		gtk_entry_set_position (gee->entry, 0);
+		gtk_entry_select_region (gee->entry, 0, gee->entry->text_length);
 	}
 }
