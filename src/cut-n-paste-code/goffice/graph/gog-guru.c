@@ -98,6 +98,7 @@ struct _GraphGuruState {
 	gboolean valid;
 	gboolean updating;
 	gboolean fmt_page_initialized;
+	gboolean editing;
 
 	/* hackish reuse of State as a closure */
 	GogObject *search_target, *new_child;
@@ -1157,6 +1158,26 @@ graph_guru_init_button (GraphGuruState *s, char const *widget_name)
 	return button;
 }
 
+static GtkWidget *
+graph_guru_init_ok_button (GraphGuruState *s)
+{
+	GtkButton *button = GTK_BUTTON (glade_xml_get_widget 
+				       (s->gui, "button_ok"));
+	
+	if (s->editing) {
+		gtk_button_set_label (button, GTK_STOCK_APPLY);
+		gtk_button_set_use_stock (button, TRUE);
+	} else {
+		gtk_button_set_use_stock (button, FALSE);
+		gtk_button_set_use_underline (button, TRUE);
+		gtk_button_set_label (button, _("_Insert"));
+	}
+	g_signal_connect (G_OBJECT (button),
+		"clicked",
+		G_CALLBACK (cb_graph_guru_clicked), s);
+	return GTK_WIDGET (button);
+}
+
 static void
 typesel_set_selection_color (GraphGuruTypeSelector *typesel)
 {
@@ -1286,7 +1307,7 @@ graph_guru_init (GraphGuruState *s)
 	/* Buttons */
 	s->button_cancel   = graph_guru_init_button (s, "button_cancel");
 	s->button_navigate = graph_guru_init_button (s, "button_navigate");
-	s->button_ok	   = graph_guru_init_button (s, "button_ok");
+	s->button_ok	   = graph_guru_init_ok_button (s);
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (s->gui, "help_button"),
@@ -1315,6 +1336,7 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	state->valid	= FALSE;
 	state->updating = FALSE;
 	state->fmt_page_initialized = FALSE;
+	state->editing  = (graph != NULL);
 	state->gui	= NULL;
 	state->cc       = cc;
 	state->dalloc   = dalloc;

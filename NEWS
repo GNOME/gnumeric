@@ -6,6 +6,7 @@ Andreas:
 	* Fix removable of items from auto-correct initial caps 
 	  exception list. [#158207]
 	* Protect ABcD style strings from auto-correction
+	* Rename graph guru's okay button [#152514]
 
 Harald Ashburner:
 	* Update derivatives.gnumeric

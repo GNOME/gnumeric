@@ -1,3 +1,10 @@
+2004-11-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=152514
+	* graph/gog-guru.c (graph_guru_init_ok_button): new
+	(graph_guru_init): call graph_guru_init_ok_button
+	(gog_guru): initialize state->editing
+
 2004-11-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.93
