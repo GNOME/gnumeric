@@ -133,13 +133,14 @@
 	      <widget>
 		<class>GtkLabel</class>
 		<name>label1</name>
-		<label>Search for</label>
+		<label>_Search for</label>
 		<justify>GTK_JUSTIFY_CENTER</justify>
 		<wrap>False</wrap>
 		<xalign>0</xalign>
 		<yalign>0.5</yalign>
 		<xpad>4</xpad>
 		<ypad>0</ypad>
+		<default_focus_target>searchtext</default_focus_target>
 		<child>
 		  <left_attach>0</left_attach>
 		  <right_attach>1</right_attach>
@@ -203,7 +204,7 @@
 	      <name>ignore_case</name>
 	      <tooltip>When set, do not distinguish between upper and lower case letters</tooltip>
 	      <can_focus>True</can_focus>
-	      <label>Ignore case</label>
+	      <label>_Ignore case</label>
 	      <active>True</active>
 	      <draw_indicator>True</draw_indicator>
 	      <child>
@@ -229,7 +230,7 @@
 		<name>search_type_text</name>
 		<tooltip>The search text is taken literal</tooltip>
 		<can_focus>True</can_focus>
-		<label>Plain text</label>
+		<label>_Plain text</label>
 		<active>True</active>
 		<draw_indicator>True</draw_indicator>
 		<group>searchtype</group>
@@ -245,7 +246,7 @@
 		<name>search_type_regexp</name>
 		<tooltip>The search text is a regular expression</tooltip>
 		<can_focus>True</can_focus>
-		<label>Regular expression</label>
+		<label>_Regular expression</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<group>searchtype</group>
@@ -283,7 +284,7 @@
 	      <name>scope_workbook</name>
 	      <tooltip>Search in all cells in the workbook</tooltip>
 	      <can_focus>True</can_focus>
-	      <label>Entire workbook</label>
+	      <label>_Entire workbook</label>
 	      <active>True</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>where</group>
@@ -299,7 +300,7 @@
 	      <name>scope_sheet</name>
 	      <tooltip>Search in current sheet only</tooltip>
 	      <can_focus>True</can_focus>
-	      <label>Current sheet</label>
+	      <label>_Current sheet</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>where</group>
@@ -326,7 +327,7 @@
 		<name>scope_range</name>
 		<tooltip>Search in specified range only</tooltip>
 		<can_focus>True</can_focus>
-		<label>Range</label>
+		<label>R_ange</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<group>where</group>
@@ -403,7 +404,7 @@
 		<name>search_other</name>
 		<tooltip>Find text within non-string values</tooltip>
 		<can_focus>True</can_focus>
-		<label>Other values</label>
+		<label>_Other values</label>
 		<active>True</active>
 		<draw_indicator>True</draw_indicator>
 		<child>
@@ -427,7 +428,7 @@
 		<name>search_comments</name>
 		<tooltip>Find text within cell comments</tooltip>
 		<can_focus>True</can_focus>
-		<label>Comments</label>
+		<label>_Comments</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<child>
@@ -451,7 +452,7 @@
 		<name>search_expr</name>
 		<tooltip>Find text within expressions</tooltip>
 		<can_focus>True</can_focus>
-		<label>Expressions</label>
+		<label>_Expressions</label>
 		<active>True</active>
 		<draw_indicator>True</draw_indicator>
 		<child>
@@ -475,7 +476,7 @@
 		<name>search_string</name>
 		<tooltip>Find text within string values</tooltip>
 		<can_focus>True</can_focus>
-		<label>Strings</label>
+		<label>_Strings</label>
 		<active>True</active>
 		<draw_indicator>True</draw_indicator>
 		<child>
@@ -521,7 +522,7 @@
 	      <name>match_words</name>
 	      <tooltip>Do not consider matches in the middle of words</tooltip>
 	      <can_focus>True</can_focus>
-	      <label>Match whole words only</label>
+	      <label>_Match whole words only</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <child>
@@ -546,7 +547,7 @@
 		<class>GtkRadioButton</class>
 		<name>row_major</name>
 		<tooltip>Search line by line</tooltip>
-		<label>Row major</label>
+		<label>_Row major</label>
 		<active>True</active>
 		<draw_indicator>True</draw_indicator>
 		<group>search_direction</group>
@@ -561,7 +562,7 @@
 		<class>GtkRadioButton</class>
 		<name>column_major</name>
 		<tooltip>Search column by column</tooltip>
-		<label>Column major</label>
+		<label>Co_lumn major</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<group>search_direction</group>

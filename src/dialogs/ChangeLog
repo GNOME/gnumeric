@@ -1,3 +1,10 @@
+2001-10-10  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* dialog-search-replace.c (dialog_search): Made search dialog a bit
+	more friendly for users navigating with the keyboard.
+
+	* search.glade: ditto
+
 2001-10-09  Almer S. Tigelaar  <almer@gnome.org>
 
 	* cell-format.glade: Add validation and input msg tabs, largely
