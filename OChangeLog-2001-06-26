@@ -1,5 +1,10 @@
 2000-05-08  Jody Goldberg <jgoldberg@home.com>
 
+	* configure.in : Disable the perl plugin
+	  Disable the plan perfect plugin
+	  Disable the gdb plugin.
+	These are not ready for prime time.
+
 	* src/selection.c (sheet_selection_extend_to) : Call sheet_update
 	  so that selection changes via mouse movement will update the status
 	  areas.
