@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-06-12 17:17+0200\n"
-"PO-Revision-Date: 2003-06-12 17:19+0200\n"
+"POT-Creation-Date: 2003-06-12 22:47+0200\n"
+"PO-Revision-Date: 2003-06-12 22:53+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4784,8 +4784,8 @@ msgid ""
 "@x is where the function is evaluated. @y is the order of the bessel "
 "function, if non-integer it is truncated.\n"
 "\n"
-"* If x or n are not numeric a #VALUE! error is returned.\n"
-"* If y < 0 a #NUM! error is returned.\n"
+"* If @x or @y are not numeric a #VALUE! error is returned.\n"
+"* If @y < 0 a #NUM! error is returned.\n"
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -4823,7 +4823,7 @@ msgid ""
 "@EXAMPLES=\n"
 "BESSELJ(0.89,3) equals 0.013974004.\n"
 "\n"
-"@SEEALSO=BESSELJ,BESSELK,BESSELY"
+"@SEEALSO=BESSELI,BESSELK,BESSELY"
 msgstr ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x;y)\n"
@@ -4850,14 +4850,14 @@ msgid ""
 "@x is where the function is evaluated. @y is the order of the bessel "
 "function, if non-integer it is truncated.\n"
 "\n"
-"* If x or n are not numeric a #VALUE! error is returned.\n"
-"* If n < 0 a #NUM! error is returned.\n"
+"* If @x or @y are not numeric a #VALUE! error is returned.\n"
+"* If @y < 0 a #NUM! error is returned.\n"
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
 "BESSELY(4,2) equals 0.215903595.\n"
 "\n"
-"@SEEALSO=BESSELJ,BESSELK,BESSELY"
+"@SEEALSO=BESSELI,BESSELJ,BESSELK"
 msgstr ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x;y)\n"
@@ -4874,7 +4874,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "BESSELI(4;2) ger 0,215903595.\n"
 "\n"
-"@SEEALSO=BESSELJ,BESSELK,BESSELY"
+"@SEEALSO=BESSELI,BESSELJ,BESSELK"
 
 #: plugins/fn-eng/functions.c:568
 msgid ""
@@ -5189,8 +5189,8 @@ msgid ""
 "@DESCRIPTION=DELTA function tests for numerical equivalence of two "
 "arguments, returning 1 in case of equality.\n"
 "\n"
-"* @y is optional, and defaults to 0.* If either argument is non-numeric "
-"returns a #VALUE! error.\n"
+"* @y is optional, and defaults to 0.\n"
+"* If either argument is non-numeric returns a #VALUE! error.\n"
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -5898,17 +5898,15 @@ msgid ""
 "\n"
 "The amount you paid for the asset is the @cost, @salvage is the value of the "
 "asset at the end of its useful life, and @life is the number of periods over "
-"which an the asset is depreciated. This method of deprecition devides the "
+"which an the asset is depreciated. This method of deprecition divides the "
 "cost evenly over the life of an asset.\n"
 "\n"
 "The formula used for straight line depriciation is:\n"
 "\n"
-"Depriciation expense =\n"
-"\n"
-"\t( @cost - @salvage_value ) / @life\n"
+"Depriciation expense = ( @cost - @salvage_value ) / @life\n"
 "\n"
 "@cost is the cost of an asset when acquired (market value).\n"
-"@salvage_value is the amount you get when asset sold at the end of the "
+"@salvage_value is the amount you get when asset is sold at the end of the "
 "assets's useful life.\n"
 "@life is the anticipated life of an asset.\n"
 "\n"
@@ -5934,16 +5932,14 @@ msgstr ""
 "\n"
 "Formeln som används för rak värdeminskning är:\n"
 "\n"
-"Värdeminskningskostnad =\n"
-"\n"
-"\t( @kostnad - @slutvärde ) / @livslängd\n"
+"Värdeminskningskostnad = ( @kostnad - @slutvärde ) / @livslängd\n"
 "\n"
 "@kostnad = kostnaden för en tillgång då den införskaffas (marknadsvärde).\n"
 "@slutvärde = summan du får för tillgången då den säljs vid slutet av sin "
 "livslängd.\n"
 "@livslängd = uppskattad livsängd för en tillgång.\n"
 "\n"
-"* Om @livslängd <=0 returneras felvärdet #NUM!.\n"
+"* Om @livslängd <= 0 returneras felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "Låt oss anta att vårt företag köper en ny maskin för 100000 kr som har ett "
@@ -6028,8 +6024,9 @@ msgid ""
 "@fractional_dollar is the fractional number to be converted. @fraction is "
 "the denominator of the fraction.\n"
 "\n"
-"* If @fraction is non-integer it is truncated. * If @fraction <= 0, DOLLARDE "
-"returns #NUM! error. \n"
+"* If @fraction is non-integer it is truncated.\n"
+"* If @fraction <= 0, DOLLARDE returns #NUM! error.\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DOLLARFR"
@@ -6041,8 +6038,9 @@ msgstr ""
 "\n"
 "@decimaltal är talet som ska konverteras. @bråktal är nämnaren till bråket.\n"
 "\n"
-"* Om @bråktal inte är ett heltal, avkortas det. * Om @bråktal <=0 returneras "
-"felvärdet #NUM!.\n"
+"* Om @bråktal inte är ett heltal, avkortas det. \n"
+"* Om @bråktal <=0 returneras felvärdet #NUM!.\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DOLLARFR"
@@ -6219,10 +6217,10 @@ msgid ""
 "@SYNTAX=IRR(values[,guess])\n"
 "@DESCRIPTION=IRR calculates and returns the internal rate of return of an "
 "investment.  This function is closely related to the net present value "
-"function (NPV).  The IRR is the interest rate for a serie of cash flow where "
-"the net preset value is zero.\n"
+"function (NPV).  The IRR is the interest rate for a series of cash flows "
+"where the net preset value is zero.\n"
 "\n"
-"@values contains the serie of cash flow generated by the investment.  The "
+"@values contains the series of cash flows generated by the investment.  The "
 "payments should occur at regular intervals.  The optional @guess is the "
 "initial value used in calculating the IRR.  You do not have to use that, it "
 "is only provided for the Excel compatibility.\n"
@@ -6343,14 +6341,14 @@ msgid ""
 "@DESCRIPTION=XIRR calculates and returns the internal rate of return of an "
 "investment that has not necessarily periodic payments.  This function is "
 "closely related to the net present value function (NPV and XNPV).  The XIRR "
-"is the interest rate for a serie of cash flow where the XNPV is zero.\n"
+"is the interest rate for a series of cash flows where the XNPV is zero.\n"
 "\n"
-"@values contains the serie of cash flow generated by the investment.  @dates "
-"contains the dates of the payments.  The first date describes the payment "
-"day of the initial payment and thus all the other dates should be after this "
-"date. The optional @guess is the initial value used in calculating the "
-"XIRR.  You do not have to use that, it is only provided for the Excel "
-"compatibility.\n"
+"@values contains the series of cash flows generated by the investment.  "
+"@dates contains the dates of the payments.  The first date describes the "
+"payment day of the initial payment and thus all the other dates should be "
+"after this date. The optional @guess is the initial value used in "
+"calculating the XIRR.  You do not have to use that, it is only provided for "
+"the Excel compatibility.\n"
 "\n"
 "* This function is Excel compatible.\n"
 "\n"
@@ -6572,7 +6570,7 @@ msgstr ""
 "anger när betalningarna sker. Om @typ = 1, ska betalning ske i början av "
 "perioden, if @typ = 0, sker betalning i slutet av perioden.\n"
 "\n"
-"* Om @ränta <= 0 returneras felvärdet #DVI0.\n"
+"* Om @ränta <= 0 returneras felvärdet #DIV0.\n"
 "\n"
 "@EXAMPLES=\n"
 "Antag att du avsätter SEK 10000 på ett sparkonto men en ränta av 6%, För att "
@@ -6609,7 +6607,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(avräkning;mognad;kupong;avkastning;frekvens[;bas])\n"
-"@DESCRIPTION=DURATION beräknar .@mognad är mognadsdatumet för säkerheten.\n"
+"@DESCRIPTION=DURATION beräknar livslängden på en säkerhet.\n"
 "\n"
 "@avräkning är avräkningsdatumet för säkerheten. @mognad är mognadsdatumet "
 "som är angiven för säkerheten. @pr är priset per $100 värde av säkerheten. "
@@ -6624,7 +6622,7 @@ msgstr ""
 "* Om @frekvens är en annan än 1, 2 eller 4 returnerar DURATION felvärdet "
 "#NUM!.\n"
 "* Om @bas utelämnas används amerikanskt 30/360-system.\n"
-"* Om @bas inte är mellan 1 och 4 returneras felvärdet #NUM!.\n"
+"* Om @bas inte är mellan 0 och 4 returneras felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -6775,10 +6773,11 @@ msgid ""
 "EUROCONVERT(2.1,\"DEM\",\"EUR\") returns 1.07.\n"
 "@SEEALSO=EURO"
 msgstr ""
-"@FUNCTION=EURO\n"
-"@SYNTAX=EURO(valuta)\n"
-"@DESCRIPTION=EURO konverterar en euro till en given nationell valuta i den "
-"europeiska monetära unionen. @valuta är en av följande:\n"
+"@FUNCTION=EUROCONVERT\n"
+"@SYNTAX=EUROCONVERT(n;källa;mål)\n"
+"@DESCRIPTION=EUROCONVERT konverterar värdet @n i @källa valutan till "
+"målvalutan @mål. Båda valutorna ges som trebosktavssträngar i ISO:s "
+"kodsystem. Völjande valutor är tillgängliga:\n"
 "\n"
 "    ATS     (Österrike)\n"
 "    BEF     (Belgien)\n"
@@ -6793,12 +6792,12 @@ msgstr ""
 "    NLG     (Nederländerna)\n"
 "    PTE     (Portugal)\n"
 "\n"
-"* Om angiven @valuta är en annan än ovanstående returnerar EURO felvärdet "
-"#NUM!.\n"
+"* Om angiven @källa eller @mål är en annan än ovanstående returnerar EURO "
+"felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "EURO(2,1;\"DEM\";\"EUR\") returnerar 1,07.\n"
-"@SEEALSO="
+"@SEEALSO=EURO"
 
 #: plugins/fn-financial/functions.c:2421
 msgid ""
@@ -6843,7 +6842,7 @@ msgstr ""
 "* Om @frekvens är en annan än 1, 2 eller 4 returnerar PRICE felvärdet "
 "#NUM!.\n"
 "* Om @bas utelämnas används amerikanskt 30/360-system.\n"
-"* Om @bas inte är mellan 1 och 4 returnerar PRICE felvärdet #NUM!.\n"
+"* Om @bas inte är mellan 0 och 4 returnerar PRICE felvärdet #NUM!.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -6892,7 +6891,7 @@ msgstr ""
 "* Om @frekvens är en annan än 1, 2 eller 4 returnerar YIELD felvärdet "
 "#NUM!.\n"
 "* Om @bas utelämnas används amerikanskt 30/360-system.\n"
-"Om @bas inte är mellan 1 och 4 returnerar YIELD felvärdet #NUM!.\n"
+"Om @bas inte är mellan 0 och 4 returnerar YIELD felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -6943,7 +6942,7 @@ msgstr ""
 "* Om @frekvens är en annan än 1, 2 eller 4 returnerar YIELDDISC felvärdet "
 "#NUM!.\n"
 "* Om @bas utelämnas används amerikanskt 30/360-system.\n"
-"* Om @bas inte är mellan 1 och 4 returnerar YIELDDISC felvärdet #NUM!.\n"
+"* Om @bas inte är mellan 0 och 4 returnerar YIELDDISC felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -6992,10 +6991,10 @@ msgstr ""
 "3  verkliga dagar/365\n"
 "4  Europeiskt 30/360\n"
 "\n"
-"* Om @frekvens är en annan än 1, 2 eller 4 returnerar YIELDDISC felvärdet "
+"* Om @frekvens är en annan än 1, 2 eller 4 returnerar YIELDMAT felvärdet "
 "#NUM!.\n"
 "* Om @bas utelämnas används amerikanskt 30/360-system.\n"
-"* Om @bas inte är mellan 1 och 4 returnerar YIELDDISC felvärdet #NUM!.\n"
+"* Om @bas inte är mellan 0 och 4 returnerar YIELDMAT felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -7049,7 +7048,7 @@ msgstr ""
 "* Om @frekvens är en annan än 1, 2 eller 4 returnerar ODDFPRICE felvärdet "
 "#NUM!.\n"
 "* Om @bas utelämnas används amerikanskt 30/360-system.\n"
-"* Om @bas inte är mellan 1 och 4 returnerar ODDFPRICE felvärdet #NUM!.\n"
+"* Om @bas inte är mellan 0 och 4 returnerar ODDFPRICE felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -7102,7 +7101,7 @@ msgstr ""
 "* Om @frekvens är en annan än 1, 2 eller 4 returnerar ODDFYIELD felvärdet "
 "#NUM!.\n"
 "* Om @bas utelämnas används amerikanskt 30/360-system.\n"
-"* Om @bas inte är mellan 1 och 4 returnerar ODDFYIELD felvärdet #NUM!.\n"
+"* Om @bas inte är mellan 0 och 4 returnerar ODDFYIELD felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -7152,10 +7151,10 @@ msgstr ""
 "3  verkliga dagar/365\n"
 "4  Europeiskt 30/360\n"
 "\n"
-"* Om @frekvens är en annan än 1, 2 eller 4 returnerar ODDFYIELD felvärdet "
+"* Om @frekvens är en annan än 1, 2 eller 4 returnerar ODDLPRICE felvärdet "
 "#NUM!.\n"
 "* Om @bas utelämnas används amerikanskt 30/360-system.\n"
-"* Om @bas inte är mellan 1 och 4 returnerar ODDFYIELD felvärdet #NUM!.\n"
+"* Om @bas inte är mellan 0 och 4 returnerar ODDLPRICE felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -7208,7 +7207,7 @@ msgstr ""
 "* Om @frekvens är en annan än 1, 2 eller 4 returnerar ODDLYIELD felvärdet "
 "#NUM!.\n"
 "* Om @bas utelämnas används amerikanskt 30/360-system.\n"
-"* Om @bas inte är mellan 1 och 4 returnerar ODDLYIELD felvärdet #NUM!.\n"
+"* Om @bas inte är mellan 0 och 4 returnerar ODDLYIELD felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -7255,7 +7254,7 @@ msgstr ""
 "* Om @frekvens är en annan än 1, 2 eller 4 returnerar AMORDEGRC felvärdet "
 "#NUM!.\n"
 "Om @bas utelämnas används amerikanskt 30/360-system.\n"
-"*Om @bas inte är mellan 1 och 4 returnerar AMORDEGRC felvärdet #NUM!.\n"
+"*Om @bas inte är mellan 0 och 4 returnerar AMORDEGRC felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -7303,7 +7302,7 @@ msgstr ""
 "* Om @frekvens är en annan än 1, 2 eller 4 returnerar AMORLINC felvärdet "
 "#NUM!.\n"
 "* Om @bas utelämnas används amerikanskt 30/360-system.\n"
-"* Om @bas inte är mellan 1 och 4 returnerar AMORLINC felvärdet #NUM!.\n"
+"* Om @bas inte är mellan 0 och 4 returnerar AMORLINC felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -7352,8 +7351,8 @@ msgstr ""
 "@mognad är mognadsdatumet för säkerheten.\n"
 "@frekvens är antalet betalningar per år.\n"
 "@eom=SANT behandlar mognadsdatum i slutet på månader speciellt.\n"
-"Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis, och om "
-"eom är givet: 6 = varannan månad, 12 = månatligen.\n"
+"Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis, 6 = "
+"varannan månad, 12 = månatligen.\n"
 "@bas är den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
 "0  MSRB 30/360 (MSRB-regel G33 (e))\n"
@@ -7410,17 +7409,17 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=COUPDAYBS\n"
-"@SYNTAX=COUPDAYBS(avräkning;mognad;frekvens[;bas;eom])\n"
-"@DESCRIPTION=COUPDAYBS returnerar antalet dagar från början på "
+"@FUNCTION=COUPDAYS\n"
+"@SYNTAX=COUPDAYS(avräkning;mognad;frekvens[;bas;eom])\n"
+"@DESCRIPTION=COUPDAYS returnerar antalet dagar från början på "
 "betalningsperioden till avräkningsdatumet.\n"
 "\n"
 "@avräkning är avräkningsdatumet för säkerheten.\n"
 "@mognad är mognadsdatumet för säkerheten.\n"
 "@frekvens är antalet betalningar per år.\n"
 "@eom=SANT behandlar mognadsdatum i slutet på månader speciellt.\n"
-"Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis, och om "
-"eom är givet: 6 = varannan månad, 12 = månatligen.\n"
+"Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis, 6 = "
+"varannan månad, 12 = månatligen.\n"
 "@bas är den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
 "0  MSRB 30/360 (MSRB-regel G33 (e))\n"
@@ -7432,7 +7431,7 @@ msgstr ""
 "\n"
 "(se gnumericmanualen för en detaljerad beskrivning av dessa baser)\n"
 "\n"
-"* Om @frekvens är ogiltig returnerar COUPDAYBS felvärdet #NUM!.\n"
+"* Om @frekvens är ogiltig returnerar COUPDAYS felvärdet #NUM!.\n"
 "* Om @bas utelämnas används MSRB 30/360-system.\n"
 "* Om @bas är ogiltig returneras felvärdet #NUM!.\n"
 "\n"
@@ -7486,8 +7485,8 @@ msgstr ""
 "@mognad är mognadsdatumet för säkerheten.\n"
 "@frekvens är antalet betalningar per år.\n"
 "@eom=SANT gör att mognadsdatum i slutet av månader hanteras speciellt.\n"
-"Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis, och om "
-"eom är angivet: 6 = varannan månad, 12 = månatligen.\n"
+"Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis, 6 = "
+"varannan månad, 12 = månatligen.\n"
 "@bas är den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
 "0  MSRB 30/360 (MSRB-regel G33 (e))\n"
@@ -7550,8 +7549,8 @@ msgstr ""
 "@mognad är mognadsdatumet för säkerheten.\n"
 "@frekvens är antalet betalningar per år.\n"
 "@eom = SANT behandlar mognadsdatum i slutet av månaden speciellt.\n"
-"Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis och om "
-"eom är angivet: 6 = varannan månad, 12 = månatligen.\n"
+"Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis, 6 = "
+"varannan månad, 12 = månatligen.\n"
 "@bas är den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
 "0  MSRB 30/360 (MSRB-regel G33 (e))\n"
@@ -7606,16 +7605,16 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=COUPNCD\n"
-"@SYNTAX=COUPNCD(avräkning;mognad;frekvens[;bas;eom])\n"
-"@DESCRIPTION=COUPNCD returnerar betalningsdatumet innan avräkningen.\n"
+"@FUNCTION=COUPPCD\n"
+"@SYNTAX=COUPPCD(avräkning;mognad;frekvens[;bas;eom])\n"
+"@DESCRIPTION=COUPPCD returnerar betalningsdatumet innan avräkningen.\n"
 "\n"
 "@avräkning är avräkningsdatumet för säkerheten.\n"
 "@mognad är mognadsdatumet för säkerheten.\n"
 "@frekvens är antalet betalningar per år.\n"
 "@eom = SANT behandlar mognadsdatum i slutet av månaden speciellt.\n"
-"Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis och om "
-"eom är angivet: 6 = varannan månad, 12 = månatligen.\n"
+"Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis, 6 = "
+"varannan månad, 12 = månatligen.\n"
 "@bas är den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
 "0  MSRB 30/360 (MSRB-regel G33 (e))\n"
@@ -7627,12 +7626,12 @@ msgstr ""
 "\n"
 "(se gnumericmanualen för en detaljerad beskrivning av dessa baser)\n"
 "\n"
-"* Om @frekvens är ogiltig returnerar COUPNCD felvärdet #NUM!.\n"
+"* Om @frekvens är ogiltig returnerar COUPPCD felvärdet #NUM!.\n"
 "* Om @bas utelämnas används MSRB 30/360-system.\n"
 "* Om @bas är ogiltig returneras felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
-"COUPPCD (DATE(2002;11;29);DATE(2004;2;29);4;0) = 31-AUG-2002\n"
+"COUPPCD (DATE(2002;11;29);DATE(2004;2;29);4;0) = 31-Aug-2002\n"
 "COUPPCD (DATE(2002;11;29);DATE(2004;2;29);4;0;FALSE) = 29-Nov-2002\n"
 "\n"
 "@SEEALSO="
@@ -7691,7 +7690,7 @@ msgstr ""
 "* Om @frekvens är en annan än 1, 2 eller 4 returnerar COUPNUM "
 "felvärdet#NUM!.\n"
 "* Om @bas utelämnas används MSRB 30/360-system.\n"
-"* Om @bas inte är mellan 1 och 4 returneras felvärdet #NUM!.\n"
+"* Om @bas inte är mellan 0 och 4 returneras felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "COUPNUM (DATE(2002;11;29);DATE(2004;2;29);4;0) = 6\n"
@@ -7732,7 +7731,7 @@ msgstr ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=DB"
+"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3385
 msgid ""
@@ -7808,12 +7807,12 @@ msgstr ""
 "2  verkliga dagar/360\n"
 "3  verkliga dagar/365\n"
 "4  Europeiskt 30/360\n"
-"4  Europeiskt+ 30/360\n"
+"5  Europeiskt+ 30/360\n"
 "\n"
 "* Om @frekvens är en annan än 1, 2 eller 4 returnerar MDURATION felvärdet "
 "#NUM!.\n"
 "*Om @bas utelämnas används MSRB 30/360-system.\n"
-"* Om @bas inte är mellan 1 och 4 returneras felvärdet #NUM!.\n"
+"* Om @bas inte är mellan 0 och 4 returneras felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -7947,7 +7946,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(område)\n"
-"@DESCRIPTION=COUNTBLANK räknar antalet blanka celler i det angivna området.\n"
+"@DESCRIPTION=COUNTBLANK räknar antalet blanka celler i @område.\n"
 "\n"
 "* Denna funktion är kompatibel med Excel.\n"
 "\n"
@@ -18569,7 +18568,7 @@ msgid "Left align"
 msgstr "Vänsterjusterat"
 
 #: src/GNOME_Gnumeric.xml.h:145 src/dialogs/cell-format.glade.h:55
-#: src/dialogs/dialog-stf-main-page.c:317 src/workbook-object-toolbar.c:161
+#: src/dialogs/dialog-stf-main-page.c:312 src/workbook-object-toolbar.c:161
 msgid "Line"
 msgstr "Linje"
 
@@ -20246,7 +20245,7 @@ msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
-#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3970
+#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3975
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -20841,7 +20840,7 @@ msgstr "_Indata"
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/dialog-analysis-tools.c:332
-#: src/dialogs/dialog-analysis-tools.c:2566 src/dialogs/dialog-shuffle.c:148
+#: src/dialogs/dialog-analysis-tools.c:2573 src/dialogs/dialog-shuffle.c:148
 #: src/dialogs/exp-smoothing.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
@@ -21212,8 +21211,8 @@ msgid "Cust_om"
 msgstr "_Anpassad"
 
 #: src/dialogs/cell-format.glade.h:28 src/dialogs/dialog-stf-export.glade.h:17
-#: src/dialogs/dialog-stf-format-page.c:189
-#: src/dialogs/dialog-stf-format-page.c:376
+#: src/dialogs/dialog-stf-format-page.c:197
+#: src/dialogs/dialog-stf-format-page.c:383
 msgid "Custom"
 msgstr "Anpassad"
 
@@ -22022,8 +22021,8 @@ msgstr "Inga matachande poster hittades."
 #: src/dialogs/dialog-advanced-filter.c:159
 #: src/dialogs/dialog-analysis-tools.c:574
 #: src/dialogs/dialog-analysis-tools.c:691
-#: src/dialogs/dialog-analysis-tools.c:1965
-#: src/dialogs/dialog-analysis-tools.c:2856
+#: src/dialogs/dialog-analysis-tools.c:1972
+#: src/dialogs/dialog-analysis-tools.c:2863
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Ett oväntat fel har inträffat: %d."
@@ -22115,45 +22114,45 @@ msgstr "Kunde inte skapa FTest-verktygsdialogen."
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Kunde inte skapa dialogen för provtagningsverkyget."
 
-#: src/dialogs/dialog-analysis-tools.c:1960 src/tools/analysis-tools.c:2158
-#: src/tools/analysis-tools.c:2233
+#: src/dialogs/dialog-analysis-tools.c:1967 src/tools/analysis-tools.c:2158
+#: src/tools/analysis-tools.c:2237
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "Det måste finnas samma antal poster för varje variabel i regressionen."
 
-#: src/dialogs/dialog-analysis-tools.c:2063 src/dialogs/regression.glade.h:21
+#: src/dialogs/dialog-analysis-tools.c:2070 src/dialogs/regression.glade.h:21
 msgid "_X Variables:"
 msgstr "_X-variabler:"
 
-#: src/dialogs/dialog-analysis-tools.c:2063 src/dialogs/regression.glade.h:22
+#: src/dialogs/dialog-analysis-tools.c:2070 src/dialogs/regression.glade.h:22
 msgid "_Y Variable:"
 msgstr "_Y-variabel:"
 
-#: src/dialogs/dialog-analysis-tools.c:2064
+#: src/dialogs/dialog-analysis-tools.c:2071
 msgid "Could not create the Regression Tool dialog."
 msgstr "Kunde inte skapa regressionsverktygsdialogen."
 
-#: src/dialogs/dialog-analysis-tools.c:2200
+#: src/dialogs/dialog-analysis-tools.c:2207
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Kunde inte skapa dialogen för det exponentiella utsmetningsverkyget."
 
-#: src/dialogs/dialog-analysis-tools.c:2341
+#: src/dialogs/dialog-analysis-tools.c:2348
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Kunde inte skapa dialogen för rullande medelvärdesverktyget."
 
-#: src/dialogs/dialog-analysis-tools.c:2566 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2573 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr "_Gruppområde:"
 
-#: src/dialogs/dialog-analysis-tools.c:2567
+#: src/dialogs/dialog-analysis-tools.c:2574
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Kunde inte skapa histogramverktygsdialogen."
 
-#: src/dialogs/dialog-analysis-tools.c:2743
+#: src/dialogs/dialog-analysis-tools.c:2750
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Kunde inte skapa ANOVA-verktygsdialogen (enkel faktor)."
 
-#: src/dialogs/dialog-analysis-tools.c:2822
+#: src/dialogs/dialog-analysis-tools.c:2829
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -22161,7 +22160,7 @@ msgstr ""
 "Det angivna indataområdet bör innehålla åtminstone två kolumner och två "
 "rader med data och rubrikerna."
 
-#: src/dialogs/dialog-analysis-tools.c:2825
+#: src/dialogs/dialog-analysis-tools.c:2832
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
@@ -22169,7 +22168,7 @@ msgstr ""
 "Det angivna indataområdet bör innehålla åtminstone två kolumner och två "
 "rader med data och rubrikerna."
 
-#: src/dialogs/dialog-analysis-tools.c:2831
+#: src/dialogs/dialog-analysis-tools.c:2838
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -22177,12 +22176,12 @@ msgstr ""
 "Det angivna indataområdet bör innehålla åtminstone två kolumner med data och "
 "rubrikerna."
 
-#: src/dialogs/dialog-analysis-tools.c:2834
+#: src/dialogs/dialog-analysis-tools.c:2841
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 "Det angivna indataområdet bör innehålla åtminstone två kolumner med data."
 
-#: src/dialogs/dialog-analysis-tools.c:2840
+#: src/dialogs/dialog-analysis-tools.c:2847
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
@@ -22190,15 +22189,15 @@ msgstr ""
 "Det angivna indataområdet bör innehålla åtminstone två rader med data och "
 "rubrikerna."
 
-#: src/dialogs/dialog-analysis-tools.c:2843
+#: src/dialogs/dialog-analysis-tools.c:2850
 msgid "The given input range should contain at least two rows of data."
 msgstr "Det angivna indataområdet bör innehålla åtminstone två rader med data."
 
-#: src/dialogs/dialog-analysis-tools.c:2850
+#: src/dialogs/dialog-analysis-tools.c:2857
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr "Antalet datarader måste vara en multipel av upprepningstalet."
 
-#: src/dialogs/dialog-analysis-tools.c:2954
+#: src/dialogs/dialog-analysis-tools.c:2961
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Kunde inte skapa ANOVA-verktygsdialogen (dubbel faktor)."
 
@@ -22219,8 +22218,8 @@ msgid "Mar"
 msgstr "Mar"
 
 #: src/dialogs/dialog-autoformat.c:70 src/dialogs/dialog-autoformat.c:74
-#: src/tools/analysis-tools.c:3354 src/tools/analysis-tools.c:3364
-#: src/tools/analysis-tools.c:3372
+#: src/tools/analysis-tools.c:3359 src/tools/analysis-tools.c:3369
+#: src/tools/analysis-tools.c:3377
 msgid "Total"
 msgstr "Totalt"
 
@@ -22330,7 +22329,7 @@ msgid "Number Formats"
 msgstr "Talformat"
 
 #: src/dialogs/dialog-cell-format.c:1262
-#: src/dialogs/dialog-stf-main-page.c:326
+#: src/dialogs/dialog-stf-main-page.c:321
 msgid "Text"
 msgstr "Text"
 
@@ -23468,17 +23467,17 @@ msgstr ""
 msgid "You cannot have more than %d columns in this version of Gnumeric."
 msgstr "Du kan inte ha fler än %d kolumner i den här versionen av Gnumeric."
 
-#: src/dialogs/dialog-stf-main-page.c:137
+#: src/dialogs/dialog-stf-main-page.c:134
 #, c-format
 msgid "%d of %d lines to import"
 msgstr "%d av %d rader att importera"
 
-#: src/dialogs/dialog-stf-main-page.c:158
+#: src/dialogs/dialog-stf-main-page.c:155
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr "Data är inte korrekta i kodning %s; välj en annan kodning."
 
-#: src/dialogs/dialog-stf-main-page.c:338
+#: src/dialogs/dialog-stf-main-page.c:333
 #, c-format
 msgid "Data (from %s)"
 msgstr "Data (från %s)"
@@ -23881,8 +23880,8 @@ msgstr "_Anpassa till markeringen %"
 msgid "0.2"
 msgstr "0,2"
 
-#: src/dialogs/exp-smoothing.glade.h:5 src/tools/analysis-tools.c:2690
-#: src/tools/analysis-tools.c:2693
+#: src/dialogs/exp-smoothing.glade.h:5 src/tools/analysis-tools.c:2695
+#: src/tools/analysis-tools.c:2698
 msgid "Exponential Smoothing"
 msgstr "Exponentiell utjämning"
 
@@ -24038,8 +24037,8 @@ msgstr "Grupp_rubriker"
 msgid "C_umulative Percentages"
 msgstr "K_umulativa procent"
 
-#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4071
-#: src/tools/analysis-tools.c:4074
+#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4076
+#: src/tools/analysis-tools.c:4079
 msgid "Histogram"
 msgstr "Histogram"
 
@@ -24262,8 +24261,8 @@ msgstr "3"
 msgid "In_terval:"
 msgstr "In_tervall:"
 
-#: src/dialogs/moving-averages.glade.h:7 src/tools/analysis-tools.c:2557
-#: src/tools/analysis-tools.c:2560
+#: src/dialogs/moving-averages.glade.h:7 src/tools/analysis-tools.c:2562
+#: src/tools/analysis-tools.c:2565
 msgid "Moving Average"
 msgstr "Rullande medelvärde"
 
@@ -24562,8 +24561,8 @@ msgstr "0,95"
 msgid "Confidence Level:"
 msgstr "Konfidensnivå:"
 
-#: src/dialogs/regression.glade.h:9 src/tools/analysis-tools.c:2436
-#: src/tools/analysis-tools.c:2439
+#: src/dialogs/regression.glade.h:9 src/tools/analysis-tools.c:2441
+#: src/tools/analysis-tools.c:2444
 msgid "Regression"
 msgstr "Regression"
 
@@ -26476,7 +26475,11 @@ msgstr "Formatera som tid"
 msgid "Format as alternative Number"
 msgstr "Formatera som alternativt tal"
 
-#: src/gui-clipboard.c:111
+#: src/gui-clipboard.c:104
+msgid "clipboard"
+msgstr "Urklipp"
+
+#: src/gui-clipboard.c:113
 msgid "Parse error while trying to parse data into cellregion"
 msgstr "Fel vid tolkning av data till cellområde"
 
@@ -27447,49 +27450,49 @@ msgstr "För många kolumner i data för att tolka: %d"
 msgid "Error while trying to read file"
 msgstr "Fel vid försök att läsa fil"
 
-#: src/stf.c:198
+#: src/stf.c:199
 msgid "Cancelled"
 msgstr "Avbruten"
 
-#: src/stf.c:250 src/stf.c:281
+#: src/stf.c:251 src/stf.c:282
 msgid "Text to Columns"
 msgstr "Text till kolumner"
 
-#: src/stf.c:255
+#: src/stf.c:256
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
 msgstr "Endast en kolumn med <b>indata</b> kan tolkas åt gången, inte %d"
 
-#: src/stf.c:287
+#: src/stf.c:288
 msgid "Error while trying to parse data into sheet"
 msgstr "Fel vid tolkning av data i kalkylbladet"
 
-#: src/stf.c:379
+#: src/stf.c:380
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Tolkningsfel vid tolkning av data i kalkylbladet"
 
-#: src/stf.c:427
+#: src/stf.c:428
 msgid "Error while trying to write csv file"
 msgstr "Fel vid skrivning av csv-fil"
 
-#: src/stf.c:442
+#: src/stf.c:443
 msgid "Comma or tab separated files (CSV/TSV)"
 msgstr "Komma- eller tabseparerad fil (CSV/TSV)"
 
-#: src/stf.c:446
+#: src/stf.c:447
 msgid "Text import (configurable)"
 msgstr "Textimport (konfigurerbar)"
 
-#: src/stf.c:450
+#: src/stf.c:451
 msgid "Text export (configurable)"
 msgstr "Textexport (konfigurerbar)"
 
-#: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3298
+#: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3303
 #, c-format
 msgid "Row %i"
 msgstr "Rad %i"
 
-#: src/tools/analysis-tools.c:219 src/tools/analysis-tools.c:3290
+#: src/tools/analysis-tools.c:219 src/tools/analysis-tools.c:3295
 #, c-format
 msgid "Column %i"
 msgstr "Kolumn %i"
@@ -27670,7 +27673,7 @@ msgstr "F-test"
 msgid "Y Variable"
 msgstr "Y-variabel"
 
-#: src/tools/analysis-tools.c:2210
+#: src/tools/analysis-tools.c:2211
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -27678,7 +27681,7 @@ msgstr ""
 "Det finns för få datavärden för att genomföra denna regression.\n"
 "Det måste finnas minst lika många datapunkter som lediga variabler."
 
-#: src/tools/analysis-tools.c:2217
+#: src/tools/analysis-tools.c:2219
 msgid ""
 "Two or more of the independent variables are nearly linear\n"
 "dependent.  All numerical precision was lost in the computation."
@@ -27686,7 +27689,7 @@ msgstr ""
 "Två eller fler av de oberoende variablerna är nästan linjärt\n"
 "beroende. All numerisk precision förlorades i beräkningen."
 
-#: src/tools/analysis-tools.c:2224
+#: src/tools/analysis-tools.c:2227
 msgid ""
 "Two or more of the independent variables are linearly\n"
 "dependent, and the regression cannot be calculated.\n"
@@ -27704,7 +27707,7 @@ msgstr ""
 #. analysis_tool_regression_engine_last_check
 #. we have to figure out which data we have to trnasfer from
 #. to here
-#: src/tools/analysis-tools.c:2249
+#: src/tools/analysis-tools.c:2254
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -27712,11 +27715,11 @@ msgstr ""
 "/SAMMANFATTNINGSUTDATA//Regressionsstatistik/Multipla R/R-kvadrat/Justerad R-"
 "kvadrat/Standardfel/Observationer//ANOVA//Regression/Residual/Total///Gräns"
 
-#: src/tools/analysis-tools.c:2272
+#: src/tools/analysis-tools.c:2277
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/F-signifikans"
 
-#: src/tools/analysis-tools.c:2279
+#: src/tools/analysis-tools.c:2284
 #, c-format
 msgid ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
@@ -27724,14 +27727,14 @@ msgid ""
 msgstr ""
 "/Koefficienter/Standardfel/t-stat/P-värde/Lägre %%0.0%s%%%%/Övre %%0.0%s%%"
 
-#: src/tools/analysis-tools.c:2296
+#: src/tools/analysis-tools.c:2301
 msgid ""
 "Probability of an observation's absolute value being larger than the t-"
 "value's"
 msgstr ""
 "Sannolikheten för att en observations absolutvärde är större än t-värdets"
 
-#: src/tools/analysis-tools.c:2404
+#: src/tools/analysis-tools.c:2409
 msgid ""
 "Two or more of the independent variables are nearly linear\n"
 "dependent.  Treat the regression result with great care!"
@@ -27739,182 +27742,182 @@ msgstr ""
 "Två eller fler av de oberoende variablerna är nästan linjärt\n"
 "beroende. Behandla regressionsresultatet med största försiktighet!"
 
-#: src/tools/analysis-tools.c:2419
+#: src/tools/analysis-tools.c:2424
 #, c-format
 msgid "Regression (%s)"
 msgstr "Regression (%s)"
 
-#: src/tools/analysis-tools.c:2483
+#: src/tools/analysis-tools.c:2488
 msgid "Standard Error"
 msgstr "Standardfel"
 
-#: src/tools/analysis-tools.c:2544
+#: src/tools/analysis-tools.c:2549
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Rullande medelvärde (%s)"
 
-#: src/tools/analysis-tools.c:2677
+#: src/tools/analysis-tools.c:2682
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "Exponentiell utjämning (%s)"
 
-#: src/tools/analysis-tools.c:2745
+#: src/tools/analysis-tools.c:2750
 msgid "Point"
 msgstr "Punkt"
 
-#: src/tools/analysis-tools.c:2747
+#: src/tools/analysis-tools.c:2752
 msgid "Rank"
 msgstr "Rang"
 
-#: src/tools/analysis-tools.c:2748
+#: src/tools/analysis-tools.c:2753
 msgid "Percentile"
 msgstr "Percentil"
 
-#: src/tools/analysis-tools.c:2808
+#: src/tools/analysis-tools.c:2813
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Ranger (%s)"
 
-#: src/tools/analysis-tools.c:2820 src/tools/analysis-tools.c:2823
+#: src/tools/analysis-tools.c:2825 src/tools/analysis-tools.c:2828
 msgid "Ranks"
 msgstr "Områden"
 
-#: src/tools/analysis-tools.c:2861
+#: src/tools/analysis-tools.c:2866
 msgid "Anova: Single Factor"
 msgstr "Anova: en faktor"
 
-#: src/tools/analysis-tools.c:2862 src/tools/analysis-tools.c:3350
+#: src/tools/analysis-tools.c:2867 src/tools/analysis-tools.c:3355
 #: src/tools/simulation.c:343
 msgid "SUMMARY"
 msgstr "SAMMANFATTNING"
 
-#: src/tools/analysis-tools.c:2863
+#: src/tools/analysis-tools.c:2868
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupper/Antal/Summa/Medelvärde/Varians"
 
-#: src/tools/analysis-tools.c:2917
+#: src/tools/analysis-tools.c:2922
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Variationskälla/Mellan grupper/Inom grupper/Total"
 
-#: src/tools/analysis-tools.c:2922 src/tools/analysis-tools.c:3199
-#: src/tools/analysis-tools.c:3374
+#: src/tools/analysis-tools.c:2927 src/tools/analysis-tools.c:3204
+#: src/tools/analysis-tools.c:3379
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-värde/F-kritisk"
 
-#: src/tools/analysis-tools.c:3000
+#: src/tools/analysis-tools.c:3005
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "Enkelfaktors-ANOVA (%s)"
 
-#: src/tools/analysis-tools.c:3011 src/tools/analysis-tools.c:3681
+#: src/tools/analysis-tools.c:3016 src/tools/analysis-tools.c:3686
 msgid "Anova"
 msgstr "Anova"
 
-#: src/tools/analysis-tools.c:3014
+#: src/tools/analysis-tools.c:3019
 msgid "Single Factor ANOVA"
 msgstr "Enkelfaktors-ANOVA"
 
-#: src/tools/analysis-tools.c:3121
+#: src/tools/analysis-tools.c:3126
 msgid "The input range contains non-numeric data."
 msgstr "Indataområdet innehåller icke-numerisk data."
 
-#: src/tools/analysis-tools.c:3129
+#: src/tools/analysis-tools.c:3134
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Två faktorer utan upprepning"
 
-#: src/tools/analysis-tools.c:3130
+#: src/tools/analysis-tools.c:3135
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/SAMMANFATTNING/Antal/Summa/Medelvärde/Varians"
 
-#: src/tools/analysis-tools.c:3193
+#: src/tools/analysis-tools.c:3198
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Variationskälla/Rader/Kolumner/Fel/Total"
 
-#: src/tools/analysis-tools.c:3340
+#: src/tools/analysis-tools.c:3345
 msgid "One of the factor combinations does not contain any observations!"
 msgstr "En av faktorkombinationerna innehåller inga observationer!"
 
 #. We are ready to create the summary table
-#: src/tools/analysis-tools.c:3349
+#: src/tools/analysis-tools.c:3354
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Två faktorer med upprepning"
 
-#: src/tools/analysis-tools.c:3356
+#: src/tools/analysis-tools.c:3361
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Antal/Summa/Medelvärde/Varians"
 
-#: src/tools/analysis-tools.c:3366
+#: src/tools/analysis-tools.c:3371
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Variationskälla/Rader/Kolumner/Interaktion/Inom"
 
-#: src/tools/analysis-tools.c:3665
+#: src/tools/analysis-tools.c:3670
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr "Tvåfaktors ANOVA (%s), ingen upprepning"
 
-#: src/tools/analysis-tools.c:3666
+#: src/tools/analysis-tools.c:3671
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "Tvåfaktors ANOVA (%s), med upprepning"
 
-#: src/tools/analysis-tools.c:3684
+#: src/tools/analysis-tools.c:3689
 msgid "Two Factor ANOVA"
 msgstr "Tvåfaktors ANOVA"
 
-#: src/tools/analysis-tools.c:3865
+#: src/tools/analysis-tools.c:3870
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/tools/analysis-tools.c:3869
+#: src/tools/analysis-tools.c:3874
 msgid "Too Small"
 msgstr "För litet"
 
-#: src/tools/analysis-tools.c:3886
+#: src/tools/analysis-tools.c:3891
 msgid "More"
 msgstr "Mer"
 
-#: src/tools/analysis-tools.c:3895
+#: src/tools/analysis-tools.c:3900
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/tools/analysis-tools.c:3899
+#: src/tools/analysis-tools.c:3904
 msgid "Too Large"
 msgstr "För stort"
 
-#: src/tools/analysis-tools.c:3943
+#: src/tools/analysis-tools.c:3948
 msgid "Bin"
 msgstr "Grupp"
 
-#: src/tools/analysis-tools.c:3968
+#: src/tools/analysis-tools.c:3973
 msgid "Frequency"
 msgstr "Frekvens"
 
-#: src/tools/analysis-tools.c:3973
+#: src/tools/analysis-tools.c:3978
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Kumulativ %"
 
-#: src/tools/analysis-tools.c:4052
+#: src/tools/analysis-tools.c:4057
 #, c-format
 msgid "Histogram (%s)"
 msgstr "Histogram (%s)"
 
-#: src/tools/analysis-tools.c:4159 src/tools/solver/reports-write.c:647
+#: src/tools/analysis-tools.c:4164 src/tools/solver/reports-write.c:647
 msgid "Real"
 msgstr "Realdel"
 
-#: src/tools/analysis-tools.c:4160
+#: src/tools/analysis-tools.c:4165
 msgid "Imaginary"
 msgstr "Imaginärdel"
 
-#: src/tools/analysis-tools.c:4220
+#: src/tools/analysis-tools.c:4225
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Fourierserier (%s)"
 
-#: src/tools/analysis-tools.c:4232 src/tools/analysis-tools.c:4235
+#: src/tools/analysis-tools.c:4237 src/tools/analysis-tools.c:4240
 msgid "Fourier Series"
 msgstr "Fourierserier"
 
