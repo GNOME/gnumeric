@@ -993,7 +993,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			}
 			/* FIXME: this is a gross hack */
 			{
-				char buffer [40 + DBL_DIG];
+				char *buffer = g_alloca (40 + info.right_req + 1)
 				sprintf (buffer, "%.*e", info.right_req, number);
 
 				g_string_append (result, buffer);
