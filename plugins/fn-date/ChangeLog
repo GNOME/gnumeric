@@ -1,3 +1,7 @@
+2003-07-01  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_yearfrac): Use yearfrac.
+
 2003-06-30  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_datevalue) : add mention of 1900 vs 1904

@@ -2,6 +2,7 @@
 
 	* functions.c (gnumeric_oddlprice, gnumeric_oddlyield): Dump OO's
 	implementation and roll our own.  (Our date stuff is better.)
+	(gnumeric_yielddisc): Dump OO's and use yearfrac.
 
 2003-06-29  Morten Welinder  <terra@gnome.org>
 

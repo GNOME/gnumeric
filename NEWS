@@ -70,6 +70,7 @@ Morten:
 	* Implement ODDFYIELD.
 	* Reduce flicker in format selector widgets.
 	* Fix another O(n^2) problem in stf import.
+	* Fix YEARFRAC.
 
 --------------------------------------------------------------------------
 

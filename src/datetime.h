@@ -73,6 +73,7 @@ typedef enum { /* see doc/fn-financial-basis.txt for details */
 } basis_t;
 
 gint32  days_between_basis (GDate const *from, GDate const *to, basis_t basis);
+gnm_float yearfrac         (const GDate *from, GDate const *to, basis_t basis);
 int     annual_year_basis  (Value const *value_date, basis_t basis,
 			    GnmDateConventions const *date_conv);
 

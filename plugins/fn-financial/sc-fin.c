@@ -309,18 +309,6 @@ get_amorlinc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
 
 /***************************************************************************/
 
-Value *    get_yielddisc (GDate *nSettle, GDate *nMat, gnm_float fPrice,
-			  gnm_float fRedemp, gint nBase)
-{
-        gnm_float fRet = (fRedemp / fPrice) - 1;
-
-	fRet /= GetYearFrac ( nSettle, nMat, nBase );
-
-	return value_new_float ( fRet );
-}
-
-/***************************************************************************/
-
 Value *	   get_yieldmat  (GDate *nSettle, GDate *nMat, GDate *nIssue,
 			  gnm_float fRate, gnm_float fPrice, gint nBase)
 {

@@ -8,8 +8,6 @@ Value *    get_amordegrc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
 Value *    get_amorlinc  (gnm_float fCost, GDate *nDate, GDate *nFirstPer, 
 			  gnm_float fRestVal, gint nPer, gnm_float fRate,
 			  gint nBase);
-Value *    get_yielddisc (GDate *nSettle, GDate *nMat, gnm_float fPrice,
-			  gnm_float fRedemp, gint nBase);
 Value *	   get_yieldmat  (GDate *nSettle, GDate *nMat, GDate *nIssue,
 			  gnm_float fRate, gnm_float fPrice, gint nBase);
 Value *    get_duration  (GDate *nSettle, GDate *nMat, gnm_float fCoup,

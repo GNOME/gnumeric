@@ -1251,9 +1251,7 @@ gnumeric_yearfrac (FunctionEvalInfo *ei, Value **argv)
 	    !g_date_valid (&start_date) || !g_date_valid (&end_date))
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (
-		(double) days_between_basis (&start_date, &end_date, basis) /
-		(double) annual_year_basis  (argv[0], basis, conv));
+	return value_new_float (yearfrac (&start_date, &end_date, basis));
 }
 
 /***************************************************************************/

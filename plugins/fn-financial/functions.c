@@ -2596,9 +2596,10 @@ static char const *help_yielddisc = {
 static Value *
 gnumeric_yielddisc (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate     nSettle, nMat;
+        GDate     settlement, maturity;
 	gnm_float fPrice, fRedemp;
 	gint      nBase;
+	gnm_float ret, yfrac;
 	GnmDateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
@@ -2606,12 +2607,20 @@ gnumeric_yielddisc (FunctionEvalInfo *ei, Value **argv)
 	fRedemp    = value_get_as_float (argv[3]);
         nBase      = argv[4] ? value_get_as_int (argv[4]) : 0;
 
-        if (nBase < 0 || nBase > 4 || 
-	    !datetime_value_to_g (&nSettle, argv[0], date_conv) ||
-	    !datetime_value_to_g (&nMat, argv[1], date_conv))
+        if (!is_valid_basis (nBase) ||
+	    !datetime_value_to_g (&settlement, argv[0], date_conv) ||
+	    !datetime_value_to_g (&maturity, argv[1], date_conv))
 		return value_new_error_NUM (ei->pos);
 
-	return get_yielddisc (&nSettle, &nMat, fPrice, fRedemp, nBase);
+	if (fRedemp <= 0 ||
+	    fPrice <= 0 ||
+	    g_date_compare (&settlement, &maturity) >= 0)
+		return value_new_error_NUM (ei->pos);
+
+        ret = (fRedemp / fPrice) - 1;
+	yfrac = yearfrac (&settlement, &maturity, nBase);
+
+	return value_new_float (ret / yfrac);
 }
 
 /***************************************************************************/
