@@ -22,16 +22,14 @@
 
 extern void (*graphic_wizard_hook)(Workbook *wb);
 
-void
+BonoboViewFrame *
 attach_view (const char *name, WizardGraphicContext *gc)
 {
 	BonoboViewFrame *view_frame;
 	GtkWidget *view;
-	
 	GtkContainer *container = GTK_CONTAINER (glade_xml_get_widget (gc->gui, name));
-	
-	view_frame = bonobo_client_site_new_view (
-		gc->client_site, gc->workbook->uih->top_level_uih);
+
+	view_frame = graphic_context_new_chart_view_frame (gc);
 	view = bonobo_view_frame_get_wrapper (view_frame);
 	
 	/*
@@ -39,6 +37,7 @@ attach_view (const char *name, WizardGraphicContext *gc)
 	 * placeholders that might have been left by libglade
 	 */
 	gtk_container_add (container, view);
+	gtk_widget_show (view);
 }
 
 static void

@@ -1,3 +1,17 @@
+2000-03-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* graphic-context.c (graphic_context_auto_guess_series): Set the
+	graphic component vectors here and init the default mode
+	(graphic_context_new_chart_view_frame): New function.  Creates new
+	ViewFrames for the chart.
+	(graphic_context_destroy): Destroy the view frames.
+
+	* graphic-type.h: Moved PlotParameters here.
+
+	* graphic-type.c (graphic_type_set_chart_mode): New function, sets
+	the plotting parameters.
+	(graphic_type_init_preview): Set the default plotting mode.
+
 2000-03-01  Miguel de Icaza  <miguel@helixcode.com>
 
 	* graphic-context.c (gc_selection_get_sizes): new function:

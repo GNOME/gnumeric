@@ -4,6 +4,7 @@
 #include "str.h"
 #include "expr.h"
 #include "sheet-vector.h"
+#include "../../graph/Graph.h"
 
 typedef enum {
 	SERIES_COLUMNS,
@@ -46,14 +47,25 @@ typedef struct {
 	BonoboObjectClient *graphics_server;
 	BonoboClientSite   *client_site;
 
+	/* Interface pointer for the Layout interface */
+	GNOME_Graph_Layout layout;
+
+	/* Interface pointer for the actual chart */
+	GNOME_Graph_Chart  chart;
+
+	/*
+	 * A List of BonoboViewFrames
+	 */
+	GList *view_frames;
 } WizardGraphicContext;
 
 #define GC_SIGNATURE ((('G' << 8) | ('C' << 8)) | 'o')
 #define IS_GRAPHIC_CONTEXT(gc) (gc->signature == GC_SIGNATURE)
 
-WizardGraphicContext *
-graphic_context_new     (Workbook *wb, GladeXML *gui);
-void            graphic_context_destroy (WizardGraphicContext *gc);
+WizardGraphicContext *graphic_context_new     (Workbook *wb, GladeXML *gui);
+BonoboViewFrame      *graphic_context_new_chart_view_frame (WizardGraphicContext *gc);
+
+void            graphic_context_destroy           (WizardGraphicContext *gc);
 
 void            graphic_context_data_range_remove (WizardGraphicContext *gc,
 						   DataRange *data_range);
@@ -64,9 +76,9 @@ void            graphic_context_data_range_add    (WizardGraphicContext *gc,
  * Wizardy functions have a graphic_wizard prefix, because they do
  * magic.
  */
-void
-graphic_wizard_guess_series (WizardGraphicContext *gc, SeriesOrientation orientation,
-			     gboolean first_item_is_series_name);
+void            graphic_wizard_guess_series       (WizardGraphicContext *gc,
+						   SeriesOrientation orientation,
+						   gboolean first_item_is_series_name);
 
 #endif /* GNUMERIC_WIZARD_GRAPHICS_CONTEXT_H */
 

@@ -16,19 +16,6 @@
 #include "graphic-type.h"
 
 typedef struct {
-	GNOME_Graph_ChartType     chart_type;
-	GNOME_Graph_PlotMode      plot_mode;
-	GNOME_Graph_ColBarMode    col_bar_mode;
-	GNOME_Graph_DirMode       direction;
-	GNOME_Graph_LineMode      line_mode;
-	GNOME_Graph_PieMode       pie_mode;
-	GNOME_Graph_PieDimension  pie_dim;
-	GNOME_Graph_ScatterPoints scatter_mode;
-	GNOME_Graph_ScatterConn   scatter_conn;
-	GNOME_Graph_SurfaceMode   surface_mode;
-} PlotParameters;
-
-typedef struct {
 	char *description;
 	int   col, row;
 	PlotParameters par;
@@ -317,6 +304,27 @@ graphic_type_selected (GtkCList *clist, gint row, gint column, GdkEvent *event,
 	graphic_type_show_page (gc, row);
 }
 
+void
+graphic_type_set_chart_mode (GNOME_Graph_Chart chart, PlotParameters *par)
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	GNOME_Graph_Chart__set_chart_type   (chart, par->chart_type);
+	GNOME_Graph_Chart__set_plot_mode    (chart, par->plot_mode);
+	GNOME_Graph_Chart__set_col_bar_mode (chart, par->col_bar_mode);
+	GNOME_Graph_Chart__set_direction    (chart, par->direction);
+	GNOME_Graph_Chart__set_line_mode    (chart, par->line_mode);
+	GNOME_Graph_Chart__set_pie_mode     (chart, pr->pie_mode);
+	GNOME_Graph_Chart__set_pie_dim      (chart, pr->pie_dim);
+	GNOME_Graph_Chart__set_scatter_mode (chart, pr->scatter_mode);
+	GNOME_Graph_Chart__set_scatter_conn (chart, pr->scatter_conn);
+	GNOME_Graph_Chart__set_surface_mode (chart, pr->surface_mode);
+
+	CORBA_exception_free (&ev);
+}
+
 static void
 graph_type_button_clicked (GtkWidget *widget, subtype_info_t *type)
 {
@@ -324,6 +332,7 @@ graph_type_button_clicked (GtkWidget *widget, subtype_info_t *type)
 	GtkLabel *label = GTK_LABEL (glade_xml_get_widget (gc->gui, "plot-description"));
 
 	gtk_label_set_text (label, type->description);
+	graph_type_set_chart_mode (gc->chart, &type->par);
 }
 
 static void
@@ -414,11 +423,13 @@ graphic_type_boot (GladeXML *gui, WizardGraphicContext *gc)
 	}
 
 	{
-		GtkWidget *label;
+		BonoboViewFrame *frame;
+		GtkWidget *view;
 		
-		label = gtk_label_new ("This is the preview.  Honest.  Yeah right.");
-		gtk_widget_show (label);
-		gtk_notebook_append_page (gc->graphic_types_notebook, label, NULL);
+		frame = graphic_context_new_chart_view_frame (gc);
+		view = bonobo_view_frame_get_wrapper (frame);
+		gtk_widget_show (view);
+		gtk_notebook_append_page (gc->graphic_types_notebook, view, NULL);
 	}
 
 	gtk_clist_select_row (clist, 0, 1);
@@ -434,4 +445,11 @@ graphic_type_boot (GladeXML *gui, WizardGraphicContext *gc)
 		show_sample, "released", GTK_SIGNAL_FUNC (show_sample_released), gc);
 }
 
-
+/*
+ * Set a chart mode default
+ */
+void
+graphic_type_init_preview (WizardGraphicContext *gc)
+{
+	graphic_type_set_chart_mode (gc->chart, &column_subtypes [0]->par);
+}

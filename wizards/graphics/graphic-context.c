@@ -139,6 +139,8 @@ graphic_wizard_guess_series (WizardGraphicContext *gc, SeriesOrientation orienta
 static void
 graphic_context_auto_guess_series (WizardGraphicContext *gc)
 {
+	CORBA_Environment ev;
+	GList *vector_list;
 	Sheet *sheet = gc->workbook->current_sheet;
 	int cols, rows;
 	
@@ -148,6 +150,34 @@ graphic_context_auto_guess_series (WizardGraphicContext *gc)
 		graphic_wizard_guess_series (gc, SERIES_ROWS, TRUE);
 	else
 		graphic_wizard_guess_series (gc, SERIES_COLUMNS, TRUE);
+
+	CORBA_exception_init (&ev);
+	GNOME_Graph_Layout_reset_series (gc->layout, &ev);
+	
+	/*
+	 * 1. Set the first series as the label series if we have more than one
+	 * series group.  Sounds like a good choice.  Need to verify the behaviour of
+	 * other apps.
+	 */
+	vector_list = gc->data_range_list;
+	if (graphic_context_data_range_count (gc) > 1){
+		GNOME_Gnumeric_Vector vector;
+
+		vector  = vector_from_data_range (vector_list->data);
+		GNOME_Graph_Layout_add_label_series (gc->layout, vector, &ev);
+		vector_list = vector_list->next;
+	} 
+
+	for (; vector_list; vector_list = vector_list->next){
+		GNOME_Gnumeric_Vector vector;
+
+		vector  = vector_from_data_range (vector_list->data);
+		GNOME_Graph_Layout_add_series (gc->layout, vector, &ev);
+		vector_list = vector_list->next;
+	}
+
+	graphic_type_init_preview (gc);
+	CORBA_exception_free (&ev);
 }
 
 WizardGraphicContext *
@@ -178,6 +208,14 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 	if (!bonobo_client_site_bind_embeddable (client_site, object_server))
 		goto error_binding;
 
+	gc->layout = bonobo_object_query_interface (BONOBO_OBJECT (object), "IDL:GNOME/Graph/Layout:1.0");
+	if (gc->layout == CORBA_OBJECT_NIL)
+		goto error_qi;
+
+	gc->chart = GNOME_Graph_Layout_get_chart (gc->layout, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		goto error_get_chart;
+
 	/*
 	 * Create the graphic context
 	 */
@@ -194,9 +232,13 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 	gc->graphics_server = object_server;
 
 	graphic_context_auto_guess_series (gc);
-					   
+
+
 	return gc;
 
+error_get_chart:
+error_qi:
+	
 error_binding:
 	bonobo_object_unref (BONOBO_OBJECT (object_server));
 	
@@ -234,6 +276,14 @@ graphic_context_destroy (WizardGraphicContext *gc)
 	g_list_free (gc->data_range_list);
 
 	bonobo_object_unref (BONOBO_OBJECT (gc->graphics_server));
+
+	for (l = gc->view_frames; l; l = l->next){
+		BonoboViewFrame *view_frame = BONOBO_VIEW_FRAME (l->data);
+
+		gtk_object_unref (GTK_OBJECT (view_frame));
+	}
+	CORBA_Object_release (gc->layout, &ev);
+	CORBA_Object_release (gc->chart, &ev);
 	
 	g_free (gc);
 }
@@ -260,7 +310,7 @@ graphic_context_data_range_remove (WizardGraphicContext *gc, DataRange *data_ran
 }
 
 void
-graphics_context_data_range_clear (WizardGraphicContext *gc)
+graphic_context_data_range_clear (WizardGraphicContext *gc)
 {
 	GList *l;
 	
@@ -273,6 +323,12 @@ graphics_context_data_range_clear (WizardGraphicContext *gc)
 	}
 	g_list_free (gc->data_range_list);
 	gc->data_range_list = NULL;
+}
+
+int
+graphic_context_data_range_count (WizardGraphicContext *gc)
+{
+	return g_list_length (gc->data_range_list);
 }
 
 /**
@@ -431,3 +487,17 @@ data_range_destroy (DataRange *data_range, gboolean detach_from_sheet)
 	string_unref (data_range->entered_expr);
 	g_free (data_range);
 }
+
+BonoboViewFrame *
+graphic_context_new_chart_view_frame (WizardGraphicContext *gc)
+{
+	BonoboViewFrame *view_frame;
+
+	view_frame = bonobo_client_site_new_view (
+		gc->client_site, gc->workbook->uih->top_level_uih);
+
+	gc->view_frames = g_list_append (gc->view_frames, view_frame);
+
+	return view_frame;
+}
+
