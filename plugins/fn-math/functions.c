@@ -865,7 +865,7 @@ gnumeric_fact (FunctionEvalInfo *ei, GnmValue **argv)
 
 	if (x > 12 || !x_is_integer) {
 		int sign;
-		gnm_float tmp = lgamma_rgnum (x + 1, &sign);
+		gnm_float tmp = gnm_lgamma_r (x + 1, &sign);
 		gnm_float res = sign * gnm_exp (tmp);
 		if (x_is_integer)
 			res = gnm_floor (res + 0.5);  /* Round, just in case. */
