@@ -403,12 +403,11 @@ cb_edit_search_replace_action (WorkbookControlGUI *wbcg,
 			       GnmSearchReplace *sr)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
 
 	sr->query_func = cb_edit_search_replace_query;
 	sr->user_data = wbcg;
 
-	return cmd_search_replace (wbc, sheet, sr);
+	return cmd_search_replace (wbc, sr);
 }
 
 

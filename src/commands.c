@@ -4072,9 +4072,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 
 
 static gboolean
-cmd_search_replace_do (CmdSearchReplace *me,
-		       G_GNUC_UNUSED Workbook *wb, Sheet *sheet,
-		       gboolean test_run)
+cmd_search_replace_do (CmdSearchReplace *me, gboolean test_run)
 {
 	GnmSearchReplace *sr = me->sr;
 	GPtrArray *cells;
@@ -4095,7 +4093,7 @@ cmd_search_replace_do (CmdSearchReplace *me,
 		}
 	}
 
-	cells = search_collect_cells (sr, sheet);
+	cells = search_collect_cells (sr);
 
 	for (i = 0; i < cells->len; i++) {
 		GnmEvalPos *ep = g_ptr_array_index (cells, i);
@@ -4152,11 +4150,10 @@ cmd_search_replace_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_search_replace (WorkbookControl *wbc, Sheet *sheet, GnmSearchReplace *sr)
+cmd_search_replace (WorkbookControl *wbc, GnmSearchReplace *sr)
 {
 	GObject *obj;
 	CmdSearchReplace *me;
-	Workbook *wb = wb_control_workbook (wbc);
 
 	g_return_val_if_fail (sr != NULL, TRUE);
 
@@ -4170,13 +4167,13 @@ cmd_search_replace (WorkbookControl *wbc, Sheet *sheet, GnmSearchReplace *sr)
 	me->cmd.size = 1;  /* Corrected below. */
 	me->cmd.cmd_descriptor = g_strdup (_("Search and Replace"));
 
-	if (cmd_search_replace_do (me, wb, sheet, TRUE)) {
+	if (cmd_search_replace_do (me, TRUE)) {
 		/* There was an error and nothing was done.  */
 		g_object_unref (obj);
 		return TRUE;
 	}
 
-	cmd_search_replace_do (me, wb, sheet, FALSE);
+	cmd_search_replace_do (me, FALSE);
 	me->cmd.size += g_list_length (me->cells);
 
 	command_register_undo (wbc, obj);

@@ -1,5 +1,12 @@
 2005-03-30  Morten Welinder  <terra@gnome.org>
 
+	* src/search.c (search_collect_cells): Drop sheet argument.  We
+	already have it.  All callers changed.
+
+	* src/commands.c (cmd_search_replace_do): Drop unused sheet and
+	workbook arguments.  All callers changed.
+	(cmd_search_replace): Drop sheet argument.  All	callers changed.
+
 	* src/search.c: Adapt to goffice changes.  (Aka make it an object
 	and cut most of it.)
 	(gnm_search_replace_class_init): Define a pile of properties.

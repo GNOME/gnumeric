@@ -311,6 +311,8 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	int i;
 
 	sr = g_object_new (GNM_SEARCH_REPLACE_TYPE,
+			   "sheet", wb_control_cur_sheet (wbc),
+			   "range-text", gnm_expr_entry_get_text (dd->rangetext),
 			   "search-text", gtk_entry_get_text (dd->gentry),
 			   "is-regexp", gnumeric_glade_group_value (gui, search_type_group) == 1,
 			   "ignore-case", is_checked (gui, "ignore_case"),
@@ -325,10 +327,6 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 	i = gnumeric_glade_group_value (gui, scope_group);
 	sr->scope = (i == -1) ? SRS_sheet : (SearchReplaceScope)i;
-
-	/* FIXME: parsing of an gnm_expr_entry should happen by the gee */
-	sr->range_text = g_strdup (gnm_expr_entry_get_text (dd->rangetext));
-	sr->curr_sheet = wb_control_cur_sheet (wbc);
 
 	err = gnm_search_replace_verify (sr, FALSE);
 	if (err) {
@@ -356,7 +354,7 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		gtk_tree_view_set_model (dd->matches_table, NULL);
 		search_filter_matching_free (dd->matches);
 
-		cells = search_collect_cells (sr, wb_control_cur_sheet (wbc));
+		cells = search_collect_cells (sr);
 		dd->matches = search_filter_matching (sr, cells);
 		search_collect_cells_free (cells);
 
@@ -370,11 +368,6 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 	gtk_notebook_set_current_page (dd->notebook, dd->notebook_matches_page);
 	gtk_widget_grab_focus (GTK_WIDGET (dd->matches_table));
-
-#if 0
-	/* Save the contents of the search in the gnome-entry. */
-	gnome_entry_append_history (dd->gentry, TRUE, sr->search_text);
-#endif
 
 	g_object_unref (sr);
 }

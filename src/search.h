@@ -35,7 +35,12 @@ struct _GnmSearchReplace {
 
 	SearchReplaceScope scope;
 	char *range_text;
-	Sheet *curr_sheet;
+
+	/*
+	 * This is the default sheet for the range and used also to locate
+	 * a workbook.
+	 */
+	Sheet *sheet;
 
 	gboolean query;		/* Ask before each change.  */
 
@@ -75,7 +80,7 @@ GType gnm_search_replace_get_type (void);
 
 char	*gnm_search_replace_verify (GnmSearchReplace *sr, gboolean repl);
 
-GPtrArray *search_collect_cells (GnmSearchReplace *sr, Sheet *sheet);
+GPtrArray *search_collect_cells (GnmSearchReplace *sr);
 void search_collect_cells_free (GPtrArray *cells);
 
 typedef struct {

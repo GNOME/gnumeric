@@ -37,7 +37,9 @@ enum {
 	PROP_SEARCH_EXPRESSION_RESULTS,
 	PROP_SEARCH_COMMENTS,
 	PROP_BY_ROW,
-	PROP_QUERY
+	PROP_QUERY,
+	PROP_SHEET,
+	PROP_RANGE_TEXT
 };
 
 /* ------------------------------------------------------------------------- */
@@ -60,7 +62,7 @@ gnm_search_replace_verify (GnmSearchReplace *sr, gboolean repl)
 		if (!sr->range_text || sr->range_text[0] == 0)
 			return g_strdup (_("You must specify a range to search."));
 
-		if ((range_list = global_range_list_parse (sr->curr_sheet, sr->range_text))
+		if ((range_list = global_range_list_parse (sr->sheet, sr->range_text))
 		    == NULL)
 			return g_strdup (_("The search range is invalid."));
 		range_list_destroy (range_list);
@@ -127,17 +129,18 @@ search_collect_cells_cb (Sheet *sheet, int col, int row,
 
 /* Collect a list of all cells subject to search.  */
 GPtrArray *
-search_collect_cells (GnmSearchReplace *sr, Sheet *sheet)
+search_collect_cells (GnmSearchReplace *sr)
 {
 	GPtrArray *cells;
 
 	switch (sr->scope) {
 	case SRS_workbook:
-		cells = workbook_cells (sheet->workbook, TRUE);
+		g_return_val_if_fail (sr->sheet != NULL, NULL);
+		cells = workbook_cells (sr->sheet->workbook, TRUE);
 		break;
 
 	case SRS_sheet:
-		cells = sheet_cells (sheet,
+		cells = sheet_cells (sr->sheet,
 				     0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
 				     TRUE);
 		break;
@@ -147,9 +150,9 @@ search_collect_cells (GnmSearchReplace *sr, Sheet *sheet)
 		GSList *range_list;
 		GnmEvalPos ep;
 		cells = g_ptr_array_new ();
-		range_list = global_range_list_parse (sr->curr_sheet, sr->range_text);
+		range_list = global_range_list_parse (sr->sheet, sr->range_text);
 		global_range_list_foreach (range_list,
-			   eval_pos_init_sheet (&ep, sr->curr_sheet),
+			   eval_pos_init_sheet (&ep, sr->sheet),
 			   CELL_ITER_IGNORE_BLANK,
 			   (CellIterFunc) &search_collect_cells_cb, cells);
 		range_list_destroy (range_list);
@@ -373,18 +376,6 @@ gnm_search_replace_init (GObject *obj)
 /* ------------------------------------------------------------------------- */
 
 static void
-gnm_search_replace_finalize (GObject *obj)
-{
-	GnmSearchReplace *sr = (GnmSearchReplace *)obj;
-
-	g_free (sr->range_text);	
-
-	G_OBJECT_CLASS (parent_class)->finalize (obj);
-}
-
-/* ------------------------------------------------------------------------- */
-
-static void
 gnm_search_replace_get_property (GObject     *object,
 				 guint        property_id,
 				 GValue      *value,
@@ -414,6 +405,12 @@ gnm_search_replace_get_property (GObject     *object,
 	case PROP_QUERY:
 		g_value_set_boolean (value, sr->query);
 		break;
+	case PROP_SHEET:
+		g_value_set_object (value, sr->sheet);
+		break;
+	case PROP_RANGE_TEXT:
+		g_value_set_string (value, sr->range_text);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -421,6 +418,24 @@ gnm_search_replace_get_property (GObject     *object,
 }
 
 /* ------------------------------------------------------------------------- */
+
+static void
+gnm_search_replace_set_sheet (GnmSearchReplace *sr, Sheet *sheet)
+{
+	if (sheet)
+		g_object_ref (sheet);
+	if (sr->sheet)
+		g_object_unref (sr->sheet);
+	sr->sheet = sheet;
+}
+
+static void
+gnm_search_replace_set_range_text (GnmSearchReplace *sr, const char *text)
+{
+	char *text_copy = g_strdup (text);
+	g_free (sr->range_text);
+	sr->range_text = text_copy;
+}
 
 static void
 gnm_search_replace_set_property (GObject      *object,
@@ -452,10 +467,29 @@ gnm_search_replace_set_property (GObject      *object,
 	case PROP_QUERY:
 		sr->query = g_value_get_boolean (value);
 		break;
+	case PROP_SHEET:
+		gnm_search_replace_set_sheet (sr, g_value_get_object (value));
+		break;
+	case PROP_RANGE_TEXT:
+		gnm_search_replace_set_range_text (sr, g_value_get_string (value));
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
+}
+
+/* ------------------------------------------------------------------------- */
+
+static void
+gnm_search_replace_finalize (GObject *obj)
+{
+	GnmSearchReplace *sr = (GnmSearchReplace *)obj;
+
+	gnm_search_replace_set_sheet (sr, NULL);
+	g_free (sr->range_text);	
+
+	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -532,6 +566,23 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_SHEET,
+		 g_param_spec_object ("sheet", "Sheet",
+				      "The sheet in which to search.",
+				      GNM_SHEET_TYPE,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_RANGE_TEXT,
+		 g_param_spec_string ("range-text",
+				      _("Range as Text"),
+				      _("The range in which to search"),
+				      NULL,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE));
 }
 
 /* ------------------------------------------------------------------------- */

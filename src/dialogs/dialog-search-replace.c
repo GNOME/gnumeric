@@ -104,6 +104,8 @@ ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	int i;
 
 	sr = g_object_new (GNM_SEARCH_REPLACE_TYPE,
+			   "sheet", wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)),
+			   "range-text", gnm_expr_entry_get_text (dd->rangetext),
 			   "search-text", gtk_entry_get_text (dd->search_text),
 			   "replace-text", gtk_entry_get_text (dd->replace_text),
 			   "is-regexp", gnumeric_glade_group_value (gui, search_type_group) == 1,
@@ -121,10 +123,6 @@ ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 	i = gnumeric_glade_group_value (gui, scope_group);
 	sr->scope = (i == -1) ? SRS_sheet : (SearchReplaceScope)i;
-
-	/* FIXME: parsing of an gnm_expr_entry should happen by the gee */
-	sr->range_text = g_strdup (gnm_expr_entry_get_text (dd->rangetext));
-	sr->curr_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 
 	i = gnumeric_glade_group_value (gui, error_group);
 	sr->error_behaviour = (i == -1) ? SRE_fail : (SearchReplaceError)i;

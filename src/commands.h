@@ -78,8 +78,7 @@ gboolean cmd_merge_cells	(WorkbookControl *wbc, Sheet *sheet,
 gboolean cmd_unmerge_cells	(WorkbookControl *wbc, Sheet *sheet,
 				 GSList const *selection);
 
-gboolean cmd_search_replace     (WorkbookControl *wbc, Sheet *sheet,
-				 GnmSearchReplace *sr);
+gboolean cmd_search_replace     (WorkbookControl *wbc, GnmSearchReplace *sr);
 
 gboolean cmd_colrow_std_size    (WorkbookControl *wbc, Sheet *sheet,
 				 gboolean is_cols, double new_default);
