@@ -3034,6 +3034,8 @@ ms_excel_read_guts (BiffQuery *q, ExcelSheet *sheet)
 static void
 ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *sheet)
 {
+	static gboolean need_warning = TRUE;
+
 	guint16 const num_merged = MS_OLE_GET_GUINT16(q->data);
 	guint8 const *ptr = q->data + 2;
 	int i;
@@ -3043,6 +3045,11 @@ ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *sheet)
 	 */
 	g_return_if_fail (q->length == 2+8*num_merged);
 
+	if (need_warning) {
+		need_warning = FALSE;
+		g_warning ("EXCEL : Merged Cells are not supported yet.");
+	}
+
 	for (i = 0 ; i < num_merged ; ++i, ptr += 8) {
 		Range r;
 		r.start.row = MS_OLE_GET_GUINT16(ptr);
@@ -3051,7 +3058,6 @@ ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *sheet)
 		r.end.col = MS_OLE_GET_GUINT16(ptr+6);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 0) {
-			printf ("EXCEL Unimplemented merge-cells : ");
 			range_dump (&r);
 		}
 	}

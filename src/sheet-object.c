@@ -480,11 +480,6 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 
 	case SHEET_MODE_CREATE_GRAPHIC:
 #ifdef ENABLE_BONOBO
-		/* Bug 9984 : do not start objects with size 0,0 */
-		if (x1 == x2)
-			x2 += 50.;
-		if (y1 == y2)
-			y2 += 50.;
 		g_warning ("Ugly API name follows, fix it");
 		o = sheet_object_container_new_bonobo (
 			sheet, x1, y1, x2, y2, sheet->mode_data);
@@ -613,6 +608,7 @@ static int
 sheet_button_press (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet)
 {
 	ObjectCoords *oc;
+	double x1, y1;
 
 	if (sheet->current_object) {
 		sheet_object_stop_editing (sheet->current_object);
@@ -624,11 +620,13 @@ sheet_button_press (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet)
 
 	oc = g_new (ObjectCoords, 1);
 
-	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet), event->x, event->y, &oc->x, &oc->y);
+	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet), event->x, event->y, &x1, &y1);
 	
+	/* Bug 9984 : do not start objects with size 0,0 */
+	oc->x = MAX(x1 - 50., 0.);
+	oc->y = MAX(y1 - 50., 0.);
 	sheet->coords = g_list_append (sheet->coords, oc);
-
-	sheet->current_object = create_object (sheet, oc->x, oc->y);
+	sheet->current_object = create_object (sheet, x1, y1);
 
 	/*
 	 * If something fails during object creation,

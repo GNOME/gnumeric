@@ -1,5 +1,10 @@
 2000-05-18  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-object.c (sheet_button_press) : Minor patch so that
+	  objects begin with a non zero size.  This needs to be reworked into
+	  a more general technique so that a 0 sized object is not possible in
+	  instances when that should be disabled.
+
 	* src/print-cell.c (print_cell) : Correct double negative that was
 	  breaking printing for cells with multiple lines that were bottom
 	  or center aligned.
