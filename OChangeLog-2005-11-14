@@ -1,3 +1,17 @@
+2004-09-06  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : Add a --disable-ssconvert for development.
+	  Constantly linking gnumeric and ssconvert is irritating, but we do
+	  want ssconvert enabled for releases.
+
+2004-09-06  Jody Goldberg <jody@gnome.org>
+
+	* src/GNOME_Gnumeric-gtk.xml : Update to reflect some input from ui
+	  review
+	* src/wbcg-actions.c (actions) : ditto
+	  s/Search/Find/
+	  s/Search and Replace/Replace/
+
 2004-09-02  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in (gnumeric_with_gnome): Fix typo.

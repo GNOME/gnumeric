@@ -6,10 +6,12 @@ SUBDIRS = tools cut-n-paste-code
 
 if WITH_GTK
   SUBDIRS += pixmaps dialogs widgets
-  bin_PROGRAMS = gnumeric ssconvert
+  bin_PROGRAMS = gnumeric
   check_PROGRAMS = # test-pango number-match
-else
-  bin_PROGRAMS = ssconvert
+endif
+
+if ENABLE_SSCONVERT
+  bin_PROGRAMS += ssconvert
 endif
 
 INCLUDES = 								\
