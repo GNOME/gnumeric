@@ -1,5 +1,8 @@
 2001-12-30  Jody Goldberg <jody@gnome.org>
 
+	* src/GNOME_Gnumeric.xml : sync with non-bonobo text and fix some
+	  mis-named items.
+
 	* src/cell.h : fix warning on s390
 	* src/collect.h : ditto.
 	* src/parse-util.h : ditto.

@@ -325,7 +325,7 @@
 		_label="C_ells..."
 		_tip="Insert new cells"/>
 
-	    <menuitem name="InsertGraph" verb=""
+	    <menuitem name="InsertGraph" verb="GraphGuru"
 		pixtype="stock" pixname="Gnumeric_GraphGuru"
 		_label="_Graph"
 		_tip="Invoke the graph guru to create a graph"/>
@@ -737,36 +737,36 @@
 	<toolitem name="Money"
 	    pixtype="stock" pixname="Gnumeric_FormatAsMoney"
 	    _label="Money"
-	    _tip="Format the selected cells as money"
+	    _tip="Sets the format of the selected cells to monetary"
 	    verb="FormatAsMoney"/>
 
 	<toolitem name="Percent"
 	    pixtype="stock" pixname="Gnumeric_FormatAsPercent"
 	    _label="Percent"
-	    _tip="Format the selected cells as percentages"
+	    _tip="Sets the format of the selected cells to percentage"
 	    verb="FormatAsPercent"/>
 
 	<toolitem name="Thousands"
 	    pixtype="stock" pixname="Gnumeric_FormatThousandSeperator"
-	    _label="Right"
-	    _tip="Includes a thousands separator in the selected cells"
+	    _label="Thousand separator"
+	    _tip="Sets the format of the selected cells to include a thousands separator"
 	    verb="FormatWithThousands"/>
 
 	<toolitem name="IncreasePrecision"
 	    pixtype="stock" pixname="Gnumeric_FormatAddPrecision"
 	    _label="Increase Precision"
-	    _tip="Increase the precision of the selected cells"
+	    _tip="Increases the number of decimals displayed"
 	    verb="FormatIncreasePrecision"/>
 
 	<toolitem name="DecreasePrecision"
 	    pixtype="stock" pixname="Gnumeric_FormatRemovePrecision"
 	    _label="Decrease Precision"
-	    _tip="Decrease the precision of the selected cells"
+	    _tip="Decreases the number of decimals displayed"
 	    verb="FormatDecreasePrecision"/>
 
 	<separator/>
 
-	<toolitem name="DecreasePrecision"
+	<toolitem name="DecreaseIndent"
 	    pixtype="stock" pixname="Text Unindent"
 	    _label="Decrease Indent"
 	    _tip="Aligns the contents to the left and decreases the indent"
