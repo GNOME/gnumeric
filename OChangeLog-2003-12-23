@@ -1,5 +1,11 @@
 2001-10-09  Jody Goldberg <jgoldberg@home.com>
 
+	* README : bump bonobo req to fix some crashes in printing.
+	and fix some stale docs.
+	* configure.in : ditto.
+
+2001-10-09  Jody Goldberg <jgoldberg@home.com>
+
 	* GNOME_Gnumeric.oaf.in : Disable embeddable grid, it is broken.
 
 2001-10-09  Jody Goldberg <jgoldberg@home.com>

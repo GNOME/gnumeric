@@ -367,7 +367,7 @@ AC_ARG_WITH(bonobo,
 )
 
 if $try_bonobo; then
-	AC_MSG_CHECKING(for Bonobo >= 1.08						)
+	AC_MSG_CHECKING(for Bonobo >= 1.09						)
 	if gnome-config --libs bonobo > /dev/null 2>&1; then
 		verstxt=`gnome-config --modversion bonobo`
 		vers=`echo "$verstxt" | sed -e "s/^bonobo-//" | \
@@ -377,7 +377,7 @@ if $try_bonobo; then
 		vers=0
 	fi
 
-	if test "$vers" -ge 1000008; then
+	if test "$vers" -ge 1000009; then
 		AC_MSG_RESULT($marker_ok found $verstxt)
 		AM_PATH_OAF(0.6.2,,AC_MSG_ERROR([OAF not found or too old]))
 		if test x"$OAF_CFLAGS" != "x" ; then

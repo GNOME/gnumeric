@@ -32,7 +32,7 @@ You need:
 	NOTE : libole2 is also known as libgnomeole2
 
 Optionally:
-	bonobo		>= 1.0.8
+	bonobo		>= 1.0.9
 	NOTE : With bonobo you will need gnome-libs  >= 1.2.7
 	gb		== 0.0.19  (Gnome Basic for macros)
 	gda		>= 0.2.11  (GDA plugin, for accessing databases)
