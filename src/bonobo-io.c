@@ -277,8 +277,8 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 
 	g_object_unref (G_OBJECT (ioc));
 
+	wb = wb_control_workbook (wbc);
 	workbook_recalc (wb);
-	g_return_val_if_fail (!workbook_is_dirty (wb), FALSE);
 	sheet_update (wb_view_cur_sheet (wb_view));
 	return;
 
