@@ -54,7 +54,7 @@
 1999-11-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-view.c (sheet_view_set_zoom_factor) : We are already
-	  manually scaling everything.  Don't do it again by scrolling the
+	  manually scaling everything.  Don't do it again by zooming the
 	  canvas.
 
 	* src/item-bar.c (item_bar_draw) : Burn that silly hack now that the
