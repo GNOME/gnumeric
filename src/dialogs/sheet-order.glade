@@ -203,6 +203,7 @@
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="height-request">34</property>
+		  <property name="width_request">90</property>
 		</widget>
 		<packing>
 		  <property name="left_attach">0</property>
