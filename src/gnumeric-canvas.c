@@ -1301,9 +1301,9 @@ gnm_canvas_item_grab (GnomeCanvasItem *item, unsigned int event_mask,
 		      GdkCursor *cursor, guint32 etime)
 {
 	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (item->canvas);
-	g_return_if_fail (gcanvas != NULL);
+	g_return_val_if_fail (gcanvas != NULL, FALSE);
 	gcanvas->grab_stack++;
-	gnome_canvas_item_grab (item, event_mask, cursor, etime);
+	return gnome_canvas_item_grab (item, event_mask, cursor, etime);
 }
 
 void
