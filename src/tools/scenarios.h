@@ -22,6 +22,7 @@ typedef struct {
 scenario_t *scenario_by_name      (GList *scenarios, const gchar *name,
 				   gboolean *all_deleted);
 void        scenario_free_all     (GList *list);
+void        scenario_free         (scenario_t *s);
 GList      *scenario_copy_all     (GList *list, Sheet *new);
 
 void        scenario_insert_rows  (GList *list, int row, int count);
@@ -38,8 +39,11 @@ gboolean    scenario_add_new      (gchar *name,
 				   Value *changing_cells,
 				   gchar *cell_sel_str,
 				   gchar *comment,
-				   Sheet *sheet);
+				   Sheet *sheet, scenario_t **new_scenario);
+void        scenario_add          (Sheet *sheet, scenario_t *scenario);
 gboolean    scenario_mark_deleted (GList *scenarios, gchar *name);
+GList      *scenario_delete       (GList *scenarios, gchar *name);
+scenario_t *scenario_copy         (scenario_t *s, Sheet *new_sheet);
 void        scenario_summary      (WorkbookControl        *wbc,
 				   Sheet                  *sheet,
 				   Value                  *results,

@@ -181,12 +181,14 @@ collect_values (Sheet *sheet, scenario_t *s, ValueRange *range)
 	return cb.expr_flag;
 }
 
+/* Doesn't actually add the new scenario into the sheet's scenario list. */
 gboolean
 scenario_add_new (gchar *name,
 		  Value *changing_cells,
 		  gchar *cell_sel_str,
 		  gchar *comment,
-		  Sheet *sheet)
+		  Sheet *sheet,
+		  scenario_t **new_scenario)
 {
 	scenario_t *scenario;
 	int        i, j;
@@ -198,12 +200,16 @@ scenario_add_new (gchar *name,
 	res = collect_values (sheet, scenario, (ValueRange *) changing_cells);
 
 	scenario->cell_sel_str = g_strdup (cell_sel_str);
-	sheet->scenarios = g_list_append (sheet->scenarios, 
-					  (gpointer) scenario);
-
 	sheet_redraw_all (sheet, TRUE);
 
+	*new_scenario = scenario;
 	return res;
+}
+
+void
+scenario_add (Sheet *sheet, scenario_t *scenario)
+{
+	sheet->scenarios = g_list_append (sheet->scenarios, scenario);
 }
 
 /* Scenario: Duplicate sheet ***********************************************/
@@ -226,7 +232,7 @@ copy_cb (int col, int row, Value *v, copy_cb_t *p)
 	return v;
 }
 
-static scenario_t *
+scenario_t *
 scenario_copy (scenario_t *s, Sheet *new_sheet)
 {
 	scenario_t *p;
@@ -276,7 +282,7 @@ cb_value_free (int col, int row, Value *v, gpointer data)
 	return NULL;
 }
 
-static void
+void
 scenario_free (scenario_t *s)
 {
 	g_free (s->name);
@@ -315,6 +321,19 @@ scenario_mark_deleted (GList *scenarios, gchar *name)
 	s->marked_deleted = TRUE;
 
 	return all_deleted;
+}
+
+GList *
+scenario_delete (GList *scenarios, gchar *name)
+{
+	scenario_t *s;
+	GList      *list;
+
+	s = scenario_by_name (scenarios, name, NULL);
+	list = g_list_remove (scenarios, s);
+	scenario_free (s);
+
+	return list;
 }
 
 /* Scenario: Show **********************************************************/

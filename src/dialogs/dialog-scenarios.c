@@ -84,6 +84,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			    ScenariosState *state)
 {
 	data_analysis_output_t  dao;
+	WorkbookControl         *wbc;
 	gchar                   *name;
 	gchar                   *comment;
 	Value                   *cell_range;
@@ -92,6 +93,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkTextIter             start, end;
 	RangeRef                *rr;
 	gboolean                res;
+	scenario_t              *scenario;
 
 	cell_range = gnm_expr_entry_parse_as_value
 		(GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
@@ -136,10 +138,14 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	dao_init (&dao, NewSheetOutput);
 	dao.sheet = state->sheet;
 
+	wbc = WORKBOOK_CONTROL (state->wbcg);
+
 	res = scenario_add_new (name, cell_range,
 				(gchar *) gnm_expr_entry_get_text
 				(GNUMERIC_EXPR_ENTRY (state->input_entry)),
-				comment, state->sheet);
+				comment, state->sheet, &scenario);
+
+	cmd_scenario_add (wbc, scenario, state->sheet);
 
 	if (res)
 		gnumeric_notice (state->wbcg, GTK_MESSAGE_WARNING, 

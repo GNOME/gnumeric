@@ -68,6 +68,7 @@
 #include "auto-format.h"
 #include "tools/dao.h"
 #include "gnumeric-gconf.h"
+#include "scenarios.h"
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -5491,6 +5492,71 @@ cmd_define_name (WorkbookControl *wbc, char const *name, ParsePos const *pp,
 			g_strdup_printf (_("Update Name %s"), name);
 
 	return command_push_undo (wbc, obj);
+}
+
+/******************************************************************/
+
+#define CMD_SCENARIO_ADD_TYPE (cmd_scenario_add_get_type ())
+#define CMD_SCENARIO_ADD(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SCENARIO_ADD_TYPE, CmdScenarioAdd))
+
+typedef struct
+{
+	GnumericCommand cmd;
+	scenario_t     *scenario;
+} CmdScenarioAdd;
+
+GNUMERIC_MAKE_COMMAND (CmdScenarioAdd, cmd_scenario_add);
+
+static gboolean
+cmd_scenario_add_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdScenarioAdd *me = CMD_SCENARIO_ADD (cmd);
+
+	scenario_add (me->cmd.sheet,
+		      scenario_copy (me->scenario, me->cmd.sheet));
+
+	return (FALSE);
+}
+
+static gboolean
+cmd_scenario_add_undo (GnumericCommand *cmd,
+			G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdScenarioAdd *me = CMD_SCENARIO_ADD (cmd);
+
+	me->cmd.sheet->scenarios = scenario_delete (me->cmd.sheet->scenarios,
+						    me->scenario->name);
+
+	return (FALSE);
+}
+
+static void
+cmd_scenario_add_finalize (GObject *cmd)
+{
+	CmdScenarioAdd *me = CMD_SCENARIO_ADD (cmd);
+
+	scenario_free (me->scenario);
+	gnumeric_command_finalize (cmd);
+}
+
+gboolean
+cmd_scenario_add (WorkbookControl *wbc, scenario_t *s, Sheet *sheet)
+{
+	CmdScenarioAdd *me;
+	GObject        *object;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+
+	object = g_object_new (CMD_SCENARIO_ADD_TYPE, NULL);
+	me = CMD_SCENARIO_ADD (object);
+
+	me->scenario  = s;
+	me->cmd.sheet = sheet;
+	me->cmd.size  = 1;
+	me->cmd.cmd_descriptor = g_strdup (_("Add scenario"));
+
+	return command_push_undo (wbc, object);
 }
 
 /******************************************************************/
