@@ -10,7 +10,6 @@ Release Critical
 
     : tie the custom ui into action sensitivity pools
     : support array evaluation for =LARGE and friends
-    http://bugzilla.gnome.org/show_bug.cgi?id=159581
     : http://bugzilla.gnome.org/show_bug.cgi?id=162951 : trivial
     : Add a note to the SUMPRODUCT docs that
 	sumproduct(A1:A5>4,B1:B4) will not work and that they will
