@@ -1507,6 +1507,10 @@ mstyle_get_effective_wrap_text (const GnmStyle *style)
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_WRAP_TEXT), FALSE);
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_V), FALSE);
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_H), FALSE);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ROTATION), FALSE);
+
+	if (style->elements[MSTYLE_ROTATION].u.rotation != 0)
+		return FALSE;
 
 	/* Note: HALIGN_GENERAL never expands to HALIGN_JUSTIFY.  */
 	return (style->elements[MSTYLE_WRAP_TEXT].u.wrap_text ||

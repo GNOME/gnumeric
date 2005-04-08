@@ -1,5 +1,8 @@
 2005-04-08  Morten Welinder  <terra@gnome.org>
 
+	* src/mstyle.c (mstyle_get_effective_wrap_text): Rotation
+	suppresses wrapping.  Fixes a small part of #167544.
+
 	* src/xml-sax-write.c (xml_write_cell_and_position): Fix crash.
 	* src/xml-io.c (xml_write_cell_and_position): Ditto.
 
