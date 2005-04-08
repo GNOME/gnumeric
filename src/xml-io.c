@@ -3918,6 +3918,7 @@ gnumeric_xml_write_workbook (GOFileSaver const *fs,
 	char const *extension;
 	GsfOutput *gzout = NULL;
 	const char *filename;
+	gboolean compress;
 
 	g_return_if_fail (wb_view != NULL);
 	g_return_if_fail (GSF_IS_OUTPUT (output));
@@ -3936,14 +3937,19 @@ gnumeric_xml_write_workbook (GOFileSaver const *fs,
 	xml_parse_ctx_destroy (ctxt);
 
 	/* If the suffix is .xml disable compression */
+	/* FIXME: using gsf_output_name is wrong.  -- MW  */
 	filename = gsf_output_name (output);
 	extension = filename ? gsf_extension_pointer (filename) : NULL;
-	if (extension == NULL ||
-	    g_ascii_strcasecmp (extension, "xml") != 0 ||
-	    gnm_app_prefs->xml_compression_level != 0) {
+	if (extension && g_ascii_strcasecmp (extension, "xml") == 0)
+		compress = FALSE;
+	else 
+		compress = (gnm_app_prefs->xml_compression_level > 0);
+
+	if (compress) {
 		gzout  = gsf_output_gzip_new (output, NULL);
 		output = gzout;
 	}
+
 	xmlIndentTreeOutput = TRUE;
 	if (gsf_xmlDocFormatDump (output, xml, "UTF-8", TRUE) < 0)
 		go_cmd_context_error_export (GO_CMD_CONTEXT (context),

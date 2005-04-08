@@ -1,5 +1,9 @@
 2005-04-08  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-sax-write.c (gnm_xml_file_save): Untangle the
+	do-we-compress logic and make it work.  Fixes #173030.
+	* src/xml-io.c (gnumeric_xml_write_workbook): Ditto.
+
 	* src/mstyle.c (mstyle_get_effective_wrap_text): Rotation
 	suppresses wrapping.  Fixes a small part of #167544.
 

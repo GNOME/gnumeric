@@ -78,6 +78,8 @@ Morten:
 	* Do something sensible when exporting dates and times as text.
 	  [#128936]
 	* Suppress text-wrapping for rotated cells.  [Part of #167544.]
+	* Fix uncompressed saving of .xml and .gnumeric (when requested).
+	  [#173030]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0
