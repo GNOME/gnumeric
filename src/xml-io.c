@@ -1579,7 +1579,7 @@ xml_write_cell_and_position (XmlParseContext *ctxt,
 {
 	xmlNodePtr cellNode;
 	xmlChar *tstr;
-	GnmExprArray const *ar;
+	GnmExprArray const *ar = NULL;
 	gboolean write_contents = TRUE;
 	gboolean const is_shared_expr = (expr != NULL) &&
 		gnm_expr_is_shared (expr);
