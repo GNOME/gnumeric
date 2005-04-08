@@ -1,3 +1,8 @@
+2005-04-08  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c (xml_write_cell_and_position): Fix crash.
+	* src/xml-io.c (xml_write_cell_and_position): Ditto.
+
 2005-04-04  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-export.c (stf_export_cell): Introduce "auto" mode and do

@@ -1589,7 +1589,7 @@ xml_write_cell_and_position (XmlParseContext *ctxt,
 	xml_node_set_int (cellNode, "Row", pp->eval.row);
 
 	/* Only the top left corner of an array needs to be saved (>= 0.53) */
-	if (NULL != (ar = gnm_expr_is_array (expr)) && (ar->y != 0 || ar->x != 0))
+	if (expr && NULL != (ar = gnm_expr_is_array (expr)) && (ar->y != 0 || ar->x != 0))
 		return cellNode;
 
 	/* As of version 0.53 we save the ID of shared expressions */
