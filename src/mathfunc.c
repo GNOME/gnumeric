@@ -5702,14 +5702,17 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 		} else if (have_xlow && have_xhigh) {
 			switch (i % 8) {
 			case 0:
+				x = xhigh - (xhigh - xlow) *
+					(exhigh / (exhigh - exlow));
+				break;
 			case 4:
-				if (xlow == 0)
-					x = gnm_exp ((log (GNM_MIN) + log (xhigh)) / 2);
-				else if (xhigh == 0)
-					x = -gnm_exp ((log (GNM_MIN) + log (-xlow)) / 2);
+				/* Half-way in log-space.  */
+				if (xlow >= 0 && xhigh >= 0)
+					x = gnm_sqrt (MAX (GNM_MIN, xlow)) * gnm_sqrt (xhigh);
+				else if (xlow <= 0 && xhigh <= 0)
+					x = -gnm_sqrt (-xlow) * gnm_sqrt (MAX (GNM_MIN, -xhigh));
 				else
-					x = xhigh - (xhigh - xlow) *
-						(exhigh / (exhigh - exlow));
+					x = 0;
 				break;
 			case 2:
 				x = (xhigh + 1000 * xlow) / 1001;
