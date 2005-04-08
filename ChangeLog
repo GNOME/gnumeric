@@ -4,9 +4,6 @@
 	do-we-compress logic and make it work.  Fixes #173030.
 	* src/xml-io.c (gnumeric_xml_write_workbook): Ditto.
 
-	* src/mstyle.c (mstyle_get_effective_wrap_text): Rotation
-	suppresses wrapping.  Fixes a small part of #167544.
-
 	* src/xml-sax-write.c (xml_write_cell_and_position): Fix crash.
 	* src/xml-io.c (xml_write_cell_and_position): Ditto.
 
