@@ -82,9 +82,12 @@ typedef struct {
 } GnmAppPrefs;
 extern GnmAppPrefs const *gnm_app_prefs;
 
+typedef struct _GOConfNode GOConfNode;
+
 void     gnm_conf_init (gboolean fast);
 void     gnm_conf_shutdown (void);
 void     gnm_conf_sync (void);
+GOConfNode *gnm_conf_get_root (void);
 
 /* autocorrect */
 void     gnm_gconf_set_autocorrect_init_caps (gboolean val);
@@ -180,35 +183,38 @@ void     gnm_gconf_set_prefer_clipboard  (gboolean value);
 
 /**************************************************************/
 
-char	*go_conf_get_short_desc     (char const *key);
-char	*go_conf_get_long_desc      (char const *key);
-GType	 go_conf_get_type	    (char const *key);
-char	*go_conf_get_value_as_str   (char const *key);
-gboolean go_conf_set_value_from_str (char const *key, char const *val_str);
+GOConfNode * go_conf_get_node       (GOConfNode *parent, const gchar *key);
+void	 go_conf_free_node	    (GOConfNode *node);
 
-gboolean go_conf_get_bool	(char const *key);
-int	 go_conf_get_int	(char const *key);
-double	 go_conf_get_double	(char const *key);
-char	*go_conf_get_string	(char const *key);
-GSList	*go_conf_get_str_list	(char const *key);
+gchar	*go_conf_get_short_desc     (GOConfNode *node, gchar const *key);
+gchar	*go_conf_get_long_desc      (GOConfNode *node, gchar const *key);
+GType	 go_conf_get_type	    (GOConfNode *node, gchar const *key);
+gchar	*go_conf_get_value_as_str   (GOConfNode *node, gchar const *key);
+gboolean go_conf_set_value_from_str (GOConfNode *node, gchar const *key, gchar const *val_str);
 
-gboolean go_conf_load_bool	(char const *key, gboolean default_val);
-int	 go_conf_load_int	(char const *key, int minima, int maxima, int default_val);
-double	 go_conf_load_double	(char const *key, double minima, double maxima, double default_val);
-char	*go_conf_load_string	(char const *key);
-GSList	*go_conf_load_str_list	(char const *key);
+gboolean go_conf_get_bool	(GOConfNode *node, gchar const *key);
+gint	 go_conf_get_int	(GOConfNode *node, gchar const *key);
+gdouble	 go_conf_get_double	(GOConfNode *node, gchar const *key);
+gchar	*go_conf_get_string	(GOConfNode *node, gchar const *key);
+GSList	*go_conf_get_str_list	(GOConfNode *node, gchar const *key);
 
-void	 go_conf_set_bool	(char const *key, gboolean val);
-void	 go_conf_set_int	(char const *key, gint val);
-void	 go_conf_set_double	(char const *key, gnm_float val);
-void	 go_conf_set_string	(char const *key, char const *str);
-void	 go_conf_set_str_list	(char const *key, GSList *list);
+gboolean go_conf_load_bool	(GOConfNode *node, gchar const *key, gboolean default_val);
+gint	 go_conf_load_int	(GOConfNode *node, gchar const *key, gint minima, gint maxima, gint default_val);
+gdouble	 go_conf_load_double	(GOConfNode *node, gchar const *key, gdouble minima, gdouble maxima, gdouble default_val);
+gchar	*go_conf_load_string	(GOConfNode *node, gchar const *key);
+GSList	*go_conf_load_str_list	(GOConfNode *node, gchar const *key);
 
-void	 go_conf_sync		(void);
+void	 go_conf_set_bool	(GOConfNode *node, gchar const *key, gboolean val);
+void	 go_conf_set_int	(GOConfNode *node, gchar const *key, gint val);
+void	 go_conf_set_double	(GOConfNode *node, gchar const *key, gnm_float val);
+void	 go_conf_set_string	(GOConfNode *node, gchar const *key, gchar const *str);
+void	 go_conf_set_str_list	(GOConfNode *node, gchar const *key, GSList *list);
 
-typedef void (*GOConfMonitorFunc) (char const *key, gpointer data);
+void	 go_conf_sync		(GOConfNode *node);
+
+typedef void (*GOConfMonitorFunc) (GOConfNode *node, gchar const *key, gpointer data);
 void	 go_conf_remove_monitor	(guint monitor_id);
-guint	 go_conf_add_monitor	(char const *key,
+guint	 go_conf_add_monitor	(GOConfNode *node, gchar const *key,
 				 GOConfMonitorFunc monitor, gpointer data);
 
 #endif /* GNM_CONF_H */

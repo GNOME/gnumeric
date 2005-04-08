@@ -519,7 +519,7 @@ gnm_app_history_add (char const *uri)
 	g_object_notify (G_OBJECT (app), "file-history-list");
 	gnm_gconf_set_file_history_files (
 		go_string_slist_copy (app->history_list));
-	go_conf_sync ();
+	go_conf_sync (NULL);
 }
 
 gboolean gnm_app_use_auto_complete	  (void) { return gnm_app_prefs->auto_complete; }

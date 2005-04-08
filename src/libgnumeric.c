@@ -81,7 +81,7 @@ gnm_pre_parse_init (char const* gnumeric_binary)
 
 #ifdef G_OS_WIN32
 {
-	char *dir;
+	gchar *dir;
 	dir = g_win32_get_package_installation_directory (NULL, NULL);
 	gnumeric_data_dir = g_build_filename (dir,
 		"share", "gnumeric", GNUMERIC_VERSION, NULL);
@@ -91,6 +91,7 @@ gnm_pre_parse_init (char const* gnumeric_binary)
 		"share", "locale", NULL);
 	gnumeric_lib_dir = g_build_filename (dir,
 		"lib", "gnumeric", GNUMERIC_VERSION, NULL);
+	g_free (dir);
 }
 #endif
 
@@ -195,7 +196,7 @@ gnm_shutdown (void)
 	plugin_states = go_plugins_shutdown ();
 	if (NULL != plugin_states) {
 		gnm_gconf_set_plugin_file_states (plugin_states);
-		go_conf_sync ();
+		go_conf_sync (NULL);
 	}
 
 	print_shutdown ();
@@ -217,4 +218,10 @@ gnm_shutdown (void)
 	libgoffice_shutdown ();
 	plugin_services_shutdown ();
 	g_object_unref (gnm_app_get_app ());
+#ifdef G_OS_WIN32
+	g_free (gnumeric_lib_dir);
+	g_free (gnumeric_data_dir);
+	g_free (gnumeric_icon_dir);
+	g_free (gnumeric_locale_dir);
+#endif
 }

@@ -50,13 +50,13 @@ static struct {
 	guint notification_id;
 } autocorrect;
 
-#define AUTOCORRECT_DIRECTORY "/apps/gnumeric/autocorrect"
-#define AUTOCORRECT_INIT_CAPS		AUTOCORRECT_DIRECTORY "/init-caps"
-#define AUTOCORRECT_INIT_CAPS_LIST	AUTOCORRECT_DIRECTORY "/init-caps-list"
-#define AUTOCORRECT_FIRST_LETTER	AUTOCORRECT_DIRECTORY "/first-letter"
-#define AUTOCORRECT_FIRST_LETTER_LIST	AUTOCORRECT_DIRECTORY "/first-letter-list"
-#define AUTOCORRECT_NAMES_OF_DAYS	AUTOCORRECT_DIRECTORY "/names-of-days"
-#define AUTOCORRECT_REPLACE		AUTOCORRECT_DIRECTORY "/replace"
+#define AUTOCORRECT_DIRECTORY		"autocorrect"
+#define AUTOCORRECT_INIT_CAPS		"init-caps"
+#define AUTOCORRECT_INIT_CAPS_LIST	"init-caps-list"
+#define AUTOCORRECT_FIRST_LETTER	"first-letter"
+#define AUTOCORRECT_FIRST_LETTER_LIST	"first-letter-list"
+#define AUTOCORRECT_NAMES_OF_DAYS	"names-of-days"
+#define AUTOCORRECT_REPLACE		"replace"
 
 static void
 autocorrect_clear (void)
@@ -68,18 +68,21 @@ autocorrect_clear (void)
 static void
 autocorrect_load (void)
 {
-	autocorrect.init_caps = go_conf_load_bool (AUTOCORRECT_INIT_CAPS, TRUE);
+	GOConfNode *node = go_conf_get_node (gnm_conf_get_root (), AUTOCORRECT_DIRECTORY);
+
+	autocorrect.init_caps = go_conf_load_bool (node, AUTOCORRECT_INIT_CAPS, TRUE);
 	autocorrect_set_exceptions (AC_INIT_CAPS,
-		go_conf_load_str_list (AUTOCORRECT_INIT_CAPS_LIST));
-	autocorrect.first_letter = go_conf_load_bool (AUTOCORRECT_FIRST_LETTER, TRUE);
+		go_conf_load_str_list (node, AUTOCORRECT_INIT_CAPS_LIST));
+	autocorrect.first_letter = go_conf_load_bool (node, AUTOCORRECT_FIRST_LETTER, TRUE);
 	autocorrect_set_exceptions (AC_FIRST_LETTER,
-		go_conf_load_str_list (AUTOCORRECT_FIRST_LETTER_LIST));
-	autocorrect.names_of_days = go_conf_load_bool (AUTOCORRECT_NAMES_OF_DAYS, TRUE);
-	autocorrect.replace = go_conf_load_bool (AUTOCORRECT_REPLACE, TRUE);
+		go_conf_load_str_list (node, AUTOCORRECT_FIRST_LETTER_LIST));
+	autocorrect.names_of_days = go_conf_load_bool (node, AUTOCORRECT_NAMES_OF_DAYS, TRUE);
+	autocorrect.replace = go_conf_load_bool (node, AUTOCORRECT_REPLACE, TRUE);
+	go_conf_free_node (node);
 }
 
 static void
-cb_autocorrect_update (char const *key, gpointer data)
+cb_autocorrect_update (GOConfNode *node, gchar const *key, gpointer data)
 {
 	autocorrect_clear ();
 	autocorrect_load ();
@@ -88,12 +91,16 @@ cb_autocorrect_update (char const *key, gpointer data)
 static void
 autocorrect_init (void)
 {
+	GOConfNode *node;
+
 	if (autocorrect.notification_id != 0)
 		return;
 
 	autocorrect_load ();
+	node = go_conf_get_node (gnm_conf_get_root (), AUTOCORRECT_DIRECTORY);
 	autocorrect.notification_id = go_conf_add_monitor (
-		AUTOCORRECT_DIRECTORY, &cb_autocorrect_update, NULL);
+		node, AUTOCORRECT_DIRECTORY, &cb_autocorrect_update, NULL);
+	go_conf_free_node (node);
 	g_object_set_data_full (gnm_app_get_app (),
 		"ToolsAutoCorrect", GINT_TO_POINTER (1),
 		(GDestroyNotify) autocorrect_clear);
@@ -102,19 +109,22 @@ autocorrect_init (void)
 void
 autocorrect_store_config (void)
 {
-	go_conf_set_bool (AUTOCORRECT_INIT_CAPS,
+	GOConfNode *node = go_conf_get_node (gnm_conf_get_root (), AUTOCORRECT_DIRECTORY);
+
+	go_conf_set_bool (node, AUTOCORRECT_INIT_CAPS,
 		autocorrect.init_caps);
-	go_conf_set_str_list (AUTOCORRECT_INIT_CAPS_LIST,
+	go_conf_set_str_list (node, AUTOCORRECT_INIT_CAPS_LIST,
 		autocorrect.exceptions.init_caps);
-	go_conf_set_bool (AUTOCORRECT_FIRST_LETTER,
+	go_conf_set_bool (node, AUTOCORRECT_FIRST_LETTER,
 		autocorrect.first_letter);
-	go_conf_set_str_list (AUTOCORRECT_FIRST_LETTER_LIST,
+	go_conf_set_str_list (node, AUTOCORRECT_FIRST_LETTER_LIST,
 	       autocorrect.exceptions.first_letter);
-	go_conf_set_bool (AUTOCORRECT_NAMES_OF_DAYS,
+	go_conf_set_bool (node, AUTOCORRECT_NAMES_OF_DAYS,
 		autocorrect.names_of_days);
-	go_conf_set_bool (AUTOCORRECT_REPLACE,
+	go_conf_set_bool (node, AUTOCORRECT_REPLACE,
 		autocorrect.replace);
-	go_conf_sync ();
+	go_conf_sync (node);
+	go_conf_free_node (node);
 }
 
 gboolean

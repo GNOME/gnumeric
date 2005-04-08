@@ -20,5 +20,16 @@ else
 install-data-local:
 endif
 
+if WITH_WIN32
+if !CROSS_COMPILING
+SUFFIXES = .reg
+regdir = $(prefix)/share/gnumeric
+reg_DATA = $(schema_in_files:.schemas.in=.reg)
+
+%.reg:   %.schemas.in
+	../src/tools/gconf-schemas-to-win32-reg.exe $< >$@
+endif
+endif
+
 EXTRA_DIST = $(schema_DATA) $(schema_in_files)
 CLEANFILES = $(schema_DATA)
