@@ -79,6 +79,8 @@ Morten:
 	  [#128936]
 	* Fix uncompressed saving of .xml and .gnumeric (when requested).
 	  [#173030]
+	* Improve extreme-case evaluation of quantile functions that are
+	  computed by root searching, such as =BETAINV(0.52,1e-3,1e6).
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

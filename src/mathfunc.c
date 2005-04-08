@@ -5642,6 +5642,8 @@ pf (gnm_float x, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p
 
 /* ------------------------------------------------------------------------ */
 
+#undef DEBUG_pfuncinverter
+
 typedef gnm_float (*PFunc) (gnm_float x, const gnm_float shape[],
 			    gboolean lower_tail, gboolean log_p);
 typedef gnm_float (*DPFunc) (gnm_float x, const gnm_float shape[],
@@ -5701,8 +5703,13 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 			switch (i % 8) {
 			case 0:
 			case 4:
-				x = xhigh - (xhigh - xlow) *
-					(exhigh / (exhigh - exlow));
+				if (xlow == 0)
+					x = gnm_exp ((log (GNM_MIN) + log (xhigh)) / 2);
+				else if (xhigh == 0)
+					x = -gnm_exp ((log (GNM_MIN) + log (-xlow)) / 2);
+				else
+					x = xhigh - (xhigh - xlow) *
+						(exhigh / (exhigh - exlow));
 				break;
 			case 2:
 				x = (xhigh + 1000 * xlow) / 1001;
@@ -5729,8 +5736,8 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 		if (!lower_tail) e = -e;
 
 #ifdef DEBUG_pfuncinverter
-		printf ("  x=%.15g  e=%.15g  l=%.15g  h=%.15g\n",
-			x, e, xlow, xhigh);
+		printf ("%3d:  x=%.15g  e=%.15g  l=%.15g  h=%.15g\n",
+			i, x, e, xlow, xhigh);
 #endif
 
 		if (e == 0)
@@ -5771,6 +5778,10 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 						i++;
 						goto newton_retry;
 					}
+				} else {
+#ifdef DEBUG_pfuncinverter
+						printf ("Newton d=0\n");
+#endif
 				}
 			}
 		}

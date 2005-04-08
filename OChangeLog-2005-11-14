@@ -22,6 +22,9 @@
 
 2005-04-08  Morten Welinder  <terra@gnome.org>
 
+	* src/mathfunc.c (pfuncinverter): Improve in the special case
+	where one of the interval endpoints is 0.
+
 	* src/xml-sax-write.c (gnm_xml_file_save): Untangle the
 	do-we-compress logic and make it work.  Fixes #173030.
 	* src/xml-io.c (gnumeric_xml_write_workbook): Ditto.
