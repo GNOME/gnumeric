@@ -323,10 +323,12 @@ destroy_formats (void)
 void
 print_info_save (PrintInformation const *pi)
 {
+	GOConfNode *node = go_conf_get_node (gnm_conf_get_root (), PRINTSETUP_GCONF_DIR);
+
 	gnm_gconf_set_print_scale_percentage (pi->scaling.type == PERCENTAGE);
 	gnm_gconf_set_print_scale_percentage_value (pi->scaling.percentage.x);
-	go_conf_set_int (PRINTSETUP_GCONF_SCALE_WIDTH,  pi->scaling.dim.cols);
-	go_conf_set_int (PRINTSETUP_GCONF_SCALE_HEIGHT, pi->scaling.dim.rows);
+	go_conf_set_int (node, PRINTSETUP_GCONF_SCALE_WIDTH,  pi->scaling.dim.cols);
+	go_conf_set_int (node, PRINTSETUP_GCONF_SCALE_HEIGHT, pi->scaling.dim.rows);
 
 	gnm_gconf_set_print_tb_margins (&pi->margins);
 
@@ -338,9 +340,9 @@ print_info_save (PrintInformation const *pi)
 	gnm_gconf_set_print_titles (pi->print_titles);
 	gnm_gconf_set_print_order_right_then_down (pi->print_order);
 	
-	go_conf_set_string (PRINTSETUP_GCONF_REPEAT_TOP,
+	go_conf_set_string (node, PRINTSETUP_GCONF_REPEAT_TOP,
 		pi->repeat_top.use ? range_name (&pi->repeat_top.range) : "");
-	go_conf_set_string (PRINTSETUP_GCONF_REPEAT_LEFT,
+	go_conf_set_string (node, PRINTSETUP_GCONF_REPEAT_LEFT,
 		pi->repeat_left.use ? range_name (&pi->repeat_left.range) : "");
 
 	save_formats ();
@@ -354,6 +356,7 @@ print_info_save (PrintInformation const *pi)
 				      pi->footer->middle_format,
 				      pi->footer->right_format);
 
+	go_conf_free_node (node);
 }
 
 const GnomePrintUnit *

@@ -116,7 +116,7 @@ dialog_function_write_recent_func (FunctionSelectState *state, GnmFunc const *fd
 			(gconf_value_list, g_strdup (gnm_func_get_name (rec_funcs->data)));
 	}
 	gnm_gconf_set_recent_funcs (gconf_value_list);
-	go_conf_sync ();
+	go_conf_sync (NULL);
 }
 
 

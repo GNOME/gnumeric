@@ -55,11 +55,11 @@ int expression_sharing_debugging = 0;
 int immediate_exit_flag = 0;
 int print_debugging = 0;
 gboolean initial_workbook_open_complete = FALSE;
-char	   *x_geometry;
-char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
-char const *gnumeric_data_dir = GNUMERIC_DATADIR;
-char const *gnumeric_icon_dir = GNUMERIC_ICONDIR;
-char const *gnumeric_locale_dir = GNUMERIC_LOCALEDIR;
+char *x_geometry;
+char *gnumeric_lib_dir = GNUMERIC_LIBDIR;
+char *gnumeric_data_dir = GNUMERIC_DATADIR;
+char *gnumeric_icon_dir = GNUMERIC_ICONDIR;
+char *gnumeric_locale_dir = GNUMERIC_LOCALEDIR;
 
 /**
  * gnm_pre_parse_init :
@@ -77,7 +77,7 @@ gnm_pre_parse_init (char const* gnumeric_binary)
 
 #ifdef G_OS_WIN32
 {
-	char *dir;
+	gchar *dir;
 	dir = g_win32_get_package_installation_directory (NULL, NULL);
 	gnumeric_data_dir = g_build_filename (dir,
 		"share", "gnumeric", GNUMERIC_VERSION, NULL);
@@ -87,6 +87,7 @@ gnm_pre_parse_init (char const* gnumeric_binary)
 		"share", "locale", NULL);
 	gnumeric_lib_dir = g_build_filename (dir,
 		"lib", "gnumeric", GNUMERIC_VERSION, NULL);
+	g_free (dir);
 }
 #endif
 
@@ -197,4 +198,10 @@ gnm_shutdown (void)
 	libgoffice_shutdown ();
 	plugin_services_shutdown ();
 	g_object_unref (gnm_app_get_app ());
+#ifdef G_OS_WIN32
+	g_free (gnumeric_lib_dir);
+	g_free (gnumeric_data_dir);
+	g_free (gnumeric_icon_dir);
+	g_free (gnumeric_locale_dir);
+#endif
 }

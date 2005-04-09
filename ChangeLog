@@ -1,3 +1,29 @@
+2005-04-09  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* configure.in: Determine whether we are cross-compiling.
+
+	* schemas/Makefile.am: Convert .schemas to .reg if host_os ==
+	win32 and we are not cross-compiling.
+
+	* src/application.c (gnm_app_history_add):
+	* src/plugin.c (gnm_shutdown):
+	* src/print-info.c:
+	* src/dialogs/dialog-function-select.c
+	(dialog_function_write_recent_func):
+	* src/dialogs/dialog-preferences.c:
+	* src/tools/auto-correct.c: adopt to the modified
+	gnumeric-gconf's api.
+
+	* src/libgnumeric.[ch]: Path variables should not be const.
+
+	* src/tools/Makefile.am:
+	* src/tools/gconf-schemas-to-win32-reg.c: New. The name
+	explains itself.
+
+	* src/gnumeric-gconf-priv.h:
+	* src/gnumeric-gconf.[ch]: Introduce the concept of a
+	"node". Implement the win32 backend.
+
 2005-03-24  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=171503

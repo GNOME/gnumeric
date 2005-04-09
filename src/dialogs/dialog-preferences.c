@@ -74,6 +74,7 @@ typedef struct {
 	GtkTreeStore    *store;
 	GtkTreeView     *view;
 	Workbook	*wb;
+	GOConfNode	*root;
 } PrefState;
 
 typedef void (* double_conf_setter_t) (gnm_float value);
@@ -125,7 +126,7 @@ dialog_pref_load_description (PrefState *state, char const *text)
 static void
 dialog_pref_load_description_from_key (PrefState *state, char const *key)
 {
-	char *long_desc = go_conf_get_long_desc (key);
+	char *long_desc = go_conf_get_long_desc (state->root, key);
 
 	if (long_desc == NULL)
 		dialog_pref_load_description (state, "");
@@ -136,9 +137,9 @@ dialog_pref_load_description_from_key (PrefState *state, char const *key)
 }
 
 static void
-set_tip (char const *key, GtkWidget *item)
+set_tip (GOConfNode *node, char const *key, GtkWidget *item)
 {
-	char *desc = go_conf_get_long_desc (key);
+	char *desc = go_conf_get_long_desc (node, key);
 	if (desc != NULL) {
 		GtkTooltips *the_tip = gtk_tooltips_new ();
 		gtk_tooltips_set_tip (the_tip, item, desc, NULL);
@@ -153,10 +154,10 @@ cb_pref_notification_destroy (gpointer handle)
 }
 
 static void
-connect_notification (char const *key, GOConfMonitorFunc func,
+connect_notification (GOConfNode *node, char const *key, GOConfMonitorFunc func,
 		      gpointer data, GtkWidget *container)
 {
-	guint handle = go_conf_add_monitor (key, func, data);
+	guint handle = go_conf_add_monitor (node, key, func, data);
 	g_signal_connect_swapped (G_OBJECT (container), "destroy",
 		G_CALLBACK (cb_pref_notification_destroy),
 		GUINT_TO_POINTER (handle));
@@ -172,26 +173,26 @@ bool_pref_widget_to_conf (GtkToggleButton *button,
 	setter (gtk_toggle_button_get_active (button));
 }
 static void
-bool_pref_conf_to_widget (char const *key, GtkToggleButton *button)
+bool_pref_conf_to_widget (GOConfNode *node, char const *key, GtkToggleButton *button)
 {
 	gboolean val_in_button = gtk_toggle_button_get_active (button);
-	gboolean val_in_conf = go_conf_get_bool (key);
+	gboolean val_in_conf = go_conf_get_bool (node, key);
 	if ((val_in_button != FALSE) != (val_in_conf != FALSE))
 		gtk_toggle_button_set_active (button, val_in_conf);
 }
 static void
-bool_pref_create_widget (char const *key, GtkWidget *table, gint row, 
-			 gboolean_conf_setter_t setter, 
+bool_pref_create_widget (GOConfNode *node, char const *key, GtkWidget *table,
+			 gint row, gboolean_conf_setter_t setter, 
 			 char const *default_text)
 {
-	char *desc = go_conf_get_short_desc (key);
+	char *desc = go_conf_get_short_desc (node, key);
 	GtkWidget *item = gtk_check_button_new_with_label (
 		(desc != NULL) ? desc : default_text);
 
 	if (desc != NULL)
 		g_free (desc);
 
-	bool_pref_conf_to_widget (key, GTK_TOGGLE_BUTTON (item));
+	bool_pref_conf_to_widget (node, key, GTK_TOGGLE_BUTTON (item));
 	g_signal_connect (G_OBJECT (item),
 		"toggled",
 		G_CALLBACK (bool_pref_widget_to_conf), (gpointer) setter);
@@ -199,9 +200,9 @@ bool_pref_create_widget (char const *key, GtkWidget *table, gint row,
 		0, 2, row, row + 1,
 		GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
 
-	connect_notification (key, (GOConfMonitorFunc)bool_pref_conf_to_widget,
+	connect_notification (node, key, (GOConfMonitorFunc)bool_pref_conf_to_widget,
 			      item, table);
-	set_tip (key, item);
+	set_tip (node, key, item);
 }
 
 /*************************************************************************/
@@ -215,19 +216,19 @@ int_pref_widget_to_conf (GtkSpinButton *button, gint_conf_setter_t setter)
 }
 
 static void
-int_pref_conf_to_widget (char const *key, GtkSpinButton *button)
+int_pref_conf_to_widget (GOConfNode *node, char const *key, GtkSpinButton *button)
 {
 	gint val_in_button = gtk_spin_button_get_value_as_int (button);
-	gint val_in_conf = go_conf_get_int (key);
+	gint val_in_conf = go_conf_get_int (node, key);
 	if (val_in_conf != val_in_button)
 		gtk_spin_button_set_value (button, (gdouble) val_in_conf);
 }
 static void
-int_pref_create_widget (char const *key, GtkWidget *table, gint row,
-			gint val, gint from, gint to, gint step, 
+int_pref_create_widget (GOConfNode *node, char const *key, GtkWidget *table,
+			gint row, gint val, gint from, gint to, gint step, 
 			gint_conf_setter_t setter, char const *default_text)
 {
-	char *desc = go_conf_get_short_desc (key);
+	char *desc = go_conf_get_short_desc (node, key);
 	GtkWidget *item = gtk_label_new 
 		((desc != NULL) ? desc : default_text);
 
@@ -243,7 +244,7 @@ int_pref_create_widget (char const *key, GtkWidget *table, gint row,
 				    gtk_adjustment_new (val, from, to, step, 
 							step, step)),
 				    1, 0);
-	int_pref_conf_to_widget (key, GTK_SPIN_BUTTON (item));
+	int_pref_conf_to_widget (node, key, GTK_SPIN_BUTTON (item));
 	g_signal_connect (G_OBJECT (item),
 			  "value-changed",
 			  G_CALLBACK (int_pref_widget_to_conf), (gpointer) setter);
@@ -251,9 +252,9 @@ int_pref_create_widget (char const *key, GtkWidget *table, gint row,
 		1, 2, row, row + 1,
 		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 2);
 
-	connect_notification (key, (GOConfMonitorFunc)int_pref_conf_to_widget,
+	connect_notification (node, key, (GOConfMonitorFunc)int_pref_conf_to_widget,
 			      item, table);
-	set_tip (key, item);
+	set_tip (node, key, item);
 }
 
 /*************************************************************************/
@@ -267,22 +268,22 @@ double_pref_widget_to_conf (GtkSpinButton *button, double_conf_setter_t setter)
 }
 
 static void
-double_pref_conf_to_widget (char const *key, GtkSpinButton *button)
+double_pref_conf_to_widget (GOConfNode *node, char const *key, GtkSpinButton *button)
 {
 	double val_in_button = gtk_spin_button_get_value (button);
-	double val_in_conf = go_conf_get_double (key);
+	double val_in_conf = go_conf_get_double (node, key);
 
 	if (fabs (val_in_conf - val_in_button) > 1e-10) /* dead simple */
 		gtk_spin_button_set_value (button, val_in_conf);
 }
 static void
-double_pref_create_widget (char const *key, GtkWidget *table, gint row,
-			   gnm_float val, gnm_float from, gnm_float to, 
+double_pref_create_widget (GOConfNode *node, char const *key, GtkWidget *table,
+			   gint row, gnm_float val, gnm_float from,gnm_float to, 
 			   gnm_float step,
 			   gint digits, double_conf_setter_t setter,
 			   char const *default_text)
 {
-	char *desc = go_conf_get_short_desc (key);
+	char *desc = go_conf_get_short_desc (node, key);
 	GtkWidget *item = gtk_label_new (desc ? desc : default_text);
 	
 	if (desc != NULL)
@@ -296,7 +297,7 @@ double_pref_create_widget (char const *key, GtkWidget *table, gint row,
 	item =  gtk_spin_button_new (GTK_ADJUSTMENT (
 				     gtk_adjustment_new (val, from, to, step, step, step)),
 				     1, digits);
-	double_pref_conf_to_widget (key, GTK_SPIN_BUTTON (item));
+	double_pref_conf_to_widget (node, key, GTK_SPIN_BUTTON (item));
 	g_signal_connect (G_OBJECT (item),
 			  "value-changed",
 			  G_CALLBACK (double_pref_widget_to_conf), 
@@ -305,9 +306,9 @@ double_pref_create_widget (char const *key, GtkWidget *table, gint row,
 		1, 2, row, row + 1,
 		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 2);
 
-	connect_notification (key, (GOConfMonitorFunc)double_pref_conf_to_widget,
+	connect_notification (node, key, (GOConfMonitorFunc)double_pref_conf_to_widget,
 			      item, table);
-	set_tip (key, item);
+	set_tip (node, key, item);
 }
 
 
@@ -369,7 +370,7 @@ pref_font_initializer (PrefState *state,
 
 	cb_pref_font_set_fonts (NULL, page);
 
-	connect_notification (GNM_CONF_FONT_DIRECTORY,
+	connect_notification (state->root, GNM_CONF_FONT_DIR,
 		(GOConfMonitorFunc) cb_pref_font_set_fonts,
 		page, page);
 	g_signal_connect (G_OBJECT (page),
@@ -394,23 +395,28 @@ pref_font_hf_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
 }
 
 static void
-cb_pref_font_hf_set_fonts (char const *key, GtkWidget *page)
+cb_pref_font_hf_set_fonts (GOConfNode *node, char const *key, GtkWidget *page)
 {
-	if (key == NULL || 0 == strcmp (key, PRINTSETUP_GCONF_HF_FONT_NAME)) {
-		char *name = go_conf_load_string (PRINTSETUP_GCONF_HF_FONT_NAME);
+	if (!key ||
+	    !g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_NAME)) {
+		gchar *name = go_conf_load_string (
+			node, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_HF_FONT_NAME);
 		font_selector_set_name (FONT_SELECTOR (page), name);
 		g_free (name);
 	}
-	if (key == NULL || 0 == strcmp (key, PRINTSETUP_GCONF_HF_FONT_SIZE))
+	if (!key ||
+	    !g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_SIZE))
 		font_selector_set_points (FONT_SELECTOR (page),
-			go_conf_get_double (PRINTSETUP_GCONF_HF_FONT_SIZE));
-
-	if (key == NULL ||
-	    0 == strcmp (key, PRINTSETUP_GCONF_HF_FONT_BOLD) ||
-	    0 == strcmp (key, PRINTSETUP_GCONF_HF_FONT_ITALIC))
+			go_conf_get_double (
+				node, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_HF_FONT_SIZE));
+	if (!key ||
+	    !g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_BOLD) ||
+	    !g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_ITALIC))
 		font_selector_set_style (FONT_SELECTOR (page),
-			go_conf_get_bool (PRINTSETUP_GCONF_HF_FONT_BOLD),
-			go_conf_get_bool (PRINTSETUP_GCONF_HF_FONT_ITALIC));
+			go_conf_get_bool (
+				node, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_HF_FONT_BOLD),
+			go_conf_get_bool (
+				node, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_HF_FONT_ITALIC));
 }
 
 static gboolean
@@ -429,8 +435,8 @@ pref_font_hf_initializer (PrefState *state,
 {
 	GtkWidget *page = font_selector_new ();
 
-	cb_pref_font_hf_set_fonts (NULL, page);
-	connect_notification (PRINTSETUP_GCONF_DIRECTORY,
+	cb_pref_font_hf_set_fonts (state->root, NULL, page);
+	connect_notification (state->root, PRINTSETUP_GCONF_DIR,
 		(GOConfMonitorFunc) cb_pref_font_hf_set_fonts,
 		page, page);
 	g_signal_connect (G_OBJECT (page),
@@ -463,23 +469,26 @@ pref_undo_page_initializer (PrefState *state,
 {
 	GtkWidget *page = gtk_table_new (4, 2, FALSE);
 	gint row = 0;
+	GOConfNode *node;
 
-	int_pref_create_widget (GNM_CONF_UNDO_MAX_DESCRIPTOR_WIDTH,
+	node = go_conf_get_node (state->root, GNM_CONF_UNDO_DIR);
+	int_pref_create_widget (node, GNM_CONF_UNDO_MAX_DESCRIPTOR_WIDTH,
 				page, row++, 5, 5, 200, 1, 
 				gnm_gconf_set_max_descriptor_width,
 				_("Length of Undo Descriptors"));
-	int_pref_create_widget (GNM_CONF_UNDO_SIZE,
+	int_pref_create_widget (node, GNM_CONF_UNDO_SIZE,
 				page, row++, 1000, 0, 30000, 100, 
 				gnm_gconf_set_undo_size,
 				_("Maximal Undo Size"));
-	int_pref_create_widget (GNM_CONF_UNDO_MAXNUM,
+	int_pref_create_widget (node, GNM_CONF_UNDO_MAXNUM,
 				page, row++, 20, 1, 200, 1, 
 				gnm_gconf_set_undo_max_number,
 				_("Number of Undo Items"));
-	bool_pref_create_widget (GNM_CONF_UNDO_SHOW_SHEET_NAME,
+	bool_pref_create_widget (node, GNM_CONF_UNDO_SHOW_SHEET_NAME,
 				 page, row++, 
 				 gnm_gconf_set_show_sheet_name,
 				_("Show Sheet Name in Undo List"));
+	go_conf_free_node (node);
 
 	gtk_widget_show_all (page);
 	return page;
@@ -508,23 +517,26 @@ pref_sort_page_initializer (PrefState *state,
 {
 	GtkWidget *page = gtk_table_new (3, 2, FALSE);
 	gint row = 0;
+	GOConfNode *node;
 
-	int_pref_create_widget (GNM_CONF_SORT_DIALOG_MAX_INITIAL,
+	node = go_conf_get_node (state->root, GNM_CONF_SORT_DIR);
+	int_pref_create_widget (node, GNM_CONF_SORT_DIALOG_MAX_INITIAL,
 				page, row++, 10, 0, 50, 1, 
 				gnm_gconf_set_sort_dialog_max_initial,
 				_("Number of Automatic Clauses"));
-	bool_pref_create_widget (GNM_CONF_SORT_DEFAULT_RETAIN_FORM,
+	bool_pref_create_widget (node, GNM_CONF_SORT_DEFAULT_RETAIN_FORM,
 				 page, row++, 
 				 gnm_gconf_set_sort_retain_form,
 				 _("Sorting Preserves Formats"));
-	bool_pref_create_widget (GNM_CONF_SORT_DEFAULT_BY_CASE,
+	bool_pref_create_widget (node, GNM_CONF_SORT_DEFAULT_BY_CASE,
 				 page, row++, 
 				 gnm_gconf_set_sort_by_case,
 				 _("Sorting is Case-Sensitive"));
-	bool_pref_create_widget (GNM_CONF_SORT_DEFAULT_ASCENDING,
+	bool_pref_create_widget (node, GNM_CONF_SORT_DEFAULT_ASCENDING,
 				 page, row++, 
 				 gnm_gconf_set_sort_ascending,
 				 _("Sort Ascending"));
+	go_conf_free_node (node);
 
 	gtk_widget_show_all (page);
 	return page;
@@ -553,31 +565,34 @@ pref_window_page_initializer (PrefState *state,
 {
 	GtkWidget *page = gtk_table_new (4, 2, FALSE);
 	gint row = 0;
-
-	double_pref_create_widget (GNM_CONF_GUI_WINDOW_Y,
+	GOConfNode *node;
+	
+	node = go_conf_get_node (state->root, GNM_CONF_GUI_DIR);
+	double_pref_create_widget (node, GNM_CONF_GUI_WINDOW_Y,
 				   page, row++, 0.75, 0.25, 1, 0.05, 2, 
 				   gnm_gconf_set_gui_window_y,
 				   _("Default Vertical Window Size"));
-	double_pref_create_widget (GNM_CONF_GUI_WINDOW_X,
+	double_pref_create_widget (node, GNM_CONF_GUI_WINDOW_X,
 				   page, row++, 0.75, 0.25, 1, 0.05, 2, 
 				   gnm_gconf_set_gui_window_x,
 				   _("Default Horizontal Window Size"));
-	double_pref_create_widget (GNM_CONF_GUI_ZOOM,
+	double_pref_create_widget (node, GNM_CONF_GUI_ZOOM,
 				   page, row++, 1.00, 0.10, 5.00, 0.05, 2, 
 				   gnm_gconf_set_gui_zoom,
 				   _("Default Zoom Factor"));
-	int_pref_create_widget (GNM_CONF_WORKBOOK_NSHEETS,
+	int_pref_create_widget (state->root, GNM_CONF_WORKBOOK_NSHEETS,
 				page, row++, 1, 1, 64, 1, 
 				gnm_gconf_set_workbook_nsheets,
 				_("Default Number of Sheets"));
-	bool_pref_create_widget (GNM_CONF_GUI_ED_TRANSITION_KEYS,
+	bool_pref_create_widget (node, GNM_CONF_GUI_ED_TRANSITION_KEYS,
 				 page, row++, 
 				 gnm_gconf_set_gui_transition_keys,
 				 _("Transition Keys"));
-	bool_pref_create_widget (GNM_CONF_GUI_ED_LIVESCROLLING,
+	bool_pref_create_widget (node, GNM_CONF_GUI_ED_LIVESCROLLING,
 				 page, row++, 
 				 gnm_gconf_set_gui_livescrolling,
 				 _("Live Scrolling"));
+	go_conf_free_node (node);
 
 	gtk_widget_show_all (page);
 	return page;
@@ -605,29 +620,33 @@ pref_file_page_initializer (PrefState *state,
 {
 	GtkWidget *page = gtk_table_new (2, 2, FALSE);
 	gint row = 0;
+	GOConfNode *node;
 
-	int_pref_create_widget (GNM_CONF_FILE_HISTORY_N,
+	node = go_conf_get_node (state->root, GNM_CONF_FILE_DIR);
+	int_pref_create_widget (node, GNM_CONF_FILE_HISTORY_N,
 				page, row++, 4, 0, 40, 1, 
 				gnm_gconf_set_file_history_number,
 				_("Length of File History"));
-	int_pref_create_widget (GNM_CONF_XML_COMPRESSION,
+	int_pref_create_widget (state->root, GNM_CONF_XML_COMPRESSION,
 				page, row++, 9, 0, 9, 1, 
 				gnm_gconf_set_xml_compression,
 				_("Default Compression Level For "
 				  "Gnumeric Files"));
-	bool_pref_create_widget (GNM_CONF_FILE_OVERWRITE_DEFAULT,
+	bool_pref_create_widget (node, GNM_CONF_FILE_OVERWRITE_DEFAULT,
 				 page, row++, 
 				 gnm_gconf_set_file_overwrite,
 				 _("Default To Overwriting Files"));
-	bool_pref_create_widget (GNM_CONF_FILE_SINGLE_SHEET_SAVE,
+	bool_pref_create_widget (node, GNM_CONF_FILE_SINGLE_SHEET_SAVE,
 				 page, row++, 
 				 gnm_gconf_set_file_single_sheet_save,
 				 _("Warn When Exporting Into Single "
 				   "Sheet Format"));
-	bool_pref_create_widget (PLUGIN_GCONF_LATEX_USE_UTF8,
+	bool_pref_create_widget (state->root,
+				 PLUGIN_GCONF_LATEX "/" PLUGIN_GCONF_LATEX_USE_UTF8,
 				 page, row++, 
 				 gnm_gconf_set_latex_use_utf8,
 				 _("Use UTF-8 in LaTeX Export"));
+	go_conf_free_node (node);
 
 	gtk_widget_show_all (page);
 	return page;
@@ -655,15 +674,18 @@ pref_screen_page_initializer (PrefState *state,
 {
 	GtkWidget *page = gtk_table_new (2, 2, FALSE);
 	gint row = 0;
-
-	double_pref_create_widget (GNM_CONF_GUI_RES_H, page, row++,
+	GOConfNode *node;
+	
+	node = go_conf_get_node (state->root, GNM_CONF_GUI_DIR);
+	double_pref_create_widget (node, GNM_CONF_GUI_RES_H, page, row++,
 				   96, 50, 250, 1, 1, 
 				   gnm_gconf_set_gui_resolution_h,
 				   _("Horizontal DPI"));
-	double_pref_create_widget (GNM_CONF_GUI_RES_V, page, row++,
+	double_pref_create_widget (node, GNM_CONF_GUI_RES_V, page, row++,
 				   96, 50, 250, 1, 1, 
 				   gnm_gconf_set_gui_resolution_v,
 				   _("Vertical DPI"));
+	go_conf_free_node (node);
 
 	gtk_widget_show_all (page);
 	return page;
@@ -693,16 +715,19 @@ pref_tool_page_initializer (PrefState *state,
 	GtkWidget *page = gtk_table_new (2, 2, FALSE);
 	gint row = 0;
 
-	int_pref_create_widget (FUNCTION_SELECT_GCONF_NUM_OF_RECENT,
+	int_pref_create_widget (state->root,
+				FUNCTION_SELECT_GCONF_DIR "/" FUNCTION_SELECT_GCONF_NUM_OF_RECENT,
 				page, row++, 10, 0, 40, 1, 
 				gnm_gconf_set_num_recent_functions,
 				_("Maximum Length of Recently "
 				  "Used Functions List"));
-	bool_pref_create_widget (GNM_CONF_GUI_ED_AUTOCOMPLETE,
+	bool_pref_create_widget (state->root,
+				 GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_AUTOCOMPLETE,
 				 page, row++, 
 				 gnm_gconf_set_autocomplete,
 				_("Autocomplete"));
-	bool_pref_create_widget (DIALOGS_GCONF_UNFOCUSED_RS,
+	bool_pref_create_widget (state->root,
+				 DIALOGS_GCONF_DIR "/" DIALOGS_GCONF_UNFOCUSED_RS,
 				 page, row++, 
 				 gnm_gconf_set_unfocused_rs,
 				_("Allow Unfocused Range Selections"));
@@ -735,7 +760,8 @@ pref_copypaste_page_initializer (PrefState *state,
 	GtkWidget *page = gtk_table_new (2, 2, FALSE);
 	gint row = 0;
 
-	bool_pref_create_widget (GNM_CONF_CUTANDPASTE_PREFER_CLIPBOARD,
+	bool_pref_create_widget (state->root,
+				 GNM_CONF_CUTANDPASTE_DIR "/" GNM_CONF_CUTANDPASTE_PREFER_CLIPBOARD,
 				 page, row++, 
 				 gnm_gconf_set_prefer_clipboard,
 				 _("Prefer CLIPBOARD over PRIMARY selection"));
@@ -811,7 +837,7 @@ cb_dialog_pref_selection_changed (GtkTreeSelection *selection,
 static gboolean
 cb_preferences_destroy (PrefState *state)
 {
-	go_conf_sync ();
+	go_conf_sync (state->root);
 
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
@@ -870,6 +896,7 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 		return;
 
 	state = g_new0 (PrefState, 1);
+	state->root = gnm_conf_get_root ();
 	state->gui = gui;
 	state->dialog     = glade_xml_get_widget (gui, "preferences");
 	state->notebook   = glade_xml_get_widget (gui, "notebook");

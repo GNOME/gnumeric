@@ -1837,7 +1837,7 @@ plugins_shutdown (void)
 	g_hash_table_destroy (available_plugins_id_hash);
 	gnm_slist_free_custom (available_plugins, gnm_plugin_try_unref);
 
-	go_conf_sync ();
+	go_conf_sync (NULL);
 }
 
 void
