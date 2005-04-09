@@ -13,6 +13,7 @@ David J Craigon:
 
 Ivan Wong:
 	* Fix image filtering for Win32.  [#164589]
+	* Implement the Win32 registry connection.
 
 Jody:
 	* Major re-org for goffice split.

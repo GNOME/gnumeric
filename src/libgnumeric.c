@@ -59,11 +59,11 @@ int expression_sharing_debugging = 0;
 int immediate_exit_flag = 0;
 int print_debugging = 0;
 gboolean initial_workbook_open_complete = FALSE;
-char	   *x_geometry;
-char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
-char const *gnumeric_data_dir = GNUMERIC_DATADIR;
-char const *gnumeric_icon_dir = GNUMERIC_ICONDIR;
-char const *gnumeric_locale_dir = GNUMERIC_LOCALEDIR;
+char *x_geometry;
+char *gnumeric_lib_dir = GNUMERIC_LIBDIR;
+char *gnumeric_data_dir = GNUMERIC_DATADIR;
+char *gnumeric_icon_dir = GNUMERIC_ICONDIR;
+char *gnumeric_locale_dir = GNUMERIC_LOCALEDIR;
 
 /**
  * gnm_pre_parse_init :

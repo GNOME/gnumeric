@@ -1,3 +1,9 @@
+2005-04-09  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* configure.in: Determine whether we are cross-compiling.
+
+	* src/libgnumeric.[ch]: Path variables should not be const.
+
 2005-04-08  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* schemas/Makefile.am: Convert .schemas to .reg if host_os ==
