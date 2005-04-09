@@ -73,7 +73,7 @@ typedef struct {
 	GsfXMLOut *output;
 } GnmOutputXML;
 
-#define GMR "gmr:"
+#define GNM "gnm:"
 
 /* Precision to use when saving point measures. */
 #define POINT_SIZE_PRECISION 4
@@ -98,18 +98,18 @@ xml_out_add_points (GsfXMLOut *xml, char const *name, double val)
 static void
 xml_write_attribute (GnmOutputXML *state, char const *name, char const *value)
 {
-	gsf_xml_out_start_element (state->output, GMR "Attribute");
+	gsf_xml_out_start_element (state->output, GNM "Attribute");
 	/* backwards compatibility with 1.0.x which uses gtk-1.2 GTK_TYPE_BOOLEAN */
-	gsf_xml_out_simple_element (state->output, GMR "type", "4");
-	gsf_xml_out_simple_element (state->output, GMR "name", name);
-	gsf_xml_out_simple_element (state->output, GMR "value", value);
+	gsf_xml_out_simple_element (state->output, GNM "type", "4");
+	gsf_xml_out_simple_element (state->output, GNM "name", name);
+	gsf_xml_out_simple_element (state->output, GNM "value", value);
 	gsf_xml_out_end_element (state->output); /* </Attribute> */
 }
 
 static void
 xml_write_version (GnmOutputXML *state)
 {
-	gsf_xml_out_start_element (state->output, GMR "Version");
+	gsf_xml_out_start_element (state->output, GNM "Version");
 	gsf_xml_out_add_int (state->output, "Epoch", GNM_VERSION_EPOCH);
 	gsf_xml_out_add_int (state->output, "Major", GNM_VERSION_MAJOR);
 	gsf_xml_out_add_int (state->output, "Minor", GNM_VERSION_MINOR);
@@ -120,7 +120,7 @@ xml_write_version (GnmOutputXML *state)
 static void
 xml_write_attributes (GnmOutputXML *state)
 {
-	gsf_xml_out_start_element (state->output, GMR "Attributes");
+	gsf_xml_out_start_element (state->output, GNM "Attributes");
 	xml_write_attribute (state, "WorkbookView::show_horizontal_scrollbar",
 		state->wb_view->show_horizontal_scrollbar ? "TRUE" : "FALSE");
 	xml_write_attribute (state, "WorkbookView::show_vertical_scrollbar",
@@ -147,19 +147,19 @@ xml_write_summary (GnmOutputXML *state)
 	if (items == NULL)
 		return;
 
-	gsf_xml_out_start_element (state->output, GMR "Summary");
+	gsf_xml_out_start_element (state->output, GNM "Summary");
 	for (ptr = items ; ptr != NULL ; ptr = ptr->next) {
 		sit = items->data;
 		if (sit == NULL)
 			continue;
-		gsf_xml_out_start_element (state->output, GMR "Item");
-		gsf_xml_out_simple_element (state->output, GMR "name", sit->name);
+		gsf_xml_out_start_element (state->output, GNM "Item");
+		gsf_xml_out_simple_element (state->output, GNM "name", sit->name);
 		if (sit->type == SUMMARY_INT) {
 			gsf_xml_out_simple_int_element (state->output,
-				GMR "val-int", sit->v.i);
+				GNM "val-int", sit->v.i);
 		} else {
 			char *text = summary_item_as_text (sit);
-			gsf_xml_out_simple_element (state->output, GMR "val-string", text);
+			gsf_xml_out_simple_element (state->output, GNM "val-string", text);
 			g_free (text);
 		}
 		gsf_xml_out_end_element (state->output);	/* </Item> */
@@ -173,7 +173,7 @@ xml_write_conventions (GnmOutputXML *state)
 {
 	GODateConventions const *conv = workbook_date_conv (state->wb);
 	if (conv->use_1904)
-		gsf_xml_out_simple_element (state->output, GMR "DateConvention", "1904");
+		gsf_xml_out_simple_element (state->output, GNM "DateConvention", "1904");
 }
 
 static void
@@ -182,13 +182,13 @@ xml_write_sheet_names (GnmOutputXML *state)
 	int i, n = workbook_sheet_count (state->wb);
 	Sheet *sheet;
 
-	gsf_xml_out_start_element (state->output, GMR "SheetNameIndex");
+	gsf_xml_out_start_element (state->output, GNM "SheetNameIndex");
 	for (i = 0 ; i < n ; i++) {
 		sheet = workbook_sheet_by_index (state->wb, i);
-		gsf_xml_out_simple_element (state->output, GMR "SheetName",
+		gsf_xml_out_simple_element (state->output, GNM "SheetName",
 			sheet->name_unquoted);
 	}
-	gsf_xml_out_end_element (state->output); /* </gmr:SheetNameIndex> */
+	gsf_xml_out_end_element (state->output); /* </gnm:SheetNameIndex> */
 }
 
 static void
@@ -198,35 +198,35 @@ cb_xml_write_name (gpointer key, GnmNamedExpr *nexpr, GnmOutputXML *state)
 
 	g_return_if_fail (nexpr != NULL);
 
-	gsf_xml_out_start_element (state->output, GMR "Name");
-	gsf_xml_out_simple_element (state->output, GMR "name",
+	gsf_xml_out_start_element (state->output, GNM "Name");
+	gsf_xml_out_simple_element (state->output, GNM "name",
 		nexpr->name->str);
 	expr_str = expr_name_as_string (nexpr, NULL, state->exprconv);
-	gsf_xml_out_simple_element (state->output, GMR "value", expr_str);
+	gsf_xml_out_simple_element (state->output, GNM "value", expr_str);
 	g_free (expr_str);
-	gsf_xml_out_simple_element (state->output, GMR "position",
+	gsf_xml_out_simple_element (state->output, GNM "position",
 		cellpos_as_string (&nexpr->pos.eval));
-	gsf_xml_out_end_element (state->output); /* </gmr:Name> */
+	gsf_xml_out_end_element (state->output); /* </gnm:Name> */
 }
 
 static void
 xml_write_named_expressions (GnmOutputXML *state, GnmNamedExprCollection *scope)
 {
 	if (scope != NULL) {
-		gsf_xml_out_start_element (state->output, GMR "Names");
+		gsf_xml_out_start_element (state->output, GNM "Names");
 		g_hash_table_foreach (scope->names,
 			(GHFunc) cb_xml_write_name, state);
-		gsf_xml_out_end_element (state->output); /* </gmr:Names> */
+		gsf_xml_out_end_element (state->output); /* </gnm:Names> */
 	}
 }
 
 static void
 xml_write_geometry (GnmOutputXML *state)
 {
-	gsf_xml_out_start_element (state->output, GMR "Geometry");
+	gsf_xml_out_start_element (state->output, GNM "Geometry");
 	gsf_xml_out_add_int (state->output, "Width", state->wb_view->preferred_width);
 	gsf_xml_out_add_int (state->output, "Height", state->wb_view->preferred_height);
-	gsf_xml_out_end_element (state->output); /* </gmr:Geometry> */
+	gsf_xml_out_end_element (state->output); /* </gnm:Geometry> */
 }
 
 static void
@@ -281,19 +281,19 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 
 	g_return_if_fail (pi != NULL);
 
-	gsf_xml_out_start_element (state->output, GMR "PrintInformation");
+	gsf_xml_out_start_element (state->output, GNM "PrintInformation");
 
-	gsf_xml_out_start_element (state->output, GMR "Margins");
+	gsf_xml_out_start_element (state->output, GNM "Margins");
 	print_info_get_margins (pi, &header, &footer, &left, &right);
-	xml_write_print_unit (state, GMR "top",    &pi->margins.top);
-	xml_write_print_unit (state, GMR "bottom", &pi->margins.bottom);
-	xml_write_print_margin (state, GMR "left", left);
-	xml_write_print_margin (state, GMR "right", right);
-	xml_write_print_margin (state, GMR "header", header);
-	xml_write_print_margin (state, GMR "footer", footer);
+	xml_write_print_unit (state, GNM "top",    &pi->margins.top);
+	xml_write_print_unit (state, GNM "bottom", &pi->margins.bottom);
+	xml_write_print_margin (state, GNM "left", left);
+	xml_write_print_margin (state, GNM "right", right);
+	xml_write_print_margin (state, GNM "header", header);
+	xml_write_print_margin (state, GNM "footer", footer);
 	gsf_xml_out_end_element (state->output);
 
-	gsf_xml_out_start_element (state->output, GMR "Scale");
+	gsf_xml_out_start_element (state->output, GNM "Scale");
 	if (pi->scaling.type == PERCENTAGE) {
 		gsf_xml_out_add_cstr_unchecked  (state->output, "type", "percentage");
 		gsf_xml_out_add_float  (state->output, "percentage", pi->scaling.percentage.x, -1);
@@ -304,48 +304,48 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 	}
 	gsf_xml_out_end_element (state->output);
 
-	gsf_xml_out_start_element (state->output, GMR "vcenter");
+	gsf_xml_out_start_element (state->output, GNM "vcenter");
 	gsf_xml_out_add_int  (state->output, "value", pi->center_vertically);
 	gsf_xml_out_end_element (state->output);
 
-	gsf_xml_out_start_element (state->output, GMR "hcenter");
+	gsf_xml_out_start_element (state->output, GNM "hcenter");
 	gsf_xml_out_add_int  (state->output, "value", pi->center_horizontally);
 	gsf_xml_out_end_element (state->output);
 
-	gsf_xml_out_start_element (state->output, GMR "grid");
+	gsf_xml_out_start_element (state->output, GNM "grid");
 	gsf_xml_out_add_int  (state->output, "value",    pi->print_grid_lines);
 	gsf_xml_out_end_element (state->output);
 
-	gsf_xml_out_start_element (state->output, GMR "even_if_only_styles");
+	gsf_xml_out_start_element (state->output, GNM "even_if_only_styles");
 	gsf_xml_out_add_int  (state->output, "value",    pi->print_even_if_only_styles);
 	gsf_xml_out_end_element (state->output);
 
-	gsf_xml_out_start_element (state->output, GMR "monochrome");
+	gsf_xml_out_start_element (state->output, GNM "monochrome");
 	gsf_xml_out_add_int  (state->output, "value",    pi->print_black_and_white);
 	gsf_xml_out_end_element (state->output);
 
-	gsf_xml_out_start_element (state->output, GMR "draft");
+	gsf_xml_out_start_element (state->output, GNM "draft");
 	gsf_xml_out_add_int  (state->output, "value",    pi->print_as_draft);
 	gsf_xml_out_end_element (state->output);
 
-	gsf_xml_out_start_element (state->output, GMR "titles");
+	gsf_xml_out_start_element (state->output, GNM "titles");
 	gsf_xml_out_add_int  (state->output, "value",    pi->print_titles);
 	gsf_xml_out_end_element (state->output);
 
-	xml_write_print_repeat_range (state, GMR "repeat_top", &pi->repeat_top);
-	xml_write_print_repeat_range (state, GMR "repeat_left", &pi->repeat_left);
+	xml_write_print_repeat_range (state, GNM "repeat_top", &pi->repeat_top);
+	xml_write_print_repeat_range (state, GNM "repeat_left", &pi->repeat_left);
 
-	gsf_xml_out_simple_element (state->output, GMR "order",
+	gsf_xml_out_simple_element (state->output, GNM "order",
 		(pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT) ? "d_then_r" : "r_then_d");
-	gsf_xml_out_simple_element (state->output, GMR "orientation",
+	gsf_xml_out_simple_element (state->output, GNM "orientation",
 		     (print_info_get_orientation (pi) == PRINT_ORIENT_VERTICAL) ? "portrait" : "landscape");
 
-	xml_write_print_hf (state, GMR "Header", pi->header);
-	xml_write_print_hf (state, GMR "Footer", pi->footer);
+	xml_write_print_hf (state, GNM "Header", pi->header);
+	xml_write_print_hf (state, GNM "Footer", pi->footer);
 
 	paper_name = print_info_get_paper (pi);
 	if (paper_name)
-		gsf_xml_out_simple_element (state->output, GMR "paper", paper_name);
+		gsf_xml_out_simple_element (state->output, GNM "paper", paper_name);
 
 	gsf_xml_out_end_element (state->output);
 }
@@ -354,18 +354,18 @@ static void
 xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 {
 	static char const *border_names[] = {
-		GMR "Top",
-		GMR "Bottom",
-		GMR "Left",
-		GMR "Right",
-		GMR "Diagonal",
-		GMR "Rev-Diagonal"
+		GNM "Top",
+		GNM "Bottom",
+		GNM "Left",
+		GNM "Right",
+		GNM "Diagonal",
+		GNM "Rev-Diagonal"
 	};
 	GnmHLink   const *link;
 	GnmValidation const *v;
 	int i;
 
-	gsf_xml_out_start_element (state->output, GMR "Style");
+	gsf_xml_out_start_element (state->output, GNM "Style");
 
 	if (mstyle_is_element_set (style, MSTYLE_ALIGN_H))
 		gsf_xml_out_add_int (state->output, "HAlign", mstyle_get_align_h (style));
@@ -405,7 +405,7 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 	    mstyle_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH)) {
 		char const *fontname;
 
-		gsf_xml_out_start_element (state->output, GMR "Font");
+		gsf_xml_out_start_element (state->output, GNM "Font");
 
 		if (mstyle_is_element_set (style, MSTYLE_FONT_SIZE))
 			xml_out_add_points (state->output, "Unit", mstyle_get_font_size (style));
@@ -428,7 +428,7 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 	}
 
 	if ((link = mstyle_get_hlink (style)) != NULL) {
-		gsf_xml_out_start_element (state->output, GMR "HyperLink");
+		gsf_xml_out_start_element (state->output, GNM "HyperLink");
 		gsf_xml_out_add_cstr (state->output, "type", g_type_name (G_OBJECT_TYPE (link)));
 		gsf_xml_out_add_cstr (state->output, "target", gnm_hlink_get_target (link));
 		if (gnm_hlink_get_tip (link) != NULL)
@@ -441,7 +441,7 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 		GnmParsePos    pp;
 		char	   *tmp;
 
-		gsf_xml_out_start_element (state->output, GMR "Validation");
+		gsf_xml_out_start_element (state->output, GNM "Validation");
 		gsf_xml_out_add_int (state->output, "Style", v->style);
 		gsf_xml_out_add_int (state->output, "Type", v->type);
 
@@ -468,12 +468,12 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 		parse_pos_init_sheet (&pp, (Sheet *)state->sheet);
 		if (v->expr[0] != NULL &&
 		    (tmp = gnm_expr_as_string (v->expr[0], &pp, state->exprconv)) != NULL) {
-			gsf_xml_out_simple_element (state->output, GMR "Expression0", tmp);
+			gsf_xml_out_simple_element (state->output, GNM "Expression0", tmp);
 			g_free (tmp);
 		}
 		if (v->expr[1] != NULL &&
 		    (tmp = gnm_expr_as_string (v->expr[1], &pp, state->exprconv)) != NULL) {
-			gsf_xml_out_simple_element (state->output, GMR "Expression1", tmp);
+			gsf_xml_out_simple_element (state->output, GNM "Expression1", tmp);
 			g_free (tmp);
 		}
 		gsf_xml_out_end_element (state->output); /* </Validation> */
@@ -485,7 +485,7 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 	       && NULL == mstyle_get_border (style, i))
 		i++;
 	if (i <= MSTYLE_BORDER_DIAGONAL) {
-		gsf_xml_out_start_element (state->output, GMR "StyleBorder");
+		gsf_xml_out_start_element (state->output, GNM "StyleBorder");
 		for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
 			GnmBorder const *border;
 			if (mstyle_is_element_set (style, i) &&
@@ -508,7 +508,7 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 static void
 xml_write_style_region (GnmOutputXML *state, GnmStyleRegion const *region)
 {
-	gsf_xml_out_start_element (state->output, GMR "StyleRegion");
+	gsf_xml_out_start_element (state->output, GNM "StyleRegion");
 	xml_out_add_range (state->output, &region->range);
 	if (region->style != NULL)
 		xml_write_gnmstyle (state, region->style);
@@ -520,7 +520,7 @@ xml_write_styles (GnmOutputXML *state)
 {
 	GnmStyleList *ptr, *styles = sheet_style_get_list (state->sheet, NULL);
 	if (styles != NULL) {
-		gsf_xml_out_start_element (state->output, GMR "Styles");
+		gsf_xml_out_start_element (state->output, GNM "Styles");
 		for (ptr = styles; ptr; ptr = ptr->next)
 			xml_write_style_region (state, ptr->data);
 		style_list_free (styles);
@@ -547,9 +547,9 @@ xml_write_colrow_info (ColRowInfo *info, closure_write_colrow *closure)
 
 	if (prev != NULL) {
 		if (closure->is_column)
-			gsf_xml_out_start_element (output, GMR "ColInfo");
+			gsf_xml_out_start_element (output, GNM "ColInfo");
 		else
-			gsf_xml_out_start_element (output, GMR "RowInfo");
+			gsf_xml_out_start_element (output, GNM "RowInfo");
 
 		gsf_xml_out_add_int (output, "No", prev->pos);
 		xml_out_add_points (output, "Unit", prev->size_pts);
@@ -579,7 +579,7 @@ static void
 xml_write_cols_rows (GnmOutputXML *state)
 {
 	closure_write_colrow closure;
-	gsf_xml_out_start_element (state->output, GMR "Cols");
+	gsf_xml_out_start_element (state->output, GNM "Cols");
 	xml_out_add_points (state->output, "DefaultSizePts",
 		sheet_col_get_default_size_pts (state->sheet));
 	closure.state = state;
@@ -589,9 +589,9 @@ xml_write_cols_rows (GnmOutputXML *state)
 	colrow_foreach (&state->sheet->cols, 0, SHEET_MAX_COLS-1,
 		(ColRowHandler)&xml_write_colrow_info, &closure);
 	xml_write_colrow_info (NULL, &closure); /* flush */
-	gsf_xml_out_end_element (state->output); /* </gmr:Cols> */
+	gsf_xml_out_end_element (state->output); /* </gnm:Cols> */
 
-	gsf_xml_out_start_element (state->output, GMR "Rows");
+	gsf_xml_out_start_element (state->output, GNM "Rows");
 	xml_out_add_points (state->output, "DefaultSizePts",
 		sheet_row_get_default_size_pts (state->sheet));
 	closure.state = state;
@@ -601,7 +601,7 @@ xml_write_cols_rows (GnmOutputXML *state)
 	colrow_foreach (&state->sheet->rows, 0, SHEET_MAX_ROWS-1,
 		(ColRowHandler)&xml_write_colrow_info, &closure);
 	xml_write_colrow_info (NULL, &closure); /* flush */
-	gsf_xml_out_end_element (state->output); /* </gmr:Rows> */
+	gsf_xml_out_end_element (state->output); /* </gnm:Rows> */
 }
 
 static void
@@ -610,7 +610,7 @@ xml_write_selection_info (GnmOutputXML *state)
 	GList *ptr, *copy;
 	SheetView *sv = sheet_get_view (state->sheet, state->wb_view);
 
-	gsf_xml_out_start_element (state->output, GMR "Selections");
+	gsf_xml_out_start_element (state->output, GNM "Selections");
 	gsf_xml_out_add_int (state->output, "CursorCol", sv->edit_pos_real.col);
 	gsf_xml_out_add_int (state->output, "CursorRow", sv->edit_pos_real.row);
 
@@ -619,13 +619,13 @@ xml_write_selection_info (GnmOutputXML *state)
 	ptr = g_list_reverse (copy);
 	for (; ptr != NULL ; ptr = ptr->next) {
 		GnmRange const *r = ptr->data;
-		gsf_xml_out_start_element (state->output, GMR "Selection");
+		gsf_xml_out_start_element (state->output, GNM "Selection");
 		xml_out_add_range (state->output, r);
-		gsf_xml_out_end_element (state->output); /* </gmr:Selection> */
+		gsf_xml_out_end_element (state->output); /* </gnm:Selection> */
 	}
 	g_list_free (copy);
 
-	gsf_xml_out_end_element (state->output); /* </gmr:Selections> */
+	gsf_xml_out_end_element (state->output); /* </gnm:Selections> */
 }
 
 static void
@@ -642,7 +642,7 @@ xml_write_cell_and_position (GnmOutputXML *state,
 	if (expr && NULL != (ar = gnm_expr_is_array (expr)) && (ar->y != 0 || ar->x != 0))
 		return; /* DOM version would write <Cell Col= Row=/> */
 
-	gsf_xml_out_start_element (state->output, GMR "Cell");
+	gsf_xml_out_start_element (state->output, GNM "Cell");
 	gsf_xml_out_add_int (state->output, "Col", pp->eval.col);
 	gsf_xml_out_add_int (state->output, "Row", pp->eval.row);
 
@@ -689,7 +689,7 @@ xml_write_cell_and_position (GnmOutputXML *state,
 		gsf_xml_out_add_cstr (state->output, NULL, str->str);
 		g_string_free (str, TRUE);
 	}
-	gsf_xml_out_end_element (state->output); /* </gmr:Cell> */
+	gsf_xml_out_end_element (state->output); /* </gnm:Cell> */
 }
 
 static GnmValue *
@@ -704,11 +704,11 @@ cb_write_cell (Sheet *sheet, int col, int row, GnmCell const *cell, GnmOutputXML
 static void
 xml_write_cells (GnmOutputXML *state)
 {
-	gsf_xml_out_start_element (state->output, GMR "Cells");
+	gsf_xml_out_start_element (state->output, GNM "Cells");
 	sheet_foreach_cell_in_range ((Sheet *)state->sheet, CELL_ITER_IGNORE_NONEXISTENT,
 		0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
 		(CellIterFunc) cb_write_cell, state);
-	gsf_xml_out_end_element (state->output); /* </gmr:Cells> */
+	gsf_xml_out_end_element (state->output); /* </gnm:Cells> */
 }
 
 static void
@@ -717,11 +717,11 @@ xml_write_merged_regions (GnmOutputXML *state)
 	GSList *ptr = state->sheet->list_merged;
 	if (ptr == NULL)
 		return;
-	gsf_xml_out_start_element (state->output, GMR "MergedRegions");
+	gsf_xml_out_start_element (state->output, GNM "MergedRegions");
 	for (; ptr != NULL ; ptr = ptr->next)
 		gsf_xml_out_simple_element (state->output,
-			GMR "Merge", range_name (ptr->data));
-	gsf_xml_out_end_element (state->output); /* </gmr:MergedRegions> */
+			GNM "Merge", range_name (ptr->data));
+	gsf_xml_out_end_element (state->output); /* </gnm:MergedRegions> */
 }
 
 static void
@@ -729,16 +729,16 @@ xml_write_sheet_layout (GnmOutputXML *state)
 {
 	SheetView const *sv = sheet_get_view (state->sheet, state->wb_view);
 
-	gsf_xml_out_start_element (state->output, GMR "SheetLayout");
+	gsf_xml_out_start_element (state->output, GNM "SheetLayout");
 	gnm_xml_out_add_cellpos (state->output, "TopLeft", &sv->initial_top_left);
 
 	if (sv_is_frozen (sv)) {
-		gsf_xml_out_start_element (state->output, GMR "FreezePanes");
+		gsf_xml_out_start_element (state->output, GNM "FreezePanes");
 		gnm_xml_out_add_cellpos (state->output, "FrozenTopLeft", &sv->frozen_top_left);
 		gnm_xml_out_add_cellpos (state->output, "UnfrozenTopLeft", &sv->unfrozen_top_left);
-		gsf_xml_out_end_element (state->output); /* </gmr:FreezePanes> */
+		gsf_xml_out_end_element (state->output); /* </gnm:FreezePanes> */
 	}
-	gsf_xml_out_end_element (state->output); /* </gmr:SheetLayout> */
+	gsf_xml_out_end_element (state->output); /* </gnm:SheetLayout> */
 }
 
 static void
@@ -766,7 +766,7 @@ static void
 xml_write_filter_field (GnmOutputXML *state,
 			GnmFilterCondition const *cond, unsigned i)
 {
-	gsf_xml_out_start_element (state->output, GMR "Field");
+	gsf_xml_out_start_element (state->output, GNM "Field");
 	gsf_xml_out_add_int (state->output, "Index", i);
 
 	switch (GNM_FILTER_OP_TYPE_MASK & cond->op[0]) {
@@ -793,7 +793,7 @@ xml_write_filter_field (GnmOutputXML *state,
 		break;
 	}
 
-	gsf_xml_out_end_element (state->output); /* </gmr:Field> */
+	gsf_xml_out_end_element (state->output); /* </gnm:Field> */
 }
 
 static void
@@ -807,11 +807,11 @@ xml_write_sheet_filters (GnmOutputXML *state)
 	if (state->sheet->filters == NULL)
 		return;
 
-	gsf_xml_out_start_element (state->output, GMR "Filters");
+	gsf_xml_out_start_element (state->output, GNM "Filters");
 
 	for (ptr = state->sheet->filters; ptr != NULL ; ptr = ptr->next) {
 		filter = ptr->data;
-		gsf_xml_out_start_element (state->output, GMR "Filter");
+		gsf_xml_out_start_element (state->output, GNM "Filter");
 		gsf_xml_out_add_cstr_unchecked (state->output, "Area",
 			range_name (&filter->r));
 
@@ -821,10 +821,10 @@ xml_write_sheet_filters (GnmOutputXML *state)
 				xml_write_filter_field (state, cond, i);
 		}
 
-		gsf_xml_out_end_element (state->output); /* </gmr:Filter> */
+		gsf_xml_out_end_element (state->output); /* </gnm:Filter> */
 	}
 
-	gsf_xml_out_end_element (state->output); /* </gmr:Filters> */
+	gsf_xml_out_end_element (state->output); /* </gnm:Filters> */
 }
 
 static void
@@ -838,7 +838,7 @@ xml_write_solver (GnmOutputXML *state)
 	if (param == NULL)
 		return;
 
-	gsf_xml_out_start_element (state->output, GMR "Solver");
+	gsf_xml_out_start_element (state->output, GNM "Solver");
 
 	if (param->target_cell != NULL) {
 	        gsf_xml_out_add_int (state->output, "TargetCol",
@@ -876,7 +876,7 @@ xml_write_solver (GnmOutputXML *state)
 	for (ptr = param->constraints; ptr != NULL ; ptr = ptr->next) {
 	        c = ptr->data;
 
-		gsf_xml_out_start_element (state->output, GMR "Constr");
+		gsf_xml_out_start_element (state->output, GNM "Constr");
 		gsf_xml_out_add_int (state->output, "Lcol", c->lhs.col);
 		gsf_xml_out_add_int (state->output, "Lrow", c->lhs.row);
 		gsf_xml_out_add_int (state->output, "Rcol", c->rhs.col);
@@ -893,10 +893,10 @@ xml_write_solver (GnmOutputXML *state)
 		case SolverBOOL: type = 16;	break;
 		}
 		gsf_xml_out_add_int (state->output, "Type", type);
-		gsf_xml_out_end_element (state->output); /* </gmr:Constr> */
+		gsf_xml_out_end_element (state->output); /* </gnm:Constr> */
 	}
 
-	gsf_xml_out_end_element (state->output); /* </gmr:Solver> */
+	gsf_xml_out_end_element (state->output); /* </gnm:Solver> */
 }
 
 static void
@@ -912,12 +912,12 @@ xml_write_scenarios (GnmOutputXML *state)
 	if (state->sheet->scenarios == NULL)
 		return;
 
-	gsf_xml_out_start_element (state->output, GMR "Scenarios");
+	gsf_xml_out_start_element (state->output, GNM "Scenarios");
 
 	for (ptr = state->sheet->scenarios ; ptr != NULL ; ptr = ptr->next) {
 	        s = (scenario_t const *)ptr->data;
 
-		gsf_xml_out_start_element (state->output, GMR "Scenario");
+		gsf_xml_out_start_element (state->output, GNM "Scenario");
 		gsf_xml_out_add_cstr (state->output, "Name", s->name);
 		gsf_xml_out_add_cstr (state->output, "Comment", s->comment);
 
@@ -940,7 +940,7 @@ xml_write_scenarios (GnmOutputXML *state)
 #endif
 	}
 
-	gsf_xml_out_end_element (state->output); /* </gmr:Scenarios> */
+	gsf_xml_out_end_element (state->output); /* </gnm:Scenarios> */
 }
 
 static void
@@ -961,7 +961,7 @@ xml_write_objects (GnmOutputXML *state, GSList *ptr)
 
 		if (needs_container) {
 			needs_container = FALSE;
-			gsf_xml_out_start_element (state->output, GMR "Objects");
+			gsf_xml_out_start_element (state->output, GNM "Objects");
 		}
 
 		/* A hook so that things can sometimes change names */
@@ -969,7 +969,7 @@ xml_write_objects (GnmOutputXML *state, GSList *ptr)
 		if (type_name == NULL)
 			type_name = G_OBJECT_TYPE_NAME (so);
 
-		tmp = g_strconcat (GMR, type_name, NULL);
+		tmp = g_strconcat (GNM, type_name, NULL);
 		gsf_xml_out_start_element (state->output, tmp);
 		gsf_xml_out_add_cstr (state->output, "ObjectBound", range_name (&so->anchor.cell_bound));
 		snprintf (buffer, sizeof (buffer), "%.3g %.3g %.3g %.3g",
@@ -986,19 +986,19 @@ xml_write_objects (GnmOutputXML *state, GSList *ptr)
 
 		(*klass->write_xml_sax) (so, state->output);
 
-		gsf_xml_out_end_element (state->output); /* </gmr:{typename}> */
+		gsf_xml_out_end_element (state->output); /* </gnm:{typename}> */
 		g_free (tmp);
 	}
 
 	if (!needs_container)
-		gsf_xml_out_end_element (state->output); /* </gmr:Objects> */
+		gsf_xml_out_end_element (state->output); /* </gnm:Objects> */
 }
 
 static void
 xml_write_sheet (GnmOutputXML *state, Sheet const *sheet)
 {
 	state->sheet = sheet;
-	gsf_xml_out_start_element (state->output, GMR "Sheet");
+	gsf_xml_out_start_element (state->output, GNM "Sheet");
 
 	gsf_xml_out_add_bool (state->output,
 		"DisplayFormulas",	sheet->display_formulas);
@@ -1026,13 +1026,13 @@ xml_write_sheet (GnmOutputXML *state, Sheet const *sheet)
 		gnm_xml_out_add_color (state->output, "TabTextColor", sheet->tab_text_color);
 
 	gsf_xml_out_simple_element (state->output,
-		GMR "Name", sheet->name_unquoted);
+		GNM "Name", sheet->name_unquoted);
 	gsf_xml_out_simple_int_element (state->output,
-		GMR "MaxCol", sheet->cols.max_used);
+		GNM "MaxCol", sheet->cols.max_used);
 	gsf_xml_out_simple_int_element (state->output,
-		GMR "MaxRow", sheet->rows.max_used);
+		GNM "MaxRow", sheet->rows.max_used);
 	gsf_xml_out_simple_float_element (state->output,
-		GMR "Zoom", sheet->last_zoom_factor_used, 4);
+		GNM "Zoom", sheet->last_zoom_factor_used, 4);
 
 	xml_write_named_expressions (state, sheet->names);
 	xml_write_print_info (state, sheet->print_info);
@@ -1048,7 +1048,7 @@ xml_write_sheet (GnmOutputXML *state, Sheet const *sheet)
 	xml_write_solver (state);
 	xml_write_scenarios (state);
 
-	gsf_xml_out_end_element (state->output); /* </gmr:Sheet> */
+	gsf_xml_out_end_element (state->output); /* </gnm:Sheet> */
 	state->sheet = NULL;
 }
 
@@ -1056,25 +1056,25 @@ static void
 xml_write_sheets (GnmOutputXML *state)
 {
 	int i, n = workbook_sheet_count (state->wb);
-	gsf_xml_out_start_element (state->output, GMR "Sheets");
+	gsf_xml_out_start_element (state->output, GNM "Sheets");
 	for (i = 0 ; i < n ; i++)
 		xml_write_sheet (state, workbook_sheet_by_index (state->wb, i));
-	gsf_xml_out_end_element (state->output); /* </gmr:Sheets> */
+	gsf_xml_out_end_element (state->output); /* </gnm:Sheets> */
 }
 
 static void
 xml_write_uidata (GnmOutputXML *state)
 {
-	gsf_xml_out_start_element (state->output, GMR "UIData");
+	gsf_xml_out_start_element (state->output, GNM "UIData");
 	gsf_xml_out_add_int (state->output, "SelectedTab",
 		wb_view_cur_sheet (state->wb_view)->index_in_wb);
-	gsf_xml_out_end_element (state->output); /* </gmr:UIData> */
+	gsf_xml_out_end_element (state->output); /* </gnm:UIData> */
 }
 
 static void
 xml_write_calculation (GnmOutputXML *state)
 {
-	gsf_xml_out_start_element (state->output, GMR "Calculation");
+	gsf_xml_out_start_element (state->output, GNM "Calculation");
 	gsf_xml_out_add_bool (state->output, 
 		"ManualRecalc",		!state->wb->recalc_auto);
 	gsf_xml_out_add_bool (state->output, 
@@ -1083,7 +1083,7 @@ xml_write_calculation (GnmOutputXML *state)
 		"MaxIterations",	state->wb->iteration.max_number);
 	gsf_xml_out_add_float (state->output, 
 		"IterationTolerance",	state->wb->iteration.tolerance, -1);
-	gsf_xml_out_end_element (state->output); /* </gmr:Calculation> */
+	gsf_xml_out_end_element (state->output); /* </gnm:Calculation> */
 }
 
 static GnmExprConventions *
@@ -1139,8 +1139,8 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 	gnm_setlocale (LC_MONETARY, "C");
 	gnm_set_untranslated_bools ();
 
-	gsf_xml_out_start_element (state.output, GMR "Workbook");
-	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns:gmr",
+	gsf_xml_out_start_element (state.output, GNM "Workbook");
+	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns:gnm",
 		"http://www.gnumeric.org/v10.dtd");
 	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns:xsi",
 		"http://www.w3.org/2001/XMLSchema-instance");
@@ -1213,8 +1213,8 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	gnm_setlocale (LC_MONETARY, "C");
 	gnm_set_untranslated_bools ();
 
-	gsf_xml_out_start_element (state.output, GMR "ClipboardRange");
-	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns:gmr",
+	gsf_xml_out_start_element (state.output, GNM "ClipboardRange");
+	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns:gnm",
 		"http://www.gnumeric.org/v10.dtd");
 
 	gsf_xml_out_add_int (state.output, "Cols", cr->cols);
@@ -1225,16 +1225,16 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 		gsf_xml_out_add_bool (state.output, "NotAsContent", TRUE);
 
 	if (cr->styles != NULL) {
-		gsf_xml_out_start_element (state.output, GMR "Styles");
+		gsf_xml_out_start_element (state.output, GNM "Styles");
 		for (s_ptr = cr->styles ; s_ptr != NULL ; s_ptr = s_ptr->next)
 			xml_write_style_region (&state, s_ptr->data);
 		gsf_xml_out_end_element (state.output); /* </Styles> */
 	}
 
 	if (cr->merged != NULL) {
-		gsf_xml_out_start_element (state.output, GMR "MergedRegions");
+		gsf_xml_out_start_element (state.output, GNM "MergedRegions");
 		for (ptr = cr->merged ; ptr != NULL ; ptr = ptr->next) {
-			gsf_xml_out_start_element (state.output, GMR "Merge");
+			gsf_xml_out_start_element (state.output, GNM "Merge");
 			gsf_xml_out_add_cstr_unchecked (state.output, NULL,
 				range_name (ptr->data));
 			gsf_xml_out_end_element (state.output); /* </Merge> */
@@ -1244,7 +1244,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	pp.wb = NULL; /* NOTE SNEAKY : ensure that sheet names have explicit workbooks */
 	pp.sheet = cr->origin_sheet;
 	if (cr->content != NULL) {
-		gsf_xml_out_start_element (state.output, GMR "Cells");
+		gsf_xml_out_start_element (state.output, GNM "Cells");
 		for (ptr = cr->content; ptr != NULL ; ptr = ptr->next) {
 			cc = ptr->data;
 			pp.eval.col = cr->base.col + cc->col_offset,

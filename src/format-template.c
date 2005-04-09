@@ -134,7 +134,7 @@ format_template_member_free (TemplateMember *member)
  * Return value: a GnmRange containing the effective rectangle of @member
  **/
 static GnmRange
-format_template_member_get_rect (TemplateMember *member, GnmRange const *r)
+format_template_member_get_rect (TemplateMember const *member, GnmRange const *r)
 {
 	GnmRange res;
 
@@ -926,7 +926,7 @@ format_template_calculate (FormatTemplate *origft, GnmRange const *r, PCalcCallb
 	 */
 	iterator = ft->members;
 	while (iterator) {
-		TemplateMember *member = iterator->data;
+		TemplateMember const *member = iterator->data;
 		GnmStyle const *mstyle = member->mstyle;
 		GnmRange range = format_template_member_get_rect (member, r);
 

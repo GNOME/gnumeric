@@ -1,3 +1,9 @@
+2005-04-09  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (excel_save) : Use the new GsfDocMetaData api
+	(excel_read_metadata) : ditto.
+	(excel_file_open) : ditto.
+
 2005-03-24  Stepan Kasal  <kasal@ucw.cz>
 
 	* Makefile.am (excel_la_LIBADD): Add an explanation for $(Z_LIBS).

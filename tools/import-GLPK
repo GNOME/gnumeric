@@ -1,4 +1,4 @@
- #!/usr/bin/perl -w
+#!/usr/bin/perl -w
 #
 # import-GLPK: Use this Perl script to import GLPK into Gnumeric.
 #              Tested with glpk 4.2.

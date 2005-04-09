@@ -543,16 +543,19 @@ cellregion_to_string (GnmCellRegion const *cr,
 	for (row = 0; row < cr->rows; row++)
 		data[row] = g_new0 (char *, cr->cols);
 
-	line = g_string_new (NULL);
 	for (ptr = cr->content; ptr; ptr = ptr->next) {
 		src = ptr->data;
 		style = style_list_get_style (cr->styles,
 			src->col_offset, src->row_offset);
+		line = g_string_new (NULL);
 		format_value_gstring (line, mstyle_get_format (style),
-			src->val, NULL, -1, date_conv);
+				src->val, NULL, -1, date_conv);
+		data[src->row_offset][src->col_offset] = 
+			g_string_free (line, FALSE);
 	}
 
 	all = g_string_sized_new (20 * cr->cols * cr->rows);
+	line = g_string_new (NULL);
 	for (row = 0; row < cr->rows;) {
 		g_string_assign (line, "");
 

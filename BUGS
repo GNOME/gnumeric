@@ -10,6 +10,7 @@ Release Critical
 
     : tie the custom ui into action sensitivity pools
     : support array evaluation for =LARGE and friends
+    : http://bugzilla.gnome.org/show_bug.cgi?id=159581
     : http://bugzilla.gnome.org/show_bug.cgi?id=162951 : trivial
     : Add a note to the SUMPRODUCT docs that
 	sumproduct(A1:A5>4,B1:B4) will not work and that they will
@@ -36,10 +37,6 @@ Worries
 
     http://bugzilla.gnome.org/show_bug.cgi?id=144112
     : fraction matching
-
-    http://bugzilla.gnome.org/show_bug.cgi?id=151610
-    : crash 	: fixed
-    : we mis-import multiple axis sets
 
     : The only way to unhide column A seems to be to select the entire sheet
     and unhide.  Not elegant.  We could, perhaps, when a single column is
@@ -247,20 +244,6 @@ Architecture Changes
 	9.11.7) set direction of views
     9.12) preview grid ??
 	9.12.1) do we need/want the autoformat examples to swap dir ?
-
-33) Win32
-    33.1) Make gnumeric build with only gtk and available libraries	(DONE)
-    33.2) Drawing past row 1800 or so (gtk bug)				(DONE)
-    33.3) Shift-keyup from B1300 does not redraw properly (gtk bug)	(DONE)
-    33.4) License in installer should be GPL, not LGPL			(DONE)
-    33.5) no menu entry for Gnumeric					(DONE)
-    33.6) broken header in 1st page of installer			(DONE)
-    33.7) no charts (although about box does work)			(DONE)
-    33.8) printing is zoomed in non-gnome build				(DONE)
-    33.9) Cursor shape changes oddly (gtk bug)				(DONE)
-    33.10) can not copy-n-paste (gtk bug)				(DONE)
-    33.11) printing							(DONE)
-    33.12) prefs dialog is useless in non-gnome build
 
 34) Functions
     - Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)

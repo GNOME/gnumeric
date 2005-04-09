@@ -2220,8 +2220,7 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc)
 	g_return_if_fail (IS_CELL_COMMENT (cc));
 
 	if (scg->comment.item == NULL) {
-		GtkWidget *text, *frame, *scroll;
-		GtkAdjustment *adjust_1, *adjust_2;
+		GtkWidget *text, *frame;
 		GtkTextBuffer *buffer;
 		GtkTextIter iter;
 
@@ -2249,20 +2248,11 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc)
 			gtk_text_buffer_insert (buffer, &iter, 
 				cell_comment_text_get (cc), -1);
 
-/* FIXME: when gtk+ has been fixed (#73562), we should skip the scrolled window */
-
-		adjust_1 =  GTK_ADJUSTMENT (gtk_adjustment_new (0.0,0.0,100.0,1.0,1.0,10.0));
-		adjust_2 =  GTK_ADJUSTMENT (gtk_adjustment_new (0.0,0.0,100.0,1.0,1.0,10.0));
-		scroll = gtk_scrolled_window_new (adjust_1, adjust_2);
-		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
-						GTK_POLICY_NEVER, GTK_POLICY_NEVER);
-
 		frame = gtk_frame_new (NULL);
 		gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
 
 		gtk_container_add (GTK_CONTAINER (scg->comment.item), frame);
-		gtk_container_add (GTK_CONTAINER (frame), scroll);
-		gtk_container_add (GTK_CONTAINER (scroll), text);
+		gtk_container_add (GTK_CONTAINER (frame), text);
 		gtk_widget_show_all (scg->comment.item);
 	}
 }

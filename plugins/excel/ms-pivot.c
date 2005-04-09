@@ -299,6 +299,8 @@ excel_read_pivot_caches (ExcelWorkbook *ewb,
 	if (NULL == dir)
 		return;
 
+	return; /* leave this disabled for now */
+
 	s.ver = ewb->container.ver;
 	n = gsf_infile_num_children (GSF_INFILE (dir));
 	for (i = 0 ; i < n ; i++) {
