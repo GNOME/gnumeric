@@ -88,6 +88,8 @@ typedef struct {
 
 	gboolean	 frame_for_grid;
 	gboolean	 has_a_grid;
+	gboolean	is_surface;
+	gboolean	is_contour;
 	int		 plot_counter;
 	XLChartSeries	*currentSeries;
 	GPtrArray	*series;
@@ -194,7 +196,6 @@ static gboolean
 BC_R(3d)(XLChartHandler const *handle,
 	 XLChartReadState *s, BiffQuery *q)
 {
-	d (1, {
 		guint16 const rotation = GSF_LE_GET_GUINT16 (q->data);	/* 0-360 */
 		guint16 const elevation = GSF_LE_GET_GUINT16 (q->data+2);	/* -90 - 90 */
 		guint16 const distance = GSF_LE_GET_GUINT16 (q->data+4);	/* 0 - 100 */
@@ -211,6 +212,12 @@ BC_R(3d)(XLChartHandler const *handle,
 
 		g_return_val_if_fail (zero == 0, FALSE); /* just warn for now */
 
+		if (s->plot == NULL && s->is_surface)
+			s->is_contour = elevation == 90 && distance == 0;
+		/* at this point, we don't know if da	ta can be converted to a
+		gnumeric matrix, so we cannot create the plot here. */
+
+	d (1, {
 		fprintf (stderr, "Rot = %hu\n", rotation);
 		fprintf (stderr, "Elev = %hu\n", elevation);
 		fprintf (stderr, "Dist = %hu\n", distance);
@@ -285,6 +292,7 @@ BC_R(ai)(XLChartHandler const *handle,
 	});
 
 	/* (2) == linked to container */
+printf("ref_type=%d\n",ref_type);
 	if (ref_type == 2) {
 		GnmExpr const *expr = ms_container_parse_expr (&s->container,
 			q->data+8, length);
@@ -464,7 +472,7 @@ BC_R(axis)(XLChartHandler const *handle,
 	 * This is 'value axis' and 'catagory axis'
 	 * which are logical names for X and Y that transpose for bar plots */
 	static char const *const ms_axis[] = {
-		"X-Axis", "Y-Axis", "Series-Axis"
+		"X-Axis", "Y-Axis", "Z-Axis"
 	};
 
 	guint16 const axis_type = GSF_LE_GET_GUINT16 (q->data);
@@ -1674,6 +1682,10 @@ BC_R(surf)(XLChartHandler const *handle,
 		NULL);
 #endif
 
+	/* at this point, we don't know if it is a contour plot or a surface
+	so we defer plot creation until later */
+	s->is_surface = TRUE;
+
 	return FALSE;
 }
 
@@ -1950,6 +1962,192 @@ BC_R(end)(XLChartHandler const *handle,
 		GogSeries     *series;
 		GogStyle      *style;
 
+		/* check series now and create 3d plot if necessary */
+		if (s->is_surface) {
+			gboolean is_matrix = TRUE;
+			GnmExpr const *expr, *cat_expr;
+			GnmValue *value;
+			GnmRange vector;
+			gboolean as_col;
+			GOData *cur;
+			int row_start, col_start, row, col, last;
+			GSList *axisY, *axisZ, *l;
+
+			/* exchange axis */
+			l = axisY = gog_chart_get_axes (s->chart, GOG_AXIS_Y);
+			axisZ = gog_chart_get_axes (s->chart, GOG_AXIS_Z);
+			while (l) {
+				gog_object_clear_parent (GOG_OBJECT (l->data));
+				g_object_set (G_OBJECT (l->data), "type",
+					((s->is_contour)? GOG_AXIS_PSEUDO_3D: GOG_AXIS_Z), NULL);
+				gog_object_add_by_name (s->chart,
+					((s->is_contour)? "Pseudo-3D-Axis": "Z-Axis"),
+					GOG_OBJECT (l->data));
+				l = l->next;
+			}
+			g_slist_free (axisY);
+			l = axisZ;
+			while (l) {
+				gog_object_clear_parent (GOG_OBJECT (l->data));
+				g_object_set (G_OBJECT (l->data), "type", GOG_AXIS_Y, NULL);
+				gog_object_add_by_name (s->chart, "Y-Axis", GOG_OBJECT (l->data));
+				l = l->next;
+			}
+			g_slist_free (axisZ);
+			/* examine the first series to retreive categories */
+			eseries = g_ptr_array_index (s->series, 0);
+			style = eseries->style;
+			if (!IS_GO_DATA_VECTOR (eseries->data [GOG_MS_DIM_CATEGORIES].data))
+				goto not_a_matrix;
+			cat_expr = gnm_go_data_get_expr (eseries->data [GOG_MS_DIM_CATEGORIES].data);
+			if (!gnm_expr_is_rangeref (cat_expr))
+				goto not_a_matrix;
+			value = gnm_expr_get_range (cat_expr);
+			as_col = value->v_range.cell.a.col == value->v_range.cell.b.col;
+			row = row_start = value->v_range.cell.a.row;
+			col = col_start = value->v_range.cell.a.col;
+			if (as_col) {
+				col++;
+				row_start--;
+				last = value->v_range.cell.b.row;
+			}
+			else {
+				if (value->v_range.cell.a.row != value->v_range.cell.b.row) {
+					value_release (value);
+					goto not_a_matrix;
+				}
+				row++;
+				col_start --;
+				last = value->v_range.cell.b.col;
+			}
+			value_release (value);
+			/* verify that all series are adjacent, have same categories and
+			same lengths */
+			for (i = 0 ; i < s->series->len; i++ ) {
+				eseries = g_ptr_array_index (s->series, i);
+				if (eseries->chart_group != s->plot_counter)
+					continue;
+				cur = eseries->data [GOG_MS_DIM_LABELS].data;
+				if (!cur || !IS_GO_DATA_SCALAR (cur)) {
+					is_matrix = FALSE;
+					break;
+				}
+				expr = gnm_go_data_get_expr (cur);	
+				if (!gnm_expr_is_rangeref (expr))
+					goto not_a_matrix;
+				value = gnm_expr_get_range (expr);
+				if ((as_col && (value->v_range.cell.a.col != col ||
+						value->v_range.cell.a.row != row_start)) ||
+						(! as_col && (value->v_range.cell.a.col != col_start ||
+						value->v_range.cell.a.row != row))) {
+					is_matrix = FALSE;
+					value_release (value);
+					break;
+				}
+				value_release (value);
+				cur = eseries->data [GOG_MS_DIM_CATEGORIES].data;
+				if (!cur ||
+					!gnm_expr_equal (gnm_go_data_get_expr (cur), cat_expr)) {
+					is_matrix = FALSE;
+					break;
+				}
+				cur = eseries->data [GOG_MS_DIM_VALUES].data;
+				if (!cur || !IS_GO_DATA_VECTOR (cur)) {
+					is_matrix = FALSE;
+					break;
+				}
+				expr = gnm_go_data_get_expr (cur);	
+				value = gnm_expr_get_range (expr);
+				if ((as_col && (value->v_range.cell.a.col != col ||
+						value->v_range.cell.b.col != col ||
+						value->v_range.cell.a.row != row ||
+						value->v_range.cell.b.row != last)) ||
+						(! as_col && (value->v_range.cell.a.col != col ||
+						value->v_range.cell.b.col != last ||
+						value->v_range.cell.a.row != row ||
+						value->v_range.cell.b.row != row))) {
+					is_matrix = FALSE;
+					value_release (value);
+					break;
+				}
+				value_release (value);
+				if (as_col)
+					col++;
+				else
+					row++;
+			}
+			if (is_matrix) {
+				Sheet *sheet = ms_container_sheet (s->container.parent);
+				s->plot = gog_plot_new_by_name ((s->is_contour)? 
+							"GogContourPlot": "GogSurfacePlot");
+
+				/* build the series */
+				series = gog_plot_new_series (s->plot);
+				if (style != NULL)
+					g_object_set (G_OBJECT (series),
+						"style", style,
+						NULL);
+				if (as_col) {
+					g_object_set (G_OBJECT (s->plot),
+						"transposed", TRUE,
+						NULL);
+					col --;
+					vector.start.row = row;
+					vector.start.col = vector.end.col = col_start;
+					vector.end.row = last;
+					gog_series_set_dim (series, 1,
+						gnm_go_data_vector_new_expr (sheet,
+							gnm_expr_new_constant (
+								value_new_cellrange_r (sheet, &vector))), NULL);
+					col_start++;
+					vector.start.col = col_start;
+					vector.start.row = vector.end.row = row_start;
+					vector.end.col = col;
+					gog_series_set_dim (series, 0,
+						gnm_go_data_vector_new_expr (sheet,
+							gnm_expr_new_constant (
+								value_new_cellrange_r (sheet, &vector))), NULL);
+
+					row_start++;
+					vector.start.row = row_start;
+					vector.end.row = last;
+					gog_series_set_dim (series, 2,
+						gnm_go_data_matrix_new_expr (sheet,
+							gnm_expr_new_constant (
+								value_new_cellrange_r (sheet, &vector))), NULL);
+				} else {
+					row--;
+					vector.start.col = col;
+					vector.start.row = vector.end.row = row_start;
+					vector.end.col = last;
+					gog_series_set_dim (series, 0,
+						gnm_go_data_vector_new_expr (sheet,
+							gnm_expr_new_constant (
+								value_new_cellrange_r (sheet, &vector))), NULL);
+					row_start++;
+					vector.start.row = row_start;
+					vector.start.col = vector.end.col = col_start;
+					vector.end.row = row;
+					gog_series_set_dim (series, 1,
+						gnm_go_data_vector_new_expr (sheet,
+							gnm_expr_new_constant (
+								value_new_cellrange_r (sheet, &vector))), NULL);
+					col_start++;
+					vector.start.col = col_start;
+					vector.end.col = last;
+					gog_series_set_dim (series, 2,
+						gnm_go_data_matrix_new_expr (sheet,
+							gnm_expr_new_constant (
+								value_new_cellrange_r (sheet, &vector))), NULL);
+				}
+			} else {
+not_a_matrix:
+				s->is_surface = FALSE;
+				s->plot = gog_plot_new_by_name ((s->is_contour)? 
+							"XLContourPlot": "XLSurfacePlot");
+			}
+		}
+
 		g_return_val_if_fail (s->plot != NULL, TRUE);
 
 		/* Add _before_ setting styles so theme does not override */
@@ -1977,29 +2175,31 @@ BC_R(end)(XLChartHandler const *handle,
 			s->default_plot_style = NULL;
 		}
 
-		for (i = 0 ; i < s->series->len; i++ ) {
-			eseries = g_ptr_array_index (s->series, i);
-			if (eseries->chart_group != s->plot_counter)
-				continue;
-			series = gog_plot_new_series (s->plot);
-			for (j = 0 ; j < GOG_MS_DIM_TYPES; j++ )
-				if (eseries->data [j].data != NULL) {
-					XL_gog_series_set_dim (series, j,
-						eseries->data [j].data);
-					eseries->data [j].data = NULL;
-				}
-			style = eseries->style;
-			if (style != NULL)
-				g_object_set (G_OBJECT (series),
-					"style", style,
-					NULL);
-			if (!eseries->has_legend)
-				g_object_set (G_OBJECT (series),
-					"has-legend", FALSE,
-					NULL);
-			if (eseries->singletons != NULL)
-				g_hash_table_foreach (eseries->singletons,
-					(GHFunc) cb_store_singletons, series);
+		if (!s->is_surface) {
+			for (i = 0 ; i < s->series->len; i++ ) {
+				eseries = g_ptr_array_index (s->series, i);
+				if (eseries->chart_group != s->plot_counter)
+					continue;
+				series = gog_plot_new_series (s->plot);
+				for (j = 0 ; j < GOG_MS_DIM_TYPES; j++ )
+					if (eseries->data [j].data != NULL) {
+						XL_gog_series_set_dim (series, j,
+							eseries->data [j].data);
+						eseries->data [j].data = NULL;
+					}
+				style = eseries->style;
+				if (style != NULL)
+					g_object_set (G_OBJECT (series),
+						"style", style,
+						NULL);
+				if (!eseries->has_legend)
+					g_object_set (G_OBJECT (series),
+						"has-legend", FALSE,
+						NULL);
+				if (eseries->singletons != NULL)
+					g_hash_table_foreach (eseries->singletons,
+						(GHFunc) cb_store_singletons, series);
+			}
 		}
 
 		/* Vile cheesy hack.
@@ -2248,6 +2448,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 	state.plot_counter  = -1;
 	state.has_a_grid    = FALSE;
 	state.text	    = NULL;
+	state.is_surface	= FALSE;
 
 	if (NULL != (state.sog = sog)) {
 		GogStyle *style = gog_style_new ();
@@ -3262,7 +3463,6 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 		case GOG_AXIS_SET_NONE :
 			break;
 		case GOG_AXIS_SET_XY :
-		case GOG_AXIS_SET_XY_pseudo_3d :
 			/* BIFF_CHART_pos, optional we use auto positioning */
 			if (axis_set->transpose) {
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_Y],
@@ -3275,6 +3475,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_Y],
 					1, TRUE);
 			}
+		case GOG_AXIS_SET_XY_pseudo_3d :
 			break;
 		case GOG_AXIS_SET_RADAR :
 			break;
