@@ -1979,7 +1979,7 @@ BC_R(end)(XLChartHandler const *handle,
 				gog_object_clear_parent (GOG_OBJECT (l->data));
 				g_object_set (G_OBJECT (l->data), "type",
 					((s->is_contour)? GOG_AXIS_PSEUDO_3D: GOG_AXIS_Z), NULL);
-				gog_object_add_by_name (s->chart,
+				gog_object_add_by_name (GOG_OBJECT (s->chart),
 					((s->is_contour)? "Pseudo-3D-Axis": "Z-Axis"),
 					GOG_OBJECT (l->data));
 				l = l->next;
@@ -1989,7 +1989,7 @@ BC_R(end)(XLChartHandler const *handle,
 			while (l) {
 				gog_object_clear_parent (GOG_OBJECT (l->data));
 				g_object_set (G_OBJECT (l->data), "type", GOG_AXIS_Y, NULL);
-				gog_object_add_by_name (s->chart, "Y-Axis", GOG_OBJECT (l->data));
+				gog_object_add_by_name (GOG_OBJECT (s->chart), "Y-Axis", GOG_OBJECT (l->data));
 				l = l->next;
 			}
 			g_slist_free (axisZ);
