@@ -327,15 +327,15 @@ pref_font_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
 static void
 cb_pref_font_set_fonts (char const *key, GtkWidget *page)
 {
-	if (key == NULL || 0 == strcmp (key, GNM_CONF_FONT_NAME))
+	if (!key || g_str_has_suffix (key, GNM_CONF_FONT_NAME))
 		font_selector_set_name (FONT_SELECTOR (page),
 			gnm_app_prefs->default_font.name);
-	if (key == NULL || 0 == strcmp (key, GNM_CONF_FONT_SIZE))
+	if (!key || g_str_has_suffix (key, GNM_CONF_FONT_SIZE))
 		font_selector_set_points (FONT_SELECTOR (page),
 			gnm_app_prefs->default_font.size);
-	if (key == NULL ||
-	    0 == strcmp (key, GNM_CONF_FONT_BOLD) ||
-	    0 == strcmp (key, GNM_CONF_FONT_ITALIC))
+	if (!key ||
+	    g_str_has_suffix (key, GNM_CONF_FONT_BOLD) ||
+	    g_str_has_suffix (key, GNM_CONF_FONT_ITALIC))
 		font_selector_set_style (FONT_SELECTOR (page),
 			gnm_app_prefs->default_font.is_bold,
 			gnm_app_prefs->default_font.is_italic);
@@ -399,20 +399,20 @@ cb_pref_font_hf_set_fonts (GOConfNode *node, char const *key, GtkWidget *page)
 {
 	node = gnm_conf_get_root ();
 	if (!key ||
-	    !g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_NAME)) {
+	    g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_NAME)) {
 		gchar *name = go_conf_load_string (
 			node, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_HF_FONT_NAME);
 		font_selector_set_name (FONT_SELECTOR (page), name);
 		g_free (name);
 	}
 	if (!key ||
-	    !g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_SIZE))
+	    g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_SIZE))
 		font_selector_set_points (FONT_SELECTOR (page),
 			go_conf_get_double (
 				node, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_HF_FONT_SIZE));
 	if (!key ||
-	    !g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_BOLD) ||
-	    !g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_ITALIC))
+	    g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_BOLD) ||
+	    g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_ITALIC))
 		font_selector_set_style (FONT_SELECTOR (page),
 			go_conf_get_bool (
 				node, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_HF_FONT_BOLD),

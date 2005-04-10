@@ -1,7 +1,8 @@
 2005-04-10  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
-	* src/dialogs/dialog-preferences.c (cb_pref_font_hf_set_fonts):
-	It was broken by my commit in 2005-04-08.
+	* src/dialogs/dialog-preferences.c (cb_pref_font_hf_set_fonts,
+	cb_pref_font_set_fonts):
+	They were was broken by my changes in 2005-04-08.
 
 2005-04-09  Morten Welinder  <terra@gnome.org>
 
