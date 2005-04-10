@@ -292,7 +292,6 @@ BC_R(ai)(XLChartHandler const *handle,
 	});
 
 	/* (2) == linked to container */
-printf("ref_type=%d\n",ref_type);
 	if (ref_type == 2) {
 		GnmExpr const *expr = ms_container_parse_expr (&s->container,
 			q->data+8, length);
