@@ -1,3 +1,11 @@
+gnumeric (1.4.3-4) unstable; urgency=high
+
+  * [debian/control] Bumped libgda2-dev and libgnomedb2-dev build dependencies
+    to get runtime dependencies on libgda2-3 and libgnomedb2-4 rather than
+    libgda2-1 and libgnomedb2-3.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 10 Apr 2005 10:05:20 +0200
+
 gnumeric (1.4.3-3) unstable; urgency=high
 
   * [NEWS, ChangeLog, plugins/fn-math/ChangeLog,
