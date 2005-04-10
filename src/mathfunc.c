@@ -2180,57 +2180,6 @@ gnm_float qt(gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p)
 }
 
 /* ------------------------------------------------------------------------ */
-/* Imported src/nmath/qf.c from R.  */
-/*
- *  Mathlib : A C Library of Special Functions
- *  Copyright (C) 1998 Ross Ihaka
- *  Copyright (C) 2000 The R Development Core Team
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
- *
- *  DESCRIPTION
- *
- *    The quantile function of the F distribution.
-*/
-
-
-gnm_float qf(gnm_float p, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p)
-{
-#ifdef IEEE_754
-    if (gnm_isnan(p) || gnm_isnan(n1) || gnm_isnan(n2))
-	return p + n1 + n2;
-#endif
-    if (n1 <= 0. || n2 <= 0.) ML_ERR_return_NAN;
-
-    R_Q_P01_check(p);
-    if (p == R_DT_0)
-	return 0;
-
-    /* fudge the extreme DF cases -- qbeta doesn't do this well */
-
-    if (n2 > 4e5)
-	return qchisq(p, n1, lower_tail, log_p) / n1;
-
-    if (n1 > 4e5)
-	return 1/qchisq(p, n2, !lower_tail, log_p) * n2;
-
-    p = (1. / qbeta(R_DT_CIv(p), n2/2, n1/2, TRUE, FALSE) - 1.) * (n2 / n1);
-    return !gnm_isnan(p) ? p : gnm_nan;
-}
-
-/* ------------------------------------------------------------------------ */
 /* Imported src/nmath/pchisq.c from R.  */
 /*
  *  Mathlib : A C Library of Special Functions
@@ -5902,6 +5851,29 @@ qbeta (gnm_float p, gnm_float pin, gnm_float qin, gboolean lower_tail, gboolean 
 	shape[1] = qin;
 	return pfuncinverter (p, shape, lower_tail, log_p, 0, 1, x0,
 			      pbeta1, dbeta1);
+}
+
+gnm_float
+qf (gnm_float p, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p)
+{
+	gnm_float q, qc;
+#ifdef IEEE_754
+	if (gnm_isnan(p) || gnm_isnan(n1) || gnm_isnan(n2))
+		return p + n1 + n2;
+#endif
+	if (n1 <= 0. || n2 <= 0.) ML_ERR_return_NAN;
+
+	R_Q_P01_check(p);
+	if (p == R_DT_0)
+		return 0;
+
+	q = qbeta (p, n2 / 2, n1 / 2, !lower_tail, log_p);
+	if (q < 0.9)
+		qc = 1 - q;
+	else
+		qc = qbeta (p, n1 / 2, n2 / 2, lower_tail, log_p);
+
+	return (qc / q) * (n2 / n1);
 }
 
 /* ------------------------------------------------------------------------ */
