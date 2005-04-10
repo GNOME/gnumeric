@@ -397,6 +397,7 @@ pref_font_hf_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
 static void
 cb_pref_font_hf_set_fonts (GOConfNode *node, char const *key, GtkWidget *page)
 {
+	node = gnm_conf_get_root ();
 	if (!key ||
 	    !g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_NAME)) {
 		gchar *name = go_conf_load_string (
