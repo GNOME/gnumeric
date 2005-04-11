@@ -1,3 +1,9 @@
+2005-04-10  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+        * src/dialogs/dialog-preferences.c (cb_pref_font_hf_set_fonts,
+	cb_pref_font_set_fonts):
+        They were broken by my commit in 2005-04-09.
+
 2005-04-09  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* configure.in: Determine whether we are cross-compiling.
