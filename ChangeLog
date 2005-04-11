@@ -1,3 +1,7 @@
+2005-04-11  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (qf): Make our own version of this.
+
 2005-04-10  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* src/dialogs/dialog-preferences.c (cb_pref_font_hf_set_fonts,

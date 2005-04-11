@@ -52,6 +52,7 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "mathfunc.h"
+#include <glib/gi18n.h>
 
 #include <math.h>
 #include <errno.h>
@@ -86,6 +87,7 @@
 #define MATHLIB_WARNING g_warning
 #define MATHLIB_WARNING2 g_warning
 #define MATHLIB_WARNING4 g_warning
+#define REprintf g_warning
 
 static inline gnm_float fmin2 (gnm_float x, gnm_float y) { return MIN (x, y); }
 static inline gnm_float fmax2 (gnm_float x, gnm_float y) { return MAX (x, y); }
@@ -96,55 +98,12 @@ static inline int imax2 (int x, int y) { return MAX (x, y); }
 #define ML_ERR_return_NAN { return gnm_nan; }
 static void pnorm_both (gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboolean log_p);
 
-#define SQR(x) ((x)*(x))
-/* Scale factor for continued fractions.  ==2^256.  */
-static const gnm_float scalefactor = SQR(SQR(SQR(GNM_const(4294967296.0))));
-#undef SQR
-
 /* MW ---------------------------------------------------------------------- */
 
 void
 mathfunc_init (void)
 {
 	/* Nothing, for the time being.  */
-}
-
-/*
- * Compute the log of a sum from logs of terms, i.e.,
- *
- *     log (exp (logx) + exp (logy))
- *
- * without causing overflows and without throwing away large handfuls
- * of accuracy.
- */
-static gnm_float
-logspace_add (gnm_float logx, gnm_float logy)
-{
-	return fmax2 (logx, logy) + gnm_log1p (gnm_exp (-gnm_abs (logx - logy)));
-}
-
-
-/*
- * Compute the log of a difference from logs of terms, i.e.,
- *
- *     log (exp (logx) - exp (logy))
- *
- * without causing overflows and without throwing away large handfuls
- * of accuracy.
- */
-static gnm_float
-logspace_sub (gnm_float logx, gnm_float logy)
-{
-	return logx + gnm_log1p (-gnm_exp (logy - logx));
-}
-
-
-static gnm_float
-logspace_signed_add (gnm_float logx, gnm_float logabsy, gboolean ypos)
-{
-	return ypos
-		? logspace_add (logx, logabsy)
-		: logspace_sub (logx, logabsy);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1069,7 +1028,7 @@ static gnm_float stirlerr(gnm_float n)
     if (n <= 15.0) {
 	nn = n + n;
 	if (nn == (int)nn) return(sferr_halves[(int)nn]);
-	return(lgamma1p (n) - (n + 0.5)*gnm_log(n) + n - M_LN_SQRT_2PI);
+	return(lgamma1p (n ) - (n + 0.5)*gnm_log(n) + n - M_LN_SQRT_2PI);
     }
 
     nn = n*n;
@@ -1184,10 +1143,14 @@ static gnm_float bd0(gnm_float x, gnm_float np)
 
 static gnm_float dpois_raw(gnm_float x, gnm_float lambda, gboolean give_log)
 {
+    /*       x >= 0 ; integer for dpois(), but not e.g. for pgamma()!
+        lambda >= 0
+    */
     if (lambda == 0) return( (x == 0) ? R_D__1 : R_D__0 );
-    if (x == 0) return( R_D_exp(-lambda) );
-    if (x < 0)  return( R_D__0 );
-
+    if (!gnm_finite(lambda)) return R_D__0;
+    if (x < 0) return( R_D__0 );
+    if (x < lambda * GNM_MIN) return(R_D_exp(-lambda) );
+    if (lambda < x * GNM_MIN) return(R_D_exp(-lambda + x*gnm_log(lambda) -lgamma1p (x)));
     return(R_D_fexp( M_2PIgnum*x, -stirlerr(x)-bd0(x,lambda) ));
 }
 
@@ -1200,7 +1163,9 @@ gnm_float dpois(gnm_float x, gnm_float lambda, gboolean give_log)
 
     if (lambda < 0) ML_ERR_return_NAN;
     R_D_nonint_check(x);
-    if (x < 0 || !gnm_finite(x)) return R_D__0;
+    if (x < 0 || !gnm_finite(x))
+	return R_D__0;
+
     x = R_D_forceint(x);
 
     return( dpois_raw(x,lambda,give_log) );
@@ -1277,13 +1242,8 @@ gnm_float dgamma(gnm_float x, gnm_float shape, gnm_float scale, gboolean give_lo
 /* Imported src/nmath/pgamma.c from R.  */
 /*
  *  Mathlib : A C Library of Special Functions
- *  Copyright (C) 1998		Ross Ihaka
- *  Copyright (C) 1999-2000	The R Development Core Team
- *  Copyright (C) 2003-2004     The R Foundation
- *  Copyright (C) 2004          Morten Welinder
- *  Copyright (C) 2002-2003     Ian Smith
- *
- *  Formerly based on AS 239 (C) 1988 Royal Statistical Society
+ *  Copyright (C) 2005	Morten Welinder <terra@gnome.org>
+ *  Copyright (C) 2005	The R Foundation
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -1295,15 +1255,24 @@ gnm_float dgamma(gnm_float x, gnm_float shape, gnm_float scale, gboolean give_lo
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  A copy of the GNU General Public License is available via WWW at
+ *  http://www.gnu.org/copyleft/gpl.html.  You can also obtain it by
+ *  writing to the Free Software Foundation, Inc., 59 Temple Place,
+ *  Suite 330, Boston, MA  02111-1307  USA.
  *
  *  SYNOPSIS
  *
  *	#include <Rmath.h>
- *	double pgamma(double x, double alph, double scale,
- *		      int lower_tail, int log_p)
+ *
+ *	double pgamma (double x, double alph, double scale,
+ *		       int lower_tail, int log_p)
+ *
+ *	double log1pmx	(double x)
+ *	double lgamma1p (double a)
+ *
+ *	double logspace_add (double logx, double logy)
+ *	double logspace_sub (double logx, double logy)
+ *
  *
  *  DESCRIPTION
  *
@@ -1311,6 +1280,617 @@ gnm_float dgamma(gnm_float x, gnm_float shape, gnm_float scale, gboolean give_lo
  *	gamma distribution with shape parameter alph and scale parameter
  *	scale.	This is also known as the incomplete gamma function.
  *	See Abramowitz and Stegun (6.5.1) for example.
+ *
+ *  NOTES
+ *
+ *	Complete redesign by Morten Welinder, originally for Gnumeric.
+ *	Improvements (e.g. "while NEEDED_SCALE") by Martin Maechler
+ *	The old version can be activated by compiling with -DR_USE_OLD_PGAMMA
+ *
+ *  REFERENCES
+ *
+ */
+
+/*----------- DEBUGGING -------------
+ *	make CFLAGS='-DDEBUG_p -g -I/usr/local/include -I../include'
+ */
+
+
+/* Scalefactor:= (2^32)^8 = 2^256 = 1.157921e+77 */
+#define SQR(x) ((x)*(x))
+static const gnm_float scalefactor = SQR(SQR(SQR(4294967296.0)));
+#undef SQR
+
+/* If |x| > |k| * M_cutoff,  then  log[ gnm_exp(-x) * k^x ]  =~=  -x */
+static const gnm_float M_cutoff = M_LN2gnum * GNM_MAX_EXP / GNM_EPSILON;/*=3.196577e18*/
+
+/* Continued fraction for calculation of
+ *    1/i + x/(i+d) + x^2/(i+2*d) + x^3/(i+3*d) + ...
+ *
+ * auxilary in log1pmx() and lgamma1p()
+ */
+static gnm_float
+logcf (gnm_float x, gnm_float i, gnm_float d)
+{
+    gnm_float c1 = 2 * d;
+    gnm_float c2 = i + d;
+    gnm_float c4 = c2 + d;
+    gnm_float a1 = c2;
+    gnm_float b1 = i * (c2 - i * x);
+    gnm_float b2 = d * d * x;
+    gnm_float a2 = c4 * c2 - b2;
+    const gnm_float cfVSmall = 1.0e-14;/* ~= relative tolerance */
+
+#if 0
+    assert (i > 0);
+    assert (d >= 0);
+#endif
+
+    b2 = c4 * b1 - i * b2;
+
+    while (gnm_abs (a2 * b1 - a1 * b2) > gnm_abs (cfVSmall * b1 * b2)) {
+	gnm_float c3 = c2*c2*x;
+	c2 += d;
+	c4 += d;
+	a1 = c4 * a2 - c3 * a1;
+	b1 = c4 * b2 - c3 * b1;
+
+	c3 = c1 * c1 * x;
+	c1 += d;
+	c4 += d;
+	a2 = c4 * a1 - c3 * a2;
+	b2 = c4 * b1 - c3 * b2;
+
+	if (gnm_abs (b2) > scalefactor) {
+	    a1 /= scalefactor;
+	    b1 /= scalefactor;
+	    a2 /= scalefactor;
+	    b2 /= scalefactor;
+	} else if (gnm_abs (b2) < 1 / scalefactor) {
+	    a1 *= scalefactor;
+	    b1 *= scalefactor;
+	    a2 *= scalefactor;
+	    b2 *= scalefactor;
+	}
+    }
+
+    return a2 / b2;
+}
+
+/* Accurate calculation of gnm_log1p (x)-x, particularly for small x.  */
+gnm_float log1pmx (gnm_float x)
+{
+    static const gnm_float minLog1Value = -0.79149064;
+    static const gnm_float two = 2;
+
+    if (x > 1 || x < minLog1Value)
+	return gnm_log1p(x) - x;
+    else { /* expand in	 [x/(2+x)]^2 */
+	gnm_float term = x / (2 + x);
+	gnm_float y = term * term;
+	if (gnm_abs(x) < 1e-2)
+	    return term * ((((two / 9 * y + two / 7) * y + two / 5) * y +
+			    two / 3) * y - x);
+	else
+	    return term * (2 * y * logcf (y, 3, 2) - x);
+    }
+}
+
+
+/* Compute  gnm_log(gamma(a+1))  accurately also for small a (0 < a < 0.5). */
+gnm_float lgamma1p (gnm_float a)
+{
+    const gnm_float eulers_const =	 GNM_const(0.5772156649015328606065120900824024);
+
+    /* coeffs[i] holds (zeta(i+2)-1)/(i+2) , i = 1:N, N = 40 : */
+    const int N = 40;
+    static const gnm_float coeffs[40] = {
+	GNM_const(0.3224670334241132182362075833230126e-0),
+	GNM_const(0.6735230105319809513324605383715000e-1),
+	GNM_const(0.2058080842778454787900092413529198e-1),
+	GNM_const(0.7385551028673985266273097291406834e-2),
+	GNM_const(0.2890510330741523285752988298486755e-2),
+	GNM_const(0.1192753911703260977113935692828109e-2),
+	GNM_const(0.5096695247430424223356548135815582e-3),
+	GNM_const(0.2231547584535793797614188036013401e-3),
+	GNM_const(0.9945751278180853371459589003190170e-4),
+	GNM_const(0.4492623673813314170020750240635786e-4),
+	GNM_const(0.2050721277567069155316650397830591e-4),
+	GNM_const(0.9439488275268395903987425104415055e-5),
+	GNM_const(0.4374866789907487804181793223952411e-5),
+	GNM_const(0.2039215753801366236781900709670839e-5),
+	GNM_const(0.9551412130407419832857179772951265e-6),
+	GNM_const(0.4492469198764566043294290331193655e-6),
+	GNM_const(0.2120718480555466586923135901077628e-6),
+	GNM_const(0.1004322482396809960872083050053344e-6),
+	GNM_const(0.4769810169363980565760193417246730e-7),
+	GNM_const(0.2271109460894316491031998116062124e-7),
+	GNM_const(0.1083865921489695409107491757968159e-7),
+	GNM_const(0.5183475041970046655121248647057669e-8),
+	GNM_const(0.2483674543802478317185008663991718e-8),
+	GNM_const(0.1192140140586091207442548202774640e-8),
+	GNM_const(0.5731367241678862013330194857961011e-9),
+	GNM_const(0.2759522885124233145178149692816341e-9),
+	GNM_const(0.1330476437424448948149715720858008e-9),
+	GNM_const(0.6422964563838100022082448087644648e-10),
+	GNM_const(0.3104424774732227276239215783404066e-10),
+	GNM_const(0.1502138408075414217093301048780668e-10),
+	GNM_const(0.7275974480239079662504549924814047e-11),
+	GNM_const(0.3527742476575915083615072228655483e-11),
+	GNM_const(0.1711991790559617908601084114443031e-11),
+	GNM_const(0.8315385841420284819798357793954418e-12),
+	GNM_const(0.4042200525289440065536008957032895e-12),
+	GNM_const(0.1966475631096616490411045679010286e-12),
+	GNM_const(0.9573630387838555763782200936508615e-13),
+	GNM_const(0.4664076026428374224576492565974577e-13),
+	GNM_const(0.2273736960065972320633279596737272e-13),
+	GNM_const(0.1109139947083452201658320007192334e-13)
+    };
+
+    const gnm_float c = GNM_const(0.2273736845824652515226821577978691e-12);/* zeta(N+2)-1 */
+    gnm_float lgam;
+    int i;
+
+    if (gnm_abs (a) >= 0.5)
+	return gnm_lgamma (a + 1);
+
+    /* Abramowitz & Stegun 6.1.33,
+     * also  http://functions.wolfram.com/06.11.06.0008.01 */
+    lgam = c * logcf (-a / 2, N + 2, 1);
+    for (i = N - 1; i >= 0; i--)
+	lgam = coeffs[i] - a * lgam;
+
+    return (a * lgam - eulers_const) * a - log1pmx (a);
+} /* lgamma1p */
+
+
+
+/*
+ * Compute the log of a sum from logs of terms, i.e.,
+ *
+ *     log (exp (logx) + exp (logy))
+ *
+ * without causing overflows and without throwing away large handfuls
+ * of accuracy.
+ */
+gnm_float logspace_add (gnm_float logx, gnm_float logy)
+{
+    return fmax2 (logx, logy) + gnm_log1p (gnm_exp (-gnm_abs (logx - logy)));
+}
+
+
+/*
+ * Compute the log of a difference from logs of terms, i.e.,
+ *
+ *     log (exp (logx) - exp (logy))
+ *
+ * without causing overflows and without throwing away large handfuls
+ * of accuracy.
+ */
+gnm_float logspace_sub (gnm_float logx, gnm_float logy)
+{
+    return logx + gnm_log1p (-gnm_exp (logy - logx));
+}
+
+
+#ifndef R_USE_OLD_PGAMMA
+
+/* dpois_wrap (x_P_1,  lambda, g_log) ==
+ *   dpois (x_P_1 - 1, lambda, g_log)
+*/
+static gnm_float
+dpois_wrap (gnm_float x_plus_1, gnm_float lambda, gboolean give_log)
+{
+#ifdef DEBUG_p
+    REprintf (" dpois_wrap(x+1=%.14" GNM_FORMAT_g ", lambda=%.14" GNM_FORMAT_g ", log=%d)\n",
+	      x_plus_1, lambda, give_log);
+#endif
+    if (!gnm_finite(lambda))
+	return R_D__0;
+    if (x_plus_1 > 1)
+	return dpois_raw (x_plus_1 - 1, lambda, give_log);
+    if (lambda > gnm_abs(x_plus_1 - 1) * M_cutoff)
+	return R_D_exp(-lambda - gnm_lgamma(x_plus_1));
+    else {
+	gnm_float d = dpois_raw (x_plus_1, lambda, give_log);
+#ifdef DEBUG_p
+	REprintf ("  -> d=dpois_raw(..)=%.14" GNM_FORMAT_g "\n", d);
+#endif
+	return give_log
+	    ? d + gnm_log (x_plus_1 / lambda)
+	    : d * (x_plus_1 / lambda);
+    }
+}
+
+/*
+ * Abramowitz and Stegun 6.5.29 [right]
+ */
+static gnm_float
+pgamma_smallx (gnm_float x, gnm_float alph, gboolean lower_tail, gboolean log_p)
+{
+    gnm_float sum = 0, c = alph, n = 0, term;
+
+#ifdef DEBUG_p
+    REprintf (" pg_smallx(x=%.12" GNM_FORMAT_g ", alph=%.12" GNM_FORMAT_g "): ", x, alph);
+#endif
+
+    /*
+     * Relative to 6.5.29 all terms have been multiplied by alph
+     * and the first, thus being 1, is omitted.
+     */
+
+    do {
+	n++;
+	c *= -x / n;
+	term = c / (alph + n);
+	sum += term;
+    } while (gnm_abs (term) > GNM_EPSILON * gnm_abs (sum));
+
+#ifdef DEBUG_p
+    REprintf (" conv.sum=%" GNM_FORMAT_g ";", sum);
+#endif
+    if (lower_tail) {
+	gnm_float f1 = log_p ? gnm_log1p (sum) : 1 + sum;
+	gnm_float f2;
+	if (alph > 1) {
+	    f2 = dpois_raw (alph, x, log_p);
+	    f2 = log_p ? f2 + x : f2 * gnm_exp (x);
+	} else if (log_p)
+	    f2 = alph * gnm_log (x) - lgamma1p (alph);
+	else
+	    f2 = gnm_pow (x, alph) / gnm_exp (lgamma1p (alph));
+#ifdef DEBUG_p
+    REprintf (" (f1,f2)= (%" GNM_FORMAT_g ",%" GNM_FORMAT_g ")\n", f1,f2);
+#endif
+	return log_p ? f1 + f2 : f1 * f2;
+    } else {
+	gnm_float lf2 = alph * gnm_log (x) - lgamma1p (alph);
+#ifdef DEBUG_p
+	REprintf (" 1:%.14" GNM_FORMAT_g "  2:%.14" GNM_FORMAT_g "\n", alph * gnm_log (x), lgamma1p (alph));
+	REprintf (" sum=%.14" GNM_FORMAT_g "  gnm_log1p (sum)=%.14" GNM_FORMAT_g "	 lf2=%.14" GNM_FORMAT_g "\n",
+		  sum, gnm_log1p (sum), lf2);
+#endif
+	if (log_p)
+	    return swap_log_tail (gnm_log1p (sum) + lf2);
+	else {
+	    gnm_float f1m1 = sum;
+	    gnm_float f2m1 = gnm_expm1 (lf2);
+	    return -(f1m1 + f2m1 + f1m1 * f2m1);
+	}
+    }
+} /* pgamma_smallx() */
+
+static gnm_float
+pd_upper_series (gnm_float x, gnm_float y, gboolean log_p)
+{
+    gnm_float term = x / y;
+    gnm_float sum = term;
+
+    do {
+	y++;
+	term *= x / y;
+	sum += term;
+    } while (term > sum * GNM_EPSILON);
+
+    /* sum =  \sum_{n=1}^ oo  x^n     / (y*(y+1)*...*(y+n-1))
+     *     =  \sum_{n=0}^ oo  x^(n+1) / (y*(y+1)*...*(y+n))
+     *     =  x/y * (1 + \sum_{n=1}^oo  x^n / ((y+1)*...*(y+n)))
+     *     ~  x/y +  o(x/y)   {which happens when alph -> Inf}
+     */
+    return log_p ? gnm_log (sum) : sum;
+}
+
+/* Continued fraction for calculation of
+ *    ???
+ *  =  (i / d)  +  o(i/d)
+ */
+static gnm_float
+pd_lower_cf (gnm_float i, gnm_float d)
+{
+    gnm_float f = 0, of;
+
+    gnm_float c1 = 0, c2, c3, c4;
+    gnm_float a1 = 0, b1 = 1;
+    gnm_float a2 = i, b2 = d;
+
+#define	NEEDED_SCALE				\
+	  (b2 > scalefactor) {			\
+	    a1 /= scalefactor;			\
+	    b1 /= scalefactor;			\
+	    a2 /= scalefactor;			\
+	    b2 /= scalefactor;			\
+	}
+
+#define max_it 200000
+
+#ifdef DEBUG_p
+    REprintf("pd_lower_cf(i=%.14" GNM_FORMAT_g ", d=%.14" GNM_FORMAT_g ")\n", i, d);
+#endif
+
+    while NEEDED_SCALE
+
+    if(a2 == 0)
+	return 0;/* when   d >>>> i  originally */
+
+    c2 = a2;
+    c4 = b2;
+
+    while (c1 < max_it) {
+	c1++;
+	c2--;
+	c3 = c1 * c2;
+	c4 += 2;
+	a1 = c4 * a2 + c3 * a1;
+	b1 = c4 * b2 + c3 * b1;
+
+	c1++;
+	c2--;
+	c3 = c1 * c2;
+	c4 += 2;
+	a2 = c4 * a1 + c3 * a2;
+	b2 = c4 * b1 + c3 * b2;
+
+	if NEEDED_SCALE
+
+	if (b2 != 0) {
+	    of = f;
+	    f = a2 / b2;
+	    /* convergence check: relative; absolute for small f : */
+	    if (gnm_abs (f - of) <= GNM_EPSILON * fmax2(1., gnm_abs(f)))
+		return f;
+	}
+    }
+
+    REprintf(" ** NON-convergence in pgamma()'s pd_lower_cf() f= %" GNM_FORMAT_g ".\n", f);
+    return f;/* should not happen ... */
+} /* pd_lower_cf() */
+#undef NEEDED_SCALE
+
+
+static gnm_float
+pd_lower_series (gnm_float lambda, gnm_float y)
+{
+    gnm_float term = 1, sum = 0;
+
+#ifdef DEBUG_p
+    REprintf("pd_lower_series(lam=%.14" GNM_FORMAT_g ", y=%.14" GNM_FORMAT_g ") ...", lambda, y);
+#endif
+    while (y >= 1 && term > sum * GNM_EPSILON) {
+	term *= y / lambda;
+	sum += term;
+	y--;
+    }
+    /* sum =  \sum_{n=0}^ oo  y*(y-1)*...*(y - n) / lambda^(n+1)
+     *     =  y/lambda * (1 + \sum_{n=1}^Inf  (y-1)*...*(y-n) / lambda^n
+     *     ~  y/lambda + o(y/lambda)
+     */
+#ifdef DEBUG_p
+    REprintf(" done: term=%" GNM_FORMAT_g ", sum=%" GNM_FORMAT_g ", y= %" GNM_FORMAT_g "\n", term, sum, y);
+#endif
+
+    if (y != gnm_floor (y)) {
+	/*
+	 * The series does not converge as the terms start getting
+	 * bigger (besides flipping sign) for y < -lambda.
+	 */
+	gnm_float f;
+#ifdef DEBUG_p
+	REprintf(" y not int: add another term ");
+#endif
+	f = pd_lower_cf (y, lambda + 1 - y);
+#ifdef DEBUG_p
+	REprintf("  (= %.14" GNM_FORMAT_g ") * term = %.14" GNM_FORMAT_g " to sum %" GNM_FORMAT_g "\n", f, term * f, sum);
+#endif
+	sum += term * f;
+    }
+
+    return sum;
+} /* pd_lower_series() */
+
+/*
+ * Asymptotic expansion to calculate the probability that poisson variate
+ * has value <= x.
+ */
+static gnm_float
+ppois_asymp (gnm_float x, gnm_float lambda, gboolean lower_tail, gboolean log_p)
+{
+    static const gnm_float coef15 = 1 / GNM_const(12.);
+    static const gnm_float coef25 = 1 / GNM_const(288.);
+    static const gnm_float coef35 = -139 / GNM_const(51840.);
+    static const gnm_float coef45 = -571 / GNM_const(2488320.);
+    static const gnm_float coef55 = 163879 / GNM_const(209018880.);
+    static const gnm_float coef65 =  5246819 / GNM_const(75246796800.);
+    static const gnm_float coef75 = -534703531 / GNM_const(902961561600.);
+    static const gnm_float coef1 = 2 / GNM_const(3.);
+    static const gnm_float coef2 = -4 / GNM_const(135.);
+    static const gnm_float coef3 = 8 / GNM_const(2835.);
+    static const gnm_float coef4 = 16 / GNM_const(8505.);
+    static const gnm_float coef5 = -8992 / GNM_const(12629925.);
+    static const gnm_float coef6 = -334144 / GNM_const(492567075.);
+    static const gnm_float coef7 = 698752 / GNM_const(1477701225.);
+    static const gnm_float two = 2;
+
+    gnm_float dfm, pt_,s2pt,res1,res2,elfb,term;
+    gnm_float ig2,ig3,ig4,ig5,ig6,ig7,ig25,ig35,ig45,ig55,ig65,ig75;
+    gnm_float f, np, nd;
+
+    dfm = lambda - x;
+    pt_ = -x * log1pmx (dfm / x);
+    s2pt = gnm_sqrt (2 * pt_);
+    if (dfm < 0) s2pt = -s2pt;
+
+    ig2 = 1.0 + pt_;
+    term = pt_ * pt_ * 0.5;
+    ig3 = ig2 + term;
+    term *= pt_ / 3;
+    ig4 = ig3 + term;
+    term *= pt_ / 4;
+    ig5 = ig4 + term;
+    term *= pt_ / 5;
+    ig6 = ig5 + term;
+    term *= pt_ / 6;
+    ig7 = ig6 + term;
+
+    term = pt_ * (two / 3);
+    ig25 = 1.0 + term;
+    term *= pt_ * (two / 5);
+    ig35 = ig25 + term;
+    term *= pt_ * (two / 7);
+    ig45 = ig35 + term;
+    term *= pt_ * (two / 9);
+    ig55 = ig45 + term;
+    term *= pt_ * (two / 11);
+    ig65 = ig55 + term;
+    term *= pt_ * (two / 13);
+    ig75 = ig65 + term;
+
+    elfb = ((((((coef75/x + coef65)/x + coef55)/x + coef45)/x + coef35)/x +
+	     coef25)/x + coef15) + x;
+    res1 = ((((((ig7*coef7/x + ig6*coef6)/x + ig5*coef5)/x + ig4*coef4)/x +
+	      ig3*coef3)/x + ig2*coef2)/x + coef1)*gnm_sqrt(x);
+    res2 = ((((((ig75*coef75/x + ig65*coef65)/x + ig55*coef55)/x + ig45*coef45)/
+	      x + ig35*coef35)/x + ig25*coef25)/x + coef15)*s2pt;
+
+    if (!lower_tail) elfb = -elfb;
+    f = (res1 + res2) / elfb;
+
+    np = pnorm (s2pt, 0.0, 1.0, !lower_tail, log_p);
+    nd = dnorm (s2pt, 0.0, 1.0, log_p);
+
+#ifdef DEBUG_p
+    REprintf ("pp*_asymp(): f=%.14" GNM_FORMAT_g " np=%.14" GNM_FORMAT_g " nd=%.14" GNM_FORMAT_g "  f*nd=%.14" GNM_FORMAT_g "\n",
+	      f, np, nd, f * nd);
+#endif
+
+    if (log_p)
+	return (f >= 0)
+	    ? logspace_add (np, gnm_log (gnm_abs (f)) + nd)
+	    : logspace_sub (np, gnm_log (gnm_abs (f)) + nd);
+    else
+	return np + f * nd;
+} /* ppois_asymp() */
+
+
+static gnm_float
+pgamma_raw (gnm_float x, gnm_float alph, gboolean lower_tail, gboolean log_p)
+{
+    gnm_float res;
+
+#ifdef DEBUG_p
+    REprintf("pgamma_raw(x=%.14" GNM_FORMAT_g ", alph=%.14" GNM_FORMAT_g ", low=%d, log=%d)\n",
+	     x, alph, lower_tail, log_p);
+#endif
+    if (x < 1) {
+	res = pgamma_smallx (x, alph, lower_tail, log_p);
+    } else if (x <= alph - 1 && x < 0.8 * (alph + 50)) {/* incl. large alph */
+	gnm_float sum = pd_upper_series (x, alph, log_p);/* = x/alph + o(x/alph) */
+	gnm_float d = dpois_wrap (alph, x, log_p);
+#ifdef DEBUG_p
+	REprintf(" alph `large': sum=pd_upper*()= %.12" GNM_FORMAT_g ", d=dpois_w(*)= %.12" GNM_FORMAT_g " ",
+		 sum, d);
+#endif
+	if (!lower_tail)
+	    res = log_p
+		? swap_log_tail (d + sum)
+		: 1 - d * sum;
+	else
+	    res = log_p ? sum + d : sum * d;
+    } else if (alph - 1 < x && alph < 0.8 * (x + 50)) {/* incl. large x */
+	gnm_float sum;
+	gnm_float d = dpois_wrap (alph, x, log_p);
+#ifdef DEBUG_p
+	REprintf(" x `large': d=dpois_w(*)= %.14" GNM_FORMAT_g " ", d);
+#endif
+
+	if (alph < 1) {
+	    if (x * GNM_EPSILON > 1 - alph)
+		sum = R_D__1;
+	    else {
+		gnm_float f = pd_lower_cf (alph, x - (alph - 1)) * x / alph;
+		/* = [alph/(x - alph+1) + o(alph/(x-alph+1))] * x/alph = 1 + o(1) */
+		sum = log_p ? gnm_log (f) : f;
+	    }
+	} else {
+	    sum = pd_lower_series (x, alph - 1);/* = (alph-1)/x + o((alph-1)/x) */
+	    sum = log_p ? gnm_log1p (sum) : 1 + sum;
+	}
+#ifdef DEBUG_p
+	REprintf(", sum= %.14" GNM_FORMAT_g "\n", sum);
+#endif
+	if (!lower_tail)
+	    res = log_p ? sum + d : sum * d;
+	else
+	    res = log_p
+		? swap_log_tail (d + sum)
+		: 1 - d * sum;
+    } else {
+#ifdef DEBUG_p
+	REprintf(" using ppois_asymp()\n");
+#endif
+	res = ppois_asymp (alph - 1, x, !lower_tail, log_p);
+    }
+
+    /*
+     * We lose a fair amount of accuracy to underflow in the cases
+     * where the final result is very close to DBL_MIN.	 In those
+     * cases, simply redo via log space.
+     */
+    if (!log_p && res < GNM_MIN / GNM_EPSILON) {
+	/* with(.Machine, gnm_float.xmin / gnm_float.eps) #|-> 1.002084e-292 */
+#ifdef DEBUG_p
+	REprintf(" very small res=%.14" GNM_FORMAT_g "; -> recompute via log\n", res);
+#endif
+	return gnm_exp (pgamma_raw (x, alph, lower_tail, 1));
+    } else
+	return res;
+}
+
+
+gnm_float pgamma(gnm_float x, gnm_float alph, gnm_float scale, gboolean lower_tail, gboolean log_p)
+{
+#ifdef IEEE_754
+    if (gnm_isnan(x) || gnm_isnan(alph) || gnm_isnan(scale))
+	return x + alph + scale;
+#endif
+    if(alph <= 0. || scale <= 0.)
+	ML_ERR_return_NAN;
+    x /= scale;
+#ifdef IEEE_754
+    if (gnm_isnan(x)) /* eg. original x = scale = +Inf */
+	return x;
+#endif
+    if (x <= 0.) /* also for scale=Inf and finite x */
+	return R_DT_0;
+
+    return pgamma_raw (x, alph, lower_tail, log_p);
+}
+/* From: terra@gnome.org (Morten Welinder)
+ * To: R-bugs@biostat.ku.dk
+ * Cc: maechler@stat.math.ethz.ch
+ * Subject: Re: [Rd] pgamma discontinuity (PR#7307)
+ * Date: Tue, 11 Jan 2005 13:57:26 -0500 (EST)
+
+ * this version of pgamma appears to be quite good and certainly a vast
+ * improvement over current R code.  (I last looked at 2.0.1)  Apart from
+ * type naming, this is what I have been using for Gnumeric 1.4.1.
+
+ * This could be included into R as-is, but you might want to benefit from
+ * making logcf, log1pmx, lgamma1p, and possibly logspace_add/logspace_sub
+ * available to other parts of R.
+
+ * MM: I've not (yet?) taken  logcf(), but the other four
+ */
+
+
+#else
+/* R_USE_OLD_PGAMMA */
+/*
+ *  Copyright (C) 1998		Ross Ihaka
+ *  Copyright (C) 1999-2000	The R Development Core Team
+ *  Copyright (C) 2003-2004     The R Foundation
+ *  based on AS 239 (C) 1988 Royal Statistical Society
+ *
+ *  ................
  *
  *  NOTES
  *
@@ -1326,338 +1906,136 @@ gnm_float dgamma(gnm_float x, gnm_float shape, gnm_float scale, gboolean give_lo
  *	Applied Statistics 37, 1988.
  */
 
-
-
-
-/*
- * Compute the log of a sum from logs of terms, i.e.,
- *
- *     log (exp (logx) + exp (logy))
- *
- * without causing overflows and without throwing away large handfuls
- * of accuracy.
- */
-/* Definition of function logspace_add removed.  */
-
-
-/*
- * Compute the log of a difference from logs of terms, i.e.,
- *
- *     log (exp (logx) - exp (logy))
- *
- * without causing overflows and without throwing away large handfuls
- * of accuracy.
- */
-/* Definition of function logspace_sub removed.  */
-
-
-static gnm_float
-dpois_wrap (gnm_float x_plus_1, gnm_float lambda, gboolean give_log)
-{
-#if 0
-     printf ("x+1=%.14" GNM_FORMAT_g "  lambda=%.14" GNM_FORMAT_g "\n", x_plus_1, lambda);
-#endif
-
-     if (x_plus_1 > 1)
-	  return dpois_raw (x_plus_1 - 1, lambda, give_log);
-     else {
- 	  gnm_float d = dpois_raw (x_plus_1, lambda, give_log);
-	  return give_log
-	       ? d + gnm_log (x_plus_1 / lambda)
-	       : d * (x_plus_1 / lambda);
-     }
-}
-
-/*
- * Abramowitz and Stegun 6.5.29 [right]
- */
-static gnm_float
-pgamma_smallx (gnm_float x, gnm_float alph, gboolean lower_tail, gboolean log_p)
-{
-     gnm_float sum = 0, c = alph, n = 0, term;
-
-#if 0
-     printf ("x:%.14" GNM_FORMAT_g "  alph:%.14" GNM_FORMAT_g "\n", x, alph);
-#endif
-
-     /*
-      * Relative to 6.5.29 all terms have been multiplied by alph
-      * and the first, thus being 1, is omitted.
-      */
-
-     do {
-	  n++;
-	  c *= -x / n;
-	  term = c / (alph + n);
-	  sum += term;
-     } while (gnm_abs (term) > GNM_EPSILON * gnm_abs (sum));
-
-     if (lower_tail) {
-	  gnm_float f1 = log_p ? gnm_log1p (sum) : 1 + sum;
-	  gnm_float f2;
-	  if (alph > 1) {
-	       f2 = dpois_raw (alph, x, log_p);
-	       f2 = log_p ? f2 + x : f2 * gnm_exp (x);
-	  } else if (log_p)
-	       f2 = alph * gnm_log (x) - lgamma1p (alph);
-	  else
-	       f2 = gnm_pow (x, alph) / gnm_exp (lgamma1p (alph));
-
-	  return log_p ? f1 + f2 : f1 * f2;
-     } else {
-	  gnm_float lf2 = alph * gnm_log (x) - lgamma1p (alph);
-#if 0
-	  printf ("1:%.14" GNM_FORMAT_g "  2:%.14" GNM_FORMAT_g "\n", alph * gnm_log (x), lgamma1p (alph));
-	  printf ("sum=%.14" GNM_FORMAT_g "  gnm_log1p (sum)=%.14" GNM_FORMAT_g "  lf2=%.14" GNM_FORMAT_g "\n", sum, gnm_log1p (sum), lf2);
-#endif
-	  if (log_p)
-	       return swap_log_tail (gnm_log1p (sum) + lf2);
-	  else {
-	       gnm_float f1m1 = sum;
-	       gnm_float f2m1 = gnm_expm1 (lf2);
-	       return -(f1m1 + f2m1 + f1m1 * f2m1);
-	  }
-     }
-}
-
-static gnm_float
-pd_upper_series (gnm_float x, gnm_float y, gboolean log_p)
-{
-     gnm_float term = x / y;
-     gnm_float sum = term;
-
-     do {
-	  y++;
-	  term *= x / y;
-	  sum += term;
-     } while (term > sum * GNM_EPSILON);
-
-     return log_p ? gnm_log (sum) : sum;
-}
-
-static gnm_float
-pd_lower_cf (gnm_float i, gnm_float d)
-{
-     gnm_float f = 0, of;
-
-     gnm_float a1 = 0;
-     gnm_float b1 = 1;
-     gnm_float a2 = i;
-     gnm_float b2 = d;
-     gnm_float c1 = 0;
-     gnm_float c2 = a2;
-     gnm_float c3;
-     gnm_float c4 = b2;
-
-     while (1) {
-	  c1++;
-	  c2--;
-	  c3 = c1 * c2;
-	  c4 += 2;
-	  a1 = c4 * a2 + c3 * a1;
-	  b1 = c4 * b2 + c3 * b1;
-
-	  c1++;
-	  c2--;
-	  c3 = c1 * c2;
-	  c4 += 2;
-	  a2 = c4 * a1 + c3 * a2;
-	  b2 = c4 * b1 + c3 * b2;
-
-	  if (b2 > scalefactor) {
-	       a1 = a1 / scalefactor;
-	       b1 = b1 / scalefactor;
-	       a2 = a2 / scalefactor;
-	       b2 = b2 / scalefactor;
-	  }
-
-	  if (b2 != 0) {
-	       of = f;
-	       f = a2 / b2;
-	       if (gnm_abs (f - of) <= GNM_EPSILON * fmin2 (1.0, gnm_abs (f)))
-		    return f;
-	  }
-     }
-}
-
-static gnm_float
-pd_lower_series (gnm_float lambda, gnm_float y)
-{
-     gnm_float term = 1, sum = 0;
-
-     while (y >= 1 && term > sum * GNM_EPSILON) {
-	  term *= y / lambda;
-	  sum += term;
-	  y--;
-     }
-
-     if (y != gnm_floor (y)) {
-	  /*
-	   * The series does not converge as the terms start getting
-	   * bigger (besides flipping sign) for y < -lambda.
-	   */
-	  gnm_float f = pd_lower_cf (y, lambda + 1 - y);
-	  sum += term * f;
-     }
-
-     return sum;
-}
-
-/*
- * Asymptotic expansion to calculate the probability that poisson variate
- * has value <= x.
- */
-static gnm_float
-ppois_asymp (gnm_float x, gnm_float lambda,
-	     gboolean lower_tail, gboolean log_p)
-{
-     static const gnm_float coef15 = 1 / GNM_const(12.0);
-     static const gnm_float coef25 = 1 / GNM_const(288.0);
-     static const gnm_float coef35 = -139 / GNM_const(51840.0);
-     static const gnm_float coef45 = -571 / GNM_const(2488320.0);
-     static const gnm_float coef55 = 163879 / GNM_const(209018880.0);
-     static const gnm_float coef65 =  5246819 / GNM_const(75246796800.0);
-     static const gnm_float coef75 = -534703531 / GNM_const(902961561600.0);
-     static const gnm_float coef1 = 2 / GNM_const(3.0);
-     static const gnm_float coef2 = -4 / GNM_const(135.0);
-     static const gnm_float coef3 = 8 / GNM_const(2835.0);
-     static const gnm_float coef4 = 16 / GNM_const(8505.0);
-     static const gnm_float coef5 = -8992 / GNM_const(12629925.0);
-     static const gnm_float coef6 = -334144 / GNM_const(492567075.0);
-     static const gnm_float coef7 = 698752 / GNM_const(1477701225.0);
-     static const gnm_float two = 2;
-
-     gnm_float dfm, pt,s2pt,res1,res2,elfb,term;
-     gnm_float ig2,ig3,ig4,ig5,ig6,ig7,ig25,ig35,ig45,ig55,ig65,ig75;
-     gnm_float f, np, nd;
-
-     dfm = lambda - x;
-     pt = -x * log1pmx (dfm / x);
-     s2pt = gnm_sqrt (2 * pt);
-     if (dfm < 0) s2pt = -s2pt;
-
-     ig2 = 1.0 + pt;
-     term = pt * pt * 0.5;
-     ig3 = ig2 + term;
-     term *= pt / 3;
-     ig4 = ig3 + term;
-     term *= pt / 4;
-     ig5 = ig4 + term;
-     term *= pt / 5;
-     ig6 = ig5 + term;
-     term *= pt / 6;
-     ig7 = ig6 + term;
-
-     term = pt * (two / 3);
-     ig25 = 1.0 + term;
-     term *= pt * (two / 5);
-     ig35 = ig25 + term;
-     term *= pt * (two / 7);
-     ig45 = ig35 + term;
-     term *= pt * (two / 9);
-     ig55 = ig45 + term;
-     term *= pt * (two / 11);
-     ig65 = ig55 + term;
-     term *= pt * (two / 13);
-     ig75 = ig65 + term;
-
-     elfb = ((((((coef75/x + coef65)/x + coef55)/x + coef45)/x + coef35)/x + coef25)/x + coef15) + x;
-     res1 = ((((((ig7*coef7/x + ig6*coef6)/x + ig5*coef5)/x + ig4*coef4)/x + ig3*coef3)/x + ig2*coef2)/x + coef1)*gnm_sqrt(x);
-     res2 = ((((((ig75*coef75/x + ig65*coef65)/x + ig55*coef55)/x + ig45*coef45)/x + ig35*coef35)/x + ig25*coef25)/x + coef15)*s2pt;
-
-     if (!lower_tail) elfb = -elfb;
-     f = (res1 + res2) / elfb;
-
-     np = pnorm (s2pt, 0.0, 1.0, !lower_tail, log_p);
-     nd = dnorm (s2pt, 0.0, 1.0, log_p);
-
-#if 0
-     printf ("f=%.14" GNM_FORMAT_g "  np=%.14" GNM_FORMAT_g "  nd=%.14" GNM_FORMAT_g "  f*nd=%.14" GNM_FORMAT_g "\n", f, np, nd, f * nd);
-#endif
-
-     if (log_p)
-	  return (f >= 0)
-	       ? logspace_add (np, gnm_log (gnm_abs (f)) + nd)
-	       : logspace_sub (np, gnm_log (gnm_abs (f)) + nd);
-     else
-	  return np + f * nd;
-}
-
-
-static gnm_float
-pgamma_raw (gnm_float x, gnm_float alph, gboolean lower_tail, gboolean log_p)
-{
-     gnm_float res;
-
-#if 0
-     printf ("x=%.14" GNM_FORMAT_g "  alph=%.14" GNM_FORMAT_g "  low=%d  log=%d\n", x, alph, lower_tail, log_p);
-#endif
-
-     if (x < 1) {
-	  res = pgamma_smallx (x, alph, lower_tail, log_p);
-     } else if (x <= alph - 1 && x < 0.8 * (alph + 50)) {
-	  gnm_float sum = pd_upper_series (x, alph, log_p);
-	  gnm_float d = dpois_wrap (alph, x, log_p);
-
-	  if (!lower_tail)
-	       res = log_p
-		    ? swap_log_tail (d + sum)
-		    : 1 - d * sum;
-	  else
-	       res = log_p ? sum + d : sum * d;
-     } else if (alph - 1 < x && alph < 0.8 * (x + 50)) {
-	  gnm_float sum;
-	  gnm_float d = dpois_wrap (alph, x, log_p);
-
-	  if (alph < 1) {
-	       gnm_float f = pd_lower_cf (alph, x - (alph - 1))
-		    * x / alph;
-	       sum = log_p ? gnm_log (f) : f;
-	  } else {
-	       sum = pd_lower_series (x, alph - 1);
-	       sum = log_p ? gnm_log1p (sum) : 1 + sum;
-	  }
-
-	  if (!lower_tail)
-	       res = log_p ? sum + d : sum * d;
-	  else
-	       res = log_p
-		    ? swap_log_tail (d + sum)
-		    : 1 - d * sum;
-     } else {
-	  res = ppois_asymp (alph - 1, x, !lower_tail, log_p);
-     }
-
-     /*
-      * We lose a fair amount of accuracy to underflow in the cases
-      * where the final result is very close to DBL_MIN.  In those
-      * cases, simply redo via log space.
-      */
-     if (!log_p && res < GNM_MIN / GNM_EPSILON)
-	  return gnm_exp (pgamma_raw (x, alph, lower_tail, 1));
-     else
-	  return res;
-}
-
-
 gnm_float pgamma(gnm_float x, gnm_float alph, gnm_float scale, gboolean lower_tail, gboolean log_p)
 {
-#ifdef IEEE_754
-     if (gnm_isnan(x) || gnm_isnan(alph) || gnm_isnan(scale))
-	  return x + alph + scale;
-#endif
-     if(alph <= 0. || scale <= 0.)
-	  ML_ERR_return_NAN;
-     if (x <= 0.)
-	  return R_DT_0;
-     x /= scale;
-#ifdef IEEE_754
-     if (gnm_isnan(x)) /* eg. original x = scale = +Inf */
-	  return x;
-#endif
+    const gnm_float
+	xbig = 1.0e+8,
+	xlarge = 1.0e+37,
 
-     return pgamma_raw (x, alph, lower_tail, log_p);
+	/* normal approx. for alph > alphlimit */
+	alphlimit = 1e5;/* was 1000. till R.1.8.x */
+
+    gnm_float pn1, pn2, pn3, pn4, pn5, pn6, arg, a, b, c, an, osum, sum;
+    long n;
+    int pearson;
+
+    /* check that we have valid values for x and alph */
+
+#ifdef IEEE_754
+    if (gnm_isnan(x) || gnm_isnan(alph) || gnm_isnan(scale))
+	return x + alph + scale;
+#endif
+#ifdef DEBUG_p
+    REprintf("pgamma(x=%4" GNM_FORMAT_g ", alph=%4" GNM_FORMAT_g ", scale=%4" GNM_FORMAT_g "): ",x,alph,scale);
+#endif
+    if(alph <= 0. || scale <= 0.)
+	ML_ERR_return_NAN;
+
+    x /= scale;
+#ifdef DEBUG_p
+    REprintf("-> x=%4" GNM_FORMAT_g "; ",x);
+#endif
+#ifdef IEEE_754
+    if (gnm_isnan(x)) /* eg. original x = scale = Inf */
+	return x;
+#endif
+    if (x <= 0.)
+	return R_DT_0;
+
+#define USE_PNORM \
+    pn1 = gnm_sqrt(alph) * 3. * (gnm_pow(x/alph, GNM_const(1.)/3.) + 1. / (9. * alph) - 1.); \
+    return pnorm(pn1, 0., 1., lower_tail, log_p);
+
+    if (alph > alphlimit) { /* use a normal approximation */
+	USE_PNORM;
+    }
+
+    if (x > xbig * alph) {
+	if (x > GNM_MAX * alph)
+	    /* if x is extremely large __compared to alph__ then return 1 */
+	    return R_DT_1;
+	else { /* this only "helps" when log_p = TRUE */
+	    USE_PNORM;
+	}
+    }
+
+    if (x <= 1. || x < alph) {
+
+	pearson = 1;/* use pearson's series expansion. */
+
+	arg = alph * gnm_log(x) - x - gnm_lgamma(alph + 1.);
+#ifdef DEBUG_p
+	REprintf("Pearson  arg=%" GNM_FORMAT_g " ", arg);
+#endif
+	c = 1.;
+	sum = 1.;
+	a = alph;
+	do {
+	    a += 1.;
+	    c *= x / a;
+	    sum += c;
+	} while (c > GNM_EPSILON * sum);
+    }
+    else { /* x >= max( 1, alph) */
+
+	pearson = 0;/* use a continued fraction expansion */
+
+	arg = alph * gnm_log(x) - x - gnm_lgamma(alph);
+#ifdef DEBUG_p
+	REprintf("Cont.Fract. arg=%" GNM_FORMAT_g " ", arg);
+#endif
+	a = 1. - alph;
+	b = a + x + 1.;
+	pn1 = 1.;
+	pn2 = x;
+	pn3 = x + 1.;
+	pn4 = x * b;
+	sum = pn3 / pn4;
+	for (n = 1; ; n++) {
+	    a += 1.;/* =   n+1 -alph */
+	    b += 2.;/* = 2(n+1)-alph+x */
+	    an = a * n;
+	    pn5 = b * pn3 - an * pn1;
+	    pn6 = b * pn4 - an * pn2;
+	    if (gnm_abs(pn6) > 0.) {
+		osum = sum;
+		sum = pn5 / pn6;
+		if (gnm_abs(osum - sum) <= GNM_EPSILON * fmin2(1., sum))
+		    break;
+	    }
+	    pn1 = pn3;
+	    pn2 = pn4;
+	    pn3 = pn5;
+	    pn4 = pn6;
+	    if (gnm_abs(pn5) >= xlarge) {
+		/* re-scale the terms in continued fraction if they are large */
+#ifdef DEBUG_p
+		REprintf(" [r] ");
+#endif
+		pn1 /= xlarge;
+		pn2 /= xlarge;
+		pn3 /= xlarge;
+		pn4 /= xlarge;
+	    }
+	}
+    }
+
+    arg += gnm_log(sum);
+
+    lower_tail = (lower_tail == pearson);
+
+    if (log_p && lower_tail)
+	return(arg);
+    /* else */
+    /* sum = gnm_exp(arg); and return   if(lower_tail) sum  else 1-sum : */
+    return (lower_tail) ? gnm_exp(arg) : (log_p ? swap_log_tail(arg) : -gnm_expm1(arg));
 }
+
+#endif
+/* R_USE_OLD_PGAMMA */
+/* Cleaning up done by tools/import-R:  */
+#undef USE_PNORM
+#undef max_it
 
 /* ------------------------------------------------------------------------ */
 /* Imported src/nmath/chebyshev.c from R.  */
@@ -2958,6 +3336,123 @@ gnm_float dhyper(gnm_float x, gnm_float r, gnm_float b, gnm_float n, gboolean gi
 }
 
 /* ------------------------------------------------------------------------ */
+/* Imported src/nmath/phyper.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *  Copyright (C) 1999-2000  The R Development Core Team
+ *  Copyright (C) 2004	     Morten Welinder
+ *  Copyright (C) 2004	     The R Foundation
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *  DESCRIPTION
+ *
+ *	The distribution function of the hypergeometric distribution.
+ *
+ * Current implementation based on posting
+ * From: Morten Welinder <terra@gnome.org>
+ * Cc: R-bugs@biostat.ku.dk
+ * Subject: [Rd] phyper accuracy and efficiency (PR#6772)
+ * Date: Thu, 15 Apr 2004 18:06:37 +0200 (CEST)
+ ......
+
+ The current version has very serious cancellation issues.  For example,
+ if you ask for a small right-tail you are likely to get total cancellation.
+ For example,  phyper(59, 150, 150, 60, FALSE, FALSE) gives 6.372680161e-14.
+ The right answer is dhyper(0, 150, 150, 60, FALSE) which is 5.111204798e-22.
+
+ phyper is also really slow for large arguments.
+
+ Therefore, I suggest using the code below. This is a sniplet from Gnumeric ...
+ The code isn't perfect.  In fact, if  x*(NR+NB)  is close to	n*NR,
+ then this code can take a while. Not longer than the old code, though.
+
+ -- Thanks to Ian Smith for ideas.
+*/
+
+
+static gnm_float pdhyper (gnm_float x, gnm_float NR, gnm_float NB, gnm_float n, gboolean log_p)
+{
+/*
+ * Calculate
+ *
+ *	    phyper (x, NR, NB, n, TRUE, FALSE)
+ *   [log]  ----------------------------------
+ *	       dhyper (x, NR, NB, n, FALSE)
+ *
+ * without actually calling phyper.  This assumes that
+ *
+ *     x * (NR + NB) <= n * NR
+ *
+ */
+    gnm_float sum = 0;
+    gnm_float term = 1;
+
+    while (x > 0 && term >= GNM_EPSILON * sum) {
+	term *= x * (NB - n + x) / (n + 1 - x) / (NR + 1 - x);
+	sum += term;
+	x--;
+    }
+
+    return log_p ? gnm_log1p(sum) : 1 + sum;
+}
+
+
+/* FIXME: The old phyper() code was basically used in ./qhyper.c as well
+ * -----  We need to sync this again!
+*/
+gnm_float phyper (gnm_float x, gnm_float NR, gnm_float NB, gnm_float n,
+	       gboolean lower_tail, gboolean log_p)
+{
+/* Sample of  n balls from  NR red  and	 NB black ones;	 x are red */
+
+    gnm_float d, pd;
+
+#ifdef IEEE_754
+    if(gnm_isnan(x) || gnm_isnan(NR) || gnm_isnan(NB) || gnm_isnan(n))
+	return x + NR + NB + n;
+#endif
+
+    x = gnm_floor (x + 1e-7);
+    NR = R_D_forceint(NR);
+    NB = R_D_forceint(NB);
+    n  = R_D_forceint(n);
+
+    if (NR < 0 || NB < 0 || !gnm_finite(NR + NB) || n < 0 || n > NR + NB)
+	ML_ERR_return_NAN;
+
+    if (x * (NR + NB) > n * NR) {
+	/* Swap tails.	*/
+	gnm_float oldNB = NB;
+	NB = NR;
+	NR = oldNB;
+	x = n - x - 1;
+	lower_tail = !lower_tail;
+    }
+
+    if (x < 0)
+	return R_DT_0;
+
+    d  = dhyper (x, NR, NB, n, log_p);
+    pd = pdhyper(x, NR, NB, n, log_p);
+
+    return log_p ? R_DT_Log(d + pd) : R_D_Lval(d * pd);
+}
+
+/* ------------------------------------------------------------------------ */
 /* Imported src/nmath/dexp.c from R.  */
 /*
  *  Mathlib : A C Library of Special Functions
@@ -3194,6 +3689,62 @@ gnm_float dcauchy(gnm_float x, gnm_float location, gnm_float scale, gboolean giv
 }
 
 /* ------------------------------------------------------------------------ */
+/* Imported src/nmath/pcauchy.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *  Copyright (C) 2000 The R Development Core Team
+ *  Copyright (C) 2004 The R Foundation
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *  DESCRIPTION
+ *
+ *	The distribution function of the Cauchy distribution.
+ */
+
+
+gnm_float pcauchy(gnm_float x, gnm_float location, gnm_float scale,
+	       gboolean lower_tail, gboolean log_p)
+{
+#ifdef IEEE_754
+    if (gnm_isnan(x) || gnm_isnan(location) || gnm_isnan(scale))
+	return x + location + scale;
+#endif
+    if (scale <= 0) ML_ERR_return_NAN;
+
+    x = (x - location) / scale;
+    if (gnm_isnan(x)) ML_ERR_return_NAN;
+#ifdef IEEE_754
+    if(!gnm_finite(x)) {
+	if(x < 0) return R_DT_0;
+	else return R_DT_1;
+    }
+#endif
+    if (!lower_tail)
+	x = -x;
+    /* for large x, the standard formula suffers from cancellation.
+     * This is from Morten Welinder thanks to  Ian Smith's  atan(1/x) : */
+    if (gnm_abs(x) > 1) {
+	gnm_float y = atan(1/x) / M_PIgnum;
+	return (x > 0) ? R_D_Clog(y) : R_D_val(-y);
+    } else
+	return R_D_val(0.5 + atan(x) / M_PIgnum);
+}
+
+/* ------------------------------------------------------------------------ */
 /* Imported src/nmath/bessel.h from R.  */
 
 /* Constants und Documentation that apply to several of the
@@ -3382,7 +3933,7 @@ gnm_float bessel_i(gnm_float x, gnm_float alpha, gnm_float expo)
     alpha -= (nb-1);
 #ifdef MATHLIB_STANDALONE
     bi = (gnm_float *) calloc(nb, sizeof(gnm_float));
-    if (!bi) MATHLIB_ERROR("%s", "bessel_i allocation error");
+    if (!bi) MATHLIB_ERROR("%s", _("bessel_i allocation error"));
 #else
     vmax = vmaxget();
     bi = (gnm_float *) R_alloc(nb, sizeof(gnm_float));
@@ -3390,11 +3941,10 @@ gnm_float bessel_i(gnm_float x, gnm_float alpha, gnm_float expo)
     I_bessel(&x, &alpha, &nb, &ize, bi, &ncalc);
     if(ncalc != nb) {/* error input */
 	if(ncalc < 0)
-	    MATHLIB_WARNING4("bessel_i(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g "."
-			     " Arg. out of range?\n",
+	    MATHLIB_WARNING4(_("bessel_i(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
 			     x, ncalc, nb, alpha);
 	else
-	    MATHLIB_WARNING2("bessel_i(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n",
+	    MATHLIB_WARNING2(_("bessel_i(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
 			     x, alpha+nb-1);
     }
     x = bi[nb-1];
@@ -3853,7 +4403,7 @@ gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo)
     alpha -= (nb-1);
 #ifdef MATHLIB_STANDALONE
     bk = (gnm_float *) calloc(nb, sizeof(gnm_float));
-    if (!bk) MATHLIB_ERROR("%s", "bessel_k allocation error");
+    if (!bk) MATHLIB_ERROR("%s", _("bessel_k allocation error"));
 #else
     vmax = vmaxget();
     bk = (gnm_float *) R_alloc(nb, sizeof(gnm_float));
@@ -3861,10 +4411,10 @@ gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo)
     K_bessel(&x, &alpha, &nb, &ize, bk, &ncalc);
     if(ncalc != nb) {/* error input */
       if(ncalc < 0)
-	MATHLIB_WARNING4("bessel_k(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n",
+	MATHLIB_WARNING4(_("bessel_k(%" GNM_FORMAT_g "): ncalc (=%ld) != nb (=%ld); alpha=%" GNM_FORMAT_g ". Arg. out of range?\n"),
 			 x, ncalc, nb, alpha);
       else
-	MATHLIB_WARNING2("bessel_k(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n",
+	MATHLIB_WARNING2(_("bessel_k(%" GNM_FORMAT_g ",nu=%" GNM_FORMAT_g "): precision lost in result\n"),
 			 x, alpha+nb-1);
     }
     x = bk[nb-1];
@@ -4639,79 +5189,12 @@ gnm_float qcauchy(gnm_float p, gnm_float location, gnm_float scale,
 /* ------------------------------------------------------------------------ */
 /* --- END MAGIC R SOURCE MARKER --- */
 
-
-/* --- BEGIN IANDJMSMITH SOURCE MARKER --- */
-
-/* Continued fraction for calculation of
- *    1/i + x/(i+d) + x*x/(i+2*d) + x*x*x/(i+3*d) + ...
- */
 static gnm_float
-logcf (gnm_float x, gnm_float i, gnm_float d)
+logspace_signed_add (gnm_float logx, gnm_float logabsy, gboolean ypos)
 {
-	gnm_float c1 = 2 * d;
-	gnm_float c2 = i + d;
-	gnm_float c4 = c2 + d;
-	gnm_float a1 = c2;
-	gnm_float b1 = i * (c2 - i * x);
-	gnm_float b2 = d * d * x;
-	gnm_float a2 = c4 * c2 - b2;
-	const gnm_float cfVSmall = 1.0e-14;
-
-#if 0
-	assert (i > 0);
-	assert (d >= 0);
-#endif
-
-	b2 = c4 * b1 - i * b2;
-
-	while (gnm_abs (a2 * b1 - a1 * b2) > gnm_abs (cfVSmall * b1 * b2)) {
-		gnm_float c3 = c2*c2*x;
-		c2 += d;
-		c4 += d;
-		a1 = c4 * a2 - c3 * a1;
-		b1 = c4 * b2 - c3 * b1;
-
-		c3 = c1 * c1 * x;
-		c1 += d;
-		c4 += d;
-		a2 = c4 * a1 - c3 * a2;
-		b2 = c4 * b1 - c3 * b2;
-
-		if (gnm_abs (b2) > scalefactor) {
-			a1 *= 1 / scalefactor;
-			b1 *= 1 / scalefactor;
-			a2 *= 1 / scalefactor;
-			b2 *= 1 / scalefactor;
-		} else if (gnm_abs (b2) < 1 / scalefactor) {
-			a1 *= scalefactor;
-			b1 *= scalefactor;
-			a2 *= scalefactor;
-			b2 *= scalefactor;
-		}
-	}
-
-	return a2 / b2;
-}
-
-
-/* Accurate calculation of log(1+x)-x, particularly for small x.  */
-gnm_float
-log1pmx (gnm_float x)
-{
-	static const gnm_float minLog1Value = -0.79149064;
-	static const gnm_float two = 2;
-
-	if (gnm_abs (x) < 1.0e-2) {
-		gnm_float term = x / (2 + x);
-		gnm_float y = term * term;
-		return term * ((((two / 9 * y + two / 7) * y + two / 5) * y + two / 3) * y - x);
-	} else if (x < minLog1Value || x > 1) {
-		return gnm_log1p (x) - x;
-	} else {
-		gnm_float term = x / (2 + x);
-		gnm_float y = term * term;
-		return term * (2 * y * logcf (y, 3, 2) - x);
-	}
+	return ypos
+		? logspace_add (logx, logabsy)
+		: logspace_sub (logx, logabsy);
 }
 
 /* Accurate  gnm_log (1 - gnm_exp (p))  for  p <= 0.  */
@@ -4724,6 +5207,7 @@ swap_log_tail (gnm_float lp)
 		return gnm_log1p (-gnm_exp (lp));  /* Good formula for small lp.  */
 }
 
+/* --- BEGIN IANDJMSMITH SOURCE MARKER --- */
 
 /* Calculation of logfbit(x)-logfbit(1+x). y2 must be < 1.  */
 static gnm_float
@@ -4965,73 +5449,6 @@ lfbaccdif (gnm_float a, gnm_float b)
 			     (logfbit5 (ab2) + a2 / 168 *
 			      logfbit7 (ab2))));
 	}
-}
-
-/* Calculates log(gamma(a+1) accurately for for small a (0 < a & a < 0.5). */
-gnm_float
-lgamma1p (gnm_float a)
-{
-	static const gnm_float eulers_const = GNM_const (0.57721566490153286060651209008240243104215933593992);
-
-	/* coeffs[i] holds (zeta(i+2)-1)/(i+2)  */
-	static const gnm_float coeffs[40] = {
-		GNM_const (0.3224670334241132182362075833230126e-0),
-		GNM_const (0.6735230105319809513324605383715000e-1),
-		GNM_const (0.2058080842778454787900092413529198e-1),
-		GNM_const (0.7385551028673985266273097291406834e-2),
-		GNM_const (0.2890510330741523285752988298486755e-2),
-		GNM_const (0.1192753911703260977113935692828109e-2),
-		GNM_const (0.5096695247430424223356548135815582e-3),
-		GNM_const (0.2231547584535793797614188036013401e-3),
-		GNM_const (0.9945751278180853371459589003190170e-4),
-		GNM_const (0.4492623673813314170020750240635786e-4),
-		GNM_const (0.2050721277567069155316650397830591e-4),
-		GNM_const (0.9439488275268395903987425104415055e-5),
-		GNM_const (0.4374866789907487804181793223952411e-5),
-		GNM_const (0.2039215753801366236781900709670839e-5),
-		GNM_const (0.9551412130407419832857179772951265e-6),
-		GNM_const (0.4492469198764566043294290331193655e-6),
-		GNM_const (0.2120718480555466586923135901077628e-6),
-		GNM_const (0.1004322482396809960872083050053344e-6),
-		GNM_const (0.4769810169363980565760193417246730e-7),
-		GNM_const (0.2271109460894316491031998116062124e-7),
-		GNM_const (0.1083865921489695409107491757968159e-7),
-		GNM_const (0.5183475041970046655121248647057669e-8),
-		GNM_const (0.2483674543802478317185008663991718e-8),
-		GNM_const (0.1192140140586091207442548202774640e-8),
-		GNM_const (0.5731367241678862013330194857961011e-9),
-		GNM_const (0.2759522885124233145178149692816341e-9),
-		GNM_const (0.1330476437424448948149715720858008e-9),
-		GNM_const (0.6422964563838100022082448087644648e-10),
-		GNM_const (0.3104424774732227276239215783404066e-10),
-		GNM_const (0.1502138408075414217093301048780668e-10),
-		GNM_const (0.7275974480239079662504549924814047e-11),
-		GNM_const (0.3527742476575915083615072228655483e-11),
-		GNM_const (0.1711991790559617908601084114443031e-11),
-		GNM_const (0.8315385841420284819798357793954418e-12),
-		GNM_const (0.4042200525289440065536008957032895e-12),
-		GNM_const (0.1966475631096616490411045679010286e-12),
-		GNM_const (0.9573630387838555763782200936508615e-13),
-		GNM_const (0.4664076026428374224576492565974577e-13),
-		GNM_const (0.2273736960065972320633279596737272e-13),
-		GNM_const (0.1109139947083452201658320007192334e-13)
-	};
-	const int N = sizeof (coeffs) / sizeof (coeffs[0]);
-
-	const gnm_float c = GNM_const (0.2273736845824652515226821577978691e-12);  /* zeta(N+2)-1 */
-	gnm_float lgam;
-	int i;
-
-	if (gnm_abs (a) >= 0.5)
-		return gnm_lgamma (a + 1);
-
-	/* Abramowitz & Stegun 6.1.33 */
-	/* http://functions.wolfram.com/06.11.06.0008.01 */
-	lgam = c * logcf (-a / 2, N + 2, 1);
-	for (i = N - 1; i >= 0; i--)
-		lgam = coeffs[i] - a * lgam;
-
-	return (a * lgam - eulers_const) * a - log1pmx (a);
 }
 
 static gnm_float
@@ -5467,106 +5884,6 @@ pbeta (gnm_float x, gnm_float a, gnm_float b, gboolean lower_tail, gboolean log_
 
 /* --- END IANDJMSMITH SOURCE MARKER --- */
 /* ------------------------------------------------------------------------ */
-
-/*
- * New phyper implementation.  Copyright 2004 Morten Welinder.
- * Distributed under the GNU General Public License.
- *
- * Thanks to Ian Smith for ideas.
- */
-/*
- * Calculate
- *
- *          phyper (i, NR, NB, n, TRUE, FALSE)
- *   [log]  ----------------------------------
- *             dhyper (i, NR, NB, n, FALSE)
- *
- * without actually calling phyper.  This assumes that
- *
- *     i * (NR + NB) <= n * NR
- *
- */
-static gnm_float
-pdhyper (gnm_float i, gnm_float NR, gnm_float NB, gnm_float n, gboolean log_p)
-{
-  gnm_float sum = 0;
-  gnm_float term = 1;
-
-  while (i > 0 && term >= GNM_EPSILON * sum) {
-	  term *= i * (NB - n + i) / (n + 1 - i) / (NR + 1 - i);
-	  sum += term;
-	  i--;
-  }
-
-  return log_p ? gnm_log1p (sum) : 1 + sum;
-}
-
-
-gnm_float
-phyper (gnm_float i, gnm_float NR, gnm_float NB, gnm_float n, int lower_tail, int log_p)
-{
-	gnm_float d, pd;
-
-#ifdef IEEE_754
-	if (gnm_isnan (i) || gnm_isnan (NR) || gnm_isnan (NB) || gnm_isnan (n))
-		return i + NR + NB + n;
-#endif
-
-	i = gnm_floor (i + 1e-7);
-	NR = gnm_floor (NR + 0.5);
-	NB = gnm_floor (NB + 0.5);
-	n = gnm_floor (n + 0.5);
-
-	if (NR < 0 || NB < 0 || !gnm_finite (NR + NB) || n < 0 || n > NR + NB)
-		ML_ERR_return_NAN;
-
-	if (i * (NR + NB) > n * NR) {
-		/* Swap tails.  */
-		gnm_float oldNB = NB;
-		NB = NR;
-		NR = oldNB;
-		i = n - i - 1;
-		lower_tail = !lower_tail;
-	}
-
-	if (i < 0)
-		return R_DT_0;
-
-	d = dhyper (i, NR, NB, n, log_p);
-	pd = pdhyper (i, NR, NB, n, log_p);
-
-	return log_p ? R_DT_log (d + pd) : R_D_Lval (d * pd);
-}
-
-
-gnm_float
-pcauchy (gnm_float x, gnm_float location, gnm_float scale,
-	 gboolean lower_tail, gboolean log_p)
-{
-#ifdef IEEE_754
-    if (gnm_isnan(x) || gnm_isnan(location) || gnm_isnan(scale))
-	    return x + location + scale;
-#endif
-    if (scale <= 0) ML_ERR_return_NAN;
-
-    x = (x - location) / scale;
-    if (gnm_isnan(x)) ML_ERR_return_NAN;
-#ifdef IEEE_754
-    if (!gnm_finite(x)) {
-	    if(x < 0) return R_DT_0;
-	    else return R_DT_1;
-    }
-#endif
-
-    if (!lower_tail)
-	    x = -x;
-
-    if (gnm_abs (x) > 1) {
-	    gnm_float temp = gnm_atan (1 / x) / M_PIgnum;
-	    return (x > 0) ? R_D_Clog (temp) : R_D_val (-temp);
-    } else
-	    return R_D_val (0.5 + gnm_atan (x) / M_PIgnum);
-}
 
 gnm_float
 pf (gnm_float x, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p)
@@ -7340,7 +7657,7 @@ lbeta3 (gnm_float a, gnm_float b, int *sign)
 }
 
 
-/* Calculate (1+x)^r accurately.  */
+/* Calculate (1+x)^y accurately.  */
 gnm_float
 pow1p (gnm_float x, gnm_float y)
 {
@@ -7350,7 +7667,7 @@ pow1p (gnm_float x, gnm_float y)
 		return gnm_exp (y * gnm_log1p (x));
 }
 
-/* Calculate ((1+x)^r)-1 accurately.  */
+/* Calculate ((1+x)^y)-1 accurately.  */
 gnm_float
 pow1pm1 (gnm_float x, gnm_float y)
 {

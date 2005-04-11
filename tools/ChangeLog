@@ -1,6 +1,7 @@
 2005-04-09  Morten Welinder  <terra@gnome.org>
 
-	* import-R: Do not import qf.c anymore.
+	* import-R: Do not import qf.c anymore.  Again take phyper and
+	pcauchy from R since they included our fixes.
 
 2005-03-22  Stepan Kasal  <kasal@ucw.cz>
 

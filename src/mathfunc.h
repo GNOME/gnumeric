@@ -12,12 +12,12 @@
 #undef qgamma
 #endif
 
-#define M_PIgnum GNM_const(3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117)
+#define M_PIgnum    GNM_const(3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117)
 #define M_PI_2gnum (M_PIgnum / 2)
 /* The following are very good given a good compiler.  */
-#define M_LN2gnum (gnm_log (2))
-#define M_LN10gnum (gnm_log (10))
-#define M_SQRT2gnum (gnm_sqrt (2))
+#define M_LN2gnum   GNM_const(0.693147180559945309417232121458176568075500134360255254120680009493393621969694715605863326996419)
+#define M_LN10gnum  GNM_const(2.302585092994045684017991454684364207601101488628772976033327900967572609677352480235997205089598)
+#define M_SQRT2gnum GNM_const(1.414213562373095048801688724209698078569671875376948073176679737990732478462107038850387534327642)
 
 /* ------------------------------------------------------------------------- */
 
@@ -28,6 +28,8 @@ gnm_float pow1p (gnm_float x, gnm_float y);
 gnm_float pow1pm1 (gnm_float x, gnm_float y);
 gnm_float gnm_trunc (gnm_float x);
 gnm_float logfbit (gnm_float x);
+gnm_float logspace_add (gnm_float logx, gnm_float logy);
+gnm_float logspace_sub (gnm_float logx, gnm_float logy);
 
 gnm_float beta (gnm_float a, gnm_float b);
 gnm_float lbeta3 (gnm_float a, gnm_float b, int *sign);

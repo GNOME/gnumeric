@@ -41,13 +41,13 @@ my @files =
      # "pbeta.c",
      # "qbeta.c",
      "dhyper.c",
-     # "phyper.c",
+     "phyper.c",
      "dexp.c",
      "pexp.c",
      "dgeom.c",
      "pgeom.c",
      "dcauchy.c",
-     # "pcauchy.c",
+     "pcauchy.c",
      "bessel.h",
      "bessel_i.c",
      "bessel_k.c",
@@ -137,7 +137,7 @@ sub import_file {
 	    s/\blog\s*\(\s*1\s*\+\s*/gnm_log1p \(/g;
 
 	    s/\bISNAN\b/gnm_isnan/g;
-	    s/\bR_FINITE\b/gnm_finite/g;
+	    s/\bR_(finite|FINITE)\b/gnm_finite/g;
 	    s/\b(sqrt|exp|log|pow|log1p|expm1|floor|ceil|sin|sinh|tan)(\s|$|\()/gnm_$1$2/g;
 	    s/\bfabs\b/gnm_abs/g;
 	    s/\bDBL_(EPSILON|MIN|MAX)/GNM_$1/g;
@@ -172,19 +172,20 @@ sub import_file {
 	    s/\bML_NEGINF\b/gnm_ninf/g;
 	    s/\bML_POSINF\b/gnm_pinf/g;
 
-	    # Improve precision of "lgammagnum(x+1)".
-	    s/\bgnm_lgamma\s*\(([^()]*\S)\s*\+\s*1(.0*)?\s*\)/lgamma1p ($1)/;
-	    s/\bgamma_cody\s*\(1\.\s*\+\s*([^()]+)\s*\)/gnm_exp(lgamma1p ($1))/;
+	    if ($filename !~ /\bpgamma\.c$/) {
+		# Improve precision of "lgammagnum(x+1)".
+		s/\bgnm_lgamma\s*\(([^()]+)\s*\+\s*1(\.0*)?\s*\)/lgamma1p ($1)/;
+		s/\bgamma_cody\s*\(1\.\s*\+\s*([^()]+)\s*\)/gnm_exp(lgamma1p ($1))/;
+	    }
 	    s/\bR_Log1_Exp\b/swap_log_tail/g;
 
 	    if ($filename =~ m|/bessel_i\.c$|) {
 		s/\bgamma_cody\(empal\)/gnm_exp(lgamma1p(nu))/;
 	    }
 
-	    if (/^\s*static\s+(gnm_float|int)\s+(logspace_add|logspace_sub|chebyshev_init)\s*\(/ .. /^\}/) {
-		next unless /^static/;
-		s/^\s*static\s+(gnm_float|int)\s+([a-zA-Z0-9_]+)\s*\(.*//;
-		$_ = "/* Definition of function $2 removed.  */";
+	    if (/^(static\s+)?(gnm_float|int)\s+(chebyshev_init)\s*\(/ .. /^\}/) {
+		next unless s/^(static\s+)?(gnm_float|int)\s+([a-zA-Z0-9_]+)\s*\(.*//;
+		$_ = "/* Definition of function $3 removed.  */";
 	    }
 
 	    # Somewhat risky.
