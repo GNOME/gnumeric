@@ -828,16 +828,19 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 			}
 
 			if (errno != EEXIST) {
-				g_free (template);
-
 				go_cmd_context_error_export (GO_CMD_CONTEXT (io_context),
 					_("Failed to create temporary file for sending."));
 				gnumeric_io_error_display (io_context);
 				problem = TRUE;
-				goto out;
+				break;
 			}
 		}
 #endif
+
+		if (problem) {
+			g_free (template);
+			goto out;
+		}
 
 		full_name = g_build_filename (template, basename, NULL);
 		g_free (basename);
@@ -890,9 +893,7 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 		problem = TRUE;
 	}
 
-#ifndef HAVE_MKDTEMP
  out:
-#endif
 	g_object_unref (G_OBJECT (io_context));
 
 	return !problem;

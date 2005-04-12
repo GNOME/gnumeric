@@ -1,6 +1,7 @@
 2005-04-12  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c (wb_view_sendto): Fix setting of "problem".
+	Handle failure of mkdtemp.
 
 2005-04-11  Morten Welinder  <terra@gnome.org>
 
