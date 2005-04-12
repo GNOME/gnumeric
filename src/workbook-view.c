@@ -789,7 +789,7 @@ cb_cleanup_sendto (gpointer path)
 gboolean
 wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 {
-	gboolean problem = FALSE;
+	gboolean problem;
 	IOContext	*io_context;
 	Workbook	*wb;
 	GOFileSaver	*fs;
@@ -811,17 +811,19 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 #ifdef HAVE_MKDTEMP
 		template = g_build_filename (g_get_tmp_dir (),
 			GNM_SEND_DIR "XXXXXX", NULL);
-		mkdtemp (template);
+		problem = (mkdtemp (template) == NULL);
 #else
 		while (1) {
-			char dirname[sizeof (GNM_SEND_DIR) + sizeof (pid_t) * 4 + 8 + 2 + 1];
-			sprintf (dirname, GNM_SEND_DIR "%ld-%08d",
+			char *dirname = g_strdup_printf
+				("%s%ld-%08d",
+				 GNM_SEND_DIR,
 				 (long)getpid (),
 				 (int)(1e8 * random_01 ()));
-
 			template = g_build_filename (g_get_tmp_dir (), dirname, NULL);
+			g_free (dirname);
+
 			if (g_mkdir (template, 0700) == 0) {
-				problem = TRUE;
+				problem = FALSE;
 				break;
 			}
 
