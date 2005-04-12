@@ -6,7 +6,7 @@
 
 	* src/dialogs/dialog-preferences.c (cb_pref_font_hf_set_fonts,
 	cb_pref_font_set_fonts):
-	They were was broken by my changes in 2005-04-08.
+	They were broken by my changes in 2005-04-08.
 
 2005-04-09  Morten Welinder  <terra@gnome.org>
 
@@ -75,7 +75,7 @@
 	  anyway, the prerequisities of an implicit rule are ignored.
 	* Makefile.am: Use $(POFILES_FULL), not GNU-specific $(wildcard...).
 	* configure.in (GLIB_GENMARSHAL): Full path is not needed.
-	(POFILES_FULL): Nes AC_SUBSTed variable, contains full paths to
+	(POFILES_FULL): New AC_SUBSTed variable, contains full paths to
 	  po/*.po files.
 	(perl): Fix a typo, and a few cosmetic changes.
 	(AC_OUTPUT): Remove plugins/perl/*.
