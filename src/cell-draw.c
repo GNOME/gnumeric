@@ -201,7 +201,6 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	   int x1, int y1, int width, int height, int h_center)
 {
 	GOColor fore_color;
-	GdkColor tmp;
 	gint x;
 	gint y;
 	RenderedValue *rv = cell->rendered_value;
@@ -222,6 +221,7 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 			      h_center == -1 ? -1 : (h_center * PANGO_SCALE),
 			      &fore_color, &x, &y)) {
 		PangoContext *context = NULL;
+		GdkColor tmp;
 
 		/* +1 to get past left grid-line.  */
 		GdkRectangle rect;
