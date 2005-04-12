@@ -1,3 +1,7 @@
+2005-04-12  Stepan Kasal  <kasal@ucw.cz>
+
+	* Makefile.am: Distribute perl-cc-wrapper.
+
 2005-04-08  Morten Welinder  <terra@gnome.org>
 
 	* Makefile.am (COMPILE): add $(srcdir) to wrapper location.
