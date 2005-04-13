@@ -33,6 +33,7 @@ Jon Kåre:
 	* Paste images from clipboard.
 	* Copy images and graphs to clipboard.
 	* Receive and send images by drag and drop.
+	* Don't clear clipboard when losing primary selection. [#300468]
 
 Kasal:
 	* Modified the way generated files are handled by Automake.
