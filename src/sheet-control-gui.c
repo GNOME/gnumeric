@@ -3075,8 +3075,22 @@ scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y,
 		if (!strncmp (mime, "image/", 6)) {
 			scg_drag_receive_img_uri (scg, x, y, uri_str);
 		} else if (!strcmp (mime, "application/x-gnumeric") ||
+			   !strcmp (mime, "application/vnd.ms-excel") ||
+			   !strcmp (mime, "application/vnd.sun.xml.calc") ||  
+			   /* !strcmp (mime, "application/vnd.oasis.opendocument.spreadsheet") || */
+			   !strcmp (mime, "application/vnd.lotus-1-2-3") ||  
 			   !strcmp (mime, 
-				    "application/vnd.ms-excel")) {
+				    "application/x-applix-spreadsheet") ||
+			   !strcmp (mime, "application/x-dbase") ||
+			   !strcmp (mime, "application/x-oleo") ||
+			   !strcmp (mime, "application/x-quattropro") ||
+			   !strcmp (mime, "application/x-sc") ||
+			   /* !strcmp (mime, "application/xhtml+xml") || */
+			   !strcmp (mime, "text/spreadsheet") ||
+			   !strcmp (mime, "text/tab-separated-values") ||
+			   !strcmp (mime, "text/x-comma-separated-values") ||
+			   !strcmp (mime, "text/html") ||
+			   !strcmp (mime, "text/plain")) {
 			scg_drag_receive_spreadsheet (scg, uri_str);
 		}
 	}
