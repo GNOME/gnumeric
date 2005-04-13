@@ -3054,8 +3054,10 @@ scg_drag_receive_cellregion (SheetControlGUI *scg, double x, double y,
 	SheetControl *sc = SHEET_CONTROL (scg);
 
 	content = xml_cellregion_read (sc_wbc (sc), sc_sheet (sc), data, len);
-	scg_paste_cellregion (scg, x, y, content);
-	cellregion_unref (content);
+	if (content != NULL) {
+		scg_paste_cellregion (scg, x, y, content);
+		cellregion_unref (content);
+	}
 }
 
 static void
@@ -3118,8 +3120,10 @@ scg_drag_receive_same_proc_other_scg (SheetControlGUI *scg,
 	objects = go_hash_keys (source_scg->selected_objects);
 	content = clipboard_copy_obj (sc_sheet (SHEET_CONTROL (source_scg)),
 				      objects);
-	scg_paste_cellregion (scg, x, y, content);
-	cellregion_unref (content);
+	if (content != NULL) {
+		scg_paste_cellregion (scg, x, y, content);
+		cellregion_unref (content);
+	}
 	g_slist_free (objects);
 }
 
@@ -3240,7 +3244,12 @@ scg_drag_send_clipboard_objects (SheetControl *sc,
 				 GSList *objects)
 {
 	GnmCellRegion	*content = clipboard_copy_obj (sc_sheet (sc), objects);
-	GsfOutputMemory *output  = gnm_cellregion_to_xml (content);
+	GsfOutputMemory *output;
+	
+	if (content == NULL)
+		return;
+
+	output  = gnm_cellregion_to_xml (content);
 	gtk_selection_data_set (selection_data, selection_data->target, 8,
 		gsf_output_memory_get_bytes (output),
 		gsf_output_size (GSF_OUTPUT (output)));

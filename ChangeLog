@@ -1,7 +1,11 @@
 2005-04-13  Jon K Hellan  <hellan@acm.org>
 
-	* src/sheet-control-gui.c: Handle a bunch of extra mime types for
-	dropped files.
+	* src/sheet-control-gui.c (scg_drag_receive_uri_list): Handle a
+	bunch of extra mime types for dropped files.
+	(scg_drag_receive_cellregion, 
+	(scg_drag_receive_same_proc_other_scg,
+	(scg_drag_send_clipboard_objects): Check that cell region is non
+	null before using it.
 
 2005-04-12  Morten Welinder  <terra@gnome.org>
 
