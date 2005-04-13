@@ -1,3 +1,9 @@
+2005-04-13  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (pfuncinverter): Handle Newton search when log_p
+	is TRUE.
+	(dgamma1, dbeta1): Don't bail out for log_p.
+
 2005-04-13  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c (x_claim_clipboard): Don't clear clipboard

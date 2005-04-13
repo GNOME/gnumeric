@@ -5924,7 +5924,7 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 	gboolean have_xlow = gnm_finite (xlow);
 	gboolean have_xhigh = gnm_finite (xhigh);
 	gnm_float exlow, exhigh;
-	gnm_float x = 0, e = 0;
+	gnm_float x = 0, e = 0, px;
 	int i;
 
 	if (p == R_DT_0) return xlow;
@@ -6001,7 +6001,8 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 		if ((have_xlow && x <= xlow) || (have_xhigh && x >= xhigh))
 			continue;
 
-		e = pfunc (x, shape, lower_tail, log_p) - p;
+		px = pfunc (x, shape, lower_tail, log_p);
+		e = px - p;
 		if (!lower_tail) e = -e;
 
 #ifdef DEBUG_pfuncinverter
@@ -6033,6 +6034,10 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 
 			if (i % 3 < 2 && (i == 0 || prec < 0.05)) {
 				gnm_float d = dpfunc_dx (x, shape, log_p);
+				if (log_p) d = gnm_exp (d - px);
+#ifdef DEBUG_pfuncinverter
+				g_print ("Newton: d=%-.14g\n", d);
+#endif
 				if (d) {
 					/*
 					 * Deliberately overshoot a bit to help
@@ -6062,7 +6067,7 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 
 	if (have_xhigh && gnm_abs (e) > exhigh)
 		e = exhigh, x = xhigh;
-	if (gnm_abs (e) > -exlow)
+	if (have_xlow && gnm_abs (e) > -exlow)
 		e = exlow, x = xlow;
 
 #ifdef DEBUG_pfuncinverter
@@ -6076,10 +6081,7 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 static gnm_float
 dgamma1 (gnm_float x, const gnm_float *palpha, gboolean log_p)
 {
-	if (log_p)
-		return 0; /* i.e., bail.  */
-	else
-		return dgamma (x, *palpha, 1, log_p);
+	return dgamma (x, *palpha, 1, log_p);
 }
 
 static gnm_float
@@ -6125,10 +6127,7 @@ qgamma (gnm_float p, gnm_float alpha, gnm_float scale,
 static gnm_float
 dbeta1 (gnm_float x, const gnm_float shape[], gboolean log_p)
 {
-	if (log_p)
-		return 0; /* i.e., bail.  */
-	else
-		return dbeta (x, shape[0], shape[1], log_p);
+	return dbeta (x, shape[0], shape[1], log_p);
 }
 
 static gnm_float
