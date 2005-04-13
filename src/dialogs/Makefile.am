@@ -73,7 +73,7 @@ base_files =					\
 	dialog-stf-export.h			\
 	dialog-tabulate.c			\
 	dialog-summary.c			\
-	dialog-doc-meta-data.c			\
+	dialog-doc-metadata.c			\
 	dialog-view.c				\
 	dialog-workbook-attr.c			\
 	dialog-zoom.c				\
