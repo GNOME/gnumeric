@@ -1,5 +1,8 @@
 2005-04-13  Jon K Hellan  <hellan@acm.org>
 
+	* src/gui-clipboard.c (x_claim_clipboard): Don't clear clipboard
+	if we still own CLIPBOARD.
+
 	* src/sheet-control-gui.c (scg_drag_receive_uri_list): Handle a
 	bunch of extra mime types for dropped files.
 	(scg_drag_receive_cellregion, 

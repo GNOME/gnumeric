@@ -687,9 +687,14 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
  */
 static gint
 x_clipboard_clear_cb (GtkClipboard *clipboard,
-		      gpointer      data)
+		      WorkbookControlGUI *wbcg)
 {
-	gnm_app_clipboard_clear (FALSE);
+	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (wbcg_toplevel (wbcg)));
+
+	if (!gnm_app_prefs->prefer_clipboard_selection ||
+	    clipboard == 
+	    gtk_clipboard_get_for_display (display, GDK_SELECTION_CLIPBOARD))
+		gnm_app_clipboard_clear (FALSE);
 
 	return TRUE;
 }
