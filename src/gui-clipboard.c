@@ -691,8 +691,7 @@ x_clipboard_clear_cb (GtkClipboard *clipboard,
 {
 	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (wbcg_toplevel (wbcg)));
 
-	if (!gnm_app_prefs->prefer_clipboard_selection ||
-	    clipboard == 
+	if (clipboard == 
 	    gtk_clipboard_get_for_display (display, GDK_SELECTION_CLIPBOARD))
 		gnm_app_clipboard_clear (FALSE);
 
