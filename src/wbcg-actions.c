@@ -179,6 +179,10 @@ static GNM_ACTION_DEF (cb_file_quit)
 	g_list_free (workbooks);
 	g_list_free (clean_no_closed);
 }
+static GNM_ACTION_DEF (cb_new_doc_metadata)
+{
+	dialog_doc_metadata_new (wbcg);
+}
 
 /****************************************************************************/
 
@@ -619,6 +623,10 @@ static GNM_ACTION_DEF (cb_insert_current_time)
 static GNM_ACTION_DEF (cb_define_name)
 {
 	dialog_define_names (wbcg);
+}
+static GNM_ACTION_DEF (cb_paste_names)
+{
+	dialog_paste_names (wbcg);
 }
 
 static GNM_ACTION_DEF (cb_insert_rows)
@@ -1515,6 +1523,11 @@ static const GtkActionEntry actions[] = {
 		NULL, N_("Quit the application"),
 		G_CALLBACK (cb_file_quit) },
 
+#warning new hook put here to avoid patch conflict
+	{ "FileSummary_new", GTK_STOCK_PROPERTIES, N_("NEW Proper_ties..."),
+		NULL, N_("Edit descriptive information"),
+		G_CALLBACK (cb_new_doc_metadata) },
+
 /* Edit -> Clear */
 	{ "EditClearAll", NULL, N_("_All"),
 		NULL, N_("Clear the selected cells' formats, comments, and contents"),
@@ -1683,6 +1696,9 @@ static const GtkActionEntry actions[] = {
 	{ "EditNames", NULL, N_("_Define..."),
 		"<control>F3", N_("Edit sheet and workbook names"),
 		G_CALLBACK (cb_define_name) },
+	{ "PasteNames", GTK_STOCK_PASTE, NULL,
+		"F3", N_("Paste the definition a name, or names"),
+		G_CALLBACK (cb_paste_names) },
 #if 0
 	{ "EditGenerateName", NULL,  N_("_Auto generate names..."),
 		NULL, N_("Use the current selection to create names"),

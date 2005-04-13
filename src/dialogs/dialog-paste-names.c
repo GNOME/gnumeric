@@ -64,7 +64,7 @@ typedef struct {
 } DialogPasteNames;
 
 static void
-cb_name_guru_destroy (DialogPasteNames *state)
+dialog_paste_names_free (DialogPasteNames *state)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 
@@ -107,18 +107,17 @@ paste_names_init (DialogPasteNames *state, WorkbookControlGUI *wbcg)
 	state->selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (state->treeview));
 	gtk_tree_selection_set_mode (state->selection, GTK_SELECTION_BROWSE);
 
-
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_DEFINE_NAMES);
 
 	/* a candidate for merging into attach guru */
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
-			       PASTE_NAMES_KEY);
+		PASTE_NAMES_KEY);
 	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify)cb_name_guru_destroy);
+		"state", state, (GDestroyNotify)dialog_paste_names_free);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
-				   GTK_WINDOW (state->dialog));
+		GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 
@@ -126,7 +125,7 @@ paste_names_init (DialogPasteNames *state, WorkbookControlGUI *wbcg)
 }
 
 void
-dialog_doc_metadata_new (WorkbookControlGUI *wbcg)
+dialog_paste_names (WorkbookControlGUI *wbcg)
 {
 	DialogPasteNames *state;
 
