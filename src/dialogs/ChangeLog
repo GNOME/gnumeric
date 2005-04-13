@@ -1,3 +1,8 @@
+2005-04-12  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : Add hooks for a paste names dialog
+	Add hooks for the new doc meta data dialog
+
 2005-04-04  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-export.c (stf_export_dialog_finish): Plug leak.

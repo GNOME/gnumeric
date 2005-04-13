@@ -32,6 +32,7 @@ void	 dialog_delete_cells	(WorkbookControlGUI *wbcg);
 void	 dialog_zoom		(WorkbookControlGUI *wbcg, Sheet *sheet);
 void	 dialog_about		(WorkbookControlGUI *wbcg);
 void	 dialog_define_names	(WorkbookControlGUI *wbcg);
+void	 dialog_paste_names	(WorkbookControlGUI *wbcg);
 void	 dialog_cell_comment	(WorkbookControlGUI *wbcg,
 				 Sheet *sheet, GnmCellPos const *pos);
 void	 dialog_cell_sort	(WorkbookControlGUI *wbcg);
@@ -112,5 +113,7 @@ void	dialog_new_view (WorkbookControlGUI *wbcg);
 void	dialog_so_styled (WorkbookControlGUI *wbcg, GObject *so,
 			  GogStyle *orig, GogStyle *default_style,
 			  char const *title);
+
+void	dialog_doc_metadata_new  (WorkbookControlGUI *wbcg);
 
 #endif /* GNUMERIC_DIALOGS_H */

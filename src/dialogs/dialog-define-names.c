@@ -464,7 +464,7 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sv_sheet (state->sv);
 	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"names.glade", NULL, NULL);
+		"define-name.glade", NULL, NULL);
         if (state->gui == NULL)
                 return TRUE;
 

@@ -14,7 +14,6 @@ AM_CPPFLAGS = 								\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/src						\
 	-I$(top_srcdir)/src/tools					\
-	-I$(top_srcdir)/src/cut-n-paste-code/foocanvas			\
 	$(GNUMERIC_CFLAGS)
 
 noinst_LIBRARIES = libdialogs.a
@@ -44,6 +43,7 @@ base_files =					\
 	dialog-hyperlink.c			\
 	dialog-insert-cells.c			\
 	dialog-define-names.c			\
+	dialog-paste-names.c			\
 	dialog-delete-cells.c			\
 	dialog-merge.c				\
 	dialog-password.c			\
@@ -73,6 +73,7 @@ base_files =					\
 	dialog-stf-export.h			\
 	dialog-tabulate.c			\
 	dialog-summary.c			\
+	dialog-doc-meta-data.c			\
 	dialog-view.c				\
 	dialog-workbook-attr.c			\
 	dialog-zoom.c				\
@@ -117,8 +118,10 @@ glade_DATA = 				\
 	insert-cells.glade		\
 	mean-tests.glade		\
 	merge.glade			\
+	doc-meta-data.glade		\
 	moving-averages.glade		\
-	names.glade			\
+	define-name.glade		\
+	paste-names.glade		\
 	pivottable.glade		\
 	plugin-manager.glade		\
 	preferences.glade 		\
