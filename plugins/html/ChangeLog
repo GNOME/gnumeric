@@ -1,3 +1,7 @@
+2005-04-13  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (html_file_open): Try to detect unmarked UTF16LE.
+
 2005-02-24  Jon K Hellan  <hellan@acm.org>
 
 	* html_read.c (html_file_open): Check if file is large enough to
