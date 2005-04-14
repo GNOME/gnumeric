@@ -47,7 +47,7 @@ update_data (gnm_float x, gnm_float y, GoalSeekData *data)
 		} else {
 			data->xpos = x;
 			data->ypos = y;
-			data->havexpos = 1;
+			data->havexpos = TRUE;
 		}
 		return FALSE;
 	} else if (y < 0) {
@@ -70,11 +70,12 @@ update_data (gnm_float x, gnm_float y, GoalSeekData *data)
 		} else {
 			data->xneg = x;
 			data->yneg = y;
-			data->havexneg = 1;
+			data->havexneg = TRUE;
 		}
 		return FALSE;
 	} else {
 		/* Lucky guess...  */
+		data->have_root = TRUE;
 		data->root = x;
 		return TRUE;
 	}
@@ -146,7 +147,9 @@ fake_df (GoalSeekFunction f, gnm_float x, gnm_float *dfx, gnm_float xstep,
 void
 goal_seek_initialize (GoalSeekData *data)
 {
-	data->havexpos = data->havexneg = FALSE;
+	data->havexpos = data->havexneg = data->have_root = FALSE;
+	data->xpos = data->xneg = data->root = gnm_nan;
+	data->ypos = data->yneg = gnm_nan;
 	data->xmin = -1e10;
 	data->xmax = +1e10;
 	data->precision = 1e-10;
@@ -162,6 +165,9 @@ goal_seek_point (GoalSeekFunction f, GoalSeekData *data,
 {
 	GoalSeekStatus status;
 	gnm_float y0;
+
+	if (data->have_root)
+		return GOAL_SEEK_OK;
 
 	if (x0 < data->xmin || x0 > data->xmax)
 		return GOAL_SEEK_ERROR;
@@ -195,6 +201,9 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 {
 	int iterations;
 	gnm_float precision = data->precision / 2;
+
+	if (data->have_root)
+		return GOAL_SEEK_OK;
 
 #ifdef DEBUG_GOAL_SEEK
 	printf ("goal_seek_newton\n");
@@ -247,11 +256,6 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 		 * just one side of the root.
 		 */
 		x1 = x0 - 1.000001 * y0 / df0;
-		if (x1 == x0) {
-			data->root = x0;
-			return GOAL_SEEK_OK;
-		}
-
 		stepsize = gnm_abs (x1 - x0) / (gnm_abs (x0) + gnm_abs (x1));
 
 #ifdef DEBUG_GOAL_SEEK
@@ -263,6 +267,7 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 
 		if (stepsize < precision) {
 			data->root = x0;
+			data->have_root = TRUE;
 			return GOAL_SEEK_OK;
 		}
 	}
@@ -292,6 +297,9 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 	int iterations;
 	gnm_float stepsize;
 	int newton_submethod = 0;
+
+	if (data->have_root)
+		return GOAL_SEEK_OK;
 
 #ifdef DEBUG_GOAL_SEEK
 	printf ("goal_seek_bisection\n");
@@ -431,6 +439,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 			if (data->ypos < ymid)
 				ymid = data->ypos, xmid = data->xpos;
 
+			data->have_root = TRUE;
 			data->root = xmid;
 			return GOAL_SEEK_OK;
 		}
@@ -448,6 +457,9 @@ goal_seek_trawl_uniformly (GoalSeekFunction f,
 			   int points)
 {
 	int i;
+
+	if (data->have_root)
+		return GOAL_SEEK_OK;
 
 	if (xmin > xmax || xmin < data->xmin || xmax > data->xmax)
 		return GOAL_SEEK_ERROR;
@@ -486,6 +498,9 @@ goal_seek_trawl_normally (GoalSeekFunction f,
 			  int points)
 {
 	int i;
+
+	if (data->have_root)
+		return GOAL_SEEK_OK;
 
 	if (sigma <= 0 || mu < data->xmin || mu > data->xmax)
 		return GOAL_SEEK_ERROR;

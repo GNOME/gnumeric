@@ -9,14 +9,15 @@ typedef struct {
 	gnm_float xmax;           /* Maximum allowed value for x.  */
 	gnm_float precision;      /* Desired relative precision.  */
 
-	gboolean havexpos;         /* Do we have a valid xpos?  */
+	gboolean havexpos;        /* Do we have a valid xpos?  */
 	gnm_float xpos;           /* Value for which f(xpos) > 0.  */
 	gnm_float ypos;           /* f(xpos).  */
 
-	gboolean havexneg;         /* Do we have a valid xneg?  */
+	gboolean havexneg;        /* Do we have a valid xneg?  */
 	gnm_float xneg;           /* Value for which f(xneg) < 0.  */
 	gnm_float yneg;           /* f(xneg).  */
 
+	gboolean have_root;       /* Do we have a valid root?  */
 	gnm_float root;           /* Value for which f(root) == 0.  */
 } GoalSeekData;
 
