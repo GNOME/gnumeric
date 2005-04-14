@@ -57,25 +57,11 @@ guess_carried_traffic (gnm_float traffic, gnm_float comp_gos)
 static gnm_float
 calculate_loggos (gnm_float traffic, gnm_float circuits)
 {
-	double f;
-
 	if (traffic < 0 || circuits < 1)
 		return gnm_nan;
-	if (traffic == 0)
-		return gnm_ninf;
 
-#ifdef CANCELLATION
-	/* Calculated this way we get cancellation.  */
-	f = circuits * gnm_log (traffic) - lgamma1p (circuits) - traffic;
-#else
-	f = (circuits - traffic) +
-		(1 - gnm_log (gnm_sqrt (2 * M_PIgnum))) -
-		gnm_log (circuits + 1) / 2.0 -
-		logfbit (circuits) +
-		circuits * (gnm_log (traffic / (circuits + 1)));
-#endif
-
-	return f - pgamma (traffic, circuits + 1, 1, FALSE, TRUE);
+	return (dgamma (traffic, circuits + 1, 1, TRUE) -
+		pgamma (traffic, circuits + 1, 1, FALSE, TRUE));
 }
 
 static gnm_float
