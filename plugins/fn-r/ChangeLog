@@ -1,3 +1,7 @@
+2005-04-14  Morten Welinder  <terra@gnome.org>
+
+	* generate: Add init and shutdown functions.
+
 2005-03-21  Morten Welinder  <terra@gnome.org>
 
 	* generate: Add more distributions.

@@ -1418,6 +1418,17 @@ gnumeric_r_qcauchy (FunctionEvalInfo *ei, GnmValue **args)
 
 /* ------------------------------------------------------------------------- */
 
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+{
+}
+
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+{
+}
+
+/* ------------------------------------------------------------------------- */
 
 GnmFuncDescriptor const stat_functions[] = {
 	{

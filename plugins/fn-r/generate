@@ -194,8 +194,20 @@ while (<HEADER>) {
 close (HEADER);
 
 &emit_line ();
-&emit ("\n" .
-       "GnmFuncDescriptor const stat_functions[] = {\n" .
+
+&emit ("G_MODULE_EXPORT void\n" .
+       "go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)\n" .
+       "{\n" .
+       "}\n\n");
+
+&emit ("G_MODULE_EXPORT void\n" .
+       "go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)\n" .
+       "{\n" .
+       "}\n\n");
+
+&emit_line ();
+
+&emit ("GnmFuncDescriptor const stat_functions[] = {\n" .
        $funcdefs .
        "\t{ NULL }\n" .
        "};\n");
