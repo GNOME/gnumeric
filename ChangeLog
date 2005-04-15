@@ -1,3 +1,8 @@
+2005-04-15  Stepan Kasal  <kasal@ucw.cz>
+
+	* schemas/Makefile.am (CLEANFILES): Add $(reg_DATA), if we are
+	  building .reg files.
+
 2005-04-13  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (pfuncinverter): Handle Newton search when log_p
