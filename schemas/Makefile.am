@@ -2,11 +2,9 @@ schema_in_files = gnumeric-dialogs.schemas.in gnumeric-general.schemas.in gnumer
 schemadir   = @GCONF_SCHEMA_FILE_DIR@
 if WITH_GNOME
 schema_DATA = $(schema_in_files:.schemas.in=.schemas)
-else
-schema_DATA =
 endif
 
-EXTRA_DIST = $(schema_DATA) $(schema_in_files)
+EXTRA_DIST = $(schema_in_files)
 CLEANFILES = $(schema_DATA)
 
 @INTLTOOL_SCHEMAS_RULE@

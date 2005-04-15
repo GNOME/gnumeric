@@ -2,6 +2,7 @@
 
 	* schemas/Makefile.am (CLEANFILES): Add $(reg_DATA), if we are
 	  building .reg files.
+	Don't distribute $(schema_DATA).
 
 2005-04-13  Morten Welinder  <terra@gnome.org>
 
