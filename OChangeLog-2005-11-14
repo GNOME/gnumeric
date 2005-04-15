@@ -4505,7 +4505,7 @@
 
 2004-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* schemas/gnumeric-dialogs.schemas.in: Add schemas correponding to 
+	* schemas/gnumeric-dialogs.schemas.in: Add schemas corresponding to
 	  the new printing keys.
 
 2004-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>

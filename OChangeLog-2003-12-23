@@ -9435,7 +9435,7 @@
 
 2002-05-01  Christophe Merlet  <christophe@merlet.net>
 
-	* schemas/gnumeri-dialogs.schemas : Replaced // with /.
+	* schemas/gnumeric-dialogs.schemas : Replaced // with /.
 	* src/Makefile.am : Added main-application.c to $EXTRA_DIST.
 
 2002-04-30  Jody Goldberg <jody@gnome.org>
