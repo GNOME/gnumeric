@@ -14,7 +14,7 @@ if GCONF_SCHEMAS_INSTALL
 install-data-local:
 	if test -z "$(DESTDIR)" ; then \
 		for p in $(schema_DATA) ; do \
-			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$$p; \
+			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $$p; \
 		done \
 	fi
 else
@@ -23,12 +23,14 @@ endif
 
 if WITH_WIN32
 if !CROSS_COMPILING
-SUFFIXES = .reg
-regdir = $(prefix)/share/gnumeric
-reg_DATA = $(schema_in_files:.schemas.in=.reg)
+SUFFIXES = .reg .hkcu.reg
+regdir = $(prefix)/etc/win32/reg
+reg_DATA = $(schema_in_files:.schemas.in=.reg) $(schema_in_files:.schemas.in=.hkcu.reg)
 CLEANFILES += $(reg_DATA)
 
 %.reg:   %.schemas.in
-	../src/tools/gconf-schemas-to-win32-reg.exe $< >$@
+	$(top_builddir)/tools/gconf-schemas-to-win32-reg.exe $< >$@
+%.hkcu.reg:   %.schemas.in
+	$(top_builddir)/tools/gconf-schemas-to-win32-reg.exe -c $< >$@
 endif
 endif

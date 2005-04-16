@@ -987,6 +987,7 @@ schemas/Makefile
 templates/Makefile
 templates/english/Makefile
 templates/autoformat/Makefile
+tools/Makefile
 ])
 
 echo "

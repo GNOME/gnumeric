@@ -1,8 +1,7 @@
 SUBDIRS = . po po-functions src plugins icons templates doc schemas
-# automake does not like subdirs that are not directly below
-#if WITH_WIN32
-#  SUBDIRS += src/cut-n-paste-code/goffice/graph/plugins
-#endif
+if WITH_WIN32
+  SUBDIRS += tools
+endif
 
 XML_I18N_XML_KIND = --pass-through
 
