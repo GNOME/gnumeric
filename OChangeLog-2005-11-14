@@ -1,3 +1,24 @@
+2005-04-17  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* configure.in:
+	* Makefile.am: New subdir 'tools', we now have a win32
+	binary to build.
+
+	* schemas/Makefile.am: Install .reg files into
+	$prefix/etc/win32/reg. Two versions are served, i.e.
+	.hkcu.reg and .reg. When the user chooses to install
+	gnumeric/win32 for the "current user" only, use .hkcu.reg
+	and otherwise .reg.
+
+	* src/tools/Makefile.am:
+	* src/tools/gconf-schemas-to-win32-reg.c: Removed. It don't
+	belong here.
+	* tools/Makefile.am:
+	* tools/gconf-schemas-to-win32-reg.c: New. It should be
+	placed here. Add a new parameter that controls whether the
+	converter should output .hkcu.reg style or .reg style. And
+	Jody told me that what I want is g_printerr but not g_error.
+
 2005-04-10  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
         * src/dialogs/dialog-preferences.c (cb_pref_font_hf_set_fonts,

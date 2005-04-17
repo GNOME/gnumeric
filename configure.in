@@ -1011,6 +1011,7 @@ templates/Makefile
 templates/english/Makefile
 templates/autoformat/Makefile
 stamp.h
+tools/Makefile
 ])
 
 echo "

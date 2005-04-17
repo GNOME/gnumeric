@@ -1,8 +1,7 @@
 SUBDIRS = . po src plugins icons templates doc schemas
-# automake does not like subdirs that are not directly below
-#if WITH_WIN32
-#  SUBDIRS += src/cut-n-paste-code/goffice/graph/plugins
-#endif
+if WITH_WIN32
+  SUBDIRS += tools
+endif
 
 distcleancheck_listfiles = find . -type f -print | grep -v 'omf\.out' | grep -v '^\./doc'
 

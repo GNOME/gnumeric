@@ -26,6 +26,17 @@
 #include <glib-2.0/glib.h>
 
 #define GCONF_APP_ROOT "/apps"
+#define WIN32_USERS_APP_ROOT "[HKEY_USERS\\.DEFAULT\\Software"
+#define WIN32_CURRENT_USER_APP_ROOT "[HKEY_CURRENT_USER\\Software"
+
+static gboolean current_user = FALSE;
+
+static GOptionEntry entries[] = 
+{
+	{ "current-user-only", 'c', 0, G_OPTION_ARG_NONE, &current_user,
+	  "Output HKEY_CURRENT_USER instead of HKEY_USERS.", NULL },
+	{ NULL }
+};
 
 enum {
 	KEY_TYPE_NONE = 0,
@@ -142,7 +153,7 @@ convert_key (KeyInfo *info)
 		putchar ('"');
 		break;
 	default:
-		g_error ("General type not implemented: %d", info->type);
+		g_printerr ("General type not implemented: %d\n", info->type);
 	}
 
 	putchar ('\n');
@@ -215,7 +226,7 @@ convert_schema (xmlDocPtr doc, xmlNodePtr schema, GHashTable *table)
 		GSList **values;
 
 		if (xmlStrncmp (info.name, GCONF_APP_ROOT "/", 6)) {
-			g_error ("Don't know how to handle this key: %s", info.name);
+			g_printerr ("Don't know how to handle this key: %s\n", info.name);
 			return;
 		}
 
@@ -227,7 +238,7 @@ convert_schema (xmlDocPtr doc, xmlNodePtr schema, GHashTable *table)
 		} while (!(node = g_hash_table_lookup (table, info.name)));
 
 		if (!node) {
-			g_error ("Can find the root node?");
+			g_printerr ("Can find the root node?\n");
 			return;
 		}
 
@@ -285,7 +296,7 @@ print_node (GNode *node, gpointer data)
 	if (node == root)
 		return FALSE;
 
-	g_print ("[HKEY_USERS\\.DEFAULT\\Software");
+	g_print (current_user ? WIN32_CURRENT_USER_APP_ROOT : WIN32_USERS_APP_ROOT);
 
 	for (n = node; n != root; n = n->parent) {
 		g_string_prepend (path, ((NodeInfo *) n->data)->name);
@@ -337,12 +348,12 @@ convert (xmlDocPtr doc, xmlNodePtr root)
 	xmlNodePtr node = NULL;
 
 	if (!root) {
-		g_error ("Empty document\n");
+		g_printerr ("Empty document\n");
 		return;
 	}
 
 	if (xmlStrcmp (root->name, "gconfschemafile")) {
-		g_error ("Document of the wrong type, root node != gconfschemafile");
+		g_printerr ("Document of the wrong type, root node != gconfschemafile\n");
 		return;
 	}
 
@@ -360,9 +371,15 @@ int main (int argc, char **argv)
 {
 	xmlDocPtr doc;
 	xmlNodePtr root;
+	GOptionContext *context;
+
+	context = g_option_context_new ("inputfile\nConvert gconf .schemas file into win32 registry .reg file");
+	g_option_context_add_main_entries (context, entries, NULL);
+	g_option_context_parse (context, &argc, &argv, NULL);
+	g_option_context_free (context);
 
 	if (argc != 2) {
-		g_error ("Usage: %s [.schemas file]", argv[0]);
+		g_printerr ("Please provide exactly one input filename\n");
 		return 1;
 	}
 
@@ -370,7 +387,7 @@ int main (int argc, char **argv)
 
 	doc = xmlReadFile (argv[1], NULL, 0);
 	if (!doc) {
-		g_error ("Failed to parse %s", argv[1]);
+		g_printerr ("Failed to parse %s\n", argv[1]);
 		return 2;
 	}
 
