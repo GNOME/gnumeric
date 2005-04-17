@@ -65,20 +65,17 @@ GNM_PLUGIN_MODULE_HEADER;
 
 /* Writes a string into a cell. */
 static inline void
-mps_set_cell (Sheet *sh, int col, int row, const gchar *str)
+mps_set_cell (Sheet *sheet, int col, int row, const gchar *str)
 {
-        GnmCell *cell = sheet_cell_fetch (sh, col, row);
-
-        sheet_cell_set_value (cell, value_new_string (str));
+        cell_set_value (sheet_cell_fetch (sheet, col, row),
+			value_new_string (str));
 }
 
 /* Writes a float into a cell. */
 static inline void
-mps_set_cell_float (Sheet *sh, int col, int row, const gnm_float f)
+mps_set_cell_float (Sheet *sheet, int col, int row, const gnm_float f)
 {
-        GnmCell *cell = sheet_cell_fetch (sh, col, row);
-
-        sheet_cell_set_value (cell, value_new_float (f));
+        cell_set_value (sheet_cell_fetch (sheet, col, row), value_new_float (f));
 }
 
 static void
