@@ -1,3 +1,11 @@
+2005-04-18  Stepan Kasal  <kasal@ucw.cz>
+
+	* Makefile.am (dist-hook): Don't handle gnumeric.spec here, ...
+	(EXTRA_DIST): ... it's enough to add it here.
+	  I tested this change with automake versions 1.7.9, 1.8.5 and 1.9.5.
+	* schemas/Makefile.am: To silence `automake -Wall', don't use
+	pattern rules (with %.reg), use portable suffix rules instead.
+
 2005-04-16  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* configure.in:
@@ -11,13 +19,8 @@
 	and otherwise .reg.
 
 	* src/tools/Makefile.am:
-	* src/tools/gconf-schemas-to-win32-reg.c: Removed. It don't
-	belong here.
-	* tools/Makefile.am:
-	* tools/gconf-schemas-to-win32-reg.c: New. It should be
-	placed here. Add a new parameter that controls whether the
-	converter should output .hkcu.reg style or .reg style. And
-	Jody told me that what I want is g_printerr but not g_error.
+	* src/tools/gconf-schemas-to-win32-reg.c: Moved to tools/;
+	see tools/ChangeLog for details.
 
 2005-04-15  Stepan Kasal  <kasal@ucw.cz>
 

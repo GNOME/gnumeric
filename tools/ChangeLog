@@ -1,3 +1,11 @@
+2005-04-16  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* tools/gconf-schemas-to-win32-reg.c: Moved here from src/tools/.
+	Add a new parameter that controls whether the converter should
+	output .hkcu.reg style or .reg style. And Jody told me that what
+	I want is g_printerr but not g_error.
+	* tools/Makefile.am: Add it.
+
 2005-04-09  Morten Welinder  <terra@gnome.org>
 
 	* import-R: Do not import qf.c anymore.  Again take phyper and

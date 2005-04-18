@@ -38,16 +38,18 @@ CLEANFILES = $(server_DATA) $(server_in_files) \
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
 EXTRA_DIST = \
-	gnumeric.desktop.in GNOME_Gnumeric.server.in.in \
-	gnumeric.keys.in gnumeric.mime 					\
-	gnumeric.xsd							\
 	README HACKING NEWS BEVERAGES BUGS MAINTAINERS AUTHORS $(change_logs)	\
+	gnumeric.desktop.in	\
+	gnumeric.keys.in	\
+	gnumeric.mime		\
+	gnumeric.spec		\
+	gnumeric.xsd		\
 	intltool-extract.in	\
 	intltool-merge.in	\
 	intltool-update.in	\
 	xmldocs.make 		\
 	omf.make		\
-	$(server_in_files) $(server_DATA)
+	GNOME_Gnumeric.server.in.in $(server_in_files) $(server_DATA)
 
 gnumeric.keys: gnumeric.keys.in Makefile
 	sed -e 's^\@gnumeric_icondir\@^$(gnumeric_icondir)^g' < $(srcdir)/gnumeric.keys.in > gnumeric.keys.tmp \
@@ -63,11 +65,10 @@ endif
 	sed -e 's/BUGZILLAVERSION/@VERSION@/' <$@.tmp2 >$@
 	rm -f $@.tmp $@.tmp2
 
-dist-hook: gnumeric.spec
+dist-hook:
 	-cd $(distdir) ; rm -f $(server_in_files) $(server_DATA)
 	mkdir $(distdir)/samples
 	cp $(srcdir)/samples/*gnumeric $(distdir)/samples	
-	cp gnumeric.spec $(distdir)
 
 ## It seems the following overrides can be simplified:
 ## distcleancheck_listfiles = find . -type f -print | grep -v 'omf\.out' | grep -v '^\./doc'

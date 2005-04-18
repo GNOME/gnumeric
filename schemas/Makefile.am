@@ -23,14 +23,14 @@ endif
 
 if WITH_WIN32
 if !CROSS_COMPILING
-SUFFIXES = .reg .hkcu.reg
+SUFFIXES = .schemas.in .reg .hkcu.reg
 regdir = $(prefix)/etc/win32/reg
 reg_DATA = $(schema_in_files:.schemas.in=.reg) $(schema_in_files:.schemas.in=.hkcu.reg)
 CLEANFILES += $(reg_DATA)
 
-%.reg:   %.schemas.in
+.schemas.in.reg:
 	$(top_builddir)/tools/gconf-schemas-to-win32-reg.exe $< >$@
-%.hkcu.reg:   %.schemas.in
+.schemas.in.hkcu.reg:
 	$(top_builddir)/tools/gconf-schemas-to-win32-reg.exe -c $< >$@
 endif
 endif
