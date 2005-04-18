@@ -23,6 +23,7 @@ plugins/fn-info/plugin.xml.in
 plugins/fn-logical/plugin.xml.in
 plugins/fn-lookup/plugin.xml.in
 plugins/fn-math/plugin.xml.in
+plugins/fn-r/plugin.xml.in
 plugins/fn-random/plugin.xml.in
 plugins/fn-stat/plugin.xml.in
 plugins/fn-string/plugin.xml.in
@@ -71,11 +72,13 @@ src/dialogs/consolidate.glade
 src/dialogs/correlation.glade
 src/dialogs/covariance.glade
 src/dialogs/dao.glade
+src/dialogs/define-name.glade
 src/dialogs/delete-cells.glade
 src/dialogs/descriptive-stats.glade
 src/dialogs/dialog-stf-export.glade
 src/dialogs/dialog-stf.glade
 src/dialogs/dialog-zoom.glade
+src/dialogs/doc-meta-data.glade
 src/dialogs/exp-smoothing.glade
 src/dialogs/fill-series.glade
 src/dialogs/font-sel.glade
@@ -91,7 +94,7 @@ src/dialogs/insert-cells.glade
 src/dialogs/mean-tests.glade
 src/dialogs/merge.glade
 src/dialogs/moving-averages.glade
-src/dialogs/names.glade
+src/dialogs/paste-names.glade
 src/dialogs/pivottable.glade
 src/dialogs/plugin-manager.glade
 src/dialogs/preferences.glade

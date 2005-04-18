@@ -19,6 +19,7 @@ plugins/fn-info/functions.c
 plugins/fn-logical/functions.c
 plugins/fn-lookup/functions.c
 plugins/fn-math/functions.c
+plugins/fn-r/functions.c
 plugins/fn-random/functions.c
 plugins/fn-stat/functions.c
 plugins/fn-string/functions.c
@@ -65,6 +66,7 @@ src/dialogs/dialog-col-width.c
 src/dialogs/dialog-consolidate.c
 src/dialogs/dialog-define-names.c
 src/dialogs/dialog-delete-cells.c
+src/dialogs/dialog-doc-metadata.c
 src/dialogs/dialog-fill-series.c
 src/dialogs/dialog-formula-guru.c
 src/dialogs/dialog-function-select.c
@@ -74,6 +76,7 @@ src/dialogs/dialog-hyperlink.c
 src/dialogs/dialog-insert-cells.c
 src/dialogs/dialog-merge.c
 src/dialogs/dialog-password.c
+src/dialogs/dialog-paste-names.c
 src/dialogs/dialog-paste-special.c
 src/dialogs/dialog-pivottable.c
 src/dialogs/dialog-plugin-manager.c
