@@ -99,11 +99,13 @@ glade_DATA = 				\
 	correlation.glade		\
 	covariance.glade		\
 	dao.glade			\
+	define-name.glade		\
 	delete-cells.glade		\
 	descriptive-stats.glade		\
 	dialog-stf-export.glade		\
 	dialog-stf.glade		\
 	dialog-zoom.glade		\
+	doc-meta-data.glade		\
 	exp-smoothing.glade		\
 	fill-series.glade		\
 	font-sel.glade			\
@@ -118,9 +120,7 @@ glade_DATA = 				\
 	insert-cells.glade		\
 	mean-tests.glade		\
 	merge.glade			\
-	doc-meta-data.glade		\
 	moving-averages.glade		\
-	define-name.glade		\
 	paste-names.glade		\
 	pivottable.glade		\
 	plugin-manager.glade		\
