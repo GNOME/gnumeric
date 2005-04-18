@@ -102,6 +102,11 @@ AC_SUBST(Z_LIBS)
 CPPFLAGS=${_cppflags}
 LDFLAGS=${_ldflags}
 
+dnl The first call to PKG_CHECK_MODULES is inside an `if.'
+dnl Otherwise ot would get expanded just before the first occurence of
+dnl PKG_CHECK_MODULES and might escape execution.
+PKG_PROG_PKG_CONFIG
+
 dnl *****************************
 gnumeric_reqs="
 	glib-2.0		>= 2.6.0

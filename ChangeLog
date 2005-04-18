@@ -1,5 +1,6 @@
 2005-04-18  Stepan Kasal  <kasal@ucw.cz>
 
+	* configure.in: Call PKG_PROG_PKG_CONFIG explicitly.
 	* Makefile.am (dist-hook): Don't handle gnumeric.spec here, ...
 	(EXTRA_DIST): ... it's enough to add it here.
 	  I tested this change with automake versions 1.7.9, 1.8.5 and 1.9.5.
