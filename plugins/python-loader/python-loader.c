@@ -516,6 +516,9 @@ call_python_function_nodes (FunctionEvalInfo *ei, GnmExprList *expr_tree_list)
 	return ret_value;
 }
 
+#warning FIXME adapt for the new GnmFuncHelp struct.
+#define python_function_get_gnumeric_help(x,y,z) NULL
+#if 0
 static GnmFuncHelp const *
 python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *python_fn,
                                    const gchar *fn_name)
@@ -545,6 +548,7 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 
 	return (GnmFuncHelp const *) PyCObject_AsVoidPtr (cobject_help_value);
 }
+#endif
 
 static gboolean
 gplp_func_desc_load (GOPluginService *service,

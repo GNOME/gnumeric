@@ -244,7 +244,7 @@ sc_parse_cell_name_list (Sheet *sheet, char const *cell_name_str,
 #endif
 
 
-static char const *
+G_GNUC_UNUSED static char const *
 sc_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp)
 {
 	/* This is a hack.  We still cannot handle sc's row 0.  */
@@ -255,6 +255,7 @@ sc_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp)
 	}
 	return end;
 }
+
 
 static gboolean
 sc_parse_let (Sheet *sheet, char const *cmd, char const *str, int col, int row)

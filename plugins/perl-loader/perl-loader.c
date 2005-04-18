@@ -153,7 +153,10 @@ gplp_func_desc_load (GOPluginService *service,
 	res->name = g_strdup(name);
 	res->arg_spec = arg_spec;
 	res->arg_names = arg_names;
+#warning FIXME adapt for the new GnmFuncHelp struct.
+#if 0
 	res->help = (const char**)&help_text;
+#endif
 	res->fn_args = NULL;
 	res->fn_args = &call_perl_function_args;
 	res->fn_nodes = NULL;

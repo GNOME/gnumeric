@@ -1,3 +1,7 @@
+2005-04-18  Stepan Kasal  <kasal@ucw.cz>
+
+	* sc.c (sc_rangeref_parse): Mark the function as G_GNUC_UNUSED.
+
 2005-02-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.0

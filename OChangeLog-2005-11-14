@@ -1,5 +1,12 @@
 2005-04-18  Stepan Kasal  <kasal@ucw.cz>
 
+	* src/libgnumeric.h (gnumeric_lib_dir, gnumeric_data_dir):
+	(gnumeric_icon_dir, gnumeric_locale_dir): Declare as "const char[]"
+	to get rid of some warnings (unless we are on OS/2). 
+	* src/libgnumeric.c: Likewise.
+
+2005-04-18  Stepan Kasal  <kasal@ucw.cz>
+
 	* configure.in: Call PKG_PROG_PKG_CONFIG explicitly.
 	* Makefile.am (dist-hook): Don't handle gnumeric.spec here, ...
 	(EXTRA_DIST): ... it's enough to add it here.

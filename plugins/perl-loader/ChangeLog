@@ -1,3 +1,8 @@
+2005-04-18  Stepan Kasal  <kasal@ucw.cz>
+
+	* perl-loader.c (python_function_get_gnumeric_help): Disable until
+	the code is adapted for struct GnmFuncHelp; for now, define as NULL.
+
 2005-04-12  Stepan Kasal  <kasal@ucw.cz>
 
 	* Makefile.am: Distribute perl-cc-wrapper.
@@ -26,8 +31,7 @@
 
 2005-04-04  Stepan Kasal  <kasal@ucw.cz>
 
-	* plugins/perl-loader/perl-loader.c: GnmPluginLoader renamed to
-	  GOPluginLoader.
+	* perl-loader.c: GnmPluginLoader renamed to GOPluginLoader.
 
 2004-11-02  Morten Welinder  <terra@gnome.org>
 
