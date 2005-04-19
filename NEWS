@@ -85,6 +85,7 @@ Morten:
 	  computed by root searching, such as =BETAINV(0.52,1e-3,1e6).
 	* Improve accuracy of R.QF (and thus FINV).
 	* Fix TRIMMEAN.
+	* Fix MODE.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

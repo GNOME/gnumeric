@@ -565,13 +565,15 @@ float_equal (const gnm_float *a, const gnm_float *b)
 	return 0;
 }
 
-/* Most-common element.  (First one, in case of several equally common.  */
+/* Most-common element.  (The one whose first occurrence comes first in
+   case of several equally common.  */
 int
 range_mode (const gnm_float *xs, int n, gnm_float *res)
 {
 	GHashTable *h;
 	int i;
 	gnm_float mode = 0;
+	gconstpointer mode_key = NULL;
 	int dups = 0;
 
 	if (n <= 1) return 1;
@@ -581,19 +583,28 @@ range_mode (const gnm_float *xs, int n, gnm_float *res)
 				   NULL,
 				   (GDestroyNotify)g_free);
 	for (i = 0; i < n; i++) {
-		int *pdups = g_hash_table_lookup (h, &xs[i]);
+		gpointer rkey, rval;
+		gboolean found = g_hash_table_lookup_extended (h, &xs[i], &rkey, &rval);
+		int *pdups;
 
-		if (pdups)
+		if (found) {
+			pdups = (int *)rval;
 			(*pdups)++;
-		else {
+			if (*pdups == dups && rkey < mode_key) {
+				mode = xs[i];
+				mode_key = rkey;
+			}
+		} else {
 			pdups = g_new (int, 1);
 			*pdups = 1;
-			g_hash_table_insert (h, (gpointer)(&xs[i]), pdups);
+			rkey = (gpointer)(xs + i);
+			g_hash_table_insert (h, rkey, pdups);
 		}
 
 		if (*pdups > dups) {
 			dups = *pdups;
 			mode = xs[i];
+			mode_key = rkey;
 		}
 	}
 	g_hash_table_destroy (h);

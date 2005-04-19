@@ -1,3 +1,8 @@
+2005-04-19  Morten Welinder  <terra@gnome.org>
+
+	* src/rangefunc.c (range_mode): Fix the case where multiple
+	different values occur equally often.
+
 2005-04-18  Stepan Kasal  <kasal@ucw.cz>
 
 	* src/libgnumeric.h (gnumeric_lib_dir, gnumeric_data_dir):
