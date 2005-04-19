@@ -84,6 +84,7 @@ Morten:
 	* Improve extreme-case evaluation of quantile functions that are
 	  computed by root searching, such as =BETAINV(0.52,1e-3,1e6).
 	* Improve accuracy of R.QF (and thus FINV).
+	* Fix TRIMMEAN.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0
