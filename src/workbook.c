@@ -38,6 +38,7 @@
 #include "gnm-marshalers.h"
 #include "style-color.h"
 #include <goffice/utils/go-file.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #ifdef WITH_GTK
 #ifdef WITH_GNOME

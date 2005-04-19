@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
+#include <goffice/utils/go-glib-extras.h>
 
 /*
  *  NOTE:

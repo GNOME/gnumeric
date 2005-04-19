@@ -48,6 +48,7 @@
 #include "widgets/gnumeric-expr-entry.h"
 
 #include <goffice/utils/go-file.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <goffice/app/io-context.h>
 
 #include <gdk/gdkkeysyms.h>

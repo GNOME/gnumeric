@@ -74,6 +74,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 #include <goffice/graph/gog-graph.h>
+#include <goffice/utils/go-glib-extras.h>
 
 /*
  * There are several distinct stages to wrapping each command.

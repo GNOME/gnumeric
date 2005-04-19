@@ -27,6 +27,7 @@
 #include "style.h"
 #include "value.h"
 #include "str.h"
+#include <goffice/utils/go-glib-extras.h>
 
 #include <string.h>
 #include <errno.h>

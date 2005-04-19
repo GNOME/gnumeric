@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #ifndef USE_STRING_POOLS
 #define USE_STRING_POOLS 1

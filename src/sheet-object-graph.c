@@ -49,6 +49,7 @@
 #include <goffice/utils/go-file.h>
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/go-libxml-extras.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <goffice/app/go-cmd-context.h>
 
 #include <gsf/gsf-impl-utils.h>

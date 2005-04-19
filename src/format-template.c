@@ -35,6 +35,7 @@
 #include <goffice/app/io-context.h>
 #include <string.h>
 #include <goffice/utils/go-libxml-extras.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <libxml/parser.h>
 
 #define CC2XML(s) ((const xmlChar *)(s))

@@ -1,5 +1,7 @@
 2005-04-19  Morten Welinder  <terra@gnome.org>
 
+	* */*.c: #include fixes.
+
 	* src/rangefunc.c (range_mode): Fix the case where multiple
 	different values occur equally often.
 

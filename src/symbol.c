@@ -12,6 +12,7 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <goffice/utils/go-glib-extras.h>
 
 /**
  * symbol_lookup:

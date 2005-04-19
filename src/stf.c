@@ -32,6 +32,7 @@
 #include "style.h"
 #include "mstyle.h"
 #include <goffice/app/io-context-priv.h>
+#include <goffice/utils/go-glib-extras.h>
 #include "command-context.h"
 #include "workbook-control.h"
 #include "workbook-view.h"

@@ -34,6 +34,7 @@
 #include "cell.h"
 #include "gutils.h"
 #include <glib/gi18n.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #ifndef USE_TILE_POOLS
 #define USE_TILE_POOLS 1

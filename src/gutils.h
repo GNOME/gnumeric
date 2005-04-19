@@ -1,7 +1,6 @@
 #ifndef GNUMERIC_UTILS_H
 #define GNUMERIC_UTILS_H
 
-#include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/regutf8.h>
 
 /* System and user paths */

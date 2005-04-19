@@ -44,6 +44,7 @@
 
 #include <math.h>
 #include <string.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #define BUG_105322
 #undef DEBUG_BOUNDING_BOX
@@ -53,7 +54,7 @@
 #endif
 
 #if USE_RV_POOLS
-/* Memory pool for strings.  */
+/* Memory pool for RenderedValue.  */
 static GOMemChunk *rendered_value_pool;
 #define CHUNK_ALLOC(T,p) ((T*)go_mem_chunk_alloc (p))
 #define CHUNK_FREE(p,v) go_mem_chunk_free ((p), (v))
@@ -604,8 +605,8 @@ rendered_value_init (void)
 #if USE_RV_POOLS
 	rendered_value_pool =
 		go_mem_chunk_new ("rendered value pool",
-				   sizeof (RenderedValue),
-				   16 * 1024 - 128);
+				  sizeof (RenderedValue),
+				  16 * 1024 - 128);
 #endif
 }
 

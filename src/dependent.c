@@ -36,6 +36,7 @@
 #include "gutils.h"
 
 #include <string.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #define BUCKET_SIZE	128
 #undef DEBUG_EVALUATION

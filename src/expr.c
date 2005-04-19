@@ -44,6 +44,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
+#include <goffice/utils/go-glib-extras.h>
 
 /*
  * Using pools here probably does not save anything, but it's a darn

@@ -32,6 +32,7 @@
 #include "clipboard.h"
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <string.h>
 
 #define SCROLL_LOCK_MASK GDK_MOD5_MASK

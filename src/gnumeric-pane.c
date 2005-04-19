@@ -27,6 +27,7 @@
 #include "commands.h"
 #include "gui-util.h"
 
+#include <goffice/utils/go-glib-extras.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <gtk/gtklabel.h>

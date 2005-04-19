@@ -33,6 +33,7 @@
 #include "gnumeric-gconf-priv.h"
 #include "gutils.h"
 #include "mstyle.h"
+#include <goffice/utils/go-glib-extras.h>
 
 static GnmAppPrefs prefs;
 GnmAppPrefs const *gnm_app_prefs = &prefs;

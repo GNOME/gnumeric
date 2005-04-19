@@ -33,6 +33,7 @@
 #include <gtk/gtkselection.h>
 #include <gtk/gtkicontheme.h>
 #include <glib/gi18n.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #define GNM_APP(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_APP_TYPE, GnmApp))
 #define GNM_APP_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST((k),	 GNM_APP_TYPE, GnmAppClass))

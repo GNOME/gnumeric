@@ -25,6 +25,7 @@
 
 #include <goffice/utils/go-file.h>
 #include <goffice/utils/datetime.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #include <string.h>
 #include <locale.h>

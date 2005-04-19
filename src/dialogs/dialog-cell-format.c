@@ -79,6 +79,7 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkbox.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>

@@ -23,6 +23,7 @@
 #include <gnumeric.h>
 #include "dialog-stf.h"
 #include "gnm-format.h"
+#include <goffice/utils/go-glib-extras.h>
 
 /*************************************************************************************************
  * SIGNAL HANDLERS

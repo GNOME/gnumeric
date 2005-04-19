@@ -28,6 +28,7 @@
 #include "sheet-style.h"
 
 #include <gdk/gdkkeysyms.h>
+#include <goffice/utils/go-glib-extras.h>
 
 static void
 cb_nexpr_remove (GnmNamedExpr *nexpr)

@@ -54,6 +54,7 @@
 #include "gnumeric-gconf.h"
 
 #include <goffice/utils/go-libxml-extras.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <goffice/app/error-info.h>
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>

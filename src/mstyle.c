@@ -23,6 +23,7 @@
 #include "application.h"
 #include "gutils.h"
 #include "gnumeric-gconf.h"
+#include <goffice/utils/go-glib-extras.h>
 
 #include <stdio.h>
 

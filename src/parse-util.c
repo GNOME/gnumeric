@@ -45,6 +45,7 @@
 #include <stdio.h>
 #include <glib.h>
 #include <string.h>
+#include <goffice/utils/go-glib-extras.h>
 
 static void
 col_name_internal (GString *target, int col)
