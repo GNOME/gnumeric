@@ -336,7 +336,6 @@ ssindex_SOURCES =				\
 
 # Rules for the marshalers code:
 GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=gnm_
-SUFFIXES = .list
 
 .list.h:
 	$(GENMARSHAL_COMMAND) --header $< >$@

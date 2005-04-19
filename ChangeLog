@@ -1,3 +1,8 @@
+2005-04-19  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/Makefile.am (SUFFIXES): Remove, Automake (at least >= 1.7)
+	  deduces this.
+
 2005-04-18  Stepan Kasal  <kasal@ucw.cz>
 
 	* src/libgnumeric.h (gnumeric_lib_dir, gnumeric_data_dir):
