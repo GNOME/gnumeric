@@ -15,10 +15,10 @@ extern gboolean	 initial_workbook_open_complete;
 extern char	*x_geometry;
 
 #ifndef G_OS_WIN32
-extern const char gnumeric_lib_dir[];
-extern const char gnumeric_data_dir[];
-extern const char gnumeric_icon_dir[];
-extern const char gnumeric_locale_dir[];
+extern const char *gnumeric_lib_dir;
+extern const char *gnumeric_data_dir;
+extern const char *gnumeric_icon_dir;
+extern const char *gnumeric_locale_dir;
 #else
 extern char *gnumeric_lib_dir;
 extern char *gnumeric_data_dir;

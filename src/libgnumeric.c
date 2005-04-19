@@ -62,10 +62,10 @@ gboolean initial_workbook_open_complete = FALSE;
 char *x_geometry;
 
 #ifndef G_OS_WIN32
-const char gnumeric_lib_dir[] = GNUMERIC_LIBDIR;
-const char gnumeric_data_dir[] = GNUMERIC_DATADIR;
-const char gnumeric_icon_dir[] = GNUMERIC_ICONDIR;
-const char gnumeric_locale_dir[] = GNUMERIC_LOCALEDIR;
+const char *gnumeric_lib_dir = GNUMERIC_LIBDIR;
+const char *gnumeric_data_dir = GNUMERIC_DATADIR;
+const char *gnumeric_icon_dir = GNUMERIC_ICONDIR;
+const char *gnumeric_locale_dir = GNUMERIC_LOCALEDIR;
 #else
 char *gnumeric_lib_dir;
 char *gnumeric_data_dir;
