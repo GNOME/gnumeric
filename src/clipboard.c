@@ -44,6 +44,21 @@
 #include <glib/gi18n.h>
 #include <locale.h>
 #include <string.h>
+#include <goffice/utils/go-glib-extras.h>
+
+#ifndef USE_CELL_COPY_POOLS
+#define USE_CELL_COPY_POOLS 1
+#endif
+
+#if USE_CELL_COPY_POOLS
+/* Memory pool for GnmCellCopy.  */
+static GOMemChunk *cell_copy_pool;
+#define CHUNK_ALLOC(T,p) ((T*)go_mem_chunk_alloc (p))
+#define CHUNK_FREE(p,v) go_mem_chunk_free ((p), (v))
+#else
+#define CHUNK_ALLOC(T,c) g_new (T,1)
+#define CHUNK_FREE(p,v) g_free ((v))
+#endif
 
 static gboolean
 cell_has_expr_or_number_or_blank (GnmCell const * cell)
@@ -631,7 +646,7 @@ cellregion_unref (GnmCellRegion *cr)
 			value_release (cc->val);
 			cc->val = NULL;
 		}
-		g_free (cc);
+		CHUNK_FREE (cell_copy_pool, cc);
 	}
 	g_slist_free (cr->content);
 	cr->content = NULL;
@@ -661,10 +676,40 @@ cellregion_unref (GnmCellRegion *cr)
 GnmCellCopy *
 gnm_cell_copy_new (int col_offset, int row_offset)
 {
-	GnmCellCopy *res = g_new (GnmCellCopy, 1);
+	GnmCellCopy *res = CHUNK_ALLOC (GnmCellCopy, cell_copy_pool);
 	res->col_offset = col_offset;
 	res->row_offset = row_offset;
 	res->expr = NULL;
 	res->val = NULL;
 	return res;
+}
+
+void
+clipboard_init (void)
+{
+#if USE_CELL_COPY_POOLS
+	cell_copy_pool =
+		go_mem_chunk_new ("cell copy pool",
+				  sizeof (GnmCellCopy),
+				  4 * 1024 - 128);
+#endif
+}
+
+#if USE_CELL_COPY_POOLS
+static void
+cb_cell_copy_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
+{
+	GnmCellCopy const *cc = data;
+	g_printerr ("Leaking cell copy at %p.\n", cc);
+}
+#endif
+
+void
+clipboard_shutdown (void)
+{
+#if USE_CELL_COPY_POOLS
+	go_mem_chunk_foreach_leak (cell_copy_pool, cb_cell_copy_pool_leak, NULL);
+	go_mem_chunk_destroy (cell_copy_pool, FALSE);
+	cell_copy_pool = NULL;
+#endif
 }

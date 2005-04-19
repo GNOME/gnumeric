@@ -83,4 +83,8 @@ void           cellregion_unref (GnmCellRegion *content);
 
 GnmCellCopy *gnm_cell_copy_new	(int col_offset, int row_offset);
 
+void clipboard_init (void);
+void clipboard_shutdown (void);
+
+
 #endif /* GNUMERIC_CLIPBOARD_H */

@@ -33,6 +33,7 @@
 #include "sheet-autofill.h"
 #include "xml-io.h"
 #include "cell.h"
+#include "clipboard.h"
 #include "value.h"
 #include "expr.h"
 #include "parse-util.h"
@@ -151,6 +152,7 @@ gnm_common_init (gboolean fast)
 	parse_util_init ();
 	expr_init ();
 	cell_init ();
+	clipboard_init ();
 	dependent_types_init ();
 	rendered_value_init ();
 	gnumeric_color_init ();
@@ -216,6 +218,7 @@ gnm_shutdown (void)
 	gnumeric_color_shutdown ();
 	rendered_value_shutdown ();
 	dependent_types_shutdown ();
+	clipboard_shutdown ();
 	cell_shutdown ();
 	expr_shutdown ();
 	parse_util_shutdown ();

@@ -1,5 +1,13 @@
 2005-04-19  Morten Welinder  <terra@gnome.org>
 
+	* src/clipboard.c (clipboard_init, clipboard_shutdown): New
+	functions.
+	(gnm_cell_copy_new): Alloc in pool.
+	(cellregion_unref): Free from pool.
+
+	* src/libgnumeric.c (gnm_common_init): Call clipboard_init.
+	(gnm_shutdown): Call clipboard_shutdown.
+
 	* */*.c: #include fixes.
 
 	* src/rangefunc.c (range_mode): Fix the case where multiple
