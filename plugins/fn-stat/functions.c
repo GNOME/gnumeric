@@ -383,8 +383,8 @@ static char const *help_trimmean = {
 static int
 range_trimmean (const gnm_float *xs, int n, gnm_float *res)
 {
-	gnm_float p, sum = 0;
-	int tc, c, i;
+	gnm_float p;
+	int tc, c;
 
 	if (n < 2)
 		return 1;
@@ -393,7 +393,7 @@ range_trimmean (const gnm_float *xs, int n, gnm_float *res)
 	if (p < 0 || p > 1)
 		return 1;
 
-	tc = (n * p) / 2;
+	tc = gnumeric_fake_floor ((n * p) / 2);
 	c = n - 2 * tc;
 	if (c == 0)
 		return 1;
@@ -401,11 +401,7 @@ range_trimmean (const gnm_float *xs, int n, gnm_float *res)
 	/* OK, so we ignore the constness here.  Tough.  */
 	qsort ((gnm_float *) xs, n, sizeof (xs[0]), (void *) &float_compare);
 
-	for (i = tc; i < n - tc; i++)
-		sum += xs[i];
-
-	*res = sum / c;
-	return 0;
+	return range_average (xs + tc, c, res);
 }
 
 static GnmValue *

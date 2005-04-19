@@ -7,6 +7,8 @@ Jody:
 Morten:
 	* Backport save-as crash fix.  [#170308]
 	* Backport fix for crash with non-UTF-8 filenames.  [Debian #299805]
+	* Backport TRIMMEAN fix.
+	* Backport goal-seek fix.
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.3
