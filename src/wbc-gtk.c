@@ -631,6 +631,7 @@ wbc_gtk_init_font_name (WBCgtk *gtk)
 
 	gtk->font_name = g_object_new (go_action_combo_text_get_type (),
 				       "name", "FontName",
+				       "case-sensitive", FALSE,
 				       NULL);
 
 	context = gtk_widget_get_pango_context

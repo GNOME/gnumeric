@@ -1,3 +1,8 @@
+2005-04-20  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* src/wbc-gtk.c (wbc_gtk_init_font_name): Set
+	"case-sensitive" to FALSE. Fix #161382.
+
 2005-04-19  Morten Welinder  <terra@gnome.org>
 
 	* src/clipboard.c (clipboard_init, clipboard_shutdown): New
