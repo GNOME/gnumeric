@@ -856,10 +856,12 @@ static GNM_ACTION_DEF (cb_help_docs)
 #warning "handle translations when we generate them"
 #ifndef G_OS_WIN32
 	argv[0] = (char *)"yelp";
-	argv[1] = gnm_sys_data_dir ("doc/C/gnumeric.xml");
+	argv[1] = g_build_filename (gnm_sys_data_dir (), "doc", "C",
+			"gnumeric.xml", NULL);
 #else
 	argv[0] = (char *)"hh";
-	argv[1] = gnm_sys_data_dir ("doc/C/gnumeric.chm");
+	argv[1] = g_build_filename (gnm_sys_data_dir (), "doc", "C",
+			"gnumeric.chm", NULL);
 #endif
 	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
 		NULL, NULL, NULL, &error);

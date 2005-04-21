@@ -284,7 +284,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 		GOG_STYLED_OBJECT (state->graph)->style, 70.);
 #if 0
 	gog_style_set_fill_image_filename (GOG_STYLED_OBJECT (state->graph)->style,
-		gnumeric_icondir ("gnumeric-about.png"));
+		g_build_filename (gnm_icon_dir (), "gnumeric-about.png", NULL));
 #endif
 
 	/* A bar plot of the current contributors activities */

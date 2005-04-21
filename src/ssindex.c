@@ -194,7 +194,7 @@ main (int argc, char const *argv [])
 
 	if (ssindex_show_version) {
 		printf (_("ssindex version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
-			GNUMERIC_VERSION, gnumeric_data_dir, gnumeric_lib_dir);
+			GNUMERIC_VERSION, gnm_sys_data_dir (), gnm_sys_lib_dir ());
 		poptFreeContext (ctx);
 		return 0;
 	} else if (!ssindex_run_indexer && !ssindex_list_mime_types) {

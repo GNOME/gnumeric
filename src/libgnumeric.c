@@ -42,7 +42,6 @@
 #include "gnm-plugin.h"
 #include "mathfunc.h"
 #include "hlink.h"
-#include "gnumeric-paths.h"
 #include "gnm-plugin.h"
 #include <goffice/goffice.h>
 #include <goffice/app/go-plugin-service.h>
@@ -62,18 +61,6 @@ int print_debugging = 0;
 gboolean initial_workbook_open_complete = FALSE;
 char *x_geometry;
 
-#ifndef G_OS_WIN32
-const char *gnumeric_lib_dir = GNUMERIC_LIBDIR;
-const char *gnumeric_data_dir = GNUMERIC_DATADIR;
-const char *gnumeric_icon_dir = GNUMERIC_ICONDIR;
-const char *gnumeric_locale_dir = GNUMERIC_LOCALEDIR;
-#else
-char *gnumeric_lib_dir;
-char *gnumeric_data_dir;
-char *gnumeric_icon_dir;
-char *gnumeric_locale_dir;
-#endif
-
 /**
  * gnm_pre_parse_init :
  * @gnumeric_binary : argv[0]
@@ -88,24 +75,10 @@ gnm_pre_parse_init (char const* gnumeric_binary)
 	/* Make stdout line buffered - we only use it for debug info */
 	setvbuf (stdout, NULL, _IOLBF, 0);
 
-#ifdef G_OS_WIN32
-{
-	gchar *dir;
-	dir = g_win32_get_package_installation_directory (NULL, NULL);
-	gnumeric_data_dir = g_build_filename (dir,
-		"share", "gnumeric", GNUMERIC_VERSION, NULL);
-	gnumeric_icon_dir = g_build_filename (dir,
-		"share", "pixmaps", "gnumeric", NULL);
-	gnumeric_locale_dir = g_build_filename (dir,
-		"share", "locale", NULL);
-	gnumeric_lib_dir = g_build_filename (dir,
-		"lib", "gnumeric", GNUMERIC_VERSION, NULL);
-	g_free (dir);
-}
-#endif
+	gutils_init ();
 
-	bindtextdomain (GETTEXT_PACKAGE, gnumeric_locale_dir);
-	bindtextdomain (GETTEXT_PACKAGE "-functions", gnumeric_locale_dir);
+	bindtextdomain (GETTEXT_PACKAGE, gnm_locale_dir ());
+	bindtextdomain (GETTEXT_PACKAGE "-functions", gnm_locale_dir ());
 	textdomain (GETTEXT_PACKAGE);
 
 	/* Force all of the locale segments to update from the environment.
@@ -229,10 +202,5 @@ gnm_shutdown (void)
 	libgoffice_shutdown ();
 	plugin_services_shutdown ();
 	g_object_unref (gnm_app_get_app ());
-#ifdef G_OS_WIN32
-	g_free (gnumeric_lib_dir);
-	g_free (gnumeric_data_dir);
-	g_free (gnumeric_icon_dir);
-	g_free (gnumeric_locale_dir);
-#endif
+	gutils_shutdown ();
 }

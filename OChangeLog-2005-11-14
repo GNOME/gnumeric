@@ -1,3 +1,31 @@
+2005-04-20  Stepan Kasal  <kasal@ucw.cz>
+
+	gnm_sys_lib_dir() and such now just return the string;
+	they don't take any parameter and don't allocate anything.
+
+	* src/libgnumeric.h (gnumeric_lib_dir, gnumeric_data_dir):
+	  Move to gutils.h; #include "gutils.h".
+	(gnumeric_icon_dir, gnumeric_locale_dir): Move to gutils.c
+	  and make static.
+	* src/libgnumeric.c: Likewise.
+	(gnm_pre_parse_init): Call gutils_init instead of doing it.
+	(gnm_shutdown): Call gutils_shutdown instead of doing it.
+	* gutils.h:
+	* gutils.c (gutils_init, gutils_shutdown): New functions.
+	(gnumeric_usr_dir): New static variable, set up in gutils_init.
+	(gnm_sys_lib_dir, gnm_sys_data_dir, gnm_usr_dir): Just return
+	  the static string; all callers fixed.
+	(gnm_sys_glade_dir, gnm_sys_plugin_dir, gnm_usr_plugin_dir):
+	  Nuked; callers fixed to build the string themselves.
+	(gnm_icon_dir, gnm_locale_dir): New wrappers; callers fixed.
+	(PLUGIN_SUFFIX): Renamed to ...
+	(PLUGIN_SUBDIR): ..., and moved to .h.
+	* src/gui-util.c (gnumeric_icondir): This function was removed;
+	  callers fixed to use gnm_icon_dir.
+
+	* src/sheet-object-image.c: Include goffice/utils/go-glib-extras.h
+
+
 2005-04-20  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* src/wbc-gtk.c (wbc_gtk_init_font_name): Set

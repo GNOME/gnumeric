@@ -38,6 +38,7 @@
 #include "number-match.h"
 #include "dialogs.h"
 #include "style-color.h"
+#include "gutils.h"
 #include <goffice/utils/regutf8.h>
 
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>

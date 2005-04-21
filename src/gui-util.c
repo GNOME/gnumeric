@@ -433,12 +433,10 @@ gnm_glade_xml_new (GOCmdContext *cc, char const *gladefile,
 
 	g_return_val_if_fail (gladefile != NULL, NULL);
 
-	if (!g_path_is_absolute (gladefile)) {
-		char *d = gnm_sys_glade_dir ();
-		f = g_build_filename (d, gladefile, NULL);
-		g_free (d);
-	} else
+	if (g_path_is_absolute (gladefile))
 		f = g_strdup (gladefile);
+	else
+		f = g_build_filename (gnm_sys_data_dir (), "glade", gladefile, NULL);
 
 	gui = glade_xml_new (f, root, domain);
 	if (gui == NULL && cc != NULL) {
@@ -569,7 +567,7 @@ go_combo_color_get_style_color (GtkWidget *go_combo_color)
 void
 gnumeric_init_help_button (GtkWidget *w, char const *link)
 {
-	go_gtk_help_button_init (w, gnm_sys_data_dir (NULL), "gnumeric", link);
+	go_gtk_help_button_init (w, gnm_sys_data_dir (), "gnumeric", link);
 }
 
 char *
@@ -724,16 +722,10 @@ int_to_entry (GtkEntry *entry, gint the_int)
 	}
 }
 
-char *
-gnumeric_icondir (char const *filename)
-{
-	return g_build_filename (gnumeric_icon_dir, filename, NULL);
-}
-
 GtkWidget *
 gnumeric_load_image (char const *filename)
 {
-	char *path = gnumeric_icondir (filename);
+	char *path = g_build_filename (gnm_icon_dir (), filename, NULL);
 	GtkWidget *image = gtk_image_new_from_file (path);
 	g_free (path);
 
@@ -750,7 +742,7 @@ gnumeric_load_image (char const *filename)
 GdkPixbuf *
 gnumeric_load_pixbuf (char const *filename)
 {
-	char *path = gnumeric_icondir (filename);
+	char *path = g_build_filename (gnm_icon_dir (), filename, NULL);
 	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (path, NULL);
 	g_free (path);
 	return pixbuf;

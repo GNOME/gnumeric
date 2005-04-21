@@ -170,8 +170,8 @@ gnumeric_arg_parse (int argc, char const *argv [])
 		argc, (char **)argv,
 		GNOME_PARAM_APP_PREFIX,		GNUMERIC_PREFIX,
 		GNOME_PARAM_APP_SYSCONFDIR,	GNUMERIC_SYSCONFDIR,
-		GNOME_PARAM_APP_DATADIR,	gnumeric_data_dir,
-		GNOME_PARAM_APP_LIBDIR,		gnumeric_lib_dir,
+		GNOME_PARAM_APP_DATADIR,	gnm_sys_data_dir (),
+		GNOME_PARAM_APP_LIBDIR,		gnm_sys_lib_dir (),
 		GNOME_PARAM_POPT_TABLE,		gnumeric_popt_options,
 		NULL);
 
@@ -298,7 +298,7 @@ main (int argc, char const *argv [])
 
 	if (gnumeric_show_version) {
 		g_print (_("gnumeric version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
-			 GNUMERIC_VERSION, gnumeric_data_dir, gnumeric_lib_dir);
+			 GNUMERIC_VERSION, gnm_sys_data_dir (), gnm_sys_lib_dir ());
 		return 0;
 	}
 

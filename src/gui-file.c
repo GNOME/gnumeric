@@ -228,7 +228,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 
 	/* Add Templates bookmark */
 	{
-		char *templates = gnm_sys_data_dir ("templates");
+		char *templates = g_build_filename (gnm_sys_data_dir (), "templates", NULL);
 		gtk_file_chooser_add_shortcut_folder (fsel, templates, NULL);
 		g_free (templates);
 	}

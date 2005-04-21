@@ -1,6 +1,8 @@
 #ifndef GNUMERIC_LIBGNUMERIC_H
 #define GNUMERIC_LIBGNUMERIC_H
 
+#include "gutils.h"
+
 #ifdef WIN32
 #define POPT_STATIC
 #endif
@@ -13,18 +15,6 @@ extern int	 immediate_exit_flag;
 extern int	 print_debugging;
 extern gboolean	 initial_workbook_open_complete;
 extern char	*x_geometry;
-
-#ifndef G_OS_WIN32
-extern const char *gnumeric_lib_dir;
-extern const char *gnumeric_data_dir;
-extern const char *gnumeric_icon_dir;
-extern const char *gnumeric_locale_dir;
-#else
-extern char *gnumeric_lib_dir;
-extern char *gnumeric_data_dir;
-extern char *gnumeric_icon_dir;
-extern char *gnumeric_locale_dir;
-#endif
 
 void gnm_pre_parse_init (char const* gnumeric_binary);
 void gnm_common_init	(gboolean fast);

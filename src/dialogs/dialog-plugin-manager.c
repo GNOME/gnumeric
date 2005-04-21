@@ -239,8 +239,9 @@ static void
 pm_gui_load_directory_page (PluginManagerGUI *pm_gui)
 {
 	GtkTreeIter iter;
-	char * sys_plugins = gnm_sys_plugin_dir ();
-	char * usr_plugins = gnm_usr_plugin_dir ();
+	char * sys_plugins = g_build_filename (gnm_sys_lib_dir (), PLUGIN_SUBDIR, NULL);
+	char * usr_plugins = (gnm_usr_dir () == NULL ? NULL :
+				g_build_filename (gnm_usr_dir (), PLUGIN_SUBDIR, NULL));
 	char * go_plugins = go_plugins_get_plugin_dir ();
 	GSList *plugin_dirs;
 	gchar const *plugin_path_env;

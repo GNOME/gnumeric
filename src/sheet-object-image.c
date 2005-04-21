@@ -17,6 +17,7 @@
 #include "gui-file.h"
 #include "application.h"
 
+#include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-libxml-extras.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>

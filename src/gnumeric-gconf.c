@@ -1357,16 +1357,20 @@ gnm_conf_init_extras (void)
 
 	node = go_conf_get_node (root, AUTOFORMAT_GCONF_DIR);
 	prefs.autoformat.extra_dirs = go_conf_load_str_list (node, AUTOFORMAT_GCONF_EXTRA_DIRS);
+
 	tmp = go_conf_load_string (node, AUTOFORMAT_GCONF_SYS_DIR);
 	if (tmp == NULL)
 		tmp = g_strdup ("autoformat-templates");
-	prefs.autoformat.sys_dir = gnm_sys_data_dir (tmp);
+	prefs.autoformat.sys_dir = g_build_filename (gnm_sys_data_dir (), tmp, NULL);
 	g_free (tmp);
-	tmp = go_conf_load_string (node, AUTOFORMAT_GCONF_USR_DIR);
-	if (tmp == NULL)
-		tmp = g_strdup ("autoformat-templates");
-	prefs.autoformat.usr_dir = gnm_usr_dir (tmp);
-	g_free (tmp);
+
+	if (gnm_usr_dir () != NULL) {
+		tmp = go_conf_load_string (node, AUTOFORMAT_GCONF_USR_DIR);
+		if (tmp == NULL)
+			tmp = g_strdup ("autoformat-templates");
+		prefs.autoformat.usr_dir = g_build_filename (gnm_usr_dir (), tmp, NULL);
+		g_free (tmp);
+	}
 	go_conf_free_node (node);
 
 	prefs.xml_compression_level = go_conf_load_int (

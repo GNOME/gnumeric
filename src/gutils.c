@@ -11,11 +11,11 @@
 #include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "gutils.h"
+#include "gnumeric-paths.h"
 
 #include "sheet.h"
 #include "ranges.h"
 #include "mathfunc.h"
-#include "libgnumeric.h"
 
 #include <stdlib.h>
 #include <math.h>
@@ -28,52 +28,83 @@
 #include <errno.h>
 #include <gsf/gsf-impl-utils.h>
 
-char *
-gnm_sys_data_dir (char const *subdir)
+#ifndef G_OS_WIN32
+const char *gnumeric_lib_dir = GNUMERIC_LIBDIR;
+const char *gnumeric_data_dir = GNUMERIC_DATADIR;
+static const char gnumeric_icon_dir[] = GNUMERIC_ICONDIR;
+static const char gnumeric_locale_dir[] = GNUMERIC_LOCALEDIR;
+#else
+const char *gnumeric_lib_dir;
+const char *gnumeric_data_dir;
+static const char *priv_lib_dir;
+static const char *priv_data_dir;
+static const char *gnumeric_icon_dir;
+static const char *gnumeric_locale_dir;
+#endif
+
+static const char *gnumeric_usr_dir;
+
+void
+gutils_init (void)
 {
-	if (subdir == NULL)
-		return (char *)gnumeric_data_dir;
-	return g_build_filename (gnumeric_data_dir, subdir, NULL);
+	char const *home_dir;
+#ifdef G_OS_WIN32
+	gchar *dir = g_win32_get_package_installation_directory (NULL, NULL);
+	priv_lib_dir = gnumeric_lib_dir = g_build_filename (dir,
+		"lib", "gnumeric", GNUMERIC_VERSION, NULL);
+	priv_data_dir = gnumeric_data_dir = g_build_filename (dir,
+		"share", "gnumeric", GNUMERIC_VERSION, NULL);
+	gnumeric_icon_dir = g_build_filename (dir,
+		"share", "pixmaps", "gnumeric", NULL);
+	gnumeric_locale_dir = g_build_filename (dir,
+		"share", "locale", NULL);
+	g_free (dir);
+#endif
+	home_dir = g_get_home_dir ();
+	gnumeric_usr_dir = (home_dir == NULL ? NULL :
+	   g_build_filename (home_dir, ".gnumeric", GNUMERIC_VERSION, NULL));
 }
 
-char *
-gnm_sys_lib_dir (char const *subdir)
+void
+gutils_shutdown (void)
 {
-	return g_build_filename (gnumeric_lib_dir, subdir, NULL);
+#ifdef G_OS_WIN32
+	g_free (priv_lib_dir);
+	g_free (priv_data_dir);
+	g_free (gnumeric_icon_dir);
+	g_free (gnumeric_locale_dir);
+	g_free (gnumeric_usr_dir);
+#endif
 }
 
-#define GLADE_SUFFIX	"glade"
-#define PLUGIN_SUFFIX	"plugins"
-
-char *
-gnm_sys_glade_dir (void)
+char const *
+gnm_sys_lib_dir (void)
 {
-	return gnm_sys_data_dir (GLADE_SUFFIX);
+	return gnumeric_lib_dir;
 }
 
-char *
-gnm_sys_plugin_dir (void)
+char const *
+gnm_sys_data_dir (void)
 {
-	return gnm_sys_lib_dir (PLUGIN_SUFFIX);
+	return gnumeric_data_dir;
 }
 
-char *
-gnm_usr_dir (char const *subdir)
+char const *
+gnm_icon_dir (void)
 {
-	char const *home_dir = g_get_home_dir ();
-
-	if (!home_dir)
-		return NULL;
-
-	return g_build_filename (home_dir, ".gnumeric",
-				 GNUMERIC_VERSION, subdir,
-				 NULL);
+	return gnumeric_icon_dir;
 }
 
-char *
-gnm_usr_plugin_dir (void)
+char const *
+gnm_locale_dir (void)
 {
-	return gnm_usr_dir (PLUGIN_SUFFIX);
+	return gnumeric_locale_dir;
+}
+
+char const *
+gnm_usr_dir (void)
+{
+	return gnumeric_usr_dir;
 }
 
 int

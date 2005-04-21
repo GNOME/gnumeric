@@ -15,13 +15,13 @@
 #include "libgnumeric.h"
 #include "gnumeric-paths.h"
 #include "gnm-plugin.h"
-#include "command-context-stderr.h"
 #include "command-context.h"
-#include <goffice/app/io-context.h>
+#include "command-context-stderr.h"
 #include "workbook-view.h"
 #include <goffice/app/file.h>
-#include <goffice/utils/go-file.h>
+#include <goffice/app/io-context.h>
 #include <goffice/app/go-cmd-context.h>
+#include <goffice/utils/go-file.h>
 #include <gsf/gsf-utils.h>
 #include <string.h>
 
@@ -195,7 +195,7 @@ main (int argc, char const *argv [])
 
 	if (ssconvert_show_version) {
 		printf (_("ssconvert version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
-			GNUMERIC_VERSION, gnumeric_data_dir, gnumeric_lib_dir);
+			GNUMERIC_VERSION, gnm_sys_data_dir (), gnm_sys_lib_dir ());
 		poptFreeContext (ctx);
 		return 0;
 	}

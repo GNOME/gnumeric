@@ -3,13 +3,23 @@
 
 #include <goffice/utils/regutf8.h>
 
+void gutils_init (void);
+void gutils_shutdown (void);
+
 /* System and user paths */
-char	*gnm_sys_lib_dir    (char const *subdir);
-char	*gnm_sys_data_dir   (char const *subdir);
-char	*gnm_sys_glade_dir  (void);
-char	*gnm_sys_plugin_dir (void);
-char	*gnm_usr_dir	    (char const *subdir);
-char	*gnm_usr_plugin_dir (void);
+char const *gnm_sys_lib_dir    (void);
+char const *gnm_sys_data_dir   (void);
+char const *gnm_icon_dir       (void);
+char const *gnm_locale_dir     (void);
+char const *gnm_usr_dir	       (void);
+
+#define PLUGIN_SUBDIR "plugins"
+
+/* The right way to access these is via gnm_sys_lib_dir() and
+   gnm_sys_data_dir(), but option processing needs write access.
+ */
+extern const char *gnumeric_lib_dir;
+extern const char *gnumeric_data_dir;
 
 int gnumeric_regcomp_XL (go_regex_t *preg, char const *pattern, int cflags);
 
