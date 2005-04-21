@@ -74,14 +74,20 @@ static GSF_CLASS (GOToolComboText, go_tool_combo_text,
 /*****************************************************************************/
 
 struct _GOActionComboText {
-	GtkAction	base;
+	GtkAction	 base;
 	GSList		*elements;
 	char const 	*largest_elem;
-	char *entry_val;
+	char		*entry_val;
+	gboolean	 case_sensitive;
 };
 typedef struct {
 	GtkActionClass	base;
 } GOActionComboTextClass;
+
+enum {
+	PROP_0,
+	PROP_CASE_SENSITIVE
+};
 
 static GObjectClass *combo_text_parent;
 
@@ -107,6 +113,17 @@ go_action_combo_disconnect_proxy (GtkAction *action,
 }
 #endif
 
+static gint
+g_strcase_equal (gconstpointer s1, gconstpointer s2)
+{
+	gchar *a2 = g_utf8_casefold ((const gchar*) s1, -1);
+	gchar *b2 = g_utf8_casefold ((const gchar*) s2, -1);
+	gint res = g_utf8_collate (a2, b2);
+	g_free (a2);
+	g_free (b2);
+	return !res;
+}
+
 static gboolean
 cb_entry_changed (GoComboText *ct, char const *text, GOActionComboText *taction)
 {
@@ -123,7 +140,7 @@ go_action_combo_create_tool_item (GtkAction *act)
 	GSList *ptr;
 	int tmp, w = -1;
 
-	tool->combo = (GoComboText *)go_combo_text_new (NULL);
+	tool->combo = (GoComboText *)go_combo_text_new (taction->case_sensitive ? NULL : g_strcase_equal);
 	if (taction->largest_elem != NULL)
 		w = gnm_measure_string (
 			gtk_widget_get_pango_context (GTK_WIDGET (tool->combo)),
@@ -163,6 +180,41 @@ go_action_combo_text_finalize (GObject *obj)
 {
 	combo_text_parent->finalize (obj);
 }
+
+static void
+go_action_combo_text_set_property (GObject      *object,
+				   guint         prop_id,
+				   GValue const *value,
+				   GParamSpec   *pspec)
+{
+	GOActionComboText *taction = GO_ACTION_COMBO_TEXT (object);
+
+	switch (prop_id) {
+	case PROP_CASE_SENSITIVE:
+		taction->case_sensitive = g_value_get_boolean (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+	}
+}
+
+static void
+go_action_combo_text_get_property (GObject      *object,
+		  guint         prop_id,
+		  GValue       *value,
+		  GParamSpec   *pspec)
+{
+	GOActionComboText *taction = GO_ACTION_COMBO_TEXT (object);
+
+	switch (prop_id) {
+	case PROP_CASE_SENSITIVE:
+		g_value_set_boolean (value, taction->case_sensitive);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+	}
+}
+
 static void
 go_action_combo_text_class_init (GtkActionClass *gtk_act_klass)
 {
@@ -177,6 +229,17 @@ go_action_combo_text_class_init (GtkActionClass *gtk_act_klass)
 	gtk_act_klass->connect_proxy	= go_action_combo_stack_connect_proxy;
 	gtk_act_klass->disconnect_proxy = go_action_combo_stack_disconnect_proxy;
 #endif
+
+	gobject_klass->set_property	= go_action_combo_text_set_property;
+	gobject_klass->get_property	= go_action_combo_text_get_property;
+
+	g_object_class_install_property (gobject_klass,
+		PROP_CASE_SENSITIVE,
+		g_param_spec_boolean ("case-sensitive", _("Case Sensitive"),
+			_("Should the text comparasion be case sensitive"),
+			TRUE,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY |
+			GSF_PARAM_STATIC));
 }
 
 GSF_CLASS (GOActionComboText, go_action_combo_text,

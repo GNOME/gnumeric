@@ -1,5 +1,10 @@
 Gnumeric 1.4.4
 
+Ivan wong:
+	* Backport fix for case sensitivity of font combo. [#161382]
+	* Backport patch for storing configuration using the win32
+	registry. [#300765]
+
 Jody:
 	* Backport patch for printer setting crash. [#171503]
 	* Backport fix for 3d test in sumif and countif. [#171509]

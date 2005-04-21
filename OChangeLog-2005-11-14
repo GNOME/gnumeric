@@ -1,3 +1,13 @@
+2005-04-21  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* goffice/gtk/go-action-combo-text.c: Add a new property
+	"case-sensitive".
+
+	* schemas/Makefile.am: Fix a glitch.
+
+	* src/wbc-gtk.c (wbc_gtk_init_font_name): Set "case-sensitive"
+	to FALSE. Fix #161382.
+
 2005-04-17  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* configure.in:

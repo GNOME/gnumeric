@@ -630,6 +630,7 @@ wbc_gtk_init_font_name (WBCgtk *gtk)
 
 	gtk->font_name = g_object_new (go_action_combo_text_get_type (),
 		"name",     "FontName",
+		"case-sensitive", FALSE,
 		NULL);
 	for (ptr = gnumeric_font_family_list; ptr != NULL; ptr = ptr->next)
 		if (ptr->data) 

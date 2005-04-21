@@ -20,6 +20,9 @@ else
 install-data-local:
 endif
 
+EXTRA_DIST = $(schema_DATA) $(schema_in_files)
+CLEANFILES = $(schema_DATA)
+
 if WITH_WIN32
 if !CROSS_COMPILING
 SUFFIXES = .reg .hkcu.reg
@@ -34,5 +37,3 @@ CLEANFILES += $(reg_DATA)
 endif
 endif
 
-EXTRA_DIST = $(schema_DATA) $(schema_in_files)
-CLEANFILES = $(schema_DATA)
