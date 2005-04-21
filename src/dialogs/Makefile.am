@@ -80,7 +80,7 @@ base_files =					\
 	dialogs.h				\
 	tool-dialogs.h
 
-gladedir   = $(gnumeric_gladedir)
+gladedir   = $(gnumeric_datadir)/glade
 glade_DATA = 				\
 	advanced-filter.glade		\
 	anova-one.glade			\

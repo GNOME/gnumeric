@@ -29,12 +29,14 @@ autoformats = \
 	autoformat.List.lila.xml.in		\
 	autoformat.List.simple.xml.in
 
-EXTRA_DIST = $(autoformats) $(autoformat_categories:%=%.category.in)
+EXTRA_DIST = $(autoformats) $(autoformat_categories:=.category.in)
+
+autoformatdir = $(gnumeric_datadir)/autoformat-templates
 
 install-data-local:
 	@echo "AutoFormats" ;						\
 	for cat in $(autoformat_categories) ; do			\
-		dir=$(DESTDIR)$(gnumeric_autoformatdir)/$$cat ;		\
+		dir=$(DESTDIR)$(autoformatdir)/$$cat ;		\
 		echo "-> $$cat" ;					\
 		$(mkinstalldirs) $$dir ;				\
 		sed -e 's/ _description *=/ description=/'		\
@@ -54,5 +56,5 @@ install-data-local:
 
 uninstall-local:
 	for cat in $(autoformat_categories) ; do			\
-		rm -rf $(DESTDIR)$(gnumeric_autoformatdir)/$$cat ;	\
+		rm -rf $(DESTDIR)$(autoformatdir)/$$cat ;	\
 	done

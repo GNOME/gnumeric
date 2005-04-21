@@ -1,3 +1,17 @@
+2005-04-21  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/Makefile.am (gnumeric-paths.h): Rewrite the rule,
+	  gnumeric-paths.sh* is no longer used.
+	* src/gnumeric-paths.sh.in: Removed.
+	* src/.cvsignore: Remove src/gnumeric-paths.sh.
+	* configure.in: Don't generate gnumeric-paths.sh, rearrange the
+	  gnumeric_* AC_SUBSTs.
+	(gnumeric_gladedir, gnumeric_autoformatdir): Nuke.
+	* src/dialogs/Makefile.am (gnumeric_gladedir): Replace by value.
+	* templates/autoformat/Makefile.am (autoformatdir): New variable.
+	(EXTRA_DIST): Don't use "%" when replacing suffixes; it's GNU make
+	  specific.
+
 2005-04-20  Stepan Kasal  <kasal@ucw.cz>
 
 	gnm_sys_lib_dir() and such now just return the string;
@@ -24,7 +38,6 @@
 	  callers fixed to use gnm_icon_dir.
 
 	* src/sheet-object-image.c: Include goffice/utils/go-glib-extras.h
-
 
 2005-04-20  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 

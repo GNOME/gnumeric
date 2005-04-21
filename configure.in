@@ -881,48 +881,26 @@ AC_SUBST(MONO_LIBS)
 dnl **************************************************
 dnl * Config defaults (Must be after bonobo)
 dnl **************************************************
-gnumeric_version="${VERSION}"
-gnumeric_prefix='${prefix}'
-gnumeric_exec_prefix='${exec_prefix}'
-gnumeric_sysconfdir='${sysconfdir}'
-dnl These are changed in libgnumeric.c for WIN32 packages
-gnumeric_datadir='${datadir}/gnumeric/${gnumeric_version}'
-gnumeric_libdir='${libdir}/gnumeric/${gnumeric_version}'
-gnumeric_plugindir='${gnumeric_libdir}/plugins'
-gnumeric_gladedir='${gnumeric_datadir}/glade'
-gnumeric_icondir='${datadir}/pixmaps/gnumeric'
-gnumeric_localedir='${prefix}/${DATADIRNAME}/locale'
-
-gnumeric_autoformatdir='${gnumeric_datadir}/autoformat-templates'
+dnl
+dnl These are changed in gutils.c for WIN32 packages
+AC_SUBST(gnumeric_datadir, '${datadir}/gnumeric/${VERSION}')
+AC_SUBST(gnumeric_libdir, '${libdir}/gnumeric/${VERSION}')
+AC_SUBST(gnumeric_icondir, '${datadir}/pixmaps/gnumeric')
+AC_SUBST(gnumeric_localedir, '${prefix}/${DATADIRNAME}/locale')
+dnl
+AC_SUBST(gnumeric_plugindir, '${gnumeric_libdir}/plugins')
 
 dnl Export to gnumeric-config.h
-AC_DEFINE_UNQUOTED(GNUMERIC_VERSION, "gnumeric_full_version",
-	[The version number of this release, possibly suffixed for bonobo]
-)
-AC_DEFINE_UNQUOTED(GNM_VERSION_EPOCH, gnumeric_version_epoch,
-	[The Epoch of this release]
-)
-AC_DEFINE_UNQUOTED(GNM_VERSION_MAJOR, gnumeric_version_major,
-	[The Major version number of this release]
-)
-AC_DEFINE_UNQUOTED(GNM_VERSION_MINOR, gnumeric_version_minor,
-	[The Minor version number of this release]
-)
-AC_DEFINE_UNQUOTED(GNM_VERSION_EXTRA, "gnumeric_version_extra",
-	[Extra, possibly empty tag for this release]
-)
-AC_SUBST(gnumeric_version)
-AC_SUBST(gnumeric_prefix)
-AC_SUBST(gnumeric_exec_prefix)
-AC_SUBST(gnumeric_sysconfdir)
-AC_SUBST(gnumeric_datadir)
-AC_SUBST(gnumeric_libdir)
-AC_SUBST(gnumeric_plugindir)
-AC_SUBST(gnumeric_gladedir)
-AC_SUBST(gnumeric_icondir)
-AC_SUBST(gnumeric_localedir)
-AC_SUBST(gnumeric_autoformatdir)
-AC_SUBST(gnumeric_with_gnome)
+AC_DEFINE(GNUMERIC_VERSION, "gnumeric_full_version",
+	[The version number of this release, possibly suffixed for bonobo])
+AC_DEFINE(GNM_VERSION_EPOCH, gnumeric_version_epoch,
+	[The Epoch of this release])
+AC_DEFINE(GNM_VERSION_MAJOR, gnumeric_version_major,
+	[The Major version number of this release])
+AC_DEFINE(GNM_VERSION_MINOR, gnumeric_version_minor,
+	[The Minor version number of this release])
+AC_DEFINE(GNM_VERSION_EXTRA, "gnumeric_version_extra",
+	[Extra, possibly empty tag for this release])
 
 AC_OUTPUT([
 gnumeric.spec
@@ -930,7 +908,6 @@ Makefile
 icons/Makefile
 src/Makefile
 src/dialogs/Makefile
-src/gnumeric-paths.sh
 src/pixmaps/Makefile
 src/widgets/Makefile
 src/tools/Makefile

@@ -345,13 +345,24 @@ GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=gnm_
 	echo '#include "$*.h"' && \
 	$(GENMARSHAL_COMMAND) --body $< ) >$@
 
-gnumeric-paths.h: gnumeric-paths.sh
-	@sh $< > $@.tmp ;					\
-	if cmp -s $@.tmp $@; then				\
-	    rm $@.tmp;						\
-	else							\
-	    mv $@.tmp $@ ; echo updated gnumeric-paths.h ;	\
-	fi
+# Depends on this Makefile, because it uses make variables.
+gnumeric-paths.h: Makefile
+	@echo 'creating $@'
+	@( \
+	echo '/* This file has been automatically generated.  Do not edit. */'; \
+	echo ''; \
+	echo '#ifndef GNUMERIC_PATHS_H'; \
+	echo '#define GNUMERIC_PATHS_H'; \
+	echo ''; \
+	echo '#define GNUMERIC_PREFIX "$(prefix)"'; \
+	echo '#define GNUMERIC_SYSCONFDIR "$(sysconfdir)"'; \
+	echo '#define GNUMERIC_DATADIR "$(gnumeric_datadir)"'; \
+	echo '#define GNUMERIC_LIBDIR "$(gnumeric_libdir)"'; \
+	echo '#define GNUMERIC_ICONDIR "$(gnumeric_icondir)"'; \
+	echo '#define GNUMERIC_LOCALEDIR "$(gnumeric_localedir)"'; \
+	echo ''; \
+	echo '#endif /* GNUMERIC_PATHS_H */'; \
+	) >$@
 
 if WITH_WIN32
 gnumeric_rc.o: gnumeric.rc
@@ -372,7 +383,7 @@ uninstall-hook:
 EXTRA_DIST = GNOME_Gnumeric-gtk.xml.in				\
 	    main-component.c					\
 	    $(GNUMERIC_GNOME) README.gnm_float			\
-	    gnumeric-paths.sh.in gnumeric.rc gnm-i18n.h $(UNUSED)
+	    gnumeric.rc gnm-i18n.h $(UNUSED)
 
 # silence intltool
 UNUSED = test-pango.c
