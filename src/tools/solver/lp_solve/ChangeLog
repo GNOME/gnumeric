@@ -1,3 +1,9 @@
+2005-04-23  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* Makefile.am: Added "-include $(CONFIG_HEADER)" to AM_CPPFLAGS for
+	HAVE_GETTIMEOFDAY to fix a build issue on Darwin reported by Spundun
+	Bhatt.
+
 2005-02-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.0

@@ -5,6 +5,7 @@ AM_CPPFLAGS = 						\
 	-I$(top_srcdir)/src/tools			\
 	-I$(top_srcdir)/src/tools/solver		\
 	-I$(top_srcdir)/src/tools/solver/lp_solve	\
+	-include $(CONFIG_HEADER)			\
 	$(GNUMERIC_CFLAGS)				\
 	 -DYY_NEVER_INTERACTIVE -DPARSER_CPLEX -DPARSER_LP
 
