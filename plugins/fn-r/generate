@@ -23,6 +23,7 @@ my %argoverride = ();
 		  "This is useful if the probability would otherwise underflow to 0.  " .
 		  "Defaults to false.",
 
+		  'x' => 'obserevation.',
 		  'p' => 'probability.',
 
 		  'shape' => "the shape parameter $of",
@@ -47,6 +48,8 @@ my %argoverride = ();
 	[\&distribution,
 	 'gamma',
 	 ({ @common })];
+    $argoverride{"pgamma:p"} = "shape";
+    $argoverride{"qgamma:alpha"} = "shape";
 
     $funcs{'dbeta'} = $funcs{'pbeta'} = $funcs{'qbeta'} =
 	[\&distribution,
@@ -56,6 +59,7 @@ my %argoverride = ();
 	    @common })];
     $argoverride{"pbeta:pin"} = "a";
     $argoverride{"pbeta:qin"} = "b";
+    $argoverride{"qbeta:alpha"} = "p";
     $argoverride{"qbeta:p"} = "a";
     $argoverride{"qbeta:q"} = "b";
 
@@ -230,45 +234,39 @@ sub distribution {
 	push @args, [$type,$name];
     }
 
-    my $body = "";
-    my $typespec = "";
-    my $helpargs = "";
-    my $helpargsdesc = "";
-    my $n = 0;
+    # ----------------------------------------
+    # Output help description.
+
+    &emit_line ();
+    &emit ("\nstatic GnmFuncHelp const help_r_$func\[\] = {\n");
+
+    my $short_what = ($func =~ /^d/
+		      ? "probability density function"
+		      : ($func =~ /^p/
+			 ? "cumulative distribution function"
+			 : "probability quantile function")) .
+			 " of the $distname distribution.";
+    &emit ("\t{ GNM_FUNC_HELP_NAME, F_(\"" . uc ("r.$func") . ":$short_what\") },\n");
+
     foreach (@args) {
 	my ($type,$name) = @{ $_ };
-	my $def = undef;
-	$def = 'TRUE' if $name eq 'lower_tail';
-	$def = 'FALSE' if $name eq 'give_log' || $name eq 'log_p';
-	$body .= ("\t$type $name = " .
-		  (defined ($def) ? "args[$n] ? " : "") .
-		  $type_getter{$type} . " (args[$n])" .
-		  (defined ($def) ? " : $def" : "") .
-		  ";\n");
 
-	if (exists $argdescs->{$name}) {
-	    $helpargsdesc .= "* \@$name: " . $argdescs->{$name} . "\n";
+	my $desc = $argdescs->{$name};
+	if (!defined $desc) {
+	    $desc = "";
+	    warn "$0: Argument $name of r.$func has no description\n";
 	}
-
-	if (defined ($def) && $typespec !~ /\|/) {
-	    $helpargs .= "[";
-	    $typespec .= "|" ;
-	}
-	$helpargs .= ($n ? "," : "") . $name;
-	$typespec .= $type_spec{$type};
-	$n++;
+	&emit ("\t{ GNM_FUNC_HELP_ARG, F_(\"$name:$desc\") },\n");
     }
-    $body .= ("\n\treturn " . $type_setter{$restype} . " (" .
-	      "$func (" .
-	      join (", ", map { $_->[1] } @args) .
-	      "));\n");
-    $helpargs .="]" if $helpargs =~ /\[/;
 
-    my $what = ($func =~ /^d/
-		? "probability density function"
-		: ($func =~ /^p/
-		   ? "cumulative distribution function"
-		   : "probability quantile function, i.e., the inverse of the cumulative distribution function,"));
+    my $what = "This function returns the " .
+	($func =~ /^d/
+	 ? "probability density function"
+	 : ($func =~ /^p/
+	    ? "cumulative distribution function"
+	    : "probability quantile function, i.e., the inverse of the cumulative distribution function,")) .
+	    " of the $distname distribution.";
+    &emit ("\t{ GNM_FUNC_HELP_DESCRIPTION, F_(\"$what\") },\n");
 
     my $seealso = "";
     my $f1 = substr ($func, 1);
@@ -277,31 +275,42 @@ sub distribution {
     $seealso .= ",R.P$F1" if $func !~ /^p/ && exists $funcs{"p$f1"};
     $seealso .= ",R.Q$F1" if $func !~ /^q/ && exists $funcs{"q$f1"};
     $seealso =~ s/^,\s*//;
+    &emit ("\t{ GNM_FUNC_HELP_SEEALSO, \"$seealso\" },\n");
 
-    my $helpbody =
-	("\@FUNCTION=" . uc ("r.$func") . "\n" .
-	 "\@SYNTAX=" . uc ("r.$func") . "($helpargs)\n" .
-	 "\@DESCRIPTION=" .
-	 uc ("r.$func") . " function returns the $what " .
-	 "of the $distname distribution.\n\n" .
-	 "$helpargsdesc\n" .
-	 "\@EXAMPLES=\n\n" .
-	 "\@SEEALSO=$seealso");
-
-    &emit_line ();
-
-    &emit ("\n" .
-	   "static GnmFuncHelp const help_r_$func\[\] = {\n" .
-	   "\t{ GNM_FUNC_HELP_OLD,\n" .
-	   "\tF_(\"" . join ("\\n\"\n\t   \"", map { "$_" } (split ("\n", $helpbody))) . "\")\n" .
-	   "\t},\n" .
-	   "\t{ GNM_FUNC_HELP_END }\n" .
+    &emit ("\t{ GNM_FUNC_HELP_END }\n" .
 	   "};\n\n");
+
+    # ----------------------------------------
+    # Output the function body.
 
     &emit ("static GnmValue *\n" .
 	   "gnumeric_r_$func (FunctionEvalInfo *ei, GnmValue **args)\n" .
-	   "{\n" .
-	   $body .
+	   "{\n");
+
+    my $typespec = "";
+    my $n = 0;
+    foreach (@args) {
+	my ($type,$name) = @{ $_ };
+	my $def = undef;
+	$def = 'TRUE' if $name eq 'lower_tail';
+	$def = 'FALSE' if $name eq 'give_log' || $name eq 'log_p';
+
+	&emit ("\t$type $name = " .
+	       (defined ($def) ? "args[$n] ? " : "") .
+	       $type_getter{$type} . " (args[$n])" .
+	       (defined ($def) ? " : $def" : "") .
+	       ";\n");
+
+	if (defined ($def) && $typespec !~ /\|/) {
+	    $typespec .= "|" ;
+	}
+	$typespec .= $type_spec{$type};
+	$n++;
+    }
+
+    &emit ("\n" .
+	   "\treturn " . $type_setter{$restype} . " (" .
+	   "$func (" . join (", ", map { $_->[1] } @args) . "));\n" .
 	   "}\n\n");
 
     my $arglist = join (",", map { $_->[1] } @args);
