@@ -87,6 +87,7 @@ Morten:
 	* Fix TRIMMEAN.
 	* Fix MODE.
 	* Allocate some clipboard data in pools.
+	* Fix potential save-as crash.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

@@ -428,7 +428,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	wb_uri = workbook_get_uri (wb_view_workbook (wb_view));
 	if (wb_uri != NULL) {
 		char *basename = go_basename_from_uri (wb_uri);
-		char *dot = strrchr (basename, '.');
+		char *dot = basename ? strrchr (basename, '.') : NULL;
 
 		gtk_file_chooser_set_uri (fsel, wb_uri);
 		gtk_file_chooser_unselect_all (fsel);

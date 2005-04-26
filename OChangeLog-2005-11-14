@@ -1,3 +1,7 @@
+2005-04-26  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-file.c (gui_file_save_as): Add a little crash safety.
+
 2005-04-21  Stepan Kasal  <kasal@ucw.cz>
 
 	* src/Makefile.am (gnumeric-paths.h): Rewrite the rule,
