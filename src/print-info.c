@@ -525,7 +525,8 @@ hf_format_render (char const *format, HFRenderInfo *info, HFRenderType render_ty
 	GString *result;
 	char const *p;
 
-	g_return_val_if_fail (format != NULL, NULL);
+	if (!format)
+		return NULL;
 
 	result = g_string_new (NULL);
 	for (p = format; *p; p++) {

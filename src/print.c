@@ -317,9 +317,7 @@ print_hf_element (PrintJobInfo const *pj, char const *format,
 		return;
 	text = hf_format_render (format, pj->render_info, HF_RENDER_PRINT);
 
-	g_return_if_fail (text != NULL);
-
-	if (text[0]) {
+	if (text && text[0]) {
 		double header = 0, footer = 0, left = 0, right = 0;
 		PangoLayout *layout = ensure_decoration_layout ((PrintJobInfo *)pj);
 
