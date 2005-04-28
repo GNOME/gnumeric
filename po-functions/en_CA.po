@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-27 15:48-0400\n"
-"PO-Revision-Date: 2005-04-27 03:20-0400\n"
+"POT-Creation-Date: 2005-04-28 03:16-0400\n"
+"PO-Revision-Date: 2005-04-28 03:20-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -11950,10 +11950,11 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:514
 msgid ""
-"this function returns the cumulative distribution function of the chi-square "
+"This function returns the cumulative distribution function of the chi-square "
 "distribution."
 msgstr ""
-"R.PCHISQ:cumulative distribution function of the chi-square distribution."
+"This function returns the cumulative distribution function of the chi-square "
+"distribution."
 
 #: ../plugins/fn-r/functions.c:534
 msgid "R.QCHISQ:probability quantile function of the chi-square distribution."
@@ -12112,7 +12113,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:809
 msgid "R.PBINOM:cumulative distribution function of the binomial distribution."
-msgstr "R.PBINOM:cumulative distribution function of the binomial distribution."
+msgstr ""
+"R.PBINOM:cumulative distribution function of the binomial distribution."
 
 #: ../plugins/fn-r/functions.c:815
 msgid ""
@@ -12150,10 +12152,10 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:888
 msgid ""
-"r.pnbinom:cumulative distribution function of the negative binomial "
+"R.PNBINOM:cumulative distribution function of the negative binomial "
 "distribution."
 msgstr ""
-"r.pnbinom:cumulative distribution function of the negative binomial "
+"R.PNBINOM:cumulative distribution function of the negative binomial "
 "distribution."
 
 #: ../plugins/fn-r/functions.c:894
@@ -12236,7 +12238,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:1021
 msgid "R.PGEOM:cumulative distribution function of the geometric distribution."
-msgstr "R.PGEOM:cumulative distribution function of the geometric distribution."
+msgstr ""
+"R.PGEOM:cumulative distribution function of the geometric distribution."
 
 #: ../plugins/fn-r/functions.c:1026
 msgid ""
