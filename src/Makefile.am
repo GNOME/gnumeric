@@ -49,22 +49,22 @@ GNUMERIC_BASE =					\
 	application.h				\
 	auto-format.c				\
 	auto-format.h				\
-	cell.h					\
 	cell.c					\
+	cell.h					\
 	cell-draw.c				\
 	cell-draw.h				\
 	cellspan.c				\
 	cellspan.h				\
 	clipboard.c				\
 	clipboard.h				\
-	cmd-edit.h				\
 	cmd-edit.c				\
-	collect.h				\
+	cmd-edit.h				\
 	collect.c				\
+	collect.h				\
 	colrow.c				\
 	colrow.h				\
-	commands.h				\
 	commands.c				\
+	commands.h				\
 	complete.c				\
 	complete.h				\
 	complete-sheet.c			\
@@ -75,10 +75,10 @@ GNUMERIC_BASE =					\
 	command-context-stderr.h		\
 	consolidate.c				\
 	consolidate.h				\
-	complex.h				\
 	complex.c				\
-	dependent.h				\
+	complex.h				\
 	dependent.c				\
+	dependent.h				\
 	expr.c					\
 	expr.h					\
 	expr-impl.h				\
@@ -86,8 +86,8 @@ GNUMERIC_BASE =					\
 	expr-name.h				\
 	file-autoft.c				\
 	file-autoft.h				\
-	format-template.h			\
 	format-template.c			\
+	format-template.h			\
 	func.c					\
 	func.h					\
 	func-builtin.c				\
@@ -96,13 +96,13 @@ GNUMERIC_BASE =					\
 	gnm-format.h				\
 	gnm-datetime.c				\
 	gnm-datetime.h				\
+	gnumeric.h				\
 	gnumeric-simple-canvas.c		\
 	gnumeric-simple-canvas.h		\
 	gnumeric-canvas.c			\
 	gnumeric-canvas.h			\
 	gnumeric-pane.c				\
 	gnumeric-pane.h				\
-	gnumeric.h				\
 	graph.c					\
 	graph.h					\
 	gutils.c				\
@@ -133,8 +133,8 @@ GNUMERIC_BASE =					\
 	item-edit.h				\
 	item-grid.c				\
 	item-grid.h				\
-	libgnumeric.h				\
 	libgnumeric.c				\
+	libgnumeric.h				\
 	mathfunc.c				\
 	mathfunc.h				\
 	mstyle.c				\
@@ -145,10 +145,10 @@ GNUMERIC_BASE =					\
 	parser.y				\
 	parse-util.c				\
 	parse-util.h				\
-	pattern.h				\
 	pattern.c				\
-	pivottable.h				\
+	pattern.h				\
 	pivottable.c				\
+	pivottable.h				\
 	position.c				\
 	position.h				\
 	preview-grid.c				\
@@ -170,8 +170,8 @@ GNUMERIC_BASE =					\
 	regression.h				\
 	rendered-value.c			\
 	rendered-value.h			\
-	search.h				\
 	search.c				\
+	search.h				\
 	selection.c				\
 	selection.h				\
 	session.c				\
@@ -191,8 +191,8 @@ GNUMERIC_BASE =					\
 	sheet-private.h				\
 	sheet-autofill.c			\
 	sheet-autofill.h			\
-	sheet-filter.h				\
 	sheet-filter.c				\
+	sheet-filter.h				\
 	sheet-object.c				\
 	sheet-object.h				\
 	sheet-object-impl.h			\
@@ -232,8 +232,8 @@ GNUMERIC_BASE =					\
 	style-font.h				\
 	summary.c				\
 	summary.h				\
-	symbol.h				\
 	symbol.c				\
+	symbol.h				\
 	validation.c				\
 	validation.h				\
 	value.c					\
