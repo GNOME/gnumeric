@@ -3,6 +3,7 @@
 	* configure.in (AC_CANONICAL_HOST): Call explicitly, we use $host.
 	(WITH_WIN32): Small changes to make more the same as in goffice.
 	(--disable-plugins): Support this.
+	(WINDRES): Add an AC_ARG_VAR declaration.
 	And some whitespace changes.
 
 2005-04-26  Morten Welinder  <terra@gnome.org>
