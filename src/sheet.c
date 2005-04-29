@@ -82,7 +82,14 @@ typedef Sheet GnmSheet;
 
 enum {
 	PROP_0,
-	PROP_RTL
+	PROP_RTL,
+	PROP_VISIBLE,
+	PROP_DISPLAY_FORMULAS,
+	PROP_DISPLAY_ZEROS,
+	PROP_DISPLAY_GRID,
+	PROP_DISPLAY_COLUMN_HEADER,
+	PROP_DISPLAY_ROW_HEADER,
+	PROP_DISPLAY_OUTLINES
 };
 
 static void sheet_finalize (GObject *obj);
@@ -105,6 +112,116 @@ sheet_set_direction (Sheet *sheet, gboolean text_is_rtl)
 	SHEET_FOREACH_VIEW (sheet, sv, sv_direction_changed (sv););
 }
 
+static void	  
+sheet_set_visibility (Sheet *sheet, gboolean visible)
+{
+	visible = !!visible;
+	if (sheet->is_visible == visible)
+		return;
+
+	sheet->is_visible = visible;
+	sheet_set_dirty (sheet, TRUE);
+
+	if (sheet->is_visible)
+		workbook_sheet_unhide_controls (sheet->workbook, sheet);
+	else
+		workbook_sheet_hide_controls (sheet->workbook, sheet);
+}
+
+static void	  
+sheet_set_display_formulas (Sheet *sheet, gboolean display)
+{
+	GnmCell *cell;
+
+	display = !!display;
+	if (sheet->display_formulas == display)
+		return;
+	sheet->display_formulas = display;
+
+	SHEET_FOREACH_DEPENDENT (sheet, dep, {
+		if (dependent_is_cell (dep)) {
+			cell = DEP_TO_CELL (dep);
+			if (cell_has_expr(cell)) {
+				if (cell->rendered_value != NULL) {
+					rendered_value_destroy (cell->rendered_value);
+					cell->rendered_value = NULL;
+				}
+				if (cell->row_info != NULL)
+					cell->row_info->needs_respan = TRUE;
+			}
+		}
+	});
+	sheet_adjust_preferences (sheet, TRUE, FALSE);
+}
+
+static GnmValue *
+cb_rerender_zeroes (Sheet *sheet, int col, int row, GnmCell *cell,
+		    gpointer ignored)
+{
+	if (!cell->rendered_value || !cell_is_zero (cell))
+		return NULL;
+	cell_render_value (cell, TRUE);
+	return NULL;
+}
+
+static void	  
+sheet_set_hide_zeros (Sheet *sheet, gboolean hide)
+{
+	hide = !!hide;
+	if (sheet->hide_zero == hide)
+		return;
+	sheet->hide_zero = hide;
+
+	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
+		0, 0, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1,
+		cb_rerender_zeroes, NULL);
+	sheet_adjust_preferences (sheet, TRUE, FALSE);
+}
+
+static void	  
+sheet_set_hide_grid (Sheet *sheet, gboolean hide)
+{
+	hide = !!hide;
+	if (sheet->hide_grid == hide)
+		return;
+	sheet->hide_grid = hide;
+
+	sheet_adjust_preferences (sheet, TRUE, FALSE);
+}
+
+static void	  
+sheet_set_hide_col_header (Sheet *sheet, gboolean hide)
+{
+	hide = !!hide;
+	if (sheet->hide_col_header == hide)
+		return;
+	sheet->hide_col_header = hide;
+
+	sheet_adjust_preferences (sheet, FALSE, FALSE);
+}
+
+static void	  
+sheet_set_hide_row_header (Sheet *sheet, gboolean hide)
+{
+	hide = !!hide;
+	if (sheet->hide_row_header == hide)
+		return;
+	sheet->hide_row_header = hide;
+
+	sheet_adjust_preferences (sheet, FALSE, FALSE);
+}
+
+static void	  
+sheet_set_display_outlines (Sheet *sheet, gboolean display)
+{
+	display = !!display;
+	if (sheet->display_outlines == display)
+		return;
+	sheet->display_outlines = display;
+
+	sheet_adjust_preferences (sheet, TRUE, TRUE);
+}
+
 static void
 gnm_sheet_set_property (GObject *object, guint property_id,
 			const GValue *value, GParamSpec *pspec)
@@ -114,6 +231,27 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 	switch (property_id) {
 	case PROP_RTL:
 		sheet_set_direction (sheet, g_value_get_boolean (value));
+		break;
+	case PROP_VISIBLE:
+		sheet_set_visibility (sheet, g_value_get_boolean (value));
+		break;
+	case PROP_DISPLAY_FORMULAS:
+		sheet_set_display_formulas (sheet, g_value_get_boolean (value));
+		break;
+	case PROP_DISPLAY_ZEROS:
+		sheet_set_hide_zeros (sheet, !g_value_get_boolean (value));
+		break;
+	case PROP_DISPLAY_GRID:
+		sheet_set_hide_grid (sheet, !g_value_get_boolean (value));
+		break;
+	case PROP_DISPLAY_COLUMN_HEADER:
+		sheet_set_hide_col_header (sheet, !g_value_get_boolean (value));
+		break;
+	case PROP_DISPLAY_ROW_HEADER:
+		sheet_set_hide_row_header (sheet, !g_value_get_boolean (value));
+		break;
+	case PROP_DISPLAY_OUTLINES:
+		sheet_set_display_outlines (sheet, g_value_get_boolean (value));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -131,6 +269,27 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 	case PROP_RTL:
 		g_value_set_boolean (value, sheet->text_is_rtl);
 		break;
+	case PROP_VISIBLE:
+		g_value_set_boolean (value, sheet->is_visible);
+		break;
+	case PROP_DISPLAY_FORMULAS:
+		g_value_set_boolean (value, sheet->display_formulas);
+		break;
+	case PROP_DISPLAY_ZEROS:
+		g_value_set_boolean (value, !sheet->hide_zero);
+		break;
+	case PROP_DISPLAY_GRID:
+		g_value_set_boolean (value, !sheet->hide_grid);
+		break;
+	case PROP_DISPLAY_COLUMN_HEADER:
+		g_value_set_boolean (value, !sheet->hide_col_header);
+		break;
+	case PROP_DISPLAY_ROW_HEADER:
+		g_value_set_boolean (value, !sheet->hide_row_header);
+		break;
+	case PROP_DISPLAY_OUTLINES:
+		g_value_set_boolean (value, sheet->display_outlines);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -140,6 +299,7 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 static void
 gnm_sheet_init (Sheet *sheet)
 {
+	sheet->is_visible = TRUE;
 	sheet->text_is_rtl =
 #ifdef WITH_GTK
 	gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL
@@ -164,6 +324,70 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 		 g_param_spec_boolean ("text-is-rtl",
 				       _("text-is-rtl"),
 				       _("Text goes from right to left."),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+        g_object_class_install_property
+		(gobject_class,
+		 PROP_VISIBLE,
+		 g_param_spec_boolean ("visible",
+				       _("Visible"),
+				       _("Sheet is visible."),
+				       TRUE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_DISPLAY_FORMULAS,
+		 g_param_spec_boolean ("display-formulas",
+				       _("Display Formulas"),
+				       _("Control whether formulas are shown instead of values."),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_DISPLAY_ZEROS,
+		 g_param_spec_boolean ("display-zeros",
+				       _("Display Zeros"),
+				       _("Control whether zeros are shown are blanked out."),
+				       TRUE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_DISPLAY_GRID,
+		 g_param_spec_boolean ("display-grid",
+				       _("Display Grid"),
+				       _("Control whether the grid is shown."),
+				       TRUE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_DISPLAY_COLUMN_HEADER,
+		 g_param_spec_boolean ("display-column-header",
+				       _("Display Column Headers"),
+				       _("Control whether column headers are shown."),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_DISPLAY_ROW_HEADER,
+		 g_param_spec_boolean ("display-row-header",
+				       _("Display Row Headers"),
+				       _("Control whether row headers are shown."),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_DISPLAY_OUTLINES,
+		 g_param_spec_boolean ("display-outlines",
+				       _("Display Outlines"),
+				       _("Control whether outlines are shown."),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -4303,67 +4527,4 @@ sheet_queue_respan (Sheet const *sheet, int start_row, int end_row)
 {
 	colrow_foreach (&sheet->rows, start_row, end_row,
 		cb_queue_respan, NULL);
-}
-
-static GnmValue *
-cb_rerender_zeroes (Sheet *sheet, int col, int row, GnmCell *cell,
-		    gpointer ignored)
-{
-	if (!cell->rendered_value || !cell_is_zero (cell))
-		return NULL;
-	cell_render_value (cell, TRUE);
-	return NULL;
-}
-
-void
-sheet_toggle_hide_zeros (Sheet *sheet)
-{
-	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
-		0, 0, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1,
-		cb_rerender_zeroes, NULL);
-	sheet_adjust_preferences (sheet, TRUE, FALSE);
-}
-
-void
-sheet_toggle_show_formula (Sheet *sheet)
-{
-	GnmCell *cell;
-	SHEET_FOREACH_DEPENDENT (sheet, dep, {
-		if (dependent_is_cell (dep)) {
-			cell = DEP_TO_CELL (dep);
-			if (cell_has_expr(cell)) {
-				if (cell->rendered_value != NULL) {
-					rendered_value_destroy (cell->rendered_value);
-					cell->rendered_value = NULL;
-				}
-				if (cell->row_info != NULL)
-					cell->row_info->needs_respan = TRUE;
-			}
-		}
-	});
-	sheet_adjust_preferences (sheet, TRUE, FALSE);
-}
-
-/**
- * sheet_set_visibility :
- * @sheet : #Sheet
- * @visible :
- *
- * show or hide @sheet.
- **/
-void	  
-sheet_set_visibility (Sheet *sheet, gboolean visible)
-{
-	g_return_if_fail (sheet != NULL);
-
-	if (sheet->is_visible == visible)
-		return;
-
-	sheet->is_visible = visible;
-	sheet_set_dirty (sheet, TRUE);
-
-	if (sheet->is_visible)
-		workbook_sheet_unhide_controls (sheet->workbook, sheet);
-	else
-		workbook_sheet_hide_controls (sheet->workbook, sheet);
 }

@@ -1454,9 +1454,12 @@ workbook_sheet_change_visibility  (Workbook *wb,
 	while (sheets) {
 		Sheet *sheet = workbook_sheet_by_index 
 			(wb, GPOINTER_TO_INT (sheets->data));
-		if (sheet != NULL)
-			sheet_set_visibility (sheet, 
-					      GPOINTER_TO_INT (visibility->data));
+		if (sheet != NULL) {
+			gboolean visible = GPOINTER_TO_INT (visibility->data);
+			g_object_set (sheet,
+				      "visible", visible,
+				      NULL);
+		}
 		sheets = sheets->next;
 		visibility = visibility->next;
 	}

@@ -2028,12 +2028,23 @@ static GNM_ACTION_DEF (cb_sheet_pref_ ## flag )				\
 	}								\
 }
 
-TOGGLE_HANDLER (display_formulas, sheet_toggle_show_formula (sheet);)
-TOGGLE_HANDLER (hide_zero, sheet_toggle_hide_zeros (sheet); )
-TOGGLE_HANDLER (hide_grid, sheet_adjust_preferences (sheet, TRUE, FALSE);)
-TOGGLE_HANDLER (hide_col_header, sheet_adjust_preferences (sheet, FALSE, FALSE);)
-TOGGLE_HANDLER (hide_row_header, sheet_adjust_preferences (sheet, FALSE, FALSE);)
-TOGGLE_HANDLER (display_outlines, sheet_adjust_preferences (sheet, TRUE, TRUE);)
+#define TOGGLE_HANDLER_P(flag,property)					\
+static GNM_ACTION_DEF (cb_sheet_pref_ ## flag )				\
+{									\
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));		\
+									\
+	if (!wbcg->updating_ui) {					\
+		Sheet *sheet = wbcg_cur_sheet (wbcg);			\
+		go_object_toggle (sheet, property);			\
+	}								\
+}
+
+TOGGLE_HANDLER_P (display_formulas, "display-formulas")
+TOGGLE_HANDLER_P (hide_zero, "display-zeros")
+TOGGLE_HANDLER_P (hide_grid, "display-grid")
+TOGGLE_HANDLER_P (hide_col_header, "display-column-header")
+TOGGLE_HANDLER_P (hide_row_header, "display-row-header")
+TOGGLE_HANDLER_P (display_outlines, "display-outlines")
 TOGGLE_HANDLER (outline_symbols_below, {
 		sheet_set_outline_direction (sheet, FALSE);
 		sheet_adjust_preferences (sheet, TRUE, TRUE);

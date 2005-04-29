@@ -1,5 +1,11 @@
 2005-04-29  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (gnm_sheet_class_init): Make lots of things
+	properties.
+	(sheet_set_visibility, sheet_toggle_show_formula,
+	sheet_toggle_hide_zeros): Make static (and make the toggle ones
+	actually toggle).
+
 	* src/commands.c (cmd_toggle_rtl_redo): Use go_object_toggle.
 
 	* src/sheet.c (sheet_set_direction): Make static.  Change all
