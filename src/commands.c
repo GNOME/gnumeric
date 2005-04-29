@@ -7177,9 +7177,10 @@ MAKE_GNM_COMMAND (CmdToggleRTL, cmd_toggle_rtl, NULL);
 static gboolean
 cmd_toggle_rtl_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 {
-	sheet_set_direction (cmd->sheet, !cmd->sheet->text_is_rtl);
+	go_object_toggle (cmd->sheet, "text-is-rtl");
 	return FALSE;
 }
+
 static gboolean
 cmd_toggle_rtl_undo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 {

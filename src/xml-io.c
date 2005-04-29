@@ -3027,7 +3027,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (!xml_node_get_bool (tree, "OutlineSymbolsRight", &(sheet->outline_symbols_right)))
 		sheet->outline_symbols_right = TRUE;
 	if (xml_node_get_bool (tree, "RTL_Layout", &tmp))
-		sheet_set_direction (sheet, tmp);
+		g_object_set (sheet, "text-is-rtl", tmp, NULL);
 	sheet->tab_color = xml_node_get_color (tree, "TabColor");
 	sheet->tab_text_color = xml_node_get_color (tree, "TabTextColor");
 

@@ -687,7 +687,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 					 GINT_TO_POINTER (is_visible));
 			}
 			
-			sheet_set_direction (this_sheet, is_rtl);
+			g_object_set (this_sheet, "text-is-rtl", is_rtl, NULL);
 		} else {
 			deleted_sheets = g_slist_prepend (deleted_sheets, 
 				 GINT_TO_POINTER (this_sheet_idx));

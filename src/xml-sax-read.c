@@ -499,7 +499,7 @@ xml_sax_sheet_name (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (state->outline_symbols_right >= 0)
 		state->sheet->outline_symbols_right = state->outline_symbols_right;
 	if (state->text_is_rtl >= 0)
-		sheet_set_direction (state->sheet, state->text_is_rtl);
+		g_object_set (state->sheet, "text-is-rtl", state->text_is_rtl, NULL);
 	state->sheet->tab_color = state->tab_color;
 }
 

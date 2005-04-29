@@ -1,3 +1,11 @@
+2005-04-29  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_toggle_rtl_redo): Use go_object_toggle.
+
+	* src/sheet.c (sheet_set_direction): Make static.  Change all
+	existing callers to use g_object_set.
+	(gnm_sheet_class_init): Install PROP_RTL.
+
 2005-04-28  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in (AC_CANONICAL_HOST): Call explicitly, we use $host.

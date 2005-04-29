@@ -80,20 +80,61 @@ typedef struct {
 } GnmSheetClass;
 typedef Sheet GnmSheet;
 
+enum {
+	PROP_0,
+	PROP_RTL
+};
+
 static void sheet_finalize (GObject *obj);
 
 static GObjectClass *parent_class;
 
 static void
-gnm_sheet_set_property (GObject *obj, guint param_id,
-			GValue const *value, GParamSpec *pspec)
+sheet_set_direction (Sheet *sheet, gboolean text_is_rtl)
 {
+	GnmRange r;
+
+	text_is_rtl = !!text_is_rtl;
+	if (text_is_rtl == sheet->text_is_rtl)
+		return;
+
+	sheet_range_calc_spans (sheet, range_init_full_sheet (&r), SPANCALC_RE_RENDER);
+	sheet->text_is_rtl = text_is_rtl;
+	sheet->priv->reposition_objects.col = 0;
+	/* FIXME: Would this be better with catching a notification?  */
+	SHEET_FOREACH_VIEW (sheet, sv, sv_direction_changed (sv););
 }
 
 static void
-gnm_sheet_get_property (GObject *obj, guint param_id,
-		       GValue *value, GParamSpec *pspec)
+gnm_sheet_set_property (GObject *object, guint property_id,
+			const GValue *value, GParamSpec *pspec)
 {
+	Sheet *sheet = (Sheet *)object;
+
+	switch (property_id) {
+	case PROP_RTL:
+		sheet_set_direction (sheet, g_value_get_boolean (value));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+gnm_sheet_get_property (GObject *object, guint property_id,
+			GValue *value, GParamSpec *pspec)
+{
+	Sheet *sheet = (Sheet *)object;
+
+	switch (property_id) {
+	case PROP_RTL:
+		g_value_set_boolean (value, sheet->text_is_rtl);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
 }
 
 static void
@@ -116,12 +157,17 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 	gobject_class->set_property	= gnm_sheet_set_property;
 	gobject_class->get_property	= gnm_sheet_get_property;
 	gobject_class->finalize         = sheet_finalize;
-#if 0
-        g_object_class_install_property (gobject_class, GNM_SHEET_PROP_LTR,
-		g_param_spec_boolean ("text-is-ltr", "text-is-ltr",
-			"Text goes from right to left",
-			TRUE, GSF_PARAM_STATIC | G_PARAM_READWRITE ));
-#endif
+
+        g_object_class_install_property
+		(gobject_class,
+		 PROP_RTL,
+		 g_param_spec_boolean ("text-is-rtl",
+				       _("text-is-rtl"),
+				       _("Text goes from right to left."),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+
 	signals[DETACHED_FROM_WORKBOOK] = g_signal_new
 		("detached_from_workbook",
 		 GNM_SHEET_TYPE,
@@ -4320,18 +4366,4 @@ sheet_set_visibility (Sheet *sheet, gboolean visible)
 		workbook_sheet_unhide_controls (sheet->workbook, sheet);
 	else
 		workbook_sheet_hide_controls (sheet->workbook, sheet);
-}
-
-void
-sheet_set_direction (Sheet *sheet, gboolean text_is_rtl)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-
-	if ((!text_is_rtl) != (!sheet->text_is_rtl)) {
-		GnmRange r;
-		sheet_range_calc_spans (sheet, range_init_full_sheet (&r), SPANCALC_RE_RENDER);
-		sheet->text_is_rtl = text_is_rtl;
-		sheet->priv->reposition_objects.col = 0;
-		SHEET_FOREACH_VIEW (sheet, sv, sv_direction_changed (sv););
-	}
 }

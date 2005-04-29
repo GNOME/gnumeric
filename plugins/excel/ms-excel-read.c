@@ -4252,7 +4252,7 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 		esheet->freeze_panes		= ((options & 0x0008) != 0);
 		esheet->sheet->hide_zero	= ((options & 0x0010) == 0);
 		set_grid_color = (options & 0x0020) == 0;
-		sheet_set_direction (esheet->sheet, (options & 0x0040) != 0);
+		g_object_set (esheet->sheet, "text-is-rtl", (options & 0x0040) != 0, NULL);
 
 		top_row      = GSF_LE_GET_GUINT16 (q->data + 2);
 		left_col     = GSF_LE_GET_GUINT16 (q->data + 4);
