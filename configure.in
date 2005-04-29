@@ -26,8 +26,11 @@ AM_MAINTAINER_MODE
 # Make --disable-static the default
 AC_DISABLE_STATIC
 
-# We use the XGETTEXT_KEYWORDS variable, thus we need intltool >= 0.29:
+dnl We use the XGETTEXT_KEYWORDS variable, thus we need intltool >= 0.29:
 AC_PROG_INTLTOOL([0.29])
+
+dnl We use $host and $host_os:
+AC_CANONICAL_HOST
 
 AC_ISC_POSIX
 AC_PROG_CC
@@ -191,15 +194,15 @@ PKG_CHECK_MODULES(GNUMERIC, $gnumeric_reqs)
 AC_SUBST(GNUMERIC_LIBS)
 AC_SUBST(GNUMERIC_CFLAGS)
 
-win32=no
+with_win32=no
 case $host_os in
-*mingw* | pw32* | cygwin*)
-    win32=yes
-    GNUMERIC_PLUGIN_LDFLAGS="-no-undefined $GNUMERIC_LIBS -Wl,--enable-runtime-pseudo-relo,\${top_builddir}/src/gnumeric.exe.a -s"
+mingw* | pw32* | cygwin*)
+    with_win32=yes
+    GNUMERIC_PLUGIN_LDFLAGS="-no-undefined $GNUMERIC_LIBS -Wl,--enable-runtime-pseudo-relo,\$(top_builddir)/src/gnumeric.exe.a -s"
     AC_CHECK_TOOL(WINDRES, windres, :)
     ;;
 esac
-AM_CONDITIONAL(WITH_WIN32, test x"$win32" = "xyes")
+AM_CONDITIONAL(WITH_WIN32, test $with_win32 = yes)
 AM_CONDITIONAL(CROSS_COMPILING, test x"$cross_compiling" != "xno")
 
 GNUMERIC_PLUGIN_LDFLAGS="-avoid-version $GNUMERIC_PLUGIN_LDFLAGS"
@@ -529,7 +532,7 @@ AC_SUBST(ALL_LINGUAS,
 
 POFILES_FULL=
 for lang in $ALL_LINGUAS; do
-    POFILES_FULL="$POFILES_FULL \${top_srcdir}/po/$lang.po"
+    POFILES_FULL="$POFILES_FULL \$(top_srcdir)/po/$lang.po"
 done
 AC_SUBST(POFILES_FULL)
 

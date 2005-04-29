@@ -1,7 +1,9 @@
 2005-04-28  Stepan Kasal  <kasal@ucw.cz>
 
-	* configure.in: Use ${...} in AC_SUBSTed variables, not $(...).
-	  And other cosmetics.
+	* configure.in (AC_CANONICAL_HOST): Call explicitly, we use $host.
+	(WITH_WIN32): Small changes to make more the same as in goffice.
+	(--disable-plugins): Support this.
+	And some whitespace changes.
 
 2005-04-26  Morten Welinder  <terra@gnome.org>
 
