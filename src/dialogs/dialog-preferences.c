@@ -749,7 +749,7 @@ pref_copypaste_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
 	dialog_pref_load_description (state,
 				      _("The items on this page are "
                                         "related to "
-					"copy. cut and paste."));
+					"copy, cut and paste."));
 }
 
 static GtkWidget *

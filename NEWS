@@ -42,7 +42,8 @@ Kasal:
 Morten:
 	* Work around Pango bug causing XL save crash.  [#166532]
 	* Fix Save-As GUI problem causing CRITICALs.
-	* Fix typo that managed to get its own bugzilla entry.  [#167495]
+	* Fix typos that managed to get their own bugzilla entries.
+	  [#167495] [#302306]
 	* Improve auto-detection of separators for text files.  [#167449]
 	* Fix some #decimals problems with print page setup.
 	* Fix saving.
