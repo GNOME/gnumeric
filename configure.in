@@ -195,7 +195,7 @@ win32=no
 case $host_os in
 *mingw* | pw32* | cygwin*)
     win32=yes
-    GNUMERIC_PLUGIN_LDFLAGS="-no-undefined $GNUMERIC_LIBS -Wl,--enable-runtime-pseudo-relo,\$(top_builddir)/src/gnumeric.exe.a -s"
+    GNUMERIC_PLUGIN_LDFLAGS="-no-undefined $GNUMERIC_LIBS -Wl,--enable-runtime-pseudo-relo,\${top_builddir}/src/gnumeric.exe.a -s"
     AC_CHECK_TOOL(WINDRES, windres, :)
     ;;
 esac
@@ -316,11 +316,11 @@ AC_ARG_WITH(gda,
 	fi
 )
 if test "$try_gda" = "true"; then
-	PKG_CHECK_MODULES(GDA, [libgda >= 1.0.1 ],
+	PKG_CHECK_MODULES(GDA, [libgda >= 1.0.1],
 		[gda_msg=yes],
 		[gda_msg="NO.  libgda problem"])
 	if test "$gda_msg" = "yes"; then
-		PKG_CHECK_MODULES(GNOMEDB, [libgnomedb >= 1.0.1 ],
+		PKG_CHECK_MODULES(GNOMEDB, [libgnomedb >= 1.0.1],
 			[gnomedb_msg="yes"],
 			[gnomedb_msg="NO. libgnomedb problem"])
 		if test "$gnomedb_msg" = "yes"; then
@@ -352,7 +352,7 @@ AC_ARG_WITH(gb,
 	fi
 )
 if test "$try_gb" = "true"; then
-	PKG_CHECK_MODULES(GB, [libgb == 1.17 ],
+	PKG_CHECK_MODULES(GB, [libgb == 1.17],
 		[gb_msg=yes],
 		[gb_msg="NO.  gb problem"])
 fi
@@ -508,9 +508,9 @@ plugin_list_given=false
 PLUGIN_LIST=""
 AC_ARG_ENABLE(plugins,
 	[--enable-plugins="text html"  Compile only the listed plugins],
-	plugin_list_given=true
-	PLUGIN_LIST=$enableval
-)
+	[plugin_list_given=true
+	 test "x$enableval" != xno && PLUGIN_LIST=$enableval
+])
 AM_CONDITIONAL(PLUGIN_LIST_GIVEN, $plugin_list_given)
 AC_SUBST(PLUGIN_LIST)
 
@@ -529,7 +529,7 @@ AC_SUBST(ALL_LINGUAS,
 
 POFILES_FULL=
 for lang in $ALL_LINGUAS; do
-    POFILES_FULL="$POFILES_FULL \$(top_srcdir)/po/$lang.po"
+    POFILES_FULL="$POFILES_FULL \${top_srcdir}/po/$lang.po"
 done
 AC_SUBST(POFILES_FULL)
 
