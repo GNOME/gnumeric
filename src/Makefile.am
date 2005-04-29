@@ -63,20 +63,20 @@ GNUMERIC_BASE =					\
 	collect.h				\
 	colrow.c				\
 	colrow.h				\
+	command-context.c			\
+	command-context.h			\
+	command-context-stderr.c		\
+	command-context-stderr.h		\
 	commands.c				\
 	commands.h				\
 	complete.c				\
 	complete.h				\
 	complete-sheet.c			\
 	complete-sheet.h			\
-	command-context.c			\
-	command-context.h			\
-	command-context-stderr.c		\
-	command-context-stderr.h		\
-	consolidate.c				\
-	consolidate.h				\
 	complex.c				\
 	complex.h				\
+	consolidate.c				\
+	consolidate.h				\
 	dependent.c				\
 	dependent.h				\
 	expr.c					\
