@@ -89,6 +89,7 @@ Morten:
 	* Allocate some clipboard data in pools.
 	* Fix potential save-as crash.
 	* Fix spurious criticals.  [#301581]
+	* Change RTL support to use an object property.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0
