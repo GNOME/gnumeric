@@ -238,8 +238,7 @@ go_action_combo_text_class_init (GtkActionClass *gtk_act_klass)
 		g_param_spec_boolean ("case-sensitive", _("Case Sensitive"),
 			_("Should the text comparasion be case sensitive"),
 			TRUE,
-			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY |
-			GSF_PARAM_STATIC));
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 }
 
 GSF_CLASS (GOActionComboText, go_action_combo_text,
