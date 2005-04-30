@@ -720,7 +720,9 @@ qpro_read_sheet (QProReadState *state)
 
 		case QPRO_PROTECTION:
 			if (validate (QPRO_PROTECTION, 1))
-				sheet->is_protected = (data[0] == 0xff);
+				g_object_set (sheet,
+					      "protected", (data[0] == 0xff),
+					      NULL);
 			break;
 
 		case QPRO_PAGE_NAME:

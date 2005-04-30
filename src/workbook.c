@@ -1421,10 +1421,13 @@ workbook_sheet_change_protection  (Workbook *wb,
 			      TRUE);
 
 	while (sheets) {
-		Sheet *sheet = workbook_sheet_by_index 
-			(wb, GPOINTER_TO_INT (sheets->data));
+		int sheetno = GPOINTER_TO_INT (sheets->data);
+		gboolean protected = GPOINTER_TO_INT (locks->data);
+		Sheet *sheet = workbook_sheet_by_index (wb, sheetno);
+
 		if (sheet != NULL)
-			sheet->is_protected = GPOINTER_TO_INT (locks->data);
+			g_object_set (sheet, "protected", protected, NULL);
+
 		sheets = sheets->next;
 		locks = locks->next;
 	}

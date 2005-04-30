@@ -84,6 +84,7 @@ enum {
 	PROP_0,
 	PROP_RTL,
 	PROP_VISIBLE,
+	PROP_PROTECTED,
 	PROP_DISPLAY_FORMULAS,
 	PROP_DISPLAY_ZEROS,
 	PROP_DISPLAY_GRID,
@@ -235,6 +236,9 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 	case PROP_VISIBLE:
 		sheet_set_visibility (sheet, g_value_get_boolean (value));
 		break;
+	case PROP_PROTECTED:
+		sheet->is_protected = g_value_get_boolean (value);
+		break;
 	case PROP_DISPLAY_FORMULAS:
 		sheet_set_display_formulas (sheet, g_value_get_boolean (value));
 		break;
@@ -272,6 +276,9 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 	case PROP_VISIBLE:
 		g_value_set_boolean (value, sheet->is_visible);
 		break;
+	case PROP_PROTECTED:
+		g_value_set_boolean (value, sheet->is_protected);
+		break;
 	case PROP_DISPLAY_FORMULAS:
 		g_value_set_boolean (value, sheet->display_formulas);
 		break;
@@ -299,14 +306,76 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 static void
 gnm_sheet_init (Sheet *sheet)
 {
+	sheet->priv = g_new0 (SheetPrivate, 1);
+	sheet->sheet_views = NULL;
+
+	/* Init, focus, and load handle setting these if/when necessary */
+	sheet->priv->recompute_visibility = TRUE;
+	sheet->priv->recompute_spans = TRUE;
+	sheet->priv->reposition_objects.row = SHEET_MAX_ROWS;
+	sheet->priv->reposition_objects.col = SHEET_MAX_COLS;
+
+	range_init_full_sheet (&sheet->priv->unhidden_region);
+
+	sheet->is_protected = FALSE;
+	sheet->display_outlines = TRUE;
+	sheet->outline_symbols_below = TRUE;
+	sheet->outline_symbols_right = TRUE;
+	sheet->tab_color = NULL;
+	sheet->tab_text_color = NULL;
 	sheet->is_visible = TRUE;
-	sheet->text_is_rtl =
 #ifdef WITH_GTK
-	gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL
+	sheet->text_is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);
 #else
-	FALSE
+	sheet->text_is_rtl = FALSE;
 #endif
-	;
+
+	sheet->sheet_objects = NULL;
+	sheet->max_object_extent.col = sheet->max_object_extent.row = 0;
+
+	sheet->last_zoom_factor_used = 1.0;
+	sheet->solver_parameters = solver_param_new ();
+
+	sheet->cols.max_used = -1;
+	g_ptr_array_set_size (sheet->cols.info = g_ptr_array_new (),
+			      COLROW_SEGMENT_INDEX (SHEET_MAX_COLS - 1) + 1);
+	sheet_col_set_default_size_pts (sheet, 48);
+
+	sheet->rows.max_used = -1;
+	g_ptr_array_set_size (sheet->rows.info = g_ptr_array_new (),
+			      COLROW_SEGMENT_INDEX (SHEET_MAX_ROWS - 1) + 1);
+	sheet_row_set_default_size_pts (sheet, 12.75);
+
+	sheet->print_info = print_info_new ();
+
+	sheet->filters = NULL;
+	sheet->pivottables = NULL;
+	sheet->scenarios = NULL;
+	sheet->list_merged = NULL;
+	sheet->hash_merged = g_hash_table_new ((GHashFunc)&cellpos_hash,
+					       (GCompareFunc)&cellpos_equal);
+
+	sheet->deps	 = gnm_dep_container_new ();
+	sheet->cell_hash = g_hash_table_new ((GHashFunc)&cellpos_hash,
+					     (GCompareFunc)&cellpos_equal);
+
+	sheet->pristine = TRUE;
+	sheet->modified = FALSE;
+
+	/* Init preferences */
+	sheet->r1c1_addresses = FALSE;
+	sheet->hide_zero = FALSE;
+
+	/* FIXME: probably not here.  */
+	/* See also gtk_widget_create_pango_context ().  */
+	sheet->context = gnm_pango_context_get ();
+
+	/* Init menu states */
+	sheet->priv->enable_showhide_detail = TRUE;
+
+	sheet->names = NULL;
+
+	sheet_style_init (sheet);
 }
 
 static void
@@ -336,7 +405,15 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
-
+        g_object_class_install_property
+		(gobject_class,
+		 PROP_PROTECTED,
+		 g_param_spec_boolean ("protected",
+				       _("Protected"),
+				       _("Sheet is protected."),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_DISPLAY_FORMULAS,
@@ -495,16 +572,6 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type)
 	g_return_val_if_fail (name != NULL, NULL);
 
 	sheet = g_object_new (gnm_sheet_get_type (), NULL);
-	sheet->priv = g_new0 (SheetPrivate, 1);
-	sheet->sheet_views = NULL;
-
-	/* Init, focus, and load handle setting these if/when necessary */
-	sheet->priv->recompute_visibility = TRUE;
-	sheet->priv->recompute_spans = TRUE;
-	sheet->priv->reposition_objects.row = SHEET_MAX_ROWS;
-	sheet->priv->reposition_objects.col = SHEET_MAX_COLS;
-
-	range_init_full_sheet (&sheet->priv->unhidden_region);
 
 	sheet->index_in_wb = -1;
 	sheet->workbook = wb;
@@ -515,68 +582,14 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type)
 	sheet->name_case_insensitive =
 		g_utf8_casefold (sheet->name_unquoted, -1);
 	sheet->sheet_type = type;
-	sheet_style_init (sheet);
-
-	sheet->sheet_objects = NULL;
-	sheet->max_object_extent.col = sheet->max_object_extent.row = 0;
-
-	sheet->last_zoom_factor_used = 1.0;
-	sheet->solver_parameters = solver_param_new ();
-
-	sheet->cols.max_used = -1;
-	g_ptr_array_set_size (sheet->cols.info = g_ptr_array_new (),
-			      COLROW_SEGMENT_INDEX (SHEET_MAX_COLS-1)+1);
-	sheet_col_set_default_size_pts (sheet, 48);
-
-	sheet->rows.max_used = -1;
-	g_ptr_array_set_size (sheet->rows.info = g_ptr_array_new (),
-			      COLROW_SEGMENT_INDEX (SHEET_MAX_ROWS-1)+1);
-	sheet_row_set_default_size_pts (sheet, 12.75);
-
-	sheet->print_info = print_info_new ();
-
-	sheet->filters = NULL;
-	sheet->pivottables = NULL;
-	sheet->scenarios = NULL;
-	sheet->list_merged = NULL;
-	sheet->hash_merged = g_hash_table_new ((GHashFunc)&cellpos_hash,
-					       (GCompareFunc)&cellpos_equal);
-
-	sheet->deps	 = gnm_dep_container_new ();
-	sheet->cell_hash = g_hash_table_new ((GHashFunc)&cellpos_hash,
-					     (GCompareFunc)&cellpos_equal);
 
 	/* Force the zoom change inorder to initialize things */
 	sheet_set_zoom_factor (sheet, gnm_app_prefs->zoom, TRUE, TRUE);
 
-	sheet->pristine = TRUE;
-	sheet->modified = FALSE;
-
-	/* Init preferences */
-	sheet->r1c1_addresses = FALSE;
 	sheet->display_formulas = (type == GNM_SHEET_XLM);
-	sheet->hide_zero = FALSE;
-
 	sheet->hide_grid = 
 	sheet->hide_col_header = 
 	sheet->hide_row_header = (type == GNM_SHEET_OBJECT);
-
-	sheet->is_protected = FALSE;
-	sheet->is_visible = TRUE;
-	sheet->display_outlines = TRUE;
-	sheet->outline_symbols_below = TRUE;
-	sheet->outline_symbols_right = TRUE;
-	sheet->tab_color = NULL;
-	sheet->tab_text_color = NULL;
-
-	/* FIXME: probably not here.  */
-	/* See also gtk_widget_create_pango_context ().  */
-	sheet->context = gnm_pango_context_get ();
-
-	/* Init menu states */
-	sheet->priv->enable_showhide_detail = TRUE;
-
-	sheet->names = NULL;
 
 	if (type == GNM_SHEET_OBJECT) {
 		colrow_compute_pixels_from_pts (&sheet->rows.default_style, sheet, FALSE);
