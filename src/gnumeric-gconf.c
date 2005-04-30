@@ -164,7 +164,7 @@ go_conf_get (GOConfNode *node, gchar const *key, GConfValueType t)
 
 	if (err != NULL) {
 		g_warning ("Unable to load key '%s' : because %s",
-			      real_key, err->message));
+			      real_key, err->message);
 		g_free (real_key);
 		g_error_free (err);
 		return NULL;

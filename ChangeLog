@@ -1,3 +1,8 @@
+2005-04-30  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* src/gnumeric-gconf.c: Remove unmatched closing parenthesis which
+	broke the build.
+
 2005-04-30  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* src/cut-n-paste-code/goffice/gui-utils/go-action-combo-text.c:
