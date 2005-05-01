@@ -1,3 +1,4 @@
+# translation of es.po to 
 # Spanish translation of gnumeric
 # Copyright © 1998,2003 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnumeric package.
@@ -13,10 +14,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-24 12:21+0200\n"
-"PO-Revision-Date: 2005-04-24 12:33+0200\n"
-"Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
-"Language-Team: Spanish <traductores@es.gnome.org>\n"
+"POT-Creation-Date: 2005-05-01 15:54+0200\n"
+"PO-Revision-Date: 2005-05-01 16:09+0200\n"
+"Last-Translator: \n"
+"Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4694,11 +4695,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=BASE\n"
 "@SYNTAX=BASE(número,base[,longitud])\n"
-"@DESCRIPTION=La función BASE convierte un número a una cadena representando ese número en base @base.\n"
+"@DESCRIPTION=La función BASE convierte un número a una cadena representando "
+"ese número en base @base.\n"
 "\n"
 "* @base debe ser un entero entre 2 y 36.\n"
 "* Esta función es compatible con OpenOffice.Org.\n"
-"* El argumento opcional @longitud especifica la longitud mínima del resultado.  Se añadirán ceros para alcanzar esa longitud.\n"
+"* El argumento opcional @longitud especifica la longitud mínima del "
+"resultado.  Se añadirán ceros para alcanzar esa longitud.\n"
 "\n"
 "@EXAMPLES=\n"
 "BASE(255,16,4) es igual a \"00FF\".\n"
@@ -4899,7 +4902,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DECIMAL\n"
 "@SYNTAX=DECIMAL(texto,base)\n"
-"@DESCRIPTION=La función DECIMAL convierte un número en la base @base a decimal.\n"
+"@DESCRIPTION=La función DECIMAL convierte un número en la base @base a "
+"decimal.\n"
 "\n"
 "* @base debe ser un entero entre 2 y 36.\n"
 "* Esta función es compatible con OpenOffice.Org.\n"
@@ -11725,832 +11729,631 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: ../plugins/fn-r/functions.c:19
+#: ../plugins/fn-r/functions.c:18
+msgid "R.DNORM:probability density function of the normal distribution."
+msgstr "R.DNORM:función de densidad de probabilidad de la distribución normal."
+
+#: ../plugins/fn-r/functions.c:19 ../plugins/fn-r/functions.c:44
+#: ../plugins/fn-r/functions.c:98 ../plugins/fn-r/functions.c:123
+#: ../plugins/fn-r/functions.c:150 ../plugins/fn-r/functions.c:177
+#: ../plugins/fn-r/functions.c:202 ../plugins/fn-r/functions.c:256
+#: ../plugins/fn-r/functions.c:281 ../plugins/fn-r/functions.c:335
+#: ../plugins/fn-r/functions.c:358 ../plugins/fn-r/functions.c:408
+#: ../plugins/fn-r/functions.c:433 ../plugins/fn-r/functions.c:460
+#: ../plugins/fn-r/functions.c:487 ../plugins/fn-r/functions.c:510
+#: ../plugins/fn-r/functions.c:560 ../plugins/fn-r/functions.c:585
+#: ../plugins/fn-r/functions.c:639 ../plugins/fn-r/functions.c:662
+#: ../plugins/fn-r/functions.c:712 ../plugins/fn-r/functions.c:735
+#: ../plugins/fn-r/functions.c:785 ../plugins/fn-r/functions.c:810
+#: ../plugins/fn-r/functions.c:837 ../plugins/fn-r/functions.c:864
+#: ../plugins/fn-r/functions.c:889 ../plugins/fn-r/functions.c:943
+#: ../plugins/fn-r/functions.c:970 ../plugins/fn-r/functions.c:999
+#: ../plugins/fn-r/functions.c:1022 ../plugins/fn-r/functions.c:1072
+#: ../plugins/fn-r/functions.c:1097
+msgid "x:obserevation."
+msgstr "x:obserevation."
+
+#: ../plugins/fn-r/functions.c:20 ../plugins/fn-r/functions.c:45
+#: ../plugins/fn-r/functions.c:72
+msgid "mu:mean of the distribution."
+msgstr "mu:media de la distribución."
+
+#: ../plugins/fn-r/functions.c:21 ../plugins/fn-r/functions.c:46
+#: ../plugins/fn-r/functions.c:73
+msgid "sigma:standard deviation of the distribution."
+msgstr "sigma:desviación estándar de la distribución."
+
+#: ../plugins/fn-r/functions.c:22 ../plugins/fn-r/functions.c:101
+#: ../plugins/fn-r/functions.c:180 ../plugins/fn-r/functions.c:259
+#: ../plugins/fn-r/functions.c:337 ../plugins/fn-r/functions.c:411
+#: ../plugins/fn-r/functions.c:489 ../plugins/fn-r/functions.c:563
+#: ../plugins/fn-r/functions.c:641 ../plugins/fn-r/functions.c:714
+#: ../plugins/fn-r/functions.c:788 ../plugins/fn-r/functions.c:867
+#: ../plugins/fn-r/functions.c:947 ../plugins/fn-r/functions.c:1001
+#: ../plugins/fn-r/functions.c:1075
 msgid ""
-"@FUNCTION=R.DNORM\n"
-"@SYNTAX=R.DNORM(x,mu,sigma[,give_log])\n"
-"@DESCRIPTION=R.DNORM function returns the probability density function of "
-"the normal distribution.\n"
-"\n"
-"* @mu: mean of the distribution.\n"
-"* @sigma: standard deviation of the distribution.\n"
-"* @give_log: if true, log of the result will be returned instead.  This is "
-"useful if the result would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.PNORM,R.QNORM"
+"give_log:if true, log of the result will be returned instead.  This is "
+"useful if the result would otherwise underflow to 0.  Defaults to false."
+msgstr "give_log:si es cierto, devolver un registro del rerultado en su lugar. Esto es útil se el resultado saca un underflow a 0.  Predeterminado a falso."
+
+#: ../plugins/fn-r/functions.c:23
+msgid ""
+"This function returns the probability density function of the normal "
+"distribution."
+msgstr "Esta función devuelve la función de densidad de probabilidad de la distribución normal."
+
+#: ../plugins/fn-r/functions.c:43
+msgid "R.PNORM:cumulative distribution function of the normal distribution."
+msgstr "R.PNORM:función de distribución acumulativa de la distribución normal."
+
+#: ../plugins/fn-r/functions.c:47 ../plugins/fn-r/functions.c:74
+#: ../plugins/fn-r/functions.c:126 ../plugins/fn-r/functions.c:153
+#: ../plugins/fn-r/functions.c:205 ../plugins/fn-r/functions.c:232
+#: ../plugins/fn-r/functions.c:284 ../plugins/fn-r/functions.c:311
+#: ../plugins/fn-r/functions.c:360 ../plugins/fn-r/functions.c:385
+#: ../plugins/fn-r/functions.c:436 ../plugins/fn-r/functions.c:463
+#: ../plugins/fn-r/functions.c:512 ../plugins/fn-r/functions.c:537
+#: ../plugins/fn-r/functions.c:588 ../plugins/fn-r/functions.c:615
+#: ../plugins/fn-r/functions.c:664 ../plugins/fn-r/functions.c:689
+#: ../plugins/fn-r/functions.c:737 ../plugins/fn-r/functions.c:762
+#: ../plugins/fn-r/functions.c:813 ../plugins/fn-r/functions.c:840
+#: ../plugins/fn-r/functions.c:892 ../plugins/fn-r/functions.c:919
+#: ../plugins/fn-r/functions.c:974 ../plugins/fn-r/functions.c:1024
+#: ../plugins/fn-r/functions.c:1049 ../plugins/fn-r/functions.c:1100
+#: ../plugins/fn-r/functions.c:1127
+msgid ""
+"lower_tail:if true (the default), the lower tail of the distribution is "
+"considered."
+msgstr "lower_tail:se es cierto (lo predeterminado), la cola más baja de la distribución es la que se considera."
+
+#: ../plugins/fn-r/functions.c:48 ../plugins/fn-r/functions.c:75
+#: ../plugins/fn-r/functions.c:127 ../plugins/fn-r/functions.c:154
+#: ../plugins/fn-r/functions.c:206 ../plugins/fn-r/functions.c:233
+#: ../plugins/fn-r/functions.c:285 ../plugins/fn-r/functions.c:312
+#: ../plugins/fn-r/functions.c:361 ../plugins/fn-r/functions.c:386
+#: ../plugins/fn-r/functions.c:437 ../plugins/fn-r/functions.c:464
+#: ../plugins/fn-r/functions.c:513 ../plugins/fn-r/functions.c:538
+#: ../plugins/fn-r/functions.c:589 ../plugins/fn-r/functions.c:616
+#: ../plugins/fn-r/functions.c:665 ../plugins/fn-r/functions.c:690
+#: ../plugins/fn-r/functions.c:738 ../plugins/fn-r/functions.c:763
+#: ../plugins/fn-r/functions.c:814 ../plugins/fn-r/functions.c:841
+#: ../plugins/fn-r/functions.c:893 ../plugins/fn-r/functions.c:920
+#: ../plugins/fn-r/functions.c:975 ../plugins/fn-r/functions.c:1025
+#: ../plugins/fn-r/functions.c:1050 ../plugins/fn-r/functions.c:1101
+#: ../plugins/fn-r/functions.c:1128
+msgid ""
+"log_p:if true, log of the probability is used.  This is useful if the "
+"probability would otherwise underflow to 0.  Defaults to false."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:50
+#: ../plugins/fn-r/functions.c:49
 msgid ""
-"@FUNCTION=R.PNORM\n"
-"@SYNTAX=R.PNORM(x,mu,sigma[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.PNORM function returns the cumulative distribution function "
-"of the normal distribution.\n"
-"\n"
-"* @mu: mean of the distribution.\n"
-"* @sigma: standard deviation of the distribution.\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DNORM,R.QNORM"
+"This function returns the cumulative distribution function of the normal "
+"distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:83
-msgid ""
-"@FUNCTION=R.QNORM\n"
-"@SYNTAX=R.QNORM(p,mu,sigma[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.QNORM function returns the probability quantile function, i."
-"e., the inverse of the cumulative distribution function, of the normal "
-"distribution.\n"
-"\n"
-"* @p: probability.\n"
-"* @mu: mean of the distribution.\n"
-"* @sigma: standard deviation of the distribution.\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DNORM,R.PNORM"
+#: ../plugins/fn-r/functions.c:70
+msgid "R.QNORM:probability quantile function of the normal distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:117
-msgid ""
-"@FUNCTION=R.DLNORM\n"
-"@SYNTAX=R.DLNORM(x,logmean,logsd[,give_log])\n"
-"@DESCRIPTION=R.DLNORM function returns the probability density function of "
-"the log-normal distribution.\n"
-"\n"
-"* @logmean: mean of the underlying normal distribution.\n"
-"* @logsd: standard deviation of the underlying normal distribution.\n"
-"* @give_log: if true, log of the result will be returned instead.  This is "
-"useful if the result would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.PLNORM,R.QLNORM"
+#: ../plugins/fn-r/functions.c:71 ../plugins/fn-r/functions.c:229
+#: ../plugins/fn-r/functions.c:308 ../plugins/fn-r/functions.c:383
+#: ../plugins/fn-r/functions.c:535 ../plugins/fn-r/functions.c:612
+#: ../plugins/fn-r/functions.c:687 ../plugins/fn-r/functions.c:760
+#: ../plugins/fn-r/functions.c:916 ../plugins/fn-r/functions.c:1047
+#: ../plugins/fn-r/functions.c:1124
+msgid "p:probability."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:148
+#: ../plugins/fn-r/functions.c:76
 msgid ""
-"@FUNCTION=R.PLNORM\n"
-"@SYNTAX=R.PLNORM(x,logmean,logsd[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.PLNORM function returns the cumulative distribution function "
-"of the log-normal distribution.\n"
-"\n"
-"* @logmean: mean of the underlying normal distribution.\n"
-"* @logsd: standard deviation of the underlying normal distribution.\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DLNORM,R.QLNORM"
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the normal distribution."
 msgstr ""
+
+#: ../plugins/fn-r/functions.c:97
+msgid "R.DLNORM:probability density function of the log-normal distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:99 ../plugins/fn-r/functions.c:124
+#: ../plugins/fn-r/functions.c:151
+msgid "logmean:mean of the underlying normal distribution."
+msgstr "logmean: media de la distribución normal subyacente."
+
+#: ../plugins/fn-r/functions.c:100 ../plugins/fn-r/functions.c:125
+#: ../plugins/fn-r/functions.c:152
+msgid "logsd:standard deviation of the underlying normal distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:102
+msgid ""
+"This function returns the probability density function of the log-normal "
+"distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:122
+msgid "R.PLNORM:cumulative distribution function of the log-normal distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:128
+msgid ""
+"This function returns the cumulative distribution function of the log-normal "
+"distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:149
+msgid "R.QLNORM:probability quantile function of the log-normal distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:155
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the log-normal distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:176
+msgid "R.DGAMMA:probability density function of the gamma distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:178 ../plugins/fn-r/functions.c:203
+#: ../plugins/fn-r/functions.c:230 ../plugins/fn-r/functions.c:561
+#: ../plugins/fn-r/functions.c:586 ../plugins/fn-r/functions.c:613
+msgid "shape:the shape parameter of the distribution"
+msgstr "forma: el parámetro de forma de la distribución"
+
+#: ../plugins/fn-r/functions.c:179 ../plugins/fn-r/functions.c:204
+#: ../plugins/fn-r/functions.c:231 ../plugins/fn-r/functions.c:562
+#: ../plugins/fn-r/functions.c:587 ../plugins/fn-r/functions.c:614
+#: ../plugins/fn-r/functions.c:713 ../plugins/fn-r/functions.c:736
+#: ../plugins/fn-r/functions.c:761 ../plugins/fn-r/functions.c:1074
+#: ../plugins/fn-r/functions.c:1099 ../plugins/fn-r/functions.c:1126
+msgid "scale:the scale parameter of the distribution"
+msgstr "escala: el parámetro de escala de la distribución"
 
 #: ../plugins/fn-r/functions.c:181
 msgid ""
-"@FUNCTION=R.QLNORM\n"
-"@SYNTAX=R.QLNORM(x,logmean,logsd[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.QLNORM function returns the probability quantile function, i."
-"e., the inverse of the cumulative distribution function, of the log-normal "
-"distribution.\n"
-"\n"
-"* @logmean: mean of the underlying normal distribution.\n"
-"* @logsd: standard deviation of the underlying normal distribution.\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DLNORM,R.PLNORM"
+"This function returns the probability density function of the gamma "
+"distribution."
+msgstr "Esta función devuelve la función de densidad de probabilidad de la distribución gamma."
+
+#: ../plugins/fn-r/functions.c:201
+msgid "R.PGAMMA:cumulative distribution function of the gamma distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:214
+#: ../plugins/fn-r/functions.c:207
 msgid ""
-"@FUNCTION=R.DGAMMA\n"
-"@SYNTAX=R.DGAMMA(x,shape,scale[,give_log])\n"
-"@DESCRIPTION=R.DGAMMA function returns the probability density function of "
-"the gamma distribution.\n"
-"\n"
-"* @shape: the shape parameter of the distribution\n"
-"* @scale: the scale parameter of the distribution\n"
-"* @give_log: if true, log of the result will be returned instead.  This is "
-"useful if the result would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.PGAMMA,R.QGAMMA"
+"This function returns the cumulative distribution function of the gamma "
+"distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:245
-msgid ""
-"@FUNCTION=R.PGAMMA\n"
-"@SYNTAX=R.PGAMMA(x,p,scale[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.PGAMMA function returns the cumulative distribution function "
-"of the gamma distribution.\n"
-"\n"
-"* @p: probability.\n"
-"* @scale: the scale parameter of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DGAMMA,R.QGAMMA"
+#: ../plugins/fn-r/functions.c:228
+msgid "R.QGAMMA:probability quantile function of the gamma distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:278
+#: ../plugins/fn-r/functions.c:234
 msgid ""
-"@FUNCTION=R.QGAMMA\n"
-"@SYNTAX=R.QGAMMA(p,alpha,scale[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.QGAMMA function returns the probability quantile function, i."
-"e., the inverse of the cumulative distribution function, of the gamma "
-"distribution.\n"
-"\n"
-"* @p: probability.\n"
-"* @scale: the scale parameter of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DGAMMA,R.PGAMMA"
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the gamma distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:311
-msgid ""
-"@FUNCTION=R.DBETA\n"
-"@SYNTAX=R.DBETA(x,a,b[,give_log])\n"
-"@DESCRIPTION=R.DBETA function returns the probability density function of "
-"the beta distribution.\n"
-"\n"
-"* @a: the first shape parameter of the distribution\n"
-"* @b: the second scale parameter of the distribution\n"
-"* @give_log: if true, log of the result will be returned instead.  This is "
-"useful if the result would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.PBETA,R.QBETA"
+#: ../plugins/fn-r/functions.c:255
+msgid "R.DBETA:probability density function of the beta distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:342
-msgid ""
-"@FUNCTION=R.PBETA\n"
-"@SYNTAX=R.PBETA(x,a,b[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.PBETA function returns the cumulative distribution function "
-"of the beta distribution.\n"
-"\n"
-"* @a: the first shape parameter of the distribution\n"
-"* @b: the second scale parameter of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DBETA,R.QBETA"
+#: ../plugins/fn-r/functions.c:257 ../plugins/fn-r/functions.c:282
+#: ../plugins/fn-r/functions.c:309
+msgid "a:the first shape parameter of the distribution"
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:375
-msgid ""
-"@FUNCTION=R.QBETA\n"
-"@SYNTAX=R.QBETA(alpha,a,b[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.QBETA function returns the probability quantile function, i."
-"e., the inverse of the cumulative distribution function, of the beta "
-"distribution.\n"
-"\n"
-"* @a: the first shape parameter of the distribution\n"
-"* @b: the second scale parameter of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DBETA,R.PBETA"
+#: ../plugins/fn-r/functions.c:258 ../plugins/fn-r/functions.c:283
+#: ../plugins/fn-r/functions.c:310
+msgid "b:the second scale parameter of the distribution"
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:408
+#: ../plugins/fn-r/functions.c:260
 msgid ""
-"@FUNCTION=R.DT\n"
-"@SYNTAX=R.DT(x,n[,give_log])\n"
-"@DESCRIPTION=R.DT function returns the probability density function of the "
-"Student t distribution.\n"
-"\n"
-"* @n: the number of degrees of freedom of the distribution\n"
-"* @give_log: if true, log of the result will be returned instead.  This is "
-"useful if the result would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.PT,R.QT"
+"This function returns the probability density function of the beta "
+"distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:437
-msgid ""
-"@FUNCTION=R.PT\n"
-"@SYNTAX=R.PT(x,n[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.PT function returns the cumulative distribution function of "
-"the Student t distribution.\n"
-"\n"
-"* @n: the number of degrees of freedom of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DT,R.QT"
+#: ../plugins/fn-r/functions.c:280
+msgid "R.PBETA:cumulative distribution function of the beta distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:468
+#: ../plugins/fn-r/functions.c:286
 msgid ""
-"@FUNCTION=R.QT\n"
-"@SYNTAX=R.QT(p,n[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.QT function returns the probability quantile function, i.e., "
-"the inverse of the cumulative distribution function, of the Student t "
-"distribution.\n"
-"\n"
-"* @p: probability.\n"
-"* @n: the number of degrees of freedom of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DT,R.PT"
+"This function returns the cumulative distribution function of the beta "
+"distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:500
-msgid ""
-"@FUNCTION=R.DF\n"
-"@SYNTAX=R.DF(x,n1,n2[,give_log])\n"
-"@DESCRIPTION=R.DF function returns the probability density function of the F "
-"distribution.\n"
-"\n"
-"* @n1: the first number of degrees of freedom of the distribution\n"
-"* @n2: the first number of degrees of freedom of the distribution\n"
-"* @give_log: if true, log of the result will be returned instead.  This is "
-"useful if the result would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.PF,R.QF"
+#: ../plugins/fn-r/functions.c:307
+msgid "R.QBETA:probability quantile function of the beta distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:531
+#: ../plugins/fn-r/functions.c:313
 msgid ""
-"@FUNCTION=R.PF\n"
-"@SYNTAX=R.PF(x,n1,n2[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.PF function returns the cumulative distribution function of "
-"the F distribution.\n"
-"\n"
-"* @n1: the first number of degrees of freedom of the distribution\n"
-"* @n2: the first number of degrees of freedom of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DF,R.QF"
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the beta distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:334
+msgid "R.DT:probability density function of the Student t distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:336 ../plugins/fn-r/functions.c:359
+#: ../plugins/fn-r/functions.c:384
+msgid "n:the number of degrees of freedom of the distribution"
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:338
+msgid ""
+"This function returns the probability density function of the Student t "
+"distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:357
+msgid "R.PT:cumulative distribution function of the Student t distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:362
+msgid ""
+"This function returns the cumulative distribution function of the Student t "
+"distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:382
+msgid "R.QT:probability quantile function of the Student t distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:387
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the Student t distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:407
+msgid "R.DF:probability density function of the F distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:409 ../plugins/fn-r/functions.c:434
+#: ../plugins/fn-r/functions.c:461
+msgid "n1:the first number of degrees of freedom of the distribution"
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:410 ../plugins/fn-r/functions.c:435
+#: ../plugins/fn-r/functions.c:462
+msgid "n2:the first number of degrees of freedom of the distribution"
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:412
+msgid "This function returns the probability density function of the F distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:432
+msgid "R.PF:cumulative distribution function of the F distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:438
+msgid ""
+"This function returns the cumulative distribution function of the F "
+"distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:459
+msgid "R.QF:probability quantile function of the F distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:465
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the F distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:486
+msgid "R.DCHISQ:probability density function of the chi-square distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:488 ../plugins/fn-r/functions.c:511
+#: ../plugins/fn-r/functions.c:536
+msgid "df:the number of degrees of freedom of the distribution"
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:490
+msgid ""
+"This function returns the probability density function of the chi-square "
+"distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:509
+msgid "R.PCHISQ:cumulative distribution function of the chi-square distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:514
+msgid ""
+"This function returns the cumulative distribution function of the chi-square "
+"distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:534
+msgid "R.QCHISQ:probability quantile function of the chi-square distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:539
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the chi-square distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:559
+msgid "R.DWEIBULL:probability density function of the Weibull distribution."
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:564
 msgid ""
-"@FUNCTION=R.QF\n"
-"@SYNTAX=R.QF(x,n1,n2[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.QF function returns the probability quantile function, i.e., "
-"the inverse of the cumulative distribution function, of the F distribution.\n"
-"\n"
-"* @n1: the first number of degrees of freedom of the distribution\n"
-"* @n2: the first number of degrees of freedom of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DF,R.PF"
+"This function returns the probability density function of the Weibull "
+"distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:597
-#, fuzzy
-msgid ""
-"@FUNCTION=R.DCHISQ\n"
-"@SYNTAX=R.DCHISQ(x,df[,give_log])\n"
-"@DESCRIPTION=R.DCHISQ function returns the probability density function of "
-"the chi-square distribution.\n"
-"\n"
-"* @df: the number of degrees of freedom of the distribution\n"
-"* @give_log: if true, log of the result will be returned instead.  This is "
-"useful if the result would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.PCHISQ,R.QCHISQ"
-msgstr ""
-"@FUNCTION=R.DCHISQ\n"
-"@SYNTAX=R.DCHISQ(x,df[,give_log])\n"
-"@DESCRIPTION=La función R.DCHISQ devuelve la función de densidad de probabilidad de una distribución chi cuadrado.\n"
-"\n"
-"* @df: el número de grados de libertad de la distribución\n"
-"* @give_log: si es verdadero, de devolverá en su lugar un registro del resultado. Esto es útil si el resultado pordría rebosar a 0. \n"
-"Lo predeterminado es falso.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.PCHISQ, R.QCHISQ"
-
-#: ../plugins/fn-r/functions.c:626
-msgid ""
-"@FUNCTION=R.PCHISQ\n"
-"@SYNTAX=R.PCHISQ(x,df[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.PCHISQ function returns the cumulative distribution function "
-"of the chi-square distribution.\n"
-"\n"
-"* @df: the number of degrees of freedom of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DCHISQ,R.QCHISQ"
+#: ../plugins/fn-r/functions.c:584
+msgid "R.PWEIBULL:cumulative distribution function of the Weibull distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:657
+#: ../plugins/fn-r/functions.c:590
 msgid ""
-"@FUNCTION=R.QCHISQ\n"
-"@SYNTAX=R.QCHISQ(p,df[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.QCHISQ function returns the probability quantile function, i."
-"e., the inverse of the cumulative distribution function, of the chi-square "
-"distribution.\n"
-"\n"
-"* @p: probability.\n"
-"* @df: the number of degrees of freedom of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DCHISQ,R.PCHISQ"
+"This function returns the cumulative distribution function of the Weibull "
+"distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:689
-msgid ""
-"@FUNCTION=R.DWEIBULL\n"
-"@SYNTAX=R.DWEIBULL(x,shape,scale[,give_log])\n"
-"@DESCRIPTION=R.DWEIBULL function returns the probability density function of "
-"the Weibull distribution.\n"
-"\n"
-"* @shape: the shape parameter of the distribution\n"
-"* @scale: the scale parameter of the distribution\n"
-"* @give_log: if true, log of the result will be returned instead.  This is "
-"useful if the result would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.PWEIBULL,R.QWEIBULL"
+#: ../plugins/fn-r/functions.c:611
+msgid "R.QWEIBULL:probability quantile function of the Weibull distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:720
+#: ../plugins/fn-r/functions.c:617
 msgid ""
-"@FUNCTION=R.PWEIBULL\n"
-"@SYNTAX=R.PWEIBULL(x,shape,scale[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.PWEIBULL function returns the cumulative distribution "
-"function of the Weibull distribution.\n"
-"\n"
-"* @shape: the shape parameter of the distribution\n"
-"* @scale: the scale parameter of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DWEIBULL,R.QWEIBULL"
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the Weibull distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:753
-msgid ""
-"@FUNCTION=R.QWEIBULL\n"
-"@SYNTAX=R.QWEIBULL(p,shape,scale[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.QWEIBULL function returns the probability quantile function, "
-"i.e., the inverse of the cumulative distribution function, of the Weibull "
-"distribution.\n"
-"\n"
-"* @p: probability.\n"
-"* @shape: the shape parameter of the distribution\n"
-"* @scale: the scale parameter of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DWEIBULL,R.PWEIBULL"
+#: ../plugins/fn-r/functions.c:638
+msgid "R.DPOIS:probability density function of the Poisson distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:787
-msgid ""
-"@FUNCTION=R.DPOIS\n"
-"@SYNTAX=R.DPOIS(x,lambda[,give_log])\n"
-"@DESCRIPTION=R.DPOIS function returns the probability density function of "
-"the Poisson distribution.\n"
-"\n"
-"* @lambda: the mean of the distribution\n"
-"* @give_log: if true, log of the result will be returned instead.  This is "
-"useful if the result would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.PPOIS,R.QPOIS"
+#: ../plugins/fn-r/functions.c:640 ../plugins/fn-r/functions.c:663
+#: ../plugins/fn-r/functions.c:688
+msgid "lambda:the mean of the distribution"
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:816
+#: ../plugins/fn-r/functions.c:642
 msgid ""
-"@FUNCTION=R.PPOIS\n"
-"@SYNTAX=R.PPOIS(x,lambda[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.PPOIS function returns the cumulative distribution function "
-"of the Poisson distribution.\n"
-"\n"
-"* @lambda: the mean of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DPOIS,R.QPOIS"
+"This function returns the probability density function of the Poisson "
+"distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:847
-msgid ""
-"@FUNCTION=R.QPOIS\n"
-"@SYNTAX=R.QPOIS(p,lambda[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.QPOIS function returns the probability quantile function, i."
-"e., the inverse of the cumulative distribution function, of the Poisson "
-"distribution.\n"
-"\n"
-"* @p: probability.\n"
-"* @lambda: the mean of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DPOIS,R.PPOIS"
+#: ../plugins/fn-r/functions.c:661
+msgid "R.PPOIS:cumulative distribution function of the Poisson distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:879
+#: ../plugins/fn-r/functions.c:666
 msgid ""
-"@FUNCTION=R.DEXP\n"
-"@SYNTAX=R.DEXP(x,scale[,give_log])\n"
-"@DESCRIPTION=R.DEXP function returns the probability density function of the "
-"exponential distribution.\n"
-"\n"
-"* @scale: the scale parameter of the distribution\n"
-"* @give_log: if true, log of the result will be returned instead.  This is "
-"useful if the result would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.PEXP,R.QEXP"
+"This function returns the cumulative distribution function of the Poisson "
+"distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:908
-msgid ""
-"@FUNCTION=R.PEXP\n"
-"@SYNTAX=R.PEXP(x,scale[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.PEXP function returns the cumulative distribution function of "
-"the exponential distribution.\n"
-"\n"
-"* @scale: the scale parameter of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DEXP,R.QEXP"
+#: ../plugins/fn-r/functions.c:686
+msgid "R.QPOIS:probability quantile function of the Poisson distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:939
+#: ../plugins/fn-r/functions.c:691
 msgid ""
-"@FUNCTION=R.QEXP\n"
-"@SYNTAX=R.QEXP(p,scale[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.QEXP function returns the probability quantile function, i."
-"e., the inverse of the cumulative distribution function, of the exponential "
-"distribution.\n"
-"\n"
-"* @p: probability.\n"
-"* @scale: the scale parameter of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DEXP,R.PEXP"
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the Poisson distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:971
+#: ../plugins/fn-r/functions.c:711
+msgid "R.DEXP:probability density function of the exponential distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:715
 msgid ""
-"@FUNCTION=R.DBINOM\n"
-"@SYNTAX=R.DBINOM(x,n,psuc[,give_log])\n"
-"@DESCRIPTION=R.DBINOM function returns the probability density function of "
-"the binomial distribution.\n"
-"\n"
-"* @n: the number of trials\n"
-"* @psuc: the probability of success in each trial\n"
-"* @give_log: if true, log of the result will be returned instead.  This is "
-"useful if the result would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.PBINOM,R.QBINOM"
+"This function returns the probability density function of the exponential "
+"distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:734
+msgid "R.PEXP:cumulative distribution function of the exponential distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:739
+msgid ""
+"This function returns the cumulative distribution function of the "
+"exponential distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:759
+msgid "R.QEXP:probability quantile function of the exponential distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:764
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the exponential distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:784
+msgid "R.DBINOM:probability density function of the binomial distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:786 ../plugins/fn-r/functions.c:811
+#: ../plugins/fn-r/functions.c:838 ../plugins/fn-r/functions.c:865
+#: ../plugins/fn-r/functions.c:890 ../plugins/fn-r/functions.c:917
+msgid "n:the number of trials"
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:787 ../plugins/fn-r/functions.c:812
+#: ../plugins/fn-r/functions.c:839 ../plugins/fn-r/functions.c:866
+#: ../plugins/fn-r/functions.c:891 ../plugins/fn-r/functions.c:918
+#: ../plugins/fn-r/functions.c:1000 ../plugins/fn-r/functions.c:1023
+#: ../plugins/fn-r/functions.c:1048
+msgid "psuc:the probability of success in each trial"
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:789
+msgid ""
+"This function returns the probability density function of the binomial "
+"distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:809
+msgid "R.PBINOM:cumulative distribution function of the binomial distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:815
+msgid ""
+"This function returns the cumulative distribution function of the binomial "
+"distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:836
+msgid "R.QBINOM:probability quantile function of the binomial distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:842
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the binomial distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:863
+msgid "R.DNBINOM:probability density function of the negative binomial distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:868
+msgid ""
+"This function returns the probability density function of the negative "
+"binomial distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:888
+msgid ""
+"R.PNBINOM:cumulative distribution function of the negative binomial "
+"distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:894
+msgid ""
+"This function returns the cumulative distribution function of the negative "
+"binomial distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:915
+msgid ""
+"R.QNBINOM:probability quantile function of the negative binomial "
+"distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:921
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the negative binomial "
+"distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:942
+msgid "R.DHYPER:probability density function of the hypergeometric distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:944 ../plugins/fn-r/functions.c:971
+msgid "r:the number of red balls"
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:945 ../plugins/fn-r/functions.c:972
+msgid "b:the number of black balls"
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:946 ../plugins/fn-r/functions.c:973
+msgid "n:the number of balls drawn"
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:948
+msgid ""
+"This function returns the probability density function of the hypergeometric "
+"distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:969
+msgid "R.PHYPER:cumulative distribution function of the hypergeometric distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:976
+msgid ""
+"This function returns the cumulative distribution function of the "
+"hypergeometric distribution."
+msgstr ""
+
+#: ../plugins/fn-r/functions.c:998
+msgid "R.DGEOM:probability density function of the geometric distribution."
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:1002
 msgid ""
-"@FUNCTION=R.PBINOM\n"
-"@SYNTAX=R.PBINOM(x,n,psuc[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.PBINOM function returns the cumulative distribution function "
-"of the binomial distribution.\n"
-"\n"
-"* @n: the number of trials\n"
-"* @psuc: the probability of success in each trial\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DBINOM,R.QBINOM"
+"This function returns the probability density function of the geometric "
+"distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:1035
-msgid ""
-"@FUNCTION=R.QBINOM\n"
-"@SYNTAX=R.QBINOM(x,n,psuc[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.QBINOM function returns the probability quantile function, i."
-"e., the inverse of the cumulative distribution function, of the binomial "
-"distribution.\n"
-"\n"
-"* @n: the number of trials\n"
-"* @psuc: the probability of success in each trial\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DBINOM,R.PBINOM"
+#: ../plugins/fn-r/functions.c:1021
+msgid "R.PGEOM:cumulative distribution function of the geometric distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:1068
+#: ../plugins/fn-r/functions.c:1026
 msgid ""
-"@FUNCTION=R.DNBINOM\n"
-"@SYNTAX=R.DNBINOM(x,n,psuc[,give_log])\n"
-"@DESCRIPTION=R.DNBINOM function returns the probability density function of "
-"the negative binomial distribution.\n"
-"\n"
-"* @n: the number of trials\n"
-"* @psuc: the probability of success in each trial\n"
-"* @give_log: if true, log of the result will be returned instead.  This is "
-"useful if the result would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.PNBINOM,R.QNBINOM"
+"This function returns the cumulative distribution function of the geometric "
+"distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:1099
-msgid ""
-"@FUNCTION=R.PNBINOM\n"
-"@SYNTAX=R.PNBINOM(x,n,psuc[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.PNBINOM function returns the cumulative distribution function "
-"of the negative binomial distribution.\n"
-"\n"
-"* @n: the number of trials\n"
-"* @psuc: the probability of success in each trial\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DNBINOM,R.QNBINOM"
+#: ../plugins/fn-r/functions.c:1046
+msgid "R.QGEOM:probability quantile function of the geometric distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:1132
+#: ../plugins/fn-r/functions.c:1051
 msgid ""
-"@FUNCTION=R.QNBINOM\n"
-"@SYNTAX=R.QNBINOM(p,n,psuc[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.QNBINOM function returns the probability quantile function, i."
-"e., the inverse of the cumulative distribution function, of the negative "
-"binomial distribution.\n"
-"\n"
-"* @p: probability.\n"
-"* @n: the number of trials\n"
-"* @psuc: the probability of success in each trial\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DNBINOM,R.PNBINOM"
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the geometric distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:1166
-msgid ""
-"@FUNCTION=R.DHYPER\n"
-"@SYNTAX=R.DHYPER(x,r,b,n[,give_log])\n"
-"@DESCRIPTION=R.DHYPER function returns the probability density function of "
-"the hypergeometric distribution.\n"
-"\n"
-"* @r: the number of red balls\n"
-"* @b: the number of black balls\n"
-"* @n: the number of balls drawn\n"
-"* @give_log: if true, log of the result will be returned instead.  This is "
-"useful if the result would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.PHYPER,R.QHYPER"
+#: ../plugins/fn-r/functions.c:1071
+msgid "R.DCAUCHY:probability density function of the Cauchy distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:1199
+#: ../plugins/fn-r/functions.c:1073 ../plugins/fn-r/functions.c:1098
+#: ../plugins/fn-r/functions.c:1125
+msgid "location:the center of the distribution"
+msgstr "ubicación: el centro de la distribución"
+
+#: ../plugins/fn-r/functions.c:1076
 msgid ""
-"@FUNCTION=R.PHYPER\n"
-"@SYNTAX=R.PHYPER(x,r,b,n[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.PHYPER function returns the cumulative distribution function "
-"of the hypergeometric distribution.\n"
-"\n"
-"* @r: the number of red balls\n"
-"* @b: the number of black balls\n"
-"* @n: the number of balls drawn\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DHYPER,R.QHYPER"
+"This function returns the probability density function of the Cauchy "
+"distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:1234
-msgid ""
-"@FUNCTION=R.DGEOM\n"
-"@SYNTAX=R.DGEOM(x,psuc[,give_log])\n"
-"@DESCRIPTION=R.DGEOM function returns the probability density function of "
-"the geometric distribution.\n"
-"\n"
-"* @psuc: the probability of success in each trial\n"
-"* @give_log: if true, log of the result will be returned instead.  This is "
-"useful if the result would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.PGEOM,R.QGEOM"
+#: ../plugins/fn-r/functions.c:1096
+msgid "R.PCAUCHY:cumulative distribution function of the Cauchy distribution."
 msgstr ""
 
-#: ../plugins/fn-r/functions.c:1263
+#: ../plugins/fn-r/functions.c:1102
 msgid ""
-"@FUNCTION=R.PGEOM\n"
-"@SYNTAX=R.PGEOM(x,psuc[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.PGEOM function returns the cumulative distribution function "
-"of the geometric distribution.\n"
-"\n"
-"* @psuc: the probability of success in each trial\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DGEOM,R.QGEOM"
-msgstr ""
+"This function returns the cumulative distribution function of the Cauchy "
+"distribution."
+msgstr "Esta función devuelve la función de distribución acumulada de la distribución de Cauchy."
 
-#: ../plugins/fn-r/functions.c:1294
-msgid ""
-"@FUNCTION=R.QGEOM\n"
-"@SYNTAX=R.QGEOM(p,psuc[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.QGEOM function returns the probability quantile function, i."
-"e., the inverse of the cumulative distribution function, of the geometric "
-"distribution.\n"
-"\n"
-"* @p: probability.\n"
-"* @psuc: the probability of success in each trial\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DGEOM,R.PGEOM"
-msgstr ""
+#: ../plugins/fn-r/functions.c:1123
+msgid "R.QCAUCHY:probability quantile function of the Cauchy distribution."
+msgstr "R.QCAUCHY:función de cuantil de probabilidad de la distribución de Cauchy."
 
-#: ../plugins/fn-r/functions.c:1326
+#: ../plugins/fn-r/functions.c:1129
 msgid ""
-"@FUNCTION=R.DCAUCHY\n"
-"@SYNTAX=R.DCAUCHY(x,location,scale[,give_log])\n"
-"@DESCRIPTION=R.DCAUCHY function returns the probability density function of "
-"the Cauchy distribution.\n"
-"\n"
-"* @location: the center of the distribution\n"
-"* @scale: the scale parameter of the distribution\n"
-"* @give_log: if true, log of the result will be returned instead.  This is "
-"useful if the result would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.PCAUCHY,R.QCAUCHY"
-msgstr ""
-
-#: ../plugins/fn-r/functions.c:1357
-msgid ""
-"@FUNCTION=R.PCAUCHY\n"
-"@SYNTAX=R.PCAUCHY(x,location,scale[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.PCAUCHY function returns the cumulative distribution function "
-"of the Cauchy distribution.\n"
-"\n"
-"* @location: the center of the distribution\n"
-"* @scale: the scale parameter of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DCAUCHY,R.QCAUCHY"
-msgstr ""
-
-#: ../plugins/fn-r/functions.c:1390
-msgid ""
-"@FUNCTION=R.QCAUCHY\n"
-"@SYNTAX=R.QCAUCHY(p,location,scale[,lower_tail,log_p])\n"
-"@DESCRIPTION=R.QCAUCHY function returns the probability quantile function, i."
-"e., the inverse of the cumulative distribution function, of the Cauchy "
-"distribution.\n"
-"\n"
-"* @p: probability.\n"
-"* @location: the center of the distribution\n"
-"* @scale: the scale parameter of the distribution\n"
-"* @lower_tail: if true (the default), the lower tail of the distribution is "
-"considered.\n"
-"* @log_p: if true, log of the probability is used.  This is useful if the "
-"probability would otherwise underflow to 0.  Defaults to false.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=R.DCAUCHY,R.PCAUCHY"
-msgstr ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the Cauchy distribution."
+msgstr "Esta función devuelve la función del cuantil de probablidada, ejm el inverso de la función de distribución acumulada, de la distribución de Cauchy."
 
 #: ../plugins/fn-random/functions.c:47
 msgid ""
@@ -13627,7 +13430,6 @@ msgstr ""
 "@SEEALSO=PERCENTRANK"
 
 #: ../plugins/fn-stat/functions.c:376
-#, fuzzy
 msgid ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=TRIMMEAN(ref,fraction)\n"
@@ -13655,7 +13457,8 @@ msgstr ""
 "@fracción es la fracción del conjunto de datos excluido de la media. Por "
 "ejemplo, si @fracción=0.2 y el conjunto de datos contiene 40 números, se "
 "recortan 8 números del conjunto de datos (40 x 0.2), 4 de arriba y 4 de "
-"abajo del conjunto.\n"
+"abajo del conjunto. Para evitar un bias, el número de puntos a ser ejecutados se "
+"redondea siempre hacia abajo hasta el número impar más cercano.\n"
 "\n"
 "* Esta función es compatible con Excel.\n"
 "\n"
@@ -14992,7 +14795,6 @@ msgstr ""
 "@SEEALSO=POISSON"
 
 #: ../plugins/fn-stat/functions.c:2308
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stddev,cumulative)\n"
@@ -15013,9 +14815,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,media,desvest,acumulado)\n"
-"@DESCRIPTION=La función NORMDIST devuelve la distribución normal acumulada. "
-"@x es el valor para el que quiere la distribución @media es la media de la "
-"distribución, @desvest es la desviación estándar.\n"
+"@DESCRIPTION=La función NORMDIST devuelve el valor de la función de densidad "
+" de la distribución normal acumulada con la media dada por @media, y la desviación "
+"estándar dada por @desvest. si @acumulado es FALSE, NORMDIST devuelve el valor de la función de densidad de probabilidad en el valor @x. Si @acumuilado es TRUE, NORMDIST devueleve el valor de la función de distribución acumulativa en @x.\n"
 "\n"
 "* Si @desvest es 0, NORMDIST devuelve el error #DIV/0!.\n"
 "* Esta función es compatible con Excel.\n"
@@ -17818,3 +17620,4 @@ msgstr ""
 "@EXAMPLES=\n"
 "ATL_LAST(\"IBM\")\n"
 "@SEEALSO="
+
