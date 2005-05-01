@@ -479,7 +479,7 @@ image_write (GnmCellRegion *cr, Sheet *sheet, gchar const *mime_type,
 {
 	guchar *ret = NULL;
 	SheetObject *so = NULL;
-	const char *format;
+	char *format;
 	GsfOutput *output;
 	GsfOutputMemory *omem;
 	gsf_off_t osize;
@@ -504,7 +504,12 @@ image_write (GnmCellRegion *cr, Sheet *sheet, gchar const *mime_type,
 		return ret;
 	}
 
-	format = mime_type + 6;
+	format = go_mime_to_image_format (mime_type);
+	if (!format) {
+		g_warning ("No image format for %s\n", mime_type);
+		g_free (format);
+		return ret;
+	}
 	output = gsf_output_memory_new ();
 	omem   = GSF_OUTPUT_MEMORY (output);
 	sheet_object_write_image (so, format, output, NULL);
@@ -519,6 +524,7 @@ image_write (GnmCellRegion *cr, Sheet *sheet, gchar const *mime_type,
 	}
 	gsf_output_close (output);
 	g_object_unref (output);
+	g_free (format);
 
 	return ret;
 }
@@ -722,42 +728,77 @@ x_request_clipboard (WorkbookControlGUI *wbcg, GnmPasteTarget const *pt)
 				       x_targets_received, ctxt);
 }
 
+static GtkTargetEntry*
+target_list_to_entries (GtkTargetList *target_list, int *n_entries)
+{
+	GtkTargetEntry *entries;
+	int n_targets, i;
+	GList *p;
+	GtkTargetPair *tp;
+
+	if (!target_list || !target_list->list || n_entries == NULL)
+		return NULL;
+
+	n_targets = g_list_length (target_list->list);
+	if (n_targets == 0)
+		return NULL;
+
+	entries = g_new0 (GtkTargetEntry, n_targets);
+	for (p = target_list->list, i = 0; p != NULL; p = p->next, i++) {
+		tp = (GtkTargetPair *) p->data;
+		entries[i].target = gdk_atom_name (tp->target);
+		entries[i].flags  = tp->flags;
+		entries[i].info   = tp->info;
+	}
+
+	*n_entries = n_targets;
+	return entries;
+}
+
 gboolean
 x_claim_clipboard (WorkbookControlGUI *wbcg)
 {
-	gboolean imageable = FALSE;
 	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (wbcg_toplevel (wbcg)));
 	GnmCellRegion *content = gnm_app_clipboard_contents_get ();
-	GtkTargetEntry *targets;
-	int n_targets;
+	SheetObject *imageable = NULL;
+	GtkTargetEntry *targets = NULL;
+	int n_targets, i;
+	GSList *ptr;
+	SheetObject *candidate;
+	GtkTargetList *tl;
+	gboolean ret;
 
 	static GtkTargetEntry const table_targets[] = {
-		{ (char *) GNUMERIC_ATOM_NAME,  GTK_TARGET_SAME_WIDGET, GNUMERIC_ATOM_INFO },
+		{ (char *) GNUMERIC_ATOM_NAME, 0, GNUMERIC_ATOM_INFO },
 		{ (char *)"text/html", 0, 0 },
 		{ (char *)"UTF8_STRING", 0, 0 },
 		{ (char *)"COMPOUND_TEXT", 0, 0 },
 		{ (char *)"STRING", 0, 0 },
 	};
-	static GtkTargetEntry const image_targets[] = {
-		{ (char *) GNUMERIC_ATOM_NAME,  GTK_TARGET_SAME_WIDGET, GNUMERIC_ATOM_INFO },
-		{ (char *)"image/png", 0, 0 },
-		{ (char *)"image/jpeg", 0, 0 },
-		{ (char *)"image/bmp", 0, 0 },
-	};
 
 	if (content &&
 	    (content->cols <= 0 || content->rows <= 0) &&
-	    content->objects != NULL &&
-	    IS_SHEET_OBJECT_IMAGEABLE (content->objects->data))
-		imageable = TRUE;
+	    content->objects != NULL) {
+		for (ptr = content->objects; ptr != NULL;
+		     ptr = ptr->next) {
+			candidate = SHEET_OBJECT (ptr->data);
+			if (IS_SHEET_OBJECT_IMAGEABLE (candidate)) {
+				imageable = candidate;
+				break;
+			}
+		}
+	}
 	if (imageable) {
-		targets = (GtkTargetEntry *) image_targets;
-		n_targets = G_N_ELEMENTS (image_targets);
+		tl = sheet_object_get_target_list (imageable);
+		/* _add_table prepends to target_list */
+		gtk_target_list_add_table (tl, table_targets, 1);
+		targets = target_list_to_entries (tl, &n_targets);
+		gtk_target_list_unref (tl);
 	} else {
 		targets = (GtkTargetEntry *) table_targets;
 		n_targets = G_N_ELEMENTS (table_targets);
 	}
-	return
+	ret =
 	gtk_clipboard_set_with_owner (
 		gtk_clipboard_get_for_display (display, GDK_SELECTION_CLIPBOARD),
 		targets, n_targets,
@@ -770,4 +811,12 @@ x_claim_clipboard (WorkbookControlGUI *wbcg)
 		(GtkClipboardGetFunc) x_clipboard_get_cb,
 		(GtkClipboardClearFunc) x_clipboard_clear_cb,
 		G_OBJECT (wbcg));
+
+	if (imageable) {
+		for (i = 0; i < n_targets; i++)
+			g_free (targets[i].target);
+		g_free (targets);
+	}
+
+	return ret;
 }

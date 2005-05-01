@@ -3212,7 +3212,7 @@ scg_drag_send_image (SheetControlGUI *scg,
 	GsfOutput *output;
 	GsfOutputMemory *omem;
 	gsf_off_t osize;
-	const char *format;
+	char *format;
 	GSList *ptr;
 
 	for (ptr = objects; ptr != NULL; ptr = ptr->next) {
@@ -3226,7 +3226,13 @@ scg_drag_send_image (SheetControlGUI *scg,
 		return;
 	}
 
-	format = mime_type + 6;
+	format = go_mime_to_image_format (mime_type);
+	if (!format) {
+		g_warning ("No image format for %s\n", mime_type);
+		g_free (format);
+		return;
+	}
+		
 	output = gsf_output_memory_new ();
 	omem = GSF_OUTPUT_MEMORY (output);
 	sheet_object_write_image (so, format, output, NULL);
@@ -3237,6 +3243,7 @@ scg_drag_send_image (SheetControlGUI *scg,
 		 8, gsf_output_memory_get_bytes (omem), osize);
 	gsf_output_close (output);
 	g_object_unref (output);
+	g_free (format);
 }
 
 static void

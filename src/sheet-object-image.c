@@ -414,6 +414,35 @@ soi_free_image_fmt (gpointer data)
 	g_free (fmt);
 }
 
+static GtkTargetList *
+sheet_object_image_get_target_list (SheetObject const *so)
+{
+	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+	GtkTargetList *tl = gtk_target_list_new (NULL, 0);
+	char *mime_str = go_image_format_to_mime (soi->type);
+	GSList *mimes, *ptr;
+	char *mime;
+	GdkPixbuf *pixbuf;
+
+	mimes = go_strsplit_to_slist (mime_str, ',');
+	for (ptr = mimes; ptr != NULL; ptr = ptr->next) {
+		mime = (char *) ptr->data;
+
+		if (mime != NULL && *mime != '\0') 
+			gtk_target_list_add (tl, gdk_atom_intern (mime, FALSE),
+					     0, 0);
+	}
+	g_free (mime_str);
+	go_slist_free_custom (mimes, g_free);
+	/* No need to eliminate duplicates. */
+	if ((pixbuf = soi_get_pixbuf (soi, 1.0)) != NULL) {
+		gtk_target_list_add_image_targets (tl, 0, TRUE);
+		g_object_unref (pixbuf);
+	}
+
+	return tl;
+}
+
 static void
 sheet_object_image_write_image (SheetObject const *so, const char *format,
 				GsfOutput *output, GError **err)
@@ -710,7 +739,8 @@ sheet_object_image_init (GObject *obj)
 static void
 soi_imageable_init (SheetObjectImageableIface *soi_iface)
 {
-	soi_iface->write_image	= sheet_object_image_write_image;
+	soi_iface->get_target_list = sheet_object_image_get_target_list;
+	soi_iface->write_image	   = sheet_object_image_write_image;
 }
 
 GSF_CLASS_FULL (SheetObjectImage, sheet_object_image,

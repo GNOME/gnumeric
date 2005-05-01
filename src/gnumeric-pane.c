@@ -894,12 +894,21 @@ control_point_set_cursor (SheetControlGUI const *scg, FooCanvasItem *ctrl_pt)
 	gnm_widget_set_cursor_type (GTK_WIDGET (ctrl_pt->canvas), cursor);
 }
 
-
 static void
-cb_test_so_imageable (SheetObject *so, double *coords, gboolean *is_imageable)
+target_list_add_list (GtkTargetList *targets, GtkTargetList *added_targets)
 {
-	if (IS_SHEET_OBJECT_IMAGEABLE (so))
-		*is_imageable = TRUE;
+	GList *ptr;
+	GtkTargetPair *tp;
+
+	g_return_if_fail (targets != NULL);
+
+	if (added_targets == NULL)
+		return;
+
+	for (ptr = added_targets->list; ptr !=  NULL; ptr = ptr->next) {
+		tp = (GtkTargetPair *)ptr->data;
+		gtk_target_list_add (targets, tp->target, tp->flags, tp->info);
+	}
 }
 
 /**
@@ -910,32 +919,49 @@ static void
 gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 {
 	GdkDragContext *context;
-	GtkTargetList *tl;
-	gboolean is_imageable = FALSE;
+	GtkTargetList *targets, *im_targets;
 	FooCanvas *canvas    = FOO_CANVAS (pane->gcanvas);
 	SheetControlGUI *scg = pane->gcanvas->simple.scg;
+	GSList *objects;
+	SheetObject *imageable = NULL;
+	GSList *ptr;
+	SheetObject *candidate;
 
-	tl = gtk_target_list_new (drag_types_out, 
+	targets = gtk_target_list_new (drag_types_out, 
 				  G_N_ELEMENTS (drag_types_out));
-	g_hash_table_foreach (scg->selected_objects,
-		(GHFunc) cb_test_so_imageable, &is_imageable);
-	if (is_imageable)
-		gtk_target_list_add_image_targets (tl, 0, TRUE);
+	objects = go_hash_keys (scg->selected_objects);
+	for (ptr = objects; ptr != NULL; ptr = ptr->next) {
+		candidate = SHEET_OBJECT (ptr->data);
+
+		if (IS_SHEET_OBJECT_IMAGEABLE (candidate)) {
+			imageable = candidate;
+			break;
+		}
+	}
+	if (imageable) {
+		im_targets = sheet_object_get_target_list (imageable);
+		if (im_targets != NULL) {
+			target_list_add_list (targets, im_targets);
+			gtk_target_list_unref (im_targets);
+		}
+	}
 #ifdef DEBUG_DND
 	{
 		GList *l;
-		printf ("%d offered formats:\n", g_list_length (tl->list));
-		for (l = tl->list; l; l = l->next) {
+		printf ("%d offered formats:\n", 
+			g_list_length (targets->list));
+		for (l = targets->list; l; l = l->next) {
 			GtkTargetPair *pair = (GtkTargetPair *)l->data;
 			printf ("%s\n", gdk_atom_name (pair->target));
  		}
 	}
 #endif
 
-	context = gtk_drag_begin (GTK_WIDGET (canvas), tl, 
-			       GDK_ACTION_COPY | GDK_ACTION_MOVE, 
-			       pane->drag.button, event);
-	gtk_target_list_unref (tl);
+	context = gtk_drag_begin (GTK_WIDGET (canvas), targets, 
+				  GDK_ACTION_COPY | GDK_ACTION_MOVE, 
+				  pane->drag.button, event);
+	gtk_target_list_unref (targets);
+	g_slist_free (objects);
 }
 
 void

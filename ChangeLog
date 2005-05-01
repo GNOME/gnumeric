@@ -1,3 +1,31 @@
+2005-04-21  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-object.[ch]: Add sheet_object_get_target_list.
+
+	* src/sheet-object-image.c (sheet_object_image_get_target_list): 
+	New. Gets targets object is able render itself as.
+	(soi_imageable_init): Register get_target_list virtual.
+
+	* src/sheet-object-graph.c (sheet_object_graph_get_target_list):
+	New. Gets targets object is able render itself as.
+	(sog_imageable_init): Register get_target_list virtual.
+
+	* src/sheet-control-gui.c (scg_drag_send_image): Use
+	go_mime_to_image_format to get format.
+
+	* src/gui-clipboard.c (image_write): Use go_mime_to_image_format
+	to get image format.
+	(target_list_to_entries): New. Convert a target list to an array
+	of GtkTargetEntries.
+	(x_claim_clipboard): Use sheet_object_get_target_list to get
+	targets for images.
+
+	* src/gnumeric-pane.c (cb_test_so_imageable): Remove
+	(target_list_add_list): New. Add targets from "added_targets" to
+	"targets".
+	(gnm_pane_drag_begin): Use sheet_object_get_target_list to get
+	targets for images.
+
 2005-04-29  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (gnm_sheet_class_init): Make lots of things

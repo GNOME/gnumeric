@@ -171,6 +171,30 @@ sheet_object_graph_new_view (SheetObject *so, SheetObjectViewContainer *containe
 	return gnm_pane_object_register (so, view, TRUE);
 }
 
+static GtkTargetList *
+sheet_object_graph_get_target_list (SheetObject const *so)
+{
+	GtkTargetList *tl = gtk_target_list_new (NULL, 0);
+	char *mime_str = go_image_format_to_mime ("svg");
+	GSList *mimes, *ptr;
+	char *mime;
+
+	mimes = go_strsplit_to_slist (mime_str, ',');
+	for (ptr = mimes; ptr != NULL; ptr = ptr->next) {
+		mime = (char *) ptr->data;
+
+		if (mime != NULL && *mime != '\0') 
+			gtk_target_list_add (tl, gdk_atom_intern (mime, FALSE),
+					     0, 0);
+	}
+	g_free (mime_str);
+	go_slist_free_custom (mimes, g_free);
+	/* No need to eliminate duplicates. */
+	gtk_target_list_add_image_targets (tl, 0, TRUE);
+
+	return tl;
+}
+
 static gboolean
 sog_gsf_gdk_pixbuf_save (const gchar *buf,
 			 gsize count,
@@ -459,7 +483,8 @@ sheet_object_graph_init (GObject *obj)
 static void
 sog_imageable_init (SheetObjectImageableIface *soi_iface)
 {
-	soi_iface->write_image	= sheet_object_graph_write_image;
+	soi_iface->get_target_list = sheet_object_graph_get_target_list;
+	soi_iface->write_image	   = sheet_object_graph_write_image;
 }
 
 GSF_CLASS_FULL (SheetObjectGraph, sheet_object_graph,

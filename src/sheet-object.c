@@ -958,6 +958,14 @@ sheet_object_imageable_get_type (void)
 
 #define SHEET_OBJECT_IMAGEABLE_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), SHEET_OBJECT_IMAGEABLE_TYPE, SheetObjectImageableIface))
 
+GtkTargetList *sheet_object_get_target_list (SheetObject const *so)
+{
+	if (!IS_SHEET_OBJECT_IMAGEABLE (so))
+		return NULL;
+
+	return SHEET_OBJECT_IMAGEABLE_CLASS (so)->get_target_list (so);
+}
+
 void sheet_object_write_image (SheetObject const *so, const char *format,
 			       GsfOutput *output, GError **err)
 {

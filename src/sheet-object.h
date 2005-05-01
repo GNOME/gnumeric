@@ -3,6 +3,7 @@
 #define GNUMERIC_SHEET_OBJECT_H
 
 #include "gnumeric.h"
+#include <gtk/gtkselection.h>
 #include <libgnomeprint/gnome-print.h>
 #include <gsf/gsf-output.h>
 
@@ -98,6 +99,7 @@ void sheet_object_anchor_cpy	(SheetObjectAnchor *dst,
 				 SheetObjectAnchor const *src);
 
 /* Image rendering */
+GtkTargetList *sheet_object_get_target_list (SheetObject const *so);
 void sheet_object_write_image 	(SheetObject const *so, 
 				 const char *format,
 				 GsfOutput *output, GError **err);

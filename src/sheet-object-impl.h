@@ -142,8 +142,10 @@ void so_vc_coords_to_anchor (SheetObjectViewContainer *sovc,
 struct _SheetObjectImageableIface {
 	GTypeInterface base;
 
-	void (*write_image)	(SheetObject const *so, const char *format,
-				 GsfOutput *output, GError **err);
+	GtkTargetList *(*get_target_list) (SheetObject const *so);
+	void           (*write_image)	  (SheetObject const *so, 
+					   const char *format,
+					   GsfOutput *output, GError **err);
 };
 
 #endif /* GNUMERIC_SHEET_OBJECT_PRIV_H */
