@@ -1,3 +1,15 @@
+2005-05-02  Morten Welinder  <terra@gnome.org>
+
+	* src/style-color.c (gnm_style_color_get_type): New function
+	defining the type as a boxed type.
+
+	* src/sheet.c: Add "name", "tab-foreground", and "tab-background"
+	properties.
+	(sheet_set_tab_color): Remove.  All callers changed to use
+	g_object_set.
+	(sheet_rename): Make static.  All callers changed to use
+	g_object_set.
+
 2005-04-21  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-object.[ch]: Add sheet_object_get_target_list.

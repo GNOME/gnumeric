@@ -731,8 +731,8 @@ qpro_read_sheet (QProReadState *state)
 					g_convert_with_iconv (data, -1,
 							      state->converter,
 							      NULL, NULL, NULL);
-#warning this is wrong, but the workbook interface is confused and needs a control.
-				sheet_rename (sheet, utf8name);
+#warning "This is wrong, but the workbook interface is confused and needs a control."
+				g_object_set (sheet, "name", utf8name, NULL);
 				g_free (utf8name);
 			}
 			break;
@@ -761,9 +761,14 @@ qpro_read_sheet (QProReadState *state)
 			break;
 
 		case QPRO_PAGE_TAB_COLOR :
-			if (validate (QPRO_PAGE_TAB_COLOR, 4))
-				sheet_set_tab_color (sheet, style_color_new_i8 (
-					data[0], data[1], data[2]), NULL);
+			if (validate (QPRO_PAGE_TAB_COLOR, 4)) {
+				GnmColor *bc = style_color_new_i8 (
+					data[0], data[1], data[2]);
+				g_object_set (sheet,
+					      "tab-background", bc,
+					      NULL);
+				style_color_unref (bc);
+			}
 			break;
 
 		case QPRO_PAGE_ZOOM_FACTOR :

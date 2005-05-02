@@ -1385,11 +1385,7 @@ workbook_sheet_rename (Workbook *wb,
 		if (-1 != GPOINTER_TO_INT (sheet_index->data)) {
 			Sheet *sheet = workbook_sheet_by_index 
 				(wb, GPOINTER_TO_INT (sheet_index->data));
-			sheet_rename (sheet, new_name->data);
-			g_hash_table_insert (wb->sheet_hash_private,
-					     sheet->name_case_insensitive, 
-					     sheet);
-			sheet_set_dirty (sheet, TRUE);
+			g_object_set (sheet, "name", new_name->data, NULL);
 
 			WORKBOOK_FOREACH_CONTROL (wb, view, control,
 						  wb_control_sheet_rename (control, sheet););
@@ -1530,7 +1526,12 @@ workbook_sheet_recolor  (Workbook *wb,
 			GnmColor *back_color = bc ?
 				style_color_new (bc->red, bc->green,
 						 bc->blue) : NULL;
-			sheet_set_tab_color (sheet, back_color, fore_color);
+			g_object_set (sheet,
+				      "tab-foreground", fore_color,
+				      "tab-background", back_color,
+				      NULL);
+			style_color_unref (fore_color);
+			style_color_unref (back_color);
 		}
 		sheets = sheets->next;
 		fore = fore->next;

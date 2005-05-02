@@ -5,6 +5,9 @@
 #include <goffice/utils/go-color.h>
 #include <gdk/gdkcolor.h>
 
+#define GNM_STYLE_COLOR_TYPE                 (gnm_style_color_get_type ())
+GType gnm_style_color_get_type (void);
+
 struct _GnmColor {
 	GdkColor gdk_color, gdk_selected_color;
 	GOColor	 go_color;
@@ -25,8 +28,8 @@ GnmColor *style_color_auto_font (void);
 GnmColor *style_color_auto_back (void);
 GnmColor *style_color_auto_pattern (void);
 GnmColor *style_color_ref      (GnmColor *sc);
-void        style_color_unref    (GnmColor *sc);
-gint        style_color_equal (const GnmColor *k1, const GnmColor *k2);
+void      style_color_unref    (GnmColor *sc);
+gint      style_color_equal (const GnmColor *k1, const GnmColor *k2);
 GnmColor *style_color_black    (void);
 GnmColor *style_color_white    (void);
 GnmColor *style_color_grid     (void);

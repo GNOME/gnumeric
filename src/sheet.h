@@ -92,9 +92,6 @@ Sheet    *sheet_new_with_type	 (Workbook *wb, char const *name,
 Sheet    *sheet_dup		 (Sheet const *source_sheet);
 void      sheet_destroy		 (Sheet *sheet);
 void      sheet_destroy_contents (Sheet *sheet);
-void      sheet_rename		 (Sheet *sheet, char const *new_name);
-void	  sheet_set_tab_color	 (Sheet *sheet, GnmColor *tab_color,
-				  GnmColor *text_color);
 
 void      sheet_set_zoom_factor	 (Sheet *sheet, double factor,
 				  gboolean force, gboolean respan);

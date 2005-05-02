@@ -295,3 +295,16 @@ gnumeric_color_shutdown (void)
 	g_hash_table_destroy (style_color_hash);
 	style_color_hash = NULL;
 }
+
+GType
+gnm_style_color_get_type (void)
+{
+	static GType our_type = 0;
+  
+	if (our_type == 0)
+		our_type = g_boxed_type_register_static
+			("GnmStyleColor",
+			 (GBoxedCopyFunc)style_color_ref,
+			 (GBoxedFreeFunc)style_color_unref);
+	return our_type;
+}

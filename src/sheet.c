@@ -82,6 +82,7 @@ typedef Sheet GnmSheet;
 
 enum {
 	PROP_0,
+	PROP_NAME,
 	PROP_RTL,
 	PROP_VISIBLE,
 	PROP_PROTECTED,
@@ -90,7 +91,9 @@ enum {
 	PROP_DISPLAY_GRID,
 	PROP_DISPLAY_COLUMN_HEADER,
 	PROP_DISPLAY_ROW_HEADER,
-	PROP_DISPLAY_OUTLINES
+	PROP_DISPLAY_OUTLINES,
+	PROP_TAB_FOREGROUND,
+	PROP_TAB_BACKGROUND
 };
 
 static void sheet_finalize (GObject *obj);
@@ -224,12 +227,69 @@ sheet_set_display_outlines (Sheet *sheet, gboolean display)
 }
 
 static void
+sheet_set_name (Sheet *sheet, char const *new_name)
+{
+	Workbook *wb = sheet->workbook;
+	gboolean attached;
+	Sheet *sucker;
+	char *new_name_unquoted;
+
+	g_return_if_fail (new_name != NULL);
+
+	/* No change whatsoever.  */
+	if (sheet->name_unquoted && strcmp (sheet->name_unquoted, new_name) == 0)
+		return;
+
+	/* Mark the sheet dirty unless this is the initial name.  */
+	if (sheet->name_unquoted)
+		sheet_set_dirty (sheet, TRUE);
+
+	sucker = wb ? workbook_sheet_by_name (wb, new_name) : NULL;
+	if (sucker && sucker != sheet) {
+		/* Prevent a name clash.  */
+		char *sucker_name = workbook_sheet_get_free_name (wb, new_name, TRUE, FALSE);
+		g_object_set (sucker, "name", sucker_name, NULL);
+		g_free (sucker_name);
+	}
+
+	attached = wb && sheet->name_case_insensitive;
+	/* FIXME: maybe have workbook_sheet_detach_internal for this.  */
+	if (attached)
+		g_hash_table_remove (wb->sheet_hash_private,
+				     sheet->name_case_insensitive);
+
+	/* Copy before free.  */
+	new_name_unquoted = g_strdup (new_name);
+
+	g_free (sheet->name_unquoted);
+	g_free (sheet->name_quoted);
+	g_free (sheet->name_unquoted_collate_key);
+	g_free (sheet->name_case_insensitive);
+	sheet->name_unquoted = new_name_unquoted;
+	sheet->name_quoted = sheet_name_quote (new_name_unquoted);
+	sheet->name_unquoted_collate_key = g_utf8_collate_key (new_name_unquoted, -1);
+	sheet->name_case_insensitive = g_utf8_casefold (new_name_unquoted, -1);
+
+	/* FIXME: maybe have workbook_sheet_attach_internal for this.  */
+	if (attached)
+		g_hash_table_insert (wb->sheet_hash_private,
+				     sheet->name_case_insensitive,
+				     sheet);
+
+	SHEET_FOREACH_VIEW (sheet, sv,
+		sv->edit_pos_changed.content = TRUE;);
+}
+
+static void
 gnm_sheet_set_property (GObject *object, guint property_id,
 			const GValue *value, GParamSpec *pspec)
 {
 	Sheet *sheet = (Sheet *)object;
 
 	switch (property_id) {
+	case PROP_NAME:
+		sheet_set_name (sheet, g_value_get_string (value));
+		break;
 	case PROP_RTL:
 		sheet_set_direction (sheet, g_value_get_boolean (value));
 		break;
@@ -257,6 +317,28 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 	case PROP_DISPLAY_OUTLINES:
 		sheet_set_display_outlines (sheet, g_value_get_boolean (value));
 		break;
+	case PROP_TAB_FOREGROUND: {
+		GnmColor *color = g_value_dup_boxed (value);
+		style_color_unref (sheet->tab_text_color);
+		sheet->tab_text_color = color;
+
+		/* FIXME: solve this with notification handler.  */
+		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
+					  wb_control_sheet_rename (control,
+								   sheet););
+		break;
+	}
+	case PROP_TAB_BACKGROUND: {
+		GnmColor *color = g_value_dup_boxed (value);
+		style_color_unref (sheet->tab_color);
+		sheet->tab_color = color;
+
+		/* FIXME: solve this with notification handler.  */
+		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
+					  wb_control_sheet_rename (control,
+								   sheet););
+		break;
+	}
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -270,6 +352,9 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 	Sheet *sheet = (Sheet *)object;
 
 	switch (property_id) {
+	case PROP_NAME:
+		g_value_set_string (value, sheet->name_unquoted);
+		break;
 	case PROP_RTL:
 		g_value_set_boolean (value, sheet->text_is_rtl);
 		break;
@@ -296,6 +381,12 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 		break;
 	case PROP_DISPLAY_OUTLINES:
 		g_value_set_boolean (value, sheet->display_outlines);
+		break;
+	case PROP_TAB_FOREGROUND:
+		g_value_set_boxed (value, sheet->tab_text_color);
+		break;
+	case PROP_TAB_BACKGROUND:
+		g_value_set_boxed (value, sheet->tab_color);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -389,6 +480,15 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 
         g_object_class_install_property
 		(gobject_class,
+		 PROP_NAME,
+		 g_param_spec_string ("name",
+				      _("Name"),
+				      _("The name of the sheet."),
+				      NULL,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE));
+        g_object_class_install_property
+		(gobject_class,
 		 PROP_RTL,
 		 g_param_spec_boolean ("text-is-rtl",
 				       _("text-is-rtl"),
@@ -468,6 +568,24 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_TAB_FOREGROUND,
+		 g_param_spec_boxed ("tab-foreground",
+				     _("Tab Foreground"),
+				     _("The foreground color of the tab."),
+				     GNM_STYLE_COLOR_TYPE,
+				     GSF_PARAM_STATIC |
+				     G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_TAB_BACKGROUND,
+		 g_param_spec_boxed ("tab-background",
+				     _("Tab Background"),
+				     _("The background color of the tab."),
+				     GNM_STYLE_COLOR_TYPE,
+				     GSF_PARAM_STATIC |
+				     G_PARAM_READWRITE));
 
 	signals[DETACHED_FROM_WORKBOOK] = g_signal_new
 		("detached_from_workbook",
@@ -488,42 +606,6 @@ sheet_redraw_all (Sheet const *sheet, gboolean headers)
 {
 	SHEET_FOREACH_CONTROL (sheet, view, control,
 		sc_redraw_all (control, headers););
-}
-
-void
-sheet_rename (Sheet *sheet, char const *new_name)
-{
-	Workbook *wb;
-
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (new_name != NULL);
-
-	wb = sheet->workbook;
-
-	/* FIXME: maybe have workbook_sheet_detach_internal for this.  */
-	if (wb)
-		g_hash_table_remove (wb->sheet_hash_private,
-				     sheet->name_case_insensitive);
-
-	g_free (sheet->name_quoted);
-	g_free (sheet->name_unquoted);
-	g_free (sheet->name_unquoted_collate_key);
-	g_free (sheet->name_case_insensitive);
-	sheet->name_quoted = sheet_name_quote (new_name);
-	sheet->name_unquoted = g_strdup (new_name);
-	sheet->name_unquoted_collate_key =
-		g_utf8_collate_key (sheet->name_unquoted, -1);
-	sheet->name_case_insensitive =
-		g_utf8_casefold (sheet->name_unquoted, -1);
-
-	/* FIXME: maybe have workbook_sheet_attach_internal for this.  */
-	if (wb)
-		g_hash_table_insert (wb->sheet_hash_private,
-				     sheet->name_case_insensitive,
-				     sheet);
-
-	SHEET_FOREACH_VIEW (sheet, sv,
-		sv->edit_pos_changed.content = TRUE;);
 }
 
 void
@@ -3118,15 +3200,10 @@ sheet_destroy (Sheet *sheet)
 			g_warning ("There is a problem with sheet objects");
 	}
 
-	if (sheet->tab_color != NULL) {
-		style_color_unref (sheet->tab_color);
-		sheet->tab_color = NULL;
-	}
-
-	if (sheet->tab_text_color != NULL) {
-		style_color_unref (sheet->tab_text_color);
-		sheet->tab_text_color = NULL;
-	}
+	style_color_unref (sheet->tab_color);
+	sheet->tab_color = NULL;
+	style_color_unref (sheet->tab_text_color);
+	sheet->tab_text_color = NULL;
 
 	/* Clear the cliboard to avoid dangling references to the deleted sheet */
 	if (sheet == gnm_app_clipboard_sheet_get ())
@@ -4467,11 +4544,9 @@ sheet_set_tab_color (Sheet *sheet, GnmColor *tab_color, GnmColor *text_color)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
-	if (sheet->tab_color != NULL)
-		style_color_unref (sheet->tab_color);
-	if (sheet->tab_text_color != NULL)
-		style_color_unref (sheet->tab_text_color);
+	style_color_unref (sheet->tab_color);
 	sheet->tab_color = tab_color;
+	style_color_unref (sheet->tab_text_color);
 	sheet->tab_text_color = text_color;
 
 	WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,

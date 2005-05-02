@@ -1550,7 +1550,7 @@ py_sheet_rename_method (py_Sheet_object *self, PyObject *args)
 		return NULL;
 	}
 
-	sheet_rename (self->sheet, new_name);
+	g_object_set (self->sheet, "name", new_name, NULL);
 
 	Py_INCREF (Py_None);
 	return Py_None;
@@ -1699,7 +1699,7 @@ py_Workbook_sheet_add (py_Workbook_object *self, PyObject *args)
 		sheet = workbook_sheet_by_index (self->wb, insert_before);
 	sheet = workbook_sheet_add (self->wb, sheet, TRUE);
 	if (sheet != NULL && name != NULL)
-		sheet_rename (sheet, name);
+		g_object_set (sheet, "name", name, NULL);
 	return py_new_Sheet_object (sheet);
 }
 

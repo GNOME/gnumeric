@@ -3459,12 +3459,17 @@ excel_read_TAB_COLOR (BiffQuery *q, ExcelReadSheet *esheet)
 		text_color = style_color_black ();
 	else
 		text_color = style_color_white ();
-	sheet_set_tab_color (esheet->sheet, color, text_color);
+	g_object_set (esheet->sheet,
+		      "tab-foreground", text_color,
+		      "tab-background", color,
+		      NULL);
 	if (color != NULL) {
 		d (1, fprintf (stderr,"%s tab colour = %04hx:%04hx:%04hx\n",
 			      esheet->sheet->name_unquoted,
 			      color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue););
 	}
+	style_color_unref (text_color);
+	style_color_unref (color);
 }
 
 static void
