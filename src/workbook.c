@@ -97,8 +97,8 @@ workbook_dispose (GObject *wb_object)
 		wb_control_sheet_remove_all (control););
 
 	command_list_release (wb->undo_commands);
-	command_list_release (wb->redo_commands);
 	wb->undo_commands = NULL;
+	command_list_release (wb->redo_commands);
 	wb->redo_commands = NULL;
 
 	workbook_deps_destroy (wb);
@@ -123,7 +123,6 @@ workbook_dispose (GObject *wb_object)
 	/* Now remove the sheets themselves */
 	for (ptr = sheets; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
-
 		workbook_sheet_detach (wb, sheet, FALSE);
 	}
 	g_list_free (sheets);
@@ -146,7 +145,7 @@ workbook_dispose (GObject *wb_object)
 		wb->sheet_local_functions = NULL;
 	}
 
-	G_OBJECT_CLASS (workbook_parent_class)->dispose (wb_object);
+	workbook_parent_class->dispose (wb_object);
 }
 
 
@@ -179,65 +178,51 @@ workbook_finalize (GObject *wb_object)
 		gtk_main_quit ();
 #endif
 #endif
-	G_OBJECT_CLASS (workbook_parent_class)->finalize (wb_object);
-}
-
-static void
-cb_sheet_mark_dirty (gpointer key, gpointer value, gpointer user_data)
-{
-	Sheet *sheet = value;
-	int dirty = GPOINTER_TO_INT (user_data);
-
-	sheet_set_dirty (sheet, dirty);
+	workbook_parent_class->finalize (wb_object);
 }
 
 void
 workbook_set_dirty (Workbook *wb, gboolean is_dirty)
 {
 	gboolean changed;
+	int i;
 
 	g_return_if_fail (wb != NULL);
 
-	changed = (!workbook_is_dirty (wb) != !is_dirty);
+	is_dirty = !!is_dirty;
+	changed = (workbook_is_dirty (wb) != is_dirty);
 	wb->modified = is_dirty;
+
 	if (wb->summary_info != NULL)
 		wb->summary_info->modified = is_dirty;
-	g_hash_table_foreach (wb->sheet_hash_private,
-		cb_sheet_mark_dirty, GINT_TO_POINTER (is_dirty));
+
+	for (i = 0; i < (int)wb->sheets->len; i++) {
+		Sheet *sheet = g_ptr_array_index (wb->sheets, i);
+		sheet_set_dirty (sheet, is_dirty);
+	}
+
 	if (changed) {
 		WORKBOOK_FOREACH_CONTROL (wb, view, control,
 			wb_control_update_title (control););
 	}
 }
 
-static void
-cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
-{
-	Sheet    *sheet = value;
-	gboolean *dirty = user_data;
-
-	if (*dirty)
-		return;
-
-	if (!sheet->modified)
-		return;
-
-	*dirty = TRUE;
-}
-
 gboolean
 workbook_is_dirty (Workbook const *wb)
 {
-	gboolean dirty = FALSE;
+	int i;
 
 	g_return_val_if_fail (wb != NULL, FALSE);
 	if (wb->summary_info != NULL && wb->summary_info->modified)
 		return TRUE;
 
-	g_hash_table_foreach (wb->sheet_hash_private,
-		cb_sheet_check_dirty, &dirty);
+	for (i = 0; i < (int)wb->sheets->len; i++) {
+		Sheet *sheet = g_ptr_array_index (wb->sheets, i);
+		if (sheet->modified)
+			return TRUE;
+	}
 
-	return dirty;
+	return FALSE;
 }
 
 /**
@@ -266,16 +251,6 @@ workbook_is_placeholder	(Workbook const *wb)
 	return wb->is_placeholder;
 }
 
-static void
-cb_sheet_check_pristine (gpointer key, gpointer value, gpointer user_data)
-{
-	Sheet    *sheet = value;
-	gboolean *pristine = user_data;
-
-	if (!sheet_is_pristine (sheet))
-		*pristine = FALSE;
-}
-
 /**
  * workbook_is_pristine:
  * @wb:
@@ -288,7 +263,7 @@ cb_sheet_check_pristine (gpointer key, gpointer value, gpointer user_data)
 gboolean
 workbook_is_pristine (Workbook const *wb)
 {
-	gboolean pristine = TRUE;
+	int i;
 
 	g_return_val_if_fail (wb != NULL, FALSE);
 
@@ -299,11 +274,13 @@ workbook_is_pristine (Workbook const *wb)
 	    (wb->file_format_level > FILE_FL_NEW))
 		return FALSE;
 
-	/* Check if we seem to contain anything */
-	g_hash_table_foreach (wb->sheet_hash_private,
-		cb_sheet_check_pristine, &pristine);
+	for (i = 0; i < (int)wb->sheets->len; i++) {
+		Sheet *sheet = g_ptr_array_index (wb->sheets, i);
+		if (!sheet_is_pristine (sheet))
+			return FALSE;
+	}
 
-	return pristine;
+	return TRUE;
 }
 
 static void
@@ -917,49 +894,6 @@ workbook_sheet_by_name (Workbook const *wb, char const *name)
 	return sheet;
 }
 
-/**
- * workbook_sheet_attach :
- * @wb :
- * @new_sheet :
- * @insert_after : optional position.
- *
- * Add @new_sheet to @wb, either placing it after @insert_after, or appending.
- */
-void
-workbook_sheet_attach (Workbook *wb, Sheet *new_sheet,
-		       Sheet const *insert_after)
-{
-	g_return_if_fail (IS_WORKBOOK (wb));
-	g_return_if_fail (IS_SHEET (new_sheet));
-	g_return_if_fail (new_sheet->workbook == wb);
-
-	pre_sheet_index_change (wb);
-	if (insert_after != NULL) {
-		int pos = insert_after->index_in_wb;
-		go_ptr_array_insert (wb->sheets, (gpointer)new_sheet, ++pos);
-		workbook_sheet_index_update (wb, pos);
-	} else {
-		g_ptr_array_add (wb->sheets, new_sheet);
-		workbook_sheet_index_update (wb, workbook_sheet_count (wb) - 1);
-	}
-
-	g_hash_table_insert (wb->sheet_hash_private,
-		new_sheet->name_case_insensitive, new_sheet);
-	post_sheet_index_change (wb);
-
-	WORKBOOK_FOREACH_VIEW (wb, view,
-		wb_view_sheet_add (view, new_sheet););
-}
-
-static void
-cb_tweak_3d (GnmDependent *dep, gpointer value, GnmExprRewriteInfo *rwinfo)
-{
-	GnmExpr const *newtree = gnm_expr_rewrite (dep->expression, rwinfo);
-	if (newtree != NULL) {
-		dependent_set_expr (dep, newtree);
-		gnm_expr_unref (newtree);
-	}
-}
 
 /**
  * workbook_sheet_hide_controls :
@@ -970,7 +904,7 @@ cb_tweak_3d (GnmDependent *dep, gpointer value, GnmExprRewriteInfo *rwinfo)
  *
  * Returns TRUE if there are any remaining sheets visible
  **/
-gboolean
+static gboolean
 workbook_sheet_hide_controls (Workbook *wb, Sheet *sheet)
 {
 	Sheet *focus = NULL;
@@ -1017,7 +951,7 @@ workbook_sheet_hide_controls (Workbook *wb, Sheet *sheet)
 	return focus != NULL;
 }
 
-void
+static void
 workbook_sheet_unhide_controls (Workbook *wb, Sheet *sheet)
 {
 	g_return_if_fail (IS_WORKBOOK (wb));
@@ -1027,6 +961,65 @@ workbook_sheet_unhide_controls (Workbook *wb, Sheet *sheet)
 		wb_view_sheet_add (wbv, sheet););
 }
 
+static void
+cb_sheet_visibility_change (Sheet *sheet,
+			    G_GNUC_UNUSED GParamSpec *pspec,
+			    G_GNUC_UNUSED gpointer data)
+{
+	if (sheet->is_visible)
+		workbook_sheet_unhide_controls (sheet->workbook, sheet);
+	else
+		workbook_sheet_hide_controls (sheet->workbook, sheet);
+}
+
+/**
+ * workbook_sheet_attach :
+ * @wb :
+ * @new_sheet :
+ * @insert_after : optional position.
+ *
+ * Add @new_sheet to @wb, either placing it after @insert_after, or appending.
+ */
+void
+workbook_sheet_attach (Workbook *wb, Sheet *new_sheet,
+		       Sheet const *insert_after)
+{
+	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (IS_SHEET (new_sheet));
+	g_return_if_fail (new_sheet->workbook == wb);
+
+	pre_sheet_index_change (wb);
+	if (insert_after != NULL) {
+		int pos = insert_after->index_in_wb;
+		go_ptr_array_insert (wb->sheets, (gpointer)new_sheet, ++pos);
+		workbook_sheet_index_update (wb, pos);
+	} else {
+		g_ptr_array_add (wb->sheets, new_sheet);
+		workbook_sheet_index_update (wb, workbook_sheet_count (wb) - 1);
+	}
+
+	g_hash_table_insert (wb->sheet_hash_private,
+		new_sheet->name_case_insensitive, new_sheet);
+	post_sheet_index_change (wb);
+
+	WORKBOOK_FOREACH_VIEW (wb, view,
+		wb_view_sheet_add (view, new_sheet););
+
+	g_signal_connect (G_OBJECT (new_sheet),
+			  "notify::visible",
+			  G_CALLBACK (cb_sheet_visibility_change),
+			  NULL);
+}
+
+static void
+cb_tweak_3d (GnmDependent *dep, gpointer value, GnmExprRewriteInfo *rwinfo)
+{
+	GnmExpr const *newtree = gnm_expr_rewrite (dep->expression, rwinfo);
+	if (newtree != NULL) {
+		dependent_set_expr (dep, newtree);
+		gnm_expr_unref (newtree);
+	}
+}
 
 /**
  * workbook_sheet_detach:
@@ -1046,6 +1039,8 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet, gboolean recalc)
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->workbook == wb);
 	g_return_if_fail (workbook_sheet_by_name (wb, sheet->name_unquoted) == sheet);
+
+	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_visibility_change, NULL);
 
 	sheet_index = sheet->index_in_wb;
 	still_visible_sheets = workbook_sheet_hide_controls (wb, sheet);

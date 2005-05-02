@@ -8,6 +8,8 @@
 	circular links.
 	(workbook_sheet_hide_controls): Fix search for focus and thus
 	return value.
+	(workbook_set_dirty, workbook_is_dirty, workbook_is_pristine):
+	Walk the sheet array, not the hash.
 
 	* src/sheet.c (sheet_destroy): Call sv_dispose to break circular
 	links.

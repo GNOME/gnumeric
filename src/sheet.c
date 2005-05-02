@@ -123,11 +123,6 @@ sheet_set_visibility (Sheet *sheet, gboolean visible)
 
 	sheet->is_visible = visible;
 	sheet_set_dirty (sheet, TRUE);
-
-	if (sheet->is_visible)
-		workbook_sheet_unhide_controls (sheet->workbook, sheet);
-	else
-		workbook_sheet_hide_controls (sheet->workbook, sheet);
 }
 
 static void	  
