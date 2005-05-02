@@ -1,5 +1,12 @@
 2005-05-02  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-view.c (sv_direction_changed): Make static and change
+	to a notification handler.
+
+	* src/sheet.c (sheet_attach_view): Fold into sheet_view_new.
+	(sheet_detach_view): Fold into s_view_finalize.
+	(gnm_sheet_init): Setup ->sheet_views properly here.
+
 	* src/style-color.c (gnm_style_color_get_type): New function
 	defining the type as a boxed type.
 

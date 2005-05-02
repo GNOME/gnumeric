@@ -104,7 +104,6 @@ void	 sv_freeze_panes	(SheetView *sv,
 void	 sv_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
 				 gboolean is_insert, int start, int count);
 void	 sv_set_initial_top_left(SheetView *sv, int col, int row);
-void	 sv_direction_changed	(SheetView *sv);
 
 #define SHEET_VIEW_FOREACH_CONTROL(sv, control, code)				\
 do {										\

@@ -112,8 +112,6 @@ sheet_set_direction (Sheet *sheet, gboolean text_is_rtl)
 	sheet_range_calc_spans (sheet, range_init_full_sheet (&r), SPANCALC_RE_RENDER);
 	sheet->text_is_rtl = text_is_rtl;
 	sheet->priv->reposition_objects.col = 0;
-	/* FIXME: Would this be better with catching a notification?  */
-	SHEET_FOREACH_VIEW (sheet, sv, sv_direction_changed (sv););
 }
 
 static void	  
@@ -398,7 +396,7 @@ static void
 gnm_sheet_init (Sheet *sheet)
 {
 	sheet->priv = g_new0 (SheetPrivate, 1);
-	sheet->sheet_views = NULL;
+	sheet->sheet_views = g_ptr_array_new ();
 
 	/* Init, focus, and load handle setting these if/when necessary */
 	sheet->priv->recompute_visibility = TRUE;
@@ -609,30 +607,12 @@ sheet_redraw_all (Sheet const *sheet, gboolean headers)
 }
 
 void
-sheet_attach_view (Sheet *sheet, SheetView *sv)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (IS_SHEET_VIEW (sv));
-	g_return_if_fail (sv_sheet (sv) == NULL);
-
-	if (sheet->sheet_views == NULL)
-		sheet->sheet_views = g_ptr_array_new ();
-	g_ptr_array_add (sheet->sheet_views, sv);
-	sv->sheet = sheet;
-	sv->text_is_rtl = sheet->text_is_rtl;
-}
-
-void
 sheet_detach_view (SheetView *sv)
 {
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 	g_return_if_fail (IS_SHEET (sv->sheet));
 
 	g_ptr_array_remove (sv->sheet->sheet_views, sv);
-	if (sv->sheet->sheet_views->len == 0) {
-		g_ptr_array_free (sv->sheet->sheet_views, TRUE);
-		sv->sheet->sheet_views = NULL;
-	}
 	sv->sheet = NULL;
 }
 
@@ -3171,15 +3151,16 @@ sheet_destroy (Sheet *sheet)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
-	/* Clear the controls first, before we potentialy update */
-	if (sheet->sheet_views != NULL) {
-		SHEET_FOREACH_VIEW (sheet, view, {
-			sheet_detach_view (view);
-			g_object_unref (G_OBJECT (view));
-		});
-		if (sheet->sheet_views != NULL)
-			g_warning ("Unexpected left over views");
-	}
+	/* Clear the controls first, before we potentially update */
+	SHEET_FOREACH_VIEW (sheet, view, {
+		/*
+		 * Right now unref is enough.  We might need to run some
+		 * sheet_view_dispose function later.
+		 */
+		g_object_unref (G_OBJECT (view));
+	});
+	if (sheet->sheet_views->len > 0)
+		g_warning ("Unexpected left over views");
 
 	if (sheet->print_info) {
 		print_info_free (sheet->print_info);
@@ -3216,6 +3197,8 @@ sheet_finalize (GObject *obj)
 	Sheet *sheet = SHEET (obj);
 
 	sheet_destroy (sheet);
+
+	g_ptr_array_free (sheet->sheet_views, TRUE);
 
 	solver_param_destroy (sheet->solver_parameters);
 	scenario_free_all (sheet->scenarios);
@@ -4529,28 +4512,6 @@ sheet_dup (Sheet const *src)
 	sheet_redraw_all (dst, TRUE);
 
 	return dst;
-}
-
-/**
- * sheet_set_tab_color :
- * @sheet :
- * @tab_color :
- * @text_color :
- *
- * absorb the reference to the style color
- */
-void
-sheet_set_tab_color (Sheet *sheet, GnmColor *tab_color, GnmColor *text_color)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-
-	style_color_unref (sheet->tab_color);
-	sheet->tab_color = tab_color;
-	style_color_unref (sheet->tab_text_color);
-	sheet->tab_text_color = text_color;
-
-	WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-		wb_control_sheet_rename	(control, sheet););
 }
 
 /**

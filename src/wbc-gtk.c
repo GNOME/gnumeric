@@ -450,7 +450,6 @@ cb_redo_activated (GOActionComboStack *a, WorkbookControl *wbc)
 static void
 cb_chain_sensitivity (GtkAction *src, G_GNUC_UNUSED GParamSpec *pspec,
 		      GtkAction *action)
-
 {
 	gboolean old_val, new_val = gtk_action_is_sensitive (src);
 

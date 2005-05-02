@@ -68,6 +68,14 @@ cb_update_auto_expr (gpointer data)
 
 /*************************************************************************/
 
+static void
+sv_direction_changed (Sheet *sheet, G_GNUC_UNUSED GParamSpec *pspec,
+		      SheetView *sv)
+{
+	sv->text_is_rtl = sheet->text_is_rtl;
+	SHEET_VIEW_FOREACH_CONTROL (sv, sc, sc_direction_changed (sc););
+}
+
 Sheet *
 sv_sheet (SheetView const *sv)
 {
@@ -169,6 +177,11 @@ s_view_finalize (GObject *object)
 {
 	SheetView *sv = SHEET_VIEW (object);
 
+	if (sv->sheet) {
+		g_ptr_array_remove (sv->sheet->sheet_views, sv);
+		g_signal_handlers_disconnect_by_func (sv->sheet, sv_direction_changed, sv);
+	}
+
 	if (sv->controls != NULL) {
 		SHEET_VIEW_FOREACH_CONTROL (sv, control, {
 			sv_detach_control (control);
@@ -228,9 +241,20 @@ GSF_CLASS (SheetView, sheet_view,
 SheetView *
 sheet_view_new (Sheet *sheet, WorkbookView *wbv)
 {
-	SheetView *sv = g_object_new (SHEET_VIEW_TYPE, NULL);
-	sheet_attach_view (sheet, sv);
+	SheetView *sv;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	sv = g_object_new (SHEET_VIEW_TYPE, NULL);
+	sv->sheet = sheet;
+	sv->text_is_rtl = sheet->text_is_rtl;
 	sv->wbv = wbv;
+	g_ptr_array_add (sheet->sheet_views, sv);
+
+	g_signal_connect (G_OBJECT (sheet),
+			  "notify::text-is-rtl",
+			  G_CALLBACK (sv_direction_changed),
+			  sv);
 
 	SHEET_VIEW_FOREACH_CONTROL (sv, control,
 		sv_init_sc (sv, control););
@@ -777,13 +801,4 @@ sv_set_initial_top_left (SheetView *sv, int col, int row)
 
 	sv->initial_top_left.col = col;
 	sv->initial_top_left.row = row;
-}
-
-void
-sv_direction_changed (SheetView *sv)
-{
-	if (sv->sheet != NULL) {
-		sv->text_is_rtl = sv->sheet->text_is_rtl;
-		SHEET_VIEW_FOREACH_CONTROL (sv, sc, sc_direction_changed (sc););
-	}
 }
