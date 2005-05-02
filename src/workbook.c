@@ -778,7 +778,7 @@ workbook_detach_view (WorkbookView *wbv)
 
 	WORKBOOK_FOREACH_SHEET (wbv->wb, sheet, {
 		sv = sheet_get_view (sheet, wbv);
-		sheet_detach_view (sv);
+		sv_dispose (sv);
 		g_object_unref (G_OBJECT (sv));
 	});
 
@@ -990,12 +990,20 @@ workbook_sheet_hide_controls (Workbook *wb, Sheet *sheet)
 	/* If not exiting, adjust the focus for any views whose focus sheet
 	 * was the one being deleted, and prepare to recalc */
 	if (!wb->during_destruction) {
-		if (sheet_index > 0)
-			focus = g_ptr_array_index (wb->sheets, sheet_index-1);
-		else if ((sheet_index+1) < (int)wb->sheets->len)
-			focus = g_ptr_array_index (wb->sheets, sheet_index+1);
+		int i;
 
-		if (focus != NULL)
+		for (i = sheet_index - 1; !focus && i >= 0; i++) {
+			Sheet *this_sheet = g_ptr_array_index (wb->sheets, i);
+			if (this_sheet->is_visible)
+				focus = this_sheet;
+		}
+		for (i = sheet_index + 1; !focus && i < (int)wb->sheets->len; i++) {
+			Sheet *this_sheet = g_ptr_array_index (wb->sheets, i);
+			if (this_sheet->is_visible)
+				focus = this_sheet;
+		}
+
+		if (focus)
 			WORKBOOK_FOREACH_VIEW (wb, view, {
 				if (view->current_sheet == sheet)
 					wb_view_sheet_focus (view, focus);

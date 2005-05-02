@@ -91,6 +91,7 @@ Morten:
 	* Fix potential save-as crash.
 	* Fix spurious criticals.  [#301581]
 	* Change various sheet things to use an object properties.
+	* Plug leaks with moving sheets.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

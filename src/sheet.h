@@ -296,8 +296,6 @@ void  sheet_clear_region (Sheet *sheet,
 			  int end_col, int end_row,
 			  int clear_flags, GOCmdContext *cc);
 
-void	sheet_attach_view (Sheet *sheet, SheetView *sv);
-void    sheet_detach_view (SheetView *sv);
 SheetView *sheet_get_view (Sheet const *sheet, WorkbookView const *wbv);
 
 #define SHEET_FOREACH_VIEW(sheet, view, code)					\

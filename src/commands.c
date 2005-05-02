@@ -5089,7 +5089,7 @@ cmd_reorganize_sheets_finalize (GObject *cmd)
 	GSList *list;
 
 	g_slist_free (me->old_order);
-	me->new_order = NULL;
+	me->old_order = NULL;
 
 	g_slist_free (me->new_order);
 	me->new_order = NULL;

@@ -606,16 +606,6 @@ sheet_redraw_all (Sheet const *sheet, gboolean headers)
 		sc_redraw_all (control, headers););
 }
 
-void
-sheet_detach_view (SheetView *sv)
-{
-	g_return_if_fail (IS_SHEET_VIEW (sv));
-	g_return_if_fail (IS_SHEET (sv->sheet));
-
-	g_ptr_array_remove (sv->sheet->sheet_views, sv);
-	sv->sheet = NULL;
-}
-
 /**
  * sheet_new_with_type :
  * @wb    : #Workbook
@@ -3153,10 +3143,7 @@ sheet_destroy (Sheet *sheet)
 
 	/* Clear the controls first, before we potentially update */
 	SHEET_FOREACH_VIEW (sheet, view, {
-		/*
-		 * Right now unref is enough.  We might need to run some
-		 * sheet_view_dispose function later.
-		 */
+		sv_dispose (view);
 		g_object_unref (G_OBJECT (view));
 	});
 	if (sheet->sheet_views->len > 0)

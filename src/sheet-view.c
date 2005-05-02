@@ -172,15 +172,11 @@ sv_weak_unref (SheetView **ptr)
 }
 
 static GObjectClass *parent_class;
+
 static void
-s_view_finalize (GObject *object)
+sv_real_dispose (GObject *object)
 {
 	SheetView *sv = SHEET_VIEW (object);
-
-	if (sv->sheet) {
-		g_ptr_array_remove (sv->sheet->sheet_views, sv);
-		g_signal_handlers_disconnect_by_func (sv->sheet, sv_direction_changed, sv);
-	}
 
 	if (sv->controls != NULL) {
 		SHEET_VIEW_FOREACH_CONTROL (sv, control, {
@@ -191,11 +187,19 @@ s_view_finalize (GObject *object)
 			g_warning ("Unexpected left over controls");
 	}
 
+	if (sv->sheet) {
+		Sheet *sheet = sv->sheet;
+		sv->sheet = NULL;
+		g_ptr_array_remove (sheet->sheet_views, sv);
+		g_signal_handlers_disconnect_by_func (sheet, sv_direction_changed, sv);
+		g_object_unref (sheet);
+	}
+
 	sv_unant (sv);
 	sv_selection_free (sv);
 	auto_expr_timer_clear (sv);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	parent_class->dispose (object);
 }
 
 static void
@@ -206,7 +210,7 @@ sheet_view_class_init (GObjectClass *klass)
 	g_return_if_fail (wbc_class != NULL);
 
 	parent_class = g_type_class_peek_parent (klass);
-	klass->finalize = s_view_finalize;
+	klass->dispose = sv_real_dispose;
 }
 
 static void
@@ -246,7 +250,7 @@ sheet_view_new (Sheet *sheet, WorkbookView *wbv)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	sv = g_object_new (SHEET_VIEW_TYPE, NULL);
-	sv->sheet = sheet;
+	sv->sheet = g_object_ref (sheet);
 	sv->text_is_rtl = sheet->text_is_rtl;
 	sv->wbv = wbv;
 	g_ptr_array_add (sheet->sheet_views, sv);
@@ -259,6 +263,12 @@ sheet_view_new (Sheet *sheet, WorkbookView *wbv)
 	SHEET_VIEW_FOREACH_CONTROL (sv, control,
 		sv_init_sc (sv, control););
 	return sv;
+}
+
+void
+sv_dispose (SheetView *sv)
+{
+	g_object_run_dispose (G_OBJECT (sv));
 }
 
 void

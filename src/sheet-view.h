@@ -65,6 +65,7 @@ void	   sv_detach_control	(SheetControl *sc);
 void	   sv_weak_ref		(SheetView *sv, SheetView **ptr);
 void	   sv_weak_unref	(SheetView **ptr);
 void	   sv_update		(SheetView *sv);
+void       sv_dispose           (SheetView *sv);
 
 /* Information */
 Sheet	     *sv_sheet		(SheetView const *sv);

@@ -1,5 +1,24 @@
 2005-05-02  Morten Welinder  <terra@gnome.org>
 
+	* src/commands.c (cmd_reorganize_sheets_finalize): Plug leak.
+
+	* src/workbook-control-gui.c (cb_sheet_label_drag_end): Plug leak.
+
+	* src/workbook.c (workbook_detach_view): Call sv_dispose to break
+	circular links.
+	(workbook_sheet_hide_controls): Fix search for focus and thus
+	return value.
+
+	* src/sheet.c (sheet_destroy): Call sv_dispose to break circular
+	links.
+
+	* src/sheet-view.c (sheet_view_new): Keep a ref to the sheet.
+	(sv_dispose): New function.
+	(sv_real_dispose): Renamed from s_view_finalize (and made proper
+	for a dispose function).
+
+2005-05-02  Morten Welinder  <terra@gnome.org>
+
 	* src/sheet-view.c (sv_direction_changed): Make static and change
 	to a notification handler.
 
