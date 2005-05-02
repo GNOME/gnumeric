@@ -103,7 +103,7 @@ Architecture Changes
     7.1) Common code framework for dnd and X/W32 clipboard
     7.2) Find a better place than SheetControlGUI for dnd code
     7.3) More formats, at least html and text
-    7.4) Advertise SVG for graphs, as the preferred format
+    7.4) Advertise SVG for graphs, as the preferred format      (DONE)
     7.5) Autoscroll for sheet object movement
 8) Rich Text
     8.1) font actions valid while editing			(DONE)
