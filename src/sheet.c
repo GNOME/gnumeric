@@ -239,7 +239,10 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 
 	sucker = wb ? workbook_sheet_by_name (wb, new_name) : NULL;
 	if (sucker && sucker != sheet) {
-		/* Prevent a name clash.  */
+		/*
+		 * Prevent a name clash.  With this you can swap names by
+		 * setting just the two names.
+		 */
 		char *sucker_name = workbook_sheet_get_free_name (wb, new_name, TRUE, FALSE);
 		g_object_set (sucker, "name", sucker_name, NULL);
 		g_free (sucker_name);
@@ -268,9 +271,6 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 		g_hash_table_insert (wb->sheet_hash_private,
 				     sheet->name_case_insensitive,
 				     sheet);
-
-	SHEET_FOREACH_VIEW (sheet, sv,
-		sv->edit_pos_changed.content = TRUE;);
 }
 
 static void
@@ -314,22 +314,12 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 		GnmColor *color = g_value_dup_boxed (value);
 		style_color_unref (sheet->tab_text_color);
 		sheet->tab_text_color = color;
-
-		/* FIXME: solve this with notification handler.  */
-		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-					  wb_control_sheet_rename (control,
-								   sheet););
 		break;
 	}
 	case PROP_TAB_BACKGROUND: {
 		GnmColor *color = g_value_dup_boxed (value);
 		style_color_unref (sheet->tab_color);
 		sheet->tab_color = color;
-
-		/* FIXME: solve this with notification handler.  */
-		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-					  wb_control_sheet_rename (control,
-								   sheet););
 		break;
 	}
 	default:

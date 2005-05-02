@@ -811,6 +811,19 @@ cb_sheet_label_drag_motion (GtkWidget *widget, GdkDragContext *context,
 static void workbook_setup_sheets (WorkbookControlGUI *wbcg);
 static void wbcg_menu_state_sheet_count (WorkbookControl *wbc);
 
+static void
+cb_sheet_tab_change (Sheet *sheet,
+		     G_GNUC_UNUSED GParamSpec *pspec,
+		     EditableLabel *el)
+{
+	/* We're lazy and just set all relevant attributes.  */
+	editable_label_set_text (el, sheet->name_unquoted);
+	editable_label_set_color (el,
+				  sheet->tab_color ? &sheet->tab_color->gdk_color : NULL,
+				  sheet->tab_text_color ? &sheet->tab_text_color->gdk_color : NULL);
+}
+
+
 /**
  * wbcg_sheet_add:
  * @sheet: a sheet
@@ -851,6 +864,16 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	g_signal_connect_after (G_OBJECT (scg->label),
 		"edit_finished",
 		G_CALLBACK (cb_sheet_label_edit_finished), wbcg);
+
+	g_signal_connect (G_OBJECT (sheet),
+			  "notify::name", G_CALLBACK (cb_sheet_tab_change),
+			  scg->label);
+	g_signal_connect (G_OBJECT (sheet),
+			  "notify::tab-foreground", G_CALLBACK (cb_sheet_tab_change),
+			  scg->label);
+	g_signal_connect (G_OBJECT (sheet),
+			  "notify::tab-background", G_CALLBACK (cb_sheet_tab_change),
+			  scg->label);
 
 	/* do not preempt the editable label handler */
 	g_signal_connect_after (G_OBJECT (scg->label),
@@ -905,28 +928,12 @@ wbcg_sheet_remove (WorkbookControl *wbc, Sheet *sheet)
 		return;
 
 	i = wbcg_sheet_to_page_index (wbcg, sheet, &scg);
-
 	g_return_if_fail (i >= 0);
 
+	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_tab_change, scg->label);
 	gtk_notebook_remove_page (wbcg->notebook, i);
 
 	wbcg_menu_state_sheet_count (wbc);
-}
-
-static void
-wbcg_sheet_rename (WorkbookControl *wbc, Sheet *sheet)
-{
-	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	GtkWidget *label;
-	SheetControlGUI *scg;
-	int i = wbcg_sheet_to_page_index (wbcg, sheet, &scg);
-
-	g_return_if_fail (i >= 0);
-
-	label = gtk_notebook_get_tab_label (wbcg->notebook, GTK_WIDGET (scg->table));
-	editable_label_set_text (EDITABLE_LABEL (label), sheet->name_unquoted);
-	editable_label_set_color (EDITABLE_LABEL (label),
-		&sheet->tab_color->gdk_color, &sheet->tab_text_color->gdk_color);
 }
 
 static void
@@ -2552,7 +2559,6 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 
 	wbc_class->sheet.add        = wbcg_sheet_add;
 	wbc_class->sheet.remove	    = wbcg_sheet_remove;
-	wbc_class->sheet.rename	    = wbcg_sheet_rename;
 	wbc_class->sheet.focus	    = wbcg_sheet_focus;
 	wbc_class->sheet.move	    = wbcg_sheet_move;
 	wbc_class->sheet.remove_all = wbcg_sheet_remove_all;

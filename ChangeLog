@@ -1,5 +1,10 @@
 2005-05-02  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-control-gui.c (wbcg_sheet_add): Connect to
+	sheet::name, sheet:tab-foregound, sheet:tab-background.
+	(wbcg_sheet_remove): Disconnect.
+	(wbcg_sheet_rename): Remove this method from the class.
+
 	* src/commands.c (cmd_reorganize_sheets_finalize): Plug leak.
 
 	* src/workbook-control-gui.c (cb_sheet_label_drag_end): Plug leak.

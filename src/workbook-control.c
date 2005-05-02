@@ -105,8 +105,6 @@ WBC_VIRTUAL (auto_expr_value, (WorkbookControl *wbc), (wbc))
 
 WBC_VIRTUAL_FULL (sheet_remove, sheet.remove,
 	(WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
-WBC_VIRTUAL_FULL (sheet_rename, sheet.rename,
-	(WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
 WBC_VIRTUAL_FULL (sheet_focus, sheet.focus,
 	(WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
 WBC_VIRTUAL_FULL (sheet_move, sheet.move,

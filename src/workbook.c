@@ -1389,9 +1389,6 @@ workbook_sheet_rename (Workbook *wb,
 			Sheet *sheet = workbook_sheet_by_index 
 				(wb, GPOINTER_TO_INT (sheet_index->data));
 			g_object_set (sheet, "name", new_name->data, NULL);
-
-			WORKBOOK_FOREACH_CONTROL (wb, view, control,
-						  wb_control_sheet_rename (control, sheet););
 		}
 		sheet_index = sheet_index->next;
 		new_name = new_name->next;

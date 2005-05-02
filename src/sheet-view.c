@@ -69,11 +69,20 @@ cb_update_auto_expr (gpointer data)
 /*************************************************************************/
 
 static void
-sv_direction_changed (Sheet *sheet, G_GNUC_UNUSED GParamSpec *pspec,
-		      SheetView *sv)
+sv_sheet_direction_changed (Sheet *sheet,
+			    G_GNUC_UNUSED GParamSpec *pspec,
+			    SheetView *sv)
 {
 	sv->text_is_rtl = sheet->text_is_rtl;
 	SHEET_VIEW_FOREACH_CONTROL (sv, sc, sc_direction_changed (sc););
+}
+
+static void
+sv_sheet_name_changed (G_GNUC_UNUSED Sheet *sheet,
+		       G_GNUC_UNUSED GParamSpec *pspec,
+		       SheetView *sv)
+{
+	sv->edit_pos_changed.content = TRUE;
 }
 
 Sheet *
@@ -191,7 +200,8 @@ sv_real_dispose (GObject *object)
 		Sheet *sheet = sv->sheet;
 		sv->sheet = NULL;
 		g_ptr_array_remove (sheet->sheet_views, sv);
-		g_signal_handlers_disconnect_by_func (sheet, sv_direction_changed, sv);
+		g_signal_handlers_disconnect_by_func (sheet, sv_sheet_direction_changed, sv);
+		g_signal_handlers_disconnect_by_func (sheet, sv_sheet_name_changed, sv);
 		g_object_unref (sheet);
 	}
 
@@ -257,7 +267,11 @@ sheet_view_new (Sheet *sheet, WorkbookView *wbv)
 
 	g_signal_connect (G_OBJECT (sheet),
 			  "notify::text-is-rtl",
-			  G_CALLBACK (sv_direction_changed),
+			  G_CALLBACK (sv_sheet_direction_changed),
+			  sv);
+	g_signal_connect (G_OBJECT (sheet),
+			  "notify::name",
+			  G_CALLBACK (sv_sheet_name_changed),
 			  sv);
 
 	SHEET_VIEW_FOREACH_CONTROL (sv, control,
