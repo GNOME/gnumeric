@@ -790,7 +790,19 @@ cb_sheet_label_drag_motion (GtkWidget *widget, GdkDragContext *context,
 }
 
 static void workbook_setup_sheets (WorkbookControlGUI *wbcg);
-static void wbcg_menu_state_sheet_count (WorkbookControl *wbc);
+
+static void
+wbcg_menu_state_sheet_count (WorkbookControlGUI *wbcg)
+{
+	int const sheet_count = g_list_length (wbcg->notebook->children);
+	/* Should we enable commands requiring multiple sheets */
+	gboolean const multi_sheet = (sheet_count > 1);
+
+	/* Scrollable if there are more than 3 tabs */
+	gtk_notebook_set_scrollable (wbcg->notebook, sheet_count > 3);
+
+	wbcg_set_action_sensitivity (wbcg, "SheetRemove", multi_sheet);
+}
 
 static void
 cb_sheet_tab_change (Sheet *sheet,
@@ -841,6 +853,32 @@ cb_toggle_menu_item_changed (Sheet *sheet,
 	wbcg_update_menu_feedback (wbcg, sheet);
 }
 
+static void
+set_dir (GtkWidget *w, GtkTextDirection *dir)
+{
+	gtk_widget_set_direction (w, *dir);
+	if (GTK_IS_CONTAINER (w))
+		gtk_container_foreach (GTK_CONTAINER (w),
+				       (GtkCallback)&set_dir,
+				       dir);
+}
+
+static void
+cb_direction_change (G_GNUC_UNUSED Sheet *null_sheet,
+		     G_GNUC_UNUSED GParamSpec *null_pspec,
+		     const SheetControlGUI *scg)
+{
+	GtkWidget *w = (GtkWidget *)scg->wbcg->notebook;
+	gboolean text_is_rtl = scg->sheet_control.sheet->text_is_rtl;
+	GtkTextDirection dir = text_is_rtl
+		? GTK_TEXT_DIR_RTL
+		: GTK_TEXT_DIR_LTR;
+
+	if (dir != gtk_widget_get_direction (w))
+		set_dir (w, &dir);
+	g_object_set (scg->hs, "inverted", text_is_rtl, NULL);
+}
+
 /**
  * wbcg_sheet_add:
  * @sheet: a sheet
@@ -879,8 +917,8 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 			sheet->tab_color ? &sheet->tab_color->gdk_color : NULL,
 			sheet->tab_text_color ? &sheet->tab_text_color->gdk_color : NULL);
 	g_signal_connect_after (G_OBJECT (scg->label),
-		"edit_finished",
-		G_CALLBACK (cb_sheet_label_edit_finished), wbcg);
+				"edit_finished",
+				G_CALLBACK (cb_sheet_label_edit_finished), wbcg);
 
 	g_object_connect (G_OBJECT (sheet),
 			  "signal::notify::name", cb_sheet_tab_change, scg->label,
@@ -894,6 +932,7 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 			  "signal::notify::display-outlines", cb_toggle_menu_item_changed, wbcg,
 			  "signal::notify::display-outlines-below", cb_toggle_menu_item_changed, wbcg,
 			  "signal::notify::display-outlines-right", cb_toggle_menu_item_changed, wbcg,
+			  "signal::notify::text-is-rtl", cb_direction_change, scg,
 			  NULL);
 
 	/* do not preempt the editable label handler */
@@ -924,10 +963,9 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 		gtk_notebook_insert_page (wbcg->notebook,
 					  GTK_WIDGET (scg->table), scg->label,
 					  sheet->index_in_wb);
+		wbcg_menu_state_sheet_count (wbcg);
 		wbcg_ui_update_end (wbcg);
 	}
-
-	wb_control_menu_state_sheet_count (wbc);
 
 	/* create views for the sheet objects */
 	sc = (SheetControl *) scg;
@@ -953,9 +991,10 @@ wbcg_sheet_remove (WorkbookControl *wbc, Sheet *sheet)
 
 	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_tab_change, scg->label);
 	g_signal_handlers_disconnect_by_func (sheet, cb_toggle_menu_item_changed, wbcg);
+	g_signal_handlers_disconnect_by_func (sheet, cb_direction_change, scg);
 	gtk_notebook_remove_page (wbcg->notebook, i);
 
-	wbcg_menu_state_sheet_count (wbc);
+	wbcg_menu_state_sheet_count (wbcg);
 }
 
 static void
@@ -1107,20 +1146,6 @@ wbcg_undo_redo_labels (WorkbookControl *wbc, char const *undo, char const *redo)
 
 	wbcg_set_action_label (wbcg, "Undo", _("_Undo"), undo, NULL);
 	wbcg_set_action_label (wbcg, "Redo", _("_Redo"), redo, NULL);
-}
-
-static void
-wbcg_menu_state_sheet_count (WorkbookControl *wbc)
-{
- 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	int const sheet_count = g_list_length (wbcg->notebook->children);
-	/* Should we anble commands requiring multiple sheets */
-	gboolean const multi_sheet = (sheet_count > 1);
-
-	/* Scrollable if there are more than 3 tabs */
-	gtk_notebook_set_scrollable (wbcg->notebook, sheet_count > 3);
-
-	wbcg_set_action_sensitivity (wbcg, "SheetRemove", multi_sheet);
 }
 
 static void
@@ -1504,14 +1529,15 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	if (wbcg->updating_ui)
 		return;
 
-	wbcg_set_direction (wbcg);
-
 	/* If we are not at a subexpression boundary then finish editing */
 	if (NULL != wbcg->rangesel)
 		scg_rangesel_stop (wbcg->rangesel, TRUE);
 
 	child = gtk_notebook_get_nth_page (notebook, page_num);
 	new_scg = g_object_get_data (G_OBJECT (child), SHEET_CONTROL_KEY);
+
+	cb_direction_change (NULL, NULL, new_scg);
+
 	if (wbcg_rangesel_possible (wbcg)) {
 		scg_take_focus (new_scg);
 		return;
@@ -1944,6 +1970,7 @@ show_gui (WorkbookControlGUI *wbcg)
 	int sx, sy;
 	gdouble fx, fy;
 	GdkRectangle rect;
+	SheetControlGUI *scg;
 
 	/* In a Xinerama setup, we want the geometry of the actual display
 	 * unit, if available. See bug 59902.  */
@@ -1992,14 +2019,16 @@ show_gui (WorkbookControlGUI *wbcg)
 		/* Use default */
 		gtk_window_set_default_size (wbcg->toplevel, sx * fx, sy * fy);
 	}
-	wbcg_set_direction (wbcg);
+
+	scg = wbcg_cur_scg (wbcg);
+	cb_direction_change (NULL, NULL, scg);
 
 	x_geometry = NULL;
 	gtk_widget_show (GTK_WIDGET (wbcg->toplevel));
 
 	/* rehide headers if necessary */
 	if (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)))
-		scg_adjust_preferences (SHEET_CONTROL (wbcg_cur_scg (wbcg)));
+		scg_adjust_preferences (SHEET_CONTROL (scg));
 
 	return FALSE;
 }
@@ -2331,35 +2360,6 @@ wbcg_progress_message_set (GOCmdContext *cc, gchar const *msg)
 	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), msg);
 }
 
-static void
-set_dir (GtkWidget *w, GtkTextDirection *dir)
-{
-	gtk_widget_set_direction (w, *dir);
-	if (GTK_IS_CONTAINER (w))
-		gtk_container_foreach (GTK_CONTAINER (w),
-			(GtkCallback) &set_dir, dir);
-}
-
-void
-wbcg_set_direction (WorkbookControlGUI *wbcg)
-{
-	GtkTextDirection dir;
-	GtkWidget *w = (GtkWidget *)wbcg->notebook;
-	GtkWidget *child = gtk_notebook_get_nth_page (wbcg->notebook,
-		gtk_notebook_get_current_page (wbcg->notebook));
-	SheetControlGUI const *scg =
-		g_object_get_data (G_OBJECT (child), SHEET_CONTROL_KEY);
-	gboolean text_is_rtl;
-
-	g_return_if_fail (scg != NULL);
-
-	text_is_rtl = scg->sheet_control.sheet->text_is_rtl;
-	dir = text_is_rtl ? GTK_TEXT_DIR_RTL : GTK_TEXT_DIR_LTR;
-	if (dir != gtk_widget_get_direction (w))
-		set_dir (w, &dir);
-	g_object_set (scg->hs, "inverted", text_is_rtl, NULL);
-}
-
 /***************************************************************************/
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-series.h>
@@ -2562,7 +2562,6 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 	wbc_class->undo_redo.labels   = wbcg_undo_redo_labels;
 
 	wbc_class->menu_state.update      = wbcg_menu_state_update;
-	wbc_class->menu_state.sheet_count = wbcg_menu_state_sheet_count;
 
 	wbc_class->claim_selection	 = wbcg_claim_selection;
 	wbc_class->paste_from_selection  = wbcg_paste_from_selection;

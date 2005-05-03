@@ -125,8 +125,6 @@ WBC_VIRTUAL_FULL (undo_redo_labels, undo_redo.labels,
 WBC_VIRTUAL_FULL (menu_state_update, menu_state.update,
         (WorkbookControl *wbc, int flags),
 	(wbc, flags))
-WBC_VIRTUAL_FULL (menu_state_sheet_count, menu_state.sheet_count,
-	(WorkbookControl *wbc), (wbc))
 
 WBC_VIRTUAL (paste_from_selection,
 	(WorkbookControl *wbc, GnmPasteTarget const *pt), (wbc, pt))

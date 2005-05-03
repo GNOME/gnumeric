@@ -51,7 +51,6 @@ typedef struct {
 	} undo_redo;
 	struct {
 		void (*update)      (WorkbookControl *wbc, int flags);
-		void (*sheet_count) (WorkbookControl *wbc);
 	} menu_state;
 
 	gboolean (*claim_selection)      (WorkbookControl *wbc);

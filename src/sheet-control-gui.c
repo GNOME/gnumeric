@@ -1139,8 +1139,6 @@ cb_scg_direction_changed (Sheet *sheet,
 			  SheetControlGUI *scg)
 {
 	scg_resize (SHEET_CONTROL (scg), TRUE);
-	if (NULL != scg->wbcg && scg == wbcg_cur_scg (scg->wbcg))
-		wbcg_set_direction (scg->wbcg);
 }
 
 SheetControlGUI *
