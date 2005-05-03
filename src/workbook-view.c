@@ -179,13 +179,6 @@ wb_view_preferred_size (WorkbookView *wbv, int w, int h)
 }
 
 void
-wb_view_prefs_update (WorkbookView *view)
-{
-	WORKBOOK_VIEW_FOREACH_CONTROL(view, control,
-		wb_control_prefs_update	(control););
-}
-
-void
 wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 {
 	SheetView *sv;

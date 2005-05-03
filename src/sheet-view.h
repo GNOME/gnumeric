@@ -47,7 +47,6 @@ struct _SheetView {
 		unsigned char format;
 	} edit_pos_changed;
 	guint            auto_expr_timer;
-	gboolean	 text_is_rtl;
 };
 
 typedef GObjectClass SheetViewClass;

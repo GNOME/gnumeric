@@ -105,7 +105,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 				 -(gcanvas->last_visible.col-gcanvas->first.col),
 				 FALSE, TRUE);
 		} else
-			(*movefn) (gcanvas->simple.scg, scg->rtl ? 1 : -1, jump_to_bounds || end_mode, TRUE);
+			(*movefn) (gcanvas->simple.scg, sheet->text_is_rtl ? 1 : -1, jump_to_bounds || end_mode, TRUE);
 		break;
 
 	case GDK_KP_Right:
@@ -118,7 +118,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 				 gcanvas->last_visible.col-gcanvas->first.col,
 				 FALSE, TRUE);
 		} else
-			(*movefn) (gcanvas->simple.scg, scg->rtl ? -1 : 1, jump_to_bounds || end_mode, TRUE);
+			(*movefn) (gcanvas->simple.scg, sheet->text_is_rtl ? -1 : 1, jump_to_bounds || end_mode, TRUE);
 		break;
 
 	case GDK_KP_Up:
@@ -867,7 +867,7 @@ gnm_canvas_compute_visible_region (GnmCanvas *gcanvas,
 	if (full_recompute) {
 		int col_offset = gcanvas->first_offset.col = scg_colrow_distance_get (scg,
 			TRUE, 0, gcanvas->first.col);
-		if (scg->rtl)
+		if (sheet->text_is_rtl)
 			col_offset = gnm_simple_canvas_x_w2c (&gcanvas->simple.canvas,
 				gcanvas->first_offset.col + GTK_WIDGET (gcanvas)->allocation.width);
 		if (NULL != gcanvas->pane->col.canvas)
@@ -962,10 +962,14 @@ gnm_canvas_redraw_range (GnmCanvas *gcanvas, GnmRange const *r)
 	SheetControlGUI *scg;
 	int x1, y1, x2, y2;
 	GnmRange tmp;
+	SheetControl *sc;
+	Sheet *sheet;
 
 	g_return_if_fail (IS_GNM_CANVAS (gcanvas));
 
 	scg = gcanvas->simple.scg;
+	sc = (SheetControl *) scg;
+	sheet = sc->sheet;
 
 	if ((r->end.col < gcanvas->first.col) ||
 	    (r->end.row < gcanvas->first.row) ||
@@ -1000,7 +1004,7 @@ gnm_canvas_redraw_range (GnmCanvas *gcanvas, GnmRange const *r)
 	fprintf (stderr, "%s%s\n", col_name (max_col), row_name (last_row));
 #endif
 
-	if (scg->rtl)  {
+	if (sheet->text_is_rtl)  {
 		int tmp = gnm_simple_canvas_x_w2c (&gcanvas->simple.canvas, x1);
 		x1 = gnm_simple_canvas_x_w2c (&gcanvas->simple.canvas, x2);
 		x2 = tmp;
@@ -1056,6 +1060,7 @@ gcanvas_sliding_callback (gpointer data)
 	GnmCanvas *gcanvas3 = scg_pane (gcanvas->simple.scg, 3);
 	gboolean slide_x = FALSE, slide_y = FALSE;
 	int col = -1, row = -1;
+	gboolean text_is_rtl = gcanvas->simple.scg->sheet_control.sheet->text_is_rtl;
 
 #if 0
 	g_warning ("slide: %d, %d", gcanvas->sliding_dx, gcanvas->sliding_dy);
@@ -1070,7 +1075,7 @@ gcanvas_sliding_callback (gpointer data)
 				int x = gcanvas->first_offset.col + width + gcanvas->sliding_dx;
 
 				/* in case pane is narrow */
-				col = gnm_canvas_find_col (gcanvas, (gcanvas->simple.scg->rtl)
+				col = gnm_canvas_find_col (gcanvas, text_is_rtl
 					? -(x + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit) : x, NULL);
 				if (col > gcanvas0->last_full.col) {
 					gcanvas->sliding_adjacent_h = TRUE;
@@ -1100,7 +1105,7 @@ gcanvas_sliding_callback (gpointer data)
 				if (gcanvas->sliding_dx > (-width) &&
 				    col <= gcanvas1->last_visible.col) {
 					int x = gcanvas1->first_offset.col + width + gcanvas->sliding_dx;
-					col = gnm_canvas_find_col (gcanvas, (gcanvas->simple.scg->rtl)
+					col = gnm_canvas_find_col (gcanvas, text_is_rtl
 						? -(x + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit) : x, NULL);
 					slide_x = FALSE;
 				}
@@ -1176,7 +1181,7 @@ gcanvas_sliding_callback (gpointer data)
 	}
 
 	if (col < 0) {
-		col = gnm_canvas_find_col (gcanvas, (gcanvas->simple.scg->rtl)
+		col = gnm_canvas_find_col (gcanvas, text_is_rtl
 			? -(gcanvas->sliding_x + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit)
 			: gcanvas->sliding_x, NULL);
 	} else if (row < 0)
@@ -1220,11 +1225,14 @@ gnm_canvas_handle_motion (GnmCanvas *gcanvas,
 	GnmCanvas *gcanvas0, *gcanvas1, *gcanvas3;
 	int pane, left, top, x, y, width, height;
 	int dx = 0, dy = 0;
+	gboolean text_is_rtl;
 
 	g_return_val_if_fail (IS_GNM_CANVAS (gcanvas), FALSE);
 	g_return_val_if_fail (FOO_IS_CANVAS (canvas), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 	g_return_val_if_fail (slide_handler != NULL, FALSE);
+
+	text_is_rtl = gcanvas->simple.scg->sheet_control.sheet->text_is_rtl;
 
 	/* NOTE : work around a bug in gtk's use of X.
 	 * When dragging past the right edge of the sheet in rtl mode
@@ -1239,7 +1247,7 @@ gnm_canvas_handle_motion (GnmCanvas *gcanvas,
 	 * unlikely.  So we put in a kludge here to catch the screw up and
 	 * remap it.   This is not pretty,  at large zooms this is not far
 	 * fetched.*/
-	if (gcanvas->simple.scg->rtl &&
+	if (text_is_rtl &&
 	    event->x < (-64000 / gcanvas->simple.canvas.pixels_per_unit)) {
 #if SHEET_MAX_COLS > 700 /* a guestimate */
 #error We need a better solution to the rtl event kludge with SHEET_MAX_COLS so large
@@ -1247,7 +1255,7 @@ gnm_canvas_handle_motion (GnmCanvas *gcanvas,
 		foo_canvas_w2c (canvas, event->x + 65536, event->y, &x, &y);
 	} else
 		foo_canvas_w2c (canvas, event->x, event->y, &x, &y);
-	if (gcanvas->simple.scg->rtl)
+	if (text_is_rtl)
 		x = -(x + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit);
 
 	pane = gcanvas->pane->index;
@@ -1328,7 +1336,7 @@ gnm_canvas_handle_motion (GnmCanvas *gcanvas,
 	if (dx == 0 && dy == 0) {
 		if (!(slide_flags & GNM_CANVAS_SLIDE_EXTERIOR_ONLY)) {
 			int const row = gnm_canvas_find_row (gcanvas, y, NULL);
-			int const col = gnm_canvas_find_col (gcanvas, (gcanvas->simple.scg->rtl)
+			int const col = gnm_canvas_find_col (gcanvas, text_is_rtl
 				? -(x + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit) : x, NULL);
 
 			(*slide_handler) (gcanvas, col, row, user_data);

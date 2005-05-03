@@ -29,7 +29,6 @@ void sc_redraw_headers		(SheetControl *sc,
 void sc_ant			(SheetControl *sc);
 void sc_unant			(SheetControl *sc);
 
-void sc_adjust_preferences	(SheetControl *sc);
 void sc_scrollbar_config	(SheetControl const *sc);
 
 void sc_mode_edit		(SheetControl *sc);
@@ -42,7 +41,6 @@ void sc_make_cell_visible      	(SheetControl *sc, int col, int row,
 void sc_cursor_bound		(SheetControl *sc, GnmRange const *r);
 void sc_set_panes		(SheetControl *sc);
 void sc_object_create_view	(SheetControl *sc, SheetObject *so);
-void sc_direction_changed	(SheetControl *sc);
 void sc_scale_changed		(SheetControl *sc);
 
 #endif /* GNUMERIC_SHEET_CONTROL_H */

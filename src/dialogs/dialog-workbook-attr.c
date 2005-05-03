@@ -157,7 +157,6 @@ cb_attr_dialog_dialog_apply (G_GNUC_UNUSED GtkWidget *button,
 	workbook_iteration_max_number	(state->wb, state->old.max_iterations);
 	workbook_iteration_tolerance	(state->wb, state->old.iteration_tolerance);
 
-	wb_view_prefs_update (state->wbv);
 	cb_widget_changed (NULL, state);
 }
 

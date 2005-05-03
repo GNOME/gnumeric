@@ -69,15 +69,6 @@ cb_update_auto_expr (gpointer data)
 /*************************************************************************/
 
 static void
-sv_sheet_direction_changed (Sheet *sheet,
-			    G_GNUC_UNUSED GParamSpec *pspec,
-			    SheetView *sv)
-{
-	sv->text_is_rtl = sheet->text_is_rtl;
-	SHEET_VIEW_FOREACH_CONTROL (sv, sc, sc_direction_changed (sc););
-}
-
-static void
 sv_sheet_name_changed (G_GNUC_UNUSED Sheet *sheet,
 		       G_GNUC_UNUSED GParamSpec *pspec,
 		       SheetView *sv)
@@ -115,7 +106,6 @@ sv_init_sc (SheetView const *sv, SheetControl *sc)
 	/* Set the visible bound, not the logical bound */
 	sc_cursor_bound (sc, selection_first_range (sv, NULL, NULL));
 	sc_ant (sc);
-	sc_direction_changed (sc);
 }
 
 void
@@ -200,7 +190,6 @@ sv_real_dispose (GObject *object)
 		Sheet *sheet = sv->sheet;
 		sv->sheet = NULL;
 		g_ptr_array_remove (sheet->sheet_views, sv);
-		g_signal_handlers_disconnect_by_func (sheet, sv_sheet_direction_changed, sv);
 		g_signal_handlers_disconnect_by_func (sheet, sv_sheet_name_changed, sv);
 		g_object_unref (sheet);
 	}
@@ -239,7 +228,6 @@ sheet_view_init (GObject *object)
 	sv->selection_content_changed = TRUE;
 	sv->reposition_selection = TRUE;
 	sv->auto_expr_timer = 0;
-	sv->text_is_rtl	= FALSE;
 
 	sv->frozen_top_left.col = sv->frozen_top_left.row =
 	sv->unfrozen_top_left.col = sv->unfrozen_top_left.row = -1;
@@ -261,14 +249,9 @@ sheet_view_new (Sheet *sheet, WorkbookView *wbv)
 
 	sv = g_object_new (SHEET_VIEW_TYPE, NULL);
 	sv->sheet = g_object_ref (sheet);
-	sv->text_is_rtl = sheet->text_is_rtl;
 	sv->wbv = wbv;
 	g_ptr_array_add (sheet->sheet_views, sv);
 
-	g_signal_connect (G_OBJECT (sheet),
-			  "notify::text-is-rtl",
-			  G_CALLBACK (sv_sheet_direction_changed),
-			  sv);
 	g_signal_connect (G_OBJECT (sheet),
 			  "notify::name",
 			  G_CALLBACK (sv_sheet_name_changed),

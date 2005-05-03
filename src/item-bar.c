@@ -328,7 +328,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 	GdkRectangle rect;
 	GdkPoint points[3];
 	gboolean const has_object = scg->new_object != NULL || scg->selected_objects != NULL;
-	gboolean const rtl = scg->rtl != FALSE;
+	gboolean const rtl = sheet->text_is_rtl != FALSE;
 	int shadow;
 	int first_line_offset = 1;
 
@@ -714,11 +714,11 @@ is_pointer_on_division (ItemBar const *ib, double x, double y,
 		minor = y;
 	} else {
 		major = y;
-		minor = ib->gcanvas->simple.scg->rtl ? (ib->cell_width + ib->indent - x) : x;
+		minor = sheet->text_is_rtl ? (ib->cell_width + ib->indent - x) : x;
 	}
 	if (NULL != minor_pos)
 		*minor_pos = minor;
-	if (ib->is_col_header && ib->gcanvas->simple.scg->rtl)
+	if (ib->is_col_header && sheet->text_is_rtl)
 		major = -major;
 	if (NULL != the_element)
 		*the_element = -1;
@@ -883,10 +883,10 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 
 			cri = sheet_colrow_get_info (sheet,
 				ib->colrow_being_resized, is_cols);
-			pos = is_cols ? (scg->rtl ? -e->motion.x : e->motion.x) : e->motion.y;
+			pos = is_cols ? (sheet->text_is_rtl ? -e->motion.x : e->motion.x) : e->motion.y;
 			pos *= ib->base.canvas->pixels_per_unit;
 			new_size = pos - ib->resize_start_pos;
-			if (is_cols && scg->rtl)
+			if (is_cols && sheet->text_is_rtl)
 				new_size += cri->size_pixels;
 
 			/* Ensure we always have enough room for the margins */
@@ -958,7 +958,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 			 * other event handlers).
 			 */
 			ib->colrow_being_resized = element;
-			ib->resize_start_pos = (is_cols && scg->rtl)
+			ib->resize_start_pos = (is_cols && sheet->text_is_rtl)
 				? start : (start - cri->size_pixels);
 			ib->colrow_resize_size = cri->size_pixels;
 

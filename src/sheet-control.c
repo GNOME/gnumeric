@@ -97,8 +97,6 @@ SC_VIRTUAL (redraw_headers,
 SC_VIRTUAL (ant, (SheetControl *sc), (sc))
 SC_VIRTUAL (unant, (SheetControl *sc), (sc))
 
-SC_VIRTUAL (adjust_preferences, (SheetControl *sc), (sc))
-
 SC_VIRTUAL (scrollbar_config, (SheetControl const *sc), (sc));
 
 SC_VIRTUAL (mode_edit, (SheetControl *sc), (sc));
@@ -117,6 +115,5 @@ SC_VIRTUAL (cursor_bound, (SheetControl *sc, GnmRange const *r), (sc, r))
 SC_VIRTUAL (set_panes, (SheetControl *sc), (sc))
 
 SC_VIRTUAL (object_create_view,	(SheetControl *sc, SheetObject *so), (sc, so));
-SC_VIRTUAL (direction_changed,	(SheetControl *sc),(sc));
 SC_VIRTUAL (scale_changed,	(SheetControl *sc), (sc))
 

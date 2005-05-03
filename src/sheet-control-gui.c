@@ -309,7 +309,7 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 
 	/* no need to resize panes that are about to go away while unfreezing */
 	if (scg->active_panes == 1 || !sv_is_frozen (sc->view)) {
-		if (scg->rtl)
+		if (sheet->text_is_rtl)
 			foo_canvas_set_scroll_region (scg->pane[0].col.canvas,
 				-GNUMERIC_CANVAS_FACTOR_X * scale, 0, 0, h * scale);
 		else
@@ -351,7 +351,7 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 			 */
 			h = item_bar_calc_size (scg->pane[1].col.item);
 			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1].col.canvas), r - l, h+1);
-			if (scg->rtl)
+			if (sheet->text_is_rtl)
 				foo_canvas_set_scroll_region (scg->pane[1].col.canvas,
 					-GNUMERIC_CANVAS_FACTOR_X * scale, 0, 0, h * scale);
 			else
@@ -371,7 +371,7 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 		if (scg->pane[2].is_active)
 			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[2].gcanvas), r - l, b - t);
 
-		if (scg->rtl)
+		if (sheet->text_is_rtl)
 			foo_canvas_set_scroll_region (scg->pane[0].col.canvas,
 				-GNUMERIC_CANVAS_FACTOR_X * scale, 0, 0, h * scale);
 		else
@@ -382,7 +382,7 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 	}
 
 	SCG_FOREACH_PANE (scg, pane, {
-		if (scg->rtl)
+		if (sheet->text_is_rtl)
 			foo_canvas_set_scroll_region (FOO_CANVAS (pane->gcanvas),
 				-GNUMERIC_CANVAS_FACTOR_X * scale, 0., 0., GNUMERIC_CANVAS_FACTOR_Y * scale);
 		else
@@ -660,7 +660,7 @@ bar_set_left_col (GnmCanvas *gcanvas, int new_first_col)
 	col_offset = gcanvas->first_offset.col +=
 		scg_colrow_distance_get (gcanvas->simple.scg, TRUE, gcanvas->first.col, new_first_col);
 	gcanvas->first.col = new_first_col;
-	if (gcanvas->simple.scg->rtl)
+	if (gcanvas->simple.scg->sheet_control.sheet->text_is_rtl)
 		col_offset = gnm_simple_canvas_x_w2c (&gcanvas->simple.canvas,
 			col_offset + GTK_WIDGET (gcanvas)->allocation.width);
 
@@ -744,7 +744,7 @@ gnm_canvas_set_top_row (GnmCanvas *gcanvas, int new_first_row)
 		int col_offset = gcanvas->first_offset.col;
 
 		gnm_canvas_compute_visible_region (gcanvas, FALSE);
-		if (gcanvas->simple.scg->rtl)
+		if (gcanvas->simple.scg->sheet_control.sheet->text_is_rtl)
 			col_offset = gnm_simple_canvas_x_w2c (canvas,
 				col_offset + GTK_WIDGET (gcanvas)->allocation.width);
 		foo_canvas_scroll_to (canvas, col_offset, row_offset);
@@ -792,7 +792,7 @@ gnm_canvas_set_top_left (GnmCanvas *gcanvas,
 		}
 		col_offset = bar_set_left_col (gcanvas, col);
 		changed = TRUE;
-	} else if (gcanvas->simple.scg->rtl)
+	} else if (gcanvas->simple.scg->sheet_control.sheet->text_is_rtl)
 		col_offset = gnm_simple_canvas_x_w2c (&gcanvas->simple.canvas,
 			gcanvas->first_offset.col + GTK_WIDGET (gcanvas)->allocation.width);
 	else
@@ -1133,14 +1133,26 @@ cb_scg_redraw_resize (Sheet *sheet,
 	scg_resize (scg, FALSE);
 }
 
+static void
+cb_scg_direction_changed (Sheet *sheet,
+			  GParamSpec *pspec,
+			  SheetControlGUI *scg)
+{
+	scg_resize (SHEET_CONTROL (scg), TRUE);
+	if (NULL != scg->wbcg && scg == wbcg_cur_scg (scg->wbcg))
+		wbcg_set_direction (scg->wbcg);
+}
 
 SheetControlGUI *
 sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg;
 	GtkUpdateType scroll_update_policy;
+	Sheet *sheet;
 
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
+
+	sheet = sv_sheet (sv);
 
 	scg = g_object_new (SHEET_CONTROL_GUI_TYPE, NULL);
 	scg->wbcg = wbcg;
@@ -1263,7 +1275,8 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 	sv_attach_control (sv, SHEET_CONTROL (scg));
 
 	g_object_connect
-		(G_OBJECT (sv_sheet (sv)),
+		(G_OBJECT (sheet),
+		 "signal::notify::text-is-rtl", cb_scg_direction_changed, scg,
 		 "signal::notify::display-formulas", cb_scg_redraw, scg,
 		 "signal::notify::display-zeros", cb_scg_redraw, scg,
 		 "signal::notify::display-grid", cb_scg_redraw, scg,
@@ -1314,12 +1327,10 @@ scg_finalize (GObject *object)
 
 	if (sc->view) {
 		Sheet *sheet = sv_sheet (sc->view);
-		g_signal_handlers_disconnect_by_func
-			(sheet, cb_scg_prefs, scg);
-		g_signal_handlers_disconnect_by_func
-			(sheet, cb_scg_redraw, scg);
-		g_signal_handlers_disconnect_by_func
-			(sheet, cb_scg_redraw_resize, scg);
+		g_signal_handlers_disconnect_by_func (sheet, cb_scg_prefs, scg);
+		g_signal_handlers_disconnect_by_func (sheet, cb_scg_redraw, scg);
+		g_signal_handlers_disconnect_by_func (sheet, cb_scg_redraw_resize, scg);
+		g_signal_handlers_disconnect_by_func (sheet, cb_scg_direction_changed, scg);
 		sv_detach_control (sc);
 	}
 
@@ -1962,12 +1973,12 @@ snap_to_grid (ObjDragInfo *info,
 	g_return_if_fail (info->gcanvas != NULL);
 
 	foo_canvas_w2c (FOO_CANVAS (info->gcanvas), *x, *y, &x_int, &y_int);
-	if (info->scg->rtl) x_int = GNUMERIC_CANVAS_FACTOR_X - x_int;
+	if (info->scg->sheet_control.sheet->text_is_rtl) x_int = GNUMERIC_CANVAS_FACTOR_X - x_int;
 
 	if (snap_x) snap_pos_to_grid (info, TRUE, &x_int, to_left);
 	if (snap_y) snap_pos_to_grid (info, FALSE, &y_int, to_top);
 	
-	if (info->scg->rtl) x_int = GNUMERIC_CANVAS_FACTOR_X - x_int;
+	if (info->scg->sheet_control.sheet->text_is_rtl) x_int = GNUMERIC_CANVAS_FACTOR_X - x_int;
 	foo_canvas_c2w (FOO_CANVAS (info->gcanvas), x_int, y_int, x, y);
 }
 
@@ -1983,7 +1994,7 @@ apply_move (SheetObject *so, int x_idx, int y_idx, double *coords, ObjDragInfo *
 
 	if (snap) {
 		snap_to_grid (info, move_x, move_y, &x, &y, 
-			      info->scg->rtl ? info->dx > 0. : info->dx < 0.,
+			      info->scg->sheet_control.sheet->text_is_rtl ? info->dx > 0. : info->dx < 0.,
 			      info->dy < 0.);
 		if (info->primary_object == so || NULL == info->primary_object) {
 			if (move_x) info->dx = x - coords[x_idx];
@@ -2151,7 +2162,7 @@ scg_object_coords_to_anchor (SheetControlGUI const *scg,
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 	g_return_if_fail (coords != NULL);
 
-	if ((coords [0] > coords [2]) == (!scg->rtl)) {
+	if ((coords [0] > coords [2]) == (!scg->sheet_control.sheet->text_is_rtl)) {
 		tmp [0] = coords [2];
 		tmp [2] = coords [0];
 	} else {
@@ -2232,7 +2243,7 @@ scg_object_anchor_to_coords (SheetControlGUI const *scg,
 	coords [1] = pixels [direction & SO_DIR_V_MASK  ? 1 : 3] * scale;
 	coords [2] = pixels [direction & SO_DIR_H_MASK  ? 2 : 0] * scale;
 	coords [3] = pixels [direction & SO_DIR_V_MASK  ? 3 : 1] * scale;
-	if (scg->rtl) {
+	if (sheet->text_is_rtl) {
 		double tmp = -coords [0];
 		coords [0] = - coords [2];
 		coords [2] = tmp;
@@ -2840,17 +2851,6 @@ scg_object_create_view	(SheetControl *sc, SheetObject *so)
 }
 
 static void
-scg_direction_changed (SheetControl *sc)
-{
-	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
-
-	scg->rtl = sc->view->text_is_rtl;
-	scg_resize (sc, TRUE);
-	if (NULL != scg->wbcg && scg == wbcg_cur_scg (scg->wbcg))
-		wbcg_set_direction (scg->wbcg);
-}
-
-static void
 scg_scale_changed (SheetControl *sc)
 {
 	SheetControlGUI *scg = (SheetControlGUI *)sc;
@@ -2888,7 +2888,6 @@ scg_class_init (GObjectClass *object_class)
 	sc_class->redraw_headers         = scg_redraw_headers;
 	sc_class->ant                    = scg_ant;
 	sc_class->unant                  = scg_unant;
-	sc_class->adjust_preferences     = scg_adjust_preferences;
 	sc_class->scrollbar_config       = scg_scrollbar_config;
 	sc_class->set_top_left		 = scg_set_top_left;
 	sc_class->compute_visible_region = scg_compute_visible_region;
@@ -2896,7 +2895,6 @@ scg_class_init (GObjectClass *object_class)
 	sc_class->cursor_bound           = scg_cursor_bound;
 	sc_class->set_panes		 = scg_set_panes;
 	sc_class->object_create_view	 = scg_object_create_view;
-	sc_class->direction_changed	 = scg_direction_changed;
 	sc_class->scale_changed		 = scg_scale_changed;
 }
 

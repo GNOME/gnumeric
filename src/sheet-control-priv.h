@@ -24,7 +24,6 @@ typedef struct {
 					 GnmRange const * r);
 	void (*ant)			(SheetControl *sc);
 	void (*unant)			(SheetControl *sc);
-	void (*adjust_preferences)	(SheetControl *sc);
 	void (*scrollbar_config)	(SheetControl const *sc);
 	void (*mode_edit)		(SheetControl *sc);
 	void (*set_top_left)		(SheetControl *sc, int col, int row);
@@ -37,7 +36,6 @@ typedef struct {
 	float (*colrow_distance_get)	(SheetControl const *sc, gboolean is_col,
 					 int start, int end);
 	void (*object_create_view)	(SheetControl *sc, SheetObject *so);
-	void (*direction_changed)	(SheetControl *sc);
 	void (*scale_changed)		(SheetControl *sc);
 } SheetControlClass;
 

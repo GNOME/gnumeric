@@ -91,8 +91,6 @@ wb_control_update_title (WorkbookControl *wbc)
 	}
 }
 
-WBC_VIRTUAL (prefs_update,
-	(WorkbookControl *wbc), (wbc))
 WBC_VIRTUAL (style_feedback,
 	(WorkbookControl *wbc, GnmStyle const *changes), (wbc, changes))
 WBC_VIRTUAL (zoom_feedback,

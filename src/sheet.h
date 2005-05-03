@@ -230,8 +230,6 @@ void	 sheet_flag_recompute_spans	(Sheet const *s);
 void	 sheet_update_only_grid		(Sheet const *s);
 void     sheet_update                   (Sheet const *s);
 void	 sheet_scrollbar_config		(Sheet const *s);
-void     sheet_adjust_preferences	(Sheet const *s,
-					 gboolean redraw, gboolean resize);
 
 void     sheet_set_dirty	(Sheet *sheet, gboolean is_dirty);
 gboolean sheet_is_pristine	(Sheet const *sheet);

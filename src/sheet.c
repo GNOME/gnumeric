@@ -4271,20 +4271,6 @@ sheet_scrollbar_config (Sheet const *sheet)
 		sc_scrollbar_config (control););
 }
 
-void
-sheet_adjust_preferences (Sheet const *sheet, gboolean redraw, gboolean resize)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-
-	SHEET_FOREACH_CONTROL (sheet, view, control, {
-		sc_adjust_preferences (control);
-		if (resize)
-			sc_resize (control, FALSE);
-		if (redraw)
-			sc_redraw_all (control, TRUE);
-	});
-}
-
 /*****************************************************************************/
 typedef struct
 {

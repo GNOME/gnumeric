@@ -457,6 +457,7 @@ gnm_pane_colrow_resize_start (GnmPane *pane,
 	FooCanvasPoints *points;
 	FooCanvasItem *item;
 	double zoom;
+	gboolean text_is_rtl;
 
 	g_return_if_fail (pane != NULL);
 	g_return_if_fail (pane->colrow_resize.guide  == NULL);
@@ -465,13 +466,14 @@ gnm_pane_colrow_resize_start (GnmPane *pane,
 
 	gcanvas = pane->gcanvas;
 	scg = gcanvas->simple.scg;
+	text_is_rtl = scg->sheet_control.sheet->text_is_rtl;
 	zoom = FOO_CANVAS (gcanvas)->pixels_per_unit;
 
 	points = pane->colrow_resize.points = foo_canvas_points_new (2);
 	if (is_cols) {
 		double x = scg_colrow_distance_get (scg, TRUE,
 					0, resize_pos) / zoom;
-		if (scg->rtl)
+		if (text_is_rtl)
 			x = -x;
 		points->coords [0] = x;
 		points->coords [1] = scg_colrow_distance_get (scg, FALSE,
@@ -489,7 +491,7 @@ gnm_pane_colrow_resize_start (GnmPane *pane,
 					0, gcanvas->last_visible.col+1) / zoom;
 		points->coords [3] = y;
 
-		if (scg->rtl) {
+		if (text_is_rtl) {
 			points->coords [0] *= -1.;
 			points->coords [2] *= -1.;
 		}
@@ -538,10 +540,11 @@ gnm_pane_colrow_resize_move (GnmPane *pane, gboolean is_cols, int resize_pos)
 	FooCanvasPoints *points     = pane->colrow_resize.points;
 	double const	 scale	    = 1. / resize_guide->canvas->pixels_per_unit;
 
-	if (is_cols)
+	if (is_cols) {
+		gboolean text_is_rtl = pane->gcanvas->simple.scg->sheet_control.sheet->text_is_rtl;
 		points->coords [0] = points->coords [2] = scale *
-			(pane->gcanvas->simple.scg->rtl ? -resize_pos : resize_pos);
-	else
+			(text_is_rtl ? -resize_pos : resize_pos);
+	} else
 		points->coords [1] = points->coords [3] = scale * resize_pos;
 
 	foo_canvas_item_set (resize_guide, "points",  points, NULL);
@@ -770,7 +773,7 @@ cb_slide_handler (GnmCanvas *gcanvas, int col, int row, gpointer ctrl_pt)
 	y = scg_colrow_distance_get (scg, FALSE, gcanvas->first.row, row);
 	y += gcanvas->first_offset.row;
 
-	if (scg->rtl)
+	if (scg->sheet_control.sheet->text_is_rtl)
 		x *= -1;
 
 	gnm_pane_object_move (gcanvas->pane, ctrl_pt, x * scale, y * scale, FALSE, FALSE);

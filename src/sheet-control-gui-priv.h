@@ -57,7 +57,6 @@ struct _SheetControlGUI {
 		gboolean	jump, horiz;
 		SCGUIMoveFunc	handler;
 	} delayedMovement;
-	gboolean rtl;
 };
 typedef SheetControlClass SheetControlGUIClass;
 

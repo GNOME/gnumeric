@@ -21,7 +21,6 @@ WorkbookControl *wb_control_wrapper_new (WorkbookControl *wbc,
 					 void *extra);
 
 void wb_control_update_title	     (WorkbookControl *wbc);
-void wb_control_prefs_update	     (WorkbookControl *wbc);
 void wb_control_style_feedback	     (WorkbookControl *wbc, GnmStyle const *changes);
 void wb_control_zoom_feedback	     (WorkbookControl *wbc);
 void wb_control_edit_line_set        (WorkbookControl *wbc, char const *text);

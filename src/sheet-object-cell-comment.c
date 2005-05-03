@@ -89,7 +89,7 @@ comment_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 		points->coords [1] = scale * y;
 		points->coords [3] = scale * y;
 		points->coords [5] = scale * (y + TRIANGLE_WIDTH);
-		if (scg->rtl)
+		if (so->sheet->text_is_rtl)
 			scale *= -1;
 		points->coords [0] = scale * (x - TRIANGLE_WIDTH);
 		points->coords [2] = scale * x;

@@ -933,7 +933,6 @@ xml_read_wbv_attributes (XmlParseContext *ctxt, xmlNodePtr tree)
 		xmlFree (name);
 		xmlFree (value);
 	}
-	wb_view_prefs_update (ctxt->wb_view);
 }
 
 static xmlNodePtr

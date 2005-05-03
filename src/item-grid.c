@@ -356,7 +356,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 	GnmCell const * const edit_cell = gcanvas->simple.scg->wbcg->wb_control.editing_cell;
 	ItemGrid *ig = ITEM_GRID (item);
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
-	int const dir = gcanvas->simple.scg->rtl ? -1 : 1;
+	int const dir = sheet->text_is_rtl ? -1 : 1;
 
 	/* To ensure that far and near borders get drawn we pretend to draw +-2
 	 * pixels around the target area which would include the surrounding

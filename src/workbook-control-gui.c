@@ -343,25 +343,6 @@ wbcg_set_title (WorkbookControl *wbc, char const *title)
 }
 
 static void
-cb_prefs_update (gpointer key, gpointer value, gpointer user_data)
-{
-	Sheet *sheet = value;
-	sheet_adjust_preferences (sheet, FALSE, FALSE);
-}
-
-static void
-wbcg_prefs_update (WorkbookControl *wbc)
-{
-	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	Workbook	*wb  = wb_control_workbook (wbc);
-	WorkbookView	*wbv = wb_control_view (wbc);
-
-	g_hash_table_foreach (wb->sheet_hash_private, cb_prefs_update, NULL);
-	gtk_notebook_set_show_tabs (wbcg->notebook,
-				    wbv->show_notebook_tabs);
-}
-
-static void
 wbcg_zoom_feedback (WorkbookControl *wbc)
 {
 	Sheet *sheet = wb_control_cur_sheet (wbc);
@@ -2368,13 +2349,15 @@ wbcg_set_direction (WorkbookControlGUI *wbcg)
 		gtk_notebook_get_current_page (wbcg->notebook));
 	SheetControlGUI const *scg =
 		g_object_get_data (G_OBJECT (child), SHEET_CONTROL_KEY);
+	gboolean text_is_rtl;
 
 	g_return_if_fail (scg != NULL);
 
-	dir = scg->rtl ? GTK_TEXT_DIR_RTL : GTK_TEXT_DIR_LTR;
+	text_is_rtl = scg->sheet_control.sheet->text_is_rtl;
+	dir = text_is_rtl ? GTK_TEXT_DIR_RTL : GTK_TEXT_DIR_LTR;
 	if (dir != gtk_widget_get_direction (w))
 		set_dir (w, &dir);
-	g_object_set (scg->hs, "inverted", scg->rtl, NULL);
+	g_object_set (scg->hs, "inverted", text_is_rtl, NULL);
 }
 
 /***************************************************************************/
@@ -2564,7 +2547,6 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 	object_class->finalize = wbcg_finalize;
 
 	wbc_class->set_title		= wbcg_set_title;
-	wbc_class->prefs_update		= wbcg_prefs_update;
 	wbc_class->zoom_feedback	= wbcg_zoom_feedback;
 	wbc_class->edit_line_set	= wbcg_edit_line_set;
 	wbc_class->selection_descr_set	= wbcg_edit_selection_descr_set;

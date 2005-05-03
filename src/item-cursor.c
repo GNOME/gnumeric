@@ -201,7 +201,7 @@ item_cursor_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags
 	ic->outline.y2 = ic->outline.y1 +
 		scg_colrow_distance_get (scg, FALSE,top, bottom+1);
 
-	if (scg->rtl) {
+	if (scg->sheet_control.sheet->text_is_rtl) {
 		tmp = ic->outline.x1;
 		ic->outline.x1 = gnm_simple_canvas_x_w2c (item->canvas, ic->outline.x2);
 		ic->outline.x2 = gnm_simple_canvas_x_w2c (item->canvas, tmp);

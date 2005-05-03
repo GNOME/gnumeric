@@ -310,7 +310,7 @@ ie_layout (FooCanvasItem *item)
 
 	/* Start after the grid line and the left margin */
 	col_size = cri->size_pixels - cri->margin_a - 1;
-	if (ie->scg->rtl)
+	if (sheet->text_is_rtl)
 		while (col_size < width &&
 		       end_col > gcanvas->first.col &&
 		       end_col > 0) {
@@ -342,7 +342,7 @@ ie_layout (FooCanvasItem *item)
 	/* The lower right is based on the span size excluding the grid lines
 	 * Recall that the bound excludes the far point */
 
-	if (ie->scg->rtl) {
+	if (sheet->text_is_rtl) {
 		tmp = gnm_simple_canvas_x_w2c (item->canvas, gcanvas->first_offset.col);
 		item->x2 = 1 + item->x1 +
 			scg_colrow_distance_get (ie->scg, TRUE, end_col, ie->pos.col+1) - 2;
@@ -392,7 +392,7 @@ item_edit_realize (FooCanvasItem *item)
 
 	ie->layout = gtk_widget_create_pango_layout (GTK_WIDGET (item->canvas), NULL);
 	pango_layout_set_alignment (ie->layout,
-		ie->scg->rtl ? PANGO_ALIGN_RIGHT : PANGO_ALIGN_LEFT);
+		ie->scg->sheet_control.sheet->text_is_rtl ? PANGO_ALIGN_RIGHT : PANGO_ALIGN_LEFT);
 }
 
 static void
@@ -583,7 +583,8 @@ item_edit_set_property (GObject *gobject, guint param_id,
 		item->x1 = 1 + gcanvas->first_offset.col +
 			scg_colrow_distance_get (ie->scg, TRUE,
 				gcanvas->first.col, ie->pos.col);
-		if (ie->scg->rtl) /* -1 to remove the above, then 2 more to move from next cell back */
+		if (ie->scg->sheet_control.sheet->text_is_rtl)
+			/* -1 to remove the above, then 2 more to move from next cell back */
 			item->x1 = 2 + gnm_simple_canvas_x_w2c (item->canvas, item->x1 +
 				scg_colrow_distance_get (ie->scg, TRUE,
 					ie->pos.col, ie->pos.col + 1) - 1);

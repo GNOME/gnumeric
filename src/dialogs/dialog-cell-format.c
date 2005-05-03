@@ -2101,7 +2101,6 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 		if (state->protection.sheet_protected_changed) {
 			WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (state->wbcg));
 			wbv->is_protected = state->protection.sheet_protected_value;
-			wb_view_prefs_update (wbv);
 			state->protection.sheet_protected_changed = FALSE;
 		}
 

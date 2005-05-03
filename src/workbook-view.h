@@ -66,7 +66,6 @@ void         	 wb_view_set_attribute	  (WorkbookView *wbv, char const *name,
 					   char const *value);
 void		 wb_view_preferred_size	  (WorkbookView *wbv,
 					   int w_pixels, int h_pixels);
-void		 wb_view_prefs_update	  (WorkbookView *wbv);
 void		 wb_view_format_feedback  (WorkbookView *wbv, gboolean display);
 void             wb_view_menus_update     (WorkbookView *wbv);
 void		 wb_view_selection_desc   (WorkbookView *wbv, gboolean use_pos,
