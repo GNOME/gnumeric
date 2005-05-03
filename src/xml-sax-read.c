@@ -454,9 +454,8 @@ xml_sax_sheet_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (state->sheet != NULL);
 
 	/* Init ColRowInfo's size_pixels and force a full respan */
+	g_object_set (state->sheet, "zoom-factor", state->sheet_zoom, NULL);
 	sheet_flag_recompute_spans (state->sheet);
-	sheet_set_zoom_factor (state->sheet, state->sheet_zoom,
-			       FALSE, FALSE);
 	state->sheet = NULL;
 }
 

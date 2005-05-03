@@ -343,22 +343,6 @@ wbcg_set_title (WorkbookControl *wbc, char const *title)
 }
 
 static void
-wbcg_zoom_feedback (WorkbookControl *wbc)
-{
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-
-	if (wbcg_ui_update_begin (wbcg)) {
-		int pct = sheet->last_zoom_factor_used * 100 + .5;
-		char *buffer = g_strdup_printf ("%d%%", pct);
-		WorkbookControlGUIClass *wbcg_class = WBCG_CLASS (wbcg);
-		wbcg_class->set_zoom_label (wbcg, buffer);
-		g_free (buffer);
-		wbcg_ui_update_end (wbcg);
-	}
-}
-
-static void
 wbcg_edit_line_set (WorkbookControl *wbc, char const *text)
 {
 	GtkEntry *entry = wbcg_get_entry ((WorkbookControlGUI*)wbc);
@@ -879,6 +863,39 @@ cb_direction_change (G_GNUC_UNUSED Sheet *null_sheet,
 	g_object_set (scg->hs, "inverted", text_is_rtl, NULL);
 }
 
+static void
+cb_zoom_change (Sheet *sheet,
+		G_GNUC_UNUSED GParamSpec *null_pspec,
+		WorkbookControlGUI *wbcg)
+{
+	if (wbcg_ui_update_begin (wbcg)) {
+		int pct = sheet->last_zoom_factor_used * 100 + .5;
+		char *text = g_strdup_printf ("%d%%", pct);
+		WorkbookControlGUIClass *wbcg_class = WBCG_CLASS (wbcg);
+		wbcg_class->set_zoom_label (wbcg, text);
+		g_free (text);
+		wbcg_ui_update_end (wbcg);
+	}
+}
+
+static void
+disconnect_sheet_signals (WorkbookControlGUI *wbcg, Sheet *sheet)
+{
+	int i;
+	SheetControlGUI *scg;
+
+	if (!sheet)
+		return;
+
+	i = wbcg_sheet_to_page_index (wbcg, sheet, &scg);
+	g_return_if_fail (i >= 0);
+
+	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_tab_change, scg->label);
+	g_signal_handlers_disconnect_by_func (sheet, cb_toggle_menu_item_changed, wbcg);
+	g_signal_handlers_disconnect_by_func (sheet, cb_direction_change, scg);
+	g_signal_handlers_disconnect_by_func (sheet, cb_zoom_change, wbcg);
+}
+
 /**
  * wbcg_sheet_add:
  * @sheet: a sheet
@@ -919,21 +936,6 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	g_signal_connect_after (G_OBJECT (scg->label),
 				"edit_finished",
 				G_CALLBACK (cb_sheet_label_edit_finished), wbcg);
-
-	g_object_connect (G_OBJECT (sheet),
-			  "signal::notify::name", cb_sheet_tab_change, scg->label,
-			  "signal::notify::tab-foreground", cb_sheet_tab_change, scg->label,
-			  "signal::notify::tab-background", cb_sheet_tab_change, scg->label,
-			  "signal::notify::display-formulas", cb_toggle_menu_item_changed, wbcg,
-			  "signal::notify::display-zeros", cb_toggle_menu_item_changed, wbcg,
-			  "signal::notify::display-grid", cb_toggle_menu_item_changed, wbcg,
-			  "signal::notify::display-column-header", cb_toggle_menu_item_changed, wbcg,
-			  "signal::notify::display-row-header", cb_toggle_menu_item_changed, wbcg,
-			  "signal::notify::display-outlines", cb_toggle_menu_item_changed, wbcg,
-			  "signal::notify::display-outlines-below", cb_toggle_menu_item_changed, wbcg,
-			  "signal::notify::display-outlines-right", cb_toggle_menu_item_changed, wbcg,
-			  "signal::notify::text-is-rtl", cb_direction_change, scg,
-			  NULL);
 
 	/* do not preempt the editable label handler */
 	g_signal_connect_after (G_OBJECT (scg->label),
@@ -989,9 +991,7 @@ wbcg_sheet_remove (WorkbookControl *wbc, Sheet *sheet)
 	i = wbcg_sheet_to_page_index (wbcg, sheet, &scg);
 	g_return_if_fail (i >= 0);
 
-	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_tab_change, scg->label);
-	g_signal_handlers_disconnect_by_func (sheet, cb_toggle_menu_item_changed, wbcg);
-	g_signal_handlers_disconnect_by_func (sheet, cb_direction_change, scg);
+	disconnect_sheet_signals (wbcg, sheet);
 	gtk_notebook_remove_page (wbcg->notebook, i);
 
 	wbcg_menu_state_sheet_count (wbcg);
@@ -1009,6 +1009,25 @@ wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 		gtk_notebook_set_current_page (wbcg->notebook, i);
 		if (wbcg->rangesel == NULL)
 			gnm_expr_entry_set_scg (wbcg->edit_line.entry, scg);
+
+		disconnect_sheet_signals (wbcg, wbcg_cur_sheet (wbcg));
+
+		g_object_connect
+			(G_OBJECT (sheet),
+			 "signal::notify::name", cb_sheet_tab_change, scg->label,
+			 "signal::notify::tab-foreground", cb_sheet_tab_change, scg->label,
+			 "signal::notify::tab-background", cb_sheet_tab_change, scg->label,
+			 "signal::notify::display-formulas", cb_toggle_menu_item_changed, wbcg,
+			 "signal::notify::display-zeros", cb_toggle_menu_item_changed, wbcg,
+			 "signal::notify::display-grid", cb_toggle_menu_item_changed, wbcg,
+			 "signal::notify::display-column-header", cb_toggle_menu_item_changed, wbcg,
+			 "signal::notify::display-row-header", cb_toggle_menu_item_changed, wbcg,
+			 "signal::notify::display-outlines", cb_toggle_menu_item_changed, wbcg,
+			 "signal::notify::display-outlines-below", cb_toggle_menu_item_changed, wbcg,
+			 "signal::notify::display-outlines-right", cb_toggle_menu_item_changed, wbcg,
+			 "signal::notify::text-is-rtl", cb_direction_change, scg,
+			 "signal::notify::zoom-factor", cb_zoom_change, wbcg,
+			 NULL);
 	}
 }
 
@@ -1036,6 +1055,8 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 
 		/* Be sure we are no longer editing */
 		wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
+
+		disconnect_sheet_signals (wbcg, wbcg_cur_sheet (wbcg));
 
 		/* Clear notebook to disable updates as focus changes for pages
 		 * during destruction */
@@ -1573,7 +1594,7 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 		sheet_flag_status_update_range (sheet, NULL);
 		sheet_update (sheet);
 		wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
-		wb_control_zoom_feedback (WORKBOOK_CONTROL (wbcg));
+		cb_zoom_change (sheet, NULL, wbcg);
 	}
 }
 
@@ -2547,7 +2568,6 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 	object_class->finalize = wbcg_finalize;
 
 	wbc_class->set_title		= wbcg_set_title;
-	wbc_class->zoom_feedback	= wbcg_zoom_feedback;
 	wbc_class->edit_line_set	= wbcg_edit_line_set;
 	wbc_class->selection_descr_set	= wbcg_edit_selection_descr_set;
 	wbc_class->auto_expr_value	= wbcg_auto_expr_value;
@@ -2643,7 +2663,7 @@ wbcg_create (WorkbookControlGUI *wbcg,
 		wb_control_menu_state_update (wbc, MS_ALL);
 		wb_control_update_action_sensitivity (wbc);
 		wb_control_style_feedback (wbc, NULL);
-		wb_control_zoom_feedback (wbc);
+		cb_zoom_change (sheet, NULL, wbcg);
 	}
 
 	if (optional_screen)

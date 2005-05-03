@@ -93,8 +93,6 @@ wb_control_update_title (WorkbookControl *wbc)
 
 WBC_VIRTUAL (style_feedback,
 	(WorkbookControl *wbc, GnmStyle const *changes), (wbc, changes))
-WBC_VIRTUAL (zoom_feedback,
-	(WorkbookControl *wbc), (wbc))
 WBC_VIRTUAL (edit_line_set,
 	(WorkbookControl *wbc, char const *text), (wbc, text))
 WBC_VIRTUAL (selection_descr_set,

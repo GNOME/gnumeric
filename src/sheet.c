@@ -95,7 +95,8 @@ enum {
 	PROP_DISPLAY_OUTLINES_BELOW,
 	PROP_DISPLAY_OUTLINES_RIGHT,
 	PROP_TAB_FOREGROUND,
-	PROP_TAB_BACKGROUND
+	PROP_TAB_BACKGROUND,
+	PROP_ZOOM_FACTOR
 };
 
 static void sheet_finalize (GObject *obj);
@@ -229,6 +230,56 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 				     sheet);
 }
 
+struct resize_colrow {
+	Sheet *sheet;
+	gboolean horizontal;
+};
+
+static gboolean
+cb_colrow_compute_pixels_from_pts (ColRowInfo *cri, void *data)
+{
+	struct resize_colrow *closure = data;
+	colrow_compute_pixels_from_pts (cri, closure->sheet, closure->horizontal);
+	return FALSE;
+}
+
+static void
+cb_clear_rendered_cells (gpointer ignored, GnmCell *cell)
+{
+	if (cell->rendered_value != NULL) {
+		cell->row_info->needs_respan = TRUE;
+		rendered_value_destroy (cell->rendered_value);
+		cell->rendered_value = NULL;
+	}
+}
+
+static void
+sheet_set_zoom_factor (Sheet *sheet, double factor)
+{
+	struct resize_colrow closure;
+
+	if (fabs (factor - sheet->last_zoom_factor_used) < 1e-6)
+		return;
+	sheet->last_zoom_factor_used = factor;
+
+	/* First, the default styles */
+	colrow_compute_pixels_from_pts (&sheet->rows.default_style, sheet, FALSE);
+	colrow_compute_pixels_from_pts (&sheet->cols.default_style, sheet, TRUE);
+
+	/* Then every column and row */
+	closure.sheet = sheet;
+	closure.horizontal = TRUE;
+	colrow_foreach (&sheet->cols, 0, SHEET_MAX_COLS - 1,
+			&cb_colrow_compute_pixels_from_pts, &closure);
+	closure.horizontal = FALSE;
+	colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS - 1,
+			&cb_colrow_compute_pixels_from_pts, &closure);
+
+	g_hash_table_foreach (sheet->cell_hash, (GHFunc)&cb_clear_rendered_cells, NULL);
+	SHEET_FOREACH_CONTROL (sheet, view, control, sc_scale_changed (control););
+}
+
+
 static void
 gnm_sheet_set_property (GObject *object, guint property_id,
 			const GValue *value, GParamSpec *pspec)
@@ -284,6 +335,9 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 		sheet->tab_color = color;
 		break;
 	}
+	case PROP_ZOOM_FACTOR:
+		sheet_set_zoom_factor (sheet, g_value_get_double (value));
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -339,6 +393,9 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 	case PROP_TAB_BACKGROUND:
 		g_value_set_boxed (value, sheet->tab_color);
 		break;
+	case PROP_ZOOM_FACTOR:
+		g_value_set_double (value, sheet->last_zoom_factor_used);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -375,7 +432,6 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->sheet_objects = NULL;
 	sheet->max_object_extent.col = sheet->max_object_extent.row = 0;
 
-	sheet->last_zoom_factor_used = 1.0;
 	sheet->solver_parameters = solver_param_new ();
 
 	sheet->cols.max_used = -1;
@@ -418,6 +474,12 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->names = NULL;
 
 	sheet_style_init (sheet);
+
+	/*
+	 * "zoom-factor" is a construction parameter and will thus
+	 * override this.
+	 */
+	sheet->last_zoom_factor_used = -1;
 }
 
 static void
@@ -555,6 +617,18 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 				     GNM_STYLE_COLOR_TYPE,
 				     GSF_PARAM_STATIC |
 				     G_PARAM_READWRITE));
+	/* What is this doing in sheet?  */
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_ZOOM_FACTOR,
+		 g_param_spec_double ("zoom-factor",
+				      _("Zoom Factor"),
+				      _("The level of zoom used for this sheet."),
+				      0.1, 5.0,
+				      1.0,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_CONSTRUCT |
+				      G_PARAM_READWRITE));
 
 	signals[DETACHED_FROM_WORKBOOK] = g_signal_new
 		("detached_from_workbook",
@@ -594,7 +668,9 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type)
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
 
-	sheet = g_object_new (gnm_sheet_get_type (), NULL);
+	sheet = g_object_new (GNM_SHEET_TYPE,
+			      "zoom-factor", (double)gnm_app_prefs->zoom,
+			      NULL);
 
 	sheet->index_in_wb = -1;
 	sheet->workbook = wb;
@@ -605,9 +681,6 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type)
 	sheet->name_case_insensitive =
 		g_utf8_casefold (sheet->name_unquoted, -1);
 	sheet->sheet_type = type;
-
-	/* Force the zoom change inorder to initialize things */
-	sheet_set_zoom_factor (sheet, gnm_app_prefs->zoom, TRUE, TRUE);
 
 	sheet->display_formulas = (type == GNM_SHEET_XLM);
 	sheet->hide_grid = 
@@ -634,19 +707,6 @@ Sheet *
 sheet_new (Workbook *wb, char const *name)
 {
 	return sheet_new_with_type (wb, name, GNM_SHEET_DATA);
-}
-
-struct resize_colrow {
-	Sheet *sheet;
-	gboolean horizontal;
-};
-
-static gboolean
-cb_colrow_compute_pixels_from_pts (ColRowInfo *cri, void *data)
-{
-	struct resize_colrow *closure = data;
-	colrow_compute_pixels_from_pts (cri, closure->sheet, closure->horizontal);
-	return FALSE;
 }
 
 /****************************************************************************/
@@ -816,80 +876,6 @@ sheet_apply_style (Sheet       *sheet,
 }
 
 /****************************************************************************/
-
-static void
-cb_clear_rendered_cells (gpointer ignored, GnmCell *cell)
-{
-	if (cell->rendered_value != NULL) {
-		cell->row_info->needs_respan = TRUE;
-		rendered_value_destroy (cell->rendered_value);
-		cell->rendered_value = NULL;
-	}
-}
-
-/**
- * sheet_set_zoom_factor : Change the zoom factor.
- * @sheet : The sheet
- * @f : The new zoom
- * @force : Force the zoom to change irrespective of its current value.
- *          Most callers will want to say FALSE.
- * @update : recalculate the spans too
- **/
-void
-sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean update)
-{
-	struct resize_colrow closure;
-	double factor;
-
-	g_return_if_fail (IS_SHEET (sheet));
-
-	/* Bound zoom between 10% and 500% */
-	factor = (f < .1) ? .1 : ((f > 5.) ? 5. : f);
-	if (!force) {
-		double const diff = sheet->last_zoom_factor_used - factor;
-
-		if (-.0001 < diff && diff < .0001)
-			return;
-	}
-
-	sheet->last_zoom_factor_used = factor;
-
-	/* First, the default styles */
-	colrow_compute_pixels_from_pts (&sheet->rows.default_style, sheet, FALSE);
-	colrow_compute_pixels_from_pts (&sheet->cols.default_style, sheet, TRUE);
-
-	/* Then every column and row */
-	closure.sheet = sheet;
-	closure.horizontal = TRUE;
-	colrow_foreach (&sheet->cols, 0, SHEET_MAX_COLS-1,
-			&cb_colrow_compute_pixels_from_pts, &closure);
-	closure.horizontal = FALSE;
-	colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
-			&cb_colrow_compute_pixels_from_pts, &closure);
-
-	g_hash_table_foreach (sheet->cell_hash, (GHFunc)&cb_clear_rendered_cells, NULL);
-	SHEET_FOREACH_CONTROL (sheet, view, control, sc_scale_changed (control););
-
-	/*
-	 * The font size does not scale linearly with the zoom factor
-	 * we will need to recalculate the pixel sizes of all cells.
-	 * We also need to render any cells which have not yet been
-	 * rendered.
-	 */
-	if (update) {
-		sheet_flag_recompute_spans (sheet);
-		sheet->priv->recompute_visibility = TRUE;
-		sheet->priv->reposition_objects.col =
-			sheet->priv->reposition_objects.row = 0;
-		sheet_update_only_grid (sheet);
-
-		SHEET_FOREACH_VIEW (sheet, sv,
-			if (wb_view_cur_sheet (sv_wbv (sv)) == sheet)
-				WORKBOOK_VIEW_FOREACH_CONTROL (sv_wbv (sv), control,
-					wb_control_zoom_feedback (control););
-			);
-	}
-}
 
 ColRowInfo *
 sheet_row_new (Sheet *sheet)
@@ -4419,7 +4405,6 @@ sheet_dup (Sheet const *src)
 					     TRUE, TRUE);
 	dst = sheet_new (wb, name);
 	g_free (name);
-	sheet_set_zoom_factor (dst, src->last_zoom_factor_used, FALSE, FALSE);
 
         /* Copy the print info */
 	print_info_free (dst->print_info);
@@ -4445,7 +4430,9 @@ sheet_dup (Sheet const *src)
 	/* Copy scenarios */
 	dst->scenarios = scenario_copy_all (src->scenarios, dst);
 
-	sheet_set_zoom_factor (dst, dst->last_zoom_factor_used, TRUE, TRUE);
+	/* We need a more general property copying solution.  */
+	g_object_set (dst, "zoom-factor", src->last_zoom_factor_used, NULL);
+
 	sheet_set_dirty (dst, TRUE);
 	sheet_redraw_all (dst, TRUE);
 

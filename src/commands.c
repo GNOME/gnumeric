@@ -4369,8 +4369,7 @@ cmd_zoom_undo (GnmCommand *cmd,
 
 	for (i = 0, l = me->sheets; l != NULL; l = l->next, i++) {
 		Sheet *sheet = l->data;
-
-		sheet_set_zoom_factor (sheet, me->old_factors[i], FALSE, TRUE);
+		g_object_set (sheet, "zoom-factor", me->old_factors[i], NULL);
 	}
 
 	return FALSE;
@@ -4388,8 +4387,7 @@ cmd_zoom_redo (GnmCommand *cmd,
 
 	for (l = me->sheets; l != NULL; l = l->next) {
 		Sheet *sheet = l->data;
-
-		sheet_set_zoom_factor (sheet, me->new_factor, FALSE, TRUE);
+		g_object_set (sheet, "zoom-factor", me->new_factor, NULL);
 	}
 
 	return FALSE;
@@ -4400,10 +4398,8 @@ cmd_zoom_finalize (GObject *cmd)
 {
 	CmdZoom *me = CMD_ZOOM (cmd);
 
-	if (me->sheets)
-		g_slist_free (me->sheets);
-	if (me->old_factors)
-		g_free (me->old_factors);
+	g_slist_free (me->sheets);
+	g_free (me->old_factors);
 
 	gnm_command_finalize (cmd);
 }

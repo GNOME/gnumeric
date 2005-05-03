@@ -93,9 +93,6 @@ Sheet    *sheet_dup		 (Sheet const *source_sheet);
 void      sheet_destroy		 (Sheet *sheet);
 void      sheet_destroy_contents (Sheet *sheet);
 
-void      sheet_set_zoom_factor	 (Sheet *sheet, double factor,
-				  gboolean force, gboolean respan);
-
 /* GnmCell management */
 GnmCell  *sheet_cell_get	 (Sheet const *sheet, int col, int row);
 GnmCell  *sheet_cell_fetch	 (Sheet *sheet, int col, int row);

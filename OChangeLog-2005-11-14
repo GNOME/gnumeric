@@ -1,5 +1,16 @@
 2005-05-03  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-control-gui.c (cb_zoom_change): New function,
+	extracted from wbcg_zoom_feedback.
+	(wbcg_zoom_feedback): Remove zoom_feedback method.
+	(wbcg_sheet_add): Don't attach to sheet notify signals here.
+	(wbcg_sheet_focus): Do it here so we only watch one sheet at a
+	time.
+	(wbcg_sheet_remove, wbcg_sheet_remove_all): Disconnect here too.
+
+	* src/sheet.c (sheet_set_zoom_factor): Make static and add
+	zoom-factor property.  All callers changed.
+
 	* src/workbook-view.c (wb_view_prefs_update): Remove.
 
 	* src/workbook-control-priv.h: Remove prefs_update member.

@@ -4962,8 +4962,7 @@ excel_read_SCL (BiffQuery *q, Sheet *sheet)
 
 	g_return_if_fail (denom != 0);
 
-	sheet_set_zoom_factor (sheet,
-		((double)num)/((double)denom), FALSE, FALSE);
+	g_object_set (sheet, "zoom-factor", num / (double)denom, NULL);
 }
 
 /**

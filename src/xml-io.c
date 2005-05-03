@@ -3070,8 +3070,8 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	g_hash_table_destroy (ctxt->style_table);
 
 	/* Init ColRowInfo's size_pixels and force a full respan */
+	g_object_set (sheet, "zoom-factor", zoom_factor, NULL);
 	sheet_flag_recompute_spans (sheet);
-	sheet_set_zoom_factor (sheet, zoom_factor, FALSE, FALSE);
 
 	return sheet;
 }

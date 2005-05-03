@@ -22,7 +22,6 @@ WorkbookControl *wb_control_wrapper_new (WorkbookControl *wbc,
 
 void wb_control_update_title	     (WorkbookControl *wbc);
 void wb_control_style_feedback	     (WorkbookControl *wbc, GnmStyle const *changes);
-void wb_control_zoom_feedback	     (WorkbookControl *wbc);
 void wb_control_edit_line_set        (WorkbookControl *wbc, char const *text);
 void wb_control_selection_descr_set  (WorkbookControl *wbc, char const *text);
 void wb_control_auto_expr_value	     (WorkbookControl *wbc);

@@ -781,8 +781,7 @@ qpro_read_sheet (QProReadState *state)
 						gnm_io_warning (state->io_context,
 							_("Invalid zoom %hd %%"), high);
 					else
-						sheet_set_zoom_factor (sheet, ((double)high) / 100.,
-							FALSE, FALSE);
+						g_object_set (sheet, "zoom-factor", high / 100.0, NULL);
 				}
 			}
 			break;

@@ -148,8 +148,6 @@ static GNM_ACTION_DEF (cb_zoom_activated)
 		 * display consistent
 		 */
 		cmd_zoom (wbc, g_slist_append (NULL, sheet), factor / 100.);
-	else
-		wb_control_zoom_feedback (wbc);
 }
 
 static void
