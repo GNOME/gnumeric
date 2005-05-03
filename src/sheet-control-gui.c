@@ -1107,6 +1107,33 @@ cb_wbc_destroyed (SheetControlGUI *scg)
 	scg->sheet_control.wbc = NULL;
 }
 
+static void
+cb_scg_prefs (G_GNUC_UNUSED Sheet *sheet,
+	      G_GNUC_UNUSED GParamSpec *pspec,
+	      SheetControl *scg)
+{
+	scg_adjust_preferences (scg);
+}
+
+static void
+cb_scg_redraw (Sheet *sheet,
+	       GParamSpec *pspec,
+	       SheetControl *scg)
+{
+	cb_scg_prefs (sheet, pspec, scg);
+	scg_redraw_all (scg, TRUE);
+}
+
+static void
+cb_scg_redraw_resize (Sheet *sheet,
+		      GParamSpec *pspec,
+		      SheetControl *scg)
+{
+	cb_scg_redraw (sheet, pspec, scg);
+	scg_resize (scg, FALSE);
+}
+
+
 SheetControlGUI *
 sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 {
@@ -1115,7 +1142,7 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
 
-	scg = g_object_new (sheet_control_gui_get_type (), NULL);
+	scg = g_object_new (SHEET_CONTROL_GUI_TYPE, NULL);
 	scg->wbcg = wbcg;
 	scg->sheet_control.wbc = WORKBOOK_CONTROL (wbcg);
 
@@ -1235,6 +1262,18 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 
 	sv_attach_control (sv, SHEET_CONTROL (scg));
 
+	g_object_connect
+		(G_OBJECT (sv_sheet (sv)),
+		 "signal::notify::display-formulas", cb_scg_redraw, scg,
+		 "signal::notify::display-zeros", cb_scg_redraw, scg,
+		 "signal::notify::display-grid", cb_scg_redraw, scg,
+		 "signal::notify::display-column-header", cb_scg_prefs, scg,
+		 "signal::notify::display-row-header", cb_scg_prefs, scg,
+		 "signal::notify::display-outlines", cb_scg_redraw_resize, scg,
+		 "signal::notify::display-outlines-below", cb_scg_redraw_resize, scg,
+		 "signal::notify::display-outlines-right", cb_scg_redraw_resize, scg,
+		 NULL);
+
 	return scg;
 }
 
@@ -1273,8 +1312,16 @@ scg_finalize (GObject *object)
 	}
 	scg_comment_unselect (scg, scg->comment.selected);
 
-	if (sc->view)
+	if (sc->view) {
+		Sheet *sheet = sv_sheet (sc->view);
+		g_signal_handlers_disconnect_by_func
+			(sheet, cb_scg_prefs, scg);
+		g_signal_handlers_disconnect_by_func
+			(sheet, cb_scg_redraw, scg);
+		g_signal_handlers_disconnect_by_func
+			(sheet, cb_scg_redraw_resize, scg);
 		sv_detach_control (sc);
+	}
 
 	if (scg->table) {
 		gtk_object_destroy (GTK_OBJECT (scg->table));

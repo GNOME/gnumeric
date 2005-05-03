@@ -37,7 +37,6 @@ typedef struct {
 	struct {
 		void (*add)	(WorkbookControl *wbc, SheetView *sv);
 		void (*remove)	(WorkbookControl *wbc, Sheet *sheet);
-		void (*rename)  (WorkbookControl *wbc, Sheet *sheet);
 		void (*focus)   (WorkbookControl *wbc, Sheet *sheet);
 		void (*move)    (WorkbookControl *wbc, Sheet *sheet,
 				 int new_pos);
@@ -53,7 +52,6 @@ typedef struct {
 	} undo_redo;
 	struct {
 		void (*update)      (WorkbookControl *wbc, int flags);
-		void (*sheet_prefs) (WorkbookControl *wbc, Sheet const *sheet);
 		void (*sheet_count) (WorkbookControl *wbc);
 	} menu_state;
 

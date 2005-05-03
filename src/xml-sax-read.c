@@ -483,21 +483,21 @@ xml_sax_sheet_name (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 	}
 
 	if (state->display_formulas >= 0)
-		state->sheet->display_formulas = state->display_formulas;
+		g_object_set (state->sheet, "display-formulas", state->display_formulas, NULL);
 	if (state->hide_zero >= 0)
-		state->sheet->hide_zero = state->hide_zero;
+		g_object_set (state->sheet, "display-zeros", !state->hide_zero, NULL);
 	if (state->hide_grid >= 0)
-		state->sheet->hide_grid = state->hide_grid;
+		g_object_set (state->sheet, "display-grid", !state->hide_grid, NULL);
 	if (state->hide_col_header >= 0)
-		state->sheet->hide_col_header = state->hide_col_header;
+		g_object_set (state->sheet, "display-column-header", !state->hide_col_header, NULL);
 	if (state->hide_row_header >= 0)
-		state->sheet->hide_row_header = state->hide_row_header;
+		g_object_set (state->sheet, "display-row-header", !state->hide_row_header, NULL);
 	if (state->display_outlines >= 0)
-		state->sheet->display_outlines = state->display_outlines;
+		g_object_set (state->sheet, "display-outlines", state->display_outlines, NULL);
 	if (state->outline_symbols_below >= 0)
-		state->sheet->outline_symbols_below = state->outline_symbols_below;
+		g_object_set (state->sheet, "display-outlines-below", state->outline_symbols_below, NULL);
 	if (state->outline_symbols_right >= 0)
-		state->sheet->outline_symbols_right = state->outline_symbols_right;
+		g_object_set (state->sheet, "display-outlines-right", state->outline_symbols_right, NULL);
 	if (state->text_is_rtl >= 0)
 		g_object_set (state->sheet, "text-is-rtl", state->text_is_rtl, NULL);
 	state->sheet->tab_color = state->tab_color;

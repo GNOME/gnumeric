@@ -823,6 +823,42 @@ cb_sheet_tab_change (Sheet *sheet,
 				  sheet->tab_text_color ? &sheet->tab_text_color->gdk_color : NULL);
 }
 
+static void
+wbcg_update_menu_feedback (WorkbookControlGUI *wbcg, Sheet const *sheet)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+
+	if (!wbcg_ui_update_begin (wbcg))
+		return;
+
+	wbcg_set_toggle_action_state (wbcg,
+		"SheetDisplayFormulas", sheet->display_formulas);
+	wbcg_set_toggle_action_state (wbcg,
+		"SheetHideZeros", sheet->hide_zero);
+	wbcg_set_toggle_action_state (wbcg,
+		"SheetHideGridlines", sheet->hide_grid);
+	wbcg_set_toggle_action_state (wbcg,
+		"SheetHideColHeader", sheet->hide_col_header);
+	wbcg_set_toggle_action_state (wbcg,
+		"SheetHideRowHeader", sheet->hide_row_header);
+	wbcg_set_toggle_action_state (wbcg,
+		"SheetDisplayOutlines", sheet->display_outlines);
+	wbcg_set_toggle_action_state (wbcg,
+		"SheetOutlineBelow", sheet->outline_symbols_below);
+	wbcg_set_toggle_action_state (wbcg,
+		"SheetOutlineRight", sheet->outline_symbols_right);
+
+	wbcg_ui_update_end (wbcg);
+}
+
+static void
+cb_toggle_menu_item_changed (Sheet *sheet,
+			     G_GNUC_UNUSED GParamSpec *pspec,
+			     WorkbookControlGUI *wbcg)
+{
+	/* We're lazy and just update all.  */
+	wbcg_update_menu_feedback (wbcg, sheet);
+}
 
 /**
  * wbcg_sheet_add:
@@ -865,15 +901,19 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 		"edit_finished",
 		G_CALLBACK (cb_sheet_label_edit_finished), wbcg);
 
-	g_signal_connect (G_OBJECT (sheet),
-			  "notify::name", G_CALLBACK (cb_sheet_tab_change),
-			  scg->label);
-	g_signal_connect (G_OBJECT (sheet),
-			  "notify::tab-foreground", G_CALLBACK (cb_sheet_tab_change),
-			  scg->label);
-	g_signal_connect (G_OBJECT (sheet),
-			  "notify::tab-background", G_CALLBACK (cb_sheet_tab_change),
-			  scg->label);
+	g_object_connect (G_OBJECT (sheet),
+			  "signal::notify::name", cb_sheet_tab_change, scg->label,
+			  "signal::notify::tab-foreground", cb_sheet_tab_change, scg->label,
+			  "signal::notify::tab-background", cb_sheet_tab_change, scg->label,
+			  "signal::notify::display-formulas", cb_toggle_menu_item_changed, wbcg,
+			  "signal::notify::display-zeros", cb_toggle_menu_item_changed, wbcg,
+			  "signal::notify::display-grid", cb_toggle_menu_item_changed, wbcg,
+			  "signal::notify::display-column-header", cb_toggle_menu_item_changed, wbcg,
+			  "signal::notify::display-row-header", cb_toggle_menu_item_changed, wbcg,
+			  "signal::notify::display-outlines", cb_toggle_menu_item_changed, wbcg,
+			  "signal::notify::display-outlines-below", cb_toggle_menu_item_changed, wbcg,
+			  "signal::notify::display-outlines-right", cb_toggle_menu_item_changed, wbcg,
+			  NULL);
 
 	/* do not preempt the editable label handler */
 	g_signal_connect_after (G_OBJECT (scg->label),
@@ -901,8 +941,8 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 
 	if (wbcg_ui_update_begin (wbcg)) {
 		gtk_notebook_insert_page (wbcg->notebook,
-			GTK_WIDGET (scg->table), scg->label,
-			sheet->index_in_wb);
+					  GTK_WIDGET (scg->table), scg->label,
+					  sheet->index_in_wb);
 		wbcg_ui_update_end (wbcg);
 	}
 
@@ -931,6 +971,7 @@ wbcg_sheet_remove (WorkbookControl *wbc, Sheet *sheet)
 	g_return_if_fail (i >= 0);
 
 	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_tab_change, scg->label);
+	g_signal_handlers_disconnect_by_func (sheet, cb_toggle_menu_item_changed, wbcg);
 	gtk_notebook_remove_page (wbcg->notebook, i);
 
 	wbcg_menu_state_sheet_count (wbc);
@@ -1085,34 +1126,6 @@ wbcg_undo_redo_labels (WorkbookControl *wbc, char const *undo, char const *redo)
 
 	wbcg_set_action_label (wbcg, "Undo", _("_Undo"), undo, NULL);
 	wbcg_set_action_label (wbcg, "Redo", _("_Redo"), redo, NULL);
-}
-
-static void
-wbcg_menu_state_sheet_prefs (WorkbookControl *wbc, Sheet const *sheet)
-{
- 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-
-	if (!wbcg_ui_update_begin (wbcg))
-		return;
-
-	wbcg_set_toggle_action_state (wbcg,
-		"SheetDisplayFormulas", sheet->display_formulas);
-	wbcg_set_toggle_action_state (wbcg,
-		"SheetHideZeros", sheet->hide_zero);
-	wbcg_set_toggle_action_state (wbcg,
-		"SheetHideGridlines", sheet->hide_grid);
-	wbcg_set_toggle_action_state (wbcg,
-		"SheetHideColHeader", sheet->hide_col_header);
-	wbcg_set_toggle_action_state (wbcg,
-		"SheetHideRowHeader", sheet->hide_row_header);
-	wbcg_set_toggle_action_state (wbcg,
-		"SheetDisplayOutlines", sheet->display_outlines);
-	wbcg_set_toggle_action_state (wbcg,
-		"SheetOutlineBelow", sheet->outline_symbols_below);
-	wbcg_set_toggle_action_state (wbcg,
-		"SheetOutlineRight", sheet->outline_symbols_right);
-
-	wbcg_ui_update_end (wbcg);
 }
 
 static void
@@ -1549,6 +1562,7 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	/* if we are not selecting a range for an expression update */
 	sheet = wbcg_focus_cur_scg (wbcg);
 	if (sheet != wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg))) {
+		wbcg_update_menu_feedback (wbcg, sheet);
 		sheet_flag_status_update_range (sheet, NULL);
 		sheet_update (sheet);
 		wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
@@ -2566,7 +2580,6 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 	wbc_class->undo_redo.labels   = wbcg_undo_redo_labels;
 
 	wbc_class->menu_state.update      = wbcg_menu_state_update;
-	wbc_class->menu_state.sheet_prefs = wbcg_menu_state_sheet_prefs;
 	wbc_class->menu_state.sheet_count = wbcg_menu_state_sheet_count;
 
 	wbc_class->claim_selection	 = wbcg_claim_selection;
@@ -2632,7 +2645,7 @@ wbcg_create (WorkbookControlGUI *wbcg,
 {
 	Sheet *sheet;
 	WorkbookView *wbv;
-	WorkbookControl *wbc;
+	WorkbookControl *wbc = (WorkbookControl *)wbcg;
 
 	wbcg_create_edit_area (wbcg);
 	wbcg_create_status_area (wbcg);
@@ -2642,13 +2655,11 @@ wbcg_create (WorkbookControlGUI *wbcg,
 		"notify::file-history-list",
 		G_CALLBACK (wbcg_reload_recent_file_menu), wbcg, G_CONNECT_SWAPPED);
 
-	wbc = (WorkbookControl *)wbcg;
 	wb_control_set_view (wbc, optional_view, optional_wb);
 	wbv = wb_control_view (wbc);
 	sheet = wbv->current_sheet;
 	if (sheet != NULL) {
 		wb_control_menu_state_update (wbc, MS_ALL);
-		wb_control_menu_state_sheet_prefs (wbc, sheet);
 		wb_control_update_action_sensitivity (wbc);
 		wb_control_style_feedback (wbc, NULL);
 		wb_control_zoom_feedback (wbc);

@@ -1,3 +1,22 @@
+2005-05-03  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_sheet_name): Use g_object_set to set
+	sheet properties.
+
+	* src/workbook-control-gui.c (wbcg_sheet_add): Connect to more
+	sheet properties.
+	(workbook_control_gui_class_init): Eliminate
+	wbc_class->menu_state.sheet_prefs.
+
+	* src/sheet.c (gnm_sheet_set_property): Add properties
+	"display-outlines-below" and "display-outlines-right".
+	(sheet_adjust_preferences): No need to call
+	wb_control_menu_state_sheet_prefs anymore.
+
+	* src/sheet-control-gui.c (sheet_control_gui_new): Connect to
+	notify signals for all the sheet properties that cause changed
+	display.
+
 2005-05-02  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_sheet_add): Connect to

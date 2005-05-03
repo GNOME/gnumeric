@@ -124,8 +124,6 @@ WBC_VIRTUAL_FULL (undo_redo_labels, undo_redo.labels,
 	(WorkbookControl *wbc, char const *undo, char const *redo),
 	(wbc, undo, redo))
 
-WBC_VIRTUAL_FULL (menu_state_sheet_prefs, menu_state.sheet_prefs,
-	(WorkbookControl *wbc, Sheet const *sheet), (wbc, sheet))
 WBC_VIRTUAL_FULL (menu_state_update, menu_state.update,
         (WorkbookControl *wbc, int flags),
 	(wbc, flags))
@@ -158,7 +156,6 @@ wb_control_sheet_add (WorkbookControl *wbc, SheetView *sv)
 			wb_view_edit_line_set (wbv, wbc);
 			wb_control_auto_expr_value (wbc);
 			wb_control_style_feedback (wbc, NULL);
-			wb_control_menu_state_sheet_prefs (wbc, new_sheet);
 			wb_control_menu_state_update (wbc, MS_ALL);
 			wb_control_update_action_sensitivity (wbc);
 		}

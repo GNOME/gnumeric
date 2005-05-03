@@ -238,7 +238,6 @@ wb_view_menus_update (WorkbookView *wbv)
 	if (sheet != NULL) {
 		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc, {
 			wb_control_menu_state_update (wbc, MS_ALL);
-			wb_control_menu_state_sheet_prefs (wbc, sheet);
 			wb_control_update_action_sensitivity (wbc);
 		});
 	}

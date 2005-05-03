@@ -92,6 +92,8 @@ enum {
 	PROP_DISPLAY_COLUMN_HEADER,
 	PROP_DISPLAY_ROW_HEADER,
 	PROP_DISPLAY_OUTLINES,
+	PROP_DISPLAY_OUTLINES_BELOW,
+	PROP_DISPLAY_OUTLINES_RIGHT,
 	PROP_TAB_FOREGROUND,
 	PROP_TAB_BACKGROUND
 };
@@ -138,7 +140,7 @@ sheet_set_display_formulas (Sheet *sheet, gboolean display)
 	SHEET_FOREACH_DEPENDENT (sheet, dep, {
 		if (dependent_is_cell (dep)) {
 			cell = DEP_TO_CELL (dep);
-			if (cell_has_expr(cell)) {
+			if (cell_has_expr (cell)) {
 				if (cell->rendered_value != NULL) {
 					rendered_value_destroy (cell->rendered_value);
 					cell->rendered_value = NULL;
@@ -148,7 +150,6 @@ sheet_set_display_formulas (Sheet *sheet, gboolean display)
 			}
 		}
 	});
-	sheet_adjust_preferences (sheet, TRUE, FALSE);
 }
 
 static GnmValue *
@@ -172,51 +173,6 @@ sheet_set_hide_zeros (Sheet *sheet, gboolean hide)
 	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
 		0, 0, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1,
 		cb_rerender_zeroes, NULL);
-	sheet_adjust_preferences (sheet, TRUE, FALSE);
-}
-
-static void	  
-sheet_set_hide_grid (Sheet *sheet, gboolean hide)
-{
-	hide = !!hide;
-	if (sheet->hide_grid == hide)
-		return;
-	sheet->hide_grid = hide;
-
-	sheet_adjust_preferences (sheet, TRUE, FALSE);
-}
-
-static void	  
-sheet_set_hide_col_header (Sheet *sheet, gboolean hide)
-{
-	hide = !!hide;
-	if (sheet->hide_col_header == hide)
-		return;
-	sheet->hide_col_header = hide;
-
-	sheet_adjust_preferences (sheet, FALSE, FALSE);
-}
-
-static void	  
-sheet_set_hide_row_header (Sheet *sheet, gboolean hide)
-{
-	hide = !!hide;
-	if (sheet->hide_row_header == hide)
-		return;
-	sheet->hide_row_header = hide;
-
-	sheet_adjust_preferences (sheet, FALSE, FALSE);
-}
-
-static void	  
-sheet_set_display_outlines (Sheet *sheet, gboolean display)
-{
-	display = !!display;
-	if (sheet->display_outlines == display)
-		return;
-	sheet->display_outlines = display;
-
-	sheet_adjust_preferences (sheet, TRUE, TRUE);
 }
 
 static void
@@ -290,7 +246,7 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 		sheet_set_visibility (sheet, g_value_get_boolean (value));
 		break;
 	case PROP_PROTECTED:
-		sheet->is_protected = g_value_get_boolean (value);
+		sheet->is_protected = !!g_value_get_boolean (value);
 		break;
 	case PROP_DISPLAY_FORMULAS:
 		sheet_set_display_formulas (sheet, g_value_get_boolean (value));
@@ -299,16 +255,22 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 		sheet_set_hide_zeros (sheet, !g_value_get_boolean (value));
 		break;
 	case PROP_DISPLAY_GRID:
-		sheet_set_hide_grid (sheet, !g_value_get_boolean (value));
+		sheet->hide_grid = !g_value_get_boolean (value);
 		break;
 	case PROP_DISPLAY_COLUMN_HEADER:
-		sheet_set_hide_col_header (sheet, !g_value_get_boolean (value));
+		sheet->hide_col_header = !g_value_get_boolean (value);
 		break;
 	case PROP_DISPLAY_ROW_HEADER:
-		sheet_set_hide_row_header (sheet, !g_value_get_boolean (value));
+		sheet->hide_row_header = !g_value_get_boolean (value);
 		break;
 	case PROP_DISPLAY_OUTLINES:
-		sheet_set_display_outlines (sheet, g_value_get_boolean (value));
+		sheet->display_outlines = !!g_value_get_boolean (value);
+		break;
+	case PROP_DISPLAY_OUTLINES_BELOW:
+		sheet->outline_symbols_below = !!g_value_get_boolean (value);
+		break;
+	case PROP_DISPLAY_OUTLINES_RIGHT:
+		sheet->outline_symbols_right = !!g_value_get_boolean (value);
 		break;
 	case PROP_TAB_FOREGROUND: {
 		GnmColor *color = g_value_dup_boxed (value);
@@ -364,6 +326,12 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 		break;
 	case PROP_DISPLAY_OUTLINES:
 		g_value_set_boolean (value, sheet->display_outlines);
+		break;
+	case PROP_DISPLAY_OUTLINES_BELOW:
+		g_value_set_boolean (value, sheet->outline_symbols_below);
+		break;
+	case PROP_DISPLAY_OUTLINES_RIGHT:
+		g_value_set_boolean (value, sheet->outline_symbols_right);
 		break;
 	case PROP_TAB_FOREGROUND:
 		g_value_set_boxed (value, sheet->tab_text_color);
@@ -548,7 +516,25 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 		 g_param_spec_boolean ("display-outlines",
 				       _("Display Outlines"),
 				       _("Control whether outlines are shown."),
-				       FALSE,
+				       TRUE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_DISPLAY_OUTLINES_BELOW,
+		 g_param_spec_boolean ("display-outlines-below",
+				       _("Display Outlines Below"),
+				       _("Control whether outlines symbols are shown below."),
+				       TRUE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_DISPLAY_OUTLINES_RIGHT,
+		 g_param_spec_boolean ("display-outlines-right",
+				       _("Display Outlines Right"),
+				       _("Control whether outlines symbols are shown to the right."),
+				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
 	g_object_class_install_property
@@ -1085,12 +1071,12 @@ sheet_update_only_grid (Sheet const *sheet)
 	p = sheet->priv;
 
 	/* be careful these can toggle flags */
-	if (sheet->priv->recompute_max_col_group) {
+	if (p->recompute_max_col_group) {
 		sheet_colrow_gutter ((Sheet *)sheet, TRUE,
 			sheet_colrow_fit_gutter (sheet, TRUE));
 		sheet->priv->recompute_max_col_group = FALSE;
 	}
-	if (sheet->priv->recompute_max_row_group) {
+	if (p->recompute_max_row_group) {
 		sheet_colrow_gutter ((Sheet *)sheet, FALSE,
 			sheet_colrow_fit_gutter (sheet, FALSE));
 		sheet->priv->recompute_max_row_group = FALSE;
@@ -4290,12 +4276,6 @@ sheet_adjust_preferences (Sheet const *sheet, gboolean redraw, gboolean resize)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
-	WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
-		if (sheet == wb_view_cur_sheet (view)) {
-			WORKBOOK_VIEW_FOREACH_CONTROL(view, control,
-				  wb_control_menu_state_sheet_prefs (control, sheet););
-		}
-	});
 	SHEET_FOREACH_CONTROL (sheet, view, control, {
 		sc_adjust_preferences (control);
 		if (resize)

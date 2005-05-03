@@ -2014,21 +2014,7 @@ static const GtkActionEntry actions[] = {
 	{ "CopyRight", NULL, "", "<control>R", NULL, G_CALLBACK (cb_copyright) }
 };
 
-#define TOGGLE_HANDLER(flag, code)					\
-static GNM_ACTION_DEF (cb_sheet_pref_ ## flag )				\
-{									\
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));		\
-									\
-	if (!wbcg->updating_ui) {					\
-		Sheet *sheet = wbcg_cur_sheet (wbcg);			\
-		g_return_if_fail (IS_SHEET (sheet));			\
-									\
-		sheet->flag = !sheet->flag;				\
-		code							\
-	}								\
-}
-
-#define TOGGLE_HANDLER_P(flag,property)					\
+#define TOGGLE_HANDLER(flag,property)					\
 static GNM_ACTION_DEF (cb_sheet_pref_ ## flag )				\
 {									\
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));		\
@@ -2039,20 +2025,14 @@ static GNM_ACTION_DEF (cb_sheet_pref_ ## flag )				\
 	}								\
 }
 
-TOGGLE_HANDLER_P (display_formulas, "display-formulas")
-TOGGLE_HANDLER_P (hide_zero, "display-zeros")
-TOGGLE_HANDLER_P (hide_grid, "display-grid")
-TOGGLE_HANDLER_P (hide_col_header, "display-column-header")
-TOGGLE_HANDLER_P (hide_row_header, "display-row-header")
-TOGGLE_HANDLER_P (display_outlines, "display-outlines")
-TOGGLE_HANDLER (outline_symbols_below, {
-		sheet_set_outline_direction (sheet, FALSE);
-		sheet_adjust_preferences (sheet, TRUE, TRUE);
-})
-TOGGLE_HANDLER (outline_symbols_right,{
-		sheet_set_outline_direction (sheet, TRUE);
-		sheet_adjust_preferences (sheet, TRUE, TRUE);
-})
+TOGGLE_HANDLER (display_formulas, "display-formulas")
+TOGGLE_HANDLER (hide_zero, "display-zeros")
+TOGGLE_HANDLER (hide_grid, "display-grid")
+TOGGLE_HANDLER (hide_col_header, "display-column-header")
+TOGGLE_HANDLER (hide_row_header, "display-row-header")
+TOGGLE_HANDLER (display_outlines, "display-outlines")
+TOGGLE_HANDLER (outline_symbols_below, "display-outlines-below")
+TOGGLE_HANDLER (outline_symbols_right, "display-outlines-right")
 
 static const GtkToggleActionEntry toggle_actions[] = {
 	{ "SheetDisplayOutlines", NULL, N_("Display _Outlines"),
