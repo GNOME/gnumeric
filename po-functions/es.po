@@ -1,4 +1,5 @@
 # translation of es.po to 
+# translation of es.po to
 # Spanish translation of gnumeric
 # Copyright © 1998,2003 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnumeric package.
@@ -14,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-01 15:54+0200\n"
-"PO-Revision-Date: 2005-05-01 16:09+0200\n"
+"POT-Creation-Date: 2005-05-03 11:30+0200\n"
+"PO-Revision-Date: 2005-05-03 11:56+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -11774,13 +11775,17 @@ msgstr "sigma:desviación estándar de la distribución."
 msgid ""
 "give_log:if true, log of the result will be returned instead.  This is "
 "useful if the result would otherwise underflow to 0.  Defaults to false."
-msgstr "give_log:si es cierto, devolver un registro del rerultado en su lugar. Esto es útil se el resultado saca un underflow a 0.  Predeterminado a falso."
+msgstr ""
+"give_log:si es cierto, se devolverá el logarirmo del resultado en su lugar. Esto "
+"es útil se el resultado baja de 0.  Predeterminado a falso."
 
 #: ../plugins/fn-r/functions.c:23
 msgid ""
 "This function returns the probability density function of the normal "
 "distribution."
-msgstr "Esta función devuelve la función de densidad de probabilidad de la distribución normal."
+msgstr ""
+"Esta función devuelve la función de densidad de probabilidad de la "
+"distribución normal."
 
 #: ../plugins/fn-r/functions.c:43
 msgid "R.PNORM:cumulative distribution function of the normal distribution."
@@ -11804,7 +11809,9 @@ msgstr "R.PNORM:función de distribución acumulativa de la distribución normal
 msgid ""
 "lower_tail:if true (the default), the lower tail of the distribution is "
 "considered."
-msgstr "lower_tail:se es cierto (lo predeterminado), la cola más baja de la distribución es la que se considera."
+msgstr ""
+"lower_tail:se es cierto (lo predeterminado), la cola más baja de la "
+"distribución es la que se considera."
 
 #: ../plugins/fn-r/functions.c:48 ../plugins/fn-r/functions.c:75
 #: ../plugins/fn-r/functions.c:127 ../plugins/fn-r/functions.c:154
@@ -11824,17 +11831,17 @@ msgstr "lower_tail:se es cierto (lo predeterminado), la cola más baja de la dis
 msgid ""
 "log_p:if true, log of the probability is used.  This is useful if the "
 "probability would otherwise underflow to 0.  Defaults to false."
-msgstr ""
+msgstr "log_p:si es verdadero, se usa el logaritmo de la probabilidad.  Esto es útil si la probabilidad de otro modo baja  a cero.  Lo predeterminado es falso."
 
 #: ../plugins/fn-r/functions.c:49
 msgid ""
 "This function returns the cumulative distribution function of the normal "
 "distribution."
-msgstr ""
+msgstr "Esta función devueleve una distribución acumulada de la distribución normal."
 
 #: ../plugins/fn-r/functions.c:70
 msgid "R.QNORM:probability quantile function of the normal distribution."
-msgstr ""
+msgstr "R.QNORM:probabilidad de la función cuantil de la distribución normal."
 
 #: ../plugins/fn-r/functions.c:71 ../plugins/fn-r/functions.c:229
 #: ../plugins/fn-r/functions.c:308 ../plugins/fn-r/functions.c:383
@@ -11843,17 +11850,17 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:916 ../plugins/fn-r/functions.c:1047
 #: ../plugins/fn-r/functions.c:1124
 msgid "p:probability."
-msgstr ""
+msgstr "p:probabilidad."
 
 #: ../plugins/fn-r/functions.c:76
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the normal distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de probabilidad del cuantil, por ejemplo, la inversa de la función de distribución acumulada de la distribución normal."
 
 #: ../plugins/fn-r/functions.c:97
 msgid "R.DLNORM:probability density function of the log-normal distribution."
-msgstr ""
+msgstr "R.DLNORM:función de densidad de probabilidad de la distribución log-normal."
 
 #: ../plugins/fn-r/functions.c:99 ../plugins/fn-r/functions.c:124
 #: ../plugins/fn-r/functions.c:151
@@ -11863,37 +11870,37 @@ msgstr "logmean: media de la distribución normal subyacente."
 #: ../plugins/fn-r/functions.c:100 ../plugins/fn-r/functions.c:125
 #: ../plugins/fn-r/functions.c:152
 msgid "logsd:standard deviation of the underlying normal distribution."
-msgstr ""
+msgstr "logsd:desciación estándar de la distribución normal subyacente."
 
 #: ../plugins/fn-r/functions.c:102
 msgid ""
 "This function returns the probability density function of the log-normal "
 "distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de densidad de probabilidad de la distribución log-normal."
 
 #: ../plugins/fn-r/functions.c:122
 msgid "R.PLNORM:cumulative distribution function of the log-normal distribution."
-msgstr ""
+msgstr "R.PLNORM:función de distribución acumulada de la distribución log-normal."
 
 #: ../plugins/fn-r/functions.c:128
 msgid ""
 "This function returns the cumulative distribution function of the log-normal "
 "distribution."
-msgstr ""
+msgstr "Esta función devuelve ela función de distribución acumulada de la distribución log-normal."
 
 #: ../plugins/fn-r/functions.c:149
 msgid "R.QLNORM:probability quantile function of the log-normal distribution."
-msgstr ""
+msgstr "R.QLNORM:función de cuantil de probabilidad de la distribución log-normal."
 
 #: ../plugins/fn-r/functions.c:155
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the log-normal distribution."
-msgstr ""
+msgstr "Esta función devuelve la función del cuantil de probabilidad, ej, la inversa de la función de distribución acumulada de la distribución log-normal."
 
 #: ../plugins/fn-r/functions.c:176
 msgid "R.DGAMMA:probability density function of the gamma distribution."
-msgstr ""
+msgstr "R.DGAMMA:función de densidad de probabilidad de la distribución gamma."
 
 #: ../plugins/fn-r/functions.c:178 ../plugins/fn-r/functions.c:203
 #: ../plugins/fn-r/functions.c:230 ../plugins/fn-r/functions.c:561
@@ -11914,102 +11921,104 @@ msgstr "escala: el parámetro de escala de la distribución"
 msgid ""
 "This function returns the probability density function of the gamma "
 "distribution."
-msgstr "Esta función devuelve la función de densidad de probabilidad de la distribución gamma."
+msgstr ""
+"Esta función devuelve la función de densidad de probabilidad de la "
+"distribución gamma."
 
 #: ../plugins/fn-r/functions.c:201
 msgid "R.PGAMMA:cumulative distribution function of the gamma distribution."
-msgstr ""
+msgstr "R.PGAMMA:función de distribución acumulativa de la distribución gamma."
 
 #: ../plugins/fn-r/functions.c:207
 msgid ""
 "This function returns the cumulative distribution function of the gamma "
 "distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de distribución acumulativa de la distribución gamma."
 
 #: ../plugins/fn-r/functions.c:228
 msgid "R.QGAMMA:probability quantile function of the gamma distribution."
-msgstr ""
+msgstr "R.QGAMMA:función del cuantil de probabilidad de la distribución gamma."
 
 #: ../plugins/fn-r/functions.c:234
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the gamma distribution."
-msgstr ""
+msgstr "Esta función devuelve la función del cuantil de probabilidad, ej: la inversa del la función de distribución acumulada, de la distribución gamma."
 
 #: ../plugins/fn-r/functions.c:255
 msgid "R.DBETA:probability density function of the beta distribution."
-msgstr ""
+msgstr "R.DBETA:función de densidad de probabilidad de la distribución beta."
 
 #: ../plugins/fn-r/functions.c:257 ../plugins/fn-r/functions.c:282
 #: ../plugins/fn-r/functions.c:309
 msgid "a:the first shape parameter of the distribution"
-msgstr ""
+msgstr "a: el primer parámetro de forma de la distribución"
 
 #: ../plugins/fn-r/functions.c:258 ../plugins/fn-r/functions.c:283
 #: ../plugins/fn-r/functions.c:310
 msgid "b:the second scale parameter of the distribution"
-msgstr ""
+msgstr "b: El segundo parámetro de escala de la distribución"
 
 #: ../plugins/fn-r/functions.c:260
 msgid ""
 "This function returns the probability density function of the beta "
 "distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de densidad de probabilidad de la distribución beta."
 
 #: ../plugins/fn-r/functions.c:280
 msgid "R.PBETA:cumulative distribution function of the beta distribution."
-msgstr ""
+msgstr "R.PBETA:función de distribución acumulada de la distribución beta."
 
 #: ../plugins/fn-r/functions.c:286
 msgid ""
 "This function returns the cumulative distribution function of the beta "
 "distribution."
-msgstr ""
+msgstr "Esta función devuelve la dunción de distribución acumulada de la distribución beta."
 
 #: ../plugins/fn-r/functions.c:307
 msgid "R.QBETA:probability quantile function of the beta distribution."
-msgstr ""
+msgstr "R.QBETA:función de cuantil de probabilidad de la distribución beta."
 
 #: ../plugins/fn-r/functions.c:313
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the beta distribution."
-msgstr ""
+msgstr "Esta función devuelve la función del cuantil de probabilidad, ej, la inversa de la función de distribución acumulada, o la distribución beta."
 
 #: ../plugins/fn-r/functions.c:334
 msgid "R.DT:probability density function of the Student t distribution."
-msgstr ""
+msgstr "R.DT:función de densidad de probabilidad de la distribución de T Student."
 
 #: ../plugins/fn-r/functions.c:336 ../plugins/fn-r/functions.c:359
 #: ../plugins/fn-r/functions.c:384
 msgid "n:the number of degrees of freedom of the distribution"
-msgstr ""
+msgstr "n: número de grados de libertad de la distribución"
 
 #: ../plugins/fn-r/functions.c:338
 msgid ""
 "This function returns the probability density function of the Student t "
 "distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de densidad de probabilidad de la distribución de T Student."
 
 #: ../plugins/fn-r/functions.c:357
 msgid "R.PT:cumulative distribution function of the Student t distribution."
-msgstr ""
+msgstr "R.PT:función de distribución acumulada de la distrivbución de T Student."
 
 #: ../plugins/fn-r/functions.c:362
 msgid ""
 "This function returns the cumulative distribution function of the Student t "
 "distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de distribución acumulada de la distribución de  Student T."
 
 #: ../plugins/fn-r/functions.c:382
 msgid "R.QT:probability quantile function of the Student t distribution."
-msgstr ""
+msgstr "R.QT:función del cuantil de probabilidad de la distribución de Studen t."
 
 #: ../plugins/fn-r/functions.c:387
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Student t distribution."
-msgstr ""
+msgstr "Esta función devuelve la función del cuantil de probabilidad, ej, la inversa de la función de distribución acumulada de la distribución de Student t."
 
 #: ../plugins/fn-r/functions.c:407
 msgid "R.DF:probability density function of the F distribution."
@@ -12023,11 +12032,11 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:410 ../plugins/fn-r/functions.c:435
 #: ../plugins/fn-r/functions.c:462
 msgid "n2:the first number of degrees of freedom of the distribution"
-msgstr ""
+msgstr "n2: el primer número de grados de libertad de la distribución"
 
 #: ../plugins/fn-r/functions.c:412
 msgid "This function returns the probability density function of the F distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de densidad de probabilidad de la distribución de F."
 
 #: ../plugins/fn-r/functions.c:432
 msgid "R.PF:cumulative distribution function of the F distribution."
@@ -12037,7 +12046,7 @@ msgstr ""
 msgid ""
 "This function returns the cumulative distribution function of the F "
 "distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de distribución acumulativa de la distribución F."
 
 #: ../plugins/fn-r/functions.c:459
 msgid "R.QF:probability quantile function of the F distribution."
@@ -12121,7 +12130,7 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:640 ../plugins/fn-r/functions.c:663
 #: ../plugins/fn-r/functions.c:688
 msgid "lambda:the mean of the distribution"
-msgstr ""
+msgstr "lambda:la media de la distribución"
 
 #: ../plugins/fn-r/functions.c:642
 msgid ""
@@ -12343,7 +12352,9 @@ msgstr ""
 msgid ""
 "This function returns the cumulative distribution function of the Cauchy "
 "distribution."
-msgstr "Esta función devuelve la función de distribución acumulada de la distribución de Cauchy."
+msgstr ""
+"Esta función devuelve la función de distribución acumulada de la "
+"distribución de Cauchy."
 
 #: ../plugins/fn-r/functions.c:1123
 msgid "R.QCAUCHY:probability quantile function of the Cauchy distribution."
@@ -12353,7 +12364,9 @@ msgstr "R.QCAUCHY:función de cuantil de probabilidad de la distribución de Cau
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Cauchy distribution."
-msgstr "Esta función devuelve la función del cuantil de probablidada, ejm el inverso de la función de distribución acumulada, de la distribución de Cauchy."
+msgstr ""
+"Esta función devuelve la función del cuantil de probablidada, ejm el inverso "
+"de la función de distribución acumulada, de la distribución de Cauchy."
 
 #: ../plugins/fn-random/functions.c:47
 msgid ""
@@ -13457,8 +13470,9 @@ msgstr ""
 "@fracción es la fracción del conjunto de datos excluido de la media. Por "
 "ejemplo, si @fracción=0.2 y el conjunto de datos contiene 40 números, se "
 "recortan 8 números del conjunto de datos (40 x 0.2), 4 de arriba y 4 de "
-"abajo del conjunto. Para evitar un bias, el número de puntos a ser ejecutados se "
-"redondea siempre hacia abajo hasta el número impar más cercano.\n"
+"abajo del conjunto. Para evitar un bias, el número de puntos a ser "
+"ejecutados se redondea siempre hacia abajo hasta el número impar más "
+"cercano.\n"
 "\n"
 "* Esta función es compatible con Excel.\n"
 "\n"
@@ -14815,9 +14829,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,media,desvest,acumulado)\n"
-"@DESCRIPTION=La función NORMDIST devuelve el valor de la función de densidad "
-" de la distribución normal acumulada con la media dada por @media, y la desviación "
-"estándar dada por @desvest. si @acumulado es FALSE, NORMDIST devuelve el valor de la función de densidad de probabilidad en el valor @x. Si @acumuilado es TRUE, NORMDIST devueleve el valor de la función de distribución acumulativa en @x.\n"
+"@DESCRIPTION=La función NORMDIST devuelve el valor de la función de "
+"densidad  de la distribución normal acumulada con la media dada por @media, "
+"y la desviación estándar dada por @desvest. si @acumulado es FALSE, NORMDIST "
+"devuelve el valor de la función de densidad de probabilidad en el valor @x. "
+"Si @acumuilado es TRUE, NORMDIST devueleve el valor de la función de "
+"distribución acumulativa en @x.\n"
 "\n"
 "* Si @desvest es 0, NORMDIST devuelve el error #DIV/0!.\n"
 "* Esta función es compatible con Excel.\n"

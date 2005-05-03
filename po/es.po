@@ -1,3 +1,4 @@
+# translation of es.po to 
 # Spanish translation of gnumeric
 # Copyright © 1998,2003 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnumeric package.
@@ -13,10 +14,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-24 12:04+0200\n"
-"PO-Revision-Date: 2005-04-24 12:20+0200\n"
-"Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
-"Language-Team: Spanish <traductores@es.gnome.org>\n"
+"POT-Creation-Date: 2005-05-03 11:24+0200\n"
+"PO-Revision-Date: 2005-05-03 11:30+0200\n"
+"Last-Translator: \n"
+"Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -99,8 +100,7 @@ msgstr "Proporciona un interfaz para scripts de CORBA"
 #: ../plugins/derivatives/options.c:2270 ../plugins/derivatives/options.c:2275
 #: ../plugins/derivatives/options.c:2290
 msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
-msgstr ""
-"marca_call_put, spot, strike, tiempo, tasa, volatilidad, coste_de_ejecución"
+msgstr "marca_call_put, spot, strike, tiempo, tasa, volatilidad, coste_de_ejecución"
 
 #: ../plugins/derivatives/options.c:2280 ../plugins/derivatives/options.c:2285
 msgid "spot, strike, time, rate, volatility, cost_of_carry"
@@ -111,8 +111,7 @@ msgid "a, b, rho"
 msgstr "a, b, ro"
 
 #: ../plugins/derivatives/options.c:2300
-msgid ""
-"call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
+msgid "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 msgstr ""
 "marca_call_put, spot, strike, tiempo, tasa_nacional, tasa_extranjera, "
 "volatilidad"
@@ -128,16 +127,14 @@ msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
 msgstr "marca_call_put, spot, strike, tiempo, tasa, volatilidad, lambda, gamma"
 
 #: ../plugins/derivatives/options.c:2315
-msgid ""
-"call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
+msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 msgstr ""
 "marca_call_put, spot, strike, tiempo, tasa, volatilidad, coste_de_ejecución, "
 "lambda"
 
 #: ../plugins/derivatives/options.c:2320 ../plugins/derivatives/options.c:2330
 msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
-msgstr ""
-"marca_call_put, spot, strike, tiempo, tasa, coste_de_ejecución, volatilidad"
+msgstr "marca_call_put, spot, strike, tiempo, tasa, coste_de_ejecución, volatilidad"
 
 #: ../plugins/derivatives/options.c:2325
 msgid ""
@@ -152,15 +149,13 @@ msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
 msgstr "marca_call_put, spot, strike, t1, t2, tasa, d, volatilidad"
 
 #: ../plugins/derivatives/options.c:2340
-msgid ""
-"call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
+msgid "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 msgstr ""
 "marca_call_put, spot, alfa, tiempo1, time, tasa, volatilidad, "
 "coste_de_ejecución"
 
 #: ../plugins/derivatives/options.c:2345
-msgid ""
-"call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
+msgid "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
 "marca_call_put, spot, strike, a, tiempo, m, dt, tasa, coste_de_ejecución, "
 "volatilidad"
@@ -245,7 +240,7 @@ msgstr "Derivadas financieras"
 msgid "Functions related to financial derivatives"
 msgstr "Funciones relacionadas con derivados de finanzas"
 
-#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:5842
+#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:5848
 #: ../plugins/mps/mps.c:544 ../src/xml-io.c:3844
 msgid "Reading file..."
 msgstr "Leyendo archivo..."
@@ -286,8 +281,7 @@ msgstr ""
 #: ../plugins/dif/dif.c:244
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
-msgstr ""
-"Fin de archivo inesperado mientras se procesaba el encabezado en la línea %d."
+msgstr "Fin de archivo inesperado mientras se procesaba el encabezado en la línea %d."
 
 #: ../plugins/dif/dif.c:248
 #, c-format
@@ -317,8 +311,7 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Módulo de formato de intercambio de datos (DIF)"
 
 #: ../plugins/dif/plugin.xml.in.h:3
-msgid ""
-"Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr ""
 "Lee y escribe información almacenada en formato de intercambio de datos (*."
 "dif)"
@@ -374,12 +367,12 @@ msgstr "Diagrama-%d"
 msgid "Module%d"
 msgstr "Módulo %d"
 
-#: ../plugins/excel/ms-excel-read.c:2930
+#: ../plugins/excel/ms-excel-read.c:2931
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Ha ocurrido un error al analizar el nombre «%s»"
 
-#: ../plugins/excel/ms-excel-read.c:3026
+#: ../plugins/excel/ms-excel-read.c:3027
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -388,7 +381,7 @@ msgstr ""
 "Los enlaces DDE no están soportados.\n"
 "El nombre «%s» se perderá.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3032
+#: ../plugins/excel/ms-excel-read.c:3033
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -397,15 +390,15 @@ msgstr ""
 "Los enlaces OLE no están soportados.\n"
 "El nombre «%s» se perderá.\n"
 
-#: ../plugins/excel/ms-excel-read.c:5149
+#: ../plugins/excel/ms-excel-read.c:5155
 msgid "external references"
 msgstr "referencias externas"
 
-#: ../plugins/excel/ms-excel-read.c:5173
+#: ../plugins/excel/ms-excel-read.c:5179
 msgid "No password supplied"
 msgstr "No se suministró contraseña"
 
-#: ../plugins/excel/ms-excel-read.c:6071
+#: ../plugins/excel/ms-excel-read.c:6077
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Es imposible ubicar un libro de cuentas MS Excel válido"
 
@@ -460,8 +453,7 @@ msgstr ""
 
 #: ../plugins/excel/ms-formula-write.c:536
 #, c-format
-msgid ""
-"Too many arguments for function '%s', MS Excel can only handle %d not %d"
+msgid "Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr ""
 "Demasiados argumentos para la función «%s», MS Excel sólo puede manipular %d "
 "no %d"
@@ -734,7 +726,7 @@ msgstr "%s versión %s"
 #: ../plugins/fn-info/functions.c:1334
 #: ../src/dialogs/dialog-cell-format.c:2332
 #: ../src/dialogs/dialog-cell-format.c:2337
-#: ../src/dialogs/dialog-cell-format.c:2347 ../src/wbc-gtk.c:536
+#: ../src/dialogs/dialog-cell-format.c:2347 ../src/wbc-gtk.c:535
 msgid "Automatic"
 msgstr "Automático"
 
@@ -1027,156 +1019,148 @@ msgstr "Funciones matemáticas"
 msgid "Mathematics"
 msgstr "Matemáticas"
 
-#: ../plugins/fn-r/functions.c:1437
+#: ../plugins/fn-r/functions.c:1164
 msgid "x,mu,sigma,give_log"
 msgstr "x,mu,sigma,give_log"
 
-#: ../plugins/fn-r/functions.c:1445
+#: ../plugins/fn-r/functions.c:1172
 msgid "x,mu,sigma,lower_tail,log_p"
 msgstr "x,mu,sigma,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1453
+#: ../plugins/fn-r/functions.c:1180
 msgid "p,mu,sigma,lower_tail,log_p"
 msgstr "p,mu,sigma,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1461
+#: ../plugins/fn-r/functions.c:1188
 msgid "x,logmean,logsd,give_log"
 msgstr "x,logmean,logsd,give_log"
 
-#: ../plugins/fn-r/functions.c:1469 ../plugins/fn-r/functions.c:1477
+#: ../plugins/fn-r/functions.c:1196 ../plugins/fn-r/functions.c:1204
 msgid "x,logmean,logsd,lower_tail,log_p"
 msgstr "x,logmean,logsd,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1485 ../plugins/fn-r/functions.c:1605
+#: ../plugins/fn-r/functions.c:1212 ../plugins/fn-r/functions.c:1332
 msgid "x,shape,scale,give_log"
 msgstr "x,shape,scale,give_log"
 
-#: ../plugins/fn-r/functions.c:1493
-msgid "x,p,scale,lower_tail,log_p"
-msgstr "x,p,scale,lower_tail,log_p"
-
-#: ../plugins/fn-r/functions.c:1501
-msgid "p,alpha,scale,lower_tail,log_p"
-msgstr "p,alpha,scale,lower_tail,log_p"
-
-#: ../plugins/fn-r/functions.c:1509
-msgid "x,a,b,give_log"
-msgstr "x,a,b,give_log"
-
-#: ../plugins/fn-r/functions.c:1517
-msgid "x,a,b,lower_tail,log_p"
-msgstr "x,a,b,lower_tail,log_p"
-
-#: ../plugins/fn-r/functions.c:1525
-msgid "alpha,a,b,lower_tail,log_p"
-msgstr "alpha,a,b,lower_tail,log_p"
-
-#: ../plugins/fn-r/functions.c:1533
-msgid "x,n,give_log"
-msgstr "x,n,give_log"
-
-#: ../plugins/fn-r/functions.c:1541
-msgid "x,n,lower_tail,log_p"
-msgstr "x,n,lower_tail,log_p"
-
-#: ../plugins/fn-r/functions.c:1549
-msgid "p,n,lower_tail,log_p"
-msgstr "p,n,lower_tail,log_p"
-
-#: ../plugins/fn-r/functions.c:1557
-msgid "x,n1,n2,give_log"
-msgstr "x,n1,n2,give_log"
-
-#: ../plugins/fn-r/functions.c:1565 ../plugins/fn-r/functions.c:1573
-msgid "x,n1,n2,lower_tail,log_p"
-msgstr "x,n1,n2,lower_tail,log_p"
-
-#: ../plugins/fn-r/functions.c:1581
-msgid "x,df,give_log"
-msgstr "x,df,give_log"
-
-#: ../plugins/fn-r/functions.c:1589
-msgid "x,df,lower_tail,log_p"
-msgstr "x,df,lower_tail,log_p"
-
-#: ../plugins/fn-r/functions.c:1597
-msgid "p,df,lower_tail,log_p"
-msgstr "p,df,lower_tail,log_p"
-
-#: ../plugins/fn-r/functions.c:1613
+#: ../plugins/fn-r/functions.c:1220 ../plugins/fn-r/functions.c:1340
 msgid "x,shape,scale,lower_tail,log_p"
 msgstr "x,shape,scale,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1621
+#: ../plugins/fn-r/functions.c:1228 ../plugins/fn-r/functions.c:1348
 msgid "p,shape,scale,lower_tail,log_p"
 msgstr "p,shape,scale,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1629
+#: ../plugins/fn-r/functions.c:1236
+msgid "x,a,b,give_log"
+msgstr "x,a,b,give_log"
+
+#: ../plugins/fn-r/functions.c:1244
+msgid "x,a,b,lower_tail,log_p"
+msgstr "x,a,b,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1252
+msgid "p,a,b,lower_tail,log_p"
+msgstr "p,a,b,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1260
+msgid "x,n,give_log"
+msgstr "x,n,give_log"
+
+#: ../plugins/fn-r/functions.c:1268
+msgid "x,n,lower_tail,log_p"
+msgstr "x,n,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1276
+msgid "p,n,lower_tail,log_p"
+msgstr "p,n,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1284
+msgid "x,n1,n2,give_log"
+msgstr "x,n1,n2,give_log"
+
+#: ../plugins/fn-r/functions.c:1292 ../plugins/fn-r/functions.c:1300
+msgid "x,n1,n2,lower_tail,log_p"
+msgstr "x,n1,n2,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1308
+msgid "x,df,give_log"
+msgstr "x,df,give_log"
+
+#: ../plugins/fn-r/functions.c:1316
+msgid "x,df,lower_tail,log_p"
+msgstr "x,df,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1324
+msgid "p,df,lower_tail,log_p"
+msgstr "p,df,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1356
 msgid "x,lambda,give_log"
 msgstr "x,lambda,give_log"
 
-#: ../plugins/fn-r/functions.c:1637
+#: ../plugins/fn-r/functions.c:1364
 msgid "x,lambda,lower_tail,log_p"
 msgstr "x,lambda,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1645
+#: ../plugins/fn-r/functions.c:1372
 msgid "p,lambda,lower_tail,log_p"
 msgstr "p,lambda,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1653
+#: ../plugins/fn-r/functions.c:1380
 msgid "x,scale,give_log"
 msgstr "x,scale,give_log"
 
-#: ../plugins/fn-r/functions.c:1661
+#: ../plugins/fn-r/functions.c:1388
 msgid "x,scale,lower_tail,log_p"
 msgstr "x,scale,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1669
+#: ../plugins/fn-r/functions.c:1396
 msgid "p,scale,lower_tail,log_p"
 msgstr "p,scale,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1677 ../plugins/fn-r/functions.c:1701
+#: ../plugins/fn-r/functions.c:1404 ../plugins/fn-r/functions.c:1428
 msgid "x,n,psuc,give_log"
 msgstr "x,n,psuc,give_log"
 
-#: ../plugins/fn-r/functions.c:1685 ../plugins/fn-r/functions.c:1693
-#: ../plugins/fn-r/functions.c:1709
+#: ../plugins/fn-r/functions.c:1412 ../plugins/fn-r/functions.c:1420
+#: ../plugins/fn-r/functions.c:1436
 msgid "x,n,psuc,lower_tail,log_p"
 msgstr "x,n,psuc,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1717
+#: ../plugins/fn-r/functions.c:1444
 msgid "p,n,psuc,lower_tail,log_p"
 msgstr "p,n,psuc,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1725
+#: ../plugins/fn-r/functions.c:1452
 msgid "x,r,b,n,give_log"
 msgstr "x,r,b,n,give_log"
 
-#: ../plugins/fn-r/functions.c:1733
+#: ../plugins/fn-r/functions.c:1460
 msgid "x,r,b,n,lower_tail,log_p"
 msgstr "x,r,b,n,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1741
+#: ../plugins/fn-r/functions.c:1468
 msgid "x,psuc,give_log"
 msgstr "x,psuc,give_log"
 
-#: ../plugins/fn-r/functions.c:1749
+#: ../plugins/fn-r/functions.c:1476
 msgid "x,psuc,lower_tail,log_p"
 msgstr "x,psuc,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1757
+#: ../plugins/fn-r/functions.c:1484
 msgid "p,psuc,lower_tail,log_p"
 msgstr "p,psuc,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1765
+#: ../plugins/fn-r/functions.c:1492
 msgid "x,location,scale,give_log"
 msgstr "x,location,scale,give_log"
 
-#: ../plugins/fn-r/functions.c:1773
+#: ../plugins/fn-r/functions.c:1500
 msgid "x,location,scale,lower_tail,log_p"
 msgstr "x,location,scale,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1781
+#: ../plugins/fn-r/functions.c:1508
 msgid "p,location,scale,lower_tail,log_p"
 msgstr "p,location,scale,lower_tail,log_p"
 
@@ -1185,8 +1169,7 @@ msgid "Statistical Functions"
 msgstr "Funciones estadísticas"
 
 #: ../plugins/fn-r/plugin.xml.in.h:2
-msgid ""
-"Statistical Functions with naming a calling conventions from The R Project"
+msgid "Statistical Functions with naming a calling conventions from The R Project"
 msgstr "Funciones estadísticas con nombres y convenciones de llamada del proyecto R"
 
 #: ../plugins/fn-r/plugin.xml.in.h:3 ../plugins/fn-stat/plugin.xml.in.h:2
@@ -1679,7 +1662,7 @@ msgstr "Restricciones:"
 #: ../src/tools/solver/reports-write.c:393
 #: ../src/tools/solver/reports-write.c:400
 #: ../src/tools/solver/reports-write.c:668 ../src/commands.c:6241
-#: ../src/format-template.c:249
+#: ../src/format-template.c:249 ../src/sheet.c:468
 msgid "Name"
 msgstr "Nombre"
 
@@ -1801,13 +1784,11 @@ msgstr "La expresión del array no indica el número de filas."
 #: ../plugins/openoffice/openoffice-read.c:1147
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
-msgstr ""
-"Imposible analizar la posición para la expresión «%s» @ «%s» porque «%s»"
+msgstr "Imposible analizar la posición para la expresión «%s» @ «%s» porque «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:1160
 #, c-format
-msgid ""
-"Unable to parse position for expression '%s' with value '%s' because '%s'"
+msgid "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr ""
 "Imposible analizar la posición para la expresión «%s» con valor «%s» debido "
 "a «%s»"
@@ -1926,8 +1907,7 @@ msgstr "PLN: La hoja de cálculo tiene contraseña encriptada"
 #: ../plugins/plan-perfect/pln.c:571
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
-msgstr ""
-"Ignorando dato que dice estar en fila %u que es > que la fila máxima %u"
+msgstr "Ignorando dato que dice estar en fila %u que es > que la fila máxima %u"
 
 #: ../plugins/plan-perfect/pln.c:575
 #, c-format
@@ -2144,17 +2124,17 @@ msgstr "Quattro Pro™"
 msgid "Invalid '%s' record of length %hd instead of %d"
 msgstr "Registro «%s» inválido de longitud %hd en vez de %d"
 
-#: ../plugins/qpro/qpro-read.c:775
+#: ../plugins/qpro/qpro-read.c:782
 #, c-format
 msgid "Invalid zoom %hd %%"
 msgstr "Factor de ampliación %hd %% inválido"
 
-#: ../plugins/qpro/qpro-read.c:817
+#: ../plugins/qpro/qpro-read.c:824
 #, c-format
 msgid "Invalid record %d of length %hd"
 msgstr "Registro %d inválido de longitud %hd"
 
-#: ../plugins/qpro/qpro-read.c:849
+#: ../plugins/qpro/qpro-read.c:856
 msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
@@ -2235,7 +2215,7 @@ msgstr "Error al abrir archivo xbase."
 #: ../plugins/xbase/boot.c:176 ../src/dialogs/dialog-goto-cell.c:289
 #: ../src/dialogs/dialog-search.c:422 ../src/dialogs/dialog-stf-export.c:458
 #: ../src/dialogs/print.glade.h:21 ../src/commands.c:5035
-#: ../src/print-info.c:402 ../src/workbook.c:1084 ../src/xml-io.c:3441
+#: ../src/print-info.c:402 ../src/workbook.c:1087 ../src/xml-io.c:3441
 msgid "Sheet"
 msgstr "Hoja"
 
@@ -2441,8 +2421,7 @@ msgstr "Cabecera de página"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:41
 msgid "Please use the Print Setup dialog to edit this value."
-msgstr ""
-"Por favor, use el diálogo «Configurar impresión» para editar este valor."
+msgstr "Por favor, use el diálogo «Configurar impresión» para editar este valor."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:42
 msgid "Print Config"
@@ -2545,8 +2524,7 @@ msgid "This directory contains the pre-installed autoformat templates."
 msgstr "Este directorio contiene las plantillas de autoformato preinstaladas."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:59
-msgid ""
-"This list contains all extra directories containing autoformat templates."
+msgid "This list contains all extra directories containing autoformat templates."
 msgstr ""
 "Esta lista contiene todos los directorios extra que contienen plantillas de "
 "autoformato."
@@ -2727,10 +2705,8 @@ msgstr ""
 "favor use el diálogo de «Configuración de impresión» para editar este valor."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:80
-msgid ""
-"This variable determines whether to activate every new encountered plugin."
-msgstr ""
-"Esta variable determina si se debe activar cada complemento nuevo encontrado."
+msgid "This variable determines whether to activate every new encountered plugin."
+msgstr "Esta variable determina si se debe activar cada complemento nuevo encontrado."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:81
 msgid "User Directory for Autoformats"
@@ -2931,8 +2907,7 @@ msgid "The default font size for new workbooks."
 msgstr "El tamaño de tipografía inicial para los libros de cuentas nuevos."
 
 #: ../schemas/gnumeric-general.schemas.in.h:36
-msgid ""
-"The file menu shows a list of recently used functions. This is that list."
+msgid "The file menu shows a list of recently used functions. This is that list."
 msgstr ""
 "El menú de archivo muestra una lista de las funciones recientemente usadas. "
 "Esta es esa lista."
@@ -2999,22 +2974,19 @@ msgstr ""
 "configurable."
 
 #: ../schemas/gnumeric-general.schemas.in.h:45
-msgid ""
-"This value determines the maximum number of items in the undo/redo list."
+msgid "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
 "Este valor determina el máximo número de elementos en la lista hacer/"
 "deshacer."
 
 #: ../schemas/gnumeric-general.schemas.in.h:46
-msgid ""
-"This value determines whether the default font for a new workbook is bold."
+msgid "This value determines whether the default font for a new workbook is bold."
 msgstr ""
 "Este valor determina si la tipografía predeterminada para un libro de "
 "cuentas nuevo es negrita."
 
 #: ../schemas/gnumeric-general.schemas.in.h:47
-msgid ""
-"This value determines whether the default font for a new workbook is italic."
+msgid "This value determines whether the default font for a new workbook is italic."
 msgstr ""
 "Este valor determina si la tipografía predeterminada para un libro de "
 "cuentas nuevo es itálica."
@@ -3638,8 +3610,8 @@ msgstr ""
 "Personalizado"
 
 #: ../src/dialogs/cell-format.glade.h:36
-#: ../src/dialogs/dialog-cell-format.c:2342 ../src/wbc-gtk.c:588
-#: ../src/wbc-gtk.c:589 ../src/wbc-gtk.c:596
+#: ../src/dialogs/dialog-cell-format.c:2342 ../src/wbc-gtk.c:587
+#: ../src/wbc-gtk.c:588 ../src/wbc-gtk.c:595
 msgid "Background"
 msgstr "Fondo"
 
@@ -4690,13 +4662,11 @@ msgstr "No se puede crear el diálogo para la Herramienta de Covarianza."
 
 #: ../src/dialogs/dialog-analysis-tools.c:826
 msgid "Could not create the Rank and Percentile Tools dialog."
-msgstr ""
-"No se puede crear el diálogo para las Herramientas de Rangos y Percentiles."
+msgstr "No se puede crear el diálogo para las Herramientas de Rangos y Percentiles."
 
 #: ../src/dialogs/dialog-analysis-tools.c:917
 msgid "Could not create the Fourier Analysis Tool dialog."
-msgstr ""
-"No se puede crear el diálogo para la Herramienta de Análisis de Fourier."
+msgstr "No se puede crear el diálogo para la Herramienta de Análisis de Fourier."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1046
 msgid "No statistics is selected."
@@ -4713,8 +4683,7 @@ msgstr "K debe ser un entero positivo."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1128
 msgid "Could not create the Descriptive Statistics Tool dialog."
-msgstr ""
-"No se puede crear el diálogo para la Herramienta de Estadística Descriptiva."
+msgstr "No se puede crear el diálogo para la Herramienta de Estadística Descriptiva."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1273
 msgid ""
@@ -4746,8 +4715,7 @@ msgstr "No se puede crear el diálogo para la Herramienta de Muestreo."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1997
 #: ../src/tools/analysis-tools.c:3326 ../src/tools/analysis-tools.c:3405
-msgid ""
-"There must be an equal number of entries for each variable in the regression."
+msgid "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 "Debe existir un número equivalente de registros por cada variable en la "
 "regresión."
@@ -4758,8 +4726,7 @@ msgstr "No se puede crear el diálogo para la Herramienta de Regresión."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2219
 msgid "Could not create the Exponential Smoothing Tool dialog."
-msgstr ""
-"No se ha podido crear el diálogo de la Herramienta de Suavizado Exponencial."
+msgstr "No se ha podido crear el diálogo de la Herramienta de Suavizado Exponencial."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2352
 msgid "Could not create the Moving Average Tool dialog."
@@ -4826,8 +4793,7 @@ msgstr "El rango de entrada dado debe contener al menos dos filas de datos."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2853
 msgid "The number of data rows must be a multiple of the replication number."
-msgstr ""
-"El número de filas de datos debe ser múltiplo del número de replicación."
+msgstr "El número de filas de datos debe ser múltiplo del número de replicación."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2923
 msgid "The number of rows per sample should be a positive integer."
@@ -4841,8 +4807,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-autocorrect.c:332
 msgid "Could not create the AutoCorrect dialog."
-msgstr ""
-"No se puede crear el diálogo para la herramienta de Corrección automática."
+msgstr "No se puede crear el diálogo para la herramienta de Corrección automática."
 
 #: ../src/dialogs/dialog-autoformat.c:77
 #: ../src/dialogs/scenario-manager.glade.h:1
@@ -5017,12 +4982,12 @@ msgid "The validation criteria are unusable. Disable validation?"
 msgstr "Los criterios de validación no son usables. ¿Desactivar validación?"
 
 #: ../src/dialogs/dialog-cell-format.c:2337 ../src/wbc-gtk.c:179
-#: ../src/wbc-gtk.c:312 ../src/wbc-gtk.c:538 ../src/wbc-gtk.c:539
-#: ../src/wbc-gtk.c:548 ../src/wbc-gtk.c:649 ../src/wbc-gtk.c:703
+#: ../src/wbc-gtk.c:312 ../src/wbc-gtk.c:537 ../src/wbc-gtk.c:538
+#: ../src/wbc-gtk.c:547 ../src/wbc-gtk.c:648 ../src/wbc-gtk.c:702
 msgid "Foreground"
 msgstr "Primer plano"
 
-#: ../src/dialogs/dialog-cell-format.c:2342 ../src/wbc-gtk.c:586
+#: ../src/dialogs/dialog-cell-format.c:2342 ../src/wbc-gtk.c:585
 msgid "Clear Background"
 msgstr "Limpiar el fondo"
 
@@ -5084,8 +5049,7 @@ msgstr "Cambiar el ancho estándar/predeterminado de columna"
 
 #: ../src/dialogs/dialog-col-width.c:237
 #, c-format
-msgid ""
-"Set column width of selection on <span style='italic' weight='bold'>%s</span>"
+msgid "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
 "Fijar el ancho de columna de selección a <span style='italic' weight='bold'>%"
 "s</span>"
@@ -5531,7 +5495,7 @@ msgstr "Archivos"
 msgid "Tools"
 msgstr "Herramientas"
 
-#: ../src/dialogs/dialog-preferences.c:794 ../src/wbc-gtk.c:472
+#: ../src/dialogs/dialog-preferences.c:794 ../src/wbc-gtk.c:471
 msgid "Undo"
 msgstr "Deshacer"
 
@@ -5806,10 +5770,8 @@ msgstr "Fija la altura de fila estándar/predeterminada"
 
 #: ../src/dialogs/dialog-row-height.c:237
 #, c-format
-msgid ""
-"Set row height of selection on <span style='italic' weight='bold'>%s</span>"
-msgstr ""
-"Fija la altura de la selección a <span style='italic' weigth='bold'>%s</span>"
+msgid "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
+msgstr "Fija la altura de la selección a <span style='italic' weigth='bold'>%s</span>"
 
 #: ../src/dialogs/dialog-scenarios.c:130
 msgid "Invalid changing cells"
@@ -5974,16 +5936,16 @@ msgid "Variable"
 msgstr "Variable"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/workbook-control-gui.c:1874
+#: ../src/workbook-control-gui.c:1882
 msgid "Min"
 msgstr "Mínimo"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/workbook-control-gui.c:1876
+#: ../src/dialogs/dialog-simulation.c:237 ../src/workbook-control-gui.c:1884
 msgid "Average"
 msgstr "Promediación"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/workbook-control-gui.c:1875
+#: ../src/workbook-control-gui.c:1883
 msgid "Max"
 msgstr "Máximo"
 
@@ -6041,10 +6003,8 @@ msgstr ""
 "informes."
 
 #: ../src/dialogs/dialog-solver.c:725
-msgid ""
-"The Target Cell value specified does not converge!  The program is unbounded."
-msgstr ""
-"El valor de la celda objetivo no converge.  El programa no tiene límites."
+msgid "The Target Cell value specified does not converge!  The program is unbounded."
+msgstr "El valor de la celda objetivo no converge.  El programa no tiene límites."
 
 #: ../src/dialogs/dialog-solver.c:739
 msgid ""
@@ -6350,8 +6310,7 @@ msgid "Copy format to right"
 msgstr "Copiar formato a la derecha"
 
 #: ../src/dialogs/dialog-stf-format-page.c:471
-msgid ""
-"If this checkbox is selected, the column will be imported into Gnumeric."
+msgid "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr "Si se selecciona esta casilla, la columna será importada a Gnumeric."
 
 #: ../src/dialogs/dialog-stf-format-page.c:628
@@ -6372,8 +6331,7 @@ msgstr "'"
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr ""
-"El procesamiento comenzará en esta línea, las líneas previas serán ignoradas."
+msgstr "El procesamiento comenzará en esta línea, las líneas previas serán ignoradas."
 
 #: ../src/dialogs/dialog-stf.glade.h:5
 msgid "Attempt to recognize columns in the text automatically."
@@ -6527,10 +6485,8 @@ msgid "See two successive separators as one."
 msgstr "Considerar separadores consecutivos como uno solo."
 
 #: ../src/dialogs/dialog-stf.glade.h:41
-msgid ""
-"See two successive text indicators as one that does not terminate the cell."
-msgstr ""
-"Ver dos indicadores de texto sucesivos como uno solo que no termina la celda."
+msgid "See two successive text indicators as one that does not terminate the cell."
+msgstr "Ver dos indicadores de texto sucesivos como uno solo que no termina la celda."
 
 #: ../src/dialogs/dialog-stf.glade.h:42
 msgid "Semicolo_n (;)"
@@ -6570,8 +6526,7 @@ msgstr "Indicador de texto"
 
 #: ../src/dialogs/dialog-stf.glade.h:51
 msgid "The carriage return character (ASCII code 13) breaks lines"
-msgstr ""
-"El carácter de retorno de carro (código ASCII 13) salta a la línea siguiente"
+msgstr "El carácter de retorno de carro (código ASCII 13) salta a la línea siguiente"
 
 #: ../src/dialogs/dialog-stf.glade.h:52
 msgid "The line feed character (ASCII code 10) breaks lines"
@@ -8373,8 +8328,7 @@ msgid "Tabulate Dependency"
 msgstr "Dependencia tabular"
 
 #: ../src/dialogs/tabulate.glade.h:11
-msgid ""
-"Use down for first source, right for second, and multiple sheets for third"
+msgid "Use down for first source, right for second, and multiple sheets for third"
 msgstr ""
 "Use abajo para el primer origen, derecha para el segundo múltiples hojas "
 "para el tercero"
@@ -8786,8 +8740,7 @@ msgstr "/Grupos/Cuenta/Suma/Promediación/Varianza"
 
 #: ../src/tools/analysis-tools.c:4103
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
-msgstr ""
-"/Análisis de varianza/Origen de variación/Entre grupos/Dentro de grupos/Total"
+msgstr "/Análisis de varianza/Origen de variación/Entre grupos/Dentro de grupos/Total"
 
 #: ../src/tools/analysis-tools.c:4109 ../src/tools/analysis-tools.c:4560
 #: ../src/tools/analysis-tools.c:4734
@@ -8838,8 +8791,7 @@ msgstr "/Cuenta/Suma/Promediación/Varianza"
 
 #: ../src/tools/analysis-tools.c:4726
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
-msgstr ""
-"/Análisis de varianza/Origen de variación/Filas/Columnas/Interacción/Total"
+msgstr "/Análisis de varianza/Origen de variación/Filas/Columnas/Interacción/Total"
 
 #: ../src/tools/analysis-tools.c:5025
 #, c-format
@@ -9027,7 +8979,7 @@ msgstr "Curtosis"
 msgid "Range"
 msgstr "Rango"
 
-#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1877
+#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1885
 msgid "Count"
 msgstr "Cuenta"
 
@@ -9487,7 +9439,7 @@ msgid "Expecting a single range"
 msgstr "Se espera un rango simple"
 
 #. ALSO "<control>2"
-#: ../src/widgets/widget-font-selector.c:209 ../src/wbcg-actions.c:2116
+#: ../src/widgets/widget-font-selector.c:209 ../src/wbcg-actions.c:2127
 msgid "Bold"
 msgstr "Negrita"
 
@@ -9496,7 +9448,7 @@ msgid "Bold italic"
 msgstr "Negritas cursivas"
 
 #. ALSO "<control>3"
-#: ../src/widgets/widget-font-selector.c:211 ../src/wbcg-actions.c:2119
+#: ../src/widgets/widget-font-selector.c:211 ../src/wbcg-actions.c:2130
 msgid "Italic"
 msgstr "Cursiva"
 
@@ -9591,8 +9543,7 @@ msgstr "Debiera dividir un array"
 #: ../src/commands.c:251
 #, c-format
 msgid "%s is locked. Unprotect the workbook to enable editing."
-msgstr ""
-"%s está bloqueado. Desproteja el libro de cuentas para activar la edición."
+msgstr "%s está bloqueado. Desproteja el libro de cuentas para activar la edición."
 
 #: ../src/commands.c:252
 #, c-format
@@ -9626,11 +9577,11 @@ msgstr "Tecleando «%s%s»"
 msgid "Ins/Del Column/Row"
 msgstr "Ins/Supr Columna/Fila"
 
-#: ../src/commands.c:1389 ../src/commands.c:1394 ../src/sheet.c:3343
+#: ../src/commands.c:1389 ../src/commands.c:1394 ../src/sheet.c:3658
 msgid "Delete Columns"
 msgstr "Borrar columnas"
 
-#: ../src/commands.c:1389 ../src/commands.c:1394 ../src/sheet.c:3465
+#: ../src/commands.c:1389 ../src/commands.c:1394 ../src/sheet.c:3780
 msgid "Delete Rows"
 msgstr "Borrar filas"
 
@@ -9675,7 +9626,7 @@ msgid "Deleting row %s"
 msgstr "Borrando %s fila"
 
 #. Check for locked cells
-#: ../src/commands.c:1664 ../src/commands.c:1668 ../src/sheet.c:2946
+#: ../src/commands.c:1664 ../src/commands.c:1668 ../src/sheet.c:3261
 msgid "Clear"
 msgstr "Limpiar"
 
@@ -10057,11 +10008,11 @@ msgstr "Tabulando dependencias"
 msgid "Reconfigure Graph"
 msgstr "Reconfigurar la gráfica"
 
-#: ../src/commands.c:7206
+#: ../src/commands.c:7207
 msgid "Left to Right"
 msgstr "Izquierda a derecha"
 
-#: ../src/commands.c:7206
+#: ../src/commands.c:7207
 msgid "Right to Left"
 msgstr "Derecha a izquierda"
 
@@ -10120,8 +10071,7 @@ msgstr "El archivo xml no es válido: ¿Está vacío el árbol?"
 
 #: ../src/format-template.c:788
 #, c-format
-msgid ""
-"The target region is too small.  It should be at least %d rows by %d columns"
+msgid "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr ""
 "La región de destino es muy pequeña, debe tener al menos %d filas por %d "
 "columnas"
@@ -10129,14 +10079,12 @@ msgstr ""
 #: ../src/format-template.c:792
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
-msgstr ""
-"La región de destino es muy pequeña, debe tener al menos %d columnas de ancho"
+msgstr "La región de destino es muy pequeña, debe tener al menos %d columnas de ancho"
 
 #: ../src/format-template.c:796
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
-msgstr ""
-"La región de destino es muy pequeña, debe tener al menos %d filas de alto"
+msgstr "La región de destino es muy pequeña, debe tener al menos %d filas de alto"
 
 #: ../src/func-builtin.c:35
 msgid ""
@@ -10508,8 +10456,7 @@ msgstr "Activar algunas funciones de depuración relativas a dependencias"
 
 #: ../src/main-application.c:79
 msgid "Enables some debugging functions for expression sharing"
-msgstr ""
-"Activar algunas funciones de depuración para compartición de expresiones"
+msgstr "Activar algunas funciones de depuración para compartición de expresiones"
 
 #: ../src/main-application.c:81
 msgid "Enables some print debugging behavior"
@@ -10744,13 +10691,11 @@ msgstr "En en este contexto no es soportado disponer de múltiples expresiones"
 
 #: ../src/parser.y:1410
 msgid "Could not find matching opening parenthesis"
-msgstr ""
-"No coinciden los paréntesis abiertos y cerrados (faltan paréntesis abiertos)"
+msgstr "No coinciden los paréntesis abiertos y cerrados (faltan paréntesis abiertos)"
 
 #: ../src/parser.y:1414
 msgid "Could not find matching closing parenthesis"
-msgstr ""
-"No coinciden los paréntesis abiertos y cerrados (faltan paréntesis cerrados)"
+msgstr "No coinciden los paréntesis abiertos y cerrados (faltan paréntesis cerrados)"
 
 #: ../src/parser.y:1418
 msgid "Invalid expression"
@@ -10762,31 +10707,31 @@ msgid "Unexpected token %c"
 msgstr "Señal (token) inesperada %c"
 
 #. Note: we cannot have spaces in page numbers.
-#: ../src/print.c:606
+#: ../src/print.c:604
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: ../src/print.c:1149
+#: ../src/print.c:1147
 msgid "Print Region"
 msgstr "Región de impresión"
 
-#: ../src/print.c:1309 ../src/wbcg-actions.c:1510
+#: ../src/print.c:1307 ../src/wbcg-actions.c:1510
 msgid "Print preview"
 msgstr "Vista previa de impresión"
 
-#: ../src/print.c:1321
+#: ../src/print.c:1319
 msgid "Printing failed"
 msgstr "Falló la impresión"
 
-#: ../src/print.c:1427
+#: ../src/print.c:1425
 msgid "Print Sheets"
 msgstr "Imprimir hojas"
 
-#: ../src/print.c:1436
+#: ../src/print.c:1434
 msgid "Act_ive sheet"
 msgstr "Hoja _activa"
 
-#: ../src/print.c:1436
+#: ../src/print.c:1434
 msgid "S_heets"
 msgstr "_Hojas"
 
@@ -10942,23 +10887,115 @@ msgstr "No guardar"
 msgid "Do not log out"
 msgstr "No cerrar sesión"
 
-#: ../src/sheet.c:2078
+#: ../src/sheet.c:469
+msgid "The name of the sheet."
+msgstr "El nombre de la hoja."
+
+#: ../src/sheet.c:477
+msgid "text-is-rtl"
+msgstr "el texto es D-->I"
+
+#: ../src/sheet.c:478
+msgid "Text goes from right to left."
+msgstr "El texto va de derecha a izquierda."
+
+#: ../src/sheet.c:486
+msgid "Visible"
+msgstr "Visible"
+
+#: ../src/sheet.c:487
+msgid "Sheet is visible."
+msgstr "La hoja es visible."
+
+#: ../src/sheet.c:495
+msgid "Protected"
+msgstr "Protegida"
+
+#: ../src/sheet.c:496
+msgid "Sheet is protected."
+msgstr "La hoja está protegida."
+
+#: ../src/sheet.c:504
+msgid "Display Formulas"
+msgstr "Mostrar fórmulas"
+
+#: ../src/sheet.c:505
+msgid "Control whether formulas are shown instead of values."
+msgstr "Controla si se muestran las fórmulas en vez de los valores."
+
+#: ../src/sheet.c:513
+msgid "Display Zeros"
+msgstr "Mostrar ceros"
+
+#: ../src/sheet.c:514
+msgid "Control whether zeros are shown are blanked out."
+msgstr "Controla si se muestran los ceros."
+
+#: ../src/sheet.c:522
+msgid "Display Grid"
+msgstr "Mostrar cuadrícula"
+
+#: ../src/sheet.c:523
+msgid "Control whether the grid is shown."
+msgstr "Controla si se muestra la cuadrícula."
+
+#: ../src/sheet.c:531
+msgid "Display Column Headers"
+msgstr "Mostrar cabeceras de columnas"
+
+#: ../src/sheet.c:532
+msgid "Control whether column headers are shown."
+msgstr "Controla si se muestran las cabeceras de las columnas."
+
+#: ../src/sheet.c:540
+msgid "Display Row Headers"
+msgstr "Mostrar cabeceras de fila"
+
+#: ../src/sheet.c:541
+msgid "Control whether row headers are shown."
+msgstr "Controla si se muestran las cabeceras de las filas."
+
+#: ../src/sheet.c:549
+msgid "Display Outlines"
+msgstr "Mostrar contornos"
+
+#: ../src/sheet.c:550
+msgid "Control whether outlines are shown."
+msgstr "Controla si se muestran los contornos."
+
+#: ../src/sheet.c:558
+msgid "Tab Foreground"
+msgstr "Primer plano de la solapa"
+
+#: ../src/sheet.c:559
+msgid "The foreground color of the tab."
+msgstr "El color de la solapa en primer plano."
+
+#: ../src/sheet.c:567
+msgid "Tab Background"
+msgstr "Fondo de la solapa"
+
+#: ../src/sheet.c:568
+msgid "The background color of the tab."
+msgstr "El color de fonde de la solapa."
+
+#: ../src/sheet.c:2398
 msgid "Target region contains merged cells"
 msgstr "La región de destino contiene celdas mezcladas"
 
-#: ../src/sheet.c:2139
+#: ../src/sheet.c:2459
 msgid "cannot operate on merged cells"
 msgstr "no se puede operar sobre celdas mezcladas"
 
-#: ../src/sheet.c:2149
+#: ../src/sheet.c:2469
 msgid "cannot operate on array formulae"
 msgstr "no se puede operar sobre un array de fórmulas"
 
-#: ../src/sheet.c:3282
+#: ../src/sheet.c:3597
 msgid "Insert Columns"
 msgstr "Insertar columnas"
 
-#: ../src/sheet.c:3404
+#: ../src/sheet.c:3719
 msgid "Insert Rows"
 msgstr "Insertar filas"
 
@@ -11130,23 +11167,23 @@ msgstr "no se puede crear el objeto para «%s»"
 msgid "Could not load file: %s"
 msgstr "Imposible cargar el archivo: %s"
 
-#: ../src/sheet-object-graph.c:228 ../src/sheet-object-image.c:438
+#: ../src/sheet-object-graph.c:252 ../src/sheet-object-image.c:467
 msgid "Unknown failure while saving image"
 msgstr "Fallo desconocido guardar la imagen"
 
-#: ../src/sheet-object-graph.c:245 ../src/sheet-object-image.c:351
+#: ../src/sheet-object-graph.c:269 ../src/sheet-object-image.c:351
 msgid "SVG (vector graphics)"
 msgstr "SVG (gráficos vectoriales)"
 
-#: ../src/sheet-object-graph.c:246 ../src/sheet-object-image.c:347
+#: ../src/sheet-object-graph.c:270 ../src/sheet-object-image.c:347
 msgid "PNG (raster graphics)"
 msgstr "PNG (gráficos rasterizados)"
 
-#: ../src/sheet-object-graph.c:247 ../src/sheet-object-image.c:349
+#: ../src/sheet-object-graph.c:271 ../src/sheet-object-image.c:349
 msgid "JPEG (photograph)"
 msgstr "JPEG (fotografía)"
 
-#: ../src/sheet-object-graph.c:289 ../src/sheet-object-image.c:505
+#: ../src/sheet-object-graph.c:313 ../src/sheet-object-image.c:534
 msgid "_Save as image"
 msgstr "_Guardar como imagen"
 
@@ -11190,11 +11227,11 @@ msgstr ""
 "filas. Acceder a la columna nombrada VERDADERO puede crear conflictos con la "
 "constante del mismo nombre. Espere comportamiento anómalos."
 
-#: ../src/sheet-view.c:315
+#: ../src/sheet-view.c:363
 msgid "Copy"
 msgstr "Copiar"
 
-#: ../src/sheet-view.c:340 ../src/sheet-view.c:343
+#: ../src/sheet-view.c:388 ../src/sheet-view.c:391
 msgid "Cut"
 msgstr "Cortar"
 
@@ -11853,8 +11890,7 @@ msgstr "P_ropiedades NUEVAS..."
 
 #: ../src/wbcg-actions.c:1535
 msgid "Clear the selected cells' formats, comments, and contents"
-msgstr ""
-"Limpia los formatos, comentarios y contenidos de las celdas seleccionadas"
+msgstr "Limpia los formatos, comentarios y contenidos de las celdas seleccionadas"
 
 #: ../src/wbcg-actions.c:1538
 msgid "Clear the selected cells' formats"
@@ -11919,8 +11955,7 @@ msgstr "Seleccionar _dependientes"
 
 #: ../src/wbcg-actions.c:1573
 msgid "Select all the cells that depend on the current edit cell"
-msgstr ""
-"Seleccionar todas las celdas que dependan de la celda actualmente en edición"
+msgstr "Seleccionar todas las celdas que dependan de la celda actualmente en edición"
 
 #: ../src/wbcg-actions.c:1575
 msgid "Select _Inputs"
@@ -11946,8 +11981,7 @@ msgid "_Merge..."
 msgstr "_Combinar..."
 
 #: ../src/wbcg-actions.c:1584
-msgid ""
-"Merges columnar data into a sheet creating duplicate sheets for each row"
+msgid "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Combina los datos de columnas en una hoja, creando hojas duplicadas para "
 "cada fila"
@@ -12071,11 +12105,11 @@ msgstr "_Vista nueva..."
 msgid "Create a new view of the workbook"
 msgstr "Crea una vista nueva del libro de cuentas"
 
-#: ../src/wbcg-actions.c:1647 ../src/workbook-control-gui.c:1053
+#: ../src/wbcg-actions.c:1647 ../src/workbook-control-gui.c:1061
 msgid "_Freeze Panes"
 msgstr "_Inmovilizar paneles"
 
-#: ../src/wbcg-actions.c:1648 ../src/workbook-control-gui.c:1056
+#: ../src/wbcg-actions.c:1648 ../src/workbook-control-gui.c:1064
 msgid "Freeze the top left of the sheet"
 msgstr "Inmoviliza la esquina izquierda de la hoja"
 
@@ -12274,8 +12308,7 @@ msgstr "Cambiar la altura de las filas seleccionadas"
 
 #: ../src/wbcg-actions.c:1746
 msgid "Ensure rows are just tall enough to display content"
-msgstr ""
-"Asegura que las filas sean lo suficientemente altas para mostrar el contenido"
+msgstr "Asegura que las filas sean lo suficientemente altas para mostrar el contenido"
 
 #: ../src/wbcg-actions.c:1749
 msgid "Hide the selected rows"
@@ -12316,8 +12349,7 @@ msgstr "Guardar _automáticamente..."
 
 #: ../src/wbcg-actions.c:1766
 msgid "Automatically save the current document at regular intervals"
-msgstr ""
-"Guardar el documento en forma automática en intervalos de tiempo regulares"
+msgstr "Guardar el documento en forma automática en intervalos de tiempo regulares"
 
 #: ../src/wbcg-actions.c:1768
 msgid "_Goal Seek..."
@@ -12333,8 +12365,7 @@ msgstr "Re_solvedor..."
 
 #: ../src/wbcg-actions.c:1772
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr ""
-"Recalcular iterativamente con restricciones para encontrar el valor objetivo"
+msgstr "Recalcular iterativamente con restricciones para encontrar el valor objetivo"
 
 #: ../src/wbcg-actions.c:1774
 msgid "Si_mulation..."
@@ -12406,8 +12437,7 @@ msgstr "Muestras con _paridad: T-Test..."
 
 #: ../src/wbcg-actions.c:1805
 msgid "Comparing two population means for two paired samples: t-test..."
-msgstr ""
-"Comparar dos medias de población para dos muestras emparejadas: t-test..."
+msgstr "Comparar dos medias de población para dos muestras emparejadas: t-test..."
 
 #: ../src/wbcg-actions.c:1808
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
@@ -12593,7 +12623,7 @@ msgid "Remove an outline group"
 msgstr "Elimina un contorno de grupo"
 
 #. Data -> Filter
-#: ../src/wbcg-actions.c:1887 ../src/workbook-control-gui.c:1064
+#: ../src/wbcg-actions.c:1887 ../src/workbook-control-gui.c:1072
 msgid "Add _Auto Filter"
 msgstr "Añadir _auto filtro"
 
@@ -12627,7 +12657,7 @@ msgid "Import the text from a file"
 msgstr "Importa texto desde un archivo"
 
 #. Standard Toolbar
-#: ../src/wbcg-actions.c:1902 ../src/workbook-control-gui.c:1873
+#: ../src/wbcg-actions.c:1902 ../src/workbook-control-gui.c:1881
 #: ../src/workbook-view.c:582
 msgid "Sum"
 msgstr "Suma"
@@ -12873,181 +12903,180 @@ msgstr "Decrementar el sangrado, y alinear el contenido a la izquierda"
 msgid "Increase the indent, and align the contents to the left"
 msgstr "Incrementar el sangrado, y alinear el contenido a la izquierda"
 
-#: ../src/wbcg-actions.c:2047
+#: ../src/wbcg-actions.c:2058
 msgid "Display _Outlines"
 msgstr "Mostrar c_ontornos"
 
-#: ../src/wbcg-actions.c:2048
+#: ../src/wbcg-actions.c:2059
 msgid "Toggle whether or not to display outline groups"
 msgstr "Muestra u oculta los contornos de grupo"
 
-#: ../src/wbcg-actions.c:2050
+#: ../src/wbcg-actions.c:2061
 msgid "Outlines _Below"
 msgstr "Esquemas de_bajo"
 
-#: ../src/wbcg-actions.c:2051
+#: ../src/wbcg-actions.c:2062
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Cambia la visualización de los contornos de fila entre arriba y abajo"
 
-#: ../src/wbcg-actions.c:2053
+#: ../src/wbcg-actions.c:2064
 msgid "Outlines _Right"
 msgstr "Esquemas a la de_recha"
 
-#: ../src/wbcg-actions.c:2054
+#: ../src/wbcg-actions.c:2065
 msgid "Toggle whether to display column outlines on the left or right"
-msgstr ""
-"Cambia la visualización de los contornos de columna entre izquierda y derecha"
+msgstr "Cambia la visualización de los contornos de columna entre izquierda y derecha"
 
-#: ../src/wbcg-actions.c:2056
+#: ../src/wbcg-actions.c:2067
 msgid "Display _Formulas"
 msgstr "_Mostrar fórmulas"
 
-#: ../src/wbcg-actions.c:2057
+#: ../src/wbcg-actions.c:2068
 msgid "Display the value of a formula or the formula itself"
 msgstr "Muestra el valor de una fórmula o la fórmula"
 
-#: ../src/wbcg-actions.c:2059
+#: ../src/wbcg-actions.c:2070
 msgid "Hide _Zeros"
 msgstr "Ocultar c_eros"
 
-#: ../src/wbcg-actions.c:2060
+#: ../src/wbcg-actions.c:2071
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Mostrar los ceros como blancos"
 
-#: ../src/wbcg-actions.c:2062
+#: ../src/wbcg-actions.c:2073
 msgid "Hide _Gridlines"
 msgstr "Ocultar re_jilla"
 
-#: ../src/wbcg-actions.c:2063
+#: ../src/wbcg-actions.c:2074
 msgid "Toggle whether or not to display gridlines"
 msgstr "Muestra u oculta la rejilla"
 
-#: ../src/wbcg-actions.c:2065
+#: ../src/wbcg-actions.c:2076
 msgid "Hide _Column Headers"
 msgstr "Ocultar cabeceras de col_umnas"
 
-#: ../src/wbcg-actions.c:2066
+#: ../src/wbcg-actions.c:2077
 msgid "Toggle whether or not to display column headers"
 msgstr "Muestra/oculta los encabezados de columna"
 
-#: ../src/wbcg-actions.c:2068
+#: ../src/wbcg-actions.c:2079
 msgid "Hide _Row Headers"
 msgstr "Ocultar cabecera de _fila"
 
-#: ../src/wbcg-actions.c:2069
+#: ../src/wbcg-actions.c:2080
 msgid "Toggle whether or not to display row headers"
 msgstr "Muestra u oculta los encabezados de las filas"
 
-#: ../src/wbcg-actions.c:2073
+#: ../src/wbcg-actions.c:2084
 msgid "_Left Align"
 msgstr "Alinear a la _izquierda"
 
-#: ../src/wbcg-actions.c:2074 ../src/wbc-gtk.c:324
+#: ../src/wbcg-actions.c:2085 ../src/wbc-gtk.c:324
 msgid "Align left"
 msgstr "Alineación izquierda"
 
-#: ../src/wbcg-actions.c:2076
+#: ../src/wbcg-actions.c:2087
 msgid "_Center"
 msgstr "_Centro"
 
-#: ../src/wbcg-actions.c:2077 ../src/wbc-gtk.c:325
+#: ../src/wbcg-actions.c:2088 ../src/wbc-gtk.c:325
 msgid "Center horizontally"
 msgstr "Centrar horizontalmente"
 
-#: ../src/wbcg-actions.c:2079
+#: ../src/wbcg-actions.c:2090
 msgid "_Right Align"
 msgstr "Alinear a la _derecha"
 
-#: ../src/wbcg-actions.c:2080 ../src/wbc-gtk.c:326
+#: ../src/wbcg-actions.c:2091 ../src/wbc-gtk.c:326
 msgid "Align right"
 msgstr "Alineación derecha"
 
-#: ../src/wbcg-actions.c:2082
+#: ../src/wbcg-actions.c:2093
 msgid "_Center Across Selection"
 msgstr "_Centrar a través de la selección"
 
-#: ../src/wbcg-actions.c:2083 ../src/wbc-gtk.c:329
+#: ../src/wbcg-actions.c:2094 ../src/wbc-gtk.c:329
 msgid "Center horizontally across the selection"
 msgstr "Centrar horizontalmente a través de la selección"
 
-#: ../src/wbcg-actions.c:2086
+#: ../src/wbcg-actions.c:2097
 msgid "_Merge and Center"
 msgstr "_Combinar y centrar"
 
-#: ../src/wbcg-actions.c:2087
+#: ../src/wbcg-actions.c:2098
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr "Combinar la selección en 1 celda, y centrar horizontalmente."
 
-#: ../src/wbcg-actions.c:2094
+#: ../src/wbcg-actions.c:2105
 msgid "Align _Top"
 msgstr "Alineación _superior"
 
-#: ../src/wbcg-actions.c:2095 ../src/wbc-gtk.c:336
+#: ../src/wbcg-actions.c:2106 ../src/wbc-gtk.c:336
 msgid "Align Top"
 msgstr "Alineación superior"
 
-#: ../src/wbcg-actions.c:2097
+#: ../src/wbcg-actions.c:2108
 msgid "_Vertically Center"
 msgstr "_Centrar verticalmente"
 
-#: ../src/wbcg-actions.c:2098
+#: ../src/wbcg-actions.c:2109
 msgid "Vertically Center"
 msgstr "Centrar verticalmente"
 
-#: ../src/wbcg-actions.c:2100
+#: ../src/wbcg-actions.c:2111
 msgid "Align _Bottom"
 msgstr "Alineamiento _inferior"
 
-#: ../src/wbcg-actions.c:2101 ../src/wbc-gtk.c:338
+#: ../src/wbcg-actions.c:2112 ../src/wbc-gtk.c:338
 msgid "Align Bottom"
 msgstr "Alineamiento inferior"
 
-#: ../src/wbcg-actions.c:2104
+#: ../src/wbcg-actions.c:2115
 msgid "View _Statusbar"
 msgstr "Ver barra d_e estado"
 
-#: ../src/wbcg-actions.c:2105
+#: ../src/wbcg-actions.c:2116
 msgid "Toggle visibility of statusbar"
 msgstr "Conmutar visibilidad de la barra de estado"
 
-#: ../src/wbcg-actions.c:2109
+#: ../src/wbcg-actions.c:2120
 msgid "F_ull Screen..."
 msgstr "Pantalla _completa..."
 
-#: ../src/wbcg-actions.c:2110
+#: ../src/wbcg-actions.c:2121
 msgid "in or out"
 msgstr "dentro o fuera"
 
-#: ../src/wbcg-actions.c:2115
+#: ../src/wbcg-actions.c:2126
 msgid "_Bold"
 msgstr "_Negrita"
 
-#: ../src/wbcg-actions.c:2118
+#: ../src/wbcg-actions.c:2129
 msgid "_Italic"
 msgstr "_Cursiva"
 
-#: ../src/wbcg-actions.c:2121
+#: ../src/wbcg-actions.c:2132
 msgid "_Underline"
 msgstr "S_ubrayado"
 
 #. ALSO "<control>4"
-#: ../src/wbcg-actions.c:2122
+#: ../src/wbcg-actions.c:2133
 msgid "Underline"
 msgstr "Subrayado"
 
-#: ../src/wbcg-actions.c:2124
+#: ../src/wbcg-actions.c:2135
 msgid "_Strike Through"
 msgstr "_Tachado"
 
-#: ../src/wbcg-actions.c:2125
+#: ../src/wbcg-actions.c:2136
 msgid "Strike Through"
 msgstr "Tachado"
 
-#: ../src/wbcg-actions.c:2128
+#: ../src/wbcg-actions.c:2139
 msgid "_Double Underline"
 msgstr "Subrayado _doble"
 
-#: ../src/wbcg-actions.c:2129
+#: ../src/wbcg-actions.c:2140
 msgid "Double Underline"
 msgstr "Subrayado doble"
 
@@ -13124,43 +13153,43 @@ msgstr "Alineación horizontal"
 msgid "Vertical Alignment"
 msgstr "Alineación vertical"
 
-#: ../src/wbc-gtk.c:473
+#: ../src/wbc-gtk.c:472
 msgid "Undo the last action"
 msgstr "Deshacer la operación"
 
-#: ../src/wbc-gtk.c:482
+#: ../src/wbc-gtk.c:481
 msgid "Redo"
 msgstr "Rehacer"
 
-#: ../src/wbc-gtk.c:483
+#: ../src/wbc-gtk.c:482
 msgid "Redo the undone action"
 msgstr "Rehacer la última operación deshecha"
 
-#: ../src/wbc-gtk.c:525
+#: ../src/wbc-gtk.c:524
 msgid "Set Foreground Color"
 msgstr "Establecer color de primer plano"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:579
+#: ../src/wbc-gtk.c:578
 msgid "Set Background Color"
 msgstr "Establecer color del fondo"
 
-#: ../src/wbc-gtk.c:616
+#: ../src/wbc-gtk.c:615
 #, c-format
 msgid "Font Name %s"
 msgstr "Nombre de tipografía %s"
 
-#: ../src/wbc-gtk.c:673
+#: ../src/wbc-gtk.c:672
 #, c-format
 msgid "Font Size %f"
 msgstr "Tamaño de la tipografía %f"
 
-#: ../src/wbc-gtk.c:743
+#: ../src/wbc-gtk.c:742
 #, c-format
 msgid "Open %s"
 msgstr "Abrir %s"
 
-#: ../src/wbc-gtk.c:808
+#: ../src/wbc-gtk.c:807
 msgid "Nothing"
 msgstr "Nada"
 
@@ -13170,46 +13199,46 @@ msgstr "Nada"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:998
+#: ../src/wbc-gtk.c:997
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "En el menú «%s» la clave «%s» se usa tanto para «%s» como para «%s»."
 
-#: ../src/wbc-gtk.c:1204
+#: ../src/wbc-gtk.c:1203
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Mostrar/ocultar barra de herramientas %s"
 
-#: ../src/workbook.c:430
+#: ../src/workbook.c:407
 #, c-format
 msgid "Book%d.%s"
 msgstr "Libro%d.%s"
 
-#: ../src/workbook.c:1289
+#: ../src/workbook.c:1292
 msgid "Sheet name is NULL"
 msgstr "El nombre de la hoja es NULL"
 
-#: ../src/workbook.c:1298
+#: ../src/workbook.c:1301
 msgid "Sheet name is not valid utf-8"
 msgstr "El nombre de la hoja no es utf-8 válido"
 
-#: ../src/workbook.c:1306
+#: ../src/workbook.c:1309
 msgid "Sheet name must have at least 1 letter"
 msgstr "El nombre de la hoja debe tener al menos una letra"
 
-#: ../src/workbook.c:1328
+#: ../src/workbook.c:1331
 msgid "There is already a sheet named"
 msgstr "Ya existe una hoja con ese nombre"
 
-#: ../src/workbook.c:1340
+#: ../src/workbook.c:1343
 msgid "You may not use this name twice"
 msgstr "No puede usar este nombre dos veces"
 
-#: ../src/workbook-control.c:255
+#: ../src/workbook-control.c:253
 msgid "Define Name"
 msgstr "Definir nombre"
 
-#: ../src/workbook-control.c:276
+#: ../src/workbook-control.c:274
 msgid "Address"
 msgstr "Dirección"
 
@@ -13237,81 +13266,81 @@ msgstr "Quitar"
 msgid "Rename"
 msgstr "Renombrar"
 
-#: ../src/workbook-control-gui.c:1052
+#: ../src/workbook-control-gui.c:1060
 msgid "Un_freeze Panes"
 msgstr "Desb_loquear paneles"
 
-#: ../src/workbook-control-gui.c:1055
+#: ../src/workbook-control-gui.c:1063
 msgid "Unfreeze the top left of the sheet"
 msgstr "Desbloquear la esquina superior izquierda de la hoja"
 
-#: ../src/workbook-control-gui.c:1063
+#: ../src/workbook-control-gui.c:1071
 msgid "Remove _Auto Filter"
 msgstr "Eliminar el _autofiltro"
 
-#: ../src/workbook-control-gui.c:1066
+#: ../src/workbook-control-gui.c:1074
 msgid "Remove a filter"
 msgstr "Eliminar un filtro"
 
-#: ../src/workbook-control-gui.c:1067
+#: ../src/workbook-control-gui.c:1075
 msgid "Add a filter"
 msgstr "Añade un filtro"
 
-#: ../src/workbook-control-gui.c:1078
+#: ../src/workbook-control-gui.c:1086
 msgid "_Undo"
 msgstr "_Deshacer"
 
-#: ../src/workbook-control-gui.c:1079
+#: ../src/workbook-control-gui.c:1087
 msgid "_Redo"
 msgstr "_Rehacer"
 
-#: ../src/workbook-control-gui.c:1207
+#: ../src/workbook-control-gui.c:1215
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "¿Guardar los cambios al libro de cuentas «%s» antes de cerrar?"
 
-#: ../src/workbook-control-gui.c:1211
+#: ../src/workbook-control-gui.c:1219
 msgid "Save changes to workbook before closing?"
 msgstr "¿Guardar los cambios al libro de cuentas antes de cerrar?"
 
-#: ../src/workbook-control-gui.c:1217
+#: ../src/workbook-control-gui.c:1225
 msgid "If you close without saving, changes will be discarded."
 msgstr "Si cierra sin guardar, los cambios serán descartados."
 
-#: ../src/workbook-control-gui.c:1224
+#: ../src/workbook-control-gui.c:1232
 msgid "Discard all"
 msgstr "Descartar todo"
 
-#: ../src/workbook-control-gui.c:1226 ../src/workbook-control-gui.c:1235
-#: ../src/workbook-control-gui.c:1243
+#: ../src/workbook-control-gui.c:1234 ../src/workbook-control-gui.c:1243
+#: ../src/workbook-control-gui.c:1251
 msgid "Discard"
 msgstr "Descartar"
 
-#: ../src/workbook-control-gui.c:1228
+#: ../src/workbook-control-gui.c:1236
 msgid "Save all"
 msgstr "Guardar todo"
 
-#: ../src/workbook-control-gui.c:1230 ../src/workbook-control-gui.c:1237
+#: ../src/workbook-control-gui.c:1238 ../src/workbook-control-gui.c:1245
 msgid "Don't quit"
 msgstr "No salir"
 
-#: ../src/workbook-control-gui.c:1245
+#: ../src/workbook-control-gui.c:1253
 msgid "Don't close"
 msgstr "No cerrar"
 
-#: ../src/workbook-control-gui.c:1922
+#: ../src/workbook-control-gui.c:1930
 msgid "Use maximum precision"
 msgstr "Usar precisión máxima"
 
-#: ../src/workbook-control-gui.c:2277 ../src/workbook-control-gui.c:2292
+#: ../src/workbook-control-gui.c:2285 ../src/workbook-control-gui.c:2300
 msgid "_Re-Edit"
 msgstr "_Reeditar"
 
-#: ../src/workbook-control-gui.c:2278 ../src/workbook-control-gui.c:2283
+#: ../src/workbook-control-gui.c:2286 ../src/workbook-control-gui.c:2291
 msgid "_Discard"
 msgstr "_Descartar"
 
-#: ../src/workbook-control-gui.c:2282 ../src/workbook-control-gui.c:2293
+#: ../src/workbook-control-gui.c:2290 ../src/workbook-control-gui.c:2301
 msgid "_Accept"
 msgstr "_Aceptar"
 
@@ -13586,8 +13615,7 @@ msgstr "Tabla"
 
 #: ../templates/autoformat/autoformat.General.table.xml.in.h:3
 msgid "Very simple table template with the same border everywhere "
-msgstr ""
-"Una plantilla de tabla muy simple con los mismos bordes por todas partes"
+msgstr "Una plantilla de tabla muy simple con los mismos bordes por todas partes"
 
 #: ../templates/autoformat/autoformat.List.basic.xml.in.h:1
 msgid "A basic list"
@@ -13613,2856 +13641,3 @@ msgstr "Una plantilla de lista lila"
 msgid "A simple list template"
 msgstr "Una plantilla de lista simple"
 
-#~ msgid "Unknown GB error"
-#~ msgstr "Error GB desconocido"
-
-#~ msgid "Error initializing gb '%s'"
-#~ msgstr "Error al inicializar gb «%s»"
-
-#~ msgid "Error in project '%s'"
-#~ msgstr "Error en el proyecto «%s»"
-
-#~ msgid "Enables Gnome Basic support"
-#~ msgstr "Habilita el soporte para Gnome Basic"
-
-#~ msgid "Gnome Basic"
-#~ msgstr "Gnome Basic"
-
-#~ msgid "Guile error"
-#~ msgstr "Error de guile"
-
-#~ msgid "Guile Plugin"
-#~ msgstr "Complemento Guile"
-
-#~ msgid "This plugin enables Guile(scheme) support in Gnumeric"
-#~ msgstr "Este complemento habilita el soporte de Guile(scheme) en Gnumeric"
-
-#~ msgid "Unable to convert value from Guile"
-#~ msgstr "No se puede convertir el valor desde Guile"
-
-#~ msgid "Not a Guile boolean"
-#~ msgstr "No es un booleano de Guile"
-
-#~ msgid "Not a Guile number"
-#~ msgstr "No es un número de Guile"
-
-#~ msgid "Not a Guile string"
-#~ msgstr "No es una cadena de Guile"
-
-#~ msgid "Perl plugin"
-#~ msgstr "Complemento Perl"
-
-#~ msgid "Enables the creation of functions in Perl"
-#~ msgstr "Habilitar la creación de funciones en Perl"
-
-#~ msgid "EXPERIMENTAL SAX based XML"
-#~ msgstr "SAX basado en XML (EXPERIMENTAL)"
-
-#~ msgid "The next generation sax based xml I/O subsystem"
-#~ msgstr "La próxima generación del subsistema de E/S de XML basada en SAX"
-
-#~ msgid "Not a valid UTF-8 filename."
-#~ msgstr "No es un nombre de archivo válido UTF-8"
-
-#~ msgid "Saving over old files of this type is disabled for safety."
-#~ msgstr ""
-#~ "Por seguridad, se ha deshabilitado la opción de guardar sobre un archivo "
-#~ "antiguo de este tipo."
-
-#~ msgid ""
-#~ "You can turn this safety feature off by editing appropriate plugin.xml "
-#~ "file."
-#~ msgstr ""
-#~ "Puede desactivar esta característica en forma segura, editando el archivo "
-#~ "plugin.xml apropiado."
-
-#~ msgid "File contains plugin info with invalid id (%s), expected %s."
-#~ msgstr ""
-#~ "El archivo contiene información del complemento con un identificador "
-#~ "inválido (%s). Se esperaba %s."
-
-#~ msgid "Couldn't read plugin info from file."
-#~ msgstr "No se puede leer la información del complemento del archivo."
-
-#~ msgid "Unknown name"
-#~ msgstr "Nombre desconocido"
-
-#~ msgid "Unsupported loader type \"%s\"."
-#~ msgstr "No hay soporte para el tipo de cargador «%s»."
-
-#~ msgid "Error while preparing loader \"%s\"."
-#~ msgstr "Error al intentar cargar «%s»."
-
-#~ msgid "Error while reading service #%d info."
-#~ msgstr "Ha ocurrido un error al leer la información del servicio #%d."
-
-#~ msgid "Can't read plugin info file (\"%s\")."
-#~ msgstr "No se puede leer el archivo de información del complemento («%s»)."
-
-#~ msgid "File \"%s\" is not valid plugin info file."
-#~ msgstr ""
-#~ "El archivo «%s» no es un archivo válido de información de complementos."
-
-#~ msgid "Errors while reading services for plugin with id=\"%s\"."
-#~ msgstr ""
-#~ "Han ocurrido errores al leer los servicios del complemento con "
-#~ "identificador=«%s»."
-
-#~ msgid "Plugin id contains invalid characters (%s)."
-#~ msgstr ""
-#~ "El identificador del complemento contiene caracteres inválidos (%s)."
-
-#~ msgid "Unknown plugin name."
-#~ msgstr "Nombre desconocido del complemento."
-
-#~ msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
-#~ msgstr ""
-#~ "No se encuentra definido un cargador para el complemento con "
-#~ "identificador=«%s»."
-
-#~ msgid "Plugin has no id."
-#~ msgstr "El complemento no tiene identificador."
-
-#~ msgid "Error initializing plugin loader (\"%s\")."
-#~ msgstr "Error inicializando el cargador del complemento («%s» )."
-
-#~ msgid "Detected cyclic plugin dependencies."
-#~ msgstr "Se han detectado dependencias cíclicas del complemento."
-
-#~ msgid "Couldn't activate plugin with id=\"%s\"."
-#~ msgstr "No se puede activar el complemento con identificador=«%s»."
-
-#~ msgid "Couldn't find plugin with id=\"%s\"."
-#~ msgstr "No se encuentra el complemento con identificador=«%s»."
-
-#~ msgid "Error while activating plugin dependencies."
-#~ msgstr "Error al activar las dependencias del complemento."
-
-#~ msgid "Error while activating plugin service #%d."
-#~ msgstr "Ha ocurrido un error al activar el servicio de complementos #%d."
-
-#~ msgid "Error while deactivating plugin service #%d."
-#~ msgstr "Ha ocurrido un error al desactivar el servicio de complementos #%d."
-
-#~ msgid "Cannot load plugin loader."
-#~ msgstr "No se puede cargar el cargador de complementos."
-
-#~ msgid "Couldn't load plugin with id=\"%s\"."
-#~ msgstr "No se pudo cargar el complemento con identificador=«%s»."
-
-#~ msgid "Error while loading plugin dependencies."
-#~ msgstr "Error al intentar cargar las dependencias del complemento."
-
-#~ msgid "Errors occurred while reading plugin informations from file \"%s\"."
-#~ msgstr ""
-#~ "Han ocurrido errores al leer la información del complemento desde el "
-#~ "archivo «%s»."
-
-#~ msgid "Couldn't activate plugin \"%s\" (ID: %s)."
-#~ msgstr "No se puede activar el complemento «%s» (ID: %s)."
-
-#~ msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
-#~ msgstr "No se puede desactivar el complemento «%s» (ID: %s)."
-
-#~ msgid "Errors while reading info about available plugins."
-#~ msgstr ""
-#~ "Ha ocurrido un error al leer la información sobre los complementos "
-#~ "disponibles."
-
-#~ msgid "Errors while deactivating plugins that are no longer on disk."
-#~ msgstr ""
-#~ "Ha ocurrido un error al desactivar el complementos que ya no están en el "
-#~ "disco."
-
-#~ msgid ""
-#~ "The following plugins are no longer on disk but are still active:\n"
-#~ "%s.\n"
-#~ "You should restart Gnumeric now."
-#~ msgstr ""
-#~ "Los siguientes complementos no están más en el disco pero están todavía "
-#~ "activos:\n"
-#~ "%s\n"
-#~ "Debería reiniciar Gnumeric ahora."
-
-#~ msgid "Errors while activating plugins."
-#~ msgstr "Han ocurrido errores al activar los complementos."
-
-#~ msgid "Errors while initializing plugin system."
-#~ msgstr "Han ocurrido errores al inicializar el sistema de complementos."
-
-#~ msgid "Loader has no set_attributes method.\n"
-#~ msgstr "El cargador no tiene el método set_attributes.\n"
-
-#~ msgid "Loader has no load_base method.\n"
-#~ msgstr "El cargado no tiene el método load_base.\n"
-
-#~ msgid "Service '%s' not supported by l."
-#~ msgstr "El servicio «%s» no está soportado por l."
-
-#~ msgid "Module file name not given."
-#~ msgstr "No se dado el nombre del archivo."
-
-#~ msgid "Unable to open module file \"%s\"."
-#~ msgstr "Es imposible abrir el archivo del módulo «%s»."
-
-#~ msgid "File doesn't contain (\"plugin_file_struct\" symbol)."
-#~ msgstr "El archivo no contiene el símbolo ·\"plugin_file_struct\"."
-
-#~ msgid "File has a bad magic number."
-#~ msgstr "El archivo tiene un número mágico erróneo."
-
-#~ msgid "Plugin version \"%s\" is different from application \"%s\"."
-#~ msgstr "La versión del complemento «%s» es diferente de la aplicación «%s»."
-
-#~ msgid "Dynamic module loading is not supported in this system."
-#~ msgstr ""
-#~ "El módulo de carga dinámica no se encuentra soportado en el sistema."
-
-#~ msgid "Unable to close module file \"%s\"."
-#~ msgstr "Es imposible cerrar el archivo del módulo «%s»."
-
-#~ msgid "Module doesn't contain \"%s\" function."
-#~ msgstr "El módulo no contiene la función «%s»."
-
-#~ msgid "Error while loading plugin service."
-#~ msgstr "Ha ocurrido un error al cargar el servicio de complementos."
-
-#~ msgid "Initializing function inside plugin returned error."
-#~ msgstr "La función de inicialización del complemento ha devuelto un error."
-
-#~ msgid "Cleanup function inside plugin returned error."
-#~ msgstr ""
-#~ "La función de limpieza interna del complemento ha devuelto un error."
-
-#~ msgid "File opener has no description"
-#~ msgstr "El abridor de archivos no tiene descripción"
-
-#~ msgid "File opener - %s"
-#~ msgstr "Abridor de archivos - %s"
-
-#~ msgid "Error while reading file."
-#~ msgstr "Error al leer archivo."
-
-#~ msgid "File saver has no description"
-#~ msgstr "El guardador de archivos no tiene descripción"
-
-#~ msgid "File saver - %s"
-#~ msgstr "Guardador de archivos %s"
-
-#~ msgid "Error while saving file."
-#~ msgstr "Error al guardar archivo."
-
-#~ msgid "Plugin loader"
-#~ msgstr "Cargador de complementos"
-
-#~ msgid "GObject loader"
-#~ msgstr "Cargador GObject"
-
-#~ msgid "No \"type\" attribute on \"service\" element."
-#~ msgstr "No hay atributo «tipo» en el elemento «servicio»."
-
-#~ msgid "Unknown service type: %s."
-#~ msgstr "El tipo de servicio es desconocido: «%s»."
-
-#~ msgid "Error reading service information."
-#~ msgstr "Ha ocurrido un error al leer la información del servicio."
-
-#~ msgid ""
-#~ "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
-#~ "loading failed."
-#~ msgstr ""
-#~ "Se debe cargar un servicio antes de activarlo (PLUGIN_ALWAYS_LOAD está "
-#~ "establecido) pero la carga ha fallado."
-
-#~ msgid "Discrete mapping"
-#~ msgstr "Mapeo discreto"
-
-#~ msgid "Linear"
-#~ msgstr "Lineal"
-
-#~ msgid "Linear mapping"
-#~ msgstr "Mapeado lineal"
-
-#~ msgid "Log"
-#~ msgstr "Log"
-
-#~ msgid "Logarithm mapping"
-#~ msgstr "Mapeo logarítmico"
-
-#~ msgid "Details"
-#~ msgstr "Detalles"
-
-#~ msgid "Categories between _ticks"
-#~ msgstr "Categorías entre _tics"
-
-#~ msgid "Categories between _labels"
-#~ msgstr "Categorías entre _etiquetas"
-
-#~ msgid "_Cross at category #"
-#~ msgstr "_Cruzar en la categoría #"
-
-#~ msgid "Bounds"
-#~ msgstr "Bordes"
-
-#~ msgid "M_ax"
-#~ msgstr "M_áx"
-
-#~ msgid "Ma_jor Ticks"
-#~ msgstr "Tics ma_yores"
-
-#~ msgid "Mi_nor Ticks"
-#~ msgstr "Tics me_nores"
-
-#~ msgid "_Cross"
-#~ msgstr "_Cruzar"
-
-#~ msgid "MinorGrid"
-#~ msgstr "RejillaMenor"
-
-#~ msgid "MajorGrid"
-#~ msgstr "RejillaMayor"
-
-#~ msgid "<b>Major ticks</b>"
-#~ msgstr "<b>Tics mayores</b>"
-
-#~ msgid "<b>Mapping</b>"
-#~ msgstr "<b>Mapeo</b>"
-
-#~ msgid "<b>Minor ticks</b>"
-#~ msgstr "<b>Tics menores</b>"
-
-#~ msgid "<b>Position</b>"
-#~ msgstr "<b>Posición</b>"
-
-#~ msgid "I_nside"
-#~ msgstr "I_nterior"
-
-#~ msgid "O_utside"
-#~ msgstr "_Exterior"
-
-#~ msgid "_High"
-#~ msgstr "_Alto"
-
-#~ msgid "_Inside"
-#~ msgstr "_Interior"
-
-#~ msgid "_Invert axis"
-#~ msgstr "_Invertir eje"
-
-#~ msgid "_Low"
-#~ msgstr "_Bajo"
-
-#~ msgid "_Outside"
-#~ msgstr "_Exterior"
-
-#~ msgid "_Show Labels"
-#~ msgstr "Mo_strar etiquetas"
-
-#~ msgid "Legend"
-#~ msgstr "Leyenda"
-
-#~ msgid "Grid"
-#~ msgstr "Rejilla"
-
-#~ msgid "X-Axis"
-#~ msgstr "Eje-X"
-
-#~ msgid "Y-Axis"
-#~ msgstr "Eje-Y"
-
-#~ msgid "Z-Axis"
-#~ msgstr "Eje-Z"
-
-#~ msgid "Circular-Axis"
-#~ msgstr "Eje circular"
-
-#~ msgid "Radial-Axis"
-#~ msgstr "Eje radial"
-
-#~ msgid "Plot"
-#~ msgstr "Gráfico"
-
-#~ msgid "H"
-#~ msgstr "H"
-
-#~ msgid "Height"
-#~ msgstr "Altura"
-
-#~ msgid "W"
-#~ msgstr "O"
-
-#~ msgid "Width"
-#~ msgstr "Anchura"
-
-#~ msgid "No error bar displayed"
-#~ msgstr "Ninguna barra de error mostrada"
-
-#~ msgid "Positive error bar displayed"
-#~ msgstr "Barra de error positiva mostrada"
-
-#~ msgid "Negative error bar displayed"
-#~ msgstr "Barra de error negativa mostrada"
-
-#~ msgid "Full error bar displayed"
-#~ msgstr "Barra de error completa mostrada"
-
-#~ msgid "(+)"
-#~ msgstr "(+)"
-
-#~ msgid "(-)"
-#~ msgstr "(-)"
-
-#~ msgid "<b>Error category</b>"
-#~ msgstr "<b>Categoría del  error</b>"
-
-# Muestra o ejemplo? serrador@arrakis.es
-#~ msgid "<b>Values</b>"
-#~ msgstr "<b>Valores</b>"
-
-#~ msgid "Colo_r:"
-#~ msgstr "_Color:"
-
-#~ msgid "Dis_play:"
-#~ msgstr "_Pantalla:"
-
-#~ msgid ""
-#~ "None\n"
-#~ "Absolute\n"
-#~ "Relative\n"
-#~ "Percent"
-#~ msgstr ""
-#~ "Ninguno\n"
-#~ "Absoluto\n"
-#~ "Relativo\n"
-#~ "Porcentaje"
-
-#~ msgid "_Line width:"
-#~ msgstr "Anchura de la _línea:"
-
-#~ msgid "_Width:"
-#~ msgstr "_Anchura:"
-
-#~ msgid "Graph"
-#~ msgstr "Gráfico"
-
-#~ msgid "Chart"
-#~ msgstr "Diagrama"
-
-#~ msgid "Step 1 of 2: Select Chart Type"
-#~ msgstr "Paso 1 de 2: Seleccione el tipo de diagrama"
-
-#~ msgid "Step 2 of 2: Customize Chart"
-#~ msgstr "Paso 2 de 2: Personalice su diagrama"
-
-#~ msgid "Customize Chart"
-#~ msgstr "Personalizar diagrama"
-
-#~ msgid "_Plot Type"
-#~ msgstr "Tipo de _gráfico"
-
-#~ msgid "GNOME Office Graph"
-#~ msgstr "Diagrama de GNOME Office"
-
-#~ msgid "Pull f_orward"
-#~ msgstr "Tirar hacia _adelante"
-
-#~ msgid "Pull to _front"
-#~ msgstr "Tirar hasta el _frente"
-
-#~ msgid "Push b_ackward"
-#~ msgstr "Empujar _atrás"
-
-#~ msgid "Push to _back"
-#~ msgstr "Empujar hasta el fon_do"
-
-#~ msgid "_Text:"
-#~ msgstr "_Texto:"
-
-#~ msgid "Plot Engine"
-#~ msgstr "Motor de gráficos"
-
-#~ msgid "Plot Type"
-#~ msgstr "Tipo de gráfico"
-
-#~ msgid "Chart Theme"
-#~ msgstr "Tema de diagrama"
-
-#~ msgid "Index:"
-#~ msgstr "Índice:"
-
-#~ msgid "Settings"
-#~ msgstr "Configuración"
-
-#~ msgid "%d x %d"
-#~ msgstr "%d x %d"
-
-#~ msgid ""
-#~ "2 Colors\n"
-#~ "Brightness"
-#~ msgstr ""
-#~ "2 colores\n"
-#~ "Brillo"
-
-#~ msgid "<b>Fill</b>"
-#~ msgstr "<b>Relleno</b>"
-
-#~ msgid "<b>Marker</b>"
-#~ msgstr "<b>Marcador</b>"
-
-#~ msgid "<b>Outline</b>"
-#~ msgstr "<b>Línea exterior</b>"
-
-#~ msgid "Co_lor:"
-#~ msgstr "Co_lor:"
-
-#~ msgid ""
-#~ "None\n"
-#~ "Pattern\n"
-#~ "Gradient\n"
-#~ "Image"
-#~ msgstr ""
-#~ "Ninguno\n"
-#~ "Patrón\n"
-#~ "Degradado\n"
-#~ "Imagen"
-
-#~ msgid "O_utline color:"
-#~ msgstr "Color del _borde exterior:"
-
-#~ msgid "Sha_pe:"
-#~ msgstr "_Forma:"
-
-#~ msgid "Si_ze:"
-#~ msgstr "_Tamaño:"
-
-#~ msgid "St_yle:"
-#~ msgstr "_Estilo:"
-
-#~ msgid "_Background:"
-#~ msgstr "_Fondo:"
-
-#~ msgid "_Direction:"
-#~ msgstr "_Dirección:"
-
-#~ msgid "_End:"
-#~ msgstr "_Fin:"
-
-#~ msgid "_Fill color:"
-#~ msgstr "Color de _relleno:"
-
-#~ msgid "_Fit:"
-#~ msgstr "_Ajuste:"
-
-#~ msgid "_Foreground:"
-#~ msgstr "_Primer plano:"
-
-#~ msgid "_Pattern:"
-#~ msgstr "_Patrón:"
-
-#~ msgid "_Select..."
-#~ msgstr "_Seleccionar..."
-
-#~ msgid "_Size:"
-#~ msgstr "_Tamaño:"
-
-#~ msgid "_Start:"
-#~ msgstr "_Principio:"
-
-#~ msgid "_brighter"
-#~ msgstr "más _brillante"
-
-#~ msgid "_darker"
-#~ msgstr "más _oscuro"
-
-#~ msgid "pts"
-#~ msgstr "puntos"
-
-#~ msgid ""
-#~ "stretched\n"
-#~ "wallpaper"
-#~ msgstr ""
-#~ "tapiz\n"
-#~ "estirado"
-
-#~ msgid "Guppi"
-#~ msgstr "Guppi"
-
-#~ msgid "Labels"
-#~ msgstr "Etiquetas"
-
-#~ msgid "Values"
-#~ msgstr "Valores"
-
-#~ msgid "Error bars"
-#~ msgstr "Barras de error"
-
-#~ msgid "PlotBarCol"
-#~ msgstr "GráficoBarCol"
-
-#~ msgid "How far the bars/cols overlap as a percentage of the width"
-#~ msgstr ""
-#~ "Hasta donde las barras/columnas se superponen como un porcentaje del ancho"
-
-#~ msgid "O_verlap:"
-#~ msgstr "_Solapar:"
-
-#~ msgid "Separation between groups as a percentage of bar/col width"
-#~ msgstr ""
-#~ "Separación entre grupos como un porcentaje del ancho de  barra/columna"
-
-#~ msgid "_Gap:"
-#~ msgstr "_Hueco:"
-
-#~ msgid "PlotLine"
-#~ msgstr "GráficoLínea"
-
-#~ msgid "PlotArea"
-#~ msgstr "GráficoÁrea"
-
-#~ msgid "3D Adjacent Bars"
-#~ msgstr "Barras adyacentes 3D"
-
-#~ msgid "3D Adjacent Columns"
-#~ msgstr "Columnas 3D adyacentes"
-
-#~ msgid "3D Percentage Bars"
-#~ msgstr "Barras 3D de porcentaje"
-
-#~ msgid "3D Percentage Columns"
-#~ msgstr "Columnas 3D de porcentaje"
-
-#~ msgid "3D Stacked Bars"
-#~ msgstr "Barras 3D apiladas"
-
-#~ msgid "3D Stacked Columns"
-#~ msgstr "Columnas 3D apiladas"
-
-#~ msgid "Adjacent Bars"
-#~ msgstr "Barras adyacentes"
-
-#~ msgid "Adjacent Columns"
-#~ msgstr "Columnas adyacentes"
-
-#~ msgid "Adjacent horizontal 3D bars grouped by major and minor categories."
-#~ msgstr ""
-#~ "Barras 3D horizontales adyacentes agrupadas por categorías mayores y "
-#~ "menores."
-
-#~ msgid "Adjacent horizontal bars grouped by major and minor categories."
-#~ msgstr ""
-#~ "Barras horizontales adyacentes agrupadas por categorías mayores y menores."
-
-#~ msgid "Adjacent vertical 3D columns grouped by major and minor categories."
-#~ msgstr "Columnas 3D adyacentes agrupadas por categorías mayores y menores."
-
-#~ msgid "Adjacent vertical columns grouped by major and minor categories."
-#~ msgstr ""
-#~ "Columnas verticales adyacentes agrupadas por categorías mayores y menores."
-
-#~ msgid "Area plot."
-#~ msgstr "Gráfico de áreas."
-
-#~ msgid "Areas"
-#~ msgstr "Áreas"
-
-#~ msgid "Bar"
-#~ msgstr "Barra"
-
-#~ msgid "Column"
-#~ msgstr "Columna"
-
-#~ msgid "Line plot."
-#~ msgstr "Gráfico de líneas."
-
-#~ msgid "Lines"
-#~ msgstr "Líneas"
-
-#~ msgid ""
-#~ "Minor categories stacked as percentages of the minor total, in 3D "
-#~ "horizontal bars, grouped by major category."
-#~ msgstr ""
-#~ "Categorías menores apiladas como porcentajes del total menor, en barras "
-#~ "horizontales 3D, agrupadas por categoría mayor."
-
-#~ msgid ""
-#~ "Minor categories stacked as percentages of the minor total, in 3D "
-#~ "vertical bars, grouped by major category."
-#~ msgstr ""
-#~ "Categorías menores apiladas como porcentajes del total menor, en barras "
-#~ "verticales 3D, agrupadas por categoría mayor."
-
-#~ msgid ""
-#~ "Minor categories stacked as percentages of the minor total, in horizontal "
-#~ "bars, grouped by major category."
-#~ msgstr ""
-#~ "Categorías menores apiladas como porcentajes del total menor, en barras "
-#~ "horizontales, agrupadas por categoría mayor."
-
-#~ msgid ""
-#~ "Minor categories stacked as percentages of the minor total, in vertical "
-#~ "columns, grouped by major category."
-#~ msgstr ""
-#~ "Categorías menores apiladas como porcentajes del menor total, en columnas "
-#~ "verticales, agrupadas por categoría mayor."
-
-#~ msgid ""
-#~ "Minor categories stacked in horizontal 3D bars, grouped by major category."
-#~ msgstr ""
-#~ "Categorías menores apiladas en barras 3D horizontales, agrupadas por "
-#~ "categoría mayor."
-
-#~ msgid ""
-#~ "Minor categories stacked in horizontal bars grouped by major category."
-#~ msgstr ""
-#~ "Categorías menores apiladas en barras horizontales agrupadas por "
-#~ "categoría mayor."
-
-#~ msgid ""
-#~ "Minor categories stacked in vertical 3D columns, grouped by major "
-#~ "category."
-#~ msgstr ""
-#~ "Categorías menores apiladas en columnas 3D verticales, agrupadas por "
-#~ "categoría mayor."
-
-#~ msgid ""
-#~ "Minor categories stacked in vertical columns grouped by major category."
-#~ msgstr ""
-#~ "Categorías menores apiladas en columnas verticales agrupadas por la "
-#~ "categoría mayor."
-
-#~ msgid "Percentage Areas"
-#~ msgstr "Áreas de porcentaje"
-
-#~ msgid "Percentage Bars"
-#~ msgstr "Barras de porcentaje"
-
-#~ msgid "Percentage Columns"
-#~ msgstr "Columnas de porcentaje"
-
-#~ msgid "Percentage Lines"
-#~ msgstr "Líneas de porcentajes"
-
-# Sobra el punto final
-#~ msgid "Percentage area plot."
-#~ msgstr "Gráfico de área de porcentual."
-
-#~ msgid "Percentage line plot."
-#~ msgstr "Gráfica de líneas porcentuales."
-
-#~ msgid "Stacked Areas"
-#~ msgstr "Áreas apiladas"
-
-#~ msgid "Stacked Bars"
-#~ msgstr "Barras apiladas"
-
-#~ msgid "Stacked Columns"
-#~ msgstr "Columnas apiladas"
-
-#~ msgid "Stacked Lines"
-#~ msgstr "Líneas apiladas"
-
-#~ msgid "Stacked area plot."
-#~ msgstr "Gráfico de áreas apiladas."
-
-#~ msgid "Stacked line plot."
-#~ msgstr "Gráfica de líneas apiladas."
-
-#~ msgid "Unmarked Lines"
-#~ msgstr "Líneas no marcadas"
-
-#~ msgid "Unmarked Percentage Lines"
-#~ msgstr "Líneas de porcentajes no marcadas"
-
-#~ msgid "Unmarked Stacked Lines"
-#~ msgstr "Líneas apiladas no marcadas"
-
-#~ msgid "Area plotting engine"
-#~ msgstr "Motor de dibujo de áreas"
-
-#~ msgid "Bar/Col plotting engine"
-#~ msgstr "Motor de dibujo de barras/columnas"
-
-#~ msgid "Charting : Bar/Col/Line/Area"
-#~ msgstr "Diagrama: Bar/Col/Linea/Área"
-
-#~ msgid "Default 1.5d plot types"
-#~ msgstr "Tipos de gráficas preestablecidas para 1.5d"
-
-#~ msgid "Line plotting engine"
-#~ msgstr "Motor de dibujo de líneas"
-
-#~ msgid "Line, Area, Bar and Column plots"
-#~ msgstr "Diagramas de línea, área, barras y columnas"
-
-#~ msgid "Box-Plot"
-#~ msgstr "Box-Plot"
-
-#~ msgid "Invalid data."
-#~ msgstr "Datos inválidos."
-
-#~ msgid ""
-#~ "Box-Plot. You must provide five values to the plot engine in this order: "
-#~ "minimum, first quartile, median, third quartile, and maximum, not the raw "
-#~ "data."
-#~ msgstr ""
-#~ "Box-Plot. Debe proporcionar cinco valores para el motor de dibujo en este "
-#~ "orden:mínimo, primer cuartil, mediana, tercer cuartil, y máximo, no el "
-#~ "dato en bruto."
-
-#~ msgid "BoxPlot"
-#~ msgstr "BoxPlot"
-
-#~ msgid "BoxPlots"
-#~ msgstr "BoxPlots"
-
-#~ msgid "Box-Plots"
-#~ msgstr "Box-Plots"
-
-#~ msgid "Box-plot plotting engine"
-#~ msgstr "Motor de dibujo de BoxPlots"
-
-#~ msgid "Charting : Box-Plots"
-#~ msgstr "Gráficas: Box-Plots"
-
-#~ msgid "Default surface plot types"
-#~ msgstr "Tipos de gráficas de superficie predeterminadas"
-
-#~ msgid "PlotPie"
-#~ msgstr "GráficoTarta"
-
-#~ msgid "PlotRing"
-#~ msgstr "GráficoAnillo"
-
-#~ msgid ""
-#~ "%s point %d\n"
-#~ "Value %g (%g)"
-#~ msgstr ""
-#~ "%s punto %d\n"
-#~ "Valor %g (%g)"
-
-#~ msgid "Degrees counter clockwise from 3 O'Clock"
-#~ msgstr ""
-#~ "Grados contando en el sentido de las agujas del reloj desde las 3 en punto"
-
-#~ msgid "Slices start _at:"
-#~ msgstr "Las rodajas _empiezan en:"
-
-#~ msgid ""
-#~ "The default amount each slice is separated from the center measured as a "
-#~ "percentage of the radius of the pie"
-#~ msgstr ""
-#~ "La cantidad preestablecida que cada rodaja está separada del centro, "
-#~ "medido como un porcentaje del radio de la tarta"
-
-#~ msgid "_Slice Separation:"
-#~ msgstr "_Separación de rodajas:"
-
-#~ msgid "_Vary colors by slice"
-#~ msgstr "_Variar colores por rodaja"
-
-#~ msgid ""
-#~ "The amount this slice is separated from the center measured as a "
-#~ "percentage of the radius of the pie"
-#~ msgstr ""
-#~ "La cantidad preestablecida que cada rodaja está separada del centro, "
-#~ "medido como un porcentaje del radio de la tarta"
-
-#~ msgid "_Separation:"
-#~ msgstr "_Separación:"
-
-#~ msgid "Cen_ter size:"
-#~ msgstr "Tamaño cen_tral:"
-
-#~ msgid "3D Pie"
-#~ msgstr "Tarta 3D"
-
-#~ msgid "3D Split Pie"
-#~ msgstr "Tarta partida 3D"
-
-#~ msgid ""
-#~ "Major totals as percentages with each wedge subdivided into secondary "
-#~ "pies."
-#~ msgstr ""
-#~ "Totales mayores como porcentajes con cada cuña subdividida en tartas "
-#~ "secundarias."
-
-#~ msgid ""
-#~ "Major totals as percentages with each wedge subdivided into secondary "
-#~ "stacked bars."
-#~ msgstr ""
-#~ "Totales mayores como porcentajes con cada cuña subdividida en barras "
-#~ "secundarias apiladas."
-
-#~ msgid "Multi-Pie"
-#~ msgstr "Tarta múltiple"
-
-#~ msgid "Multi-pie-bars"
-#~ msgstr "Barras multi-tarta"
-
-#~ msgid ""
-#~ "Percentage of each contributor displayed in ring for each serie with "
-#~ "wedges of the last ring split apart."
-#~ msgstr ""
-#~ "Porcentaje de cada contribuyente mostrado en anillo para cada serie con "
-#~ "cuñas del último anillo a parte."
-
-#~ msgid "Percentage of each contributor displayed in ring for each serie."
-#~ msgstr ""
-#~ "Porcentaje de cada contribuyente mostrado en un anillo para cada serie."
-
-#~ msgid "Percentage of each contributor in 3D pie."
-#~ msgstr "El porcentaje de cada contribuyente en una tarta 3D."
-
-#~ msgid "Percentage of each contributor with 3D wedges split apart."
-#~ msgstr "Porcentaje de cada contribuyente con cuñas 3D aparte."
-
-#~ msgid "Percentage of each contributor with wedges split apart."
-#~ msgstr "Porcentaje de cada contribuyente con cuñas divididas a parte."
-
-#~ msgid "Percentage of each contributor."
-#~ msgstr "Porcentaje de cada contribuyente."
-
-#~ msgid "Pie"
-#~ msgstr "Tarta"
-
-#~ msgid "Ring"
-#~ msgstr "Anillo"
-
-#~ msgid "Split Pie"
-#~ msgstr "Dividir tarta"
-
-#~ msgid "Split Ring"
-#~ msgstr "Dividir anillo"
-
-#~ msgid "Charting : Pie/Ring"
-#~ msgstr "Diagrama: Tarta/Anillo"
-
-#~ msgid "Default pie types"
-#~ msgstr "Tipos de tarta predeterminados"
-
-#~ msgid "Pie and Ring plots"
-#~ msgstr "Diag de tartas y anillos"
-
-#~ msgid "Pie plotting engine"
-#~ msgstr "Motor de dibujo de tartas"
-
-#~ msgid "Ring plotting engine"
-#~ msgstr "Motor de dibujo de anillos"
-
-#~ msgid "PlotRadar"
-#~ msgstr "GráficoRadar"
-
-#~ msgid "PlotRadarArea"
-#~ msgstr "GráficoÁreaRadar"
-
-#~ msgid "Area Radar"
-#~ msgstr "Área de radar"
-
-#~ msgid "Area radar plot."
-#~ msgstr "Gráfico de áreas de radar."
-
-#~ msgid "Dotted Radar"
-#~ msgstr "Radar de puntos"
-
-#~ msgid "Radar"
-#~ msgstr "Radar"
-
-#~ msgid "Radar plot with dots."
-#~ msgstr "Gráfico de radar con puntos."
-
-#~ msgid "Radar plot."
-#~ msgstr "Gráfica de radar."
-
-#~ msgid "Charting : Radial plots"
-#~ msgstr "Gráficas: Diagramas radiales"
-
-#~ msgid "Default radar plot types"
-#~ msgstr "Tipos de gráficas de radar preestablecidas"
-
-#~ msgid "Radar Area plotting engine"
-#~ msgstr "Motor de dibujo de áreas de radar"
-
-#~ msgid "Radar plotting engine"
-#~ msgstr "Motor de dibujo de radares"
-
-#~ msgid "Radial/Radar plots"
-#~ msgstr "Gráficas radiales/radar"
-
-#~ msgid "_Slices number:"
-#~ msgstr "Número de _rodajas:"
-
-#~ msgid "PlotContour"
-#~ msgstr "Contorno de ploteo"
-
-#~ msgid "X"
-#~ msgstr "X"
-
-#~ msgid "Y"
-#~ msgstr "Y"
-
-#~ msgid "Z"
-#~ msgstr "Z"
-
-#~ msgid "Contour"
-#~ msgstr "Contorno"
-
-#~ msgid "Contour plot."
-#~ msgstr "Gráfico de contorno."
-
-#~ msgid "Surface"
-#~ msgstr "Superficie"
-
-#~ msgid "Contour plotting engine"
-#~ msgstr "Motor de dibujo de contornos"
-
-#~ msgid "Surface Charts"
-#~ msgstr "Diagramas de superficie"
-
-#~ msgid "Surface charts"
-#~ msgstr "Diagramas de superficie"
-
-#~ msgid "% of default size"
-#~ msgstr "% del tamaño original"
-
-#~ msgid "3_d"
-#~ msgstr "3_d"
-
-#~ msgid "Dia_meter"
-#~ msgstr "Diá_metro"
-
-#~ msgid "Show _negative values"
-#~ msgstr "Mostrar valores _negativos"
-
-#~ msgid "Sur_face"
-#~ msgstr "_Superficie"
-
-#~ msgid "_Bubbles scaled to"
-#~ msgstr "_Burbujas escaladas a"
-
-#~ msgid "_Size represented by:"
-#~ msgstr "_Tamaño representado por:"
-
-#~ msgid "_Vary colors by bubble"
-#~ msgstr "_Variar colores por burbuja"
-
-#~ msgid "PlotXY"
-#~ msgstr "GráficoXY"
-
-#~ msgid "PlotBubble"
-#~ msgstr "GráficoBurbuja"
-
-#~ msgid "Bubble"
-#~ msgstr "Burbuja"
-
-#~ msgid "Y Error bars"
-#~ msgstr "Barras de error de Y"
-
-#~ msgid "X Error bars"
-#~ msgstr "Barras de error de X"
-
-#~ msgid "Interpolate between multi-dimensional points with Bezier splines."
-#~ msgstr "Interpolar entre  puntos multidimensionales con splines Bèzier."
-
-#~ msgid ""
-#~ "Linearly interpolate between multi-dimensional points,with markers at "
-#~ "each point."
-#~ msgstr ""
-#~ "Interpolar linealmente entre puntos multidimensionales, con marcadores en "
-#~ "cada punto."
-
-#~ msgid "Linearly interpolate between multi-dimensional points."
-#~ msgstr "Interpolar linealmente entre puntos multidimensionales."
-
-#~ msgid "Markers at each point."
-#~ msgstr "Marcas en cada punto."
-
-#~ msgid "Multi-dimensional points with circle at each point."
-#~ msgstr "Puntos multidimensionales con un círculo en cada punto."
-
-#~ msgid "Plot X, Y and bubble size."
-#~ msgstr "Gráfico X, Y y tamaño burbuja."
-
-#~ msgid "XY"
-#~ msgstr "XY"
-
-#~ msgid "XY Lines"
-#~ msgstr "Líneas XY"
-
-#~ msgid "XY Points"
-#~ msgstr "Puntos XY"
-
-#~ msgid "XY Splines"
-#~ msgstr "Splines XY"
-
-#~ msgid "2D plots"
-#~ msgstr "Gráficos 2D"
-
-#~ msgid "2D scatter plotting engine"
-#~ msgstr "Motor de dibujo de diagramas de dispersión 2D"
-
-#~ msgid "Bubble plotting engine"
-#~ msgstr "Motor de dibujo de burbujas"
-
-#~ msgid "Charting : XY/Scatter/Bubble"
-#~ msgstr "Gráficas: XY/Dispersión/Burbuja"
-
-#~ msgid "Stock Scatter plot types"
-#~ msgstr "Inventario de tipos de gráficas de dispersión"
-
-#~ msgid "black"
-#~ msgstr "negro"
-
-#~ msgid "light brown"
-#~ msgstr "marrón pálido"
-
-#~ msgid "brown gold"
-#~ msgstr "marrón dorado"
-
-#~ msgid "dark green #2"
-#~ msgstr "verde oscuro nº2"
-
-#~ msgid "navy"
-#~ msgstr "azul marino"
-
-#~ msgid "dark blue"
-#~ msgstr "azul oscuro"
-
-#~ msgid "purple #2"
-#~ msgstr "púrpura nº2"
-
-#~ msgid "very dark gray"
-#~ msgstr "gris muy oscuro"
-
-#~ msgid "dark red"
-#~ msgstr "rojo oscuro"
-
-#~ msgid "red-orange"
-#~ msgstr "rojo anaranjado"
-
-#~ msgid "gold"
-#~ msgstr "dorado"
-
-#~ msgid "dark green"
-#~ msgstr "verde oscuro"
-
-#~ msgid "dull blue"
-#~ msgstr "azul mate"
-
-#~ msgid "blue"
-#~ msgstr "azul"
-
-#~ msgid "dull purple"
-#~ msgstr "púrpura mate"
-
-#~ msgid "dark gray"
-#~ msgstr "gris oscuro"
-
-#~ msgid "red"
-#~ msgstr "rojo"
-
-#~ msgid "orange"
-#~ msgstr "naranja"
-
-#~ msgid "lime"
-#~ msgstr "lima"
-
-#~ msgid "dull green"
-#~ msgstr "verde mate"
-
-#~ msgid "dull blue #2"
-#~ msgstr "azul mate #2"
-
-#~ msgid "sky blue #2"
-#~ msgstr "azul cielo #2"
-
-#~ msgid "purple"
-#~ msgstr "púrpura"
-
-#~ msgid "gray"
-#~ msgstr "gris"
-
-#~ msgid "magenta"
-#~ msgstr "magenta"
-
-#~ msgid "bright orange"
-#~ msgstr "naranja brillante"
-
-#~ msgid "yellow"
-#~ msgstr "amarillo"
-
-#~ msgid "green"
-#~ msgstr "verde"
-
-#~ msgid "cyan"
-#~ msgstr "océano"
-
-#~ msgid "bright blue"
-#~ msgstr "azul brillante"
-
-#~ msgid "red purple"
-#~ msgstr "rojo púrpura"
-
-#~ msgid "light gray"
-#~ msgstr "gris pálido"
-
-#~ msgid "pink"
-#~ msgstr "rosa"
-
-#~ msgid "light orange"
-#~ msgstr "naranja pálido"
-
-#~ msgid "light yellow"
-#~ msgstr "amarillo pálido"
-
-#~ msgid "light green"
-#~ msgstr "verde pálido"
-
-#~ msgid "light cyan"
-#~ msgstr "océano pálido"
-
-#~ msgid "light blue"
-#~ msgstr "azul pálido"
-
-#~ msgid "light purple"
-#~ msgstr "púrpura pálido"
-
-#~ msgid "white"
-#~ msgstr "blanco"
-
-#~ msgid "purplish blue"
-#~ msgstr "azul purpúreo"
-
-#~ msgid "dark purple"
-#~ msgstr "púrpura oscuro"
-
-#~ msgid "sky blue"
-#~ msgstr "azul cielo"
-
-#~ msgid "custom"
-#~ msgstr "personalizado"
-
-#~ msgid "Custom Color..."
-#~ msgstr "Color personalizado..."
-
-#~ msgid "Shadow type"
-#~ msgstr "Tipo de sombra"
-
-#~ msgid "Orientation"
-#~ msgstr "Orientación"
-
-#~ msgid "Preferred width"
-#~ msgstr "Anchura preferida"
-
-#~ msgid "Preferred height"
-#~ msgstr "Altura preferida"
-
-#~ msgid "Dock the toolbar"
-#~ msgstr "Acoplar la barra de herramientas"
-
-#~ msgid "Un dock the toolbar"
-#~ msgstr "Desacoplar la barra de herramientas"
-
-#~ msgid "Fraction"
-#~ msgstr "Fracción"
-
-#~ msgid "Special"
-#~ msgstr "Especial"
-
-#~ msgid "Negative Number Format"
-#~ msgstr "Formato del número negativo"
-
-#~ msgid "Number Formats"
-#~ msgstr "Formatos numéricos"
-
-#~ msgid "Ca_tegories:"
-#~ msgstr "Ca_tegorías:"
-
-#~ msgid "Deci_mal places:"
-#~ msgstr "Lugares deci_males:"
-
-#~ msgid "Display amounts in traditional accounting styles."
-#~ msgstr "Mostrar cantidades en estilos de cuenta tradicionales."
-
-#~ msgid "Display and input values as strings with no interpretation."
-#~ msgstr "Mostrar y entrar valores como cadenas sin interpretación."
-
-#~ msgid "Display currency amounts."
-#~ msgstr "Mostrar cantidades monetarias."
-
-#~ msgid "Display dates and optionally times of day."
-#~ msgstr "Mostrar fechas y opcionalmente horas del día."
-
-#~ msgid "Display numeric values with a fixed number of decimals."
-#~ msgstr "Mostrar los valores numéricos con un número fijo de decimales."
-
-#~ msgid "Display times of day."
-#~ msgstr "Mostrar horas del día."
-
-#~ msgid "Display values as closest fractional approximation."
-#~ msgstr "Mostrar valores como la aproximación fraccional más cercana."
-
-#~ msgid "Display values as percentages."
-#~ msgstr "Mostrar valores como porcentajes."
-
-#~ msgid "Display values with power-of-ten scaling."
-#~ msgstr "Mostrar valores con escala en potencia de diez."
-
-#~ msgid "Format c_ode:"
-#~ msgstr "Formato del _código:"
-
-#~ msgid "Negative number _format:"
-#~ msgstr "_Formato del número negativo:"
-
-#~ msgid "Preview:"
-#~ msgstr "Vista previa:"
-
-#~ msgid "S_ymbol:"
-#~ msgstr "_Símbolo:"
-
-#~ msgid "Select an appropriate format automatically."
-#~ msgstr "Seleccionar un formato apropiado automáticamente."
-
-#~ msgid "Specify an XL-style format directly"
-#~ msgstr "Especificar un estilo XL de formato directamente"
-
-#~ msgid "_Use Separator for 1000's"
-#~ msgstr "_Usar separador de miles"
-
-#~ msgid "AaBbCcDdEe12345"
-#~ msgstr "AaBbCcDdEe12345"
-
-#~ msgid "Images"
-#~ msgstr "Imágenes"
-
-#~ msgid "Select an Image"
-#~ msgstr "Seleccione una imagen"
-
-#~ msgid "*Sun"
-#~ msgstr "*Dom"
-
-#~ msgid "*Mon"
-#~ msgstr "*Lun"
-
-#~ msgid "*Tue"
-#~ msgstr "*Mar"
-
-#~ msgid "*Wed"
-#~ msgstr "*Mié"
-
-#~ msgid "*Thu"
-#~ msgstr "*Jue"
-
-#~ msgid "*Fri"
-#~ msgstr "*Vie"
-
-#~ msgid "*Sat"
-#~ msgstr "*Sáb"
-
-#~ msgid "Sunday"
-#~ msgstr "Domingo"
-
-#~ msgid "Monday"
-#~ msgstr "Lunes"
-
-#~ msgid "Tuesday"
-#~ msgstr "Martes"
-
-#~ msgid "Wednesday"
-#~ msgstr "Miércoles"
-
-#~ msgid "Thursday"
-#~ msgstr "Jueves"
-
-#~ msgid "Friday"
-#~ msgstr "Viernes"
-
-#~ msgid "Saturday"
-#~ msgstr "Sábado"
-
-#~ msgid "*Jan"
-#~ msgstr "*Ene"
-
-#~ msgid "*Feb"
-#~ msgstr "*Feb"
-
-#~ msgid "*Mar"
-#~ msgstr "*Mar"
-
-#~ msgid "*Apr"
-#~ msgstr "*Abr"
-
-#~ msgid "*May"
-#~ msgstr "*May"
-
-#~ msgid "*Jun"
-#~ msgstr "*Jun"
-
-#~ msgid "*Jul"
-#~ msgstr "*Jul"
-
-#~ msgid "*Aug"
-#~ msgstr "*Ago"
-
-#~ msgid "*Sep"
-#~ msgstr "*Sep"
-
-#~ msgid "*Oct"
-#~ msgstr "*Oct"
-
-#~ msgid "*Nov"
-#~ msgstr "*Nov"
-
-#~ msgid "*Dec"
-#~ msgstr "*Dic"
-
-#~ msgid "January"
-#~ msgstr "Enero"
-
-#~ msgid "February"
-#~ msgstr "Febrero"
-
-#~ msgid "March"
-#~ msgstr "Marzo"
-
-#~ msgid "April"
-#~ msgstr "Abril"
-
-#~ msgid "May"
-#~ msgstr "Mayo"
-
-#~ msgid "June"
-#~ msgstr "Junio"
-
-#~ msgid "July"
-#~ msgstr "Julio"
-
-#~ msgid "August"
-#~ msgstr "Agosto"
-
-#~ msgid "September"
-#~ msgstr "Septiembre"
-
-#~ msgid "October"
-#~ msgstr "Octubre"
-
-#~ msgid "November"
-#~ msgstr "Noviembre"
-
-#~ msgid "December"
-#~ msgstr "Diciembre"
-
-#~ msgid "TRUE"
-#~ msgstr "VERDADERO"
-
-#~ msgid "FALSE"
-#~ msgstr "FALSO"
-
-#~ msgid "Cyan"
-#~ msgstr "Océano"
-
-#~ msgid "Magenta"
-#~ msgstr "Rosa"
-
-#~ msgid "Yellow"
-#~ msgstr "Amarillo"
-
-#~ msgid "United Arab Emirates, Dirhams"
-#~ msgstr "Emiratos Árabes Unidos, Dirhams"
-
-#~ msgid "Afghanistan, Afghanis"
-#~ msgstr "Afganistán, afganí"
-
-#~ msgid "Albania, Leke"
-#~ msgstr "Albania, lek"
-
-#~ msgid "Armenia, Drams"
-#~ msgstr "Armenia, dram"
-
-#~ msgid "Netherlands Antilles, Guilders"
-#~ msgstr "Antillas holandesas, florín"
-
-#~ msgid "Angola, Kwanza"
-#~ msgstr "Angola, kwanza"
-
-#~ msgid "Argentina, Pesos"
-#~ msgstr "Argentina, pesos"
-
-#~ msgid "Australia, Dollars"
-#~ msgstr "Australia, dólares"
-
-#~ msgid "Aruba, Guilders"
-#~ msgstr "Aruba, florín"
-
-#~ msgid "Azerbaijan, Manats"
-#~ msgstr "Azerbaiyán, manats"
-
-#~ msgid "Bosnia and Herzegovina, Convertible Marka"
-#~ msgstr "Bosnia y Herzegovina, marco convertible"
-
-#~ msgid "Barbados, Dollars"
-#~ msgstr "Barbados, dólares"
-
-#~ msgid "Bangladesh, Taka"
-#~ msgstr "Bangladesh, taka"
-
-#~ msgid "Bulgaria, Leva"
-#~ msgstr "Bulgaria, lev"
-
-#~ msgid "Bahrain, Dinars"
-#~ msgstr "Bahráin, dinares"
-
-#~ msgid "Burundi, Francs"
-#~ msgstr "Burundi, francos"
-
-#~ msgid "Bermuda, Dollars"
-#~ msgstr "Bermudas, dólares"
-
-#~ msgid "Brunei Darussalam, Dollars"
-#~ msgstr "Brunei, dólares"
-
-#~ msgid "Bolivia, Bolivianos"
-#~ msgstr "Bolivia, boliviano"
-
-#~ msgid "Brazil, Brazil Real"
-#~ msgstr "Brasil, reales"
-
-#~ msgid "Bahamas, Dollars"
-#~ msgstr "Bahamas, dólares"
-
-#~ msgid "Bhutan, Ngultrum"
-#~ msgstr "Bután, ngultrum"
-
-#~ msgid "Botswana, Pulas"
-#~ msgstr "Bostwana, pulas"
-
-#~ msgid "Belarus, Rubles"
-#~ msgstr "Bielorrusia, rublos"
-
-#~ msgid "Belize, Dollars"
-#~ msgstr "Belize, dólares"
-
-#~ msgid "Canada, Dollars"
-#~ msgstr "Canadá, dólares"
-
-#~ msgid "Congo/Kinshasa, Congolese Francs"
-#~ msgstr "Congo/Kinshasa, francos"
-
-#~ msgid "Switzerland, Francs"
-#~ msgstr "Suiza, francos"
-
-#~ msgid "Chile, Pesos"
-#~ msgstr "Chile, pesos"
-
-#~ msgid "China, Yuan Renminbi"
-#~ msgstr "China, yuan renminbi"
-
-#~ msgid "Colombia, Pesos"
-#~ msgstr "Colombia, pesos"
-
-#~ msgid "Costa Rica, Colones"
-#~ msgstr "Costa Rica, colones"
-
-#~ msgid "Cuba, Pesos"
-#~ msgstr "Cuba, pesos"
-
-#~ msgid "Cape Verde, Escudos"
-#~ msgstr "Cabo Verde, escudos"
-
-#~ msgid "Cyprus, Pounds"
-#~ msgstr "Chipre, libras"
-
-#~ msgid "Czech Republic, Koruny"
-#~ msgstr "República Checa, coronas"
-
-#~ msgid "Djibouti, Francs"
-#~ msgstr "Dijibouti, francos"
-
-#~ msgid "Denmark, Kroner"
-#~ msgstr "Dinamarca, coronas"
-
-#~ msgid "Dominican Republic, Pesos"
-#~ msgstr "República Dominicana, pesos"
-
-#~ msgid "Algeria, Algeria Dinars"
-#~ msgstr "Argelia, dinares"
-
-#~ msgid "Estonia, Krooni"
-#~ msgstr "Estonia, coronas"
-
-#~ msgid "Egypt, Pounds"
-#~ msgstr "Egipto, libras"
-
-#~ msgid "Eritrea, Nakfa"
-#~ msgstr "Eritrea, nakfa"
-
-#~ msgid "Ethiopia, Birr"
-#~ msgstr "Etiopía, birr"
-
-#~ msgid "Euro Member Countries, Euro"
-#~ msgstr "Países zona Euro, euros"
-
-#~ msgid "Fiji, Dollars"
-#~ msgstr "Fiji, dólares"
-
-#~ msgid "Falkland Islands (Malvinas), Pounds"
-#~ msgstr "Islas Malvinas, libras"
-
-#~ msgid "United Kingdom, Pounds"
-#~ msgstr "Reino Unido, libras"
-
-#~ msgid "Georgia, Lari"
-#~ msgstr "Georgia, lari"
-
-#~ msgid "Guernsey, Pounds"
-#~ msgstr "Guernsey, libras"
-
-#~ msgid "Ghana, Cedis"
-#~ msgstr "Ghana, cedis"
-
-#~ msgid "Gibraltar, Pounds"
-#~ msgstr "Gibraltar, libras"
-
-#~ msgid "Gambia, Dalasi"
-#~ msgstr "Gambia, dalasi"
-
-#~ msgid "Guinea, Francs"
-#~ msgstr "Guinea, francos"
-
-#~ msgid "Guatemala, Quetzales"
-#~ msgstr "Guatemala, quetzales"
-
-#~ msgid "Guyana, Dollars"
-#~ msgstr "Guyana, dólares"
-
-#~ msgid "Hong Kong, Dollars"
-#~ msgstr "Hong Kong, dólares"
-
-#~ msgid "Honduras, Lempiras"
-#~ msgstr "Honduras, lempiras"
-
-#~ msgid "Croatia, Kuna"
-#~ msgstr "Croacia, kuna"
-
-#~ msgid "Haiti, Gourdes"
-#~ msgstr "Haití, gourde"
-
-#~ msgid "Hungary, Forint"
-#~ msgstr "Hungría, forint"
-
-#~ msgid "Indonesia, Rupiahs"
-#~ msgstr "Indonesia, rupias"
-
-#~ msgid "Israel, New Shekels"
-#~ msgstr "Israel, nuevo sheqel"
-
-#~ msgid "Isle of Man, Pounds"
-#~ msgstr "Isla de Man, libras"
-
-#~ msgid "India, Rupees"
-#~ msgstr "India, rupias"
-
-#~ msgid "Iraq, Dinars"
-#~ msgstr "Iraq, dinares"
-
-#~ msgid "Iran, Rials"
-#~ msgstr "Irán, rial"
-
-#~ msgid "Iceland, Kronur"
-#~ msgstr "Islandia, coronas"
-
-#~ msgid "Jersey, Pounds"
-#~ msgstr "Jersey, libras"
-
-#~ msgid "Jamaica, Dollars"
-#~ msgstr "Jamaica, dólares"
-
-#~ msgid "Jordan, Dinars"
-#~ msgstr "Jordania, dinares"
-
-#~ msgid "Japan, Yen"
-#~ msgstr "Japón, yen"
-
-#~ msgid "Kenya, Shillings"
-#~ msgstr "Kenya, chelines"
-
-#~ msgid "Kyrgyzstan, Soms"
-#~ msgstr "Kirguizistán, soms"
-
-#~ msgid "Cambodia, Riels"
-#~ msgstr "Camboya, riels"
-
-#~ msgid "Comoros, Francs"
-#~ msgstr "Comoras, francos"
-
-#~ msgid "Korea (North), Won"
-#~ msgstr "Corea (Norte), Won"
-
-#~ msgid "Korea (South), Won"
-#~ msgstr "Corea (Sur), Won"
-
-#~ msgid "Kuwait, Dinars"
-#~ msgstr "Kuwait, dinares"
-
-#~ msgid "Cayman Islands, Dollars"
-#~ msgstr "Islas Caimán, dólares"
-
-#~ msgid "Kazakstan, Tenge"
-#~ msgstr "Kazajistán, tenge"
-
-#~ msgid "Laos, Kips"
-#~ msgstr "Laos, kips"
-
-#~ msgid "Lebanon, Pounds"
-#~ msgstr "Líbano, libras"
-
-#~ msgid "Sri Lanka, Rupees"
-#~ msgstr "Sri Lanka, rupias"
-
-#~ msgid "Liberia, Dollars"
-#~ msgstr "Liberia, dólares"
-
-#~ msgid "Lesotho, Maloti"
-#~ msgstr "Lesoto, maloti"
-
-#~ msgid "Lithuania, Litai"
-#~ msgstr "Lituania, litai"
-
-#~ msgid "Latvia, Lati"
-#~ msgstr "Letonia, lati"
-
-#~ msgid "Libya, Dinars"
-#~ msgstr "Libia, dinares"
-
-#~ msgid "Morocco, Dirhams"
-#~ msgstr "Marruecos, dirhams"
-
-#~ msgid "Moldova, Lei"
-#~ msgstr "Moldavia, leu"
-
-#~ msgid "Madagascar, Malagasy Francs"
-#~ msgstr "Madagascar, franco malgache"
-
-#~ msgid "Macedonia, Denars"
-#~ msgstr "Macedonia, denars"
-
-#~ msgid "Myanmar (Burma), Kyats"
-#~ msgstr "Myanmar (Burma), kyats"
-
-#~ msgid "Mongolia, Tugriks"
-#~ msgstr "Mongolia, tugriks"
-
-#~ msgid "Macau, Patacas"
-#~ msgstr "Macao, patacas"
-
-#~ msgid "Mauritania, Ouguiyas"
-#~ msgstr "Mauritania, ouguiyas"
-
-#~ msgid "Malta, Liri"
-#~ msgstr "Malta, lira"
-
-#~ msgid "Mauritius, Rupees"
-#~ msgstr "Mauricio, rupia mauriciana"
-
-#~ msgid "Maldives (Maldive Islands), Rufiyaa"
-#~ msgstr "Maldivas (Islas Maldivas), rufiyaa"
-
-#~ msgid "Malawi, Kwachas"
-#~ msgstr "Malawi, kwachas"
-
-#~ msgid "Mexico, Pesos"
-#~ msgstr "México, pesos"
-
-#~ msgid "Malaysia, Ringgits"
-#~ msgstr "Malasia, ringgits"
-
-#~ msgid "Mozambique, Meticais"
-#~ msgstr "Mozambique, metical"
-
-#~ msgid "Namibia, Dollars"
-#~ msgstr "Namibia, dólares"
-
-#~ msgid "Nigeria, Nairas"
-#~ msgstr "Nigeria, nairas"
-
-#~ msgid "Nicaragua, Gold Cordobas"
-#~ msgstr "Nicaragua, córdoba de oro"
-
-#~ msgid "Norway, Krone"
-#~ msgstr "Noruega, corona"
-
-#~ msgid "Nepal, Nepal Rupees"
-#~ msgstr "Nepal, rupia nepalesa"
-
-#~ msgid "New Zealand, Dollars"
-#~ msgstr "Nueva Zelanda, dólares"
-
-#~ msgid "Oman, Rials"
-#~ msgstr "Omán, Riel omaní"
-
-#~ msgid "Panama, Balboa"
-#~ msgstr "Panamá, balboa"
-
-#~ msgid "Peru, Nuevos Soles"
-#~ msgstr "Perú, nuevos soles"
-
-#~ msgid "Papua New Guinea, Kina"
-#~ msgstr "Papúa Nueva Guinea, kina"
-
-#~ msgid "Philippines, Pesos"
-#~ msgstr "Filipinas, pesos"
-
-#~ msgid "Pakistan, Rupees"
-#~ msgstr "Pakistán, rupias"
-
-#~ msgid "Poland, Zlotys"
-#~ msgstr "Polonia, zlotys"
-
-#~ msgid "Paraguay, Guarani"
-#~ msgstr "Paraguay, guaraní"
-
-#~ msgid "Qatar, Rials"
-#~ msgstr "Qatar, riels"
-
-#~ msgid "Romania, Lei"
-#~ msgstr "Rumanía, leu"
-
-#~ msgid "Russia, Rubles"
-#~ msgstr "Rusia, rublos"
-
-#~ msgid "Rwanda, Rwanda Francs"
-#~ msgstr "Ruanda, franco ruandés"
-
-#~ msgid "Saudi Arabia, Riyals"
-#~ msgstr "Arabia Saudí, rials "
-
-#~ msgid "Solomon Islands, Dollars"
-#~ msgstr "Islas Solomón, dólares"
-
-#~ msgid "Seychelles, Rupees"
-#~ msgstr "Seychelles, rupias"
-
-#~ msgid "Sudan, Dinars"
-#~ msgstr "Sudán, dinares"
-
-#~ msgid "Sweden, Kronor"
-#~ msgstr "Suecia, coronas"
-
-#~ msgid "Singapore, Dollars"
-#~ msgstr "Singapur, dólares"
-
-#~ msgid "Saint Helena, Pounds"
-#~ msgstr "Sta. Helena, libras"
-
-#~ msgid "Slovenia, Tolars"
-#~ msgstr "Eslovenia, tolar"
-
-#~ msgid "Slovakia, Koruny"
-#~ msgstr "Eslovaquia, coronas"
-
-#~ msgid "Sierra Leone, Leones"
-#~ msgstr "Sierra Leona, leones"
-
-#~ msgid "Somalia, Shillings"
-#~ msgstr "Somalia, chelines"
-
-#~ msgid "Seborga, Luigini"
-#~ msgstr "Seborga, luigini"
-
-#~ msgid "Suriname, Guilders"
-#~ msgstr "Surinam, florínes"
-
-#~ msgid "Sao Tome and Principe, Dobras"
-#~ msgstr "Santo Tomé y Príncipe, dobras"
-
-#~ msgid "El Salvador, Colones"
-#~ msgstr "El salvador, colones"
-
-#~ msgid "Syria, Pounds"
-#~ msgstr "Siria, libras"
-
-#~ msgid "Swaziland, Emalangeni"
-#~ msgstr "Swazilandia, emalangeni"
-
-#~ msgid "Thailand, Baht"
-#~ msgstr "Tailandia, baht"
-
-#~ msgid "Tajikistan, Rubles"
-#~ msgstr "Tajikistán, rublos"
-
-#~ msgid "Turkmenistan, Manats"
-#~ msgstr "Turkmenistán, manats"
-
-#~ msgid "Tunisia, Dinars"
-#~ msgstr "Túnez, dinares"
-
-#~ msgid "Tonga, Pa'anga"
-#~ msgstr "Tonga, pa'anga"
-
-#~ msgid "Turkey, Liras"
-#~ msgstr "Turquía, liras"
-
-#~ msgid "Trinidad and Tobago, Dollars"
-#~ msgstr "Trinidad y Tobago, dólares"
-
-#~ msgid "Tuvalu, Tuvalu Dollars"
-#~ msgstr "Tuvalu, dólares de Tuvalu"
-
-#~ msgid "Taiwan, New Dollars"
-#~ msgstr "Taiwán, nuevo dólar"
-
-#~ msgid "Tanzania, Shillings"
-#~ msgstr "Tanzania, chelines"
-
-#~ msgid "Ukraine, Hryvnia"
-#~ msgstr "Ucrania, hryvnia"
-
-#~ msgid "Uganda, Shillings"
-#~ msgstr "Uganda, chelines"
-
-#~ msgid "United States of America, Dollars"
-#~ msgstr "Estados Unidos de América, dólares"
-
-#~ msgid "Uruguay, Pesos"
-#~ msgstr "Uruguay, pesos"
-
-#~ msgid "Uzbekistan, Sums"
-#~ msgstr "Uzbequistán, Sums"
-
-#~ msgid "Venezuela, Bolivares"
-#~ msgstr "Venezuela, bolívares"
-
-#~ msgid "Viet Nam, Dong"
-#~ msgstr "Vietnam, Dong"
-
-#~ msgid "Vanuatu, Vatu"
-#~ msgstr "Vanuatu, Vatu"
-
-#~ msgid "Samoa, Tala"
-#~ msgstr "Samoa, tala"
-
-#~ msgid "Communaute Financiere Africaine BEAC, Francs"
-#~ msgstr "Communaute Financiere Africaine BEAC, francos"
-
-#~ msgid "Silver, Ounces"
-#~ msgstr "Plata, onzas"
-
-#~ msgid "Gold, Ounces"
-#~ msgstr "Oro, onzas"
-
-#~ msgid "East Caribbean Dollars"
-#~ msgstr "Dólares del Caribe oriental"
-
-#~ msgid "International Monetary Fund (IMF) Special Drawing Rights"
-#~ msgstr ""
-#~ "Derechos especiales de cobro del Fondo Monetario Internacional (FMI)"
-
-#~ msgid "Communaute Financiere Africaine BCEAO, Francs"
-#~ msgstr "Comunidad Financiera Africana (BCEAO), francos"
-
-#~ msgid "Palladium, Ounces"
-#~ msgstr "Paladio, onzas"
-
-#~ msgid "Comptoirs Francais du Pacifique Francs"
-#~ msgstr "Francos de las Comores francesas del Pacífico"
-
-#~ msgid "Platinum, Ounces"
-#~ msgstr "Platino, onzas"
-
-#~ msgid "Yemen, Rials"
-#~ msgstr "Yemen, rial"
-
-#~ msgid "Yugoslavia, New Dinars"
-#~ msgstr "Yugoslavia, nuevo dinar"
-
-#~ msgid "South Africa, Rand"
-#~ msgstr "Sudáfrica, Rand"
-
-#~ msgid "Zambia, Kwacha"
-#~ msgstr "Zambia, Kwacha"
-
-#~ msgid "Zimbabwe, Zimbabwe Dollars"
-#~ msgstr "Zimbabwe, dólar de Zimbabwe"
-
-#~ msgid "Dash"
-#~ msgstr "Dash"
-
-#~ msgid "Dot"
-#~ msgstr "Dot"
-
-#~ msgid "Dash dot"
-#~ msgstr "Guión punto"
-
-#~ msgid "Dash dot dot"
-#~ msgstr "Guión punto punto"
-
-#~ msgid "Automatic (%s)"
-#~ msgstr "Automático (%s)"
-
-#~ msgid "none"
-#~ msgstr "ninguno"
-
-#~ msgid "square"
-#~ msgstr "cuadrado"
-
-#~ msgid "diamond"
-#~ msgstr "diamante"
-
-#~ msgid "triangle down"
-#~ msgstr "triángulo hacia abajo"
-
-#~ msgid "triangle up"
-#~ msgstr "triángulo hacia arriba"
-
-#~ msgid "triangle right"
-#~ msgstr "triángulo a la derecha"
-
-#~ msgid "triangle left"
-#~ msgstr "triángulo a la izquierda"
-
-#~ msgid "circle"
-#~ msgstr "círculo"
-
-#~ msgid "cross"
-#~ msgstr "cruz"
-
-#~ msgid "asterisk"
-#~ msgstr "asterisco"
-
-#~ msgid "bar"
-#~ msgstr "barra"
-
-#~ msgid "half bar"
-#~ msgstr "media barra"
-
-#~ msgid "butterfly"
-#~ msgstr "mariposa"
-
-#~ msgid "hourglass"
-#~ msgstr "reloj de arena"
-
-#~ msgid "Data consolidation"
-#~ msgstr "Consolidación de datos"
-
-#~ msgid "_Preserves Formats"
-#~ msgstr "_Mantiene los formatos"
-
-#~ msgid "Menu"
-#~ msgstr "Menú"
-
-#~ msgid "The menu of options"
-#~ msgstr "El menú de opciones"
-
-#~ msgid "Indicator Size"
-#~ msgstr "Tamaño del indicador"
-
-#~ msgid "Size of dropdown indicator"
-#~ msgstr "Tamaño del indicador de despliegue"
-
-#~ msgid "Indicator Spacing"
-#~ msgstr "Indicador de espaciado"
-
-#~ msgid "Spacing around indicator"
-#~ msgstr "Espaciado alrededor del indicador"
-
-#~ msgid "Arabic"
-#~ msgstr "Árabe"
-
-#~ msgid "Baltic"
-#~ msgstr "Báltico"
-
-#~ msgid "Central European"
-#~ msgstr "Centroeuropeo"
-
-#~ msgid "Chinese"
-#~ msgstr "Chino"
-
-#~ msgid "Cyrillic"
-#~ msgstr "Cirílico"
-
-#~ msgid "Greek"
-#~ msgstr "Griego"
-
-#~ msgid "Hebrew"
-#~ msgstr "Hebreo"
-
-#~ msgid "Indian"
-#~ msgstr "Indio"
-
-#~ msgid "Japanese"
-#~ msgstr "Japonés"
-
-#~ msgid "Korean"
-#~ msgstr "Coreano"
-
-#~ msgid "Turkish"
-#~ msgstr "Turco"
-
-#~ msgid "Unicode"
-#~ msgstr "Unicode"
-
-#~ msgid "Vietnamese"
-#~ msgstr "Vietnamita"
-
-#~ msgid "Western"
-#~ msgstr "Occidental"
-
-#~ msgid "Other"
-#~ msgstr "Otro"
-
-#~ msgid "Arabic (IBM-864)"
-#~ msgstr "Árabe (IBM-864)"
-
-#~ msgid "Arabic (IBM-864-I)"
-#~ msgstr "Árabe (IBM-864-I)"
-
-#~ msgid "Arabic (ISO-8859-6)"
-#~ msgstr "Árabe (ISO-8859-6)"
-
-#~ msgid "Arabic (ISO-8859-6-E)"
-#~ msgstr "Árabe (ISO-8859-6-E)"
-
-#~ msgid "Arabic (ISO-8859-6-I)"
-#~ msgstr "Árabe (ISO-8859-6-I)"
-
-#~ msgid "Arabic (MacArabic)"
-#~ msgstr "Árabe (MacArabic)"
-
-#~ msgid "Arabic (Windows-1256)"
-#~ msgstr "Árabe (Windows-1256)"
-
-#~ msgid "Armenian (ARMSCII-8)"
-#~ msgstr "Armenio (ARMSCII-8)"
-
-#~ msgid "Baltic (ISO-8859-13)"
-#~ msgstr "Báltico (ISO-8859-13)"
-
-#~ msgid "Baltic (ISO-8859-4)"
-#~ msgstr "Báltico (ISO-8859-4)"
-
-#~ msgid "Baltic (Windows-1257)"
-#~ msgstr "Báltico (Windows-1257)"
-
-#~ msgid "Celtic (ISO-8859-14)"
-#~ msgstr "Celta (ISO-8859-14)"
-
-#~ msgid "Central European (IBM-852)"
-#~ msgstr "Centroeuropeo (IBM-852)"
-
-#~ msgid "Central European (ISO-8859-2)"
-#~ msgstr "Centroeuropeo (ISO-8859-2)"
-
-#~ msgid "Central European (MacCE)"
-#~ msgstr "Centroeuropeo (MacCE)"
-
-#~ msgid "Central European (Windows-1250)"
-#~ msgstr "Centroeuropeo (Windows-1250)"
-
-#~ msgid "Chinese Simplified (GB18030)"
-#~ msgstr "Chino simplificado (GB18030)"
-
-#~ msgid "Chinese Simplified (GB2312)"
-#~ msgstr "Chino simplificado (GB2312)"
-
-#~ msgid "Chinese Simplified (GBK)"
-#~ msgstr "Chino simplificado (GBK)"
-
-#~ msgid "Chinese Simplified (HZ)"
-#~ msgstr "Chino simplificado (HZ)"
-
-#~ msgid "Chinese Simplified (Windows-936)"
-#~ msgstr "Chino simplificado (Windows-936)"
-
-#~ msgid "Chinese Traditional (Big5)"
-#~ msgstr "Chino tradicional (Big 5)"
-
-#~ msgid "Chinese Traditional (Big5-HKSCS)"
-#~ msgstr "Chino tradicional (Big5-HKSCS)"
-
-#~ msgid "Chinese Traditional (EUC-TW)"
-#~ msgstr "Chino tradicional (EUC-TW)"
-
-#~ msgid "Croatian (MacCroatian)"
-#~ msgstr "Croata (MacCroatian)"
-
-#~ msgid "Cyrillic (IBM-855)"
-#~ msgstr "Cirílico (IBM-855)"
-
-#~ msgid "Cyrillic (ISO-8859-5)"
-#~ msgstr "Cirílico (ISO-8859-5)"
-
-#~ msgid "Cyrillic (ISO-IR-111)"
-#~ msgstr "Cirílico (ISO-IR-111)"
-
-#~ msgid "Cyrillic (KOI8-R)"
-#~ msgstr "Cirílico (KOI8-R)"
-
-#~ msgid "Cyrillic (MacCyrillic)"
-#~ msgstr "Cirílico (MacCyrillic)"
-
-#~ msgid "Cyrillic (Windows-1251)"
-#~ msgstr "Cirílico (Windows-1251)"
-
-#~ msgid "Russian (CP-866)"
-#~ msgstr "Ruso (CP-866)"
-
-#~ msgid "Ukrainian (KOI8-U)"
-#~ msgstr "Ucraniano (KOI8-U)"
-
-#~ msgid "Ukrainian (MacUkrainian)"
-#~ msgstr "Ucraniano (MacUkrainian)"
-
-#~ msgid "English (ASCII)"
-#~ msgstr "Inglés (ASCII)"
-
-#~ msgid "Farsi (MacFarsi)"
-#~ msgstr "Farsi (MacFarsi)"
-
-#~ msgid "Georgian (GEOSTD8)"
-#~ msgstr "Georgiano (GEOSTD8)"
-
-#~ msgid "Greek (ISO-8859-7)"
-#~ msgstr "Griego (ISO-8859-7)"
-
-#~ msgid "Greek (MacGreek)"
-#~ msgstr "Griego (MacGreek)"
-
-#~ msgid "Greek (Windows-1253)"
-#~ msgstr "Griego (Windows-1253)"
-
-#~ msgid "Gujarati (MacGujarati)"
-#~ msgstr "Gujarati (MacGujarati)"
-
-#~ msgid "Gurmukhi (MacGurmukhi)"
-#~ msgstr "Gurmukhi (MacGurmukhi)"
-
-#~ msgid "Hebrew (IBM-862)"
-#~ msgstr "Hebreo (IBM-862)"
-
-#~ msgid "Hebrew (ISO-8859-8-E)"
-#~ msgstr "Hebreo (ISO-8859-8-E)"
-
-#~ msgid "Hebrew (ISO-8859-8-I)"
-#~ msgstr "Hebreo (ISO-8859-8-I)"
-
-#~ msgid "Hebrew (MacHebrew)"
-#~ msgstr "Hebreo (MacHebrew)"
-
-#~ msgid "Hebrew (Windows-1255)"
-#~ msgstr "Hebreo (Windows-1255)"
-
-#~ msgid "Hindi (MacDevanagari)"
-#~ msgstr "Hindi (MacDevanagari)"
-
-#~ msgid "Icelandic (MacIcelandic)"
-#~ msgstr "Islandés (MacIcelandic)"
-
-#~ msgid "Japanese (EUC-JP)"
-#~ msgstr "Japonés (EUC-JP)"
-
-#~ msgid "Japanese (ISO-2022-JP)"
-#~ msgstr "Japonés (ISO-2022-JP)"
-
-#~ msgid "Japanese (Shift_JIS)"
-#~ msgstr "Japonés (Shift_JIS)"
-
-#~ msgid "Korean (EUC-KR)"
-#~ msgstr "Coreano (EUC-KR)"
-
-#~ msgid "Korean (ISO-2022-KR)"
-#~ msgstr "Coreano (ISO-2022-KR)"
-
-#~ msgid "Korean (JOHAB)"
-#~ msgstr "Coreano (JOHAB)"
-
-#~ msgid "Korean (UHC)"
-#~ msgstr "Coreano (UHC)"
-
-#~ msgid "Nordic (ISO-8859-10)"
-#~ msgstr "Nórdico (ISO-8859-10)"
-
-#~ msgid "Romanian (MacRomanian)"
-#~ msgstr "Rumano (MacRomanian)"
-
-#~ msgid "Romanian (ISO-8859-16)"
-#~ msgstr "Rumano (ISO-8859-16)"
-
-#~ msgid "South European (ISO-8859-3)"
-#~ msgstr "Sur de Europa (ISO-8859-3)"
-
-#~ msgid "Thai (TIS-620)"
-#~ msgstr "Tailandés (TIS-620)"
-
-#~ msgid "Turkish (IBM-857)"
-#~ msgstr "Turco (IBM-857)"
-
-#~ msgid "Turkish (ISO-8859-9)"
-#~ msgstr "Turco (ISO-8859-9)"
-
-#~ msgid "Turkish (MacTurkish)"
-#~ msgstr "Turco (MacTurkish)"
-
-#~ msgid "Turkish (Windows-1254)"
-#~ msgstr "Turco (Windows-1254)"
-
-#~ msgid "Unicode (UTF-7)"
-#~ msgstr "Unicode (UTF-7)"
-
-#~ msgid "Unicode (UTF-8)"
-#~ msgstr "Unicode (UTF-8)"
-
-#~ msgid "Unicode (UTF-16BE)"
-#~ msgstr "Unicode (UTF-16BE)"
-
-#~ msgid "Unicode (UTF-16LE)"
-#~ msgstr "Unicode (UTF-16LE)"
-
-#~ msgid "Unicode (UTF-32BE)"
-#~ msgstr "Unicode (UTF-32BE)"
-
-#~ msgid "Unicode (UTF-32LE)"
-#~ msgstr "Unicode (UTF-32LE)"
-
-#~ msgid "User Defined"
-#~ msgstr "Definido por el usuario"
-
-#~ msgid "Vietnamese (TCVN)"
-#~ msgstr "Vietnamita (TCVN)"
-
-#~ msgid "Vietnamese (VISCII)"
-#~ msgstr "Vietnamita (VISCII)"
-
-#~ msgid "Vietnamese (VPS)"
-#~ msgstr "Vietnamita (VPS)"
-
-#~ msgid "Vietnamese (Windows-1258)"
-#~ msgstr "Vietnamita (Windows-1258)"
-
-#~ msgid "Visual Hebrew (ISO-8859-8)"
-#~ msgstr "Hebreo visual (ISO-8859-8)"
-
-#~ msgid "Western (IBM-850)"
-#~ msgstr "Occidental (IBM-850)"
-
-#~ msgid "Western (ISO-8859-1)"
-#~ msgstr "Occidental (ISO-8859-1)"
-
-#~ msgid "Western (ISO-8859-15)"
-#~ msgstr "Occidental (ISO-8859-15)"
-
-#~ msgid "Western (MacRoman)"
-#~ msgstr "Occidental (MacRoman)"
-
-#~ msgid "Western (Windows-1252)"
-#~ msgstr "Occidental (Windows-1252)"
-
-#~ msgid "Locale: "
-#~ msgstr "Localización: "
-
-#~ msgid "Conversion Direction"
-#~ msgstr "Dirección de conversión"
-
-#~ msgid "This value determines which iconv test to perform."
-#~ msgstr "Esta variable determina qué test de iconv realizar."
-
-#~ msgid "Western Europe"
-#~ msgstr "Europa occidental"
-
-#~ msgid "Eastern Europe"
-#~ msgstr "Europa oriental"
-
-#~ msgid "North America"
-#~ msgstr "Norteamérica"
-
-#~ msgid "South & Central America"
-#~ msgstr "Centroamérica y sudamérica"
-
-#~ msgid "Asia"
-#~ msgstr "Asia"
-
-#~ msgid "Africa"
-#~ msgstr "África"
-
-#~ msgid "Australia"
-#~ msgstr "Australia"
-
-#~ msgid "United States/English (C)"
-#~ msgstr "Estados Unidos/Inglés (C)"
-
-#~ msgid "South Africa Afrikaans (af_ZA)"
-#~ msgstr "Sudáfrica/Afrikaans (af_ZA)"
-
-#~ msgid "Ethiopia/Amharic (am_ET)"
-#~ msgstr "Etiopía/Amharico (am_ET)"
-
-#~ msgid "United Arab Emirates (ar_AE)"
-#~ msgstr "Emiratos Árabes Unidos/Árabe (ar_AE)"
-
-#~ msgid "Bahrain (ar_BH)"
-#~ msgstr "Baharein/Árabe (ar_BH)"
-
-#~ msgid "Algeria (ar_DZ)"
-#~ msgstr "Argelia/Árabe (ar_DZ)"
-
-#~ msgid "Egypt (ar_EG)"
-#~ msgstr "Egipto/Árabe (ar_EG)"
-
-#~ msgid "India/Arabic (ar_IN)"
-#~ msgstr "India/Árabe (ar_IN)"
-
-#~ msgid "Iraq (ar_IQ)"
-#~ msgstr "Iraq/Árabe (ar_IQ)"
-
-#~ msgid "Jordan (ar_JO)"
-#~ msgstr "Jordania/Árabe (ar_JO)"
-
-#~ msgid "Kuwait (ar_KW)"
-#~ msgstr "Kuwait/Árabe (ar_KW)"
-
-#~ msgid "Lebanon (ar_LB)"
-#~ msgstr "Líbano/Árabe (ar_LB)"
-
-#~ msgid "Libya (ar_LY)"
-#~ msgstr "Libia/Árabe (ar_LY)"
-
-#~ msgid "Morocco (ar_MA)"
-#~ msgstr "Marruecos/Árabe (ar_MA)"
-
-#~ msgid "Oman (ar_OM)"
-#~ msgstr "Omán/Árabe (ar_OM)"
-
-#~ msgid "Qatar (ar_QA)"
-#~ msgstr "Qatar/Árabe (ar_QA)"
-
-#~ msgid "Saudi Arabia (ar_SA)"
-#~ msgstr "Arabia Saudí/Árabe (ar_SA) "
-
-#~ msgid "Sudan (ar_SD)"
-#~ msgstr "Sudán/Árabe (ar_SD)"
-
-#~ msgid "Syria (ar_SY)"
-#~ msgstr "Siria/Árabe (ar_SY)"
-
-#~ msgid "Tunisia (ar_TN)"
-#~ msgstr "Túnez/Árabe (ar_TN)"
-
-#~ msgid "Yemen (ar_YE)"
-#~ msgstr "Yemen/Árabe (ar_YE)"
-
-#~ msgid "Azerbaijan (az_AZ)"
-#~ msgstr "Azerbaiján/Árabe (ar_AZ)"
-
-#~ msgid "Belarus (be_BY)"
-#~ msgstr "Bielorrusia/Bielorruso (be_BY)"
-
-#~ msgid "Bulgaria (bg_BG)"
-#~ msgstr "Bulgaria/Búlgaro (bg_GB)"
-
-#~ msgid "Bangladesh (bn_BD)"
-#~ msgstr "Bangladesh/Bangladesí (bn_BN)"
-
-#~ msgid "India/Bengali (bn_IN)"
-#~ msgstr "India/Bengalí (bn_IN)"
-
-#~ msgid "France/Breton (br_FR)"
-#~ msgstr "Francia/Bretón (br_FR)"
-
-#~ msgid "Bosnia and Herzegowina (bs_BA)"
-#~ msgstr "Bosnia y Herzegovina/Bosnio (bs_BA)"
-
-#~ msgid "Spain/Catalan (ca_ES)"
-#~ msgstr "España/Catalán (ca_ES)"
-
-#~ msgid "Czech Republic (cs_CZ)"
-#~ msgstr "República Checa/Checo (cs_CZ)"
-
-#~ msgid "Great Britain/Welsh (cy_GB)"
-#~ msgstr "Gran Bretaña/Galés (cy_GB)"
-
-#~ msgid "Denmark (da_DK)"
-#~ msgstr "Dinamarca/Danés (da_DK)"
-
-#~ msgid "Austria (de_AT)"
-#~ msgstr "Austria/Alemán (de_AT)"
-
-#~ msgid "Belgium/German (de_BE)"
-#~ msgstr "Bélgica/Alemán (de_BE)"
-
-#~ msgid "Switzerland/German (de_CH)"
-#~ msgstr "Suiza/Alemán (de_CH)"
-
-#~ msgid "Germany (de_DE)"
-#~ msgstr "Alemania/Alemán (de_DE)"
-
-#~ msgid "Luxembourg/German (de_LU)"
-#~ msgstr "Luxemburgo/Alemán (de_LU)"
-
-#~ msgid "Greece (el_GR)"
-#~ msgstr "Grecia/Griego (el_GR)"
-
-#~ msgid "Australia (en_AU)"
-#~ msgstr "Australia/Inglés (en_AU)"
-
-#~ msgid "Botswana (en_BW)"
-#~ msgstr "Botswana/Inglés (en_BW)"
-
-#~ msgid "Canada/English (en_CA)"
-#~ msgstr "Canadá/Inglés (en_CA)"
-
-#~ msgid "Great Britain (en_GB)"
-#~ msgstr "Gran Bretaña/Inglés (en_GB)"
-
-#~ msgid "Hong Kong/English (en_HK)"
-#~ msgstr "Hong Kong/Inglés (en_HK)"
-
-#~ msgid "Ireland (en_IE)"
-#~ msgstr "Irlanda/Ingles (en_IE)"
-
-#~ msgid "India/English (en_IN)"
-#~ msgstr "India/Inglés /en_IN)"
-
-#~ msgid "New Zealand (en_NZ)"
-#~ msgstr "Nueva Zelanda/Inglés (en_NZ)"
-
-#~ msgid "Philippines (en_PH)"
-#~ msgstr "Filipinas/Inglés (en_PH)"
-
-#~ msgid "Singapore/English (en_SG)"
-#~ msgstr "Singapur/Inglés (en_SG)"
-
-#~ msgid "United States/English (en_US)"
-#~ msgstr "Estados Unidos/Inglés (en_US)"
-
-#~ msgid "South Africa/English (en_ZA)"
-#~ msgstr "Sudáfrica/Inglés (en_ZA)"
-
-#~ msgid "Zimbabwe (en_ZW)"
-#~ msgstr "Zimbabwe/Inglés (en_ZW)"
-
-#~ msgid "Esperanto (eo_EO)"
-#~ msgstr "Esperanto (eo_EO)"
-
-#~ msgid "Argentina (es_AR)"
-#~ msgstr "Argentina/Español (es_AR)"
-
-#~ msgid "Bolivia (es_BO)"
-#~ msgstr "Bolivia/Español (es_BO)"
-
-#~ msgid "Chile (es_CL)"
-#~ msgstr "Chile/Español (es_CL)"
-
-#~ msgid "Colombia (es_CO)"
-#~ msgstr "Colombia/Español (es_CO)"
-
-#~ msgid "Costa Rica (es_CR)"
-#~ msgstr "Costa Rica/Español (es_CR)"
-
-#~ msgid "Dominican Republic (es_DO)"
-#~ msgstr "República Dominicana/Español (es_DO)"
-
-#~ msgid "Ecuador (es_EC)"
-#~ msgstr "Ecuador/Español (es_EC)"
-
-#~ msgid "Spain (es_ES)"
-#~ msgstr "España/Español (es_ES)"
-
-#~ msgid "Guatemala (es_GT)"
-#~ msgstr "Guatemala/Español (es_GT)"
-
-#~ msgid "Honduras (es_HN)"
-#~ msgstr "Honduras/Español (es_HN)"
-
-#~ msgid "Mexico (es_MX)"
-#~ msgstr "México/Español (es_MX)"
-
-#~ msgid "Nicaragua (es_NI)"
-#~ msgstr "Nicaragua/Español (es_NI)"
-
-#~ msgid "Panama (es_PA)"
-#~ msgstr "Panamá/Español (es_PA)"
-
-#~ msgid "Peru (es_PE)"
-#~ msgstr "Perú/Español (es_PE)"
-
-#~ msgid "Puerto Rico (es_PR)"
-#~ msgstr "Puerto Rico/Español (es_PR)"
-
-#~ msgid "Paraguay (es_PY)"
-#~ msgstr "Paraguay/Español (es_PY)"
-
-#~ msgid "El Salvador (es_SV)"
-#~ msgstr "El Salvador/Español (es_PY)"
-
-#~ msgid "United States/Spanish (es_US)"
-#~ msgstr "Estados Unidos/Español (es_US)"
-
-#~ msgid "Uruguay (es_UY)"
-#~ msgstr "Uruguay/Español (es_UY)"
-
-#~ msgid "Venezuela (es_VE)"
-#~ msgstr "Venezuela/Español (es_VE)"
-
-#~ msgid "Estonia (et_EE)"
-#~ msgstr "Estonia/Estonio (et_EE)"
-
-#~ msgid "Spain/Basque (eu_ES)"
-#~ msgstr "España/Vasco (eu_ES)"
-
-#~ msgid "Iran (fa_IR)"
-#~ msgstr "Irán (fa_IR)"
-
-#~ msgid "Finland/Finnish (fi_FI)"
-#~ msgstr "Finlandia/Finlandés (fi_FI)"
-
-#~ msgid "Faroe Islands (fo_FO)"
-#~ msgstr "Islas Faroe (fo_FO)"
-
-#~ msgid "Belgium/French (fr_BE)"
-#~ msgstr "Bélgica/Francés (fr_BE)"
-
-#~ msgid "Canada/French (fr_CA)"
-#~ msgstr "Canadá/Francés (fr_CA)"
-
-#~ msgid "Switzerland/French (fr_CH)"
-#~ msgstr "Suiza/Francés (fr_CH)"
-
-#~ msgid "France (fr_FR)"
-#~ msgstr "Francia/Francés (fr_FR)"
-
-#~ msgid "Ireland/Gaelic (ga_IE)"
-#~ msgstr "Irlanda/Gaélico (ga_IE)"
-
-#~ msgid "Great Britain/Scottish Gaelic (gd_GB)"
-#~ msgstr "Gran Bretaña/Escocés gaélico (gd_GB)"
-
-#~ msgid "Spain/Galician (gl_ES)"
-#~ msgstr "España/Gallego (gl_ES)"
-
-#~ msgid "Great Britain/Manx Gaelic (gv_GB)"
-#~ msgstr "Gran Bretaña/Gaélico Manx (gv_GB)"
-
-#~ msgid "India/Hindu (hi_IN)"
-#~ msgstr "India/Hindú (hi_IN)"
-
-#~ msgid "Croatia (hr_HR)"
-#~ msgstr "Croacia/Croata (hr_HR)"
-
-#~ msgid "Hungary (hu_HU)"
-#~ msgstr "Hungría/Húngaro (hu_HU)"
-
-#~ msgid "Armenia (hy_AM)"
-#~ msgstr "Armenia (hy_AM)"
-
-#~ msgid "(i18n)"
-#~ msgstr "(i18n)"
-
-#~ msgid "Indonesia (id_ID)"
-#~ msgstr "Indonesia/Indonesio (id_ID)"
-
-#~ msgid "Iceland (is_IS)"
-#~ msgstr "Islandia/Islandés (is_IS)"
-
-#~ msgid "(iso14651_t1)"
-#~ msgstr "(iso14651_t1)"
-
-#~ msgid "Switzerland/Italian (it_CH)"
-#~ msgstr "Suiza/Italiano (it_CH)"
-
-#~ msgid "Italy (it_IT)"
-#~ msgstr "Italia/Italiano (it_IT)"
-
-#~ msgid "Israel/Hebrew (iw_IL)"
-#~ msgstr "Israel/Hebreo (iw_IL)"
-
-#~ msgid "Japan (ja_JP)"
-#~ msgstr "Japón/Japonés (ja_JP)"
-
-#~ msgid "Georgia (ka_GE)"
-#~ msgstr "Georgia/Georgiano (ka_GE)"
-
-#~ msgid "Greenland (kl_GL)"
-#~ msgstr "Groenlandia (kl_GL)"
-
-#~ msgid "Korea (ko_KR)"
-#~ msgstr "Corea/Coreano (ko_KR)"
-
-#~ msgid "Great Britain/Cornish (kw_GB)"
-#~ msgstr "Gran Bretaña/Cornish (kw_GB)"
-
-#~ msgid "Lithuania (lt_LT)"
-#~ msgstr "Lithuania/Lituano (lt_LT)"
-
-#~ msgid "Latvia (lv_LV)"
-#~ msgstr "Latvia (lv_LV)"
-
-#~ msgid "New Zealand/Maori (mi_NZ)"
-#~ msgstr "Nueva Zelanda/Maorí (mi_NZ)"
-
-#~ msgid "Macedonia (mk_MK)"
-#~ msgstr "Macedonia (mk_MK)"
-
-#~ msgid "India/Marathi (mr_IN)"
-#~ msgstr "India/Marathi (mr_IN)"
-
-#~ msgid "Malaysia (ms_MY)"
-#~ msgstr "Malasia (ms_MY)"
-
-#~ msgid "Malta (mt_MT)"
-#~ msgstr "Malta (mt_MT)"
-
-#~ msgid "Belgium/Flemish (nl_BE)"
-#~ msgstr "Bélgica/Flamenco (nl_BE)"
-
-#~ msgid "The Netherlands (nl_NL)"
-#~ msgstr "Holanda/Holandés (nl_NL)"
-
-#~ msgid "Norway/Nynorsk (nn_NO)"
-#~ msgstr "Noruega/Nynorsk (nn_NO)"
-
-#~ msgid "Norway/Bokmal (no_NO)"
-#~ msgstr "Noruega/Bokmaal (no_NO)"
-
-#~ msgid "France/Occitan (oc_FR)"
-#~ msgstr "Francia/Occitano (oc_FR)"
-
-#~ msgid "Poland (pl_PL)"
-#~ msgstr "Polonia/Polaco (pl_PL)"
-
-#~ msgid "Brazil (pt_BR)"
-#~ msgstr "Brasil/Portugués (pt_BR)"
-
-#~ msgid "Portugal (pt_PT)"
-#~ msgstr "Portugal/Portugués (pt_PT)"
-
-#~ msgid "Romania (ro_RO)"
-#~ msgstr "Rumanía (ro_RO)"
-
-#~ msgid "Russia (ru_RU)"
-#~ msgstr "Rusia/Ruso (ru_RU)"
-
-#~ msgid "Ukraine/Russian (ru_UA)"
-#~ msgstr "Ucraniano/Ruso (ru_UA)"
-
-#~ msgid "Norway/Saami (se_NO)"
-#~ msgstr "Noruega/Saami (se_NO)"
-
-#~ msgid "Slovakia (sk_SK)"
-#~ msgstr "Eslovaquia/Eslovaco (sk_SK)"
-
-#~ msgid "Slovenia (sl_SI)"
-#~ msgstr "Eslovenia/Esloveno (sl_SL)"
-
-#~ msgid "Albania (sq_AL)"
-#~ msgstr "Albania (sq_AL)"
-
-#~ msgid "Yugoslavia (sr_YU)"
-#~ msgstr "Yugoslavia (sr_YU)"
-
-#~ msgid "Finland/Swedish (sv_FI)"
-#~ msgstr "Finlandia/Sueco (sv_FI)"
-
-#~ msgid "Sweden (sv_SE)"
-#~ msgstr "Suecia/Sueco (sv_SE)"
-
-#~ msgid "India/Tamil (ta_IN)"
-#~ msgstr "India/Tamil (ta_IN)"
-
-#~ msgid "India/Telugu (te_IN)"
-#~ msgstr "India/Telugu (te_IN)"
-
-#~ msgid "Tajikistan (tg_TJ)"
-#~ msgstr "Tajikistán (tg_TJ)"
-
-#~ msgid "Thailand (th_TH)"
-#~ msgstr "Tailandia (th_TH)"
-
-#~ msgid "Eritrea (ti_ER)"
-#~ msgstr "Eritrea (ti_ER)"
-
-#~ msgid "Ethiopia/Tigrinya (ti_ET)"
-#~ msgstr "Etiopía/Tigrinya (ti_ET)"
-
-#~ msgid "Philippines/Tagalog (tl_PH)"
-#~ msgstr "Filipinas/Tagalo (tl_PH)"
-
-#~ msgid "Turkey (tr_TR)"
-#~ msgstr "Turquía (tr_TR)"
-
-#~ msgid "Russia/Tatar (tt_RU)"
-#~ msgstr "Rusia/Tatar (tt_RU)"
-
-#~ msgid "Ukraine (uk_UA)"
-#~ msgstr "Ucrania (uk_UA)"
-
-#~ msgid "Pakistan (ur_PK)"
-#~ msgstr "Pakistán (ur_PK)"
-
-#~ msgid "Uzbekistan (uz_UZ)"
-#~ msgstr "Uzbekistán (uz_UZ)"
-
-#~ msgid "Vietnam (vi_VN)"
-#~ msgstr "Vietnam (vi_VN)"
-
-#~ msgid "Belgium/Walloon (wa_BE)"
-#~ msgstr "Bélgica/Balón (wa_BE)"
-
-#~ msgid "United States/Yiddish (yi_US)"
-#~ msgstr "Estados Unidos/Yiddish (yi_US)"
-
-#~ msgid "China (zh_CN)"
-#~ msgstr "China (zh_CN)"
-
-#~ msgid "Hong Kong/Chinese (zh_HK)"
-#~ msgstr "Hong Kong/Chino (zh_HK)"
-
-#~ msgid "Singapore/Chinese (zh_SG)"
-#~ msgstr "Singapur/Chino (zh_SG)"
-
-#~ msgid "Taiwan (zh_TW)"
-#~ msgstr "Taiwán (zh_TW)"
-
-#~ msgid "Current Locale: "
-#~ msgstr "Localización actual (i18n): "
-
-#~ msgid ""
-#~ "%s\n"
-#~ "is a directory name"
-#~ msgstr ""
-#~ "%s\n"
-#~ "es un nombre de directorio"
-
-#~ msgid ""
-#~ "You do not have permission to save to\n"
-#~ "%s"
-#~ msgstr ""
-#~ "No tiene permisos para guardar a\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "A file called <i>%s</i> already exists in %s.\n"
-#~ "\n"
-#~ "Do you want to save over it?"
-#~ msgstr ""
-#~ "Un archivo llamado <i>%s</i> ya existe en %s.\n"
-#~ "\n"
-#~ "¿Desea sobreescribirlo?"
-
-#~ msgid "Save as"
-#~ msgstr "Guardar como"
-
-#~ msgid "Search string must not be empty."
-#~ msgstr "La cadena a buscar buscar no puede ser vacía."
-
-#~ msgid "Replacement string must be set."
-#~ msgstr "Se debe asignar una cadena a reemplazar."
-
-#~ msgid "Invalid search pattern."
-#~ msgstr "El patrón de búsqueda no es válido."
-
-#~ msgid "Invalid $-specification in replacement."
-#~ msgstr "Especificación de $ no válida en el reemplazo."
-
-#~ msgid "Invalid trailing backslash in replacement."
-#~ msgstr "Barra invertida restante no válida en reemplazo."
-
-#~ msgid "Clipboard"
-#~ msgstr "Portapapeles"
