@@ -1,22 +1,25 @@
+# translation of gnumeric.po to Estonian
 # Gnumeric'u eesti keele tõlge.
 # Estonian translation of Gnumeric.
 #
 # Copyright (C) 2001-2005 Free Software Foundation, Inc.
-#
 # Ain Vagula <ain@riiska.ee>, 2000-2004.
 # Priit Laes <amd@store20.com>, 2003, 2005.
+# Ain Vagula <avagula@gmail.com>, 2005.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Gnumeric HEAD\n"
+"Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: gnome-et@linux.ee\n"
 "POT-Creation-Date: 2005-05-03 11:36+0000\n"
-"PO-Revision-Date: 2005-05-03 18:29+0300\n"
-"Last-Translator: Priit Laes <amd@store20.com>\n"
-"Language-Team: Estonian <gnome-et@linux.ee>\n"
+"PO-Revision-Date: 2005-05-03 19:03+0300\n"
+"Last-Translator: Ain Vagula <avagula@gmail.com>\n"
+"Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.10\n"
 
 #: ../GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -2726,7 +2729,7 @@ msgstr ""
 #: ../src/dialogs/dialog-preferences.c:539
 #: ../src/wbcg-actions.c:1909
 msgid "Sort Ascending"
-msgstr "Sorteeri kasvavalt"
+msgstr "Sordi kasvavalt"
 
 #: ../schemas/gnumeric-general.schemas.in.h:30
 msgid "Sort is Case-Sensitive"
@@ -3458,9 +3461,8 @@ msgid "Cen_ter"
 msgstr "_Tsenter"
 
 #: ../src/dialogs/cell-format.glade.h:43
-#, fuzzy
 msgid "Center across _selection"
-msgstr "Tsentreeri üle valitud ala"
+msgstr "Tsentreeri üle _valitud ala"
 
 #: ../src/dialogs/cell-format.glade.h:44
 msgid "Con_dition:"
@@ -3679,14 +3681,12 @@ msgid "_Message:"
 msgstr "_Sõnum:"
 
 #: ../src/dialogs/cell-format.glade.h:98
-#, fuzzy
 msgid "_Protect worksheet"
-msgstr "_Käesolev leht"
+msgstr "_Kaitse lehte"
 
 #: ../src/dialogs/cell-format.glade.h:100
-#, fuzzy
 msgid "_Show input message when cell is selected"
-msgstr "Näita sisestussõnumit, kui lahter on valitud"
+msgstr "Näita _sisestusabi, kui lahter on valitud"
 
 #: ../src/dialogs/cell-format.glade.h:101
 msgid "_Underline:"
@@ -3737,14 +3737,12 @@ msgid "Move selected field up in the sort order"
 msgstr ""
 
 #: ../src/dialogs/cell-sort.glade.h:7
-#, fuzzy
 msgid "Move the selected field down in the sort order"
-msgstr "Liiguta valitud lehte ühe koha võrra allapoole"
+msgstr "Liiguta valitud välja sortimisjärjestuses allapoole"
 
 #: ../src/dialogs/cell-sort.glade.h:8
-#, fuzzy
 msgid "Range:"
-msgstr "_Vahemik"
+msgstr "Vahemik:"
 
 #: ../src/dialogs/cell-sort.glade.h:9
 msgid "Remove the selected field from the sort specification"
@@ -3759,33 +3757,28 @@ msgid "Sort range has a _header"
 msgstr ""
 
 #: ../src/dialogs/cell-sort.glade.h:12
-#, fuzzy
 msgid "Sort rows by the specified columns"
-msgstr "Sorteeri valitud lahtrid"
+msgstr "Sordi read määratud veergude järgi"
 
 #: ../src/dialogs/cell-sort.glade.h:13
 msgid "Sort..."
-msgstr "Sorteeri..."
+msgstr "Sordi..."
 
 #: ../src/dialogs/cell-sort.glade.h:14
-#, fuzzy
 msgid "Sorting _preserves formats"
-msgstr "Säilita tähesuurused"
+msgstr "Sortimisel säilitatakse vormindus"
 
 #: ../src/dialogs/cell-sort.glade.h:15
-#, fuzzy
 msgid "_Left-Right"
-msgstr "_Parem"
+msgstr "_Parem-vasak"
 
 #: ../src/dialogs/cell-sort.glade.h:16
-#, fuzzy
 msgid "_Top-Bottom"
-msgstr "Ülemine-alumine"
+msgstr "Ülemine-_alumine"
 
 #: ../src/dialogs/colrow.glade.h:1
-#, fuzzy
 msgid "Group/Ungroup"
-msgstr "Grupeeri lahti"
+msgstr "Rühmita/lõhu rühmad"
 
 #: ../src/dialogs/col-width.glade.h:1
 msgid "Column Width"
@@ -3797,9 +3790,8 @@ msgstr "_Veeru laius (punkti):"
 
 #: ../src/dialogs/col-width.glade.h:3
 #: ../src/dialogs/row-height.glade.h:3
-#, fuzzy
 msgid "_Use Default"
-msgstr "Kustuta"
+msgstr "_Kasuta vaikeväärtust"
 
 #: ../src/dialogs/consolidate.glade.h:1
 msgid "C_opy labels"
@@ -3820,14 +3812,12 @@ msgid "Delete the currently selected source area"
 msgstr "Kustuta parasjagu valitud lähteala"
 
 #: ../src/dialogs/consolidate.glade.h:6
-#, fuzzy
 msgid "Labels in _left column"
-msgstr "Vasakus _veerus"
+msgstr "Sildid vasakus _veerus"
 
 #: ../src/dialogs/consolidate.glade.h:7
-#, fuzzy
 msgid "Labels in _top row"
-msgstr "Ülemises _reas"
+msgstr "Sildid ülemises _reas"
 
 #: ../src/dialogs/consolidate.glade.h:9
 msgid ""
@@ -3842,6 +3832,16 @@ msgid ""
 "VAR\n"
 "VARP"
 msgstr ""
+"SUM\n"
+"MIN\n"
+"MAX\n"
+"AVERAGE\n"
+"COUNT\n"
+"PRODUCT\n"
+"STDEV\n"
+"STDEVP\n"
+"VAR\n"
+"VARP"
 
 #: ../src/dialogs/consolidate.glade.h:19
 msgid "The function to use when consolidating"
@@ -3877,19 +3877,16 @@ msgid "Covariance"
 msgstr "Kovariatsioon"
 
 #: ../src/dialogs/dao.glade.h:1
-#, fuzzy
 msgid "<b>Output Formatting</b>"
-msgstr "Eelvaade"
+msgstr "<b>Väljundi vormindus</b>"
 
 #: ../src/dialogs/dao.glade.h:2
-#, fuzzy
 msgid "<b>Output Placement</b>"
-msgstr "Eelvaade"
+msgstr "<b>Väljundi paigutus</b>"
 
 #: ../src/dialogs/dao.glade.h:3
-#, fuzzy
 msgid "A_utofit columns"
-msgstr "Veeru %s automaatsobitamine"
+msgstr "Veergude a_utomaatsobitus"
 
 #: ../src/dialogs/dao.glade.h:4
 #, fuzzy
@@ -4052,7 +4049,7 @@ msgstr ""
 #: ../src/dialogs/dialog-about.c:67
 #, fuzzy
 msgid "Scripting"
-msgstr "Sorteerimine %s"
+msgstr "Sortimine %s"
 
 #: ../src/dialogs/dialog-about.c:68
 msgid "UI"
@@ -6373,9 +6370,8 @@ msgid "Te_xt indicator: "
 msgstr "Tekstii_ndikaator : "
 
 #: ../src/dialogs/dialog-stf.glade.h:49
-#, fuzzy
 msgid "Text Import Configuration"
-msgstr "Tektifaili import (kohandatav)"
+msgstr "Teksti importimise häälestamine"
 
 #: ../src/dialogs/dialog-stf.glade.h:50
 #, fuzzy
@@ -6395,9 +6391,8 @@ msgid "The sequence of carriage return and line feed (ASCII codes 13 and 10) bre
 msgstr ""
 
 #: ../src/dialogs/dialog-stf.glade.h:54
-#, fuzzy
 msgid "Trim:"
-msgstr "Trimmi :"
+msgstr "Trimmi:"
 
 #: ../src/dialogs/dialog-stf.glade.h:55
 msgid "_Adjacent text indicators escaped"
@@ -6425,9 +6420,8 @@ msgid "_Separated"
 msgstr "_Eraldatud"
 
 #: ../src/dialogs/dialog-stf.glade.h:61
-#, fuzzy
 msgid "_To line: "
-msgstr "_Reale : "
+msgstr "_Reale: "
 
 #: ../src/dialogs/dialog-stf.glade.h:62
 msgid "_Unix (LF)"
@@ -6999,7 +6993,7 @@ msgstr "Sä_tted"
 
 #: ../src/dialogs/histogram.glade.h:11
 msgid "Pareto (_sorted)"
-msgstr "_Pareto (Sorteeritud)"
+msgstr "_Pareto (Sorditud)"
 
 #: ../src/dialogs/histogram.glade.h:13
 #, fuzzy
@@ -11480,30 +11474,27 @@ msgstr "Viga katsel kirjutada csv faili"
 
 #: ../src/stf.c:511
 msgid "Comma or tab separated values (CSV/TSV)"
-msgstr ""
+msgstr "Komade või tabulaatoritega eraldatud väärtused (CSV/TSV)"
 
 #: ../src/stf.c:516
-#, fuzzy
 msgid "Text import (configurable)"
-msgstr "Tektifaili import (kohandatav)"
+msgstr "Tekst import (kohandatav)"
 
 #: ../src/stf.c:522
-#, fuzzy
 msgid "Text export (configurable)"
-msgstr "Tektifaili import (kohandatav)"
+msgstr "Tekstifaili eksport (kohandatav)"
 
 #: ../src/stf.c:526
 msgid "Comma separated values (CSV)"
-msgstr ""
+msgstr "Komadega eraldatud väärtused (CSV)"
 
 #: ../src/stf-export.c:440
-#, fuzzy
 msgid "Character set"
-msgstr "Tee loend"
+msgstr "Märgistik"
 
 #: ../src/stf-export.c:441
 msgid "The character encoding of the output."
-msgstr ""
+msgstr "Väljundi märgistik"
 
 #: ../src/stf-export.c:449
 #, fuzzy
@@ -11684,7 +11675,7 @@ msgstr "Grupeeri lahti"
 
 #: ../src/wbcg-actions.c:966
 msgid "Sort"
-msgstr "Sorteeri"
+msgstr "Sordi"
 
 #: ../src/wbcg-actions.c:1086
 msgid "Set Horizontal Alignment"
@@ -12657,11 +12648,11 @@ msgstr "Populatsiooni dispersioonid on:"
 #. Data
 #: ../src/wbcg-actions.c:1850
 msgid "_Sort..."
-msgstr "_Sorteeri..."
+msgstr "_Sordi..."
 
 #: ../src/wbcg-actions.c:1851
 msgid "Sort the selected region"
-msgstr "Sorteerib valitud ala"
+msgstr "Sordib valitud ala"
 
 #: ../src/wbcg-actions.c:1853
 msgid "Sh_uffle..."
@@ -12796,15 +12787,15 @@ msgstr "Muuda funktsiooni käesolevas lahtris."
 
 #: ../src/wbcg-actions.c:1910
 msgid "Sort the selected region in ascending order based on the first column selected"
-msgstr "Sorteeri valitud ala kasvavas järjestuses esimese valitud veeru järgi"
+msgstr "Sordi valitud ala kasvavas järjestuses esimese valitud veeru järgi"
 
 #: ../src/wbcg-actions.c:1912
 msgid "Sort Descending"
-msgstr "Sorteeri kahanevas järjekorras"
+msgstr "Sordi kahanevas järjekorras"
 
 #: ../src/wbcg-actions.c:1913
 msgid "Sort the selected region in descending order based on the first column selected"
-msgstr "Sorteeri valitud ala kahanevas järjestuses esimese valitud veeru järgi"
+msgstr "Sordi valitud ala kahanevas järjestuses esimese valitud veeru järgi"
 
 #. Object Toolbar
 #: ../src/wbcg-actions.c:1917
@@ -13791,27 +13782,4 @@ msgstr "Lilla nimekirja mall"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Lihtsa nimekirja mall"
-
-#~ msgid "Perl plugin"
-#~ msgstr "Perli plugin"
-#~ msgid "Enables the creation of functions in Perl"
-#~ msgstr "Võimaldab luua funktsioone Perlis"
-#~ msgid "Data consolidation"
-#~ msgstr "Andmete konsolideerimine"
-#~ msgid "Labels"
-#~ msgstr "Pealdised"
-
-#, fuzzy
-#~ msgid "_Preserves Formats"
-#~ msgstr "Säilita tähesuurused"
-#~ msgid "Search string must not be empty."
-#~ msgstr "Otsimisstring ei tohi olla tühi."
-#~ msgid "Replacement string must be set."
-#~ msgstr "Asendav string peab olema määratud."
-#~ msgid "Invalid search pattern."
-#~ msgstr "Vigane otsingumuster"
-#~ msgid "Invalid $-specification in replacement."
-#~ msgstr "Vigane $-kirjeldus asendamises."
-#~ msgid "Invalid trailing backslash in replacement."
-#~ msgstr "Vigane tagumine kurakaldkriips asendamises."
 
