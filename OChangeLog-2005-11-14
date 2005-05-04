@@ -1,5 +1,10 @@
 2005-05-04  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (cb_show_menu_tip): Don't translate a space.
+
+	* src/commands.c (cmd_rename_sheet): Simplify calling convention.
+	Single caller fixed.
+
 	* src/gui-util.c (gnumeric_popup_menu): If we have an event
 	anchor, use that to figure out what screen to show the popup on.
 

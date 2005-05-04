@@ -5355,23 +5355,16 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *new_order,
 	return command_push_undo (wbc, obj);
 }
 
-/* Note:  cmd_rename_sheet does not free old_name or new_name */
-/*        one of sheet and old_name may be NULL               */
 gboolean
-cmd_rename_sheet (WorkbookControl *wbc, Sheet *sheet,
-		  char const *old_name, char const *new_name)
+cmd_rename_sheet (WorkbookControl *wbc,
+		  Sheet *sheet,
+		  char const *new_name)
 {
 
-	Workbook *wb = wb_control_workbook (wbc);
 	GSList *changed_names = NULL;
 	GSList *new_names = NULL;
 
 	g_return_val_if_fail (new_name != NULL, TRUE);
-	g_return_val_if_fail (sheet != NULL || old_name != NULL, TRUE);
-
-	if (sheet == NULL)
-		sheet = workbook_sheet_by_name (wb, old_name);
-
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
 	changed_names = g_slist_prepend (changed_names, 

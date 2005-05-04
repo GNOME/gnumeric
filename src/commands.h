@@ -103,7 +103,7 @@ gboolean cmd_reorganize_sheets	(WorkbookControl *wbc, GSList *new_order,
 				 GSList *new_visibility);
 
 gboolean cmd_rename_sheet	(WorkbookControl *wbc, Sheet *sheet,
-				 char const *old_name, char const *new_name);
+				 char const *new_name);
 
 gboolean cmd_set_comment	(WorkbookControl *wbc, Sheet *sheet,
 				 GnmCellPos const *pos, const char *new_text);

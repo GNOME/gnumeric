@@ -1240,20 +1240,22 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 }
 
 static void
-cb_show_menu_tip (GtkWidget *proxy, GOCmdContext *cc)
-{
-	GtkAction *action = g_object_get_data (G_OBJECT (proxy), "GtkAction");
-	char *tip;
-	g_object_get (action, "tooltip", &tip, NULL);
-	if (tip == NULL) tip = g_strdup (" "); /* empty has no height */
-	go_cmd_context_progress_message_set (cc, _(tip));
-	g_free (tip);
-}
-
-static void
 cb_clear_menu_tip (GOCmdContext *cc)
 {
 	go_cmd_context_progress_message_set (cc, " ");
+}
+
+static void
+cb_show_menu_tip (GtkWidget *proxy, GOCmdContext *cc)
+{
+	GtkAction *action = g_object_get_data (G_OBJECT (proxy), "GtkAction");
+	char *tip = NULL;
+	g_object_get (action, "tooltip", &tip, NULL);
+	if (tip) {
+		go_cmd_context_progress_message_set (cc, _(tip));
+		g_free (tip);
+	} else
+		cb_clear_menu_tip (cc);
 }
 
 static void

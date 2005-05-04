@@ -404,9 +404,14 @@ cb_sheet_label_edit_finished (EditableLabel *el, char const *new_name,
 			      WorkbookControlGUI *wbcg)
 {
 	gboolean reject = FALSE;
-	if (new_name != NULL)
-		reject = cmd_rename_sheet (WORKBOOK_CONTROL (wbcg), NULL,
-				editable_label_get_text (el), new_name);
+	if (new_name != NULL) {
+		const char *old_name = editable_label_get_text (el);
+		Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+		Sheet *sheet = workbook_sheet_by_name (wb, old_name);
+		reject = cmd_rename_sheet (WORKBOOK_CONTROL (wbcg),
+					   sheet,
+					   new_name);
+	}
 	wbcg_focus_cur_scg (wbcg);
 	return reject;
 }
