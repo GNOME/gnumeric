@@ -348,6 +348,10 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 	g_object_ref (menu);
 	gtk_object_sink (GTK_OBJECT (menu));
 
+	if (event)
+		gtk_menu_set_screen (menu,
+				     gdk_drawable_get_screen (event->window));
+
 	g_signal_connect (G_OBJECT (menu),
 		"hide",
 		G_CALLBACK (kill_popup_menu), menu);

@@ -1,3 +1,8 @@
+2005-05-04  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnumeric_popup_menu): If we have an event
+	anchor, use that to figure out what screen to show the popup on.
+
 2005-05-03  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-control-gui.c (cb_zoom_change): New function,

@@ -94,6 +94,7 @@ Morten:
 	* Plug leaks with moving sheets.
 	* Use object properties for much of the {sheet,workbook}-control-gui
 	  to sheet linkage.
+	* Fix multihead problems with popups.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0
