@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-27 15:48-0400\n"
-"PO-Revision-Date: 2005-04-27 11:36-0400\n"
+"POT-Creation-Date: 2005-05-04 01:33-0400\n"
+"PO-Revision-Date: 2005-05-04 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -229,8 +229,8 @@ msgstr "Financial Derivatives"
 msgid "Functions related to financial derivatives"
 msgstr "Functions related to financial derivatives"
 
-#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:5842
-#: ../plugins/mps/mps.c:544 ../src/xml-io.c:3844
+#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:5847
+#: ../plugins/mps/mps.c:544 ../src/xml-io.c:3843
 msgid "Reading file..."
 msgstr "Reading file..."
 
@@ -321,7 +321,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Unexpected attribute %s::%s == '%s'."
 
 #: ../plugins/excel/excel-xml-read.c:196
-#: ../plugins/openoffice/openoffice-read.c:1503 ../src/xml-sax-read.c:1762
+#: ../plugins/openoffice/openoffice-read.c:1503 ../src/xml-sax-read.c:1761
 msgid "XML document not well formed!"
 msgstr "XML document not well formed!"
 
@@ -354,12 +354,12 @@ msgstr "Chart%d"
 msgid "Module%d"
 msgstr "Module%d"
 
-#: ../plugins/excel/ms-excel-read.c:2930
+#: ../plugins/excel/ms-excel-read.c:2931
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Failure parsing name '%s'"
 
-#: ../plugins/excel/ms-excel-read.c:3026
+#: ../plugins/excel/ms-excel-read.c:3027
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -368,7 +368,7 @@ msgstr ""
 "DDE links are not supported.\n"
 "Name '%s' will be lost.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3032
+#: ../plugins/excel/ms-excel-read.c:3033
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -377,15 +377,15 @@ msgstr ""
 "OLE links are not supported.\n"
 "Name '%s' will be lost.\n"
 
-#: ../plugins/excel/ms-excel-read.c:5149
+#: ../plugins/excel/ms-excel-read.c:5154
 msgid "external references"
 msgstr "external references"
 
-#: ../plugins/excel/ms-excel-read.c:5173
+#: ../plugins/excel/ms-excel-read.c:5178
 msgid "No password supplied"
 msgstr "No password supplied"
 
-#: ../plugins/excel/ms-excel-read.c:6071
+#: ../plugins/excel/ms-excel-read.c:6076
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Unable to locate valid MS Excel workbook"
 
@@ -711,9 +711,9 @@ msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: ../plugins/fn-info/functions.c:1334
-#: ../src/dialogs/dialog-cell-format.c:2332
-#: ../src/dialogs/dialog-cell-format.c:2337
-#: ../src/dialogs/dialog-cell-format.c:2347 ../src/wbc-gtk.c:536
+#: ../src/dialogs/dialog-cell-format.c:2331
+#: ../src/dialogs/dialog-cell-format.c:2336
+#: ../src/dialogs/dialog-cell-format.c:2346 ../src/wbc-gtk.c:533
 msgid "Automatic"
 msgstr "Automatic"
 
@@ -1646,8 +1646,8 @@ msgstr "Constraints:"
 #: ../src/tools/solver/reports-write.c:281
 #: ../src/tools/solver/reports-write.c:393
 #: ../src/tools/solver/reports-write.c:400
-#: ../src/tools/solver/reports-write.c:668 ../src/commands.c:6241
-#: ../src/format-template.c:249
+#: ../src/tools/solver/reports-write.c:668 ../src/commands.c:6237
+#: ../src/format-template.c:249 ../src/sheet.c:498
 msgid "Name"
 msgstr "Name"
 
@@ -2102,17 +2102,17 @@ msgstr "Quattro Pro(tm)"
 msgid "Invalid '%s' record of length %hd instead of %d"
 msgstr "Invalid '%s' record of length %hd instead of %d"
 
-#: ../plugins/qpro/qpro-read.c:775
+#: ../plugins/qpro/qpro-read.c:782
 #, c-format
 msgid "Invalid zoom %hd %%"
 msgstr "Invalid zoom %hd %%"
 
-#: ../plugins/qpro/qpro-read.c:817
+#: ../plugins/qpro/qpro-read.c:823
 #, c-format
 msgid "Invalid record %d of length %hd"
 msgstr "Invalid record %d of length %hd"
 
-#: ../plugins/qpro/qpro-read.c:849
+#: ../plugins/qpro/qpro-read.c:855
 msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
@@ -2192,8 +2192,8 @@ msgstr "Error while opening xbase file."
 
 #: ../plugins/xbase/boot.c:176 ../src/dialogs/dialog-goto-cell.c:289
 #: ../src/dialogs/dialog-search.c:422 ../src/dialogs/dialog-stf-export.c:458
-#: ../src/dialogs/print.glade.h:21 ../src/commands.c:5035
-#: ../src/print-info.c:402 ../src/workbook.c:1084 ../src/xml-io.c:3441
+#: ../src/dialogs/print.glade.h:21 ../src/commands.c:5031
+#: ../src/print-info.c:402 ../src/workbook.c:1087 ../src/xml-io.c:3440
 msgid "Sheet"
 msgstr "Sheet"
 
@@ -3568,17 +3568,17 @@ msgstr ""
 "Custom"
 
 #: ../src/dialogs/cell-format.glade.h:36
-#: ../src/dialogs/dialog-cell-format.c:2342 ../src/wbc-gtk.c:588
-#: ../src/wbc-gtk.c:589 ../src/wbc-gtk.c:596
+#: ../src/dialogs/dialog-cell-format.c:2341 ../src/wbc-gtk.c:585
+#: ../src/wbc-gtk.c:586 ../src/wbc-gtk.c:593
 msgid "Background"
 msgstr "Background"
 
 #: ../src/dialogs/cell-format.glade.h:37
-#: ../src/dialogs/dialog-cell-format.c:2332
+#: ../src/dialogs/dialog-cell-format.c:2331
 msgid "Border"
 msgstr "Border"
 
-#: ../src/dialogs/cell-format.glade.h:38 ../src/wbc-gtk.c:209
+#: ../src/dialogs/cell-format.glade.h:38 ../src/wbc-gtk.c:207
 msgid "Bottom"
 msgstr "Bottom"
 
@@ -3628,7 +3628,7 @@ msgid "Foreground Solid"
 msgstr "Foreground Solid"
 
 #: ../src/dialogs/cell-format.glade.h:50
-#: ../src/dialogs/dialog-cell-format.c:2270
+#: ../src/dialogs/dialog-cell-format.c:2269
 msgid "Format Cells"
 msgstr "Format Cells"
 
@@ -3672,7 +3672,7 @@ msgstr "J_ustify"
 msgid "Large Circles"
 msgstr "Large Circles"
 
-#: ../src/dialogs/cell-format.glade.h:61 ../src/wbc-gtk.c:201
+#: ../src/dialogs/cell-format.glade.h:61 ../src/wbc-gtk.c:199
 msgid "Left"
 msgstr "Left"
 
@@ -3703,7 +3703,7 @@ msgstr "Reverse Diagonal"
 msgid "Reverse Diagonal Stripe"
 msgstr "Reverse Diagonal Stripe"
 
-#: ../src/dialogs/cell-format.glade.h:68 ../src/wbc-gtk.c:203
+#: ../src/dialogs/cell-format.glade.h:68 ../src/wbc-gtk.c:201
 msgid "Right"
 msgstr "Right"
 
@@ -4929,17 +4929,17 @@ msgstr "Information (allow invalid input)"
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "The validation criteria are unusable. Disable validation?"
 
-#: ../src/dialogs/dialog-cell-format.c:2337 ../src/wbc-gtk.c:179
-#: ../src/wbc-gtk.c:312 ../src/wbc-gtk.c:538 ../src/wbc-gtk.c:539
-#: ../src/wbc-gtk.c:548 ../src/wbc-gtk.c:649 ../src/wbc-gtk.c:703
+#: ../src/dialogs/dialog-cell-format.c:2336 ../src/wbc-gtk.c:177
+#: ../src/wbc-gtk.c:310 ../src/wbc-gtk.c:535 ../src/wbc-gtk.c:536
+#: ../src/wbc-gtk.c:545 ../src/wbc-gtk.c:646 ../src/wbc-gtk.c:700
 msgid "Foreground"
 msgstr "Foreground"
 
-#: ../src/dialogs/dialog-cell-format.c:2342 ../src/wbc-gtk.c:586
+#: ../src/dialogs/dialog-cell-format.c:2341 ../src/wbc-gtk.c:583
 msgid "Clear Background"
 msgstr "Clear Background"
 
-#: ../src/dialogs/dialog-cell-format.c:2347
+#: ../src/dialogs/dialog-cell-format.c:2346
 msgid "Pattern"
 msgstr "Pattern"
 
@@ -5171,7 +5171,7 @@ msgstr "Add Hyperlink"
 msgid "Edit Hyperlink"
 msgstr "Edit Hyperlink"
 
-#: ../src/dialogs/dialog-hyperlink.c:351 ../src/sheet-control-gui.c:1476
+#: ../src/dialogs/dialog-hyperlink.c:351 ../src/sheet-control-gui.c:1532
 msgid "Remove Hyperlink"
 msgstr "Remove Hyperlink"
 
@@ -5179,7 +5179,7 @@ msgstr "Remove Hyperlink"
 msgid "Could not create the hyperlink dialog."
 msgstr "Could not create the hyperlink dialogue."
 
-#: ../src/dialogs/dialog-insert-cells.c:136 ../src/workbook-control-gui.c:548
+#: ../src/dialogs/dialog-insert-cells.c:136 ../src/workbook-control-gui.c:513
 msgid "Insert"
 msgstr "Insert"
 
@@ -5421,7 +5421,7 @@ msgstr ""
 "tools."
 
 #: ../src/dialogs/dialog-preferences.c:750
-msgid "The items on this page are related to copy. cut and paste."
+msgid "The items on this page are related to copy, cut and paste."
 msgstr "The items on this page are related to copy, cut and paste."
 
 #: ../src/dialogs/dialog-preferences.c:791
@@ -5436,7 +5436,7 @@ msgstr "Files"
 msgid "Tools"
 msgstr "Tools"
 
-#: ../src/dialogs/dialog-preferences.c:794 ../src/wbc-gtk.c:472
+#: ../src/dialogs/dialog-preferences.c:794 ../src/wbc-gtk.c:469
 msgid "Undo"
 msgstr "Undo"
 
@@ -5879,16 +5879,16 @@ msgid "Variable"
 msgstr "Variable"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/workbook-control-gui.c:1874
+#: ../src/workbook-control-gui.c:1924
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/workbook-control-gui.c:1876
+#: ../src/dialogs/dialog-simulation.c:237 ../src/workbook-control-gui.c:1926
 msgid "Average"
 msgstr "Average"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/workbook-control-gui.c:1875
+#: ../src/workbook-control-gui.c:1925
 msgid "Max"
 msgstr "Max"
 
@@ -8095,7 +8095,7 @@ msgstr "Solve"
 #: ../src/tools/solver/reports-write.c:484
 #: ../src/tools/solver/reports-write.c:743
 #: ../src/tools/solver/reports-write.c:907
-#: ../src/tools/solver/reports-write.c:958 ../src/commands.c:6781
+#: ../src/tools/solver/reports-write.c:958 ../src/commands.c:6777
 msgid "Solver"
 msgstr "Solver"
 
@@ -8912,7 +8912,7 @@ msgstr "Kurtosis"
 msgid "Range"
 msgstr "Range"
 
-#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1877
+#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1927
 msgid "Count"
 msgstr "Count"
 
@@ -9370,7 +9370,7 @@ msgid "Expecting a single range"
 msgstr "Expecting a single range"
 
 #. ALSO "<control>2"
-#: ../src/widgets/widget-font-selector.c:209 ../src/wbcg-actions.c:2116
+#: ../src/widgets/widget-font-selector.c:209 ../src/wbcg-actions.c:2107
 msgid "Bold"
 msgstr "Bold"
 
@@ -9379,7 +9379,7 @@ msgid "Bold italic"
 msgstr "Bold italic"
 
 #. ALSO "<control>3"
-#: ../src/widgets/widget-font-selector.c:211 ../src/wbcg-actions.c:2119
+#: ../src/widgets/widget-font-selector.c:211 ../src/wbcg-actions.c:2110
 msgid "Italic"
 msgstr "Italic"
 
@@ -9507,11 +9507,11 @@ msgstr "Typing \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Ins/Del Column/Row"
 
-#: ../src/commands.c:1389 ../src/commands.c:1394 ../src/sheet.c:3343
+#: ../src/commands.c:1389 ../src/commands.c:1394 ../src/sheet.c:3630
 msgid "Delete Columns"
 msgstr "Delete Columns"
 
-#: ../src/commands.c:1389 ../src/commands.c:1394 ../src/sheet.c:3465
+#: ../src/commands.c:1389 ../src/commands.c:1394 ../src/sheet.c:3752
 msgid "Delete Rows"
 msgstr "Delete Rows"
 
@@ -9556,7 +9556,7 @@ msgid "Deleting row %s"
 msgstr "Deleting row %s"
 
 #. Check for locked cells
-#: ../src/commands.c:1664 ../src/commands.c:1668 ../src/sheet.c:2946
+#: ../src/commands.c:1664 ../src/commands.c:1668 ../src/sheet.c:3233
 msgid "Clear"
 msgstr "Clear"
 
@@ -9794,155 +9794,155 @@ msgstr "Setting default width of columns to %.2fpts"
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Setting default height of rows to %.2fpts"
 
-#: ../src/commands.c:4453
+#: ../src/commands.c:4449
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s to %.0f%%"
 
-#: ../src/commands.c:4551
+#: ../src/commands.c:4547
 msgid "Delete Object"
 msgstr "Delete Object"
 
-#: ../src/commands.c:4712
+#: ../src/commands.c:4708
 msgid "Format Object"
 msgstr "Format Object"
 
-#: ../src/commands.c:5309
+#: ../src/commands.c:5305
 msgid "Reordering Sheets"
 msgstr "Reordering Sheets"
 
-#: ../src/commands.c:5312
+#: ../src/commands.c:5308
 msgid "Renaming Sheets"
 msgstr "Renaming Sheets"
 
-#: ../src/commands.c:5315
+#: ../src/commands.c:5311
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Appending %i Sheets"
 
-#: ../src/commands.c:5319
+#: ../src/commands.c:5315
 msgid "Changing Tab Colors"
 msgstr "Changing Tab Colours"
 
-#: ../src/commands.c:5322
+#: ../src/commands.c:5318
 msgid "Changing Sheet Protection"
 msgstr "Changing Sheet Protection"
 
-#: ../src/commands.c:5325
+#: ../src/commands.c:5321
 msgid "Delete sheets"
 msgstr "Delete sheets"
 
-#: ../src/commands.c:5328
+#: ../src/commands.c:5324
 msgid "Delete a sheet"
 msgstr "Delete a sheet"
 
-#: ../src/commands.c:5331
+#: ../src/commands.c:5327
 msgid "Changing Sheet Visibility"
 msgstr "Changing Sheet Visibility"
 
-#: ../src/commands.c:5334
+#: ../src/commands.c:5330
 msgid "Reorganizing Sheets"
 msgstr "Reorganizing Sheets"
 
-#: ../src/commands.c:5485
+#: ../src/commands.c:5481
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Clearing comment of %s"
 
-#: ../src/commands.c:5486
+#: ../src/commands.c:5482
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Setting comment of %s"
 
-#: ../src/commands.c:5866
+#: ../src/commands.c:5862
 #, c-format
 msgid "Merging data into %s"
 msgstr "Merging data into %s"
 
-#: ../src/commands.c:5968
+#: ../src/commands.c:5964
 msgid "Changing summary info"
 msgstr "Changing summary info"
 
-#: ../src/commands.c:6057
+#: ../src/commands.c:6053
 msgid "Pull Object to the Front"
 msgstr "Pull Object to the Front"
 
-#: ../src/commands.c:6060
+#: ../src/commands.c:6056
 msgid "Pull Object Forward"
 msgstr "Pull Object Forward"
 
-#: ../src/commands.c:6063
+#: ../src/commands.c:6059
 msgid "Push Object Backward"
 msgstr "Push Object Backward"
 
-#: ../src/commands.c:6066
+#: ../src/commands.c:6062
 msgid "Push Object to the Back"
 msgstr "Push Object to the Back"
 
-#: ../src/commands.c:6181
+#: ../src/commands.c:6177
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Page Setup For %s"
 
-#: ../src/commands.c:6183
+#: ../src/commands.c:6179
 msgid "Page Setup For All Sheets"
 msgstr "Page Setup For All Sheets"
 
-#: ../src/commands.c:6298
+#: ../src/commands.c:6294
 msgid "has a circular reference"
 msgstr "has a circular reference"
 
-#: ../src/commands.c:6321
+#: ../src/commands.c:6317
 #, c-format
 msgid "Define Name %s"
 msgstr "Define Name %s"
 
-#: ../src/commands.c:6324
+#: ../src/commands.c:6320
 #, c-format
 msgid "Update Name %s"
 msgstr "Update Name %s"
 
-#: ../src/commands.c:6388
+#: ../src/commands.c:6384
 msgid "Add scenario"
 msgstr "Add scenario"
 
-#: ../src/commands.c:6463
+#: ../src/commands.c:6459
 msgid "Scenario Show"
 msgstr "Scenario Show"
 
-#: ../src/commands.c:6527
+#: ../src/commands.c:6523
 msgid "Shuffle Data"
 msgstr "Shuffle Data"
 
 #. FIXME?
-#: ../src/commands.c:6637
+#: ../src/commands.c:6633
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) to Columns (%s)"
 
-#: ../src/commands.c:6865
+#: ../src/commands.c:6861
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Goal Seek (%s)"
 
-#: ../src/commands.c:7010
+#: ../src/commands.c:7006
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplicating %s"
 
-#: ../src/commands.c:7089
+#: ../src/commands.c:7085
 msgid "Tabulating Dependencies"
 msgstr "Tabulating Dependencies"
 
-#: ../src/commands.c:7163
+#: ../src/commands.c:7159
 msgid "Reconfigure Graph"
 msgstr "Reconfigure Graph"
 
-#: ../src/commands.c:7206
+#: ../src/commands.c:7203
 msgid "Left to Right"
 msgstr "Left to Right"
 
-#: ../src/commands.c:7206
+#: ../src/commands.c:7203
 msgid "Right to Left"
 msgstr "Right to Left"
 
@@ -10307,7 +10307,7 @@ msgstr ""
 msgid "_Move"
 msgstr "_Move"
 
-#: ../src/item-cursor.c:1009 ../src/sheet-control-gui.c:1508
+#: ../src/item-cursor.c:1009 ../src/sheet-control-gui.c:1564
 msgid "_Copy"
 msgstr "_Copy"
 
@@ -10809,35 +10809,151 @@ msgstr "Do not save"
 msgid "Do not log out"
 msgstr "Do not log out"
 
-#: ../src/sheet.c:2078
+#: ../src/sheet.c:499
+msgid "The name of the sheet."
+msgstr "The name of the sheet."
+
+#: ../src/sheet.c:507
+msgid "text-is-rtl"
+msgstr "text-is-RTL"
+
+#: ../src/sheet.c:508
+msgid "Text goes from right to left."
+msgstr "Text goes from right to left."
+
+#: ../src/sheet.c:516
+msgid "Visible"
+msgstr "Visible"
+
+#: ../src/sheet.c:517
+msgid "Sheet is visible."
+msgstr "Sheet is visible."
+
+#: ../src/sheet.c:525
+msgid "Protected"
+msgstr "Protected"
+
+#: ../src/sheet.c:526
+msgid "Sheet is protected."
+msgstr "Sheet is protected."
+
+#: ../src/sheet.c:534
+msgid "Display Formulas"
+msgstr "Display Formulas"
+
+#: ../src/sheet.c:535
+msgid "Control whether formulas are shown instead of values."
+msgstr "Control whether formulas are shown instead of values."
+
+#: ../src/sheet.c:543
+msgid "Display Zeros"
+msgstr "Display Zeros"
+
+#: ../src/sheet.c:544
+msgid "Control whether zeros are shown are blanked out."
+msgstr "Control whether zeros are shown blanked out."
+
+#: ../src/sheet.c:552
+msgid "Display Grid"
+msgstr "Display Grid"
+
+#: ../src/sheet.c:553
+msgid "Control whether the grid is shown."
+msgstr "Control whether the grid is shown."
+
+#: ../src/sheet.c:561
+msgid "Display Column Headers"
+msgstr "Display Column Headers"
+
+#: ../src/sheet.c:562
+msgid "Control whether column headers are shown."
+msgstr "Control whether column headers are shown."
+
+#: ../src/sheet.c:570
+msgid "Display Row Headers"
+msgstr "Display Row Headers"
+
+#: ../src/sheet.c:571
+msgid "Control whether row headers are shown."
+msgstr "Control whether row headers are shown."
+
+#: ../src/sheet.c:579
+msgid "Display Outlines"
+msgstr "Display Outlines"
+
+#: ../src/sheet.c:580
+msgid "Control whether outlines are shown."
+msgstr "Control whether outlines are shown."
+
+#: ../src/sheet.c:588
+msgid "Display Outlines Below"
+msgstr "Display Outlines Below"
+
+#: ../src/sheet.c:589
+msgid "Control whether outlines symbols are shown below."
+msgstr "Control whether outlines symbols are shown below."
+
+#: ../src/sheet.c:597
+msgid "Display Outlines Right"
+msgstr "Display Outlines Right"
+
+#: ../src/sheet.c:598
+msgid "Control whether outlines symbols are shown to the right."
+msgstr "Control whether outlines symbols are shown to the right."
+
+#: ../src/sheet.c:606
+msgid "Tab Foreground"
+msgstr "Tab Foreground"
+
+#: ../src/sheet.c:607
+msgid "The foreground color of the tab."
+msgstr "The foreground colour of the tab."
+
+#: ../src/sheet.c:615
+msgid "Tab Background"
+msgstr "Tab Background"
+
+#: ../src/sheet.c:616
+msgid "The background color of the tab."
+msgstr "The background colour of the tab."
+
+#: ../src/sheet.c:625
+msgid "Zoom Factor"
+msgstr "Zoom Factor"
+
+#: ../src/sheet.c:626
+msgid "The level of zoom used for this sheet."
+msgstr "The level of zoom used for this sheet."
+
+#: ../src/sheet.c:2370
 msgid "Target region contains merged cells"
 msgstr "Target region contains merged cells"
 
-#: ../src/sheet.c:2139
+#: ../src/sheet.c:2431
 msgid "cannot operate on merged cells"
 msgstr "cannot operate on merged cells"
 
-#: ../src/sheet.c:2149
+#: ../src/sheet.c:2441
 msgid "cannot operate on array formulae"
 msgstr "cannot operate on array formulae"
 
-#: ../src/sheet.c:3282
+#: ../src/sheet.c:3569
 msgid "Insert Columns"
 msgstr "Insert Columns"
 
-#: ../src/sheet.c:3404
+#: ../src/sheet.c:3691
 msgid "Insert Rows"
 msgstr "Insert Rows"
 
-#: ../src/sheet-control-gui.c:1506
+#: ../src/sheet-control-gui.c:1562
 msgid "Cu_t"
 msgstr "Cu_t"
 
-#: ../src/sheet-control-gui.c:1510
+#: ../src/sheet-control-gui.c:1566
 msgid "_Paste"
 msgstr "_Paste"
 
-#: ../src/sheet-control-gui.c:1512
+#: ../src/sheet-control-gui.c:1568
 msgid "Paste _Special"
 msgstr "Paste _Special"
 
@@ -10848,88 +10964,88 @@ msgstr "Paste _Special"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: ../src/sheet-control-gui.c:1524
+#: ../src/sheet-control-gui.c:1580
 msgid "_Insert Cells..."
 msgstr "_Insert Cells..."
 
-#: ../src/sheet-control-gui.c:1526
+#: ../src/sheet-control-gui.c:1582
 msgid "_Delete Cells..."
 msgstr "_Delete Cells..."
 
-#: ../src/sheet-control-gui.c:1528
+#: ../src/sheet-control-gui.c:1584
 msgid "_Insert Column(s)"
 msgstr "_Insert Column(s)"
 
-#: ../src/sheet-control-gui.c:1530
+#: ../src/sheet-control-gui.c:1586
 msgid "_Delete Column(s)"
 msgstr "_Delete Column(s)"
 
-#: ../src/sheet-control-gui.c:1532
+#: ../src/sheet-control-gui.c:1588
 msgid "_Insert Row(s)"
 msgstr "_Insert Row(s)"
 
-#: ../src/sheet-control-gui.c:1534
+#: ../src/sheet-control-gui.c:1590
 msgid "_Delete Row(s)"
 msgstr "_Delete Row(s)"
 
-#: ../src/sheet-control-gui.c:1537
+#: ../src/sheet-control-gui.c:1593
 msgid "Clear Co_ntents"
 msgstr "Clear Co_ntents"
 
-#: ../src/sheet-control-gui.c:1539
+#: ../src/sheet-control-gui.c:1595
 msgid "Edit Co_mment..."
 msgstr "Edit Co_mment..."
 
-#: ../src/sheet-control-gui.c:1545
+#: ../src/sheet-control-gui.c:1601
 msgid "_Format Cells..."
 msgstr "_Format Cells..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: ../src/sheet-control-gui.c:1549
+#: ../src/sheet-control-gui.c:1605
 msgid "Column _Width..."
 msgstr "Column _Width..."
 
-#: ../src/sheet-control-gui.c:1551 ../src/sheet-control-gui.c:1559
+#: ../src/sheet-control-gui.c:1607 ../src/sheet-control-gui.c:1615
 #: ../src/wbcg-actions.c:1731 ../src/wbcg-actions.c:1748
 msgid "_Hide"
 msgstr "_Hide"
 
-#: ../src/sheet-control-gui.c:1553 ../src/sheet-control-gui.c:1561
+#: ../src/sheet-control-gui.c:1609 ../src/sheet-control-gui.c:1617
 #: ../src/wbcg-actions.c:1734 ../src/wbcg-actions.c:1751
 msgid "_Unhide"
 msgstr "_Unhide"
 
 #. Row specific (Note some labels duplicate col labels)
-#: ../src/sheet-control-gui.c:1557
+#: ../src/sheet-control-gui.c:1613
 msgid "_Row Height..."
 msgstr "_Row Height..."
 
-#: ../src/sheet-control-gui.c:1564
+#: ../src/sheet-control-gui.c:1620
 msgid "_Hyperlink"
 msgstr "_Hyperlink"
 
-#: ../src/sheet-control-gui.c:1567
+#: ../src/sheet-control-gui.c:1623
 msgid "Edit _Hyperlink"
 msgstr "Edit _Hyperlink"
 
-#: ../src/sheet-control-gui.c:1570
+#: ../src/sheet-control-gui.c:1626
 msgid "_Remove Hyperlink"
 msgstr "_Remove Hyperlink"
 
 #. This is somewhat cheesy and should use ngettext
-#: ../src/sheet-control-gui.c:2083
+#: ../src/sheet-control-gui.c:2139
 msgid "Duplicate Object"
 msgstr "Duplicate Object"
 
-#: ../src/sheet-control-gui.c:2083
+#: ../src/sheet-control-gui.c:2139
 msgid "Insert Object"
 msgstr "Insert Object"
 
-#: ../src/sheet-control-gui.c:2084
+#: ../src/sheet-control-gui.c:2140
 msgid "Move Object"
 msgstr "Move Object"
 
-#: ../src/sheet-control-gui.c:2084
+#: ../src/sheet-control-gui.c:2140
 msgid "Resize Object"
 msgstr "Resize Object"
 
@@ -10997,23 +11113,23 @@ msgstr "can't create object for '%s'"
 msgid "Could not load file: %s"
 msgstr "Could not load file: %s"
 
-#: ../src/sheet-object-graph.c:228 ../src/sheet-object-image.c:438
+#: ../src/sheet-object-graph.c:252 ../src/sheet-object-image.c:467
 msgid "Unknown failure while saving image"
 msgstr "Unknown failure while saving image"
 
-#: ../src/sheet-object-graph.c:245 ../src/sheet-object-image.c:351
+#: ../src/sheet-object-graph.c:269 ../src/sheet-object-image.c:351
 msgid "SVG (vector graphics)"
 msgstr "SVG (vector graphics)"
 
-#: ../src/sheet-object-graph.c:246 ../src/sheet-object-image.c:347
+#: ../src/sheet-object-graph.c:270 ../src/sheet-object-image.c:347
 msgid "PNG (raster graphics)"
 msgstr "PNG (raster graphics)"
 
-#: ../src/sheet-object-graph.c:247 ../src/sheet-object-image.c:349
+#: ../src/sheet-object-graph.c:271 ../src/sheet-object-image.c:349
 msgid "JPEG (photograph)"
 msgstr "JPEG (photograph)"
 
-#: ../src/sheet-object-graph.c:289 ../src/sheet-object-image.c:505
+#: ../src/sheet-object-graph.c:313 ../src/sheet-object-image.c:534
 msgid "_Save as image"
 msgstr "_Save as image"
 
@@ -11056,11 +11172,11 @@ msgstr ""
 "column named TRUE may conflict with the constant of the same\n"
 "name.  Expect weirdness."
 
-#: ../src/sheet-view.c:315
+#: ../src/sheet-view.c:346
 msgid "Copy"
 msgstr "Copy"
 
-#: ../src/sheet-view.c:340 ../src/sheet-view.c:343
+#: ../src/sheet-view.c:371 ../src/sheet-view.c:374
 msgid "Cut"
 msgstr "Cut"
 
@@ -11928,11 +12044,11 @@ msgstr "_New View..."
 msgid "Create a new view of the workbook"
 msgstr "Create a new view of the workbook"
 
-#: ../src/wbcg-actions.c:1647 ../src/workbook-control-gui.c:1053
+#: ../src/wbcg-actions.c:1647 ../src/workbook-control-gui.c:1143
 msgid "_Freeze Panes"
 msgstr "_Freeze Panes"
 
-#: ../src/wbcg-actions.c:1648 ../src/workbook-control-gui.c:1056
+#: ../src/wbcg-actions.c:1648 ../src/workbook-control-gui.c:1146
 msgid "Freeze the top left of the sheet"
 msgstr "Freeze the top left of the sheet"
 
@@ -12442,7 +12558,7 @@ msgid "Remove an outline group"
 msgstr "Remove an outline group"
 
 #. Data -> Filter
-#: ../src/wbcg-actions.c:1887 ../src/workbook-control-gui.c:1064
+#: ../src/wbcg-actions.c:1887 ../src/workbook-control-gui.c:1154
 msgid "Add _Auto Filter"
 msgstr "Add _Auto Filter"
 
@@ -12476,8 +12592,8 @@ msgid "Import the text from a file"
 msgstr "Import the text from a file"
 
 #. Standard Toolbar
-#: ../src/wbcg-actions.c:1902 ../src/workbook-control-gui.c:1873
-#: ../src/workbook-view.c:582
+#: ../src/wbcg-actions.c:1902 ../src/workbook-control-gui.c:1923
+#: ../src/workbook-view.c:574
 msgid "Sum"
 msgstr "Sum"
 
@@ -12719,293 +12835,293 @@ msgstr "Decrease the indent, and align the contents to the left"
 msgid "Increase the indent, and align the contents to the left"
 msgstr "Increase the indent, and align the contents to the left"
 
-#: ../src/wbcg-actions.c:2047
+#: ../src/wbcg-actions.c:2038
 msgid "Display _Outlines"
 msgstr "Display _Outlines"
 
-#: ../src/wbcg-actions.c:2048
+#: ../src/wbcg-actions.c:2039
 msgid "Toggle whether or not to display outline groups"
 msgstr "Toggle whether or not to display outline groups"
 
-#: ../src/wbcg-actions.c:2050
+#: ../src/wbcg-actions.c:2041
 msgid "Outlines _Below"
 msgstr "Outlines _Below"
 
-#: ../src/wbcg-actions.c:2051
+#: ../src/wbcg-actions.c:2042
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Toggle whether to display row outlines on top or bottom"
 
-#: ../src/wbcg-actions.c:2053
+#: ../src/wbcg-actions.c:2044
 msgid "Outlines _Right"
 msgstr "Outlines _Right"
 
-#: ../src/wbcg-actions.c:2054
+#: ../src/wbcg-actions.c:2045
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Toggle whether to display column outlines on the left or right"
 
-#: ../src/wbcg-actions.c:2056
+#: ../src/wbcg-actions.c:2047
 msgid "Display _Formulas"
 msgstr "Display _Formulas"
 
-#: ../src/wbcg-actions.c:2057
+#: ../src/wbcg-actions.c:2048
 msgid "Display the value of a formula or the formula itself"
 msgstr "Display the value of a formula or the formula itself"
 
-#: ../src/wbcg-actions.c:2059
+#: ../src/wbcg-actions.c:2050
 msgid "Hide _Zeros"
 msgstr "Hide _Zeros"
 
-#: ../src/wbcg-actions.c:2060
+#: ../src/wbcg-actions.c:2051
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Toggle whether or not to display zeros as blanks"
 
-#: ../src/wbcg-actions.c:2062
+#: ../src/wbcg-actions.c:2053
 msgid "Hide _Gridlines"
 msgstr "Hide _Gridlines"
 
-#: ../src/wbcg-actions.c:2063
+#: ../src/wbcg-actions.c:2054
 msgid "Toggle whether or not to display gridlines"
 msgstr "Toggle whether or not to display gridlines"
 
-#: ../src/wbcg-actions.c:2065
+#: ../src/wbcg-actions.c:2056
 msgid "Hide _Column Headers"
 msgstr "Hide _Column Headers"
 
-#: ../src/wbcg-actions.c:2066
+#: ../src/wbcg-actions.c:2057
 msgid "Toggle whether or not to display column headers"
 msgstr "Toggle whether or not to display column headers"
 
-#: ../src/wbcg-actions.c:2068
+#: ../src/wbcg-actions.c:2059
 msgid "Hide _Row Headers"
 msgstr "Hide _Row Headers"
 
-#: ../src/wbcg-actions.c:2069
+#: ../src/wbcg-actions.c:2060
 msgid "Toggle whether or not to display row headers"
 msgstr "Toggle whether or not to display row headers"
 
-#: ../src/wbcg-actions.c:2073
+#: ../src/wbcg-actions.c:2064
 msgid "_Left Align"
 msgstr "_Left Align"
 
-#: ../src/wbcg-actions.c:2074 ../src/wbc-gtk.c:324
+#: ../src/wbcg-actions.c:2065 ../src/wbc-gtk.c:322
 msgid "Align left"
 msgstr "Align left"
 
-#: ../src/wbcg-actions.c:2076
+#: ../src/wbcg-actions.c:2067
 msgid "_Center"
 msgstr "_Centre"
 
-#: ../src/wbcg-actions.c:2077 ../src/wbc-gtk.c:325
+#: ../src/wbcg-actions.c:2068 ../src/wbc-gtk.c:323
 msgid "Center horizontally"
 msgstr "Centre horizontally"
 
-#: ../src/wbcg-actions.c:2079
+#: ../src/wbcg-actions.c:2070
 msgid "_Right Align"
 msgstr "_Right Align"
 
-#: ../src/wbcg-actions.c:2080 ../src/wbc-gtk.c:326
+#: ../src/wbcg-actions.c:2071 ../src/wbc-gtk.c:324
 msgid "Align right"
 msgstr "Align right"
 
-#: ../src/wbcg-actions.c:2082
+#: ../src/wbcg-actions.c:2073
 msgid "_Center Across Selection"
 msgstr "_Centre Across Selection"
 
-#: ../src/wbcg-actions.c:2083 ../src/wbc-gtk.c:329
+#: ../src/wbcg-actions.c:2074 ../src/wbc-gtk.c:327
 msgid "Center horizontally across the selection"
 msgstr "Centre horizontally across the selection"
 
-#: ../src/wbcg-actions.c:2086
+#: ../src/wbcg-actions.c:2077
 msgid "_Merge and Center"
 msgstr "_Merge and Centre"
 
-#: ../src/wbcg-actions.c:2087
+#: ../src/wbcg-actions.c:2078
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr "Merge the selection into 1 cell, and centre horizontaly."
 
-#: ../src/wbcg-actions.c:2094
+#: ../src/wbcg-actions.c:2085
 msgid "Align _Top"
 msgstr "Align _Top"
 
-#: ../src/wbcg-actions.c:2095 ../src/wbc-gtk.c:336
+#: ../src/wbcg-actions.c:2086 ../src/wbc-gtk.c:334
 msgid "Align Top"
 msgstr "Align Top"
 
-#: ../src/wbcg-actions.c:2097
+#: ../src/wbcg-actions.c:2088
 msgid "_Vertically Center"
 msgstr "_Vertically Centre"
 
-#: ../src/wbcg-actions.c:2098
+#: ../src/wbcg-actions.c:2089
 msgid "Vertically Center"
 msgstr "Vertically Centre"
 
-#: ../src/wbcg-actions.c:2100
+#: ../src/wbcg-actions.c:2091
 msgid "Align _Bottom"
 msgstr "Align _Bottom"
 
-#: ../src/wbcg-actions.c:2101 ../src/wbc-gtk.c:338
+#: ../src/wbcg-actions.c:2092 ../src/wbc-gtk.c:336
 msgid "Align Bottom"
 msgstr "Align Bottom"
 
-#: ../src/wbcg-actions.c:2104
+#: ../src/wbcg-actions.c:2095
 msgid "View _Statusbar"
 msgstr "View _Statusbar"
 
-#: ../src/wbcg-actions.c:2105
+#: ../src/wbcg-actions.c:2096
 msgid "Toggle visibility of statusbar"
 msgstr "Toggle visibility of statusbar"
 
-#: ../src/wbcg-actions.c:2109
+#: ../src/wbcg-actions.c:2100
 msgid "F_ull Screen..."
 msgstr "F_ull Screen..."
 
-#: ../src/wbcg-actions.c:2110
+#: ../src/wbcg-actions.c:2101
 msgid "in or out"
 msgstr "in or out"
 
-#: ../src/wbcg-actions.c:2115
+#: ../src/wbcg-actions.c:2106
 msgid "_Bold"
 msgstr "_Bold"
 
-#: ../src/wbcg-actions.c:2118
+#: ../src/wbcg-actions.c:2109
 msgid "_Italic"
 msgstr "_Italic"
 
-#: ../src/wbcg-actions.c:2121
+#: ../src/wbcg-actions.c:2112
 msgid "_Underline"
 msgstr "_Underline"
 
 #. ALSO "<control>4"
-#: ../src/wbcg-actions.c:2122
+#: ../src/wbcg-actions.c:2113
 msgid "Underline"
 msgstr "Underline"
 
-#: ../src/wbcg-actions.c:2124
+#: ../src/wbcg-actions.c:2115
 msgid "_Strike Through"
 msgstr "_Strike Through"
 
-#: ../src/wbcg-actions.c:2125
+#: ../src/wbcg-actions.c:2116
 msgid "Strike Through"
 msgstr "Strike Through"
 
-#: ../src/wbcg-actions.c:2128
+#: ../src/wbcg-actions.c:2119
 msgid "_Double Underline"
 msgstr "_Double Underline"
 
-#: ../src/wbcg-actions.c:2129
+#: ../src/wbcg-actions.c:2120
 msgid "Double Underline"
 msgstr "Double Underline"
 
-#: ../src/wbc-gtk.c:172
+#: ../src/wbc-gtk.c:170
 msgid "_Zoom"
 msgstr "_Zoom"
 
-#: ../src/wbc-gtk.c:202
+#: ../src/wbc-gtk.c:200
 msgid "Clear Borders"
 msgstr "Clear Borders"
 
-#: ../src/wbc-gtk.c:205
+#: ../src/wbc-gtk.c:203
 msgid "All Borders"
 msgstr "All Borders"
 
-#: ../src/wbc-gtk.c:206
+#: ../src/wbc-gtk.c:204
 msgid "Outside Borders"
 msgstr "Outside Borders"
 
-#: ../src/wbc-gtk.c:207
+#: ../src/wbc-gtk.c:205
 msgid "Thick Outside Borders"
 msgstr "Thick Outside Borders"
 
-#: ../src/wbc-gtk.c:210
+#: ../src/wbc-gtk.c:208
 msgid "Double Bottom"
 msgstr "Double Bottom"
 
-#: ../src/wbc-gtk.c:211
+#: ../src/wbc-gtk.c:209
 msgid "Thick Bottom"
 msgstr "Thick Bottom"
 
-#: ../src/wbc-gtk.c:213
+#: ../src/wbc-gtk.c:211
 msgid "Top and Bottom"
 msgstr "Top and Bottom"
 
-#: ../src/wbc-gtk.c:214
+#: ../src/wbc-gtk.c:212
 msgid "Top and Double Bottom"
 msgstr "Top and Double Bottom"
 
-#: ../src/wbc-gtk.c:215
+#: ../src/wbc-gtk.c:213
 msgid "Top and Thick Bottom"
 msgstr "Top and Thick Bottom"
 
-#: ../src/wbc-gtk.c:300
+#: ../src/wbc-gtk.c:298
 msgid "Set Borders"
 msgstr "Set Borders"
 
-#: ../src/wbc-gtk.c:308 ../src/wbc-gtk.c:309
+#: ../src/wbc-gtk.c:306 ../src/wbc-gtk.c:307
 msgid "Borders"
 msgstr "Borders"
 
-#: ../src/wbc-gtk.c:327
+#: ../src/wbc-gtk.c:325
 msgid "Fill Horizontally"
 msgstr "Fill Horizontally"
 
-#: ../src/wbc-gtk.c:328
+#: ../src/wbc-gtk.c:326
 msgid "Justify Horizontally"
 msgstr "Justify Horizontally"
 
-#: ../src/wbc-gtk.c:331
+#: ../src/wbc-gtk.c:329
 msgid "Align numbers right, and text left"
 msgstr "Align numbers right, and text left"
 
-#: ../src/wbc-gtk.c:337
+#: ../src/wbc-gtk.c:335
 msgid "Center Vertically"
 msgstr "Centre Vertically"
 
-#: ../src/wbc-gtk.c:360 ../src/wbc-gtk.c:361 ../src/wbc-gtk.c:364
-#: ../src/wbc-gtk.c:379
+#: ../src/wbc-gtk.c:358 ../src/wbc-gtk.c:359 ../src/wbc-gtk.c:362
+#: ../src/wbc-gtk.c:377
 msgid "Horzontal Alignment"
 msgstr "Horzontal Alignment"
 
-#: ../src/wbc-gtk.c:375 ../src/wbc-gtk.c:376
+#: ../src/wbc-gtk.c:373 ../src/wbc-gtk.c:374
 msgid "Vertical Alignment"
 msgstr "Vertical Alignment"
 
-#: ../src/wbc-gtk.c:473
+#: ../src/wbc-gtk.c:470
 msgid "Undo the last action"
 msgstr "Undo the last action"
 
-#: ../src/wbc-gtk.c:482
+#: ../src/wbc-gtk.c:479
 msgid "Redo"
 msgstr "Redo"
 
-#: ../src/wbc-gtk.c:483
+#: ../src/wbc-gtk.c:480
 msgid "Redo the undone action"
 msgstr "Redo the undone action"
 
-#: ../src/wbc-gtk.c:525
+#: ../src/wbc-gtk.c:522
 msgid "Set Foreground Color"
 msgstr "Set Foreground Colour"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:579
+#: ../src/wbc-gtk.c:576
 msgid "Set Background Color"
 msgstr "Set Background Colour"
 
-#: ../src/wbc-gtk.c:616
+#: ../src/wbc-gtk.c:613
 #, c-format
 msgid "Font Name %s"
 msgstr "Font Name %s"
 
-#: ../src/wbc-gtk.c:673
+#: ../src/wbc-gtk.c:670
 #, c-format
 msgid "Font Size %f"
 msgstr "Font Size %f"
 
-#: ../src/wbc-gtk.c:743
+#: ../src/wbc-gtk.c:740
 #, c-format
 msgid "Open %s"
 msgstr "Open %s"
 
-#: ../src/wbc-gtk.c:808
+#: ../src/wbc-gtk.c:805
 msgid "Nothing"
 msgstr "Nothing"
 
@@ -13015,46 +13131,46 @@ msgstr "Nothing"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:998
+#: ../src/wbc-gtk.c:995
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 
-#: ../src/wbc-gtk.c:1204
+#: ../src/wbc-gtk.c:1201
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Show/Hide toolbar %s"
 
-#: ../src/workbook.c:430
+#: ../src/workbook.c:407
 #, c-format
 msgid "Book%d.%s"
 msgstr "Book%d.%s"
 
-#: ../src/workbook.c:1289
+#: ../src/workbook.c:1292
 msgid "Sheet name is NULL"
 msgstr "Sheet name is NULL"
 
-#: ../src/workbook.c:1298
+#: ../src/workbook.c:1301
 msgid "Sheet name is not valid utf-8"
 msgstr "Sheet name is not valid utf-8"
 
-#: ../src/workbook.c:1306
+#: ../src/workbook.c:1309
 msgid "Sheet name must have at least 1 letter"
 msgstr "Sheet name must have at least 1 letter"
 
-#: ../src/workbook.c:1328
+#: ../src/workbook.c:1331
 msgid "There is already a sheet named"
 msgstr "There is already a sheet named"
 
-#: ../src/workbook.c:1340
+#: ../src/workbook.c:1343
 msgid "You may not use this name twice"
 msgstr "You may not use this name twice"
 
-#: ../src/workbook-control.c:255
+#: ../src/workbook-control.c:244
 msgid "Define Name"
 msgstr "Define Name"
 
-#: ../src/workbook-control.c:276
+#: ../src/workbook-control.c:265
 msgid "Address"
 msgstr "Address"
 
@@ -13062,101 +13178,101 @@ msgstr "Address"
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: ../src/workbook-control-gui.c:546
+#: ../src/workbook-control-gui.c:511
 msgid "Manage sheets..."
 msgstr "Manage sheets..."
 
-#: ../src/workbook-control-gui.c:549
+#: ../src/workbook-control-gui.c:514
 msgid "Append"
 msgstr "Append"
 
-#: ../src/workbook-control-gui.c:550
+#: ../src/workbook-control-gui.c:515
 msgid "Duplicate"
 msgstr "Duplicate"
 
-#: ../src/workbook-control-gui.c:551
+#: ../src/workbook-control-gui.c:516
 msgid "Remove"
 msgstr "Remove"
 
-#: ../src/workbook-control-gui.c:552
+#: ../src/workbook-control-gui.c:517
 msgid "Rename"
 msgstr "Rename"
 
-#: ../src/workbook-control-gui.c:1052
+#: ../src/workbook-control-gui.c:1142
 msgid "Un_freeze Panes"
 msgstr "Un_freeze Panes"
 
-#: ../src/workbook-control-gui.c:1055
+#: ../src/workbook-control-gui.c:1145
 msgid "Unfreeze the top left of the sheet"
 msgstr "Unfreeze the top left of the sheet"
 
-#: ../src/workbook-control-gui.c:1063
+#: ../src/workbook-control-gui.c:1153
 msgid "Remove _Auto Filter"
 msgstr "Remove _Auto Filter"
 
-#: ../src/workbook-control-gui.c:1066
+#: ../src/workbook-control-gui.c:1156
 msgid "Remove a filter"
 msgstr "Remove a filter"
 
-#: ../src/workbook-control-gui.c:1067
+#: ../src/workbook-control-gui.c:1157
 msgid "Add a filter"
 msgstr "Add a filter"
 
-#: ../src/workbook-control-gui.c:1078
+#: ../src/workbook-control-gui.c:1168
 msgid "_Undo"
 msgstr "_Undo"
 
-#: ../src/workbook-control-gui.c:1079
+#: ../src/workbook-control-gui.c:1169
 msgid "_Redo"
 msgstr "_Redo"
 
-#: ../src/workbook-control-gui.c:1207
+#: ../src/workbook-control-gui.c:1255
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Save changes to workbook '%s' before closing?"
 
-#: ../src/workbook-control-gui.c:1211
+#: ../src/workbook-control-gui.c:1259
 msgid "Save changes to workbook before closing?"
 msgstr "Save changes to workbook before closing?"
 
-#: ../src/workbook-control-gui.c:1217
+#: ../src/workbook-control-gui.c:1265
 msgid "If you close without saving, changes will be discarded."
 msgstr "If you close without saving, changes will be discarded."
 
-#: ../src/workbook-control-gui.c:1224
+#: ../src/workbook-control-gui.c:1272
 msgid "Discard all"
 msgstr "Discard all"
 
-#: ../src/workbook-control-gui.c:1226 ../src/workbook-control-gui.c:1235
-#: ../src/workbook-control-gui.c:1243
+#: ../src/workbook-control-gui.c:1274 ../src/workbook-control-gui.c:1283
+#: ../src/workbook-control-gui.c:1291
 msgid "Discard"
 msgstr "Discard"
 
-#: ../src/workbook-control-gui.c:1228
+#: ../src/workbook-control-gui.c:1276
 msgid "Save all"
 msgstr "Save all"
 
-#: ../src/workbook-control-gui.c:1230 ../src/workbook-control-gui.c:1237
+#: ../src/workbook-control-gui.c:1278 ../src/workbook-control-gui.c:1285
 msgid "Don't quit"
 msgstr "Don't quit"
 
-#: ../src/workbook-control-gui.c:1245
+#: ../src/workbook-control-gui.c:1293
 msgid "Don't close"
 msgstr "Don't close"
 
-#: ../src/workbook-control-gui.c:1922
+#: ../src/workbook-control-gui.c:1972
 msgid "Use maximum precision"
 msgstr "Use maximum precision"
 
-#: ../src/workbook-control-gui.c:2277 ../src/workbook-control-gui.c:2292
+#: ../src/workbook-control-gui.c:2330 ../src/workbook-control-gui.c:2345
 msgid "_Re-Edit"
 msgstr "_Re-Edit"
 
-#: ../src/workbook-control-gui.c:2278 ../src/workbook-control-gui.c:2283
+#: ../src/workbook-control-gui.c:2331 ../src/workbook-control-gui.c:2336
 msgid "_Discard"
 msgstr "_Discard"
 
-#: ../src/workbook-control-gui.c:2282 ../src/workbook-control-gui.c:2293
+#: ../src/workbook-control-gui.c:2335 ../src/workbook-control-gui.c:2346
 msgid "_Accept"
 msgstr "_Accept"
 
@@ -13173,89 +13289,89 @@ msgstr "Unprotect the workbook to enable editing."
 msgid "Unprotect the sheet to enable editing."
 msgstr "Unprotect the sheet to enable editing."
 
-#: ../src/workbook-view.c:277
+#: ../src/workbook-view.c:269
 #, c-format
 msgid "%dC"
 msgstr "%dC"
 
-#: ../src/workbook-view.c:279
+#: ../src/workbook-view.c:271
 #, c-format
 msgid "%dR"
 msgstr "%dR"
 
-#: ../src/workbook-view.c:281
+#: ../src/workbook-view.c:273
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: ../src/workbook-view.c:460
+#: ../src/workbook-view.c:452
 msgid "Internal ERROR"
 msgstr "Internal ERROR"
 
-#: ../src/workbook-view.c:608
+#: ../src/workbook-view.c:600
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "Can't open '%s' for writing: %s"
 
-#: ../src/workbook-view.c:632
+#: ../src/workbook-view.c:624
 #, c-format
 msgid "An unexplained error happened while saving %s"
 msgstr "An unexplained error happened while saving %s"
 
-#: ../src/workbook-view.c:718 ../src/workbook-view.c:891
+#: ../src/workbook-view.c:710 ../src/workbook-view.c:883
 msgid "Default file saver is not available."
 msgstr "Default file saver is not available."
 
-#: ../src/workbook-view.c:832
+#: ../src/workbook-view.c:824
 msgid "Failed to create temporary file for sending."
 msgstr "Failed to create temporary file for sending."
 
-#: ../src/workbook-view.c:983
+#: ../src/workbook-view.c:975
 msgid "Unsupported file format."
 msgstr "Unsupported file format."
 
-#: ../src/workbook-view.c:1031
+#: ../src/workbook-view.c:1023
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "An unexplained error happened while opening %s"
 
-#: ../src/xml-io.c:2550 ../src/xml-sax-read.c:1319
+#: ../src/xml-io.c:2549 ../src/xml-sax-read.c:1318
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Unsupported object type '%s'"
 
-#: ../src/xml-io.c:3208
+#: ../src/xml-io.c:3207
 msgid "Unparsable xml in clipboard"
 msgstr "Unparsable xml in clipboard"
 
-#: ../src/xml-io.c:3215
+#: ../src/xml-io.c:3214
 msgid "Clipboard is in unknown format"
 msgstr "Clipboard is in unknown format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: ../src/xml-io.c:3572
+#: ../src/xml-io.c:3571
 msgid "Processing file..."
 msgstr "Processing file..."
 
-#: ../src/xml-io.c:3892
+#: ../src/xml-io.c:3891
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "The file is not a Gnumeric Workbook file"
 
-#: ../src/xml-io.c:3930
+#: ../src/xml-io.c:3929
 msgid "Failure saving file"
 msgstr "Failure saving file"
 
-#: ../src/xml-io.c:3978 ../src/xml-io.c:3993
+#: ../src/xml-io.c:3977 ../src/xml-io.c:3992
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
-#: ../src/xml-io.c:3983
+#: ../src/xml-io.c:3982
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Gnumeric XML (*.gnumeric) original slow exporter"
 
-#: ../src/xml-io.c:3988
+#: ../src/xml-io.c:3987
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgstr "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 
@@ -13264,7 +13380,7 @@ msgstr "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Multiple version specifications.  Assuming %d"
 
-#: ../src/xml-sax-read.c:479
+#: ../src/xml-sax-read.c:478
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "File has inconsistent SheetNameIndex element."
 
