@@ -91,7 +91,7 @@ void     workbook_recalc                 (Workbook *wb);	/* in eval.c */
 void     workbook_recalc_all             (Workbook *wb);	/* in eval.c */
 gboolean workbook_enable_recursive_dirty (Workbook *wb, gboolean enable);
 void     workbook_autorecalc_enable	 (Workbook *wb, gboolean enable);
-gboolean workbook_autorecalc             (Workbook *wb);
+gboolean workbook_autorecalc             (Workbook const *wb);
 void     workbook_iteration_enabled	 (Workbook *wb, gboolean enable);
 void     workbook_iteration_max_number	 (Workbook *wb, int max_number);
 void     workbook_iteration_tolerance	 (Workbook *wb, double tolerance);

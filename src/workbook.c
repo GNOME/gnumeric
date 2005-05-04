@@ -702,7 +702,7 @@ workbook_autorecalc_enable (Workbook *wb, gboolean enable)
 }
 
 gboolean
-workbook_autorecalc (Workbook *wb)
+workbook_autorecalc (Workbook const *wb)
 {
 	g_return_val_if_fail (IS_WORKBOOK (wb), FALSE);
 	return wb->recalc_auto;
