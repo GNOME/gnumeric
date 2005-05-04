@@ -1,3 +1,7 @@
+2005-05-04  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_info) : Implement recalc
+
 2005-03-10  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=169802

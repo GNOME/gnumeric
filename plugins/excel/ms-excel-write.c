@@ -2982,8 +2982,8 @@ excel_write_COLINFO (BiffPut *bp, ExcelWriteSheet *esheet, ColRowInfo const *ci,
 		if (ci->is_collapsed)
 			options |= 0x1000;
 	} else {
-		if (xf_index == esheet->ewb->xf.default_style_index)
-			return; /* there is no point exporting this */
+		if (xf_index == 0) /* do not export cols with the default style */
+			return;
 		width = esheet->gnum_sheet->cols.default_style.size_pts;
 	}
 

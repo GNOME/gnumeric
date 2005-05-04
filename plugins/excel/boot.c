@@ -120,6 +120,8 @@ excel_read_metadata (GsfDocMetaData *meta_data, GsfInfile *ole, char const *name
 			gnm_io_warning (context, err->message);
 			g_error_free (err);
 		}
+
+		g_object_unref (stream);
 	}
 }
 
@@ -177,8 +179,8 @@ excel_file_open (GOFileOpener const *fo, IOContext *context,
 	g_object_unref (G_OBJECT (stream));
 
 	meta_data = gsf_doc_meta_data_new ();
-	excel_read_metadata (meta_data, ole, "\05SummaryInformation", context);
 	excel_read_metadata (meta_data, ole, "\05DocumentSummaryInformation", context);
+	excel_read_metadata (meta_data, ole, "\05SummaryInformation", context);
 	g_object_set_data_full (G_OBJECT (wb), "GsfDocMetaData",
 		meta_data, g_object_unref);
 

@@ -1,3 +1,12 @@
+2005-05-04  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c : Add ISHYPERLINK
+
+	* ms-excel-write.c (excel_write_COLINFO) : patch a minor leak.
+
+	* boot.c (excel_read_metadata) : close the meta data streams.
+	(excel_file_open) : let the summary props overide the document.
+
 2005-04-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (3d), (ai), (axis), (surf), (switch):

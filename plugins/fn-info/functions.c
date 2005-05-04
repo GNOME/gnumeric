@@ -1331,7 +1331,9 @@ gnumeric_info (FunctionEvalInfo *ei, GnmValue **argv)
 #endif
 	} else if (!g_ascii_strcasecmp (info_type, "recalc")) {
 		/* Current recalculation mode; returns "Automatic" or "Manual".  */
-		return value_new_string (_("Automatic"));
+		Workbook const *wb = ei->pos->sheet->workbook;
+		return value_new_string (
+			wb->recalc_auto ? _("Automatic") : _("Manual"));
 	} else if (!g_ascii_strcasecmp (info_type, "release")) {
 		/* Version of Gnumeric (Well, Microsoft Excel), as text.  */
 		return value_new_string (GNUMERIC_VERSION);
