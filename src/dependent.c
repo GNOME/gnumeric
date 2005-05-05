@@ -1926,12 +1926,13 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 		}
 	}
 	g_slist_free (local_dyn_deps);
+	local_dyn_deps = NULL;
 
 	/* Filter workbook local deps for GNM_EXPR_REWRITE_WORKBOOK */
 	if (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK) {
 		Workbook const *target = rwinfo->u.workbook;
 		ptr = dyn_deps;
-		dyn_deps = local_dyn_deps = NULL;
+		dyn_deps = NULL;
 		for (; ptr != NULL ; ptr = next) {
 			dep = ptr->data;
 			next = ptr->next;
@@ -1976,7 +1977,7 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 		g_hash_table_foreach (names,
 			(GHFunc)cb_name_invalidate, (gpointer)rwinfo);
 
-		/* the relink things en-mass in case one of the deps outside
+		/* then relink things en-mass in case one of the deps outside
 		 * this sheet used multiple names that referenced us */
 		dependents_link (accum, rwinfo);
 

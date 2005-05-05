@@ -1,3 +1,7 @@
+2005-05-05  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (do_deps_destroy): Fix sheet-remove crash.
+
 2005-05-04  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_show_menu_tip): Don't translate a space.
