@@ -1977,12 +1977,13 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 		}
 	}
 	g_slist_free (local_dyn_deps);
+	local_dyn_deps = NULL;
 
 	/* Filter workbook local deps for GNM_EXPR_REWRITE_WORKBOOK */
 	if (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK) {
 		Workbook const *target = rwinfo->u.workbook;
 		ptr = dyn_deps;
-		dyn_deps = local_dyn_deps = NULL;
+		dyn_deps = NULL;
 		for (; ptr != NULL ; ptr = next) {
 			dep = ptr->data;
 			next = ptr->next;

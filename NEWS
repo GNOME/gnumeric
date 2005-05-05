@@ -3,7 +3,7 @@ Gnumeric 1.4.4
 Ivan wong:
 	* Backport fix for case sensitivity of font combo. [#161382]
 	* Backport patch for storing configuration using the win32
-	registry. [#300765]
+	  registry. [#300765]
 
 Jody:
 	* Backport patch for printer setting crash. [#171503]
@@ -14,6 +14,8 @@ Morten:
 	* Backport fix for crash with non-UTF-8 filenames.  [Debian #299805]
 	* Backport TRIMMEAN fix.
 	* Backport goal-seek fix.
+	* Fix crash for sheet-remove on sheets with local dynamic
+	  dependencies.
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.3

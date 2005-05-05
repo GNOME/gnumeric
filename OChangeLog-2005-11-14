@@ -1,3 +1,7 @@
+2005-05-05  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (do_deps_destroy): Fix sheet-remove crash.
+
 2005-04-30  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* src/gnumeric-gconf.c: Remove unmatched closing parenthesis which
