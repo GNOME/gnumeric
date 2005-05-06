@@ -1,3 +1,8 @@
+2005-05-06  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_cell): Implement "sheetname".  Someone on
+	irc wanted that.
+
 2005-05-04  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_info) : Implement recalc

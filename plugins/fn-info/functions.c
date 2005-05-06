@@ -175,6 +175,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	char const *info_type = value_peek_string (argv[0]);
 	GnmCellRef const *ref = &argv [1]->v_range.cell.a;
+	const Sheet *sheet = eval_sheet (ref->sheet, ei->pos->sheet);
 
 	/* from CELL - limited usefulness! */
 	if (!g_ascii_strcasecmp(info_type, "address")) {
@@ -189,6 +190,8 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 			TRUE);
 		return value_new_string_nocopy (g_string_free (str, FALSE));
 
+	} else if (!g_ascii_strcasecmp(info_type, "sheetname")) {
+		return value_new_string (sheet->name_unquoted);
 	/* from later 123 versions - USEFUL! */
 	} else if (!g_ascii_strcasecmp(info_type, "coord")) {
 		GnmParsePos pp;

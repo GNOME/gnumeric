@@ -97,6 +97,7 @@ Morten:
 	* Fix multihead problems with popups.
 	* Fix crash for sheet-remove on sheets with local dynamic
 	  dependencies.
+	* Implement CELL("sheetname", ...).
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0
