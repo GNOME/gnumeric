@@ -570,12 +570,6 @@ workbook_get_file_saver (Workbook *wb)
 	return wb->file_saver;
 }
 
-void
-workbook_unref (Workbook *wb)
-{
-	g_object_unref (G_OBJECT (wb));
-}
-
 /**
  * workbook_foreach_cell_in_range :
  *

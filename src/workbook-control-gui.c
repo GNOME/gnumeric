@@ -447,10 +447,18 @@ wbcg_insert_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 void
 wbcg_append_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
+#ifdef NOT_YET
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Workbook *wb = wb_control_workbook (wbc);
+	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
+	workbook_sheet_add (wb, -1, FALSE);
+	cmd_reorganize_sheets2 (wbc, old_state);
+#else
 	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), NULL,
 			       g_slist_prepend (NULL, GINT_TO_POINTER (-1)),
 			       g_slist_prepend (NULL, NULL),
 			       NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+#endif
 }
 
 static void
@@ -1243,7 +1251,7 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 	if (!ask_user) {
 		done = gui_file_save (wbcg, wb_view);
 		if (done) {
-			workbook_unref (wb);
+			g_object_unref (wb);
 			return 3;
 		}
 	}
@@ -1333,7 +1341,7 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 	in_can_close = FALSE;
 
 	if (can_close) {
-		workbook_unref (wb);
+		g_object_unref (wb);
 		switch (button) {
 		case GNM_RESPONSE_SAVE_ALL:
 			return 3;

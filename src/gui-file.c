@@ -96,8 +96,8 @@ gui_wb_view_show (WorkbookControlGUI *wbcg, WorkbookView *wbv)
 	Workbook *tmp_wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 
 	if (workbook_is_pristine (tmp_wb)) {
-		g_object_ref (G_OBJECT (wbcg));
-		workbook_unref (tmp_wb);
+		g_object_ref (wbcg);
+		g_object_unref (tmp_wb);
 		wb_control_set_view (WORKBOOK_CONTROL (wbcg), wbv, NULL);
 		wb_control_init_state (WORKBOOK_CONTROL (wbcg));
 	} else {

@@ -13,7 +13,6 @@
 GType       workbook_get_type            (void);
 Workbook   *workbook_new                 (void);
 Workbook   *workbook_new_with_sheets     (int sheet_count);
-void	    workbook_unref		 (Workbook *wb);
 
 /* Sheet support routines */
 GList      *workbook_sheets              (Workbook const *wb);

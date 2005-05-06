@@ -222,7 +222,7 @@ client_die_cb (GnomeClient *client, gpointer data)
 		g_return_if_fail (IS_WORKBOOK (wb));
 
 		workbook_set_dirty (wb, FALSE);
-		workbook_unref (wb);
+		g_object_unref (wb);
 	}
 	g_list_free (workbooks);
 }

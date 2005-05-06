@@ -155,7 +155,7 @@ static GNM_ACTION_DEF (cb_file_quit)
 					if (wb_control_workbook (wbc) == wba)
 						continue;
 					workbook_set_dirty (wba, FALSE);
-					workbook_unref (wba);
+					g_object_unref (wba);
 				}
 				ptr = old_ptr;
 				break;
@@ -165,16 +165,16 @@ static GNM_ACTION_DEF (cb_file_quit)
 
 	if (discard_all) {
 		workbook_set_dirty (wb_control_workbook (wbc), FALSE);
-		workbook_unref (wb_control_workbook (wbc));
+		g_object_unref (wb_control_workbook (wbc));
 		for (ptr = clean_no_closed; ptr != NULL ; ptr = ptr->next)
-			workbook_unref (ptr->data);
+			g_object_unref (ptr->data);
 	} else
 	/* only close pristine books if nothing was canceled. */
 	if (ok && wbcg_close_if_user_permits (wbcg,
 					      wb_control_view (wbc), TRUE, TRUE, ask_user)
 	    > 0)
 		for (ptr = clean_no_closed; ptr != NULL ; ptr = ptr->next)
-			workbook_unref (ptr->data);
+			g_object_unref (ptr->data);
 
 	g_list_free (workbooks);
 	g_list_free (clean_no_closed);

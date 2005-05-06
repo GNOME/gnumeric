@@ -1,3 +1,8 @@
+2005-05-06  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (workbook_unref): Remove and replace calls with
+	simple g_object_unref
+
 2005-05-05  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook.c (workbook_focus_other_sheet): New function.

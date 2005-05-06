@@ -64,7 +64,7 @@ cb_exercise_pango (gpointer data)
 			sc, sc_set_top_left (sc, 0, (state-TEST_STEPS)*STEP_SIZE););
 	} else if (state == (TEST_STEPS*2)) {
 		workbook_set_dirty (wb_control_workbook (wbc), FALSE);
-		workbook_unref (wb_control_workbook (wbc));
+		g_object_unref (wb_control_workbook (wbc));
 	}
 
 	return state++ < TEST_STEPS*2;

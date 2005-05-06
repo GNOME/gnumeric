@@ -81,8 +81,8 @@ gnm_persist_stream_load (PortableServer_Servant  servant,
 		 *        read only mode. For now, it doesn't mean a thing. */
 		/* goto exit_error; */
 	}
-	g_object_ref (G_OBJECT (wbc));
-	workbook_unref (old_wb);
+	g_object_ref (wbc);
+	g_object_unref (old_wb);
 	wb_control_set_view (wbc, wb_view, NULL);
 	wb_control_init_state (wbc);
 }
