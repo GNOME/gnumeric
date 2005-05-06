@@ -1,3 +1,15 @@
+gnumeric (1.4.3-6) unstable; urgency=high
+
+  * [ChangeLog, NEWS, omf.make, src/dependent.c, xmldocs.make] Update from
+    CVS gnumeric-1-4 branch; fixes include:
+    * Fix crash for sheet-remove on sheets with local dynamic dependencies.
+  * [debian/rules, debian/gnumeric-doc.install] Applied patch courtesy of
+    Philipp Sadleder <philipp@sadleder.de> to restore the documentation files
+    which were lost in -5 due to an accidental switch to upstream CVS's
+    xmldocs.make. (Closes: #307883)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri,  6 May 2005 22:44:29 +0200
+
 gnumeric (1.4.3-5) unstable; urgency=medium
 
   * [ChangeLog, Makefile.am, NEWS, configure.in, plugins/fn-stat/ChangeLog,
