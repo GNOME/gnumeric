@@ -60,7 +60,7 @@ dif_input_context_new (IOContext *io_context, Workbook *wb, GsfInput *input)
 
 	ctxt->line_no        = 1;
 	ctxt->line           = NULL;
-	ctxt->sheet          = workbook_sheet_add (wb, NULL, FALSE);
+	ctxt->sheet          = workbook_sheet_add (wb, -1, FALSE);
 	ctxt->converter      = g_iconv_open ("UTF-8", "ISO-8859-1");
 
 	io_progress_message (io_context, _("Reading file..."));

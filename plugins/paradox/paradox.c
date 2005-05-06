@@ -84,7 +84,7 @@ paradox_file_open (GOFileOpener const *fo, IOContext *io_context,
 	name = workbook_sheet_get_free_name (wb, pxh->px_tablename, FALSE, TRUE);
 	sheet = sheet_new (wb, name);
 	g_free (name);
-	workbook_sheet_attach (wb, sheet, NULL);
+	workbook_sheet_attach (wb, sheet);
 
 	pxf = pxh->px_fields;
 	for (i = 0 ; i < (guint) pxh->px_numfields; i++) {

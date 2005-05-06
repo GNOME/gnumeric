@@ -280,7 +280,7 @@ gplp_func_file_open (GOFileOpener const *fo,
 	}
 	if (open_result != NULL) {
 		Py_DECREF (open_result);
-		workbook_sheet_attach (wb_view_workbook (wb_view), sheet, NULL);
+		workbook_sheet_attach (wb_view_workbook (wb_view), sheet);
 	} else {
 		gnumeric_io_error_string (io_context, py_exc_to_string ());
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);

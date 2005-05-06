@@ -20,14 +20,11 @@ GList      *workbook_sheets              (Workbook const *wb);
 int         workbook_sheet_count         (Workbook const *wb);
 Sheet      *workbook_sheet_by_index	 (Workbook const *wb, int i);
 Sheet      *workbook_sheet_by_name       (Workbook const *wb, char const *sheet_name);
-void        workbook_sheet_attach        (Workbook *wb, Sheet *new_sheet,
-					  Sheet const *insert_after);
+void        workbook_sheet_attach        (Workbook *wb, Sheet *new_sheet);
+void        workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos);
 void	    workbook_sheet_detach        (Workbook *wb, Sheet *sheet, gboolean recalc);
-Sheet	   *workbook_sheet_add		 (Workbook *wb,
-					  Sheet const *insert_after,
-					  gboolean make_dirty);
+Sheet	   *workbook_sheet_add		 (Workbook *wb, int pos, gboolean make_dirty);
 void        workbook_sheet_delete        (Sheet *sheet);
-gboolean    workbook_sheet_move          (Sheet *sheet, int direction);
 char       *workbook_sheet_get_free_name (Workbook *wb,
 					  char const *base,
 					  gboolean always_suffix,
@@ -101,5 +98,12 @@ gboolean workbook_set_1904 (Workbook *wb, gboolean flag);
 
 void workbook_attach_view (Workbook *wb, WorkbookView *wbv);
 void workbook_detach_view (WorkbookView *wbv);
+
+WorkbookSheetState *workbook_sheet_state_new (const Workbook *wb);
+void workbook_sheet_state_free (WorkbookSheetState *wss);
+void workbook_sheet_state_restore (Workbook *wb, const WorkbookSheetState *wss);
+int workbook_sheet_state_size (const WorkbookSheetState *wss);
+char *workbook_sheet_state_diff (const WorkbookSheetState *wss_a,
+				 const WorkbookSheetState *wss_b);
 
 #endif /* GNUMERIC_WORKBOOK_H */

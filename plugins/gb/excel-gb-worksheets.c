@@ -32,7 +32,7 @@ excel_gb_worksheets_add (GBRunEvalContext *ec,
 	/* FIXME: Here things go pear shaped, we need to look at
 	   name and value really. */
 
-	sheet = workbook_sheet_add (ws->wb, NULL, TRUE);
+	sheet = workbook_sheet_add (ws->wb, -1, TRUE);
 
 	return gb_value_new_object (
 		GB_OBJECT (excel_gb_worksheet_new (sheet)));

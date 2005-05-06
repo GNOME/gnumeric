@@ -652,7 +652,7 @@ qpro_read_sheet (QProReadState *state)
 	Sheet *sheet = sheet_new (state->wb, def_name);
 
 	state->cur_sheet = sheet;
-	workbook_sheet_attach (state->wb, sheet, NULL);
+	workbook_sheet_attach (state->wb, sheet);
 	sheet_flag_recompute_spans (sheet);
 #if 0
 	printf ("----------> start %s\n", def_name);

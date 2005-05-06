@@ -343,7 +343,7 @@ oleo_new_sheet (Workbook *wb, int idx)
 	char  *sheet_name = g_strdup_printf (_("Sheet%d"), idx);
 	Sheet *sheet = sheet_new (wb, sheet_name);
 	g_free (sheet_name);
-	workbook_sheet_attach (wb, sheet, NULL);
+	workbook_sheet_attach (wb, sheet);
 
 	/* Ensure that things get rendered and spanned */
 	sheet_flag_recompute_spans (sheet);

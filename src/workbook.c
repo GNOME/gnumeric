@@ -470,7 +470,7 @@ workbook_new_with_sheets (int sheet_count)
 {
 	Workbook *wb = workbook_new ();
 	while (sheet_count-- > 0)
-		workbook_sheet_add (wb, NULL, FALSE);
+		workbook_sheet_add (wb, -1, FALSE);
 	return wb;
 }
 
@@ -894,6 +894,36 @@ workbook_sheet_by_name (Workbook const *wb, char const *name)
 	return sheet;
 }
 
+/*
+ * Find a sheet to focus on, left or right of sheet_index.
+ */
+static Sheet *
+workbook_focus_other_sheet (Workbook *wb, Sheet *sheet)
+{
+	int i;
+	Sheet *focus = NULL;
+	int sheet_index = sheet->index_in_wb;
+
+	for (i = sheet_index - 1; !focus && i >= 0; i++) {
+		Sheet *this_sheet = g_ptr_array_index (wb->sheets, i);
+		if (this_sheet->is_visible)
+			focus = this_sheet;
+	}
+
+	for (i = sheet_index + 1; !focus && i < (int)wb->sheets->len; i++) {
+		Sheet *this_sheet = g_ptr_array_index (wb->sheets, i);
+		if (this_sheet->is_visible)
+			focus = this_sheet;
+	}
+
+	if (focus)
+		WORKBOOK_FOREACH_VIEW (wb, wbv,
+			if (sheet == wb_view_cur_sheet (wbv))
+				wb_view_sheet_focus (wbv, focus);
+		);
+
+	return focus;
+}
 
 /**
  * workbook_sheet_hide_controls :
@@ -908,7 +938,6 @@ static gboolean
 workbook_sheet_hide_controls (Workbook *wb, Sheet *sheet)
 {
 	Sheet *focus = NULL;
-	int sheet_index;
 
 	g_return_val_if_fail (IS_WORKBOOK (wb), TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
@@ -919,30 +948,10 @@ workbook_sheet_hide_controls (Workbook *wb, Sheet *sheet)
 	SHEET_FOREACH_CONTROL (sheet, view, control,
 		sc_mode_edit (control););
 
-	sheet_index = sheet->index_in_wb;
-
 	/* If not exiting, adjust the focus for any views whose focus sheet
 	 * was the one being deleted, and prepare to recalc */
-	if (!wb->during_destruction) {
-		int i;
-
-		for (i = sheet_index - 1; !focus && i >= 0; i++) {
-			Sheet *this_sheet = g_ptr_array_index (wb->sheets, i);
-			if (this_sheet->is_visible)
-				focus = this_sheet;
-		}
-		for (i = sheet_index + 1; !focus && i < (int)wb->sheets->len; i++) {
-			Sheet *this_sheet = g_ptr_array_index (wb->sheets, i);
-			if (this_sheet->is_visible)
-				focus = this_sheet;
-		}
-
-		if (focus)
-			WORKBOOK_FOREACH_VIEW (wb, view, {
-				if (view->current_sheet == sheet)
-					wb_view_sheet_focus (view, focus);
-			});
-	}
+	if (!wb->during_destruction)
+		focus = workbook_focus_other_sheet (wb, sheet);
 
 	/* Remove all controls */
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
@@ -958,7 +967,8 @@ workbook_sheet_unhide_controls (Workbook *wb, Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	WORKBOOK_FOREACH_VIEW (wb, wbv,
-		wb_view_sheet_add (wbv, sheet););
+		if (sheet_get_view (sheet, wbv) == NULL)
+			wb_view_sheet_add (wbv, sheet););
 }
 
 static void
@@ -973,33 +983,29 @@ cb_sheet_visibility_change (Sheet *sheet,
 }
 
 /**
- * workbook_sheet_attach :
+ * workbook_sheet_attach_at_pos :
  * @wb :
  * @new_sheet :
- * @insert_after : optional position.
+ * @pos;
  *
- * Add @new_sheet to @wb, either placing it after @insert_after, or appending.
+ * Add @new_sheet to @wb, either placing it at @pos.
  */
 void
-workbook_sheet_attach (Workbook *wb, Sheet *new_sheet,
-		       Sheet const *insert_after)
+workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
 {
 	g_return_if_fail (IS_WORKBOOK (wb));
 	g_return_if_fail (IS_SHEET (new_sheet));
 	g_return_if_fail (new_sheet->workbook == wb);
+	g_return_if_fail (pos >= 0 && pos <= (int)wb->sheets->len);
 
 	pre_sheet_index_change (wb);
-	if (insert_after != NULL) {
-		int pos = insert_after->index_in_wb;
-		go_ptr_array_insert (wb->sheets, (gpointer)new_sheet, ++pos);
-		workbook_sheet_index_update (wb, pos);
-	} else {
-		g_ptr_array_add (wb->sheets, new_sheet);
-		workbook_sheet_index_update (wb, workbook_sheet_count (wb) - 1);
-	}
 
+	go_ptr_array_insert (wb->sheets, (gpointer)new_sheet, pos);
+	workbook_sheet_index_update (wb, pos);
 	g_hash_table_insert (wb->sheet_hash_private,
-		new_sheet->name_case_insensitive, new_sheet);
+			     new_sheet->name_case_insensitive,
+			     new_sheet);
+
 	post_sheet_index_change (wb);
 
 	WORKBOOK_FOREACH_VIEW (wb, view,
@@ -1009,6 +1015,12 @@ workbook_sheet_attach (Workbook *wb, Sheet *new_sheet,
 			  "notify::visible",
 			  G_CALLBACK (cb_sheet_visibility_change),
 			  NULL);
+}
+
+void
+workbook_sheet_attach (Workbook *wb, Sheet *new_sheet)
+{
+	workbook_sheet_attach_at_pos (wb, new_sheet, wb->sheets->len);
 }
 
 static void
@@ -1076,19 +1088,20 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet, gboolean recalc)
 /**
  * workbook_sheet_add :
  * @wb :
- * @insert_after : optional position.
+ * @pos : position to add, -1 meaning append.
  *
- * Create and name a new sheet, either placing it after @insert_after, or
- * appending.
+ * Create and name a new sheet, putting it at position @pos.
  */
 Sheet *
-workbook_sheet_add (Workbook *wb, Sheet const *insert_after, gboolean make_dirty)
+workbook_sheet_add (Workbook *wb, int pos, gboolean make_dirty)
 {
 	char *name = workbook_sheet_get_free_name (wb, _("Sheet"), TRUE, FALSE);
 	Sheet *new_sheet = sheet_new (wb, name);
-
 	g_free (name);
-	workbook_sheet_attach (wb, new_sheet, insert_after);
+
+	if (pos == -1)
+		pos = wb->sheets->len;
+	workbook_sheet_attach_at_pos (wb, new_sheet, pos);
 	if (make_dirty)
 		sheet_set_dirty (new_sheet, TRUE);
 
@@ -1106,7 +1119,7 @@ workbook_sheet_add (Workbook *wb, Sheet const *insert_after, gboolean make_dirty
 void
 workbook_sheet_delete (Sheet *sheet)
 {
-        Workbook *wb;
+	Workbook *wb;
 
         g_return_if_fail (IS_SHEET (sheet));
         g_return_if_fail (IS_WORKBOOK (sheet->workbook));
@@ -1114,9 +1127,6 @@ workbook_sheet_delete (Sheet *sheet)
 	wb = sheet->workbook;
 
 	if (!sheet->pristine) {
-		Sheet *new_focus = NULL;
-		int i;
-
 		/*
 		 * FIXME : Deleting a sheet plays havoc with our data structures.
 		 * Be safe for now and empty the undo/redo queues
@@ -1130,23 +1140,9 @@ workbook_sheet_delete (Sheet *sheet)
 			wb_control_undo_redo_truncate (control, 0, FALSE);
 			wb_control_undo_redo_labels (control, NULL, NULL);
 		);
-
-		i = sheet->index_in_wb - 1;
-		if (i < 0)
-			i = sheet->index_in_wb + 1;
-		if (i < workbook_sheet_count (wb))
-			new_focus = workbook_sheet_by_index (wb, i);
-
-		WORKBOOK_FOREACH_VIEW (wb, wbv,
-			if (sheet == wb_view_cur_sheet (wbv))
-				wb_view_sheet_focus (wbv, new_focus);
-		);
-		WORKBOOK_FOREACH_CONTROL (wb, view, control,
-			wb_control_undo_redo_truncate (control, 0, TRUE);
-			wb_control_undo_redo_truncate (control, 0, FALSE);
-			wb_control_undo_redo_labels (control, NULL, NULL);
-		);
 	}
+
+	workbook_focus_other_sheet (wb, sheet);
 
 	/* Important to do these BEFORE detaching the sheet */
 	sheet_deps_destroy (sheet);
@@ -1159,15 +1155,17 @@ workbook_sheet_delete (Sheet *sheet)
  * Moves the sheet up or down @direction spots in the sheet list
  * If @direction is positive, move left. If positive, move right.
  */
-gboolean
+static void
 workbook_sheet_move (Sheet *sheet, int direction)
 {
 	Workbook *wb;
 	gint old_pos, new_pos;
 
-	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	wb = sheet->workbook;
+
+	pre_sheet_index_change (wb);
         old_pos = sheet->index_in_wb;
 	new_pos = old_pos + direction;
 
@@ -1186,9 +1184,9 @@ workbook_sheet_move (Sheet *sheet, int direction)
 		WORKBOOK_FOREACH_CONTROL (wb, view, control,
 			wb_control_sheet_move (control, sheet, new_pos););
 		sheet_set_dirty (sheet, TRUE);
-		return TRUE;
 	}
-	return FALSE;
+
+	post_sheet_index_change (wb);
 }
 
 /**
@@ -1668,7 +1666,122 @@ workbook_set_1904 (Workbook *wb, gboolean flag)
 	return old_val;
 }
 
+/* ------------------------------------------------------------------------- */
+
+typedef struct {
+	Sheet *sheet;
+	GSList *properties;
+} WorkbookSheetStateSheet;
+
+struct _WorkbookSheetState {
+	GSList *properties;
+	int n_sheets;
+	WorkbookSheetStateSheet *sheets;
+};
+
+
+WorkbookSheetState *
+workbook_sheet_state_new (const Workbook *wb)
+{
+	int i;
+	WorkbookSheetState *wss = g_new (WorkbookSheetState, 1);
+
+	wss->properties = go_object_properties_collect (G_OBJECT (wb));
+	wss->n_sheets = workbook_sheet_count (wb);
+	wss->sheets = g_new (WorkbookSheetStateSheet, wss->n_sheets);
+	for (i = 0; i < wss->n_sheets; i++) {
+		WorkbookSheetStateSheet *wsss = wss->sheets + i;
+		wsss->sheet = g_object_ref (workbook_sheet_by_index (wb, i));
+		wsss->properties = go_object_properties_collect (G_OBJECT (wsss->sheet));
+	}
+	return wss;
+}
+
+void
+workbook_sheet_state_free (WorkbookSheetState *wss)
+{
+	int i;
+
+	go_object_properties_free (wss->properties);
+
+	for (i = 0; i < wss->n_sheets; i++) {
+		WorkbookSheetStateSheet *wsss = wss->sheets + i;
+		g_object_unref (wsss->sheet);
+		go_object_properties_free (wsss->properties);
+	}
+	g_free (wss->sheets);
+	g_free (wss);
+}
+
+void
+workbook_sheet_state_restore (Workbook *wb, const WorkbookSheetState *wss)
+{
+	int i;
+
+	/* Get rid of sheets that shouldn't be there.  */
+	for (i = workbook_sheet_count (wb) - 1; i >= 0; i--) {
+		Sheet *sheet = workbook_sheet_by_index (wb, i);
+		int j;
+		for (j = 0; j < wss->n_sheets; j++)
+			if (sheet == wss->sheets[j].sheet)
+				break;
+		if (j == wss->n_sheets) {
+			g_warning ("We probably aren't ready for this.\n");
+			workbook_sheet_detach (wb, sheet, FALSE);
+		}
+	}
+
+	/* Attach new sheets and handle order.  */
+	for (i = 0; i < wss->n_sheets; i++) {
+		Sheet *sheet = wss->sheets[i].sheet;
+		if (sheet->index_in_wb != i) {
+			if (sheet->index_in_wb == -1) {
+				g_warning ("We probably aren't ready for this.\n");
+				workbook_sheet_attach_at_pos (wb, sheet, i);
+			} else {
+				g_print ("Moving sheet from %d to %d\n", sheet->index_in_wb, i);
+				workbook_sheet_move (sheet, sheet->index_in_wb - i);
+			}
+		}
+		go_object_properties_apply (G_OBJECT (sheet),
+					    wss->sheets[i].properties,
+					    TRUE);
+	}
+
+	go_object_properties_apply (G_OBJECT (wb), wss->properties, TRUE);
+}
+
+int
+workbook_sheet_state_size (const WorkbookSheetState *wss)
+{
+	int size = 1 + g_slist_length (wss->properties);
+	int i;
+	for (i = 0; i < wss->n_sheets; i++) {
+		WorkbookSheetStateSheet *wsss = wss->sheets + i;
+		size += 50;  /* For ->sheet.  */
+		size += g_slist_length (wsss->properties);
+	}
+	return size;
+}
+
+char *
+workbook_sheet_state_diff (const WorkbookSheetState *wss_a, const WorkbookSheetState *wss_b)
+{
+	/* Keep translations so they don't fall out of the po files.  */
+	_("Reordering Sheets");
+	_("Renaming Sheets");
+	_("Appending %i Sheets");
+	_("Changing Tab Colors");
+	_("Changing Sheet Protection");
+	_("Delete sheets");
+	_("Delete a sheet");
+	_("Changing Sheet Visibility");
+
+	return g_strdup (_("Reorganizing Sheets"));
+}
+
+/* ------------------------------------------------------------------------- */
+
 GSF_CLASS (Workbook, workbook,
 	   workbook_class_init, workbook_init,
 	   GO_DOC_TYPE);
-

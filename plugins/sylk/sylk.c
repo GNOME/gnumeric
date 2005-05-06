@@ -506,7 +506,7 @@ sylk_file_open (GOFileOpener const *fo,
 	state.formats	= g_ptr_array_new ();
 	state.finished = FALSE;
 
-	workbook_sheet_attach (book, state.sheet, NULL);
+	workbook_sheet_attach (book, state.sheet);
 	g_free (base);
 
 	old_num_locale = g_strdup (gnm_setlocale (LC_NUMERIC, NULL));

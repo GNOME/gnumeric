@@ -101,6 +101,8 @@ gboolean cmd_reorganize_sheets	(WorkbookControl *wbc, GSList *new_order,
 				 GSList *protection_changed, GSList *new_locks,
 				 GSList *visibility_changed, 
 				 GSList *new_visibility);
+gboolean cmd_reorganize_sheets2 (WorkbookControl *wbc,
+				 WorkbookSheetState *old_state);
 
 gboolean cmd_rename_sheet	(WorkbookControl *wbc, Sheet *sheet,
 				 char const *new_name);

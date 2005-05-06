@@ -323,7 +323,7 @@ xml_sax_wb_sheetname (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	char const *content = state->base.content->str;
 	Sheet *sheet = sheet_new (state->wb, content);
-	workbook_sheet_attach (state->wb, sheet, NULL);
+	workbook_sheet_attach (state->wb, sheet);
 }
 
 static void
@@ -478,7 +478,7 @@ xml_sax_sheet_name (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 				_("File has inconsistent SheetNameIndex element."));
 	} else {
 		state->sheet = sheet_new (state->wb, content);
-		workbook_sheet_attach (state->wb, state->sheet, NULL);
+		workbook_sheet_attach (state->wb, state->sheet);
 	}
 
 	if (state->display_formulas >= 0)

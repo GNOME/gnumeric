@@ -376,7 +376,7 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 			state->pos.sheet = workbook_sheet_by_name (state->pos.wb, attrs[1]);
 			if (NULL == state->pos.sheet) {
 				state->pos.sheet = sheet_new (state->pos.wb, attrs[1]);
-				workbook_sheet_attach (state->pos.wb, state->pos.sheet, NULL);
+				workbook_sheet_attach (state->pos.wb, state->pos.sheet);
 			}
 
 			/* store a list of the sheets in the correct order */
@@ -460,7 +460,7 @@ oo_cellref_parse (GnmCellRef *ref, char const *start, GnmParsePos const *pp)
 		ref->sheet = workbook_sheet_by_name (pp->wb, name);
 		if (ref->sheet == NULL) {
 			ref->sheet = sheet_new (pp->wb, name);
-			workbook_sheet_attach (pp->wb, ref->sheet, NULL);
+			workbook_sheet_attach (pp->wb, ref->sheet);
 		}
 	} else {
 		ptr++; /* local ref */

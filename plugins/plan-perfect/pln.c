@@ -667,7 +667,7 @@ pln_file_open (GOFileOpener const *fo, IOContext *io_context,
 	name  = workbook_sheet_get_free_name (wb, "PlanPerfect", FALSE, TRUE);
 	sheet = sheet_new (wb, name);
 	g_free (name);
-	workbook_sheet_attach (wb, sheet, NULL);
+	workbook_sheet_attach (wb, sheet);
 	sheet_flag_recompute_spans (sheet);
 
 	state.sheet  = sheet;

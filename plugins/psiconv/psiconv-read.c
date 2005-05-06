@@ -527,7 +527,7 @@ add_worksheet(Workbook *wb, psiconv_sheet_worksheet psi_worksheet,int nr,
 
 	/* TODO: What about the NULL? */
 	sheet_flag_recompute_spans(sheet);
-	workbook_sheet_attach (wb,sheet,NULL);
+	workbook_sheet_attach (wb, sheet);
 	mstyle_unref (default_style);
 }
 

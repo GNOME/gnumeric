@@ -398,7 +398,7 @@ sc_file_open (GOFileOpener const *fo, IOContext *io_context,
 	name  = workbook_sheet_get_free_name (wb, "SC", FALSE, TRUE);
 	sheet = sheet_new (wb, name);
 	g_free (name);
-	workbook_sheet_attach (wb, sheet, NULL);
+	workbook_sheet_attach (wb, sheet);
 
 	/* This should probably come from import dialog.  */
 	ic = g_iconv_open ("UTF-8", "ISO-8859-1");

@@ -209,7 +209,7 @@ attach_sheet (Workbook *wb, int idx)
 	 */
 	sheet_flag_recompute_spans (sheet);
 
-	workbook_sheet_attach (wb, sheet, NULL);
+	workbook_sheet_attach (wb, sheet);
 
 	return sheet;
 }

@@ -128,7 +128,7 @@ do_tabulation (WorkbookControl *wbc,
 			value_release (v);
 			sheet = sheets[i] = sheet_new (wb, unique_name);
 			g_free (unique_name);
-			workbook_sheet_attach (wb, sheet, NULL);
+			workbook_sheet_attach (wb, sheet);
 			sheet_idx = g_slist_prepend (sheet_idx, 
 						     GINT_TO_POINTER (sheet->index_in_wb));
 
@@ -141,7 +141,7 @@ do_tabulation (WorkbookControl *wbc,
 						      FALSE, FALSE);
 	        sheet = sheet_new (wb, unique_name);
 		g_free (unique_name);
-		workbook_sheet_attach (wb, sheet, NULL);
+		workbook_sheet_attach (wb, sheet);
 		sheet_idx = g_slist_prepend (sheet_idx, 
 					     GINT_TO_POINTER (sheet->index_in_wb));
 	}

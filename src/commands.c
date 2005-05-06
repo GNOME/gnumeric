@@ -4709,6 +4709,84 @@ cmd_object_format (WorkbookControl *wbc, SheetObject *so,
 
 	return command_push_undo (wbc, object);
 }
+
+/******************************************************************/
+
+#define CMD_REORGANIZE_SHEETS2_TYPE        (cmd_reorganize_sheets2_get_type ())
+#define CMD_REORGANIZE_SHEETS2(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_REORGANIZE_SHEETS2_TYPE, CmdReorganizeSheets2))
+
+typedef struct {
+	GnmCommand cmd;
+	Workbook *wb;
+	WorkbookSheetState *old;
+	WorkbookSheetState *new;
+	gboolean first;
+} CmdReorganizeSheets2;
+
+MAKE_GNM_COMMAND (CmdReorganizeSheets2, cmd_reorganize_sheets2, NULL);
+
+static gboolean
+cmd_reorganize_sheets2_undo (GnmCommand *cmd, WorkbookControl *wbc)
+{
+	CmdReorganizeSheets2 *me = CMD_REORGANIZE_SHEETS2 (cmd);
+	workbook_sheet_state_restore (me->wb, me->old);	
+	return FALSE;
+}
+
+static gboolean
+cmd_reorganize_sheets2_redo (GnmCommand *cmd, WorkbookControl *wbc)
+{
+	CmdReorganizeSheets2 *me = CMD_REORGANIZE_SHEETS2 (cmd);
+
+	if (me->first)
+		me->first = FALSE;
+	else
+		workbook_sheet_state_restore (me->wb, me->new);	
+
+	return FALSE;
+}
+
+static void
+cmd_reorganize_sheets2_finalize (GObject *cmd)
+{
+	CmdReorganizeSheets2 *me = CMD_REORGANIZE_SHEETS2 (cmd);
+
+	if (me->old)
+		workbook_sheet_state_free (me->old);
+	if (me->new)
+		workbook_sheet_state_free (me->new);
+
+	gnm_command_finalize (cmd);
+}
+
+gboolean
+cmd_reorganize_sheets2 (WorkbookControl *wbc,
+			WorkbookSheetState *old_state)
+{
+	GObject *obj;
+	CmdReorganizeSheets2 *me;
+	Workbook *wb = wb_control_workbook (wbc);
+
+	obj = g_object_new (CMD_REORGANIZE_SHEETS2_TYPE, NULL);
+	me = CMD_REORGANIZE_SHEETS2 (obj);
+	me->wb = wb;
+	me->old = old_state;
+	me->new = workbook_sheet_state_new (me->wb);
+	me->first = TRUE;
+
+	me->cmd.sheet = NULL;
+	me->cmd.size = 1;
+	me->cmd.cmd_descriptor =
+		workbook_sheet_state_diff (me->old, me->new);
+
+	if (me->cmd.cmd_descriptor)
+		return command_push_undo (wbc, obj);
+
+	/* No change.  */
+	g_object_unref (me);
+	return FALSE;
+}
+
 /******************************************************************/
 
 #define CMD_REORGANIZE_SHEETS_TYPE        (cmd_reorganize_sheets_get_type ())
@@ -4861,17 +4939,8 @@ cmd_reorganize_sheets_delete_recreate_sheet (WorkbookControl *wbc, Workbook *wb,
 	GSList *l;
 
 	a_new_sheet = sheet_new (wb, sheet->name);
-	if (pos != 0)
-		workbook_sheet_attach (wb, a_new_sheet, 
-				       workbook_sheet_by_index (wb, pos - 1));
-	else {
-		/*FIXME: shouldn't there be a way to make */
-                /*workbook_sheet_attach insert the new sheet */
-                /*at the beginning?*/
-		workbook_sheet_attach (wb, a_new_sheet, 
-				       workbook_sheet_by_index (wb, 0));
-		workbook_sheet_move (a_new_sheet, -1);
-	}
+	workbook_sheet_attach_at_pos (wb, a_new_sheet, pos);
+
 	if (sheet->content) {
 		GnmPasteTarget pt;
 		GnmRange r;
@@ -5032,7 +5101,7 @@ cmd_reorganize_sheets_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			a_new_sheet = sheet_new (me->wb, name);
 			if (free_name)
 				g_free (name);
-			workbook_sheet_attach (me->wb, a_new_sheet, NULL);
+			workbook_sheet_attach (me->wb, a_new_sheet);
 		}
 		list = list->next;
 		names = names->next;
@@ -5355,25 +5424,28 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *new_order,
 	return command_push_undo (wbc, obj);
 }
 
+/******************************************************************/
+
 gboolean
 cmd_rename_sheet (WorkbookControl *wbc,
 		  Sheet *sheet,
 		  char const *new_name)
 {
-
-	GSList *changed_names = NULL;
-	GSList *new_names = NULL;
+	WorkbookSheetState *old_state;
+	Sheet *collision;
 
 	g_return_val_if_fail (new_name != NULL, TRUE);
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
-	changed_names = g_slist_prepend (changed_names, 
-					 GINT_TO_POINTER (sheet->index_in_wb));
-	new_names = g_slist_prepend (new_names, g_strdup (new_name));
+	collision = workbook_sheet_by_name (sheet->workbook, new_name);
+	if (collision && collision != sheet) {
+		g_warning ("Sheet name collision.\n");
+		return TRUE;
+	}
 
-	return cmd_reorganize_sheets (wbc, NULL, changed_names, new_names,
-				      NULL, NULL, NULL, NULL, NULL, NULL, 
-				      NULL, NULL);
+	old_state = workbook_sheet_state_new (sheet->workbook);
+	g_object_set (sheet, "name", new_name, NULL);
+	return cmd_reorganize_sheets2 (wbc, old_state);
 }
 
 /******************************************************************/
@@ -5759,7 +5831,7 @@ cmd_merge_data_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	for (i = 0; i < me->n; i++) {
 		Sheet *new_sheet;
 
-		new_sheet = workbook_sheet_add (me->sheet->workbook, NULL, FALSE);
+		new_sheet = workbook_sheet_add (me->sheet->workbook, -1, FALSE);
 		me->sheet_list = g_slist_prepend (me->sheet_list, new_sheet);
 
 		colrow_set_states (new_sheet, TRUE, target_range.start.col, state_col);
@@ -6967,8 +7039,9 @@ cmd_clone_sheet_redo (GnmCommand *cmd, WorkbookControl *wbc)
      	
 	me->new_sheet = sheet_dup (me->cmd.sheet);
 
-	workbook_sheet_attach (me->cmd.sheet->workbook, me->new_sheet, 
-			       me->cmd.sheet);
+	workbook_sheet_attach_at_pos (me->cmd.sheet->workbook,
+				      me->new_sheet, 
+				      me->cmd.sheet->index_in_wb + 1);
 	workbook_set_dirty (me->new_sheet->workbook, TRUE);
 	wbcg_focus_cur_scg (WORKBOOK_CONTROL_GUI(wbc));
 

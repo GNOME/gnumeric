@@ -3445,8 +3445,7 @@ xml_sheet_create (XmlParseContext *ctxt, xmlNodePtr node)
 		g_return_if_fail (name != NULL);
 
 		workbook_sheet_attach (ctxt->wb,
-				       sheet_new (ctxt->wb, CXML2C (name)),
-				       NULL);
+				       sheet_new (ctxt->wb, CXML2C (name)));
 		xmlFree (name);
 	}
 }

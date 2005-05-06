@@ -5,13 +5,6 @@
 #include <goffice/app/goffice-app.h>
 #include <goffice/utils/goffice-utils.h>
 
-#ifndef __attribute__
-# if !defined(__GNUC__) || __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 5)
-/* OK, this compiler probably doesn't understand __attribute__ */
-#  define __attribute__(Spec) /* empty */
-# endif
-#endif
-
 #define SHEET_MAX_ROWS		(16*16*16*16)	/* 0, 1, ... */
 #define SHEET_MAX_COLS		(4*4*4*4)	/* 0, 1, ... */
 
@@ -23,6 +16,7 @@ typedef struct _GnmApp			GnmApp;
 typedef struct _Workbook		Workbook;
 typedef struct _WorkbookView		WorkbookView;
 typedef struct _WorkbookControl		WorkbookControl;
+typedef struct _WorkbookSheetState	WorkbookSheetState;
 
 typedef struct _Sheet			Sheet;
 typedef struct _SheetView		SheetView;

@@ -203,7 +203,7 @@ stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
 	/* Add Sheet */
 	book = wb_view_workbook (wbv);
 	sheet = sheet_new (book, nameutf8);
-	workbook_sheet_attach (book, sheet, NULL);
+	workbook_sheet_attach (book, sheet);
 
 	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context->impl),
 				   enc, FALSE, NULL, FALSE, 
@@ -371,7 +371,7 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 	name = g_path_get_basename (gsf_input_name (input));
 	sheet = sheet_new (book, name);
 	g_free (name);
-	workbook_sheet_attach (book, sheet, NULL);
+	workbook_sheet_attach (book, sheet);
 
 	if (stf_parse_sheet (po, utf8data, NULL, sheet, 0, 0)) {
 		workbook_recalc (book);

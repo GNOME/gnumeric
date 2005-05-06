@@ -1,5 +1,25 @@
 2005-05-05  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook.c (workbook_focus_other_sheet): New function.
+	(workbook_sheet_hide_controls, workbook_sheet_delete): Use
+	workbook_focus_other_sheet.
+	(workbook_sheet_unhide_controls): Do nothing if sheet is already
+	shown.
+	(workbook_sheet_add): Take a numerical position, not a sheet
+	pointer for placement.  All callers changed.
+	(workbook_sheet_attach_at_pos): New function extracted from
+	workbook_sheet_attach.
+	(workbook_sheet_attach): Make this not take a placement parameter.
+	All callers changed.
+	(workbook_sheet_move): Make static, don't return a value, and make
+	3d references.
+	(workbook_sheet_state_new, workbook_sheet_state_free,
+	workbook_sheet_state_restore, workbook_sheet_state_diff): New
+	functions.
+
+	* src/commands.c (cmd_reorganize_sheets2): New function.
+	(cmd_rename_sheet): Use cmd_reorganize_sheets2.
+
 	* src/dependent.c (do_deps_destroy): Fix sheet-remove crash.
 
 2005-05-04  Morten Welinder  <terra@gnome.org>

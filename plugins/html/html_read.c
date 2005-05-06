@@ -70,10 +70,10 @@ html_get_sheet (char const *name, Workbook *wb)
 		sheet = workbook_sheet_by_name (wb, name);
 		if (sheet == NULL) {
 			sheet = sheet_new (wb, name);
-			workbook_sheet_attach (wb, sheet, NULL);
+			workbook_sheet_attach (wb, sheet);
 		}
 	} else
-		sheet = workbook_sheet_add (wb, NULL, FALSE);
+		sheet = workbook_sheet_add (wb, -1, FALSE);
 	return sheet;
 }
 

@@ -176,7 +176,7 @@ xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
 	name = workbook_sheet_get_free_name (wb, _("Sheet"), FALSE, TRUE);
 	sheet = sheet_new (wb, name);
 	g_free (name);
-	workbook_sheet_attach (wb, sheet, NULL);
+	workbook_sheet_attach (wb, sheet);
 
 	i = 0;
 	for (i = 0 ; i < file->fields ; i++) {

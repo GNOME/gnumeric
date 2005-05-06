@@ -1695,9 +1695,7 @@ py_Workbook_sheet_add (py_Workbook_object *self, PyObject *args)
 	if (!PyArg_ParseTuple (args, (char *) "|zi:sheet_add"))
 		return NULL;
 
-	if (insert_before >= 0)
-		sheet = workbook_sheet_by_index (self->wb, insert_before);
-	sheet = workbook_sheet_add (self->wb, sheet, TRUE);
+	sheet = workbook_sheet_add (self->wb, insert_before, TRUE);
 	if (sheet != NULL && name != NULL)
 		g_object_set (sheet, "name", name, NULL);
 	return py_new_Sheet_object (sheet);
@@ -1706,18 +1704,15 @@ py_Workbook_sheet_add (py_Workbook_object *self, PyObject *args)
 static PyObject *
 py_Workbook_gui_add (py_Workbook_object *self, PyObject *args)
 {
-	GList *sheets;
-	Sheet *sheet;
 	WorkbookControl *wbc;
 	PyObject *result;
 
 	if (!PyArg_ParseTuple (args, (char *) ":gui_add"))
 		return NULL;
+
+	if (workbook_sheet_count (self->wb) == 0)
+		(void)workbook_sheet_add (self->wb, -1, FALSE);
 	
-	sheets = workbook_sheets (self->wb);
-	if (g_list_length (sheets) == 0)
-		sheet = workbook_sheet_add (self->wb, NULL, FALSE);
-		
 	wbc = workbook_control_gui_new (NULL, self->wb, NULL);
 	result = py_new_Gui_object ((WorkbookControlGUI *)wbc);
 	g_object_unref (wbc);    /* py_new_Gui_object added a reference */

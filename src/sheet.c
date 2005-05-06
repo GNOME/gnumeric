@@ -201,6 +201,7 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 		 * setting just the two names.
 		 */
 		char *sucker_name = workbook_sheet_get_free_name (wb, new_name, TRUE, FALSE);
+		g_warning ("Renaming %s to %s to avoid clash.\n", sucker->name_unquoted, sucker_name);
 		g_object_set (sucker, "name", sucker_name, NULL);
 		g_free (sucker_name);
 	}

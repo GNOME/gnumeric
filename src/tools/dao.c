@@ -224,14 +224,14 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 		dao->start_col = dao->start_row = 0;
 		dao->rows = SHEET_MAX_ROWS;
 		dao->cols = SHEET_MAX_COLS;
-		workbook_sheet_attach (wb, dao->sheet, NULL);
+		workbook_sheet_attach (wb, dao->sheet);
 	} else if (dao->type == NewWorkbookOutput) {
 		Workbook *wb = workbook_new ();
 		dao->sheet = sheet_new (wb, name);
 		dao->start_col = dao->start_row = 0;
 		dao->rows = SHEET_MAX_ROWS;
 		dao->cols = SHEET_MAX_COLS;
-		workbook_sheet_attach (wb, dao->sheet, NULL);
+		workbook_sheet_attach (wb, dao->sheet);
 		dao->wbc = wb_control_wrapper_new (dao->wbc, NULL, wb, NULL);
 	}
 	if (dao->rows == 0 || (dao->rows == 1 && dao->cols == 1))
