@@ -1,7 +1,7 @@
 2005-05-06  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_cell): Implement "sheetname".  Someone on
-	irc wanted that.
+	irc wanted that.  Fix sheet handling all over.
 
 2005-05-04  Jody Goldberg <jody@gnome.org>
 

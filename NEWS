@@ -98,6 +98,7 @@ Morten:
 	* Fix crash for sheet-remove on sheets with local dynamic
 	  dependencies.
 	* Implement CELL("sheetname", ...).
+	* Fix CELL with explicit sheet in the reference.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

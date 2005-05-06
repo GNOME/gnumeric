@@ -161,11 +161,11 @@ translate_cell_format (GOFormat const *format)
 	return value_new_string ("G");
 }
 
-static FormatCharacteristics
-retrieve_format_info (Sheet *sheet, int col, int row)
+static const FormatCharacteristics
+retrieve_format_info (const Sheet *sheet, int col, int row)
 {
-	GnmStyle *mstyle = sheet_style_get (sheet, col, row);
-	GOFormat *format = mstyle_get_format (mstyle);
+	const GnmStyle *mstyle = sheet_style_get (sheet, col, row);
+	const GOFormat *format = mstyle_get_format (mstyle);
 	return format->family_info;
 }
 
@@ -198,8 +198,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 		GnmCellRef tmp = *ref;
 		GString *str = g_string_new (NULL);
 
-		if (tmp.sheet == NULL)
-			tmp.sheet = ei->pos->sheet;
+		tmp.sheet = (Sheet *)sheet;
 		cellref_as_string (
 			str,
 			gnm_expr_conventions_default,
@@ -226,8 +225,8 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	 * Another place where Excel doesn't conform to its documentation!
 	 */
 	} else if (!g_ascii_strcasecmp (info_type, "color")) {
-		FormatCharacteristics info =
-			retrieve_format_info (ei->pos->sheet, ref->col, ref->row);
+		const FormatCharacteristics info =
+			retrieve_format_info (sheet, ref->col, ref->row);
 
 		/* 0x01 = first bit (1) indicating negative colors */
 		return (info.negative_fmt & 0x01) ? value_new_int (1) :
@@ -236,8 +235,8 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	/* absolutely pointless - compatibility only */
 	} else if (!g_ascii_strcasecmp (info_type, "contents") ||
 		   !g_ascii_strcasecmp (info_type, "value")) {
-		GnmCell const *cell = sheet_cell_get (
-			eval_sheet (ref->sheet, ei->pos->sheet), ref->col, ref->row);
+		GnmCell const *cell =
+			sheet_cell_get (sheet, ref->col, ref->row);
 		if (cell && cell->value)
 			return value_dup (cell->value);
 		return value_new_empty ();
@@ -248,7 +247,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	 * the worksheet name, but they can't make any other changes to CELL?!
 	 */
 	} else if (!g_ascii_strcasecmp (info_type, "filename")) {
-		char const *name = workbook_get_uri (ei->pos->sheet->workbook);
+		char const *name = workbook_get_uri (sheet->workbook);
 
 		if (name == NULL)
 			return value_new_string ("");
@@ -259,15 +258,15 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	/* Backwards compatibility w/123 - unnecessary */
 	} else if (!g_ascii_strcasecmp (info_type, "format")) {
 		GnmStyle const *mstyle =
-			sheet_style_get (ei->pos->sheet, ref->col, ref->row);
+			sheet_style_get (sheet, ref->col, ref->row);
 
 		return translate_cell_format (mstyle_get_format (mstyle));
 
 	/* from CELL */
 	/* Backwards compatibility w/123 - unnecessary */
 	} else if (!g_ascii_strcasecmp (info_type, "parentheses")) {
-		FormatCharacteristics info =
-			retrieve_format_info (ei->pos->sheet, ref->col, ref->row);
+		const FormatCharacteristics info =
+			retrieve_format_info (sheet, ref->col, ref->row);
 
 		/* 0x02 = second bit (2) indicating parentheses */
 		return (info.negative_fmt & 0x02) ? value_new_int (1) :
@@ -278,9 +277,9 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	} else if (!g_ascii_strcasecmp (info_type, "prefix") ||
 		   !g_ascii_strcasecmp (info_type, "prefixcharacter")) {
 		GnmStyle const *mstyle =
-			sheet_style_get (ei->pos->sheet, ref->col, ref->row);
+			sheet_style_get (sheet, ref->col, ref->row);
 		GnmCell const *cell =
-			sheet_cell_get (ei->pos->sheet, ref->col, ref->row);
+			sheet_cell_get (sheet, ref->col, ref->row);
 
 		if (cell && cell->value && cell->value->type == VALUE_STRING) {
 			switch (mstyle_get_align_h (mstyle)) {
@@ -298,7 +297,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	} else if (!g_ascii_strcasecmp (info_type, "locked") ||
 		   !g_ascii_strcasecmp (info_type, "protect")) {
 		GnmStyle const *mstyle =
-			sheet_style_get (ei->pos->sheet, ref->col, ref->row);
+			sheet_style_get (sheet, ref->col, ref->row);
 		return value_new_int (mstyle_get_content_locked (mstyle) ? 1 : 0);
 
     /* different characteristics grouped for efficiency
@@ -329,7 +328,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 		   !g_ascii_strcasecmp (info_type, "datatype") ||
 		   !g_ascii_strcasecmp (info_type, "formulatype")) {
 		GnmCell const *cell =
-			sheet_cell_get (ei->pos->sheet, ref->col, ref->row);
+			sheet_cell_get (sheet, ref->col, ref->row);
 		if (cell && cell->value) {
 			if (cell->value->type == VALUE_STRING)
 				return value_new_string ("l");
@@ -342,7 +341,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	} else if (!g_ascii_strcasecmp (info_type, "width") ||
 		   !g_ascii_strcasecmp (info_type, "columnwidth")) {
 		ColRowInfo const *info =
-			sheet_col_get_info (ei->pos->sheet, ref->col);
+			sheet_col_get_info (sheet, ref->col);
 		double charwidth;
 		int    cellwidth;
 
