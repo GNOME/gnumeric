@@ -179,8 +179,8 @@ install: build
 
 	dh_link usr/share/gnumeric/$(upstreamversion)/idl/GNOME_Gnumeric.idl usr/share/idl/GNOME_Gnumeric.idl
 
-	# Make the documentation accessible to yelp
-	dh_link -pgnumeric-doc usr/share/gnumeric/$(upstreamversion)/doc usr/share/gnome/help/gnumeric 
+	# Make the documentation accessible to gnumeric
+	dh_link -pgnumeric-doc usr/share/gnome/help/gnumeric usr/share/gnumeric/$(upstreamversion)/doc
 
 	dh_link -pgnumeric-doc usr/share/xml/docbook/stylesheet/nwalsh/images/ usr/share/gnumeric/$(upstreamversion)/doc/C/images
 
