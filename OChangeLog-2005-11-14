@@ -1,5 +1,15 @@
 2005-05-06  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook.c (workbook_sheet_move): Public again.  Fix docs.
+
+	* src/workbook-control-gui.c (gnm_notebook_page_num_by_label):
+	Renamed from gtk_notebook_page_num_by_label.
+	(cb_sheet_label_drag_data_received): Fix this in the presence of
+	hidden sheets.
+	(wbcg_sheet_move): Change to take old_pos, not new_pos which is
+	trivial to get.  All callers changed.  Fix for the case where some
+	sheets are hidden.
+
 	* src/workbook.c (workbook_unref): Remove and replace calls with
 	simple g_object_unref
 

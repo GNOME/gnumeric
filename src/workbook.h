@@ -24,6 +24,7 @@ void        workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int po
 void	    workbook_sheet_detach        (Workbook *wb, Sheet *sheet, gboolean recalc);
 Sheet	   *workbook_sheet_add		 (Workbook *wb, int pos, gboolean make_dirty);
 void        workbook_sheet_delete        (Sheet *sheet);
+void        workbook_sheet_move          (Sheet *sheet, int direction);
 char       *workbook_sheet_get_free_name (Workbook *wb,
 					  char const *base,
 					  gboolean always_suffix,

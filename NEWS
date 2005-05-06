@@ -99,6 +99,7 @@ Morten:
 	  dependencies.
 	* Implement CELL("sheetname", ...).
 	* Fix CELL with explicit sheet in the reference.
+	* Fix sheet reordering by dragging.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

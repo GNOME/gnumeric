@@ -1147,9 +1147,9 @@ workbook_sheet_delete (Sheet *sheet)
 
 /**
  * Moves the sheet up or down @direction spots in the sheet list
- * If @direction is positive, move left. If positive, move right.
+ * If @direction is negative, move left. If positive, move right.
  */
-static void
+void
 workbook_sheet_move (Sheet *sheet, int direction)
 {
 	Workbook *wb;
@@ -1176,7 +1176,7 @@ workbook_sheet_move (Sheet *sheet, int direction)
 		}
 
 		WORKBOOK_FOREACH_CONTROL (wb, view, control,
-			wb_control_sheet_move (control, sheet, new_pos););
+			wb_control_sheet_move (control, sheet, old_pos););
 		sheet_set_dirty (sheet, TRUE);
 	}
 
@@ -1572,7 +1572,7 @@ workbook_sheet_reorder (Workbook *wb, GSList *new_order)
 				}
 				WORKBOOK_FOREACH_CONTROL (wb, view, control,
 							  wb_control_sheet_move (control,
-										 sheet, new_pos););
+										 sheet, old_pos););
 			}
 			new_pos++;
 		}
@@ -1733,8 +1733,12 @@ workbook_sheet_state_restore (Workbook *wb, const WorkbookSheetState *wss)
 				g_warning ("We probably aren't ready for this.\n");
 				workbook_sheet_attach_at_pos (wb, sheet, i);
 			} else {
-				g_print ("Moving sheet from %d to %d\n", sheet->index_in_wb, i);
-				workbook_sheet_move (sheet, sheet->index_in_wb - i);
+				/*
+				 * There might be a smarter way of getting more
+				 * sheets into place faster.  This will at
+				 * least work.
+				 */
+				workbook_sheet_move (sheet, i - sheet->index_in_wb);
 			}
 		}
 		go_object_properties_apply (G_OBJECT (sheet),

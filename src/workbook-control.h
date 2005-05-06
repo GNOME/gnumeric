@@ -30,7 +30,7 @@ void wb_control_sheet_add	     (WorkbookControl *wbc, SheetView *sv);
 void wb_control_sheet_remove	     (WorkbookControl *wbc, Sheet *sheet);
 void wb_control_sheet_focus	     (WorkbookControl *wbc, Sheet *sheet);
 void wb_control_sheet_move	     (WorkbookControl *wbc, Sheet *sheet,
-				      int new_pos);
+				      int old_pos);
 void wb_control_sheet_remove_all     (WorkbookControl *wbc);
 
 void wb_control_undo_redo_truncate   (WorkbookControl *wbc, int n, gboolean is_undo);

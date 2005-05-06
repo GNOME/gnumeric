@@ -152,6 +152,27 @@ wbcg_ui_update_end (WorkbookControlGUI *wbcg)
 	wbcg->updating_ui = FALSE;
 }
 
+static Sheet *
+wbcg_page_index_to_sheet (WorkbookControlGUI *wbcg, int page,
+			  SheetControlGUI **res)
+{
+	GtkWidget *w;
+
+	if (res)
+		*res = NULL;
+
+	w = gtk_notebook_get_nth_page (wbcg->notebook, page);
+	if (w) {
+		SheetControlGUI *scg = g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
+		if (scg) {
+			if (res) *res = scg;
+			return ((SheetControl *)scg)->sheet;
+		}
+	}
+
+	return NULL;
+}
+
 int
 wbcg_sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet,
 			  SheetControlGUI **res)
@@ -598,7 +619,7 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 }
 
 static gint
-gtk_notebook_page_num_by_label (GtkNotebook *notebook, GtkWidget *label)
+gnm_notebook_page_num_by_label (GtkNotebook *notebook, GtkWidget *label)
 {
         guint i;
         GtkWidget *page, *l;
@@ -628,7 +649,7 @@ cb_sheet_label_drag_data_get (GtkWidget *widget, GdkDragContext *context,
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
-	n_source = gtk_notebook_page_num_by_label (wbcg->notebook, widget);
+	n_source = gnm_notebook_page_num_by_label (wbcg->notebook, widget);
 	p_source = gtk_notebook_get_nth_page (wbcg->notebook, n_source);
 	scg = g_object_get_data (G_OBJECT (p_source), SHEET_CONTROL_KEY);
 
@@ -642,10 +663,7 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 				   WorkbookControlGUI *wbcg)
 {
 	GtkWidget *w_source;
-	gint n_source, n_dest;
-	GSList *new_order = NULL;
-	Workbook *wb;
-	guint n, i;
+	gint p_src;
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 	g_return_if_fail (GTK_IS_WIDGET (widget));
@@ -655,33 +673,25 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 		g_warning ("Not yet implemented!"); /* Different process */
 		return;
 	}
-	
-	n_source = gtk_notebook_page_num_by_label (wbcg->notebook, w_source);
+
+	p_src = gnm_notebook_page_num_by_label (wbcg->notebook, w_source);
 
 	/*
 	 * Is this a sheet of our workbook? If yes, we just reorder
 	 * the sheets.
 	 */
-	if (n_source >= 0) {
+	if (p_src >= 0) {
+		Sheet *s_src = wbcg_page_index_to_sheet (wbcg, p_src, NULL);
+		int p_dst =
+			gnm_notebook_page_num_by_label (wbcg->notebook,
+							widget);
+		Sheet *s_dst = wbcg_page_index_to_sheet (wbcg, p_dst, NULL);
 
-		/* Make a list of the current order. */
-		wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-		n = workbook_sheet_count (wb);
-		for (i = 0; i < n; i++)
-			new_order = g_slist_append (new_order, 
-						    GINT_TO_POINTER (i));
-		new_order = g_slist_remove (new_order, 
-					    GINT_TO_POINTER (n_source));
-		n_dest = gtk_notebook_page_num_by_label (wbcg->notebook,
-							 widget);
-		new_order = g_slist_insert (new_order, 
-					    GINT_TO_POINTER (n_source), 
-					    n_dest);
-
-		/* Reorder the sheets! */
-		cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg),
-			new_order, NULL, NULL, NULL, NULL, NULL, NULL,
-			NULL, NULL, NULL, NULL);
+		if (s_src && s_dst && s_src != s_dst) {
+			WorkbookSheetState *old_state = workbook_sheet_state_new (s_src->workbook);
+			workbook_sheet_move (s_src, s_dst->index_in_wb - s_src->index_in_wb);
+			cmd_reorganize_sheets2 (WORKBOOK_CONTROL (wbcg), old_state);
+		}
 	} else {
 
 		g_return_if_fail (IS_SHEET_CONTROL_GUI (data->data));
@@ -762,11 +772,11 @@ cb_sheet_label_drag_motion (GtkWidget *widget, GdkDragContext *context,
 	w_source = gtk_drag_get_source_widget (context);
 	n_source = -1;
 	if (w_source)
-		n_source = gtk_notebook_page_num_by_label (wbcg->notebook, 
+		n_source = gnm_notebook_page_num_by_label (wbcg->notebook, 
 							   w_source);
 	else
 		return FALSE;
-	n_dest   = gtk_notebook_page_num_by_label (wbcg->notebook, widget);
+	n_dest   = gnm_notebook_page_num_by_label (wbcg->notebook, widget);
 	arrow = g_object_get_data (G_OBJECT (w_source), "arrow");
 	if (n_source == n_dest) {
 		gtk_widget_hide (arrow);
@@ -1044,18 +1054,41 @@ wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 	}
 }
 
+/*
+ * Move a sheet's tab into position.  Note, that old_pos is an index_in_wb
+ * and that the workbook's sheet array has already been changed.
+ */
 static void
-wbcg_sheet_move (WorkbookControl *wbc, Sheet *sheet, int new_pos)
+wbcg_sheet_move (WorkbookControl *wbc, Sheet *sheet, int old_pos)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	int p_src, p_dst;
+	int i, di, count, new_pos;
 	SheetControlGUI *scg;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
-	/* No need for sanity checking, the workbook did that */
-        if (wbcg_sheet_to_page_index (wbcg, sheet, &scg) >= 0)
-		gtk_notebook_reorder_child (wbcg->notebook,
-			GTK_WIDGET (scg->table), new_pos);
+	new_pos = sheet->index_in_wb;
+	count = workbook_sheet_count (sheet->workbook);
+
+	p_src = wbcg_sheet_to_page_index (wbcg, sheet, &scg);
+        if (p_src < 0)
+		return;
+
+	di = (new_pos > old_pos) ? +1 : -1;
+	p_dst = (new_pos > old_pos) ? count - 1 : 0;
+	for (i = new_pos + di; i >= 0 && i < count; i += di) {
+		Sheet *sheet_i = workbook_sheet_by_index (sheet->workbook, i);
+		int p = wbcg_sheet_to_page_index (wbcg, sheet_i, NULL);
+		if (p >= 0) {
+			p_dst = p - di;
+			break;
+		}
+	}
+
+	gtk_notebook_reorder_child (wbcg->notebook,
+				    GTK_WIDGET (scg->table),
+				    p_dst);
 }
 
 static void
