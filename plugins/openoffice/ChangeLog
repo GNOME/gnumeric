@@ -1,3 +1,9 @@
+2005-05-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* openoffice-read.c: (openoffice_file_open): use go_setlocale
+	instead of gnm_setlocale.
+	* openoffice-write.c: (openoffice_file_save): ditto.
+
 2005-02-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.0
@@ -252,4 +258,3 @@
 	* openoffice-read.c : whip up a quick initial version that ignores
 	  formats, and expressions but does appear to handle values, and sheet
 	  names.
-
