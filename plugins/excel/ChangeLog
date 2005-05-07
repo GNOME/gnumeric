@@ -1,3 +1,9 @@
+2005-05-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (excel_chart_series_new), (ai), (series), (siindex),
+	(switch), (while), (if): enhanced import of data, and make some work
+	on coutour plots export.
+
 2005-05-04  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c : Add ISHYPERLINK

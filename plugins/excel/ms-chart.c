@@ -61,6 +61,8 @@ typedef struct {
 	struct {
 		int num_elements;
 		GOData *data;
+		GnmValueArray *value;
+		GogSeries *series;
 	} data [GOG_MS_DIM_TYPES];
 	int chart_group;
 	gboolean  has_legend;
@@ -85,6 +87,7 @@ typedef struct {
 	GogStyle	*style;
 
 	int		 style_element;
+	int		cur_role;
 
 	gboolean	 frame_for_grid;
 	gboolean	 has_a_grid;
@@ -124,6 +127,7 @@ excel_chart_series_new (void)
 	for (i = GOG_MS_DIM_TYPES; i-- > 0 ; ) {
 		series->data [i].data = NULL;
 		series->data [i].num_elements = 0;
+		series->data [i].value = NULL;
 	}
 
 	return series;
@@ -283,7 +287,7 @@ BC_R(ai)(XLChartHandler const *handle,
 	};
 	switch (ref_type) {
 	case 0 : fputs ("Use default categories;\n", stderr); break;
-	case 1 : fputs ("Text/Value entered directly;\n", stderr); break;
+	case 1 : fputs ("Text/Value entered directly;\n", stderr); fprintf (stderr, "data length = %d\n",length); break;
 	case 2 : fputs ("Linked to Container;\n", stderr); break;
 	case 4 : fputs ("'Error reported' what the heck is this ??;\n", stderr); break;
 	default :
@@ -305,6 +309,11 @@ BC_R(ai)(XLChartHandler const *handle,
 				? gnm_go_data_scalar_new_expr (sheet, expr)
 				: gnm_go_data_vector_new_expr (sheet, expr);
 		}
+	} else if (ref_type == 1 && purpose != GOG_MS_DIM_LABELS &&
+					s->currentSeries->data [purpose].num_elements > 0) {
+		s->currentSeries->data [purpose].value = (GnmValueArray *)
+				value_new_array (1,
+					s->currentSeries->data [purpose].num_elements);
 	} else {
 		g_return_val_if_fail (length == 0, TRUE);
 	}
@@ -1525,7 +1534,7 @@ BC_R(series)(XLChartHandler const *handle,
 	BC_R(vector_details) (s, q, series, GOG_MS_DIM_VALUES,
 			      2, 6, "Values");
 	if (s->container.ver >= MS_BIFF_V8)
-		BC_R(vector_details) (s, q, series, GOG_MS_DIM_VALUES,
+		BC_R(vector_details) (s, q, series, GOG_MS_DIM_BUBBLES,
 				      8, 10, "Bubbles");
 
 	g_ptr_array_add (s->series, series);
@@ -1656,12 +1665,12 @@ static gboolean
 BC_R(siindex)(XLChartHandler const *handle,
 	      XLChartReadState *s, BiffQuery *q)
 {
+	s->cur_role = GSF_LE_GET_GUINT16 (q->data);
 	d (1, {
 	/* UNDOCUMENTED : Docs says this is long
 	 * Biff record is only length 2
 	 */
-	gint16 const index = GSF_LE_GET_GUINT16 (q->data);
-	fprintf (stderr, "Series %d is %hd\n", s->series->len, index);});
+	fprintf (stderr, "Series %d is %hd\n", s->series->len, s->cur_role);});
 	return FALSE;
 }
 /****************************************************************************/
@@ -2031,7 +2040,7 @@ BC_R(end)(XLChartHandler const *handle,
 					is_matrix = FALSE;
 					break;
 				}
-				expr = gnm_go_data_get_expr (cur);	
+				expr = gnm_go_data_get_expr (cur);
 				if (!gnm_expr_is_rangeref (expr))
 					goto not_a_matrix;
 				value = gnm_expr_get_range (expr);
@@ -2056,6 +2065,9 @@ BC_R(end)(XLChartHandler const *handle,
 					break;
 				}
 				expr = gnm_go_data_get_expr (cur);	
+				if (!gnm_expr_is_rangeref (expr))
+					goto not_a_matrix;
+
 				value = gnm_expr_get_range (expr);
 				if ((as_col && (value->v_range.cell.a.col != col ||
 						value->v_range.cell.b.col != col ||
@@ -2185,7 +2197,8 @@ not_a_matrix:
 						XL_gog_series_set_dim (series, j,
 							eseries->data [j].data);
 						eseries->data [j].data = NULL;
-					}
+					} else if (eseries->data [j].value != NULL)
+						eseries->data [j].series = series;
 				style = eseries->style;
 				if (style != NULL)
 					g_object_set (G_OBJECT (series),
@@ -2518,10 +2531,15 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 		case BIFF_NUMBER_v0:
 		case BIFF_NUMBER_v2: {
 			unsigned offset = (q->opcode == BIFF_NUMBER_v2) ? 6: 7;
+			int row = GSF_LE_GET_GUINT16 (q->data);
+			int sernum = GSF_LE_GET_GUINT16 (q->data + 2);
+			XLChartSeries *series = g_ptr_array_index (state.series, sernum);
 			double val = gsf_le_get_double (q->data + offset);
-			/* Figure out how to assign these back to the series,
-			 * are they just sequential ?  */
-			d (10, fprintf (stderr, "%f\n", val););
+			if (series->data[state.cur_role].value != NULL) {
+				value_release (series->data[state.cur_role].value->vals[0][row]);
+				series->data[state.cur_role].value->vals[0][row] = value_new_float (val);
+			}
+			d (10, fprintf (stderr, "series %d, index %d, value %f\n", sernum, row, val););
 			break;
 		}
 
@@ -2529,11 +2547,15 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 		case BIFF_LABEL_v2 : {
 			guint16 row = GSF_LE_GET_GUINT16 (q->data + 0);
 			guint16 col = GSF_LE_GET_GUINT16 (q->data + 2);
-			guint16 xf  = GSF_LE_GET_GUINT16 (q->data + 4);
+			/* guint16 xf  = GSF_LE_GET_GUINT16 (q->data + 4); */ /* not used */
 			guint16 len = GSF_LE_GET_GUINT16 (q->data + 6);
 			char *label = biff_get_text (q->data + 8, len, NULL, ver);
-			d (10, {fprintf (stderr, "'%s'\n;hmm, what are these values for a chart ???\n"
-					"row = %d, col = %d, xf = %d\n", label, row, col, xf);});
+			XLChartSeries *series = g_ptr_array_index (state.series, col);
+			if (series->data[state.cur_role].value != NULL) {
+				value_release (series->data[state.cur_role].value->vals[0][row]);
+				series->data[state.cur_role].value->vals[0][row] = value_new_string (label);
+			}
+			d (10, {fprintf (stderr, "'%s' row = %d, series = %d\n", label, row, col);});
 			g_free (label);
 			break;
 		}
@@ -2597,9 +2619,24 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 
 	/* Cleanup */
 	for (i = state.series->len; i-- > 0 ; ) {
+		int j;
 		XLChartSeries *series = g_ptr_array_index (state.series, i);
-		if (series != NULL)
+		GOData *data;
+		if (series != NULL) {
+			for (j = GOG_MS_DIM_VALUES ; j < GOG_MS_DIM_TYPES; j++ )
+				if (series->data [j].value != NULL) {
+					GnmExpr const * expr = gnm_expr_new_constant ((GnmValue *)series->data [j].value);
+					if (expr != NULL) {
+						Sheet *sheet = ms_container_sheet (state.container.parent);
+				
+						if (sheet == NULL || series->data [j].series == NULL)
+							continue;
+						data = gnm_go_data_vector_new_expr (sheet, expr);
+						XL_gog_series_set_dim (series->data [j].series, j, data);
+					}
+				}			
 			excel_chart_series_delete (series);
+		}
 	}
 	g_array_free (state.stack, TRUE);
 	g_ptr_array_free (state.series, TRUE);
@@ -2920,6 +2957,23 @@ chart_write_DATAFORMAT (XLChartWriteState *s, guint16 flag, guint16 indx, guint1
 }
 
 static void
+chart_write_3d (XLChartWriteState *s, guint16 rotation, guint16 elevation,
+		guint16 distance, guint16 height, guint16 depth, guint16 gap,
+		guint8 flags, guint8 zero)
+{
+	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_3d, 14);
+	GSF_LE_SET_GUINT16 (data, rotation);
+	GSF_LE_SET_GUINT16 (data+2, elevation);
+	GSF_LE_SET_GUINT16 (data+4, distance);
+	GSF_LE_SET_GUINT16 (data+6, height);
+	GSF_LE_SET_GUINT16 (data+8, depth);
+	GSF_LE_SET_GUINT16 (data+10, gap);
+	GSF_LE_SET_GUINT8 (data+12, flags);
+	GSF_LE_SET_GUINT8 (data+13, zero) ;
+	ms_biff_put_commit (s->bp);
+}
+
+static void
 chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 		guint8 ref_type)
 {
@@ -3171,6 +3225,7 @@ static void
 chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		  unsigned i, gboolean centered)
 {
+	g_return_if_fail (axis != NULL);
 	gboolean labeled, in, out, inverted = FALSE;
 	guint16 tick_color_index, flags = 0;
 	guint8 tmp, *data = ms_biff_put_len_next (s->bp, BIFF_CHART_axis, 18);
@@ -3410,6 +3465,10 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 			ms_biff_put_commit (s->bp);
 		} else 
 			ms_biff_put_empty (s->bp, BIFF_CHART_scatter);
+	} else if (0 == strcmp (type, "GogContourPlot") ||
+			0 == strcmp (type, "XLContourPlot")) {
+		ms_biff_put_2byte (s->bp, BIFF_CHART_surf, 1); /* we always use color fill at the moment */
+		chart_write_3d (s, 0, 90, 0, 100, 100, 150, 0x05, 0); /* these are default xl values */
 	} else {
 		g_warning ("unexpected plot type %s", type);
 	}
@@ -3475,6 +3534,12 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 					1, TRUE);
 			}
 		case GOG_AXIS_SET_XY_pseudo_3d :
+				chart_write_axis (s, axis_set->axis[GOG_AXIS_X],
+					0, FALSE);
+				chart_write_axis (s, axis_set->axis[GOG_AXIS_PSEUDO_3D],
+					1, FALSE);
+				chart_write_axis (s, axis_set->axis[GOG_AXIS_Y],
+					2, FALSE);
 			break;
 		case GOG_AXIS_SET_RADAR :
 			break;
@@ -3637,8 +3702,14 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	/* dump the associated series (skip any that we are dropping */
 	for (ptr = sets; ptr != NULL ; ptr = ptr->next)
 		for (plots = ((XLAxisSet *)ptr->data)->plots ; plots != NULL ; plots = plots->next)
-			for (series = gog_plot_get_series (plots->data) ; series != NULL ; series = series->next)
-				chart_write_series (&state, series->data, num_series++);
+			if (0 != strcmp (G_OBJECT_TYPE_NAME (plots->data), "GogContourPlot")) {
+				for (series = gog_plot_get_series (plots->data) ; series != NULL ; series = series->next)
+					chart_write_series (&state, series->data, num_series++);
+			} else {
+				/* we should have only one series there */
+				GogSeries *ser = GOG_SERIES (gog_plot_get_series (plots->data)->data);
+				g_object_get (G_OBJECT (plots->data), "transposed", &axis_set->transpose, NULL);
+			}
 
 	data = ms_biff_put_len_next (state.bp, BIFF_CHART_shtprops, 4);
 	GSF_LE_SET_GUINT32 (data + 0, 0xa);
