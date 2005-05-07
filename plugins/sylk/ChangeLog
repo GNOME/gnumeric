@@ -1,3 +1,8 @@
+2005-05-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* sylk.c: (sylk_file_open): use go_setlocale
+	instead of gnm_setlocale.
+
 2005-02-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.0
@@ -377,4 +382,3 @@
 	* Makefile.am, sylk.c, sylk-format.txt:
 	new SYLK file import plug-in.
 	Ultra simple, supports only cell values currently.
-
