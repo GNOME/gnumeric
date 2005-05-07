@@ -1751,21 +1751,21 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	input = maybe_convert (input, FALSE);
 	gsf_input_seek (input, 0, G_SEEK_SET);
 
-	old_num_locale = g_strdup (gnm_setlocale (LC_NUMERIC, NULL));
-	gnm_setlocale (LC_NUMERIC, "C");
-	old_monetary_locale = g_strdup (gnm_setlocale (LC_MONETARY, NULL));
-	gnm_setlocale (LC_MONETARY, "C");
-	gnm_set_untranslated_bools ();
+	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
+	go_setlocale (LC_NUMERIC, "C");
+	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
+	go_setlocale (LC_MONETARY, "C");
+	go_set_untranslated_bools ();
 
 	if (!gsf_xml_in_parse (&state.base, input))
 		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
 	else
 		workbook_queue_all_recalc (state.wb);
 
-	/* gnm_setlocale restores bools to locale translation */
-	gnm_setlocale (LC_MONETARY, old_monetary_locale);
+	/* go_setlocale restores bools to locale translation */
+	go_setlocale (LC_MONETARY, old_monetary_locale);
 	g_free (old_monetary_locale);
-	gnm_setlocale (LC_NUMERIC, old_num_locale);
+	go_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 
 	g_object_unref (input);

@@ -1,3 +1,13 @@
+2005-05-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/dialogs/dialog-about.c: (dialog_about): add NULL third arg
+	to go_data_vector_val_new and go_data_vector_str_new.
+	* src/stf-parse.c: use go_setlocale instead of gnm_setlocale.
+	* src/xml-io.c: (xml_workbook_write), (xml_workbook_read): ditto.
+	* src/xml-sax-read.c: (gnm_xml_file_open): ditto.
+	* src/xml-sax-write.c: (gnm_xml_file_save),
+	(gnm_cellregion_to_xml): ditto.
+
 2005-05-06  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook.c (workbook_sheet_move): Public again.  Fix docs.

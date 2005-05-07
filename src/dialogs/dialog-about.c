@@ -304,12 +304,12 @@ dialog_about (WorkbookControlGUI *wbcg)
 		NULL);
 	gog_object_add_by_name (chart, "Plot", GOG_OBJECT (plot));
 	series = gog_plot_new_series (plot);
-	labels = go_data_vector_str_new ( about_types, G_N_ELEMENTS (about_types));
+	labels = go_data_vector_str_new ( about_types, G_N_ELEMENTS (about_types), NULL);
 	go_data_vector_str_set_translation_domain (GO_DATA_VECTOR_STR (labels), NULL);
 	g_object_ref (labels); /* set_dim absorbs the ref, add an extra for next plot */
 	gog_series_set_dim (series, 0, labels, NULL);
 	state->individual_data = go_data_vector_val_new (
-		state->individual, G_N_ELEMENTS (state->individual));
+		state->individual, G_N_ELEMENTS (state->individual), NULL);
 	gog_series_set_dim (series, 1, state->individual_data, NULL);
 	GOG_STYLED_OBJECT (series)->style->outline.dash_type = GO_LINE_NONE;
 	GOG_STYLED_OBJECT (series)->style->outline.auto_dash = FALSE;
@@ -362,7 +362,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 	series = gog_plot_new_series (plot);
 	gog_series_set_dim (series, 0, labels, NULL);
 	state->contribs_data = go_data_vector_val_new (
-		state->contribs, G_N_ELEMENTS (state->contribs));
+		state->contribs, G_N_ELEMENTS (state->contribs), NULL);
 	gog_series_set_dim (series, 1, state->contribs_data, NULL);
 	GOG_STYLED_OBJECT (series)->style->outline.dash_type = GO_LINE_NONE;
 	GOG_STYLED_OBJECT (series)->style->outline.auto_dash = FALSE;

@@ -3346,11 +3346,11 @@ xml_workbook_write (XmlParseContext *ctxt)
 	xml_node_set_int (child, "Minor", GNM_VERSION_MINOR);
 	xml_node_set_cstr (child, "Full", GNUMERIC_VERSION);
 
-	old_num_locale = g_strdup (gnm_setlocale (LC_NUMERIC, NULL));
-	gnm_setlocale (LC_NUMERIC, "C");
-	old_monetary_locale = g_strdup (gnm_setlocale (LC_MONETARY, NULL));
-	gnm_setlocale (LC_MONETARY, "C");
-	gnm_set_untranslated_bools ();
+	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
+	go_setlocale (LC_NUMERIC, "C");
+	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
+	go_setlocale (LC_MONETARY, "C");
+	go_set_untranslated_bools ();
 
 	child = xml_write_wbv_attributes (ctxt);
 	if (child)
@@ -3415,10 +3415,10 @@ xml_workbook_write (XmlParseContext *ctxt)
 	xml_node_set_int    (child, "MaxIterations",      ctxt->wb->iteration.max_number);
 	xml_node_set_double (child, "IterationTolerance", ctxt->wb->iteration.tolerance, -1);
 
-	/* gnm_setlocale restores bools to locale translation */
-	gnm_setlocale (LC_MONETARY, old_monetary_locale);
+	/* go_setlocale restores bools to locale translation */
+	go_setlocale (LC_MONETARY, old_monetary_locale);
 	g_free (old_monetary_locale);
-	gnm_setlocale (LC_NUMERIC, old_num_locale);
+	go_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 
 	return cur;
@@ -3513,11 +3513,11 @@ xml_workbook_read (IOContext *context,
 		return FALSE;
 	}
 
-	old_num_locale = g_strdup (gnm_setlocale (LC_NUMERIC, NULL));
-	gnm_setlocale (LC_NUMERIC, "C");
-	old_monetary_locale = g_strdup (gnm_setlocale (LC_MONETARY, NULL));
-	gnm_setlocale (LC_MONETARY, "C");
-	gnm_set_untranslated_bools ();
+	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
+	go_setlocale (LC_NUMERIC, "C");
+	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
+	go_setlocale (LC_MONETARY, "C");
+	go_set_untranslated_bools ();
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("Summary"));
 	if (child)
@@ -3607,10 +3607,10 @@ xml_workbook_read (IOContext *context,
 			workbook_iteration_tolerance (ctxt->wb, d);
 	}
 
-	/* gnm_setlocale restores bools to locale translation */
-	gnm_setlocale (LC_MONETARY, old_monetary_locale);
+	/* go_setlocale restores bools to locale translation */
+	go_setlocale (LC_MONETARY, old_monetary_locale);
 	g_free (old_monetary_locale);
-	gnm_setlocale (LC_NUMERIC, old_num_locale);
+	go_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 
 	workbook_queue_all_recalc (ctxt->wb);
