@@ -1,3 +1,12 @@
+2005-04-23  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (excel_func_desc) : We do not need the VARARG vs
+	  FIXED flags anymore min_args vs max_args is enough.  Replace both
+	  with XL_STD.
+	(make_function) : No need to generate warnings about VAR vs FIXED
+	* ms-formula-write.c (write_funcall) : Use max_args from the func
+	  descriptor
+
 2005-05-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (excel_chart_series_new), (ai), (series), (siindex),

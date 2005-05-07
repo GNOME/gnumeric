@@ -3,9 +3,12 @@
 /*
  * ms-obj.c: MS Excel Object support for Gnumeric
  *
- * Copyright (C) 2000-2004
- *	Jody Goldberg (jody@gnome.org)
- *	Michael Meeks (mmeeks@gnu.org)
+ * Authors:
+ *    Jody Goldberg (jody@gnome.org)
+ *    Michael Meeks (michael@ximian.com)
+ *
+ * (C) 1998-2001 Michael Meeks
+ * (C) 2002-2005 Jody Goldberg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

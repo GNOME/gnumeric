@@ -1,14 +1,17 @@
-#ifndef GNUMERIC_EXCEL_BIFF_H
-#define GNUMERIC_EXCEL_BIFF_H
+/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef GNM_EXCEL_BIFF_H
+#define GNM_EXCEL_BIFF_H
 
 /**
  * ms-excel-biff.h: MS Excel BIFF header for Gnumeric
  * contains data about the Excel BIFF records
  *
- * Author:
+ * Authors:
+ *    Jody Goldberg (jody@gnome.org)
  *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998, 1999, 2000 Michael Meeks
+ * (C) 1998-2001 Michael Meeks
+ * (C) 2002-2005 Jody Goldberg
  **/
 
 #include "excel.h"
@@ -80,4 +83,4 @@ extern void           free_ms_biff_bof_data (MsBiffBofData *data) ;
 
 #include "biff-types.h"
 
-#endif
+#endif /* GNM_EXCEL_BIFF_H */

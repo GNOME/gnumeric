@@ -1,5 +1,16 @@
-#ifndef MS_OFFICE_CONTAINER_H
-#define MS_OFFICE_CONTAINER_H
+/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef GNM_EXCEL_CONTAINER_H
+#define GNM_EXCEL_CONTAINER_H
+
+/**
+ * ms-container.h: A meta container to handle object import for charts,
+ * 		workbooks and sheets.
+ *
+ * Author:
+ *    Jody Goldberg (jody@gnome.org)
+ *
+ * (C) 2000-2005 Jody Goldberg
+ **/
 
 #include "excel.h"
 #include "ms-biff.h"
@@ -54,11 +65,11 @@ void	       ms_container_realize_objs (MSContainer *c);
 GnmExpr	const *ms_container_parse_expr   (MSContainer *c,
 					  guint8 const *data, int length);
 
-Sheet       *ms_container_sheet	    (MSContainer const *c);
-GOFormat	*ms_container_get_fmt	 (MSContainer const *c, unsigned indx);
-PangoAttrList	*ms_container_get_markup (MSContainer const *c, unsigned indx);
+Sheet		*ms_container_sheet	  (MSContainer const *c);
+GOFormat	*ms_container_get_fmt	  (MSContainer const *c, unsigned indx);
+PangoAttrList	*ms_container_get_markup  (MSContainer const *c, unsigned indx);
 PangoAttrList	*ms_container_read_markup (MSContainer const *c,
 					   guint8 const *data, int txo_len,
 					   char const *str);
 
-#endif /* MS_OFFICE_CONTAINER_H */
+#endif /* GNM_EXCEL_CONTAINER_H */

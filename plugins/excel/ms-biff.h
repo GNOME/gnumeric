@@ -1,13 +1,16 @@
+/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * ms-biff.h: MS Excel BIFF support for Gnumeric
  *
- * Author:
+ * Authors:
+ *    Jody Goldberg (jody@gnome.org)
  *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998-2002 Michael Meeks
+ * (C) 1998-2001 Michael Meeks
+ * (C) 2002-2005 Jody Goldberg
  **/
-#ifndef GNUMERIC_BIFF_H
-#define GNUMERIC_BIFF_H
+#ifndef GNM_BIFF_H
+#define GNM_BIFF_H
 
 #include <gsf/gsf.h>
 #include "rc4.h"
@@ -113,4 +116,4 @@ void     ms_biff_put_2byte   (BiffPut *bp, guint16 opcode, guint16 data);
 
 unsigned ms_biff_max_record_len (BiffPut const *bp);
 
-#endif /* GNUMERIC_BIFF_H */
+#endif /* GNM_BIFF_H */

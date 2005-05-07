@@ -2,11 +2,12 @@
 /*
  * ms-formula-read.c: MS Excel -> Gnumeric formula conversion
  *
- * Author:
- *    Michael Meeks (michael@ximian.com)
+ * Authors:
  *    Jody Goldberg (jody@gnome.org)
+ *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998-2004 Michael Meeks, Jody Goldberg
+ * (C) 1998-2001 Michael Meeks
+ * (C) 2002-2005 Jody Goldberg
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
@@ -37,151 +38,151 @@
 #endif
 
 ExcelFuncDesc const excel_func_desc [] = {
-/* 0 */	  { "COUNT",		 0, 30, XL_VARARG, 1, 'V', "R" },
-/* 1 */	  { "IF",		 2,  3, XL_VARARG, 3, 'V', "VRR" },
-/* 2 */	  { "ISNA",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 3 */	  { "ISERROR",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 4 */	  { "SUM",		 0, 30, XL_VARARG, 1, 'V', "R" },
-/* 5 */	  { "AVERAGE",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 6 */	  { "MIN",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 7 */	  { "MAX",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 8 */	  { "ROW",		 0,  1, XL_VARARG, 1, 'V', "R" },
-/* 9 */	  { "COLUMN",		 0,  1, XL_VARARG, 1, 'V', "R" },
+/* 0 */	  { "COUNT",		 0, 30, XL_STD, 1, 'V', "R" },
+/* 1 */	  { "IF",		 2,  3, XL_STD, 3, 'V', "VRR" },
+/* 2 */	  { "ISNA",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 3 */	  { "ISERROR",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 4 */	  { "SUM",		 0, 30, XL_STD, 1, 'V', "R" },
+/* 5 */	  { "AVERAGE",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 6 */	  { "MIN",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 7 */	  { "MAX",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 8 */	  { "ROW",		 0,  1, XL_STD, 1, 'V', "R" },
+/* 9 */	  { "COLUMN",		 0,  1, XL_STD, 1, 'V', "R" },
 
-/* 10 */  { "NA",		 0,  0, XL_FIXED,  0, 'V', 0 },
-/* 11 */  { "NPV",		 2, 30, XL_VARARG, 2, 'V', "VR" },
-/* 12 */  { "STDEV",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 13 */  { "DOLLAR",		 1,  2, XL_VARARG, 1, 'V', "V" },
-/* 14 */  { "FIXED",		 2,  3, XL_VARARG, 3, 'V', "VVV" }, /*pre biff4 VV and fixed */
-/* 15 */  { "SIN",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 16 */  { "COS",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 17 */  { "TAN",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 18 */  { "ATAN",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 19 */  { "PI",		 0,  0, XL_FIXED,  0, 'V', 0 },
+/* 10 */  { "NA",		 0,  0, XL_STD,  0, 'V', 0 },
+/* 11 */  { "NPV",		 2, 30, XL_STD, 2, 'V', "VR" },
+/* 12 */  { "STDEV",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 13 */  { "DOLLAR",		 1,  2, XL_STD, 1, 'V', "V" },
+/* 14 */  { "FIXED",		 2,  3, XL_STD, 3, 'V', "VVV" }, /*pre biff4 VV and fixed */
+/* 15 */  { "SIN",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 16 */  { "COS",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 17 */  { "TAN",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 18 */  { "ATAN",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 19 */  { "PI",		 0,  0, XL_STD,  0, 'V', 0 },
 
-/* 20 */  { "SQRT",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 21 */  { "EXP",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 22 */  { "LN",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 23 */  { "LOG10",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 24 */  { "ABS",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 25 */  { "INT",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 26 */  { "SIGN",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 27 */  { "ROUND",		 2,  2, XL_FIXED,  2, 'V', "VV" },
-/* 28 */  { "LOOKUP",		 2,  3, XL_VARARG, 2, 'V', "VR" },
-/* 29 */  { "INDEX", 		 2,  4, XL_VOLATILE |XL_VARARG, 4, 'R', "RVVV" },	/* array form has only 3 */
+/* 20 */  { "SQRT",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 21 */  { "EXP",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 22 */  { "LN",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 23 */  { "LOG10",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 24 */  { "ABS",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 25 */  { "INT",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 26 */  { "SIGN",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 27 */  { "ROUND",		 2,  2, XL_STD,  2, 'V', "VV" },
+/* 28 */  { "LOOKUP",		 2,  3, XL_STD, 2, 'V', "VR" },
+/* 29 */  { "INDEX", 		 2,  4, XL_VOLATILE, 4, 'R', "RVVV" },	/* array form has only 3 */
 
-/* 30 */  { "REPT",		 2,  2, XL_FIXED,  2, 'V', "VV" },
-/* 31 */  { "MID",		 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 32 */  { "LEN",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 33 */  { "VALUE",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 34 */  { "TRUE",		 0,  0, XL_FIXED,  0, 'V', 0 },
-/* 35 */  { "FALSE",		 0,  0, XL_FIXED,  0, 'V', 0 },
-/* 36 */  { "AND",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 37 */  { "OR",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 38 */  { "NOT",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 39 */  { "MOD",		 2,  2, XL_FIXED,  2, 'V', "VV" },
+/* 30 */  { "REPT",		 2,  2, XL_STD,  2, 'V', "VV" },
+/* 31 */  { "MID",		 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 32 */  { "LEN",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 33 */  { "VALUE",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 34 */  { "TRUE",		 0,  0, XL_STD,  0, 'V', 0 },
+/* 35 */  { "FALSE",		 0,  0, XL_STD,  0, 'V', 0 },
+/* 36 */  { "AND",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 37 */  { "OR",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 38 */  { "NOT",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 39 */  { "MOD",		 2,  2, XL_STD,  2, 'V', "VV" },
 
-/* 40 */  { "DCOUNT",		 3,  3, XL_FIXED,  3, 'V', "RRR" },
-/* 41 */  { "DSUM",		 3,  3, XL_FIXED,  3, 'V', "RRR" },
-/* 42 */  { "DAVERAGE",		 3,  3, XL_FIXED,  3, 'V', "RRR" },
-/* 43 */  { "DMIN",		 3,  3, XL_FIXED,  3, 'V', "RRR" },
-/* 44 */  { "DMAX",		 3,  3, XL_FIXED,  3, 'V', "RRR" },
-/* 45 */  { "DSTDEV",		 3,  3, XL_FIXED,  3, 'V', "RRR" },
-/* 46 */  { "VAR",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 47 */  { "DVAR",		 3,  3, XL_FIXED,  3, 'V', "RRR" },
-/* 48 */  { "TEXT",		 2,  2, XL_FIXED,  2, 'V', "VV" },
-/* 49 */  { "LINEST",		 1,  4, XL_VARARG, 4, 'A', "RRVV" },	/*pre biff3 RR */
+/* 40 */  { "DCOUNT",		 3,  3, XL_STD,  3, 'V', "RRR" },
+/* 41 */  { "DSUM",		 3,  3, XL_STD,  3, 'V', "RRR" },
+/* 42 */  { "DAVERAGE",		 3,  3, XL_STD,  3, 'V', "RRR" },
+/* 43 */  { "DMIN",		 3,  3, XL_STD,  3, 'V', "RRR" },
+/* 44 */  { "DMAX",		 3,  3, XL_STD,  3, 'V', "RRR" },
+/* 45 */  { "DSTDEV",		 3,  3, XL_STD,  3, 'V', "RRR" },
+/* 46 */  { "VAR",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 47 */  { "DVAR",		 3,  3, XL_STD,  3, 'V', "RRR" },
+/* 48 */  { "TEXT",		 2,  2, XL_STD,  2, 'V', "VV" },
+/* 49 */  { "LINEST",		 1,  4, XL_STD, 4, 'A', "RRVV" },	/*pre biff3 RR */
 
-/* 50 */  { "TREND",		 1,  4, XL_VARARG, 4, 'A', "RRRV" },	/*pre biff3 RRR */
-/* 51 */  { "LOGEST",		 1,  4, XL_VARARG, 4, 'A', "RRVV" },	/*pre biff3 RR */
-/* 52 */  { "GROWTH",		 1,  4, XL_VARARG, 4, 'A', "RRRV" },	/*pre biff3 RRR */
+/* 50 */  { "TREND",		 1,  4, XL_STD, 4, 'A', "RRRV" },	/*pre biff3 RRR */
+/* 51 */  { "LOGEST",		 1,  4, XL_STD, 4, 'A', "RRVV" },	/*pre biff3 RR */
+/* 52 */  { "GROWTH",		 1,  4, XL_STD, 4, 'A', "RRRV" },	/*pre biff3 RRR */
 /* 53 */  { "GOTO",		-1, -1, XL_XLM },
 /* 54 */  { "HALT",		-1, -1, XL_XLM },
 /* 55 */  { "RETURN",		-1, -1, XL_XLM },
-/* 56 */  { "PV",		 3,  5, XL_VARARG, 5, 'V', "VVVVV" },	/* type is optional */
-/* 57 */  { "FV",		 3,  5, XL_VARARG, 5, 'V', "VVVVV" },	/* type is optional */
-/* 58 */  { "NPER",		 3,  5, XL_VARARG, 5, 'V', "VVVVV" },	/* type is optional */
-/* 59 */  { "PMT",		 3,  5, XL_VARARG, 5, 'V', "VVVVV" },	/* type is optional */
+/* 56 */  { "PV",		 3,  5, XL_STD, 5, 'V', "VVVVV" },	/* type is optional */
+/* 57 */  { "FV",		 3,  5, XL_STD, 5, 'V', "VVVVV" },	/* type is optional */
+/* 58 */  { "NPER",		 3,  5, XL_STD, 5, 'V', "VVVVV" },	/* type is optional */
+/* 59 */  { "PMT",		 3,  5, XL_STD, 5, 'V', "VVVVV" },	/* type is optional */
 
-/* 60 */  { "RATE",		 3,  6, XL_VARARG, 6, 'V', "VVVVVV" },	/* guess is optional */
-/* 61 */  { "MIRR",		 3,  3, XL_FIXED,  3, 'V', "RVV" },
-/* 62 */  { "IRR",		 1,  2, XL_VARARG, 2, 'V', "RV" },	/* guess is optional */
-/* 63 */  { "RAND", 		 0,  0, XL_VOLATILE | XL_FIXED,  0, 'V',  0 },
-/* 64 */  { "MATCH",		 2,  3, XL_VARARG, 3, 'V', "VRR" },	/* match_type is optional */
-/* 65 */  { "DATE",		 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 66 */  { "TIME",		 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 67 */  { "DAY",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 68 */  { "MONTH",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 69 */  { "YEAR",		 1,  1, XL_FIXED,  1, 'V', "V" },
+/* 60 */  { "RATE",		 3,  6, XL_STD, 6, 'V', "VVVVVV" },	/* guess is optional */
+/* 61 */  { "MIRR",		 3,  3, XL_STD,  3, 'V', "RVV" },
+/* 62 */  { "IRR",		 1,  2, XL_STD, 2, 'V', "RV" },	/* guess is optional */
+/* 63 */  { "RAND", 		 0,  0, XL_VOLATILE,  0, 'V',  0 },
+/* 64 */  { "MATCH",		 2,  3, XL_STD, 3, 'V', "VRR" },	/* match_type is optional */
+/* 65 */  { "DATE",		 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 66 */  { "TIME",		 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 67 */  { "DAY",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 68 */  { "MONTH",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 69 */  { "YEAR",		 1,  1, XL_STD,  1, 'V', "V" },
 
-/* 70 */  { "WEEKDAY",		 1,  2, XL_VARARG, 2, 'V', "VV" }, /* Return type added in biff5/7 */
-/* 71 */  { "HOUR",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 72 */  { "MINUTE",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 73 */  { "SECOND",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 74 */  { "NOW",  		 0,  0, XL_VOLATILE | XL_FIXED,  0, 'V',  0 },
-/* 75 */  { "AREAS",		 1,  1, XL_FIXED,  1, 'V', "R" },
-/* 76 */  { "ROWS",		 1,  1, XL_FIXED,  1, 'V', "R" },
-/* 77 */  { "COLUMNS",		 1,  1, XL_FIXED,  1, 'V', "R" },
-/* 78 */  { "OFFSET",		 3,  5, XL_VARARG, 5, 'R', "RVVVV" },
+/* 70 */  { "WEEKDAY",		 1,  2, XL_STD, 2, 'V', "VV" }, /* Return type added in biff5/7 */
+/* 71 */  { "HOUR",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 72 */  { "MINUTE",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 73 */  { "SECOND",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 74 */  { "NOW",  		 0,  0, XL_VOLATILE,  0, 'V',  0 },
+/* 75 */  { "AREAS",		 1,  1, XL_STD,  1, 'V', "R" },
+/* 76 */  { "ROWS",		 1,  1, XL_STD,  1, 'V', "R" },
+/* 77 */  { "COLUMNS",		 1,  1, XL_STD,  1, 'V', "R" },
+/* 78 */  { "OFFSET",		 3,  5, XL_STD, 5, 'R', "RVVVV" },
 /* 79 */  { "ABSREF",		-1, -1, XL_XLM,	   2 },
 
 /* 80 */  { "RELREF",		-1, -1, XL_XLM },
 /* 81 */  { "ARGUMENT",		-1, -1, XL_XLM },
-/* 82 */  { "SEARCH",		 2,  3, XL_VARARG, 3, 'V', "VVV" },	/* Start_num is optional */
-/* 83 */  { "TRANSPOSE",	 1,  1, XL_FIXED,  1, 'A', "A" },
+/* 82 */  { "SEARCH",		 2,  3, XL_STD, 3, 'V', "VVV" },	/* Start_num is optional */
+/* 83 */  { "TRANSPOSE",	 1,  1, XL_STD,  1, 'A', "A" },
 /* 84 */  { "ERROR",		-1, -1, XL_XLM },
 /* 85 */  { "STEP",		-1, -1, XL_XLM },
-/* 86 */  { "TYPE",		 1,  1, XL_FIXED,  1, 'V', "V" },
+/* 86 */  { "TYPE",		 1,  1, XL_STD,  1, 'V', "V" },
 /* 87 */  { "ECHO",		-1, -1, XL_XLM },
 /* 88 */  { "SETNAME",		-1, -1, XL_XLM },
 /* 89 */  { "CALLER",		-1, -1, XL_XLM },
 
 /* 90 */  { "DEREF",		-1, -1, XL_XLM },
 /* 91 */  { "WINDOWS",		-1, -1, XL_XLM },
-/* 92 */  { "SERIESSUM",	 4,  4, XL_FIXED,  4, 'V', "VVVA" },	/* Renamed from SERIES */
+/* 92 */  { "SERIESSUM",	 4,  4, XL_STD,  4, 'V', "VVVA" },	/* Renamed from SERIES */
 /* 93 */  { "DOCUMENTS",	-1, -1, XL_XLM },
 /* 94 */  { "ACTIVE.CELL",	-1, -1, XL_XLM },
 /* 95 */  { "SELECTION",	-1, -1, XL_XLM },
 /* 96 */  { "RESULT",		-1, -1, XL_XLM },
-/* 97 */  { "ATAN2",		 2,  2, XL_FIXED,  2, 'V', "VV" },
-/* 98 */  { "ASIN",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 99 */  { "ACOS",		 1,  1, XL_FIXED,  1, 'V', "V" },
+/* 97 */  { "ATAN2",		 2,  2, XL_STD,  2, 'V', "VV" },
+/* 98 */  { "ASIN",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 99 */  { "ACOS",		 1,  1, XL_STD,  1, 'V', "V" },
 
-/* 100 */ { "CHOOSE",		 2, 30, XL_VARARG, 2, 'V', "VR" },
-/* 101 */ { "HLOOKUP",		 3,  4, XL_VARARG, 4, 'V', "VRRV" },	/* pre biff5/7 it was VRR */
-/* 102 */ { "VLOOKUP",		 3,  4, XL_VARARG, 4, 'V', "VRRV" },	/* pre biff5/7 it was VRR */
+/* 100 */ { "CHOOSE",		 2, 30, XL_STD, 2, 'V', "VR" },
+/* 101 */ { "HLOOKUP",		 3,  4, XL_STD, 4, 'V', "VRRV" },	/* pre biff5/7 it was VRR */
+/* 102 */ { "VLOOKUP",		 3,  4, XL_STD, 4, 'V', "VRRV" },	/* pre biff5/7 it was VRR */
 /* 103 */ { "LINKS",		-1, -1, XL_XLM },
 /* 104 */ { "INPUT",		-1, -1, XL_XLM },
-/* 105 */ { "ISREF",		 1,  1, XL_FIXED,  1, 'V', "R" },	/* This a guess */
+/* 105 */ { "ISREF",		 1,  1, XL_STD,  1, 'V', "R" },	/* This a guess */
 /* 106 */ { "GET.FORMULA",	-1, -1, XL_XLM },
 /* 107 */ { "GET.NAME",		-1, -1, XL_XLM },
 /* 108 */ { "SET.VALUE",	-1, -1, XL_XLM },
-/* 109 */ { "LOG",		 1,  2, XL_VARARG, 2, 'V', "VV" },	/* Base is optional */
+/* 109 */ { "LOG",		 1,  2, XL_STD, 2, 'V', "VV" },	/* Base is optional */
 
 /* 110 */ { "EXEC",		-1, -1, XL_XLM },
-/* 111 */ { "CHAR",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 112 */ { "LOWER",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 113 */ { "UPPER",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 114 */ { "PROPER",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 115 */ { "LEFT",		 1,  2, XL_VARARG, 2, 'V', "VV" },    /* Num_chars is optional */
-/* 116 */ { "RIGHT",		 1,  2, XL_VARARG, 2, 'V', "VV" },    /* Num_chars is optional */
-/* 117 */ { "EXACT",		 2,  2, XL_FIXED,  2, 'V', "VV" },
-/* 118 */ { "TRIM",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 119 */ { "REPLACE",		 4,  4, XL_FIXED,  4, 'V', "VVVV" },
+/* 111 */ { "CHAR",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 112 */ { "LOWER",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 113 */ { "UPPER",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 114 */ { "PROPER",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 115 */ { "LEFT",		 1,  2, XL_STD, 2, 'V', "VV" },    /* Num_chars is optional */
+/* 116 */ { "RIGHT",		 1,  2, XL_STD, 2, 'V', "VV" },    /* Num_chars is optional */
+/* 117 */ { "EXACT",		 2,  2, XL_STD,  2, 'V', "VV" },
+/* 118 */ { "TRIM",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 119 */ { "REPLACE",		 4,  4, XL_STD,  4, 'V', "VVVV" },
 
-/* 120 */ { "SUBSTITUTE",	 3,  4, XL_VARARG, 4, 'V', "VVVV" },    /* Instance num is optional */
-/* 121 */ { "CODE",		 1,  1, XL_FIXED,  1, 'V', "V" },
+/* 120 */ { "SUBSTITUTE",	 3,  4, XL_STD, 4, 'V', "VVVV" },    /* Instance num is optional */
+/* 121 */ { "CODE",		 1,  1, XL_STD,  1, 'V', "V" },
 /* 122 */ { "NAMES",		-1, -1, XL_XLM },
 /* 123 */ { "DIRECTORY",	-1, -1, XL_XLM },
-/* 124 */ { "FIND",		 2,  3, XL_VARARG, 3, 'V', "VVV" },/* start_num is optional */
-/* 125 */ { "CELL",		 1,  2, XL_VOLATILE | XL_VARARG, 2, 'V', "VR" },
-/* 126 */ { "ISERR",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 127 */ { "ISTEXT",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 128 */ { "ISNUMBER",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 129 */ { "ISBLANK",		 1,  1, XL_FIXED,  1, 'V', "V" },
+/* 124 */ { "FIND",		 2,  3, XL_STD, 3, 'V', "VVV" },/* start_num is optional */
+/* 125 */ { "CELL",		 1,  2, XL_VOLATILE, 2, 'V', "VR" },
+/* 126 */ { "ISERR",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 127 */ { "ISTEXT",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 128 */ { "ISNUMBER",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 129 */ { "ISBLANK",		 1,  1, XL_STD,  1, 'V', "V" },
 
-/* 130 */ { "T",		 1,  1, XL_FIXED,  1, 'V', "R" },
-/* 131 */ { "N",		 1,  1, XL_FIXED,  1, 'V', "R" },
+/* 130 */ { "T",		 1,  1, XL_STD,  1, 'V', "R" },
+/* 131 */ { "N",		 1,  1, XL_STD,  1, 'V', "R" },
 /* 132 */ { "FOPEN",		-1, -1, XL_XLM },
 /* 133 */ { "FCLOSE",		-1, -1, XL_XLM },
 /* 134 */ { "FSIZE",		-1, -1, XL_XLM },
@@ -191,15 +192,15 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 138 */ { "FWRITE",		-1, -1, XL_XLM },
 /* 139 */ { "FPOS",		-1, -1, XL_XLM },
 
-/* 140 */ { "DATEVALUE",	 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 141 */ { "TIMEVALUE",	 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 142 */ { "SLN",		 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 143 */ { "SYD",		 4,  4, XL_FIXED,  4, 'V', "VVVV" },
-/* 144 */ { "DDB",		 4,  5, XL_VARARG, 5, 'V', "VVVVV" },	/* Factor is optional */
+/* 140 */ { "DATEVALUE",	 1,  1, XL_STD,  1, 'V', "V" },
+/* 141 */ { "TIMEVALUE",	 1,  1, XL_STD,  1, 'V', "V" },
+/* 142 */ { "SLN",		 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 143 */ { "SYD",		 4,  4, XL_STD,  4, 'V', "VVVV" },
+/* 144 */ { "DDB",		 4,  5, XL_STD, 5, 'V', "VVVVV" },	/* Factor is optional */
 /* 145 */ { "GET.DEF",		-1, -1, XL_XLM },
 /* 146 */ { "REFTEXT",		-1, -1, XL_XLM },
 /* 147 */ { "TEXTREF",		-1, -1, XL_XLM },
-/* 148 */ { "INDIRECT", 	 1,  2, XL_VOLATILE |XL_VARARG, 2, 'R', "VV" },	/* ai is optional */
+/* 148 */ { "INDIRECT", 	 1,  2, XL_VOLATILE, 2, 'R', "VV" },	/* ai is optional */
 /* 149 */ { "REGISTER",		-1, -1, XL_XLM },
 
 /* 150 */ { "CALL",		-1, -1, XL_XLM },
@@ -215,14 +216,14 @@ ExcelFuncDesc const excel_func_desc [] = {
 
 /* 160 */ { "GET.CHART.ITEM",	-1, -1, XL_XLM },
 /* 161 */ { "DIALOG.BOX",	-1, -1, XL_XLM },
-/* 162 */ { "CLEAN",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 163 */ { "MDETERM",		 1,  1, XL_FIXED,  1, 'V', "A" },
-/* 164 */ { "MINVERSE",		 1,  1, XL_FIXED,  1, 'A', "A" },
-/* 165 */ { "MMULT",		 2,  2, XL_FIXED,  2, 'A', "AA" },
+/* 162 */ { "CLEAN",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 163 */ { "MDETERM",		 1,  1, XL_STD,  1, 'V', "A" },
+/* 164 */ { "MINVERSE",		 1,  1, XL_STD,  1, 'A', "A" },
+/* 165 */ { "MMULT",		 2,  2, XL_STD,  2, 'A', "AA" },
 /* 166 */ { "FILES",		-1, -1, XL_XLM },
-/* 167 */ { "IPMT",		 4,  6, XL_VARARG, 6, 'V', "VVVVVV" },	/* Type is optional */
-/* 168 */ { "PPMT",		 4,  6, XL_VARARG, 6, 'V', "VVVVVV" },
-/* 169 */ { "COUNTA",		 0, 30, XL_VARARG, 1, 'V', "R" },
+/* 167 */ { "IPMT",		 4,  6, XL_STD, 6, 'V', "VVVVVV" },	/* Type is optional */
+/* 168 */ { "PPMT",		 4,  6, XL_STD, 6, 'V', "VVVVVV" },
+/* 169 */ { "COUNTA",		 0, 30, XL_STD, 1, 'V', "R" },
 
 /* 170 */ { "CANCELKEY", 	-1, -1, XL_XLM },
 /* 171 */ { "FOR",		-1, -1, XL_XLM },
@@ -238,66 +239,66 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 180 */ { "RESTART",		-1, -1, XL_XLM },
 /* 181 */ { "HELP",		-1, -1, XL_XLM },
 /* 182 */ { "GET.BAR",		-1, -1, XL_XLM },
-/* 183 */ { "PRODUCT",		 0, 30, XL_VARARG, 1, 'V', "R" },
-/* 184 */ { "FACT",		 1,  1, XL_FIXED,  1, 'V', "V" },
+/* 183 */ { "PRODUCT",		 0, 30, XL_STD, 1, 'V', "R" },
+/* 184 */ { "FACT",		 1,  1, XL_STD,  1, 'V', "V" },
 /* 185 */ { "GET.CELL",		-1, -1, XL_XLM },
 /* 186 */ { "GET.WORKSPACE",	-1, -1, XL_XLM },
 /* 187 */ { "GET.WINDOW",	-1, -1, XL_XLM },
 /* 188 */ { "GET.DOCUMENT",	-1, -1, XL_XLM },
-/* 189 */ { "DPRODUCT",		 3,  3, XL_FIXED,  3, 'V', "RRR" },
+/* 189 */ { "DPRODUCT",		 3,  3, XL_STD,  3, 'V', "RRR" },
 
-/* 190 */ { "ISNONTEXT",	 1,  1, XL_FIXED,  1, 'V', "V" },
+/* 190 */ { "ISNONTEXT",	 1,  1, XL_STD,  1, 'V', "V" },
 /* 191 */ { "GET.NOTE",		-1, -1, XL_XLM },
 /* 192 */ { "NOTE",		-1, -1, XL_XLM },
-/* 193 */ { "STDEVP",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 194 */ { "VARP",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 195 */ { "DSTDEVP",		 3,  3, XL_FIXED,  3, 'V', "RRR" },
-/* 196 */ { "DVARP",		 3,  3, XL_FIXED,  3, 'V', "RRR" },
-/* 197 */ { "TRUNC",		 1,  2, XL_VARARG, 2, 'V', "VV" },      /* pre-biff3 it was 'V' */
-/* 198 */ { "ISLOGICAL",	 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 199 */ { "DCOUNTA",		 3,  3, XL_FIXED,  3, 'V', "RRR" },
+/* 193 */ { "STDEVP",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 194 */ { "VARP",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 195 */ { "DSTDEVP",		 3,  3, XL_STD,  3, 'V', "RRR" },
+/* 196 */ { "DVARP",		 3,  3, XL_STD,  3, 'V', "RRR" },
+/* 197 */ { "TRUNC",		 1,  2, XL_STD, 2, 'V', "VV" },      /* pre-biff3 it was 'V' */
+/* 198 */ { "ISLOGICAL",	 1,  1, XL_STD,  1, 'V', "V" },
+/* 199 */ { "DCOUNTA",		 3,  3, XL_STD,  3, 'V', "RRR" },
 
 /* 200 */ { "DELETE.BAR",	-1, -1, XL_XLM },
 /* 201 */ { "UNREGISTER",	-1, -1, XL_XLM },
 /* 202 */ { "EXCELFUNC202",	-1, -1, XL_UNKNOWN },
 /* 203 */ { "EXCELFUNC203",	-1, -1, XL_UNKNOWN },
-/* 204 */ { "USDOLLAR",		 1,  2, XL_VARARG, 2, 'V', "VV" },
-/* 205 */ { "FINDB",		 2,  3, XL_VARARG, 3, 'V', "VVV" },	/* start_num is optional */
-/* 206 */ { "SEARCHB",		 2,  3, XL_VARARG, 3, 'V', "VVV" },	/* Start_num is optional */
-/* 207 */ { "REPLACEB",		 4,  4, XL_FIXED,  4, 'V', "VVVV" },
-/* 208 */ { "LEFTB",		 1,  2, XL_VARARG, 2, 'V', "VV" },	/* Num_chars is optional */
-/* 209 */ { "RIGHTB",		 1,  2, XL_VARARG, 2, 'V', "VV" },	/* Num_chars is optional */
+/* 204 */ { "USDOLLAR",		 1,  2, XL_STD, 2, 'V', "VV" },
+/* 205 */ { "FINDB",		 2,  3, XL_STD, 3, 'V', "VVV" },	/* start_num is optional */
+/* 206 */ { "SEARCHB",		 2,  3, XL_STD, 3, 'V', "VVV" },	/* Start_num is optional */
+/* 207 */ { "REPLACEB",		 4,  4, XL_STD,  4, 'V', "VVVV" },
+/* 208 */ { "LEFTB",		 1,  2, XL_STD, 2, 'V', "VV" },	/* Num_chars is optional */
+/* 209 */ { "RIGHTB",		 1,  2, XL_STD, 2, 'V', "VV" },	/* Num_chars is optional */
 
-/* 210 */ { "MIDB",		 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 211 */ { "LENB",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 212 */ { "ROUNDUP",		 2,  2, XL_FIXED,  2, 'V', "VV" },
-/* 213 */ { "ROUNDDOWN",	 2,  2, XL_FIXED,  2, 'V', "VV" },
-/* 214 */ { "ASC",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 215 */ { "DBCS",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 216 */ { "RANK",		 2,  3, XL_VARARG, 3, 'V', "VRV" },	/* OOo claims added in biff4 */
+/* 210 */ { "MIDB",		 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 211 */ { "LENB",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 212 */ { "ROUNDUP",		 2,  2, XL_STD,  2, 'V', "VV" },
+/* 213 */ { "ROUNDDOWN",	 2,  2, XL_STD,  2, 'V', "VV" },
+/* 214 */ { "ASC",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 215 */ { "DBCS",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 216 */ { "RANK",		 2,  3, XL_STD, 3, 'V', "VRV" },	/* OOo claims added in biff4 */
 /* 217 */ { "EXCELFUNC217",	-1, -1, XL_UNKNOWN },
 /* 218 */ { "EXCELFUNC218",	-1, -1, XL_UNKNOWN },
 
 /* added in biff3 */
-/* 219 */ { "ADDRESS",		 2,  5, XL_VARARG, 5, 'V', "VVVVV" },
+/* 219 */ { "ADDRESS",		 2,  5, XL_STD, 5, 'V', "VVVVV" },
 
-/* 220 */ { "DAYS360",		 2,  3, XL_VARARG, 3, 'V', "VVV" },	/* pre-biff5/7 VV */
-/* 221 */ { "TODAY", 		 0,  0, XL_VOLATILE |XL_FIXED,  0, 'V', 0 },
-/* 222 */ { "VDB",		 5,  7, XL_VARARG, 7, 'V', "VVVVVVV" },
+/* 220 */ { "DAYS360",		 2,  3, XL_STD, 3, 'V', "VVV" },	/* pre-biff5/7 VV */
+/* 221 */ { "TODAY", 		 0,  0, XL_VOLATILE,  0, 'V', 0 },
+/* 222 */ { "VDB",		 5,  7, XL_STD, 7, 'V', "VVVVVVV" },
 /* 223 */ { "ELSE",		-1, -1, XL_XLM },
 /* 224 */ { "ELSE.IF",		-1, -1, XL_XLM },
 /* 225 */ { "END.IF",		-1, -1, XL_XLM },
 /* 226 */ { "FOR.CELL",		-1, -1, XL_XLM },
-/* 227 */ { "MEDIAN",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 228 */ { "SUMPRODUCT",	 1, 30, XL_VARARG, 1, 'V', "A" },
-/* 229 */ { "SINH",		 1,  1, XL_FIXED,  1, 'V', "V" },
+/* 227 */ { "MEDIAN",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 228 */ { "SUMPRODUCT",	 1, 30, XL_STD, 1, 'V', "A" },
+/* 229 */ { "SINH",		 1,  1, XL_STD,  1, 'V', "V" },
 
-/* 230 */ { "COSH",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 231 */ { "TANH",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 232 */ { "ASINH",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 233 */ { "ACOSH",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 234 */ { "ATANH",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 235 */ { "DGET",		 3,  3, XL_FIXED,  3, 'V', "RRR" },
+/* 230 */ { "COSH",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 231 */ { "TANH",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 232 */ { "ASINH",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 233 */ { "ACOSH",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 234 */ { "ATANH",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 235 */ { "DGET",		 3,  3, XL_STD,  3, 'V', "RRR" },
 /* 236 */ { "CREATE.OBJECT",	-1, -1, XL_XLM },
 /* 237 */ { "VOLATILE", 	-1, -1, XL_XLM },
 /* 238 */ { "LAST.ERROR", 	-1, -1, XL_XLM },
@@ -307,18 +308,18 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 241 */ { "FORMULA.CONVERT",	-1, -1, XL_XLM },
 /* 242 */ { "GET.LINK.INFO",	-1, -1, XL_XLM },
 /* 243 */ { "TEXT.BOX", 	-1, -1, XL_XLM },
-/* 244 */ { "INFO",		 1,  1, XL_FIXED, 1, 'V', "V" },
+/* 244 */ { "INFO",		 1,  1, XL_STD, 1, 'V', "V" },
 /* 245 */ { "GROUP",		-1, -1, XL_XLM },
 /* 246 */ { "GET.OBJECT",	-1, -1, XL_XLM },
 
 /* added in biff4 */
-/* 247 */ { "DB",		 4,  5, XL_VARARG, 5, 'V',"VVVVV" },	/* month is optional */
+/* 247 */ { "DB",		 4,  5, XL_STD, 5, 'V',"VVVVV" },	/* month is optional */
 /* 248 */ { "PAUSE",		-1, -1, XL_XLM },
 /* 249 */ { "EXCELFUNC249",	-1, -1, XL_UNKNOWN },
 
 /* 250 */ { "EXCELFUNC250",	-1, -1, XL_UNKNOWN },
 /* 251 */ { "RESUME",		-1, -1, XL_XLM },
-/* 252 */ { "FREQUENCY",	 2,  2, XL_FIXED,  2, 'A',"RR" },
+/* 252 */ { "FREQUENCY",	 2,  2, XL_STD,  2, 'A',"RR" },
 /* 253 */ { "ADD.TOOLBAR",	-1, -1, XL_XLM },
 /* 254 */ { "DELETE.TOOLBAR",	-1, -1, XL_XLM },
 /* 255 */ { "extension slot",	-1, -1, XL_MAGIC },
@@ -328,7 +329,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 259 */ { "GET.TOOL",		-1, -1, XL_XLM },
 
 /* 260 */ { "SPELLING.CHECK",	-1, -1, XL_XLM },
-/* 261 */ { "ERROR.TYPE",	 1,  1, XL_FIXED,  1, 'V', "V" },
+/* 261 */ { "ERROR.TYPE",	 1,  1, XL_STD,  1, 'V', "V" },
 /* 262 */ { "APP.TITLE",	-1, -1, XL_XLM },
 /* 263 */ { "WINDOW.TITLE",	-1, -1, XL_XLM },
 /* 264 */ { "SAVE.TOOLBAR",	-1, -1, XL_XLM },
@@ -336,135 +337,136 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 266 */ { "PRESS.TOOL",	-1, -1, XL_XLM },
 /* 267 */ { "REGISTER.ID", 	-1, -1, XL_XLM },
 /* 268 */ { "GET.WORKBOOK",	-1, -1, XL_XLM },
-/* 269 */ { "AVEDEV",		 1, 30, XL_VARARG, 1, 'V', "R" },
+/* 269 */ { "AVEDEV",		 1, 30, XL_STD, 1, 'V', "R" },
 
-/* 270 */ { "BETADIST",		 3,  5, XL_VARARG, 1, 'V', "V" },
-/* 271 */ { "GAMMALN",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 272 */ { "BETAINV",		 3,  5, XL_VARARG, 1, 'V', "V" },
-/* 273 */ { "BINOMDIST",	 4,  4, XL_FIXED,  4, 'V', "VVVV" },
-/* 274 */ { "CHIDIST",		 2,  2, XL_FIXED,  2, 'V', "VV" },
-/* 275 */ { "CHIINV",		 2,  2, XL_FIXED,  2, 'V', "VV" },
-/* 276 */ { "COMBIN",		 2,  2, XL_FIXED,  2, 'V', "VV" },
-/* 277 */ { "CONFIDENCE",	 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 278 */ { "CRITBINOM",	 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 279 */ { "EVEN",		 1,  1, XL_FIXED,  1, 'V', "V" },
+/* 270 */ { "BETADIST",		 3,  5, XL_STD, 1, 'V', "V" },
+/* 271 */ { "GAMMALN",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 272 */ { "BETAINV",		 3,  5, XL_STD, 1, 'V', "V" },
+/* 273 */ { "BINOMDIST",	 4,  4, XL_STD,  4, 'V', "VVVV" },
+/* 274 */ { "CHIDIST",		 2,  2, XL_STD,  2, 'V', "VV" },
+/* 275 */ { "CHIINV",		 2,  2, XL_STD,  2, 'V', "VV" },
+/* 276 */ { "COMBIN",		 2,  2, XL_STD,  2, 'V', "VV" },
+/* 277 */ { "CONFIDENCE",	 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 278 */ { "CRITBINOM",	 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 279 */ { "EVEN",		 1,  1, XL_STD,  1, 'V', "V" },
 
-/* 280 */ { "EXPONDIST",	 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 281 */ { "FDIST",		 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 282 */ { "FINV",		 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 283 */ { "FISHER",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 284 */ { "FISHERINV",	 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 285 */ { "FLOOR",		 2,  2, XL_FIXED,  2, 'V', "VV" },
-/* 286 */ { "GAMMADIST",	 4,  4, XL_FIXED,  4, 'V', "VVVV" },
-/* 287 */ { "GAMMAINV",		 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 288 */ { "CEILING",		 2,  2, XL_FIXED,  2, 'V', "VV" },
-/* 289 */ { "HYPGEOMDIST",	 4,  4, XL_FIXED,  4, 'V', "VVVV" },
+/* 280 */ { "EXPONDIST",	 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 281 */ { "FDIST",		 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 282 */ { "FINV",		 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 283 */ { "FISHER",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 284 */ { "FISHERINV",	 1,  1, XL_STD,  1, 'V', "V" },
+/* 285 */ { "FLOOR",		 2,  2, XL_STD,  2, 'V', "VV" },
+/* 286 */ { "GAMMADIST",	 4,  4, XL_STD,  4, 'V', "VVVV" },
+/* 287 */ { "GAMMAINV",		 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 288 */ { "CEILING",		 2,  2, XL_STD,  2, 'V', "VV" },
+/* 289 */ { "HYPGEOMDIST",	 4,  4, XL_STD,  4, 'V', "VVVV" },
 
-/* 290 */ { "LOGNORMDIST",	 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 291 */ { "LOGINV",		 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 292 */ { "NEGBINOMDIST",	 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 293 */ { "NORMDIST",		 4,  4, XL_FIXED,  4, 'V', "VVVV" },
-/* 294 */ { "NORMSDIST",	 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 295 */ { "NORMINV",		 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 296 */ { "NORMSINV",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 297 */ { "STANDARDIZE",	 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 298 */ { "ODD",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 299 */ { "PERMUT",		 2,  2, XL_FIXED,  2, 'V', "VV" },
+/* 290 */ { "LOGNORMDIST",	 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 291 */ { "LOGINV",		 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 292 */ { "NEGBINOMDIST",	 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 293 */ { "NORMDIST",		 4,  4, XL_STD,  4, 'V', "VVVV" },
+/* 294 */ { "NORMSDIST",	 1,  1, XL_STD,  1, 'V', "V" },
+/* 295 */ { "NORMINV",		 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 296 */ { "NORMSINV",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 297 */ { "STANDARDIZE",	 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 298 */ { "ODD",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 299 */ { "PERMUT",		 2,  2, XL_STD,  2, 'V', "VV" },
 
-/* 300 */ { "POISSON",		 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 301 */ { "TDIST",		 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 302 */ { "WEIBULL",		 4,  4, XL_FIXED,  4, 'V', "VVVV" },
-/* 303 */ { "SUMXMY2",		 2,  2, XL_FIXED,  2, 'V', "AA" },
-/* 304 */ { "SUMX2MY2",		 2,  2, XL_FIXED,  2, 'V', "AA" },
-/* 305 */ { "SUMX2PY2",		 2,  2, XL_FIXED,  2, 'V', "AA" },
-/* 306 */ { "CHITEST",		 2,  2, XL_FIXED,  2, 'V', "AA" },
-/* 307 */ { "CORREL",		 2,  2, XL_FIXED,  2, 'V', "AA" },
-/* 308 */ { "COVAR",		 2,  2, XL_FIXED,  2, 'V', "AA" },
-/* 309 */ { "FORECAST",		 3,  3, XL_FIXED,  3, 'V', "VAA" },
+/* 300 */ { "POISSON",		 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 301 */ { "TDIST",		 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 302 */ { "WEIBULL",		 4,  4, XL_STD,  4, 'V', "VVVV" },
+/* 303 */ { "SUMXMY2",		 2,  2, XL_STD,  2, 'V', "AA" },
+/* 304 */ { "SUMX2MY2",		 2,  2, XL_STD,  2, 'V', "AA" },
+/* 305 */ { "SUMX2PY2",		 2,  2, XL_STD,  2, 'V', "AA" },
+/* 306 */ { "CHITEST",		 2,  2, XL_STD,  2, 'V', "AA" },
+/* 307 */ { "CORREL",		 2,  2, XL_STD,  2, 'V', "AA" },
+/* 308 */ { "COVAR",		 2,  2, XL_STD,  2, 'V', "AA" },
+/* 309 */ { "FORECAST",		 3,  3, XL_STD,  3, 'V', "VAA" },
                                       
-/* 310 */ { "FTEST",		 2,  2, XL_FIXED,  2, 'V', "AA" },
-/* 311 */ { "INTERCEPT",	 2,  2, XL_FIXED,  2, 'V', "AA" },
-/* 312 */ { "PEARSON",		 2,  2, XL_FIXED,  2, 'V', "AA" },
-/* 313 */ { "RSQ",		 2,  2, XL_FIXED,  2, 'V', "AA" },
-/* 314 */ { "STEYX",		 2,  2, XL_FIXED,  2, 'V', "AA" },
-/* 315 */ { "SLOPE",		 2,  2, XL_FIXED,  2, 'V', "AA" },
-/* 316 */ { "TTEST",		 4,  4, XL_FIXED,  4, 'V', "AAVV" },
-/* 317 */ { "PROB",		 3,  4, XL_VARARG, 3, 'V', "AAV" },	/* upper_limit is optional */
-/* 318 */ { "DEVSQ",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 319 */ { "GEOMEAN",		 1, 30, XL_VARARG, 1, 'V', "R" },
+/* 310 */ { "FTEST",		 2,  2, XL_STD,  2, 'V', "AA" },
+/* 311 */ { "INTERCEPT",	 2,  2, XL_STD,  2, 'V', "AA" },
+/* 312 */ { "PEARSON",		 2,  2, XL_STD,  2, 'V', "AA" },
+/* 313 */ { "RSQ",		 2,  2, XL_STD,  2, 'V', "AA" },
+/* 314 */ { "STEYX",		 2,  2, XL_STD,  2, 'V', "AA" },
+/* 315 */ { "SLOPE",		 2,  2, XL_STD,  2, 'V', "AA" },
+/* 316 */ { "TTEST",		 4,  4, XL_STD,  4, 'V', "AAVV" },
+/* 317 */ { "PROB",		 3,  4, XL_STD, 3, 'V', "AAV" },	/* upper_limit is optional */
+/* 318 */ { "DEVSQ",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 319 */ { "GEOMEAN",		 1, 30, XL_STD, 1, 'V', "R" },
                                       
-/* 320 */ { "HARMEAN",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 321 */ { "SUMSQ",		 0, 30, XL_VARARG, 1, 'V', "R" },
-/* 322 */ { "KURT",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 323 */ { "SKEW",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 324 */ { "ZTEST",		 2,  3, XL_VARARG, 2, 'V', "RV" },	/* sigma is optional */
-/* 325 */ { "LARGE",		 2,  2, XL_FIXED,  2, 'V', "RV" },
-/* 326 */ { "SMALL",		 2,  2, XL_FIXED,  2, 'V', "RV" },
-/* 327 */ { "QUARTILE",		 2,  2, XL_FIXED,  2, 'V', "RV" },
-/* 328 */ { "PERCENTILE",	 2,  2, XL_FIXED,  2, 'V', "RV" },
-/* 329 */ { "PERCENTRANK",	 2,  3, XL_VARARG, 2, 'V', "RV" },	/* Significance is optional */
+/* 320 */ { "HARMEAN",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 321 */ { "SUMSQ",		 0, 30, XL_STD, 1, 'V', "R" },
+/* 322 */ { "KURT",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 323 */ { "SKEW",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 324 */ { "ZTEST",		 2,  3, XL_STD, 2, 'V', "RV" },	/* sigma is optional */
+/* 325 */ { "LARGE",		 2,  2, XL_STD,  2, 'V', "RV" },
+/* 326 */ { "SMALL",		 2,  2, XL_STD,  2, 'V', "RV" },
+/* 327 */ { "QUARTILE",		 2,  2, XL_STD,  2, 'V', "RV" },
+/* 328 */ { "PERCENTILE",	 2,  2, XL_STD,  2, 'V', "RV" },
+/* 329 */ { "PERCENTRANK",	 2,  3, XL_STD, 2, 'V', "RV" },	/* Significance is optional */
 
-/* 330 */ { "MODE",		 1, 30, XL_VARARG, 1, 'V', "A" },
-/* 331 */ { "TRIMMEAN",		 2,  2, XL_FIXED,  2, 'V', "RV" },
-/* 332 */ { "TINV",		 2,  2, XL_FIXED,  2, 'V', "VV" },
+/* 330 */ { "MODE",		 1, 30, XL_STD, 1, 'V', "A" },
+/* 331 */ { "TRIMMEAN",		 2,  2, XL_STD,  2, 'V', "RV" },
+/* 332 */ { "TINV",		 2,  2, XL_STD,  2, 'V', "VV" },
 /* 333 */ { "EXCELFUNC333",	-1, -1, XL_UNKNOWN },
 /* 334 */ { "MOVIE.COMMAND",	-1, -1, XL_XLM },
 /* 335 */ { "GET.MOVIE",	-1, -1, XL_XLM },
 
 /* Added in biff5/7 */
-/* 336 */ { "CONCATENATE",	 0, 30, XL_VARARG, 1, 'V', "V" },
-/* 337 */ { "POWER",		 2,  2, XL_FIXED,  2, 'V', "VV" },
+/* 336 */ { "CONCATENATE",	 0, 30, XL_STD, 1, 'V', "V" },
+/* 337 */ { "POWER",		 2,  2, XL_STD,  2, 'V', "VV" },
 /* 338 */ { "PIVOT.ADD.DATA",	-1, -1, XL_XLM },
 /* 339 */ { "GET.PIVOT.TABLE",	-1, -1, XL_XLM },
 
 /* 340 */ { "GET.PIVOT.FIELD",	-1, -1, XL_XLM },
 /* 341 */ { "GET.PIVOT.ITEM",	-1, -1, XL_XLM },
-/* 342 */ { "RADIANS",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 343 */ { "DEGREES",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 344 */ { "SUBTOTAL",		 2, 30, XL_VARARG, 2, 'V', "VR" },
-/* 345 */ { "SUMIF",		 2,  3, XL_VARARG, 3, 'V', "RVR" },	/* Actual range is optional */
-/* 346 */ { "COUNTIF",		 2,  2, XL_FIXED,  2, 'V', "RV" },
-/* 347 */ { "COUNTBLANK",	 1,  1, XL_FIXED,  1, 'V', "R" },
+/* 342 */ { "RADIANS",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 343 */ { "DEGREES",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 344 */ { "SUBTOTAL",		 2, 30, XL_STD, 2, 'V', "VR" },
+/* 345 */ { "SUMIF",		 2,  3, XL_STD, 3, 'V', "RVR" },	/* Actual range is optional */
+/* 346 */ { "COUNTIF",		 2,  2, XL_STD,  2, 'V', "RV" },
+/* 347 */ { "COUNTBLANK",	 1,  1, XL_STD,  1, 'V', "R" },
 /* 348 */ { "SCENARIO.GET",	-1, -1, XL_XLM },
 /* 349 */ { "OPTIONS.LISTS.GET",-1, -1, XL_XLM },
 
-/* 350 */ { "ISPMT",		 4,  4, XL_FIXED,  4, 'V', "VVVV" },
-/* 351 */ { "DATEDIF",		 3,  3, XL_FIXED,  3, 'V', "VVV" },
-/* 352 */ { "DATESTRING",	 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 353 */ { "NUMBERSTRING",	 2,  2, XL_FIXED,  2, 'V', "VV" },
-/* 354 */ { "ROMAN",		 1,  2, XL_VARARG, 2, 'V', "VV" },
+/* 350 */ { "ISPMT",		 4,  4, XL_STD,  4, 'V', "VVVV" },
+/* 351 */ { "DATEDIF",		 3,  3, XL_STD,  3, 'V', "VVV" },
+/* 352 */ { "DATESTRING",	 1,  1, XL_STD,  1, 'V', "V" },
+/* 353 */ { "NUMBERSTRING",	 2,  2, XL_STD,  2, 'V', "VV" },
+/* 354 */ { "ROMAN",		 1,  2, XL_STD, 2, 'V', "VV" },
 /* 355 */ { "OPEN.DIALOG",	-1, -1, XL_XLM },
 /* 356 */ { "SAVE.DIALOG",	-1, -1, XL_XLM },
 /* 357 */ { "VIEW.GET",		-1, -1, XL_XLM },
 
-/* Added in Biff8 */
-/* 358 */ { "GETPIVOTDATA",	 2,  2, XL_FIXED,  2, 'V', "RV" },	/* changed in biff8 */
-/* 359 */ { "HYPERLINK",	 1,  2, XL_VARARG, 2, 'V', "VV" },	/* cell_contents is optional */
+/* 358 */ { "GETPIVOTDATA",	 2, 30, XL_STD, 2, 'V', "RVV" },	/* changed in biff8 */
 
-/* 360 */ { "PHONETIC",		 1,  1, XL_FIXED,  1, 'V', "V" },
-/* 361 */ { "AVERAGEA",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 362 */ { "MAXA",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 363 */ { "MINA",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 364 */ { "STDEVPA",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 365 */ { "VARPA",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 366 */ { "STDEVA",		 1, 30, XL_VARARG, 1, 'V', "R" },
-/* 367 */ { "VARA",		 1, 30, XL_VARARG, 1, 'V', "R" },
+/* Added in Biff8 */
+/* 359 */ { "HYPERLINK",	 1,  2, XL_STD, 2, 'V', "VV" },	/* cell_contents is optional */
+
+/* 360 */ { "PHONETIC",		 1,  1, XL_STD,  1, 'V', "V" },
+/* 361 */ { "AVERAGEA",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 362 */ { "MAXA",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 363 */ { "MINA",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 364 */ { "STDEVPA",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 365 */ { "VARPA",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 366 */ { "STDEVA",		 1, 30, XL_STD, 1, 'V', "R" },
+/* 367 */ { "VARA",		 1, 30, XL_STD, 1, 'V', "R" },
 
 /* New in XP ? imports strangely */
-/* 368 */ { "BAHTTEXT",		 1,  1, XL_FIXED, 1, 'V', "V" },
-/* 369 */ { "THAIDAYOFWEEK",	 1,  1, XL_FIXED, 1, 'V', "V" },
+/* 368 */ { "BAHTTEXT",		 1,  1, XL_STD, 1, 'V', "V" },
+/* 369 */ { "THAIDAYOFWEEK",	 1,  1, XL_STD, 1, 'V', "V" },
 
-/* 370 */ { "THAIDIGIT",	 1,  1, XL_FIXED, 1, 'V', "V" },
-/* 371 */ { "THAIMONTHOFYEAR",	 1,  1, XL_FIXED, 1, 'V', "V" },
-/* 372 */ { "THAINUMSOUND",	 1,  1, XL_FIXED, 1, 'V', "V" },
-/* 373 */ { "THAINUMSTRING",	 1,  1, XL_FIXED, 1, 'V', "V" },
-/* 374 */ { "THAISTRINGLENGTH",	 1,  1, XL_FIXED, 1, 'V', "V" },
-/* 375 */ { "ISTHAIDIGIT",	 1,  1, XL_FIXED, 1, 'V', "V" },
-/* 376 */ { "ROUNDBAHTDOWN",	 1,  1, XL_FIXED, 1, 'V', "V" },
-/* 377 */ { "ROUNDBAHTUP",	 1,  1, XL_FIXED, 1, 'V', "V" },
-/* 378 */ { "THAIYEAR",		 1,  1, XL_FIXED, 1, 'V', "V" },
-/* 379 */ { "RTD",		 2,  5, XL_VARARG, 1, 'V', "V" },
-/* 380 */ { "ISHYPERLINK",       1,  1, XL_FIXED,  1, 'V', "V" }
+/* 370 */ { "THAIDIGIT",	 1,  1, XL_STD, 1, 'V', "V" },
+/* 371 */ { "THAIMONTHOFYEAR",	 1,  1, XL_STD, 1, 'V', "V" },
+/* 372 */ { "THAINUMSOUND",	 1,  1, XL_STD, 1, 'V', "V" },
+/* 373 */ { "THAINUMSTRING",	 1,  1, XL_STD, 1, 'V', "V" },
+/* 374 */ { "THAISTRINGLENGTH",	 1,  1, XL_STD, 1, 'V', "V" },
+/* 375 */ { "ISTHAIDIGIT",	 1,  1, XL_STD, 1, 'V', "V" },
+/* 376 */ { "ROUNDBAHTDOWN",	 1,  1, XL_STD, 1, 'V', "V" },
+/* 377 */ { "ROUNDBAHTUP",	 1,  1, XL_STD, 1, 'V', "V" },
+/* 378 */ { "THAIYEAR",		 1,  1, XL_STD, 1, 'V', "V" },
+/* 379 */ { "RTD",		 2,  5, XL_STD, 1, 'V', "V" },
+/* 380 */ { "ISHYPERLINK",       1,  1, XL_STD, 1, 'V', "V" }
 };
 
 int excel_func_desc_size = G_N_ELEMENTS (excel_func_desc);
@@ -573,7 +575,7 @@ parse_list_push (GnmExprList **list, GnmExpr const *pd)
 		g_warning ("FIXME: Pushing nothing onto excel function stack");
 		pd = expr_tree_error (NULL, -1, -1,
 			"Incorrect number of parsed formula arguments",
-			"#WrongArgs");
+			"#WrongArgs!");
 	}
 	*list = gnm_expr_list_prepend (*list, pd);
 }
@@ -598,7 +600,7 @@ parse_list_pop (GnmExprList **list)
 
 	return expr_tree_error (NULL, -1, -1,
 		"Incorrect number of parsed formula arguments",
-		"#WrongArgs");
+		"#WrongArgs!");
 }
 
 /**
@@ -666,23 +668,17 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 		ExcelFuncDesc const *fd = excel_func_desc + fn_idx;
 		GnmExprList *args;
 
-		d (2, fprintf (stderr, "Function '%s', %d, expected args: %d flags = 0x%x\n",
-			       fd->name, numargs, fd->num_known_args, fd->flags););
+		d (2, fprintf (stderr, "Function '%s', %d, max args: %d flags = 0x%x\n",
+			       fd->name, numargs, fd->max_args, fd->flags););
 
-		if ((fd->flags & XL_VARARG) && numargs < 0)
-			g_warning ("We think '%s' is vararg, and XL doesn't", fd->name);
-		if ((fd->flags & XL_FIXED) && numargs >= 0)
-			g_warning ("We think '%s' is fixed, and XL doesn't", fd->name);
-
-		/* Right args for multi-arg funcs. */
-		if (fd->flags & XL_FIXED) {
+		if (numargs < 0) { /* fixed, use the built in */
 			int const available_args =
-			    (*stack != NULL) ? g_slist_length(*stack) : 0;
-			numargs = fd->num_known_args;
+				(*stack != NULL) ? g_slist_length (*stack) : 0;
 			/* handle missing trailing arguments */
+			numargs = fd->max_args;
 			if (numargs > available_args)
 				numargs = available_args;
-		} 
+		}
 
 		if (fd->flags & XL_UNKNOWN)
 			g_warning("This sheet uses an Excel function "
@@ -1675,17 +1671,17 @@ excel_parse_formula (MSContainer const *container,
 
 		parse_list_free (&stack);
 		return expr_tree_error (esheet, fn_col, fn_row,
-			"Unknown Formula/Array", "#Unknown formula");
+			"Unknown Formula/Array", "#Unknown!");
 	}
 
 	if (stack == NULL)
 		return expr_tree_error (esheet, fn_col, fn_row,
-			"Stack too short - unusual", "#ShortStack");
+			"Stack too short - unusual", "#ShortStack!");
 	if (gnm_expr_list_length (stack) > 1) {
 		parse_list_free (&stack);
 		return expr_tree_error (esheet, fn_col, fn_row,
-			"Too much data on stack - probable cause: fixed args function is var-arg, put '-1' in the table above",
-			"#LongStack");
+			"Too much data on stack - probable cause: fixed args function is var-arg",
+			"#LongStack!");
 	}
 
 #ifndef NO_DEBUG_EXCEL

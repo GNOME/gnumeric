@@ -1,14 +1,17 @@
+/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * boot.h: Start/Stop support
  *
  * Author:
+ *    Jody Goldberg (jody@gnome.org)
  *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998, 1999, 2000 Michael Meeks
+ * (C) 1998-2001 Michael Meeks
+ * (C) 2002-2005 Jody Goldberg
  **/
 
-#ifndef GNUMERIC_BOOT_H
-#define GNUMERIC_BOOT_H
+#ifndef GNM_BOOT_H
+#define GNM_BOOT_H
 
 #include <glib.h>
 
@@ -20,4 +23,4 @@ extern gint ms_excel_chart_debug;
 extern gint ms_excel_write_debug;
 extern gint ms_excel_object_debug;
 
-#endif /* GNUMERIC_BOOT_H */
+#endif /* GNM_BOOT_H */

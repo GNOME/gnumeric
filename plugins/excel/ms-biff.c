@@ -3,11 +3,11 @@
  * ms-biff.c: MS Excel Biff support...
  *
  * Author:
- *    Michael Meeks (michael@ximian.com)
  *    Jody Goldberg (jody@gnome.org)
+ *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998-2002 Michael Meeks
- *     2002-2004 Jody Goldberg
+ * (C) 1998-2001 Michael Meeks
+ * (C) 2002-2005 Jody Goldberg
  **/
 
 #include <gnumeric-config.h>

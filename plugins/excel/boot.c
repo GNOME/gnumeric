@@ -3,10 +3,11 @@
  * boot.c: MS Excel support for Gnumeric
  *
  * Author:
- *    Michael Meeks (michael@ximian.com)
  *    Jody Goldberg (jody@gnome.org)
+ *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998-2003 Michael Meeks, Jody Goldberg
+ * (C) 1998-2001 Michael Meeks
+ * (C) 2002-2005 Jody Goldberg
  **/
 #include <gnumeric-config.h>
 #include <gnumeric.h>
@@ -35,6 +36,7 @@
 #include <gsf/gsf-outfile-msole.h>
 #include <gsf/gsf-structured-blob.h>
 #include <glib/gi18n.h>
+#include <string.h>
 
 GNM_PLUGIN_MODULE_HEADER;
 
@@ -320,17 +322,6 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 			fprintf (stderr, "%s : min_args < 0\n", name);
 		if (fd->max_args < 0)
 			fprintf (stderr, "%s : min_args < 0\n", name);
-		if (fd->min_args != fd->max_args) {
-			if (0 == (fd->flags & XL_VARARG))
-				fprintf (stderr, "%s : should be vararg\n", name);
-			if (fd->flags & XL_FIXED)
-				fprintf (stderr, "%s : should not be fixed\n", name);
-		} else {
-			if (fd->flags & XL_VARARG)
-				fprintf (stderr, "%s : should not be vararg\n", name);
-			if (0 == (fd->flags & XL_FIXED))
-				fprintf (stderr, "%s : should be fixed\n", name);
-		}
 		if (fd->known_args != NULL &&
 		    fd->num_known_args != strlen (fd->known_args))
 			fprintf (stderr, "%s : num_expected_args inconsistent\n", name);

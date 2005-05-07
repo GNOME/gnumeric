@@ -1,16 +1,16 @@
-#ifndef GNUMERIC_EXCEL_FORMULA_TYPES_H
-#define GNUMERIC_EXCEL_FORMULA_TYPES_H
+/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef GNM_EXCEL_FORMULA_TYPES_H
+#define GNM_EXCEL_FORMULA_TYPES_H
 
 /**
- * formula-types.h: A long and dull list of function record types.
+ * formula-types.h: The formula records
  *
  * Author:
+ *    Jody Goldberg (jody@gnome.org)
  *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998, 1999, 2000 Michael Meeks
- **/
-/**
- * See S59E2B.HTM for the spec.
+ * (C) 1998-2001 Michael Meeks
+ * (C) 2002-2005 Jody Goldberg
  **/
 #define FORMULA_PTG_EXPR		0x01
 #define FORMULA_PTG_TBL			0x02
@@ -72,15 +72,14 @@
 #define FORMULA_PTG_MAX			0x7f
 
 typedef enum {
+	XL_STD		= 0,
+
 	/* To catch the magic extension entry */
 	XL_MAGIC	= 1 << 0,
 
-	/* fixed and vararg are opposites, be verbose for clarity */
-	XL_FIXED	= 1 << 1,
-	XL_VARARG	= 1 << 2,
-	XL_VOLATILE	= 1 << 3,
-	XL_XLM		= 1 << 4,
-	XL_UNKNOWN	= 1 << 5
+	XL_VOLATILE	= 1 << 1,
+	XL_XLM		= 1 << 2,
+	XL_UNKNOWN	= 1 << 3
 } ExcelFuncFlag;
 
 typedef struct {
@@ -106,4 +105,4 @@ typedef struct {
 extern ExcelFuncDesc const excel_func_desc[];
 extern int excel_func_desc_size;
 
-#endif /* GNUMERIC_EXCEL_FORMULA_TYPES_H */
+#endif /* GNM_EXCEL_FORMULA_TYPES_H */

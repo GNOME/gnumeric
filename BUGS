@@ -19,6 +19,7 @@ Release Critical
 
 Worries
 -------
+    : buttons in sheet manager resize vertically
     : provide undo for dropped objects from sheet_objects_clear
     : undo of pasting copy/cut of objects
     : Select graph, Copy, and paste to Emacs: used to crash, but now it

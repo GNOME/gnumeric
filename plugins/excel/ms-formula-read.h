@@ -1,13 +1,15 @@
 /*
  * ms-formula-read.h: MS Excel -> Gnumeric formula conversion
  *
- * Author:
+ * Authors:
+ *    Jody Goldberg (jody@gnome.org)
  *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998, 1999, 2000 Michael Meeks
+ * (C) 1998-2001 Michael Meeks
+ * (C) 2002-2005 Jody Goldberg
  */
-#ifndef GNUMERIC_MS_FORMULA_R_H
-#define GNUMERIC_MS_FORMULA_R_H
+#ifndef GNM_MS_FORMULA_R_H
+#define GNM_MS_FORMULA_R_H
 
 #include <glib.h>
 
@@ -22,4 +24,4 @@ excel_parse_formula (MSContainer const *container,
 					 gboolean shared,
 					 gboolean *array_element);
 
-#endif
+#endif /* GNM_MS_FORMULA_R_H */

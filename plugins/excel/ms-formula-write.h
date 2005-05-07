@@ -1,15 +1,15 @@
 /*
  * ms-formula-read.h: MS Excel -> Gnumeric formula conversion
  *
- * Author:
- *    Michael Meeks (michael@ximian.com)
+ * Authors:
  *    Jody Goldberg (jody@gnome.org)
+ *    Michael Meeks (michael@ximian.com)
  *
  * (C) 1998-2001 Michael Meeks
- *     2002-2003 Jody Goldberg
+ * (C) 2002-2005 Jody Goldberg
  */
-#ifndef GNUMERIC_MS_FORMULA_WRITE_H
-#define GNUMERIC_MS_FORMULA_WRITE_H
+#ifndef GNM_MS_FORMULA_WRITE_H
+#define GNM_MS_FORMULA_WRITE_H
 
 #include <gnumeric.h>
 #include "excel.h"
@@ -31,4 +31,4 @@ void excel_write_prep_expressions (ExcelWriteState *ewb);
 void excel_write_prep_expr  	  (ExcelWriteState *ewb, GnmExpr const *expr);
 void excel_write_prep_sheet	  (ExcelWriteState *ewb, Sheet const *sheet);
 
-#endif /* GNUMERIC_MS_FORMULA_W_H */
+#endif /* GNM_MS_FORMULA_W_H */

@@ -1,18 +1,17 @@
-#ifndef GNUMERIC_EXCEL_ESCHER_TYPES_H
-#define GNUMERIC_EXCEL_ESCHER_TYPES_H
+/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef GNM_EXCEL_ESCHER_TYPES_H
+#define GNM_EXCEL_ESCHER_TYPES_H
 
 /**
  * escher-types.h: A long and dull list of types used
  *                 in the MS drawing layer.
  *
  * Author:
+ *    Jody Goldberg (jody@gnome.org)
  *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998, 1999, 2000 Michael Meeks
- **/
-/**
- * See S59FDC.HTM for the spec.
- * MS use similar names with 'msofbt' prefix.
+ * (C) 1998-2001 Michael Meeks
+ * (C) 2002-2005 Jody Goldberg
  **/
 
 #define DggContainer		0xf000 /* Drawing Group Container */
@@ -50,4 +49,4 @@
 #define OleObject		0xf11f
 #define UserDefined		0xf122
 
-#endif
+#endif /* GNM_EXCEL_ESCHER_TYPES_H */

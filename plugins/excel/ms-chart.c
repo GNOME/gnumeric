@@ -5,7 +5,7 @@
  * Author:
  *    Jody Goldberg (jody@gnome.org)
  *
- * (C) 1999-2004 Jody Goldberg
+ * (C) 1999-2005 Jody Goldberg
  **/
 
 #include <gnumeric-config.h>

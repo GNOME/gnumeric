@@ -1,14 +1,16 @@
+/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * ms-excel-xf.h: MS Excel support for Gnumeric
  *
  * Authors:
- *    Michael Meeks (michael@ximian.com)
  *    Jody Goldberg (jody@gnome.org)
+ *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998-2001 Michael Meeks, Jody Goldberg
+ * (C) 1998-2001 Michael Meeks
+ * (C) 2002-2005 Jody Goldberg
  **/
-#ifndef GNUMERIC_MS_EXCEL_XF_H
-#define GNUMERIC_MS_EXCEL_XF_H
+#ifndef GNM_MS_EXCEL_XF_H
+#define GNM_MS_EXCEL_XF_H
 
 #include "style.h"
 #include "style-border.h"
@@ -51,4 +53,4 @@ typedef struct _BiffXFData {
 	GnmStyle *mstyle;
 } BiffXFData;
 
-#endif
+#endif /* GNM_MS_EXCEL_XF_H */

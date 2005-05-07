@@ -1,14 +1,16 @@
+/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * ms-excel-write.h: MS Excel export
  *
- * Author:
- *    Michael Meeks (michael@ximian.com)
+ * Authors:
  *    Jody Goldberg (jody@gnome.org)
+ *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998-2004 Jody Goldberg, Michael Meeks
+ * (C) 1998-2001 Michael Meeks
+ * (C) 2002-2005 Jody Goldberg
  **/
-#ifndef GNUMERIC_MS_EXCEL_WRITE_H
-#define GNUMERIC_MS_EXCEL_WRITE_H
+#ifndef GNM_MS_EXCEL_WRITE_H
+#define GNM_MS_EXCEL_WRITE_H
 
 #include "ms-biff.h"
 #include "ms-excel-biff.h"
@@ -138,4 +140,4 @@ int excel_write_get_externsheet_idx (ExcelWriteState *wb,
 
 int excel_write_map_errcode (GnmValue const *v);
 
-#endif
+#endif /* GNM_MS_EXCEL_WRITE_H */

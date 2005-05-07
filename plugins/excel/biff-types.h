@@ -1,14 +1,16 @@
-#ifndef GNUMERIC_EXCEL_BIFF_TYPES_H
-#define GNUMERIC_EXCEL_BIFF_TYPES_H
+/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef GNM_EXCEL_BIFF_TYPES_H
+#define GNM_EXCEL_BIFF_TYPES_H
 
 /*
  * biff-types.h: A long and dull list of BIFF types.
  *
  * Author:
- *	Jody Goldberg (jody@gnome.org)
- *	Michael Meeks (michael@ximian.com)
+ *    Jody Goldberg (jody@gnome.org)
+ *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998-2004 Michael Meeks, Jody Goldberg
+ * (C) 1998-2001 Michael Meeks
+ * (C) 2002-2005 Jody Goldberg
  */
 
 #define BIFF_DIMENSIONS_v0		0x000
@@ -333,4 +335,4 @@
 #define BIFF_CHART_gelframe		0x1066
 #define BIFF_CHART_boppopcustom		0x1067
 
-#endif /* GNUMERIC_EXCEL_BIFF_TYPES_H */
+#endif /* GNM_EXCEL_BIFF_TYPES_H */

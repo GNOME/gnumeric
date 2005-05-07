@@ -1,15 +1,16 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNUMERIC_MS_OFFICE_ESCHER_H
-#define GNUMERIC_MS_OFFICE_ESCHER_H
+/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef GNM_MS_OFFICE_ESCHER_H
+#define GNM_MS_OFFICE_ESCHER_H
 
 /**
  * ms-escher.h: MS Office drawing layer support
  *
- * Author:
+ * Authors:
  *    Jody Goldberg (jody@gnome.org)
  *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998-2002 Jody Goldberg, Michael Meeks
+ * (C) 1998-2001 Michael Meeks
+ * (C) 2002-2005 Jody Goldberg
  **/
 #include "ms-excel-read.h"
 #include "ms-container.h"
@@ -33,4 +34,4 @@ MSEscherWriter *ms_escher_writer_new (BiffPut *bp);
 void		ms_escher_writer_commit (MSEscherWriter *ew);
 #endif
 
-#endif /* GNUMERIC_MS_OFFICE_ESCHER_H */
+#endif /* GNM_MS_OFFICE_ESCHER_H */

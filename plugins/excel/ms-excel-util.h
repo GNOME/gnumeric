@@ -1,13 +1,14 @@
+/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * ms-excel-util.h: Utility functions for MS Excel import / export
  *
  * Author:
  *    Jon K Hellan (hellan@acm.org)
  *
- * (C) 1999-2004 Jon K Hellan
+ * (C) 1999-2005 Jon K Hellan
  **/
-#ifndef GNUMERIC_MS_EXCEL_UTIL_H
-#define GNUMERIC_MS_EXCEL_UTIL_H
+#ifndef GNM_MS_EXCEL_UTIL_H
+#define GNM_MS_EXCEL_UTIL_H
 
 #include <glib.h>
 #include <stdlib.h>
@@ -63,4 +64,4 @@ typedef struct {
 XL_font_width const *xl_lookup_font_specs   (char const *name);
 void		     destroy_xl_font_widths (void);
 
-#endif /* GNUMERIC_MS_EXCEL_UTIL_H */
+#endif /* GNM_MS_EXCEL_UTIL_H */

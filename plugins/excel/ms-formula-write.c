@@ -1,14 +1,13 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * ms-formula-write.c: MS Excel <- Gnumeric formula conversion
- * See: S59E2B.HTM
+ * ms-formula-write.c: export GnmExpr to xls
  *
- * Author:
- *    Michael Meeks (michael@ximian.com)
+ * Authors:
  *    Jody Goldberg (jody@gnome.org)
+ *    Michael Meeks (michael@ximian.com)
  *
  * (C) 1998-2001 Michael Meeks
- *     2002-2005 Jody Goldberg
+ * (C) 2002-2005 Jody Goldberg
  */
 
 #include <gnumeric-config.h>
@@ -487,8 +486,7 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 {
 	static guint8 const zeros [12];
 
-	/* excel is limited to 128 args max */
-	int      max_args = 126, num_args = 0;
+	int      num_args = 0;
 	gboolean prompt   = FALSE;
 	gboolean cmdequiv = FALSE;
 	char const *arg_types = NULL;
@@ -522,19 +520,14 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 				push_guint16 (pd, 0); /* reserved */
 			}
 		}
-	} else {
+	} else
 		arg_types = ef->efunc->known_args;
-		if (ef->efunc->flags & XL_FIXED)
-			max_args = ef->efunc->num_known_args;
-	}
 
 	for (ptr = expr->func.arg_list ; ptr != NULL; ptr = ptr->next, num_args++)
-		if (num_args >= max_args) { 
+		if (num_args >= ef->efunc->max_args) {
 			gnm_io_warning (pd->ewb->io_context, 
-				((max_args == 128) 
-				? _("Too many arguments for function '%s', MS Excel expects exactly %d and we have %d")
-				: _("Too many arguments for function '%s', MS Excel can only handle %d not %d")),
-				ef->efunc->name, max_args, num_args);
+				_("Too many arguments for function '%s', MS Excel can only handle %d not %d"),
+				ef->efunc->name, ef->efunc->max_args, num_args);
 			break;
 		} else { /* convert the args */
 			if (arg_types != NULL && *arg_types) {
@@ -559,7 +552,7 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 		for ( ; num_args < ef->efunc->min_args ; num_args++)
 			push_guint8 (pd, FORMULA_PTG_MISSARG);
 
-		if (ef->efunc->flags & XL_VARARG) {
+		if (ef->efunc->min_args != ef->efunc->max_args) {
 			push_guint8  (pd, FORMULA_PTG_FUNC_VAR + op_class);
 			push_guint8  (pd, num_args | (prompt ? 0x80 : 0));
 			push_guint16 (pd, ef->idx  | (cmdequiv ? 0x8000 : 0));

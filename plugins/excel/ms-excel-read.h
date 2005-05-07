@@ -1,15 +1,16 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * ms-excel.h: MS Excel support for Gnumeric
  *
- * Author:
+ * Authors:
  *    Jody Goldberg (jody@gnome.org)
  *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998-2004 Michael Meeks, Jody Goldberg
+ * (C) 1998-2001 Michael Meeks
+ * (C) 2002-2005 Jody Goldberg
  **/
-#ifndef GNUMERIC_MS_EXCEL_H
-#define GNUMERIC_MS_EXCEL_H
+#ifndef GNM_MS_EXCEL_READ_H
+#define GNM_MS_EXCEL_READ_H
 
 #include "ms-biff.h"
 #include "ms-excel-biff.h"
@@ -144,4 +145,4 @@ void excel_unexpected_biff (BiffQuery *q, char const *state, int debug_level);
 void excel_read_cleanup (void);
 void excel_read_init (void);
 
-#endif
+#endif /* GNM_MS_EXCEL_READ_H */

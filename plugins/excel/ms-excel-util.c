@@ -5,7 +5,7 @@
  * Author:
  *    Jon K Hellan (hellan@acm.org)
  *
- * (C) 1999-2004 Jon K Hellan
+ * (C) 1999-2005 Jon K Hellan
  **/
 
 #include <gnumeric-config.h>

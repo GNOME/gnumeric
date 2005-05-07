@@ -1,5 +1,6 @@
-#ifndef GNUMERIC_EXCEL_MD5_H
-#define GNUMERIC_EXCEL_MD5_H
+/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef GNM_EXCEL_MD5_H
+#define GNM_EXCEL_MD5_H
 
 /*
  **********************************************************************
@@ -62,4 +63,4 @@ void wvMD5Update (MD5_CTX *mdContext, unsigned char *inBuf, unsigned int inLen);
  ******************************* (cut) ********************************
  */
 
-#endif
+#endif /* GNM_EXCEL_MD5_H */

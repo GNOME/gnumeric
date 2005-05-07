@@ -1,14 +1,15 @@
-#ifndef GNUMERIC_MS_OBJ_H
-#define GNUMERIC_MS_OBJ_H
+#ifndef GNM_MS_OBJ_H
+#define GNM_MS_OBJ_H
 
 /**
  * ms-obj.h: MS Excel Graphic Object support for Gnumeric
  *
- * Author:
- *    Michael Meeks (michael@ximian.com)
+ * Authors:
  *    Jody Goldberg (jody@gnome.org)
+ *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998-2004 Michael Meeks, Jody Goldberg
+ * (C) 1998-2001 Michael Meeks
+ * (C) 2002-2005 Jody Goldberg
  **/
 
 #include "ms-excel-read.h"
@@ -135,4 +136,4 @@ void ms_objv8_write_scrollbar	(BiffPut *bp);
 void ms_objv8_write_listbox	(BiffPut *bp, gboolean filtered);
 void ms_objv8_write_chart	(BiffPut *bp, SheetObject *sog);
 
-#endif /* GNUMERIC_MS_OBJ_H */
+#endif /* GNM_MS_OBJ_H */

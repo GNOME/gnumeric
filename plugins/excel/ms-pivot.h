@@ -1,4 +1,4 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* vim: set sw=8 ts=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * ms-chart.h: MS Excel Pivot support for Gnumeric
  *
@@ -8,8 +8,8 @@
  * (C) 2005 Jody Goldberg
  **/
 
-#ifndef GNUMERIC_MS_PIVOT_H
-#define GNUMERIC_MS_PIVOT_H
+#ifndef GNM_MS_PIVOT_H
+#define GNM_MS_PIVOT_H
 
 #include <gsf/gsf.h>
 #include "ms-container.h"
@@ -19,4 +19,4 @@ void excel_read_pivot_caches (ExcelWorkbook *ewb,
 			      BiffQuery const *content_query,
 			      GsfInfile *parent);
 
-#endif /* GNUMERIC_MS_PIVOT_H */
+#endif /* GNM_MS_PIVOT_H */
