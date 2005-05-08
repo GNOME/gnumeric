@@ -1,12 +1,13 @@
 AM_CPPFLAGS = \
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\
-    $(GNUMERIC_CFLAGS)
+    $(GNUMERIC_CFLAGS) $(CORBA_LIBS_CFLAGS)
 
 gnumeric_plugin_corbadir = $(gnumeric_plugindir)/corba
 xmldir = $(gnumeric_plugin_corbadir)
 gnumeric_plugin_corba_LTLIBRARIES = corba.la
 corba_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
+corba_la_LIBADD  = $(CORBA_LIBS)
 corba_la_SOURCES =				\
 	corba-application.c 			\
 	corba-workbook.c 			\

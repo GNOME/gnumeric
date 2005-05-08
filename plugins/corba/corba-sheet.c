@@ -30,7 +30,7 @@
 #include <sheet-control-priv.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <bonobo.h>
+#include <bonobo/bonobo-object.h>
 
 #define CORBA_SHEET_TYPE	(csheet_get_type ())
 #define CORBA_SHEET(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), CORBA_SHEET_TYPE, CorbaSheet))

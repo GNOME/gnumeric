@@ -35,7 +35,8 @@
 #include <command-context-stderr.h>
 #include <glib/gi18n.h>
 
-#include <bonobo.h>
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-main.h>
 
 #undef DEBUG_CORBA
 

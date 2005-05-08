@@ -35,7 +35,8 @@
 #include <goffice/app/go-cmd-context-impl.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <bonobo.h>
+#include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-exception.h>
 
 typedef struct {
 	WorkbookControl wb_control;

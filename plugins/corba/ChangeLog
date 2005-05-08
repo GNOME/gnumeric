@@ -1,3 +1,13 @@
+2005-05-07  Jody Goldberg <jody@gnome.org>
+
+	* corba-application.c : bonobo.h is a bonoboui header we do not really
+	  need that.
+	* corba-sheet.c : ditto
+	* corba-workbook.c  : ditto
+
+	* Makefile.am : explicitly link to the bonobo libraries
+	  and add the correct includes.
+
 2005-02-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.0
