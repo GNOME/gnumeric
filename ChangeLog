@@ -1,5 +1,8 @@
 2005-05-09  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-control-gui.c (cb_sheet_label_drag_begin): Fix
+	multihead issue.
+
 	* src/application.c (gnm_app_get_pixbuf): Remove.  All callers
 	fixed.
 	(add_icon): Don't install both a scalable and a fixed-sized icon.

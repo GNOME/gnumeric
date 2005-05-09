@@ -715,7 +715,7 @@ cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
 	arrow = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_widget_realize (arrow);
 	pixbuf = gtk_icon_theme_load_icon (
-		gtk_icon_theme_get_default (),
+		gtk_icon_theme_get_for_screen (gtk_widget_get_screen (widget)),
 		"sheet_move_marker", 13, 0, NULL);
 	image = gtk_image_new_from_pixbuf (pixbuf);
 	gtk_widget_show (image);
