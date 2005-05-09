@@ -1765,17 +1765,98 @@ workbook_sheet_state_size (const WorkbookSheetState *wss)
 char *
 workbook_sheet_state_diff (const WorkbookSheetState *wss_a, const WorkbookSheetState *wss_b)
 {
-	/* Keep translations so they don't fall out of the po files.  */
-	_("Reordering Sheets");
-	_("Renaming Sheets");
-	_("Appending %i Sheets");
-	_("Changing Tab Colors");
-	_("Changing Sheet Protection");
-	_("Delete sheets");
-	_("Delete a sheet");
-	_("Changing Sheet Visibility");
+	enum {
+		WSS_SHEET_RENAMED = 1,
+		WSS_SHEET_ADDED = 2,
+		WSS_SHEET_TAB_COLOR = 4,
+		WSS_SHEET_PROPERTIES = 8,
+		WSS_SHEET_DELETED = 16,
+		WSS_SHEET_ORDER = 32,
+		WSS_FUNNY = 0x40000000
+	} what = 0;
+	int ia;
+	int n = 0;
+	int n_added, n_deleted = 0;
 
-	return g_strdup (_("Reorganizing Sheets"));
+	for (ia = 0; ia < wss_a->n_sheets; ia++) {
+		Sheet *sheet = wss_a->sheets[ia].sheet;
+		int ib;
+		GSList *pa, *pb;
+		int diff = 0;
+
+		for (ib = 0; ib < wss_b->n_sheets; ib++)
+			if (sheet == wss_b->sheets[ib].sheet)
+				break;
+		if (ib == wss_b->n_sheets) {
+			what |= WSS_SHEET_DELETED;
+			n++;
+			n_deleted++;
+			continue;
+		}
+
+		if (ia != ib) {
+			what |= WSS_SHEET_ORDER;
+			n++;
+		}			
+
+		pa = wss_a->sheets[ia].properties;
+		pb = wss_b->sheets[ib].properties;
+		for (; pa && pb; pa = pa->next->next, pb = pb->next->next) {
+			GParamSpec *pspec = pa->data;
+			const GValue *va = pa->next->data;
+			const GValue *vb = pb->next->data;
+			if (pa->data != pb->data) {
+				what |= WSS_FUNNY;
+				break;
+			}
+
+			if (g_param_values_cmp (pspec, va, vb) == 0)
+				continue;
+
+			diff = 1;
+			if (strcmp (pspec->name, "name") == 0)
+				what |= WSS_SHEET_RENAMED;
+			else if (strcmp (pspec->name, "tab-foreground") == 0)
+				what |= WSS_SHEET_TAB_COLOR;
+			else if (strcmp (pspec->name, "tab-background") == 0)
+				what |= WSS_SHEET_TAB_COLOR;
+			else
+				what |= WSS_SHEET_PROPERTIES;
+		}
+
+		if (pa || pb)
+			what |= WSS_FUNNY;
+		n += diff;
+	}
+
+	n_added = wss_b->n_sheets - (wss_a->n_sheets - n_deleted);
+	if (n_added) {
+		what |= WSS_SHEET_ADDED;
+		n += n_added;
+	}
+
+	switch (what) {
+	case WSS_SHEET_RENAMED:
+		return (n == 1)
+			? g_strdup (_("Renaming sheet"))
+			: g_strdup_printf (_("Renaming %d sheets"), n);
+	case WSS_SHEET_ADDED:
+		return (n == 1)
+			? g_strdup (_("Adding sheet"))
+			: g_strdup_printf (_("Adding %d sheets"), n);
+	case WSS_SHEET_TAB_COLOR:
+		return g_strdup (_("Changing sheet tab colors"));
+	case WSS_SHEET_PROPERTIES:
+		return g_strdup (_("Changing sheet properties"));
+	case WSS_SHEET_DELETED:
+		return (n == 1)
+			? g_strdup (_("Deleting sheet"))
+			: g_strdup_printf (_("Deleting %d sheets"), n);
+	case WSS_SHEET_ORDER:
+		return g_strdup (_("Changing sheet order"));
+	default:
+		return g_strdup (_("Reorganizing Sheets"));
+	}
 }
 
 /* ------------------------------------------------------------------------- */

@@ -1,7 +1,9 @@
 2005-05-09  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook.c (workbook_sheet_state_diff): Implement.
+
 	* src/workbook-control-gui.c (cb_sheet_label_drag_begin): Fix
-	multihead issue.
+	multihead issue.  Plug leak.
 
 	* src/application.c (gnm_app_get_pixbuf): Remove.  All callers
 	fixed.
