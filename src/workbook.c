@@ -982,7 +982,8 @@ cb_sheet_visibility_change (Sheet *sheet,
  * @new_sheet :
  * @pos;
  *
- * Add @new_sheet to @wb, either placing it at @pos.
+ * Add @new_sheet to @wb, placing it at @pos.  This will add a ref to
+ * the sheet.
  */
 void
 workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
@@ -994,6 +995,7 @@ workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
 
 	pre_sheet_index_change (wb);
 
+	g_object_ref (new_sheet);
 	go_ptr_array_insert (wb->sheets, (gpointer)new_sheet, pos);
 	workbook_sheet_index_update (wb, pos);
 	g_hash_table_insert (wb->sheet_hash_private,
@@ -1011,10 +1013,20 @@ workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
 			  NULL);
 }
 
+/**
+ * workbook_sheet_attach:
+ * @wb :
+ * @new_sheet :
+ *
+ * Add @new_sheet to @wb, placing it at the end.  SURPRISE: This assumes
+ * a ref to the sheet.
+ */
 void
 workbook_sheet_attach (Workbook *wb, Sheet *new_sheet)
 {
 	workbook_sheet_attach_at_pos (wb, new_sheet, wb->sheets->len);
+	/* Balance the ref added by the above call.  */
+	g_object_unref (new_sheet);
 }
 
 static void
@@ -1069,8 +1081,13 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet, gboolean recalc)
 	g_hash_table_remove (wb->sheet_hash_private, sheet->name_case_insensitive);
 	post_sheet_index_change (wb);
 
+	/* Clear the controls first, before we potentially update */
+	SHEET_FOREACH_VIEW (sheet, view, {
+		sv_dispose (view);
+		g_object_unref (G_OBJECT (view));
+	});
+
 	g_signal_emit_by_name (G_OBJECT (sheet), "detached_from_workbook", wb);
-	sheet_destroy (sheet);
 	g_object_unref (sheet);
 
 	g_signal_emit (G_OBJECT (wb), signals [SHEET_DELETED], 0);
@@ -1084,7 +1101,8 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet, gboolean recalc)
  * @wb :
  * @pos : position to add, -1 meaning append.
  *
- * Create and name a new sheet, putting it at position @pos.
+ * Create and name a new sheet, putting it at position @pos.  The sheet
+ * returned is not ref'd.  (The ref belongs to the workbook.)
  */
 Sheet *
 workbook_sheet_add (Workbook *wb, int pos, gboolean make_dirty)
@@ -1100,6 +1118,8 @@ workbook_sheet_add (Workbook *wb, int pos, gboolean make_dirty)
 		sheet_set_dirty (new_sheet, TRUE);
 
 	g_signal_emit (G_OBJECT (wb), signals [SHEET_ADDED], 0);
+
+	g_object_unref (new_sheet);
 
 	return new_sheet;
 }
@@ -1720,7 +1740,11 @@ workbook_sheet_state_restore (Workbook *wb, const WorkbookSheetState *wss)
 			if (sheet == wss->sheets[j].sheet)
 				break;
 		if (j == wss->n_sheets) {
-			g_warning ("We probably aren't ready for this.\n");
+			/*
+			 * This can also be triggered by an undo of sheet
+			 * insert.  In that case we actually are ready.
+			 */
+			g_warning ("We probably aren't completely ready for this.\n");
 			workbook_sheet_detach (wb, sheet, FALSE);
 		}
 	}
@@ -1729,10 +1753,9 @@ workbook_sheet_state_restore (Workbook *wb, const WorkbookSheetState *wss)
 	for (i = 0; i < wss->n_sheets; i++) {
 		Sheet *sheet = wss->sheets[i].sheet;
 		if (sheet->index_in_wb != i) {
-			if (sheet->index_in_wb == -1) {
-				g_warning ("We probably aren't ready for this.\n");
+			if (sheet->index_in_wb == -1)
 				workbook_sheet_attach_at_pos (wb, sheet, i);
-			} else {
+			else {
 				/*
 				 * There might be a smarter way of getting more
 				 * sheets into place faster.  This will at
@@ -1796,7 +1819,7 @@ workbook_sheet_state_diff (const WorkbookSheetState *wss_a, const WorkbookSheetS
 
 		if (ia != ib) {
 			what |= WSS_SHEET_ORDER;
-			n++;
+			/* We do not count reordered sheet.  */
 		}			
 
 		pa = wss_a->sheets[ia].properties;
@@ -1805,10 +1828,8 @@ workbook_sheet_state_diff (const WorkbookSheetState *wss_a, const WorkbookSheetS
 			GParamSpec *pspec = pa->data;
 			const GValue *va = pa->next->data;
 			const GValue *vb = pb->next->data;
-			if (pa->data != pb->data) {
-				what |= WSS_FUNNY;
+			if (pspec != pb->data)
 				break;
-			}
 
 			if (g_param_values_cmp (pspec, va, vb) == 0)
 				continue;
@@ -1844,11 +1865,24 @@ workbook_sheet_state_diff (const WorkbookSheetState *wss_a, const WorkbookSheetS
 		return (n == 1)
 			? g_strdup (_("Adding sheet"))
 			: g_strdup_printf (_("Adding %d sheets"), n);
+	case WSS_SHEET_ADDED | WSS_SHEET_ORDER:
+		/*
+		 * This is most likely just a sheet inserted, but it just
+		 * might be a compound operation.  Lie.
+		 */
+		return (n == 1)
+			? g_strdup (_("Inserting sheet"))
+			: g_strdup_printf (_("Inserting %d sheets"), n);
 	case WSS_SHEET_TAB_COLOR:
 		return g_strdup (_("Changing sheet tab colors"));
 	case WSS_SHEET_PROPERTIES:
 		return g_strdup (_("Changing sheet properties"));
 	case WSS_SHEET_DELETED:
+	case WSS_SHEET_DELETED | WSS_SHEET_ORDER:
+		/*
+		 * This is most likely just a sheet delete, but it just
+		 * might be a compound operation.  Lie.
+		 */
 		return (n == 1)
 			? g_strdup (_("Deleting sheet"))
 			: g_strdup_printf (_("Deleting %d sheets"), n);

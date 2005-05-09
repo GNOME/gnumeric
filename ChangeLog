@@ -1,5 +1,26 @@
 2005-05-09  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook.c (workbook_sheet_attach_at_pos): Add a ref to
+	sheet to balance the unref in workbook_sheet_detach.
+	(workbook_sheet_attach): Counter the above ref here.
+	(workbook_sheet_add): Counter the above ref here.  Document that
+	the returned sheet's ref is owned by the workbook.
+	(workbook_sheet_detach): Get rid of sheet views here.  Replace
+	almost all uses of this with workbook_sheet_delete.  (It was
+	typically used to get rid of sheets that got created during a load
+	which then failed.)
+
+	* src/workbook-control-gui.c (wbcg_insert_sheet,
+	wbcg_append_sheet): Use new cmd_reorganize_sheets2.
+
+	* src/sheet.c (sheet_set_name): Fix logic to determine if a sheet
+	is attached.
+	(sheet_cell_destroy): Don't get rid of view here.
+
+	* src/commands.c (command_undo): Hold a ref to cmd so it doesn't
+	go away underneath us.  Don't crash if the undo command clears the
+	undo queue.
+
 	* src/workbook.c (workbook_sheet_state_diff): Implement.
 
 	* src/workbook-control-gui.c (cb_sheet_label_drag_begin): Fix

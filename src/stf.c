@@ -214,7 +214,7 @@ stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
 	} else {
 		/* the user has cancelled */
                 /* the caller should notice that we have no sheets */
-		workbook_sheet_detach (book, sheet, TRUE);
+		workbook_sheet_delete (sheet);
 	}
 
 	g_free (data);
@@ -388,7 +388,7 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 							       " the available sheet size."));
 		}
 	} else {
-		workbook_sheet_detach (book, sheet, TRUE);
+		workbook_sheet_delete (sheet);
 		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 			_("Parse error while trying to parse data into sheet"));
 	}

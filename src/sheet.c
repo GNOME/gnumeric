@@ -206,7 +206,7 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 		g_free (sucker_name);
 	}
 
-	attached = wb && sheet->name_case_insensitive;
+	attached = sheet->index_in_wb != -1 && sheet->name_case_insensitive;
 	/* FIXME: maybe have workbook_sheet_detach_internal for this.  */
 	if (attached)
 		g_hash_table_remove (wb->sheet_hash_private,
@@ -3099,11 +3099,6 @@ sheet_destroy (Sheet *sheet)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
-	/* Clear the controls first, before we potentially update */
-	SHEET_FOREACH_VIEW (sheet, view, {
-		sv_dispose (view);
-		g_object_unref (G_OBJECT (view));
-	});
 	if (sheet->sheet_views->len > 0)
 		g_warning ("Unexpected left over views");
 

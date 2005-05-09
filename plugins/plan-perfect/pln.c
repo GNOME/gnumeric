@@ -677,7 +677,7 @@ pln_file_open (GOFileOpener const *fo, IOContext *io_context,
 	error = pln_parse_sheet (input, &state);
 	g_hash_table_destroy (state.styles);
 	if (error != NULL) {
-		workbook_sheet_detach (wb, sheet, FALSE);
+		workbook_sheet_delete (sheet);
 		gnumeric_io_error_info_set (io_context, error);
 	}
 }

@@ -502,21 +502,34 @@ command_undo (WorkbookControl *wbc)
 	klass = CMD_CLASS (cmd);
 	g_return_if_fail (klass != NULL);
 
+	g_object_ref (cmd);
+
 	/* TRUE indicates a failure to undo.  Leave the command where it is */
-	if (klass->undo_cmd (cmd, wbc))
-		return;
-	update_after_action (cmd->sheet, wb);
+	if (!klass->undo_cmd (cmd, wbc)) {
+		gboolean undo_cleared;
 
-	wb->undo_commands = g_slist_remove (wb->undo_commands,
-					    wb->undo_commands->data);
-	wb->redo_commands = g_slist_prepend (wb->redo_commands, cmd);
+		update_after_action (cmd->sheet, wb);
 
-	WORKBOOK_FOREACH_CONTROL (wb, view, control, {
-		wb_control_undo_redo_pop (control, TRUE);
-		wb_control_undo_redo_push (control, FALSE, cmd->cmd_descriptor, cmd);
-	});
-	undo_redo_menu_labels (wb);
-	/* TODO : Should we mark the workbook as clean or pristine too */
+		/*
+		 * A few commands clear the undo queue.  For those, we do not
+		 * want to stuff the cmd object on the redo queue.
+		 */
+		undo_cleared = (wb->undo_commands == NULL);
+
+		if (!undo_cleared) {
+			wb->undo_commands = g_slist_remove (wb->undo_commands, cmd);
+			wb->redo_commands = g_slist_prepend (wb->redo_commands, cmd);
+
+			WORKBOOK_FOREACH_CONTROL (wb, view, control, {
+				wb_control_undo_redo_pop (control, TRUE);
+				wb_control_undo_redo_push (control, FALSE, cmd->cmd_descriptor, cmd);
+			});
+			undo_redo_menu_labels (wb);
+			/* TODO : Should we mark the workbook as clean or pristine too */
+		}
+	}
+
+	g_object_unref (cmd);
 }
 
 /**
@@ -825,8 +838,7 @@ command_undo_sheet_delete (Sheet* sheet)
 		undo_redo_menu_labels (wb);
 	}
 
-	sheet_deps_destroy (sheet);
-	workbook_sheet_detach (wb, sheet, FALSE);
+	workbook_sheet_delete (sheet);
 
 	return (TRUE);
 }
@@ -846,8 +858,7 @@ command_redo_sheet_delete (Sheet* sheet)
 		undo_redo_menu_labels (wb);
 	}
 
-	sheet_deps_destroy (sheet);
-	workbook_sheet_detach (wb, sheet, FALSE);
+	workbook_sheet_delete (sheet);
 
 	return (TRUE);
 }
@@ -7038,10 +7049,10 @@ cmd_clone_sheet_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	CmdCloneSheet *me = CMD_CLONE_SHEET (cmd);
      	
 	me->new_sheet = sheet_dup (me->cmd.sheet);
-
 	workbook_sheet_attach_at_pos (me->cmd.sheet->workbook,
 				      me->new_sheet, 
 				      me->cmd.sheet->index_in_wb + 1);
+	g_object_unref (me->new_sheet);
 	workbook_set_dirty (me->new_sheet->workbook, TRUE);
 	wbcg_focus_cur_scg (WORKBOOK_CONTROL_GUI(wbc));
 

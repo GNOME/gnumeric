@@ -406,7 +406,7 @@ sc_file_open (GOFileOpener const *fo, IOContext *io_context,
 	textline = (GsfInputTextline *) gsf_input_textline_new (input);
 	error = sc_parse_sheet (textline, sheet, ic);
 	if (error != NULL) {
-		workbook_sheet_detach (wb, sheet, FALSE);
+		workbook_sheet_delete (sheet);
 		gnumeric_io_error_info_set (io_context, error);
 	}
 	g_object_unref (G_OBJECT (textline));

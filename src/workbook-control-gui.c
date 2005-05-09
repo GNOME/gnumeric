@@ -437,49 +437,25 @@ cb_sheet_label_edit_finished (EditableLabel *el, char const *new_name,
 	return reject;
 }
 
-static void
-insert_sheet_at (WorkbookControlGUI *wbcg, gint before)
-{
-	GSList *new_order = NULL;
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	gint sheet_count = workbook_sheet_count (wb);
-	gint n;
-
-	for (n = 0; n < sheet_count; n++)
-		new_order = g_slist_prepend (new_order, GINT_TO_POINTER (n));
-	new_order = g_slist_reverse (new_order);
-
-	new_order = g_slist_insert (new_order, GINT_TO_POINTER (-1), before);
-	
-	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), new_order,
-			       g_slist_prepend (NULL, GINT_TO_POINTER (-1)),
-			       g_slist_prepend (NULL, NULL),
-			       NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-}
-
-
 void
 wbcg_insert_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	insert_sheet_at (wbcg, sheet->index_in_wb);
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Workbook *wb = wb_control_workbook (wbc);
+	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
+	workbook_sheet_add (wb, sheet->index_in_wb, FALSE);
+	cmd_reorganize_sheets2 (wbc, old_state);
 }
 
 void
 wbcg_append_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
-#ifdef NOT_YET
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Workbook *wb = wb_control_workbook (wbc);
 	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
 	workbook_sheet_add (wb, -1, FALSE);
 	cmd_reorganize_sheets2 (wbc, old_state);
-#else
-	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), NULL,
-			       g_slist_prepend (NULL, GINT_TO_POINTER (-1)),
-			       g_slist_prepend (NULL, NULL),
-			       NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-#endif
 }
 
 static void
