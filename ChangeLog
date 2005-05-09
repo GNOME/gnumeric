@@ -1,3 +1,10 @@
+2005-05-09  Morten Welinder  <terra@gnome.org>
+
+	* src/application.c (gnm_app_get_pixbuf): Remove.  All callers
+	fixed.
+	(add_icon): Don't install both a scalable and a fixed-sized icon.
+	Fixes #302902.
+
 2005-05-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/dialogs/dialog-about.c: (dialog_about): add NULL third arg

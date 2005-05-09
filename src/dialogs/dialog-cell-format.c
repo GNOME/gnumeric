@@ -78,6 +78,7 @@
 #include <gtk/gtktextview.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtktable.h>
+#include <gtk/gtkicontheme.h>
 #include <gtk/gtkbox.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
@@ -312,7 +313,8 @@ cb_toggle_changed (GtkToggleButton *button, PatternPicker *picker)
  * and to adjust the relief so it looks nice.
  */
 static void
-setup_pattern_button (GladeXML  *gui,
+setup_pattern_button (GdkScreen *screen,
+		      GladeXML  *gui,
 		      char const *const name,
 		      PatternPicker *picker,
 		      gboolean const flag,
@@ -323,7 +325,11 @@ setup_pattern_button (GladeXML  *gui,
 	if (tmp != NULL) {
 		GtkButton *button = GTK_BUTTON (tmp);
 		if (flag) {
-			GtkWidget *image = gtk_image_new_from_pixbuf (gnm_app_get_pixbuf (name));
+			GdkPixbuf *pixbuf = gtk_icon_theme_load_icon (
+				gtk_icon_theme_get_for_screen (screen),
+				name, 16, 0, NULL);
+			GtkWidget *image = gtk_image_new_from_pixbuf (pixbuf);
+			g_object_unref (pixbuf);
 			gtk_widget_show (image);
 			gtk_container_add (GTK_CONTAINER (tmp), image);
 		}
@@ -427,11 +433,16 @@ setup_color_pickers (ColorPicker *picker,
  * button of the same name.
  */
 static GtkWidget *
-init_button_image (GladeXML *gui, char const *const name)
+init_button_image (GladeXML *gui, char const *name)
 {
 	GtkWidget *tmp = glade_xml_get_widget (gui, name);
 	if (tmp != NULL) {
-		GtkWidget *image = gtk_image_new_from_pixbuf (gnm_app_get_pixbuf (name));
+		GdkScreen *screen = gtk_widget_get_screen (tmp);
+		GdkPixbuf *pixbuf = gtk_icon_theme_load_icon (
+			gtk_icon_theme_get_for_screen (screen),
+			name, 16, 0, NULL);
+		GtkWidget *image = gtk_image_new_from_pixbuf (pixbuf);
+		g_object_unref (pixbuf);
 		gtk_widget_show (image);
 		gtk_container_add (GTK_CONTAINER (tmp), image);
 	}
@@ -2321,10 +2332,11 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 		default_border_color->green >> 8,
 		default_border_color->blue  >> 8);
 	for (i = 0; (name = line_pattern_buttons[i].name) != NULL; ++i)
-		setup_pattern_button (state->gui, name, &state->border.pattern,
-			i != 0, /* No image for None */
-			line_pattern_buttons[i].pattern,
-			default_border_style);
+		setup_pattern_button (gtk_widget_get_screen (GTK_WIDGET (state->dialog)),
+				      state->gui, name, &state->border.pattern,
+				      i != 0, /* No image for None */
+				      line_pattern_buttons[i].pattern,
+				      default_border_style);
 
 	setup_color_pickers (&state->border.color, "border_color_group",
 			     "border_color_hbox",	"border_color_label",
@@ -2378,7 +2390,8 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	state->back.pattern.current_pattern = NULL;
 	state->back.pattern.state = state;
 	for (i = 0; (name = pattern_buttons[i]) != NULL; ++i)
-		setup_pattern_button (state->gui, name,
+		setup_pattern_button (gtk_widget_get_screen (GTK_WIDGET (state->dialog)),
+				      state->gui, name,
 				      &state->back.pattern, TRUE,
 				      i+1, /* Pattern #s start at 1 */
 				      selected);

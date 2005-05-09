@@ -110,7 +110,11 @@ add_icon (GtkIconFactory *factory,
 		gtk_icon_set_add_source (set, src);	/* copies the src */
 	}
 
-	if (sized_data != NULL) {
+	/*
+	 * For now, don't register a fixed-sized icon as doing so without
+	 * catching style changes kills things like bug 302902.
+	 */
+	if (scalable_data == NULL && sized_data != NULL) {
 		gtk_icon_source_set_size (src, GTK_ICON_SIZE_MENU);
 		gtk_icon_source_set_size_wildcarded (src, FALSE);
 		gtk_icon_source_set_pixbuf (src,
@@ -554,16 +558,6 @@ gnm_app_release_pref_dialog (void)
 		gtk_widget_destroy (app->pref_dialog);
 }
 
-#warning "FIXME FIXME FIXME clear out the last few calls"
-/* A convenience wrapper for old code to look up an pixbuf from an icon theme. */
-GdkPixbuf *
-gnm_app_get_pixbuf (const char *name)
-{
-	return gtk_icon_theme_load_icon (
-		gtk_icon_theme_get_default (),
-		name, 16, 0, NULL);
-}
-
 static void
 gnumeric_application_setup_pixbufs (GnmApp *app)
 {
@@ -751,8 +745,10 @@ gnumeric_application_setup_icons (void)
 		unsigned int ui = 0;
 		GtkIconFactory *factory = gtk_icon_factory_new ();
 		for (ui = 0; ui < G_N_ELEMENTS (entry) ; ui++)
-			add_icon (factory, entry[ui].scalable_data,
-				  entry[ui].sized_data, entry[ui].stock_id);
+			add_icon (factory,
+				  entry[ui].scalable_data,
+				  entry[ui].sized_data,
+				  entry[ui].stock_id);
 		gtk_icon_factory_add_default (factory);
 		g_object_unref (G_OBJECT (factory));
 		done = TRUE;

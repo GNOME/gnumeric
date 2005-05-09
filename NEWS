@@ -100,6 +100,7 @@ Morten:
 	* Implement CELL("sheetname", ...).
 	* Fix CELL with explicit sheet in the reference.
 	* Fix sheet reordering by dragging.
+	* Fix various theme related bugs.  [#302902]  [#302880]  [#302882]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

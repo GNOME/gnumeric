@@ -30,7 +30,6 @@ gboolean     gnm_app_live_scrolling	  (void);
 int	     gnm_app_auto_expr_recalc_lag (void);
 
 /* stuff that should move */
-GdkPixbuf   *gnm_app_get_pixbuf		  (char const *name);
 void         gnm_app_release_pref_dialog  (void);
 gpointer     gnm_app_get_pref_dialog	  (void);
 void         gnm_app_set_pref_dialog	  (gpointer dialog);
