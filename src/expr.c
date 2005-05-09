@@ -2340,7 +2340,6 @@ gnm_expr_get_range (GnmExpr const *expr)
 static GSList *
 do_gnm_expr_get_ranges (GnmExpr const *expr, GSList *ranges)
 {
-
 	switch (expr->any.oper) {
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
