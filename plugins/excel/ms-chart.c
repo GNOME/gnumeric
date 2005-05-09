@@ -3225,11 +3225,13 @@ static void
 chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		  unsigned i, gboolean centered)
 {
-	g_return_if_fail (axis != NULL);
 	gboolean labeled, in, out, inverted = FALSE;
 	guint16 tick_color_index, flags = 0;
-	guint8 tmp, *data = ms_biff_put_len_next (s->bp, BIFF_CHART_axis, 18);
+	guint8 tmp, *data;
 
+	g_return_if_fail (axis != NULL);
+
+	data = ms_biff_put_len_next (s->bp, BIFF_CHART_axis, 18);
 	GSF_LE_SET_GUINT32 (data + 0, i);
 	memset (data+2, 0, 16);
 	ms_biff_put_commit (s->bp);
