@@ -1911,6 +1911,9 @@ valign_to_excel (StyleVAlignFlags valign)
 	case VALIGN_JUSTIFY:
 		ialign = MS_BIFF_V_A_JUSTIFY;
 		break;
+	case VALIGN_DISTRIBUTED:
+		ialign = MS_BIFF_V_A_DISTRIBUTED;
+		break;
 	default:
 		ialign = MS_BIFF_V_A_TOP;
 	}
@@ -1933,34 +1936,31 @@ border_type_to_excel (StyleBorderType btype, MsBiffVersion ver)
 }
 
 static guint
-rotation_to_excel (int rotation, MsBiffVersion ver)
+rotation_to_excel_v7 (int rotation)
 {
-	if (ver <= MS_BIFF_V7) {
-		if (rotation < 0)
-			return 1;
-		if (rotation == 0)
-			return 0;
-		if (rotation <= 45)
-			return 0;
-		if (rotation <= 135)
-			return 2;
-		if (rotation <= 225)
-			return 0;
-		if (rotation <= 315)
-			return 2;
+	if (rotation < 0)
+		return 1;
+	if (rotation == 0)
 		return 0;
-	} else {
-		if (rotation < 0)
-			return 0xff;
-		rotation = rotation % 360;
-		if (rotation <= 90)
-			return rotation;
-		if (rotation <= 180)
-			return 180 - rotation + 90;
-		if (rotation <= 270)
-			return rotation - 180;
-		return 360 - rotation + 90;
-	}
+	if (rotation <= 45)
+		return 0;
+	if (rotation <= 135)
+		return 2;
+	if (rotation <= 225)
+		return 0;
+	if (rotation <= 315)
+		return 2;
+	return 0;
+}
+static guint
+rotation_to_excel_v8 (int rotation)
+{
+	if (rotation < 0)
+		return 0xff;
+	rotation = rotation % 360;
+	if (rotation > 90)
+		return 360 + 90 - rotation;
+	return rotation;
 }
 
 /**
@@ -2190,7 +2190,8 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 			tmp16 |= (1 << 3);
 		tmp16 |= (valign_to_excel (xfd->valign) << 4) & 0x70;
 		/* tmp16 |= (0 << 7);	fjustLast from far east ? */
-		tmp16 |= (rotation_to_excel (xfd->rotation, bp->version) << 8) & 0xff00;
+		g_print ("%d => %d\n", xfd->rotation, rotation_to_excel_v8 (xfd->rotation));
+		tmp16 |= (rotation_to_excel_v8 (xfd->rotation) << 8) & 0xff00;
 		GSF_LE_SET_GUINT16(data+6, tmp16);
 
 		/*********** Byte 8&9 */
@@ -2290,7 +2291,7 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 			tmp16 |= 1 << 3;
 		/* Vertical alignment */
 		tmp16 |= (valign_to_excel (xfd->valign) << 4) & 0x70;
-		tmp16 |= (rotation_to_excel (xfd->rotation, bp->version) << 8)
+		tmp16 |= (rotation_to_excel_v7 (xfd->rotation) << 8)
 			 & 0x300;
 		tmp16 |= xfd->differences & 0xFC00; /* Difference bits */
 		GSF_LE_SET_GUINT16(data+6, tmp16);

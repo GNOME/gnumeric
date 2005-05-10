@@ -1512,6 +1512,7 @@ mstyle_get_effective_wrap_text (const GnmStyle *style)
 	/* Note: HALIGN_GENERAL never expands to HALIGN_JUSTIFY.  */
 	return (style->elements[MSTYLE_WRAP_TEXT].u.wrap_text ||
 		style->elements[MSTYLE_ALIGN_V].u.align.v == VALIGN_JUSTIFY ||
+		style->elements[MSTYLE_ALIGN_V].u.align.v == VALIGN_DISTRIBUTED ||
 		style->elements[MSTYLE_ALIGN_H].u.align.h == HALIGN_JUSTIFY);
 }
 

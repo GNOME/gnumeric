@@ -824,9 +824,14 @@ xml_sax_styleregion_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			mstyle_set_wrap_text (state->style, val);
 		else if (xml_sax_attr_bool (attrs, "ShrinkToFit", &val))
 			mstyle_set_shrink_to_fit (state->style, val);
-		else if (xml_sax_attr_int (attrs, "Rotation", &val))
+		else if (xml_sax_attr_int (attrs, "Rotation", &val)) {
+			/* Work around a bug pre 1.5.1 that would allow
+			 * negative rotations.  -1 == vertical, map everything
+			 * else back onto 0..359 */
+			if (val < -1)
+				val += 360;
 			mstyle_set_rotation (state->style, val);
-		else if (xml_sax_attr_int (attrs, "Shade", &val))
+		} else if (xml_sax_attr_int (attrs, "Shade", &val))
 			mstyle_set_pattern (state->style, val);
 		else if (xml_sax_attr_int (attrs, "Indent", &val))
 			mstyle_set_indent (state->style, val);

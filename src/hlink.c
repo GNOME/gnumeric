@@ -204,10 +204,6 @@ typedef struct {
 	GnmHLink hlink;
 } GnmHLinkURL;
 
-#ifdef WITH_GNOME
-#include <libgnome/gnome-url.h>
-#endif
-
 static gboolean
 gnm_hlink_url_activate (GnmHLink *lnk, WorkbookControl *wbc)
 {

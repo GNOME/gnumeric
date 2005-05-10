@@ -2034,6 +2034,9 @@ excel_read_XF (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 	case 3:
 		xf->valign = VALIGN_JUSTIFY;
 		break;
+	case 4:
+		xf->valign = VALIGN_DISTRIBUTED;
+		break;
 	default:
 		fprintf (stderr,"Unknown valign %d\n", subdata);
 		break;

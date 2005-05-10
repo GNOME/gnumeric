@@ -60,9 +60,6 @@
 #include <errno.h>
 #include "mathfunc.h"
 #include <goffice/utils/go-file.h>
-#ifdef WITH_GNOME
-#include <libgnome/gnome-url.h>
-#endif
 
 /* WorkbookView signals */
 enum {
@@ -858,7 +855,7 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 			url = g_strdup_printf ("mailto:someone?attach=%s", tmp);
 			g_free (tmp);
 #ifdef WITH_GNOME
-			gnome_url_show (url, &err);
+			go_url_show (url);
 #else
 			gnm_mailto_url_show (url, template, &err);
 #endif

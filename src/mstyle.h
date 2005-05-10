@@ -118,6 +118,7 @@ StyleVAlignFlags    mstyle_get_align_v     (const GnmStyle *st);
 void                mstyle_set_indent	   (GnmStyle *st, int i);
 int		    mstyle_get_indent	   (const GnmStyle *st);
 
+/* -1 == vertical, 0..359 == rotation */
 void                mstyle_set_rotation	   (GnmStyle *st, int r);
 int            	    mstyle_get_rotation    (const GnmStyle *st);
 void		    mstyle_set_text_dir    (GnmStyle *style, GnmTextDir text_dir);

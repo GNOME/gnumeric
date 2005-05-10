@@ -326,11 +326,23 @@ enum {
 	OO_NS_CONFIG,
 	OO_NS_MATH,
 	OO_NS_FO,
+	OO_NS_DC,
+	OO_NS_META,
 	OO_NS_XLINK,
-	OO_NS_SVG
+	OO_NS_SVG,
+
+	/* new in 2.0 */
+	OO_NS_OOO,
+	OO_NS_OOOW,
+	OO_NS_OOOC,
+	OO_NS_DOM,
+	OO_NS_XFORMS,
+	OO_NS_XSD,
+	OO_NS_XSI
 };
 
-static GsfXMLInNS content_ns[] = {
+static GsfXMLInNS ooo_ns[] = {
+	/* OOo 1.0.x & 1.1.x */
 	GSF_XML_IN_NS (OO_NS_OFFICE,	"http://openoffice.org/2000/office"),
 	GSF_XML_IN_NS (OO_NS_STYLE,	"http://openoffice.org/2000/style"),
 	GSF_XML_IN_NS (OO_NS_TEXT,	"http://openoffice.org/2000/text"),
@@ -342,10 +354,33 @@ static GsfXMLInNS content_ns[] = {
 	GSF_XML_IN_NS (OO_NS_FORM,	"http://openoffice.org/2000/form"),
 	GSF_XML_IN_NS (OO_NS_SCRIPT,	"http://openoffice.org/2000/script"),
 	GSF_XML_IN_NS (OO_NS_CONFIG,	"http://openoffice.org/2001/config"),
-	GSF_XML_IN_NS (OO_NS_MATH,	"http://www.w3.org/1998/Math/MathML"),
+	GSF_XML_IN_NS (OO_NS_MATH,	"http://www.w3.org/1998/Math/MathML"),	/* also in 2.0 */
 	GSF_XML_IN_NS (OO_NS_FO,	"http://www.w3.org/1999/XSL/Format"),
-	GSF_XML_IN_NS (OO_NS_XLINK,	"http://www.w3.org/1999/xlink"),
+	GSF_XML_IN_NS (OO_NS_XLINK,	"http://www.w3.org/1999/xlink"),	/* also in 2.0 */
 	GSF_XML_IN_NS (OO_NS_SVG,	"http://www.w3.org/2000/svg"),
+
+	/* OOo 1.9.x & 2.0.x */
+	GSF_XML_IN_NS (OO_NS_OFFICE,	"urn:oasis:names:tc:opendocument:xmlns:office:1.0"),
+	GSF_XML_IN_NS (OO_NS_STYLE,	"urn:oasis:names:tc:opendocument:xmlns:style:1.0"),
+	GSF_XML_IN_NS (OO_NS_TEXT,	"urn:oasis:names:tc:opendocument:xmlns:text:1.0"),
+	GSF_XML_IN_NS (OO_NS_TABLE,	"urn:oasis:names:tc:opendocument:xmlns:table:1.0"),
+	GSF_XML_IN_NS (OO_NS_DRAW,	"urn:oasis:names:tc:opendocument:xmlns:drawing:1.0"),
+	GSF_XML_IN_NS (OO_NS_FO,	"urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0"),
+	GSF_XML_IN_NS (OO_NS_META,	"urn:oasis:names:tc:opendocument:xmlns:meta:1.0"),
+	GSF_XML_IN_NS (OO_NS_NUMBER,	"urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0"),
+	GSF_XML_IN_NS (OO_NS_SVG,	"urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0"),
+	GSF_XML_IN_NS (OO_NS_CHART,	"urn:oasis:names:tc:opendocument:xmlns:chart:1.0"),
+	GSF_XML_IN_NS (OO_NS_DR3D,	"urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0"),
+	GSF_XML_IN_NS (OO_NS_FORM,	"urn:oasis:names:tc:opendocument:xmlns:form:1.0"),
+	GSF_XML_IN_NS (OO_NS_SCRIPT,	"urn:oasis:names:tc:opendocument:xmlns:script:1.0"),
+	GSF_XML_IN_NS (OO_NS_DC,	"http://purl.org/dc/elements/1.1/"),
+	GSF_XML_IN_NS (OO_NS_OOO,	"http://openoffice.org/2004/office"),
+	GSF_XML_IN_NS (OO_NS_OOOW,	"http://openoffice.org/2004/writer"),
+	GSF_XML_IN_NS (OO_NS_OOOC,	"http://openoffice.org/2004/calc"),
+	GSF_XML_IN_NS (OO_NS_DOM,	"http://www.w3.org/2001/xml-events"),
+	GSF_XML_IN_NS (OO_NS_XFORMS,	"http://www.w3.org/2002/xforms"),
+	GSF_XML_IN_NS (OO_NS_XSD,	"http://www.w3.org/2001/XMLSchema"),
+	GSF_XML_IN_NS (OO_NS_XSI,	"http://www.w3.org/2001/XMLSchema-instance"),
 	{ NULL }
 };
 
@@ -1524,9 +1559,9 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	styles_doc   = gsf_xml_in_doc_new (opencalc_styles_dtd, content_ns);
-	content_doc  = gsf_xml_in_doc_new (opencalc_content_dtd, content_ns);
-	settings_doc = gsf_xml_in_doc_new (opencalc_settings_dtd, content_ns);
+	styles_doc   = gsf_xml_in_doc_new (opencalc_styles_dtd, ooo_ns);
+	content_doc  = gsf_xml_in_doc_new (opencalc_content_dtd, ooo_ns);
+	settings_doc = gsf_xml_in_doc_new (opencalc_settings_dtd, ooo_ns);
 }
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)

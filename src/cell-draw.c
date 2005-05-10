@@ -167,6 +167,7 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 	}
 
 	case VALIGN_JUSTIFY:
+	case VALIGN_DISTRIBUTED: /* dunno what this does yet */
 		text_base = rect_y;
 		if (!rv->vfilled && height > rv->layout_natural_height) {
 			int line_count = pango_layout_get_line_count (layout);

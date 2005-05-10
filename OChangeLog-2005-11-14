@@ -31,6 +31,23 @@
 	(add_icon): Don't install both a scalable and a fixed-sized icon.
 	Fixes #302902.
 
+2005-05-08  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_styleregion_start) : work around use of
+	  negative rotations which are used to indicate vertical text.
+	* src/xml-io.c (xml_read_style) : ditto.
+
+2005-05-07  Jody Goldberg <jody@gnome.org>
+
+	* src/style.h : Add a 'VALIGN_DISTRIBUTED' that was added in XP
+	  dunno what it does yet.
+	* src/dialogs/dialog-cell-format.c : Add an entry for DISTRIBUTED
+
+	* src/mstyle.h : document the range of rotation
+
+	* src/workbook-view.c : remove pointless include
+	* src/hlink.c : remove pointless include
+
 2005-05-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/dialogs/dialog-about.c: (dialog_about): add NULL third arg

@@ -198,7 +198,7 @@ void
 cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 {
 	Sheet *sheet;
-	int align, left, max_col, min_col;
+	int h_align, v_align, left, max_col, min_col;
 	int row, pos, margin;
 	int cell_width_pixel, indented_w;
 	GnmStyle *mstyle;
@@ -227,23 +227,25 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	}
 
 	mstyle = cell_get_mstyle (cell);
-	align = style_default_halign (mstyle, cell);
+	h_align = style_default_halign (mstyle, cell);
+	v_align = mstyle_get_align_v (mstyle);
 	row   = cell->pos.row;
 	indented_w = cell_width_pixel = cell_rendered_width (cell);
-	if (align == HALIGN_LEFT || align == HALIGN_RIGHT) {
+	if (h_align == HALIGN_LEFT || h_align == HALIGN_RIGHT) {
 		indented_w += cell_rendered_offset (cell);
 		if (sheet->text_is_rtl)
-			align = (align == HALIGN_LEFT) ? HALIGN_RIGHT : HALIGN_LEFT;
+			h_align = (h_align == HALIGN_LEFT) ? HALIGN_RIGHT : HALIGN_LEFT;
 	}
 
 	if (cell_is_empty (cell) ||
 	    !cell->col_info->visible ||
-	    (align != HALIGN_CENTER_ACROSS_SELECTION &&
+	    (h_align != HALIGN_CENTER_ACROSS_SELECTION &&
 		 (mstyle_get_wrap_text (mstyle) ||
 		  indented_w <= COL_INTERNAL_WIDTH (cell->col_info))) ||
-	    align == HALIGN_JUSTIFY ||
-	    align == HALIGN_FILL ||
-	    mstyle_get_align_v (mstyle) == VALIGN_JUSTIFY) {
+	    h_align == HALIGN_JUSTIFY ||
+	    h_align == HALIGN_FILL ||
+	    v_align == VALIGN_JUSTIFY ||
+	    v_align == VALIGN_DISTRIBUTED) {
 		*col1 = *col2 = cell->pos.col;
 		return;
 	}
@@ -253,7 +255,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	max_col = (merge_right != NULL) ? merge_right->start.col : SHEET_MAX_COLS;
 
 	*col1 = *col2 = cell->pos.col;
-	switch (align) {
+	switch (h_align) {
 	case HALIGN_LEFT:
 		pos = cell->pos.col + 1;
 		left = indented_w - COL_INTERNAL_WIDTH (cell->col_info);
@@ -388,7 +390,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	}
 
 	default:
-		g_warning ("Unknown horizontal alignment type %d.", align);
+		g_warning ("Unknown horizontal alignment type %d.", h_align);
 	} /* switch */
 }
 

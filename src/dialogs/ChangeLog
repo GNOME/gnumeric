@@ -1,3 +1,8 @@
+2005-05-08  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (cb_rotate_changed) : keep
+	  rotation in range 0..359
+
 2005-04-12  Jody Goldberg <jody@gnome.org>
 
 	* Makefile.am : Add hooks for a paste names dialog

@@ -25,6 +25,8 @@ Jody:
 	* Decrease memory usage in clipboard.
 	* Simplify tiling when pasting a copy. [#87477]
 	* Be more flexible pasting full cols/rows in single cells. [#87528]
+	* Add vertical alignment DISTRIBUTED
+	* Fix xls in/out of rotation
 
 Jon Kåre:
         * Don't crash on csv file with invalid unicode [#167190]

@@ -1304,8 +1304,14 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (xml_node_get_int (tree, "VAlign", &val))
 		mstyle_set_align_v (mstyle, val);
 
-	if (xml_node_get_int (tree, "Rotation", &val))
+	if (xml_node_get_int (tree, "Rotation", &val)) {
+		/* Work around a bug pre 1.5.1 that would allow
+		 * negative rotations.  -1 == vertical, map everything
+		 * else back onto 0..359 */
+		if (val < -1)
+			val += 360;
 		mstyle_set_rotation (mstyle, val);
+	}
 
 	if (xml_node_get_int (tree, "Shade", &val))
 		mstyle_set_pattern (mstyle, val);

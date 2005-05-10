@@ -325,6 +325,7 @@ write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t 
 			gsf_output_puts (output, " valign=\"center\" ");
 			break;
 		case VALIGN_JUSTIFY:
+		case VALIGN_DISTRIBUTED:
 			gsf_output_puts (output, " valign=\"baseline\" ");
 			break;
 		default:

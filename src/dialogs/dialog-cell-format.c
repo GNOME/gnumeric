@@ -589,10 +589,12 @@ cb_rotate_changed (GtkEditable *editable, FormatState *state)
 
 	if (editable != NULL && state->enable_edit) {
 		GtkSpinButton *sb = GTK_SPIN_BUTTON (editable);
-		int val = gtk_spin_button_get_value_as_int (sb);
+		int val = gtk_spin_button_get_value_as_int (sb) % 360;
 
 		if (state->align.rotation != val) {
 			state->align.rotation = val;
+			if (val < 0)
+				val += 360;
 			mstyle_set_rotation (state->result, val);
 			fmt_dialog_changed (state);
 		}
@@ -774,6 +776,7 @@ fmt_dialog_init_align_page (FormatState *state)
 	    { "valign_center", VALIGN_CENTER },
 	    { "valign_bottom", VALIGN_BOTTOM },
 	    { "valign_justify", VALIGN_JUSTIFY },
+	    { "valign_distributed", VALIGN_DISTRIBUTED },
 	    { NULL }
 	};
 

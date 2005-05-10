@@ -23,7 +23,8 @@ typedef enum {
 	VALIGN_TOP     = 1,
 	VALIGN_BOTTOM  = 2,
 	VALIGN_CENTER  = 4,
-	VALIGN_JUSTIFY = 8
+	VALIGN_JUSTIFY = 8,
+	VALIGN_DISTRIBUTED = 16
 } StyleVAlignFlags;
 
 typedef enum {
