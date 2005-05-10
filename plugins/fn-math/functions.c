@@ -687,7 +687,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, GnmValue **argv)
 	if (NULL != argv[2]) {
 		GnmValueRange const *target = &argv[2]->v_range;
 		res.target_sheet = eval_sheet (target->cell.a.sheet, ei->pos->sheet);
-		if (res.target_sheet != eval_sheet (target->cell.b.sheet, ei->pos->sheet))
+		if (target->cell.b.sheet && res.target_sheet != target->cell.b.sheet)
 			return value_new_error_VALUE (ei->pos);
 		res.offset.col = target->cell.a.col - r->cell.a.col;
 		res.offset.row = target->cell.a.row - r->cell.a.row;
