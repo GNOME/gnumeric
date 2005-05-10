@@ -1,3 +1,7 @@
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
 2005-03-16  Stepan Kasal  <kasal@ucw.cz>
 
 	* api.c (w_lp_solve_set_constr): Always assign a value to

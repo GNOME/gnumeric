@@ -1,3 +1,7 @@
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
 2005-05-09  Morten Welinder  <terra@gnome.org>
 
 	* ms-chart.c (chart_write_axis): Fix C99ism.

@@ -1,3 +1,7 @@
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
 2005-04-14  Morten Welinder  <terra@gnome.org>
 
 	* goal-seek.c (goal_seek_initialize): Initalize ->have_root.

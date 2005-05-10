@@ -1,3 +1,7 @@
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
 2005-05-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* sylk.c: (sylk_file_open): use go_setlocale

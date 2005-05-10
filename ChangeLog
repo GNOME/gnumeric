@@ -1,3 +1,7 @@
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
 2005-05-09  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook.c (workbook_sheet_attach_at_pos): Add a ref to

@@ -1,3 +1,7 @@
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
 2005-02-16  Jody Goldberg <jody@gnome.org>
 
 	* numtheory.c : Fix the help entries for PFACTOR and NT_PI

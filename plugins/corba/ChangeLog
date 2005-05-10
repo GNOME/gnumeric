@@ -1,3 +1,7 @@
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
 2005-05-07  Jody Goldberg <jody@gnome.org>
 
 	* corba-application.c : bonobo.h is a bonoboui header we do not really

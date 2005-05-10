@@ -55,7 +55,7 @@ typedef enum {	/* Vertical alignment */
 	MS_BIFF_V_A_TOP     = 0,
 	MS_BIFF_V_A_CENTER  = 1,
 	MS_BIFF_V_A_BOTTOM  = 2,
-	MS_BIFF_V_A_JUSTIFY = 3
+	MS_BIFF_V_A_JUSTIFY = 3,
 	MS_BIFF_V_A_DISTRIBUTED = 4
 } MsBiffVAlign;
 

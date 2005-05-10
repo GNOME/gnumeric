@@ -1,3 +1,7 @@
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
 2005-04-16  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* tools/gconf-schemas-to-win32-reg.c: Moved here from src/tools/.

@@ -1007,6 +1007,16 @@ DVARP(A1:C7, "Salary", A9:B11) equals 41725140.25.
 @SEEALSO=DVAR
 
 @CATEGORY=Database
+@FUNCTION=EXECSQL
+@SYNTAX=EXECSQL(dsn,username,password,sql)
+@DESCRIPTION=The EXECSQL function lets you execute a command in a database server, and show the results returned in current sheet. It uses libgda as the means for accessing the databases.
+For using it, you need first to set up a libgda data source.
+@EXAMPLES=
+To get all the data from the table "Customers" present in the "mydatasource" GDA data source, you would use:
+EXECSQL("mydatasource","username","password","SELECT * FROM customers")
+@SEEALSO=READDBTABLE
+
+@CATEGORY=Database
 @FUNCTION=GETPIVOTDATA
 @SYNTAX=GETPIVOTDATA(pivot_table,field_name)
 @DESCRIPTION=GETPIVOTDATA function fetches summary data from a pivot table. @pivot_table is a cell range containing the pivot table. @field_name is the name of the field of which you want the summary data.
@@ -1016,6 +1026,16 @@ DVARP(A1:C7, "Salary", A9:B11) equals 41725140.25.
 @EXAMPLES=
 
 @SEEALSO=
+
+@CATEGORY=Database
+@FUNCTION=READDBTABLE
+@SYNTAX=READDBTABLE(dsn,username,password,table)
+@DESCRIPTION=The READDBTABLE function lets you get the contents of a table, as stored in a database.For using it, you need first to set up a libgda data source.
+Note that this function returns all the rows in the given table. If you want to get data from more than one table or want a more precise selection (conditions), use the EXECSQL function.
+@EXAMPLES=
+To get all the data from the table "Customers" present in the "mydatasource" GDA data source, you would use:
+READDBTABLE("mydatasource","username","password","customers")
+@SEEALSO=EXECSQL
 
 @CATEGORY=Date/Time
 @FUNCTION=DATE
@@ -1934,6 +1954,17 @@ AMORLINC(2400,DATE(1998,8,19),DATE(1998,12,31),300,1,0.15,1) = 360
 @SEEALSO=AMORDEGRC
 
 @CATEGORY=Finance
+@FUNCTION=atl_last
+@SYNTAX=ATL_LAST (tag)
+@DESCRIPTION=ATL_LAST is a sample implemention of a real time data source. It takes a string tag and monitors the named pipe /tmp/atl for changes to the value of that tag.
+
+* This is no intended to be generally enabled and is OFF by default.
+
+@EXAMPLES=
+ATL_LAST("IBM")
+@SEEALSO=
+
+@CATEGORY=Finance
 @FUNCTION=COUPDAYBS
 @SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis,eom])
 @DESCRIPTION=COUPDAYBS returns the number of days from the beginning of the coupon period to the settlement date.
@@ -2606,7 +2637,7 @@ NPV(0.17,-10000,3340,2941,2493,3233,1732,2932) equals 186.30673.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_2_ASSET_CORRELATION
-@SYNTAX=OPT_2_ASSSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,time,cost_of_carry1,cost_of_carry2,rate,volatility1,volatility2,rho)
+@SYNTAX=OPT_2_ASSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,time,cost_of_carry1,cost_of_carry2,rate,volatility1,volatility2,rho)
 @DESCRIPTION=OPT_2_ASSET_CORRELATION models the theoretical price of  options on 2 assets with correlation @rho.
 The payoff for a call is max(@spot2 - @strike2,0) if @spot1 > @strike1 or 0 otherwise.
 The payoff for a put is max (@strike2 - @spot2, 0) if @spot1 < @strike1 or 0 otherwise.
@@ -2671,9 +2702,9 @@ The payoff for a put is max (@strike2 - @spot2, 0) if @spot1 < @strike1 or 0 oth
 @SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA
 
 @CATEGORY=Finance
-@FUNCTION=OPT_BJERSTENS
-@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,volatility[,cost_of_carry])
-@DESCRIPTION=OPT_BJERSTENS models the theoretical price of american options according to the Bjerksund & Stensland approximation technique.
+@FUNCTION=OPT_BJER_STENS
+@SYNTAX=OPT_BJER_STENS(call_put_flag,spot,strike,time,rate,volatility[,cost_of_carry])
+@DESCRIPTION=OPT_BJER_STENS models the theoretical price of american options according to the Bjerksund & Stensland approximation technique.
 @call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.
 @spot is the spot price of the underlying asset.
 @strike is the strike price at which the option is struck.
@@ -3418,8 +3449,6 @@ XIRR(A1:A5,B1:B5) returns 0.224838.
 @DESCRIPTION=GNUMERIC_VERSION returns the version of gnumeric as a string.
 @EXAMPLES=
 GNUMERIC_VERSION().
-
-@SEEALSO=
 
 @CATEGORY=Information
 @FUNCTION=CELL
@@ -4168,7 +4197,7 @@ CEIL(-2.9) equals -2.
 
 @CATEGORY=Mathematics
 @FUNCTION=CEILING
-@SYNTAX=CEILING(x,significance)
+@SYNTAX=CEILING(x[,significance])
 @DESCRIPTION=CEILING function rounds @x up to the nearest multiple of @significance.
 
 * If @x or @significance is non-numeric CEILING returns #VALUE! error.
@@ -4604,8 +4633,6 @@ POWER(3,3.141) equals 31.523749.
 @EXAMPLES=
 PRODUCT(2,5,9) equals 90.
 
-@SEEALSO=SUM, COUNT, G_PRODUCT
-
 @CATEGORY=Mathematics
 @FUNCTION=QUOTIENT
 @SYNTAX=QUOTIENT(numerator,denominator)
@@ -4672,16 +4699,18 @@ ROUND(1501.15,-2) equals 1500.0.
 @CATEGORY=Mathematics
 @FUNCTION=ROUNDDOWN
 @SYNTAX=ROUNDDOWN(number[,digits])
-@DESCRIPTION=ROUNDDOWN function rounds a given @number down. @number is the number you want rounded down and @digits is the number of digits to which you want to round that number.
+@DESCRIPTION=ROUNDDOWN function rounds a given @number towards 0.
 
-* If @digits is greater than zero, @number is rounded down to the given number of digits.
-* If @digits is zero or omitted, @number is rounded down to the nearest integer.
-* If @digits is less than zero, @number is rounded down to the left of the decimal point.
+@number is the number you want rounded toward 0 and @digits is the number of digits to which you want to round that number.
+
+* If @digits is greater than zero, @number is rounded toward 0 to the given number of digits.
+* If @digits is zero or omitted, @number is rounded toward 0 to the next integer.
+* If @digits is less than zero, @number is rounded toward 0 to the left of the decimal point.
 * This function is Excel compatible.
 
 @EXAMPLES=
 ROUNDDOWN(5.5) equals 5.
-ROUNDDOWN(-3.3) equals -4.
+ROUNDDOWN(-3.3) equals -3.
 ROUNDDOWN(1501.15,1) equals 1501.1.
 ROUNDDOWN(1501.15,-2) equals 1500.0.
 
@@ -4690,18 +4719,18 @@ ROUNDDOWN(1501.15,-2) equals 1500.0.
 @CATEGORY=Mathematics
 @FUNCTION=ROUNDUP
 @SYNTAX=ROUNDUP(number[,digits])
-@DESCRIPTION=ROUNDUP function rounds a given number up.
+@DESCRIPTION=ROUNDUP function rounds a given number away from 0.
 
-@number is the number you want rounded up and @digits is the number of digits to which you want to round that number.
+@number is the number you want rounded away from 0 and @digits is the number of digits to which you want to round that number.
 
-* If @digits is greater than zero, @number is rounded up to the given number of digits.
-* If @digits is zero or omitted, @number is rounded up to the nearest integer.
-* If @digits is less than zero, @number is rounded up to the left of the decimal point.
+* If @digits is greater than zero, @number is rounded away from 0 to the given number of digits.
+* If @digits is zero or omitted, @number is rounded away from 0 to the next integer.
+* If @digits is less than zero, @number is rounded away from 0 to the left of the decimal point.
 * This function is Excel compatible.
 
 @EXAMPLES=
 ROUNDUP(5.5) equals 6.
-ROUNDUP(-3.3) equals -3.
+ROUNDUP(-3.3) equals -4.
 ROUNDUP(1501.15,1) equals 1501.2.
 ROUNDUP(1501.15,-2) equals 1600.0.
 
@@ -4794,8 +4823,6 @@ SQRTPI(2) equals 2.506628275.
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43.  Then
 SUM(A1:A5) equals 107.
-
-@SEEALSO=AVERAGE, COUNT
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMA
@@ -4942,6 +4969,7 @@ TRUNC(4.15,1) equals 4.1.
 @SYNTAX=ISPRIME(i)
 @DESCRIPTION=ISPRIME function returns TRUE if @i is prime and FALSE otherwise.
 
+@EXAMPLES=
 @SEEALSO=ITHPRIME, NT_D, NT_SIGMA
 
 @CATEGORY=Number Theory
@@ -4988,6 +5016,7 @@ Otherwise it returns:
 @SYNTAX=NT_PI(n)
 @DESCRIPTION=NT_PI function returns the number of primes less than or equal to @n.
 
+@EXAMPLES=
 @SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA
 
 @CATEGORY=Number Theory
@@ -5005,6 +5034,7 @@ Otherwise it returns:
 
 The argument must be at least 2, or else a #VALUE! error is returned.
 
+@EXAMPLES=
 @SEEALSO=ITHPRIME
 
 @CATEGORY=Random Numbers
@@ -5689,7 +5719,7 @@ EXPONDIST(2,4,0) equals 0.001341851.
 @FUNCTION=EXPPOWDIST
 @SYNTAX=EXPPOWDIST(x,a,b)
 @DESCRIPTION=EXPPOWDIST returns the probability density p(x) at @x for Exponential Power distribution with scale parameter @a and exponent @b.
-
+This distribution has been recommended for lifetime analysis when a U-shaped hazard function is desired. This corresponds to rapid failure once the product starts to wear out after a period of steady or even improving reliability.
 @EXAMPLES=
 EXPPOWDIST(0.4,1,2).
 
@@ -6199,7 +6229,7 @@ NEGBINOMDIST(2,5,0.55) equals 0.152872629.
 @CATEGORY=Statistics
 @FUNCTION=NORMDIST
 @SYNTAX=NORMDIST(x,mean,stddev,cumulative)
-@DESCRIPTION=NORMDIST function returns the normal cumulative distribution. @x is the value for which you want the distribution, @mean is the mean of the distribution, @stddev is the standard deviation.
+@DESCRIPTION=The NORMDIST function returns the value of the probability density function or the cumulative distribution function for the normal distribution with the mean given by @mean, and the standard deviation given by @stddev. If @cumulative is FALSE, NORMDIST returns the value of the probability density function at the value @x. If @cumulative is TRUE, NORMDIST returns the value of the cumulative distribution function at @x.
 
 * If @stddev is 0 NORMDIST returns #DIV/0! error.
 * This function is Excel compatible.
@@ -6363,6 +6393,138 @@ Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 2
 QUARTILE(A1:A5,1) equals 17.3.
 
 @SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL
+
+@CATEGORY=Statistics
+R.DBETA:probability density function of the beta distribution.
+
+@CATEGORY=Statistics
+R.DBINOM:probability density function of the binomial distribution.
+
+@CATEGORY=Statistics
+R.DCAUCHY:probability density function of the Cauchy distribution.
+
+@CATEGORY=Statistics
+R.DCHISQ:probability density function of the chi-square distribution.
+
+@CATEGORY=Statistics
+R.DEXP:probability density function of the exponential distribution.
+
+@CATEGORY=Statistics
+R.DF:probability density function of the F distribution.
+
+@CATEGORY=Statistics
+R.DGAMMA:probability density function of the gamma distribution.
+
+@CATEGORY=Statistics
+R.DGEOM:probability density function of the geometric distribution.
+
+@CATEGORY=Statistics
+R.DHYPER:probability density function of the hypergeometric distribution.
+
+@CATEGORY=Statistics
+R.DLNORM:probability density function of the log-normal distribution.
+
+@CATEGORY=Statistics
+R.DNBINOM:probability density function of the negative binomial distribution.
+
+@CATEGORY=Statistics
+R.DNORM:probability density function of the normal distribution.
+
+@CATEGORY=Statistics
+R.DPOIS:probability density function of the Poisson distribution.
+
+@CATEGORY=Statistics
+R.DT:probability density function of the Student t distribution.
+
+@CATEGORY=Statistics
+R.DWEIBULL:probability density function of the Weibull distribution.
+
+@CATEGORY=Statistics
+R.PBETA:cumulative distribution function of the beta distribution.
+
+@CATEGORY=Statistics
+R.PBINOM:cumulative distribution function of the binomial distribution.
+
+@CATEGORY=Statistics
+R.PCAUCHY:cumulative distribution function of the Cauchy distribution.
+
+@CATEGORY=Statistics
+R.PCHISQ:cumulative distribution function of the chi-square distribution.
+
+@CATEGORY=Statistics
+R.PEXP:cumulative distribution function of the exponential distribution.
+
+@CATEGORY=Statistics
+R.PF:cumulative distribution function of the F distribution.
+
+@CATEGORY=Statistics
+R.PGAMMA:cumulative distribution function of the gamma distribution.
+
+@CATEGORY=Statistics
+R.PGEOM:cumulative distribution function of the geometric distribution.
+
+@CATEGORY=Statistics
+R.PHYPER:cumulative distribution function of the hypergeometric distribution.
+
+@CATEGORY=Statistics
+R.PLNORM:cumulative distribution function of the log-normal distribution.
+
+@CATEGORY=Statistics
+R.PNBINOM:cumulative distribution function of the negative binomial distribution.
+
+@CATEGORY=Statistics
+R.PNORM:cumulative distribution function of the normal distribution.
+
+@CATEGORY=Statistics
+R.PPOIS:cumulative distribution function of the Poisson distribution.
+
+@CATEGORY=Statistics
+R.PT:cumulative distribution function of the Student t distribution.
+
+@CATEGORY=Statistics
+R.PWEIBULL:cumulative distribution function of the Weibull distribution.
+
+@CATEGORY=Statistics
+R.QBETA:probability quantile function of the beta distribution.
+
+@CATEGORY=Statistics
+R.QBINOM:probability quantile function of the binomial distribution.
+
+@CATEGORY=Statistics
+R.QCAUCHY:probability quantile function of the Cauchy distribution.
+
+@CATEGORY=Statistics
+R.QCHISQ:probability quantile function of the chi-square distribution.
+
+@CATEGORY=Statistics
+R.QEXP:probability quantile function of the exponential distribution.
+
+@CATEGORY=Statistics
+R.QF:probability quantile function of the F distribution.
+
+@CATEGORY=Statistics
+R.QGAMMA:probability quantile function of the gamma distribution.
+
+@CATEGORY=Statistics
+R.QGEOM:probability quantile function of the geometric distribution.
+
+@CATEGORY=Statistics
+R.QLNORM:probability quantile function of the log-normal distribution.
+
+@CATEGORY=Statistics
+R.QNBINOM:probability quantile function of the negative binomial distribution.
+
+@CATEGORY=Statistics
+R.QNORM:probability quantile function of the normal distribution.
+
+@CATEGORY=Statistics
+R.QPOIS:probability quantile function of the Poisson distribution.
+
+@CATEGORY=Statistics
+R.QT:probability quantile function of the Student t distribution.
+
+@CATEGORY=Statistics
+R.QWEIBULL:probability quantile function of the Weibull distribution.
 
 @CATEGORY=Statistics
 @FUNCTION=RANK
@@ -6654,7 +6816,7 @@ TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}.
 @CATEGORY=Statistics
 @FUNCTION=TRIMMEAN
 @SYNTAX=TRIMMEAN(ref,fraction)
-@DESCRIPTION=TRIMMEAN returns the mean of the interior of a data set. @ref is the list of numbers whose mean you want to calculate and @fraction is the fraction of the data set excluded from the mean. For example, if @fraction=0.2 and the data set contains 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2), 4 from the top and 4 from the bottom of the set.
+@DESCRIPTION=TRIMMEAN returns the mean of the interior of a data set. @ref is the list of numbers whose mean you want to calculate and @fraction is the fraction of the data set excluded from the mean. For example, if @fraction=0.2 and the data set contains 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2): the 4 largest and the 4 smallest.  To avoid a bias, the number of points to be excluded is always rounded down to the nearest even number.
 
 * This function is Excel compatible.
 
@@ -6900,7 +7062,7 @@ LEFT("Directory",3) equals "Dir".
 @EXAMPLES=
 LEN("Helsinki") equals 8.
 
-@SEEALSO=CHAR, CODE
+@SEEALSO=CHAR, CODE, LENB
 
 @CATEGORY=String
 @FUNCTION=LENB
