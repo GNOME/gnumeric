@@ -869,13 +869,13 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 		g_string_append_c (target, '{');
 		for (y = 0; y < v->v_array.y; y++){
 			if (y)
-				g_string_append (target, col_sep);
+				g_string_append (target, row_sep);
 
 			for (x = 0; x < v->v_array.x; x++){
 				GnmValue const *val = v->v_array.vals[x][y];
 
 				if (x)
-					g_string_append (target, row_sep);
+					g_string_append (target, col_sep);
 
 				/* quote strings */
 				if (val->type == VALUE_STRING)

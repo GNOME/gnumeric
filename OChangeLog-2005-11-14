@@ -1,3 +1,8 @@
+2005-05-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/value.c: (value_get_as_gstring): exchange row_sep and col_sep
+	when formatting an array formula.
+
 2005-05-10  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
