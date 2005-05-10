@@ -67,7 +67,7 @@ POFILES = @POFILES@
 GMOFILES = @GMOFILES@
 DISTFILES = ChangeLog Makefile.in.in POTFILES.in \
 $(POFILES) $(SOURCES)
-MAYBE_DISTFILES = POTFILES.skip
+EXTRA_DISTFILES = POTFILES.skip Makevars LINGUAS
 
 POTFILES = \
 
@@ -202,7 +202,8 @@ maintainer-clean: distclean
 distdir = ../$(GETTEXT_PACKAGE)-$(VERSION)/$(subdir)
 dist distdir: $(DISTFILES)
 	dists="$(DISTFILES)"; \
-	for file in $(MAYBE_DISTFILES); do \
+	extra_dists="$(EXTRA_DISTFILES)"; \
+	for file in $$extra_dists; do \
 	  test -f $$file && dists="$$dists $$file"; \
 	done; \
 	for file in $$dists; do \
