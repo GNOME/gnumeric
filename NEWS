@@ -15,7 +15,7 @@ Andreas:
 	* Fix NORMDIST description. [#167467]
 
 David J Craigon:
-	* Allow ssimport to specify importer. [#160069]
+	* Allow ssconvert to specify importer. [#160069]
 
 Ivan Wong:
 	* Fix image filtering for Win32.  [#164589]
