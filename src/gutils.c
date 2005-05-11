@@ -108,7 +108,7 @@ gnm_usr_dir (void)
 }
 
 int
-gnumeric_regcomp_XL (go_regex_t *preg, char const *pattern, int cflags)
+gnumeric_regcomp_XL (GORegexp *preg, char const *pattern, int cflags)
 {
 	GString *res = g_string_new (NULL);
 	int retval;

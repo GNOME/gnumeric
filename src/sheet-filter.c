@@ -628,9 +628,9 @@ GSF_CLASS (GnmFilterField, filter_field,
 
 typedef struct  {
 	GnmFilterCondition const *cond;
+	GODateConventions const  *date_conv;
 	GnmValue		 *val[2];
-	go_regex_t  regexp[2];
-	GODateConventions const *date_conv;
+	GORegexp  		  regexp[2];
 } FilterExpr;
 
 static void
@@ -664,7 +664,7 @@ filter_expr_release (FilterExpr *fexpr, unsigned i)
 }
 
 static gboolean
-filter_expr_eval (GnmFilterOp op, GnmValue const *src, go_regex_t const *regexp,
+filter_expr_eval (GnmFilterOp op, GnmValue const *src, GORegexp const *regexp,
 		  GnmValue *target)
 {
 	GnmValDiff cmp;

@@ -18,6 +18,8 @@ Release Critical
 	sumproduct(--(A1:A5>4),B1:B4)
 	: fix the row/col separators problem in array formula
 
+    : clearing autofilter (set to all) does not trigger a redraw of the row headers
+
 Worries
 -------
     : buttons in sheet manager resize vertically

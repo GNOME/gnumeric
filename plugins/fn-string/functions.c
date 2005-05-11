@@ -1164,7 +1164,7 @@ gnumeric_search (FunctionEvalInfo *ei, GnmValue **argv)
 	char const *haystack = value_peek_string (argv[1]);
 	int start = argv[2] ? value_get_as_int (argv[2]) : 1;
 	char const *hay2;
-	go_regex_t r;
+	GORegexp r;
 	regmatch_t rm;
 	GnmValue *res = NULL;
 	int i;
