@@ -16,6 +16,7 @@ Release Critical
 	sumproduct(A1:A5>4,B1:B4) will not work and that they will
 	need
 	sumproduct(--(A1:A5>4),B1:B4)
+	: fix the row/col separators problem in array formula
 
 Worries
 -------
@@ -709,4 +710,3 @@ Clipboard
 - Fall back to string import when incoming html and OpenOffice doesn't
   contain tables.                                               (DONE)
 - May be not export html as table when just one cell is selected.
-
