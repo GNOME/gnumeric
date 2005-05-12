@@ -69,13 +69,13 @@ struct _GnmPasteTarget {
 	int         paste_flags;
 };
 
-GnmCellRegion *clipboard_copy_range   (Sheet *sheet, GnmRange const *r);
-GnmCellRegion *clipboard_copy_obj     (Sheet *sheet, GSList *objects);
-gboolean       clipboard_paste_region (GnmCellRegion const *content,
-				       GnmPasteTarget const *pt,
-				       GOCmdContext *cc);
-GnmPasteTarget*paste_target_init      (GnmPasteTarget *pt,
-				       Sheet *sheet, GnmRange const *r, int flags);
+GnmCellRegion  *clipboard_copy_range   (Sheet *sheet, GnmRange const *r);
+GnmCellRegion  *clipboard_copy_obj     (Sheet *sheet, GSList *objects);
+gboolean        clipboard_paste_region (GnmCellRegion const *content,
+					GnmPasteTarget const *pt,
+					GOCmdContext *cc);
+GnmPasteTarget *paste_target_init      (GnmPasteTarget *pt,
+					Sheet *sheet, GnmRange const *r, int flags);
 
 GnmCellRegion *cellregion_new	(Sheet *origin_sheet);
 void           cellregion_ref   (GnmCellRegion *content);
