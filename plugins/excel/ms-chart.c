@@ -25,6 +25,7 @@
 #include <value.h>
 #include <gutils.h>
 #include <graph.h>
+#include <str.h>
 #include <style-color.h>
 #include <sheet-object-graph.h>
 #include <workbook-view.h>
@@ -2696,6 +2697,9 @@ typedef struct {
 	GogView const	*root_view;
 
 	unsigned	 nest_level;
+	unsigned cur_series;
+	GSList *pending_series;
+	GPtrArray *values[3];
 } XLChartWriteState;
 
 typedef struct {
@@ -2703,6 +2707,11 @@ typedef struct {
 	gboolean transpose, center_ticks;
 	GSList  *plots;
 } XLAxisSet;
+
+typedef struct {
+	unsigned series;
+	GnmValue const *value;
+} XLValue;
 
 static gint
 cb_axis_set_cmp (XLAxisSet const *a, XLAxisSet const *b)
@@ -2979,12 +2988,22 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 {
 	guint8 buf[8], lendat[2];
 	unsigned len;
+	GnmExpr const *expr = NULL;
+	GnmValue const *value = NULL;
 
 	if (dim != NULL) {
-		GType const t = G_OBJECT_TYPE (dim);
-		if (t == GNM_GO_DATA_SCALAR_TYPE ||
-		    t == GNM_GO_DATA_VECTOR_TYPE)
-			ref_type = 2;
+		expr = gnm_go_data_get_expr (dim);
+		if ((value = gnm_expr_get_constant (expr)) != NULL)
+			ref_type = 1;
+		else {
+			GType const t = G_OBJECT_TYPE (dim);
+			/* the following condition should always be true */
+			if (t == GNM_GO_DATA_SCALAR_TYPE ||
+				t == GNM_GO_DATA_VECTOR_TYPE)
+				ref_type = 2;
+			else
+				g_assert_not_reached ();
+		}
 	}
 	ms_biff_put_var_next (s->bp, BIFF_CHART_ai);
 	GSF_LE_SET_GUINT8  (buf+0, n);
@@ -2999,12 +3018,17 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 
 	if (ref_type == 2) {
 		len = excel_write_formula (s->ewb,
-			gnm_go_data_get_expr (dim),
+			expr,
 			gnm_go_data_get_sheet (dim),
 			0, 0, EXCEL_CALLED_FROM_NAME);
 		ms_biff_put_var_seekto (s->bp, 6);
 		GSF_LE_SET_GUINT16 (lendat, len);
 		ms_biff_put_var_write (s->bp, lendat, 2);
+	} else if (ref_type == 1 && value) {
+		XLValue *xlval = (XLValue*) g_new0 (XLValue*, 1);
+		xlval->series = s->cur_series;
+		xlval->value = value;
+		g_ptr_array_add (s->values[n - 1], xlval);
 	}
 
 	ms_biff_put_commit (s->bp);
@@ -3142,6 +3166,7 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 	GList const *ptr;
 
 	/* SERIES */
+	s->cur_series = n;
 	data = ms_biff_put_len_next (s->bp, BIFF_CHART_series,
 		(s->bp->version >= MS_BIFF_V8) ? 12: 8);
 	store_dim (series, GOG_MS_DIM_CATEGORIES, data+0, data+4, num_elements);
@@ -3603,6 +3628,60 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 	g_slist_free (sets);
 }
 
+static void
+chart_write_siindex (XLChartWriteState *s, guint msdim)
+{
+	guint8 *data;
+	unsigned i, j, jmax;
+	XLValue *xlval;
+	gboolean as_col;
+	GnmValue const* value;
+	data = ms_biff_put_len_next (s->bp, BIFF_CHART_siindex, 2);
+	GSF_LE_SET_GUINT16 (data, msdim);
+	ms_biff_put_commit (s->bp);
+	msdim--;
+	for (i = 0; i < s->values[msdim]->len; i++) {
+		xlval = s->values[msdim]->pdata[i];
+		if (xlval->value->type != VALUE_ARRAY)
+			continue;
+		as_col = xlval->value->v_array.y > xlval->value->v_array.x;
+		jmax = (as_col)? xlval->value->v_array.y: xlval->value->v_array.x;
+		for (j = 0; j < jmax; j++) {
+			value = (as_col)? xlval->value->v_array.vals [0][j]: xlval->value->v_array.vals [j][0];
+			switch (value->type) {
+			case VALUE_INTEGER: {
+				double d = (double) value->v_int.val;
+				data = ms_biff_put_len_next (s->bp, BIFF_NUMBER_v2, 14);
+				GSF_LE_SET_DOUBLE (data + 6, d);
+				break;
+			}
+			case VALUE_FLOAT:
+				data = ms_biff_put_len_next (s->bp, BIFF_NUMBER_v2, 14);
+				GSF_LE_SET_DOUBLE (data + 6, value->v_float.val);
+				break;
+			case VALUE_STRING: {
+				guint dat[6];
+				ms_biff_put_var_next (s->bp, BIFF_LABEL_v2);
+				GSF_LE_SET_GUINT16 (dat, j);
+				GSF_LE_SET_GUINT16 (dat + 2, i);
+				GSF_LE_SET_GUINT16 (dat + 4, 0);
+				ms_biff_put_var_write  (s->bp, (guint8*) dat, 6);
+				excel_write_string (s->bp, STR_TWO_BYTE_LENGTH,
+					value->v_str.val->str);
+				ms_biff_put_commit (s->bp);
+				continue;
+			default:
+				break;
+			}
+			}
+			GSF_LE_SET_GUINT16 (data, j);
+			GSF_LE_SET_GUINT16 (data + 2, i);
+			GSF_LE_SET_GUINT16 (data + 4, 0);
+			ms_biff_put_commit (s->bp);
+		}
+	}
+}
+
 void
 ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 {
@@ -3612,12 +3691,15 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	unsigned i, num_series = 0;
 	GSList const *plots, *series;
 	GSList *charts, *sets, *ptr;
-	XLAxisSet *axis_set;
+	XLAxisSet *axis_set = NULL;
 
 	state.bp  = ewb->bp;
 	state.ewb = ewb;
 	state.so  = so;
 	state.graph = sheet_object_graph_get_gog (so);
+	for (i = 0; i < 3; i++)
+		state.values[i] = g_ptr_array_new ();
+	state.pending_series = NULL;
 
 	g_return_if_fail (state.graph != NULL);
 
@@ -3710,7 +3792,9 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 			} else {
 				/* we should have only one series there */
 				GogSeries *ser = GOG_SERIES (gog_plot_get_series (plots->data)->data);
-				g_object_get (G_OBJECT (plots->data), "transposed", &axis_set->transpose, NULL);
+				if (ser != NULL) {
+					g_object_get (G_OBJECT (plots->data), "transposed", &axis_set->transpose, NULL);
+				}
 			}
 
 	data = ms_biff_put_len_next (state.bp, BIFF_CHART_shtprops, 4);
@@ -3724,8 +3808,14 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	}
 
 	chart_write_axis_sets (&state, sets);
-	chart_write_END (&state);
 
+	for (i = 0; i < 3; i++) {
+		chart_write_siindex (&state, i + 1);
+		g_ptr_array_foreach (state.values[i], (GFunc) g_free, NULL);
+		g_ptr_array_free (state.values[i], TRUE);
+	}
+
+	chart_write_END (&state);
 #if 0 /* they seem optional */
 	BIFF_DIMENSIONS
 	BIFF_CHART_siindex x num_series ?

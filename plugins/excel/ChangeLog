@@ -1,3 +1,7 @@
+2005-05-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: export series data when constant;
+
 2005-05-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.1
