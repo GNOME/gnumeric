@@ -3,6 +3,9 @@ Gnumeric 1.5.2
 Morten:
 	* Fix SUMIF even more.  [Debian #308346]
 
+Jon Kåre:
+        * Don't output the xml declaration for xhtml. [#303827]
+
 --------------------------------------------------------------------------
 Gnumeric 1.5.1
 

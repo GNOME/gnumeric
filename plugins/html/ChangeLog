@@ -1,3 +1,8 @@
+2005-05-12  Jon K Hellan  <hellan@acm.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=303827
+	* html.c (html_file_save): Don't output the xml declaration for xhtml.
+
 2005-05-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.1
