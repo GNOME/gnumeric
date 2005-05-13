@@ -1,3 +1,8 @@
+2005-05-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (chart_write_AI): fix a crash condition. Constant series
+	names are not exported yet.
+
 2005-05-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: export series data when constant;
