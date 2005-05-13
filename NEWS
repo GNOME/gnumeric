@@ -1,5 +1,10 @@
 Gnumeric 1.5.2
 
+Jody:
+	* Autofilter string equality is stronger than containment [#172355]
+	* Buttons in sheet manager dialog should not strech vertically.
+	* Stub for MS Excel's ASC function, which is unncessary in gnumeric.
+
 Morten:
 	* Fix SUMIF even more.  [Debian #308346]
 

@@ -11,6 +11,7 @@
 		<service type="function_group" id="string">
 			<_category>String</_category>
 			<functions>
+				<function name="asc"/>
 				<function name="char"/>
 				<function name="clean"/>
 				<function name="code"/>

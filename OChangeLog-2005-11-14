@@ -1,3 +1,8 @@
+2005-05-12  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-filter.c (filter_expr_eval) : for regexp based matches
+	  make sure we matched the whole string.
+
 2005-05-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/value.c: (value_get_as_gstring): exchange row_sep and col_sep

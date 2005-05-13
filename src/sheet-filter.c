@@ -39,14 +39,15 @@
 #include "dialogs.h"
 #include "style-color.h"
 #include "gutils.h"
-#include <goffice/utils/regutf8.h>
 
+#include <goffice/utils/regutf8.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkevents.h>
 #include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
+#include <string.h>
 
 typedef struct {
 	SheetObject parent;
@@ -674,8 +675,13 @@ filter_expr_eval (GnmFilterOp op, GnmValue const *src, GORegexp const *regexp,
 		regmatch_t rm;
 
 		switch (go_regexec (regexp, str, 1, &rm, 0)) {
-		case REG_NOMATCH: return op == GNM_FILTER_OP_NOT_EQUAL;
-		case REG_OK: return op == GNM_FILTER_OP_EQUAL;
+		case REG_OK:
+			if (rm.rm_so == 0 && strlen (str) == (size_t)rm.rm_eo)
+				return op == GNM_FILTER_OP_EQUAL;
+			/* fall through */
+
+		case REG_NOMATCH:
+			return op == GNM_FILTER_OP_NOT_EQUAL;
 
 		default:
 			g_warning ("Unexpected regexec result");

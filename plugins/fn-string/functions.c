@@ -1199,7 +1199,34 @@ gnumeric_search (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_asc[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=ASC\n"
+	   "@SYNTAX=ASC(string)\n"
+
+	   "@DESCRIPTION="
+	   "ASC a compatibility function that is meaningless in Gnumeric.  "
+	   "In MS Excel (tm) it converts 2 byte @string into single byte text.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "CHAR(\"Foo\") equals \"Foo\".\n"
+	   "\n"
+	   "@SEEALSO=")
+	},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_asc (FunctionEvalInfo *ei, GnmValue **argv)
+{
+	return value_new_string (value_peek_string (argv[0]));
+}
+
+/***************************************************************************/
 const GnmFuncDescriptor string_functions[] = {
+        { "asc",       "s",     N_("string"),                  help_asc,
+	  gnumeric_asc, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "char",       "f",     N_("number"),                  help_char,
 	  gnumeric_char, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
