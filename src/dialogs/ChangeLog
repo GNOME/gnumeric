@@ -1,3 +1,8 @@
+2005-05-13  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-format.c (fmt_dialog_init_align_page): Map rotation
+	into -180..+180.
+
 2005-05-12  Jody Goldberg <jody@gnome.org>
 
 	* sheet-order.glade : don't expand the buttons vertically that is just

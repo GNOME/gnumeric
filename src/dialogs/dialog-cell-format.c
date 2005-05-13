@@ -845,10 +845,13 @@ fmt_dialog_init_align_page (FormatState *state)
 	state->align.line = NULL;
 	state->align.text = NULL;
 	state->align.text_widget = NULL;
-	state->align.rotation =
-		mstyle_is_element_conflict (state->style, MSTYLE_ROTATION)
-		? 0
-		: mstyle_get_rotation (state->style);
+	if (mstyle_is_element_conflict (state->style, MSTYLE_ROTATION))
+		state->align.rotation = 0;
+	else {
+		int r = mstyle_get_rotation (state->style);
+		if (r > 180) r -= 360;
+		state->align.rotation = r;
+	}
 	memset (state->align.rotate_marks, 0,
 		sizeof (state->align.rotate_marks));
 	w = glade_xml_get_widget (state->gui, "rotate_spinner");
