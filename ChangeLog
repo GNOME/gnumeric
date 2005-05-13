@@ -1,3 +1,8 @@
+2005-05-13  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/xml-sax-read.c (content_ns, gnumeric_1_0_dtd): Mark these
+	  variables with G_GNUC_UNUSED, the #warning below is enough.
+
 2005-05-12  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-filter.c (filter_expr_eval) : for regexp based matches

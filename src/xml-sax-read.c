@@ -1476,6 +1476,8 @@ xml_sax_paper (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 /****************************************************************************/
 
 #define GNM	0
+
+G_GNUC_UNUSED
 static GsfXMLInNS content_ns[] = {
 	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v10.dtd"),
 	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v9.dtd"),
@@ -1490,6 +1492,7 @@ static GsfXMLInNS content_ns[] = {
 	{ NULL }
 };
 
+G_GNUC_UNUSED
 static GsfXMLInNode gnumeric_1_0_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, FALSE, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_wb, NULL, 0),
