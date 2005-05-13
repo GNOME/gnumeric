@@ -1562,6 +1562,8 @@ BC_R(seriestext)(XLChartHandler const *handle,
 	guint16 const id = GSF_LE_GET_GUINT16 (q->data);	/* must be 0 */
 	int const slen = GSF_LE_GET_GUINT8 (q->data + 2);
 	char *str;
+	GnmValue *value;
+	GnmExpr *expr;
 
 	g_return_val_if_fail (id == 0, FALSE);
 
@@ -1571,11 +1573,18 @@ BC_R(seriestext)(XLChartHandler const *handle,
 	str = biff_get_text (q->data + 3, slen, NULL, s->container.ver);
 	d (2, fprintf (stderr, "'%s';\n", str););
 
-	/* A quick heuristic */
 	if (s->currentSeries != NULL &&
 	    s->currentSeries->data [GOG_MS_DIM_LABELS].data == NULL) {
-		s->currentSeries->data [GOG_MS_DIM_LABELS].data =
-			go_data_scalar_str_new (str, TRUE);
+		Sheet *sheet = ms_container_sheet (s->container.parent);
+		g_return_val_if_fail (sheet != NULL, FALSE);
+		value = value_new_string (str);
+		g_return_val_if_fail (value != NULL, FALSE);
+		expr = gnm_expr_new_constant (value);
+		if (expr)
+			s->currentSeries->data [GOG_MS_DIM_LABELS].data =
+				gnm_go_data_scalar_new_expr (sheet, expr);
+		else 
+			value_release (value);
 	} else if (BC_R(top_state) (s) == BIFF_CHART_text) {
 		if (s->text != NULL) {
 			g_warning ("multiple seriestext associated with 1 text record ?");
@@ -3005,6 +3014,17 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 				g_assert_not_reached ();
 		}
 	}
+	if (value && ref_type == 1 && n == GOG_MS_DIM_LABELS) {
+		guint dat[2];
+		g_return_if_fail (value->v_any.type == VALUE_STRING);
+		ms_biff_put_var_next (s->bp, BIFF_CHART_seriestext);
+		GSF_LE_SET_GUINT16 (dat, 0);
+		ms_biff_put_var_write  (s->bp, (guint8*) dat, 2);
+		excel_write_string (s->bp, STR_ONE_BYTE_LENGTH,
+			value->v_str.val->str);
+		ms_biff_put_commit (s->bp);
+		return;
+	}
 	ms_biff_put_var_next (s->bp, BIFF_CHART_ai);
 	GSF_LE_SET_GUINT8  (buf+0, n);
 	GSF_LE_SET_GUINT8  (buf+1, ref_type);
@@ -3025,13 +3045,10 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 		GSF_LE_SET_GUINT16 (lendat, len);
 		ms_biff_put_var_write (s->bp, lendat, 2);
 	} else if (ref_type == 1 && value) {
-		if (n) {
-			XLValue *xlval = (XLValue*) g_new0 (XLValue*, 1);
-			xlval->series = s->cur_series;
-			xlval->value = value;
-			g_ptr_array_add (s->values[n - 1], xlval);
-		} else {
-		}
+		XLValue *xlval = (XLValue*) g_new0 (XLValue*, 1);
+		xlval->series = s->cur_series;
+		xlval->value = value;
+		g_ptr_array_add (s->values[n - 1], xlval);
 	}
 
 	ms_biff_put_commit (s->bp);
@@ -3663,7 +3680,7 @@ chart_write_siindex (XLChartWriteState *s, guint msdim)
 				GSF_LE_SET_DOUBLE (data + 6, value->v_float.val);
 				break;
 			case VALUE_STRING: {
-				guint dat[6];
+				guint8 dat[6];
 				ms_biff_put_var_next (s->bp, BIFF_LABEL_v2);
 				GSF_LE_SET_GUINT16 (dat, j);
 				GSF_LE_SET_GUINT16 (dat + 2, i);

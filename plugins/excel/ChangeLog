@@ -1,5 +1,12 @@
 2005-05-13  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* ms-chart.c: (seriestext): use a constant GnmExpr instead of
+	a GODataScalarStr, (chart_write_AI): export constant series labels,
+	(chart_write_siindex): fix a stupid bug.
+
+
+2005-05-13  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* ms-chart.c: (chart_write_AI): fix a crash condition. Constant series
 	names are not exported yet.
 
