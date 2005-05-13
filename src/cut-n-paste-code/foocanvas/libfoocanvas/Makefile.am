@@ -1,13 +1,13 @@
-INCLUDES = \
+AM_CPPFLAGS = \
 	-I$(top_srcdir) 				\
 	-I$(top_builddir)				\
 	$(WARN_CFLAGS) 					\
-	$(GNUMERIC_CFLAGS) -I$(top_srcdir)/src			\
+	$(GNUMERIC_CFLAGS) -I$(top_srcdir)/src				\
         -DFOOCANVASLIBDIR=\""$(libdir)"\" 		\
         -DFOOCANVASDATADIR=\""$(datadir)"\" 		\
         -DFOOCANVASPIXMAPDIR=\""$(datadir)/pixmaps"\"	\
         -DFOOCANVASBINDIR=\""$(bindir)"\" 		\
-        -DFOOCANVASLOCALSTATEDIR=\""$(localstatedir)"\" 	\
+        -DFOOCANVASLOCALSTATEDIR=\""$(localstatedir)"\"	\
         -DFOOCANVASLOCALEDIR=\""$(gnomelocaledir)"\" 	\
 	-DG_LOG_DOMAIN=\"Foocanvas\"			\
 	-DVERSION=\"$(VERSION)\"
@@ -23,12 +23,8 @@ libfoocanvas_a_LIBADD = \
 libfoocanvasincludedir = $(includedir)/libfoocanvas-1.0/libfoocanvas
 
 
-BUILT_SOURCES =					\
-	foo-canvas-marshal.c			\
-	foo-canvas-marshal.h
-
 libfoocanvas_a_SOURCES =			\
-	$(BUILT_SOURCES)			\
+	foo-canvas-marshal.list			\
 	foo-canvas-i18n.h			\
 	foo-canvas-line.c			\
 	foo-canvas-pixbuf.c			\
@@ -40,28 +36,27 @@ libfoocanvas_a_SOURCES =			\
 	foo-canvas.c				\
 	libfoocanvastypes.c
 
-foo-canvas-marshal.h: foo-canvas-marshal.list $(GLIB_GENMARSHAL)
-	$(GLIB_GENMARSHAL) $< --header --prefix=foo_canvas_marshal > $@
-foo-canvas-marshal.c: foo-canvas-marshal.list $(GLIB_GENMARSHAL) foo-canvas-marshal.h
-	$(GLIB_GENMARSHAL) $< --body --prefix=foo_canvas_marshal > $@.tmp
-	echo '/* This file has been automatically generated.  Do not edit.  */' >$@
-	echo '#include "'$*.h'"' >>$@
-	cat $@.tmp >>$@
-	rm -f $@.tmp
+GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=foo_canvas_marshal
+SUFFIXES = .list
 
-EXTRA_DIST = \
-	foo-canvas-marshal.list	\
-	libfoocanvas.pc.in
+.list.h:
+	$(GENMARSHAL_COMMAND) --header $< >$@
 
+.list.c:
+	(echo '/* This file has been automatically generated.  Do not edit. */' && \
+	echo '#include "$*.h"' && \
+	$(GENMARSHAL_COMMAND) --body $< ) >$@
+
+# A hint is needed to build the header first:
+BUILT_SOURCES = foo-canvas-marshal.h
+
+# Another hint, see bugs #172211 and #172212:
+non-intermediate: foo-canvas-marshal.c
 
 CLEANFILES = foo-canvas-marshal.h foo-canvas-marshal.c
 
-DONT_DIST_SOURCE = $(BUILT_SOURCES)
+EXTRA_DIST = libfoocanvas.pc.in
 
-dist-hook:
-	for file in $(DONT_DIST_SOURCE) ; do \
-	    rm -f $(distdir)/$$file ; \
-	done
 
 noinst_HEADERS = \
 	foo-canvas-marshal.h \

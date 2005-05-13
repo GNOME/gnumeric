@@ -177,87 +177,87 @@ foo_canvas_pixbuf_class_init (FooCanvasPixbufClass *class)
                  PROP_PIXBUF,
                  g_param_spec_object ("pixbuf", NULL, NULL,
                                       GDK_TYPE_PIXBUF,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_WIDTH,
                  g_param_spec_double ("width", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_WIDTH_SET,
-                 g_param_spec_boolean ("width_set", NULL, NULL,
+                 g_param_spec_boolean ("width-set", NULL, NULL,
 				       FALSE,
-				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				       G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_WIDTH_IN_PIXELS,
-                 g_param_spec_boolean ("width_in_pixels", NULL, NULL,
+                 g_param_spec_boolean ("width-in-pixels", NULL, NULL,
 				       FALSE,
-				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				       G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_HEIGHT,
                  g_param_spec_double ("height", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_HEIGHT_SET,
-                 g_param_spec_boolean ("height_set", NULL, NULL,
+                 g_param_spec_boolean ("height-set", NULL, NULL,
 				       FALSE,
-				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				       G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_HEIGHT_IN_PIXELS,
-                 g_param_spec_boolean ("height_in_pixels", NULL, NULL,
+                 g_param_spec_boolean ("height-in-pixels", NULL, NULL,
 				       FALSE,
-				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				       G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_X,
                  g_param_spec_double ("x", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
-                                    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_X_IN_PIXELS,
-                 g_param_spec_boolean ("x_in_pixels", NULL, NULL,
+                 g_param_spec_boolean ("x-in-pixels", NULL, NULL,
 				       FALSE,
-				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				       G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_Y,
                  g_param_spec_double ("y", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_Y_IN_PIXELS,
-                 g_param_spec_boolean ("y_in_pixels", NULL, NULL,
+                 g_param_spec_boolean ("y-in-pixels", NULL, NULL,
 				       FALSE,
-				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				       G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_ANCHOR,
                  g_param_spec_enum ("anchor", NULL, NULL,
                                     GTK_TYPE_ANCHOR_TYPE,
                                     GTK_ANCHOR_NW,
-                                    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_INTERP_TYPE,
-                 g_param_spec_enum ("interp_type", NULL, NULL,
+                 g_param_spec_enum ("interp-type", NULL, NULL,
                                     GDK_TYPE_INTERP_TYPE,
                                     GDK_INTERP_BILINEAR,
-                                    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
 		 PROP_POINT_IGNORES_ALPHA,
-                 g_param_spec_boolean ("point_ignores_alpha", NULL, NULL,
+                 g_param_spec_boolean ("point-ignores-alpha", NULL, NULL,
 				       FALSE,
-				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				       G_PARAM_READWRITE));
 
 	object_class->destroy = foo_canvas_pixbuf_destroy;
 

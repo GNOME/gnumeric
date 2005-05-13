@@ -215,7 +215,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				      _("Text"),
 				      _("Text to render"),
                                       NULL,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      G_PARAM_READWRITE));
 
         g_object_class_install_property
                 (gobject_class,
@@ -232,14 +232,14 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
                  PROP_X,
                  g_param_spec_double ("x", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
 
         g_object_class_install_property
                 (gobject_class,
                  PROP_Y,
                  g_param_spec_double ("y", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
 
 
 	/* Font */
@@ -250,16 +250,16 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				      _("Font"),
 				      _("Font description as a string"),
                                       NULL,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      G_PARAM_READWRITE));
 
         g_object_class_install_property
 		(gobject_class,
 		 PROP_FONT_DESC,
-		 g_param_spec_boxed ("font_desc",
+		 g_param_spec_boxed ("font-desc",
 				     _("Font description"),
 				     _("Font description as a PangoFontDescription struct"),
 				     PANGO_TYPE_FONT_DESCRIPTION,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				     G_PARAM_READWRITE));
 
 	g_object_class_install_property
 		(gobject_class,
@@ -268,7 +268,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				      _("Font family"),
 				      _("Name of the font family, e.g. Sans, Helvetica, Times, Monospace"),
 				      NULL,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
 
 	/* Style */
         g_object_class_install_property
@@ -276,7 +276,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
                  PROP_ATTRIBUTES,
                  g_param_spec_boxed ("attributes", NULL, NULL,
 				     PANGO_TYPE_ATTR_LIST,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				     G_PARAM_READWRITE));
 
 	g_object_class_install_property
 		(gobject_class,
@@ -334,7 +334,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 	g_object_class_install_property
 		(gobject_class,
 		PROP_SIZE_POINTS,
-		g_param_spec_double ("size_points",
+		g_param_spec_double ("size-points",
 				     _("Font points"),
 				     _("Font size in points"),
 				     0.0,
@@ -389,137 +389,137 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
                  g_param_spec_enum ("anchor", NULL, NULL,
                                     GTK_TYPE_ANCHOR_TYPE,
                                     GTK_ANCHOR_CENTER,
-                                    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_JUSTIFICATION,
                  g_param_spec_enum ("justification", NULL, NULL,
                                     GTK_TYPE_JUSTIFICATION,
                                     GTK_JUSTIFY_LEFT,
-                                    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_CLIP_WIDTH,
-                 g_param_spec_double ("clip_width", NULL, NULL,
+                 g_param_spec_double ("clip-width", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_CLIP_HEIGHT,
-                 g_param_spec_double ("clip_height", NULL, NULL,
+                 g_param_spec_double ("clip-height", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_CLIP,
                  g_param_spec_boolean ("clip", NULL, NULL,
 				       FALSE,
-				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				       G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_WRAP_WIDTH,
-                 g_param_spec_double ("wrap_width", NULL, NULL,
+                 g_param_spec_double ("wrap-width", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_X_OFFSET,
-                 g_param_spec_double ("x_offset", NULL, NULL,
+                 g_param_spec_double ("x-offset", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_Y_OFFSET,
-                 g_param_spec_double ("y_offset", NULL, NULL,
+                 g_param_spec_double ("y-offset", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR,
-                 g_param_spec_string ("fill_color",
+                 g_param_spec_string ("fill-color",
 				      _("Color"),
 				      _("Text color, as string"),
                                       NULL,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR_GDK,
-                 g_param_spec_boxed ("fill_color_gdk",
+                 g_param_spec_boxed ("fill-color-gdk",
 				     _("Color"),
 				     _("Text color, as a GdkColor"),
 				     GDK_TYPE_COLOR,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				     G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR_RGBA,
-                 g_param_spec_uint ("fill_color_rgba",
+                 g_param_spec_uint ("fill-color-rgba",
 				    _("Color"),
 				    _("Text color, as an R/G/B/A combined integer"),
 				    0, G_MAXUINT, 0,
-				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_STIPPLE,
-                 g_param_spec_object ("fill_stipple", NULL, NULL,
+                 g_param_spec_object ("fill-stipple", NULL, NULL,
                                       GDK_TYPE_DRAWABLE,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_TEXT_WIDTH,
-                 g_param_spec_double ("text_width",
+                 g_param_spec_double ("text-width",
 				      _("Text width"),
 				      _("Width of the rendered text"),
 				      0.0, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_TEXT_HEIGHT,
-                 g_param_spec_double ("text_height",
+                 g_param_spec_double ("text-height",
 				      _("Text height"),
 				      _("Height of the rendered text"),
 				      0.0, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
 
 	/* Style props are set (explicitly applied) or not */
 #define ADD_SET_PROP(propname, propval, nick, blurb) g_object_class_install_property (gobject_class, propval, g_param_spec_boolean (propname, nick, blurb, FALSE, G_PARAM_READABLE | G_PARAM_WRITABLE))
 
-	ADD_SET_PROP ("family_set", PROP_FAMILY_SET,
+	ADD_SET_PROP ("family-set", PROP_FAMILY_SET,
 		      _("Font family set"),
 		      _("Whether this tag affects the font family"));
 
-	ADD_SET_PROP ("style_set", PROP_STYLE_SET,
+	ADD_SET_PROP ("style-set", PROP_STYLE_SET,
 		      _("Font style set"),
 		      _("Whether this tag affects the font style"));
 
-	ADD_SET_PROP ("variant_set", PROP_VARIANT_SET,
+	ADD_SET_PROP ("variant-set", PROP_VARIANT_SET,
 		      _("Font variant set"),
 		      _("Whether this tag affects the font variant"));
 
-	ADD_SET_PROP ("weight_set", PROP_WEIGHT_SET,
+	ADD_SET_PROP ("weight-set", PROP_WEIGHT_SET,
 		      _("Font weight set"),
 		      _("Whether this tag affects the font weight"));
 
-	ADD_SET_PROP ("stretch_set", PROP_STRETCH_SET,
+	ADD_SET_PROP ("stretch-set", PROP_STRETCH_SET,
 		      _("Font stretch set"),
 		      _("Whether this tag affects the font stretch"));
 
-	ADD_SET_PROP ("size_set", PROP_SIZE_SET,
+	ADD_SET_PROP ("size-set", PROP_SIZE_SET,
 		      _("Font size set"),
 		      _("Whether this tag affects the font size"));
 
-	ADD_SET_PROP ("rise_set", PROP_RISE_SET,
+	ADD_SET_PROP ("rise-set", PROP_RISE_SET,
 		      _("Rise set"),
 		      _("Whether this tag affects the rise"));
 
-	ADD_SET_PROP ("strikethrough_set", PROP_STRIKETHROUGH_SET,
+	ADD_SET_PROP ("strikethrough-set", PROP_STRIKETHROUGH_SET,
 		      _("Strikethrough set"),
 		      _("Whether this tag affects strikethrough"));
 
-	ADD_SET_PROP ("underline_set", PROP_UNDERLINE_SET,
+	ADD_SET_PROP ("underline-set", PROP_UNDERLINE_SET,
 		      _("Underline set"),
 		      _("Whether this tag affects underlining"));
 
-	ADD_SET_PROP ("scale_set", PROP_SCALE_SET,
+	ADD_SET_PROP ("scale-set", PROP_SCALE_SET,
 		      _("Scale set"),
 		      _("Whether this tag affects font scaling"));
 #undef ADD_SET_PROP

@@ -160,106 +160,106 @@ foo_canvas_line_class_init (FooCanvasLineClass *class)
                  PROP_POINTS,
                  g_param_spec_boxed ("points", NULL, NULL,
 				     FOO_TYPE_CANVAS_POINTS,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				     G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR,
-                 g_param_spec_string ("fill_color", NULL, NULL,
+                 g_param_spec_string ("fill-color", NULL, NULL,
                                       NULL,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR_GDK,
-                 g_param_spec_boxed ("fill_color_gdk", NULL, NULL,
+                 g_param_spec_boxed ("fill-color-gdk", NULL, NULL,
 				     GDK_TYPE_COLOR,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				     G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR_RGBA,
-                 g_param_spec_uint ("fill_color_rgba", NULL, NULL,
+                 g_param_spec_uint ("fill-color-rgba", NULL, NULL,
 				    0, G_MAXUINT, 0,
-				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_STIPPLE,
-                 g_param_spec_object ("fill_stipple", NULL, NULL,
+                 g_param_spec_object ("fill-stipple", NULL, NULL,
                                       GDK_TYPE_DRAWABLE,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_WIDTH_PIXELS,
-                 g_param_spec_uint ("width_pixels", NULL, NULL,
+                 g_param_spec_uint ("width-pixels", NULL, NULL,
 				    0, G_MAXUINT, 0,
-				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_WIDTH_UNITS,
-                 g_param_spec_double ("width_units", NULL, NULL,
+                 g_param_spec_double ("width-units", NULL, NULL,
 				      0.0, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_CAP_STYLE,
-                 g_param_spec_enum ("cap_style", NULL, NULL,
+                 g_param_spec_enum ("cap-style", NULL, NULL,
                                     GDK_TYPE_CAP_STYLE,
                                     GDK_CAP_BUTT,
-                                    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_JOIN_STYLE,
-                 g_param_spec_enum ("join_style", NULL, NULL,
+                 g_param_spec_enum ("join-style", NULL, NULL,
                                     GDK_TYPE_JOIN_STYLE,
                                     GDK_JOIN_MITER,
-                                    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_LINE_STYLE,
-                 g_param_spec_enum ("line_style", NULL, NULL,
+                 g_param_spec_enum ("line-style", NULL, NULL,
                                     GDK_TYPE_LINE_STYLE,
                                     GDK_LINE_SOLID,
-                                    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FIRST_ARROWHEAD,
-                 g_param_spec_boolean ("first_arrowhead", NULL, NULL,
+                 g_param_spec_boolean ("first-arrowhead", NULL, NULL,
 				       FALSE,
-				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				       G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_LAST_ARROWHEAD,
-                 g_param_spec_boolean ("last_arrowhead", NULL, NULL,
+                 g_param_spec_boolean ("last-arrowhead", NULL, NULL,
 				       FALSE,
-				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				       G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_SMOOTH,
                  g_param_spec_boolean ("smooth", NULL, NULL,
 				       FALSE,
-				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				       G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_SPLINE_STEPS,
-                 g_param_spec_uint ("spline_steps", NULL, NULL,
+                 g_param_spec_uint ("spline-steps", NULL, NULL,
 				    0, G_MAXUINT, DEFAULT_SPLINE_STEPS,
-				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_ARROW_SHAPE_A,
-                 g_param_spec_double ("arrow_shape_a", NULL, NULL,
+                 g_param_spec_double ("arrow-shape-a", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_ARROW_SHAPE_B,
-                 g_param_spec_double ("arrow_shape_b", NULL, NULL,
+                 g_param_spec_double ("arrow-shape-b", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_ARROW_SHAPE_C,
-                 g_param_spec_double ("arrow_shape_c", NULL, NULL,
+                 g_param_spec_double ("arrow-shape-c", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
 
 	object_class->destroy = foo_canvas_line_destroy;
 

@@ -149,67 +149,67 @@ foo_canvas_polygon_class_init (FooCanvasPolygonClass *class)
                  PROP_POINTS,
                  g_param_spec_boxed ("points", NULL, NULL,
 				     FOO_TYPE_CANVAS_POINTS,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				     G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR,
-                 g_param_spec_string ("fill_color", NULL, NULL,
+                 g_param_spec_string ("fill-color", NULL, NULL,
                                       NULL,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR_GDK,
-                 g_param_spec_boxed ("fill_color_gdk", NULL, NULL,
+                 g_param_spec_boxed ("fill-color-gdk", NULL, NULL,
 				     GDK_TYPE_COLOR,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				     G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR_RGBA,
-                 g_param_spec_uint ("fill_color_rgba", NULL, NULL,
+                 g_param_spec_uint ("fill-color-rgba", NULL, NULL,
 				    0, G_MAXUINT, 0,
-				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_OUTLINE_COLOR,
-                 g_param_spec_string ("outline_color", NULL, NULL,
+                 g_param_spec_string ("outline-color", NULL, NULL,
                                       NULL,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_OUTLINE_COLOR_GDK,
-                 g_param_spec_boxed ("outline_color_gdk", NULL, NULL,
+                 g_param_spec_boxed ("outline-color-gdk", NULL, NULL,
 				     GDK_TYPE_COLOR,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				     G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_OUTLINE_COLOR_RGBA,
-                 g_param_spec_uint ("outline_color_rgba", NULL, NULL,
+                 g_param_spec_uint ("outline-color-rgba", NULL, NULL,
 				    0, G_MAXUINT, 0,
-				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_STIPPLE,
-                 g_param_spec_object ("fill_stipple", NULL, NULL,
+                 g_param_spec_object ("fill-stipple", NULL, NULL,
                                       GDK_TYPE_DRAWABLE,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_OUTLINE_STIPPLE,
-                 g_param_spec_object ("outline_stipple", NULL, NULL,
+                 g_param_spec_object ("outline-stipple", NULL, NULL,
                                       GDK_TYPE_DRAWABLE,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_WIDTH_PIXELS,
-                 g_param_spec_uint ("width_pixels", NULL, NULL,
+                 g_param_spec_uint ("width-pixels", NULL, NULL,
 				    0, G_MAXUINT, 0,
-				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_WIDTH_UNITS,
-                 g_param_spec_double ("width_units", NULL, NULL,
+                 g_param_spec_double ("width-units", NULL, NULL,
 				      0.0, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
 
 	object_class->destroy = foo_canvas_polygon_destroy;
 

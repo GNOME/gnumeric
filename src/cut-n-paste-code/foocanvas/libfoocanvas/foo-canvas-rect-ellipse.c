@@ -152,85 +152,85 @@ foo_canvas_re_class_init (FooCanvasREClass *class)
                  PROP_X1,
                  g_param_spec_double ("x1", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_Y1,
                  g_param_spec_double ("y1", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_X2,
                  g_param_spec_double ("x2", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_Y2,
                  g_param_spec_double ("y2", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR,
-                 g_param_spec_string ("fill_color", NULL, NULL,
+                 g_param_spec_string ("fill-color", NULL, NULL,
                                       NULL,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR_GDK,
-                 g_param_spec_boxed ("fill_color_gdk", NULL, NULL,
+                 g_param_spec_boxed ("fill-color-gdk", NULL, NULL,
 				     GDK_TYPE_COLOR,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				     G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR_RGBA,
-                 g_param_spec_uint ("fill_color_rgba", NULL, NULL,
+                 g_param_spec_uint ("fill-color-rgba", NULL, NULL,
 				    0, G_MAXUINT, 0,
-				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_STIPPLE,
-                 g_param_spec_object ("fill_stipple", NULL, NULL,
+                 g_param_spec_object ("fill-stipple", NULL, NULL,
                                       GDK_TYPE_DRAWABLE,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_OUTLINE_COLOR,
-                 g_param_spec_string ("outline_color", NULL, NULL,
+                 g_param_spec_string ("outline-color", NULL, NULL,
                                       NULL,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_OUTLINE_COLOR_GDK,
-                 g_param_spec_boxed ("outline_color_gdk", NULL, NULL,
+                 g_param_spec_boxed ("outline-color-gdk", NULL, NULL,
 				     GDK_TYPE_COLOR,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				     G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_OUTLINE_COLOR_RGBA,
-                 g_param_spec_uint ("outline_color_rgba", NULL, NULL,
+                 g_param_spec_uint ("outline-color-rgba", NULL, NULL,
 				    0, G_MAXUINT, 0,
-				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_OUTLINE_STIPPLE,
-                 g_param_spec_object ("outline_stipple", NULL, NULL,
+                 g_param_spec_object ("outline-stipple", NULL, NULL,
                                       GDK_TYPE_DRAWABLE,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_WIDTH_PIXELS,
-                 g_param_spec_uint ("width_pixels", NULL, NULL,
+                 g_param_spec_uint ("width-pixels", NULL, NULL,
 				    0, G_MAXUINT, 0,
-				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				    G_PARAM_READWRITE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_WIDTH_UNITS,
-                 g_param_spec_double ("width_units", NULL, NULL,
+                 g_param_spec_double ("width-units", NULL, NULL,
 				      0.0, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      G_PARAM_READWRITE));
 
 	object_class->destroy = foo_canvas_re_destroy;
 
@@ -842,17 +842,17 @@ foo_canvas_rect_realize  (FooCanvasItem *item)
 #ifdef HAVE_RENDER
 	FooCanvasRectPrivate *priv;
 	int event_base, error_base;
+	Display *dpy;
 
 	priv = FOO_CANVAS_RECT (item)->priv;
 
-	priv->use_render = XRenderQueryExtension (gdk_display, &event_base, &error_base);
+	dpy = gdk_x11_drawable_get_xdisplay (GTK_WIDGET (item->canvas)->window);
+	priv->use_render = XRenderQueryExtension (dpy, &event_base, &error_base);
 
 	if (priv->use_render) {
-		Display *dpy;
 		GdkVisual *gdk_visual;
 		Visual *visual;
 
-		dpy = gdk_x11_drawable_get_xdisplay (GTK_WIDGET (item->canvas)->window);
 		gdk_visual = gtk_widget_get_visual (GTK_WIDGET (item->canvas));
 		visual = gdk_x11_visual_get_xvisual (gdk_visual);
 
