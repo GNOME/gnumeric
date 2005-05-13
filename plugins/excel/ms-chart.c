@@ -3014,17 +3014,6 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 				g_assert_not_reached ();
 		}
 	}
-	if (value && ref_type == 1 && n == GOG_MS_DIM_LABELS) {
-		guint dat[2];
-		g_return_if_fail (value->v_any.type == VALUE_STRING);
-		ms_biff_put_var_next (s->bp, BIFF_CHART_seriestext);
-		GSF_LE_SET_GUINT16 (dat, 0);
-		ms_biff_put_var_write  (s->bp, (guint8*) dat, 2);
-		excel_write_string (s->bp, STR_ONE_BYTE_LENGTH,
-			value->v_str.val->str);
-		ms_biff_put_commit (s->bp);
-		return;
-	}
 	ms_biff_put_var_next (s->bp, BIFF_CHART_ai);
 	GSF_LE_SET_GUINT8  (buf+0, n);
 	GSF_LE_SET_GUINT8  (buf+1, ref_type);
@@ -3045,10 +3034,21 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 		GSF_LE_SET_GUINT16 (lendat, len);
 		ms_biff_put_var_write (s->bp, lendat, 2);
 	} else if (ref_type == 1 && value) {
-		XLValue *xlval = (XLValue*) g_new0 (XLValue*, 1);
-		xlval->series = s->cur_series;
-		xlval->value = value;
-		g_ptr_array_add (s->values[n - 1], xlval);
+		if (n) {
+			XLValue *xlval = (XLValue*) g_new0 (XLValue*, 1);
+			xlval->series = s->cur_series;
+			xlval->value = value;
+			g_ptr_array_add (s->values[n - 1], xlval);
+		} else {
+			guint dat[2];
+			ms_biff_put_commit (s->bp);
+			g_return_if_fail (value->v_any.type == VALUE_STRING);
+			ms_biff_put_var_next (s->bp, BIFF_CHART_seriestext);
+			GSF_LE_SET_GUINT16 (dat, 0);
+			ms_biff_put_var_write  (s->bp, (guint8*) dat, 2);
+			excel_write_string (s->bp, STR_ONE_BYTE_LENGTH,
+				value->v_str.val->str);
+		}
 	}
 
 	ms_biff_put_commit (s->bp);
