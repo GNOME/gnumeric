@@ -540,10 +540,12 @@ style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 			return HALIGN_CENTER;
 
 		case VALUE_INTEGER:
-		case VALUE_FLOAT:
-			if (mstyle_get_rotation (mstyle) > 0)
+		case VALUE_FLOAT: {
+			double a = mstyle_get_rotation (mstyle);
+			if (a > 0 && a < 180)
 				return HALIGN_LEFT;
 			return HALIGN_RIGHT;
+		}
 
 		case VALUE_ARRAY:
 			/* Tail recurse into the array */
@@ -553,7 +555,7 @@ style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 			}
 
 		default:
-			if (mstyle_get_rotation (mstyle) < 0)
+			if (mstyle_get_rotation (mstyle) > 180)
 				return HALIGN_RIGHT;
 			return HALIGN_LEFT;
 		}
