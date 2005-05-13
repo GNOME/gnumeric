@@ -673,8 +673,13 @@ filter_expr_eval (GnmFilterOp op, GnmValue const *src, go_regex_t const *regexp,
 		regmatch_t rm;
 
 		switch (go_regexec (regexp, str, 1, &rm, 0)) {
-		case REG_NOMATCH: return op == GNM_FILTER_OP_NOT_EQUAL;
-		case REG_OK: return op == GNM_FILTER_OP_EQUAL;
+		case REG_OK:
+			if (rm.rm_so == 0 && strlen (str) == (size_t)rm.rm_eo)
+				return op == GNM_FILTER_OP_EQUAL;
+			/* fall through */
+
+		case REG_NOMATCH:
+			return op == GNM_FILTER_OP_NOT_EQUAL;
 
 		default:
 			g_warning ("Unexpected regexec result");

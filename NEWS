@@ -8,6 +8,9 @@ Ivan wong:
 Jody:
 	* Backport patch for printer setting crash. [#171503]
 	* Backport fix for 3d test in sumif and countif. [#171509]
+	* Autofilter string equality is stronger than containment [#172355]
+	* Buttons in sheet manager dialog should not strech vertically.
+	* Backport foocanvas fix for hiding widgets on the sheet [#172356]
 
 Morten:
 	* Backport save-as crash fix.  [#170308]

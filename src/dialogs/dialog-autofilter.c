@@ -92,12 +92,12 @@ map_op (AutoFilterState *state, GnmFilterOp *op,
 
 	case 7:
 	case 8: *op = (i == 8) ? GNM_FILTER_OP_NOT_EQUAL : GNM_FILTER_OP_EQUAL;
-		v = value_new_string_nocopy (g_strconcat ("*", txt, NULL));
+		v = value_new_string_nocopy (g_strconcat (txt, "*", NULL));
 		break;
 
 	case 9:
 	case 10: *op = (i == 10) ? GNM_FILTER_OP_NOT_EQUAL : GNM_FILTER_OP_EQUAL;
-		v = value_new_string_nocopy (g_strconcat (txt, "*", NULL));
+		v = value_new_string_nocopy (g_strconcat ("*", txt, NULL));
 		break;
 
 	case 11:
@@ -187,6 +187,8 @@ init_operator (AutoFilterState *state, GnmFilterOp op, GnmValue const *v,
 	       char const *op_widget, char const *val_widget)
 {
 	GtkWidget *w = glade_xml_get_widget (state->gui, op_widget);
+	char const *str = v ? value_peek_string (v) : NULL;
+	char *content = NULL;
 	int i;
 
 	switch (op) {
@@ -201,23 +203,27 @@ init_operator (AutoFilterState *state, GnmFilterOp op, GnmValue const *v,
 	};
 
 	if (v != NULL && v->type == VALUE_STRING && (i == 1 || i == 2)) {
-		char const *str = v->v_str.val->str;
 		unsigned const len = strlen (str);
-		/* there needs to be at least 1 letter */
-		gboolean starts = (len > 1 && str[0] == '*');
-		gboolean ends   = (len > 1 && str[len-1] == '*' && str[len-2] != '~');
 
-		if (starts)
+		/* there needs to be at least 1 letter */
+		int ends = (len > 1 && str[0] == '*') ? 1 : 0; /* as a bool and offset */
+
+		if (len > 1 && str[len-1] == '*' && str[len-2] != '~') {
+			content = g_strdup (str + ends);
+			content[len - ends - 1] = '\0';
 			i += (ends ? 10 : 6);
-		else if (ends)
+		} else if (ends) {
+			str += 1;
 			i += 8;
+	}
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (w), i);
 
 	if (v != NULL) {
 		w = glade_xml_get_widget (state->gui, val_widget);
-		gtk_entry_set_text (GTK_ENTRY (w), value_peek_string (v));
+		gtk_entry_set_text (GTK_ENTRY (w), content ? content : str);
 	}
+	g_free (content);
 }
 
 void

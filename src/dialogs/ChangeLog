@@ -1,3 +1,13 @@
+2005-05-12  Jody Goldberg <jody@gnome.org>
+
+	* sheet-order.glade : don't expand the buttons vertically that is just
+	  ugly.
+
+	* dialog-autofilter.c (map_op) : fix inversion of starts with and ends
+	  with.
+	(init_operator) : strip the leading and trailing '*' for
+	  begins/ends/contains.
+
 2005-04-04  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-export.c (stf_export_dialog): Backport three
