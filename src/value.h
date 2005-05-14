@@ -116,6 +116,7 @@ GnmValue *value_new_cellrange_unsafe (GnmCellRef const *a, GnmCellRef const *b);
 GnmValue *value_new_cellrange        (GnmCellRef const *a, GnmCellRef const *b,
 				      int eval_col, int eval_row);
 GnmValue *value_new_cellrange_r      (Sheet *sheet, GnmRange const *r);
+GnmValue *value_new_cellrange_str    (Sheet *sheet, char const *str);
 GnmValue *value_new_array            (guint cols, guint rows);
 GnmValue *value_new_array_empty      (guint cols, guint rows);
 GnmValue *value_new_array_non_init   (guint cols, guint rows);
@@ -177,18 +178,19 @@ void value_array_set       (GnmValue *array, int col, int row, GnmValue *v);
 void value_array_resize    (GnmValue *v, int width, int height);
 
 /* FIXME: this stuff below ought to go elsewhere.  */
+typedef gboolean (*GnmCriteriaFunc) (GnmValue const *x, GnmValue const *y);
 typedef struct {
-        int    row;
+        GnmCriteriaFunc fun;
+        GnmValue  *x;
+        int	   column; /* absolute */
+} GnmCriteria;
+typedef struct {
+        int     row;	/* absolute */
         GSList *conditions;
-} database_criteria_t;
-typedef gboolean (*criteria_test_fun_t) (GnmValue const *x, GnmValue const *y);
-typedef struct {
-        criteria_test_fun_t fun;
-        GnmValue               *x;
-        int                 column;
-} func_criteria_t;
+} GnmDBCriteria;
+
 void	parse_criteria		(GnmValue *criteria,
-				 criteria_test_fun_t *fun,
+				 GnmCriteriaFunc *fun,
 				 GnmValue **test_value,
 				 CellIterFlags *iter_flags,
 				 GODateConventions const *date_conv);

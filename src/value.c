@@ -21,6 +21,7 @@
 #include "mathfunc.h"
 #include "gutils.h"
 #include "workbook.h"
+#include "expr.h"
 
 #include <stdlib.h>
 #include <errno.h>
@@ -349,6 +350,41 @@ value_new_cellrange_r (Sheet *sheet, GnmRange const *r)
 
 	return (GnmValue *)v;
 }
+
+/**
+ * value_new_cellrange_str :
+ * @sheet: the sheet where the cell range is evaluated. This really only needed if
+ *         the range given does not include a sheet specification.
+ * @str: a range specification (ex: "A1", "A1:C3", "Sheet1!A1:C3).
+ *
+ * Returns a (GnmValue *) of type VALUE_CELLRANGE if the @range was
+ * succesfully parsed or NULL on failure.
+ */
+GnmValue *
+value_new_cellrange_str (Sheet *sheet, char const *str)
+{
+	GnmParsePos  pp;
+	GnmExpr const *expr;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (str != NULL, NULL);
+
+	expr = gnm_expr_parse_str (str,
+		parse_pos_init_sheet (&pp, sheet),
+		GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES |
+		GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
+		gnm_expr_conventions_default,
+		NULL);
+
+	if (expr != NULL)  {
+		GnmValue *value = gnm_expr_get_range (expr);
+		gnm_expr_unref (expr);
+		return value;
+	}
+
+	return NULL;
+}
+
 
 static GOMemChunk *value_array_pool;
 GnmValue *
@@ -916,7 +952,7 @@ value_get_as_gstring (GnmValue const *v, GString *target,
  * simplistic value rendering
  *
  * Returns a string that must be freed.
- */
+ **/
 char *
 value_get_as_string (GnmValue const *v)
 {
@@ -1495,10 +1531,10 @@ free_criterias (GSList *criterias)
 
         while (criterias != NULL) {
 		GSList *l;
-	        database_criteria_t *criteria = criterias->data;
+	        GnmDBCriteria *criteria = criterias->data;
 
 		for (l = criteria->conditions; l; l = l->next) {
-			func_criteria_t *cond = l->data;
+			GnmCriteria *cond = l->data;
 			value_release (cond->x);
 			g_free (cond);
 		}
@@ -1513,7 +1549,7 @@ free_criterias (GSList *criterias)
 /**
  * parse_criteria :
  * @crit_val : #GnmValue 
- * @fun : #criteria_test_fun_t result
+ * @fun : #GnmCriteriaFunc result
  * @test_value : #GnmValue the value to compare against.
  * @iter_flags :
  * @date_conv : #GODateConventions
@@ -1523,7 +1559,7 @@ free_criterias (GSList *criterias)
  * operators.  Caller is responsible for freeing @test_value.
  **/
 void
-parse_criteria (GnmValue *crit_val, criteria_test_fun_t *fun, GnmValue **test_value,
+parse_criteria (GnmValue *crit_val, GnmCriteriaFunc *fun, GnmValue **test_value,
 		CellIterFlags *iter_flags, GODateConventions const *date_conv)
 {
 	int len;
@@ -1545,21 +1581,21 @@ parse_criteria (GnmValue *crit_val, criteria_test_fun_t *fun, GnmValue **test_va
 	        *fun = criteria_test_greater_or_equal;
 		len = 2;
 	} else if (strncmp (criteria, "<>", 2) == 0) {
-	        *fun = (criteria_test_fun_t) criteria_test_unequal;
+	        *fun = (GnmCriteriaFunc) criteria_test_unequal;
 		len = 2;
 		if (iter_flags)
 			*iter_flags = CELL_ITER_ALL;
 	} else if (*criteria == '<') {
-	        *fun = (criteria_test_fun_t) criteria_test_less;
+	        *fun = (GnmCriteriaFunc) criteria_test_less;
 		len = 1;
 	} else if (*criteria == '=') {
-	        *fun = (criteria_test_fun_t) criteria_test_equal;
+	        *fun = (GnmCriteriaFunc) criteria_test_equal;
 		len = 1;
 	} else if (*criteria == '>') {
-	        *fun = (criteria_test_fun_t) criteria_test_greater;
+	        *fun = (GnmCriteriaFunc) criteria_test_greater;
 		len = 1;
 	} else {
-	        *fun = (criteria_test_fun_t) criteria_test_equal;
+	        *fun = (GnmCriteriaFunc) criteria_test_equal;
 		len = 0;
 	}
 
@@ -1573,17 +1609,17 @@ static GSList *
 parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 		      int   *field_ind)
 {
-	database_criteria_t *new_criteria;
+	GnmDBCriteria *new_criteria;
 	GSList              *criterias = NULL;
 	GSList              *conditions;
-	GnmCell 		    *cell;
-	func_criteria_t     *cond;
+	GnmCell 	    *cell;
+	GnmCriteria     *cond;
 	GODateConventions const *date_conv = workbook_date_conv (sheet->workbook);
 
         int i, j;
 
 	for (i = b_row; i <= e_row; i++) {
-	        new_criteria = g_new (database_criteria_t, 1);
+	        new_criteria = g_new (GnmDBCriteria, 1);
 		conditions = NULL;
 
 		for (j = b_col; j <= e_col; j++) {
@@ -1593,7 +1629,7 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 			if (cell_is_empty (cell))
 			        continue;
 
-			cond = g_new (func_criteria_t, 1);
+			cond = g_new (GnmCriteria, 1);
 			parse_criteria (cell->value, &cond->fun, &cond->x, NULL, date_conv);
 			cond->column = (field_ind != NULL) ? field_ind[j - b_col] : j - b_col;
 			conditions = g_slist_prepend (conditions, cond);
@@ -1651,27 +1687,22 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 		      int last_col, int last_row,
 		      GSList *criterias, gboolean unique_only)
 {
-	GSList *current, *conditions, *rows = NULL;
-	GnmCell   *test_cell;
+	GSList	     *rows = NULL;
+	GSList const *crit_ptr, *cond_ptr;
 	int        row;
 	gboolean   add_flag;
+	char const *t1, *t2;
+	GnmCell   *test_cell;
+	GnmCriteria const *cond;
 
 	for (row = first_row; row <= last_row; row++) {
-		current = criterias;
 		add_flag = TRUE;
-		for (current = criterias; current != NULL;
-		     current = current->next) {
-			database_criteria_t *current_criteria;
-
+		for (crit_ptr = criterias; crit_ptr != NULL; crit_ptr = crit_ptr->next) {
 			add_flag = TRUE;
-			current_criteria = current->data;
-			conditions = current_criteria->conditions;
-
-			while (conditions != NULL) {
-				func_criteria_t const *cond = conditions->data;
-
-				test_cell = sheet_cell_get (sheet,
-					first_col + cond->column, row);
+			for (cond_ptr = ((GnmDBCriteria const *)crit_ptr->data)->conditions;
+			     cond_ptr != NULL ; cond_ptr = cond_ptr->next) {
+				cond = cond_ptr->data;
+				test_cell = sheet_cell_get (sheet, cond->column, row);
 				if (test_cell != NULL) {
 					cell_eval (test_cell);
 					if (!cell_is_empty (test_cell) &&
@@ -1680,7 +1711,6 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 						break;
 					}
 				}
-				conditions = conditions->next;
 			}
 
 			if (add_flag)
@@ -1697,11 +1727,8 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 				for (c = rows; c != NULL; c = c->next) {
 					trow = *((gint *) c->data);
 					for (i = first_col; i <= last_col; i++) {
-						char const *t1, *t2;
-						test_cell =
-							sheet_cell_get (sheet, i, trow);
-						cell =
-							sheet_cell_get (sheet, i, row);
+						test_cell = sheet_cell_get (sheet, i, trow);
+						cell = sheet_cell_get (sheet, i, row);
 						t1 = cell->value
 							? value_peek_string (cell->value)
 							: "";

@@ -114,9 +114,9 @@ advanced_filter (WorkbookControl        *wbc,
         GSList  *crit, *rows;
 	GnmEvalPos ep;
 
-	crit = parse_database_criteria (eval_pos_init_sheet
-					(&ep, wb_control_cur_sheet (wbc)),
-					database, criteria);
+	crit = parse_database_criteria (
+		eval_pos_init_sheet (&ep, wb_control_cur_sheet (wbc)),
+		database, criteria);
 
 	if (crit == NULL)
 		return ERR_INVALID_FIELD;

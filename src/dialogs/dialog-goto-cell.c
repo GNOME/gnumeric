@@ -137,7 +137,7 @@ static void
 cb_dialog_goto_update_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 				   GotoState *state)
 {
-	GnmValue *val = global_range_parse (wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
+	GnmValue *val = value_new_cellrange_str (wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
 					    gtk_entry_get_text (state->goto_text));
 	if (val != NULL) {
 		gtk_widget_set_sensitive (state->go_button, TRUE);

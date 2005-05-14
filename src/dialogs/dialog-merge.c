@@ -245,8 +245,8 @@ cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 				    DATA_RANGE, &data_string,
 				    FIELD_LOCATION, &field_string,
 				    -1);
-		v_data = global_range_parse (state->sheet, data_string);
-		v_field = global_range_parse (state->sheet, field_string);
+		v_data = value_new_cellrange_str (state->sheet, data_string);
+		v_field = value_new_cellrange_str (state->sheet, field_string);
 		g_free (data_string);
 		g_free (field_string);
 

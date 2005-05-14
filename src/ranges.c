@@ -998,7 +998,7 @@ range_transpose (GnmRange *range, GnmCellPos const *origin)
 }
 
 GnmSheetRange *
-global_range_new (Sheet *sheet, GnmRange const *r)
+gnm_sheet_range_new (Sheet *sheet, GnmRange const *r)
 {
 	GnmSheetRange *gr = g_new0 (GnmSheetRange, 1);
 
@@ -1012,14 +1012,14 @@ global_range_new (Sheet *sheet, GnmRange const *r)
 }
 
 /**
- * value_to_global_range :
- * @v :
+ * gnm_sheet_range_from_value :
  * @res :
+ * @v :
  *
- * convert @v into a global range and return in @res
+ * Convert @v into a GnmSheetRange and return in @res
  **/
 gboolean
-value_to_global_range (GnmValue const *v, GnmSheetRange *res)
+gnm_sheet_range_from_value (GnmSheetRange *res, GnmValue const *v)
 {
 	g_return_val_if_fail (v->type == VALUE_CELLRANGE, FALSE);
 
@@ -1030,15 +1030,13 @@ value_to_global_range (GnmValue const *v, GnmSheetRange *res)
 }
 
 void
-global_range_free (GnmSheetRange *gr)
+gnm_sheet_range_free (GnmSheetRange *gr)
 {
-	g_return_if_fail (gr != NULL);
-
 	g_free (gr);
 }
 
 gboolean
-global_range_overlap (GnmSheetRange const *a, GnmSheetRange const *b)
+gnm_sheet_range_overlap (GnmSheetRange const *a, GnmSheetRange const *b)
 {
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);
@@ -1050,11 +1048,11 @@ global_range_overlap (GnmSheetRange const *a, GnmSheetRange const *b)
 }
 
 GnmSheetRange *
-global_range_dup (GnmSheetRange const *src)
+gnm_sheet_range_dup (GnmSheetRange const *src)
 {
 	g_return_val_if_fail (src != NULL, NULL);
 
-	return global_range_new (src->sheet, &src->range);
+	return gnm_sheet_range_new (src->sheet, &src->range);
 }
 
 char *
@@ -1066,40 +1064,6 @@ global_range_name    (Sheet *sheet, GnmRange const *r)
 		return g_strdup (the_range_name);
 
 	return g_strdup_printf ("%s!%s", sheet->name_quoted, the_range_name);
-}
-
-/**
- * global_range_parse:
- * @sheet: the sheet where the cell range is evaluated. This really only needed if
- *         the range given does not include a sheet specification.
- * @str: a range specification (ex: "A1", "A1:C3", "Sheet1!A1:C3).
- *
- * Returns a (GnmValue *) of type VALUE_CELLRANGE if the @range was
- * succesfully parsed or NULL on failure.
- */
-GnmValue *
-global_range_parse (Sheet *sheet, char const *str)
-{
-	GnmParsePos  pp;
-	GnmExpr const *expr;
-
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (str != NULL, NULL);
-
-	expr = gnm_expr_parse_str (str,
-		parse_pos_init_sheet (&pp, sheet),
-		GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES |
-		GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
-		gnm_expr_conventions_default,
-		NULL);
-
-	if (expr != NULL)  {
-		GnmValue *value = gnm_expr_get_range (expr);
-		gnm_expr_unref (expr);
-		return value;
-	}
-
-	return NULL;
 }
 
 /**

@@ -1,3 +1,21 @@
+2005-05-14  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=165734
+	* src/value.c (find_rows_that_match) : The column in the condition is
+	  absolute, not relative to the start of the input range.
+
+2005-05-14  Jody Goldberg <jody@gnome.org>
+
+	* src/ranges.c (gnm_sheet_range_from_value) : renamed from
+	  value_to_global_range.
+	(gnm_sheet_range_new) : renamed from global_range_new.
+	(gnm_sheet_range_free) : renamed from global_range_free.
+	(gnm_sheet_range_overlap) : renamed from global_range_overlap.
+	(gnm_sheet_range_dup) : renamed from global_range_dup.
+
+	* src/value.c (value_new_cellrange_str) : renamed from
+	  global_range_parse.
+
 2005-05-13  Morten Welinder  <terra@gnome.org>
 
 	* src/rendered-value.c (get_rotated_layout_bounds): Remove.

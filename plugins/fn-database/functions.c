@@ -73,13 +73,13 @@ find_cells_that_match (Sheet *sheet, GnmValue *database,
 
 		add_flag = TRUE;
 		for (ptr = criterias; ptr != NULL; ptr = ptr->next) {
-			database_criteria_t const *current_criteria = ptr->data;
+			GnmDBCriteria const *current_criteria = ptr->data;
 
 			add_flag = TRUE;
 			condition = current_criteria->conditions;
 
 			for (;condition != NULL ; condition = condition->next) {
-				func_criteria_t const *cond = condition->data;
+				GnmCriteria const *cond = condition->data;
 				GnmCell *tmp = sheet_cell_get (sheet,
 					cond->column, row);
 				if (tmp != NULL)

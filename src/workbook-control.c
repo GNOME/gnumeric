@@ -230,7 +230,7 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 		return FALSE;
 
 	/* not an address, is it a name ? */
-	target = global_range_parse (sheet, text);
+	target = value_new_cellrange_str (sheet, text);
 	if (target == NULL) {
 		GnmParsePos pp;
 		GnmNamedExpr *nexpr = expr_name_lookup (

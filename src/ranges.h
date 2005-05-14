@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_RANGES_H
-#define GNUMERIC_RANGES_H
+#ifndef GNM_RANGES_H
+# define GNM_RANGES_H
 
 #include "gnumeric.h"
 
@@ -98,19 +98,19 @@ GSList     *range_split_ranges    (GnmRange const *hard, GnmRange const *soft);
 GSList     *range_fragment        (GnmRange const *a, GnmRange const *b);
 void        range_fragment_free   (GSList *fragments);
 
-GnmSheetRange *global_range_new   (Sheet *sheet, GnmRange const *r);
-GnmSheetRange *global_range_dup   (GnmSheetRange const *src);
-gboolean     value_to_global_range  (GnmValue const *v, GnmSheetRange *res);
-void         global_range_free      (GnmSheetRange *gr);
-gboolean     global_range_overlap   (GnmSheetRange const *a, GnmSheetRange const *b);
-GnmValue    *global_range_parse     (Sheet *sheet, char const *range);
+GnmSheetRange *gnm_sheet_range_new	  (Sheet *sheet, GnmRange const *r);
+GnmSheetRange *gnm_sheet_range_dup	  (GnmSheetRange const *src);
+void           gnm_sheet_range_free       (GnmSheetRange *r);
+gboolean       gnm_sheet_range_from_value (GnmSheetRange *r, GnmValue const *v);
+gboolean       gnm_sheet_range_overlap    (GnmSheetRange const *a, GnmSheetRange const *b);
 char        *global_range_name      (Sheet *sheet, GnmRange const *r);
 gboolean     global_range_contained (Sheet const *sheet,
 				     GnmValue const *a, GnmValue const *b);
+
 GSList      *global_range_list_parse   (Sheet *sheet, char const *str);
 GnmValue    *global_range_list_foreach (GSList *gr_list, GnmEvalPos const *ep,
 					CellIterFlags	flags,
 					CellIterFunc	handler,
 					gpointer	closure);
 
-#endif /* GNUMERIC_RANGES_H */
+#endif /* GNM_RANGES_H */

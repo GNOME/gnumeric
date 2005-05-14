@@ -824,8 +824,8 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 
 	g_return_if_fail (range_add != NULL && state->sel != NULL);
 
-	value_to_global_range (state->sel, &grange_sort);
-	value_to_global_range (range_add, &grange_add);
+	gnm_sheet_range_from_value (&grange_sort, state->sel);
+	gnm_sheet_range_from_value (&grange_add, range_add);
 
 	value_release (range_add);
 

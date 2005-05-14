@@ -769,7 +769,7 @@ solver_insert_rows (Sheet *sheet, int row, int count)
 	GnmRange	  range;
 
 	/* Adjust the input range. */
-	input_range = global_range_parse (sheet, param->input_entry_str);
+	input_range = value_new_cellrange_str (sheet, param->input_entry_str);
 	if (input_range != NULL) {
 	        if (input_range->v_range.cell.a.row >= row) {
 		        range.start.col = input_range->v_range.cell.a.col;
@@ -812,7 +812,7 @@ solver_insert_cols (Sheet *sheet, int col, int count)
 	GnmRange	  range;
 
 	/* Adjust the input range. */
-	input_range = global_range_parse (sheet, param->input_entry_str);
+	input_range = value_new_cellrange_str (sheet, param->input_entry_str);
 	if (input_range != NULL) {
 	        if (input_range->v_range.cell.a.col >= col) {
 		        range.start.col = input_range->v_range.cell.a.col +
@@ -855,7 +855,7 @@ solver_delete_rows (Sheet *sheet, int row, int count)
 	GnmRange	  range;
 
 	/* Adjust the input range. */
-	input_range = global_range_parse (sheet, param->input_entry_str);
+	input_range = value_new_cellrange_str (sheet, param->input_entry_str);
 	if (input_range != NULL) {
 	        if (input_range->v_range.cell.a.row >= row) {
 		        range.start.col = input_range->v_range.cell.a.col;
@@ -902,7 +902,7 @@ solver_delete_cols (Sheet *sheet, int col, int count)
 	GnmRange	  range;
 
 	/* Adjust the input range. */
-	input_range = global_range_parse (sheet, param->input_entry_str);
+	input_range = value_new_cellrange_str (sheet, param->input_entry_str);
 	if (input_range != NULL) {
 	        if (input_range->v_range.cell.a.col >= col) {
 		        range.start.col = input_range->v_range.cell.a.col -

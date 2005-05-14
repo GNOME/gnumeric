@@ -3088,7 +3088,7 @@ excel_prepare_autofilter (ExcelWorkbook *ewb, GnmNamedExpr *nexpr)
 		GnmValue *v = gnm_expr_get_range (nexpr->expr);
 		if (v != NULL) {
 			GnmSheetRange r;
-			gboolean valid = value_to_global_range (v, &r);
+			gboolean valid = gnm_sheet_range_from_value (&r, v);
 			value_release (v);
 
 			if (valid) {

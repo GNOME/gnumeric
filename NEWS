@@ -4,6 +4,7 @@ Jody:
 	* Autofilter string equality is stronger than containment [#172355]
 	* Buttons in sheet manager dialog should not strech vertically.
 	* Stub for MS Excel's ASC function, which is unncessary in gnumeric.
+	* Fix advanced filter for inputs that do not start at col A. [#165734]
 
 Morten:
 	* Fix SUMIF even more.  [Debian #308346]

@@ -1302,7 +1302,7 @@ gnm_expr_entry_parse_as_value (GnmExprEntry *gee, Sheet *sheet)
 {
 	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
 
-	return global_range_parse (sheet,
+	return value_new_cellrange_str (sheet,
 		gtk_entry_get_text (gnm_expr_entry_get_entry (gee)));
 }
 

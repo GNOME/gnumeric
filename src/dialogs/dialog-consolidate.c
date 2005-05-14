@@ -32,6 +32,7 @@
 #include <func.h>
 #include <gui-util.h>
 #include <ranges.h>
+#include <value.h>
 #include <sheet-view.h>
 #include <selection.h>
 #include <widgets/gnumeric-expr-entry.h>
@@ -185,7 +186,7 @@ construct_consolidate (ConsolidateState *state, data_analysis_output_t  *dao)
 				    SOURCE_COLUMN, &source,
 				    -1);
 		if (strlen(source) != 0) {
-			range_value = global_range_parse (state->base.sheet, source);
+			range_value = value_new_cellrange_str (state->base.sheet, source);
 			
 			if (range_value == NULL) {
 				state->construct_error = g_strdup_printf (

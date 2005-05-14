@@ -541,7 +541,7 @@ static GnmFuncHelp const help_countif[] = {
 };
 
 typedef struct {
-        criteria_test_fun_t  test;
+        GnmCriteriaFunc  test;
         GnmValue            *test_value;
 	unsigned int	     count;
 } CountIfClosure;
@@ -623,7 +623,7 @@ static GnmFuncHelp const help_sumif[] = {
 };
 
 typedef struct {
-        criteria_test_fun_t  test;
+        GnmCriteriaFunc  test;
         GnmValue            *test_value;
 
 	Sheet		*target_sheet;

@@ -2430,7 +2430,7 @@ xml_read_scenarios (XmlParseContext *ctxt, xmlNodePtr tree)
 		/* Scenario: changing cells in a string form. */
 	        str = xml_node_get_cstr (child, "CellsStr");
 		s->cell_sel_str = g_strdup ((const gchar *)str);
-		range = global_range_parse (sheet, str);
+		range = value_new_cellrange_str (sheet, str);
 		if (range) {
 		        GnmValueRange *vrange = (GnmValueRange *) range;
 

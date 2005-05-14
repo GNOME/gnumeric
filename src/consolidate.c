@@ -127,7 +127,7 @@ consolidate_free (GnmConsolidate *cs, gboolean content_only)
 	}
 
 	for (l = cs->src; l != NULL; l = l->next)
-		global_range_free ((GnmSheetRange *) l->data);
+		gnm_sheet_range_free ((GnmSheetRange *) l->data);
 	g_slist_free (cs->src);
 	cs->src = NULL;
 
@@ -172,18 +172,18 @@ consolidate_check_destination (GnmConsolidate *cs, data_analysis_output_t *dao)
 	range_init (&r, dao->start_col, dao->start_row, 
 		    dao->start_col + dao->cols - 1, 
 		    dao->start_row + dao->rows - 1);
-	new = global_range_new (dao->sheet, &r);
+	new = gnm_sheet_range_new (dao->sheet, &r);
 
 	for (l = cs->src; l != NULL; l = l->next) {
 		GnmSheetRange const *gr = l->data;
 
-		if (global_range_overlap (new, gr)) {
-			global_range_free (new);
+		if (gnm_sheet_range_overlap (new, gr)) {
+			gnm_sheet_range_free (new);
 			return FALSE;
 		}
 	}
 
-	global_range_free (new);
+	gnm_sheet_range_free (new);
 	return TRUE;
 }
 
@@ -229,7 +229,7 @@ cb_tree_free (GnmValue const *key, TreeItem *ti,
 		GSList *l;
 
 		for (l = ti->val; l != NULL; l = l->next)
-			global_range_free ((GnmSheetRange *) l->data);
+			gnm_sheet_range_free ((GnmSheetRange *) l->data);
 
 		g_slist_free (ti->val);
 	}
@@ -302,7 +302,7 @@ retrieve_row_tree (GnmConsolidate *cs)
 				s.start.col = sgr->range.start.col + 1;
 				s.end.col   = sgr->range.end.col;
 
-				gr = global_range_new (sgr->sheet, &s);
+				gr = gnm_sheet_range_new (sgr->sheet, &s);
 				granges = g_slist_append (granges, gr);
 
 				/*
@@ -361,7 +361,7 @@ retrieve_col_tree (GnmConsolidate *cs)
 				s.start.row = sgr->range.start.row + 1;
 				s.end.row   = sgr->range.end.row;
 
-				gr = global_range_new (sgr->sheet, &s);
+				gr = gnm_sheet_range_new (sgr->sheet, &s);
 				granges = g_slist_append (granges, gr);
 
 				/*
