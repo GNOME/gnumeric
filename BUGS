@@ -623,6 +623,11 @@ Short Term Goals
     32.15) Check the stacking of ctrl pts when moving multiple selections
     32.16) event handling for check boxes
 
+33) Rotated text
+    33.1) Resurrect printing
+    33.2) Create new span type so drawing can overflow cells.
+    33.3) Draw borders sheared.
+
 Misc stuff that should be fixed
 -------------------------------
 
