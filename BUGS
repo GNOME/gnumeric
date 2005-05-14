@@ -628,6 +628,13 @@ Short Term Goals
     33.2) Create new span type so drawing can overflow cells.
     33.3) Draw borders sheared.
 
+34) Sheet life cycle                                                  {Morten}
+    34.1) Make sheet a proper gobject                                   (DONE)
+    34.2) Butcher many control methods that watch properties.           (DONE)
+    34.3) Make undo/redo use object properties (mostly done)
+    34.4) Disengage detach and destroy
+    34.5) Base sheet removal undo on just keeping a ref                 (DONE)
+
 Misc stuff that should be fixed
 -------------------------------
 
