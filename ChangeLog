@@ -1,5 +1,20 @@
 2005-05-13  Morten Welinder  <terra@gnome.org>
 
+	* src/rendered-value.c (get_rotated_layout_bounds): Remove.
+	(rendered_value_remeasure): Rework the rotated case to match Excel
+	much better.
+	(rendered_value_new): Setup new noborders member.
+
+	* src/sheet.c (sheet_apply_border): New functions.  Setting
+	borders for rotated cells actually causes different rendering.
+
+	* src/commands.c (cmd_format_undo): Fix CRITICAL.
+	(cmd_format_redo): Use sheet_apply_border instead of going
+	directly to sheet_style_apply_border.
+
+	* src/cell-draw.c (cell_draw): Rework rotated case to match Excel
+	much better.
+
 	* src/style.c (style_default_halign): Handle that down rotations
 	are now angles >180, not <0.
 

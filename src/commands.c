@@ -1830,6 +1830,7 @@ cmd_format_undo (GnmCommand *cmd,
 		CmdFormatOldStyle *os;
 		SpanCalcFlags flags;
 		gboolean const re_fit_height =
+			me->new_style &&
 			(SPANCALC_ROW_HEIGHT & required_updates_for_style (me->new_style));
 
 		for (; l1; l1 = l1->next, l2 = l2->next) {
@@ -1866,8 +1867,8 @@ cmd_format_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	for (l = me->selection; l; l = l->next) {
 		if (me->borders)
-			sheet_style_apply_border (me->cmd.sheet, l->data,
-						  me->borders);
+			sheet_apply_border (me->cmd.sheet, l->data,
+					    me->borders);
 		if (me->new_style) {
 			mstyle_ref (me->new_style);
 			sheet_apply_style (me->cmd.sheet, l->data, me->new_style);

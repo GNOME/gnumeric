@@ -21,6 +21,7 @@
 
 #include <gdk/gdk.h>
 #include <string.h>
+#include <math.h>
 
 static char const hashes[] =
 "################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################";
@@ -221,7 +222,6 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 			      height * PANGO_SCALE,
 			      h_center == -1 ? -1 : (h_center * PANGO_SCALE),
 			      &fore_color, &x, &y)) {
-		PangoContext *context = NULL;
 		GdkColor tmp;
 
 		/* +1 to get past left grid-line.  */
@@ -241,29 +241,76 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 					    rect.width, rect.height);
 		}
 #endif
+#if 1
 		gdk_gc_set_clip_rectangle (gc, &rect);
+#endif
 
 		/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
 		gdk_gc_set_rgb_fg_color (gc,
 			go_color_to_gdk (fore_color, &tmp));
 
 		if (rv->rotation) {
+			/*
+			 * Warning: pixel image is not a continuous function
+			 * of angle at 0.
+			 */
+			double sin_a, cos_a;
+			gboolean first_small;
+			PangoLayoutIter *iter;
 			PangoMatrix rotmat = PANGO_MATRIX_INIT;
+			PangoContext *context = pango_layout_get_context (rv->layout);
 
-			context = pango_layout_get_context (rv->layout);
 			pango_matrix_rotate (&rotmat, rv->rotation);
+			sin_a = rotmat.xy;
+			cos_a = rotmat.xx;
 			pango_context_set_matrix (context, &rotmat);
 			pango_layout_context_changed (rv->layout);
-		}
 
-		gdk_draw_layout (drawable, gc,
-				 x1 + PANGO_PIXELS (x),
-				 y1 + PANGO_PIXELS (y),
-				 rv->layout);
+			first_small = rv->noborders;
+			if (sin_a < 0)
+				x += rv->layout_natural_width;
+			y += rv->layout_natural_height;				       
 
-		if (context) {
+			iter = pango_layout_get_iter (rv->layout);
+			do {
+				PangoLayoutLine *line = pango_layout_iter_get_line (iter);
+				PangoRectangle logical;
+				int dx, dy;
+				int ybot;
+
+				pango_layout_iter_get_line_extents (iter, NULL, &logical);
+				pango_layout_iter_get_line_yrange (iter, NULL, &ybot);
+
+				if (sin_a < 0) {
+					dx = (int)(logical.width * -cos_a);
+					dy = (int)(logical.width * sin_a);
+				} else {
+					dx = 0;
+					dy = 0;
+				}
+				/*
+				 * Correct for the fact that gdk_draw_layout_line's
+				 * origin is at the baseline's left edge.
+				 */
+				dy += (pango_layout_iter_get_baseline (iter) - ybot);
+
+				x += (int) (logical.height * (first_small ? sin_a : 1 / sin_a));
+				gdk_draw_layout_line (drawable, gc,
+						      x1 + PANGO_PIXELS (x + dx),
+						      y1 + PANGO_PIXELS (y + dy),
+						      line);
+
+				first_small = FALSE;
+			} while (pango_layout_iter_next_line (iter));
+			pango_layout_iter_free (iter);
+
 			pango_context_set_matrix (context, NULL);
 			pango_layout_context_changed (rv->layout);
+		} else {
+			gdk_draw_layout (drawable, gc,
+					 x1 + PANGO_PIXELS (x),
+					 y1 + PANGO_PIXELS (y),
+					 rv->layout);
 		}
 	}
 }

@@ -31,6 +31,7 @@
 #include "style.h"
 #include "style-color.h"
 #include "style-font.h"
+#include "style-border.h"
 #include "number-match.h"
 #include "sheet.h"
 #include "sheet-merge.h"
@@ -185,62 +186,50 @@ rendered_value_render (GString *str,
 	return is_variable_width;
 }
 
-/* Gets the bounds of a layout in pango units.  Mostly copied from gtklabel.c */
-static void
-get_rotated_layout_bounds (PangoLayout *layout, int *width, int *height)
-{
-	PangoContext *context = pango_layout_get_context (layout);
-	const PangoMatrix *matrix = pango_context_get_matrix (context);
-	gdouble x_min = 0, x_max = 0, y_min = 0, y_max = 0; /* quiet gcc */
-	PangoRectangle logical_rect;
-	gint i, j;
-
-	pango_layout_get_extents (layout, NULL, &logical_rect);
-
-	for (i = 0; i < 2; i++)
-	{
-		gdouble x = (i == 0) ? logical_rect.x : logical_rect.x + logical_rect.width;
-		for (j = 0; j < 2; j++)
-		{
-			gdouble y = (j == 0) ? logical_rect.y : logical_rect.y + logical_rect.height;
-
-			gdouble xt = (x * matrix->xx + y * matrix->xy) + matrix->x0 * PANGO_SCALE;
-			gdouble yt = (x * matrix->yx + y * matrix->yy) + matrix->y0 * PANGO_SCALE;
-
-			if (i == 0 && j == 0)
-			{
-				x_min = x_max = xt;
-				y_min = y_max = yt;
-			}
-			else
-			{
-				if (xt < x_min)
-					x_min = xt;
-				if (yt < y_min)
-					y_min = yt;
-				if (xt > x_max)
-					x_max = xt;
-				if (yt > y_max)
-					y_max = yt;
-			}
-		}
-	}
-
-	*width = ceil (x_max) - floor (x_min);
-	*height = ceil (y_max) - floor (y_min);
-}
-
 void
 rendered_value_remeasure (RenderedValue *rv)
 {
 	if (rv->rotation) {
 		PangoMatrix rotmat = PANGO_MATRIX_INIT;
 		PangoContext *context = pango_layout_get_context (rv->layout);
+		double abs_sin_a, cos_a;
+		int x0 = 0;
+		gboolean first_small;
+		PangoLayoutIter *iter;
 
 		pango_matrix_rotate (&rotmat, rv->rotation);
+		abs_sin_a = fabs (rotmat.xy);
+		cos_a = rotmat.xx;
 		pango_context_set_matrix (context, &rotmat);
 		pango_layout_context_changed (rv->layout);
-		get_rotated_layout_bounds (rv->layout, &rv->layout_natural_width, &rv->layout_natural_height);
+
+		rv->layout_natural_width = 0;
+		rv->layout_natural_height = 0;
+
+		first_small = rv->noborders;
+		iter = pango_layout_get_iter (rv->layout);
+		do {
+			PangoRectangle logical;
+			int x, y;
+
+			pango_layout_iter_get_line_extents (iter, NULL, &logical);
+
+			x0 += logical.height * (first_small ? abs_sin_a : 1 / abs_sin_a);
+			x = x0 + logical.width * cos_a;
+			if (x > rv->layout_natural_width)
+				rv->layout_natural_width = x;
+
+			y = logical.width * abs_sin_a + logical.height * cos_a;
+			if (y > rv->layout_natural_height)
+				rv->layout_natural_height = y;
+
+			first_small = FALSE;
+		} while (pango_layout_iter_next_line (iter));
+		pango_layout_iter_free (iter);
+#if 0
+		g_print ("Natural size: %d x %d\n", rv->layout_natural_width, rv->layout_natural_height);
+#endif
+
 		pango_context_set_matrix (context, NULL);
 		pango_layout_context_changed (rv->layout);
 	} else
@@ -308,10 +297,22 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	res->effective_halign = style_default_halign (mstyle, cell);
 	res->effective_valign = mstyle_get_align_v (mstyle);
 	res->rotation = mstyle_get_rotation (mstyle);
+	if (res->rotation) {
+		MStyleElementType e;
+		res->noborders = TRUE;
+		for (e = MSTYLE_BORDER_TOP; e <= MSTYLE_BORDER_DIAGONAL; e++) {
+			GnmBorder *b = mstyle_get_border (mstyle, e);
+			if (!style_border_is_blank (b)) {
+				res->noborders = FALSE;
+				break;
+			}
+		}
+	} else
+		res->noborders = FALSE;
 	res->might_overflow =
 		cell_is_number (cell) &&
 		!display_formula &&
-		mstyle_get_rotation (mstyle) == 0;
+		res->rotation == 0;
 
 	res->layout = layout = pango_layout_new (context);
 	pango_layout_set_text (layout, str->str, str->len);
@@ -350,7 +351,6 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		attr->start_index = 0;
 		attr->end_index = -1;
 		pango_attr_list_insert (attrs, attr);
-		style_color_unref (color);
 	}
 #endif
 
@@ -441,7 +441,7 @@ rendered_value_recontext (RenderedValue *rv, PangoContext *context)
 	pango_layout_set_spacing (layout, pango_layout_get_spacing (olayout));
 	/*
 	 * We really want to keep the line breaks, but currently pango
-	 * does not support that.  One one-line layouts, however, we
+	 * does not support that.  On one-line layouts, however, we
 	 * can simply turn off the wrapping.
 	 */
 	pango_layout_set_wrap (layout,

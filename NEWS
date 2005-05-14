@@ -9,6 +9,8 @@ Morten:
 	* Fix SUMIF even more.  [Debian #308346]
 	* Fix horizonal alignment of rotated numbers broken by fix to
           #303292.
+	* Fix CRITICAL when undoing borders.
+	* Improve multiline rotated text.
 
 Jon Kåre:
         * Don't output the xml declaration for xhtml. [#303827]

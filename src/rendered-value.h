@@ -27,6 +27,7 @@ struct _RenderedValue {
 	guint wrap_text : 1;
 	guint might_overflow : 1;   /* Subject to ####### treatment.  */
 	guint numeric_overflow : 1; /* ####### has happened.  */
+	guint noborders : 1;        /* Valid for rotated only.  */
 	signed int rotation : 10;
 };
 

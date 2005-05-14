@@ -865,7 +865,7 @@ sheet_apply_style (Sheet       *sheet,
 		   GnmRange const *range,
 		   GnmStyle      *style)
 {
-	SpanCalcFlags const spanflags = required_updates_for_style (style);
+	SpanCalcFlags spanflags = required_updates_for_style (style);
 
 	sheet_style_apply_range (sheet, range, style);
 	sheet_range_calc_spans (sheet, range, spanflags);
@@ -873,6 +873,17 @@ sheet_apply_style (Sheet       *sheet,
 	if ((spanflags & SPANCALC_ROW_HEIGHT))
 		rows_height_update (sheet, range, TRUE);
 
+	sheet_redraw_range (sheet, range);
+}
+
+void
+sheet_apply_border (Sheet       *sheet,
+		    GnmRange const *range,
+		    GnmBorder **borders)
+{
+	SpanCalcFlags spanflags = SPANCALC_RE_RENDER | SPANCALC_RESIZE;
+	sheet_style_apply_border (sheet, range, borders);
+	sheet_range_calc_spans (sheet, range, spanflags);
 	sheet_redraw_range (sheet, range);
 }
 
