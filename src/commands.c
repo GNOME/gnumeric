@@ -366,7 +366,7 @@ undo_redo_menu_labels (Workbook *wb)
 }
 
 static void
-update_after_action (Sheet *sheet, Workbook *wb)
+update_after_action (Sheet *sheet, WorkbookControl *wbc)
 {
 	if (sheet != NULL) {
 		g_return_if_fail (IS_SHEET (sheet));
@@ -376,15 +376,11 @@ update_after_action (Sheet *sheet, Workbook *wb)
 			workbook_recalc (sheet->workbook);
 		sheet_update (sheet);
 
-		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-			  wb_control_sheet_focus (control, sheet);
-		);
-	} else if (wb != NULL) {
-		WORKBOOK_FOREACH_CONTROL (wb, view, wbc, {
-			wb_control_sheet_focus (wbc, sheet);
-			sheet_update (wb_control_cur_sheet (wbc));
-		});
-	}
+		if (sheet->workbook == wb_control_workbook (wbc))
+			WORKBOOK_VIEW_FOREACH_CONTROL (wb_control_view (wbc), control,
+				  wb_control_sheet_focus (control, sheet););
+	} else if (wbc != NULL)
+		sheet_update (wb_control_cur_sheet (wbc));
 }
 
 /*
@@ -508,7 +504,7 @@ command_undo (WorkbookControl *wbc)
 	if (!klass->undo_cmd (cmd, wbc)) {
 		gboolean undo_cleared;
 
-		update_after_action (cmd->sheet, wb);
+		update_after_action (cmd->sheet, wbc);
 
 		/*
 		 * A few commands clear the undo queue.  For those, we do not
@@ -557,7 +553,7 @@ command_redo (WorkbookControl *wbc)
 	/* TRUE indicates a failure to redo.  Leave the command where it is */
 	if (klass->redo_cmd (cmd, wbc))
 		return;
-	update_after_action (cmd->sheet, wb);
+	update_after_action (cmd->sheet, wbc);
 
 	/* Remove the command from the undo list */
 	wb->redo_commands = g_slist_remove (wb->redo_commands,
@@ -803,7 +799,7 @@ command_push_undo (WorkbookControl *wbc, GObject *obj)
 
 	/* TRUE indicates a failure to do the command */
 	trouble = klass->redo_cmd (cmd, wbc);
-	update_after_action (cmd->sheet, wb);
+	update_after_action (cmd->sheet, wbc);
 
 	if (!trouble)
 		command_register_undo (wbc, obj);

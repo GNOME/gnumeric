@@ -1,3 +1,10 @@
+2005-05-11  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_lognormdist) : stddev <= 0 == #NUM! not #DIV/0!
+	(gnumeric_standardize) : ditto.
+	(gnumeric_normdist) : ditto.
+	(gnumeric_confidence) : ditto.  Additionally size <= 0 == #NUM! too
+
 2005-05-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.1

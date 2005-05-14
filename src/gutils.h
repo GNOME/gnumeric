@@ -21,6 +21,6 @@ char const *gnm_usr_dir	       (void);
 extern const char *gnumeric_lib_dir;
 extern const char *gnumeric_data_dir;
 
-int gnumeric_regcomp_XL (GORegexp *preg, char const *pattern, int cflags);
+int gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags);
 
 #endif /* GNUMERIC_UTILS_H */

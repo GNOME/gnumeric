@@ -692,52 +692,51 @@ range_normalize (GnmRange *src)
 	}
 }
 
+static GnmValue *
+cb_find_extents (Sheet *sheet, int col, int row, GnmCell *cell,
+		 GnmCellPos *extent)
+{
+	if (extent->col < col)
+		extent->col = col;
+	if (extent->row < row)
+		extent->row = row;
+	return NULL;
+}
+
 /**
  * range_trim:
  * @sheet: sheet cells are contained on
- * @range: range to trim empty cells from
- * @cols: trim from right, vs bottom
+ * @r:	   range to trim empty cells from
+ * @cols:  trim from right
+ * @rows:  trim from bottom
  *
  * This removes empty rows/cols from the
  * right hand or bottom edges of the range
- * depending on the value of @location.
+ * depending on the value of @cols or @rows.
  *
- * WARNING! FOR LARGE RANGES THIS IS EXPENSIVE!
- *
- * Return value: TRUE if the range was totally empty, else FALSE.
+ * Return value: TRUE if the range was totally empty.
  **/
 gboolean
-range_trim (Sheet const *sheet, GnmRange *range, gboolean cols)
+range_trim (Sheet const *sheet, GnmRange *r,
+	    gboolean cols, gboolean rows)
 {
-	int start, *move;
+	GnmCellPos extent = { -1, -1 };
 
-	/* Setup the pointers to the fields which will
-	 * be changed (to remove the empty cells)
-	 */
-	if (cols) {
-		start = range->start.col;
-		move = &range->end.col;
-		range->start.col = *move;
-		if (*move > sheet->cols.max_used)
-			*move = sheet->cols.max_used;
-	} else {
-		start = range->start.row;
-		move = &range->end.row;
-		range->start.row = *move;
-		if (*move > sheet->rows.max_used)
-			*move = sheet->rows.max_used;
-	}
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (r != NULL, TRUE);
 
-	for (; *move >= start ; (*move)--)
-		if (!sheet_is_region_empty ((Sheet *)sheet, range))
-			break;
+	sheet_foreach_cell_in_range (
+		(Sheet *)sheet, CELL_ITER_IGNORE_BLANK,
+		r->start.col, r->start.row, r->end.col, r->end.row,
+		(CellIterFunc) cb_find_extents, &extent);
 
+	if (extent.col < 0 || extent.row < 0)
+		return TRUE;
 	if (cols)
-		range->start.col = start;
-	else
-		range->start.row = start;
-
-	return *move < start;
+		r->end.col = extent.col;
+	if (rows)
+		r->end.row = extent.row;
+	return FALSE;
 }
 
 /**
@@ -1000,11 +999,12 @@ range_transpose (GnmRange *range, GnmCellPos const *origin)
 GnmSheetRange *
 gnm_sheet_range_new (Sheet *sheet, GnmRange const *r)
 {
-	GnmSheetRange *gr = g_new0 (GnmSheetRange, 1);
+	GnmSheetRange *gr;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (r != NULL, NULL);
 
+	gr = g_new0 (GnmSheetRange, 1);
 	gr->sheet = sheet;
 	gr->range = *r;
 

@@ -3405,13 +3405,13 @@ excel_read_ROW (BiffQuery *q, ExcelReadSheet *esheet)
 	xf = flags2 & 0xfff;
 
 	d (1, {
-		fprintf (stderr,"Row %d height 0x%x, flags=0x%x;\n", row + 1, height,flags);
+		fprintf (stderr,"Row %d height 0x%x, flags=0x%x 0x%x;\n", row + 1, height, flags, flags2);
 		if (is_std_height)
-			puts ("Is Std Height");
+			fputs ("Is Std Height;\n", stderr);
 		if (flags2 & 0x1000)
-			puts ("Top thick");
+			fputs ("Top thick;\n", stderr);
 		if (flags2 & 0x2000)
-			puts ("Bottom thick");
+			fputs ("Bottom thick;\n", stderr);
 	});
 
 	/* TODO: Put mechanism in place to handle thick margins */

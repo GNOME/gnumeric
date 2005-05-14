@@ -20,6 +20,15 @@
 	* ms-chart.c: (chart_write_AI): fix a crash condition. Constant series
 	names are not exported yet.
 
+2005-05-12  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_ROW) : fix debug spew
+
+2005-05-12  Jody Goldberg <jody@gnome.org>
+
+	* ms-pivot.c (excel_read_pivot_caches) : don't produce warnings for
+	  files without OLE2 wrapper
+
 2005-05-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: export series data when constant;

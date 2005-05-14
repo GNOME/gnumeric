@@ -1,10 +1,18 @@
 Gnumeric 1.5.2
 
 Jody:
+	* Tweak the errors from LOGNORMDIST, CONFIDENCE, STANDARDIZE, and
+	  NORMDIST to match MS Excel.
+	* After a command refocus controls for the current view. [#165700]
+	* Fix 'Begins with' vs 'Ends With' for autofilters.
 	* Autofilter string equality is stronger than containment [#172355]
 	* Buttons in sheet manager dialog should not strech vertically.
 	* Stub for MS Excel's ASC function, which is unncessary in gnumeric.
+	* Make range clipping more efficient. [#164950]
 	* Fix advanced filter for inputs that do not start at col A. [#165734]
+
+Jon Kåre:
+        * Don't output the xml declaration for xhtml. [#303827]
 
 Morten:
 	* Fix SUMIF even more.  [Debian #308346]
@@ -12,9 +20,6 @@ Morten:
           #303292.
 	* Fix CRITICAL when undoing borders.
 	* Improve multiline rotated text.
-
-Jon Kåre:
-        * Don't output the xml declaration for xhtml. [#303827]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1

@@ -3,7 +3,7 @@
 /*
  * filter.c: support for filters
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -442,6 +442,8 @@ cb_filter_button_pressed (GtkButton *button, FooCanvasItem *view)
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
 
+	range_dump (&so->anchor.cell_bound, "");
+	fprintf (stderr, " : so = %p, view = %p\n", so, view);
 	if (clip != NULL) {
 		GdkRectangle  rect;
 		GtkWidget *sw = gtk_scrolled_window_new (
@@ -530,7 +532,10 @@ static void
 filter_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
 	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
+	SheetObject *so = sheet_object_view_get_so (sov);
 
+	range_dump (&so->anchor.cell_bound, "");
+	fprintf (stderr, " : so = %p, view = %p is %s\n", so, sov, visible ? "visible" : "not visible");
 	if (visible) {
 		double h, x;
 		/* clip vertically */
@@ -569,6 +574,14 @@ static GSF_CLASS_FULL (FilterFooView, filter_foo_view,
 	FOO_TYPE_CANVAS_WIDGET, 0,
 	GSF_INTERFACE (filter_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
 
+static void
+cb_notify_visibility (GtkWidget  *w, 
+		      GParamSpec *pspec,
+		      FooCanvasItem  *sov)
+{
+	g_warning ("set visibility for %p", sov);
+}
+
 static SheetObjectView *
 filter_field_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
@@ -594,6 +607,8 @@ filter_field_new_view (SheetObject *so, SheetObjectViewContainer *container)
 		G_CALLBACK (cb_filter_button_pressed), view_item);
 	gtk_widget_show_all (view_widget);
 
+	g_signal_connect (arrow, "notify::visible",
+		G_CALLBACK (cb_notify_visibility), view_item);
 	return gnm_pane_object_register (so, view_item, FALSE);
 }
 
@@ -649,7 +664,7 @@ filter_expr_init (FilterExpr *fexpr, unsigned i,
 		if (fexpr->val[i] != NULL)
 			return;
 		if ((op == GNM_FILTER_OP_EQUAL || op == GNM_FILTER_OP_NOT_EQUAL) &&
-		    gnumeric_regcomp_XL (fexpr->regexp + i,  str, REG_ICASE) == REG_OK)
+		    gnm_regcomp_XL (fexpr->regexp + i,  str, REG_ICASE) == REG_OK)
 			return;
 	}
 	fexpr->val[i] = value_dup (tmp);

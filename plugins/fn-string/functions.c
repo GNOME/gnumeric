@@ -1178,7 +1178,7 @@ gnumeric_search (FunctionEvalInfo *ei, GnmValue **argv)
 		hay2 = g_utf8_next_char (hay2);
 	}
 
-	if (gnumeric_regcomp_XL (&r, needle, REG_ICASE) == REG_OK) {
+	if (gnm_regcomp_XL (&r, needle, REG_ICASE) == REG_OK) {
 		switch (go_regexec (&r, hay2, 1, &rm, 0)) {
 		case REG_NOMATCH: break;
 		case REG_OK:

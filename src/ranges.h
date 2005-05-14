@@ -86,7 +86,7 @@ gboolean    range_transpose     (GnmRange *range, GnmCellPos const *origin);
  * Probably sheet.h but that is overfull.
  */
 gboolean    range_trim		(Sheet const *sheet, GnmRange *r,
-				 gboolean cols);
+				 gboolean cols, gboolean rows);
 gboolean    range_has_header    (Sheet const *sheet, GnmRange const *src,
 				 gboolean top, gboolean ignore_styles);
 

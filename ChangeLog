@@ -1,3 +1,8 @@
+2005-05-13  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=164950
+	* src/ranges.c (range_trim) : make this more efficient.
+
 2005-05-14  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=165734
@@ -40,6 +45,15 @@
 
 	* src/xml-sax-read.c (content_ns, gnumeric_1_0_dtd): Mark these
 	  variables with G_GNUC_UNUSED, the #warning below is enough.
+
+2005-05-12  Jody Goldberg <jody@gnome.org>
+
+	* src/value.c (parse_database_criteria) : remove old FIXME with a
+	  simple test.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=165700
+	* src/commands.c (update_after_action) : re-focus only controls for
+	  the current view, not all controls.
 
 2005-05-12  Jody Goldberg <jody@gnome.org>
 

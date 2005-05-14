@@ -293,9 +293,11 @@ excel_read_pivot_caches (ExcelWorkbook *ewb,
 	BiffQuery *q;
 	GsfInput  *cache, *dir;
 
-	dir = gsf_infile_child_by_name (ole, "_SX_DB_CUR");	/* office 97 */
+	if (NULL == ole)
+		return;				/* pre-Excel 95 without ole */
+	dir = gsf_infile_child_by_name (ole, "_SX_DB_CUR");	/* Excel 97 */
 	if (NULL == dir)
-		dir = gsf_infile_child_by_name (ole, "_SX_DB");	/* office 95 */
+		dir = gsf_infile_child_by_name (ole, "_SX_DB");	/* Excel 95 */
 	if (NULL == dir)
 		return;
 

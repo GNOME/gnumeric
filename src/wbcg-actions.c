@@ -430,9 +430,7 @@ static GNM_ACTION_DEF (cb_edit_fill_autofill)
 		gboolean do_loop;
 		GSList *merges, *ptr;
 
-		/* This could be more efficient, but it is not important */
-		if (range_trim (sheet, &src, TRUE) ||
-		    range_trim (sheet, &src, FALSE))
+		if (range_trim (sheet, &src, TRUE, TRUE))
 			return; /* Region totally empty */
 
 		/* trim is a bit overzealous, it forgets about merges */

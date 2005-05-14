@@ -1265,7 +1265,7 @@ characterize_vec (Sheet *sheet, GnmRange *vector,
 
 	while (1) {
 		tmp = *vector;
-		if (!range_trim (sheet, &tmp, as_cols)) {
+		if (!range_trim (sheet, &tmp, as_cols, !as_cols)) {
 			cell = sheet_cell_get (sheet, tmp.end.col+dx, tmp.end.row+dy);
 			if (cell == NULL)
 				return is_string;

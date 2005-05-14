@@ -637,16 +637,11 @@ static GnmFuncHelp const help_lognormdist[] = {
 static GnmValue *
 gnumeric_lognormdist (FunctionEvalInfo *ei, GnmValue **argv)
 {
-        gnm_float x, mean, stddev;
+        gnm_float x	 = value_get_as_float (argv[0]);
+        gnm_float mean   = value_get_as_float (argv[1]);
+        gnm_float stddev = value_get_as_float (argv[2]);
 
-        x = value_get_as_float (argv[0]);
-        mean = value_get_as_float (argv[1]);
-        stddev = value_get_as_float (argv[2]);
-
-        if (stddev == 0)
-                return value_new_error_DIV0 (ei->pos);
-
-        if (x <= 0 || mean < 0 || stddev < 0)
+        if (x <= 0 || mean < 0 || stddev <= 0)
                 return value_new_error_NUM (ei->pos);
 
 	return value_new_float (plnorm (x, mean, stddev, TRUE, FALSE));
@@ -2195,17 +2190,11 @@ static GnmFuncHelp const help_confidence[] = {
 static GnmValue *
 gnumeric_confidence (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	gnm_float x, stddev;
-	int size;
+	gnm_float x	 = value_get_as_float (argv[0]);
+	gnm_float stddev = value_get_as_float (argv[1]);
+	int	  size   = value_get_as_int   (argv[2]);
 
-	x = value_get_as_float (argv[0]);
-	stddev = value_get_as_float (argv[1]);
-	size = value_get_as_int (argv[2]);
-
-	if (size == 0)
-		return value_new_error_DIV0 (ei->pos);
-
-	if (size < 0)
+	if (size <= 0 || stddev <= 0)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (-qnorm (x / 2, 0, 1, TRUE, FALSE) * (stddev / gnm_sqrt (size)));
@@ -2238,15 +2227,11 @@ static GnmFuncHelp const help_standardize[] = {
 static GnmValue *
 gnumeric_standardize (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	gnm_float x, mean, stddev;
+	gnm_float x	 = value_get_as_float (argv[0]);
+	gnm_float mean   = value_get_as_float (argv[1]);
+	gnm_float stddev = value_get_as_float (argv[2]);
 
-	x = value_get_as_float (argv[0]);
-	mean = value_get_as_float (argv[1]);
-	stddev = value_get_as_float (argv[2]);
-
-	if (stddev == 0)
-		return value_new_error_DIV0 (ei->pos);
-	else if (stddev < 0)
+	if (stddev <= 0)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float ((x - mean) / stddev);
@@ -2342,7 +2327,7 @@ gnumeric_normdist (FunctionEvalInfo *ei, GnmValue **argv)
         stddev = value_get_as_float (argv[2]);
 
         if (stddev <= 0)
-                return value_new_error_DIV0 (ei->pos);
+                return value_new_error_NUM (ei->pos);
 
         cuml = value_get_as_bool (argv[3], &err);
         if (err)

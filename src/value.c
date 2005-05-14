@@ -1660,7 +1660,12 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue *database, GnmValue *cri
 	e_col = criteria->v_range.cell.b.col;
 	e_row = criteria->v_range.cell.b.row;
 
-	/* FIXME: are we sure that e_col>=b_col?  */
+	if (e_col < b_col) {
+		int tmp = b_col;
+		b_col = e_col;
+		e_col = tmp;
+	}
+
 	/* Find the index numbers for the columns of criterias */
 	field_ind = g_alloca (sizeof (int) * (e_col - b_col + 1));
 	for (i = b_col; i <= e_col; i++) {

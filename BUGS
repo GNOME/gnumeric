@@ -16,7 +16,14 @@ Release Critical
 	sumproduct(A1:A5>4,B1:B4) will not work and that they will
 	need
 	sumproduct(--(A1:A5>4),B1:B4)
-	: fix the row/col separators problem in array formula
+    : fix the row/col separators problem in array formula
+    : Using expr_name_set_expr in cb_nexpr_remove is wasteful
+
+    http://bugzilla.gnome.org/show_bug.cgi?id=303923
+    : valgrind warning reading the cycling workbook from
+==17415== Conditional jump or move depends on uninitialised value(s)
+==17415==    at 0x1E5A7847: ms_excel_chart_read (ms-chart.c:2642)
+==17415==    by 0x1E5A79E4: ms_excel_chart_read_BOF (ms-chart.c:2692)
 
 Worries
 -------
