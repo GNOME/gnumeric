@@ -631,16 +631,16 @@ Short Term Goals
 34) Sheet life cycle                                                  {Morten}
     34.1) Make sheet a proper gobject                                   (DONE)
     34.2) Butcher many control methods that watch properties.           (DONE)
-    34.3) Make undo/redo use object properties (mostly done)
+    34.3) Make undo/redo use object properties.                         (DONE)
     34.4) Disengage detach and destroy
     34.5) Base sheet removal undo on just keeping a ref                 (DONE)
+    34.6) Track changes during sheet detach for undo.
 
 Misc stuff that should be fixed
 -------------------------------
 
 - Missing undo/redo for
     - Freeze panes (tricky this is a view attribute)
-    - Remove sheet. (Done except that references are not linked back.)
     - `Add Scenario' Portion of Solver
     - Sheet object configuration changes. (Done for graphs, lines, and fills)
     - Workbook attr changes
