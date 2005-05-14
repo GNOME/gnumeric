@@ -1,3 +1,8 @@
+2005-05-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (chart_write_AI): fixed tests, (chart_write_axis_sets ):
+	add a missing break.
+
 2005-05-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (chart_write_AI): don't forget toi export the >AI record

@@ -3002,17 +3002,17 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 
 	if (dim != NULL) {
 		expr = gnm_go_data_get_expr (dim);
-		if ((value = gnm_expr_get_constant (expr)) != NULL)
-			ref_type = 1;
-		else {
+		if ((value = gnm_expr_get_range (expr)) != NULL) {
 			GType const t = G_OBJECT_TYPE (dim);
+			value_release (value);
 			/* the following condition should always be true */
 			if (t == GNM_GO_DATA_SCALAR_TYPE ||
 				t == GNM_GO_DATA_VECTOR_TYPE)
 				ref_type = 2;
 			else
 				g_assert_not_reached ();
-		}
+		} else if ((value = gnm_expr_get_constant (expr)) != NULL)
+			ref_type = 1;
 	}
 	ms_biff_put_var_next (s->bp, BIFF_CHART_ai);
 	GSF_LE_SET_GUINT8  (buf+0, n);
@@ -3580,6 +3580,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_Y],
 					1, TRUE);
 			}
+			break;
 		case GOG_AXIS_SET_XY_pseudo_3d :
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_X],
 					0, FALSE);
