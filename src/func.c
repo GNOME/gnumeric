@@ -157,7 +157,7 @@ cb_generate_po (gpointer key, Symbol *sym, gpointer array)
 }
 
 static void
-generate_po ()
+generate_po (void)
 {
 	g_hash_table_foreach (global_symbol_table->hash,
 		(GHFunc) cb_generate_po, NULL);
