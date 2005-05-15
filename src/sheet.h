@@ -247,6 +247,7 @@ void	     sheet_cell_set_text    (GnmCell *cell, char const *str,
 GnmValue const *sheet_cell_get_value(Sheet *sheet, int col, int row);
 void	     sheet_range_set_text   (GnmParsePos const *pos, GnmRange const *r, char const *str);
 void	     sheet_apply_style	    (Sheet  *sheet, GnmRange const *range, GnmStyle *mstyle);
+void	     sheet_apply_border	    (Sheet  *sheet, GnmRange const *range, GnmBorder **borders);
 void	     sheet_queue_respan     (Sheet const *sheet, int start_row, int end_row);
 void	     sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, SpanCalcFlags flags);
 void	     sheet_cell_calc_span   (GnmCell *cell, SpanCalcFlags flags);

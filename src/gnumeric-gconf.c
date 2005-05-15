@@ -60,14 +60,14 @@ struct _GOConfNode {
 static GConfClient *gconf_client = NULL;
 
 static void
-go_conf_init ()
+go_conf_init (void)
 {
 	if (!gconf_client)
 		gconf_client = gconf_client_get_default ();
 }
 
 static void
-go_conf_shutdown ()
+go_conf_shutdown (void)
 {
 	if (gconf_client) {
 		g_object_unref (G_OBJECT (gconf_client));

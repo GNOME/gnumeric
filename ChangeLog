@@ -3,6 +3,8 @@
 	* configure.in: Bumped the goffice requirement as we need GORegexp now.
 	Enable a number of additional warnings (when available)
 	for which the current code base is already virtually clean.
+	* src/func.c, src/gnumeric-gconf.c: Clean up function declarations.
+	* src/sheet.h: Include prototype for sheet_apply_border.
 
 2005-05-13  Jody Goldberg <jody@gnome.org>
 
