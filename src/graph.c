@@ -583,6 +583,7 @@ gnm_go_data_vector_get_value (GODataVector *dat, unsigned i)
 		value_release (v);
 		return res;
 	}
+	value_release (v);
 	return go_nan;
 }
 
@@ -987,6 +988,7 @@ gnm_go_data_matrix_get_value (GODataMatrix *dat, unsigned i, unsigned j)
 		value_release (v);
 		return res;
 	}
+	value_release (v);
 	return go_nan;
 }
 
