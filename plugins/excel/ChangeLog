@@ -1,3 +1,11 @@
+2005-05-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (ai): replace a g_assert by a warning,
+	(seriestext): add a const to fix a compilation warning,
+	(end): fix default-style-has-lines,
+	(chart_write_AI): fix a compilation warning and labels export,
+	(ms_excel_chart_write): export GogSurfaceSeries.
+
 2005-05-16  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c: Always set ->text_dir.

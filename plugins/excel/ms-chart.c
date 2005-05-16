@@ -284,7 +284,7 @@ BC_R(ai)(XLChartHandler const *handle,
 	case GOG_MS_DIM_CATEGORIES : fputs ("Categories;\n", stderr); break;
 	case GOG_MS_DIM_BUBBLES :    fputs ("Bubbles;\n", stderr); break;
 	default :
-		g_assert_not_reached ();
+		fprintf (stderr, "UKNOWN : purpose (%x)\n", purpose);
 	};
 	switch (ref_type) {
 	case 0 : fputs ("Use default categories;\n", stderr); break;
@@ -1563,7 +1563,7 @@ BC_R(seriestext)(XLChartHandler const *handle,
 	int const slen = GSF_LE_GET_GUINT8 (q->data + 2);
 	char *str;
 	GnmValue *value;
-	GnmExpr *expr;
+	GnmExpr const *expr;
 
 	g_return_val_if_fail (id == 0, FALSE);
 
@@ -2189,7 +2189,9 @@ not_a_matrix:
 					NULL);
 			if (type != NULL && 0 == strcmp (type, "GogXYPlot"))
 				g_object_set (G_OBJECT (s->plot),
-					"default-style-has-lines", style->line.width >= 0,
+					"default-style-has-lines",
+					style->line.width >= 0 &&
+					style->line.dash_type != GO_LINE_NONE,
 					NULL);
 
 			g_object_unref (s->default_plot_style);
@@ -2708,6 +2710,7 @@ typedef struct {
 	unsigned	 nest_level;
 	unsigned cur_series;
 	GSList *pending_series;
+	GSList *extra_objects;
 	GPtrArray *values[3];
 } XLChartWriteState;
 
@@ -3004,13 +3007,11 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 		expr = gnm_go_data_get_expr (dim);
 		if ((value = gnm_expr_get_range (expr)) != NULL) {
 			GType const t = G_OBJECT_TYPE (dim);
-			value_release (value);
+			value_release ((GnmValue*) value);
 			/* the following condition should always be true */
 			if (t == GNM_GO_DATA_SCALAR_TYPE ||
 				t == GNM_GO_DATA_VECTOR_TYPE)
 				ref_type = 2;
-			else
-				g_assert_not_reached ();
 		} else if ((value = gnm_expr_get_constant (expr)) != NULL)
 			ref_type = 1;
 	}
@@ -3042,12 +3043,11 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 		} else {
 			guint dat[2];
 			ms_biff_put_commit (s->bp);
-			g_return_if_fail (value->v_any.type == VALUE_STRING);
 			ms_biff_put_var_next (s->bp, BIFF_CHART_seriestext);
 			GSF_LE_SET_GUINT16 (dat, 0);
 			ms_biff_put_var_write  (s->bp, (guint8*) dat, 2);
 			excel_write_string (s->bp, STR_ONE_BYTE_LENGTH,
-				value->v_str.val->str);
+				go_data_as_str (dim));
 		}
 	}
 
@@ -3721,6 +3721,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	for (i = 0; i < 3; i++)
 		state.values[i] = g_ptr_array_new ();
 	state.pending_series = NULL;
+	state.extra_objects = NULL;
 
 	g_return_if_fail (state.graph != NULL);
 
@@ -3813,8 +3814,119 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 			} else {
 				/* we should have only one series there */
 				GogSeries *ser = GOG_SERIES (gog_plot_get_series (plots->data)->data);
+				/* create an equivalen XLContourPlot and save its series */
 				if (ser != NULL) {
-					g_object_get (G_OBJECT (plots->data), "transposed", &axis_set->transpose, NULL);
+					gboolean as_col, s_as_col;
+					gboolean s_is_rc, mat_is_rc;
+					GnmExpr const *sexpr, *matexpr;
+					GnmValue const *sval, *matval;
+					GnmValue *val;
+					GogSeries *serbuf;
+					GnmRange vector, svec;
+					int i, j, m, n, sn, cur = 0, scur = 0;
+					GOData *s, *c, *mat = ser->values[2].data;
+					GODataMatrixSize size = go_data_matrix_get_size (GO_DATA_MATRIX (mat));
+					GogPlot *plotbuf = gog_plot_new_by_name ("XLContourPlot");
+					Sheet *sheet = sheet_object_get_sheet (so);
+					g_object_get (G_OBJECT (plots->data), "transposed", &as_col, NULL);
+					matexpr = gnm_go_data_get_expr (mat);
+					mat_is_rc = gnm_expr_is_rangeref (matexpr);
+					if (mat_is_rc) {
+						matval = gnm_expr_get_range (matexpr);
+					} else {
+						matval = gnm_expr_get_constant (matexpr);
+					}
+					if (as_col) {
+						c = ser->values[1].data;
+						s = ser->values[0].data;
+					} else {
+						c = ser->values[0].data;
+						s = ser->values[1].data;
+					}
+					sn = go_data_vector_get_len (GO_DATA_VECTOR (s));
+					sexpr = gnm_go_data_get_expr (s);
+					s_is_rc = gnm_expr_is_rangeref (sexpr);
+					if (mat_is_rc) {
+						if (as_col) {
+							vector.start.row = matval->v_range.cell.a.row;
+							vector.end.row = matval->v_range.cell.b.row;
+							cur = matval->v_range.cell.a.col;
+						} else {
+							vector.start.col = matval->v_range.cell.a.col;
+							vector.end.col = matval->v_range.cell.b.col;
+							cur = matval->v_range.cell.a.row;
+						}
+					} else {
+					}
+					if (s_is_rc) {
+						sval = gnm_expr_get_range (sexpr);
+						s_as_col = sval->v_range.cell.a.col == sval->v_range.cell.b.col;
+						if (s_as_col) {
+							svec.start.col = svec.end.col = sval->v_range.cell.a.col;
+							scur = sval->v_range.cell.a.row;
+						} else {
+							svec.start.row = svec.end.row = sval->v_range.cell.a.row;
+							scur = sval->v_range.cell.a.col;
+						}
+					} else {
+						sval = gnm_expr_get_constant (sexpr);
+						s_as_col = sval->v_array.y > sval->v_array.x;
+					}
+					n = (as_col)? size.columns: size.rows;
+					if (!mat_is_rc)
+						m = (as_col)? size.rows: size.columns;
+					else
+						m = 0;
+					for (i = 0; i < n; i++) {
+						serbuf = gog_plot_new_series (plotbuf);
+						g_object_ref (c);
+						gog_series_set_dim (serbuf, 0, c, NULL);
+						if (i < sn) {
+							if (s_is_rc) {
+								if (s_as_col)
+									svec.start.row = svec.end.row = scur++;
+								else
+									svec.start.col = svec.end.col = scur++;
+								gog_series_set_dim (serbuf, -1,
+									gnm_go_data_scalar_new_expr (sheet,
+										gnm_expr_new_constant (
+											value_new_cellrange_r (sheet, &svec))), NULL);
+							} else {
+								val = value_dup ((s_as_col)? sval->v_array.vals[0][i]:
+											sval->v_array.vals[i][0]);
+								gog_series_set_dim (serbuf, -1,
+									gnm_go_data_scalar_new_expr (sheet,
+										gnm_expr_new_constant ( val)), NULL);
+							}
+						}
+						if (mat_is_rc) {
+							if (as_col)
+								vector.start.col = vector.end.col = cur++;
+							else
+								vector.start.row = vector.end.row = cur++;
+							gog_series_set_dim (serbuf, 1,
+								gnm_go_data_vector_new_expr (sheet,
+									gnm_expr_new_constant (
+										value_new_cellrange_r (sheet, &vector))), NULL);
+						} else {
+							val = value_new_array (m, 1);
+							for (j = 0; j < m; j++) {
+								value_array_set (val, j, 0, 
+									value_dup((as_col)? matval->v_array.vals[i][j]:
+										matval->v_array.vals[j][i]));
+								}
+							gog_series_set_dim (serbuf, 1,
+								gnm_go_data_vector_new_expr (sheet,
+									gnm_expr_new_constant (val)), NULL);
+						}
+					}
+					if (mat_is_rc)
+						value_release ((GnmValue*) matval);
+					if (s_is_rc)
+						value_release ((GnmValue*) sval);
+					for (series = gog_plot_get_series (plotbuf) ; series != NULL ; series = series->next)
+						chart_write_series (&state, series->data, num_series++);
+					state.extra_objects = g_slist_append (state.extra_objects, plotbuf);
 				}
 			}
 
@@ -3835,6 +3947,8 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 		g_ptr_array_foreach (state.values[i], (GFunc) g_free, NULL);
 		g_ptr_array_free (state.values[i], TRUE);
 	}
+	g_slist_foreach (state.extra_objects, (GFunc) g_object_unref, NULL);
+	g_slist_free (state.extra_objects);
 
 	chart_write_END (&state);
 #if 0 /* they seem optional */
