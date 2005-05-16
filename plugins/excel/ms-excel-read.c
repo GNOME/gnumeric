@@ -2072,14 +2072,14 @@ excel_read_XF (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 
 		subdata = (data & 0x00C0) >> 10;
 		switch (subdata) {
+		default: g_warning ("Unknown text direction %d.", subdata);
+			/* Fall through.  */
 		case 0: xf->text_dir = GNM_TEXT_DIR_CONTEXT; break;
 		case 1: xf->text_dir = GNM_TEXT_DIR_LTR; break;
 		case 2: xf->text_dir = GNM_TEXT_DIR_RTL; break;
-		default:
-			fprintf (stderr,"Unknown text direction %d\n", subdata);
-			break;
 		}
 	} else {
+		xf->text_dir = GNM_TEXT_DIR_CONTEXT;
 		xf->shrink_to_fit = FALSE;
 		xf->indent = 0;
 	}
