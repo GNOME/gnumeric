@@ -3008,6 +3008,7 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 		if ((value = gnm_expr_get_range (expr)) != NULL) {
 			GType const t = G_OBJECT_TYPE (dim);
 			value_release ((GnmValue*) value);
+			value = NULL;
 			/* the following condition should always be true */
 			if (t == GNM_GO_DATA_SCALAR_TYPE ||
 				t == GNM_GO_DATA_VECTOR_TYPE)
