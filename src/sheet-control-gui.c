@@ -3115,7 +3115,7 @@ scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y,
 	g_free (cdata);
 	for (l = urls; l; l = l-> next) {
 		const char *uri_str = l->data;
-		char *mime = go_get_mime_type (uri_str);
+		const gchar *mime = go_get_mime_type (uri_str);
 		if (!mime)
 			continue;
 		if (!strncmp (mime, "image/", 6)) {

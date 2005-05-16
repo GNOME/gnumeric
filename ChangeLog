@@ -1,3 +1,8 @@
+2005-05-16  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/sheet-control-gui.c (scg_drag_receive_uri_list): Change the
+	  type of local variable `mime' to `const gchar *'.
+
 2005-05-16  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (set_more_warnings): Kill -Wcast-align.  It does
