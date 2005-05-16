@@ -57,6 +57,7 @@
 #if USE_RV_POOLS
 /* Memory pool for RenderedValue.  */
 static GOMemChunk *rendered_value_pool;
+static GOMemChunk *rendered_rotated_value_pool;
 #define CHUNK_ALLOC(T,p) ((T*)go_mem_chunk_alloc (p))
 #define CHUNK_FREE(p,v) go_mem_chunk_free ((p), (v))
 #else
@@ -190,42 +191,84 @@ void
 rendered_value_remeasure (RenderedValue *rv)
 {
 	if (rv->rotation) {
-		PangoMatrix rotmat = PANGO_MATRIX_INIT;
+		RenderedRotatedValue *rrv = (RenderedRotatedValue *)rv;
 		PangoContext *context = pango_layout_get_context (rv->layout);
-		double abs_sin_a, cos_a;
-		int x0 = 0;
-		gboolean first_small;
+		double sin_a, abs_sin_a, cos_a;
+		int sdx = 0;
+		int x0 = 0, x1 = 0;
 		PangoLayoutIter *iter;
+		int l = 0;
+		int lwidth;
 
-		pango_matrix_rotate (&rotmat, rv->rotation);
-		abs_sin_a = fabs (rotmat.xy);
-		cos_a = rotmat.xx;
-		pango_context_set_matrix (context, &rotmat);
+		sin_a = rrv->rotmat.xy;
+		abs_sin_a = fabs (sin_a);
+		cos_a = rrv->rotmat.xx;
+		pango_context_set_matrix (context, &rrv->rotmat);
 		pango_layout_context_changed (rv->layout);
 
-		rv->layout_natural_width = 0;
+		rrv->linecount = pango_layout_get_line_count (rv->layout);
+		rrv->lines = g_new (struct RenderedRotatedValueInfo, rrv->linecount);
+		pango_layout_get_size (rv->layout, &lwidth, NULL);
+
 		rv->layout_natural_height = 0;
 
-		first_small = rv->noborders;
 		iter = pango_layout_get_iter (rv->layout);
 		do {
 			PangoRectangle logical;
-			int x, y;
+			int x, dx, dy, indent;
+			int h, ytop, ybot, baseline;
 
 			pango_layout_iter_get_line_extents (iter, NULL, &logical);
+			pango_layout_iter_get_line_yrange (iter, &ytop, &ybot);
+			baseline = pango_layout_iter_get_baseline (iter);
 
-			x0 += logical.height * (first_small ? abs_sin_a : 1 / abs_sin_a);
-			x = x0 + logical.width * cos_a;
-			if (x > rv->layout_natural_width)
-				rv->layout_natural_width = x;
+			switch (pango_layout_get_alignment (rv->layout)) {
+			case PANGO_ALIGN_LEFT: default:
+				indent = 0;
+				break;
+			case PANGO_ALIGN_CENTER:
+				indent = (lwidth - logical.width) / 2;
+				break;
+			case PANGO_ALIGN_RIGHT:
+				indent = lwidth - logical.width;
+				break;
+			}
+			if (sin_a < 0)
+				indent -= lwidth;
 
-			y = logical.width * abs_sin_a + logical.height * cos_a;
-			if (y > rv->layout_natural_height)
-				rv->layout_natural_height = y;
+			if (l == 0 && rv->noborders)
+				sdx = (int)(baseline * sin_a - ybot / sin_a);
+			dx = sdx + (int)(ybot / sin_a + indent * cos_a);
+			dy = (int)((baseline - ybot) * cos_a - indent * sin_a);
 
-			first_small = FALSE;
+			rrv->lines[l].dx = dx;
+			rrv->lines[l].dy = dy;
+
+			/* Left edge.  */
+			x = dx - (int)((baseline - ytop) * sin_a);
+			x0 = MIN (x0, x);
+
+			/* Right edge.  */
+			x = dx + (int)(logical.width * cos_a + (ybot - baseline) * sin_a);
+			x1 = MAX (x1, x);
+
+			h = logical.width * abs_sin_a + logical.height * cos_a;
+			if (h > rv->layout_natural_height)
+				rv->layout_natural_height = h;
+
+			l++;
 		} while (pango_layout_iter_next_line (iter));
 		pango_layout_iter_free (iter);
+
+		rv->layout_natural_width = x1 - x0;
+		if (sin_a < 0) {
+			int dx = rv->layout_natural_width;
+			for (l = 0; l < rrv->linecount; l++)
+				rrv->lines[l].dx += dx;
+		}
+		for (l = 0; l < rrv->linecount; l++)
+			rrv->lines[l].dy += rv->layout_natural_height;
+
 #if 0
 		g_print ("Natural size: %d x %d\n", rv->layout_natural_width, rv->layout_natural_height);
 #endif
@@ -262,6 +305,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	PangoLayout     *layout;
 	PangoAttrList   *attrs;
 	gboolean        display_formula;
+	int             rotation;
 
 	/* This screws thread safety (which we don't need).  */
 	static GString  *str = NULL;
@@ -284,7 +328,10 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	else
 		str = g_string_sized_new (100);
 
-	res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
+	rotation = mstyle_get_rotation (mstyle);
+
+	res = CHUNK_ALLOC (RenderedValue,
+			   rotation ? rendered_rotated_value_pool : rendered_value_pool);
 	res->variable_width = rendered_value_render
 		(str, cell, context, mstyle,
 		 allow_variable_width, zoom,
@@ -296,23 +343,33 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	res->wrap_text = mstyle_get_effective_wrap_text (mstyle);
 	res->effective_halign = style_default_halign (mstyle, cell);
 	res->effective_valign = mstyle_get_align_v (mstyle);
-	res->rotation = mstyle_get_rotation (mstyle);
-	if (res->rotation) {
+	res->rotation = rotation;
+	if (rotation) {
+		RenderedRotatedValue *rrv = (RenderedRotatedValue *)res;
 		MStyleElementType e;
+		static const PangoMatrix id = PANGO_MATRIX_INIT;
+
+		rrv->rotmat = id;
+		pango_matrix_rotate (&rrv->rotmat, rotation);
+		rrv->linecount = 0;
+		rrv->lines = NULL;
+		res->might_overflow = FALSE;
+
 		res->noborders = TRUE;
-		for (e = MSTYLE_BORDER_TOP; e <= MSTYLE_BORDER_DIAGONAL; e++) {
+		/* Deliberately exclude diagonals.  */
+		for (e = MSTYLE_BORDER_TOP; e <= MSTYLE_BORDER_RIGHT; e++) {
 			GnmBorder *b = mstyle_get_border (mstyle, e);
 			if (!style_border_is_blank (b)) {
 				res->noborders = FALSE;
 				break;
 			}
 		}
-	} else
+	} else {
+		res->might_overflow =
+			cell_is_number (cell) &&
+			!display_formula;
 		res->noborders = FALSE;
-	res->might_overflow =
-		cell_is_number (cell) &&
-		!display_formula &&
-		res->rotation == 0;
+	}
 
 	res->layout = layout = pango_layout_new (context);
 	pango_layout_set_text (layout, str->str, str->len);
@@ -417,7 +474,12 @@ rendered_value_destroy (RenderedValue *rv)
 		rv->layout = NULL;
 	}
 
-	CHUNK_FREE (rendered_value_pool, rv);
+	if (rv->rotation) {
+		RenderedRotatedValue *rrv = (RenderedRotatedValue *)rv;
+		g_free (rrv->lines);
+		CHUNK_FREE (rendered_rotated_value_pool, rrv);
+	} else
+		CHUNK_FREE (rendered_value_pool, rv);
 }
 
 RenderedValue *
@@ -426,9 +488,19 @@ rendered_value_recontext (RenderedValue *rv, PangoContext *context)
 	RenderedValue *res;
 	PangoLayout *layout, *olayout;
 
-	res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
+	if (rv->rotation) {
+		RenderedRotatedValue *rres =
+			CHUNK_ALLOC (RenderedRotatedValue, rendered_rotated_value_pool);
+		res = (RenderedValue *)rres;
 
-	*res = *rv;
+		*rres = *(RenderedRotatedValue *)rv;
+		rres->lines = g_memdup (rres->lines,
+					rres->linecount * sizeof (struct RenderedRotatedValueInfo));
+	} else {
+		res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
+		*res = *rv;
+	}
+
 	res->layout = layout = pango_layout_new (context);
 	olayout = rv->layout;
 
@@ -607,6 +679,10 @@ rendered_value_init (void)
 		go_mem_chunk_new ("rendered value pool",
 				  sizeof (RenderedValue),
 				  16 * 1024 - 128);
+	rendered_rotated_value_pool =
+		go_mem_chunk_new ("rendered rotated value pool",
+				  sizeof (RenderedRotatedValue),
+				  16 * 1024 - 128);
 #endif
 }
 
@@ -627,5 +703,9 @@ rendered_value_shutdown (void)
 	go_mem_chunk_foreach_leak (rendered_value_pool, cb_rendered_value_pool_leak, NULL);
 	go_mem_chunk_destroy (rendered_value_pool, FALSE);
 	rendered_value_pool = NULL;
+
+	go_mem_chunk_foreach_leak (rendered_rotated_value_pool, cb_rendered_value_pool_leak, NULL);
+	go_mem_chunk_destroy (rendered_rotated_value_pool, FALSE);
+	rendered_rotated_value_pool = NULL;
 #endif
 }

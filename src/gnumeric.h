@@ -55,6 +55,7 @@ typedef enum {
 } GnmStdError;
 
 typedef struct _RenderedValue		RenderedValue;
+typedef struct _RenderedRotatedValue	RenderedRotatedValue;
 
 typedef GSList 				GnmExprList;
 typedef union  _GnmExpr	 		GnmExpr;

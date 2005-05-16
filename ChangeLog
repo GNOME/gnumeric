@@ -1,3 +1,14 @@
+2005-05-16  Morten Welinder  <terra@gnome.org>
+
+	* src/print-cell.c (print_cell): Fix and simplify rotated case.
+
+	* src/cell-draw.c (cell_draw): Simplify rotated case.
+
+	* src/rendered-value.c (rendered_value_remeasure): Collect extra
+	information for rotated values.
+	(rendered_value_init): Setup a separate pool for rotated cells.
+	(rendered_value_shutdown): Shut that down.
+
 2005-05-16  Stepan Kasal  <kasal@ucw.cz>
 
 	* src/sheet-control-gui.c (scg_drag_receive_uri_list): Change the

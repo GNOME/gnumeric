@@ -31,6 +31,15 @@ struct _RenderedValue {
 	signed int rotation : 10;
 };
 
+struct _RenderedRotatedValue {
+	RenderedValue rv;
+	PangoMatrix rotmat;
+	int linecount;
+	struct RenderedRotatedValueInfo {
+		int dx, dy;
+	} *lines;	
+};
+
 RenderedValue *rendered_value_new     (GnmCell *cell, GnmStyle const *mstyle,
 				       gboolean variable_width,
 				       PangoContext *context,

@@ -126,10 +126,14 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 
 		/* Clip the printed rectangle */
 		gnome_print_gsave (context);
-		print_make_rectangle_path (context,
-					   x0 - 1, y0 - height,
-					   x0 + width, y0 + 1);
-		gnome_print_clip (context);
+
+		if (!rv->rotation) {
+			/* We do not clip rotated cells.  */
+			print_make_rectangle_path (context,
+						   x0 - 1, y0 - height,
+						   x0 + width, y0 + 1);
+			gnome_print_clip (context);
+		}
 
 		/* Set the font colour */
 		gnome_print_setrgbcolor (context,
@@ -138,21 +142,25 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 			UINT_RGBA_B (fore_color) / 255.);
 
 		if (rv->rotation) {
-			int width, height;
-			pango_layout_get_size (rv->layout, &width, &height);
+			RenderedRotatedValue *rrv = (RenderedRotatedValue *)rv;
+			const struct RenderedRotatedValueInfo *li = rrv->lines;
+			GSList *lines;
 
-			if (rv->rotation > 0)
-				py -= width * sin (rv->rotation * (M_PI / 180)) / PANGO_SCALE;
-			else if (rv->rotation < 0)
-				px -= height * sin (rv->rotation * (M_PI / 180)) / PANGO_SCALE;
+			for (lines = pango_layout_get_lines (rv->layout);
+			     lines;
+			     lines = lines->next, li++) {
+				gnome_print_gsave (context);
+				gnome_print_moveto (context,
+						    px + li->dx / (double)PANGO_SCALE,
+						    py - li->dy / (double)PANGO_SCALE);
+				gnome_print_rotate (context, rv->rotation);
+				gnome_print_pango_layout_line (context, lines->data);
+				gnome_print_grestore (context);
+			}
+		} else {
+			gnome_print_moveto (context, px, py);
+			gnome_print_pango_layout (context, rv->layout);
 		}
-
-		gnome_print_moveto (context, px, py);
-
-		if (rv->rotation != 0)
-			gnome_print_rotate (context, rv->rotation);
-
-		gnome_print_pango_layout (context, rv->layout);
 
 		gnome_print_grestore (context);
 	}

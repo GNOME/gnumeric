@@ -631,9 +631,10 @@ Short Term Goals
     32.16) event handling for check boxes
 
 33) Rotated text
-    33.1) Resurrect printing
+    33.1) Resurrect printing                                            (DONE)
     33.2) Create new span type so drawing can overflow cells.
     33.3) Draw borders sheared.
+    33.4) Draw background sheared when border present.
 
 34) Sheet life cycle                                                  {Morten}
     34.1) Make sheet a proper gobject                                   (DONE)
