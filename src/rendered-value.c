@@ -221,18 +221,7 @@ rendered_value_remeasure (RenderedValue *rv)
 			pango_layout_iter_get_line_extents (iter, NULL, &logical);
 			pango_layout_iter_get_line_yrange (iter, &ytop, &ybot);
 			baseline = pango_layout_iter_get_baseline (iter);
-
-			switch (pango_layout_get_alignment (rv->layout)) {
-			case PANGO_ALIGN_LEFT: default:
-				indent = 0;
-				break;
-			case PANGO_ALIGN_CENTER:
-				indent = (lwidth - logical.width) / 2;
-				break;
-			case PANGO_ALIGN_RIGHT:
-				indent = lwidth - logical.width;
-				break;
-			}
+			indent = logical.x;
 			if (sin_a < 0)
 				indent -= lwidth;
 
