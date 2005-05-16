@@ -279,7 +279,7 @@ ifdef([GNOME_COMPILE_WARNINGS],
 )
 set_more_warnings=yes
 if test "$GCC" = "yes" -a "x$set_more_warnings" != "xno"; then
-	for option in -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts -Wwrite-strings -Wdeclaration-after-statement -Wcast-align -Wnested-externs -Wmissing-noreturn -Wstrict-prototypes -Wmissing-prototypes -Wmissing-format-attribute -Wmissing-declarations; do
+	for option in -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts -Wwrite-strings -Wdeclaration-after-statement -Wnested-externs -Wmissing-noreturn -Wstrict-prototypes -Wmissing-prototypes -Wmissing-format-attribute -Wmissing-declarations; do
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $option"
 		AC_MSG_CHECKING([whether gcc understands $option])

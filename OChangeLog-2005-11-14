@@ -1,3 +1,11 @@
+2005-05-16  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (set_more_warnings): Kill -Wcast-align.  It does
+	not catch anything useful.  We run-time chec, either in gobject
+	macros or else by virtue of running on a Sparc.  Also we do *tons*
+	of valid cast from base classes to derived classes after carefully
+	checking the dynamic type.
+
 2005-05-16  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in (PKG_PROG_PKG_CONFIG): Fix the explanation above.
