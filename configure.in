@@ -105,9 +105,9 @@ AC_SUBST(Z_LIBS)
 CPPFLAGS=${_cppflags}
 LDFLAGS=${_ldflags}
 
-dnl The first call to PKG_CHECK_MODULES is inside an `if.'
-dnl Otherwise ot would get expanded just before the first occurence of
-dnl PKG_CHECK_MODULES and might escape execution.
+dnl PKG_PROG_PKG_CONFIG is expanded just before the first occurence of
+dnl PKG_CHECK_MODULES.  Since this is inside an `if,' it can escape
+dnl execution.  Thus we need an explicite call:
 PKG_PROG_PKG_CONFIG
 
 dnl *****************************

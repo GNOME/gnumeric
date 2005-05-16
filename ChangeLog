@@ -1,7 +1,11 @@
+2005-05-16  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in (PKG_PROG_PKG_CONFIG): Fix the explanation above.
+
 2005-05-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c: (gnm_go_data_vector_get_value),
-	(gnm_go_data_matrix_get_value): alwas release the value returned by
+	(gnm_go_data_matrix_get_value): always release the value returned by
 	value_coerce_to_number.
 
 2005-05-15  J.H.M. Dassen (Ray) <jdassen@debian.org>
