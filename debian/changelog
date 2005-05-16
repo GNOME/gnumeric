@@ -1,11 +1,89 @@
-gnumeric (1.5.0-1) experimental; urgency=low
+gnumeric (1.5.1-1) unstable; urgency=low
 
-  UNRELEASED
   * New upstream development release.
-  * [debian/control] Updated to reflect configure.in's bumped build
-    dependencies.
+  * [debian/rules] Clean up, following 1.4 branch.
+  * [debian/control] Overhauled build dependencies.
 
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue,  8 Feb 2005 08:29:25 +0100
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 16 May 2005 22:06:43 +0200
+
+gnumeric (1.4.3-6) unstable; urgency=high
+
+  * [ChangeLog, NEWS, omf.make, src/dependent.c, xmldocs.make] Update from
+    CVS gnumeric-1-4 branch; fixes include:
+    * Fix crash for sheet-remove on sheets with local dynamic dependencies.
+  * [debian/rules, debian/gnumeric-doc.install] Applied patch courtesy of
+    Philipp Sadleder <philipp@sadleder.de> to restore the documentation files
+    which were lost in -5 due to an accidental switch to upstream CVS's
+    xmldocs.make. (Closes: #307883)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri,  6 May 2005 22:44:29 +0200
+
+gnumeric (1.4.3-5) unstable; urgency=medium
+
+  * [ChangeLog, Makefile.am, NEWS, configure.in, plugins/fn-stat/ChangeLog,
+    plugins/fn-stat/functions.c, schemas/Makefile.am, src/application.c,
+    src/cut-n-paste-code/goffice/gui-utils/go-action-combo-text.c,
+    src/dialogs/dialog-function-select.c, src/dialogs/dialog-preferences.c,
+    src/gnumeric-gconf-priv.h, src/gnumeric-gconf.c, src/gnumeric-gconf.h,
+    src/gui-file.c, src/libgnumeric.c, src/libgnumeric.h, src/plugin.c,
+    src/print-info.c, src/tools/ChangeLog, src/tools/Makefile.am,
+    src/tools/auto-correct.c, src/tools/goal-seek.c, src/tools/goal-seek.h,
+    src/wbc-gtk.c] Update from CVS gnumeric-1-4 branch; fixes include:
+    * Backport fix for case sensitivity of font combo. [upstream #161382]
+    * Backport TRIMMEAN fix.
+    * Backport goal-seek fix.
+  * [Makefile.am] Commented out references to the tools dir (which is not
+    needed on non-win32).
+  * Reauto*ed.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 30 Apr 2005 20:06:59 +0200
+
+gnumeric (1.4.3-4) unstable; urgency=high
+
+  * [debian/control] Bumped libgda2-dev and libgnomedb2-dev build dependencies
+    to get runtime dependencies on libgda2-3 and libgnomedb2-4 rather than
+    libgda2-1 and libgnomedb2-3.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 10 Apr 2005 10:05:20 +0200
+
+gnumeric (1.4.3-3) unstable; urgency=high
+
+  * [NEWS, ChangeLog, plugins/fn-math/ChangeLog,
+    plugins/fn-math/functions.c, src/colrow.c, src/gnumeric-gconf.c,
+    src/gnumeric-gconf.h, src/dialogs/ChangeLog,
+    src/dialogs/dialog-stf-export.c] Updated from CVS gnumeric-1-4 branch to
+    address
+    * a crash on page setup
+      http://bugzilla.gnome.org/show_bug.cgi?id=171503
+    * problems which broke the sumif and countif functions
+      http://bugzilla.gnome.org/show_bug.cgi?id=171509
+    (Closes: #303085)
+    * three leaks in structured text export which caused crashes on exit.
+      http://bugzilla.gnome.org/show_bug.cgi?id=128936
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue,  5 Apr 2005 07:04:02 +0200
+
+gnumeric (1.4.3-2) unstable; urgency=high
+
+  * [NEWS, ChangeLog, plugins/qpro/ChangeLog, plugins/qpro/plugin.xml.in,
+    po/*.po, src/gui-clipboard.c, src/gui-file.c, src/wbc-gtk.c,
+    src/workbook-control.c] Fixes from CVS gnumeric-1-4 branch, including
+    a fix for a crash with a non-UTF-8 filename. (Closes: #299805)
+  * [debian/rules] Configure --with-python=yes. The interpreter name is
+    currently not configurable.
+  * [debian/README.Debian] Minor update.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 20 Mar 2005 12:18:38 +0100
+
+gnumeric (1.4.3-1) unstable; urgency=medium
+
+  * New upstream bugfix release, possibly the last of the 1.4 (stable) series.
+  * [debian/watch] Updated.
+  * [debian/rules] Cleaned up.
+  * [debian/gnumeric-common.links] New.
+  * [debian/gnumeric.install, debian/gnumeric-doc.install] Cleaned up.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 13 Mar 2005 17:32:09 +0100
 
 gnumeric (1.4.2-2) unstable; urgency=high
 
