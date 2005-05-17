@@ -129,6 +129,7 @@ excel_chart_series_new (void)
 		series->data [i].data = NULL;
 		series->data [i].num_elements = 0;
 		series->data [i].value = NULL;
+		series->data [i].series = NULL;
 	}
 
 	return series;

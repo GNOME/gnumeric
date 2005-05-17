@@ -20,6 +20,7 @@ Morten:
           #303292.
 	* Fix CRITICAL when undoing borders.
 	* Improve multiline rotated text.
+	* Fix Excel load crash.  [#303923]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1
