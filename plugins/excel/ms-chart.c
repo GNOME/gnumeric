@@ -2544,31 +2544,43 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 		case BIFF_NUMBER_v0:
 		case BIFF_NUMBER_v2: {
 			unsigned offset = (q->opcode == BIFF_NUMBER_v2) ? 6: 7;
-			int row = GSF_LE_GET_GUINT16 (q->data);
-			int sernum = GSF_LE_GET_GUINT16 (q->data + 2);
-			XLChartSeries *series = g_ptr_array_index (state.series, sernum);
+			unsigned row = GSF_LE_GET_GUINT16 (q->data);
+			unsigned sernum = GSF_LE_GET_GUINT16 (q->data + 2);
 			double val = gsf_le_get_double (q->data + offset);
-			if (series->data[state.cur_role].value != NULL) {
-				value_release (series->data[state.cur_role].value->vals[0][row]);
-				series->data[state.cur_role].value->vals[0][row] = value_new_float (val);
+			XLChartSeries *series;
+
+			if (state.series == NULL || sernum >= state.series->len) {
+				g_warning ("Invalid series num %u", sernum);
+			} else {
+				series = g_ptr_array_index (state.series, sernum);
+				if (series->data[state.cur_role].value != NULL) {
+					value_release (series->data[state.cur_role].value->vals[0][row]);
+					series->data[state.cur_role].value->vals[0][row] = value_new_float (val);
+				}
+				d (10, fprintf (stderr, "series %d, index %d, value %f\n", sernum, row, val););
 			}
-			d (10, fprintf (stderr, "series %d, index %d, value %f\n", sernum, row, val););
 			break;
 		}
 
 		case BIFF_LABEL_v0 : break; /* ignore for now */
 		case BIFF_LABEL_v2 : {
 			guint16 row = GSF_LE_GET_GUINT16 (q->data + 0);
-			guint16 col = GSF_LE_GET_GUINT16 (q->data + 2);
+			guint16 sernum = GSF_LE_GET_GUINT16 (q->data + 2);
 			/* guint16 xf  = GSF_LE_GET_GUINT16 (q->data + 4); */ /* not used */
 			guint16 len = GSF_LE_GET_GUINT16 (q->data + 6);
 			char *label = biff_get_text (q->data + 8, len, NULL, ver);
-			XLChartSeries *series = g_ptr_array_index (state.series, col);
-			if (series->data[state.cur_role].value != NULL) {
-				value_release (series->data[state.cur_role].value->vals[0][row]);
-				series->data[state.cur_role].value->vals[0][row] = value_new_string (label);
+			XLChartSeries *series;
+
+			if (state.series == NULL || sernum >= state.series->len) {
+				g_warning ("Invalid series num %u", sernum);
+			} else {
+				series = g_ptr_array_index (state.series, sernum);
+				if (series->data[state.cur_role].value != NULL) {
+					value_release (series->data[state.cur_role].value->vals[0][row]);
+					series->data[state.cur_role].value->vals[0][row] = value_new_string (label);
+				}
+				d (10, {fprintf (stderr, "'%s' row = %d, series = %d\n", label, row, sernum);});
 			}
-			d (10, {fprintf (stderr, "'%s' row = %d, series = %d\n", label, row, col);});
 			g_free (label);
 			break;
 		}
