@@ -1,3 +1,8 @@
+2005-05-17  Morten Welinder  <terra@gnome.org>
+
+	* src/expr-name.c (expr_name_set_expr): Don't relink deps for
+	sheets that are being destroyed.
+
 2005-05-16  Morten Welinder  <terra@gnome.org>
 
 	* src/print-cell.c (print_cell): Fix and simplify rotated case.

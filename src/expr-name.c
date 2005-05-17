@@ -580,19 +580,40 @@ expr_name_set_scope (GnmNamedExpr *nexpr, Sheet *sheet)
 void
 expr_name_set_expr (GnmNamedExpr *nexpr, GnmExpr const *new_expr)
 {
-	GSList *deps = NULL;
+	GSList *good = NULL;
 
 	g_return_if_fail (nexpr != NULL);
 
 	if (new_expr == nexpr->expr)
 		return;
 	if (nexpr->expr != NULL) {
+		GSList *deps = NULL, *junk = NULL;
+
 		deps = expr_name_unlink_deps (nexpr);
 		expr_name_handle_references (nexpr, FALSE);
 		gnm_expr_unref (nexpr->expr);
+
+		/*
+		 * We do not want to relink deps for sheets that are going
+		 * away.  This speeds up exit for workbooks with lots of
+		 * names defined.
+		 */
+		while (deps) {
+			GSList *next = deps->next;
+			GnmDependent *dep = deps->data;
+
+			if (dep->sheet && dep->sheet->workbook->during_destruction)
+				deps->next = junk, junk = deps;
+			else
+				deps->next = good, good = deps;
+
+			deps = next;
+		}
+
+		g_slist_free (junk);
 	}
 	nexpr->expr = new_expr;
-	dependents_link (deps, NULL);
+	dependents_link (good, NULL);
 
 	if (new_expr != NULL)
 		expr_name_handle_references (nexpr, TRUE);

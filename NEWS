@@ -21,6 +21,8 @@ Morten:
 	* Fix CRITICAL when undoing borders.
 	* Improve multiline rotated text.
 	* Fix Excel load crash.  [#303923]
+	* Speed up exit on large sheets with lots of names, such as the
+	  one from #303923.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1
