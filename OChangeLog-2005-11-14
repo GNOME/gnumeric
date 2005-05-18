@@ -1,3 +1,12 @@
+2005-05-18  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (dependent_pos): New utility function.
+	(dependent_set_sheet, dependent_add_dynamic_dep, dependent_unlink,
+	dependents_link, do_deps_destroy, dynamic_dep_free): use
+	dependent_pos.
+	(link_expr_dep, unlink_expr_dep, dependents_unrelocate_free,
+	dependents_unrelocate): Avoid cast.
+
 2005-05-17  Morten Welinder  <terra@gnome.org>
 
 	* src/expr-name.c (expr_name_set_expr): Don't relink deps for
@@ -22,7 +31,7 @@
 2005-05-16  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (set_more_warnings): Kill -Wcast-align.  It does
-	not catch anything useful.  We run-time chec, either in gobject
+	not catch anything useful.  We run-time check, either in gobject
 	macros or else by virtue of running on a Sparc.  Also we do *tons*
 	of valid cast from base classes to derived classes after carefully
 	checking the dynamic type.

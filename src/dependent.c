@@ -156,11 +156,11 @@ dependent_set_expr (GnmDependent *dep, GnmExpr const *new_expr)
 	dependent_debug_name (dep, stdout);
 
 	str = gnm_expr_as_string (new_expr, &pos, gnm_expr_conventions_default);
-	printf(" new = %s\n", str);
+	g_print (" new = %s\n", str);
 	g_free (str);
 
 	str = gnm_expr_as_string (dep->expression, &pos, gnm_expr_conventions_default);
-	printf("\told = %s\n", str);
+	g_print ("\told = %s\n", str);
 	g_free (str);
 }
 #endif
@@ -191,6 +191,12 @@ dependent_set_expr (GnmDependent *dep, GnmExpr const *new_expr)
 	}
 }
 
+static inline const GnmCellPos *
+dependent_pos (const GnmDependent *dep)
+{
+	return dependent_is_cell (dep) ? &DEP_TO_CELL (dep)->pos : &dummy;
+}
+
 /**
  * dependent_set_sheet
  * @dep :
@@ -205,9 +211,7 @@ dependent_set_sheet (GnmDependent *dep, Sheet *sheet)
 
 	dep->sheet = sheet;
 	if (dep->expression != NULL) {
-		GnmCellPos const *pos = (dependent_is_cell (dep))
-			? &DEP_TO_CELL(dep)->pos : &dummy;
-		dependent_link (dep, pos);
+		dependent_link (dep, dependent_pos (dep));
 		dependent_changed (dep);
 	}
 }
@@ -604,12 +608,11 @@ link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 		/* Look it up */
 		DependencyRange *result;
 
-		if (deps->range_hash [i] == NULL) {
-			deps->range_hash [i] = g_hash_table_new (
+		if (deps->range_hash[i] == NULL)
+			deps->range_hash[i] = g_hash_table_new (
 				(GHashFunc)  deprange_hash,
 				(GEqualFunc) deprange_equal);
-			result = NULL;
-		} else {
+		else {
 			result = g_hash_table_lookup (deps->range_hash[i], r);
 			if (result) {
 				/* Inserts if it is not already there */
@@ -632,13 +635,13 @@ unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 {
 	int i = r->range.start.row / BUCKET_SIZE;
 	int const end = r->range.end.row / BUCKET_SIZE;
-	DependencyRange *result;
 
 	if (!deps)
 		return;
 
 	for ( ; i <= end; i++) {
-		result = g_hash_table_lookup (deps->range_hash[i], r);
+		DependencyRange *result =
+			g_hash_table_lookup (deps->range_hash[i], r);
 		if (result) {
 			micro_hash_remove (&result->deps, dep);
 			if (micro_hash_is_empty (&result->deps)) {
@@ -747,7 +750,7 @@ link_expr_dep (GnmDependent *dep, GnmCellPos const *pos, GnmExpr const *tree)
 			GnmEvalPos		 ep;
 			FunctionEvalInfo fei;
 			fei.pos = eval_pos_init_dep (&ep, dep);
-			fei.func_call = (GnmExprFunction const *)tree;
+			fei.func_call = &tree->func;
 			flag = tree->func.func->linker (&fei);
 		}
 		for (l = tree->func.arg_list; l; l = l->next)
@@ -832,7 +835,7 @@ unlink_expr_dep (GnmDependent *dep, GnmCellPos const *pos, GnmExpr const *tree)
 			GnmEvalPos		 ep;
 			FunctionEvalInfo fei;
 			fei.pos = eval_pos_init_dep (&ep, dep);
-			fei.func_call = (GnmExprFunction const *)tree;
+			fei.func_call = &tree->func;
 			tree->func.func->unlinker (&fei);
 		}
 		for (l = tree->func.arg_list; l; l = l->next)
@@ -930,6 +933,7 @@ dynamic_dep_debug_name (GnmDependent const *dep, FILE *out)
 {
 	fprintf (out, "DynamicDep%p", dep);
 }
+
 void
 dependent_add_dynamic_dep (GnmDependent *dep, GnmValueRange const *v)
 {
@@ -940,8 +944,7 @@ dependent_add_dynamic_dep (GnmDependent *dep, GnmValueRange const *v)
 
 	g_return_if_fail (dep != NULL);
 
-	pos = (dependent_is_cell (dep))
-		? &DEP_TO_CELL(dep)->pos : &dummy;
+	pos = dependent_pos (dep);
 
 	if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS)
 		dyn = g_hash_table_lookup (dep->sheet->deps->dynamic_deps, dep);
@@ -1033,7 +1036,7 @@ dependent_unlink (GnmDependent *dep, GnmCellPos const *pos)
 	g_return_if_fail (IS_SHEET (dep->sheet));
 
 	if (pos == NULL)
-		pos = (dependent_is_cell (dep)) ? &DEP_TO_CELL(dep)->pos : &dummy;
+		pos = dependent_pos (dep);
 
 	unlink_expr_dep (dep, pos, dep->expression);
 	contain = dep->sheet->deps;
@@ -1088,7 +1091,7 @@ cell_eval_content (GnmCell *cell)
 		GnmParsePos pp;
 		char *str = gnm_expr_as_string (cell->base.expression,
 			parse_pos_init_cell (&pp, cell), gnm_expr_conventions_default);
-		printf ("{\nEvaluating %s: %s;\n", cell_name (cell), str);
+		g_print ("{\nEvaluating %s: %s;\n", cell_name (cell), str);
 		g_free (str);
 	}
 #endif
@@ -1101,7 +1104,7 @@ cell_eval_content (GnmCell *cell)
 		/* but not the first bottom */
 		if (cell->base.flags & DEPENDENT_BEING_ITERATED) {
 #ifdef DEBUG_EVALUATION
-			printf ("}; /* already-iterate (%d) */\n", iterating == NULL);
+			g_print ("}; /* already-iterate (%d) */\n", iterating == NULL);
 #endif
 			return iterating == NULL;
 		}
@@ -1145,7 +1148,7 @@ iterate :
 		char *valtxt = v
 			? value_get_as_string (v)
 			: g_strdup ("NULL");
-		printf ("Evaluation(%d) %s := %s\n", max_iteration, cell_name (cell), valtxt);
+		g_print ("Evaluation(%d) %s := %s\n", max_iteration, cell_name (cell), valtxt);
 		g_free (valtxt);
 	}
 #endif
@@ -1194,7 +1197,7 @@ iterate :
 		iterating = NULL;
 
 #ifdef DEBUG_EVALUATION
-	printf ("} (%d)\n", iterating == NULL);
+	g_print ("} (%d)\n", iterating == NULL);
 #endif
 	cell->base.flags &= ~DEPENDENT_BEING_CALCULATED;
 	cell->row_info->needs_respan = TRUE;
@@ -1282,7 +1285,7 @@ cb_search_rangedeps (gpointer key, G_GNUC_UNUSED gpointer value,
 	/* When things get slow this is a good test to enable */
 	static int counter = 0;
 	if ((++counter % 100000) == 0)
-	    printf ("%d\n", counter / 100000);
+		g_print ("%d\n", counter / 100000);
 #endif
 
 	if (range_contains (range, c->col, c->row)) {
@@ -1297,15 +1300,14 @@ cell_foreach_range_dep (GnmCell const *cell, DepFunc func, gpointer user)
 {
 	search_rangedeps_closure_t closure;
 	GHashTable *bucket =
-		cell->base.sheet->deps->range_hash [cell->pos.row /BUCKET_SIZE];
+		cell->base.sheet->deps->range_hash[cell->pos.row / BUCKET_SIZE];
 
 	if (bucket != NULL) {
-		closure.col   = cell->pos.col;
-		closure.row   = cell->pos.row;
-		closure.func  = func;
-		closure.user  = user;
-		g_hash_table_foreach (bucket,
-			&cb_search_rangedeps, &closure);
+		closure.col = cell->pos.col;
+		closure.row = cell->pos.row;
+		closure.func = func;
+		closure.user = user;
+		g_hash_table_foreach (bucket, &cb_search_rangedeps, &closure);
 	}
 }
 
@@ -1398,7 +1400,7 @@ sheet_region_queue_recalc (Sheet const *sheet, GnmRange const *r)
 			dependent_flag_recalc (dep););
 
 		/* look for things that depend on the sheet */
-		for (i = (SHEET_MAX_ROWS-1)/BUCKET_SIZE; i >= 0 ; i--) {
+		for (i = (SHEET_MAX_ROWS - 1) / BUCKET_SIZE; i >= 0 ; i--) {
 			GHashTable *hash = sheet->deps->range_hash[i];
 			if (hash != NULL)
 				g_hash_table_foreach (hash,
@@ -1418,7 +1420,7 @@ sheet_region_queue_recalc (Sheet const *sheet, GnmRange const *r)
 		});
 
 		/* look for things that depend on target region */
-		for (i = (r->end.row)/BUCKET_SIZE; i >= first ; i--) {
+		for (i = r->end.row / BUCKET_SIZE; i >= first ; i--) {
 			GHashTable *hash = sheet->deps->range_hash[i];
 			if (hash != NULL)
 				g_hash_table_foreach (hash,
@@ -1450,7 +1452,7 @@ dependents_unrelocate_free (GSList *info)
 {
 	GSList *ptr = info;
 	for (; ptr != NULL ; ptr = ptr->next) {
-		ExprRelocateStorage *tmp = (ExprRelocateStorage *)(ptr->data);
+		ExprRelocateStorage *tmp = ptr->data;
 		gnm_expr_unref (tmp->oldtree);
 		g_free (tmp);
 	}
@@ -1468,7 +1470,7 @@ dependents_unrelocate (GSList *info)
 {
 	GSList *ptr = info;
 	for (; ptr != NULL ; ptr = ptr->next) {
-		ExprRelocateStorage *tmp = (ExprRelocateStorage *)(ptr->data);
+		ExprRelocateStorage *tmp = ptr->data;
 
 		if (tmp->dep_type == DEPENDENT_CELL) {
 			if (!IS_SHEET (tmp->u.pos.sheet)) {
@@ -1523,8 +1525,7 @@ dependents_link (GSList *deps, GnmExprRewriteInfo const *rwinfo)
 					continue;
 		}
 		if (dep->sheet->deps != NULL && !dependent_is_linked (dep)) {
-			dependent_link (dep, dependent_is_cell (dep)
-				? &DEP_TO_CELL (dep)->pos : &dummy);
+			dependent_link (dep, dependent_pos (dep));
 			dependent_queue_recalc (dep);
 		}
 	}
@@ -1618,7 +1619,7 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 	{
 		int const first = r->start.row / BUCKET_SIZE;
 		GHashTable *hash;
-		for (i = (r->end.row)/BUCKET_SIZE; i >= first ; i--) {
+		for (i = r->end.row / BUCKET_SIZE; i >= first ; i--) {
 			hash = sheet->deps->range_hash[i];
 			if (hash != NULL)
 				g_hash_table_foreach (hash,
@@ -1858,7 +1859,6 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 	DependentFlags filter = DEPENDENT_LINK_FLAGS; /* unlink everything */
 	GnmDepContainer *deps;
 	GSList *ptr, *next, *local_dyn_deps, *dyn_deps = NULL;
-	GnmDependent *dep;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -1884,7 +1884,7 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 
 	if (deps->range_hash) {
 		int i;
-		for (i = (SHEET_MAX_ROWS-1)/BUCKET_SIZE; i >= 0 ; i--) {
+		for (i = (SHEET_MAX_ROWS - 1) / BUCKET_SIZE; i >= 0 ; i--) {
 			GHashTable *hash = deps->range_hash[i];
 			if (hash != NULL)
 				dep_hash_destroy (hash, rwinfo, &dyn_deps);
@@ -1911,7 +1911,7 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 	ptr = dyn_deps;
 	dyn_deps = local_dyn_deps = NULL;
 	for (; ptr != NULL ; ptr = next) {
-		dep = ptr->data;
+		GnmDependent *dep = ptr->data;
 		next = ptr->next;
 		if (dep->sheet != sheet) {
 			if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS) {
@@ -1934,7 +1934,7 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 		ptr = dyn_deps;
 		dyn_deps = NULL;
 		for (; ptr != NULL ; ptr = next) {
-			dep = ptr->data;
+			GnmDependent *dep = ptr->data;
 			next = ptr->next;
 			if (dep->sheet->workbook != target) {
 				ptr->next = dyn_deps;
@@ -1998,9 +1998,9 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 	 */
 	DEPENDENT_CONTAINER_FOREACH_DEPENDENT (deps, dep, {
 		if (dep->flags & filter)
-			unlink_expr_dep (dep, dependent_is_cell (dep)
-				? &DEP_TO_CELL (dep)->pos : &dummy,
-				dep->expression);
+			unlink_expr_dep (dep,
+					 dependent_pos (dep),
+					 dep->expression);
 		dep->flags &= ~DEPENDENT_LINK_FLAGS;
 	});
 
@@ -2026,6 +2026,7 @@ workbook_deps_destroy (Workbook *wb)
 	GnmExprRewriteInfo rwinfo;
 
 	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (wb->during_destruction);
 	g_return_if_fail (wb->sheets != NULL);
 
 	rwinfo.type = GNM_EXPR_REWRITE_WORKBOOK;
@@ -2088,8 +2089,7 @@ static void
 dynamic_dep_free (DynamicDep *dyn)
 {
 	GnmDependent *dep = dyn->container;
-	GnmCellPos const *pos = (dependent_is_cell (dep))
-		? &DEP_TO_CELL(dep)->pos : &dummy;
+	GnmCellPos const *pos = dependent_pos (dep);
 	GnmValueRange *v;
 	GSList *ptr;
 
@@ -2122,7 +2122,7 @@ gnm_dep_container_new (void)
 	deps->head = deps->tail = NULL;
 
 	deps->range_hash  = g_new0 (GHashTable *,
-				    (SHEET_MAX_ROWS-1)/BUCKET_SIZE + 1);
+				    (SHEET_MAX_ROWS - 1) / BUCKET_SIZE + 1);
 	deps->range_pool  = go_mem_chunk_new ("range pool",
 					       sizeof (DependencyRange),
 					       16 * 1024 - 100);
@@ -2146,15 +2146,15 @@ gnm_dep_container_new (void)
 static void
 dump_dependent_list (GSList *l)
 {
-	printf ("(");
+	g_print ("(");
 	while (l != NULL) {
 		GnmDependent *dep = l->data;
 		dependent_debug_name (dep, stdout);
 		l = l->next;
 		if (l != NULL)
-			printf (", ");
+			g_print (", ");
 	}
-	printf (")\n");
+	g_print (")\n");
 }
 
 static void
@@ -2165,8 +2165,8 @@ dump_range_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 	GnmRange const *range = &(deprange->range);
 
 	/* 2 calls to col_name and row_name.  It uses a static buffer */
-	printf ("\t%s:", cellpos_as_string (&range->start));
-	printf ("%s <- ", cellpos_as_string (&range->end));
+	g_print ("\t%s:", cellpos_as_string (&range->start));
+	g_print ("%s <- ", cellpos_as_string (&range->end));
 
 	micro_hash_foreach_list (deprange->deps, list,
 		dump_dependent_list (list););
@@ -2178,7 +2178,7 @@ dump_single_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 {
 	DependencySingle *depsingle = key;
 
-	printf ("\t%s <- ", cellpos_as_string (&depsingle->pos));
+	g_print ("\t%s <- ", cellpos_as_string (&depsingle->pos));
 
 	micro_hash_foreach_list (depsingle->deps, list,
 		dump_dependent_list (list););
@@ -2197,20 +2197,20 @@ gnm_dep_container_dump (GnmDepContainer const *deps)
 
 	g_return_if_fail (deps != NULL);
 
-	for (i = (SHEET_MAX_ROWS-1)/BUCKET_SIZE; i >= 0 ; i--) {
+	for (i = (SHEET_MAX_ROWS - 1) / BUCKET_SIZE; i >= 0 ; i--) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL && g_hash_table_size (hash) > 0) {
-			printf ("Bucket %d (%d-%d): Range hash size %d: range over which cells in list depend\n",
-				i, i * BUCKET_SIZE, (i + 1) * BUCKET_SIZE - 1,
-				g_hash_table_size (hash));
+			g_print ("Bucket %d (%d-%d): Range hash size %d: range over which cells in list depend\n",
+				 i, i * BUCKET_SIZE, (i + 1) * BUCKET_SIZE - 1,
+				 g_hash_table_size (hash));
 			g_hash_table_foreach (hash,
 					      dump_range_dep, NULL);
 		}
 	}
 
 	if (g_hash_table_size (deps->single_hash) > 0) {
-		printf ("Single hash size %d: cell on which list of cells depend\n",
-			g_hash_table_size (deps->single_hash));
+		g_print ("Single hash size %d: cell on which list of cells depend\n",
+			 g_hash_table_size (deps->single_hash));
 		g_hash_table_foreach (deps->single_hash,
 				      dump_single_dep, NULL);
 	}
