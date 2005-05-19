@@ -1827,6 +1827,8 @@ do_deps_destroy (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->being_invalidated);
 
+	rwinfo.type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
+
 	/* The GnmDepContainer contains the names that reference this, not the
 	 * names it contains.  Remove them here. NOTE : they may continue to exist
 	 * inactively for a bit.  Be careful to remove them _before_ destroying
