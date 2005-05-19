@@ -1,5 +1,20 @@
 2005-05-19  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.h (struct _Sheet): add being_invalidated flag.
+
+	* src/dependent.c (dependents_workbook_destroy): Renamed from
+	workbook_deps_destroy.  Mark all sheets being_invalidated before
+	actually doing so.
+	(dependents_invalidate_sheet): Renamed from sheet_deps_destroy.
+	(do_deps_destroy): Don't take a GnmExprRewriteInfo argument --
+	create it locally.
+
+	* src/expr.h (struct _GnmExprRewriteInfo): Combine
+	GNM_EXPR_REWRITE_SHEET and GNM_EXPR_REWRITE_WORKBOOK into
+	GNM_EXPR_REWRITE_INVALIDATE_SHEETS.
+
+2005-05-19  Morten Welinder  <terra@gnome.org>
+
 	* src/workbook.c (pre_sheet_index_change): Use dependent_unlink
 	directly as callback.
 	(post_sheet_index_change): Use dependent_link directly as

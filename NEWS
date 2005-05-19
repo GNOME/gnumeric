@@ -23,6 +23,7 @@ Morten:
 	* Fix Excel load crash.  [#303923]
 	* Speed up exit on large sheets with lots of names, such as the
 	  one from #303923.
+	* Clean up dependencies somewhat.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1

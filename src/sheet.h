@@ -18,6 +18,7 @@ struct _Sheet {
 
 	int         index_in_wb;
 	Workbook    *workbook;
+	gboolean    being_invalidated;
 
 	GPtrArray   *sheet_views;
 

@@ -1786,15 +1786,10 @@ cellrange_relocate (GnmValue const *v, GnmExprRelocateInfo const *rinfo)
  *
  * Either:
  *
- * GNM_EXPR_REWRITE_SHEET:
+ * GNM_EXPR_REWRITE_INVALIDATE_SHEETS:
  *
- *	Find any references to rwinfo->u.sheet and re-write them to #REF!
- *
- * or
- *
- * GNM_EXPR_REWRITE_WORKBOOK:
- *
- *	Find any references to rwinfo->u.workbook re-write them to #REF!
+ *	Find any references to sheets marked being_invalidated and
+ *      re-write them to #REF!
  *
  * or
  *
@@ -1897,13 +1892,17 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		 * sitting in the undo queue, or the clipboard.  So we just
 		 * flag the name as inactive and remove the reference here.
 		 */
-		if (!nexpr->active ||
-		    (rwinfo->type == GNM_EXPR_REWRITE_SHEET && rwinfo->u.sheet == nexpr->pos.sheet) ||
-		    (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK && rwinfo->u.workbook == nexpr->pos.wb))
+		if (!nexpr->active)
 			return gnm_expr_new_constant (value_new_error_REF (NULL));
 
-		if (rwinfo->type != GNM_EXPR_REWRITE_RELOCATE)
-			return NULL;
+		if (rwinfo->type == GNM_EXPR_REWRITE_INVALIDATE_SHEETS) {
+			if (nexpr->pos.sheet && nexpr->pos.sheet->being_invalidated)
+				return gnm_expr_new_constant (value_new_error_REF (NULL));
+			else
+				return NULL;
+		}
+
+		g_assert (rwinfo->type == GNM_EXPR_REWRITE_RELOCATE);
 
 		/* If the name is not officially scoped, check that it is
 		 * available in the new scope ?  */
@@ -1941,14 +1940,9 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 
 	case GNM_EXPR_OP_CELLREF:
 		switch (rwinfo->type) {
-		case GNM_EXPR_REWRITE_SHEET :
-			if (expr->cellref.ref.sheet == rwinfo->u.sheet)
-				return gnm_expr_new_constant (value_new_error_REF (NULL));
-			return NULL;
-
-		case GNM_EXPR_REWRITE_WORKBOOK :
-			if (expr->cellref.ref.sheet != NULL &&
-			    expr->cellref.ref.sheet->workbook == rwinfo->u.workbook)
+		case GNM_EXPR_REWRITE_INVALIDATE_SHEETS:
+			if (expr->cellref.ref.sheet &&
+			    expr->cellref.ref.sheet->being_invalidated)
 				return gnm_expr_new_constant (value_new_error_REF (NULL));
 			return NULL;
 
@@ -1975,40 +1969,41 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 			GnmCellRef const *ref_a = &v->v_range.cell.a;
 			GnmCellRef const *ref_b = &v->v_range.cell.b;
 
-			if (rwinfo->type == GNM_EXPR_REWRITE_SHEET) {
-				GnmValue *v = NULL;
+			if (rwinfo->type == GNM_EXPR_REWRITE_INVALIDATE_SHEETS) {
+				Sheet *sheet_a = ref_a->sheet;
+				Sheet *sheet_b = ref_b->sheet;
+				Workbook *wb;
+				gboolean hit_a = sheet_a && sheet_a->being_invalidated;
+				gboolean hit_b = sheet_b && sheet_b->being_invalidated;
+				int dir_a, dir_b;
 
-				if (ref_a->sheet == rwinfo->u.sheet) {
-					if (ref_b->sheet != NULL &&
-					    ref_b->sheet != rwinfo->u.sheet) {
-						GnmCellRef new_a = *ref_a;
-						new_a.sheet = workbook_sheet_by_index (ref_a->sheet->workbook,
-							(ref_a->sheet->index_in_wb < ref_b->sheet->index_in_wb)
-							? ref_a->sheet->index_in_wb + 1
-							: ref_a->sheet->index_in_wb - 1);
-						v = value_new_cellrange_unsafe (&new_a, ref_b);
-					}
-				} else if (ref_b->sheet == rwinfo->u.sheet) {
-					GnmCellRef new_b = *ref_b;
-					new_b.sheet = workbook_sheet_by_index (ref_b->sheet->workbook,
-						(ref_b->sheet->index_in_wb > ref_a->sheet->index_in_wb)
-						? ref_b->sheet->index_in_wb - 1
-						: ref_b->sheet->index_in_wb + 1);
-					v = value_new_cellrange_unsafe (ref_a, &new_b);
-				} else
+				if (!hit_a && !hit_b)
 					return NULL;
-				if (v == NULL)
-					v = value_new_error_REF (NULL);
-				return gnm_expr_new_constant (v);
 
-			} else if (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK) {
-				if (ref_a->sheet != NULL &&
-				    ref_a->sheet->workbook == rwinfo->u.workbook)
+				if (sheet_a == NULL || sheet_b == NULL ||
+				    sheet_a->workbook != sheet_b->workbook)
+					/* A 3D reference between workbooks?  */
 					return gnm_expr_new_constant (value_new_error_REF (NULL));
-				if (ref_b->sheet != NULL &&
-				    ref_b->sheet->workbook == rwinfo->u.workbook)
+
+				wb = sheet_a->workbook;
+				dir_a = (sheet_a->index_in_wb < sheet_b->index_in_wb) ? +1 : -1;
+				dir_b = -dir_a;
+				/* Narrow the sheet range.  */
+				while (sheet_a != sheet_b && sheet_a->being_invalidated)
+					sheet_a = workbook_sheet_by_index (wb, sheet_a->index_in_wb + dir_a);
+				while (sheet_a != sheet_b && sheet_b->being_invalidated)
+					sheet_b = workbook_sheet_by_index (wb, sheet_b->index_in_wb + dir_b);
+
+				if (sheet_a->being_invalidated)
 					return gnm_expr_new_constant (value_new_error_REF (NULL));
-				return NULL;
+				else {
+					GnmCellRef new_a = *ref_a;
+					GnmCellRef new_b = *ref_b;
+
+					new_a.sheet = sheet_a;
+					new_b.sheet = sheet_b;
+					return gnm_expr_new_constant (value_new_cellrange_unsafe (&new_a, &new_b));
+				}
 			} else
 				return cellrange_relocate (v, &rwinfo->u.relocate);
 		}

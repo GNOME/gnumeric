@@ -100,10 +100,11 @@ void	 cell_queue_recalc	    (GnmCell const *cell);
 void	 cell_foreach_dep	    (GnmCell const *cell, DepFunc func, gpointer user);
 gboolean cell_eval_content	    (GnmCell *cell);
 
-void sheet_region_queue_recalc	 (Sheet const *sheet, GnmRange const *range);
-void sheet_deps_destroy		 (Sheet *sheet);
-void workbook_deps_destroy	 (Workbook *wb);
-void workbook_queue_all_recalc	 (Workbook *wb);
+void sheet_region_queue_recalc	  (Sheet const *sheet, GnmRange const *range);
+void dependents_invalidate_sheet  (Sheet *sheet);
+void dependents_invalidate_sheets (GSList *sheets);
+void dependents_workbook_destroy  (Workbook *wb);
+void workbook_queue_all_recalc	  (Workbook *wb);
 
 GnmDepContainer *gnm_dep_container_new  (void);
 void		 gnm_dep_container_dump	(GnmDepContainer const *deps);

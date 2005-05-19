@@ -602,7 +602,7 @@ expr_name_set_expr (GnmNamedExpr *nexpr, GnmExpr const *new_expr)
 			GSList *next = deps->next;
 			GnmDependent *dep = deps->data;
 
-			if (dep->sheet && dep->sheet->workbook->during_destruction)
+			if (dep->sheet && dep->sheet->being_invalidated)
 				deps->next = junk, junk = deps;
 			else
 				deps->next = good, good = deps;

@@ -101,7 +101,7 @@ workbook_dispose (GObject *wb_object)
 	command_list_release (wb->redo_commands);
 	wb->redo_commands = NULL;
 
-	workbook_deps_destroy (wb);
+	dependents_workbook_destroy (wb);
 
 	/* Copy the set of sheets, the list changes under us. */
 	sheets = workbook_sheets (wb);
@@ -1052,10 +1052,16 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet, gboolean recalc)
 	if (wb->sheet_order_dependents != NULL) {
 		GnmExprRewriteInfo rwinfo;
 
-		rwinfo.type = GNM_EXPR_REWRITE_SHEET;
-		rwinfo.u.sheet = sheet;
+		/*
+		 * Why here and not in workbook_sheet_delete
+		 * (via dependents_invalidate_sheets)?
+		 */
+		rwinfo.type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
+		sheet->being_invalidated = TRUE;
 		g_hash_table_foreach (wb->sheet_order_dependents,
-			(GHFunc) cb_tweak_3d, &rwinfo);
+				      (GHFunc)cb_tweak_3d,
+				      &rwinfo);
+		sheet->being_invalidated = FALSE;
 	}
 
 	/* Remove our reference to this sheet */
@@ -1143,7 +1149,7 @@ workbook_sheet_delete (Sheet *sheet)
 	workbook_focus_other_sheet (wb, sheet);
 
 	/* Important to do these BEFORE detaching the sheet */
-	sheet_deps_destroy (sheet);
+	dependents_invalidate_sheet (sheet);
 
 	/* All is fine, remove the sheet */
 	workbook_sheet_detach (wb, sheet, TRUE);

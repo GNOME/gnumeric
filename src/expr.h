@@ -97,14 +97,14 @@ struct _GnmExprRelocateInfo {
 
 struct _GnmExprRewriteInfo {
 	enum {
-		GNM_EXPR_REWRITE_SHEET,
-		GNM_EXPR_REWRITE_WORKBOOK,
+		GNM_EXPR_REWRITE_INVALIDATE_SHEETS,
 		GNM_EXPR_REWRITE_RELOCATE
 	} type;
 
 	union {
-		Sheet const     *sheet;
-		Workbook const  *workbook;
+		struct {
+			int dummy;
+		} sheets;
 		GnmExprRelocateInfo relocate;
 	} u;
 };
