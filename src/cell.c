@@ -69,7 +69,7 @@ cell_cleanout (GnmCell *cell)
 	if (cell_has_expr (cell)) {
 		/* Clipboard cells, e.g., are not attached to a sheet.  */
 		if (cell_expr_is_linked (cell))
-			dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
+			dependent_unlink (CELL_TO_DEP (cell));
 		gnm_expr_unref (cell->base.expression);
 		cell->base.expression = NULL;
 	}
@@ -176,9 +176,9 @@ cell_relocate (GnmCell *cell, GnmExprRewriteInfo const *rwinfo)
 	if (cell_has_expr (cell)) {
 		GnmExpr const *expr = gnm_expr_rewrite (cell->base.expression, rwinfo);
 
-#warning make this a precondition
+#warning "make this a precondition"
 		if (cell_expr_is_linked (cell))
-			dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
+			dependent_unlink (CELL_TO_DEP (cell));
 
 		/* bounds check, and adjust local references from the cell */
 		if (expr != NULL) {
@@ -186,7 +186,7 @@ cell_relocate (GnmCell *cell, GnmExprRewriteInfo const *rwinfo)
 			cell->base.expression = expr;
 		}
 
-		dependent_link (CELL_TO_DEP (cell), &cell->pos);
+		dependent_link (CELL_TO_DEP (cell));
 	}
 }
 
@@ -309,7 +309,7 @@ cell_set_expr_and_value (GnmCell *cell, GnmExpr const *expr, GnmValue *v,
 	cell->base.expression = expr;
 	cell->value = v;
 	if (link_expr)
-		dependent_link (CELL_TO_DEP (cell), &cell->pos);
+		dependent_link (CELL_TO_DEP (cell));
 }
 
 /**
@@ -381,7 +381,7 @@ cell_set_expr (GnmCell *cell, GnmExpr const *expr)
 	g_return_if_fail (expr != NULL);
 
 	cell_set_expr_internal (cell, expr);
-	dependent_link (CELL_TO_DEP (cell), &cell->pos);
+	dependent_link (CELL_TO_DEP (cell));
 }
 
 /**
@@ -438,11 +438,11 @@ cell_set_array_formula (Sheet *sheet,
 			cell = sheet_cell_fetch (sheet, col_a + x, row_a + y);
 			wrapper = gnm_expr_new_array (x, y, num_cols, num_rows, NULL);
 			cell_set_expr_internal (cell, wrapper);
-			dependent_link (CELL_TO_DEP (cell), &cell->pos);
+			dependent_link (CELL_TO_DEP (cell));
 			gnm_expr_unref (wrapper);
 		}
 
-	dependent_link (CELL_TO_DEP (corner), &corner->pos);
+	dependent_link (CELL_TO_DEP (corner));
 }
 
 /***************************************************************************/
@@ -660,7 +660,7 @@ cell_convert_expr_to_value (GnmCell *cell)
 
 	/* Clipboard cells, e.g., are not attached to a sheet.  */
 	if (cell_expr_is_linked (cell))
-		dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
+		dependent_unlink (CELL_TO_DEP (cell));
 
 	gnm_expr_unref (cell->base.expression);
 	cell->base.expression = NULL;

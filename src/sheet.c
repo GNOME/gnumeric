@@ -2882,7 +2882,7 @@ sheet_cell_remove_from_hash (Sheet *sheet, GnmCell *cell)
 
 	cell_unregister_span (cell);
 	if (cell_expr_is_linked (cell))
-		dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
+		dependent_unlink (CELL_TO_DEP (cell));
 	g_hash_table_remove (sheet->cell_hash, &cell->pos);
 	cell->base.flags &= ~(CELL_IN_SHEET_LIST|CELL_IS_MERGED);
 }
@@ -2899,7 +2899,7 @@ sheet_cell_destroy (Sheet *sheet, GnmCell *cell, gboolean queue_recalc)
 		 * check recalc status before we unlink
 		 */
 		queue_recalc &= !cell_needs_recalc (cell);
-		dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
+		dependent_unlink (CELL_TO_DEP (cell));
 	}
 
 	if (queue_recalc)
@@ -3442,7 +3442,7 @@ colrow_move (Sheet *sheet,
 
 		sheet_cell_add_to_hash (sheet, cell);
 		if (cell_has_expr (cell))
-			dependent_link (CELL_TO_DEP (cell), &cell->pos);
+			dependent_link (CELL_TO_DEP (cell));
 	}
 	sheet_set_dirty (sheet, TRUE);
 }
@@ -3916,7 +3916,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 		cell->pos.row += rinfo->row_offset;
 		sheet_cell_add_to_hash (rinfo->target_sheet, cell);
 		if (cell_has_expr (cell))
-			dependent_link (CELL_TO_DEP (cell), &cell->pos);
+			dependent_link (CELL_TO_DEP (cell));
 	}
 
 	/* 7. Move objects in the range */

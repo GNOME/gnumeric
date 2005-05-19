@@ -1,3 +1,14 @@
+2005-05-19  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (pre_sheet_index_change): Use dependent_unlink
+	directly as callback.
+	(post_sheet_index_change): Use dependent_link directly as
+	callback.
+
+	* src/dependent.c (dependent_link, dependent_unlink,
+	link_expr_dep, unlink_expr_dep): Drop the pos argument, infer when
+	needed.  All callers changed.
+
 2005-05-18  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (dependent_pos): New utility function.

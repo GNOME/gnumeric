@@ -793,15 +793,6 @@ workbook_sheet_count (Workbook const *wb)
 }
 
 static void
-cb_dep_unlink (GnmDependent *dep, gpointer value, gpointer user_data)
-{
-	GnmCellPos *pos = NULL;
-	if (dependent_is_cell (dep))
-		pos = &DEP_TO_CELL (dep)->pos;
-	dependent_unlink (dep, pos);
-}
-
-static void
 pre_sheet_index_change (Workbook *wb)
 {
 	g_return_if_fail (!wb->being_reordered);
@@ -810,16 +801,8 @@ pre_sheet_index_change (Workbook *wb)
 
 	if (wb->sheet_order_dependents != NULL)
 		g_hash_table_foreach (wb->sheet_order_dependents,
-			(GHFunc) cb_dep_unlink, NULL);
-}
-
-static void
-cb_dep_link (GnmDependent *dep, gpointer value, gpointer user_data)
-{
-	GnmCellPos *pos = NULL;
-	if (dependent_is_cell (dep))
-		pos = &DEP_TO_CELL (dep)->pos;
-	dependent_link (dep, pos);
+				      (GHFunc)dependent_unlink,
+				      NULL);
 }
 
 static void
@@ -829,7 +812,8 @@ post_sheet_index_change (Workbook *wb)
 
 	if (wb->sheet_order_dependents != NULL)
 		g_hash_table_foreach (wb->sheet_order_dependents,
-			(GHFunc) cb_dep_link, NULL);
+				      (GHFunc)dependent_link,
+				      NULL);
 
 	wb->being_reordered = FALSE;
 

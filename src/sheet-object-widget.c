@@ -1027,7 +1027,7 @@ sheet_widget_adjustment_clear_sheet (SheetObject *so)
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
 
 	if (dependent_is_linked (&swa->dep))
-		dependent_unlink (&swa->dep, NULL);
+		dependent_unlink (&swa->dep);
 	swa->dep.sheet = NULL;
 	return FALSE;
 }
@@ -1636,7 +1636,7 @@ sheet_widget_checkbox_clear_sheet (SheetObject *so)
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
 
 	if (dependent_is_linked (&swc->dep))
-		dependent_unlink (&swc->dep, NULL);
+		dependent_unlink (&swc->dep);
 	swc->dep.sheet = NULL;
 	return FALSE;
 }
@@ -1870,7 +1870,7 @@ sheet_widget_radio_button_clear_sheet (SheetObject *so)
 	g_return_val_if_fail (swrb != NULL, TRUE);
 
 	if (dependent_is_linked (&swrb->dep))
-		dependent_unlink (&swrb->dep, NULL);
+		dependent_unlink (&swrb->dep);
 	swrb->dep.sheet = NULL;
 	return FALSE;
 }
@@ -2029,9 +2029,9 @@ sheet_widget_list_base_clear_sheet (SheetObject *so)
 	g_return_val_if_fail (swc != NULL, TRUE);
 
 	if (dependent_is_linked (&swc->content_dep))
-		dependent_unlink (&swc->content_dep, NULL);
+		dependent_unlink (&swc->content_dep);
 	if (dependent_is_linked (&swc->output_dep))
-		dependent_unlink (&swc->output_dep, NULL);
+		dependent_unlink (&swc->output_dep);
 	swc->content_dep.sheet = swc->output_dep.sheet = NULL;
 	return FALSE;
 }

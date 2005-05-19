@@ -172,7 +172,7 @@ expr_name_unlink_deps (GnmNamedExpr *nexpr)
 	for (ptr = deps ; ptr != NULL ; ptr = ptr->next) {
 		GnmDependent *dep = ptr->data;
 		if (dependent_is_linked (dep))
-			dependent_unlink (dep, NULL);
+			dependent_unlink (dep);
 	}
 	return deps;
 }

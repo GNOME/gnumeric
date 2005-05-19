@@ -150,7 +150,7 @@ gnm_go_data_set_sheet (GOData *dat, Sheet *sheet)
 		dep->sheet = NULL;
 		dependent_set_sheet (dep, sheet);
 	} else if (dependent_is_linked (dep)) {
-		dependent_unlink (dep, NULL);
+		dependent_unlink (dep);
 		dep->sheet = NULL;
 	}
 }

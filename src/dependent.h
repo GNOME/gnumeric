@@ -85,8 +85,8 @@ void	 dependent_types_shutdown  (void);
 
 void	 dependent_set_expr	   (GnmDependent *dep, GnmExpr const *new_expr);
 void	 dependent_set_sheet	   (GnmDependent *dep, Sheet *sheet);
-void	 dependent_link		   (GnmDependent *dep, GnmCellPos const *pos);
-void	 dependent_unlink	   (GnmDependent *dep, GnmCellPos const *pos);
+void	 dependent_link		   (GnmDependent *dep);
+void	 dependent_unlink	   (GnmDependent *dep);
 gboolean dependent_eval		   (GnmDependent *dep);
 void	 dependent_queue_recalc	   (GnmDependent *dep);
 void	 dependent_add_dynamic_dep (GnmDependent *dep, GnmValueRange const *v);
