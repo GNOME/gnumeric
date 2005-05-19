@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-28 03:16-0400\n"
-"PO-Revision-Date: 2005-04-28 03:20-0400\n"
+"POT-Creation-Date: 2005-05-19 14:38-0400\n"
+"PO-Revision-Date: 2005-05-19 03:20-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -8227,7 +8227,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DB"
 
-#: ../plugins/fn-info/functions.c:66
+#: ../plugins/fn-info/functions.c:67
 msgid ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL(type,ref)\n"
@@ -8275,7 +8275,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INDIRECT"
 
-#: ../plugins/fn-info/functions.c:1168
+#: ../plugins/fn-info/functions.c:1171
 msgid ""
 "@FUNCTION=EXPRESSION\n"
 "@SYNTAX=EXPRESSION(cell)\n"
@@ -8297,7 +8297,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TEXT"
 
-#: ../plugins/fn-info/functions.c:1214
+#: ../plugins/fn-info/functions.c:1217
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -8321,7 +8321,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT"
 
-#: ../plugins/fn-info/functions.c:1261
+#: ../plugins/fn-info/functions.c:1264
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO(type)\n"
@@ -8371,7 +8371,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1367
+#: ../plugins/fn-info/functions.c:1372
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(value)\n"
@@ -8395,7 +8395,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ERROR"
 
-#: ../plugins/fn-info/functions.c:1392
+#: ../plugins/fn-info/functions.c:1397
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(value)\n"
@@ -8419,7 +8419,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NA"
 
-#: ../plugins/fn-info/functions.c:1421
+#: ../plugins/fn-info/functions.c:1426
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
@@ -8443,7 +8443,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISERROR"
 
-#: ../plugins/fn-info/functions.c:1447
+#: ../plugins/fn-info/functions.c:1452
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR.TYPE(value)\n"
@@ -8483,7 +8483,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISERROR"
 
-#: ../plugins/fn-info/functions.c:1489
+#: ../plugins/fn-info/functions.c:1494
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -8507,7 +8507,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISNA"
 
-#: ../plugins/fn-info/functions.c:1514
+#: ../plugins/fn-info/functions.c:1519
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -8527,7 +8527,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISERROR"
 
-#: ../plugins/fn-info/functions.c:1538
+#: ../plugins/fn-info/functions.c:1543
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(value)\n"
@@ -8551,7 +8551,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1563
+#: ../plugins/fn-info/functions.c:1568
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(value)\n"
@@ -8575,7 +8575,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISODD"
 
-#: ../plugins/fn-info/functions.c:1588
+#: ../plugins/fn-info/functions.c:1593
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(value)\n"
@@ -8599,7 +8599,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1613
+#: ../plugins/fn-info/functions.c:1618
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(value)\n"
@@ -8623,7 +8623,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTEXT"
 
-#: ../plugins/fn-info/functions.c:1638
+#: ../plugins/fn-info/functions.c:1643
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -8647,7 +8647,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1664
+#: ../plugins/fn-info/functions.c:1669
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(value)\n"
@@ -8671,7 +8671,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISEVEN"
 
-#: ../plugins/fn-info/functions.c:1689
+#: ../plugins/fn-info/functions.c:1694
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(value)\n"
@@ -8695,7 +8695,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1724
+#: ../plugins/fn-info/functions.c:1729
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -8719,7 +8719,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISNONTEXT"
 
-#: ../plugins/fn-info/functions.c:1749
+#: ../plugins/fn-info/functions.c:1754
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -8745,7 +8745,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1792
+#: ../plugins/fn-info/functions.c:1797
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -8781,7 +8781,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1844
+#: ../plugins/fn-info/functions.c:1849
 msgid ""
 "@FUNCTION=GETENV\n"
 "@SYNTAX=GETENV(string)\n"
@@ -13584,7 +13584,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST"
 
-#: ../plugins/fn-stat/functions.c:659
+#: ../plugins/fn-stat/functions.c:654
 msgid ""
 "@FUNCTION=LOGINV\n"
 "@SYNTAX=LOGINV(p,mean,stddev)\n"
@@ -13616,7 +13616,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST"
 
-#: ../plugins/fn-stat/functions.c:699
+#: ../plugins/fn-stat/functions.c:694
 msgid ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
@@ -13644,7 +13644,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FISHER"
 
-#: ../plugins/fn-stat/functions.c:729
+#: ../plugins/fn-stat/functions.c:724
 msgid ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
@@ -13678,7 +13678,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,MEDIAN"
 
-#: ../plugins/fn-stat/functions.c:768
+#: ../plugins/fn-stat/functions.c:763
 msgid ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
@@ -13708,7 +13708,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
 
-#: ../plugins/fn-stat/functions.c:803
+#: ../plugins/fn-stat/functions.c:798
 msgid ""
 "@FUNCTION=GEOMEAN\n"
 "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
@@ -13738,7 +13738,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"
 
-#: ../plugins/fn-stat/functions.c:837
+#: ../plugins/fn-stat/functions.c:832
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -13768,7 +13768,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: ../plugins/fn-stat/functions.c:883
+#: ../plugins/fn-stat/functions.c:878
 msgid ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=COUNTA(b1, b2, ...)\n"
@@ -13798,7 +13798,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 
-#: ../plugins/fn-stat/functions.c:928
+#: ../plugins/fn-stat/functions.c:923
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -13830,7 +13830,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: ../plugins/fn-stat/functions.c:963
+#: ../plugins/fn-stat/functions.c:958
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -13862,7 +13862,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,ABS"
 
-#: ../plugins/fn-stat/functions.c:1008
+#: ../plugins/fn-stat/functions.c:1003
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -13894,7 +13894,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MIN,ABS"
 
-#: ../plugins/fn-stat/functions.c:1053
+#: ../plugins/fn-stat/functions.c:1048
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -13936,7 +13936,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 
-#: ../plugins/fn-stat/functions.c:1094
+#: ../plugins/fn-stat/functions.c:1089
 msgid ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(n1, n2, ...)\n"
@@ -13966,7 +13966,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 
-#: ../plugins/fn-stat/functions.c:1130
+#: ../plugins/fn-stat/functions.c:1125
 msgid ""
 "@FUNCTION=EXPONDIST\n"
 "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
@@ -14006,7 +14006,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: ../plugins/fn-stat/functions.c:1177
+#: ../plugins/fn-stat/functions.c:1172
 msgid ""
 "@FUNCTION=BERNOULLI\n"
 "@SYNTAX=BERNOULLI(k,p)\n"
@@ -14034,7 +14034,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDBERNOULLI"
 
-#: ../plugins/fn-stat/functions.c:1222
+#: ../plugins/fn-stat/functions.c:1217
 msgid ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
@@ -14064,7 +14064,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: ../plugins/fn-stat/functions.c:1262
+#: ../plugins/fn-stat/functions.c:1257
 msgid ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
@@ -14096,7 +14096,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GAMMAINV"
 
-#: ../plugins/fn-stat/functions.c:1306
+#: ../plugins/fn-stat/functions.c:1301
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -14126,7 +14126,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GAMMADIST"
 
-#: ../plugins/fn-stat/functions.c:1344
+#: ../plugins/fn-stat/functions.c:1339
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -14156,7 +14156,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIINV,CHITEST"
 
-#: ../plugins/fn-stat/functions.c:1383
+#: ../plugins/fn-stat/functions.c:1378
 msgid ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
@@ -14184,7 +14184,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIDIST,CHITEST"
 
-#: ../plugins/fn-stat/functions.c:1420
+#: ../plugins/fn-stat/functions.c:1415
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
@@ -14216,7 +14216,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIDIST,CHIINV"
 
-#: ../plugins/fn-stat/functions.c:1561
+#: ../plugins/fn-stat/functions.c:1556
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -14250,7 +14250,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETAINV"
 
-#: ../plugins/fn-stat/functions.c:1605
+#: ../plugins/fn-stat/functions.c:1600
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -14288,7 +14288,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETADIST"
 
-#: ../plugins/fn-stat/functions.c:1649
+#: ../plugins/fn-stat/functions.c:1644
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -14326,7 +14326,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TINV,TTEST"
 
-#: ../plugins/fn-stat/functions.c:1693
+#: ../plugins/fn-stat/functions.c:1688
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -14354,7 +14354,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TDIST,TTEST"
 
-#: ../plugins/fn-stat/functions.c:1730
+#: ../plugins/fn-stat/functions.c:1725
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -14386,7 +14386,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FINV"
 
-#: ../plugins/fn-stat/functions.c:1770
+#: ../plugins/fn-stat/functions.c:1765
 msgid ""
 "@FUNCTION=LANDAU\n"
 "@SYNTAX=LANDAU(x)\n"
@@ -14406,7 +14406,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLANDAU"
 
-#: ../plugins/fn-stat/functions.c:1915
+#: ../plugins/fn-stat/functions.c:1910
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=FINV(p,dof1,dof2)\n"
@@ -14436,7 +14436,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST"
 
-#: ../plugins/fn-stat/functions.c:1954
+#: ../plugins/fn-stat/functions.c:1949
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -14474,7 +14474,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: ../plugins/fn-stat/functions.c:2003
+#: ../plugins/fn-stat/functions.c:1998
 msgid ""
 "@FUNCTION=CAUCHY\n"
 "@SYNTAX=CAUCHY(x,a,cum)\n"
@@ -14502,7 +14502,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDCAUCHY"
 
-#: ../plugins/fn-stat/functions.c:2046
+#: ../plugins/fn-stat/functions.c:2041
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -14540,7 +14540,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST"
 
-#: ../plugins/fn-stat/functions.c:2089
+#: ../plugins/fn-stat/functions.c:2084
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -14570,7 +14570,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COMBIN"
 
-#: ../plugins/fn-stat/functions.c:2127
+#: ../plugins/fn-stat/functions.c:2122
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N[,cumulative])\n"
@@ -14610,7 +14610,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,POISSON"
 
-#: ../plugins/fn-stat/functions.c:2174
+#: ../plugins/fn-stat/functions.c:2169
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -14644,7 +14644,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: ../plugins/fn-stat/functions.c:2218
+#: ../plugins/fn-stat/functions.c:2207
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stddev)\n"
@@ -14674,7 +14674,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: ../plugins/fn-stat/functions.c:2259
+#: ../plugins/fn-stat/functions.c:2244
 msgid ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -14716,7 +14716,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: ../plugins/fn-stat/functions.c:2308
+#: ../plugins/fn-stat/functions.c:2293
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stddev,cumulative)\n"
@@ -14752,7 +14752,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: ../plugins/fn-stat/functions.c:2361
+#: ../plugins/fn-stat/functions.c:2346
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stddev)\n"
@@ -14784,7 +14784,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 
-#: ../plugins/fn-stat/functions.c:2402
+#: ../plugins/fn-stat/functions.c:2387
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -14826,7 +14826,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 
-#: ../plugins/fn-stat/functions.c:2444
+#: ../plugins/fn-stat/functions.c:2429
 msgid ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -14858,7 +14858,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 
-#: ../plugins/fn-stat/functions.c:2480
+#: ../plugins/fn-stat/functions.c:2465
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -14888,7 +14888,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
-#: ../plugins/fn-stat/functions.c:2514
+#: ../plugins/fn-stat/functions.c:2499
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -14920,7 +14920,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
-#: ../plugins/fn-stat/functions.c:2550
+#: ../plugins/fn-stat/functions.c:2535
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -14948,7 +14948,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SKEW"
 
-#: ../plugins/fn-stat/functions.c:2588
+#: ../plugins/fn-stat/functions.c:2573
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -14982,7 +14982,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST, WEIBULL"
 
-#: ../plugins/fn-stat/functions.c:2634
+#: ../plugins/fn-stat/functions.c:2619
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
@@ -15008,7 +15008,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 
-#: ../plugins/fn-stat/functions.c:2662
+#: ../plugins/fn-stat/functions.c:2647
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
@@ -15034,7 +15034,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 
-#: ../plugins/fn-stat/functions.c:2695
+#: ../plugins/fn-stat/functions.c:2680
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -15068,7 +15068,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SSMEDIAN,SUM"
 
-#: ../plugins/fn-stat/functions.c:2732
+#: ../plugins/fn-stat/functions.c:2717
 msgid ""
 "@FUNCTION=SSMEDIAN\n"
 "@SYNTAX=SSMEDIAN(array[,interval)]\n"
@@ -15108,7 +15108,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MEDIAN"
 
-#: ../plugins/fn-stat/functions.c:2838
+#: ../plugins/fn-stat/functions.c:2823
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -15144,7 +15144,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 
-#: ../plugins/fn-stat/functions.c:2888
+#: ../plugins/fn-stat/functions.c:2873
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -15180,7 +15180,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 
-#: ../plugins/fn-stat/functions.c:2961
+#: ../plugins/fn-stat/functions.c:2946
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
@@ -15216,7 +15216,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
 
-#: ../plugins/fn-stat/functions.c:3056
+#: ../plugins/fn-stat/functions.c:3041
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -15252,7 +15252,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 
-#: ../plugins/fn-stat/functions.c:3214
+#: ../plugins/fn-stat/functions.c:3199
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
@@ -15286,7 +15286,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 
-#: ../plugins/fn-stat/functions.c:3271
+#: ../plugins/fn-stat/functions.c:3256
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -15322,7 +15322,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: ../plugins/fn-stat/functions.c:3310
+#: ../plugins/fn-stat/functions.c:3295
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -15358,7 +15358,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: ../plugins/fn-stat/functions.c:3349
+#: ../plugins/fn-stat/functions.c:3334
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -15394,7 +15394,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MIN,MAXA"
 
-#: ../plugins/fn-stat/functions.c:3388
+#: ../plugins/fn-stat/functions.c:3373
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -15438,7 +15438,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VAR,VARPA"
 
-#: ../plugins/fn-stat/functions.c:3433
+#: ../plugins/fn-stat/functions.c:3418
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -15476,7 +15476,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VARA,VARP"
 
-#: ../plugins/fn-stat/functions.c:3473
+#: ../plugins/fn-stat/functions.c:3458
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -15524,7 +15524,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: ../plugins/fn-stat/functions.c:3519
+#: ../plugins/fn-stat/functions.c:3504
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -15564,7 +15564,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEVA,STDEVP"
 
-#: ../plugins/fn-stat/functions.c:3560
+#: ../plugins/fn-stat/functions.c:3545
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -15604,7 +15604,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 
-#: ../plugins/fn-stat/functions.c:3673
+#: ../plugins/fn-stat/functions.c:3658
 msgid ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
@@ -15640,7 +15640,7 @@ msgstr ""
 "\n"
 "@SEEALSO=QUARTILE"
 
-#: ../plugins/fn-stat/functions.c:3725
+#: ../plugins/fn-stat/functions.c:3710
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -15690,7 +15690,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 
-#: ../plugins/fn-stat/functions.c:3784
+#: ../plugins/fn-stat/functions.c:3769
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -15722,7 +15722,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: ../plugins/fn-stat/functions.c:3841
+#: ../plugins/fn-stat/functions.c:3826
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -15782,7 +15782,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: ../plugins/fn-stat/functions.c:4012
+#: ../plugins/fn-stat/functions.c:3997
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -15816,7 +15816,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-stat/functions.c:4092
+#: ../plugins/fn-stat/functions.c:4077
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -15878,7 +15878,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: ../plugins/fn-stat/functions.c:4367
+#: ../plugins/fn-stat/functions.c:4352
 msgid ""
 "@FUNCTION=LOGREG\n"
 "@SYNTAX=LOGREG(known_y's[,known_x's[,const[,stat]]])\n"
@@ -15944,7 +15944,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGFIT,LINEST,LOGEST"
 
-#: ../plugins/fn-stat/functions.c:4647
+#: ../plugins/fn-stat/functions.c:4632
 msgid ""
 "@FUNCTION=LOGFIT\n"
 "@SYNTAX=LOGFIT(known_y's,known_x's)\n"
@@ -16006,7 +16006,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 
-#: ../plugins/fn-stat/functions.c:4750
+#: ../plugins/fn-stat/functions.c:4735
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's[,new_x's[,const]]])\n"
@@ -16054,7 +16054,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
-#: ../plugins/fn-stat/functions.c:4868
+#: ../plugins/fn-stat/functions.c:4853
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -16112,7 +16112,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GROWTH,TREND"
 
-#: ../plugins/fn-stat/functions.c:5124
+#: ../plugins/fn-stat/functions.c:5109
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -16152,7 +16152,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: ../plugins/fn-stat/functions.c:5239
+#: ../plugins/fn-stat/functions.c:5224
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -16192,7 +16192,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: ../plugins/fn-stat/functions.c:5313
+#: ../plugins/fn-stat/functions.c:5298
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -16230,7 +16230,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
-#: ../plugins/fn-stat/functions.c:5366
+#: ../plugins/fn-stat/functions.c:5351
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -16260,7 +16260,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: ../plugins/fn-stat/functions.c:5413
+#: ../plugins/fn-stat/functions.c:5398
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
@@ -16328,7 +16328,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: ../plugins/fn-stat/functions.c:5516
+#: ../plugins/fn-stat/functions.c:5501
 msgid ""
 "@FUNCTION=CRONBACH\n"
 "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
@@ -16346,7 +16346,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-stat/functions.c:5648
+#: ../plugins/fn-stat/functions.c:5633
 msgid ""
 "@FUNCTION=GEOMDIST\n"
 "@SYNTAX=GEOMDIST(k,p,cum)\n"
@@ -16376,7 +16376,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDGEOM"
 
-#: ../plugins/fn-stat/functions.c:5687
+#: ../plugins/fn-stat/functions.c:5672
 msgid ""
 "@FUNCTION=LOGISTIC\n"
 "@SYNTAX=LOGISTIC(x,a)\n"
@@ -16398,7 +16398,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLOGISTIC"
 
-#: ../plugins/fn-stat/functions.c:5726
+#: ../plugins/fn-stat/functions.c:5711
 msgid ""
 "@FUNCTION=PARETO\n"
 "@SYNTAX=PARETO(x,a,b)\n"
@@ -16420,7 +16420,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDPARETO"
 
-#: ../plugins/fn-stat/functions.c:5767
+#: ../plugins/fn-stat/functions.c:5752
 msgid ""
 "@FUNCTION=RAYLEIGH\n"
 "@SYNTAX=RAYLEIGH(x,sigma)\n"
@@ -16442,7 +16442,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGH"
 
-#: ../plugins/fn-stat/functions.c:5810
+#: ../plugins/fn-stat/functions.c:5795
 msgid ""
 "@FUNCTION=RAYLEIGHTAIL\n"
 "@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
@@ -16464,7 +16464,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGHTAIL"
 
-#: ../plugins/fn-stat/functions.c:5856
+#: ../plugins/fn-stat/functions.c:5841
 msgid ""
 "@FUNCTION=EXPPOWDIST\n"
 "@SYNTAX=EXPPOWDIST(x,a,b)\n"
@@ -16492,7 +16492,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDEXPPOW"
 
-#: ../plugins/fn-stat/functions.c:5895
+#: ../plugins/fn-stat/functions.c:5880
 msgid ""
 "@FUNCTION=LAPLACE\n"
 "@SYNTAX=LAPLACE(x,a)\n"
@@ -17183,6 +17183,28 @@ msgstr ""
 "SEARCH(\"c\",\"Cancel\",2) equals 4.\n"
 "\n"
 "@SEEALSO=FIND"
+
+#: ../plugins/fn-string/functions.c:1204
+msgid ""
+"@FUNCTION=ASC\n"
+"@SYNTAX=ASC(string)\n"
+"@DESCRIPTION=ASC a compatibility function that is meaningless in Gnumeric.  "
+"In MS Excel (tm) it converts 2 byte @string into single byte text.\n"
+"\n"
+"@EXAMPLES=\n"
+"CHAR(\"Foo\") equals \"Foo\".\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=ASC\n"
+"@SYNTAX=ASC(string)\n"
+"@DESCRIPTION=ASC a compatibility function that is meaningless in Gnumeric.  "
+"In MS Excel (tm) it converts 2 byte @string into single byte text.\n"
+"\n"
+"@EXAMPLES=\n"
+"CHAR(\"Foo\") equals \"Foo\".\n"
+"\n"
+"@SEEALSO="
 
 #: ../plugins/gda/plugin-gda.c:136
 msgid ""
