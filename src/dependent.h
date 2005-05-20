@@ -18,7 +18,7 @@ struct _GnmDependent
 typedef struct {
 	void (*eval) (GnmDependent *dep);
 	void (*set_expr) (GnmDependent *dep, GnmExpr const *new_expr);
-	void (*debug_name) (GnmDependent const *dep, FILE *out);
+	void (*debug_name) (GnmDependent const *dep, GString *target);
 } DependentClass;
 
 typedef enum {
@@ -134,6 +134,6 @@ t ## _get_dep_type (void)					\
 	return type;						\
 }
 
-void dependent_debug_name (GnmDependent const *dep, FILE *out);
+void dependent_debug_name (GnmDependent const *dep, GString *target);
 
 #endif /* GNUMERIC_DEPENDENT_H */

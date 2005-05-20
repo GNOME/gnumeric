@@ -1,5 +1,8 @@
 2005-05-20  Morten Welinder  <terra@gnome.org>
 
+	* src/dependent.c (gnm_dep_container_dump): Dump also dynamic
+	dependencies and name dependencies.
+
 	* src/workbook-control.c (wb_control_parse_and_jump): Use
 	expressions like A1, not A1:A1 for single cells.
 

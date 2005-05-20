@@ -27,6 +27,7 @@
 #include "value.h"
 #include "cell.h"
 #include "sheet.h"
+#include "str.h"
 #include "expr.h"
 #include "expr-impl.h"
 #include "expr-name.h"
@@ -42,9 +43,9 @@
 #undef DEBUG_EVALUATION
 
 static void dynamic_dep_eval 	   (GnmDependent *dep);
-static void dynamic_dep_debug_name (GnmDependent const *dep, FILE *out);
+static void dynamic_dep_debug_name (GnmDependent const *dep, GString *target);
 static void name_dep_eval 	   (GnmDependent *dep);
-static void name_dep_debug_name	   (GnmDependent const *dep, FILE *out);
+static void name_dep_debug_name	   (GnmDependent const *dep, GString *target);
 
 static GnmCellPos const dummy = { 0, 0 };
 static GPtrArray *dep_classes = NULL;
@@ -147,24 +148,6 @@ void
 dependent_set_expr (GnmDependent *dep, GnmExpr const *new_expr)
 {
 	int const t = dependent_type (dep);
-
-#if 0
-{
-	GnmParsePos pos;
-	char *str;
-
-	parse_pos_init_dep (&pos, dep);
-	dependent_debug_name (dep, stdout);
-
-	str = gnm_expr_as_string (new_expr, &pos, gnm_expr_conventions_default);
-	g_print (" new = %s\n", str);
-	g_free (str);
-
-	str = gnm_expr_as_string (dep->expression, &pos, gnm_expr_conventions_default);
-	g_print ("\told = %s\n", str);
-	g_free (str);
-}
-#endif
 
 	if (dependent_is_linked (dep))
 		dependent_unlink (dep);
@@ -931,19 +914,26 @@ workbook_unlink_3d_dep (GnmDependent *dep)
 
 /*****************************************************************************/
 
-static void name_dep_eval (G_GNUC_UNUSED GnmDependent *dep) { }
-
 static void
-name_dep_debug_name (GnmDependent const *dep, FILE *out)
+name_dep_eval (G_GNUC_UNUSED GnmDependent *dep)
 {
-	fprintf (out, "Name%p", dep);
 }
-static void dynamic_dep_eval (G_GNUC_UNUSED GnmDependent *dep) { }
 
 static void
-dynamic_dep_debug_name (GnmDependent const *dep, FILE *out)
+name_dep_debug_name (GnmDependent const *dep, GString *target)
 {
-	fprintf (out, "DynamicDep%p", dep);
+	g_string_append_printf (target, "Name%p", dep);
+}
+
+static void
+dynamic_dep_eval (G_GNUC_UNUSED GnmDependent *dep)
+{
+}
+
+static void
+dynamic_dep_debug_name (GnmDependent const *dep, GString *target)
+{
+	g_string_append_printf (target, "DynamicDep%p", dep);
 }
 
 void
@@ -2107,17 +2097,17 @@ gnm_dep_container_new (void)
  * Debug utils
  */
 static void
-dump_dependent_list (GSList *l)
+dump_dependent_list (GSList *l, GString *target)
 {
-	g_print ("(");
+	g_string_append_c (target, '(');
 	while (l != NULL) {
 		GnmDependent *dep = l->data;
-		dependent_debug_name (dep, stdout);
+		dependent_debug_name (dep, target);
 		l = l->next;
 		if (l != NULL)
-			g_print (", ");
+			g_string_append (target, ", ");
 	}
-	g_print (")\n");
+	g_string_append (target, ")");
 }
 
 static void
@@ -2126,13 +2116,19 @@ dump_range_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 {
 	DependencyRange const *deprange = key;
 	GnmRange const *range = &(deprange->range);
+	GString *target = g_string_new (NULL);
 
-	/* 2 calls to col_name and row_name.  It uses a static buffer */
-	g_print ("\t%s:", cellpos_as_string (&range->start));
-	g_print ("%s <- ", cellpos_as_string (&range->end));
+	g_string_append (target, "    ");
+	g_string_append (target, cellpos_as_string (&range->start));
+	g_string_append_c (target, ':');
+	g_string_append (target, cellpos_as_string (&range->end));
+	g_string_append (target, " -> ");
 
 	micro_hash_foreach_list (deprange->deps, list,
-		dump_dependent_list (list););
+		dump_dependent_list (list, target););
+
+	g_print ("%s\n", target->str);
+	g_string_free (target, TRUE);
 }
 
 static void
@@ -2140,11 +2136,90 @@ dump_single_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 		 G_GNUC_UNUSED gpointer closure)
 {
 	DependencySingle *depsingle = key;
+	GString *target = g_string_new (NULL);
 
-	g_print ("\t%s <- ", cellpos_as_string (&depsingle->pos));
+	g_string_append (target, "    ");
+	g_string_append (target, cellpos_as_string (&depsingle->pos));
+	g_string_append (target, " -> ");
 
 	micro_hash_foreach_list (depsingle->deps, list,
-		dump_dependent_list (list););
+		dump_dependent_list (list, target););
+	g_print ("%s\n", target->str);
+	g_string_free (target, TRUE);
+}
+
+static void
+dump_dynamic_dep (gpointer key, G_GNUC_UNUSED gpointer value,
+		  G_GNUC_UNUSED gpointer closure)
+{
+	GnmDependent *dep = key;
+	DynamicDep *dyn = value;
+	GSList *l;
+	GString *target = g_string_new (NULL);
+	GnmParsePos pp;
+
+	pp.eval = *dependent_pos (dyn->container);
+	pp.sheet = dep->sheet;
+	pp.wb = dep->sheet->workbook;
+
+	g_string_append (target, "    ");
+	dependent_debug_name (dep, target);
+	g_string_append (target, " -> ");
+	dependent_debug_name (&dyn->base, target);
+	g_string_append (target, " { c=");
+	dependent_debug_name (dyn->container, target);
+
+	g_string_append (target, ", s=[");
+	for (l = dyn->singles; l; l = l->next) {
+		GnmValueRange const *v = l->data;
+		rangeref_as_string (target, gnm_expr_conventions_default, &v->cell, &pp);
+		if (l->next)
+			g_string_append (target, ", ");
+	}
+
+	g_string_append (target, "], r=[");
+	for (l = dyn->ranges; l; l = l->next) {
+		GnmValueRange const *v = l->data;
+		rangeref_as_string (target, gnm_expr_conventions_default, &v->cell, &pp);
+		if (l->next)
+			g_string_append (target, ", ");
+	}
+
+	g_string_append (target, "] }");
+	g_print ("%s\n", target->str);
+	g_string_free (target, TRUE);
+}
+
+static void
+cb_dump_name_dep (gpointer key, G_GNUC_UNUSED gpointer value,
+		  gpointer closure)
+{
+	GnmDependent *dep = key;
+	GString *target = closure;
+
+	if (target->str[target->len - 1] != '[')
+		g_string_append (target, ", ");
+	dependent_debug_name (dep, target);
+}
+
+static void
+dump_name_dep (gpointer key, G_GNUC_UNUSED gpointer value,
+	       G_GNUC_UNUSED gpointer closure)
+{
+	GnmNamedExpr *nexpr = key;
+	GString *target = g_string_new (NULL);
+
+	g_string_append (target, "    ");
+	if (!nexpr->active) g_string_append_c (target, '(');
+	g_string_append (target, nexpr->name->str);
+	if (!nexpr->active) g_string_append_c (target, ')');
+	g_string_append (target, " -> [");
+	if (nexpr->dependents)
+		g_hash_table_foreach (nexpr->dependents, cb_dump_name_dep, target);
+	g_string_append (target, "]");
+
+	g_print ("%s\n", target->str);
+	g_string_free (target, TRUE);
 }
 
 /**
@@ -2163,7 +2238,7 @@ gnm_dep_container_dump (GnmDepContainer const *deps)
 	for (i = (SHEET_MAX_ROWS - 1) / BUCKET_SIZE; i >= 0 ; i--) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL && g_hash_table_size (hash) > 0) {
-			g_print ("Bucket %d (%d-%d): Range hash size %d: range over which cells in list depend\n",
+			g_print ("  Bucket %d (%d-%d): Range hash size %d: range over which cells in list depend\n",
 				 i, i * BUCKET_SIZE, (i + 1) * BUCKET_SIZE - 1,
 				 g_hash_table_size (hash));
 			g_hash_table_foreach (hash,
@@ -2171,33 +2246,46 @@ gnm_dep_container_dump (GnmDepContainer const *deps)
 		}
 	}
 
-	if (g_hash_table_size (deps->single_hash) > 0) {
-		g_print ("Single hash size %d: cell on which list of cells depend\n",
+	if (deps->single_hash && g_hash_table_size (deps->single_hash) > 0) {
+		g_print ("  Single hash size %d: cell on which list of cells depend\n",
 			 g_hash_table_size (deps->single_hash));
 		g_hash_table_foreach (deps->single_hash,
 				      dump_single_dep, NULL);
+	}
+
+	if (deps->dynamic_deps && g_hash_table_size (deps->dynamic_deps) > 0) {
+		g_print ("  Dynamic hash size %d: cells that depend on dynamic dependencies\n",
+			 g_hash_table_size (deps->dynamic_deps));
+		g_hash_table_foreach (deps->dynamic_deps,
+				      dump_dynamic_dep, NULL);
+	}
+
+	if (deps->referencing_names && g_hash_table_size (deps->referencing_names) > 0) {
+		g_print ("  Name hash size %d: names that depend on ...\n",
+			 g_hash_table_size (deps->referencing_names));
+		g_hash_table_foreach (deps->referencing_names,
+				      dump_name_dep, NULL);
 	}
 }
 
 /**
  * dependent_debug_name :
  * @dep : The dependent we are interested in.
- * @file : FILE * to print to.
  *
  * A useful little debugging utility.
  */
 void
-dependent_debug_name (GnmDependent const *dep, FILE *out)
+dependent_debug_name (GnmDependent const *dep, GString *target)
 {
 	int t;
 
 	g_return_if_fail (dep != NULL);
-	g_return_if_fail (out != NULL);
 	g_return_if_fail (dep_classes);
 
-	if (dep->sheet != NULL)
-		fprintf (out, "%s!", dep->sheet->name_quoted);
-	else
+	if (dep->sheet != NULL) {
+		g_string_append (target, dep->sheet->name_quoted);
+		g_string_append_c (target, '!');
+	} else
 		g_warning ("Invalid dep, missing sheet");
 
 	t = dependent_type (dep);
@@ -2205,8 +2293,8 @@ dependent_debug_name (GnmDependent const *dep, FILE *out)
 		DependentClass *klass = g_ptr_array_index (dep_classes, t);
 
 		g_return_if_fail (klass);
-		(*klass->debug_name) (dep, out);
+		(*klass->debug_name) (dep, target);
 	} else
-		fprintf (out, "%s", cell_name (DEP_TO_CELL (dep)));
+		g_string_append (target, cell_name (DEP_TO_CELL (dep)));
 }
 

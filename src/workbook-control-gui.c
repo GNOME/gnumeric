@@ -1464,15 +1464,15 @@ cb_share_a_cell (Sheet *sheet, int col, int row, GnmCell *cell, gpointer _es)
 static void
 cb_workbook_debug_info (WorkbookControlGUI *wbcg)
 {
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 
 	if (gnumeric_debugging > 3)
 		summary_info_dump (wb->summary_info);
 
 	if (dependency_debugging > 0) {
-		printf ("Dependencies\n");
-		gnm_dep_container_dump (sheet->deps);
+		WORKBOOK_FOREACH_SHEET (wb, sheet,
+			g_print ("Dependencies for %s:\n", sheet->name_unquoted);
+			gnm_dep_container_dump (sheet->deps););
 	}
 
 	if (expression_sharing_debugging > 0) {
