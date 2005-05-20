@@ -1,3 +1,8 @@
+2005-05-20  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/sheet-object.c (filter_view_set_bounds): Remove unused
+	  variable so.
+
 2005-05-19  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.h (struct _Sheet): add being_invalidated flag.
