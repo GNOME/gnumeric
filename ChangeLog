@@ -62,6 +62,10 @@
 	of valid cast from base classes to derived classes after carefully
 	checking the dynamic type.
 
+2005-05-16  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-filter.c (filter_foo_view_init) : remove debug spew
+
 2005-05-16  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in (PKG_PROG_PKG_CONFIG): Fix the explanation above.

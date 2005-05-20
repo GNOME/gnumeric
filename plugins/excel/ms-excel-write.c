@@ -2190,7 +2190,6 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 			tmp16 |= (1 << 3);
 		tmp16 |= (valign_to_excel (xfd->valign) << 4) & 0x70;
 		/* tmp16 |= (0 << 7);	fjustLast from far east ? */
-		g_print ("%d => %d\n", xfd->rotation, rotation_to_excel_v8 (xfd->rotation));
 		tmp16 |= (rotation_to_excel_v8 (xfd->rotation) << 8) & 0xff00;
 		GSF_LE_SET_GUINT16(data+6, tmp16);
 

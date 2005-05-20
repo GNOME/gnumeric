@@ -4009,7 +4009,7 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
  * Sets width of a col in pts, INCLUDING left and right margins, and the far
  * grid line.  This is a low level internal routine.  It does NOT redraw,
  * or reposition objects.
- */
+ **/
 void
 sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
 			gboolean set_by_user)

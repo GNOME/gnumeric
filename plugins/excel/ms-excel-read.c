@@ -3514,12 +3514,11 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 		(float)(charwidths - spec->colinfo_baseline) / spec->colinfo_step;
 	width *= scale * 72./96.;
 
-	if (width < 4) {
-		if (width > 0)
-			hidden = TRUE;
-		/* Columns are of default width */
+	if (width <= 0) {	/* Columns are of default width */
 		width = esheet->sheet->cols.default_style.size_pts;
-	}
+		hidden = TRUE;
+	} else if (width < 4) /* gnumeric can not draw without a margin */
+		width = 4;
 
 	d (1, {
 		fprintf (stderr,"Column Formatting %s!%s of width "

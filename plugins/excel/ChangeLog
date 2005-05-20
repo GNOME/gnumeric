@@ -1,3 +1,9 @@
+2005-05-19  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=304558
+	* ms-excel-read.c (excel_read_COLINFO) : we can't draw columns without
+	  margins yet so map their width to 4pts rather than hiding them.
+
 2005-05-17  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c (ms_excel_chart_read) : add some protection
@@ -17,6 +23,10 @@
 2005-05-16  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c: Always set ->text_dir.
+
+2005-05-16  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_XF) : remove debug spew
 
 2005-05-14  Jean Brefort  <jean.brefort@normalesup.org>
 
