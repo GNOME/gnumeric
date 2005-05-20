@@ -532,7 +532,6 @@ static void
 filter_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
 	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
-	SheetObject *so = sheet_object_view_get_so (sov);
 
 	if (visible) {
 		double h, x;
