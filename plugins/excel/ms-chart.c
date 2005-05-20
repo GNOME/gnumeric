@@ -312,10 +312,9 @@ BC_R(ai)(XLChartHandler const *handle,
 				: gnm_go_data_vector_new_expr (sheet, expr);
 		}
 	} else if (ref_type == 1 && purpose != GOG_MS_DIM_LABELS &&
-					s->currentSeries->data [purpose].num_elements > 0) {
+		   s->currentSeries->data [purpose].num_elements > 0) {
 		s->currentSeries->data [purpose].value = (GnmValueArray *)
-				value_new_array (1,
-					s->currentSeries->data [purpose].num_elements);
+			value_new_array (1, s->currentSeries->data [purpose].num_elements);
 	} else {
 		g_return_val_if_fail (length == 0, TRUE);
 	}
@@ -397,7 +396,7 @@ BC_R(areaformat)(XLChartHandler const *handle,
 			fputs ("Swap fore and back colours when displaying negatives;\n", stderr);
 	});
 
-#if 0 
+#if 0
 	/* 18 */ "5%"
 #endif
 	BC_R(get_style) (s);
@@ -933,7 +932,7 @@ BC_R(gelframe) (XLChartHandler const *handle,
 		MS_OBJ_ATTR_FILL_PRESET, 0);
 
 	s->style->fill.type = GOG_FILL_STYLE_GRADIENT;
-	s->style->fill.pattern.fore = 
+	s->style->fill.pattern.fore =
 		ms_chart_map_color (s, fill_color, fill_alpha);
 
 	/* FIXME : make presets the same as 2 color for now */
@@ -1070,7 +1069,7 @@ BC_R(legend)(XLChartHandler const *handle,
 	case 3: pos = GOG_POSITION_E | GOG_POSITION_ALIGN_CENTER; break;
 	case 4: pos = GOG_POSITION_W | GOG_POSITION_ALIGN_CENTER; break;
 	case 7: /* treat floating legends as being on east */
-		pos = GOG_POSITION_E | GOG_POSITION_ALIGN_CENTER; break; 
+		pos = GOG_POSITION_E | GOG_POSITION_ALIGN_CENTER; break;
 	};
 
 	s->legend = gog_object_add_by_name (GOG_OBJECT (s->chart), "Legend", NULL);
@@ -1218,9 +1217,9 @@ BC_R(markerformat)(XLChartHandler const *handle,
 		shape = 1; /* square */
 	go_marker_set_shape (marker, shape_map [shape]);
 
-	go_marker_set_outline_color (marker, 
+	go_marker_set_outline_color (marker,
 		(flags & 0x20) ? 0 : BC_R(color) (q->data + 0, "MarkerFore"));
-	go_marker_set_fill_color (marker, 
+	go_marker_set_fill_color (marker,
 		(flags & 0x10) ? 0 : BC_R(color) (q->data + 4, "MarkerBack"));
 
 	s->style->marker.auto_shape = shape > 0;
@@ -1246,7 +1245,7 @@ BC_R(objectlink)(XLChartHandler const *handle,
 {
 	guint16 const purpose = GSF_LE_GET_GUINT16 (q->data);
 	GogObject *label = NULL;
-	
+
 	if (s->text == NULL)
 		return FALSE;
 
@@ -1459,7 +1458,7 @@ BC_R(scatter)(XLChartHandler const *handle,
 			s->plot = gog_plot_new_by_name ("GogBubblePlot");
 			g_return_val_if_fail (s->plot != NULL, TRUE);
 			g_object_set (G_OBJECT (s->plot),
-				"in-3d",		in_3d, 
+				"in-3d",		in_3d,
 				"show-negatives",	show_negatives,
 				"size-as-area", 	size_as_area,
 				"bubble-scale",	scale,
@@ -1584,7 +1583,7 @@ BC_R(seriestext)(XLChartHandler const *handle,
 		if (expr)
 			s->currentSeries->data [GOG_MS_DIM_LABELS].data =
 				gnm_go_data_scalar_new_expr (sheet, expr);
-		else 
+		else
 			value_release (value);
 	} else if (BC_R(top_state) (s) == BIFF_CHART_text) {
 		if (s->text != NULL) {
@@ -1676,12 +1675,10 @@ static gboolean
 BC_R(siindex)(XLChartHandler const *handle,
 	      XLChartReadState *s, BiffQuery *q)
 {
-	s->cur_role = GSF_LE_GET_GUINT16 (q->data);
-	d (1, {
 	/* UNDOCUMENTED : Docs says this is long
-	 * Biff record is only length 2
-	 */
-	fprintf (stderr, "Series %d is %hd\n", s->series->len, s->cur_role);});
+	 * Biff record is only length 2 */
+	s->cur_role = GSF_LE_GET_GUINT16 (q->data);
+	d (1, fprintf (stderr, "Series %d is %hd\n", s->series->len, s->cur_role););
 	return FALSE;
 }
 /****************************************************************************/
@@ -2075,7 +2072,7 @@ BC_R(end)(XLChartHandler const *handle,
 					is_matrix = FALSE;
 					break;
 				}
-				expr = gnm_go_data_get_expr (cur);	
+				expr = gnm_go_data_get_expr (cur);
 				if (!gnm_expr_is_rangeref (expr))
 					goto not_a_matrix;
 
@@ -2100,7 +2097,7 @@ BC_R(end)(XLChartHandler const *handle,
 			}
 			if (is_matrix) {
 				Sheet *sheet = ms_container_sheet (s->container.parent);
-				s->plot = gog_plot_new_by_name ((s->is_contour)? 
+				s->plot = gog_plot_new_by_name ((s->is_contour)?
 							"GogContourPlot": "GogSurfacePlot");
 
 				/* build the series */
@@ -2165,7 +2162,7 @@ BC_R(end)(XLChartHandler const *handle,
 			} else {
 not_a_matrix:
 				s->is_surface = FALSE;
-				s->plot = gog_plot_new_by_name ((s->is_contour)? 
+				s->plot = gog_plot_new_by_name ((s->is_contour)?
 							"XLContourPlot": "XLSurfacePlot");
 			}
 		}
@@ -2179,7 +2176,7 @@ not_a_matrix:
 		if (s->default_plot_style != NULL) {
 			char const *type = G_OBJECT_TYPE_NAME (s->plot);
 			GogStyle const *style = s->default_plot_style;
-			
+
 			if (type != NULL && style->marker.mark != NULL &&
 			    (!strcmp (type, "GogXYPlot") ||
 			     !strcmp (type, "GogLinePlot") ||
@@ -2473,7 +2470,8 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 	state.plot_counter  = -1;
 	state.has_a_grid    = FALSE;
 	state.text	    = NULL;
-	state.is_surface	= FALSE;
+	state.is_surface    = FALSE;
+	state.cur_role	    = -1;
 
 	if (NULL != (state.sog = sog)) {
 		GogStyle *style = gog_style_new ();
@@ -2549,16 +2547,16 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 			double val = gsf_le_get_double (q->data + offset);
 			XLChartSeries *series;
 
-			if (state.series == NULL || sernum >= state.series->len) {
-				g_warning ("Invalid series num %u", sernum);
-			} else {
-				series = g_ptr_array_index (state.series, sernum);
-				if (series->data[state.cur_role].value != NULL) {
-					value_release (series->data[state.cur_role].value->vals[0][row]);
-					series->data[state.cur_role].value->vals[0][row] = value_new_float (val);
-				}
-				d (10, fprintf (stderr, "series %d, index %d, value %f\n", sernum, row, val););
+			if (state.cur_role < 0 ||
+			    state.series == NULL || sernum >= state.series->len ||
+			    NULL == (series = g_ptr_array_index (state.series, sernum)))
+				break;
+
+			if (series->data[state.cur_role].value != NULL) {
+				value_release (series->data[state.cur_role].value->vals[0][row]);
+				series->data[state.cur_role].value->vals[0][row] = value_new_float (val);
 			}
+			d (10, fprintf (stderr, "series %d, index %d, value %f\n", sernum, row, val););
 			break;
 		}
 
@@ -2568,19 +2566,21 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 			guint16 sernum = GSF_LE_GET_GUINT16 (q->data + 2);
 			/* guint16 xf  = GSF_LE_GET_GUINT16 (q->data + 4); */ /* not used */
 			guint16 len = GSF_LE_GET_GUINT16 (q->data + 6);
-			char *label = biff_get_text (q->data + 8, len, NULL, ver);
+			char *label;
 			XLChartSeries *series;
 
-			if (state.series == NULL || sernum >= state.series->len) {
-				g_warning ("Invalid series num %u", sernum);
-			} else {
-				series = g_ptr_array_index (state.series, sernum);
-				if (series->data[state.cur_role].value != NULL) {
-					value_release (series->data[state.cur_role].value->vals[0][row]);
-					series->data[state.cur_role].value->vals[0][row] = value_new_string (label);
-				}
-				d (10, {fprintf (stderr, "'%s' row = %d, series = %d\n", label, row, sernum);});
+			if (state.cur_role < 0 ||
+			    state.series == NULL || sernum >= state.series->len ||
+			    NULL == (series = g_ptr_array_index (state.series, sernum)))
+				break;
+
+			label = biff_get_text (q->data + 8, len, NULL, ver);
+			if (label != NULL  &&
+			    series->data[state.cur_role].value != NULL) {
+				value_release (series->data[state.cur_role].value->vals[0][row]);
+				series->data[state.cur_role].value->vals[0][row] = value_new_string (label);
 			}
+			d (10, {fprintf (stderr, "'%s' row = %d, series = %d\n", label, row, sernum);});
 			g_free (label);
 			break;
 		}
@@ -2644,27 +2644,28 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 
 	/* Cleanup */
 	for (i = state.series->len; i-- > 0 ; ) {
-		int j;
+		Sheet *sheet = ms_container_sheet (state.container.parent);
 		XLChartSeries *series = g_ptr_array_index (state.series, i);
-		GOData *data;
-		if (series != NULL) {
-			for (j = GOG_MS_DIM_VALUES ; j < GOG_MS_DIM_TYPES; j++ )
-				if (series->data [j].value != NULL) {
-					GnmExpr const * expr = gnm_expr_new_constant ((GnmValue *)series->data [j].value);
-					if (expr != NULL) {
-						Sheet *sheet = ms_container_sheet (state.container.parent);
-				
-						if (sheet == NULL || series->data [j].series == NULL)
-							continue;
-						data = gnm_go_data_vector_new_expr (sheet, expr);
-						XL_gog_series_set_dim (series->data [j].series, j, data);
-					}
-				}			
+		GnmValue *v;
+		int j;
+
+		if (series) {
+			for (j = GOG_MS_DIM_VALUES ; j < GOG_MS_DIM_TYPES; j++ ) {
+				if (NULL == (v = (GnmValue *)series->data [j].value))
+					continue;
+				if (sheet && series->data [j].series)
+					XL_gog_series_set_dim (series->data [j].series, j,
+						gnm_go_data_vector_new_expr (sheet,
+							    gnm_expr_new_constant (v)));
+				else
+					value_release (v);
+			}
 			excel_chart_series_delete (series);
 		}
 	}
-	g_array_free (state.stack, TRUE);
 	g_ptr_array_free (state.series, TRUE);
+
+	g_array_free (state.stack, TRUE);
 	ms_container_finalize (&state.container);
 
 	if (full_page != NULL) {
@@ -3092,7 +3093,7 @@ chart_write_text (XLChartWriteState *s, GOData const *src, GogStyle const *style
 	guint8 *data;
 	guint16 color_index = 0x4d;
 	unsigned const len = (s->bp->version >= MS_BIFF_V8) ? 32: 26;
-	
+
 	/* TEXT */
 	data = ms_biff_put_len_next (s->bp, BIFF_CHART_text, len);
 	memcpy (data, default_text, len);
@@ -3452,7 +3453,7 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 
 		data = ms_biff_put_len_next (s->bp, BIFF_CHART_bar, 6);
 		GSF_LE_SET_GINT16 (data, -overlap_percentage); /* dipsticks */
-		GSF_LE_SET_GINT16 (data+2, gap_percentage); 
+		GSF_LE_SET_GINT16 (data+2, gap_percentage);
 		GSF_LE_SET_GUINT16 (data+4, flags);
 		ms_biff_put_commit (s->bp);
 	} else if (0 == strcmp (type, "GogLinePlot")) {
@@ -3524,7 +3525,7 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 				GSF_LE_SET_GUINT16 (data + 4, flags);
 			}
 			ms_biff_put_commit (s->bp);
-		} else 
+		} else
 			ms_biff_put_empty (s->bp, BIFF_CHART_scatter);
 	} else if (0 == strcmp (type, "GogContourPlot") ||
 			0 == strcmp (type, "XLContourPlot")) {
@@ -3925,7 +3926,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 						} else {
 							val = value_new_array (m, 1);
 							for (j = 0; j < m; j++) {
-								value_array_set (val, j, 0, 
+								value_array_set (val, j, 0,
 									value_dup((as_col)? matval->v_array.vals[i][j]:
 										matval->v_array.vals[j][i]));
 								}

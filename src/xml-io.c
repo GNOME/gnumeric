@@ -97,6 +97,7 @@ xml_io_conventions (void)
 	res->output_sheet_name_sep = "!";
 	res->output_argument_sep = ",";
 	res->output_array_col_sep = ",";
+	res->output_array_row_sep = ";";
 	res->output_translated = FALSE;
 	res->unknown_function_handler = gnm_func_placeholder_factory;
 
@@ -713,7 +714,7 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 					   ctxt->exprconv, &perr);
 		if (exp != NULL) {
 			char *err = NULL;
-			expr_name_add (&pp, CXML2C (name_str), expr, &err, TRUE);
+			expr_name_add (&pp, CXML2C (name_str), expr, &err, TRUE, NULL);
 			if (err != NULL) {
 				gnm_io_warning (ctxt->io_context, err);
 				g_free (err);

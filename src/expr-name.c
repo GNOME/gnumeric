@@ -248,8 +248,8 @@ expr_name_lookup (GnmParsePos const *pp, char const *name)
  * expr_name_new :
  *
  * Creates a new name without linking it into any container.
- */
-static GnmNamedExpr *
+ **/
+GnmNamedExpr *
 expr_name_new (char const *name, gboolean is_placeholder)
 {
 	GnmNamedExpr *nexpr;
@@ -292,9 +292,9 @@ expr_name_check_for_loop (char const *name, GnmExpr const *expr)
 		GnmNamedExpr const *nexpr = expr->name.name;
 		if (!strcmp (nexpr->name->str, name))
 			return TRUE;
-
-		/* And look inside this name tree too */
-		return expr_name_check_for_loop (name, nexpr->expr);
+		if (nexpr->expr != NULL) /* look inside this name tree too */
+			return expr_name_check_for_loop (name, nexpr->expr);
+		return FALSE;
 	}
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmExprList *l = expr->func.arg_list;
@@ -340,7 +340,8 @@ expr_name_check_for_loop (char const *name, GnmExpr const *expr)
 GnmNamedExpr *
 expr_name_add (GnmParsePos const *pp, char const *name,
 	       GnmExpr const *expr, char **error_msg,
-	       gboolean link_to_container)
+	       gboolean link_to_container,
+	       GnmNamedExpr *stub)
 {
 	GnmNamedExpr *nexpr = NULL;
 	GnmNamedExprCollection *scope = NULL;
@@ -348,6 +349,7 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 	g_return_val_if_fail (pp != NULL, NULL);
 	g_return_val_if_fail (pp->sheet != NULL || pp->wb != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
+	g_return_val_if_fail (stub == NULL || stub->is_placeholder, NULL);
 
 	if (expr != NULL && expr_name_check_for_loop (name, expr)) {
 		gnm_expr_unref (expr);
@@ -390,8 +392,15 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 	if (error_msg)
 		*error_msg = NULL;
 
-	if (nexpr == NULL)
-		nexpr = expr_name_new (name, expr == NULL);
+	if (nexpr == NULL) {
+		if (stub != NULL) {
+			nexpr = stub;
+			stub->is_placeholder = FALSE;
+			gnm_string_unref (stub->name);
+			stub->name = gnm_string_get (name);
+		} else
+			nexpr = expr_name_new (name, expr == NULL);
+	}
 	parse_pos_init (&nexpr->pos,
 		pp->wb, pp->sheet, pp->eval.col, pp->eval.row);
 	if (expr == NULL)

@@ -82,7 +82,7 @@ static GnmFuncHelp const help_date[] = {
 };
 
 static GnmValue *
-gnumeric_date (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_date (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	int year, month, day;
 	GDate date;
@@ -149,7 +149,7 @@ static GnmFuncHelp const help_unix2date[] = {
 };
 
 static GnmValue *
-gnumeric_unix2date (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_unix2date (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float futime = value_get_as_float (argv [0]);
 	time_t     utime  = (time_t)futime;
@@ -185,7 +185,7 @@ static GnmFuncHelp const help_date2unix[] = {
 };
 
 static GnmValue *
-gnumeric_date2unix (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_date2unix (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float fserial = value_get_as_float (argv [0]);
 	int        serial  = (int)fserial;
@@ -222,7 +222,7 @@ static GnmFuncHelp const help_datevalue[] = {
 };
 
 static GnmValue *
-gnumeric_datevalue (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_datevalue (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_int (datetime_value_to_serial (argv[0], DATE_CONV (ei->pos)));
 }
@@ -344,7 +344,7 @@ datedif_opt_md (GDate *gdate1, GDate *gdate2, gboolean excel_compat)
 }
 
 static GnmValue *
-gnumeric_datedif (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_datedif (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	int date1, date2;
 	char const *opt;
@@ -405,7 +405,7 @@ static GnmFuncHelp const help_edate[] = {
 };
 
 static GnmValue *
-gnumeric_edate (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_edate (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	int    serial, months;
 	GDate  date;
@@ -453,7 +453,7 @@ static GnmFuncHelp const help_today[] = {
 };
 
 static GnmValue *
-gnumeric_today (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_today (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return make_date (value_new_int (datetime_timet_to_serial (time (NULL), DATE_CONV (ei->pos))));
 }
@@ -487,7 +487,7 @@ static GnmFuncHelp const help_now[] = {
 };
 
 static GnmValue *
-gnumeric_now (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_now (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_float (datetime_timet_to_serial_raw (time (NULL), DATE_CONV (ei->pos)));
 }
@@ -512,7 +512,7 @@ static GnmFuncHelp const help_time[] = {
 };
 
 static GnmValue *
-gnumeric_time (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_time (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float hours, minutes, seconds;
 
@@ -546,7 +546,7 @@ static GnmFuncHelp const help_timevalue[] = {
 };
 
 static GnmValue *
-gnumeric_timevalue (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_timevalue (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float raw = datetime_value_to_serial_raw (argv[0], DATE_CONV (ei->pos));
 	return value_new_float (raw - (int)raw);
@@ -577,7 +577,7 @@ static GnmFuncHelp const help_hour[] = {
 };
 
 static GnmValue *
-gnumeric_hour (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_hour (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	int secs;
 	secs = datetime_value_to_seconds (argv[0]);
@@ -609,7 +609,7 @@ static GnmFuncHelp const help_minute[] = {
 };
 
 static GnmValue *
-gnumeric_minute (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_minute (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	int secs;
 
@@ -642,7 +642,7 @@ static GnmFuncHelp const help_second[] = {
 };
 
 static GnmValue *
-gnumeric_second (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_second (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	int secs;
 
@@ -674,7 +674,7 @@ static GnmFuncHelp const help_year[] = {
 };
 
 static GnmValue *
-gnumeric_year (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_year (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	int res = 1900;
 	GDate date;
@@ -708,7 +708,7 @@ static GnmFuncHelp const help_month[] = {
 };
 
 static GnmValue *
-gnumeric_month (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_month (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	int res = 1;
 	GDate date;
@@ -742,7 +742,7 @@ static GnmFuncHelp const help_day[] = {
 };
 
 static GnmValue *
-gnumeric_day (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_day (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	int res = 1;
 	GDate date;
@@ -783,7 +783,7 @@ static GnmFuncHelp const help_weekday[] = {
 };
 
 static GnmValue *
-gnumeric_weekday (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_weekday (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	GDate date;
 	int   res;
@@ -842,7 +842,7 @@ static GnmFuncHelp const help_days360[] = {
 };
 
 static GnmValue *
-gnumeric_days360 (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_days360 (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	basis_t basis;
 	GDate date1, date2;
@@ -887,7 +887,7 @@ static GnmFuncHelp const help_eomonth[] = {
 };
 
 static GnmValue *
-gnumeric_eomonth (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_eomonth (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmValue *res;
 	int months = 0;
@@ -940,7 +940,7 @@ static GnmFuncHelp const help_workday[] = {
 };
 
 static GnmValue *
-gnumeric_workday (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_workday (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	int days;
 	GDateWeekday weekday;
@@ -1067,7 +1067,7 @@ networkdays_holiday_callback (GnmValue const *v, GnmEvalPos const *ep,
 }
 
 static GnmValue *
-gnumeric_networkdays (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_networkdays (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	int start_serial;
 	int end_serial;
@@ -1141,7 +1141,7 @@ static GnmFuncHelp const help_isoweeknum[] = {
 };
 
 static GnmValue *
-gnumeric_isoweeknum (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_isoweeknum (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	GDate date;
 	datetime_value_to_g (&date, argv[0], DATE_CONV (ei->pos));
@@ -1179,7 +1179,7 @@ static GnmFuncHelp const help_isoyear[] = {
 };
 
 static GnmValue *
-gnumeric_isoyear (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_isoyear (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	GDate date;
 	int year;
@@ -1232,7 +1232,7 @@ static GnmFuncHelp const help_weeknum[] = {
 };
 
 static GnmValue *
-gnumeric_weeknum (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_weeknum (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	GDate date;
 	int method = argv[1] ? value_get_as_int (argv[1]) : 1;
@@ -1268,7 +1268,7 @@ static GnmFuncHelp const help_yearfrac[] = {
 };
 
 static GnmValue *
-gnumeric_yearfrac (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_yearfrac (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	GODateConventions const *conv = DATE_CONV (ei->pos);
 	GDate start_date, end_date;

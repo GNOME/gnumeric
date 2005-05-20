@@ -883,15 +883,15 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 
 	case VALUE_ARRAY: {
 		char const *row_sep, *col_sep;
-		char locale_arg_sep[2], locale_col_sep[2];
+		char locale_row_sep[2], locale_col_sep[2];
 		int x, y;
 
-		if (conv->output_argument_sep)
-			row_sep = conv->output_argument_sep;
+		if (conv->output_array_row_sep)
+			row_sep = conv->output_array_row_sep;
 		else {
-			locale_arg_sep[0] = format_get_arg_sep ();
-			locale_arg_sep[1] = 0;
-			row_sep = locale_arg_sep;
+			locale_row_sep[0] = format_get_row_sep ();
+			locale_row_sep[1] = 0;
+			row_sep = locale_row_sep;
 		}
 
 		if (conv->output_array_col_sep)
@@ -1473,7 +1473,8 @@ criteria_test_greater_or_equal (GnmValue const *x, GnmValue const *y)
  * Finds a column index of a field.
  */
 int
-find_column_of_field (GnmEvalPos const *ep, GnmValue *database, GnmValue *field)
+find_column_of_field (GnmEvalPos const *ep,
+		      GnmValue const *database, GnmValue const *field)
 {
         Sheet *sheet;
         GnmCell  *cell;
@@ -1559,7 +1560,7 @@ free_criterias (GSList *criterias)
  * operators.  Caller is responsible for freeing @test_value.
  **/
 void
-parse_criteria (GnmValue *crit_val, GnmCriteriaFunc *fun, GnmValue **test_value,
+parse_criteria (GnmValue const *crit_val, GnmCriteriaFunc *fun, GnmValue **test_value,
 		CellIterFlags *iter_flags, GODateConventions const *date_conv)
 {
 	int len;
@@ -1646,7 +1647,7 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
  * Parses the criteria cell range.
  */
 GSList *
-parse_database_criteria (GnmEvalPos const *ep, GnmValue *database, GnmValue *criteria)
+parse_database_criteria (GnmEvalPos const *ep, GnmValue const *database, GnmValue const *criteria)
 {
 	Sheet	*sheet;
 	GnmCell	*cell;

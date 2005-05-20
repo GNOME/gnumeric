@@ -437,7 +437,7 @@ extract_arg_types (GnmFunc *def)
 }
 
 static GnmValue *
-error_function_no_full_info (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
+error_function_no_full_info (FunctionEvalInfo *ei, GnmExprList const *expr_node_list)
 {
 	return value_new_error (ei->pos, _("Function implementation not available."));
 }
@@ -609,7 +609,7 @@ gnm_func_add (GnmFuncGroup *fn_group,
 
 /* Handle unknown functions on import without losing their names */
 static GnmValue *
-unknownFunctionHandler (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
+unknownFunctionHandler (FunctionEvalInfo *ei, GnmExprList const *expr_node_list)
 {
 	return value_new_error_NAME (ei->pos);
 }
@@ -1133,7 +1133,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 				}
 
 				res->v_array.vals[x][y] = (i == iter_count)
-					? fn_def->fn.args.func (ei, args)
+					? fn_def->fn.args.func (ei, (GnmValue const * const *)args)
 					: ((err != NULL) ? value_dup (err)
 							 : value_new_error_VALUE (ei->pos));
 				free_values (iter_args, i);
@@ -1145,7 +1145,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 		tmp = res;
 		i = fn_def->fn.args.max_args;
 	} else
-		tmp = fn_def->fn.args.func (ei, args);
+		tmp = fn_def->fn.args.func (ei, (GnmValue const * const *)args);
 
 	free_values (args, i);
 	return tmp;
@@ -1157,7 +1157,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
  */
 GnmValue *
 function_call_with_values (GnmEvalPos const *ep, char const *fn_name,
-			   int argc, GnmValue *values [])
+			   int argc, GnmValue const * const *values)
 {
 	GnmFunc *fn_def;
 
@@ -1173,10 +1173,8 @@ function_call_with_values (GnmEvalPos const *ep, char const *fn_name,
 }
 
 GnmValue *
-function_def_call_with_values (GnmEvalPos const *ep,
-                               GnmFunc const *fn_def,
-                               gint    argc,
-                               GnmValue  *values [])
+function_def_call_with_values (GnmEvalPos const *ep, GnmFunc const *fn_def,
+                               int argc, GnmValue const * const *values)
 {
 	GnmValue *retval;
 	GnmExprFunction	ef;
@@ -1271,12 +1269,12 @@ cb_iterate_cellrange (Sheet *sheet, int col, int row,
  * Helper routine for function_iterate_argument_values.
  */
 GnmValue *
-function_iterate_do_value (GnmEvalPos const *ep,
+function_iterate_do_value (GnmEvalPos const  *ep,
 			   FunctionIterateCB  callback,
-			   gpointer	 closure,
-			   GnmValue	*value,
-			   gboolean      strict,
-			   CellIterFlags iter_flags)
+			   gpointer	      closure,
+			   GnmValue const    *value,
+			   gboolean           strict,
+			   CellIterFlags      iter_flags)
 {
 	GnmValue *res = NULL;
 
@@ -1328,7 +1326,7 @@ function_iterate_do_value (GnmEvalPos const *ep,
 	return res;
 }
 
-/*
+/**
  * function_iterate_argument_values
  *
  * @fp:               The position in a workbook at which to evaluate
@@ -1351,12 +1349,12 @@ function_iterate_do_value (GnmEvalPos const *ep,
  * number of arguments to be written: this would iterate over a list of
  * expressions (expr_node_list) and will invoke the callback for every
  * GnmValue found on the list (this means that ranges get properly expaned).
- */
+ **/
 GnmValue *
 function_iterate_argument_values (GnmEvalPos const		*ep,
 				  FunctionIterateCB	 callback,
 				  void			*callback_closure,
-				  GnmExprList		*expr_node_list,
+				  GnmExprList const	*expr_node_list,
 				  gboolean		 strict,
 				  CellIterFlags		 iter_flags)
 {

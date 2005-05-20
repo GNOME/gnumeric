@@ -122,7 +122,7 @@ static GnmFuncHelp const help_probblock[] = {
 };
 
 static GnmValue *
-gnumeric_probblock (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_probblock (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float traffic  = value_get_as_float (argv[0]);
 	gnm_float circuits = value_get_as_float (argv[1]);
@@ -170,7 +170,7 @@ gnumeric_offtraf_f (gnm_float off_traffic, gnm_float *y, void *user_data)
 }
 
 static GnmValue *
-gnumeric_offtraf (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_offtraf (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float traffic = value_get_as_float (argv[0]);
 	gnm_float circuits = value_get_as_float (argv[1]);
@@ -221,7 +221,7 @@ static GnmFuncHelp const help_dimcirc[] = {
 };
 
 static GnmValue *
-gnumeric_dimcirc (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_dimcirc (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
        	gnm_float traffic  = value_get_as_float (argv[0]);
 	gnm_float des_gos  = value_get_as_float (argv[1]);
@@ -281,7 +281,7 @@ gnumeric_offcap_f (gnm_float traffic, gnm_float *y, void *user_data)
 }
 
 static GnmValue *
-gnumeric_offcap (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_offcap (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float circuits = value_get_as_float (argv[0]);
 	gnm_float des_gos  = value_get_as_float (argv[1]);

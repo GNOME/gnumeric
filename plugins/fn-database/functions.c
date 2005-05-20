@@ -49,7 +49,7 @@ GNM_PLUGIN_MODULE_HEADER;
  * Finds the cells from the given column that match the criteria.
  */
 static GSList *
-find_cells_that_match (Sheet *sheet, GnmValue *database,
+find_cells_that_match (Sheet *sheet, GnmValue const *database,
 		       int col, GSList *criterias)
 {
 	GSList *ptr, *condition, *cells;
@@ -102,7 +102,7 @@ find_cells_that_match (Sheet *sheet, GnmValue *database,
 }
 
 static void *
-database_find_values (Sheet *sheet, GnmValue *database,
+database_find_values (Sheet *sheet, GnmValue const *database,
 		      int col, GSList *criterias,
 		      CollectFlags flags,
 		      int *pcount,
@@ -153,9 +153,9 @@ database_find_values (Sheet *sheet, GnmValue *database,
 
 static GnmValue *
 database_float_range_function (FunctionEvalInfo *ei,
-			       GnmValue *database,
-			       GnmValue *field,
-			       GnmValue *criteria,
+			       GnmValue const *database,
+			       GnmValue const *field,
+			       GnmValue const *criteria,
 			       float_range_function_t func,
 			       CollectFlags flags,
 			       GnmStdError zero_count_error,
@@ -212,9 +212,9 @@ typedef int (*value_range_function_t) (GnmValue **, int, GnmValue **);
 
 static GnmValue *
 database_value_range_function (FunctionEvalInfo *ei,
-			       GnmValue *database,
-			       GnmValue *field,
-			       GnmValue *criteria,
+			       GnmValue const *database,
+			       GnmValue const *field,
+			       GnmValue const *criteria,
 			       value_range_function_t func,
 			       CollectFlags flags,
 			       GnmStdError zero_count_error,
@@ -325,7 +325,7 @@ static GnmFuncHelp const help_daverage[] = {
 };
 
 static GnmValue *
-gnumeric_daverage (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_daverage (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return database_float_range_function (ei,
 					      argv[0],
@@ -401,7 +401,7 @@ static GnmFuncHelp const help_dcount[] = {
 };
 
 static GnmValue *
-gnumeric_dcount (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_dcount (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return database_float_range_function (ei,
 					      argv[0],
@@ -477,7 +477,7 @@ static GnmFuncHelp const help_dcounta[] = {
 };
 
 static GnmValue *
-gnumeric_dcounta (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_dcounta (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return database_float_range_function (ei,
 					      argv[0],
@@ -565,7 +565,7 @@ range_first (GnmValue **xs, int n, GnmValue **res)
 }
 
 static GnmValue *
-gnumeric_dget (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_dget (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return database_value_range_function (ei,
 					      argv[0],
@@ -639,7 +639,7 @@ static GnmFuncHelp const help_dmax[] = {
 /***************************************************************************/
 
 static GnmValue *
-gnumeric_dmax (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_dmax (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return database_float_range_function (ei,
 					      argv[0],
@@ -714,7 +714,7 @@ static GnmFuncHelp const help_dmin[] = {
 };
 
 static GnmValue *
-gnumeric_dmin (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_dmin (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return database_float_range_function (ei,
 					      argv[0],
@@ -788,7 +788,7 @@ static GnmFuncHelp const help_dproduct[] = {
 };
 
 static GnmValue *
-gnumeric_dproduct (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_dproduct (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	/* FIXME: check what happens for zero count.  */
 	return database_float_range_function (ei,
@@ -865,7 +865,7 @@ static GnmFuncHelp const help_dstdev[] = {
 };
 
 static GnmValue *
-gnumeric_dstdev (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_dstdev (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return database_float_range_function (ei,
 					      argv[0],
@@ -941,7 +941,7 @@ static GnmFuncHelp const help_dstdevp[] = {
 };
 
 static GnmValue *
-gnumeric_dstdevp (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_dstdevp (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return database_float_range_function (ei,
 					      argv[0],
@@ -1016,7 +1016,7 @@ static GnmFuncHelp const help_dsum[] = {
 };
 
 static GnmValue *
-gnumeric_dsum (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_dsum (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	/* FIXME: check what happens for zero count.  */
 	return database_float_range_function (ei,
@@ -1093,7 +1093,7 @@ static GnmFuncHelp const help_dvar[] = {
 };
 
 static GnmValue *
-gnumeric_dvar (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_dvar (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return database_float_range_function (ei,
 					      argv[0],
@@ -1169,7 +1169,7 @@ static GnmFuncHelp const help_dvarp[] = {
 };
 
 static GnmValue *
-gnumeric_dvarp (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_dvarp (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return database_float_range_function (ei,
 					      argv[0],
@@ -1207,7 +1207,7 @@ static GnmFuncHelp const help_getpivotdata[] = {
 };
 
 static GnmValue *
-gnumeric_getpivotdata (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_getpivotdata (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	int  col, row;
 	GnmCell *cell;

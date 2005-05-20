@@ -1197,7 +1197,7 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 				parse_error_free (&perr);
 			} else {
 				pp.sheet = NULL;
-				expr_name_add (&pp, name, expr, NULL, TRUE);
+				expr_name_add (&pp, name, expr, NULL, TRUE, NULL);
 			}
 		}
 	}

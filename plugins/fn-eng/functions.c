@@ -49,11 +49,11 @@ GNM_PLUGIN_MODULE_HEADER;
  **/
 static GnmValue *
 val_to_base (FunctionEvalInfo *ei,
-	     GnmValue **argv, int num_argv,
+	     GnmValue const * const *argv, int num_argv,
 	     int src_base, int dest_base,
 	     gboolean relaxed)
 {
-	GnmValue *value;
+	GnmValue const *value;
 	int digit, max, places;
 	char *err;
 	char const *str;
@@ -158,9 +158,9 @@ static GnmFuncHelp const help_base[] = {
 };
 
 static GnmValue *
-gnumeric_base (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_base (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	GnmValue *argv2[2];
+	GnmValue const *argv2[2];
 	int base = value_get_as_int (argv[1]);
 
 	if (base < 2 || base > 36)
@@ -192,7 +192,7 @@ static GnmFuncHelp const help_bin2dec[] = {
 };
 
 static GnmValue *
-gnumeric_bin2dec (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_bin2dec (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return val_to_base (ei, argv, 1, 2, 10, FALSE);
 }
@@ -221,7 +221,7 @@ static GnmFuncHelp const help_bin2oct[] = {
 };
 
 static GnmValue *
-gnumeric_bin2oct (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_bin2oct (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return val_to_base (ei, argv, 2, 2, 8, FALSE);
 }
@@ -250,7 +250,7 @@ static GnmFuncHelp const help_bin2hex[] = {
 };
 
 static GnmValue *
-gnumeric_bin2hex (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_bin2hex (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return val_to_base (ei, argv, 2, 2, 16, FALSE);
 }
@@ -279,7 +279,7 @@ static GnmFuncHelp const help_dec2bin[] = {
 };
 
 static GnmValue *
-gnumeric_dec2bin (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_dec2bin (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return val_to_base (ei, argv, 2, 10, 2, FALSE);
 }
@@ -308,7 +308,7 @@ static GnmFuncHelp const help_dec2oct[] = {
 };
 
 static GnmValue *
-gnumeric_dec2oct (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_dec2oct (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return val_to_base (ei, argv, 2, 10, 8, FALSE);
 }
@@ -337,7 +337,7 @@ static GnmFuncHelp const help_dec2hex[] = {
 };
 
 static GnmValue *
-gnumeric_dec2hex (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_dec2hex (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return val_to_base (ei, argv, 2, 10, 16, FALSE);
 }
@@ -364,7 +364,7 @@ static GnmFuncHelp const help_decimal[] = {
 };
 
 static GnmValue *
-gnumeric_decimal (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_decimal (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	int base = value_get_as_int (argv[1]);
 
@@ -395,7 +395,7 @@ static GnmFuncHelp const help_oct2dec[] = {
 };
 
 static GnmValue *
-gnumeric_oct2dec (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_oct2dec (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return val_to_base (ei, argv, 1, 8, 10, FALSE);
 }
@@ -424,7 +424,7 @@ static GnmFuncHelp const help_oct2bin[] = {
 };
 
 static GnmValue *
-gnumeric_oct2bin (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_oct2bin (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return val_to_base (ei, argv, 2, 8, 2, FALSE);
 }
@@ -453,7 +453,7 @@ static GnmFuncHelp const help_oct2hex[] = {
 };
 
 static GnmValue *
-gnumeric_oct2hex (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_oct2hex (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return val_to_base (ei, argv, 2, 8, 16, FALSE);
 }
@@ -482,7 +482,7 @@ static GnmFuncHelp const help_hex2bin[] = {
 };
 
 static GnmValue *
-gnumeric_hex2bin (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_hex2bin (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return val_to_base (ei, argv, 2, 16, 2, FALSE);
 }
@@ -511,7 +511,7 @@ static GnmFuncHelp const help_hex2oct[] = {
 };
 
 static GnmValue *
-gnumeric_hex2oct (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_hex2oct (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return val_to_base (ei, argv, 2, 16, 8, FALSE);
 }
@@ -537,7 +537,7 @@ static GnmFuncHelp const help_hex2dec[] = {
 };
 
 static GnmValue *
-gnumeric_hex2dec (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_hex2dec (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return val_to_base (ei, argv, 1, 16, 10, FALSE);
 }
@@ -570,7 +570,7 @@ static GnmFuncHelp const help_besseli[] = {
 
 
 static GnmValue *
-gnumeric_besseli (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_besseli (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x, order;
 
@@ -610,7 +610,7 @@ static GnmFuncHelp const help_besselk[] = {
 };
 
 static GnmValue *
-gnumeric_besselk (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_besselk (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x, order;
 
@@ -649,7 +649,7 @@ static GnmFuncHelp const help_besselj[] = {
 };
 
 static GnmValue *
-gnumeric_besselj (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_besselj (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	int x, y;
 
@@ -689,7 +689,7 @@ static GnmFuncHelp const help_bessely[] = {
 };
 
 static GnmValue *
-gnumeric_bessely (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_bessely (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	int y;
 	if (argv[0]->type != VALUE_INTEGER &&
@@ -883,7 +883,7 @@ convert (const eng_convert_unit_t units[],
 }
 
 static GnmValue *
-gnumeric_convert (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_convert (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
         /* Weight and mass constants */
         #define one_g_to_sg     0.00006852205001
@@ -1161,7 +1161,7 @@ static GnmFuncHelp const help_erf[] = {
 
 
 static GnmValue *
-gnumeric_erf (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_erf (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float ans, lower, upper;
 
@@ -1200,7 +1200,7 @@ static GnmFuncHelp const help_erfc[] = {
 };
 
 static GnmValue *
-gnumeric_erfc (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_erfc (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x;
 
@@ -1233,11 +1233,11 @@ static GnmFuncHelp const help_delta[] = {
 
 
 static GnmValue *
-gnumeric_delta (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_delta (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmValue *err = NULL;
 	gboolean ans = FALSE;
-	GnmValue *vx, *vy;
+	GnmValue const *vx, *vy;
 
 	vx = argv[0];
 	if (argv[1])
@@ -1262,7 +1262,7 @@ gnumeric_delta (FunctionEvalInfo *ei, GnmValue **argv)
 		err = value_new_error (ei->pos, _("Impossible"));
 	}
 	if (!argv[1])
-		value_release (vy);
+		value_release ((GnmValue *)vy);
 
 	return (err != NULL) ? err : value_new_int (ans ? 1 : 0);
 }
@@ -1290,11 +1290,11 @@ static GnmFuncHelp const help_gestep[] = {
 
 
 static GnmValue *
-gnumeric_gestep (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_gestep (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmValue *err = NULL;
 	gboolean ans = FALSE;
-	GnmValue *vx, *vy;
+	GnmValue const *vx, *vy;
 
 	vx = argv[0];
 	if (argv[1])
@@ -1320,7 +1320,7 @@ gnumeric_gestep (FunctionEvalInfo *ei, GnmValue **argv)
 	}
 
 	if (!argv[1])
-		value_release (vy);
+		value_release ((GnmValue *)vy);
 	return (err != NULL) ? err : value_new_int (ans ? 1 : 0);
 }
 
@@ -1370,7 +1370,7 @@ range_invsuminv (gnm_float const *xs, int n, gnm_float *res)
 }
 
 static GnmValue *
-gnumeric_invsuminv (FunctionEvalInfo *ei, GnmExprList *nodes)
+gnumeric_invsuminv (FunctionEvalInfo *ei, GnmExprList const *nodes)
 {
 	return float_range_function (nodes, ei,
 				     range_invsuminv,

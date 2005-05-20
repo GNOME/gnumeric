@@ -33,6 +33,15 @@
 	(link_expr_dep, unlink_expr_dep, dependents_unrelocate_free,
 	dependents_unrelocate): Avoid cast.
 
+2005-05-18  Jody Goldberg <jody@gnome.org>
+
+	* src/expr-name.c (expr_name_new) : make public
+	(expr_name_add) : accept a stub object.
+
+2005-05-17  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook.c (workbook_focus_other_sheet) : fix
+
 2005-05-17  Morten Welinder  <terra@gnome.org>
 
 	* src/expr-name.c (expr_name_set_expr): Don't relink deps for

@@ -1394,7 +1394,7 @@ xml_sax_named_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 				   gnm_expr_conventions_default, &perr);
 	if (expr != NULL) {
 		char *err = NULL;
-		expr_name_add (&pos, state->name.name, expr, &err, TRUE);
+		expr_name_add (&pos, state->name.name, expr, &err, TRUE, NULL);
 		if (err != NULL) {
 			gnm_io_warning (state->context, err);
 			g_free (err);
@@ -1402,7 +1402,8 @@ xml_sax_named_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 	} else
 		state->delayed_names = g_list_prepend (state->delayed_names,
 			expr_name_add (&pos, state->name.name, 
-				gnm_expr_new_constant (value_new_string (state->name.value)), NULL, TRUE));
+				gnm_expr_new_constant (value_new_string (state->name.value)),
+				NULL, TRUE, NULL));
 
 	parse_error_free (&perr);
 

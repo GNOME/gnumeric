@@ -20,7 +20,9 @@ struct _GnmNamedExpr {
 GnmNamedExpr *expr_name_lookup (GnmParsePos const *pos, char const *name);
 GnmNamedExpr *expr_name_add    (GnmParsePos const *pp, char const *name,
 				GnmExpr const *expr, char **error_msg,
-				gboolean link_to_container);
+				gboolean link_to_container,
+				GnmNamedExpr *stub);
+GnmNamedExpr *expr_name_new    (char const *name, gboolean is_placeholder);
 
 void	 expr_name_ref	      (GnmNamedExpr *nexpr);
 void	 expr_name_unref      (GnmNamedExpr *nexpr);

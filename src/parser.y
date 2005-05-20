@@ -426,7 +426,7 @@ parser_simple_val_or_name (GnmExpr *str_expr)
 				GnmParsePos pp = *state->pos;
 				pp.sheet = NULL;
 				/* Create a place holder */
-				nexpr = expr_name_add (&pp, str, NULL, NULL, TRUE);
+				nexpr = expr_name_add (&pp, str, NULL, NULL, TRUE, NULL);
 				res = gnm_expr_new_name (nexpr, NULL, NULL);
 			}
 		} else

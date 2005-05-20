@@ -1,3 +1,21 @@
+2005-05-18  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=166611
+	* ms-formula-read.c (excel_parse_formula) : Create a fwd declaration
+	  of a NAME record that has not been read yet being used in a PTG_NAME.
+
+	* ms-excel-read.c (excel_read_NAME) : keep a count of the name
+	  records and use fwd declaration if they exist.
+	(excel_workbook_destroy) : move the names array into the workbook from
+	  the container.
+	(excel_workbook_new) : ditto.
+
+2005-05-18  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=304528
+	* ms-chart.c (ms_excel_chart_read) : don't leak the array for invalid
+	  series (Analysis.xls).  Handle missing siindex record (chap03-1.xls).
+
 2005-05-19  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=304558

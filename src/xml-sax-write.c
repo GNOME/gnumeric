@@ -1097,8 +1097,9 @@ xml_io_conventions (void)
 	res->sheet_sep_exclamation = TRUE;
 	res->dots_in_names = TRUE;
 	res->output_sheet_name_sep = "!";
-	res->output_argument_sep = ",";
+	res->output_argument_sep  = ",";
 	res->output_array_col_sep = ",";
+	res->output_array_row_sep = ";";
 	res->output_translated = FALSE;
 	res->unknown_function_handler = gnm_func_placeholder_factory;
 

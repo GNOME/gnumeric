@@ -172,11 +172,14 @@ struct _GnmExprConventions {
 	/* Used to separate sheet from name when both are needed.  */
 	char const *output_sheet_name_sep;
 
-	/* If non-null, used to separate elements in lists.  */
+	/* If non-null, used to separate elements in lists. */
 	char const *output_argument_sep;
 
-	/* If non-null, used to separate array columns.  */
+	/* If non-null, used to separate array columns. */
 	char const *output_array_col_sep;
+
+	/* If non-null, used to separate array columns.  */
+	char const *output_array_row_sep;
 
 	gboolean output_translated;
 };

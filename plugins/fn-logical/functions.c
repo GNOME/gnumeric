@@ -71,7 +71,7 @@ static GnmFuncHelp const help_and[] = {
 };
 
 static GnmValue *
-callback_function_and (const GnmEvalPos *ep, GnmValue *value, void *closure)
+callback_function_and (GnmEvalPos const *ep, GnmValue const *value, void *closure)
 {
 	int *result = closure;
 	gboolean err;
@@ -84,7 +84,7 @@ callback_function_and (const GnmEvalPos *ep, GnmValue *value, void *closure)
 }
 
 static GnmValue *
-gnumeric_and (FunctionEvalInfo *ei, GnmExprList *nodes)
+gnumeric_and (FunctionEvalInfo *ei, GnmExprList const *nodes)
 {
 	int result = -1;
 
@@ -125,7 +125,7 @@ static GnmFuncHelp const help_not[] = {
 };
 
 static GnmValue *
-gnumeric_not (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_not (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gboolean err, val = value_get_as_bool (argv [0], &err);
 	if (err)
@@ -164,7 +164,7 @@ static GnmFuncHelp const help_or[] = {
 };
 
 static GnmValue *
-callback_function_or (const GnmEvalPos *ep, GnmValue *value, void *closure)
+callback_function_or (GnmEvalPos const *ep, GnmValue const *value, void *closure)
 {
 	int *result = closure;
 	gboolean err;
@@ -177,7 +177,7 @@ callback_function_or (const GnmEvalPos *ep, GnmValue *value, void *closure)
 }
 
 static GnmValue *
-gnumeric_or (FunctionEvalInfo *ei, GnmExprList *nodes)
+gnumeric_or (FunctionEvalInfo *ei, GnmExprList const *nodes)
 {
 	int result = -1;
 
@@ -224,7 +224,7 @@ static GnmFuncHelp const help_xor[] = {
 };
 
 static GnmValue *
-callback_function_xor (const GnmEvalPos *ep, GnmValue *value, void *closure)
+callback_function_xor (GnmEvalPos const *ep, GnmValue const *value, void *closure)
 {
 	int *result = closure;
 	gboolean err;
@@ -237,7 +237,7 @@ callback_function_xor (const GnmEvalPos *ep, GnmValue *value, void *closure)
 }
 
 static GnmValue *
-gnumeric_xor (FunctionEvalInfo *ei, GnmExprList *nodes)
+gnumeric_xor (FunctionEvalInfo *ei, GnmExprList const *nodes)
 {
 	int result = -1;
 
@@ -280,7 +280,7 @@ static GnmFuncHelp const help_if[] = {
 };
 
 static GnmValue *
-gnumeric_if (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_if (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gboolean err;
 	int argcount;
@@ -318,7 +318,7 @@ static GnmFuncHelp const help_true[] = {
 };
 
 static GnmValue *
-gnumeric_true (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_true (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	return value_new_bool (TRUE);
 }
@@ -343,7 +343,7 @@ static GnmFuncHelp const help_false[] = {
 };
 
 static GnmValue *
-gnumeric_false (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_false (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	return value_new_bool (FALSE);
 }

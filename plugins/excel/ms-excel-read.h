@@ -101,10 +101,13 @@ struct _ExcelWorkbook {
 	MSContainer	  container;
 	IOContext	 *context;
 	WorkbookView	 *wbv;
+	Workbook         *wb;
 
 	GPtrArray	 *excel_sheets;
 	GHashTable	 *boundsheet_data_by_stream;
 	GPtrArray	 *boundsheet_sheet_by_index;
+	GPtrArray	 *names;
+	unsigned	  num_name_records; /* names->len has fwd decls */
 	GPtrArray	 *XF_cell_records;
 	GHashTable	 *font_data;
 	GHashTable	 *format_table; /* leave as a hash */
@@ -117,8 +120,6 @@ struct _ExcelWorkbook {
 	ExcelStringEntry *sst;
 
 	ExprTreeSharer   *expr_sharer;
-
-	Workbook         *gnum_wb;
 };
 
 char     *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length,

@@ -189,7 +189,7 @@ typedef struct {
         GSList *conditions;
 } GnmDBCriteria;
 
-void	parse_criteria		(GnmValue *criteria,
+void	parse_criteria		(GnmValue const *criteria,
 				 GnmCriteriaFunc *fun,
 				 GnmValue **test_value,
 				 CellIterFlags *iter_flags,
@@ -198,8 +198,10 @@ void	free_criterias		(GSList *criterias);
 GSList *find_rows_that_match	(Sheet *sheet, int first_col,
 				 int first_row, int last_col, int last_row,
 				 GSList *criterias, gboolean unique_only);
-GSList *parse_database_criteria (GnmEvalPos const *ep, GnmValue *database, GnmValue *criteria);
-int     find_column_of_field	(GnmEvalPos const *ep, GnmValue *database, GnmValue *field);
+GSList *parse_database_criteria (GnmEvalPos const *ep,
+				 GnmValue const *database, GnmValue const *criteria);
+int     find_column_of_field	(GnmEvalPos const *ep,
+				 GnmValue const *database, GnmValue const *field);
 
 /* Protected */
 void value_init     (void);

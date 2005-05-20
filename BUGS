@@ -10,14 +10,15 @@ Release Critical
 
     : tie the custom ui into action sensitivity pools
     : support array evaluation for =LARGE and friends
+    : TRIMEAN is a list function ?
+    : ISREF is a list function ?
+
     : http://bugzilla.gnome.org/show_bug.cgi?id=159581
     : http://bugzilla.gnome.org/show_bug.cgi?id=162951 : trivial
     : Add a note to the SUMPRODUCT docs that
 	sumproduct(A1:A5>4,B1:B4) will not work and that they will
 	need
 	sumproduct(--(A1:A5>4),B1:B4)
-    : fix the row/col separators problem in array formula
-    : Using expr_name_set_expr in cb_nexpr_remove is wasteful
 
 Worries
 -------

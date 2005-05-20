@@ -171,7 +171,7 @@ retrieve_format_info (const Sheet *sheet, int col, int row)
 
 /* TODO : turn this into a range based routine */
 static GnmValue *
-gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_cell (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *info_type = value_peek_string (argv[0]);
 	GnmCellRef const *ref = &argv [1]->v_range.cell.a;
@@ -1183,9 +1183,9 @@ static GnmFuncHelp const help_expression[] = {
 };
 
 static GnmValue *
-gnumeric_expression (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_expression (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	GnmValue const * const v = args[0];
+	GnmValue const * const v = argv[0];
 	if (v->type == VALUE_CELLRANGE) {
 		GnmCell *cell;
 		GnmCellRef const * a = &v->v_range.cell.a;
@@ -1240,18 +1240,18 @@ cb_countblank (Sheet *sheet, int col, int row,
 }
 
 static GnmValue *
-gnumeric_countblank (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_countblank (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	Sheet *start_sheet, *end_sheet;
 	GnmRange r;
 	int count;
 
-	rangeref_normalize (&args[0]->v_range.cell, ei->pos,
+	rangeref_normalize (&argv[0]->v_range.cell, ei->pos,
 		&start_sheet, &end_sheet, &r);
 	count = range_width (&r) * range_height	(&r);
 	if (start_sheet != end_sheet && end_sheet != NULL)
 		count *= 1 + abs (end_sheet->index_in_wb - start_sheet->index_in_wb);
-	workbook_foreach_cell_in_range (ei->pos, args[0],
+	workbook_foreach_cell_in_range (ei->pos, argv[0],
 		CELL_ITER_IGNORE_BLANK, &cb_countblank, &count);
 
 	return value_new_int (count);
@@ -1290,7 +1290,7 @@ static GnmFuncHelp const help_info[] = {
 
 
 static GnmValue *
-gnumeric_info (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_info (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const * const info_type = value_peek_string (argv[0]);
 	if (!g_ascii_strcasecmp (info_type, "directory")) {
@@ -1385,7 +1385,7 @@ static GnmFuncHelp const help_iserror[] = {
 };
 
 static GnmValue *
-gnumeric_iserror (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_iserror (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_bool (argv[0]->type == VALUE_ERROR);
 }
@@ -1414,7 +1414,7 @@ static GnmFuncHelp const help_isna[] = {
  * the error handling mechanism
  */
 static GnmValue *
-gnumeric_isna (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_isna (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_bool (value_error_classify (argv[0]) == GNM_ERROR_NA);
 }
@@ -1439,7 +1439,7 @@ static GnmFuncHelp const help_iserr[] = {
 };
 
 static GnmValue *
-gnumeric_iserr (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_iserr (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_bool (argv[0]->type == VALUE_ERROR &&
 			       value_error_classify (argv[0]) != GNM_ERROR_NA);
@@ -1472,7 +1472,7 @@ static GnmFuncHelp const help_error_type[] = {
 };
 
 static GnmValue *
-gnumeric_error_type (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_error_type (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	switch (value_error_classify (argv[0])) {
 	case GNM_ERROR_NULL: return value_new_int (1);
@@ -1507,7 +1507,7 @@ static GnmFuncHelp const help_na[] = {
 };
 
 static GnmValue *
-gnumeric_na (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_na (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_error_NA (ei->pos);
 }
@@ -1531,7 +1531,7 @@ static GnmFuncHelp const help_error[] = {
 };
 
 static GnmValue *
-gnumeric_error (FunctionEvalInfo *ei, GnmValue *argv[])
+gnumeric_error (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_error (ei->pos, value_peek_string (argv[0]));
 }
@@ -1556,7 +1556,7 @@ static GnmFuncHelp const help_isblank[] = {
 };
 
 static GnmValue *
-gnumeric_isblank (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_isblank (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_bool (argv[0]->type == VALUE_EMPTY);
 }
@@ -1581,7 +1581,7 @@ static GnmFuncHelp const help_iseven[] = {
 };
 
 static GnmValue *
-gnumeric_iseven (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_iseven (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_bool (!(value_get_as_int (argv[0]) & 1));
 }
@@ -1606,7 +1606,7 @@ static GnmFuncHelp const help_islogical[] = {
 };
 
 static GnmValue *
-gnumeric_islogical (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_islogical (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_bool (argv[0]->type == VALUE_BOOLEAN);
 }
@@ -1631,7 +1631,7 @@ static GnmFuncHelp const help_isnontext[] = {
 };
 
 static GnmValue *
-gnumeric_isnontext (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_isnontext (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_bool (argv[0]->type != VALUE_STRING);
 }
@@ -1656,7 +1656,7 @@ static GnmFuncHelp const help_isnumber[] = {
 };
 
 static GnmValue *
-gnumeric_isnumber (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_isnumber (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_bool (argv[0] != NULL &&
 		(argv[0]->type == VALUE_INTEGER || argv[0]->type == VALUE_FLOAT));
@@ -1682,7 +1682,7 @@ static GnmFuncHelp const help_isodd[] = {
 };
 
 static GnmValue *
-gnumeric_isodd (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_isodd (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_bool (value_get_as_int (argv[0]) & 1);
 }
@@ -1707,7 +1707,7 @@ static GnmFuncHelp const help_isref[] = {
 };
 
 static GnmValue *
-gnumeric_isref (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
+gnumeric_isref (FunctionEvalInfo *ei, GnmExprList const *expr_node_list)
 {
 	GnmExpr *t;
 
@@ -1742,7 +1742,7 @@ static GnmFuncHelp const help_istext[] = {
 };
 
 static GnmValue *
-gnumeric_istext (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_istext (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_bool (argv[0]->type == VALUE_STRING);
 }
@@ -1768,7 +1768,7 @@ static GnmFuncHelp const help_n[] = {
 };
 
 static GnmValue *
-gnumeric_n (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_n (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *str;
 	GnmValue *v;
@@ -1816,7 +1816,7 @@ static GnmFuncHelp const help_type[] = {
 };
 
 static GnmValue *
-gnumeric_type (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_type (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	switch (argv[0]->type) {
 	/* case VALUE_EMPTY : not possible, S arguments convert this to int(0)
@@ -1862,7 +1862,7 @@ static GnmFuncHelp const help_getenv[] = {
 };
 
 static GnmValue *
-gnumeric_getenv (FunctionEvalInfo *ei, GnmValue **argv)
+gnumeric_getenv (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *var = value_peek_string (argv[0]);
 	char const *val = getenv (var);

@@ -140,7 +140,7 @@ y[j] - b1) + 2.0 * rho * (y[i] - a1) * (y[j] - b1));
 }
 
 static GnmValue *
-cum_biv_norm_dist(FunctionEvalInfo *ei, GnmValue *argv[])
+cum_biv_norm_dist(FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
@@ -202,7 +202,7 @@ opt_bs1 (OptionSide side,
 
 
 static GnmValue *
-opt_bs (FunctionEvalInfo *ei, GnmValue *argv[])
+opt_bs (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put = option_side (value_peek_string (argv[0]));
 	gnm_float s = value_get_as_float (argv[1]);
@@ -270,7 +270,7 @@ opt_bs_delta1 (OptionSide side,
 
 
 static GnmValue *
-opt_bs_delta (FunctionEvalInfo *ei, GnmValue *argv[])
+opt_bs_delta (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put = option_side (value_peek_string (argv[0]));
 	gnm_float s = value_get_as_float (argv[1]);
@@ -330,7 +330,7 @@ opt_bs_gamma1 (gnm_float s,gnm_float x,gnm_float t,gnm_float r,gnm_float v,gnm_f
 
 
 static GnmValue *
-opt_bs_gamma (FunctionEvalInfo *ei, GnmValue *argv[])
+opt_bs_gamma (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float s = value_get_as_float (argv[0]);
 	gnm_float x = value_get_as_float (argv[1]);
@@ -396,7 +396,7 @@ opt_bs_theta1 (OptionSide side,
 }
 
 static GnmValue *
-opt_bs_theta (FunctionEvalInfo *ei, GnmValue *argv[])
+opt_bs_theta (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put = option_side (value_peek_string (argv[0]));
 	gnm_float s = value_get_as_float (argv[1]);
@@ -456,7 +456,7 @@ opt_bs_vega1 (gnm_float s,gnm_float x,gnm_float t,gnm_float r,gnm_float v,gnm_fl
 }
 
 static GnmValue *
-opt_bs_vega (FunctionEvalInfo *ei, GnmValue *argv[])
+opt_bs_vega (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float s = value_get_as_float (argv[0]);
 	gnm_float x = value_get_as_float (argv[1]);
@@ -526,7 +526,7 @@ opt_bs_rho1 (OptionSide side, gnm_float s, gnm_float x, gnm_float t, gnm_float r
 
 
 static GnmValue *
-opt_bs_rho (FunctionEvalInfo *ei, GnmValue *argv[])
+opt_bs_rho (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put = option_side (value_peek_string (argv[0]));
 	gnm_float s = value_get_as_float (argv[1]);
@@ -592,7 +592,7 @@ opt_bs_carrycost1 (OptionSide side, gnm_float s, gnm_float x, gnm_float t, gnm_f
 }
 
 static GnmValue *
-opt_bs_carrycost (FunctionEvalInfo *ei, GnmValue *argv[])
+opt_bs_carrycost (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put = option_side (value_peek_string (argv[0]));
 	gnm_float s = value_get_as_float (argv[1]);
@@ -663,7 +663,7 @@ opt_garman_kohlhagen1 (OptionSide side,
 }
 
 static GnmValue *
-opt_garman_kohlhagen (FunctionEvalInfo *ei, GnmValue *argv[])
+opt_garman_kohlhagen (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put = option_side (value_peek_string (argv[0]));
 	gnm_float s = value_get_as_float (argv[1]);
@@ -734,7 +734,7 @@ opt_french1 (OptionSide side, gnm_float s, gnm_float  x, gnm_float trading_t, gn
 
 
 static GnmValue *
-opt_french (FunctionEvalInfo *ei, GnmValue *argv[])
+opt_french (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put = option_side (value_peek_string (argv[0]));
 	gnm_float s = value_get_as_float (argv[1]);
@@ -803,7 +803,7 @@ opt_jump_diff1 (OptionSide side, gnm_float s, gnm_float x, gnm_float t, gnm_floa
 }
 
 static GnmValue *
-opt_jump_diff (FunctionEvalInfo *ei, GnmValue *argv[])
+opt_jump_diff (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put = option_side (value_peek_string (argv[0]));
 	gnm_float s = value_get_as_float (argv[1]);
@@ -889,7 +889,7 @@ opt_miltersen_schwartz1 (OptionSide side, gnm_float p_t, gnm_float f_t, gnm_floa
 }
 
 static GnmValue *
-opt_miltersen_schwartz (FunctionEvalInfo *ei, GnmValue *argv[])
+opt_miltersen_schwartz (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put = option_side (value_peek_string (argv[0]));
 	gnm_float p_t = value_get_as_float (argv[1]);
@@ -1012,7 +1012,7 @@ static gnm_float opt_rgw1 (gnm_float s, gnm_float x, gnm_float t1, gnm_float t2,
 
 
 static GnmValue *
-opt_rgw(FunctionEvalInfo *ei, GnmValue *argv[])
+opt_rgw(FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float s = value_get_as_float (argv[0]);
 	gnm_float x = value_get_as_float (argv[1]);
@@ -1057,7 +1057,7 @@ static GnmFuncHelp const help_opt_rgw[] = {
 
 /* the Barone-Adesi and Whaley (1987) American approximation */
 static GnmValue *
-opt_baw_amer (FunctionEvalInfo *ei, GnmValue *argv[])
+opt_baw_amer (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put = option_side (value_peek_string (argv[0]));
 	gnm_float s = value_get_as_float (argv[1]);
@@ -1256,7 +1256,7 @@ opt_bjer_stens1 (OptionSide side, gnm_float s, gnm_float x, gnm_float t, gnm_flo
 }
 
 static GnmValue *
-opt_bjer_stens (FunctionEvalInfo *ei, GnmValue *argv[])
+opt_bjer_stens (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put = option_side (value_peek_string (argv[0]));
 	gnm_float s = value_get_as_float (argv[1]);
@@ -1342,7 +1342,7 @@ phi (gnm_float s, gnm_float t, gnm_float gamma, gnm_float H, gnm_float I, gnm_fl
 
 /* Executive stock options */
 static GnmValue *
-opt_exec (FunctionEvalInfo *ei, GnmValue *argv[])
+opt_exec (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put = option_side (value_peek_string (argv[0]));
 	gnm_float s = value_get_as_float (argv[1]);
@@ -1392,7 +1392,7 @@ static GnmFuncHelp const help_opt_exec[] = {
 
 /* Forward start options */
 static GnmValue *
-opt_forward_start(FunctionEvalInfo *ei, GnmValue *argv[])
+opt_forward_start(FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put = option_side (value_peek_string (argv[0]));
 	gnm_float s = value_get_as_float (argv[1]);
@@ -1440,7 +1440,7 @@ static GnmFuncHelp const help_opt_forward_start[] = {
 
 /* time switch options (discrete) */
 static GnmValue *
-opt_time_switch (FunctionEvalInfo *ei, GnmValue *argv[])
+opt_time_switch (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put = option_side (value_peek_string (argv[0]));
 	gnm_float s = value_get_as_float (argv[1]);
@@ -1510,7 +1510,7 @@ static GnmFuncHelp const help_opt_time_switch[] = {
 
 /* simple chooser options */
 static GnmValue *
-opt_simple_chooser(FunctionEvalInfo *ei, GnmValue *argv[])
+opt_simple_chooser(FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 
 	gnm_float s = value_get_as_float (argv[0]);
@@ -1565,7 +1565,7 @@ static GnmFuncHelp const help_opt_simple_chooser[] = {
 
 /* Complex chooser options */
 static GnmValue *
-opt_complex_chooser(FunctionEvalInfo *ei, GnmValue *argv[])
+opt_complex_chooser(FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 
 	gnm_float s = value_get_as_float (argv[0]);
@@ -1667,7 +1667,7 @@ opt_crit_val_chooser (gnm_float s,gnm_float xc,gnm_float xp,gnm_float t,
 
 /* Options on options */
 static GnmValue *
-opt_on_options (FunctionEvalInfo *ei, GnmValue *argv[])
+opt_on_options (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	char *type_flag = value_get_as_string (argv[0]);
 	gnm_float s = value_get_as_float (argv[1]);
@@ -1769,7 +1769,7 @@ CriticalValueOptionsOnOptions (OptionSide side, gnm_float x1, gnm_float x2, gnm_
 
 /* Writer extendible options */
 static GnmValue *
-opt_extendible_writer (FunctionEvalInfo *ei, GnmValue *argv[])
+opt_extendible_writer (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put = option_side (value_peek_string (argv[0]));
 	gnm_float s = value_get_as_float (argv[1]);
@@ -1840,7 +1840,7 @@ static GnmFuncHelp const help_opt_extendible_writer[] = {
 
 /* Two asset correlation options */
 static GnmValue *
-opt_2_asset_correlation(FunctionEvalInfo *ei, GnmValue *argv[])
+opt_2_asset_correlation(FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put = option_side(value_peek_string(argv[0]));
 	gnm_float s1 = value_get_as_float(argv[1]);
@@ -1904,7 +1904,7 @@ static GnmFuncHelp const help_opt_2_asset_correlation[] = {
 
 /* European option to exchange one asset for another */
 static GnmValue *
-opt_euro_exchange(FunctionEvalInfo *ei, GnmValue *argv[])
+opt_euro_exchange(FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float s1 = value_get_as_float(argv[0]);
 	gnm_float s2 = value_get_as_float(argv[1]);
@@ -1955,7 +1955,7 @@ static GnmFuncHelp const help_opt_euro_exchange[] = {
 
 /* American option to exchange one asset for another */
 static GnmValue *
-opt_amer_exchange(FunctionEvalInfo *ei, GnmValue *argv[])
+opt_amer_exchange(FunctionEvalInfo *ei, GnmValue const * const *argv)
 { 
 	gnm_float s1 = value_get_as_float(argv[0]);
 	gnm_float s2 = value_get_as_float(argv[1]);
@@ -1999,7 +1999,7 @@ static GnmFuncHelp const help_opt_amer_exchange[] = {
 
 /* Spread option approximation */
 static GnmValue *
-opt_spread_approx(FunctionEvalInfo *ei, GnmValue *argv[])
+opt_spread_approx(FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put_flag = option_side(value_peek_string(argv[0]));
 	gnm_float f1 = value_get_as_float(argv[1]);
@@ -2043,7 +2043,8 @@ static GnmFuncHelp const help_opt_spread_approx[] = {
 
 	
 /* Floating strike lookback options */
-static GnmValue * opt_float_strk_lkbk(FunctionEvalInfo *ei, GnmValue *argv[])
+static GnmValue *
+opt_float_strk_lkbk(FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put_flag = option_side(value_peek_string(argv[0]));
 	gnm_float s = value_get_as_float(argv[1]);
@@ -2103,7 +2104,7 @@ static GnmFuncHelp const help_opt_float_strk_lkbk[] = {
 /* Fixed strike lookback options */
 
 static GnmValue *
-opt_fixed_strk_lkbk(FunctionEvalInfo *ei, GnmValue *argv[])
+opt_fixed_strk_lkbk(FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionSide call_put_flag = option_side(value_peek_string(argv[0]));
 	gnm_float s = value_get_as_float(argv[1]);
@@ -2174,7 +2175,7 @@ static GnmFuncHelp const help_opt_fixed_strk_lkbk[] = {
 
 /* Binomial Tree valuation */
 static GnmValue *
-opt_binomial(FunctionEvalInfo *ei, GnmValue *argv[])
+opt_binomial(FunctionEvalInfo *ei, GnmValue const * const *argv)
 { 
 	OptionType amer_euro_flag = option_type(value_peek_string(argv[0]));
 	OptionSide call_put_flag = option_side(value_peek_string(argv[1]));

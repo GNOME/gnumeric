@@ -882,13 +882,13 @@ workbook_focus_other_sheet (Workbook *wb, Sheet *sheet)
 	Sheet *focus = NULL;
 	int sheet_index = sheet->index_in_wb;
 
-	for (i = sheet_index - 1; !focus && i >= 0; i++) {
+	for (i = sheet_index; !focus && --i >= 0; ) {
 		Sheet *this_sheet = g_ptr_array_index (wb->sheets, i);
 		if (this_sheet->is_visible)
 			focus = this_sheet;
 	}
 
-	for (i = sheet_index + 1; !focus && i < (int)wb->sheets->len; i++) {
+	for (i = sheet_index; !focus && ++i < (int)wb->sheets->len; ) {
 		Sheet *this_sheet = g_ptr_array_index (wb->sheets, i);
 		if (this_sheet->is_visible)
 			focus = this_sheet;

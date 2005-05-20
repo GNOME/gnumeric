@@ -41,7 +41,6 @@ struct _MSContainer {
 	GPtrArray	*blips;
 	GSList		*obj_queue;
 
-	GPtrArray	 	*names;
 	struct {
 		GPtrArray	*externsheets;
 		GPtrArray	*externnames;

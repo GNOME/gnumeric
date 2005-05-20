@@ -50,7 +50,7 @@ static GnmFuncHelp const help_sum[] = {
 };
 
 GnmValue *
-gnumeric_sum (FunctionEvalInfo *ei, GnmExprList *nodes)
+gnumeric_sum (FunctionEvalInfo *ei, GnmExprList const *nodes)
 {
 	return float_range_function (nodes, ei,
 				     range_sum,
@@ -91,7 +91,7 @@ range_bogusproduct (const gnm_float *xs, int n, gnm_float *res)
 }
 
 GnmValue *
-gnumeric_product (FunctionEvalInfo *ei, GnmExprList *nodes)
+gnumeric_product (FunctionEvalInfo *ei, GnmExprList const *nodes)
 {
 	return float_range_function (nodes, ei,
 				     range_bogusproduct,
@@ -119,7 +119,7 @@ static GnmFuncHelp const help_gnumeric_version[] = {
 };
 
 static GnmValue *
-gnumeric_version (FunctionEvalInfo *ei, GnmValue *argv [])
+gnumeric_version (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_string (GNUMERIC_VERSION);
 }

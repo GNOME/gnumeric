@@ -6305,7 +6305,7 @@ cmd_define_name_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	if (me->new_name || me->placeholder) {
 		char *err = NULL;
-		nexpr = expr_name_add (&me->pp, me->name, me->expr, &err, TRUE);
+		nexpr = expr_name_add (&me->pp, me->name, me->expr, &err, TRUE, NULL);
 		if (nexpr == NULL) {
 			go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), _("Name"), err);
 			g_free (err);

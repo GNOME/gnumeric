@@ -16,7 +16,7 @@ GNM_PLUGIN_MODULE_HEADER;
 
 static GnmFuncHelp const help_r_dnorm[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DNORM:probability density function of the normal distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("mu:mean of the distribution.") },
 	{ GNM_FUNC_HELP_ARG, F_("sigma:standard deviation of the distribution.") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.") },
@@ -26,7 +26,7 @@ static GnmFuncHelp const help_r_dnorm[] = {
 };
 
 static GnmValue *
-gnumeric_r_dnorm (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_dnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float mu = value_get_as_float (args[1]);
@@ -41,7 +41,7 @@ gnumeric_r_dnorm (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_pnorm[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PNORM:cumulative distribution function of the normal distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("mu:mean of the distribution.") },
 	{ GNM_FUNC_HELP_ARG, F_("sigma:standard deviation of the distribution.") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
@@ -52,7 +52,7 @@ static GnmFuncHelp const help_r_pnorm[] = {
 };
 
 static GnmValue *
-gnumeric_r_pnorm (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_pnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float mu = value_get_as_float (args[1]);
@@ -79,7 +79,7 @@ static GnmFuncHelp const help_r_qnorm[] = {
 };
 
 static GnmValue *
-gnumeric_r_qnorm (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_qnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float mu = value_get_as_float (args[1]);
@@ -95,7 +95,7 @@ gnumeric_r_qnorm (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_dlnorm[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DLNORM:probability density function of the log-normal distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("logmean:mean of the underlying normal distribution.") },
 	{ GNM_FUNC_HELP_ARG, F_("logsd:standard deviation of the underlying normal distribution.") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.") },
@@ -105,7 +105,7 @@ static GnmFuncHelp const help_r_dlnorm[] = {
 };
 
 static GnmValue *
-gnumeric_r_dlnorm (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_dlnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float logmean = value_get_as_float (args[1]);
@@ -120,7 +120,7 @@ gnumeric_r_dlnorm (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_plnorm[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PLNORM:cumulative distribution function of the log-normal distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("logmean:mean of the underlying normal distribution.") },
 	{ GNM_FUNC_HELP_ARG, F_("logsd:standard deviation of the underlying normal distribution.") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
@@ -131,7 +131,7 @@ static GnmFuncHelp const help_r_plnorm[] = {
 };
 
 static GnmValue *
-gnumeric_r_plnorm (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_plnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float logmean = value_get_as_float (args[1]);
@@ -147,7 +147,7 @@ gnumeric_r_plnorm (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_qlnorm[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.QLNORM:probability quantile function of the log-normal distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("logmean:mean of the underlying normal distribution.") },
 	{ GNM_FUNC_HELP_ARG, F_("logsd:standard deviation of the underlying normal distribution.") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
@@ -158,7 +158,7 @@ static GnmFuncHelp const help_r_qlnorm[] = {
 };
 
 static GnmValue *
-gnumeric_r_qlnorm (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_qlnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float logmean = value_get_as_float (args[1]);
@@ -174,7 +174,7 @@ gnumeric_r_qlnorm (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_dgamma[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DGAMMA:probability density function of the gamma distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("shape:the shape parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.") },
@@ -184,7 +184,7 @@ static GnmFuncHelp const help_r_dgamma[] = {
 };
 
 static GnmValue *
-gnumeric_r_dgamma (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_dgamma (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
@@ -199,7 +199,7 @@ gnumeric_r_dgamma (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_pgamma[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PGAMMA:cumulative distribution function of the gamma distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("shape:the shape parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
@@ -210,7 +210,7 @@ static GnmFuncHelp const help_r_pgamma[] = {
 };
 
 static GnmValue *
-gnumeric_r_pgamma (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_pgamma (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
@@ -237,7 +237,7 @@ static GnmFuncHelp const help_r_qgamma[] = {
 };
 
 static GnmValue *
-gnumeric_r_qgamma (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_qgamma (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
@@ -253,7 +253,7 @@ gnumeric_r_qgamma (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_dbeta[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DBETA:probability density function of the beta distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("a:the first shape parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("b:the second scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.") },
@@ -263,7 +263,7 @@ static GnmFuncHelp const help_r_dbeta[] = {
 };
 
 static GnmValue *
-gnumeric_r_dbeta (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_dbeta (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float a = value_get_as_float (args[1]);
@@ -278,7 +278,7 @@ gnumeric_r_dbeta (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_pbeta[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PBETA:cumulative distribution function of the beta distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("a:the first shape parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("b:the second scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
@@ -289,7 +289,7 @@ static GnmFuncHelp const help_r_pbeta[] = {
 };
 
 static GnmValue *
-gnumeric_r_pbeta (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_pbeta (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float a = value_get_as_float (args[1]);
@@ -316,7 +316,7 @@ static GnmFuncHelp const help_r_qbeta[] = {
 };
 
 static GnmValue *
-gnumeric_r_qbeta (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_qbeta (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float a = value_get_as_float (args[1]);
@@ -332,7 +332,7 @@ gnumeric_r_qbeta (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_dt[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DT:probability density function of the Student t distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("n:the number of degrees of freedom of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the Student t distribution.") },
@@ -341,7 +341,7 @@ static GnmFuncHelp const help_r_dt[] = {
 };
 
 static GnmValue *
-gnumeric_r_dt (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_dt (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -355,7 +355,7 @@ gnumeric_r_dt (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_pt[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PT:cumulative distribution function of the Student t distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("n:the number of degrees of freedom of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.") },
@@ -365,7 +365,7 @@ static GnmFuncHelp const help_r_pt[] = {
 };
 
 static GnmValue *
-gnumeric_r_pt (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_pt (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -390,7 +390,7 @@ static GnmFuncHelp const help_r_qt[] = {
 };
 
 static GnmValue *
-gnumeric_r_qt (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_qt (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -405,7 +405,7 @@ gnumeric_r_qt (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_df[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DF:probability density function of the F distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("n1:the first number of degrees of freedom of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("n2:the first number of degrees of freedom of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.") },
@@ -415,7 +415,7 @@ static GnmFuncHelp const help_r_df[] = {
 };
 
 static GnmValue *
-gnumeric_r_df (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_df (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n1 = value_get_as_float (args[1]);
@@ -430,7 +430,7 @@ gnumeric_r_df (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_pf[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PF:cumulative distribution function of the F distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("n1:the first number of degrees of freedom of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("n2:the first number of degrees of freedom of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
@@ -441,7 +441,7 @@ static GnmFuncHelp const help_r_pf[] = {
 };
 
 static GnmValue *
-gnumeric_r_pf (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_pf (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n1 = value_get_as_float (args[1]);
@@ -457,7 +457,7 @@ gnumeric_r_pf (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_qf[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.QF:probability quantile function of the F distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("n1:the first number of degrees of freedom of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("n2:the first number of degrees of freedom of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
@@ -468,7 +468,7 @@ static GnmFuncHelp const help_r_qf[] = {
 };
 
 static GnmValue *
-gnumeric_r_qf (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_qf (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n1 = value_get_as_float (args[1]);
@@ -484,7 +484,7 @@ gnumeric_r_qf (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_dchisq[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DCHISQ:probability density function of the chi-square distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("df:the number of degrees of freedom of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the chi-square distribution.") },
@@ -493,7 +493,7 @@ static GnmFuncHelp const help_r_dchisq[] = {
 };
 
 static GnmValue *
-gnumeric_r_dchisq (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_dchisq (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float df = value_get_as_float (args[1]);
@@ -507,7 +507,7 @@ gnumeric_r_dchisq (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_pchisq[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PCHISQ:cumulative distribution function of the chi-square distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("df:the number of degrees of freedom of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.") },
@@ -517,7 +517,7 @@ static GnmFuncHelp const help_r_pchisq[] = {
 };
 
 static GnmValue *
-gnumeric_r_pchisq (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_pchisq (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float df = value_get_as_float (args[1]);
@@ -542,7 +542,7 @@ static GnmFuncHelp const help_r_qchisq[] = {
 };
 
 static GnmValue *
-gnumeric_r_qchisq (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_qchisq (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float df = value_get_as_float (args[1]);
@@ -557,7 +557,7 @@ gnumeric_r_qchisq (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_dweibull[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DWEIBULL:probability density function of the Weibull distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("shape:the shape parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.") },
@@ -567,7 +567,7 @@ static GnmFuncHelp const help_r_dweibull[] = {
 };
 
 static GnmValue *
-gnumeric_r_dweibull (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_dweibull (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
@@ -582,7 +582,7 @@ gnumeric_r_dweibull (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_pweibull[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PWEIBULL:cumulative distribution function of the Weibull distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("shape:the shape parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
@@ -593,7 +593,7 @@ static GnmFuncHelp const help_r_pweibull[] = {
 };
 
 static GnmValue *
-gnumeric_r_pweibull (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_pweibull (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
@@ -620,7 +620,7 @@ static GnmFuncHelp const help_r_qweibull[] = {
 };
 
 static GnmValue *
-gnumeric_r_qweibull (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_qweibull (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
@@ -636,7 +636,7 @@ gnumeric_r_qweibull (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_dpois[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DPOIS:probability density function of the Poisson distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("lambda:the mean of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the Poisson distribution.") },
@@ -645,7 +645,7 @@ static GnmFuncHelp const help_r_dpois[] = {
 };
 
 static GnmValue *
-gnumeric_r_dpois (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_dpois (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float lambda = value_get_as_float (args[1]);
@@ -659,7 +659,7 @@ gnumeric_r_dpois (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_ppois[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PPOIS:cumulative distribution function of the Poisson distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("lambda:the mean of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.") },
@@ -669,7 +669,7 @@ static GnmFuncHelp const help_r_ppois[] = {
 };
 
 static GnmValue *
-gnumeric_r_ppois (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_ppois (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float lambda = value_get_as_float (args[1]);
@@ -694,7 +694,7 @@ static GnmFuncHelp const help_r_qpois[] = {
 };
 
 static GnmValue *
-gnumeric_r_qpois (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_qpois (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float lambda = value_get_as_float (args[1]);
@@ -709,7 +709,7 @@ gnumeric_r_qpois (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_dexp[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DEXP:probability density function of the exponential distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the exponential distribution.") },
@@ -718,7 +718,7 @@ static GnmFuncHelp const help_r_dexp[] = {
 };
 
 static GnmValue *
-gnumeric_r_dexp (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_dexp (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float scale = value_get_as_float (args[1]);
@@ -732,7 +732,7 @@ gnumeric_r_dexp (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_pexp[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PEXP:cumulative distribution function of the exponential distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.") },
@@ -742,7 +742,7 @@ static GnmFuncHelp const help_r_pexp[] = {
 };
 
 static GnmValue *
-gnumeric_r_pexp (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_pexp (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float scale = value_get_as_float (args[1]);
@@ -767,7 +767,7 @@ static GnmFuncHelp const help_r_qexp[] = {
 };
 
 static GnmValue *
-gnumeric_r_qexp (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_qexp (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float scale = value_get_as_float (args[1]);
@@ -782,7 +782,7 @@ gnumeric_r_qexp (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_dbinom[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DBINOM:probability density function of the binomial distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("n:the number of trials") },
 	{ GNM_FUNC_HELP_ARG, F_("psuc:the probability of success in each trial") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.") },
@@ -792,7 +792,7 @@ static GnmFuncHelp const help_r_dbinom[] = {
 };
 
 static GnmValue *
-gnumeric_r_dbinom (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_dbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -807,7 +807,7 @@ gnumeric_r_dbinom (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_pbinom[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PBINOM:cumulative distribution function of the binomial distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("n:the number of trials") },
 	{ GNM_FUNC_HELP_ARG, F_("psuc:the probability of success in each trial") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
@@ -818,7 +818,7 @@ static GnmFuncHelp const help_r_pbinom[] = {
 };
 
 static GnmValue *
-gnumeric_r_pbinom (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_pbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -834,7 +834,7 @@ gnumeric_r_pbinom (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_qbinom[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.QBINOM:probability quantile function of the binomial distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("n:the number of trials") },
 	{ GNM_FUNC_HELP_ARG, F_("psuc:the probability of success in each trial") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
@@ -845,7 +845,7 @@ static GnmFuncHelp const help_r_qbinom[] = {
 };
 
 static GnmValue *
-gnumeric_r_qbinom (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_qbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -861,7 +861,7 @@ gnumeric_r_qbinom (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_dnbinom[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DNBINOM:probability density function of the negative binomial distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("n:the number of trials") },
 	{ GNM_FUNC_HELP_ARG, F_("psuc:the probability of success in each trial") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.") },
@@ -871,7 +871,7 @@ static GnmFuncHelp const help_r_dnbinom[] = {
 };
 
 static GnmValue *
-gnumeric_r_dnbinom (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_dnbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -886,7 +886,7 @@ gnumeric_r_dnbinom (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_pnbinom[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PNBINOM:cumulative distribution function of the negative binomial distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("n:the number of trials") },
 	{ GNM_FUNC_HELP_ARG, F_("psuc:the probability of success in each trial") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
@@ -897,7 +897,7 @@ static GnmFuncHelp const help_r_pnbinom[] = {
 };
 
 static GnmValue *
-gnumeric_r_pnbinom (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_pnbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -924,7 +924,7 @@ static GnmFuncHelp const help_r_qnbinom[] = {
 };
 
 static GnmValue *
-gnumeric_r_qnbinom (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_qnbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -940,7 +940,7 @@ gnumeric_r_qnbinom (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_dhyper[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DHYPER:probability density function of the hypergeometric distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("r:the number of red balls") },
 	{ GNM_FUNC_HELP_ARG, F_("b:the number of black balls") },
 	{ GNM_FUNC_HELP_ARG, F_("n:the number of balls drawn") },
@@ -951,7 +951,7 @@ static GnmFuncHelp const help_r_dhyper[] = {
 };
 
 static GnmValue *
-gnumeric_r_dhyper (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_dhyper (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float r = value_get_as_float (args[1]);
@@ -967,7 +967,7 @@ gnumeric_r_dhyper (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_phyper[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PHYPER:cumulative distribution function of the hypergeometric distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("r:the number of red balls") },
 	{ GNM_FUNC_HELP_ARG, F_("b:the number of black balls") },
 	{ GNM_FUNC_HELP_ARG, F_("n:the number of balls drawn") },
@@ -979,7 +979,7 @@ static GnmFuncHelp const help_r_phyper[] = {
 };
 
 static GnmValue *
-gnumeric_r_phyper (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_phyper (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float r = value_get_as_float (args[1]);
@@ -996,7 +996,7 @@ gnumeric_r_phyper (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_dgeom[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DGEOM:probability density function of the geometric distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("psuc:the probability of success in each trial") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the geometric distribution.") },
@@ -1005,7 +1005,7 @@ static GnmFuncHelp const help_r_dgeom[] = {
 };
 
 static GnmValue *
-gnumeric_r_dgeom (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_dgeom (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float psuc = value_get_as_float (args[1]);
@@ -1019,7 +1019,7 @@ gnumeric_r_dgeom (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_pgeom[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PGEOM:cumulative distribution function of the geometric distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("psuc:the probability of success in each trial") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.") },
@@ -1029,7 +1029,7 @@ static GnmFuncHelp const help_r_pgeom[] = {
 };
 
 static GnmValue *
-gnumeric_r_pgeom (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_pgeom (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float psuc = value_get_as_float (args[1]);
@@ -1054,7 +1054,7 @@ static GnmFuncHelp const help_r_qgeom[] = {
 };
 
 static GnmValue *
-gnumeric_r_qgeom (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_qgeom (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float psuc = value_get_as_float (args[1]);
@@ -1069,7 +1069,7 @@ gnumeric_r_qgeom (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_dcauchy[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DCAUCHY:probability density function of the Cauchy distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("location:the center of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.") },
@@ -1079,7 +1079,7 @@ static GnmFuncHelp const help_r_dcauchy[] = {
 };
 
 static GnmValue *
-gnumeric_r_dcauchy (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_dcauchy (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float location = value_get_as_float (args[1]);
@@ -1094,7 +1094,7 @@ gnumeric_r_dcauchy (FunctionEvalInfo *ei, GnmValue **args)
 
 static GnmFuncHelp const help_r_pcauchy[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PCAUCHY:cumulative distribution function of the Cauchy distribution.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:obserevation.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:observation.") },
 	{ GNM_FUNC_HELP_ARG, F_("location:the center of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("scale:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
@@ -1105,7 +1105,7 @@ static GnmFuncHelp const help_r_pcauchy[] = {
 };
 
 static GnmValue *
-gnumeric_r_pcauchy (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_pcauchy (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float location = value_get_as_float (args[1]);
@@ -1132,7 +1132,7 @@ static GnmFuncHelp const help_r_qcauchy[] = {
 };
 
 static GnmValue *
-gnumeric_r_qcauchy (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_r_qcauchy (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float location = value_get_as_float (args[1]);

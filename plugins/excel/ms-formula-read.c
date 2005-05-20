@@ -723,8 +723,8 @@ ms_excel_dump_cellname (ExcelWorkbook const *ewb, ExcelReadSheet const *esheet,
 {
 	if (esheet && esheet->sheet && esheet->sheet->name_unquoted)
 		fprintf (stderr, "%s!", esheet->sheet->name_unquoted);
-	else if (ewb && ewb->gnum_wb && workbook_get_uri (ewb->gnum_wb)) {
-		fprintf (stderr, "[%s]", workbook_get_uri (ewb->gnum_wb));
+	else if (ewb && ewb->wb && workbook_get_uri (ewb->wb)) {
+		fprintf (stderr, "[%s]", workbook_get_uri (ewb->wb));
 		return;
 	}
 	fprintf (stderr, "%s%d : ", col_name(fn_col), fn_row+1);
@@ -865,7 +865,6 @@ excel_parse_formula (MSContainer const *container,
 	int len_left = length;
 	GnmExprList *stack = NULL;
 	gboolean error = FALSE;
-	gboolean external = FALSE;
 	int ptg_length, ptg, ptgbase;
 
 	if (array_element != NULL)
@@ -1083,10 +1082,9 @@ excel_parse_formula (MSContainer const *container,
 				if (ver <= MS_BIFF_V3) break;
 				ptg_length = w;
 			} else if (grbit & 0x10) { /* AttrSum: 'optimised' SUM function */
-				if (!make_function (&stack, 0x04, 1, container->ewb->gnum_wb))
-				{
+				if (!make_function (&stack, 0x04, 1, container->ewb->wb)) {
 					error = TRUE;
-					puts ("Error in optimised SUM");
+					fprintf (stderr, "Error in optimised SUM\n");
 				}
 			} else if (grbit & 0x40) { /* AttrSpace */
 				guint8 num_space = GSF_LE_GET_GUINT8(cur+2);
@@ -1109,45 +1107,36 @@ excel_parse_formula (MSContainer const *container,
 		}
 		break;
 
-		case FORMULA_PTG_SHEET: {
+		case FORMULA_PTG_SHEET:
+			g_warning ("PTG_SHEET! please send us a copy of this file.");
 			ptg_length = 10;
-			external = TRUE;
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_formula_debug > 1) {
-				fprintf (stderr, "External ref ignored\n");
-			}
-#endif
 			break;
-		}
 
-		case FORMULA_PTG_SHEET_END: {
+		case FORMULA_PTG_SHEET_END:
+			g_warning ("PTG_SHEET_END! please send us a copy of this file.");
 			ptg_length = 4;
-			external = FALSE;
 			break;
-		}
 
-		case FORMULA_PTG_ERR: {
+		case FORMULA_PTG_ERR:
 			parse_list_push_raw (&stack, biff_get_error (NULL, GSF_LE_GET_GUINT8 (cur)));
 			ptg_length = 1;
 			break;
-		}
-		case FORMULA_PTG_INT: {
-			guint16 num = GSF_LE_GET_GUINT16(cur);
-			parse_list_push_raw (&stack, value_new_int (num));
+
+		case FORMULA_PTG_INT:
+			parse_list_push_raw (&stack, value_new_int (GSF_LE_GET_GUINT16(cur)));
 			ptg_length = 2;
 			break;
-		}
+
 		case FORMULA_PTG_BOOL:
 			parse_list_push_raw (&stack, value_new_bool (GSF_LE_GET_GUINT8(cur)));
 			ptg_length = 1;
 			break;
 
-		case FORMULA_PTG_NUM: {
-			double tmp = gsf_le_get_double (cur);
-			parse_list_push_raw (&stack, value_new_float (tmp));
+		case FORMULA_PTG_NUM:
+			parse_list_push_raw (&stack, value_new_float (gsf_le_get_double (cur)));
 			ptg_length = 8;
 			break;
-		}
+
 		case FORMULA_PTG_STR: {
 			char *str;
 			int len = GSF_LE_GET_GUINT8 (cur);
@@ -1382,9 +1371,9 @@ excel_parse_formula (MSContainer const *container,
 				iftab = GSF_LE_GET_GUINT8(cur);
 			}
 
-			if (!make_function (&stack, iftab, -1, container->ewb->gnum_wb)) {
+			if (!make_function (&stack, iftab, -1, container->ewb->wb)) {
 				error = TRUE;
-				puts ("error making func");
+				fprintf (stderr, "error making func\n");
 			}
 			break;
 		}
@@ -1407,16 +1396,16 @@ excel_parse_formula (MSContainer const *container,
 				iftab = GSF_LE_GET_GUINT8(cur+1);
 			}
 
-			if (!make_function (&stack, iftab, numargs, container->ewb->gnum_wb)) {
+			if (!make_function (&stack, iftab, numargs, container->ewb->wb)) {
 				error = TRUE;
-				puts ("error making func var");
+				fprintf (stderr, "error making func var\n");
 			}
 			break;
 		}
 
 		case FORMULA_PTG_NAME: {
 			guint16 name_idx = GSF_LE_GET_GUINT16 (cur);
-			GPtrArray    *a;
+			GPtrArray    *names;
 			GnmExpr const*name;
 			GnmNamedExpr *nexpr = NULL;
 
@@ -1427,16 +1416,30 @@ excel_parse_formula (MSContainer const *container,
 			else
 				ptg_length = 10;
 
-			if (external)
-				a = container->names;
-			else 
-				a = container->ewb->container.names;
-			if (a == NULL || name_idx < 1 || a->len < name_idx ||
-			    (nexpr = g_ptr_array_index (a, name_idx-1)) == NULL) {
-				g_warning ("EXCEL: %x (of %x) UNKNOWN name %p.",
-					   name_idx, a ? a->len : 0xffffffff, container);
-				name = gnm_expr_new_constant (
-					value_new_error_REF (NULL));
+			names = container->ewb->names;
+			if (name_idx < 1 || names->len < name_idx ||
+			    (nexpr = g_ptr_array_index (names, name_idx-1)) == NULL) {
+
+				/* this may be a named used within a name be
+				 * cautious about creating a place holder, I'll
+				 * guess that there will never be more than 256
+				 * names in a file just to be safe */
+				if (1 <= name_idx && name_idx < 256) {
+					char *stub_name = g_strdup_printf ("FwdDecl%d", name_idx);
+					if (name_idx >= names->len)
+						g_ptr_array_set_size (names, name_idx);
+					nexpr = g_ptr_array_index (names, name_idx-1) =
+						expr_name_new (stub_name, TRUE);
+					name = gnm_expr_new_name (nexpr, NULL, NULL);
+					d (1, fprintf (stderr, "creating stub '%s'", stub_name););
+					g_free (stub_name);
+				} else
+				{
+					g_warning ("EXCEL: %x (of %x) UNKNOWN name %p.",
+						   name_idx, names ? names->len : 0xffffffff, container);
+					name = gnm_expr_new_constant (
+						value_new_error_NAME (NULL));
+				}
 			} else
 				name = gnm_expr_new_name (nexpr, NULL, NULL);
 
@@ -1515,7 +1518,7 @@ excel_parse_formula (MSContainer const *container,
 
 		case FORMULA_PTG_NAME_X : {
 			guint16 name_idx; /* 1 based */
-			GPtrArray    *a = NULL;
+			GPtrArray    *names = NULL;
 			GnmExpr const*name;
 			GnmNamedExpr *nexpr = NULL;
 			Sheet *sheet = NULL;
@@ -1529,9 +1532,9 @@ excel_parse_formula (MSContainer const *container,
 						container->ewb->v8.supbook,
 						ExcelSupBook, es->supbook);
 					if (sup->type == EXCEL_SUP_BOOK_SELFREF)
-						a = container->ewb->container.names;
+						names = container->ewb->names;
 					else
-						a = sup->externname;
+						names = sup->externname;
 
 					sheet = es->first;
 				}
@@ -1551,18 +1554,18 @@ excel_parse_formula (MSContainer const *container,
 					       name_idx, sheet_idx););
 #endif
 				if (sheet_idx < 0) {
-					a = container->ewb->container.names;
+					names = container->ewb->names;
 					sheet_idx = -sheet_idx;
 				} else
-					a = container->v7.externnames;
+					names = container->v7.externnames;
 				sheet = excel_externsheet_v7 (container, sheet_idx);
 				ptg_length = 24;
 			}
 
-			if (a == NULL || name_idx < 1 || a->len < name_idx ||
-			    (nexpr = g_ptr_array_index (a, name_idx-1)) == NULL) {
+			if (names == NULL || name_idx < 1 || names->len < name_idx ||
+			    (nexpr = g_ptr_array_index (names, name_idx-1)) == NULL) {
 				g_warning ("EXCEL: %x (of %x) UNKNOWN name %p.",
-					   name_idx, a ? a->len : 0xffffffff, container);
+					   name_idx, names ? names->len : 0xffffffff, container);
 				name = gnm_expr_new_constant (
 					value_new_error_REF (NULL));
 			} else {
@@ -1689,7 +1692,7 @@ excel_parse_formula (MSContainer const *container,
 		GnmParsePos pp;
 		GnmExpr const *expr = parse_list_pop (&stack);
 		parse_pos_init (&pp, NULL, esheet->sheet, fn_col, fn_row);
-		puts (gnm_expr_as_string (expr, &pp, gnm_expr_conventions_default));
+		fprintf (stderr, "%s\n",  gnm_expr_as_string (expr, &pp, gnm_expr_conventions_default));
 		return expr;
 	}
 #endif

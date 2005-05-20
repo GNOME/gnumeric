@@ -30,7 +30,8 @@ typedef struct {
 } collect_floats_t;
 
 static GnmValue *
-callback_function_collect (GnmEvalPos const *ep, GnmValue *value, void *closure)
+callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
+			   void *closure)
 {
 	gnm_float x;
 	collect_floats_t *cl = (collect_floats_t *)closure;
@@ -141,7 +142,7 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue *value, void *closure)
  * gnm_float.
  */
 static gnm_float *
-collect_floats (GnmExprList *exprlist, GnmEvalPos const *ep, CollectFlags flags,
+collect_floats (GnmExprList const *exprlist, GnmEvalPos const *ep, CollectFlags flags,
 		int *n, GnmValue **error, GSList **info)
 {
 	GnmValue * err;
@@ -228,7 +229,7 @@ collect_floats_value_with_info (GnmValue const *val, GnmEvalPos const *ep,
 /* ------------------------------------------------------------------------- */
 
 GnmValue *
-float_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
+float_range_function (GnmExprList const *exprlist, FunctionEvalInfo *ei,
 		      float_range_function_t func,
 		      CollectFlags flags,
 		      GnmStdError func_error)
@@ -353,7 +354,7 @@ strip_missing (GArray * data, GSList **missing)
 
 
 GnmValue *
-float_range_function2 (GnmValue *val0, GnmValue *val1, FunctionEvalInfo *ei,
+float_range_function2 (GnmValue const *val0, GnmValue const *val1, FunctionEvalInfo *ei,
 		       float_range_function2_t func,
 		       CollectFlags flags,
 		       GnmStdError func_error)
@@ -430,7 +431,8 @@ typedef struct {
 } collect_strings_t;
 
 static GnmValue *
-callback_function_collect_strings (GnmEvalPos const *ep, GnmValue *value, void *closure)
+callback_function_collect_strings (GnmEvalPos const *ep, GnmValue const *value,
+				   void *closure)
 {
 	char *text = NULL;
 	collect_strings_t *cl = (collect_strings_t *)closure;
@@ -485,7 +487,7 @@ callback_function_collect_strings (GnmEvalPos const *ep, GnmValue *value, void *
  */
 
 static GSList *
-collect_strings (GnmExprList *exprlist, GnmEvalPos const *ep, CollectFlags flags, GnmValue **error)
+collect_strings (GnmExprList const *exprlist, GnmEvalPos const *ep, CollectFlags flags, GnmValue **error)
 {
 	GnmValue * err;
 	collect_strings_t cl;
@@ -510,7 +512,7 @@ collect_strings (GnmExprList *exprlist, GnmEvalPos const *ep, CollectFlags flags
 
 
 GnmValue *
-string_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
+string_range_function (GnmExprList const *exprlist, FunctionEvalInfo *ei,
 		       string_range_function_t func,
 		       CollectFlags flags,
 		       GnmStdError func_error)
