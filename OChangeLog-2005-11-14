@@ -1,3 +1,8 @@
+2005-05-20  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control.c (wb_control_parse_and_jump): Use
+	expressions like A1, not A1:A1 for single cells.
+
 2005-05-20  Stepan Kasal  <kasal@ucw.cz>
 
 	* src/sheet-filter.c (filter_view_set_bounds): Remove unused

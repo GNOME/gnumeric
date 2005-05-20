@@ -253,8 +253,11 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 				b.row = r->end.row;
 				a.col_relative = a.row_relative = b.col_relative = b.row_relative = FALSE;
 				pp.sheet = NULL; /* make it a global name */
-				target_range = gnm_expr_new_constant (
-					value_new_cellrange_unsafe (&a, &b));
+				if (cellref_equal (&a, &b))
+					target_range = gnm_expr_new_cellref (&a);
+				else
+					target_range = gnm_expr_new_constant (
+						value_new_cellrange_unsafe (&a, &b));
 				cmd_define_name (wbc, text, &pp, target_range);
 			}
 			return FALSE;

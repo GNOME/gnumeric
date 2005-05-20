@@ -27,6 +27,7 @@ Morten:
 	* Speed up exit on large sheets with lots of names, such as the
 	  one from #303923.
 	* Clean up dependencies somewhat.
+	* Simplify expressions used for defined names for single cells.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1

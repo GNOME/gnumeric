@@ -359,25 +359,25 @@ micro_hash_resize (MicroHash *hash_table)
 		for (node = hash_table->u.singleton; node; node = next) {
 			next = node->next;
 			bucket =  MICRO_HASH_hash (node->data) % new_num_buckets;
-			node->next = new_buckets [bucket];
-			new_buckets [bucket] = node;
+			node->next = new_buckets[bucket];
+			new_buckets[bucket] = node;
 		}
 		hash_table->u.buckets = new_buckets;
 	} else if (new_num_buckets > 1) {
 		new_buckets = g_new0 (GSList *, new_num_buckets);
 		for (old_num_buckets = hash_table->num_buckets; old_num_buckets-- > 0 ; )
-			for (node = hash_table->u.buckets [old_num_buckets]; node; node = next) {
+			for (node = hash_table->u.buckets[old_num_buckets]; node; node = next) {
 				next = node->next;
 				bucket =  MICRO_HASH_hash (node->data) % new_num_buckets;
-				node->next = new_buckets [bucket];
-				new_buckets [bucket] = node;
+				node->next = new_buckets[bucket];
+				new_buckets[bucket] = node;
 			}
 		g_free (hash_table->u.buckets);
 		hash_table->u.buckets = new_buckets;
 	} else {
 		GSList *singleton = NULL;
 		while (old_num_buckets-- > 0)
-			singleton = g_slist_concat (hash_table->u.buckets [old_num_buckets], singleton);
+			singleton = g_slist_concat (hash_table->u.buckets[old_num_buckets], singleton);
 		g_free (hash_table->u.buckets);
 		hash_table->u.singleton = singleton;
 	}
@@ -470,7 +470,7 @@ micro_hash_is_empty (const MicroHash *hash_table)
 			code					\
 		}						\
 	} else while (i-- > 0) {				\
-		for (l = dc.u.buckets [i]; l ; l = l->next) {	\
+		for (l = dc.u.buckets[i]; l ; l = l->next) {	\
 			GnmDependent *dep = l->data;		\
 			code					\
 		}						\
