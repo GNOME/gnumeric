@@ -1,3 +1,7 @@
+2005-05-23  Stepan Kasal  <kasal@ucw.cz>
+
+	* dao.c (dao_command_descriptor): Typo.
+
 2005-05-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.1

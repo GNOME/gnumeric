@@ -126,7 +126,7 @@ dao_range_name (data_analysis_output_t *dao)
  * @format:
  * @result:
  *
- * Uses fmt to provide a string to be used as command descriptor for
+ * Uses format to provide a string to be used as command descriptor for
  * undo/redo
  *
  **/
