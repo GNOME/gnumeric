@@ -1,5 +1,8 @@
 2005-05-23  Morten Welinder  <terra@gnome.org>
 
+	* src/dependent.c (cb_name_invalidate): Fix a crash relating to
+	globally scoped names.
+
 	* src/workbook-edit.c (cb_entry_delete_text): Make this work for
 	non-rich text also.  Turn off auto-completion.
 	(cb_entry_insert_text): Make this work for non-rich text also.

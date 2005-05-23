@@ -1717,8 +1717,6 @@ cb_dep_hash_destroy (G_GNUC_UNUSED gpointer key,
 		     DependencyAny *depany,
 		     GnmExprRewriteInfo const *rwinfo)
 {
-	g_return_if_fail (rwinfo->type == GNM_EXPR_REWRITE_INVALIDATE_SHEETS);
-
 	micro_hash_foreach_dep (depany->deps, dep, {
 		if (!dep->sheet->being_invalidated)
 			invalidate_refs (dep, rwinfo);
@@ -1763,9 +1761,12 @@ cb_name_invalidate (GnmNamedExpr *nexpr, G_GNUC_UNUSED gpointer value,
 		    GnmExprRewriteInfo const *rwinfo)
 {
 	GnmExpr const *new_expr = NULL;
+	gboolean scope_being_killed =
+		nexpr->pos.sheet
+		? nexpr->pos.sheet->being_invalidated
+		: nexpr->pos.wb->during_destruction;
 
-	if (rwinfo->type == GNM_EXPR_REWRITE_INVALIDATE_SHEETS &&
-	    !nexpr->pos.sheet->being_invalidated) {
+	if (!scope_being_killed) {
 		new_expr = gnm_expr_rewrite (nexpr->expr, rwinfo);
 		g_return_if_fail (new_expr != NULL);
 	}
