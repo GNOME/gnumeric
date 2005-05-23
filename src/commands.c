@@ -550,21 +550,33 @@ command_redo (WorkbookControl *wbc)
 	klass = CMD_CLASS (cmd);
 	g_return_if_fail (klass != NULL);
 
+	g_object_ref (cmd);
+
 	/* TRUE indicates a failure to redo.  Leave the command where it is */
-	if (klass->redo_cmd (cmd, wbc))
-		return;
-	update_after_action (cmd->sheet, wbc);
+	if (!klass->redo_cmd (cmd, wbc)) {
+		gboolean redo_cleared;
 
-	/* Remove the command from the undo list */
-	wb->redo_commands = g_slist_remove (wb->redo_commands,
-					    wb->redo_commands->data);
-	wb->undo_commands = g_slist_prepend (wb->undo_commands, cmd);
+		update_after_action (cmd->sheet, wbc);
 
-	WORKBOOK_FOREACH_CONTROL (wb, view, control, {
-		wb_control_undo_redo_push (control, TRUE, cmd->cmd_descriptor, cmd);
-		wb_control_undo_redo_pop (control, FALSE);
-	});
-	undo_redo_menu_labels (wb);
+		/*
+		 * A few commands clear the undo queue.  For those, we do not
+		 * want to stuff the cmd object on the redo queue.
+		 */
+		redo_cleared = (wb->redo_commands == NULL);
+
+		if (!redo_cleared) {
+			wb->redo_commands = g_slist_remove (wb->redo_commands, cmd);
+			wb->undo_commands = g_slist_prepend (wb->undo_commands, cmd);
+
+			WORKBOOK_FOREACH_CONTROL (wb, view, control, {
+				wb_control_undo_redo_push (control, TRUE, cmd->cmd_descriptor, cmd);
+				wb_control_undo_redo_pop (control, FALSE);
+			});
+			undo_redo_menu_labels (wb);
+		}
+	}
+
+	g_object_unref (cmd);
 }
 
 /**

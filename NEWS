@@ -28,6 +28,7 @@ Morten:
 	  one from #303923.
 	* Clean up dependencies somewhat.
 	* Simplify expressions used for defined names for single cells.
+	* Fix redo crash.  [#305007]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1

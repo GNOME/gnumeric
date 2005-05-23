@@ -1,3 +1,13 @@
+2005-05-23  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (command_redo): Keep a ref to the command and
+	handle someone clearing the redo queue.  Fixes #305007.
+
+2005-05-21  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (dependents_link): Drop pointless rwinfo
+	argument.  All callers changed.
+
 2005-05-20  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (gnm_dep_container_dump): Dump also dynamic
