@@ -622,7 +622,7 @@ expr_name_set_expr (GnmNamedExpr *nexpr, GnmExpr const *new_expr)
 		g_slist_free (junk);
 	}
 	nexpr->expr = new_expr;
-	dependents_link (good, NULL);
+	dependents_link (good);
 
 	if (new_expr != NULL)
 		expr_name_handle_references (nexpr, TRUE);

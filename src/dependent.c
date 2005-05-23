@@ -1499,23 +1499,18 @@ dependents_unrelocate (GSList *info)
 /**
  * dependents_link :
  * @deps : An slist of dependents that GETS FREED
- * @rwinfo : optionally NULL
  *
- * link a list of dependents, BUT if the optional @rwinfo is specified and we
- * are invalidating a sheet or workbook don't bother to link things in the same
- * sheet or workbook.
+ * link a list of dependents.
  */
 void
-dependents_link (GSList *deps, GnmExprRewriteInfo const *rwinfo)
+dependents_link (GSList *deps)
 {
 	GSList *ptr = deps;
 
 	/* put them back */
 	for (; ptr != NULL ; ptr = ptr->next) {
 		GnmDependent *dep = ptr->data;
-		if (rwinfo &&
-		    rwinfo->type == GNM_EXPR_REWRITE_INVALIDATE_SHEETS &&
-		    dep->sheet->being_invalidated)
+		if (dep->sheet->being_invalidated)
 			continue;
 		if (dep->sheet->deps != NULL && !dependent_is_linked (dep)) {
 			dependent_link (dep);
@@ -1917,7 +1912,7 @@ do_deps_destroy (Sheet *sheet)
 
 		/* then relink things en-mass in case one of the deps outside
 		 * this sheet used multiple names that referenced us */
-		dependents_link (accum, &rwinfo);
+		dependents_link (accum);
 
 		g_hash_table_destroy (names);
 	}
