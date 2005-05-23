@@ -1,5 +1,8 @@
 2005-05-23  Morten Welinder  <terra@gnome.org>
 
+	* src/commands.c (cmd_reorganize_sheets_delete_recreate_sheet):
+	Plug leak.
+
 	* src/dependent.c (cb_name_invalidate): Fix a crash relating to
 	globally scoped names.
 

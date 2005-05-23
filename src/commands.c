@@ -4984,6 +4984,8 @@ cmd_reorganize_sheets_delete_recreate_sheet (WorkbookControl *wbc, Workbook *wb,
 		g_slist_free (sheet->sheet_objects);
 		sheet->sheet_objects = NULL;
 	} 
+
+	g_object_unref (a_new_sheet);
 }
 
 static void
