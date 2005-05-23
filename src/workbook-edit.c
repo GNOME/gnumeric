@@ -49,7 +49,7 @@ wbcg_auto_complete_destroy (WorkbookControlGUI *wbcg)
 
 	if (wbcg->edit_line.signal_changed) {
 		g_signal_handler_disconnect (wbcg_get_entry (wbcg),
-			wbcg->edit_line.signal_changed);
+					     wbcg->edit_line.signal_changed);
 		wbcg->edit_line.signal_changed = 0;
 	}
 
@@ -245,6 +245,28 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 		wbcg_edit_detach_guru (wbcg);
 		gtk_widget_destroy (w);
 	}
+
+	if (wbcg->edit_line.signal_insert) {
+		g_signal_handler_disconnect (wbcg_get_entry (wbcg),
+					     wbcg->edit_line.signal_insert);
+		wbcg->edit_line.signal_insert = 0;
+	}
+	if (wbcg->edit_line.signal_delete) {
+		g_signal_handler_disconnect (wbcg_get_entry (wbcg),
+					     wbcg->edit_line.signal_delete);
+		wbcg->edit_line.signal_delete = 0;
+	}
+	if (wbcg->edit_line.signal_cursor_pos) {
+		g_signal_handler_disconnect (wbcg_get_entry (wbcg),
+					     wbcg->edit_line.signal_cursor_pos);
+		wbcg->edit_line.signal_cursor_pos = 0;
+	}
+	if (wbcg->edit_line.signal_selection_bound) {
+		g_signal_handler_disconnect (wbcg_get_entry (wbcg),
+					     wbcg->edit_line.signal_selection_bound);
+		wbcg->edit_line.signal_selection_bound = 0;
+	}
+
 	if (wbcg->edit_line.full_content != NULL) {
 		pango_attr_list_unref (wbcg->edit_line.full_content);
 		pango_attr_list_unref (wbcg->edit_line.markup);
@@ -252,18 +274,6 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 		wbcg->edit_line.full_content =
 			wbcg->edit_line.markup =
 			wbcg->edit_line.cur_fmt = NULL;
-		g_signal_handler_disconnect (wbcg_get_entry (wbcg),
-			wbcg->edit_line.signal_insert);
-		wbcg->edit_line.signal_insert = 0;
-		g_signal_handler_disconnect (wbcg_get_entry (wbcg),
-			wbcg->edit_line.signal_delete);
-		wbcg->edit_line.signal_delete = 0;
-		g_signal_handler_disconnect (wbcg_get_entry (wbcg),
-			wbcg->edit_line.signal_cursor_pos);
-		wbcg->edit_line.signal_cursor_pos = 0;
-		g_signal_handler_disconnect (wbcg_get_entry (wbcg),
-			wbcg->edit_line.signal_selection_bound);
-		wbcg->edit_line.signal_selection_bound = 0;
 	}
 	/* set pos to 0, to ensure that if we start editing by clicking on the
 	 * editline at the last position, we'll get the right style feedback */
@@ -309,14 +319,6 @@ entry_changed (GtkEntry *entry, void *data)
 
 	if (text_len > wbcg->auto_max_size)
 		wbcg->auto_max_size = text_len;
-
-	/*
-	 * Turn off auto-completion if the user has edited or the text
-	 * does not begin with an alphabetic character.
-	 */
-	if (text_len < wbcg->auto_max_size ||
-	    !g_unichar_isalpha (g_utf8_get_char (text)))
-		wbcg->auto_completing = FALSE;
 
 	if (wbv->do_auto_completion && wbcg->auto_completing)
 		complete_start (wbcg->auto_complete, text);
@@ -403,15 +405,26 @@ cb_entry_insert_text (GtkEditable *editable,
 	char const *str = gtk_entry_get_text (GTK_ENTRY (editable));
 	int pos_in_bytes = g_utf8_offset_to_pointer (str, *pos_in_chars) - str;
 
-	(void)pango_attr_list_filter (wbcg->edit_line.cur_fmt,
-		cb_set_attr_list_len,
-		GINT_TO_POINTER (len_bytes));
+	if (wbcg->auto_completing &&
+	    len_bytes != 0 &&
+	    (!g_unichar_isalpha (g_utf8_get_char (text)) ||
+	     *pos_in_chars != GTK_ENTRY (editable)->text_length)) {
+		wbcg->auto_completing = FALSE;
+	}
 
-	gnm_pango_attr_list_splice (wbcg->edit_line.full_content,
-		wbcg->edit_line.cur_fmt, pos_in_bytes, len_bytes);
+	if (wbcg->edit_line.full_content) {
+		(void)pango_attr_list_filter (wbcg->edit_line.cur_fmt,
+					      cb_set_attr_list_len,
+					      GINT_TO_POINTER (len_bytes));
 
-	gnm_pango_attr_list_splice (wbcg->edit_line.markup,
-		wbcg->edit_line.cur_fmt, pos_in_bytes, len_bytes);
+		gnm_pango_attr_list_splice (wbcg->edit_line.full_content,
+					    wbcg->edit_line.cur_fmt,
+					    pos_in_bytes, len_bytes);
+
+		gnm_pango_attr_list_splice (wbcg->edit_line.markup,
+					    wbcg->edit_line.cur_fmt,
+					    pos_in_bytes, len_bytes);
+	}
 }
 
 static GSList *
@@ -439,8 +452,17 @@ cb_entry_cursor_pos (WorkbookControlGUI *wbcg)
 	guint start, end, target_pos_in_chars, target_pos_in_bytes;
 	GtkEditable *entry = GTK_EDITABLE (wbcg_get_entry (wbcg));
 	char const *str = gtk_entry_get_text (GTK_ENTRY (entry));
+	int edit_pos = gtk_editable_get_position (entry);
 
 	if (str[0] == 0)
+		return;
+
+	if (edit_pos != GTK_ENTRY (entry)->text_length) {
+		/* The cursor is no longer at the end.  */
+		wbcg->auto_completing = FALSE;
+	}
+
+	if (!wbcg->edit_line.full_content)
 		return;
 
 	/* 1) Use first selected character if there is a selection
@@ -449,7 +471,7 @@ cb_entry_cursor_pos (WorkbookControlGUI *wbcg)
 	if (gtk_editable_get_selection_bounds (entry, &start, &end))
 		target_pos_in_chars = start;
 	else {
-		target_pos_in_chars = gtk_editable_get_position (entry);
+		target_pos_in_chars = edit_pos;
 		if (target_pos_in_chars > 0)
 			target_pos_in_chars--;
 	}
@@ -535,29 +557,32 @@ cb_entry_delete_text (GtkEditable    *editable,
 		      gint            end_pos,
 		      WorkbookControlGUI *wbcg)
 {
-	PangoAttrList *gunk;
-	EntryDeleteTextClosure change;
-	char const *str = gtk_entry_get_text (GTK_ENTRY (editable));
+	wbcg->auto_completing = FALSE;
 
-	change.start_pos = g_utf8_offset_to_pointer (str, start_pos) - str;
-	change.end_pos   = g_utf8_offset_to_pointer (str, end_pos) - str;
-	change.len = change.end_pos - change.start_pos;
-	gunk = pango_attr_list_filter (wbcg->edit_line.full_content,
-		(PangoAttrFilterFunc) cb_delete_filter, &change);
-	if (gunk != NULL)
-		pango_attr_list_unref (gunk);
-	gunk = pango_attr_list_filter (wbcg->edit_line.markup,
-		(PangoAttrFilterFunc) cb_delete_filter, &change);
-	if (gunk != NULL)
-		pango_attr_list_unref (gunk);
-	cb_entry_cursor_pos (wbcg);
+	if (wbcg->edit_line.full_content) {
+		char const *str = gtk_entry_get_text (GTK_ENTRY (editable));
+		PangoAttrList *gunk;
+		EntryDeleteTextClosure change;
+
+		change.start_pos = g_utf8_offset_to_pointer (str, start_pos) - str;
+		change.end_pos   = g_utf8_offset_to_pointer (str, end_pos) - str;
+		change.len = change.end_pos - change.start_pos;
+		gunk = pango_attr_list_filter (wbcg->edit_line.full_content,
+					       (PangoAttrFilterFunc) cb_delete_filter, &change);
+		if (gunk != NULL)
+			pango_attr_list_unref (gunk);
+		gunk = pango_attr_list_filter (wbcg->edit_line.markup,
+					       (PangoAttrFilterFunc) cb_delete_filter, &change);
+		if (gunk != NULL)
+			pango_attr_list_unref (gunk);
+		cb_entry_cursor_pos (wbcg);
+	}
 }
 
 static void
 wbcg_edit_init_markup (WorkbookControlGUI *wbcg, PangoAttrList *markup)
 {
 	SheetView const *sv  = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
-	GObject *entry = (GObject *)wbcg_get_entry (wbcg);
 
 	g_return_if_fail (wbcg->edit_line.full_content == NULL);
 
@@ -566,19 +591,6 @@ wbcg_edit_init_markup (WorkbookControlGUI *wbcg, PangoAttrList *markup)
 		sheet_style_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row));
 	pango_attr_list_splice (wbcg->edit_line.full_content, markup, 0, 0);
 	wbcg->edit_line.cur_fmt = pango_attr_list_copy (markup);
-
-	wbcg->edit_line.signal_insert = g_signal_connect (
-		entry, "insert-text",
-		G_CALLBACK (cb_entry_insert_text), wbcg);
-	wbcg->edit_line.signal_delete = g_signal_connect (
-		entry, "delete-text",
-		G_CALLBACK (cb_entry_delete_text), wbcg);
-	wbcg->edit_line.signal_cursor_pos = g_signal_connect_swapped (
-		entry, "notify::cursor-position",
-		G_CALLBACK (cb_entry_cursor_pos), wbcg);
-	wbcg->edit_line.signal_selection_bound = g_signal_connect_swapped (
-		entry, "notify::selection-bound",
-		G_CALLBACK (cb_entry_cursor_pos), wbcg);
 }
 
 /**
@@ -757,9 +769,24 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 		G_OBJECT (wbcg_get_entry (wbcg)),
 		"changed",
 		G_CALLBACK (entry_changed), wbcg);
+	wbcg->edit_line.signal_insert = g_signal_connect (
+		G_OBJECT (wbcg_get_entry (wbcg)),
+		"insert-text",
+		G_CALLBACK (cb_entry_insert_text), wbcg);
+	wbcg->edit_line.signal_delete = g_signal_connect (
+		G_OBJECT (wbcg_get_entry (wbcg)),
+		"delete-text",
+		G_CALLBACK (cb_entry_delete_text), wbcg);
+	wbcg->edit_line.signal_cursor_pos = g_signal_connect_swapped (
+		G_OBJECT (wbcg_get_entry (wbcg)),
+		"notify::cursor-position",
+		G_CALLBACK (cb_entry_cursor_pos), wbcg);
+	wbcg->edit_line.signal_selection_bound = g_signal_connect_swapped (
+		G_OBJECT (wbcg_get_entry (wbcg)),
+		"notify::selection-bound",
+		G_CALLBACK (cb_entry_cursor_pos), wbcg);
 
-	if (text)
-		g_free (text);
+	g_free (text);
 	wb_control_update_action_sensitivity (WORKBOOK_CONTROL (wbcg));
 
 	inside_editing = FALSE;
@@ -899,46 +926,14 @@ wbcg_auto_completing (WorkbookControlGUI const *wbcg)
 static gboolean
 auto_complete_matches (WorkbookControlGUI *wbcg)
 {
-	GtkEntry *entry = wbcg_get_entry (wbcg);
-	int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (entry));
-	char const *text = gtk_entry_get_text (entry);
-	gboolean equal;
-
-	/*
-	 * Ok, this sucks, ideally, I would like to do this test:
-	 * cursor_pos != strlen (text) to mean "user is editing,
-	 * hence, turn auto-complete off".
-	 *
-	 * But there is a complication: they way GtkEntry is implemented,
-	 * cursor_pos is not updated until after the text has been inserted
-	 * (this in turn emits the ::changed signal.
-	 *
-	 * So this is why it is so hairy and not really reliable.
-	 */
-	{
-		GdkEvent *event = gtk_get_current_event ();
-		gboolean perform_test = FALSE;
-
-		if (event && event->type != GDK_KEY_PRESS)
-			perform_test = TRUE;
-
-		if (perform_test)
-			if (cursor_pos != (int)g_utf8_strlen (text, -1))
-				wbcg->auto_completing = FALSE;
-
-		if (event)
-			gdk_event_free (event);
+	if (!wbcg->auto_completing || wbcg->auto_complete_text == NULL)
+		return FALSE;
+	else {
+		GtkEntry *entry = wbcg_get_entry (wbcg);
+		char const *text = gtk_entry_get_text (entry);
+		size_t len = strlen (text);
+		return strncmp (text, wbcg->auto_complete_text, len) == 0;
 	}
-
-	if (!wbcg->auto_completing)
-		return FALSE;
-
-	if (wbcg->auto_complete_text == NULL)
-		return FALSE;
-
-	equal = (strncmp (text, wbcg->auto_complete_text, strlen (text)) == 0);
-
-	return equal;
 }
 
 /*

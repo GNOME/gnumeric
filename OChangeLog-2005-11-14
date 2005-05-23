@@ -1,5 +1,19 @@
 2005-05-23  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-edit.c (cb_entry_delete_text): Make this work for
+	non-rich text also.  Turn off auto-completion.
+	(cb_entry_insert_text): Make this work for non-rich text also.
+	Turn off auto-completion if the insert is not at the end.
+	(cb_entry_cursor_pos): Make this work for non-rich text also.
+	Turn off auto-completion if the cursor is no longer at the end.
+	(wbcg_edit_finish): Always turn off signals if they have been
+	connected.
+	(wbcg_edit_start): Always bind insert_text, delete_text, and
+	cursor position signals here.
+	(wbcg_edit_init_markup): Don't connect to insert_text, delete_text
+	and cursor position signals here.
+	(auto_complete_matches): Get rid of ugly event hack.
+
 	* src/commands.c (command_redo): Keep a ref to the command and
 	handle someone clearing the redo queue.  Fixes #305007.
 
