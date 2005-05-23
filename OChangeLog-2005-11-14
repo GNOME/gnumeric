@@ -3,6 +3,13 @@
 	* src/commands.c (command_redo): Keep a ref to the command and
 	handle someone clearing the redo queue.  Fixes #305007.
 
+2005-05-23  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/position.c (parse_pos_init): Don't perform the same check
+	  twice.
+	* src/graph.c, src/sheet-object-widget.c (*_debug_name): All these
+	  functions now take a GString as the second parameter; adapt to it.
+
 2005-05-21  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (dependents_link): Drop pointless rwinfo
