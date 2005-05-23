@@ -722,9 +722,9 @@ adjustment_eval (GnmDependent *dep)
 }
 
 static void
-adjustment_debug_name (GnmDependent const *dep, FILE *out)
+adjustment_debug_name (GnmDependent const *dep, GString *target)
 {
-	fprintf (out, "Adjustment%p", dep);
+	g_string_append_printf (target, "Adjustment%p", dep);
 }
 
 static DEPENDENT_MAKE_TYPE (adjustment, NULL)
@@ -1338,9 +1338,9 @@ checkbox_eval (GnmDependent *dep)
 }
 
 static void
-checkbox_debug_name (GnmDependent const *dep, FILE *out)
+checkbox_debug_name (GnmDependent const *dep, GString *target)
 {
-	fprintf (out, "Checkbox%p", dep);
+	g_string_append_printf (target, "Checkbox%p", dep);
 }
 
 static DEPENDENT_MAKE_TYPE (checkbox, NULL)
@@ -1795,9 +1795,9 @@ radio_button_eval (GnmDependent *dep)
 }
 
 static void
-radio_button_debug_name (GnmDependent const *dep, FILE *out)
+radio_button_debug_name (GnmDependent const *dep, GString *target)
 {
-	fprintf (out, "RadioButton%p", dep);
+	g_string_append_printf (target, "RadioButton%p", dep);
 }
 
 static DEPENDENT_MAKE_TYPE (radio_button, NULL)
@@ -1944,9 +1944,9 @@ list_content_eval (GnmDependent *dep)
 }
 
 static void
-list_content_debug_name (GnmDependent const *dep, FILE *out)
+list_content_debug_name (GnmDependent const *dep, GString *target)
 {
-	fprintf (out, "ListContent%p", dep);
+	g_string_append_printf (target, "ListContent%p", dep);
 }
 
 static DEPENDENT_MAKE_TYPE (list_content, NULL)
@@ -1972,9 +1972,9 @@ list_output_eval (GnmDependent *dep)
 }
 
 static void
-list_output_debug_name (GnmDependent const *dep, FILE *out)
+list_output_debug_name (GnmDependent const *dep, GString *target)
 {
-	fprintf (out, "ListOutput%p", dep);
+	g_string_append_printf (target, "ListOutput%p", dep);
 }
 
 static DEPENDENT_MAKE_TYPE (list_output, NULL)

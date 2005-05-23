@@ -108,8 +108,6 @@ parse_pos_init (GnmParsePos *pp, Workbook *wb, Sheet *sheet, int col, int row)
 	if (wb == NULL && sheet == NULL)
 		return NULL;
 
-	/* Either sheet or workbook */
-	g_return_val_if_fail ((sheet != NULL) || (wb != NULL), NULL);
 	g_return_val_if_fail (pp != NULL, NULL);
 
 	pp->sheet = sheet;

@@ -214,7 +214,7 @@ go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 }
 
 static GnmValue *
-atl_last (FunctionEvalInfo *ei, GnmValue *argv[])
+atl_last (FunctionEvalInfo *ei, GnmValue const * const argv[])
 {
 	WatchedValue *val = watched_value_fetch (value_peek_string (argv[0]));
 
