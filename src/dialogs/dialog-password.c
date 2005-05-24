@@ -24,15 +24,14 @@ dialog_get_password (GtkWindow *parent, const char *filename)
 {
 	char *res = NULL;
 	char *str;
-	char *basename;
+	char *dispname;
 	char *primary;
 	char *secondary;
 	GtkWidget *d, *hb, *vb, *pwb, *image, *label, *entry;
-	char *filename_utf8 = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
 
-	basename  = g_path_get_basename (filename_utf8);
-	primary   = g_strdup_printf (_("%s is encrypted"), basename);
-	g_free (basename);
+	dispname  = g_filename_display_name (filename);
+	primary   = g_strdup_printf (_("%s is encrypted"), dispname);
+	g_free (dispname);
 	secondary = _("Encrypted files require a password\nbefore they can be opened.");
 	label = gtk_label_new (NULL);
 	str = g_strdup_printf ("<span weight=\"bold\" size=\"larger\">"

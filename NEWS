@@ -30,6 +30,9 @@ Morten:
 	* Simplify expressions used for defined names for single cells.
 	* Fix redo crash.  [#305007]
 	* Fix auto-complete deactivation issues.  [#305011]
+	* Fix recognition of accounting formats.  [#305314]
+	* Fix unintentional format currency change.  [#305313]
+	* Plug leaks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1

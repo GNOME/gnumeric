@@ -5199,13 +5199,16 @@ excel_read_FILEPASS (BiffQuery *q, ExcelWorkbook *ewb)
 		char *passwd = go_cmd_context_get_password (
 			GO_CMD_CONTEXT (ewb->context),
 			workbook_get_uri (ewb->wb));
+		gboolean ok;
+
 		if (passwd == NULL)
 			return _("No password supplied");
-		if (ms_biff_query_set_decrypt (q, ewb->container.ver, passwd))
-			return NULL;
 
+		ok = ms_biff_query_set_decrypt (q, ewb->container.ver, passwd);
 		go_destroy_password (passwd);
 		g_free (passwd);
+		if (ok)
+			return NULL;
 	}
 }
 
