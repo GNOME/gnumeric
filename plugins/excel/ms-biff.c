@@ -21,6 +21,7 @@
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-msole-utils.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #define BIFF_DEBUG 0
 #define sizeof_BIFF_8_FILEPASS	 (6 + 3*16)
@@ -35,6 +36,16 @@
 /*******************************************************************************/
 /*                             Helper Functions                                */
 /*******************************************************************************/
+
+static void
+destroy_sensitive (void *p, size_t len)
+{
+	if (len > 0) {
+		memset (p, 0, len);
+		memset (p, 0xaa, len - 1);
+		go_destroy_password (p);
+	}
+}
 
 void
 ms_biff_query_dump (BiffQuery *q)
@@ -190,6 +201,9 @@ makekey (guint32 block, RC4_KEY *key, MD5_CTX *valContext)
 	wvMD5Update (&mdContext, pwarray, 64);
 	wvMD5StoreDigest (&mdContext);
 	prepare_key (mdContext.digest, 16, key);
+
+	destroy_sensitive (&mdContext, sizeof (mdContext));
+	destroy_sensitive (pwarray, sizeof (pwarray));
 }
 
 /**
@@ -207,9 +221,8 @@ verify_password (char const *password, guint8 const *docid,
 	RC4_KEY key;
 	int offset, keyoffset, i;
 	unsigned int tocopy;
-	glong items_read, items_written;
-	gunichar2 *utf16 = g_utf8_to_utf16 (password, -1,
-		 &items_read, &items_written, NULL);
+	gboolean res;
+	gunichar2 *utf16 = g_utf8_to_utf16 (password, -1, NULL, NULL, NULL);
 
 	/* we had better receive valid UTF-8 */
 	g_return_val_if_fail (utf16 != NULL, FALSE);
@@ -280,7 +293,16 @@ verify_password (char const *password, guint8 const *docid,
 	wvMD5Update (&mdContext2, salt, 64);
 	wvMD5StoreDigest (&mdContext2);
 
-	return 0 == memcmp (mdContext2.digest, hashedsalt, 16);
+	res = memcmp (mdContext2.digest, hashedsalt, 16) == 0;
+
+	destroy_sensitive (pwarray, sizeof (pwarray));
+	destroy_sensitive (salt, sizeof (salt));
+	destroy_sensitive (hashedsalt, sizeof (hashedsalt));
+	destroy_sensitive (&mdContext1, sizeof (mdContext1));
+	destroy_sensitive (&mdContext2, sizeof (mdContext2));
+	destroy_sensitive (&key, sizeof (key));
+
+	return res;
 }
 
 #define REKEY_BLOCK 0x400
@@ -506,6 +528,10 @@ ms_biff_query_destroy (BiffQuery *q)
 			q->non_decrypted_data = 0;
 			q->non_decrypted_data_malloced = FALSE;
 		}
+
+		/* Paranoia: */
+		destroy_sensitive (q, sizeof (*q));
+
 		g_free (q);
 	}
 }

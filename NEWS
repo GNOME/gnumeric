@@ -33,6 +33,7 @@ Morten:
 	* Fix recognition of accounting formats.  [#305314]
 	* Fix unintentional format currency change.  [#305313]
 	* Plug leaks.
+	* Work hard at not leaving passwords in memory, just in case.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1

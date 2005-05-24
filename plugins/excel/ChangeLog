@@ -1,5 +1,10 @@
 2005-05-24  Morten Welinder  <terra@gnome.org>
 
+	* ms-biff.c (ms_biff_query_destroy): Work harder at not leaving
+	passwords in memory.
+	(makekey): Ditto.
+	(verify_password): Ditto.
+
 	* ms-excel-read.c (excel_read_FILEPASS): Plug leak.
 
 2005-05-18  Jody Goldberg <jody@gnome.org>
