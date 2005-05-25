@@ -2189,6 +2189,7 @@ static void
 wbcg_create_edit_area (WorkbookControlGUI *wbcg)
 {
 	GtkWidget *box, *box2;
+	GtkTooltips *tooltips;
 	GtkEntry *entry;
 	int len;
 
@@ -2210,12 +2211,25 @@ wbcg_create_edit_area (WorkbookControlGUI *wbcg)
 	len = len * 3 / 2;
 	gtk_widget_set_size_request (wbcg->selection_descriptor, len, -1);
 
+	tooltips = gtk_tooltips_new ();
+	g_object_ref (tooltips);
+	gtk_object_sink (GTK_OBJECT (tooltips));
+	g_object_set_data_full (G_OBJECT (box),
+				"tooltips", tooltips,
+				(GDestroyNotify)g_object_unref);
+
 	wbcg->cancel_button = edit_area_button (wbcg, FALSE,
 		G_CALLBACK (cb_cancel_input), GTK_STOCK_CANCEL);
+	gtk_tooltips_set_tip (tooltips, wbcg->cancel_button,
+			      _("Cancel change"), "");
 	wbcg->ok_button = edit_area_button (wbcg, FALSE,
 		G_CALLBACK (cb_accept_input), GTK_STOCK_OK);
+	gtk_tooltips_set_tip (tooltips, wbcg->ok_button,
+			      _("Accept change"), "");
 	wbcg->func_button = edit_area_button (wbcg, TRUE,
 		G_CALLBACK (cb_autofunction), "Gnumeric_Equal");
+	gtk_tooltips_set_tip (tooltips, wbcg->func_button,
+			      _("Enter formula..."), "");
 
 	gtk_box_pack_start (GTK_BOX (box2), wbcg->selection_descriptor, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (box), wbcg->cancel_button, FALSE, FALSE, 0);

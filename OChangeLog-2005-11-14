@@ -1,3 +1,8 @@
+2005-05-25  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_create_edit_area): Add tooltips
+	for ok_button, cancel_button, and func_button.
+
 2005-05-23  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_reorganize_sheets_delete_recreate_sheet):

@@ -34,6 +34,8 @@ Morten:
 	* Fix unintentional format currency change.  [#305313]
 	* Plug leaks.
 	* Work hard at not leaving passwords in memory, just in case.
+	* Add tooltips for ok_button, cancel_button, and func_button.
+	  [#160344]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1
