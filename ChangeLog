@@ -1,5 +1,8 @@
 2005-05-25  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-clipboard.c (text_to_cell_region): Fall back to string.
+	Fixes #305404.
+
 	* src/workbook-control-gui.c (wbcg_create_edit_area): Add tooltips
 	for ok_button, cancel_button, and func_button.
 

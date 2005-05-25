@@ -22,7 +22,7 @@ Morten:
 	* Fix horizonal alignment of rotated numbers broken by fix to
           #303292.
 	* Fix CRITICAL when undoing borders.
-	* Improve multiline rotated text.
+	* Improve multiline rotated text.  [#167544]
 	* Fix Excel load crash.  [#303923]
 	* Speed up exit on large sheets with lots of names, such as the
 	  one from #303923.
@@ -36,6 +36,7 @@ Morten:
 	* Work hard at not leaving passwords in memory, just in case.
 	* Add tooltips for ok_button, cancel_button, and func_button.
 	  [#160344]
+	* Fix paste problem.  [#305404]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1

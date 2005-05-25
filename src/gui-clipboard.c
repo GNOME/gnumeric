@@ -67,6 +67,7 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 		     const char *opt_encoding,
 		     gboolean fixed_encoding)
 {
+	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	DialogStfResult_t *dialogresult;
 	GnmCellRegion *cr = NULL;
 	gboolean oneline;
@@ -103,14 +104,17 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 	}
 
 	if (oneline) {
+		GODateConventions const *date_conv = workbook_date_conv (wb);
 		GnmCellCopy *cc = gnm_cell_copy_new (0, 0);
 
 		char *tmp = g_strndup (data, data_len);
 		g_free (data_converted);
-		cc->val = format_match (tmp, NULL,
-			workbook_date_conv (wb_control_workbook (WORKBOOK_CONTROL (wbcg))));
+		cc->val = format_match (tmp, NULL, date_conv);
+		if (cc->val)
+			g_free (tmp);
+		else
+			cc->val = value_new_string_nocopy (tmp);
 		cc->expr = NULL;
-		g_free (tmp);
 
 		cr = cellregion_new (NULL);
 		cr->content = g_slist_prepend (cr->content, cc);
@@ -122,7 +126,7 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 
 		if (dialogresult != NULL) {
 			cr = stf_parse_region (dialogresult->parseoptions,
-				dialogresult->text, NULL, wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
+					       dialogresult->text, NULL, wb);
 			g_return_val_if_fail (cr != NULL, cellregion_new (NULL));
 
 			stf_dialog_result_attach_formats_to_cr (dialogresult, cr);
