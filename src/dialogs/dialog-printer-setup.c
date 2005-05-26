@@ -704,7 +704,7 @@ do_setup_margin (PrinterSetupState *state)
 
 	table = glade_xml_get_widget (state->gui, "margin-table");
 	state->unit_selector = gnome_print_unit_selector_new (GNOME_PRINT_UNIT_ABSOLUTE);
-	gtk_table_attach (GTK_TABLE (table), state->unit_selector, 1, 2, 1, 2,
+	gtk_table_attach (GTK_TABLE (table), state->unit_selector, 1, 2, 4, 5,
 			  GTK_FILL, GTK_FILL | GTK_SHRINK, 0, 0);
 	g_signal_connect (G_OBJECT (state->unit_selector), "modified",
 			  G_CALLBACK (cb_unit_selector_changed), state);

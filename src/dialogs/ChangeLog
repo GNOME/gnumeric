@@ -1,3 +1,10 @@
+2005-05-26  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* dialog-printer-setup.c (do_setup_margin): relocate unit selector.
+	* print.glade: some layout/spacing fixes. Don't use stock "print
+	preview" button, but just stock icon. In some locales, standard
+	translation of "Print preview" can lead to very wide dialog.
+	
 2005-05-26  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-preview.c (stf_preview_set_lines): Fix some serious
