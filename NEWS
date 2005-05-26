@@ -37,6 +37,7 @@ Morten:
 	* Add tooltips for ok_button, cancel_button, and func_button.
 	  [#160344]
 	* Fix paste problem.  [#305404]
+	* Fix brown bag text import problem.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1

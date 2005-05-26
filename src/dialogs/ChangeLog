@@ -1,3 +1,8 @@
+2005-05-26  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-preview.c (stf_preview_set_lines): Fix some serious
+	model/view confusion in last change.
+
 2005-05-24  Morten Welinder  <terra@gnome.org>
 
 	* dialog-password.c (dialog_get_password): Plug leak.

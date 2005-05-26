@@ -177,7 +177,6 @@ stf_preview_set_lines (RenderData_t *renderdata,
 
 	/* Empty the table.  */
 	gtk_tree_view_set_model (renderdata->tree_view, NULL);
-	renderdata->colcount = 0;
 
 	if (renderdata->lines != lines) {
 		if (renderdata->lines)
@@ -198,6 +197,13 @@ stf_preview_set_lines (RenderData_t *renderdata,
 		GPtrArray *line = g_ptr_array_index (lines, i);
 		colcount = MAX (colcount, (int)line->len);
 	}
+
+	/* Fix number of columns.  */
+	while (renderdata->colcount > colcount)
+               gtk_tree_view_remove_column
+                       (renderdata->tree_view,
+                        gtk_tree_view_get_column (renderdata->tree_view,
+                                                  --(renderdata->colcount)));
 
 	while (renderdata->colcount < colcount) {
 		char *text = g_strdup_printf (_(COLUMN_CAPTION),
