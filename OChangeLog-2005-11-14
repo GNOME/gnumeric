@@ -1,3 +1,8 @@
+2005-05-26  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (discpfuncinverter): New function.
+	(qpois): New implementation based on discpfuncinverter.
+
 2005-05-25  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-clipboard.c (text_to_cell_region): Fall back to string.

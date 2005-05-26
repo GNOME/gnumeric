@@ -12,7 +12,7 @@ my @files =
      "plnorm.c",
      "qlnorm.c",
      "ppois.c",
-     "qpois.c",
+     # "qpois.c",
      "stirlerr.c",
      "bd0.c",
      "dpois.c",
