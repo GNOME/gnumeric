@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-23 13:11-0400\n"
-"PO-Revision-Date: 2005-05-23 03:20-0400\n"
+"POT-Creation-Date: 2005-05-27 14:22-0400\n"
+"PO-Revision-Date: 2005-05-27 03:20-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -12301,6 +12301,151 @@ msgid ""
 msgstr ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Cauchy distribution."
+
+#: ../plugins/fn-r/functions.c:1164
+msgid "x,mu,sigma,give_log"
+msgstr "x,mu,sigma,give_log"
+
+#: ../plugins/fn-r/functions.c:1172
+msgid "x,mu,sigma,lower_tail,log_p"
+msgstr "x,mu,sigma,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1180
+msgid "p,mu,sigma,lower_tail,log_p"
+msgstr "p,mu,sigma,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1188
+msgid "x,logmean,logsd,give_log"
+msgstr "x,logmean,logsd,give_log"
+
+#: ../plugins/fn-r/functions.c:1196 ../plugins/fn-r/functions.c:1204
+msgid "x,logmean,logsd,lower_tail,log_p"
+msgstr "x,logmean,logsd,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1212 ../plugins/fn-r/functions.c:1332
+msgid "x,shape,scale,give_log"
+msgstr "x,shape,scale,give_log"
+
+#: ../plugins/fn-r/functions.c:1220 ../plugins/fn-r/functions.c:1340
+msgid "x,shape,scale,lower_tail,log_p"
+msgstr "x,shape,scale,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1228 ../plugins/fn-r/functions.c:1348
+msgid "p,shape,scale,lower_tail,log_p"
+msgstr "p,shape,scale,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1236
+msgid "x,a,b,give_log"
+msgstr "x,a,b,give_log"
+
+#: ../plugins/fn-r/functions.c:1244
+msgid "x,a,b,lower_tail,log_p"
+msgstr "x,a,b,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1252
+msgid "p,a,b,lower_tail,log_p"
+msgstr "p,a,b,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1260
+msgid "x,n,give_log"
+msgstr "x,n,give_log"
+
+#: ../plugins/fn-r/functions.c:1268
+msgid "x,n,lower_tail,log_p"
+msgstr "x,n,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1276
+msgid "p,n,lower_tail,log_p"
+msgstr "p,n,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1284
+msgid "x,n1,n2,give_log"
+msgstr "x,n1,n2,give_log"
+
+#: ../plugins/fn-r/functions.c:1292 ../plugins/fn-r/functions.c:1300
+msgid "x,n1,n2,lower_tail,log_p"
+msgstr "x,n1,n2,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1308
+msgid "x,df,give_log"
+msgstr "x,df,give_log"
+
+#: ../plugins/fn-r/functions.c:1316
+msgid "x,df,lower_tail,log_p"
+msgstr "x,df,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1324
+msgid "p,df,lower_tail,log_p"
+msgstr "p,df,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1356
+msgid "x,lambda,give_log"
+msgstr "x,lambda,give_log"
+
+#: ../plugins/fn-r/functions.c:1364
+msgid "x,lambda,lower_tail,log_p"
+msgstr "x,lambda,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1372
+msgid "p,lambda,lower_tail,log_p"
+msgstr "p,lambda,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1380
+msgid "x,scale,give_log"
+msgstr "x,scale,give_log"
+
+#: ../plugins/fn-r/functions.c:1388
+msgid "x,scale,lower_tail,log_p"
+msgstr "x,scale,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1396
+msgid "p,scale,lower_tail,log_p"
+msgstr "p,scale,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1404 ../plugins/fn-r/functions.c:1428
+msgid "x,n,psuc,give_log"
+msgstr "x,n,psuc,give_log"
+
+#: ../plugins/fn-r/functions.c:1412 ../plugins/fn-r/functions.c:1420
+#: ../plugins/fn-r/functions.c:1436
+msgid "x,n,psuc,lower_tail,log_p"
+msgstr "x,n,psuc,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1444
+msgid "p,n,psuc,lower_tail,log_p"
+msgstr "p,n,psuc,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1452
+msgid "x,r,b,n,give_log"
+msgstr "x,r,b,n,give_log"
+
+#: ../plugins/fn-r/functions.c:1460
+msgid "x,r,b,n,lower_tail,log_p"
+msgstr "x,r,b,n,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1468
+msgid "x,psuc,give_log"
+msgstr "x,psuc,give_log"
+
+#: ../plugins/fn-r/functions.c:1476
+msgid "x,psuc,lower_tail,log_p"
+msgstr "x,psuc,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1484
+msgid "p,psuc,lower_tail,log_p"
+msgstr "p,psuc,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1492
+msgid "x,location,scale,give_log"
+msgstr "x,location,scale,give_log"
+
+#: ../plugins/fn-r/functions.c:1500
+msgid "x,location,scale,lower_tail,log_p"
+msgstr "x,location,scale,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1508
+msgid "p,location,scale,lower_tail,log_p"
+msgstr "p,location,scale,lower_tail,log_p"
 
 #: ../plugins/fn-random/functions.c:47
 msgid ""
