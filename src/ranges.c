@@ -263,19 +263,12 @@ range_name (GnmRange const *src)
 
 	g_return_val_if_fail (src != NULL, "");
 
-	if (src->start.col != src->end.col ||
-	    src->start.row != src->end.row) {
-		char *name_col = g_strdup (col_name (src->start.col));
-		char *name_row = g_strdup (row_name (src->start.row));
-		sprintf (buffer, "%s%s:%s%s", name_col, name_row,
+	sprintf (buffer, "%s%s",
+		 col_name (src->start.col), row_name (src->start.row));
+
+	if (src->start.col != src->end.col || src->start.row != src->end.row)
+		sprintf (buffer + strlen(buffer), ":%s%s",
 			 col_name (src->end.col), row_name (src->end.row));
-		g_free (name_row);
-		g_free (name_col);
-	} else {
-		sprintf (buffer, "%s%s",
-			 col_name (src->start.col),
-			 row_name (src->start.row));
-	}
 
 	return buffer;
 }
@@ -1056,7 +1049,7 @@ gnm_sheet_range_dup (GnmSheetRange const *src)
 }
 
 char *
-global_range_name    (Sheet *sheet, GnmRange const *r)
+global_range_name (Sheet const *sheet, GnmRange const *r)
 {
 	char const * the_range_name = range_name (r);
 

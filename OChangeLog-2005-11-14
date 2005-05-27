@@ -5,6 +5,8 @@
 	* src/gnumeric-gconf.c: Move common headers to the top, add more
 	  stubs for build without gtk.
 
+	* src/ranges.c (range_name): Simplify.
+
 2005-05-26  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (discpfuncinverter): New function.
