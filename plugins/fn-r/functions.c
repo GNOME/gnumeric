@@ -1146,6 +1146,35 @@ gnumeric_r_qcauchy (FunctionEvalInfo *ei, GnmValue const * const *args)
 
 /* ------------------------------------------------------------------------- */
 
+
+static GnmFuncHelp const help_r_qhyper[] = {
+	{ GNM_FUNC_HELP_NAME, F_("R.QHYPER:probability quantile function of the hypergeometric distribution.") },
+	{ GNM_FUNC_HELP_ARG, F_("p:probability.") },
+	{ GNM_FUNC_HELP_ARG, F_("r:the number of red balls") },
+	{ GNM_FUNC_HELP_ARG, F_("b:the number of black balls") },
+	{ GNM_FUNC_HELP_ARG, F_("n:the number of balls drawn") },
+	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
+	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the hypergeometric distribution.") },
+	{ GNM_FUNC_HELP_SEEALSO, "R.DHYPER,R.PHYPER" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_qhyper (FunctionEvalInfo *ei, GnmValue const * const *args)
+{
+	gnm_float p = value_get_as_float (args[0]);
+	gnm_float r = value_get_as_float (args[1]);
+	gnm_float b = value_get_as_float (args[2]);
+	gnm_float n = value_get_as_float (args[3]);
+	gboolean lower_tail = args[4] ? !!value_get_as_int (args[4]) : TRUE;
+	gboolean log_p = args[5] ? !!value_get_as_int (args[5]) : FALSE;
+
+	return value_new_float (qhyper (p, r, b, n, lower_tail, log_p));
+}
+
+/* ------------------------------------------------------------------------- */
+
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
@@ -1509,6 +1538,14 @@ GnmFuncDescriptor const stat_functions[] = {
 		F_("p,location,scale,lower_tail,log_p"),
 		help_r_qcauchy,
 		gnumeric_r_qcauchy, NULL, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
+		"r.qhyper",
+		"ffff|ff",
+		F_("p,r,b,n,lower_tail,log_p"),
+		help_r_qhyper,
+		gnumeric_r_qhyper, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
 	},
 	{ NULL }

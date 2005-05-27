@@ -49,6 +49,7 @@
 				<function name="r.qf"/>
 				<function name="r.qgamma"/>
 				<function name="r.qgeom"/>
+				<function name="r.qhyper"/>
 				<function name="r.qlnorm"/>
 				<function name="r.qnbinom"/>
 				<function name="r.qnorm"/>

@@ -154,6 +154,22 @@ gnm_float random_laplace_pdf    (gnm_float x, gnm_float a);
 
 /* ------------------------------------------------------------------------- */
 
+typedef gnm_float (*GnmPFunc) (gnm_float x, const gnm_float shape[],
+			       gboolean lower_tail, gboolean log_p);
+typedef gnm_float (*GnmDPFunc) (gnm_float x, const gnm_float shape[],
+				gboolean log_p);
+
+gnm_float pfuncinverter (gnm_float p, const gnm_float shape[],
+			 gboolean lower_tail, gboolean log_p,
+			 gnm_float xlow, gnm_float xhigh, gnm_float x0,
+			 GnmPFunc pfunc, GnmDPFunc dpfunc_dx);
+gnm_float discpfuncinverter (gnm_float p, const gnm_float shape[],
+			     gboolean lower_tail, gboolean log_p,
+			     gnm_float xlow, gnm_float xhigh, gnm_float x0,
+			     GnmPFunc pfunc);
+
+/* ------------------------------------------------------------------------- */
+
 /* Matrix functions. */
 void    mmult (gnm_float *A, gnm_float *B, int cols_a, int rows_a, int cols_b,
 	       gnm_float *product);

@@ -1,5 +1,7 @@
 2005-05-27  Morten Welinder  <terra@gnome.org>
 
+	* src/mathfunc.c (discpfuncinverter, pfuncinverter): Make public.
+
 	* src/position.c (eval_pos_init_cell): Constness fix.
 
 	* src/cell.h (CELL_TO_DEP): Preserve constness.

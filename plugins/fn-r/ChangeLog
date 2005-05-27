@@ -2,6 +2,8 @@
 
 	* Makefile.am (rstat_la_SOURCES): Add extra.[ch]
 	* extra.c (qcauchy): Rewritten and moved here.
+	(qhyper): New function.
+
 	* generate: Scan extra.h too.
 
 2005-05-27  Morten Welinder  <terra@gnome.org>

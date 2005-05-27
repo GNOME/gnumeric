@@ -5768,16 +5768,11 @@ pf (gnm_float x, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p
 
 #undef DEBUG_pfuncinverter
 
-typedef gnm_float (*PFunc) (gnm_float x, const gnm_float shape[],
-			    gboolean lower_tail, gboolean log_p);
-typedef gnm_float (*DPFunc) (gnm_float x, const gnm_float shape[],
-			     gboolean log_p);
-
-static gnm_float
+gnm_float
 pfuncinverter (gnm_float p, const gnm_float shape[],
 	       gboolean lower_tail, gboolean log_p,
 	       gnm_float xlow, gnm_float xhigh, gnm_float x0,
-	       PFunc pfunc, DPFunc dpfunc_dx)
+	       GnmPFunc pfunc, GnmDPFunc dpfunc_dx)
 {
 	gboolean have_xlow = gnm_finite (xlow);
 	gboolean have_xhigh = gnm_finite (xhigh);
@@ -5785,6 +5780,7 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 	gnm_float x = 0, e = 0, px;
 	int i;
 
+	R_Q_P01_check (p);
 	if (p == R_DT_0) return xlow;
 	if (p == R_DT_1) return xhigh;
 
@@ -5937,17 +5933,18 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 /*
  * Discrete pfuncs only.  (Specifically: only integer x are allowed.
  */
-static gnm_float
+gnm_float
 discpfuncinverter (gnm_float p, const gnm_float shape[],
 		   gboolean lower_tail, gboolean log_p,
 		   gnm_float xlow, gnm_float xhigh, gnm_float x0,
-		   PFunc pfunc)
+		   GnmPFunc pfunc)
 {
 	gboolean have_xlow = gnm_finite (xlow);
 	gboolean have_xhigh = gnm_finite (xhigh);
 	gnm_float step;
 	int i;
 
+	R_Q_P01_check (p);
 	if (p == R_DT_0) return xlow;
 	if (p == R_DT_1) return xhigh;
 

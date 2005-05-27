@@ -41,6 +41,7 @@ Morten:
 	* Improve R.QPOIS accuracy, efficiency, and termination.
 	* Improve R.QNORM's accuracy in the long double case.
 	* Improve R.QCAUCHY's accuracy.
+	* Add new R.QHYPER function.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1
