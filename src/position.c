@@ -69,7 +69,7 @@ eval_pos_init_cell (GnmEvalPos *ep, GnmCell const *cell)
 	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (cell != NULL, NULL);
 
-	ep->dep = CELL_TO_DEP (cell);
+	ep->dep = (GnmDependent *)CELL_TO_DEP (cell);
 	ep->sheet = cell->base.sheet;
 	ep->eval = cell->pos;
 	return ep;

@@ -12,7 +12,7 @@ struct _GnmDependent
 	GnmExpr const *expression;
 
 	/* Double-linked list.  */
-	struct _GnmDependent *next_dep, *prev_dep;
+	GnmDependent *next_dep, *prev_dep;
 };
 
 typedef struct {
@@ -96,7 +96,7 @@ void     dependents_unrelocate      (GSList *info);
 void     dependents_unrelocate_free (GSList *info);
 void	 dependents_link	    (GSList *deps);
 
-void	 cell_queue_recalc	    (GnmCell const *cell);
+void	 cell_queue_recalc	    (GnmCell *cell);
 void	 cell_foreach_dep	    (GnmCell const *cell, DepFunc func, gpointer user);
 gboolean cell_eval_content	    (GnmCell *cell);
 

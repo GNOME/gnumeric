@@ -1248,7 +1248,7 @@ dependent_eval (GnmDependent *dep)
  * If a dependency is already queued ignore it.
  */
 void
-cell_queue_recalc (GnmCell const *cell)
+cell_queue_recalc (GnmCell *cell)
 {
 	g_return_if_fail (cell != NULL);
 
@@ -2115,9 +2115,7 @@ dump_range_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 	GString *target = g_string_new (NULL);
 
 	g_string_append (target, "    ");
-	g_string_append (target, cellpos_as_string (&range->start));
-	g_string_append_c (target, ':');
-	g_string_append (target, cellpos_as_string (&range->end));
+	g_string_append (target, range_name (range));
 	g_string_append (target, " -> ");
 
 	micro_hash_foreach_list (deprange->deps, list,
@@ -2257,8 +2255,7 @@ gnm_dep_container_dump (GnmDepContainer const *deps)
 	}
 
 	if (deps->referencing_names && g_hash_table_size (deps->referencing_names) > 0) {
-		g_print ("  Name hash size %d: names that depend on ...\n",
-			 g_hash_table_size (deps->referencing_names));
+		g_print ("  Names whose expressions reference this sheet mapped to dependencies\n");
 		g_hash_table_foreach (deps->referencing_names,
 				      dump_name_dep, NULL);
 	}

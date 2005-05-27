@@ -1,3 +1,12 @@
+2005-05-27  Morten Welinder  <terra@gnome.org>
+
+	* src/position.c (eval_pos_init_cell): Constness fix.
+
+	* src/cell.h (CELL_TO_DEP): Preserve constness.
+
+	* src/dependent.c (dump_range_dep): Use range_name.
+	(cell_queue_recalc): Not const.
+
 2005-05-26  Stepan Kasal  <kasal@ucw.cz>
 
 	* src/clipboard.c: Remove unneeded includes.
