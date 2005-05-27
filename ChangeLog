@@ -1,4 +1,6 @@
-2005-05-17  Stepan Kasal  <kasal@ucw.cz>
+2005-05-26  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/clipboard.c: Remove unneeded includes.
 
 	* src/gnumeric-gconf.c: Move common headers to the top, add more
 	  stubs for build without gtk.

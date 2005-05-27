@@ -28,19 +28,16 @@
 #include "sheet-merge.h"
 #include "dependent.h"
 #include "selection.h"
-#include "application.h"
 #include "command-context.h"
 #include "workbook-control.h"
 #include "workbook.h"
 #include "ranges.h"
 #include "expr.h"
 #include "expr-impl.h"
-#include "commands.h"
 #include "value.h"
 #include "stf-parse.h"
 #include "sheet-object-cell-comment.h"
 
-#include <gtk/gtkmain.h>
 #include <glib/gi18n.h>
 #include <locale.h>
 #include <string.h>
