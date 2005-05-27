@@ -34,6 +34,9 @@
 #include "gutils.h"
 #include "mstyle.h"
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/format.h>
+#include <value.h>
+#include <number-match.h>
 
 static GnmAppPrefs prefs;
 GnmAppPrefs const *gnm_app_prefs = &prefs;
@@ -47,9 +50,7 @@ static GOConfNode *root = NULL;
 #endif
 
 #ifdef WITH_GNOME
-#include <goffice/utils/format.h>
-#include <value.h>
-#include <number-match.h>
+
 #include <gconf/gconf-client.h>
 
 struct _GOConfNode {
@@ -500,9 +501,6 @@ go_conf_add_monitor (GOConfNode *node, gchar const *key,
 #elif defined G_OS_WIN32
 
 #include <windows.h>
-#include <goffice/utils/format.h>
-#include <value.h>
-#include <number-match.h>
 
 #ifndef ERANGE
 /* mingw has not defined ERANGE (yet), MSVC has it though */
@@ -515,12 +513,12 @@ struct _GOConfNode {
 };
 
 static void
-go_conf_init ()
+go_conf_init (void)
 {
 }
 
 static void
-go_conf_shutdown ()
+go_conf_shutdown (void)
 {
 }
 
@@ -1062,6 +1060,27 @@ go_conf_add_monitor (GOConfNode *node, gchar const *key,
 }
 
 #else
+
+static void
+go_conf_init (void)
+{
+}
+
+static void
+go_conf_shutdown (void)
+{
+}
+
+GOConfNode *
+go_conf_get_node (GOConfNode *parent, gchar const *key)
+{
+	return NULL;
+}
+
+void
+go_conf_free_node (GOConfNode *node)
+{
+}
 
 void
 go_conf_set_bool (GOConfNode *node, gchar const *key, gboolean val)
