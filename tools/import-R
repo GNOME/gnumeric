@@ -140,11 +140,13 @@ sub import_file {
 	    s/\bR_(finite|FINITE)\b/gnm_finite/g;
 	    s/\b(sqrt|exp|log|pow|log1p|expm1|floor|ceil|sin|sinh|tan)(\s|$|\()/gnm_$1$2/g;
 	    s/\bfabs\b/gnm_abs/g;
-	    s/\bDBL_(EPSILON|MIN|MAX)/GNM_$1/g;
+
+	    s/\bgnm_floor\s*\(\s*([a-z]+)\s*\+\s*1e-7\s*\)/gnm_fake_floor($1)/;
 
 	    # Constants.
 	    s/\b(M_LN2|M_PI|M_PI_2|M_SQRT2|M_2PI)\b/$1gnum/g;
-	    s/([-+]?\d*\.(\d{10,})([eE][-+]?\d+)?)/GNM_const\($1\)/g;
+	    s/\bDBL_(EPSILON|MIN|MAX)/GNM_$1/g;
+	    s/([-+]?\d*\.(\d{5,})([eE][-+]?\d+)?)/GNM_const\($1\)/g;
 	    s@(\d)\s*/\s*(\d+\.\d*)@$1 / GNM_const\($2\)@g;
 
 	    # Fix constant quotients.

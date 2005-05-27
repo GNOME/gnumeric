@@ -39,6 +39,7 @@ Morten:
 	* Fix paste problem.  [#305404]
 	* Fix brown bag text import problem.
 	* Improve R.QPOIS accuracy, efficiency, and termination.
+	* Improve R.QNORM's accuracy in the long double case.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1

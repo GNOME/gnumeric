@@ -434,7 +434,7 @@ void pnorm_both(gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboole
     upper = i_tail != 0;
 
     y = gnm_abs(x);
-    if (y <= 0.67448975) { /* qnorm(3/4) = .6744.... -- earlier had 0.66291 */
+    if (y <= GNM_const(0.67448975)) { /* qnorm(3/4) = .6744.... -- earlier had GNM_const(0.66291) */
 	if (y > eps) {
 	    xsq = x * x;
 	    xnum = a[4] * xsq;
@@ -640,7 +640,7 @@ gnm_float qnorm(gnm_float p, gnm_float mu, gnm_float sigma, gboolean lower_tail,
          and provided hash codes for checking them...)
 */
     if (gnm_abs(q) <= .425) {/* 0.075 <= p <= 0.925 */
-        r = .180625 - q * q;
+        r = GNM_const(.180625) - q * q;
 	val =
             q * (((((((r * GNM_const(2509.0809287301226727) +
                        GNM_const(33430.575583588128105)) * r + GNM_const(67265.770927008700853)) * r +
@@ -824,7 +824,7 @@ gnm_float ppois(gnm_float x, gnm_float lambda, gboolean lower_tail, gboolean log
 #endif
     if(lambda < 0.) ML_ERR_return_NAN;
 
-    x = gnm_floor(x + 1e-7);
+    x = gnm_fake_floor(x);
     if (x < 0)		return R_DT_0;
     if (lambda == 0.)	return R_DT_1;
     if (!gnm_finite(x))	return R_DT_1;
@@ -1196,13 +1196,13 @@ gnm_float dgamma(gnm_float x, gnm_float shape, gnm_float scale, gboolean give_lo
  */
 
 
-/* Scalefactor:= (2^32)^8 = 2^256 = 1.157921e+77 */
+/* Scalefactor:= (2^32)^8 = 2^256 = GNM_const(1.157921e+77) */
 #define SQR(x) ((x)*(x))
 static const gnm_float scalefactor = SQR(SQR(SQR(4294967296.0)));
 #undef SQR
 
 /* If |x| > |k| * M_cutoff,  then  log[ gnm_exp(-x) * k^x ]  =~=  -x */
-static const gnm_float M_cutoff = M_LN2gnum * GNM_MAX_EXP / GNM_EPSILON;/*=3.196577e18*/
+static const gnm_float M_cutoff = M_LN2gnum * GNM_MAX_EXP / GNM_EPSILON;/*=GNM_const(3.196577e18)*/
 
 /* Continued fraction for calculation of
  *    1/i + x/(i+d) + x^2/(i+2*d) + x^3/(i+3*d) + ...
@@ -1260,7 +1260,7 @@ logcf (gnm_float x, gnm_float i, gnm_float d)
 /* Accurate calculation of gnm_log1p (x)-x, particularly for small x.  */
 gnm_float log1pmx (gnm_float x)
 {
-    static const gnm_float minLog1Value = -0.79149064;
+    static const gnm_float minLog1Value = GNM_const(-0.79149064);
     static const gnm_float two = 2;
 
     if (x > 1 || x < minLog1Value)
@@ -1736,7 +1736,7 @@ pgamma_raw (gnm_float x, gnm_float alph, gboolean lower_tail, gboolean log_p)
      * cases, simply redo via log space.
      */
     if (!log_p && res < GNM_MIN / GNM_EPSILON) {
-	/* with(.Machine, gnm_float.xmin / gnm_float.eps) #|-> 1.002084e-292 */
+	/* with(.Machine, gnm_float.xmin / gnm_float.eps) #|-> GNM_const(1.002084e-292) */
 #ifdef DEBUG_p
 	REprintf(" very small res=%.14" GNM_FORMAT_g "; -> recompute via log\n", res);
 #endif
@@ -2094,7 +2094,7 @@ static gnm_float lgammacor(gnm_float x)
  *   xbig = 2 ^ 26.5
  *   xmax = GNM_MAX / 48 =  2^1020 / 3 */
 # define nalgm 5
-# define xbig  94906265.62425156
+# define xbig  GNM_const(94906265.62425156)
 # define xmax  GNM_const(3.745194030963158e306)
 #endif
 
@@ -2653,7 +2653,7 @@ gnm_float pbinom(gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gbo
     n = R_D_forceint(n);
     if(n <= 0 || p < 0 || p > 1) ML_ERR_return_NAN;
 
-    x = gnm_floor(x + 1e-7);
+    x = gnm_fake_floor(x);
     if (x < 0.0) return R_DT_0;
     if (n <= x) return R_DT_1;
     return pbeta(p, x + 1, n - x, !lower_tail, log_p);
@@ -2956,7 +2956,7 @@ gnm_float pnbinom(gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gb
 #endif
     if (n <= 0 || p <= 0 || p >= 1)	ML_ERR_return_NAN;
 
-    x = gnm_floor(x + 1e-7);
+    x = gnm_fake_floor(x);
     if (x < 0) return R_DT_0;
     if (!gnm_finite(x)) return R_DT_1;
     return pbeta(p, n, x + 1, lower_tail, log_p);
@@ -3326,7 +3326,7 @@ gnm_float phyper (gnm_float x, gnm_float NR, gnm_float NB, gnm_float n,
 	return x + NR + NB + n;
 #endif
 
-    x = gnm_floor (x + 1e-7);
+    x = gnm_fake_floor(x);
     NR = R_D_forceint(NR);
     NB = R_D_forceint(NB);
     n  = R_D_forceint(n);
@@ -3528,7 +3528,7 @@ gnm_float pgeom(gnm_float x, gnm_float p, gboolean lower_tail, gboolean log_p)
     if (gnm_isnan(x) || gnm_isnan(p))
 	return x + p;
 #endif
-    x = gnm_floor(x +1e-7);
+    x = gnm_fake_floor(x);
     if(p < 0 || p > 1) ML_ERR_return_NAN;
 
     if (x < 0. || p == 0.) return R_DT_0;
@@ -3762,7 +3762,7 @@ And routine specific :
 #define xmax_BESS_K	705.342/* maximal x for UNscaled answer */
 
 
-/* gnm_sqrt(GNM_MIN) =	1.491668e-154 */
+/* gnm_sqrt(GNM_MIN) =	GNM_const(1.491668e-154) */
 #define sqxmin_BESS_K	1.49e-154
 
 /* x < eps_sinc	 <==>  gnm_sin(x)/x == 1 (particularly "==>");
@@ -4447,7 +4447,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 	    GNM_const(.16666666666666666446) };
     /*---------------------------------------------------------------------*/
     static const gnm_float estm[6] = { 52.0583,5.7607,2.7782,14.4303,185.3004, 9.3715 };
-    static const gnm_float estf[7] = { 41.8341,7.1075,6.4306,42.511,1.35633,84.5096,20.};
+    static const gnm_float estf[7] = { 41.8341,7.1075,6.4306,42.511,GNM_const(1.35633),84.5096,20.};
 
     /* Local variables */
     long iend, i, j, k, m, ii, mplus1;
