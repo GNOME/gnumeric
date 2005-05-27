@@ -6,6 +6,8 @@
 	  stubs for build without gtk.
 
 	* src/ranges.c (range_name): Simplify.
+	(global_range_name): Make the first parameter const.
+	* src/ranges.h (global_range_name): Ditto.
 
 2005-05-26  Morten Welinder  <terra@gnome.org>
 

@@ -103,7 +103,7 @@ GnmSheetRange *gnm_sheet_range_dup	  (GnmSheetRange const *src);
 void           gnm_sheet_range_free       (GnmSheetRange *r);
 gboolean       gnm_sheet_range_from_value (GnmSheetRange *r, GnmValue const *v);
 gboolean       gnm_sheet_range_overlap    (GnmSheetRange const *a, GnmSheetRange const *b);
-char        *global_range_name      (Sheet *sheet, GnmRange const *r);
+char        *global_range_name      (Sheet const *sheet, GnmRange const *r);
 gboolean     global_range_contained (Sheet const *sheet,
 				     GnmValue const *a, GnmValue const *b);
 
