@@ -40,6 +40,7 @@ Morten:
 	* Fix brown bag text import problem.
 	* Improve R.QPOIS accuracy, efficiency, and termination.
 	* Improve R.QNORM's accuracy in the long double case.
+	* Improve R.QCAUCHY's accuracy.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1

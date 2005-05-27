@@ -113,7 +113,6 @@ gnm_float qgeom (gnm_float p, gnm_float prob, gboolean lower_tail, gboolean log_
 /* Cauchy distribution.  */
 gnm_float dcauchy (gnm_float x, gnm_float location, gnm_float scale, gboolean give_log);
 gnm_float pcauchy (gnm_float x, gnm_float location, gnm_float scale, gboolean lower_tail, gboolean log_p);
-gnm_float qcauchy (gnm_float p, gnm_float location, gnm_float scale, gboolean lower_tail, gboolean log_p);
 
 /* Random number generation. */
 gnm_float random_01             (void);

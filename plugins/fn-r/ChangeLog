@@ -1,5 +1,11 @@
 2005-05-27  Morten Welinder  <terra@gnome.org>
 
+	* Makefile.am (rstat_la_SOURCES): Add extra.[ch]
+	* extra.c (qcauchy): Rewritten and moved here.
+	* generate: Scan extra.h too.
+
+2005-05-27  Morten Welinder  <terra@gnome.org>
+
 	* generate: Fix typo and change function signature.
 
 2005-05-10  Jody Goldberg <jody@gnome.org>

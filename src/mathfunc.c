@@ -5045,48 +5045,6 @@ gnm_float qgeom(gnm_float p, gnm_float prob, gboolean lower_tail, gboolean log_p
 }
 
 /* ------------------------------------------------------------------------ */
-/* Imported src/nmath/qcauchy.c from R.  */
-/*
- *  Mathlib : A C Library of Special Functions
- *  Copyright (C) 1998 Ross Ihaka
- *  Copyright (C) 2000 The R Development Core Team
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
- *
- *  DESCRIPTION
- *
- *	The quantile function of the Cauchy distribution.
- */
-
-
-gnm_float qcauchy(gnm_float p, gnm_float location, gnm_float scale,
-	       gboolean lower_tail, gboolean log_p)
-{
-#ifdef IEEE_754
-    if (gnm_isnan(p) || gnm_isnan(location) || gnm_isnan(scale))
-	return p + location + scale;
-#endif
-    if(!gnm_finite(p) || !gnm_finite(location) || !gnm_finite(scale))
-	ML_ERR_return_NAN;
-    R_Q_P01_check(p);
-    if (scale <= 0) ML_ERR_return_NAN;
-
-    return location + scale * gnm_tan(M_PIgnum * (R_DT_qIv(p) - 0.5));
-}
-
-/* ------------------------------------------------------------------------ */
 /* --- END MAGIC R SOURCE MARKER --- */
 
 static gnm_float
@@ -6003,7 +5961,7 @@ discpfuncinverter (gnm_float p, const gnm_float shape[],
 		x0 = xlow;
 	else
 		x0 = 0;
-	x0 = gnm_floor (x0);
+	x0 = gnm_floor (x0 + 0.5);
 	step = 1 + gnm_floor (gnm_abs (x0) * GNM_EPSILON);
 
 	for (i = 1; 1; i++) {
@@ -6066,7 +6024,7 @@ qpois (gnm_float p, gnm_float lambda, gboolean lower_tail, gboolean log_p)
 
 	/* Cornish-Fisher expansion:  */
 	gnm_float z = qnorm (p, 0., 1., lower_tail, log_p);
-	gnm_float y = gnm_floor (mu + sigma * (z + gamma * (z * z - 1) / 6) + 0.5);
+	gnm_float y = mu + sigma * (z + gamma * (z * z - 1) / 6);
 
 	return discpfuncinverter (p, &lambda, lower_tail, log_p,
 				  0, gnm_pinf, y,

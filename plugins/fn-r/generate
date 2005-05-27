@@ -178,24 +178,28 @@ my $emitted = "";
        "#include <func.h>\n" .
        "#include <gnm-i18n.h>\n" .
        "#include <value.h>\n" .
-       "#include <mathfunc.h>\n\n" .
+       "#include <mathfunc.h>\n" .
+       "#include \"extra.h\"\n\n" .
        "GNM_PLUGIN_MODULE_HEADER;\n\n");
 
-open (HEADER, "<$mathfunch") or die "$0: Cannot read $mathfunch: $!\n";
-while (<HEADER>) {
-    chomp;
+foreach my $header ($mathfunch, "extra.h") {
+    local (*HEADER);
+    open (HEADER, "<$header") or die "$0: Cannot read $header: $!\n";
+    while (<HEADER>) {
+	chomp;
 
-    if (/^(gnm_float)\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(.*\)/) {
-	my $restype = $1;
-	my $func = $2;
-	next unless exists $funcs{$func};
-	my ($handler,@args) = @{ $funcs{$func} };
+	if (/^(gnm_float)\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(.*\)/) {
+	    my $restype = $1;
+	    my $func = $2;
+	    next unless exists $funcs{$func};
+	    my ($handler,@args) = @{ $funcs{$func} };
 
-	&$handler ($func, $restype, $_, @args);
-	push @funcnames, "r.$func";
+	    &$handler ($func, $restype, $_, @args);
+	    push @funcnames, "r.$func";
+	}
     }
+    close (HEADER);
 }
-close (HEADER);
 
 &emit_line ();
 

@@ -8,6 +8,7 @@
 #include <gnm-i18n.h>
 #include <value.h>
 #include <mathfunc.h>
+#include "extra.h"
 
 GNM_PLUGIN_MODULE_HEADER;
 
