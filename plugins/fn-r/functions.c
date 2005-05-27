@@ -1161,7 +1161,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dnorm",
 		"fff|f",
-		NF_("x,mu,sigma,give_log"),
+		F_("x,mu,sigma,give_log"),
 		help_r_dnorm,
 		gnumeric_r_dnorm, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1169,7 +1169,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pnorm",
 		"fff|ff",
-		NF_("x,mu,sigma,lower_tail,log_p"),
+		F_("x,mu,sigma,lower_tail,log_p"),
 		help_r_pnorm,
 		gnumeric_r_pnorm, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1177,7 +1177,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qnorm",
 		"fff|ff",
-		NF_("p,mu,sigma,lower_tail,log_p"),
+		F_("p,mu,sigma,lower_tail,log_p"),
 		help_r_qnorm,
 		gnumeric_r_qnorm, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1185,7 +1185,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dlnorm",
 		"fff|f",
-		NF_("x,logmean,logsd,give_log"),
+		F_("x,logmean,logsd,give_log"),
 		help_r_dlnorm,
 		gnumeric_r_dlnorm, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1193,7 +1193,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.plnorm",
 		"fff|ff",
-		NF_("x,logmean,logsd,lower_tail,log_p"),
+		F_("x,logmean,logsd,lower_tail,log_p"),
 		help_r_plnorm,
 		gnumeric_r_plnorm, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1201,7 +1201,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qlnorm",
 		"fff|ff",
-		NF_("x,logmean,logsd,lower_tail,log_p"),
+		F_("x,logmean,logsd,lower_tail,log_p"),
 		help_r_qlnorm,
 		gnumeric_r_qlnorm, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1209,7 +1209,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dgamma",
 		"fff|f",
-		NF_("x,shape,scale,give_log"),
+		F_("x,shape,scale,give_log"),
 		help_r_dgamma,
 		gnumeric_r_dgamma, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1217,7 +1217,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pgamma",
 		"fff|ff",
-		NF_("x,shape,scale,lower_tail,log_p"),
+		F_("x,shape,scale,lower_tail,log_p"),
 		help_r_pgamma,
 		gnumeric_r_pgamma, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1225,7 +1225,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qgamma",
 		"fff|ff",
-		NF_("p,shape,scale,lower_tail,log_p"),
+		F_("p,shape,scale,lower_tail,log_p"),
 		help_r_qgamma,
 		gnumeric_r_qgamma, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1233,7 +1233,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dbeta",
 		"fff|f",
-		NF_("x,a,b,give_log"),
+		F_("x,a,b,give_log"),
 		help_r_dbeta,
 		gnumeric_r_dbeta, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1241,7 +1241,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pbeta",
 		"fff|ff",
-		NF_("x,a,b,lower_tail,log_p"),
+		F_("x,a,b,lower_tail,log_p"),
 		help_r_pbeta,
 		gnumeric_r_pbeta, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1249,7 +1249,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qbeta",
 		"fff|ff",
-		NF_("p,a,b,lower_tail,log_p"),
+		F_("p,a,b,lower_tail,log_p"),
 		help_r_qbeta,
 		gnumeric_r_qbeta, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1257,7 +1257,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dt",
 		"ff|f",
-		NF_("x,n,give_log"),
+		F_("x,n,give_log"),
 		help_r_dt,
 		gnumeric_r_dt, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1265,7 +1265,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pt",
 		"ff|ff",
-		NF_("x,n,lower_tail,log_p"),
+		F_("x,n,lower_tail,log_p"),
 		help_r_pt,
 		gnumeric_r_pt, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1273,7 +1273,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qt",
 		"ff|ff",
-		NF_("p,n,lower_tail,log_p"),
+		F_("p,n,lower_tail,log_p"),
 		help_r_qt,
 		gnumeric_r_qt, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1281,7 +1281,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.df",
 		"fff|f",
-		NF_("x,n1,n2,give_log"),
+		F_("x,n1,n2,give_log"),
 		help_r_df,
 		gnumeric_r_df, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1289,7 +1289,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pf",
 		"fff|ff",
-		NF_("x,n1,n2,lower_tail,log_p"),
+		F_("x,n1,n2,lower_tail,log_p"),
 		help_r_pf,
 		gnumeric_r_pf, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1297,7 +1297,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qf",
 		"fff|ff",
-		NF_("x,n1,n2,lower_tail,log_p"),
+		F_("x,n1,n2,lower_tail,log_p"),
 		help_r_qf,
 		gnumeric_r_qf, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1305,7 +1305,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dchisq",
 		"ff|f",
-		NF_("x,df,give_log"),
+		F_("x,df,give_log"),
 		help_r_dchisq,
 		gnumeric_r_dchisq, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1313,7 +1313,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pchisq",
 		"ff|ff",
-		NF_("x,df,lower_tail,log_p"),
+		F_("x,df,lower_tail,log_p"),
 		help_r_pchisq,
 		gnumeric_r_pchisq, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1321,7 +1321,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qchisq",
 		"ff|ff",
-		NF_("p,df,lower_tail,log_p"),
+		F_("p,df,lower_tail,log_p"),
 		help_r_qchisq,
 		gnumeric_r_qchisq, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1329,7 +1329,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dweibull",
 		"fff|f",
-		NF_("x,shape,scale,give_log"),
+		F_("x,shape,scale,give_log"),
 		help_r_dweibull,
 		gnumeric_r_dweibull, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1337,7 +1337,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pweibull",
 		"fff|ff",
-		NF_("x,shape,scale,lower_tail,log_p"),
+		F_("x,shape,scale,lower_tail,log_p"),
 		help_r_pweibull,
 		gnumeric_r_pweibull, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1345,7 +1345,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qweibull",
 		"fff|ff",
-		NF_("p,shape,scale,lower_tail,log_p"),
+		F_("p,shape,scale,lower_tail,log_p"),
 		help_r_qweibull,
 		gnumeric_r_qweibull, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1353,7 +1353,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dpois",
 		"ff|f",
-		NF_("x,lambda,give_log"),
+		F_("x,lambda,give_log"),
 		help_r_dpois,
 		gnumeric_r_dpois, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1361,7 +1361,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.ppois",
 		"ff|ff",
-		NF_("x,lambda,lower_tail,log_p"),
+		F_("x,lambda,lower_tail,log_p"),
 		help_r_ppois,
 		gnumeric_r_ppois, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1369,7 +1369,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qpois",
 		"ff|ff",
-		NF_("p,lambda,lower_tail,log_p"),
+		F_("p,lambda,lower_tail,log_p"),
 		help_r_qpois,
 		gnumeric_r_qpois, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1377,7 +1377,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dexp",
 		"ff|f",
-		NF_("x,scale,give_log"),
+		F_("x,scale,give_log"),
 		help_r_dexp,
 		gnumeric_r_dexp, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1385,7 +1385,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pexp",
 		"ff|ff",
-		NF_("x,scale,lower_tail,log_p"),
+		F_("x,scale,lower_tail,log_p"),
 		help_r_pexp,
 		gnumeric_r_pexp, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1393,7 +1393,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qexp",
 		"ff|ff",
-		NF_("p,scale,lower_tail,log_p"),
+		F_("p,scale,lower_tail,log_p"),
 		help_r_qexp,
 		gnumeric_r_qexp, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1401,7 +1401,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dbinom",
 		"fff|f",
-		NF_("x,n,psuc,give_log"),
+		F_("x,n,psuc,give_log"),
 		help_r_dbinom,
 		gnumeric_r_dbinom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1409,7 +1409,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pbinom",
 		"fff|ff",
-		NF_("x,n,psuc,lower_tail,log_p"),
+		F_("x,n,psuc,lower_tail,log_p"),
 		help_r_pbinom,
 		gnumeric_r_pbinom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1417,7 +1417,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qbinom",
 		"fff|ff",
-		NF_("x,n,psuc,lower_tail,log_p"),
+		F_("x,n,psuc,lower_tail,log_p"),
 		help_r_qbinom,
 		gnumeric_r_qbinom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1425,7 +1425,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dnbinom",
 		"fff|f",
-		NF_("x,n,psuc,give_log"),
+		F_("x,n,psuc,give_log"),
 		help_r_dnbinom,
 		gnumeric_r_dnbinom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1433,7 +1433,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pnbinom",
 		"fff|ff",
-		NF_("x,n,psuc,lower_tail,log_p"),
+		F_("x,n,psuc,lower_tail,log_p"),
 		help_r_pnbinom,
 		gnumeric_r_pnbinom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1441,7 +1441,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qnbinom",
 		"fff|ff",
-		NF_("p,n,psuc,lower_tail,log_p"),
+		F_("p,n,psuc,lower_tail,log_p"),
 		help_r_qnbinom,
 		gnumeric_r_qnbinom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1449,7 +1449,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dhyper",
 		"ffff|f",
-		NF_("x,r,b,n,give_log"),
+		F_("x,r,b,n,give_log"),
 		help_r_dhyper,
 		gnumeric_r_dhyper, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1457,7 +1457,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.phyper",
 		"ffff|ff",
-		NF_("x,r,b,n,lower_tail,log_p"),
+		F_("x,r,b,n,lower_tail,log_p"),
 		help_r_phyper,
 		gnumeric_r_phyper, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1465,7 +1465,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dgeom",
 		"ff|f",
-		NF_("x,psuc,give_log"),
+		F_("x,psuc,give_log"),
 		help_r_dgeom,
 		gnumeric_r_dgeom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1473,7 +1473,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pgeom",
 		"ff|ff",
-		NF_("x,psuc,lower_tail,log_p"),
+		F_("x,psuc,lower_tail,log_p"),
 		help_r_pgeom,
 		gnumeric_r_pgeom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1481,7 +1481,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qgeom",
 		"ff|ff",
-		NF_("p,psuc,lower_tail,log_p"),
+		F_("p,psuc,lower_tail,log_p"),
 		help_r_qgeom,
 		gnumeric_r_qgeom, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1489,7 +1489,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dcauchy",
 		"fff|f",
-		NF_("x,location,scale,give_log"),
+		F_("x,location,scale,give_log"),
 		help_r_dcauchy,
 		gnumeric_r_dcauchy, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1497,7 +1497,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.pcauchy",
 		"fff|ff",
-		NF_("x,location,scale,lower_tail,log_p"),
+		F_("x,location,scale,lower_tail,log_p"),
 		help_r_pcauchy,
 		gnumeric_r_pcauchy, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
@@ -1505,7 +1505,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.qcauchy",
 		"fff|ff",
-		NF_("p,location,scale,lower_tail,log_p"),
+		F_("p,location,scale,lower_tail,log_p"),
 		help_r_qcauchy,
 		gnumeric_r_qcauchy, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
