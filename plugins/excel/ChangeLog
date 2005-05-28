@@ -1,3 +1,9 @@
+2005-05-25  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_sheet) : store the default style after
+	  we parse the sheet.  For older xls formats XF records happen after
+	  the BOF.
+
 2005-05-24  Morten Welinder  <terra@gnome.org>
 
 	* ms-biff.c (ms_biff_query_destroy): Work harder at not leaving

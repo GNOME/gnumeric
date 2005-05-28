@@ -5319,13 +5319,6 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 
 	pi = esheet->sheet->print_info;
 
-	/* We need a sheet to extract styles, so store the workbook default as
-	 * soon as we parse a sheet.  It is a kludge, but not terribly costly */
-	g_object_set_data_full (G_OBJECT (ewb->wb),
-		"xls-default-style",
-		excel_get_style_from_xf (esheet, excel_get_xf (esheet, 0)),
-		(GDestroyNotify) mstyle_unref);
-
 	d (1, fprintf (stderr,"----------------- '%s' -------------\n",
 		      esheet->sheet->name_unquoted););
 
@@ -5391,7 +5384,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		/* case STRING : is handled elsewhere since it always follows FORMULA */
 		case BIFF_ROW_v0:
 		case BIFF_ROW_v2:	excel_read_ROW (q, esheet);	break;
-		case BIFF_EOF:		return TRUE;
+		case BIFF_EOF:		goto success;
 
 		/* NOTE : bytes 12 & 16 appear to require the non decrypted data */
 		case BIFF_INDEX_v0:
@@ -5631,6 +5624,15 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 	fprintf (stderr,"Error, hit end without EOF\n");
 
 	return FALSE;
+
+success :
+	/* We need a sheet to extract styles, so store the workbook default as
+	 * soon as we parse a sheet.  It is a kludge, but not terribly costly */
+	g_object_set_data_full (G_OBJECT (ewb->wb),
+		"xls-default-style",
+		excel_get_style_from_xf (esheet, excel_get_xf (esheet, 0)),
+		(GDestroyNotify) mstyle_unref);
+	return TRUE;
 }
 
 /**
