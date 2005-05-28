@@ -1,3 +1,10 @@
+2005-05-27  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=305405
+	* src/gui-clipboard.c (x_targets_received) : Add biff atoms to support
+	  pastes from MS Excel.
+	(table_content_received) : ditto.
+
 2005-05-27  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (discpfuncinverter, pfuncinverter): Make public.

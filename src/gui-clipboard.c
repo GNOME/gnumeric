@@ -53,6 +53,13 @@ typedef struct {
 #define GNUMERIC_ATOM_NAME "application/x-gnumeric"
 #define GNUMERIC_ATOM_INFO 2001
 
+/* From MS Excel */
+#define BIFF8_ATOM_NAME	"Biff8"
+#define BIFF5_ATOM_NAME	"Biff5"
+#define BIFF4_ATOM_NAME	"Biff4"
+#define BIFF3_ATOM_NAME	"Biff3"
+#define BIFF_ATOM_NAME	"Biff"
+
 #define HTML_ATOM_NAME "text/html"
 #define OOO_ATOM_NAME "application/x-openoffice;windows_formatname=\"Star Embed Source (XML)\""
 #define OOO11_ATOM_NAME "application/x-openoffice-embed-source-xml;windows_formatname=\"Star Embed Source (XML)\""
@@ -263,7 +270,7 @@ image_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 
 static void
 table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
-			  gpointer closure)
+			gpointer closure)
 {
 	GnmGtkClipboardCtxt *ctxt = closure;
 	WorkbookControlGUI *wbcg = ctxt->wbcg;
@@ -286,6 +293,14 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 						 sel->length);
 	} else if (sel->target == gdk_atom_intern (HTML_ATOM_NAME, FALSE)) {
 		content = table_cellregion_read (wbc, "Gnumeric_html:html",
+						 pt, sel->data,
+						 sel->length);
+	} else if ((sel->target == gdk_atom_intern ( BIFF8_ATOM_NAME, FALSE)) ||
+		   (sel->target == gdk_atom_intern ( BIFF5_ATOM_NAME, FALSE)) ||
+		   (sel->target == gdk_atom_intern ( BIFF4_ATOM_NAME, FALSE)) ||
+		   (sel->target == gdk_atom_intern ( BIFF3_ATOM_NAME, FALSE)) ||
+		   (sel->target == gdk_atom_intern ( BIFF_ATOM_NAME,  FALSE))) {
+		content = table_cellregion_read (wbc, "Gnumeric_Excel:excel",
 						 pt, sel->data,
 						 sel->length);
 	}
@@ -335,8 +350,16 @@ x_targets_received (GtkClipboard *clipboard, GdkAtom *targets,
 	/* in order of preference */
 	static char const *table_fmts [] = {
 		GNUMERIC_ATOM_NAME,
+
+		BIFF8_ATOM_NAME,
+		BIFF5_ATOM_NAME,
+		BIFF4_ATOM_NAME,
+		BIFF3_ATOM_NAME,
+		BIFF_ATOM_NAME,
+
 		OOO_ATOM_NAME,
 		OOO11_ATOM_NAME,
+
 		HTML_ATOM_NAME,
 		NULL
 	};

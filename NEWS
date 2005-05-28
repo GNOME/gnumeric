@@ -13,6 +13,8 @@ Jody:
 	* Fix xls import of names calling fwd declared names. [#166611]
 	* Fix string generation for arrays.
 	* Don't hide columns < 4pts wide on import. [#304558]
+	* Rich content from MS Excel clipboard [#305405]
+	* Fix warning while importing pre XL-95.
 
 Jon Kåre:
         * Don't output the xml declaration for xhtml. [#303827]
