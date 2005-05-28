@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-27 14:22-0400\n"
-"PO-Revision-Date: 2005-05-27 03:20-0400\n"
+"POT-Creation-Date: 2005-05-28 14:40-0400\n"
+"PO-Revision-Date: 2005-05-28 03:20-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -11561,48 +11561,48 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: ../plugins/fn-r/functions.c:18
+#: ../plugins/fn-r/functions.c:19
 msgid "R.DNORM:probability density function of the normal distribution."
 msgstr "R.DNORM:probability density function of the normal distribution."
 
-#: ../plugins/fn-r/functions.c:19 ../plugins/fn-r/functions.c:44
-#: ../plugins/fn-r/functions.c:98 ../plugins/fn-r/functions.c:123
-#: ../plugins/fn-r/functions.c:150 ../plugins/fn-r/functions.c:177
-#: ../plugins/fn-r/functions.c:202 ../plugins/fn-r/functions.c:256
-#: ../plugins/fn-r/functions.c:281 ../plugins/fn-r/functions.c:335
-#: ../plugins/fn-r/functions.c:358 ../plugins/fn-r/functions.c:408
-#: ../plugins/fn-r/functions.c:433 ../plugins/fn-r/functions.c:460
-#: ../plugins/fn-r/functions.c:487 ../plugins/fn-r/functions.c:510
-#: ../plugins/fn-r/functions.c:560 ../plugins/fn-r/functions.c:585
-#: ../plugins/fn-r/functions.c:639 ../plugins/fn-r/functions.c:662
-#: ../plugins/fn-r/functions.c:712 ../plugins/fn-r/functions.c:735
-#: ../plugins/fn-r/functions.c:785 ../plugins/fn-r/functions.c:810
-#: ../plugins/fn-r/functions.c:837 ../plugins/fn-r/functions.c:864
-#: ../plugins/fn-r/functions.c:889 ../plugins/fn-r/functions.c:943
-#: ../plugins/fn-r/functions.c:970 ../plugins/fn-r/functions.c:999
-#: ../plugins/fn-r/functions.c:1022 ../plugins/fn-r/functions.c:1072
-#: ../plugins/fn-r/functions.c:1097
+#: ../plugins/fn-r/functions.c:20 ../plugins/fn-r/functions.c:45
+#: ../plugins/fn-r/functions.c:99 ../plugins/fn-r/functions.c:124
+#: ../plugins/fn-r/functions.c:151 ../plugins/fn-r/functions.c:178
+#: ../plugins/fn-r/functions.c:203 ../plugins/fn-r/functions.c:257
+#: ../plugins/fn-r/functions.c:282 ../plugins/fn-r/functions.c:336
+#: ../plugins/fn-r/functions.c:359 ../plugins/fn-r/functions.c:409
+#: ../plugins/fn-r/functions.c:434 ../plugins/fn-r/functions.c:461
+#: ../plugins/fn-r/functions.c:488 ../plugins/fn-r/functions.c:511
+#: ../plugins/fn-r/functions.c:561 ../plugins/fn-r/functions.c:586
+#: ../plugins/fn-r/functions.c:640 ../plugins/fn-r/functions.c:663
+#: ../plugins/fn-r/functions.c:713 ../plugins/fn-r/functions.c:736
+#: ../plugins/fn-r/functions.c:786 ../plugins/fn-r/functions.c:811
+#: ../plugins/fn-r/functions.c:838 ../plugins/fn-r/functions.c:865
+#: ../plugins/fn-r/functions.c:890 ../plugins/fn-r/functions.c:944
+#: ../plugins/fn-r/functions.c:971 ../plugins/fn-r/functions.c:1000
+#: ../plugins/fn-r/functions.c:1023 ../plugins/fn-r/functions.c:1073
+#: ../plugins/fn-r/functions.c:1098
 msgid "x:observation."
 msgstr "x:observation."
 
-#: ../plugins/fn-r/functions.c:20 ../plugins/fn-r/functions.c:45
-#: ../plugins/fn-r/functions.c:72
+#: ../plugins/fn-r/functions.c:21 ../plugins/fn-r/functions.c:46
+#: ../plugins/fn-r/functions.c:73
 msgid "mu:mean of the distribution."
 msgstr "mu:mean of the distribution."
 
-#: ../plugins/fn-r/functions.c:21 ../plugins/fn-r/functions.c:46
-#: ../plugins/fn-r/functions.c:73
+#: ../plugins/fn-r/functions.c:22 ../plugins/fn-r/functions.c:47
+#: ../plugins/fn-r/functions.c:74
 msgid "sigma:standard deviation of the distribution."
 msgstr "sigma:standard deviation of the distribution."
 
-#: ../plugins/fn-r/functions.c:22 ../plugins/fn-r/functions.c:101
-#: ../plugins/fn-r/functions.c:180 ../plugins/fn-r/functions.c:259
-#: ../plugins/fn-r/functions.c:337 ../plugins/fn-r/functions.c:411
-#: ../plugins/fn-r/functions.c:489 ../plugins/fn-r/functions.c:563
-#: ../plugins/fn-r/functions.c:641 ../plugins/fn-r/functions.c:714
-#: ../plugins/fn-r/functions.c:788 ../plugins/fn-r/functions.c:867
-#: ../plugins/fn-r/functions.c:947 ../plugins/fn-r/functions.c:1001
-#: ../plugins/fn-r/functions.c:1075
+#: ../plugins/fn-r/functions.c:23 ../plugins/fn-r/functions.c:102
+#: ../plugins/fn-r/functions.c:181 ../plugins/fn-r/functions.c:260
+#: ../plugins/fn-r/functions.c:338 ../plugins/fn-r/functions.c:412
+#: ../plugins/fn-r/functions.c:490 ../plugins/fn-r/functions.c:564
+#: ../plugins/fn-r/functions.c:642 ../plugins/fn-r/functions.c:715
+#: ../plugins/fn-r/functions.c:789 ../plugins/fn-r/functions.c:868
+#: ../plugins/fn-r/functions.c:948 ../plugins/fn-r/functions.c:1002
+#: ../plugins/fn-r/functions.c:1076
 msgid ""
 "give_log:if true, log of the result will be returned instead.  This is "
 "useful if the result would otherwise underflow to 0.  Defaults to false."
@@ -11610,7 +11610,7 @@ msgstr ""
 "give_log:if true, log of the result will be returned instead.  This is "
 "useful if the result would otherwise underflow to 0.  Defaults to false."
 
-#: ../plugins/fn-r/functions.c:23
+#: ../plugins/fn-r/functions.c:24
 msgid ""
 "This function returns the probability density function of the normal "
 "distribution."
@@ -11618,31 +11618,9 @@ msgstr ""
 "This function returns the probability density function of the normal "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:43
+#: ../plugins/fn-r/functions.c:44
 msgid "R.PNORM:cumulative distribution function of the normal distribution."
 msgstr "R.PNORM:cumulative distribution function of the normal distribution."
-
-#: ../plugins/fn-r/functions.c:47 ../plugins/fn-r/functions.c:74
-#: ../plugins/fn-r/functions.c:126 ../plugins/fn-r/functions.c:153
-#: ../plugins/fn-r/functions.c:205 ../plugins/fn-r/functions.c:232
-#: ../plugins/fn-r/functions.c:284 ../plugins/fn-r/functions.c:311
-#: ../plugins/fn-r/functions.c:360 ../plugins/fn-r/functions.c:385
-#: ../plugins/fn-r/functions.c:436 ../plugins/fn-r/functions.c:463
-#: ../plugins/fn-r/functions.c:512 ../plugins/fn-r/functions.c:537
-#: ../plugins/fn-r/functions.c:588 ../plugins/fn-r/functions.c:615
-#: ../plugins/fn-r/functions.c:664 ../plugins/fn-r/functions.c:689
-#: ../plugins/fn-r/functions.c:737 ../plugins/fn-r/functions.c:762
-#: ../plugins/fn-r/functions.c:813 ../plugins/fn-r/functions.c:840
-#: ../plugins/fn-r/functions.c:892 ../plugins/fn-r/functions.c:919
-#: ../plugins/fn-r/functions.c:974 ../plugins/fn-r/functions.c:1024
-#: ../plugins/fn-r/functions.c:1049 ../plugins/fn-r/functions.c:1100
-#: ../plugins/fn-r/functions.c:1127
-msgid ""
-"lower_tail:if true (the default), the lower tail of the distribution is "
-"considered."
-msgstr ""
-"lower_tail:if true (the default), the lower tail of the distribution is "
-"considered."
 
 #: ../plugins/fn-r/functions.c:48 ../plugins/fn-r/functions.c:75
 #: ../plugins/fn-r/functions.c:127 ../plugins/fn-r/functions.c:154
@@ -11658,7 +11636,29 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:893 ../plugins/fn-r/functions.c:920
 #: ../plugins/fn-r/functions.c:975 ../plugins/fn-r/functions.c:1025
 #: ../plugins/fn-r/functions.c:1050 ../plugins/fn-r/functions.c:1101
-#: ../plugins/fn-r/functions.c:1128
+#: ../plugins/fn-r/functions.c:1128 ../plugins/fn-r/functions.c:1156
+msgid ""
+"lower_tail:if true (the default), the lower tail of the distribution is "
+"considered."
+msgstr ""
+"lower_tail:if true (the default), the lower tail of the distribution is "
+"considered."
+
+#: ../plugins/fn-r/functions.c:49 ../plugins/fn-r/functions.c:76
+#: ../plugins/fn-r/functions.c:128 ../plugins/fn-r/functions.c:155
+#: ../plugins/fn-r/functions.c:207 ../plugins/fn-r/functions.c:234
+#: ../plugins/fn-r/functions.c:286 ../plugins/fn-r/functions.c:313
+#: ../plugins/fn-r/functions.c:362 ../plugins/fn-r/functions.c:387
+#: ../plugins/fn-r/functions.c:438 ../plugins/fn-r/functions.c:465
+#: ../plugins/fn-r/functions.c:514 ../plugins/fn-r/functions.c:539
+#: ../plugins/fn-r/functions.c:590 ../plugins/fn-r/functions.c:617
+#: ../plugins/fn-r/functions.c:666 ../plugins/fn-r/functions.c:691
+#: ../plugins/fn-r/functions.c:739 ../plugins/fn-r/functions.c:764
+#: ../plugins/fn-r/functions.c:815 ../plugins/fn-r/functions.c:842
+#: ../plugins/fn-r/functions.c:894 ../plugins/fn-r/functions.c:921
+#: ../plugins/fn-r/functions.c:976 ../plugins/fn-r/functions.c:1026
+#: ../plugins/fn-r/functions.c:1051 ../plugins/fn-r/functions.c:1102
+#: ../plugins/fn-r/functions.c:1129 ../plugins/fn-r/functions.c:1157
 msgid ""
 "log_p:if true, log of the probability is used.  This is useful if the "
 "probability would otherwise underflow to 0.  Defaults to false."
@@ -11666,7 +11666,7 @@ msgstr ""
 "log_p:if true, log of the probability is used.  This is useful if the "
 "probability would otherwise underflow to 0.  Defaults to false."
 
-#: ../plugins/fn-r/functions.c:49
+#: ../plugins/fn-r/functions.c:50
 msgid ""
 "This function returns the cumulative distribution function of the normal "
 "distribution."
@@ -11674,20 +11674,20 @@ msgstr ""
 "This function returns the cumulative distribution function of the normal "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:70
+#: ../plugins/fn-r/functions.c:71
 msgid "R.QNORM:probability quantile function of the normal distribution."
 msgstr "R.QNORM:probability quantile function of the normal distribution."
 
-#: ../plugins/fn-r/functions.c:71 ../plugins/fn-r/functions.c:229
-#: ../plugins/fn-r/functions.c:308 ../plugins/fn-r/functions.c:383
-#: ../plugins/fn-r/functions.c:535 ../plugins/fn-r/functions.c:612
-#: ../plugins/fn-r/functions.c:687 ../plugins/fn-r/functions.c:760
-#: ../plugins/fn-r/functions.c:916 ../plugins/fn-r/functions.c:1047
-#: ../plugins/fn-r/functions.c:1124
+#: ../plugins/fn-r/functions.c:72 ../plugins/fn-r/functions.c:230
+#: ../plugins/fn-r/functions.c:309 ../plugins/fn-r/functions.c:384
+#: ../plugins/fn-r/functions.c:536 ../plugins/fn-r/functions.c:613
+#: ../plugins/fn-r/functions.c:688 ../plugins/fn-r/functions.c:761
+#: ../plugins/fn-r/functions.c:917 ../plugins/fn-r/functions.c:1048
+#: ../plugins/fn-r/functions.c:1125 ../plugins/fn-r/functions.c:1152
 msgid "p:probability."
 msgstr "p:probability."
 
-#: ../plugins/fn-r/functions.c:76
+#: ../plugins/fn-r/functions.c:77
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the normal distribution."
@@ -11695,21 +11695,21 @@ msgstr ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the normal distribution."
 
-#: ../plugins/fn-r/functions.c:97
+#: ../plugins/fn-r/functions.c:98
 msgid "R.DLNORM:probability density function of the log-normal distribution."
 msgstr "R.DLNORM:probability density function of the log-normal distribution."
 
-#: ../plugins/fn-r/functions.c:99 ../plugins/fn-r/functions.c:124
-#: ../plugins/fn-r/functions.c:151
+#: ../plugins/fn-r/functions.c:100 ../plugins/fn-r/functions.c:125
+#: ../plugins/fn-r/functions.c:152
 msgid "logmean:mean of the underlying normal distribution."
 msgstr "logmean:mean of the underlying normal distribution."
 
-#: ../plugins/fn-r/functions.c:100 ../plugins/fn-r/functions.c:125
-#: ../plugins/fn-r/functions.c:152
+#: ../plugins/fn-r/functions.c:101 ../plugins/fn-r/functions.c:126
+#: ../plugins/fn-r/functions.c:153
 msgid "logsd:standard deviation of the underlying normal distribution."
 msgstr "logsd:standard deviation of the underlying normal distribution."
 
-#: ../plugins/fn-r/functions.c:102
+#: ../plugins/fn-r/functions.c:103
 msgid ""
 "This function returns the probability density function of the log-normal "
 "distribution."
@@ -11717,13 +11717,13 @@ msgstr ""
 "This function returns the probability density function of the log-normal "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:122
+#: ../plugins/fn-r/functions.c:123
 msgid ""
 "R.PLNORM:cumulative distribution function of the log-normal distribution."
 msgstr ""
 "R.PLNORM:cumulative distribution function of the log-normal distribution."
 
-#: ../plugins/fn-r/functions.c:128
+#: ../plugins/fn-r/functions.c:129
 msgid ""
 "This function returns the cumulative distribution function of the log-normal "
 "distribution."
@@ -11731,11 +11731,11 @@ msgstr ""
 "This function returns the cumulative distribution function of the log-normal "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:149
+#: ../plugins/fn-r/functions.c:150
 msgid "R.QLNORM:probability quantile function of the log-normal distribution."
 msgstr "R.QLNORM:probability quantile function of the log-normal distribution."
 
-#: ../plugins/fn-r/functions.c:155
+#: ../plugins/fn-r/functions.c:156
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the log-normal distribution."
@@ -11743,26 +11743,26 @@ msgstr ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the log-normal distribution."
 
-#: ../plugins/fn-r/functions.c:176
+#: ../plugins/fn-r/functions.c:177
 msgid "R.DGAMMA:probability density function of the gamma distribution."
 msgstr "R.DGAMMA:probability density function of the gamma distribution."
-
-#: ../plugins/fn-r/functions.c:178 ../plugins/fn-r/functions.c:203
-#: ../plugins/fn-r/functions.c:230 ../plugins/fn-r/functions.c:561
-#: ../plugins/fn-r/functions.c:586 ../plugins/fn-r/functions.c:613
-msgid "shape:the shape parameter of the distribution"
-msgstr "shape:the shape parameter of the distribution"
 
 #: ../plugins/fn-r/functions.c:179 ../plugins/fn-r/functions.c:204
 #: ../plugins/fn-r/functions.c:231 ../plugins/fn-r/functions.c:562
 #: ../plugins/fn-r/functions.c:587 ../plugins/fn-r/functions.c:614
-#: ../plugins/fn-r/functions.c:713 ../plugins/fn-r/functions.c:736
-#: ../plugins/fn-r/functions.c:761 ../plugins/fn-r/functions.c:1074
-#: ../plugins/fn-r/functions.c:1099 ../plugins/fn-r/functions.c:1126
+msgid "shape:the shape parameter of the distribution"
+msgstr "shape:the shape parameter of the distribution"
+
+#: ../plugins/fn-r/functions.c:180 ../plugins/fn-r/functions.c:205
+#: ../plugins/fn-r/functions.c:232 ../plugins/fn-r/functions.c:563
+#: ../plugins/fn-r/functions.c:588 ../plugins/fn-r/functions.c:615
+#: ../plugins/fn-r/functions.c:714 ../plugins/fn-r/functions.c:737
+#: ../plugins/fn-r/functions.c:762 ../plugins/fn-r/functions.c:1075
+#: ../plugins/fn-r/functions.c:1100 ../plugins/fn-r/functions.c:1127
 msgid "scale:the scale parameter of the distribution"
 msgstr "scale:the scale parameter of the distribution"
 
-#: ../plugins/fn-r/functions.c:181
+#: ../plugins/fn-r/functions.c:182
 msgid ""
 "This function returns the probability density function of the gamma "
 "distribution."
@@ -11770,11 +11770,11 @@ msgstr ""
 "This function returns the probability density function of the gamma "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:201
+#: ../plugins/fn-r/functions.c:202
 msgid "R.PGAMMA:cumulative distribution function of the gamma distribution."
 msgstr "R.PGAMMA:cumulative distribution function of the gamma distribution."
 
-#: ../plugins/fn-r/functions.c:207
+#: ../plugins/fn-r/functions.c:208
 msgid ""
 "This function returns the cumulative distribution function of the gamma "
 "distribution."
@@ -11782,11 +11782,11 @@ msgstr ""
 "This function returns the cumulative distribution function of the gamma "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:228
+#: ../plugins/fn-r/functions.c:229
 msgid "R.QGAMMA:probability quantile function of the gamma distribution."
 msgstr "R.QGAMMA:probability quantile function of the gamma distribution."
 
-#: ../plugins/fn-r/functions.c:234
+#: ../plugins/fn-r/functions.c:235
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the gamma distribution."
@@ -11794,21 +11794,21 @@ msgstr ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the gamma distribution."
 
-#: ../plugins/fn-r/functions.c:255
+#: ../plugins/fn-r/functions.c:256
 msgid "R.DBETA:probability density function of the beta distribution."
 msgstr "R.DBETA:probability density function of the beta distribution."
 
-#: ../plugins/fn-r/functions.c:257 ../plugins/fn-r/functions.c:282
-#: ../plugins/fn-r/functions.c:309
+#: ../plugins/fn-r/functions.c:258 ../plugins/fn-r/functions.c:283
+#: ../plugins/fn-r/functions.c:310
 msgid "a:the first shape parameter of the distribution"
 msgstr "a:the first shape parameter of the distribution"
 
-#: ../plugins/fn-r/functions.c:258 ../plugins/fn-r/functions.c:283
-#: ../plugins/fn-r/functions.c:310
+#: ../plugins/fn-r/functions.c:259 ../plugins/fn-r/functions.c:284
+#: ../plugins/fn-r/functions.c:311
 msgid "b:the second scale parameter of the distribution"
 msgstr "b:the second scale parameter of the distribution"
 
-#: ../plugins/fn-r/functions.c:260
+#: ../plugins/fn-r/functions.c:261
 msgid ""
 "This function returns the probability density function of the beta "
 "distribution."
@@ -11816,11 +11816,11 @@ msgstr ""
 "This function returns the probability density function of the beta "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:280
+#: ../plugins/fn-r/functions.c:281
 msgid "R.PBETA:cumulative distribution function of the beta distribution."
 msgstr "R.PBETA:cumulative distribution function of the beta distribution."
 
-#: ../plugins/fn-r/functions.c:286
+#: ../plugins/fn-r/functions.c:287
 msgid ""
 "This function returns the cumulative distribution function of the beta "
 "distribution."
@@ -11828,11 +11828,11 @@ msgstr ""
 "This function returns the cumulative distribution function of the beta "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:307
+#: ../plugins/fn-r/functions.c:308
 msgid "R.QBETA:probability quantile function of the beta distribution."
 msgstr "R.QBETA:probability quantile function of the beta distribution."
 
-#: ../plugins/fn-r/functions.c:313
+#: ../plugins/fn-r/functions.c:314
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the beta distribution."
@@ -11840,16 +11840,16 @@ msgstr ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the beta distribution."
 
-#: ../plugins/fn-r/functions.c:334
+#: ../plugins/fn-r/functions.c:335
 msgid "R.DT:probability density function of the Student t distribution."
 msgstr "R.DT:probability density function of the Student t distribution."
 
-#: ../plugins/fn-r/functions.c:336 ../plugins/fn-r/functions.c:359
-#: ../plugins/fn-r/functions.c:384
+#: ../plugins/fn-r/functions.c:337 ../plugins/fn-r/functions.c:360
+#: ../plugins/fn-r/functions.c:385
 msgid "n:the number of degrees of freedom of the distribution"
 msgstr "n:the number of degrees of freedom of the distribution"
 
-#: ../plugins/fn-r/functions.c:338
+#: ../plugins/fn-r/functions.c:339
 msgid ""
 "This function returns the probability density function of the Student t "
 "distribution."
@@ -11857,11 +11857,11 @@ msgstr ""
 "This function returns the probability density function of the Student t "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:357
+#: ../plugins/fn-r/functions.c:358
 msgid "R.PT:cumulative distribution function of the Student t distribution."
 msgstr "R.PT:cumulative distribution function of the Student t distribution."
 
-#: ../plugins/fn-r/functions.c:362
+#: ../plugins/fn-r/functions.c:363
 msgid ""
 "This function returns the cumulative distribution function of the Student t "
 "distribution."
@@ -11869,11 +11869,11 @@ msgstr ""
 "This function returns the cumulative distribution function of the Student t "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:382
+#: ../plugins/fn-r/functions.c:383
 msgid "R.QT:probability quantile function of the Student t distribution."
 msgstr "R.QT:probability quantile function of the Student t distribution."
 
-#: ../plugins/fn-r/functions.c:387
+#: ../plugins/fn-r/functions.c:388
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Student t distribution."
@@ -11881,31 +11881,31 @@ msgstr ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Student t distribution."
 
-#: ../plugins/fn-r/functions.c:407
+#: ../plugins/fn-r/functions.c:408
 msgid "R.DF:probability density function of the F distribution."
 msgstr "R.DF:probability density function of the F distribution."
 
-#: ../plugins/fn-r/functions.c:409 ../plugins/fn-r/functions.c:434
-#: ../plugins/fn-r/functions.c:461
+#: ../plugins/fn-r/functions.c:410 ../plugins/fn-r/functions.c:435
+#: ../plugins/fn-r/functions.c:462
 msgid "n1:the first number of degrees of freedom of the distribution"
 msgstr "n1:the first number of degrees of freedom of the distribution"
 
-#: ../plugins/fn-r/functions.c:410 ../plugins/fn-r/functions.c:435
-#: ../plugins/fn-r/functions.c:462
+#: ../plugins/fn-r/functions.c:411 ../plugins/fn-r/functions.c:436
+#: ../plugins/fn-r/functions.c:463
 msgid "n2:the first number of degrees of freedom of the distribution"
 msgstr "n2:the first number of degrees of freedom of the distribution"
 
-#: ../plugins/fn-r/functions.c:412
+#: ../plugins/fn-r/functions.c:413
 msgid ""
 "This function returns the probability density function of the F distribution."
 msgstr ""
 "This function returns the probability density function of the F distribution."
 
-#: ../plugins/fn-r/functions.c:432
+#: ../plugins/fn-r/functions.c:433
 msgid "R.PF:cumulative distribution function of the F distribution."
 msgstr "R.PF:cumulative distribution function of the F distribution."
 
-#: ../plugins/fn-r/functions.c:438
+#: ../plugins/fn-r/functions.c:439
 msgid ""
 "This function returns the cumulative distribution function of the F "
 "distribution."
@@ -11913,11 +11913,11 @@ msgstr ""
 "This function returns the cumulative distribution function of the F "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:459
+#: ../plugins/fn-r/functions.c:460
 msgid "R.QF:probability quantile function of the F distribution."
 msgstr "R.QF:probability quantile function of the F distribution."
 
-#: ../plugins/fn-r/functions.c:465
+#: ../plugins/fn-r/functions.c:466
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the F distribution."
@@ -11925,16 +11925,16 @@ msgstr ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the F distribution."
 
-#: ../plugins/fn-r/functions.c:486
+#: ../plugins/fn-r/functions.c:487
 msgid "R.DCHISQ:probability density function of the chi-square distribution."
 msgstr "R.DCHISQ:probability density function of the chi-square distribution."
 
-#: ../plugins/fn-r/functions.c:488 ../plugins/fn-r/functions.c:511
-#: ../plugins/fn-r/functions.c:536
+#: ../plugins/fn-r/functions.c:489 ../plugins/fn-r/functions.c:512
+#: ../plugins/fn-r/functions.c:537
 msgid "df:the number of degrees of freedom of the distribution"
 msgstr "df:the number of degrees of freedom of the distribution"
 
-#: ../plugins/fn-r/functions.c:490
+#: ../plugins/fn-r/functions.c:491
 msgid ""
 "This function returns the probability density function of the chi-square "
 "distribution."
@@ -11942,13 +11942,13 @@ msgstr ""
 "This function returns the probability density function of the chi-square "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:509
+#: ../plugins/fn-r/functions.c:510
 msgid ""
 "R.PCHISQ:cumulative distribution function of the chi-square distribution."
 msgstr ""
 "R.PCHISQ:cumulative distribution function of the chi-square distribution."
 
-#: ../plugins/fn-r/functions.c:514
+#: ../plugins/fn-r/functions.c:515
 msgid ""
 "This function returns the cumulative distribution function of the chi-square "
 "distribution."
@@ -11956,11 +11956,11 @@ msgstr ""
 "This function returns the cumulative distribution function of the chi-square "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:534
+#: ../plugins/fn-r/functions.c:535
 msgid "R.QCHISQ:probability quantile function of the chi-square distribution."
 msgstr "R.QCHISQ:probability quantile function of the chi-square distribution."
 
-#: ../plugins/fn-r/functions.c:539
+#: ../plugins/fn-r/functions.c:540
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the chi-square distribution."
@@ -11968,11 +11968,11 @@ msgstr ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the chi-square distribution."
 
-#: ../plugins/fn-r/functions.c:559
+#: ../plugins/fn-r/functions.c:560
 msgid "R.DWEIBULL:probability density function of the Weibull distribution."
 msgstr "R.DWEIBULL:probability density function of the Weibull distribution."
 
-#: ../plugins/fn-r/functions.c:564
+#: ../plugins/fn-r/functions.c:565
 msgid ""
 "This function returns the probability density function of the Weibull "
 "distribution."
@@ -11980,13 +11980,13 @@ msgstr ""
 "This function returns the probability density function of the Weibull "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:584
+#: ../plugins/fn-r/functions.c:585
 msgid ""
 "R.PWEIBULL:cumulative distribution function of the Weibull distribution."
 msgstr ""
 "R.PWEIBULL:cumulative distribution function of the Weibull distribution."
 
-#: ../plugins/fn-r/functions.c:590
+#: ../plugins/fn-r/functions.c:591
 msgid ""
 "This function returns the cumulative distribution function of the Weibull "
 "distribution."
@@ -11994,11 +11994,11 @@ msgstr ""
 "This function returns the cumulative distribution function of the Weibull "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:611
+#: ../plugins/fn-r/functions.c:612
 msgid "R.QWEIBULL:probability quantile function of the Weibull distribution."
 msgstr "R.QWEIBULL:probability quantile function of the Weibull distribution."
 
-#: ../plugins/fn-r/functions.c:617
+#: ../plugins/fn-r/functions.c:618
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Weibull distribution."
@@ -12006,16 +12006,16 @@ msgstr ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Weibull distribution."
 
-#: ../plugins/fn-r/functions.c:638
+#: ../plugins/fn-r/functions.c:639
 msgid "R.DPOIS:probability density function of the Poisson distribution."
 msgstr "R.DPOIS:probability density function of the Poisson distribution."
 
-#: ../plugins/fn-r/functions.c:640 ../plugins/fn-r/functions.c:663
-#: ../plugins/fn-r/functions.c:688
+#: ../plugins/fn-r/functions.c:641 ../plugins/fn-r/functions.c:664
+#: ../plugins/fn-r/functions.c:689
 msgid "lambda:the mean of the distribution"
 msgstr "lambda:the mean of the distribution"
 
-#: ../plugins/fn-r/functions.c:642
+#: ../plugins/fn-r/functions.c:643
 msgid ""
 "This function returns the probability density function of the Poisson "
 "distribution."
@@ -12023,11 +12023,11 @@ msgstr ""
 "This function returns the probability density function of the Poisson "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:661
+#: ../plugins/fn-r/functions.c:662
 msgid "R.PPOIS:cumulative distribution function of the Poisson distribution."
 msgstr "R.PPOIS:cumulative distribution function of the Poisson distribution."
 
-#: ../plugins/fn-r/functions.c:666
+#: ../plugins/fn-r/functions.c:667
 msgid ""
 "This function returns the cumulative distribution function of the Poisson "
 "distribution."
@@ -12035,11 +12035,11 @@ msgstr ""
 "This function returns the cumulative distribution function of the Poisson "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:686
+#: ../plugins/fn-r/functions.c:687
 msgid "R.QPOIS:probability quantile function of the Poisson distribution."
 msgstr "R.QPOIS:probability quantile function of the Poisson distribution."
 
-#: ../plugins/fn-r/functions.c:691
+#: ../plugins/fn-r/functions.c:692
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Poisson distribution."
@@ -12047,11 +12047,11 @@ msgstr ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Poisson distribution."
 
-#: ../plugins/fn-r/functions.c:711
+#: ../plugins/fn-r/functions.c:712
 msgid "R.DEXP:probability density function of the exponential distribution."
 msgstr "R.DEXP:probability density function of the exponential distribution."
 
-#: ../plugins/fn-r/functions.c:715
+#: ../plugins/fn-r/functions.c:716
 msgid ""
 "This function returns the probability density function of the exponential "
 "distribution."
@@ -12059,13 +12059,13 @@ msgstr ""
 "This function returns the probability density function of the exponential "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:734
+#: ../plugins/fn-r/functions.c:735
 msgid ""
 "R.PEXP:cumulative distribution function of the exponential distribution."
 msgstr ""
 "R.PEXP:cumulative distribution function of the exponential distribution."
 
-#: ../plugins/fn-r/functions.c:739
+#: ../plugins/fn-r/functions.c:740
 msgid ""
 "This function returns the cumulative distribution function of the "
 "exponential distribution."
@@ -12073,11 +12073,11 @@ msgstr ""
 "This function returns the cumulative distribution function of the "
 "exponential distribution."
 
-#: ../plugins/fn-r/functions.c:759
+#: ../plugins/fn-r/functions.c:760
 msgid "R.QEXP:probability quantile function of the exponential distribution."
 msgstr "R.QEXP:probability quantile function of the exponential distribution."
 
-#: ../plugins/fn-r/functions.c:764
+#: ../plugins/fn-r/functions.c:765
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the exponential distribution."
@@ -12085,25 +12085,25 @@ msgstr ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the exponential distribution."
 
-#: ../plugins/fn-r/functions.c:784
+#: ../plugins/fn-r/functions.c:785
 msgid "R.DBINOM:probability density function of the binomial distribution."
 msgstr "R.DBINOM:probability density function of the binomial distribution."
-
-#: ../plugins/fn-r/functions.c:786 ../plugins/fn-r/functions.c:811
-#: ../plugins/fn-r/functions.c:838 ../plugins/fn-r/functions.c:865
-#: ../plugins/fn-r/functions.c:890 ../plugins/fn-r/functions.c:917
-msgid "n:the number of trials"
-msgstr "n:the number of trials"
 
 #: ../plugins/fn-r/functions.c:787 ../plugins/fn-r/functions.c:812
 #: ../plugins/fn-r/functions.c:839 ../plugins/fn-r/functions.c:866
 #: ../plugins/fn-r/functions.c:891 ../plugins/fn-r/functions.c:918
-#: ../plugins/fn-r/functions.c:1000 ../plugins/fn-r/functions.c:1023
-#: ../plugins/fn-r/functions.c:1048
+msgid "n:the number of trials"
+msgstr "n:the number of trials"
+
+#: ../plugins/fn-r/functions.c:788 ../plugins/fn-r/functions.c:813
+#: ../plugins/fn-r/functions.c:840 ../plugins/fn-r/functions.c:867
+#: ../plugins/fn-r/functions.c:892 ../plugins/fn-r/functions.c:919
+#: ../plugins/fn-r/functions.c:1001 ../plugins/fn-r/functions.c:1024
+#: ../plugins/fn-r/functions.c:1049
 msgid "psuc:the probability of success in each trial"
 msgstr "psuc:the probability of success in each trial"
 
-#: ../plugins/fn-r/functions.c:789
+#: ../plugins/fn-r/functions.c:790
 msgid ""
 "This function returns the probability density function of the binomial "
 "distribution."
@@ -12111,12 +12111,12 @@ msgstr ""
 "This function returns the probability density function of the binomial "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:809
+#: ../plugins/fn-r/functions.c:810
 msgid "R.PBINOM:cumulative distribution function of the binomial distribution."
 msgstr ""
 "R.PBINOM:cumulative distribution function of the binomial distribution."
 
-#: ../plugins/fn-r/functions.c:815
+#: ../plugins/fn-r/functions.c:816
 msgid ""
 "This function returns the cumulative distribution function of the binomial "
 "distribution."
@@ -12124,11 +12124,11 @@ msgstr ""
 "This function returns the cumulative distribution function of the binomial "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:836
+#: ../plugins/fn-r/functions.c:837
 msgid "R.QBINOM:probability quantile function of the binomial distribution."
 msgstr "R.QBINOM:probability quantile function of the binomial distribution."
 
-#: ../plugins/fn-r/functions.c:842
+#: ../plugins/fn-r/functions.c:843
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the binomial distribution."
@@ -12136,13 +12136,13 @@ msgstr ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the binomial distribution."
 
-#: ../plugins/fn-r/functions.c:863
+#: ../plugins/fn-r/functions.c:864
 msgid ""
 "R.DNBINOM:probability density function of the negative binomial distribution."
 msgstr ""
 "R.DNBINOM:probability density function of the negative binomial distribution."
 
-#: ../plugins/fn-r/functions.c:868
+#: ../plugins/fn-r/functions.c:869
 msgid ""
 "This function returns the probability density function of the negative "
 "binomial distribution."
@@ -12150,7 +12150,7 @@ msgstr ""
 "This function returns the probability density function of the negative "
 "binomial distribution."
 
-#: ../plugins/fn-r/functions.c:888
+#: ../plugins/fn-r/functions.c:889
 msgid ""
 "R.PNBINOM:cumulative distribution function of the negative binomial "
 "distribution."
@@ -12158,7 +12158,7 @@ msgstr ""
 "R.PNBINOM:cumulative distribution function of the negative binomial "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:894
+#: ../plugins/fn-r/functions.c:895
 msgid ""
 "This function returns the cumulative distribution function of the negative "
 "binomial distribution."
@@ -12166,7 +12166,7 @@ msgstr ""
 "This function returns the cumulative distribution function of the negative "
 "binomial distribution."
 
-#: ../plugins/fn-r/functions.c:915
+#: ../plugins/fn-r/functions.c:916
 msgid ""
 "R.QNBINOM:probability quantile function of the negative binomial "
 "distribution."
@@ -12174,7 +12174,7 @@ msgstr ""
 "R.QNBINOM:probability quantile function of the negative binomial "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:921
+#: ../plugins/fn-r/functions.c:922
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the negative binomial "
@@ -12184,25 +12184,28 @@ msgstr ""
 "of the cumulative distribution function, of the negative binomial "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:942
+#: ../plugins/fn-r/functions.c:943
 msgid ""
 "R.DHYPER:probability density function of the hypergeometric distribution."
 msgstr ""
 "R.DHYPER:probability density function of the hypergeometric distribution."
 
-#: ../plugins/fn-r/functions.c:944 ../plugins/fn-r/functions.c:971
+#: ../plugins/fn-r/functions.c:945 ../plugins/fn-r/functions.c:972
+#: ../plugins/fn-r/functions.c:1153
 msgid "r:the number of red balls"
 msgstr "r:the number of red balls"
 
-#: ../plugins/fn-r/functions.c:945 ../plugins/fn-r/functions.c:972
+#: ../plugins/fn-r/functions.c:946 ../plugins/fn-r/functions.c:973
+#: ../plugins/fn-r/functions.c:1154
 msgid "b:the number of black balls"
 msgstr "b:the number of black balls"
 
-#: ../plugins/fn-r/functions.c:946 ../plugins/fn-r/functions.c:973
+#: ../plugins/fn-r/functions.c:947 ../plugins/fn-r/functions.c:974
+#: ../plugins/fn-r/functions.c:1155
 msgid "n:the number of balls drawn"
 msgstr "n:the number of balls drawn"
 
-#: ../plugins/fn-r/functions.c:948
+#: ../plugins/fn-r/functions.c:949
 msgid ""
 "This function returns the probability density function of the hypergeometric "
 "distribution."
@@ -12210,13 +12213,13 @@ msgstr ""
 "This function returns the probability density function of the hypergeometric "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:969
+#: ../plugins/fn-r/functions.c:970
 msgid ""
 "R.PHYPER:cumulative distribution function of the hypergeometric distribution."
 msgstr ""
 "R.PHYPER:cumulative distribution function of the hypergeometric distribution."
 
-#: ../plugins/fn-r/functions.c:976
+#: ../plugins/fn-r/functions.c:977
 msgid ""
 "This function returns the cumulative distribution function of the "
 "hypergeometric distribution."
@@ -12224,11 +12227,11 @@ msgstr ""
 "This function returns the cumulative distribution function of the "
 "hypergeometric distribution."
 
-#: ../plugins/fn-r/functions.c:998
+#: ../plugins/fn-r/functions.c:999
 msgid "R.DGEOM:probability density function of the geometric distribution."
 msgstr "R.DGEOM:probability density function of the geometric distribution."
 
-#: ../plugins/fn-r/functions.c:1002
+#: ../plugins/fn-r/functions.c:1003
 msgid ""
 "This function returns the probability density function of the geometric "
 "distribution."
@@ -12236,12 +12239,12 @@ msgstr ""
 "This function returns the probability density function of the geometric "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:1021
+#: ../plugins/fn-r/functions.c:1022
 msgid "R.PGEOM:cumulative distribution function of the geometric distribution."
 msgstr ""
 "R.PGEOM:cumulative distribution function of the geometric distribution."
 
-#: ../plugins/fn-r/functions.c:1026
+#: ../plugins/fn-r/functions.c:1027
 msgid ""
 "This function returns the cumulative distribution function of the geometric "
 "distribution."
@@ -12249,11 +12252,11 @@ msgstr ""
 "This function returns the cumulative distribution function of the geometric "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:1046
+#: ../plugins/fn-r/functions.c:1047
 msgid "R.QGEOM:probability quantile function of the geometric distribution."
 msgstr "R.QGEOM:probability quantile function of the geometric distribution."
 
-#: ../plugins/fn-r/functions.c:1051
+#: ../plugins/fn-r/functions.c:1052
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the geometric distribution."
@@ -12261,16 +12264,16 @@ msgstr ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the geometric distribution."
 
-#: ../plugins/fn-r/functions.c:1071
+#: ../plugins/fn-r/functions.c:1072
 msgid "R.DCAUCHY:probability density function of the Cauchy distribution."
 msgstr "R.DCAUCHY:probability density function of the Cauchy distribution."
 
-#: ../plugins/fn-r/functions.c:1073 ../plugins/fn-r/functions.c:1098
-#: ../plugins/fn-r/functions.c:1125
+#: ../plugins/fn-r/functions.c:1074 ../plugins/fn-r/functions.c:1099
+#: ../plugins/fn-r/functions.c:1126
 msgid "location:the center of the distribution"
 msgstr "location:the centre of the distribution"
 
-#: ../plugins/fn-r/functions.c:1076
+#: ../plugins/fn-r/functions.c:1077
 msgid ""
 "This function returns the probability density function of the Cauchy "
 "distribution."
@@ -12278,11 +12281,11 @@ msgstr ""
 "This function returns the probability density function of the Cauchy "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:1096
+#: ../plugins/fn-r/functions.c:1097
 msgid "R.PCAUCHY:cumulative distribution function of the Cauchy distribution."
 msgstr "R.PCAUCHY:cumulative distribution function of the Cauchy distribution."
 
-#: ../plugins/fn-r/functions.c:1102
+#: ../plugins/fn-r/functions.c:1103
 msgid ""
 "This function returns the cumulative distribution function of the Cauchy "
 "distribution."
@@ -12290,11 +12293,11 @@ msgstr ""
 "This function returns the cumulative distribution function of the Cauchy "
 "distribution."
 
-#: ../plugins/fn-r/functions.c:1123
+#: ../plugins/fn-r/functions.c:1124
 msgid "R.QCAUCHY:probability quantile function of the Cauchy distribution."
 msgstr "R.QCAUCHY:probability quantile function of the Cauchy distribution."
 
-#: ../plugins/fn-r/functions.c:1129
+#: ../plugins/fn-r/functions.c:1130
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Cauchy distribution."
@@ -12302,150 +12305,168 @@ msgstr ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Cauchy distribution."
 
-#: ../plugins/fn-r/functions.c:1164
+#: ../plugins/fn-r/functions.c:1151
+msgid ""
+"R.QHYPER:probability quantile function of the hypergeometric distribution."
+msgstr ""
+"R.QHYPER:probability quantile function of the hypergeometric distribution."
+
+#: ../plugins/fn-r/functions.c:1158
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the hypergeometric distribution."
+msgstr ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the hypergeometric distribution."
+
+#: ../plugins/fn-r/functions.c:1194
 msgid "x,mu,sigma,give_log"
 msgstr "x,mu,sigma,give_log"
 
-#: ../plugins/fn-r/functions.c:1172
+#: ../plugins/fn-r/functions.c:1202
 msgid "x,mu,sigma,lower_tail,log_p"
 msgstr "x,mu,sigma,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1180
+#: ../plugins/fn-r/functions.c:1210
 msgid "p,mu,sigma,lower_tail,log_p"
 msgstr "p,mu,sigma,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1188
+#: ../plugins/fn-r/functions.c:1218
 msgid "x,logmean,logsd,give_log"
 msgstr "x,logmean,logsd,give_log"
 
-#: ../plugins/fn-r/functions.c:1196 ../plugins/fn-r/functions.c:1204
+#: ../plugins/fn-r/functions.c:1226 ../plugins/fn-r/functions.c:1234
 msgid "x,logmean,logsd,lower_tail,log_p"
 msgstr "x,logmean,logsd,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1212 ../plugins/fn-r/functions.c:1332
+#: ../plugins/fn-r/functions.c:1242 ../plugins/fn-r/functions.c:1362
 msgid "x,shape,scale,give_log"
 msgstr "x,shape,scale,give_log"
 
-#: ../plugins/fn-r/functions.c:1220 ../plugins/fn-r/functions.c:1340
+#: ../plugins/fn-r/functions.c:1250 ../plugins/fn-r/functions.c:1370
 msgid "x,shape,scale,lower_tail,log_p"
 msgstr "x,shape,scale,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1228 ../plugins/fn-r/functions.c:1348
+#: ../plugins/fn-r/functions.c:1258 ../plugins/fn-r/functions.c:1378
 msgid "p,shape,scale,lower_tail,log_p"
 msgstr "p,shape,scale,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1236
+#: ../plugins/fn-r/functions.c:1266
 msgid "x,a,b,give_log"
 msgstr "x,a,b,give_log"
 
-#: ../plugins/fn-r/functions.c:1244
+#: ../plugins/fn-r/functions.c:1274
 msgid "x,a,b,lower_tail,log_p"
 msgstr "x,a,b,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1252
+#: ../plugins/fn-r/functions.c:1282
 msgid "p,a,b,lower_tail,log_p"
 msgstr "p,a,b,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1260
+#: ../plugins/fn-r/functions.c:1290
 msgid "x,n,give_log"
 msgstr "x,n,give_log"
 
-#: ../plugins/fn-r/functions.c:1268
+#: ../plugins/fn-r/functions.c:1298
 msgid "x,n,lower_tail,log_p"
 msgstr "x,n,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1276
+#: ../plugins/fn-r/functions.c:1306
 msgid "p,n,lower_tail,log_p"
 msgstr "p,n,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1284
+#: ../plugins/fn-r/functions.c:1314
 msgid "x,n1,n2,give_log"
 msgstr "x,n1,n2,give_log"
 
-#: ../plugins/fn-r/functions.c:1292 ../plugins/fn-r/functions.c:1300
+#: ../plugins/fn-r/functions.c:1322 ../plugins/fn-r/functions.c:1330
 msgid "x,n1,n2,lower_tail,log_p"
 msgstr "x,n1,n2,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1308
+#: ../plugins/fn-r/functions.c:1338
 msgid "x,df,give_log"
 msgstr "x,df,give_log"
 
-#: ../plugins/fn-r/functions.c:1316
+#: ../plugins/fn-r/functions.c:1346
 msgid "x,df,lower_tail,log_p"
 msgstr "x,df,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1324
+#: ../plugins/fn-r/functions.c:1354
 msgid "p,df,lower_tail,log_p"
 msgstr "p,df,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1356
+#: ../plugins/fn-r/functions.c:1386
 msgid "x,lambda,give_log"
 msgstr "x,lambda,give_log"
 
-#: ../plugins/fn-r/functions.c:1364
+#: ../plugins/fn-r/functions.c:1394
 msgid "x,lambda,lower_tail,log_p"
 msgstr "x,lambda,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1372
+#: ../plugins/fn-r/functions.c:1402
 msgid "p,lambda,lower_tail,log_p"
 msgstr "p,lambda,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1380
+#: ../plugins/fn-r/functions.c:1410
 msgid "x,scale,give_log"
 msgstr "x,scale,give_log"
 
-#: ../plugins/fn-r/functions.c:1388
+#: ../plugins/fn-r/functions.c:1418
 msgid "x,scale,lower_tail,log_p"
 msgstr "x,scale,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1396
+#: ../plugins/fn-r/functions.c:1426
 msgid "p,scale,lower_tail,log_p"
 msgstr "p,scale,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1404 ../plugins/fn-r/functions.c:1428
+#: ../plugins/fn-r/functions.c:1434 ../plugins/fn-r/functions.c:1458
 msgid "x,n,psuc,give_log"
 msgstr "x,n,psuc,give_log"
 
-#: ../plugins/fn-r/functions.c:1412 ../plugins/fn-r/functions.c:1420
-#: ../plugins/fn-r/functions.c:1436
+#: ../plugins/fn-r/functions.c:1442 ../plugins/fn-r/functions.c:1450
+#: ../plugins/fn-r/functions.c:1466
 msgid "x,n,psuc,lower_tail,log_p"
 msgstr "x,n,psuc,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1444
+#: ../plugins/fn-r/functions.c:1474
 msgid "p,n,psuc,lower_tail,log_p"
 msgstr "p,n,psuc,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1452
+#: ../plugins/fn-r/functions.c:1482
 msgid "x,r,b,n,give_log"
 msgstr "x,r,b,n,give_log"
 
-#: ../plugins/fn-r/functions.c:1460
+#: ../plugins/fn-r/functions.c:1490
 msgid "x,r,b,n,lower_tail,log_p"
 msgstr "x,r,b,n,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1468
+#: ../plugins/fn-r/functions.c:1498
 msgid "x,psuc,give_log"
 msgstr "x,psuc,give_log"
 
-#: ../plugins/fn-r/functions.c:1476
+#: ../plugins/fn-r/functions.c:1506
 msgid "x,psuc,lower_tail,log_p"
 msgstr "x,psuc,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1484
+#: ../plugins/fn-r/functions.c:1514
 msgid "p,psuc,lower_tail,log_p"
 msgstr "p,psuc,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1492
+#: ../plugins/fn-r/functions.c:1522
 msgid "x,location,scale,give_log"
 msgstr "x,location,scale,give_log"
 
-#: ../plugins/fn-r/functions.c:1500
+#: ../plugins/fn-r/functions.c:1530
 msgid "x,location,scale,lower_tail,log_p"
 msgstr "x,location,scale,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1508
+#: ../plugins/fn-r/functions.c:1538
 msgid "p,location,scale,lower_tail,log_p"
 msgstr "p,location,scale,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1546
+msgid "p,r,b,n,lower_tail,log_p"
+msgstr "p,r,b,n,lower_tail,log_p"
 
 #: ../plugins/fn-random/functions.c:47
 msgid ""
