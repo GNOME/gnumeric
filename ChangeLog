@@ -1,5 +1,20 @@
 2005-05-29  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=167584
+	* src/sheet-object-widget.c (cb_adjustment_config_ok_clicked) : relink
+	  after changing the expression.
+	(sheet_widget_adjustment_set_details) : ditto.
+	(cb_checkbox_config_ok_clicked) : ditto.
+	(sheet_widget_checkbox_set_link) : ditto.
+
+2005-05-29  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=165061
+	* src/mstyle.c (mstyle_equal_header) : new
+	* src/ranges.c (range_has_header) :  use it.
+
+2005-05-29  Jody Goldberg <jody@gnome.org>
+
 	* src/dependent.c (cb_collect_deps_of_name) : collect all deps of
 	  names, even those we're about to lose.  Things need to be unlinked.
 

@@ -15,6 +15,8 @@ Jody:
 	* Don't hide columns < 4pts wide on import. [#304558]
 	* Rich content from MS Excel clipboard [#305405]
 	* Fix warning while importing pre XL-95.
+	* Fix adjustment object handling [#167584].
+	* Be more careful what we assume is a header [#165061].
 
 Jon Kåre:
         * Don't output the xml declaration for xhtml. [#303827]

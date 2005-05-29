@@ -1036,6 +1036,34 @@ mstyle_equal_XL (const GnmStyle *a, const GnmStyle *b)
 	return TRUE;
 }
 
+/**
+ * mstyle_equal_header :
+ * @a : #GnmStyle
+ * @b : #GnmStyle
+ * @top : is this a header vertically or horizontally
+ *
+ * Check to see if @a is different enough from @b to make us think that @a is
+ * from a header.
+ **/
+gboolean
+mstyle_equal_header (GnmStyle const *a, GnmStyle const *b, gboolean top)
+{
+	MStyleElement const *ea = a->elements;
+	MStyleElement const *eb = b->elements;
+	int i = top ? MSTYLE_BORDER_BOTTOM : MSTYLE_BORDER_RIGHT;
+
+	if (!mstyle_element_equal (ea+i, eb+i))
+		return FALSE;
+	for (i = MSTYLE_COLOR_BACK; i <= MSTYLE_COLOR_PATTERN ; i++)
+		if (!mstyle_element_equal (ea+i, eb+i))
+			return FALSE;
+	for (i = MSTYLE_COLOR_FORE; i <= MSTYLE_SHRINK_TO_FIT ; i++)
+		if (!mstyle_element_equal (ea+i, eb+i))
+			return FALSE;
+	return TRUE;
+}
+
+
 gboolean
 mstyle_empty (const GnmStyle *style)
 {

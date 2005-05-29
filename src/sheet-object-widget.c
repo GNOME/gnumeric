@@ -904,6 +904,7 @@ cb_adjustment_config_ok_clicked (GtkWidget *button, AdjustmentConfigState *state
 		NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
 	if (expr != NULL) {
 		dependent_set_expr (&state->swa->dep, expr);
+		dependent_link (&state->swa->dep);
 		gnm_expr_unref (expr);
 	}
 
@@ -1097,9 +1098,12 @@ sheet_widget_adjustment_set_details (SheetObject *so, GnmExpr const *link,
 	swa->adjustment->upper = max; /* allow scrolling to max */
 	swa->adjustment->step_increment = inc;
 	swa->adjustment->page_increment = page;
-	if (link != NULL)
+	if (link != NULL) {
+		gboolean const linked = dependent_is_linked (&swa->dep);
 		dependent_set_expr (&swa->dep, link);
-	else
+		if (linked)
+			dependent_link (&swa->dep);
+	} else
 		gtk_adjustment_changed (swa->adjustment);
 }
 
@@ -1522,6 +1526,7 @@ cb_checkbox_config_ok_clicked (GtkWidget *button, CheckboxConfigState *state)
 		NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
 	if (expr != NULL) {
 		dependent_set_expr (&state->swc->dep, expr);
+		dependent_link (&state->swc->dep);
 		gnm_expr_unref (expr);
 	}
 
@@ -1690,8 +1695,13 @@ void
 sheet_widget_checkbox_set_link (SheetObject *so, GnmExpr const *expr)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
+	gboolean const linked = dependent_is_linked (&swc->dep);
+
 	g_return_if_fail (swc != NULL);
+
 	dependent_set_expr (&swc->dep, expr);
+	if (linked)
+		dependent_link (&swc->dep);
 }
 
 void

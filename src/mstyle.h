@@ -6,6 +6,8 @@
 
 /*
  * Keep element_size up to date.
+ * Keep header_style_equal when adding new types that would create an implicit header
+ * when sorting
  */
 typedef enum {
 	/* Delimiter */
@@ -13,37 +15,37 @@ typedef enum {
 	/* When there is a conflict in a merge */
 	MSTYLE_ELEMENT_CONFLICT,
 	/* Types that are visible in blank cells */
-		MSTYLE_COLOR_BACK,
-		MSTYLE_COLOR_PATTERN,
+		MSTYLE_COLOR_BACK,		/* marks a header */
+		MSTYLE_COLOR_PATTERN,		/* marks a header */
 
 	        MSTYLE_BORDER_TOP,
-	        MSTYLE_BORDER_BOTTOM,
+	        MSTYLE_BORDER_BOTTOM,		/* marks a vertical header */
 	        MSTYLE_BORDER_LEFT,
-	        MSTYLE_BORDER_RIGHT,
+	        MSTYLE_BORDER_RIGHT,		/* marks a horizontal header */
 	        MSTYLE_BORDER_REV_DIAGONAL,
 	        MSTYLE_BORDER_DIAGONAL,
 
-		MSTYLE_PATTERN,
+		MSTYLE_PATTERN,			/* marks a header */
 	/* Delimiter */
 	MSTYLE_ELEMENT_MAX_BLANK,
 	/* Normal types */
-	        MSTYLE_COLOR_FORE,
-		MSTYLE_FONT_NAME,
-		MSTYLE_FONT_BOLD,
-		MSTYLE_FONT_ITALIC,
-		MSTYLE_FONT_UNDERLINE,
-		MSTYLE_FONT_STRIKETHROUGH,
-	        MSTYLE_FONT_SIZE,
+	        MSTYLE_COLOR_FORE,		/* marks a header */
+		MSTYLE_FONT_NAME,		/* marks a header */
+		MSTYLE_FONT_BOLD,		/* marks a header */
+		MSTYLE_FONT_ITALIC,		/* marks a header */
+		MSTYLE_FONT_UNDERLINE,		/* marks a header */
+		MSTYLE_FONT_STRIKETHROUGH,	/* marks a header */
+	        MSTYLE_FONT_SIZE,		/* marks a header */
 
-		MSTYLE_FORMAT,
+		MSTYLE_FORMAT,			/* marks a header */
 
-	        MSTYLE_ALIGN_V,
-	        MSTYLE_ALIGN_H,
-	        MSTYLE_INDENT,
-		MSTYLE_ROTATION,
-		MSTYLE_TEXT_DIR,
-		MSTYLE_WRAP_TEXT,
-		MSTYLE_SHRINK_TO_FIT,
+	        MSTYLE_ALIGN_V,			/* marks a header */
+	        MSTYLE_ALIGN_H,			/* marks a header */
+	        MSTYLE_INDENT,			/* marks a header */
+		MSTYLE_ROTATION,		/* marks a header */
+		MSTYLE_TEXT_DIR,		/* marks a header */
+		MSTYLE_WRAP_TEXT,		/* marks a header */
+		MSTYLE_SHRINK_TO_FIT,		/* marks a header */
 
 	        MSTYLE_CONTENT_LOCKED,
 	        MSTYLE_CONTENT_HIDDEN,
@@ -70,6 +72,9 @@ void        mstyle_unlink        (GnmStyle *st);
 
 gboolean    mstyle_equal         (GnmStyle const *a, GnmStyle const *b);
 gboolean    mstyle_equal_XL	 (GnmStyle const *a, GnmStyle const *b);
+gboolean    mstyle_equal_header	 (GnmStyle const *a, GnmStyle const *b,
+				  gboolean top);
+
 gboolean    mstyle_verify        (GnmStyle const *st);
 guint       mstyle_hash          (gconstpointer st);
 guint       mstyle_hash_XL	 (gconstpointer st);

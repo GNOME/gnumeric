@@ -289,64 +289,49 @@ gboolean
 range_has_header (Sheet const *sheet, GnmRange const *src,
 		  gboolean top, gboolean ignore_styles)
 {
-	GnmCell *ca, *cb;
-	GnmValue *valuea, *valueb;
-	GnmStyle *stylea, *styleb;
+	GnmCell const *a, *b;
 	int length, i;
 
 	/* There is only one row or col */
 	if (top) {
-		if (src->end.row <= src->start.row) {
+		if (src->end.row <= src->start.row)
 			return FALSE;
-		}
 		length = src->end.col - src->start.col + 1;
 	} else {
-		if (src->end.col <= src->start.col) {
+		if (src->end.col <= src->start.col)
 			return FALSE;
-		}
 		length = src->end.row - src->start.row + 1;
 	}
 
-	for (i = 0; i<length; i++) {
+	for (i = 0; i < length; i++) {
 		if (top) {
-			ca = sheet_cell_get (sheet, src->start.col + i,
-					     src->start.row);
-			cb = sheet_cell_get (sheet, src->start.col + i,
-					     src->start.row + 1);
+			a = sheet_cell_get (sheet,
+				src->start.col + i, src->start.row);
+			b = sheet_cell_get (sheet,
+				src->start.col + i, src->start.row + 1);
 		} else {
-			ca = sheet_cell_get (sheet, src->start.col,
-					     src->start.row + i);
-			cb = sheet_cell_get (sheet, src->start.col + 1,
-					     src->start.row + i);
+			a = sheet_cell_get (sheet,
+				src->start.col, src->start.row + i);
+			b = sheet_cell_get (sheet,
+				src->start.col + 1, src->start.row + i);
 		}
 
-
-		if (!ca || !cb) {
+		/* be anal */
+		if (a == NULL || a->value == NULL || b == NULL || b->value == NULL)
 			continue;
-		}
 
-		/* Look for value differences */
-		valuea = ca->value;
-		valueb = cb->value;
-
-		if (VALUE_IS_NUMBER (valuea)) {
-			if (!VALUE_IS_NUMBER (valueb)) {
+		if (VALUE_IS_NUMBER (a->value)) {
+			if (!VALUE_IS_NUMBER (b->value))
 				return TRUE;
-			}
-		} else {
-			if (valuea->type != valueb->type) {
-				return TRUE;
-			}
-		}
+			/* check for style differences */
+		} else if (a->value->type != b->value->type)
+			return TRUE;
 
-		if (!ignore_styles) {
-			/* Look for style differences */
-			stylea = cell_get_mstyle (ca);
-			styleb = cell_get_mstyle (cb);
-
-			if (!mstyle_equal (stylea, styleb))
-				return TRUE;
-		}
+		/* Look for style differences */
+		if (!ignore_styles &&
+		    !mstyle_equal_header (cell_get_mstyle (a),
+					  cell_get_mstyle (b), top))
+			return TRUE;
 	}
 
 	return FALSE;
