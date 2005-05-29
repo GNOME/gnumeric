@@ -2,8 +2,9 @@
 /*
  * dependent.c:  Manage calculation dependencies between objects
  *
- * Copyright (C) 2000-2002
+ * Copyright (C) 2000-2005
  *  Jody Goldberg   (jody@gnome.org)
+ *  Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as published
@@ -1781,8 +1782,7 @@ cb_collect_deps_of_name (GnmDependent *dep, G_GNUC_UNUSED gpointer value,
 			 GSList **accum)
 {
 	/* grab unflagged linked depends */
-	if ((dep->flags & (DEPENDENT_FLAGGED|DEPENDENT_IS_LINKED)) == DEPENDENT_IS_LINKED &&
-	    !dep->sheet->being_invalidated) {
+	if ((dep->flags & (DEPENDENT_FLAGGED|DEPENDENT_IS_LINKED)) == DEPENDENT_IS_LINKED) {
 		dep->flags |= DEPENDENT_FLAGGED;
 		*accum = g_slist_prepend (*accum, dep);
 	}

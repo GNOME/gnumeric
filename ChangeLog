@@ -1,3 +1,8 @@
+2005-05-29  Jody Goldberg <jody@gnome.org>
+
+	* src/dependent.c (cb_collect_deps_of_name) : collect all deps of
+	  names, even those we're about to lose.  Things need to be unlinked.
+
 2005-05-27  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=305405
