@@ -140,11 +140,12 @@ dependent_changed (GnmDependent *dep)
  * @dep : The dependent we are interested in.
  * @new_expr : new expression.
  *
- * When the expression associated with a dependent needs to change this routine
- * dispatches to the virtual handler unlinking if necessary.  Adds a ref to
- * @new_expr.
+ * When the expression associated with @dep needs to change this routine
+ * dispatches to the virtual handler, unlinking @dep if necessary beforehand.
+ * Adds a ref to @new_expr.
+ *
  * NOTE : it does NOT relink dependents in case they are going to move later.
- */
+ **/
 void
 dependent_set_expr (GnmDependent *dep, GnmExpr const *new_expr)
 {
