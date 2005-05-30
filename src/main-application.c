@@ -288,12 +288,14 @@ main (int argc, char const *argv [])
 	IOContext *ioc;
 	WorkbookView *wbv;
 	GSList *wbcgs_to_kill = NULL;
-
 	poptContext ctx;
+	gchar **args;
+	
+	args = go_shell_argv_to_glib_encoding (argc, argv);
 
-	gnm_pre_parse_init (argv[0]);
+	gnm_pre_parse_init (args[0]);
 
-	ctx = gnumeric_arg_parse (argc, argv);
+	ctx = gnumeric_arg_parse (argc, (gchar const **) args);
         bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
 	if (gnumeric_show_version) {
@@ -305,7 +307,7 @@ main (int argc, char const *argv [])
 	with_gui = !func_def_file && !func_state_file && !split_funcdocs;
 
 	if (with_gui)
-		gnm_session_init (argv[0]);
+		gnm_session_init (args[0]);
 
 	/* TODO: Use the ioc.  Do this before calling handle_paint_events */
 	gnm_common_init (TRUE);
@@ -427,6 +429,14 @@ main (int argc, char const *argv [])
 #ifdef WITH_GNOME
 	bonobo_ui_debug_shutdown ();
 #endif
+
+	if (argv != (gchar const **) args) {
+		gint i;
+
+		for (i = 0; i < argc; ++i)
+			g_free (args[i]);
+		g_free (args);
+	}
 
 	return 0;
 }

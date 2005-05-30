@@ -1,3 +1,9 @@
+2005-05-30  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* src/main-application.c (main): Use go_shell_argv_to_glib_encoding(),
+	so we can open file with name in any encoding when users "open" them in
+	explorer (Win32).
+
 2005-05-29  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=167584

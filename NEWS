@@ -1,5 +1,9 @@
 Gnumeric 1.5.2
 
+Ivan:
+	* (Win32) Fix opening files with non-ascii names when users "open"
+	  them in explorer. [#304874]
+
 Jody:
 	* Tweak the errors from LOGNORMDIST, CONFIDENCE, STANDARDIZE, and
 	  NORMDIST to match MS Excel.
