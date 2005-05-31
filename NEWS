@@ -21,9 +21,15 @@ Jody:
 	* Fix warning while importing pre XL-95.
 	* Fix adjustment object handling [#167584].
 	* Be more careful what we assume is a header [#165061].
+	* Support external array iteration (thanks to planmaker for the test).
+	* Use the print settings for each sheet when printing a workbook.
+	* Fix small positioning glitch when creating widgets. [#304559]
 
 Jon Kåre:
         * Don't output the xml declaration for xhtml. [#303827]
+
+Michal Kaukic:
+	* Fix solver for affine objective functions. [#171025]
 
 Morten:
 	* Fix SUMIF even more.  [Debian #308346]

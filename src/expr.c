@@ -1315,7 +1315,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		/* The upper left corner manages the recalc of the expr */
 		int x = expr->array.x;
 		int y = expr->array.y;
-		if (x == 0 && y == 0){
+		if (x == 0 && y == 0) {
 			/* Release old value if necessary */
 			a = expr->array.corner.value;
 			if (a != NULL)
@@ -1323,6 +1323,29 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 			a = gnm_expr_eval (expr->array.corner.expr, pos,
 				flags | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+
+			/* returning a scalar to an array in a region suggests
+			 * that we may want to re-eval for each element
+			 * eg ={ROW()}[2][2] */
+			if ((a != NULL && a->type != VALUE_ARRAY) &&
+			    (expr->array.cols > 1 || expr->array.rows > 1)) {
+				GnmValueArray *res = (GnmValueArray *)value_new_array_empty (
+					expr->array.cols, expr->array.rows);
+				GnmEvalPos iter = *pos;
+
+				for (x = expr->array.cols ; x-- > 0 ; ) {
+					iter.eval.col = pos->eval.col + x;
+					for (y = expr->array.rows ; y-- > 0 ; ) {
+						iter.eval.row = pos->eval.row + y;
+						res->vals[x][y] = (x == 0 && y == 0) ? a :
+							gnm_expr_eval (expr->array.corner.expr, &iter,
+								       flags | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+					}
+				}
+
+				a = (GnmValue *)res;
+				x = y = 0;
+			}
 
 			/* Store real result (cast away const)*/
 			*((GnmValue **)&(expr->array.corner.value)) = a;
