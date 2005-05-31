@@ -1,3 +1,8 @@
+2005-05-31  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* src/ssconvert.c (main):
+	* src/ssindex.c (main): Use go_shell_argv_to_glib_encoding() as well.
+
 2005-05-31  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=304559
