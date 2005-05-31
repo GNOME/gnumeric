@@ -5797,15 +5797,15 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 
 	for (i = 0; i < 100; i++) {
 		if (i == 0) {
-			/* Use supplied guess.  */
-			x = x0;
-			if (x0 <= xlow || x0 >= xhigh) {
-				if (have_xlow || have_xhigh)
-					x0 = ((have_xhigh ? xhigh : xlow + 1) +
-					      (have_xlow ? xlow : xhigh - 1)) / 2;
-				else
-					x0 = 0;
-			}
+			if (x0 > xlow && x0 < xhigh)
+				/* Use supplied guess.  */
+				x = x0;
+			else if (have_xlow && x0 <= xlow)
+				x = xlow + have_xhigh ? (xhigh - xlow) / 100 : 1;
+			else if (have_xhigh && x0 >= xhigh)
+				x = xhigh - have_xlow ? (xhigh - xlow) / 100 : 1;
+			else
+				x = 0;  /* Whatever */
 		} else if (i == 1) {
 			/*
 			 * Under the assumption that the initial guess was
@@ -6089,36 +6089,51 @@ pbeta1 (gnm_float x, const gnm_float shape[],
 	return pbeta (x, shape[0], shape[1], lower_tail, log_p);
 }
 
-
 gnm_float
 qbeta (gnm_float p, gnm_float pin, gnm_float qin, gboolean lower_tail, gboolean log_p)
 {
-	gnm_float x0, shape[2];
+	gnm_float x0, q, shape[2];
+	gnm_float S = pin + qin;
 
 #ifdef IEEE_754
-	if (gnm_isnan (pin) || gnm_isnan (qin) || gnm_isnan (p))
-		return pin + qin + p;
+	if (gnm_isnan (S) || gnm_isnan (p))
+		return S + p;
 #endif
 	R_Q_P01_check (p);
 
 	if (pin < 0. || qin < 0.) ML_ERR_return_NAN;
 
-	/*
-	 * For small pin, p seems to have exponent 1, for large pin, it
-	 * seems more like 0.
-	 *
-	 * For small pin, pin itself seems to have exponent 2, for large pin,
-	 * it is more like 1.
-	 */
-	x0 = gnm_pow (R_DT_qIv (p), 1 / (pin + 1)) *
-		gnm_pow (pin, (pin + 2) / (pin + 1)) /
-		qin;
-	x0 /= (1 + x0);
+	if (pin > 1 && qin > 1) {
+		/*
+		 * The density function resembles a skewed normal.
+		 */
+		gnm_float mu = pin / S;
+		gnm_float sigma = gnm_sqrt (pin * qin / (S + 1)) / S;
+		gnm_float sigma_gamma = 2 * (qin - pin) / S / (S + 2);
+
+		/* Cornish-Fisher expansion:  */
+		gnm_float z = qnorm (p, 0., 1., lower_tail, log_p);
+		x0 = mu + sigma * z + sigma_gamma * (z * z - 1) / 6;
+	} else {
+		/*
+		 * For small pin, p seems to have exponent 1, for large pin, it
+		 * seems more like 0.
+		 *
+		 * For small pin, pin itself seems to have exponent 2, for large pin,
+		 * it is more like 1.
+		 */
+		x0 = gnm_pow (R_DT_qIv (p), 1 / (pin + 1)) *
+			gnm_pow (pin, (pin + 2) / (pin + 1)) /
+			qin;
+		x0 /= (1 + x0);
+	}
 
 	shape[0] = pin;
 	shape[1] = qin;
-	return pfuncinverter (p, shape, lower_tail, log_p, 0, 1, x0,
-			      pbeta1, dbeta1);
+
+	q = pfuncinverter (p, shape, lower_tail, log_p, 0, 1, x0,
+			   pbeta1, dbeta1);
+	return q;
 }
 
 gnm_float
@@ -6144,7 +6159,50 @@ qf (gnm_float p, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p
 	return (qc / q) * (n2 / n1);
 }
 
-/* ------------------------------------------------------------------------ */
+
+static gnm_float
+phyper1 (gnm_float x, const gnm_float shape[],
+	 gboolean lower_tail, gboolean log_p)
+{
+	return phyper (x, shape[0], shape[1], shape[2], lower_tail, log_p);
+}
+
+gnm_float
+qhyper (gnm_float p, gnm_float NR, gnm_float NB, gnm_float n,
+	gboolean lower_tail, gboolean log_p)
+{
+	gnm_float y, shape[3];
+	gnm_float N = NR + NB;
+
+	if (gnm_isnan (p) || gnm_isnan (N) || gnm_isnan (n))
+		return p + N + n;
+	if(!gnm_finite (p) || !gnm_finite (N) ||
+	   NR < 0 || NB < 0 || n < 0 || n > N)
+		ML_ERR_return_NAN;
+
+	shape[0] = NR;
+	shape[1] = NB;
+	shape[2] = n;
+
+	if (N > 2) {
+		gnm_float mu = n * NR / N;
+		gnm_float sigma =
+			gnm_sqrt (NR * NB * n * (N - n) / (N * N * (N - 1)));
+		gnm_float sigma_gamma =
+			(N - 2 * NR) * (N - 2 * n) / ((N - 2) * N);
+
+		/* Cornish-Fisher expansion:  */
+		gnm_float z = qnorm (p, 0., 1., lower_tail, log_p);
+		y = mu + sigma * z + sigma_gamma * (z * z - 1) / 6;
+	} else
+		y = 0;
+
+	return discpfuncinverter (p, shape, lower_tail, log_p,
+				  MAX (0, n - NB), MIN (n, NR), y,
+				  phyper1);
+}
+
+/* ------------------------------------------------------------------------- */
 /* http://www.math.keio.ac.jp/matumoto/CODES/MT2002/mt19937ar.c  */
 /* Imported by hand -- MW.  */
 
@@ -6851,53 +6909,10 @@ random_geometric (gnm_float p)
 	return gnm_floor (gnm_log (u) / gnm_log1p (-p) + 1);
 }
 
-/*
- * Generate a hypergeometric-distributed number. From the GNU Scientific
- * library 1.1.1.
- * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
- */
 gnm_float
 random_hypergeometric (unsigned int n1, unsigned int n2, unsigned int t)
 {
-	unsigned int n = n1 + n2;
-
-	unsigned int i = 0;
-	unsigned int a = n1;
-	unsigned int b = n1 + n2;
-	unsigned int k = 0;
-
-	/* FIXME: performance for large t?  */
-
-	if (t > n)
-		t = n;
-
-	if (t < n / 2) {
-		for (i = 0 ; i < t ; i++) {
-			gnm_float u = random_01 ();
-
-			if (b * u < a) {
-				k++;
-				if (k == n1)
-					return k ;
-				a-- ;
-			}
-			b--;
-		}
-		return k;
-	} else {
-		for (i = 0 ; i < n - t ; i++) {
-			gnm_float u = random_01 ();
-
-			if (b * u < a) {
-				k++;
-				if (k == n1)
-					return n1 - k;
-				a--;
-			}
-			b-- ;
-		}
-		return n1 - k;
-	}
+	return qhyper (random_01 (), n1, n2, t, TRUE, FALSE);
 }
 
 

@@ -5,6 +5,5 @@
 #include <glib.h>
 
 gnm_float qcauchy (gnm_float p, gnm_float location, gnm_float scale, gboolean lower_tail, gboolean log_p);
-gnm_float qhyper (gnm_float p, gnm_float NR, gnm_float NB, gnm_float n, gboolean lower_tail, gboolean log_p);
 
 #endif

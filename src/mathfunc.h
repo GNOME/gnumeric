@@ -104,6 +104,7 @@ gnm_float qnbinom (gnm_float p, gnm_float n, gnm_float pr, gboolean lower_tail, 
 /* Hyper-geometrical distribution.  */
 gnm_float dhyper (gnm_float x, gnm_float r, gnm_float b, gnm_float n, gboolean give_log);
 gnm_float phyper (gnm_float x, gnm_float NR, gnm_float NB, gnm_float n, gboolean lower_tail, gboolean log_p);
+gnm_float qhyper (gnm_float p, gnm_float NR, gnm_float NB, gnm_float n, gboolean lower_tail, gboolean log_p);
 
 /* Geometrical distribution.  */
 gnm_float dgeom (gnm_float x, gnm_float p, gboolean give_log);
