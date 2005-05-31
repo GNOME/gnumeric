@@ -1,3 +1,8 @@
+2005-05-31  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/commands.c (cmd_set_text): Remove the variable `GObject *obj';
+	it's not needed.  Similarly for other 43 command functions.
+
 2005-05-31  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* src/ssconvert.c (main):
