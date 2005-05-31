@@ -209,6 +209,7 @@ sheet_object_widget_new_view (SheetObject *so, SheetObjectViewContainer *contain
 		"size_pixels", FALSE,
 		NULL);
 	gtk_widget_show_all (view_widget);
+	foo_canvas_item_hide (view_item);
 	return gnm_pane_widget_register (so, view_widget, view_item);
 }
 

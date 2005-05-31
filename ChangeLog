@@ -1,3 +1,15 @@
+2005-05-31  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=304559
+	* src/sheet-object-widget.c (sheet_object_widget_new_view) : keep the
+	  view hidden until we can set the bounds
+
+2005-05-30  Jody Goldberg <jody@gnome.org>
+
+	* src/expr.c (gnm_expr_eval) : Support external array iteration.
+	  When we are evaluating an array and the result is a scalar try
+	  evaluating at every point in the result.
+
 2005-05-30  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* src/main-application.c (main): Use go_shell_argv_to_glib_encoding(),
