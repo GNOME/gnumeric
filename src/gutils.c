@@ -28,6 +28,8 @@
 #include <errno.h>
 #include <gsf/gsf-impl-utils.h>
 
+const gchar *solver_max_time_err;
+
 #ifndef G_OS_WIN32
 const char *gnumeric_lib_dir = GNUMERIC_LIBDIR;
 const char *gnumeric_data_dir = GNUMERIC_DATADIR;
@@ -63,6 +65,10 @@ gutils_init (void)
 	home_dir = g_get_home_dir ();
 	gnumeric_usr_dir = (home_dir == NULL ? NULL :
 	   g_build_filename (home_dir, ".gnumeric", GNUMERIC_VERSION, NULL));
+
+	solver_max_time_err = _("The maximum time exceeded. The optimal "
+				"value could not be found in given "
+				"time.");
 }
 
 void

@@ -134,7 +134,6 @@ static const char *const model_type_group[] = {
 
 static GList *lp_alg_name_list = NULL;
 static GList *qp_alg_name_list = NULL;
-const gchar *solver_max_time_err;
 
 /**
  * is_hom_row_or_col_ref:
@@ -1026,10 +1025,6 @@ dialog_init (SolverState *state)
 	GList *l = NULL;
 
 	param = state->sheet->solver_parameters;
-
-	solver_max_time_err = _("The maximum time exceeded. The optimal "
-				"value could not be found in given "
-				"time.");
 
 	if (lp_alg_name_list == NULL) {
 		for (i = 0; algorithm_defs [i].name; i++)

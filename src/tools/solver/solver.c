@@ -40,6 +40,7 @@
 #include "mathfunc.h"
 #include "analysis-tools.h"
 #include "api.h"
+#include "gutils.h"
 
 #include <math.h>
 #include <stdlib.h>
@@ -47,8 +48,6 @@
 #ifdef HAVE_TIMES
 #include <sys/times.h>
 #endif
-
-extern const gchar *solver_max_time_err;
 
 /* ------------------------------------------------------------------------- */
 

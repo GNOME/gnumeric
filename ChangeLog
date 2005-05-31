@@ -1,5 +1,14 @@
 2005-05-31  Stepan Kasal  <kasal@ucw.cz>
 
+	* src/dialogs/dialog-solver.c (solver_max_time_err): Move the
+	  variable and its initialization...
+	* src/gutils.c (gutils_init): ... here.
+	* src/gutils.h (solver_max_time_err): Declare.
+	* src/tools/solver/solver.c: Include gutils.h instead of the
+	  declaration of solver_max_time_err.
+
+2005-05-31  Stepan Kasal  <kasal@ucw.cz>
+
 	* src/commands.c (cmd_set_text): Remove the variable `GObject *obj';
 	it's not needed.  Similarly for other 43 command functions.
 
