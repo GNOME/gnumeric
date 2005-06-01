@@ -387,10 +387,12 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 		GTimeVal cur_time;
 
 		target = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
+		cell_eval (target);
 
 		/* Check that LHS is a number type. */
-		if (! (target->value == NULL || VALUE_IS_EMPTY (target->value)
-		              || VALUE_IS_NUMBER (target->value))) {
+		if (! (target->value == NULL ||
+		       VALUE_IS_EMPTY (target->value) ||
+		       VALUE_IS_NUMBER (target->value))) {
 		          *errmsg = _("The LHS cells should contain formulas "
 				      "that yield proper numerical values.  "
 				      "Specify valid LHS entries.");
@@ -415,7 +417,7 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 		        continue;
 		}
 		clear_input_vars (param->n_variables, res);
-		x0 = base;
+		x0 = base = value_get_as_float (target->value);
 		for (n = 0; n < param->n_variables; n++) {
 		        x = get_lp_coeff (target,
 					  solver_get_input_var (res, n), &x0);
@@ -426,10 +428,12 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 			}
 		}
 		target = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
+		cell_eval (target);
 
 		/* Check that RHS is a number type. */
-		if (! (target->value == NULL || VALUE_IS_EMPTY (target->value)
-		       || VALUE_IS_NUMBER (target->value))) {
+		if (! (target->value == NULL ||
+		       VALUE_IS_EMPTY (target->value) ||
+		       VALUE_IS_NUMBER (target->value))) {
 		          *errmsg = _("The RHS cells should contain proper "
 				      "numerical values only.  Specify valid "
 				      "RHS entries.");
@@ -437,8 +441,9 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 			  return NULL;
 		}
 
-		x = value_get_as_float (target->value);
+		x = value_get_as_float (target->value) - base;
 		alg->set_constr_fn (program, ind, c->type, x);
+		res->rhs[i] = x; 
 		ind++;
 
 		/* Check that max time has not elapsed. */

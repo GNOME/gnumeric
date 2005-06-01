@@ -1,3 +1,11 @@
+2005-05-29  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=171025
+	* solver.c (lp_qp_solver_init) : Add some cell_eval calls,
+	  and use the correct base for mapping constraints.
+	* reports.c (solver_prepare_reports_success) : rhs is stored in the
+	  initialization.
+
 2005-05-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.1

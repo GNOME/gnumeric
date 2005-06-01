@@ -84,13 +84,10 @@ static gnm_float
 get_target_cell_value (SolverResults *res, GnmCell *target_cell,
 		       int col, gnm_float x, gnm_float *old_value)
 {
-        GnmCell *var_cell;
-
-	var_cell   = solver_get_input_var (res, col);
+        GnmCell *var_cell = solver_get_input_var (res, col);
 	*old_value = value_get_as_float (var_cell->value);
 	sheet_cell_set_value (var_cell, value_new_float (x));
 	cell_eval (target_cell);
-
 	return value_get_as_float (target_cell->value);
 }
 
@@ -185,7 +182,8 @@ calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
 					res->limits[n].upper_result =
 					        value_get_as_float (cell->value);
 				}
-			} else ; /* FIXME */
+			} else
+				; /* FIXME */
 			get_target_cell_value (res, cell, n, old_val, &y);
 		}
 	}
@@ -273,13 +271,13 @@ solver_prepare_reports_success (SolverProgram *program, SolverResults *res,
 	 * Go through the constraints; save LHS, RHS, slack
 	 */
 	for (i = 0; i < param->n_constraints; i++) {
-	        SolverConstraint *c = solver_get_constraint (res, i);
+	        SolverConstraint const *c = solver_get_constraint (res, i);
 
 		res->shadow_prizes[i] = alg->get_shadow_prize_fn (program, i);
+
 		cell = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
 		res->lhs[i] = value_get_as_float (cell->value);
-		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
-		res->rhs[i] = value_get_as_float (cell->value);
+
 		res->slack[i] = gnm_abs (res->rhs[i] - res->lhs[i]);
 	}
 
