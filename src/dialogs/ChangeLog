@@ -1,3 +1,7 @@
+2005-06-01  Stepan Kasal  <kasal@ucw.cz>
+
+	* dialog-about.c (contributors): Add accent to Jakub Jelinek.
+
 2005-05-26  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* dialog-printer-setup.c (do_setup_margin): relocate unit selector.

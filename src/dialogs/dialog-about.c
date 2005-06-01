@@ -113,7 +113,7 @@ static struct {
 		N_("Special functions") },
 	{ N_("Jukka-Pekka Iivonen"),	GNM_ANALYTICS|GNM_GUI|GNM_FEATURE_HACKER,
 		N_("Solver, lots of worksheet functions, and general trailblazer") },
-	{ N_("Jakub Jelinek"),		GNM_CORE,
+	{ N_("Jakub Jel\xc3\xadnek"),		GNM_CORE,
 		N_("One of the original core contributors") },
 	{ N_("Jakub Steiner"),		GNM_ART,
 		N_("Icons and Images") },
