@@ -56,6 +56,7 @@ Morten:
 	* Improve R.QNORM's accuracy in the long double case.
 	* Improve R.QCAUCHY's accuracy.
 	* Add new R.QHYPER function.
+	* Fix xml SAX import issue for array formulae.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1
