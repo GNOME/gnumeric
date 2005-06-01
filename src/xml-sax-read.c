@@ -50,6 +50,7 @@
 #include "gnm-so-line.h"
 #include "gnm-so-filled.h"
 #include "sheet-object-graph.h"
+#include "application.h"
 
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-plugin.h>
@@ -1629,7 +1630,6 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
 };
 GsfXMLInDoc *gnm_sax_in_doc;
 
-#if 0 /* requires gsf 1.11.0 */
 static gboolean
 xml_sax_unknown (GsfXMLIn *state, xmlChar const *elem, xmlChar const **attrs)
 {
@@ -1643,7 +1643,6 @@ xml_sax_unknown (GsfXMLIn *state, xmlChar const *elem, xmlChar const **attrs)
 	}
 	return FALSE;
 }
-#endif
 
 static GsfInput *
 maybe_gunzip (GsfInput *input)
@@ -1732,6 +1731,16 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	g_return_if_fail (IS_WORKBOOK_VIEW (wb_view));
 	g_return_if_fail (GSF_IS_INPUT (input));
 
+	if (NULL == gnm_sax_in_doc) {
+		gnm_sax_in_doc = gsf_xml_in_doc_new (gnumeric_1_0_dtd, content_ns);
+		gsf_xml_in_doc_set_unknown_handler (gnm_sax_in_doc, &xml_sax_unknown);
+		g_object_set_data_full (gnm_app_get_app (),
+			"GnmXMLSaxDoc", gnm_sax_in_doc,
+			(GDestroyNotify) gsf_xml_in_doc_free);
+	}
+
+	g_return_if_fail (gnm_sax_in_doc != NULL);
+
 	/* init */
 	state.base.doc = gnm_sax_in_doc;
 
@@ -1782,20 +1791,3 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	/* cleanup */
 	g_hash_table_destroy (state.expr_map);
 }
-
-#warning FIXME register these
-#if 0
-G_MODULE_EXPORT void
-go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
-{
-	gnm_sax_in_doc = gsf_xml_in_doc_new (gnumeric_1_0_dtd, content_ns);
-#if 0 /* requires gsf 1.11.0 */
-	gsf_xml_in_doc_set_unknown_handler (gnm_sax_in_doc, &xml_sax_unknown);
-#endif
-}
-G_MODULE_EXPORT void
-go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
-{
-	gsf_xml_in_doc_free (gnm_sax_in_doc);
-}
-#endif
