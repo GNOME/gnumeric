@@ -212,22 +212,6 @@ make_undo_text (char const *src, int max_len, gboolean *truncated)
 
 
 /**
- * returns the range name depending on the preference setting
- *
- * char const *undo_global_range_name
- *
- * @pos: GnmCellPos
- *
- * Returns :
- */
-static char *
-undo_global_range_name (Sheet *sheet, GnmRange const *range)
-{
-	gboolean show_sheet_name = gnm_app_prefs->show_sheet_name;
-	return global_range_name (show_sheet_name ? sheet : NULL, range);
-}
-
-/**
  * checks whether the cells are effectively locked
  *
  * static gboolean cmd_cell_range_is_locked_effective
@@ -250,7 +234,7 @@ cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange *range,
 					char *text = g_strdup_printf (wbv->is_protected  ?
 						_("%s is locked. Unprotect the workbook to enable editing.") :
 						_("%s is locked. Unprotect the sheet to enable editing."),
-						undo_global_range_name (sheet, range));
+						global_range_name (sheet, range));
 					go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),
 						cmd_name, text);
 					g_free (text);
@@ -302,26 +286,6 @@ cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,
 			return TRUE;
 	}
 	return FALSE;
-}
-
-/**
- * returns the cell position name depending on the preference setting
- *
- * char *cmd_cell_pos_name_utility
- *
- * @pos: GnmCellPos
- *
- * Returns :
- */
-char *
-cmd_cell_pos_name_utility (Sheet *sheet, GnmCellPos const *pos)
-{
-	GnmRange range;
-
-	range.start = *pos;
-	range.end   = *pos;
-
-	return undo_global_range_name (sheet, &range);
 }
 
 static guint
@@ -383,64 +347,6 @@ update_after_action (Sheet *sheet, WorkbookControl *wbc)
 		sheet_update (wb_control_cur_sheet (wbc));
 }
 
-/*
- * cmd_range_list_to_string_utility: Convert a list of ranges into a string.
- *                       (The result will be something like :
- *                        "A1:C3, D4:E5"). The string will be
- *                       automatically truncated to max_descriptor_width ().
- *                       The caller should free the GString that is returned.
- *
- * @ranges : GSList containing GnmRange *'s
- */
-GString *
-cmd_range_list_to_string_utility (Sheet *sheet, GSList const *ranges)
-{
-	GString *names;
-	GSList const *l;
-        char *name;
-        guint max_width;
-
-	g_return_val_if_fail (ranges != NULL, NULL);
-
-	names = g_string_new (NULL);
-	for (l = ranges; l != NULL; l = l->next) {
-		GnmRange const *r = l->data;
-
-                name = undo_global_range_name (sheet , r);
-                g_string_append (names, name);
-                g_free (name);
-
-		if (l->next)
-			g_string_append (names, ", ");
-	}
-
-	/* Make sure the string doesn't get overly wide
-	 */
-	max_width = MAX (3, max_descriptor_width ());
-	if (strlen (names->str) > max_width) {
-		/* FIXME: this does not look right for UTF8 !!*/
-		g_string_truncate (names, max_width - 3);
-		g_string_append (names, _("..."));
-	}
-
-	return names;
-}
-
-char *
-cmd_range_to_str_utility (Sheet *sheet, GnmRange const *range)
-{
-	GSList  *list   = NULL;
-	GString *string = NULL;
-	char    *text   = NULL;
-
-	list = g_slist_prepend (list, (GnmRange *)range);
-	string = cmd_range_list_to_string_utility (sheet, list);
-	g_slist_free (list);
-	text = string->str;
-	g_string_free (string, FALSE);
-
-	return text;
-}
 
 static void
 gnm_reloc_undo_release (GnmRelocUndo *undo)
@@ -1053,7 +959,7 @@ cmd_set_text (WorkbookControl *wbc,
 
 	me->cmd.sheet = sheet;
 	me->cmd.size = 1;
-	where = cmd_cell_pos_name_utility (sheet, pos);
+	where = undo_cell_pos_name (sheet, pos);
 
 	me->cmd.cmd_descriptor =
 		same_text
@@ -1719,7 +1625,8 @@ gboolean
 cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 {
 	CmdClear *me;
-	GString *names, *types;
+	char *names;
+	GString *types;
 	int paste_flags;
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 
@@ -1773,10 +1680,10 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 	 * need to truncate the "types" list because it will not grow
 	 * indefinitely
 	 */
-	names = cmd_range_list_to_string_utility (me->cmd.sheet, me->selection);
-	me->cmd.cmd_descriptor = g_strdup_printf (_("Clearing %s in %s"), types->str, names->str);
+	names = undo_range_list_name (me->cmd.sheet, me->selection);
+	me->cmd.cmd_descriptor = g_strdup_printf (_("Clearing %s in %s"), types->str, names);
 
-	g_string_free (names, TRUE);
+	g_free (names);
 	g_string_free (types, TRUE);
 
 	return command_push_undo (wbc, G_OBJECT (me));
@@ -1982,11 +1889,10 @@ cmd_selection_format (WorkbookControl *wbc,
 		me->borders = NULL;
 
 	if (opt_translated_name == NULL) {
-		GString *names = cmd_range_list_to_string_utility (me->cmd.sheet,
-								   me->selection);
+		char *names = undo_range_list_name (me->cmd.sheet, me->selection);
 
-		me->cmd.cmd_descriptor = g_strdup_printf (_("Changing format of %s"), names->str);
-		g_string_free (names, TRUE);
+		me->cmd.cmd_descriptor = g_strdup_printf (_("Changing format of %s"), names);
+		g_free (names);
 	} else
 		me->cmd.cmd_descriptor = g_strdup (opt_translated_name);
 
@@ -2791,7 +2697,7 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 		return TRUE;
 
 	/* FIXME: Do we want to show the destination range as well ? */
-	where = undo_global_range_name (info->origin_sheet, &info->origin);
+	where = undo_range_name (info->origin_sheet, &info->origin);
 	if (descriptor == NULL)
 		descriptor = g_strdup_printf (_("Moving %s"), where);
 	g_free (where);
@@ -3532,7 +3438,7 @@ gboolean
 cmd_selection_autoformat (WorkbookControl *wbc, FormatTemplate *ft)
 {
 	CmdAutoFormat *me;
-	GString   *names;
+	char      *names;
 	GSList    *l;
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 
@@ -3567,10 +3473,10 @@ cmd_selection_autoformat (WorkbookControl *wbc, FormatTemplate *ft)
 		me->old_styles = g_slist_append (me->old_styles, os);
 	}
 
-	names = cmd_range_list_to_string_utility (me->cmd.sheet, me->selection);
+	names = undo_range_list_name (me->cmd.sheet, me->selection);
 	me->cmd.cmd_descriptor = g_strdup_printf (_("Autoformatting %s"),
-						     names->str);
-	g_string_free (names, TRUE);
+						     names);
+	g_free (names);
 
 	return command_push_undo (wbc, G_OBJECT (me));
 }
@@ -3673,7 +3579,7 @@ gboolean
 cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 {
 	CmdUnmergeCells *me;
-	GString *names;
+	char *names;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
@@ -3682,9 +3588,9 @@ cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 	me->cmd.sheet = sheet;
 	me->cmd.size = 1;
 
-	names = cmd_range_list_to_string_utility (sheet, selection);
-	me->cmd.cmd_descriptor = g_strdup_printf (_("Unmerging %s"), names->str);
-	g_string_free (names, TRUE);
+	names = undo_range_list_name (sheet, selection);
+	me->cmd.cmd_descriptor = g_strdup_printf (_("Unmerging %s"), names);
+	g_free (names);
 
 	me->unmerged_regions = NULL;
 	me->ranges = g_array_new (FALSE, FALSE, sizeof (GnmRange));
@@ -3834,7 +3740,7 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection,
 		 gboolean center)
 {
 	CmdMergeCells *me;
-	GString *names;
+	char *names;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
@@ -3843,10 +3749,10 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection,
 	me->cmd.sheet = sheet;
 	me->cmd.size = 1;
 
-	names = cmd_range_list_to_string_utility (sheet, selection);
+	names = undo_range_list_name (sheet, selection);
 	me->cmd.cmd_descriptor =
-		g_strdup_printf ((center ? _("Merge and Center %s") :_("Merging %s")), names->str);
-	g_string_free (names, TRUE);
+		g_strdup_printf ((center ? _("Merge and Center %s") :_("Merging %s")), names);
+	g_free (names);
 
 	me->center = center;
 	me->ranges = g_array_new (FALSE, FALSE, sizeof (GnmRange));
@@ -5508,7 +5414,7 @@ cmd_set_comment (WorkbookControl *wbc,
 		me->new_text = NULL;
 	else
 		me->new_text    = g_strdup (new_text);
-	where = cmd_cell_pos_name_utility (sheet, pos);
+	where = undo_cell_pos_name (sheet, pos);
 	me->cmd.cmd_descriptor =
 		g_strdup_printf (me->new_text == NULL ?
 				 _("Clearing comment of %s") :
@@ -6644,8 +6550,8 @@ cmd_text_to_columns (WorkbookControl *wbc,
 	me->cmd.sheet = (src_sheet == target_sheet ? src_sheet : NULL);
 	me->cmd.size = 1;  /* FIXME?  */
 	me->cmd.cmd_descriptor = g_strdup_printf (_("Text (%s) to Columns (%s)"),
-						  undo_global_range_name (src_sheet, src),
-						  undo_global_range_name (target_sheet, target));
+						  undo_range_name (src_sheet, src),
+						  undo_range_name (target_sheet, target));
 	me->dst.range = *target;
 	me->dst.sheet = target_sheet;
 	me->dst.paste_flags = PASTE_CONTENT | PASTE_FORMATS;
@@ -6867,7 +6773,7 @@ cmd_goal_seek (WorkbookControl *wbc, GnmCell *cell, GnmValue *ov, GnmValue *nv)
 	me->cmd.size = 1;
 	range_init_cellpos (&range, &cell->pos, &cell->pos);
 	me->cmd.cmd_descriptor = g_strdup_printf 
-		(_("Goal Seek (%s)"), undo_global_range_name (cell->base.sheet, &range));
+		(_("Goal Seek (%s)"), undo_range_name (cell->base.sheet, &range));
 
 	me->cell = cell;
 	me->ov = ov;

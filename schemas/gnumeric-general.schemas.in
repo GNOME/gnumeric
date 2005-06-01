@@ -51,7 +51,7 @@
         <applyto>/apps/gnumeric/undo/max_descriptor_width</applyto>
         <owner>Gnumeric</owner>
         <type>int</type>
-	<default>15</default>
+	<default>40</default>
         <locale name="C">
         <short>Length of the Undo Descriptors</short>
         <long>This value is indicative of the maximum length of the command descriptors in the undo and redo chains.</long>

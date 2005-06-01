@@ -40,7 +40,6 @@
 #include "command-context.h"
 #include "gnm-format.h"
 #include "sheet-object-cell-comment.h"
-#include "commands.h"
 #include "style-color.h"
 
 #include <glib/gi18n.h>
@@ -117,7 +116,7 @@ dao_range_name (data_analysis_output_t *dao)
 		    dao->start_col + dao->cols - 1, 
 		    dao->start_row + dao->rows - 1);
 
-	return cmd_range_to_str_utility (dao->sheet, &range);
+	return undo_range_name (dao->sheet, &range);
 }
 
 /**

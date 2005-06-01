@@ -1,3 +1,17 @@
+2005-06-01  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/ranges.c (undo_cell_pos_name, undo_range_name, undo_range_list_name):
+	  New functions.
+	(max_range_name_width, range_list_name_try): New static functions.
+	* src/commands.c (undo_global_range_name, cmd_cell_pos_name_utility):
+	(cmd_range_list_to_string_utility, cmd_range_to_str_utility): Nuke; all
+	  callers should use the new functions from ranges.c.
+
+	* schemas/gnumeric-general.schemas.in (max_descriptor_width):
+	Change the default to 40; "Clearing contents in Sheet1!A12:C34"
+	should fit in without truncating.  The prefix is about 20 chars
+	and about 20 chars should remain for the range name itself.
+
 2005-05-31  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (xml_sax_cell): Fix asserts.

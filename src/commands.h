@@ -11,10 +11,6 @@ void command_repeat (WorkbookControl *wbc);
 void command_setup_combos	(WorkbookControl *wbc);
 void command_list_release	(GSList *cmds);
 
-GString *cmd_range_list_to_string_utility (Sheet *sheet, GSList const *ranges);
-char *cmd_range_to_str_utility  (Sheet *sheet, GnmRange const *range);
-char *cmd_cell_pos_name_utility (Sheet *sheet, GnmCellPos const *pos);
-
 gboolean cmd_set_text		(WorkbookControl *wbc, Sheet *sheet,
 				 GnmCellPos const *pos, const char *new_text,
 				 PangoAttrList *markup);

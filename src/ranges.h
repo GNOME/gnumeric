@@ -103,14 +103,18 @@ GnmSheetRange *gnm_sheet_range_dup	  (GnmSheetRange const *src);
 void           gnm_sheet_range_free       (GnmSheetRange *r);
 gboolean       gnm_sheet_range_from_value (GnmSheetRange *r, GnmValue const *v);
 gboolean       gnm_sheet_range_overlap    (GnmSheetRange const *a, GnmSheetRange const *b);
-char        *global_range_name      (Sheet const *sheet, GnmRange const *r);
-gboolean     global_range_contained (Sheet const *sheet,
-				     GnmValue const *a, GnmValue const *b);
 
-GSList      *global_range_list_parse   (Sheet *sheet, char const *str);
-GnmValue    *global_range_list_foreach (GSList *gr_list, GnmEvalPos const *ep,
-					CellIterFlags	flags,
-					CellIterFunc	handler,
-					gpointer	closure);
+char	      *global_range_name	  (Sheet const *sheet, GnmRange const *r);
+char	      *undo_cell_pos_name	  (Sheet const *sheet, GnmCellPos const *pos);
+char	      *undo_range_name		  (Sheet const *sheet, GnmRange const *r);
+char	      *undo_range_list_name	  (Sheet const *sheet, GSList const *ranges);
+
+GSList	      *global_range_list_parse    (Sheet *sheet, char const *str);
+GnmValue      *global_range_list_foreach  (GSList *gr_list, GnmEvalPos const *ep,
+					   CellIterFlags	flags,
+					   CellIterFunc	handler,
+					   gpointer	closure);
+gboolean       global_range_contained	  (Sheet const *sheet,
+					   GnmValue const *a, GnmValue const *b);
 
 #endif /* GNM_RANGES_H */

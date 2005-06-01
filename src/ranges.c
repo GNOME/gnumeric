@@ -21,11 +21,12 @@
 #include "cell.h"
 #include "style.h"
 #include "workbook.h"
+#include "gnumeric-gconf.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <glib.h>
-#include <string.h>
+#include <glib/gi18n.h>
 #include <string.h>
 
 #undef RANGE_DEBUG
@@ -1042,6 +1043,162 @@ global_range_name (Sheet const *sheet, GnmRange const *r)
 		return g_strdup (the_range_name);
 
 	return g_strdup_printf ("%s!%s", sheet->name_quoted, the_range_name);
+}
+
+/* The maximal allowed width of a range.
+ * We have max_descriptor_width in the preferences, but who knows how much
+ * will be added later?  So we leave 20 chars for the other text...
+ */
+static guint
+max_range_name_width (void)
+{
+	guint max_width = gnm_app_prefs->max_descriptor_width;
+
+	return (max_width > 23 ? max_width - 20 : 3);
+}
+
+/**
+ * char const *undo_cell_pos_name
+ * @sheet:
+ * @pos:
+ *
+ * Returns the range name depending on the preference setting.
+ */
+char *
+undo_cell_pos_name (Sheet const *sheet, GnmCellPos const *pos)
+{
+	GnmRange r;
+	r.end = r.start = *pos;
+	return undo_range_name (sheet, &r);
+}
+
+/**
+ * char const *undo_range_name
+ * @sheet:
+ * @r:
+ *
+ * Returns the range name depending on the preference setting.
+ */
+char *
+undo_range_name (Sheet const *sheet, GnmRange const *r)
+{
+	char const * the_range_name = range_name (r);
+	guint max_width;
+
+	max_width = max_range_name_width ();
+
+	if (sheet != NULL && gnm_app_prefs->show_sheet_name) {
+		char *n = g_strdup_printf ("%s!%s", sheet->name_quoted, the_range_name);
+
+		if (strlen (n) <= max_width)
+			return n;
+		else
+			g_free (n);
+	}
+
+	return g_strdup (strlen (the_range_name) <= max_width ? the_range_name : "");
+}
+
+
+/*
+ * Create range list name, but don't exceed max_width.
+ * Return TRUE iff the name is complete.
+ */
+static gboolean
+range_list_name_try (GString *names, Sheet const *sheet, GSList const *ranges,
+		     guint max_width)
+{
+	GSList const *l;
+	char const *n = range_name (ranges->data);
+
+	if (sheet == NULL)
+		g_string_assign (names, n);
+	else
+		g_string_printf (names, "%s!%s", sheet->name_quoted, n);
+
+	if (names->len > max_width) {
+		g_string_truncate (names, 0);
+		return FALSE;
+	}
+
+	for (l = ranges->next; l != NULL; l = l->next) {
+		gsize new_len;
+
+		n = range_name (l->data);
+
+		/* The string may not get too long. */
+		new_len = names->len + 2 + strlen (n);
+		if (sheet != NULL)
+			new_len += strlen (sheet->name_quoted) + 1;
+		if (new_len > max_width)
+			break;
+
+		if (sheet == NULL)
+			g_string_append_printf (names, ", %s", n);
+		else
+			g_string_append_printf (names, ", %s!%s",
+						sheet->name_quoted, n);
+	}
+
+	/* Have we reached the end? */
+	return (l == NULL);
+}
+
+
+/**
+ * char const *undo_range_list_name
+ * @sheet:
+ * @ranges : GSList containing GnmRange *'s
+ *
+ * Returns the range list name depending on the preference setting.
+ * (The result will be something like: "A1:C3, D4:E5"). The string will be
+ * truncated to max_descriptor_width.
+ */
+char *
+undo_range_list_name (Sheet const *sheet, GSList const *ranges)
+{
+	GString *names;
+	GString *trunc_names = NULL;
+	guint max_width;
+
+	g_return_val_if_fail (ranges != NULL, NULL);
+
+	max_width = max_range_name_width ();
+
+	names = g_string_new (NULL);
+
+	/* With the sheet name. */
+	if (sheet != NULL && gnm_app_prefs->show_sheet_name) {
+		if (range_list_name_try (names, sheet, ranges, max_width)) {
+			/* We have reached the end, return the data from names. */
+			return g_string_free (names, FALSE);
+		}
+		/* Store the partial result. */
+		if (names->len > 0) {
+			trunc_names = names;
+			names = g_string_new (NULL);
+		}
+	}
+
+	/* Without the sheet name. */
+	if (range_list_name_try (names, NULL, ranges, max_width)) {
+		/* We have reached the end, return the data from names. */
+		if (trunc_names != NULL)
+			g_string_free (trunc_names, TRUE);
+		return g_string_free (names, FALSE);
+	}
+
+	/* We have to use a truncated version. */
+	if (trunc_names != NULL) {
+		g_string_free (names, TRUE);
+		names = trunc_names;
+	}
+
+	/* Actually we can get slightly more than max_width here.
+	 * But max_width was computed as an estimate, anyway, so we don't care.
+	 */
+	g_string_append (names, _("..."));
+	return g_string_free (names, FALSE);
 }
 
 /**
