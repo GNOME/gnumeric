@@ -2,6 +2,10 @@
 
 	* dialog-about.c (contributors): Add accent to Jakub Jelinek.
 
+2005-05-31  Stepan Kasal  <kasal@ucw.cz>
+
+        * dialog-solver.c (solver_max_time_err): Move to src/gutils.c.
+
 2005-05-26  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* dialog-printer-setup.c (do_setup_margin): relocate unit selector.
