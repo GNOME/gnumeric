@@ -99,6 +99,7 @@ gnumeric_reqs="
 	gobject-2.0		>= 2.4.0
 	gmodule-2.0		>= 2.4.0
 	libgsf-1		>= 1.10.0
+	libgsf-1		<  1.12.0
 	libxml-2.0		>= 2.4.12
 	pango			>= 1.4.0
 	pangoft2		>= 1.4.0
@@ -118,6 +119,7 @@ gnumeric_gnome_reqs="
 	libgnome-2.0		>= 2.0.0
 	libgnomeui-2.0		>= 2.0.0
 	libgsf-gnome-1		>= 1.10.0
+	libgsf-gnome-1		<  1.12.0
 "
 
 ui_msg=
