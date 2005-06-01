@@ -1093,8 +1093,8 @@ xml_sax_cell (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 	if (cols > 0 || rows > 0) {
 		/* Both must be valid */
-		g_return_if_fail (cols <= 0);
-		g_return_if_fail (rows <= 0);
+		g_return_if_fail (cols > 0);
+		g_return_if_fail (rows > 0);
 
 		state->array_cols = cols;
 		state->array_rows = rows;
@@ -1230,7 +1230,12 @@ xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 			   xml_not_used_old_array_spec (cell, content)) {
 			if (value_type > 0) {
 				GnmValue *v = value_new_from_string (value_type, content, value_fmt, FALSE);
-				cell_set_value (cell, v);
+				if (v == NULL) {
+					g_warning ("Unable to parse \"%s\" as type %d.",
+						   content, value_type);
+					cell_set_text (cell, content);
+				} else
+					cell_set_value (cell, v);
 			} else
 				cell_set_text (cell, content);
 		}

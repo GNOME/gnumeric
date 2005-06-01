@@ -1,3 +1,8 @@
+2005-05-31  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_cell): Fix asserts.
+	(xml_sax_cell_content): Guard against bogus values.
+
 2005-05-31  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-sax-read.c (gnm_xml_file_open) : register the doc if
