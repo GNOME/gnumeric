@@ -653,7 +653,7 @@ xml_write_cell_and_position (GnmOutputXML *state,
 		if (id == NULL) {
 			id = GINT_TO_POINTER (g_hash_table_size (state->expr_map) + 1);
 			g_hash_table_insert (state->expr_map, (gpointer)expr, id);
-		} else if (ar == NULL)
+		} else
 			write_contents = FALSE;
 
 		gsf_xml_out_add_int (state->output, "ExprID", GPOINTER_TO_INT (id));
@@ -674,13 +674,13 @@ xml_write_cell_and_position (GnmOutputXML *state,
 				gsf_xml_out_add_int (state->output, "ValueType", val->type);
 				if (VALUE_FMT (val) != NULL) {
 					char *fmt = style_format_as_XL (VALUE_FMT (val), FALSE);
-				gsf_xml_out_add_cstr (state->output, "ValueFormat", fmt);
-				g_free (fmt);
-			}
+					gsf_xml_out_add_cstr (state->output, "ValueFormat", fmt);
+					g_free (fmt);
+				}
 				value_get_as_gstring (val, str, state->exprconv);
 			} else {
 				g_warning ("%s has no value ?", cellpos_as_string (&pp->eval));
-		}
+			}
 		} else {
 			g_string_append_c (str, '=');
 			gnm_expr_as_gstring (str, expr, pp, state->exprconv);
@@ -699,7 +699,7 @@ cb_write_cell (Sheet *sheet, int col, int row, GnmCell const *cell, GnmOutputXML
 	xml_write_cell_and_position (state, cell->base.expression, cell->value,
 		parse_pos_init_cell (&pp, cell));
 	return NULL;
-	}
+}
 
 static void
 xml_write_cells (GnmOutputXML *state)

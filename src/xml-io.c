@@ -1606,7 +1606,7 @@ xml_write_cell_and_position (XmlParseContext *ctxt,
 		if (id == NULL) {
 			id = GINT_TO_POINTER (g_hash_table_size (ctxt->expr_map) + 1);
 			g_hash_table_insert (ctxt->expr_map, (gpointer)expr, id);
-		} else if (ar == NULL)
+		} else
 			write_contents = FALSE;
 
 		xml_node_set_int (cellNode, "ExprID", GPOINTER_TO_INT (id));

@@ -57,6 +57,7 @@ Morten:
 	* Improve R.QCAUCHY's accuracy.
 	* Add new R.QHYPER function.
 	* Fix xml SAX import issue for array formulae.
+	* Fix xml export of shared array formulae.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1
