@@ -1073,7 +1073,7 @@ BC_R(legend)(XLChartHandler const *handle,
 	};
 
 	s->legend = gog_object_add_by_name (GOG_OBJECT (s->chart), "Legend", NULL);
-	gog_object_set_pos (s->legend, pos);
+	gog_object_set_position_flags (s->legend, pos, GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
 
 #if 0
 	fprintf (stderr, "Legend @ %f,%f, X=%f, Y=%f\n",

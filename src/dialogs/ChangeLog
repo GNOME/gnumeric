@@ -1,3 +1,8 @@
+2006-06-02  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* src/dialog/dialog-about.c (dialog_about): use
+	gog_object_set_position_flags.
+						    
 2005-06-01  Stepan Kasal  <kasal@ucw.cz>
 
 	* dialog-about.c (contributors): Add accent to Jakub Jelinek.

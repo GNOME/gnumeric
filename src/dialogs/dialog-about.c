@@ -339,7 +339,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 		pango_font_description_from_string ("Sans 10"));
 
 	tmp = gog_object_add_by_name (chart, "Title", NULL);
-	gog_object_set_pos (tmp, GOG_POSITION_N | GOG_POSITION_ALIGN_START);
+	gog_object_set_position_flags (tmp, GOG_POSITION_N | GOG_POSITION_ALIGN_START,
+				       GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
 	state->contributor_name = go_data_scalar_str_new ("", FALSE);
 	gog_dataset_set_dim (GOG_DATASET (tmp), 0, state->contributor_name, NULL);
 	state->contributor_style = GOG_STYLED_OBJECT (tmp)->style;
@@ -372,7 +373,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 		GOG_STYLED_OBJECT (series)->style, 70.);
 
 	tmp = gog_object_add_by_name (state->graph, "Title", NULL);
-	gog_object_set_pos (tmp, GOG_POSITION_S | GOG_POSITION_ALIGN_END);
+	gog_object_set_position_flags (tmp, GOG_POSITION_S | GOG_POSITION_ALIGN_END,
+			    GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
 	gog_dataset_set_dim (GOG_DATASET (tmp), 0,
 		go_data_scalar_str_new (
 			"Gnumeric " GNUMERIC_VERSION "\n"
