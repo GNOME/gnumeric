@@ -283,7 +283,7 @@ compute_value (char const *s, const regmatch_t *mp,
 				number = 0.;
 				/* FIXME: this loop is bogus.  */
 				while (1) {
-					int thisnumber;
+					unsigned long thisnumber;
 					if (number > DBL_MAX / 1000.0) {
 						g_free (str);
 						return NULL;
@@ -336,7 +336,7 @@ compute_value (char const *s, const regmatch_t *mp,
 			}
 			if (exppart) {
 				char *end;
-				int exponent;
+				long exponent;
 
 				errno = 0; /* strtol sets errno, but does not clear it.  */
 				exponent = strtol (exppart, &end, 10);

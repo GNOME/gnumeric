@@ -1,3 +1,9 @@
+2005-06-02  Morten Welinder  <terra@gnome.org>
+
+	* src/number-match.c (compute_value): When matching with
+	strto[u]l, make sure to store the result in a variable large
+	enough.  Fixes #306254.
+
 2005-06-01  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-io.c (xml_write_cell_and_position): Don't duplicate
