@@ -29,7 +29,8 @@ qcauchy (gnm_float p, gnm_float location, gnm_float scale,
 
 	if (log_p) {
 		if (p > -1)
-			lower_tail = !lower_tail, p = -gnm_expm1 (p);
+			/* The "0" here is important for the p=0 case:  */
+			lower_tail = !lower_tail, p = 0 - gnm_expm1 (p);
 		else
 			p = gnm_exp (p);
 	}
