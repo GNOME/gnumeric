@@ -52,7 +52,7 @@
     </listitem>
     <listitem>
       <para>
-	<keycap>F3</keycap> opens the <interface>Load file</interface>
+	<keycap>Ctrl-O</keycap> opens the <interface>Load file</interface>
 	dialog window.
       </para>
     </listitem>
@@ -69,13 +69,13 @@
     </listitem>
     <listitem>
       <para>
-	<keycap>F5</keycap> opens the <interface>Go to</interface>
+	<keycap>Ctrl-G</keycap> opens the <interface>Go to</interface>
 	dialog window which allows you to jump to a specified cell.
       </para>
     </listitem>
     <listitem>
       <para>
-	<keycap>F6</keycap> opens the <interface>Search and
+	<keycap>Ctrl-H</keycap> opens the <interface>Search and
 	Replace</interface> dialog where you can search through your
 	spreadsheets for text strings and replace them with something
 	else.
@@ -83,7 +83,7 @@
     </listitem>
     <listitem>
       <para>
-	<keycap>F7</keycap> opens the <interface>Search
+	<keycap>Ctrl-F</keycap> opens the <interface>Search
 	Center</interface>.  The <interface>Search Center</interface>
 	allows you to search through your spreadsheets for text
 	strings.
