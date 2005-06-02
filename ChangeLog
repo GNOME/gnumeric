@@ -1,5 +1,9 @@
 2005-06-02  Morten Welinder  <terra@gnome.org>
 
+	* src/mathfunc.c (binomialcf): Fix log_p case.
+	(pfuncinverter): Handle NaNs better.
+	(qbeta): Improve initial guess.
+
 	* src/number-match.c (compute_value): When matching with
 	strto[u]l, make sure to store the result in a variable large
 	enough.  Fixes #306254.

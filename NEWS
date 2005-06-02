@@ -59,6 +59,7 @@ Morten:
 	* Fix xml SAX import issue for array formulae.
 	* Fix xml export of shared array formulae.
 	* Fix number matching problem.  [#306254]
+	* Fix R.PBETA screwup for log case.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1

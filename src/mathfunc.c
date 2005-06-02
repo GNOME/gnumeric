@@ -5592,10 +5592,12 @@ binomialcf (gnm_float ii, gnm_float jj, gnm_float pp, gnm_float qq,
 	if (ii > -1 && (jj <= 0 || pp == 0)) {
 		return R_DT_1;
 	} else if (ii > -1 && ii < 0) {
+		gnm_float f;
 		ii = -ii;
 		ip1 = ii;
-		prob = binomialTerm (ii, jj, pp, qq, (ii + jj) * pp - ii, log_p) *
-			ii / ((ii + jj) * pp);
+		f = ii / ((ii + jj) * pp);
+		prob = binomialTerm (ii, jj, pp, qq, (ii + jj) * pp - ii, log_p);
+		prob = log_p ? prob + gnm_log (f) : prob * f;
 		ii--;
 		diffFromMean = (ii + jj) * pp - ii;
 	} else
@@ -5870,10 +5872,12 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 			xhigh = x;
 			exhigh = e;
 			have_xhigh = TRUE;
-		} else {
+		} else if (e < 0) {
 			xlow = x;
 			exlow = e;
 			have_xlow = TRUE;
+		} else {
+			/* We got a NaN.  */
 		}
 
 		if (have_xlow && have_xhigh) {
@@ -6089,6 +6093,21 @@ pbeta1 (gnm_float x, const gnm_float shape[],
 	return pbeta (x, shape[0], shape[1], lower_tail, log_p);
 }
 
+static gnm_float
+abramowitz_stegun_26_5_22 (gnm_float p, gnm_float a, gnm_float b,
+			   gboolean lower_tail, gboolean log_p)
+{
+	gnm_float yp = qnorm (p, 0, 1, !lower_tail, log_p);
+	gnm_float ta = 1 / (2 * a - 1);
+	gnm_float tb = 1 / (2 * b - 1);
+	gnm_float h = 2 / (ta + tb);
+	gnm_float l = (yp * yp - 3) / 6;
+	gnm_float w = yp * gnm_sqrt (h + l) / h -
+		(tb - ta) * (l + (5 - 4 / h) / 6);
+	return a / (a + b * gnm_exp (2 * w));
+}
+
+
 gnm_float
 qbeta (gnm_float p, gnm_float pin, gnm_float qin, gboolean lower_tail, gboolean log_p)
 {
@@ -6103,29 +6122,26 @@ qbeta (gnm_float p, gnm_float pin, gnm_float qin, gboolean lower_tail, gboolean 
 
 	if (pin < 0. || qin < 0.) ML_ERR_return_NAN;
 
-	if (pin > 1 && qin > 1) {
+	if (pin >= 1 && qin >= 1)
+		x0 = abramowitz_stegun_26_5_22 (p, pin, qin, lower_tail, log_p);
+	else {
 		/*
-		 * The density function resembles a skewed normal.
+		 * The density function is U-shaped.
 		 */
-		gnm_float mu = pin / S;
-		gnm_float sigma = gnm_sqrt (pin * qin / (S + 1)) / S;
-		gnm_float sigma_gamma = 2 * (qin - pin) / S / (S + 2);
+		gnm_float phalf = pbeta (0.5, pin, qin, lower_tail, log_p);
+		gnm_float lb = lbeta (pin, qin);
 
-		/* Cornish-Fisher expansion:  */
-		gnm_float z = qnorm (p, 0., 1., lower_tail, log_p);
-		x0 = mu + sigma * z + sigma_gamma * (z * z - 1) / 6;
-	} else {
-		/*
-		 * For small pin, p seems to have exponent 1, for large pin, it
-		 * seems more like 0.
-		 *
-		 * For small pin, pin itself seems to have exponent 2, for large pin,
-		 * it is more like 1.
-		 */
-		x0 = gnm_pow (R_DT_qIv (p), 1 / (pin + 1)) *
-			gnm_pow (pin, (pin + 2) / (pin + 1)) /
-			qin;
-		x0 /= (1 + x0);
+		if (!lower_tail == (p > phalf)) {
+			/*
+			 * The following approximation follows from simply ignoring
+			 * the (1-t)^(qin-1) factor from the density.  That works
+			 * fine as long as we stay far away from the right tail.
+			 */
+			x0 = gnm_exp ((gnm_log (pin) + R_DT_log (p) + lb) / pin);
+		} else {
+			/* Mirror.  */
+			x0 = -gnm_expm1 ((gnm_log (qin) + R_DT_Clog (p) + lb) / qin);
+		}
 	}
 
 	shape[0] = pin;
