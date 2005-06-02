@@ -20,6 +20,7 @@ Morten:
 	* Fix crash for sheet-remove on sheets with local dynamic
 	  dependencies.
 	* Backport SUMIF fix.
+	* Backport number matching fix.  [#306254]
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.3
