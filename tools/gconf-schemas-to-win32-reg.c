@@ -328,7 +328,7 @@ convert_schemalist (xmlDocPtr doc, xmlNodePtr schemalist)
 	root = g_node_new (info);
 	g_hash_table_insert (table, g_strdup (GCONF_APP_ROOT), root);
 
-	g_print ("Windows Registry Editor Version 5.00\n\n");
+	g_print ("REGEDIT4\n\n");
 
 	while (node) {
 		if (node->type == XML_ELEMENT_NODE &&

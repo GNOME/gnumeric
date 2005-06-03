@@ -1,3 +1,8 @@
+2005-06-04  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* tools/gconf-schemas-to-win32-reg.c (convert_schemalist):
+	  Use REGEDIT4 so that Win9x knows.
+
 2005-06-03  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : bump gsf req to 1.12.1 for the new GSF_DYNAMIC_CLASS
