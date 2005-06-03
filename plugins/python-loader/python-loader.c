@@ -451,7 +451,7 @@ gplp_loader_data_fngroup_free (ServiceLoaderDataFunctionGroup *loader_data)
 }
 
 static GnmValue *
-call_python_function_args (FunctionEvalInfo *ei, GnmValue **args)
+call_python_function_args (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	GOPluginService *service;
 	ServiceLoaderDataFunctionGroup *loader_data;
@@ -481,7 +481,7 @@ call_python_function_args (FunctionEvalInfo *ei, GnmValue **args)
 }
 
 static GnmValue *
-call_python_function_nodes (FunctionEvalInfo *ei, GnmExprList *expr_tree_list)
+call_python_function_nodes (FunctionEvalInfo *ei, GnmExprList const *expr_tree_list)
 {
 	GOPluginService *service;
 	ServiceLoaderDataFunctionGroup *loader_data;
@@ -489,7 +489,7 @@ call_python_function_nodes (FunctionEvalInfo *ei, GnmExprList *expr_tree_list)
 	GnmFunc const * fndef;
 	GnmValue **values;
 	gint n_args, i;
-	GnmExprList *l;
+	GnmExprList const *l;
 	GnmValue *ret_value;
 
 	g_return_val_if_fail (ei != NULL, NULL);
@@ -507,7 +507,8 @@ call_python_function_nodes (FunctionEvalInfo *ei, GnmExprList *expr_tree_list)
 	for (i = 0, l = expr_tree_list; l != NULL; i++, l = l->next) {
 		values[i] = gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 	}
-	ret_value = call_python_function (python_fn, ei->pos, n_args, values);
+	ret_value = call_python_function (python_fn, ei->pos, n_args,
+					  (GnmValue const * const *)values);
 	for (i = 0; i < n_args; i++) {
 		value_release (values[i]);
 	}
@@ -841,19 +842,7 @@ go_plugin_loader_init (GOPluginLoaderClass *iface)
 	iface->service_unload		= gplp_service_unload;
 }
 
-static GType gnm_python_plugin_loader_type;
-GType
-gnm_python_plugin_loader_get_type ()
-{
-	return gnm_python_plugin_loader_type;
-}
-
-void
-gnm_python_plugin_loader_register (GOPlugin *plugin)
-{
-	GSF_DYNAMIC_CLASS_FULL (GnmPythonPluginLoader, gnm_python_plugin_loader,
-		gplp_class_init, gplp_init,
-		G_TYPE_OBJECT, 0,
-		GSF_INTERFACE_FULL (gnm_python_plugin_loader_type, go_plugin_loader_init, GO_PLUGIN_LOADER_TYPE),
-		G_TYPE_MODULE (plugin), gnm_python_plugin_loader_type);
-}
+GSF_DYNAMIC_CLASS_FULL (GnmPythonPluginLoader, gnm_python_plugin_loader,
+	gplp_class_init, gplp_init,
+	G_TYPE_OBJECT, 0,
+	GSF_INTERFACE_FULL (gnm_python_plugin_loader_type, go_plugin_loader_init, GO_PLUGIN_LOADER_TYPE))

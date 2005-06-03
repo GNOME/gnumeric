@@ -255,19 +255,6 @@ gnm_py_interpreter_selector_get_current (GnmPyInterpreterSelector *sel)
 	return sel->cur_interpreter;
 }
 
-static GType gnm_py_interpreter_type;
-GType
-gnm_py_interpreter_selector_get_type ()
-{
-    return gnm_py_interpreter_type;
-}
-
-void
-gnm_py_interpreter_selector_register (GOPlugin *plugin)
-{
-	GSF_DYNAMIC_CLASS (GnmPyInterpreterSelector, gnm_py_interpreter_selector,
-		gnm_py_interpreter_selector_class_init,
-		gnm_py_interpreter_selector_init, GTK_TYPE_COMBO_BOX,
-		G_TYPE_MODULE (plugin), gnm_py_interpreter_type);
-}
-
+GSF_DYNAMIC_CLASS (GnmPyInterpreterSelector, gnm_py_interpreter_selector,
+	gnm_py_interpreter_selector_class_init,
+	gnm_py_interpreter_selector_init, GTK_TYPE_COMBO_BOX)

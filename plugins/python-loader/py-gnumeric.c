@@ -410,7 +410,8 @@ python_call_gnumeric_function (GnmFunc *fn_def, const GnmEvalPos *opt_eval_pos, 
 		values[i] = py_obj_to_gnm_value (eval_pos, py_val);
 	}
 
-	ret_val = function_def_call_with_values (eval_pos, fn_def, n_args, values);
+	ret_val = function_def_call_with_values (eval_pos, fn_def, n_args,
+						 (GnmValue const * const *)values);
 	py_ret_val = gnm_value_to_py_obj (eval_pos, ret_val);
 	value_release (ret_val);
 	for (i = 0; i < n_args; i++) {
@@ -422,7 +423,7 @@ python_call_gnumeric_function (GnmFunc *fn_def, const GnmEvalPos *opt_eval_pos, 
 }
 
 GnmValue *
-call_python_function (PyObject *python_fn, const GnmEvalPos *eval_pos, gint n_args, GnmValue **args)
+call_python_function (PyObject *python_fn, GnmEvalPos const *eval_pos, gint n_args, GnmValue const * const *args)
 {
 	PyObject *python_args;
 	PyObject *python_ret_value;

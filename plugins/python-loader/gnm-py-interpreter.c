@@ -281,19 +281,6 @@ gnm_py_interpreter_compare (gconstpointer a, gconstpointer b)
 	}
 }
 
-static GType gnm_py_interpreter_type;
-GType
-gnm_py_interpreter_get_type ()
-{
-	return gnm_py_interpreter_type;
-}
-
-void
-gnm_py_interpreter_register (GOPlugin *plugin)
-{
-	GSF_DYNAMIC_CLASS (GnmPyInterpreter, gnm_py_interpreter,
-		gnm_py_interpreter_class_init, gnm_py_interpreter_init,
-		G_TYPE_OBJECT,
-		G_TYPE_MODULE (plugin), gnm_py_interpreter_type);
-}
-
+GSF_DYNAMIC_CLASS (GnmPyInterpreter, gnm_py_interpreter,
+	gnm_py_interpreter_class_init, gnm_py_interpreter_init,
+	G_TYPE_OBJECT)

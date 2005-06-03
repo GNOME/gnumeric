@@ -263,17 +263,6 @@ gnm_python_clear_error_if_needed (GnmPython *gpy)
 	}
 }
 
-static GType gnm_python_type;
-GType
-gnm_python_get_type ()
-{
-	return gnm_python_type;
-}
-void
-gnm_python_register (GOPlugin *plugin)
-{
-	GSF_DYNAMIC_CLASS (GnmPython, gnm_python,
-		gnm_python_class_init, gnm_python_init, G_TYPE_OBJECT,
-		G_TYPE_MODULE (plugin), gnm_python_type);
-}
-
+GSF_DYNAMIC_CLASS (GnmPython, gnm_python,
+	gnm_python_class_init, gnm_python_init,
+	G_TYPE_OBJECT)

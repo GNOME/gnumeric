@@ -24,6 +24,7 @@ Jody:
 	* Support external array iteration (thanks to planmaker for the test).
 	* Use the print settings for each sheet when printing a workbook.
 	* Fix small positioning glitch when creating widgets. [#304559]
+	* Improve handling of some odd XL operators.
 
 Jon Kåre:
         * Don't output the xml declaration for xhtml. [#303827]
