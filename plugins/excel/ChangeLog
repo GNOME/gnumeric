@@ -1,3 +1,9 @@
+2005-06-02  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (excel_parse_formula) : slight improvement of
+	  extended ptg parsing.  Use the test workbook to tell which items put
+	  something on the stack and which do not.
+
 2006-06-02  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* plugins/excel/ms-chart.c (BC_R): use gog_object_set_position_flags.

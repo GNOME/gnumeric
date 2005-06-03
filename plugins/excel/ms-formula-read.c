@@ -472,8 +472,8 @@ ExcelFuncDesc const excel_func_desc [] = {
 int excel_func_desc_size = G_N_ELEMENTS (excel_func_desc);
 
 static GnmExpr const *
-expr_tree_error (ExcelReadSheet const *esheet, int col, int row,
-		 char const *msg, char const *str)
+xl_expr_err (ExcelReadSheet const *esheet, int col, int row,
+	     char const *msg, char const *str)
 {
 	if (esheet != NULL && esheet->sheet != NULL) {
 		g_warning ("%s!%s : %s",
@@ -573,7 +573,7 @@ parse_list_push (GnmExprList **list, GnmExpr const *pd)
 	d (5, fprintf (stderr, "Push 0x%p\n", pd););
 	if (pd == NULL) {
 		g_warning ("FIXME: Pushing nothing onto excel function stack");
-		pd = expr_tree_error (NULL, -1, -1,
+		pd = xl_expr_err (NULL, -1, -1,
 			"Incorrect number of parsed formula arguments",
 			"#WrongArgs!");
 	}
@@ -598,7 +598,7 @@ parse_list_pop (GnmExprList **list)
 		return ans;
 	}
 
-	return expr_tree_error (NULL, -1, -1,
+	return xl_expr_err (NULL, -1, -1,
 		"Incorrect number of parsed formula arguments",
 		"#WrongArgs!");
 }
@@ -866,6 +866,7 @@ excel_parse_formula (MSContainer const *container,
 	GnmExprList *stack = NULL;
 	gboolean error = FALSE;
 	int ptg_length, ptg, ptgbase;
+	guint8 eptg;
 
 	if (array_element != NULL)
 		*array_element = FALSE;
@@ -1167,103 +1168,102 @@ excel_parse_formula (MSContainer const *container,
 		}
 
 		case FORMULA_PTG_EXTENDED : { /* Extended Ptgs for Biff8 */
-			/*
-			 * The beginnings of 'extended' ptg support.
-			 * These are mostly undocumented.
-			 */
-			/* Use 0 for unknown sizes, and ignore the trailing
-			 * extended info completely for now.
-			 */
-			static int const extended_ptg_size[] = {
-				/* 0x00 */ 0,  /* Reserved */
-				/* 0x01 */ 4,  /* eptgElfLel,	No,  Err */
-				/* 0x02 */ 4,  /* eptgElfRw,	No,  Ref */
-				/* 0x03 */ 4,  /* eptgElfCol,	No,  Ref */
-				/* 0x04 */ 0,  /* Reserved */
-				/* 0x05 */ 0,  /* Reserved */
-				/* 0x06 */ 4,  /* eptgElfRwV,	No,  Value */
-				/* 0x07 */ 4,  /* eptgElfColV,	No,  Value */
-				/* 0x08 */ 0,  /* Reserved */
-				/* 0x09 */ 0,  /* Reserved */
-				/* 0x0a */ 13, /* eptgRadical,	No,  Ref */
-				/* 0x0b */ 13, /* eptgRadicalS,	Yes, Ref */
-				/* 0x0c */ 4,  /* eptgElfRwS,	Yes, Ref */
-				/* 0x0d */ 4,  /* eptgElfColS,	Yes, Ref */
-				/* 0x0e */ 4,  /* eptgElfRwSV,	Yes, Value */
-				/* 0x0f */ 4,  /* eptgElfColSV,	Yes, Value */
-				/* 0x10 */ 4,  /* eptgElfRadicalLel, No, Err */
-				/* 0x11 */ 0,  /* Reserved */
-				/* 0x12 */ 0,  /* Reserved */
-				/* 0x13 */ 0,  /* Reserved */
-				/* 0x14 */ 0,  /* Reserved */
-				/* 0x15 */ 0,  /* Reserved */
-				/* 0x16 */ 0,  /* Reserved */
-				/* 0x17 */ 0,  /* Reserved */
-				/* 0x18 */ 0,  /* Reserved */
-				/* 0x19 */ 0,  /* Invalid */
-				/* 0x1a */ 0,  /* Invalid */
-				/* 0x1b */ 0,  /* Reserved */
-				/* 0x1c */ 0,  /* Reserved */
-				/* 0x1d */ 4,  /* eptgSxName, No, Value */
-				/* 0x1e */ 0   /* Reserved */
-			};
-			guint8 const eptg_type = GSF_LE_GET_GUINT8(cur);
-			if (eptg_type >= G_N_ELEMENTS (extended_ptg_size))
+			ptg_length = 1;
+			switch ((eptg = GSF_LE_GET_GUINT8 (cur))) {
+			default :
+				g_warning ("EXCEL : unknown ePtg type %02x", eptg);
+				break;
+
+			case 0x00 : /* Reserved */
+			case 0x04 : /* Reserved */
+			case 0x05 : /* Reserved */
+			case 0x08 : /* Reserved */
+			case 0x09 : /* Reserved */
+			case 0x11 : /* Reserved */
+			case 0x12 : /* Reserved */
+			case 0x13 : /* Reserved */
+			case 0x14 : /* Reserved */
+			case 0x15 : /* Reserved */
+			case 0x16 : /* Reserved */
+			case 0x17 : /* Reserved */
+			case 0x18 : /* Reserved */
+			case 0x1b : /* Reserved */
+			case 0x1c : /* Reserved */
+			case 0x1e : /* reserved */
+			case 0x19 : /* Invalid */
+			case 0x1a : /* Invalid */
+				g_warning ("EXCEL : unexpected ePtg type %02x", eptg);
+				break;
+
+			case 0x02 : /* eptgElfRw,	No,  Ref */
+			case 0x03 : /* eptgElfCol,	No,  Ref */
+			case 0x06 : /* eptgElfRwV,	No,  Value */
+			case 0x07 : /* eptgElfColV,	No,  Value */
+			case 0x0c : /* eptgElfRwS,	Yes, Ref */
+			case 0x0d : /* eptgElfColS,	Yes, Ref */
+			case 0x0e : /* eptgElfRwSV,	Yes, Value */
+			case 0x0f : /* eptgElfColSV,	Yes, Value */
 			{
-				g_warning ("EXCEL : unknown ePtg type %02x",
-					   eptg_type);
-			} else
-				ptg_length = 1 + extended_ptg_size[eptg_type];
-
-			/* WARNING : No documentation for this.  However this seems
-			 * to make sense.
-			 *
-			 * NOTE :
-			 * I cheat here.
-			 * This reference is really to the entire row/col
-			 * left/below the specified cell.
-			 *
-			 * However we don't support that feature in gnumeric
-			 * nor do we support taking the intersection of the
-			 * vector and the calling cell.
-			 *
-			 * So
-			 *
-			 * Cheat.  and perform the intersection here.
-			 *
-			 * ie
-			 * A1 : x
-			 * A2 : 2  B2 : =x^2
-			 *
-			 * x is an eptgElfColV.  I replace that with a2
-			 */
-			if (eptg_type == 0x06 || /* eptgElfRwV,	 No,  Value */
-			    eptg_type == 0x07) { /* eptgElfColV, No,  Value */
+				/* WARNING : No documentation for this.  However this seems
+				 * to make sense.
+				 *
+				 * NOTE :
+				 * I cheat here.
+				 * This reference is really to the entire row/col
+				 * left/below the specified cell.
+				 *
+				 * However we don't support that feature in gnumeric
+				 * nor do we support taking the intersection of the
+				 * vector and the calling cell.
+				 *
+				 * So
+				 * Cheat.  and perform the intersection here.
+				 * ie
+				 * 	A1 : x
+				 * 	A2 : 2  B2 : =x^2
+				 * x is an eptgElfColV.  I replace that with a2
+				 */
 				GnmCellRef ref;
-
 				getRefV8 (&ref,
-					  GSF_LE_GET_GUINT16(cur + 1),
-					  GSF_LE_GET_GUINT16(cur + 3),
+					  GSF_LE_GET_GUINT16 (cur + 1),
+					  GSF_LE_GET_GUINT16 (cur + 3),
 					  fn_col, fn_row, shared);
-
-				if (eptg_type == 0x07) { /* Column */
-					if (ref.row_relative)
-						ref.row = 0;
-					else
-						ref.row = fn_row;
-				} else { 		 /* Row */
-					if (ref.col_relative)
-						ref.col = 0;
-					else
-						ref.col = fn_col;
-				}
+				if ((eptg % 2))	/* Column are odd */
+					ref.row = ref.row_relative ? 0 : fn_row;
+				else		/* Row */
+					ref.col = ref.col_relative ? 0 : fn_col;
 
 				parse_list_push (&stack, gnm_expr_new_cellref (&ref));
-			} else {
-				fprintf (stderr, "-------------------\n");
-				fprintf (stderr, "XL : Extended ptg %x\n", eptg_type);
-				gsf_mem_dump (mem+2, length-2);
-				fprintf (stderr, "-------------------\n");
+				ptg_length += 4;
+				break;
+			}
+
+			case 0x01 : ptg_length += 4;	/* eptgElfLel,		No,  Err */
+				parse_list_push (&stack,
+					xl_expr_err (esheet, fn_col, fn_row,
+						     "undocumented extended ptg 1", "#REF!"));
+				break;
+			case 0x0a : ptg_length += 13;	/* eptgRadical,		No,  Ref */
+				parse_list_push (&stack,
+					xl_expr_err (esheet, fn_col, fn_row,
+						     "undocumented extended ptg 0xA", "#REF!"));
+				break;
+			case 0x0b : ptg_length += 13;	/* eptgRadicalS,	Yes, Ref */
+				parse_list_push (&stack,
+					xl_expr_err (esheet, fn_col, fn_row,
+						     "undocumented extended ptg 0xB", "#REF!"));
+				break;
+			case 0x10 : ptg_length += 4;	/* eptgElfRadicalLel, No, Err */
+				/* does not seem to put anything on the stack */
+				gnm_expr_unref (
+					xl_expr_err (esheet, fn_col, fn_row,
+						     "undocumented extended ptg 0x10", "#REF!"));
+				break;
+			case 0x1d : ptg_length += 4;	/* eptgSxName, No, Value */
+				parse_list_push (&stack,
+					xl_expr_err (esheet, fn_col, fn_row,
+						     "undocumented extended ptg 0x1D", "#REF!"));
+				break;
 			}
 		}
 		break;
@@ -1673,16 +1673,16 @@ excel_parse_formula (MSContainer const *container,
 		gsf_mem_dump (mem, length);
 
 		parse_list_free (&stack);
-		return expr_tree_error (esheet, fn_col, fn_row,
+		return xl_expr_err (esheet, fn_col, fn_row,
 			"Unknown Formula/Array", "#Unknown!");
 	}
 
 	if (stack == NULL)
-		return expr_tree_error (esheet, fn_col, fn_row,
+		return xl_expr_err (esheet, fn_col, fn_row,
 			"Stack too short - unusual", "#ShortStack!");
 	if (gnm_expr_list_length (stack) > 1) {
 		parse_list_free (&stack);
-		return expr_tree_error (esheet, fn_col, fn_row,
+		return xl_expr_err (esheet, fn_col, fn_row,
 			"Too much data on stack - probable cause: fixed args function is var-arg",
 			"#LongStack!");
 	}
