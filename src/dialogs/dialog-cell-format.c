@@ -425,7 +425,6 @@ setup_color_pickers (ColorPicker *picker,
 		picker->combo          = combo;
 		picker->preview_update = preview_update;
 	}
-
 }
 
 /*

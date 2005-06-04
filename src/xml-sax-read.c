@@ -1633,7 +1633,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
   GSF_XML_IN_NODE (WB, WB_CALC, GNM, "Calculation", FALSE, &xml_sax_calculation, NULL),
   { NULL }
 };
-GsfXMLInDoc *gnm_sax_in_doc;
+static GsfXMLInDoc *gnm_sax_in_doc;
 
 static gboolean
 xml_sax_unknown (GsfXMLIn *state, xmlChar const *elem, xmlChar const **attrs)
@@ -1644,7 +1644,8 @@ xml_sax_unknown (GsfXMLIn *state, xmlChar const *elem, xmlChar const **attrs)
 
 	if (GNM == state->node->ns_id &&
 	    0 == strcmp (state->node->id, "SHEET_OBJECTS")) {
-		g_warning ("foo");
+		// xml_sax_object_start (state, *attrs);
+		g_warning ("unknown : %s", state->node->name);
 	}
 	return FALSE;
 }

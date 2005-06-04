@@ -40,8 +40,8 @@ GtkWidget *
 gnm_format_sel_new ()
 {
 	GObject *w = g_object_new (GO_FORMAT_SEL_TYPE, NULL);
-	g_signal_connect (w, "generate_preview",
-		G_CALLBACK (cb_generate_preview) , NULL);
+	g_signal_connect (w, "generate-preview",
+		G_CALLBACK (cb_generate_preview), NULL);
 	return GTK_WIDGET (w);
 }
 

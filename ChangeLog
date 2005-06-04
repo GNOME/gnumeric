@@ -1,3 +1,31 @@
+2005-06-04  Jody Goldberg <jody@gnome.org>
+
+	* src/print.c (print_page_cells) : Use the PrintInfo from the supplied
+	  sheet rather than something global.
+	(print_page_repeated_rows) : ditto.
+	(print_page_repeated_cols) : ditto.
+	(print_page_repeated_intersect) : ditto.
+	(print_hf_element) : ditto.
+	(print_hf_line) : ditto.
+	(print_headers) : ditto.
+	(print_footers) : ditto.
+	(setup_scale) : ditto.
+	(print_page) : ditto.
+	(print_range_down_then_right) : ditto.
+	(print_range_right_then_down) : ditto.
+	(print_job_info_init_sheet) : ditto.
+	(print_sheet_range) : ditto.
+	(compute_sheet_pages) : ditto.
+	(compute_pages) : ditto.
+	(print_sheet) : ditto.
+	(workbook_print_all) : delete.
+	(sheet_print_real) : and merge into here.
+	(print_job_info_update_from_config) : merge into print_job_info_init_sheet.
+	(print_job_info_get) : Do not attempt to load a PrintInfo from the
+	  first sheet.  We'll set things up on a per sheet basis.
+	(print_job_info_destroy) : we do not have a local copy of a PrintInfo
+	  anymore.
+
 2005-06-04  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* tools/gconf-schemas-to-win32-reg.c (convert_schemalist):
