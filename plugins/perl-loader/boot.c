@@ -25,6 +25,8 @@ perl_get_loader_type (ErrorInfo **ret_error)
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
+	GTypeModule *module = go_plugin_get_type_module (plugin);
+	gnm_perl_plugin_loader_register (module);
 }
 
 G_MODULE_EXPORT void

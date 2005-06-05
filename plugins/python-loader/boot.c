@@ -32,9 +32,10 @@ ModulePluginUIActions const console_ui_actions[] = {
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gnm_py_interpreter_register_type (G_TYPE_MODULE (plugin));
-	gnm_python_register_type (G_TYPE_MODULE (plugin));
-	gnm_py_command_line_register_type (G_TYPE_MODULE (plugin));
-	gnm_py_interpreter_selector_register_type (G_TYPE_MODULE (plugin));
-	gnm_python_plugin_loader_register_type (G_TYPE_MODULE (plugin));
+	GTypeModule *module = go_plugin_get_type_module (plugin);
+	gnm_py_interpreter_register_type (module);
+	gnm_python_register_type (module);
+	gnm_py_command_line_register_type (module);
+	gnm_py_interpreter_selector_register_type (module);
+	gnm_python_plugin_loader_register_type (module);
 }
