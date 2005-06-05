@@ -20,10 +20,10 @@ GnmPyInterpreter *gnm_python_get_default_interpreter (GnmPython *gpy);
 GSList           *gnm_python_get_interpreters (GnmPython *gpy);
 void              gnm_python_clear_error_if_needed (GnmPython *gpy);
 
-void gnm_py_interpreter_register	  (GOPlugin *plugin);
-void gnm_python_register		  (GOPlugin *plugin);
-void gnm_py_command_line_register	  (GOPlugin *plugin);
-void gnm_py_interpreter_selector_register (GOPlugin *plugin);
-void gnm_python_plugin_loader_register	  (GOPlugin *plugin);
+void gnm_py_interpreter_register_type		(GOPlugin *plugin);
+void gnm_python_register_type			(GOPlugin *plugin);
+void gnm_py_command_line_register_type		(GOPlugin *plugin);
+void gnm_py_interpreter_selector_register_type	(GOPlugin *plugin);
+void gnm_python_plugin_loader_register_type	(GOPlugin *plugin);
 
 #endif /* PLUGIN_GNM_PYTHON_H */
