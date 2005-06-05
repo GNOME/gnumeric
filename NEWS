@@ -22,7 +22,7 @@ Jody:
 	* Fix adjustment object handling [#167584].
 	* Be more careful what we assume is a header [#165061].
 	* Support external array iteration (thanks to planmaker for the test).
-	* Use the print settings for each sheet when printing a workbook.
+	* Use sheet specific print settings when printing a workbook. [#163589]
 	* Fix small positioning glitch when creating widgets. [#304559]
 	* re-enable experimental sax importer after goffice split.
 	* Improve handling of some odd XL operators.
