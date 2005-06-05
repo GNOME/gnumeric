@@ -281,6 +281,7 @@ src/parse-util.c
 src/pivottable.c
 src/print.c
 src/print-info.c
+src/ranges.c
 src/search.c
 src/selection.c
 src/session.c
