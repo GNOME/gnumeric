@@ -1,5 +1,19 @@
 2005-06-04  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=165172
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_sheet) : quick and cheesy
+	  handling of Delete while editing.  It forces an end to
+	  autocompletion rather than unintentionally clearing the cell as if
+	  we were not editing.
+
+2005-06-04  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=164779
+	* src/sheet-control-gui.c (scg_objects_nudge) : no nudging while
+	  creating an object.
+
+2005-06-04  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=163589
 	* src/print.c (print_page_cells) : Use the PrintInfo from the supplied
 	  sheet rather than something global.

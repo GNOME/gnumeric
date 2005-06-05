@@ -26,6 +26,8 @@ Jody:
 	* Fix small positioning glitch when creating widgets. [#304559]
 	* re-enable experimental sax importer after goffice split.
 	* Improve handling of some odd XL operators.
+	* Remove warning when nudging during object creation. [#164779]
+	* Delete while editing should not clear the cell. [#165172]
 
 Jon Kåre:
         * Don't output the xml declaration for xhtml. [#303827]

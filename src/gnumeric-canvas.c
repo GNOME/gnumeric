@@ -230,6 +230,15 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 
 	case GDK_KP_Delete:
 	case GDK_Delete:
+		if (wbcg_is_editing (wbcg)) {
+			/* stop auto-completion. then do a quick and cheesy update */
+			wbcg_auto_complete_destroy (wbcg);
+			SCG_FOREACH_PANE (scg, pane, {
+				if (pane->editor)
+					foo_canvas_item_request_update (FOO_CANVAS_ITEM (pane->editor));
+			});
+			return TRUE;
+		}
 		if (gnm_canvas_guru_key (wbcg, event))
 			break;
 		if (state == GDK_SHIFT_MASK) {

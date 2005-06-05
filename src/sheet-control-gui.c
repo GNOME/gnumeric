@@ -2144,8 +2144,11 @@ void
 scg_objects_nudge (SheetControlGUI *scg, GnmCanvas *gcanvas, 
 		   int drag_type, double dx, double dy, gboolean symmetric, gboolean snap_to_grid)
 {
-	scg_objects_drag (scg, gcanvas, NULL, &dx, &dy, drag_type, symmetric, snap_to_grid, FALSE);
-	scg_objects_drag_commit (scg, drag_type, FALSE);
+	/* no nudging if we are creating an object */
+	if (scg->new_object) {
+		scg_objects_drag (scg, gcanvas, NULL, &dx, &dy, drag_type, symmetric, snap_to_grid, FALSE);
+		scg_objects_drag_commit (scg, drag_type, FALSE);
+	}
 }
 
 void
