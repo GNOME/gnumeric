@@ -1,3 +1,8 @@
+2005-06-06  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-control-gui.c (scg_drag_receive_uri_list): Add warning
+	about things we do not understand.
+
 2005-06-04  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=165172

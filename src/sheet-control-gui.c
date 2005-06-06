@@ -3141,6 +3141,9 @@ scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y,
 			   !strcmp (mime, "text/html") ||
 			   !strcmp (mime, "text/plain")) {
 			scg_drag_receive_spreadsheet (scg, uri_str);
+		} else {
+			g_printerr ("Received URI %s with mime type %s.\n", uri_str, mime);
+			g_printerr ("I have no idea what to do with that.\n");
 		}
 	}
 	go_slist_free_custom (urls, (GFreeFunc) g_free);
