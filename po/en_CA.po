@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-02 11:32-0400\n"
-"PO-Revision-Date: 2005-06-02 11:36-0400\n"
+"POT-Creation-Date: 2005-06-05 22:12-0400\n"
+"PO-Revision-Date: 2005-06-05 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -321,7 +321,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Unexpected attribute %s::%s == '%s'."
 
 #: plugins/excel/excel-xml-read.c:196
-#: plugins/openoffice/openoffice-read.c:1538 src/xml-sax-read.c:1784
+#: plugins/openoffice/openoffice-read.c:1538 src/xml-sax-read.c:1785
 msgid "XML document not well formed!"
 msgstr "XML document not well formed!"
 
@@ -673,8 +673,8 @@ msgstr "Unknown version"
 msgid "%s version %s"
 msgstr "%s version %s"
 
-#: plugins/fn-info/functions.c:1339 src/dialogs/dialog-cell-format.c:2349
-#: src/dialogs/dialog-cell-format.c:2354 src/dialogs/dialog-cell-format.c:2364
+#: plugins/fn-info/functions.c:1339 src/dialogs/dialog-cell-format.c:2348
+#: src/dialogs/dialog-cell-format.c:2353 src/dialogs/dialog-cell-format.c:2363
 #: src/wbc-gtk.c:533
 msgid "Automatic"
 msgstr "Automatic"
@@ -1863,8 +1863,8 @@ msgstr "Some name"
 
 #: plugins/python-loader/python-loader.c:332
 #: plugins/python-loader/python-loader.c:425
-#: plugins/python-loader/python-loader.c:652
-#: plugins/python-loader/python-loader.c:764
+#: plugins/python-loader/python-loader.c:653
+#: plugins/python-loader/python-loader.c:765
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Python file \"%s\" has invalid format."
@@ -1875,24 +1875,24 @@ msgstr "Python file \"%s\" has invalid format."
 msgid "File doesn't contain \"%s\" function."
 msgstr "File doesn't contain \"%s\" function."
 
-#: plugins/python-loader/python-loader.c:657
-#: plugins/python-loader/python-loader.c:769
+#: plugins/python-loader/python-loader.c:658
+#: plugins/python-loader/python-loader.c:770
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "File doesn't contain \"%s\" dictionary."
 
-#: plugins/python-loader/python-loader.c:662
-#: plugins/python-loader/python-loader.c:774
+#: plugins/python-loader/python-loader.c:663
+#: plugins/python-loader/python-loader.c:775
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Object \"%s\" is not a dictionary."
 
-#: plugins/python-loader/python-loader.c:712 src/gnm-plugin.c:557
+#: plugins/python-loader/python-loader.c:713 src/gnm-plugin.c:557
 #, c-format
 msgid "Unknown action: %s"
 msgstr "Unknown action: %s"
 
-#: plugins/python-loader/python-loader.c:717
+#: plugins/python-loader/python-loader.c:718
 #, c-format
 msgid "Not a valid function for action: %s"
 msgstr "Not a valid function for action: %s"
@@ -3361,12 +3361,12 @@ msgstr ""
 "Text length\n"
 "Custom"
 
-#: src/dialogs/cell-format.glade.h:35 src/dialogs/dialog-cell-format.c:2359
+#: src/dialogs/cell-format.glade.h:35 src/dialogs/dialog-cell-format.c:2358
 #: src/wbc-gtk.c:585 src/wbc-gtk.c:586 src/wbc-gtk.c:593
 msgid "Background"
 msgstr "Background"
 
-#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:2349
+#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:2348
 msgid "Border"
 msgstr "Border"
 
@@ -3418,7 +3418,7 @@ msgstr "Font"
 msgid "Foreground Solid"
 msgstr "Foreground Solid"
 
-#: src/dialogs/cell-format.glade.h:49 src/dialogs/dialog-cell-format.c:2286
+#: src/dialogs/cell-format.glade.h:49 src/dialogs/dialog-cell-format.c:2285
 msgid "Format Cells"
 msgstr "Format Cells"
 
@@ -4666,66 +4666,66 @@ msgstr "Single"
 msgid "Double"
 msgstr "Double"
 
-#: src/dialogs/dialog-cell-format.c:486 src/dialogs/dialog-search.c:158
+#: src/dialogs/dialog-cell-format.c:485 src/dialogs/dialog-search.c:158
 #: src/func.c:836 src/wbcg-actions.c:1966
 msgid "Number"
 msgstr "Number"
 
-#: src/dialogs/dialog-cell-format.c:676 src/dialogs/dialog-stf-main-page.c:382
+#: src/dialogs/dialog-cell-format.c:675 src/dialogs/dialog-stf-main-page.c:382
 msgid "Text"
 msgstr "Text"
 
-#: src/dialogs/dialog-cell-format.c:1798
+#: src/dialogs/dialog-cell-format.c:1797
 msgid "Source"
 msgstr "Source"
 
-#: src/dialogs/dialog-cell-format.c:1799
+#: src/dialogs/dialog-cell-format.c:1798
 msgid "Criteria"
 msgstr "Criteria"
 
-#: src/dialogs/dialog-cell-format.c:1811 src/dialogs/dialog-cell-format.c:1818
+#: src/dialogs/dialog-cell-format.c:1810 src/dialogs/dialog-cell-format.c:1817
 msgid "Min :"
 msgstr "Min :"
 
-#: src/dialogs/dialog-cell-format.c:1812 src/dialogs/dialog-cell-format.c:1821
+#: src/dialogs/dialog-cell-format.c:1811 src/dialogs/dialog-cell-format.c:1820
 msgid "Max :"
 msgstr "Max :"
 
-#: src/dialogs/dialog-cell-format.c:1815
+#: src/dialogs/dialog-cell-format.c:1814
 msgid "Value :"
 msgstr "Value :"
 
-#: src/dialogs/dialog-cell-format.c:1905
+#: src/dialogs/dialog-cell-format.c:1904
 msgid "None          (silently accept invalid input)"
 msgstr "None          (silently accept invalid input)"
 
-#: src/dialogs/dialog-cell-format.c:1913
+#: src/dialogs/dialog-cell-format.c:1912
 msgid "Stop            (never allow invalid input)"
 msgstr "Stop            (never allow invalid input)"
 
-#: src/dialogs/dialog-cell-format.c:1921
+#: src/dialogs/dialog-cell-format.c:1920
 msgid "Warning     (accept/discard invalid input)"
 msgstr "Warning     (accept/discard invalid input)"
 
-#: src/dialogs/dialog-cell-format.c:1929
+#: src/dialogs/dialog-cell-format.c:1928
 msgid "Information (allow invalid input)"
 msgstr "Information (allow invalid input)"
 
-#: src/dialogs/dialog-cell-format.c:2103
+#: src/dialogs/dialog-cell-format.c:2102
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "The validation criteria are unusable. Disable validation?"
 
-#: src/dialogs/dialog-cell-format.c:2354 src/wbc-gtk.c:177 src/wbc-gtk.c:310
+#: src/dialogs/dialog-cell-format.c:2353 src/wbc-gtk.c:177 src/wbc-gtk.c:310
 #: src/wbc-gtk.c:535 src/wbc-gtk.c:536 src/wbc-gtk.c:545 src/wbc-gtk.c:646
 #: src/wbc-gtk.c:700
 msgid "Foreground"
 msgstr "Foreground"
 
-#: src/dialogs/dialog-cell-format.c:2359 src/wbc-gtk.c:583
+#: src/dialogs/dialog-cell-format.c:2358 src/wbc-gtk.c:583
 msgid "Clear Background"
 msgstr "Clear Background"
 
-#: src/dialogs/dialog-cell-format.c:2364
+#: src/dialogs/dialog-cell-format.c:2363
 msgid "Pattern"
 msgstr "Pattern"
 
@@ -10299,7 +10299,7 @@ msgstr "bessel_k allocation error"
 msgid "bessel_k(%"
 msgstr "bessel_k(%"
 
-#: src/mathfunc.c:7715
+#: src/mathfunc.c:7731
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
@@ -10380,31 +10380,31 @@ msgid "Unexpected token %c"
 msgstr "Unexpected token %c"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:604
+#: src/print.c:611
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1147
+#: src/print.c:1161
 msgid "Print Region"
 msgstr "Print Region"
 
-#: src/print.c:1307 src/wbcg-actions.c:1508
+#: src/print.c:1278 src/wbcg-actions.c:1508
 msgid "Print preview"
 msgstr "Print preview"
 
-#: src/print.c:1319
+#: src/print.c:1290
 msgid "Printing failed"
 msgstr "Printing failed"
 
-#: src/print.c:1425
+#: src/print.c:1393
 msgid "Print Sheets"
 msgstr "Print Sheets"
 
-#: src/print.c:1434
+#: src/print.c:1402
 msgid "Act_ive sheet"
 msgstr "Act_ive sheet"
 
-#: src/print.c:1434
+#: src/print.c:1402
 msgid "S_heets"
 msgstr "S_heets"
 
@@ -10453,6 +10453,13 @@ msgstr "file"
 #: src/print-info.c:486
 msgid "path"
 msgstr "path"
+
+#. Actually we can get slightly more than max_width here.
+#. * But max_width was computed as an estimate, anyway, so we don't care.
+#.
+#: src/ranges.c:1200
+msgid "..."
+msgstr "..."
 
 #: src/search.c:64
 msgid "You must specify a range to search."
