@@ -604,7 +604,7 @@ AC_CHECK_FUNC(bind_textdomain_codeset,,[AC_CHECK_LIB(intl,bind_textdomain_codese
 dnl check for complete locale implementation
 AC_CHECK_HEADERS(langinfo.h)
 
-dnl We supply our own lgamma_r (using lgamma) when missing.
+dnl We supply our own lgamma and lgamma_r when missing.
 AC_CHECK_FUNCS(lgamma_r)
 if test $ac_cv_func_lgamma_r = no; then
   AC_CHECK_LIB(m, lgamma_r,
@@ -613,6 +613,7 @@ if test $ac_cv_func_lgamma_r = no; then
 	 )
          LIBS="$LIBS -lm"])
 fi
+AC_CHECK_FUNCS(lgamma)
 
 AC_C_LONG_DOUBLE
 float_msg=double

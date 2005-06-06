@@ -7737,12 +7737,24 @@ gnm_yn (int n, gnm_float x)
 
 /* ------------------------------------------------------------------------- */
 
+#ifndef HAVE_LGAMMA
+/* Avoid using this.  It may be missing in system libraries.  */
+int signgam;
+
+double
+lgamma (double x)
+{
+	return lgamma_r (x, &signgam);
+}
+#endif
+
 #ifndef HAVE_LGAMMA_R
 double
 lgamma_r (double x, int *signp)
 {
 	*signp = (x >= 0 || fmod (floor (-x), 2.0) != 0.0) ? +1 : -1;
-	return lgamma (x);
+
+	return M_LN_SQRT_2PI + (x - 0.5) * log(x) - x + lgammacor(x);
 }
 #endif
 

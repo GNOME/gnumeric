@@ -11,6 +11,11 @@
 #include <ieee754.h>
 #endif
 
+#ifndef HAVE_LGAMMA
+/* Defined in mathfunc.c  */
+extern int signgam;
+double lgamma (double x);
+#endif
 #ifndef HAVE_LGAMMA_R
 /* Defined in mathfunc.c  */
 double lgamma_r (double x, int *signp);

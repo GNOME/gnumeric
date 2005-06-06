@@ -1,5 +1,8 @@
 2005-06-06  Morten Welinder  <terra@gnome.org>
 
+	* src/mathfunc.c (lgamma): Define when needed.
+	(lgamma_r): Base the implementation on lgammacor, not lgamma.
+
 	* src/sheet-control-gui.c (scg_drag_receive_uri_list): Add warning
 	about things we do not understand.
 
