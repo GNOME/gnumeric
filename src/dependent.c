@@ -2107,7 +2107,7 @@ dependents_revive_sheet (Sheet *sheet)
 
 	/*
 	 * Re-link dependencies.  Warning: do not link inside the
-	 * loop as that causes intersting effects.
+	 * loop as that causes interesting effects.
 	 */
 	l = NULL;
 	DEPENDENT_CONTAINER_FOREACH_DEPENDENT (sheet->deps, dep, {

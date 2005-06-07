@@ -635,9 +635,11 @@ Short Term Goals
     34.1) Make sheet a proper gobject                                   (DONE)
     34.2) Butcher many control methods that watch properties.           (DONE)
     34.3) Make undo/redo use object properties.                         (DONE)
-    34.4) Disengage detach and destroy
+    34.4) Disengage detach and destroy                                  (DONE)
     34.5) Base sheet removal undo on just keeping a ref                 (DONE)
-    34.6) Track changes during sheet detach for undo.
+    34.6) Track changes to names during sheet detach for undo.          (DONE)
+    34.7) Track changes to cells during sheet detach for undo.
+    34.8) Rework sheet reorganize dialog to new scheme.
 
 Misc stuff that should be fixed
 -------------------------------
