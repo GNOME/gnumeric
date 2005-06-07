@@ -1,3 +1,32 @@
+2005-06-07  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (workbook_sheet_state_restore): Revive sheets
+	being re-attached.
+
+	* src/workbook-control-gui.c (scg_delete_sheet_if_possible): Use
+	cmd_reorganize_sheets2.
+
+	* src/sheet.h (struct _Sheet): Add extra "revive" member.
+
+	* src/expr-name.c (gnm_named_expr_collection_relink,
+	gnm_named_expr_collection_unlink): New functions.
+	(gnm_named_expr_collection_free): Remove the extra indirection.
+	All callers changed.
+
+	* src/dependent.c (handle_dynamic_deps, handle_referencing_names):
+	Extracted from do_deps_destroy.
+	(do_deps_invalidate, clear_revive_info, dependents_revive_sheet):
+	New functions.
+	(dependents_link): Do not free the argument list.  All callers
+	changed.
+	(do_deps_destroy): Call clear_revive_info.
+	(invalidate_name): Renamed from cb_name_invalidate.  Add "destroy"
+	argument.  If not destroying, save the name-expression pairs.
+	(cb_collect_deps_of_names): Collect also the names.
+	(dependents_invalidate_sheet, dependents_invalidate_sheets): Add
+	extra "destroy" argument.  All callers changed.
+	(dep_hash_destroy): Walk over the hash once, not three times.
+
 2005-06-06  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (lgamma): Define when needed.

@@ -828,7 +828,7 @@ unlink_expr_dep (GnmDependent *dep, GnmExpr const *tree)
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmExprList *l;
 		if (tree->func.func->unlinker) {
-			GnmEvalPos		 ep;
+			GnmEvalPos ep;
 			FunctionEvalInfo fei;
 			fei.pos = eval_pos_init_dep (&ep, dep);
 			fei.func_call = &tree->func;
@@ -1024,7 +1024,7 @@ dependent_link (GnmDependent *dep)
  * dependent_unlink:
  * @dep : the dependent that changed
  *
- * Removes the dependent from its containers set of dependents and always
+ * Removes the dependent from its container's set of dependents and always
  * removes the linkages to what it depends on.
  */
 void
@@ -1500,9 +1500,10 @@ dependents_unrelocate (GSList *info)
 
 /**
  * dependents_link :
- * @deps : An slist of dependents that GETS FREED
+ * @deps : An slist of dependents.
  *
- * link a list of dependents.
+ * link a list of dependents.  (The list used to get freed, but is not
+ * freed anymore.)
  */
 void
 dependents_link (GSList *deps)
@@ -1519,8 +1520,6 @@ dependents_link (GSList *deps)
 			dependent_queue_recalc (dep);
 		}
 	}
-
-	g_slist_free (deps);
 }
 
 typedef struct {
@@ -1689,93 +1688,67 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 
 /*******************************************************************/
 
-inline static void
-invalidate_refs (GnmDependent *dep, GnmExprRewriteInfo const *rwinfo)
-{
-	/* Ignore any linger dynamic deps, they'll get cleared soon */
-	if (dependent_type (dep) != DEPENDENT_DYNAMIC_DEP) {
-
-		/* We are told this dependent depends on this region, hence if
-		 * newtree is null then either
-		 * 1) we did not depend on it ( ie. serious breakage )
-		 * 2) we had a duplicate reference and we have already removed it.
-		 * 3) We depended on things via a name which will be
-		 *    invalidated elsewhere */
-		GnmExpr const *newtree =
-			gnm_expr_rewrite (dep->expression, rwinfo);
-		if (newtree != NULL) {
-			dependent_set_expr (dep, newtree);
-			gnm_expr_unref (newtree);
-		}
-	}
-}
+struct cb_dep_hash_destroy {
+	GnmExprRewriteInfo rwinfo;
+	GSList *dyn_deps;
+	gboolean destroy;
+};
 
 /*
  * WARNING : Hash is pointing to freed memory once this is complete
  * This is tightly coupled with do_deps_destroy.
  */
-static void
+static gboolean
 cb_dep_hash_destroy (G_GNUC_UNUSED gpointer key,
 		     DependencyAny *depany,
-		     GnmExprRewriteInfo const *rwinfo)
+		     struct cb_dep_hash_destroy *closure)
 {
 	micro_hash_foreach_dep (depany->deps, dep, {
-		if (!dep->sheet->being_invalidated)
-			invalidate_refs (dep, rwinfo);
+		if (dependent_type (dep) == DEPENDENT_DYNAMIC_DEP) {
+			GnmDependent *c = ((DynamicDep *)dep)->container;
+			if (!c->sheet->being_invalidated)
+				closure->dyn_deps =
+					g_slist_prepend (closure->dyn_deps, c);
+		} else if (!dep->sheet->being_invalidated) {
+			/* We are told this dependent depends on this region, hence if
+			 * newtree is null then either
+			 * 1) we did not depend on it ( ie. serious breakage )
+			 * 2) we had a duplicate reference and we have already removed it.
+			 * 3) We depended on things via a name which will be
+			 *    invalidated elsewhere */
+			GnmExpr const *newtree =
+				gnm_expr_rewrite (dep->expression, &closure->rwinfo);
+			if (newtree != NULL) {
+				dependent_set_expr (dep, newtree);
+				gnm_expr_unref (newtree);
+			}
+		}
 	});
-	micro_hash_release (&depany->deps);
-	/*
-	 * Don't free -- we junk the pools later (and we don't know which one
-	 * to use right here).
-	 */
+	if (closure->destroy)
+		micro_hash_release (&depany->deps);
+	return TRUE;
 }
 
 static void
-cb_find_dynamic_deps (G_GNUC_UNUSED gpointer key,
-		      DependencyAny *depany, GSList **res)
+dep_hash_destroy (GHashTable *hash, GSList **dyn_deps, gboolean destroy)
 {
-	GSList *accum = *res;
-	micro_hash_foreach_dep (depany->deps, dep,
-		if (dependent_type (dep) == DEPENDENT_DYNAMIC_DEP)
-			accum = g_slist_prepend (accum, ((DynamicDep *)dep)->container););
-	*res = accum;
-}
+	struct cb_dep_hash_destroy closure;
 
-static void
-dep_hash_destroy (GHashTable *hash, GnmExprRewriteInfo const *rwinfo,
-		  GSList **extern_dyn_dep)
-{
-	/* Collect external dynamic dependencies, DynDeps can not be relocated */
-	g_hash_table_foreach (hash,
-			      (GHFunc)cb_find_dynamic_deps,
-			      (gpointer)extern_dyn_dep);
+	closure.rwinfo.type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
+	closure.dyn_deps = *dyn_deps;
+	closure.destroy = destroy;
 
-	/* now we invalidate things, being careful to ignore DynDeps */
-	g_hash_table_foreach (hash,
-			      (GHFunc)cb_dep_hash_destroy,
-			      (gpointer)rwinfo);
-
-	g_hash_table_destroy (hash);
-}
-
-static void
-cb_name_invalidate (GnmNamedExpr *nexpr, G_GNUC_UNUSED gpointer value,
-		    GnmExprRewriteInfo const *rwinfo)
-{
-	GnmExpr const *new_expr = NULL;
-	gboolean scope_being_killed =
-		nexpr->pos.sheet
-		? nexpr->pos.sheet->being_invalidated
-		: nexpr->pos.wb->during_destruction;
-
-	if (!scope_being_killed) {
-		new_expr = gnm_expr_rewrite (nexpr->expr, rwinfo);
-		g_return_if_fail (new_expr != NULL);
+	if (destroy) {
+		g_hash_table_foreach_remove (hash,
+					     (GHRFunc)cb_dep_hash_destroy,
+					     &closure);
+		g_hash_table_destroy (hash);
+	} else {
+		g_hash_table_foreach (hash,
+				      (GHFunc)cb_dep_hash_destroy,
+				      &closure);
 	}
-
-	g_return_if_fail (nexpr->dependents == NULL ||
-			  g_hash_table_size (nexpr->dependents) == 0);
-	expr_name_set_expr (nexpr, new_expr);
+	*dyn_deps = closure.dyn_deps;
 }
 
 static void
@@ -1789,41 +1762,163 @@ cb_collect_deps_of_name (GnmDependent *dep, G_GNUC_UNUSED gpointer value,
 	}
 }
 
+struct cb_collect_deps_of_names {
+	GSList *names;
+	GSList *deps;
+};
+
 static void
 cb_collect_deps_of_names (GnmNamedExpr *nexpr,
 			  G_GNUC_UNUSED gpointer value,
-			  GSList **accum)
+			  struct cb_collect_deps_of_names *accum)
 {
+	accum->names = g_slist_prepend (accum->names, nexpr);
 	if (nexpr->dependents)
 		g_hash_table_foreach (nexpr->dependents,
 				      (GHFunc)cb_collect_deps_of_name,
-				      (gpointer)accum);
+				      &accum->deps);
+}
+
+static void
+invalidate_name (GnmNamedExpr *nexpr, Sheet *sheet, gboolean destroy)
+{
+	GnmExpr *old_expr = (GnmExpr *)nexpr->expr;
+	GnmExpr const *new_expr = NULL;
+	gboolean scope_being_killed =
+		nexpr->pos.sheet
+		? nexpr->pos.sheet->being_invalidated
+		: nexpr->pos.wb->during_destruction;
+
+	if (!scope_being_killed) {
+		GnmExprRewriteInfo rwinfo;
+		rwinfo.type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
+		new_expr = gnm_expr_rewrite (old_expr, &rwinfo);
+		g_return_if_fail (new_expr != NULL);
+	}
+
+	if (nexpr->dependents && g_hash_table_size (nexpr->dependents))
+		g_warning ("Left-over name dependencies:\n");
+
+	if (!destroy) {
+		gnm_expr_ref (old_expr);
+		sheet->revive.names =
+			g_slist_prepend (sheet->revive.names, old_expr);
+		expr_name_ref (nexpr);
+		sheet->revive.names =
+			g_slist_prepend (sheet->revive.names, nexpr);
+	}
+
+	expr_name_set_expr (nexpr, new_expr);
+}
+
+static void
+handle_dynamic_deps (GSList *dyn_deps)
+{
+	GSList *ptr;
+
+	for (ptr = dyn_deps; ptr != NULL ; ptr = ptr->next) {
+		GnmDependent *dep = ptr->data;
+		if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS) {
+			dependent_clear_dynamic_deps (dep);
+			dep->flags &= ~DEPENDENT_HAS_DYNAMIC_DEPS;
+		}
+	}
+	dependent_queue_recalc_list (dyn_deps);
+	g_slist_free (dyn_deps);
+}
+
+static void
+handle_referencing_names (GnmDepContainer *deps, Sheet *sheet, gboolean destroy)
+{
+	GSList *ptr;
+	GHashTable *names = deps->referencing_names;
+	struct cb_collect_deps_of_names accum;
+
+	if (!names)
+		return;
+
+	if (destroy)
+		deps->referencing_names = NULL;
+
+	/* collect the deps of the names */
+	accum.deps = NULL;
+	accum.names = NULL;
+	g_hash_table_foreach (names,
+			      (GHFunc)cb_collect_deps_of_names,
+			      (gpointer)&accum);
+
+	for (ptr = accum.deps; ptr; ptr = ptr->next) {
+		GnmDependent *dep = ptr->data;
+		dep->flags &= ~DEPENDENT_FLAGGED;
+		dependent_unlink (dep);
+	}
+
+	/* now that all of the dependents of these names are unlinked.
+	 * change the references in the names to avoid this sheet */
+	for (ptr = accum.names; ptr; ptr = ptr->next) {
+		GnmNamedExpr *nexpr = ptr->data;
+		invalidate_name (nexpr, sheet, destroy);
+	}
+	g_slist_free (accum.names);
+
+	/* then relink things en-mass in case one of the deps outside
+	 * this sheet used multiple names that referenced us */
+	dependents_link (accum.deps);
+
+	if (destroy) {
+		g_slist_free (accum.deps);
+		g_hash_table_destroy (names);
+	} else
+		sheet->revive.name_deps = accum.deps;
+}
+
+static void
+clear_revive_info (Sheet *sheet)
+{
+	GSList *l;
+
+	for (l = sheet->revive.names; l; l = l->next->next) {
+		GnmNamedExpr *nexpr = l->data;
+		GnmExpr *expr = l->next->data;
+
+		expr_name_unref (nexpr);
+		gnm_expr_unref (expr);
+	}
+	g_slist_free (sheet->revive.names);
+	sheet->revive.names = NULL;
+
+	g_slist_free (sheet->revive.name_deps);
+	sheet->revive.name_deps = NULL;
 }
 
 /*
  * do_deps_destroy:
  * Invalidate references of all kinds to the sheet.
+ *
+ * Also destroy the dependency container.
  */
 static void
 do_deps_destroy (Sheet *sheet)
 {
-	GnmExprRewriteInfo rwinfo;
 	GnmDepContainer *deps;
-	GSList *ptr, *next, *local_dyn_deps, *dyn_deps = NULL;
+	GSList *dyn_deps = NULL;
+	int i;
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->being_invalidated);
 
-	rwinfo.type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
-
-	/* The GnmDepContainer contains the names that reference this, not the
-	 * names it contains.  Remove them here. NOTE : they may continue to exist
-	 * inactively for a bit.  Be careful to remove them _before_ destroying
-	 * the deps.  This is a bit wasteful in that we unlink and relink a few
-	 * things that are going to be deleted.  However, it is necessary to
-	 * catch all the different life cycles
+	/* The GnmDepContainer (i.e., sheet->deps) contains the names that
+	 * reference this, not the names it contains.  Remove the locally
+	 * defined names here.
+	 *
+	 * NOTE : they may continue to exist inactively for a bit.  Be
+	 * careful to remove them _before_ destroying the deps.  This is
+	 * a bit wasteful in that we unlink and relink a few things that
+	 * are going to be deleted.  However, it is necessary to catch
+	 * all the different life cycles.
 	 */
-	gnm_named_expr_collection_free (&sheet->names);
+	gnm_named_expr_collection_free (sheet->names);
+	sheet->names = NULL;
 
 	deps = sheet->deps;
 	if (deps == NULL)
@@ -1835,97 +1930,41 @@ do_deps_destroy (Sheet *sheet)
 	 * If required this optimization can be disabled for debugging.
 	 */
 	sheet->deps = NULL;
+	clear_revive_info (sheet);
 
-	if (deps->range_hash) {
-		int i;
-		for (i = (SHEET_MAX_ROWS - 1) / BUCKET_SIZE; i >= 0 ; i--) {
-			GHashTable *hash = deps->range_hash[i];
-			if (hash != NULL)
-				dep_hash_destroy (hash, &rwinfo, &dyn_deps);
-		}
-		g_free (deps->range_hash);
-		deps->range_hash = NULL;
+	for (i = (SHEET_MAX_ROWS - 1) / BUCKET_SIZE; i >= 0 ; i--) {
+		GHashTable *hash = deps->range_hash[i];
+		if (hash != NULL)
+			dep_hash_destroy (hash, &dyn_deps, TRUE);
 	}
-	if (deps->range_pool) {
-		go_mem_chunk_destroy (deps->range_pool, TRUE);
-		deps->range_pool = NULL;
-	}
+	dep_hash_destroy (deps->single_hash, &dyn_deps, TRUE);
 
-	if (deps->single_hash) {
-		dep_hash_destroy (deps->single_hash, &rwinfo, &dyn_deps);
-		deps->single_hash = NULL;
-	}
-	if (deps->single_pool) {
-		go_mem_chunk_destroy (deps->single_pool, TRUE);
-		deps->single_pool = NULL;
-	}
+	g_free (deps->range_hash);
+	deps->range_hash = NULL;
+	go_mem_chunk_destroy (deps->range_pool, TRUE);
+	deps->range_pool = NULL;
+
+	deps->single_hash = NULL;
+	go_mem_chunk_destroy (deps->single_pool, TRUE);
+	deps->single_pool = NULL;
 
 	/* Now that we have tossed all deps to this sheet we can queue the
 	 * external dyn deps for recalc and free them */
-	ptr = dyn_deps;
-	dyn_deps = local_dyn_deps = NULL;
-	for (; ptr != NULL ; ptr = next) {
-		GnmDependent *dep = ptr->data;
-		next = ptr->next;
-		if (!dep->sheet->being_invalidated) {
-			if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS) {
-				dependent_clear_dynamic_deps (dep);
-				dep->flags &= ~DEPENDENT_HAS_DYNAMIC_DEPS;
-			}
-			ptr->next = dyn_deps;
-			dyn_deps = ptr;
-		} else {
-			ptr->next = local_dyn_deps;
-			local_dyn_deps = ptr;
-		}
-	}
-	g_slist_free (local_dyn_deps);
-	dependent_queue_recalc_list (dyn_deps);
-	g_slist_free (dyn_deps);
+	handle_dynamic_deps (dyn_deps);
 
-	if (deps->dynamic_deps) {
-		g_hash_table_destroy (deps->dynamic_deps);
-		deps->dynamic_deps = NULL;
-	}
+	g_hash_table_destroy (deps->dynamic_deps);
+	deps->dynamic_deps = NULL;
 
-	if (deps->referencing_names) {
-		GSList *ptr, *accum = NULL;
-		GnmDependent *dep;
-		GHashTable *names = deps->referencing_names;
-
-		deps->referencing_names = NULL;
-
-		/* collect the deps of the names */
-		g_hash_table_foreach (names,
-				      (GHFunc)cb_collect_deps_of_names,
-				      (gpointer)&accum);
-
-		for (ptr = accum ; ptr != NULL ; ptr = ptr->next) {
-			dep = ptr->data;
-			dep->flags &= ~DEPENDENT_FLAGGED;
-			dependent_unlink (dep);
-		}
-
-		/* now that all of the dependents of these names are unlinked.
-		 * change the references in the names to avoid this sheet */
-		g_hash_table_foreach (names,
-				      (GHFunc)cb_name_invalidate,
-				      &rwinfo);
-
-		/* then relink things en-mass in case one of the deps outside
-		 * this sheet used multiple names that referenced us */
-		dependents_link (accum);
-
-		g_hash_table_destroy (names);
-	}
+	handle_referencing_names (deps, sheet, TRUE);
 
 	/* Now we remove any links from dependents in this sheet to
 	 * to other containers.  If the entire workbook is going away
 	 * just look for inter-book links.
 	 */
 	DEPENDENT_CONTAINER_FOREACH_DEPENDENT (deps, dep, {
-		if ((dep->flags & DEPENDENT_USES_NAME) || /* I don't understand this -- MW */
-		    !dep->sheet->being_invalidated)
+		if (dependent_is_linked (dep) &&
+		    ((dep->flags & DEPENDENT_USES_NAME) ||
+		     !dep->sheet->being_invalidated))
 			unlink_expr_dep (dep,
 					 dep->expression);
 		dep->flags &= ~DEPENDENT_LINK_FLAGS;
@@ -1934,20 +1973,73 @@ do_deps_destroy (Sheet *sheet)
 	g_free (deps);
 }
 
-void
-dependents_invalidate_sheet (Sheet *sheet)
+/*
+ * do_deps_invalidate:
+ * Invalidate references of all kinds to the sheet.
+ */
+static void
+do_deps_invalidate (Sheet *sheet)
 {
-	g_return_if_fail (IS_SHEET (sheet));
+	GnmDepContainer *deps;
+	GSList *dyn_deps = NULL;
+	int i;
 
-	sheet->being_invalidated = TRUE;
-	do_deps_destroy (sheet);
-	sheet->being_invalidated = FALSE;
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (sheet->being_invalidated);
+
+	gnm_named_expr_collection_unlink (sheet->names);
+
+	deps = sheet->deps;
+
+	for (i = (SHEET_MAX_ROWS - 1) / BUCKET_SIZE; i >= 0 ; i--) {
+		GHashTable *hash = deps->range_hash[i];
+		if (hash != NULL)
+			dep_hash_destroy (hash, &dyn_deps, FALSE);
+	}
+	dep_hash_destroy (deps->single_hash, &dyn_deps, FALSE);
+
+	/* Now that we have tossed all deps to this sheet we can queue the
+	 * external dyn deps for recalc and free them */
+	handle_dynamic_deps (dyn_deps);
+
+	handle_referencing_names (deps, sheet, FALSE);
+
+	/* Now we remove any links from dependents in this sheet to
+	 * to other containers.  If the entire workbook is going away
+	 * just look for inter-book links.
+	 */
+	DEPENDENT_CONTAINER_FOREACH_DEPENDENT (deps, dep, {
+		if (dependent_is_linked (dep) &&
+		    ((dep->flags & DEPENDENT_USES_NAME) ||
+		     !dep->sheet->being_invalidated))
+			unlink_expr_dep (dep,
+					 dep->expression);
+		dep->flags &= ~DEPENDENT_LINK_FLAGS;
+	});
 }
 
 void
-dependents_invalidate_sheets (GSList *sheets)
+dependents_invalidate_sheet (Sheet *sheet, gboolean destroy)
+{
+	GSList l;
+
+	g_return_if_fail (IS_SHEET (sheet));
+
+	l.next = NULL;
+	l.data = sheet;
+	dependents_invalidate_sheets (&l, destroy);
+}
+
+void
+dependents_invalidate_sheets (GSList *sheets, gboolean destroy)
 {
 	GSList *tmp;
+
+	/*
+	 * FIXME: this should probably take care of fixing-up 3d deps.
+	 * A slight amount of care is needed for this since we really
+	 * only want to do that once per workbook.
+	 */
 
 	/* Mark all first.  */
 	for (tmp = sheets; tmp; tmp = tmp->next) {
@@ -1958,7 +2050,10 @@ dependents_invalidate_sheets (GSList *sheets)
 	/* Now invalidate.  */
 	for (tmp = sheets; tmp; tmp = tmp->next) {
 		Sheet *sheet = tmp->data;
-		do_deps_destroy (sheet);
+		if (destroy)
+			do_deps_destroy (sheet);
+		else
+			do_deps_invalidate (sheet);
 	}
 
 	/* Unmark.  */
@@ -1983,7 +2078,8 @@ dependents_workbook_destroy (Workbook *wb)
 		g_hash_table_destroy (wb->sheet_order_dependents);
 		wb->sheet_order_dependents = NULL;
 	}
-	gnm_named_expr_collection_free (&wb->names);
+	gnm_named_expr_collection_free (wb->names);
+	wb->names = NULL;
 
 	WORKBOOK_FOREACH_SHEET (wb, sheet, do_deps_destroy (sheet););
 
@@ -1991,10 +2087,48 @@ dependents_workbook_destroy (Workbook *wb)
 	WORKBOOK_FOREACH_SHEET (wb, sheet, sheet->being_invalidated = FALSE;);
 }
 
+/*
+ * dependents_revive_sheet:
+ * Undo the effects of dependents_invalidate_sheet (sheet, FALSE).
+ */
+void
+dependents_revive_sheet (Sheet *sheet)
+{
+	GSList *l;
+
+	/* Restore the values of names that got changed.  */
+	for (l = sheet->revive.names; l; l = l->next->next) {
+		GnmNamedExpr *nexpr = l->data;
+		GnmExpr *expr = l->next->data;
+		gnm_expr_ref (expr);
+		expr_name_set_expr (nexpr, expr);
+	}
+	dependents_link (sheet->revive.name_deps);
+
+	/*
+	 * Re-link dependencies.  Warning: do not link inside the
+	 * loop as that causes intersting effects.
+	 */
+	l = NULL;
+	DEPENDENT_CONTAINER_FOREACH_DEPENDENT (sheet->deps, dep, {
+		if (!dependent_is_linked (dep))
+			l = g_slist_prepend (l, dep);
+	});
+	dependents_link (l);
+	g_slist_free (l);
+
+	/* Re-link local names.  */
+	gnm_named_expr_collection_relink (sheet->names);
+
+	/* FIXME: undo changes to other sheets.  */
+
+	clear_revive_info (sheet);
+}
+
 void
 workbook_queue_all_recalc (Workbook *wb)
 {
-	/* FIXME : warning what about dependents in other workbooks */
+	/* FIXME: what about dependents in other workbooks */
 	WORKBOOK_FOREACH_DEPENDENT (wb, dep, dependent_flag_recalc (dep););
 }
 

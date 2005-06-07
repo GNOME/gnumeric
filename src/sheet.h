@@ -19,6 +19,10 @@ struct _Sheet {
 	int         index_in_wb;
 	Workbook    *workbook;
 	gboolean    being_invalidated;
+	struct {
+		GSList *names;
+		GSList *name_deps;
+	} revive;
 
 	GPtrArray   *sheet_views;
 

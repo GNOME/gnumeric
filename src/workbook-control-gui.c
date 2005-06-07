@@ -471,18 +471,22 @@ sheet_action_insert_sheet (GtkWidget *widget, SheetControlGUI *scg)
 }
 
 void
-scg_delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg)
+scg_delete_sheet_if_possible (G_GNUC_UNUSED GtkWidget *ignored,
+			      SheetControlGUI *scg)
 {
 	SheetControl *sc = (SheetControl *) scg;
-	Workbook *wb = wb_control_workbook (sc->wbc);
+	Sheet *sheet = sc->sheet;
+	Workbook *wb = sheet->workbook;
 
 	/* If this is the last sheet left, ignore the request */
-	if (workbook_sheet_count (wb) != 1)
-		cmd_reorganize_sheets 
-			(WORKBOOK_CONTROL (scg->wbcg), NULL, NULL, NULL, 
-			 g_slist_prepend 
-			 (NULL, GINT_TO_POINTER (sc->sheet->index_in_wb)),
-			 NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	if (workbook_sheet_count (wb) != 1) {
+		WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
+		WorkbookControl *wbc = sc->wbc;
+		workbook_sheet_delete (sheet);
+		/* Careful: sc just ceased to be valid.  */
+		workbook_set_dirty (wb, TRUE);
+		cmd_reorganize_sheets2 (wbc, old_state);
+	}
 }
 
 static void

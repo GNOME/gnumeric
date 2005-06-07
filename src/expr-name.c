@@ -40,6 +40,46 @@ cb_nexpr_remove (GnmNamedExpr *nexpr)
 	expr_name_unref (nexpr);
 }
 
+static void
+cb_collect_name_deps (gpointer key, G_GNUC_UNUSED gpointer value,
+		      gpointer user_data)
+{
+	GSList **list = user_data;
+	*list = g_slist_prepend (*list, key);
+}
+
+static GSList *
+expr_name_unlink_deps (GnmNamedExpr *nexpr)
+{
+	GSList *ptr, *deps = NULL;
+
+	if (nexpr->dependents == NULL)
+		return NULL;
+
+	g_hash_table_foreach (nexpr->dependents, cb_collect_name_deps, &deps);
+
+	/* pull them out */
+	for (ptr = deps ; ptr != NULL ; ptr = ptr->next) {
+		GnmDependent *dep = ptr->data;
+		if (dependent_is_linked (dep))
+			dependent_unlink (dep);
+	}
+	return deps;
+}
+
+static void
+expr_name_relink_deps (GnmNamedExpr *nexpr)
+{
+	GSList *deps = NULL;
+
+	if (nexpr->dependents == NULL)
+		return;
+
+	g_hash_table_foreach (nexpr->dependents, cb_collect_name_deps, &deps);
+	dependents_link (deps);
+	g_slist_free (deps);
+}
+
 static GnmNamedExprCollection *
 gnm_named_expr_collection_new (void)
 {
@@ -55,9 +95,9 @@ gnm_named_expr_collection_new (void)
 
 /**
  * gnm_named_expr_collection_free :
- * @names : a POINTER to the collection of names
+ * @names : The collection of names
  *
- * Frees names in the local scope.
+ * Frees names defined in the local scope.
  * NOTE : THIS DOES NOT INVALIDATE NAMES THAT REFER
  *        TO THIS SCOPE.
  *        eg
@@ -65,13 +105,57 @@ gnm_named_expr_collection_new (void)
  *           to sheet1.  That will remain!
  **/
 void
-gnm_named_expr_collection_free (GnmNamedExprCollection **names)
+gnm_named_expr_collection_free (GnmNamedExprCollection *names)
 {
-	if (*names != NULL) {
-		g_hash_table_destroy ((*names)->names);
-		g_hash_table_destroy ((*names)->placeholders);
-		g_free (*names);
-		*names = NULL;
+	if (names != NULL) {
+		g_hash_table_destroy (names->names);
+		g_hash_table_destroy (names->placeholders);
+		g_free (names);
+	}
+}
+
+static void
+cb_unlink_all_names (G_GNUC_UNUSED gpointer key,
+		     gpointer value,
+		     G_GNUC_UNUSED gpointer user_data)
+{
+	GnmNamedExpr *nexpr = value;
+	GSList *deps = expr_name_unlink_deps (nexpr);
+	g_slist_free (deps);
+}
+
+void
+gnm_named_expr_collection_unlink (GnmNamedExprCollection *names)
+{
+	if (!names)
+		return;
+
+	if (names->names) {
+		g_hash_table_foreach (names->names,
+				      cb_unlink_all_names,
+				      NULL);
+	}
+}
+
+static void
+cb_relink_all_names (G_GNUC_UNUSED gpointer key,
+		     gpointer value,
+		     G_GNUC_UNUSED gpointer user_data)
+{
+	GnmNamedExpr *nexpr = value;
+	expr_name_relink_deps (nexpr);
+}
+
+void
+gnm_named_expr_collection_relink (GnmNamedExprCollection *names)
+{
+	if (!names)
+		return;
+
+	if (names->names) {
+		g_hash_table_foreach (names->names,
+				      cb_relink_all_names,
+				      NULL);
 	}
 }
 
@@ -130,6 +214,7 @@ cb_check_name (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
 		value_release (v);
 	}
 }
+
 static GnmNamedExpr *
 gnm_named_expr_collection_check (GnmNamedExprCollection *scope,
 				 Sheet const *sheet, GnmRange const *r)
@@ -149,33 +234,6 @@ gnm_named_expr_collection_check (GnmNamedExprCollection *scope,
 }
 
 /******************************************************************************/
-
-static void
-cb_collect_name_deps (gpointer key, G_GNUC_UNUSED gpointer value,
-		      gpointer user_data)
-{
-	GSList **list = user_data;
-	*list = g_slist_prepend (*list, key);
-}
-
-static GSList *
-expr_name_unlink_deps (GnmNamedExpr *nexpr)
-{
-	GSList *ptr, *deps = NULL;
-
-	if (nexpr->dependents == NULL)
-		return NULL;
-
-	g_hash_table_foreach (nexpr->dependents, cb_collect_name_deps, &deps);
-
-	/* pull them out */
-	for (ptr = deps ; ptr != NULL ; ptr = ptr->next) {
-		GnmDependent *dep = ptr->data;
-		if (dependent_is_linked (dep))
-			dependent_unlink (dep);
-	}
-	return deps;
-}
 
 /**
  * expr_name_handle_references : register or unregister a name with
@@ -623,6 +681,7 @@ expr_name_set_expr (GnmNamedExpr *nexpr, GnmExpr const *new_expr)
 	}
 	nexpr->expr = new_expr;
 	dependents_link (good);
+	g_slist_free (good);
 
 	if (new_expr != NULL)
 		expr_name_handle_references (nexpr, TRUE);

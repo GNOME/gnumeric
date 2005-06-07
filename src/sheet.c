@@ -3154,7 +3154,7 @@ sheet_finalize (GObject *obj)
 	solver_param_destroy (sheet->solver_parameters);
 	scenario_free_all (sheet->scenarios);
 
-	dependents_invalidate_sheet (sheet);
+	dependents_invalidate_sheet (sheet, TRUE);
 
 	sheet_destroy_contents (sheet);
 

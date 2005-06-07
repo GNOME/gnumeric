@@ -1056,7 +1056,7 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet, gboolean recalc)
 
 		/*
 		 * Why here and not in workbook_sheet_delete
-		 * (via dependents_invalidate_sheets)?
+		 * (via dependents_invalidate_sheet)?
 		 */
 		rwinfo.type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
 		sheet->being_invalidated = TRUE;
@@ -1151,7 +1151,7 @@ workbook_sheet_delete (Sheet *sheet)
 	workbook_focus_other_sheet (wb, sheet);
 
 	/* Important to do these BEFORE detaching the sheet */
-	dependents_invalidate_sheet (sheet);
+	dependents_invalidate_sheet (sheet, FALSE);
 
 	/* All is fine, remove the sheet */
 	workbook_sheet_detach (wb, sheet, TRUE);
@@ -1745,9 +1745,10 @@ workbook_sheet_state_restore (Workbook *wb, const WorkbookSheetState *wss)
 	for (i = 0; i < wss->n_sheets; i++) {
 		Sheet *sheet = wss->sheets[i].sheet;
 		if (sheet->index_in_wb != i) {
-			if (sheet->index_in_wb == -1)
+			if (sheet->index_in_wb == -1) {
 				workbook_sheet_attach_at_pos (wb, sheet, i);
-			else {
+				dependents_revive_sheet (sheet);
+			} else {
 				/*
 				 * There might be a smarter way of getting more
 				 * sheets into place faster.  This will at
