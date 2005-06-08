@@ -171,7 +171,8 @@ applix_sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb)
 }
 
 static char const *
-applix_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp)
+applix_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
+		       GnmExprConventions const *convention)
 {
 	char const *ptr = start, *tmp1, *tmp2;
 	Workbook *wb = pp->wb;
@@ -1263,7 +1264,8 @@ applix_read_absolute_name (ApplixReadState *state, char *buffer)
 	if (end == NULL)
 		return TRUE;
 	applix_rangeref_parse (&ref, end+2,
-		parse_pos_init (&pp, state->wb, NULL, 0, 0));
+		parse_pos_init (&pp, state->wb, NULL, 0, 0),
+		state->exprconv);
 	ref.a.col_relative = ref.b.col_relative =
 		ref.a.row_relative = ref.b.row_relative = FALSE;
 

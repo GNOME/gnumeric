@@ -1,3 +1,13 @@
+2005-06-07  Jody Goldberg <jody@gnome.org>
+
+	* src/parser.y : Pass the convention to the range_ref parser
+
+	* src/parse-util.c (r1c1_get_index) : make this more robust.
+	(cellref_r1c1_get) : adjust calling to new get_index args.
+	(r1c1_rangeref_parse) : new.
+	(rangeref_parse) : connect into the r1c1 parser.
+	(parse_util_init) : add an r1c1 convention set
+
 2005-06-07  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook.c (workbook_sheet_state_restore): Revive sheets

@@ -293,7 +293,7 @@ find_index_bisection (FunctionEvalInfo *ei,
 
 				if (height)
 					v = value_area_fetch_x_y (data, 0, adj, ei->pos);
-				else                                                    
+				else
 					v = value_area_fetch_x_y (data, adj, 0, ei->pos);
 
 				g_return_val_if_fail (v != NULL, -1);
@@ -833,15 +833,18 @@ static GnmFuncHelp const help_indirect[] = {
 static GnmValue *
 gnumeric_indirect (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
-#if 0
-	/* What good is this ? the parser handles both forms */
-	gboolean a1_style = args[1] ? value_get_as_bool (args[1], &error) : TRUE;
-#endif
 	GnmParsePos  pp;
-	char const *text = value_peek_string (args[0]);
-	GnmExpr const *expr = gnm_expr_parse_str_simple (text,
-		parse_pos_init_evalpos (&pp, ei->pos));
 	GnmValue *res = NULL;
+	GnmExpr const *expr;
+	char const *text = value_peek_string (args[0]);
+	GnmExprConventions const *convs = gnm_expr_conventions_default;
+
+	if (args[1] && value_get_as_bool (args[1], NULL))
+		convs = gnm_expr_conventions_r1c1;
+
+	expr = gnm_expr_parse_str (text,
+		parse_pos_init_evalpos (&pp, ei->pos),
+		GNM_EXPR_PARSE_DEFAULT, convs, NULL);
 
 	if (expr != NULL) {
 		res = gnm_expr_get_range (expr);

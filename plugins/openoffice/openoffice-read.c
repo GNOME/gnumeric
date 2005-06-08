@@ -517,7 +517,8 @@ oo_cellref_parse (GnmCellRef *ref, char const *start, GnmParsePos const *pp)
 }
 
 static char const *
-oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp)
+oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp,
+		   GnmExprConventions const *convention)
 {
 	char const *ptr;
 
@@ -1404,7 +1405,7 @@ errortype_renamer (char const *name, GnmExprList *args, GnmExprConventions *conv
 static GnmExpr const *
 oo_unknown_hander (char const *name,
 		   GnmExprList *args,
-		   GnmExprConventions *convs)
+		   GnmExprConventions const *convs)
 {
 	if (0 == strncmp ("com.sun.star.sheet.addin.Analysis.get", name, 37)) {
 		GnmFunc *f = gnm_func_lookup (name + 37, NULL);
