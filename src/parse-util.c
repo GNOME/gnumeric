@@ -393,69 +393,49 @@ cellref_a1_get (GnmCellRef *out, char const *in, GnmCellPos const *pos)
 	return in;
 }
 
-static gboolean
-r1c1_get_item (int *num, unsigned char *rel, char const * *in)
+/* skip first character (which was R or C) */
+static char const *
+r1c1_get_index (char const *str, int *num, unsigned char *relative, gboolean is_col)
 {
-	gboolean neg = FALSE;
+	char *end;
+	if (str[0] == '\0')
+		return NULL;
 
-	if (**in == '\0')
-		return FALSE;
-
-	if (**in == '[') {
-		(*in)++;
-		*rel = TRUE;
-		if (!**in)
-			return FALSE;
-
-		if (**in == '+')
-			(*in)++;
-		else if (**in == '-') {
-			neg = TRUE;
-			(*in)++;
-		}
+	str++;
+	if ((*relative = (*str == '[')))
+		str++;
+	errno = 0;
+	*num = strtol (str, &end, 10);
+	if (errno == ERANGE)
+		return NULL;
+	if (str == end) {
+		if (*relative)
+			return NULL;
+		*relative = TRUE;
+		*num = 0;
+	} else if (*relative) {
+		if (*end != ']')
+			return NULL;
+		return end + 1;
+	} else {
+		if (*num <= 0 || *num >= colrow_max (is_col))
+			return NULL;
+		(*num)--;
 	}
-	*num = 0;
-
-	while (**in >= '0' && **in <= '9') {
-		*num = *num * 10 + (**in - '0');
-		(*in)++;
-	}
-
-	if (neg)
-		*num = -*num;
-
-	if (**in == ']')
-		(*in)++;
-
-	return TRUE;
+	return end;
 }
 
 static char const *
 cellref_r1c1_get (GnmCellRef *out, char const *in, GnmCellPos const *pos)
 {
-	out->row_relative = FALSE;
-	out->col_relative = FALSE;
-	out->col = pos->col;
-	out->row = pos->row;
 	out->sheet = NULL;
-
-	if (*in == 'R') {
-		in++;
-		if (!r1c1_get_item (&out->row, &out->row_relative, &in))
-			return NULL;
-	} else
+	if (*in != 'R')
 		return NULL;
-
-	if (*in == 'C') {
-		in++;
-		if (!r1c1_get_item (&out->col, &out->col_relative, &in))
-			return NULL;
-	} else
+	if (NULL == (in = r1c1_get_index (in, &out->row, &out->row_relative, FALSE)))
 		return NULL;
-
-	out->col--;
-	out->row--;
-	return in;
+	if (*in != 'C')
+		return NULL;
+	return r1c1_get_index (in, &out->col, &out->col_relative, TRUE);
 }
 
 /**
@@ -782,6 +762,53 @@ sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb,
 	return end;
 }
 
+/* An odd little routine that is called when we start parsing looking for an A1
+ * style ref and get into a situation that may be an R1C1 */
+static char const *
+r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
+{
+	char const *tmp;
+
+	if (*ptr == 'R' || *ptr == 'r') {
+		if (NULL == (ptr = r1c1_get_index (ptr, &res->a.row, &res->a.row_relative, FALSE)))
+			return NULL;
+		if (*ptr != 'C' && *ptr != 'c') { /* full row R# */
+			res->a.col_relative = res->b.col_relative = FALSE;
+			res->a.col = 0; res->b.col = SHEET_MAX_COLS-1;
+			res->b.row_relative = res->a.row_relative;
+			res->b.row = res->a.row;
+			if (ptr[0] != ':' || (ptr[1] != 'R' && ptr[1] != 'r'))
+				return ptr;
+			if (NULL == (tmp = r1c1_get_index (ptr+1, &res->b.row, &res->b.row_relative, FALSE)))
+				return ptr; /* fallback to just the initial R */
+			return tmp;
+		} else if (NULL == (ptr = r1c1_get_index (ptr, &res->a.col, &res->a.col_relative, TRUE)))
+			return NULL;
+
+		res->b = res->a;
+		if (ptr[0] != ':' || (ptr[1] != 'R' && ptr[1] != 'r') ||
+		    NULL == (tmp = r1c1_get_index (ptr+1, &res->b.row, &res->b.row_relative, FALSE)) ||
+		    (*tmp != 'C' && *tmp != 'c') ||
+		    NULL == (tmp = r1c1_get_index (tmp, &res->b.row, &res->b.row_relative, FALSE)))
+			return ptr;
+		return tmp;
+	} else if (*ptr == 'C' || *ptr == 'c') { /* full col C[#] */
+		if (NULL == (ptr = r1c1_get_index (ptr, &res->a.col, &res->a.col_relative, TRUE)))
+			return NULL;
+		res->a.row_relative = res->b.row_relative = FALSE;
+		res->a.row = 0; res->b.row = SHEET_MAX_ROWS-1;
+		res->b.col_relative = res->a.col_relative;
+		res->b.col = res->a.col;
+		if (ptr[0] != ':' || (ptr[1] != 'C' && ptr[1] != 'c'))
+			return ptr;
+		if (NULL == (tmp = r1c1_get_index (ptr, &res->b.col, &res->b.col_relative, TRUE)))
+			return ptr; /* fallback to just the initial C */
+		return tmp;
+	}
+
+	return NULL;
+}
+
 /** rangeref_parse :
  * @res : where to store the result
  * @start : the start of the string to parse
@@ -791,7 +818,8 @@ sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb,
  * If the result != @start then @res is valid.
  **/
 char const *
-rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp)
+rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
+		GnmExprConventions const *convs)
 {
 	char const *ptr = start, *start_sheet, *tmp1, *tmp2;
 	Workbook *wb;
@@ -819,6 +847,11 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp)
 	} else
 		res->b.sheet = NULL;
 
+	if (convs->r1c1_addresses) { /* R1C1 handler */
+		tmp1 = r1c1_rangeref_parse (res, ptr, pp);
+		return (tmp1 != NULL) ? tmp1 : start;
+	}
+
 	tmp1 = col_parse (ptr, &res->a.col, &res->a.col_relative);
 	if (tmp1 == NULL) { /* check for row only ref 2:3 */
 		tmp1 = row_parse (ptr, &res->a.row, &res->a.row_relative);
@@ -837,7 +870,7 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp)
 	}
 
 	tmp2 = row_parse (tmp1, &res->a.row, &res->a.row_relative);
-	if (!tmp2) { /* check for col only ref B:C or R1C1 style */
+	if (tmp2 == NULL) { /* check for col only ref B:C or R1C1 style */
 		if (*tmp1++ != ':') /* col only requires : even for singleton */
 			return start;
 		tmp2 = col_parse (tmp1, &res->b.col, &res->b.col_relative);
@@ -882,7 +915,8 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp)
 
 
 char const *
-gnm_1_0_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp)
+gnm_1_0_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
+			G_GNUC_UNUSED GnmExprConventions const *convs)
 {
 	char const *ptr = start, *tmp1, *tmp2;
 	Workbook *wb;
@@ -1101,29 +1135,42 @@ test_cellpos_stuff (void)
 
 #endif
 
-GnmExprConventions *gnm_expr_conventions_default;
+GnmExprConventions const *gnm_expr_conventions_default;
+GnmExprConventions const *gnm_expr_conventions_r1c1;
 
 void
 parse_util_init (void)
 {
+	GnmExprConventions *convs;
 #ifdef TEST
 	test_row_stuff ();
 	test_col_stuff ();
 	test_cellpos_stuff ();
 #endif
 
-	gnm_expr_conventions_default = gnm_expr_conventions_new ();
-	gnm_expr_conventions_default->ref_parser = rangeref_parse;
-	gnm_expr_conventions_default->range_sep_colon = TRUE;
-	gnm_expr_conventions_default->sheet_sep_exclamation = TRUE;
-	gnm_expr_conventions_default->dots_in_names = TRUE;
+	convs = gnm_expr_conventions_new ();
+	convs->ref_parser = rangeref_parse;
+	convs->range_sep_colon		= TRUE;
+	convs->sheet_sep_exclamation	= TRUE;
+	convs->dots_in_names		= TRUE;
+	gnm_expr_conventions_default = convs;
+
+	convs = gnm_expr_conventions_new ();
+	convs->ref_parser = rangeref_parse;
+	convs->range_sep_colon		= TRUE;
+	convs->sheet_sep_exclamation	= TRUE;
+	convs->dots_in_names		= TRUE;
+	convs->r1c1_addresses		= TRUE;
+	gnm_expr_conventions_r1c1 = convs;
 }
 
 void
 parse_util_shutdown (void)
 {
-	gnm_expr_conventions_free (gnm_expr_conventions_default);
+	gnm_expr_conventions_free ((GnmExprConventions *)gnm_expr_conventions_default);
 	gnm_expr_conventions_default = NULL;
+	gnm_expr_conventions_free ((GnmExprConventions *)gnm_expr_conventions_r1c1);
+	gnm_expr_conventions_r1c1 = NULL;
 }
 
 GnmExpr const *

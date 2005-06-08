@@ -245,10 +245,11 @@ sc_parse_cell_name_list (Sheet *sheet, char const *cell_name_str,
 
 
 G_GNUC_UNUSED static char const *
-sc_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp)
+sc_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
+		   GnmExprConventions const *convention)
 {
 	/* This is a hack.  We still cannot handle sc's row 0.  */
-	char const *end = rangeref_parse (res, start, pp);
+	char const *end = rangeref_parse (res, start, pp, convention);
 	if (end != start) {
 		res->a.row++;
 		res->b.row++;

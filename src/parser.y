@@ -204,7 +204,7 @@ typedef struct {
 	gboolean force_explicit_sheet_references;
 	gboolean unknown_names_are_strings;
 
-	GnmExprConventions *convs;
+	GnmExprConventions const *convs;
 
 	GnmExprList *result;
 
@@ -1058,7 +1058,7 @@ yylex (void)
 	if (c == state->separator)
 		return eat_space (state, SEPARATOR);
 
-	if (start != (end = state->convs->ref_parser (&ref, start, state->pos))) {
+	if (start != (end = state->convs->ref_parser (&ref, start, state->pos, state->convs))) {
 		state->ptr = end;
 		if (state->force_absolute_col_references) {
 			if (ref.a.col_relative) {
@@ -1323,7 +1323,7 @@ yyerror (char const *s)
 GnmExpr const *
 gnm_expr_parse_str (char const *expr_text, GnmParsePos const *pos,
 		    GnmExprParseFlags flags,
-		    GnmExprConventions *convs,
+		    GnmExprConventions const *convs,
 		    GnmParseError *error)
 {
 	GnmExpr const *expr;

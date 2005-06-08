@@ -648,7 +648,7 @@ gnm_expr_expr_find_range (GnmExprEntry *gee)
 		ptr = text;
 
 	while (ptr != NULL && *ptr && ptr <= cursor) {
-		tmp = rangeref_parse (&range, ptr, &pp);
+		tmp = rangeref_parse (&range, ptr, &pp, gnm_expr_conventions_default);
 		if (tmp != ptr) {
 			if (tmp >= cursor) {
 				rs->is_valid = TRUE;

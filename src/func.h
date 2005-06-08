@@ -209,7 +209,7 @@ GnmFunc    *gnm_func_add_placeholder (Workbook *optional_context,
 				      gboolean copy_name);
 GnmExpr const *gnm_func_placeholder_factory (const char *name,
 					     GnmExprList *args,
-					     GnmExprConventions *convs);
+					     GnmExprConventions const *convs);
 
 
 /* TODO */

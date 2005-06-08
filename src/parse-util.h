@@ -14,16 +14,17 @@ char const *row_parse (char const *str, int *res, unsigned char *relative);
 char const *cellpos_as_string	(GnmCellPos const *pos);
 char const *cellpos_parse	(char const *cell_str, GnmCellPos *res,
 				 gboolean strict);
-void        cellref_as_string   (GString *target, const GnmExprConventions *conv,
+void        cellref_as_string   (GString *target, GnmExprConventions const *convs,
 				 GnmCellRef const *cell_ref,
 				 GnmParsePos const *pp, gboolean no_sheetname);
 char const *cellref_parse	(GnmCellRef *out, char const *in,
 				 GnmCellPos const *pos);
 
-void        rangeref_as_string (GString *target, GnmExprConventions const *conv,
+void        rangeref_as_string (GString *target, GnmExprConventions const *convs,
 				GnmRangeRef const *ref, GnmParsePos const *pp);
 char const *rangeref_parse	(GnmRangeRef *res, char const *in,
-				 GnmParsePos const *pp);
+				 GnmParsePos const *pp,
+				 GnmExprConventions const *convs);
 				 /* GError **err); */
 
 char const *sheetref_parse	(char const *start, Sheet **sheet,
@@ -35,7 +36,8 @@ char const *cell_name		(GnmCell const *cell);
 /* backwards compatibility versions that will move to a plugin */
 char	   *gnm_1_0_rangeref_as_string	(GnmRangeRef const *ref, GnmParsePos const *pp);
 char const *gnm_1_0_rangeref_parse	(GnmRangeRef *res, char const *in,
-					 GnmParsePos const *pp);
+					 GnmParsePos const *pp,
+					 GnmExprConventions const *convs);
 
 typedef enum {
 	PERR_NONE,
@@ -77,7 +79,8 @@ typedef enum {
 } GnmExprParseFlags;
 
 typedef char const *(*GnmRangeRefParse) (GnmRangeRef *res, char const *in,
-					 GnmParsePos const *pp);
+					 GnmParsePos const *pp,
+					 GnmExprConventions const *convs);
 					 /* GError **err); */
 
 /*
@@ -86,7 +89,7 @@ typedef char const *(*GnmRangeRefParse) (GnmRangeRef *res, char const *in,
  */
 typedef GnmExpr const *(*GnmParseFunctionHandler) (const char *name,
 						   GnmExprList *args,
-						   GnmExprConventions *convs);
+						   GnmExprConventions const *convs);
 
 typedef void (*GnmParseExprNameHandler) (GString *target,
 					 GnmParsePos const *pp,
@@ -187,13 +190,14 @@ struct _GnmExprConventions {
 GnmExprConventions *gnm_expr_conventions_new (void);
 void gnm_expr_conventions_free (GnmExprConventions *c);
 
-extern GnmExprConventions *gnm_expr_conventions_default;
+extern GnmExprConventions const *gnm_expr_conventions_default;
+extern GnmExprConventions const *gnm_expr_conventions_r1c1;
 void parse_util_init (void);
 void parse_util_shutdown (void);
 
 GnmExpr const *gnm_expr_parse_str (char const *expr, GnmParsePos const *pp,
 				   GnmExprParseFlags flags,
-				   GnmExprConventions *conv,
+				   GnmExprConventions const *convs,
 				   GnmParseError *error);
 
 GnmExpr const *gnm_expr_parse_str_simple (char const *expr, GnmParsePos const *pp);

@@ -697,7 +697,7 @@ gnm_func_add_placeholder (Workbook *scope,
 GnmExpr const *
 gnm_func_placeholder_factory (const char *name,
 			      GnmExprList *args,
-			      G_GNUC_UNUSED GnmExprConventions *convs)
+			      G_GNUC_UNUSED GnmExprConventions const *convs)
 {
 	GnmFunc *f = gnm_func_add_placeholder (NULL, name, "", TRUE);
 	return gnm_expr_new_funcall (f, args);
