@@ -1,3 +1,14 @@
+2005-06-08  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (gnm_sheet_class_init): Rename "visible" property to
+	"visibility" and make it an enum.  All users changed.
+	* src/sheet.h (struct _Sheet): Ditto for is_visible member.
+
+	* src/workbook-view.c (wb_view_sheet_remove): New function to
+	mirror wb_view_sheet_add.
+	* src/workbook.c (workbook_sheet_hide_controls): Use
+	wb_view_sheet_remove.
+
 2005-06-08  Ivan, Wogn Yat Cheung  <email@ivanwong.info>
 
 	* src/sheet-control-gui.c (scg_drag_receive_uri_list):

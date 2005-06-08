@@ -5209,7 +5209,7 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *new_order,
 	while (the_sheets) {
 		Sheet *sheet = workbook_sheet_by_index (wb, GPOINTER_TO_INT (the_sheets->data));
 		me->old_visibility = g_slist_prepend (me->old_visibility, GINT_TO_POINTER (
-							 (sheet == NULL) || sheet->is_visible));
+							      sheet ? sheet->visibility : GNM_SHEET_VISIBILITY_VISIBLE));
 		the_sheets = the_sheets->next;
 	}
 	me->old_visibility = g_slist_reverse (me->old_visibility);

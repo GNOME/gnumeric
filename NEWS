@@ -59,7 +59,7 @@ Morten:
 	* Add tooltips for ok_button, cancel_button, and func_button.
 	  [#160344]
 	* Fix paste problem.  [#305404]
-	* Fix brown bag text import problem.
+	* Fix brown bag text import problem.  [Later reported as #305624]
 	* Improve R.QPOIS accuracy, efficiency, and termination.
 	* Improve R.QNORM's accuracy in the long double case.
 	* Improve R.QCAUCHY's accuracy.
@@ -68,6 +68,7 @@ Morten:
 	* Fix xml export of shared array formulae.
 	* Fix number matching problem.  [#306254]
 	* Fix R.PBETA screwup for log case.
+	* Fix problem with hiding sheets.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1

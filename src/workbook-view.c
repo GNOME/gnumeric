@@ -131,6 +131,21 @@ wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
 		wb_control_sheet_add (control, new_view););
 }
 
+void
+wb_view_sheet_remove (WorkbookView *wbv, Sheet *sheet)
+{
+	SheetView *sv;
+
+	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+
+	WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
+		wb_control_sheet_remove (control, sheet););
+
+	sv = sheet_get_view (sheet, wbv);
+	if (sv)
+		sv_dispose (sv);
+}
+
 gboolean
 wb_view_is_protected (WorkbookView *wbv, gboolean check_sheet)
 {

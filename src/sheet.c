@@ -84,7 +84,7 @@ enum {
 	PROP_0,
 	PROP_NAME,
 	PROP_RTL,
-	PROP_VISIBLE,
+	PROP_VISIBILITY,
 	PROP_PROTECTED,
 	PROP_DISPLAY_FORMULAS,
 	PROP_DISPLAY_ZEROS,
@@ -118,13 +118,12 @@ sheet_set_direction (Sheet *sheet, gboolean text_is_rtl)
 }
 
 static void	  
-sheet_set_visibility (Sheet *sheet, gboolean visible)
+sheet_set_visibility (Sheet *sheet, GnmSheetVisibility visibility)
 {
-	visible = !!visible;
-	if (sheet->is_visible == visible)
+	if (sheet->visibility == visibility)
 		return;
 
-	sheet->is_visible = visible;
+	sheet->visibility = visibility;
 	sheet_set_dirty (sheet, TRUE);
 }
 
@@ -294,8 +293,8 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 	case PROP_RTL:
 		sheet_set_direction (sheet, g_value_get_boolean (value));
 		break;
-	case PROP_VISIBLE:
-		sheet_set_visibility (sheet, g_value_get_boolean (value));
+	case PROP_VISIBILITY:
+		sheet_set_visibility (sheet, g_value_get_enum (value));
 		break;
 	case PROP_PROTECTED:
 		sheet->is_protected = !!g_value_get_boolean (value);
@@ -358,8 +357,8 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 	case PROP_RTL:
 		g_value_set_boolean (value, sheet->text_is_rtl);
 		break;
-	case PROP_VISIBLE:
-		g_value_set_boolean (value, sheet->is_visible);
+	case PROP_VISIBILITY:
+		g_value_set_boolean (value, sheet->visibility);
 		break;
 	case PROP_PROTECTED:
 		g_value_set_boolean (value, sheet->is_protected);
@@ -423,7 +422,7 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->outline_symbols_right = TRUE;
 	sheet->tab_color = NULL;
 	sheet->tab_text_color = NULL;
-	sheet->is_visible = TRUE;
+	sheet->visibility = GNM_SHEET_VISIBILITY_VISIBLE;
 #ifdef WITH_GTK
 	sheet->text_is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);
 #else
@@ -512,13 +511,14 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 				       G_PARAM_READWRITE));
         g_object_class_install_property
 		(gobject_class,
-		 PROP_VISIBLE,
-		 g_param_spec_boolean ("visible",
-				       _("Visible"),
-				       _("Sheet is visible."),
-				       TRUE,
-				       GSF_PARAM_STATIC |
-				       G_PARAM_READWRITE));
+		 PROP_VISIBILITY,
+		 g_param_spec_enum ("visibility",
+				    _("Visibility"),
+				    _("How visible the sheet is."),
+				    GNM_SHEET_VISIBILITY_TYPE,
+				    GNM_SHEET_VISIBILITY_VISIBLE,
+				    GSF_PARAM_STATIC |
+				    G_PARAM_READWRITE));
         g_object_class_install_property
 		(gobject_class,
 		 PROP_PROTECTED,
@@ -645,13 +645,25 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 GSF_CLASS (GnmSheet, gnm_sheet,
 	   gnm_sheet_class_init, gnm_sheet_init, G_TYPE_OBJECT)
 
-void
-sheet_redraw_all (Sheet const *sheet, gboolean headers)
+/* ------------------------------------------------------------------------- */
+
+GType
+gnm_sheet_visibility_get_type (void)
 {
-	SHEET_FOREACH_CONTROL (sheet, view, control,
-		sc_redraw_all (control, headers););
+  static GType etype = 0;
+  if (etype == 0) {
+	  static const GEnumValue values[] = {
+		  { GNM_SHEET_VISIBILITY_VISIBLE, (char*)"GNM_SHEET_VISIBILITY_VISIBLE", (char*)"visible" },
+		  { GNM_SHEET_VISIBILITY_HIDDEN, (char*)"GNM_SHEET_VISIBILITY_HIDDEN", (char*)"hidden" },
+		  { GNM_SHEET_VISIBILITY_VERY_HIDDEN, (char*)"GNM_SHEET_VISIBILITY_VERY_HIDDEN", (char*)"very-hidden" },
+		  { 0, NULL, NULL }
+	  };
+	  etype = g_enum_register_static ("GnmSheetVisibility", values);
+  }
+  return etype;
 }
 
+/* ------------------------------------------------------------------------- */
 /**
  * sheet_new_with_type :
  * @wb    : #Workbook
@@ -711,6 +723,13 @@ sheet_new (Workbook *wb, char const *name)
 }
 
 /****************************************************************************/
+
+void
+sheet_redraw_all (Sheet const *sheet, gboolean headers)
+{
+	SHEET_FOREACH_CONTROL (sheet, view, control,
+		sc_redraw_all (control, headers););
+}
 
 static GnmValue *
 cb_clear_rendered_values (Sheet *sheet, int col, int row, GnmCell *cell,

@@ -886,13 +886,13 @@ workbook_focus_other_sheet (Workbook *wb, Sheet *sheet)
 
 	for (i = sheet_index; !focus && --i >= 0; ) {
 		Sheet *this_sheet = g_ptr_array_index (wb->sheets, i);
-		if (this_sheet->is_visible)
+		if (this_sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE)
 			focus = this_sheet;
 	}
 
 	for (i = sheet_index; !focus && ++i < (int)wb->sheets->len; ) {
 		Sheet *this_sheet = g_ptr_array_index (wb->sheets, i);
-		if (this_sheet->is_visible)
+		if (this_sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE)
 			focus = this_sheet;
 	}
 
@@ -933,9 +933,9 @@ workbook_sheet_hide_controls (Workbook *wb, Sheet *sheet)
 	if (!wb->during_destruction)
 		focus = workbook_focus_other_sheet (wb, sheet);
 
-	/* Remove all controls */
-	WORKBOOK_FOREACH_CONTROL (wb, view, control,
-		wb_control_sheet_remove (control, sheet););
+	/* Remove all controls and views.  */
+	WORKBOOK_FOREACH_VIEW (wb, wbv,
+		wb_view_sheet_remove (wbv, sheet););
 
 	return focus != NULL;
 }
@@ -956,7 +956,7 @@ cb_sheet_visibility_change (Sheet *sheet,
 			    G_GNUC_UNUSED GParamSpec *pspec,
 			    G_GNUC_UNUSED gpointer data)
 {
-	if (sheet->is_visible)
+	if (sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE)
 		workbook_sheet_unhide_controls (sheet->workbook, sheet);
 	else
 		workbook_sheet_hide_controls (sheet->workbook, sheet);
@@ -994,7 +994,7 @@ workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
 		wb_view_sheet_add (view, new_sheet););
 
 	g_signal_connect (G_OBJECT (new_sheet),
-			  "notify::visible",
+			  "notify::visibility",
 			  G_CALLBACK (cb_sheet_visibility_change),
 			  NULL);
 }
@@ -1458,9 +1458,9 @@ workbook_sheet_change_visibility  (Workbook *wb,
 		Sheet *sheet = workbook_sheet_by_index 
 			(wb, GPOINTER_TO_INT (sheets->data));
 		if (sheet != NULL) {
-			gboolean visible = GPOINTER_TO_INT (visibility->data);
+			GnmSheetVisibility v = GPOINTER_TO_INT (visibility->data);
 			g_object_set (sheet,
-				      "visible", visible,
+				      "visibility", v,
 				      NULL);
 		}
 		sheets = sheets->next;

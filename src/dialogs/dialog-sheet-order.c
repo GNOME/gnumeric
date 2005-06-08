@@ -279,12 +279,16 @@ cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	gtk_tree_model_get (model, &iter, SHEET_VISIBLE, &value, -1);
 
 	if (value) {
-		gtk_list_store_set (GTK_LIST_STORE (model), &iter, SHEET_VISIBLE, FALSE,
-				   SHEET_VISIBLE_IMAGE, NULL, -1);
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+				    SHEET_VISIBLE, FALSE,
+				    SHEET_VISIBLE_IMAGE, NULL,
+				    -1);
 		
 	} else {
-		gtk_list_store_set (GTK_LIST_STORE (model), &iter, SHEET_VISIBLE, TRUE,
-				   SHEET_VISIBLE_IMAGE, state->image_visible, -1);
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+				    SHEET_VISIBLE, TRUE,
+				    SHEET_VISIBLE_IMAGE, state->image_visible,
+				    -1);
 	}
 	gtk_tree_path_free (path);
 }
@@ -337,9 +341,10 @@ populate_sheet_list (SheetManager *state)
 				    SHEET_LOCKED, sheet->is_protected,
 				    SHEET_LOCK_IMAGE, sheet->is_protected ?
 				    state->image_padlock : state->image_padlock_no,
-				    SHEET_VISIBLE, sheet->is_visible,
-				    SHEET_VISIBLE_IMAGE, sheet->is_visible ? 
-				    state->image_visible : NULL,
+				    SHEET_VISIBLE, (sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE),
+				    SHEET_VISIBLE_IMAGE, (sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE
+							  ? state->image_visible
+							  : NULL),
 				    SHEET_NAME, sheet->name_unquoted,
 				    SHEET_NEW_NAME, "",
 				    SHEET_POINTER, sheet,
@@ -676,15 +681,14 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 					 GINT_TO_POINTER (is_locked));
 			}
 			one_is_visible = one_is_visible || is_visible;
-			vis_changed = (this_sheet == NULL) ||
-				(is_visible != this_sheet->is_visible);
+			vis_changed = !this_sheet || is_visible != (this_sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE);
 			if (vis_changed) {
 				visibility_changed = g_slist_prepend 
 					(visibility_changed,
 					 GINT_TO_POINTER (this_sheet_idx));
 				new_visibility = g_slist_prepend 
 					(new_visibility,
-					 GINT_TO_POINTER (is_visible));
+					 GINT_TO_POINTER (is_visible ? GNM_SHEET_VISIBILITY_VISIBLE : GNM_SHEET_VISIBILITY_HIDDEN));
 			}
 			
 			g_object_set (this_sheet, "text-is-rtl", is_rtl, NULL);

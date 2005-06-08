@@ -59,6 +59,7 @@ Sheet		*wb_view_cur_sheet	  (WorkbookView const *wbv);
 SheetView	*wb_view_cur_sheet_view	  (WorkbookView const *wbv);
 void		 wb_view_sheet_focus	  (WorkbookView *wbv, Sheet *sheet);
 void		 wb_view_sheet_add	  (WorkbookView *wbv, Sheet *new_sheet);
+void		 wb_view_sheet_remove     (WorkbookView *wbv, Sheet *sheet);
 gboolean	 wb_view_is_protected	  (WorkbookView *wbv, gboolean check_sheet);
 
 /* Manipulation */

@@ -80,11 +80,6 @@
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "gnumeric:read"
 
-typedef enum {
-	MS_SHEET_VISIBLE,
-	MS_SHEET_HIDDEN,
-	MS_SHEET_VERY_HIDDEN
-} MSSheetVisibility;
 typedef struct {
 	ExcelReadSheet	 *esheet;
 	char		 *name;
@@ -92,7 +87,7 @@ typedef struct {
 	unsigned 	  index;
 	MsBiffFileType	  type;
 	GnmSheetType	  gnm_type;
-	MSSheetVisibility visibility;
+	GnmSheetVisibility visibility;
 } BiffBoundsheetData;
 
 #define N_BYTES_BETWEEN_PROGRESS_UPDATES   0x1000
@@ -1115,7 +1110,7 @@ excel_read_BOUNDSHEET (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 		bs->streamStartPos = 0; /* Excel 4 doesn't tell us */
 		bs->type = MS_BIFF_TYPE_Worksheet;
 		default_name = _("Sheet%d");
-		bs->visibility = MS_SHEET_VISIBLE;
+		bs->visibility = GNM_SHEET_VISIBILITY_VISIBLE;
 		bs->name = biff_get_text (q->data + 1,
 			GSF_LE_GET_GUINT8 (q->data), NULL, ver);
 	} else {
@@ -1144,15 +1139,15 @@ excel_read_BOUNDSHEET (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 			bs->type = MS_BIFF_TYPE_Unknown;
 		}
 		switch ((GSF_LE_GET_GUINT8 (q->data + 4)) & 0x3) {
-		case 0: bs->visibility = MS_SHEET_VISIBLE;
+		case 0: bs->visibility = GNM_SHEET_VISIBILITY_VISIBLE;
 			break;
-		case 1: bs->visibility = MS_SHEET_HIDDEN;
+		case 1: bs->visibility = GNM_SHEET_VISIBILITY_HIDDEN;
 			break;
-		case 2: bs->visibility = MS_SHEET_VERY_HIDDEN;
+		case 2: bs->visibility = GNM_SHEET_VISIBILITY_VERY_HIDDEN;
 			break;
 		default:
 			fprintf (stderr,"Unknown sheet hiddenness %d\n", (GSF_LE_GET_GUINT8 (q->data + 4)) & 0x3);
-			bs->visibility = MS_SHEET_VISIBLE;
+			bs->visibility = GNM_SHEET_VISIBILITY_VISIBLE;
 		}
 
 		/* TODO: find some documentation on this.
@@ -1181,7 +1176,7 @@ excel_read_BOUNDSHEET (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 
 		if (bs->esheet && bs->esheet->sheet)
 			g_object_set (bs->esheet->sheet,
-				      "visible", (bs->visibility == MS_SHEET_VISIBLE),
+				      "visibility", bs->visibility,
 				      NULL);
 		break;
 	default :

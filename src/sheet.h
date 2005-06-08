@@ -13,6 +13,14 @@ typedef enum {
 	GNM_SHEET_XLM
 } GnmSheetType;
 
+typedef enum {
+	GNM_SHEET_VISIBILITY_VISIBLE,
+	GNM_SHEET_VISIBILITY_HIDDEN,
+	GNM_SHEET_VISIBILITY_VERY_HIDDEN
+} GnmSheetVisibility;
+GType gnm_sheet_visibility_get_type (void);
+#define GNM_SHEET_VISIBILITY_TYPE (gnm_sheet_visibility_get_type ())
+
 struct _Sheet {
 	GObject	base;
 
@@ -55,7 +63,7 @@ struct _Sheet {
 	gboolean    hide_col_header;
 	gboolean    hide_row_header;
 	gboolean    is_protected;
-	gboolean    is_visible;
+	GnmSheetVisibility visibility;
 
 	gboolean    display_outlines;
 	gboolean    outline_symbols_below;
