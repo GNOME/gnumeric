@@ -1,3 +1,8 @@
+2005-06-08  Ivan, Wogn Yat Cheung  <email@ivanwong.info>
+
+	* src/sheet-control-gui.c (scg_drag_receive_uri_list):
+	adapt to the change of go_get_mime_type(). [#304074]
+
 2005-06-07  Jody Goldberg <jody@gnome.org>
 
 	From Ivan, Wong Yat Cheung  <email@ivanwong.info>

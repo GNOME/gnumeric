@@ -4,6 +4,8 @@ Ivan:
 	* (Win32) Fix opening files with non-ascii names when users "open"
 	  them in explorer. [#304874]
 	* Enable libspeadsheet build
+	* (Win32) Fix the bug that d&d from explorer doesn't work in
+	  gnumeric. [#304074]
 
 Jody:
 	* Tweak the errors from LOGNORMDIST, CONFIDENCE, STANDARDIZE, and

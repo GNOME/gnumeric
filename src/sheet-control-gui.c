@@ -3118,7 +3118,12 @@ scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y,
 	g_free (cdata);
 	for (l = urls; l; l = l-> next) {
 		const char *uri_str = l->data;
-		const gchar *mime = go_get_mime_type (uri_str);
+		gchar *mime = go_get_mime_type (uri_str);
+		/* Note that we have imperfection detection of mime-type
+		 * with some platforms, e.g. Win32. In the worst case if go_get_mime_type()
+		 * doesn't return "applicatiojn/x-gnumeric" (registry corruption?)
+		 * it will give "text/plain" and a spreadsheet file is assumed.
+		 */
 		if (!mime)
 			continue;
 		if (!strncmp (mime, "image/", 6)) {
@@ -3145,6 +3150,7 @@ scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y,
 			g_printerr ("Received URI %s with mime type %s.\n", uri_str, mime);
 			g_printerr ("I have no idea what to do with that.\n");
 		}
+		g_free (mime);
 	}
 	go_slist_free_custom (urls, (GFreeFunc) g_free);
 }
