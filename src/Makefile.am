@@ -5,7 +5,7 @@
 SUBDIRS = tools cut-n-paste-code
 
 bin_PROGRAMS =
-lib_LTLIBRARIES =
+lib_LTLIBRARIES = libspreadsheet.la
 
 check_PROGRAMS =
 #check_PROGRAMS += test-pango number-match
@@ -288,43 +288,50 @@ GNUMERIC_GNOME = 				\
 
 GNUMERIC_SOURCE = $(GNUMERIC_BASE)
 
+libspreadsheet_la_SOURCES =			\
+	$(GNUMERIC_SOURCE)
+
+libspreadsheet_la_LIBADD = 			\
+	$(gnumeric_app_libs)			\
+	$(GNUMERIC_LIBS)			\
+	$(INTLLIBS)
+
 gnumeric_SOURCES =				\
-	$(GNUMERIC_SOURCE)			\
 	io-context-gtk.c			\
 	io-context-gtk.h			\
 	main-application.c
 
-gnumeric_LDADD = 				\
-	$(gnumeric_app_libs)			\
-	$(GNUMERIC_LIBS) -lpopt			\
+gnumeric_LDADD =				\
+	libspreadsheet.la			\
+	-lpopt					\
 	$(INTLLIBS)
 
 gnumeric_LDFLAGS = -export-dynamic
+
 if WITH_WIN32
-    gnumeric_LDFLAGS += -Wl,--export-all-symbols,--output-def,gnumeric.def,--out-implib,gnumeric.exe.a,
+    libspreadsheet_la_LDFLAGS = -no-undefined -Wl,--export-all-symbols,--enable-runtime-pseudo-relo
+    gnumeric_LDADD += gnumeric_rc.o
 endif
 
 gnumeric_app_libs =				\
-	dialogs/libdialogs.a			\
-	tools/libtools.a			\
-	widgets/libwidgets.a
+	dialogs/libdialogs.la			\
+	tools/libtools.la			\
+	widgets/libwidgets.la
 
 if ENABLE_SOLVER
 gnumeric_app_libs +=				\
-	tools/solver/libsolver.a		\
-	tools/solver/glpk/source/libglpk.a	\
-	tools/solver/lp_solve/liblp_solve.a
+	tools/solver/libsolver.la		\
+	tools/solver/glpk/source/libglpk.la	\
+	tools/solver/lp_solve/liblp_solve.la
 endif
 
 ssconvert_LDADD   = $(gnumeric_LDADD)
 ssconvert_LDFLAGS = -export-dynamic
 ssconvert_SOURCES =				\
-	$(GNUMERIC_SOURCE)			\
 	ssconvert.c
 ssindex_LDADD   = $(gnumeric_LDADD)
 ssindex_LDFLAGS = -export-dynamic
 ssindex_SOURCES =				\
-	$(GNUMERIC_SOURCE)			\
 	ssindex.c
 
 ##test_pango_LDADD   = $(gnumeric_LDADD)
@@ -367,6 +374,7 @@ gnumeric-paths.h: Makefile
 if WITH_WIN32
 gnumeric_rc.o: gnumeric.rc
 	$(WINDRES) -DVERSION=$(VERSION) -DVERSION_NUMBER=`echo $(VERSION).0.0.0 | sed 's/\([0-9]*\)[^.]*\.*\([0-9]*\)[^.]*\.*\([0-9]*\)[^.]*\.*\([0-9]*\).*/\1,\2,\3,\4/'` --include-dir $(srcdir) -i $< -o $@
+install-exec-hook:
 else
 install-exec-hook:
 	cd $(DESTDIR)$(bindir) && \

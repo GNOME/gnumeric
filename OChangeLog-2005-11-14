@@ -1,5 +1,10 @@
 2005-06-07  Jody Goldberg <jody@gnome.org>
 
+	From Ivan, Wong Yat Cheung  <email@ivanwong.info>
+	* src/Makefile.am : enable libspreadsheet
+
+2005-06-07  Jody Goldberg <jody@gnome.org>
+
 	* src/parser.y : Pass the convention to the range_ref parser
 
 	* src/parse-util.c (r1c1_get_index) : make this more robust.

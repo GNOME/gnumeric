@@ -9,9 +9,9 @@ AM_CPPFLAGS = 						\
 	$(GNUMERIC_CFLAGS)				\
 	 -DYY_NEVER_INTERACTIVE -DPARSER_CPLEX -DPARSER_LP
 
-noinst_LIBRARIES = liblp_solve.a
+noinst_LTLIBRARIES = liblp_solve.la
 
-liblp_solve_a_SOURCES =				\
+liblp_solve_la_SOURCES =				\
     colamd.c		\
     colamd.h		\
     commonlib.c		\

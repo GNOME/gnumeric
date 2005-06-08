@@ -10,9 +10,9 @@ AM_CPPFLAGS = 						\
 	-I$(top_srcdir)/src/tools/solver/glpk/include	\
 	$(GNUMERIC_CFLAGS)
 
-noinst_LIBRARIES = libsolver.a
+noinst_LTLIBRARIES = libsolver.la
 
-libsolver_a_SOURCES =				\
+libsolver_la_SOURCES =				\
 	api.c					\
 	api.h					\
 	solver.c				\

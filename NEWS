@@ -3,6 +3,7 @@ Gnumeric 1.5.2
 Ivan:
 	* (Win32) Fix opening files with non-ascii names when users "open"
 	  them in explorer. [#304874]
+	* Enable libspeadsheet build
 
 Jody:
 	* Tweak the errors from LOGNORMDIST, CONFIDENCE, STANDARDIZE, and
@@ -28,6 +29,7 @@ Jody:
 	* Improve handling of some odd XL operators.
 	* Remove warning when nudging during object creation. [#164779]
 	* Delete while editing should not clear the cell. [#165172]
+	* Add R1C1 parser.
 
 Jon Kåre:
         * Don't output the xml declaration for xhtml. [#303827]

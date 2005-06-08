@@ -15,9 +15,9 @@ AM_CPPFLAGS = 						\
 	-I$(srcdir)/solver				\
 	$(GNUMERIC_CFLAGS)
 
-noinst_LIBRARIES = libtools.a
+noinst_LTLIBRARIES = libtools.la
 
-libtools_a_SOURCES =					\
+libtools_la_SOURCES =					\
 	analysis-tools.c				\
 	analysis-tools.h				\
 	random-generator.c				\

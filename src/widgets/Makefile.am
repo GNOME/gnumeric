@@ -5,9 +5,9 @@ AM_CPPFLAGS = 						\
 	-I..						\
 	$(GNUMERIC_CFLAGS)
 
-noinst_LIBRARIES = libwidgets.a
+noinst_LTLIBRARIES = libwidgets.la
 
-libwidgets_a_SOURCES =				\
+libwidgets_la_SOURCES =				\
 	gnm-dao.c				\
 	gnm-dao.h				\
 	gnm-format-sel.c			\

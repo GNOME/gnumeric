@@ -9,9 +9,9 @@ AM_CPPFLAGS =						\
 	-I$(top_srcdir)/src/tools/solver/glpk/include	\
 	$(GNUMERIC_CFLAGS)
 
-noinst_LIBRARIES = libglpk.a
+noinst_LTLIBRARIES = libglpk.la
 
-libglpk_a_SOURCES =					\
+libglpk_la_SOURCES =					\
 	glpdmp.c				\
 	glpies1.c				\
 	glpies2.c				\

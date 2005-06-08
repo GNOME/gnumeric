@@ -2,10 +2,10 @@
 # Keep this in sync with ../../icons/Makefile.am
 #
 
-libdialogs_a_SOURCES =	$(base_files)
+libdialogs_la_SOURCES = $(base_files)
 
 if ENABLE_SOLVER
-  libdialogs_a_SOURCES += dialog-solver.c
+  libdialogs_la_SOURCES += dialog-solver.c
 endif
 
 AM_CPPFLAGS = 								\
@@ -16,7 +16,7 @@ AM_CPPFLAGS = 								\
 	-I$(top_srcdir)/src/tools					\
 	$(GNUMERIC_CFLAGS)
 
-noinst_LIBRARIES = libdialogs.a
+noinst_LTLIBRARIES = libdialogs.la
 
 base_files =					\
 	help.h					\

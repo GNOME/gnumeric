@@ -198,7 +198,7 @@ with_win32=no
 case $host_os in
 mingw* | pw32* | cygwin*)
     with_win32=yes
-    GNUMERIC_PLUGIN_LDFLAGS="-no-undefined $GNUMERIC_LIBS -Wl,--enable-runtime-pseudo-relo,\$(top_builddir)/src/gnumeric.exe.a -s"
+    GNUMERIC_PLUGIN_LDFLAGS="-no-undefined $GNUMERIC_LIBS -Wl,--enable-runtime-pseudo-relo,--export-all-symbols \$(top_builddir)/src/libspreadsheet.la -s"
     AC_ARG_VAR(WINDRES, [The windres executable (used by win32 builds only).])
     AC_CHECK_TOOL(WINDRES, windres, :)
     ;;
