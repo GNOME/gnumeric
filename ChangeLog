@@ -1,5 +1,9 @@
 2005-06-09  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook.c (workbook_sheet_delete): Merge
+	workbook_sheet_detach into this.
+	(workbook_sheet_detach): Removed.  All callers changed.
+
 	* src/dependent.c (cb_dep_hash_destroy): Track changes to
 	dependencies.
 	(clear_revive_info): Free dep_exprs also.

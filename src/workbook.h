@@ -21,7 +21,6 @@ Sheet      *workbook_sheet_by_index	 (Workbook const *wb, int i);
 Sheet      *workbook_sheet_by_name       (Workbook const *wb, char const *sheet_name);
 void        workbook_sheet_attach        (Workbook *wb, Sheet *new_sheet);
 void        workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos);
-void	    workbook_sheet_detach        (Workbook *wb, Sheet *sheet, gboolean recalc);
 Sheet	   *workbook_sheet_add		 (Workbook *wb, int pos, gboolean make_dirty);
 void        workbook_sheet_delete        (Sheet *sheet);
 void        workbook_sheet_move          (Sheet *sheet, int direction);

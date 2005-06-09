@@ -125,7 +125,7 @@ workbook_dispose (GObject *wb_object)
 	/* Now remove the sheets themselves */
 	for (ptr = sheets; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
-		workbook_sheet_detach (wb, sheet, FALSE);
+		workbook_sheet_delete (sheet);
 	}
 	g_list_free (sheets);
 
@@ -1015,79 +1015,6 @@ workbook_sheet_attach (Workbook *wb, Sheet *new_sheet)
 	g_object_unref (new_sheet);
 }
 
-static void
-cb_tweak_3d (GnmDependent *dep, gpointer value, GnmExprRewriteInfo *rwinfo)
-{
-	GnmExpr const *newtree = gnm_expr_rewrite (dep->expression, rwinfo);
-	if (newtree != NULL) {
-		dependent_set_expr (dep, newtree);
-		gnm_expr_unref (newtree);
-	}
-}
-
-/**
- * workbook_sheet_detach:
- * @wb: workbook.
- * @sheet: the sheet that we want to detach from the workbook
- * @recalc : force a recalc afterward
- *
- * Detaches @sheet from the workbook @wb.
- */
-void
-workbook_sheet_detach (Workbook *wb, Sheet *sheet, gboolean recalc)
-{
-	int sheet_index;
-	gboolean still_visible_sheets;
-
-	g_return_if_fail (IS_WORKBOOK (wb));
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (sheet->workbook == wb);
-	g_return_if_fail (workbook_sheet_by_name (wb, sheet->name_unquoted) == sheet);
-
-	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_visibility_change, NULL);
-
-	sheet_index = sheet->index_in_wb;
-	still_visible_sheets = workbook_sheet_hide_controls (wb, sheet);
-	pre_sheet_index_change (wb);
-	/* If we are not destroying things, Check for 3d refs that start or end
-	 * on this sheet */
-	if (wb->sheet_order_dependents != NULL) {
-		GnmExprRewriteInfo rwinfo;
-
-		/*
-		 * Why here and not in workbook_sheet_delete
-		 * (via dependents_invalidate_sheet)?
-		 */
-		rwinfo.type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
-		sheet->being_invalidated = TRUE;
-		g_hash_table_foreach (wb->sheet_order_dependents,
-				      (GHFunc)cb_tweak_3d,
-				      &rwinfo);
-		sheet->being_invalidated = FALSE;
-	}
-
-	/* Remove our reference to this sheet */
-	g_ptr_array_remove_index (wb->sheets, sheet_index);
-	workbook_sheet_index_update (wb, sheet_index);
-	sheet->index_in_wb = -1;
-	g_hash_table_remove (wb->sheet_hash_private, sheet->name_case_insensitive);
-	post_sheet_index_change (wb);
-
-	/* Clear the controls first, before we potentially update */
-	SHEET_FOREACH_VIEW (sheet, view, {
-		sv_dispose (view);
-		g_object_unref (G_OBJECT (view));
-	});
-
-	g_signal_emit_by_name (G_OBJECT (sheet), "detached_from_workbook", wb);
-	g_object_unref (sheet);
-
-	g_signal_emit (G_OBJECT (wb), signals [SHEET_DELETED], 0);
-
-	if (recalc && still_visible_sheets)
-		workbook_recalc_all (wb);
-}
-
 /**
  * workbook_sheet_add :
  * @wb :
@@ -1116,45 +1043,84 @@ workbook_sheet_add (Workbook *wb, int pos, gboolean make_dirty)
 	return new_sheet;
 }
 
+static void
+cb_tweak_3d (GnmDependent *dep, gpointer value, GnmExprRewriteInfo *rwinfo)
+{
+	GnmExpr const *newtree = gnm_expr_rewrite (dep->expression, rwinfo);
+	if (newtree != NULL) {
+		dependent_set_expr (dep, newtree);
+		gnm_expr_unref (newtree);
+	}
+}
+
 /**
- * Unlike workbook_sheet_detach, this function not only detaches the given
- * sheet from its parent workbook, But also invalidates all references to the
- * deleted sheet from other sheets and clears all references In the clipboard
- * to this sheet.  Finally, it also detaches the sheet from the workbook.
+ * workbook_sheet_delete:
+ * @sheet: the sheet that we want to delete from its workbook
+ *
+ * This function detaches the given sheet from its parent workbook and
+ * invalidates all references to the deleted sheet from other sheets and
+ * clears all references in the clipboard to this sheet.
  */
 void
 workbook_sheet_delete (Sheet *sheet)
 {
 	Workbook *wb;
+	int sheet_index;
+	gboolean still_visible_sheets = FALSE;
 
         g_return_if_fail (IS_SHEET (sheet));
         g_return_if_fail (IS_WORKBOOK (sheet->workbook));
 
 	wb = sheet->workbook;
+	sheet_index = sheet->index_in_wb;
 
-	if (!sheet->pristine) {
-		/*
-		 * FIXME : Deleting a sheet plays havoc with our data structures.
-		 * Be safe for now and empty the undo/redo queues
-		 */
-		command_list_release (wb->undo_commands);
-		command_list_release (wb->redo_commands);
-		wb->undo_commands = NULL;
-		wb->redo_commands = NULL;
-		WORKBOOK_FOREACH_CONTROL (wb, view, control,
-			wb_control_undo_redo_truncate (control, 0, TRUE);
-			wb_control_undo_redo_truncate (control, 0, FALSE);
-			wb_control_undo_redo_labels (control, NULL, NULL);
-		);
+	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_visibility_change, NULL);
+
+	if (!wb->during_destruction) {
+		workbook_focus_other_sheet (wb, sheet);
+		/* During destruction this was already done.  */
+		dependents_invalidate_sheet (sheet, FALSE);
+		still_visible_sheets = workbook_sheet_hide_controls (wb, sheet);
 	}
 
-	workbook_focus_other_sheet (wb, sheet);
-
-	/* Important to do these BEFORE detaching the sheet */
-	dependents_invalidate_sheet (sheet, FALSE);
-
 	/* All is fine, remove the sheet */
-	workbook_sheet_detach (wb, sheet, TRUE);
+	pre_sheet_index_change (wb);
+	/* If we are not destroying things, Check for 3d refs that start or end
+	 * on this sheet */
+	if (wb->sheet_order_dependents != NULL) {
+		GnmExprRewriteInfo rwinfo;
+
+		/*
+		 * Why here and not in dependents_invalidate_sheet?
+		 */
+		rwinfo.type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
+		sheet->being_invalidated = TRUE;
+		g_hash_table_foreach (wb->sheet_order_dependents,
+				      (GHFunc)cb_tweak_3d,
+				      &rwinfo);
+		sheet->being_invalidated = FALSE;
+	}
+
+	/* Remove our reference to this sheet */
+	g_ptr_array_remove_index (wb->sheets, sheet_index);
+	workbook_sheet_index_update (wb, sheet_index);
+	sheet->index_in_wb = -1;
+	g_hash_table_remove (wb->sheet_hash_private, sheet->name_case_insensitive);
+	post_sheet_index_change (wb);
+
+	/* Clear the controls first, before we potentially update */
+	SHEET_FOREACH_VIEW (sheet, view, {
+		sv_dispose (view);
+		g_object_unref (G_OBJECT (view));
+	});
+
+	g_signal_emit_by_name (G_OBJECT (sheet), "detached_from_workbook", wb);
+	g_object_unref (sheet);
+
+	g_signal_emit (G_OBJECT (wb), signals[SHEET_DELETED], 0);
+
+	if (still_visible_sheets)
+		workbook_recalc_all (wb);
 }
 
 /**
@@ -1731,14 +1697,8 @@ workbook_sheet_state_restore (Workbook *wb, const WorkbookSheetState *wss)
 		for (j = 0; j < wss->n_sheets; j++)
 			if (sheet == wss->sheets[j].sheet)
 				break;
-		if (j == wss->n_sheets) {
-			/*
-			 * This can also be triggered by an undo of sheet
-			 * insert.  In that case we actually are ready.
-			 */
-			g_warning ("We probably aren't completely ready for this.\n");
-			workbook_sheet_detach (wb, sheet, FALSE);
-		}
+		if (j == wss->n_sheets)
+			workbook_sheet_delete (sheet);
 	}
 
 	/* Attach new sheets and handle order.  */
