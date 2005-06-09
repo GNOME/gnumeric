@@ -358,7 +358,7 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 		g_value_set_boolean (value, sheet->text_is_rtl);
 		break;
 	case PROP_VISIBILITY:
-		g_value_set_boolean (value, sheet->visibility);
+		g_value_set_enum (value, sheet->visibility);
 		break;
 	case PROP_PROTECTED:
 		g_value_set_boolean (value, sheet->is_protected);
