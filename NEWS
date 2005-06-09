@@ -69,6 +69,8 @@ Morten:
 	* Fix number matching problem.  [#306254]
 	* Fix R.PBETA screwup for log case.
 	* Fix problem with hiding sheets.
+	* Fix sheet removal undo to also undo changes to names and
+	  cells in other sheets.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1
