@@ -124,7 +124,7 @@ dependent_type_register (DependentClass const *klass)
  * dependent_changed:
  * @cell : the dependent that changed
  *
- * Links the dependent and queues a recalc.
+ * Queues a recalc.
  */
 static void
 dependent_changed (GnmDependent *dep)
@@ -1692,6 +1692,7 @@ struct cb_dep_hash_destroy {
 	GnmExprRewriteInfo rwinfo;
 	GSList *dyn_deps;
 	gboolean destroy;
+	Sheet *sheet;
 };
 
 /*
@@ -1710,15 +1711,22 @@ cb_dep_hash_destroy (G_GNUC_UNUSED gpointer key,
 				closure->dyn_deps =
 					g_slist_prepend (closure->dyn_deps, c);
 		} else if (!dep->sheet->being_invalidated) {
+			GnmExpr *e = (GnmExpr *)dep->expression;
 			/* We are told this dependent depends on this region, hence if
 			 * newtree is null then either
 			 * 1) we did not depend on it ( ie. serious breakage )
 			 * 2) we had a duplicate reference and we have already removed it.
 			 * 3) We depended on things via a name which will be
 			 *    invalidated elsewhere */
-			GnmExpr const *newtree =
-				gnm_expr_rewrite (dep->expression, &closure->rwinfo);
+			GnmExpr const *newtree = gnm_expr_rewrite (e, &closure->rwinfo);
 			if (newtree != NULL) {
+				if (!closure->destroy) {
+					gnm_expr_ref (e);
+					closure->sheet->revive.dep_exprs =
+						g_slist_prepend
+						(g_slist_prepend (closure->sheet->revive.dep_exprs, e),
+						 dep);						
+				}
 				dependent_set_expr (dep, newtree);
 				gnm_expr_unref (newtree);
 			}
@@ -1730,13 +1738,14 @@ cb_dep_hash_destroy (G_GNUC_UNUSED gpointer key,
 }
 
 static void
-dep_hash_destroy (GHashTable *hash, GSList **dyn_deps, gboolean destroy)
+dep_hash_destroy (GHashTable *hash, GSList **dyn_deps, Sheet *sheet, gboolean destroy)
 {
 	struct cb_dep_hash_destroy closure;
 
 	closure.rwinfo.type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
 	closure.dyn_deps = *dyn_deps;
 	closure.destroy = destroy;
+	closure.sheet = sheet;
 
 	if (destroy) {
 		g_hash_table_foreach_remove (hash,
@@ -1801,11 +1810,11 @@ invalidate_name (GnmNamedExpr *nexpr, Sheet *sheet, gboolean destroy)
 
 	if (!destroy) {
 		gnm_expr_ref (old_expr);
-		sheet->revive.names =
-			g_slist_prepend (sheet->revive.names, old_expr);
+		sheet->revive.name_exprs =
+			g_slist_prepend (sheet->revive.name_exprs, old_expr);
 		expr_name_ref (nexpr);
-		sheet->revive.names =
-			g_slist_prepend (sheet->revive.names, nexpr);
+		sheet->revive.name_exprs =
+			g_slist_prepend (sheet->revive.name_exprs, nexpr);
 	}
 
 	expr_name_set_expr (nexpr, new_expr);
@@ -1877,15 +1886,24 @@ clear_revive_info (Sheet *sheet)
 {
 	GSList *l;
 
-	for (l = sheet->revive.names; l; l = l->next->next) {
+	for (l = sheet->revive.name_exprs; l; l = l->next->next) {
 		GnmNamedExpr *nexpr = l->data;
 		GnmExpr *expr = l->next->data;
 
 		expr_name_unref (nexpr);
 		gnm_expr_unref (expr);
 	}
-	g_slist_free (sheet->revive.names);
-	sheet->revive.names = NULL;
+	g_slist_free (sheet->revive.name_exprs);
+	sheet->revive.name_exprs = NULL;
+
+	for (l = sheet->revive.dep_exprs; l; l = l->next->next) {
+		GnmDependent *dep = l->data;
+		GnmExpr *expr = l->next->data;
+		(void)dep;
+		gnm_expr_unref (expr);
+	}
+	g_slist_free (sheet->revive.dep_exprs);
+	sheet->revive.dep_exprs = NULL;
 
 	g_slist_free (sheet->revive.name_deps);
 	sheet->revive.name_deps = NULL;
@@ -1935,9 +1953,9 @@ do_deps_destroy (Sheet *sheet)
 	for (i = (SHEET_MAX_ROWS - 1) / BUCKET_SIZE; i >= 0 ; i--) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL)
-			dep_hash_destroy (hash, &dyn_deps, TRUE);
+			dep_hash_destroy (hash, &dyn_deps, sheet, TRUE);
 	}
-	dep_hash_destroy (deps->single_hash, &dyn_deps, TRUE);
+	dep_hash_destroy (deps->single_hash, &dyn_deps, sheet, TRUE);
 
 	g_free (deps->range_hash);
 	deps->range_hash = NULL;
@@ -1994,9 +2012,9 @@ do_deps_invalidate (Sheet *sheet)
 	for (i = (SHEET_MAX_ROWS - 1) / BUCKET_SIZE; i >= 0 ; i--) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL)
-			dep_hash_destroy (hash, &dyn_deps, FALSE);
+			dep_hash_destroy (hash, &dyn_deps, sheet, FALSE);
 	}
-	dep_hash_destroy (deps->single_hash, &dyn_deps, FALSE);
+	dep_hash_destroy (deps->single_hash, &dyn_deps, sheet, FALSE);
 
 	/* Now that we have tossed all deps to this sheet we can queue the
 	 * external dyn deps for recalc and free them */
@@ -2039,6 +2057,8 @@ dependents_invalidate_sheets (GSList *sheets, gboolean destroy)
 	 * FIXME: this should probably take care of fixing-up 3d deps.
 	 * A slight amount of care is needed for this since we really
 	 * only want to do that once per workbook.
+	 *
+	 * Further, if !destroy, add changes to the revive data.
 	 */
 
 	/* Mark all first.  */
@@ -2096,13 +2116,23 @@ dependents_revive_sheet (Sheet *sheet)
 {
 	GSList *l;
 
-	/* Restore the values of names that got changed.  */
-	for (l = sheet->revive.names; l; l = l->next->next) {
+	/* Restore the expressions of names that got changed.  */
+	for (l = sheet->revive.name_exprs; l; l = l->next->next) {
 		GnmNamedExpr *nexpr = l->data;
 		GnmExpr *expr = l->next->data;
 		gnm_expr_ref (expr);
 		expr_name_set_expr (nexpr, expr);
 	}
+
+	/* Restore the expressions of deps that got changed.  */
+	for (l = sheet->revive.dep_exprs; l; l = l->next->next) {
+		GnmDependent *dep = l->data;
+		GnmExpr *expr = l->next->data;
+		dependent_set_expr (dep, expr);
+		dependent_link (dep);
+		dependent_changed (dep);
+	}
+
 	dependents_link (sheet->revive.name_deps);
 
 	/*
@@ -2119,8 +2149,6 @@ dependents_revive_sheet (Sheet *sheet)
 
 	/* Re-link local names.  */
 	gnm_named_expr_collection_relink (sheet->names);
-
-	/* FIXME: undo changes to other sheets.  */
 
 	clear_revive_info (sheet);
 }

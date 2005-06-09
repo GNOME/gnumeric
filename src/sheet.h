@@ -28,7 +28,11 @@ struct _Sheet {
 	Workbook    *workbook;
 	gboolean    being_invalidated;
 	struct {
-		GSList *names;
+		/* An alternating list of ref'd names and expressions.  */
+		GSList *name_exprs;
+		/* An alternating list of deps and ref'd expressions.  */
+		GSList *dep_exprs;
+		/* A list of deps to relink.  */
 		GSList *name_deps;
 	} revive;
 
