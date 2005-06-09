@@ -1,5 +1,8 @@
 Gnumeric 1.5.2
 
+Andreas:
+	* permit formula guru to add array functions
+
 Ivan:
 	* (Win32) Fix opening files with non-ascii names when users "open"
 	  them in explorer. [#304874]

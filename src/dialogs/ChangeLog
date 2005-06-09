@@ -1,4 +1,12 @@
-2006-06-02  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+2005-06-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* formula-guru.glade: add checkbox
+	* dialog-formula-guru.c (dialog_formula_guru_is_array): new
+	(cb_dialog_formula_guru_ok_clicked): add as array function if
+	  requested
+	(dialog_formula_guru_init): initialize state->array_button
+
+2005-06-02  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* src/dialog/dialog-about.c (dialog_about): use
 	gog_object_set_position_flags.

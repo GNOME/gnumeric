@@ -69,6 +69,7 @@ typedef struct
 	GtkWidget *selector_button;
 	GtkWidget *clear_button;
 	GtkWidget *zoom_button;
+	GtkWidget *array_button;
 	GtkWidget *main_button_area;
 	GtkTreePath* active_path;
 	char * prefix;
@@ -626,6 +627,12 @@ cb_dialog_formula_guru_clear_clicked (G_GNUC_UNUSED GtkWidget *button,
 	return;
 }
 
+static gboolean
+dialog_formula_guru_is_array (FormulaGuruState *state)
+{
+	return gtk_toggle_button_get_active 
+		(GTK_TOGGLE_BUTTON (state->array_button));
+}
 
 /**
  * cb_dialog_formula_guru_ok_clicked:
@@ -642,7 +649,10 @@ cb_dialog_formula_guru_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		gnumeric_cell_renderer_expr_entry_editing_done (
 			GTK_CELL_EDITABLE (state->cellrenderer->entry),
 			state->cellrenderer);
-	wbcg_edit_finish (state->wbcg, WBC_EDIT_ACCEPT, NULL);
+	wbcg_edit_finish (state->wbcg, 
+			  dialog_formula_guru_is_array (state)
+			  ? WBC_EDIT_ACCEPT_ARRAY
+			  : WBC_EDIT_ACCEPT, NULL);
 }
 
 static void
@@ -824,6 +834,10 @@ dialog_formula_guru_init (FormulaGuruState *state)
 			  G_CALLBACK (start_editing_cb), state),
 
 	/* Finished set-up of treeview */
+
+	state->array_button = glade_xml_get_widget (state->gui, 
+						    "array_button");
+	gtk_widget_set_sensitive (state->array_button, TRUE);
 
 	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
 	gtk_widget_set_sensitive (state->ok_button, TRUE);
