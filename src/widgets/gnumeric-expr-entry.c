@@ -1053,6 +1053,7 @@ gnm_expr_entry_load_from_range (GnmExprEntry *gee,
 				Sheet *sheet, GnmRange const *r)
 {
 	Rangesel *rs;
+	GnmRangeRef ref;
 	gboolean needs_change = FALSE;
 
 	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
@@ -1065,22 +1066,24 @@ gnm_expr_entry_load_from_range (GnmExprEntry *gee,
 			 !range_is_full (r, FALSE));
 
 	rs = &gee->rangesel;
-	if (rs->ref.a.col == r->start.col &&
-	    rs->ref.b.col == r->end.col &&
-	    rs->ref.a.row == r->start.row &&
-	    rs->ref.b.row == r->end.row &&
+	ref = rs->ref;
+	ref.a.col = r->start.col; if (rs->ref.a.col_relative) ref.a.col -= gee->pp.eval.col;
+	ref.b.col = r->end.col;   if (rs->ref.b.col_relative) ref.b.col -= gee->pp.eval.col;
+	ref.a.row = r->start.row; if (rs->ref.a.row_relative) ref.a.row -= gee->pp.eval.row;
+	ref.b.row = r->end.row;   if (rs->ref.b.row_relative) ref.b.row -= gee->pp.eval.row;
+
+	if (rs->ref.a.col == ref.a.col &&
+	    rs->ref.b.col == ref.b.col &&
+	    rs->ref.a.row == ref.a.row &&
+	    rs->ref.b.row == ref.b.row &&
 	    rs->ref.a.sheet == sheet &&
 	    (rs->ref.b.sheet == NULL || rs->ref.b.sheet == sheet))
 		return needs_change; /* FIXME ??? */
 
-	if (r != NULL) {
-		rs->ref.a.col = r->start.col;
-		rs->ref.b.col = r->end.col;
-		rs->ref.a.row = r->start.row;
-		rs->ref.b.row = r->end.row;
-	} else
-		rs->ref.a.col = rs->ref.b.col = rs->ref.a.row = rs->ref.b.row = 0;
-
+	rs->ref.a.col = ref.a.col;
+	rs->ref.b.col = ref.b.col;
+	rs->ref.a.row = ref.a.row;
+	rs->ref.b.row = ref.b.row;
 	rs->ref.a.sheet =
 		(sheet != gee->sheet || !(gee->flags & GNM_EE_SHEET_OPTIONAL)) ? sheet : NULL;
 	rs->ref.b.sheet = NULL;
