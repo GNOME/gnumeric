@@ -1,5 +1,10 @@
 2005-06-10  Morten Welinder  <terra@gnome.org>
 
+	* src/dependent.c (link_cellrange_dep, unlink_cellrange_dep): Fix
+	condition for swapping sheet indices.  Fix loop.
+	(dependent_unlink): Don't try to unlink dynamic dependencies from
+	a NULL container.
+
 	* src/dependent.c (gnm_dep_container_sanity_check): New function.
 	(dependents_revive_sheet): Check sanity here.
 	(gnm_dep_container_dump): And here.

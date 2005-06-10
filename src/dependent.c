@@ -662,12 +662,13 @@ link_cellrange_dep (GnmDependent *dep, GnmCellPos const *pos,
 			Workbook const *wb = a->sheet->workbook;
 			int i = a->sheet->index_in_wb;
 			int stop = b->sheet->index_in_wb;
-			if (i < stop) { int tmp = i; i = stop ; stop = tmp; }
+			if (i > stop) { int tmp = i; i = stop ; stop = tmp; }
 
 			g_return_val_if_fail (b->sheet->workbook == wb, flag);
 
 			while (i <= stop) {
 				Sheet *sheet = g_ptr_array_index (wb->sheets, i);
+				i++;
 				link_range_dep (sheet->deps, dep, &range);
 			}
 			flag |= DEPENDENT_HAS_3D;
@@ -694,12 +695,13 @@ unlink_cellrange_dep (GnmDependent *dep, GnmCellPos const *pos,
 			Workbook const *wb = a->sheet->workbook;
 			int i = a->sheet->index_in_wb;
 			int stop = b->sheet->index_in_wb;
-			if (i < stop) { int tmp = i; i = stop ; stop = tmp; }
+			if (i > stop) { int tmp = i; i = stop ; stop = tmp; }
 
 			g_return_if_fail (b->sheet->workbook == wb);
 
 			while (i <= stop) {
 				Sheet *sheet = g_ptr_array_index (wb->sheets, i);
+				i++;
 				unlink_range_dep (sheet->deps, dep, &range);
 			}
 		} else
@@ -1049,12 +1051,13 @@ dependent_unlink (GnmDependent *dep)
 			dep->next_dep->prev_dep = dep->prev_dep;
 		if (dep->prev_dep)
 			dep->prev_dep->next_dep = dep->next_dep;
+
+		if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS)
+			dependent_clear_dynamic_deps (dep);
 	}
 
 	if (dep->flags & DEPENDENT_HAS_3D)
 		workbook_unlink_3d_dep (dep);
-	if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS)
-		dependent_clear_dynamic_deps (dep);
 	dep->flags &= ~DEPENDENT_LINK_FLAGS;
 }
 
