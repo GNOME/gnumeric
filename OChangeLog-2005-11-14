@@ -1,3 +1,28 @@
+2005-06-09  Jody Goldberg <jody@gnome.org>
+
+	* src/item-edit.c (ie_scan_for_range) : call
+	  gnm_expr_entry_set_parsepos to be sure we're using the right
+	  notional position.  This only really matters for R1C1 refs.
+
+	* src/rendered-value.c (rendered_value_render) : use the Sheet::convs
+	  to display expressions.
+	(cell_get_entered_text) : ditto.
+
+	* src/parse-util.c (rangeref_as_string) : r1c1 support.
+	(cellref_as_string) : ditto.
+
+	* src/item-bar.c (item_bar_draw) : for r1c1 use numbers for col
+	  headers.
+	(item_bar_calc_size) : ditto.
+
+	* src/sheet.c : Add use-r1c1 property
+	(re_render_formulas) : split from
+	(sheet_set_display_formulas) : here.
+	(sheet_set_use_r1c1) : for use here.
+
+	* src/wbcg-actions.c (toggle_actions) : Add r1c1 toggle
+	* src/GNOME_Gnumeric-gtk.xml : use it
+
 2005-06-09  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook.c (workbook_sheet_delete): Merge

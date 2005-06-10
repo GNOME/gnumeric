@@ -92,6 +92,7 @@ struct _Sheet {
 	GnmColor	 *tab_color;
 	GnmColor	 *tab_text_color;
 	GnmSheetType	  sheet_type;
+	GnmExprConventions const *convs;
 
 	/* This needs to move elsewhere and get shared.  */
 	PangoContext *context;

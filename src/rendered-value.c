@@ -110,7 +110,7 @@ rendered_value_render (GString *str,
 		g_string_append_c (str, '=');
 		gnm_expr_as_gstring (str, cell->base.expression,
 				     parse_pos_init_cell (&pp, cell),
-				     gnm_expr_conventions_default);
+				     sheet->convs);
 		*go_color = 0;
 	} else if (sheet && sheet->hide_zero && cell_is_zero (cell)) {
 		*go_color = 0;
@@ -588,7 +588,7 @@ cell_get_entered_text (GnmCell const *cell)
 
 		gnm_expr_as_gstring (res, cell->base.expression,
 				     parse_pos_init_cell (&pp, cell),
-				     gnm_expr_conventions_default);
+				     cell->base.sheet->convs);
 		return g_string_free (res, FALSE);
 	}
 

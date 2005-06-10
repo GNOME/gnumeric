@@ -828,6 +828,8 @@ wbcg_update_menu_feedback (WorkbookControlGUI *wbcg, Sheet const *sheet)
 		"SheetOutlineBelow", sheet->outline_symbols_below);
 	wbcg_set_toggle_action_state (wbcg,
 		"SheetOutlineRight", sheet->outline_symbols_right);
+	wbcg_set_toggle_action_state (wbcg,
+		"SheetUseR1C1", sheet->r1c1_addresses);
 
 	wbcg_ui_update_end (wbcg);
 }

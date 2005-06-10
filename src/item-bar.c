@@ -112,6 +112,7 @@ item_bar_calc_size (ItemBar *ib)
 	int size = pango_font_description_get_size (src_desc);
 	PangoLayout *layout;
 	PangoRectangle ink_rect, logical_rect;
+	gboolean const char_label = ib->is_col_header && !sheet->r1c1_addresses;
 
 	ib_fonts_unref (ib);
 
@@ -125,7 +126,7 @@ item_bar_calc_size (ItemBar *ib)
 	 * (Note that we avoid J/Q/Y which may go below the line.)
 	 */
 	pango_layout_set_text (layout,
-			       ib->is_col_header ? "AHW" : "0123456789",
+			       char_label ? "AHW" : "0123456789",
 			       -1);
 	ib->normal_font = pango_context_load_font (context, desc);
 	pango_layout_set_font_description (layout, desc);
@@ -144,7 +145,7 @@ item_bar_calc_size (ItemBar *ib)
 	ib->bold_font_ascent = PANGO_PIXELS (ink_rect.height + ink_rect.y);
 
 	/* 5 pixels left and right plus the width of the widest string I can think of */
-	if (ib->is_col_header)
+	if (char_label)
 		pango_layout_set_text (layout, "WWWWWWWWWW", strlen (col_name (SHEET_MAX_COLS - 1)));
 	else
 		pango_layout_set_text (layout, "8888888888", strlen (row_name (SHEET_MAX_ROWS - 1)));
@@ -338,6 +339,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 		int const len = (inc > 4) ? 4 : inc;
 		int end = expose->area.x;
 		int total, col = gcanvas->first.col;
+		gboolean const char_label = !sheet->r1c1_addresses;
 
 		/* shadow type selection must be keep in sync with code in ib_draw_cell */
 		rect.y = ib->indent;
@@ -393,9 +395,13 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 
 				rect.width = pixels;
 				ib_draw_cell (ib, drawable, ib->text_gc,
-					       has_object ? COL_ROW_NO_SELECTION
-					       : sv_selection_col_type (sv, col),
-					       col_name (col), &rect);
+					       has_object
+						       ? COL_ROW_NO_SELECTION
+						       : sv_selection_col_type (sv, col),
+					       char_label
+						       ? col_name (col)
+						       : row_name (col),
+					       &rect);
 
 				if (len > 0) {
 					if (!draw_right) {

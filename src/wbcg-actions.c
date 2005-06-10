@@ -2020,6 +2020,7 @@ static GNM_ACTION_DEF (cb_sheet_pref_ ## flag )				\
 	if (!wbcg->updating_ui) {					\
 		Sheet *sheet = wbcg_cur_sheet (wbcg);			\
 		go_object_toggle (sheet, property);			\
+		sheet_update (sheet);					\
 	}								\
 }
 
@@ -2031,6 +2032,7 @@ TOGGLE_HANDLER (hide_row_header, "display-row-header")
 TOGGLE_HANDLER (display_outlines, "display-outlines")
 TOGGLE_HANDLER (outline_symbols_below, "display-outlines-below")
 TOGGLE_HANDLER (outline_symbols_right, "display-outlines-right")
+TOGGLE_HANDLER (use_r1c1, "use-r1c1")
 
 static const GtkToggleActionEntry toggle_actions[] = {
 	{ "SheetDisplayOutlines", NULL, N_("Display _Outlines"),
@@ -2057,6 +2059,9 @@ static const GtkToggleActionEntry toggle_actions[] = {
 	{ "SheetHideRowHeader", NULL, N_("Hide _Row Headers"),
 		NULL, N_("Toggle whether or not to display row headers"),
 		G_CALLBACK (cb_sheet_pref_hide_row_header) },
+	{ "SheetUseR1C1", NULL, N_("Use R1C1 N_otation "),
+		NULL, N_("Display addresses as R1C1 or A1"),
+		G_CALLBACK (cb_sheet_pref_use_r1c1) },
 
 	{ "AlignLeft", GTK_STOCK_JUSTIFY_LEFT,
 		N_("_Left Align"), NULL,

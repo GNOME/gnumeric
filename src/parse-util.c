@@ -223,6 +223,18 @@ cellref_abs_row (GnmCellRef const *ref, GnmParsePos const *pp)
 	return row;
 }
 
+static void
+r1c1_add_index (GString *target, char type, int num, unsigned char relative)
+{
+	if (relative) {
+		if (num != 0)
+			g_string_append_printf (target, "%c[%d]", type, num);
+		else
+			g_string_append_c (target, type);
+	} else
+		g_string_append_printf (target, "%c%d", type, num + 1);
+}
+
 /**
  * cellref_as_string :
  * @ref :
@@ -239,7 +251,7 @@ cellref_as_string (GString *target, GnmExprConventions const *conv,
 		   GnmParsePos const *pp, gboolean no_sheetname)
 {
 	int col, row;
-	Sheet *sheet = cell_ref->sheet;
+	Sheet const *sheet = cell_ref->sheet;
 
 	/* If it is a non-local reference, add the path to the external sheet */
 	if (sheet != NULL && !no_sheetname) {
@@ -257,31 +269,36 @@ cellref_as_string (GString *target, GnmExprConventions const *conv,
 		g_string_append (target, conv->output_sheet_name_sep);
 	}
 
-	if (cell_ref->col_relative)
-		col = pp->eval.col + cell_ref->col;
-	else {
-		g_string_append_c (target, '$');
-		col = cell_ref->col;
+	if (conv->r1c1_addresses) { /* R1C1 handler */
+		r1c1_add_index (target, 'R', cell_ref->row, cell_ref->row_relative);
+		r1c1_add_index (target, 'C', cell_ref->col, cell_ref->col_relative);
+	} else {
+		if (cell_ref->col_relative)
+			col = pp->eval.col + cell_ref->col;
+		else {
+			g_string_append_c (target, '$');
+			col = cell_ref->col;
+		}
+
+		/* ICK!  XL compatibility kludge */
+		col %= SHEET_MAX_COLS;
+		if (col < 0)
+			col += SHEET_MAX_COLS;
+		col_name_internal (target, col);
+
+		if (cell_ref->row_relative)
+			row = pp->eval.row + cell_ref->row;
+		else {
+			g_string_append_c (target, '$');
+			row = cell_ref->row;
+		}
+
+		/* ICK!  XL compatibility kludge */
+		row %= SHEET_MAX_ROWS;
+		if (row < 0)
+			row += SHEET_MAX_ROWS;
+		row_name_internal (target, row);
 	}
-
-	/* ICK!  XL compatibility kludge */
-	col %= SHEET_MAX_COLS;
-	if (col < 0)
-		col += SHEET_MAX_COLS;
-	col_name_internal (target, col);
-
-	if (cell_ref->row_relative)
-		row = pp->eval.row + cell_ref->row;
-	else {
-		g_string_append_c (target, '$');
-		row = cell_ref->row;
-	}
-
-	/* ICK!  XL compatibility kludge */
-	row %= SHEET_MAX_ROWS;
-	if (row < 0)
-		row += SHEET_MAX_ROWS;
-	row_name_internal (target, row);
 }
 
 /**
@@ -320,42 +337,72 @@ rangeref_as_string (GString *target, GnmExprConventions const *conv,
 		g_string_append (target, conv->output_sheet_name_sep);
 	}
 
-	/* be sure to use else if so that a1:iv65535 does not vanish */
-	if (r.start.col == 0 && r.end.col == SHEET_MAX_COLS-1) {
-		if (!ref->a.row_relative)
-			g_string_append_c (target, '$');
-		row_name_internal (target, r.start.row);
-		g_string_append_c (target, ':');
-		if (!ref->b.row_relative)
-			g_string_append_c (target, '$');
-		row_name_internal (target, r.end.row);
-	} else if (r.start.row == 0 && r.end.row == SHEET_MAX_ROWS-1) {
-		if (!ref->a.col_relative)
-			g_string_append_c (target, '$');
-		col_name_internal (target, r.start.col);
-		g_string_append_c (target, ':');
-		if (!ref->b.col_relative)
-			g_string_append_c (target, '$');
-		col_name_internal (target, r.end.col);
+	if (conv->r1c1_addresses) { /* R1C1 handler */
+		/* be sure to use else if so that a1:iv65535 does not vanish */
+		if (r.start.col == 0 && r.end.col == SHEET_MAX_COLS-1) {
+			r1c1_add_index (target, 'R', ref->a.row, ref->a.row_relative);
+			if (ref->a.row != ref->b.row ||
+			    ref->a.row_relative != ref->b.row_relative) {
+				g_string_append_c (target, ':');
+				r1c1_add_index (target, 'R', ref->b.row, ref->b.row_relative);
+			}
+		} else if (r.start.row == 0 && r.end.row == SHEET_MAX_ROWS-1) {
+			r1c1_add_index (target, 'C', ref->a.col, ref->a.col_relative);
+			if (ref->a.col != ref->b.col ||
+			    ref->a.col_relative != ref->b.col_relative) {
+				g_string_append_c (target, ':');
+				r1c1_add_index (target, 'C', ref->b.col, ref->b.col_relative);
+			}
+		} else {
+			r1c1_add_index (target, 'R', ref->a.row, ref->a.row_relative);
+			r1c1_add_index (target, 'C', ref->a.col, ref->a.col_relative);
+			if (r.start.col != r.end.col ||
+			    ref->a.col_relative != ref->b.col_relative ||
+			    r.start.row != r.end.row ||
+			    ref->a.row_relative != ref->b.row_relative) {
+				g_string_append_c (target, ':');
+				r1c1_add_index (target, 'R', ref->b.row, ref->b.row_relative);
+				r1c1_add_index (target, 'C', ref->b.col, ref->b.col_relative);
+			}
+		}
 	} else {
-		if (!ref->a.col_relative)
-			g_string_append_c (target, '$');
-		col_name_internal (target, r.start.col);
-		if (!ref->a.row_relative)
-			g_string_append_c (target, '$');
-		row_name_internal (target, r.start.row);
-
-		if (r.start.col != r.end.col ||
-		    ref->a.col_relative != ref->b.col_relative ||
-		    r.start.row != r.end.row ||
-		    ref->a.row_relative != ref->b.row_relative) {
+		/* be sure to use else if so that a1:iv65535 does not vanish */
+		if (r.start.col == 0 && r.end.col == SHEET_MAX_COLS-1) {
+			if (!ref->a.row_relative)
+				g_string_append_c (target, '$');
+			row_name_internal (target, r.start.row);
+			g_string_append_c (target, ':');
+			if (!ref->b.row_relative)
+				g_string_append_c (target, '$');
+			row_name_internal (target, r.end.row);
+		} else if (r.start.row == 0 && r.end.row == SHEET_MAX_ROWS-1) {
+			if (!ref->a.col_relative)
+				g_string_append_c (target, '$');
+			col_name_internal (target, r.start.col);
 			g_string_append_c (target, ':');
 			if (!ref->b.col_relative)
 				g_string_append_c (target, '$');
 			col_name_internal (target, r.end.col);
-			if (!ref->b.row_relative)
+		} else {
+			if (!ref->a.col_relative)
 				g_string_append_c (target, '$');
-			row_name_internal (target, r.end.row);
+			col_name_internal (target, r.start.col);
+			if (!ref->a.row_relative)
+				g_string_append_c (target, '$');
+			row_name_internal (target, r.start.row);
+
+			if (r.start.col != r.end.col ||
+			    ref->a.col_relative != ref->b.col_relative ||
+			    r.start.row != r.end.row ||
+			    ref->a.row_relative != ref->b.row_relative) {
+				g_string_append_c (target, ':');
+				if (!ref->b.col_relative)
+					g_string_append_c (target, '$');
+				col_name_internal (target, r.end.col);
+				if (!ref->b.row_relative)
+					g_string_append_c (target, '$');
+				row_name_internal (target, r.end.row);
+			}
 		}
 	}
 }

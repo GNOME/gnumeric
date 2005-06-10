@@ -4347,15 +4347,15 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 static void
 excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	guint8 const type	= GSF_LE_GET_GUINT8 (q->data + 0);
-	guint8 const op		= GSF_LE_GET_GUINT8 (q->data + 1);
+	guint8 const type	= GSF_LE_GET_GUINT8  (q->data + 0);
+	guint8 const op		= GSF_LE_GET_GUINT8  (q->data + 1);
 	guint16 const expr1_len	= GSF_LE_GET_GUINT16 (q->data + 2);
 	guint16 const expr2_len	= GSF_LE_GET_GUINT16 (q->data + 4);
-	guint8 const fmt_type	= GSF_LE_GET_GUINT8 (q->data + 9);
+	guint32 const fmt_type	= GSF_LE_GET_GUINT32  (q->data + 6);
 	unsigned offset;
 	GnmExpr const *expr1 = NULL, *expr2 = NULL;
 
-	d (1, fprintf (stderr,"cond type = %d, op type = %d\n", (int)type, (int)op););
+	d (1, fprintf (stderr,"cond type = %d, op type = %d, flags = 0x%x\n", (int)type, (int)op, fmt_type););
 #if 0
 	switch (type) {
 	case 1 :
@@ -4427,7 +4427,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet)
 
 	offset =  6  /* CF record header */ + 6; /* format header */
 
-	if (fmt_type & 0x04) { /* font */
+	if (fmt_type & 0x04000000) { /* font */
 		d (1, {
 			puts ("Font");
 			gsf_mem_dump (q->data+offset, 118);
@@ -4436,7 +4436,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet)
 		offset += 118;
 	}
 
-	if (fmt_type & 0x10) { /* borders */
+	if (fmt_type & 0x10000000) { /* borders */
 		d (1, {
 			puts ("Border");
 			gsf_mem_dump (q->data+offset, 8);
@@ -4445,14 +4445,13 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet)
 		offset += 8;
 	}
 
-	if (fmt_type & 0x20) { /* pattern */
-		/* TODO : use the head flags to conditionally set things
-		 * FIXME : test this
-		 */
+	if (fmt_type & 0x20000000) { /* pattern */
 		guint16 tmp = GSF_LE_GET_GUINT16 (q->data + offset);
 		int pat_foregnd_col = (tmp & 0x007f);
 		int pat_backgnd_col = (tmp & 0x1f80) >> 7;
 		int fill_pattern_idx;
+
+		gsf_mem_dump (q->data+offset, 4);
 
 		tmp = GSF_LE_GET_GUINT16 (q->data + offset + 2);
 		fill_pattern_idx =
@@ -4465,7 +4464,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet)
 			pat_foregnd_col = swap;
 		}
 
-		d (1, fprintf (stderr,"fore = %d, back = %d, pattern = %d.\n",
+		d (-1, fprintf (stderr,"fore = %d, back = %d, pattern = %d.\n",
 			pat_foregnd_col,
 			pat_backgnd_col,
 			fill_pattern_idx););
@@ -5295,7 +5294,7 @@ static void
 excel_read_REFMODE (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	guint16 mode = GSF_LE_GET_GUINT16 (q->data);
-	esheet->sheet->r1c1_addresses = (mode == 0);
+	g_object_set (esheet->sheet, "use-r1c1", mode == 0, NULL);
 }
 
 static gboolean

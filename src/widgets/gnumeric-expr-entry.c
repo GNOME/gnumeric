@@ -51,6 +51,7 @@ struct _GnmExprEntry {
 	GtkWidget		*icon;
 	SheetControlGUI		*scg;	/* the source of the edit */
 	Sheet			*sheet;	/* from scg */
+	GnmParsePos		 pp;	/* from scg->sv */
 	WorkbookControlGUI	*wbcg;	/* from scg */
 	Rangesel		 rangesel;
 
@@ -555,12 +556,10 @@ static char *
 gee_rangesel_make_text (GnmExprEntry const *gee)
 {
 	GnmRangeRef ref;
-	GnmParsePos pp;
 	GString *target = g_string_new (NULL);
 
 	gee_prepare_range (gee, &ref);
-	rangeref_as_string (target, gnm_expr_conventions_default,
-			    &ref, parse_pos_init_sheet (&pp, gee->sheet));
+	rangeref_as_string (target, gee->sheet->convs, &ref, &gee->pp);
 	return g_string_free (target, FALSE);
 }
 
@@ -617,7 +616,6 @@ gnm_expr_expr_find_range (GnmExprEntry *gee)
 	char const *text, *cursor, *tmp, *ptr;
 	GnmRangeRef  range;
 	Rangesel *rs;
-	GnmParsePos  pp;
 	int len;
 
 	g_return_if_fail (gee != NULL);
@@ -642,13 +640,12 @@ gnm_expr_expr_find_range (GnmExprEntry *gee)
 
 	cursor = text + gtk_editable_get_position (GTK_EDITABLE (gee->entry));
 
-	parse_pos_init_sheet (&pp, gee->sheet);
 	ptr = gnm_expr_char_start_p (text);
 	if (ptr == NULL)
 		ptr = text;
 
 	while (ptr != NULL && *ptr && ptr <= cursor) {
-		tmp = rangeref_parse (&range, ptr, &pp, gnm_expr_conventions_default);
+		tmp = rangeref_parse (&range, ptr, &gee->pp, gee->sheet->convs);
 		if (tmp != ptr) {
 			if (tmp >= cursor) {
 				rs->is_valid = TRUE;
@@ -948,12 +945,19 @@ gnm_expr_entry_set_scg (GnmExprEntry *gee, SheetControlGUI *scg)
 		g_object_weak_ref (G_OBJECT (gee->scg),
 				   (GWeakNotify) cb_scg_destroy, gee);
 		gee->sheet = sc_sheet (SHEET_CONTROL (scg));
+		parse_pos_init_sheet (&gee->pp, gee->sheet);
 		gee->wbcg = scg_get_wbcg (gee->scg);
 	} else
 		gee->sheet = NULL;
 #if 0
 	g_warning ("Setting gee (%p)->sheet = %p", gee, gee->sheet);
 #endif
+}
+
+void
+gnm_expr_entry_set_parsepos (GnmExprEntry *gee, GnmParsePos const *pp)
+{
+	gee->pp = *pp;
 }
 
 /**
@@ -983,13 +987,14 @@ gnm_expr_entry_load_from_text (GnmExprEntry *gee, char const *txt)
 void
 gnm_expr_entry_load_from_dep (GnmExprEntry *gee, GnmDependent const *dep)
 {
+	GnmParsePos pp;
+
 	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 	g_return_if_fail (dep != NULL);
 	/* We have nowhere to store the text while frozen. */
 	g_return_if_fail (gee->freeze_count == 0);
 
 	if (dep->expression != NULL) {
-		GnmParsePos pp;
 		char *text = gnm_expr_as_string (dep->expression,
 			parse_pos_init_dep (&pp, dep), gnm_expr_conventions_default);
 
@@ -1100,7 +1105,7 @@ gnm_expr_entry_load_from_range (GnmExprEntry *gee,
  * The resulting range is normalized.
  **/
 gboolean
-gnm_expr_entry_get_rangesel (GnmExprEntry *gee,
+gnm_expr_entry_get_rangesel (GnmExprEntry const *gee,
 			     GnmRange *r, Sheet **sheet)
 {
 	GnmRangeRef ref;
@@ -1110,24 +1115,9 @@ gnm_expr_entry_get_rangesel (GnmExprEntry *gee,
 
 	gee_prepare_range (gee, &ref);
 	if (r != NULL) {
-		/* normalize but don't bother with rel vs absolute conversions
-		 * we always work relative to A1 internally so there is no
-		 * difference
-		 */
-		if (ref.a.col < ref.b.col) {
-			r->start.col = ref.a.col;
-			r->end.col   = ref.b.col;
-		} else {
-			r->start.col = ref.b.col;
-			r->end.col   = ref.a.col;
-		}
-		if (ref.a.row < ref.b.row) {
-			r->start.row = ref.a.row;
-			r->end.row   = ref.b.row;
-		} else {
-			r->start.row = ref.b.row;
-			r->end.row   = ref.a.row;
-		}
+		cellref_get_abs_pos (&ref.a, &gee->pp.eval, &r->start);
+		cellref_get_abs_pos (&ref.b, &gee->pp.eval, &r->end);
+		range_normalize (r);
 	}
 
 	/* TODO : does not handle 3d, neither does this interface

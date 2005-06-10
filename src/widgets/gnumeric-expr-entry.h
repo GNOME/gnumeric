@@ -35,8 +35,10 @@ void	  gnm_expr_entry_set_flags	(GnmExprEntry *e,
 					 GnmExprEntryFlags mask);
 void	  gnm_expr_entry_set_scg	(GnmExprEntry *e,
 					 SheetControlGUI *scg);
+void	  gnm_expr_entry_set_parsepos	(GnmExprEntry *e,
+					 GnmParsePos const *pp);
 GtkEntry *gnm_expr_entry_get_entry	(GnmExprEntry *e);
-gboolean  gnm_expr_entry_get_rangesel	(GnmExprEntry *e,
+gboolean  gnm_expr_entry_get_rangesel	(GnmExprEntry const *e,
 					 GnmRange *r, Sheet **sheet);
 void	  gnm_expr_expr_find_range	(GnmExprEntry *e);
 void	  gnm_expr_entry_rangesel_stop	(GnmExprEntry *e,

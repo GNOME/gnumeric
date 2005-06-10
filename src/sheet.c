@@ -94,6 +94,7 @@ enum {
 	PROP_DISPLAY_OUTLINES,
 	PROP_DISPLAY_OUTLINES_BELOW,
 	PROP_DISPLAY_OUTLINES_RIGHT,
+	PROP_USE_R1C1,
 	PROP_TAB_FOREGROUND,
 	PROP_TAB_BACKGROUND,
 	PROP_ZOOM_FACTOR
@@ -127,15 +128,10 @@ sheet_set_visibility (Sheet *sheet, GnmSheetVisibility visibility)
 	sheet_set_dirty (sheet, TRUE);
 }
 
-static void	  
-sheet_set_display_formulas (Sheet *sheet, gboolean display)
+static void
+re_render_formulas (Sheet const *sheet)
 {
 	GnmCell *cell;
-
-	display = !!display;
-	if (sheet->display_formulas == display)
-		return;
-	sheet->display_formulas = display;
 
 	SHEET_FOREACH_DEPENDENT (sheet, dep, {
 		if (dependent_is_cell (dep)) {
@@ -150,6 +146,32 @@ sheet_set_display_formulas (Sheet *sheet, gboolean display)
 			}
 		}
 	});
+}
+
+static void	  
+sheet_set_display_formulas (Sheet *sheet, gboolean display)
+{
+	display = !!display;
+	if (sheet->display_formulas == display)
+		return;
+	sheet->display_formulas = display;
+	re_render_formulas (sheet);
+}
+
+static void	  
+sheet_set_use_r1c1 (Sheet *sheet, gboolean use_r1c1)
+{
+	use_r1c1 = !!use_r1c1;
+	if (sheet->r1c1_addresses == use_r1c1)
+		return;
+	sheet->r1c1_addresses = use_r1c1;
+	sheet->convs = sheet->r1c1_addresses
+		? gnm_expr_conventions_r1c1
+		: gnm_expr_conventions_default;
+	if (sheet->display_formulas)
+		re_render_formulas (sheet);
+	SHEET_FOREACH_VIEW (sheet, sv,
+		sv->edit_pos_changed.content = TRUE;);
 }
 
 static GnmValue *
@@ -323,6 +345,9 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 	case PROP_DISPLAY_OUTLINES_RIGHT:
 		sheet->outline_symbols_right = !!g_value_get_boolean (value);
 		break;
+	case PROP_USE_R1C1:
+		sheet_set_use_r1c1 (sheet, g_value_get_boolean (value));
+		break;
 	case PROP_TAB_FOREGROUND: {
 		GnmColor *color = g_value_dup_boxed (value);
 		style_color_unref (sheet->tab_text_color);
@@ -386,6 +411,9 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 		break;
 	case PROP_DISPLAY_OUTLINES_RIGHT:
 		g_value_set_boolean (value, sheet->outline_symbols_right);
+		break;
+	case PROP_USE_R1C1:
+		g_value_set_boolean (value, sheet->r1c1_addresses);
 		break;
 	case PROP_TAB_FOREGROUND:
 		g_value_set_boxed (value, sheet->tab_text_color);
@@ -472,6 +500,7 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->priv->enable_showhide_detail = TRUE;
 
 	sheet->names = NULL;
+	sheet->convs = gnm_expr_conventions_default;
 
 	sheet_style_init (sheet);
 
@@ -597,6 +626,15 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 		 g_param_spec_boolean ("display-outlines-right",
 				       _("Display Outlines Right"),
 				       _("Control whether outlines symbols are shown to the right."),
+				       TRUE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_USE_R1C1,
+		 g_param_spec_boolean ("use-r1c1",
+				       _("Use R1C1 notation rather than A1"),
+				       _("Display cell addresses using R1C1 notion rather than the more common A1."),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));

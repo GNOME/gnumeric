@@ -97,9 +97,12 @@ ie_scan_for_range (ItemEdit *ie)
 	GnmRange  range;
 	Sheet *sheet = sc_sheet (SHEET_CONTROL (ie->scg));
 	Sheet *parse_sheet;
+	GnmParsePos pp;
 	GnmExprEntry *gee = GNM_EXPR_ENTRY (
 		gtk_widget_get_parent (GTK_WIDGET (ie->entry)));
 
+	gnm_expr_entry_set_parsepos (gee,
+		parse_pos_init_editpos (&pp, sc_view (SHEET_CONTROL (ie->scg))));
 	if (!ie->feedback_disabled) {
 		gnm_expr_expr_find_range (gee);
 		if (gnm_expr_entry_get_rangesel (gee, &range, &parse_sheet) &&

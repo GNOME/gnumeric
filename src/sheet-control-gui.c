@@ -1280,6 +1280,7 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 		 "signal::notify::display-grid", cb_scg_redraw, scg,
 		 "signal::notify::display-column-header", cb_scg_prefs, scg,
 		 "signal::notify::display-row-header", cb_scg_prefs, scg,
+		 "signal::notify::use-r1c1", cb_scg_redraw, scg,
 		 "signal::notify::display-outlines", cb_scg_redraw_resize, scg,
 		 "signal::notify::display-outlines-below", cb_scg_redraw_resize, scg,
 		 "signal::notify::display-outlines-right", cb_scg_redraw_resize, scg,

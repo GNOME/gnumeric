@@ -34,7 +34,7 @@ Jody:
 	* Improve handling of some odd XL operators.
 	* Remove warning when nudging during object creation. [#164779]
 	* Delete while editing should not clear the cell. [#165172]
-	* Add R1C1 parser.
+	* R1C1 support.
 
 Jon Kåre:
         * Don't output the xml declaration for xhtml. [#303827]
