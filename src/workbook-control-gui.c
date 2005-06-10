@@ -1750,8 +1750,11 @@ cb_realize (GtkWindow *toplevel, WorkbookControlGUI *wbcg)
 	 * the current book.  Which leads to a slew of errors for keystrokes
 	 * until focus is corrected.
 	 */
-	if (wbcg->notebook)
+	if (wbcg->notebook) {
 		wbcg_focus_cur_scg (wbcg);
+		wbcg_update_menu_feedback (wbcg, 
+			wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)));
+	}
 }
 
 static void

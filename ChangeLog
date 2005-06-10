@@ -1,5 +1,10 @@
 2005-06-09  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control-gui.c (cb_realize) : init the menu prefs on
+	  realization.
+
+2005-06-09  Jody Goldberg <jody@gnome.org>
+
 	* src/item-edit.c (ie_scan_for_range) : call
 	  gnm_expr_entry_set_parsepos to be sure we're using the right
 	  notional position.  This only really matters for R1C1 refs.
