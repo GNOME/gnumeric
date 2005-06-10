@@ -74,6 +74,7 @@ Morten:
 	* Fix problem with hiding sheets.
 	* Fix sheet removal undo to also undo changes to names and
 	  cells in other sheets.
+	* Save and load visibility sheet attribute.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1

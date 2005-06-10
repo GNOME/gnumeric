@@ -608,7 +608,8 @@ static void
 xml_write_selection_info (GnmOutputXML *state)
 {
 	GList *ptr, *copy;
-	SheetView *sv = sheet_get_view (state->sheet, state->wb_view);
+	const SheetView *sv = sheet_get_view (state->sheet, state->wb_view);
+	if (!sv) return;  /* Hidden.  */
 
 	gsf_xml_out_start_element (state->output, GNM "Selections");
 	gsf_xml_out_add_int (state->output, "CursorCol", sv->edit_pos_real.col);
@@ -728,6 +729,7 @@ static void
 xml_write_sheet_layout (GnmOutputXML *state)
 {
 	SheetView const *sv = sheet_get_view (state->sheet, state->wb_view);
+	if (!sv) return;  /* Hidden.  */
 
 	gsf_xml_out_start_element (state->output, GNM "SheetLayout");
 	gnm_xml_out_add_cellpos (state->output, "TopLeft", &sv->initial_top_left);
@@ -1019,6 +1021,8 @@ xml_write_sheet (GnmOutputXML *state, Sheet const *sheet)
 	if (sheet->text_is_rtl)
 		gsf_xml_out_add_bool (state->output,
 			"RTL_Layout", sheet->text_is_rtl);
+	gsf_xml_out_add_enum (state->output,
+		"Visibility", GNM_SHEET_VISIBILITY_TYPE, sheet->visibility);
 
 	if (sheet->tab_color != NULL)
 		gnm_xml_out_add_color (state->output, "TabColor", sheet->tab_color);

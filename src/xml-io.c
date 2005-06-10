@@ -337,9 +337,12 @@ xml_read_selection_info (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	GnmRange r;
 	GnmCellPos pos;
+	xmlNodePtr sel, selections;
 	SheetView *sv = sheet_get_view (ctxt->sheet, ctxt->wb_view);
-	xmlNodePtr sel, selections = e_xml_get_child_by_name (tree, CC2XML ("Selections"));
 
+	if (!sv) return;  /* Hidden.  */
+
+	selections = e_xml_get_child_by_name (tree, CC2XML ("Selections"));
 	if (selections == NULL)
 		return;
 
@@ -362,6 +365,9 @@ xml_write_selection_info (XmlParseContext *ctxt, Sheet const *sheet,
 {
 	GList *ptr, *copy;
 	SheetView *sv = sheet_get_view (sheet, ctxt->wb_view);
+
+	if (!sv)
+		return;  /* Hidden, for example.  */
 
 	tree = xmlNewChild (tree, ctxt->ns,
 		CC2XML ("Selections"), NULL);
@@ -1981,6 +1987,7 @@ static void
 xml_write_sheet_layout (XmlParseContext *ctxt, xmlNodePtr tree, Sheet const *sheet)
 {
 	SheetView const *sv = sheet_get_view (sheet, ctxt->wb_view);
+	if (!sv) return;  /* Hidden.  */
 
 	tree = xmlNewChild (tree, ctxt->ns, CC2XML ("SheetLayout"), NULL);
 
@@ -2704,6 +2711,7 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	xml_node_set_bool (sheetNode, "OutlineSymbolsRight", sheet->outline_symbols_right);
 	if (sheet->text_is_rtl)
 		xml_node_set_bool (sheetNode, "RTL_Layout", sheet->text_is_rtl);
+	xml_node_set_enum (sheetNode, "Visibility", GNM_SHEET_VISIBILITY_TYPE, sheet->visibility);
 
 	if (sheet->tab_color != NULL)
 		xml_node_set_color (sheetNode, "TabColor", sheet->tab_color);
@@ -2991,6 +2999,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	double zoom_factor;
 	gboolean tmp;
 	xmlChar *val;
+	int tmpi;
 
 	if (strcmp (tree->name, "Sheet")){
 		fprintf (stderr,
@@ -3034,6 +3043,8 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 		g_object_set (sheet, "display-outlines-right", tmp, NULL);
 	if (xml_node_get_bool (tree, "RTL_Layout", &tmp))
 		g_object_set (sheet, "text-is-rtl", tmp, NULL);
+	if (xml_node_get_enum (tree, "Visibility", GNM_SHEET_VISIBILITY_TYPE, &tmpi))
+		g_object_set (sheet, "visibility", tmpi, NULL);
 	sheet->tab_color = xml_node_get_color (tree, "TabColor");
 	sheet->tab_text_color = xml_node_get_color (tree, "TabTextColor");
 

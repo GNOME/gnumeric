@@ -142,6 +142,37 @@ xml_sax_attr_int (xmlChar const * const *attrs, char const *name, int *res)
 }
 
 static gboolean
+xml_sax_attr_enum (xmlChar const * const *attrs,
+		   char const *name,
+		   GType etype,
+		   gint *val)
+{
+	GEnumClass *eclass;
+	GEnumValue *ev;
+	int i;
+
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (strcmp (attrs[0], name))
+		return FALSE;
+
+	eclass = G_ENUM_CLASS (g_type_class_peek (etype));
+
+	ev = g_enum_get_value_by_name (eclass, attrs[1]);
+	if (!ev) ev = g_enum_get_value_by_nick (eclass, attrs[1]);
+	if (!ev && xml_sax_attr_int (attrs, name, &i))
+		/* Check that the value is valid.  */
+		ev = g_enum_get_value (eclass, i);
+	if (!ev) return FALSE;
+
+	*val = ev->value;
+	return TRUE;
+}
+
+
+static gboolean
 xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, GnmCellPos *val)
 {
 	g_return_val_if_fail (attrs != NULL, FALSE);
@@ -254,6 +285,7 @@ typedef struct {
 	int outline_symbols_below;
 	int outline_symbols_right;
 	int text_is_rtl;
+	GnmSheetVisibility visibility;
 	GnmColor *tab_color;
 
 	/* expressions with ref > 1 a map from index -> expr pointer */
@@ -413,12 +445,14 @@ xml_sax_sheet_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
 	gboolean tmp;
+	gint tmpi;
 	GnmColor *color = NULL;
 
 	state->hide_col_header = state->hide_row_header =
 	state->display_formulas = state->hide_zero =
 	state->hide_grid = state->display_outlines =
 	state->outline_symbols_below = state->outline_symbols_right = state->text_is_rtl = -1;
+	state->visibility = GNM_SHEET_VISIBILITY_VISIBLE;
 	state->tab_color = NULL;
 	state->sheet_zoom = 1.; /* default */
 
@@ -439,6 +473,8 @@ xml_sax_sheet_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			state->outline_symbols_below = tmp;
 		else if (xml_sax_attr_bool (attrs, "OutlineSymbolsRight", &tmp))
 			state->outline_symbols_right = tmp;
+		else if (xml_sax_attr_enum (attrs, "Visibility", GNM_SHEET_VISIBILITY_TYPE, &tmpi))
+			state->visibility = tmpi;
 		else if (xml_sax_attr_bool (attrs, "RTL_Layout", &tmp))
 			state->text_is_rtl = tmp;
 		else if (xml_sax_attr_color (attrs, "TabColor", &color))
@@ -500,6 +536,7 @@ xml_sax_sheet_name (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 		g_object_set (state->sheet, "display-outlines-right", state->outline_symbols_right, NULL);
 	if (state->text_is_rtl >= 0)
 		g_object_set (state->sheet, "text-is-rtl", state->text_is_rtl, NULL);
+	g_object_set (state->sheet, "visibility", state->visibility, NULL);
 	state->sheet->tab_color = state->tab_color;
 }
 

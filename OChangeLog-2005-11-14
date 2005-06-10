@@ -1,3 +1,16 @@
+2005-06-10  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c (xml_write_sheet): Write visibility.
+
+	* src/xml-sax-read.c (xml_sax_attr_enum): New function.
+	(xml_sax_sheet_start): Restore visibility.
+
+	* src/xml-io.c (xml_read_selection_info): Don't crash if we lack a
+	view.
+	(xml_write_selection_info): Ditto.
+	(xml_sheet_read): Restore visibility.
+	(xml_sheet_write): Write visibility.
+
 2005-06-09  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (cb_realize) : init the menu prefs on
