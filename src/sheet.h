@@ -33,7 +33,7 @@ struct _Sheet {
 		/* An alternating list of deps and ref'd expressions.  */
 		GSList *dep_exprs;
 		/* A list of deps to relink.  */
-		GSList *name_deps;
+		GSList *relink;
 	} revive;
 
 	GPtrArray   *sheet_views;
@@ -231,6 +231,7 @@ gboolean sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
 void	 sheet_range_bounding_box    (Sheet const *sheet, GnmRange *r);
 
 /* Redraw */
+#define sheet_is_visible(_sheet) ((_sheet)->visibility == GNM_SHEET_VISIBILITY_VISIBLE)
 void     sheet_redraw_all       (Sheet const *sheet, gboolean header);
 void     sheet_redraw_cell      (GnmCell const *cell);
 void     sheet_redraw_range     (Sheet const *sheet, GnmRange const *r);

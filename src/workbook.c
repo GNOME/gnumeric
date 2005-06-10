@@ -1043,16 +1043,6 @@ workbook_sheet_add (Workbook *wb, int pos, gboolean make_dirty)
 	return new_sheet;
 }
 
-static void
-cb_tweak_3d (GnmDependent *dep, gpointer value, GnmExprRewriteInfo *rwinfo)
-{
-	GnmExpr const *newtree = gnm_expr_rewrite (dep->expression, rwinfo);
-	if (newtree != NULL) {
-		dependent_set_expr (dep, newtree);
-		gnm_expr_unref (newtree);
-	}
-}
-
 /**
  * workbook_sheet_delete:
  * @sheet: the sheet that we want to delete from its workbook
@@ -1085,23 +1075,6 @@ workbook_sheet_delete (Sheet *sheet)
 
 	/* All is fine, remove the sheet */
 	pre_sheet_index_change (wb);
-	/* If we are not destroying things, Check for 3d refs that start or end
-	 * on this sheet */
-	if (wb->sheet_order_dependents != NULL) {
-		GnmExprRewriteInfo rwinfo;
-
-		/*
-		 * Why here and not in dependents_invalidate_sheet?
-		 */
-		rwinfo.type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
-		sheet->being_invalidated = TRUE;
-		g_hash_table_foreach (wb->sheet_order_dependents,
-				      (GHFunc)cb_tweak_3d,
-				      &rwinfo);
-		sheet->being_invalidated = FALSE;
-	}
-
-	/* Remove our reference to this sheet */
 	g_ptr_array_remove_index (wb->sheets, sheet_index);
 	workbook_sheet_index_update (wb, sheet_index);
 	sheet->index_in_wb = -1;

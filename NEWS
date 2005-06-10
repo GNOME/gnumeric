@@ -75,6 +75,7 @@ Morten:
 	* Fix sheet removal undo to also undo changes to names and
 	  cells in other sheets.
 	* Save and load visibility sheet attribute.
+	* Fix 3D deps crash.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1

@@ -911,7 +911,8 @@ workbook_unlink_3d_dep (GnmDependent *dep)
 
 	if (wb->being_reordered)
 		return;
-	g_hash_table_remove (dep->sheet->workbook->sheet_order_dependents, dep);
+
+	g_hash_table_remove (wb->sheet_order_dependents, dep);
 }
 
 /*****************************************************************************/
@@ -1725,7 +1726,7 @@ cb_dep_hash_destroy (G_GNUC_UNUSED gpointer key,
 					closure->sheet->revive.dep_exprs =
 						g_slist_prepend
 						(g_slist_prepend (closure->sheet->revive.dep_exprs, e),
-						 dep);						
+						 dep);
 				}
 				dependent_set_expr (dep, newtree);
 				gnm_expr_unref (newtree);
@@ -1846,11 +1847,12 @@ handle_referencing_names (GnmDepContainer *deps, Sheet *sheet, gboolean destroy)
 	if (!names)
 		return;
 
-	if (destroy)
+	if (destroy) {
+		accum.deps = NULL;
 		deps->referencing_names = NULL;
+	} else
+		accum.deps = sheet->revive.relink;
 
-	/* collect the deps of the names */
-	accum.deps = NULL;
 	accum.names = NULL;
 	g_hash_table_foreach (names,
 			      (GHFunc)cb_collect_deps_of_names,
@@ -1878,7 +1880,24 @@ handle_referencing_names (GnmDepContainer *deps, Sheet *sheet, gboolean destroy)
 		g_slist_free (accum.deps);
 		g_hash_table_destroy (names);
 	} else
-		sheet->revive.name_deps = accum.deps;
+		sheet->revive.relink = accum.deps;
+}
+
+static void
+handle_outgoing_references (GnmDepContainer *deps, Sheet *sheet, gboolean destroy)
+{
+	DependentFlags what = DEPENDENT_USES_NAME;
+
+	what |= sheet->workbook->during_destruction
+		? DEPENDENT_GOES_INTERBOOK
+		: DEPENDENT_GOES_INTERSHEET;
+	DEPENDENT_CONTAINER_FOREACH_DEPENDENT (deps, dep, {
+		if (dependent_is_linked (dep) && (dep->flags & what)) {
+			dependent_unlink (dep);
+			if (!destroy)
+				sheet->revive.relink = g_slist_prepend (sheet->revive.relink, dep);
+		}
+	});
 }
 
 static void
@@ -1905,8 +1924,8 @@ clear_revive_info (Sheet *sheet)
 	g_slist_free (sheet->revive.dep_exprs);
 	sheet->revive.dep_exprs = NULL;
 
-	g_slist_free (sheet->revive.name_deps);
-	sheet->revive.name_deps = NULL;
+	g_slist_free (sheet->revive.relink);
+	sheet->revive.relink = NULL;
 }
 
 /*
@@ -1979,14 +1998,7 @@ do_deps_destroy (Sheet *sheet)
 	 * to other containers.  If the entire workbook is going away
 	 * just look for inter-book links.
 	 */
-	DEPENDENT_CONTAINER_FOREACH_DEPENDENT (deps, dep, {
-		if (dependent_is_linked (dep) &&
-		    ((dep->flags & DEPENDENT_USES_NAME) ||
-		     !dep->sheet->being_invalidated))
-			unlink_expr_dep (dep,
-					 dep->expression);
-		dep->flags &= ~DEPENDENT_LINK_FLAGS;
-	});
+	handle_outgoing_references (deps, sheet, TRUE);
 
 	g_free (deps);
 }
@@ -2026,15 +2038,52 @@ do_deps_invalidate (Sheet *sheet)
 	 * to other containers.  If the entire workbook is going away
 	 * just look for inter-book links.
 	 */
-	DEPENDENT_CONTAINER_FOREACH_DEPENDENT (deps, dep, {
-		if (dependent_is_linked (dep) &&
-		    ((dep->flags & DEPENDENT_USES_NAME) ||
-		     !dep->sheet->being_invalidated))
-			unlink_expr_dep (dep,
-					 dep->expression);
-		dep->flags &= ~DEPENDENT_LINK_FLAGS;
-	});
+	handle_outgoing_references (deps, sheet, FALSE);
 }
+
+static void
+cb_tweak_3d (GnmDependent *dep, G_GNUC_UNUSED gpointer value, GSList **deps)
+{
+	*deps = g_slist_prepend (*deps, dep);
+}
+
+static void
+tweak_3d (Sheet *sheet, gboolean destroy)
+{
+	Workbook *wb = sheet->workbook;
+	GSList *deps = NULL, *l;
+	GnmExprRewriteInfo rwinfo;
+
+	if (!wb->sheet_order_dependents)
+		return;
+
+	g_hash_table_foreach (wb->sheet_order_dependents,
+			      (GHFunc)cb_tweak_3d,
+			      &deps);
+
+	rwinfo.type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
+	for (l = deps; l; l = l->next) {
+		GnmDependent *dep = l->data;
+		GnmExpr *e = (GnmExpr *)dep->expression;
+		const GnmExpr *newtree = gnm_expr_rewrite (e, &rwinfo);
+
+		if (newtree != NULL) {
+			if (!destroy) {
+				gnm_expr_ref (e);
+				sheet->revive.dep_exprs =
+					g_slist_prepend
+					(g_slist_prepend (sheet->revive.dep_exprs, e),
+					 dep);
+			}
+			dependent_set_expr (dep, newtree);
+			gnm_expr_unref (newtree);
+			dependent_link (dep);
+			dependent_changed (dep);
+		}
+	}
+	g_slist_free (deps);
+}
+
 
 void
 dependents_invalidate_sheet (Sheet *sheet, gboolean destroy)
@@ -2052,19 +2101,27 @@ void
 dependents_invalidate_sheets (GSList *sheets, gboolean destroy)
 {
 	GSList *tmp;
-
-	/*
-	 * FIXME: this should probably take care of fixing-up 3d deps.
-	 * A slight amount of care is needed for this since we really
-	 * only want to do that once per workbook.
-	 *
-	 * Further, if !destroy, add changes to the revive data.
-	 */
+	Workbook *last_wb;
 
 	/* Mark all first.  */
 	for (tmp = sheets; tmp; tmp = tmp->next) {
 		Sheet *sheet = tmp->data;
 		sheet->being_invalidated = TRUE;
+	}
+
+	/*
+	 * Fixup 3d refs that start or end on one of these sheets.
+	 * Ideally we do this one per workbook, but that is not critical
+	 * so we are not going to outright sort the sheet list.
+	 */
+	last_wb = NULL;
+	for (tmp = sheets; tmp; tmp = tmp->next) {
+		Sheet *sheet = tmp->data;
+		Workbook *wb = sheet->workbook;
+
+		if (wb != last_wb)
+			tweak_3d (sheet, destroy);
+		last_wb = wb;
 	}
 
 	/* Now invalidate.  */
@@ -2133,24 +2190,14 @@ dependents_revive_sheet (Sheet *sheet)
 		dependent_changed (dep);
 	}
 
-	dependents_link (sheet->revive.name_deps);
-
-	/*
-	 * Re-link dependencies.  Warning: do not link inside the
-	 * loop as that causes interesting effects.
-	 */
-	l = NULL;
-	DEPENDENT_CONTAINER_FOREACH_DEPENDENT (sheet->deps, dep, {
-		if (!dependent_is_linked (dep))
-			l = g_slist_prepend (l, dep);
-	});
-	dependents_link (l);
-	g_slist_free (l);
+	dependents_link (sheet->revive.relink);
 
 	/* Re-link local names.  */
 	gnm_named_expr_collection_relink (sheet->names);
 
 	clear_revive_info (sheet);
+
+	gnm_dep_container_sanity_check (sheet->deps);
 }
 
 void
@@ -2392,6 +2439,8 @@ gnm_dep_container_dump (GnmDepContainer const *deps)
 
 	g_return_if_fail (deps != NULL);
 
+	gnm_dep_container_sanity_check (deps);
+
 	for (i = (SHEET_MAX_ROWS - 1) / BUCKET_SIZE; i >= 0 ; i--) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL && g_hash_table_size (hash) > 0) {
@@ -2422,6 +2471,40 @@ gnm_dep_container_dump (GnmDepContainer const *deps)
 		g_hash_table_foreach (deps->referencing_names,
 				      dump_name_dep, NULL);
 	}
+}
+
+void
+gnm_dep_container_sanity_check (GnmDepContainer const *deps)
+{
+	const GnmDependent *dep;
+	GHashTable *seenb4;
+
+	if (deps->head && !deps->tail)
+		g_warning ("Dependency container %p has head, but no tail.", deps);
+	if (deps->tail && !deps->head)
+		g_warning ("Dependency container %p has tail, but no head.", deps);
+	if (deps->head && deps->head->prev_dep)
+		g_warning ("Dependency container %p has head, but not at the beginning.", deps);
+	if (deps->tail && deps->tail->next_dep)
+		g_warning ("Dependency container %p has tail, but not at the end.", deps);
+
+	seenb4 = g_hash_table_new (g_direct_hash, g_direct_equal);
+	for (dep = deps->head; dep; dep = dep->next_dep) {
+		if (dep->prev_dep && (dep->prev_dep->next_dep != dep))
+			g_warning ("Dependency container %p has left double-link failure at %p.", deps, dep);
+		if (dep->next_dep && (dep->next_dep->prev_dep != dep))
+			g_warning ("Dependency container %p has right double-link failure at %p.", deps, dep);
+		if (!dep->next_dep && dep != deps->tail)
+			g_warning ("Dependency container %p ends before its tail.", deps);
+		if (!dependent_is_linked (dep))
+			g_warning ("Dependency container %p contains unlinked dependency %p.", deps, dep);
+		if (g_hash_table_lookup (seenb4, dep)) {
+			g_warning ("Dependency container %p is circular.", deps);
+			break;
+		}
+		g_hash_table_insert (seenb4, (gpointer)dep, (gpointer)dep);
+	}
+	g_hash_table_destroy (seenb4);
 }
 
 /**

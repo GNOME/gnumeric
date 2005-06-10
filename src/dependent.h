@@ -109,6 +109,7 @@ void workbook_queue_all_recalc	  (Workbook *wb);
 
 GnmDepContainer *gnm_dep_container_new  (void);
 void		 gnm_dep_container_dump	(GnmDepContainer const *deps);
+void             gnm_dep_container_sanity_check (GnmDepContainer const *deps);
 
 #define DEPENDENT_CONTAINER_FOREACH_DEPENDENT(dc, dep, code)	\
   do {								\

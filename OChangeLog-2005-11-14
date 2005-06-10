@@ -1,5 +1,18 @@
 2005-06-10  Morten Welinder  <terra@gnome.org>
 
+	* src/dependent.c (gnm_dep_container_sanity_check): New function.
+	(dependents_revive_sheet): Check sanity here.
+	(gnm_dep_container_dump): And here.
+	(handle_outgoing_references): New function.  Properly unlink
+	dependencies that reference stuff outside current sheet.
+	(do_deps_destroy, do_deps_invalidate): Use
+	handle_outgoing_references.
+
+	* src/dependent.c (dependents_invalidate_sheets): Handle 3d deps
+	here.  Avoid crashes by not modifying the hash while we go over
+	it.
+	* src/workbook.c (workbook_sheet_delete): Not here.
+
 	* src/xml-sax-write.c (xml_write_sheet): Write visibility.
 
 	* src/xml-sax-read.c (xml_sax_attr_enum): New function.

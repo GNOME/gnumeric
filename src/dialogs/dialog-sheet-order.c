@@ -467,7 +467,7 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	GtkTreeIter this_iter;
 	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheet_list);
 	int i = 0;
-	char *name, *old_name, *new_name;
+	char *name;
 
 	if (!gtk_tree_selection_get_selected (selection, NULL, &sel_iter))
 		gtk_list_store_append (state->model, &iter);
@@ -484,6 +484,8 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 		sprintf (name, _("Sheet%d"), i);
 		while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
 						       &this_iter, NULL, n)) {
+			char *old_name, *new_name;
+
 			gtk_tree_model_get (GTK_TREE_MODEL (state->model), &this_iter,
 					    SHEET_NAME, &old_name,
 					    SHEET_NEW_NAME, &new_name,
@@ -491,6 +493,8 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 			n++;
 			match = (new_name != NULL && !strcmp (name, new_name)) ||
 				(old_name != NULL && !strcmp (name, old_name));
+			g_free (old_name);
+			g_free (new_name);
 			if (match)
 				break;
 		}

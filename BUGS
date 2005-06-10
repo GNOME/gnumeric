@@ -639,7 +639,8 @@ Short Term Goals
     34.5) Base sheet removal undo on just keeping a ref                 (DONE)
     34.6) Track changes to names during sheet detach for undo.          (DONE)
     34.7) Track changes to cells during sheet detach for undo.          (DONE)
-    34.8) Rework sheet reorganize dialog to new scheme.
+    34.8) Track changes to 3d deps during sheet detach for undo.        (DONE)
+    34.9) Rework sheet reorganize dialog to new scheme.
 
 Misc stuff that should be fixed
 -------------------------------
