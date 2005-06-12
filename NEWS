@@ -78,6 +78,7 @@ Morten:
 	* Fix 3D deps crash.
 	* Fix 3D dependencies spanning more than one sheet.  (I.e., all.)
 	* Fix dynamic dependency crash on exit.
+	* Plug leaks of sheet views.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.1

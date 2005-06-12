@@ -129,6 +129,8 @@ wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
 
 	WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
 		wb_control_sheet_add (control, new_view););
+
+	g_object_unref (new_view);
 }
 
 void

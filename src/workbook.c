@@ -136,7 +136,7 @@ workbook_dispose (GObject *wb_object)
 	if (wb->wb_views != NULL) {
 		WORKBOOK_FOREACH_VIEW (wb, view, {
 			workbook_detach_view (view);
-			g_object_unref (G_OBJECT (view));
+			g_object_unref (view);
 		});
 		if (wb->wb_views != NULL)
 			g_warning ("Unexpected left over views");
@@ -744,15 +744,12 @@ workbook_attach_view (Workbook *wb, WorkbookView *wbv)
 void
 workbook_detach_view (WorkbookView *wbv)
 {
-	SheetView *sv;
-
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 	g_return_if_fail (IS_WORKBOOK (wbv->wb));
 
 	WORKBOOK_FOREACH_SHEET (wbv->wb, sheet, {
-		sv = sheet_get_view (sheet, wbv);
+		SheetView *sv = sheet_get_view (sheet, wbv);
 		sv_dispose (sv);
-		g_object_unref (G_OBJECT (sv));
 	});
 
 	g_ptr_array_remove (wbv->wb->wb_views, wbv);
@@ -1084,7 +1081,6 @@ workbook_sheet_delete (Sheet *sheet)
 	/* Clear the controls first, before we potentially update */
 	SHEET_FOREACH_VIEW (sheet, view, {
 		sv_dispose (view);
-		g_object_unref (G_OBJECT (view));
 	});
 
 	g_signal_emit_by_name (G_OBJECT (sheet), "detached_from_workbook", wb);

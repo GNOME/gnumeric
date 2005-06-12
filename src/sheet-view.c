@@ -191,6 +191,7 @@ sv_real_dispose (GObject *object)
 		sv->sheet = NULL;
 		g_ptr_array_remove (sheet->sheet_views, sv);
 		g_signal_handlers_disconnect_by_func (sheet, sv_sheet_name_changed, sv);
+		g_object_unref (sv);
 		g_object_unref (sheet);
 	}
 
@@ -251,6 +252,7 @@ sheet_view_new (Sheet *sheet, WorkbookView *wbv)
 	sv->sheet = g_object_ref (sheet);
 	sv->wbv = wbv;
 	g_ptr_array_add (sheet->sheet_views, sv);
+	g_object_ref (sv);
 
 	g_signal_connect (G_OBJECT (sheet),
 			  "notify::name",
