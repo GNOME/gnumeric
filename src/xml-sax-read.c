@@ -1672,6 +1672,11 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
 };
 static GsfXMLInDoc *gnm_sax_in_doc;
 
+#if 0
+I do not like this interface
+- We may want per node unknown handlers although I am not sure the space is worth the time
+- We need a link from the new nodes added to the plugin that supplied them
+
 static gboolean
 xml_sax_unknown (GsfXMLIn *state, xmlChar const *elem, xmlChar const **attrs)
 {
@@ -1681,11 +1686,12 @@ xml_sax_unknown (GsfXMLIn *state, xmlChar const *elem, xmlChar const **attrs)
 
 	if (GNM == state->node->ns_id &&
 	    0 == strcmp (state->node->id, "SHEET_OBJECTS")) {
-		// xml_sax_object_start (state, *attrs);
 		g_warning ("unknown : %s", state->node->name);
+		return TRUE;
 	}
 	return FALSE;
 }
+#endif
 
 static GsfInput *
 maybe_gunzip (GsfInput *input)
@@ -1776,7 +1782,10 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 
 	if (NULL == gnm_sax_in_doc) {
 		gnm_sax_in_doc = gsf_xml_in_doc_new (gnumeric_1_0_dtd, content_ns);
+#if 0
 		gsf_xml_in_doc_set_unknown_handler (gnm_sax_in_doc, &xml_sax_unknown);
+#endif
+#warning I doubt the life cycle issues of nodes from plugins are worth the gain from caching this
 		g_object_set_data_full (gnm_app_get_app (),
 			"GnmXMLSaxDoc", gnm_sax_in_doc,
 			(GDestroyNotify) gsf_xml_in_doc_free);
