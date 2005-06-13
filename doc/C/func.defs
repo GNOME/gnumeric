@@ -6509,6 +6509,9 @@ R.QGAMMA:probability quantile function of the gamma distribution.
 R.QGEOM:probability quantile function of the geometric distribution.
 
 @CATEGORY=Statistics
+R.QHYPER:probability quantile function of the hypergeometric distribution.
+
+@CATEGORY=Statistics
 R.QLNORM:probability quantile function of the log-normal distribution.
 
 @CATEGORY=Statistics
@@ -6944,6 +6947,16 @@ Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 2
 ZTEST(A1:A5,20) equals 0.254717826.
 
 @SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE
+
+@CATEGORY=String
+@FUNCTION=ASC
+@SYNTAX=ASC(string)
+@DESCRIPTION=ASC a compatibility function that is meaningless in Gnumeric.  In MS Excel (tm) it converts 2 byte @string into single byte text.
+
+@EXAMPLES=
+CHAR("Foo") equals "Foo".
+
+@SEEALSO=
 
 @CATEGORY=String
 @FUNCTION=CHAR

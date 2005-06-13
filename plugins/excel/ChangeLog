@@ -1,3 +1,7 @@
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
 2005-06-02  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c (excel_parse_formula) : slight improvement of

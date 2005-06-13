@@ -1,5 +1,9 @@
 2005-06-13  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.5.2
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
 	* src/expr-name.c (gnm_named_expr_collection_lookup) : be more
 	  careful.
 

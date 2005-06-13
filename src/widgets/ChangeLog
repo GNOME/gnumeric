@@ -1,3 +1,7 @@
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
 2005-06-10  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_load_from_range) : respect the

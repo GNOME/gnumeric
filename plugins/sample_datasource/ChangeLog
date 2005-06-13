@@ -1,3 +1,7 @@
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
 2005-05-23  Stepan Kasal  <kasal@ucw.cz>
 
 	* sample_datasource.c (atl_last): Adapt to the new definition

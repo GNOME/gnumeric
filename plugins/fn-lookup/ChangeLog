@@ -1,3 +1,7 @@
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
 2005-06-07  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_indirect) : handle R1C1

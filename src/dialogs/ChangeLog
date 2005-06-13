@@ -1,3 +1,7 @@
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
 2005-06-12  Morten Welinder  <terra@gnome.org>
 
 	* dialog-sheet-order.c (cb_ok_clicked): Fix harmless, but scary

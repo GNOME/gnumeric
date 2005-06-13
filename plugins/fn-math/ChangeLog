@@ -1,3 +1,7 @@
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
 2005-05-10  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_sumif): Yet another inter-sheet fix.

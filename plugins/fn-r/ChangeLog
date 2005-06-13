@@ -1,3 +1,7 @@
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
 2005-06-01  Morten Welinder  <terra@gnome.org>
 
 	* extra.c (qcauchy): Fix log(p)=0 case.

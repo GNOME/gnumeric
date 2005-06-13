@@ -1,3 +1,7 @@
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
 2005-05-11  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_lognormdist) : stddev <= 0 == #NUM! not #DIV/0!
