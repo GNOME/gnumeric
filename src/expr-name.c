@@ -163,10 +163,13 @@ static GnmNamedExpr *
 gnm_named_expr_collection_lookup (GnmNamedExprCollection const *scope,
 				  char const *name)
 {
-	GnmNamedExpr *nexpr = g_hash_table_lookup (scope->names, name);
-	if (nexpr == NULL)
-		nexpr = g_hash_table_lookup (scope->placeholders, name);
-	return nexpr;
+	if (scope != NULL) {
+		GnmNamedExpr *nexpr = g_hash_table_lookup (scope->names, name);
+		if (nexpr == NULL)
+			nexpr = g_hash_table_lookup (scope->placeholders, name);
+		return nexpr;
+	} else
+		return NULL;
 }
 
 static void
@@ -801,8 +804,13 @@ sheet_names_check (Sheet const *sheet, GnmRange const *r)
 	tmp = *r;
 	range_normalize (&tmp);
 	nexpr = gnm_named_expr_collection_check (sheet->names, sheet, &tmp);
-	if (nexpr == NULL)
+	if (nexpr == NULL) {
 		nexpr = gnm_named_expr_collection_check (sheet->workbook->names, sheet, &tmp);
+		/* The global name is not accessible if there is a local name (#306685) */
+		if (nexpr != NULL &&
+		    gnm_named_expr_collection_lookup (sheet->names, nexpr->name->str) != NULL)
+			return NULL;
+	}
 
 	return (nexpr != NULL) ? nexpr->name->str : NULL;
 }
