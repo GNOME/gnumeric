@@ -1,3 +1,7 @@
+2005-06-12  Jody Goldberg <jody@gnome.org>
+
+	* src/value.c (value_get_as_bool) : handle err == NULL
+
 2005-06-12  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook.c (workbook_detach_view): Just dispose of the view.
@@ -198,6 +202,10 @@
 
 	* tools/gconf-schemas-to-win32-reg.c (convert_schemalist):
 	  Use REGEDIT4 so that Win9x knows.
+
+2005-06-03  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric.h : s/GnmRow/GnmStyleRow/  That is clearer
 
 2005-06-03  Jody Goldberg <jody@gnome.org>
 

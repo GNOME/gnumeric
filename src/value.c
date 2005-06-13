@@ -791,7 +791,8 @@ value_hash (GnmValue const *v)
 gboolean
 value_get_as_bool (GnmValue const *v, gboolean *err)
 {
-	*err = FALSE;
+	if (err)
+		*err = FALSE;
 
 	if (v == NULL)
 		return FALSE;
@@ -818,7 +819,8 @@ value_get_as_bool (GnmValue const *v, gboolean *err)
 	case VALUE_CELLRANGE:
 	case VALUE_ARRAY:
 	case VALUE_ERROR:
-		*err = TRUE;
+		if (err)
+			*err = TRUE;
 	}
 	return FALSE;
 }

@@ -8,11 +8,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    : tie the custom ui into action sensitivity pools
-    : support array evaluation for =LARGE and friends
-    : TRIMEAN is a list function ?
-    : ISREF is a list function ?
-
     : http://bugzilla.gnome.org/show_bug.cgi?id=159581
     : http://bugzilla.gnome.org/show_bug.cgi?id=162951 : trivial
     : Add a note to the SUMPRODUCT docs that
@@ -59,6 +54,11 @@ Worries
       ** (gnumeric:3193): CRITICAL **: oo_style_prop_cell: assertion `style != NULL' failed
       ** (gnumeric:3193): WARNING **: Unexpected element 'style:tab-stops' in state properties.
       {catch all)} -> {catch all)} -> styles -> 
+
+    : tie the custom ui into action sensitivity pools
+    : support array evaluation for =LARGE and friends
+    : TRIMEAN is a list function ?
+    : ISREF is a list function ?
 
 -------------------------------------------------------------------------------
 Blocked Patches
@@ -641,6 +641,11 @@ Short Term Goals
     34.7) Track changes to cells during sheet detach for undo.          (DONE)
     34.8) Track changes to 3d deps during sheet detach for undo.        (DONE)
     34.9) Rework sheet reorganize dialog to new scheme.
+
+35) Accessibility
+    We can use
+	http://bugzilla.gnome.org/attachment.cgi?id=47315&action=view
+    as a template
 
 Misc stuff that should be fixed
 -------------------------------
