@@ -60,7 +60,7 @@
 
 #include <string.h>
 
-#define PLUGIN_MANAGER_DIALOG_KEY "zoom-dialog"
+#define PLUGIN_MANAGER_DIALOG_KEY "plugin-manager-dialog"
 
 typedef struct {
 	GOCmdContext	*cc;
