@@ -69,6 +69,9 @@ features+= --without-gb
 # Paradox database files plugin
 features+= --with-paradox
 
+# Spreadsheet indexer for beagle
+features+= --enable-ssindex
+
 confflags :=	--prefix=/usr --sysconfdir=/etc \
 		--localstatedir=/var/lib \
 		--libexecdir=/usr/bin \
@@ -261,7 +264,7 @@ binary-arch: build install
 	dh_buildinfo
 
 	dh_fixperms -a
-#	dh_makeshlibs -a
+	dh_makeshlibs -a
 	dh_installdeb -a
 #	dh_perl -a
 
