@@ -99,6 +99,7 @@
 #define GNM_CONF_GUI_WINDOW_X		"window/x"
 #define GNM_CONF_GUI_WINDOW_Y		"window/y"
 #define GNM_CONF_GUI_ZOOM		"window/zoom"
+#define GNM_CONF_GUI_TOOLBARS		"toolbars"
 
 #define GNM_CONF_XML_COMPRESSION	"core/xml/compression-level"
 

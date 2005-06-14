@@ -34,6 +34,7 @@
 #include "history.h"
 #include "style-color.h"
 #include "workbook-edit.h"
+#include "gnumeric-gconf.h"
 
 #include <goffice/gtk/go-action-combo-stack.h>
 #include <goffice/gtk/go-action-combo-color.h>
@@ -1185,7 +1186,11 @@ cb_handlebox_visible (GtkWidget *box, G_GNUC_UNUSED GParamSpec *pspec,
 {
 	GtkToggleAction *toggle_action = g_object_get_data (
 		G_OBJECT (box), "toggle_action");
-	gtk_toggle_action_set_active (toggle_action, GTK_WIDGET_VISIBLE (box));
+	const char *name = g_object_get_data (G_OBJECT (box), "name");
+	gboolean visible = GTK_WIDGET_VISIBLE (box);
+
+	gtk_toggle_action_set_active (toggle_action, visible);
+	gnm_gconf_set_toolbar_visible (name, visible);
 }
 
 static void
@@ -1199,16 +1204,20 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		char const *name = gtk_widget_get_name (w);
 		char *toggle_name = g_strdup_printf ("ViewMenuToolbar%s", name);
 		char *tooltip = g_strdup_printf (_("Show/Hide toolbar %s"), _(name));
+		gboolean visible = gnm_gconf_get_toolbar_visible (name);
 
 		gtk_container_add (GTK_CONTAINER (box), w);
+		gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), TRUE);
+		gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
+		gtk_widget_show_all (box);
+		if (!visible)
+			gtk_widget_hide (box);
+		gtk_box_pack_start (GTK_BOX (gtk->toolbar_zone), box, FALSE, FALSE, 0);
 		g_object_connect (box,
 			"signal::notify::visible", G_CALLBACK (cb_handlebox_visible), wbcg,
 			"signal::child_attached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (TRUE),
 			"signal::child_detached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (FALSE),
 			NULL);
-		gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), TRUE);
-		gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
-		gtk_box_pack_start (GTK_BOX (gtk->toolbar_zone), box, FALSE, FALSE, 0);
 
 		entry.name = toggle_name;
 		entry.stock_id = NULL;
@@ -1216,7 +1225,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		entry.accelerator = (0 == strcmp (name, "StandardToolbar")) ? "<control>7" : NULL;
 		entry.tooltip = tooltip;
 		entry.callback = G_CALLBACK (cb_toolbar_activate);
-		entry.is_active = TRUE;
+		entry.is_active = visible;
 		gtk_action_group_add_toggle_actions (gtk->toolbar.actions,
 			&entry, 1, (WorkbookControlGUI *)wbcg);
 		gtk_ui_manager_add_ui (gtk->ui, gtk->toolbar.merge_id,
@@ -1224,6 +1233,9 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 			toggle_name, toggle_name, GTK_UI_MANAGER_AUTO, FALSE);
 		g_object_set_data (G_OBJECT (box), "toggle_action",
 			gtk_action_group_get_action (gtk->toolbar.actions, toggle_name));
+		g_object_set_data_full (G_OBJECT (box), "name",
+					g_strdup (name),
+					(GDestroyNotify)g_free);
 
 		g_hash_table_insert (wbcg->visibility_widgets,
 			g_strdup (toggle_name), g_object_ref (box));
@@ -1234,9 +1246,10 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 
 		g_free (tooltip);
 		g_free (toggle_name);
-	} else
+	} else {
 		gtk_box_pack_start (GTK_BOX (gtk->menu_zone), w, FALSE, TRUE, 0);
-	gtk_widget_show_all (w);
+		gtk_widget_show_all (w);
+	}
 }
 
 static void
@@ -1366,12 +1379,12 @@ wbc_gtk_init (GObject *obj)
 		gtk->menu_zone, FALSE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (gtk->everything),
 		gtk->toolbar_zone, FALSE, TRUE, 0);
-	gtk_widget_show_all (gtk->everything);
 #if 0
 	bonobo_dock_set_client_area (BONOBO_DOCK (gtk->dock), wbcg->table);
 #endif
 	gtk_box_pack_start (GTK_BOX (gtk->everything),
 		wbcg->table, TRUE, TRUE, 0);
+	gtk_widget_show_all (gtk->everything);
 
 #warning "TODO split into smaller chunks"
 	gtk->permanent_actions = gtk_action_group_new ("PermanentActions");
@@ -1443,7 +1456,6 @@ wbc_gtk_init (GObject *obj)
 		NULL);
 
 	gtk_ui_manager_ensure_update (gtk->ui);
-	gtk_widget_show_all (gtk->everything);
 	gtk_container_add (GTK_CONTAINER (wbcg->toplevel), gtk->everything);
 
 #ifdef CHECK_MENU_UNDERLINES

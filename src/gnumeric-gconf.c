@@ -1289,6 +1289,10 @@ gnm_conf_init_essential (void)
 		  node, GNM_CONF_GUI_ED_AUTOCOMPLETE, TRUE);
 	prefs.live_scrolling = go_conf_load_bool (
 		  node, GNM_CONF_GUI_ED_LIVESCROLLING, TRUE);
+	prefs.toolbars = g_hash_table_new_full
+		(g_str_hash, g_str_equal,
+		 (GDestroyNotify)g_free,
+		 NULL);
 	go_conf_free_node (node);
 
 	/* Unfortunately we need the printing stuff in essentials since the */
@@ -1449,6 +1453,7 @@ gnm_conf_shutdown (void)
 		mstyle_unref (prefs.printer_decoration_font);
 		prefs.printer_decoration_font = NULL;
 	}
+	g_hash_table_destroy (prefs.toolbars);
 	go_conf_free_node (root);
 	go_conf_shutdown ();
 }
@@ -1918,6 +1923,45 @@ gnm_gconf_set_gui_resolution_v (gnm_float val)
 	prefs.vertical_dpi = val;
 	go_conf_set_double (
 		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_RES_V, val);
+}
+
+gboolean
+gnm_gconf_get_toolbar_visible (const char *name)
+{
+	gpointer pval;
+	char *key = g_strconcat (GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_TOOLBARS "/",
+				 name,
+				 NULL);
+	gboolean found, vis;
+
+	found = g_hash_table_lookup_extended (prefs.toolbars,
+					      key,
+					      NULL, &pval);
+	if (found) {
+		vis = GPOINTER_TO_INT (pval);
+	} else {
+		vis = go_conf_load_bool (root, key, TRUE);
+		g_hash_table_insert (prefs.toolbars,
+				     g_strdup (name),
+				     GINT_TO_POINTER (vis));
+	}
+
+	g_free (key);
+	return vis;
+}
+
+void
+gnm_gconf_set_toolbar_visible (const char *name, gboolean vis)
+{
+	char *key = g_strconcat (GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_TOOLBARS "/",
+				 name,
+				 NULL);
+	vis = !!vis;
+	g_hash_table_replace (prefs.toolbars,
+			      g_strdup (name),
+			      GINT_TO_POINTER (vis));
+	go_conf_set_bool (root, key, vis);
+	g_free (key);
 }
 
 void     

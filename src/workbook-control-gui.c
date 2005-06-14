@@ -1245,8 +1245,8 @@ wbcg_error_error_info (GOCmdContext *cc, ErrorInfo *error)
  */
 int
 wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
-				WorkbookView *wb_view, gboolean close_clean,
-				gboolean exiting, gboolean ask_user)
+			    WorkbookView *wb_view, gboolean close_clean,
+			    gboolean exiting, gboolean ask_user)
 {
 	gboolean   can_close = TRUE;
 	gboolean   done      = FALSE;

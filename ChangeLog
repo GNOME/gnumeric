@@ -1,3 +1,12 @@
+2005-06-14  Morten Welinder  <terra@gnome.org>
+
+	* src/gnumeric-gconf.c (gnm_gconf_get_toolbar_visible,
+	gnm_gconf_set_toolbar_visible): New functions.
+
+	* src/wbc-gtk.c (cb_add_menus_toolbars): Set toolbar visibility.
+	(cb_handlebox_visible): Make changes to visibility permanent.
+	(wbc_gtk_init): Don't set everything visible.
+
 2005-06-13  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
