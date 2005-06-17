@@ -1,3 +1,9 @@
+2005-06-17  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-export.c (stf_export_dialog_finish): Use the right
+	combo box when figuring out formatting to use.  Don't set
+	quoting-triggers unless we're in auto-quote-mode.  Fixes #308109.
+
 2005-06-13  Morten Welinder  <terra@gnome.org>
 
 	* dialog-plugin-manager.c (PLUGIN_MANAGER_DIALOG_KEY): Don't

@@ -2,6 +2,8 @@ Gnumeric 1.5.3
 
 Morten:
 	* Make changes to toolbar visibility permanent.
+	* Fix stf export quoting problem.  [#308109]
+	* Fix stf export format problem.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.2

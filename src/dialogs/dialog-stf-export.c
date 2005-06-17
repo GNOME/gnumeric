@@ -172,7 +172,7 @@ stf_export_dialog_finish (TextExportState *state)
 	GnmStfTransliterateMode transliteratemode;
 	GnmStfFormatMode format;
 	const char *eol;
-	GString *triggers = g_string_new (" \t");
+	GString *triggers = g_string_new (NULL);
 	char *separator, *quote;
 	const char *charset;
 
@@ -197,7 +197,7 @@ stf_export_dialog_finish (TextExportState *state)
 	case 1 :  transliteratemode = GNM_STF_TRANSLITERATE_MODE_ESCAPE; break;
 	}
 
-	switch (gtk_combo_box_get_active (state->format.quote)) {
+	switch (gtk_combo_box_get_active (state->format.format)) {
 	default:
 	case 0: format = GNM_STF_FORMAT_AUTO; break;
 	case 1: format = GNM_STF_FORMAT_RAW; break;
@@ -225,9 +225,12 @@ stf_export_dialog_finish (TextExportState *state)
 
 	charset = go_charmap_sel_get_encoding (GO_CHARMAP_SEL (state->format.charset));
 
-	g_string_append (triggers, eol);
-	g_string_append (triggers, quote);
-	g_string_append (triggers, separator);
+	if (quotingmode == GSF_OUTPUT_CSV_QUOTING_MODE_AUTO) {
+		g_string_append (triggers, " \t");
+		g_string_append (triggers, eol);
+		g_string_append (triggers, quote);
+		g_string_append (triggers, separator);
+	}
 
 	state->result = g_object_new
 		(GNM_STF_EXPORT_TYPE,
