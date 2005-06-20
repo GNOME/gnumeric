@@ -1316,12 +1316,16 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		int x = expr->array.x;
 		int y = expr->array.y;
 		if (x == 0 && y == 0) {
+			GnmEvalPos range_pos = *pos;
+			range_pos.cols = expr->array.cols;
+			range_pos.rows = expr->array.rows;
+
 			/* Release old value if necessary */
 			a = expr->array.corner.value;
 			if (a != NULL)
 				value_release (a);
 
-			a = gnm_expr_eval (expr->array.corner.expr, pos,
+			a = gnm_expr_eval (expr->array.corner.expr, &range_pos,
 				flags | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 
 			/* Store real result (cast away const)*/

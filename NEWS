@@ -1,5 +1,9 @@
 Gnumeric 1.5.3
 
+Jody:
+	* Handle ROW/COLUMN with no argument in an array.
+	* Fix problems with row height resizing on win32. [#163414]
+
 Morten:
 	* Make changes to toolbar visibility permanent.
 	* Fix stf export quoting problem.  [#308109]

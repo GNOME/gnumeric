@@ -33,6 +33,7 @@
 #include <str.h>
 #include <sheet.h>
 #include <value.h>
+#include <ranges.h>
 #include <expr.h>
 #include <expr-impl.h>
 #include <expr-impl.h>
@@ -951,35 +952,33 @@ static GnmFuncHelp const help_column[] = {
 static GnmValue *
 gnumeric_column (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
+	int col, width, height, i, j;
+	GnmValue *res;
 	GnmValue const *ref = args[0];
 
-	if (!ref)
-		return value_new_int (ei->pos->eval.col + 1);
+	if (ref == NULL) {
+		col   = ei->pos->eval.col + 1; /* user visible counts from 0 */
+		width = ei->pos->cols;
+		height= ei->pos->rows;
+	} else if (ref->type == VALUE_CELLRANGE) {
+		Sheet    *tmp;
+		GnmRange  r;
 
-	switch (ref->type) {
-	case VALUE_CELLRANGE: {
-		int width = value_area_get_width (ref, ei->pos);
-		int height = value_area_get_height (ref, ei->pos);
-		GnmCellRef const *const refa = &ref->v_range.cell.a;
-		int col = cellref_get_abs_col (refa, ei->pos) + 1;
-		int i, j;
-		GnmValue *res;
+		rangeref_normalize (&ref->v_range.cell, ei->pos, &tmp, &tmp, &r);
+		col    = r.start.col + 1;
+		width  = range_width (&r);
+		height = range_height (&r);
+	} else
+		return value_new_error_VALUE (ei->pos);
 
-		if (width == 1 && height == 1)
-			return value_new_int (col);
+	if (width == 1 && height == 1)
+		return value_new_int (col);
 
-		res = value_new_array (width, height);
-		for (i = width - 1; i >= 0 ; --i)
-			for (j = height - 1 ; j >= 0 ; --j)
-				value_array_set (res, i, j,
-						 value_new_int (col + i));
-		return res;
-	}
-
-	default: /* Nothing */ ;
-	}
-
-	return value_new_error_VALUE (ei->pos);
+	res = value_new_array (width, height);
+	for (i = width; i-- > 0 ; )
+		for (j = height ; j-- > 0 ; )
+			value_array_set (res, i, j, value_new_int (col + i));
+	return res;
 }
 
 /***************************************************************************/
@@ -1131,35 +1130,33 @@ static GnmFuncHelp const help_row[] = {
 static GnmValue *
 gnumeric_row (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
+	int row, width, height, i, j;
+	GnmValue *res;
 	GnmValue const *ref = args[0];
 
-	if (!ref)
-		return value_new_int (ei->pos->eval.row + 1);
+	if (ref == NULL) {
+		row   = ei->pos->eval.row + 1; /* user visible counts from 0 */
+		width = ei->pos->cols;
+		height= ei->pos->rows;
+	} else if (ref->type == VALUE_CELLRANGE) {
+		Sheet    *tmp;
+		GnmRange  r;
 
-	switch (ref->type) {
-	case VALUE_CELLRANGE: {
-		int width  = value_area_get_width (ref, ei->pos);
-		int height = value_area_get_height (ref, ei->pos);
-		GnmCellRef const *const refa = &ref->v_range.cell.a;
-		int row    = cellref_get_abs_row (refa, ei->pos) + 1;
-		int i, j;
-		GnmValue *res;
+		rangeref_normalize (&ref->v_range.cell, ei->pos, &tmp, &tmp, &r);
+		row    = r.start.row + 1;
+		width  = range_width (&r);
+		height = range_height (&r);
+	} else
+		return value_new_error_VALUE (ei->pos);
 
-		if (width == 1 && height == 1)
-			return value_new_int (row);
+	if (width == 1 && height == 1)
+		return value_new_int (row);
 
-		res = value_new_array (width, height);
-		for (i = width - 1; i >= 0 ; --i)
-			for (j = height - 1 ; j >= 0 ; --j)
-				value_array_set (res, i, j,
-						 value_new_int (row + j));
-		return res;
-	}
-
-	default: /* Nothing */ ;
-	}
-
-	return value_new_error_VALUE (ei->pos);
+	res = value_new_array (width, height);
+	for (j = height ; j-- > 0 ; )
+		for (i = width; i-- > 0 ; )
+			value_array_set (res, i, j, value_new_int (row + j));
+	return res;
 }
 
 /***************************************************************************/

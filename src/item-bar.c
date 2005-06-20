@@ -971,7 +971,13 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 			if (ib->tip == NULL) {
 				ib->tip = gnumeric_create_tooltip ();
 				colrow_tip_setlabel (ib, is_cols, ib->colrow_resize_size);
-				gnumeric_position_tooltip (ib->tip, is_cols);
+				/* Position above the current point for both
+				 * col and row headers.  trying to put it
+				 * beside for row headers often ends up pushing
+				 * the tip under the cursor which can have odd
+				 * effects on the event stream.  win32 was
+				 * different from X. */
+				gnumeric_position_tooltip (ib->tip, TRUE);
 				gtk_widget_show_all (gtk_widget_get_toplevel (ib->tip));
 			}
 		} else {

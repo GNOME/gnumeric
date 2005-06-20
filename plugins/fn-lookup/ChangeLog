@@ -1,5 +1,12 @@
 2005-06-13  Jody Goldberg <jody@gnome.org>
 
+	* functions.c (gnumeric_column) : rework to handle arrays locally.
+	  As far as we know these are the only position dependent situations
+	  for arrays.
+	(gnumeric_row) : ditto.
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.5.2
 
 2005-06-07  Jody Goldberg <jody@gnome.org>

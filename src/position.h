@@ -4,9 +4,10 @@
 #include "gnumeric.h"
 
 struct _GnmEvalPos {
-	GnmCellPos   eval;
-	Sheet      *sheet;
-	GnmDependent  *dep; /* optionally NULL */
+	GnmCellPos    eval;
+	int    	      cols, rows;	/* for arrays */
+	Sheet        *sheet;
+	GnmDependent *dep;		/* optionally NULL */
 };
 
 struct _GnmParsePos {

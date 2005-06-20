@@ -286,6 +286,7 @@ Architecture Changes
 Target Features
 ---------------
 - validation from list (generalize filter combos)
+- add column selector to autofilter filter dialog ala OOo
 - insert cut
 - clipboard handlers in plugins
 - input message				(Stored)

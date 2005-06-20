@@ -1,3 +1,10 @@
+2005-06-14  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=163414
+	* src/item-bar.c (item_bar_event) : "If it hurts when you do that,
+	  don't do that".  Position the tooltip above the cursor for row
+	  headers too :-)
+
 2005-06-20  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_rename_sheet): Prevent renames to "".
@@ -10,6 +17,16 @@
 	* src/wbc-gtk.c (cb_add_menus_toolbars): Set toolbar visibility.
 	(cb_handlebox_visible): Make changes to visibility permanent.
 	(wbc_gtk_init): Don't set everything visible.
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* src/expr.c (gnm_expr_eval) : when evaluating an array pass the
+	  cols/rows into the EvalPos.
+
+	* src/position.c (eval_pos_init) : init new cols/rows member
+	(eval_pos_init_dep) : ditto.
+	(eval_pos_init_cell) : ditto.
+	(eval_pos_init_sheet) : ditto.
 
 2005-06-13  Jody Goldberg <jody@gnome.org>
 
