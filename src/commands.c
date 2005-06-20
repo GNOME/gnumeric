@@ -5313,6 +5313,9 @@ cmd_rename_sheet (WorkbookControl *wbc,
 	g_return_val_if_fail (new_name != NULL, TRUE);
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
+	if (*new_name == 0)
+		return TRUE;
+
 	collision = workbook_sheet_by_name (sheet->workbook, new_name);
 	if (collision && collision != sheet) {
 		g_warning ("Sheet name collision.\n");

@@ -4,6 +4,7 @@ Morten:
 	* Make changes to toolbar visibility permanent.
 	* Fix stf export quoting problem.  [#308109]
 	* Fix stf export format problem.
+	* Prevent sheets from being renamed to "".
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.2
