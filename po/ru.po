@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-12 12:32-0500\n"
-"PO-Revision-Date: 2005-01-10 12:59+0300\n"
+"PO-Revision-Date: 2005-06-20 00:25+0400\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1943,7 +1943,6 @@ msgid "Imports Quattro Pro (tm) files"
 msgstr "Импортирует файлы Quattro Pro (tm)"
 
 #: plugins/qpro/plugin.xml.in.h:2
-#, fuzzy
 msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 
@@ -3036,9 +3035,9 @@ msgstr "Загрузчик не имеет метода load_base.\n"
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader.c:107
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "Service '%s' not supported by l."
-msgstr "Сервис \"%s\" не поддерживается загрузчиком."
+msgstr "Сервис \"%s\" не поддерживается загрузчиком l."
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader-module.c:44
 msgid "Module file name not given."
@@ -3953,14 +3952,12 @@ msgstr ""
 #. * eg The 2nd box-plot in a chart will be called
 #. * 	BoxPlot2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:103
-#, fuzzy
 msgid "Box-Plot"
-msgstr "Начертить"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:340
-#, fuzzy
 msgid "Invalid data."
-msgstr "Неверный шаблон поиска."
+msgstr "Недопустимые данные."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:1
 msgid ""
@@ -3970,29 +3967,24 @@ msgid ""
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:2
-#, fuzzy
 msgid "BoxPlot"
-msgstr "Начертить"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:3
-#, fuzzy
 msgid "BoxPlots"
-msgstr "Начертить"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:1
-#, fuzzy
 msgid "Box-Plots"
-msgstr "Начертить"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:2
-#, fuzzy
 msgid "Box-plot plotting engine"
-msgstr "Модуль отображения круговой диаграммы"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:3
-#, fuzzy
 msgid "Charting : Box-Plots"
-msgstr "Изменение цвета листов"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:4
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:2
@@ -4356,9 +4348,8 @@ msgid "XY Points"
 msgstr "Точки XY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:12
-#, fuzzy
 msgid "XY Splines"
-msgstr "Линии XY"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
 msgid "2D plots"
@@ -4769,7 +4760,7 @@ msgstr "Наклонный"
 #. * characters specific to the target alphabet.
 #: src/cut-n-paste-code/goffice/gui-utils/go-font-sel.c:446
 msgid "AaBbCcDdEe12345"
-msgstr ""
+msgstr "AaBbCcАаБбВв123"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-font-sel.glade.h:1
 #: src/dialogs/anova-two.glade.h:1 src/dialogs/autocorrect.glade.h:1
@@ -5733,19 +5724,19 @@ msgstr "Сплошной"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:54
 msgid "Dash"
-msgstr ""
+msgstr "Штрих"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:55
 msgid "Dot"
-msgstr ""
+msgstr "Точка"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:56
 msgid "Dash dot"
-msgstr ""
+msgstr "Штрих точка"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:57
 msgid "Dash dot dot"
-msgstr ""
+msgstr "Штрих точка точка"
 
 #. xgettext : this will appear as 'Automatic (patternname)'
 #. xgettext : this will appear as 'Automatic (shapename)'
@@ -6733,11 +6724,11 @@ msgstr "Ковариация"
 
 #: src/dialogs/dao.glade.h:1
 msgid "<b>Output Formatting</b>"
-msgstr ""
+msgstr "<b>Форматирование вывода</b>"
 
 #: src/dialogs/dao.glade.h:2
 msgid "<b>Output Placement</b>"
-msgstr ""
+msgstr "<b>Размещение вывода</b>"
 
 #: src/dialogs/dao.glade.h:3
 msgid "A_utofit columns"
@@ -13354,13 +13345,12 @@ msgid "Reconfigure Graph"
 msgstr "Перенастройть график"
 
 #: src/commands.c:7137
-#, fuzzy
 msgid "Left to Right"
 msgstr "Слева на право"
 
 #: src/commands.c:7137
 msgid "Right to Left"
-msgstr ""
+msgstr "Справа на лево"
 
 #: src/consolidate.c:771
 #, c-format
@@ -13950,12 +13940,10 @@ msgstr ""
 "каталог библиотек := \"%s\"\n"
 
 #: src/mathfunc.c:7252
-#, fuzzy
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
-msgstr ""
-"Эта версия Gnumeric была скомпилирована с неадекватной точностью в yngnum."
+msgstr "Эта версия Gnumeric была скомпилирована с неадекватной точностью в gnm_yn."
 
 #: src/parser.y:298
 msgid "An array must have at least 1 element"
@@ -14422,7 +14410,6 @@ msgid "ENCODING"
 msgstr "КОДИРОВКА"
 
 #: src/ssconvert.c:54
-#, fuzzy
 msgid "Optionally specify which importer to use"
 msgstr "Дополнительно указать какой модуль для экспорта использовать"
 
@@ -15265,9 +15252,8 @@ msgid "Decrease the zoom to make things smaller"
 msgstr "Уменьшить масштаб, чтобы сделать всё меньше"
 
 #: src/wbcg-actions.c:1652
-#, fuzzy
 msgid "Direction"
-msgstr "Направление:"
+msgstr "Направление"
 
 #: src/wbcg-actions.c:1653
 msgid "Toggle sheet direction, left to right vs right to left"
@@ -16687,6 +16673,3 @@ msgstr "Шаблон с лиловыми полосами"
 #: templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Простой шаблон для списка"
-
-#~ msgid "Clipboard"
-#~ msgstr "Буфер обмена"
