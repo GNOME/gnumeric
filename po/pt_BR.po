@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-06 11:39+0000\n"
-"PO-Revision-Date: 2005-06-06 11:33-0300\n"
+"POT-Creation-Date: 2005-06-20 11:41+0000\n"
+"PO-Revision-Date: 2005-06-20 16:58-0300\n"
 "Last-Translator: Afonso Celso Medina <medina@maua.br>\n"
 "Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -50,21 +50,21 @@ msgstr "A Planilha GNOME"
 msgid "Parse error while reading Applix file."
 msgstr "Formato inválido no arquivo Applix."
 
-#: ../plugins/applix/applix-read.c:246
+#: ../plugins/applix/applix-read.c:247
 msgid "Missing characters for character encoding"
 msgstr "Faltando caracteres para a codificação de caracteres"
 
-#: ../plugins/applix/applix-read.c:250
+#: ../plugins/applix/applix-read.c:251
 #, c-format
 msgid "Invalid characters for encoding '%c%c'"
 msgstr "Caracteres inválidos para a codificação '%c%c'"
 
-#: ../plugins/applix/applix-read.c:1087
+#: ../plugins/applix/applix-read.c:1088
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
 msgstr "A expressão não começa com '=' ? '%s'"
 
-#: ../plugins/applix/applix-read.c:1098
+#: ../plugins/applix/applix-read.c:1099
 #, c-format
 msgid ""
 "%s!%s : unable to parse '%s'\n"
@@ -249,8 +249,8 @@ msgstr "Derivativos Financeiros"
 msgid "Functions related to financial derivatives"
 msgstr "Funções relativas a derivativos financeiros"
 
-#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:5877
-#: ../plugins/mps/mps.c:544 ../src/xml-io.c:3849
+#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:5871
+#: ../plugins/mps/mps.c:544 ../src/xml-io.c:3860
 msgid "Reading file..."
 msgstr "Lendo arquivo..."
 
@@ -335,51 +335,51 @@ msgstr "Preparando para salvar..."
 msgid "Saving file..."
 msgstr "Salvando arquivo..."
 
-#: ../plugins/excel/excel-xml-read.c:83 ../src/xml-sax-read.c:275
+#: ../plugins/excel/excel-xml-read.c:83 ../src/xml-sax-read.c:307
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atributo inesperado %s::%s == '%s'."
 
 #: ../plugins/excel/excel-xml-read.c:196
-#: ../plugins/openoffice/openoffice-read.c:1538 ../src/xml-sax-read.c:1785
+#: ../plugins/openoffice/openoffice-read.c:1539 ../src/xml-sax-read.c:1831
 msgid "XML document not well formed!"
 msgstr "Documento XML mal-formado!"
 
-#: ../plugins/excel/ms-excel-read.c:1035 ../src/value.c:62
+#: ../plugins/excel/ms-excel-read.c:1030 ../src/value.c:62
 msgid "#UNKNOWN!"
 msgstr "#DESCONHECIDO!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: ../plugins/excel/ms-excel-read.c:1117 ../plugins/excel/ms-excel-read.c:1129
+#: ../plugins/excel/ms-excel-read.c:1112 ../plugins/excel/ms-excel-read.c:1124
 #: ../plugins/oleo/oleo.c:343 ../plugins/psiconv/psiconv-read.c:510
-#: ../src/dialogs/dialog-sheet-order.c:475
-#: ../src/dialogs/dialog-sheet-order.c:479
+#: ../src/dialogs/dialog-sheet-order.c:480
+#: ../src/dialogs/dialog-sheet-order.c:484
 #, c-format
 msgid "Sheet%d"
 msgstr "Pasta%d"
 
-#: ../plugins/excel/ms-excel-read.c:1133
+#: ../plugins/excel/ms-excel-read.c:1128
 #, c-format
 msgid "Macro%d"
 msgstr "Macro%d"
 
-#: ../plugins/excel/ms-excel-read.c:1137
+#: ../plugins/excel/ms-excel-read.c:1132
 #, c-format
 msgid "Chart%d"
 msgstr "Gráfico%d"
 
-#: ../plugins/excel/ms-excel-read.c:1140
+#: ../plugins/excel/ms-excel-read.c:1135
 #, c-format
 msgid "Module%d"
 msgstr "Módulo%d"
 
-#: ../plugins/excel/ms-excel-read.c:2955
+#: ../plugins/excel/ms-excel-read.c:2950
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Falha processando o arquivo '%s'"
 
-#: ../plugins/excel/ms-excel-read.c:3051
+#: ../plugins/excel/ms-excel-read.c:3046
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -388,7 +388,7 @@ msgstr ""
 "Links DDE não são suportados.\n"
 "O nome '%s' será perdido.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3057
+#: ../plugins/excel/ms-excel-read.c:3052
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -397,15 +397,15 @@ msgstr ""
 "Links OLE não são suportados.\n"
 "O nome '%s' será perdido.\n"
 
-#: ../plugins/excel/ms-excel-read.c:5179
+#: ../plugins/excel/ms-excel-read.c:5173
 msgid "external references"
 msgstr "referências externas"
 
-#: ../plugins/excel/ms-excel-read.c:5205
+#: ../plugins/excel/ms-excel-read.c:5199
 msgid "No password supplied"
 msgstr "Nenhuma senha fornecida"
 
-#: ../plugins/excel/ms-excel-read.c:6106
+#: ../plugins/excel/ms-excel-read.c:6100
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Impossível localizar um WorkBook do MS Excel válido"
 
@@ -726,7 +726,7 @@ msgstr "%s versão %s"
 #: ../plugins/fn-info/functions.c:1339
 #: ../src/dialogs/dialog-cell-format.c:2348
 #: ../src/dialogs/dialog-cell-format.c:2353
-#: ../src/dialogs/dialog-cell-format.c:2363 ../src/wbc-gtk.c:533
+#: ../src/dialogs/dialog-cell-format.c:2363 ../src/wbc-gtk.c:534
 msgid "Automatic"
 msgstr "Automático"
 
@@ -864,56 +864,56 @@ msgstr "Lógica"
 msgid "Logic Functions"
 msgstr "Funções Lógicas"
 
-#: ../plugins/fn-lookup/functions.c:1268
+#: ../plugins/fn-lookup/functions.c:1271
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "núm_linha,núm_col,núm_abs,a1,texto"
 
-#: ../plugins/fn-lookup/functions.c:1271
+#: ../plugins/fn-lookup/functions.c:1274
 msgid "reference"
 msgstr "referência"
 
-#: ../plugins/fn-lookup/functions.c:1274
+#: ../plugins/fn-lookup/functions.c:1277
 msgid "index,value,"
 msgstr "índice,valor,"
 
-#: ../plugins/fn-lookup/functions.c:1277 ../plugins/fn-lookup/functions.c:1283
-#: ../plugins/fn-lookup/functions.c:1307 ../plugins/fn-lookup/functions.c:1310
+#: ../plugins/fn-lookup/functions.c:1280 ../plugins/fn-lookup/functions.c:1286
+#: ../plugins/fn-lookup/functions.c:1310 ../plugins/fn-lookup/functions.c:1313
 msgid "ref"
 msgstr "ref"
 
-#: ../plugins/fn-lookup/functions.c:1280
+#: ../plugins/fn-lookup/functions.c:1283
 msgid "colname"
 msgstr "nomecol"
 
-#: ../plugins/fn-lookup/functions.c:1286 ../plugins/fn-lookup/functions.c:1316
+#: ../plugins/fn-lookup/functions.c:1289 ../plugins/fn-lookup/functions.c:1319
 msgid "val,range,col_idx,approx,as_index"
 msgstr "val,região,índice_col,aprox,como_índice"
 
-#: ../plugins/fn-lookup/functions.c:1289
+#: ../plugins/fn-lookup/functions.c:1292
 msgid "link_location, label"
 msgstr "localização_link,rótulo"
 
-#: ../plugins/fn-lookup/functions.c:1292
+#: ../plugins/fn-lookup/functions.c:1295
 msgid "ref_string,format"
 msgstr "texto_ref,formato"
 
-#: ../plugins/fn-lookup/functions.c:1295
+#: ../plugins/fn-lookup/functions.c:1298
 msgid "reference,row,col,area"
 msgstr "referência,linha,col,área"
 
-#: ../plugins/fn-lookup/functions.c:1298
+#: ../plugins/fn-lookup/functions.c:1301
 msgid "val,range,range"
 msgstr "val,região,região"
 
-#: ../plugins/fn-lookup/functions.c:1301
+#: ../plugins/fn-lookup/functions.c:1304
 msgid "val,range,approx"
 msgstr "val,região,aprox"
 
-#: ../plugins/fn-lookup/functions.c:1304
+#: ../plugins/fn-lookup/functions.c:1307
 msgid "ref,row,col,height,width"
 msgstr "ref,linha,col,altura,largura"
 
-#: ../plugins/fn-lookup/functions.c:1313 ../plugins/fn-math/functions.c:3495
+#: ../plugins/fn-lookup/functions.c:1316 ../plugins/fn-math/functions.c:3495
 msgid "array"
 msgstr "vetor"
 
@@ -1511,7 +1511,7 @@ msgid "Constraints:"
 msgstr "Restrições:"
 
 #: ../plugins/mps/mps.c:242 ../src/dialogs/dialog-define-names.c:496
-#: ../src/dialogs/dialog-formula-guru.c:800
+#: ../src/dialogs/dialog-formula-guru.c:810
 #: ../src/dialogs/dialog-function-select.c:443
 #: ../src/dialogs/dialog-function-select.c:465
 #: ../src/dialogs/dialog-paste-names.c:101
@@ -1525,7 +1525,7 @@ msgstr "Restrições:"
 #: ../src/tools/solver/reports-write.c:393
 #: ../src/tools/solver/reports-write.c:400
 #: ../src/tools/solver/reports-write.c:668 ../src/commands.c:6166
-#: ../src/format-template.c:249 ../src/sheet.c:499
+#: ../src/format-template.c:249 ../src/sheet.c:527
 msgid "Name"
 msgstr "Nome"
 
@@ -1540,7 +1540,7 @@ msgstr "Final"
 #.
 #. * Fill in the labels of `General Info' section.
 #.
-#: ../plugins/mps/mps.c:270 ../src/dialogs/dialog-formula-guru.c:804
+#: ../plugins/mps/mps.c:270 ../src/dialogs/dialog-formula-guru.c:814
 #: ../src/dialogs/dialog-search.c:424 ../src/tools/solver/reports-write.c:515
 msgid "Type"
 msgstr "Tipo"
@@ -1622,45 +1622,45 @@ msgstr "GNU Oleo (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "Importa documentos GNU Oleo"
 
-#: ../plugins/openoffice/openoffice-read.c:571
+#: ../plugins/openoffice/openoffice-read.c:572
 msgid "Missing expression"
 msgstr "Faltando expressão"
 
-#: ../plugins/openoffice/openoffice-read.c:576
+#: ../plugins/openoffice/openoffice-read.c:577
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Expressão '%s' não inicia com um caractere reconhecido"
 
-#: ../plugins/openoffice/openoffice-read.c:589
+#: ../plugins/openoffice/openoffice-read.c:590
 #, c-format
 msgid "Unable to parse '%s' because '%s'"
 msgstr "Impossível corrigir '%s' porque '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:660
+#: ../plugins/openoffice/openoffice-read.c:661
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Vetor inválido, a expressão não especifica o número de colunas."
 
-#: ../plugins/openoffice/openoffice-read.c:663
+#: ../plugins/openoffice/openoffice-read.c:664
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Vetor inválido, a expressão não especifica o número de linhas."
 
-#: ../plugins/openoffice/openoffice-read.c:1182
+#: ../plugins/openoffice/openoffice-read.c:1183
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
 msgstr "Impossível corrigir posição para expressão '%s' @ '%s' porque '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1195
+#: ../plugins/openoffice/openoffice-read.c:1196
 #, c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr ""
 "Impossível corrigir posição para expressão '%s' com valor '%s' porque '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1474
+#: ../plugins/openoffice/openoffice-read.c:1475
 msgid "No stream named content.xml found."
 msgstr "Nenhum arquivo nomeado contendo .xml foi encontrado."
 
-#: ../plugins/openoffice/openoffice-read.c:1481
+#: ../plugins/openoffice/openoffice-read.c:1482
 msgid "No stream named styles.xml found."
 msgstr "Nenhum arquivo nomeado styles.xml foi encontrado."
 
@@ -2023,7 +2023,7 @@ msgstr "SC/XSpread"
 msgid "SC/xspread"
 msgstr "SC/xspread"
 
-#: ../plugins/sc/sc.c:377
+#: ../plugins/sc/sc.c:378
 msgid "Error parsing line"
 msgstr "Erro ao analisar linha"
 
@@ -2074,9 +2074,9 @@ msgid "Error while opening xbase file."
 msgstr "Erro ao abrir arquivo xbase."
 
 #: ../plugins/xbase/boot.c:176 ../src/dialogs/dialog-goto-cell.c:289
-#: ../src/dialogs/dialog-search.c:422 ../src/dialogs/dialog-stf-export.c:458
+#: ../src/dialogs/dialog-search.c:422 ../src/dialogs/dialog-stf-export.c:461
 #: ../src/dialogs/print.glade.h:23 ../src/commands.c:4978
-#: ../src/print-info.c:402 ../src/workbook.c:1102 ../src/xml-io.c:3447
+#: ../src/print-info.c:402 ../src/workbook.c:1026 ../src/xml-io.c:3458
 msgid "Sheet"
 msgstr "Pasta"
 
@@ -2291,7 +2291,7 @@ msgid "Print Config"
 msgstr "Configuração da Impressão"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:43
-#: ../schemas/gnumeric-general.schemas.in.h:22
+#: ../schemas/gnumeric-general.schemas.in.h:24
 msgid "Sans"
 msgstr "Sans"
 
@@ -2629,11 +2629,15 @@ msgid "Default font name"
 msgstr "Nome da Fonte Padrão"
 
 #: ../schemas/gnumeric-general.schemas.in.h:12
+msgid "Format toolbar visible"
+msgstr "Barra de ferramentas Formatar visível"
+
+#: ../schemas/gnumeric-general.schemas.in.h:13
 #: ../src/dialogs/dialog-preferences.c:684
 msgid "Horizontal DPI"
 msgstr "DPI Horizontal"
 
-#: ../schemas/gnumeric-general.schemas.in.h:13
+#: ../schemas/gnumeric-general.schemas.in.h:14
 msgid ""
 "If `lag' is 0, gnumeric recalculates all auto expressions immediately after "
 "every change. Non-zero values of `lag' allow gnumeric to acumulate more "
@@ -2652,53 +2656,57 @@ msgstr ""
 "naquele momento. Se `intervalo' é negativo, então o recálculo apenas ocorre "
 "após um período inativo de |intervalo| milisegundos."
 
-#: ../schemas/gnumeric-general.schemas.in.h:14
+#: ../schemas/gnumeric-general.schemas.in.h:15
 #: ../src/dialogs/dialog-preferences.c:630
 msgid "Length of File History"
 msgstr "Tamanho do Histórico de Arquivos"
 
-#: ../schemas/gnumeric-general.schemas.in.h:15
+#: ../schemas/gnumeric-general.schemas.in.h:16
 msgid "Length of the Undo Descriptors"
 msgstr "Tamanho das descrições do Desfazer"
 
-#: ../schemas/gnumeric-general.schemas.in.h:16
+#: ../schemas/gnumeric-general.schemas.in.h:17
 msgid "List of recently used files"
 msgstr "Lista dos arquivos recentemente utilizados"
 
-#: ../schemas/gnumeric-general.schemas.in.h:17
+#: ../schemas/gnumeric-general.schemas.in.h:18
 #: ../src/dialogs/dialog-preferences.c:595
 msgid "Live Scrolling"
 msgstr "Rolagem Automática"
 
-#: ../schemas/gnumeric-general.schemas.in.h:18
+#: ../schemas/gnumeric-general.schemas.in.h:19
 #: ../src/dialogs/dialog-preferences.c:483
 msgid "Maximal Undo Size"
 msgstr "Tamanho máximo do Desfazer"
 
-#: ../schemas/gnumeric-general.schemas.in.h:19
+#: ../schemas/gnumeric-general.schemas.in.h:20
 #: ../src/dialogs/dialog-preferences.c:527
 msgid "Number of Automatic Clauses"
 msgstr "Número de Cláusulas Automáticas"
 
-#: ../schemas/gnumeric-general.schemas.in.h:20
+#: ../schemas/gnumeric-general.schemas.in.h:21
 #: ../src/dialogs/dialog-preferences.c:487
 msgid "Number of Undo Items"
 msgstr "Número de itens do Desfazer"
 
-#: ../schemas/gnumeric-general.schemas.in.h:21
+#: ../schemas/gnumeric-general.schemas.in.h:22
+msgid "Object toolbar visible"
+msgstr "Barra de ferramentas Objetos visível"
+
+#: ../schemas/gnumeric-general.schemas.in.h:23
 #: ../src/dialogs/dialog-preferences.c:768
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "Preferir CLIPBOARD sobre a seleção PRIMÁRIA"
 
-#: ../schemas/gnumeric-general.schemas.in.h:23
+#: ../schemas/gnumeric-general.schemas.in.h:25
 msgid "Screen resolution in the horizontal direction."
 msgstr "Resolução da tela na direção horizontal."
 
-#: ../schemas/gnumeric-general.schemas.in.h:24
+#: ../schemas/gnumeric-general.schemas.in.h:26
 msgid "Screen resolution in the vertical direction."
 msgstr "Resolução da tela na direção vertical."
 
-#: ../schemas/gnumeric-general.schemas.in.h:25
+#: ../schemas/gnumeric-general.schemas.in.h:27
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to perform a "
 "case-sensitive sort and determine the initial state of the case-sensitive "
@@ -2709,7 +2717,7 @@ msgstr ""
 "determinem o estado inicial do botão de verificação de diferenciar "
 "maiúsculas e minúsculas na janela do comando ordenar."
 
-#: ../schemas/gnumeric-general.schemas.in.h:26
+#: ../schemas/gnumeric-general.schemas.in.h:28
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to preserve "
 "the cell formats while sorting and determines the initial state of the "
@@ -2719,12 +2727,12 @@ msgstr ""
 "preservam os formatos das células durante a ordenação e determinam os "
 "estados iniciais dos formatos preservados na caixa de diálogo de ordenação."
 
-#: ../schemas/gnumeric-general.schemas.in.h:27
+#: ../schemas/gnumeric-general.schemas.in.h:29
 #: ../src/dialogs/dialog-preferences.c:491
 msgid "Show Sheet Name in Undo List"
 msgstr "Mostrar Nome da Pasta na Lista de Desfazer"
 
-#: ../schemas/gnumeric-general.schemas.in.h:28
+#: ../schemas/gnumeric-general.schemas.in.h:30
 msgid ""
 "Some file formats can contain only a single sheet. This variable determines "
 "whether the user will be warned if only a single sheet of a multi-sheet "
@@ -2734,56 +2742,60 @@ msgstr ""
 "variável determina se o usuário será avisado se somente uma pasta simples de "
 "um WorkBook multi-pasta foi salvo."
 
-#: ../schemas/gnumeric-general.schemas.in.h:29
+#: ../schemas/gnumeric-general.schemas.in.h:31
 #: ../src/dialogs/dialog-preferences.c:539 ../src/wbcg-actions.c:1907
 msgid "Sort Ascending"
 msgstr "Ordem Crescente"
 
-#: ../schemas/gnumeric-general.schemas.in.h:30
+#: ../schemas/gnumeric-general.schemas.in.h:32
 msgid "Sort is Case-Sensitive"
 msgstr "A ordenação diferencia maiúsculas de minúsculas"
 
-#: ../schemas/gnumeric-general.schemas.in.h:31
+#: ../schemas/gnumeric-general.schemas.in.h:33
 #: ../src/dialogs/dialog-preferences.c:531
 msgid "Sorting Preserves Formats"
 msgstr "Ordenar Preserva Formatos"
 
-#: ../schemas/gnumeric-general.schemas.in.h:32
+#: ../schemas/gnumeric-general.schemas.in.h:34
+msgid "Standard toolbar visible"
+msgstr "Barra de Ferramentas Padão visível"
+
+#: ../schemas/gnumeric-general.schemas.in.h:35
 msgid "The default font is bold."
 msgstr "A fonte padrão é negrito."
 
-#: ../schemas/gnumeric-general.schemas.in.h:33
+#: ../schemas/gnumeric-general.schemas.in.h:36
 msgid "The default font is italic."
 msgstr "A fonte padrão é itálico."
 
-#: ../schemas/gnumeric-general.schemas.in.h:34
+#: ../schemas/gnumeric-general.schemas.in.h:37
 msgid "The default font name for new workbooks."
 msgstr "O nome da fonte padrão para novos WorkBooks."
 
-#: ../schemas/gnumeric-general.schemas.in.h:35
+#: ../schemas/gnumeric-general.schemas.in.h:38
 msgid "The default font size for new workbooks."
 msgstr "O tamanho da fonte padrão para novos WorkBooks."
 
-#: ../schemas/gnumeric-general.schemas.in.h:36
+#: ../schemas/gnumeric-general.schemas.in.h:39
 msgid ""
 "The file menu shows a list of recently used functions. This is that list."
 msgstr ""
 "O menu arquivo mostra uma lista das funções recentemente utilizadas. Essa é "
 "a lista."
 
-#: ../schemas/gnumeric-general.schemas.in.h:37
+#: ../schemas/gnumeric-general.schemas.in.h:40
 msgid "The initial zoom factor for new workbooks."
 msgstr "O fator de zoom inicial para novos WorkBooks."
 
-#: ../schemas/gnumeric-general.schemas.in.h:38
+#: ../schemas/gnumeric-general.schemas.in.h:41
 msgid "The number of files kept in the `recent' section of the file menu."
 msgstr "O número de arquivos dentro da seção `recente' do menu arquivo."
 
-#: ../schemas/gnumeric-general.schemas.in.h:39
+#: ../schemas/gnumeric-general.schemas.in.h:42
 msgid "The number of sheets initially created in a new workbook."
 msgstr "O número de pastas inicialmente criadas em um novo WorkBook."
 
-#: ../schemas/gnumeric-general.schemas.in.h:40
+#: ../schemas/gnumeric-general.schemas.in.h:43
 msgid ""
 "This integer (between 0 and 9) specifies the amount of compression performed "
 "by Gnumeric when saving files in the default file format. 0 is minimal "
@@ -2793,7 +2805,7 @@ msgstr ""
 "Gnumeric quando salva arquivos no formato de arquivo padrão. 0 é a "
 "compressão mínima, enquanto 9 é a compressão máxima."
 
-#: ../schemas/gnumeric-general.schemas.in.h:41
+#: ../schemas/gnumeric-general.schemas.in.h:44
 msgid ""
 "This number (between 0.25 and 1.00) gives the horizontal fraction of the "
 "screen size covered by the default window."
@@ -2801,7 +2813,7 @@ msgstr ""
 "Esse número (entre 0.25 e 1.00) dá a fração horizontal do tamanho da tela "
 "coberta pela janela padrão."
 
-#: ../schemas/gnumeric-general.schemas.in.h:42
+#: ../schemas/gnumeric-general.schemas.in.h:45
 msgid ""
 "This number (between 0.25 and 1.00) gives the vertical fraction of the "
 "screen size covered by the default window."
@@ -2809,7 +2821,7 @@ msgstr ""
 "Esse número (entre 0.25 e 1.00) dá a fração vertical do tamanho da tela "
 "coberta pela janela padrão."
 
-#: ../schemas/gnumeric-general.schemas.in.h:43
+#: ../schemas/gnumeric-general.schemas.in.h:46
 msgid ""
 "This option determines the initial state of the sort-order button in the "
 "sort dialog."
@@ -2817,7 +2829,7 @@ msgstr ""
 "Essa opção determina o estado inicial do botão da direção de ordenação na "
 "caixa de diálogo de ordenação."
 
-#: ../schemas/gnumeric-general.schemas.in.h:44
+#: ../schemas/gnumeric-general.schemas.in.h:47
 msgid ""
 "This value determines the length of the undo chain. Each editing action has "
 "a size associate with it, to compare it with the memory requirements of a "
@@ -2830,25 +2842,25 @@ msgstr ""
 "desfazer será truncada quando o seu tamanho total exceder a este valor "
 "configurável."
 
-#: ../schemas/gnumeric-general.schemas.in.h:45
+#: ../schemas/gnumeric-general.schemas.in.h:48
 msgid ""
 "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
 "Este valor determina o número máximo de itens na lista de desfazer/refazer."
 
-#: ../schemas/gnumeric-general.schemas.in.h:46
+#: ../schemas/gnumeric-general.schemas.in.h:49
 msgid ""
 "This value determines whether the default font for a new workbook is bold."
 msgstr ""
 "Este valor determina se a fonte padrão para um novo WorkBook é negrito."
 
-#: ../schemas/gnumeric-general.schemas.in.h:47
+#: ../schemas/gnumeric-general.schemas.in.h:50
 msgid ""
 "This value determines whether the default font for a new workbook is italic."
 msgstr ""
 "Este valor determina se a fonte padrão para um novo WorkBook é itálico."
 
-#: ../schemas/gnumeric-general.schemas.in.h:48
+#: ../schemas/gnumeric-general.schemas.in.h:51
 msgid ""
 "This value determines whether to show the sheet names in the undo and redo "
 "lists."
@@ -2856,7 +2868,7 @@ msgstr ""
 "Este valor determina se devem ser mostrados os nomes das pastas nas listas "
 "de desfazer e refazer."
 
-#: ../schemas/gnumeric-general.schemas.in.h:49
+#: ../schemas/gnumeric-general.schemas.in.h:52
 msgid ""
 "This value is indicative of the maximum length of the command descriptors in "
 "the undo and redo chains."
@@ -2864,11 +2876,11 @@ msgstr ""
 "Este valor indica o tamanho máximo das descriçõoes de comando nas listas de "
 "desfazer e refazer."
 
-#: ../schemas/gnumeric-general.schemas.in.h:50
+#: ../schemas/gnumeric-general.schemas.in.h:53
 msgid "This variable determines whether autocompletion is set on."
 msgstr "Essa variável determina se o recurso autocompletar está ativo."
 
-#: ../schemas/gnumeric-general.schemas.in.h:51
+#: ../schemas/gnumeric-general.schemas.in.h:54
 msgid ""
 "This variable determines whether live (versus delayed) scrolling is "
 "performed."
@@ -2876,36 +2888,57 @@ msgstr ""
 "Esta variável determina se as barra de rolagem automática (em oposição à "
 "barra com atraso) é ativada."
 
-#: ../schemas/gnumeric-general.schemas.in.h:52
+#: ../schemas/gnumeric-general.schemas.in.h:55
+msgid ""
+"This variable determines whether the format toolbar should be visible "
+"initially."
+msgstr "Esta variável determina se a barra de ferramentas Formatar deve estar "
+"visível ao iniciar."
+
+#: ../schemas/gnumeric-general.schemas.in.h:56
+msgid ""
+"This variable determines whether the object toolbar should be visible "
+"initially."
+msgstr "Essa variável determina se a barra de ferramentas Objetos deve estar "
+"visível ao iniciar."
+
+#: ../schemas/gnumeric-general.schemas.in.h:57
+msgid ""
+"This variable determines whether the standard toolbar should be visible "
+"initially."
+msgstr "Esta variável determina se a barra de ferramentas Padrão deve estar "
+"visível ao iniciar."
+
+#: ../schemas/gnumeric-general.schemas.in.h:58
 msgid "This variable determines whether transition keys are set on."
 msgstr "Esta variável determina se as teclas de transição estão ligadas."
 
-#: ../schemas/gnumeric-general.schemas.in.h:53
+#: ../schemas/gnumeric-general.schemas.in.h:59
 msgid "Toolbar Style"
 msgstr "Estilo da Barra de Ferramentas"
 
-#: ../schemas/gnumeric-general.schemas.in.h:54
+#: ../schemas/gnumeric-general.schemas.in.h:60
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
 msgstr ""
 "Estilo da barra de Ferramentas. Valores permitidos são: ambos, ambos_horiz, "
 "ícone e texto"
 
-#: ../schemas/gnumeric-general.schemas.in.h:55
+#: ../schemas/gnumeric-general.schemas.in.h:61
 #: ../src/dialogs/dialog-preferences.c:591
 msgid "Transition Keys"
 msgstr "Chaves de Transição"
 
-#: ../schemas/gnumeric-general.schemas.in.h:56
+#: ../schemas/gnumeric-general.schemas.in.h:62
 #: ../src/dialogs/dialog-preferences.c:688
 msgid "Vertical DPI"
 msgstr "DPI Vertical"
 
-#: ../schemas/gnumeric-general.schemas.in.h:57
+#: ../schemas/gnumeric-general.schemas.in.h:63
 #: ../src/dialogs/dialog-preferences.c:643
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Avisar Quando for Exportar em Formato de Pastas Simples"
 
-#: ../schemas/gnumeric-general.schemas.in.h:58
+#: ../schemas/gnumeric-general.schemas.in.h:64
 msgid ""
 "When TRUE, Gnumeric will prefer the modern CLIPBOARD selection over the "
 "legacy PRIMARY selections. Set to FALSE if you have to deal with older "
@@ -2915,7 +2948,7 @@ msgstr ""
 "Área de Transferência. Ative FALSO se você irá trabalhar com aplicações "
 "antigas, como o Xterm ou Emacs, que ativam apenas a seleção PRIMÁRIA."
 
-#: ../schemas/gnumeric-general.schemas.in.h:59
+#: ../schemas/gnumeric-general.schemas.in.h:65
 msgid ""
 "When selecting a sort region in the sort dialog, search clauses are "
 "automatically added. This number determines the maximum number of clauses to "
@@ -3465,8 +3498,8 @@ msgstr ""
 "Personalizado"
 
 #: ../src/dialogs/cell-format.glade.h:35
-#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk.c:585
-#: ../src/wbc-gtk.c:586 ../src/wbc-gtk.c:593
+#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk.c:586
+#: ../src/wbc-gtk.c:587 ../src/wbc-gtk.c:594
 msgid "Background"
 msgstr "Segundo Plano"
 
@@ -3475,7 +3508,7 @@ msgstr "Segundo Plano"
 msgid "Border"
 msgstr "Borda"
 
-#: ../src/dialogs/cell-format.glade.h:37 ../src/wbc-gtk.c:207
+#: ../src/dialogs/cell-format.glade.h:37 ../src/wbc-gtk.c:208
 msgid "Bottom"
 msgstr "Base"
 
@@ -3569,7 +3602,7 @@ msgstr "J_ustificar"
 msgid "Large Circles"
 msgstr "Círculos Grandes"
 
-#: ../src/dialogs/cell-format.glade.h:60 ../src/wbc-gtk.c:199
+#: ../src/dialogs/cell-format.glade.h:60 ../src/wbc-gtk.c:200
 msgid "Left"
 msgstr "Esquerda"
 
@@ -3600,7 +3633,7 @@ msgstr "Diagonais Opostas"
 msgid "Reverse Diagonal Stripe"
 msgstr "Listra Diagonal Invertida"
 
-#: ../src/dialogs/cell-format.glade.h:67 ../src/wbc-gtk.c:201
+#: ../src/dialogs/cell-format.glade.h:67 ../src/wbc-gtk.c:202
 msgid "Right"
 msgstr "Direita"
 
@@ -4833,13 +4866,13 @@ msgstr "Informação (permite entrada inválida)"
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "O critério de validação é inutilizável. Desabilitar a validação?"
 
-#: ../src/dialogs/dialog-cell-format.c:2353 ../src/wbc-gtk.c:177
-#: ../src/wbc-gtk.c:310 ../src/wbc-gtk.c:535 ../src/wbc-gtk.c:536
-#: ../src/wbc-gtk.c:545 ../src/wbc-gtk.c:646 ../src/wbc-gtk.c:700
+#: ../src/dialogs/dialog-cell-format.c:2353 ../src/wbc-gtk.c:178
+#: ../src/wbc-gtk.c:311 ../src/wbc-gtk.c:536 ../src/wbc-gtk.c:537
+#: ../src/wbc-gtk.c:546 ../src/wbc-gtk.c:647 ../src/wbc-gtk.c:701
 msgid "Foreground"
 msgstr "Cor da fonte"
 
-#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk.c:583
+#: ../src/dialogs/dialog-cell-format.c:2358 ../src/wbc-gtk.c:584
 msgid "Clear Background"
 msgstr "Limpar fundo"
 
@@ -4950,17 +4983,17 @@ msgstr "Impossível criar o diálogo de Eliminação de Célula."
 msgid "Could not create the Fill Series dialog."
 msgstr "Impossível criar o diálogo das Séries de Preenchimento."
 
-#: ../src/dialogs/dialog-formula-guru.c:301
+#: ../src/dialogs/dialog-formula-guru.c:302
 #, c-format
 msgid "[%s]"
 msgstr "[%s]"
 
-#: ../src/dialogs/dialog-formula-guru.c:812
+#: ../src/dialogs/dialog-formula-guru.c:822
 msgid "Function/Argument"
 msgstr "Função/Argumento"
 
 # plugins/guile/plugin.c:278
-#: ../src/dialogs/dialog-formula-guru.c:976
+#: ../src/dialogs/dialog-formula-guru.c:990
 msgid "Could not create the formula guru."
 msgstr "Impossível criar o Guru de Fórmulas."
 
@@ -5081,7 +5114,7 @@ msgstr "Adicionar Hyperlink"
 msgid "Edit Hyperlink"
 msgstr "Editar Hyperlink"
 
-#: ../src/dialogs/dialog-hyperlink.c:351 ../src/sheet-control-gui.c:1532
+#: ../src/dialogs/dialog-hyperlink.c:351 ../src/sheet-control-gui.c:1533
 msgid "Remove Hyperlink"
 msgstr "Remover Hyperlink"
 
@@ -5089,7 +5122,7 @@ msgstr "Remover Hyperlink"
 msgid "Could not create the hyperlink dialog."
 msgstr "Impossível criar o diálogo do Hyperlink."
 
-#: ../src/dialogs/dialog-insert-cells.c:136 ../src/workbook-control-gui.c:523
+#: ../src/dialogs/dialog-insert-cells.c:136 ../src/workbook-control-gui.c:527
 msgid "Insert"
 msgstr "Inserir"
 
@@ -5349,7 +5382,7 @@ msgstr "Arquivos"
 msgid "Tools"
 msgstr "Ferramentas"
 
-#: ../src/dialogs/dialog-preferences.c:794 ../src/wbc-gtk.c:469
+#: ../src/dialogs/dialog-preferences.c:794 ../src/wbc-gtk.c:470
 msgid "Undo"
 msgstr "Desfazer"
 
@@ -5720,23 +5753,23 @@ msgstr "Não fazer esta troca"
 msgid "Perform this replacement"
 msgstr "Fazer esta alteração"
 
-#: ../src/dialogs/dialog-sheet-order.c:392
+#: ../src/dialogs/dialog-sheet-order.c:397
 msgid "Current Name"
 msgstr "Nome Atual"
 
-#: ../src/dialogs/dialog-sheet-order.c:402
+#: ../src/dialogs/dialog-sheet-order.c:407
 msgid "New Name"
 msgstr "Novo Nome"
 
-#: ../src/dialogs/dialog-sheet-order.c:719
+#: ../src/dialogs/dialog-sheet-order.c:728
 msgid "At least one sheet must remain visible!"
 msgstr "Ao menos uma pasta deve permanecer visível!"
 
-#: ../src/dialogs/dialog-sheet-order.c:724
+#: ../src/dialogs/dialog-sheet-order.c:733
 msgid "You may not delete all sheets in a workbook!"
 msgstr "Você não pode excluir todas as pastas do WorkBook!"
 
-#: ../src/dialogs/dialog-sheet-order.c:729
+#: ../src/dialogs/dialog-sheet-order.c:738
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
@@ -5744,12 +5777,12 @@ msgstr ""
 "Para substituir todas as pastas, por favor apague o WorkBook atual e crie um "
 "novo!"
 
-#: ../src/dialogs/dialog-sheet-order.c:985
+#: ../src/dialogs/dialog-sheet-order.c:994
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "A ordem das pastas foi alterada. Você deseja atualizar a lista?"
 
-#: ../src/dialogs/dialog-sheet-order.c:1056
-#: ../src/dialogs/dialog-sheet-order.c:1066
+#: ../src/dialogs/dialog-sheet-order.c:1065
+#: ../src/dialogs/dialog-sheet-order.c:1075
 msgid "Default"
 msgstr "Padrão"
 
@@ -5794,16 +5827,16 @@ msgid "Variable"
 msgstr "Variável"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/workbook-control-gui.c:1947
+#: ../src/workbook-control-gui.c:1956
 msgid "Min"
 msgstr "Mín"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/workbook-control-gui.c:1949
+#: ../src/dialogs/dialog-simulation.c:237 ../src/workbook-control-gui.c:1958
 msgid "Average"
 msgstr "Média"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/workbook-control-gui.c:1948
+#: ../src/workbook-control-gui.c:1957
 msgid "Max"
 msgstr "Máx"
 
@@ -5918,20 +5951,20 @@ msgstr "Impossível criar o diálogo do Otimizador."
 msgid "Are you sure you want to cancel?"
 msgstr "Deseja realmente cancelar?"
 
-#: ../src/dialogs/dialog-stf-export.c:452
+#: ../src/dialogs/dialog-stf-export.c:455
 msgid "Export"
 msgstr "Exporta"
 
-#: ../src/dialogs/dialog-stf-export.c:525
+#: ../src/dialogs/dialog-stf-export.c:528
 #: ../src/dialogs/dialog-stf-export.glade.h:42
 msgid "_Next"
 msgstr "_Próximo"
 
-#: ../src/dialogs/dialog-stf-export.c:528
+#: ../src/dialogs/dialog-stf-export.c:531
 msgid "_Finish"
 msgstr "_Finalizar"
 
-#: ../src/dialogs/dialog-stf-export.c:588
+#: ../src/dialogs/dialog-stf-export.c:591
 msgid "This workbook does not contain any exportable content."
 msgstr "Este workbook não contém um conteúdo exportável."
 
@@ -6810,6 +6843,10 @@ msgid "Size:"
 msgstr "Tamanho:"
 
 #: ../src/dialogs/formula-guru.glade.h:1
+msgid "Enter as array function"
+msgstr "Entrar como uma função de matriz"
+
+#: ../src/dialogs/formula-guru.glade.h:2
 msgid "Formula Guru"
 msgstr "Guru de Fórmulas"
 
@@ -8837,7 +8874,7 @@ msgstr "Curtose"
 msgid "Range"
 msgstr "Região"
 
-#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1950
+#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1959
 msgid "Count"
 msgstr "Contar"
 
@@ -9294,12 +9331,12 @@ msgstr ""
 msgid "Tabulation"
 msgstr "Tabulação"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1250
+#: ../src/widgets/gnumeric-expr-entry.c:1243
 msgid "Expecting a single range"
 msgstr "Esperando uma única região"
 
 #. ALSO "<control>2"
-#: ../src/widgets/widget-font-selector.c:209 ../src/wbcg-actions.c:2105
+#: ../src/widgets/widget-font-selector.c:209 ../src/wbcg-actions.c:2110
 msgid "Bold"
 msgstr "Negrito"
 
@@ -9308,7 +9345,7 @@ msgid "Bold italic"
 msgstr "Itálico negrito"
 
 #. ALSO "<control>3"
-#: ../src/widgets/widget-font-selector.c:211 ../src/wbcg-actions.c:2108
+#: ../src/widgets/widget-font-selector.c:211 ../src/wbcg-actions.c:2113
 msgid "Italic"
 msgstr "Itálico"
 
@@ -9433,11 +9470,11 @@ msgstr "Digitando \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Ins/Rem Coluna/Linha"
 
-#: ../src/commands.c:1310 ../src/commands.c:1315 ../src/sheet.c:3638
+#: ../src/commands.c:1310 ../src/commands.c:1315 ../src/sheet.c:3695
 msgid "Delete Columns"
 msgstr "Excluir colunas"
 
-#: ../src/commands.c:1310 ../src/commands.c:1315 ../src/sheet.c:3760
+#: ../src/commands.c:1310 ../src/commands.c:1315 ../src/sheet.c:3817
 msgid "Delete Rows"
 msgstr "Excluir linhas"
 
@@ -9482,7 +9519,7 @@ msgid "Deleting row %s"
 msgstr "Apagando linha %s"
 
 #. Check for locked cells
-#: ../src/commands.c:1583 ../src/commands.c:1587 ../src/sheet.c:3241
+#: ../src/commands.c:1583 ../src/commands.c:1587 ../src/sheet.c:3298
 msgid "Clear"
 msgstr "Limpar"
 
@@ -9766,7 +9803,7 @@ msgstr "Excluir uma planilha"
 msgid "Changing Sheet Visibility"
 msgstr "Alterando a Visibilidade da Pasta"
 
-#: ../src/commands.c:5275 ../src/workbook.c:1884
+#: ../src/commands.c:5275 ../src/workbook.c:1814
 msgid "Reorganizing Sheets"
 msgstr "Reorganizando Pastas"
 
@@ -9885,21 +9922,21 @@ msgstr "Operador desconhecido"
 msgid "Internal type error"
 msgstr "Erro interno de tipo"
 
-#: ../src/expr.c:1393
+#: ../src/expr.c:1370
 msgid "Unknown evaluation error"
 msgstr "Erro desconhecido de avaliação"
 
-#: ../src/expr-name.c:357
+#: ../src/expr-name.c:418
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr "'%s' tem uma referência circular"
 
-#: ../src/expr-name.c:380 ../src/expr-name.c:567
+#: ../src/expr-name.c:441 ../src/expr-name.c:628
 #, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "'%s' já definido na pasta"
 
-#: ../src/expr-name.c:381 ../src/expr-name.c:568
+#: ../src/expr-name.c:442 ../src/expr-name.c:629
 #, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "'%s' já definido no WorkBook"
@@ -10125,15 +10162,15 @@ msgstr "Propriedades da Seta/Linha"
 
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:1
 msgid "FormatToolbar"
-msgstr "FormatToolbar"
+msgstr "Formatar"
 
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:2
 msgid "ObjectToolbar"
-msgstr "ObjectToolbar"
+msgstr "Objetos"
 
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:3
 msgid "StandardToolbar"
-msgstr "StandardToolbar"
+msgstr "Padrão"
 
 #: ../src/gnumeric-pane.c:144
 #, c-format
@@ -10146,11 +10183,11 @@ msgstr ""
 
 #: ../src/gui-clipboard.c:132
 msgid "clipboard"
-msgstr "Área de Transferência"
+msgstr "área de transferência"
 
 #: ../src/gui-file.c:79
 msgid "Automatically detected"
-msgstr "Identificado Automaticamente"
+msgstr "Identificado automaticamente"
 
 #: ../src/gui-file.c:198
 msgid "Load file"
@@ -10223,12 +10260,12 @@ msgstr "Impossível ativar a url '%s'"
 msgid "Unable to open '%s'"
 msgstr "Impossível abrir '%s'"
 
-#: ../src/item-bar.c:781
+#: ../src/item-bar.c:787
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Largura: %.2f pts (%d pixels)"
 
-#: ../src/item-bar.c:784
+#: ../src/item-bar.c:790
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Altura: %.2f pts (%d pixels)"
@@ -10247,7 +10284,7 @@ msgstr ""
 msgid "_Move"
 msgstr "_Mover"
 
-#: ../src/item-cursor.c:1009 ../src/sheet-control-gui.c:1564
+#: ../src/item-cursor.c:1009 ../src/sheet-control-gui.c:1565
 msgid "_Copy"
 msgstr "_Copiar"
 
@@ -10757,151 +10794,162 @@ msgstr "Não salvar"
 msgid "Do not log out"
 msgstr "Não fechar a sessão (log out)"
 
-#: ../src/sheet.c:500
+#: ../src/sheet.c:528
 msgid "The name of the sheet."
 msgstr "O nome da pasta."
 
-#: ../src/sheet.c:508
+#: ../src/sheet.c:536
 msgid "text-is-rtl"
 msgstr "texto-é-rtl"
 
-#: ../src/sheet.c:509
+#: ../src/sheet.c:537
 msgid "Text goes from right to left."
 msgstr "O texto vai da direita para a esquerda."
 
-#: ../src/sheet.c:517
-msgid "Visible"
-msgstr "Visível"
+#: ../src/sheet.c:545
+msgid "Visibility"
+msgstr "Visibilidade"
 
-#: ../src/sheet.c:518
-msgid "Sheet is visible."
-msgstr "A pasta está visível."
+#: ../src/sheet.c:546
+msgid "How visible the sheet is."
+msgstr "Como é a visibilidade da pasta."
 
-#: ../src/sheet.c:526
+#: ../src/sheet.c:555
 msgid "Protected"
 msgstr "Protegida"
 
-#: ../src/sheet.c:527
+#: ../src/sheet.c:556
 msgid "Sheet is protected."
 msgstr "A pasta está protegida."
 
-#: ../src/sheet.c:535
+#: ../src/sheet.c:564
 msgid "Display Formulas"
 msgstr "Mostrar Fórmulas"
 
-#: ../src/sheet.c:536
+#: ../src/sheet.c:565
 msgid "Control whether formulas are shown instead of values."
 msgstr "Controla se as fórmulas são exibidas no lugar dos valores."
 
-#: ../src/sheet.c:544
+#: ../src/sheet.c:573
 msgid "Display Zeros"
 msgstr "Mostrar Zeros"
 
-#: ../src/sheet.c:545
+#: ../src/sheet.c:574
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Controla se os zeros são exibidos ou não."
 
-#: ../src/sheet.c:553
+#: ../src/sheet.c:582
 msgid "Display Grid"
 msgstr "Mostrar Grade"
 
-#: ../src/sheet.c:554
+#: ../src/sheet.c:583
 msgid "Control whether the grid is shown."
 msgstr "Controla se a grade é mostrada."
 
-#: ../src/sheet.c:562
+#: ../src/sheet.c:591
 msgid "Display Column Headers"
 msgstr "Exibir Cabeçalhos de Colunas"
 
-#: ../src/sheet.c:563
+#: ../src/sheet.c:592
 msgid "Control whether column headers are shown."
 msgstr "Controla se os cabeçalhos de colunas são exibidos."
 
-#: ../src/sheet.c:571
+#: ../src/sheet.c:600
 msgid "Display Row Headers"
 msgstr "Exibir Cabeçalhos de Linhas"
 
-#: ../src/sheet.c:572
+#: ../src/sheet.c:601
 msgid "Control whether row headers are shown."
 msgstr "Controla se os cabeçalhos de linhas são exibidos."
 
-#: ../src/sheet.c:580
+#: ../src/sheet.c:609
 msgid "Display Outlines"
 msgstr "Exibir Contornos"
 
-#: ../src/sheet.c:581
+#: ../src/sheet.c:610
 msgid "Control whether outlines are shown."
 msgstr "Controla se os contornos são exibidos."
 
-#: ../src/sheet.c:589
+#: ../src/sheet.c:618
 msgid "Display Outlines Below"
 msgstr "Exibir Contornos Abaixo"
 
-#: ../src/sheet.c:590
+#: ../src/sheet.c:619
 msgid "Control whether outlines symbols are shown below."
 msgstr "Controla se os contornos são exibidos abaixo."
 
-#: ../src/sheet.c:598
+#: ../src/sheet.c:627
 msgid "Display Outlines Right"
 msgstr "Exibir Contornos à Direita"
 
-#: ../src/sheet.c:599
+#: ../src/sheet.c:628
 msgid "Control whether outlines symbols are shown to the right."
 msgstr "Controla se os contornos são exibidos à direita."
 
-#: ../src/sheet.c:607
+#: ../src/sheet.c:636
+msgid "Use R1C1 notation rather than A1"
+msgstr "Utiliza a notação R1C1 ao invés da A1"
+
+#: ../src/sheet.c:637
+msgid ""
+"Display cell addresses using R1C1 notion rather than the more common A1."
+msgstr ""
+"Mostra os endereços das células utilizando a notação R1C1 ao invés da "
+"notação A1, mais comum."
+
+#: ../src/sheet.c:645
 msgid "Tab Foreground"
 msgstr "Segundo Plano da Aba"
 
-#: ../src/sheet.c:608
+#: ../src/sheet.c:646
 msgid "The foreground color of the tab."
 msgstr "A cor de segundo plano da aba."
 
-#: ../src/sheet.c:616
+#: ../src/sheet.c:654
 msgid "Tab Background"
 msgstr "Segundo Plano da Aba"
 
-#: ../src/sheet.c:617
+#: ../src/sheet.c:655
 msgid "The background color of the tab."
 msgstr "A cor de segundo plano da aba."
 
-#: ../src/sheet.c:626
+#: ../src/sheet.c:664
 msgid "Zoom Factor"
 msgstr "Fator de Zoom"
 
-#: ../src/sheet.c:627
+#: ../src/sheet.c:665
 msgid "The level of zoom used for this sheet."
 msgstr "O nível de zoom utilizado para esta pasta."
 
-#: ../src/sheet.c:2382
+#: ../src/sheet.c:2439
 msgid "Target region contains merged cells"
 msgstr "A região alvo contém células mescladas"
 
-#: ../src/sheet.c:2443
+#: ../src/sheet.c:2500
 msgid "cannot operate on merged cells"
 msgstr "não pode operar em células mescladas"
 
-#: ../src/sheet.c:2453
+#: ../src/sheet.c:2510
 msgid "cannot operate on array formulae"
 msgstr "não pode operar em fórmulas de vetor"
 
-#: ../src/sheet.c:3577
+#: ../src/sheet.c:3634
 msgid "Insert Columns"
 msgstr "Inserir Colunas"
 
-#: ../src/sheet.c:3699
+#: ../src/sheet.c:3756
 msgid "Insert Rows"
 msgstr "Inserir Linhas"
 
-#: ../src/sheet-control-gui.c:1562
+#: ../src/sheet-control-gui.c:1563
 msgid "Cu_t"
 msgstr "Recor_tar"
 
-#: ../src/sheet-control-gui.c:1566
+#: ../src/sheet-control-gui.c:1567
 msgid "_Paste"
 msgstr "C_olar"
 
-#: ../src/sheet-control-gui.c:1568
+#: ../src/sheet-control-gui.c:1569
 msgid "Paste _Special"
 msgstr "Colar E_special"
 
@@ -10912,88 +10960,88 @@ msgstr "Colar E_special"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: ../src/sheet-control-gui.c:1580
+#: ../src/sheet-control-gui.c:1581
 msgid "_Insert Cells..."
 msgstr "_Inserir Células..."
 
-#: ../src/sheet-control-gui.c:1582
+#: ../src/sheet-control-gui.c:1583
 msgid "_Delete Cells..."
 msgstr "E_xcluir Células..."
 
-#: ../src/sheet-control-gui.c:1584
+#: ../src/sheet-control-gui.c:1585
 msgid "_Insert Column(s)"
 msgstr "_Inserir Coluna(s)"
 
-#: ../src/sheet-control-gui.c:1586
+#: ../src/sheet-control-gui.c:1587
 msgid "_Delete Column(s)"
 msgstr "E_xcluir Coluna(s)"
 
-#: ../src/sheet-control-gui.c:1588
+#: ../src/sheet-control-gui.c:1589
 msgid "_Insert Row(s)"
 msgstr "_Inserir Linha(s)"
 
-#: ../src/sheet-control-gui.c:1590
+#: ../src/sheet-control-gui.c:1591
 msgid "_Delete Row(s)"
 msgstr "E_xcluir Linha(s)"
 
-#: ../src/sheet-control-gui.c:1593
+#: ../src/sheet-control-gui.c:1594
 msgid "Clear Co_ntents"
 msgstr "Limpar Co_nteúdo"
 
-#: ../src/sheet-control-gui.c:1595
+#: ../src/sheet-control-gui.c:1596
 msgid "Edit Co_mment..."
 msgstr "Editar Co_mentários..."
 
-#: ../src/sheet-control-gui.c:1601
+#: ../src/sheet-control-gui.c:1602
 msgid "_Format Cells..."
 msgstr "_Formatar Células..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: ../src/sheet-control-gui.c:1605
+#: ../src/sheet-control-gui.c:1606
 msgid "Column _Width..."
 msgstr "Lar_gura da Coluna..."
 
-#: ../src/sheet-control-gui.c:1607 ../src/sheet-control-gui.c:1615
+#: ../src/sheet-control-gui.c:1608 ../src/sheet-control-gui.c:1616
 #: ../src/wbcg-actions.c:1729 ../src/wbcg-actions.c:1746
 msgid "_Hide"
 msgstr "_Ocultar"
 
-#: ../src/sheet-control-gui.c:1609 ../src/sheet-control-gui.c:1617
+#: ../src/sheet-control-gui.c:1610 ../src/sheet-control-gui.c:1618
 #: ../src/wbcg-actions.c:1732 ../src/wbcg-actions.c:1749
 msgid "_Unhide"
 msgstr "_Reexibir"
 
 #. Row specific (Note some labels duplicate col labels)
-#: ../src/sheet-control-gui.c:1613
+#: ../src/sheet-control-gui.c:1614
 msgid "_Row Height..."
 msgstr "Altu_ra da Linha..."
 
-#: ../src/sheet-control-gui.c:1620
+#: ../src/sheet-control-gui.c:1621
 msgid "_Hyperlink"
 msgstr "_Hyperlink"
 
-#: ../src/sheet-control-gui.c:1623
+#: ../src/sheet-control-gui.c:1624
 msgid "Edit _Hyperlink"
 msgstr "Editar _Hiperlink"
 
-#: ../src/sheet-control-gui.c:1626
+#: ../src/sheet-control-gui.c:1627
 msgid "_Remove Hyperlink"
 msgstr "_Remover Hiperlink"
 
 #. This is somewhat cheesy and should use ngettext
-#: ../src/sheet-control-gui.c:2139
+#: ../src/sheet-control-gui.c:2140
 msgid "Duplicate Object"
 msgstr "Duplica o Objeto"
 
-#: ../src/sheet-control-gui.c:2139
+#: ../src/sheet-control-gui.c:2140
 msgid "Insert Object"
 msgstr "Insere o Objeto"
 
-#: ../src/sheet-control-gui.c:2140
+#: ../src/sheet-control-gui.c:2141
 msgid "Move Object"
 msgstr "Move o Objeto"
 
-#: ../src/sheet-control-gui.c:2140
+#: ../src/sheet-control-gui.c:2141
 msgid "Resize Object"
 msgstr "Redimensiona o Objeto"
 
@@ -11120,11 +11168,11 @@ msgstr ""
 "a coluna nomeada VERDADEIRO pode conflitar com a constante do\n"
 "mesmo nome.  Espere coisas estranhas."
 
-#: ../src/sheet-view.c:346
+#: ../src/sheet-view.c:348
 msgid "Copy"
 msgstr "Copiar"
 
-#: ../src/sheet-view.c:371 ../src/sheet-view.c:374
+#: ../src/sheet-view.c:373 ../src/sheet-view.c:376
 msgid "Cut"
 msgstr "Recortar"
 
@@ -12001,11 +12049,11 @@ msgstr "_Nova Visualização..."
 msgid "Create a new view of the workbook"
 msgstr "Cria uma nova vista do WorkBook"
 
-#: ../src/wbcg-actions.c:1645 ../src/workbook-control-gui.c:1166
+#: ../src/wbcg-actions.c:1645 ../src/workbook-control-gui.c:1172
 msgid "_Freeze Panes"
 msgstr "Con_gelar Painéis"
 
-#: ../src/wbcg-actions.c:1646 ../src/workbook-control-gui.c:1169
+#: ../src/wbcg-actions.c:1646 ../src/workbook-control-gui.c:1175
 msgid "Freeze the top left of the sheet"
 msgstr "Congela a extremidade superior esquerda da pasta"
 
@@ -12523,7 +12571,7 @@ msgid "Remove an outline group"
 msgstr "Remove um grupo de contorno"
 
 #. Data -> Filter
-#: ../src/wbcg-actions.c:1885 ../src/workbook-control-gui.c:1177
+#: ../src/wbcg-actions.c:1885 ../src/workbook-control-gui.c:1183
 msgid "Add _Auto Filter"
 msgstr "Adicionar _Auto Filtro"
 
@@ -12557,8 +12605,8 @@ msgid "Import the text from a file"
 msgstr "Importa o texto de um arquivo"
 
 #. Standard Toolbar
-#: ../src/wbcg-actions.c:1900 ../src/workbook-control-gui.c:1946
-#: ../src/workbook-view.c:571
+#: ../src/wbcg-actions.c:1900 ../src/workbook-control-gui.c:1955
+#: ../src/workbook-view.c:588
 msgid "Sum"
 msgstr "Soma"
 
@@ -12802,293 +12850,301 @@ msgstr "Diminui a identação e alinha o conteúdo à esquerda"
 msgid "Increase the indent, and align the contents to the left"
 msgstr "Aumenta a identação e alinha o conteúdo à esquerda"
 
-#: ../src/wbcg-actions.c:2036
+#: ../src/wbcg-actions.c:2038
 msgid "Display _Outlines"
 msgstr "Mostrar C_ontornos"
 
-#: ../src/wbcg-actions.c:2037
+#: ../src/wbcg-actions.c:2039
 msgid "Toggle whether or not to display outline groups"
 msgstr "Alterna para mostrar ou não grupos de contorno"
 
-#: ../src/wbcg-actions.c:2039
+#: ../src/wbcg-actions.c:2041
 msgid "Outlines _Below"
 msgstr "Contornos A_baixo"
 
-#: ../src/wbcg-actions.c:2040
+#: ../src/wbcg-actions.c:2042
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Alterna exibição de contornos de colunas para cima ou para baixo"
 
-#: ../src/wbcg-actions.c:2042
+#: ../src/wbcg-actions.c:2044
 msgid "Outlines _Right"
 msgstr "Contornos à Di_reita"
 
-#: ../src/wbcg-actions.c:2043
+#: ../src/wbcg-actions.c:2045
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Alterna exibição de contornos de colunas para direita ou esquerda"
 
-#: ../src/wbcg-actions.c:2045
+#: ../src/wbcg-actions.c:2047
 msgid "Display _Formulas"
 msgstr "Mostrar _Fórmulas"
 
-#: ../src/wbcg-actions.c:2046
+#: ../src/wbcg-actions.c:2048
 msgid "Display the value of a formula or the formula itself"
 msgstr "Mostra o valor de uma fórmula ou a própria fórmula"
 
-#: ../src/wbcg-actions.c:2048
+#: ../src/wbcg-actions.c:2050
 msgid "Hide _Zeros"
 msgstr "Ocultar _Zeros"
 
-#: ../src/wbcg-actions.c:2049
+#: ../src/wbcg-actions.c:2051
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Alterna para mostrar ou não zeros como brancos"
 
-#: ../src/wbcg-actions.c:2051
+#: ../src/wbcg-actions.c:2053
 msgid "Hide _Gridlines"
 msgstr "Ocultar Linhas de _Grade"
 
-#: ../src/wbcg-actions.c:2052
+#: ../src/wbcg-actions.c:2054
 msgid "Toggle whether or not to display gridlines"
 msgstr "Alterna para mostrar ou não linhas de grade"
 
-#: ../src/wbcg-actions.c:2054
+#: ../src/wbcg-actions.c:2056
 msgid "Hide _Column Headers"
 msgstr "Ocultar Cabeçalhos de _Colunas"
 
-#: ../src/wbcg-actions.c:2055
+#: ../src/wbcg-actions.c:2057
 msgid "Toggle whether or not to display column headers"
 msgstr "Alterna para mostrar ou não cabeçalhos de colunas"
 
-#: ../src/wbcg-actions.c:2057
+#: ../src/wbcg-actions.c:2059
 msgid "Hide _Row Headers"
 msgstr "Ocultar Cabeçalhos de _Linhas"
 
-#: ../src/wbcg-actions.c:2058
+#: ../src/wbcg-actions.c:2060
 msgid "Toggle whether or not to display row headers"
 msgstr "Alterna para mostrar ou não cabeçalhos de linha"
 
 #: ../src/wbcg-actions.c:2062
+msgid "Use R1C1 N_otation "
+msgstr "Utilizar a N_otação R1C1 "
+
+#: ../src/wbcg-actions.c:2063
+msgid "Display addresses as R1C1 or A1"
+msgstr "Mostra os endereços como R1C1 ou A1"
+
+#: ../src/wbcg-actions.c:2067
 msgid "_Left Align"
 msgstr "_Alinhar à Esquerda"
 
-#: ../src/wbcg-actions.c:2063 ../src/wbc-gtk.c:322
+#: ../src/wbcg-actions.c:2068 ../src/wbc-gtk.c:323
 msgid "Align left"
 msgstr "Alinha à esquerda"
 
-#: ../src/wbcg-actions.c:2065
+#: ../src/wbcg-actions.c:2070
 msgid "_Center"
 msgstr "_Centralizar"
 
-#: ../src/wbcg-actions.c:2066 ../src/wbc-gtk.c:323
+#: ../src/wbcg-actions.c:2071 ../src/wbc-gtk.c:324
 msgid "Center horizontally"
 msgstr "Centraliza horizontalmente"
 
-#: ../src/wbcg-actions.c:2068
+#: ../src/wbcg-actions.c:2073
 msgid "_Right Align"
 msgstr "_Alinhar à Direita"
 
-#: ../src/wbcg-actions.c:2069 ../src/wbc-gtk.c:324
+#: ../src/wbcg-actions.c:2074 ../src/wbc-gtk.c:325
 msgid "Align right"
 msgstr "Alinha à direita"
 
-#: ../src/wbcg-actions.c:2071
+#: ../src/wbcg-actions.c:2076
 msgid "_Center Across Selection"
 msgstr "_Centralizar Através da Seleção"
 
-#: ../src/wbcg-actions.c:2072 ../src/wbc-gtk.c:327
+#: ../src/wbcg-actions.c:2077 ../src/wbc-gtk.c:328
 msgid "Center horizontally across the selection"
 msgstr "Centraliza horizontalmente dentro da seleção"
 
-#: ../src/wbcg-actions.c:2075
+#: ../src/wbcg-actions.c:2080
 msgid "_Merge and Center"
 msgstr "_Mesclar e Centrar"
 
-#: ../src/wbcg-actions.c:2076
+#: ../src/wbcg-actions.c:2081
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr "Mescla a seleção em uma célula e centra horizontalmente."
 
-#: ../src/wbcg-actions.c:2083
+#: ../src/wbcg-actions.c:2088
 msgid "Align _Top"
 msgstr "Alinhar com o _Topo"
 
-#: ../src/wbcg-actions.c:2084 ../src/wbc-gtk.c:334
+#: ../src/wbcg-actions.c:2089 ../src/wbc-gtk.c:335
 msgid "Align Top"
 msgstr "Alinha com a Região Superior"
 
-#: ../src/wbcg-actions.c:2086
+#: ../src/wbcg-actions.c:2091
 msgid "_Vertically Center"
 msgstr "Centrar _Verticalmente"
 
-#: ../src/wbcg-actions.c:2087
+#: ../src/wbcg-actions.c:2092
 msgid "Vertically Center"
 msgstr "Centra Verticalmente"
 
-#: ../src/wbcg-actions.c:2089
+#: ../src/wbcg-actions.c:2094
 msgid "Align _Bottom"
 msgstr "Alinhar com a _Base"
 
-#: ../src/wbcg-actions.c:2090 ../src/wbc-gtk.c:336
+#: ../src/wbcg-actions.c:2095 ../src/wbc-gtk.c:337
 msgid "Align Bottom"
 msgstr "Alinha com a Região Inferior"
 
-#: ../src/wbcg-actions.c:2093
+#: ../src/wbcg-actions.c:2098
 msgid "View _Statusbar"
 msgstr "Ver Barra de _Status"
 
-#: ../src/wbcg-actions.c:2094
+#: ../src/wbcg-actions.c:2099
 msgid "Toggle visibility of statusbar"
 msgstr "Troca a visibilidade da barra de status"
 
-#: ../src/wbcg-actions.c:2098
+#: ../src/wbcg-actions.c:2103
 msgid "F_ull Screen..."
 msgstr "_Tela Inteira..."
 
-#: ../src/wbcg-actions.c:2099
+#: ../src/wbcg-actions.c:2104
 msgid "in or out"
 msgstr "dentro ou fora"
 
-#: ../src/wbcg-actions.c:2104
+#: ../src/wbcg-actions.c:2109
 msgid "_Bold"
 msgstr "_Negrito"
 
-#: ../src/wbcg-actions.c:2107
+#: ../src/wbcg-actions.c:2112
 msgid "_Italic"
 msgstr "_Itálico"
 
-#: ../src/wbcg-actions.c:2110
+#: ../src/wbcg-actions.c:2115
 msgid "_Underline"
 msgstr "S_ublinhado"
 
 #. ALSO "<control>4"
-#: ../src/wbcg-actions.c:2111
+#: ../src/wbcg-actions.c:2116
 msgid "Underline"
 msgstr "Sublinhado"
 
-#: ../src/wbcg-actions.c:2113
+#: ../src/wbcg-actions.c:2118
 msgid "_Strike Through"
 msgstr "_Tac_hado"
 
-#: ../src/wbcg-actions.c:2114
+#: ../src/wbcg-actions.c:2119
 msgid "Strike Through"
 msgstr "Tachado"
 
-#: ../src/wbcg-actions.c:2117
+#: ../src/wbcg-actions.c:2122
 msgid "_Double Underline"
 msgstr "Sublinhado _Duplo"
 
-#: ../src/wbcg-actions.c:2118
+#: ../src/wbcg-actions.c:2123
 msgid "Double Underline"
 msgstr "Sublinhado Duplo"
 
-#: ../src/wbc-gtk.c:170
+#: ../src/wbc-gtk.c:171
 msgid "_Zoom"
 msgstr "_Zoom"
 
-#: ../src/wbc-gtk.c:200
+#: ../src/wbc-gtk.c:201
 msgid "Clear Borders"
 msgstr "Limpar as Bordas"
 
-#: ../src/wbc-gtk.c:203
+#: ../src/wbc-gtk.c:204
 msgid "All Borders"
 msgstr "Todas as Bordas"
 
-#: ../src/wbc-gtk.c:204
+#: ../src/wbc-gtk.c:205
 msgid "Outside Borders"
 msgstr "Bordas Exteriores"
 
-#: ../src/wbc-gtk.c:205
+#: ../src/wbc-gtk.c:206
 msgid "Thick Outside Borders"
 msgstr "Bordas Exteriores Espessas"
 
-#: ../src/wbc-gtk.c:208
+#: ../src/wbc-gtk.c:209
 msgid "Double Bottom"
 msgstr "Fundo Duplo"
 
-#: ../src/wbc-gtk.c:209
+#: ../src/wbc-gtk.c:210
 msgid "Thick Bottom"
 msgstr "Fundo Espesso"
 
-#: ../src/wbc-gtk.c:211
+#: ../src/wbc-gtk.c:212
 msgid "Top and Bottom"
 msgstr "Topo e Fundo"
 
-#: ../src/wbc-gtk.c:212
+#: ../src/wbc-gtk.c:213
 msgid "Top and Double Bottom"
 msgstr "Topo e Fundo Duplo"
 
-#: ../src/wbc-gtk.c:213
+#: ../src/wbc-gtk.c:214
 msgid "Top and Thick Bottom"
 msgstr "Topo e Fundo Espesso"
 
-#: ../src/wbc-gtk.c:298
+#: ../src/wbc-gtk.c:299
 msgid "Set Borders"
 msgstr "Definir Bordas"
 
-#: ../src/wbc-gtk.c:306 ../src/wbc-gtk.c:307
+#: ../src/wbc-gtk.c:307 ../src/wbc-gtk.c:308
 msgid "Borders"
 msgstr "Bordas"
 
-#: ../src/wbc-gtk.c:325
+#: ../src/wbc-gtk.c:326
 msgid "Fill Horizontally"
 msgstr "Preencher Horizontalmente"
 
-#: ../src/wbc-gtk.c:326
+#: ../src/wbc-gtk.c:327
 msgid "Justify Horizontally"
 msgstr "Justificar Horizontalmente"
 
-#: ../src/wbc-gtk.c:329
+#: ../src/wbc-gtk.c:330
 msgid "Align numbers right, and text left"
 msgstr "Alinha os números à direita e o texto à esquerda"
 
-#: ../src/wbc-gtk.c:335
+#: ../src/wbc-gtk.c:336
 msgid "Center Vertically"
 msgstr "Centralizar Verticalmente"
 
-#: ../src/wbc-gtk.c:358 ../src/wbc-gtk.c:359 ../src/wbc-gtk.c:362
-#: ../src/wbc-gtk.c:377
+#: ../src/wbc-gtk.c:359 ../src/wbc-gtk.c:360 ../src/wbc-gtk.c:363
+#: ../src/wbc-gtk.c:378
 msgid "Horzontal Alignment"
 msgstr "Alinhamento Horizontal"
 
-#: ../src/wbc-gtk.c:373 ../src/wbc-gtk.c:374
+#: ../src/wbc-gtk.c:374 ../src/wbc-gtk.c:375
 msgid "Vertical Alignment"
 msgstr "Alinhamento Vertical"
 
-#: ../src/wbc-gtk.c:470
+#: ../src/wbc-gtk.c:471
 msgid "Undo the last action"
 msgstr "Desfaz a última ação"
 
-#: ../src/wbc-gtk.c:479
+#: ../src/wbc-gtk.c:480
 msgid "Redo"
 msgstr "Refazer"
 
-#: ../src/wbc-gtk.c:480
+#: ../src/wbc-gtk.c:481
 msgid "Redo the undone action"
 msgstr "Refaz a ação desfeita"
 
-#: ../src/wbc-gtk.c:522
+#: ../src/wbc-gtk.c:523
 msgid "Set Foreground Color"
 msgstr "Definir a Cor de Primeiro Plano"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:576
+#: ../src/wbc-gtk.c:577
 msgid "Set Background Color"
 msgstr "Definir a Cor de Fundo"
 
-#: ../src/wbc-gtk.c:613
+#: ../src/wbc-gtk.c:614
 #, c-format
 msgid "Font Name %s"
 msgstr "Nome da Fonte %s"
 
-#: ../src/wbc-gtk.c:670
+#: ../src/wbc-gtk.c:671
 #, c-format
 msgid "Font Size %f"
 msgstr "Tamanho da Fonte %f"
 
-#: ../src/wbc-gtk.c:740
+#: ../src/wbc-gtk.c:741
 #, c-format
 msgid "Open %s"
 msgstr "Abrir %s"
 
-#: ../src/wbc-gtk.c:805
+#: ../src/wbc-gtk.c:806
 msgid "Nothing"
 msgstr "Nada"
 
@@ -13098,12 +13154,12 @@ msgstr "Nada"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:995
+#: ../src/wbc-gtk.c:996
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "No menu '%s', a tecla '%s' é tanto utilizada por '%s' quanto por '%s'."
 
-#: ../src/wbc-gtk.c:1201
+#: ../src/wbc-gtk.c:1206
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Exibir/Ocultar a barras de ferramentas %s"
@@ -13113,71 +13169,71 @@ msgstr "Exibir/Ocultar a barras de ferramentas %s"
 msgid "Book%d.%s"
 msgstr "Livro%d.%s"
 
-#: ../src/workbook.c:1296
+#: ../src/workbook.c:1231
 msgid "Sheet name is NULL"
 msgstr "O nome da pasta é NULO"
 
-#: ../src/workbook.c:1305
+#: ../src/workbook.c:1240
 msgid "Sheet name is not valid utf-8"
 msgstr "O nome da pasta não é válido para o padrão UTF-8"
 
-#: ../src/workbook.c:1313
+#: ../src/workbook.c:1248
 msgid "Sheet name must have at least 1 letter"
 msgstr "O nome da pasta deve ter pelo menos uma letra"
 
-#: ../src/workbook.c:1335
+#: ../src/workbook.c:1270
 msgid "There is already a sheet named"
 msgstr "Já há uma pasta chamada"
 
-#: ../src/workbook.c:1347
+#: ../src/workbook.c:1282
 msgid "You may not use this name twice"
 msgstr "Você não pode usar esse nome duas vezes"
 
-#: ../src/workbook.c:1854
+#: ../src/workbook.c:1784
 msgid "Renaming sheet"
 msgstr "Renomeando as pastas"
 
-#: ../src/workbook.c:1855
+#: ../src/workbook.c:1785
 #, c-format
 msgid "Renaming %d sheets"
 msgstr "Renomeando %d pastas"
 
-#: ../src/workbook.c:1858
+#: ../src/workbook.c:1788
 msgid "Adding sheet"
 msgstr "Adicionando a pasta"
 
-#: ../src/workbook.c:1859
+#: ../src/workbook.c:1789
 #, c-format
 msgid "Adding %d sheets"
 msgstr "Adicionando %d pastas"
 
-#: ../src/workbook.c:1866
+#: ../src/workbook.c:1796
 msgid "Inserting sheet"
 msgstr "Inserindo a pasta"
 
-#: ../src/workbook.c:1867
+#: ../src/workbook.c:1797
 #, c-format
 msgid "Inserting %d sheets"
 msgstr "Inserindo %d pastas"
 
-#: ../src/workbook.c:1869
+#: ../src/workbook.c:1799
 msgid "Changing sheet tab colors"
 msgstr "Alterando as cores das abas das pastas"
 
-#: ../src/workbook.c:1871
+#: ../src/workbook.c:1801
 msgid "Changing sheet properties"
 msgstr "Alterando as propriedades da pasta"
 
-#: ../src/workbook.c:1879
+#: ../src/workbook.c:1809
 msgid "Deleting sheet"
 msgstr "Excluindo a pasta"
 
-#: ../src/workbook.c:1880
+#: ../src/workbook.c:1810
 #, c-format
 msgid "Deleting %d sheets"
 msgstr "Excluindo %d pastas"
 
-#: ../src/workbook.c:1882
+#: ../src/workbook.c:1812
 msgid "Changing sheet order"
 msgstr "Mudando a ordem da pasta"
 
@@ -13193,113 +13249,113 @@ msgstr "Endereço"
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: ../src/workbook-control-gui.c:521
+#: ../src/workbook-control-gui.c:525
 msgid "Manage sheets..."
 msgstr "Gerenciar pastas..."
 
-#: ../src/workbook-control-gui.c:524
+#: ../src/workbook-control-gui.c:528
 msgid "Append"
 msgstr "Adicionar"
 
-#: ../src/workbook-control-gui.c:525
+#: ../src/workbook-control-gui.c:529
 msgid "Duplicate"
 msgstr "Duplicar"
 
-#: ../src/workbook-control-gui.c:526
+#: ../src/workbook-control-gui.c:530
 msgid "Remove"
 msgstr "Remover"
 
-#: ../src/workbook-control-gui.c:527
+#: ../src/workbook-control-gui.c:531
 msgid "Rename"
 msgstr "Renomear"
 
-#: ../src/workbook-control-gui.c:1165
+#: ../src/workbook-control-gui.c:1171
 msgid "Un_freeze Panes"
 msgstr "Descon_gelar Painéis"
 
-#: ../src/workbook-control-gui.c:1168
+#: ../src/workbook-control-gui.c:1174
 msgid "Unfreeze the top left of the sheet"
 msgstr "Descongela a extremidade superior esquerda da pasta"
 
-#: ../src/workbook-control-gui.c:1176
+#: ../src/workbook-control-gui.c:1182
 msgid "Remove _Auto Filter"
 msgstr "_Remover Auto Filtro"
 
-#: ../src/workbook-control-gui.c:1179
+#: ../src/workbook-control-gui.c:1185
 msgid "Remove a filter"
 msgstr "Remove um filtro"
 
-#: ../src/workbook-control-gui.c:1180
+#: ../src/workbook-control-gui.c:1186
 msgid "Add a filter"
 msgstr "Adiciona um filtro"
 
-#: ../src/workbook-control-gui.c:1191
+#: ../src/workbook-control-gui.c:1197
 msgid "_Undo"
 msgstr "_Desfazer"
 
-#: ../src/workbook-control-gui.c:1192
+#: ../src/workbook-control-gui.c:1198
 msgid "_Redo"
 msgstr "_Refazer"
 
-#: ../src/workbook-control-gui.c:1278
+#: ../src/workbook-control-gui.c:1284
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Salvar as alterações para o WorkBook '%s' antes de sair da sessão?"
 
-#: ../src/workbook-control-gui.c:1282
+#: ../src/workbook-control-gui.c:1288
 msgid "Save changes to workbook before closing?"
 msgstr "Salvar as alterações para o WorkBook antes de fechar a sessão?"
 
-#: ../src/workbook-control-gui.c:1288
+#: ../src/workbook-control-gui.c:1294
 msgid "If you close without saving, changes will be discarded."
 msgstr "Se você fechar sem salvar, as alterações serão descartadas."
 
-#: ../src/workbook-control-gui.c:1295
+#: ../src/workbook-control-gui.c:1301
 msgid "Discard all"
 msgstr "Descartar tudo"
 
-#: ../src/workbook-control-gui.c:1297 ../src/workbook-control-gui.c:1306
-#: ../src/workbook-control-gui.c:1314
+#: ../src/workbook-control-gui.c:1303 ../src/workbook-control-gui.c:1312
+#: ../src/workbook-control-gui.c:1320
 msgid "Discard"
 msgstr "Descartar"
 
-#: ../src/workbook-control-gui.c:1299
+#: ../src/workbook-control-gui.c:1305
 msgid "Save all"
 msgstr "Salvar tudo"
 
-#: ../src/workbook-control-gui.c:1301 ../src/workbook-control-gui.c:1308
+#: ../src/workbook-control-gui.c:1307 ../src/workbook-control-gui.c:1314
 msgid "Don't quit"
 msgstr "Não sair"
 
-#: ../src/workbook-control-gui.c:1316
+#: ../src/workbook-control-gui.c:1322
 msgid "Don't close"
 msgstr "Não fechar"
 
-#: ../src/workbook-control-gui.c:1995
+#: ../src/workbook-control-gui.c:2004
 msgid "Use maximum precision"
 msgstr "Utilizar a precisão máxima"
 
-#: ../src/workbook-control-gui.c:2224
+#: ../src/workbook-control-gui.c:2233
 msgid "Cancel change"
 msgstr "Cancelar alteração"
 
-#: ../src/workbook-control-gui.c:2228
+#: ../src/workbook-control-gui.c:2237
 msgid "Accept change"
 msgstr "Aceitar alteração"
 
-#: ../src/workbook-control-gui.c:2232
+#: ../src/workbook-control-gui.c:2241
 msgid "Enter formula..."
 msgstr "Entrar com a fórmula..."
 
-#: ../src/workbook-control-gui.c:2367 ../src/workbook-control-gui.c:2382
+#: ../src/workbook-control-gui.c:2376 ../src/workbook-control-gui.c:2391
 msgid "_Re-Edit"
 msgstr "_Reeditar"
 
-#: ../src/workbook-control-gui.c:2368 ../src/workbook-control-gui.c:2373
+#: ../src/workbook-control-gui.c:2377 ../src/workbook-control-gui.c:2382
 msgid "_Discard"
 msgstr "_Descartar"
 
-#: ../src/workbook-control-gui.c:2372 ../src/workbook-control-gui.c:2383
+#: ../src/workbook-control-gui.c:2381 ../src/workbook-control-gui.c:2392
 msgid "_Accept"
 msgstr "_Aceitar"
 
@@ -13316,98 +13372,98 @@ msgstr "Desbloqueie o WorkBook para habilitar a edição."
 msgid "Unprotect the sheet to enable editing."
 msgstr " Desbloqueie a pasta para habilitar a edição."
 
-#: ../src/workbook-view.c:266
+#: ../src/workbook-view.c:283
 #, c-format
 msgid "%dC"
 msgstr "%dC"
 
-#: ../src/workbook-view.c:268
+#: ../src/workbook-view.c:285
 #, c-format
 msgid "%dR"
 msgstr "%dR"
 
-#: ../src/workbook-view.c:270
+#: ../src/workbook-view.c:287
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: ../src/workbook-view.c:449
+#: ../src/workbook-view.c:466
 msgid "Internal ERROR"
 msgstr "ERRO Interno"
 
-#: ../src/workbook-view.c:597
+#: ../src/workbook-view.c:614
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "Impossível abrir o '%s'  para escrita: %s"
 
-#: ../src/workbook-view.c:621
+#: ../src/workbook-view.c:638
 #, c-format
 msgid "An unexplained error happened while saving %s"
 msgstr "Um erro inesperado ocorreu quando salvava %s"
 
-#: ../src/workbook-view.c:707 ../src/workbook-view.c:880
+#: ../src/workbook-view.c:724 ../src/workbook-view.c:897
 msgid "Default file saver is not available."
 msgstr "O gravador de aquivo não está disponível."
 
-#: ../src/workbook-view.c:821
+#: ../src/workbook-view.c:838
 msgid "Failed to create temporary file for sending."
 msgstr "Falha ao criar o aquivo temporário para enviar."
 
-#: ../src/workbook-view.c:972
+#: ../src/workbook-view.c:989
 msgid "Unsupported file format."
 msgstr "Formato de arquivo não suportado."
 
-#: ../src/workbook-view.c:1020
+#: ../src/workbook-view.c:1037
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Um erro inesperado ocorreu enquanto abria %s"
 
-#: ../src/xml-io.c:2556 ../src/xml-sax-read.c:1329
+#: ../src/xml-io.c:2563 ../src/xml-sax-read.c:1366
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Tipo de objeto não suportado '%s'"
 
-#: ../src/xml-io.c:3214
+#: ../src/xml-io.c:3225
 msgid "Unparsable xml in clipboard"
 msgstr "XML não interpretado Área de Transferência"
 
-#: ../src/xml-io.c:3221
+#: ../src/xml-io.c:3232
 msgid "Clipboard is in unknown format"
 msgstr "A área de transferência está em um formato desconhecido"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: ../src/xml-io.c:3577
+#: ../src/xml-io.c:3588
 msgid "Processing file..."
 msgstr "Processando o arquivo..."
 
-#: ../src/xml-io.c:3897
+#: ../src/xml-io.c:3908
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Este arquivo não é um Workbook do Gnumeric"
 
-#: ../src/xml-io.c:3935
+#: ../src/xml-io.c:3946
 msgid "Failure saving file"
 msgstr "Erro ao salvar arquivo"
 
-#: ../src/xml-io.c:3983 ../src/xml-io.c:3998
+#: ../src/xml-io.c:3994 ../src/xml-io.c:4009
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
-#: ../src/xml-io.c:3988
+#: ../src/xml-io.c:3999
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Exportador original lento do Gnumeric XML (*.gnumeric)"
 
-#: ../src/xml-io.c:3993
+#: ../src/xml-io.c:4004
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgstr "Gnumeric EXPERIMENTAL baseado em SAX (*.gnumeric)"
 
-#: ../src/xml-sax-read.c:307
+#: ../src/xml-sax-read.c:339
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Especificações de múltplas versões. Assumindo %d"
 
-#: ../src/xml-sax-read.c:479
+#: ../src/xml-sax-read.c:515
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "O arquivo contém elemento PastaNomeÍndice inconsistente."
 
@@ -13600,6 +13656,12 @@ msgstr "Modelo de lista lilás"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Um modelo de lista simples"
+
+#~ msgid "Visible"
+#~ msgstr "Visível"
+
+#~ msgid "Sheet is visible."
+#~ msgstr "A pasta está visível."
 
 #~ msgid "x,mu,sigma,give_log"
 #~ msgstr "x,mi,sigma,give_log"
