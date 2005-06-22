@@ -1,3 +1,10 @@
+2005-06-22  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* src/gnumeric-pane.c (cb_gnm_pane_drag_motion): set snap_to_grid if
+	SHIFT is pressed, state given by widget parent window.
+	* src/sheet-control-gui.c (scg_drag_receive_same_scg): ditto.
+	(scg_objects_nudge): fix typo.
+	
 2005-06-14  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=163414

@@ -2146,7 +2146,7 @@ scg_objects_nudge (SheetControlGUI *scg, GnmCanvas *gcanvas,
 		   int drag_type, double dx, double dy, gboolean symmetric, gboolean snap_to_grid)
 {
 	/* no nudging if we are creating an object */
-	if (scg->new_object) {
+	if (!scg->new_object) {
 		scg_objects_drag (scg, gcanvas, NULL, &dx, &dy, drag_type, symmetric, snap_to_grid, FALSE);
 		scg_objects_drag_commit (scg, drag_type, FALSE);
 	}
@@ -3160,7 +3160,15 @@ static void
 scg_drag_receive_same_scg (SheetControlGUI *scg, GnmCanvas *gcanvas, 
 			   double x, double y)
 {
-	gnm_pane_objects_drag (gcanvas->pane, NULL, x, y, 8, FALSE, FALSE);
+	GdkWindow *window;
+	GdkModifierType mask;
+	int xp, yp;
+
+	window = gtk_widget_get_parent_window (GTK_WIDGET (gcanvas));
+	gdk_window_get_pointer (window, &xp, &yp, &mask);
+
+	gnm_pane_objects_drag (gcanvas->pane, NULL, x, y, 8, FALSE,
+			       (mask & GDK_SHIFT_MASK) != 0);
 	scg_objects_drag_commit	(scg, 8, FALSE);
 }
 
