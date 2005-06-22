@@ -6506,36 +6506,7 @@ random_01 (void)
 		device_fd = -1;
 	}
 
-#ifdef HAVE_RANDOM
-	{
-		int r1, r2;
-
-		r1 = random () & 2147483647;
-		r2 = random () & 2147483647;
-
-		return (r1 + (r2 / 2147483648.0)) / 2147483648.0;
-	}
-#elif defined (HAVE_DRAND48)
-	return drand48 ();
-#else
-	{
-		/*
-		 * We try to work around lack of randomness in rand's
-		 * lower bits.
-		 */
-		const int prime = 65537;
-		int r1, r2, r3, r4;
-
-		g_assert (RAND_MAX > ((1 << 12) - 1));
-
-		r1 = (rand () ^ (rand () << 12)) % prime;
-		r2 = (rand () ^ (rand () << 12)) % prime;
-		r3 = (rand () ^ (rand () << 12)) % prime;
-		r4 = (rand () ^ (rand () << 12)) % prime;
-
-		return (r1 + (r2 + (r3 + r4 / (gnm_float)prime) / prime) / prime) / prime;
-	}
-#endif
+	return genrand_res53 ();
 }
 
 /*
