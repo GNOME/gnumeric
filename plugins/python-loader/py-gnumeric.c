@@ -1242,7 +1242,7 @@ py_Cell_set_text_method (py_Cell_object *self, PyObject *args)
 		return NULL;
 	}
 
-	cell_set_text (self->cell, text);
+	sheet_cell_set_text (self->cell, text, NULL);
 
 	Py_INCREF (Py_None);
 	return Py_None;

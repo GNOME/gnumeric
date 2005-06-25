@@ -1,3 +1,7 @@
+2005-06-25  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.c (py_Cell_set_text_method): Fix redisplay problem.
+
 2005-06-13  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.2
