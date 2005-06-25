@@ -1,3 +1,7 @@
+2005-06-25  Jon K Hellan  <hellan@acm.org>
+
+	* developer/gnumeric.jhbuildrc: Add sample jhbuildrc.
+
 2005-06-13  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.2
