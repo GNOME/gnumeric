@@ -83,7 +83,7 @@ typedef struct {
 		GtkComboBoxEntry      	*quotechar;
 		GtkWidget	*charset;
 		GtkComboBox 	*transliterate;
-		GtkWidget	*format;
+		GtkComboBox 	*format;
 	} format;
 
 	TextExportPage	cur_page;

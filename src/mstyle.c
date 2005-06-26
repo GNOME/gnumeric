@@ -468,11 +468,12 @@ gnm_style_dup (GnmStyle const *src)
 	int i;
 
 	new_style->ref_count = 1;
-	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
-		elem_assign_content (new_style, src, i);
-		elem_set (new_style, i);
-		elem_changed (new_style, i);
-	}
+	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
+		if (elem_is_set (src, i)) {
+			elem_assign_content (new_style, src, i);
+			elem_set (new_style, i);
+			elem_changed (new_style, i);
+		}
 	if ((new_style->pango_attrs = src->pango_attrs))
 		pango_attr_list_ref (new_style->pango_attrs);
 	if ((new_style->font = src->font)) {

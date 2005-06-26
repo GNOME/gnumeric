@@ -204,7 +204,7 @@ static GNM_ACTION_DEF (cb_edit_delete_rows)
 	WorkbookControl *wbc   = WORKBOOK_CONTROL (wbcg);
 	SheetView       *sv    = wb_control_cur_sheet_view (wbc);
 	Sheet           *sheet = wb_control_cur_sheet (wbc);
-	GnmRange const *sel;
+	GnmRange const  *sel;
 	int rows;
 
 	if (!(sel = selection_first_range (sv, GO_CMD_CONTEXT (wbc), _("Delete"))))
@@ -1421,7 +1421,7 @@ static GNM_ACTION_DEF (cb_format_row_unhide)
 }
 
 /* Actions that are always sensitive */
-static const GtkActionEntry permanent_actions[] = {
+static GtkActionEntry const permanent_actions[] = {
 	{ "MenuFile",		NULL, N_("_File") },
 	{ "MenuEdit",		NULL, N_("_Edit") },
 		{ "MenuEditClear",	GTK_STOCK_CLEAR, N_("C_lear") },
@@ -1450,6 +1450,13 @@ static const GtkActionEntry permanent_actions[] = {
 		{ "MenuOutline",	NULL,	N_("_Group and Outline") },
 		{ "MenuExternalData",	NULL,	N_("Get _External Data") },
 	{ "MenuHelp",	NULL,	N_("_Help") },
+
+	{ "FileClose", GTK_STOCK_CLOSE, NULL,
+		NULL, N_("Close the current file"),
+		G_CALLBACK (cb_file_close) },
+	{ "FileQuit", GTK_STOCK_QUIT, NULL,
+		NULL, N_("Quit the application"),
+		G_CALLBACK (cb_file_quit) },
 
 	{ "EditCut", GTK_STOCK_CUT, NULL,
 		NULL, N_("Cut the selection"),
@@ -1484,7 +1491,7 @@ static const GtkActionEntry permanent_actions[] = {
 		G_CALLBACK (cb_repeat) }
 };
 
-static const GtkActionEntry actions[] = {
+static GtkActionEntry const actions[] = {
 /* File */
 	{ "FileNew", GTK_STOCK_NEW, NULL,
 		NULL, N_("Create a new workbook"),
@@ -1516,12 +1523,6 @@ static const GtkActionEntry actions[] = {
 	{ "FilePreferences", GTK_STOCK_PREFERENCES, N_("Pre_ferences..."),
 		NULL, N_("Change Gnumeric Preferences"),
 		G_CALLBACK (cb_file_preferences) },
-	{ "FileClose", GTK_STOCK_CLOSE, NULL,
-		NULL, N_("Close the current file"),
-		G_CALLBACK (cb_file_close) },
-	{ "FileQuit", GTK_STOCK_QUIT, NULL,
-		NULL, N_("Quit the application"),
-		G_CALLBACK (cb_file_quit) },
 
 #warning new hook put here to avoid patch conflict
 	{ "FileSummary_new", GTK_STOCK_PROPERTIES, N_("NEW Proper_ties..."),
@@ -2034,7 +2035,7 @@ TOGGLE_HANDLER (outline_symbols_below, "display-outlines-below")
 TOGGLE_HANDLER (outline_symbols_right, "display-outlines-right")
 TOGGLE_HANDLER (use_r1c1, "use-r1c1")
 
-static const GtkToggleActionEntry toggle_actions[] = {
+static GtkToggleActionEntry const toggle_actions[] = {
 	{ "SheetDisplayOutlines", NULL, N_("Display _Outlines"),
 		"<control>8", N_("Toggle whether or not to display outline groups"),
 		G_CALLBACK (cb_sheet_pref_display_outlines) },
@@ -2104,7 +2105,7 @@ static const GtkToggleActionEntry toggle_actions[] = {
 		N_("in or out"), G_CALLBACK (cb_view_fullscreen), FALSE }
 };
 
-static const GtkToggleActionEntry font_toggle_actions[] = {
+static GtkToggleActionEntry const font_toggle_actions[] = {
 	{ "FontBold", GTK_STOCK_BOLD,
 		N_("_Bold"), "<control>B",	/* ALSO "<control>2" */
 		N_("Bold"), G_CALLBACK (cb_font_bold), FALSE },

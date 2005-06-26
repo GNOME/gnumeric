@@ -8,6 +8,7 @@ Jody:
 	* SAX in for hyperlinks.
 	* Conditional Formating for backgrounds.
 	* Conditional Formating for borders.
+	* Store the current settings before previewing. [#301494]
 
 Morten:
 	* Make changes to toolbar visibility permanent.

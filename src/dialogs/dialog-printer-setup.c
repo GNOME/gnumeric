@@ -145,9 +145,6 @@ typedef struct {
 		UnitInfo header, footer;
 	} margins;
 
-	PrintOrientation orientation;
-	PrintOrientation current_orientation;
-
 	PreviewInfo preview;
 
 	GtkWidget *icon_rd;
@@ -167,18 +164,14 @@ typedef struct {
 	/* The header and footer preview widgets. */
 	HFPreviewInfo *pi_header;
 	HFPreviewInfo *pi_footer;
-
-	gulong notebook_signal_connection;
 } PrinterSetupState;
 
-typedef struct
-{
-    PrinterSetupState *state;
-    UnitInfo *target;
+typedef struct {
+	PrinterSetupState *state;
+	UnitInfo *target;
 } UnitInfo_cbdata;
 
 static void fetch_settings (PrinterSetupState *state);
-static void printer_setup_state_free (PrinterSetupState *state);
 static void do_hf_customize (gboolean header, PrinterSetupState *state);
 
 /**
@@ -572,8 +565,7 @@ notebook_flipped (G_GNUC_UNUSED GtkNotebook *notebook,
 }
 
 static void
-unit_changed (G_GNUC_UNUSED GtkSpinButton *spin_button,
-	      UnitInfo_cbdata *data)
+cb_unit_changed (UnitInfo_cbdata *data)
 {
 	data->target->value = gtk_adjustment_get_value (data->target->adj);
 	data->target->unit = gnome_print_unit_selector_get_unit (
@@ -584,24 +576,20 @@ unit_changed (G_GNUC_UNUSED GtkSpinButton *spin_button,
 }
 
 static gboolean
-unit_activated (G_GNUC_UNUSED GtkSpinButton *spin_button,
-		G_GNUC_UNUSED GdkEventFocus *event,
-		UnitInfo_cbdata *data)
+cb_unit_activated (UnitInfo_cbdata *data)
 {
 	foo_canvas_item_set (data->target->line,
-			       "fill-color", MARGIN_COLOR_ACTIVE,
-			       NULL);
+			     "fill-color", MARGIN_COLOR_ACTIVE,
+			     NULL);
 	return FALSE;
 }
 
 static gboolean
-unit_deactivated (G_GNUC_UNUSED GtkSpinButton *spin_button,
-		  G_GNUC_UNUSED GdkEventFocus *event,
-		  UnitInfo_cbdata *data)
+cb_unit_deactivated (UnitInfo_cbdata *data)
 {
 	foo_canvas_item_set (data->target->line,
-			       "fill-color", MARGIN_COLOR_DEFAULT,
-			       NULL);
+			     "fill-color", MARGIN_COLOR_DEFAULT,
+			     NULL);
 	return FALSE;
 }
 
@@ -636,17 +624,17 @@ unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
 	cbdata = g_new (UnitInfo_cbdata, 1);
 	cbdata->state = state;
 	cbdata->target = target;
-	g_signal_connect (G_OBJECT (target->spin),
+	g_signal_connect_swapped (G_OBJECT (target->spin),
 		"focus_in_event",
-		G_CALLBACK (unit_activated), cbdata);
-	g_signal_connect (G_OBJECT (target->spin),
+		G_CALLBACK (cb_unit_activated), cbdata);
+	g_signal_connect_swapped (G_OBJECT (target->spin),
 		"focus_out_event",
-		G_CALLBACK (unit_deactivated), cbdata);
+		G_CALLBACK (cb_unit_deactivated), cbdata);
 	gnome_print_unit_selector_add_adjustment (GNOME_PRINT_UNIT_SELECTOR (state->unit_selector),
 						  target->adj);
-	g_signal_connect (G_OBJECT (target->spin),
+	g_signal_connect_swapped (G_OBJECT (target->spin),
 		"value_changed",
-		G_CALLBACK (unit_changed), cbdata);
+		G_CALLBACK (cb_unit_changed), cbdata);
 	g_object_set_data_full (G_OBJECT (target->spin),
 		"cbdata", cbdata, g_free); /* avoid a leak */
 
@@ -912,24 +900,7 @@ text_get (GtkEditable *text_widget)
 }
 
 static void
-hf_customize_cancel (G_GNUC_UNUSED GtkWidget *button,
-		     GtkWidget *dialog)
-{
-		gtk_widget_destroy (dialog);
-}
-
-static void hf_customize_apply (GtkWidget *button, GtkWidget *dialog);
-
-static void
-hf_customize_ok (GtkWidget *button, GtkWidget *dialog)
-{
-	hf_customize_apply (button, dialog);
-	gtk_widget_destroy (dialog);
-}
-
-static void
-hf_customize_apply (G_GNUC_UNUSED GtkWidget *button,
-		    GtkWidget *dialog)
+hf_customize_apply (GtkWidget *dialog)
 {
 	GladeXML *gui;
 	GtkEntry *left, *middle, *right;
@@ -977,8 +948,16 @@ hf_customize_apply (G_GNUC_UNUSED GtkWidget *button,
 	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "ok_button"), FALSE);
 }
 
+
+static void
+hf_customize_ok (GtkWidget *dialog)
+{
+	hf_customize_apply (dialog);
+	gtk_widget_destroy (dialog);
+}
+
 static gboolean
-hf_changed (G_GNUC_UNUSED GtkWidget *dummy,  GladeXML *gui)
+cb_hf_changed (GladeXML *gui)
 {
 	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "apply_button"), TRUE);
 	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "ok_button"), TRUE);
@@ -1038,12 +1017,12 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (middle));
 	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (right));
 
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "apply_button")), "clicked",
-			  G_CALLBACK (hf_customize_apply), dialog);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "ok_button")), "clicked",
-			  G_CALLBACK (hf_customize_ok), dialog);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "cancel_button")), "clicked",
-			  G_CALLBACK (hf_customize_cancel), dialog);
+	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "apply_button")),
+		"clicked", G_CALLBACK (hf_customize_apply), dialog);
+	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "ok_button")),
+		"clicked", G_CALLBACK (hf_customize_ok), dialog);
+	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "cancel_button")),
+		"clicked", G_CALLBACK (gtk_widget_destroy), dialog);
 	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "apply_button"), FALSE);
 	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "ok_button"), FALSE);
 
@@ -1060,25 +1039,17 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	g_object_set_data (G_OBJECT (dialog), "state", state);
 
 	/* Setup bindings to mark when the entries are modified. */
-	g_signal_connect (G_OBJECT (left),
-		"changed",
-		G_CALLBACK (hf_changed), gui);
-	g_signal_connect (G_OBJECT (middle),
-		"changed",
-		G_CALLBACK (hf_changed), gui);
-	g_signal_connect (G_OBJECT (right),
-		"changed",
-		G_CALLBACK (hf_changed), gui);
+	g_signal_connect_swapped (G_OBJECT (left),
+		"changed", G_CALLBACK (cb_hf_changed), gui);
+	g_signal_connect_swapped (G_OBJECT (middle),
+		"changed", G_CALLBACK (cb_hf_changed), gui);
+	g_signal_connect_swapped (G_OBJECT (right),
+		"changed", G_CALLBACK (cb_hf_changed), gui);
 
 
-	if (header)
-		gnumeric_init_help_button (
-			glade_xml_get_widget (gui, "help_button"),
-			GNUMERIC_HELP_LINK_PRINTER_SETUP_HEADER_CUSTOMIZATION);
-	else
-		gnumeric_init_help_button (
-			glade_xml_get_widget (gui, "help_button"),
-			GNUMERIC_HELP_LINK_PRINTER_SETUP_FOOTER_CUSTOMIZATION);
+	gnumeric_init_help_button (glade_xml_get_widget (gui, "help_button"),
+		header  ? GNUMERIC_HELP_LINK_PRINTER_SETUP_HEADER_CUSTOMIZATION
+			: GNUMERIC_HELP_LINK_PRINTER_SETUP_FOOTER_CUSTOMIZATION);
 
 	/* Let them begin typing into the first entry widget. */
 	gtk_widget_grab_focus (GTK_WIDGET (left));
@@ -1485,12 +1456,11 @@ print_setup_get_sheet (PrinterSetupState *state)
 }
 
 static void
-cb_do_print_preview (G_GNUC_UNUSED GtkWidget *w,
-		     PrinterSetupState *state)
+cb_do_print_preview (PrinterSetupState *state)
 {
 	PrintInformation *old_pi;
-	fetch_settings (state);
 
+	fetch_settings (state);
 	old_pi = state->sheet->print_info;
 	state->sheet->print_info = state->pi;
 	sheet_print (state->wbcg, state->sheet, TRUE, PRINT_ACTIVE_SHEET);
@@ -1498,21 +1468,18 @@ cb_do_print_preview (G_GNUC_UNUSED GtkWidget *w,
 }
 
 static void
-cb_do_print_cancel (G_GNUC_UNUSED GtkWidget *w,
-		    PrinterSetupState *state)
+cb_do_print_cancel (PrinterSetupState *state)
 {
 	gtk_widget_destroy (state->dialog);
 }
 
 static void
-cb_do_print_ok (G_GNUC_UNUSED GtkWidget *w,
-		PrinterSetupState *state)
+cb_do_print_ok (PrinterSetupState *state)
 {
 	/* Detach BEFORE we finish editing */
 	wbcg_edit_detach_guru (state->wbcg);
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_ACCEPT, NULL);
 	fetch_settings (state);
-	print_info_load_config (state->pi, state->gp_config);
 	if (gtk_toggle_button_get_active (
 		    GTK_TOGGLE_BUTTON (
 			    glade_xml_get_widget (state->gui, 
@@ -1525,33 +1492,38 @@ cb_do_print_ok (G_GNUC_UNUSED GtkWidget *w,
 }
 
 static void
-cb_do_print (G_GNUC_UNUSED GtkWidget *w, PrinterSetupState *state)
+cb_do_print (PrinterSetupState *state)
 {
 	WorkbookControlGUI *wbcg = state->wbcg;
 	Sheet *sheet = state->sheet;
 
-	cb_do_print_ok (NULL, state);
+	cb_do_print_ok (state);
 
 	sheet_print (wbcg, sheet, 
 		     FALSE, PRINT_ACTIVE_SHEET);
 }
 
 static void
-cb_do_print_destroy (G_GNUC_UNUSED GtkWidget *button,
-		     PrinterSetupState *state)
+cb_do_print_destroy (PrinterSetupState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 
-	g_signal_handler_disconnect (glade_xml_get_widget (state->gui, "print-setup-notebook"),
-				     state->notebook_signal_connection);
 	if (state->customize_header)
 		gtk_widget_destroy (state->customize_header);
 
 	if (state->customize_footer)
 		gtk_widget_destroy (state->customize_footer);
 
-	printer_setup_state_free (state);
+	g_object_unref (state->gui);
+	g_object_unref (state->gp_config);
+
+	print_hf_free (state->header);
+	print_hf_free (state->footer);
+	print_info_free (state->pi);
+	g_free (state->pi_header);
+	g_free (state->pi_footer);
+	g_free (state);
 }
 
 static void
@@ -1612,24 +1584,23 @@ do_setup_main_dialog (PrinterSetupState *state)
 	state->dialog = glade_xml_get_widget (state->gui, "print-setup");
 
 	w = glade_xml_get_widget (state->gui, "ok");
-	g_signal_connect (G_OBJECT (w),
+	g_signal_connect_swapped (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_do_print_ok), state);
 	w = glade_xml_get_widget (state->gui, "print");
-	g_signal_connect (G_OBJECT (w),
+	g_signal_connect_swapped (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_do_print), state);
 	w = glade_xml_get_widget (state->gui, "preview");
-	g_signal_connect (G_OBJECT (w),
+	g_signal_connect_swapped (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_do_print_preview), state);
 	w = glade_xml_get_widget (state->gui, "cancel");
-	g_signal_connect (G_OBJECT (w),
+	g_signal_connect_swapped (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_do_print_cancel), state);
-
 	w = glade_xml_get_widget (state->gui, "print-setup-notebook");
-	state->notebook_signal_connection = g_signal_connect (G_OBJECT (w),
+	g_signal_connect (G_OBJECT (w),
 		"switch-page",
 		G_CALLBACK (notebook_flipped), state);
 
@@ -1637,12 +1608,9 @@ do_setup_main_dialog (PrinterSetupState *state)
 	w = glade_xml_get_widget (state->gui, "options");
 	gtk_widget_hide (w);
 
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_do_print_destroy);
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-
-	/* Lifecyle management */
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (cb_do_print_destroy), state);
 
 }
 
@@ -1661,7 +1629,7 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->sheet = sheet;
 	state->gui   = gui;
-	state->pi    = print_info_dup(sheet->print_info);
+	state->pi    = print_info_dup (sheet->print_info);
 	state->gp_config = print_info_make_config (state->pi);
 	state->customize_header = NULL;
 	state->customize_footer = NULL;
@@ -1674,20 +1642,6 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 	do_setup_page (state);
 
 	return state;
-}
-
-static void
-printer_setup_state_free (PrinterSetupState *state)
-{
-	g_object_unref (state->gui);
-	g_object_unref (state->gp_config);
-
-	print_hf_free (state->header);
-	print_hf_free (state->footer);
-	print_info_free (state->pi);
-	g_free (state->pi_header);
-	g_free (state->pi_footer);
-	g_free (state);
 }
 
 static void
@@ -1799,6 +1753,7 @@ fetch_settings (PrinterSetupState *state)
 	do_fetch_margins (state);
 	do_fetch_hf (state);
 	do_fetch_page_info (state);
+	print_info_load_config (state->pi, state->gp_config);
 }
 
 void

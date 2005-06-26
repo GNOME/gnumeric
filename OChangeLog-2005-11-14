@@ -1,5 +1,9 @@
 2005-06-25  Jody Goldberg <jody@gnome.org>
 
+	* src/mstyle.c (gnm_style_dup) : no need to dup unassigned elements.
+
+2005-06-25  Jody Goldberg <jody@gnome.org>
+
 	* src/xml-sax-read.c (xml_sax_hlink) : new.
 	(xml_sax_input_msg) : new.
 

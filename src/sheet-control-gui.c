@@ -1156,8 +1156,8 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 	scg->wbcg = wbcg;
 	scg->sheet_control.wbc = WORKBOOK_CONTROL (wbcg);
 
-	g_object_weak_ref (G_OBJECT (wbcg), 
-		(GWeakNotify) cb_wbc_destroyed, 
+	g_object_weak_ref (G_OBJECT (wbcg),
+		(GWeakNotify) cb_wbc_destroyed,
 		scg);
 
 	scg->active_panes = 1;
@@ -1339,8 +1339,8 @@ scg_finalize (GObject *object)
 	}
 
 	if (scg->wbcg != NULL)
-		g_object_weak_unref (G_OBJECT (scg->wbcg), 
-			(GWeakNotify) cb_wbc_destroyed, 
+		g_object_weak_unref (G_OBJECT (scg->wbcg),
+			(GWeakNotify) cb_wbc_destroyed,
 			scg);
 
 	(*scg_parent_class->finalize) (object);
@@ -1843,7 +1843,7 @@ scg_object_select (SheetControlGUI *scg, SheetObject *so)
 #if 0
 	if (SO_CLASS (so)->set_active != NULL)
 		SCG_FOREACH_PANE (scg, pane, {
-			SO_CLASS (so)->set_active (so, 
+			SO_CLASS (so)->set_active (so,
 				sheet_object_get_view (so, pane), TRUE);
 		});
 	}
@@ -1862,7 +1862,7 @@ cb_scg_object_unselect (SheetObject *so, double *coords, SheetControlGUI *scg)
 #if 0
 	if (SO_CLASS (old)->set_active != NULL)
 		SCG_FOREACH_PANE (scg, pane, {
-			SO_CLASS (old)->set_active (old, 
+			SO_CLASS (old)->set_active (old,
 				sheet_object_get_view (old, pane), FALSE);
 		});
 #endif
@@ -1910,9 +1910,9 @@ typedef struct {
 	gboolean snap_to_grid;
 	gboolean is_mouse_move;
 } ObjDragInfo;
- 
+
 static gboolean
-snap_pos_to_grid (ObjDragInfo *info, gboolean is_col, int *pos, gboolean to_min) 
+snap_pos_to_grid (ObjDragInfo *info, gboolean is_col, int *pos, gboolean to_min)
 {
 	GnmCanvas *gcanvas = info->gcanvas;
 	Sheet *sheet = SHEET_CONTROL (info->scg)->sheet;
@@ -1925,7 +1925,7 @@ snap_pos_to_grid (ObjDragInfo *info, gboolean is_col, int *pos, gboolean to_min)
 
 	if (*pos < pixel) {
 		while (cell > 0 && *pos < pixel) {
-			cr_info = is_col ? 
+			cr_info = is_col ?
 				sheet_col_get_info (sheet, --cell):
 				sheet_row_get_info (sheet, --cell);
 			if (cr_info->visible) {
@@ -1937,7 +1937,7 @@ snap_pos_to_grid (ObjDragInfo *info, gboolean is_col, int *pos, gboolean to_min)
 			*pos = pixel;
 	} else {
 		do {
-			cr_info = is_col ? 
+			cr_info = is_col ?
 				sheet_col_get_info (sheet, cell):
 				sheet_row_get_info (sheet, cell);
 			if (cr_info->visible) {
@@ -1948,16 +1948,16 @@ snap_pos_to_grid (ObjDragInfo *info, gboolean is_col, int *pos, gboolean to_min)
 				pixel += length;
 			}
 		} while (++cell < sheet_max && !snap);
-		pixel -= length;	
+		pixel -= length;
 	}
 
 	if (snap) {
-		if (info->is_mouse_move) 
+		if (info->is_mouse_move)
 			*pos = (abs (*pos - pixel) < abs (*pos - pixel - length)) ? pixel : pixel + length;
 		else
 			*pos = (pixel == *pos) ? pixel : (to_min ? pixel : pixel + length);
 	}
-			
+
 	return snap;
 }
 
@@ -1972,17 +1972,18 @@ snap_to_grid (ObjDragInfo *info,
 	g_return_if_fail (info->gcanvas != NULL);
 
 	foo_canvas_w2c (FOO_CANVAS (info->gcanvas), *x, *y, &x_int, &y_int);
-	if (info->scg->sheet_control.sheet->text_is_rtl) x_int = GNUMERIC_CANVAS_FACTOR_X - x_int;
 
 	if (snap_x) snap_pos_to_grid (info, TRUE, &x_int, to_left);
 	if (snap_y) snap_pos_to_grid (info, FALSE, &y_int, to_top);
-	
-	if (info->scg->sheet_control.sheet->text_is_rtl) x_int = GNUMERIC_CANVAS_FACTOR_X - x_int;
+
+	if (info->scg->sheet_control.sheet->text_is_rtl)
+		x_int = GNUMERIC_CANVAS_FACTOR_X - x_int;
+
 	foo_canvas_c2w (FOO_CANVAS (info->gcanvas), x_int, y_int, x, y);
 }
 
 static void
-apply_move (SheetObject *so, int x_idx, int y_idx, double *coords, ObjDragInfo *info, gboolean snap) 
+apply_move (SheetObject *so, int x_idx, int y_idx, double *coords, ObjDragInfo *info, gboolean snap)
 {
 	gboolean move_x = (x_idx >= 0);
 	gboolean move_y = (y_idx >= 0);
@@ -1992,7 +1993,7 @@ apply_move (SheetObject *so, int x_idx, int y_idx, double *coords, ObjDragInfo *
 	y = move_y ? coords[y_idx] + info->dy : 0;
 
 	if (snap) {
-		snap_to_grid (info, move_x, move_y, &x, &y, 
+		snap_to_grid (info, move_x, move_y, &x, &y,
 			      info->scg->sheet_control.sheet->text_is_rtl ? info->dx > 0. : info->dx < 0.,
 			      info->dy < 0.);
 		if (info->primary_object == so || NULL == info->primary_object) {
@@ -2000,7 +2001,7 @@ apply_move (SheetObject *so, int x_idx, int y_idx, double *coords, ObjDragInfo *
 			if (move_y) info->dy = y - coords[y_idx];
 		}
 	}
-	
+
 	if (move_x) coords[x_idx] = x;
 	if (move_y) coords[y_idx] = y;
 
@@ -2008,32 +2009,32 @@ apply_move (SheetObject *so, int x_idx, int y_idx, double *coords, ObjDragInfo *
 		if (move_x) coords[x_idx == 0 ? 2 : 0] -= info->dx;
 		if (move_y) coords[y_idx == 1 ? 3 : 1] -= info->dy;
 	}
-}	
-	
+}
+
 static void
 drag_object (SheetObject *so,
 	     double *coords, ObjDragInfo *info)
 {
 	const struct {
 		int x_idx, y_idx;
-	} idx_info[9] = { 
+	} idx_info[9] = {
 		{ 0, 1}, {-1, 1}, { 2, 1}, { 0,-1},
 		{ 2,-1}, { 0, 3}, {-1, 3}, { 2, 3},
 		{ 0, 1}
 	};
-		
+
 	if (info->drag_type <= 8) {
-		apply_move (so, 
-			    idx_info[info->drag_type].x_idx, 
+		apply_move (so,
+			    idx_info[info->drag_type].x_idx,
 			    idx_info[info->drag_type].y_idx,
 			    coords,
-			    info, 
+			    info,
 			    info->snap_to_grid);
 		if (info->drag_type == 8)
 			apply_move (so, 2, 3, coords, info, FALSE);
-	} else 
+	} else
 		g_warning ("Should not happen %d", info->drag_type);
-	
+
 	SCG_FOREACH_PANE (info->scg, pane,
 		gnm_pane_object_update_bbox (pane, so););
 }
@@ -2050,7 +2051,7 @@ cb_drag_selected_objects (SheetObject *so,
  * scg_objects_drag :
  * @scg : #SheetControlGUI
  * @primary : #SheetObject (optionally NULL)
- * @dx : 
+ * @dx :
  * @dy :
  * @drag_type :
  * @symmetric :
@@ -2058,17 +2059,17 @@ cb_drag_selected_objects (SheetObject *so,
  * Move the control points and drag views of the currently selected objects to
  * a new position.  This movement is only made in @scg not in the actual
  * objects.
- **/ 
+ **/
 void
 scg_objects_drag (SheetControlGUI *scg, GnmCanvas *gcanvas,
 		  SheetObject *primary,
 		  gdouble *dx, gdouble *dy,
-		  int drag_type, gboolean symmetric, 
+		  int drag_type, gboolean symmetric,
 		  gboolean snap_to_grid,
 		  gboolean is_mouse_move)
 {
 	double *coords;
-	
+
 	ObjDragInfo info;
 	info.scg = scg;
 	info.gcanvas = gcanvas;
@@ -2142,7 +2143,7 @@ scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
 }
 
 void
-scg_objects_nudge (SheetControlGUI *scg, GnmCanvas *gcanvas, 
+scg_objects_nudge (SheetControlGUI *scg, GnmCanvas *gcanvas,
 		   int drag_type, double dx, double dy, gboolean symmetric, gboolean snap_to_grid)
 {
 	/* no nudging if we are creating an object */
@@ -2298,7 +2299,7 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc)
 		if (cell_comment_author_get (cc) != NULL) {
 			gtk_text_buffer_create_tag (buffer, "bold",
 						    "weight", PANGO_WEIGHT_BOLD,
-						    NULL);  
+						    NULL);
 			gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
 				cell_comment_author_get (cc), -1,
 				"bold", NULL);
@@ -2306,7 +2307,7 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc)
 		}
 
 		if (cell_comment_text_get (cc) != NULL)
-			gtk_text_buffer_insert (buffer, &iter, 
+			gtk_text_buffer_insert (buffer, &iter,
 				cell_comment_text_get (cc), -1);
 
 		frame = gtk_frame_new (NULL);
@@ -2977,7 +2978,7 @@ scg_queue_movement (SheetControlGUI	*scg,
 }
 
 static void
-scg_image_create (SheetControlGUI *scg, SheetObjectAnchor *anchor, 
+scg_image_create (SheetControlGUI *scg, SheetObjectAnchor *anchor,
 		  guint8 const *data, unsigned len)
 {
 	SheetObjectImage *soi;
@@ -2997,24 +2998,24 @@ scg_image_create (SheetControlGUI *scg, SheetObjectAnchor *anchor,
 }
 
 void
-scg_paste_image (SheetControlGUI *scg, GnmRange *where, 
+scg_paste_image (SheetControlGUI *scg, GnmRange *where,
 		 guint8 const *data, unsigned len)
 {
 	SheetObjectAnchor anchor;
 
-	sheet_object_anchor_init (&anchor, where, NULL, NULL, 
+	sheet_object_anchor_init (&anchor, where, NULL, NULL,
 				  SO_DIR_DOWN_RIGHT);
 	scg_image_create (scg, &anchor, data, len);
 }
 
 static void
-scg_drag_receive_img_data (SheetControlGUI *scg, double x, double y, 
+scg_drag_receive_img_data (SheetControlGUI *scg, double x, double y,
 			   guint8 const *data, unsigned len)
 {
 	SheetObjectAnchor anchor;
 	double coords[4];
 
-	sheet_object_anchor_init (&anchor, NULL, NULL, NULL, 
+	sheet_object_anchor_init (&anchor, NULL, NULL, NULL,
 				  SO_DIR_DOWN_RIGHT);
 	coords[0] = coords[2] = x;
 	coords[1] = coords[3] = y;
@@ -3032,12 +3033,12 @@ scg_drag_receive_img_uri (SheetControlGUI *scg, double x, double y, const gchar 
 	if (input != NULL) {
 		unsigned len = gsf_input_size (input);
 		guint8 const *data = gsf_input_read (input, len, NULL);
-		
+
 		scg_drag_receive_img_data (scg, x, y, data, len);
 		g_object_unref (input);
 	} else
 		go_cmd_context_error (GO_CMD_CONTEXT (ioc), err);
-	
+
 	if (gnumeric_io_error_occurred (ioc) ||
 	    gnumeric_io_warning_occurred (ioc)) {
 		gnumeric_io_error_display (ioc);
@@ -3060,10 +3061,10 @@ scg_drag_receive_spreadsheet (SheetControlGUI *scg, const gchar *uri)
 		if (wbv != NULL)
 			gui_wb_view_show (scg->wbcg,
 					  wbv);
-		
+
 	} else
 		go_cmd_context_error (GO_CMD_CONTEXT (ioc), err);
-	
+
 	if (gnumeric_io_error_occurred (ioc) ||
 	    gnumeric_io_warning_occurred (ioc)) {
 		gnumeric_io_error_display (ioc);
@@ -3072,8 +3073,8 @@ scg_drag_receive_spreadsheet (SheetControlGUI *scg, const gchar *uri)
 	g_object_unref (ioc);
 }
 
-static void 
-scg_paste_cellregion (SheetControlGUI *scg, double x, double y, 
+static void
+scg_paste_cellregion (SheetControlGUI *scg, double x, double y,
 		       GnmCellRegion *content)
 {
 	SheetControl *sc = SHEET_CONTROL (scg);
@@ -3082,8 +3083,8 @@ scg_paste_cellregion (SheetControlGUI *scg, double x, double y,
 	GnmPasteTarget pt;
 	SheetObjectAnchor anchor;
 	double coords[4];
-		
-	sheet_object_anchor_init (&anchor, NULL, NULL, NULL, 
+
+	sheet_object_anchor_init (&anchor, NULL, NULL, NULL,
 				  SO_DIR_DOWN_RIGHT);
 	coords[0] = coords[2] = x;
 	coords[1] = coords[3] = y;
@@ -3095,7 +3096,7 @@ scg_paste_cellregion (SheetControlGUI *scg, double x, double y,
 }
 
 static void
-scg_drag_receive_cellregion (SheetControlGUI *scg, double x, double y, 
+scg_drag_receive_cellregion (SheetControlGUI *scg, double x, double y,
 			     guint8 const *data, unsigned len)
 {
 	GnmCellRegion *content;
@@ -3109,7 +3110,7 @@ scg_drag_receive_cellregion (SheetControlGUI *scg, double x, double y,
 }
 
 static void
-scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y, 
+scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y,
 			   guint8 const *data, unsigned len)
 {
 	char *cdata = g_strndup (data, len);
@@ -3131,10 +3132,10 @@ scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y,
 			scg_drag_receive_img_uri (scg, x, y, uri_str);
 		} else if (!strcmp (mime, "application/x-gnumeric") ||
 			   !strcmp (mime, "application/vnd.ms-excel") ||
-			   !strcmp (mime, "application/vnd.sun.xml.calc") ||  
+			   !strcmp (mime, "application/vnd.sun.xml.calc") ||
 			   /* !strcmp (mime, "application/vnd.oasis.opendocument.spreadsheet") || */
-			   !strcmp (mime, "application/vnd.lotus-1-2-3") ||  
-			   !strcmp (mime, 
+			   !strcmp (mime, "application/vnd.lotus-1-2-3") ||
+			   !strcmp (mime,
 				    "application/x-applix-spreadsheet") ||
 			   !strcmp (mime, "application/x-dbase") ||
 			   !strcmp (mime, "application/x-oleo") ||
@@ -3157,7 +3158,7 @@ scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y,
 }
 
 static void
-scg_drag_receive_same_scg (SheetControlGUI *scg, GnmCanvas *gcanvas, 
+scg_drag_receive_same_scg (SheetControlGUI *scg, GnmCanvas *gcanvas,
 			   double x, double y)
 {
 	GdkWindow *window;
@@ -3173,14 +3174,14 @@ scg_drag_receive_same_scg (SheetControlGUI *scg, GnmCanvas *gcanvas,
 }
 
 static void
-scg_drag_receive_same_proc_other_scg (SheetControlGUI *scg, 
-				     SheetControlGUI *source_scg, 
+scg_drag_receive_same_proc_other_scg (SheetControlGUI *scg,
+				     SheetControlGUI *source_scg,
 				     double x, double y)
 {
 	GnmCellRegion *content;
 	GSList *objects;
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (source_scg)); 
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (source_scg));
 
 	objects = go_hash_keys (source_scg->selected_objects);
 	content = clipboard_copy_obj (sc_sheet (SHEET_CONTROL (source_scg)),
@@ -3199,7 +3200,7 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 	SheetControlGUI *source_scg = NULL;
 	GnmCanvas *gcanvas;
 
-	g_return_if_fail (source_widget != NULL); 
+	g_return_if_fail (source_widget != NULL);
 	g_return_if_fail (IS_GNM_CANVAS (source_widget));
 
 	gcanvas = GNM_CANVAS (source_widget);
@@ -3219,44 +3220,44 @@ scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
 	target_type = gdk_atom_name (selection_data->target);
 
 	if (!strcmp (target_type, "text/uri-list")) {
-		scg_drag_receive_uri_list (scg, x, y, 
-					   selection_data->data, 
+		scg_drag_receive_uri_list (scg, x, y,
+					   selection_data->data,
 					   selection_data->length);
 
 	} else if (!strncmp (target_type, "image/", 6)) {
-		scg_drag_receive_img_data (scg, x, y, 
+		scg_drag_receive_img_data (scg, x, y,
 					   selection_data->data,
 					   selection_data->length);
 	} else if (!strcmp (target_type, "GNUMERIC_SAME_PROC")) {
 		scg_drag_receive_same_process (scg, source_widget, x, y);
 	} else if (!strcmp (target_type, "application/x-gnumeric")) {
-		scg_drag_receive_cellregion (scg, x, y, 
-					     selection_data->data, 
+		scg_drag_receive_cellregion (scg, x, y,
+					     selection_data->data,
 					     selection_data->length);
 #ifdef DEBUG_DND
 	} else if (!strcmp (target_type, "x-special/gnome-copied-files")) {
-		char *cdata = g_strndup (selection_data->data, 
+		char *cdata = g_strndup (selection_data->data,
 					 selection_data->length);
-		printf ("data length: %d, data: %s\n", 
+		printf ("data length: %d, data: %s\n",
 			selection_data->length, cdata);
 		g_free (cdata);
 	} else if (!strcmp (target_type, "_NETSCAPE_URL")) {
-		char *cdata = g_strndup (selection_data->data, 
+		char *cdata = g_strndup (selection_data->data,
 					 selection_data->length);
-		printf ("data length: %d, data: %s\n", 
+		printf ("data length: %d, data: %s\n",
 			selection_data->length, cdata);
 		g_free (cdata);
 	} else if (!strcmp (target_type, "text/plain")) {
-		char *cdata = g_strndup (selection_data->data, 
+		char *cdata = g_strndup (selection_data->data,
 					 selection_data->length);
-		printf ("data length: %d, data: %s\n", 
+		printf ("data length: %d, data: %s\n",
 			selection_data->length, cdata);
 		g_free (cdata);
 	} else if (!strcmp (target_type, "text/html")) {
-		char *cdata = g_strndup (selection_data->data, 
+		char *cdata = g_strndup (selection_data->data,
 					 selection_data->length);
 		/* For mozilla, need to convert the encoding */
-		printf ("data length: %d, data: %s\n", 
+		printf ("data length: %d, data: %s\n",
 			selection_data->length, cdata);
 		g_free (cdata);
 #endif
@@ -3267,7 +3268,7 @@ scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
 }
 
 static void
-scg_drag_send_image (SheetControlGUI *scg, 
+scg_drag_send_image (SheetControlGUI *scg,
 		     GtkSelectionData *selection_data,
 		     GSList *objects,
 		     gchar const *mime_type)
@@ -3296,13 +3297,13 @@ scg_drag_send_image (SheetControlGUI *scg,
 		g_free (format);
 		return;
 	}
-		
+
 	output = gsf_output_memory_new ();
 	omem = GSF_OUTPUT_MEMORY (output);
 	sheet_object_write_image (so, format, output, NULL);
 	osize = gsf_output_size (output);
-	
-	gtk_selection_data_set 
+
+	gtk_selection_data_set
 		(selection_data, selection_data->target,
 		 8, gsf_output_memory_get_bytes (omem), osize);
 	gsf_output_close (output);
@@ -3311,13 +3312,13 @@ scg_drag_send_image (SheetControlGUI *scg,
 }
 
 static void
-scg_drag_send_clipboard_objects (SheetControl *sc, 
+scg_drag_send_clipboard_objects (SheetControl *sc,
 				 GtkSelectionData *selection_data,
 				 GSList *objects)
 {
 	GnmCellRegion	*content = clipboard_copy_obj (sc_sheet (sc), objects);
 	GsfOutputMemory *output;
-	
+
 	if (content == NULL)
 		return;
 
@@ -3337,7 +3338,7 @@ scg_drag_data_get (SheetControlGUI *scg, GtkSelectionData *selection_data)
 
 	if (strcmp (target_name, "GNUMERIC_SAME_PROC") == 0) {
 		/* Set dummy selection for process internal dnd */
-		gtk_selection_data_set 
+		gtk_selection_data_set
 			(selection_data, selection_data->target, 8, "", 1);
 	} else if (strcmp (target_name, "application/x-gnumeric") == 0) {
 		scg_drag_send_clipboard_objects (SHEET_CONTROL (scg),

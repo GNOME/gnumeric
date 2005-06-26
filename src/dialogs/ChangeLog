@@ -1,3 +1,9 @@
+2005-06-25  Jody Goldberg <jody@gnome.org>
+
+	* dialog-printer-setup.c (fetch_settings) : transfer the settings from
+	  the gnomeprint config into the printinfo here.
+	(cb_do_print_ok) : rather than here.
+
 2005-06-17  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-export.c (stf_export_dialog_finish): Use the right
