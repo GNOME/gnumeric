@@ -138,9 +138,8 @@ new_data_set (GnmValue *range, gboolean ignore_non_num, gboolean read_label,
 	GnmValue *result;
 	GnmEvalPos  *pos = g_new (GnmEvalPos, 1);
 	data_set_t * the_set = g_new (data_set_t, 1);
-	GnmCellPos cellpos = {0, 0};
 
-	pos = eval_pos_init (pos, sheet, &cellpos);
+	pos = eval_pos_init_sheet (pos, sheet);
 	the_set->data = g_array_new (FALSE, FALSE, sizeof (gnm_float)),
 	the_set->missing = NULL;
         the_set->label = NULL;

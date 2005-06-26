@@ -1527,8 +1527,8 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 		break;
 
 	case CONTEXT_HYPERLINK_REMOVE: {
-		GnmStyle *style = mstyle_new ();
-		mstyle_set_hlink (style, NULL);
+		GnmStyle *style = gnm_style_new ();
+		gnm_style_set_hlink (style, NULL);
 		cmd_selection_format (wbc, style, NULL,
 			_("Remove Hyperlink"));
 		break;

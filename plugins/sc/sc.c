@@ -186,9 +186,9 @@ sc_parse_label (Sheet *sheet, char const *cmd, char const *str, int col, int row
 			goto err_out;
 
 		if (cmdtype == LEFTSTRING)
-			mstyle_set_align_h (mstyle, HALIGN_LEFT);
+			gnm_style_set_align_h (mstyle, HALIGN_LEFT);
 		else
-			mstyle_set_align_h (mstyle, HALIGN_RIGHT);
+			gnm_style_set_align_h (mstyle, HALIGN_RIGHT);
 	}
 
 	result = TRUE;

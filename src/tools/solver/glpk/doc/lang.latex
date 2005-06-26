@@ -1,8 +1,8 @@
 %% lang.latex %%
 
-%% Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
-%% for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
-%% All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
+%% Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005 Andrew Makhorin,
+%% Department for Applied Informatics, Moscow Aviation Institute,
+%% Moscow, Russia. All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 %%
 %% This file is part of GLPK (GNU Linear Programming Kit).
 %%
@@ -60,12 +60,12 @@
 \vspace{0.5in}
 
 \begin{LARGE}
-{\bf Version 4.1}
+{\bf Version 4.8}
 \end{LARGE}
 
 \vspace{0.5in}
 \begin{Large}
-(Draft Edition, August 2003)
+(Draft Edition, January 2005)
 \end{Large}
 \end{center}
 
@@ -74,13 +74,13 @@
 \vfill
 
 \noindent
-The GLPK package is a part of the GNU project released under the aegis
-of GNU.
+The GLPK package is part of the GNU Project released under the aegis of
+GNU.
 
 \medskip \noindent
-Copyright \copyright{} 2000, 2001, 2002, 2003 Andrew Makhorin,
-Department for Applied Informatics, Moscow Aviation Institute, Moscow,
-Russia. All rights reserved.
+Copyright \copyright{} 2000, 2001, 2002, 2003, 2004, 2005 Andrew
+Makhorin, Department for Applied Informatics, Moscow Aviation Institute,
+Moscow, Russia. All rights reserved.
 
 \medskip \noindent
 Free Software Foundation, Inc., 59 Temple Place --- Suite 330, Boston,
@@ -583,7 +583,7 @@ member of the parameter that determines the resultant value of the
 primary expression.
 
 \paragraph{Function references.} In MathProg there are the following
-built-in functions that may be used in numeric expressions:
+built-in functions which may be used in numeric expressions:
 
 \begin{center}
 \begin{tabular}{@{}ll}
@@ -599,17 +599,35 @@ built-in functions that may be used in numeric expressions:
 $x_1, x_2, \dots, x_n$\\
 \verb|min|$(x_1, x_2, \dots, x_n)$ & the smallest of values
 $x_1, x_2, \dots, x_n$\\
+\verb|round|$(x)$ & rounding $x$ to nearest integer \\
+\verb|round|$(x,n)$ & rounding $x$ to $n$ fractional decimal digits \\
 \verb|sqrt|$(x)$ & square root $\sqrt{x}$ \\
+\verb|trunc|$(x)$ & truncating $x$ to nearest integer \\
+\verb|trunc|$(x,n)$ & truncating $x$ to $n$ fractional decimal digits \\
+\verb|Irand224|$()$ & pseudo-random integer uniformly distributed in
+$[0,2^{24})$ \\
+\verb|Uniform01|$()$ & pseudo-random number uniformly distributed in
+$[0,1)$ \\
+\verb|Uniform|$(a,b)$ & pseudo-random number uniformly distributed in
+$[a,b)$ \\
+\verb|Normal01|$()$ & Gaussian pseudo-random variate with $\mu=0$ and
+$\sigma=1$ \\
+\verb|Normal|$(\mu,\sigma)$ & Gaussian pseudo-random variate with given
+$\mu$ and $\sigma$ \\
 \end{tabular}
 \end{center}
 
-All the built-in functions, except \verb|min| and \verb|max|, require
-one argument, which must be numeric expression. The functions \verb|min|
-and \verb|max| allow arbitrary number of arguments, which all must be
-numeric expressions.
+Arguments of all built-in functions (if required) must be numeric
+expressions.
 
 The resultant value of the numeric expression, which is a function
 reference, is the result of applying the function to its argument(s).
+
+Note that each pseudo-random generator function have a latent argument
+(i.e. some internal state), which is changed whenever the function has
+been applied. Thus, if the function is applied repeatedly even to
+identical arguments, due to the side effect different resultant values
+are always produced.
 
 \paragraph{Iterated expressions.} Iterated numeric expression is a
 primary numeric expression, which has the following syntactic form:
@@ -621,7 +639,7 @@ primary numeric expression, which has the following syntactic form:
 \noindent
 where {\it iterated-operator} is the symbolic name of the iterated
 operator to be performed (see below), {\it indexing expression} is an
-indexing expression that introduces dummy indices and controls
+indexing expression which introduces dummy indices and controls
 iterating, {\it integrand} is a numeric expression that participates in
 the operation.
 
@@ -630,13 +648,13 @@ numeric expressions:
 
 \begin{center}
 \begin{tabular}{@{}lll}
-\medskip \verb|sum| & summation &
+\verb|sum| & summation &
 $\sum_{(i_1, \dots, i_n) \in \Delta} x(i_1, \dots, i_n)$ \\
-\medskip \verb|prod| & production &
+\verb|prod| & production &
 $\prod_{(i_1, \dots, i_n) \in \Delta} x(i_1, \dots, i_n)$ \\
-\medskip \verb|min| & minimum &
+\verb|min| & minimum &
 $\min_{(i_1, \dots, i_n) \in \Delta} x(i_1, \dots, i_n)$ \\
-\medskip \verb|max| & maximum &
+\verb|max| & maximum &
 $\max_{(i_1, \dots, i_n) \in \Delta} x(i_1, \dots, i_n)$ \\
 \end{tabular}
 \end{center}
@@ -644,10 +662,10 @@ $\max_{(i_1, \dots, i_n) \in \Delta} x(i_1, \dots, i_n)$ \\
 \noindent
 where $i_1, \dots, i_n$ are dummy indices introduced in the indexing
 expression, $\Delta$ is the domain, a set of $n$-tuples specified by the
-indexing expression that defines particular values assigned to the dummy
-indices on performing the iterated operation, $x(i_1, \dots, i_n)$ is
-the integrand, a numeric expression whose resultant value depends on the
-dummy indices.
+indexing expression which defines particular values assigned to the
+dummy indices on performing the iterated operation, $x(i_1, \dots, i_n)$
+is the integrand, a numeric expression whose resultant value depends on
+the dummy indices.
 
 The resultant value of an iterated numeric expression is the result of
 applying of the iterated operator to its integrand over all $n$-tuples
@@ -845,8 +863,8 @@ $$
 \end{array} \eqno (5)
 $$
 where {\it entry}$_1$, {\it entry}$_2$, \dots, {\it entry}$_m$ are
-indexing entries, {\it predicate} is a logical expression that specifies
-optional predicate.
+indexing entries, {\it predicate} is a logical expression which
+specifies optional predicate.
 
 Each indexing entry in the indexing expression have the following three
 forms:
@@ -858,7 +876,7 @@ S \\
 \end{array} \eqno (6)
 $$
 where $t, t_1, t_2, \dots, t_k$ are indices, $S$ is a set expression
-that specifies the basic set.
+which specifies the basic set.
 
 The number of indices in the indexing entry must be the same as the
 dimension of the basic set $S$, i.e. if $S$ consists of 1-tuples, the
@@ -894,8 +912,6 @@ represent dummy indices in other indexing expressions.
 The scope of indexing expression, where implicit declarations of dummy
 indices are valid, depends on the context, in which the indexing
 expression is used:
-
-\pagebreak
 
 1.~If the indexing expression is used in iterated operator, its scope
 extends until the end of the integrand.
@@ -1176,7 +1192,7 @@ set expression, which has the following syntactic form:
 \end{center}
 
 \noindent
-where {\it indexing-expression} is an indexing expression that
+where {\it indexing-expression} is an indexing expression which
 introduces dummy indices and controls iterating, {\it integrand} is
 either a single numeric or symbolic expression or a list of numeric and
 symbolic expressions separated by commae and enclosed in parentheses.
@@ -1186,7 +1202,7 @@ resultant set consists of 1-tuples and is determined as follows:
 $$\{x:(i_1, \dots, i_n) \in \Delta\},$$
 where $x$ is a value of the integrand, $i_1, \dots, i_n$ are dummy
 indices introduced in the indexing expression, $\Delta$ is the domain,
-a set of $n$-tuples specified by the indexing expression that defines
+a set of $n$-tuples specified by the indexing expression which defines
 particular values assigned to the dummy indices on performing the
 iterated operation.
 
@@ -1378,7 +1394,7 @@ primary logical expression, which has the following syntactic form:
 \noindent
 where {\it iterated-operator} is the symbolic name of the iterated
 operator to be performed (see below), {\it indexing expression} is an
-indexing expression that introduces dummy indices and controls
+indexing expression which introduces dummy indices and controls
 iterating, {\it integrand} is a logical expression that participates in
 the operation.
 
@@ -1397,10 +1413,10 @@ $\exists(i_1, \dots, i_n)_{\in \Delta}[x(i_1, \dots, i_n)]$ \\
 \noindent
 where $i_1, \dots, i_n$ are dummy indices introduced in the indexing
 expression, $\Delta$ is the domain, a set of $n$-tuples specified by the
-indexing expression that defines particular values assigned to the dummy
-indices on performing the iterated operation, $x(i_1, \dots, i_n)$ is
-the integrand, a logical expression whose resultant value depends on the
-dummy indices.
+indexing expression which defines particular values assigned to the
+dummy indices on performing the iterated operation, $x(i_1, \dots, i_n)$
+is the integrand, a logical expression whose resultant value depends on
+the dummy indices.
 
 For $\forall$-quantification the resultant value of the iterated
 logical expression is true if the value of the integrand is true for
@@ -1483,8 +1499,6 @@ expression, in which case the resultant value of the numeric expression
 is automatically converted to the formula that consists of the only
 constant term.
 
-\pagebreak
-
 Examples:
 
 \medskip
@@ -1545,7 +1559,7 @@ primary linear expression, which has the following syntactic form:
 \end{center}
 
 \noindent
-where {\it indexing-expression} is an indexing expression that
+where {\it indexing-expression} is an indexing expression which
 introduces dummy indices and controls iterating, {\it integrand} is
 a linear expression that participates in the operation.
 
@@ -1630,16 +1644,13 @@ variable statement, constraint statement, and objective statement) are
 used to declare model objects of certain kinds and define certain
 properties of that objects.
 
-{\it Functional statements} (check statement and display statement) are
-basically intended for auxiliary purposes. The check statement allows
-checking correctness of data. The display statement allows displaying
-content of model objects that is usually needed on debugging the model
-description.
+{\it Functional statements} (solve statement, check statement, display
+statement, printf statement, loop statement) are intended for performing
+some specific actions.
 
-MathProg is a descriptive, not procedural language. Therefore
-statements in the model description may follow in arbitrary order which
-doesn't affect the result of translation. However, any model object
-must be declared before it is referenced in other statements.
+Note that declaration statements may follow in arbitrary order which
+doesn't affect the result of translation. However, any model object must
+be declared before it is referenced in other statements.
 
 \subsection{Set statement}
 
@@ -1655,9 +1666,9 @@ must be declared before it is referenced in other statements.
 & \\
 Where:
 & {\it name} is the symbolic name of a set. \\
-& {\it alias} is an optional string literal that specifies the alias
+& {\it alias} is an optional string literal which specifies the alias
 of the set. \\
-& {\it domain} is an optional indexing expression that specifies the
+& {\it domain} is an optional indexing expression which specifies the
 subscript domain of the set. \\
 & {\it attrib}, \dots, {\it attrib} are optional attributes of the
 set. (Commae preceding attributes may be omitted.) \\
@@ -1739,9 +1750,9 @@ error.
 & \\
 Where:
 & {\it name} is the symbolic name of a parameter. \\
-& {\it alias} is an optional string literal that specifies the alias
+& {\it alias} is an optional string literal which specifies the alias
 of the parameter. \\
-& {\it domain} is an optional indexing expression that specifies the
+& {\it domain} is an optional indexing expression which specifies the
 subscript domain of the parameter. \\
 & {\it attrib}, \dots, {\it attrib} are optional attributes of the
 parameter. (Commae preceding attributes may be omitted.) \\
@@ -1764,7 +1775,7 @@ no appropriate data are available in the data section. \\
 \hline
 \end{tabular}
 
-\bigskip
+\bigskip\bigskip
 
 \noindent Examples:
 \begin{verbatim}
@@ -1863,9 +1874,9 @@ cause an error.
 & \\
 Where:
 & {\it name} is the symbolic name of a variable. \\
-& {\it alias} is an optional string literal that specifies the alias
+& {\it alias} is an optional string literal which specifies the alias
 of the variable. \\
-& {\it domain} is an optional indexing expression that specifies the
+& {\it domain} is an optional indexing expression which specifies the
 subscript domain of the variable. \\
 & {\it attrib}, \dots, {\it attrib} are optional attributes of the
 variable. (Commae preceding attributes may be omitted.) \\
@@ -1955,16 +1966,16 @@ cannot be specified along with lower/upper bound attributes.
 & \\
 Where:
 & {\it name} is the symbolic name of a constraint. \\
-& {\it alias} is an optional string literal that specifies the alias
+& {\it alias} is an optional string literal which specifies the alias
 of the constraint. \\
-& {\it domain} is an optional indexing expression that specifies the
+& {\it domain} is an optional indexing expression which specifies the
 subscript domain of the constraint. \\
 & {\it expressions} are linear expressions for computing components of
 the constraint. (Commae following expressions may be omitted.) \\
 & \\
 Note:
-& The keyword {\tt subject to} may be reduced to {\tt s.t.} or omitted
-at all. \\
+& The keyword {\tt subject to} may be reduced to {\tt subj to}, or to
+{\tt s.t.} or omitted at all. \\
 \hline
 \end{tabular}
 
@@ -2057,11 +2068,11 @@ where $x_i$ is the implicit auxiliary variable of the constraint.
 & \\
 Where:
 & {\it name} is the symbolic name of an objective. \\
-& {\it alias} is an optional string literal that specifies the alias
-of the objective. \\
-& {\it domain} is an optional indexing expression that specifies the
+& {\it alias} is an optional string literal which specifies the
+objective alias. \\
+& {\it domain} is an optional indexing expression which specifies the
 subscript domain of the objective. \\
-& {\it expression} is an linear expression that specifies the linear
+& {\it expression} is an linear expression which specifies the linear
 form of the objective. \\
 \hline
 \end{tabular}
@@ -2110,6 +2121,40 @@ affect the objective function.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\subsection{Solve statement}
+
+\medskip
+
+\begin{tabular}{|p{23mm}p{118mm}|}
+\hline
+\multicolumn{2}{|l|}{General Form} \\
+& \\
+\multicolumn{2}{|l|}{{\tt solve} {\tt ;}} \\
+& \\
+Note:
+& The solve statement is optional and can be used only once. If no solve
+statement is used, one is assumed at the end of the model section. \\
+\hline
+\end{tabular}
+
+\bigskip
+
+\noindent Examples:
+\begin{verbatim}
+solve;
+\end{verbatim}
+
+The solve statement causes solving the model, that is computing numeric
+values of all model variables. This allows using variables in statements
+below the solve statement in the same way as if they were numeric
+parameters.
+
+Note that variable, constraint, and objective statements cannot be used
+below the solve statement, i.e. all principal components of the model
+must be described above the solve statement.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Check statement}
 
 \medskip
@@ -2122,9 +2167,9 @@ affect the objective function.
 {\tt ;}} \\
 & \\
 Where:
-& {\it domain} is an optional indexing expression that specifies the
+& {\it domain} is an optional indexing expression which specifies the
 subscript domain of the check statement. \\
-& {\it expression} is an logical expression that specifies the logical
+& {\it expression} is an logical expression which specifies the logical
 condition to be checked. (The colon preceding {\it expression} may be
 omitted.) \\
 \hline
@@ -2146,8 +2191,8 @@ translator reports an error.
 If the subscript domain is not specified, the check is performed only
 once. Specifying the subscript domain allows performing multiple checks
 for every $n$-tuple in the domain set. In the latter case the logical
-expression may include dummy indices introduced in the indexing
-expression that specifies the subscript domain.
+expression may include dummy indices introduced in the corresponding
+indexing expression.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -2163,7 +2208,7 @@ expression that specifies the subscript domain.
 {\tt ,} \dots {\tt ,} {\it item} {\tt ;}} \\
 & \\
 Where:
-& {\it domain} is an optional indexing expression that specifies the
+& {\it domain} is an optional indexing expression which specifies the
 subscript domain of the display statement. \\
 & {\it item} {\tt ,} \dots {\tt ,} {\it item} are items to be
 displayed. (The colon preceding the first item may be omitted.) \\
@@ -2186,7 +2231,7 @@ If the subscript domain is not specified, items are evaluated and
 then displayed only once. Specifying the subscript domain causes
 evaluating and displaying items for every $n$-tuple in the domain set.
 In the latter case items may include dummy indices introduced in the
-indexing expression that specifies the subscript domain.
+corresponding indexing expression.
 
 Item to be displayed can be a model object (set, parameter, variable,
 constraint, objective) or an expression.
@@ -2196,15 +2241,126 @@ with the assign attribute), the object is evaluated over the entire
 domain and then its content (i.e. the content of the object array) is
 displayed. Otherwise, if the item is not a computable object, only its
 current content (i.e. the members actually generated during the model
-evaluation) is displayed. Note that if the item is a variable, its
-``value'' displayed by the display statement means ``elemental
-variable'', not a numeric value, which the variable could have in
-some solution obtained by the solver. Analogously, if the item is a
-constraint or objective, its ``value'' means ``elemental constraint''
-or ``elemental objective''.
+evaluation) is displayed. Note that if the display statement is used
+above the solve statement and the item is a variable, its displayed
+``value'' means ``elemental variable'', not a numeric value, which the
+variable could have in some solution obtained by the solver. To display
+a numeric value of a variable the display statement should be used
+below the solve statement. Analogously, if the item is a constraint or
+objective, its ``value'' means ``elemental constraint'' or ``elemental
+objective'', not a numeric value.
 
 If the item is an expression, the expression is evaluated and its
 resultant value is displayed.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Printf statement}
+
+\medskip
+
+\begin{tabular}{|p{23mm}p{118mm}|}
+\hline
+\multicolumn{2}{|l|}{General Form} \\
+& \\
+\multicolumn{2}{|l|}{{\tt printf} {\it domain} {\tt :}
+{\it format} {\tt ,} {\it expression} {\tt ,} \dots {\tt ,}
+{\it expression} {\tt ;}} \\
+& \\
+Where:
+& {\it domain} is an optional indexing expression which specifies the
+subscript domain of the printf statement. \\
+& {\it format} is a symbolic expression whose value specifies a format
+control string. \\
+& {\it expression} {\tt ,} \dots {\tt ,} {\it expression} are zero or
+more expressions whose values have to be formatted and printed. Each
+expression must be of numeric, symbolic, or logical type. (The colon
+preceding the format expression may be omitted.) \\
+\hline
+\end{tabular}
+
+\bigskip
+
+\noindent Examples:
+\begin{verbatim}
+printf 'Hello, world!\n';
+printf: "x = %.3f; y = %.3f; z = %.3f\n", x, y, z;
+printf{i in I, j in J}: "flow from %s to %s is %d\n", i, j, x[i,j];
+printf{i in I} 'total flow from %s is %g\n', i, sum{j in J} x[i,j];
+printf{k in K} "x[%s] = " & (if x[k] < 0 then "?" else "%g"), k, x[k];
+\end{verbatim}
+
+The printf statement is similar to the display statement, however, it
+allows the user specifying a format control string used to format data
+written on the standard output.
+
+If the subscript domain is not specified, the printf statement is
+executed only once. Specifying the subscript domain causes executing
+the printf statement for every $n$-tuple in the domain set. In the
+latter case {\it format} and {\it expressions} may include dummy
+indices introduced in the corresponding indexing expression.
+
+The format control string is a value of the symbolic expression
+{\it format} specified in the printf statement. It is composed of zero
+or more directives: ordinary characters (not \%), which are copied
+unchanged to the standard output, and conversion specifications, each of
+which causes evaluating of corresponding {\it expression} specified in
+the printf statement, formatting it, and writing the resultant value to
+the standard output.
+
+Conversion specifications which may be used in the format control
+string are the following: {\tt d}, {\tt i}, {\tt f}, {\tt F}, {\tt e},
+{\tt E}, {\tt g}, {\tt G}, and {\tt s}. All they have the same syntax
+and semantics as in the C programming language.
+
+\subsection{For statement}
+
+\medskip
+
+\begin{tabular}{|p{23mm}p{118mm}|}
+\hline
+\multicolumn{2}{|l|}{General Form} \\
+& \\
+\multicolumn{2}{|l|}{{\tt for} {\it domain} {\tt :} {\it statement}} \\
+& \\
+\multicolumn{2}{|l|}{{\tt for} {\it domain} {\tt :} \{
+{\it statement} \dots\ {\it statement} \}} \\
+& \\
+Where:
+& {\it domain} is an indexing expression which specifies the subscript
+domain of the for statement. (The colon following the indexing
+expression may be omitted.)\\
+& {\it statement} is a statement which has to be executed under control
+of the for statement. \\
+& {\it statement} \dots\ {\it statement} is a sequence of statements
+(enclosed in curly braces) which have to be executed under control of
+the for statement. \\
+& \\
+Note:
+& Only following statements are allowed within the for statement: check,
+display, printf, and another for. \\
+\hline
+\end{tabular}
+
+\bigskip
+
+\noindent Examples:
+\begin{verbatim}
+for {(i,j) in E: i != j}
+{  printf "flow from %s to %s is %g\n", i, j, x[i,j];
+   check x[i,j] >= 0;
+}
+for {i in 1..n}
+{  for {j in 1..n} printf " %s", if x[i,j] then "Q" else ".";
+   printf("\n");
+}
+for {1..72} printf("*");
+\end{verbatim}
+
+The for statement causes executing a statement or a sequence of
+statements specified as part of the for statement for every $n$-tuple
+in the domain set. Thus, statements within the for statement may refer
+to dummy indices introduced in the corresponding indexing expression.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2417,7 +2573,7 @@ a non-signficant element. It may be used for improving readability of
 data blocks.
 
 \paragraph{Slice data record.} The slice data record is a control
-record that specifies a slice of the elemental set defined in the data
+record which specifies a slice of the elemental set defined in the data
 block. It has the following syntactic form:
 $$\verb|(| s_1 \verb|,| s_2 \verb|,| \dots \verb|,| s_n \verb|)|$$
 where $s_1, s_2, \dots, s_n$ are components of the slice.
@@ -2608,9 +2764,9 @@ a non-signficant element. It may be used for improving readability of
 data blocks.
 
 \paragraph{Slice data record.} The slice data record is a control
-record that specifies a slice of the parameter array. It has the
+record which specifies a slice of the parameter array. It has the
 following syntactic form:
-$$\verb|(| s_1 \verb|,| s_2 \verb|,| \dots \verb|,| s_n \verb|)|$$
+$$\verb|[| s_1 \verb|,| s_2 \verb|,| \dots \verb|,| s_n \verb|]|$$
 where $s_1, s_2, \dots, s_n$ are components of the slice.
 
 Each component of the slice can be a number or symbol or the asterisk

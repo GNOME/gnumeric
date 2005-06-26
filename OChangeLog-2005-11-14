@@ -1,3 +1,8 @@
+2005-06-25  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_hlink) : new.
+	(xml_sax_input_msg) : new.
+
 2005-06-22  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (random_01): Use the Mersenne Twister as
@@ -10,16 +15,27 @@
 	* src/sheet-control-gui.c (scg_drag_receive_same_scg): ditto.
 	(scg_objects_nudge): fix typo.
 	
+2005-06-22  Jody Goldberg <jody@gnome.org>
+
+	* src/Makefile.am : enable pango-test
+
+2005-06-22  Jody Goldberg <jody@gnome.org>
+
+	* * : s/MStyle/GnmStyle/
+	      s/mstyle_/gnm_style_/
+	      s/StyleHAlignFlags/GnmHAlign/
+	      s/StyleVAlignFlags/GnmVAlign/
+
+2005-06-20  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_rename_sheet): Prevent renames to "".
+
 2005-06-14  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=163414
 	* src/item-bar.c (item_bar_event) : "If it hurts when you do that,
 	  don't do that".  Position the tooltip above the cursor for row
 	  headers too :-)
-
-2005-06-20  Morten Welinder  <terra@gnome.org>
-
-	* src/commands.c (cmd_rename_sheet): Prevent renames to "".
 
 2005-06-14  Morten Welinder  <terra@gnome.org>
 

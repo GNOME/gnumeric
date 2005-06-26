@@ -103,10 +103,10 @@ sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
 					    cc);
 
 		/* Apply the corner style to the entire region */
-		style = mstyle_copy (sheet_style_get (sheet, r->start.col,
+		style = gnm_style_dup (sheet_style_get (sheet, r->start.col,
 						      r->start.row));
 		for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++)
-			mstyle_unset_element (style, i);
+			gnm_style_unset_element (style, i);
 		sheet_style_apply_range (sheet, r, style);
 		sheet_region_queue_recalc (sheet, r);
 	}

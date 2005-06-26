@@ -637,7 +637,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (style == NULL)
 		style = state->col_default_styles[state->pos.eval.col];
 	if (style != NULL) {
-		mstyle_ref (style);
+		gnm_style_ref (style);
 		if (state->col_inc > 1) {
 			GnmRange tmp;
 			range_init (&tmp,
@@ -742,7 +742,7 @@ oo_covered_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (style == NULL)
 		style = state->col_default_styles[state->pos.eval.col];
 	if (style != NULL) {
-		mstyle_ref (style);
+		gnm_style_ref (style);
 		sheet_style_set_pos (state->pos.sheet,
 		     state->pos.eval.col, state->pos.eval.row,
 		     style);
@@ -820,10 +820,10 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 			? g_hash_table_lookup (state->cell_styles, parent_name)
 			: NULL;
 		state->cur_style.cell = (style != NULL)
-			? mstyle_copy (style) : mstyle_new_default ();
+			? gnm_style_dup (style) : gnm_style_new_default ();
 
 		if (fmt != NULL)
-			mstyle_set_format (state->cur_style.cell, fmt);
+			gnm_style_set_format (state->cur_style.cell, fmt);
 
 		g_hash_table_replace (state->cell_styles,
 			g_strdup (name), state->cur_style.cell);
@@ -1030,7 +1030,7 @@ oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 static void
 oo_parse_border (OOParseState *state, GnmStyle *style,
-		 char const *str, MStyleElementType location)
+		 char const *str, GnmStyleElement location)
 {
 	double pts;
 	char const *end = oo_parse_distance (state, str, "border", &pts);
@@ -1058,7 +1058,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin;
 	GnmColor *color;
 	GnmStyle *style = state->cur_style.cell;
-	StyleHAlignFlags h_align = HALIGN_GENERAL;
+	GnmHAlign h_align = HALIGN_GENERAL;
 	gboolean h_align_is_valid = FALSE;
 	int tmp;
 
@@ -1066,20 +1066,20 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if ((color = oo_attr_color (state, attrs, OO_NS_FO, "background-color"))) {
-			mstyle_set_color (style, MSTYLE_COLOR_BACK, color);
-			mstyle_set_pattern (style, 1);
+			gnm_style_set_back_color (style, color);
+			gnm_style_set_pattern (style, 1);
 		} else if ((color = oo_attr_color (state, attrs, OO_NS_FO, "color")))
-			mstyle_set_color (style, MSTYLE_COLOR_FORE, color);
+			gnm_style_set_font_color (style, color);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "cell-protect"))
-			mstyle_set_content_locked (style, !strcmp (attrs[1], "protected"));
+			gnm_style_set_content_locked (style, !strcmp (attrs[1], "protected"));
 		else if (oo_attr_enum (state, attrs, OO_NS_STYLE, "text-align", h_alignments, &tmp))
 			h_align = tmp;
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "text-align-source"))
 			h_align_is_valid = !strcmp (attrs[1], "fixed");
 		else if (oo_attr_enum (state, attrs, OO_NS_FO, "vertical-align", v_alignments, &tmp))
-			mstyle_set_align_v (style, tmp);
+			gnm_style_set_align_v (style, tmp);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "wrap-option"))
-			mstyle_set_wrap_text (style, !strcmp (attrs[1], "wrap"));
+			gnm_style_set_wrap_text (style, !strcmp (attrs[1], "wrap"));
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border-bottom"))
 			oo_parse_border (state, style, attrs[1], MSTYLE_BORDER_BOTTOM);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border-left"))
@@ -1089,27 +1089,27 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border-top"))
 			oo_parse_border (state, style, attrs[1], MSTYLE_BORDER_TOP);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "font-name"))
-			mstyle_set_font_name (style, attrs[1]);
+			gnm_style_set_font_name (style, attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "font-size")) {
 			float size;
 			if (1 == sscanf (attrs[1], "%fpt", &size))
-				mstyle_set_font_size (style, size);
+				gnm_style_set_font_size (style, size);
 		}
 #if 0
 		else if (!strcmp (attrs[0], OO_NS_FO, "font-weight")) {
-				mstyle_set_font_bold (style, TRUE);
-				mstyle_set_font_uline (style, TRUE);
+				gnm_style_set_font_bold (style, TRUE);
+				gnm_style_set_font_uline (style, TRUE);
 			="normal"
 		} else if (!strcmp (attrs[0], OO_NS_FO, "font-style" )) {
 			="italic"
-				mstyle_set_font_italic (style, TRUE);
+				gnm_style_set_font_italic (style, TRUE);
 		} else if (!strcmp (attrs[0], OO_NS_STYLE, "text-underline" )) {
 			="italic"
-				mstyle_set_font_italic (style, TRUE);
+				gnm_style_set_font_italic (style, TRUE);
 		}
 #endif
 
-	mstyle_set_align_h (style, h_align_is_valid ? h_align : HALIGN_GENERAL);
+	gnm_style_set_align_h (style, h_align_is_valid ? h_align : HALIGN_GENERAL);
 }
 		       
 static void
@@ -1502,7 +1502,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		(GDestroyNotify) g_free);
 	state.cell_styles = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
-		(GDestroyNotify) mstyle_unref);
+		(GDestroyNotify) gnm_style_unref);
 	state.formats = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) style_format_unref);

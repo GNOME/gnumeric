@@ -482,8 +482,8 @@ stf_dialog_result_attach_formats_to_cr (DialogStfResult_t *dialogresult,
 			sr->range.start.row = 0;
 			sr->range.end.col   = targetcol;
 			sr->range.end.row   = dialogresult->rowcount - 1;
-			sr->style = mstyle_new_default ();
-			mstyle_set_format (sr->style, sf);
+			sr->style = gnm_style_new_default ();
+			gnm_style_set_format (sr->style, sf);
 			targetcol++;
 			
 			cr->styles = g_slist_prepend (cr->styles, sr);

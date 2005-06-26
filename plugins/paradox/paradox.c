@@ -111,8 +111,8 @@ paradox_file_open (GOFileOpener const *fo, IOContext *io_context,
 	}
 	{
 		GnmRange r;
-		GnmStyle *bold = mstyle_new ();
-		mstyle_set_font_bold (bold, TRUE);
+		GnmStyle *bold = gnm_style_new ();
+		gnm_style_set_font_bold (bold, TRUE);
 		sheet_style_apply_range	(sheet,
 			range_init (&r, 0, 0, pxh->px_numfields-1, 0), bold);
 	}

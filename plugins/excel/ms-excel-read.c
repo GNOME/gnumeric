@@ -45,6 +45,7 @@
 #include <sheet-filter.h>
 #include <cell.h>
 #include <style.h>
+#include <style-conditions.h>
 #include <gnm-format.h>
 #include <print-info.h>
 #include <selection.h>
@@ -1593,39 +1594,39 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 
 	/* If we've already done the conversion use the cached style */
 	if (xf->mstyle != NULL) {
-		mstyle_ref (xf->mstyle);
+		gnm_style_ref (xf->mstyle);
 		return xf->mstyle;
 	}
 
 	/* Create a new style and fill it in */
-	mstyle = mstyle_new_default ();
+	mstyle = gnm_style_new_default ();
 
 	/* Format */
 	if (xf->style_format)
-		mstyle_set_format (mstyle, xf->style_format);
+		gnm_style_set_format (mstyle, xf->style_format);
 
 	/* protection */
-	mstyle_set_content_locked (mstyle, xf->locked);
-	mstyle_set_content_hidden (mstyle, xf->hidden);
+	gnm_style_set_content_locked (mstyle, xf->locked);
+	gnm_style_set_content_hidden (mstyle, xf->hidden);
 
 	/* Alignment */
-	mstyle_set_align_v   (mstyle, xf->valign);
-	mstyle_set_align_h   (mstyle, xf->halign);
-	mstyle_set_wrap_text (mstyle, xf->wrap_text);
-	mstyle_set_shrink_to_fit (mstyle, xf->shrink_to_fit);
-	mstyle_set_indent    (mstyle, xf->indent);
-	mstyle_set_rotation  (mstyle, xf->rotation);
-	mstyle_set_text_dir  (mstyle, xf->text_dir);
+	gnm_style_set_align_v   (mstyle, xf->valign);
+	gnm_style_set_align_h   (mstyle, xf->halign);
+	gnm_style_set_wrap_text (mstyle, xf->wrap_text);
+	gnm_style_set_shrink_to_fit (mstyle, xf->shrink_to_fit);
+	gnm_style_set_indent    (mstyle, xf->indent);
+	gnm_style_set_rotation  (mstyle, xf->rotation);
+	gnm_style_set_text_dir  (mstyle, xf->text_dir);
 
 	/* Font */
 	fd = excel_get_font (esheet->container.ewb, xf->font_idx);
 	if (fd != NULL) {
-		StyleUnderlineType underline = UNDERLINE_NONE;
-			mstyle_set_font_name   (mstyle, fd->fontname);
-		mstyle_set_font_size   (mstyle, fd->height / 20.0);
-		mstyle_set_font_bold   (mstyle, fd->boldness >= 0x2bc);
-		mstyle_set_font_italic (mstyle, fd->italic);
-		mstyle_set_font_strike (mstyle, fd->struck_out);
+		GnmUnderline underline = UNDERLINE_NONE;
+			gnm_style_set_font_name   (mstyle, fd->fontname);
+		gnm_style_set_font_size   (mstyle, fd->height / 20.0);
+		gnm_style_set_font_bold   (mstyle, fd->boldness >= 0x2bc);
+		gnm_style_set_font_italic (mstyle, fd->italic);
+		gnm_style_set_font_strike (mstyle, fd->struck_out);
 		switch (fd->underline) {
 		case MS_BIFF_F_U_SINGLE:
 		case MS_BIFF_F_U_SINGLE_ACC:
@@ -1641,14 +1642,14 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 		default:
 			underline = UNDERLINE_NONE;
 		}
-		mstyle_set_font_uline  (mstyle, underline);
+		gnm_style_set_font_uline  (mstyle, underline);
 
 		font_index = fd->color_idx;
 	} else
 		font_index = 127; /* Default to Black */
 
 	/* Background */
-	mstyle_set_pattern (mstyle, xf->fill_pattern_idx);
+	gnm_style_set_pattern (mstyle, xf->fill_pattern_idx);
 
 	/* Solid patterns seem to reverse the meaning */
 	if (xf->fill_pattern_idx == 1) {
@@ -1706,14 +1707,14 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 		      font_color->gdk_color.red>>8, font_color->gdk_color.green>>8, font_color->gdk_color.blue>>8,
 		      xf->fill_pattern_idx););
 
-	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, font_color);
-	mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, back_color);
-	mstyle_set_color (mstyle, MSTYLE_COLOR_PATTERN, pattern_color);
+	gnm_style_set_font_color (mstyle, font_color);
+	gnm_style_set_back_color (mstyle, back_color);
+	gnm_style_set_pattern_color (mstyle, pattern_color);
 
 	/* Borders */
 	for (i = 0; i < STYLE_ORIENT_MAX; i++) {
 		GnmStyle *tmp = mstyle;
-		MStyleElementType const t = MSTYLE_BORDER_TOP + i;
+		GnmStyleElement const t = MSTYLE_BORDER_TOP + i;
 		int const color_index = xf->border_color[i];
 		GnmColor *color;
 
@@ -1739,14 +1740,14 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 						   color_index);
 			break;
 		}
-		mstyle_set_border (tmp, t,
+		gnm_style_set_border (tmp, t,
 				   style_border_fetch (xf->border_type[i],
 						       color, t));
 	}
 
 	/* Set the cache (const_cast) */
 	((BiffXFData *)xf)->mstyle = mstyle;
-	mstyle_ref (mstyle);
+	gnm_style_ref (mstyle);
 	return xf->mstyle;
 }
 
@@ -1905,7 +1906,7 @@ excel_read_XF_OLD (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 		if (xf->pat_foregnd_col >= 24)
 			xf->pat_foregnd_col += 40; /* Defaults */
 		xf->fill_pattern_idx =
-		  excel_map_pattern_index_from_excel(data & 0x001f);
+			excel_map_pattern_index_from_excel(data & 0x001f);
 
 		data = GSF_LE_GET_GUINT8 (q->data + 10);
 		xf->border_type[STYLE_BOTTOM] = biff_xf_map_border(data & 0x07);
@@ -2198,7 +2199,7 @@ biff_xf_data_destroy (BiffXFData *xf)
 		xf->style_format = NULL;
 	}
 	if (xf->mstyle) {
-		mstyle_unref (xf->mstyle);
+		gnm_style_unref (xf->mstyle);
 		xf->mstyle = NULL;
 	}
 	g_free (xf);
@@ -3470,7 +3471,7 @@ excel_read_TAB_COLOR (BiffQuery *q, ExcelReadSheet *esheet)
 
 	g_return_if_fail (q->length == 20);
 
-	/* be conservative for now, we have not seen a pallete larger than 56
+	/* be conservative for now, we have not seen a palette larger than 56
 	 * so this is largely moot, this is probably a uint32
 	 */
 	color_index = GSF_LE_GET_GUINT8 (q->data + 16);
@@ -4345,38 +4346,48 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 }
 
 static void
-excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet)
+excel_read_CF_border (GnmStyleCond *cond, ExcelReadSheet *esheet,
+		      StyleBorderLocation type,
+		      unsigned xl_pat_index, unsigned xl_color_index)
+{
+	gnm_style_set_border (cond->overlay, MSTYLE_BORDER_TOP + type,
+		style_border_fetch (biff_xf_map_border (xl_pat_index),
+			excel_palette_get (esheet->container.ewb->palette,
+					   xl_color_index),
+			style_border_get_orientation (type)));
+}
+
+static void
+excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 {
 	guint8 const type	= GSF_LE_GET_GUINT8  (q->data + 0);
 	guint8 const op		= GSF_LE_GET_GUINT8  (q->data + 1);
-	guint16 const expr1_len	= GSF_LE_GET_GUINT16 (q->data + 2);
-	guint16 const expr2_len	= GSF_LE_GET_GUINT16 (q->data + 4);
-	guint32 const fmt_type	= GSF_LE_GET_GUINT32  (q->data + 6);
+	guint16 const expr0_len	= GSF_LE_GET_GUINT16 (q->data + 2);
+	guint16 const expr1_len	= GSF_LE_GET_GUINT16 (q->data + 4);
+	guint32 const flags	= GSF_LE_GET_GUINT32 (q->data + 6);
 	unsigned offset;
-	GnmExpr const *expr1 = NULL, *expr2 = NULL;
+	GnmStyleCond	cond;
 
-	d (1, fprintf (stderr,"cond type = %d, op type = %d, flags = 0x%x\n", (int)type, (int)op, fmt_type););
-#if 0
+	gsf_mem_dump (q->data+6, 6);
+	d (-1, fprintf (stderr,"cond type = %d, op type = %d, flags = 0x%08x\n", (int)type, (int)op, flags););
 	switch (type) {
 	case 1 :
-		switch( op ) {
-		case 0x01 : cond1 = SCO_GREATER_EQUAL;
-			    cond2 = SCO_LESS_EQUAL;	break;
-		case 0x02 : cond1 = SCO_LESS_EQUAL;
-			    cond2 = SCO_GREATER_EQUAL;	break;
-		case 0x03 : cond1 = SCO_EQUAL;		break;
-		case 0x04 : cond1 = SCO_NOT_EQUAL;	break;
-		case 0x05 : cond1 = SCO_GREATER;	break;
-		case 0x06 : cond1 = SCO_LESS;		break;
-		case 0x07 : cond1 = SCO_GREATER_EQUAL;	break;
-		case 0x08 : cond1 = SCO_LESS_EQUAL;	break;
+		switch (op) {
+		case 0x01 : cond.op = GNM_STYLE_COND_BETWEEN;	break;
+		case 0x02 : cond.op = GNM_STYLE_COND_NOT_BETWEEN;	break;
+		case 0x03 : cond.op = GNM_STYLE_COND_EQUAL;	break;
+		case 0x04 : cond.op = GNM_STYLE_COND_NOT_EQUAL;	break;
+		case 0x05 : cond.op = GNM_STYLE_COND_GT;		break;
+		case 0x06 : cond.op = GNM_STYLE_COND_LT;		break;
+		case 0x07 : cond.op = GNM_STYLE_COND_GTE;		break;
+		case 0x08 : cond.op = GNM_STYLE_COND_LTE;		break;
 		default:
 			g_warning ("EXCEL : Unknown condition (%d) for conditional format in sheet %s.",
 				   op, esheet->sheet->name_unquoted);
 			return;
 		}
 		break;
-	case 2 : cond1 = SCO_BOOLEAN_EXPR;
+	case 2 : cond.op = GNM_STYLE_COND_CUSTOM;
 		 break;
 
 	default :
@@ -4384,21 +4395,16 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet)
 			   (int)type, esheet->sheet->name_unquoted);
 		return;
 	}
-#endif
 
-	if (expr1_len > 0)
-		expr1 = ms_sheet_parse_expr_internal (esheet,
-			q->data + q->length - expr1_len - expr2_len,
+#warning Are we sure the parse is relative to 0,0 ? DV is relative to the first range
+	cond.expr[0] = (expr0_len <= 0) ? NULL
+		: ms_sheet_parse_expr_internal (esheet,
+			q->data + q->length - expr0_len - expr1_len,
+			expr0_len);
+	cond.expr[1] = (expr1_len <= 0) ? NULL
+		: ms_sheet_parse_expr_internal (esheet,
+			q->data + q->length - expr1_len,
 			expr1_len);
-	if (expr2_len > 0)
-		expr2 = ms_sheet_parse_expr_internal (esheet,
-			q->data + q->length - expr2_len,
-			expr2_len);
-
-	d (1, {
-		puts ("Header");
-		gsf_mem_dump (q->data+6, 6);
-	});
 
 	/* UNDOCUMENTED : the format of the conditional format
 	 * is unspecified.
@@ -4411,10 +4417,10 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet)
 	 *		0xef = T
 	 *		0xdf = B
 	 *		0xc3 == T,L,B,R
-	 *	uint8 : 0x3f == no pattern elements,
-	 *		0x3b == fore colour
-	 *		0x3a == fore colour & pattern
-	 *		0x38 == fore_colour & pattern & pattern_color
+	 *	uint8 : 0x3f == no background elements,
+	 *		0x3b == background 
+	 *		0x3a == background & pattern
+	 *		0x38 == background & pattern & pattern colour
 	 *	uint8 : 0x04 = font | 0x10 = border | 0x20 = colour
 	 *	0x02 : ?
 	 *	0x00 : ?
@@ -4425,78 +4431,135 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet)
 	 *	Similar to XF from biff7
 	 */
 
-	offset =  6  /* CF record header */ + 6; /* format header */
+	cond.overlay = gnm_style_new ();
 
-	if (fmt_type & 0x04000000) { /* font */
-		d (1, {
+	offset =  6  /* CF record header */ + 6; /* format header */
+	if (flags & 0x04000000) { /* font */
+		guint32 size, colour;
+		guint8  tmp8, font_flags;
+		guint8 const *data = q->data + offset + 64;
+
+		if (0xFFFFFFFF != (size = GSF_LE_GET_GUINT32 (data)))
+			gnm_style_set_font_size	(cond.overlay, size / 20.);
+		if (0xFFFFFFFF != (colour = GSF_LE_GET_GUINT32 (data + 16)))
+			gnm_style_set_font_color (cond.overlay,
+				excel_palette_get (esheet->container.ewb->palette,
+					colour));
+
+		tmp8  = GSF_LE_GET_GUINT8  (data + 4);
+		font_flags = GSF_LE_GET_GUINT8  (data + 24);
+		if (0 == (font_flags & 2)) {
+			gnm_style_set_font_italic (cond.overlay, 0 != (tmp8 & 2));
+			gnm_style_set_font_bold   (cond.overlay, 
+				GSF_LE_GET_GUINT16 (data + 8) >= 0x2bc);
+		}
+		if (0 == (font_flags & 0x80))
+			gnm_style_set_font_strike (cond.overlay, 0 != (tmp8 & 0x80));
+
+		if (0 == GSF_LE_GET_GUINT8  (data + 28)) {
+#if 0
+			switch (GSF_LE_GET_GUINT8  (data + 10)) {
+			case 1 : gnm_style_set_font_super (cond.overlay); break;
+			case 2 : gnm_style_set_font_sub (cond.overlay); break;
+			default : ignore ... ?
+			}
+#endif
+		}
+		if (0 == GSF_LE_GET_GUINT8  (data + 32)) {
+			switch (GSF_LE_GET_GUINT8  (data + 12)) {
+			default :
+			case 0:
+				gnm_style_set_font_uline  (cond.overlay,
+					UNDERLINE_NONE);
+				break;
+			case 1: case 0x21:
+				gnm_style_set_font_uline  (cond.overlay,
+					UNDERLINE_SINGLE);
+				break;
+			case 2: case 0x22:
+				gnm_style_set_font_uline  (cond.overlay,
+					UNDERLINE_DOUBLE);
+				break;
+			}
+		}
+
+		d (3, {
 			puts ("Font");
-			gsf_mem_dump (q->data+offset, 118);
+			gsf_mem_dump (data, 54);
 		});
 
 		offset += 118;
 	}
 
-	if (fmt_type & 0x10000000) { /* borders */
-		d (1, {
-			puts ("Border");
-			gsf_mem_dump (q->data+offset, 8);
-		});
+	if (flags & 0x10000000) { /* borders */
+		guint16 patterns = GSF_LE_GET_GUINT16 (q->data + offset);
+		guint32 colours  = GSF_LE_GET_GUINT32 (q->data + offset + 2);
+		if (0 == (flags & 0x0400))
+			excel_read_CF_border (&cond, esheet, STYLE_BORDER_LEFT,
+				(patterns >>  0) & 0xf,
+				(colours  >>  0) & 0x7f);
+		if (0 == (flags & 0x0800))
+			excel_read_CF_border (&cond, esheet, STYLE_BORDER_RIGHT,
+				(patterns >>  4) & 0xf,
+				(colours  >>  7) & 0x7f);
+		if (0 == (flags & 0x1000))
+			excel_read_CF_border (&cond, esheet, STYLE_BORDER_TOP,
+				(patterns >>  8) & 0xf,
+				(colours  >> 16) & 0x7f);
+		if (0 == (flags & 0x2000))
+			excel_read_CF_border (&cond, esheet, STYLE_BORDER_BOTTOM,
+				(patterns >> 12) & 0xf,
+				(colours  >> 23) & 0x7f);
 
+		/* I wonder what the last two bytes are.  future growth ? */
 		offset += 8;
 	}
 
-	if (fmt_type & 0x20000000) { /* pattern */
-		guint16 tmp = GSF_LE_GET_GUINT16 (q->data + offset);
-		int pat_foregnd_col = (tmp & 0x007f);
-		int pat_backgnd_col = (tmp & 0x1f80) >> 7;
-		int fill_pattern_idx;
+	if (flags & 0x20000000) { /* pattern */
+		guint32 background_flags = GSF_LE_GET_GUINT32 (q->data + offset);
+		int pattern = 0;
 
-		gsf_mem_dump (q->data+offset, 4);
-
-		tmp = GSF_LE_GET_GUINT16 (q->data + offset + 2);
-		fill_pattern_idx =
-			excel_map_pattern_index_from_excel ((tmp >> 10) & 0x3f);
-
-		/* Solid patterns seem to reverse the meaning */
-		if (fill_pattern_idx == 1) {
-			int swap = pat_backgnd_col;
-			pat_backgnd_col = pat_foregnd_col;
-			pat_foregnd_col = swap;
+		if (0 == (flags & 0x10000))
+			gnm_style_set_pattern (cond.overlay,
+				pattern = excel_map_pattern_index_from_excel (
+					(background_flags >> 10) & 0x3F));
+		if (0 == (flags & 0x20000))
+			gnm_style_set_pattern_color (cond.overlay,
+				excel_palette_get (esheet->container.ewb->palette,
+					(background_flags >> 16) & 0x7F));
+		if (0 == (flags & 0x40000)) {
+			gnm_style_set_back_color (cond.overlay,
+				excel_palette_get (esheet->container.ewb->palette,
+					(background_flags >> 23) & 0x7F));
+			/* We require a pattern to draw a background */
+			if (!gnm_style_is_element_set (cond.overlay, MSTYLE_PATTERN))
+				gnm_style_set_pattern (cond.overlay, 1);
 		}
-
-		d (-1, fprintf (stderr,"fore = %d, back = %d, pattern = %d.\n",
-			pat_foregnd_col,
-			pat_backgnd_col,
-			fill_pattern_idx););
 
 		offset += 4;
 	}
 
+	g_return_if_fail (q->length == offset + expr0_len + expr1_len);
 
-	g_return_if_fail (q->length == offset + expr1_len + expr2_len);
-	d (1, gsf_mem_dump (q->data+6, 6););
+	d (-1, gnm_style_dump (cond.overlay););
 
-	if (expr1 != NULL) gnm_expr_unref (expr1);
-	if (expr2 != NULL) gnm_expr_unref (expr2);
-#if 0
-	fprintf (stderr,"%d == %d (%d + %d + %d) (0x%x)\n",
-		q->length, offset + expr1_len + expr2_len,
-		offset, expr1_len, expr2_len, fmt_type);
-#endif
+	gnm_style_conditions_insert (sc, &cond, -1);
 }
 
 static void
 excel_read_CONDFMT (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	guint16 num_fmts, options, num_areas;
-	GnmRange  region;
+	guint16 num_fmts, num_areas;
 	unsigned i;
 	guint8 const *data;
+	GnmStyleConditions *sc;
+	GnmStyle *style;
+	GnmRange  region;
+	GSList   *ptr, *regions = NULL;
 
 	g_return_if_fail (q->length >= 14);
 
 	num_fmts = GSF_LE_GET_GUINT16 (q->data + 0);
-	options  = GSF_LE_GET_GUINT16 (q->data + 2);
 	num_areas = GSF_LE_GET_GUINT16 (q->data + 12);
 
 	d (1, fprintf (stderr,"Num areas == %hu\n", num_areas););
@@ -4510,11 +4573,14 @@ excel_read_CONDFMT (BiffQuery *q, ExcelReadSheet *esheet)
 #endif
 
 	data = q->data + 14;
-	for (i = 0 ; i < num_areas && (data+8) <= (q->data + q->length) ; i++)
+	for (i = 0 ; i < num_areas && (data+8) <= (q->data + q->length) ; i++) {
 		data = excel_read_range (&region, data);
+		regions = g_slist_prepend (regions, range_dup (&region));
+	}
 
 	g_return_if_fail (data == q->data + q->length);
 
+	sc = gnm_style_conditions_new ();
 	for (i = 0 ; i < num_fmts ; i++) {
 		guint16 next;
 		if (!ms_biff_query_peek_next (q, &next) || next != BIFF_CF) {
@@ -4522,8 +4588,18 @@ excel_read_CONDFMT (BiffQuery *q, ExcelReadSheet *esheet)
 			return;
 		}
 		ms_biff_query_next (q);
-		excel_read_CF (q, esheet);
+		excel_read_CF (q, esheet, sc);
 	}
+
+	style = gnm_style_new ();
+	gnm_style_set_conditions (style, sc);
+	for (ptr = regions ; ptr != NULL ; ptr = ptr->next) {
+		gnm_style_ref (style);
+		sheet_style_apply_range	(esheet->sheet, ptr->data, style);
+		g_free (ptr->data);
+	}
+	gnm_style_unref (style);
+	g_slist_free (regions);
 }
 
 static void
@@ -4658,23 +4734,23 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 	d (1, fprintf (stderr,"style = %d, type = %d, op = %d\n",
 		       style, type, op););
 
-	mstyle = mstyle_new ();
-	mstyle_set_validation (mstyle,
+	mstyle = gnm_style_new ();
+	gnm_style_set_validation (mstyle,
 		validation_new (style, type, op, error_title, error_msg,
 			expr1, expr2, options & 0x0100, 0 == (options & 0x0200)));
 	if (options & 0x40000)
-		mstyle_set_input_msg (mstyle,
+		gnm_style_set_input_msg (mstyle,
 			gnm_input_msg_new (input_msg, input_title));
 
 	for (ptr = ranges; ptr != NULL ; ptr = ptr->next) {
 		GnmRange *r = ptr->data;
-		mstyle_ref (mstyle);
+		gnm_style_ref (mstyle);
 		sheet_style_apply_range (esheet->sheet, r, mstyle);
 		d (1, range_dump (r, "\n"););
 		g_free (r);
 	}
 	g_slist_free (ranges);
-	mstyle_unref (mstyle);
+	gnm_style_unref (mstyle);
 	g_free (input_msg);
 	g_free (error_msg);
 	g_free (input_title);
@@ -4840,8 +4916,8 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	}
 
 	if (link != NULL) {
-		GnmStyle *style = mstyle_new ();
-		mstyle_set_hlink (style, link);
+		GnmStyle *style = gnm_style_new ();
+		gnm_style_set_hlink (style, link);
 		sheet_style_apply_range	(esheet->sheet, &r, style);
 		if (tip != NULL)
 			gnm_hlink_set_tip  (link, tip);
@@ -5362,11 +5438,8 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		case BIFF_BOOLERR_v2:
 			if (GSF_LE_GET_GUINT8 (q->data + 7)) {
 				GnmEvalPos ep;
-				GnmCellPos pos;
-				pos.col = XL_GETCOL (q);
-				pos.row = XL_GETROW (q);
-				v = biff_get_error (eval_pos_init (&ep, esheet->sheet, &pos),
-					GSF_LE_GET_GUINT8 (q->data + 6));
+				eval_pos_init (&ep, esheet->sheet, XL_GETCOL (q), XL_GETROW (q));
+				v = biff_get_error (&ep, GSF_LE_GET_GUINT8 (q->data + 6));
 			} else
 				v = value_new_bool (GSF_LE_GET_GUINT8 (q->data + 6));
 			excel_sheet_insert_val (esheet, q, v);
@@ -5582,7 +5655,6 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		case BIFF_CONDFMT: excel_read_CONDFMT (q, esheet); break;
 		case BIFF_CF:
 			g_warning ("Found a CF record without a CONDFMT ??");
-			excel_read_CF (q, esheet);
 			break;
 		case BIFF_DVAL:		excel_read_DVAL (q, esheet);  break;
 		case BIFF_HLINK:	excel_read_HLINK (q, esheet); break;
@@ -5625,7 +5697,7 @@ success :
 	g_object_set_data_full (G_OBJECT (ewb->wb),
 		"xls-default-style",
 		excel_get_style_from_xf (esheet, excel_get_xf (esheet, 0)),
-		(GDestroyNotify) mstyle_unref);
+		(GDestroyNotify) gnm_style_unref);
 	return TRUE;
 }
 

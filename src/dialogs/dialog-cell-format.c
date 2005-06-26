@@ -90,7 +90,7 @@
 
 static struct {
 	char const *Cname;
-	StyleUnderlineType ut;
+	GnmUnderline ut;
 } const underline_types[] = {
 	{ N_("None"), UNDERLINE_NONE },
 	{ N_("Single"), UNDERLINE_SINGLE },
@@ -109,8 +109,7 @@ typedef enum
 
 struct _FormatState;
 
-typedef struct
-{
+typedef struct {
 	struct _FormatState *state;
 	int cur_index;
 	GtkToggleButton *current_pattern;
@@ -118,16 +117,14 @@ typedef struct
 	void (*draw_preview) (struct _FormatState *);
 } PatternPicker;
 
-typedef struct
-{
+typedef struct {
        	struct _FormatState *state;
 
 	GtkWidget        *combo;
        	GCallback	  preview_update;
 } ColorPicker;
 
-typedef struct
-{
+typedef struct {
 	struct _FormatState *state;
 	GtkToggleButton  *button;
 	StyleBorderType	  pattern_index;
@@ -143,8 +140,7 @@ typedef struct {
 	GnmExprEntry	*entry;
 } ExprEntry;
 
-typedef struct _FormatState
-{
+typedef struct _FormatState {
 	GladeXML	*gui;
 	WorkbookControlGUI	*wbcg;
 	GtkDialog	*dialog;
@@ -155,7 +151,8 @@ typedef struct _FormatState
 	Sheet		*sheet;
 	SheetView	*sv;
 	GnmValue	*value;
-	GnmStyle		*style, *result;
+	unsigned int	 conflicts;
+	GnmStyle	*style, *result;
 	GnmBorder *borders[STYLE_BORDER_EDGE_MAX];
 
 	int	 	 selection_mask;
@@ -198,7 +195,7 @@ typedef struct _FormatState
 	struct {
 		FooCanvas	*canvas;
 		PreviewGrid     *grid;
-		GnmStyle          *style;
+		GnmStyle        *style;
 
 		ColorPicker	 back_color;
 		ColorPicker	 pattern_color;
@@ -358,40 +355,41 @@ setup_pattern_button (GdkScreen *screen,
 }
 
 static void
-setup_color_pickers (ColorPicker *picker,
+setup_color_pickers (FormatState *state,
+		     ColorPicker *picker,
 	             char const *color_group,
 	             char const *container,
 	             char const *label,
 		     char const *default_caption,
 		     char const *caption,
-		     FormatState *state,
 		     GCallback preview_update,
-		     MStyleElementType e,
-		     GnmStyle	 *mstyle)
+		     GnmStyleElement e)
 {
 	GtkWidget *combo, *w, *frame;
 	GOColorGroup *cg;
 	GnmColor *mcolor = NULL;
 	GnmColor *def_sc = NULL;
 
-	/* MSTYLE_ELEMENT_UNSET is abused as representing borders. */
-	if (e != MSTYLE_ELEMENT_UNSET &&
-	    !mstyle_is_element_conflict (mstyle, e))
-		mcolor = mstyle_get_color (mstyle, e);
-
 	switch (e) {
 	case MSTYLE_COLOR_PATTERN:
-	case MSTYLE_ELEMENT_UNSET: /* This is used for borders */
+		if (0 == (state->conflicts & (1 << MSTYLE_COLOR_PATTERN)))
+			mcolor = gnm_style_get_pattern_color (state->style);
+
+	case MSTYLE_BORDER_TOP:	/* MSTYLE_BORDER_TOP is abused as representing all borders. */
 		def_sc = sheet_style_get_auto_pattern_color (state->sheet);
 		break;
-	case MSTYLE_COLOR_FORE:
+	case MSTYLE_FONT_COLOR:
+		if (0 == (state->conflicts & (1 << MSTYLE_FONT_COLOR)))
+			mcolor = gnm_style_get_font_color (state->style);
 		def_sc = style_color_auto_font ();
 		break;
 	case MSTYLE_COLOR_BACK:
+		if (0 == (state->conflicts & (1 << MSTYLE_COLOR_BACK)))
+			mcolor = gnm_style_get_back_color (state->style);
 		def_sc = style_color_auto_back ();
 		break;
 	default:
-		g_warning ("Unhandled mstyle element!");
+		g_warning ("Unhandled style element!");
 	}
 	cg = go_color_group_fetch (color_group,
 		 wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
@@ -464,7 +462,7 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 
 	if (fmt)
 	{
-	  	mstyle_set_format_text (state->result, g_strdup (fmt));
+	  	gnm_style_set_format_text (state->result, g_strdup (fmt));
 		changed =  TRUE;
 	}
 
@@ -485,9 +483,9 @@ fmt_dialog_init_format_page (FormatState *state)
 				   gtk_label_new (_("Number")));
 	gtk_widget_show (GTK_WIDGET (gfs));
 
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_FORMAT))
+	if (0 == (state->conflicts & (1 << MSTYLE_FORMAT)))
 		go_format_sel_set_style_format (gfs,
-			mstyle_get_format (state->style));
+			gnm_style_get_format (state->style));
 	if (state->value)
 		gnm_format_sel_set_value (gfs, state->value);
 	go_format_sel_set_dateconv (gfs,
@@ -509,7 +507,7 @@ cb_indent_changed (GtkEditable *editable, FormatState *state)
 
 		if (state->align.indent != val) {
 			state->align.indent = val;
-			mstyle_set_indent (state->result, val);
+			gnm_style_set_indent (state->result, val);
 			fmt_dialog_changed (state);
 		}
 	}
@@ -522,12 +520,12 @@ cb_align_h_toggle (GtkToggleButton *button, FormatState *state)
 		return;
 
 	if (state->enable_edit) {
-		StyleHAlignFlags const new_h =
+		GnmHAlign const new_h =
 			GPOINTER_TO_INT (g_object_get_data (
 				G_OBJECT (button), "align"));
 		gboolean const supports_indent =
 			(new_h == HALIGN_LEFT || new_h == HALIGN_RIGHT);
-		mstyle_set_align_h (state->result, new_h);
+		gnm_style_set_align_h (state->result, new_h);
 		gtk_widget_set_sensitive (GTK_WIDGET (state->align.indent_button),
 					  supports_indent);
 		gtk_widget_set_sensitive (GTK_WIDGET (state->align.indent_label),
@@ -544,7 +542,7 @@ cb_align_v_toggle (GtkToggleButton *button, FormatState *state)
 		return;
 
 	if (state->enable_edit) {
-		mstyle_set_align_v (
+		gnm_style_set_align_v (
 			state->result,
 			GPOINTER_TO_INT (g_object_get_data (
 			G_OBJECT (button), "align")));
@@ -556,7 +554,7 @@ static void
 cb_align_wrap_toggle (GtkToggleButton *button, FormatState *state)
 {
 	if (state->enable_edit) {
-		mstyle_set_wrap_text (state->result,
+		gnm_style_set_wrap_text (state->result,
 				      gtk_toggle_button_get_active (button));
 		fmt_dialog_changed (state);
 	}
@@ -594,7 +592,7 @@ cb_rotate_changed (GtkEditable *editable, FormatState *state)
 			state->align.rotation = val;
 			if (val < 0)
 				val += 360;
-			mstyle_set_rotation (state->result, val);
+			gnm_style_set_rotation (state->result, val);
 			fmt_dialog_changed (state);
 		}
 	}
@@ -756,7 +754,7 @@ fmt_dialog_init_align_page (FormatState *state)
 {
 	static struct {
 		char const *const	name;
-		StyleHAlignFlags	align;
+		GnmHAlign	align;
 	} const h_buttons[] = {
 	    { "halign_left",	HALIGN_LEFT },
 	    { "halign_center",	HALIGN_CENTER },
@@ -769,7 +767,7 @@ fmt_dialog_init_align_page (FormatState *state)
 	};
 	static struct {
 		char const *const	name;
-		StyleVAlignFlags	align;
+		GnmVAlign	align;
 	} const v_buttons[] = {
 	    { "valign_top", VALIGN_TOP },
 	    { "valign_center", VALIGN_CENTER },
@@ -781,15 +779,15 @@ fmt_dialog_init_align_page (FormatState *state)
 
 	GtkWidget *w;
 	gboolean wrap = FALSE;
-	StyleHAlignFlags    h = HALIGN_GENERAL;
-	StyleVAlignFlags    v = VALIGN_CENTER;
+	GnmHAlign    h = HALIGN_GENERAL;
+	GnmVAlign    v = VALIGN_CENTER;
 	char const *name;
 	int i;
 
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_ALIGN_H))
-		h = mstyle_get_align_h (state->style);
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_ALIGN_V))
-		v = mstyle_get_align_v (state->style);
+	if (0 == (state->conflicts & (1 << MSTYLE_ALIGN_H)))
+		h = gnm_style_get_align_h (state->style);
+	if (0 == (state->conflicts & (1 << MSTYLE_ALIGN_V)))
+		v = gnm_style_get_align_v (state->style);
 
 	/* Setup the horizontal buttons */
 	for (i = 0; (name = h_buttons[i].name) != NULL; ++i)
@@ -804,8 +802,8 @@ fmt_dialog_init_align_page (FormatState *state)
 					     G_CALLBACK (cb_align_v_toggle));
 
 	/* Setup the wrap button, and assign the current value */
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_WRAP_TEXT))
-		wrap = mstyle_get_wrap_text (state->style);
+	if (0 == (state->conflicts & (1 << MSTYLE_WRAP_TEXT)))
+		wrap = gnm_style_get_wrap_text (state->style);
 
 	w = glade_xml_get_widget (state->gui, "align_wrap");
 	state->align.wrap = GTK_CHECK_BUTTON (w);
@@ -814,11 +812,11 @@ fmt_dialog_init_align_page (FormatState *state)
 		"toggled",
 		G_CALLBACK (cb_align_wrap_toggle), state);
 
-	if (mstyle_is_element_conflict (state->style, MSTYLE_INDENT) ||
+	if (0 == (state->conflicts & (1 << MSTYLE_INDENT)) ||
 	    (h != HALIGN_LEFT && h != HALIGN_RIGHT))
 		state->align.indent = 0;
 	else
-		state->align.indent = mstyle_get_indent (state->style);
+		state->align.indent = gnm_style_get_indent (state->style);
 
 	state->align.indent_label =
 		glade_xml_get_widget (state->gui, "halign_indent_label");
@@ -844,10 +842,10 @@ fmt_dialog_init_align_page (FormatState *state)
 	state->align.line = NULL;
 	state->align.text = NULL;
 	state->align.text_widget = NULL;
-	if (mstyle_is_element_conflict (state->style, MSTYLE_ROTATION))
+	if (0 == (state->conflicts & (1 << MSTYLE_ROTATION)))
 		state->align.rotation = 0;
 	else {
-		int r = mstyle_get_rotation (state->style);
+		int r = gnm_style_get_rotation (state->style);
 		if (r > 180) r -= 360;
 		state->align.rotation = r;
 	}
@@ -878,16 +876,16 @@ fmt_dialog_init_align_page (FormatState *state)
 
 static void
 cb_font_changed (G_GNUC_UNUSED GtkWidget *widget,
-		 GnmStyle *mstyle, FormatState *state)
+		 GnmStyle *style, FormatState *state)
 {
-	static MStyleElementType const font_types[] = {
+	static GnmStyleElement const font_types[] = {
 		MSTYLE_FONT_NAME,
 		MSTYLE_FONT_SIZE,
 		MSTYLE_FONT_BOLD,
 		MSTYLE_FONT_ITALIC,
 		MSTYLE_FONT_UNDERLINE,
 		MSTYLE_FONT_STRIKETHROUGH,
-		MSTYLE_COLOR_FORE
+		MSTYLE_FONT_COLOR
 	};
 	int i;
 	static int const num_font_types = G_N_ELEMENTS (font_types);
@@ -899,9 +897,9 @@ cb_font_changed (G_GNUC_UNUSED GtkWidget *widget,
 		return;
 
 	for (i = 0 ; i < num_font_types; i++) {
-		MStyleElementType const t = font_types[i];
-		if (mstyle_is_element_set (mstyle, t)) {
-			mstyle_replace_element (mstyle, state->result, t);
+		GnmStyleElement const t = font_types[i];
+		if (gnm_style_is_element_set (style, t)) {
+			gnm_style_merge_element (state->result, style, t);
 			changed = TRUE;
 		}
 	}
@@ -946,7 +944,7 @@ static gboolean
 cb_font_underline_changed (G_GNUC_UNUSED GtkWidget *ct,
 			   char *new_text, FormatState *state)
 {
-	StyleUnderlineType res = UNDERLINE_NONE;
+	GnmUnderline res = UNDERLINE_NONE;
 	int i;
 
 	/* ignore the clear while assigning a new value */
@@ -991,26 +989,26 @@ fmt_dialog_init_font_page (FormatState *state)
 
 	font_selector_set_value (state->font.selector, state->value);
 
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_NAME))
+	if (0 == (state->conflicts & (1 << MSTYLE_FONT_NAME)))
 		font_selector_set_name (state->font.selector,
-					mstyle_get_font_name (state->style));
+					gnm_style_get_font_name (state->style));
 
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_BOLD) &&
-	    !mstyle_is_element_conflict (state->style, MSTYLE_FONT_ITALIC))
+	if (0 == (state->conflicts & (1 << MSTYLE_FONT_BOLD)) &&
+	    0 == (state->conflicts & (1 << MSTYLE_FONT_ITALIC)))
 		font_selector_set_style (state->font.selector,
-					 mstyle_get_font_bold (state->style),
-					 mstyle_get_font_italic (state->style));
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_SIZE))
+					 gnm_style_get_font_bold (state->style),
+					 gnm_style_get_font_italic (state->style));
+	if (0 == (state->conflicts & (1 << MSTYLE_FONT_SIZE)))
 		font_selector_set_points (state->font.selector,
-					  mstyle_get_font_size (state->style));
+					  gnm_style_get_font_size (state->style));
 
 	for (i = 0; i < (int)G_N_ELEMENTS (underline_types); i++)
 		go_combo_text_add_item	(GO_COMBO_TEXT (uline), _(underline_types[i].Cname));
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_UNDERLINE)) {
-		StyleUnderlineType ut = mstyle_get_font_uline (state->style);
+	if (0 == (state->conflicts & (1 << MSTYLE_FONT_UNDERLINE))) {
+		GnmUnderline ut = gnm_style_get_font_uline (state->style);
 		uline_str = _(underline_types[ut].Cname);
 		font_selector_set_underline (state->font.selector,
-			mstyle_get_font_uline (state->style));
+			gnm_style_get_font_uline (state->style));
 	} else
 		uline_str = "";
 	go_combo_text_set_text	(GO_COMBO_TEXT (uline), uline_str,
@@ -1023,8 +1021,8 @@ fmt_dialog_init_font_page (FormatState *state)
 	tmp = glade_xml_get_widget (state->gui, "underline_label");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (tmp), uline);
 
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_STRIKETHROUGH))
-		strikethrough = mstyle_get_font_strike (state->style);
+	if (0 == (state->conflicts & (1 << MSTYLE_FONT_STRIKETHROUGH)))
+		strikethrough = gnm_style_get_font_strike (state->style);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (strike), strikethrough);
 	font_selector_set_strike (state->font.selector, strikethrough);
@@ -1033,10 +1031,10 @@ fmt_dialog_init_font_page (FormatState *state)
 		"toggled",
 		G_CALLBACK (cb_font_strike_toggle), state);
 
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_COLOR_FORE))
+	if (0 == (state->conflicts & (1 << MSTYLE_FONT_COLOR)))
 		font_selector_set_color (
 			state->font.selector,
-			style_color_ref (mstyle_get_color (state->style, MSTYLE_COLOR_FORE)));
+			style_color_ref (gnm_style_get_font_color (state->style)));
 
 	g_signal_connect (G_OBJECT (font_widget),
 		"font_changed",
@@ -1053,9 +1051,9 @@ back_style_changed (FormatState *state)
 	fmt_dialog_changed (state);
 
 	if (state->enable_edit) {
-		mstyle_replace_element (state->back.style, state->result, MSTYLE_PATTERN);
-		mstyle_replace_element (state->back.style, state->result, MSTYLE_COLOR_BACK);
-		mstyle_replace_element (state->back.style, state->result, MSTYLE_COLOR_PATTERN);
+		gnm_style_merge_element (state->result, state->back.style, MSTYLE_PATTERN);
+		gnm_style_merge_element (state->result, state->back.style, MSTYLE_COLOR_BACK);
+		gnm_style_merge_element (state->result, state->back.style, MSTYLE_COLOR_PATTERN);
 		foo_canvas_item_set (FOO_CANVAS_ITEM (state->back.grid),
 			"default-style",	state->back.style,
 			NULL);
@@ -1076,13 +1074,13 @@ cb_back_preview_color (G_GNUC_UNUSED GOComboColor *combo,
 
 	if (is_default) {
 		sc = style_color_auto_back ();
-		mstyle_set_pattern (state->back.style, 0);
+		gnm_style_set_pattern (state->back.style, 0);
 	} else {
 		sc = style_color_new_go (c);
-		mstyle_set_pattern (state->back.style, state->back.pattern.cur_index);
+		gnm_style_set_pattern (state->back.style, state->back.pattern.cur_index);
 	}
 
-	mstyle_set_color (state->back.style, MSTYLE_COLOR_BACK, sc);
+	gnm_style_set_back_color (state->back.style, sc);
 	back_style_changed (state);
 }
 
@@ -1097,7 +1095,7 @@ cb_pattern_preview_color (G_GNUC_UNUSED GOComboColor *combo,
 			   ? sheet_style_get_auto_pattern_color (state->sheet)
 			   : style_color_new_go (c);
 
-	mstyle_set_color (state->back.style, MSTYLE_COLOR_PATTERN, col);
+	gnm_style_set_pattern_color (state->back.style, col);
 
 	back_style_changed (state);
 }
@@ -1105,7 +1103,7 @@ cb_pattern_preview_color (G_GNUC_UNUSED GOComboColor *combo,
 static void
 draw_pattern_selected (FormatState *state)
 {
-	mstyle_set_pattern (state->back.style, state->back.pattern.cur_index);
+	gnm_style_set_pattern (state->back.style, state->back.pattern.cur_index);
 	back_style_changed (state);
 }
 
@@ -1624,7 +1622,7 @@ static void
 cb_protection_locked_toggle (GtkToggleButton *button, FormatState *state)
 {
 	if (state->enable_edit) {
-		mstyle_set_content_locked (state->result,
+		gnm_style_set_content_locked (state->result,
 			gtk_toggle_button_get_active (button));
 		fmt_dialog_changed (state);
 	}
@@ -1634,7 +1632,7 @@ static void
 cb_protection_hidden_toggle (GtkToggleButton *button, FormatState *state)
 {
 	if (state->enable_edit) {
-		mstyle_set_content_hidden (state->result,
+		gnm_style_set_content_hidden (state->result,
 			gtk_toggle_button_get_active (button));
 		fmt_dialog_changed (state);
 	}
@@ -1657,8 +1655,8 @@ fmt_dialog_init_protection_page (FormatState *state)
 	GtkWidget *w;
 	gboolean flag = FALSE;
 
-	flag = mstyle_is_element_conflict (state->style, MSTYLE_CONTENT_LOCKED)
-		? FALSE : mstyle_get_content_locked (state->style);
+	flag = (state->conflicts & (1 << MSTYLE_CONTENT_LOCKED))
+		? FALSE : gnm_style_get_content_locked (state->style);
 	w = glade_xml_get_widget (state->gui, "protection_locked");
 	state->protection.locked = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);
@@ -1666,8 +1664,8 @@ fmt_dialog_init_protection_page (FormatState *state)
 		"toggled",
 		G_CALLBACK (cb_protection_locked_toggle), state);
 
-	flag = mstyle_is_element_conflict (state->style, MSTYLE_CONTENT_HIDDEN)
-		? FALSE : mstyle_get_content_hidden (state->style);
+	flag = (state->conflicts & (1 << MSTYLE_CONTENT_HIDDEN))
+		? FALSE : gnm_style_get_content_hidden (state->style);
 	w = glade_xml_get_widget (state->gui, "protection_hidden");
 	state->protection.hidden = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);
@@ -1734,7 +1732,7 @@ validation_rebuild_validation (FormatState *state)
 			state->validation.valid = -1;
 
 		if (state->validation.valid > 0) {
-			mstyle_set_validation (state->result,
+			gnm_style_set_validation (state->result,
 					       validation_new (style, type, op, title, msg,
 							       expr0, expr1,
 							       gtk_toggle_button_get_active (state->validation.allow_blank),
@@ -1744,7 +1742,7 @@ validation_rebuild_validation (FormatState *state)
 		g_free (msg);
 		g_free (title);
 	} else
-		mstyle_set_validation (state->result, NULL);
+		gnm_style_set_validation (state->result, NULL);
 	fmt_dialog_changed (state);
 }
 
@@ -2003,10 +2001,10 @@ fmt_dialog_init_validation_page (FormatState *state)
 		G_CALLBACK (cb_validation_rebuild), state);
 
 	/* Initialize */
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_VALIDATION))
-		v = mstyle_get_validation (state->style);
+	if (0 == (state->conflicts & (1 << MSTYLE_VALIDATION)))
+		v = gnm_style_get_validation (state->style);
 	if (v != NULL) {
-		GnmValidation const *v = mstyle_get_validation (state->style);
+		GnmValidation const *v = gnm_style_get_validation (state->style);
 		GnmParsePos pp;
 
 		gtk_combo_box_set_active (state->validation.error.action, v->style);
@@ -2120,7 +2118,7 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 			state->protection.sheet_protected_changed = FALSE;
 		}
 
-		mstyle_ref (state->result);
+		gnm_style_ref (state->result);
 
 		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
 			borders[i] = border_get_mstyle (state, i);
@@ -2128,11 +2126,11 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 		cmd_selection_format (WORKBOOK_CONTROL (state->wbcg),
 			    state->result, borders, NULL);
 
-		mstyle_unref (state->result);
+		gnm_style_unref (state->result);
 		sheet_update (state->sheet);
 
 		/* Get a fresh style to accumulate results in */
-		state->result = mstyle_new ();
+		state->result = gnm_style_new ();
 
 		gtk_widget_set_sensitive (state->apply_button, FALSE);
 	}
@@ -2146,9 +2144,9 @@ static void
 cb_fmt_dialog_dialog_destroy (FormatState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
-	mstyle_unref (state->back.style);
-	mstyle_unref (state->style);
-	mstyle_unref (state->result);
+	gnm_style_unref (state->back.style);
+	gnm_style_unref (state->style);
+	gnm_style_unref (state->result);
 	g_object_unref (G_OBJECT (state->gui));
 	g_free (state);
 }
@@ -2295,7 +2293,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 
 	state->back.canvas	= NULL;
 	state->back.grid        = NULL;
-	state->back.style             = mstyle_new_default ();
+	state->back.style             = gnm_style_new_default ();
 	state->back.pattern.cur_index = 0;
 
 	fmt_dialog_init_format_page (state);
@@ -2321,7 +2319,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 
 	/* Setup border line pattern buttons & select the 1st button */
 	for (i = MSTYLE_BORDER_TOP; i < MSTYLE_BORDER_DIAGONAL; i++) {
-		GnmBorder const *border = mstyle_get_border (state->style, i);
+		GnmBorder const *border = gnm_style_get_border (state->style, i);
 		if (!style_border_is_blank (border)) {
 			default_border_color = &border->color->gdk_color;
 			default_border_style = border->line_type;
@@ -2343,26 +2341,22 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 				      line_pattern_buttons[i].pattern,
 				      default_border_style);
 
-	setup_color_pickers (&state->border.color, "border_color_group",
-			     "border_color_hbox",	"border_color_label",
-			     _("Automatic"), _("Border"), state,
-			     G_CALLBACK (cb_border_color),
-			     MSTYLE_ELEMENT_UNSET, state->style);
-	setup_color_pickers (NULL, "fore_color_group",
-			     "font_color_hbox",		"font_color_label",
-			     _("Automatic"), _("Foreground"), state,
-			     G_CALLBACK (cb_font_preview_color),
-			     MSTYLE_COLOR_FORE, state->style);
-	setup_color_pickers (&state->back.back_color, "back_color_group",
-			     "back_color_hbox",		"back_color_label",
-			     _("Clear Background"), _("Background"), state,
-			     G_CALLBACK (cb_back_preview_color),
-			     MSTYLE_COLOR_BACK, state->style);
-	setup_color_pickers (&state->back.pattern_color, "pattern_color_group",
-			     "pattern_color_hbox",	"pattern_color_label",
-			     _("Automatic"), _("Pattern"), state,
-			     G_CALLBACK (cb_pattern_preview_color),
-			     MSTYLE_COLOR_PATTERN, state->style);
+	setup_color_pickers (state, &state->border.color,	"border_color_group",
+			     "border_color_hbox",		"border_color_label",
+			     _("Automatic"),			_("Border"),
+			     G_CALLBACK (cb_border_color),	MSTYLE_BORDER_TOP);
+	setup_color_pickers (state, NULL,			"fore_color_group",
+			     "font_color_hbox",			"font_color_label",
+			     _("Automatic"),			_("Foreground"),
+			     G_CALLBACK (cb_font_preview_color), MSTYLE_FONT_COLOR);
+	setup_color_pickers (state, &state->back.back_color,	"back_color_group",
+			     "back_color_hbox",			"back_color_label",
+			     _("Clear Background"),		_("Background"),
+			     G_CALLBACK (cb_back_preview_color), MSTYLE_COLOR_BACK);
+	setup_color_pickers (state, &state->back.pattern_color, "pattern_color_group",
+			     "pattern_color_hbox",		"pattern_color_label",
+			     _("Automatic"),			_("Pattern"),
+			     G_CALLBACK (cb_pattern_preview_color), MSTYLE_COLOR_PATTERN);
 
 	/* Setup the border images */
 	for (i = 0; (name = border_buttons[i]) != NULL; ++i) {
@@ -2381,8 +2375,8 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	 */
 	has_back = FALSE;
 	selected = 1;
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_PATTERN)) {
-		selected = mstyle_get_pattern (state->style);
+	if (0 == (state->conflicts & (1 << MSTYLE_PATTERN))) {
+		selected = gnm_style_get_pattern (state->style);
 		has_back = (selected != 0);
 	}
 
@@ -2490,8 +2484,8 @@ fmt_dialog_selection_type (SheetView *sv,
 			state->selection_mask |= 1;
 	}
 
-	sheet_style_get_uniform (state->sheet, range,
-				 &(state->style), state->borders);
+	state->conflicts = sheet_style_find_conflicts (state->sheet, range,
+		&(state->style), state->borders);
 
 	return TRUE;
 }
@@ -2527,7 +2521,7 @@ dialog_cell_format (WorkbookControlGUI *wbcg, FormatDialogPosition_t pageno)
 
 	state->value	        = (edit_cell != NULL) ? edit_cell->value : NULL;
 	state->style		= NULL;
-	state->result		= mstyle_new ();
+	state->result		= gnm_style_new ();
 	state->selection_mask	= 0;
 	state->dialog_changed	= NULL;
 	state->dialog_changed_user_data = NULL;

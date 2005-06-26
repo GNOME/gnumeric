@@ -141,7 +141,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 	gboolean    allocated_msg = FALSE;
 	ValidationStatus result;
 
-	v = mstyle_get_validation (mstyle);
+	v = gnm_style_get_validation (mstyle);
 	if (v == NULL)
 		return VALIDATION_STATUS_VALID;
 
@@ -281,11 +281,11 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 			GnmEvalPos   ep;
 			char	 *expr_str;
 			GnmValue    *val;
-			gboolean  dummy, valid;
+			gboolean  valid;
 
 			eval_pos_init_cell (&ep, cell);
 			val = gnm_expr_eval (expr, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-			valid = value_get_as_bool (val, &dummy);
+			valid = value_get_as_bool (val, NULL);
 			value_release (val);
 
 			if (valid && v->op != VALIDATION_OP_BETWEEN) {
@@ -304,7 +304,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 					(v->op == VALIDATION_OP_BETWEEN) ? GNM_EXPR_OP_LTE : GNM_EXPR_OP_GT,
 					v->expr[1]);
 				val = gnm_expr_eval (expr, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-				valid = value_get_as_bool (val, &dummy);
+				valid = value_get_as_bool (val, NULL);
 				value_release (val);
 				if (valid) {
 					gnm_expr_unref (expr);

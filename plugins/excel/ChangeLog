@@ -1,3 +1,20 @@
+2005-06-22  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (map_color_to_palette) : simplify
+	  and remove the direct comparisons to colours.  Just take an
+	  index and return it on NULL or auto.
+	(xl_le_set_range) : new.
+	(write_border) : new.
+	(cb_write_condition) : new.
+	(excel_write_conditions) : new.
+	(excel_write_DVALs) : renamed from excel_write_DVAL.
+	(excel_write_prep_conditions) : new.
+	(put_colors) : look in conditional styles too.
+
+	* ms-excel-read.c (excel_read_CF_border) : new.
+	(excel_read_CF) : implement.
+	(excel_read_CONDFMT) : complete.
+
 2005-06-13  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.2

@@ -33,15 +33,30 @@
 
 
 GnmEvalPos *
-eval_pos_init (GnmEvalPos *ep, Sheet *sheet, GnmCellPos const *pos)
+eval_pos_init (GnmEvalPos *ep, Sheet *sheet, int col, int row)
+{
+	g_return_val_if_fail (ep != NULL, NULL);
+	g_return_val_if_fail (sheet != NULL, NULL);
+
+	ep->eval.col = col;
+	ep->eval.row = row;
+	ep->cols  = ep->rows = 1;
+	ep->sheet = sheet;
+	ep->dep   = NULL;
+
+	return ep;
+}
+
+GnmEvalPos *
+eval_pos_init_pos (GnmEvalPos *ep, Sheet *sheet, GnmCellPos const *pos)
 {
 	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (pos != NULL, NULL);
 
-	ep->sheet = sheet;
 	ep->eval  = *pos;
 	ep->cols  = ep->rows = 1;
+	ep->sheet = sheet;
 	ep->dep   = NULL;
 
 	return ep;
@@ -53,15 +68,14 @@ eval_pos_init_dep (GnmEvalPos *ep, GnmDependent const *dep)
 	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (dep != NULL, NULL);
 
-	ep->dep = (GnmDependent *)dep;
-	ep->sheet = dep->sheet;
-	if (dependent_is_cell (dep)) {
+	if (dependent_is_cell (dep))
 		ep->eval = DEP_TO_CELL (dep)->pos;
-	} else {
-		static GnmCellPos const pos = { 0, 0 };
-		ep->eval = pos;
-	}
+	else
+		ep->eval.col = ep->eval.col = 0;
 	ep->cols  = ep->rows = 1;
+	ep->sheet = dep->sheet;
+	ep->dep = (GnmDependent *)dep;
+
 	return ep;
 }
 
@@ -71,25 +85,25 @@ eval_pos_init_cell (GnmEvalPos *ep, GnmCell const *cell)
 	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (cell != NULL, NULL);
 
-	ep->dep   = (GnmDependent *)CELL_TO_DEP (cell);
-	ep->sheet = cell->base.sheet;
 	ep->eval  = cell->pos;
 	ep->cols  = ep->rows = 1;
+	ep->sheet = cell->base.sheet;
+	ep->dep   = (GnmDependent *)CELL_TO_DEP (cell);
+
 	return ep;
 }
 
 GnmEvalPos *
 eval_pos_init_sheet (GnmEvalPos *ep, Sheet *sheet)
 {
-	static GnmCellPos const pos = { 0, 0 };
-
 	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	ep->dep  = NULL;
-	ep->sheet = sheet;
-	ep->eval  = pos;
+	ep->eval.col = ep->eval.row = 0;
 	ep->cols  = ep->rows = 1;
+	ep->sheet = sheet;
+	ep->dep  = NULL;
+
 	return ep;
 }
 

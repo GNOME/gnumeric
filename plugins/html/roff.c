@@ -51,7 +51,7 @@ roff_fprintf (GsfOutput *output, GnmCell *cell)
 		return 0;
 
 	mstyle = cell_get_mstyle (cell);
-	if (mstyle != NULL && mstyle_get_content_hidden (mstyle))
+	if (mstyle != NULL && gnm_style_get_content_hidden (mstyle))
 		return 0;
 
 	s = cell_get_rendered_text (cell);
@@ -125,45 +125,45 @@ roff_file_save (GOFileSaver const *fs, IOContext *io_context,
 					GnmStyle *mstyle = cell_get_mstyle (cell);
 					if (!mstyle)
 						break;
-					if (mstyle_get_align_h (mstyle) & HALIGN_RIGHT)
+					if (gnm_style_get_align_h (mstyle) & HALIGN_RIGHT)
 						gsf_output_printf (output, "r");
-					else if (mstyle_get_align_h (mstyle) == HALIGN_CENTER ||
+					else if (gnm_style_get_align_h (mstyle) == HALIGN_CENTER ||
 						 /* FIXME : center across selection is different */
-						 mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION)
+						 gnm_style_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION)
 						gsf_output_printf (output, "c");
 					else
 						gsf_output_printf (output, "l");
 					if (font_is_monospaced (mstyle)) {
-						if (mstyle_get_font_bold (mstyle) &&
-						    mstyle_get_font_italic (mstyle))
+						if (gnm_style_get_font_bold (mstyle) &&
+						    gnm_style_get_font_italic (mstyle))
 							gsf_output_printf (output, "fCBI");
-						else if (mstyle_get_font_bold (mstyle))
+						else if (gnm_style_get_font_bold (mstyle))
 							gsf_output_printf (output, "fCB");
-						else if (mstyle_get_font_italic (mstyle))
+						else if (gnm_style_get_font_italic (mstyle))
 							gsf_output_printf (output, "fCI");
 						else
 							gsf_output_printf (output, "fCR");
 					} else if (font_is_helvetica (mstyle)) {
-						if (mstyle_get_font_bold (mstyle) &&
-						    mstyle_get_font_italic (mstyle))
+						if (gnm_style_get_font_bold (mstyle) &&
+						    gnm_style_get_font_italic (mstyle))
 							gsf_output_printf (output, "fHBI");
-						else if (mstyle_get_font_bold (mstyle))
+						else if (gnm_style_get_font_bold (mstyle))
 							gsf_output_printf (output, "fHB");
-						else if (mstyle_get_font_italic (mstyle))
+						else if (gnm_style_get_font_italic (mstyle))
 							gsf_output_printf (output, "fHI");
 						else
 							gsf_output_printf (output, "fHR");
 					} else {
 						/* default is times */
-						if (mstyle_get_font_bold (mstyle) &&
-						    mstyle_get_font_italic (mstyle))
+						if (gnm_style_get_font_bold (mstyle) &&
+						    gnm_style_get_font_italic (mstyle))
 							gsf_output_printf (output, "fTBI");
-						else if (mstyle_get_font_bold (mstyle))
+						else if (gnm_style_get_font_bold (mstyle))
 							gsf_output_printf (output, "fTB");
-						else if (mstyle_get_font_italic (mstyle))
+						else if (gnm_style_get_font_italic (mstyle))
 							gsf_output_printf (output, "fTI");
 					}
-					fontsize = mstyle_get_font_size (mstyle);
+					fontsize = gnm_style_get_font_size (mstyle);
 					if (fontsize) {
 						gsf_output_printf (output, "p%d", fontsize);
 						v_size = v_size > fontsize ? v_size :

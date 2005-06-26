@@ -174,7 +174,7 @@ set_format(GnmStyle *style, const psiconv_sheet_numberformat psi_numberformat)
 	}  /* TODO: Add True/False */
 
 	if (fmt_string[0])
-		mstyle_set_format_text (style, fmt_string);
+		gnm_style_set_format_text (style, fmt_string);
 }
 
 static GnmColor *
@@ -189,28 +189,28 @@ set_layout(GnmStyle * style,const psiconv_sheet_cell_layout psi_layout)
 	GnmColor *color;
 
 	set_format(style,psi_layout->numberformat);
-	mstyle_set_font_size(style,psi_layout->character->font_size);
-	mstyle_set_font_italic(style,psi_layout->character->italic?TRUE:FALSE);
-	mstyle_set_font_bold(style,psi_layout->character->bold?TRUE:FALSE);
-	mstyle_set_font_uline(style,
+	gnm_style_set_font_size(style,psi_layout->character->font_size);
+	gnm_style_set_font_italic(style,psi_layout->character->italic?TRUE:FALSE);
+	gnm_style_set_font_bold(style,psi_layout->character->bold?TRUE:FALSE);
+	gnm_style_set_font_uline(style,
 	                      psi_layout->character->underline?TRUE:FALSE);
-	mstyle_set_font_strike(style,
+	gnm_style_set_font_strike(style,
 	                       psi_layout->character->strikethrough?TRUE:FALSE);
-	mstyle_set_font_name(style,
+	gnm_style_set_font_name(style,
 			     (const char *) psi_layout->character->font->name);
 	color = get_color(psi_layout->character->color);
 	if (color)
-		mstyle_set_color(style,MSTYLE_COLOR_FORE,color);
+		gnm_style_set_font_color (style, color);
 	/* TODO: Character level layouts: super_sub */
 	/* TODO: Paragraph level layouts: all */
 	/* TODO: Background color: add transparant if white */
 #if 0
 	color = get_color(psi_layout->paragraph->back_color);
 	if (color) {
-		mstyle_set_color(style,MSTYLE_COLOR_BACK,color);
-		mstyle_set_color(style,MSTYLE_COLOR_PATTERN,color);
+		gnm_style_set_back_color(style, color);
+		gnm_style_set_pattern_color(style, color);
 		/* TODO: Replace 24 with some symbol */
-		mstyle_set_pattern(style,1);
+		gnm_style_set_pattern(style,1);
 	}
 #endif
 }
@@ -221,8 +221,7 @@ set_style(Sheet *sheet, int row, int col,
           const psiconv_sheet_cell_layout psi_layout,
           const GnmStyle *default_style)
 {
-	GnmStyle *style;
-	style = mstyle_copy(default_style);
+	GnmStyle *style = gnm_style_dup(default_style);
 	if (!style)
 		return;
 	set_layout(style,psi_layout);
@@ -514,7 +513,7 @@ add_worksheet(Workbook *wb, psiconv_sheet_worksheet psi_worksheet,int nr,
 		return;
 
 	/* Default layout */
-	default_style = mstyle_new_default();
+	default_style = gnm_style_new_default();
 	if (!default_style) {
 		g_object_unref (sheet);
 		return;
@@ -528,7 +527,7 @@ add_worksheet(Workbook *wb, psiconv_sheet_worksheet psi_worksheet,int nr,
 	/* TODO: What about the NULL? */
 	sheet_flag_recompute_spans(sheet);
 	workbook_sheet_attach (wb, sheet);
-	mstyle_unref (default_style);
+	gnm_style_unref (default_style);
 }
 
 static void

@@ -286,7 +286,7 @@ print_cell_range (GnomePrintContext *context,
 	int start_row, start_col, end_col, end_row;
 	PangoContext *pcontext;
 
-	GnmRow sr, next_sr;
+	GnmStyleRow sr, next_sr;
 	GnmStyle const **styles;
 	GnmBorder const **borders, **prev_vert;
 	GnmBorder const *none =

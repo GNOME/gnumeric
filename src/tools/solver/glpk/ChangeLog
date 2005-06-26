@@ -1,59 +1,226 @@
-2005-06-13  Jody Goldberg <jody@gnome.org>
+Wed Jan 12 12:00:00 2005 Andrew Makhorin <mao@mai2.rcnet.ru>
 
-	* Release 1.5.2
+        * GLPK 4.8 has been released.
 
-2005-05-10  Jody Goldberg <jody@gnome.org>
+        * glpspx.h, glpspx1.c, glpspx2.c, glplpx6a.c
+        Simplex method routines were changed due to a new format of the
+        constraint matrix.
 
-	* Release 1.5.1
+        * glpmat.h, glpmat.c
+        Sparse matrix routines were re-implemented using storage-by-rows
+        format.
 
-2005-02-08  Jody Goldberg <jody@gnome.org>
+        * glpipm.h, glpipm.c, glplpx6b.c
+        Interior-point method routines were changed due to a new format
+        of sparse matrices.
 
-	* Release 1.5.0
+        * glpchol.h, glpchol.c
+        Old version of Cholesky factorization routines being replaced by
+        a new one (see glpmat.c) was removed from the package.
 
-2005-01-17  Jody Goldberg <jody@gnome.org>
+        * glplpx8c.c
+        Minor bug was fixed in api routine lpx_read_cpxlp.
 
-	* Release 1.4.2
+Mon Aug 23 12:00:00 2004 Andrew Makhorin <mao@mai2.rcnet.ru>
 
-2004-12-09  Jody Goldberg <jody@gnome.org>
+        * GLPK 4.7 has been released.
 
-	* Release 1.4.1
+        * glplpx.h, glplpx1.c
+        New core API routines were added (but not documented yet):
+        lpx_order_matrix, lpx_create_index, lpx_find_row, lpx_find_col,
+        lpx_delete_index.
 
-2004-11-28  Jody Goldberg <jody@gnome.org>
+        * glplpx8a.c
+        API routine lpx_read_mps was re-implemented, and two new API
+        routines lpx_read_freemps and lpx_write_freemps were added to
+        support free MPS format.
 
-	* Release 1.4.0
+        * glplpx8c.c
+        Two API routines lpx_read_cpxlp and lpx_write_cpxlp (formerly
+        named lpx_read_lpt and lpx_write_lpt) were re-implemented.
 
-2004-11-07  Jody Goldberg <jody@gnome.org>
+        * glpmps.h, glpmps.c
+        This module formerly used in lpx_read_mps was removed from the
+        package.
 
-	* Release 1.3.93
+        * glplpt.h, glplpt.c
+        This module formerly used in lpx_read_lpt was removed from the
+        package.
 
-2004-10-31  Jody Goldberg <jody@gnome.org>
+        * glpmip.h, glpmip1.h, glpmip2.h
+        New MIP routines mip_best_node and mip_relative_gap were added
+        due to suggestion of Brady Hunsaker <hunsaker@engr.pitt.edu>.
 
-	* Release 1.3.92
+        * glpsol.c
+        The following new command-options were added:
+        --freemps  to read problem data in free MPS format
+        --wfreemps to write problem data in free MPS format
+        --cpxlp    to read problem data in CPLEX LP format
+        --wcpxlp   to write problem data in CPLEX LP format
+        --bas      to read LP basis from a text file in MPS format
+        --wbas     to write LP basis to a text file in MPS format
+        --mostf    to use "most fractional" branching heuristic
+        --bestb    to use "best bound" backtracking heuristic
 
-2004-10-05  Jody Goldberg <jody@gnome.org>
+        * contrib/deli/*.*
+        GLPK Delphi interface module was temporarily removed from the
+        distribution due to licensing problems.
 
-	* Release 1.3.91
+        * contrib/glpkmex/*.*
+        GLPK Matlab interface module was temporarily removed from the
+        distribution due to licensing problems.
 
-2004-09-08  Jody Goldberg <jody@gnome.org>
+        * contrib/jni/*.*
+        GLPK Java interface module was temporarily removed from the
+        distribution due to licensing problems.
 
-	* Release 1.3.90
+Wed Aug 04 12:00:00 2004 Andrew Makhorin <mao@mai2.rcnet.ru>
 
-2004-08-29  Jody Goldberg <jody@gnome.org>
+        * GLPK 4.6 has been released.
 
-	* Release 1.3.2
+        * glpmpl.h, glpmpl1.c, glpmpl2.c, glpmpl3.c, glpmpl4.c
+        Three new statements were implemented in the GNU MathProg
+        language: solve, printf, and for. Also some bugs were fixed.
 
-2004-07-19  Jody Goldberg <jody@gnome.org>
+        * glplpx.h, glplpx8e.c
+        Two API routines were added: lpx_read_prob and lpx_write_prob,
+        which allow reading and writing problem data in GNU LP format.
 
-	* Release 1.3.1
+        * glpsol.c
+        Three new command-line options were added: --glp (to read
+        problem data in GNU LP format), --wglp (to write problem data
+        in GNU LP format), and --name (to change problem name).
 
-2004-03-28  Jody Goldberg <jody@gnome.org>
+        * glprng.h, glprng.c
+        A portable pseudo-random number generator was implemented as a
+        separate module.
 
-	* Release 1.3.0
+        * glplib4.c
+        The old implementation of a pseudo-random number generator was
+        removed from the package.
 
-2003-12-23  Jody Goldberg <jody@gnome.org>
+        * doc/lang.*, doc/refman.*
+        New edition of the GLPK documentation was included.
 
-	* Release 1.2.3
+        * contrib/glpkmex/*.*
+        A new version of GLPKMEX was included in the distribution. For
+        more details see contrib/glpkmex/ChangeLog.
 
+Mon Jul 19 12:00:00 2004 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 4.5 has been released.
+
+        * glpmip.h, glpmip1.c, glpmip2.c, glplpx6c.c
+        New implementation of the branch-and-bound method was added.
+        It replaces the old implementation, which was removed from the
+        package.
+
+        * glpies.h, glpies1.c, glpies2.c, glpies3.c
+        Modules used in the old implementation of the branch-and-bound
+        method were removed from the package.
+
+        * glplib2.c
+        Now if the preprocessor variable GLPHUGEMEM is defined, other
+        version of the routines umalloc, ucalloc, and ufree is used on
+        compiling the package. This allows avoiding memory allocation
+        problems on platforms where sizeof(void *) > sizeof(int), for
+        example, where addresses are 64-bit while integers are 32-bit.
+        The modification was made due to a bug report provided by Karel
+        Zimmermann <kzimm@diamant.jouy.inra.fr> and Christophe Caron
+        <caron@diamant.jouy.inra.fr>.
+
+Sat Jan 17 12:00:00 2004 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 4.4 has been released.
+
+        * glplpx.h, glplpx*.c
+        All API routines were re-implemented using new data structures.
+        Some new API routines were added and some existing API routines
+        became obsolete as shown below:
+
+        Obsolete API routine   Equivalent new API routine
+        lpx_check_name         (no more supported)
+        lpx_set_obj_c0         lpx_set_obj_coef
+        lpx_set_row_coef       (no more supported)
+        lpx_set_col_coef       lpx_set_obj_coef
+        lpx_load_mat           (no more supported)
+        lpx_load_mat3          lpx_load_matrix
+        lpx_unmark_all         (no more supported)
+        lpx_mark_row           (no more supported)
+        lpx_mark_col           (no more supported)
+        lpx_clear_mat          (no more supported)
+        lpx_del_items          lpx_del_rows, lpx_del_cols
+        lpx_get_row_bnds       lpx_get_row_type, lpx_get_row_lb,
+                               lpx_get_row_ub
+        lpx_get_col_bnds       lpx_get_col_type, lpx_get_col_lb,
+                               lpx_get_col_ub
+        lpx_get_obj_c0         lpx_get_obj_coef
+        lpx_get_row_coef       (no more supported)
+        lpx_get_col_coef       lpx_get_obj_coef
+        lpx_get_row_mark       (no more supported)
+        lpx_get_col_mark       (no more supported)
+        lpx_get_row_info       lpx_get_row_stat, lpx_get_row_prim,
+                               lpx_get_row_dual
+        lpx_get_col_info       lpx_get_col_stat, lpx_get_col_prim,
+                               lpx_get_col_dual
+        lpx_get_ips_stat       lpx_ipt_status
+        lpx_get_ips_row        lpx_ipt_row_prim, lpx_ipt_row_dual
+        lpx_get_ips_col        lpx_ipt_col_prim, lpx_ipt_col_dual
+        lpx_get_ips_obj        lpx_ipt_obj_val
+        lpx_get_mip_stat       lpx_mip_status
+        lpx_get_mip_row        lpx_mip_row_val
+        lpx_get_mip_col        lpx_mip_col_val
+        lpx_get_mip_obj        lpx_mip_obj_val
+
+        Obsolete API routines were kept for backward compatibility,
+        however, they will be removed in the future.
+
+        * doc/refman.*
+        New edition of the GLPK reference manual containing description
+        of all new API routines was included.
+
+        * contrib/glpkmex/*.*
+        GLPKMEX, a Matlab MEX interface to GLPK package, contributed by
+        Nicolo Giorgetti <giorgetti@dii.unisi.it> was included.
+
+        * doc/GLPK_FAQ.txt
+        GLPK FAQ contributed by Harley Mackenzie <hjm@bigpond.com> was
+        included.
+
+Fri Dec 12 12:00:00 2003 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 4.3 has been released.
+
+        * configure.in
+        The bug, due to which the standard math library is not linked on
+        some platforms, was fixed.
+
+        * glpmpl3.c
+        The bug (0 ** y) was fixed in the routine fp_power.
+
+        * glpmpl.h, glpmpl1.c, glpmpl3.c
+        Some new built-in functions (round, trunc, Irand224, Uniform01,
+        Uniform, Normal01, Normal) were added to the MathProg language.
+
+        * glpmpl1.c
+        The MathProg syntax was changed to allow writing 'subj to'.
+
+        * glplpx.h, glplpx1.c, glplpx2.c
+        The new api routine lpx_get_ray_info was added.
+
+        * glplpx8a.c
+        The api routine lpx_print_sol was changed to print the number of
+        non-basic variable, which causes primal unboundness.
+
+        * glpmps.c
+        The code was changed to avoid errors on compiling the package on
+        Mac OS X. Thanks to Andre Girard <andre@inrs-emt.uquebec.ca> for
+        the bug report.
+
+        * doc/lang.*, doc/refman.*
+        Several typos were fixed and some new material was added in the
+        glpk documentation.
+      
 Fri Nov 14 12:00:00 2003 Andrew Makhorin <mao@mai2.rcnet.ru>
 
         * GLPK 4.2 has been released.

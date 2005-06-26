@@ -65,12 +65,12 @@ static void
 thrash_insert (Sheet *sheet)
 {
 	int     j;
-	GnmStyle *style1 = mstyle_new ();
-	GnmStyle *style2 = mstyle_new ();
+	GnmStyle *style1 = gnm_style_new ();
+	GnmStyle *style2 = gnm_style_new ();
 
-	mstyle_set_font_bold   (style1, TRUE);
-	mstyle_set_font_italic (style1, TRUE);
-	mstyle_set_font_size   (style2, 20.0);
+	gnm_style_set_font_bold   (style1, TRUE);
+	gnm_style_set_font_italic (style1, TRUE);
+	gnm_style_set_font_size   (style2, 20.0);
 
 	for (j = 0; j < INSERT_HEIGHT; j++) {
 		GnmRange r;
@@ -89,7 +89,7 @@ thrash_insert (Sheet *sheet)
 			else
 				setstyle = style2;
 
-			mstyle_ref (setstyle);
+			gnm_style_ref (setstyle);
 			sheet_style_attach (sheet, &r, setstyle);
 
 			cell = sheet_cell_fetch (sheet, i, j);
@@ -105,8 +105,8 @@ thrash_insert (Sheet *sheet)
 		sheet_style_optimize (sheet, r);
 	}
 
-	mstyle_unref (style1);
-	mstyle_unref (style2);
+	gnm_style_unref (style1);
+	gnm_style_unref (style2);
 }
 
 void

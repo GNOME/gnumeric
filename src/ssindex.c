@@ -90,9 +90,9 @@ cb_index_cell (G_GNUC_UNUSED gpointer ignore,
 static void
 cb_index_styles (GnmStyle *style, gconstpointer dummy, IndexerState *state)
 {
-	if (mstyle_is_element_set (style, MSTYLE_HLINK)) {
+	if (gnm_style_is_element_set (style, MSTYLE_HLINK)) {
 		guchar const *str;
-		GnmHLink const *lnk = mstyle_get_hlink (style);
+		GnmHLink const *lnk = gnm_style_get_hlink (style);
 		if (lnk != NULL) {
 			if (NULL != (str = gnm_hlink_get_target (lnk)))
 				gsf_xml_out_simple_element (state->output, "data", str);

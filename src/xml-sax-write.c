@@ -36,6 +36,7 @@
 #include <sheet-style.h>
 #include <summary.h>
 #include <style-color.h>
+#include <style-conditions.h>
 #include <expr.h>
 #include <expr-impl.h>
 #include <expr-name.h>
@@ -46,6 +47,7 @@
 #include <style-border.h>
 #include <validation.h>
 #include <hlink.h>
+#include <input-msg.h>
 #include <solver.h>
 #include <sheet-filter.h>
 #include <sheet-object-impl.h>
@@ -361,65 +363,70 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 		GNM "Diagonal",
 		GNM "Rev-Diagonal"
 	};
-	GnmHLink   const *link;
 	GnmValidation const *v;
-	int i;
+	GnmHLink   const *link;
+	GnmInputMsg const *im;
+	GnmStyleConditions const *sc;
+	GnmStyleCond const *cond;
+	GnmParsePos    pp;
+	char	   *tmp;
+	unsigned i;
 
 	gsf_xml_out_start_element (state->output, GNM "Style");
 
-	if (mstyle_is_element_set (style, MSTYLE_ALIGN_H))
-		gsf_xml_out_add_int (state->output, "HAlign", mstyle_get_align_h (style));
-	if (mstyle_is_element_set (style, MSTYLE_ALIGN_V))
-		gsf_xml_out_add_int (state->output, "VAlign", mstyle_get_align_v (style));
-	if (mstyle_is_element_set (style, MSTYLE_WRAP_TEXT))
-		gsf_xml_out_add_bool (state->output, "WrapText", mstyle_get_wrap_text (style));
-	if (mstyle_is_element_set (style, MSTYLE_SHRINK_TO_FIT))
-		gsf_xml_out_add_bool (state->output, "ShrinkToFit", mstyle_get_shrink_to_fit (style));
-	if (mstyle_is_element_set (style, MSTYLE_ROTATION))
-		gsf_xml_out_add_int (state->output, "Rotation", mstyle_get_rotation (style));
-	if (mstyle_is_element_set (style, MSTYLE_PATTERN))
-		gsf_xml_out_add_int (state->output, "Shade", mstyle_get_pattern (style));
-	if (mstyle_is_element_set (style, MSTYLE_INDENT))
-		gsf_xml_out_add_int (state->output, "Indent", mstyle_get_indent (style));
-	if (mstyle_is_element_set (style, MSTYLE_CONTENT_LOCKED))
-		gsf_xml_out_add_bool (state->output, "Locked", mstyle_get_content_locked (style));
-	if (mstyle_is_element_set (style, MSTYLE_CONTENT_HIDDEN))
-		gsf_xml_out_add_bool (state->output, "Hidden", mstyle_get_content_hidden (style));
-	if (mstyle_is_element_set (style, MSTYLE_COLOR_FORE))
-		gnm_xml_out_add_color (state->output, "Fore", mstyle_get_color (style, MSTYLE_COLOR_FORE));
-	if (mstyle_is_element_set (style, MSTYLE_COLOR_BACK))
-		gnm_xml_out_add_color (state->output, "Back", mstyle_get_color (style, MSTYLE_COLOR_BACK));
-	if (mstyle_is_element_set (style, MSTYLE_COLOR_PATTERN))
-		gnm_xml_out_add_color (state->output, "PatternColor", mstyle_get_color (style, MSTYLE_COLOR_PATTERN));
-	if (mstyle_is_element_set (style, MSTYLE_FORMAT)) {
-		char *fmt = style_format_as_XL (mstyle_get_format (style), FALSE);
+	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_H))
+		gsf_xml_out_add_int (state->output, "HAlign", gnm_style_get_align_h (style));
+	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_V))
+		gsf_xml_out_add_int (state->output, "VAlign", gnm_style_get_align_v (style));
+	if (gnm_style_is_element_set (style, MSTYLE_WRAP_TEXT))
+		gsf_xml_out_add_bool (state->output, "WrapText", gnm_style_get_wrap_text (style));
+	if (gnm_style_is_element_set (style, MSTYLE_SHRINK_TO_FIT))
+		gsf_xml_out_add_bool (state->output, "ShrinkToFit", gnm_style_get_shrink_to_fit (style));
+	if (gnm_style_is_element_set (style, MSTYLE_ROTATION))
+		gsf_xml_out_add_int (state->output, "Rotation", gnm_style_get_rotation (style));
+	if (gnm_style_is_element_set (style, MSTYLE_PATTERN))
+		gsf_xml_out_add_int (state->output, "Shade", gnm_style_get_pattern (style));
+	if (gnm_style_is_element_set (style, MSTYLE_INDENT))
+		gsf_xml_out_add_int (state->output, "Indent", gnm_style_get_indent (style));
+	if (gnm_style_is_element_set (style, MSTYLE_CONTENT_LOCKED))
+		gsf_xml_out_add_bool (state->output, "Locked", gnm_style_get_content_locked (style));
+	if (gnm_style_is_element_set (style, MSTYLE_CONTENT_HIDDEN))
+		gsf_xml_out_add_bool (state->output, "Hidden", gnm_style_get_content_hidden (style));
+	if (gnm_style_is_element_set (style, MSTYLE_FONT_COLOR))
+		gnm_xml_out_add_color (state->output, "Fore", gnm_style_get_font_color (style));
+	if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
+		gnm_xml_out_add_color (state->output, "Back", gnm_style_get_back_color (style));
+	if (gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN))
+		gnm_xml_out_add_color (state->output, "PatternColor", gnm_style_get_pattern_color (style));
+	if (gnm_style_is_element_set (style, MSTYLE_FORMAT)) {
+		char *fmt = style_format_as_XL (gnm_style_get_format (style), FALSE);
 		gsf_xml_out_add_cstr (state->output, "Format", fmt);
 		g_free (fmt);
 	}
 
-	if (mstyle_is_element_set (style, MSTYLE_FONT_NAME) ||
-	    mstyle_is_element_set (style, MSTYLE_FONT_SIZE) ||
-	    mstyle_is_element_set (style, MSTYLE_FONT_BOLD) ||
-	    mstyle_is_element_set (style, MSTYLE_FONT_ITALIC) ||
-	    mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
-	    mstyle_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH)) {
+	if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME) ||
+	    gnm_style_is_element_set (style, MSTYLE_FONT_SIZE) ||
+	    gnm_style_is_element_set (style, MSTYLE_FONT_BOLD) ||
+	    gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC) ||
+	    gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
+	    gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH)) {
 		char const *fontname;
 
 		gsf_xml_out_start_element (state->output, GNM "Font");
 
-		if (mstyle_is_element_set (style, MSTYLE_FONT_SIZE))
-			xml_out_add_points (state->output, "Unit", mstyle_get_font_size (style));
-		if (mstyle_is_element_set (style, MSTYLE_FONT_BOLD))
-			gsf_xml_out_add_int (state->output, "Bold", mstyle_get_font_bold (style));
-		if (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC))
-			gsf_xml_out_add_int (state->output, "Italic", mstyle_get_font_italic (style));
-		if (mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE))
-			gsf_xml_out_add_int (state->output, "Underline", (int)mstyle_get_font_uline (style));
-		if (mstyle_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH))
-			gsf_xml_out_add_int (state->output, "StrikeThrough", mstyle_get_font_strike (style));
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_SIZE))
+			xml_out_add_points (state->output, "Unit", gnm_style_get_font_size (style));
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_BOLD))
+			gsf_xml_out_add_int (state->output, "Bold", gnm_style_get_font_bold (style));
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC))
+			gsf_xml_out_add_int (state->output, "Italic", gnm_style_get_font_italic (style));
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE))
+			gsf_xml_out_add_int (state->output, "Underline", (int)gnm_style_get_font_uline (style));
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH))
+			gsf_xml_out_add_int (state->output, "StrikeThrough", gnm_style_get_font_strike (style));
 
-		if (mstyle_is_element_set (style, MSTYLE_FONT_NAME))
-			fontname = mstyle_get_font_name (style);
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME))
+			fontname = gnm_style_get_font_name (style);
 		else /* backwards compatibility */
 			fontname = "Helvetica";
 
@@ -427,7 +434,8 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 		gsf_xml_out_end_element (state->output);
 	}
 
-	if ((link = mstyle_get_hlink (style)) != NULL) {
+	if (gnm_style_is_element_set (style, MSTYLE_HLINK) &&
+	    NULL != (link = gnm_style_get_hlink (style))) {
 		gsf_xml_out_start_element (state->output, GNM "HyperLink");
 		gsf_xml_out_add_cstr (state->output, "type", g_type_name (G_OBJECT_TYPE (link)));
 		gsf_xml_out_add_cstr (state->output, "target", gnm_hlink_get_target (link));
@@ -436,11 +444,8 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 		gsf_xml_out_end_element (state->output);
 	}
 
-	v = mstyle_get_validation (style);
-	if (v != NULL) {
-		GnmParsePos    pp;
-		char	   *tmp;
-
+	if (gnm_style_is_element_set (style, MSTYLE_VALIDATION) &&
+	    NULL != (v = gnm_style_get_validation (style))) {
 		gsf_xml_out_start_element (state->output, GNM "Validation");
 		gsf_xml_out_add_int (state->output, "Style", v->style);
 		gsf_xml_out_add_int (state->output, "Type", v->type);
@@ -479,17 +484,53 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 		gsf_xml_out_end_element (state->output); /* </Validation> */
 	}
 
+	if (gnm_style_is_element_set (style, MSTYLE_INPUT_MSG) &&
+	    NULL != (im = gnm_style_get_input_msg (style))) {
+		char const *txt;
+		gsf_xml_out_start_element (state->output, GNM "InputMessage");
+		if (NULL != (txt = gnm_input_msg_get_title (im)))
+			gsf_xml_out_add_cstr (state->output, "Title", txt);
+		if (NULL != (txt = gnm_input_msg_get_msg (im)))
+			gsf_xml_out_add_cstr (state->output, "Message", txt);
+		gsf_xml_out_end_element (state->output); /* </InputMessage> */
+	}
+
+	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS) &&
+	    NULL != (sc = gnm_style_get_conditions (style))) {
+		GArray const *conds = gnm_style_conditions_details (sc);
+		if (conds != NULL)
+			for (i = 0 ; i < conds->len ; i++) {
+				cond = &g_array_index (conds, GnmStyleCond, i);
+				gsf_xml_out_start_element (state->output, GNM "Condition");
+				gsf_xml_out_add_int (state->output, "Operator", cond->op);
+				parse_pos_init_sheet (&pp, (Sheet *)state->sheet);
+				if (cond->expr[0] != NULL &&
+				    (tmp = gnm_expr_as_string (cond->expr[0], &pp, state->exprconv)) != NULL) {
+					gsf_xml_out_simple_element (state->output, GNM "Expression0", tmp);
+					g_free (tmp);
+				}
+				if (cond->expr[1] != NULL &&
+				    (tmp = gnm_expr_as_string (cond->expr[1], &pp, state->exprconv)) != NULL) {
+					gsf_xml_out_simple_element (state->output, GNM "Expression1", tmp);
+					g_free (tmp);
+				}
+				xml_write_gnmstyle (state, cond->overlay);
+				gsf_xml_out_end_element (state->output); /* </Condition> */
+			}
+	}
+
+
 	i = MSTYLE_BORDER_TOP;
 	while (i <= MSTYLE_BORDER_DIAGONAL
-	       && !mstyle_is_element_set (style, i)
-	       && NULL == mstyle_get_border (style, i))
+	       && !gnm_style_is_element_set (style, i)
+	       && NULL == gnm_style_get_border (style, i))
 		i++;
 	if (i <= MSTYLE_BORDER_DIAGONAL) {
 		gsf_xml_out_start_element (state->output, GNM "StyleBorder");
 		for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
 			GnmBorder const *border;
-			if (mstyle_is_element_set (style, i) &&
-			    NULL != (border = mstyle_get_border (style, i))) {
+			if (gnm_style_is_element_set (style, i) &&
+			    NULL != (border = gnm_style_get_border (style, i))) {
 				StyleBorderType t = border->line_type;
 				GnmColor *col   = border->color;
 				gsf_xml_out_start_element (state->output, 
@@ -502,6 +543,7 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 		}
 		gsf_xml_out_end_element (state->output);
 	}
+
 	gsf_xml_out_end_element (state->output);
 }
 

@@ -66,7 +66,7 @@ tabulation_eval (Workbook *wb, int dims, gnm_float const *x,
 static GOFormat const *
 my_get_format (GnmCell const *cell)
 {
-	GOFormat const *format = mstyle_get_format (cell_get_mstyle (cell));
+	GOFormat const *format = gnm_style_get_format (cell_get_mstyle (cell));
 
 	if (style_format_is_general (format) &&
 	    cell->value != NULL && VALUE_FMT (cell->value) != NULL)
@@ -185,7 +185,7 @@ do_tabulation (WorkbookControl *wbc,
 
 			/* Make a horizon line on top between header and table.  */
 			if (row == 1 && col == 1) {
-				GnmStyle *mstyle = mstyle_new ();
+				GnmStyle *mstyle = gnm_style_new ();
 				GnmRange range;
 				GnmBorder *border;
 
@@ -199,13 +199,13 @@ do_tabulation (WorkbookControl *wbc,
 							     style_color_black (),
 							     STYLE_BORDER_HORIZONTAL);
 
-				mstyle_set_border (mstyle, MSTYLE_BORDER_BOTTOM, border);
+				gnm_style_set_border (mstyle, MSTYLE_BORDER_BOTTOM, border);
 				sheet_style_apply_range (thissheet, &range, mstyle);
 			}
 
 			/* Make a vertical line on left between header and table.  */
 			if (row == 1 && col == 1) {
-				GnmStyle *mstyle = mstyle_new ();
+				GnmStyle *mstyle = gnm_style_new ();
 				GnmRange range;
 				GnmBorder *border;
 
@@ -218,7 +218,7 @@ do_tabulation (WorkbookControl *wbc,
 							     style_color_black (),
 							     STYLE_BORDER_VERTICAL);
 
-				mstyle_set_border (mstyle, MSTYLE_BORDER_RIGHT, border);
+				gnm_style_set_border (mstyle, MSTYLE_BORDER_RIGHT, border);
 				sheet_style_apply_range (thissheet, &range, mstyle);
 			}
 

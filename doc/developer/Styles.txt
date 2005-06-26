@@ -1,4 +1,4 @@
-A discussion of the style code, version 0.2
+A discussion of the style code, version 0.3
 by Jody Goldberg <jody@gnome.org>
 
 
@@ -19,13 +19,13 @@ to build upon the experience of and pitfalls of the Michael's work.
 
 	a) Create the style:
 
-	   MStyle *empty = mstyle_new ();
-	   MStyle *full_of_default_settings = mstyle_new_default ().
+	   GnmStyle *empty = gnm_style_new ();
+	   GnmStyle *full_of_default_settings = gnm_style_new_default ().
 
 
 	b) Set elements:
 
-	   mstyle_set_font_name (mstyle, "Dingbats");
+	   gnm_style_set_font_name (mstyle, "Dingbats");
 
 	        The passed const font name in this case is hashed and ref-counted
 	internally for efficiency. The only case in which it is necessary to do
@@ -54,9 +54,9 @@ to build upon the experience of and pitfalls of the Michael's work.
 
 1.1.2	Getting a style
 
-	MStyle *mstyle = sheet_style_get (sheet, col, row);
+	GnmStyle *mstyle = sheet_style_get (sheet, col, row);
 	    or
-	MStyle *mstyle = cell_get_mstyle (cell);
+	GnmStyle *mstyle = cell_get_mstyle (cell);
 
 	Neither of these adds a reference to the style.  If you intend to store
 	the style for later use you will need to ref/unref it.
@@ -66,8 +66,8 @@ to build upon the experience of and pitfalls of the Michael's work.
 	sheet_style_attach ie.
 
 	    BAD BAD BAD
-		MStyle *mstyle = cell_get_mstyle (cell);
-		mstyle_set_font_size (mstyle, 12.0);
+		GnmStyle *mstyle = cell_get_mstyle (cell);
+		gnm_style_set_font_size (mstyle, 12.0);
 	    BAD BAD BAD
 	
 	    Do _not_ even think of doing the above, it will produce wacky
@@ -77,17 +77,17 @@ to build upon the experience of and pitfalls of the Michael's work.
 
 	If you do the following:
 
-	MStyle *mstyle = mstyle_new ();
-	mstyle_set_font_name (mstyle, "dingbats");
+	GnmStyle *mstyle = gnm_style_new ();
+	gnm_style_set_font_name (mstyle, "dingbats");
 	cell_set_style (cell, mstyle);
-	mstyle = mstyle_new ();
-	mstyle_set_font_bold (mstyle, TRUE);
+	mstyle = gnm_style_new ();
+	gnm_style_set_font_bold (mstyle, TRUE);
 	cell_set_style (cell, mstyle);
 
 	Then you needlessly create two style regions ( for the same cell )
 	where one would have sufficed. This is a degenerate case clearly,
 	but happens in real code ( often when subroutines are used ). If
-	you need to build up a style for a range pass an MStyle * around
+	you need to build up a style for a range pass an GnmStyle * around
 	and build it up before applying it once.
 
 1.3	Ref counting for dummies.
@@ -96,37 +96,37 @@ to build upon the experience of and pitfalls of the Michael's work.
 	to reference count them the followings ( standard ) conventions are
 	used namely:
 
-	MStyle *mstyle = mstyle_new ();
+	GnmStyle *mstyle = gnm_style_new ();
 
 	    Creating an mstyle in this way hands you a single reference.
 
-	sheet_mstyle_attach (sheet, col, row, mstyle)
+	sheet_style_set_pos (sheet, col, row, mstyle)
 
 	    Attaching a style passes that reference on to the style code.
 	The way to ascertain whether a style reference has been handed on is
-	to examine the prototype for the function. Should the MStyle *
+	to examine the prototype for the function. Should the GnmStyle *
 	parameter be 'const' the reference is _not_ passed, otherwise in
 	general it is ( don't get hung up on that rule ). Of course non const
-	parameters are needed for eg. mstyle_set_font_name, but these have
+	parameters are needed for eg. gnm_style_set_font_name, but these have
 	no conceivable reason to fiddle with the ref-count so they don't.
 
 	    The real gotchas happen when you decide to add a cache to your
 	code to speed up style allocation. In general this is what you want
-	where 'cache' denotes an MStyle * cache item.
+	where 'cache' denotes an GnmStyle * cache item.
 
-	MStyle *cache = cache_lookup_fn (mstyle_cache);
+	GnmStyle *cache = cache_lookup_fn (gnm_style_cache);
 
 	if (!cache) {	/* We must create the style */
-		cache = mstyle_new ();
-		mstyle_set_font_bold (cache, bold);
+		cache = gnm_style_new ();
+		gnm_style_set_font_bold (cache, bold);
 
-		cache_insert_fn (mstyle_cache, cache);
+		cache_insert_fn (gnm_style_cache, cache);
 	}
-	mstyle_ref (cache);	/* NB. */
+	gnm_style_ref (cache);	/* NB. */
 	return cache;
 	
 	NB. we 'leave' a reference in the cache. This then must be removed when
-	we flush the cache with a simple mstyle_unref.
+	we flush the cache with a simple gnm_style_unref.
 
 2	Implementation details
 
@@ -140,10 +140,10 @@ to build upon the experience of and pitfalls of the Michael's work.
 	cell format dialog, since the toolbar used the settings of the 'terminal'
 	( first selected ) cell in a selection. The process of generating unique
 	styles is is effectively a merging of all styles with the target regions.
-	Conflicts are marked in the final MStyle result and can be tested for
+	Conflicts are marked in the final GnmStyle result and can be tested for
 	using:
 
-		mstyle_element_is_conflict (mstyle, MStyleElementType);
+		gnm_style_element_is_conflict (mstyle, GnmStyleElement);
 
 2.3.1	Unique borders
 

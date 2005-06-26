@@ -3,6 +3,11 @@ Gnumeric 1.5.3
 Jody:
 	* Handle ROW/COLUMN with no argument in an array.
 	* Fix problems with row height resizing on win32. [#163414]
+	* XLS, SAX, & DOM in/out for conditional Formating.
+	* SAX in/out for input messages.
+	* SAX in for hyperlinks.
+	* Conditional Formating for backgrounds.
+	* Conditional Formating for borders.
 
 Morten:
 	* Make changes to toolbar visibility permanent.

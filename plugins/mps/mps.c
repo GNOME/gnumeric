@@ -85,11 +85,11 @@ mps_set_style (Sheet *sh, int c1, int r1, int c2, int r2,
         GnmStyle *mstyle;
 	GnmRange  range;
 
-	mstyle = mstyle_new ();
+	mstyle = gnm_style_new ();
 	range_init (&range, c1, r1, c2, r2);
-	mstyle_set_font_italic (mstyle, italic);
-	mstyle_set_font_bold   (mstyle, bold);
-	mstyle_set_font_uline  (mstyle, ulined);
+	gnm_style_set_font_italic (mstyle, italic);
+	gnm_style_set_font_bold   (mstyle, bold);
+	gnm_style_set_font_uline  (mstyle, ulined);
 	sheet_style_apply_range (sh, &range, mstyle);
 }
 

@@ -69,7 +69,7 @@ oleo_set_style (Sheet *sheet, int col, int row, GnmStyle *mstyle)
 		range.start.row = range.end.row = OLEO_TO_GNUMERIC (row);
 
 	/* sheet_style_set_range absorbs our reference */
-	mstyle_ref (mstyle);
+	gnm_style_ref (mstyle);
 	sheet_style_set_range (sheet, &range, mstyle);
 }
 
@@ -295,7 +295,7 @@ oleo_deal_with_format (OleoParseState *state, guint8 *str, int *ccol, int *crow,
 		       GnmStyle **style)
 {
 	char *ptr = str + 1;
-	GnmStyle *mstyle = mstyle_new_default ();
+	GnmStyle *mstyle = gnm_style_new_default ();
 	GString *fmt_string = g_string_new (NULL);
 
 	while (*ptr) {
@@ -322,18 +322,18 @@ oleo_deal_with_format (OleoParseState *state, guint8 *str, int *ccol, int *crow,
 			}
 			break;
 		case 'L':
-			mstyle_set_align_h (mstyle, HALIGN_LEFT);
+			gnm_style_set_align_h (mstyle, HALIGN_LEFT);
 			break;
 		case 'R':
-			mstyle_set_align_h (mstyle, HALIGN_RIGHT);
+			gnm_style_set_align_h (mstyle, HALIGN_RIGHT);
 	}
 	}
 	if (fmt_string->len)
-		mstyle_set_format_text (mstyle, fmt_string->str);
+		gnm_style_set_format_text (mstyle, fmt_string->str);
 	g_string_free (fmt_string, TRUE);
 
 	if (*style)
-		mstyle_unref (*style);
+		gnm_style_unref (*style);
 	*style = mstyle;
 }
 

@@ -121,7 +121,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 		char const *expr_txt = NULL;
 
 		/* BE CAREFUL the standard fmts must not NOT include '@' */
-		GnmValue *value = format_match (txt, mstyle_get_format (mstyle),
+		GnmValue *value = format_match (txt, gnm_style_get_format (mstyle),
 						workbook_date_conv (sheet->workbook));
 		if (value != NULL)
 			value_release (value);
@@ -480,15 +480,15 @@ cb_entry_cursor_pos (WorkbookControlGUI *wbcg)
 
 	/* Make bold/italic/etc buttons show the right thing.  */
 	{
-		GnmStyle *style = mstyle_new ();
+		GnmStyle *style = gnm_style_new ();
 		GSList *ptr, *attrs = attrs_at_byte (wbcg->edit_line.full_content, target_pos_in_bytes);
 		for (ptr = attrs; ptr != NULL ; ptr = ptr->next) {
 			PangoAttribute *attr = ptr->data;
-			mstyle_set_from_pango_attribute (style, attr);
+			gnm_style_set_from_pango_attribute (style, attr);
 			pango_attribute_destroy (attr);
 		}
 		wb_control_style_feedback (WORKBOOK_CONTROL (wbcg), style);
-		mstyle_unref (style);
+		gnm_style_unref (style);
 		g_slist_free (attrs);
 	}
 
@@ -587,7 +587,7 @@ wbcg_edit_init_markup (WorkbookControlGUI *wbcg, PangoAttrList *markup)
 	g_return_if_fail (wbcg->edit_line.full_content == NULL);
 
 	wbcg->edit_line.markup = markup;
-	wbcg->edit_line.full_content = mstyle_generate_attrs_full (
+	wbcg->edit_line.full_content = gnm_style_generate_attrs_full (
 		sheet_style_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row));
 	pango_attr_list_splice (wbcg->edit_line.full_content, markup, 0, 0);
 	wbcg->edit_line.cur_fmt = pango_attr_list_copy (markup);
@@ -692,7 +692,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	 * information if we look at the selection.
 	 */
 	if (wb_view_is_protected (wbv, TRUE) &&
-	    mstyle_get_content_locked (sheet_style_get (sv->sheet, col, row))) {
+	    gnm_style_get_content_locked (sheet_style_get (sv->sheet, col, row))) {
 		char *pos =  g_strdup_printf ( _("%s!%s is locked"),
 			sv->sheet->name_quoted, cell_coord_name (col, row));
 		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbcg), pos,

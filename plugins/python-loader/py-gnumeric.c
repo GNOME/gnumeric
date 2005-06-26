@@ -170,7 +170,7 @@ Module Gnumeric:
 	- functions     (dictionary containing all Gnumeric functions)
 	- plugin_info   (value of type GOPlugin)
 	Methods:
-	- GnmStyle   (creates GnmStyle object with default style, uses mstyle_new_default())
+	- GnmStyle   (creates GnmStyle object with default style, uses gnm_style_new_default())
 	- GnmCellPos  (creates GnmCellPos object)
 	- Range    (creates Range Object)
 	- workbooks
@@ -950,58 +950,58 @@ struct _py_MStyle_object {
 };
 
 static PyObject *
-py_mstyle_set_font_bold_method (py_MStyle_object *self, PyObject *args);
+py_gnm_style_set_font_bold_method (py_MStyle_object *self, PyObject *args);
 static PyObject *
-py_mstyle_get_font_bold_method (py_MStyle_object *self, PyObject *args);
+py_gnm_style_get_font_bold_method (py_MStyle_object *self, PyObject *args);
 static PyObject *
-py_mstyle_set_font_italic_method (py_MStyle_object *self, PyObject *args);
+py_gnm_style_set_font_italic_method (py_MStyle_object *self, PyObject *args);
 static PyObject *
-py_mstyle_get_font_italic_method (py_MStyle_object *self, PyObject *args);
+py_gnm_style_get_font_italic_method (py_MStyle_object *self, PyObject *args);
 static PyObject *
-py_mstyle_set_font_strike_method (py_MStyle_object *self, PyObject *args);
+py_gnm_style_set_font_strike_method (py_MStyle_object *self, PyObject *args);
 static PyObject *
-py_mstyle_get_font_strike_method (py_MStyle_object *self, PyObject *args);
+py_gnm_style_get_font_strike_method (py_MStyle_object *self, PyObject *args);
 static PyObject *
-py_mstyle_set_font_size_method (py_MStyle_object *self, PyObject *args);
+py_gnm_style_set_font_size_method (py_MStyle_object *self, PyObject *args);
 static PyObject *
-py_mstyle_get_font_size_method (py_MStyle_object *self, PyObject *args);
+py_gnm_style_get_font_size_method (py_MStyle_object *self, PyObject *args);
 static PyObject *
-py_mstyle_set_wrap_text_method (py_MStyle_object *self, PyObject *args);
+py_gnm_style_set_wrap_text_method (py_MStyle_object *self, PyObject *args);
 static PyObject *
-py_mstyle_get_wrap_text_method (py_MStyle_object *self, PyObject *args);
+py_gnm_style_get_wrap_text_method (py_MStyle_object *self, PyObject *args);
 
 static struct PyMethodDef py_MStyle_object_methods[] = {
 	{(char *) "set_font_bold",
-	 (PyCFunction) py_mstyle_set_font_bold_method,   METH_VARARGS},
+	 (PyCFunction) py_gnm_style_set_font_bold_method,   METH_VARARGS},
 	{(char *) "get_font_bold",
-	 (PyCFunction) py_mstyle_get_font_bold_method,   METH_VARARGS},
+	 (PyCFunction) py_gnm_style_get_font_bold_method,   METH_VARARGS},
 	{(char *) "set_font_italic",
-	 (PyCFunction) py_mstyle_set_font_italic_method, METH_VARARGS},
+	 (PyCFunction) py_gnm_style_set_font_italic_method, METH_VARARGS},
 	{(char *) "get_font_italic",
-	 (PyCFunction) py_mstyle_get_font_italic_method, METH_VARARGS},
+	 (PyCFunction) py_gnm_style_get_font_italic_method, METH_VARARGS},
 	{(char *) "set_font_strike",
-	 (PyCFunction) py_mstyle_set_font_strike_method, METH_VARARGS},
+	 (PyCFunction) py_gnm_style_set_font_strike_method, METH_VARARGS},
 	{(char *) "get_font_strike",
-	 (PyCFunction) py_mstyle_get_font_strike_method, METH_VARARGS},
+	 (PyCFunction) py_gnm_style_get_font_strike_method, METH_VARARGS},
 	{(char *) "set_font_size",
-	 (PyCFunction) py_mstyle_set_font_size_method,   METH_VARARGS},
+	 (PyCFunction) py_gnm_style_set_font_size_method,   METH_VARARGS},
 	{(char *) "get_font_size",
-	 (PyCFunction) py_mstyle_get_font_size_method,   METH_VARARGS},
+	 (PyCFunction) py_gnm_style_get_font_size_method,   METH_VARARGS},
 	{(char *) "set_wrap_text",
-	 (PyCFunction) py_mstyle_set_wrap_text_method,   METH_VARARGS},
+	 (PyCFunction) py_gnm_style_set_wrap_text_method,   METH_VARARGS},
 	{(char *) "get_wrap_text",
-	 (PyCFunction) py_mstyle_get_wrap_text_method,   METH_VARARGS},
+	 (PyCFunction) py_gnm_style_get_wrap_text_method,   METH_VARARGS},
 	{NULL, NULL}
 };
 
 static GnmStyle *
-py_mstyle_as_MStyle (py_MStyle_object *self)
+py_gnm_style_as_MStyle (py_MStyle_object *self)
 {
 	return self->mstyle;
 }
 
 static PyObject *
-py_mstyle_set_font_bold_method (py_MStyle_object *self, PyObject *args)
+py_gnm_style_set_font_bold_method (py_MStyle_object *self, PyObject *args)
 {
 	gint bold;
 
@@ -1009,25 +1009,25 @@ py_mstyle_set_font_bold_method (py_MStyle_object *self, PyObject *args)
 		return NULL;
 	}
 
-	mstyle_set_font_bold (self->mstyle, bold);
+	gnm_style_set_font_bold (self->mstyle, bold);
 
 	Py_INCREF (Py_None);
 	return Py_None;
 }
 
 static PyObject *
-py_mstyle_get_font_bold_method (py_MStyle_object *self, PyObject *args)
+py_gnm_style_get_font_bold_method (py_MStyle_object *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple (args, (char *) ":get_font_bold")) {
 		return NULL;
 	}
 
 	return Py_BuildValue ((char *) "i",
-			      mstyle_get_font_bold (self->mstyle));
+			      gnm_style_get_font_bold (self->mstyle));
 }
 
 static PyObject *
-py_mstyle_set_font_italic_method (py_MStyle_object *self, PyObject *args)
+py_gnm_style_set_font_italic_method (py_MStyle_object *self, PyObject *args)
 {
 	gint italic;
 
@@ -1035,25 +1035,25 @@ py_mstyle_set_font_italic_method (py_MStyle_object *self, PyObject *args)
 		return NULL;
 	}
 
-	mstyle_set_font_italic (self->mstyle, italic);
+	gnm_style_set_font_italic (self->mstyle, italic);
 
 	Py_INCREF (Py_None);
 	return Py_None;
 }
 
 static PyObject *
-py_mstyle_get_font_italic_method (py_MStyle_object *self, PyObject *args)
+py_gnm_style_get_font_italic_method (py_MStyle_object *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple (args, (char *) ":get_font_italic")) {
 		return NULL;
 	}
 
 	return Py_BuildValue ((char *) "i",
-			      mstyle_get_font_italic (self->mstyle));
+			      gnm_style_get_font_italic (self->mstyle));
 }
 
 static PyObject *
-py_mstyle_set_font_strike_method (py_MStyle_object *self, PyObject *args)
+py_gnm_style_set_font_strike_method (py_MStyle_object *self, PyObject *args)
 {
 	gint strike;
 
@@ -1061,25 +1061,25 @@ py_mstyle_set_font_strike_method (py_MStyle_object *self, PyObject *args)
 		return NULL;
 	}
 
-	mstyle_set_font_strike (self->mstyle, strike);
+	gnm_style_set_font_strike (self->mstyle, strike);
 
 	Py_INCREF (Py_None);
 	return Py_None;
 }
 
 static PyObject *
-py_mstyle_get_font_strike_method (py_MStyle_object *self, PyObject *args)
+py_gnm_style_get_font_strike_method (py_MStyle_object *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple (args, (char *) ":get_font_strike")) {
 		return NULL;
 	}
 
 	return Py_BuildValue ((char *) "i",
-			      mstyle_get_font_strike (self->mstyle));
+			      gnm_style_get_font_strike (self->mstyle));
 }
 
 static PyObject *
-py_mstyle_set_font_size_method (py_MStyle_object *self, PyObject *args)
+py_gnm_style_set_font_size_method (py_MStyle_object *self, PyObject *args)
 {
 	gdouble size;
 
@@ -1087,25 +1087,25 @@ py_mstyle_set_font_size_method (py_MStyle_object *self, PyObject *args)
 		return NULL;
 	}
 
-	mstyle_set_font_size (self->mstyle, size);
+	gnm_style_set_font_size (self->mstyle, size);
 
 	Py_INCREF (Py_None);
 	return Py_None;
 }
 
 static PyObject *
-py_mstyle_get_font_size_method (py_MStyle_object *self, PyObject *args)
+py_gnm_style_get_font_size_method (py_MStyle_object *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple (args, (char *) ":set_font_size")) {
 		return NULL;
 	}
 
 	return Py_BuildValue ((char *) "d",
-			      mstyle_get_font_size (self->mstyle));
+			      gnm_style_get_font_size (self->mstyle));
 }
 
 static PyObject *
-py_mstyle_set_wrap_text_method (py_MStyle_object *self, PyObject *args)
+py_gnm_style_set_wrap_text_method (py_MStyle_object *self, PyObject *args)
 {
 	gint wrap_text;
 
@@ -1114,21 +1114,21 @@ py_mstyle_set_wrap_text_method (py_MStyle_object *self, PyObject *args)
 		return NULL;
 	}
 
-	mstyle_set_wrap_text (self->mstyle, wrap_text);
+	gnm_style_set_wrap_text (self->mstyle, wrap_text);
 
 	Py_INCREF (Py_None);
 	return Py_None;
 }
 
 static PyObject *
-py_mstyle_get_wrap_text_method (py_MStyle_object *self, PyObject *args)
+py_gnm_style_get_wrap_text_method (py_MStyle_object *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple (args, (char *) ":get_wrap_text")) {
 		return NULL;
 	}
 
 	return Py_BuildValue ((char *) "i",
-			      mstyle_get_wrap_text (self->mstyle));
+			      gnm_style_get_wrap_text (self->mstyle));
 }
 
 static PyObject *
@@ -1142,7 +1142,7 @@ py_MStyle_object_dealloc (py_MStyle_object *self)
 {
 	g_return_if_fail (self != NULL);
 
-	mstyle_unref (self->mstyle);
+	gnm_style_unref (self->mstyle);
 	PyObject_Del (self);
 }
 
@@ -1155,7 +1155,7 @@ py_new_MStyle_object (GnmStyle *mstyle)
 	if (self == NULL) {
 		return NULL;
 	}
-	mstyle_ref (mstyle);
+	gnm_style_ref (mstyle);
 	self->mstyle = mstyle;
 
 	return (PyObject *) self;
@@ -1201,7 +1201,7 @@ struct _py_Cell_object {
 static PyObject *
 py_Cell_set_text_method (py_Cell_object *self, PyObject *args);
 static PyObject *
-py_Cell_get_mstyle_method (py_Cell_object *self, PyObject *args);
+py_Cell_get_gnm_style_method (py_Cell_object *self, PyObject *args);
 static PyObject *
 py_Cell_get_value_method (py_Cell_object *self, PyObject *args);
 static PyObject *
@@ -1215,7 +1215,7 @@ static struct PyMethodDef py_Cell_object_methods[] = {
 	{(char *) "set_text",
 	 (PyCFunction) py_Cell_set_text_method,            METH_VARARGS},
 	{(char *) "get_mstyle",
-	 (PyCFunction) py_Cell_get_mstyle_method,          METH_VARARGS},
+	 (PyCFunction) py_Cell_get_gnm_style_method,          METH_VARARGS},
 	{(char *) "get_value",
 	 (PyCFunction) py_Cell_get_value_method,           METH_VARARGS},
 	{(char *) "get_value_as_string",
@@ -1249,7 +1249,7 @@ py_Cell_set_text_method (py_Cell_object *self, PyObject *args)
 }
 
 static PyObject *
-py_Cell_get_mstyle_method (py_Cell_object *self, PyObject *args)
+py_Cell_get_gnm_style_method (py_Cell_object *self, PyObject *args)
 {
 	GnmStyle *mstyle;
 
@@ -2240,9 +2240,9 @@ py_gnumeric_MStyle_method (PyObject *self, PyObject *args)
 		return NULL;
 	}
 
-	mstyle = mstyle_new_default ();
+	mstyle = gnm_style_new_default ();
 	result = py_new_MStyle_object (mstyle);
-	mstyle_unref (mstyle); /* py_new_MStyle_object added a reference */
+	gnm_style_unref (mstyle); /* py_new_MStyle_object added a reference */
 
 	return result;
 }

@@ -91,13 +91,12 @@ typedef struct _ColRowIndexSet          ColRowIndexSet;
 typedef struct _GnmFont	        	GnmFont;
 typedef struct _GnmColor	        GnmColor;
 typedef struct _GnmBorder	        GnmBorder;
-typedef struct _GnmRow	        	GnmRow;
 typedef struct _GnmStyle		GnmStyle;
-
-typedef struct _SheetStyleData	        SheetStyleData;
-typedef struct _GnmStyleRegion	        GnmStyleRegion;
+typedef struct _GnmStyleRow        	GnmStyleRow;
 typedef GSList				GnmStyleList;
-
+typedef struct _GnmStyleRegion	        GnmStyleRegion;
+typedef struct _GnmStyleConditions	GnmStyleConditions;
+typedef struct _SheetStyleData	        SheetStyleData;
 typedef struct _FormatTemplate          FormatTemplate;	/* does not really belong here */
 
 typedef struct {

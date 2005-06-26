@@ -434,7 +434,7 @@ style_border_unref (GnmBorder *border)
 
 static gboolean
 style_border_hmargins (GnmBorder const * const * prev_vert,
-		       GnmRow const *sr, int col,
+		       GnmStyleRow const *sr, int col,
 		       int offsets [2][2], int dir)
 {
 	GnmBorder const *border = sr->top [col];
@@ -536,7 +536,7 @@ style_border_hmargins (GnmBorder const * const * prev_vert,
 
 static gboolean
 style_border_vmargins (GnmBorder const * const * prev_vert,
-		       GnmRow const *sr, int col,
+		       GnmStyleRow const *sr, int col,
 		       int offsets [2][2])
 {
 	GnmBorder const *border = sr->vertical [col];
@@ -630,7 +630,7 @@ style_border_vmargins (GnmBorder const * const * prev_vert,
  */
 void
 style_borders_row_draw (GnmBorder const * const * prev_vert,
-			GnmRow const *sr,
+			GnmStyleRow const *sr,
 			GdkDrawable * const drawable,
 			int x, int y1, int y2,
 			int *colwidths, gboolean draw_vertical, int dir)
@@ -699,7 +699,7 @@ style_border_draw_diag (GnmStyle const *style,
 	GnmBorder const *diag;
 	GdkGC *gc;
 
-	diag = mstyle_get_border (style, MSTYLE_BORDER_REV_DIAGONAL);
+	diag = gnm_style_get_border (style, MSTYLE_BORDER_REV_DIAGONAL);
 	if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
 		gc = style_border_get_gc (diag, drawable);
 		if (diag->line_type == STYLE_BORDER_DOUBLE) {
@@ -709,7 +709,7 @@ style_border_draw_diag (GnmStyle const *style,
 			gdk_draw_line (drawable, gc, x1, y1, x2, y2);
 	}
 
-	diag = mstyle_get_border (style, MSTYLE_BORDER_DIAGONAL);
+	diag = gnm_style_get_border (style, MSTYLE_BORDER_DIAGONAL);
 	if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
 		gc = style_border_get_gc (diag, drawable);
 		if (diag->line_type == STYLE_BORDER_DOUBLE) {
@@ -748,7 +748,7 @@ print_vline (GnomePrintContext *context,
 
 void
 style_borders_row_print (GnmBorder const * const * prev_vert,
-			 GnmRow const *sr,
+			 GnmStyleRow const *sr,
 			 GnomePrintContext *context,
 			 float x, float y1, float y2,
 			 Sheet const *sheet, gboolean draw_vertical, int dir)
@@ -819,7 +819,7 @@ style_border_print_diag (GnmStyle const *style,
 {
 	GnmBorder const *diag;
 
-	diag = mstyle_get_border (style, MSTYLE_BORDER_REV_DIAGONAL);
+	diag = gnm_style_get_border (style, MSTYLE_BORDER_REV_DIAGONAL);
 	if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
 		style_border_set_pc (diag, context);
 		if (diag->line_type == STYLE_BORDER_DOUBLE) {
@@ -836,7 +836,7 @@ style_border_print_diag (GnmStyle const *style,
 		gnome_print_grestore (context);
 	}
 
-	diag = mstyle_get_border (style, MSTYLE_BORDER_DIAGONAL);
+	diag = gnm_style_get_border (style, MSTYLE_BORDER_DIAGONAL);
 	if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
 		style_border_set_pc (diag, context);
 		if (diag->line_type == STYLE_BORDER_DOUBLE) {

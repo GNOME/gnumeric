@@ -36,8 +36,8 @@ typedef struct _BiffXFData {
 	MsBiffXfType xftype;	/*  -- Very important field... */
 	MsBiffFormat format;
 	guint16 parentstyle;
-	StyleHAlignFlags halign;
-	StyleVAlignFlags valign;
+	GnmHAlign halign;
+	GnmVAlign valign;
 	gboolean wrap_text;
 	gboolean shrink_to_fit;
 	int rotation;

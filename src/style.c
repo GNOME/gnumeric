@@ -487,22 +487,22 @@ required_updates_for_style (GnmStyle const *style)
 	SpanCalcFlags res = SPANCALC_SIMPLE;
 
 	gboolean const row_height =
-	     mstyle_is_element_set (style, MSTYLE_FONT_SIZE) ||
-	     mstyle_is_element_set (style, MSTYLE_WRAP_TEXT) ||
-	     mstyle_is_element_set (style, MSTYLE_ROTATION);
+	     gnm_style_is_element_set (style, MSTYLE_FONT_SIZE) ||
+	     gnm_style_is_element_set (style, MSTYLE_WRAP_TEXT) ||
+	     gnm_style_is_element_set (style, MSTYLE_ROTATION);
 	gboolean const size_change = row_height ||
-	     mstyle_is_element_set (style, MSTYLE_FONT_NAME) ||
-	     mstyle_is_element_set (style, MSTYLE_FONT_BOLD) ||
-	     mstyle_is_element_set (style, MSTYLE_FONT_ITALIC);
+	     gnm_style_is_element_set (style, MSTYLE_FONT_NAME) ||
+	     gnm_style_is_element_set (style, MSTYLE_FONT_BOLD) ||
+	     gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC);
 	gboolean const format_change =
-	    (mstyle_is_element_set (style, MSTYLE_FORMAT) ||
-	     mstyle_is_element_set (style, MSTYLE_INDENT) ||
-	     mstyle_is_element_set (style, MSTYLE_ALIGN_H) ||
-	     mstyle_is_element_set (style, MSTYLE_ALIGN_V) ||
-	     mstyle_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH) ||
-	     mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
-	     mstyle_is_element_set (style, MSTYLE_COLOR_FORE) ||
-	     mstyle_is_element_set (style, MSTYLE_ROTATION));
+	    (gnm_style_is_element_set (style, MSTYLE_FORMAT) ||
+	     gnm_style_is_element_set (style, MSTYLE_INDENT) ||
+	     gnm_style_is_element_set (style, MSTYLE_ALIGN_H) ||
+	     gnm_style_is_element_set (style, MSTYLE_ALIGN_V) ||
+	     gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH) ||
+	     gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
+	     gnm_style_is_element_set (style, MSTYLE_FONT_COLOR) ||
+	     gnm_style_is_element_set (style, MSTYLE_ROTATION));
 
 	if (row_height)
 		res |= SPANCALC_ROW_HEIGHT;
@@ -519,10 +519,10 @@ required_updates_for_style (GnmStyle const *style)
  * Select the appropriate horizontal alignment depending on the style and cell
  * value.
  */
-StyleHAlignFlags
+GnmHAlign
 style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 {
-	StyleHAlignFlags align = mstyle_get_align_h (mstyle);
+	GnmHAlign align = gnm_style_get_align_h (mstyle);
 	GnmValue *v;
 
 	if (align != HALIGN_GENERAL)
@@ -541,7 +541,7 @@ style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 
 		case VALUE_INTEGER:
 		case VALUE_FLOAT: {
-			double a = mstyle_get_rotation (mstyle);
+			double a = gnm_style_get_rotation (mstyle);
 			if (a > 0 && a < 180)
 				return HALIGN_LEFT;
 			return HALIGN_RIGHT;
@@ -555,7 +555,7 @@ style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 			}
 
 		default:
-			if (mstyle_get_rotation (mstyle) > 180)
+			if (gnm_style_get_rotation (mstyle) > 180)
 				return HALIGN_RIGHT;
 			return HALIGN_LEFT;
 		}

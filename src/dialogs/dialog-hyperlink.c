@@ -333,11 +333,10 @@ dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 	if (target) {
 		gnm_hlink_set_target (state->link, target);
 		gnm_hlink_set_tip (state->link, dhl_get_tip (state));
-		style = mstyle_new ();
-		mstyle_set_hlink (style, g_object_ref (state->link));
-		mstyle_set_font_uline (style, UNDERLINE_SINGLE);
-		mstyle_set_color (style, MSTYLE_COLOR_FORE,
-			style_color_new_name ("blue"));
+		style = gnm_style_new ();
+		gnm_style_set_hlink (style, g_object_ref (state->link));
+		gnm_style_set_font_uline (style, UNDERLINE_SINGLE);
+		gnm_style_set_font_color (style, style_color_new_name ("blue"));
 
 		if (state->is_new)
 			cmdname = _("Add Hyperlink");
@@ -346,8 +345,8 @@ dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 		cmd_selection_format (WORKBOOK_CONTROL (state->wbcg), style,
 				      NULL, cmdname);
 	} else if (!state->is_new) {
-		style = mstyle_new ();
-		mstyle_set_hlink (style, NULL);
+		style = gnm_style_new ();
+		gnm_style_set_hlink (style, NULL);
 		cmdname = _("Remove Hyperlink");
 		cmd_selection_format (WORKBOOK_CONTROL (state->wbcg), style,
 				      NULL, cmdname);

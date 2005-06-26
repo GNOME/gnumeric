@@ -309,7 +309,7 @@ preview_grid_draw_background (GdkDrawable *drawable, PreviewGrid const *pg, GnmS
 
 #define border_null(b)	((b) == none || (b) == NULL)
 static void
-pg_style_get_row (PreviewGrid *pg, GnmRow *sr)
+pg_style_get_row (PreviewGrid *pg, GnmStyleRow *sr)
 {
 	GnmBorder const *top, *bottom, *none = style_border_none ();
 	GnmBorder const *left, *right;
@@ -322,13 +322,13 @@ pg_style_get_row (PreviewGrid *pg, GnmRow *sr)
 
 		sr->styles [col] = style;
 
-		top = mstyle_get_border (style, MSTYLE_BORDER_TOP);
-		bottom = mstyle_get_border (style, MSTYLE_BORDER_BOTTOM);
-		left = mstyle_get_border (style, MSTYLE_BORDER_LEFT);
-		right = mstyle_get_border (style, MSTYLE_BORDER_RIGHT);
+		top = gnm_style_get_border (style, MSTYLE_BORDER_TOP);
+		bottom = gnm_style_get_border (style, MSTYLE_BORDER_BOTTOM);
+		left = gnm_style_get_border (style, MSTYLE_BORDER_LEFT);
+		right = gnm_style_get_border (style, MSTYLE_BORDER_RIGHT);
 
 		/* Cancel grids if there is a background */
-		if (sr->hide_grid || mstyle_get_pattern (style) > 0) {
+		if (sr->hide_grid || gnm_style_get_pattern (style) > 0) {
 			if (top == none)
 				top = NULL;
 			if (bottom == none)
@@ -376,7 +376,7 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
  	int end_row         = pg_get_row_offset (pg, draw_y + height + 2, NULL);
  	int diff_y    = y;
 
-	GnmRow sr, next_sr;
+	GnmStyleRow sr, next_sr;
 	GnmStyle const **styles;
 	GnmBorder const **borders, **prev_vert;
 	GnmBorder const *none = pg->gridlines ? style_border_none () : NULL;
@@ -477,8 +477,8 @@ preview_grid_set_property (GObject *obj, guint param_id,
 	case PREVIEW_GRID_PROP_DEFAULT_STYLE : { /* add a  ref */
 		GnmStyle *style = g_value_get_pointer (value);
 		g_return_if_fail (style != NULL);
-		mstyle_ref (style);
-		mstyle_unref (pg->defaults.style);
+		gnm_style_ref (style);
+		gnm_style_unref (pg->defaults.style);
 		pg->defaults.style = style;
 		break;
 	}
@@ -504,7 +504,7 @@ preview_grid_finalize (GObject *obj)
 	PreviewGrid *pg = PREVIEW_GRID (obj);
 
 	if (pg->defaults.style != NULL) {
-		mstyle_unref (pg->defaults.style);
+		gnm_style_unref (pg->defaults.style);
 		pg->defaults.style = NULL;
 	}
 	if (pg->defaults.value != NULL) {
@@ -528,7 +528,7 @@ preview_grid_init (PreviewGrid *pg)
 	pg->gridlines      = FALSE;
 	pg->defaults.col_width  = 64;
 	pg->defaults.row_height = 17;
-	pg->defaults.style      = mstyle_new_default ();
+	pg->defaults.style      = gnm_style_new_default ();
 	pg->defaults.value	= value_new_empty ();
 }
 

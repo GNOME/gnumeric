@@ -252,7 +252,7 @@ fill_item_destroy (FillItem *fi)
 		break;
 	}
 	if (fi->style) {
-		mstyle_unref (fi->style);
+		gnm_style_unref (fi->style);
 		fi->style = NULL;
 	}
 	g_free (fi);
@@ -274,7 +274,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 	fi = g_new (FillItem, 1);
 	fi->type = FILL_EMPTY;
 	fi->date_conv = workbook_date_conv (sheet->workbook);
-	mstyle_ref ((fi->style = sheet_style_get (sheet, col, row)));
+	gnm_style_ref ((fi->style = sheet_style_get (sheet, col, row)));
 	merged = sheet_merge_is_corner (sheet, &pos);
 	if (merged != NULL) {
 		fi->merged_size.col = merged->end.col - col + 1;
@@ -806,7 +806,7 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 		} else if (cell != NULL)
 			sheet_cell_remove (sheet, cell, TRUE, TRUE);
 
-		mstyle_ref (fi->style); /* style_set steals ref */
+		gnm_style_ref (fi->style); /* style_set steals ref */
 		sheet_style_set_pos (sheet, col, row, fi->style);
 
 		if (fi->merged_size.col != 1 || fi->merged_size.row != 1) {

@@ -228,7 +228,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 
 	mstyle = cell_get_mstyle (cell);
 	h_align = style_default_halign (mstyle, cell);
-	v_align = mstyle_get_align_v (mstyle);
+	v_align = gnm_style_get_align_v (mstyle);
 	row   = cell->pos.row;
 	indented_w = cell_width_pixel = cell_rendered_width (cell);
 	if (h_align == HALIGN_LEFT || h_align == HALIGN_RIGHT) {
@@ -240,7 +240,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	if (cell_is_empty (cell) ||
 	    !cell->col_info->visible ||
 	    (h_align != HALIGN_CENTER_ACROSS_SELECTION &&
-		 (mstyle_get_wrap_text (mstyle) ||
+		 (gnm_style_get_wrap_text (mstyle) ||
 		  indented_w <= COL_INTERNAL_WIDTH (cell->col_info))) ||
 	    h_align == HALIGN_JUSTIFY ||
 	    h_align == HALIGN_FILL ||
@@ -365,7 +365,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 					GnmStyle * const mstyle =
 						sheet_style_get (cell->base.sheet, pos_l, row);
 
-					if (mstyle_get_align_h (mstyle) != HALIGN_CENTER_ACROSS_SELECTION)
+					if (gnm_style_get_align_h (mstyle) != HALIGN_CENTER_ACROSS_SELECTION)
 						break;
 					*col1 = pos_l;
 				} else
@@ -379,7 +379,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 					GnmStyle * const mstyle =
 						sheet_style_get (cell->base.sheet, pos_r, row);
 
-					if (mstyle_get_align_h (mstyle) != HALIGN_CENTER_ACROSS_SELECTION)
+					if (gnm_style_get_align_h (mstyle) != HALIGN_CENTER_ACROSS_SELECTION)
 						break;
 					*col2 = pos_r;
 				} else

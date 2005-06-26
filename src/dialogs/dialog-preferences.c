@@ -345,18 +345,18 @@ static gboolean
 cb_pref_font_has_changed (G_GNUC_UNUSED FontSelector *fs,
 			  GnmStyle *mstyle, PrefState *state)
 {
-	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_SIZE))
+	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_SIZE))
 		gnm_gconf_set_default_font_size 
-			(mstyle_get_font_size (mstyle));
-	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_NAME))
+			(gnm_style_get_font_size (mstyle));
+	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_NAME))
 		gnm_gconf_set_default_font_name (
-			mstyle_get_font_name (mstyle));
-	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_BOLD))
+			gnm_style_get_font_name (mstyle));
+	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_BOLD))
 		gnm_gconf_set_default_font_bold (
-			mstyle_get_font_bold (mstyle));
-	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
+			gnm_style_get_font_bold (mstyle));
+	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
 		gnm_gconf_set_default_font_italic (
-			mstyle_get_font_italic (mstyle));
+			gnm_style_get_font_italic (mstyle));
 	return TRUE;
 }
 

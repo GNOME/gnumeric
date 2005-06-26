@@ -1561,12 +1561,12 @@ cb_max_cell_height (Sheet *sheet, int col, int row, GnmCell *cell,
 
 		/* rendering is expensive.  Unwrapped cells will be the same
 		 * height as their font */
-		if (mstyle_get_wrap_text (style) ||
-		    mstyle_get_rotation (style) != 0) {
+		if (gnm_style_get_wrap_text (style) ||
+		    gnm_style_get_rotation (style) != 0) {
 			cell_render_value (cell, TRUE);
 			height = cell_rendered_height (cell);
 		} else {
-			GnmFont *font = mstyle_get_font (style, sheet->context,
+			GnmFont *font = gnm_style_get_font (style, sheet->context,
 				sheet->last_zoom_factor_used);
 			height = font->height;
 			style_font_unref (font);
@@ -1813,7 +1813,7 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 
 	parse_text_value_or_expr (parse_pos_init_cell (&pp, cell),
 		text, &val, &expr,
-		mstyle_get_format (cell_get_mstyle (cell)),
+		gnm_style_get_format (cell_get_mstyle (cell)),
 		workbook_date_conv (cell->base.sheet->workbook));
 
 	/* Queue a redraw before incase the span changes */

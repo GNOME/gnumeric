@@ -557,13 +557,13 @@ latex2e_write_table_header(GsfOutput *output, int num_cols)
  * @col:
  * @row:
  * @sheet:
- * @which_border: MStyleElementType (MSTYLE_BORDER_LEFT or MSTYLE_BORDER_RIGHT)
+ * @which_border: GnmStyleElement (MSTYLE_BORDER_LEFT or MSTYLE_BORDER_RIGHT)
   *
  * Determine the border style
  *
  */
 static StyleBorderType
-latex2e_find_vline (int col, int row, Sheet *sheet, MStyleElementType which_border)
+latex2e_find_vline (int col, int row, Sheet *sheet, GnmStyleElement which_border)
 {
 	GnmBorder	   *border;
 	GnmStyle             *mstyle;
@@ -572,7 +572,7 @@ latex2e_find_vline (int col, int row, Sheet *sheet, MStyleElementType which_bord
 		return STYLE_BORDER_NONE;
 
 	mstyle = sheet_style_get (sheet, col, row);
-	border = mstyle_get_border (mstyle, which_border);
+	border = gnm_style_get_border (mstyle, which_border);
 
 	if (!(style_border_is_blank (border) ||
 	      border->line_type == STYLE_BORDER_NONE))
@@ -582,12 +582,12 @@ latex2e_find_vline (int col, int row, Sheet *sheet, MStyleElementType which_bord
 		if (col < 1)
 			return STYLE_BORDER_NONE;
 		mstyle = sheet_style_get (sheet, col - 1, row);
-		border = mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT);
+		border = gnm_style_get_border (mstyle, MSTYLE_BORDER_RIGHT);
 		return ((style_border_is_blank (border)) ? STYLE_BORDER_NONE :
 			border->line_type);
 	} else {
 		mstyle = sheet_style_get (sheet, col + 1, row);
-		border = mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT);
+		border = gnm_style_get_border (mstyle, MSTYLE_BORDER_LEFT);
 		return ((style_border_is_blank (border)) ? STYLE_BORDER_NONE :
 			border->line_type);
 	}
@@ -693,7 +693,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 
 	/* Print the cell according to its style. */
 	GnmStyle *mstyle = cell_get_mstyle (cell);
-	gboolean hidden = mstyle_get_content_hidden (mstyle);
+	gboolean hidden = gnm_style_get_content_hidden (mstyle);
 
 	g_return_if_fail (mstyle != NULL);
 
@@ -794,7 +794,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 	}
 
         /* Check whether we should do word wrapping */
-	wrap = mstyle_get_wrap_text (mstyle);
+	wrap = gnm_style_get_wrap_text (mstyle);
 
 	/* if we don't wrap put it into an mbox, adjusted to width 0 to avoid moving */
 	/* it to the second line of the parbox */
@@ -847,9 +847,9 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 			gsf_output_printf (output, "\\texttt{");
 		else if (font_is_sansserif (mstyle))
 			gsf_output_printf (output, "\\textsf{");
-		if (mstyle_get_font_bold (mstyle))
+		if (gnm_style_get_font_bold (mstyle))
 			gsf_output_printf (output, "\\textbf{");
-		if (mstyle_get_font_italic (mstyle))
+		if (gnm_style_get_font_italic (mstyle))
 			gsf_output_printf (output, "\\textit{");
 
 
@@ -858,7 +858,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 		    cell_format_family == FMT_PERCENT || cell_format_family == FMT_FRACTION ||
 		    cell_format_family == FMT_SCIENCE){
 			gsf_output_printf (output, "$");
-		        if (mstyle_get_font_italic(mstyle))
+		        if (gnm_style_get_font_italic(mstyle))
 			    gsf_output_printf (output, "\\gnumericmathit{");
 
 			/* Print the cell contents. */
@@ -866,7 +866,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 			latex_math_fputs (rendered_string, output);
 			g_free (rendered_string);
 
-		        if (mstyle_get_font_italic(mstyle))
+		        if (gnm_style_get_font_italic(mstyle))
 			    gsf_output_printf (output, "}");
 			gsf_output_printf (output, "$");
 		} else {
@@ -877,9 +877,9 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 		}
 
 		/* Close the styles for the cell. */
-		if (mstyle_get_font_italic (mstyle))
+		if (gnm_style_get_font_italic (mstyle))
 			gsf_output_printf (output, "}");
-		if (mstyle_get_font_bold (mstyle))
+		if (gnm_style_get_font_bold (mstyle))
 			gsf_output_printf (output, "}");
 		if (font_is_monospaced (mstyle))
 			gsf_output_printf (output, "}");
@@ -924,7 +924,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 
 static gboolean
 latex2e_find_hhlines (StyleBorderType *clines, int length, int col, int row,
-		      Sheet *sheet, MStyleElementType type)
+		      Sheet *sheet, GnmStyleElement type)
 {
 	GnmStyle *mstyle;
 	GnmBorder	   *border;
@@ -932,7 +932,7 @@ latex2e_find_hhlines (StyleBorderType *clines, int length, int col, int row,
 	GnmCellPos pos;
 
 	mstyle = sheet_style_get (sheet, col, row);
-	border = mstyle_get_border (mstyle, type);
+	border = gnm_style_get_border (mstyle, type);
 	if (style_border_is_blank (border))
 		return FALSE;
 	clines[0] = border->line_type;

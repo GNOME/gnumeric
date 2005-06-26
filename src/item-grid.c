@@ -370,7 +370,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 	int end_row = gnm_canvas_find_row (gcanvas, expose->area.y+height+2, NULL);
 	int const start_y = y;
 
-	GnmRow sr, next_sr;
+	GnmStyleRow sr, next_sr;
 	GnmStyle const **styles;
 	GnmBorder const **borders, **prev_vert;
 	GnmBorder const *none =

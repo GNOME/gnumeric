@@ -419,10 +419,10 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 		char *sep = start;
 
 		/* Allocate the new style */
-		style = mstyle_new_default ();
+		style = gnm_style_new_default ();
 
-		mstyle_set_content_locked (style, is_protected);
-		mstyle_set_content_hidden (style, is_invisible);
+		gnm_style_set_content_locked (style, is_protected);
+		gnm_style_set_content_hidden (style, is_invisible);
 
 		if (sep[1] == '\'')
 			sep += 2;
@@ -438,7 +438,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 			}
 
 			if (g_ascii_isdigit (*sep)) {
-				StyleHAlignFlags a;
+				GnmHAlign a;
 				switch (*sep) {
 				case '1' : a = HALIGN_LEFT; break;
 				case '2' : a = HALIGN_RIGHT; break;
@@ -448,10 +448,10 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					(void) applix_parse_error (state, "Unknown horizontal alignment '%c'", *sep);
 					return NULL;
 				};
-				mstyle_set_align_h (style, a);
+				gnm_style_set_align_h (style, a);
 				++sep;
 			} else if (*sep == 'V') {
-				StyleVAlignFlags a;
+				GnmVAlign a;
 				switch (sep[1]) {
 				case 'T' : a = VALIGN_TOP; break;
 				case 'C' : a = VALIGN_CENTER; break;
@@ -460,7 +460,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					(void) applix_parse_error (state, "Unknown vertical alignment '%c'", *sep);
 					return NULL;
 				};
-				mstyle_set_align_v (style, a);
+				gnm_style_set_align_v (style, a);
 				sep += 2;
 				break;
 			} else {
@@ -519,7 +519,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					break;
 				}
 				case 'G' : /* general */
-					mstyle_set_format_text (style, "General");
+					gnm_style_set_format_text (style, "General");
 
 					/* What is 'Gf' ? */
 					if (sep[1] == 'f')
@@ -563,7 +563,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					format = g_strconcat (format_prefix, decimal, prec,
 							      format_suffix, NULL);
 
-					mstyle_set_format_text (style, format);
+					gnm_style_set_format_text (style, format);
 					g_free (format);
 					break;
 				}
@@ -585,7 +585,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					return NULL;
 				};
 				if (format)
-					mstyle_set_format_text (style, format);
+					gnm_style_set_format_text (style, format);
 			}
 		}
 
@@ -595,19 +595,19 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 			/* check for the 1 character modifiers */
 			switch (*sep) {
 			case 'B' :
-				mstyle_set_font_bold (style, TRUE);
+				gnm_style_set_font_bold (style, TRUE);
 				++sep;
 				break;
 			case 'I' :
-				mstyle_set_font_italic (style, TRUE);
+				gnm_style_set_font_italic (style, TRUE);
 				++sep;
 				break;
 			case 'U' :
-				mstyle_set_font_uline (style, UNDERLINE_SINGLE);
+				gnm_style_set_font_uline (style, UNDERLINE_SINGLE);
 				++sep;
 				break;
 			case 'D' :
-				mstyle_set_font_uline (style, UNDERLINE_DOUBLE);
+				gnm_style_set_font_uline (style, UNDERLINE_DOUBLE);
 				++sep;
 				break;
 			case 'f' :
@@ -624,7 +624,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					GnmColor *color = applix_get_color (state, &sep);
 					if (color == NULL)
 						return NULL;
-					mstyle_set_color (style, MSTYLE_COLOR_FORE, color);
+					gnm_style_set_font_color (style, color);
 					break;
 				}
 				(void) applix_parse_error (state, "Unknown font modifier F%c", sep[1]);
@@ -635,7 +635,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				double size = strtod (start, &sep);
 
 				if (start != sep && size > 0.) {
-					mstyle_set_font_size (style, size / gnm_app_dpi_to_pixels ());
+					gnm_style_set_font_size (style, size / gnm_app_dpi_to_pixels ());
 					break;
 				}
 				(void) applix_parse_error (state, "Invalid font size '%s", start);
@@ -649,7 +649,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 						sep +=3;
 						break;
 					}
-					mstyle_set_wrap_text (style, TRUE);
+					gnm_style_set_wrap_text (style, TRUE);
 					sep +=2;
 					break;
 				}
@@ -682,7 +682,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 			return NULL;
 		}
 
-		mstyle_set_font_name (style, g_ptr_array_index (state->font_names, font_id));
+		gnm_style_set_font_name (style, g_ptr_array_index (state->font_names, font_id));
 
 		/* Background, pattern, and borders */
 		for (++sep ; *sep && *sep != ')' ; ) {
@@ -705,21 +705,21 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				}
 
 				num = map[num];
-				mstyle_set_pattern (style, num);
+				gnm_style_set_pattern (style, num);
 				sep = end;
 
 				if (sep[0] == 'F' && sep[1] == 'G' ) {
 					GnmColor *color = applix_get_color (state, &sep);
 					if (color == NULL)
 						return NULL;
-					mstyle_set_color (style, MSTYLE_COLOR_PATTERN, color);
+					gnm_style_set_pattern_color (style, color);
 				}
 
 				if (sep[0] == 'B' && sep[1] == 'G') {
 					GnmColor *color = applix_get_color (state, &sep);
 					if (color == NULL)
 						return NULL;
-					mstyle_set_color (style, MSTYLE_COLOR_BACK, color);
+					gnm_style_set_back_color (style, color);
 				}
 			} else if (sep[0] == 'T' || sep[0] == 'B' || sep[0] == 'L' || sep[0] == 'R') {
 				/* A map from applix border indicies to gnumeric. */
@@ -732,7 +732,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				};
 
 				GnmColor *color;
-				MStyleElementType const type =
+				GnmStyleElement const type =
 					(sep[0] == 'T') ? MSTYLE_BORDER_TOP :
 					(sep[0] == 'B') ? MSTYLE_BORDER_BOTTOM :
 					(sep[0] == 'L') ? MSTYLE_BORDER_LEFT : MSTYLE_BORDER_RIGHT;
@@ -754,7 +754,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				} else
 					color = style_color_black ();
 
-				mstyle_set_border (style, type,
+				gnm_style_set_border (style, type,
 						   style_border_fetch (map[num], color, orient));
 			}
 
@@ -778,7 +778,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 	g_return_val_if_fail (style != NULL, NULL);
 
 	*buffer = tmp + 2;
-	mstyle_ref (style);
+	gnm_style_ref (style);
 	return style;
 }
 
@@ -1010,14 +1010,14 @@ applix_read_cells (ApplixReadState *state)
 		if (style == NULL)
 			return -1;
 		if (ptr == NULL) {
-			mstyle_unref (style);
+			gnm_style_unref (style);
 			return -1;
 		}
 
 		/* Get cell */
 		ptr = applix_parse_cellref (state, ptr, &sheet, &pos, '!');
 		if (ptr == NULL) {
-			mstyle_unref (style);
+			gnm_style_unref (style);
 			return applix_parse_error (state, "Expression did not specify target cell");
 		}
 		cell = sheet_cell_fetch (sheet, pos.col, pos.row);
@@ -1192,7 +1192,7 @@ applix_read_row_list (ApplixReadState *state, unsigned char *ptr)
 		attr_index = strtol (ptr = tmp+1, (char **)&tmp, 10);
 		if (tmp != ptr && attr_index >= 2 && attr_index < state->attrs->len+2) {
 			GnmStyle *style = g_ptr_array_index(state->attrs, attr_index-2);
-			mstyle_ref (style);
+			gnm_style_ref (style);
 			sheet_style_set_range (sheet, &r, style);
 		} else if (attr_index != 1) /* TODO : What the hell is attr 1 ?? */
 			return applix_parse_error (state, "Invalid row format attr index");
@@ -1456,7 +1456,7 @@ static gboolean
 cb_remove_style (gpointer key, gpointer value, gpointer user_data)
 {
 	g_free (key);
-	mstyle_unref (value);
+	gnm_style_unref (value);
 	return TRUE;
 }
 
@@ -1576,7 +1576,7 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	g_ptr_array_free (state.colors, TRUE);
 
 	for (i = state.attrs->len; --i >= 0 ; )
-		mstyle_unref (g_ptr_array_index(state.attrs, i));
+		gnm_style_unref (g_ptr_array_index(state.attrs, i));
 	g_ptr_array_free (state.attrs, TRUE);
 
 	for (i = state.font_names->len; --i >= 0 ; )

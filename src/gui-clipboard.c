@@ -581,7 +581,7 @@ cellregion_to_string (GnmCellRegion const *cr,
 		style = style_list_get_style (cr->styles,
 			src->col_offset, src->row_offset);
 		line = g_string_new (NULL);
-		format_value_gstring (line, mstyle_get_format (style),
+		format_value_gstring (line, gnm_style_get_format (style),
 				src->val, NULL, -1, date_conv);
 		data[src->row_offset][src->col_offset] = 
 			g_string_free (line, FALSE);

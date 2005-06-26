@@ -218,7 +218,7 @@ cell_set_text (GnmCell *cell, char const *text)
 	g_return_if_fail (!cell_is_partial_array (cell));
 
 	parse_text_value_or_expr (parse_pos_init_cell (&pos, cell),
-		text, &val, &expr, mstyle_get_format (cell_get_mstyle (cell)),
+		text, &val, &expr, gnm_style_get_format (cell_get_mstyle (cell)),
 		workbook_date_conv (cell->base.sheet->workbook));
 
 	if (val != NULL) {	/* String was a value */
@@ -604,7 +604,7 @@ cell_get_format (GnmCell const *cell)
 
 	g_return_val_if_fail (cell != NULL, style_format_general ());
 
-	fmt = mstyle_get_format (cell_get_mstyle (cell));
+	fmt = gnm_style_get_format (cell_get_mstyle (cell));
 
 	g_return_val_if_fail (fmt != NULL, style_format_general ());
 
@@ -627,12 +627,12 @@ void
 cell_set_format (GnmCell *cell, char const *format)
 {
 	GnmRange r;
-	GnmStyle *mstyle = mstyle_new ();
+	GnmStyle *mstyle = gnm_style_new ();
 
 	g_return_if_fail (mstyle != NULL);
 
 	cell_dirty (cell);
-	mstyle_set_format_text (mstyle, format);
+	gnm_style_set_format_text (mstyle, format);
 
 	r.start = r.end = cell->pos;
 	sheet_style_apply_range (cell->base.sheet, &r, mstyle);

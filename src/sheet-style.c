@@ -20,10 +20,8 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include <string.h>
-#include "gnumeric.h"
 #include "sheet-style.h"
-
+#include "gnm-style-impl.h"
 #include "ranges.h"
 #include "sheet.h"
 #include "expr.h"
@@ -31,10 +29,12 @@
 #include "style.h"
 #include "style-border.h"
 #include "style-color.h"
+#include "style-conditions.h"
 #include "cell.h"
 #include "gutils.h"
-#include <glib/gi18n.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <glib/gi18n.h>
+#include <string.h>
 
 #ifndef USE_TILE_POOLS
 #define USE_TILE_POOLS 1
@@ -74,12 +74,12 @@ sheet_style_find (Sheet const *sheet, GnmStyle *s)
 	GnmStyle *res;
 	res = g_hash_table_lookup (sheet->style_data->style_hash, s);
 	if (res != NULL) {
-		mstyle_link (res);
-		mstyle_unref (s);
+		gnm_style_link (res);
+		gnm_style_unref (s);
 		return res;
 	}
 
-	s = mstyle_link_sheet (s, (Sheet *)sheet);
+	s = gnm_style_link_sheet (s, (Sheet *)sheet);
 	g_hash_table_insert (sheet->style_data->style_hash, s, s);
 	return s;
 }
@@ -89,7 +89,7 @@ static void
 pstyle_set_border (GnmStyle *st, GnmBorder *border,
 		   StyleBorderLocation side)
 {
-	mstyle_set_border (st, MSTYLE_BORDER_TOP + side,
+	gnm_style_set_border (st, MSTYLE_BORDER_TOP + side,
 			   style_border_ref (border));
 }
 
@@ -122,8 +122,8 @@ rstyle_ctor (ReplacementStyle *res, GnmStyle *new_style, GnmStyle *pstyle, Sheet
 static void
 cb_style_unlink (gpointer key, gpointer value, gpointer user_data)
 {
-	mstyle_unlink ((GnmStyle *)key);
-	mstyle_unlink ((GnmStyle *)value);
+	gnm_style_unlink ((GnmStyle *)key);
+	gnm_style_unlink ((GnmStyle *)value);
 }
 
 static void
@@ -135,11 +135,11 @@ rstyle_dtor (ReplacementStyle *rs)
 		rs->cache = NULL;
 	}
 	if (rs->new_style != NULL) {
-		mstyle_unlink (rs->new_style);
+		gnm_style_unlink (rs->new_style);
 		rs->new_style = NULL;
 	}
 	if (rs->pstyle != NULL) {
-		mstyle_unref (rs->pstyle);
+		gnm_style_unref (rs->pstyle);
 		rs->pstyle = NULL;
 	}
 }
@@ -162,18 +162,18 @@ rstyle_apply (GnmStyle **old, ReplacementStyle *rs)
 		 */
 		s = (GnmStyle *)g_hash_table_lookup (rs->cache, *old);
 		if (s == NULL) {
-			GnmStyle *tmp = mstyle_copy_merge (*old, rs->pstyle);
+			GnmStyle *tmp = gnm_style_merge (*old, rs->pstyle);
 			s = sheet_style_find (rs->sheet, tmp);
-			mstyle_link (*old);
+			gnm_style_link (*old);
 			g_hash_table_insert (rs->cache, *old, s);
 		}
 	} else
 		s = rs->new_style;
 
 	if (*old != s) {
-		mstyle_link (s);
+		gnm_style_link (s);
 		if (*old)
-			mstyle_unlink (*old);
+			gnm_style_unlink (*old);
 		*old = s;
 	}
 }
@@ -297,7 +297,7 @@ cell_tile_dtor (CellTile *tile)
 	} else if (TILE_SIMPLE <= t && t <= TILE_MATRIX) {
 		int i = tile_size [t];
 		while (--i >= 0) {
-			mstyle_unlink (tile->style_any.style [i]);
+			gnm_style_unlink (tile->style_any.style [i]);
 			tile->style_any.style [i] = NULL;
 		}
 	} else {
@@ -334,7 +334,7 @@ cell_tile_style_new (GnmStyle *style, CellTileType t)
 
 	if (style != NULL) {
 		int i = tile_size [t];
-		mstyle_link_multiple (style, i);
+		gnm_style_link_multiple (style, i);
 		while (--i >= 0)
 			res->style_any.style [i] = style;
 	}
@@ -412,7 +412,7 @@ cell_tile_matrix_set (CellTile *t, GnmRange const *indic, ReplacementStyle *rs)
 
 	switch (t->type) {
 	case TILE_SIMPLE :
-		mstyle_link_multiple (tmp = t->style_simple.style [0],
+		gnm_style_link_multiple (tmp = t->style_simple.style [0],
 				     i = TILE_SIZE_COL * TILE_SIZE_ROW);
 		while (--i >= 0)
 			res->style [i] = tmp;
@@ -421,12 +421,12 @@ cell_tile_matrix_set (CellTile *t, GnmRange const *indic, ReplacementStyle *rs)
 	case TILE_COL :
 		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r)
 			for (c = 0 ; c < TILE_SIZE_COL ; ++c)
-				mstyle_link (res->style [i++] =
+				gnm_style_link (res->style [i++] =
 					     t->style_col.style [c]);
 		break;
 	case TILE_ROW :
 		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r) {
-			mstyle_link_multiple (tmp = t->style_row.style [r],
+			gnm_style_link_multiple (tmp = t->style_row.style [r],
 					      TILE_SIZE_COL);
 			for (c = 0 ; c < TILE_SIZE_COL ; ++c)
 				res->style [i++] = tmp;
@@ -500,19 +500,19 @@ sheet_style_init (Sheet *sheet)
 
 	sheet->style_data = g_new (SheetStyleData, 1);
 	sheet->style_data->style_hash =
-		g_hash_table_new (mstyle_hash, (GCompareFunc) mstyle_equal);
+		g_hash_table_new (gnm_style_hash, (GCompareFunc) gnm_style_equal);
 #warning "FIXME: Allocating a GnmColor here is dubious."
 	sheet->style_data->auto_pattern_color = g_new (GnmColor, 1);
 	memcpy (sheet->style_data->auto_pattern_color,
 		style_color_auto_pattern (), sizeof (GnmColor));
 	sheet->style_data->auto_pattern_color->ref_count = 1;
 
-	default_style =  mstyle_new_default ();
+	default_style =  gnm_style_new_default ();
 #if 0
 	/* We can not do this, XL creates full page charts with background
 	 * 'none' by default.  Then displays that as white. */
 	if (sheet->sheet_type == GNM_SHEET_OBJECT) {
-		mstyle_set_color (default_style, MSTYLE_COLOR_BACK,
+		gnm_style_set_back_color (default_style,
 			style_color_new_i8 (0x50, 0x50, 0x50));
 		kstyle_set_pattern (default_style, 1);
 	}
@@ -527,7 +527,7 @@ sheet_style_init (Sheet *sheet)
 static gboolean
 cb_unlink (void *key, void *value, void *user)
 {
-	mstyle_unlink (key);
+	gnm_style_unlink (key);
 	return TRUE;
 }
 
@@ -884,13 +884,14 @@ cell_tile_apply (CellTile **tile, int level,
 	}
 }
 
+typedef void (*ForeachTileFunc) (GnmStyle *style,
+				 int corner_col, int corner_row, int width, int height,
+				 GnmRange const *apply_to, gpointer user);
 static void
 foreach_tile (CellTile *tile, int level,
 	      int corner_col, int corner_row,
 	      GnmRange const *apply_to,
-	      void (*handler) (GnmStyle *style,
-			       int corner_col, int corner_row, int width, int height,
-			       GnmRange const *apply_to, gpointer user),
+	      ForeachTileFunc handler,
 	      gpointer user)
 {
 	int const width = tile_widths [level+1];
@@ -1099,7 +1100,7 @@ sheet_style_default (Sheet const *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (sheet->style_data != NULL, NULL);
 
-	mstyle_ref (sheet->style_data->default_style);
+	gnm_style_ref (sheet->style_data->default_style);
 	return sheet->style_data->default_style;
 }
 
@@ -1156,20 +1157,32 @@ tail_recursion :
 #define border_null(b)	((b) == none || (b) == NULL)
 
 static inline void
-style_row (GnmStyle *style, int start_col, int end_col, GnmRow *sr)
+style_row (GnmStyle *style, int start_col, int end_col, GnmStyleRow *sr, gboolean accept_conditions)
 {
 	GnmBorder const *top, *bottom, *none = style_border_none ();
 	GnmBorder const *left, *right, *v;
 	int const end = MIN (end_col, sr->end_col);
 	int i = MAX (start_col, sr->start_col);
 
-	top = mstyle_get_border (style, MSTYLE_BORDER_TOP);
-	bottom = mstyle_get_border (style, MSTYLE_BORDER_BOTTOM);
-	left = mstyle_get_border (style, MSTYLE_BORDER_LEFT);
-	right = mstyle_get_border (style, MSTYLE_BORDER_RIGHT);
+	if (accept_conditions && style->conditions) {
+		GnmEvalPos ep;
+		int res;
+
+		for (eval_pos_init (&ep, (Sheet *)sr->sheet, i, sr->row); ep.eval.col <= end ; ep.eval.col++) {
+			res = gnm_style_conditions_eval (style->conditions, &ep);
+			style_row (res >= 0 ? g_ptr_array_index (style->cond_styles, res) : style,
+				   ep.eval.col, ep.eval.col, sr, FALSE);
+		}
+		return;
+	}
+
+	top = gnm_style_get_border (style, MSTYLE_BORDER_TOP);
+	bottom = gnm_style_get_border (style, MSTYLE_BORDER_BOTTOM);
+	left = gnm_style_get_border (style, MSTYLE_BORDER_LEFT);
+	right = gnm_style_get_border (style, MSTYLE_BORDER_RIGHT);
 
 	/* Cancel grids if there is a background */
-	if (sr->hide_grid || mstyle_get_pattern (style) > 0) {
+	if (sr->hide_grid || gnm_style_get_pattern (style) > 0) {
 		if (top == none)
 			top = NULL;
 		if (bottom == none)
@@ -1198,7 +1211,7 @@ style_row (GnmStyle *style, int start_col, int end_col, GnmRow *sr)
 static void
 get_style_row (CellTile const *tile, int level,
 	       int corner_col, int corner_row,
-	       GnmRow *sr)
+	       GnmStyleRow *sr)
 {
 	int const width = tile_widths [level+1];
 	int const w = tile_widths [level];
@@ -1218,7 +1231,7 @@ get_style_row (CellTile const *tile, int level,
 
 	if (t == TILE_ROW || t == TILE_SIMPLE) {
 		style_row (tile->style_any.style [r],
-			   corner_col, corner_col + width - 1, sr);
+			   corner_col, corner_col + width - 1, sr, TRUE);
 	} else {
 		/* find the start and end */
 		int c;
@@ -1238,7 +1251,7 @@ get_style_row (CellTile const *tile, int level,
 
 			for ( ; c <= last_c ; c++, corner_col += w)
 				style_row (styles [c],
-					   corner_col, corner_col + w - 1, sr);
+					   corner_col, corner_col + w - 1, sr, TRUE);
 		} else {
 			CellTile * const *tiles = tile->ptr_matrix.ptr + r*TILE_SIZE_COL;
 
@@ -1253,15 +1266,14 @@ get_style_row (CellTile const *tile, int level,
 
 /**
  * sheet_style_get_row :
- *
- * @sheet :
- * @sr    :
+ * @sheet : #Sheet
+ * @sr    : #GnmStyleRow
  *
  * A utility routine which efficiently retrieves a range of styles within a row.
  * It also merges adjacent borders as necessary.
- */
+ **/
 void
-sheet_style_get_row (Sheet const *sheet, GnmRow *sr)
+sheet_style_get_row (Sheet const *sheet, GnmStyleRow *sr)
 {
 
 	g_return_if_fail (IS_SHEET (sheet));
@@ -1271,6 +1283,7 @@ sheet_style_get_row (Sheet const *sheet, GnmRow *sr)
 	g_return_if_fail (sr->top != NULL);
 	g_return_if_fail (sr->bottom != NULL);
 
+	sr->sheet = sheet;
 	sr->vertical [sr->start_col] = style_border_none ();
 	get_style_row (sheet->style_data->styles, TILE_TOP_LEVEL, 0, 0, sr);
 }
@@ -1278,12 +1291,12 @@ sheet_style_get_row (Sheet const *sheet, GnmRow *sr)
 /**
  * style_row_init :
  *
- * A small utility routine to initialize the grid drawing GnmRow data
+ * A small utility routine to initialize the grid drawing GnmStyleRow data
  * structure.
  */
 void
 style_row_init (GnmBorder const * * *prev_vert,
-		GnmRow *sr, GnmRow *next_sr,
+		GnmStyleRow *sr, GnmStyleRow *next_sr,
 		int start_col, int end_col, gpointer mem, gboolean hide_grid)
 {
 	int n, col;
@@ -1345,7 +1358,7 @@ apply_border (Sheet *sheet, GnmRange const *r,
 	      StyleBorderLocation side,
 	      GnmBorder *border)
 {
-	GnmStyle *pstyle = mstyle_new ();
+	GnmStyle *pstyle = gnm_style_new ();
 	pstyle_set_border (pstyle, border, side);
 	sheet_style_apply_range (sheet, r, pstyle);
 }
@@ -1476,13 +1489,13 @@ sheet_style_apply_border (Sheet       *sheet,
 
 	/* 7. Diagonals (apply both in one pass) */
 	if (borders [STYLE_BORDER_DIAG] != NULL) {
-		pstyle = mstyle_new ();
+		pstyle = gnm_style_new ();
 		pstyle_set_border (pstyle, borders [STYLE_BORDER_DIAG],
 				   STYLE_BORDER_DIAG);
 	}
 	if (borders [STYLE_BORDER_REV_DIAG]) {
 		if (pstyle == NULL)
-			pstyle = mstyle_new ();
+			pstyle = gnm_style_new ();
 		pstyle_set_border (pstyle, borders [STYLE_BORDER_REV_DIAG],
 				   STYLE_BORDER_REV_DIAG);
 	}
@@ -1492,13 +1505,17 @@ sheet_style_apply_border (Sheet       *sheet,
 
 /****************************************************************************/
 
+typedef struct {
+	GnmStyle	*accum;
+	unsigned int	 conflicts;
+} FindConflicts;
+
 static void
-cb_filter_style (GnmStyle *style,
-		 int corner_col, int corner_row, int width, int height,
-		 GnmRange const *apply_to, gpointer user)
+cb_find_conflicts (GnmStyle *style,
+		   int corner_col, int corner_row, int width, int height,
+		   GnmRange const *apply_to, FindConflicts *ptr)
 {
-	GnmStyle *accumulator = user;
-	mstyle_compare (accumulator, style);
+	ptr->conflicts = gnm_style_find_conflicts (ptr->accum, style, ptr->conflicts);
 }
 
 static void
@@ -1553,29 +1570,29 @@ border_mask_vec (gboolean *known, GnmBorder **borders,
  * @range   :
  * @borders :
  *
- * Find out what style elements are common to every cell in a range.
+ * Find out what style elements are common to every cell in a range
+ * Returns a flag of TRUE if there was a conflict a given style element
  */
-void
-sheet_style_get_uniform	(Sheet const *sheet, GnmRange const *r,
-			 GnmStyle **style, GnmBorder **borders)
+unsigned int
+sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
+			    GnmStyle **style, GnmBorder **borders)
 {
 	int n, col, row, start_col, end_col;
-	GnmRow sr;
+	GnmStyleRow sr;
 	StyleBorderLocation i;
 	gboolean known [STYLE_BORDER_EDGE_MAX];
 	GnmBorder const *none = style_border_none ();
+	FindConflicts user;
 
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (r != NULL);
-	g_return_if_fail (style != NULL);
-	g_return_if_fail (borders != NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), 0);
+	g_return_val_if_fail (r != NULL, 0);
+	g_return_val_if_fail (style != NULL, 0);
+	g_return_val_if_fail (borders != NULL, 0);
 
 	/* init style set with a copy of the top left corner of the 1st range */
 	if (*style == NULL) {
-		GnmStyle const *tmp;
-
-		tmp = sheet_style_get (sheet, r->start.col, r->start.row);
-		*style = mstyle_copy (tmp);
+		GnmStyle const *tmp = sheet_style_get (sheet, r->start.col, r->start.row);
+		*style = gnm_style_dup (tmp);
 		for (i = STYLE_BORDER_TOP ; i < STYLE_BORDER_EDGE_MAX ; i++) {
 			known [i] = FALSE;
 			borders [i] = style_border_ref ((GnmBorder *)none);
@@ -1585,15 +1602,17 @@ sheet_style_get_uniform	(Sheet const *sheet, GnmRange const *r,
 			known [i] = TRUE;
 	}
 
+	user.accum = *style;
+	user.conflicts = 0; /* no conflicts yet */
 	foreach_tile (sheet->style_data->styles,
 		      TILE_TOP_LEVEL, 0, 0, r,
-		      cb_filter_style, *style);
+		      (ForeachTileFunc)cb_find_conflicts, &user);
 
 	/* copy over the diagonals */
 	for (i = STYLE_BORDER_REV_DIAG ; i <= STYLE_BORDER_DIAG ; i++)
-		if (!mstyle_is_element_conflict (*style, MSTYLE_BORDER_TOP+i))
+		if (!(user.conflicts & (1 << (MSTYLE_BORDER_TOP+i))))
 			borders [i] = style_border_ref (
-				mstyle_get_border (*style, MSTYLE_BORDER_TOP+i));
+				gnm_style_get_border (*style, MSTYLE_BORDER_TOP+i));
 		else
 			borders [i] = NULL;
 
@@ -1664,6 +1683,8 @@ sheet_style_get_uniform	(Sheet const *sheet, GnmRange const *r,
 	}
 	border_mask_vec (known, borders, sr.top, r->start.col, r->end.col,
 			 STYLE_BORDER_BOTTOM);
+
+	return user.conflicts;
 }
 
 /**
@@ -1751,7 +1772,7 @@ cb_visible_content (GnmStyle *style,
 		    int corner_col, int corner_row, int width, int height,
 		    GnmRange const *apply_to, gpointer res)
 {
-	*((gboolean *)res) |= mstyle_visible_in_blank (style);
+	*((gboolean *)res) |= gnm_style_visible_in_blank (style);
 }
 
 /**
@@ -1785,7 +1806,7 @@ cb_style_extent (GnmStyle *style,
 		 GnmRange const *apply_to, gpointer user)
 {
 	StyleExtentData *data = user;
-	if (mstyle_visible_in_blank (style)) {
+	if (gnm_style_visible_in_blank (style)) {
 
 		/* always check if the column is extended */
 		int tmp = corner_col+width-1;
@@ -1851,7 +1872,7 @@ style_region_new (GnmRange const *range, GnmStyle *mstyle)
 	sr = g_new (GnmStyleRegion, 1);
 	sr->range = *range;
 	sr->style = mstyle;
-	mstyle_ref (mstyle);
+	gnm_style_ref (mstyle);
 
 	return sr;
 }
@@ -1861,7 +1882,7 @@ style_region_free (GnmStyleRegion *sr)
 {
 	g_return_if_fail (sr != NULL);
 
-	mstyle_unref (sr->style);
+	gnm_style_unref (sr->style);
 	sr->style = NULL;
 	g_free (sr);
 }
@@ -1987,7 +2008,7 @@ sheet_style_get_list (Sheet const *sheet, GnmRange const *r)
 	GnmStyleList *res = NULL;
 	StyleListMerge mi;
 
-	mi.style_equal = mstyle_equal;
+	mi.style_equal = gnm_style_equal;
 	mi.cache = g_hash_table_new ((GHashFunc)&cellpos_hash,
 				     (GCompareFunc)&cellpos_equal);
 
@@ -2008,14 +2029,63 @@ sheet_style_get_list (Sheet const *sheet, GnmRange const *r)
 }
 
 static void
+cb_style_list_add_conditions (GnmStyle *style,
+			      int corner_col, int corner_row,
+			      int width, int height,
+			      GnmRange const *apply_to, gpointer user)
+{
+	if (NULL != gnm_style_get_conditions (style))
+		cb_style_list_add_node (style,
+			corner_col, corner_row, width, height, apply_to, user);
+}
+
+static gboolean
+style_conditions_equal (GnmStyle const *a, GnmStyle const *b)
+{
+	return	gnm_style_get_conditions (a) == gnm_style_get_conditions (b);
+}
+
+/**
+ * sheet_style_collect_conditions:
+ * @sheet :
+ * @range :
+ *
+ * Returns a list of areas with conditionals, Caller is responsible for
+ * freeing.
+ **/
+GnmStyleList *
+sheet_style_collect_conditions (Sheet const *sheet, GnmRange const *r)
+{
+	GnmStyleList *res = NULL;
+	StyleListMerge mi;
+	mi.style_equal = style_conditions_equal;
+	mi.cache = g_hash_table_new ((GHashFunc)&cellpos_hash,
+				     (GCompareFunc)&cellpos_equal);
+
+	foreach_tile (sheet->style_data->styles,
+		      TILE_TOP_LEVEL, 0, 0, r,
+		      cb_style_list_add_conditions, &mi);
+#ifdef DEBUG_STYLE_LIST
+	fprintf(stderr, "=========\n");
+#endif
+	g_hash_table_foreach_remove (mi.cache, cb_hash_merge_horiz, &mi);
+	g_hash_table_foreach_remove (mi.cache, cb_hash_to_list, &res);
+#ifdef DEBUG_STYLE_LIST
+	fprintf(stderr, "=========\n");
+#endif
+	g_hash_table_destroy (mi.cache);
+
+	return res;
+}
+static void
 cb_style_list_add_validation (GnmStyle *style,
 			      int corner_col, int corner_row,
 			      int width, int height,
 			      GnmRange const *apply_to, gpointer user)
 {
 	/* collect only the area with validation */
-	if (NULL != mstyle_get_validation (style) ||
-	    NULL != mstyle_get_input_msg (style))
+	if (NULL != gnm_style_get_validation (style) ||
+	    NULL != gnm_style_get_input_msg (style))
 		cb_style_list_add_node (style,
 			corner_col, corner_row, width, height, apply_to, user);
 }
@@ -2023,21 +2093,19 @@ cb_style_list_add_validation (GnmStyle *style,
 static gboolean
 style_validation_equal (GnmStyle const *a, GnmStyle const *b)
 {
-	return	mstyle_get_validation (a) == mstyle_get_validation (b) &&
-		mstyle_get_input_msg (a) == mstyle_get_input_msg (b);
+	return	gnm_style_get_validation (a) == gnm_style_get_validation (b) &&
+		gnm_style_get_input_msg (a) == gnm_style_get_input_msg (b);
 }
 
 /**
- * sheet_style_get_validation_list :
- *
+ * sheet_style_collect_validations :
  * @sheet :
  * @range :
  *
- * Get a list of areas with validation
- * Caller is responsible for freeing.
- */
+ * Returns a list of areas with validation, Caller is responsible for freeing.
+ **/
 GnmStyleList *
-sheet_style_get_validation_list (Sheet const *sheet, GnmRange const *r)
+sheet_style_collect_validations (Sheet const *sheet, GnmRange const *r)
 {
 	GnmStyleList *res = NULL;
 	StyleListMerge mi;
@@ -2091,7 +2159,7 @@ sheet_style_set_list (Sheet *sheet, GnmCellPos const *corner,
 		if (transpose)
 			range_transpose (&r, corner);
 
-		mstyle_ref (sr->style);
+		gnm_style_ref (sr->style);
 		sheet_style_set_range (sheet, &r, sr->style);
 		spanflags |= required_updates_for_style (sr->style);
 	}
@@ -2193,7 +2261,7 @@ sheet_style_most_common_in_col (Sheet const *sheet, int col)
 
 	r.start.col = r.end.col = col;
 	r.start.row = 0; r.end.row = SHEET_MAX_ROWS-1;
-	accumulator = g_hash_table_new (mstyle_hash, (GCompareFunc) mstyle_equal);
+	accumulator = g_hash_table_new (gnm_style_hash, (GCompareFunc) gnm_style_equal);
 	foreach_tile (sheet->style_data->styles,
 		      TILE_TOP_LEVEL, 0, 0, &r,
 		      cb_accumulate_count, accumulator);
@@ -2211,7 +2279,7 @@ cb_find_link (GnmStyle *style,
 {
 	GnmHLink **link = user;
 	if (*link == NULL)
-		*link = mstyle_get_hlink (style);
+		*link = gnm_style_get_hlink (style);
 }
 
 /**

@@ -230,7 +230,7 @@ cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange *range,
 	if (wbv->is_protected || sheet->is_protected)
 		for (i = range->start.row; i <= range->end.row; i++)
 			for (j = range->start.col; j <= range->end.col; j++)
-				if (mstyle_get_content_locked (sheet_style_get (sheet, j, i))) {
+				if (gnm_style_get_content_locked (sheet_style_get (sheet, j, i))) {
 					char *text = g_strdup_printf (wbv->is_protected  ?
 						_("%s is locked. Unprotect the workbook to enable editing.") :
 						_("%s is locked. Unprotect the sheet to enable editing."),
@@ -832,12 +832,12 @@ cmd_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	if (!me->has_user_format && expr) {
 		GnmEvalPos ep;
 		GOFormat *sf = auto_style_format_suggest (expr,
-			eval_pos_init (&ep, me->cmd.sheet, &me->pos.eval));
+			eval_pos_init_pos (&ep, me->cmd.sheet, &me->pos.eval));
 		if (sf) {
-			GnmStyle *new_style = mstyle_new ();
+			GnmStyle *new_style = gnm_style_new ();
 			GnmRange r;
 
-			mstyle_set_format (new_style, sf);
+			gnm_style_set_format (new_style, sf);
 			style_format_unref (sf);
 			r.start = r.end = me->pos.eval;
 			sheet_apply_style (me->cmd.sheet, &r, new_style);
@@ -972,7 +972,7 @@ cmd_set_text (WorkbookControl *wbc,
 	g_free (text);
 
 	me->has_user_format = !style_format_is_general (
-		mstyle_get_format (sheet_style_get (sheet, pos->col, pos->row)));
+		gnm_style_get_format (sheet_style_get (sheet, pos->col, pos->row)));
 
 	return command_push_undo (wbc, G_OBJECT (me));
 }
@@ -1061,12 +1061,12 @@ cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	} else if (expr != NULL) {
 		GnmEvalPos ep;
 		GOFormat *sf = auto_style_format_suggest (expr,
-			eval_pos_init (&ep, me->cmd.sheet, &me->pp.eval));
+			eval_pos_init_pos (&ep, me->cmd.sheet, &me->pp.eval));
 		gnm_expr_unref (expr);
 		expr = NULL;
 		if (sf != NULL) {
-			new_style = mstyle_new ();
-			mstyle_set_format (new_style, sf);
+			new_style = gnm_style_new ();
+			gnm_style_set_format (new_style, sf);
 			style_format_unref (sf);
 		}
 	}
@@ -1090,7 +1090,7 @@ cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		} else {
 			sheet_range_set_text (&me->pp, r, me->text);
 			if (new_style) {
-				mstyle_ref (new_style);
+				gnm_style_ref (new_style);
 				sheet_apply_style (me->cmd.sheet, r, new_style);
 			}
 		}
@@ -1103,7 +1103,7 @@ cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	sheet_redraw_all (me->cmd.sheet, FALSE);
 
 	if (new_style)
-		mstyle_unref (new_style);
+		gnm_style_unref (new_style);
 
 	return FALSE;
 }
@@ -1713,7 +1713,7 @@ cmd_format_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	CmdFormat const *orig = (CmdFormat const *) cmd;
 	int i;
 
-	mstyle_ref (orig->new_style);
+	gnm_style_ref (orig->new_style);
 	if (orig->borders)
 		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
 			style_border_ref (orig->borders [i]);
@@ -1777,7 +1777,7 @@ cmd_format_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			sheet_apply_border (me->cmd.sheet, l->data,
 					    me->borders);
 		if (me->new_style) {
-			mstyle_ref (me->new_style);
+			gnm_style_ref (me->new_style);
 			sheet_apply_style (me->cmd.sheet, l->data, me->new_style);
 		}
 		sheet_flag_format_update_range (me->cmd.sheet, l->data);
@@ -1795,7 +1795,7 @@ cmd_format_finalize (GObject *cmd)
 	int        i;
 
 	if (me->new_style)
-		mstyle_unref (me->new_style);
+		gnm_style_unref (me->new_style);
 	me->new_style = NULL;
 
 	if (me->borders) {
@@ -3683,8 +3683,8 @@ cmd_merge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	if (me->center) {
-		align_center = mstyle_new ();
-		mstyle_set_align_h (align_center, HALIGN_CENTER);
+		align_center = gnm_style_new ();
+		gnm_style_set_align_h (align_center, HALIGN_CENTER);
 	}
 	sheet = me->cmd.sheet;
 	for (i = 0 ; i < me->ranges->len ; ++i) {
@@ -3704,7 +3704,7 @@ cmd_merge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	}
 
 	if (me->center)
-		mstyle_unref (align_center);
+		gnm_style_unref (align_center);
 	me->old_content = g_slist_reverse (me->old_content);
 	return FALSE;
 }
@@ -3915,7 +3915,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 
 		parse_pos_init_evalpos (&pp, ep);
 		parse_text_value_or_expr (&pp, cell_res.new_text, &val, &expr,
-			mstyle_get_format (cell_get_mstyle (cell_res.cell)),
+			gnm_style_get_format (cell_get_mstyle (cell_res.cell)),
 			workbook_date_conv (cell_res.cell->base.sheet->workbook));
 
 		/*

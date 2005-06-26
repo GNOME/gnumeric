@@ -516,8 +516,8 @@ cb_fore_color_changed (GOActionComboColor *a, WorkbookControlGUI *wbcg)
 		return;
 	}
 
-	mstyle = mstyle_new ();
-	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, is_default
+	mstyle = gnm_style_new ();
+	gnm_style_set_font_color (mstyle, is_default
 		? style_color_auto_font ()
 		: style_color_new_go (c));
 	cmd_selection_format (wbc, mstyle, NULL, _("Set Foreground Color"));
@@ -563,17 +563,16 @@ cb_back_color_changed (GOActionComboColor *a, WorkbookControlGUI *wbcg)
 
 	c = go_action_combo_color_get_color (a, &is_default);
 
-	mstyle = mstyle_new ();
+	mstyle = gnm_style_new ();
 	if (!is_default) {
 		/* We need to have a pattern of at least solid to draw a background colour */
-		if (!mstyle_is_element_set  (mstyle, MSTYLE_PATTERN) ||
-		    mstyle_get_pattern (mstyle) < 1)
-			mstyle_set_pattern (mstyle, 1);
+		if (!gnm_style_is_element_set  (mstyle, MSTYLE_PATTERN) ||
+		    gnm_style_get_pattern (mstyle) < 1)
+			gnm_style_set_pattern (mstyle, 1);
 
-		mstyle_set_color (mstyle, MSTYLE_COLOR_BACK,
-			style_color_new_go (c));
+		gnm_style_set_back_color (mstyle, style_color_new_go (c));
 	} else
-		mstyle_set_pattern (mstyle, 0);	/* Set background to NONE */
+		gnm_style_set_pattern (mstyle, 0);	/* Set background to NONE */
 	cmd_selection_format (wbc, mstyle, NULL, _("Set Background Color"));
 }
 
@@ -610,9 +609,9 @@ cb_font_name_changed (GOActionComboText *a, WBCgtk *gtk)
 			wbcg_edit_add_markup (WORKBOOK_CONTROL_GUI (gtk),
 				pango_attr_family_new (new_name));
 		} else {
-			GnmStyle *style = mstyle_new ();
+			GnmStyle *style = gnm_style_new ();
 			char *title = g_strdup_printf (_("Font Name %s"), new_name);
-			mstyle_set_font_name (style, new_name);
+			gnm_style_set_font_name (style, new_name);
 			cmd_selection_format (WORKBOOK_CONTROL (gtk), style, NULL, title);
 			g_free (title);
 		}
@@ -667,9 +666,9 @@ cb_font_size_changed (GOActionComboText *a, WBCgtk *gtk)
 			wbcg_edit_add_markup (WORKBOOK_CONTROL_GUI (gtk),
 				pango_attr_size_new (size * PANGO_SCALE));
 		} else {
-			GnmStyle *style = mstyle_new ();
+			GnmStyle *style = gnm_style_new ();
 			char *title = g_strdup_printf (_("Font Size %f"), size);
-			mstyle_set_font_size (style, size);
+			gnm_style_set_font_size (style, size);
 			cmd_selection_format (WORKBOOK_CONTROL (gtk), style, NULL, title);
 			g_free (title);
 		}
@@ -869,21 +868,21 @@ wbc_gtk_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
 	if (changes == NULL)
 		changes = wb_view->current_format;
 
-	if (mstyle_is_element_set (changes, MSTYLE_FONT_BOLD))
+	if (gnm_style_is_element_set (changes, MSTYLE_FONT_BOLD))
 		gtk_toggle_action_set_active (wbcg->font.bold,
-			mstyle_get_font_bold (changes));
-	if (mstyle_is_element_set (changes, MSTYLE_FONT_ITALIC))
+			gnm_style_get_font_bold (changes));
+	if (gnm_style_is_element_set (changes, MSTYLE_FONT_ITALIC))
 		gtk_toggle_action_set_active (wbcg->font.italic,
-			mstyle_get_font_italic (changes));
-	if (mstyle_is_element_set (changes, MSTYLE_FONT_UNDERLINE))
+			gnm_style_get_font_italic (changes));
+	if (gnm_style_is_element_set (changes, MSTYLE_FONT_UNDERLINE))
 		gtk_toggle_action_set_active (wbcg->font.underline,
-			mstyle_get_font_uline (changes) == UNDERLINE_SINGLE);
-	if (mstyle_is_element_set (changes, MSTYLE_FONT_STRIKETHROUGH))
+			gnm_style_get_font_uline (changes) == UNDERLINE_SINGLE);
+	if (gnm_style_is_element_set (changes, MSTYLE_FONT_STRIKETHROUGH))
 		gtk_toggle_action_set_active (wbcg->font.strikethrough,
-			mstyle_get_font_strike (changes));
+			gnm_style_get_font_strike (changes));
 
-	if (mstyle_is_element_set (changes, MSTYLE_ALIGN_H)) {
-		StyleHAlignFlags align = mstyle_get_align_h (changes);
+	if (gnm_style_is_element_set (changes, MSTYLE_ALIGN_H)) {
+		GnmHAlign align = gnm_style_get_align_h (changes);
 		gtk_toggle_action_set_active (wbcg->h_align.left,
 			align == HALIGN_LEFT);
 		gtk_toggle_action_set_active (wbcg->h_align.center,
@@ -894,8 +893,8 @@ wbc_gtk_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
 			align == HALIGN_CENTER_ACROSS_SELECTION);
 		go_action_combo_pixmaps_select_id (wbcg->halignment, align);
 	}
-	if (mstyle_is_element_set (changes, MSTYLE_ALIGN_V)) {
-		StyleVAlignFlags align = mstyle_get_align_v (changes);
+	if (gnm_style_is_element_set (changes, MSTYLE_ALIGN_V)) {
+		GnmVAlign align = gnm_style_get_align_v (changes);
 		gtk_toggle_action_set_active (wbcg->v_align.top,
 			align == VALIGN_TOP);
 		gtk_toggle_action_set_active (wbcg->v_align.bottom,
@@ -905,16 +904,16 @@ wbc_gtk_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
 		go_action_combo_pixmaps_select_id (wbcg->valignment, align);
 	}
 
-	if (mstyle_is_element_set (changes, MSTYLE_FONT_SIZE)) {
-		char *size_str = g_strdup_printf ("%d", (int)mstyle_get_font_size (changes));
+	if (gnm_style_is_element_set (changes, MSTYLE_FONT_SIZE)) {
+		char *size_str = g_strdup_printf ("%d", (int)gnm_style_get_font_size (changes));
 		go_action_combo_text_set_entry (wbcg->font_size,
 			size_str, GO_ACTION_COMBO_SEARCH_FROM_TOP);
 		g_free (size_str);
 	}
 
-	if (mstyle_is_element_set (changes, MSTYLE_FONT_NAME))
+	if (gnm_style_is_element_set (changes, MSTYLE_FONT_NAME))
 		go_action_combo_text_set_entry (wbcg->font_name,
-			mstyle_get_font_name (changes), GO_ACTION_COMBO_SEARCH_FROM_TOP);
+			gnm_style_get_font_name (changes), GO_ACTION_COMBO_SEARCH_FROM_TOP);
 
 	wbcg_ui_update_end (WORKBOOK_CONTROL_GUI (wbc));
 }

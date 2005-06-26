@@ -111,9 +111,9 @@ html_read_content (htmlNodePtr cur, GString *buf, GnmStyle *mstyle,
 			if (first) {
 				if (xmlStrEqual (ptr->name, CC2XML ("i"))
 				    || xmlStrEqual (ptr->name, CC2XML ("em")))
-					mstyle_set_font_italic (mstyle, TRUE);
+					gnm_style_set_font_italic (mstyle, TRUE);
 				if (xmlStrEqual (ptr->name, CC2XML ("b")))
-					mstyle_set_font_bold (mstyle, TRUE);
+					gnm_style_set_font_bold (mstyle, TRUE);
 			}
 			if (xmlStrEqual (ptr->name, CC2XML ("a"))) {
 				xmlAttrPtr   props;
@@ -190,9 +190,9 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 			buf = g_string_new (NULL);
 			a_buf = xmlBufferCreate ();
 
-			mstyle = mstyle_new_default ();
+			mstyle = gnm_style_new_default ();
 			if (xmlStrEqual (ptr->name, CC2XML ("th")))
-				mstyle_set_font_bold (mstyle, TRUE);
+				gnm_style_set_font_bold (mstyle, TRUE);
 
 			html_read_content (ptr, buf, mstyle, a_buf, 
 					   &hrefs, TRUE, doc);
@@ -219,11 +219,10 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 						gnm_hlink_url_get_type (), 
 						NULL);
 				gnm_hlink_set_target (link, url);
-				mstyle_set_hlink (mstyle, link);
-				mstyle_set_font_uline (
+				gnm_style_set_hlink (mstyle, link);
+				gnm_style_set_font_uline (
 					mstyle, UNDERLINE_SINGLE);
-				mstyle_set_color (
-					mstyle, MSTYLE_COLOR_FORE,
+				gnm_style_set_font_color (mstyle,
 					style_color_new_name ("blue"));
 				g_free (url);
 				xmlBufferFree (h_buf);
@@ -247,7 +246,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 				sheet_style_set_pos (tc->sheet, col + 1, tc->row, mstyle);
 				cell_set_text (cell, buf->str);
 			} else
-				mstyle_unref (mstyle);
+				gnm_style_unref (mstyle);
 
 			if (a_buf->use > 0) {
 				char *name;

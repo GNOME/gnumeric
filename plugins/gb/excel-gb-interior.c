@@ -117,9 +117,8 @@ excel_gb_interior_set_arg (GBRunEvalContext *ec,
 	switch (property) {
 
 	case COLOR:
-		style = mstyle_new ();
-		mstyle_set_color (style, MSTYLE_COLOR_FORE,
-				  convert_color_to_rgb (val->v.l));
+		style = gnm_style_new ();
+		gnm_style_set_font_color (style, convert_color_to_rgb (val->v.l));
 		real_set_style (interior->sheet, &interior->range, style);
 		return TRUE;
 
@@ -132,22 +131,21 @@ excel_gb_interior_set_arg (GBRunEvalContext *ec,
 			return FALSE;
 		}
 
-		style = mstyle_new ();
-		mstyle_set_color (style, MSTYLE_COLOR_FORE, color);
+		style = gnm_style_new ();
+		gnm_style_set_font_color (style, color);
 		real_set_style (interior->sheet, &interior->range, style);
 		return TRUE;
 	}
 
 	case PATTERN:
-		style = mstyle_new ();
-		mstyle_set_pattern (style, val->v.i);
+		style = gnm_style_new ();
+		gnm_style_set_pattern (style, val->v.i);
 		real_set_style (interior->sheet, &interior->range, style);
 		return TRUE;
 
 	case PATTERN_COLOR:
-		style = mstyle_new ();
-		mstyle_set_color (style, MSTYLE_COLOR_BACK,
-				  convert_color_to_rgb (val->v.l));
+		style = gnm_style_new ();
+		gnm_style_set_back_color (style, convert_color_to_rgb (val->v.l));
 		real_set_style (interior->sheet, &interior->range, style);
 		return TRUE;
 
@@ -160,8 +158,8 @@ excel_gb_interior_set_arg (GBRunEvalContext *ec,
 			return FALSE;
 		}
 
-		style = mstyle_new ();
-		mstyle_set_color (style, MSTYLE_COLOR_BACK, color);
+		style = gnm_style_new ();
+		gnm_style_set_back_color (style, color);
 		real_set_style (interior->sheet, &interior->range, style);
 		return TRUE;
 	}
@@ -188,7 +186,7 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 		long realcolor;
 
 		style = sheet_style_get (interior->sheet, col, row);
-		color = mstyle_get_color (style, MSTYLE_COLOR_FORE);
+		color = gnm_style_get_font_color (style);
 		realcolor = convert_rgb_to_color (color->red, color->green, color->blue);
 
 		return (gb_value_new_long (realcolor));
@@ -198,7 +196,7 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 		int index;
 
 		style = sheet_style_get (interior->sheet, col, row);
-		color = mstyle_get_color (style, MSTYLE_COLOR_FORE);
+		color = gnm_style_get_font_color (style);
 
 		index = palette_from_color (color);
 		if (index == -1) {
@@ -215,7 +213,7 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 
 		style = sheet_style_get (interior->sheet, col, row);
 
-		pattern = mstyle_get_pattern (style);
+		pattern = gnm_style_get_pattern (style);
 
 		return (gb_value_new_int (pattern));
 	}
@@ -225,7 +223,7 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 		long realcolor;
 
 		style = sheet_style_get (interior->sheet, col, row);
-		color = mstyle_get_color (style, MSTYLE_COLOR_BACK);
+		color = gnm_style_get_back_color (style);
 		realcolor = convert_rgb_to_color (color->red, color->green, color->blue);
 
 		return (gb_value_new_long (realcolor));
@@ -235,7 +233,7 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 		int index;
 
 		style = sheet_style_get (interior->sheet, col, row);
-		color = mstyle_get_color (style, MSTYLE_COLOR_FORE);
+		color = gnm_style_get_font_color (style);
 
 		index = palette_from_color (color);
 		if (index == -1) {

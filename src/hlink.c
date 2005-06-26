@@ -66,7 +66,7 @@ GnmHLink *
 sheet_hlink_find (Sheet const *sheet, GnmCellPos const *pos)
 {
 	GnmStyle const *style = sheet_style_get (sheet, pos->col, pos->row);
-	return mstyle_get_hlink (style);
+	return gnm_style_get_hlink (style);
 }
 
 static void

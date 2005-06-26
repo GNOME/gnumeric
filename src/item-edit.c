@@ -128,7 +128,7 @@ ie_scan_for_range (ItemEdit *ie)
 static void
 get_top_left (ItemEdit const *ie, int *top, int *left)
 {
-	StyleVAlignFlags const align = mstyle_get_align_v (ie->style);
+	GnmVAlign const align = gnm_style_get_align_v (ie->style);
 	ColRowInfo const *ci = sheet_col_get_info (
 		sc_sheet (SHEET_CONTROL (ie->scg)), ie->pos.col);
 
@@ -268,21 +268,19 @@ ie_layout (FooCanvasItem *item)
 	if (attrs != NULL)
 		attrs = pango_attr_list_copy (attrs);
 	else
-		attrs = mstyle_generate_attrs_full (ie->style);
+		attrs = gnm_style_generate_attrs_full (ie->style);
 
 	/* reverse video the auto completion text  */
 	if (entered_text != NULL && entered_text != text) {
-		GnmColor *color;
 		int const start = strlen (entered_text);
-
-		color = mstyle_get_color (ie->style, MSTYLE_COLOR_FORE);
+		GnmColor const *color = gnm_style_get_font_color (ie->style);
 		attr = pango_attr_background_new (
 			color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue);
 		attr->start_index = start;
 		attr->end_index = G_MAXINT;
 		pango_attr_list_insert (attrs, attr);
 
-		color = mstyle_get_color (ie->style, MSTYLE_COLOR_BACK);
+		color = gnm_style_get_back_color (ie->style);
 		attr = pango_attr_foreground_new (
 			color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue);
 		attr->start_index = start;
@@ -507,7 +505,7 @@ item_edit_finalize (GObject *gobject)
 		ie->gfont = NULL;
 	}
 	if (ie->style != NULL) {
-		mstyle_unref (ie->style);
+		gnm_style_unref (ie->style);
 		ie->style= NULL;
 	}
 
@@ -569,15 +567,13 @@ item_edit_set_property (GObject *gobject, guint param_id,
 	/* set the font and the upper left corner if this is the first pass */
 	if (ie->gfont == NULL) {
 		Sheet *sheet = sv->sheet;
-		ie->style = mstyle_copy (sheet_style_get (sheet,
-							  ie->pos.col,
-							  ie->pos.row));
-		ie->gfont = mstyle_get_font (ie->style,
-					     sheet->context,
-					     sheet->last_zoom_factor_used);
+		ie->style = gnm_style_dup (
+			sheet_style_get (sheet, ie->pos.col, ie->pos.row));
+		ie->gfont = gnm_style_get_font (ie->style,
+			sheet->context, sheet->last_zoom_factor_used);
 
-		if (mstyle_get_align_h (ie->style) == HALIGN_GENERAL)
-			mstyle_set_align_h (ie->style, HALIGN_LEFT);
+		if (gnm_style_get_align_h (ie->style) == HALIGN_GENERAL)
+			gnm_style_set_align_h (ie->style, HALIGN_LEFT);
 
 		/* move inwards 1 pixel from the grid line */
 		item->y1 = 1 + gcanvas->first_offset.row +

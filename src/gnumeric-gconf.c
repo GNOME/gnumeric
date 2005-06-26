@@ -1223,20 +1223,20 @@ gnm_conf_init_printer_decoration_font (void)
 	GOConfNode *node;
 	gchar *name;
 	if (prefs.printer_decoration_font == NULL)
-		prefs.printer_decoration_font = mstyle_new ();
+		prefs.printer_decoration_font = gnm_style_new ();
 
 	node = go_conf_get_node (root, PRINTSETUP_GCONF_DIR);
 	name = go_conf_load_string (node, PRINTSETUP_GCONF_HF_FONT_NAME);
 	if (name) {
-		mstyle_set_font_name (prefs.printer_decoration_font, name);
+		gnm_style_set_font_name (prefs.printer_decoration_font, name);
 		g_free (name);
 	} else
-		mstyle_set_font_name (prefs.printer_decoration_font, DEFAULT_FONT);
-	mstyle_set_font_size (prefs.printer_decoration_font,
+		gnm_style_set_font_name (prefs.printer_decoration_font, DEFAULT_FONT);
+	gnm_style_set_font_size (prefs.printer_decoration_font,
 		go_conf_load_double (node, PRINTSETUP_GCONF_HF_FONT_SIZE, 1., 100., DEFAULT_SIZE));
-	mstyle_set_font_bold (prefs.printer_decoration_font,
+	gnm_style_set_font_bold (prefs.printer_decoration_font,
 		go_conf_load_bool (node, PRINTSETUP_GCONF_HF_FONT_BOLD, FALSE));
-	mstyle_set_font_italic (prefs.printer_decoration_font,
+	gnm_style_set_font_italic (prefs.printer_decoration_font,
 		go_conf_load_bool (node, PRINTSETUP_GCONF_HF_FONT_ITALIC, FALSE));
 	go_conf_free_node (node);
 }
@@ -1450,7 +1450,7 @@ void
 gnm_conf_shutdown (void)
 {
 	if (prefs.printer_decoration_font) {
-		mstyle_unref (prefs.printer_decoration_font);
+		gnm_style_unref (prefs.printer_decoration_font);
 		prefs.printer_decoration_font = NULL;
 	}
 	g_hash_table_destroy (prefs.toolbars);
@@ -1769,24 +1769,24 @@ gnm_gconf_set_hf_font (GnmStyle const *mstyle)
 	GOConfNode *node;
 	GnmStyle *old_style = (prefs.printer_decoration_font != NULL) ?
 		prefs.printer_decoration_font :
-		mstyle_new_default ();
+		gnm_style_new_default ();
 	
-	prefs.printer_decoration_font = mstyle_copy_merge (old_style, mstyle);
-	mstyle_unref (old_style);
+	prefs.printer_decoration_font = gnm_style_merge (old_style, mstyle);
+	gnm_style_unref (old_style);
 	
 	node = go_conf_get_node (root, PRINTSETUP_GCONF_DIR);
-	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_SIZE))
+	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_SIZE))
 		go_conf_set_double (node, PRINTSETUP_GCONF_HF_FONT_SIZE,
-			mstyle_get_font_size (mstyle));
-	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_NAME))
+			gnm_style_get_font_size (mstyle));
+	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_NAME))
 		go_conf_set_string (node, PRINTSETUP_GCONF_HF_FONT_NAME,
-			mstyle_get_font_name (mstyle));
-	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_BOLD))
+			gnm_style_get_font_name (mstyle));
+	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_BOLD))
 		go_conf_set_bool (node, PRINTSETUP_GCONF_HF_FONT_BOLD,
-			mstyle_get_font_bold (mstyle));
-	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
+			gnm_style_get_font_bold (mstyle));
+	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
 		go_conf_set_bool (node, PRINTSETUP_GCONF_HF_FONT_ITALIC,
-			mstyle_get_font_italic (mstyle));
+			gnm_style_get_font_italic (mstyle));
 	go_conf_free_node (node);
 }
 

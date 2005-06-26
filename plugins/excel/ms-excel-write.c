@@ -43,6 +43,7 @@
 #include <gnm-so-filled.h>
 #include <application.h>
 #include <style.h>
+#include <style-conditions.h>
 #include <validation.h>
 #include <input-msg.h>
 #include <sheet-style.h>
@@ -128,6 +129,56 @@ go_color_to_bgr (GOColor const c)
 	return abgr;
 }
 
+/**
+ * map_pattern_to_xl
+ * @i Gnumeric pattern index
+ *
+ * Map Gnumeric pattern index to Excel ditto.
+ *
+ * FIXME:
+ * Move this and ms-excel-read.c::excel_map_pattern_index_from_excel
+ * to common utility file. Generate one map from the other for
+ * consistency
+ **/
+static int
+map_pattern_to_xl (int i)
+{
+	static int const map_to_excel[] = {
+		 0,
+		 1,  3,  2,  4, 17, 18,
+		 5,  6,  8,  7,  9, 10,
+		11, 12, 13, 14, 15, 16
+	};
+
+	/* Default to Solid if out of range */
+	g_return_val_if_fail (i >= 0 && i < (int)G_N_ELEMENTS (map_to_excel),
+			      0);
+
+	return map_to_excel[i];
+}
+
+static guint
+map_border_to_xl (StyleBorderType btype, MsBiffVersion ver)
+{
+	guint ibtype = btype;
+
+	if (btype <= STYLE_BORDER_NONE)
+		ibtype = STYLE_BORDER_NONE;
+
+	if (ver <= MS_BIFF_V7 && btype > STYLE_BORDER_HAIR)
+		ibtype = STYLE_BORDER_MEDIUM;
+
+	return ibtype;
+}
+
+static guint16
+map_color_to_palette (ExcelWriteState const *ewb,
+		      GnmColor const *c, guint16 auto_index)
+{
+	if (NULL == c || c->is_auto)
+		return auto_index;
+	return palette_get_index (ewb, gnm_color_to_bgr (c));
+}
 
 /**
  * excel_write_string_len :
@@ -630,7 +681,7 @@ excel_write_PANE (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
  * sense given the other record formats.
  */
 static void
-excel_write_MERGECELLS (BiffPut *bp, ExcelWriteSheet *esheet)
+excel_write_MERGECELLs (BiffPut *bp, ExcelWriteSheet *esheet)
 {
 	guint8 *record, *ptr;
 	GSList *merged;
@@ -672,6 +723,282 @@ excel_write_MERGECELLS (BiffPut *bp, ExcelWriteSheet *esheet)
 		}
 		ms_biff_put_commit (bp);
 	}
+}
+
+/****************************************************************************/
+
+static void
+xl_le_set_range (guint8 *data, GnmRange const *r)
+{
+	GSF_LE_SET_GUINT16 (data+0, r->start.row);
+	GSF_LE_SET_GUINT16 (data+2, r->end.row >= MsBiffMaxRowsV8 ? (MsBiffMaxRowsV8-1) : r->end.row);
+	GSF_LE_SET_GUINT16 (data+4, r->start.col);
+	GSF_LE_SET_GUINT16 (data+6, r->end.col >= 256 ? 255 : r->end.col);
+}
+
+typedef struct {
+	GnmRange  bb;
+	GSList	 *ranges;
+} CondDetails;
+
+static gboolean
+write_border (ExcelWriteSheet const *esheet,
+	      GnmStyle const *s, GnmStyleElement elem,
+	      guint16 *patterns, guint32 *colours,
+	      unsigned pat_offset, unsigned colour_offset)
+{
+	unsigned   c;
+	GnmBorder *b;
+
+	if (!gnm_style_is_element_set (s, elem) ||
+	    NULL == (b = gnm_style_get_border(s, elem)))
+		return TRUE;
+
+	*patterns |= (map_border_to_xl (b->line_type, esheet->ewb->bp->version)
+		     << pat_offset);
+	c = map_color_to_palette (esheet->ewb, b->color, PALETTE_AUTO_PATTERN);
+	*colours |= (c << colour_offset);
+
+	return FALSE;
+}
+
+static guint8 const zeros[64];
+static void
+cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
+		    ExcelWriteSheet *esheet)
+{
+	GSList *ptr;
+	BiffPut *bp = esheet->ewb->bp;
+	guint16 range_count;
+	guint8 buf[14], type, op;
+	guint32 flags = 0x38C3FF;	/* these are always true */
+	unsigned i, expr0_len, expr1_len, header_pos;
+	GArray const *details = gnm_style_conditions_details (sc);
+	GnmStyleCond const *cond;
+	GnmStyle const *s;
+
+	/* The parent record */
+	ms_biff_put_var_next (bp, BIFF_CONDFMT);
+	GSF_LE_SET_GUINT16 (buf+0, details->len);
+	GSF_LE_SET_GUINT16 (buf+2, 1); /* force a redraw */
+	xl_le_set_range (buf+4, &cd->bb);
+	range_count = g_slist_length (cd->ranges);
+	GSF_LE_SET_GUINT16 (buf+12, range_count);
+	ms_biff_put_var_write (bp, buf, 14);
+	for (ptr = cd->ranges; ptr != NULL ; ptr = ptr->next) {
+		xl_le_set_range (buf, ptr->data);
+		ms_biff_put_var_write (bp, buf, 8);
+	}
+	ms_biff_put_commit (bp);
+	g_slist_free (cd->ranges);
+
+	/* The individual conditions */
+	for (i = 0 ; i < details->len ; i++) {
+		cond = &g_array_index (details, GnmStyleCond, i);
+		s = cond->overlay;
+
+		ms_biff_put_var_next (bp, BIFF_CF);
+		header_pos = bp->curpos;
+		ms_biff_put_var_seekto (bp, header_pos+12);
+
+		if (gnm_style_is_element_set (s, MSTYLE_FONT_COLOR ) ||
+		    gnm_style_is_element_set (s, MSTYLE_FONT_NAME ) ||
+		    gnm_style_is_element_set (s, MSTYLE_FONT_BOLD) ||
+		    gnm_style_is_element_set (s, MSTYLE_FONT_ITALIC) ||
+		    gnm_style_is_element_set (s, MSTYLE_FONT_UNDERLINE ) ||
+		    gnm_style_is_element_set (s, MSTYLE_FONT_STRIKETHROUGH) ||
+		    gnm_style_is_element_set (s, MSTYLE_FONT_SIZE)) {
+			guint8 fbuf[118];
+			guint32 tmp, font_flags = 0x18;
+
+			memset (fbuf, 0, sizeof (fbuf));
+
+			if (gnm_style_is_element_set (s, MSTYLE_FONT_SIZE))
+				tmp = (int) (gnm_style_get_font_size (s) * 20. + .5);
+			else
+				tmp = 0xFFFFFFFF;
+			GSF_LE_SET_GUINT32 (fbuf+64, tmp);
+
+			tmp = 0;
+			if (gnm_style_is_element_set (s, MSTYLE_FONT_BOLD) ||
+			    gnm_style_is_element_set (s, MSTYLE_FONT_ITALIC)) {
+				if (gnm_style_is_element_set (s, MSTYLE_FONT_BOLD) &&
+				    gnm_style_get_font_bold (s))
+					GSF_LE_SET_GUINT16 (fbuf+72, 0x2bc);
+				else
+					GSF_LE_SET_GUINT16 (fbuf+72, 0x190);
+				if (gnm_style_is_element_set (s, MSTYLE_FONT_ITALIC) &&
+				    gnm_style_get_font_italic (s))
+					tmp |= 1;
+				else
+					tmp |= 0;
+			} else
+				font_flags |= 2;
+			
+			if (gnm_style_is_element_set (s, MSTYLE_FONT_STRIKETHROUGH)) {
+				if (gnm_style_get_font_strike (s))
+					tmp |= 0x80;
+			} else
+				font_flags |= 0x80;
+			GSF_LE_SET_GUINT32 (fbuf+68, tmp);
+
+			tmp = 0;
+			if (gnm_style_is_element_set (s, MSTYLE_FONT_UNDERLINE)) {
+				switch (gnm_style_get_font_uline  (s)) {
+				default :
+				case UNDERLINE_NONE :   tmp = 0; break;
+				case UNDERLINE_SINGLE : tmp = 1; break;
+				case UNDERLINE_DOUBLE : tmp = 2; break;
+				}
+			} else
+				GSF_LE_SET_GUINT32 (fbuf+96, 1);
+			GSF_LE_SET_GUINT32 (fbuf+76, tmp);
+
+			GSF_LE_SET_GUINT32 (fbuf+92, 1); /* no super/sub yet */
+			GSF_LE_SET_GUINT16 (fbuf+116, 1); /* dunno ? */
+
+			if (gnm_style_is_element_set (s, MSTYLE_FONT_COLOR))
+				tmp = map_color_to_palette (esheet->ewb, 
+					gnm_style_get_font_color (s), PALETTE_AUTO_FONT);
+			else
+				tmp = 0xFFFFFFFF;
+			GSF_LE_SET_GUINT32 (fbuf+80, tmp);
+
+			ms_biff_put_var_write (bp, fbuf, sizeof (fbuf));
+			flags |= 0x04000000;
+		}
+
+		if (gnm_style_is_element_set (s, MSTYLE_BORDER_LEFT) ||
+		    gnm_style_is_element_set (s, MSTYLE_BORDER_RIGHT) ||
+		    gnm_style_is_element_set (s, MSTYLE_BORDER_TOP) ||
+		    gnm_style_is_element_set (s, MSTYLE_BORDER_BOTTOM)) {
+			guint16 p = 0;
+			guint32 c  = 0;
+			if (write_border (esheet, s, MSTYLE_BORDER_LEFT,   &p, &c,  0,  0))
+				flags |= 0x0400;
+			if (write_border (esheet, s, MSTYLE_BORDER_RIGHT,  &p, &c,  4,  7))
+				flags |= 0x0800;
+			if (write_border (esheet, s, MSTYLE_BORDER_TOP,    &p, &c,  8, 16))
+				flags |= 0x1000;
+			if (write_border (esheet, s, MSTYLE_BORDER_BOTTOM, &p, &c, 12, 23))
+				flags |= 0x2000;
+
+			GSF_LE_SET_GUINT16 (buf+0, p);
+			GSF_LE_SET_GUINT32 (buf+2, c);
+			GSF_LE_SET_GUINT16 (buf+6, 0);
+			ms_biff_put_var_write (bp, buf, 8);
+			flags |= 0x10000000;
+		} else
+			flags |= 0x3C00;
+
+		if (gnm_style_is_element_set (s, MSTYLE_PATTERN) ||
+		    gnm_style_is_element_set (s, MSTYLE_COLOR_BACK) ||
+		    gnm_style_is_element_set (s, MSTYLE_COLOR_PATTERN)) {
+			guint32 background = 0;
+
+			/* Gnumeric requires pattern = 1, whereas XL can store
+			 * just the color.  undo the mapping we made on import. */
+			if (gnm_style_is_element_set (s, MSTYLE_PATTERN) &&
+			    (1 != gnm_style_get_pattern (s) ||
+			     !gnm_style_is_element_set (s, MSTYLE_COLOR_BACK) ||
+			      gnm_style_is_element_set (s, MSTYLE_COLOR_PATTERN))) {
+				background = map_pattern_to_xl (
+					gnm_style_get_pattern (s)) << 10;
+			} else
+				flags |= 0x10000;
+			if (gnm_style_is_element_set (s, MSTYLE_COLOR_PATTERN)) {
+				unsigned idx = palette_get_index (esheet->ewb,
+					gnm_color_to_bgr (
+						gnm_style_get_pattern_color (s)));
+				background |= idx << 16;
+			} else
+				flags |= 0x20000;
+			if (gnm_style_is_element_set (s, MSTYLE_COLOR_BACK)) {
+				unsigned idx = palette_get_index (esheet->ewb,
+					gnm_color_to_bgr (
+						gnm_style_get_back_color (s)));
+				background |= idx << 23;
+			} else
+				flags |= 0x40000;
+
+			GSF_LE_SET_GUINT32 (buf, background);
+			ms_biff_put_var_write (bp, buf, 4);
+			flags |= 0x20000000;
+		} else
+			flags |= 0x70000;
+
+		expr0_len = (cond->expr[0] == NULL) ? 0 : excel_write_formula (esheet->ewb,
+			cond->expr[0], esheet->gnum_sheet, 0, 0,
+			EXCEL_CALLED_FROM_CONDITION);
+		expr1_len = (cond->expr[1] == NULL) ? 0 : excel_write_formula (esheet->ewb,
+			cond->expr[1], esheet->gnum_sheet, 0, 0,
+			EXCEL_CALLED_FROM_CONDITION);
+
+		type = 1;
+		switch (cond->op) {
+		case GNM_STYLE_COND_BETWEEN:	op = 0x01; break;
+		case GNM_STYLE_COND_NOT_BETWEEN:op = 0x02; break;
+		case GNM_STYLE_COND_EQUAL:	op = 0x03; break;
+		case GNM_STYLE_COND_NOT_EQUAL:	op = 0x04; break;
+		case GNM_STYLE_COND_GT:		op = 0x05; break;
+		case GNM_STYLE_COND_LT:		op = 0x06; break;
+		case GNM_STYLE_COND_GTE:	op = 0x07; break;
+		case GNM_STYLE_COND_LTE:	op = 0x08; break;
+
+		default :
+			g_warning ("unknown condition %d", cond->op);
+		case GNM_STYLE_COND_CUSTOM:	op = 0; type = 2; break;
+		}
+
+		ms_biff_put_var_seekto (bp, header_pos);
+		GSF_LE_SET_GUINT8  (buf+0, type);
+		GSF_LE_SET_GUINT8  (buf+1, op);
+		GSF_LE_SET_GUINT16 (buf+2, expr0_len);
+		GSF_LE_SET_GUINT16 (buf+4, expr1_len);
+		GSF_LE_SET_GUINT32 (buf+6, flags);
+		GSF_LE_SET_GUINT16 (buf+10, 2);  /* We have seen 2 and 0x802 */
+		ms_biff_put_var_write (bp, buf, 12);
+
+		ms_biff_put_commit (bp);
+	}
+}
+
+static void
+excel_write_conditions (BiffPut *bp, ExcelWriteSheet *esheet)
+{
+	GnmStyleRegion const *sr;
+	GnmStyleConditions   *sc;
+	GnmStyleList *ptr;
+	CondDetails  *cd;
+	GHashTable   *group;
+
+	ptr = esheet->conditions;
+	if (ptr == NULL)
+		return;
+
+	group = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
+	for (; ptr != NULL ; ptr = ptr->next) {
+		sr = ptr->data;
+		/* Clip here to avoid creating a CF record if there are no regions */
+		if (sr->range.start.col >= esheet->max_col ||
+		    sr->range.start.row >= esheet->max_row)
+			continue;
+		sc = gnm_style_get_conditions (sr->style);
+		cd = g_hash_table_lookup (group, sc);
+		if (cd == NULL) {
+			cd = g_new (CondDetails, 1);
+			cd->ranges = NULL;
+			cd->bb = sr->range;
+			g_hash_table_insert (group, sc, cd);
+		} else
+			cd->bb = range_union (&cd->bb, &sr->range);
+		cd->ranges = g_slist_prepend (cd->ranges, (gpointer)&sr->range);
+	}
+
+	g_hash_table_foreach (group, (GHFunc) cb_write_condition, esheet);
+	g_hash_table_destroy (group);
+	style_list_free (esheet->conditions);
+	esheet->conditions = NULL;
 }
 
 /****************************************************************************/
@@ -809,11 +1136,7 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 	GSF_LE_SET_GUINT16 (data, range_count);
 	ms_biff_put_var_write (bp, data, 2);
 	for (ptr = vip->ranges; ptr != NULL ; ptr = ptr->next) {
-		GnmRange const *r = ptr->data;
-		GSF_LE_SET_GUINT16 (data+0, r->start.row);
-		GSF_LE_SET_GUINT16 (data+2, r->end.row >= MsBiffMaxRowsV8 ? (MsBiffMaxRowsV8-1) : r->end.row);
-		GSF_LE_SET_GUINT16 (data+4, r->start.col);
-		GSF_LE_SET_GUINT16 (data+6, r->end.col >= 256 ? 255 : r->end.col);
+		xl_le_set_range (data, ptr->data);
 		ms_biff_put_var_write (bp, data, 8);
 	}
 	ms_biff_put_commit (bp);
@@ -822,7 +1145,7 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 }
 
 static void
-excel_write_DVAL (BiffPut *bp, ExcelWriteSheet *esheet)
+excel_write_DVALs (BiffPut *bp, ExcelWriteSheet *esheet)
 {
 	GnmStyleList *ptr;
 	GnmStyleRegion const *sr;
@@ -847,8 +1170,8 @@ excel_write_DVAL (BiffPut *bp, ExcelWriteSheet *esheet)
 		    sr->range.start.row >= esheet->max_row)
 			continue;
 
-		key.v   = mstyle_get_validation (sr->style);
-		key.msg = mstyle_get_input_msg (sr->style);
+		key.v   = gnm_style_get_validation (sr->style);
+		key.msg = gnm_style_get_input_msg (sr->style);
 		tmp = g_hash_table_lookup (group, &key);
 		if (tmp == NULL) {
 			tmp = g_new (ValInputPair, 1);
@@ -877,6 +1200,33 @@ excel_write_DVAL (BiffPut *bp, ExcelWriteSheet *esheet)
 	esheet->validations = NULL;
 }
 
+/* Look for sheet references in conditional formats */
+static void
+excel_write_prep_conditions (ExcelWriteSheet *esheet)
+{
+	GnmStyleList *ptr = esheet->conditions;
+	GnmStyleRegion const *sr;
+	GnmStyleCond const *cond;
+	GArray const *conds;
+	unsigned i;
+
+	for (; ptr != NULL ; ptr = ptr->next) {
+		sr = ptr->data;
+		if (!gnm_style_is_element_set (sr->style, MSTYLE_CONDITIONS) ||
+		    NULL == gnm_style_get_conditions (sr->style))
+			continue;
+		conds = gnm_style_conditions_details (
+			gnm_style_get_conditions (sr->style));
+		for (i = 0 ; i < conds->len ; i++) {
+			cond = &g_array_index (conds, GnmStyleCond, i);
+			if (cond->expr[0] != NULL)
+				excel_write_prep_expr (esheet->ewb, cond->expr [0]);
+			if (cond->expr[1] != NULL)
+				excel_write_prep_expr (esheet->ewb, cond->expr [1]);
+		}
+	}
+}
+
 /* Look for sheet references in validation expressions */
 static void
 excel_write_prep_validations (ExcelWriteSheet *esheet)
@@ -887,7 +1237,7 @@ excel_write_prep_validations (ExcelWriteSheet *esheet)
 
 	for (; ptr != NULL ; ptr = ptr->next) {
 		sr = ptr->data;
-		v  = mstyle_get_validation (sr->style);
+		v  = gnm_style_get_validation (sr->style);
 		if (v->expr[0] != NULL)
 			excel_write_prep_expr (esheet->ewb, v->expr [0]);
 		if (v->expr [1] != NULL)
@@ -1102,7 +1452,7 @@ palette_free (ExcelWriteState *ewb)
  * See comment to ms_excel_palette_get in ms-excel-read.c
  **/
 gint
-palette_get_index (ExcelWriteState *ewb, guint c)
+palette_get_index (ExcelWriteState const *ewb, guint c)
 {
 	gint idx;
 
@@ -1148,18 +1498,39 @@ put_color_gnm (ExcelWriteState *ewb, GnmColor const *c)
 static void
 put_colors (GnmStyle *st, gconstpointer dummy, ExcelWriteState *ewb)
 {
-	int i;
+	unsigned i, j;
 	GnmBorder const *b;
 
-	put_color_gnm (ewb, mstyle_get_color (st, MSTYLE_COLOR_FORE));
-	put_color_gnm (ewb, mstyle_get_color (st, MSTYLE_COLOR_BACK));
-	put_color_gnm (ewb, mstyle_get_color (st, MSTYLE_COLOR_PATTERN));
+	put_color_gnm (ewb, gnm_style_get_font_color (st));
+	put_color_gnm (ewb, gnm_style_get_back_color (st));
+	put_color_gnm (ewb, gnm_style_get_pattern_color (st));
 
 	/* Borders */
 	for (i = STYLE_TOP; i < STYLE_ORIENT_MAX; i++) {
-		b = mstyle_get_border (st, MSTYLE_BORDER_TOP + i);
+		b = gnm_style_get_border (st, MSTYLE_BORDER_TOP + i);
 		if (b && b->color)
 			put_color_gnm (ewb, b->color);
+	}
+	if (gnm_style_is_element_set (st, MSTYLE_CONDITIONS) &&
+	    NULL != gnm_style_get_conditions (st)) {
+		GArray const *conds = gnm_style_conditions_details (
+			gnm_style_get_conditions (st));
+		for (i = 0 ; i < conds->len ; i++) {
+			st = g_array_index (conds, GnmStyleCond, i).overlay;
+			if (gnm_style_is_element_set (st, MSTYLE_FONT_COLOR))
+				put_color_gnm (ewb, gnm_style_get_font_color (st));
+			if (gnm_style_is_element_set (st, MSTYLE_COLOR_BACK))
+				put_color_gnm (ewb, gnm_style_get_back_color (st));
+			if (gnm_style_is_element_set (st, MSTYLE_COLOR_PATTERN))
+				put_color_gnm (ewb, gnm_style_get_pattern_color (st));
+
+			/* Borders */
+			for (j = STYLE_TOP; j < STYLE_ORIENT_MAX; j++)
+				if (gnm_style_is_element_set (st, MSTYLE_BORDER_TOP + i) &&
+				    NULL != (b = gnm_style_get_border (st, MSTYLE_BORDER_TOP + i)) &&
+				    NULL != b->color)
+					put_color_gnm (ewb, b->color);
+		}
 	}
 }
 
@@ -1190,7 +1561,7 @@ gather_palette (ExcelWriteState *ewb)
 	guint color;
 
 	/* For each color in each style, get color index from hash. If
-           none, it's not there yet, and we enter it. */
+           none, it is not there yet, and we enter it. */
 	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_colors, ewb);
 
 	twt = ewb->pal.two_way_table;
@@ -1264,10 +1635,10 @@ excel_font_to_string (ExcelFont const *f)
 		nused += snprintf (buf + nused, sizeof buf - nused, ", %s",
 				   "italic");
 	if (nused < sizeof buf) {
-		if ((StyleUnderlineType) f->underline == UNDERLINE_SINGLE)
+		if ((GnmUnderline) f->underline == UNDERLINE_SINGLE)
 			nused += snprintf (buf + nused, sizeof buf - nused,
 					   ", %s", "single underline");
-		else if ((StyleUnderlineType) f->underline == UNDERLINE_DOUBLE)
+		else if ((GnmUnderline) f->underline == UNDERLINE_DOUBLE)
 			nused += snprintf (buf + nused, sizeof buf - nused,
 					   ", %s", "double underline");
 	}
@@ -1301,15 +1672,15 @@ excel_font_new (GnmStyle const *base_style)
 		return NULL;
 
 	efont = g_new (ExcelFont, 1);
-	efont->font_name	= mstyle_get_font_name   (base_style);
+	efont->font_name	= gnm_style_get_font_name   (base_style);
 	efont->font_name_copy	= NULL;
-	efont->size_pts		= mstyle_get_font_size   (base_style);
-	efont->is_bold		= mstyle_get_font_bold   (base_style);
-	efont->is_italic	= mstyle_get_font_uline  (base_style);
-	efont->underline	= mstyle_get_font_uline  (base_style);
-	efont->strikethrough	= mstyle_get_font_strike (base_style);
+	efont->size_pts		= gnm_style_get_font_size   (base_style);
+	efont->is_bold		= gnm_style_get_font_bold   (base_style);
+	efont->is_italic	= gnm_style_get_font_uline  (base_style);
+	efont->underline	= gnm_style_get_font_uline  (base_style);
+	efont->strikethrough	= gnm_style_get_font_strike (base_style);
 
-	c = mstyle_get_color (base_style, MSTYLE_COLOR_FORE);
+	c = gnm_style_get_font_color (base_style);
 	efont->color = gnm_color_to_bgr (c);
 	efont->is_auto = c->is_auto;
 
@@ -1604,8 +1975,9 @@ formats_get_index (ExcelWriteState *ewb, GOFormat const *format)
 static void
 put_format (GnmStyle *mstyle, gconstpointer dummy, ExcelWriteState *ewb)
 {
-	GOFormat *fmt = mstyle_get_format (mstyle);
+	GOFormat *fmt = gnm_style_get_format (mstyle);
 	style_format_ref (fmt);
+#warning check conditionals too
 	two_way_table_put (ewb->formats.two_way_table,
 			   (gpointer)fmt, TRUE,
 			   (AfterPutFunc) after_put_format,
@@ -1670,8 +2042,8 @@ static void
 xf_init (ExcelWriteState *ewb)
 {
 	/* Excel starts at XF_RESERVED for user defined xf */
-	ewb->xf.two_way_table = two_way_table_new (mstyle_hash_XL,
-		(GCompareFunc) mstyle_equal_XL, XF_RESERVED, NULL);
+	ewb->xf.two_way_table = two_way_table_new (gnm_style_hash_XL,
+		(GCompareFunc) gnm_style_equal_XL, XF_RESERVED, NULL);
 
 	/* We store the default style for the workbook on xls import, use it if
 	 * it's available.  While we have a default style per sheet, we don't
@@ -1682,12 +2054,12 @@ xf_init (ExcelWriteState *ewb)
 	ewb->xf.default_style = g_object_get_data (G_OBJECT (ewb->gnum_wb),
 						   "xls-default-style");
 	if (ewb->xf.default_style == NULL)
-		ewb->xf.default_style = mstyle_new_default ();
+		ewb->xf.default_style = gnm_style_new_default ();
 	else
-		mstyle_ref (ewb->xf.default_style);
+		gnm_style_ref (ewb->xf.default_style);
 
 	ewb->xf.value_fmt_styles = g_hash_table_new_full (
-		g_direct_hash, g_direct_equal, NULL, (GDestroyNotify)mstyle_unlink);
+		g_direct_hash, g_direct_equal, NULL, (GDestroyNotify)gnm_style_unlink);
 	/* Register default style, its font and format */
 	two_way_table_put (ewb->xf.two_way_table, ewb->xf.default_style,
 		TRUE, NULL, NULL);
@@ -1701,7 +2073,7 @@ xf_free (ExcelWriteState *ewb)
 	if (ewb->xf.two_way_table != NULL) {
 		two_way_table_free (ewb->xf.two_way_table);
 		ewb->xf.two_way_table = NULL;
-		mstyle_unref (ewb->xf.default_style);
+		gnm_style_unref (ewb->xf.default_style);
 		ewb->xf.default_style = NULL;
 		g_hash_table_destroy (ewb->xf.value_fmt_styles);
 	}
@@ -1785,9 +2157,9 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 		 * imaginary styles with the value format substituted into the
 		 * current style.  Otherwise an entry like '10:00' gets loaded
 		 * as a raw number.  */
-		else if (style_format_is_general (mstyle_get_format (style))) {
-			style = mstyle_copy (style);
-			mstyle_set_format (style, fmt);
+		else if (style_format_is_general (gnm_style_get_format (style))) {
+			style = gnm_style_dup (style);
+			gnm_style_set_format (style, fmt);
 			g_hash_table_insert (ewb->xf.value_fmt_styles,
 				(gpointer)cell,
 				sheet_style_find (cell->base.sheet, style));
@@ -1831,36 +2203,8 @@ gather_styles (ExcelWriteState *ewb)
 	}
 }
 
-/**
- * map_pattern_index_to_excel
- * @i Gnumeric pattern index
- *
- * Map Gnumeric pattern index to Excel ditto.
- *
- * FIXME:
- * Move this and ms-excel-read.c::excel_map_pattern_index_from_excel
- * to common utility file. Generate one map from the other for
- * consistency
- **/
-static int
-map_pattern_index_to_excel (int i)
-{
-	static int const map_to_excel[] = {
-		 0,
-		 1,  3,  2,  4, 17, 18,
-		 5,  6,  8,  7,  9, 10,
-		11, 12, 13, 14, 15, 16
-	};
-
-	/* Default to Solid if out of range */
-	g_return_val_if_fail (i >= 0 && i < (int)G_N_ELEMENTS (map_to_excel),
-			      0);
-
-	return map_to_excel[i];
-}
-
 static guint
-halign_to_excel (StyleHAlignFlags halign)
+halign_to_excel (GnmHAlign halign)
 {
 	guint ialign;
 
@@ -1894,7 +2238,7 @@ halign_to_excel (StyleHAlignFlags halign)
 }
 
 static guint
-valign_to_excel (StyleVAlignFlags valign)
+valign_to_excel (GnmVAlign valign)
 {
 	guint ialign;
 
@@ -1919,20 +2263,6 @@ valign_to_excel (StyleVAlignFlags valign)
 	}
 
 	return ialign;
-}
-
-static guint
-border_type_to_excel (StyleBorderType btype, MsBiffVersion ver)
-{
-	guint ibtype = btype;
-
-	if (btype <= STYLE_BORDER_NONE)
-		ibtype = STYLE_BORDER_NONE;
-
-	if (ver <= MS_BIFF_V7 && btype > STYLE_BORDER_HAIR)
-		ibtype = STYLE_BORDER_MEDIUM;
-
-	return ibtype;
 }
 
 static guint
@@ -1961,36 +2291,6 @@ rotation_to_excel_v8 (int rotation)
 	if (rotation > 90)
 		return 360 + 90 - rotation;
 	return rotation;
-}
-
-/**
- * style_color_to_pal_index
- * @color color
- * @ewb    workbook
- * @auto_back     Auto colors to compare against.
- * @auto_font
- *
- * Return Excel color index, possibly auto, for a style color.
- * The auto colors are passed in by caller to avoid having to ref and unref
- * the same autocolors over and over.
- */
-static guint16
-style_color_to_pal_index (GnmColor *color, ExcelWriteState *ewb,
-			  GnmColor *auto_back, GnmColor *auto_font)
-{
-	guint16 idx;
-
-	if (color->is_auto) {
-		if (color == auto_back)
-			idx = PALETTE_AUTO_BACK;
-		else if (color == auto_font)
-				idx = PALETTE_AUTO_FONT;
-		else
-			idx = PALETTE_AUTO_PATTERN;
-	} else
-		idx = palette_get_index	(ewb, gnm_color_to_bgr (color));
-
-	return idx;
 }
 
 /**
@@ -2070,7 +2370,7 @@ log_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, int idx)
 	}
 	fprintf (stderr, " difference bits: 0x%x\n", xfd->differences);
 
-	mstyle_dump (xfd->mstyle);
+	gnm_style_dump (xfd->mstyle);
 }
 #endif
 
@@ -2079,11 +2379,6 @@ build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle *st)
 {
 	ExcelFont *f;
 	GnmBorder const *b;
-	int pat;
-	GnmColor *pattern_color;
-	GnmColor *back_color;
-	GnmColor *auto_back = style_color_auto_back ();
-	GnmColor *auto_font = style_color_auto_font ();
 	int i;
 
 	memset (xfd, 0, sizeof *xfd);
@@ -2095,49 +2390,35 @@ build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle *st)
 	xfd->font_idx = two_way_table_key_to_idx (ewb->fonts.two_way_table, f);
 	excel_font_free (f);
 
-	xfd->style_format = mstyle_get_format (st);
+	xfd->style_format = gnm_style_get_format (st);
 	xfd->format_idx   = formats_get_index (ewb, xfd->style_format);
 
-	xfd->locked	= mstyle_get_content_locked (st);
-	xfd->hidden	= mstyle_get_content_hidden (st);
-	xfd->halign	= mstyle_get_align_h (st);
-	xfd->valign	= mstyle_get_align_v (st);
-	xfd->wrap_text	= mstyle_get_wrap_text (st);
-	xfd->indent	= mstyle_get_indent (st);
-	xfd->rotation	= mstyle_get_rotation (st);
-	xfd->text_dir	= mstyle_get_text_dir (st);
+	xfd->locked	= gnm_style_get_content_locked (st);
+	xfd->hidden	= gnm_style_get_content_hidden (st);
+	xfd->halign	= gnm_style_get_align_h (st);
+	xfd->valign	= gnm_style_get_align_v (st);
+	xfd->wrap_text	= gnm_style_get_wrap_text (st);
+	xfd->indent	= gnm_style_get_indent (st);
+	xfd->rotation	= gnm_style_get_rotation (st);
+	xfd->text_dir	= gnm_style_get_text_dir (st);
 
 	/* Borders */
 	for (i = STYLE_TOP; i < STYLE_ORIENT_MAX; i++) {
 		xfd->border_type[i]  = STYLE_BORDER_NONE;
 		xfd->border_color[i] = 0;
-		b = mstyle_get_border (st, MSTYLE_BORDER_TOP + i);
+		b = gnm_style_get_border (st, MSTYLE_BORDER_TOP + i);
 		if (b) {
 			xfd->border_type[i] = b->line_type;
-			xfd->border_color[i]
-				= b->color
-				? style_color_to_pal_index (b->color, ewb,
-							    auto_back,
-							    auto_font)
-				: PALETTE_AUTO_PATTERN;
+			xfd->border_color[i] = map_color_to_palette (ewb,
+				b->color, PALETTE_AUTO_PATTERN);
 		}
 	}
 
-	pat = mstyle_get_pattern (st);
-	xfd->fill_pattern_idx = map_pattern_index_to_excel (pat);
-
-	pattern_color = mstyle_get_color (st, MSTYLE_COLOR_PATTERN);
-	back_color   = mstyle_get_color (st, MSTYLE_COLOR_BACK);
-	xfd->pat_foregnd_col
-		= pattern_color
-		? style_color_to_pal_index (pattern_color, ewb, auto_back,
-					    auto_font)
-		: PALETTE_AUTO_PATTERN;
-	xfd->pat_backgnd_col
-		= back_color
-		? style_color_to_pal_index (back_color, ewb, auto_back,
-					    auto_font)
-		: PALETTE_AUTO_BACK;
+	xfd->fill_pattern_idx = map_pattern_to_xl (gnm_style_get_pattern (st));
+	xfd->pat_foregnd_col  = map_color_to_palette (ewb,
+		gnm_style_get_pattern_color (st), PALETTE_AUTO_PATTERN);
+	xfd->pat_backgnd_col  = map_color_to_palette (ewb,
+		gnm_style_get_back_color (st), PALETTE_AUTO_BACK);
 
 	/* Solid patterns seem to reverse the meaning */
  	if (xfd->fill_pattern_idx == FILL_SOLID) {
@@ -2147,9 +2428,6 @@ build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle *st)
 	}
 
 	get_xf_differences (ewb, xfd, ewb->xf.default_style);
-
-	style_color_unref (auto_font);
-	style_color_unref (auto_back);
 }
 
 static void
@@ -2211,16 +2489,16 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 		tmp16 = 0;
 		btype = xfd->border_type[STYLE_LEFT];
 		if (btype != STYLE_BORDER_NONE)
-			tmp16 |= (border_type_to_excel (btype, bp->version) & 0xf) << 0;
+			tmp16 |= (map_border_to_xl (btype, bp->version) & 0xf) << 0;
 		btype = xfd->border_type[STYLE_RIGHT];
 		if (btype != STYLE_BORDER_NONE)
-			tmp16 |= (border_type_to_excel (btype, bp->version) & 0xf) << 4;
+			tmp16 |= (map_border_to_xl (btype, bp->version) & 0xf) << 4;
 		btype = xfd->border_type[STYLE_TOP];
 		if (btype != STYLE_BORDER_NONE)
-			tmp16 |= (border_type_to_excel (btype, bp->version) & 0xf) << 8;
+			tmp16 |= (map_border_to_xl (btype, bp->version) & 0xf) << 8;
 		btype = xfd->border_type[STYLE_BOTTOM];
 		if (btype != STYLE_BORDER_NONE)
-			tmp16 |= (border_type_to_excel (btype, bp->version) & 0xf) << 12;
+			tmp16 |= (map_border_to_xl (btype, bp->version) & 0xf) << 12;
 		GSF_LE_SET_GUINT16 (data+10, tmp16);
 
 		/*********** Byte 12&13 */
@@ -2257,7 +2535,7 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 			btype = xfd->border_type [diag];
 			if (btype != STYLE_BORDER_NONE) {
 				tmp32 |= (xfd->border_color[diag] & 0x7f) << 14;
-				tmp32 |= (border_type_to_excel (btype, bp->version) & 0xf) << 21;
+				tmp32 |= (map_border_to_xl (btype, bp->version) & 0xf) << 21;
 			}
 		}
 		/* tmp32 |= 0 | << 25; reservered 0 */
@@ -2309,7 +2587,7 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 		/* Borders */
 		btype = xfd->border_type[STYLE_BOTTOM];
 		if (btype != STYLE_BORDER_NONE) {
-			tmp16 |= (border_type_to_excel (btype, bp->version) << 6)
+			tmp16 |= (map_border_to_xl (btype, bp->version) << 6)
 				& 0x1c0;
 			tmp16 |= (xfd->border_color[STYLE_BOTTOM] << 9)
 				& 0xfe00;
@@ -2319,13 +2597,13 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 		tmp16  = 0;
 		btype = xfd->border_type[STYLE_TOP];
 		if (btype != STYLE_BORDER_NONE) {
-			tmp16 |= border_type_to_excel (btype, bp->version) & 0x7;
+			tmp16 |= map_border_to_xl (btype, bp->version) & 0x7;
 			tmp16 |= (xfd->border_color[STYLE_TOP] << 9) & 0xfe00;
 		}
-		tmp16 |= (border_type_to_excel (xfd->border_type[STYLE_LEFT],
+		tmp16 |= (map_border_to_xl (xfd->border_type[STYLE_LEFT],
 					       bp->version)
 			 << 3) & 0x38;
-		tmp16 |= (border_type_to_excel (xfd->border_type[STYLE_RIGHT],
+		tmp16 |= (map_border_to_xl (xfd->border_type[STYLE_RIGHT],
 					       bp->version)
 			 << 6) & 0x1c0;
 		GSF_LE_SET_GUINT16(data+12, tmp16);
@@ -2932,8 +3210,8 @@ xl_find_fontspec (ExcelWriteSheet *esheet, float *scale)
 {
 	/* Use the 'Normal' Style which is by definition the 0th */
 	GnmStyle const *def_style = esheet->ewb->xf.default_style;
-	*scale = mstyle_get_font_size (def_style) / 10.;
-	return xl_lookup_font_specs (mstyle_get_font_name (def_style));
+	*scale = gnm_style_get_font_size (def_style) / 10.;
+	return xl_lookup_font_specs (gnm_style_get_font_name (def_style));
 }
 
 static void
@@ -4174,8 +4452,9 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	/* These are actually specific to >= biff8
 	 * but it can't hurt to have them here
 	 * things will just ignore them */
-	excel_write_MERGECELLS (ewb->bp, esheet);
-	excel_write_DVAL (ewb->bp, esheet);
+	excel_write_MERGECELLs (ewb->bp, esheet);
+	excel_write_conditions (ewb->bp, esheet);
+	excel_write_DVALs (ewb->bp, esheet);
 
 /* See: Global Column Widths...  not cricual.
 	data = ms_biff_put_len_next (ewb->bp, BIFF_GCW, 34);
@@ -4246,8 +4525,11 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 	/* makes it easier to refer to 1 past the end */
 	esheet->max_col    = extent.end.col + 1;
 	esheet->max_row    = extent.end.row + 1;
+	esheet->conditions = biff8
+		? sheet_style_collect_conditions (sheet, NULL)
+		: NULL;
 	esheet->validations= biff8
-		? sheet_style_get_validation_list (sheet, NULL)
+		? sheet_style_collect_validations (sheet, NULL)
 		: NULL;
 
 	/* It is ok to have formatting out of range, we can disregard that. */
@@ -5140,10 +5422,12 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 		if (sheet->sheet_type != GNM_SHEET_DATA)
 			continue;
 
+		if (esheet->conditions != NULL)
+			excel_write_prep_conditions (esheet);
 		if (esheet->validations != NULL)
-			excel_write_prep_validations (esheet); /* validation */
+			excel_write_prep_validations (esheet);
 		if (sheet->filters != NULL)
-			excel_write_prep_sheet (ewb, sheet);	/* filters */
+			excel_write_prep_sheet (ewb, sheet);
 		objs = sheet_objects_get (sheet,
 			NULL, SHEET_OBJECT_GRAPH_TYPE);
 		for (ptr = objs ; ptr != NULL ; ptr = ptr->next)

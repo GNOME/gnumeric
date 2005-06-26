@@ -97,7 +97,7 @@ format_template_member_clone (TemplateMember *member)
 	clone->skip      = member->skip;
 	clone->edge      = member->edge;
 	clone->mstyle    = member->mstyle;
-	mstyle_ref (member->mstyle);
+	gnm_style_ref (member->mstyle);
 
 	return clone;
 }
@@ -114,7 +114,7 @@ format_template_member_free (TemplateMember *member)
 	g_return_if_fail (member != NULL);
 
 	if (member->mstyle) {
-		mstyle_unref (member->mstyle);
+		gnm_style_unref (member->mstyle);
 		member->mstyle = NULL;
 	}
 
@@ -263,7 +263,7 @@ format_template_new (void)
 	ft->edges.top    = TRUE;
 	ft->edges.bottom = TRUE;
 
-	ft->table     = g_hash_table_new_full (NULL, NULL, NULL, (GDestroyNotify)mstyle_unref);
+	ft->table     = g_hash_table_new_full (NULL, NULL, NULL, (GDestroyNotify)gnm_style_unref);
 	ft->invalidate_hash = TRUE;
 
 	range_init (&ft->dimension, 0,0,0,0);
@@ -657,74 +657,74 @@ format_template_filter_style (FormatTemplate *ft, GnmStyle *mstyle, gboolean fil
 	 */
 	if (!fill_defaults) {
 		if (!ft->number) {
-			mstyle_unset_element (mstyle, MSTYLE_FORMAT);
+			gnm_style_unset_element (mstyle, MSTYLE_FORMAT);
 		}
 		if (!ft->border) {
-			mstyle_unset_element (mstyle, MSTYLE_BORDER_TOP);
-			mstyle_unset_element (mstyle, MSTYLE_BORDER_BOTTOM);
-			mstyle_unset_element (mstyle, MSTYLE_BORDER_LEFT);
-			mstyle_unset_element (mstyle, MSTYLE_BORDER_RIGHT);
-			mstyle_unset_element (mstyle, MSTYLE_BORDER_DIAGONAL);
-			mstyle_unset_element (mstyle, MSTYLE_BORDER_REV_DIAGONAL);
+			gnm_style_unset_element (mstyle, MSTYLE_BORDER_TOP);
+			gnm_style_unset_element (mstyle, MSTYLE_BORDER_BOTTOM);
+			gnm_style_unset_element (mstyle, MSTYLE_BORDER_LEFT);
+			gnm_style_unset_element (mstyle, MSTYLE_BORDER_RIGHT);
+			gnm_style_unset_element (mstyle, MSTYLE_BORDER_DIAGONAL);
+			gnm_style_unset_element (mstyle, MSTYLE_BORDER_REV_DIAGONAL);
 		}
 		if (!ft->font) {
-			mstyle_unset_element (mstyle, MSTYLE_FONT_NAME);
-			mstyle_unset_element (mstyle, MSTYLE_FONT_BOLD);
-			mstyle_unset_element (mstyle, MSTYLE_FONT_ITALIC);
-			mstyle_unset_element (mstyle, MSTYLE_FONT_UNDERLINE);
-			mstyle_unset_element (mstyle, MSTYLE_FONT_STRIKETHROUGH);
-			mstyle_unset_element (mstyle, MSTYLE_FONT_SIZE);
+			gnm_style_unset_element (mstyle, MSTYLE_FONT_NAME);
+			gnm_style_unset_element (mstyle, MSTYLE_FONT_BOLD);
+			gnm_style_unset_element (mstyle, MSTYLE_FONT_ITALIC);
+			gnm_style_unset_element (mstyle, MSTYLE_FONT_UNDERLINE);
+			gnm_style_unset_element (mstyle, MSTYLE_FONT_STRIKETHROUGH);
+			gnm_style_unset_element (mstyle, MSTYLE_FONT_SIZE);
 
-			mstyle_unset_element (mstyle, MSTYLE_COLOR_FORE);
+			gnm_style_unset_element (mstyle, MSTYLE_FONT_COLOR);
 		}
 		if (!ft->patterns) {
-			mstyle_unset_element (mstyle, MSTYLE_COLOR_BACK);
-			mstyle_unset_element (mstyle, MSTYLE_COLOR_PATTERN);
-			mstyle_unset_element (mstyle, MSTYLE_PATTERN);
+			gnm_style_unset_element (mstyle, MSTYLE_COLOR_BACK);
+			gnm_style_unset_element (mstyle, MSTYLE_COLOR_PATTERN);
+			gnm_style_unset_element (mstyle, MSTYLE_PATTERN);
 		}
 		if (!ft->alignment) {
-			mstyle_unset_element (mstyle, MSTYLE_ALIGN_V);
-			mstyle_unset_element (mstyle, MSTYLE_ALIGN_H);
+			gnm_style_unset_element (mstyle, MSTYLE_ALIGN_V);
+			gnm_style_unset_element (mstyle, MSTYLE_ALIGN_H);
 		}
 	} else {
-		GnmStyle *mstyle_default = mstyle_new_default ();
+		GnmStyle *gnm_style_default = gnm_style_new_default ();
 
 		/*
 		 * We fill in the gaps with the default mstyle
 		 */
 
 		 if (!ft->number) {
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FORMAT);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FORMAT);
 		 }
 		 if (!ft->border) {
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_TOP);
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_BOTTOM);
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_LEFT);
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_RIGHT);
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_DIAGONAL);
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_REV_DIAGONAL);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_TOP);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_BOTTOM);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_LEFT);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_RIGHT);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_DIAGONAL);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_BORDER_REV_DIAGONAL);
 		 }
 		 if (!ft->font) {
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_NAME);
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_BOLD);
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_ITALIC);
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_UNDERLINE);
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_STRIKETHROUGH);
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_SIZE);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_NAME);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_BOLD);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_ITALIC);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_UNDERLINE);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_STRIKETHROUGH);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_SIZE);
 
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_COLOR_FORE);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_FONT_COLOR);
 		 }
 		 if (!ft->patterns) {
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_COLOR_BACK);
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_COLOR_PATTERN);
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_PATTERN);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_COLOR_BACK);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_COLOR_PATTERN);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_PATTERN);
 		 }
 		 if (!ft->alignment) {
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_ALIGN_V);
-			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_ALIGN_H);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_ALIGN_V);
+			 gnm_style_merge_element (mstyle, gnm_style_default, MSTYLE_ALIGN_H);
 		 }
 
-		 mstyle_unref (mstyle_default);
+		 gnm_style_unref (gnm_style_default);
 	}
 
 	return mstyle;
@@ -932,14 +932,14 @@ format_template_calculate (FormatTemplate *origft, GnmRange const *r, PCalcCallb
 		GnmRange range = format_template_member_get_rect (member, r);
 
 		if (member->direction == FREQ_DIRECTION_NONE)
-			pc (ft, &range, mstyle_copy (mstyle), cb_data);
+			pc (ft, &range, gnm_style_dup (mstyle), cb_data);
 
 		else if (member->direction == FREQ_DIRECTION_HORIZONTAL) {
 			int col_repeat = member->repeat;
 			GnmRange hr = range;
 
 			while (col_repeat != 0) {
-				pc (ft, &hr, mstyle_copy (mstyle), cb_data);
+				pc (ft, &hr, gnm_style_dup (mstyle), cb_data);
 
 				hr.start.col += member->skip + member->col.size;
 				hr.end.col   += member->skip + member->col.size;
@@ -959,7 +959,7 @@ format_template_calculate (FormatTemplate *origft, GnmRange const *r, PCalcCallb
 			GnmRange vr = range;
 
 			while (row_repeat != 0) {
-				pc (ft, &vr, mstyle_copy (mstyle), cb_data);
+				pc (ft, &vr, gnm_style_dup (mstyle), cb_data);
 
 				vr.start.row += member->skip + member->row.size;
 				vr.end.row   += member->skip + member->row.size;
@@ -997,18 +997,16 @@ cb_format_hash_style (FormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, GHashTa
 	 */
 	mstyle = format_template_filter_style (ft, mstyle, TRUE);
 
-	for (row = r->start.row; row <= r->end.row; row++) {
-		for (col = r->start.col; col <= r->end.col; col++) {
+	for (row = r->start.row; row <= r->end.row; row++)
+		for (col = r->start.col; col <= r->end.col; col++)
 			g_hash_table_insert (table, ROW_COL_KEY (row, col),
-					     mstyle_copy (mstyle));
-		}
-	}
+				gnm_style_dup (mstyle));
 
 	/*
 	 * Unref here, the hashtable will take care of its own
 	 * resources
 	 */
-	mstyle_unref (mstyle);
+	gnm_style_unref (mstyle);
 }
 
 /**

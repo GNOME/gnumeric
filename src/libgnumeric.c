@@ -119,7 +119,7 @@ gnm_common_init (gboolean fast)
 	g_object_new (GNM_APP_TYPE, NULL);
 	mathfunc_init ();
 	gnm_string_init ();
-	mstyle_init ();
+	gnm_style_init ();
 	gnm_conf_init (fast);
 	value_init ();
 	parse_util_init ();
@@ -197,7 +197,7 @@ gnm_shutdown (void)
 	parse_util_shutdown ();
 	value_shutdown ();
 	gnm_conf_shutdown ();
-	mstyle_shutdown ();
+	gnm_style_shutdown ();
 	gnm_string_shutdown ();
 	libgoffice_shutdown ();
 	plugin_services_shutdown ();

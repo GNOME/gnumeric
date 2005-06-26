@@ -119,11 +119,10 @@ gnumeric_background_set_gc (GnmStyle const *mstyle, GdkGC *gc,
 	 * Draw the background if the PATTERN is non 0
 	 * Draw a stipple too if the pattern is > 1
 	 */
-	pattern = mstyle_get_pattern (mstyle);
+	pattern = gnm_style_get_pattern (mstyle);
 	if (pattern > 0) {
 		const GdkColor *back;
-		GnmColor *back_col =
-			mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
+		GnmColor const *back_col = gnm_style_get_back_color (mstyle);
 		g_return_val_if_fail (back_col != NULL, FALSE);
 
 		back = is_selected ? &back_col->gdk_selected_color : &back_col->gdk_color;
@@ -132,8 +131,7 @@ gnumeric_background_set_gc (GnmStyle const *mstyle, GdkGC *gc,
 			GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (canvas));
 			GdkDrawable *drawable = gdk_screen_get_root_window (screen);
 			GdkGCValues values;
-			GnmColor *pat_col =
-				mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
+			GnmColor const *pat_col = gnm_style_get_pattern_color (mstyle);
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 
 			values.fill = GDK_OPAQUE_STIPPLED;
@@ -181,10 +179,9 @@ gnumeric_background_set_pc (GnmStyle const *mstyle, GnomePrintContext *context)
 	 * Draw the background if the PATTERN is non 0
 	 * Draw a stipple too if the pattern is > 1
 	 */
-	pattern = mstyle_get_pattern (mstyle);
+	pattern = gnm_style_get_pattern (mstyle);
 	if (pattern > 0) {
-		GnmColor *back_col =
-			mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
+		GnmColor const *back_col = gnm_style_get_back_color (mstyle);
 
 		g_return_val_if_fail (back_col != NULL, FALSE);
 
@@ -220,8 +217,7 @@ gnumeric_background_set_pc (GnmStyle const *mstyle, GnomePrintContext *context)
 		 * color.
 		 */
 		if (pattern == 24) {
-			GnmColor *pat_col =
-				mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
+			GnmColor const *pat_col = gnm_style_get_pattern_color (mstyle);
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 
 			gnome_print_setrgbcolor (context,
@@ -233,8 +229,7 @@ gnumeric_background_set_pc (GnmStyle const *mstyle, GnomePrintContext *context)
 #if 0
 		/* FIXME: How to do the other patterns? */
 		if (pattern > 1) {
-			GnmColor *pat_col =
-			mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
+			GnmColor const *pat_col = gnm_style_get_pattern_color (mstyle);
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 
 			gdk_gc_set_fill (gc, GDK_OPAQUE_STIPPLED);

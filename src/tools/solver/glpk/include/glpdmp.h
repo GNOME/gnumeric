@@ -1,9 +1,9 @@
-/* glpdmp.h */
+/* glpdmp.h (dynamic memory pool) */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
--- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
--- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
+-- Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005 Andrew Makhorin,
+-- Department for Applied Informatics, Moscow Aviation Institute,
+-- Moscow, Russia. All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
 -- This file is part of GLPK (GNU Linear Programming Kit).
 --

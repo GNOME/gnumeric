@@ -225,7 +225,7 @@ sylk_rtd_c_parse (SylkReadState *state, char *str)
 		if (val != NULL) {
 			GnmStyle *style = sheet_style_get (state->sheet,
 				state->col - 1, state->row - 1);
-			value_set_fmt (val, mstyle_get_format (style));
+			value_set_fmt (val, gnm_style_get_format (style));
 		}
 
 		if (expr != NULL) {
@@ -308,7 +308,7 @@ static gboolean
 sylk_rtd_f_parse (SylkReadState *state, char *str)
 {
 	GnmStyle *style = NULL;
-	MStyleElementType border = MSTYLE_ELEMENT_UNSET;
+	GnmStyleElement border = MSTYLE_ELEMENT_MAX;
 	char *next;
 	int tmp;
 
@@ -337,8 +337,8 @@ sylk_rtd_f_parse (SylkReadState *state, char *str)
 			if (sylk_parse_int (str+1, &tmp) &&
 			    0 <= tmp && tmp < (int)state->formats->len) {
 				if (style == NULL)
-					style = mstyle_new_default ();
-				mstyle_set_format (style,
+					style = gnm_style_new_default ();
+				gnm_style_set_format (style,
 					g_ptr_array_index (state->formats, tmp));
 			}
 			break;
@@ -347,14 +347,14 @@ sylk_rtd_f_parse (SylkReadState *state, char *str)
 			switch (str[1]) {
 			case 'I':
 				if (style == NULL)
-					style = mstyle_new_default ();
-				mstyle_set_font_italic (style, TRUE);
+					style = gnm_style_new_default ();
+				gnm_style_set_font_italic (style, TRUE);
 				break;
 
 			case 'D':
 				if (style == NULL)
-					style = mstyle_new_default ();
-				mstyle_set_font_bold (style, TRUE);
+					style = gnm_style_new_default ();
+				gnm_style_set_font_bold (style, TRUE);
 				break;
 
 			case 'T': border = MSTYLE_BORDER_TOP; break;
@@ -385,10 +385,10 @@ sylk_rtd_f_parse (SylkReadState *state, char *str)
 			g_warning ("unhandled F option %c.", *str);
 			break;
 		}
-		if (border != MSTYLE_ELEMENT_UNSET) {
+		if (border != MSTYLE_ELEMENT_MAX) {
 			if (style == NULL)
-				style = mstyle_new_default ();
-			mstyle_set_border (style, border,
+				style = gnm_style_new_default ();
+			gnm_style_set_border (style, border,
 				style_border_fetch (STYLE_BORDER_THIN,
 					style_color_black (),
 					style_border_get_orientation (border - MSTYLE_BORDER_TOP)));

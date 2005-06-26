@@ -1,9 +1,9 @@
 /* vim: set sw=8: */
 
 /*
- * xml-sax-read.c : a test harness for the sax based xml parse routines.
+ * xml-sax-read.c : a sax based parser.  INCOMPLETE
  *
- * Copyright (C) 2000 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -33,13 +33,16 @@
 #include "style.h"
 #include "style-border.h"
 #include "style-color.h"
+#include "style-conditions.h"
+#include "validation.h"
+#include "hlink.h"
+#include "input-msg.h"
 #include "gnm-format.h"
 #include "cell.h"
 #include "position.h"
 #include "expr.h"
 #include "expr-name.h"
 #include "print-info.h"
-#include "validation.h"
 #include "value.h"
 #include "selection.h"
 #include "command-context.h"
@@ -266,6 +269,7 @@ typedef struct {
 		gboolean	 allow_blank;
 		gboolean	 use_dropdown;
 	} validation;
+	GnmStyleCond	cond;
 
 	gboolean  style_range_init;
 	GnmRange	  style_range;
@@ -298,14 +302,18 @@ typedef struct {
 
 static void
 unknown_attr (XMLSaxParseState *state,
-	      xmlChar const * const *attrs, char const *name)
+	      xmlChar const * const *attrs)
 {
+	g_return_if_fail (state != NULL);
 	g_return_if_fail (attrs != NULL);
 
 	if (state->version == GNM_XML_LATEST)
 		gnm_io_warning (state->context,
 			_("Unexpected attribute %s::%s == '%s'."),
-			name, attrs[0], attrs[1]);
+			(NULL != state->base.node &&
+			 NULL != state->base.node->name) ?
+			state->base.node->name : "<unknow name>",
+			attrs[0], attrs[1]);
 }
 
 static void
@@ -346,7 +354,7 @@ xml_sax_wb (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		} else if (!strcmp (attrs[0], "xmlns:xsi")) {
 		} else if (!strcmp (attrs[0], "xsi:schemaLocation")) {
 		} else
-			unknown_attr (state, attrs, "Workbook");
+			unknown_attr (state, attrs);
 }
 
 static void
@@ -374,7 +382,7 @@ xml_sax_wb_view (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		else if (xml_sax_attr_int (attrs, "Width", &width)) ;
 		else if (xml_sax_attr_int (attrs, "Height", &height)) ;
 		else
-			unknown_attr (state, attrs, "WorkbookView");
+			unknown_attr (state, attrs);
 
 	if (width > 0 && height > 0)
 		wb_view_preferred_size (state->wb_view, width, height);
@@ -397,7 +405,7 @@ xml_sax_calculation (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		else if (xml_sax_attr_double (attrs, "IterationTolerance", &d))
 			workbook_iteration_tolerance (state->wb, d);
 		else
-			unknown_attr (state, attrs, "WorkbookView");
+			unknown_attr (state, attrs);
 }
 
 static void
@@ -480,7 +488,7 @@ xml_sax_sheet_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		else if (xml_sax_attr_color (attrs, "TabColor", &color))
 			state->tab_color = color;
 		else
-			unknown_attr (state, attrs, "Sheet");
+			unknown_attr (state, attrs);
 }
 
 static void
@@ -562,7 +570,7 @@ xml_sax_print_margins_get_double (XMLSaxParseState *state, xmlChar const **attrs
 		if (xml_sax_attr_double (attrs, "Points", &points))
 			return points;
 		else if (strcmp (attrs[0], "PrefUnit"))
-			unknown_attr (state, attrs, "Margin");
+			unknown_attr (state, attrs);
 	}
 	return 0.0;
 }
@@ -577,7 +585,7 @@ xml_sax_print_margins_unit (XMLSaxParseState *state, xmlChar const **attrs, Prin
 		else if (!strcmp (attrs[0], "PrefUnit")) {
 			pu->desired_display = unit_name_to_unit (attrs[1]);
 		} else
-			unknown_attr (state, attrs, "Margin");
+			unknown_attr (state, attrs);
 	}
 }
 
@@ -672,7 +680,7 @@ xml_sax_selection (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		if (xml_sax_attr_int (attrs, "CursorCol", &col)) ;
 		else if (xml_sax_attr_int (attrs, "CursorRow", &row)) ;
 		else
-			unknown_attr (state, attrs, "Selection");
+			unknown_attr (state, attrs);
 
 	g_return_if_fail (col >= 0);
 	g_return_if_fail (row >= 0);
@@ -705,7 +713,7 @@ xml_sax_sheet_layout (GsfXMLIn *gsf_state, xmlChar const **attrs)
 				sheet_get_view (state->sheet, state->wb_view),
 				tmp.col, tmp.row);
 		else
-			unknown_attr (state, attrs, "SheetLayout");
+			unknown_attr (state, attrs);
 }
 
 static void
@@ -722,7 +730,7 @@ xml_sax_sheet_freezepanes (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		else if (xml_sax_attr_cellpos (attrs, "UnfrozenTopLeft", &unfrozen_tl))
 			flags |= 2;
 		else
-			unknown_attr (state, attrs, "SheetLayout");
+			unknown_attr (state, attrs);
 
 	if (flags == 3)
 		sv_freeze_panes (sheet_get_view (state->sheet, state->wb_view),
@@ -786,7 +794,7 @@ xml_sax_colrow (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			else if (xml_sax_attr_int (attrs, "OutlineLevel", &dummy))
 				cri->outline_level = dummy;
 			else
-				unknown_attr (state, attrs, "ColRow");
+				unknown_attr (state, attrs);
 		}
 	}
 
@@ -817,8 +825,8 @@ xml_sax_style_region_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 	state->style = (state->version >= GNM_XML_V6 ||
 			state->version <= GNM_XML_V2)
-		? mstyle_new_default ()
-		: mstyle_new ();
+		? gnm_style_new_default ()
+		: gnm_style_new ();
 	state->style_range_init =
 		xml_sax_attr_range (attrs, &state->style_range);
 }
@@ -850,47 +858,47 @@ xml_sax_styleregion_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (xml_sax_attr_int (attrs, "HAlign", &val))
-			mstyle_set_align_h (state->style, val);
+			gnm_style_set_align_h (state->style, val);
 		else if (xml_sax_attr_int (attrs, "VAlign", &val))
-			mstyle_set_align_v (state->style, val);
+			gnm_style_set_align_v (state->style, val);
 
 		/* Pre version V6 */
 		else if (xml_sax_attr_int (attrs, "Fit", &val))
-			mstyle_set_wrap_text (state->style, val);
+			gnm_style_set_wrap_text (state->style, val);
 
 		else if (xml_sax_attr_int (attrs, "WrapText", &val))
-			mstyle_set_wrap_text (state->style, val);
+			gnm_style_set_wrap_text (state->style, val);
 		else if (xml_sax_attr_bool (attrs, "ShrinkToFit", &val))
-			mstyle_set_shrink_to_fit (state->style, val);
+			gnm_style_set_shrink_to_fit (state->style, val);
 		else if (xml_sax_attr_int (attrs, "Rotation", &val)) {
 			/* Work around a bug pre 1.5.1 that would allow
 			 * negative rotations.  -1 == vertical, map everything
 			 * else back onto 0..359 */
 			if (val < -1)
 				val += 360;
-			mstyle_set_rotation (state->style, val);
+			gnm_style_set_rotation (state->style, val);
 		} else if (xml_sax_attr_int (attrs, "Shade", &val))
-			mstyle_set_pattern (state->style, val);
+			gnm_style_set_pattern (state->style, val);
 		else if (xml_sax_attr_int (attrs, "Indent", &val))
-			mstyle_set_indent (state->style, val);
+			gnm_style_set_indent (state->style, val);
 		else if (xml_sax_attr_color (attrs, "Fore", &colour))
-			mstyle_set_color (state->style, MSTYLE_COLOR_FORE, colour);
+			gnm_style_set_font_color (state->style, colour);
 		else if (xml_sax_attr_color (attrs, "Back", &colour))
-			mstyle_set_color (state->style, MSTYLE_COLOR_BACK, colour);
+			gnm_style_set_back_color (state->style, colour);
 		else if (xml_sax_attr_color (attrs, "PatternColor", &colour))
-			mstyle_set_color (state->style, MSTYLE_COLOR_PATTERN, colour);
+			gnm_style_set_pattern_color (state->style, colour);
 		else if (!strcmp (attrs[0], "Format"))
-			mstyle_set_format_text (state->style, (char *)attrs[1]);
+			gnm_style_set_format_text (state->style, (char *)attrs[1]);
 		else if (xml_sax_attr_int (attrs, "Hidden", &val))
-			mstyle_set_content_hidden (state->style, val);
+			gnm_style_set_content_hidden (state->style, val);
 		else if (xml_sax_attr_int (attrs, "Locked", &val))
-			mstyle_set_content_locked (state->style, val);
+			gnm_style_set_content_locked (state->style, val);
 		else if (xml_sax_attr_int (attrs, "Locked", &val))
-			mstyle_set_content_locked (state->style, val);
+			gnm_style_set_content_locked (state->style, val);
 		else if (xml_sax_attr_int (attrs, "Orient", &val))
 			; /* ignore old useless attribute */
 		else
-			unknown_attr (state, attrs, "StyleRegion");
+			unknown_attr (state, attrs);
 	}
 }
 
@@ -906,17 +914,17 @@ xml_sax_styleregion_font (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (xml_sax_attr_double (attrs, "Unit", &size_pts))
-			mstyle_set_font_size (state->style, size_pts);
+			gnm_style_set_font_size (state->style, size_pts);
 		else if (xml_sax_attr_int (attrs, "Bold", &val))
-			mstyle_set_font_bold (state->style, val);
+			gnm_style_set_font_bold (state->style, val);
 		else if (xml_sax_attr_int (attrs, "Italic", &val))
-			mstyle_set_font_italic (state->style, val);
+			gnm_style_set_font_italic (state->style, val);
 		else if (xml_sax_attr_int (attrs, "Underline", &val))
-			mstyle_set_font_uline (state->style, (StyleUnderlineType)val);
+			gnm_style_set_font_uline (state->style, (GnmUnderline)val);
 		else if (xml_sax_attr_int (attrs, "StrikeThrough", &val))
-			mstyle_set_font_strike (state->style, val ? TRUE : FALSE);
+			gnm_style_set_font_strike (state->style, val ? TRUE : FALSE);
 		else
-			unknown_attr (state, attrs, "StyleFont");
+			unknown_attr (state, attrs);
 	}
 }
 
@@ -956,14 +964,14 @@ style_font_read_from_x11 (GnmStyle *mstyle, const char *fontname)
 	 */
 	c = font_component (fontname, 2);
 	if (strncmp (c, "bold", 4) == 0)
-		mstyle_set_font_bold (mstyle, TRUE);
+		gnm_style_set_font_bold (mstyle, TRUE);
 
 	c = font_component (fontname, 3);
 	if (strncmp (c, "o", 1) == 0)
-		mstyle_set_font_italic (mstyle, TRUE);
+		gnm_style_set_font_italic (mstyle, TRUE);
 
 	if (strncmp (c, "i", 1) == 0)
-		mstyle_set_font_italic (mstyle, TRUE);
+		gnm_style_set_font_italic (mstyle, TRUE);
 }
 
 static void
@@ -976,7 +984,7 @@ xml_sax_styleregion_font_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blo
 		if (*content == '-')
 			style_font_read_from_x11 (state->style, content);
 		else
-			mstyle_set_font_name (state->style, content);
+			gnm_style_set_font_name (state->style, content);
 	}
 }
 
@@ -1015,7 +1023,7 @@ xml_sax_validation (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		} else if (xml_sax_attr_bool (attrs, "UseDropdown", &b_dummy)) {
 			state->validation.use_dropdown = b_dummy;
 		} else
-			unknown_attr (state, attrs, "Validation");
+			unknown_attr (state, attrs);
 	}
 }
 
@@ -1026,7 +1034,7 @@ xml_sax_validation_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	g_return_if_fail (state->style != NULL);
 
-	mstyle_set_validation (state->style,
+	gnm_style_set_validation (state->style,
 		validation_new (state->validation.style,
 				state->validation.type,
 				state->validation.op,
@@ -1037,14 +1045,10 @@ xml_sax_validation_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 				state->validation.allow_blank,
 				state->validation.use_dropdown));
 
-	if (state->validation.title != NULL) {
-		g_free (state->validation.title);
-		state->validation.title = NULL;
-	}
-	if (state->validation.msg != NULL) {
-		g_free (state->validation.msg);
-		state->validation.msg = NULL;
-	}
+	g_free (state->validation.title);
+	state->validation.title = NULL;
+	g_free (state->validation.msg);
+	state->validation.msg = NULL;
 	state->validation.expr[0] = state->validation.expr[1] = NULL;
 }
 
@@ -1068,6 +1072,118 @@ xml_sax_validation_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob
 }
 
 static void
+xml_sax_condition (GsfXMLIn *gsf_state, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
+	int dummy;
+
+	g_return_if_fail (state->cond.expr[0] == NULL);
+	g_return_if_fail (state->cond.expr[1] == NULL);
+
+	state->cond.op = GNM_STYLE_COND_CUSTOM;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (xml_sax_attr_int (attrs, "Operator", &dummy))
+			state->cond.op = dummy;
+		else
+			unknown_attr (state, attrs);
+}
+
+static void
+xml_sax_condition_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+	GnmStyleConditions *sc;
+
+	g_return_if_fail (state->style != NULL);
+
+	if (!gnm_style_is_element_set (state->style, MSTYLE_CONDITIONS) ||
+	    NULL == (sc = gnm_style_get_conditions (state->style)))
+		gnm_style_set_conditions (state->style,
+			(sc = gnm_style_conditions_new ()));
+	gnm_style_conditions_insert (sc, &state->cond, -1);
+
+	state->cond.expr[0] = state->cond.expr[1] = NULL;
+}
+
+static void
+xml_sax_condition_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
+	int const i = gsf_state->node->user_data.v_int;
+	GnmExpr const *expr;
+	GnmParsePos pos;
+
+	g_return_if_fail (state->cond.expr [i] == NULL);
+
+	expr = gnm_expr_parse_str_simple (state->base.content->str,
+		parse_pos_init_sheet (&pos, state->sheet));
+
+	g_return_if_fail (expr != NULL);
+
+	state->cond.expr [i] = expr;
+}
+
+static void
+xml_sax_hlink (GsfXMLIn *gsf_state, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+	char *type = NULL;
+	char *target = NULL;
+	char *tip = NULL;
+
+	g_return_if_fail (state->style != NULL);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (!strcmp (attrs[0], "type"))
+			type = g_strdup ((gchar *)attrs[1]);
+		else if (!strcmp (attrs[0], "target"))
+			target = g_strdup ((gchar *)attrs[1]);
+		else if (!strcmp (attrs[0], "tip"))
+			target = g_strdup ((gchar *)attrs[1]);
+		else
+			unknown_attr (state, attrs);
+	}
+
+	if (NULL != type && NULL != target) {
+		GnmHLink *link = g_object_new (g_type_from_name (type), NULL);
+		gnm_hlink_set_target (link, target);
+		if (tip != NULL)
+			gnm_hlink_set_tip (link, tip);
+		gnm_style_set_hlink (state->style, link);
+	}
+
+	g_free (type);
+	g_free (target);
+	g_free (tip);
+}
+
+static void
+xml_sax_input_msg (GsfXMLIn *gsf_state, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+	char *title = NULL;
+	char *msg = NULL;
+
+	g_return_if_fail (state->style != NULL);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (!strcmp (attrs[0], "Title"))
+			title = g_strdup ((gchar *)attrs[1]);
+		else if (!strcmp (attrs[0], "Message"))
+			msg = g_strdup ((gchar *)attrs[1]);
+		else
+			unknown_attr (state, attrs);
+	}
+
+	gnm_style_set_input_msg (state->style,
+		gnm_input_msg_new (msg, title));
+	g_free (title);
+	g_free (msg);
+}
+
+static void
 xml_sax_style_region_borders (GsfXMLIn *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
@@ -1082,15 +1198,15 @@ xml_sax_style_region_borders (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		if (xml_sax_attr_color (attrs, "Color", &colour)) ;
 		else if (xml_sax_attr_int (attrs, "Style", &pattern)) ;
 		else
-			unknown_attr (state, attrs, "StyleBorder");
+			unknown_attr (state, attrs);
 	}
 
 	if (pattern >= STYLE_BORDER_NONE) {
-		MStyleElementType const type = gsf_state->node->user_data.v_int;
+		GnmStyleElement const type = gsf_state->node->user_data.v_int;
 		GnmBorder *border =
 			style_border_fetch ((StyleBorderType)pattern, colour,
 					    style_border_get_orientation (type));
-		mstyle_set_border (state->style, type, border);
+		gnm_style_set_border (state->style, type, border);
 	}
 }
 
@@ -1122,7 +1238,7 @@ xml_sax_cell (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		else if (!strcmp (attrs[0], "ValueFormat"))
 			value_fmt = style_format_new_XL ((char *)attrs[1], FALSE);
 		else
-			unknown_attr (state, attrs, "Cell");
+			unknown_attr (state, attrs);
 	}
 
 	g_return_if_fail (col >= 0);
@@ -1396,7 +1512,7 @@ xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		} else if (xml_sax_attr_int (attrs, "Direction", &tmp_int))
 			so->anchor.direction = tmp_int;
 		else
-			unknown_attr (state, attrs, "Object");
+			unknown_attr (state, attrs);
 	}
 }
 
@@ -1623,6 +1739,13 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
 				    TRUE, FALSE, FALSE, NULL, &xml_sax_validation_expr_end, 0),
 	      GSF_XML_IN_NODE_FULL (STYLE_VALIDATION, STYLE_VALIDATION_EXPR1, GNM, "Expression1",
 				    TRUE, FALSE, FALSE, NULL, &xml_sax_validation_expr_end, 1),
+	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_HYPERLINK, GNM, "HyperLink", FALSE, &xml_sax_hlink, NULL),
+	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_INPUT_MSG, GNM, "InputMessage", FALSE, &xml_sax_input_msg, NULL),
+	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_CONDITION, GNM, "Validation", FALSE, &xml_sax_condition, &xml_sax_condition_end),
+	      GSF_XML_IN_NODE_FULL (STYLE_CONDITION, STYLE_CONDITION_EXPR0, GNM, "Expression0",
+				    TRUE, FALSE, FALSE, NULL, &xml_sax_condition_expr_end, 0),
+	      GSF_XML_IN_NODE_FULL (STYLE_CONDITION, STYLE_CONDITION_EXPR1, GNM, "Expression1",
+				    TRUE, FALSE, FALSE, NULL, &xml_sax_condition_expr_end, 1),
 
       GSF_XML_IN_NODE_FULL (SHEET, SHEET_COLS, GNM, "Cols",
 			    FALSE, FALSE, FALSE, &xml_sax_cols_rows, NULL, TRUE),

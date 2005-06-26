@@ -211,7 +211,7 @@ pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 		GnmStyle *def = sheet_style_default (state->sheet);
 		if ((attr & 0x0700) == 0x0400) {
 			attr &= 0xf8ff;
-			switch (mstyle_get_align_h (def)) {
+			switch (gnm_style_get_align_h (def)) {
 			default :
 			case HALIGN_GENERAL:break;
 			case HALIGN_LEFT:	attr |= 0x0100; break;
@@ -221,10 +221,10 @@ pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 			}
 		}
 		if ((attr & 0x8000)) {
-			gboolean is_locked = mstyle_get_content_locked (def);
+			gboolean is_locked = gnm_style_get_content_locked (def);
 			attr = (attr & 0x3fff) | (is_locked ? 0x4000 : 0);
 		}
-		mstyle_unref (def);
+		gnm_style_unref (def);
 	}
 
 	/* bit bash a key containing all relevant info */
@@ -234,23 +234,23 @@ pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 
 	res = g_hash_table_lookup (state->styles, GINT_TO_POINTER (key));
 	if (res == NULL) {
-		static StyleHAlignFlags const haligns[] = {
+		static GnmHAlign const haligns[] = {
 			HALIGN_GENERAL, HALIGN_LEFT, HALIGN_RIGHT, HALIGN_CENTER
 		};
-		res = mstyle_new_default ();
-		mstyle_set_font_italic (res, (attr & 0x0010) ? TRUE : FALSE);
-		mstyle_set_content_hidden (res, (attr & 0x0020) ? TRUE : FALSE);
-		mstyle_set_font_uline (res,
+		res = gnm_style_new_default ();
+		gnm_style_set_font_italic (res, (attr & 0x0010) ? TRUE : FALSE);
+		gnm_style_set_content_hidden (res, (attr & 0x0020) ? TRUE : FALSE);
+		gnm_style_set_font_uline (res,
 			(attr & 0x1000) ?  UNDERLINE_DOUBLE :
 			((attr & 0x0040) ?  UNDERLINE_SINGLE : UNDERLINE_NONE));
-		mstyle_set_font_bold (res, (attr & 0x0080) ? TRUE : FALSE);
-		mstyle_set_align_h (res, haligns [(attr & 0x300) >> 8]);
+		gnm_style_set_font_bold (res, (attr & 0x0080) ? TRUE : FALSE);
+		gnm_style_set_align_h (res, haligns [(attr & 0x300) >> 8]);
 
 		g_hash_table_insert (state->styles, GINT_TO_POINTER (key), res);
 #warning generate formats
 	}
 
-	mstyle_ref (res);
+	gnm_style_ref (res);
 	return res;
 }
 
@@ -673,7 +673,7 @@ pln_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.sheet  = sheet;
 	state.styles = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal,
-		NULL, (GDestroyNotify) mstyle_unref);
+		NULL, (GDestroyNotify) gnm_style_unref);
 	error = pln_parse_sheet (input, &state);
 	g_hash_table_destroy (state.styles);
 	if (error != NULL) {

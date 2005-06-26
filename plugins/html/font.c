@@ -32,7 +32,7 @@ font_match (GnmStyle *mstyle, const char **names)
 
 	if (!mstyle)
 		return 0;
-	font_name = mstyle_get_font_name (mstyle);
+	font_name = gnm_style_get_font_name (mstyle);
 
 	g_return_val_if_fail (names != NULL, 0);
 	g_return_val_if_fail (font_name != NULL, 0);

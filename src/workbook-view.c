@@ -207,7 +207,7 @@ wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 		return;
 
 	style = sheet_style_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row);
-	sf_style = mstyle_get_format (style);
+	sf_style = gnm_style_get_format (style);
 	if (style_format_is_general (sf_style) &&
 	    (cell = sheet_cell_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row)) &&
 	    cell->value && VALUE_FMT (cell->value))
@@ -218,14 +218,14 @@ wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 	if (style_format_equal (sf_cell, sf_style)) {
 		if (style == wbv->current_format)
 			return;
-		mstyle_ref (style);
+		gnm_style_ref (style);
 	} else {
-		style = mstyle_copy (style);
-		mstyle_set_format (style, sf_cell);
+		style = gnm_style_dup (style);
+		gnm_style_set_format (style, sf_cell);
 	}
 
 	if (wbv->current_format != NULL)
-		mstyle_unref (wbv->current_format);
+		gnm_style_unref (wbv->current_format);
 	wbv->current_format = style;
 
 	if (display) {
@@ -539,7 +539,7 @@ wb_view_finalize (GObject *object)
 		wbv->auto_expr_value_as_string = NULL;
 	}
 	if (wbv->current_format != NULL) {
-		mstyle_unref (wbv->current_format);
+		gnm_style_unref (wbv->current_format);
 		wbv->current_format = NULL;
 	}
 

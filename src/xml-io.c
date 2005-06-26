@@ -15,8 +15,9 @@
 #include "xml-sax.h"
 #include "xml-io-version.h"
 
-#include "style-color.h"
 #include "style-border.h"
+#include "style-color.h"
+#include "style-conditions.h"
 #include "style.h"
 #include "sheet.h"
 #include "sheet-view.h"
@@ -50,6 +51,7 @@
 #include "ranges.h"
 #include "str.h"
 #include "hlink.h"
+#include "input-msg.h"
 #include "gutils.h"
 #include "gnumeric-gconf.h"
 
@@ -411,8 +413,8 @@ xml_write_style_border (XmlParseContext *ctxt,
 
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
 		GnmBorder const *border;
-		if (mstyle_is_element_set (style, i) &&
-		    NULL != (border = mstyle_get_border (style, i))) {
+		if (gnm_style_is_element_set (style, i) &&
+		    NULL != (border = gnm_style_get_border (style, i))) {
 			break;
 		}
 	}
@@ -424,8 +426,8 @@ xml_write_style_border (XmlParseContext *ctxt,
 
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
 		GnmBorder const *border;
-		if (mstyle_is_element_set (style, i) &&
-		    NULL != (border = mstyle_get_border (style, i))) {
+		if (gnm_style_is_element_set (style, i) &&
+		    NULL != (border = gnm_style_get_border (style, i))) {
 			StyleBorderType t = border->line_type;
 			GnmColor *col   = border->color;
  			side = xmlNewChild (cur, ctxt->ns,
@@ -439,11 +441,8 @@ xml_write_style_border (XmlParseContext *ctxt,
 	return cur;
 }
 
-/*
- * Create a GnmBorder equivalent to the XML subtree of doc.
- */
 static void
-xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, GnmStyle *mstyle)
+xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, GnmStyle *style)
 {
 	xmlNodePtr side;
 	int        i;
@@ -465,7 +464,7 @@ xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, GnmStyle *mstyle)
 				color = xml_node_get_color (side, "Color");
 			border = style_border_fetch ((StyleBorderType)t, color,
 						     style_border_get_orientation (i));
-			mstyle_set_border (mstyle, i, border);
+			gnm_style_set_border (style, i, border);
  		}
 	}
 }
@@ -479,60 +478,64 @@ xml_write_style (XmlParseContext *ctxt,
 {
 	xmlNodePtr  cur, child;
 	xmlChar    *tstr;
-	GnmHLink   const *link;
 	GnmValidation const *v;
+	GnmHLink   const *link;
+	GnmInputMsg const *im;
+	GnmStyleConditions const *sc;
+	GnmStyleCond const *cond;
+	GnmParsePos    pp;
+	char	   *tmp;
+	unsigned    i;
 
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("Style"),
-			     NULL);
-
-	if (mstyle_is_element_set (style, MSTYLE_ALIGN_H))
-		xml_node_set_int (cur, "HAlign", mstyle_get_align_h (style));
-	if (mstyle_is_element_set (style, MSTYLE_ALIGN_V))
-		xml_node_set_int (cur, "VAlign", mstyle_get_align_v (style));
-	if (mstyle_is_element_set (style, MSTYLE_WRAP_TEXT))
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("Style"), NULL);
+	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_H))
+		xml_node_set_int (cur, "HAlign", gnm_style_get_align_h (style));
+	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_V))
+		xml_node_set_int (cur, "VAlign", gnm_style_get_align_v (style));
+	if (gnm_style_is_element_set (style, MSTYLE_WRAP_TEXT))
 		xml_node_set_bool (cur, "WrapText",
-				  mstyle_get_wrap_text (style));
-	if (mstyle_is_element_set (style, MSTYLE_SHRINK_TO_FIT))
+				  gnm_style_get_wrap_text (style));
+	if (gnm_style_is_element_set (style, MSTYLE_SHRINK_TO_FIT))
 		xml_node_set_bool (cur, "ShrinkToFit",
-				  mstyle_get_shrink_to_fit (style));
-	if (mstyle_is_element_set (style, MSTYLE_ROTATION))
-		xml_node_set_int (cur, "Rotation", mstyle_get_rotation (style));
-	if (mstyle_is_element_set (style, MSTYLE_PATTERN))
-		xml_node_set_int (cur, "Shade", mstyle_get_pattern (style));
-	if (mstyle_is_element_set (style, MSTYLE_INDENT))
-		xml_node_set_int (cur, "Indent", mstyle_get_indent (style));
-	if (mstyle_is_element_set (style, MSTYLE_CONTENT_LOCKED))
+				  gnm_style_get_shrink_to_fit (style));
+	if (gnm_style_is_element_set (style, MSTYLE_ROTATION))
+		xml_node_set_int (cur, "Rotation", gnm_style_get_rotation (style));
+	if (gnm_style_is_element_set (style, MSTYLE_PATTERN))
+		xml_node_set_int (cur, "Shade", gnm_style_get_pattern (style));
+	if (gnm_style_is_element_set (style, MSTYLE_INDENT))
+		xml_node_set_int (cur, "Indent", gnm_style_get_indent (style));
+	if (gnm_style_is_element_set (style, MSTYLE_CONTENT_LOCKED))
 		xml_node_set_bool (cur, "Locked",
-				  mstyle_get_content_locked (style));
-	if (mstyle_is_element_set (style, MSTYLE_CONTENT_HIDDEN))
+				  gnm_style_get_content_locked (style));
+	if (gnm_style_is_element_set (style, MSTYLE_CONTENT_HIDDEN))
 		xml_node_set_bool (cur, "Hidden",
-				  mstyle_get_content_hidden (style));
+				  gnm_style_get_content_hidden (style));
 
-	if (mstyle_is_element_set (style, MSTYLE_COLOR_FORE))
+	if (gnm_style_is_element_set (style, MSTYLE_FONT_COLOR))
 		xml_node_set_color (cur, "Fore",
-				    mstyle_get_color (style, MSTYLE_COLOR_FORE));
-	if (mstyle_is_element_set (style, MSTYLE_COLOR_BACK))
+				    gnm_style_get_font_color (style));
+	if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
 		xml_node_set_color (cur, "Back",
-				    mstyle_get_color (style, MSTYLE_COLOR_BACK));
-	if (mstyle_is_element_set (style, MSTYLE_COLOR_PATTERN))
+				    gnm_style_get_back_color (style));
+	if (gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN))
 		xml_node_set_color (cur, "PatternColor",
-				    mstyle_get_color (style, MSTYLE_COLOR_PATTERN));
-	if (mstyle_is_element_set (style, MSTYLE_FORMAT)) {
-		char *fmt = style_format_as_XL (mstyle_get_format (style), FALSE);
+				    gnm_style_get_pattern_color (style));
+	if (gnm_style_is_element_set (style, MSTYLE_FORMAT)) {
+		char *fmt = style_format_as_XL (gnm_style_get_format (style), FALSE);
 		xml_node_set_cstr (cur, "Format", fmt);
 		g_free (fmt);
 	}
 
-	if (mstyle_is_element_set (style, MSTYLE_FONT_NAME) ||
-	    mstyle_is_element_set (style, MSTYLE_FONT_SIZE) ||
-	    mstyle_is_element_set (style, MSTYLE_FONT_BOLD) ||
-	    mstyle_is_element_set (style, MSTYLE_FONT_ITALIC) ||
-	    mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
-	    mstyle_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH)) {
+	if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME) ||
+	    gnm_style_is_element_set (style, MSTYLE_FONT_SIZE) ||
+	    gnm_style_is_element_set (style, MSTYLE_FONT_BOLD) ||
+	    gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC) ||
+	    gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
+	    gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH)) {
 		char const *fontname;
 
-		if (mstyle_is_element_set (style, MSTYLE_FONT_NAME))
-			fontname = mstyle_get_font_name (style);
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME))
+			fontname = gnm_style_get_font_name (style);
 		else /* backwards compatibility */
 			fontname = "Helvetica";
 
@@ -542,24 +545,25 @@ xml_write_style (XmlParseContext *ctxt,
 				     tstr);
 		if (tstr) xmlFree (tstr);
 
-		if (mstyle_is_element_set (style, MSTYLE_FONT_SIZE))
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_SIZE))
 			xml_node_set_points (child, "Unit",
-					      mstyle_get_font_size (style));
-		if (mstyle_is_element_set (style, MSTYLE_FONT_BOLD))
+					      gnm_style_get_font_size (style));
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_BOLD))
 			xml_node_set_int (child, "Bold",
-					   mstyle_get_font_bold (style));
-		if (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC))
+					   gnm_style_get_font_bold (style));
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC))
 			xml_node_set_int (child, "Italic",
-					   mstyle_get_font_italic (style));
-		if (mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE))
+					   gnm_style_get_font_italic (style));
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE))
 			xml_node_set_int (child, "Underline",
-					   (int)mstyle_get_font_uline (style));
-		if (mstyle_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH))
+					   (int)gnm_style_get_font_uline (style));
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH))
 			xml_node_set_int (child, "StrikeThrough",
-					   mstyle_get_font_strike (style));
+					   gnm_style_get_font_strike (style));
 	}
 
-	if ((link = mstyle_get_hlink (style)) != NULL) {
+	if (gnm_style_is_element_set (style, MSTYLE_HLINK) &&
+	    NULL != (link = gnm_style_get_hlink (style))) {
 		child = xmlNewChild (cur, ctxt->ns,
 			CC2XML ("HyperLink"), NULL);
 		xml_node_set_cstr (child, "type",
@@ -572,11 +576,8 @@ xml_write_style (XmlParseContext *ctxt,
 				(const char *)gnm_hlink_get_tip (link));
 	}
 
-	v = mstyle_get_validation (style);
-	if (v != NULL) {
-		GnmParsePos    pp;
-		char	   *tmp;
-
+	if (gnm_style_is_element_set (style, MSTYLE_VALIDATION) &&
+	    NULL != (v = gnm_style_get_validation (style))) {
 		child = xmlNewChild (cur, ctxt->ns,
 				     CC2XML ("Validation"), NULL);
 		xml_node_set_int (child, "Style", v->style);
@@ -612,6 +613,42 @@ xml_write_style (XmlParseContext *ctxt,
 			xmlNewChild (child, child->ns, CC2XML ("Expression1"), CC2XML (tmp));
 			g_free (tmp);
 		}
+	}
+
+	if (gnm_style_is_element_set (style, MSTYLE_INPUT_MSG) &&
+	    NULL != (im = gnm_style_get_input_msg (style))) {
+		char const *txt;
+		child = xmlNewChild (cur, ctxt->ns,
+				     CC2XML ("InputMessage"), NULL);
+		if (NULL != (txt = gnm_input_msg_get_title (im)))
+			xml_node_set_cstr (child, "Title", txt);
+		if (NULL != (txt = gnm_input_msg_get_msg (im)))
+			xml_node_set_cstr (child, "Message", txt);
+	}
+
+	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS) &&
+	    NULL != (sc = gnm_style_get_conditions (style))) {
+		GArray const *conds = gnm_style_conditions_details (sc);
+		xmlNodePtr overlay_child;
+		if (conds != NULL)
+			for (i = 0 ; i < conds->len ; i++) {
+				cond = &g_array_index (conds, GnmStyleCond, i);
+				child = xmlNewChild (cur, ctxt->ns, CC2XML ("Condition"), NULL);
+				xml_node_set_int (child, "Operator", cond->op);
+				parse_pos_init_sheet (&pp, ctxt->sheet);
+				if (cond->expr[0] != NULL &&
+				    (tmp = gnm_expr_as_string (cond->expr[0], &pp, ctxt->exprconv)) != NULL) {
+					xmlNewChild (child, child->ns, CC2XML ("Expression0"), CC2XML (tmp));
+					g_free (tmp);
+				}
+				if (cond->expr[1] != NULL &&
+				    (tmp = gnm_expr_as_string (cond->expr[1], &pp, ctxt->exprconv)) != NULL) {
+					xmlNewChild (child, child->ns, CC2XML ("Expression1"), CC2XML (tmp));
+					g_free (tmp);
+				}
+				if (NULL != (overlay_child = xml_write_style (ctxt, cond->overlay)))
+					xmlAddChild (child, overlay_child);
+			}
 	}
 
 	child = xml_write_style_border (ctxt, style);
@@ -1244,29 +1281,29 @@ font_component (char const *fontname, int idx)
 
 /**
  * style_font_read_from_x11:
- * @mstyle: the style to setup to this font.
+ * @style: the style to setup to this font.
  * @fontname: an X11-like font name.
  *
  * Tries to guess the fontname, the weight and italization parameters
- * and setup mstyle
+ * and setup style
  *
  * Returns: A valid style font.
  */
 static void
-style_font_read_from_x11 (GnmStyle *mstyle, char const *fontname)
+style_font_read_from_x11 (GnmStyle *style, char const *fontname)
 {
 	char const *c;
 
 	c = font_component (fontname, 2);
 	if (strncmp (c, "bold", 4) == 0)
-		mstyle_set_font_bold (mstyle, TRUE);
+		gnm_style_set_font_bold (style, TRUE);
 
 	c = font_component (fontname, 3);
 	if (strncmp (c, "o", 1) == 0)
-		mstyle_set_font_italic (mstyle, TRUE);
+		gnm_style_set_font_italic (style, TRUE);
 
 	if (strncmp (c, "i", 1) == 0)
-		mstyle_set_font_italic (mstyle, TRUE);
+		gnm_style_set_font_italic (style, TRUE);
 }
 
 /*
@@ -1275,16 +1312,19 @@ style_font_read_from_x11 (GnmStyle *mstyle, char const *fontname)
 GnmStyle *
 xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 {
-	xmlNodePtr child;
+	xmlNode *e_node, *child;
 	xmlChar *prop;
 	int val;
 	GnmColor *c;
-	GnmStyle     *mstyle;
+	xmlChar	    *content;
+	GnmStyle    *style;
+	GnmParsePos  pp;
+	GnmStyleConditions *sc = NULL;
 
-	mstyle = (ctxt->version >= GNM_XML_V6 ||
+	style = (ctxt->version >= GNM_XML_V6 ||
 		  ctxt->version <= GNM_XML_V2)
-		? mstyle_new_default ()
-		: mstyle_new ();
+		? gnm_style_new_default ()
+		: gnm_style_new ();
 
 	if (strcmp (tree->name, "Style")) {
 		fprintf (stderr,
@@ -1293,23 +1333,23 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 	}
 
 	if (xml_node_get_int (tree, "HAlign", &val))
-		mstyle_set_align_h (mstyle, val);
+		gnm_style_set_align_h (style, val);
 
 	if (ctxt->version >= GNM_XML_V6) {
 		if (xml_node_get_int (tree, "WrapText", &val))
-			mstyle_set_wrap_text (mstyle, val);
+			gnm_style_set_wrap_text (style, val);
 		if (xml_node_get_bool (tree, "ShrinkToFit", &val))
-			mstyle_set_shrink_to_fit (mstyle, val);
+			gnm_style_set_shrink_to_fit (style, val);
 	} else if (xml_node_get_int (tree, "Fit", &val))
-		mstyle_set_wrap_text (mstyle, val);
+		gnm_style_set_wrap_text (style, val);
 
 	if (xml_node_get_int (tree, "Locked", &val))
-		mstyle_set_content_locked (mstyle, val);
+		gnm_style_set_content_locked (style, val);
 	if (xml_node_get_int (tree, "Hidden", &val))
-		mstyle_set_content_hidden (mstyle, val);
+		gnm_style_set_content_hidden (style, val);
 
 	if (xml_node_get_int (tree, "VAlign", &val))
-		mstyle_set_align_v (mstyle, val);
+		gnm_style_set_align_v (style, val);
 
 	if (xml_node_get_int (tree, "Rotation", &val)) {
 		/* Work around a bug pre 1.5.1 that would allow
@@ -1317,27 +1357,27 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 		 * else back onto 0..359 */
 		if (val < -1)
 			val += 360;
-		mstyle_set_rotation (mstyle, val);
+		gnm_style_set_rotation (style, val);
 	}
 
 	if (xml_node_get_int (tree, "Shade", &val))
-		mstyle_set_pattern (mstyle, val);
+		gnm_style_set_pattern (style, val);
 
 	if (xml_node_get_int (tree, "Indent", &val))
-		mstyle_set_indent (mstyle, val);
+		gnm_style_set_indent (style, val);
 
 	if ((c = xml_node_get_color (tree, "Fore")) != NULL)
-		mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, c);
+		gnm_style_set_font_color (style, c);
 
 	if ((c = xml_node_get_color (tree, "Back")) != NULL)
-		mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, c);
+		gnm_style_set_back_color (style, c);
 
 	if ((c = xml_node_get_color (tree, "PatternColor")) != NULL)
-		mstyle_set_color (mstyle, MSTYLE_COLOR_PATTERN, c);
+		gnm_style_set_pattern_color (style, c);
 
 	prop = xmlGetProp (tree, CC2XML ("Format"));
 	if (prop != NULL) {
-		mstyle_set_format_text (mstyle, CXML2C (prop));
+		gnm_style_set_format_text (style, CXML2C (prop));
 		xmlFree (prop);
 	}
 
@@ -1351,31 +1391,31 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			int t;
 
 			if (xml_node_get_double (child, "Unit", &size_pts))
-				mstyle_set_font_size (mstyle, size_pts);
+				gnm_style_set_font_size (style, size_pts);
 
 			if (xml_node_get_int (child, "Bold", &t))
-				mstyle_set_font_bold (mstyle, t);
+				gnm_style_set_font_bold (style, t);
 
 			if (xml_node_get_int (child, "Italic", &t))
-				mstyle_set_font_italic (mstyle, t);
+				gnm_style_set_font_italic (style, t);
 
 			if (xml_node_get_int (child, "Underline", &t))
-				mstyle_set_font_uline (mstyle, (StyleUnderlineType)t);
+				gnm_style_set_font_uline (style, (GnmUnderline)t);
 
 			if (xml_node_get_int (child, "StrikeThrough", &t))
-				mstyle_set_font_strike (mstyle, t ? TRUE : FALSE);
+				gnm_style_set_font_strike (style, t ? TRUE : FALSE);
 
 			font = xml_node_get_cstr (child, NULL);
 			if (font) {
 				if (*font == '-')
-					style_font_read_from_x11 (mstyle, CXML2C (font));
+					style_font_read_from_x11 (style, CXML2C (font));
 				else
-					mstyle_set_font_name (mstyle, CXML2C (font));
+					gnm_style_set_font_name (style, CXML2C (font));
 				xmlFree (font);
 			}
 
 		} else if (!strcmp (child->name, "StyleBorder")) {
-			xml_read_style_border (ctxt, child, mstyle);
+			xml_read_style_border (ctxt, child, style);
 		} else if (!strcmp (child->name, "HyperLink")) {
 			xmlChar *type, *target, *tip;
 
@@ -1392,27 +1432,24 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 					gnm_hlink_set_tip  (link, tip);
 					xmlFree (tip);
 				}
-				mstyle_set_hlink (mstyle, link);
+				gnm_style_set_hlink (style, link);
 				xmlFree (target);
 			}
 			xmlFree (type);
 		} else if (!strcmp (child->name, "Validation")) {
-			int dummy;
-			ValidationStyle style;
-			ValidationType type;
+			ValidationStyle vstyle = VALIDATION_STYLE_NONE;
+			ValidationType type = VALIDATION_TYPE_ANY;
 			ValidationOp op = VALIDATION_OP_NONE;
-			GnmParsePos     pp;
-			xmlNode *e_node;
 			xmlChar *title, *msg;
 			gboolean allow_blank, use_dropdown;
 			GnmExpr const *expr0 = NULL, *expr1 = NULL;
 
-			xml_node_get_int (child, "Style", &dummy);
-			style = dummy;
-			xml_node_get_int (child, "Type", &dummy);
-			type = dummy;
-			if (xml_node_get_int (child, "Operator", &dummy))
-				op = dummy;
+			if (xml_node_get_int (child, "Style", &val))
+				vstyle = val;
+			if (xml_node_get_int (child, "Type", &val))
+				type = val;
+			if (xml_node_get_int (child, "Operator", &val))
+				op = val;
 
 			if (!xml_node_get_bool (child, "AllowBlank", &(allow_blank)))
 				allow_blank = FALSE;
@@ -1423,41 +1460,74 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			msg = xml_node_get_cstr (child, "Message");
 
 			parse_pos_init_sheet (&pp, ctxt->sheet);
-			e_node = e_xml_get_child_by_name (child, CC2XML ("Expression0"));
-			if (e_node != NULL) {
-				xmlChar *content = xml_node_get_cstr (e_node, NULL);
-				if (content != NULL) {
-					expr0 = gnm_expr_parse_str (CXML2C (content), &pp,
-								    GNM_EXPR_PARSE_DEFAULT,
-								    ctxt->exprconv, NULL);
-					xmlFree (content);
-				}
+			if (NULL != (e_node = e_xml_get_child_by_name (child, CC2XML ("Expression0"))) &&
+			    NULL != (content = xml_node_get_cstr (e_node, NULL))) {
+				expr0 = gnm_expr_parse_str (CXML2C (content), &pp,
+					GNM_EXPR_PARSE_DEFAULT, ctxt->exprconv, NULL);
+				xmlFree (content);
 			}
-			e_node = e_xml_get_child_by_name (child, CC2XML ("Expression1"));
-			if (e_node != NULL) {
-				xmlChar *content = xml_node_get_cstr (e_node, NULL);
-				if (content != NULL) {
-					expr1 = gnm_expr_parse_str (CXML2C (content), &pp,
-								    GNM_EXPR_PARSE_DEFAULT,
-								    ctxt->exprconv, NULL);
-					xmlFree (content);
-				}
+			if (NULL != (e_node = e_xml_get_child_by_name (child, CC2XML ("Expression1"))) &&
+			    NULL != (content = xml_node_get_cstr (e_node, NULL))) {
+				expr1 = gnm_expr_parse_str (CXML2C (content), &pp,
+					GNM_EXPR_PARSE_DEFAULT, ctxt->exprconv, NULL);
+				xmlFree (content);
 			}
 
-			mstyle_set_validation (mstyle,
-				validation_new (style, type, op, CXML2C (title),
+			gnm_style_set_validation (style,
+				validation_new (vstyle, type, op, CXML2C (title),
 					CXML2C (msg), expr0, expr1, allow_blank,
 					use_dropdown));
 
 			xmlFree (msg);
 			xmlFree (title);
-		} else {
+		} else if (!strcmp (child->name, "InputMessage")) {
+			xmlChar *title = xml_node_get_cstr (child, "Title");
+			xmlChar *msg   = xml_node_get_cstr (child, "Message");
+			if (title || msg) {
+				gnm_style_set_input_msg (style,
+					gnm_input_msg_new (msg, title));
+				if (msg)
+					xmlFree (msg);
+				if (title)
+					xmlFree (title);
+			}
+		} else if (!strcmp (child->name, "Condition")) {
+			GnmStyleCond cond;
+
+			if (xml_node_get_int (child, "Operator", &val))
+				cond.op = val;
+			else
+				cond.op = GNM_STYLE_COND_CUSTOM;
+
+			parse_pos_init_sheet (&pp, ctxt->sheet);
+			if (NULL != (e_node = e_xml_get_child_by_name (child, CC2XML ("Expression0"))) &&
+			    NULL != (content = xml_node_get_cstr (e_node, NULL))) {
+				cond.expr[0] = gnm_expr_parse_str (CXML2C (content), &pp,
+					GNM_EXPR_PARSE_DEFAULT, ctxt->exprconv, NULL);
+				xmlFree (content);
+			} else
+				cond.expr[0] = NULL;
+			if (NULL != (e_node = e_xml_get_child_by_name (child, CC2XML ("Expression1"))) &&
+			    NULL != (content = xml_node_get_cstr (e_node, NULL))) {
+				cond.expr[1] = gnm_expr_parse_str (CXML2C (content), &pp,
+					GNM_EXPR_PARSE_DEFAULT, ctxt->exprconv, NULL);
+				xmlFree (content);
+			} else
+				cond.expr[1] = NULL;
+			if (NULL != (e_node = e_xml_get_child_by_name (child, CC2XML ("Style"))))
+				cond.overlay = xml_read_style (ctxt, e_node);
+			if (NULL == sc)
+				sc = gnm_style_conditions_new ();
+			gnm_style_conditions_insert (sc, &cond, -1);
+		} else
 			fprintf (stderr, "xml_read_style: unknown type '%s'\n",
 				 child->name);
-		}
 	}
 
-	return mstyle;
+	if (NULL != sc)
+		gnm_style_set_conditions (style, sc);
+
+	return style;
 }
 
 /*
@@ -1481,9 +1551,9 @@ xml_write_style_region (XmlParseContext *ctxt, GnmStyleRegion const *region)
 
 /*
  * Create a GnmStyleRegion equivalent to the XML subtree of doc.
- * Return an mstyle and a range in the @range parameter
+ * Return an style and a range in the @range parameter
  */
-static GnmStyle*
+static GnmStyle *
 xml_read_style_region_ex (XmlParseContext *ctxt, xmlNodePtr tree, GnmRange *range)
 {
 	xmlNodePtr child;
@@ -1783,15 +1853,15 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		 * Old format includes the Style online
 		 */
 		if (xml_node_get_int (tree, "Style", &style_idx)) {
-			GnmStyle *mstyle;
+			GnmStyle *style;
 
 			style_read = TRUE;
-			mstyle = g_hash_table_lookup (ctxt->style_table,
-						      GINT_TO_POINTER (style_idx));
-			if (mstyle) {
-				mstyle_ref (mstyle);
+			style = g_hash_table_lookup (ctxt->style_table,
+						     GINT_TO_POINTER (style_idx));
+			if (style) {
+				gnm_style_ref (style);
 				sheet_style_set_pos (ctxt->sheet, col, row,
-						     mstyle);
+						     style);
 			} /* else reading a newer version with style_idx == 0 */
 		}
 	} else {
@@ -1831,9 +1901,9 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 			 * This is even older backwards compatibility than 0.41 - 0.42
 			 */
 			if (!style_read && !strcmp (child->name, "Style")) {
-				GnmStyle *mstyle = xml_read_style (ctxt, child);
-				if (mstyle)
-					sheet_style_set_pos (ctxt->sheet, col, row, mstyle);
+				GnmStyle *style = xml_read_style (ctxt, child);
+				if (style)
+					sheet_style_set_pos (ctxt->sheet, col, row, style);
 			/* This is a pre version 1.0.3 file */
 			} else if (!strcmp (child->name, "Content")) {
 				content = xml_node_get_cstr (child, NULL);
@@ -2965,11 +3035,11 @@ static void
 xml_read_cell_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr styles, child;
-	GnmStyle *mstyle;
+	GnmStyle *style;
 	int style_idx;
 
 	ctxt->style_table = g_hash_table_new_full (g_direct_hash, g_direct_equal,
-						   NULL, (GDestroyNotify) mstyle_unref);
+						   NULL, (GDestroyNotify) gnm_style_unref);
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("CellStyles"));
 	if (child == NULL)
@@ -2978,11 +3048,11 @@ xml_read_cell_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 	for (styles = child->xmlChildrenNode; styles; styles = styles->next) {
 		if (!xmlIsBlankNode (styles) &&
 		    xml_node_get_int (styles, "No", &style_idx)) {
-			mstyle = xml_read_style (ctxt, styles);
+			style = xml_read_style (ctxt, styles);
 			g_hash_table_insert (
 				ctxt->style_table,
 				GINT_TO_POINTER (style_idx),
-				mstyle);
+				style);
 		}
 	}
 }

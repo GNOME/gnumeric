@@ -8,7 +8,8 @@ bin_PROGRAMS =
 lib_LTLIBRARIES = libspreadsheet.la
 
 check_PROGRAMS =
-#check_PROGRAMS += test-pango number-match
+check_PROGRAMS += test-pango
+# number-match
 ## Don't put comment on an assignment line!  It can trigger an automake bug.
 
 if WITH_GTK
@@ -229,6 +230,8 @@ GNUMERIC_BASE =					\
 	style-border.h				\
 	style-color.c				\
 	style-color.h				\
+	style-conditions.c			\
+	style-conditions.h			\
 	style-font.h				\
 	summary.c				\
 	summary.h				\
@@ -334,12 +337,11 @@ ssindex_LDFLAGS = -export-dynamic
 ssindex_SOURCES =				\
 	ssindex.c
 
-##test_pango_LDADD   = $(gnumeric_LDADD)
-##test_pango_LDFLAGS = -export-dynamic
-##test_pango_SOURCES =				\
-##	$(GNUMERIC_SOURCE) 			\
-##	test-pango.c
-##nodist_test_pango_SOURCES = $(nodist_gnumeric_SOURCES)
+test_pango_LDADD   = $(gnumeric_LDADD)
+test_pango_LDFLAGS = -export-dynamic
+test_pango_SOURCES =				\
+	test-pango.c
+nodist_test_pango_SOURCES = $(nodist_gnumeric_SOURCES)
 
 # Rules for the marshalers code:
 GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=gnm_

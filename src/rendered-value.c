@@ -73,10 +73,10 @@ static guint16
 calc_indent (PangoContext *context, const GnmStyle *mstyle, double zoom)
 {
 	int indent = 0;
-	if (mstyle_is_element_set (mstyle, MSTYLE_INDENT)) {
-		indent = mstyle_get_indent (mstyle);
+	if (gnm_style_is_element_set (mstyle, MSTYLE_INDENT)) {
+		indent = gnm_style_get_indent (mstyle);
 		if (indent) {
-			GnmFont *style_font = mstyle_get_font (mstyle, context, zoom);
+			GnmFont *style_font = gnm_style_get_font (mstyle, context, zoom);
 			indent *= style_font->approx_width.pixels.digit;
 			style_font_unref (style_font);
 		}
@@ -114,20 +114,20 @@ rendered_value_render (GString *str,
 		*go_color = 0;
 	} else if (sheet && sheet->hide_zero && cell_is_zero (cell)) {
 		*go_color = 0;
-	} else if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
+	} else if (gnm_style_is_element_set (mstyle, MSTYLE_FORMAT)) {
 		gboolean handle_minus;
 		double col_width = -1.;
 		/* entered text CAN be null if called by set_value */
-		GOFormat *format = mstyle_get_format (mstyle);
+		GOFormat *format = gnm_style_get_format (mstyle);
 
 		/* For format general approximate the cell width in characters */
 		if (style_format_is_var_width (format)) {
-			gboolean is_rotated = (mstyle_get_rotation (mstyle) != 0);
+			gboolean is_rotated = (gnm_style_get_rotation (mstyle) != 0);
 			is_variable_width = !is_rotated &&
 				(VALUE_FMT (cell->value) == NULL ||
 				 style_format_is_var_width (VALUE_FMT (cell->value)));
 			if (is_variable_width && allow_variable_width) {
-				GnmFont *style_font = mstyle_get_font (mstyle, context, zoom);
+				GnmFont *style_font = gnm_style_get_font (mstyle, context, zoom);
 				double wdigit = style_font->approx_width.pts.digit;
 
 				if (wdigit > 0.0) {
@@ -317,7 +317,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	else
 		str = g_string_sized_new (100);
 
-	rotation = mstyle_get_rotation (mstyle);
+	rotation = gnm_style_get_rotation (mstyle);
 
 	res = CHUNK_ALLOC (RenderedValue,
 			   rotation ? rendered_rotated_value_pool : rendered_value_pool);
@@ -329,13 +329,13 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	res->numeric_overflow = FALSE;
 	res->hfilled = FALSE;
 	res->vfilled = FALSE;
-	res->wrap_text = mstyle_get_effective_wrap_text (mstyle);
+	res->wrap_text = gnm_style_get_effective_wrap_text (mstyle);
 	res->effective_halign = style_default_halign (mstyle, cell);
-	res->effective_valign = mstyle_get_align_v (mstyle);
+	res->effective_valign = gnm_style_get_align_v (mstyle);
 	res->rotation = rotation;
 	if (rotation) {
 		RenderedRotatedValue *rrv = (RenderedRotatedValue *)res;
-		MStyleElementType e;
+		GnmStyleElement e;
 		static const PangoMatrix id = PANGO_MATRIX_INIT;
 
 		rrv->rotmat = id;
@@ -347,7 +347,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		res->noborders = TRUE;
 		/* Deliberately exclude diagonals.  */
 		for (e = MSTYLE_BORDER_TOP; e <= MSTYLE_BORDER_RIGHT; e++) {
-			GnmBorder *b = mstyle_get_border (mstyle, e);
+			GnmBorder *b = gnm_style_get_border (mstyle, e);
 			if (!style_border_is_blank (b)) {
 				res->noborders = FALSE;
 				break;
@@ -363,11 +363,11 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	res->layout = layout = pango_layout_new (context);
 	pango_layout_set_text (layout, str->str, str->len);
 
-	attrs = mstyle_get_pango_attrs (mstyle, context, zoom);
+	attrs = gnm_style_get_pango_attrs (mstyle, context, zoom);
 #ifdef BUG_105322
 	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
 	if (0 == fore) {
-		GnmColor const *c = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
+		GnmColor const *c = gnm_style_get_font_color (mstyle);
 		res->go_fore_color = c->go_color;
 	} else
 		res->go_fore_color = fore;

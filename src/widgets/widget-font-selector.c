@@ -87,14 +87,14 @@ fs_modify_style (FontSelector *fs, GnmStyle *modification)
 	GnmStyle *original = fs->mstyle;
 	g_return_if_fail (modification != NULL);
 
-	fs->mstyle = mstyle_copy_merge (original, modification);
+	fs->mstyle = gnm_style_merge (original, modification);
 	g_signal_emit (G_OBJECT (fs),
 		fs_signals[FONT_CHANGED], 0, modification);
 	foo_canvas_item_set (fs->font_preview_grid,
 		"default-style",  fs->mstyle,
 		NULL);
-	mstyle_unref (modification);
-	mstyle_unref (original);
+	gnm_style_unref (modification);
+	gnm_style_unref (original);
 }
 
 /*
@@ -174,8 +174,8 @@ font_selected (GtkTreeSelection *selection,
 	gtk_tree_model_get (model, &iter, 0, &text, -1);
 	gtk_entry_set_text (GTK_ENTRY (fs->font_name_entry), text);
 
-	change = mstyle_new ();
-	mstyle_set_font_name (change, text);
+	change = gnm_style_new ();
+	gnm_style_set_font_name (change, text);
 	g_free (text);
 	fs_modify_style (fs, change);
 }
@@ -216,7 +216,7 @@ static void
 style_selected (GtkTreeSelection *selection,
 		FontSelector *fs)
 {
-	GnmStyle *change = mstyle_new ();
+	GnmStyle *change = gnm_style_new ();
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GtkTreePath *path;
@@ -229,21 +229,21 @@ style_selected (GtkTreeSelection *selection,
 
 	switch (row) {
 	case 0:
-		mstyle_set_font_bold (change, FALSE);
-		mstyle_set_font_italic (change, FALSE);
+		gnm_style_set_font_bold (change, FALSE);
+		gnm_style_set_font_italic (change, FALSE);
 		break;
 	case 1:
-		mstyle_set_font_bold (change, TRUE);
-		mstyle_set_font_italic (change, FALSE);
+		gnm_style_set_font_bold (change, TRUE);
+		gnm_style_set_font_italic (change, FALSE);
 		break;
 
 	case 2:
-		mstyle_set_font_bold (change, TRUE);
-		mstyle_set_font_italic (change, TRUE);
+		gnm_style_set_font_bold (change, TRUE);
+		gnm_style_set_font_italic (change, TRUE);
 		break;
 	case 3:
-		mstyle_set_font_bold (change, FALSE);
-		mstyle_set_font_italic (change, TRUE);
+		gnm_style_set_font_bold (change, FALSE);
+		gnm_style_set_font_italic (change, TRUE);
 		break;
 	}
 
@@ -290,7 +290,7 @@ static void
 size_selected (GtkTreeSelection *selection,
 	       FontSelector *fs)
 {
-	GnmStyle *change = mstyle_new ();
+	GnmStyle *change = gnm_style_new ();
 	gchar *text;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -298,7 +298,7 @@ size_selected (GtkTreeSelection *selection,
 	gtk_tree_selection_get_selected (selection, &model, &iter);
 	gtk_tree_model_get (model, &iter, 0, &text, -1);
 	gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), text);
-	mstyle_set_font_size (change, atof (text));
+	gnm_style_set_font_size (change, atof (text));
 	g_free (text);
 	fs_modify_style (fs, change);
 }
@@ -313,8 +313,8 @@ size_changed (GtkEntry *entry, FontSelector *fs)
 	GSList *l;
 
 	if (size >= 1. && size < 128) {
-		GnmStyle *change = mstyle_new ();
-		mstyle_set_font_size (change, size);
+		GnmStyle *change = gnm_style_new ();
+		gnm_style_set_font_size (change, size);
 		fs_modify_style (fs, change);
 	}
 	g_signal_handlers_block_by_func (
@@ -385,10 +385,10 @@ fs_init (FontSelector *fs)
 	if (fs->gui == NULL)
                 return;
 
-	fs->mstyle = mstyle_new_default ();
-	mstyle_set_align_v   (fs->mstyle, VALIGN_CENTER);
-	mstyle_set_align_h   (fs->mstyle, HALIGN_CENTER);
-	mstyle_set_font_size (fs->mstyle, 10);
+	fs->mstyle = gnm_style_new_default ();
+	gnm_style_set_align_v   (fs->mstyle, VALIGN_CENTER);
+	gnm_style_set_align_h   (fs->mstyle, HALIGN_CENTER);
+	gnm_style_set_font_size (fs->mstyle, 10);
 
 	gtk_box_pack_start_defaults (GTK_BOX (fs),
 		glade_xml_get_widget (fs->gui, "toplevel-table"));
@@ -430,7 +430,7 @@ fs_destroy (GtkObject *object)
 	FontSelector *fs = FONT_SELECTOR (object);
 
 	if (fs->mstyle) {
-		mstyle_unref (fs->mstyle);
+		gnm_style_unref (fs->mstyle);
 		fs->mstyle = NULL;
 	}
 
@@ -542,9 +542,9 @@ font_selector_set_style (FontSelector *fs,
 	}
 	select_row (fs->font_style_list, n);
 
-	change = mstyle_new ();
-	mstyle_set_font_bold   (change, is_bold);
-	mstyle_set_font_italic (change, is_italic);
+	change = gnm_style_new ();
+	gnm_style_set_font_bold   (change, is_bold);
+	gnm_style_set_font_italic (change, is_italic);
 	fs_modify_style (fs, change);
 }
 
@@ -555,20 +555,20 @@ font_selector_set_strike (FontSelector *fs, gboolean strikethrough)
 
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 
-	change = mstyle_new ();
-	mstyle_set_font_strike (change, strikethrough);
+	change = gnm_style_new ();
+	gnm_style_set_font_strike (change, strikethrough);
 	fs_modify_style (fs, change);
 }
 
 void
-font_selector_set_underline (FontSelector *fs, StyleUnderlineType underline)
+font_selector_set_underline (FontSelector *fs, GnmUnderline underline)
 {
 	GnmStyle *change;
 
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 
-	change = mstyle_new ();
-	mstyle_set_font_uline (change, underline);
+	change = gnm_style_new ();
+	gnm_style_set_font_uline (change, underline);
 	fs_modify_style (fs, change);
 }
 
@@ -579,8 +579,8 @@ font_selector_set_color (FontSelector *fs, GnmColor *color)
 
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 
-	change = mstyle_new ();
-	mstyle_set_color (change, MSTYLE_COLOR_FORE, color);
+	change = gnm_style_new ();
+	gnm_style_set_font_color (change, color);
 	fs_modify_style (fs, change);
 }
 
@@ -610,13 +610,13 @@ void
 font_selector_get_pango (FontSelector *fs, PangoFontDescription *desc)
 {
 	pango_font_description_set_family (desc,
-		mstyle_get_font_name (fs->mstyle));
+		gnm_style_get_font_name (fs->mstyle));
 	pango_font_description_set_weight (desc,
-		mstyle_get_font_bold (fs->mstyle) ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL);
+		gnm_style_get_font_bold (fs->mstyle) ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL);
 	pango_font_description_set_style (desc,
-		mstyle_get_font_italic (fs->mstyle) ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
+		gnm_style_get_font_italic (fs->mstyle) ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
 	pango_font_description_set_size (desc,
-		mstyle_get_font_size (fs->mstyle) * PANGO_SCALE);
+		gnm_style_get_font_size (fs->mstyle) * PANGO_SCALE);
 }
 
 void

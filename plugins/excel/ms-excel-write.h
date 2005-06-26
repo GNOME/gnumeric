@@ -30,12 +30,12 @@ typedef struct {
 	guint32    color;
 	char const *font_name;
 	char       *font_name_copy; /* some times we need to keep a local copy */
-	double	  		size_pts;
-	gboolean  		is_bold;
-	gboolean  		is_italic;
-	gboolean  		is_auto;
-	StyleUnderlineType	underline;
-	gboolean		strikethrough;
+	double	  	size_pts;
+	gboolean  	is_bold;
+	gboolean  	is_italic;
+	gboolean  	is_auto;
+	GnmUnderline	underline;
+	gboolean	strikethrough;
 } ExcelFont;
 
 typedef struct {
@@ -46,7 +46,7 @@ typedef struct {
 	gint32		 max_col, max_row;
 	guint16		 col_xf    [SHEET_MAX_COLS];
 	GnmStyle	*col_style [SHEET_MAX_COLS];
-	GnmStyleList 	*validations;
+	GnmStyleList 	*conditions, *validations;
 	GSList           *blips, *textboxes;
 	unsigned	 cur_obj, num_objs, num_blips;
 } ExcelWriteSheet;
@@ -133,7 +133,7 @@ unsigned excel_write_BOF	(BiffPut *bp, MsBiffFileType type);
 void	 excel_write_SETUP	(BiffPut *bp, ExcelWriteSheet *esheet);
 void	 excel_write_SCL	(BiffPut *bp, double zoom, gboolean force);
 
-gint palette_get_index (ExcelWriteState *ewb, guint c);
+gint palette_get_index (ExcelWriteState const *ewb, guint c);
 int excel_write_get_externsheet_idx (ExcelWriteState *wb,
 				     Sheet *gnum_sheeta,
 				     Sheet *gnum_sheetb);

@@ -165,7 +165,7 @@ static const FormatCharacteristics
 retrieve_format_info (const Sheet *sheet, int col, int row)
 {
 	const GnmStyle *mstyle = sheet_style_get (sheet, col, row);
-	const GOFormat *format = mstyle_get_format (mstyle);
+	const GOFormat *format = gnm_style_get_format (mstyle);
 	return format->family_info;
 }
 
@@ -260,7 +260,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue const * const *argv)
 		GnmStyle const *mstyle =
 			sheet_style_get (sheet, ref->col, ref->row);
 
-		return translate_cell_format (mstyle_get_format (mstyle));
+		return translate_cell_format (gnm_style_get_format (mstyle));
 
 	/* from CELL */
 	/* Backwards compatibility w/123 - unnecessary */
@@ -282,7 +282,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue const * const *argv)
 			sheet_cell_get (sheet, ref->col, ref->row);
 
 		if (cell && cell->value && cell->value->type == VALUE_STRING) {
-			switch (mstyle_get_align_h (mstyle)) {
+			switch (gnm_style_get_align_h (mstyle)) {
 			case HALIGN_GENERAL: return value_new_string ("'");
 			case HALIGN_LEFT:    return value_new_string ("'");
 			case HALIGN_RIGHT:   return value_new_string ("\"");
@@ -298,7 +298,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue const * const *argv)
 		   !g_ascii_strcasecmp (info_type, "protect")) {
 		GnmStyle const *mstyle =
 			sheet_style_get (sheet, ref->col, ref->row);
-		return value_new_int (mstyle_get_content_locked (mstyle) ? 1 : 0);
+		return value_new_int (gnm_style_get_content_locked (mstyle) ? 1 : 0);
 
     /* different characteristics grouped for efficiency
      * TYPE needed for backward compatibility w/123 but otherwise useless

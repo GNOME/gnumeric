@@ -1,3 +1,114 @@
+GLPK 4.8 (release date: Jan 12, 2005)
+
+        Core simplex method and interior-point method routines were
+        re-implemented and now they use a new, "storage-by-rows" sparse
+        matrix format (unlike previous versions where linked lists were
+        used to represent sparse matrices). For details see ChangeLog.
+
+        Also a minor bug was fixed in API routine lpx_read_cpxlp.
+
+GLPK 4.7 (release date: Aug 23, 2004)
+
+        Now GLPK supports free MPS format. Two new API routines
+        lpx_read_freemps (to read problem data in free MPS format) and
+        lpx_write_freemps (to write problem data in free MPS format)
+        were added. This feature is also available in the solver glpsol
+        via new command-line options --freemps and --wfreemps. For more
+        details see the GLPK reference manual.
+
+        API routines lpx_read_cpxlp and lpx_write_cpxlp for reading and
+        writing problem data in CPLEX LP format were re-implemented to
+        allow long symbolic names (up to 255 characters).
+
+        The following three modules were temporarily removed from the
+        GLPK distribution due to licensing problems: DELI (an interface
+        module to Delphi), GLPKMEX (an interface module to Matlab), and
+        JNI (an interface module to Java).
+
+GLPK 4.6 (release date: Aug 04, 2004)
+
+        Three new statements were implemented in the GNU MathProg
+        language: solve, printf, and for. Their detailed description can
+        be found in the GLPK documentation included in the distribution.
+        (See also a sample model, examples/queens.mod, which illustrates
+        using these new statements.)
+
+        Two new API routines were added to the package: lpx_read_prob
+        and lpx_write_prob. They allow reading/writing problem data in
+        GNU LP low-level text format.
+
+        Three new command-line options were implemented in the LP/MIP
+        solver glpsol: --glp (to read problem data in GNU LP format),
+        --wglp (to write problem data in GNU LP format), and --name (to
+        change problem name). Now glpsol also supports processing models
+        where the new statements (see above) are used.
+
+        A new version of GLPKMEX, a Matlab MEX interface to GLPK, was
+        included. For more details see contrib/glpkmex/ChangeLog.
+
+GLPK 4.5 (release date: Jul 19, 2004)
+
+        The branch-and-bound solver was completely re-implemented.
+
+        Some modifications were made in memory allocation routines that
+        allows using the package on 64-bit platforms.
+
+        For more details see ChangeLog.
+
+GLPK 4.4 (release date: Jan 17, 2004)
+
+        All API routines were re-implemented using new data structures.
+        The new implementation provides the same specifications and
+        functionality of API routines as the old one, however, it has
+        some important advantages, in particular:
+        * linked lists are used everywhere that allows creating and
+          modifying the problem object as efficiently as possible
+        * all data stored in the problem object are non-scaled (even if
+          the internal scaling is used) that prevents distortion of the
+          original problem data
+        * solution components obtained by the solver remain available
+          even if the problem object has been modified
+        * no solver-specific data are used in the new data structures
+          that allows attaching any external lp/mip solver using GLPK
+          API as an uniform interface
+        Note that some API routines became obsolete being replaced by
+        new, more convenient routines. These obsolete routines are kept
+        for backward compatibility, however, they will be removed in
+        the future. For more details please see ChangeLog and the GLPK
+        Reference Manual.
+
+        New edition of the GLPK Reference Manual was included in the
+        distribution.
+
+        GLPKMEX, a Matlab MEX interface to GLPK package, contributed by
+        Nicolo Giorgetti <giorgetti@dii.unisi.it> was included in the
+        distribution.
+
+        GLPK FAQ contributed by Harley Mackenzie <hjm@bigpond.com> was
+        included in the distribution.
+
+GLPK 4.3 (release date: Dec 12, 2003)
+
+        The bug, due to which the standard math library is not linked
+        on building the package on some platforms, was fixed.
+
+        The following new built-in functions were added to the MathProg
+        language: round, trunc, Irand224, Uniform01, Uniform, Normal01,
+        Normal. For details see the language description.
+
+        The MathProg syntax was changed to allow writing 'subj to' that
+        means 'subject to'.
+
+        The new api routine lpx_get_ray_info was added. It is intended
+        to determine which (non-basic) variable causes unboundness. For
+        details see the reference manual.
+
+        The module glpmps.c was changed to avoid compilation errors on
+        building the package on Mac OS X.
+
+        Several typos was fixed and some new material was added to the
+        GLPK documentation.
+
 GLPK 4.2 (release date: Nov 14, 2003)
 
         A preliminary implementation of the Integer Optimization Suite

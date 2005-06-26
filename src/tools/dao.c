@@ -633,11 +633,11 @@ dao_set_style (data_analysis_output_t *dao, int col1, int row1,
 		range.end.row = dao->start_row + dao->rows;
 
 	if (range.end.col < range.start.col) {
-		mstyle_unref (mstyle);
+		gnm_style_unref (mstyle);
 		return;
 	}
 	if (range.end.row < range.start.row) {
-		mstyle_unref (mstyle);
+		gnm_style_unref (mstyle);
 		return;
 	}
 
@@ -660,7 +660,7 @@ void
 dao_set_bold (data_analysis_output_t *dao, int col1, int row1,
 	      int col2, int row2)
 {
-	GnmStyle *mstyle = mstyle_new ();
+	GnmStyle *mstyle = gnm_style_new ();
 	GnmRange  range;
 
 	range.start.col = col1 + dao->start_col;
@@ -668,7 +668,7 @@ dao_set_bold (data_analysis_output_t *dao, int col1, int row1,
 	range.end.col   = col2 + dao->start_col;
 	range.end.row   = row2 + dao->start_row;
 
-	mstyle_set_font_bold (mstyle, TRUE);
+	gnm_style_set_font_bold (mstyle, TRUE);
 	sheet_style_apply_range (dao->sheet, &range, mstyle);
 }
 
@@ -688,7 +688,7 @@ void
 dao_set_underlined (data_analysis_output_t *dao, int col1, int row1,
 		    int col2, int row2)
 {
-	GnmStyle *mstyle = mstyle_new ();
+	GnmStyle *mstyle = gnm_style_new ();
 	GnmRange  range;
 
 	range.start.col = col1 + dao->start_col;
@@ -696,7 +696,7 @@ dao_set_underlined (data_analysis_output_t *dao, int col1, int row1,
 	range.end.col   = col2 + dao->start_col;
 	range.end.row   = row2 + dao->start_row;
 
-	mstyle_set_font_uline (mstyle, TRUE);
+	gnm_style_set_font_uline (mstyle, TRUE);
 	sheet_style_apply_range (dao->sheet, &range, mstyle);
 }
 
@@ -716,9 +716,9 @@ void
 dao_set_italic (data_analysis_output_t *dao, int col1, int row1,
 		int col2, int row2)
 {
-	GnmStyle *mstyle = mstyle_new ();
+	GnmStyle *mstyle = gnm_style_new ();
 
-	mstyle_set_font_italic (mstyle, TRUE);
+	gnm_style_set_font_italic (mstyle, TRUE);
 	dao_set_style (dao, col1, row1, col2, row2, mstyle);
 }
 
@@ -738,11 +738,11 @@ void
 dao_set_percent (data_analysis_output_t *dao, int col1, int row1,
 		 int col2, int row2)
 {
-	GnmStyle *mstyle = mstyle_new ();
+	GnmStyle *mstyle = gnm_style_new ();
 	GOFormat *style_format = NULL;
 
 	style_format = style_format_default_percentage ();
-	mstyle_set_format (mstyle, style_format);
+	gnm_style_set_format (mstyle, style_format);
 
 	dao_set_style (dao, col1, row1, col2, row2, mstyle);
 }
@@ -763,11 +763,11 @@ void
 dao_set_date (data_analysis_output_t *dao, int col1, int row1,
 		 int col2, int row2)
 {
-	GnmStyle *mstyle = mstyle_new ();
+	GnmStyle *mstyle = gnm_style_new ();
 	GOFormat *style_format = NULL;
 
 	style_format = style_format_default_date ();
-	mstyle_set_format (mstyle, style_format);
+	gnm_style_set_format (mstyle, style_format);
 
 	dao_set_style (dao, col1, row1,
 		       col2, row2, mstyle);
@@ -792,10 +792,10 @@ dao_set_colors (data_analysis_output_t *dao, int col1, int row1,
 {
 	GnmStyle *mstyle;
 
-	mstyle = mstyle_new ();
-	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, fore);
-	mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, back);
-	mstyle_set_pattern (mstyle, 1);
+	mstyle = gnm_style_new ();
+	gnm_style_set_font_color (mstyle, fore);
+	gnm_style_set_back_color (mstyle, back);
+	gnm_style_set_pattern (mstyle, 1);
 	dao_set_style (dao, col1, row1,
 		       col2, row2, mstyle);
 }
@@ -815,13 +815,13 @@ dao_set_colors (data_analysis_output_t *dao, int col1, int row1,
 void
 dao_set_align (data_analysis_output_t *dao, int col1, int row1,
 	       int col2, int row2,
-	       StyleHAlignFlags align_h, StyleVAlignFlags align_v)
+	       GnmHAlign align_h, GnmVAlign align_v)
 {
 	GnmStyle *mstyle;
 
-	mstyle = mstyle_new ();
-	mstyle_set_align_h (mstyle, align_h);
-	mstyle_set_align_v (mstyle, align_v);
+	mstyle = gnm_style_new ();
+	gnm_style_set_align_h (mstyle, align_h);
+	gnm_style_set_align_v (mstyle, align_v);
 	dao_set_style (dao, col1, row1, col2, row2, mstyle);
 }
 

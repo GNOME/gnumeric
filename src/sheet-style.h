@@ -4,14 +4,15 @@
 #include "gnumeric.h"
 
 struct _GnmStyleRegion {
-	GnmRange    range; /* must be 1st */
-	GnmStyle  *style;
+	GnmRange  range; /* must be 1st */
+	GnmStyle *style;
 };
 
-struct _GnmRow {
+struct _GnmStyleRow {
 	gboolean hide_grid;
 	int row, start_col, end_col;
-	GnmStyle      const **styles;
+	Sheet const     *sheet;
+	GnmStyle  const **styles;
 	GnmBorder const **top;
 	GnmBorder const **bottom;
 	GnmBorder const **vertical;
@@ -20,7 +21,7 @@ struct _GnmRow {
 GnmStyle *sheet_style_default		(Sheet const *sheet);
 GnmStyle *sheet_style_get		(Sheet const *sheet, int col, int row);
 GnmStyle *sheet_style_find   		(Sheet const *sheet, GnmStyle *st);
-void	 sheet_style_get_row		(Sheet const *sheet, GnmRow *sr);
+void	 sheet_style_get_row		(Sheet const *sheet, GnmStyleRow *sr);
 void	 sheet_style_apply_range	(Sheet *sheet, GnmRange const *r,
 					 GnmStyle *style);
 void	 sheet_style_apply_border	(Sheet *sheet, GnmRange const *r,
@@ -32,13 +33,13 @@ void	 sheet_style_set_pos		(Sheet  *sheet, int col, int row,
 
 void	 sheet_style_insert_colrow	(GnmExprRelocateInfo const *rinfo);
 void	 sheet_style_relocate		(GnmExprRelocateInfo const *rinfo);
-void	 sheet_style_get_uniform	(Sheet const *sheet, GnmRange const *r,
+unsigned int sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 					 GnmStyle **style, GnmBorder **borders);
 void	 sheet_style_get_extent		(Sheet const *sheet, GnmRange *r,
 					 GnmStyle **most_common_in_cols);
 gboolean sheet_style_has_visible_content(Sheet const *sheet, GnmRange *src);
 void     style_row_init			(GnmBorder const * * *prev_vert,
-					 GnmRow *sr, GnmRow *next_sr,
+					 GnmStyleRow *sr, GnmStyleRow *next_sr,
 					 int start_col, int end_col,
 					 gpointer mem, gboolean hide_grid);
 GnmStyle *sheet_style_most_common_in_col   (Sheet const *sheet, int col);
@@ -61,8 +62,8 @@ GnmStyleList	*sheet_style_get_list	(Sheet const *sheet, GnmRange const *r);
 SpanCalcFlags	 sheet_style_set_list	(Sheet *sheet, GnmCellPos const *corner,
 					 gboolean transpose, GnmStyleList const *l);
 
-GnmStyleList *sheet_style_get_validation_list (Sheet const *sheet,
-					       GnmRange const *r);
+GnmStyleList *sheet_style_collect_conditions  (Sheet const *s, GnmRange const *r);
+GnmStyleList *sheet_style_collect_validations (Sheet const *s, GnmRange const *r);
 
 /* For internal use only */
 void	  sheet_style_unlink (Sheet *sheet, GnmStyle *st);

@@ -330,7 +330,7 @@ range_has_header (Sheet const *sheet, GnmRange const *src,
 
 		/* Look for style differences */
 		if (!ignore_styles &&
-		    !mstyle_equal_header (cell_get_mstyle (a),
+		    !gnm_style_equal_header (cell_get_mstyle (a),
 					  cell_get_mstyle (b), top))
 			return TRUE;
 	}

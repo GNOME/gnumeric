@@ -113,17 +113,6 @@ html_print_encoded (GsfOutput *output, char const *str)
 	}
 }
 
-/**
- * html_get_color:
- *
- * @mstyle: the cellstyle
- * @t:      which color
- * @r:      red component
- * @g:      green component
- * @b:      blue component
- *
- * Determine rgb components
- **/
 static void
 html_get_text_color (GnmCell *cell, GnmStyle *mstyle, guint *r, guint *g, guint *b)
 {
@@ -138,9 +127,9 @@ html_get_text_color (GnmCell *cell, GnmStyle *mstyle, guint *r, guint *g, guint 
 	}
 }
 static void
-html_get_color (GnmStyle *mstyle, MStyleElementType t, guint *r, guint *g, guint *b)
+html_get_back_color (GnmStyle *mstyle, guint *r, guint *g, guint *b)
 {
-	GnmColor *color = mstyle_get_color (mstyle, t);
+	GnmColor const *color = gnm_style_get_back_color (mstyle);
 	*r = color->gdk_color.red >> 8;
 	*g = color->gdk_color.green >> 8;
 	*b = color->gdk_color.blue >> 8;
@@ -153,8 +142,8 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle *mstyle, htm
 	guint g = 0;
 	guint b = 0;
 	char *rendered_string;
-	gboolean hidden = mstyle_get_content_hidden (mstyle);
-	GnmHLink* hlink = mstyle_get_hlink (mstyle);
+	gboolean hidden = gnm_style_get_content_hidden (mstyle);
+	GnmHLink* hlink = gnm_style_get_hlink (mstyle);
 	const guchar* hlink_target = NULL;
 
 	if (hlink && IS_GNM_HLINK_URL (hlink)) {
@@ -165,9 +154,9 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle *mstyle, htm
 		gsf_output_puts (output, "<!-- 'HIDDEN DATA' -->");
 	else {
 		if (mstyle != NULL) {
-			if (mstyle_get_font_italic (mstyle))
+			if (gnm_style_get_font_italic (mstyle))
 				gsf_output_puts (output, "<i>");
-			if (mstyle_get_font_bold (mstyle))
+			if (gnm_style_get_font_bold (mstyle))
 				gsf_output_puts (output, "<b>");
 			if (font_is_monospaced (mstyle))
 				gsf_output_puts (output, "<tt>");
@@ -195,9 +184,9 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle *mstyle, htm
 		if (mstyle != NULL) {
 			if (font_is_monospaced (mstyle))
 				gsf_output_puts (output, "</tt>");
-			if (mstyle_get_font_bold (mstyle))
+			if (gnm_style_get_font_bold (mstyle))
 				gsf_output_puts (output, "</b>");
-			if (mstyle_get_font_italic (mstyle))
+			if (gnm_style_get_font_italic (mstyle))
 				gsf_output_puts (output, "</i>");
 		}
 	}
@@ -282,16 +271,16 @@ html_write_border_style_40 (GsfOutput *output, GnmStyle *mstyle)
 {
 	GnmBorder *border;
 
-	border = mstyle_get_border (mstyle, MSTYLE_BORDER_TOP);
+	border = gnm_style_get_border (mstyle, MSTYLE_BORDER_TOP);
 	if (!style_border_is_blank (border))
 		html_write_one_border_style_40 (output, border, "border-top");
-	border = mstyle_get_border (mstyle, MSTYLE_BORDER_BOTTOM);
+	border = gnm_style_get_border (mstyle, MSTYLE_BORDER_BOTTOM);
 	if (!style_border_is_blank (border))
 		html_write_one_border_style_40 (output, border, "border-bottom");
-	border = mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT);
+	border = gnm_style_get_border (mstyle, MSTYLE_BORDER_LEFT);
 	if (!style_border_is_blank (border))
 		html_write_one_border_style_40 (output, border, "border-left");
-	border = mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT);
+	border = gnm_style_get_border (mstyle, MSTYLE_BORDER_RIGHT);
 	if (!style_border_is_blank (border))
 		html_write_one_border_style_40 (output, border, "border-right");
 }
@@ -305,16 +294,16 @@ write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t 
 
 	mstyle = sheet_style_get (sheet, col, row);
 	if (mstyle != NULL && version != HTML32 && version != HTML40 &&
-	    mstyle_get_pattern (mstyle) != 0 &&
-	    mstyle_is_element_set (mstyle, MSTYLE_COLOR_BACK)) {
-		html_get_color (mstyle, MSTYLE_COLOR_BACK, &r, &g, &b);
+	    gnm_style_get_pattern (mstyle) != 0 &&
+	    gnm_style_is_element_set (mstyle, MSTYLE_COLOR_BACK)) {
+		html_get_back_color (mstyle, &r, &g, &b);
 		gsf_output_printf (output, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
 	}
 
 	cell = sheet_cell_get (sheet, col, row);
 	if (cell != NULL) {
 
-		switch (mstyle_get_align_v (mstyle)) {
+		switch (gnm_style_get_align_v (mstyle)) {
 		case VALIGN_TOP:
 			gsf_output_puts (output, " valign=\"top\" ");
 			break;
@@ -353,18 +342,18 @@ write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t 
 	if (version == HTML40 || version == HTML40F) {
 		if (mstyle != NULL) {
 			gsf_output_printf (output, " style=\"");
-			if (mstyle_get_pattern (mstyle) != 0 &&
-			    mstyle_is_element_set (mstyle, MSTYLE_COLOR_BACK)) {
-				html_get_color (mstyle, MSTYLE_COLOR_BACK, &r, &g, &b);
+			if (gnm_style_get_pattern (mstyle) != 0 &&
+			    gnm_style_is_element_set (mstyle, MSTYLE_COLOR_BACK)) {
+				html_get_back_color (mstyle, &r, &g, &b);
 				gsf_output_printf (output, "background:#%02X%02X%02X;", r, g, b);
 			}
 			if (cell != NULL) {
-				gint size = (int) (mstyle_get_font_size (mstyle) + 0.5);
+				gint size = (int) (gnm_style_get_font_size (mstyle) + 0.5);
 				gsf_output_printf (output, " font-size:%ipt;", size);
 				html_get_text_color (cell, mstyle, &r, &g, &b);
 				if (r > 0 || g > 0 || b > 0)
 					gsf_output_printf (output, " color:#%02X%02X%02X;", r, g, b);
-				if (mstyle_get_content_hidden (mstyle))
+				if (gnm_style_get_content_hidden (mstyle))
 					gsf_output_puts (output, " visibility:hidden;");
 			}
 

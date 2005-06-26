@@ -19,7 +19,7 @@ void font_selector_set_value       (FontSelector *fs, GnmValue const *v);
 void font_selector_set_name        (FontSelector *fs, char const *font_name);
 void font_selector_set_style       (FontSelector *fs,
 				    gboolean is_bold, gboolean is_italic);
-void font_selector_set_underline   (FontSelector *fs, StyleUnderlineType sut);
+void font_selector_set_underline   (FontSelector *fs, GnmUnderline sut);
 void font_selector_set_strike      (FontSelector *fs, gboolean strikethrough);
 void font_selector_set_color       (FontSelector *fs, GnmColor *color);
 void font_selector_set_points      (FontSelector *fs, double point_size);

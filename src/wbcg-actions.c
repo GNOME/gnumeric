@@ -1063,7 +1063,7 @@ static GNM_ACTION_DEF (cmd_create_ellipse)
 	{ create_object (wbcg, GNM_SO_FILLED_TYPE, "is-oval", TRUE, NULL); }
 
 void
-wbcg_set_selection_halign (WorkbookControlGUI *wbcg, StyleHAlignFlags halign)
+wbcg_set_selection_halign (WorkbookControlGUI *wbcg, GnmHAlign halign)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	WorkbookView	*wb_view;
@@ -1076,11 +1076,11 @@ wbcg_set_selection_halign (WorkbookControlGUI *wbcg, StyleHAlignFlags halign)
 	 * then revert to general */
 	wb_view = wb_control_view (wbc);
 	style = wb_view->current_format;
-	if (mstyle_get_align_h (style) == halign)
+	if (gnm_style_get_align_h (style) == halign)
 		halign = HALIGN_GENERAL;
 
-	style = mstyle_new ();
-	mstyle_set_align_h (style, halign);
+	style = gnm_style_new ();
+	gnm_style_set_align_h (style, halign);
 	cmd_selection_format (wbc, style, NULL, _("Set Horizontal Alignment"));
 }
 
@@ -1094,7 +1094,7 @@ static GNM_ACTION_DEF (cb_center_across_selection)
 	{ wbcg_set_selection_halign (wbcg, HALIGN_CENTER_ACROSS_SELECTION); }
 
 void
-wbcg_set_selection_valign (WorkbookControlGUI *wbcg, StyleVAlignFlags valign)
+wbcg_set_selection_valign (WorkbookControlGUI *wbcg, GnmVAlign valign)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	WorkbookView	*wb_view;
@@ -1107,14 +1107,14 @@ wbcg_set_selection_valign (WorkbookControlGUI *wbcg, StyleVAlignFlags valign)
 	 * then revert to general */
 	wb_view = wb_control_view (wbc);
 	style = wb_view->current_format;
-	if (mstyle_get_align_h (style) == valign) {
+	if (gnm_style_get_align_h (style) == valign) {
 		if (valign == VALIGN_BOTTOM)
 			return;
 		valign = VALIGN_BOTTOM;
 	}
 
-	style = mstyle_new ();
-	mstyle_set_align_v (style, valign);
+	style = gnm_style_new ();
+	gnm_style_set_align_v (style, valign);
 	cmd_selection_format (wbc, style, NULL, _("Set Vertical Alignment"));
 }
 
@@ -1159,7 +1159,7 @@ static GNM_ACTION_DEF (cb_unmerge_cells)
 
 static void
 toggle_font_attr (WorkbookControlGUI *wbcg, GtkToggleAction *act,
-		  MStyleElementType t, unsigned true_val, unsigned false_val)
+		  GnmStyleElement t, unsigned true_val, unsigned false_val)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	GnmStyle *new_style;
@@ -1195,13 +1195,13 @@ toggle_font_attr (WorkbookControlGUI *wbcg, GtkToggleAction *act,
 		return;
 	}
 
-	new_style = mstyle_new ();
+	new_style = gnm_style_new ();
 	switch (t) {
 	default :
-	case MSTYLE_FONT_BOLD:	 	mstyle_set_font_bold (new_style, val); break;
-	case MSTYLE_FONT_ITALIC:	mstyle_set_font_italic (new_style, val); break;
-	case MSTYLE_FONT_UNDERLINE:	mstyle_set_font_uline (new_style, val); break;
-	case MSTYLE_FONT_STRIKETHROUGH: mstyle_set_font_strike (new_style, val); break;
+	case MSTYLE_FONT_BOLD:	 	gnm_style_set_font_bold (new_style, val); break;
+	case MSTYLE_FONT_ITALIC:	gnm_style_set_font_italic (new_style, val); break;
+	case MSTYLE_FONT_UNDERLINE:	gnm_style_set_font_uline (new_style, val); break;
+	case MSTYLE_FONT_STRIKETHROUGH: gnm_style_set_font_strike (new_style, val); break;
 	};
 
 	cmd_selection_format (wbc, new_style, NULL, _("Set Font Style"));
@@ -1222,8 +1222,8 @@ static void
 apply_number_format (WorkbookControlGUI *wbcg,
 		     char const *translated_format, char const *descriptor)
 {
-	GnmStyle *mstyle = mstyle_new ();
-	mstyle_set_format_text (mstyle, translated_format);
+	GnmStyle *mstyle = gnm_style_new ();
+	gnm_style_set_format_text (mstyle, translated_format);
 	cmd_selection_format (WORKBOOK_CONTROL (wbcg), mstyle, NULL, descriptor);
 }
 
@@ -1304,10 +1304,10 @@ modify_format (WorkbookControlGUI *wbcg,
 	g_return_if_fail (wbv != NULL);
 	g_return_if_fail (wbv->current_format != NULL);
 
-	new_fmt = (*format_modify_fn) (mstyle_get_format (wbv->current_format));
+	new_fmt = (*format_modify_fn) (gnm_style_get_format (wbv->current_format));
 	if (new_fmt != NULL) {
-		GnmStyle *style = mstyle_new ();
-		mstyle_set_format (style, new_fmt);
+		GnmStyle *style = gnm_style_new ();
+		gnm_style_set_format (style, new_fmt);
 		cmd_selection_format (wbc, style, NULL, descriptor);
 		style_format_unref (new_fmt);
 	}
@@ -1330,13 +1330,13 @@ static GNM_ACTION_DEF (cb_format_inc_indent)
 	g_return_if_fail (wbv != NULL);
 	g_return_if_fail (wbv->current_format != NULL);
 
-	i = mstyle_get_indent (wbv->current_format);
+	i = gnm_style_get_indent (wbv->current_format);
 	if (i < 20) {
-		GnmStyle *style = mstyle_new ();
+		GnmStyle *style = gnm_style_new ();
 
-		if (HALIGN_LEFT != mstyle_get_align_h (wbv->current_format))
-			mstyle_set_align_h (style, HALIGN_LEFT);
-		mstyle_set_indent (style, i+1);
+		if (HALIGN_LEFT != gnm_style_get_align_h (wbv->current_format))
+			gnm_style_set_align_h (style, HALIGN_LEFT);
+		gnm_style_set_indent (style, i+1);
 		cmd_selection_format (wbc, style, NULL,
 			    _("Increase Indent"));
 	}
@@ -1352,11 +1352,11 @@ static GNM_ACTION_DEF (cb_format_dec_indent)
 	g_return_if_fail (wbv != NULL);
 	g_return_if_fail (wbv->current_format != NULL);
 
-	i = mstyle_get_indent (wbv->current_format);
+	i = gnm_style_get_indent (wbv->current_format);
 	if (i > 0) {
-		GnmStyle *style = mstyle_new ();
+		GnmStyle *style = gnm_style_new ();
 
-		mstyle_set_indent (style, i-1);
+		gnm_style_set_indent (style, i-1);
 		cmd_selection_format (wbc, style, NULL,
 			    _("Decrease Indent"));
 	}
