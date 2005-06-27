@@ -1,3 +1,9 @@
+2005-06-27  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_irr): If all else fails, try to Newton
+	seek from left edge of interval.
+	(irr_npv, irr_npv_df): Don't be smart.  Fixes Debian #315625.
+
 2005-06-13  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.2
