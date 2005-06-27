@@ -2101,7 +2101,7 @@ static GtkToggleActionEntry const toggle_actions[] = {
 	        G_CALLBACK (cb_view_statusbar), TRUE },
 
 	{ "ViewFullScreen", GTK_STOCK_ZOOM_FIT,
-		N_("F_ull Screen..."), "F11",
+		N_("F_ull Screen"), "F11",
 		N_("in or out"), G_CALLBACK (cb_view_fullscreen), FALSE }
 };
 

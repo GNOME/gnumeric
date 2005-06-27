@@ -1,3 +1,7 @@
+2005-06-27  Morten Welinder  <terra@gnome.org>
+
+	* src/wbcg-actions.c: No ellipsis to Full Screen.
+
 2005-06-25  Jody Goldberg <jody@gnome.org>
 
 	* src/mstyle.c (gnm_style_dup) : no need to dup unassigned elements.
@@ -11,6 +15,7 @@
 
 	* src/mathfunc.c (random_01): Use the Mersenne Twister as
 	fallback.
+	* configure.in: Stop checking for functions we no longer use.
 
 2005-06-22  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
