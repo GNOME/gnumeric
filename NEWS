@@ -21,6 +21,7 @@ Morten:
 	  dependencies.
 	* Backport SUMIF fix.
 	* Backport number matching fix.  [#306254]
+	* Backport IRR fix.  [Debian #315625]
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.3
