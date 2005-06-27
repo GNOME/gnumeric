@@ -1499,43 +1499,41 @@ typedef struct {
 static GoalSeekStatus
 irr_npv (gnm_float rate, gnm_float *y, void *user_data)
 {
-	gnumeric_irr_t *p = user_data;
-	gnm_float *values, sum;
-        int i, n;
+	const gnumeric_irr_t *p = user_data;
+	const gnm_float *values = p->values;
+        int n = p->n;
+	gnm_float sum = 0;
+	gnm_float f = 1;
+	gnm_float ff = 1 / (rate + 1);
+        int i;
 
-	values = p->values;
-	n = p->n;
-
-	sum = 0;
-	for (i = 0; i < n; i++)
-	        sum += values[i] * pow1p (rate, n - i);
-
-	/*
-	 * I changed the formula above by multiplying all terms by (1+r)^n.
-	 * Since we're looking for zeros, that should not matter.  It does
-	 * make the derivative below simpler, though.  -- MW.
-	 */
+	for (i = 0; i < n; i++) {
+	        sum += values[i] * f;
+		f *= ff;
+	}
 
 	*y = sum;
-	return GOAL_SEEK_OK;
+	return gnm_finite (sum) ? GOAL_SEEK_OK : GOAL_SEEK_ERROR;
 }
 
 static GoalSeekStatus
 irr_npv_df (gnm_float rate, gnm_float *y, void *user_data)
 {
-	gnumeric_irr_t *p = user_data;
-	gnm_float *values, sum;
-        int i, n;
+	const gnumeric_irr_t *p = user_data;
+	const gnm_float *values = p->values;
+        int n = p->n;
+	gnm_float sum = 0;
+	gnm_float f = 1;
+	gnm_float ff = 1 / (rate + 1);
+        int i;
 
-	values = p->values;
-	n = p->n;
-
-	sum = 0;
-	for (i = 0; i < n - 1; i++)
-	        sum += values[i] * (n - i) * pow1p (rate, n - i - 1);
+	for (i = 1; i < n; i++) {
+	        sum += values[i] * (-i) * f;
+		f *= ff;
+	}
 
 	*y = sum;
-	return GOAL_SEEK_OK;
+	return gnm_finite (sum) ? GOAL_SEEK_OK : GOAL_SEEK_ERROR;
 }
 
 static GnmValue *
@@ -1560,20 +1558,30 @@ gnumeric_irr (FunctionEvalInfo *ei, GnmValue **argv)
 
 	goal_seek_initialize (&data);
 
-	data.xmin = MAX (data.xmin,
-			 -powgnum (DBL_MAX / 1e10, 1.0 / p.n) + 1);
+	data.xmin = -1;
 	data.xmax = MIN (data.xmax,
 			 powgnum (DBL_MAX / 1e10, 1.0 / p.n) - 1);
 
 	status = goal_seek_newton (&irr_npv, &irr_npv_df, &data, &p, rate0);
 	if (status != GOAL_SEEK_OK) {
-		int factor;
+		int i;
+		gnm_float s;
+
 		/* Lay a net of test points around the guess.  */
-		for (factor = 2; !(data.havexneg && data.havexpos) &&
-		       factor < 100; factor *= 2) {
-			goal_seek_point (&irr_npv, &data, &p, rate0 * factor);
-			goal_seek_point (&irr_npv, &data, &p, rate0 / factor);
+		for (i = 0, s = 2; !(data.havexneg && data.havexpos) && i < 10; i++, s *= 2) {
+			goal_seek_point (&irr_npv, &data, &p, rate0 * s);
+			goal_seek_point (&irr_npv, &data, &p, rate0 / s);
 		}
+
+		/*
+		 * If the root is negative and the guess is positive is
+		 * is possible to get thrown out to the left of -100%
+		 * by the Newton method.
+		 */
+		if (!(data.havexneg && data.havexpos))
+			goal_seek_newton (&irr_npv, &irr_npv_df, &data, &p, -0.99);
+		if (!(data.havexneg && data.havexpos))
+			goal_seek_point (&irr_npv, &data, &p, 1 - GNM_EPSILON);
 
 		/* Pray we got both sides of the root.  */
 		status = goal_seek_bisection (&irr_npv, &data, &p);
