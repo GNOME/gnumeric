@@ -30,27 +30,10 @@ char       *workbook_sheet_get_free_name (Workbook *wb,
 					  gboolean handle_counter);
 gboolean    workbook_sheet_reorder       (Workbook *wb,
 					  GSList *new_order);
-gboolean    workbook_sheet_reorder_by_idx(Workbook *wb,
-					  GSList *new_order);
-gboolean    workbook_sheet_recolor       (Workbook *wb,
-					  GSList *sheets,
-					  GSList *fore,
-					  GSList *back);
 gboolean    workbook_sheet_rename        (Workbook *wb,
 					  GSList *sheet_indices,
 					  GSList *new_names,
 					  GOCmdContext *cc);
-gboolean    workbook_sheet_rename_check  (Workbook *wb,
-					  GSList *sheet_indices,
-					  GSList *new_names,
-					  GSList *sheet_indices_deleted,
-					  GOCmdContext *cc);
-gboolean    workbook_sheet_change_protection  (Workbook *wb,
-					       GSList *sheets,
-					       GSList *locks);
-gboolean    workbook_sheet_change_visibility  (Workbook *wb,
-					       GSList *sheets,
-					       GSList *visibility);
 
 unsigned    workbook_find_command	(Workbook *wb,
 					 gboolean is_undo, gpointer cmd);

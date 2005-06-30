@@ -213,6 +213,10 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 		gnm_float x1, y0, df0, stepsize;
 		GoalSeekStatus status;
 
+#ifdef DEBUG_GOAL_SEEK	
+		printf ("x0 = %.20" GNM_FORMAT_g "   (i=%d)\n", x0, iterations);
+#endif
+
 		/* Check whether we have left the valid interval.  */
 		if (x0 < data->xmin || x0 > data->xmax)
 			return GOAL_SEEK_ERROR;
@@ -222,7 +226,6 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 			return status;
 
 #ifdef DEBUG_GOAL_SEEK
-		printf ("x0 = %.20" GNM_FORMAT_g "\n", x0);
 		printf ("                                        y0 = %.20" GNM_FORMAT_g "\n", y0);
 #endif
 

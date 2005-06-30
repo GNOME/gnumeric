@@ -1,3 +1,8 @@
+2005-06-30  Morten Welinder  <terra@gnome.org>
+
+	* dialog-sheet-order.c (cb_ok_clicked): Rework to use
+	cmd_reorganize_sheets2.
+
 2005-06-25  Jody Goldberg <jody@gnome.org>
 
 	* dialog-printer-setup.c (fetch_settings) : transfer the settings from

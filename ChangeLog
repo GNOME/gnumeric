@@ -1,3 +1,20 @@
+2005-06-30  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (workbook_sheet_rename_check,
+	workbook_sheet_change_protection,
+	workbook_sheet_change_visibility, workbook_sheet_recolor,
+	workbook_sheet_reorder_by_idx): Remove.  No longer used.
+
+	* src/commands.c (command_redo_sheet_delete,
+	cmd_reorganize_sheets_delete_get_this_sheet_info,
+	cmd_reorganize_sheets_delete_shift_list,
+	cmd_reorganize_sheets_delete_get_all_sheets_info,
+	cmd_reorganize_sheets_delete_recreate_sheet,
+	cmd_reorganize_sheets_delete_free, cmd_reorganize_sheets_undo,
+	cmd_reorganize_sheets_redo, cb_slist_gdk_color_free,
+	cmd_reorganize_sheets_finalize, cmd_reorganize_sheets_fix_list,
+	cmd_reorganize_sheets):  Remove.  No longer used.
+
 2005-06-28  Jody Goldberg <jody@gnome.org>
 
 	* src/style-conditions.c (gnm_style_conditions_overlay) : when

@@ -76,7 +76,7 @@ typedef struct {
 
 	GdkPixbuf *image_ltr;
 	GdkPixbuf *image_rtl;
-	
+
 	GdkPixbuf *image_visible;
 
 	gboolean initial_colors_set;
@@ -132,7 +132,7 @@ cb_color_changed_fore (G_GNUC_UNUSED GOComboColor *go_combo_color,
 
 	if (gtk_tree_selection_get_selected (selection, NULL, &sel_iter))
 		gtk_list_store_set (state->model, &sel_iter,
-				    FOREGROUND_COLOUR, 
+				    FOREGROUND_COLOUR,
 				    (color == 0) ? NULL : go_color_to_gdk (color, &tmp),
 				    -1);
 }
@@ -150,7 +150,7 @@ cb_color_changed_back (G_GNUC_UNUSED GOComboColor *go_combo_color,
 
 	if (gtk_tree_selection_get_selected (selection, NULL, &sel_iter))
 		gtk_list_store_set (state->model, &sel_iter,
-				    BACKGROUND_COLOUR, 
+				    BACKGROUND_COLOUR,
 				    (color == 0) ? NULL : go_color_to_gdk (color, &tmp),
 				    -1);
 }
@@ -204,10 +204,10 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
                               is_deleted ? GTK_STOCK_UNDELETE : GTK_STOCK_DELETE);
 	gtk_button_set_alignment (GTK_BUTTON (state->delete_btn), 0., .5);
 
-	gtk_tree_model_get_iter_first 
+	gtk_tree_model_get_iter_first
 		(GTK_TREE_MODEL (state->model),
 		 &iter);
-	gtk_widget_set_sensitive (state->up_btn, 
+	gtk_widget_set_sensitive (state->up_btn,
 				  !gtk_tree_selection_iter_is_selected (selection, &iter));
 	it = iter;
 	while (gtk_tree_model_iter_next (GTK_TREE_MODEL (state->model),
@@ -215,7 +215,7 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 		iter = it;
 	gtk_widget_set_sensitive (state->down_btn,
 				  !gtk_tree_selection_iter_is_selected (selection, &iter));
-	
+
 	if (sheet != NULL)
 		wb_view_sheet_focus (
 			wb_control_view (WORKBOOK_CONTROL (state->wbcg)), sheet);
@@ -283,7 +283,7 @@ cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 				    SHEET_VISIBLE, FALSE,
 				    SHEET_VISIBLE_IMAGE, NULL,
 				    -1);
-		
+
 	} else {
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 				    SHEET_VISIBLE, TRUE,
@@ -301,9 +301,10 @@ populate_sheet_list (SheetManager *state)
 	GtkTreeSelection  *selection;
 	GtkTreeIter iter;
 	GtkWidget *scrolled = glade_xml_get_widget (state->gui, "scrolled");
-	Sheet *cur_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg));
-	
-	int i, n = workbook_sheet_count (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg)));
+	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	Workbook *wb = wb_control_workbook (wbc);
+	Sheet *cur_sheet = wb_control_cur_sheet (wbc);
+	int i, n = workbook_sheet_count (wb);
 	GtkCellRenderer *renderer;
 
 	state->model = gtk_list_store_new (NUM_COLMNS,
@@ -325,9 +326,7 @@ populate_sheet_list (SheetManager *state)
 	selection = gtk_tree_view_get_selection (state->sheet_list);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
 	for (i = 0 ; i < n ; i++) {
-		Sheet *sheet = workbook_sheet_by_index (
-			wb_control_workbook (WORKBOOK_CONTROL (state->wbcg)), i);
-		
+		Sheet *sheet = workbook_sheet_by_index (wb, i);
 		GdkColor *color = NULL;
 		GdkColor *text_color = NULL;
 
@@ -339,8 +338,9 @@ populate_sheet_list (SheetManager *state)
 		gtk_list_store_append (state->model, &iter);
 		gtk_list_store_set (state->model, &iter,
 				    SHEET_LOCKED, sheet->is_protected,
-				    SHEET_LOCK_IMAGE, sheet->is_protected ?
-				    state->image_padlock : state->image_padlock_no,
+				    SHEET_LOCK_IMAGE, (sheet->is_protected
+						       ? state->image_padlock
+						       : state->image_padlock_no),
 				    SHEET_VISIBLE, (sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE),
 				    SHEET_VISIBLE_IMAGE, (sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE
 							  ? state->image_visible
@@ -352,9 +352,10 @@ populate_sheet_list (SheetManager *state)
 				    IS_DELETED,	FALSE,
 				    BACKGROUND_COLOUR, color,
 				    FOREGROUND_COLOUR, text_color,
-                    SHEET_DIRECTION, sheet->text_is_rtl,
-                    SHEET_DIRECTION_IMAGE, sheet->text_is_rtl ?
-				    state->image_rtl : state->image_ltr,
+				    SHEET_DIRECTION, sheet->text_is_rtl,
+				    SHEET_DIRECTION_IMAGE, (sheet->text_is_rtl
+							    ? state->image_rtl
+							    : state->image_ltr),
 				    -1);
 		if (sheet == cur_sheet)
 			gtk_tree_selection_select_iter (selection, &iter);
@@ -367,33 +368,40 @@ populate_sheet_list (SheetManager *state)
 	g_signal_connect (G_OBJECT (renderer),
 		"toggled",
 		G_CALLBACK (cb_toggled_lock), state);
-	column = gtk_tree_view_column_new_with_attributes ("",
-							   renderer,
-							   "active", SHEET_LOCKED,
-							   "pixbuf", SHEET_LOCK_IMAGE,
-							   NULL);
+	column = gtk_tree_view_column_new_with_attributes
+		/* xgettext : "Lock" is short for locked.  Keep this short.  */
+		(_("Lock"),
+		 renderer,
+		 "active", SHEET_LOCKED,
+		 "pixbuf", SHEET_LOCK_IMAGE,
+		 NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
 
 	renderer = gnumeric_cell_renderer_toggle_new ();
 	g_signal_connect (G_OBJECT (renderer),
 		"toggled",
 		G_CALLBACK (cb_toggled_visible), state);
-	column = gtk_tree_view_column_new_with_attributes ("",
-							   renderer,
-							   "active", SHEET_VISIBLE,
-							   "pixbuf", SHEET_VISIBLE_IMAGE,
-							   NULL);
+	column = gtk_tree_view_column_new_with_attributes
+		/* xgettext : "Viz" is short for visibility.  Keep this short.  */
+		(_("Viz"),
+		 renderer,
+		 "active", SHEET_VISIBLE,
+		 "pixbuf", SHEET_VISIBLE_IMAGE,
+		 NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
 
 	renderer = gnumeric_cell_renderer_toggle_new ();
 	g_signal_connect (G_OBJECT (renderer), "toggled",
 		G_CALLBACK (cb_toggled_direction), state);
-	column = gtk_tree_view_column_new_with_attributes ("", renderer,
-			"active", SHEET_DIRECTION,
-			"pixbuf", SHEET_DIRECTION_IMAGE,
-			NULL);
+	column = gtk_tree_view_column_new_with_attributes
+		/* xgettext : "Dir" is short for direction.  Keep this short.  */
+		(_("Dir"),
+		 renderer,
+		 "active", SHEET_DIRECTION,
+		 "pixbuf", SHEET_DIRECTION_IMAGE,
+		 NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
-	
+
 	column = gtk_tree_view_column_new_with_attributes (_("Current Name"),
 					      gnumeric_cell_renderer_text_new (),
 					      "text", SHEET_NAME,
@@ -415,7 +423,7 @@ populate_sheet_list (SheetManager *state)
 	gtk_tree_view_append_column (state->sheet_list, column);
 	g_signal_connect (G_OBJECT (renderer), "edited",
 			  G_CALLBACK (cb_name_edited), state);
-			  
+
 	gtk_tree_view_set_reorderable (state->sheet_list, TRUE);
 
 	/* Init the buttons & selection */
@@ -569,57 +577,32 @@ cb_cancel_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 }
 
 static gboolean
-sheet_order_gdk_color_equal (GdkColor *color_a, GdkColor *color_b)
+color_equal (const GdkColor *color_a, const GnmColor *color_gb)
 {
-	if (color_a == NULL && color_b == NULL)
-		return TRUE;
-	if (color_a != NULL && color_b != NULL)
-		return gdk_color_equal (color_a, color_b);
-	return FALSE;
+	if (color_gb == NULL)
+		return color_a == NULL;
+	return color_a && gdk_color_equal (color_a, &color_gb->gdk_color);
 }
 
-static void
-cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
+static char *
+verify_validity (SheetManager *state, gboolean *pchanged)
 {
-	GSList *new_order = NULL;        /* list of indices in the new order */
-	                                 /* 1,0,2,-1  means switch the first */
-	                                 /* two sheets and append a new one  */
-
-	GSList *changed_names = NULL;    /* list of indices of the sheets to */
-                                         /* change names */
-	GSList *new_names = NULL;        /* list of new names (NULL for      */
-                                         /* automatic names)                 */
-
-	GSList *deleted_sheets = NULL;   /* list of indices of sheets to be  */
-                                         /* deleted                          */
-
-	GSList *color_changed = NULL;    /* list of indices of sheets with   */
-                                         /* modified back of foreground      */
-	GSList *new_colors_back = NULL;  /* list of new back colours         */
-	GSList *new_colors_fore  = NULL; /* list of new fore colours         */
-
-	GSList *protection_changed  = NULL;/* list of indices of sheets to be*/
-                                         /* with changed lock status         */
-	GSList *new_locks  = NULL;       /* that lock status                 */
-	GSList *visibility_changed  = NULL;/* list of indices of sheets to be*/
-                                         /* with changed visibility status   */
-	GSList *new_visibility  = NULL;  /* that visibility status           */
-
-	Sheet *this_sheet;
-	int this_sheet_idx;
-	char *old_name, *new_name;
+	char *result = NULL;
+	gboolean has_visible = FALSE;
+	gboolean changed = FALSE;
+	GHashTable *names = g_hash_table_new_full (g_str_hash, g_str_equal,
+						   (GDestroyNotify)g_free, NULL);
 	GtkTreeIter this_iter;
-	gint n = 0;
-	gint i = 0;
-	GSList *this_new, *list;
-	gboolean order_has_changed = FALSE;
-	gboolean is_deleted, is_locked, is_visible, is_rtl;
-	GdkColor *back, *fore;
-	gboolean fore_changed, back_changed, lock_changed, vis_changed, one_is_visible = FALSE;
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
+	gint n = 0, i = 0;
 
-	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
+	while (result == NULL &&
+	       gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
 					       &this_iter, NULL, n)) {
+		gboolean is_deleted, is_locked, is_visible, is_rtl;
+		Sheet *this_sheet;
+		char *old_name, *new_name;
+		GdkColor *back, *fore;
+
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &this_iter,
 				    SHEET_LOCKED, &is_locked,
 				    SHEET_VISIBLE, &is_visible,
@@ -631,189 +614,140 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 				    FOREGROUND_COLOUR, &fore,
 				    SHEET_DIRECTION, &is_rtl,
 				    -1);
-		this_sheet_idx = (this_sheet == NULL ? -1 
-				  : this_sheet->index_in_wb); 
-		if (!is_deleted) {
-			new_order = g_slist_prepend 
-				(new_order, 
-				 GINT_TO_POINTER (this_sheet_idx));
-			if (this_sheet == NULL ||
-			    (strlen (new_name) > 0 && 
-			     strcmp (old_name, new_name))) {
-				changed_names = g_slist_prepend 
-					(changed_names, 
-					 GINT_TO_POINTER (this_sheet_idx));
-				new_names = g_slist_prepend 
-					(new_names,
-					 strlen(new_name) > 0 ? new_name 
-					 : NULL);
-			} else {
-				g_free (new_name);
-			}
-			g_free (old_name);
 
-			back_changed = (this_sheet == NULL) ||
-				!sheet_order_gdk_color_equal (back,
-					      this_sheet->tab_color ?
-					      &this_sheet->tab_color->gdk_color : NULL);
-			fore_changed = (this_sheet == NULL) ||
-				!sheet_order_gdk_color_equal (fore,
-					      this_sheet->tab_text_color ?
-					      &this_sheet->tab_text_color->gdk_color : NULL);
-			if (fore_changed || back_changed) {
-				color_changed = g_slist_prepend (color_changed, 
-					 GINT_TO_POINTER (this_sheet_idx));
-				new_colors_back = g_slist_prepend 
-					(new_colors_back, back);
-				new_colors_fore = g_slist_prepend 
-					(new_colors_fore, fore);
-			} else {
-				if (back)
-					gdk_color_free (back);
-				if (fore)
-					gdk_color_free (fore);
+		if (is_deleted)
+			changed = TRUE;
+		else {
+			if (!this_sheet && *new_name == 0)
+				result = g_strdup (_("New sheets must be given a name."));
+			else {
+				char *new_name2 =
+					g_utf8_casefold (*new_name != 0 ? new_name : old_name, -1);
+				if (g_hash_table_lookup (names, new_name2)) {
+					result = g_strdup_printf (_("There is more than one sheet named \"%s\""),
+								  new_name);
+					g_free (new_name2);
+				} else
+					g_hash_table_insert (names, new_name2, new_name2);
 			}
 
-			lock_changed = (this_sheet == NULL) ||
-				(is_locked != this_sheet->is_protected);
-			if (lock_changed) {
-				protection_changed = g_slist_prepend 
-					(protection_changed,
-					 GINT_TO_POINTER (this_sheet_idx));
-				new_locks = g_slist_prepend 
-					(new_locks,
-					 GINT_TO_POINTER (is_locked));
+			if (is_visible) has_visible = TRUE;
+
+			if (this_sheet) {
+				if (is_locked != this_sheet->is_protected ||
+				    is_visible != sheet_is_visible (this_sheet) ||
+				    (*new_name && strcmp (old_name, new_name)) ||
+				    !color_equal (fore, this_sheet->tab_text_color) ||
+				    !color_equal (back, this_sheet->tab_color) ||
+				    is_rtl != this_sheet->text_is_rtl ||
+				    this_sheet->index_in_wb != i)
+					changed = TRUE;
+			} else {
+				/* A new sheet.  */
+				changed = TRUE;
 			}
-			one_is_visible = one_is_visible || is_visible;
-			vis_changed = !this_sheet || is_visible != (this_sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE);
-			if (vis_changed) {
-				visibility_changed = g_slist_prepend 
-					(visibility_changed,
-					 GINT_TO_POINTER (this_sheet_idx));
-				new_visibility = g_slist_prepend 
-					(new_visibility,
-					 GINT_TO_POINTER (is_visible ? GNM_SHEET_VISIBILITY_VISIBLE : GNM_SHEET_VISIBILITY_HIDDEN));
-			}
-			
-			if (this_sheet)
-				g_object_set (this_sheet, "text-is-rtl", is_rtl, NULL);
-		} else {
-			deleted_sheets = g_slist_prepend (deleted_sheets, 
-				 GINT_TO_POINTER (this_sheet_idx));
-			g_free (new_name);
-			g_free (old_name);
-			if (back)
-				gdk_color_free (back);
-			if (fore)
-				gdk_color_free (fore);
+
+			/* FIXME: What about deeply hidden sheets?  */
+			i++;
 		}
+
+		g_free (old_name);
+		g_free (new_name);
+		if (fore) gdk_color_free (fore);
+		if (back) gdk_color_free (back);
 		n++;
 	}
 
-	color_changed = g_slist_reverse (color_changed);
-	new_colors_back = g_slist_reverse (new_colors_back);
-	new_colors_fore = g_slist_reverse (new_colors_fore);
+	if (result == NULL && !has_visible)
+		result = g_strdup (_("At least one sheet must remain visible!"));
 
-	protection_changed = g_slist_reverse (protection_changed);
-	new_locks = g_slist_reverse (new_locks);
-	visibility_changed = g_slist_reverse (visibility_changed);
-	new_visibility = g_slist_reverse (new_visibility);
+	g_hash_table_destroy (names);
+	*pchanged = changed;
+	return result;
+}
 
-	new_order = g_slist_reverse (new_order);
-	new_names = g_slist_reverse (new_names);
-	changed_names = g_slist_reverse (changed_names);
 
-	if (!one_is_visible) {
+static void
+cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	Workbook *wb = wb_control_workbook (wbc);
+	char *error;
+	gboolean changed;
+	WorkbookSheetState *old_state;
+	GtkTreeIter this_iter;
+	gint n = 0, i = 0;
+
+	error = verify_validity (state, &changed);
+	if (error) {
 		go_gtk_notice_dialog (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
-				 _("At least one sheet must remain visible!"));
-		goto cleanup;
-	}
-	if (new_order == NULL) {
-		go_gtk_notice_dialog (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
-				 _("You may not delete all sheets in a workbook!"));
-		goto cleanup;
-	}
-	if (workbook_sheet_count (wb) <= (int)g_slist_length (deleted_sheets) ) {
-		go_gtk_notice_dialog (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
-				 _("To replace all exisiting sheets, please "
-				   "delete the current workbook and create "
-				   "a new one!"));
-		goto cleanup;
+				      "%s", error);
+		g_free (error);
+		return;
 	}
 
-	this_new = new_order;
-	i = 0;
-	while (this_new != NULL) {
-		if (GPOINTER_TO_INT (this_new->data) != i++) {
-			order_has_changed = TRUE;
-			break;
-		}
-		this_new = this_new->next;
-	}
-
-	if (!order_has_changed) {
-		g_slist_free (new_order);
-		new_order = NULL;
+	if (!changed) {
+		gtk_widget_destroy (GTK_WIDGET (state->dialog));
+		return;
 	}
 
 	/* Stop listening to changes in the sheet order. */
-	g_signal_handler_block (G_OBJECT (wb),
-				state->sheet_order_changed_listener);
+	g_signal_handler_disconnect (G_OBJECT (wb),
+				     state->sheet_order_changed_listener);
+	state->sheet_order_changed_listener = 0;
 	wbcg_edit_detach_guru (state->wbcg);
 
-	if ((new_order == NULL && changed_names == NULL && color_changed == NULL
-	     && protection_changed == NULL && visibility_changed == NULL 
-	     && deleted_sheets == NULL)
-	    || !cmd_reorganize_sheets (WORKBOOK_CONTROL (state->wbcg),
-				       new_order,
-				       changed_names, new_names, 
-				       deleted_sheets,
-				       color_changed, new_colors_back, 
-				       new_colors_fore,
-				       protection_changed, new_locks,
-				       visibility_changed, new_visibility)) {
-		gtk_widget_destroy (GTK_WIDGET (state->dialog));
-	} else {
-		wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
-		g_signal_handler_unblock (G_OBJECT (wb),
-					  state->sheet_order_changed_listener);
+	old_state = workbook_sheet_state_new (wb);
+	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
+					       &this_iter, NULL, n)) {
+		gboolean is_deleted, is_locked, is_visible, is_rtl;
+		Sheet *this_sheet;
+		char *old_name, *new_name;
+		GdkColor *back, *fore;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &this_iter,
+				    SHEET_LOCKED, &is_locked,
+				    SHEET_VISIBLE, &is_visible,
+				    SHEET_POINTER, &this_sheet,
+				    SHEET_NAME, &old_name,
+				    SHEET_NEW_NAME, &new_name,
+				    IS_DELETED, &is_deleted,
+				    BACKGROUND_COLOUR, &back,
+				    FOREGROUND_COLOUR, &fore,
+				    SHEET_DIRECTION, &is_rtl,
+				    -1);
+
+		if (is_deleted)
+			workbook_sheet_delete (this_sheet);
+		else {
+			if (!this_sheet)
+				this_sheet = workbook_sheet_add (wb, i, FALSE);
+
+			g_object_set (this_sheet,
+				      "protected", is_locked,
+				      "visibility", is_visible ? GNM_SHEET_VISIBILITY_VISIBLE : GNM_SHEET_VISIBILITY_HIDDEN,
+				      "name", *new_name ? new_name : old_name,
+				      "tab-foreground", fore,
+				      "tab-background", back,
+				      "text-is-rtl", is_rtl,				      
+				      NULL);
+
+			if (this_sheet->index_in_wb != i)
+				workbook_sheet_move (this_sheet, i - this_sheet->index_in_wb);
+
+			/* FIXME: What about deeply hidden sheets?  */
+			i++;
+		}
+
+		g_free (old_name);
+		g_free (new_name);
+		if (fore) gdk_color_free (fore);
+		if (back) gdk_color_free (back);
+		n++;
 	}
 
-	return;
-
- cleanup:
-	g_slist_free (deleted_sheets);
-	deleted_sheets = NULL;
-	g_slist_free (new_order);
-	new_order = NULL;
-	g_slist_free (changed_names);
-	changed_names = NULL;
-	g_slist_foreach (new_names, (GFunc)g_free, NULL);
-	g_slist_free (new_names);
-	new_names = NULL;
-	
-	g_slist_free (color_changed);
-	color_changed = NULL;
-	for (list = new_colors_back; list != NULL; list = list->next)
-		if (list->data)
-			gdk_color_free ((GdkColor *)list->data);
-	g_slist_free (new_colors_back);
-	new_colors_back = NULL;
-	for (list = new_colors_fore; list != NULL; list = list->next)
-		if (list->data)
-			gdk_color_free ((GdkColor *)list->data);
-	g_slist_free (new_colors_fore);
-	new_colors_fore = NULL;
-	
-	g_slist_free (protection_changed);
-	protection_changed = NULL;
-	g_slist_free (new_locks);
-	new_locks = NULL;
-	g_slist_free (visibility_changed);
-	visibility_changed = NULL;
-	g_slist_free (new_visibility);
-	new_visibility = NULL;
-	return;
+	cmd_reorganize_sheets2 (wbc, old_state);
+	gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
 
 static void
@@ -822,28 +756,33 @@ cb_sheet_order_destroy (SheetManager *state)
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
 
 	/* Stop to listen to changes in the sheet order. */
-	g_signal_handler_disconnect (G_OBJECT (wb),
-				     state->sheet_order_changed_listener);
+	if (state->sheet_order_changed_listener)
+		g_signal_handler_disconnect (G_OBJECT (wb),
+					     state->sheet_order_changed_listener);
 
 	wbcg_edit_detach_guru (state->wbcg);
+
 	g_object_unref (G_OBJECT (state->gui));
 	state->gui = NULL;
+
 	g_object_unref (state->image_padlock);
 	state->image_padlock = NULL;
+
 	g_object_unref (state->image_padlock_no);
 	state->image_padlock_no = NULL;
+
 	g_object_unref (state->image_visible);
 	state->image_visible = NULL;
 
 	g_object_unref (state->image_rtl);
 	state->image_rtl = NULL;
+
 	g_object_unref (state->image_ltr);
-    state->image_ltr = NULL;
-	
-	if (state->old_order != NULL) {
-		g_slist_free (state->old_order);
-		state->old_order = NULL;
-	}
+	state->image_ltr = NULL;
+
+	g_slist_free (state->old_order);
+	state->old_order = NULL;
+
 	g_free (state);
 }
 
@@ -905,7 +844,7 @@ dialog_sheet_order_update_sheet_order (SheetManager *state)
 				    SHEET_LOCK_IMAGE, is_locked ?
 				    state->image_padlock : state->image_padlock_no,
 				    SHEET_VISIBLE, is_visible,
-				    SHEET_VISIBLE_IMAGE, is_visible ? 
+				    SHEET_VISIBLE_IMAGE, is_visible ?
 				    state->image_visible : NULL,
 				    SHEET_NAME, name,
 				    SHEET_NEW_NAME, new_name,
@@ -1080,33 +1019,17 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 
 	populate_sheet_list (state);
 
-	g_signal_connect (G_OBJECT (state->up_btn),
-		"clicked",
-		G_CALLBACK (cb_up), state);
-	g_signal_connect (G_OBJECT (state->down_btn),
-		"clicked",
-		G_CALLBACK (cb_down), state);
-	g_signal_connect (G_OBJECT (state->add_btn),
-		"clicked",
-		G_CALLBACK (cb_add_clicked), state);
-	g_signal_connect (G_OBJECT (state->duplicate_btn),
-		"clicked",
-		G_CALLBACK (cb_duplicate_clicked), state);
-	g_signal_connect (G_OBJECT (state->delete_btn),
-		"clicked",
-		G_CALLBACK (cb_delete_clicked), state);
-	g_signal_connect (G_OBJECT (state->ok_btn),
-		"clicked",
-		G_CALLBACK (cb_ok_clicked), state);
-	g_signal_connect (G_OBJECT (state->cancel_btn),
-		"clicked",
-		G_CALLBACK (cb_cancel_clicked), state);
-	g_signal_connect (G_OBJECT (state->ccombo_back),
-		"color_changed",
-		G_CALLBACK (cb_color_changed_back), state);
-	g_signal_connect (G_OBJECT (state->ccombo_fore),
-		"color_changed",
-		G_CALLBACK (cb_color_changed_fore), state);
+#define CONNECT(o,s,c) g_signal_connect(G_OBJECT(o),s,G_CALLBACK(c),state)
+	CONNECT (state->up_btn, "clicked", cb_up);
+	CONNECT (state->down_btn, "clicked", cb_down);
+	CONNECT (state->add_btn, "clicked", cb_add_clicked);
+	CONNECT (state->duplicate_btn, "clicked", cb_duplicate_clicked);
+	CONNECT (state->delete_btn, "clicked", cb_delete_clicked);
+	CONNECT (state->ok_btn, "clicked", cb_ok_clicked);
+	CONNECT (state->cancel_btn, "clicked", cb_cancel_clicked);
+	CONNECT (state->ccombo_back, "color_changed", cb_color_changed_back);
+	CONNECT (state->ccombo_fore, "color_changed", cb_color_changed_fore);
+#undef CONNECT
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
