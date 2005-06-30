@@ -22,8 +22,8 @@ open (FIL, "<NEWS") or die "$0: cannot open NEWS: $!\n";
 while (<FIL>) {
     chomp;
 
-    if (/^Gnumeric\s*(\S*)\s*:?\s*$/) {
-	$state = 1 if $1 eq $version;
+    if (/^(Gnumeric|goffice|libgsf)\s*([^ :]*)\s*:?\s*$/i) {
+	$state = 1 if $2 eq $version;
 	next;
     }
 
