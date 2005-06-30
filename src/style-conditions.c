@@ -23,6 +23,7 @@
 #include "gnumeric.h"
 #include "style-conditions.h"
 #include "mstyle.h"
+#include "gnm-style-impl.h"
 #include "expr.h"
 #include "value.h"
 #include <gsf/gsf-impl-utils.h>
@@ -150,15 +151,24 @@ gnm_style_conditions_overlay (GnmStyleConditions const *sc,
 			      GnmStyle const *base)
 {
 	GPtrArray *res;
+	GnmStyle const *overlay;
+	GnmStyle *merge;
 	unsigned i;
 
 	g_return_val_if_fail (sc != NULL, NULL);
 	g_return_val_if_fail (sc->conditions != NULL, NULL);
 
 	res = g_ptr_array_sized_new (sc->conditions->len);
-	for (i = 0 ; i < sc->conditions->len; i++)
-		g_ptr_array_add (res, gnm_style_merge (base,
-			g_array_index (sc->conditions, GnmStyleCond, i).overlay));
+	for (i = 0 ; i < sc->conditions->len; i++) {
+		overlay = g_array_index (sc->conditions, GnmStyleCond, i).overlay;
+		merge = gnm_style_merge (base, overlay);
+		/* We only draw a background colour is the pattern != 0 */
+		if (merge->pattern == 0 &&
+		     elem_is_set (overlay, MSTYLE_COLOR_BACK) &&
+		    !elem_is_set (overlay, MSTYLE_PATTERN))
+			merge->pattern = 1;
+		g_ptr_array_add (res, merge);
+	}
 	return res;
 }
 
@@ -182,6 +192,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 	for (i = 0 ; i < conds->len ; i++) {
 		cond = &g_array_index (conds, GnmStyleCond, i);
 
+		val = gnm_expr_eval (cond->expr[0], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 		switch (cond->op) {
 		case GNM_STYLE_COND_BETWEEN:
 		case GNM_STYLE_COND_NOT_BETWEEN:
@@ -194,16 +205,15 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 			break;
 
 		case GNM_STYLE_COND_CUSTOM:
-			val = gnm_expr_eval (cond->expr[0], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 			use_this = value_get_as_bool (val, NULL);
-			value_release (val);
 
 			str = gnm_expr_as_string (cond->expr[0], &pp, gnm_expr_conventions_default);
 			g_print ("'%s' = %s\n", str, use_this ? "true" : "false");
 			g_free (str);
-			if (use_this)
-				return i;
 		}
+		value_release (val);
+		if (use_this)
+			return i;
 
 	}
 	return -1;

@@ -898,13 +898,10 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 
 			/* Gnumeric requires pattern = 1, whereas XL can store
 			 * just the color.  undo the mapping we made on import. */
-			if (gnm_style_is_element_set (s, MSTYLE_PATTERN) &&
-			    (1 != gnm_style_get_pattern (s) ||
-			     !gnm_style_is_element_set (s, MSTYLE_COLOR_BACK) ||
-			      gnm_style_is_element_set (s, MSTYLE_COLOR_PATTERN))) {
+			if (gnm_style_is_element_set (s, MSTYLE_COLOR_PATTERN))
 				background = map_pattern_to_xl (
 					gnm_style_get_pattern (s)) << 10;
-			} else
+			else
 				flags |= 0x10000;
 			if (gnm_style_is_element_set (s, MSTYLE_COLOR_PATTERN)) {
 				unsigned idx = palette_get_index (esheet->ewb,

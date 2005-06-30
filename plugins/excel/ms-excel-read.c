@@ -4527,14 +4527,10 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 			gnm_style_set_pattern_color (cond.overlay,
 				excel_palette_get (esheet->container.ewb->palette,
 					(background_flags >> 16) & 0x7F));
-		if (0 == (flags & 0x40000)) {
+		if (0 == (flags & 0x40000))
 			gnm_style_set_back_color (cond.overlay,
 				excel_palette_get (esheet->container.ewb->palette,
 					(background_flags >> 23) & 0x7F));
-			/* We require a pattern to draw a background */
-			if (!gnm_style_is_element_set (cond.overlay, MSTYLE_PATTERN))
-				gnm_style_set_pattern (cond.overlay, 1);
-		}
 
 		offset += 4;
 	}

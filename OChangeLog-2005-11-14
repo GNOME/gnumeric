@@ -1,3 +1,9 @@
+2005-06-28  Jody Goldberg <jody@gnome.org>
+
+	* src/style-conditions.c (gnm_style_conditions_overlay) : when
+	  applying a conditional overlay with a background colour to a base
+	  without a pattern pretend the pattern is solid.
+
 2005-06-27  Morten Welinder  <terra@gnome.org>
 
 	* src/wbcg-actions.c: No ellipsis to Full Screen.

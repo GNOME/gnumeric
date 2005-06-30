@@ -1,3 +1,12 @@
+2005-06-28  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (cb_write_condition) : no need to unmap the kludge
+	  to handle overlays with back colours and no pattern.  We handle that
+	  in the core now.
+	* ms-excel-read.c (excel_read_CF) : rather than kludging it here.  It
+	  was breaking when applying a conditional to a base that already had
+	  a pattern.
+
 2005-06-22  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (map_color_to_palette) : simplify
