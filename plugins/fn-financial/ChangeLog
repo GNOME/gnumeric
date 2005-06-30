@@ -1,3 +1,7 @@
+2005-06-28  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_npv): Use a range function.
+
 2005-06-27  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_irr): If all else fails, try to Newton

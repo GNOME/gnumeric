@@ -1639,7 +1639,7 @@ gnumeric_irr (FunctionEvalInfo *ei, GnmValue const * const *argv)
 		}
 
 		/*
-		 * If the root is negative and the guess is positive is
+		 * If the root is negative and the guess is positive it
 		 * is possible to get thrown out to the left of -100%
 		 * by the Newton method.
 		 */
@@ -1724,40 +1724,35 @@ static GnmFuncHelp const help_npv[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-typedef struct {
-        gnm_float rate;
-        gnm_float sum;
-        int     num;
-} financial_npv_t;
-
-static GnmValue *
-callback_function_npv (GnmEvalPos const *ep, GnmValue const *value, void *closure)
+static int
+range_npv (gnm_float const *xs, int n, gnm_float *res)
 {
-        financial_npv_t *mm = closure;
+	if (n == 0 || xs[0] == -1)
+		return 1;
+	else {
+		gnm_float sum = 0;
+		gnm_float f = 1;
+		gnm_float ff = 1 / (1 + xs[0]);
+		int i;
 
-	if (!VALUE_IS_NUMBER (value))
-		return NULL;
-	if (mm->num == 0) {
-		mm->rate = value_get_as_float (value);
-	} else
-		mm->sum += value_get_as_float (value) / pow1p (mm->rate, mm->num);
-	mm->num++;
-        return NULL;
+		for (i = 1; i < n; i++) {
+			f *= ff;
+			sum += xs[i] * f;
+		}
+		*res = sum;
+		return 0;
+	}
 }
 
 static GnmValue *
 gnumeric_npv (FunctionEvalInfo *ei, GnmExprList const *nodes)
 {
-	GnmValue *v;
-        financial_npv_t p;
-
-	p.sum   = 0.0;
-	p.num   = 0;
-
-	v = function_iterate_argument_values (ei->pos, callback_function_npv,
-		&p, nodes, TRUE, CELL_ITER_IGNORE_BLANK);
-
-	return (v != NULL) ? v : value_new_float (p.sum);
+	return float_range_function (nodes, ei,
+				     range_npv,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     GNM_ERROR_DIV0);
 }
 
 /***************************************************************************/
