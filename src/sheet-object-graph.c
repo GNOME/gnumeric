@@ -67,6 +67,7 @@
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-text.h>
 #include <math.h>
 #include <string.h>
+#include <locale.h>
 
 static void
 so_graph_view_destroy (SheetObjectView *sov)
@@ -286,7 +287,7 @@ sheet_object_graph_write_object (SheetObject const *so, const char *format,
 	xmlChar *mem;
 	int size;
 	char *old_num_locale, *old_monetary_locale;
-	GogObject *graph = gog_object_dup (sog->graph, NULL, gog_dataset_dup_to_simple);
+	GogObject *graph = gog_object_dup (GOG_OBJECT (sog->graph), NULL, gog_dataset_dup_to_simple);
 	g_return_if_fail (strcmp (format, "application/x-goffice-graph") == 0);
 	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
 	go_setlocale (LC_NUMERIC, "C");

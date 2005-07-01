@@ -1,5 +1,10 @@
 2005-07-01  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* src/sheet-object-graph.c: inlude locale.h,
+	(sheet_object_graph_write_object): fix a pointer compatibility warning.
+
+2005-07-01  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* src/gnumeric-pane.c: (gnm_pane_drag_begin): add support to copy/paste and
 	dnd charts to other apps.
 	* src/gnumeric.h: ditto.
