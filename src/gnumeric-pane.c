@@ -933,7 +933,7 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 	FooCanvas *canvas    = FOO_CANVAS (pane->gcanvas);
 	SheetControlGUI *scg = pane->gcanvas->simple.scg;
 	GSList *objects;
-	SheetObject *imageable = NULL;
+	SheetObject *imageable = NULL, *exportable = NULL;
 	GSList *ptr;
 	SheetObject *candidate;
 
@@ -943,12 +943,22 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 	for (ptr = objects; ptr != NULL; ptr = ptr->next) {
 		candidate = SHEET_OBJECT (ptr->data);
 
+		if (IS_SHEET_OBJECT_EXPORTABLE (candidate)) {
+			exportable = candidate;
+			break;
+		}
 		if (IS_SHEET_OBJECT_IMAGEABLE (candidate)) {
 			imageable = candidate;
 			break;
 		}
 	}
-	if (imageable) {
+	if (exportable) {
+		im_targets = sheet_object_exportable_get_target_list (exportable);
+		if (im_targets != NULL) {
+			target_list_add_list (targets, im_targets);
+			gtk_target_list_unref (im_targets);
+		}
+	} else if (imageable) {
 		im_targets = sheet_object_get_target_list (imageable);
 		if (im_targets != NULL) {
 			target_list_add_list (targets, im_targets);

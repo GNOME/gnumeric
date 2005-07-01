@@ -52,6 +52,12 @@ GType sheet_object_get_type (void);
 
 GType sheet_object_imageable_get_type (void);
 
+#define SHEET_OBJECT_EXPORTABLE_TYPE  (sheet_object_exportable_get_type ())
+#define SHEET_OBJECT_EXPORTABLE(o)     (G_TYPE_CHECK_INSTANCE_CAST ((o), SHEET_OBJECT_EXPORTABLE_TYPE, SheetObjectExportableIface))
+#define IS_SHEET_OBJECT_EXPORTABLE(o)  (G_TYPE_CHECK_INSTANCE_TYPE ((o), SHEET_OBJECT_EXPORTABLE_TYPE))
+
+GType sheet_object_exportable_get_type (void);
+
 gboolean      sheet_object_set_sheet	 (SheetObject *so, Sheet *sheet);
 Sheet	     *sheet_object_get_sheet	 (SheetObject const *so);
 gboolean      sheet_object_clear_sheet	 (SheetObject *so);
@@ -101,6 +107,12 @@ void sheet_object_anchor_cpy	(SheetObjectAnchor *dst,
 /* Image rendering */
 GtkTargetList *sheet_object_get_target_list (SheetObject const *so);
 void sheet_object_write_image 	(SheetObject const *so, 
+				 const char *format,
+				 GsfOutput *output, GError **err);
+
+/* Object export */
+GtkTargetList *sheet_object_exportable_get_target_list (SheetObject const *so);
+void sheet_object_write_object 	(SheetObject const *so, 
 				 const char *format,
 				 GsfOutput *output, GError **err);
 

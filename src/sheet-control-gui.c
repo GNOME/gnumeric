@@ -3312,6 +3312,41 @@ scg_drag_send_image (SheetControlGUI *scg,
 }
 
 static void
+scg_drag_send_graph (SheetControlGUI *scg, 
+		     GtkSelectionData *selection_data,
+		     GSList *objects,
+		     gchar const *mime_type)
+{
+	SheetObject *so = NULL;
+	GsfOutput *output;
+	GsfOutputMemory *omem;
+	gsf_off_t osize;
+	GSList *ptr;
+
+	for (ptr = objects; ptr != NULL; ptr = ptr->next) {
+		if (IS_SHEET_OBJECT_EXPORTABLE (SHEET_OBJECT (ptr->data))) {
+			so = SHEET_OBJECT (ptr->data);
+			break;
+		}
+	}
+	if (so == NULL) {
+		g_warning ("non exportable object requested\n");
+		return;
+	}
+		
+	output = gsf_output_memory_new ();
+	omem = GSF_OUTPUT_MEMORY (output);
+	sheet_object_write_object (so, mime_type, output, NULL);
+	osize = gsf_output_size (output);
+	
+	gtk_selection_data_set 
+		(selection_data, selection_data->target,
+		 8, gsf_output_memory_get_bytes (omem), osize);
+	gsf_output_close (output);
+	g_object_unref (output);
+}
+
+static void
 scg_drag_send_clipboard_objects (SheetControl *sc,
 				 GtkSelectionData *selection_data,
 				 GSList *objects)
@@ -3343,6 +3378,8 @@ scg_drag_data_get (SheetControlGUI *scg, GtkSelectionData *selection_data)
 	} else if (strcmp (target_name, "application/x-gnumeric") == 0) {
 		scg_drag_send_clipboard_objects (SHEET_CONTROL (scg),
 			selection_data, objects);
+	} else if (strcmp (target_name, "application/x-goffice-graph") == 0) {
+		scg_drag_send_graph (scg, selection_data, objects, target_name);
 	} else if (strncmp (target_name, "image/", 6) == 0) {
 		scg_drag_send_image (scg, selection_data, objects, target_name);
 	}

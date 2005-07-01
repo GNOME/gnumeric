@@ -980,6 +980,49 @@ sheet_object_write_image (SheetObject const *so, const char *format,
 
 /*****************************************************************************/
 
+GType
+sheet_object_exportable_get_type (void)
+{
+	static GType type = 0;
+
+	if (!type) {
+		static GTypeInfo const type_info = {
+			sizeof (SheetObjectExportableIface), /* class_size */
+			NULL,				/* base_init */
+			NULL,				/* base_finalize */
+		};
+
+		type = g_type_register_static (G_TYPE_INTERFACE,
+			"SheetObjectExportable", &type_info, 0);
+	}
+
+	return type;
+}
+
+#define SHEET_OBJECT_EXPORTABLE_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), SHEET_OBJECT_EXPORTABLE_TYPE, SheetObjectExportableIface))
+
+GtkTargetList *
+sheet_object_exportable_get_target_list (SheetObject const *so)
+{
+	if (!IS_SHEET_OBJECT_EXPORTABLE (so))
+		return NULL;
+
+	return SHEET_OBJECT_EXPORTABLE_CLASS (so)->get_target_list (so);
+}
+
+void
+sheet_object_write_object (SheetObject const *so, const char *format,
+			  GsfOutput *output, GError **err)
+{
+	g_return_if_fail (IS_SHEET_OBJECT_EXPORTABLE (so));
+
+	SHEET_OBJECT_EXPORTABLE_CLASS (so)->write_object (so, format, 
+							output, err);
+
+}
+
+/*****************************************************************************/
+
 void
 sheet_objects_init (void)
 {

@@ -1,5 +1,8 @@
 Gnumeric 1.5.3
 
+Jean Brefort:
+	* Copy charts (to abiword).
+
 Jody:
 	* Handle ROW/COLUMN with no argument in an array.
 	* Fix problems with row height resizing on win32. [#163414]

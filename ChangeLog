@@ -1,3 +1,20 @@
+2005-07-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnumeric-pane.c: (gnm_pane_drag_begin): add support to copy/paste and
+	dnd charts to other apps.
+	* src/gnumeric.h: ditto.
+	* src/gui-clipboard.c: (graph_write), (x_clipboard_get_cb),
+	(x_claim_clipboard): ditto
+	* src/sheet-control-gui.c: ditto.
+	* src/sheet-object-graph.c: ditto.
+	(sheet_object_graph_get_object_target_list),
+	(sheet_object_graph_write_object), (sog_exportable_init):
+	* src/sheet-object-impl.h: ditto.
+	* src/sheet-object.c: (sheet_object_exportable_get_type),
+	(sheet_object_exportable_get_target_list),
+	(sheet_object_write_object): ditto.
+	* src/sheet-object.h: ditto.
+
 2005-06-30  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook.c (workbook_sheet_rename_check,

@@ -42,6 +42,7 @@
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/gog-data-allocator.h>
+#include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-renderer-gnome-print.h>
 #include <goffice/graph/gog-renderer-pixbuf.h>
 #include <goffice/graph/gog-renderer-svg.h>
@@ -50,11 +51,13 @@
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/go-libxml-extras.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/format.h>
 #include <goffice/app/go-cmd-context.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-output-stdio.h>
+#include <gsf/gsf-libxml.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkstock.h>
@@ -195,6 +198,28 @@ sheet_object_graph_get_target_list (SheetObject const *so)
 	return tl;
 }
 
+static GtkTargetList *
+sheet_object_graph_get_object_target_list (SheetObject const *so)
+{
+	GtkTargetList *tl, *tl2;
+	GtkTargetPair *pair;
+	tl = gtk_target_list_new (NULL, 0);
+	gtk_target_list_add (tl, gdk_atom_intern
+					("application/x-goffice-graph", FALSE), 0, 0);
+	if (IS_SHEET_OBJECT_IMAGEABLE (so)) {
+		GList *ptr;
+		tl2 = sheet_object_get_target_list (so);
+		ptr = tl2->list;
+		while (ptr) {
+			pair = (GtkTargetPair*) ptr->data;
+			gtk_target_list_add (tl,pair->target, pair->flags, pair->info);
+			ptr = ptr->next;
+		}
+		gtk_target_list_unref (tl2);
+	}
+	return tl;
+}
+
 static gboolean
 sog_gsf_gdk_pixbuf_save (const gchar *buf,
 			 gsize count,
@@ -250,6 +275,31 @@ sheet_object_graph_write_image (SheetObject const *so, const char *format,
 	if (!res && err && *err == NULL)
 		*err = g_error_new (gsf_output_error_id (), 0,
 				    _("Unknown failure while saving image"));
+}
+
+static void
+sheet_object_graph_write_object (SheetObject const *so, const char *format,
+				GsfOutput *output, GError **err)
+{
+	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	xmlDocPtr pDoc = xmlNewDoc ((xmlChar const*)"1.0");
+	xmlChar *mem;
+	int size;
+	char *old_num_locale, *old_monetary_locale;
+	GogObject *graph = gog_object_dup (sog->graph, NULL, gog_dataset_dup_to_simple);
+	g_return_if_fail (strcmp (format, "application/x-goffice-graph") == 0);
+	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
+	go_setlocale (LC_NUMERIC, "C");
+	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
+	go_setlocale(LC_MONETARY, "C");
+	pDoc->children = gog_object_write_xml (graph, pDoc);
+	g_object_unref (graph);
+	xmlDocDumpMemory (pDoc, &mem, &size);
+    go_setlocale (LC_MONETARY, old_monetary_locale);
+	g_free (old_monetary_locale);
+    go_setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
+	gsf_output_write (output, size, (guint8 const*) mem);
 }
 
 /* 
@@ -487,10 +537,18 @@ sog_imageable_init (SheetObjectImageableIface *soi_iface)
 	soi_iface->write_image	   = sheet_object_graph_write_image;
 }
 
+static void
+sog_exportable_init (SheetObjectExportableIface *soe_iface)
+{
+	soe_iface->get_target_list = sheet_object_graph_get_object_target_list;
+	soe_iface->write_object	   = sheet_object_graph_write_object;
+}
+
 GSF_CLASS_FULL (SheetObjectGraph, sheet_object_graph,
 		sheet_object_graph_class_init, sheet_object_graph_init,
 		SHEET_OBJECT_TYPE, 0,
-		GSF_INTERFACE (sog_imageable_init, SHEET_OBJECT_IMAGEABLE_TYPE));
+		GSF_INTERFACE (sog_imageable_init, SHEET_OBJECT_IMAGEABLE_TYPE) \
+		GSF_INTERFACE (sog_exportable_init, SHEET_OBJECT_EXPORTABLE_TYPE));
 
 /**
  * sheet_object_graph_new :

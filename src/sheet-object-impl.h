@@ -148,4 +148,15 @@ struct _SheetObjectImageableIface {
 					   GsfOutput *output, GError **err);
 };
 
+/***************************************************************************/
+
+struct _SheetObjectExportableIface {
+	GTypeInterface base;
+
+	GtkTargetList *(*get_target_list) (SheetObject const *so);
+	void           (*write_object)	  (SheetObject const *so, 
+					   const char *format,
+					   GsfOutput *output, GError **err);
+};
+
 #endif /* GNUMERIC_SHEET_OBJECT_PRIV_H */

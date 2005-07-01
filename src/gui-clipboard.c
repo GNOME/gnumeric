@@ -52,6 +52,7 @@ typedef struct {
 /* The name of our clipboard atom and the 'magic' info number */
 #define GNUMERIC_ATOM_NAME "application/x-gnumeric"
 #define GNUMERIC_ATOM_INFO 2001
+#define GOFFICE_GRAPH_ATOM_NAME "application/x-goffice-graph"
 
 /* From MS Excel */
 #define BIFF8_ATOM_NAME	"Biff8"
@@ -556,6 +557,49 @@ image_write (GnmCellRegion *cr, Sheet *sheet, gchar const *mime_type,
 	return ret;
 }
 
+static guchar *
+graph_write (GnmCellRegion *cr, Sheet *sheet, gchar const *mime_type,
+	     int *size)
+{
+	guchar *ret = NULL;
+	SheetObject *so = NULL;
+	GsfOutput *output;
+	GsfOutputMemory *omem;
+	gsf_off_t osize;
+	GSList *l;
+
+	*size = -1;
+
+	g_return_val_if_fail (cr->objects != NULL, NULL);
+	so = SHEET_OBJECT (cr->objects->data);
+	g_return_val_if_fail (so != NULL, NULL);
+
+	for (l = cr->objects; l != NULL; l = l->next) {
+		if (IS_SHEET_OBJECT_EXPORTABLE (SHEET_OBJECT (l->data))) {
+			so = SHEET_OBJECT (l->data);
+			break;
+		}
+	}
+	if (so == NULL) {
+		g_warning ("non exportable object requested\n");
+		return ret;
+	}
+	output = gsf_output_memory_new ();
+	omem   = GSF_OUTPUT_MEMORY (output);
+	sheet_object_write_object (so, mime_type, output, NULL);
+	osize = gsf_output_size (output);
+			
+	*size = osize;
+	if (*size == osize)
+		ret = g_memdup (gsf_output_memory_get_bytes (omem), *size);
+	else
+		g_warning ("Overflow");	/* Far fetched! */
+	gsf_output_close (output);
+	g_object_unref (output);
+
+	return ret;
+}
+
 static GString *
 cellregion_to_string (GnmCellRegion const *cr,
 		      GODateConventions const *date_conv)
@@ -669,6 +713,14 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		guchar *buffer = table_cellregion_write (wbc, clipboard,
 							   saver_id,
 							   &buffer_size);
+		gtk_selection_data_set (selection_data,
+					selection_data->target, 8,
+					(guchar *) buffer, buffer_size);
+		g_free (buffer);
+	} else if (strcmp (target_name, "application/x-goffice-graph") == 0) {
+		int buffer_size;
+		guchar *buffer = graph_write (clipboard, sheet, target_name,
+					      &buffer_size);
 		gtk_selection_data_set (selection_data,
 					selection_data->target, 8,
 					(guchar *) buffer, buffer_size);
@@ -787,7 +839,7 @@ x_claim_clipboard (WorkbookControlGUI *wbcg)
 {
 	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (wbcg_toplevel (wbcg)));
 	GnmCellRegion *content = gnm_app_clipboard_contents_get ();
-	SheetObject *imageable = NULL;
+	SheetObject *imageable = NULL, *exportable = NULL;
 	GtkTargetEntry *targets = NULL;
 	int n_targets, i;
 	GSList *ptr;
@@ -809,13 +861,22 @@ x_claim_clipboard (WorkbookControlGUI *wbcg)
 		for (ptr = content->objects; ptr != NULL;
 		     ptr = ptr->next) {
 			candidate = SHEET_OBJECT (ptr->data);
-			if (IS_SHEET_OBJECT_IMAGEABLE (candidate)) {
+			if (IS_SHEET_OBJECT_EXPORTABLE (candidate)) {
+				exportable = candidate;
+				break;
+			} else if (IS_SHEET_OBJECT_IMAGEABLE (candidate)) {
 				imageable = candidate;
 				break;
 			}
 		}
 	}
-	if (imageable) {
+	if (exportable) {
+		tl = sheet_object_exportable_get_target_list (exportable);
+		/* _add_table prepends to target_list */
+		gtk_target_list_add_table (tl, table_targets, 1);
+		targets = target_list_to_entries (tl, &n_targets);
+		gtk_target_list_unref (tl);
+	} else if (imageable) {
 		tl = sheet_object_get_target_list (imageable);
 		/* _add_table prepends to target_list */
 		gtk_target_list_add_table (tl, table_targets, 1);
