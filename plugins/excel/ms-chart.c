@@ -41,6 +41,9 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-plot-engine.h>
 #include <goffice/graph/gog-renderer.h>
+#include <goffice/graph/gog-error-bar.h>
+#include <goffice/graph/gog-reg-curve.h>
+#include <goffice/graph/gog-label.h>
 #include <goffice/data/go-data-simple.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-pattern.h>
@@ -58,13 +61,28 @@
 #define d(level, code)
 #endif
 
+#define reg_show_R2 err_teetop
+#define reg_order err_num
+#define reg_intercept err_val
+#define reg_parent err_parent
+
 typedef struct {
 	struct {
 		int num_elements;
 		GOData *data;
 		GnmValueArray *value;
-		GogSeries *series;
 	} data [GOG_MS_DIM_TYPES];
+	GogSeries *series;
+	int err_type;
+	int reg_type;
+	int err_num; /* also used for order in reg curves */
+	int err_src;
+	int err_parent; /* also used for parent in reg curves */
+	double err_val; /* also used for intercept in reg curves */
+	double reg_backcast, reg_forecast;
+	gboolean err_teetop; /* also used for show R-squared in reg curves */
+	gboolean reg_show_eq;
+	GogMSDimType extra_dim;
 	int chart_group;
 	gboolean  has_legend;
 	GogStyle *style;
@@ -86,18 +104,25 @@ typedef struct {
 	GogStyle	*default_plot_style;
 	GogObject	*axis;
 	GogStyle	*style;
+	GogStyle	*chartline_style[3];
+	GogStyle	*dropbar_style;
 
 	int		 style_element;
 	int		cur_role;
+	gboolean hilo;
+	gboolean dropbar;
+	guint16 dropbar_width;
 
 	gboolean	 frame_for_grid;
 	gboolean	 has_a_grid;
 	gboolean	is_surface;
 	gboolean	is_contour;
+	gboolean	has_extra_dataformat;
 	int		 plot_counter;
 	XLChartSeries	*currentSeries;
 	GPtrArray	*series;
 	char		*text;
+	guint16		parent_index;
 } XLChartReadState;
 
 typedef struct _XLChartHandler	XLChartHandler;
@@ -117,20 +142,10 @@ static XLChartSeries *
 excel_chart_series_new (void)
 {
 	XLChartSeries *series;
-	int i;
 
-	series = g_new (XLChartSeries, 1);
-
+	series = g_new0 (XLChartSeries, 1);
 	series->chart_group = -1;
 	series->has_legend = TRUE;
-	series->style = NULL;
-	series->singletons = NULL;
-	for (i = GOG_MS_DIM_TYPES; i-- > 0 ; ) {
-		series->data [i].data = NULL;
-		series->data [i].num_elements = 0;
-		series->data [i].value = NULL;
-		series->data [i].series = NULL;
-	}
 
 	return series;
 }
@@ -360,7 +375,7 @@ BC_R(area)(XLChartHandler const *handle,
 	gboolean in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x04));
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
-	s->plot = gog_plot_new_by_name ("GogAreaPlot");
+	s->plot = (GogPlot*) gog_plot_new_by_name ("GogAreaPlot");
 	g_return_val_if_fail (s->plot != NULL, TRUE);
 
 	if (flags & 0x02)
@@ -589,7 +604,7 @@ BC_R(bar)(XLChartHandler const *handle,
 	gboolean in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x08));
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
-	s->plot = gog_plot_new_by_name ("GogBarColPlot");
+	s->plot = (GogPlot*) gog_plot_new_by_name ("GogBarColPlot");
 	g_return_val_if_fail (s->plot != NULL, TRUE);
 
 	if (flags & 0x04)
@@ -695,7 +710,7 @@ BC_R(chartformat)(XLChartHandler const *handle,
 
 	/* always update the counter to keep the index in line with the chart
 	 * group specifier for series */
-	s->plot_counter++;
+	s->plot_counter = z_order;
 
 	if (s->plot != NULL)
 		g_object_set (G_OBJECT (s->plot),
@@ -732,6 +747,10 @@ BC_R(chartline)(XLChartHandler const *handle,
 	guint16 const type = GSF_LE_GET_GUINT16 (q->data);
 
 	g_return_val_if_fail (type <= 2, FALSE);
+
+	if (type == 1)
+		s->hilo = TRUE;
+	s->cur_role = type;
 
 	d (0, fprintf (stderr, "Use %s lines\n",
 	     (type == 0) ? "drop" : ((type == 1) ? "hi-lo" : "series")););
@@ -773,11 +792,13 @@ BC_R(dataformat)(XLChartHandler const *handle,
 	XLChartSeries *series;
 	guint16 const pt_num = GSF_LE_GET_GUINT16 (q->data);
 	guint16 const series_index = GSF_LE_GET_GUINT16 (q->data+2);
-#if 0
 	guint16 const series_index_for_label = GSF_LE_GET_GUINT16 (q->data+4);
+#if 0
 	guint16 const excel4_auto_color = GSF_LE_GET_GUINT16 (q->data+6) & 0x01;
 #endif
 
+	if (pt_num == 0 && series_index == 0 && series_index_for_label == 0xfffd)
+		s->has_extra_dataformat = TRUE;
 	g_return_val_if_fail (series_index < s->series->len, TRUE);
 
 	series = g_ptr_array_index (s->series, series_index);
@@ -825,8 +846,10 @@ BC_R(dropbar)(XLChartHandler const *handle,
 {
 	/* NOTE : The docs lie.  values > 100 seem legal.  My guess based on
 	 * the ui is 500.
-	guint16 const width = GSF_LE_GET_GUINT16 (q->data);
 	 */
+	s->dropbar = TRUE;
+	s->dropbar_width = GSF_LE_GET_GUINT16 (q->data);
+	d (1, fprintf (stderr, "width=%hu\n",s->dropbar_width););
 	return FALSE;
 }
 
@@ -1108,7 +1131,7 @@ BC_R(line)(XLChartHandler const *handle,
 	gboolean in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x04));
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
-	s->plot = gog_plot_new_by_name ("GogLinePlot");
+	s->plot = (GogPlot*) gog_plot_new_by_name ("GogLinePlot");
 	g_return_val_if_fail (s->plot != NULL, TRUE);
 
 	if (flags & 0x02)
@@ -1166,7 +1189,7 @@ BC_R(lineformat)(XLChartHandler const *handle,
 		break;
 	}
 	s->style->line.color      = BC_R(color) (q->data, "LineColor");
-	s->style->line.auto_color = (flags & 0x01) ? TRUE : FALSE;
+	s->style->line.auto_color = s->style->line.auto_dash = (flags & 0x01) ? TRUE : FALSE;
 	s->style->line.pattern    = GSF_LE_GET_GUINT16 (q->data+4);
 
 	d (0, fprintf (stderr, "flags == %hd.\n", flags););
@@ -1179,6 +1202,15 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	else
 		s->style->line.dash_type = GO_LINE_SOLID;
 
+	if (s->prev_opcode == BIFF_CHART_chartline) {
+		/* we only support hi-lo lines at the moment */
+		if (s->cur_role == 1)
+			s->chartline_style[s->cur_role] = s->style;
+		else
+			g_object_unref (s->style);
+		s->style = NULL;
+	}
+		
 	return FALSE;
 }
 
@@ -1317,7 +1349,7 @@ BC_R(pie)(XLChartHandler const *handle,
 	gboolean in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x01));
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
-	s->plot = gog_plot_new_by_name ((center_size == 0) ? "GogPiePlot" : "GogRingPlot");
+	s->plot = (GogPlot*) gog_plot_new_by_name ((center_size == 0) ? "GogPiePlot" : "GogRingPlot");
 	g_return_val_if_fail (s->plot != NULL, TRUE);
 
 	g_object_set (G_OBJECT (s->plot),
@@ -1411,7 +1443,7 @@ BC_R(radar)(XLChartHandler const *handle,
 	    XLChartReadState *s, BiffQuery *q)
 {
 	g_return_val_if_fail (s->plot == NULL, TRUE);
-	s->plot = gog_plot_new_by_name ("GogRadarPlot");
+	s->plot = (GogPlot*) gog_plot_new_by_name ("GogRadarPlot");
 
 	return FALSE;
 }
@@ -1423,7 +1455,7 @@ BC_R(radararea)(XLChartHandler const *handle,
 		XLChartReadState *s, BiffQuery *q)
 {
 	g_return_val_if_fail (s->plot == NULL, TRUE);
-	s->plot = gog_plot_new_by_name ("GogRadarAreaPlot");
+	s->plot = (GogPlot*) gog_plot_new_by_name ("GogRadarAreaPlot");
 
 	return FALSE;
 }
@@ -1455,7 +1487,7 @@ BC_R(scatter)(XLChartHandler const *handle,
 			gboolean show_negatives = (flags & 0x02) != 0;
 			gboolean size_as_area = (size_type != 2);
 			float scale =  GSF_LE_GET_GUINT16 (q->data) / 100.;
-			s->plot = gog_plot_new_by_name ("GogBubblePlot");
+			s->plot = (GogPlot*) gog_plot_new_by_name ("GogBubblePlot");
 			g_return_val_if_fail (s->plot != NULL, TRUE);
 			g_object_set (G_OBJECT (s->plot),
 				"in-3d",		in_3d,
@@ -1468,7 +1500,7 @@ BC_R(scatter)(XLChartHandler const *handle,
 		}
 	}
 
-	s->plot = gog_plot_new_by_name ("GogXYPlot");
+	s->plot = (GogPlot*) gog_plot_new_by_name ("GogXYPlot");
 	g_return_val_if_fail (s->plot != NULL, TRUE);
 
 	d(1, fprintf (stderr, "scatter;"););
@@ -1481,6 +1513,83 @@ static gboolean
 BC_R(serauxerrbar)(XLChartHandler const *handle,
 		   XLChartReadState *s, BiffQuery *q)
 {
+	guint8 const type = GSF_LE_GET_GUINT8  (q->data);
+	guint8 const src = GSF_LE_GET_GUINT8  (q->data+1);
+	guint8 const teetop = GSF_LE_GET_GUINT8  (q->data+2);
+	guint8 const num = GSF_LE_GET_GUINT16  (q->data+12);
+	/* next octet must be 1 */
+	double val;
+
+	d (1, {
+		switch (type) {
+		case 1: fputs ("type: x-direction plus\n", stderr); break;
+		case 2: fputs ("type: x-direction minus\n", stderr); break;
+		case 3: fputs ("type: y-direction plus\n", stderr); break;
+		case 4: fputs ("type: y-direction minus\n", stderr); break;
+		}
+		switch (src) {
+		case 1: fputs ("source: percentage\n", stderr); break;
+		case 2: fputs ("source: fixed value\n", stderr); break;
+		case 3: fputs ("source: standard deviation\n", stderr); break;
+		case 4: fputs ("source: custom\n", stderr); break;
+		case 5: fputs ("source: standard error\n", stderr); break;
+		}
+		fprintf (stderr, "%sT-shaped\n", (teetop)? "": "Not ");
+		fprintf (stderr, "num values: %d\n", num);
+	});
+	g_return_val_if_fail (s->currentSeries != NULL, FALSE);
+
+	s->currentSeries->err_type = type;
+	s->currentSeries->err_src = src;
+	s->currentSeries->err_teetop = teetop;
+	s->currentSeries->err_parent = s->parent_index;
+	s->currentSeries->err_num = num;
+	if (src > 0 && src < 4) {
+		val = GSF_LE_GET_DOUBLE (q->data + 4);
+		d(1, fprintf (stderr, "value = %g\n",val););
+		s->currentSeries->err_val = val;
+	}
+	return FALSE;
+}
+
+/****************************************************************************/
+
+static gboolean
+BC_R(serauxtrend)(XLChartHandler const *handle,
+		  XLChartReadState *s, BiffQuery *q)
+{
+	guint8 const type = GSF_LE_GET_GUINT8  (q->data);
+	guint8 const order = GSF_LE_GET_GUINT8  (q->data+1);
+	double const intercept = GSF_LE_GET_DOUBLE (q->data+2);
+	gboolean const equation = GSF_LE_GET_GUINT8  (q->data+10);
+	gboolean const r2 = GSF_LE_GET_GUINT8  (q->data+11);
+	double const forecast = GSF_LE_GET_DOUBLE (q->data+12);
+	double const backcast = GSF_LE_GET_DOUBLE (q->data+20);
+	d (1, {
+		switch (type) {
+		case 0: fputs ("type: polynomial\n", stderr); break;
+		case 1: fputs ("type: exponential\n", stderr); break;
+		case 2: fputs ("type: logarithmic\n", stderr); break;
+		case 3: fputs ("type: power\n", stderr); break;
+		case 4: fputs ("type: moving average\n", stderr); break;
+		}
+		fprintf (stderr, "order: %d\n", order);
+		fprintf (stderr, "intercept: %g\n", intercept);
+		fprintf (stderr, "show equation: %s\n", (equation)? "yes": "no");
+		fprintf (stderr, "show R-squared: %s\n", (r2)? "yes": "no");
+		fprintf (stderr, "forecast: %g\n", forecast);
+		fprintf (stderr, "backcast: %g\n", backcast);
+	});
+	g_return_val_if_fail (s->currentSeries != NULL, FALSE);
+
+	s->currentSeries->reg_type = type;
+	s->currentSeries->reg_order = order;
+	s->currentSeries->reg_show_eq = equation;
+	s->currentSeries->reg_show_R2 = r2;
+	s->currentSeries->reg_intercept = intercept;
+	s->currentSeries->reg_backcast = backcast;
+	s->currentSeries->reg_forecast = forecast;
+	s->currentSeries->reg_parent = s->parent_index;
 	return FALSE;
 }
 
@@ -1603,6 +1712,10 @@ static gboolean
 BC_R(serparent)(XLChartHandler const *handle,
 		XLChartReadState *s, BiffQuery *q)
 {
+	guint16 const index = GSF_LE_GET_GUINT16 (q->data) - 1;
+	d (1, fprintf (stderr, "Parent series index is %hd\n", index););
+	s->parent_index = index;
+
 	return FALSE;
 }
 
@@ -1716,7 +1829,7 @@ BC_R(text)(XLChartHandler const *handle,
 	} else {
 	}
 	BC_R(get_style) (s);
-	s->style->font.color = BC_R(color) (q->data+0, "Font");
+	s->style->font.color = BC_R(color) (q->data+4, "Font");
 
 #if 0
 case BIFF_CHART_chart :
@@ -2097,7 +2210,7 @@ BC_R(end)(XLChartHandler const *handle,
 			}
 			if (is_matrix) {
 				Sheet *sheet = ms_container_sheet (s->container.parent);
-				s->plot = gog_plot_new_by_name ((s->is_contour)?
+				s->plot = (GogPlot*) gog_plot_new_by_name ((s->is_contour)?
 							"GogContourPlot": "GogSurfacePlot");
 
 				/* build the series */
@@ -2162,7 +2275,7 @@ BC_R(end)(XLChartHandler const *handle,
 			} else {
 not_a_matrix:
 				s->is_surface = FALSE;
-				s->plot = gog_plot_new_by_name ((s->is_contour)?
+				s->plot = (GogPlot*) gog_plot_new_by_name ((s->is_contour)?
 							"XLContourPlot": "XLSurfacePlot");
 			}
 		}
@@ -2197,7 +2310,84 @@ not_a_matrix:
 		}
 
 		if (!s->is_surface) {
-			for (i = 0 ; i < s->series->len; i++ ) {
+			unsigned k = 0, l = s->series->len, added_plots = 0, n;
+			if (s->dropbar) {
+				GogObject *plot = GOG_OBJECT (gog_plot_new_by_name ("GogDropBarPlot"));
+				if (s->has_extra_dataformat){
+					g_object_set (G_OBJECT (plot), "plot-group", "GogStockPlot", NULL);
+				}
+				l--;
+				while (eseries = g_ptr_array_index (s->series, l),
+							eseries->chart_group != s->plot_counter)
+					l--;
+				gog_object_add_by_name (GOG_OBJECT (s->chart), "Plot", plot);
+				gog_object_reorder (plot, TRUE, FALSE);
+				added_plots++;
+				series = gog_plot_new_series (GOG_PLOT (plot));
+				g_object_set (plot, "gap_percentage", s->dropbar_width, NULL);
+				if (eseries->data [GOG_MS_DIM_CATEGORIES].data != NULL) {
+					XL_gog_series_set_dim (series, GOG_MS_DIM_CATEGORIES,
+						eseries->data [GOG_MS_DIM_CATEGORIES].data);
+					eseries->data [GOG_MS_DIM_CATEGORIES].data = NULL;
+				}
+				if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
+					XL_gog_series_set_dim (series, GOG_MS_DIM_END,
+						eseries->data [GOG_MS_DIM_VALUES].data);
+					eseries->data [GOG_MS_DIM_VALUES].data = NULL;
+				} else
+					eseries->extra_dim = GOG_MS_DIM_END;
+				while (eseries = g_ptr_array_index (s->series, k++),
+							eseries->chart_group != s->plot_counter);
+				if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
+					XL_gog_series_set_dim (series, GOG_MS_DIM_START,
+						eseries->data [GOG_MS_DIM_VALUES].data);
+					eseries->data [GOG_MS_DIM_VALUES].data = NULL;
+				} else
+					eseries->extra_dim = GOG_MS_DIM_START;
+				g_object_set (G_OBJECT (series),
+					"style", s->dropbar_style,
+					NULL);
+				g_object_unref (s->dropbar_style);
+				s->dropbar_style = NULL;
+			}
+			if (s->hilo) {
+				GogObject *plot = GOG_OBJECT (gog_plot_new_by_name ("GogMinMaxPlot"));
+				if (s->has_extra_dataformat) {
+					g_object_set (G_OBJECT (plot), "plot-group", "GogStockPlot", NULL);
+					g_object_set (G_OBJECT (s->plot), "plot-group", "GogStockPlot", NULL);
+				}
+				gog_object_add_by_name (GOG_OBJECT (s->chart), "Plot", plot);
+				for (n = 0; n <= added_plots; n++)
+					gog_object_reorder (plot, TRUE, FALSE);
+				series = gog_plot_new_series (GOG_PLOT (plot));
+				while (eseries = g_ptr_array_index (s->series, k++),
+							eseries->chart_group != s->plot_counter);
+				if (eseries->data [GOG_MS_DIM_CATEGORIES].data != NULL) {
+					XL_gog_series_set_dim (series, GOG_MS_DIM_CATEGORIES,
+						eseries->data [GOG_MS_DIM_CATEGORIES].data);
+					eseries->data [GOG_MS_DIM_CATEGORIES].data = NULL;
+				}
+				if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
+					XL_gog_series_set_dim (series, GOG_MS_DIM_HIGH,
+						eseries->data [GOG_MS_DIM_VALUES].data);
+					eseries->data [GOG_MS_DIM_VALUES].data = NULL;
+				} else
+					eseries->extra_dim = GOG_MS_DIM_HIGH;
+				while (eseries = g_ptr_array_index (s->series, k++),
+							eseries->chart_group != s->plot_counter);
+				if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
+					XL_gog_series_set_dim (series, GOG_MS_DIM_LOW,
+						eseries->data [GOG_MS_DIM_VALUES].data);
+					eseries->data [GOG_MS_DIM_VALUES].data = NULL;
+				} else
+					eseries->extra_dim = GOG_MS_DIM_LOW;
+				g_object_set (G_OBJECT (series),
+					"style", s->chartline_style[1],
+					NULL);
+				g_object_unref (s->chartline_style[1]);
+				s->chartline_style[1] = NULL;
+			}
+			for (i = k ; i < l; i++ ) {
 				eseries = g_ptr_array_index (s->series, i);
 				if (eseries->chart_group != s->plot_counter)
 					continue;
@@ -2207,13 +2397,23 @@ not_a_matrix:
 						XL_gog_series_set_dim (series, j,
 							eseries->data [j].data);
 						eseries->data [j].data = NULL;
-					} else if (eseries->data [j].value != NULL)
-						eseries->data [j].series = series;
+					}
+				eseries->series = series;
 				style = eseries->style;
-				if (style != NULL)
+				if (style != NULL) {
+					if (s->hilo || s->dropbar) {
+						/* This might be a stock plot, so don't use auto
+						styles for lines */
+						style->line.auto_dash = FALSE;
+						style->marker.auto_shape = FALSE;
+						/* These avoid warnings when exporting, do we really care? */
+						style->fill.auto_fore = FALSE;
+						style->fill.auto_back = FALSE;
+					}
 					g_object_set (G_OBJECT (series),
 						"style", style,
 						NULL);
+				}
 				if (!eseries->has_legend)
 					g_object_set (G_OBJECT (series),
 						"has-legend", FALSE,
@@ -2223,6 +2423,8 @@ not_a_matrix:
 						(GHFunc) cb_store_singletons, series);
 			}
 		}
+		s->hilo = FALSE;
+		s->dropbar = FALSE;
 
 		/* Vile cheesy hack.
 		 * XL stores axis as 'value' and 'category' whereas we use X and Y.
@@ -2245,6 +2447,10 @@ not_a_matrix:
 				g_object_unref (x_style);
 				g_object_unref (y_style);
 			}
+		}
+		if (g_slist_length (s->plot->series) == 0) {
+			gog_object_clear_parent (GOG_OBJECT (s->plot));
+			g_object_unref (s->plot);
 		}
 		s->plot = NULL;
 		break;
@@ -2284,18 +2490,21 @@ not_a_matrix:
 		}
 		break;
 
+	case BIFF_CHART_dropbar :
+		if (s->dropbar_style == NULL) {
+			/* automatic styles are very different in that case between
+			excel and gnumeric, so set appropriate auto* to FALSE */
+			s->style->fill.auto_back = FALSE;
+			s->style->fill.auto_fore = FALSE;
+			s->dropbar_style = s->style;
+		} else
+		g_object_unref (s->style);
+		s->style = NULL;
+		break;
+
 	default :
 		break;
 	}
-	return FALSE;
-}
-
-/****************************************************************************/
-
-static gboolean
-BC_R(serauxtrend)(XLChartHandler const *handle,
-		  XLChartReadState *s, BiffQuery *q)
-{
 	return FALSE;
 }
 
@@ -2470,8 +2679,12 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 	state.plot_counter  = -1;
 	state.has_a_grid    = FALSE;
 	state.text	    = NULL;
-	state.is_surface    = FALSE;
-	state.cur_role	    = -1;
+	state.is_surface	= FALSE;
+	state.cur_role = -1;
+	state.parent_index = 0;
+	state.hilo = FALSE;
+	state.dropbar = FALSE;
+	state.has_extra_dataformat = FALSE;
 
 	if (NULL != (state.sog = sog)) {
 		GogStyle *style = gog_style_new ();
@@ -2493,6 +2706,9 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 	state.plot  = NULL;
 	state.axis  = NULL;
 	state.style = NULL;
+	for (i = 0; i < 3; i++)
+		state.chartline_style[i] = NULL;
+	state.dropbar_style = NULL;
 
 	d (0, fputs ("{ /* CHART */\n", stderr););
 
@@ -2642,26 +2858,130 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 		}
 	}
 
-	/* Cleanup */
 	for (i = state.series->len; i-- > 0 ; ) {
 		Sheet *sheet = ms_container_sheet (state.container.parent);
-		XLChartSeries *series = g_ptr_array_index (state.series, i);
-		GnmValue *v;
 		int j;
-
-		if (series) {
-			for (j = GOG_MS_DIM_VALUES ; j < GOG_MS_DIM_TYPES; j++ ) {
-				if (NULL == (v = (GnmValue *)series->data [j].value))
-					continue;
-				if (sheet && series->data [j].series)
-					XL_gog_series_set_dim (series->data [j].series, j,
-						gnm_go_data_vector_new_expr (sheet,
-							    gnm_expr_new_constant (v)));
-				else
-					value_release (v);
+		XLChartSeries *series = g_ptr_array_index (state.series, i), *parent;
+		GOData *data;
+		GnmExpr const * expr;
+		GParamSpec *pspec;
+		GogErrorBar *error_bar;
+		char const *prop_name;
+		GogMSDimType msdim;
+		if (series != NULL) {
+			if (series->chart_group < 0) {
+				/* might be a error bar series or a regression curve */
+				if (series->err_type == 0) {
+					/* it is a regression curve */
+					GogRegCurve *rc;
+					parent = g_ptr_array_index (state.series, series->reg_parent);
+					if (parent && series->reg_type == 0 && series->reg_order == 1) {
+						rc = gog_reg_curve_new_by_name ("GogLinRegCurve");
+						gog_object_add_by_name (GOG_OBJECT (parent->series),
+										"Regression curve", GOG_OBJECT (rc));
+						if (series->reg_show_eq || series->reg_show_R2) {
+							GogObject *obj = gog_object_add_by_name (
+											GOG_OBJECT (rc), "Equation", NULL);
+							g_object_set (G_OBJECT (obj),
+									"show_eq", series->reg_show_eq,
+									"show_r2", series->reg_show_R2,
+									NULL);
+						}
+					}
+				} else {
+					prop_name = NULL;
+					parent = g_ptr_array_index (state.series, series->err_parent);
+					state.plot = parent->series->plot;
+					prop_name = (series->err_type < 3)? "x-errors": "y-errors";
+					pspec = g_object_class_find_property (
+								G_OBJECT_GET_CLASS (parent->series),
+								prop_name);
+					if (pspec == NULL) {
+						pspec = g_object_class_find_property (
+									G_OBJECT_GET_CLASS (parent->series), "errors");
+						prop_name = (pspec)? "errors": NULL;
+						msdim = (series->err_type < 3)?
+								GOG_MS_DIM_TYPES + series->err_type + 2:
+								GOG_MS_DIM_TYPES + series->err_type;
+					} else {
+						msdim = (series->err_type < 3)?
+								GOG_MS_DIM_TYPES + series->err_type + 2:
+								GOG_MS_DIM_TYPES + series->err_type - 2;
+					}
+					if (sheet && parent && prop_name) {
+						error_bar = g_object_new (GOG_ERROR_BAR_TYPE, NULL);
+						error_bar->display |= (series->err_type & 1)?
+												GOG_ERROR_BAR_DISPLAY_POSITIVE:
+												GOG_ERROR_BAR_DISPLAY_NEGATIVE;
+						if (!series->err_teetop)
+							error_bar->width = 0;
+						switch (series->err_src) {
+						case 1:
+							/* percentage */
+							error_bar->type = GOG_ERROR_BAR_TYPE_PERCENT;
+							expr = gnm_expr_new_constant (
+										value_new_float (series->err_val));
+							data = gnm_go_data_vector_new_expr (sheet, expr);
+							XL_gog_series_set_dim (parent->series, msdim, data);
+							break;
+						case 2:
+							/* fixed value */
+							error_bar->type = GOG_ERROR_BAR_TYPE_ABSOLUTE;
+							expr = gnm_expr_new_constant (
+										value_new_float (series->err_val));
+							data = gnm_go_data_vector_new_expr (sheet, expr);
+							XL_gog_series_set_dim (parent->series, msdim, data);
+							break;
+						case 3:
+							/* not supported */
+							break;
+						case 4:
+							error_bar->type = GOG_ERROR_BAR_TYPE_ABSOLUTE;
+							if (series->data[GOG_MS_DIM_VALUES].data) {
+								XL_gog_series_set_dim (parent->series, msdim,
+											series->data[GOG_MS_DIM_VALUES].data);
+								series->data[GOG_MS_DIM_VALUES].data = NULL;
+							} else if (series->data [GOG_MS_DIM_VALUES].value) {
+								expr = gnm_expr_new_constant ((GnmValue *)
+											series->data[GOG_MS_DIM_VALUES].value);
+								data = gnm_go_data_vector_new_expr (sheet, expr);
+								XL_gog_series_set_dim (series->series,
+													GOG_MS_DIM_VALUES, data);
+							}
+							break;
+						default:
+							/* type 5, standard error is not supported */
+							break;
+						}
+						g_object_set (G_OBJECT (parent->series),
+										prop_name, error_bar,
+										NULL);
+						g_object_unref (error_bar);
+					}
+				}
 			}
-			excel_chart_series_delete (series);
+			for (j = GOG_MS_DIM_VALUES ; j < GOG_MS_DIM_TYPES; j++ )
+				if (series->data [j].value != NULL) {
+					expr = gnm_expr_new_constant ((GnmValue *)series->data [j].value);
+					if (expr != NULL) {
+				
+						if (sheet == NULL || series->series == NULL) {
+							gnm_expr_unref (expr);
+							continue;
+						}
+						data = gnm_go_data_vector_new_expr (sheet, expr);
+						if (series->extra_dim == 0)
+							XL_gog_series_set_dim (series->series, j, data);
+						else if (j == GOG_MS_DIM_VALUES)
+							XL_gog_series_set_dim (series->series, series->extra_dim, data);
+					}
+				}			
 		}
+	}
+	/* Cleanup */
+	for (i = state.series->len; i-- > 0 ; ) {
+		XLChartSeries *series = g_ptr_array_index (state.series, i);
+		excel_chart_series_delete (series);
 	}
 	g_ptr_array_free (state.series, TRUE);
 
@@ -2713,6 +3033,13 @@ ms_excel_chart_read_BOF (BiffQuery *q, MSContainer *container, SheetObject *sog)
 
 /***************************************************************************/
 
+
+typedef struct {
+	GogAxis *axis [GOG_AXIS_TYPES];
+	gboolean transpose, center_ticks;
+	GSList  *plots;
+} XLAxisSet;
+
 typedef struct {
 	BiffPut		*bp;
 	ExcelWriteState *ewb;
@@ -2723,16 +3050,20 @@ typedef struct {
 
 	unsigned	 nest_level;
 	unsigned cur_series;
+	unsigned cur_set;
 	GSList *pending_series;
 	GSList *extra_objects;
 	GPtrArray *values[3];
-} XLChartWriteState;
 
-typedef struct {
-	GogAxis *axis [GOG_AXIS_TYPES];
-	gboolean transpose, center_ticks;
-	GSList  *plots;
-} XLAxisSet;
+	/* these are for combining dropbar, minmax and line plots on export */
+	GogPlot *line_plot;
+	XLAxisSet *line_set;
+	gboolean has_dropbar;
+	gboolean has_hilow;
+	gboolean is_stock;
+	GogStyle *dp_style, *hl_style;
+	guint16 dp_width;
+} XLChartWriteState;
 
 typedef struct {
 	unsigned series;
@@ -2743,12 +3074,12 @@ static gint
 cb_axis_set_cmp (XLAxisSet const *a, XLAxisSet const *b)
 {
 	int i;
-	if (!a->transpose == !b->transpose)
-		return FALSE;
+	if (a->transpose != b->transpose)
+		return TRUE;
 	for (i = GOG_AXIS_X; i < GOG_AXIS_TYPES; i++)
 		if (a->axis[i] != b->axis[i])
-			return FALSE;
-	return TRUE;
+			return TRUE;
+	return FALSE;
 }
 
 static void
@@ -2893,11 +3224,14 @@ chart_write_MARKERFORMAT (XLChartWriteState *s, GogStyle const *style,
 	guint16 fore_index, back_index, shape, flags = 0;
 	guint32 size;
 	GOColor fore, back;
+	static int const shape_map[] = {
+		0, 1, 2, 3, 3, 3, 3, 8, 4, 9, 5, 7, 6, 1, 1};
+		/* use square for butterfly and hourglass */
 
 	if (style != NULL) {
 		fore = go_marker_get_outline_color (style->marker.mark);
 		back = go_marker_get_fill_color	(style->marker.mark);
-		shape = go_marker_get_shape (style->marker.mark); /* TODO : map */
+		shape = shape_map[go_marker_get_shape (style->marker.mark)];
 		size = go_marker_get_size (style->marker.mark) * 20;
 		if (style->marker.auto_outline_color &&
 		    style->marker.auto_fill_color)
@@ -3235,7 +3569,7 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 			GOG_SERIES_ELEMENT (ptr->data)->index, n, sep);
 	}
 
-	ms_biff_put_2byte (s->bp, BIFF_CHART_sertocrt, 0);
+	ms_biff_put_2byte (s->bp, BIFF_CHART_sertocrt, s->cur_set);
 	chart_write_END (s);
 }
 
@@ -3283,7 +3617,7 @@ xl_axis_set_elem (GogAxis const *axis,
 
 static void
 chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
-		  unsigned i, gboolean centered)
+		  unsigned i, gboolean centered, gboolean force_catserrange)
 {
 	gboolean labeled, in, out, inverted = FALSE;
 	guint16 tick_color_index, flags = 0;
@@ -3297,7 +3631,7 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 	ms_biff_put_commit (s->bp);
 
 	chart_write_BEGIN (s);
-	if (gog_axis_is_discrete (axis)) {
+	if (gog_axis_is_discrete (axis) || force_catserrange) {
 		data = ms_biff_put_len_next (s->bp, BIFF_CHART_catserrange, 8);
 
 		GSF_LE_SET_GUINT16 (data+0, 1); /* values_axis_crosses_at_cat_index */
@@ -3554,9 +3888,41 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 }
 
 static void
+chart_write_CHARTLINE (XLChartWriteState *s, guint16 type, GogStyle *style)
+{
+	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_chartline, 2);
+	GSF_LE_SET_GUINT16 (data + 0, type);
+	ms_biff_put_commit (s->bp);
+	chart_write_LINEFORMAT (s, &style->line, FALSE, FALSE);
+}
+
+static void
+chart_write_DROPBAR (XLChartWriteState *s)
+{
+	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_dropbar, 2);
+	GSF_LE_SET_GUINT16 (data + 0, s->dp_width);
+	ms_biff_put_commit (s->bp);
+	chart_write_BEGIN (s);
+	chart_write_LINEFORMAT (s, &s->dp_style->outline, FALSE, FALSE);
+	chart_write_AREAFORMAT (s, s->dp_style, FALSE);
+	chart_write_END (s);
+	data = ms_biff_put_len_next (s->bp, BIFF_CHART_dropbar, 2);
+	GSF_LE_SET_GUINT16 (data + 0, s->dp_width);
+	ms_biff_put_commit (s->bp);
+	s->dp_style->outline.color = 0xffffff00 ^ s->dp_style->outline.color;
+	s->dp_style->fill.pattern.fore = 0xffffff00 ^ s->dp_style->fill.pattern.fore ;
+	s->dp_style->fill.pattern.back = 0xffffff00 ^ s->dp_style->fill.pattern.back ;
+	chart_write_BEGIN (s);
+	chart_write_LINEFORMAT (s, &s->dp_style->outline, FALSE, FALSE);
+	chart_write_AREAFORMAT (s, s->dp_style, FALSE);
+	chart_write_END (s);
+	g_object_unref (s->dp_style);
+}
+
+static void
 chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 {
-	guint16 i = 0;
+	guint16 i = 0, j = 0, nser;
 	guint8 *data;
 	GSList *sptr, *pptr;
 	XLAxisSet *axis_set;
@@ -3586,23 +3952,23 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 			/* BIFF_CHART_pos, optional we use auto positioning */
 			if (axis_set->transpose) {
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_Y],
-					0, axis_set->center_ticks);
+					0, axis_set->center_ticks, FALSE);
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_X],
-					1, TRUE);
+					1, TRUE, FALSE);
 			} else {
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_X],
-					0, axis_set->center_ticks);
+					0, axis_set->center_ticks, FALSE);
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_Y],
-					1, TRUE);
+					1, TRUE, FALSE);
 			}
 			break;
 		case GOG_AXIS_SET_XY_pseudo_3d :
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_X],
-					0, FALSE);
+					0, FALSE, TRUE);
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_PSEUDO_3D],
-					1, FALSE);
+					1, FALSE, FALSE);
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_Y],
-					2, FALSE);
+					2, FALSE, TRUE);
 			break;
 		case GOG_AXIS_SET_RADAR :
 			break;
@@ -3617,7 +3983,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 			}
 		}
 
-		for (pptr = axis_set[i].plots ; pptr != NULL ; pptr = pptr->next, i++) {
+		for (pptr = axis_set->plots ; pptr != NULL ; pptr = pptr->next, i++) {
 			gboolean vary;
 			guint16 flags = 0;
 
@@ -3653,6 +4019,39 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 				/* BIFF_CHART_pos, optional we use auto positioning */
 				chart_write_text (s, NULL, NULL);
 				chart_write_END (s);
+			}
+			nser = g_slist_length (GOG_PLOT (pptr->data)->series);
+			if (i > 0) {
+				/* write serieslist */
+				int index = 0;
+				data = ms_biff_put_len_next (s->bp, BIFF_CHART_serieslist, 2 + 2 * nser);
+				GSF_LE_SET_GUINT16 (data, nser);
+				while (index < nser) {
+					GSF_LE_SET_GUINT16 (data + 2 + 2 * index, j + index);
+					index++;
+				}
+				ms_biff_put_commit (s->bp);
+			}
+			j += nser;
+			if (pptr->data == s->line_plot) {
+				if (s->has_dropbar)
+					chart_write_DROPBAR (s);
+				if (s->has_hilow) {
+					chart_write_CHARTLINE (s, 1, s->hl_style);
+					g_object_unref (s->hl_style);
+				}
+				if (s->is_stock) {
+					chart_write_DATAFORMAT (s, 0, 0, -3);
+					chart_write_BEGIN (s);
+					ms_biff_put_2byte (s->bp, BIFF_CHART_3dbarshape, 0); /* box */
+					chart_write_LINEFORMAT (s, NULL, FALSE, TRUE);
+					chart_write_AREAFORMAT (s, NULL, FALSE);
+					chart_write_PIEFORMAT (s, 0.);
+					chart_write_MARKERFORMAT (s, NULL, TRUE);
+					chart_write_END (s);
+					s->has_dropbar = FALSE;
+					s->has_hilow = FALSE;
+				}
 			}
 			chart_write_END (s);
 		}
@@ -3728,6 +4127,8 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	GSList const *plots, *series;
 	GSList *charts, *sets, *ptr;
 	XLAxisSet *axis_set = NULL;
+	GogPlot *cur_plot;
+	GError *error;
 
 	state.bp  = ewb->bp;
 	state.ewb = ewb;
@@ -3737,6 +4138,12 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 		state.values[i] = g_ptr_array_new ();
 	state.pending_series = NULL;
 	state.extra_objects = NULL;
+	state.line_plot = NULL;
+	state.line_set = NULL;
+	state.has_dropbar = FALSE;
+	state.has_hilow = FALSE;
+	state.cur_set = 0;
+	state.is_stock = FALSE;
 
 	g_return_if_fail (state.graph != NULL);
 
@@ -3793,7 +4200,8 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	sets = NULL;
 	for (plots = gog_chart_get_plots (GOG_CHART (state.chart)) ; plots != NULL ; plots = plots->next) {
 		/* XL can not handle plots with no data */
-		if (gog_plot_get_series (plots->data) == NULL) {
+		cur_plot = GOG_PLOT (plots->data);
+		if (gog_plot_get_series (cur_plot) == NULL) {
 			g_warning ("MS Excel can not handle plots with no data, dropping %s",
 				gog_object_get_name (plots->data));
 			continue;
@@ -3801,27 +4209,209 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 
 		axis_set = g_new0 (XLAxisSet, 1);
 		for (i = GOG_AXIS_X; i < GOG_AXIS_TYPES; i++)
-			axis_set->axis[i] = gog_plot_get_axis (plots->data, i);
+			axis_set->axis[i] = gog_plot_get_axis (cur_plot, i);
 
-		if (0 == strcmp (G_OBJECT_TYPE_NAME (plots->data), "GogBarColPlot")) {
+		if (0 == strcmp (G_OBJECT_TYPE_NAME (cur_plot), "GogBarColPlot")) {
 			g_object_get (G_OBJECT (plots->data),
 				      "horizontal", &axis_set->transpose,
 				      NULL);
 			axis_set->center_ticks = TRUE;
-		} else if (0 == strcmp (G_OBJECT_TYPE_NAME (plots->data), "GogAreaPlot"))
+		} else if (0 == strcmp (G_OBJECT_TYPE_NAME (cur_plot), "GogAreaPlot"))
 			axis_set->center_ticks = TRUE;
-		ptr = g_slist_find_custom (sets, axis_set,
-			(GCompareFunc) cb_axis_set_cmp);
-		if (ptr != NULL) {
-			g_free (axis_set);
-			axis_set = (XLAxisSet *)(ptr->data);
-		} else
-			sets = g_slist_prepend (sets, axis_set);
-		axis_set->plots = g_slist_prepend (axis_set->plots, plots->data);
+		else if (0 == strcmp (G_OBJECT_TYPE_NAME (cur_plot), "GogDropBarPlot")) {
+			/* The code here is supposed to work on plots imported from excel
+			Nothing sure about the ones created in gnumeric */
+			/* drop bars concern the first and last series in an xl line plot so
+			we must create a new plot and take only one series */
+			GogSeries *orig, *first, *last;
+			GogStyle *style;
+			if (state.has_dropbar) {
+				g_free (axis_set);
+				continue;
+			}
+			if (state.line_plot == NULL) {
+				state.line_plot = GOG_PLOT (gog_plot_new_by_name ("GogLinePlot"));
+				state.line_set = axis_set;
+			} else if (cb_axis_set_cmp (axis_set, state.line_set)) {
+				/* excel does not support that AFAIK (Jean) */
+				g_free (axis_set);
+				continue;
+			}
+			state.has_dropbar = TRUE;
+			axis_set->center_ticks = TRUE;
+			/* now, take the first series in the plot and split it into two series */
+			if (!state.is_stock) {
+				char *group_name;
+				g_object_get (G_OBJECT (cur_plot), "plot-group", &group_name, NULL);
+				if (group_name && !strcmp (group_name, "GogStockPlot"))
+					state.is_stock = TRUE;
+			}
+			orig = GOG_SERIES (gog_plot_get_series (cur_plot)->data);
+			state.dp_style = gog_style_dup (
+					gog_styled_object_get_style (GOG_STYLED_OBJECT (orig)));
+			g_object_get (cur_plot, "gap_percentage", &state.dp_width, NULL);
+			first = gog_plot_new_series (state.line_plot);
+			gog_series_set_dim (first, -1,
+					go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), -1)),
+			&error);
+			gog_series_set_dim (first, 0,
+					go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), 0)),
+			&error);
+			gog_series_set_dim (first, 1,
+					go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), 1)),
+			&error);
+			if (!state.is_stock) {
+				style = gog_styled_object_get_style (GOG_STYLED_OBJECT (first));
+				/* FIXME: change this code when series lines are available ! */
+				style->line.auto_dash = FALSE;
+				style->line.auto_color = FALSE;
+				style->line.pattern = 5;
+				style->marker.auto_shape = FALSE;
+				style->marker.mark->shape = GO_MARKER_NONE;
+				style->marker.auto_fill_color = FALSE;
+			}
+			last = gog_plot_new_series (state.line_plot);
+			gog_series_set_dim (last, -1,
+					go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), -1)),
+					&error);
+			gog_series_set_dim (last, 0,
+					go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), 0)),
+					&error);
+			gog_series_set_dim (last, 1,
+					go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), 2)),
+					&error);
+			if (!state.is_stock) {
+				style = gog_styled_object_get_style (GOG_STYLED_OBJECT (first));
+				/* FIXME: change this code when series lines are available ! */
+				style->line.auto_dash = FALSE;
+				style->line.auto_color = FALSE;
+				style->line.pattern = 5;
+				style->marker.auto_shape = FALSE;
+				style->marker.mark->shape = GO_MARKER_NONE;
+				style->marker.auto_fill_color = FALSE;
+			}
+			/* now, bring the two series to the begining */
+			if (g_slist_length (state.line_plot->series) > 2) {
+				state.line_plot->series = g_slist_remove (state.line_plot->series, first);
+				state.line_plot->series = g_slist_remove (state.line_plot->series, last);
+				state.line_plot->series = g_slist_prepend (state.line_plot->series, last);
+				state.line_plot->series = g_slist_prepend (state.line_plot->series, first);
+			}
+			cur_plot = (state.has_hilow)? NULL: state.line_plot;
+		} else if (0 == strcmp (G_OBJECT_TYPE_NAME (cur_plot), "GogMinMaxPlot")) {
+			/* same comment as for dropbars */
+			GogSeries *orig, *high, *low;
+			GogStyle *style;
+			if (state.has_hilow) {
+				g_free (axis_set);
+				continue;
+			}
+			if (state.line_plot == NULL) {
+				state.line_plot = GOG_PLOT (gog_plot_new_by_name ("GogLinePlot"));
+				state.line_set = axis_set;
+			} else if (cb_axis_set_cmp (axis_set, state.line_set)) {
+				/* excel does not support that AFAIK (Jean) */
+				g_free (axis_set);
+				continue;
+			}
+			state.has_hilow = TRUE;
+			axis_set->center_ticks = TRUE;
+			if (!state.is_stock) {
+				char *group_name;
+				g_object_get (G_OBJECT (cur_plot), "plot-group", &group_name, NULL);
+				if (group_name && !strcmp (group_name, "GogStockPlot"))
+					state.is_stock = TRUE;
+			}
+			orig = GOG_SERIES (gog_plot_get_series (cur_plot)->data);
+			state.hl_style = gog_style_dup (
+					gog_styled_object_get_style (GOG_STYLED_OBJECT (orig)));
+			high = gog_plot_new_series (state.line_plot);
+			gog_series_set_dim (high, -1,
+					go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), -1)),
+			&error);
+			gog_series_set_dim (high, 0,
+					go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), 0)),
+			&error);
+			gog_series_set_dim (high, 1,
+					go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), 1)),
+			&error);
+			if (!state.is_stock) {
+				style = gog_styled_object_get_style (GOG_STYLED_OBJECT (high));
+				/* FIXME: change this code when series lines are available ! */
+				style->line.auto_dash = FALSE;
+				style->line.auto_color = FALSE;
+				style->line.pattern = 5;
+				style->marker.auto_shape = FALSE;
+				style->marker.mark->shape = GO_MARKER_NONE;
+				style->marker.auto_fill_color = FALSE;
+			}
+			low = gog_plot_new_series (state.line_plot);
+			gog_series_set_dim (low, -1,
+					go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), -1)),
+					&error);
+			gog_series_set_dim (low, 0,
+					go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), 0)),
+					&error);
+			gog_series_set_dim (low, 1,
+					go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), 2)),
+					&error);
+			if (!state.is_stock) {
+				style = gog_styled_object_get_style (GOG_STYLED_OBJECT (low));
+				/* FIXME: change this code when series lines are available ! */
+				style->line.auto_dash = FALSE;
+				style->line.auto_color = FALSE;
+				style->line.pattern = 5;
+				style->marker.auto_shape = FALSE;
+				style->marker.mark->shape = GO_MARKER_NONE;
+				style->marker.auto_fill_color = FALSE;
+			}
+			cur_plot = (state.has_dropbar)? NULL: state.line_plot;
+		} else if (0 == strcmp (G_OBJECT_TYPE_NAME (cur_plot), "GogLinePlot")) {
+			if (state.line_plot != NULL &&
+					!cb_axis_set_cmp (axis_set, state.line_set)) {
+				GogSeries *orig, *new;
+				for (series = gog_plot_get_series (cur_plot); series != NULL;
+							series = series->next) {
+					orig = GOG_SERIES (series->data);
+					new = gog_plot_new_series (state.line_plot);
+					gog_series_set_dim (new, -1,
+							go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), -1)),
+							&error);
+					gog_series_set_dim (new, 0,
+							go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), 0)),
+							&error);
+					gog_series_set_dim (new, 1,
+							go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), 1)),
+							&error);
+					gog_styled_object_set_style (GOG_STYLED_OBJECT (new),
+							gog_styled_object_get_style (GOG_STYLED_OBJECT (orig)));
+				}
+				cur_plot = NULL;
+			}
+		}
+		if (cur_plot) {
+			ptr = g_slist_find_custom (sets, axis_set,
+				(GCompareFunc) cb_axis_set_cmp);
+			if (ptr != NULL) {
+				g_free (axis_set);
+				axis_set = (XLAxisSet *)(ptr->data);
+			} else
+				sets = g_slist_append (sets, axis_set);
+			axis_set->plots = g_slist_prepend (axis_set->plots, cur_plot);
+		}
+	}
+
+	/* line plots with drop bars need to have the series in the correct order ! */
+	if (state.line_plot && state.has_dropbar) {
+		if (g_slist_length (state.line_plot->series) > 2) {
+			gpointer data = g_slist_nth (state.line_plot->series, 1)->data;
+			state.line_plot->series = g_slist_remove (state.line_plot->series, data);
+			state.line_plot->series = g_slist_append (state.line_plot->series, data);
+		}
 	}
 
 	/* dump the associated series (skip any that we are dropping */
-	for (ptr = sets; ptr != NULL ; ptr = ptr->next)
+	for (ptr = sets; ptr != NULL ; ptr = ptr->next) {
 		for (plots = ((XLAxisSet *)ptr->data)->plots ; plots != NULL ; plots = plots->next)
 			if (0 != strcmp (G_OBJECT_TYPE_NAME (plots->data), "GogContourPlot")) {
 				for (series = gog_plot_get_series (plots->data) ; series != NULL ; series = series->next)
@@ -3829,7 +4419,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 			} else {
 				/* we should have only one series there */
 				GogSeries *ser = GOG_SERIES (gog_plot_get_series (plots->data)->data);
-				/* create an equivalen XLContourPlot and save its series */
+				/* create an equivalent XLContourPlot and save its series */
 				if (ser != NULL) {
 					gboolean as_col, s_as_col;
 					gboolean s_is_rc, mat_is_rc;
@@ -3841,7 +4431,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 					int i, j, m, n, sn, cur = 0, scur = 0;
 					GOData *s, *c, *mat = ser->values[2].data;
 					GODataMatrixSize size = go_data_matrix_get_size (GO_DATA_MATRIX (mat));
-					GogPlot *plotbuf = gog_plot_new_by_name ("XLContourPlot");
+					GogPlot *plotbuf = (GogPlot*) gog_plot_new_by_name ("XLContourPlot");
 					Sheet *sheet = sheet_object_get_sheet (so);
 					g_object_get (G_OBJECT (plots->data), "transposed", &as_col, NULL);
 					matexpr = gnm_go_data_get_expr (mat);
@@ -3944,6 +4534,8 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 					state.extra_objects = g_slist_append (state.extra_objects, plotbuf);
 				}
 			}
+		state.cur_set++;
+	}
 
 	data = ms_biff_put_len_next (state.bp, BIFF_CHART_shtprops, 4);
 	GSF_LE_SET_GUINT32 (data + 0, 0xa);
@@ -3964,6 +4556,8 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	}
 	g_slist_foreach (state.extra_objects, (GFunc) g_object_unref, NULL);
 	g_slist_free (state.extra_objects);
+	if (state.line_plot)
+		g_object_unref (state.line_plot);
 
 	chart_write_END (&state);
 #if 0 /* they seem optional */

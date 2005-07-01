@@ -1,3 +1,8 @@
+2005-07-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: import error bars, (linear) regression curves and stock
+	plots, export stock plots.
+
 2005-06-28  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (cb_write_condition) : no need to unmap the kludge
