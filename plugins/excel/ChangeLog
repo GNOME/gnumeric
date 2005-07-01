@@ -1,5 +1,10 @@
 2005-07-01  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* ms-chart.c: (axislineformat): import axis grids,
+	(chart_write_axis): export axis grids.
+
+2005-07-01  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* ms-chart.c: import error bars, (linear) regression curves and stock
 	plots, export stock plots.
 

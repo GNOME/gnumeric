@@ -34,6 +34,7 @@
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-axis.h>
+#include <goffice/graph/gog-grid-line.h>
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-series-impl.h>
 #include <goffice/graph/gog-object.h>
@@ -554,16 +555,33 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 	if (BC_R(lineformat)(handle, s, q))
 		return TRUE;
 
-	if (type == 0 && s->axis != NULL) {
-		g_object_set (G_OBJECT (s->axis),
-			"style", s->style,
-			NULL);
-		/* deleted axis sets flag here, rather than in TICK */
-		if (0 == (0x4 & GSF_LE_GET_GUINT16 (q->data+8)))
+	if (s->axis != NULL)
+		switch (type) {
+		case 0:
 			g_object_set (G_OBJECT (s->axis),
-				"major-tick-labeled",	FALSE,
+				"style", s->style,
 				NULL);
-	}
+			/* deleted axis sets flag here, rather than in TICK */
+			if (0 == (0x4 & GSF_LE_GET_GUINT16 (q->data+8)))
+				g_object_set (G_OBJECT (s->axis),
+					"major-tick-labeled",	FALSE,
+					NULL);
+			break;
+		case 1: {
+			GogObject *GridLine = GOG_OBJECT (g_object_new (GOG_GRID_LINE_TYPE,
+							"style",  s->style, NULL));
+			gog_object_add_by_name (GOG_OBJECT (s->axis), "MajorGrid", GridLine);
+			break;
+		}
+		case 2: {
+			GogObject *GridLine = GOG_OBJECT (g_object_new (GOG_GRID_LINE_TYPE,
+							"style",  s->style, NULL));
+			gog_object_add_by_name (GOG_OBJECT (s->axis), "MinorGrid", GridLine);
+			break;
+		}
+		default:
+			break;
+		}
 	g_object_unref (s->style);
 	s->style = NULL;
 
@@ -3735,9 +3753,24 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 	ms_biff_put_commit (s->bp);
 
 	if (axis != NULL) {
+		GogObject *Grid;
 		ms_biff_put_2byte (s->bp, BIFF_CHART_axislineformat, 0); /* a real axis */
 		chart_write_LINEFORMAT (s, &GOG_STYLED_OBJECT (axis)->style->line,
 					TRUE, FALSE);
+		Grid = gog_object_get_child_by_role (GOG_OBJECT (axis),
+				gog_object_find_role_by_name (GOG_OBJECT (axis), "MajorGrid"));
+		if (Grid) {
+			ms_biff_put_2byte (s->bp, BIFF_CHART_axislineformat, 1);
+			chart_write_LINEFORMAT (s, &GOG_STYLED_OBJECT (Grid)->style->line,
+						TRUE, FALSE);
+		}
+		Grid = gog_object_get_child_by_role (GOG_OBJECT (axis),
+				gog_object_find_role_by_name (GOG_OBJECT (axis), "MinorGrid"));
+		if (Grid) {
+			ms_biff_put_2byte (s->bp, BIFF_CHART_axislineformat, 2);
+			chart_write_LINEFORMAT (s, &GOG_STYLED_OBJECT (Grid)->style->line,
+						TRUE, FALSE);
+		}
 	}
 	chart_write_END (s);
 }
