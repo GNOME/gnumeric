@@ -900,7 +900,7 @@ x_claim_clipboard (WorkbookControlGUI *wbcg)
 		(GtkClipboardClearFunc) x_clipboard_clear_cb,
 		G_OBJECT (wbcg));
 
-	if (imageable) {
+	if (exportable || imageable) {
 		for (i = 0; i < n_targets; i++)
 			g_free (targets[i].target);
 		g_free (targets);

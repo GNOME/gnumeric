@@ -1,3 +1,7 @@
+2005-07-01  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-clipboard.c (x_claim_clipboard): Plug leak.
+
 2005-07-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-graph.c: inlude locale.h,
