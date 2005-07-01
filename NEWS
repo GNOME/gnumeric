@@ -19,6 +19,7 @@ Morten:
 	* Fix stf export format problem.
 	* Prevent sheets from being renamed to "".
 	* Fix IRR.  [Debian #315625]
+	* Eliminate old sheet reorganize support code.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.2
