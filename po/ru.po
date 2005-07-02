@@ -1,6 +1,5 @@
-# translation of ru.po to 
-# Copyright (C) 1999-2002, 2004 Free Software Foundation, Inc.
-# Valek Filippov <frob@df.ru>, 1999-2002,2003.
+# Copyright (C) 1999-2005 Free Software Foundation, Inc.
+# Valek Filippov <frob@df.ru>, 1999-2005
 # Dmitry G. Mastrukov <dmitry@taurussoft.org>, 2001-2002, 2004.
 #
 msgid ""
@@ -8,7 +7,7 @@ msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-06-23 16:40+0400\n"
-"PO-Revision-Date: 2005-06-26 01:06+0400\n"
+"PO-Revision-Date: 2005-07-02 15:08+0400\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +55,7 @@ msgstr "Недопустимые символы для кодировки \"%c%c
 #: ../plugins/applix/applix-read.c:1088
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
-msgstr "Выражение не начинается с \"=\" ? \"%s\""
+msgstr "Выражение начинается не с \"=\" ? \"%s\""
 
 #: ../plugins/applix/applix-read.c:1099
 #, c-format
@@ -83,7 +82,7 @@ msgstr "Интерфейс CORBA"
 
 #: ../plugins/corba/plugin.xml.in.h:2
 msgid "Provides a CORBA scripting interface"
-msgstr "Предоставляет интерфейс сценариев к CORBA"
+msgstr "Предоставляет интерфейс к CORBA для сценариев"
 
 #: ../plugins/derivatives/options.c:2261 ../plugins/derivatives/options.c:2266
 #: ../plugins/derivatives/options.c:2271 ../plugins/derivatives/options.c:2276
@@ -10683,11 +10682,11 @@ msgstr "Область назначения содержит объединен�
 
 #: ../src/sheet.c:2500
 msgid "cannot operate on merged cells"
-msgstr "невозможно действовать на объединенных ячейках"
+msgstr "невозможно использовать на объединенных ячейках"
 
 #: ../src/sheet.c:2510
 msgid "cannot operate on array formulae"
-msgstr "невозможно действовать на формулах массива"
+msgstr "невозможно использовать на формулах массива"
 
 #: ../src/sheet.c:3634
 msgid "Insert Columns"
@@ -10782,7 +10781,7 @@ msgstr "Правка гиперссылки"
 
 #: ../src/sheet-control-gui.c:1627
 msgid "_Remove Hyperlink"
-msgstr "Удалить гиперссылка"
+msgstr "Удалить гиперссылку"
 
 #. This is somewhat cheesy and should use ngettext
 #: ../src/sheet-control-gui.c:2140
@@ -11381,7 +11380,7 @@ msgstr "_Имена"
 
 #: ../src/wbcg-actions.c:1437
 msgid "S_pecial"
-msgstr "Специальный"
+msgstr "Специальная"
 
 #: ../src/wbcg-actions.c:1438
 msgid "F_ormat"
