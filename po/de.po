@@ -9,6 +9,7 @@
 # Christian Meyer <chrisime@gnome.org>, 2001.
 # Christian Neumair <chris@gnome-de.org>, 2002, 2003, 2004.
 # Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
+# Hendrik Richter <hendi@gnome-de.org>, 2005.
 #
 # Thanks for improvements to "Andreas J. Guelzow" <aguelzow@taliesin.ca>, 2001.
 #
@@ -34,8 +35,8 @@ msgstr ""
 "Project-Id-Version: gnumeric 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-05 10:46+0200\n"
-"PO-Revision-Date: 2005-04-05 10:45+0200\n"
-"Last-Translator: Frank Arnold <frank@scirocco-5v-turbo.de>\n"
+"PO-Revision-Date: 2005-07-04 19:09+0200\n"
+"Last-Translator: Hendrik Richter <hendi@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1590,11 +1591,11 @@ msgstr "Ungültiger COLUMNS-Abschnitt in der Datei."
 
 #: ../plugins/mps/parser.c:562
 msgid "Invalid RHS section in the file."
-msgstr "Ungültiger RHS-Absschnitt in der Datei."
+msgstr "Ungültiger RHS-Abschnitt in der Datei."
 
 #: ../plugins/mps/parser.c:567
 msgid "Invalid RANGES section in the file."
-msgstr "Ungültiger REICHWEITE-Absschnitt in der Datei."
+msgstr "Ungültiger REICHWEITE-Abschnitt in der Datei."
 
 #: ../plugins/mps/parser.c:572
 msgid "Invalid BOUNDS section in the file."
@@ -2864,7 +2865,7 @@ msgstr ""
 msgid ""
 "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
-"Diese Wert legt die maximale Anzahl der Objekte in der Rückgängig/Widerholen-"
+"Diese Wert legt die maximale Anzahl der Objekte in der Rückgängig/Wiederholen-"
 "Liste fest."
 
 #: ../schemas/gnumeric-general.schemas.in.h:46
@@ -4588,7 +4589,7 @@ msgstr "Der Regression-Dialog konnte nicht erzeugt werden."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2219
 msgid "Could not create the Exponential Smoothing Tool dialog."
-msgstr "Der Exponentielles Glätten-Dialog konnte nicht erzeugt werden."
+msgstr "Der Exponenzielles Glätten-Dialog konnte nicht erzeugt werden."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2352
 msgid "Could not create the Moving Average Tool dialog."
@@ -4767,7 +4768,7 @@ msgstr "81"
 
 #: ../src/dialogs/dialog-autoformat.c:653
 msgid "An error occurred while reading the category list"
-msgstr "Beim Lesen der Kategorieenliste trat ein Fehler auf."
+msgstr "Beim Lesen der Kategorienliste trat ein Fehler auf."
 
 #: ../src/dialogs/dialog-autosave.c:78
 #, c-format
@@ -5296,7 +5297,7 @@ msgstr "Verzeichnis"
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 "Die Objekte auf dieser Seite legen das Verhalten des Systems zum "
-"Rückgängigmachen und Widerherstellen fest."
+"Rückgängigmachen und Wiederherstellen fest."
 
 #: ../src/dialogs/dialog-preferences.c:470
 msgid "Length of Undo Descriptors"
@@ -5499,11 +5500,11 @@ msgstr "_nu-Wert:"
 
 #: ../src/dialogs/dialog-random-generator.c:134
 msgid "Exponential"
-msgstr "Exponentiell"
+msgstr "Exponenziell"
 
 #: ../src/dialogs/dialog-random-generator.c:136
 msgid "Exponential Power"
-msgstr "Exponentielles Wachstum"
+msgstr "Exponenzielles Wachstum"
 
 #: ../src/dialogs/dialog-random-generator.c:138
 msgid "F"
@@ -6606,7 +6607,7 @@ msgstr "0.2"
 #: ../src/dialogs/exp-smoothing.glade.h:3 ../src/tools/analysis-tools.c:3864
 #: ../src/tools/analysis-tools.c:3867
 msgid "Exponential Smoothing"
-msgstr "Exponentielles Glätten"
+msgstr "Exponenzielles Glätten"
 
 #: ../src/dialogs/exp-smoothing.glade.h:9
 msgid "_Damping factor:"
@@ -8498,7 +8499,7 @@ msgstr "Gleitender Mittelwert (%s)"
 #: ../src/tools/analysis-tools.c:3851
 #, c-format
 msgid "Exponential Smoothing (%s)"
-msgstr "Exponentielles Glätten (%s)"
+msgstr "Exponenzielles Glätten (%s)"
 
 #: ../src/tools/analysis-tools.c:3919
 msgid "Point"
@@ -10060,7 +10061,7 @@ msgstr "Gruppe von %d Funktionen in Kategorie »%s«"
 
 #: ../src/gnm-plugin.c:324
 msgid "Missing file name."
-msgstr "Fehlender Datename."
+msgstr "Fehlender Dateiname."
 
 #: ../src/gnm-plugin.c:373
 #, c-format
@@ -10474,7 +10475,7 @@ msgstr "Unbekanntes Arbeitsbuch »%s«"
 #: ../src/parser.y:978 ../src/parser.y:1227
 msgid "Could not find matching closing quote"
 msgstr ""
-"Zugehöriges schliessendes Anführungszeichen konnte nicht gefunden werden"
+"Zugehöriges schließendes Anführungszeichen konnte nicht gefunden werden"
 
 #: ../src/parser.y:1087
 msgid "Sheet name is required"
@@ -11733,7 +11734,7 @@ msgstr "_Datenreihe..."
 
 #: ../src/wbcg-actions.c:1575
 msgid "Fill according to a linear or exponential series"
-msgstr "Entsprechend einer linearen oder exponentiellen Folge füllen"
+msgstr "Entsprechend einer linearen oder exponenziellen Folge füllen"
 
 #: ../src/wbcg-actions.c:1577
 msgid "_Random Generator..."
@@ -12152,11 +12153,11 @@ msgstr "Zweifaktorielle Varianzanalyse..."
 #. Tools -> Forecasting
 #: ../src/wbcg-actions.c:1778
 msgid "_Exponential Smoothing..."
-msgstr "_Exponentielles Glätten..."
+msgstr "_Exponenzielles Glätten..."
 
 #: ../src/wbcg-actions.c:1779
 msgid "Exponential smoothing..."
-msgstr "Exponentielle Glättung..."
+msgstr "Exponenzielle Glättung..."
 
 #: ../src/wbcg-actions.c:1781
 msgid "_Moving Average..."
@@ -12252,7 +12253,7 @@ msgstr "Ränge und _Perzentile..."
 
 #: ../src/wbcg-actions.c:1819
 msgid "Ranks, placements and percentiles"
-msgstr "Ränge, Plazierungen und Percentil"
+msgstr "Ränge, Platzierungen und Percentil"
 
 #: ../src/wbcg-actions.c:1821
 msgid "_Regression..."
@@ -14171,7 +14172,7 @@ msgstr "Eine einfache Listenvorlage"
 #~ msgstr "Balken-/Säulengraph-Engine"
 
 #~ msgid "Charting : Bar/Col/Line/Area"
-#~ msgstr "Diagrammdartellung : Balken/Säulen/Linien/Flächen"
+#~ msgstr "Diagrammdarstellung : Balken/Säulen/Linien/Flächen"
 
 #~ msgid "Default 1.5d plot types"
 #~ msgstr "1.5d-Vorgabediagrammtypen"
@@ -15752,7 +15753,7 @@ msgstr "Eine einfache Listenvorlage"
 #~ msgstr "Vietnamesisch (VISCII)"
 
 #~ msgid "Vietnamese (VPS)"
-#~ msgstr "Vietnamesich (VPS)"
+#~ msgstr "Vietnamesisch (VPS)"
 
 #~ msgid "Vietnamese (Windows-1258)"
 #~ msgstr "Vietnamesisch (Windows-1258)"
