@@ -1,3 +1,8 @@
+2005-07-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in, README: Bumped the goffice requirement to get
+	GOG_MS_DIM_START, GOG_MS_DIM_END, GOG_MS_DIM_LOW, GOG_MS_DIM_HIGH.
+
 2005-07-01  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c (x_claim_clipboard): Plug leak.

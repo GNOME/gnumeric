@@ -19,6 +19,7 @@ You need:				Debian package name
 	libgnomeprint	>= 2.8.2	libgnomeprint2.2-dev
 	libgnomeprintui	>= 2.8.2	libgnomeprintui2.2-dev
 	libgsf		>= 1.12.0	libgsf-1-dev
+	libGOffice	>= 0.0.3	libgoffice-1-dev
 	libglade	>= 2.3.6	libglade2-dev
 	gnome-xml   	>= 2.4.12	libxml2-dev
 	libart   	>= 2.3.11	libart-2.0-dev
