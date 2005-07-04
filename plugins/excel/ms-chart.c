@@ -2919,8 +2919,8 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 									G_OBJECT_GET_CLASS (parent->series), "errors");
 						prop_name = (pspec)? "errors": NULL;
 						msdim = (series->err_type < 3)?
-								GOG_MS_DIM_TYPES + series->err_type + 2:
-								GOG_MS_DIM_TYPES + series->err_type;
+								GOG_MS_DIM_TYPES + series->err_type:
+								GOG_MS_DIM_TYPES + series->err_type - 2;
 					} else {
 						msdim = (series->err_type < 3)?
 								GOG_MS_DIM_TYPES + series->err_type + 2:
@@ -2933,6 +2933,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 												GOG_ERROR_BAR_DISPLAY_NEGATIVE;
 						if (!series->err_teetop)
 							error_bar->width = 0;
+						error_bar->style = gog_style_dup (series->style);						
 						switch (series->err_src) {
 						case 1:
 							/* percentage */
