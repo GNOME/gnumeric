@@ -1581,7 +1581,7 @@ gnumeric_irr (FunctionEvalInfo *ei, GnmValue **argv)
 		if (!(data.havexneg && data.havexpos))
 			goal_seek_newton (&irr_npv, &irr_npv_df, &data, &p, -0.99);
 		if (!(data.havexneg && data.havexpos))
-			goal_seek_point (&irr_npv, &data, &p, 1 - GNM_EPSILON);
+			goal_seek_point (&irr_npv, &data, &p, 1 - GNUM_EPSILON);
 
 		/* Pray we got both sides of the root.  */
 		status = goal_seek_bisection (&irr_npv, &data, &p);

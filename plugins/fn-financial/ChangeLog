@@ -1,3 +1,7 @@
+2005-07-04  Jon K Hellan  <hellan@acm.org>
+
+	* functions.c (gnumeric_irr): Fix typo.
+
 2005-06-27  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_irr): If all else fails, try to Newton
