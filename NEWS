@@ -12,6 +12,10 @@ Jody:
 	* Buttons in sheet manager dialog should not strech vertically.
 	* Backport foocanvas fix for hiding widgets on the sheet [#172356]
 
+Jon Kåre:
+	* Backport Excel metadata to the libgsf 1.12 metadata
+	API. With Caolan McNamara. [#308047]
+
 Morten:
 	* Backport save-as crash fix.  [#170308]
 	* Backport fix for crash with non-UTF-8 filenames.  [Debian #299805]

@@ -117,22 +117,19 @@ excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 }
 
 static void
-excel_read_metadata (Workbook  *wb, GsfInfile *ole, char const *name,
+excel_read_metadata (GsfDocMetaData *meta_data, GsfInfile *ole, char const *name,
 		     IOContext *context)
 {
-	GError   *err = NULL;
 	GsfInput *stream = gsf_infile_child_by_name (ole, name);
 
 	if (stream != NULL) {
-		gsf_msole_metadata_read (stream, &err);
+		GError *err = gsf_msole_metadata_read (stream, meta_data);
 		if (err != NULL) {
 			gnm_io_warning (context, err->message);
 			g_error_free (err);
 		}
-		gsf_input_seek (stream, 0, G_SEEK_SET);
-		g_object_set_data_full (G_OBJECT (wb), name,
-			gsf_structured_blob_read (stream), g_object_unref);
-		g_object_unref (G_OBJECT (stream));
+
+		g_object_unref (stream);
 	}
 }
 
@@ -154,6 +151,7 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 	GsfInfile *ole = gsf_infile_msole_new (input, &err);
 	Workbook  *wb = wb_view_workbook (wbv);
 	gboolean   is_double_stream_file, is_97;
+	GsfDocMetaData *meta_data;
 
 	if (ole == NULL) {
 		guint8 const *data;
@@ -188,8 +186,11 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 	excel_read_workbook (context, wbv, stream, &is_double_stream_file);
 	g_object_unref (G_OBJECT (stream));
 
-	excel_read_metadata (wb, ole, "\05SummaryInformation", context);
-	excel_read_metadata (wb, ole, "\05DocumentSummaryInformation", context);
+	meta_data = gsf_doc_meta_data_new ();
+	excel_read_metadata (meta_data, ole, "\05DocumentSummaryInformation", context);
+	excel_read_metadata (meta_data, ole, "\05SummaryInformation", context);
+	g_object_set_data_full (G_OBJECT (wb), "GsfDocMetaData",
+		meta_data, g_object_unref);
 
 	/* See if there are any macros to keep around */
 	stream = gsf_infile_child_by_name (ole, "\01CompObj");
@@ -228,6 +229,7 @@ excel_save (IOContext *context, WorkbookView const *wbv, GsfOutput *output,
 	GsfOutfile *outfile;
 	ExcelWriteState *ewb = NULL;
 	GsfStructuredBlob *blob;
+	GsfDocMetaData *meta_data;
 
 	io_progress_message (context, _("Preparing to save..."));
 	io_progress_range_push (context, 0.0, 0.1);
@@ -250,25 +252,20 @@ excel_save (IOContext *context, WorkbookView const *wbv, GsfOutput *output,
 	excel_write_state_free (ewb);
 	io_progress_range_pop (context);
 
-	blob = g_object_get_data (G_OBJECT (wb), "\05DocumentSummaryInformation");
-	if (blob == NULL) {
+	meta_data = g_object_get_data (G_OBJECT (wb), "GsfDocMetaData");
+	if (meta_data != NULL) {
 		content = gsf_outfile_new_child (outfile,
 			"\05DocumentSummaryInformation", FALSE);
-		gsf_msole_metadata_write (content, TRUE, NULL);
+		gsf_msole_metadata_write (content, meta_data, TRUE);
 		gsf_output_close (content);
 		g_object_unref (G_OBJECT (content));
-	} else
-		gsf_structured_blob_write (blob, outfile);
 
-	blob = g_object_get_data (G_OBJECT (wb), "\05SummaryInformation");
-	if (blob == NULL) {
 		content = gsf_outfile_new_child (outfile,
 			"\05SummaryInformation", FALSE);
-		gsf_msole_metadata_write (content, FALSE, NULL);
+		gsf_msole_metadata_write (content, meta_data, FALSE);
 		gsf_output_close (content);
 		g_object_unref (G_OBJECT (content));
-	} else
-		gsf_structured_blob_write (blob, outfile);
+	}
 
 	/* restore the macros we loaded */
 	blob = g_object_get_data (G_OBJECT (wb), "MS_EXCEL_COMPOBJ");
