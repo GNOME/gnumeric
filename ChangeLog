@@ -1,3 +1,7 @@
+2005-07-05  Stepan Kasal  <kasal@ucw.cz>
+
+	* .cvsignore: Replace "autom4te*.cache" by "autom4te.cache"
+
 2005-07-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in, README: Bumped the goffice requirement to get
