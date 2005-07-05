@@ -1,3 +1,8 @@
+2005-07-06  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-about.c (dialog_about): Reduce animation rate to 3 secs
+	per name.
+
 2005-06-30  Morten Welinder  <terra@gnome.org>
 
 	* dialog-sheet-order.c (cb_ok_clicked): Rework to use
