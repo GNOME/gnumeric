@@ -1,3 +1,21 @@
+2005-07-07  Jon K Hellan  <hellan@acm.org>
+
+	* sc.c (ScParseState): New struct.
+	(sc_parse_label, sc_parse_let, sc_cmd_t, sc_parse_line,
+	(sc_parse_sheet): Call with ScParseState.
+	(sc_row_parse): New. Like row_parse in parse_utils, but accepts
+	row 0.
+	(sc_rangeref_parse): Rewrite. Based on gnm_1_0_rangeref_parse, but
+	uses sc_row_parse and doesn't handle sheets or workbooks.
+	(sc_parse_let): Remove '@'s before parsing. Use state's expr
+	conventions. Queue recalc of valueless expressions.
+	(simple_renames): Mapping table from sc to gnumeric function names.
+	(function_renamer): New. Renames functions from sc to gnumeric.
+	(sc_conventions): New. Creates a GnmExprConventions appropriate to
+	sc.
+	(sc_file_open): Call sheet parser with ScParseState. Initialize
+	expr conventions.
+
 2005-06-13  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.2

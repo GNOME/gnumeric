@@ -15,6 +15,7 @@
 #include <gnm-plugin.h>
 #include <goffice/app/io-context.h>
 #include <goffice/app/error-info.h>
+#include <goffice/utils/go-glib-extras.h>
 #include "workbook-view.h"
 #include "workbook.h"
 #include "parse-util.h"
@@ -24,6 +25,7 @@
 #include "style.h"
 #include "sheet.h"
 #include "expr.h"
+#include "func.h"
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-textline.h>
@@ -37,6 +39,14 @@ gboolean sc_file_probe (GOFileOpener const *fo, GsfInput *input,
 			FileProbeLevel pl);
 void sc_file_open (GOFileOpener const *fo, IOContext *io_context,
                    WorkbookView *wb_view, GsfInput *input);
+
+typedef struct {
+	GsfInputTextline   *textline;
+	Sheet              *sheet;
+	GIConv             converter;
+	GnmExprConventions *exprconv;
+} ScParseState;
+
 
 typedef enum {
 	LABEL,
@@ -131,7 +141,7 @@ sc_parse_coord (char const **strdata, int *col, int *row)
 
 
 static gboolean
-sc_parse_label (Sheet *sheet, char const *cmd, char const *str, int col, int row)
+sc_parse_label (ScParseState *state, char const *cmd, char const *str, int col, int row)
 {
 	GnmCell *cell;
 	char *s = NULL, *tmpout;
@@ -139,7 +149,8 @@ sc_parse_label (Sheet *sheet, char const *cmd, char const *str, int col, int row
 	gboolean result = FALSE;
 	sc_string_cmd_t cmdtype;
 
-	g_return_val_if_fail (sheet, FALSE);
+	g_return_val_if_fail (state, FALSE);
+	g_return_val_if_fail (state->sheet, FALSE);
 	g_return_val_if_fail (cmd, FALSE);
 	g_return_val_if_fail (str, FALSE);
 	g_return_val_if_fail (col >= 0, FALSE);
@@ -165,7 +176,7 @@ sc_parse_label (Sheet *sheet, char const *cmd, char const *str, int col, int row
 	tmpout--;
 	*tmpout = 0;
 
-	cell = sheet_cell_fetch (sheet, col, row);
+	cell = sheet_cell_fetch (state->sheet, col, row);
 	if (!cell)
 		goto err_out;
 
@@ -244,46 +255,105 @@ sc_parse_cell_name_list (Sheet *sheet, char const *cell_name_str,
 #endif
 
 
-G_GNUC_UNUSED static char const *
-sc_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
-		   GnmExprConventions const *convention)
+static char const *
+sc_row_parse (char const *str, int *res, unsigned char *relative)
 {
-	/* This is a hack.  We still cannot handle sc's row 0.  */
-	char const *end = rangeref_parse (res, start, pp, convention);
-	if (end != start) {
-		res->a.row++;
-		res->b.row++;
-	}
-	return end;
+	char const *end, *ptr = str;
+	long int row;
+
+	if (!(*relative = (*ptr != '$')))
+		ptr++;
+
+	if (*ptr < '0' || *ptr > '9')
+		return NULL;
+
+	/*
+	 * Do not allow letters after the row number.  If we did, then
+	 * the name "K3P" would lex as the reference K3 followed by the
+	 * name "P".
+	 */
+	row = strtol (ptr, (char **)&end, 10);
+	if (ptr != end &&
+	    !g_unichar_isalnum (g_utf8_get_char (end)) && *end != '_' &&
+	    0 <= row && row  < SHEET_MAX_ROWS) {
+		*res = row;
+		return end;
+	} else
+		return NULL;
+}
+
+
+static char const *
+sc_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
+			G_GNUC_UNUSED GnmExprConventions const *convs)
+{
+	char const *ptr = start, *tmp1, *tmp2;
+
+	g_return_val_if_fail (start != NULL, start);
+	g_return_val_if_fail (pp != NULL, start);
+
+	res->a.sheet = NULL;
+	tmp1 = col_parse (ptr, &res->a.col, &res->a.col_relative);
+	if (!tmp1)
+		return start;
+	tmp2 = sc_row_parse (tmp1, &res->a.row, &res->a.row_relative);
+	if (!tmp2)
+		return start;
+	if (res->a.col_relative)
+		res->a.col -= pp->eval.col;
+	if (res->a.row_relative)
+		res->a.row -= pp->eval.row;
+
+	/* prepare as if it's a singleton, in case we want to fall back */
+	res->b = res->a;
+	if (*tmp2 != ':')
+		return tmp2;
+
+	start = tmp2;
+	tmp1 = col_parse (start+1, &res->b.col, &res->b.col_relative);
+	if (!tmp1)
+		return start;
+	tmp2 = sc_row_parse (tmp1, &res->b.row, &res->b.row_relative);
+	if (!tmp2)
+		return start;
+	if (res->b.col_relative)
+		res->b.col -= pp->eval.col;
+	if (res->b.row_relative)
+		res->b.row -= pp->eval.row;
+	return tmp2;
 }
 
 
 static gboolean
-sc_parse_let (Sheet *sheet, char const *cmd, char const *str, int col, int row)
+sc_parse_let (ScParseState *state, char const *cmd, char const *str, int col, int row)
 {
 	GnmExpr const *tree;
 	GnmCell *cell;
 	GnmParsePos pos;
 	GnmValue const *v;
+	char *str2, *p1, *p2;
 
-	g_return_val_if_fail (sheet, FALSE);
+	g_return_val_if_fail (state, FALSE);
+	g_return_val_if_fail (state->sheet, FALSE);
 	g_return_val_if_fail (cmd, FALSE);
 	g_return_val_if_fail (str, FALSE);
 	g_return_val_if_fail (col >= 0, FALSE);
 	g_return_val_if_fail (row >= 0, FALSE);
 
-	cell = sheet_cell_fetch (sheet, col, row);
+	cell = sheet_cell_fetch (state->sheet, col, row);
 	if (!cell)
 		return FALSE;
 
-	/* FIXME FIXME FIXME sc/xspread rows start at A0 not A1.  we must
-	 * go through and fixup each row number in each cell reference */
-	tree = gnm_expr_parse_str (str,
+	str2 = g_malloc0 (strlen (str) + 1);
+	for (p1 = (char *) str, p2 = str2; *p1; p1++)
+		if (*p1 != '@')
+			*p2++ = *p1;
+	tree = gnm_expr_parse_str (str2,
 				   parse_pos_init_cell (&pos, cell),
 				   GNM_EXPR_PARSE_DEFAULT,
-				   gnm_expr_conventions_default, /* FIXME! */
+				   state->exprconv,
 				   NULL);
-
+	g_free (str2);
 	if (!tree) {
 		g_warning ("cannot parse cmd='%s', str='%s', col=%d, row=%d.",
 			   cmd, str, col, row);
@@ -295,6 +365,7 @@ sc_parse_let (Sheet *sheet, char const *cmd, char const *str, int col, int row)
 		cell_set_value (cell, value_dup (v));
 	} else {
 		cell_set_expr (cell, tree);
+		cell_queue_recalc (cell);
 	}
 
 out:
@@ -306,7 +377,7 @@ out:
 typedef struct {
 	char const *name;
 	int namelen;
-	gboolean (*handler) (Sheet *sheet, char const *name,
+	gboolean (*handler) (ScParseState *state, char const *name,
 			     char const *str, int col, int row);
 	unsigned have_coord : 1;
 } sc_cmd_t;
@@ -322,13 +393,14 @@ static sc_cmd_t const sc_cmd_list[] = {
 
 
 static gboolean
-sc_parse_line (Sheet *sheet, char *buf)
+sc_parse_line (ScParseState *state, char *buf)
 {
 	char const *space;
 	int i, cmdlen;
 	sc_cmd_t const *cmd;
 
-	g_return_val_if_fail (sheet, FALSE);
+	g_return_val_if_fail (state, FALSE);
+	g_return_val_if_fail (state->sheet, FALSE);
 	g_return_val_if_fail (buf, FALSE);
 
 	for (space = buf; g_ascii_isalnum (*space) || *space == '_'; space++)
@@ -349,7 +421,8 @@ sc_parse_line (Sheet *sheet, char *buf)
 			if (cmd->have_coord)
 				sc_parse_coord (&strdata, &col, &row);
 
-			cmd->handler (sheet, cmd->name, strdata, col, row);
+			cmd->handler (state, cmd->name, 
+				      strdata, col, row);
 			return TRUE;
 		}
 	}
@@ -364,16 +437,17 @@ sc_parse_line (Sheet *sheet, char *buf)
 
 
 static ErrorInfo *
-sc_parse_sheet (GsfInputTextline *input, Sheet *sheet, GIConv ic)
+sc_parse_sheet (ScParseState *state)
 {
 	unsigned char *data;
-	while ((data = gsf_input_textline_ascii_gets (input)) != NULL) {
+	while ((data = gsf_input_textline_ascii_gets (state->textline)) != NULL) {
 		char *utf8data;
 
 		g_strchomp (data);
-		utf8data = g_convert_with_iconv (data, -1, ic, NULL, NULL, NULL);
+		utf8data = g_convert_with_iconv (data, -1, state->converter,
+						 NULL, NULL, NULL);
 
-		if (g_ascii_isalpha (*data) && !sc_parse_line (sheet, utf8data)) {
+		if (g_ascii_isalpha (*data) && !sc_parse_line (state, utf8data)) {
 			g_free (utf8data);
 			return error_info_new_str (_("Error parsing line"));
 		}
@@ -384,6 +458,73 @@ sc_parse_sheet (GsfInputTextline *input, Sheet *sheet, GIConv ic)
 	return NULL;
 }
 
+static struct {
+	char const *scname;
+	char const *gnumericname;
+} const simple_renames[] = {
+	{ "AVG",    "AVERAGE" },
+	{ "DTR",    "RADIANS" },
+	{ "FABS",   "ABS" },
+	{ "COLS",   "COLUMNS" },
+	{ "AVG",    "AVERAGE" },
+	{ "POW",    "POWER" },
+	{ "PROD",   "PRODUCT" },
+	{ "RND",    "ROUND" },
+	{ "RTD",    "DEGREES" },
+	{ "STDDEV", "STDEV" },
+	{ "STON",   "INT" },
+	{ "SUBSTR", "MID" },
+	{ NULL, NULL }
+};
+
+
+static GnmExpr const *
+function_renamer (char const *name,
+		  GnmExprList *args,
+		  GnmExprConventions *convs)
+{
+	Workbook *wb = NULL;
+	int i;
+	GnmFunc *f;
+
+	for (i = 0; simple_renames[i].scname; i++)
+		if (strcasecmp (name, simple_renames[i].scname) == 0) {
+			name = simple_renames[i].gnumericname;
+			break;
+		}
+
+	f = gnm_func_lookup (name, wb);
+	if (f)
+		return gnm_expr_new_funcall (f, args);
+
+	return gnm_func_placeholder_factory (name, args, convs);
+}
+
+
+static GnmExprConventions *
+sc_conventions (void)
+{
+	GnmExprConventions *convs = gnm_expr_conventions_new ();
+	int i;
+
+	convs->decimal_sep_dot = TRUE;
+	convs->ref_parser = debug_rangeref_parse;
+	convs->range_sep_colon = TRUE;
+	convs->sheet_sep_exclamation	= TRUE;
+	convs->dots_in_names		= TRUE;
+	convs->unknown_function_handler = gnm_func_placeholder_factory;
+	convs->function_rewriter_hash =
+		g_hash_table_new (go_ascii_strcase_hash, 
+				  go_ascii_strcase_equal);
+	for (i = 0; simple_renames[i].scname; i++)
+		g_hash_table_insert (convs->function_rewriter_hash,
+				     (gchar *) simple_renames[i].scname,
+				     function_renamer);
+
+	return convs;
+}
+
+
 void
 sc_file_open (GOFileOpener const *fo, IOContext *io_context,
               WorkbookView *wb_view, GsfInput *input)
@@ -391,28 +532,29 @@ sc_file_open (GOFileOpener const *fo, IOContext *io_context,
 	Workbook  *wb;
 	char      *name;
 	ErrorInfo *error;
-	Sheet	  *sheet;
-	GsfInputTextline *textline;
-	GIConv    ic;
+	ScParseState state;
 
 	wb    = wb_view_workbook (wb_view);
 	name  = workbook_sheet_get_free_name (wb, "SC", FALSE, TRUE);
-	sheet = sheet_new (wb, name);
+	state.sheet = sheet_new (wb, name);
 	g_free (name);
-	workbook_sheet_attach (wb, sheet);
+	workbook_sheet_attach (wb, state.sheet);
 
 	/* This should probably come from import dialog.  */
-	ic = g_iconv_open ("UTF-8", "ISO-8859-1");
-
-	textline = (GsfInputTextline *) gsf_input_textline_new (input);
-	error = sc_parse_sheet (textline, sheet, ic);
+	state.converter = g_iconv_open ("UTF-8", "ISO-8859-1");
+	
+	state.exprconv = sc_conventions ();
+	state.textline = (GsfInputTextline *) gsf_input_textline_new (input);
+	error = sc_parse_sheet (&state);
 	if (error != NULL) {
-		workbook_sheet_delete (sheet);
+		workbook_sheet_delete (state.sheet);
 		gnumeric_io_error_info_set (io_context, error);
 	}
-	g_object_unref (G_OBJECT (textline));
-	g_iconv_close (ic);
+	g_object_unref (G_OBJECT (state.textline));
+	g_iconv_close (state.converter);
+	gnm_expr_conventions_free (state.exprconv);
 }
+
 
 static guint8 const signature[] =
 "# This data file was generated by the Spreadsheet Calculator.";
@@ -439,3 +581,5 @@ sc_file_probe (GOFileOpener const *fo, GsfInput *input,
  * goto C7
  *
  */
+
+
