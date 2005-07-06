@@ -508,7 +508,7 @@ sc_conventions (void)
 	int i;
 
 	convs->decimal_sep_dot = TRUE;
-	convs->ref_parser = debug_rangeref_parse;
+	convs->ref_parser = sc_rangeref_parse;
 	convs->range_sep_colon = TRUE;
 	convs->sheet_sep_exclamation	= TRUE;
 	convs->dots_in_names		= TRUE;
