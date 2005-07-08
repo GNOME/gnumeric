@@ -1,3 +1,8 @@
+2005-07-09  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-read.c (excel_read_workbook): Read BOF before entering
+	record reading loop (#152528).
+
 2005-07-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (ms_excel_chart_read): correctly import error bars

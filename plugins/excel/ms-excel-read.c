@@ -5945,7 +5945,15 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 	current_workbook_iconv = excel_iconv_open_for_import (1252);
 
 	*is_double_stream_file = FALSE;
-	while (!stop_loading &&		  /* we have not hit the end */
+	if (ms_biff_query_next (q) &&
+	    (q->opcode == BIFF_BOF_v0 ||
+	     q->opcode == BIFF_BOF_v2 ||
+	     q->opcode == BIFF_BOF_v4 ||
+	     q->opcode == BIFF_BOF_v8))
+	    ewb = excel_read_BOF (q, ewb, wb_view, context, 
+				  &ver, &current_sheet);
+	while (ewb &&		          /* BOF found and valid */
+	       !stop_loading &&		  /* we have not hit the end */
 	       problem_loading == NULL && /* there were no problems so far */
 	       ms_biff_query_next (q)) {  /* we can load the record */
 
