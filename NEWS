@@ -16,6 +16,9 @@ Jody:
 	* Conditional Formating for borders.
 	* Store the current settings before previewing. [#301494]
 
+Jon Kåre:
+        * Improve sc/xspread import.
+
 Morten:
 	* Make changes to toolbar visibility permanent.
 	* Fix stf export quoting problem.  [#308109]

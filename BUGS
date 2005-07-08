@@ -8,8 +8,8 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    : http://bugzilla.gnome.org/show_bug.cgi?id=159581
-    : http://bugzilla.gnome.org/show_bug.cgi?id=162951 : trivial
+    : http://bugzilla.gnome.org/show_bug.cgi?id=159581            (DONE)
+    : http://bugzilla.gnome.org/show_bug.cgi?id=162951 : trivial  (DONE)
     : Add a note to the SUMPRODUCT docs that
 	sumproduct(A1:A5>4,B1:B4) will not work and that they will
 	need
@@ -26,11 +26,11 @@ Worries
       we can steal some of the xim support from item-edit.
 
     http://bugzilla.gnome.org/show_bug.cgi?id=152528
-    : No crash when reading broken xls
+    : No crash when reading broken xls                          (DONE)
     http://bugzilla.gnome.org/show_bug.cgi?id=152317
     : Warning of possible dataloss loading into XP
       Looks like XL charts do not like non-trivial expressions for series names
-    http://bugzilla.gnome.org/show_bug.cgi?id=151610
+    http://bugzilla.gnome.org/show_bug.cgi?id=151610            
     : No longer crashes, but we mis-import multiple axis sets
 
     http://bugzilla.gnome.org/show_bug.cgi?id=144112
@@ -614,7 +614,7 @@ Short Term Goals
 
 27) audit all of the export plugins to handle utf8
     27.1) latex exporter                                        (DONE 20030611 AJG)
-    27.2) html exporter
+    27.2) html exporter						(DONE 20050709 JKH)
 
 29) gconf.
     29.1) Check for errors					(DONE)
