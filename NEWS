@@ -18,6 +18,7 @@ Jody:
 
 Jon Kåre:
         * Improve sc/xspread import.
+	* Export page orientation to Excel.
 
 Morten:
 	* Make changes to toolbar visibility permanent.
