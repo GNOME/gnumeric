@@ -1,5 +1,7 @@
 2005-07-11  Morten Welinder  <terra@gnome.org>
 
+	* src/ssconvert.c (list_them): Cleanup.
+
 	* src/workbook-view.c (wb_view_new_from_uri, wbv_save_to_uri): Use
 	g_printerr, not g_print.
 	* src/workbook-control-gui.c (cb_workbook_debug_info): Ditto.

@@ -74,25 +74,24 @@ list_them (get_them_f get_them,
 	   get_desc_f get_his_description)
 {
 	GList *ptr;
-	unsigned tmp, len = 0;
+	int len = 0;
 
 	for (ptr = (*get_them) (); ptr ; ptr = ptr->next) {
-		tmp = strlen ((*get_his_id) (ptr->data));
+		const char *id = (*get_his_id) (ptr->data);
+		int tmp = strlen (id);
 		if (len < tmp)
 			len = tmp;
 	}
 
-	fputs ("ID", stderr);
-	for (tmp = 2 ; tmp++ < len ;)
-		fputc (' ', stderr);
-	fputs ("  Description\n", stderr);
+	g_printerr ("%-*s | %s\n", len,
+		    /* Translate these? */
+		    "ID",
+		    "Description");
 	for (ptr = (*get_them) (); ptr ; ptr = ptr->next) {
-		tmp = strlen ((*get_his_id) (ptr->data));
-		fputs ((*get_his_id) (ptr->data), stderr);
-		while (tmp++ < len)
-			fputc (' ', stderr);
-		fprintf (stderr, " | %s\n",
-			(*get_his_description) (ptr->data));
+		const char *id = (*get_his_id) (ptr->data);
+		g_printerr ("%-*s | %s\n", len,
+			    id,
+			    (*get_his_description) (ptr->data));
 	}
 }
 
@@ -108,9 +107,9 @@ convert (char const **args, GOCmdContext *cc)
 		fs = go_file_saver_for_id (ssconvert_export_id);
 		if (fs == NULL) {
 			res = 1;
-			fprintf (stderr, _("Unknown exporter '%s'.\n"
-				 "Try --list-exporters to see a list of possibilities.\n"),
-				 ssconvert_export_id);
+			g_printerr (_("Unknown exporter '%s'.\n"
+				      "Try --list-exporters to see a list of possibilities.\n"),
+				    ssconvert_export_id);
 		} else if (outfile == NULL &&
 			   go_file_saver_get_extension	(fs) != NULL) {
 			char *basename = g_path_get_basename (args[0]);
@@ -132,23 +131,23 @@ convert (char const **args, GOCmdContext *cc)
 			fs = go_file_saver_for_file_name (outfile);
 			if (fs == NULL) {
 				res = 2;
-				fprintf (stderr, _("Unable to guess exporter to use for '%s'.\n"
-					 "Try --list-exporters to see a list of possibilities.\n"),
-					 outfile);
+				g_printerr (_("Unable to guess exporter to use for '%s'.\n"
+					      "Try --list-exporters to see a list of possibilities.\n"),
+					    outfile);
 			}
 		}
 	}
 	if (outfile == NULL)
-		fprintf (stderr, _("An output file name or an explicit export type is required.\n"
-			 "Try --list-exporters to see a list of possibilities.\n"));
+		g_printerr (_("An output file name or an explicit export type is required.\n"
+			      "Try --list-exporters to see a list of possibilities.\n"));
 	
 	if (ssconvert_import_id != NULL) {
 		fo = go_file_opener_for_id (ssconvert_import_id);
 		if (fo == NULL) {
 			res = 1;
-			fprintf (stderr, _("Unknown importer '%s'.\n"
-				 "Try --list-importers to see a list of possibilities.\n"),
-				 ssconvert_import_id);
+			g_printerr (_("Unknown importer '%s'.\n"
+				      "Try --list-importers to see a list of possibilities.\n"),
+				    ssconvert_import_id);
 		} 
 	}
 
@@ -163,9 +162,9 @@ convert (char const **args, GOCmdContext *cc)
 			if (ssconvert_one_file_per_sheet) {
 				g_warning ("TODO");
 			} else
-				fprintf (stderr, _("Selected exporter (%s) does not support saving multiple sheets in one file.\n"
-						   "Only the current sheet will be saved."),
-					 go_file_saver_get_id (fs));
+				g_printerr (_("Selected exporter (%s) does not support saving multiple sheets in one file.\n"
+					      "Only the current sheet will be saved."),
+					    go_file_saver_get_id (fs));
 		}
 		res = !wb_view_save_as (wbv, fs, outfile, cc);
 		g_object_unref (wb_view_workbook (wbv));
