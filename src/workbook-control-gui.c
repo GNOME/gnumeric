@@ -1477,7 +1477,7 @@ cb_workbook_debug_info (WorkbookControlGUI *wbcg)
 
 	if (dependency_debugging > 0) {
 		WORKBOOK_FOREACH_SHEET (wb, sheet,
-			g_print ("Dependencies for %s:\n", sheet->name_unquoted);
+			g_printerr ("Dependencies for %s:\n", sheet->name_unquoted);
 			gnm_dep_container_dump (sheet->deps););
 	}
 

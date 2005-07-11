@@ -117,7 +117,7 @@ workbook_dispose (GObject *wb_object)
 		 * be ok for debug code.
 		 */
 		if (gnumeric_debugging > 0) {
-			g_print ("Dependencies for %s:\n", sheet->name_unquoted);
+			g_printerr ("Dependencies for %s:\n", sheet->name_unquoted);
 			gnm_dep_container_dump (sheet->deps);
 		}
 	}

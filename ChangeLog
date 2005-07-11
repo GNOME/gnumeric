@@ -1,3 +1,10 @@
+2005-07-11  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-view.c (wb_view_new_from_uri, wbv_save_to_uri): Use
+	g_printerr, not g_print.
+	* src/workbook-control-gui.c (cb_workbook_debug_info): Ditto.
+	* src/workbook.c (workbook_dispose): ditto.
+
 2005-07-05  Stepan Kasal  <kasal@ucw.cz>
 
 	* .cvsignore: Replace "autom4te*.cache" by "autom4te.cache"

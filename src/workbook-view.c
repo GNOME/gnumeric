@@ -622,7 +622,7 @@ wbv_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
 	if (output != NULL) {
 		GError const *save_err;
 
-		g_print ("Writing %s\n", uri);
+		g_printerr ("Writing %s\n", uri);
 		go_file_saver_save (fs, io_context, wbv, GSF_OUTPUT (output));
 		save_err = gsf_output_error (GSF_OUTPUT (output));
 		if (save_err) {
@@ -1019,7 +1019,7 @@ wb_view_new_from_uri (char const *uri,
 	if (input != NULL) {
 		WorkbookView *res;
 
-		g_print ("Reading %s\n", uri);
+		g_printerr ("Reading %s\n", uri);
 		res = wb_view_new_from_input (input,
 					      optional_fmt, io_context,
 					      optional_enc);
