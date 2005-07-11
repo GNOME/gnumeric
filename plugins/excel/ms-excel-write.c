@@ -398,8 +398,7 @@ excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 		options |= 0x01;
 	if (pi != NULL && print_info_get_orientation (pi) == PRINT_ORIENT_VERTICAL)
 		options |= 0x02;
-	options |= 0x40; /* orientation is set */
-	options |= 0x04;  /* mark the _invalid_ things as being invalid */
+	/* orientation is set - leave bit 0x40 off */
 	if (pi != NULL && pi->print_black_and_white)
 		options |= 0x08;
 	if (pi != NULL && pi->print_as_draft)

@@ -1,3 +1,9 @@
+2005-07-11  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.c (excel_write_SETUP): Export page
+	orientation. I.e.: get the meaning of "orientation set" flag
+	right, and don't mark it "invalid".
+
 2005-07-09  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-read.c (excel_read_workbook): Read BOF before entering
