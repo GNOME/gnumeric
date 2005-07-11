@@ -1749,11 +1749,11 @@ do_fetch_page_info (PrinterSetupState *state)
 static void
 fetch_settings (PrinterSetupState *state)
 {
+	print_info_load_config (state->pi, state->gp_config);
 	do_fetch_page (state);
 	do_fetch_margins (state);
 	do_fetch_hf (state);
 	do_fetch_page_info (state);
-	print_info_load_config (state->pi, state->gp_config);
 }
 
 void

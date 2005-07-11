@@ -1,3 +1,8 @@
+2005-07-11  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-printer-setup.c (fetch_settings): Fetch settings from
+	gnome-print paper setup before computing margins. Fixes #310055.
+
 2005-07-11  Morten Welinder  <terra@gnome.org>
 
 	* dialog-printer-setup.c (display_hf_preview): Don't set
