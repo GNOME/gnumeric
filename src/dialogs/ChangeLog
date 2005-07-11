@@ -1,3 +1,8 @@
+2005-07-11  Morten Welinder  <terra@gnome.org>
+
+	* dialog-printer-setup.c (display_hf_preview): Don't set
+	foocanvasitems' text to NULL.
+
 2005-07-06  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-about.c (dialog_about): Reduce animation rate to 3 secs

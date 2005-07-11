@@ -749,15 +749,15 @@ display_hf_preview (PrinterSetupState *state, gboolean header)
 	}
 
 	text = hf_format_render (sample->left_format, hfi, HF_RENDER_PRINT);
-	foo_canvas_item_set (pi->left, "text", (const gchar *) text, NULL);
+	foo_canvas_item_set (pi->left, "text", text ? text : "", NULL);
 	g_free (text);
 
 	text = hf_format_render (sample->middle_format, hfi, HF_RENDER_PRINT);
-	foo_canvas_item_set (pi->middle, "text", text, NULL);
+	foo_canvas_item_set (pi->middle, "text", text ? text : "", NULL);
 	g_free (text);
 
 	text  = hf_format_render (sample->right_format, hfi, HF_RENDER_PRINT);
-	foo_canvas_item_set (pi->right, "text", text, NULL);
+	foo_canvas_item_set (pi->right, "text", text ? text : "", NULL);
 	g_free (text);
 
 	hf_render_info_destroy (hfi);
