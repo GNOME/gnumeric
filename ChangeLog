@@ -1,3 +1,8 @@
+2005-07-15  Jon K Hellan  <hellan@acm.org>
+
+	* src/main-application.c (gnumeric_arg_parse): Call
+	gnome_authentication_manager_init. 
+
 2005-07-14  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in (set_more_warnings): Add -Wno-pointer-sign, which
