@@ -1,3 +1,10 @@
+2005-07-14  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in (set_more_warnings): Add -Wno-pointer-sign, which
+	silences the "pointer targets differ in signedness" warnings from
+	gcc as of version 4.0. Should probaby be turned on again at some
+	point.
+
 2005-07-11  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (list_them): Cleanup.
