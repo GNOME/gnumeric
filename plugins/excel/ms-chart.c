@@ -1327,6 +1327,7 @@ BC_R(objectlink)(XLChartHandler const *handle,
 		g_return_val_if_fail (axes != NULL, FALSE);
 
 		label = gog_object_add_by_name (GOG_OBJECT (axes->data), "Label", NULL);
+		g_slist_free (axes);
 	}
 
 	if (label != NULL) {

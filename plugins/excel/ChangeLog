@@ -1,3 +1,7 @@
+2005-07-06  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(objectlink)) : fix leak. [#157058]
+
 2005-07-15  Jody Goldberg <jody@gnome.org>
 
 	* ms-obj.c (ms_read_TXO) : handle CONTINUES for text
