@@ -48,11 +48,6 @@ Worries
 	? How did you enter this.  xl-2k refuses to parse that
         ! Import from a .csv file.
 
-    : Errors from "gnumeric http://vbload.free.fr/linux.sxc":
-      ** (gnumeric:3193): CRITICAL **: oo_style_prop_cell: assertion `style != NULL' failed
-      ** (gnumeric:3193): WARNING **: Unexpected element 'style:tab-stops' in state properties.
-      {catch all)} -> {catch all)} -> styles -> 
-
     : tie the custom ui into action sensitivity pools
     : support array evaluation for =LARGE and friends
     : TRIMEAN is a list function ?
@@ -69,7 +64,7 @@ Blocked Patches
 Architecture Changes
 --------------------
 
-- Merge wbc_init_state and wbc_set_view
+- Merge wb_control_init_state and wb_control_set_view
 
 1) things to move into libgoffice
     1.1) plugin-manager dialog

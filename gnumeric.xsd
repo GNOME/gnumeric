@@ -236,10 +236,10 @@
                     <xsd:sequence>
                         <xsd:element name="top"    type="gmr:margin"/>
                         <xsd:element name="bottom" type="gmr:margin"/>
-                        <xsd:element name="left"   type="gmr:margin"/>
-                        <xsd:element name="right"  type="gmr:margin"/>
-                        <xsd:element name="header" type="gmr:margin"/>
-                        <xsd:element name="footer" type="gmr:margin"/>
+                        <xsd:element name="left"   type="gmr:margin" minOccurs="0" maxOccurs="unbounded"/>
+                        <xsd:element name="right"  type="gmr:margin" minOccurs="0" maxOccurs="unbounded"/>
+                        <xsd:element name="header" type="gmr:margin" minOccurs="0" maxOccurs="unbounded"/>
+                        <xsd:element name="footer" type="gmr:margin" minOccurs="0" maxOccurs="unbounded"/>
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>

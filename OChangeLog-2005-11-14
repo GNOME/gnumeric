@@ -1,3 +1,26 @@
+2005-07-15  Jody Goldberg <jody@gnome.org>
+
+	* src/print-info.c : Add Andreas to the list of Authors.
+	(print_info_new) : Init the simple margins to -1 to signify unset.
+	  Init the new flags.
+	(print_info_margin_copy) : delete.
+	(print_info_dup) : tidy up and handle the new flags.
+	(print_info_get_margins) : if a margin is negative (unset) return 0.
+	(print_info_set_n_copies) : delete.
+	(print_info_get_n_copies) : delete.
+	(print_info_set_orientation) : delete.
+	(print_info_get_orientation) : delete.
+	(print_info_make_config) : only set the margin in the print_config if
+	  it is set.  Rework the orientation enum into a pair of bools to be
+	  more XL compat.
+	(print_info_load_config) : ditto.
+
+	* src/gnumeric-gconf.c : s/right-then-down/across-then-down/ for RTL.
+	(gnm_gconf_set_print_order_across_then_down) : renamed from
+	  gnm_gconf_set_print_order_right_then_down.
+
+	* gnumeric.xsd : margins are optional now.
+
 2005-07-15  Jon K Hellan  <hellan@acm.org>
 
 	* src/main-application.c (gnumeric_arg_parse): Call
