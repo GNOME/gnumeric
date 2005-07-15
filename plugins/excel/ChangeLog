@@ -1,3 +1,7 @@
+2005-07-15  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.c (excel_write_SETUP): Fix typo.
+
 2005-07-06  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c (BC_R(objectlink)) : fix leak. [#157058]

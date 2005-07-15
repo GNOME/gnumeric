@@ -393,7 +393,7 @@ excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 	guint16 flags = 0;
 	guint16 scale = 100;
 
-	if (NULL == esheet)
+	if (NULL != esheet)
 		pi = esheet->gnum_sheet->print_info;
 	if (NULL != pi) {
 		if (pi->print_across_then_down)
