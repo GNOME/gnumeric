@@ -1,3 +1,85 @@
+2005-07-15  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_read_TXO) : handle CONTINUES for text
+	(read_pre_biff8_read_text) : renamed from read_pre_biff8_read_str.
+	  Handle continues in text and markup.  The layout is _very_ odd.
+	  It seems that XL can write things it can not read.
+	(read_pre_biff8_read_name_and_fmla) : handle the name reading inline,
+	  that is different from read_text.  The CONTINUE handling is very
+	  different.
+
+	* ms-excel-write.c (excel_write_SETUP) : rewrite to handle the new
+	  flags.
+	(write_sheet_head) : export value for BIFF_PRINTHEADERS and only
+	  export the left/right margins if they are set.
+
+	* ms-excel-read.c : Store the ver in the importer rather than the
+	  container.
+	  s/ExcelWorkbook/GnmXLImporter/
+	  s/ewb/importer/
+	(excel_get_chars) : renamed from ms_biff_get_chars.  Take an importer
+	  and use it's iconv rather than a global.
+	(excel_get_text) : renamed from biff_get_text.  Take an importer
+	  rather than a ver.
+	(excel_read_BOUNDSHEET) : new need for a ver arg, just use the importer.
+	(esheet_ver) : new.
+	(gnm_xl_importer_set_version) : new.
+	(gnm_xl_importer_set_codepage) : rename from
+	  excel_iconv_open_for_import and store the iconv in the importer rather
+	  than as a global.  Add improved fallback and debug info.
+	(excel_palette_get) : merge default palette handing into here and add
+	  0x7fff as a synonym for black.  We need a better solution for themed
+	  colours eventually.  Change signature to take an importer rather
+	  than the palette object directly.  That keeps us from digging into
+	  the import object directly.
+	(excel_get_default_palette) : delete.
+	(excel_read_XF_OLD) : use ver from importer, no need for arg.
+	(excel_read_XF) : ditto.
+	(excel_read_FORMULA) : clarify up the debug info.
+	(ms_wb_get_font_markup) : better fallback for invalid fonts.
+	(gnm_xl_importer_new) : renamed from excel_workbook_new and remove the
+	  version tag.  The importer is now created without a version, and we
+	  init that later.  It also has a larger life cycle with the plan to
+	  extend that and have gnumeric create it for the new in/out framework
+	  use gobjects.
+	(gnm_xl_importer_free) : renamed from excel_workbook_destroy and close
+	  the iconv.
+	(excel_read_name_str) : take an importer rather than a ver.
+	(excel_read_SETUP) : rewrite to store the new biff8+ properties for
+	  comments and errors, and to add n_copies, and start page.
+	(excel_read_CF) : turn off some debugging.
+	(excel_read_sheet) : add handler for BIFF_PRINTHEADERS.
+	(excel_read_BOF) : merge the standalone worksheet handler with the
+	  others.  Do not create the importer here, that get's passed in.
+	(excel_read_workbook) : no need to set the global iconv here, the
+	  importer handles it.  Create the importer much earlier as a step
+	  towards gobjectificatin.
+
+	* ms-chart.c (BC_R (ver)) : new to get the version from the importer
+	(BC_R(area)) :
+	(BC_R(attachedlabel)) :
+	(BC_R(bar)) :
+	(BC_R(line)) :
+	(BC_R(markerformat)) :
+	(BC_R(pie)) :
+	(BC_R(scatter)) :
+	(BC_R(series)) :
+	(BC_R(shtprops)) :
+	(BC_R(surf)) : Use it in place of passing in the ver
+	(ms_excel_chart_read) : no need to pass version around
+	(ms_chart_map_color) : adjust to change in excel_palette_get
+
+	* ms-biff.c (ms_biff_password_hash) :
+	(ms_biff_crypt_seq) :
+	(ms_biff_pre_biff8_query_set_decrypt) :
+	(ms_biff_query_set_decrypt) :
+	(verify_password) : silence some sign difference warnings
+
+2005-07-11  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_IMDATA) : Read the CONTINUE records
+	  associated with the IMDATA even when not debugging. (#127756).
+
 2005-07-11  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.c (excel_write_SETUP): Export page
@@ -32,6 +114,10 @@
 	* ms-excel-read.c (excel_read_CF) : rather than kludging it here.  It
 	  was breaking when applying a conditional to a base that already had
 	  a pattern.
+
+2005-06-27  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_FORMULA) : improve debug output
 
 2005-06-22  Jody Goldberg <jody@gnome.org>
 

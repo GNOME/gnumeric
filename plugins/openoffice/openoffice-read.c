@@ -85,6 +85,7 @@ typedef struct {
 		GnmStyle *cell;
 		double	 *col_row;
 	} cur_style;
+	GnmStyle 	*default_style_cell;
 	OOStyleType	 cur_style_type;
 	GnmStyle	*col_default_styles[SHEET_MAX_COLS];
 	GSList		*sheet_order;
@@ -811,9 +812,6 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 				fmt = tmp;
 		}
 
-	if (name == NULL || state->cur_style_type == OO_STYLE_UNKNOWN)
-		return;
-
 	switch (state->cur_style_type) {
 	case OO_STYLE_CELL :
 		style = (parent_name != NULL)
@@ -825,8 +823,14 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 		if (fmt != NULL)
 			gnm_style_set_format (state->cur_style.cell, fmt);
 
+		if (name != NULL)
 		g_hash_table_replace (state->cell_styles,
 			g_strdup (name), state->cur_style.cell);
+		else if (0 == strcmp (xin->node->id, "DEFAULT_STYLE")) {
+			 if (state->default_style_cell)
+				 gnm_style_unref (state->default_style_cell);
+			 state->default_style_cell = state->cur_style.cell;
+		}
 		break;
 
 	case OO_STYLE_COL :
@@ -1211,9 +1215,11 @@ GSF_XML_IN_NODE (START, OFFICE_FONTS, OO_NS_OFFICE, "font-decls", FALSE, NULL, N
 GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", FALSE, NULL, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, STYLE, OO_NS_STYLE, "style", FALSE, &oo_style, &oo_style_end),
     GSF_XML_IN_NODE (STYLE, STYLE_PROP, OO_NS_STYLE, "properties", FALSE, &oo_style_prop, NULL),
+      GSF_XML_IN_NODE (STYLE_PROP, STYLE_TAB_STOPS, OO_NS_STYLE, "tab-stops", FALSE, NULL, NULL),
 
   GSF_XML_IN_NODE (OFFICE_STYLES, DEFAULT_STYLE, OO_NS_STYLE, "default-style", FALSE, &oo_style, &oo_style_end),
     GSF_XML_IN_NODE (DEFAULT_STYLE, DEFAULT_STYLE_PROP, OO_NS_STYLE, "properties", FALSE, &oo_style_prop, NULL),
+      GSF_XML_IN_NODE (DEFAULT_STYLE_PROP, STYLE_TAB_STOPS, OO_NS_STYLE, "tab-stops", FALSE, NULL, NULL),
 
   GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	"number", FALSE, NULL, NULL),
@@ -1279,6 +1285,7 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", FALSE, NULL, N
   GSF_XML_IN_NODE (OFFICE, OFFICE_STYLES, OO_NS_OFFICE, "automatic-styles", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (OFFICE_STYLES, STYLE, OO_NS_STYLE, "style", FALSE, &oo_style, &oo_style_end),
       GSF_XML_IN_NODE (STYLE, STYLE_PROP, OO_NS_STYLE, "properties", FALSE, &oo_style_prop, NULL),
+        GSF_XML_IN_NODE (STYLE_PROP, STYLE_TAB_STOPS, OO_NS_STYLE, "tab-stops", FALSE, NULL, NULL),
 
     GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", FALSE, NULL, NULL),
       GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	  "number", FALSE, NULL, NULL),
@@ -1507,6 +1514,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) style_format_unref);
 	state.cur_style.cell   = NULL;
+	state.default_style_cell = NULL;
 	state.cur_style_type   = OO_STYLE_UNKNOWN;
 	state.sheet_order = NULL;
 	state.exprconv = oo_conventions ();
@@ -1537,6 +1545,9 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		}
 	} else
 		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
+
+	if (state.default_style_cell)
+		gnm_style_unref (state.default_style_cell);
 	g_hash_table_destroy (state.col_row_styles);
 	g_hash_table_destroy (state.cell_styles);
 	g_hash_table_destroy (state.formats);

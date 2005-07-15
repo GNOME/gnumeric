@@ -24,12 +24,10 @@
 
 void
 ms_container_init (MSContainer *container, MSContainerClass const *vtbl,
-		   MSContainer *parent,
-		   ExcelWorkbook *ewb, MsBiffVersion ver)
+		   MSContainer *parent,	GnmXLImporter *importer)
 {
 	container->vtbl = vtbl;
-	container->ver = ver;
-	container->ewb = ewb;
+	container->importer = importer;
 	container->free_blips = TRUE;
 	container->blips = NULL;
 	container->obj_queue  = NULL;

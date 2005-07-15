@@ -672,15 +672,15 @@ do_setup_margin (PrinterSetupState *state)
 {
 	GtkWidget *table;
 	GtkBox *container;
-	PrintMargins *pm;
-	const GnomePrintUnit *displayed_unit;
+	PrintMargins const *pm;
+	GnomePrintUnit const *displayed_unit;
 	double header = 0, footer = 0, left = 0, right = 0;
 
 	g_return_if_fail (state && state->pi);
 
 	print_info_get_margins   (state->pi, &header, &footer, &left, &right);
 
-	pm = &state->pi->margins;
+	pm = &state->pi->margin;
 	displayed_unit = pm->top.desired_display;
 
 	state->preview.canvas = foo_canvas_new ();
@@ -1327,11 +1327,7 @@ do_setup_page_info (PrinterSetupState *state)
 	if (state->pi->print_titles)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (titles), TRUE);
 
-	if (state->pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT)
-		order = order_dr;
-	else
-		order = order_rd;
-
+	order = state->pi->print_across_then_down ? order_rd : order_dr;
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (order), TRUE);
 	display_order_icon (GTK_TOGGLE_BUTTON (order_rd), state);
 
@@ -1361,7 +1357,7 @@ static void
 scaling_type_changed (GtkToggleButton *scale_percentage, PrinterSetupState *state)
 {
        if (gtk_toggle_button_get_active (scale_percentage)) {
-               state->pi->scaling.type = PERCENTAGE;
+               state->pi->scaling.type = PRINT_SCALE_PERCENTAGE;
                gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-percent-spin")), TRUE);
                gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-percent-label")), TRUE);
                gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-width-spin")), FALSE);
@@ -1369,7 +1365,7 @@ scaling_type_changed (GtkToggleButton *scale_percentage, PrinterSetupState *stat
                gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-wide-label")), FALSE);
                gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-tall-label")), FALSE);
        } else {
-               state->pi->scaling.type = SIZE_FIT;
+               state->pi->scaling.type = PRINT_SCALE_FIT_PAGES;
                gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-percent-spin")), FALSE);
                gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-percent-label")), FALSE);
                gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-width-spin")), TRUE);
@@ -1405,7 +1401,7 @@ do_setup_page (PrinterSetupState *state)
 		"toggled",
 		G_CALLBACK (scaling_type_changed), state);
 
-	if (pi->scaling.type == PERCENTAGE) {
+	if (pi->scaling.type == PRINT_SCALE_PERCENTAGE) {
 		toggle = "scale-percent-radio";
 		gtk_toggle_button_set_active 
 			(GTK_TOGGLE_BUTTON 
@@ -1652,9 +1648,9 @@ do_fetch_page (PrinterSetupState *state)
 
 	w = glade_xml_get_widget (gui, "scale-percent-radio");
 	if (GTK_TOGGLE_BUTTON (w)->active)
-		state->pi->scaling.type = PERCENTAGE;
+		state->pi->scaling.type = PRINT_SCALE_PERCENTAGE;
 	else
-		state->pi->scaling.type = SIZE_FIT;
+		state->pi->scaling.type = PRINT_SCALE_FIT_PAGES;
 
 	w = glade_xml_get_widget (gui, "scale-percent-spin");
 	state->pi->scaling.percentage.x = state->pi->scaling.percentage.y
@@ -1690,16 +1686,15 @@ unit_info_to_print_unit (UnitInfo *ui, PrinterSetupState *state)
 static void
 do_fetch_margins (PrinterSetupState *state)
 {
-	PrintMargins *m = &state->pi->margins;
+	PrintMargins *m = &state->pi->margin;
 	GtkToggleButton *t;
 	double header = 0, footer = 0, left = 0, right = 0;
 
-	print_info_get_margins   (state->pi, &header, &footer, &left, &right);
+	print_info_get_margins (state->pi, &header, &footer, &left, &right);
 
-	m->top = unit_info_to_print_unit (&state->margins.header, state);
+	m->top    = unit_info_to_print_unit (&state->margins.header, state);
+	m->top.points    += header;
 	m->bottom = unit_info_to_print_unit (&state->margins.footer, state);
-
-	m->top.points += header;
 	m->bottom.points += footer;
 
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "center-horizontal"));
@@ -1738,7 +1733,7 @@ do_fetch_page_info (PrinterSetupState *state)
 	state->pi->print_titles = t->active;
 
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "radio-order-right"));
-	state->pi->print_order = t->active ? PRINT_ORDER_RIGHT_THEN_DOWN : PRINT_ORDER_DOWN_THEN_RIGHT;
+	state->pi->print_across_then_down = t->active;
 
 	pi->repeat_top.use = gnm_expr_entry_get_rangesel (state->top_entry,
 		&pi->repeat_top.range, NULL);

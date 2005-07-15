@@ -602,10 +602,10 @@ xml_sax_print_margins (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	pi = state->sheet->print_info;
 	switch (gsf_state->node->user_data.v_int) {
 	case 0: xml_sax_print_margins_unit (state, attrs,
-			&pi->margins.top);
+			&pi->margin.top);
 		break;
 	case 1: xml_sax_print_margins_unit (state, attrs,
-			&pi->margins.bottom);
+			&pi->margin.bottom);
 		break;
 	case 2: print_info_set_margin_left (pi,
 			xml_sax_print_margins_get_double (state, attrs));
@@ -643,7 +643,7 @@ xml_sax_print_scale (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (!strcmp (attrs[0], "type"))
 			pi->scaling.type = strcmp (attrs[1], "percentage")
-				? SIZE_FIT : PERCENTAGE;
+				? PRINT_SCALE_FIT_PAGES : PRINT_SCALE_PERCENTAGE;
 		else if (xml_sax_attr_double (attrs, "percentage", &percentage))
 			pi->scaling.percentage.x = pi->scaling.percentage.y = percentage;
 		else if (xml_sax_attr_int (attrs, "cols", &cols))
@@ -1606,18 +1606,13 @@ static void
 xml_sax_orientation (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
-	char const *content = state->base.content->str;
+	PrintInformation *pi;
 
 	g_return_if_fail (state->sheet != NULL);
 	g_return_if_fail (state->sheet->print_info != NULL);
 
-	if (!strcmp (content, "portrait")) {
-		print_info_set_orientation (state->sheet->print_info, PRINT_ORIENT_VERTICAL);
-	} else if (!strcmp (content, "landscape")) {
-		print_info_set_orientation (state->sheet->print_info, PRINT_ORIENT_HORIZONTAL);
-	} else {
-		g_warning ("Invalid content for orientation");
-	}
+	pi = state->sheet->print_info;
+	pi->portrait_orientation = (strcmp (state->base.content->str, "portrait") == 0);
 }
 
 static void

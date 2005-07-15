@@ -243,7 +243,7 @@ paste_object (GnmPasteTarget const *pt, SheetObject const *src, int left, int to
  * paste a region.
  *
  * returns : TRUE if there was a problem.
- */
+ **/
 gboolean
 clipboard_paste_region (GnmCellRegion const *content,
 			GnmPasteTarget const *pt,

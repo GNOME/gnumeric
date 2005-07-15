@@ -355,7 +355,7 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 
 	guint16 const options     = GSF_LE_GET_GUINT16 (q->data);
 	guint16 const orient      = GSF_LE_GET_GUINT16 (q->data + 2);
-	guint16 const text_len    = GSF_LE_GET_GUINT16 (q->data + 10);
+	guint16	      text_len    = GSF_LE_GET_GUINT16 (q->data + 10);
 /*	guint16 const num_formats = GSF_LE_GET_GUINT16 (q->data + 12);*/
 	int const halign = (options >> 1) & 0x7;
 	int const valign = (options >> 4) & 0x7;
@@ -371,14 +371,29 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 	g_return_val_if_fail (1 <= valign && valign <= 4, NULL);
 
 	if (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
+		gboolean use_utf16;
+
 		ms_biff_query_next (q);
 
-		if ((int)q->length < text_len) {
-			g_warning ("Broken continue in TXO record");
-			text = g_strdup ("Broken continue");
-		} else
-			text = ms_biff_get_chars (q->data + 1, text_len,
-						  *(q->data) != 0);
+		use_utf16 = q->data[0] != 0;
+		text = excel_get_chars (c->importer,
+			q->data + 1, MIN (text_len, q->length-1), use_utf16);
+		if (q->length < text_len) {
+			GString *accum = g_string_new (text);
+			g_free (text);
+			text_len -= q->length - 1;
+			while (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
+				ms_biff_query_next (q);
+				text = excel_get_chars (c->importer, q->data,
+					MIN (q->length, text_len), use_utf16);
+				g_string_append (accum, text);
+				g_free (text);
+				if (text_len <= q->length)
+					break;
+				text_len -= q->length;
+			}
+			text = g_string_free (accum, FALSE);
+		}
 
 		if (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
 			ms_biff_query_next (q);
@@ -426,44 +441,91 @@ ms_obj_dump_impl (guint8 const *data, int len, int data_left, char const *name)
 #endif
 
 static gboolean
-read_pre_biff8_read_str (BiffQuery *q, MSContainer *container, MSObj *obj,
-			 MSObjAttrID text_id, guint8 const **first,
-			 unsigned len, unsigned txo_len)
+read_pre_biff8_read_text (BiffQuery *q, MSContainer *c, MSObj *obj,
+			  guint8 const *first,
+			  unsigned len, unsigned txo_len)
 {
-	guint8 const *last = q->data + q->length;
+	PangoAttrList *markup = NULL;
+	GByteArray    *markup_data = NULL;
 	char *str;
+	unsigned remaining;
+	guint16  op;
 
-	g_return_val_if_fail (*first + len <= last, TRUE);
-	g_return_val_if_fail (text_id != MS_OBJ_ATTR_NONE, TRUE);
+	if (first == NULL)
+		return TRUE;
 
-	str = ms_biff_get_chars (*first, len, FALSE);
-	ms_obj_attr_bag_insert (obj->attrs, ms_obj_attr_new_ptr (text_id, str));
+	remaining = q->data + q->length - first;
 
-	*first += len;
-	if (((*first - q->data) & 1))
-		(*first)++; /* pad to word bound */
+	/* CONTINUE handling here is very odd.
+	 * If the text needs CONTINUEs but the markup does not, the markup is
+	 * stored at the end of the OBJ rather than after the text.  */
+	if (txo_len > 0 && txo_len < remaining) {
+		markup_data = g_byte_array_new ();
+		g_byte_array_append (markup_data, q->data + q->length - txo_len, txo_len);
+		remaining -= txo_len;
+	}
 
-	if (txo_len > 0) {
-		guint8 const *last = q->data + q->length;
-		PangoAttrList *markup;
+	str = excel_get_chars (c->importer, first, MIN (remaining, len), FALSE);
+	if (len > remaining) {
+		GString *accum = g_string_new (str);
+		g_free (str);
+		len -= remaining;
+		while (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
+			ms_biff_query_next (q);
+			str = excel_get_chars (c->importer, q->data,
+				MIN (q->length, len), FALSE);
+			g_string_append (accum, str);
+			g_free (str);
+			if (len < q->length)
+				break;
+			len -= q->length;
+		}
+		str = g_string_free (accum, FALSE);
+		first = q->data + len;
+	} else
+		first += len;
+	if (((first - q->data) & 1))
+		first++; /* pad to word bound */
 
-		g_return_val_if_fail ((*first + txo_len) <= last, TRUE);
+	ms_obj_attr_bag_insert (obj->attrs,
+		ms_obj_attr_new_ptr (MS_OBJ_ATTR_TEXT, str));
 
-		markup = ms_container_read_markup (container, *first, txo_len, str);
+	if (NULL != markup_data) {
+		markup = ms_container_read_markup (c, markup_data->data, markup_data->len, str);
+		g_byte_array_free (markup_data, TRUE);
+	} else if (txo_len > 0) {
+		remaining = q->data + q->length - first;
+		if (txo_len > remaining) {
+			GByteArray *accum = g_byte_array_new ();
+			g_byte_array_append (accum, first, remaining);
+			txo_len -= remaining;
+			while (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
+				ms_biff_query_next (q);
+				g_byte_array_append (accum, q->data, MIN (q->length, txo_len));
+				if (txo_len <= q->length)
+					break;
+				txo_len -= q->length;
+			}
+			first = q->data + txo_len;
+			markup = ms_container_read_markup (c, accum->data, accum->len, str);
+			g_byte_array_free (accum, TRUE);
+		} else {
+			markup = ms_container_read_markup (c, first, txo_len, str);
+			first += txo_len;
+		}
+	}
+	if (NULL != markup) {
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP, markup));
 		pango_attr_list_unref (markup);
-
-		*first += txo_len;
 	}
 
 	return FALSE;
 }
 
 static gboolean
-read_pre_biff8_read_expr (BiffQuery *q, MSContainer *container, MSObj *obj,
-			  MSObjAttrID id, guint8 const **first,
-			  unsigned total_len) /* including extras */
+read_pre_biff8_read_expr (BiffQuery *q, MSContainer *c, MSObj *obj,
+			  guint8 const **first, unsigned total_len) /* including extras */
 {
 	guint8 const *ptr  = *first;
 	guint8 const *last = q->data + q->length;
@@ -479,7 +541,7 @@ read_pre_biff8_read_expr (BiffQuery *q, MSContainer *container, MSObj *obj,
 
 	g_return_val_if_fail (ptr + 6 + len <= last, TRUE);
 
-	ref = ms_container_parse_expr (container, ptr + 6, len);
+	ref = ms_container_parse_expr (c, ptr + 6, len);
 	if (ref != NULL)
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_expr (MS_OBJ_ATTR_LINKED_TO_CELL, ref));
@@ -492,18 +554,28 @@ read_pre_biff8_read_expr (BiffQuery *q, MSContainer *container, MSObj *obj,
 }
 
 static guint8 const *
-read_pre_biff8_read_name_and_fmla (BiffQuery *q, MSContainer *container, MSObj *obj,
+read_pre_biff8_read_name_and_fmla (BiffQuery *q, MSContainer *c, MSObj *obj,
 				   gboolean has_name, unsigned offset)
 {
 	guint8 const *data = q->data + offset;
 	gboolean const fmla_len = GSF_LE_GET_GUINT16 (q->data+26);
 
-	if (has_name &&
-	    read_pre_biff8_read_str (q, container, obj, MS_OBJ_ATTR_OBJ_NAME,
-				     &data, *(data++), 0))
-		return NULL;
-	if (read_pre_biff8_read_expr (q, container, obj,
-				      MS_OBJ_ATTR_NONE, &data, fmla_len))
+	if (has_name) {
+		guint8 const *last = q->data + q->length;
+		unsigned len = *data++;
+		char *str;
+
+		g_return_val_if_fail (data + len <= last, NULL);
+
+		str = excel_get_chars (c->importer, data, len, FALSE);
+		data += len;
+		if (((data - q->data) & 1))
+			data++; /* pad to word bound */
+
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_ptr (MS_OBJ_ATTR_OBJ_NAME, str));
+	}
+	if (read_pre_biff8_read_expr (q, c, obj, &data, fmla_len))
 		return NULL;
 	return data;
 }
@@ -589,11 +661,8 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			if_empty = GSF_LE_GET_GUINT16 (q->data + 50);
 
 			data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
-			if (data == NULL ||
-			    read_pre_biff8_read_str (q, c, obj,
-				MS_OBJ_ATTR_TEXT, &data, len, txo_len))
+			if (read_pre_biff8_read_text (q, c, obj, data, len, txo_len))
 				return TRUE;
-
 			if (txo_len == 0)
 				ms_obj_attr_bag_insert (obj->attrs,
 					ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP,
@@ -660,11 +729,8 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 	case 0xE  : /* label */
 /* 70 name len, name, fmla (respect cbMacro), cbtext, text */
 		len = GSF_LE_GET_GUINT16 (q->data + 44);
-
 		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
-		if (data == NULL ||
-		    read_pre_biff8_read_str (q, c, obj,
-			MS_OBJ_ATTR_TEXT, &data, len, 16))
+		if (read_pre_biff8_read_text (q, c, obj, data, len, 16))
 			return TRUE;
 		break;
 	case 0xF  : /* dialog frame */
@@ -743,7 +809,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 
 
 static void
-ms_obj_map_forms_obj (MSObj *obj, MSContainer *container, guint8 const *data, gint32 len)
+ms_obj_map_forms_obj (MSObj *obj, MSContainer *c, guint8 const *data, gint32 len)
 {
 	static struct {
 		char const	*key;
@@ -764,10 +830,10 @@ ms_obj_map_forms_obj (MSObj *obj, MSContainer *container, guint8 const *data, gi
 	};
 	int i = G_N_ELEMENTS (map_forms);
 	char const *key;
-	int key_len;
+	int key_len = 0;
 
 	if (obj->excel_type != 8 || len <= 27 ||
-	    strncmp (data+21, "Forms.", 6))
+	    strncmp ((char *)(data+21), "Forms.", 6))
 		return;
 
 	while (i-- > 0) {
@@ -775,7 +841,7 @@ ms_obj_map_forms_obj (MSObj *obj, MSContainer *container, guint8 const *data, gi
 		key_len = strlen (key);
 		if (map_forms [i].excel_type > 0 &&
 		    len >= (27+key_len) &&
-		    0 == strncmp (data+27, map_forms [i].key, key_len))
+		    0 == strncmp ((char *)(data+27), map_forms [i].key, key_len))
 			break;
 	}
 
@@ -788,7 +854,7 @@ ms_obj_map_forms_obj (MSObj *obj, MSContainer *container, guint8 const *data, gi
 			g_return_if_fail (ptr + 2 <= (data + len));
 			expr_len = GSF_LE_GET_GUINT16 (ptr);
 			g_return_if_fail (ptr + 2 + expr_len <= (data + len));
-			ref = ms_container_parse_expr (container, ptr + 6, expr_len);
+			ref = ms_container_parse_expr (c, ptr + 6, expr_len);
 			if (ref != NULL)
 				ms_obj_attr_bag_insert (obj->attrs,
 					ms_obj_attr_new_expr (MS_OBJ_ATTR_LINKED_TO_CELL, ref));
@@ -797,7 +863,7 @@ ms_obj_map_forms_obj (MSObj *obj, MSContainer *container, guint8 const *data, gi
 }
 
 static gboolean
-ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
+ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 {
 	guint8 *data;
 	gint32 data_len_left;
@@ -875,7 +941,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 
 		case GR_PICTURE_FORMULA :
 			/* Check for form objects stored here for no apparent reason */
-			ms_obj_map_forms_obj (obj, container, data, len);
+			ms_obj_map_forms_obj (obj, c, data, len);
 			break;
 
 		case GR_CHECKBOX_LINK :
@@ -911,7 +977,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 
 		case GR_SCROLLBAR_FORMULA : {
 			guint16 const expr_len = GSF_LE_GET_GUINT16 (data+4);
-			GnmExpr const *ref = ms_container_parse_expr (container, data+10, expr_len);
+			GnmExpr const *ref = ms_container_parse_expr (c, data+10, expr_len);
 			if (ref != NULL)
 				ms_obj_attr_bag_insert (obj->attrs,
 					ms_obj_attr_new_expr (MS_OBJ_ATTR_LINKED_TO_CELL, ref));
@@ -949,7 +1015,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 
 		case GR_CHECKBOX_FORMULA : {
 			guint16 const expr_len = GSF_LE_GET_GUINT16 (data+4);
-			GnmExpr const *ref = ms_container_parse_expr (container, data+10, expr_len);
+			GnmExpr const *ref = ms_container_parse_expr (c, data+10, expr_len);
 			if (ref != NULL)
 				ms_obj_attr_bag_insert (obj->attrs,
 					ms_obj_attr_new_expr (MS_OBJ_ATTR_LINKED_TO_CELL, ref));
@@ -1047,8 +1113,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 
 	/* FIXME : Throw away the IMDATA that may follow.
 	 * I am not sure when the IMDATA does follow, or how to display it,
-	 * but very careful in case it is not there.
-	 */
+	 * but very careful in case it is not there. */
 	if (next_biff_record_maybe_imdata) {
 		guint16 op;
 
@@ -1069,11 +1134,11 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 /**
  * ms_read_OBJ :
  * @q : The biff record to start with.
- * @container : The object's container
+ * @c : The object's container
  * @attrs : an OPTIONAL hash of object attributes.
  */
 void
-ms_read_OBJ (BiffQuery *q, MSContainer *container, MSObjAttrBag *attrs)
+ms_read_OBJ (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs)
 {
 	static char const * const object_type_names[] = {
 		"Group", 	/* 0x00 */
@@ -1110,9 +1175,9 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container, MSObjAttrBag *attrs)
 	if (ms_excel_object_debug > 0)
 		printf ("{ /* OBJ start */\n");
 #endif
-	errors = (container->ver >= MS_BIFF_V8)
-		? ms_obj_read_biff8_obj (q, container, obj)
-		: ms_obj_read_pre_biff8_obj (q, container, obj);
+	errors = (c->importer->ver >= MS_BIFF_V8)
+		? ms_obj_read_biff8_obj (q, c, obj)
+		: ms_obj_read_pre_biff8_obj (q, c, obj);
 
 	if (errors) {
 #ifndef NO_DEBUG_EXCEL
@@ -1136,12 +1201,12 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container, MSObjAttrBag *attrs)
 	}
 #endif
 
-	if (container->vtbl->create_obj != NULL)
-		obj->gnum_obj = (*container->vtbl->create_obj) (container, obj);
+	if (c->vtbl->create_obj != NULL)
+		obj->gnum_obj = (*c->vtbl->create_obj) (c, obj);
 
 	/* Chart, There should be a BOF next */
 	if (obj->excel_type == 0x5 &&
-	    ms_excel_chart_read_BOF (q, container, obj->gnum_obj)) {
+	    ms_excel_chart_read_BOF (q, c, obj->gnum_obj)) {
 		ms_obj_delete (obj);
 		return;
 	}
@@ -1149,7 +1214,7 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container, MSObjAttrBag *attrs)
 #if 0
 	g_warning ("registered obj %d\n", obj->id);
 #endif
-	ms_container_add_obj (container, obj);
+	ms_container_add_obj (c, obj);
 }
 
 /**********************************************************************/

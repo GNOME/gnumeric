@@ -1037,41 +1037,18 @@ wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 	}
 }
 
-/*
- * Move a sheet's tab into position.  Note, that old_pos is an index_in_wb
- * and that the workbook's sheet array has already been changed.
- */
 static void
-wbcg_sheet_move (WorkbookControl *wbc, Sheet *sheet, int old_pos)
+wbcg_sheet_order_changed (WorkbookControlGUI *wbcg, Workbook const *wb)
 {
-	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	int p_src, p_dst;
-	int i, di, count, new_pos;
+	int i;
+	Sheet const *sheet;
 	SheetControlGUI *scg;
 
-	g_return_if_fail (IS_SHEET (sheet));
-
-	new_pos = sheet->index_in_wb;
-	count = workbook_sheet_count (sheet->workbook);
-
-	p_src = wbcg_sheet_to_page_index (wbcg, sheet, &scg);
-        if (p_src < 0)
-		return;
-
-	di = (new_pos > old_pos) ? +1 : -1;
-	p_dst = (new_pos > old_pos) ? count - 1 : 0;
-	for (i = new_pos + di; i >= 0 && i < count; i += di) {
-		Sheet *sheet_i = workbook_sheet_by_index (sheet->workbook, i);
-		int p = wbcg_sheet_to_page_index (wbcg, sheet_i, NULL);
-		if (p >= 0) {
-			p_dst = p - di;
-			break;
-		}
-	}
-
+	for (i = 0 ; i < workbook_sheet_count (wb); i++)
+		if (NULL != (sheet = wbcg_page_index_to_sheet (wbcg, i, &scg)) &&
+		    sheet->index_in_wb != i)
 	gtk_notebook_reorder_child (wbcg->notebook,
-				    GTK_WIDGET (scg->table),
-				    p_dst);
+				GTK_WIDGET (scg->table), sheet->index_in_wb);
 }
 
 static void
@@ -2622,7 +2599,6 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 	wbc_class->sheet.add        = wbcg_sheet_add;
 	wbc_class->sheet.remove	    = wbcg_sheet_remove;
 	wbc_class->sheet.focus	    = wbcg_sheet_focus;
-	wbc_class->sheet.move	    = wbcg_sheet_move;
 	wbc_class->sheet.remove_all = wbcg_sheet_remove_all;
 
 	wbc_class->undo_redo.labels   = wbcg_undo_redo_labels;
@@ -2711,6 +2687,9 @@ wbcg_create (WorkbookControlGUI *wbcg,
 		wb_control_style_feedback (wbc, NULL);
 		cb_zoom_change (sheet, NULL, wbcg);
 	}
+	g_signal_connect_object (G_OBJECT (wbv->wb),
+		"sheet-order-changed",
+		G_CALLBACK (wbcg_sheet_order_changed), wbcg, G_CONNECT_SWAPPED);
 
 	if (optional_screen)
 		gtk_window_set_screen (wbcg->toplevel, optional_screen);

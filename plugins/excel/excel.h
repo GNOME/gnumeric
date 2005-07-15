@@ -13,10 +13,10 @@
 #define GNM_MS_EXCEL_H
 
 #include "gnumeric.h"
-#include <gsf/gsf.h>
+#include "ms-biff.h"
 
-void excel_read_workbook (IOContext *context, WorkbookView *new_wb,
-			  GsfInput *input, gboolean *is_double_stream_file);
+void excel_read_workbook (IOContext *context, WorkbookView *new_wb, GsfInput *input,
+			  gboolean *is_double_stream_file);
 
 typedef struct _ExcelWriteState	 ExcelWriteState;
 void		 excel_write_state_free (ExcelWriteState *ewb);

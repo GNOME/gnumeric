@@ -1079,9 +1079,7 @@ workbook_sheet_delete (Sheet *sheet)
 	post_sheet_index_change (wb);
 
 	/* Clear the controls first, before we potentially update */
-	SHEET_FOREACH_VIEW (sheet, view, {
-		sv_dispose (view);
-	});
+	SHEET_FOREACH_VIEW (sheet, view, sv_dispose (view););
 
 	g_signal_emit_by_name (G_OBJECT (sheet), "detached_from_workbook", wb);
 	g_object_unref (sheet);
@@ -1122,8 +1120,6 @@ workbook_sheet_move (Sheet *sheet, int direction)
 			sheet->index_in_wb = max_pos;
 		}
 
-		WORKBOOK_FOREACH_CONTROL (wb, view, control,
-			wb_control_sheet_move (control, sheet, old_pos););
 		sheet_set_dirty (sheet, TRUE);
 	}
 
@@ -1265,39 +1261,18 @@ workbook_find_command (Workbook *wb, gboolean is_undo, gpointer cmd)
 gboolean
 workbook_sheet_reorder (Workbook *wb, GSList *new_order)
 {
-	GSList *this_sheet;
-	gint old_pos, new_pos = 0;
+	GSList   *ptr;
+	Sheet    *sheet;
+	unsigned  pos = 0;
 
 	g_return_val_if_fail (IS_WORKBOOK (wb), FALSE);
-
-	if (new_order == NULL)
-		return TRUE;
+	g_return_val_if_fail (g_slist_length (new_order) == wb->sheets->len, FALSE);
 
 	pre_sheet_index_change (wb);
 
-	this_sheet = new_order;
-	while (this_sheet) {
-		Sheet *sheet = this_sheet->data;
-
-		if (sheet != NULL) {
-			old_pos = sheet->index_in_wb;
-			if (new_pos != old_pos) {
-				int max_pos = MAX (old_pos, new_pos);
-				int min_pos = MIN (old_pos, new_pos);
-
-				g_ptr_array_remove_index (wb->sheets, old_pos);
-				go_ptr_array_insert (wb->sheets, sheet, new_pos);
-				for (; max_pos >= min_pos ; max_pos--) {
-					Sheet *sheet = g_ptr_array_index (wb->sheets, max_pos);
-					sheet->index_in_wb = max_pos;
-				}
-				WORKBOOK_FOREACH_CONTROL (wb, view, control,
-							  wb_control_sheet_move (control,
-										 sheet, old_pos););
-			}
-			new_pos++;
-		}
-		this_sheet = this_sheet->next;
+	for (ptr = new_order; NULL != ptr ; ptr = ptr->next, pos++) {
+		g_ptr_array_index (wb->sheets, pos) = sheet = ptr->data;
+		sheet->index_in_wb = pos;
 	}
 
 	post_sheet_index_change (wb);

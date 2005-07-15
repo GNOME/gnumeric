@@ -36,8 +36,6 @@ typedef struct {
 		void (*add)	(WorkbookControl *wbc, SheetView *sv);
 		void (*remove)	(WorkbookControl *wbc, Sheet *sheet);
 		void (*focus)   (WorkbookControl *wbc, Sheet *sheet);
-		void (*move)    (WorkbookControl *wbc, Sheet *sheet,
-				 int new_pos);
 		void (*remove_all) (WorkbookControl *wbc);
 	} sheet;
 	struct {

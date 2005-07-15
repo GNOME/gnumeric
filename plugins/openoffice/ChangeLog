@@ -1,3 +1,10 @@
+2005-06-29  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c : Add a hook for 'tab-stops'
+	(oo_style) : suppress warning for default-style
+	  cell.  It does not have a name but we may still want to use it.  I'm
+	  not sure where.
+
 2005-06-13  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.2

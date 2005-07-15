@@ -1312,8 +1312,8 @@ gnm_conf_init_essential (void)
 		(node, PRINTSETUP_GCONF_PRINT_BLACK_AND_WHITE, FALSE);
 	prefs.print_titles = go_conf_load_bool 
 		(node, PRINTSETUP_GCONF_PRINT_TITLES, FALSE);
-	prefs.print_order_right_then_down = go_conf_load_bool 
-		(node, PRINTSETUP_GCONF_RIGHT_THEN_DOWN, FALSE);
+	prefs.print_order_across_then_down = go_conf_load_bool 
+		(node, PRINTSETUP_GCONF_ACROSS_THEN_DOWN, FALSE);
 	prefs.print_scale_percentage = go_conf_load_bool 
 		(node, PRINTSETUP_GCONF_SCALE_PERCENTAGE, TRUE);
 	prefs.print_scale_percentage_value = go_conf_load_double 
@@ -1324,19 +1324,19 @@ gnm_conf_init_essential (void)
 		(node, PRINTSETUP_GCONF_SCALE_HEIGHT, 0, 100, 1);
 	prefs.print_repeat_top = go_conf_load_string (node, PRINTSETUP_GCONF_REPEAT_TOP);
 	prefs.print_repeat_left = go_conf_load_string (node, PRINTSETUP_GCONF_REPEAT_LEFT);
-	prefs.print_tb_margins.top.points = go_conf_load_double 
+	prefs.print_margin_top.points = go_conf_load_double 
 		(node, PRINTSETUP_GCONF_MARGIN_TOP, 0.0, 10000.0, 120.0);
-	prefs.print_tb_margins.bottom.points = go_conf_load_double 
+	prefs.print_margin_bottom.points = go_conf_load_double 
 		(node, PRINTSETUP_GCONF_MARGIN_BOTTOM, 0.0, 10000.0, 120.0);
 	{
 		/* Note: the desired display unit is stored in the  */
 		/* printer config. So we are never using this field */
 		/* inside the margin structure, but only setting it */
 		/* in various input routines.                       */
-		prefs.print_tb_margins.top.desired_display 
+		prefs.print_margin_top.desired_display 
 			= gnome_print_unit_get_by_abbreviation ("cm");
-		prefs.print_tb_margins.bottom.desired_display 
-			= prefs.print_tb_margins.top.desired_display;
+		prefs.print_margin_bottom.desired_display 
+			= prefs.print_margin_top.desired_display;
 	}
 	prefs.print_all_sheets = go_conf_load_bool (
 		node, PRINTSETUP_GCONF_ALL_SHEETS, TRUE);
@@ -1659,9 +1659,9 @@ gnm_gconf_set_print_titles (gboolean val)
 }
 
 void     
-gnm_gconf_set_print_order_right_then_down (gboolean val)
+gnm_gconf_set_print_order_across_then_down (gboolean val)
 {
-	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_RIGHT_THEN_DOWN, val);
+	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_ACROSS_THEN_DOWN, val);
 }
 
 void     

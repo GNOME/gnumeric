@@ -86,9 +86,9 @@ ms_biff_query_bound_check (BiffQuery *q, guint32 offset, unsigned len)
  * based on pseudo-code in the OpenOffice.org XL documentation
  **/
 static guint16
-ms_biff_password_hash  (char const *password)
+ms_biff_password_hash  (guint8 const *password)
 {
-	int tmp, index = 0, len = strlen(password);
+	int tmp, index = 0, len = strlen ((char const *)password);
 	guint16 chr, hash= 0;
 
 	do {
@@ -103,7 +103,7 @@ ms_biff_password_hash  (char const *password)
 }
 
 static void
-ms_biff_crypt_seq (BiffQuery *q, guint16 key, char const *password)
+ms_biff_crypt_seq (BiffQuery *q, guint16 key, guint8 const *password)
 {
 	static guint8 const preset [] = {
 		0xbb, 0xff, 0xff, 0xba, 0xff, 0xff, 0xb9, 0x80,
@@ -111,7 +111,7 @@ ms_biff_crypt_seq (BiffQuery *q, guint16 key, char const *password)
 	};
 	guint8 const low  =        key & 0xff;
 	guint8 const high = (key >> 8) & 0xff;
-	unsigned i, len = strlen (password);
+	unsigned i, len = strlen ((char const*)password);
 	guint8 *seq = q->xor_key;
 
 	strncpy (seq, password, 16);
@@ -128,10 +128,10 @@ ms_biff_crypt_seq (BiffQuery *q, guint16 key, char const *password)
 }
 
 static gboolean
-ms_biff_pre_biff8_query_set_decrypt  (BiffQuery *q, char const *password)
+ms_biff_pre_biff8_query_set_decrypt  (BiffQuery *q, guint8 const *password)
 {
 	guint16 hash, key;
-	guint16 pw_hash = ms_biff_password_hash(password);
+	guint16 pw_hash = ms_biff_password_hash (password);
 
 
 	if (q->length == 4) {
@@ -212,7 +212,7 @@ makekey (guint32 block, RC4_KEY *key, MD5_CTX *valContext)
  * convert UTF-8-password into UTF-16
  */
 static gboolean
-verify_password (char const *password, guint8 const *docid,
+verify_password (guint8 const *password, guint8 const *docid,
 		 guint8 const *salt_data, guint8 const *hashedsalt_data,
 		 MD5_CTX *valContext)
 {
@@ -309,7 +309,7 @@ verify_password (char const *password, guint8 const *docid,
 static void
 skip_bytes (BiffQuery *q, int start, int count)
 {
-	static char scratch[REKEY_BLOCK];
+	static guint8 scratch[REKEY_BLOCK];
 	int block;
 
 	block = (start + count) / REKEY_BLOCK;
@@ -330,7 +330,7 @@ skip_bytes (BiffQuery *q, int start, int count)
  **/
 gboolean
 ms_biff_query_set_decrypt (BiffQuery *q, MsBiffVersion version,
-			   char const *password)
+			   guint8 const *password)
 {
 	g_return_val_if_fail (q->opcode == BIFF_FILEPASS, FALSE);
 
@@ -471,7 +471,7 @@ ms_biff_query_next (BiffQuery *q)
 			q->dont_decrypt_next_record = FALSE;
 		} else {
 			int pos = q->streamPos;
-			char *data = q->data;
+			guint8 *data = q->data;
 			int len = q->length;
 
 			/* pretend to decrypt header */
@@ -579,7 +579,7 @@ ms_biff_put_new (GsfOutput *output, MsBiffVersion version, int codepage)
 		bp->codepage = 1200;
 	} else {
 		bp->codepage = (codepage > 0)
-			? (unsigned)codepage : gsf_msole_iconv_win_codepage ();
+			? codepage : gsf_msole_iconv_win_codepage ();
 		bp->convert = gsf_msole_iconv_open_codepage_for_export (bp->codepage);
 	}
 

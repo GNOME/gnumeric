@@ -21,13 +21,15 @@ typedef enum { MS_BIFF_CRYPTO_NONE = 0,
 	       MS_BIFF_CRYPTO_RC4,
 	       MS_BIFF_CRYPTO_UNKNOWN } MsBiffCrypto ;
 
-typedef enum { MS_BIFF_V2 = 2,
-	       MS_BIFF_V3 = 3,
-	       MS_BIFF_V4 = 4,
-	       MS_BIFF_V5 = 5, /* Excel 5.0 */
-	       MS_BIFF_V7 = 7, /* Excel 95 */
-	       MS_BIFF_V8 = 8, /* Excel 97 */
-	       MS_BIFF_V_UNKNOWN = 0} MsBiffVersion ;
+typedef enum {
+	MS_BIFF_V_UNKNOWN = 0,
+	MS_BIFF_V2 = 2,
+	MS_BIFF_V3 = 3,
+	MS_BIFF_V4 = 4,
+	MS_BIFF_V5 = 5, /* Excel 5.0 */
+	MS_BIFF_V7 = 7, /* Excel 95 */
+	MS_BIFF_V8 = 8  /* Excel 97, 2000, XP, 2003 */
+} MsBiffVersion;
 
 /*******************************************************************************/
 /*                                 Read Side                                   */
@@ -57,7 +59,7 @@ typedef struct {
 /* Sets up a query on a stream */
 BiffQuery  *ms_biff_query_new          (GsfInput *);
 gboolean    ms_biff_query_set_decrypt  (BiffQuery *q, MsBiffVersion version,
-					char const *password);
+					guint8 const *password);
 void	    ms_biff_query_copy_decrypt (BiffQuery *dst, BiffQuery const *src);
 
 /* Updates the BiffQuery structure with the next BIFF record
@@ -85,10 +87,10 @@ typedef struct _BiffPut {
 	MsBiffVersion	 version;
 
 	/* a buffer for generating unicode */
-	char *buf;
+	guint8 *buf;
 	unsigned buf_len;
 
-	unsigned codepage;
+	int	 codepage;
 	GIConv   convert;
 } BiffPut;
 

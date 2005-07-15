@@ -1001,23 +1001,26 @@ static xmlNodePtr
 xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 {
 	xmlNodePtr cur, child;
-	double header = 0, footer = 0, left = 0, right = 0;
 
 	g_return_val_if_fail (pi != NULL, NULL);
 
-	print_info_get_margins (pi, &header, &footer, &left, &right);
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("PrintInformation"), NULL);
 
 	child = xmlNewChild (cur, ctxt->ns, CC2XML ("Margins"), NULL);
-	xml_node_set_print_unit (child, "top",    &pi->margins.top);
-	xml_node_set_print_unit (child, "bottom", &pi->margins.bottom);
-	xml_node_set_print_margins (child, "left", left);
-	xml_node_set_print_margins (child, "right", right);
-	xml_node_set_print_margins (child, "header", header);
-	xml_node_set_print_margins (child, "footer", footer);
+	xml_node_set_print_unit (child, "top",    &pi->margin.top);
+	xml_node_set_print_unit (child, "bottom", &pi->margin.bottom);
+
+	if (pi->margin.left >= 0.)
+		xml_node_set_print_margins (child, "left", pi->margin.left);
+	if (pi->margin.right >= 0.)
+		xml_node_set_print_margins (child, "right", pi->margin.right);
+	if (pi->margin.header >= 0.)
+		xml_node_set_print_margins (child, "header", pi->margin.header);
+	if (pi->margin.footer >= 0.)
+		xml_node_set_print_margins (child, "footer", pi->margin.footer);
 
 	child = xmlNewChild (cur, ctxt->ns, CC2XML ("Scale"), NULL);
-	if (pi->scaling.type == PERCENTAGE) {
+	if (pi->scaling.type == PRINT_SCALE_PERCENTAGE) {
 		xml_node_set_cstr  (child, "type", "percentage");
 		xml_node_set_double  (child, "percentage", pi->scaling.percentage.x, -1);
 	} else {
@@ -1049,12 +1052,9 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 	xmlAddChild (cur, child);
 
 	xmlNewChild (cur, ctxt->ns, CC2XML ("order"),
-		     CC2XML ((pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT)
-		     ? "d_then_r" : "r_then_d"));
+		CC2XML (pi->print_across_then_down ? "r_then_d" :"d_then_r"));
 	xmlNewChild (cur, ctxt->ns, CC2XML ("orientation"),
-		     CC2XML ((print_info_get_orientation (pi) 
-			      == PRINT_ORIENT_VERTICAL)
-		     ? "portrait" : "landscape"));
+		CC2XML (pi->portrait_orientation ? "portrait" : "landscape"));
 
 	xml_node_set_print_hf (cur, "Header", pi->header);
 	xml_node_set_print_hf (cur, "Footer", pi->footer);
@@ -1070,25 +1070,19 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
  * with footer (see comment at top of print.c). We fix this by making sure
  * that top > header and bottom > footer.
  */
-#define DSWAP(a,b) { double tmp; tmp = a; a = b; b = tmp; }
 static void
 xml_print_info_fix_margins (PrintInformation *pi)
 {
-	double header = 0, footer = 0, left = 0, right = 0;
-	gboolean switched = FALSE;
-
-	print_info_get_margins (pi, &header, &footer, &left, &right);
-
-	if (pi->margins.top.points < header) {
-		switched = TRUE;
-		DSWAP (pi->margins.top.points, header);
+	if (pi->margin.top.points < pi->margin.header) {
+		double tmp = pi->margin.top.points;
+		pi->margin.top.points = pi->margin.header;
+		pi->margin.header = tmp;
 	}
-	if (pi->margins.bottom.points < footer) {
-		switched = TRUE;
-		DSWAP (pi->margins.bottom.points, footer);
+	if (pi->margin.bottom.points < pi->margin.footer) {
+		double tmp = pi->margin.bottom.points;
+		pi->margin.bottom.points = pi->margin.footer;
+		pi->margin.footer = tmp;
 	}
-	if (switched)
-		print_info_set_margins (pi, header, footer, left, right);
 }
 
 static void
@@ -1096,7 +1090,6 @@ xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr child;
 	PrintInformation *pi;
-	double header = 0, footer = 0, left = 0, right = 0;
 
 	g_return_if_fail (ctxt != NULL);
 	g_return_if_fail (tree != NULL);
@@ -1107,19 +1100,17 @@ xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 	g_return_if_fail (pi != NULL);
 
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("top"))))
-		xml_node_get_print_unit (child, &pi->margins.top);
+		xml_node_get_print_unit (child, &pi->margin.top);
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("bottom"))))
-		xml_node_get_print_unit (child, &pi->margins.bottom);
+		xml_node_get_print_unit (child, &pi->margin.bottom);
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("left"))))
-		xml_node_get_print_margin (child, &left);
+		xml_node_get_print_margin (child, &pi->margin.left);
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("right"))))
-		xml_node_get_print_margin (child, &right);
+		xml_node_get_print_margin (child, &pi->margin.right);
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("header"))))
-		xml_node_get_print_margin (child, &header);
+		xml_node_get_print_margin (child, &pi->margin.header);
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("footer"))))
-		xml_node_get_print_margin (child, &footer);
-
-	print_info_set_margins (pi, header, footer, left, right);
+		xml_node_get_print_margin (child, &pi->margin.footer);
 	xml_print_info_fix_margins (pi);
 }
 
@@ -1177,13 +1168,13 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 		if (type != NULL) {
 			if (!strcmp (type, "percentage")) {
 				double tmp;
-				pi->scaling.type = PERCENTAGE;
+				pi->scaling.type = PRINT_SCALE_PERCENTAGE;
 				if (xml_node_get_double (child, "percentage", &tmp))
 					pi->scaling.percentage.x =
 						pi->scaling.percentage.y = tmp;
 			} else {
 				int cols, rows;
-				pi->scaling.type = SIZE_FIT;
+				pi->scaling.type = PRINT_SCALE_FIT_PAGES;
 				if (xml_node_get_int (child, "cols", &cols) &&
 				    xml_node_get_int (child, "rows", &rows)) {
 					pi->scaling.dim.cols = cols;
@@ -1221,7 +1212,7 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 	}
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("comments")))) {
 		xml_node_get_int  (child, "value",   &b);
-		pi->print_comments        = (b == 1);
+		pi->comment_placement = b;  /* this was once a bool */
 	}
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("titles")))) {
 		xml_node_get_int  (child, "value",  &b);
@@ -1235,19 +1226,15 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("order")))) {
 		xmlChar *txt = xmlNodeGetContent (child);
-		if (!strcmp (CXML2C (txt), "d_then_r"))
-			pi->print_order = PRINT_ORDER_DOWN_THEN_RIGHT;
-		else
-			pi->print_order = PRINT_ORDER_RIGHT_THEN_DOWN;
+		/* this used to be an enum */
+		pi->print_across_then_down = (0 != strcmp (CXML2C (txt), "d_then_r"));
 		xmlFree (txt);
 	}
 
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("orientation")))) {
 		xmlChar *txt = xmlNodeGetContent (child);
-		if (!strcmp (CXML2C (txt), "portrait"))
-			print_info_set_orientation (pi, PRINT_ORIENT_VERTICAL);
-		else
-			print_info_set_orientation (pi, PRINT_ORIENT_HORIZONTAL);
+		/* this was once an enum */
+		pi->portrait_orientation = !strcmp (CXML2C (txt), "portrait");
 		xmlFree (txt);
 	}
 

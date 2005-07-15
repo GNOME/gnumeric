@@ -14,8 +14,6 @@ struct _SheetControl {
 typedef struct {
 	GObjectClass   object_class;
 
-	void (*init_state) (SheetControl *sc);
-
 	void (*resize)			(SheetControl *sc, gboolean force_scroll);
 	void (*redraw_all)		(SheetControl *sc, gboolean headers);
 	void (*redraw_range)		(SheetControl *sc, GnmRange const *r);

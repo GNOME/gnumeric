@@ -718,13 +718,13 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
  * ms_excel_dump_cellname : internal utility to dump the current location safely.
  */
 static void
-ms_excel_dump_cellname (ExcelWorkbook const *ewb, ExcelReadSheet const *esheet,
+ms_excel_dump_cellname (GnmXLImporter const *importer, ExcelReadSheet const *esheet,
 			int fn_col, int fn_row)
 {
 	if (esheet && esheet->sheet && esheet->sheet->name_unquoted)
 		fprintf (stderr, "%s!", esheet->sheet->name_unquoted);
-	else if (ewb && ewb->wb && workbook_get_uri (ewb->wb)) {
-		fprintf (stderr, "[%s]", workbook_get_uri (ewb->wb));
+	else if (importer && importer->wb && workbook_get_uri (importer->wb)) {
+		fprintf (stderr, "[%s]", workbook_get_uri (importer->wb));
 		return;
 	}
 	fprintf (stderr, "%s%d : ", col_name(fn_col), fn_row+1);
@@ -760,9 +760,9 @@ static gboolean
 excel_formula_parses_ref_sheets (MSContainer const *container, guint8 const *data,
 				 Sheet **first, Sheet **last)
 {
-	if (container->ver >= MS_BIFF_V8) {
+	if (container->importer->ver >= MS_BIFF_V8) {
 		ExcelExternSheetV8 const *es =
-			excel_externsheet_v8 (container->ewb, GSF_LE_GET_GUINT16 (data));
+			excel_externsheet_v8 (container->importer, GSF_LE_GET_GUINT16 (data));
 
 		if (es != NULL) {
 			if (es->first == (Sheet *)2 || es->last == (Sheet *)2) /* deleted sheets */
@@ -854,7 +854,7 @@ excel_parse_formula (MSContainer const *container,
 		     gboolean shared,
 		     gboolean *array_element)
 {
-	MsBiffVersion const ver = container->ver;
+	MsBiffVersion const ver = container->importer->ver;
 
 	/* so that the offsets and lengths match the documentation */
 	guint8 const *cur = mem + 1;
@@ -873,7 +873,7 @@ excel_parse_formula (MSContainer const *container,
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_formula_debug > 1) {
-		ms_excel_dump_cellname (container->ewb, esheet, fn_col, fn_row);
+		ms_excel_dump_cellname (container->importer, esheet, fn_col, fn_row);
 		fprintf (stderr, "\n");
 		if (ms_excel_formula_debug > 1) {
 			gsf_mem_dump (mem, length);
@@ -907,7 +907,7 @@ excel_parse_formula (MSContainer const *container,
 			if (sf == NULL) {
 				if (top_left.col != fn_col || top_left.row != fn_row) {
 					g_warning ("Unknown shared formula (key = %s) in ", cellpos_as_string (&top_left));
-					ms_excel_dump_cellname (container->ewb, esheet, fn_col, fn_row);
+					ms_excel_dump_cellname (container->importer, esheet, fn_col, fn_row);
 				}
 				parse_list_free (&stack);
 				return NULL;
@@ -1018,7 +1018,7 @@ excel_parse_formula (MSContainer const *container,
 					warned_3 = TRUE;
 				} /* else always warn */
 
-				ms_excel_dump_cellname (container->ewb, esheet, fn_col, fn_row);
+				ms_excel_dump_cellname (container->importer, esheet, fn_col, fn_row);
 				fprintf (stderr, "Hmm, ptgAttr of type 0 ??\n"
 					"I've seen a case where an instance of this with flag A and another with flag 3\n"
 					"bracket a 1x1 array formula.  please send us this file.\n"
@@ -1083,7 +1083,7 @@ excel_parse_formula (MSContainer const *container,
 				if (ver <= MS_BIFF_V3) break;
 				ptg_length = w;
 			} else if (grbit & 0x10) { /* AttrSum: 'optimised' SUM function */
-				if (!make_function (&stack, 0x04, 1, container->ewb->wb)) {
+				if (!make_function (&stack, 0x04, 1, container->importer->wb)) {
 					error = TRUE;
 					fprintf (stderr, "Error in optimised SUM\n");
 				}
@@ -1101,7 +1101,7 @@ excel_parse_formula (MSContainer const *container,
 				;
 #endif
 			} else {
-				ms_excel_dump_cellname (container->ewb, esheet, fn_col, fn_row);
+				ms_excel_dump_cellname (container->importer, esheet, fn_col, fn_row);
 				fprintf (stderr, "Unknown PTG Attr gr = 0x%x, w = 0x%x ptg = 0x%x\n", grbit, w, ptg);
 				error = TRUE;
 			}
@@ -1143,7 +1143,7 @@ excel_parse_formula (MSContainer const *container,
 			int len = GSF_LE_GET_GUINT8 (cur);
 
 			if (len <= len_left) {
-				str = biff_get_text (cur+1, len, &len, ver);
+				str = excel_get_text (container->importer, cur+1, len, &len);
 				ptg_length = 1 + len;
 			} else {
 				str = NULL;
@@ -1313,14 +1313,12 @@ excel_parse_formula (MSContainer const *container,
 						char *str;
 
 						if (ver >= MS_BIFF_V8) {
-							str = biff_get_text (array_data + 3,
-									     GSF_LE_GET_GUINT16 (array_data+1),
-									     &len, ver);
+							str = excel_get_text (container->importer, array_data + 3,
+								GSF_LE_GET_GUINT16 (array_data+1), &len);
 							elem_len = len + 3;
 						} else {
-							str = biff_get_text (array_data + 2,
-									     GSF_LE_GET_GUINT8 (array_data+1),
-									     &len, ver);
+							str = excel_get_text (container->importer, array_data + 2,
+								GSF_LE_GET_GUINT8 (array_data+1), &len);
 							elem_len = len + 2;
 						}
 
@@ -1371,7 +1369,7 @@ excel_parse_formula (MSContainer const *container,
 				iftab = GSF_LE_GET_GUINT8(cur);
 			}
 
-			if (!make_function (&stack, iftab, -1, container->ewb->wb)) {
+			if (!make_function (&stack, iftab, -1, container->importer->wb)) {
 				error = TRUE;
 				fprintf (stderr, "error making func\n");
 			}
@@ -1396,7 +1394,7 @@ excel_parse_formula (MSContainer const *container,
 				iftab = GSF_LE_GET_GUINT8(cur+1);
 			}
 
-			if (!make_function (&stack, iftab, numargs, container->ewb->wb)) {
+			if (!make_function (&stack, iftab, numargs, container->importer->wb)) {
 				error = TRUE;
 				fprintf (stderr, "error making func var\n");
 			}
@@ -1416,7 +1414,7 @@ excel_parse_formula (MSContainer const *container,
 			else
 				ptg_length = 10;
 
-			names = container->ewb->names;
+			names = container->importer->names;
 			if (name_idx < 1 || names->len < name_idx ||
 			    (nexpr = g_ptr_array_index (names, name_idx-1)) == NULL) {
 
@@ -1526,13 +1524,13 @@ excel_parse_formula (MSContainer const *container,
 			if (ver >= MS_BIFF_V8) {
 				guint16 sheet_idx = GSF_LE_GET_GINT16 (cur);
 				ExcelExternSheetV8 const *es = excel_externsheet_v8 (
-					container->ewb, sheet_idx);
-				if (es != NULL && es->supbook < container->ewb->v8.supbook->len) {
+					container->importer, sheet_idx);
+				if (es != NULL && es->supbook < container->importer->v8.supbook->len) {
 					ExcelSupBook const *sup = &g_array_index (
-						container->ewb->v8.supbook,
+						container->importer->v8.supbook,
 						ExcelSupBook, es->supbook);
 					if (sup->type == EXCEL_SUP_BOOK_SELFREF)
-						names = container->ewb->names;
+						names = container->importer->names;
 					else
 						names = sup->externname;
 
@@ -1554,7 +1552,7 @@ excel_parse_formula (MSContainer const *container,
 					       name_idx, sheet_idx););
 #endif
 				if (sheet_idx < 0) {
-					names = container->ewb->names;
+					names = container->importer->names;
 					sheet_idx = -sheet_idx;
 				} else
 					names = container->v7.externnames;
@@ -1696,5 +1694,5 @@ excel_parse_formula (MSContainer const *container,
 		return expr;
 	}
 #endif
-	return expr_tree_sharer_share (container->ewb->expr_sharer, parse_list_pop (&stack));
+	return expr_tree_sharer_share (container->importer->expr_sharer, parse_list_pop (&stack));
 }

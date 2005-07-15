@@ -139,6 +139,12 @@ struct _XLChartHandler {
 #define BC(n)	biff_chart_ ## n
 #define BC_R(n)	BC(read_ ## n)
 
+static inline MsBiffVersion
+BC_R (ver) (XLChartReadState const *s)
+{
+	return s->container.importer->ver;
+}
+
 static XLChartSeries *
 excel_chart_series_new (void)
 {
@@ -373,7 +379,7 @@ BC_R(area)(XLChartHandler const *handle,
 {
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data);
 	char const *type = "normal";
-	gboolean in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x04));
+	gboolean in_3d = (BC_R(ver)(s) >= MS_BIFF_V8 && (flags & 0x04));
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 	s->plot = (GogPlot*) gog_plot_new_by_name ("GogAreaPlot");
@@ -466,7 +472,7 @@ BC_R(attachedlabel)(XLChartHandler const *handle,
 	if (show_label)
 		fputs ("Show the label;\n", stderr);
 
-	if (s->container.ver >= MS_BIFF_V8) {
+	if (BC_R(ver)(s) >= MS_BIFF_V8) {
 		gboolean const show_bubble_size = (flags&0x20) ? TRUE : FALSE;
 		if (show_bubble_size)
 			fputs ("Show bubble size;\n", stderr);
@@ -619,7 +625,7 @@ BC_R(bar)(XLChartHandler const *handle,
 	int gap_percentage = GSF_LE_GET_GINT16 (q->data+2);
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+4);
 	gboolean horizontal = (flags & 0x01) != 0;
-	gboolean in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x08));
+	gboolean in_3d = (BC_R(ver)(s) >= MS_BIFF_V8 && (flags & 0x08));
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 	s->plot = (GogPlot*) gog_plot_new_by_name ("GogBarColPlot");
@@ -938,7 +944,7 @@ ms_chart_map_color (XLChartReadState const *s, guint32 raw, guint32 alpha)
 {
 	GOColor res;
 	if ((~0x7ffffff) & raw) {
-		GnmColor *c= excel_palette_get (s->container.ewb->palette,
+		GnmColor *c= excel_palette_get (s->container.importer,
 			(0x7ffffff & raw));
 		res = GDK_TO_UINT (c->gdk_color);
 		style_color_unref (c);
@@ -1146,7 +1152,7 @@ BC_R(line)(XLChartHandler const *handle,
 {
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data);
 	char const *type = "normal";
-	gboolean in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x04));
+	gboolean in_3d = (BC_R(ver)(s) >= MS_BIFF_V8 && (flags & 0x04));
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 	s->plot = (GogPlot*) gog_plot_new_by_name ("GogLinePlot");
@@ -1276,7 +1282,7 @@ BC_R(markerformat)(XLChartHandler const *handle,
 	s->style->marker.auto_outline_color =
 		s->style->marker.auto_fill_color = auto_color;
 
-	if (s->container.ver >= MS_BIFF_V8) {
+	if (BC_R(ver)(s) >= MS_BIFF_V8) {
 		guint32 const marker_size = GSF_LE_GET_GUINT32 (q->data+16);
 		go_marker_set_size (marker, marker_size / 20.);
 		d (1, fprintf (stderr, "Marker size : is %f pts\n", marker_size / 20.););
@@ -1364,7 +1370,7 @@ BC_R(pie)(XLChartHandler const *handle,
 	float initial_angle = GSF_LE_GET_GUINT16 (q->data);
 	float center_size = GSF_LE_GET_GUINT16 (q->data+2); /* 0-100 */
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+4);
-	gboolean in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x01));
+	gboolean in_3d = (BC_R(ver)(s) >= MS_BIFF_V8 && (flags & 0x01));
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 	s->plot = (GogPlot*) gog_plot_new_by_name ((center_size == 0) ? "GogPiePlot" : "GogRingPlot");
@@ -1380,7 +1386,7 @@ BC_R(pie)(XLChartHandler const *handle,
 			NULL);
 
 #if 0
-	gboolean leader_lines = (s->container.ver >= MS_BIFF_V8 && (flags & 0x02));
+	gboolean leader_lines = (BC_R(ver)(s) >= MS_BIFF_V8 && (flags & 0x02));
 #endif
 
 	return FALSE;
@@ -1495,7 +1501,7 @@ BC_R(scatter)(XLChartHandler const *handle,
 {
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 
-	if (s->container.ver >= MS_BIFF_V8) {
+	if (BC_R(ver)(s) >= MS_BIFF_V8) {
 		guint16 const flags = GSF_LE_GET_GUINT16 (q->data+4);
 
 		/* Has bubbles */
@@ -1661,7 +1667,7 @@ BC_R(series)(XLChartHandler const *handle,
 			      0, 4, "Categories");
 	BC_R(vector_details) (s, q, series, GOG_MS_DIM_VALUES,
 			      2, 6, "Values");
-	if (s->container.ver >= MS_BIFF_V8)
+	if (BC_R(ver)(s) >= MS_BIFF_V8)
 		BC_R(vector_details) (s, q, series, GOG_MS_DIM_BUBBLES,
 				      8, 10, "Bubbles");
 
@@ -1697,7 +1703,7 @@ BC_R(seriestext)(XLChartHandler const *handle,
 	if (slen == 0)
 		return FALSE;
 
-	str = biff_get_text (q->data + 3, slen, NULL, s->container.ver);
+	str = excel_get_text (s->container.importer, q->data + 3, slen, NULL);
 	d (2, fprintf (stderr, "'%s';\n", str););
 
 	if (s->currentSeries != NULL &&
@@ -1782,7 +1788,7 @@ BC_R(shtprops)(XLChartHandler const *handle,
 	blanks = tmp;
 	d (2, fprintf (stderr, "%s;", ms_chart_blank[blanks]););
 
-	if (s->container.ver >= MS_BIFF_V8)
+	if (BC_R(ver)(s) >= MS_BIFF_V8)
 		ignore_pos_record = (flags&0x10) ? TRUE : FALSE;
 
 	d (1, {
@@ -1825,7 +1831,7 @@ BC_R(surf)(XLChartHandler const *handle,
 	s->plot = gog_plot_new_by_name ("GogContourPlot");
 	g_object_set (G_OBJECT (s->plot),
 		"use-color",		(flags & 0x01) != 0,
-		"in-3d",		(s->container.ver >= MS_BIFF_V8 && (flags & 0x02)),
+		"in-3d",		(BC_R(ver)(s) >= MS_BIFF_V8 && (flags & 0x02)),
 		NULL);
 #endif
 
@@ -2666,7 +2672,7 @@ chart_get_sheet (MSContainer const *container)
 }
 
 gboolean
-ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
+ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 		     SheetObject *sog, Sheet *full_page)
 {
 	static MSContainerClass const vtbl = {
@@ -2687,8 +2693,8 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 	BC(register_handlers)();
 
 	/* FIXME : create an anchor parser for charts */
-	ms_container_init (&state.container, &vtbl, container,
-			   container->ewb, container->ver);
+	ms_container_init (&state.container, &vtbl,
+		container, container->importer);
 
 	state.stack	    = g_array_new (FALSE, FALSE, sizeof(int));
 	state.prev_opcode   = 0xdeadbeef; /* Invalid */
@@ -2808,7 +2814,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 			    NULL == (series = g_ptr_array_index (state.series, sernum)))
 				break;
 
-			label = biff_get_text (q->data + 8, len, NULL, ver);
+			label = excel_get_text (container->importer, q->data + 8, len, NULL);
 			if (label != NULL  &&
 			    series->data[state.cur_role].value != NULL) {
 				value_release (series->data[state.cur_role].value->vals[0][row]);
@@ -2830,9 +2836,9 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 
 		case BIFF_WINDOW2_v0 :
 		case BIFF_WINDOW2_v2 :
-			if (full_page != NULL && container->ver > MS_BIFF_V2)
-				if (GSF_LE_GET_GUINT16 (q->data + 0) & 0x0400)
-					wb_view_sheet_focus (container->ewb->wbv, full_page);
+			if (full_page != NULL && BC_R(ver)(&state) > MS_BIFF_V2 &&
+			    GSF_LE_GET_GUINT16 (q->data + 0) & 0x0400)
+				wb_view_sheet_focus (container->importer->wbv, full_page);
 			break;
 
 		case BIFF_SCL :
@@ -3044,7 +3050,7 @@ ms_excel_chart_read_BOF (BiffQuery *q, MSContainer *container, SheetObject *sog)
 	 * XP saving as 95 will mark the book as biff7
 	 * but sheets and charts are marked as biff8, even though they are not
 	 * using unicode */
-	res = ms_excel_chart_read (q, container, container->ver, sog, NULL);
+	res = ms_excel_chart_read (q, container, sog, NULL);
 
 	ms_biff_bof_data_destroy (bof);
 	return res;

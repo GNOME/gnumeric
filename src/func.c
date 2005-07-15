@@ -1351,15 +1351,14 @@ function_iterate_do_value (GnmEvalPos const  *ep,
  * GnmValue found on the list (this means that ranges get properly expaned).
  **/
 GnmValue *
-function_iterate_argument_values (GnmEvalPos const		*ep,
+function_iterate_argument_values (GnmEvalPos const	*ep,
 				  FunctionIterateCB	 callback,
 				  void			*callback_closure,
 				  GnmExprList const	*expr_node_list,
 				  gboolean		 strict,
 				  CellIterFlags		 iter_flags)
 {
-	GnmValue * result = NULL;
-
+	GnmValue *result = NULL;
 	for (; result == NULL && expr_node_list;
 	     expr_node_list = expr_node_list->next) {
 		GnmExpr const *expr = expr_node_list->data;

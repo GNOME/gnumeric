@@ -121,6 +121,7 @@ static void
 print_titles (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 	      double base_x, double base_y)
 {
+#warning TODO
 }
 
 static void
@@ -411,7 +412,7 @@ static void
 print_headers (PrintJobInfo const *pj, Sheet const *sheet)
 {
 	PrintInformation const *pi = sheet->print_info;
-	PrintMargins const *pm = &pi->margins;
+	PrintMargins const *pm = &pi->margin;
 	double top, bottom, y;
 	double header = 0, footer = 0, left = 0, right = 0;
 
@@ -438,7 +439,7 @@ static void
 print_footers (PrintJobInfo const *pj, Sheet const *sheet)
 {
 	PrintInformation const *pi = sheet->print_info;
-	PrintMargins const *pm = &pi->margins;
+	PrintMargins const *pm = &pi->margin;
 	double top, bottom, y;
 	double header = 0, footer = 0, left = 0, right = 0;
 
@@ -497,7 +498,7 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 	    gboolean output)
 {
 	PrintInformation const *pi = sheet->print_info;
-	PrintMargins const *margins = &pi->margins;
+	PrintMargins const *pm = &pi->margin;
 	/* print_height/width are sizes of the regular grid,
 	 * not including repeating rows and columns */
 	double print_height, print_width;
@@ -596,7 +597,7 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 	print_info_get_margins (pi, &header, &footer, &left, &right);
 	/* Margins */
 	x += left;
-	y += MAX (margins->top.points, header);
+	y += MAX (pm->top.points, header);
 	if (pi->print_grid_lines) {
 		/* the initial grid lines */
 		x += 1.;
@@ -761,7 +762,7 @@ compute_scale_fit_to (PrintJobInfo const *pj, Sheet const *sheet,
 #define ROW_FIT(row) (row >= SHEET_MAX_ROWS ? (SHEET_MAX_ROWS-1) : row)
 
 static int
-print_range_down_then_right (PrintJobInfo const *pj, Sheet const *sheet,
+print_range_down_then_across (PrintJobInfo const *pj, Sheet const *sheet,
 			     GnmRange const *r, gboolean output)
 {
 	PrintInformation *pi = sheet->print_info;
@@ -776,48 +777,32 @@ print_range_down_then_right (PrintJobInfo const *pj, Sheet const *sheet,
 	usable_y_initial   = pj->y_points - pj->titles_used_y;
 	usable_y_repeating = usable_y_initial - pj->repeat_rows_used_y;
 
-       /*
-        * Has the user selected the 'SIZE_FIT' scaling type?
-	* If so adjust the scaling percentages to the correct values.
-        */
-       if (pi->scaling.type == SIZE_FIT) {
-               int col = r->start.col;
-               int row = r->start.row;
+	if (pi->scaling.type == PRINT_SCALE_FIT_PAGES) {
+		int col = r->start.col;
+		int row = r->start.row;
 
-              /* Temporarily calculate usable_x. */
-               if (col < pi->repeat_left.range.end.col) {
-                       usable_x = usable_x_initial;
-                       col = MIN (col, pi->repeat_left.range.end.col);
-               } else
-                       usable_x = usable_x_repeating;
+		if (col < pi->repeat_left.range.end.col) {
+			usable_x = usable_x_initial;
+			col = MIN (col, pi->repeat_left.range.end.col);
+		} else
+			usable_x = usable_x_repeating;
+		pi->scaling.percentage.x = compute_scale_fit_to (pj, sheet, col, r->end.col,
+			usable_x, sheet_col_get_info, pi->scaling.dim.cols);
 
-               /* Re-adjust x-scaling if necessary. */
-               pi->scaling.percentage.x = compute_scale_fit_to (pj, sheet, col, r->end.col,
-                                               usable_x, sheet_col_get_info,
-                                               pi->scaling.dim.cols);
+		if (row < pi->repeat_top.range.end.row) {
+			usable_y = usable_y_initial;
+			row = MIN (row, pi->repeat_top.range.end.row);
+		} else
+			usable_y = usable_y_repeating;
+		pi->scaling.percentage.y = compute_scale_fit_to (pj, sheet, row, r->end.row,
+			usable_y, sheet_row_get_info, pi->scaling.dim.rows);
 
-               /* Temporarily calculate usable_y. */
-               if (row < pi->repeat_top.range.end.row) {
-                       usable_y = usable_y_initial;
-                       row = MIN (row,
-                                  pi->repeat_top.range.end.row);
-               } else
-                       usable_y = usable_y_repeating;
-
-               /* Re-adjust y-scaling if necessary. */
-               pi->scaling.percentage.y = compute_scale_fit_to (pj,
-                                               sheet,
-                                               row,
-                                               r->end.row,
-                                               usable_y,
-                                               sheet_row_get_info,
-                                               pi->scaling.dim.rows);
-	       /* Making sure that the x and y scales are identical */
-	       if (pi->scaling.percentage.y > pi->scaling.percentage.x)
-		       pi->scaling.percentage.y = pi->scaling.percentage.x;
-	       else
-		       pi->scaling.percentage.x = pi->scaling.percentage.y;
-      }
+		/* Making sure that the x and y scales are identical */
+		if (pi->scaling.percentage.y > pi->scaling.percentage.x)
+			pi->scaling.percentage.y = pi->scaling.percentage.x;
+		else
+			pi->scaling.percentage.x = pi->scaling.percentage.y;
+	}
 
 	while (col <= r->end.col) {
 		int col_count;
@@ -869,8 +854,8 @@ print_range_down_then_right (PrintJobInfo const *pj, Sheet const *sheet,
 }
 
 static int
-print_range_right_then_down (PrintJobInfo const *pj, Sheet const *sheet,
-			     GnmRange const *r, gboolean output)
+print_range_across_then_down (PrintJobInfo const *pj, Sheet const *sheet,
+			      GnmRange const *r, gboolean output)
 {
 	PrintInformation *pi = sheet->print_info;
 	double usable_x, usable_x_initial, usable_x_repeating;
@@ -884,53 +869,31 @@ print_range_right_then_down (PrintJobInfo const *pj, Sheet const *sheet,
 	usable_y_initial   = pj->y_points - pj->titles_used_y;
 	usable_y_repeating = usable_y_initial - pj->repeat_rows_used_y;
 
-       /* Calculate any scaling needed to fit to a requested number
-        * of pages.
-        */
-       if (pi->scaling.type == SIZE_FIT) {
-               int col = r->start.col;
-               int row = r->start.row;
+	if (pi->scaling.type == PRINT_SCALE_FIT_PAGES) {
+		int col = r->start.col;
+		int row = r->start.row;
 
-               /* Temporarily calculate usable_x. */
-               if (col < pi->repeat_left.range.end.col) {
-                       usable_x = usable_x_initial;
-                       col = MIN (col,
-                                  pi->repeat_left.range.end.col);
-               } else
-                       usable_x = usable_x_repeating;
+		if (col < pi->repeat_left.range.end.col) {
+			usable_x = usable_x_initial;
+			col = MIN (col, pi->repeat_left.range.end.col);
+		} else
+			usable_x = usable_x_repeating;
+		pi->scaling.percentage.x = compute_scale_fit_to (pj, sheet, col, r->end.col,
+			usable_x, sheet_col_get_info, pi->scaling.dim.cols);
 
-               /* Re-adjust x-scaling if necessary. */
-               pi->scaling.percentage.x = compute_scale_fit_to (pj,
-                                               sheet,
-                                               col,
-                                               r->end.col,
-                                               usable_x,
-                                               sheet_col_get_info,
-                                               pi->scaling.dim.cols);
+		if (row < pi->repeat_top.range.end.row) {
+			usable_y = usable_y_initial;
+			row = MIN (row, pi->repeat_top.range.end.row);
+		} else
+			usable_y = usable_y_repeating;
+		pi->scaling.percentage.y = compute_scale_fit_to (pj, sheet, row, r->end.row,
+			usable_y, sheet_row_get_info, pi->scaling.dim.rows);
 
-               /* Temporarily calculate usable_y. */
-               if (row < pi->repeat_top.range.end.row) {
-                       usable_y = usable_y_initial;
-                       row = MIN (row,
-                                  pi->repeat_top.range.end.row);
-               } else
-                       usable_y = usable_y_repeating;
-
-               /* Re-adjust y-scaling if necessary. */
-               pi->scaling.percentage.y = compute_scale_fit_to (pj,
-                                               sheet,
-                                               row,
-                                               r->end.row,
-                                               usable_y,
-                                               sheet_row_get_info,
-                                               pi->scaling.dim.rows);
-	       /* Making sure that the x and y scales are identical */
-	       if (pi->scaling.percentage.y > pi->scaling.percentage.x)
-		       pi->scaling.percentage.y = pi->scaling.percentage.x;
-	       else
-		       pi->scaling.percentage.x = pi->scaling.percentage.y;
-       }
-
+		if (pi->scaling.percentage.y > pi->scaling.percentage.x)
+			pi->scaling.percentage.y = pi->scaling.percentage.x;
+		else
+			pi->scaling.percentage.x = pi->scaling.percentage.y;
+	}
 
 	while (row <= r->end.row) {
 		int row_count;
@@ -938,8 +901,7 @@ print_range_right_then_down (PrintJobInfo const *pj, Sheet const *sheet,
 
 		if (row <= pi->repeat_top.range.end.row) {
 			usable_y = usable_y_initial;
-			row = MIN (row,
-				   pi->repeat_top.range.end.row);
+			row = MIN (row, pi->repeat_top.range.end.row);
 		} else
 			usable_y = usable_y_repeating;
 
@@ -999,7 +961,7 @@ static void
 print_job_info_init_sheet (PrintJobInfo *pj, Sheet const *sheet)
 {
 	PrintInformation const *pi = sheet->print_info;
-	PrintMargins const *pm = &sheet->print_info->margins;
+	PrintMargins const *pm = &sheet->print_info->margin;
 	double header = 0, footer = 0, left = 0, right = 0;
 
 	if (!gnome_print_config_get_page_size (pj->gp_config, &pj->width, &pj->height))
@@ -1046,17 +1008,11 @@ static int
 print_sheet_range (PrintJobInfo *pj, Sheet const *sheet,
 		   GnmRange const *r, gboolean output)
 {
-	PrintInformation const *pi = sheet->print_info;
-	int pages;
-
 	print_job_info_init_sheet (pj, sheet);
-
- 	if (pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT)
-		pages = print_range_down_then_right (pj, sheet, r, output);
+ 	if (sheet->print_info->print_across_then_down)
+		return print_range_across_then_down (pj, sheet, r, output);
 	else
-		pages = print_range_right_then_down (pj, sheet, r, output);
-
-	return pages;
+		return print_range_down_then_across (pj, sheet, r, output);
 }
 
 /*

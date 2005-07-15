@@ -279,24 +279,26 @@ static void
 xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 {
 	char const *paper_name;
-	double header = 0, footer = 0, left = 0, right = 0;
 
 	g_return_if_fail (pi != NULL);
 
 	gsf_xml_out_start_element (state->output, GNM "PrintInformation");
 
 	gsf_xml_out_start_element (state->output, GNM "Margins");
-	print_info_get_margins (pi, &header, &footer, &left, &right);
-	xml_write_print_unit (state, GNM "top",    &pi->margins.top);
-	xml_write_print_unit (state, GNM "bottom", &pi->margins.bottom);
-	xml_write_print_margin (state, GNM "left", left);
-	xml_write_print_margin (state, GNM "right", right);
-	xml_write_print_margin (state, GNM "header", header);
-	xml_write_print_margin (state, GNM "footer", footer);
+	xml_write_print_unit (state, GNM "top",    &pi->margin.top);
+	xml_write_print_unit (state, GNM "bottom", &pi->margin.bottom);
+	if (pi->margin.left >= 0.)
+		xml_write_print_margin (state, GNM "left", pi->margin.left);
+	if (pi->margin.right >= 0.)
+		xml_write_print_margin (state, GNM "right", pi->margin.right);
+	if (pi->margin.header >= 0.)
+		xml_write_print_margin (state, GNM "header", pi->margin.header);
+	if (pi->margin.footer >= 0.)
+		xml_write_print_margin (state, GNM "footer", pi->margin.footer);
 	gsf_xml_out_end_element (state->output);
 
 	gsf_xml_out_start_element (state->output, GNM "Scale");
-	if (pi->scaling.type == PERCENTAGE) {
+	if (pi->scaling.type == PRINT_SCALE_PERCENTAGE) {
 		gsf_xml_out_add_cstr_unchecked  (state->output, "type", "percentage");
 		gsf_xml_out_add_float  (state->output, "percentage", pi->scaling.percentage.x, -1);
 	} else {
@@ -337,10 +339,11 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 	xml_write_print_repeat_range (state, GNM "repeat_top", &pi->repeat_top);
 	xml_write_print_repeat_range (state, GNM "repeat_left", &pi->repeat_left);
 
+	/* this was once an enum, hence the silly strings */
 	gsf_xml_out_simple_element (state->output, GNM "order",
-		(pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT) ? "d_then_r" : "r_then_d");
+		pi->print_across_then_down ? "r_then_d" :"d_then_r");
 	gsf_xml_out_simple_element (state->output, GNM "orientation",
-		     (print_info_get_orientation (pi) == PRINT_ORIENT_VERTICAL) ? "portrait" : "landscape");
+		pi->portrait_orientation ? "portrait" : "landscape");
 
 	xml_write_print_hf (state, GNM "Header", pi->header);
 	xml_write_print_hf (state, GNM "Footer", pi->footer);

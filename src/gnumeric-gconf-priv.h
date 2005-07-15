@@ -49,7 +49,7 @@
 #define PRINTSETUP_GCONF_EVEN_IF_ONLY_STYLES	"print-even-if-only-styles"
 #define PRINTSETUP_GCONF_PRINT_BLACK_AND_WHITE	"print-black-n-white"
 #define PRINTSETUP_GCONF_PRINT_TITLES		"print-titles"
-#define PRINTSETUP_GCONF_RIGHT_THEN_DOWN	"right-then-down"
+#define PRINTSETUP_GCONF_ACROSS_THEN_DOWN	"across-then-down"
 #define PRINTSETUP_GCONF_SCALE_PERCENTAGE	"scale-percentage"
 #define PRINTSETUP_GCONF_SCALE_PERCENTAGE_VALUE	"scale-percentage-value"
 #define PRINTSETUP_GCONF_SCALE_WIDTH		"scale-width"

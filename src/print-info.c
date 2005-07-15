@@ -4,9 +4,10 @@
  * print-info.c: Print information management.  This keeps
  * track of what the print parameters for a sheet are.
  *
- * Author:
- *  Miguel de Icaza (miguel@gnu.org)
- *
+ * Authors:
+ *	Andreas J. Guelzow (aguelzow@taliesin.ca)
+ *	Jody Goldberg (jody@gnome.org)
+ *	Miguel de Icaza (miguel@gnu.org)
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
@@ -218,64 +219,61 @@ load_formats (void)
 PrintInformation *
 print_info_new (void)
 {
-	PrintInformation *pi;
 	GSList *list;
+	PrintInformation *res = g_new0 (PrintInformation, 1);
 
-	pi = g_new0 (PrintInformation, 1);
-
-	/* Scaling */
-	if (gnm_app_prefs->print_scale_percentage)
-		pi->scaling.type = PERCENTAGE;
-	else
-		pi->scaling.type = SIZE_FIT;
-	pi->scaling.percentage.x 
-		= pi->scaling.percentage.y 
+	res->scaling.type = gnm_app_prefs->print_scale_percentage
+		? PRINT_SCALE_PERCENTAGE : PRINT_SCALE_FIT_PAGES;
+	res->scaling.percentage.x = res->scaling.percentage.y 
 		= gnm_app_prefs->print_scale_percentage_value;
-	pi->scaling.dim.cols = gnm_app_prefs->print_scale_width;
-	pi->scaling.dim.rows = gnm_app_prefs->print_scale_height;
+	res->scaling.dim.cols = gnm_app_prefs->print_scale_width;
+	res->scaling.dim.rows = gnm_app_prefs->print_scale_height;
+	res->margin.top       = gnm_app_prefs->print_margin_top;
+	res->margin.bottom    = gnm_app_prefs->print_margin_bottom;
+	res->margin.left = res->margin.right = res->margin.header = res->margin.footer = -1.;
 
-	pi->center_horizontally       
-		= gnm_app_prefs->print_center_horizontally;
-	pi->center_vertically     = gnm_app_prefs->print_center_vertically;
-	pi->print_grid_lines      = gnm_app_prefs->print_grid_lines;
-	pi->print_even_if_only_styles 
+	res->repeat_top.use   = load_range (gnm_app_prefs->print_repeat_top,
+					    &res->repeat_top.range);
+	res->repeat_left.use  = load_range (gnm_app_prefs->print_repeat_left,
+					    &res->repeat_left.range);
+
+	res->center_vertically     = gnm_app_prefs->print_center_vertically;
+	res->center_horizontally   = gnm_app_prefs->print_center_horizontally;
+	res->print_grid_lines      = gnm_app_prefs->print_grid_lines;
+	res->print_titles          = gnm_app_prefs->print_titles;
+	res->print_black_and_white = gnm_app_prefs->print_black_and_white;
+	res->print_as_draft	   = FALSE;
+	res->portrait_orientation  = TRUE;
+
+	res->invert_orientation    = FALSE;
+	res->print_even_if_only_styles 
 		= gnm_app_prefs->print_even_if_only_styles;
-	pi->print_black_and_white = gnm_app_prefs->print_black_and_white;
-	pi->print_titles          = gnm_app_prefs->print_titles;
 
-	if (gnm_app_prefs->print_order_right_then_down)
-		pi->print_order = PRINT_ORDER_RIGHT_THEN_DOWN;
-	else
-		pi->print_order = PRINT_ORDER_DOWN_THEN_RIGHT;
-
-	pi->margins = gnm_app_prefs->print_tb_margins;
+	res->print_across_then_down = gnm_app_prefs->print_order_across_then_down;
+	res->comment_placement = PRINT_COMMENTS_IN_PLACE;
+	res->error_display     = PRINT_ERRORS_AS_DISPLAYED;
 
 	list = (GSList *) gnm_app_prefs->printer_header;
-	pi->header = list ?
+	res->header = list ?
 		print_hf_new ((char *)g_slist_nth_data (list, 0),
 			      (char *)g_slist_nth_data (list, 1),
 			      (char *)g_slist_nth_data (list, 2)) :
 		print_hf_new ("", _("&[TAB]"), "");
 	list = (GSList *) gnm_app_prefs->printer_footer;
-	pi->footer = list ?
+	res->footer = list ?
 		print_hf_new ((char *)g_slist_nth_data (list, 0),
 			      (char *)g_slist_nth_data (list, 1),
 			      (char *)g_slist_nth_data (list, 2)) :
 		print_hf_new ("", _("Page &[PAGE]"), "");
 
-	/* Load the columns/rows to repeat */
-	pi->repeat_top.use  = load_range (gnm_app_prefs->print_repeat_top,
-					  &pi->repeat_top.range);
-	pi->repeat_left.use = load_range (gnm_app_prefs->print_repeat_left,
-					  &pi->repeat_left.range);
+	res->n_copies	   = 1;
+	res->start_page	   = -1;
+	res->gp_config_str = NULL;
+	res->paper	   = NULL;
+	res->paper_width   = NULL;
+	res->paper_height  = NULL;
 
-	pi->orientation	  = PRINT_ORIENT_VERTICAL;
-	pi->n_copies	  = 1;
-	pi->gp_config_str = NULL;
-	pi->paper	  = NULL;
-	pi->paper_width	  = NULL;
-	pi->paper_height  = NULL;
-	return pi;
+	return res;
 }
 
 /*
@@ -329,20 +327,20 @@ print_info_save (PrintInformation const *pi)
 {
 	GOConfNode *node = go_conf_get_node (gnm_conf_get_root (), PRINTSETUP_GCONF_DIR);
 
-	gnm_gconf_set_print_scale_percentage (pi->scaling.type == PERCENTAGE);
+	gnm_gconf_set_print_scale_percentage (pi->scaling.type == PRINT_SCALE_PERCENTAGE);
 	gnm_gconf_set_print_scale_percentage_value (pi->scaling.percentage.x);
 	go_conf_set_int (node, PRINTSETUP_GCONF_SCALE_WIDTH,  pi->scaling.dim.cols);
 	go_conf_set_int (node, PRINTSETUP_GCONF_SCALE_HEIGHT, pi->scaling.dim.rows);
 
-	gnm_gconf_set_print_tb_margins (&pi->margins);
+	gnm_gconf_set_print_tb_margins (&pi->margin);
 
 	gnm_gconf_set_print_center_horizontally (pi->center_horizontally);
 	gnm_gconf_set_print_center_vertically (pi->center_vertically);
 	gnm_gconf_set_print_grid_lines (pi->print_grid_lines);
+	gnm_gconf_set_print_titles (pi->print_titles);
 	gnm_gconf_set_print_even_if_only_styles (pi->print_even_if_only_styles);
 	gnm_gconf_set_print_black_and_white (pi->print_black_and_white);
-	gnm_gconf_set_print_titles (pi->print_titles);
-	gnm_gconf_set_print_order_right_then_down (pi->print_order);
+	gnm_gconf_set_print_order_across_then_down (pi->print_across_then_down);
 	
 	go_conf_set_string (node, PRINTSETUP_GCONF_REPEAT_TOP,
 		pi->repeat_top.use ? range_name (&pi->repeat_top.range) : "");
@@ -585,68 +583,30 @@ print_shutdown (void)
 	destroy_formats ();
 }
 
-
-static void
-print_info_margin_copy (PrintUnit const *src_print_unit, PrintUnit *dst_print_unit)
-{
-	dst_print_unit->points = src_print_unit->points;
-	dst_print_unit->desired_display = src_print_unit->desired_display;
-}
-
 PrintInformation *
-print_info_dup (PrintInformation const *src_pi)
+print_info_dup (PrintInformation const *src)
 {
-	PrintInformation *dst_pi;
+	PrintInformation *dst = print_info_new ();
 
-	dst_pi = print_info_new ();
+	/* clear the refs in the new obj */
+	g_free (dst->gp_config_str);
+	g_free (dst->paper);
+	g_free (dst->paper_width);
+	g_free (dst->paper_height);
+	print_hf_free (dst->header);
+	print_hf_free (dst->footer);
 
-	/* Print Scaling */
-	dst_pi->scaling.type       = src_pi->scaling.type;
-	dst_pi->scaling.percentage = src_pi->scaling.percentage;
-	dst_pi->scaling.dim.cols   = src_pi->scaling.dim.cols;
-	dst_pi->scaling.dim.rows   = src_pi->scaling.dim.rows;
+	*dst = *src; /* bit bash */
 
-	/* Margins (note that the others are copied as part of print_config) */
-	print_info_margin_copy (&src_pi->margins.top,    &dst_pi->margins.top);
-	print_info_margin_copy (&src_pi->margins.bottom, &dst_pi->margins.bottom);
-	dst_pi->margins.left	= src_pi->margins.left;
-	dst_pi->margins.right	= src_pi->margins.right;
-	dst_pi->margins.header	= src_pi->margins.header;
-	dst_pi->margins.footer	= src_pi->margins.footer;
+	/* setup the refs for new content */
+	dst->gp_config_str = g_strdup (src->gp_config_str);
+	dst->paper	   = g_strdup (src->paper);
+	dst->paper_width   = g_strdup (src->paper_width);
+	dst->paper_height  = g_strdup (src->paper_height);
+	dst->header	   = print_hf_copy (src->header);
+	dst->footer	   = print_hf_copy (src->footer);
 
-	/* Booleans */
-	dst_pi->center_vertically	  = src_pi->center_vertically;
-	dst_pi->center_horizontally	  = src_pi->center_horizontally;
-	dst_pi->print_grid_lines	  = src_pi->print_grid_lines;
-	dst_pi->print_even_if_only_styles = src_pi->print_even_if_only_styles;
-	dst_pi->print_black_and_white	  = src_pi->print_black_and_white;
-	dst_pi->print_as_draft		  = src_pi->print_as_draft;
-	dst_pi->print_comments		  = src_pi->print_comments;
-	dst_pi->print_titles		  = src_pi->print_titles;
-	dst_pi->print_order		  = src_pi->print_order;
-
-	/* Headers & Footers */
-	print_hf_free (dst_pi->header);
-	dst_pi->header = print_hf_copy (src_pi->header);
-	print_hf_free (dst_pi->footer);
-	dst_pi->footer = print_hf_copy (src_pi->footer);
-
-	/* Repeat Range */
-	dst_pi->repeat_top  = src_pi->repeat_top;
-	dst_pi->repeat_left = src_pi->repeat_left;
-
-	dst_pi->orientation = src_pi->orientation;
-	dst_pi->n_copies    = src_pi->n_copies;
-	g_free (dst_pi->gp_config_str);
-	dst_pi->gp_config_str = g_strdup (src_pi->gp_config_str);
-	g_free (dst_pi->paper);
-	dst_pi->paper = g_strdup (src_pi->paper);
-	g_free (dst_pi->paper_width);
-	dst_pi->paper_width = g_strdup (src_pi->paper_width);
-	g_free (dst_pi->paper_height);
-	dst_pi->paper_height = g_strdup (src_pi->paper_height);
-
-	return dst_pi;
+	return dst;
 }
 
 void
@@ -656,38 +616,38 @@ print_info_get_margins (PrintInformation const *pi,
 	g_return_if_fail (pi != NULL);
 
 	if (NULL != top)
-		*top = pi->margins.header;
+		*top = (pi->margin.header > 0.) ? pi->margin.header : 0.;
 	if (NULL != bottom)
-		*bottom = pi->margins.footer;
+		*bottom = (pi->margin.footer > 0.) ? pi->margin.footer : 0.;
 	if (NULL != left)
-		*left = pi->margins.left;
+		*left = (pi->margin.left > 0.) ? pi->margin.left : 0.;
 	if (NULL != right)
-		*right = pi->margins.right;
+		*right = (pi->margin.right > 0.) ? pi->margin.right : 0.;
 }
 
 void
 print_info_set_margin_header (PrintInformation *pi, double header)
 {
 	g_return_if_fail (pi != NULL);
-	pi->margins.header = header;
+	pi->margin.header = header;
 }
 void
 print_info_set_margin_footer (PrintInformation *pi, double footer)
 {
 	g_return_if_fail (pi != NULL);
-	pi->margins.footer = footer;
+	pi->margin.footer = footer;
 }
 void
 print_info_set_margin_left (PrintInformation *pi, double left)
 {
 	g_return_if_fail (pi != NULL);
-	pi->margins.left = left;
+	pi->margin.left = left;
 }
 void
 print_info_set_margin_right (PrintInformation *pi, double right)
 {
 	g_return_if_fail (pi != NULL);
-	pi->margins.right = right;
+	pi->margin.right = right;
 }
 
 void
@@ -700,18 +660,6 @@ print_info_set_margins (PrintInformation *pi,
 	print_info_set_margin_right (pi, right);
 }
 
-void        
-print_info_set_n_copies (PrintInformation *pi, int copies)
-{
-	g_return_if_fail (pi != NULL);
-	pi->n_copies = copies;
-}
-guint        
-print_info_get_n_copies  (PrintInformation const *pi)
-{
-	g_return_val_if_fail (pi != NULL, 1);
-	return pi->n_copies;
-}
 void
 print_info_set_paper (PrintInformation *pi, char const *paper)
 {
@@ -752,19 +700,6 @@ print_info_get_paper_height (PrintInformation const *pi)
 	return pi->paper_height;
 }
 
-void        
-print_info_set_orientation (PrintInformation *pi, PrintOrientation orient)
-{
-	g_return_if_fail (pi != NULL);
-	pi->orientation = orient;
-}
-PrintOrientation
-print_info_get_orientation (PrintInformation const *pi)
-{
-	g_return_val_if_fail (pi != NULL, PRINT_ORIENT_VERTICAL);
-	return pi->orientation;
-}
-
 GnomePrintConfig *
 print_info_make_config (PrintInformation const *pi)
 {
@@ -783,29 +718,23 @@ print_info_make_config (PrintInformation const *pi)
 			gnome_print_config_set (res, GNOME_PRINT_KEY_PAPER_HEIGHT, pi->paper_height);
 		}
 	}
-	gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_TOP,
-		pi->margins.header, GNOME_PRINT_PS_UNIT);
-	gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM,
-		pi->margins.footer, GNOME_PRINT_PS_UNIT);
-	gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT,
-		pi->margins.left, GNOME_PRINT_PS_UNIT);
-	gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT,
-		pi->margins.right, GNOME_PRINT_PS_UNIT);
+	if (pi->margin.header >= 0)
+		gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_TOP,
+			pi->margin.header, GNOME_PRINT_PS_UNIT);
+	if (pi->margin.footer >= 0)
+		gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM,
+			pi->margin.footer, GNOME_PRINT_PS_UNIT);
+	if (pi->margin.left >= 0)
+		gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT,
+			pi->margin.left, GNOME_PRINT_PS_UNIT);
+	if (pi->margin.right >= 0)
+		gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT,
+			pi->margin.right, GNOME_PRINT_PS_UNIT);
+
 	gnome_print_config_set_int (res, GNOME_PRINT_KEY_NUM_COPIES, pi->n_copies);
-	switch (pi->orientation) {
-	case PRINT_ORIENT_VERTICAL:
-		gnome_print_config_set (res, GNOME_PRINT_KEY_ORIENTATION, "R0");
-		break;		 
-	case PRINT_ORIENT_HORIZONTAL:
-		gnome_print_config_set (res, GNOME_PRINT_KEY_ORIENTATION, "R90");
-		break;		 
-	case PRINT_ORIENT_HORIZONTAL_UPSIDE_DOWN:
-		gnome_print_config_set (res, GNOME_PRINT_KEY_ORIENTATION, "R270");
-		break;		 
-	case PRINT_ORIENT_VERTICAL_UPSIDE_DOWN:
-		gnome_print_config_set (res, GNOME_PRINT_KEY_ORIENTATION, "R180");
-		break;		 
-	}
+	gnome_print_config_set (res, GNOME_PRINT_KEY_ORIENTATION, pi->portrait_orientation
+		? (pi->invert_orientation ? "R180" : "R0")
+		: (pi->invert_orientation ? "R180" : "R90"));
 
 	return res;
 }
@@ -824,13 +753,14 @@ print_info_load_config (PrintInformation *pi, GnomePrintConfig *config)
 	pi->gp_config_str = gnome_print_config_to_string (config, 0);
 
 	if (gnome_print_config_get_length (config, GNOME_PRINT_KEY_PAGE_MARGIN_TOP, &d_tmp, NULL))
-		pi->margins.header = d_tmp;
+		pi->margin.header = d_tmp;
 	if (gnome_print_config_get_length (config, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, &d_tmp, NULL))
-		pi->margins.footer = d_tmp;
+		pi->margin.footer = d_tmp;
 	if (gnome_print_config_get_length (config, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, &d_tmp, NULL))
-		pi->margins.left = d_tmp;
+		pi->margin.left = d_tmp;
 	if (gnome_print_config_get_length (config, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, &d_tmp, NULL))
-		pi->margins.right = d_tmp;
+		pi->margin.right = d_tmp;
+
 	if (gnome_print_config_get_int (config, GNOME_PRINT_KEY_NUM_COPIES, &tmp))
 		pi->n_copies = tmp;
 	else
@@ -841,14 +771,19 @@ print_info_load_config (PrintInformation *pi, GnomePrintConfig *config)
 
 	str = gnome_print_config_get (config, GNOME_PRINT_KEY_ORIENTATION);
 	if (str != NULL) {
-		if (strcmp (str, "R0") == 0)
-			pi->orientation = PRINT_ORIENT_VERTICAL;
-		else if (strcmp (str, "R90") == 0)
-			pi->orientation = PRINT_ORIENT_HORIZONTAL;
-		else if (strcmp (str, "R180") == 0)
-			pi->orientation = PRINT_ORIENT_VERTICAL_UPSIDE_DOWN;
-		else if (strcmp (str, "R270") == 0)
-			pi->orientation = PRINT_ORIENT_HORIZONTAL_UPSIDE_DOWN;
+		if (strcmp (str, "R0") == 0) {
+			pi->portrait_orientation = TRUE;
+			pi->invert_orientation   = FALSE;
+		} else if (strcmp (str, "R180") == 0) {
+			pi->portrait_orientation = TRUE;
+			pi->invert_orientation   = TRUE;
+		} else if (strcmp (str, "R90") == 0) {
+			pi->portrait_orientation = FALSE;
+			pi->invert_orientation   = FALSE;
+		} else if (strcmp (str, "R270") == 0) {
+			pi->portrait_orientation = FALSE;
+			pi->invert_orientation   = TRUE;
+		}
 		g_free (str);
 	}
 }

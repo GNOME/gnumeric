@@ -31,7 +31,7 @@
 #endif
 
 typedef struct {
-	MsBiffVersion ver;
+	GnmXLImporter *importer;
 	int	 cur_field, num_fields;
 	int	 cur_item, num_items;
 	guint32	 num_records;
@@ -100,8 +100,8 @@ xl_read_pivot_cache (XLPivotReadState *s, BiffQuery *q)
 		guint16 base_fields 	= GSF_LE_GET_GUINT16 (q->data + 10);	/* base */
 		/* guint16 zero */
 		guint16 type		= GSF_LE_GET_GUINT16 (q->data + 16);
-		char *who		= biff_get_text (q->data + 20,
-			GSF_LE_GET_GUINT16 (q->data + 18), NULL, s->ver);
+		char *who		= excel_get_text (s->importer,
+			q->data + 20, GSF_LE_GET_GUINT16 (q->data + 18), NULL);
 		fprintf (stderr, "num_rec = %u;\nstream_id = %hu;\n"
 			 "rec per block = %hu;\nbase fields = %hu;\ntotal fields = %hu;\n"
 			 "last modified by = '%s';\n",
@@ -139,8 +139,8 @@ xl_read_pivot_cache (XLPivotReadState *s, BiffQuery *q)
 			guint16 grouped_items	= GSF_LE_GET_GUINT16  (q->data + 8);
 			guint16 base_items	= GSF_LE_GET_GUINT16  (q->data + 10);
 			guint16 std_items	= GSF_LE_GET_GUINT16  (q->data + 12);
-			char *name = biff_get_text (q->data + 16,
-				GSF_LE_GET_GUINT16 (q->data + 14), NULL, s->ver);
+			char *name = excel_get_text (s->importer, q->data + 16,
+				GSF_LE_GET_GUINT16 (q->data + 14), NULL);
 			switch (index_type) {
 			case 1 : /* items follow field description with no index */
 				s->num_items  = GSF_LE_GET_GUINT16  (q->data + 6);
@@ -212,8 +212,8 @@ const sal_uInt16 EXC_SXFIELD_INDEX_STEP     = 2;        /// List index for step 
 		break;
 
 		case BIFF_SXSTRING: if (check_min_len (q, 2)) {
-			char *val = biff_get_text (q->data + 2,
-				GSF_LE_GET_GUINT16 (q->data + 0), NULL, s->ver);
+			char *val = excel_get_text (s->importer, q->data + 2,
+				GSF_LE_GET_GUINT16 (q->data + 0), NULL);
 			d_item (s);
 			d (2, fprintf (stderr, "'%s' (string);\n", val););
 			g_free (val);
@@ -284,7 +284,7 @@ const sal_uInt16 EXC_SXFIELD_INDEX_STEP     = 2;        /// List index for step 
 }
 
 void
-excel_read_pivot_caches (ExcelWorkbook *ewb,
+excel_read_pivot_caches (GnmXLImporter *importer,
 			 BiffQuery const *content_query,
 			 GsfInfile *ole)
 {
@@ -303,7 +303,7 @@ excel_read_pivot_caches (ExcelWorkbook *ewb,
 
 	return; /* leave this disabled for now */
 
-	s.ver = ewb->container.ver;
+	s.importer = importer;
 	n = gsf_infile_num_children (GSF_INFILE (dir));
 	for (i = 0 ; i < n ; i++) {
 		cache = gsf_infile_child_by_index (GSF_INFILE (dir), i);

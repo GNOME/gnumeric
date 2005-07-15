@@ -61,14 +61,15 @@ typedef struct {
 	gboolean         print_even_if_only_styles;
 	gboolean         print_black_and_white;
 	gboolean         print_titles;
-	gboolean         print_order_right_then_down;
+	gboolean         print_order_across_then_down;
 	gboolean         print_scale_percentage;
 	float            print_scale_percentage_value;
 	gint             print_scale_width;
 	gint             print_scale_height;
 	gchar           *print_repeat_top;
 	gchar           *print_repeat_left;
-	PrintMargins     print_tb_margins;
+	PrintUnit	 print_margin_top;
+	PrintUnit	 print_margin_bottom;
 	
 	float		 horizontal_dpi;
 	float		 vertical_dpi;
@@ -138,7 +139,7 @@ void     gnm_gconf_set_print_grid_lines (gboolean val);
 void     gnm_gconf_set_print_even_if_only_styles (gboolean val);
 void     gnm_gconf_set_print_black_and_white (gboolean val);
 void     gnm_gconf_set_print_titles (gboolean val);
-void     gnm_gconf_set_print_order_right_then_down (gboolean val);
+void     gnm_gconf_set_print_order_across_then_down (gboolean val);
 void     gnm_gconf_set_print_scale_percentage (gboolean val);
 void     gnm_gconf_set_print_scale_percentage_value (gnm_float val);
 void     gnm_gconf_set_print_tb_margins (PrintMargins const *pm);

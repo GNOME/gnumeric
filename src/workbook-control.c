@@ -103,9 +103,6 @@ WBC_VIRTUAL_FULL (sheet_remove, sheet.remove,
 	(WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
 WBC_VIRTUAL_FULL (sheet_focus, sheet.focus,
 	(WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
-WBC_VIRTUAL_FULL (sheet_move, sheet.move,
-	(WorkbookControl *wbc, Sheet *sheet, int new_pos),
-	(wbc, sheet, new_pos))
 WBC_VIRTUAL_FULL (sheet_remove_all, sheet.remove_all,
 	(WorkbookControl *wbc), (wbc))
 

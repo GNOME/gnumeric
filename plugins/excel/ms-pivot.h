@@ -15,7 +15,7 @@
 #include "ms-container.h"
 #include "ms-biff.h"
 
-void excel_read_pivot_caches (ExcelWorkbook *ewb,
+void excel_read_pivot_caches (GnmXLImporter *ewb,
 			      BiffQuery const *content_query,
 			      GsfInfile *parent);
 

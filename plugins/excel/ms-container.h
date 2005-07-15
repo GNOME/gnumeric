@@ -18,7 +18,7 @@
 #include <pango/pango-attributes.h>
 
 typedef struct _MSContainer	MSContainer;
-typedef struct _ExcelWorkbook	ExcelWorkbook;
+typedef struct _GnmXLImporter	GnmXLImporter;
 typedef struct _MSEscherBlip	MSEscherBlip;
 typedef struct _MSObj		MSObj;
 
@@ -35,8 +35,7 @@ typedef struct {
 struct _MSContainer {
 	MSContainerClass const *vtbl;
 
-	ExcelWorkbook	*ewb;
-	MsBiffVersion	 ver;
+	GnmXLImporter	*importer;
 	gboolean	 free_blips;
 	GPtrArray	*blips;
 	GSList		*obj_queue;
@@ -51,8 +50,7 @@ struct _MSContainer {
 };
 
 void ms_container_init (MSContainer *container, MSContainerClass const *vtbl,
-			MSContainer *parent,
-			ExcelWorkbook *ewb, MsBiffVersion ver);
+			MSContainer *parent, GnmXLImporter *importer);
 void ms_container_finalize (MSContainer *container);
 
 void           ms_container_add_blip	 (MSContainer *c, MSEscherBlip *blip);

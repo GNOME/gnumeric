@@ -197,7 +197,7 @@ excel_write_string_len (guint8 const *str, size_t *bytes)
 	g_return_val_if_fail (str != NULL, 0);
 
 	for (; *p ; i++)
-		p = g_utf8_next_char (p);
+		p = (guint8 const *)g_utf8_next_char (p);
 
 	if (bytes != NULL)
 		*bytes = p - str;
@@ -222,7 +222,7 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 	size_t byte_len, out_bytes, offset;
 	unsigned char_len = excel_write_string_len (txt, &byte_len);
 	char *in_bytes = (char *)txt; /* bloody strict-aliasing is broken */
-	char *tmp;
+	guint8 *tmp;
 
 	/* before biff8 all lengths were in bytes */
 	if (bp->version < MS_BIFF_V8)
@@ -378,7 +378,7 @@ excel_write_BOF (BiffPut *bp, MsBiffFileType type)
 	return ans;
 }
 
-static double
+static inline double
 points_to_inches (double pts)
 {
 	return pts / 72.0;
@@ -388,42 +388,56 @@ void
 excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 {
 	PrintInformation const *pi = NULL;
-	double header, footer, dummy;
+	double header = 0., footer = 0., dummy;
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_SETUP, 34);
-	guint16 options = 0;
+	guint16 flags = 0;
+	guint16 scale = 100;
 
-	if (esheet != NULL)
+	if (NULL == esheet)
 		pi = esheet->gnum_sheet->print_info;
-	if (pi != NULL && pi->print_order == PRINT_ORDER_RIGHT_THEN_DOWN)
-		options |= 0x01;
-	if (pi != NULL && print_info_get_orientation (pi) == PRINT_ORIENT_VERTICAL)
-		options |= 0x02;
-	/* orientation is set - leave bit 0x40 off */
-	if (pi != NULL && pi->print_black_and_white)
-		options |= 0x08;
-	if (pi != NULL && pi->print_as_draft)
-		options |= 0x10;
-	if (pi != NULL && pi->print_comments)
-		options |= 0x20;
+	if (NULL != pi) {
+		if (pi->print_across_then_down)
+			flags |= 0x01;
+		if (pi->portrait_orientation)
+			flags |= 0x02;
+		if (pi->print_black_and_white)
+			flags |= 0x08;
+		if (pi->print_as_draft)
+			flags |= 0x10;
+		switch (pi->comment_placement) {
+		case PRINT_COMMENTS_NONE: break;
+		default:
+		case PRINT_COMMENTS_IN_PLACE: flags |= 0x020; break;
+		case PRINT_COMMENTS_AT_END:   flags |= 0x220; break;
+		}
 
-	if (NULL != pi)
+		switch (pi->error_display) {
+		default :
+		case PRINT_ERRORS_AS_DISPLAYED: break;
+		case PRINT_ERRORS_AS_BLANK:	flags |= 0x400;	break;
+		case PRINT_ERRORS_AS_DASHES:	flags |= 0x800; break;
+		case PRINT_ERRORS_AS_NA:	flags |= 0xC00; break;
+		}
+
+		if (pi->scaling.percentage.x * 100. < USHRT_MAX)
+			scale = (pi->scaling.percentage.x * 100.) + .5;
 		print_info_get_margins (pi, &header, &footer, &dummy, &dummy);
-	else
-		header = footer = 0.;
+	} else
+		flags |= 0x44;  /* mark orientation, copies, and start page as being invalid */
 	header = points_to_inches (header);
 	footer = points_to_inches (footer);
 
 	GSF_LE_SET_GUINT16 (data +  0, 0);	/* _invalid_ paper size */
-	GSF_LE_SET_GUINT16 (data +  2, 100);	/* scaling factor */
-	GSF_LE_SET_GUINT16 (data +  4, 0);	/* start at page 0 */
+	GSF_LE_SET_GUINT16 (data +  2, scale);	/* scaling factor */
+	GSF_LE_SET_GUINT16 (data +  4, pi ? pi->start_page : 0);
 	GSF_LE_SET_GUINT16 (data +  6, pi ? pi->scaling.dim.cols : 1);
 	GSF_LE_SET_GUINT16 (data +  8, pi ? pi->scaling.dim.rows : 1);
-	GSF_LE_SET_GUINT32 (data + 10, options);
-	GSF_LE_SET_GUINT32 (data + 12, 0);	/* _invalid_ x resolution */
-	GSF_LE_SET_GUINT32 (data + 14, 0);	/* _invalid_ y resolution */
+	GSF_LE_SET_GUINT32 (data + 10, flags);
+	GSF_LE_SET_GUINT32 (data + 12, 600);	/* guess x resolution */
+	GSF_LE_SET_GUINT32 (data + 14, 600);	/* guess y resolution */
 	gsf_le_set_double  (data + 16, header);
 	gsf_le_set_double  (data + 24, footer);
-	GSF_LE_SET_GUINT16 (data + 32, 1);	/* 1 copy */
+	GSF_LE_SET_GUINT16 (data + 32, pi ? pi->n_copies : 1);
 	ms_biff_put_commit (bp);
 }
 
@@ -1973,7 +1987,6 @@ put_format (GnmStyle *mstyle, gconstpointer dummy, ExcelWriteState *ewb)
 {
 	GOFormat *fmt = gnm_style_get_format (mstyle);
 	style_format_ref (fmt);
-#warning check conditionals too
 	two_way_table_put (ewb->formats.two_way_table,
 			   (gpointer)fmt, TRUE,
 			   (AfterPutFunc) after_put_format,
@@ -3907,7 +3920,7 @@ excel_write_WSBOOL (BiffPut *bp, ExcelWriteSheet *esheet)
 	if (esheet->gnum_sheet->outline_symbols_below)	flags |= 0x040;
 	if (esheet->gnum_sheet->outline_symbols_right)	flags |= 0x080;
 	if (esheet->gnum_sheet->print_info &&
-	    esheet->gnum_sheet->print_info->scaling.type == SIZE_FIT)
+	    esheet->gnum_sheet->print_info->scaling.type == PRINT_SCALE_FIT_PAGES)
 		flags |= 0x100;
 	if (esheet->gnum_sheet->display_outlines)	flags |= 0x400;
 
@@ -3943,10 +3956,9 @@ static void
 write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 {
 	guint8 *data;
-	PrintInformation *pi;
+	PrintInformation const *pi;
 	Sheet const *sheet = esheet->gnum_sheet;
 	Workbook const *wb = sheet->workbook;
-	double header = 0, footer = 0, left = 0, right = 0;
 
 	pi = sheet->print_info;
 	g_return_if_fail (pi != NULL);
@@ -3961,7 +3973,7 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 	ms_biff_put_commit (bp);
 
 	ms_biff_put_2byte (bp, BIFF_SAVERECALC,	0x0001);
-	ms_biff_put_2byte (bp, BIFF_PRINTHEADERS,  0x0000);
+	ms_biff_put_2byte (bp, BIFF_PRINTHEADERS,   pi->print_titles ? 1 : 0);
 	ms_biff_put_2byte (bp, BIFF_PRINTGRIDLINES, pi->print_grid_lines ? 1 : 0);
 	ms_biff_put_2byte (bp, BIFF_GRIDSET, 	0x0001);
 
@@ -3971,19 +3983,20 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 		excel_write_COUNTRY (bp);
 	excel_write_WSBOOL (bp, esheet);
 
-	if (pi != NULL && pi->header != NULL)
+	if (pi->header != NULL)
 		writer_header_footer (bp, pi->header, BIFF_HEADER);
-	if (pi != NULL && pi->footer != NULL)
+	if (pi->footer != NULL)
 		writer_header_footer (bp, pi->footer, BIFF_FOOTER);
 
 	ms_biff_put_2byte (bp, BIFF_HCENTER, pi->center_horizontally ? 1 : 0);
 	ms_biff_put_2byte (bp, BIFF_VCENTER, pi->center_vertically ? 1 : 0);
 
-	print_info_get_margins (pi, &header, &footer, &left, &right);
-	excel_write_margin (bp, BIFF_LEFT_MARGIN,   left);
-	excel_write_margin (bp, BIFF_RIGHT_MARGIN,  right);
-	excel_write_margin (bp, BIFF_TOP_MARGIN,    pi->margins.top.points);
-	excel_write_margin (bp, BIFF_BOTTOM_MARGIN, pi->margins.bottom.points);
+	if (pi->margin.left >= 0.)
+		excel_write_margin (bp, BIFF_LEFT_MARGIN,   pi->margin.left);
+	if (pi->margin.right >= 0.)
+		excel_write_margin (bp, BIFF_RIGHT_MARGIN,  pi->margin.right);
+	excel_write_margin (bp, BIFF_TOP_MARGIN,    pi->margin.top.points);
+	excel_write_margin (bp, BIFF_BOTTOM_MARGIN, pi->margin.bottom.points);
 
 	excel_write_SETUP (bp, esheet);
 	if (bp->version < MS_BIFF_V8) {

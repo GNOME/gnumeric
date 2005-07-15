@@ -2911,8 +2911,8 @@ static GnmFuncHelp const help_minverse[] = {
 
 
 static GnmValue *
-callback_function_mmult_validate (Sheet *sheet, int col, int row,
-				  GnmCell *cell, void *user_data)
+cb_function_mmult_validate (Sheet *sheet, int col, int row,
+			     GnmCell *cell, void *user_data)
 {
         int *item_count = user_data;
 
@@ -2924,6 +2924,7 @@ callback_function_mmult_validate (Sheet *sheet, int col, int row,
 	return NULL;
 }
 
+/* Returns TRUE on error */
 static gboolean
 validate_range_numeric_matrix (GnmEvalPos const *ep, GnmValue const *matrix,
 			       int *rows, int *cols,
@@ -2935,13 +2936,12 @@ validate_range_numeric_matrix (GnmEvalPos const *ep, GnmValue const *matrix,
 	*cols = value_area_get_width (matrix, ep);
 	*rows = value_area_get_height (matrix, ep);
 
-	/* No checking needed for arrays */
-	if (matrix->type == VALUE_ARRAY)
-	    return FALSE;
-
-	if (matrix->v_range.cell.a.sheet != matrix->v_range.cell.b.sheet &&
-	    matrix->v_range.cell.a.sheet != NULL &&
-	    matrix->v_range.cell.b.sheet != NULL) {
+	if (matrix->type == VALUE_ARRAY || matrix->type <= VALUE_FLOAT)
+		return FALSE;
+	if (matrix->type != VALUE_CELLRANGE ||
+	    (matrix->v_range.cell.a.sheet != matrix->v_range.cell.b.sheet &&
+	     matrix->v_range.cell.a.sheet != NULL &&
+	     matrix->v_range.cell.b.sheet != NULL)) {
 		*err = GNM_ERROR_VALUE;
 		return TRUE;
 	}
@@ -2953,7 +2953,7 @@ validate_range_numeric_matrix (GnmEvalPos const *ep, GnmValue const *matrix,
 		matrix->v_range.cell.a.row,
 		matrix->v_range.cell.b.col,
 		matrix->v_range.cell.b.row,
-		callback_function_mmult_validate,
+		cb_function_mmult_validate,
 		&cell_count);
 
 	if (res != NULL || cell_count != (*rows * *cols)) {
@@ -3005,9 +3005,8 @@ gnumeric_minverse (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float **matrix;
 	GnmStdError err;
 
-	if (validate_range_numeric_matrix (ep, values, &rows, &cols, &err)) {
+	if (validate_range_numeric_matrix (ep, values, &rows, &cols, &err))
 		return value_new_error_std (ei->pos, err);
-	}
 
 	/* Guarantee shape and non-zero size */
 	if (cols != rows || !rows || !cols)
@@ -3065,12 +3064,9 @@ gnumeric_mmult (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float *A, *B, *product;
 	GnmStdError err;
 
-	if (validate_range_numeric_matrix (ep, values_a, &rows_a, &cols_a,
-					   &err) ||
-	    validate_range_numeric_matrix (ep, values_b, &rows_b, &cols_b,
-					   &err)) {
+	if (validate_range_numeric_matrix (ep, values_a, &rows_a, &cols_a, &err) ||
+	    validate_range_numeric_matrix (ep, values_b, &rows_b, &cols_b, &err))
 		return value_new_error_std (ei->pos, err);
-	}
 
 	/* Guarantee shape and non-zero size */
 	if (cols_a != rows_b || !rows_a || !rows_b || !cols_a || !cols_b)

@@ -97,11 +97,12 @@ typedef struct {
 	GOFormat	*markup;
 } ExcelStringEntry;
 
-struct _ExcelWorkbook {
+struct _GnmXLImporter {
 	MSContainer	  container;
 	IOContext	 *context;
 	WorkbookView	 *wbv;
 	Workbook         *wb;
+	MsBiffVersion	  ver;
 
 	GPtrArray	 *excel_sheets;
 	GHashTable	 *boundsheet_data_by_stream;
@@ -120,22 +121,26 @@ struct _ExcelWorkbook {
 	ExcelStringEntry *sst;
 
 	ExprTreeSharer   *expr_sharer;
+	GIConv            str_iconv;
 };
 
-char     *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length,
-			 MsBiffVersion const ver);
 GnmValue *biff_get_error (GnmEvalPos const *pos, guint8 const err);
 
 Sheet		*excel_externsheet_v7	 (MSContainer const *container, gint16 i);
-ExcelExternSheetV8 const *excel_externsheet_v8 (ExcelWorkbook const *wb, gint16 i);
+ExcelExternSheetV8 const *excel_externsheet_v8 (GnmXLImporter const *wb, gint16 i);
 
 void		excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container);
 MsBiffBofData *ms_biff_bof_data_new     (BiffQuery * q);
 void	       ms_biff_bof_data_destroy (MsBiffBofData * data);
-char	      *ms_biff_get_chars (char const *ptr, size_t length,
-				  gboolean use_utf16);
 
-GnmColor  *excel_palette_get (ExcelPalette const *pal, gint idx);
+char *excel_get_chars (GnmXLImporter const *importer,
+		       guint8 const *ptr, size_t length,
+				  gboolean use_utf16);
+char *excel_get_text  (GnmXLImporter const *importer,
+		       guint8 const *ptr, guint32 length,
+		       guint32 *byte_length);
+
+GnmColor  *excel_palette_get (GnmXLImporter *importer, gint idx);
 
 GdkPixbuf *excel_read_IMDATA (BiffQuery *q, gboolean keep_image);
 void	   excel_read_SCL    (BiffQuery *q, Sheet *esheet);

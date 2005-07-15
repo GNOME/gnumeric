@@ -141,7 +141,7 @@ sort_qsort_compare (void const *_a, void const *_b)
 
 
 static void
-sort_permute_range (GnmSortData *data, GnmRange *range, int adj)
+sort_permute_range (GnmSortData const *data, GnmRange *range, int adj)
 {
 	if (data->top) {
 		range->start.row = data->range->start.row + adj;

@@ -51,7 +51,7 @@ gint ms_excel_read_debug = 0;
 gint ms_excel_pivot_debug = 0;
 gint ms_excel_escher_debug = 0;
 gint ms_excel_formula_debug = 0;
-gint ms_excel_chart_debug = 20;
+gint ms_excel_chart_debug = 0;
 gint ms_excel_write_debug = 0;
 gint ms_excel_object_debug = 0;
 
@@ -156,7 +156,7 @@ excel_file_open (GOFileOpener const *fo, IOContext *context,
 		if (data && data[0] == 0x09 && (data[1] & 0xf1) == 0) {
 			gsf_input_seek (input, -2, G_SEEK_CUR);
 			excel_read_workbook (context, wbv, input,
-					     &is_double_stream_file);
+				&is_double_stream_file);
 			/* NOTE : we lack a saver for the early formats */
 			return;
 		}
