@@ -1,3 +1,7 @@
+2005-07-15  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_SETUP) : remove unecessary scaling.
+
 2005-07-15  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.c (excel_write_SETUP): Fix typo.

@@ -419,8 +419,8 @@ excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 		case PRINT_ERRORS_AS_NA:	flags |= 0xC00; break;
 		}
 
-		if (pi->scaling.percentage.x * 100. < USHRT_MAX)
-			scale = (pi->scaling.percentage.x * 100.) + .5;
+		if (pi->scaling.percentage.x < USHRT_MAX)
+			scale = pi->scaling.percentage.x + .5;
 		print_info_get_margins (pi, &header, &footer, &dummy, &dummy);
 	} else
 		flags |= 0x44;  /* mark orientation, copies, and start page as being invalid */
