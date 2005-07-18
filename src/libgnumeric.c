@@ -14,7 +14,6 @@
 
 #include "application.h"
 #include "stf.h"
-#include <goffice/app/go-plugin.h>
 #include "gnm-format.h"
 #include "command-context.h"
 #include "command-context-stderr.h"
@@ -23,7 +22,6 @@
 #include "number-match.h"
 #include "expr-name.h"
 #include "func.h"
-#include "application.h"
 #include "print-info.h"
 #include "style.h"
 #include "mstyle.h"
@@ -42,15 +40,14 @@
 #include "gnm-plugin.h"
 #include "mathfunc.h"
 #include "hlink.h"
-#include "gnm-plugin.h"
 #include <goffice/goffice.h>
+#include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-service.h>
 #include <goffice/app/go-cmd-context.h>
 #include <goffice/app/go-plugin-loader-module.h>
 
 #include <locale.h>
 #include <glade/glade.h>
-#include <gnumeric-config.h>
 
 /* The debugging level */
 int gnumeric_debugging = 0;
