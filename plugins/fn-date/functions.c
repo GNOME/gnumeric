@@ -852,8 +852,8 @@ gnumeric_days360 (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	int method = argv[2] ? value_get_as_int (argv[2]) : 0;
 
 	switch (method) {
-	default: 
 	case 0: basis = BASIS_MSRB_30_360; break;
+	default: 
 	case 1: basis = BASIS_30E_360; break;
 	case 2: basis = BASIS_MSRB_30_360_SYM; break;
 	}

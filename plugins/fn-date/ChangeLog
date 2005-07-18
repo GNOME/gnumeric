@@ -1,3 +1,8 @@
+2005-07-15  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_days360) : method is a bool in XL.  Assume
+	  method non-0 == 1. [#310518]
+
 2005-06-13  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.2
