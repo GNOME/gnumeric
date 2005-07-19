@@ -6,20 +6,21 @@
 # Ain Vagula <ain@riiska.ee>, 2000-2004.
 # Priit Laes <amd@store20.com>, 2003, 2005.
 # Ain Vagula <avagula@gmail.com>, 2005.
+# Ain Vagula <ain@kmprojekt.ee>, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-10 03:22+0000\n"
-"PO-Revision-Date: 2005-05-10 14:30+0300\n"
-"Last-Translator: Priit Laes <amd@store20.com>\n"
+"PO-Revision-Date: 2005-07-18 23:26+0300\n"
+"Last-Translator: Ain Vagula <ain@kmprojekt.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.10\n"
+"X-Generator: KBabel 1.10.1\n"
 
 #: ../GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -675,9 +676,8 @@ msgid "Automatic"
 msgstr "Automaatne"
 
 #: ../plugins/fn-info/functions.c:1339
-#, fuzzy
 msgid "Manual"
-msgstr "Käsiraamat"
+msgstr "Manuaalne"
 
 #: ../plugins/fn-info/functions.c:1349
 msgid "Unknown system"
@@ -955,7 +955,7 @@ msgstr "a,b"
 #. MS Excel puts this in statistical
 #: ../plugins/fn-math/functions.c:3329
 msgid "range,criteria"
-msgstr "vahemik,kontrollväärtus"
+msgstr "vahemik,kriteerium"
 
 #: ../plugins/fn-math/functions.c:3337
 msgid "number,significance"
@@ -1004,7 +1004,7 @@ msgstr "x,n,m,koefitsendid"
 
 #: ../plugins/fn-math/functions.c:3462
 msgid "range,criteria,actual_range"
-msgstr "vahemik,kontrollväärtus,tegelik_vahemik"
+msgstr "vahemik,kriteerium,tegelik_vahemik"
 
 #: ../plugins/fn-math/functions.c:3465
 msgid "range,range,"
@@ -1490,7 +1490,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:805
 msgid "Arguments out of range"
-msgstr "Argumendid on väljaspool vahemikku"
+msgstr "Argumendid on vahemikust väljas"
 
 #: ../plugins/fn-string/functions.c:1218
 msgid "text,text,"
@@ -1652,7 +1652,7 @@ msgstr "XHTML (*.html)"
 
 #: ../plugins/html/plugin.xml.in.h:10
 msgid "XHTML range - for export to clipboard"
-msgstr "XHTML vahemik - ekspordiks lõikepuhvrisse"
+msgstr "XHTML-vahemik - ekspordiks lõikepuhvrisse"
 
 #: ../plugins/lotus-123/boot.c:72
 msgid "Error while reading lotus workbook."
@@ -3140,7 +3140,7 @@ msgstr "_Eemalda"
 
 #: ../src/dialogs/autocorrect.glade.h:14
 msgid "_Replace text when typed"
-msgstr "_Asenda tekst sisestamise ajal"
+msgstr "_Asenda tekst kirjutamise ajal"
 
 #: ../src/dialogs/autocorrect.glade.h:15
 msgid "_With:"
@@ -3501,9 +3501,8 @@ msgid "Horizontal Stripe"
 msgstr "Rõhttriip"
 
 #: ../src/dialogs/cell-format.glade.h:52
-#, fuzzy
 msgid "I_n-cell dropdown"
-msgstr "Lahtrisisene droppimine"
+msgstr "_Lahtrisisene ripploend"
 
 #: ../src/dialogs/cell-format.glade.h:53
 msgid "Ignore _blank cells"
@@ -3655,9 +3654,8 @@ msgid "Vertical Stripe"
 msgstr "Püsttriip"
 
 #: ../src/dialogs/cell-format.glade.h:90
-#, fuzzy
 msgid "_Distributed"
-msgstr "_Jaotus:"
+msgstr "_Jaotatud"
 
 #: ../src/dialogs/cell-format.glade.h:91
 msgid "_Fill"
@@ -3757,7 +3755,7 @@ msgstr ""
 
 #: ../src/dialogs/cell-sort.glade.h:11
 msgid "Sort range has a _header"
-msgstr ""
+msgstr "Sorditav vahemik sisaldab _päist"
 
 #: ../src/dialogs/cell-sort.glade.h:12
 msgid "Sort rows by the specified columns"
@@ -3892,13 +3890,11 @@ msgid "A_utofit columns"
 msgstr "Veergude a_utomaatsobitus"
 
 #: ../src/dialogs/dao.glade.h:4
-#, fuzzy
 msgid "C_lear output range"
-msgstr "_Väljundi vahemik:"
+msgstr "_Puhasta väljundvahemik:"
 
 #: ../src/dialogs/dao.glade.h:5
 #: ../src/dialogs/dialog-advanced-filter.c:197
-#, fuzzy
 msgid "Filter _in-place"
 msgstr "Koht_filter"
 
@@ -3912,22 +3908,19 @@ msgstr "_Uus raamat"
 
 #: ../src/dialogs/dao.glade.h:8
 msgid "Output _range:"
-msgstr "_Väljundi vahemik:"
+msgstr "_Väljundvahemik:"
 
 #: ../src/dialogs/dao.glade.h:9
-#, fuzzy
 msgid "Retain output range _formatting"
-msgstr "Säilita väljundvahemiku vormindus"
+msgstr "Säilita väljundvahemiku _vormindus"
 
 #: ../src/dialogs/dao.glade.h:10
-#, fuzzy
 msgid "Retain output range co_mments"
-msgstr "Säilita väljundvahemiku kommentaare"
+msgstr "Säilita väljundvahemiku ko_mmentaarid"
 
 #: ../src/dialogs/dao.glade.h:11
-#, fuzzy
 msgid "_Enter into cells:"
-msgstr "Lisa lahtrid"
+msgstr "Sisesta lahtrit_esse:"
 
 #: ../src/dialogs/define-name.glade.h:3
 #: ../src/dialogs/paste-names.glade.h:2
@@ -4032,18 +4025,17 @@ msgid "_Use ssmedian"
 msgstr ""
 
 #: ../src/dialogs/dialog-about.c:63
-#, fuzzy
 msgid "Core"
-msgstr "Veel"
-
-#: ../src/dialogs/dialog-about.c:64
-msgid "Features"
 msgstr ""
 
-#: ../src/dialogs/dialog-about.c:65
+#: ../src/dialogs/dialog-about.c:64
 #, fuzzy
+msgid "Features"
+msgstr "Funktsionaalsus"
+
+#: ../src/dialogs/dialog-about.c:65
 msgid "Analytics"
-msgstr "Balti"
+msgstr "Analüüs"
 
 #: ../src/dialogs/dialog-about.c:66
 msgid "Import Export"
@@ -4086,18 +4078,16 @@ msgid "Harald Ashburner"
 msgstr "Harald Ashburner"
 
 #: ../src/dialogs/dialog-about.c:83
-#, fuzzy
 msgid "Options pricers"
-msgstr "Seadistused"
+msgstr ""
 
 #: ../src/dialogs/dialog-about.c:84
 msgid "Sean Atkinson"
 msgstr "Sean Atkinson"
 
 #: ../src/dialogs/dialog-about.c:85
-#, fuzzy
 msgid "Functions and X-Base importing."
-msgstr "Sean Atkinson, funktsioonid ja X-Base import."
+msgstr "Funktsioonid ja X-Base import."
 
 #: ../src/dialogs/dialog-about.c:86
 msgid "Michel Berkelaar"
@@ -4113,14 +4103,13 @@ msgid "Jean Brefort"
 msgstr "Jean Brefort"
 
 #: ../src/dialogs/dialog-about.c:89
-#, fuzzy
 msgid "Core charting engine."
-msgstr "Viga rea analüüsil"
+msgstr ""
 
-# ,fuzzy
+# 
 #: ../src/dialogs/dialog-about.c:90
 msgid "Grandma Chema Celorio"
-msgstr "Grandma Chema Celorio"
+msgstr "Vanaema Chema Celorio"
 
 #: ../src/dialogs/dialog-about.c:91
 msgid "Quality Assurance and sheet copy."
@@ -4348,9 +4337,8 @@ msgid "Bruno Unna"
 msgstr "Bruno Unna"
 
 #: ../src/dialogs/dialog-about.c:149
-#, fuzzy
 msgid "Pieces of MS Excel import"
-msgstr "Imporditavad read"
+msgstr "MS Exceli import, osaliselt"
 
 #: ../src/dialogs/dialog-about.c:150
 msgid "Arief Mulya Utama"
@@ -4409,29 +4397,25 @@ msgid "Alexander Kirillov"
 msgstr "Alexander Kirillov"
 
 #: ../src/dialogs/dialog-about.c:265
-#, fuzzy
 msgid "About Gnumeric"
-msgstr "Gnumeric"
+msgstr "Gnumericu teave"
 
 #: ../src/dialogs/dialog-advanced-filter.c:71
-#, fuzzy
 msgid "The list range is invalid."
-msgstr "Otsimisvahemik ei ole sobiv."
+msgstr "Loendi vahemik on vigane."
 
 #: ../src/dialogs/dialog-advanced-filter.c:81
-#, fuzzy
 msgid "The criteria range is invalid."
-msgstr "Otsimisvahemik ei ole sobiv."
+msgstr "Kriteeriumi vahemik on vigane."
 
 #: ../src/dialogs/dialog-advanced-filter.c:89
 #: ../src/dialogs/dialog-simulation.c:93
 msgid "The output range is invalid."
-msgstr "Väljundvahemik ei ole sobiv."
+msgstr "Väljundvahemik on vigane."
 
 #: ../src/dialogs/dialog-advanced-filter.c:144
-#, fuzzy
 msgid "The given criteria are invalid."
-msgstr "Väärtus väljal 'Väärtuseks' on vigane."
+msgstr "Antud kriteeriumid on vigased."
 
 #: ../src/dialogs/dialog-advanced-filter.c:150
 msgid "No matching records were found."
@@ -4447,26 +4431,23 @@ msgid "An unexpected error has occurred: %d."
 msgstr "Tekkis ettearvamatu viga: %d"
 
 #: ../src/dialogs/dialog-advanced-filter.c:190
-#, fuzzy
 msgid "Could not create the Advanced Filter dialog."
-msgstr "Ei suudetud luua kovariatsiooni töövahendi dialoogi."
+msgstr "Täpsema filtri dialoogi ei suudetud luua."
 
 #: ../src/dialogs/dialog-analysis-tools.c:495
 #: ../src/dialogs/dialog-analysis-tools.c:1037
 #: ../src/dialogs/dialog-analysis-tools.c:2686
 #: ../src/dialogs/dialog-analysis-tools.c:2900
 #: ../src/dialogs/dialog-shuffle.c:76
-#, fuzzy
 msgid "The input range is invalid."
-msgstr "Otsimisvahemik ei ole sobiv."
+msgstr "Sisendvahemik on vigane."
 
 #: ../src/dialogs/dialog-analysis-tools.c:504
 #: ../src/dialogs/dialog-analysis-tools.c:1088
 #: ../src/dialogs/dialog-analysis-tools.c:2706
 #: ../src/dialogs/dialog-analysis-tools.c:2932
-#, fuzzy
 msgid "The output specification is invalid."
-msgstr "Väljundvahemik ei ole sobiv."
+msgstr "Väljundi määratlus on vigane."
 
 #: ../src/dialogs/dialog-analysis-tools.c:560
 #: ../src/dialogs/dialog-analysis-tools.c:679
@@ -4485,21 +4466,19 @@ msgstr "Valitud sisendalad peavad olema võrdse suurusega!"
 
 #: ../src/dialogs/dialog-analysis-tools.c:617
 msgid "Could not create the Correlation Tool dialog."
-msgstr "Ei suudetud luua korrelatsiooni töövahendi dialoogi."
+msgstr "Korrelatsiooni dialoogi ei suudetud luua."
 
 #: ../src/dialogs/dialog-analysis-tools.c:736
 msgid "Could not create the Covariance Tool dialog."
-msgstr "Ei suudetud luua kovariatsiooni töövahendi dialoogi."
+msgstr "Kovariatsiooni dialoogi ei suudetud luua."
 
 #: ../src/dialogs/dialog-analysis-tools.c:826
-#, fuzzy
 msgid "Could not create the Rank and Percentile Tools dialog."
-msgstr "Ei suudetud luua vahemiku ja protsentiili töövahendi dialoogi."
+msgstr "Järgu ja protsentiili dialoogi ei suudetud luua."
 
 #: ../src/dialogs/dialog-analysis-tools.c:917
-#, fuzzy
 msgid "Could not create the Fourier Analysis Tool dialog."
-msgstr "Ei suudetud luua Fourier' analüüsi töövahendi dialoogi."
+msgstr "Fourier' analüüsi dialoogi ei suudetud luua."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1046
 msgid "No statistics is selected."
@@ -4571,40 +4550,35 @@ msgstr "Ei suudetud luua histogrammi töövahendi dialoogi."
 #: ../src/dialogs/dialog-analysis-tools.c:2697
 #: ../src/dialogs/dialog-analysis-tools.c:2911
 msgid "The alpha value should be a number between 0 and 1."
-msgstr ""
+msgstr "Alfa väärtus peab olema vahemikus 0 kuni 1."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2745
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Ei suudetud luua dispersioonianalüüsi (üksiku faktoriga) töövahendi dialoogi."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2825
-#, fuzzy
 msgid "The given input range should contain at least two columns and two rows of data and the labels."
-msgstr "Antud sisendala peab sisaldama vähemalt kaks veergu andmeid ja pealdisi"
+msgstr "Antud sisendvahemik peab sisaldama vähemalt kaht veergu ja kaht rida andmeid ning pealdisi."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2828
-#, fuzzy
 msgid "The given input range should contain at least two columns and two rows of data."
-msgstr "Antud sisendala peab sisaldama vähemalt kaks veergu andmeid ja pealdisi"
+msgstr "Antud sisendvahemik peab sisaldama vähemalt kaht veergu ja kaht rida andmeid."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2834
 msgid "The given input range should contain at least two columns of data and the labels."
-msgstr "Antud sisendala peab sisaldama vähemalt kaks veergu andmeid ja pealdisi"
+msgstr "Antud sisendvahemik peab sisaldama vähemalt kaht veergu andmeid ja pealdisi."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2837
-#, fuzzy
 msgid "The given input range should contain at least two columns of data."
-msgstr "Antud sisendala peab sisaldama vähemalt kaks veergu andmeid ja pealdisi"
+msgstr "Antud sisendvahemik peab sisaldama vähemalt kaht veergu andmeid."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2843
-#, fuzzy
 msgid "The given input range should contain at least two rows of data and the labels."
-msgstr "Antud sisendala peab sisaldama vähemalt kaks veergu andmeid ja pealdisi"
+msgstr "Antud sisendvahemik peab sisaldama vähemalt kaht rida andmeid ja pealdisi."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2846
-#, fuzzy
 msgid "The given input range should contain at least two rows of data."
-msgstr "Antud sisendala peab sisaldama vähemalt kaks veergu andmeid ja pealdisi"
+msgstr "Antud sisendvahemik peab sisaldama vähemalt kaht rida andmeid."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2853
 msgid "The number of data rows must be a multiple of the replication number."
@@ -4612,7 +4586,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:2923
 msgid "The number of rows per sample should be a positive integer."
-msgstr ""
+msgstr "Ridade arv valimis peab olema positiivne täisarv."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2969
 msgid "Could not create the ANOVA (two factor) tool dialog."
@@ -4625,7 +4599,7 @@ msgstr "Ei suudetud luua automaatkorrigeerimise dialoogi."
 #: ../src/dialogs/dialog-autoformat.c:77
 #: ../src/dialogs/scenario-manager.glade.h:1
 msgid " "
-msgstr " "
+msgstr "  "
 
 #: ../src/dialogs/dialog-autoformat.c:77
 msgid "Jan"
@@ -4636,9 +4610,8 @@ msgid "Feb"
 msgstr "Veebr"
 
 #: ../src/dialogs/dialog-autoformat.c:77
-#, fuzzy
 msgid "Mar"
-msgstr "märts"
+msgstr "Märts"
 
 #: ../src/dialogs/dialog-autoformat.c:77
 #: ../src/dialogs/dialog-autoformat.c:81
@@ -4730,14 +4703,13 @@ msgid "An error occurred while reading the category list"
 msgstr "Kategooriate loendit lugedes tekkis viga"
 
 #: ../src/dialogs/dialog-autosave.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to save the workbook %s ?"
-msgstr "Tahad sa seda raamatut salvestada?"
+msgstr "Tahad sa seda raamatut '%s' salvestada?"
 
 #: ../src/dialogs/dialog-autosave.c:183
-#, fuzzy
 msgid "Could not create the autosave dialog."
-msgstr "Ei suudetud luua lahendaja dialoogi."
+msgstr "Automaatsalvestuse dialoogi ei suudetud luua."
 
 #: ../src/dialogs/dialog-cell-format.c:96
 msgid "Single"
@@ -4837,18 +4809,17 @@ msgid "%s (%s)"
 msgstr "%s (%s)"
 
 #: ../src/dialogs/dialog-cell-sort.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "%s to %s"
-msgstr "%s (%s)"
+msgstr "%s kuni %s"
 
 #: ../src/dialogs/dialog-cell-sort.c:787
 msgid "no available row"
 msgstr ""
 
 #: ../src/dialogs/dialog-cell-sort.c:787
-#, fuzzy
 msgid "no available column"
-msgstr "Vasakus _veerus"
+msgstr ""
 
 #: ../src/dialogs/dialog-cell-sort.c:1030
 msgid "Header"
@@ -4859,24 +4830,20 @@ msgid "Row/Column"
 msgstr "Rida/Veerg"
 
 #: ../src/dialogs/dialog-cell-sort.c:1055
-#, fuzzy
 msgid "Case Sensitive"
-msgstr "Suurtähti eristav"
+msgstr "Tõstutundlik"
 
 #: ../src/dialogs/dialog-cell-sort.c:1075
-#, fuzzy
 msgid "By Value"
-msgstr "Väärtus"
+msgstr "Väärtuse järgi"
 
 #: ../src/dialogs/dialog-cell-sort.c:1205
-#, fuzzy
 msgid "Could not create the Cell-Sort dialog."
-msgstr "Ei suudetud luua lahendaja dialoogi."
+msgstr ""
 
 #: ../src/dialogs/dialog-col-width.c:232
-#, fuzzy
 msgid "Set standard/default column width"
-msgstr "Muuda veergude laiuse vaikeväärtust"
+msgstr "Määra veeru vaikimisi laius"
 
 #: ../src/dialogs/dialog-col-width.c:237
 #, c-format
@@ -4894,9 +4861,8 @@ msgid "Source region %s overlaps with the destination region"
 msgstr "Lähteala %s kattub osaliselt sihtalaga"
 
 #: ../src/dialogs/dialog-consolidate.c:326
-#, fuzzy
 msgid "The output range overlaps with the input ranges."
-msgstr "Väljundvahemik ei ole sobiv."
+msgstr "Väljundvahemik kattub osaliselt sisendvahemikuga."
 
 #: ../src/dialogs/dialog-consolidate.c:555
 #, fuzzy
@@ -4946,8 +4912,9 @@ msgid "Could not create the formula guru."
 msgstr "Ei suuda luua Nimeguru."
 
 #: ../src/dialogs/dialog-function-select.c:210
+#, fuzzy
 msgid "Recently Used"
-msgstr ""
+msgstr "Viimati kasutatud"
 
 #: ../src/dialogs/dialog-function-select.c:215
 #, fuzzy
@@ -5022,7 +4989,7 @@ msgstr "Ei suudetud luua lahendaja dialoogi."
 
 #: ../src/dialogs/dialog-hyperlink.c:144
 msgid "Not a range or name"
-msgstr ""
+msgstr "Pole vahemik ega nimi"
 
 #: ../src/dialogs/dialog-hyperlink.c:254
 msgid "Internal Link"
@@ -5719,23 +5686,20 @@ msgid "Perform this replacement"
 msgstr "Tee see asendus"
 
 #: ../src/dialogs/dialog-sheet-order.c:392
-#, fuzzy
 msgid "Current Name"
-msgstr "Käesolev _kuupäev"
+msgstr "Praegune nimi"
 
 #: ../src/dialogs/dialog-sheet-order.c:402
 msgid "New Name"
 msgstr "Uus nimi"
 
 #: ../src/dialogs/dialog-sheet-order.c:719
-#, fuzzy
 msgid "At least one sheet must remain visible!"
-msgstr "Vähemalt üks tingimus on vajalik."
+msgstr "Vähemalt üks leht peab jääma nähtavaks!"
 
 #: ../src/dialogs/dialog-sheet-order.c:724
-#, fuzzy
 msgid "You may not delete all sheets in a workbook!"
-msgstr "Raamatus pole lehti."
+msgstr "Kõiki raamatu lehti ei saa kustutada!"
 
 #: ../src/dialogs/dialog-sheet-order.c:729
 msgid "To replace all exisiting sheets, please delete the current workbook and create a new one!"
@@ -5751,19 +5715,16 @@ msgid "Default"
 msgstr "Vaikimisi"
 
 #: ../src/dialogs/dialog-shuffle.c:151
-#, fuzzy
 msgid "Could not create the Data Shuffling dialog."
-msgstr "Ei suudetud luua lahendaja dialoogi."
+msgstr "Andmete segamise dialoogi ei suudetud luua."
 
 #: ../src/dialogs/dialog-simulation.c:75
-#, fuzzy
 msgid "The input variable range is invalid."
-msgstr "Otsimisvahemik ei ole sobiv."
+msgstr "Sisendmuutuja vahemik on vigane."
 
 #: ../src/dialogs/dialog-simulation.c:85
-#, fuzzy
 msgid "The output variable range is invalid."
-msgstr "Otsimisvahemik ei ole sobiv."
+msgstr "Väljundmuutuja vahemik on vigane."
 
 #: ../src/dialogs/dialog-simulation.c:158
 msgid "Simulations"
@@ -5782,9 +5743,8 @@ msgid "# Output variables"
 msgstr "# Väljundmuutujad"
 
 #: ../src/dialogs/dialog-simulation.c:159
-#, fuzzy
 msgid "Runtime"
-msgstr "aeg"
+msgstr ""
 
 #: ../src/dialogs/dialog-simulation.c:159
 msgid "Run on"
@@ -5820,9 +5780,8 @@ msgid "First round number should be greater or equal than the number of the last
 msgstr ""
 
 #: ../src/dialogs/dialog-simulation.c:422
-#, fuzzy
 msgid "Could not create the Simulation dialog."
-msgstr "Ei suudetud luua lahendaja dialoogi."
+msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:109
 msgid "Simplex (LP Solve 5.0)"
@@ -5841,9 +5800,8 @@ msgid "Looking for a subject for your thesis? Maybe you would like to write a QP
 msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:698
-#, fuzzy
 msgid "Solver found an optimal solution.  All constraints and optimality conditions are satisfied.\n"
-msgstr "Lahendaja leidis optimaalse lahenduse. Kõik piirangud ja lisatingimused on rahuldatud.\n"
+msgstr "Lahendaja leidis optimaalse lahenduse.  Kõik piirangud ja optimeerimistingimused on rahuldatud.\n"
 
 #: ../src/dialogs/dialog-solver.c:707
 msgid "Neither sensitivity nor limits report are meaningful if the program has integer constraints.  These reports will not be created."
@@ -5883,7 +5841,7 @@ msgstr "Otsitav tekst on regulaaravaldis"
 #: ../src/dialogs/dialog-solver.c:948
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
-msgstr "Piirang `%s' on pandud lahtrile mis ei ole sisendlahter."
+msgstr "Piirang `%s' on pandud lahtrile, mis ei ole sisendlahter."
 
 #: ../src/dialogs/dialog-solver.c:970
 msgid "No constraints defined for the problem."
@@ -6262,9 +6220,8 @@ msgid "Original data type:"
 msgstr "Andmete algne tüüp :"
 
 #: ../src/dialogs/dialog-stf.glade.h:34
-#, fuzzy
 msgid "Overall formatting"
-msgstr "Veergude kaupa vormindamine"
+msgstr "Üldine vormindus"
 
 #: ../src/dialogs/dialog-stf.glade.h:35
 msgid "P_ipe (|)"
@@ -6820,7 +6777,7 @@ msgstr ""
 #: ../src/wbcg-actions.c:1437
 #: ../src/wbcg-actions.c:1600
 msgid "_Insert"
-msgstr "_Sisesta"
+msgstr "_Lisamine"
 
 #: ../src/dialogs/goalseek.glade.h:1
 msgid "(Ma_ximum):"
@@ -8011,7 +7968,7 @@ msgstr "Omadused..."
 #: ../src/dialogs/so-frame.glade.h:3
 #, fuzzy
 msgid "Label:"
-msgstr "Pealdis :"
+msgstr "Label:"
 
 #: ../src/dialogs/so-checkbox.glade.h:4
 #: ../src/dialogs/so-scrollbar.glade.h:2
@@ -8333,7 +8290,7 @@ msgstr "A_utomaatne"
 #: ../src/dialogs/workbook-attr.glade.h:4
 #, fuzzy
 msgid "Calculation"
-msgstr "Valideerimine"
+msgstr "Arvutamine"
 
 #: ../src/dialogs/workbook-attr.glade.h:5
 #, fuzzy
@@ -8900,7 +8857,7 @@ msgstr ""
 #: ../src/tools/simulation.c:253
 #, fuzzy
 msgid "Variance"
-msgstr "Kovariatsioon"
+msgstr "Dispersioon"
 
 #: ../src/tools/simulation.c:254
 msgid "Skewness"
@@ -9766,7 +9723,7 @@ msgstr "%s automaattäitmine"
 #: ../src/commands.c:3594
 #, c-format
 msgid "Autoformatting %s"
-msgstr "%s automaatvormindamine"
+msgstr "%s automaatvormindus"
 
 #: ../src/commands.c:3711
 #, c-format
@@ -10881,7 +10838,7 @@ msgstr "Tekst läheb paremalt vasakule."
 #: ../src/sheet.c:517
 #, fuzzy
 msgid "Visible"
-msgstr "Muutuv"
+msgstr "Nähtav"
 
 #: ../src/sheet.c:518
 #, fuzzy
@@ -10891,7 +10848,7 @@ msgstr "Vali kogu veerg"
 #: ../src/sheet.c:526
 #, fuzzy
 msgid "Protected"
-msgstr "Kaitse"
+msgstr "Kaitstud"
 
 #: ../src/sheet.c:527
 #, fuzzy
@@ -10917,9 +10874,8 @@ msgid "Control whether zeros are shown are blanked out."
 msgstr ""
 
 #: ../src/sheet.c:553
-#, fuzzy
 msgid "Display Grid"
-msgstr "Keeldu"
+msgstr "Alusvõrgu kuvamine"
 
 #: ../src/sheet.c:554
 msgid "Control whether the grid is shown."
@@ -11590,7 +11546,7 @@ msgstr "Vajab rohkem kui ühte rida"
 #: ../src/wbcg-actions.c:795
 #, fuzzy
 msgid "Show Detail"
-msgstr "_Näita üksikasju"
+msgstr "Kuva üksikasjad"
 
 #: ../src/wbcg-actions.c:776
 #: ../src/wbcg-actions.c:795
@@ -11740,7 +11696,7 @@ msgstr "_Eriline"
 
 #: ../src/wbcg-actions.c:1440
 msgid "F_ormat"
-msgstr "V_ormindamine"
+msgstr "V_ormindus"
 
 #: ../src/wbcg-actions.c:1441
 msgid "C_olumn"
@@ -11772,9 +11728,8 @@ msgid "_ANOVA"
 msgstr "Dispersioonianalüüs"
 
 #: ../src/wbcg-actions.c:1448
-#, fuzzy
 msgid "F_orecast"
-msgstr "V_ormindamine"
+msgstr "_Prognoos"
 
 #: ../src/wbcg-actions.c:1449
 #, fuzzy
@@ -12212,7 +12167,7 @@ msgstr "_Pilt..."
 
 #: ../src/wbcg-actions.c:1678
 msgid "Insert an image"
-msgstr "Sisesta pilt"
+msgstr "Lisa pilt"
 
 #: ../src/wbcg-actions.c:1681
 #, fuzzy
@@ -12775,7 +12730,7 @@ msgstr "Tee loend"
 #: ../src/wbcg-actions.c:1932
 #, fuzzy
 msgid "SpinButton"
-msgstr "Nupp"
+msgstr "Kerimisnupp"
 
 #: ../src/wbcg-actions.c:1933
 #, fuzzy
@@ -13434,13 +13389,13 @@ msgstr "Kui sa sulged ilma salvestama, siis muutuseid kaotatakse."
 
 #: ../src/workbook-control-gui.c:1295
 msgid "Discard all"
-msgstr "Keeldu kõigist"
+msgstr "Hülga kõik"
 
 #: ../src/workbook-control-gui.c:1297
 #: ../src/workbook-control-gui.c:1306
 #: ../src/workbook-control-gui.c:1314
 msgid "Discard"
-msgstr "Keeldu"
+msgstr "Hülga"
 
 #: ../src/workbook-control-gui.c:1299
 msgid "Save all"
@@ -13467,7 +13422,7 @@ msgstr "_Redigeeri uuesti"
 #: ../src/workbook-control-gui.c:2354
 #: ../src/workbook-control-gui.c:2359
 msgid "_Discard"
-msgstr "_Keeldu"
+msgstr "_Hülga"
 
 #: ../src/workbook-control-gui.c:2358
 #: ../src/workbook-control-gui.c:2369
@@ -13773,11 +13728,4 @@ msgstr "Lilla nimekirja mall"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Lihtsa nimekirja mall"
-
-#~ msgid ""
-#~ "Too many arguments for function '%s', MS Excel expects exactly %d and we "
-#~ "have %d"
-#~ msgstr ""
-#~ "Liiga palju parameetreid funktsioonile '%s', MS Excel ootab täpselt %d "
-#~ "argumenti, aga meil on %d"
 
