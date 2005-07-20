@@ -1,3 +1,8 @@
+2005-07-20  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_format_repeat): Handle NULL style.  Fixes
+	#310924.
+
 2005-07-18  Stepan Kasal  <kasal@ucw.cz>
 
 	* src/libgnumeric.c: Remove double #include's.

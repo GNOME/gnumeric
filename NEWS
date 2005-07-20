@@ -29,6 +29,7 @@ Morten:
 	* Fix IRR.  [Debian #315625]
 	* Eliminate old sheet reorganize support code.
 	* Make ssconvert able to save to stdout ("fd://1").
+	* Fix repeat-setting-border crash.  [#310924]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.2

@@ -1693,7 +1693,8 @@ cmd_format_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	CmdFormat const *orig = (CmdFormat const *) cmd;
 	int i;
 
-	gnm_style_ref (orig->new_style);
+	if (orig->new_style)
+		gnm_style_ref (orig->new_style);
 	if (orig->borders)
 		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
 			style_border_ref (orig->borders [i]);
