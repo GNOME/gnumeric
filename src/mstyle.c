@@ -504,15 +504,17 @@ gnm_style_merge (GnmStyle const *src, GnmStyle const *overlay)
 void
 gnm_style_ref (GnmStyle *style)
 {
+	g_return_if_fail (style != NULL);
 	g_return_if_fail (style->ref_count > 0);
 
-	((GnmStyle *)style)->ref_count++;
+	style->ref_count++;
 	d(("ref %p = %d\n", style, style->ref_count));
 }
 
 void
 gnm_style_unref (GnmStyle *style)
 {
+	g_return_if_fail (style != NULL);
 	g_return_if_fail (style->ref_count > 0);
 
 	d(("unref %p = %d\n", style, style->ref_count-1));
@@ -1393,8 +1395,8 @@ add_attr (PangoAttrList *attrs, PangoAttribute *attr)
  **/
 PangoAttrList *
 gnm_style_get_pango_attrs (GnmStyle const *style,
-			PangoContext *context,
-			float zoom)
+			   PangoContext *context,
+			   float zoom)
 {
 	PangoAttrList *l;
 

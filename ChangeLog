@@ -1,5 +1,8 @@
 2005-07-20  Morten Welinder  <terra@gnome.org>
 
+	* src/mstyle.c (gnm_style_ref, gnm_style_unref): Add extra
+	precondition.
+
 	* src/commands.c (cmd_format_repeat): Handle NULL style.  Fixes
 	#310924.
 
