@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-13 21:18+0200\n"
-"PO-Revision-Date: 2005-07-13 21:28+0200\n"
+"POT-Creation-Date: 2005-07-23 20:42+0200\n"
+"PO-Revision-Date: 2005-07-23 20:53+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -11632,7 +11632,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: ../plugins/fn-math/functions.c:3039
+#: ../plugins/fn-math/functions.c:3038
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -11658,7 +11658,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: ../plugins/fn-math/functions.c:3118
+#: ../plugins/fn-math/functions.c:3114
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -11692,7 +11692,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: ../plugins/fn-math/functions.c:3168
+#: ../plugins/fn-math/functions.c:3164
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -12099,7 +12099,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:487
 msgid "R.DCHISQ:probability density function of the chi-square distribution."
-msgstr ""
+msgstr "R.DCHISQ:función de densidad de probabilidad de la distribución chi cuadrado."
 
 #: ../plugins/fn-r/functions.c:489 ../plugins/fn-r/functions.c:512
 #: ../plugins/fn-r/functions.c:537
@@ -12110,38 +12110,40 @@ msgstr "df:el número de grados de libertad de la distribución"
 msgid ""
 "This function returns the probability density function of the chi-square "
 "distribution."
-msgstr "Esta función devuelve la función de densidad de probabilidad de la distribución chi-cuadrado."
+msgstr ""
+"Esta función devuelve la función de densidad de probabilidad de la "
+"distribución chi-cuadrado."
 
 #: ../plugins/fn-r/functions.c:510
 msgid ""
 "R.PCHISQ:cumulative distribution function of the chi-square distribution."
-msgstr ""
+msgstr "R.PCHISQ:función de distribución acumulada de la distribución chi-cuadrado."
 
 #: ../plugins/fn-r/functions.c:515
 msgid ""
 "This function returns the cumulative distribution function of the chi-square "
 "distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de distribución acumulada de la distribución chi-cuadrado."
 
 #: ../plugins/fn-r/functions.c:535
 msgid "R.QCHISQ:probability quantile function of the chi-square distribution."
-msgstr ""
+msgstr "R.QCHISQ:función del cuantil de probabilidad de la distribución chi cuadarado."
 
 #: ../plugins/fn-r/functions.c:540
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the chi-square distribution."
-msgstr ""
+msgstr "Esta función devuelve la función del cuantil de probabilidad, ej, la inversa de la función de distribución acumulada, de la distribución chi cuadrado."
 
 #: ../plugins/fn-r/functions.c:560
 msgid "R.DWEIBULL:probability density function of the Weibull distribution."
-msgstr ""
+msgstr "R.DWEIBULL:función de densidad de probabilidad de la distribución de Weibull."
 
 #: ../plugins/fn-r/functions.c:565
 msgid ""
 "This function returns the probability density function of the Weibull "
 "distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de densidad de probabilidad de la distribución de Weibull."
 
 #: ../plugins/fn-r/functions.c:585
 msgid ""
@@ -12152,7 +12154,7 @@ msgstr ""
 msgid ""
 "This function returns the cumulative distribution function of the Weibull "
 "distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de distribución acumulada de la distribución de Weibull."
 
 #: ../plugins/fn-r/functions.c:612
 msgid "R.QWEIBULL:probability quantile function of the Weibull distribution."
@@ -12177,7 +12179,7 @@ msgstr "lambda:la media de la distribución"
 msgid ""
 "This function returns the probability density function of the Poisson "
 "distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de densidad de probabilidad de la distribución de Poisson."
 
 #: ../plugins/fn-r/functions.c:662
 msgid "R.PPOIS:cumulative distribution function of the Poisson distribution."
@@ -12207,7 +12209,7 @@ msgstr ""
 msgid ""
 "This function returns the probability density function of the exponential "
 "distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de densidad de probabilidad de la distribución exponencial"
 
 #: ../plugins/fn-r/functions.c:735
 msgid ""
@@ -12232,7 +12234,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:785
 msgid "R.DBINOM:probability density function of the binomial distribution."
-msgstr ""
+msgstr "R.DBINOM:función que devuelve la función de densidad de probabilidad de la distribución binomial."
 
 #: ../plugins/fn-r/functions.c:787 ../plugins/fn-r/functions.c:812
 #: ../plugins/fn-r/functions.c:839 ../plugins/fn-r/functions.c:866
@@ -12252,7 +12254,7 @@ msgstr "psuc:la probabilidad de éxito en cada intento"
 msgid ""
 "This function returns the probability density function of the binomial "
 "distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de densidad de probabilidad de la distribución binomial."
 
 #: ../plugins/fn-r/functions.c:810
 msgid "R.PBINOM:cumulative distribution function of the binomial distribution."
@@ -12283,7 +12285,7 @@ msgstr ""
 msgid ""
 "This function returns the probability density function of the negative "
 "binomial distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de densidad de probabilidad de la distribución binomial negativa."
 
 #: ../plugins/fn-r/functions.c:889
 msgid ""
@@ -12334,7 +12336,9 @@ msgstr "n:el número de bolas dibujadas"
 msgid ""
 "This function returns the probability density function of the hypergeometric "
 "distribution."
-msgstr "Esta función devuelve la función de densidad de probabilidad de la distribución hipergeométrica."
+msgstr ""
+"Esta función devuelve la función de densidad de probabilidad de la "
+"distribución hipergeométrica."
 
 #: ../plugins/fn-r/functions.c:970
 msgid ""
@@ -12345,7 +12349,7 @@ msgstr ""
 msgid ""
 "This function returns the cumulative distribution function of the "
 "hypergeometric distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de de distribución acumulada de la distribución hipergeométrica."
 
 #: ../plugins/fn-r/functions.c:999
 msgid "R.DGEOM:probability density function of the geometric distribution."
@@ -12355,7 +12359,7 @@ msgstr ""
 msgid ""
 "This function returns the probability density function of the geometric "
 "distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de densidad de probabilidad de la distribución geométrica."
 
 #: ../plugins/fn-r/functions.c:1022
 msgid "R.PGEOM:cumulative distribution function of the geometric distribution."
@@ -12390,7 +12394,7 @@ msgstr "ubicación: el centro de la distribución"
 msgid ""
 "This function returns the probability density function of the Cauchy "
 "distribution."
-msgstr ""
+msgstr "Esta función devuelve la función de densidad de probabilidad de la distribución de Cauchy."
 
 #: ../plugins/fn-r/functions.c:1097
 msgid "R.PCAUCHY:cumulative distribution function of the Cauchy distribution."
@@ -12420,162 +12424,166 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:1151
 msgid ""
 "R.QHYPER:probability quantile function of the hypergeometric distribution."
-msgstr "R.QHYPER:función de cuantil de probabilidad de la distribución hipergeométrica."
+msgstr ""
+"R.QHYPER:función de cuantil de probabilidad de la distribución "
+"hipergeométrica."
 
 #: ../plugins/fn-r/functions.c:1158
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the hypergeometric distribution."
-msgstr "Esta función devuelve la función del cuantil de probabilidad, ej, la inversa de la función de distribución acumulada, o la distribución hipergeométrica."
+msgstr ""
+"Esta función devuelve la función del cuantil de probabilidad, ej, la inversa "
+"de la función de distribución acumulada, o la distribución hipergeométrica."
 
 #: ../plugins/fn-r/functions.c:1194
 msgid "x,mu,sigma,give_log"
-msgstr ""
+msgstr "x,mu,sigma,give_log"
 
 #: ../plugins/fn-r/functions.c:1202
 msgid "x,mu,sigma,lower_tail,log_p"
-msgstr ""
+msgstr "x,mu,sigma,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1210
 msgid "p,mu,sigma,lower_tail,log_p"
-msgstr ""
+msgstr "p,mu,sigma,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1218
 msgid "x,logmean,logsd,give_log"
-msgstr ""
+msgstr "x,logmean,logsd,give_log"
 
 #: ../plugins/fn-r/functions.c:1226 ../plugins/fn-r/functions.c:1234
 msgid "x,logmean,logsd,lower_tail,log_p"
-msgstr ""
+msgstr "x,logmean,logsd,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1242 ../plugins/fn-r/functions.c:1362
 msgid "x,shape,scale,give_log"
-msgstr ""
+msgstr "x,shape,scale,give_log"
 
 #: ../plugins/fn-r/functions.c:1250 ../plugins/fn-r/functions.c:1370
 msgid "x,shape,scale,lower_tail,log_p"
-msgstr ""
+msgstr "x,shape,scale,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1258 ../plugins/fn-r/functions.c:1378
 msgid "p,shape,scale,lower_tail,log_p"
-msgstr ""
+msgstr "p,shape,scale,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1266
 msgid "x,a,b,give_log"
-msgstr ""
+msgstr "x,a,b,give_log"
 
 #: ../plugins/fn-r/functions.c:1274
 msgid "x,a,b,lower_tail,log_p"
-msgstr ""
+msgstr "x,a,b,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1282
 msgid "p,a,b,lower_tail,log_p"
-msgstr ""
+msgstr "p,a,b,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1290
 msgid "x,n,give_log"
-msgstr ""
+msgstr "x,n,give_log"
 
 #: ../plugins/fn-r/functions.c:1298
 msgid "x,n,lower_tail,log_p"
-msgstr ""
+msgstr "x,n,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1306
 msgid "p,n,lower_tail,log_p"
-msgstr ""
+msgstr "p,n,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1314
 msgid "x,n1,n2,give_log"
-msgstr ""
+msgstr "x,n1,n2,give_log"
 
 #: ../plugins/fn-r/functions.c:1322 ../plugins/fn-r/functions.c:1330
 msgid "x,n1,n2,lower_tail,log_p"
-msgstr ""
+msgstr "x,n1,n2,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1338
 msgid "x,df,give_log"
-msgstr ""
+msgstr "x,df,give_log"
 
 #: ../plugins/fn-r/functions.c:1346
 msgid "x,df,lower_tail,log_p"
-msgstr ""
+msgstr "x,df,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1354
 msgid "p,df,lower_tail,log_p"
-msgstr ""
+msgstr "p,df,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1386
 msgid "x,lambda,give_log"
-msgstr ""
+msgstr "x,lambda,give_log"
 
 #: ../plugins/fn-r/functions.c:1394
 msgid "x,lambda,lower_tail,log_p"
-msgstr ""
+msgstr "x,lambda,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1402
 msgid "p,lambda,lower_tail,log_p"
-msgstr ""
+msgstr "p,lambda,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1410
 msgid "x,scale,give_log"
-msgstr ""
+msgstr "x,scale,give_log"
 
 #: ../plugins/fn-r/functions.c:1418
 msgid "x,scale,lower_tail,log_p"
-msgstr ""
+msgstr "x,scale,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1426
 msgid "p,scale,lower_tail,log_p"
-msgstr ""
+msgstr "p,scale,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1434 ../plugins/fn-r/functions.c:1458
 msgid "x,n,psuc,give_log"
-msgstr ""
+msgstr "x,n,psuc,give_log"
 
 #: ../plugins/fn-r/functions.c:1442 ../plugins/fn-r/functions.c:1450
 #: ../plugins/fn-r/functions.c:1466
 msgid "x,n,psuc,lower_tail,log_p"
-msgstr ""
+msgstr "x,n,psuc,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1474
 msgid "p,n,psuc,lower_tail,log_p"
-msgstr ""
+msgstr "p,n,psuc,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1482
 msgid "x,r,b,n,give_log"
-msgstr ""
+msgstr "x,r,b,n,give_log"
 
 #: ../plugins/fn-r/functions.c:1490
 msgid "x,r,b,n,lower_tail,log_p"
-msgstr ""
+msgstr "x,r,b,n,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1498
 msgid "x,psuc,give_log"
-msgstr ""
+msgstr "x,psuc,give_log"
 
 #: ../plugins/fn-r/functions.c:1506
 msgid "x,psuc,lower_tail,log_p"
-msgstr ""
+msgstr "x,psuc,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1514
 msgid "p,psuc,lower_tail,log_p"
-msgstr ""
+msgstr "p,psuc,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1522
 msgid "x,location,scale,give_log"
-msgstr ""
+msgstr "x,location,scale,give_log"
 
 #: ../plugins/fn-r/functions.c:1530
 msgid "x,location,scale,lower_tail,log_p"
-msgstr ""
+msgstr "x,location,scale,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1538
 msgid "p,location,scale,lower_tail,log_p"
-msgstr ""
+msgstr "p,location,scale,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1546
 msgid "p,r,b,n,lower_tail,log_p"
-msgstr ""
+msgstr "p,r,b,n,cola_menor,log_p"
 
 #: ../plugins/fn-random/functions.c:47
 msgid ""
@@ -17516,7 +17524,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ASC\n"
 "@SYNTAX=ASC(cadena)\n"
-"@DESCRIPTION=ASC una función de compatibilidad que no tiene significado en Gnumeric. En MS Excel (tm) convierte una @cadena de 2 bytes en texto de un solo byte.\n"
+"@DESCRIPTION=ASC una función de compatibilidad que no tiene significado en "
+"Gnumeric. En MS Excel (tm) convierte una @cadena de 2 bytes en texto de un "
+"solo byte.\n"
 "\n"
 "@EXAMPLES=\n"
 "CHAR(\"Foo\") igual a \"Foo\".\n"
