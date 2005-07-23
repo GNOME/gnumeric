@@ -739,13 +739,16 @@ void
 go_conf_set_str_list (GOConfNode *node, gchar const *key, GSList *list)
 {
 	GString *str_list;
+	GSList *list_node = list;
 
 	str_list = g_string_new ("");
-	while (list) {
-		g_string_append (str_list, g_strescape (list->data, NULL));
+	while (list_node) {
+		g_string_append (str_list, g_strescape (list_node->data, NULL));
 		g_string_append_c (str_list, '\n');
-		list = list->next;
+		list_node = list_node->next;
 	}
+	if (list)
+		g_string_truncate (str_list, str_list->len - 1);
 	go_conf_win32_set (node, key, REG_SZ, (guchar *) str_list->str,
 			   str_list->len + 1);
 	g_string_free (str_list, TRUE);
@@ -821,7 +824,7 @@ go_conf_get_str_list (GOConfNode *node, gchar const *key)
 		str_list = g_strsplit ((const gchar *) ptr, "\n", 0);
 		for (i = 0; str_list[i]; ++i)
 			list = g_slist_prepend (list, g_strcompress (str_list[i]));
-		g_slist_reverse (list);
+		list = g_slist_reverse (list);
 		g_strfreev (str_list);
 		g_free (ptr);
 	}

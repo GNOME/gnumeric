@@ -1,3 +1,8 @@
+2005-07-23  Ivan, Wogn Yat Cheung  <email@ivanwong.info>
+
+	* src/gnumeric-gconf.c (go_conf_set_str_list, go_conf_get_str_list):
+	They didn't worked. Fix #308302.
+
 2005-07-20  Morten Welinder  <terra@gnome.org>
 
 	* src/mstyle.c (gnm_style_ref, gnm_style_unref): Add extra

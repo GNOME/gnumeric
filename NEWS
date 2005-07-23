@@ -1,5 +1,8 @@
 Gnumeric 1.5.3
 
+Ivan, Y.C. Wong:
+	* Fix recent files list on win32. [#308302]
+
 Jean Brefort:
 	* Copy charts (to abiword).
 
