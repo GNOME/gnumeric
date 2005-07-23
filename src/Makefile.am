@@ -262,8 +262,6 @@ GNUMERIC_BASE =					\
 	wbcg-actions.c				\
 	xml-io.c				\
 	xml-io.h				\
-	xml-io-autoft.c				\
-	xml-io-autoft.h				\
 	xml-io-version.h			\
 	xml-sax.h				\
 	xml-sax-read.c				\

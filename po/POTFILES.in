@@ -316,7 +316,6 @@ src/workbook-control.c
 src/workbook-control-gui.c
 src/workbook-edit.c
 src/workbook-view.c
-src/xml-io-autoft.c
 src/xml-io.c
 src/xml-sax-read.c
 src/xml-sax-write.c

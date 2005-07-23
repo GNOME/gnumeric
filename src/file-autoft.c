@@ -28,7 +28,6 @@
 #include "gutils.h"
 #include "workbook-control.h"
 #include "xml-io.h"
-#include "xml-io-autoft.h"
 #include "format-template.h"
 #include "gnumeric-gconf.h"
 
@@ -38,8 +37,7 @@
 #include <sys/types.h>
 #include <string.h>
 #include <errno.h>
-
-#define TEMPLATE_FILE_EXT    ".xml"
+#include <unistd.h>
 
 static gint
 category_compare_name_and_dir (const void *a, const void *b)
@@ -79,7 +77,7 @@ category_get_templates_list (FormatTemplateCategory *category,
 		gint name_len;
 
 		name_len = strlen (d_name);
-		if (name_len > 4 && strcmp (d_name + name_len - 4, TEMPLATE_FILE_EXT) == 0) {
+		if (name_len > 4 && strcmp (d_name + name_len - 4, ".xml") == 0) {
 			gchar *full_entry_name;
 			FormatTemplate *ft;
 
@@ -100,6 +98,44 @@ category_get_templates_list (FormatTemplateCategory *category,
 	return g_slist_sort (templates, format_template_compare_name);
 }
 
+/**
+ * gnumeric_xml_read_format_template_category :
+ * Open an XML file and read a FormatTemplateCategory
+ */
+static FormatTemplateCategory *
+gnumeric_xml_read_format_template_category (char const *dir_name)
+{
+	gchar *file_name;
+	xmlDocPtr doc;
+	xmlNodePtr node;
+	FormatTemplateCategory *category = NULL;
+
+	g_return_val_if_fail (dir_name != NULL, NULL);
+
+	file_name = g_build_filename (dir_name, ".category", NULL);
+	doc = xmlParseFile (file_name);
+	if (doc != NULL && doc->xmlRootNode != NULL
+	    && xmlSearchNsByHref (doc, doc->xmlRootNode, (xmlChar *)"http://www.gnome.org/gnumeric/format-template-category/v1") != NULL
+	    && strcmp (doc->xmlRootNode->name, "FormatTemplateCategory") == 0
+	    && (node = e_xml_get_child_by_name (doc->xmlRootNode, "Information")) != NULL) {
+		xmlChar *name = xmlGetProp (node, (xmlChar *)"name");
+		if (name != NULL) {
+			xmlChar *description = xmlGetProp (node, (xmlChar *)"description");
+			category = g_new (FormatTemplateCategory, 1);
+			category->directory = g_strdup (dir_name);
+			category->name = g_strdup ((gchar *)name);
+			category->description = g_strdup ((gchar *)description);
+			category->is_writable = (access (dir_name, W_OK) == 0);
+			if (description != NULL)
+				xmlFree (description);
+			xmlFree (name);
+		}
+	}
+	xmlFreeDoc (doc);
+	g_free (file_name);
+
+	return category;
+}
 static GList *
 category_list_get_from_dir_list (GSList *dir_list)
 {
