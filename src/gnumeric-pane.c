@@ -922,22 +922,22 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 	for (ptr = objects; ptr != NULL; ptr = ptr->next) {
 		candidate = SHEET_OBJECT (ptr->data);
 
-		if (IS_SHEET_OBJECT_EXPORTABLE (candidate)) {
+		if (exportable == NULL &&
+		    IS_SHEET_OBJECT_EXPORTABLE (candidate))
 			exportable = candidate;
-			break;
-		}
-		if (IS_SHEET_OBJECT_IMAGEABLE (candidate)) {
+		if (imageable == NULL &&
+		    IS_SHEET_OBJECT_IMAGEABLE (candidate))
 			imageable = candidate;
-			break;
-		}
 	}
+
 	if (exportable) {
 		im_targets = sheet_object_exportable_get_target_list (exportable);
 		if (im_targets != NULL) {
 			target_list_add_list (targets, im_targets);
 			gtk_target_list_unref (im_targets);
 		}
-	} else if (imageable) {
+	} 
+	if (imageable) {
 		im_targets = sheet_object_get_target_list (imageable);
 		if (im_targets != NULL) {
 			target_list_add_list (targets, im_targets);

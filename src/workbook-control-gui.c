@@ -2114,9 +2114,9 @@ static gboolean
 cb_wbcg_drag_motion (GtkWidget *widget, GdkDragContext *context,
 		     gint x, gint y, guint time, WorkbookControlGUI *wbcg)
 {
-	GtkWidget *source_widget;
+	GtkWidget *source_widget = gtk_drag_get_source_widget (context);
 
-	source_widget = gtk_drag_get_source_widget (context);
+	g_warning ("wbcg motion");
 	if (IS_EDITABLE_LABEL (source_widget)) {
 		GtkWidget *label;
 
@@ -2124,24 +2124,23 @@ cb_wbcg_drag_motion (GtkWidget *widget, GdkDragContext *context,
 		 * drag motion over a label.
 		 */
 		label = wbcg_get_label_for_position (wbcg, source_widget, x);
-		return (cb_sheet_label_drag_motion (label, context, x, y,
-						    time, wbcg));
+		return cb_sheet_label_drag_motion (label, context, x, y,
+						    time, wbcg);
 	}
 
-	return (TRUE);
+	return TRUE;
 }
 
 static void
 cb_wbcg_drag_leave (GtkWidget *widget, GdkDragContext *context,
 		    gint x, gint y, guint time, WorkbookControlGUI *wbcg)
 {
-	GtkWidget *source_widget, *arrow;
+	GtkWidget *source_widget = gtk_drag_get_source_widget (context);
 
-	source_widget = gtk_drag_get_source_widget (context);
-	if (IS_EDITABLE_LABEL (source_widget)) {
-		arrow = g_object_get_data (G_OBJECT (source_widget), "arrow");
-		gtk_widget_hide (arrow);
-	}
+	g_warning ("leave");
+	if (IS_EDITABLE_LABEL (source_widget))
+		gtk_widget_hide (
+			g_object_get_data (G_OBJECT (source_widget), "arrow"));
 }
 
 static void
@@ -2322,18 +2321,17 @@ wbcg_set_toplevel (WorkbookControlGUI *wbcg, GtkWidget *w)
 	gtk_drag_dest_set (GTK_WIDGET (w),
 		GTK_DEST_DEFAULT_ALL, drag_types, G_N_ELEMENTS (drag_types),
 		GDK_ACTION_COPY | GDK_ACTION_MOVE);
-	g_signal_connect (w, "drag_data_received",
+	g_signal_connect (w, "drag-data-received",
 		G_CALLBACK (cb_wbcg_drag_data_received), wbcg);
-	g_signal_connect (w, "drag_motion",
+	g_signal_connect (w, "drag-motion",
 		G_CALLBACK (cb_wbcg_drag_motion), wbcg);
-	g_signal_connect (w, "drag_leave",
+	g_signal_connect (w, "drag-leave",
 		G_CALLBACK (cb_wbcg_drag_leave), wbcg);
 #if 0
 	g_signal_connect (G_OBJECT (gcanvas),
-		"drag_data_get",
+		"drag-data-get",
 		G_CALLBACK (wbcg_drag_data_get), WORKBOOK_CONTROL (wbc));
 #endif
-
 }
 
 static int
@@ -2658,6 +2656,8 @@ GSF_CLASS_FULL (WorkbookControlGUI, workbook_control_gui,
 		WORKBOOK_CONTROL_TYPE, G_TYPE_FLAG_ABSTRACT,
 		GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GOG_DATA_ALLOCATOR_TYPE);
 		GSF_INTERFACE (wbcg_gnm_cmd_context_init, GO_CMD_CONTEXT_TYPE))
+
+/* Move the rubber bands if we are the source */
 
 static void
 wbcg_create (WorkbookControlGUI *wbcg,
