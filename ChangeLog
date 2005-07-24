@@ -1,3 +1,16 @@
+2005-07-23  Jody Goldberg <jody@gnome.org>
+
+	Fix snap to grid for RTL mode.
+	* src/sheet-control-gui.c (snap_pos_to_grid) : handle RTL and scaling
+	  here.
+	(snap_to_grid) : merge into.
+	(apply_move) : here.
+
+	Fix object motion in RTL mode.
+	* src/gnumeric-canvas.c (gnm_canvas_window_to_coord) : new.
+	* src/gnumeric-pane.c (cb_pane_drag_data_received) : use it here.
+	(cb_gnm_pane_drag_motion) : and here.
+
 2005-07-23  Ivan, Wogn Yat Cheung  <email@ivanwong.info>
 
 	* src/gnumeric-gconf.c (go_conf_set_str_list, go_conf_get_str_list):
