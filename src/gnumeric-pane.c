@@ -201,18 +201,10 @@ cb_pane_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	}
 #endif
 
-	if (gcanvas->first.col > 0)
-		x += scg_colrow_distance_get
-			(gcanvas->simple.scg, TRUE, 0, gcanvas->first.col);
-	if (gcanvas->first.row > 0)
-		y += scg_colrow_distance_get
-			(gcanvas->simple.scg, FALSE, 0, gcanvas->first.row);
-
-	foo_canvas_c2w (FOO_CANVAS (gcanvas), x, y, &wx, &wy);
-
-	scg_drag_data_received (gcanvas->simple.scg, 
-				gtk_drag_get_source_widget (context),
-				wx, wy, selection_data);
+	gnm_canvas_window_to_coord (gcanvas, x, y, &wx, &wy);
+	scg_drag_data_received (gcanvas->simple.scg,
+		gtk_drag_get_source_widget (context),
+		wx, wy, selection_data);
 }
 
 static void
@@ -236,34 +228,21 @@ cb_gnm_pane_drag_motion (GtkWidget *widget, GdkDragContext *context,
 {
 	GtkWidget *source_widget = gtk_drag_get_source_widget (context);
 	SheetControlGUI *scg = GNM_CANVAS (widget)->simple.scg;
-	
+
 	if ((IS_GNM_CANVAS (source_widget) &&
 	     GNM_CANVAS (source_widget)->simple.scg == scg)) {
 		/* same scg */
-		GnmPane  *source_pane = GNM_CANVAS (source_widget)->pane;
 		GnmCanvas *gcanvas = GNM_CANVAS (widget);
-		GdkWindow *window;
 		GdkModifierType mask;
 		double wx, wy;
-		int xp, yp;
 
 		g_object_set_data (&context->parent_instance, "gnm-pane", pane);
-		if (gcanvas->first.col > 0)
-			x += scg_colrow_distance_get
-				(gcanvas->simple.scg, TRUE, 0, 
-				 gcanvas->first.col);
-		if (gcanvas->first.row > 0)
-			y += scg_colrow_distance_get
-				(gcanvas->simple.scg, FALSE, 0, 
-				 gcanvas->first.row);
-		foo_canvas_c2w (FOO_CANVAS (gcanvas), x, y, &wx, &wy);
-		
-		window = gtk_widget_get_parent_window (widget);
-		gdk_window_get_pointer (window, &xp, &yp, &mask);
-		
-		gnm_pane_objects_drag (source_pane, NULL, wx, wy, 8,
-				       FALSE, 
-				       (mask & GDK_SHIFT_MASK) != 0);
+		gnm_canvas_window_to_coord (gcanvas, x, y, &wx, &wy);
+
+		gdk_window_get_pointer (gtk_widget_get_parent_window (widget),
+			NULL, NULL, &mask);
+		gnm_pane_objects_drag (GNM_CANVAS (source_widget)->pane, NULL,
+			wx, wy, 8, FALSE, (mask & GDK_SHIFT_MASK) != 0);
 		gdk_drag_status (context, GDK_ACTION_MOVE, time);
 	}
 	return TRUE;
@@ -284,20 +263,20 @@ cb_gnm_pane_drag_leave (GtkWidget *widget, GdkDragContext *context,
 	GnmPane *ctxt_pane;
 
 	if (!source_widget) return;
-	
+
 	g_return_if_fail (IS_GNM_CANVAS (source_widget));
 
 	source_pane = GNM_CANVAS (source_widget)->pane;
-	
+
 	ctxt_pane = g_object_get_data (&context->parent_instance, "gnm-pane");
 	if (pane != ctxt_pane)
 		return;
 	g_object_set_data (&context->parent_instance, "gnm-pane", NULL);
 
-	gnm_pane_objects_drag (source_pane, NULL, 
+	gnm_pane_objects_drag (source_pane, NULL,
 			       source_pane->drag.origin_x,
 			       source_pane->drag.origin_y,
-			       8, FALSE, FALSE); 
+			       8, FALSE, FALSE);
 	source_pane->drag.had_motion = FALSE;
 }
 
@@ -307,7 +286,7 @@ gnm_pane_drag_dest_init (GnmPane *pane, SheetControlGUI *scg)
 	GtkWidget *widget = GTK_WIDGET (pane->gcanvas);
 
 	gtk_drag_dest_set (widget, GTK_DEST_DEFAULT_ALL,
-			   drag_types_in, G_N_ELEMENTS (drag_types_in), 
+			   drag_types_in, G_N_ELEMENTS (drag_types_in),
 			   GDK_ACTION_COPY | GDK_ACTION_MOVE);
 	gtk_drag_dest_add_uri_targets (widget);
 	gtk_drag_dest_add_image_targets (widget);
@@ -316,11 +295,11 @@ gnm_pane_drag_dest_init (GnmPane *pane, SheetControlGUI *scg)
 	g_signal_connect (widget, "drag-data-received",
 		G_CALLBACK (cb_pane_drag_data_received), pane);
 	g_signal_connect (widget, "drag-data-get",
-			  G_CALLBACK (cb_gnm_pane_drag_data_get), scg);
+		G_CALLBACK (cb_gnm_pane_drag_data_get), scg);
 	g_signal_connect (widget, "drag-motion",
-			  G_CALLBACK (cb_gnm_pane_drag_motion), pane);
+		G_CALLBACK (cb_gnm_pane_drag_motion), pane);
  	g_signal_connect (widget, "drag-leave",
-			  G_CALLBACK (cb_gnm_pane_drag_leave), pane);
+		G_CALLBACK (cb_gnm_pane_drag_leave), pane);
 }
 
 void
@@ -732,17 +711,17 @@ gnm_pane_edit_stop (GnmPane *pane)
 
 void
 gnm_pane_objects_drag (GnmPane *pane, SheetObject *so,
-		       gdouble new_x, gdouble new_y, int drag_type, 
+		       gdouble new_x, gdouble new_y, int drag_type,
 		       gboolean symmetric,gboolean snap_to_grid)
 {
  	double dx, dy;
  	dx = new_x - pane->drag.last_x;
  	dy = new_y - pane->drag.last_y;
 	pane->drag.had_motion = TRUE;
- 	
+
  	scg_objects_drag (pane->gcanvas->simple.scg, pane->gcanvas,
  		so, &dx, &dy, drag_type, symmetric, snap_to_grid, TRUE);
- 
+
  	pane->drag.last_x += dx;
  	pane->drag.last_y += dy;
 }
@@ -762,7 +741,7 @@ gnm_pane_object_move (GnmPane *pane, GObject *ctrl_pt,
 	int const idx = GPOINTER_TO_INT (g_object_get_data (ctrl_pt, "index"));
 	SheetObject *so  = g_object_get_data (G_OBJECT (ctrl_pt), "so");
 
-	gnm_pane_objects_drag (pane, so, new_x, new_y, idx, 
+	gnm_pane_objects_drag (pane, so, new_x, new_y, idx,
 			       symmetric, snap_to_grid);
  	if (idx != 8)
 		gnm_pane_display_obj_size_tip (pane, so);
@@ -937,7 +916,7 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 	GSList *ptr;
 	SheetObject *candidate;
 
-	targets = gtk_target_list_new (drag_types_out, 
+	targets = gtk_target_list_new (drag_types_out,
 				  G_N_ELEMENTS (drag_types_out));
 	objects = go_hash_keys (scg->selected_objects);
 	for (ptr = objects; ptr != NULL; ptr = ptr->next) {
@@ -978,8 +957,8 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 	}
 #endif
 
-	context = gtk_drag_begin (GTK_WIDGET (canvas), targets, 
-				  GDK_ACTION_COPY | GDK_ACTION_MOVE, 
+	context = gtk_drag_begin (GTK_WIDGET (canvas), targets,
+				  GDK_ACTION_COPY | GDK_ACTION_MOVE,
 				  pane->drag.button, event);
 	gtk_target_list_unref (targets);
 	g_slist_free (objects);

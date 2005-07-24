@@ -68,4 +68,8 @@ gboolean gnm_canvas_handle_motion (GnmCanvas *gsheet,
 				   GnmCanvasSlideHandler handler,
 				   gpointer user_data);
 
+void gnm_canvas_window_to_coord   (GnmCanvas *gcanvas,
+				   gint    x,	gint    y,
+				   double *wx, double *wy);
+
 #endif /* GNM_CANVAS_H */

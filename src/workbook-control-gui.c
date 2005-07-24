@@ -2152,8 +2152,7 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	gchar *target_type = gdk_atom_name (selection_data->target);
 
 	if (!strcmp (target_type, "text/uri-list")) { /* filenames from nautilus */
-		scg_drag_data_received 
-			(wbcg_cur_scg (wbcg), 
+		scg_drag_data_received (wbcg_cur_scg (wbcg), 
 			 gtk_drag_get_source_widget (context), 0, 0, 
 			 selection_data);
 	} else if (!strcmp (target_type, "GNUMERIC_SHEET")) {

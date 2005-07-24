@@ -1911,79 +1911,55 @@ typedef struct {
 	gboolean is_mouse_move;
 } ObjDragInfo;
 
-static gboolean
-snap_pos_to_grid (ObjDragInfo *info, gboolean is_col, int *pos, gboolean to_min)
+static double
+snap_pos_to_grid (ObjDragInfo const *info, gboolean is_col, double w_pos,
+		  gboolean to_min)
 {
-	GnmCanvas *gcanvas = info->gcanvas;
-	Sheet *sheet = SHEET_CONTROL (info->scg)->sheet;
-	int cell = is_col ? gcanvas->first.col : gcanvas->first.row;
+	GnmCanvas const *gcanvas = info->gcanvas;
+	Sheet const *sheet = SHEET_CONTROL (info->scg)->sheet;
+	int cell  = is_col ? gcanvas->first.col        : gcanvas->first.row;
 	int pixel = is_col ? gcanvas->first_offset.col : gcanvas->first_offset.row;
 	gboolean snap = FALSE;
 	int length = 0;
 	ColRowInfo const *cr_info;
-	int sheet_max = is_col ? SHEET_MAX_COLS : SHEET_MAX_ROWS;
+	int sheet_max = colrow_max (is_col);
+	int const sign = (is_col && sheet->text_is_rtl) ? -1 : 1;
+	int pos = sign * (w_pos * FOO_CANVAS (gcanvas)->pixels_per_unit + .5);
 
-	if (*pos < pixel) {
-		while (cell > 0 && *pos < pixel) {
-			cr_info = is_col ?
-				sheet_col_get_info (sheet, --cell):
-				sheet_row_get_info (sheet, --cell);
+	if (pos < pixel) {
+		while (cell > 0 && pos < pixel) {
+			cr_info = sheet_colrow_get_info (sheet, --cell, is_col);
 			if (cr_info->visible) {
 				length = cr_info->size_pixels;
 				pixel -= length;
 			}
 		}
-		if (*pos < pixel)
-			*pos = pixel;
+		if (pos < pixel)
+			pos = pixel;
 	} else {
 		do {
-			cr_info = is_col ?
-				sheet_col_get_info (sheet, cell):
-				sheet_row_get_info (sheet, cell);
+			cr_info = sheet_colrow_get_info (sheet, cell, is_col);
 			if (cr_info->visible) {
 				length = cr_info->size_pixels;
-				if (pixel <= *pos && *pos <= pixel + length) {
+				if (pixel <= pos && pos <= pixel + length)
 					snap = TRUE;
-				}
 				pixel += length;
 			}
 		} while (++cell < sheet_max && !snap);
 		pixel -= length;
+		if (snap) {
+			if (info->is_mouse_move)
+				pos = (abs (pos - pixel) < abs (pos - pixel - length)) ? pixel : pixel + length;
+			else
+				pos = (pixel == pos) ? pixel : (to_min ? pixel : pixel + length);
+		}
 	}
-
-	if (snap) {
-		if (info->is_mouse_move)
-			*pos = (abs (*pos - pixel) < abs (*pos - pixel - length)) ? pixel : pixel + length;
-		else
-			*pos = (pixel == *pos) ? pixel : (to_min ? pixel : pixel + length);
-	}
-
-	return snap;
+	return sign * pos / FOO_CANVAS (gcanvas)->pixels_per_unit;
 }
 
 static void
-snap_to_grid (ObjDragInfo *info,
-	      gboolean snap_x, gboolean snap_y,
-	      double *x, double *y,
-	      gboolean to_left, gboolean to_top)
-{
-	int x_int, y_int;
-
-	g_return_if_fail (info->gcanvas != NULL);
-
-	foo_canvas_w2c (FOO_CANVAS (info->gcanvas), *x, *y, &x_int, &y_int);
-
-	if (snap_x) snap_pos_to_grid (info, TRUE, &x_int, to_left);
-	if (snap_y) snap_pos_to_grid (info, FALSE, &y_int, to_top);
-
-	if (info->scg->sheet_control.sheet->text_is_rtl)
-		x_int = GNUMERIC_CANVAS_FACTOR_X - x_int;
-
-	foo_canvas_c2w (FOO_CANVAS (info->gcanvas), x_int, y_int, x, y);
-}
-
-static void
-apply_move (SheetObject *so, int x_idx, int y_idx, double *coords, ObjDragInfo *info, gboolean snap)
+apply_move (SheetObject *so, int x_idx, int y_idx, double *coords,
+	    ObjDragInfo *info, gboolean snap)
 {
 	gboolean move_x = (x_idx >= 0);
 	gboolean move_y = (y_idx >= 0);
@@ -1993,9 +1969,14 @@ apply_move (SheetObject *so, int x_idx, int y_idx, double *coords, ObjDragInfo *
 	y = move_y ? coords[y_idx] + info->dy : 0;
 
 	if (snap) {
-		snap_to_grid (info, move_x, move_y, &x, &y,
-			      info->scg->sheet_control.sheet->text_is_rtl ? info->dx > 0. : info->dx < 0.,
-			      info->dy < 0.);
+		g_return_if_fail (info->gcanvas != NULL);
+
+		if (move_x)
+			x = snap_pos_to_grid (info, TRUE,  x,
+			      info->scg->sheet_control.sheet->text_is_rtl
+				      ? info->dx > 0. : info->dx < 0.);
+		if (move_y)
+			y = snap_pos_to_grid (info, FALSE, y, info->dy < 0.);
 		if (info->primary_object == so || NULL == info->primary_object) {
 			if (move_x) info->dx = x - coords[x_idx];
 			if (move_y) info->dy = y - coords[y_idx];
@@ -2015,26 +1996,22 @@ static void
 drag_object (SheetObject *so,
 	     double *coords, ObjDragInfo *info)
 {
-	const struct {
+	static struct {
 		int x_idx, y_idx;
-	} idx_info[9] = {
+	} const idx_info[9] = {
 		{ 0, 1}, {-1, 1}, { 2, 1}, { 0,-1},
 		{ 2,-1}, { 0, 3}, {-1, 3}, { 2, 3},
 		{ 0, 1}
 	};
 
-	if (info->drag_type <= 8) {
-		apply_move (so,
-			    idx_info[info->drag_type].x_idx,
-			    idx_info[info->drag_type].y_idx,
-			    coords,
-			    info,
-			    info->snap_to_grid);
-		if (info->drag_type == 8)
-			apply_move (so, 2, 3, coords, info, FALSE);
-	} else
-		g_warning ("Should not happen %d", info->drag_type);
+	g_return_if_fail (info->drag_type <= 8);
 
+	apply_move (so,
+		    idx_info[info->drag_type].x_idx,
+		    idx_info[info->drag_type].y_idx,
+		    coords, info, info->snap_to_grid);
+	if (info->drag_type == 8)
+		apply_move (so, 2, 3, coords, info, FALSE);
 	SCG_FOREACH_PANE (info->scg, pane,
 		gnm_pane_object_update_bbox (pane, so););
 }
@@ -2248,7 +2225,7 @@ scg_object_anchor_to_coords (SheetControlGUI const *scg,
 	coords [3] = pixels [direction & SO_DIR_V_MASK  ? 3 : 1] * scale;
 	if (sheet->text_is_rtl) {
 		double tmp = -coords [0];
-		coords [0] = - coords [2];
+		coords [0] = -coords [2];
 		coords [2] = tmp;
 	}
 }
@@ -3158,42 +3135,6 @@ scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y,
 }
 
 static void
-scg_drag_receive_same_scg (SheetControlGUI *scg, GnmCanvas *gcanvas,
-			   double x, double y)
-{
-	GdkWindow *window;
-	GdkModifierType mask;
-	int xp, yp;
-
-	window = gtk_widget_get_parent_window (GTK_WIDGET (gcanvas));
-	gdk_window_get_pointer (window, &xp, &yp, &mask);
-
-	gnm_pane_objects_drag (gcanvas->pane, NULL, x, y, 8, FALSE,
-			       (mask & GDK_SHIFT_MASK) != 0);
-	scg_objects_drag_commit	(scg, 8, FALSE);
-}
-
-static void
-scg_drag_receive_same_proc_other_scg (SheetControlGUI *scg,
-				     SheetControlGUI *source_scg,
-				     double x, double y)
-{
-	GnmCellRegion *content;
-	GSList *objects;
-
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (source_scg));
-
-	objects = go_hash_keys (source_scg->selected_objects);
-	content = clipboard_copy_obj (sc_sheet (SHEET_CONTROL (source_scg)),
-				      objects);
-	if (content != NULL) {
-		scg_paste_cellregion (scg, x, y, content);
-		cellregion_unref (content);
-	}
-	g_slist_free (objects);
-}
-
-static void
 scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 			       double x, double y)
 {
@@ -3205,10 +3146,32 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 
 	gcanvas = GNM_CANVAS (source_widget);
 	source_scg = gcanvas->simple.scg;
-	if (source_scg == scg)
-		scg_drag_receive_same_scg (scg, gcanvas, x, y);
-	else
-		scg_drag_receive_same_proc_other_scg (scg, source_scg, x, y);
+	if (source_scg == scg) {
+		GdkWindow *window;
+		GdkModifierType mask;
+		int xp, yp;
+
+		window = gtk_widget_get_parent_window (GTK_WIDGET (gcanvas));
+		gdk_window_get_pointer (window, &xp, &yp, &mask);
+
+		gnm_pane_objects_drag (gcanvas->pane, NULL, x, y, 8, FALSE,
+				       (mask & GDK_SHIFT_MASK) != 0);
+		scg_objects_drag_commit	(scg, 8, FALSE);
+	} else {
+		GnmCellRegion *content;
+		GSList *objects;
+
+		g_return_if_fail (IS_SHEET_CONTROL_GUI (source_scg));
+
+		objects = go_hash_keys (source_scg->selected_objects);
+		content = clipboard_copy_obj (sc_sheet (SHEET_CONTROL (source_scg)),
+					      objects);
+		if (content != NULL) {
+			scg_paste_cellregion (scg, x, y, content);
+			cellregion_unref (content);
+		}
+		g_slist_free (objects);
+	}
 }
 
 void

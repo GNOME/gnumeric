@@ -1390,3 +1390,29 @@ gnm_canvas_slide_init (GnmCanvas *gcanvas)
 		? (gcanvas3->last_full.row == (gcanvas0->first.row - 1))
 		: FALSE;
 }
+
+/*
+ * gnm_canvas_window_to_coord :
+ * @gcanvas : #GnmCanvas
+ * @x :
+ * @y :
+ * @wx : result
+ * @wy : result
+ * 
+ * Map window coords into sheet object coords
+ **/
+void
+gnm_canvas_window_to_coord (GnmCanvas *gcanvas,
+			    gint    x,	gint    y,
+			    double *wx, double *wy)
+{
+	double const scale = 1. / FOO_CANVAS (gcanvas)->pixels_per_unit;
+	y += gcanvas->first_offset.row;
+
+	if (gcanvas->simple.scg->sheet_control.sheet->text_is_rtl)
+		x = x - GTK_WIDGET (gcanvas)->allocation.width - gcanvas->first_offset.col;
+	else
+		x += gcanvas->first_offset.col;
+	*wx = x * scale;
+	*wy = y * scale;
+}
