@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-10 03:22+0000\n"
-"PO-Revision-Date: 2005-07-18 23:26+0300\n"
+"PO-Revision-Date: 2005-07-23 14:17+0300\n"
 "Last-Translator: Ain Vagula <ain@kmprojekt.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2421,12 +2421,12 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:37
 msgid "List of recently used functions."
-msgstr ""
+msgstr "Hiljuti kasutatud funktsioonide loend"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:38
 #: ../src/dialogs/dialog-preferences.c:723
 msgid "Maximum Length of Recently Used Functions List"
-msgstr ""
+msgstr "Hiljuti kasutatud funktsioonide loendi suurim pikkus"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:39
 msgid "Page Footer"
@@ -2438,11 +2438,11 @@ msgstr "Lehekülje päis"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:41
 msgid "Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "Selle väärtuse redigeerimiseks tuleb kasutada trükkimise sätete dialoogi"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:42
 msgid "Print Config"
-msgstr ""
+msgstr "Trükkimise häälestus"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:43
 #: ../schemas/gnumeric-general.schemas.in.h:22
@@ -2608,7 +2608,7 @@ msgstr ""
 #: ../schemas/gnumeric-general.schemas.in.h:2
 #: ../src/dialogs/dialog-preferences.c:729
 msgid "Autocomplete"
-msgstr ""
+msgstr "Automaatlõpetamine"
 
 #: ../schemas/gnumeric-general.schemas.in.h:3
 msgid "Before an existing file is being overwritten, gnumeric will present a warning dialog. Setting this option will make the overwrite button in that dialog the default button."
@@ -2636,7 +2636,7 @@ msgstr "Vaikimisi lehtede arv"
 #: ../schemas/gnumeric-general.schemas.in.h:8
 #: ../src/dialogs/dialog-preferences.c:639
 msgid "Default To Overwriting Files"
-msgstr ""
+msgstr "Vaikimisi ülekirjutamine"
 
 #: ../schemas/gnumeric-general.schemas.in.h:9
 #: ../src/dialogs/dialog-preferences.c:575
@@ -2646,7 +2646,7 @@ msgstr "Vaikimisi akna vertikaalsuurus"
 #: ../schemas/gnumeric-general.schemas.in.h:10
 #: ../src/dialogs/dialog-preferences.c:583
 msgid "Default Zoom Factor"
-msgstr ""
+msgstr "Vaikimisi suurendustegur"
 
 #: ../schemas/gnumeric-general.schemas.in.h:11
 msgid "Default font name"
@@ -2697,7 +2697,7 @@ msgstr ""
 #: ../schemas/gnumeric-general.schemas.in.h:21
 #: ../src/dialogs/dialog-preferences.c:768
 msgid "Prefer CLIPBOARD over PRIMARY selection"
-msgstr ""
+msgstr "LÕIKEPUHVRIT eelistakse AKTIIVSELE valikule"
 
 #: ../schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -4106,7 +4106,7 @@ msgstr "Jean Brefort"
 msgid "Core charting engine."
 msgstr ""
 
-# 
+#
 #: ../src/dialogs/dialog-about.c:90
 msgid "Grandma Chema Celorio"
 msgstr "Vanaema Chema Celorio"
@@ -5285,7 +5285,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-preferences.c:791
 msgid "Copy and Paste"
-msgstr ""
+msgstr "Kopeerimine ja asetamine"
 
 #: ../src/dialogs/dialog-preferences.c:792
 msgid "Files"
@@ -7199,34 +7199,28 @@ msgid "% of _normal size"
 msgstr "% _normaalsuurusest"
 
 #: ../src/dialogs/print.glade.h:3
-#, fuzzy
 msgid "<b>Center on Page</b>"
-msgstr "Tsentreeri lehel"
+msgstr "<b>Tsentreeri lehel</b>"
 
 #: ../src/dialogs/print.glade.h:4
-#, fuzzy
 msgid "<b>Page Order</b>"
-msgstr "Muster"
+msgstr "<b>Lehekülgede järjestus</b>"
 
 #: ../src/dialogs/print.glade.h:5
-#, fuzzy
 msgid "<b>Print</b>"
-msgstr "Eelvaade"
+msgstr "<b>Trüki</b>"
 
 #: ../src/dialogs/print.glade.h:6
-#, fuzzy
 msgid "<b>Scale</b>"
-msgstr "Valim"
+msgstr "<b>Mõõtkava</b>"
 
 #: ../src/dialogs/print.glade.h:7
-#, fuzzy
 msgid "<b>Titles To Print</b>"
-msgstr "Trükitavad tiitlid"
+msgstr "<b>Trükitavad pealkirjad</b>"
 
 #: ../src/dialogs/print.glade.h:8
-#, fuzzy
 msgid "Apply _to:"
-msgstr "Rakenda _fondid"
+msgstr "Raken_da:"
 
 #: ../src/dialogs/print.glade.h:9
 #, fuzzy
@@ -7234,9 +7228,8 @@ msgid "Apply to _all sheets of this workbook."
 msgstr "Kopeeri uuele _lehele"
 
 #: ../src/dialogs/print.glade.h:10
-#, fuzzy
 msgid "Co_mments:"
-msgstr "Märk_used"
+msgstr "Märk_used:"
 
 #: ../src/dialogs/print.glade.h:11
 msgid "Fi_rst page number:"
@@ -9843,14 +9836,13 @@ msgid "Push Object to the Back"
 msgstr "Alluta piirangutele:"
 
 #: ../src/commands.c:6253
-#, fuzzy, c-format
+#, c-format
 msgid "Page Setup For %s"
-msgstr "Trükkimise seadistamine"
+msgstr "Lehe %s trükkimise sätted"
 
 #: ../src/commands.c:6255
-#, fuzzy
 msgid "Page Setup For All Sheets"
-msgstr "Trükitavad lehed"
+msgstr "Kõigi lehtede trükkimise sätted"
 
 #: ../src/commands.c:6370
 msgid "has a circular reference"
@@ -9872,7 +9864,7 @@ msgstr "Lisa stsenaarium"
 
 #: ../src/commands.c:6535
 msgid "Scenario Show"
-msgstr ""
+msgstr "Stsenaariumi näitamine"
 
 #: ../src/commands.c:6599
 msgid "Shuffle Data"
