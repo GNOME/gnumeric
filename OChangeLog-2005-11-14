@@ -1,3 +1,8 @@
+2005-07-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* src/sheet-object-graph.c (sheet_object_graph_default_size): logical
+	size of graph is a property of GogGraph now.
+
 2005-07-23  Jody Goldberg <jody@gnome.org>
 
 	Fix snap to grid for RTL mode.

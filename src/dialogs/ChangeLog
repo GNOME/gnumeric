@@ -1,3 +1,9 @@
+2005-07-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* dialog-about.c (cb_plot_resize): graph logical size is a property of
+	GogGraph now.
+	(dialog_about): sets graph logical size. Tweek dialog window size.
+
 2005-07-11  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-printer-setup.c (fetch_settings): Fetch settings from

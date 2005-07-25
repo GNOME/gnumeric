@@ -486,14 +486,14 @@ sheet_object_graph_default_size (SheetObject const *so, double *w, double *h)
 static void
 sheet_object_graph_bounds_changed (SheetObject *so)
 {
+	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+
 	/* If it has not been realized there is no renderer yet */
-	if (SHEET_OBJECT_GRAPH (so)->renderer != NULL) {
+	if (sog->renderer != NULL) {
 		double coords [4];
 		sheet_object_position_pts_get (so, coords);
-		g_object_set (SHEET_OBJECT_GRAPH (so)->renderer,
-			"logical-width-pts",  fabs (coords[2] - coords[0]),
-			"logical-height-pts", fabs (coords[3] - coords[1]),
-			NULL);
+		gog_graph_set_size (sog->graph, fabs (coords[2] - coords[0]),
+				    fabs (coords[3] - coords[1]));
 	}
 }
 

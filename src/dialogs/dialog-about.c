@@ -169,8 +169,6 @@ cb_plot_resize (FooCanvas *canvas, GtkAllocation *alloc, FooCanvasItem *ctrl)
 	foo_canvas_item_set (ctrl,
 		"w", (double)alloc->width,
 		"h", (double)alloc->height,
-		"logical_width_pts",  ((double)alloc->width)  * 72. / 96.,
-		"logical_height_pts", ((double)alloc->height) * 72. / 96.,
 		NULL);
 }
 static void
@@ -275,6 +273,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 		"state", state, (GDestroyNotify)gnm_about_state_free);
 
 	state->graph = g_object_new (GOG_GRAPH_TYPE, NULL);
+	gog_graph_set_size (state->graph, 4 * 72.0, 4 * 72.0);
 	GOG_STYLED_OBJECT (state->graph)->style->fill.type = GOG_FILL_STYLE_GRADIENT;
 	GOG_STYLED_OBJECT (state->graph)->style->fill.pattern.back = 0xFFFF99FF;
 	GOG_STYLED_OBJECT (state->graph)->style->fill.gradient.dir = GO_GRADIENT_W_TO_E_MIRRORED;
@@ -385,7 +384,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 		pango_font_description_from_string ("Sans Bold 12"));
 
 	state->canvas = foo_canvas_new ();
-	gtk_widget_set_size_request (state->canvas, 450, 400);
+	gtk_widget_set_size_request (state->canvas, 400, 350);
 	foo_canvas_scroll_to (FOO_CANVAS (state->canvas), 0, 0);
 
 	state->ctrl = foo_canvas_item_new (foo_canvas_root (FOO_CANVAS (state->canvas)),
