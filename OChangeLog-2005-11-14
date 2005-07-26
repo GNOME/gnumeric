@@ -1,3 +1,9 @@
+2005-07-26  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* src/style.c (style_font_new_simple): use 
+	pango_font_description_copy() so that we store the exact
+	font description we pass to pango. Partially Fix #161027.
+
 2005-07-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* src/sheet-object-graph.c (sheet_object_graph_default_size): logical
@@ -16,7 +22,7 @@
 	* src/gnumeric-pane.c (cb_pane_drag_data_received) : use it here.
 	(cb_gnm_pane_drag_motion) : and here.
 
-2005-07-23  Ivan, Wogn Yat Cheung  <email@ivanwong.info>
+2005-07-23  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* src/gnumeric-gconf.c (go_conf_set_str_list, go_conf_get_str_list):
 	They didn't worked. Fix #308302.

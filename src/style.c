@@ -182,7 +182,7 @@ style_font_new_simple (PangoContext *context,
 			}
 		}
 
-		font->pango.font_descr = pango_font_describe (font->pango.font);
+		font->pango.font_descr = pango_font_description_copy (desc);
 
 		metrics = pango_font_get_metrics (font->pango.font,
 				gtk_get_default_language ());
