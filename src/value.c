@@ -1737,6 +1737,11 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 					for (i = first_col; i <= last_col; i++) {
 						test_cell = sheet_cell_get (sheet, i, trow);
 						cell = sheet_cell_get (sheet, i, row);
+
+						/* FIXME: this is probably not right, but crashing is more wrong.  */
+						if (test_cell == NULL || cell == NULL)
+							continue;
+
 						t1 = cell->value
 							? value_peek_string (cell->value)
 							: "";
