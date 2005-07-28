@@ -14920,7 +14920,7 @@ msgstr "Hae _ulkoista dataa"
 
 #: src/wbcg-actions.c:1452
 msgid "_Help"
-msgstr "_Ohje"
+msgstr "O_hje"
 
 #: src/wbcg-actions.c:1455
 msgid "Cut the selection"
