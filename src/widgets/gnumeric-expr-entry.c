@@ -272,21 +272,46 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 		if (!rs->is_valid || rs->text_start >= rs->text_end)
 			return TRUE;
 
-		/* rows must be absolute */
 		if (abs_rows) {
 			if (abs_cols)
 				return TRUE;
-			rs->ref.b.col_relative = rs->ref.a.col_relative =
-				!rs->ref.a.col_relative;
-		} else if (abs_cols)
-			rs->ref.b.row_relative = rs->ref.a.row_relative =
-				!rs->ref.a.row_relative;
-		else {
-			/* It's late. I'm doing this the straightforward way. */
-			rs->ref.b.row_relative = rs->ref.a.row_relative =
-				(rs->ref.a.row_relative != rs->ref.a.col_relative);
-			rs->ref.b.col_relative = rs->ref.a.col_relative =
-				!rs->ref.a.col_relative;
+			if ((rs->ref.b.col_relative = rs->ref.a.col_relative =
+				!rs->ref.a.col_relative)) {
+				rs->ref.a.col -= gee->pp.eval.col;
+				rs->ref.b.col -= gee->pp.eval.col;
+			} else {
+				rs->ref.a.col += gee->pp.eval.col;
+				rs->ref.b.col += gee->pp.eval.col;
+			}
+		} else if (abs_cols) {
+			if ((rs->ref.b.row_relative = rs->ref.a.row_relative =
+				!rs->ref.a.row_relative)) {
+				rs->ref.a.row -= gee->pp.eval.row;
+				rs->ref.b.row -= gee->pp.eval.row;
+			} else {
+				rs->ref.a.row += gee->pp.eval.row;
+				rs->ref.b.row += gee->pp.eval.row;
+			}
+
+		} else {
+			if (!rs->ref.a.row_relative != !rs->ref.a.col_relative) {
+				if ((rs->ref.b.row_relative = rs->ref.a.row_relative =
+					!rs->ref.a.row_relative)) {
+					rs->ref.a.row -= gee->pp.eval.row;
+					rs->ref.b.row -= gee->pp.eval.row;
+				} else {
+					rs->ref.a.row += gee->pp.eval.row;
+					rs->ref.b.row += gee->pp.eval.row;
+				}
+			}
+			if ((rs->ref.b.col_relative = rs->ref.a.col_relative =
+				!rs->ref.a.col_relative)) {
+				rs->ref.a.col -= gee->pp.eval.col;
+				rs->ref.b.col -= gee->pp.eval.col;
+			} else {
+				rs->ref.a.col += gee->pp.eval.col;
+				rs->ref.b.col += gee->pp.eval.col;
+			}
 		}
 
 		gee_rangesel_update_text (gee);

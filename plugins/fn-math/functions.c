@@ -3160,27 +3160,25 @@ gnumeric_mdeterm (FunctionEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_sumproduct[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SUMPRODUCT\n"
-	   "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
-	   "@DESCRIPTION="
-	   "SUMPRODUCT function multiplies corresponding data entries in the "
-	   "given arrays or ranges, and then returns the sum of those "
-	   "products.  If an array entry is not numeric, the value zero is "
-	   "used instead.\n"
-	   "\n"
-	   "* If arrays or range arguments do not have the same dimensions, "
-	   "SUMPRODUCT returns #VALUE! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
+	{ GNM_FUNC_HELP_NAME, F_("SUMPRODUCT:Multiplies components and adds the results.") },
+	{ GNM_FUNC_HELP_DESCRIPTION,
+		F_("Multiplies corresponding data entries in the "
+		   "given arrays or ranges, and then returns the sum of those "
+		   "products.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If an entry is not numeric, the value zero is used instead.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If arrays or range arguments do not have the same dimensions, "
+	   "return #VALUE! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("SUMPRODUCTs arguments are arrays or ranges. "
+				 "Attempting to use A1:A5>0 will not work, implicit intersection will kick in. "
+				 "Instead use --(A1:A5>0)") },
+#if 0
 	   "@EXAMPLES=\n"
 	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
 	   "11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold "
 	   "numbers 13, 22, 31, 33, and 39.  Then\n"
 	   "SUMPRODUCT(A1:A5,B1:B5) equals 3370.\n"
-	   "\n"
-	   "@SEEALSO=SUM,PRODUCT")
-	},
+#endif
+	{ GNM_FUNC_HELP_SEEALSO, "SUM,PRODUCT,G_PRODUCT" },
 	{ GNM_FUNC_HELP_END }
 };
 

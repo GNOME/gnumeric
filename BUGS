@@ -8,11 +8,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    : Add a note to the SUMPRODUCT docs that
-	sumproduct(A1:A5>4,B1:B4) will not work and that they will
-	need
-	sumproduct(--(A1:A5>4),B1:B4)
-
 Worries
 -------
     : provide undo for dropped objects from sheet_objects_clear

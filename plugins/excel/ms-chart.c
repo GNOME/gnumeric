@@ -137,7 +137,7 @@ struct _XLChartHandler {
 	XLChartReader const read_fn;
 };
 
-#define BC(n)	biff_chart_ ## n
+#define BC(n)	xl_chart_ ## n
 #define BC_R(n)	BC(read_ ## n)
 
 static inline MsBiffVersion

@@ -20,6 +20,7 @@ Jody:
 	* Conditional Formating for backgrounds.
 	* Conditional Formating for borders.
 	* Store the current settings before previewing. [#301494]
+	* Fix F4-abs/rel state rotation after R1C1 breakage.
 	* Fix leak in xls chart import. [#157058]
 	* Fix object movement and snap to grid in RTL.
 	* XLS import of image fills. [#127756]
