@@ -36,7 +36,7 @@ typedef struct {
 	gboolean  	is_auto;
 	GnmUnderline	underline;
 	gboolean	strikethrough;
-} ExcelFont;
+} ExcelWriteFont;
 
 typedef struct {
 	ExcelWriteState	*ewb;

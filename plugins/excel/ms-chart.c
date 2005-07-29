@@ -47,6 +47,7 @@
 #include <goffice/graph/gog-label.h>
 #include <goffice/data/go-data-simple.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-font.h>
 #include <goffice/utils/go-pattern.h>
 #include <goffice/utils/go-marker.h>
 
@@ -180,10 +181,11 @@ BC_R(get_style) (XLChartReadState *s)
 }
 
 static int
-BC_R(top_state) (XLChartReadState *s)
+BC_R(top_state) (XLChartReadState *s, unsigned n)
 {
 	g_return_val_if_fail (s != NULL, 0);
-	return g_array_index (s->stack, int, s->stack->len-1);
+	g_return_val_if_fail (s->stack->len >= n+1, 0);
+	return g_array_index (s->stack, int, s->stack->len-1-n);
 }
 
 static GOColor
@@ -277,10 +279,10 @@ BC_R(ai)(XLChartHandler const *handle,
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data + 2);
 	guint16 const length = GSF_LE_GET_GUINT16 (q->data + 6);
 
-	int popped_state = BC_R(top_state) (s);
+	int top_state = BC_R(top_state) (s, 0);
 
 	/* ignore these for now */
-	if (popped_state == BIFF_CHART_text)
+	if (top_state == BIFF_CHART_text)
 		return FALSE;
 
 	/* Rest are 0 */
@@ -905,10 +907,17 @@ static gboolean
 BC_R(fontx)(XLChartHandler const *handle,
 	    XLChartReadState *s, BiffQuery *q)
 {
-#if 0
-	/* Child of TEXT, index into FONT table */
-	guint16 const font = GSF_LE_GET_GUINT16 (q->data);
-#endif
+	if (s->style != NULL) {
+		/* Child of TEXT, index into FONT table */
+		ExcelFont const *font = excel_font_get (s->container.importer, 
+			GSF_LE_GET_GUINT16 (q->data));
+		GOFont const *gfont = excel_font_get_gofont (font);
+		go_font_ref (gfont);
+		gog_style_set_font (s->style, gfont);
+		d (-2, fprintf (stderr, "apply font;"););
+	} else {
+		d (-2, fprintf (stderr, "ignore font;"););
+	}
 	return FALSE;
 }
 
@@ -944,7 +953,7 @@ ms_chart_map_color (XLChartReadState const *s, guint32 raw, guint32 alpha)
 {
 	GOColor res;
 	if ((~0x7ffffff) & raw) {
-		GnmColor *c= excel_palette_get (s->container.importer,
+		GnmColor *c = excel_palette_get (s->container.importer,
 			(0x7ffffff & raw));
 		res = GDK_TO_UINT (c->gdk_color);
 		style_color_unref (c);
@@ -1201,7 +1210,7 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+8);
 
 	BC_R(get_style) (s);
-	switch (GSF_LE_GET_GUINT16 (q->data+6)) {
+	switch (GSF_LE_GET_GINT16 (q->data+6)) {
 	default :
 	case -1 : s->style->line.width = 0; /* hairline */
 		break;
@@ -1219,7 +1228,7 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	d (0, fprintf (stderr, "flags == %hd.\n", flags););
 	d (0, fprintf (stderr, "Lines are %f pts wide.\n", s->style->line.width););
 	d (0, fprintf (stderr, "Lines have a %s pattern.\n",
-		       ms_line_pattern [s->style->line.pattern ]););
+		       ms_line_pattern [s->style->line.pattern]););
 
 	if (s->style->line.pattern <= G_N_ELEMENTS (dash_map))
 		s->style->line.dash_type = dash_map [s->style->line.pattern];
@@ -1350,6 +1359,8 @@ BC_R(objectlink)(XLChartHandler const *handle,
 	default :
 		 fprintf (stderr, "ERROR : TEXT is linked to undocumented object\n");
 	};});
+	if (NULL != label && NULL != s->style)
+		gog_styled_object_set_style (GOG_STYLED_OBJECT (label), s->style);
 	return FALSE;
 }
 
@@ -1458,6 +1469,13 @@ static gboolean
 BC_R(pos)(XLChartHandler const *handle,
 	  XLChartReadState *s, BiffQuery *q)
 {
+	switch (BC_R(top_state) (s, 0)) {
+	case BIFF_CHART_text :
+		fprintf (stderr, "text pos;");
+		break;
+	default :
+		;
+	}
 	return FALSE;
 }
 
@@ -1719,7 +1737,7 @@ BC_R(seriestext)(XLChartHandler const *handle,
 				gnm_go_data_scalar_new_expr (sheet, expr);
 		else
 			value_release (value);
-	} else if (BC_R(top_state) (s) == BIFF_CHART_text) {
+	} else if (BC_R(top_state) (s, 0) == BIFF_CHART_text) {
 		if (s->text != NULL) {
 			g_warning ("multiple seriestext associated with 1 text record ?");
 			g_free (str);
@@ -1767,7 +1785,7 @@ typedef enum {
 	MS_CHART_BLANK_ZERO		= 1,
 	MS_CHART_BLANK_INTERPOLATE	= 2,
 	MS_CHART_BLANK_MAX		= 3
-} MS_CHART_BLANK;
+} MSChartBlank;
 static char const *const ms_chart_blank[] = {
 	"Skip blanks", "Blanks are zero", "Interpolate blanks"
 };
@@ -1783,7 +1801,7 @@ BC_R(shtprops)(XLChartHandler const *handle,
 	gboolean const dont_size_with_window	= (flags&0x04) ? TRUE : FALSE;
 	gboolean const has_pos_record		= (flags&0x08) ? TRUE : FALSE;
 	gboolean ignore_pos_record = FALSE;
-	MS_CHART_BLANK blanks;
+	MSChartBlank blanks;
 
 	g_return_val_if_fail (tmp < MS_CHART_BLANK_MAX, TRUE);
 	blanks = tmp;
@@ -1924,7 +1942,7 @@ BC_R(tick)(XLChartHandler const *handle,
 	*/
 
 	if (flags&0x02)
-		fputs ("Auto text background mode", stderr);
+		fputs ("Auto text background mode\n", stderr);
 	else
 		fprintf (stderr, "background mode = %d\n", (unsigned)GSF_LE_GET_GUINT8 (q->data+3));
 
@@ -2072,7 +2090,7 @@ BC_R(end)(XLChartHandler const *handle,
 	g_return_val_if_fail (s->stack != NULL, TRUE);
 	g_return_val_if_fail (s->stack->len > 0, TRUE);
 
-	popped_state = BC_R(top_state) (s);
+	popped_state = BC_R(top_state) (s, 0);
 	s->stack = g_array_remove_index_fast (s->stack, s->stack->len-1);
 
 	switch (popped_state) {
@@ -2084,7 +2102,7 @@ BC_R(end)(XLChartHandler const *handle,
 
 	case BIFF_CHART_frame :
 		if (s->style != NULL) {
-			int top_state = BC_R(top_state) (s);
+			int top_state = BC_R(top_state) (s, 0);
 			GogObject *obj = NULL;
 			if (top_state == BIFF_CHART_legend)
 				obj = s->legend;
@@ -2504,7 +2522,6 @@ not_a_matrix:
 		break;
 
 	case BIFF_CHART_text :
-#warning Do something with the style
 		if (s->text != NULL) {
 			g_free (s->text);
 			s->text = NULL;

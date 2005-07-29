@@ -1,3 +1,12 @@
+2005-07-29  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(objectlink)) : store the style for labels
+	(BC_R(fontx)) : lookup the font and assign it to a style.  Need to
+	  finish GOFont to store the remaining attributes.
+	* ms-excel-read.c (excel_font_get_gofont) : new.
+	(excel_read_FONT) : init the gofont member.
+	(excel_font_free) : unref it here.
+
 2005-07-15  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_SETUP) : remove unecessary scaling.

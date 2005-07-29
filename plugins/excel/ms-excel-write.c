@@ -1631,7 +1631,7 @@ write_palette (BiffPut *bp, ExcelWriteState *ewb)
  * Return string description of font to print in debug log
  **/
 static char *
-excel_font_to_string (ExcelFont const *f)
+excel_font_to_string (ExcelWriteFont const *f)
 {
 	static char buf[96];
 	guint nused;
@@ -1661,7 +1661,7 @@ excel_font_to_string (ExcelFont const *f)
 #endif
 
 static void
-excel_font_free (ExcelFont *efont)
+excel_font_free (ExcelWriteFont *efont)
 {
 	/* FONT_SKIP has value == NULL */
 	d (3, fprintf (stderr, "free %p", efont););
@@ -1672,16 +1672,16 @@ excel_font_free (ExcelFont *efont)
 	}
 }
 
-static ExcelFont *
+static ExcelWriteFont *
 excel_font_new (GnmStyle const *base_style)
 {
-	ExcelFont *efont;
+	ExcelWriteFont *efont;
 	GnmColor  *c;
 
 	if (base_style == NULL)
 		return NULL;
 
-	efont = g_new (ExcelFont, 1);
+	efont = g_new (ExcelWriteFont, 1);
 	efont->font_name	= gnm_style_get_font_name   (base_style);
 	efont->font_name_copy	= NULL;
 	efont->size_pts		= gnm_style_get_font_size   (base_style);
@@ -1698,7 +1698,7 @@ excel_font_new (GnmStyle const *base_style)
 }
 
 static void
-excel_font_overlay_pango (ExcelFont *efont, GSList *pango)
+excel_font_overlay_pango (ExcelWriteFont *efont, GSList *pango)
 {
 	GSList *ptr;
 
@@ -1756,7 +1756,7 @@ static guint
 excel_font_hash (gconstpointer f)
 {
 	guint res = 0;
-	ExcelFont *font = (ExcelFont *) f;
+	ExcelWriteFont *font = (ExcelWriteFont *) f;
 
 	if (f)
 		res = (int)(font->size_pts + g_str_hash (font->font_name))
@@ -1777,8 +1777,8 @@ excel_font_equal (gconstpointer a, gconstpointer b)
 	else if (!a || !b)
 		res = FALSE;	/* Recognize junk - inelegant, I know! */
 	else {
-		ExcelFont const *fa  = (ExcelFont const *) a;
-		ExcelFont const *fb  = (ExcelFont const *) b;
+		ExcelWriteFont const *fa  = (ExcelWriteFont const *) a;
+		ExcelWriteFont const *fb  = (ExcelWriteFont const *) b;
 		res = !strcmp (fa->font_name, fb->font_name)
 			&& (fa->size_pts	== fb->size_pts)
 			&& (fa->is_bold		== fb->is_bold)
@@ -1792,14 +1792,14 @@ excel_font_equal (gconstpointer a, gconstpointer b)
 	return res;
 }
 
-static ExcelFont *
+static ExcelWriteFont *
 fonts_get_font (ExcelWriteState *ewb, gint idx)
 {
 	return two_way_table_idx_to_key (ewb->fonts.two_way_table, idx);
 }
 
 static void
-after_put_font (ExcelFont *f, gboolean was_added, gint index, gconstpointer dummy)
+after_put_font (ExcelWriteFont *f, gboolean was_added, gint index, gconstpointer dummy)
 {
 	if (was_added) {
 		d (1, fprintf (stderr, "Found unique font %d - %s\n",
@@ -1810,7 +1810,7 @@ after_put_font (ExcelFont *f, gboolean was_added, gint index, gconstpointer dumm
 
 /**
  * put_efont :
- * @efont : #ExcelFont
+ * @efont : #ExcelWriteFont
  * @ewb : #ExcelWriteState
  *
  * Absorbs ownership of @efont potentially freeing it.
@@ -1818,7 +1818,7 @@ after_put_font (ExcelFont *f, gboolean was_added, gint index, gconstpointer dumm
  * Returns the index of the font
  **/
 static inline gint
-put_efont (ExcelFont *efont, ExcelWriteState *ewb)
+put_efont (ExcelWriteFont *efont, ExcelWriteState *ewb)
 {
 	TwoWayTable *twt = ewb->fonts.two_way_table;
 
@@ -1837,7 +1837,7 @@ put_style_font (GnmStyle *style, gconstpointer dummy, ExcelWriteState *ewb)
 }
 
 static void
-excel_write_FONT (ExcelWriteState *ewb, ExcelFont const *f)
+excel_write_FONT (ExcelWriteState *ewb, ExcelWriteFont const *f)
 {
 	guint8 data[64];
 	guint32 size_pts  = f->size_pts * 20;
@@ -1895,7 +1895,7 @@ excel_write_FONTs (BiffPut *bp, ExcelWriteState *ewb)
 	TwoWayTable *twt = ewb->fonts.two_way_table;
 	int nfonts = twt->idx_to_key->len;
 	int i;
-	ExcelFont *f;
+	ExcelWriteFont *f;
 
 	for (i = 0; i < nfonts; i++) {
 		if (i != FONT_SKIP) {	/* FONT_SKIP is invalid, skip it */
@@ -2118,7 +2118,7 @@ txomarkup_new (ExcelWriteState *ewb, PangoAttrList *markup, GnmStyle *style)
 		if (txo->len == 0 && noattrs) {
 			/* trim start */
 		} else {
-			ExcelFont *efont = excel_font_new (style);
+			ExcelWriteFont *efont = excel_font_new (style);
 			gint tmp[2];
 
 			excel_font_overlay_pango (efont, attrs);
@@ -2353,7 +2353,7 @@ static void
 log_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, int idx)
 {
 	int i;
-	ExcelFont *f = fonts_get_font (ewb, xfd->font_idx);
+	ExcelWriteFont *f = fonts_get_font (ewb, xfd->font_idx);
 
 	/* Formats are saved using the 'C' locale number format */
 	char * desc = style_format_as_XL (xfd->style_format, FALSE);
@@ -2386,7 +2386,7 @@ log_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, int idx)
 static void
 build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle *st)
 {
-	ExcelFont *f;
+	ExcelWriteFont *f;
 	GnmBorder const *b;
 	int i;
 

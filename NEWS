@@ -22,6 +22,8 @@ Jody:
 	* Store the current settings before previewing. [#301494]
 	* Fix leak in xls chart import. [#157058]
 	* Fix object movement and snap to grid in RTL.
+	* XLS import of image fills. [#127756]
+	* XLS import of font for chart labels.
 
 Jon Kåre:
         * Improve sc/xspread import.

@@ -85,7 +85,8 @@ typedef struct {
 	MsBiffFontUnderline underline;
 	char *fontname;
 	PangoAttrList *attrs;
-} BiffFontData;
+	GOFont const  *go_font;
+} ExcelFont;
 
 typedef struct {
 	unsigned idx;
@@ -140,7 +141,9 @@ char *excel_get_text  (GnmXLImporter const *importer,
 		       guint8 const *ptr, guint32 length,
 		       guint32 *byte_length);
 
-GnmColor  *excel_palette_get (GnmXLImporter *importer, gint idx);
+GnmColor  	*excel_palette_get (GnmXLImporter *importer, gint idx);
+ExcelFont const *excel_font_get    (GnmXLImporter const *importer, unsigned idx);
+GOFont const	*excel_font_get_gofont (ExcelFont const *font);
 
 GdkPixbuf *excel_read_IMDATA (BiffQuery *q, gboolean keep_image);
 void	   excel_read_SCL    (BiffQuery *q, Sheet *esheet);

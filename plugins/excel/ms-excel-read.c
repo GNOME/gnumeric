@@ -66,6 +66,7 @@
 #include <gnm-so-filled.h>
 #include <sheet-object-graph.h>
 #include <sheet-object-image.h>
+#include <goffice/utils/go-font.h>
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/graph/gog-style.h>
@@ -1267,7 +1268,7 @@ static void
 excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 {
 	MsBiffVersion const ver = importer->ver;
-	BiffFontData *fd = g_new (BiffFontData, 1);
+	ExcelFont *fd = g_new (ExcelFont, 1);
 	guint16 data;
 	guint8 data1;
 
@@ -1350,6 +1351,7 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 	fd->color_idx &= 0x7f; /* Undocumented but a good idea */
 
 	fd->attrs = NULL;
+	fd->go_font = NULL;
 
         fd->index = g_hash_table_size (importer->font_data);
 	if (fd->index >= 4) /* Weird: for backwards compatibility */
@@ -1362,11 +1364,15 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 }
 
 static void
-biff_font_data_destroy (BiffFontData *fd)
+excel_font_free (ExcelFont *fd)
 {
 	if (NULL != fd->attrs) {
 		pango_attr_list_unref (fd->attrs);
 		fd->attrs = NULL;
+	}
+	if (NULL != fd->go_font) {
+		go_font_unref (fd->go_font);
+		fd->go_font = NULL;
 	}
 	g_free (fd->fontname);
 	g_free (fd);
@@ -1571,16 +1577,35 @@ excel_read_PALETTE (BiffQuery *q, GnmXLImporter *importer)
  * NB. index 4 is omitted supposedly for backwards compatiblity
  * Returns the font color if there is one.
  **/
-static BiffFontData const *
-excel_get_font (GnmXLImporter const *importer, unsigned font_idx)
+ExcelFont const *
+excel_font_get (GnmXLImporter const *importer, unsigned font_idx)
 {
-	BiffFontData const *fd = g_hash_table_lookup (
+	ExcelFont const *fd = g_hash_table_lookup (
 		importer->font_data, GINT_TO_POINTER (font_idx));
 
 	g_return_val_if_fail (fd != NULL, NULL); /* flag the problem */
 	g_return_val_if_fail (fd->index != 4, NULL); /* should not exist */
 
 	return fd;
+}
+
+GOFont const *
+excel_font_get_gofont (ExcelFont const *efont)
+{
+	if (NULL == efont->go_font) {
+		PangoFontDescription *desc = pango_font_description_new ();
+	
+#warning FINISH when GOFont is smarter
+		pango_font_description_set_family (desc, efont->fontname);
+		pango_font_description_set_weight (desc, efont->boldness);
+		pango_font_description_set_style (desc,
+			efont->italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
+		pango_font_description_set_size (desc,
+			efont->height * PANGO_SCALE / 20);
+
+		((ExcelFont *)efont)->go_font = go_font_new_by_desc (desc);
+	}
+	return efont->go_font;
 }
 
 static BiffXFData const *
@@ -1617,7 +1642,7 @@ excel_get_xf (ExcelReadSheet *esheet, unsigned xfidx)
 static GnmStyle *
 excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 {
-	BiffFontData const *fd;
+	ExcelFont const *fd;
 	GnmColor *pattern_color, *back_color, *font_color;
 	int	  pattern_index,  back_index,  font_index;
 	GnmStyle *mstyle;
@@ -1653,7 +1678,7 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 	gnm_style_set_text_dir  (mstyle, xf->text_dir);
 
 	/* Font */
-	fd = excel_get_font (esheet->container.importer, xf->font_idx);
+	fd = excel_font_get (esheet->container.importer, xf->font_idx);
 	if (fd != NULL) {
 		GnmUnderline underline = UNDERLINE_NONE;
 			gnm_style_set_font_name   (mstyle, fd->fontname);
@@ -2684,11 +2709,11 @@ static PangoAttrList *
 ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 {
 	GnmXLImporter *importer = (GnmXLImporter *)c;
-	BiffFontData const *fd = excel_get_font (importer, indx);
+	ExcelFont const *fd = excel_font_get (importer, indx);
 	GnmColor *color;
 
 	if (fd == NULL) { /* random fallback */
-		fd = excel_get_font (importer, 0);
+		fd = excel_font_get (importer, 0);
 		if (NULL == fd)
 			return NULL;
 	}
@@ -2732,7 +2757,7 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 			color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue));
 		style_color_unref (color);
 
-		((BiffFontData *)fd)->attrs = attrs;
+		((ExcelFont *)fd)->attrs = attrs;
 	}
 
 	return fd->attrs;
@@ -2771,7 +2796,7 @@ gnm_xl_importer_new (IOContext *context, WorkbookView *wb_view)
 		NULL, (GDestroyNotify) biff_boundsheet_data_destroy);
 	importer->font_data        = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal,
-		NULL, (GDestroyNotify)biff_font_data_destroy);
+		NULL, (GDestroyNotify)excel_font_free);
 	importer->excel_sheets     = g_ptr_array_new ();
 	importer->XF_cell_records  = g_ptr_array_new ();
 	importer->format_table      = g_hash_table_new_full (
@@ -2793,7 +2818,7 @@ excel_workbook_reset_style (GnmXLImporter *importer)
 	g_hash_table_destroy (importer->font_data);
         importer->font_data        = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal,
-                NULL, (GDestroyNotify)biff_font_data_destroy);
+                NULL, (GDestroyNotify)excel_font_free);
 
         for (i = 0; i < importer->XF_cell_records->len; i++)
                 biff_xf_data_destroy (g_ptr_array_index (importer->XF_cell_records, i));
@@ -3398,8 +3423,8 @@ xl_find_fontspec (ExcelReadSheet *esheet, float *size20)
 {
 	/* Use the 'Normal' Style which is by definition the 0th */
 	BiffXFData const *xf = excel_get_xf (esheet, 0);
-	BiffFontData const *fd = (xf != NULL)
-		? excel_get_font (esheet->container.importer, xf->font_idx)
+	ExcelFont const *fd = (xf != NULL)
+		? excel_font_get (esheet->container.importer, xf->font_idx)
 		: NULL;
 	*size20 = (fd != NULL) ? (fd->height / (20. * 10.)) : 1.;
 	return xl_lookup_font_specs ((fd != NULL) ? fd->fontname : "Arial");
