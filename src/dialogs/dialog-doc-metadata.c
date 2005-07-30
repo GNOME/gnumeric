@@ -43,14 +43,38 @@
 #include <gtk/gtkcellrenderertext.h>
 #include <string.h>
 
+#include <gsf/gsf-doc-meta-data.h>
+#include <gsf/gsf-meta-names.h>
+
 #define DOC_METADATA_KEY "dialog-doc-metadata"
 
+//typedef struct dialog_doc_meta_data{
 typedef struct {
 	GladeXML		*gui;
 	GtkWidget		*dialog;
 
+	/*pointer to the document metadata*/
+	GsfDocMetaData *metadata;
+
 	WorkbookControlGUI	*wbcg;
+	Workbook                *wb;
 } DialogDocMetaData;
+
+/*Convenience functions--helpful for breaking up the work into more manageable
+ * pieces.
+ */
+void fetchfrom_page_1(DialogDocMetaData *state);
+void fetchfrom_page_2(DialogDocMetaData *state);
+void fetchfrom_page_3(DialogDocMetaData *state);
+void fetchfrom_page_4(DialogDocMetaData *state);
+void fetchfrom_page_5(DialogDocMetaData *state);
+void populate_page_1(DialogDocMetaData *state);
+void populate_page_2(DialogDocMetaData *state);
+void populate_page_3(DialogDocMetaData *state);
+void populate_page_4(DialogDocMetaData *state);
+void populate_page_5(DialogDocMetaData *state);
+
+
 
 static void
 dialog_doc_metadata_free (DialogDocMetaData *state)
@@ -59,7 +83,15 @@ dialog_doc_metadata_free (DialogDocMetaData *state)
 
 	wb_view_selection_desc (wb_control_view (wbc), TRUE, wbc);
 	wbcg_edit_detach_guru (state->wbcg);
+	/*If state->gui is NULL, we are done with it already.
+	 *Else, we need to fetch final values from the dialog and free it again
+	 */
 	if (state->gui != NULL) {
+		fetchfrom_page_1(state);
+		fetchfrom_page_2(state);
+		fetchfrom_page_3(state);
+		fetchfrom_page_4(state);
+		fetchfrom_page_5(state);
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
 	}
@@ -75,13 +107,36 @@ static gboolean
 dialog_doc_metadata_init (DialogDocMetaData *state, WorkbookControlGUI *wbcg)
 {
 	state->wbcg  = wbcg;
+	state->wb = wb_control_workbook(WORKBOOK_CONTROL(wbcg));
+	/*Get the workbook's metadata*/
+	/*This could be NULL; if so, create it!*/
+	if((state->metadata = g_object_get_data(G_OBJECT(state->wb), "GsfDocMetaData")) == NULL) {
+		/*Yep.  Doesn't exist yet.  Create it.*/
+		if((state->metadata = gsf_doc_meta_data_new()) == NULL) {
+			/*Do something panicky!*/
+			return TRUE;
+		}
+		/*Woot.  It exists!  Tell the workbook about it; this is a pointer, so we
+		 * just need to give the workbook the new pointer*/
+		g_object_set_data(G_OBJECT(state->wb), "GsfDocMetaData", G_OBJECT(state->metadata));
+	}
+	/*Now get the gui in*/
 	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"paste-names.glade", NULL, NULL);
+		"doc-meta-data.glade", NULL, NULL);
         if (state->gui == NULL)
                 return TRUE;
 
-	state->dialog = glade_xml_get_widget (state->gui, "PasteNames");
+	/*We populate the signal handlers*/
+	/*We populate initial values.
+	 *This has been split into pages, for easier maintenance.
+	 */
+	populate_page_1(state);
+	populate_page_2(state);
+	populate_page_3(state);
+	populate_page_4(state);
+	populate_page_5(state);
 
+	state->dialog = glade_xml_get_widget (state->gui, "MetadataDialog");
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
@@ -96,6 +151,9 @@ dialog_doc_metadata_init (DialogDocMetaData *state, WorkbookControlGUI *wbcg)
 		GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
+
+	
+
 
 	return FALSE;
 }
@@ -123,3 +181,50 @@ dialog_doc_metadata_new (WorkbookControlGUI *wbcg)
 		return;
 	}
 }
+
+/*Signal handlers for the different features*/
+
+/*These two synchronize between the two Document Title parts*/
+/*Sync it back to the Description page*/
+void sync_general_title(GtkCellEditable *cell_editable, gpointer userdata) {
+	gtk_entry_set_text(GTK_ENTRY(glade_xml_get_widget(((DialogDocMetaData*)userdata)->gui, "title")), gtk_entry_get_text(GTK_ENTRY(glade_xml_get_widget(((DialogDocMetaData*)userdata)->gui, "general_title"))));
+}
+/*Sync it back to the General page*/
+void sync_description_title(GtkCellEditable *cell_editable, gpointer userdata) {
+	gtk_entry_set_text(GTK_ENTRY(glade_xml_get_widget(((DialogDocMetaData*)userdata)->gui, "general_title")), gtk_entry_get_text(GTK_ENTRY(glade_xml_get_widget(((DialogDocMetaData*)userdata)->gui, "title"))));
+}
+
+
+/*The convenience functions*/
+/*Fetchors!*/
+void fetchfrom_page_1(DialogDocMetaData *state) {
+}
+void fetchfrom_page_2(DialogDocMetaData *state) {
+}
+void fetchfrom_page_3(DialogDocMetaData *state) {
+}
+void fetchfrom_page_4(DialogDocMetaData *state) {
+}
+void fetchfrom_page_5(DialogDocMetaData *state) {
+}
+/*Populators!*/
+/*NOTE: populate_page_1 also sets handlers for the cancel and OK buttons*/
+void populate_page_1(DialogDocMetaData *state) {
+	/*Set up the labels*/
+	gtk_label_set_text(GTK_LABEL(glade_xml_get_widget(state->gui, "location")), "Unknown");
+	gtk_label_set_text(GTK_LABEL(glade_xml_get_widget(state->gui, "created")), "Unknown");
+	gtk_label_set_text(GTK_LABEL(glade_xml_get_widget(state->gui, "modified")), "Unknown");
+	gtk_label_set_text(GTK_LABEL(glade_xml_get_widget(state->gui, "accessed")), "Unknown");
+	/*Set up the handlers*/
+	glade_xml_signal_connect_data(state->gui, "on_general_title_editing_done", (*sync_general_title), (gpointer)state);
+	glade_xml_signal_connect_data(state->gui, "on_title_editing_done", (*sync_description_title), (gpointer)state);
+}
+void populate_page_2(DialogDocMetaData *state) {
+}
+void populate_page_3(DialogDocMetaData *state) {
+}
+void populate_page_4(DialogDocMetaData *state) {
+}
+void populate_page_5(DialogDocMetaData *state) {
+}
+

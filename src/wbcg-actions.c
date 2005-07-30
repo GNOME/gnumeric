@@ -1574,6 +1574,9 @@ static GtkActionEntry const actions[] = {
 	{ "EditSelectInputs", NULL, N_("Select _Inputs"),
 		"<control>bracketleft", N_("Select all the cells are used by the current edit cell"),
 		G_CALLBACK (cb_edit_select_inputs) },
+	{ "EditMetadata", NULL, N_("Edit Metadata"),
+		"<control>bracketleft", N_("Edit the document's extra information (metadata)"),
+		G_CALLBACK (cb_new_doc_metadata) },
 
 /* Edit -> Fill */
 	{ "EditFillAutofill", NULL, N_("Auto_fill"),
