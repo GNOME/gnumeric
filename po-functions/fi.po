@@ -1,5 +1,5 @@
 # Gnumeric Finnish translation.
-# Suomennos: http://gnome-fi.org/
+# Suomennos: http://gnome.fi/
 # Copyright (C) 1998-2001,2003-2004 Free Software Foundation, Inc.
 # Sami Kuhmonen <sami@iqs.fi>, 1999.
 # Jarkko Ranta <jjranta@cc.joensuu.fi>, 2001.
