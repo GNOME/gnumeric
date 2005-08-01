@@ -129,7 +129,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-23 19:45+0000\n"
+"POT-Creation-Date: 2005-08-01 03:53+0000\n"
 "PO-Revision-Date: 2005-06-24 02:51+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -6841,7 +6841,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FV,NPV,PV"
 
-#: ../plugins/fn-financial/functions.c:1659
+#: ../plugins/fn-financial/functions.c:1667
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -6874,7 +6874,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FV"
 
-#: ../plugins/fn-financial/functions.c:1703
+#: ../plugins/fn-financial/functions.c:1711
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -6899,7 +6899,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,XNPV"
 
-#: ../plugins/fn-financial/functions.c:1759
+#: ../plugins/fn-financial/functions.c:1762
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -6929,7 +6929,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV,PV"
 
-#: ../plugins/fn-financial/functions.c:1822
+#: ../plugins/fn-financial/functions.c:1825
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -6978,7 +6978,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IRR,XNPV"
 
-#: ../plugins/fn-financial/functions.c:1932
+#: ../plugins/fn-financial/functions.c:1935
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt[,pv,type])\n"
@@ -7011,7 +7011,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: ../plugins/fn-financial/functions.c:1972
+#: ../plugins/fn-financial/functions.c:1975
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -7053,7 +7053,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: ../plugins/fn-financial/functions.c:2012
+#: ../plugins/fn-financial/functions.c:2015
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv[,fv,type])\n"
@@ -7097,7 +7097,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: ../plugins/fn-financial/functions.c:2065
+#: ../plugins/fn-financial/functions.c:2068
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -7143,7 +7143,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IPMT,PV,FV"
 
-#: ../plugins/fn-financial/functions.c:2117
+#: ../plugins/fn-financial/functions.c:2120
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv[,fv,type])\n"
@@ -7189,7 +7189,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: ../plugins/fn-financial/functions.c:2174
+#: ../plugins/fn-financial/functions.c:2177
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(settlement,maturity,coup,yield,frequency[,basis])\n"
@@ -7250,7 +7250,7 @@ msgstr ""
 "\n"
 "@SEEALSO=G_DURATION,MDURATION"
 
-#: ../plugins/fn-financial/functions.c:2236
+#: ../plugins/fn-financial/functions.c:2239
 msgid ""
 "@FUNCTION=G_DURATION\n"
 "@SYNTAX=G_DURATION(rate,pv,fv)\n"
@@ -7283,7 +7283,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: ../plugins/fn-financial/functions.c:2280
+#: ../plugins/fn-financial/functions.c:2283
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -7313,7 +7313,7 @@ msgstr ""
 
 # De functie zou een #WAARDE foutmelding moeten geven ipv #GETAL 
 # net als bij EUROCONVERT
-#: ../plugins/fn-financial/functions.c:2327
+#: ../plugins/fn-financial/functions.c:2330
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -7372,7 +7372,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EUROCONVERT"
 
-#: ../plugins/fn-financial/functions.c:2437
+#: ../plugins/fn-financial/functions.c:2440
 msgid ""
 "@FUNCTION=EUROCONVERT\n"
 "@SYNTAX=EUROCONVERT(n,source,target)\n"
@@ -7430,7 +7430,7 @@ msgstr ""
 "EUROCONVERT(2,1;\"NLG\";\"EUR\") is 0,9529\n"
 "@SEEALSO=EURO"
 
-#: ../plugins/fn-financial/functions.c:2487
+#: ../plugins/fn-financial/functions.c:2490
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,[frequency,basis])\n"
@@ -7481,7 +7481,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:2554
+#: ../plugins/fn-financial/functions.c:2557
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settlement,maturity,rate,price,redemption_price,frequency[,"
@@ -7533,7 +7533,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:2677
+#: ../plugins/fn-financial/functions.c:2680
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -7586,7 +7586,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:2741
+#: ../plugins/fn-financial/functions.c:2744
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
@@ -7641,7 +7641,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:2796
+#: ../plugins/fn-financial/functions.c:2799
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -7704,7 +7704,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:2953
+#: ../plugins/fn-financial/functions.c:2956
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -7763,7 +7763,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3064
+#: ../plugins/fn-financial/functions.c:3067
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -7824,7 +7824,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3158
+#: ../plugins/fn-financial/functions.c:3161
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -7882,7 +7882,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3252
+#: ../plugins/fn-financial/functions.c:3255
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -7950,7 +7950,7 @@ msgstr ""
 "@SEEALSO=AMORLINC"
 
 # prorated: betekent per rente, dus lineair afhankelijk
-#: ../plugins/fn-financial/functions.c:3318
+#: ../plugins/fn-financial/functions.c:3321
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -8013,7 +8013,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AMORDEGRC"
 
-#: ../plugins/fn-financial/functions.c:3379
+#: ../plugins/fn-financial/functions.c:3382
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis,eom])\n"
@@ -8082,7 +8082,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3427
+#: ../plugins/fn-financial/functions.c:3430
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
@@ -8153,7 +8153,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3476
+#: ../plugins/fn-financial/functions.c:3479
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
@@ -8222,7 +8222,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3524
+#: ../plugins/fn-financial/functions.c:3527
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -8290,7 +8290,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3573
+#: ../plugins/fn-financial/functions.c:3576
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -8358,7 +8358,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3623
+#: ../plugins/fn-financial/functions.c:3626
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
@@ -8428,7 +8428,7 @@ msgstr ""
 "@SEEALSO="
 
 # pv = present value? Par value, principal value?
-#: ../plugins/fn-financial/functions.c:3667
+#: ../plugins/fn-financial/functions.c:3670
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -8465,7 +8465,7 @@ msgstr ""
 "@SEEALSO="
 
 # controleer of beschrijving klopt
-#: ../plugins/fn-financial/functions.c:3720
+#: ../plugins/fn-financial/functions.c:3723
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -8501,7 +8501,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3773
+#: ../plugins/fn-financial/functions.c:3776
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -8554,7 +8554,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DURATION,G_DURATION"
 
-#: ../plugins/fn-financial/functions.c:3834
+#: ../plugins/fn-financial/functions.c:3837
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -8617,7 +8617,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL(type;verw)\n"
-"@DESCRIPTION=CELL geeft informatie over de opmaak, lokatie, of inhoud van "
+"@DESCRIPTION=CELL geeft informatie over de opmaak, locatie, of inhoud van "
 "een cel.\n"
 "\n"
 "@type specifieert het soort informatie dat u wilt verkrijgen:\n"
@@ -11881,7 +11881,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: ../plugins/fn-math/functions.c:3039
+#: ../plugins/fn-math/functions.c:3038
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -11907,7 +11907,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: ../plugins/fn-math/functions.c:3118
+#: ../plugins/fn-math/functions.c:3114
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -11942,42 +11942,31 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: ../plugins/fn-math/functions.c:3168
-msgid ""
-"@FUNCTION=SUMPRODUCT\n"
-"@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
-"@DESCRIPTION=SUMPRODUCT function multiplies corresponding data entries in "
-"the given arrays or ranges, and then returns the sum of those products.  If "
-"an array entry is not numeric, the value zero is used instead.\n"
-"\n"
-"* If arrays or range arguments do not have the same dimensions, SUMPRODUCT "
-"returns #VALUE! error.\n"
-"* This function is Excel compatible.\n"
-"\n"
-"@EXAMPLES=\n"
-"Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
-"and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.  "
-"Then\n"
-"SUMPRODUCT(A1:A5,B1:B5) equals 3370.\n"
-"\n"
-"@SEEALSO=SUM,PRODUCT"
+#: ../plugins/fn-math/functions.c:3163
+msgid "SUMPRODUCT:Multiplies components and adds the results."
 msgstr ""
-"@FUNCTION=SUMPRODUCT\n"
-"@SYNTAX=SUMPRODUCT(bereik1;bereik2;...)\n"
-"@DESCRIPTION=SUMPRODUCT vermenigvuldigt corresponderende items in de "
-"opgegeven bereiken en geeft vervolgens de som van deze producten. \n"
-"\n"
-"* Als een item in het bereik geen getal is, wordt de waarde 0 gebruikt.\n"
-"* Als de bereiken niet dezelfde afmetingen hebben, geeft SUMPRODUCT een "
-"#WAARDE! foutmelding.\n"
-"* Deze functie is compatibel met Excel.\n"
-"\n"
-"@EXAMPLES=\n"
-"Als A1, A2, ..., A5 de getallen 11, 15, 17, 21, en 43 bevatten, en B1, "
-"B2, ..., B5 de getallen 13, 22, 31, 33, en 39, dan geldt:\n"
-"SUMPRODUCT(A1:A5;B1:B5) is 3370\n"
-"\n"
-"@SEEALSO=SUM,PRODUCT"
+
+#: ../plugins/fn-math/functions.c:3165
+msgid ""
+"Multiplies corresponding data entries in the given arrays or ranges, and "
+"then returns the sum of those products."
+msgstr ""
+
+#: ../plugins/fn-math/functions.c:3168
+msgid "If an entry is not numeric, the value zero is used instead."
+msgstr ""
+
+#: ../plugins/fn-math/functions.c:3169
+msgid ""
+"If arrays or range arguments do not have the same dimensions, return #VALUE! "
+"error."
+msgstr ""
+
+#: ../plugins/fn-math/functions.c:3171
+msgid ""
+"SUMPRODUCTs arguments are arrays or ranges. Attempting to use A1:A5>0 will "
+"not work, implicit intersection will kick in. Instead use --(A1:A5>0)"
+msgstr ""
 
 #: ../plugins/fn-r/functions.c:19
 msgid "R.DNORM:probability density function of the normal distribution."
@@ -12024,14 +12013,18 @@ msgstr "sigma:standaarddeviatie van de verdeling."
 msgid ""
 "give_log:if true, log of the result will be returned instead.  This is "
 "useful if the result would otherwise underflow to 0.  Defaults to false."
-msgstr "give_log:indien waar zal de logaritme van het resultaat worden gegeven.  Dit is handig als het resultaat anders onder 0 zou lopen.  Standaardwaarde is false."
+msgstr ""
+"give_log:indien waar zal de logaritme van het resultaat worden gegeven.  Dit "
+"is handig als het resultaat anders onder 0 zou lopen.  Standaardwaarde is "
+"false."
 
 # een keer function weggelaten, overbodig.
 #: ../plugins/fn-r/functions.c:24
 msgid ""
 "This function returns the probability density function of the normal "
 "distribution."
-msgstr "Deze functie geeft de waarschijnlijkheidsdichtheid van de normale verdeling."
+msgstr ""
+"Deze functie geeft de waarschijnlijkheidsdichtheid van de normale verdeling."
 
 #: ../plugins/fn-r/functions.c:44
 msgid "R.PNORM:cumulative distribution function of the normal distribution."
@@ -12056,7 +12049,9 @@ msgstr "R.PNORM:cumulatieve distributiefunctie van de normale verdeling."
 msgid ""
 "lower_tail:if true (the default), the lower tail of the distribution is "
 "considered."
-msgstr "lower_tail:indien true (de standaard), wordt de linker staart van de verdeling beschouwd."
+msgstr ""
+"lower_tail:indien true (de standaard), wordt de linker staart van de "
+"verdeling beschouwd."
 
 #: ../plugins/fn-r/functions.c:49 ../plugins/fn-r/functions.c:76
 #: ../plugins/fn-r/functions.c:128 ../plugins/fn-r/functions.c:155
@@ -12121,7 +12116,8 @@ msgstr "logsd:standaardafwijking van de onderliggende normale verdeling."
 msgid ""
 "This function returns the probability density function of the log-normal "
 "distribution."
-msgstr "Deze functie geeft de kansdichtheidfunctie van de log-normaal verdeling."
+msgstr ""
+"Deze functie geeft de kansdichtheidfunctie van de log-normaal verdeling."
 
 #: ../plugins/fn-r/functions.c:123
 msgid ""
@@ -12857,12 +12853,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDDISCRETE\n"
 "@SYNTAX=RANDDISCRETE(waardenbereik[;kansbereik])\n"
-"@DESCRIPTION=RANDDISCRETE geeft een van de waarden uit @waardenbereik. De kans voor elke waarde wordt gegeven door @kansbereik.\n"
+"@DESCRIPTION=RANDDISCRETE geeft een van de waarden uit @waardenbereik. De "
+"kans voor elke waarde wordt gegeven door @kansbereik.\n"
 "\n"
-"* Als @kansbereik weggelaten is, wordt een uniforme discrete distributie aangenomen.\n"
-"* Als de som van alle waarden in @kansbereik anders is dan 1, geeft RANDDISCRETE een #GETAL! foutmelding.\n"
-"* Als @waardenbereik en @kansbereik niet dezelfde afmetingen hebben, geeft RANDDISCRETE een #GETAL! foutmelding.\n"
-"* Als @waardenbereik of @kansbereik geen bereiken zijn, geeft RANDDISCRETE een #WAARDE! foutmelding.\n"
+"* Als @kansbereik weggelaten is, wordt een uniforme discrete distributie "
+"aangenomen.\n"
+"* Als de som van alle waarden in @kansbereik anders is dan 1, geeft "
+"RANDDISCRETE een #GETAL! foutmelding.\n"
+"* Als @waardenbereik en @kansbereik niet dezelfde afmetingen hebben, geeft "
+"RANDDISCRETE een #GETAL! foutmelding.\n"
+"* Als @waardenbereik of @kansbereik geen bereiken zijn, geeft RANDDISCRETE "
+"een #WAARDE! foutmelding.\n"
 "\n"
 "@EXAMPLES=\n"
 "RANDDISCRETE(A1:A6) geeft een van de waarden uit het bereik A1:A6.\n"
@@ -13134,7 +13135,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDLAPLACE\n"
 "@SYNTAX=RANDLAPLACE(a)\n"
-"@DESCRIPTION=RANDLAPLACE geeft een willekeurig getal volgens een Laplace-verdeling. De Laplace-verdeling is ook bekend onder de naam twee-zijdig exponentiële kansverdeling.\n"
+"@DESCRIPTION=RANDLAPLACE geeft een willekeurig getal volgens een Laplace-"
+"verdeling. De Laplace-verdeling is ook bekend onder de naam twee-zijdig "
+"exponentiële kansverdeling.\n"
 "\n"
 "@EXAMPLES=\n"
 "RANDLAPLACE(1)\n"
@@ -13328,7 +13331,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDGEOM\n"
 "@SYNTAX=RANDGEOM(p)\n"
-"@DESCRIPTION=RANDGEOM geeft een willekeurig getal volgens een geometrische verdeling. Het aantal onafhankelijke trekkingen met kans @p tot het eerste succes. \n"
+"@DESCRIPTION=RANDGEOM geeft een willekeurig getal volgens een geometrische "
+"verdeling. Het aantal onafhankelijke trekkingen met kans @p tot het eerste "
+"succes. \n"
 "De kansverdeling voor geometrische varianten is, \n"
 "\n"
 "\tp(k) =  p (1-p)^(k-1), voor k >= 1.\n"
@@ -13878,16 +13883,23 @@ msgid ""
 msgstr ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=TRIMMEAN(verwijzing; fractie)\n"
-"@DESCRIPTION=TRIMMEAN geeft het gemiddelde van het binnenste gedeelte van een gegevensverzameling.\n"
-"@verwijzing is de lijst met getallen waarvan je het gemiddelde wilt berekenen.\n"
-"@fractie is het gedeelte van de gegevensverzameling dat wordt weggelaten bij de berekening.\n"
-"Bijvoorbeeld, als @fractie=0,2 en de gegevensverzameling heeft 40 getallen dan worden\n"
-"er 8 (=40 x 0,2) getallen weggelaten; de 4 grootste en de 4 kleinste. Om onevenredigheid te voorkomen wordt het aantal getallen dat wordt weggelaten altijd naar beneden afgerond tot het dichtstbijzijnde even getal.\n"
+"@DESCRIPTION=TRIMMEAN geeft het gemiddelde van het binnenste gedeelte van "
+"een gegevensverzameling.\n"
+"@verwijzing is de lijst met getallen waarvan je het gemiddelde wilt "
+"berekenen.\n"
+"@fractie is het gedeelte van de gegevensverzameling dat wordt weggelaten bij "
+"de berekening.\n"
+"Bijvoorbeeld, als @fractie=0,2 en de gegevensverzameling heeft 40 getallen "
+"dan worden\n"
+"er 8 (=40 x 0,2) getallen weggelaten; de 4 grootste en de 4 kleinste. Om "
+"onevenredigheid te voorkomen wordt het aantal getallen dat wordt weggelaten "
+"altijd naar beneden afgerond tot het dichtstbijzijnde even getal.\n"
 "\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
 "@EXAMPLES=\n"
-"Als de cellen A1, A2, ..., A5 de getallen 11,4 17,3 21,3 25,9 en 40,1 bevatten, dan geldt:\n"
+"Als de cellen A1, A2, ..., A5 de getallen 11,4 17,3 21,3 25,9 en 40,1 "
+"bevatten, dan geldt:\n"
 "TRIMMEAN(A1:A5;0,2) is 23,2\n"
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
@@ -15235,7 +15247,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x;gemiddelde;stddev;cumulatief)\n"
-"@DESCRIPTION=NORMDIST geeft de waarschijnlijkheidsdichtheid, of de cumulatieve distributiefunctie voor de normale verdeling met het gemiddelde gegeven in @gemiddelde en de standaardafwijking gegeven in @stddev. Wanneer @cumulatief ONWAAR is geeft NORMDIST de waarde van de waarschijnlijkheidsdichtheid in de waarde @x. Wanneer @cumulatief WAAR is geeft NORMDIST de waarde van de cumulatieve distributiefunctie in @x.\n"
+"@DESCRIPTION=NORMDIST geeft de waarschijnlijkheidsdichtheid, of de "
+"cumulatieve distributiefunctie voor de normale verdeling met het gemiddelde "
+"gegeven in @gemiddelde en de standaardafwijking gegeven in @stddev. Wanneer "
+"@cumulatief ONWAAR is geeft NORMDIST de waarde van de "
+"waarschijnlijkheidsdichtheid in de waarde @x. Wanneer @cumulatief WAAR is "
+"geeft NORMDIST de waarde van de cumulatieve distributiefunctie in @x.\n"
 "\n"
 "* Als @stdev 0 is, geeft NORMDIST een #DIV/0! foutmelding.\n"
 "* Deze functie is compatibel met Excel.\n"
@@ -17698,7 +17715,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ASC\n"
 "@SYNTAX=ASC(tekenreeks)\n"
-"@DESCRIPTION=ASC een compatibiliteisfunctie die betekenisloos is in Gnumeric.  In MS Excel (tm) zet het een 2 byte @tekenreeks om in enkelbyte tekst.\n"
+"@DESCRIPTION=ASC een compatibiliteisfunctie die betekenisloos is in "
+"Gnumeric.  In MS Excel (tm) zet het een 2 byte @tekenreeks om in enkelbyte "
+"tekst.\n"
 "\n"
 "@EXAMPLES=\n"
 "CHAR(\"Foo\") is gelijk aan \"Foo\".\n"
@@ -17875,7 +17894,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
-"@DESCRIPTION=ISPRIME geeft WAAR als @i een priemgetal is en ONWAAR als het geen priemgetal is.\n"
+"@DESCRIPTION=ISPRIME geeft WAAR als @i een priemgetal is en ONWAAR als het "
+"geen priemgetal is.\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
@@ -17896,7 +17916,8 @@ msgstr ""
 "@SYNTAX=PFACTOR(n)\n"
 "@DESCRIPTION=PFACTOR geeft de kleinste priemfactor van het argument.\n"
 "\n"
-"Het argument moet minimaal 2 zijn, anders geeft PFACTOR een #WAARDE! foutmelding.\n"
+"Het argument moet minimaal 2 zijn, anders geeft PFACTOR een #WAARDE! "
+"foutmelding.\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME"
@@ -18036,3 +18057,39 @@ msgstr ""
 "@EXAMPLES=\n"
 "ATL_LAST(\"IBM\")\n"
 "@SEEALSO="
+
+#~ msgid ""
+#~ "@FUNCTION=SUMPRODUCT\n"
+#~ "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
+#~ "@DESCRIPTION=SUMPRODUCT function multiplies corresponding data entries in "
+#~ "the given arrays or ranges, and then returns the sum of those products.  "
+#~ "If an array entry is not numeric, the value zero is used instead.\n"
+#~ "\n"
+#~ "* If arrays or range arguments do not have the same dimensions, "
+#~ "SUMPRODUCT returns #VALUE! error.\n"
+#~ "* This function is Excel compatible.\n"
+#~ "\n"
+#~ "@EXAMPLES=\n"
+#~ "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, "
+#~ "21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and "
+#~ "39.  Then\n"
+#~ "SUMPRODUCT(A1:A5,B1:B5) equals 3370.\n"
+#~ "\n"
+#~ "@SEEALSO=SUM,PRODUCT"
+#~ msgstr ""
+#~ "@FUNCTION=SUMPRODUCT\n"
+#~ "@SYNTAX=SUMPRODUCT(bereik1;bereik2;...)\n"
+#~ "@DESCRIPTION=SUMPRODUCT vermenigvuldigt corresponderende items in de "
+#~ "opgegeven bereiken en geeft vervolgens de som van deze producten. \n"
+#~ "\n"
+#~ "* Als een item in het bereik geen getal is, wordt de waarde 0 gebruikt.\n"
+#~ "* Als de bereiken niet dezelfde afmetingen hebben, geeft SUMPRODUCT een "
+#~ "#WAARDE! foutmelding.\n"
+#~ "* Deze functie is compatibel met Excel.\n"
+#~ "\n"
+#~ "@EXAMPLES=\n"
+#~ "Als A1, A2, ..., A5 de getallen 11, 15, 17, 21, en 43 bevatten, en B1, "
+#~ "B2, ..., B5 de getallen 13, 22, 31, 33, en 39, dan geldt:\n"
+#~ "SUMPRODUCT(A1:A5;B1:B5) is 3370\n"
+#~ "\n"
+#~ "@SEEALSO=SUM,PRODUCT"
