@@ -319,6 +319,7 @@ sheet_object_image_new_view (SheetObject *so, SheetObjectViewContainer *containe
 	item = foo_canvas_item_new (gcanvas->object_views,
 		so_image_foo_view_get_type (),
 		"pixbuf", pixbuf,
+		"visible", FALSE,
 		NULL);
 	g_object_unref (G_OBJECT (pixbuf));
 

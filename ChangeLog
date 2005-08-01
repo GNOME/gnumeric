@@ -1,3 +1,16 @@
+2005-08-01  Jody Goldberg <jody@gnome.org>
+
+	* src/consolidate.c (retrieve_row_tree) : Ignore elements that have no
+	  data. [#308431]
+
+	* src/workbook-edit.c (cb_entry_delete_text) : queue an update of the
+	  edit items.  This is a kludge.  We should move to a centralized
+	  dropdown rather than screwing with the selection. [#308303]
+	(wbcg_edit_start) : don't autocomplete while editing in the editline.
+
+	* src/sheet-object-image.c (sheet_object_image_new_view) : create the
+	  image hidden.  The bound_set. will fix it later. [#308301]
+
 2005-07-29  Jody Goldberg <jody@gnome.org>
 
 	* src/graph.c (gnm_go_data_scalar_as_str) : New. be smarter about

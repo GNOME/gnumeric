@@ -522,13 +522,8 @@ dialog_consolidate_tool_init (ConsolidateState *state)
 		selection_foreach_range (state->base.sv, TRUE, &add_source_area, state);
 
 	adjust_source_areas (state);
-
-	gtk_widget_grab_focus   (GTK_WIDGET (state->function));
-
-	dialog_set_button_sensitivity(NULL, state);
-
+	dialog_set_button_sensitivity (NULL, state);
 	state->base.state_destroy = (state_destroy_t)cb_dialog_destroy;
-	
 }
 
 void

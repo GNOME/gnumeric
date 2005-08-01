@@ -1,3 +1,8 @@
+2005-07-31  Jody Goldberg <jody@gnome.org>
+
+	* dialog-consolidate.c (dialog_consolidate_tool_init) : suppress
+	  inconsequential warning from #308431.
+
 2005-07-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* dialog-about.c (cb_plot_resize): graph logical size is a property of

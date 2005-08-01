@@ -59,7 +59,6 @@ wbcg_auto_complete_destroy (WorkbookControlGUI *wbcg)
 	}
 
 	wbcg->auto_completing = FALSE;
-
 }
 
 /**
@@ -307,9 +306,8 @@ workbook_edit_complete_notify (char const *text, void *closure)
 }
 
 static void
-entry_changed (GtkEntry *entry, void *data)
+cb_entry_changed (GtkEntry *entry, WorkbookControlGUI *wbcg)
 {
-	WorkbookControlGUI *wbcg = data;
 	char const *text;
 	int text_len;
 	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
@@ -557,7 +555,12 @@ cb_entry_delete_text (GtkEditable    *editable,
 		      gint            end_pos,
 		      WorkbookControlGUI *wbcg)
 {
-	wbcg->auto_completing = FALSE;
+	if (wbcg->auto_completing) {
+		wbcg_auto_complete_destroy (wbcg);
+		SCG_FOREACH_PANE (wbcg_cur_scg (wbcg), pane,
+			if (pane->editor != NULL)
+				foo_canvas_item_request_update (FOO_CANVAS_ITEM (pane->editor)););
+	}
 
 	if (wbcg->edit_line.full_content) {
 		char const *str = gtk_entry_get_text (GTK_ENTRY (editable));
@@ -736,8 +739,8 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	/* Redraw the cell contents in case there was a span */
 	sheet_redraw_region (sv->sheet, col, row, col, row);
 
-	/* Activate auto-completion if this is not an expression */
-	if (wbv->do_auto_completion &&
+	if (cursorp && /* autocompletion code will not work in the edit line */
+	    wbv->do_auto_completion &&
 	    (text == NULL || g_unichar_isalpha (g_utf8_get_char (text)))) {
 		wbcg->auto_complete = complete_sheet_new (
 			sv->sheet, col, row,
@@ -768,7 +771,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	wbcg->edit_line.signal_changed = g_signal_connect (
 		G_OBJECT (wbcg_get_entry (wbcg)),
 		"changed",
-		G_CALLBACK (entry_changed), wbcg);
+		G_CALLBACK (cb_entry_changed), wbcg);
 	wbcg->edit_line.signal_insert = g_signal_connect (
 		G_OBJECT (wbcg_get_entry (wbcg)),
 		"insert-text",

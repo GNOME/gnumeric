@@ -57,22 +57,21 @@ static void
 get_bounding_box (GSList const *granges, GnmRange *box)
 {
 	GSList const *l;
-	int max_x, max_y;
+	GnmSheetRange const *gr;
+	int ext_x, ext_y, max_x, max_y;
 
 	g_return_if_fail (granges != NULL);
 	g_return_if_fail (box != NULL);
 
 	max_x = max_y = 0;
 	for (l = granges; l != NULL; l = l->next) {
-		GnmSheetRange *gr = l->data;
-		int ext_x = gr->range.end.col - gr->range.start.col;
-		int ext_y = gr->range.end.row - gr->range.start.row;
+		gr = l->data;
 
 		g_return_if_fail (range_is_sane (&gr->range));
 
-		if (ext_x > max_x)
+		if ((ext_x = gr->range.end.col - gr->range.start.col) > max_x)
 			max_x = ext_x;
-		if (ext_y > max_y)
+		if ((ext_y = gr->range.end.row - gr->range.start.row) > max_y)
 			max_y = ext_y;
 	}
 
@@ -273,6 +272,9 @@ retrieve_row_tree (GnmConsolidate *cs)
 {
 	GTree *tree;
 	GSList *l;
+	GnmSheetRange *gr;
+	TreeItem *ti;
+	GnmRange s;
 
 	g_return_val_if_fail (cs != NULL, NULL);
 
@@ -286,36 +288,23 @@ retrieve_row_tree (GnmConsolidate *cs)
 			GnmValue const *v = sheet_cell_get_value (sgr->sheet, sgr->range.start.col, row);
 
 			if (v && v->type != VALUE_EMPTY) {
-				GnmSheetRange *gr;
-				GSList *granges;
-				TreeItem *ti;
-				GnmRange s;
-
-				ti = g_tree_lookup (tree, (GnmValue *) v);
-
-				if (ti)
-					granges = ti->val;
-				else
-					granges = NULL;
-
-				s.start.row = s.end.row = row;
-				s.start.col = sgr->range.start.col + 1;
-				s.end.col   = sgr->range.end.col;
-
-				gr = gnm_sheet_range_new (sgr->sheet, &s);
-				granges = g_slist_append (granges, gr);
-
-				/*
-				 * NOTE: There is no need to duplicate the value
-				 * as it will not change during the consolidation
-				 * operation. We simply store it as const
-				 */
-				if (!ti) {
+				if (NULL == (ti = g_tree_lookup (tree, (gpointer) v))) {
+					/* NOTE: There is no need to duplicate
+					 * the value as it will not change
+					 * during the consolidation operation.
+					 * We simply store it as const */
 					ti = g_new0 (TreeItem, 1);
 				        ti->key = v;
+					ti->val = NULL;
 				}
-				ti->val = granges;
 
+				s.start.col = sgr->range.start.col + 1;
+				s.end.col   = sgr->range.end.col;
+				if (s.end.col >= s.start.col) {
+					s.start.row = s.end.row = row;
+					gr = gnm_sheet_range_new (sgr->sheet, &s);
+					ti->val = g_slist_append (ti->val, gr);
+				}
 				g_tree_insert (tree, (GnmValue *) ti->key, ti);
 			}
 		}
@@ -466,12 +455,7 @@ simple_consolidate (GnmFunc *fd, GSList const *src,
 	g_return_if_fail (fd != NULL);
 	g_return_if_fail (src != NULL);
 
-	/*
-	 * We first deduct the full bounding box of all ranges combined
-	 * this is needed so we know how far to traverse in total
-	 */
 	get_bounding_box (src, &box);
-
 	for (y = box.start.row; y <= box.end.row; y++) {
 		for (x = box.start.col; x <= box.end.col; x++) {
 			GnmExprList *args = NULL;
@@ -522,13 +506,9 @@ simple_consolidate (GnmFunc *fd, GSList const *src,
 				args = gnm_expr_list_append (args, gnm_expr_new_constant (val));
 			}
 
-			/* There is no need to free 'args', it will be absorbed
-			 * into the GnmExpr
-			 */
-			if (args) {
-				GnmExpr const *expr = gnm_expr_new_funcall (fd, args);
-				dao_set_cell_expr (dao, x, y, expr);
-			}
+			if (args)
+				dao_set_cell_expr (dao, x, y,
+					gnm_expr_new_funcall (fd, args));
 		}
 	}
 }
