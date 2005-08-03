@@ -1,3 +1,7 @@
+2005-08-03  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/test-pango.c: Fix warnings.
+
 2005-08-01  Jody Goldberg <jody@gnome.org>
 
 	* src/consolidate.c (retrieve_row_tree) : Ignore elements that have no

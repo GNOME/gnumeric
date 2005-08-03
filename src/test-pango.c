@@ -4,7 +4,6 @@
 #include "libgnumeric.h"
 
 #include "command-context.h"
-#include <goffice/app/io-context.h>
 #include "io-context-gtk.h"
 /* TODO: Get rid of this one */
 #include "command-context-stderr.h"
@@ -17,6 +16,9 @@
 #include "workbook.h"
 #include "sheet-control.h"
 #include "gnumeric-paths.h"
+#include "gnm-plugin.h"
+
+#include <goffice/app/io-context.h>
 
 #include <gtk/gtkmain.h>
 #ifdef WITH_GNOME
@@ -76,7 +78,6 @@ main (int argc, char *argv [])
 	GOCmdContext *cc;
 	WorkbookControl *wbc;
 	IOContext *ioc;
-	poptContext ctx;
 
 	gnm_pre_parse_init (argv[0]);
 	gtk_init (&argc, (char ***)&argv);
