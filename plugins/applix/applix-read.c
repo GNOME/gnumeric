@@ -48,13 +48,13 @@
 #include <selection.h>
 #include <position.h>
 #include <ranges.h>
-#include <goffice/app/io-context.h>
 #include <command-context.h>
 #include <workbook-view.h>
 #include <workbook.h>
-#include <goffice/app/error-info.h>
 #include <parse-util.h>
 
+#include <goffice/app/io-context.h>
+#include <goffice/app/error-info.h>
 #include <gsf/gsf-input-textline.h>
 #include <string.h>
 #include <stdlib.h>
