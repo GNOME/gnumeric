@@ -186,11 +186,13 @@ dialog_doc_metadata_new (WorkbookControlGUI *wbcg)
 
 /*These two synchronize between the two Document Title parts*/
 /*Sync it back to the Description page*/
-void sync_general_title(GtkCellEditable *cell_editable, gpointer userdata) {
+static void
+sync_general_title(GtkCellEditable *cell_editable, gpointer userdata) {
 	gtk_entry_set_text(GTK_ENTRY(glade_xml_get_widget(((DialogDocMetaData*)userdata)->gui, "title")), gtk_entry_get_text(GTK_ENTRY(glade_xml_get_widget(((DialogDocMetaData*)userdata)->gui, "general_title"))));
 }
 /*Sync it back to the General page*/
-void sync_description_title(GtkCellEditable *cell_editable, gpointer userdata) {
+static void
+sync_description_title(GtkCellEditable *cell_editable, gpointer userdata) {
 	gtk_entry_set_text(GTK_ENTRY(glade_xml_get_widget(((DialogDocMetaData*)userdata)->gui, "general_title")), gtk_entry_get_text(GTK_ENTRY(glade_xml_get_widget(((DialogDocMetaData*)userdata)->gui, "title"))));
 }
 
@@ -216,8 +218,8 @@ void populate_page_1(DialogDocMetaData *state) {
 	gtk_label_set_text(GTK_LABEL(glade_xml_get_widget(state->gui, "modified")), "Unknown");
 	gtk_label_set_text(GTK_LABEL(glade_xml_get_widget(state->gui, "accessed")), "Unknown");
 	/*Set up the handlers*/
-	glade_xml_signal_connect_data(state->gui, "on_general_title_editing_done", (*sync_general_title), (gpointer)state);
-	glade_xml_signal_connect_data(state->gui, "on_title_editing_done", (*sync_description_title), (gpointer)state);
+	glade_xml_signal_connect_data(state->gui, "on_general_title_editing_done", G_CALLBACK (*sync_general_title), (gpointer)state);
+	glade_xml_signal_connect_data(state->gui, "on_title_editing_done", G_CALLBACK (*sync_description_title), (gpointer)state);
 }
 void populate_page_2(DialogDocMetaData *state) {
 }

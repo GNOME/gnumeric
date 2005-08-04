@@ -1,3 +1,8 @@
+2005-08-04  Stepan Kasal  <kasal@ucw.cz>
+
+	* dialog-about.c, dialog-doc-metadata.c, dialog-stf-export.c:
+	  Fix warnings.
+
 2005-07-31  Jody Goldberg <jody@gnome.org>
 
 	* dialog-consolidate.c (dialog_consolidate_tool_init) : suppress

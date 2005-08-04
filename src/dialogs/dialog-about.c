@@ -273,7 +273,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 		"state", state, (GDestroyNotify)gnm_about_state_free);
 
 	state->graph = g_object_new (GOG_GRAPH_TYPE, NULL);
-	gog_graph_set_size (state->graph, 4 * 72.0, 4 * 72.0);
+	gog_graph_set_size (GOG_GRAPH (state->graph), 4 * 72.0, 4 * 72.0);
 	GOG_STYLED_OBJECT (state->graph)->style->fill.type = GOG_FILL_STYLE_GRADIENT;
 	GOG_STYLED_OBJECT (state->graph)->style->fill.pattern.back = 0xFFFF99FF;
 	GOG_STYLED_OBJECT (state->graph)->style->fill.gradient.dir = GO_GRADIENT_W_TO_E_MIRRORED;

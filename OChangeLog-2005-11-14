@@ -1,6 +1,7 @@
 2005-08-04  Stepan Kasal  <kasal@ucw.cz>
 
 	* src/Makefile.am (GNUMERIC_BASE): Add gnm-style-impl.h.
+	* src/file-autoft.c: Add a missing include.
 
 2005-08-03  Jody Goldberg <jody@gnome.org>
 

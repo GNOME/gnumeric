@@ -33,6 +33,7 @@
 
 #include <gsf/gsf-impl-utils.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-libxml-extras.h>
 
 #include <sys/types.h>
 #include <string.h>

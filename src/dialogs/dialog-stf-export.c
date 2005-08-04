@@ -119,7 +119,7 @@ stf_export_dialog_format_page_init (TextExportState *state)
 	gtk_combo_box_set_active (state->format.quote, 0);
 	state->format.quotechar   = GTK_COMBO_BOX_ENTRY      (glade_xml_get_widget (state->gui, "format_quotechar"));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (state->format.quotechar), 0);
-	state->format.format     = glade_xml_get_widget (state->gui, "format");
+	state->format.format     = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format"));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (state->format.format), 0);
 	state->format.charset	  = go_charmap_sel_new (GO_CHARMAP_SEL_FROM_UTF8);
 	state->format.transliterate = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format_transliterate"));
