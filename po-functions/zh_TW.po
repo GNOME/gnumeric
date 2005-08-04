@@ -1,6 +1,6 @@
 # Copyright (C) 1999, 2001, 2003 Free Software Foundation, Inc.
 # Pofeng Lee <Pofeng.Lee@ms7.url.com.tw>, 1999
-# Abel Cheung <maddog@linux.org.hk>, 2001, 2003.
+# Abel Cheung <abel@oaka.org>, 2001, 2003.
 #
 msgid ""
 msgstr ""
@@ -8,8 +8,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-12 11:12-0500\n"
 "PO-Revision-Date: 2003-04-20 09:47+0800\n"
-"Last-Translator: Abel Cheung <maddog@linux.org.hk>\n"
-"Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
+"Last-Translator: Abel Cheung <abel@oaka.org>\n"
+"Language-Team: Chinese (traditional) <community@linuxhall.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
