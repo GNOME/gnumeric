@@ -1,3 +1,7 @@
+2005-08-04  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/Makefile.am (GNUMERIC_BASE): Add gnm-style-impl.h.
+
 2005-08-03  Jody Goldberg <jody@gnome.org>
 
 	* src/style-conditions.c (gnm_style_conditions_eval) : suppress a
@@ -180,6 +184,9 @@
 2005-06-25  Jody Goldberg <jody@gnome.org>
 
 	* src/mstyle.c (gnm_style_dup) : no need to dup unassigned elements.
+
+	* src/gnm-style-impl.h, src/style-conditions.c, src/style-conditions.h:
+	  New files.
 
 2005-06-25  Jody Goldberg <jody@gnome.org>
 

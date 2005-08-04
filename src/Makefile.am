@@ -97,6 +97,7 @@ GNUMERIC_BASE =					\
 	gnm-format.h				\
 	gnm-datetime.c				\
 	gnm-datetime.h				\
+	gnm-style-impl.h			\
 	gnumeric.h				\
 	gnumeric-simple-canvas.c		\
 	gnumeric-simple-canvas.h		\
