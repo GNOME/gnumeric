@@ -3,6 +3,9 @@
 	* src/Makefile.am (GNUMERIC_BASE): Add gnm-style-impl.h.
 	* src/file-autoft.c: Add a missing include.
 
+	* src/style-conditions.c (gnm_style_conditions_eval): Fix another
+	  warning.
+
 2005-08-03  Jody Goldberg <jody@gnome.org>
 
 	* src/style-conditions.c (gnm_style_conditions_eval) : suppress a

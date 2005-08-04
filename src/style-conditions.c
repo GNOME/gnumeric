@@ -181,7 +181,6 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 	GnmValue *val;
 	GArray const *conds;
 	GnmStyleCond const *cond;
-	char *str;
 	GnmParsePos pp;
 
 	g_return_val_if_fail (sc != NULL, -1);
@@ -207,9 +206,12 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 		case GNM_STYLE_COND_CUSTOM:
 			use_this = value_get_as_bool (val, NULL);
 #if 0
-			str = gnm_expr_as_string (cond->expr[0], &pp, gnm_expr_conventions_default);
-			g_print ("'%s' = %s\n", str, use_this ? "true" : "false");
-			g_free (str);
+			{
+				char *str = gnm_expr_as_string (cond->expr[0],
+								&pp, gnm_expr_conventions_default);
+				g_print ("'%s' = %s\n", str, use_this ? "true" : "false");
+				g_free (str);
+			}
 #endif
 		}
 		value_release (val);
