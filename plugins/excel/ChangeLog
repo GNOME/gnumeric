@@ -1,6 +1,10 @@
+2005-08-05  Stepan Kasal  <kasal@ucw.cz>
+
+	* ms-excel-write.c (excel_write_string): Fix warning.
+
 2005-08-02  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* ms-chart.c: (ms_excel_chart_read): fixed import x error bars.
+	* ms-chart.c (ms_excel_chart_read): fixed import x error bars.
 
 2005-07-29  Jody Goldberg <jody@gnome.org>
 

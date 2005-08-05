@@ -249,7 +249,7 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 		out_bytes = bp->buf_len - 3;
 
 		tmp = bp->buf + offset;
-		g_iconv (bp->convert, (char **)&in_bytes, &byte_len, &tmp, &out_bytes);
+		g_iconv (bp->convert, &in_bytes, &byte_len, (char **)&tmp, &out_bytes);
 		out_bytes = tmp - bp->buf;
 
 		switch (flags & STR_LENGTH_MASK) {
