@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-30 19:47+0000\n"
-"PO-Revision-Date: 2005-07-31 14:40-0300\n"
+"POT-Creation-Date: 2005-08-04 03:49+0000\n"
+"PO-Revision-Date: 2005-08-07 13:22-0300\n"
 "Last-Translator: Afonso Celso Medina <afmedina@uol.com.br>\n"
 "Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -31,20 +31,20 @@ msgstr "Visualizador de Workbook do Gnumeric"
 
 #: ../GNOME_Gnumeric.server.in.in.h:3
 msgid "Gnumeric Workbook viewer factory"
-msgstr "Fábrica de Visualização de Workbook do Gnumeric"
+msgstr "Fábrica de visualização de Workbook do Gnumeric"
 
 #. Keep in sync with .desktop file
 #: ../gnumeric.desktop.in.h:1 ../src/main-application.c:339
 msgid "Gnumeric Spreadsheet"
-msgstr "Planilha do Gnumeric"
+msgstr "Planilha Eletrônica Gnumeric"
 
 #: ../gnumeric.desktop.in.h:2
 msgid "Spreadsheet"
-msgstr "Planilha"
+msgstr "Planilha Eletrônica"
 
 #: ../gnumeric.desktop.in.h:3
 msgid "The GNOME Spreadsheet"
-msgstr "A Planilha GNOME"
+msgstr "A Planilha Eletrônica do GNOME"
 
 #: ../plugins/applix/applix-read.c:106
 msgid "Parse error while reading Applix file."
@@ -169,7 +169,8 @@ msgstr ""
 
 #: ../plugins/derivatives/options.c:2351
 msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
-msgstr "à_vista, exercício, tempo1, tempo2, taxa, custo_de_carregamento, volatilidade"
+msgstr ""
+"à_vista, exercício, tempo1, tempo2, taxa, custo_de_carregamento, volatilidade"
 
 #: ../plugins/derivatives/options.c:2356
 msgid ""
@@ -223,16 +224,16 @@ msgid ""
 "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
 "volatility"
 msgstr ""
-"tipo_compra_venda,à_vista,à_vista_min,à_vista_max,exercício,tempo,"
-"taxa,custo_de_carregamento,volatilidade"
+"tipo_compra_venda,à_vista,à_vista_min,à_vista_max,exercício,tempo,taxa,"
+"custo_de_carregamento,volatilidade"
 
 #: ../plugins/derivatives/options.c:2402
 msgid ""
 "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
 "volatility, cost_of_carry"
 msgstr ""
-"ipo_amer_euro,tipo_compra_venda,num_passos_tempo, à_vista, exercício, "
-"tempo, taxa, volatilidade, custo_de_carregamento"
+"ipo_amer_euro,tipo_compra_venda,num_passos_tempo, à_vista, exercício, tempo, "
+"taxa, volatilidade, custo_de_carregamento"
 
 #: ../plugins/derivatives/plugin.xml.in.h:1
 #: ../plugins/fn-financial/plugin.xml.in.h:1
@@ -3879,8 +3880,8 @@ msgstr "C_opiar rótulos"
 msgid "Clear the list of source areas"
 msgstr "Limpar a lista de áreas origem"
 
-#: ../src/dialogs/consolidate.glade.h:3 ../src/consolidate.c:810
-#: ../src/consolidate.c:813
+#: ../src/dialogs/consolidate.glade.h:3 ../src/consolidate.c:790
+#: ../src/consolidate.c:793
 msgid "Data Consolidation"
 msgstr "Consolidação de Dados"
 
@@ -4952,7 +4953,7 @@ msgstr "A região de origem %s intercepta a região de destino"
 msgid "The output range overlaps with the input ranges."
 msgstr "A região de saída se sobrepõe à região de entrada."
 
-#: ../src/dialogs/dialog-consolidate.c:556
+#: ../src/dialogs/dialog-consolidate.c:551
 msgid "Could not create the Consolidate dialog."
 msgstr "Impossível criar o diálogo de Consolidação."
 
@@ -7676,19 +7677,19 @@ msgstr "Mostrar próxima ocorrência"
 
 #: ../src/dialogs/search.glade.h:24
 msgid "Show previous match"
-msgstr "Mostrar ocorrência anterior"
+msgstr "Mostrar a ocorrência anterior"
 
 #: ../src/dialogs/search.glade.h:25
 msgid "Start search"
-msgstr "Começar busca"
+msgstr "Iniciar busca"
 
 #: ../src/dialogs/search.glade.h:26 ../src/dialogs/search-replace.glade.h:32
 msgid "The search text is a regular expression"
-msgstr "O texto de busca é uma expressão regular"
+msgstr "O texto de procura é uma expressão regular"
 
 #: ../src/dialogs/search.glade.h:27 ../src/dialogs/search-replace.glade.h:33
 msgid "The search text is taken literally."
-msgstr "O texto de busca é literal."
+msgstr "O texto de procura é considerado na forma exata"
 
 #: ../src/dialogs/search.glade.h:28 ../src/dialogs/search-replace.glade.h:35
 msgid "When set, do not distinguish between upper and lower case letters"
@@ -7704,7 +7705,7 @@ msgstr "Pasta at_ual"
 
 #: ../src/dialogs/search.glade.h:31 ../src/dialogs/search-replace.glade.h:41
 msgid "_Entire workbook"
-msgstr "_Todo Workbook"
+msgstr "_Todo o Workbook"
 
 #: ../src/dialogs/search.glade.h:32 ../src/dialogs/search-replace.glade.h:42
 msgid "_Expressions"
@@ -7712,7 +7713,7 @@ msgstr "_Expressões"
 
 #: ../src/dialogs/search.glade.h:33 ../src/dialogs/search-replace.glade.h:44
 msgid "_Ignore case"
-msgstr "_Ignorar caixa"
+msgstr "I_gnorar maiúsculas/minúsculas"
 
 #: ../src/dialogs/search.glade.h:34 ../src/dialogs/search-replace.glade.h:47
 msgid "_Other values"
@@ -7768,7 +7769,7 @@ msgstr "Create =ERROR(\"...\")"
 
 #: ../src/dialogs/search-replace.glade.h:10
 msgid "Error Behaviour"
-msgstr "Comportamento do Erro"
+msgstr "Comportamento em Erro"
 
 #: ../src/dialogs/search-replace.glade.h:11
 msgid "Fail without any changes actually being done to any cell"
@@ -7800,7 +7801,7 @@ msgstr "Fazer alterações em valores texto"
 
 #: ../src/dialogs/search-replace.glade.h:19
 msgid "Query for replacement"
-msgstr "Consulta para alteração"
+msgstr "Consultar para alteração"
 
 #: ../src/dialogs/search-replace.glade.h:20
 msgid "Ra_nge"
@@ -7873,7 +7874,7 @@ msgstr "_Preservar Maiúsculas"
 
 #: ../src/dialogs/search-replace.glade.h:50
 msgid "_Query"
-msgstr "_Consulta"
+msgstr "_Consultar"
 
 #: ../src/dialogs/search-replace.glade.h:51
 msgid "_Replace by"
@@ -8304,7 +8305,7 @@ msgstr "Formatar Workbook"
 
 #: ../src/dialogs/workbook-attr.glade.h:6
 msgid "Maximum c_hange:"
-msgstr "A_lteração Máxima:"
+msgstr "_Alteração Máxima:"
 
 #: ../src/dialogs/workbook-attr.glade.h:7
 msgid "Maximum it_erations:"
@@ -9895,7 +9896,7 @@ msgstr "Esquerda para Direita"
 msgid "Right to Left"
 msgstr "Direita para Esquerda"
 
-#: ../src/consolidate.c:771
+#: ../src/consolidate.c:751
 #, c-format
 msgid "Consolidating to (%s)"
 msgstr "Consolidando para (%s)"
@@ -10307,12 +10308,12 @@ msgid "Display Gnumeric's version"
 msgstr "Mostra a versão do Gnumeric"
 
 #: ../src/main-application.c:62 ../src/ssconvert.c:47 ../src/ssindex.c:55
-#: ../src/test-pango.c:32
+#: ../src/test-pango.c:34
 msgid "Set the root library directory"
 msgstr "Define o diretório raiz das bibliotecas"
 
 #: ../src/main-application.c:64 ../src/ssconvert.c:49 ../src/ssindex.c:57
-#: ../src/test-pango.c:34
+#: ../src/test-pango.c:36
 msgid "Adjust the root data directory"
 msgstr "Ajusta o diretório raiz dos dados"
 
@@ -10328,13 +10329,13 @@ msgstr "ARQUIVO"
 msgid "Generate new help and po files"
 msgstr "Gera novos arquivos de ajuda e de po"
 
-#: ../src/main-application.c:74 ../src/test-pango.c:36
+#: ../src/main-application.c:74 ../src/test-pango.c:38
 msgid "Enables some debugging functions"
 msgstr "Habilita algumas funções de depuração"
 
 #: ../src/main-application.c:74 ../src/main-application.c:77
 #: ../src/main-application.c:79 ../src/main-application.c:81
-#: ../src/test-pango.c:36
+#: ../src/test-pango.c:38
 msgid "LEVEL"
 msgstr "NÍVEL"
 
@@ -10351,11 +10352,11 @@ msgstr ""
 msgid "Enables some print debugging behavior"
 msgstr "Habilita algumas funções de depuração de impressão"
 
-#: ../src/main-application.c:84 ../src/test-pango.c:38
+#: ../src/main-application.c:84 ../src/test-pango.c:40
 msgid "Specify the size and location of the initial window"
 msgstr "Especifica o tamanho e a localização da janela inicial"
 
-#: ../src/main-application.c:84 ../src/test-pango.c:38
+#: ../src/main-application.c:84 ../src/test-pango.c:40
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "LARGURAxALTURA+XOFF+YOFF"
 
@@ -11095,31 +11096,31 @@ msgstr "não pode criar objeto para '%s'"
 msgid "Could not load file: %s"
 msgstr "Impossível carregar arquivo: %s"
 
-#: ../src/sheet-object-graph.c:278 ../src/sheet-object-image.c:467
+#: ../src/sheet-object-graph.c:278 ../src/sheet-object-image.c:468
 msgid "Unknown failure while saving image"
 msgstr "Falha desconhecida ao salvar imagem"
 
-#: ../src/sheet-object-graph.c:320 ../src/sheet-object-image.c:351
+#: ../src/sheet-object-graph.c:320 ../src/sheet-object-image.c:352
 msgid "SVG (vector graphics)"
 msgstr "SVG (imagem vetorial)"
 
-#: ../src/sheet-object-graph.c:321 ../src/sheet-object-image.c:347
+#: ../src/sheet-object-graph.c:321 ../src/sheet-object-image.c:348
 msgid "PNG (raster graphics)"
 msgstr "PNG (imagem rasterizada)"
 
-#: ../src/sheet-object-graph.c:322 ../src/sheet-object-image.c:349
+#: ../src/sheet-object-graph.c:322 ../src/sheet-object-image.c:350
 msgid "JPEG (photograph)"
 msgstr "JPEG (fotografia)"
 
-#: ../src/sheet-object-graph.c:364 ../src/sheet-object-image.c:534
+#: ../src/sheet-object-graph.c:364 ../src/sheet-object-image.c:535
 msgid "_Save as image"
 msgstr "_Salvar como Imagem"
 
-#: ../src/sheet-object-image.c:353
+#: ../src/sheet-object-image.c:354
 msgid "EMF (extended metafile)"
 msgstr "EMF (metarquivo extendido)"
 
-#: ../src/sheet-object-image.c:355
+#: ../src/sheet-object-image.c:356
 msgid "WMF (windows metafile)"
 msgstr "WMF (metarquivo do windows)"
 
@@ -11871,7 +11872,7 @@ msgstr "Seleciona uma linha inteira"
 
 #: ../src/wbcg-actions.c:1568
 msgid "Select Arra_y"
-msgstr "Seleciona Matri_z"
+msgstr "Selecionar Matri_z"
 
 #: ../src/wbcg-actions.c:1569
 msgid "Select an array of cells"
@@ -12138,7 +12139,7 @@ msgstr "Insere a hora atual na(s) célula(s) selecionada(s)"
 
 #: ../src/wbcg-actions.c:1695
 msgid "Current d_ate and time"
-msgstr "Hora e data _atual"
+msgstr "Hora e data _atuais"
 
 #: ../src/wbcg-actions.c:1696
 msgid "Insert the current date and time into the selected cell(s)"
@@ -12533,7 +12534,7 @@ msgstr "Cria uma tabela dinâmica"
 #. Data -> Outline
 #: ../src/wbcg-actions.c:1875
 msgid "_Hide Detail"
-msgstr "Ocultar Detal_hes"
+msgstr "_Ocultar Detalhes"
 
 #: ../src/wbcg-actions.c:1876
 msgid "Collapse an outline group"
@@ -12549,7 +12550,7 @@ msgstr "Reagrupa um grupo de contorno"
 
 #: ../src/wbcg-actions.c:1881
 msgid "_Group..."
-msgstr "A_grupar..."
+msgstr "_Agrupar..."
 
 #: ../src/wbcg-actions.c:1882
 msgid "Add an outline group"
@@ -12557,7 +12558,7 @@ msgstr "Insere um grupo de contornos"
 
 #: ../src/wbcg-actions.c:1884
 msgid "_Ungroup..."
-msgstr "Desagr_upar..."
+msgstr "_Desagrupar..."
 
 #: ../src/wbcg-actions.c:1885
 msgid "Remove an outline group"
@@ -13336,16 +13337,16 @@ msgstr "_Descartar"
 msgid "_Accept"
 msgstr "_Aceitar"
 
-#: ../src/workbook-edit.c:696
+#: ../src/workbook-edit.c:699
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s está travado"
 
-#: ../src/workbook-edit.c:700
+#: ../src/workbook-edit.c:703
 msgid "Unprotect the workbook to enable editing."
 msgstr "Desbloqueie o Workbook para habilitar a edição."
 
-#: ../src/workbook-edit.c:701
+#: ../src/workbook-edit.c:704
 msgid "Unprotect the sheet to enable editing."
 msgstr " Desbloqueie a pasta para habilitar a edição."
 
