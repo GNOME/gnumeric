@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-31 00:54-0400\n"
-"PO-Revision-Date: 2005-07-31 11:36-0400\n"
+"POT-Creation-Date: 2005-08-07 14:23-0400\n"
+"PO-Revision-Date: 2005-08-07 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3771,8 +3771,8 @@ msgstr "C_opy labels"
 msgid "Clear the list of source areas"
 msgstr "Clear the list of source areas"
 
-#: src/dialogs/consolidate.glade.h:3 src/consolidate.c:810
-#: src/consolidate.c:813
+#: src/dialogs/consolidate.glade.h:3 src/consolidate.c:790
+#: src/consolidate.c:793
 msgid "Data Consolidation"
 msgstr "Data Consolidation"
 
@@ -4834,7 +4834,7 @@ msgstr "Source region %s overlaps with the destination region"
 msgid "The output range overlaps with the input ranges."
 msgstr "The output range overlaps with the input ranges."
 
-#: src/dialogs/dialog-consolidate.c:556
+#: src/dialogs/dialog-consolidate.c:551
 msgid "Could not create the Consolidate dialog."
 msgstr "Could not create the Consolidate dialogue."
 
@@ -9713,7 +9713,7 @@ msgstr "Left to Right"
 msgid "Right to Left"
 msgstr "Right to Left"
 
-#: src/consolidate.c:771
+#: src/consolidate.c:751
 #, c-format
 msgid "Consolidating to (%s)"
 msgstr "Consolidating to (%s)"
@@ -9745,7 +9745,7 @@ msgstr "'%s' is already defined in sheet"
 msgid "'%s' is already defined in workbook"
 msgstr "'%s' is already defined in workbook"
 
-#: src/file-autoft.c:87
+#: src/file-autoft.c:88
 #, c-format
 msgid "Invalid template file: %s"
 msgstr "Invalid template file: %s"
@@ -10119,12 +10119,12 @@ msgid "Display Gnumeric's version"
 msgstr "Display Gnumeric's version"
 
 #: src/main-application.c:62 src/ssconvert.c:47 src/ssindex.c:55
-#: src/test-pango.c:32
+#: src/test-pango.c:34
 msgid "Set the root library directory"
 msgstr "Set the root library directory"
 
 #: src/main-application.c:64 src/ssconvert.c:49 src/ssindex.c:57
-#: src/test-pango.c:34
+#: src/test-pango.c:36
 msgid "Adjust the root data directory"
 msgstr "Adjust the root data directory"
 
@@ -10140,12 +10140,12 @@ msgstr "FILE"
 msgid "Generate new help and po files"
 msgstr "Generate new help and po files"
 
-#: src/main-application.c:74 src/test-pango.c:36
+#: src/main-application.c:74 src/test-pango.c:38
 msgid "Enables some debugging functions"
 msgstr "Enables some debugging functions"
 
 #: src/main-application.c:74 src/main-application.c:77
-#: src/main-application.c:79 src/main-application.c:81 src/test-pango.c:36
+#: src/main-application.c:79 src/main-application.c:81 src/test-pango.c:38
 msgid "LEVEL"
 msgstr "LEVEL"
 
@@ -10161,11 +10161,11 @@ msgstr "Enables some debugging functions for expression sharing"
 msgid "Enables some print debugging behavior"
 msgstr "Enables some print debugging behaviour"
 
-#: src/main-application.c:84 src/test-pango.c:38
+#: src/main-application.c:84 src/test-pango.c:40
 msgid "Specify the size and location of the initial window"
 msgstr "Specify the size and location of the initial window"
 
-#: src/main-application.c:84 src/test-pango.c:38
+#: src/main-application.c:84 src/test-pango.c:40
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "WIDTHxHEIGHT+XOFF+YOFF"
 
@@ -10904,31 +10904,31 @@ msgstr "can't create object for '%s'"
 msgid "Could not load file: %s"
 msgstr "Could not load file: %s"
 
-#: src/sheet-object-graph.c:278 src/sheet-object-image.c:467
+#: src/sheet-object-graph.c:278 src/sheet-object-image.c:468
 msgid "Unknown failure while saving image"
 msgstr "Unknown failure while saving image"
 
-#: src/sheet-object-graph.c:320 src/sheet-object-image.c:351
+#: src/sheet-object-graph.c:320 src/sheet-object-image.c:352
 msgid "SVG (vector graphics)"
 msgstr "SVG (vector graphics)"
 
-#: src/sheet-object-graph.c:321 src/sheet-object-image.c:347
+#: src/sheet-object-graph.c:321 src/sheet-object-image.c:348
 msgid "PNG (raster graphics)"
 msgstr "PNG (raster graphics)"
 
-#: src/sheet-object-graph.c:322 src/sheet-object-image.c:349
+#: src/sheet-object-graph.c:322 src/sheet-object-image.c:350
 msgid "JPEG (photograph)"
 msgstr "JPEG (photograph)"
 
-#: src/sheet-object-graph.c:364 src/sheet-object-image.c:534
+#: src/sheet-object-graph.c:364 src/sheet-object-image.c:535
 msgid "_Save as image"
 msgstr "_Save as image"
 
-#: src/sheet-object-image.c:353
+#: src/sheet-object-image.c:354
 msgid "EMF (extended metafile)"
 msgstr "EMF (extended metafile)"
 
-#: src/sheet-object-image.c:355
+#: src/sheet-object-image.c:356
 msgid "WMF (windows metafile)"
 msgstr "WMF (windows metafile)"
 
@@ -10971,7 +10971,7 @@ msgstr "Copy"
 msgid "Cut"
 msgstr "Cut"
 
-#: src/ssconvert.c:52 src/ssindex.c:60 src/ssindex.c:62 src/ssindex.c:64
+#: src/ssconvert.c:52 src/ssindex.c:64
 msgid "Optionally specify an encoding for imported content"
 msgstr "Optionally specify an encoding for imported content"
 
@@ -11057,6 +11057,14 @@ msgstr ""
 "ssconvert version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
+
+#: src/ssindex.c:60
+msgid "List mime types which is ssindex able to read"
+msgstr "List the MIME types that ssindex can read"
+
+#: src/ssindex.c:62
+msgid "Index the given files"
+msgstr "Index the given files"
 
 #: src/ssindex.c:200
 #, c-format
@@ -13123,16 +13131,16 @@ msgstr "_Discard"
 msgid "_Accept"
 msgstr "_Accept"
 
-#: src/workbook-edit.c:696
+#: src/workbook-edit.c:699
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s is locked"
 
-#: src/workbook-edit.c:700
+#: src/workbook-edit.c:703
 msgid "Unprotect the workbook to enable editing."
 msgstr "Unprotect the workbook to enable editing."
 
-#: src/workbook-edit.c:701
+#: src/workbook-edit.c:704
 msgid "Unprotect the sheet to enable editing."
 msgstr "Unprotect the sheet to enable editing."
 
