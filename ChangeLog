@@ -1,3 +1,7 @@
+2005-08-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* *: Updated FSF's address.
+
 2005-08-04  Stepan Kasal  <kasal@ucw.cz>
 
 	* src/Makefile.am (GNUMERIC_BASE): Add gnm-style-impl.h.

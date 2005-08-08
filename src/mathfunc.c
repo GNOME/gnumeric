@@ -196,7 +196,8 @@ mathfunc_init (void)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ *  02110-1301 USA.
  *
  *  SYNOPSIS
  *
@@ -234,8 +235,8 @@ gnm_float gnm_trunc(gnm_float x)
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  along with this program; if not, write to the Free Software Foundation,
+ *  Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  *  SYNOPSIS
  *
@@ -290,7 +291,8 @@ gnm_float dnorm(gnm_float x, gnm_float mu, gnm_float sigma, gboolean give_log)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ *  02110-1301  USA.
  *
  *  SYNOPSIS
  *
@@ -575,7 +577,8 @@ void pnorm_both(gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboole
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ *  02110-1301  USA.
  *
  *  SYNOPSIS
  *
@@ -728,7 +731,8 @@ gnm_float qnorm(gnm_float p, gnm_float mu, gnm_float sigma, gboolean lower_tail,
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -768,7 +772,8 @@ gnm_float plnorm(gnm_float x, gnm_float logmean, gnm_float logsd, gboolean lower
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -808,7 +813,8 @@ gnm_float qlnorm(gnm_float p, gnm_float logmean, gnm_float logsd, gboolean lower
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -854,7 +860,8 @@ gnm_float ppois(gnm_float x, gnm_float lambda, gboolean lower_tail, gboolean log
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *
  *  DESCRIPTION
@@ -967,7 +974,8 @@ static gnm_float stirlerr(gnm_float n)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *
  *  DESCRIPTION
@@ -1026,7 +1034,8 @@ static gnm_float bd0(gnm_float x, gnm_float np)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *
  * DESCRIPTION
@@ -1094,7 +1103,8 @@ gnm_float dpois(gnm_float x, gnm_float lambda, gboolean give_log)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *
  * DESCRIPTION
@@ -1157,8 +1167,8 @@ gnm_float dgamma(gnm_float x, gnm_float shape, gnm_float scale, gboolean give_lo
  *
  *  A copy of the GNU General Public License is available via WWW at
  *  http://www.gnu.org/copyleft/gpl.html.  You can also obtain it by
- *  writing to the Free Software Foundation, Inc., 59 Temple Place,
- *  Suite 330, Boston, MA  02111-1307  USA.
+ *  writing to the Free Software Foundation, Inc., 51 Franklin St, Fifth
+ *  Floor, Boston, MA  02110-1301  USA.
  *
  *  SYNOPSIS
  *
@@ -1955,7 +1965,8 @@ gnm_float pgamma(gnm_float x, gnm_float alph, gnm_float scale, gboolean lower_ta
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ *  02110-1301 USA.
  *
  *  SYNOPSIS
  *
@@ -2027,7 +2038,8 @@ static gnm_float chebyshev_eval(gnm_float x, const gnm_float *a, const int n)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  SYNOPSIS
  *
@@ -2135,7 +2147,8 @@ static gnm_float lgammacor(gnm_float x)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  SYNOPSIS
  *
@@ -2216,7 +2229,8 @@ static gnm_float lbeta(gnm_float a, gnm_float b)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *
  * DESCRIPTION
@@ -2273,7 +2287,8 @@ gnm_float dt(gnm_float x, gnm_float n, gboolean give_log)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  */
 
 
@@ -2340,7 +2355,8 @@ gnm_float pt(gnm_float x, gnm_float n, gboolean lower_tail, gboolean log_p)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -2476,7 +2492,7 @@ gnm_float qt(gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  *  USA.
  *
  *  DESCRIPTION
@@ -2509,7 +2525,8 @@ gnm_float pchisq(gnm_float x, gnm_float df, gboolean lower_tail, gboolean log_p)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -2541,7 +2558,8 @@ gnm_float qchisq(gnm_float p, gnm_float df, gboolean lower_tail, gboolean log_p)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -2586,7 +2604,8 @@ gnm_float dweibull(gnm_float x, gnm_float shape, gnm_float scale, gboolean give_
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -2634,7 +2653,8 @@ gnm_float pweibull(gnm_float x, gnm_float shape, gnm_float scale, gboolean lower
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -2681,7 +2701,8 @@ gnm_float pbinom(gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gbo
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *
  * DESCRIPTION
@@ -2761,7 +2782,8 @@ gnm_float dbinom(gnm_float x, gnm_float n, gnm_float p, gboolean give_log)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -2884,7 +2906,8 @@ gnm_float qbinom(gnm_float p, gnm_float n, gnm_float pr, gboolean lower_tail, gb
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *
  * DESCRIPTION
@@ -2935,7 +2958,8 @@ gnm_float dnbinom(gnm_float x, gnm_float n, gnm_float p, gboolean give_log)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -2981,7 +3005,8 @@ gnm_float pnbinom(gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gb
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  SYNOPSIS
  *
@@ -3092,7 +3117,8 @@ gnm_float qnbinom(gnm_float p, gnm_float n, gnm_float pr, gboolean lower_tail, g
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *
  *  DESCRIPTION
@@ -3181,7 +3207,8 @@ gnm_float dbeta(gnm_float x, gnm_float a, gnm_float b, gboolean give_log)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *
  * DESCRIPTION
@@ -3256,7 +3283,8 @@ gnm_float dhyper(gnm_float x, gnm_float r, gnm_float b, gnm_float n, gboolean gi
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -3371,7 +3399,8 @@ gnm_float phyper (gnm_float x, gnm_float NR, gnm_float NB, gnm_float n,
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -3413,7 +3442,8 @@ gnm_float dexp(gnm_float x, gnm_float scale, gboolean give_log)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -3465,7 +3495,8 @@ gnm_float pexp(gnm_float x, gnm_float scale, gboolean lower_tail, gboolean log_p
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *
  *  DESCRIPTION
@@ -3514,7 +3545,8 @@ gnm_float dgeom(gnm_float x, gnm_float p, gboolean give_log)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -3564,7 +3596,8 @@ gnm_float pgeom(gnm_float x, gnm_float p, gboolean lower_tail, gboolean log_p)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ *  02110-1301 USA.
  *
  *  DESCRIPTION
  *
@@ -3608,7 +3641,8 @@ gnm_float dcauchy(gnm_float x, gnm_float location, gnm_float scale, gboolean giv
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -3789,7 +3823,8 @@ And routine specific :
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  */
 
 /*  DESCRIPTION --> see below */
@@ -4264,7 +4299,8 @@ L230:
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  */
 
 /*  DESCRIPTION --> see below */
@@ -4790,7 +4826,8 @@ L420:
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -4840,7 +4877,8 @@ gnm_float dlnorm(gnm_float x, gnm_float logmean, gnm_float logsd, gboolean give_
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *
  *  DESCRIPTION
@@ -4900,7 +4938,7 @@ gnm_float df(gnm_float x, gnm_float m, gnm_float n, gboolean give_log)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  *  USA
  *
  *  DESCRIPTION
@@ -4933,7 +4971,8 @@ gnm_float dchisq(gnm_float x, gnm_float df, gboolean give_log)
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -4974,7 +5013,8 @@ gnm_float qweibull(gnm_float p, gnm_float shape, gnm_float scale, gboolean lower
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
@@ -5018,7 +5058,8 @@ gnm_float qexp(gnm_float p, gnm_float scale, gboolean lower_tail, gboolean log_p
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ *  USA.
  *
  *  DESCRIPTION
  *
