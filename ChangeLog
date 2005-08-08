@@ -1,3 +1,7 @@
+2005-08-08  Sunil Mohan Adapa  <sunil@atc.tcs.co.in>
+
+	* configure.in: Added "te" to ALL_LINGUAS.
+
 2005-08-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* *: Updated FSF's address.
