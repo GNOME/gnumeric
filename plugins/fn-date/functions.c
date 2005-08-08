@@ -469,7 +469,7 @@ static GnmFuncHelp const help_now[] = {
 	   "NOW returns the serial number for the date and time at the time "
 	   "it is evaluated.\n"
 	   "\n"
-	   "Serial Numbers in Gnumeric are represented as follows:"
+	   "Serial Numbers in Gnumeric are represented as follows: "
 	   "The integral part is the number of days since the 1st of "
 	   "January of 1900.  The decimal part represent the fraction "
 	   "of the day and is mapped into hour, minutes and seconds.\n"

@@ -1274,7 +1274,7 @@ static GnmFuncHelp const help_gestep[] = {
 	F_("@FUNCTION=GESTEP\n"
 	   "@SYNTAX=GESTEP(x[,y])\n"
 	   "@DESCRIPTION="
-	   "GESTEP function test for if @x is >= @y, returning 1 if it "
+	   "GESTEP function tests if @x is >= @y, returning 1 if it "
 	   "is so, and 0 otherwise. @y is optional, and defaults to 0.\n"
 	   "\n"
 	   "* If either argument is non-numeric returns a #VALUE! error.\n"

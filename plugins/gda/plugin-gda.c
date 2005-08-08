@@ -204,7 +204,7 @@ static GnmFuncHelp const help_readDBTable[] = {
 	   "@SYNTAX=READDBTABLE(dsn,username,password,table)\n"
 	   "@DESCRIPTION="
 	   "The READDBTABLE function lets you get the contents of"
-	   " a table, as stored in a database."
+	   " a table, as stored in a database. "
 	   "For using it, you need first to set up a libgda data source."
 	   "\n"
 	   "Note that this function returns all the rows in the given"

@@ -74,7 +74,7 @@ my %argoverride = ();
 	[\&distribution,
 	 'F',
 	 ({ 'n1' => "the first number of degrees of freedom $of",
-	    'n2' => "the first number of degrees of freedom $of",
+	    'n2' => "the second number of degrees of freedom $of",
 	    @common })];
     $argoverride{"df:m"} = "n1";
     $argoverride{"df:n"} = "n2";

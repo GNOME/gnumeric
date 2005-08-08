@@ -278,7 +278,7 @@ static GnmFuncHelp const help_atl_last[] = {
 	   "It takes a string tag and monitors the named pipe /tmp/atl "
 	   "for changes to the value of that tag.\n"
 	   "\n"
-	   "* This is no intended to be generally enabled and is OFF by default.\n"
+	   "* This is not intended to be generally enabled and is OFF by default.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ATL_LAST(\"IBM\")"

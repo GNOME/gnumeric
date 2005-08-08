@@ -812,7 +812,7 @@ static GnmFuncHelp const help_dstdev[] = {
 
            "@DESCRIPTION="
            "DSTDEV function returns the estimate of the standard deviation "
-	   "of a population based on a sample. The populations consists of "
+	   "of a population based on a sample. The population consists of "
 	   "numbers that match conditions specified.\n"
 	   "\n"
 	   "@database is a range of cells in which rows of related " \
@@ -888,7 +888,7 @@ static GnmFuncHelp const help_dstdevp[] = {
 
            "@DESCRIPTION="
            "DSTDEVP function returns the standard deviation of a population "
-	   "based on the entire populations. The populations consists of "
+	   "based on the entire population. The population consists of "
 	   "numbers that match conditions specified.\n"
 	   "\n"
 	   "@database is a range of cells in which rows of related " \
@@ -1040,7 +1040,7 @@ static GnmFuncHelp const help_dvar[] = {
 
            "@DESCRIPTION="
            "DVAR function returns the estimate of variance of a population "
-	   "based on a sample. The populations consists of numbers "
+	   "based on a sample. The population consists of numbers "
 	   "that match conditions specified.\n"
 	   "\n"
 	   "@database is a range of cells in which rows of related " \
@@ -1116,7 +1116,7 @@ static GnmFuncHelp const help_dvarp[] = {
 
            "@DESCRIPTION="
            "DVARP function returns the variance of a population based "
-	   "on the entire populations. The populations consists of numbers "
+	   "on the entire population. The population consists of numbers "
 	   "that match conditions specified.\n"
 	   "\n"
 	   "@database is a range of cells in which rows of related " \

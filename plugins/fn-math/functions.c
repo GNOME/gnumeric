@@ -156,8 +156,8 @@ static GnmFuncHelp const help_lcm[] = {
 	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "LCM(2,13) equals to 26.\n"
-	   "LCM(4,7,5) equals to 140.\n"
+	   "LCM(2,13) equals 26.\n"
+	   "LCM(4,7,5) equals 140.\n"
 	   "\n"
 	   "@SEEALSO=GCD")
 	},
@@ -210,7 +210,7 @@ static GnmFuncHelp const help_hypot[] = {
 	   "HYPOT returns the square root of the sum of the squares of the arguments.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "HYPOT(3,4) equals to 5.\n"
+	   "HYPOT(3,4) equals 5.\n"
 	   "\n"
 	   "@SEEALSO=MIN,MAX")
 	},
@@ -1223,7 +1223,7 @@ static GnmFuncHelp const help_power[] = {
 	   "@DESCRIPTION="
 	   "POWER returns the value of @x raised to the power @y.\n\n"
 	   "\n"
-	   "* If both @x and @y equals to 0, POWER returns #NUM! error.\n"
+	   "* If both @x and @y equal 0, POWER returns #NUM! error.\n"
 	   "* If @x = 0 and @y < 0, POWER returns #DIV/0! error.\n"
 	   "* If @x < 0 and @y is non-integer, POWER returns #NUM! error.\n"
 	   "* This function is Excel compatible.\n"
