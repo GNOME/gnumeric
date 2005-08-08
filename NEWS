@@ -50,6 +50,7 @@ Morten:
 	* Eliminate old sheet reorganize support code.
 	* Make ssconvert able to save to stdout ("fd://1").
 	* Fix repeat-setting-border crash.  [#310924]
+	* Fix typo that managed to get its own bugzilla entry.  [#312823]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.2

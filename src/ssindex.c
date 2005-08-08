@@ -57,7 +57,7 @@ ssindex_popt_options[] = {
 	  N_("Adjust the root data directory"), NULL  },
 
 	{ "list-mime-types",	'm', POPT_ARG_NONE, &ssindex_list_mime_types, 0,
-	  N_("List mime types which is ssindex able to read"), NULL },
+	  N_("List mime types which ssindex is able to read"), NULL },
 	{ "index",		'i', POPT_ARG_NONE, &ssindex_run_indexer, 0,
 	  N_("Index the given files"), NULL },
 	{ "import-encoding", 'E', POPT_ARG_STRING, &ssindex_import_encoding, 0,
