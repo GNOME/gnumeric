@@ -623,13 +623,15 @@ wbv_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
 		GError const *save_err;
 
 		g_printerr ("Writing %s\n", uri);
-		go_file_saver_save (fs, io_context, wbv, GSF_OUTPUT (output));
-		save_err = gsf_output_error (GSF_OUTPUT (output));
+		go_file_saver_save (fs, io_context, wbv, output);
+		gsf_output_close (output);
+		save_err = gsf_output_error (output);
 		if (save_err) {
 			msg = g_strdup (save_err->message);
-			g_object_unref (G_OBJECT (output));
+			g_printerr ("  ==> %s\n", msg);
+			g_object_unref (output);
 		} else {
-			g_object_unref (G_OBJECT (output));
+			g_object_unref (output);
 			return;
 		}
 	}

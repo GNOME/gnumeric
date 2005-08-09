@@ -1,3 +1,8 @@
+2005-08-09  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-view.c (wbv_save_to_uri): Close the file before
+	checking for errors.  Part of fix for #312930.
+
 2005-08-09  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* configure.in: require libgda/libgnomedb CVS HEAD.
