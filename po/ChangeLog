@@ -1,3 +1,8 @@
+2005-08-09  Morten Welinder  <terra@gnome.org>
+
+	* vi.po: Fix "&" vs. "&amp;" issues for strings that were ending
+	up causing trouble in xml contexts.
+
 2005-08-09  Clytie Siddall <clytie@riverland.net.au>
 
         * vi.po: Updated Vietnamese translation.

@@ -419,7 +419,7 @@ msgstr "MS Excel™ 97/2000/XP"
 
 #: ../plugins/excel/plugin.xml.in.h:6
 msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
-msgstr "MS Excel™ 97/2000/XP & 5.0/95"
+msgstr "MS Excel™ 97/2000/XP &amp; 5.0/95"
 
 #: ../plugins/excel/plugin.xml.in.h:7
 msgid "MS Excel (tm) SpreadsheetML"
@@ -1366,7 +1366,7 @@ msgstr "Không thể phân tách mã HTML."
 
 #: ../plugins/html/plugin.xml.in.h:1
 msgid "HTML &amp; TeX"
-msgstr "HTML & TeX"
+msgstr "HTML &amp; TeX"
 
 #: ../plugins/html/plugin.xml.in.h:2
 msgid "HTML (*.html) fragment"
