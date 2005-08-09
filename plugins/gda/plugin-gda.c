@@ -87,6 +87,7 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 #ifdef HAVE_LIBGNOMEDB
 	GtkWidget *dialog, *login;
 #endif
+	GError *error = NULL;
 
 	/* initialize connection pool if first time */
 	if (!GDA_IS_CLIENT (connection_pool)) {
@@ -119,7 +120,11 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 	real_password = g_strdup (password);
 #endif
 
-	cnc = gda_client_open_connection (connection_pool, real_dsn, real_user, real_password, options);
+	cnc = gda_client_open_connection (connection_pool, real_dsn, real_user, real_password, options, &error);
+	if (!cnc) {
+		g_warning ("Libgda error: %s\n", error->message);
+		g_error_free (error);
+	}
 
 	g_free (real_dsn);
 	g_free (real_user);
@@ -163,6 +168,7 @@ gnumeric_execSQL (FunctionEvalInfo *ei, GnmValue **args)
 	GdaDataModel*  recset;
 	GList*         recset_list;
 	GdaCommand*    cmd;
+	GError*        error = NULL;
 
 	dsn_name = value_get_as_string (args[0]);
 	user_name = value_get_as_string (args[1]);
@@ -178,7 +184,7 @@ gnumeric_execSQL (FunctionEvalInfo *ei, GnmValue **args)
 
 	/* execute command */
 	cmd = gda_command_new (sql, GDA_COMMAND_TYPE_SQL, 0);
-	recset_list = gda_connection_execute_command (cnc, cmd, NULL);
+	recset_list = gda_connection_execute_command (cnc, cmd, NULL, &error);
 	gda_command_free (cmd);
 	if (recset_list) {
 		recset = (GdaDataModel *) recset_list->data;
@@ -189,8 +195,13 @@ gnumeric_execSQL (FunctionEvalInfo *ei, GnmValue **args)
 
 		g_list_foreach (recset_list, (GFunc) g_object_unref, NULL);
 		g_list_free (recset_list);
-	} else
-		ret = value_new_empty ();
+	} else {
+		if (error) {
+			ret = value_new_error (ei->pos, error->message);
+			g_error_free (error);
+		} else
+			ret = value_new_empty ();
+	}
 
 	return ret;
 }
@@ -233,6 +244,7 @@ gnumeric_readDBTable (FunctionEvalInfo *ei, GnmValue **args)
 	GdaDataModel*  recset;
 	GList*         recset_list;
 	GdaCommand*    cmd;
+	GError*        error = NULL;
 
 	dsn_name = value_get_as_string (args[0]);
 	user_name = value_get_as_string (args[1]);
@@ -248,7 +260,7 @@ gnumeric_readDBTable (FunctionEvalInfo *ei, GnmValue **args)
 
 	/* execute command */
 	cmd = gda_command_new (table, GDA_COMMAND_TYPE_TABLE, 0);
-	recset_list = gda_connection_execute_command (cnc, cmd, NULL);
+	recset_list = gda_connection_execute_command (cnc, cmd, NULL, &error);
 	gda_command_free (cmd);
 	if (recset_list) {
 		recset = (GdaDataModel *) recset_list->data;
@@ -259,8 +271,13 @@ gnumeric_readDBTable (FunctionEvalInfo *ei, GnmValue **args)
 
 		g_list_foreach (recset_list, (GFunc) g_object_unref, NULL);
 		g_list_free (recset_list);
-	} else
-		ret = value_new_empty ();
+	} else {
+		if (error) {
+			ret = value_new_error (ei->pos, error->message);
+			g_error_free (error);
+		} else
+			ret = value_new_empty ();
+	}
 
 	return ret;
 }

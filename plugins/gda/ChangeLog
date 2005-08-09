@@ -1,3 +1,7 @@
+2005-08-09  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	* plugin-gda.c: adapted to new libgda API.
+
 2005-06-13  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.2
