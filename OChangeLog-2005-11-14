@@ -1,3 +1,7 @@
+2005-08-09  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	* configure.in: require libgda/libgnomedb CVS HEAD.
+
 2005-08-08  Morten Welinder  <terra@gnome.org>
 
 	* src/ssindex.c: Fix typo.  [#312823]
