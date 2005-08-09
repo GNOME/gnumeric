@@ -68,6 +68,7 @@
 # deposit                 storting
 # deprication             afschrijving
 # distribution            verdeling/distributie
+# distribution function   distributiefunctie
 # duration                
 # expiry			expiratie
 # face value              nominale waarde
@@ -129,8 +130,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-01 03:53+0000\n"
-"PO-Revision-Date: 2005-06-24 02:51+0200\n"
+"POT-Creation-Date: 2005-08-08 11:49+0000\n"
+"PO-Revision-Date: 2005-08-08 22:54+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
@@ -11944,29 +11945,29 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:3163
 msgid "SUMPRODUCT:Multiplies components and adds the results."
-msgstr ""
+msgstr "SUMPRODUCT:Vermenigvuldigt componenten en telt de resultaten bij elkaar op."
 
 #: ../plugins/fn-math/functions.c:3165
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
-msgstr ""
+msgstr "Vermenigvuldigt corresponderende datavelden in de gegeven arrays of bereiken, en geeft dan de som van deze producten."
 
 #: ../plugins/fn-math/functions.c:3168
 msgid "If an entry is not numeric, the value zero is used instead."
-msgstr ""
+msgstr "Indien een veld geen getal is, wordt in plaats daarvan nul gebruikt."
 
 #: ../plugins/fn-math/functions.c:3169
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
-msgstr ""
+msgstr "Indien arrays of bereiken niet dezelfde afmetingen hebben, wordt een  foutmelding: #WAARDE gegeven."
 
 #: ../plugins/fn-math/functions.c:3171
 msgid ""
 "SUMPRODUCTs arguments are arrays or ranges. Attempting to use A1:A5>0 will "
 "not work, implicit intersection will kick in. Instead use --(A1:A5>0)"
-msgstr ""
+msgstr "SUMPRODUCT's argumenten zijn arrays of bereiken. U kunt niet A1:A5>0 gebruiken want dan zal 'impliciete intersectie' optreden. Gebruik in plaats daarvan --(A1:A5>0)"
 
 #: ../plugins/fn-r/functions.c:19
 msgid "R.DNORM:probability density function of the normal distribution."
@@ -12071,17 +12072,18 @@ msgstr ""
 msgid ""
 "log_p:if true, log of the probability is used.  This is useful if the "
 "probability would otherwise underflow to 0.  Defaults to false."
-msgstr ""
+msgstr "log_p:indien waar, wordt de logaritme van de kans gebruikt.  Dit is handig wanneer de kans anders naar 0 zou gaan.  Standaard is 'onwaar'."
 
 #: ../plugins/fn-r/functions.c:50
 msgid ""
 "This function returns the cumulative distribution function of the normal "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de cumulatieve distributiefunctie van de normale verdeling."
 
+# quantile/kwantiel/kwartiel
 #: ../plugins/fn-r/functions.c:71
 msgid "R.QNORM:probability quantile function of the normal distribution."
-msgstr ""
+msgstr "R.QNORM:kanskwantiel-functie van de normale verdeling."
 
 #: ../plugins/fn-r/functions.c:72 ../plugins/fn-r/functions.c:230
 #: ../plugins/fn-r/functions.c:309 ../plugins/fn-r/functions.c:384
@@ -12096,7 +12098,7 @@ msgstr "p:kans."
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the normal distribution."
-msgstr ""
+msgstr "Deze functie geeft de kanskwantiel-functie; de inverse van de cumulatieve distributiefunctie van de normale verdeling."
 
 #: ../plugins/fn-r/functions.c:98
 msgid "R.DLNORM:probability density function of the log-normal distribution."
@@ -12105,7 +12107,7 @@ msgstr "R.DLNORM:kansdichtheidfunctie van de log-normaal verdeling."
 #: ../plugins/fn-r/functions.c:100 ../plugins/fn-r/functions.c:125
 #: ../plugins/fn-r/functions.c:152
 msgid "logmean:mean of the underlying normal distribution."
-msgstr ""
+msgstr "logmean:gemiddelde van de onderliggende normale verdeling."
 
 #: ../plugins/fn-r/functions.c:101 ../plugins/fn-r/functions.c:126
 #: ../plugins/fn-r/functions.c:153
@@ -12122,27 +12124,27 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:123
 msgid ""
 "R.PLNORM:cumulative distribution function of the log-normal distribution."
-msgstr ""
+msgstr "R.PLNORM:cumulatieve distributiefuncte van de log-normale verdeling."
 
 #: ../plugins/fn-r/functions.c:129
 msgid ""
 "This function returns the cumulative distribution function of the log-normal "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de cumulatieve distributiefunctie van de log-normale verdeling."
 
 #: ../plugins/fn-r/functions.c:150
 msgid "R.QLNORM:probability quantile function of the log-normal distribution."
-msgstr ""
+msgstr "R.QLNORM:kanskwantiel-functie van de log-normale verdeling."
 
 #: ../plugins/fn-r/functions.c:156
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the log-normal distribution."
-msgstr ""
+msgstr "Deze functie geeft de kanskantiel-functie; de inverse van de cumulatieve distributiefunctie van de log-normale verdeling."
 
 #: ../plugins/fn-r/functions.c:177
 msgid "R.DGAMMA:probability density function of the gamma distribution."
-msgstr ""
+msgstr "R.DGAMMA:kansdichtheidsfunctie van de gamma-verdeling."
 
 #: ../plugins/fn-r/functions.c:179 ../plugins/fn-r/functions.c:204
 #: ../plugins/fn-r/functions.c:231 ../plugins/fn-r/functions.c:562
@@ -12163,31 +12165,31 @@ msgstr "scale:de schaalparameter van de verdeling"
 msgid ""
 "This function returns the probability density function of the gamma "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de kansdichtheidsfunctie van de gamma-verdeling."
 
 #: ../plugins/fn-r/functions.c:202
 msgid "R.PGAMMA:cumulative distribution function of the gamma distribution."
-msgstr ""
+msgstr "R.PGAMMA:cumulative distributiefunctie van de gamma-verdeling."
 
 #: ../plugins/fn-r/functions.c:208
 msgid ""
 "This function returns the cumulative distribution function of the gamma "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de cumulatieve distributiefunctie van de gamma-verdeling."
 
 #: ../plugins/fn-r/functions.c:229
 msgid "R.QGAMMA:probability quantile function of the gamma distribution."
-msgstr ""
+msgstr "R.QGAMMA:kanskwantielfunctie van de gamma-verdeling."
 
 #: ../plugins/fn-r/functions.c:235
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the gamma distribution."
-msgstr ""
+msgstr "Deze functie geeft de kanskwantielfunctie; de inverse van de cumulatieve distributiefunctie van de gamma-verdeling."
 
 #: ../plugins/fn-r/functions.c:256
 msgid "R.DBETA:probability density function of the beta distribution."
-msgstr ""
+msgstr "R.DBETA:kansdichtheidsfunctie van de beta-verdeling."
 
 #: ../plugins/fn-r/functions.c:258 ../plugins/fn-r/functions.c:283
 #: ../plugins/fn-r/functions.c:310
@@ -12203,31 +12205,31 @@ msgstr "b:de tweede schalingsparameter van de verdeling"
 msgid ""
 "This function returns the probability density function of the beta "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de kansdichtheidsfunctie van de beta-verdeling."
 
 #: ../plugins/fn-r/functions.c:281
 msgid "R.PBETA:cumulative distribution function of the beta distribution."
-msgstr ""
+msgstr "R.PBETA:cumulatieve distributiefunctie van de beta-verdeling."
 
 #: ../plugins/fn-r/functions.c:287
 msgid ""
 "This function returns the cumulative distribution function of the beta "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de cumulatieve distributiefunctie van de beta-verdeling."
 
 #: ../plugins/fn-r/functions.c:308
 msgid "R.QBETA:probability quantile function of the beta distribution."
-msgstr ""
+msgstr "R.QBETA:kanskwantiel-function van de beta-verdeling."
 
 #: ../plugins/fn-r/functions.c:314
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the beta distribution."
-msgstr ""
+msgstr "Deze functie geeft de kanskwantiel-functie; de inverse van de cumulatieve distributiefunctie van de beta-verdeling."
 
 #: ../plugins/fn-r/functions.c:335
 msgid "R.DT:probability density function of the Student t distribution."
-msgstr ""
+msgstr "R.DT:kansdichtheidsfunctie van de Student-t verdeling."
 
 #: ../plugins/fn-r/functions.c:337 ../plugins/fn-r/functions.c:360
 #: ../plugins/fn-r/functions.c:385
@@ -12248,21 +12250,21 @@ msgstr "R.PT:cumulatieve distributiefunctie of de Student-t verdeling."
 msgid ""
 "This function returns the cumulative distribution function of the Student t "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de cumulatieve distributiefunctie van de Student-t verdeling."
 
 #: ../plugins/fn-r/functions.c:383
 msgid "R.QT:probability quantile function of the Student t distribution."
-msgstr ""
+msgstr "R.QT:kanskwantiel-functie van de Student-t verdeling."
 
 #: ../plugins/fn-r/functions.c:388
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Student t distribution."
-msgstr ""
+msgstr "Deze functie geeft de kanskwantiel-functie; de inverse van de cumulatieve distributiefunctie van de Student-t verdeling."
 
 #: ../plugins/fn-r/functions.c:408
 msgid "R.DF:probability density function of the F distribution."
-msgstr ""
+msgstr "R.DF:kansdichtheidsfunctie van de F-verdeling."
 
 #: ../plugins/fn-r/functions.c:410 ../plugins/fn-r/functions.c:435
 #: ../plugins/fn-r/functions.c:462
@@ -12277,73 +12279,73 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:413
 msgid ""
 "This function returns the probability density function of the F distribution."
-msgstr ""
+msgstr "Deze functie geeft de kansdichtheidsfunctie van de F-verdeling."
 
 #: ../plugins/fn-r/functions.c:433
 msgid "R.PF:cumulative distribution function of the F distribution."
-msgstr ""
+msgstr "R.PF:cumulatieve distributiefunctie van de F-verdeling."
 
 #: ../plugins/fn-r/functions.c:439
 msgid ""
 "This function returns the cumulative distribution function of the F "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de cumulatieve distributiefunctie van de F-verdeling."
 
 #: ../plugins/fn-r/functions.c:460
 msgid "R.QF:probability quantile function of the F distribution."
-msgstr ""
+msgstr "R.QF:kanskwantiel-functie van de F-verdeling."
 
 #: ../plugins/fn-r/functions.c:466
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the F distribution."
-msgstr ""
+msgstr "Deze functie geeft de kanskwantiel-functie; de inverse van de cumulatieve distributiefunctie van de F-verdeling."
 
 #: ../plugins/fn-r/functions.c:487
 msgid "R.DCHISQ:probability density function of the chi-square distribution."
-msgstr ""
+msgstr "R.DCHISQ:kansdichtheidsfunctie van de chi-kwadraat verdeling."
 
 #: ../plugins/fn-r/functions.c:489 ../plugins/fn-r/functions.c:512
 #: ../plugins/fn-r/functions.c:537
 msgid "df:the number of degrees of freedom of the distribution"
-msgstr ""
+msgstr "df:het aantal vrijheidsgraden van de verdeling"
 
 #: ../plugins/fn-r/functions.c:491
 msgid ""
 "This function returns the probability density function of the chi-square "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de kansdichtheidsfunctie van de chi-kwadraat verdeling."
 
 #: ../plugins/fn-r/functions.c:510
 msgid ""
 "R.PCHISQ:cumulative distribution function of the chi-square distribution."
-msgstr ""
+msgstr "R.PCHISQ:cumulatieve distributiefunctie van de chi-kwadraat verdeling."
 
 #: ../plugins/fn-r/functions.c:515
 msgid ""
 "This function returns the cumulative distribution function of the chi-square "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de cumulatieve distributiefunctie van de chi-kwadraat verdeling."
 
 #: ../plugins/fn-r/functions.c:535
 msgid "R.QCHISQ:probability quantile function of the chi-square distribution."
-msgstr ""
+msgstr "R.QCHISQ:kanskwantiel-functie van de chi-kwadraat verdeling."
 
 #: ../plugins/fn-r/functions.c:540
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the chi-square distribution."
-msgstr ""
+msgstr "Deze functie geeft de kanskwantiel-functie; de inverse van de cumulatieve distributiefunctie van de chi-kwadraat verdeling."
 
 #: ../plugins/fn-r/functions.c:560
 msgid "R.DWEIBULL:probability density function of the Weibull distribution."
-msgstr ""
+msgstr "R.DWEIBULL:kansdichtheidsfunctie van de Weibull-verdeling."
 
 #: ../plugins/fn-r/functions.c:565
 msgid ""
 "This function returns the probability density function of the Weibull "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de kansdichtheidsfunctie van de Weibull-verdeling."
 
 #: ../plugins/fn-r/functions.c:585
 msgid ""
