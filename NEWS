@@ -52,6 +52,7 @@ Morten:
 	* Fix repeat-setting-border crash.  [#310924]
 	* Fix typo that managed to get its own bugzilla entry.  [#312823]
 	* Fix problem with save.  [#312930]
+	* Improve screen-vs-print line breaking situation.  [#312912]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.2

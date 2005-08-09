@@ -500,19 +500,23 @@ rendered_value_recontext (RenderedValue *rv, PangoContext *context)
 	pango_layout_set_justify (layout, pango_layout_get_justify (olayout));
 	pango_layout_set_width (layout, pango_layout_get_width (olayout));
 	pango_layout_set_spacing (layout, pango_layout_get_spacing (olayout));
-	/*
-	 * We really want to keep the line breaks, but currently pango
-	 * does not support that.  On one-line layouts, however, we
-	 * can simply turn off the wrapping.
-	 */
-	pango_layout_set_wrap (layout,
-			       pango_layout_get_wrap (olayout) &&
-			       pango_layout_get_line_count (olayout) > 1);
+	pango_layout_set_wrap (layout, pango_layout_get_wrap (olayout));
 	pango_layout_set_indent (layout, pango_layout_get_indent (olayout));
 	pango_layout_set_auto_dir (layout, pango_layout_get_auto_dir (olayout));
 	pango_layout_set_ellipsize (layout, pango_layout_get_ellipsize (olayout));
 	pango_layout_set_font_description (layout, pango_layout_get_font_description (olayout));
 	// ignore tabs
+
+	/*
+	 * We really want to keep the line breaks, but currently pango
+	 * does not support that.
+	 */
+	if (pango_layout_get_line_count (olayout) == 1) {
+		res->wrap_text = FALSE;
+		if (pango_layout_get_line_count (layout) > 1) {
+			pango_layout_set_width (layout, -1);
+		}
+	}
 
 	rendered_value_remeasure (res);
 	return res;
