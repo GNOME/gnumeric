@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-07 14:23-0400\n"
-"PO-Revision-Date: 2005-08-07 11:36-0400\n"
+"POT-Creation-Date: 2005-08-08 22:44-0400\n"
+"PO-Revision-Date: 2005-08-08 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -10290,39 +10290,39 @@ msgstr ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 
-#: src/mathfunc.c:3836
+#: src/mathfunc.c:3871
 msgid "bessel_i allocation error"
 msgstr "bessel_i allocation error"
 
-#: src/mathfunc.c:3844 src/mathfunc.c:3847
+#: src/mathfunc.c:3879 src/mathfunc.c:3882
 msgid "bessel_i(%"
 msgstr "bessel_i(%"
 
-#: src/mathfunc.c:3844 src/mathfunc.c:4314
+#: src/mathfunc.c:3879 src/mathfunc.c:4350
 msgid "): ncalc (=%ld) != nb (=%ld); alpha=%"
 msgstr "): ncalc (=%ld) != nb (=%ld); alpha=%"
 
-#: src/mathfunc.c:3844 src/mathfunc.c:4314
+#: src/mathfunc.c:3879 src/mathfunc.c:4350
 msgid ". Arg. out of range?\n"
 msgstr ". Arg. out of range?\n"
 
-#: src/mathfunc.c:3847 src/mathfunc.c:4317
+#: src/mathfunc.c:3882 src/mathfunc.c:4353
 msgid ",nu=%"
 msgstr ",nu=%"
 
-#: src/mathfunc.c:3847 src/mathfunc.c:4317
+#: src/mathfunc.c:3882 src/mathfunc.c:4353
 msgid "): precision lost in result\n"
 msgstr "): precision lost in result\n"
 
-#: src/mathfunc.c:4306
+#: src/mathfunc.c:4342
 msgid "bessel_k allocation error"
 msgstr "bessel_k allocation error"
 
-#: src/mathfunc.c:4314 src/mathfunc.c:4317
+#: src/mathfunc.c:4350 src/mathfunc.c:4353
 msgid "bessel_k(%"
 msgstr "bessel_k(%"
 
-#: src/mathfunc.c:7702
+#: src/mathfunc.c:7743
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
@@ -11059,8 +11059,8 @@ msgstr ""
 "libdir := '%s'\n"
 
 #: src/ssindex.c:60
-msgid "List mime types which is ssindex able to read"
-msgstr "List the MIME types that ssindex can read"
+msgid "List mime types which ssindex is able to read"
+msgstr "List of MIME types which ssindex is able to read:"
 
 #: src/ssindex.c:62
 msgid "Index the given files"
