@@ -1,3 +1,8 @@
+2005-08-11  Morten Welinder  <terra@gnome.org>
+
+	* src/number-match.c (format_create_regexp): Fix buffer overrun
+	problem exibited while loading file from #313150.
+
 2005-06-18  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in (gnumeric_gnome_reqs): Require libgsf >= 1.12.0

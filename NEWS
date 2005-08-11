@@ -26,6 +26,7 @@ Morten:
 	* Backport SUMIF fix.
 	* Backport number matching fix.  [#306254]
 	* Backport IRR fix.  [Debian #315625]
+	* Backport ABR fix for formats ending in "[$...]".
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.3

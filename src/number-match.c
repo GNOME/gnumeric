@@ -155,8 +155,8 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 			if (format[1] == '$') {
 				for (format += 2; *format && *format != ']' ; ++format)
 					g_string_append_c (regexp, *format);
-				if (*format == ']')
-					++format;
+				if (*format != ']')
+					format--;
 				break;
 			} else if (format[1] == 'h' && format[2] == ']') {
 				g_string_append (regexp, "([-+]?[0-9]+)");
