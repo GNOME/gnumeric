@@ -111,8 +111,8 @@ comment_foo_view_init (SheetObjectViewIface *sov_iface)
 typedef FooCanvasPolygon	CommentFooView;
 typedef FooCanvasPolygonClass	CommentFooViewClass;
 static GSF_CLASS_FULL (CommentFooView, comment_foo_view,
-	NULL, NULL,
-	FOO_TYPE_CANVAS_POLYGON, 0,
+	NULL, NULL, NULL, NULL,
+	NULL, FOO_TYPE_CANVAS_POLYGON, 0,
 	GSF_INTERFACE (comment_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
 
 static void

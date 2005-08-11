@@ -112,8 +112,8 @@ so_line_foo_view_init (SheetObjectViewIface *sov_iface)
 typedef FooCanvasLine		LineFooView;
 typedef FooCanvasLineClass	LineFooViewClass;
 static GSF_CLASS_FULL (LineFooView, so_line_foo_view,
-	NULL, NULL,
-	FOO_TYPE_CANVAS_LINE, 0,
+	NULL, NULL, NULL, NULL,
+	NULL, FOO_TYPE_CANVAS_LINE, 0,
 	GSF_INTERFACE (so_line_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
 #endif /* WITH_GTK */
 enum {

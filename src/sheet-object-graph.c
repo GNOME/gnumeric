@@ -101,8 +101,8 @@ so_graph_foo_view_init (SheetObjectViewIface *sov_iface)
 typedef GogControlFooCanvas		SOGraphFooView;
 typedef GogControlFooCanvasClass	SOGraphFooViewClass;
 static GSF_CLASS_FULL (SOGraphFooView, so_graph_foo_view,
-	NULL, NULL,
-	GOG_CONTROL_FOOCANVAS_TYPE, 0,
+	NULL, NULL, NULL, NULL,
+	NULL, GOG_CONTROL_FOOCANVAS_TYPE, 0,
 	GSF_INTERFACE (so_graph_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
 
 /****************************************************************************/
@@ -546,8 +546,8 @@ sog_exportable_init (SheetObjectExportableIface *soe_iface)
 }
 
 GSF_CLASS_FULL (SheetObjectGraph, sheet_object_graph,
-		sheet_object_graph_class_init, sheet_object_graph_init,
-		SHEET_OBJECT_TYPE, 0,
+		NULL, NULL, sheet_object_graph_class_init,NULL,
+		sheet_object_graph_init, SHEET_OBJECT_TYPE, 0,
 		GSF_INTERFACE (sog_imageable_init, SHEET_OBJECT_IMAGEABLE_TYPE) \
 		GSF_INTERFACE (sog_exportable_init, SHEET_OBJECT_EXPORTABLE_TYPE));
 

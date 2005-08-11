@@ -638,8 +638,8 @@ go_plugin_loader_module_iface_init (GOPluginLoaderClass *iface)
 }
 
 static GSF_CLASS_FULL (GnmPluginLoaderModule, gnm_plugin_loader_module,
-           NULL, NULL,
-           GO_PLUGIN_LOADER_MODULE_TYPE, 0,
+           NULL, NULL, NULL, NULL,
+           NULL, GO_PLUGIN_LOADER_MODULE_TYPE, 0,
 	   GSF_INTERFACE (go_plugin_loader_module_iface_init, GO_PLUGIN_LOADER_TYPE))
 
 /****************************************************************************/

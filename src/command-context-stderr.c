@@ -107,6 +107,6 @@ ccs_gnm_cmd_context_init (GOCmdContextClass *cc_class)
 }
 
 GSF_CLASS_FULL (CmdContextStderr, cmd_context_stderr,
-		NULL, ccs_init,
-		G_TYPE_OBJECT, 0,
+		NULL, NULL, NULL, NULL,
+		ccs_init, G_TYPE_OBJECT, 0,
 		GSF_INTERFACE (ccs_gnm_cmd_context_init, GO_CMD_CONTEXT_TYPE))

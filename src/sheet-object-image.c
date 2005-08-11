@@ -92,8 +92,8 @@ so_image_foo_view_init (SheetObjectViewIface *sov_iface)
 typedef FooCanvasPixbuf		SOImageFooView;
 typedef FooCanvasPixbufClass	SOImageFooViewClass;
 static GSF_CLASS_FULL (SOImageFooView, so_image_foo_view,
-	NULL, NULL,
-	FOO_TYPE_CANVAS_PIXBUF, 0,
+	NULL, NULL, NULL, NULL,
+	NULL, FOO_TYPE_CANVAS_PIXBUF, 0,
 	GSF_INTERFACE (so_image_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
 
 /****************************************************************************/
@@ -745,6 +745,6 @@ soi_imageable_init (SheetObjectImageableIface *soi_iface)
 }
 
 GSF_CLASS_FULL (SheetObjectImage, sheet_object_image,
-	   sheet_object_image_class_init, sheet_object_image_init,
-	   SHEET_OBJECT_TYPE, 0,
+	   NULL, NULL, sheet_object_image_class_init, NULL,
+	   sheet_object_image_init, SHEET_OBJECT_TYPE, 0,
 	   GSF_INTERFACE (soi_imageable_init, SHEET_OBJECT_IMAGEABLE_TYPE));
