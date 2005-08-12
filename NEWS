@@ -30,12 +30,6 @@ Jody:
 	* Warnings when consolidating single columns. [#308431]
 	* Improve sync of cell editing and editline for autocomplete. [#308303]
 
-2005-07-29  Jody Goldberg <jody@gnome.org>
-
-	* src/graph.c (gnm_go_data_scalar_as_str) : New. be smarter about
-	  constant strings.  There's no need to quote them when they are the
-	  entire expression. #152317
-
 Jon Kåre:
         * Improve sc/xspread import.
 	* Export page orientation to Excel.
