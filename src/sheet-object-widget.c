@@ -1938,7 +1938,7 @@ sheet_widget_radio_button_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case SOC_PROP_TEXT:
-		sheet_widget_radio_button_set_label (swrb,
+		sheet_widget_radio_button_set_label (SHEET_OBJECT (swrb),
 			g_value_get_string (value));
 		break;
 	case SOC_PROP_MARKUP:

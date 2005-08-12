@@ -1,3 +1,8 @@
+2005-08-12  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.c
+	(sheet_widget_radio_button_set_property): Fix warning.
+
 2005-08-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/dialogs/dialog-about.c: (dialog_about): do not remove the
