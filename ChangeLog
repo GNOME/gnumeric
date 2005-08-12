@@ -1,5 +1,9 @@
 2005-08-12  Morten Welinder  <terra@gnome.org>
 
+	* src/dependent.c (cb_dep_hash_destroy): Fix crashes related to
+	changing a dependency container while we are looping over it.
+	Fixed #312794.
+
 	* src/sheet.c (sheet_finalize): Free ->sheet_views at the end
 	because sheet_scrollbar_config as called via object removal can
 	access it.

@@ -49,6 +49,7 @@ Morten:
 	* Improve screen-vs-print line breaking situation.  [#312912]
 	* Fix crash changing font.  [#313257]
 	* Fix crash on finalizing sheet with objects in it.
+	* Fix sheet-remove crash related to dependencies.  [#312794]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.2

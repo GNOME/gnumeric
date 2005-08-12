@@ -1708,6 +1708,8 @@ cb_dep_hash_destroy (G_GNUC_UNUSED gpointer key,
 		     DependencyAny *depany,
 		     struct cb_dep_hash_destroy *closure)
 {
+	GSList *deplist = NULL, *l;
+
 	micro_hash_foreach_dep (depany->deps, dep, {
 		if (dependent_type (dep) == DEPENDENT_DYNAMIC_DEP) {
 			GnmDependent *c = ((DynamicDep *)dep)->container;
@@ -1715,27 +1717,39 @@ cb_dep_hash_destroy (G_GNUC_UNUSED gpointer key,
 				closure->dyn_deps =
 					g_slist_prepend (closure->dyn_deps, c);
 		} else if (!dep->sheet->being_invalidated) {
-			GnmExpr *e = (GnmExpr *)dep->expression;
-			/* We are told this dependent depends on this region, hence if
-			 * newtree is null then either
-			 * 1) we did not depend on it ( ie. serious breakage )
-			 * 2) we had a duplicate reference and we have already removed it.
-			 * 3) We depended on things via a name which will be
-			 *    invalidated elsewhere */
-			GnmExpr const *newtree = gnm_expr_rewrite (e, &closure->rwinfo);
-			if (newtree != NULL) {
-				if (!closure->destroy) {
-					gnm_expr_ref (e);
-					closure->sheet->revive.dep_exprs =
-						g_slist_prepend
-						(g_slist_prepend (closure->sheet->revive.dep_exprs, e),
-						 dep);
-				}
-				dependent_set_expr (dep, newtree);
-				gnm_expr_unref (newtree);
-			}
+			/*
+			 * We collect here instead of doing right away as
+			 * the dependent_set_expr below can change the
+			 * container we are looping over.
+			 */
+			deplist = g_slist_prepend (deplist, dep);
 		}
 	});
+
+	for (l = deplist; l; l = l->next) {
+		GnmDependent *dep = l->data;
+		GnmExpr *e = (GnmExpr *)dep->expression;
+		/* We are told this dependent depends on this region, hence if
+		 * newtree is null then either
+		 * 1) we did not depend on it (ie., serious breakage )
+		 * 2) we had a duplicate reference and we have already removed it.
+		 * 3) We depended on things via a name which will be
+		 *    invalidated elsewhere */
+		GnmExpr const *newtree = gnm_expr_rewrite (e, &closure->rwinfo);
+		if (newtree != NULL) {
+			if (!closure->destroy) {
+				gnm_expr_ref (e);
+				closure->sheet->revive.dep_exprs =
+					g_slist_prepend
+					(g_slist_prepend (closure->sheet->revive.dep_exprs, e),
+					 dep);
+			}
+			dependent_set_expr (dep, newtree);
+			gnm_expr_unref (newtree);
+		}
+	}
+	g_slist_free (deplist);
+
 	if (closure->destroy)
 		micro_hash_release (&depany->deps);
 	return TRUE;
