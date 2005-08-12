@@ -3206,8 +3206,6 @@ sheet_finalize (GObject *obj)
 
 	sheet_destroy (sheet);
 
-	g_ptr_array_free (sheet->sheet_views, TRUE);
-
 	solver_param_destroy (sheet->solver_parameters);
 	scenario_free_all (sheet->scenarios);
 
@@ -3227,8 +3225,10 @@ sheet_finalize (GObject *obj)
 
 	sheet_style_shutdown (sheet);
 
-	if (sheet->context)
+	if (sheet->context) {
 		g_object_unref (G_OBJECT (sheet->context));
+		sheet->context = NULL;
+	}
 
 	(void) g_idle_remove_by_data (sheet);
 
@@ -3237,6 +3237,7 @@ sheet_finalize (GObject *obj)
 	g_free (sheet->name_unquoted_collate_key);
 	g_free (sheet->name_case_insensitive);
 	g_free (sheet->priv);
+	g_ptr_array_free (sheet->sheet_views, TRUE);
 	
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
