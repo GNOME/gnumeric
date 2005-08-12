@@ -283,6 +283,6 @@ gplp_init (GnmPerlPluginLoader *loader_perl)
 }
 
 GSF_DYNAMIC_CLASS_FULL (GnmPerlPluginLoader, gnm_perl_plugin_loader,
-	gplp_class_init, gplp_init,
-	G_TYPE_OBJECT, 0,
+	NULL, NULL, gplp_class_init, NULL,
+	gplp_init, G_TYPE_OBJECT, 0,
 	GSF_INTERFACE_FULL (gnm_perl_plugin_loader_type, go_plugin_loader_init, GO_PLUGIN_LOADER_TYPE))
