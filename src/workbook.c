@@ -9,7 +9,7 @@
  *
  * (C) 1998, 1999, 2000 Miguel de Icaza
  * (C) 2000-2001 Ximian, Inc.
- * (C) 2002 Jody Goldberg
+ * (C) 2002-2005 Jody Goldberg
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
@@ -82,13 +82,6 @@ workbook_dispose (GObject *wb_object)
 
 	wb->during_destruction = TRUE;
 
-	if (wb->uri) {
-		if (wb->file_format_level >= FILE_FL_MANUAL_REMEMBER)
-			gnm_app_history_add (wb->uri);
-	       g_free (wb->uri);
-	       wb->uri = NULL;
-	}
-
 	if (wb->file_saver)
 		workbook_set_saveinfo (wb, wb->file_format_level, NULL);
 
@@ -123,10 +116,8 @@ workbook_dispose (GObject *wb_object)
 	}
 
 	/* Now remove the sheets themselves */
-	for (ptr = sheets; ptr != NULL ; ptr = ptr->next) {
-		Sheet *sheet = ptr->data;
-		workbook_sheet_delete (sheet);
-	}
+	for (ptr = sheets; ptr != NULL ; ptr = ptr->next)
+		workbook_sheet_delete (ptr->data);
 	g_list_free (sheets);
 
 	/* TODO : This should be earlier when we figure out how to deal with
@@ -145,6 +136,14 @@ workbook_dispose (GObject *wb_object)
 	if (wb->sheet_local_functions != NULL) {
 		g_hash_table_destroy (wb->sheet_local_functions);
 		wb->sheet_local_functions = NULL;
+	}
+
+	/* do this last so that we can identify it after a crash */
+	if (wb->uri) {
+		if (wb->file_format_level >= FILE_FL_MANUAL_REMEMBER)
+			gnm_app_history_add (wb->uri);
+		g_free (wb->uri);
+		wb->uri = NULL;
 	}
 
 	workbook_parent_class->dispose (wb_object);
@@ -930,22 +929,10 @@ workbook_sheet_hide_controls (Workbook *wb, Sheet *sheet)
 	if (!wb->during_destruction)
 		focus = workbook_focus_other_sheet (wb, sheet);
 
-	/* Remove all controls and views.  */
-	WORKBOOK_FOREACH_VIEW (wb, wbv,
-		wb_view_sheet_remove (wbv, sheet););
+	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc,
+		wb_control_sheet_remove (wbc, sheet););
 
 	return focus != NULL;
-}
-
-static void
-workbook_sheet_unhide_controls (Workbook *wb, Sheet *sheet)
-{
-	g_return_if_fail (IS_WORKBOOK (wb));
-	g_return_if_fail (IS_SHEET (sheet));
-
-	WORKBOOK_FOREACH_VIEW (wb, wbv,
-		if (sheet_get_view (sheet, wbv) == NULL)
-			wb_view_sheet_add (wbv, sheet););
 }
 
 static void
@@ -953,9 +940,15 @@ cb_sheet_visibility_change (Sheet *sheet,
 			    G_GNUC_UNUSED GParamSpec *pspec,
 			    G_GNUC_UNUSED gpointer data)
 {
-	if (sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE)
-		workbook_sheet_unhide_controls (sheet->workbook, sheet);
-	else
+	g_return_if_fail (IS_SHEET (sheet));
+
+	if (sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE) {
+		SheetView *sv;
+		WORKBOOK_FOREACH_CONTROL (sheet->workbook, wbv, wbc, {
+			sv = sheet_get_view (sheet, wbv);
+			if (NULL == sv_get_control (sv, wbc))
+				wb_control_sheet_add (wbc, sv);});
+	} else
 		workbook_sheet_hide_controls (sheet->workbook, sheet);
 }
 

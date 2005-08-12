@@ -85,7 +85,12 @@ style_color_new (gushort red, gushort green, gushort blue)
 }
 
 GnmColor *
-style_color_new_pango (PangoColor *c)
+style_color_new_pango (PangoColor const *c)
+{
+	return style_color_new (c->red, c->green, c->blue);
+}
+GnmColor *
+style_color_new_gdk (GdkColor const *c)
 {
 	return style_color_new (c->red, c->green, c->blue);
 }

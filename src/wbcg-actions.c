@@ -3,7 +3,7 @@
 /*
  * wbcg-actions.c: The callbacks and tables for all the menus and stock toolbars
  *
- * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -166,13 +166,12 @@ static GNM_ACTION_DEF (cb_file_quit)
 	if (discard_all) {
 		workbook_set_dirty (wb_control_workbook (wbc), FALSE);
 		g_object_unref (wb_control_workbook (wbc));
-		for (ptr = clean_no_closed; ptr != NULL ; ptr = ptr->next)
+		for (ptr = clean_no_closed; ptr != NULL ; ptr = ptr->next) {
 			g_object_unref (ptr->data);
-	} else
-	/* only close pristine books if nothing was canceled. */
-	if (ok && wbcg_close_if_user_permits (wbcg,
-					      wb_control_view (wbc), TRUE, TRUE, ask_user)
-	    > 0)
+		}
+	} else if (ok && wbcg_close_if_user_permits (wbcg, wb_control_view (wbc),
+						     TRUE, TRUE, ask_user) > 0)
+		/* only close pristine books if nothing was canceled. */
 		for (ptr = clean_no_closed; ptr != NULL ; ptr = ptr->next)
 			g_object_unref (ptr->data);
 

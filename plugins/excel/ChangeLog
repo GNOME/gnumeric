@@ -2,9 +2,36 @@
 
 	* ms-excel-write.c (excel_write_string): Fix warning.
 
+2005-08-04  Jody Goldberg <jody@gnome.org>
+
+	From Nick Lamb <njl98r@ecs.soton.ac.uk>
+	* ms-excel-read.c (excel_read_XF_OLD) : improve alignment and
+	  rotation handling.
+
+2005-08-04  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_XF) : Add HALIGN_DISTRIBUTED. no idea
+	  what that does.
+
+	* ms-obj.c (ms_read_OBJ) : no docs for OBJ before biff5.  Ignore to
+	  avoid problems.
+
+	* ms-excel-util.c (init_xl_font_widths) : make the font hash case
+	  insensitive.
+
 2005-08-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (ms_excel_chart_read): fixed import x error bars.
+
+2005-08-01  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_WINDOW2) : Don't crash if there is no
+	  view.
+	(excel_read_SELECTION) : ditto.
+	(excel_read_PANE) : ditto. #309544
+
+	* ms-excel-read.c (excel_palette_get) : add the tooltip colour
+	  ordinals
 
 2005-07-29  Jody Goldberg <jody@gnome.org>
 

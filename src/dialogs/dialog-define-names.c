@@ -512,7 +512,9 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	state->ok_button     = name_guru_init_button (state, "ok_button");
 	state->close_button  = name_guru_init_button (state, "close_button");
 	state->add_button    = name_guru_init_button (state, "add_button");
+	gtk_button_set_alignment (GTK_BUTTON (state->add_button), 0., .5);
 	state->delete_button = name_guru_init_button (state, "delete_button");
+	gtk_button_set_alignment (GTK_BUTTON (state->delete_button), 0., .5);
 	state->update_button = name_guru_init_button (state, "update_button");
 
 	g_signal_connect (G_OBJECT (state->selection),

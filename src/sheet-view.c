@@ -1,9 +1,9 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  * sheet-view.c:
  *
- * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as published
@@ -121,6 +121,13 @@ sv_attach_control (SheetView *sv, SheetControl *sc)
 	sc->view  = sv;
 	sc->sheet = sv_sheet (sv); /* convenient */
 	sv_init_sc (sv, sc);
+}
+
+SheetControl *
+sv_get_control (SheetView const *sv, WorkbookControl const *wbc)
+{
+	SHEET_VIEW_FOREACH_CONTROL (sv, sc, if (sc_wbc (sc) == wbc) return sc;);
+	return NULL;
 }
 
 void

@@ -1,3 +1,8 @@
+2005-08-11  Jody Goldberg <jody@gnome.org>
+
+	* src/gnm-so-polygon.c : split out of filled and re-enable It's not
+	  optimal, and the persistence is broken, but it does display.
+
 2005-08-09  Morten Welinder  <terra@gnome.org>
 
 	* src/rendered-value.c (rendered_value_recontext): Fix the hack to
@@ -21,6 +26,23 @@
 2005-08-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* *: Updated FSF's address.
+
+2005-08-07  Jody Goldberg <jody@gnome.org>
+
+	* src/main-application.c : Add --no-warnings
+	* src/io-context-gtk.c (icg_error_error_info) : use it.
+
+2005-08-07  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook.c (workbook_dispose) : do not free the uri until the
+	  end to make debugging simpler.
+	(workbook_sheet_hide_controls) : hide just controls not views.
+	(cb_sheet_visibility_change) : restore just controls.
+
+	* src/style-color.c (style_color_new_gdk) : new.
+	* src/sheet-view.c (sv_get_control) : new.
+	* src/sheet.c (sheet_destroy) : move the object deletion from here.
+	(sheet_destroy_contents) : to here.
 
 2005-08-04  Stepan Kasal  <kasal@ucw.cz>
 

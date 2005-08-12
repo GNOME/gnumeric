@@ -1251,7 +1251,7 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 	while (workbook_is_dirty (wb) && !done) {
 		GtkWidget *d;
 		char *msg;
-		const char *wb_uri = workbook_get_uri (wb);
+		char const *wb_uri = workbook_get_uri (wb);
 
 		iteration++;
 
@@ -1273,30 +1273,25 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 
 		if (exiting) {
 			int n_of_wb = g_list_length (gnm_app_workbook_list ());
-			if (n_of_wb > 1)
-			{
-			  	gnumeric_dialog_add_button (GTK_DIALOG(d), _("Discard all"), 
-							    GTK_STOCK_DELETE, GNM_RESPONSE_DISCARD_ALL);
-				gnumeric_dialog_add_button (GTK_DIALOG(d), _("Discard"), 
-							    GTK_STOCK_DELETE, GTK_RESPONSE_NO);
-				gnumeric_dialog_add_button (GTK_DIALOG(d), _("Save all"), 
-							    GTK_STOCK_SAVE, GNM_RESPONSE_SAVE_ALL);
-				gnumeric_dialog_add_button (GTK_DIALOG(d), _("Don't quit"), 
-							    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+			if (n_of_wb > 1) {
+				go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard all"), 
+					GTK_STOCK_DELETE, GNM_RESPONSE_DISCARD_ALL);
+				go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"), 
+					GTK_STOCK_DELETE, GTK_RESPONSE_NO);
+				go_gtk_dialog_add_button (GTK_DIALOG(d), _("Save all"), 
+					GTK_STOCK_SAVE, GNM_RESPONSE_SAVE_ALL);
+				go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't quit"), 
+					GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+			} else {
+				go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"),
+					GTK_STOCK_DELETE, GTK_RESPONSE_NO);
+				go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't quit"), 
+					GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 			}
-			else
-			{
-				gnumeric_dialog_add_button (GTK_DIALOG(d), _("Discard"),
-							    GTK_STOCK_DELETE, GTK_RESPONSE_NO);
-				gnumeric_dialog_add_button (GTK_DIALOG(d), _("Don't quit"), 
-							    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-			}
-		} 
-		else
-		{
-			gnumeric_dialog_add_button (GTK_DIALOG(d), _("Discard"), 
+		} else {
+			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"), 
 						    GTK_STOCK_DELETE, GTK_RESPONSE_NO);
-			gnumeric_dialog_add_button (GTK_DIALOG(d), _("Don't close"), 
+			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't close"), 
 						    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 		}
 

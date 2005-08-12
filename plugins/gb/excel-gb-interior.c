@@ -73,7 +73,7 @@ color_from_palette (int idx)
 
 	e = excel_default_palette [idx];
 
-	return style_color_new (e.r << 8, e.g << 8, e.b << 8);
+	return style_color_new_i8 (e.r, e.g, e.b);
 }
 
 static int

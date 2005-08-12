@@ -18,21 +18,11 @@ Worries
     : editing text boxes (do a derived FooCanvasEditableTextItem)
       we can steal some of the xim support from item-edit.
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=152528
-    : No crash when reading broken xls                          (DONE)
-    http://bugzilla.gnome.org/show_bug.cgi?id=152317
-    : Warning of possible dataloss loading into XP
-      Looks like XL charts do not like non-trivial expressions for series names
     http://bugzilla.gnome.org/show_bug.cgi?id=151610            
     : No longer crashes, but we mis-import multiple axis sets
 
     http://bugzilla.gnome.org/show_bug.cgi?id=144112
     : fraction matching
-
-    : The only way to unhide column A seems to be to select the entire sheet
-    and unhide.  Not elegant.  We could, perhaps, when a single column is
-    selected add "Unhide column to the left" and "... right" to the context
-    menu (when relevant).
 
     : HARMEAN with no arguments (or just strings/booleans) should yield N/A,
       not NUM.

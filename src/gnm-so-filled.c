@@ -3,7 +3,7 @@
 /*
  * gnm-so-filled.c: Boxes, Ovals and Polygons
  *
- * Copyright (C) 2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2004-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -153,7 +153,6 @@ sof_default_style (void)
 #include <gnumeric-canvas.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-polygon.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-text.h>
 
 static void
@@ -451,12 +450,14 @@ gnm_so_filled_set_property (GObject *obj, guint param_id,
 			    GValue const *value, GParamSpec *pspec)
 {
 	GnmSOFilled *sof = GNM_SO_FILLED (obj);
+	GogStyle *style;
 
 	switch (param_id) {
 	case SOF_PROP_STYLE:
-		g_object_unref (sof->style);
+		style = sof->style;
 		sof->style = g_object_ref (g_value_get_object (value));
 		sof->style->interesting_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
+		g_object_unref (style);
 		break;
 	case SOF_PROP_IS_OVAL:
 		sof->is_oval = g_value_get_boolean (value);
@@ -571,196 +572,4 @@ gnm_so_filled_init (GObject *obj)
 
 GSF_CLASS (GnmSOFilled, gnm_so_filled,
 	   gnm_so_filled_class_init, gnm_so_filled_init,
-	   SHEET_OBJECT_TYPE);
-
-/************************************************************************/
-
-#define GNM_SO_POLYGON(o)       (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SO_POLYGON_TYPE, GnmSOPolygon))
-#define GNM_SO_POLYGON_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k),	GNM_SO_POLYGON_TYPE, GnmSOPolygonClass))
-
-typedef struct {
-	GnmSOFilled  base;
-	GArray *points;
-} GnmSOPolygon;
-typedef GnmSOFilledClass GnmSOPolygonClass;
-static SheetObjectClass *gnm_so_polygon_parent_class;
-
-#ifdef WITH_GTK
-#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
-static void
-so_polygon_view_destroy (SheetObjectView *sov)
-{
-	gtk_object_destroy (GTK_OBJECT (sov));
-}
-static void
-so_polygon_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
-{
-	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
-
-	if (visible) {
-		FooCanvasPolygon	*poly = FOO_CANVAS_POLYGON (view);
-		SheetObject		*so   = sheet_object_view_get_so (sov);
-		GnmSOPolygon const	*sop  = GNM_SO_POLYGON (so);
-		double *dst, x_scale, y_scale, x_translate, y_translate;
-		double const *src;
-		unsigned i = poly->num_points;
-
-		g_return_if_fail (poly->num_points*2 == (int)sop->points->len);
-
-		x_scale = fabs (coords[2] - coords[0]);
-		y_scale = fabs (coords[3] - coords[1]);
-		x_translate = MIN (coords[0], coords[2]),
-		y_translate = MIN (coords[1], coords[3]);
-
-		src = (double *)sop->points->data;
-		dst = poly->coords;
-		for ( ; i-- > 0; dst += 2, src += 2) {
-			dst[0] = x_translate + x_scale * src[0];
-			dst[1] = y_translate + y_scale * src[1];
-		}
-
-		foo_canvas_item_show (view);
-	} else
-		foo_canvas_item_hide (view);
-}
-
-static void
-so_polygon_foo_view_init (SheetObjectViewIface *sov_iface)
-{
-	sov_iface->destroy	= so_polygon_view_destroy;
-	sov_iface->set_bounds	= so_polygon_view_set_bounds;
-}
-typedef FooCanvasPolygon	PolygonFooView;
-typedef FooCanvasPolygonClass	PolygonFooViewClass;
-static GSF_CLASS_FULL (PolygonFooView, so_polygon_foo_view,
-	NULL, NULL, NULL, NULL,
-	NULL, FOO_TYPE_CANVAS_POLYGON, 0,
-	GSF_INTERFACE (so_polygon_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
-#endif /* WITH_GTK */
-
-/*****************************************************************************/
-
-#ifdef WITH_GTK
-static SheetObjectView *
-gnm_so_polygon_new_view (SheetObject *so, SheetObjectViewContainer *container)
-{
-	GnmCanvas *gcanvas = ((GnmPane *)container)->gcanvas;
-	GnmSOPolygon *sop = GNM_SO_POLYGON (so);
-	FooCanvasItem *item = foo_canvas_item_new (gcanvas->object_views,
-		so_polygon_foo_view_get_type (),
-		"points",		sop->points,
-		/* "join_style",	GDK_JOIN_ROUND, */
-		NULL);
-#if 0
-	cb_gnm_so_filled_style_changed (item, &sop->base);
-	g_signal_connect_object (sop,
-		"notify", G_CALLBACK (cb_gnm_so_filled_style_changed),
-		item, 0);
-#endif
-	return gnm_pane_object_register (so, item, TRUE);
-}
-
-static void
-gnm_so_polygon_print (SheetObject const *so, GnomePrintContext *gp_context,
-		      double base_x, double base_y)
-{
-}
-#endif /* WITH_GTK */
-
-static gboolean
-gnm_so_polygon_read_xml_dom (SheetObject *so, char const *typename,
-			     XmlParseContext const *ctxt, xmlNodePtr node)
-{
-	GnmSOPolygon *sop = GNM_SO_POLYGON (so);
-	xmlNodePtr ptr;
-	double vals[2];
-
-	g_array_set_size (sop->points, 0);
-	for (ptr = node->xmlChildrenNode; ptr != NULL ; ptr = ptr->next)
-		if (!xmlIsBlankNode (ptr) && ptr->name &&
-		    !strcmp (ptr->name, "Point") &&
-		    xml_node_get_double	(ptr, "x", vals + 0) &&
-		    xml_node_get_double	(ptr, "y", vals + 1))
-			g_array_append_vals (sop->points, vals, 2);
-
-	return gnm_so_polygon_parent_class->
-		read_xml_dom (so, typename, ctxt, node);
-}
-
-static gboolean
-gnm_so_polygon_write_xml_dom (SheetObject const *so,
-			      XmlParseContext const *ctxt, xmlNodePtr node)
-{
-	return gnm_so_polygon_parent_class->write_xml_dom (so, ctxt, node);
-}
-
-static void
-gnm_so_polygon_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
-{
-	return gnm_so_polygon_parent_class->write_xml_sax (so, output);
-}
-
-static void
-gnm_so_polygon_copy (SheetObject *dst, SheetObject const *src)
-{
-	GnmSOPolygon const *sop = GNM_SO_POLYGON (src);
-	GnmSOPolygon   *new_sop = GNM_SO_POLYGON (dst);
-	unsigned i = sop->points->len;
-
-	g_array_set_size (new_sop->points, i);
-	while (i-- > 0)
-		g_array_index (new_sop->points, double, i) =
-			g_array_index (sop->points, double, i);
-	gnm_so_polygon_parent_class->copy (dst, src);
-}
-
-static void
-gnm_so_polygon_finalize (GObject *object)
-{
-	GnmSOPolygon *sop = GNM_SO_POLYGON (object);
-
-	if (sop->points != NULL) {
-		g_array_free (sop->points, TRUE);
-		sop->points = NULL;
-	}
-	G_OBJECT_CLASS (gnm_so_polygon_parent_class)->finalize (object);
-}
-
-static void
-gnm_so_polygon_class_init (GObjectClass *gobject_class)
-{
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (gobject_class);
-
-	gnm_so_polygon_parent_class = g_type_class_peek_parent (gobject_class);
-
-	gobject_class->finalize		= gnm_so_polygon_finalize;
-	so_class->read_xml_dom		= gnm_so_polygon_read_xml_dom;
-	so_class->write_xml_dom		= gnm_so_polygon_write_xml_dom;
-	so_class->write_xml_sax		= gnm_so_polygon_write_xml_sax;
-	so_class->copy			= gnm_so_polygon_copy;
-	so_class->rubber_band_directly	= FALSE;
-	so_class->xml_export_name	= "SheetObjectPolygon";
-
-#ifdef WITH_GTK
-	so_class->new_view		= gnm_so_polygon_new_view;
-	so_class->print			= gnm_so_polygon_print;
-#endif /* WITH_GTK */
-}
-
-static void
-gnm_so_polygon_init (GObject *obj)
-{
-	static double const initial_coords [] = {
-		0., 0.,		1., 0.,
-		1., 1.,		0., 1.
-	};
-	GnmSOPolygon *sop = GNM_SO_POLYGON (obj);
-	sop->points = g_array_sized_new (FALSE, TRUE, sizeof (double),
-		G_N_ELEMENTS (initial_coords));
-	g_array_append_vals (sop->points,
-		initial_coords, G_N_ELEMENTS (initial_coords));
-}
-
-GSF_CLASS (GnmSOPolygon, gnm_so_polygon,
-	   gnm_so_polygon_class_init, gnm_so_polygon_init,
 	   SHEET_OBJECT_TYPE);

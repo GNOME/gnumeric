@@ -3098,6 +3098,20 @@ sheet_destroy_contents (Sheet *sheet)
 	if (sheet->hash_merged == NULL)
 		return;
 
+	if (sheet->sheet_objects) {
+		/* The list is changed as we remove */
+		GSList *objs = g_slist_copy (sheet->sheet_objects);
+		GSList *ptr;
+		for (ptr = objs; ptr != NULL ; ptr = ptr->next) {
+			SheetObject *so = SHEET_OBJECT (ptr->data);
+			if (so != NULL)
+				sheet_object_clear_sheet (so);
+		}
+		g_slist_free (objs);
+		if (sheet->sheet_objects != NULL)
+			g_warning ("There is a problem with sheet objects");
+	}
+
 	if (NULL != sheet->filters) {
 		g_slist_foreach (sheet->filters, (GFunc)gnm_filter_free, NULL);
 		g_slist_free (sheet->filters);
@@ -3175,20 +3189,6 @@ sheet_destroy (Sheet *sheet)
 		sheet->print_info = NULL;
 	}
 
-	if (sheet->sheet_objects) {
-		/* The list is changed as we remove */
-		GSList *objs = g_slist_copy (sheet->sheet_objects);
-		GSList *ptr;
-		for (ptr = objs; ptr != NULL ; ptr = ptr->next) {
-			SheetObject *so = SHEET_OBJECT (ptr->data);
-			if (so != NULL)
-				sheet_object_clear_sheet (so);
-		}
-		g_slist_free (objs);
-		if (sheet->sheet_objects != NULL)
-			g_warning ("There is a problem with sheet objects");
-	}
-
 	style_color_unref (sheet->tab_color);
 	sheet->tab_color = NULL;
 	style_color_unref (sheet->tab_text_color);
@@ -3215,6 +3215,9 @@ sheet_finalize (GObject *obj)
 
 	sheet_destroy_contents (sheet);
 
+	if (sheet->sheet_objects != NULL) {
+		g_warning ("Sheet object list should be NULL");
+	}
 	if (sheet->list_merged != NULL) {
 		g_warning ("Merged list should be NULL");
 	}

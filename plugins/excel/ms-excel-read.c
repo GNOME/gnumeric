@@ -64,6 +64,7 @@
 #include <sheet-object-widget.h>
 #include <gnm-so-line.h>
 #include <gnm-so-filled.h>
+#include <gnm-so-polygon.h>
 #include <sheet-object-graph.h>
 #include <sheet-object-image.h>
 #include <goffice/utils/go-font.h>
@@ -403,11 +404,11 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	sheet_object_set_anchor (so, &anchor);
 	sheet_object_set_sheet (so, esheet->sheet);
 
-	label = ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_TEXT, NULL);
+	label = ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_TEXT, NULL, FALSE);
 	if (label != NULL)
 		g_object_set (G_OBJECT (so), "text", label, NULL);
 
-	markup = ms_obj_attr_get_markup (obj->attrs, MS_OBJ_ATTR_MARKUP, NULL);
+	markup = ms_obj_attr_get_markup (obj->attrs, MS_OBJ_ATTR_MARKUP, NULL, FALSE);
 	if (markup != NULL)
 		g_object_set (so, "markup", markup, NULL);
 
@@ -430,7 +431,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 
 	case 0x09:
 		g_object_set (G_OBJECT (so), "points",
-			ms_obj_attr_get_array (obj->attrs, MS_OBJ_ATTR_POLYGON_COORDS, NULL),
+			ms_obj_attr_get_array (obj->attrs, MS_OBJ_ATTR_POLYGON_COORDS, NULL, TRUE),
 			NULL);
 		   /* fallthrough */
 
@@ -501,7 +502,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	case 0x0B: 
 	case 0x70: 
 		sheet_widget_checkbox_set_link (obj->gnum_obj,
-			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_LINKED_TO_CELL, NULL));
+			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_LINKED_TO_CELL, NULL, FALSE));
 		break;
 
 	case 0x0C:
@@ -510,7 +511,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	case 0x10:
 	case 0x11:
 		sheet_widget_adjustment_set_details (obj->gnum_obj,
-			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_LINKED_TO_CELL, NULL),
+			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_LINKED_TO_CELL, NULL, FALSE),
 			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_VALUE, 0),
 			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_MIN, 0),
 			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_MAX, 100) - 1,
@@ -570,7 +571,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	case 0x06: /* TextBox */
 	case 0x0E: /* Label */
 		so = g_object_new (GNM_SO_FILLED_TYPE,
-			"text", ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_TEXT, NULL),
+			"text", ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_TEXT, NULL, FALSE),
 			"is-oval", obj->excel_type == 3,
 			NULL);
 		break;
@@ -1481,11 +1482,15 @@ excel_palette_get (GnmXLImporter *importer, gint idx)
 	switch (idx) {
 	case 0:   /* black */
 	case 64 : /* system text ? */
+	case 81 : /* tooltip text */
 	case 0x7fff : /* system text ? */
 		return style_color_black ();
 	case 1 :  /* white */
 	case 65 : /* system back ? */
 		return style_color_white ();
+
+	case 80 : /* tooltip background */
+		return style_color_new_gdk (&gs_yellow);
 
 	case 2 : return style_color_new_i8 (0xff,    0,    0); /* red */
 	case 3 : return style_color_new_i8 (   0, 0xff,    0); /* green */
@@ -1944,13 +1949,35 @@ excel_read_XF_OLD (BiffQuery *q, GnmXLImporter *importer)
 	case 2: xf->halign = HALIGN_CENTER; break;
 	case 3: xf->halign = HALIGN_RIGHT; break;
 	case 4: xf->halign = HALIGN_FILL; break;
+	case 5: xf->halign = HALIGN_JUSTIFY; break;
+	case 6: xf->halign = HALIGN_CENTER_ACROSS_SELECTION; break;
 	}
 
         xf->valign = VALIGN_BOTTOM;
-        xf->indent = 0;
         xf->rotation = 0;
-	xf->text_dir = GNM_TEXT_DIR_CONTEXT;
+        xf->indent = 0;
         xf->differences = 0;
+	xf->text_dir = GNM_TEXT_DIR_CONTEXT;
+
+        if (importer->ver >= MS_BIFF_V4) {
+		xf->wrap_text = (data & 0x0008) != 0;
+		switch (data & 0x30) {
+		case 0x00: xf->valign = VALIGN_TOP; break;
+		case 0x10: xf->valign = VALIGN_CENTER; break;
+		default :
+		case 0x20: xf->valign = VALIGN_BOTTOM; break;
+		}
+		switch (data & 0xc0) {
+		case 0x00: xf->rotation = 0; break;
+		case 0x40: xf->rotation = -1; break;
+		case 0x80: xf->rotation = 90; break;
+		case 0xc0: xf->rotation = 270; break;
+		}
+	} else if (importer->ver >= MS_BIFF_V3) {
+		xf->wrap_text = (data & 0x0008) != 0;
+		if (xf->wrap_text)
+			xf->valign = VALIGN_TOP;
+	}
 
 	if (importer->ver >= MS_BIFF_V3) {
 		data = GSF_LE_GET_GUINT16 (q->data + 6);
@@ -1979,20 +2006,20 @@ excel_read_XF_OLD (BiffQuery *q, GnmXLImporter *importer)
 		xf->border_type[STYLE_RIGHT] = biff_xf_map_border (data & 0x07);
 		subdata = data >> 3;
        		xf->border_color[STYLE_RIGHT] = (subdata==24) ? 64 : subdata;
-	} else {
+	} else /* MS_BIFF_V2 */ {
 		xf->pat_foregnd_col = 0;
-		xf->pat_backgnd_col = 0;
-		xf->fill_pattern_idx = 0;
+		xf->pat_backgnd_col = 1;
 
 		data = q->data[3];
-		xf->border_type[STYLE_TOP]	= (data & 0x08) ? 1 : 0;
-       		xf->border_color[STYLE_TOP]	= 0;
-		xf->border_type[STYLE_BOTTOM]	= (data & 0x10) ? 1: 0;
-       		xf->border_color[STYLE_BOTTOM]	= 0;
-		xf->border_type[STYLE_LEFT]	= (data & 0x20) ? 1: 0;;
+		xf->border_type[STYLE_LEFT]	= (data & 0x08) ? 1 : 0;
        		xf->border_color[STYLE_LEFT]	= 0;
-		xf->border_type[STYLE_RIGHT]	= (data & 0x40) ? 1: 0;;
+		xf->border_type[STYLE_RIGHT]	= (data & 0x10) ? 1: 0;
        		xf->border_color[STYLE_RIGHT]	= 0;
+		xf->border_type[STYLE_TOP]	= (data & 0x20) ? 1: 0;
+       		xf->border_color[STYLE_TOP]	= 0;
+		xf->border_type[STYLE_BOTTOM]	= (data & 0x40) ? 1: 0;
+       		xf->border_color[STYLE_BOTTOM]	= 0;
+		xf->fill_pattern_idx = (data & 0x80) ? 5: 0;
 	}
 
         xf->border_type[STYLE_DIAGONAL] = 0;
@@ -2037,24 +2064,12 @@ excel_read_XF (BiffQuery *q, GnmXLImporter *importer)
 	data = GSF_LE_GET_GUINT16 (q->data + 6);
 	subdata = data & 0x0007;
 	switch (subdata) {
-	case 0:
-		xf->halign = HALIGN_GENERAL;
-		break;
-	case 1:
-		xf->halign = HALIGN_LEFT;
-		break;
-	case 2:
-		xf->halign = HALIGN_CENTER;
-		break;
-	case 3:
-		xf->halign = HALIGN_RIGHT;
-		break;
-	case 4:
-		xf->halign = HALIGN_FILL;
-		break;
-	case 5:
-		xf->halign = HALIGN_JUSTIFY;
-		break;
+	case 0: xf->halign = HALIGN_GENERAL; break;
+	case 1: xf->halign = HALIGN_LEFT; break;
+	case 2: xf->halign = HALIGN_CENTER; break;
+	case 3: xf->halign = HALIGN_RIGHT; break;
+	case 4: xf->halign = HALIGN_FILL; break;
+	case 5: xf->halign = HALIGN_JUSTIFY; break;
 	case 6:
 		/*
 		 * All adjacent blank cells with this type of alignment
@@ -2065,6 +2080,9 @@ excel_read_XF (BiffQuery *q, GnmXLImporter *importer)
 		xf->halign = HALIGN_CENTER_ACROSS_SELECTION;
 		break;
 
+	/* no idea what this does */
+	case 7 : xf->halign = HALIGN_DISTRIBUTED; break;
+
 	default:
 		xf->halign = HALIGN_JUSTIFY;
 		fprintf (stderr,"Unknown halign %d\n", subdata);
@@ -2073,21 +2091,12 @@ excel_read_XF (BiffQuery *q, GnmXLImporter *importer)
 	xf->wrap_text = (data & 0x0008) != 0;
 	subdata = (data & 0x0070) >> 4;
 	switch (subdata) {
-	case 0:
-		xf->valign = VALIGN_TOP;
-		break;
-	case 1:
-		xf->valign = VALIGN_CENTER;
-		break;
-	case 2:
-		xf->valign = VALIGN_BOTTOM;
-		break;
-	case 3:
-		xf->valign = VALIGN_JUSTIFY;
-		break;
-	case 4:
-		xf->valign = VALIGN_DISTRIBUTED;
-		break;
+	case 0: xf->valign = VALIGN_TOP; break;
+	case 1: xf->valign = VALIGN_CENTER; break;
+	case 2: xf->valign = VALIGN_BOTTOM; break;
+	case 3: xf->valign = VALIGN_JUSTIFY; break;
+	/* What does this do ?? */
+	case 4: xf->valign = VALIGN_DISTRIBUTED; break;
 	default:
 		fprintf (stderr,"Unknown valign %d\n", subdata);
 		break;
@@ -3771,6 +3780,8 @@ excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 	d (5, fprintf (stderr,"Cursor: %s in Ref #%d\n", cellpos_as_string (&edit_pos),
 		      j););
 
+	g_return_if_fail (sv != NULL);
+
 	sv_selection_reset (sv);
 	for (i = 0; i++ < num_refs ; ) {
 		refs = q->data + 9 + 6 * (++j % num_refs);
@@ -4301,6 +4312,8 @@ excel_read_PANE (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 			esheet->active_pane = 3;
 		}
 
+		g_return_if_fail (sv != NULL);
+
 		frozen = unfrozen = sv->initial_top_left;
 		if (x > 0)
 			unfrozen.col += x;
@@ -4394,6 +4407,8 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 		sheet_style_set_auto_pattern_color (
 			esheet->sheet, pattern_color);
 	}
+
+	g_return_if_fail (sv != NULL);
 
 	/* until we import multiple views unfreeze just in case a previous view
 	 * had frozen */

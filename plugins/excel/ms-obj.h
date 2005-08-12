@@ -95,18 +95,24 @@ MSObjAttr    *ms_obj_attr_new_expr  (MSObjAttrID id, GnmExpr const *expr);
 MSObjAttr    *ms_obj_attr_new_markup (MSObjAttrID id, PangoAttrList *list);
 
 typedef GHashTable MSObjAttrBag;
-MSObjAttrBag *ms_obj_attr_bag_new     (void);
-void          ms_obj_attr_bag_destroy (MSObjAttrBag *attrs);
-void	      ms_obj_attr_bag_insert  (MSObjAttrBag *attrs,
+MSObjAttrBag  *ms_obj_attr_bag_new     (void);
+void           ms_obj_attr_bag_destroy (MSObjAttrBag *ab);
+void	       ms_obj_attr_bag_insert  (MSObjAttrBag *ab,
 				       MSObjAttr *attr);
-MSObjAttr    *ms_obj_attr_bag_lookup  (MSObjAttrBag *attrs,
+MSObjAttr     *ms_obj_attr_bag_lookup  (MSObjAttrBag *ab,
 				       MSObjAttrID id);
-guint32   ms_obj_attr_get_uint	      (MSObjAttrBag *attrs, MSObjAttrID id, guint32 default_value);
-gint32    ms_obj_attr_get_int	      (MSObjAttrBag *attrs, MSObjAttrID id, gint32 default_value);
-gpointer  ms_obj_attr_get_ptr	      (MSObjAttrBag *attrs, MSObjAttrID id, gpointer default_value);
-GArray   *ms_obj_attr_get_array	      (MSObjAttrBag *attrs, MSObjAttrID id, GArray *default_value);
-GnmExpr const *ms_obj_attr_get_expr   (MSObjAttrBag *attrs, MSObjAttrID id, GnmExpr const *default_value);
-PangoAttrList *ms_obj_attr_get_markup (MSObjAttrBag *attrs, MSObjAttrID id, PangoAttrList *default_value);
+guint32	       ms_obj_attr_get_uint    (MSObjAttrBag *ab, MSObjAttrID id,
+				       guint32 default_value);
+gint32	       ms_obj_attr_get_int     (MSObjAttrBag *ab, MSObjAttrID id,
+				       gint32 default_value);
+gpointer       ms_obj_attr_get_ptr     (MSObjAttrBag *ab, MSObjAttrID id,
+				       gpointer default_value, gboolean steal);
+GArray	      *ms_obj_attr_get_array  (MSObjAttrBag *ab, MSObjAttrID id,
+				       GArray *default_value, gboolean steal);
+GnmExpr const *ms_obj_attr_get_expr   (MSObjAttrBag *ab, MSObjAttrID id,
+				       GnmExpr const *default_value, gboolean steal);
+PangoAttrList *ms_obj_attr_get_markup (MSObjAttrBag *ab, MSObjAttrID id,
+				       PangoAttrList *default_value, gboolean steal);
 
 
 struct _MSObj {
@@ -123,11 +129,10 @@ struct _MSObj {
 	gboolean	 is_linked;
 	MSObjAttrBag	*attrs;
 };
-MSObj        *ms_obj_new              (MSObjAttrBag *attrs);
-
-void  ms_read_OBJ   (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs);
-void  ms_obj_delete (MSObj *obj);
-char *ms_read_TXO   (BiffQuery *q, MSContainer *c, PangoAttrList **markup);
+MSObj *ms_obj_new    (MSObjAttrBag *ab);
+void   ms_read_OBJ   (BiffQuery *q, MSContainer *c, MSObjAttrBag *ab);
+void   ms_obj_delete (MSObj *obj);
+char  *ms_read_TXO   (BiffQuery *q, MSContainer *c, PangoAttrList **markup);
 
 /********************************************************/
 

@@ -169,9 +169,11 @@ ms_obj_attr_get_int  (MSObjAttrBag *attrs, MSObjAttrID id, gint32 default_value)
 }
 
 gpointer
-ms_obj_attr_get_ptr  (MSObjAttrBag *attrs, MSObjAttrID id, gpointer default_value)
+ms_obj_attr_get_ptr (MSObjAttrBag *attrs, MSObjAttrID id,
+		     gpointer default_value, gboolean steal)
 {
 	MSObjAttr *attr;
+	gpointer res;
 
 	g_return_val_if_fail (attrs != NULL, default_value);
 	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_PTR_MASK, default_value);
@@ -179,13 +181,18 @@ ms_obj_attr_get_ptr  (MSObjAttrBag *attrs, MSObjAttrID id, gpointer default_valu
 	attr = ms_obj_attr_bag_lookup (attrs, id);
 	if (attr == NULL)
 		return default_value;
-	return attr->v.v_ptr;
+	res = attr->v.v_ptr;
+	if (steal)
+		attr->v.v_ptr = NULL;
+	return res;
 }
 
 GArray *
-ms_obj_attr_get_array (MSObjAttrBag *attrs, MSObjAttrID id, GArray *default_value)
+ms_obj_attr_get_array (MSObjAttrBag *attrs, MSObjAttrID id,
+		       GArray *default_value, gboolean steal)
 {
 	MSObjAttr *attr;
+	GArray *res;
 
 	g_return_val_if_fail (attrs != NULL, default_value);
 	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_GARRAY_MASK, default_value);
@@ -193,13 +200,18 @@ ms_obj_attr_get_array (MSObjAttrBag *attrs, MSObjAttrID id, GArray *default_valu
 	attr = ms_obj_attr_bag_lookup (attrs, id);
 	if (attr == NULL)
 		return default_value;
-	return attr->v.v_array;
+	res = attr->v.v_array;
+	if (steal)
+		attr->v.v_array = NULL;
+	return res;
 }
 
 GnmExpr const *
-ms_obj_attr_get_expr (MSObjAttrBag *attrs, MSObjAttrID id, GnmExpr const *default_value)
+ms_obj_attr_get_expr (MSObjAttrBag *attrs, MSObjAttrID id,
+		      GnmExpr const *default_value, gboolean steal)
 {
 	MSObjAttr *attr;
+	GnmExpr const *res;
 
 	g_return_val_if_fail (attrs != NULL, default_value);
 	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_EXPR_MASK, default_value);
@@ -207,13 +219,18 @@ ms_obj_attr_get_expr (MSObjAttrBag *attrs, MSObjAttrID id, GnmExpr const *defaul
 	attr = ms_obj_attr_bag_lookup (attrs, id);
 	if (attr == NULL)
 		return default_value;
-	return attr->v.v_expr;
+	res = attr->v.v_expr;
+	if (steal)
+		attr->v.v_expr = NULL;
+	return res;
 }
 
 PangoAttrList *
-ms_obj_attr_get_markup (MSObjAttrBag *attrs, MSObjAttrID id, PangoAttrList *default_value)
+ms_obj_attr_get_markup (MSObjAttrBag *attrs, MSObjAttrID id,
+			PangoAttrList *default_value, gboolean steal)
 {
 	MSObjAttr *attr;
+	PangoAttrList *res;
 
 	g_return_val_if_fail (attrs != NULL, default_value);
 	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_PANGO_ATTR_LIST_MASK, default_value);
@@ -221,7 +238,10 @@ ms_obj_attr_get_markup (MSObjAttrBag *attrs, MSObjAttrID id, PangoAttrList *defa
 	attr = ms_obj_attr_bag_lookup (attrs, id);
 	if (attr == NULL)
 		return default_value;
-	return attr->v.v_markup;
+	res = attr->v.v_markup;
+	if (steal)
+		attr->v.v_markup = NULL;
+	return res;
 }
 
 static void
@@ -1169,12 +1189,17 @@ ms_read_OBJ (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs)
 	};
 
 	gboolean errors;
-	MSObj *obj = ms_obj_new (attrs);
+	MSObj *obj;
+
+	/* no decent docs for this */
+	if  (c->importer->ver <= MS_BIFF_V4)
+		return;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_object_debug > 0)
 		printf ("{ /* OBJ start */\n");
 #endif
+	obj = ms_obj_new (attrs);
 	errors = (c->importer->ver >= MS_BIFF_V8)
 		? ms_obj_read_biff8_obj (q, c, obj)
 		: ms_obj_read_pre_biff8_obj (q, c, obj);

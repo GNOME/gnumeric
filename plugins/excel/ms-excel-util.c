@@ -15,6 +15,7 @@
 #include "boot.h"
 #include "style.h"
 #include "ms-excel-util.h"
+#include <goffice/utils/go-glib-extras.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -377,9 +378,9 @@ init_xl_font_widths (void)
 
 	if (xl_font_width_hash == NULL) {
 		xl_font_width_hash =
-			g_hash_table_new (&g_str_hash, &g_str_equal);
+			g_hash_table_new (&go_ascii_strcase_hash, &go_ascii_strcase_equal);
 		xl_font_width_warned =
-			g_hash_table_new (&g_str_hash, &g_str_equal);
+			g_hash_table_new (&go_ascii_strcase_hash, &go_ascii_strcase_equal);
 	}
 
 	g_assert (xl_font_width_hash != NULL);

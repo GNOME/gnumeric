@@ -53,6 +53,7 @@ static char *func_def_file = NULL;
 static char *func_state_file = NULL;
 
 int gnumeric_no_splash = FALSE;
+int gnumeric_no_warnings = FALSE;
 
 static struct poptOption
 gnumeric_popt_options[] = {
@@ -86,6 +87,8 @@ gnumeric_popt_options[] = {
 
 	{ "no-splash", '\0', POPT_ARG_NONE, &gnumeric_no_splash, 0,
 	  N_("Don't show splash screen"), NULL },
+	{ "no-warnings", '\0', POPT_ARG_NONE, &gnumeric_no_warnings, 0,
+	  N_("Don't display warning dialogs when importing"), NULL },
 
 	{ "quit", '\0', POPT_ARG_NONE, &immediate_exit_flag, 0,
 	  N_("Exit immediately after loading the selected books (useful for testing)."), NULL },
@@ -245,7 +248,8 @@ gnumeric_arg_parse (int argc, char const *argv [])
 	gnumeric_popt_options[8].arg = &print_debugging;
 	gnumeric_popt_options[9].arg = &x_geometry;
 	gnumeric_popt_options[10].arg = &gnumeric_no_splash;
-	gnumeric_popt_options[11].arg = &immediate_exit_flag;
+	gnumeric_popt_options[11].arg = &gnumeric_no_warnings;
+	gnumeric_popt_options[12].arg = &immediate_exit_flag;
 #endif
 
 	/* no need to init gtk when dumping function info */

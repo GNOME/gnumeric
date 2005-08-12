@@ -121,14 +121,14 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 							 msg,
 							 _("If you do not save, changes may be discarded."));
 			if (g_list_length (ptr) > 1) {
-			  	gnumeric_dialog_add_button (GTK_DIALOG(d), _("Do not save any"),
+			  	go_gtk_dialog_add_button (GTK_DIALOG(d), _("Do not save any"),
 							    GTK_STOCK_DELETE, - GTK_RESPONSE_NO);
-				gnumeric_dialog_add_button (GTK_DIALOG(d), _("Do not save"),
+				go_gtk_dialog_add_button (GTK_DIALOG(d), _("Do not save"),
 							    GTK_STOCK_DELETE, GTK_RESPONSE_NO);
 			} else
-				gnumeric_dialog_add_button (GTK_DIALOG(d), _("Do not save"),
+				go_gtk_dialog_add_button (GTK_DIALOG(d), _("Do not save"),
 							    GTK_STOCK_DELETE, GTK_RESPONSE_NO);
-			gnumeric_dialog_add_button (GTK_DIALOG(d), _("Do not log out"), 
+			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Do not log out"), 
 						    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 			gtk_dialog_add_button (GTK_DIALOG(d), GTK_STOCK_SAVE, GTK_RESPONSE_YES);
 			gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_YES);

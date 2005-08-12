@@ -1,3 +1,9 @@
+2005-08-03  Jody Goldberg <jody@gnome.org>
+
+	* dialog-define-names.c (name_guru_init) : No need to align the button
+	  content manually.  We can use gtk_button_set_alignment now. #307779.
+	* dialog-autocorrect.c (autocorrect_init_exception_list) : ditto #307782
+
 2005-08-04  Stepan Kasal  <kasal@ucw.cz>
 
 	* dialog-about.c, dialog-doc-metadata.c, dialog-stf-export.c:

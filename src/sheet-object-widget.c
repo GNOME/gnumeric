@@ -1905,6 +1905,54 @@ sheet_widget_radio_button_set_label (SheetObject *so, char const *str)
  	}
 }
 
+enum {
+	SOR_PROP_0 = 0,
+	SOR_PROP_TEXT,
+	SOR_PROP_MARKUP
+};
+
+static void
+sheet_widget_radio_button_get_property (GObject *obj, guint param_id,
+				    GValue  *value, GParamSpec *pspec)
+{
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (obj);
+
+	switch (param_id) {
+	case SOC_PROP_TEXT:
+		g_value_set_string (value, swrb->label);
+		break;
+	case SOC_PROP_MARKUP:
+		g_value_set_boxed (value, NULL); /* swrb->markup */
+		break;
+	default :
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		break;
+	}
+}
+
+static void
+sheet_widget_radio_button_set_property (GObject *obj, guint param_id,
+					GValue const *value, GParamSpec *pspec)
+{
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (obj);
+
+	switch (param_id) {
+	case SOC_PROP_TEXT:
+		sheet_widget_radio_button_set_label (swrb,
+			g_value_get_string (value));
+		break;
+	case SOC_PROP_MARKUP:
+#if 0
+		sheet_widget_radio_button_set_markup (SHEET_OBJECT (swc),
+			g_value_peek_pointer (value));
+#endif
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		return;
+	}
+}
+
 SOW_MAKE_TYPE (radio_button, RadioButton,
 	       NULL,
 	       &sheet_widget_radio_button_set_sheet,
@@ -1913,9 +1961,18 @@ SOW_MAKE_TYPE (radio_button, RadioButton,
 	       NULL,
 	       NULL,
 	       NULL,
-	       NULL,
-	       NULL,
-	       {})
+	       &sheet_widget_radio_button_get_property,
+	       &sheet_widget_radio_button_set_property,
+	       {
+		       g_object_class_install_property
+			       (object_class, SOR_PROP_TEXT,
+				g_param_spec_string ("text", NULL, NULL, NULL,
+						     GSF_PARAM_STATIC | G_PARAM_READWRITE));
+		       g_object_class_install_property
+			       (object_class, SOC_PROP_MARKUP,
+				g_param_spec_boxed ("markup", NULL, NULL, PANGO_TYPE_ATTR_LIST,
+						    GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	       })
 
 /****************************************************************************/
 #define SHEET_WIDGET_LIST_BASE_TYPE     (sheet_widget_list_base_get_type ())

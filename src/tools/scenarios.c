@@ -565,11 +565,8 @@ summary_cb (int col, int row, GnmValue *v, summary_cb_t *p)
 		/* Set the colors. */
 		dao_set_colors (&p->dao, 2 + p->col, 3 + *index,
 				2 + p->col, 3 + *index,
-				style_color_new (gs_black.red, gs_black.green, 
-						 gs_black.blue),
-				style_color_new (gs_light_gray.red,
-						 gs_light_gray.green,
-						 gs_light_gray.blue));
+				style_color_new_gdk (&gs_black),
+				style_color_new_gdk (&gs_light_gray));
 	
 	} else {
 		/* New cell. */
@@ -591,11 +588,8 @@ summary_cb (int col, int row, GnmValue *v, summary_cb_t *p)
 		/* Set the colors. */
 		dao_set_colors (&p->dao, 2 + p->col, 3 + p->row,
 				2 + p->col, 3 + p->row,
-				style_color_new (gs_black.red, gs_black.green, 
-						 gs_black.blue),
-				style_color_new (gs_light_gray.red,
-						 gs_light_gray.green,
-						 gs_light_gray.blue));
+				style_color_new_gdk (&gs_black),
+				style_color_new_gdk (&gs_light_gray));
 	
 		/* Insert row number into the hash table. */
 		r  = g_new (int, 1);
@@ -726,16 +720,11 @@ scenario_summary (WorkbookControl *wbc,
 	dao_set_cell (&cb.dao, 0, 0, _("Scenario Summary"));
 
 	dao_set_colors (&cb.dao, 0, 0, cb.col + 1, 1,
-			style_color_new (gs_white.red, gs_white.green, 
-					 gs_white.blue),
-			style_color_new (gs_dark_gray.red, gs_dark_gray.green,
-					 gs_dark_gray.blue));
+			style_color_new_gdk (&gs_white),
+			style_color_new_gdk (&gs_dark_gray));
 	dao_set_colors (&cb.dao, 0, 2, 0, 2 + cb.row,
-			style_color_new (gs_black.red, gs_black.green, 
-					 gs_black.blue),
-			style_color_new (gs_light_gray.red,
-					 gs_light_gray.green,
-					 gs_light_gray.blue));
+			style_color_new_gdk (&gs_black),
+			style_color_new_gdk (&gs_light_gray));
 
 	dao_set_align (&cb.dao, 1, 1, cb.col + 1, 1, HALIGN_RIGHT, 
 		       VALIGN_BOTTOM);

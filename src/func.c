@@ -163,6 +163,16 @@ generate_po (void)
 		(GHFunc) cb_generate_po, NULL);
 }
 
+static void
+cb_dump_usage (gpointer key, Symbol *sym, FILE *out)
+{
+	if (sym != NULL) {
+		GnmFunc const *fd = sym->data;
+		if (fd != NULL && fd->ref_count > 0)
+			fprintf (out, "%d,%s\n", fd->ref_count, fd->name);
+	}
+}
+
 /**
  * function_dump_defs :
  * @filename :
@@ -174,6 +184,7 @@ generate_po (void)
  * 0 : 
  * 1 : 
  * 2 :
+ * 3 : dump function usage count
  **/
 void
 function_dump_defs (char const *filename, int dump_type)
@@ -188,12 +199,18 @@ function_dump_defs (char const *filename, int dump_type)
 		generate_po ();
 		return;
 	}
-
 	g_return_if_fail (filename != NULL);
 
 	if ((output_file = g_fopen (filename, "w")) == NULL){
 		printf (_("Cannot create file %s\n"), filename);
 		exit (1);
+	}
+
+	if (dump_type == 3) {
+		g_hash_table_foreach (global_symbol_table->hash,
+			(GHFunc) cb_dump_usage, output_file);
+		fclose (output_file);
+		return;
 	}
 
 	/* TODO : Use the translated names and split by fn_group. */

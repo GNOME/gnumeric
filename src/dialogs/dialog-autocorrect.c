@@ -155,10 +155,12 @@ autocorrect_init_exception_list (AutoCorrectState *state,
 	}
 
 	w = glade_xml_get_widget (state->gui, add_name);
+	gtk_button_set_alignment (GTK_BUTTON (w), 0., .5);
 	g_signal_connect (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_add_clicked), exception);
 	w = glade_xml_get_widget (state->gui, remove_name);
+	gtk_button_set_alignment (GTK_BUTTON (w), 0., .5);
 	g_signal_connect (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_remove_clicked), exception);

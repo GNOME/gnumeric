@@ -57,14 +57,16 @@ typedef GObjectClass SheetViewClass;
 #define SHEET_VIEW_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_VIEW_TYPE, SheetViewClass))
 
 /* Lifecycle */
-GType	   sheet_view_get_type	(void);
-SheetView *sheet_view_new	(Sheet *sheet, WorkbookView *wbv);
-void	   sv_attach_control	(SheetView *sv, SheetControl *sc);
-void	   sv_detach_control	(SheetControl *sc);
-void	   sv_weak_ref		(SheetView *sv, SheetView **ptr);
-void	   sv_weak_unref	(SheetView **ptr);
-void	   sv_update		(SheetView *sv);
-void       sv_dispose           (SheetView *sv);
+GType	      sheet_view_get_type (void);
+SheetView    *sheet_view_new	  (Sheet *sheet, WorkbookView *wbv);
+void	      sv_attach_control	  (SheetView *sv, SheetControl *sc);
+void	      sv_detach_control	  (SheetControl *sc);
+SheetControl *sv_get_control	  (SheetView const *sv,
+				   WorkbookControl const *wbc);
+void	      sv_weak_ref	  (SheetView *sv, SheetView **ptr);
+void	      sv_weak_unref	  (SheetView **ptr);
+void	      sv_update		  (SheetView *sv);
+void          sv_dispose          (SheetView *sv);
 
 /* Information */
 Sheet	     *sv_sheet		(SheetView const *sv);

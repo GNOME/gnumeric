@@ -914,9 +914,9 @@ BC_R(fontx)(XLChartHandler const *handle,
 		GOFont const *gfont = excel_font_get_gofont (font);
 		go_font_ref (gfont);
 		gog_style_set_font (s->style, gfont);
-		d (-2, fprintf (stderr, "apply font;"););
+		d (2, fprintf (stderr, "apply font;"););
 	} else {
-		d (-2, fprintf (stderr, "ignore font;"););
+		d (2, fprintf (stderr, "ignore font;"););
 	}
 	return FALSE;
 }
@@ -1471,7 +1471,7 @@ BC_R(pos)(XLChartHandler const *handle,
 {
 	switch (BC_R(top_state) (s, 0)) {
 	case BIFF_CHART_text :
-		fprintf (stderr, "text pos;");
+		d(2, fprintf (stderr, "text pos;"););
 		break;
 	default :
 		;
@@ -1867,14 +1867,34 @@ static gboolean
 BC_R(text)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
 {
-	if (s->prev_opcode == BIFF_CHART_defaulttext) {
-		d (4, fputs ("Text follows defaulttext;\n", stderr););
-	} else {
-	}
+	static GnmHAlign const haligns[] = { /* typo in docs */
+		HALIGN_LEFT, HALIGN_CENTER, HALIGN_RIGHT, HALIGN_JUSTIFY
+	};
+	static GnmVAlign const valigns[] = {
+		VALIGN_TOP, VALIGN_CENTER, VALIGN_BOTTOM, VALIGN_JUSTIFY
+	};
+	unsigned tmp;
 	BC_R(get_style) (s);
-	s->style->font.color = BC_R(color) (q->data+4, "Font");
 
-#if 0
+	tmp = GSF_LE_GET_GINT8 (q->data + 0);
+#if 0 /*when we have somewhere to store it */
+	style-> .... = haligns[tmp < G_N_ELEMENTS (haligns) ? tmp : 0];
+#endif
+	tmp = GSF_LE_GET_GINT8 (q->data + 1);
+#if 0 /*when we have somewhere to store it */
+	style-> .... = valigns[tmp < G_N_ELEMENTS (valigns) ? tmp : 0];
+#endif
+
+	s->style->font.color = BC_R(color) (q->data+4, "Font");
+	if (BC_R(ver)(s) >= MS_BIFF_V8 && q->length >= 34) {
+		/* this over rides the flags */
+		s->style->text_layout.angle = GSF_LE_GET_GINT16 (q->data + 30);
+	}
+
+	d (2, {
+	if (s->prev_opcode == BIFF_CHART_defaulttext) {
+		fputs ("Text follows defaulttext;\n", stderr);
+	} else switch (BC_R(top_state) (s, 0)) {
 case BIFF_CHART_chart :
 	fputs ("Text follows chart;\n", stderr);
 	break;
@@ -1884,9 +1904,8 @@ case BIFF_CHART_legend :
 default :
 	fprintf (stderr, "BIFF ERROR : A Text record follows a %x\n",
 		s->prev_opcode);
+	}};);
 
-}
-#endif
 return FALSE;
 }
 

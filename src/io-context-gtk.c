@@ -32,6 +32,7 @@
 #include <string.h>
 
 extern int gnumeric_no_splash;
+extern int gnumeric_no_warnings;
 
 #define ICG_POPUP_DELAY 3.0
 
@@ -247,10 +248,12 @@ static void
 icg_error_error_info (G_GNUC_UNUSED GOCmdContext *cc,
 		      ErrorInfo *error)
 {
-	GtkWidget *dialog = gnumeric_error_info_dialog_new (error);
-	gtk_widget_show_all (GTK_WIDGET (dialog));
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
+	if (!gnumeric_no_warnings) {
+		GtkWidget *dialog = gnumeric_error_info_dialog_new (error);
+		gtk_widget_show_all (GTK_WIDGET (dialog));
+		gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+	}
 }
 
 static void

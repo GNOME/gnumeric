@@ -204,6 +204,8 @@ GNUMERIC_BASE =					\
 	gnm-so-filled.h				\
 	gnm-so-line.c				\
 	gnm-so-line.h				\
+	gnm-so-polygon.c			\
+	gnm-so-polygon.h			\
 	sheet-object-graph.c			\
 	sheet-object-graph.h			\
 	sheet-object-image.c			\
