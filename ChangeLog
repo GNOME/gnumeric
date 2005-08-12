@@ -1,3 +1,22 @@
+2005-08-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: needs libgsf-1.12.2
+	* src/command-context-stderr.c: updated to new GSF_CLASS_FULL signature.
+	* src/gnm-plugin.c: ditto.
+	* src/gnm-so-filled.c: ditto.
+	* src/gnm-so-line.c: ditto.
+	* src/io-context-gtk.c: ditto.
+	* src/sheet-filter.c: ditto.
+	* src/sheet-object-cell-comment.c: ditto.
+	* src/sheet-object-graph.c: ditto.
+	* src/sheet-object-image.c: ditto.
+	* src/sheet-object-widget.c: ditto.
+	* src/widgets/gnumeric-expr-entry.c: ditto.
+	* src/workbook-control-gui.c: ditto.
+	* plugins/corba/corba-workbook.c: ditto.
+	* plugins/python-loader/python-loader.c: updated to new
+	GSF_DNAMIC_CLASS_FULL signature.
+
 2005-08-11  Jody Goldberg <jody@gnome.org>
 
 	* src/gnm-so-polygon.c : split out of filled and re-enable It's not
