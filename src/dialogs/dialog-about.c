@@ -317,12 +317,6 @@ dialog_about (WorkbookControlGUI *wbcg)
 	gog_style_set_fill_brightness (
 		GOG_STYLED_OBJECT (series)->style, 70.);
 
-	/* remove the default grid, its ugly here */
-	tmp = gog_object_get_child_by_role (chart,
-		gog_object_find_role_by_name (chart, "Grid"));
-	gog_object_clear_parent (tmp);
-	g_object_unref (tmp);
-
 	/* hide the X-axis */
 	tmp = gog_object_get_child_by_role (chart,
 		gog_object_find_role_by_name (chart, "X-Axis"));

@@ -1,3 +1,8 @@
+2005-08-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/dialogs/dialog-about.c: (dialog_about): do not remove the
+	grid which does not exist anymore.
+
 2005-08-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: needs libgsf-1.12.2
