@@ -27,6 +27,7 @@ Morten:
 	* Backport number matching fix.  [#306254]
 	* Backport IRR fix.  [Debian #315625]
 	* Backport ABR fix for formats ending in "[$...]".
+	* Fix crash changing font.  [#313257]
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.3

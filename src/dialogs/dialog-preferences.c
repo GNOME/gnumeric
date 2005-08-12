@@ -325,7 +325,7 @@ pref_font_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
 }
 
 static void
-cb_pref_font_set_fonts (char const *key, GtkWidget *page)
+cb_pref_font_set_fonts (GOConfNode *node, char const *key, GtkWidget *page)
 {
 	if (!key || g_str_has_suffix (key, GNM_CONF_FONT_NAME))
 		font_selector_set_name (FONT_SELECTOR (page),
@@ -368,7 +368,7 @@ pref_font_initializer (PrefState *state,
 {
 	GtkWidget *page = font_selector_new ();
 
-	cb_pref_font_set_fonts (NULL, page);
+	cb_pref_font_set_fonts (NULL, NULL, page);
 
 	connect_notification (state->root, GNM_CONF_FONT_DIR,
 		(GOConfMonitorFunc) cb_pref_font_set_fonts,
