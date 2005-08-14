@@ -94,8 +94,8 @@ so_graph_foo_view_init (SheetObjectViewIface *sov_iface)
 typedef GogControlFooCanvas		SOGraphFooView;
 typedef GogControlFooCanvasClass	SOGraphFooViewClass;
 static GSF_CLASS_FULL (SOGraphFooView, so_graph_foo_view,
-	NULL, NULL,
-	GOG_CONTROL_FOOCANVAS_TYPE, 0,
+	NULL, NULL, NULL, NULL,
+	NULL, GOG_CONTROL_FOOCANVAS_TYPE, 0,
 	GSF_INTERFACE (so_graph_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
 
 /****************************************************************************/

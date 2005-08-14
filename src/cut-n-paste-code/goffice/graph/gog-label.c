@@ -176,8 +176,8 @@ gog_label_dataset_init (GogDatasetClass *iface)
 }
 
 GSF_CLASS_FULL (GogLabel, gog_label,
-		gog_label_class_init, NULL,
-		GOG_OUTLINED_OBJECT_TYPE, 0,
+		NULL, NULL, gog_label_class_init, NULL,
+		NULL, GOG_OUTLINED_OBJECT_TYPE, 0,
 		GSF_INTERFACE (gog_label_dataset_init, GOG_DATASET_TYPE))
 
 /************************************************************************/

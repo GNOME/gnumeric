@@ -1687,8 +1687,8 @@ gog_style_persist_init (GogPersistClass *iface)
 }
 
 GSF_CLASS_FULL (GogStyle, gog_style,
-		gog_style_class_init, gog_style_init,
-		G_TYPE_OBJECT, 0,
+		NULL, NULL, gog_style_class_init, NULL,
+		gog_style_init, G_TYPE_OBJECT, 0,
 		GSF_INTERFACE (gog_style_persist_init, GOG_PERSIST_TYPE))
 
 gboolean

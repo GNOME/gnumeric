@@ -117,8 +117,8 @@ io_context_class_init (GObjectClass *klass)
 }
 
 GSF_CLASS_FULL (IOContext, io_context,
-		io_context_class_init, io_context_init,
-		G_TYPE_OBJECT, 0,
+		NULL, NULL, io_context_class_init, NULL,
+		io_context_init, G_TYPE_OBJECT, 0,
 		GSF_INTERFACE (io_context_gnm_cmd_context_init, GNM_CMD_CONTEXT_TYPE))
 
 IOContext *

@@ -503,8 +503,8 @@ gee_cell_editable_init (GtkCellEditableIface *iface)
 }
 
 GSF_CLASS_FULL (GnmExprEntry, gnm_expr_entry,
-		gee_class_init, gee_init,
-		GTK_TYPE_HBOX, 0,
+		NULL, NULL, gee_class_init, NULL,
+		gee_init, GTK_TYPE_HBOX, 0,
 		GSF_INTERFACE (gee_cell_editable_init, GTK_TYPE_CELL_EDITABLE))
 
 /**

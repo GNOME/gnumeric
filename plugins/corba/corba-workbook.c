@@ -313,8 +313,8 @@ wbcc_init (WorkbookControlCORBA *wbcc)
 }
 
 GSF_CLASS_FULL (WorkbookControlCORBA, workbook_control_corba,
-		wbcc_class_init, wbcc_init, 
-		WORKBOOK_CONTROL_TYPE, 0,
+		NULL, NULL, wbcc_class_init, NULL,
+		wbcc_init, WORKBOOK_CONTROL_TYPE, 0,
 		GSF_INTERFACE (wbcc_gnm_cmd_context_init,
 			       GNM_CMD_CONTEXT_TYPE))
 

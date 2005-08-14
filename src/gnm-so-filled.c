@@ -113,8 +113,8 @@ so_filled_foo_view_init (SheetObjectViewIface *sov_iface)
 typedef FooCanvasGroup		FilledFooView;
 typedef FooCanvasGroupClass	FilledFooViewClass;
 static GSF_CLASS_FULL (FilledFooView, so_filled_foo_view,
-	NULL, NULL,
-	FOO_TYPE_CANVAS_GROUP, 0,
+	NULL, NULL, NULL, NULL,
+	NULL, FOO_TYPE_CANVAS_GROUP, 0,
 	GSF_INTERFACE (so_filled_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
 #endif /* WITH_GTK */
 
@@ -632,8 +632,8 @@ so_polygon_foo_view_init (SheetObjectViewIface *sov_iface)
 typedef FooCanvasPolygon	PolygonFooView;
 typedef FooCanvasPolygonClass	PolygonFooViewClass;
 static GSF_CLASS_FULL (PolygonFooView, so_polygon_foo_view,
-	NULL, NULL,
-	FOO_TYPE_CANVAS_POLYGON, 0,
+	NULL, NULL, NULL, NULL,
+	NULL, FOO_TYPE_CANVAS_POLYGON, 0,
 	GSF_INTERFACE (so_polygon_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
 #endif /* WITH_GTK */
 

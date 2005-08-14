@@ -2545,8 +2545,8 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg)
 }
 
 GSF_CLASS_FULL (WorkbookControlGUI, workbook_control_gui,
-		workbook_control_gui_class_init, workbook_control_gui_init,
-		WORKBOOK_CONTROL_TYPE, G_TYPE_FLAG_ABSTRACT,
+		NULL, NULL, workbook_control_gui_class_init, NULL,
+		workbook_control_gui_init, WORKBOOK_CONTROL_TYPE, G_TYPE_FLAG_ABSTRACT,
 		GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GOG_DATA_ALLOCATOR_TYPE);
 		GSF_INTERFACE (wbcg_gnm_cmd_context_init, GNM_CMD_CONTEXT_TYPE))
 

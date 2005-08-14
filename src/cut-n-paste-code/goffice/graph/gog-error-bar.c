@@ -488,8 +488,8 @@ gog_error_bar_persist_init (GogPersistClass *iface)
 }
 
 GSF_CLASS_FULL (GogErrorBar, gog_error_bar,
-		gog_error_bar_class_init, gog_error_bar_init,
-		G_TYPE_OBJECT, 0,
+		NULL, NULL, gog_error_bar_class_init, NULL,
+		gog_error_bar_init, G_TYPE_OBJECT, 0,
 		GSF_INTERFACE (gog_error_bar_persist_init, GOG_PERSIST_TYPE))
 
 

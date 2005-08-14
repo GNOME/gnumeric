@@ -563,8 +563,8 @@ filter_foo_view_init (SheetObjectViewIface *sov_iface)
 typedef FooCanvasWidget		FilterFooView;
 typedef FooCanvasWidgetClass	FilterFooViewClass;
 static GSF_CLASS_FULL (FilterFooView, filter_foo_view,
-	NULL, NULL,
-	FOO_TYPE_CANVAS_WIDGET, 0,
+	NULL, NULL, NULL, NULL,
+	NULL, FOO_TYPE_CANVAS_WIDGET, 0,
 	GSF_INTERFACE (filter_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
 
 static SheetObjectView *
