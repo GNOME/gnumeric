@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-04 03:49+0000\n"
-"PO-Revision-Date: 2005-08-07 13:22-0300\n"
+"POT-Creation-Date: 2005-08-08 03:43+0000\n"
+"PO-Revision-Date: 2005-08-10 07:24-0300\n"
 "Last-Translator: Afonso Celso Medina <afmedina@uol.com.br>\n"
 "Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -2582,9 +2582,9 @@ msgid ""
 "warning dialog. Setting this option will make the overwrite button in that "
 "dialog the default button."
 msgstr ""
-"Antes de um arquivo existente ser sobrescrito, o gnumeric irá apresentar um "
-"diálogo de aviso. Ativando esta opção, irá tornar o botão de sobrescrever "
-"nesse diálogo o botão padrão."
+"Antes de um arquivo existente ser sobrescrito, o gnumeric apresentará um "
+"diálogo de aviso. Ativando esta opção, o botão de sobrescrever será o botão "
+"padrão do diálogo de aviso."
 
 #: ../schemas/gnumeric-general.schemas.in.h:4
 #: ../src/dialogs/dialog-preferences.c:634
@@ -2608,7 +2608,7 @@ msgstr "Número Padrão de Pastas"
 #: ../schemas/gnumeric-general.schemas.in.h:8
 #: ../src/dialogs/dialog-preferences.c:639
 msgid "Default To Overwriting Files"
-msgstr "Sobrescrever Arquivos Como Padrão ao Salvar"
+msgstr "Sobrescrever Arquivos como Padrão ao Salvar"
 
 #: ../schemas/gnumeric-general.schemas.in.h:9
 #: ../src/dialogs/dialog-preferences.c:575
@@ -2659,7 +2659,7 @@ msgstr "Tamanho do Histórico de Arquivos"
 
 #: ../schemas/gnumeric-general.schemas.in.h:16
 msgid "Length of the Undo Descriptors"
-msgstr "Tamanho das descrições do Desfazer"
+msgstr "Tamanho das Descrições do Desfazer"
 
 #: ../schemas/gnumeric-general.schemas.in.h:17
 msgid "List of recently used files"
@@ -2673,7 +2673,7 @@ msgstr "Rolagem Automática"
 #: ../schemas/gnumeric-general.schemas.in.h:19
 #: ../src/dialogs/dialog-preferences.c:483
 msgid "Maximal Undo Size"
-msgstr "Tamanho máximo do Desfazer"
+msgstr "Tamanho Máximo do Desfazer"
 
 #: ../schemas/gnumeric-general.schemas.in.h:20
 #: ../src/dialogs/dialog-preferences.c:527
@@ -2683,7 +2683,7 @@ msgstr "Número de Cláusulas Automáticas"
 #: ../schemas/gnumeric-general.schemas.in.h:21
 #: ../src/dialogs/dialog-preferences.c:487
 msgid "Number of Undo Items"
-msgstr "Número de itens do Desfazer"
+msgstr "Número de Itens do Desfazer"
 
 #: ../schemas/gnumeric-general.schemas.in.h:22
 msgid "Object toolbar visible"
@@ -2776,7 +2776,7 @@ msgstr "O tamanho da fonte padrão para novos Workbooks."
 msgid ""
 "The file menu shows a list of recently used functions. This is that list."
 msgstr ""
-"O menu arquivo mostra uma lista das funções recentemente utilizadas. Essa é "
+"O menu Arquivo mostra uma lista das funções recentemente utilizadas. Esta é "
 "a lista."
 
 #: ../schemas/gnumeric-general.schemas.in.h:40
@@ -2785,7 +2785,7 @@ msgstr "O fator de zoom inicial para novos Workbooks."
 
 #: ../schemas/gnumeric-general.schemas.in.h:41
 msgid "The number of files kept in the `recent' section of the file menu."
-msgstr "O número de arquivos dentro da seção `recente' do menu arquivo."
+msgstr "O número de arquivos dentro da seção `recente' do menu Arquivo."
 
 #: ../schemas/gnumeric-general.schemas.in.h:42
 msgid "The number of sheets initially created in a new workbook."
@@ -2953,8 +2953,8 @@ msgid ""
 "automatically added. This number determines the maximum number of clauses to "
 "be added automatically."
 msgstr ""
-"Quando uma região de ordenação estiver sendo selecionada, regras de busca "
-"são automaticamente adicionadas.  Este número determina o número máximo de "
+"Quando uma região de ordenação estiver sendo selecionada, as regras de busca "
+"são automaticamente adicionadas. Este número determina o número máximo de "
 "regras que podem ser adicionadas automaticamente."
 
 #: ../schemas/gnumeric-plugins.schemas.in.h:1
@@ -9928,7 +9928,7 @@ msgstr "'%s' já definido na pasta"
 msgid "'%s' is already defined in workbook"
 msgstr "'%s' já definido no Workbook"
 
-#: ../src/file-autoft.c:87
+#: ../src/file-autoft.c:88
 #, c-format
 msgid "Invalid template file: %s"
 msgstr "Arquivo de modelo inválido: %s"
@@ -11163,8 +11163,7 @@ msgstr "Copiar"
 msgid "Cut"
 msgstr "Recortar"
 
-#: ../src/ssconvert.c:52 ../src/ssindex.c:60 ../src/ssindex.c:62
-#: ../src/ssindex.c:64
+#: ../src/ssconvert.c:52 ../src/ssindex.c:64
 msgid "Optionally specify an encoding for imported content"
 msgstr "Opcionalmente especifica uma condificação para o conteúdo importado"
 
@@ -11252,6 +11251,14 @@ msgstr ""
 "ssconvert versão '%s'\n"
 "datadir := %s\n"
 "libdir := %s\n"
+
+#: ../src/ssindex.c:60
+msgid "List mime types which is ssindex able to read"
+msgstr "Relaciona os tipos mime que o ssindex é capaz de ler"
+
+#: ../src/ssindex.c:62
+msgid "Index the given files"
+msgstr "Indexar os arquivos fornecidos"
 
 #: ../src/ssindex.c:200
 #, c-format
@@ -12846,7 +12853,7 @@ msgstr "Aumenta a identação e alinha o conteúdo à esquerda"
 
 #: ../src/wbcg-actions.c:2042
 msgid "Display _Outlines"
-msgstr "Mostrar C_ontornos"
+msgstr "Mos_trar Contornos"
 
 #: ../src/wbcg-actions.c:2043
 msgid "Toggle whether or not to display outline groups"
