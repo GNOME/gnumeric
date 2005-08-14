@@ -1,3 +1,7 @@
+2005-08-13  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
 2005-06-13  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_column) : rework to handle arrays locally.

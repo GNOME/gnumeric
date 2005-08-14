@@ -1,3 +1,7 @@
+2005-08-13  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
 2005-08-09  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* plugin-gda.c: adapted to new libgda API.

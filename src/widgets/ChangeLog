@@ -1,3 +1,7 @@
+2005-08-13  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
 2005-07-25  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (cb_gee_key_press_event) : fix abs/rel state

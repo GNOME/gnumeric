@@ -1,3 +1,7 @@
+2005-08-13  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
 2005-08-05  Stepan Kasal  <kasal@ucw.cz>
 
 	* ms-excel-write.c (excel_write_string): Fix warning.

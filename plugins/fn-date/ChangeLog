@@ -1,3 +1,7 @@
+2005-08-13  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
 2005-07-15  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_days360) : method is a bool in XL.  Assume

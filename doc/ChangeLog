@@ -1,3 +1,7 @@
+2005-08-13  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
 2005-06-25  Jon K Hellan  <hellan@acm.org>
 
 	* developer/gnumeric.jhbuildrc: Add sample jhbuildrc.

@@ -844,7 +844,7 @@ DPRODUCT(A1:C7, "Age", A9:B11) equals 1247.
 @CATEGORY=Database
 @FUNCTION=DSTDEV
 @SYNTAX=DSTDEV(database,field,criteria)
-@DESCRIPTION=DSTDEV function returns the estimate of the standard deviation of a population based on a sample. The populations consists of numbers that match conditions specified.
+@DESCRIPTION=DSTDEV function returns the estimate of the standard deviation of a population based on a sample. The population consists of numbers that match conditions specified.
 
 @database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
 
@@ -877,7 +877,7 @@ DSTDEV(A1:C7, "Salary", A9:B11) equals 9135.112506.
 @CATEGORY=Database
 @FUNCTION=DSTDEVP
 @SYNTAX=DSTDEVP(database,field,criteria)
-@DESCRIPTION=DSTDEVP function returns the standard deviation of a population based on the entire populations. The populations consists of numbers that match conditions specified.
+@DESCRIPTION=DSTDEVP function returns the standard deviation of a population based on the entire population. The population consists of numbers that match conditions specified.
 
 @database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
 
@@ -943,7 +943,7 @@ DSUM(A1:C7, "Salary", A9:B11) equals 81565.
 @CATEGORY=Database
 @FUNCTION=DVAR
 @SYNTAX=DVAR(database,field,criteria)
-@DESCRIPTION=DVAR function returns the estimate of variance of a population based on a sample. The populations consists of numbers that match conditions specified.
+@DESCRIPTION=DVAR function returns the estimate of variance of a population based on a sample. The population consists of numbers that match conditions specified.
 
 @database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
 
@@ -976,7 +976,7 @@ DVAR(A1:C7, "Salary", A9:B11) equals 83450280.5.
 @CATEGORY=Database
 @FUNCTION=DVARP
 @SYNTAX=DVARP(database,field,criteria)
-@DESCRIPTION=DVARP function returns the variance of a population based on the entire populations. The populations consists of numbers that match conditions specified.
+@DESCRIPTION=DVARP function returns the variance of a population based on the entire population. The population consists of numbers that match conditions specified.
 
 @database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
 
@@ -1007,16 +1007,6 @@ DVARP(A1:C7, "Salary", A9:B11) equals 41725140.25.
 @SEEALSO=DVAR
 
 @CATEGORY=Database
-@FUNCTION=EXECSQL
-@SYNTAX=EXECSQL(dsn,username,password,sql)
-@DESCRIPTION=The EXECSQL function lets you execute a command in a database server, and show the results returned in current sheet. It uses libgda as the means for accessing the databases.
-For using it, you need first to set up a libgda data source.
-@EXAMPLES=
-To get all the data from the table "Customers" present in the "mydatasource" GDA data source, you would use:
-EXECSQL("mydatasource","username","password","SELECT * FROM customers")
-@SEEALSO=READDBTABLE
-
-@CATEGORY=Database
 @FUNCTION=GETPIVOTDATA
 @SYNTAX=GETPIVOTDATA(pivot_table,field_name)
 @DESCRIPTION=GETPIVOTDATA function fetches summary data from a pivot table. @pivot_table is a cell range containing the pivot table. @field_name is the name of the field of which you want the summary data.
@@ -1026,16 +1016,6 @@ EXECSQL("mydatasource","username","password","SELECT * FROM customers")
 @EXAMPLES=
 
 @SEEALSO=
-
-@CATEGORY=Database
-@FUNCTION=READDBTABLE
-@SYNTAX=READDBTABLE(dsn,username,password,table)
-@DESCRIPTION=The READDBTABLE function lets you get the contents of a table, as stored in a database.For using it, you need first to set up a libgda data source.
-Note that this function returns all the rows in the given table. If you want to get data from more than one table or want a more precise selection (conditions), use the EXECSQL function.
-@EXAMPLES=
-To get all the data from the table "Customers" present in the "mydatasource" GDA data source, you would use:
-READDBTABLE("mydatasource","username","password","customers")
-@SEEALSO=EXECSQL
 
 @CATEGORY=Date/Time
 @FUNCTION=DATE
@@ -1231,7 +1211,7 @@ NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15)) equals 33.
 @SYNTAX=NOW ()
 @DESCRIPTION=NOW returns the serial number for the date and time at the time it is evaluated.
 
-Serial Numbers in Gnumeric are represented as follows:The integral part is the number of days since the 1st of January of 1900.  The decimal part represent the fraction of the day and is mapped into hour, minutes and seconds.
+Serial Numbers in Gnumeric are represented as follows: The integral part is the number of days since the 1st of January of 1900.  The decimal part represent the fraction of the day and is mapped into hour, minutes and seconds.
 
 For example: .0 represents the beginning of the day, and 0.5 represents noon.
 
@@ -1699,7 +1679,7 @@ ERFC(6) equals 2.15197367e-17.
 @CATEGORY=Engineering
 @FUNCTION=GESTEP
 @SYNTAX=GESTEP(x[,y])
-@DESCRIPTION=GESTEP function test for if @x is >= @y, returning 1 if it is so, and 0 otherwise. @y is optional, and defaults to 0.
+@DESCRIPTION=GESTEP function tests if @x is >= @y, returning 1 if it is so, and 0 otherwise. @y is optional, and defaults to 0.
 
 * If either argument is non-numeric returns a #VALUE! error.
 * This function is Excel compatible.
@@ -1958,7 +1938,7 @@ AMORLINC(2400,DATE(1998,8,19),DATE(1998,12,31),300,1,0.15,1) = 360
 @SYNTAX=ATL_LAST (tag)
 @DESCRIPTION=ATL_LAST is a sample implemention of a real time data source. It takes a string tag and monitors the named pipe /tmp/atl for changes to the value of that tag.
 
-* This is no intended to be generally enabled and is OFF by default.
+* This is not intended to be generally enabled and is OFF by default.
 
 @EXAMPLES=
 ATL_LAST("IBM")
@@ -2412,7 +2392,7 @@ FVSCHEDULE(3000,A1:A5) equals 4942.7911611.
 @SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])
 @DESCRIPTION=INTRATE calculates and returns the interest rate of a fully vested security.
 
-@settlement is the settlement date of the security.  @maturity is the maturity date of the security. @investment is the prize of the security paid at @settlement date and @redemption is the amount to be received at @maturity date.
+@settlement is the settlement date of the security.  @maturity is the maturity date of the security. @investment is the price of the security paid at @settlement date and @redemption is the amount to be received at @maturity date.
 
 @basis is the type of day counting system you want to use:
 
@@ -2538,7 +2518,7 @@ The interest rate per period is @rate, @pmt is the payment made each period, @pv
 * If @rate <= 0, NPER returns #DIV0 error.
 
 @EXAMPLES=
-For example, if you deposit $10,000 in a savings account that earns an interest rate of 6%. To calculate home many years it will take to double your investment use NPER as follows:
+For example, if you deposit $10,000 in a savings account that earns an interest rate of 6%. To calculate how many years it will take to double your investment use NPER as follows:
 =NPER(0.06, 0, -10000, 20000,0)returns 11.895661046 which indicates that you can double your money just before the end of the 12th year.
 @SEEALSO=PPMT,PV,FV
 
@@ -2645,7 +2625,7 @@ The payoff for a put is max (@strike2 - @spot2, 0) if @spot1 < @strike1 or 0 oth
 @spot1 & @spot2 are the spot prices of the underlying assets.
 @strike1 & @strike2 are the strike prices at which the option is struck.
 @time is the initial maturity of the option in years.
-@rate is the risk annualized free rate of interest.
+@rate is the annualized risk-free rate of interest.
 @cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying assets, for common stocks, this would be the dividend yield.
 @volatility1 & @volatility2 are the annualized volatility in price of the underlying assets.
 
@@ -2658,7 +2638,7 @@ The payoff for a put is max (@strike2 - @spot2, 0) if @spot1 < @strike1 or 0 oth
 @SYNTAX=OPT_AMER_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1, volatility2, rho)
 @DESCRIPTION=OPT_AMER_EXCHANGE models the theoretical price of an American option to exchange one asset with quantity @qty2 and spot price @spot2 for another, with quantity @qty1 and spot price @spot1.
 @time is the initial maturity of the option in years.
-@rate is the risk annualized free rate of interest.
+@rate is the annualized risk-free rate of interest.
 @cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying assets, for common stocks, this would be the dividend yield.
 @volatility1 & @volatility2 are the annualized volatility in price of the underlying assets.
 @rho is the correlation between the two assets.
@@ -2675,7 +2655,7 @@ The payoff for a put is max (@strike2 - @spot2, 0) if @spot1 < @strike1 or 0 oth
 @spot is the spot price of the underlying asset.
 @strike is the strike price at which the option is struck.
 @time is the number of days to maturity of the option.
-@rate is the risk annualized free rate of interest.
+@rate is the annualized risk-free rate of interest.
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.
 @volatility is the annualized volatility in price of the underlying asset.
 
@@ -2693,7 +2673,7 @@ The payoff for a put is max (@strike2 - @spot2, 0) if @spot1 < @strike1 or 0 oth
 @spot is the spot price of the underlying asset.
 @strike is the strike price at which the option is struck.
 @time is the initial maturity of the option in years.
-@rate is the risk annualized free rate of interest.
+@rate is the annualized risk-free rate of interest.
 @volatility is the annualized volatility in price of the underlying asset.
 @cost_of_carry is the leakage in value of the underlying asset.
 
@@ -2709,7 +2689,7 @@ The payoff for a put is max (@strike2 - @spot2, 0) if @spot1 < @strike1 or 0 oth
 @spot is the spot price of the underlying asset.
 @strike is the strike price at which the option is struck.
 @time is the number of days to maturity of the option.
-@rate is the risk annualized free rate of interest.
+@rate is the annualized risk-free rate of interest.
 @volatility is the annualized volatility in price of the underlying asset.
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.
 
@@ -2840,7 +2820,7 @@ and @rate is the risk-free interest rate to the exercise date, in percent.
 @time is the time in years until the holder chooses a put or a call option. 
 @time_call is the time in years to maturity of the call option if chosen.
 @time_put is the time in years  to maturity of the put option if chosen.
-@rate is the risk annualized free rate of interest.
+@rate is the annualized risk-free rate of interest.
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.
 @volatility is the annualized volatility in price of the underlying asset.
 
@@ -2853,7 +2833,7 @@ and @rate is the risk-free interest rate to the exercise date, in percent.
 @SYNTAX=OPT_EURO_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,volatility2,rho)
 @DESCRIPTION=OPT_EURO_EXCHANGE models the theoretical price of a European option to exchange one asset with quantity @qty2 and spot price @spot2 for another, with quantity @qty1 and spot price @spot1.
 @time is the initial maturity of the option in years.
-@rate is the risk annualized free rate of interest.
+@rate is the annualized risk-free rate of interest.
 @cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying assets, for common stocks, this would be the dividend yield.
 @volatility1 & @volatility2 are the annualized volatility in price of the underlying assets.
 @rho is the correlation between the two assets.
@@ -2870,7 +2850,7 @@ One would expect this to always be a call option.
 @spot is the spot price of the underlying asset.
 @strike is the strike price at which the option is struck.
 @time is the number of days to maturity of the option.
-@rate is the risk annualized free rate of interest.
+@rate is the annualized risk-free rate of interest.
 @volatility is the annualized volatility in price of the underlying asset.
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.
 @lambda is the jump rate for executives. The model assumes executives forfeit their options if they leave the company.
@@ -2889,7 +2869,7 @@ One would expect this to always be a call option.
 @strike2 is the strike price at which the option is re-struck if out of the money at @time1.
 @time1 is the initial maturity of the option in years.
 @time2 is the is the extended maturity in years if chosen.
-@rate is the risk annualized free rate of interest.
+@rate is the annualized risk-free rate of interest.
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.
 @volatility is the annualized volatility in price of the underlying asset.
 
@@ -2907,7 +2887,7 @@ One would expect this to always be a call option.
 @spot_max is the maximum spot price of the underlying asset so far observed.
 @strike is the strike prices at which the option is struck.
 @time is the initial maturity of the option in years.
-@rate is the risk annualized free rate of interest.
+@rate is the annualized risk-free rate of interest.
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.
 @volatility is the annualized volatility in price of the underlying asset.
 
@@ -2924,7 +2904,7 @@ One would expect this to always be a call option.
 @spot_min is the minimum spot price of the underlying asset so far observed.
 @spot_max is the maximum spot price of the underlying asset so far observed.
 @time is the initial maturity of the option in years.
-@rate is the risk annualized free rate of interest.
+@rate is the annualized risk-free rate of interest.
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.
 @volatility is the annualized volatility in price of the underlying asset.
 
@@ -2941,7 +2921,7 @@ One would expect this to always be a call option.
 @alpha is a fraction that set the strike price the future date @time1.
 @time1 is the number of days until the option starts.
 @time is the number of days to maturity of the option.
-@rate is the risk annualized free rate of interest.
+@rate is the annualized risk-free rate of interest.
 @volatility is the annualized volatility in price of the underlying asset.
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.
 @EXAMPLES=
@@ -3003,7 +2983,7 @@ For common stocks, this would be the dividend yield.
 @DESCRIPTION=OPT_MILTERSEN_SCHWARTZ models the theoretical price of options on commodities futures according to Miltersen & Schwartz. 
 @call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.
 @p_t is a zero coupon bond with expiry at option maturity.
-@f_t is is the futures price.
+@f_t is the futures price.
 @x is is the strike price.
 @t1 is the time to maturity of the option.
 @t2 is the time to maturity of the underlying commodity futures contract.
@@ -3031,7 +3011,7 @@ For common stocks, this would be the dividend yield.
 @time1 is the time in years to maturity of the option.
 @time2 is the time in years to the maturity of the underlying option.
 (@time2 >= @time1).
-@rate is the risk annualized free rate of interest.
+@rate is the annualized risk-free rate of interest.
 @cost_of_carry is the leakage in value of the underlying asset of the underlying option.for common stocks, this would be the dividend yield.
 @volatility is the annualized volatility in price of the underlying asset of the underlying option.
 
@@ -3065,7 +3045,7 @@ For common stocks, this would be the dividend yield.
 @strike is the strike price at which the option is struck.
 @time1 is the time in years until the holder chooses a put or a call option.
 @time2 is the time in years until the the chosen option expires.
-@rate is the risk annualized free rate of interest.
+@rate is the annualized risk-free rate of interest.
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.
 @EXAMPLES=
 
@@ -3079,7 +3059,7 @@ For common stocks, this would be the dividend yield.
 @fut_price1 & @fut_price2 are the prices of the two futures contracts.
 @strike is the strike price at which the option is struck 
 @time is the initial maturity of the option in years.
-@rate is the risk annualized free rate of interest.
+@rate is the annualized risk-free rate of interest.
 @volatility1 & @volatility2 are the annualized volatility in price of the underlying futures contracts.
 @rho is the correlation between the two futures contracts.
 
@@ -3099,7 +3079,7 @@ The holder receives @a * @dt for each period dt that the asset price was greater
 @time is the maturity of the option in years.
 @m is the number of time units the option has already met the condition.
 @dt is the agreed upon discrete time period (often a day) expressed as a fraction of a year.
-@rate is the risk annualized free rate of interest.
+@rate is the annualized risk-free rate of interest.
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.
 @EXAMPLES=
 
@@ -3280,7 +3260,7 @@ This will return the yearly depreciation figure of $930.
 @CATEGORY=Finance
 @FUNCTION=SYD
 @SYNTAX=SYD(cost,salvage_value,life,period)
-@DESCRIPTION=SYD function calculates the sum-of-years digits depreciation for an asset based on its cost, salvage value, anticipated life and a particular period. This method accelerates the rate of the depreciation, so that more depreciation expense occurs in earlier periods than in later ones. The depreciable cost is the actual cost minus the salvage value. The useful life is the number of periods (typically years) over with the asset is depreciated.
+@DESCRIPTION=SYD function calculates the sum-of-years digits depreciation for an asset based on its cost, salvage value, anticipated life and a particular period. This method accelerates the rate of the depreciation, so that more depreciation expense occurs in earlier periods than in later ones. The depreciable cost is the actual cost minus the salvage value. The useful life is the number of periods (typically years) over which the asset is depreciated.
 
 The Formula used for sum-of-years digits depreciation is:
 
@@ -3426,7 +3406,7 @@ XIRR(A1:A5,B1:B5) returns 0.224838.
 @CATEGORY=Finance
 @FUNCTION=YIELDMAT
 @SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])
-@DESCRIPTION=YIELDMAT calculates the annual yield of a security for which the interest is payed at maturity date.
+@DESCRIPTION=YIELDMAT calculates the annual yield of a security for which the interest is paid at maturity date.
 
 @settlement is the settlement date of the security. @maturity is the maturity date of the security. @issue is the issue date of the security. @rate is the interest rate set to the security. @pr is the price per $100 face value of the security. @basis is the type of day counting system you want to use:
 
@@ -3735,7 +3715,7 @@ TYPE("text") equals 2.
 @SYNTAX=AND(b1, b2, ...)
 @DESCRIPTION=AND implements the logical AND function: the result is TRUE if all of the expressions evaluate to TRUE, otherwise it returns FALSE.
 
-@b1 trough @bN are expressions that should evaluate to TRUE or FALSE.  If an integer or floating point value is provided, zero is considered FALSE and anything else is TRUE.
+@b1 through @bN are expressions that should evaluate to TRUE or FALSE.  If an integer or floating point value is provided, zero is considered FALSE and anything else is TRUE.
 
 * If the values contain strings or empty cells those values are ignored.
 * If no logical values are provided, then the error #VALUE! is returned.
@@ -3793,7 +3773,7 @@ NOT(TRUE) equals FALSE.
 @SYNTAX=OR(b1, b2, ...)
 @DESCRIPTION=OR implements the logical OR function: the result is TRUE if any of the values evaluated to TRUE.
 
-@b1 trough @bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided, zero is considered FALSE and anything else is TRUE.
+@b1 through @bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided, zero is considered FALSE and anything else is TRUE.
 
 * If the values contain strings or empty cells those values are ignored.
 * If no logical values are provided, then the error #VALUE! is returned.
@@ -3822,7 +3802,7 @@ TRUE() equals TRUE.
 @SYNTAX=XOR(b1, b2, ...)
 @DESCRIPTION=XOR implements the logical exclusive OR function: the result is TRUE if an odd number of the values evaluated to TRUE.
 
-@b1 trough @bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided, zero is considered FALSE and anything else is TRUE.
+@b1 through @bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided, zero is considered FALSE and anything else is TRUE.
 
 * If the values contain strings or empty cells those values are ignored.
 * If no logical values are provided, then the error #VALUE! is returned.
@@ -4406,7 +4386,7 @@ GCD(470,770,1495) equals 5.
 @DESCRIPTION=HYPOT returns the square root of the sum of the squares of the arguments.
 
 @EXAMPLES=
-HYPOT(3,4) equals to 5.
+HYPOT(3,4) equals 5.
 
 @SEEALSO=MIN,MAX
 
@@ -4433,8 +4413,8 @@ INT(-5.5) equals -6.
 * This function is Excel compatible.
 
 @EXAMPLES=
-LCM(2,13) equals to 26.
-LCM(4,7,5) equals to 140.
+LCM(2,13) equals 26.
+LCM(4,7,5) equals 140.
 
 @SEEALSO=GCD
 
@@ -4612,7 +4592,7 @@ PI() equals about 3.141593.
 @DESCRIPTION=POWER returns the value of @x raised to the power @y.
 
 
-* If both @x and @y equals to 0, POWER returns #NUM! error.
+* If both @x and @y equal 0, POWER returns #NUM! error.
 * If @x = 0 and @y < 0, POWER returns #DIV/0! error.
 * If @x < 0 and @y is non-integer, POWER returns #NUM! error.
 * This function is Excel compatible.
@@ -4852,18 +4832,7 @@ SUMIF(A1:A5,"<=27",B1:B5) equals 8.
 @SEEALSO=COUNTIF, SUM
 
 @CATEGORY=Mathematics
-@FUNCTION=SUMPRODUCT
-@SYNTAX=SUMPRODUCT(range1,range2,...)
-@DESCRIPTION=SUMPRODUCT function multiplies corresponding data entries in the given arrays or ranges, and then returns the sum of those products.  If an array entry is not numeric, the value zero is used instead.
-
-* If arrays or range arguments do not have the same dimensions, SUMPRODUCT returns #VALUE! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.  Then
-SUMPRODUCT(A1:A5,B1:B5) equals 3370.
-
-@SEEALSO=SUM,PRODUCT
+SUMPRODUCT:Multiplies components and adds the results.
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMSQ
@@ -6021,7 +5990,7 @@ LARGE(A1:A5,4) equals 17.3.
 
 LINEST returns an array having two columns and one row.  The slope (m) of the regression line y=mx+b is given in the first column and the y-intercept (b) in the second.
 
-If @stat is TRUE, extra statistical information will be returned. Extra statistical information is written bellow the regression line coefficients in the result array.  Extra statistical information consists of four rows of data.  In the first row the standard error values for the coefficients m1, (m2, ...), b are represented.  The second row contains the square of R and the standard error for the y estimate.  The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares.
+If @stat is TRUE, extra statistical information will be returned. Extra statistical information is written below the regression line coefficients in the result array.  Extra statistical information consists of four rows of data.  In the first row the standard error values for the coefficients m1, (m2, ...), b are represented.  The second row contains the square of R and the standard error for the y estimate.  The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares.
 
 * If @known_x's is omitted, an array {1, 2, 3, ...} is used.
 * If @known_y's and @known_x's have unequal number of data points, LINEST returns #NUM! error.
@@ -6039,7 +6008,7 @@ If @stat is TRUE, extra statistical information will be returned. Extra statisti
 
 	y = b * m{1}^x{1} * m{2}^x{2}... to your data.
 
-If @stat is TRUE, extra statistical information will be returned. Extra statistical information is written bellow the regression line coefficients in the result array.  Extra statistical information consists of four rows of data.  In the first row the standard error values for the coefficients m1, (m2, ...), b are represented.  The second row contains the square of R and the standard error for the y estimate.  The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares.
+If @stat is TRUE, extra statistical information will be returned. Extra statistical information is written below the regression line coefficients in the result array.  Extra statistical information consists of four rows of data.  In the first row the standard error values for the coefficients m1, (m2, ...), b are represented.  The second row contains the square of R and the standard error for the y estimate.  The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares.
 
 * If @known_x's is omitted, an array {1, 2, 3, ...} is used. LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }.
 * If @known_y's and @known_x's have unequal number of data points, LOGEST returns #NUM! error.

@@ -1,3 +1,7 @@
+2005-08-13  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
 2005-08-12  Morten Welinder  <terra@gnome.org>
 
 	* dialog-preferences.c (cb_pref_font_set_fonts): At some point
