@@ -1,3 +1,7 @@
+2005-08-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (ms_excel_chart_write): unref state.root_view.
+
 2005-08-13  Morten Welinder <terra@gnome.org>
 
 	* Release 1.5.3

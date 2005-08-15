@@ -4660,5 +4660,6 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 #endif
 	ms_biff_put_empty (ewb->bp, BIFF_EOF);
 
+	g_object_unref (state.root_view);
 	g_object_unref (renderer);
 }
