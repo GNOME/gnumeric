@@ -497,6 +497,7 @@ gog_object_new_from_xml (GogObject *parent, xmlNode *node)
 			res = g_object_new (type, NULL);
 		xmlFree (type_name);
 		explicitly_typed_role = TRUE;
+		g_return_val_if_fail (res != NULL, NULL);
 	}
 	role = xmlGetProp (node, (xmlChar const *) "role");
 	if (role == NULL) {
