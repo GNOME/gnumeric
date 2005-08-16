@@ -1,3 +1,7 @@
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
 2005-08-15  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
 	* es.po: Updated Spanish translation.
@@ -5,10 +9,6 @@
 2005-08-14  Raphael Higino  <raphaelh@cvs.gnome.org>
 
 	* pt_BR.po: Updated Brazilian Portuguese translation.
-
-2005-08-13  Morten Welinder <terra@gnome.org>
-
-	* Release 1.5.3
 
 2005-08-13  Adam Weinberger  <adamw@gnome.org>
 
