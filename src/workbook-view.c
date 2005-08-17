@@ -624,7 +624,8 @@ wbv_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
 
 		g_printerr ("Writing %s\n", uri);
 		go_file_saver_save (fs, io_context, wbv, output);
-		gsf_output_close (output);
+		if (!gsf_output_is_closed (output))
+			gsf_output_close (output);
 		save_err = gsf_output_error (output);
 		if (save_err) {
 			msg = g_strdup (save_err->message);
