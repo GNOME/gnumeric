@@ -4478,7 +4478,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 				axis_set = (XLAxisSet *)(ptr->data);
 			} else
 				sets = g_slist_append (sets, axis_set);
-			axis_set->plots = g_slist_prepend (axis_set->plots, cur_plot);
+			axis_set->plots = g_slist_append (axis_set->plots, cur_plot);
 		}
 	}
 
@@ -4493,7 +4493,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 
 	/* dump the associated series (skip any that we are dropping */
 	for (ptr = sets; ptr != NULL ; ptr = ptr->next) {
-		for (plots = ((XLAxisSet *)ptr->data)->plots ; plots != NULL ; plots = plots->next)
+		for (plots = ((XLAxisSet *)ptr->data)->plots ; plots != NULL ; plots = plots->next) {
 			if (0 != strcmp (G_OBJECT_TYPE_NAME (plots->data), "GogContourPlot")) {
 				for (series = gog_plot_get_series (plots->data) ; series != NULL ; series = series->next)
 					chart_write_series (&state, series->data, num_series++);
@@ -4615,7 +4615,8 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 					state.extra_objects = g_slist_append (state.extra_objects, plotbuf);
 				}
 			}
-		state.cur_set++;
+			state.cur_set++;
+		}
 	}
 
 	data = ms_biff_put_len_next (state.bp, BIFF_CHART_shtprops, 4);
@@ -4660,6 +4661,6 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 #endif
 	ms_biff_put_empty (ewb->bp, BIFF_EOF);
 
-	g_object_unref (state.root_view);
+	g_object_unref (G_OBJECT (state.root_view));
 	g_object_unref (renderer);
 }
