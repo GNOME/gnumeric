@@ -39,7 +39,7 @@
               directly but must be entered as <keycombo>
               <keycap>Alt</keycap>
               <keycap>Enter</keycap></keycombo>. For more information
-              on entering and formating text elements, see <xref
+              on entering and formatting text elements, see <xref
               linkend="sect-data-text" />.
             </para>
           </listitem>
@@ -63,7 +63,7 @@
               /> to understand how to change the locale. If you want a
               number to be displayed as a plain string without any
               number formatting, you can put a single quote (') before
-              it. For more information on entering and formating,
+              it. For more information on entering and formatting,
               numeric elements see <xref
               linkend="sect-data-numbers"/>.
             </para>

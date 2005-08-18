@@ -16,7 +16,7 @@
   <para>
     Worksheets contain both working elements and metadata
     elements. The working elements include the data contents of cells
-    in the grid area, cell comments, cell formating, and sheet
+    in the grid area, cell comments, cell formatting, and sheet
     objects, such as graphical plots. The metadata include the
     worksheet name and worksheet settings controlling the visual
     appearance of the worksheet or the display of the worksheet.
