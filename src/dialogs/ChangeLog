@@ -1,3 +1,8 @@
+2005-08-18  Morten Welinder  <terra@gnome.org>
+
+	* dialog-doc-metadata.c (dialog_doc_metadata_init): Use the right
+	dialog name.  Do not access a help_button that is not there.
+
 2005-08-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.5.3
