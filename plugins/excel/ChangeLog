@@ -1,7 +1,8 @@
 2005-08-17  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* ms-chart.c: (ms_excel_chart_write): fix a compilation warning introduced
-	yesterday and also a multple chart export problem (#310967).
+	* ms-chart.c: (ms_excel_chart_write): fix a compilation warning
+	introduced yesterday and also a multiple chart export problem
+	(#310967).
 
 2005-08-15  Morten Welinder <terra@gnome.org>
 
