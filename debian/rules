@@ -180,6 +180,11 @@ install: build
 	find `pwd`/debian/tmp/ -name '*.sgml' -print0 | xargs -0 rm -f
 	# Bonobo-only files
 	rm -rf debian/tmp/usr/lib/bonobo
+	# libspreadsheet is far from a mature library; loose the development
+	# files
+	rm -f debian/tmp/usr/lib/libspreadsheet.la debian/tmp/usr/lib/libspreadsheet.so
+	# Outdated
+	rm -f debian/tmp/usr/share/mc/templates/gnumeric.desktop
 
 	# Remove scrollkeeper generated files as well; for a package they
 	# need to be (re)generated at package (de)install time.
@@ -188,7 +193,7 @@ install: build
 	# Low-colour icon for use by the menu system
 	$(INSTALL) -m 644 debian/gnome-gnumeric.xpm `pwd`/debian/tmp/usr/share/pixmaps/
 
-	dh_install --sourcedir=`pwd`/debian/tmp --list-missing
+	dh_install --sourcedir=`pwd`/debian/tmp --fail-missing
 
 	# Name the binary just "gnumeric"
 	cd debian/gnumeric/usr/bin && mv gnumeric-* gnumeric

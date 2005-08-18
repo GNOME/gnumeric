@@ -2,9 +2,10 @@
 /usr/bin/gnumeric*
 /usr/bin/ssconvert*
 /usr/bin/ssindex*
-/usr/lib/libspreadsheet.so.*
 /usr/lib/gnumeric/*/plugins/*/*.glade
 /usr/lib/gnumeric/*/plugins/*/*.la
 /usr/lib/gnumeric/*/plugins/*/*.so
 /usr/lib/gnumeric/*/plugins/*/*.xml
+/usr/lib/libspreadsheet.so.*
 /usr/share/gnumeric/*/GNOME_Gnumeric-gtk.xml
+/usr/share/man/man*/*

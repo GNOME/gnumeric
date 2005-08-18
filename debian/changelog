@@ -1,3 +1,16 @@
+gnumeric (1.5.3-2) unstable; urgency=low
+
+  * [debian/gnumeric-common.install] Install all translations, including those
+    of the functions documentation.
+  * [debian/gnumeric.install] Include manpages here, so dh_install takes them
+    into account.
+  * [debian/gnumeric.manpages] Dropped.
+  * [debian/rules] Clean out additional unwanted files from the temporary
+    installation directory; use dh_install --fail-missing rather than
+    --list-missing.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 18 Aug 2005 18:19:22 +0200
+
 gnumeric (1.5.3-1) unstable; urgency=low
 
   * New upstream release.
