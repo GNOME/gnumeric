@@ -136,11 +136,15 @@ dialog_doc_metadata_init (DialogDocMetaData *state, WorkbookControlGUI *wbcg)
 	populate_page_4(state);
 	populate_page_5(state);
 
-	state->dialog = glade_xml_get_widget (state->gui, "MetadataDialog");
+	state->dialog = glade_xml_get_widget (state->gui, "GOMetadataDialog");
 
+#if 0
+	/* Reactivate when we have a help_button and a section to
+	   point to.  */
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_DEFINE_NAMES);
+#endif
 
 	/* a candidate for merging into attach guru */
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
