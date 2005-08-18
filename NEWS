@@ -3,6 +3,9 @@ Gnumeric 1.5.4
 Jean Brefort:
 	* Fix #313463.
 
+Morten:
+	* Fix harmless, but ugly, error message on xls save.
+
 --------------------------------------------------------------------------
 Gnumeric 1.5.3
 
