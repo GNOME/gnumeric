@@ -1,3 +1,28 @@
+gnumeric (1.5.3-1) unstable; urgency=low
+
+  * New upstream release.
+  * The following issues have been fixed upstream:
+    * Page settings, including paper orientation, are now restored properly on
+      load. (Closes: #195600, #236024)
+    * Blank pages with print and print preview with LANG="". (Closes: #238944)
+    * Off-by-one errors on xspread import. (Closes: #258964)
+    * Problems setting margins. (Closes: #276707)
+    * Typos in German translation. (Closes: #313746)
+    * Honour the quoting setting in configurable text export. (Closes: #315187)
+    * IRR function misbehaving on some arguments. (Closes: #315625)
+  * [ChangeLog, src/workbook-view.c] Applied fix from upstream CVS for ugly
+    warning on xls save,
+  * [doc/C/gnumeric-C.omf] Restored contents from upstream CVS.
+  * [debian/rules] Temporarily disabled GDA and GnomeDB plugins; they require
+    newer versions of those libraries than are currently available in sid.
+  * [debian/control] Mention OASIS XML, OpenOffice.org XML, StarOffice in
+    package description. (Closes: #317395)
+    Bumped goffice build dependency per configure.in .
+  * [debian/gnumeric.mime] Add entry for OpenOffice.org Calc.
+  * [debian/copyright, debian/gnumeric-doc.copyright] Updated FSF's address.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 18 Aug 2005 10:04:22 +0200
+
 gnumeric (1.5.2-1) unstable; urgency=low
 
   * New upstream release.

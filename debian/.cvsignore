@@ -1,4 +1,9 @@
-*.substvars
-*.debhelper
 files
-buildinfo
+gnumeric
+gnumeric-common
+gnumeric-doc
+gnumeric-plugins-extra
+tmp
+*.post*.debhelper
+*.pre*.debhelper
+*.substvars

@@ -66,6 +66,16 @@ features+= --without-guile
 
 features+= --without-gb
 
+# The GDA and GnomeDB plugins for gnumeric CVS HEAD now require CVS HEAD
+# versions of GDA and GnomeDB.
+#	Tue,  9 Aug 2005 17:37:14 +0200
+features+= --without-gda --without-gnomedb
+
+# Debian's psiconv packages are not recent enough for gnumeric; see
+# http://bugs.debian.org/268576
+#	Tue,  9 Aug 2005 17:36:09 +0200
+features+= --without-psiconv
+
 # Paradox database files plugin
 features+= --with-paradox
 
