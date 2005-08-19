@@ -130,8 +130,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-08 11:49+0000\n"
-"PO-Revision-Date: 2005-08-08 22:54+0200\n"
+"POT-Creation-Date: 2005-08-10 19:48+0000\n"
+"PO-Revision-Date: 2005-08-18 11:52+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
@@ -666,7 +666,7 @@ msgid ""
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
 "@p_t is a zero coupon bond with expiry at option maturity.\n"
-"@f_t is is the futures price.\n"
+"@f_t is the futures price.\n"
 "@x is is the strike price.\n"
 "@t1 is the time to maturity of the option.\n"
 "@t2 is the time to maturity of the underlying commodity futures contract.\n"
@@ -687,30 +687,22 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
-"@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_keuze;p_t;f_t;x;t1;t2;v_s;v_e;v_f;"
-"rho_se;rho_sf;rho_ef;kappa_e;kappa_f)\n"
-"@DESCRIPTION=OPT_MILTERSEN_SCHWARTZ modelleert de theoretische prijs van "
-"opties op 'commodities futures' volgens Miltersen & Schwartz.\n"
-"@call_put_keuze is c of p voor respectievelijk een call of een put optie.\n"
-"@p_t is een nul coupon-obligatie met expiratie op de optie-vervaldatum \n"
+"@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_keuze;p_t;f_t;x;t1;t2;v_s;v_e;v_f;rho_se;rho_sf;rho_ef;kappa_e;kappa_f)\n"
+"@DESCRIPTION=OPT_MILTERSEN_SCHWARTZ modelleert de theoretische prijs van opties op 'commodities futures' volgens Miltersen & Schwartz.\n"
+"@call_put_keuze is 'c' of 'p' voor respectievelijk een call- of een put-optie.\n"
+"@p_t is een nul coupon-obligatie die vervalt op de optie-vervaldatum \n"
 "@f_t is de koers van de futures\n"
-"@x is koersprijs \n"
-"@t1 is het aantal dagen tot expiratie van de optie\n"
-"@t2 is het aantal dagen tot expiratie van het onderliggende 'commodity "
-"futures' contract \n"
+"@x is koersprijs\n"
+"@t1 is het aantal dagen tot vervaldatum van de optie\n"
+"@t2 is het aantal dagen tot vervaldatum van het onderliggende 'commodity futures' contract \n"
 "@v_s is de volatiliteit van de 'commodity' koersprijs\n"
 "@v_e is de volatiliteit van het 'future convenience' rendement\n"
-"@v_f is de volatiliteit van de 'forward interest' rente\n"
-"@rho_se is de correlatie tussen de commodity prijs en het convenience "
-"rendement\n"
-"@rho_sf is de correlatie tussen de commodity prijs en de 'forward interest' "
-"rente\n"
-"@rho_ef is de correlatie tussen de 'forward interest' rente en het "
-"'convenience' rendement \n"
-"@kappa_e is de snelheid van de gemiddelde reversie van het 'convenience' "
-"rendement\n"
-"@kappa_f is de snelheid van de gemiddelde reversie van de 'forward interest' "
-"rente \n"
+"@v_f is de volatiliteit van de 'forward rate of interest'\n"
+"@rho_se is de correlatie tussen de commodity prijs en het convenience rendement\n"
+"@rho_sf is de correlatie tussen de commodity prijs en de 'forward rate of interest'\n"
+"@rho_ef is de correlatie tussen de 'forward rate of interest' en het 'convenience' rendement \n"
+"@kappa_e is de snelheid van de gemiddelde reversie van het 'convenience' rendement\n"
+"@kappa_f is de snelheid van de gemiddelde reversie van de 'forward interest' rente \n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -769,7 +761,7 @@ msgid ""
 "@spot is the spot price of the underlying asset.\n"
 "@strike is the strike price at which the option is struck.\n"
 "@time is the number of days to maturity of the option.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
@@ -779,19 +771,15 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_BAW_AMER\n"
-"@SYNTAX=OPT_BAW_AMER(call_put_keuze;prijs;koers;resterende_looptijd;rente;"
-"cost_of_carry;volatiliteit)\n"
-"@DESCRIPTION=OPT_BAW_AMER modeleert de theoretische prijs van een optie "
-"volgens de benaderingstechniek van  Barone Adesie & Whaley. \n"
-"@call_put_keuze is c or p voor respectievelijk een call of een put optie. \n"
+"@SYNTAX=OPT_BAW_AMER(call_put_keuze;prijs;koers;resterende_looptijd;rente;cost_of_carry;volatiliteit)\n"
+"@DESCRIPTION=OPT_BAW_AMER modeleert de theoretische prijs van een optie volgens de benaderingstechniek van  Barone Adesie & Whaley. \n"
+"@call_put_keuze is c or p voor respectievelijk een call- of een put-optie. \n"
 "@prijs is de uitoefenprijs van de onderliggende waarde\n"
 "@koers is de koers waarbij de optie wordt geïnd\n"
-"@resterende_looptijd  het aantal dagen tot expiratie van de optie\n"
+"@resterende_looptijd  het aantal dagen tot de verloopdatum van de optie\n"
 "@rente is het risicovrije jaarlijkse rentepercentage\n"
-"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor "
-"normale aandelen zou dit het dividentrendement zijn.\n"
-"@volatility is de jaarlijkse volatiliteit in prijs van de onderliggende "
-"waarde\n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor normale aandelen zou dit het dividentrendement zijn.\n"
+"@volatility is de jaarlijkse volatiliteit in prijs van de onderliggende waarde\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -799,7 +787,7 @@ msgstr ""
 
 # onderliggende waarde of onderliggende?
 #: ../plugins/derivatives/options.c:1277
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BJER_STENS\n"
 "@SYNTAX=OPT_BJER_STENS(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -811,7 +799,7 @@ msgid ""
 "@spot is the spot price of the underlying asset.\n"
 "@strike is the strike price at which the option is struck.\n"
 "@time is the number of days to maturity of the option.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
@@ -840,7 +828,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: ../plugins/derivatives/options.c:1364
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXEC\n"
 "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
@@ -852,7 +840,7 @@ msgid ""
 "@spot is the spot price of the underlying asset.\n"
 "@strike is the strike price at which the option is struck.\n"
 "@time is the number of days to maturity of the option.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
@@ -885,7 +873,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: ../plugins/derivatives/options.c:1415
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FORWARD_START\n"
 "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,"
@@ -898,7 +886,7 @@ msgid ""
 "@alpha is a fraction that set the strike price the future date @time1.\n"
 "@time1 is the number of days until the option starts.\n"
 "@time is the number of days to maturity of the option.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
@@ -928,7 +916,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: ../plugins/derivatives/options.c:1481
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_TIME_SWITCH\n"
 "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
@@ -946,7 +934,7 @@ msgid ""
 "@m is the number of time units the option has already met the condition.\n"
 "@dt is the agreed upon discrete time period (often a day) expressed as a "
 "fraction of a year.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
 "@EXAMPLES=\n"
@@ -979,7 +967,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: ../plugins/derivatives/options.c:1541
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
 "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,rate,"
@@ -993,7 +981,7 @@ msgid ""
 "@time1 is the time in years until the holder chooses a put or a call "
 "option.\n"
 "@time2 is the time in years until the the chosen option expires.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
 "@EXAMPLES=\n"
@@ -1018,7 +1006,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: ../plugins/derivatives/options.c:1605
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
 "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,strike_put,time,"
@@ -1036,7 +1024,7 @@ msgid ""
 "option. \n"
 "@time_call is the time in years to maturity of the call option if chosen.\n"
 "@time_put is the time in years  to maturity of the put option if chosen.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
@@ -1070,7 +1058,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: ../plugins/derivatives/options.c:1723
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_ON_OPTIONS\n"
 "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,"
@@ -1085,7 +1073,7 @@ msgid ""
 "@time1 is the time in years to maturity of the option.\n"
 "@time2 is the time in years to the maturity of the underlying option.\n"
 "(@time2 >= @time1).\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset of the "
 "underlying option.for common stocks, this would be the dividend yield.\n"
 "@volatility is the annualized volatility in price of the underlying asset of "
@@ -1119,7 +1107,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: ../plugins/derivatives/options.c:1811
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
 "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,"
@@ -1136,7 +1124,7 @@ msgid ""
 "money at @time1.\n"
 "@time1 is the initial maturity of the option in years.\n"
 "@time2 is the is the extended maturity in years if chosen.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
@@ -1171,7 +1159,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA<"
 
 #: ../plugins/derivatives/options.c:1876
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_2_ASSET_CORRELATION\n"
 "@SYNTAX=OPT_2_ASSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
@@ -1187,7 +1175,7 @@ msgid ""
 "@spot1 & @spot2 are the spot prices of the underlying assets.\n"
 "@strike1 & @strike2 are the strike prices at which the option is struck.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying "
 "assets, for common stocks, this would be the dividend yield.\n"
 "@volatility1 & @volatility2 are the annualized volatility in price of the "
@@ -1217,7 +1205,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: ../plugins/derivatives/options.c:1932
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_EURO_EXCHANGE\n"
 "@SYNTAX=OPT_EURO_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,"
@@ -1226,7 +1214,7 @@ msgid ""
 "option to exchange one asset with quantity @qty2 and spot price @spot2 for "
 "another, with quantity @qty1 and spot price @spot1.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying "
 "assets, for common stocks, this would be the dividend yield.\n"
 "@volatility1 & @volatility2 are the annualized volatility in price of the "
@@ -1258,7 +1246,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: ../plugins/derivatives/options.c:1978
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_AMER_EXCHANGE\n"
 "@SYNTAX=OPT_AMER_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,"
@@ -1267,7 +1255,7 @@ msgid ""
 "option to exchange one asset with quantity @qty2 and spot price @spot2 for "
 "another, with quantity @qty1 and spot price @spot1.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying "
 "assets, for common stocks, this would be the dividend yield.\n"
 "@volatility1 & @volatility2 are the annualized volatility in price of the "
@@ -1300,7 +1288,7 @@ msgstr ""
 
 # onderliggende waarde of onderliggende?
 #: ../plugins/derivatives/options.c:2025
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_SPREAD_APPROX\n"
 "@SYNTAX=OPT_SPREAD_APPROX(call_put_flag,fut_price1,fut_price2,strike,time, "
@@ -1312,7 +1300,7 @@ msgid ""
 "@fut_price1 & @fut_price2 are the prices of the two futures contracts.\n"
 "@strike is the strike price at which the option is struck \n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@volatility1 & @volatility2 are the annualized volatility in price of the "
 "underlying futures contracts.\n"
 "@rho is the correlation between the two futures contracts.\n"
@@ -1341,7 +1329,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: ../plugins/derivatives/options.c:2082
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
 "@SYNTAX=OPT_FLOAT_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,time,rate,"
@@ -1357,7 +1345,7 @@ msgid ""
 "@spot_max is the maximum spot price of the underlying asset so far "
 "observed.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
@@ -1386,7 +1374,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: ../plugins/derivatives/options.c:2152
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
 "@SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,strike,time,"
@@ -1403,7 +1391,7 @@ msgid ""
 "observed.\n"
 "@strike is the strike prices at which the option is struck.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
@@ -1433,7 +1421,7 @@ msgstr ""
 
 # onderliggende waarde of onderliggende?
 #: ../plugins/derivatives/options.c:2236
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BINOMIAL\n"
 "@SYNTAX=OPT_BINOMIAL(amer_euro_flag,call_put_flag,num_time_steps, spot, "
@@ -1450,7 +1438,7 @@ msgid ""
 "@spot is the spot price of the underlying asset.\n"
 "@strike is the strike price at which the option is struck.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset.\n"
 "\n"
@@ -2793,30 +2781,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database;veld;criteria)\n"
-"@DESCRIPTION=DAVERAGE geeft het gemiddelde van die waarden uit een lijst of "
-"uit een database, die aan de opgegeven criteria voldoen.\n"
+"@DESCRIPTION=DAVERAGE geeft het gemiddelde van die waarden uit een lijst of uit een database, die aan de opgegeven criteria voldoen.\n"
 "\n"
-"@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn, en kolommen met data velden. De eerste rij van een database bevat "
-"labels for elke kolom. \n"
+"@database is een celbereik waarin rijen met gerelateerde informatie records zijn, en kolommen met data, velden. De eerste rij van een database bevat labels for elke kolom. \n"
 "\n"
-"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
-"geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
-"ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
-"de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
 "\n"
-"@criteria is het celbereik wat de gegeven condities bevat.  De eerste rij "
-"van @criteria moet de labels bevatten van de velden waarvoor de criteria "
-"bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, "
-"``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het "
-"opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in "
-"@criteria specificeert een aparte voorwaarde, dus; Als een rij in @database "
-"overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt "
-"(technisch gesproken is er een boolese OR tussen de rijen in @criteria).  "
-"Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom "
-"waarvan er een overeenkomst is met een rij in @database, 'waar' zijn. "
-"(wederom, technisch gesproken een boolese AND tussen de kolommen en elke rij "
-"in @criteria). \n"
+"@criteria is het celbereik wat de gegeven condities bevat.  De eerste rij van @criteria moet de labels bevatten van de velden waarvoor de criteria bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, ``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in @criteria specificeert een aparte voorwaarde, dus; Als een rij in @database overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt (technisch gesproken is er een boolese OR tussen de rijen in @criteria).  Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom waarvan er een overeenkomst is met een rij in @database, 'waar' zijn. (wederom, technisch gesproken een boolese AND tussen de kolommen en elke rij in @criteria). \n"
 "\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
@@ -2892,30 +2863,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database;veld;criteria)\n"
-"@DESCRIPTION=DCOUNT telt het aantal cellen met getallen uit een database die "
-"aan de opgegeven criteria voldoen.\n"
+"@DESCRIPTION=DCOUNT telt het aantal cellen met getallen uit een database die aan de opgegeven criteria voldoen.\n"
 "\n"
-"@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn, en kolommen met data velden. De eerste rij van een database bevat "
-"labels for elke kolom. \n"
+"@database is een celbereik waarin rijen met gerelateerde informatie records zijn, en kolommen met data, velden. De eerste rij van een database bevat labels for elke kolom. \n"
 "\n"
-"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
-"geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
-"ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
-"de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
 "\n"
-"@criteria is het celbereik wat de gegeven condities bevat.  De eerste rij "
-"van @criteria moet de labels bevatten van de velden waarvoor de criteria "
-"bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, "
-"``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het "
-"opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in "
-"@criteria specificeert een aparte voorwaarde, dus; Als een rij in @database "
-"overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt "
-"(technisch gesproken is er een boolese OR tussen de rijen in @criteria).  "
-"Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom "
-"waarvan er een overeenkomst is met een rij in @database, 'waar' zijn. "
-"(wederom, technisch gesproken een boolese AND tussen de kolommen en elke rij "
-"in @criteria). \n"
+"@criteria is het celbereik wat de gegeven condities bevat.  De eerste rij van @criteria moet de labels bevatten van de velden waarvoor de criteria bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, ``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in @criteria specificeert een aparte voorwaarde, dus; Als een rij in @database overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt (technisch gesproken is er een boolese OR tussen de rijen in @criteria).  Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom waarvan er een overeenkomst is met een rij in @database, 'waar' zijn. (wederom, technisch gesproken een boolese AND tussen de kolommen en elke rij in @criteria). \n"
 "\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
@@ -2990,30 +2944,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database;veld;criteria)\n"
-"@DESCRIPTION=DCOUNTA telt het aantal cellen met gegevens uit een lijst of "
-"uit een database die aan de opgegeven criteria voldoen.\n"
+"@DESCRIPTION=DCOUNTA telt het aantal cellen met gegevens uit een lijst of uit een database die aan de opgegeven criteria voldoen.\n"
 "\n"
-"@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn, en kolommen met data velden. De eerste rij van een database bevat "
-"labels for elke kolom.\n"
+"@database is een celbereik waarin rijen met gerelateerde informatie records zijn, en kolommen met data, velden. De eerste rij van een database bevat labels for elke kolom.\n"
 "\n"
-"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
-"geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
-"ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
-"de kolom met het label ``Leeftijd'' in het @database-bereik.\n"
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar de kolom met het label ``Leeftijd'' in het @database-bereik.\n"
 "\n"
-"@criteria is het celbereik wat de gegeven condities bevat.  De eerste rij "
-"van @criteria moet de labels bevatten van de velden waarvoor de criteria "
-"bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, "
-"``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het "
-"opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in "
-"@criteria specificeert een aparte voorwaarde, dus; Als een rij in @database "
-"overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt "
-"(technisch gesproken is er een boolese OR tussen de rijen in @criteria).  "
-"Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom "
-"waarvan er een overeenkomst is met een rij in @database, 'waar' zijn. "
-"(wederom, technisch gesproken een boolese AND tussen de kolommen en elke rij "
-"in @criteria).\n"
+"@criteria is het celbereik wat de gegeven condities bevat.  De eerste rij van @criteria moet de labels bevatten van de velden waarvoor de criteria bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, ``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in @criteria specificeert een aparte voorwaarde, dus; Als een rij in @database overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt (technisch gesproken is er een boolese OR tussen de rijen in @criteria).  Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom waarvan er een overeenkomst is met een rij in @database, 'waar' zijn. (wederom, technisch gesproken een boolese AND tussen de kolommen en elke rij in @criteria).\n"
 "\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
@@ -3090,30 +3027,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database;veld;criteria)\n"
-"@DESCRIPTION=DGET geeft een enkele waarde uit een lijst of uit een database, "
-"die aan de opgegeven criteria voldoet.\n"
+"@DESCRIPTION=DGET geeft een enkele waarde uit een lijst of uit een database, die aan de opgegeven criteria voldoet.\n"
 "\n"
-"@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn, en kolommen met data velden. De eerste rij van een database bevat "
-"labels for elke kolom.\n"
+"@database is een celbereik waarin rijen met gerelateerde informatie records zijn, en kolommen met data, velden. De eerste rij van een database bevat labels for elke kolom.\n"
 "\n"
-"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
-"geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
-"ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
-"de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
 "\n"
-"@criteria is het celbereik dat de gegeven condities bevat.  De eerste rij "
-"van @criteria moet de labels bevatten van de velden waarvoor de criteria "
-"bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, "
-"``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het "
-"opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in "
-"@criteria specificeert een aparte voorwaarde, dus; Als een rij in @database "
-"overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt "
-"(technisch gesproken is er een boolese OR tussen de rijen in @criteria).  "
-"Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom "
-"waarvan er een overeenkomst is met een rij in @database, waar zijn. "
-"(wederom, technisch gesproken een  boolese AND tussen de kolommen en elke "
-"rij in @criteria).\n"
+"@criteria is het celbereik dat de gegeven condities bevat.  De eerste rij van @criteria moet de labels bevatten van de velden waarvoor de criteria bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, ``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in @criteria specificeert een aparte voorwaarde, dus; Als een rij in @database overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt (technisch gesproken is er een boolese OR tussen de rijen in @criteria).  Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom waarvan er een overeenkomst is met een rij in @database, waar zijn. (wederom, technisch gesproken een  boolese AND tussen de kolommen en elke rij in @criteria).\n"
 "\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
@@ -3130,10 +3050,8 @@ msgstr ""
 "<30\n"
 ">40      >46000\n"
 "\n"
-"* Als geen van de items aan de criteria voldoet, geeft DGET  een #WAARDE! "
-"foutmelding.\n"
-"* Als meer dan een van de items aan de criteria voldoen, geeft DGET  een "
-"#GETAL! foutmelding.\n"
+"* Als geen van de items aan de criteria voldoet, geeft DGET  een #WAARDE! foutmelding.\n"
+"* Als meer dan een van de items aan de criteria voldoen, geeft DGET  een #GETAL! foutmelding.\n"
 "\n"
 "DGET(A1:C7; \"Salaris\"; A9:A10) is 34323\n"
 "DGET(A1:C7; \"Naam\"; A9:A10) is \"Clark\"\n"
@@ -3192,30 +3110,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DMAX  \n"
 "@SYNTAX=DMAX(database;veld;criteria)\n"
-"@DESCRIPTION=DMAX geeft het grootste getal uit een lijst of uit een database "
-"die aan de opgegeven criteria voldoet.\n"
+"@DESCRIPTION=DMAX geeft het grootste getal uit een lijst of uit een database die aan de opgegeven criteria voldoet.\n"
 "\n"
-"@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn, en kolommen met data velden. De eerste rij van een database bevat "
-"labels for elke kolom. \n"
+"@database is een celbereik waarin rijen met gerelateerde informatie records zijn, en kolommen met data, velden. De eerste rij van een database bevat labels for elke kolom. \n"
 "\n"
-"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
-"geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
-"ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
-"de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
 "\n"
-"@criteria is het celbereik dat de gegeven condities bevat.  De eerste rij "
-"van @criteria moet de labels bevatten van de velden waarvoor de criteria "
-"bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, "
-"``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het "
-"opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in "
-"@criteria specificeert een aparte voorwaarde, dus; Als een rij in @database "
-"overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt "
-"(technisch gesproken is er een boolese OR tussen de rijen in @criteria).  "
-"Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom "
-"waarvan er een overeenkomst is met een rij in @database, waar zijn. "
-"(wederom, technisch gesproken een  boolese AND tussen de kolommen en elke "
-"rij in @criteria).\n"
+"@criteria is het celbereik dat de gegeven condities bevat.  De eerste rij van @criteria moet de labels bevatten van de velden waarvoor de criteria bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, ``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in @criteria specificeert een aparte voorwaarde, dus; Als een rij in @database overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt (technisch gesproken is er een boolese OR tussen de rijen in @criteria).  Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom waarvan er een overeenkomst is met een rij in @database, waar zijn. (wederom, technisch gesproken een  boolese AND tussen de kolommen en elke rij in @criteria).\n"
 "\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
@@ -3289,30 +3190,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DMIN  \n"
 "@SYNTAX=DMIN(database;veld;criteria)\n"
-"@DESCRIPTION=DMIN geeft het kleinste getal uit een lijst of database die aan "
-"de opgegeven criteria voldoet.\n"
+"@DESCRIPTION=DMIN geeft het kleinste getal uit een lijst of database die aan de opgegeven criteria voldoet.\n"
 "\n"
-"@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn, en kolommen met data velden. De eerste rij van een database bevat "
-"labels for elke kolom.\n"
+"@database is een celbereik waarin rijen met gerelateerde informatie records zijn, en kolommen met data, velden. De eerste rij van een database bevat labels for elke kolom.\n"
 "\n"
-"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
-"geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
-"ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
-"de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
 "\n"
-"@criteria is het celbereik wat de gegeven condities bevat.  De eerste rij "
-"van @criteria moet de labels bevatten van de velden waarvoor de criteria "
-"bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, "
-"``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het "
-"opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in "
-"@criteria specificeert een aparte voorwaarde, dus; Als een rij in @database "
-"overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt "
-"(technisch gesproken is er een boolese OR tussen de rijen in @criteria).  "
-"Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom "
-"waarvan er een overeenkomst is met een rij in @database, waar zijn. "
-"(wederom, technisch gesproken een  boolese AND tussen de kolommen en elke "
-"rij in @criteria). \n"
+"@criteria is het celbereik wat de gegeven condities bevat.  De eerste rij van @criteria moet de labels bevatten van de velden waarvoor de criteria bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, ``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in @criteria specificeert een aparte voorwaarde, dus; Als een rij in @database overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt (technisch gesproken is er een boolese OR tussen de rijen in @criteria).  Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom waarvan er een overeenkomst is met een rij in @database, waar zijn. (wederom, technisch gesproken een  boolese AND tussen de kolommen en elke rij in @criteria). \n"
 "\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
@@ -3384,30 +3268,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database;veld;criteria)\n"
-"@DESCRIPTION=DPRODUCT geeft het product van de getallen uit een lijst of "
-"database, die aan de opgegeven criteria voldoen.\n"
+"@DESCRIPTION=DPRODUCT geeft het product van de getallen uit een lijst of database, die aan de opgegeven criteria voldoen.\n"
 "\n"
-"@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn, en kolommen met data velden. De eerste rij van een database bevat "
-"labels for elke kolom.\n"
+"@database is een celbereik waarin rijen met gerelateerde informatie records zijn, en kolommen met data, velden. De eerste rij van een database bevat labels for elke kolom.\n"
 "\n"
-"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
-"geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
-"ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
-"de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
 "\n"
-"@criteria is het celbereik wat de gegeven condities bevat.  De eerste rij "
-"van @criteria moet de labels bevatten van de velden waarvoor de criteria "
-"bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, "
-"``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het "
-"opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in "
-"@criteria specificeert een aparte voorwaarde, dus; Als een rij in @database "
-"overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt "
-"(technisch gesproken is er een boolese OR tussen de rijen in @criteria).  "
-"Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom "
-"waarvan er een overeenkomst is met een rij in @database, waar zijn. "
-"(wederom, technisch gesproken een boolese AND tussen de kolommen en elke rij "
-"in @criteria).\n"
+"@criteria is het celbereik wat de gegeven condities bevat.  De eerste rij van @criteria moet de labels bevatten van de velden waarvoor de criteria bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, ``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in @criteria specificeert een aparte voorwaarde, dus; Als een rij in @database overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt (technisch gesproken is er een boolese OR tussen de rijen in @criteria).  Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom waarvan er een overeenkomst is met een rij in @database, waar zijn. (wederom, technisch gesproken een boolese AND tussen de kolommen en elke rij in @criteria).\n"
 "\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
@@ -3432,7 +3299,7 @@ msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
 "@DESCRIPTION=DSTDEV function returns the estimate of the standard deviation "
-"of a population based on a sample. The populations consists of numbers that "
+"of a population based on a sample. The population consists of numbers that "
 "match conditions specified.\n"
 "\n"
 "@database is a range of cells in which rows of related information are "
@@ -3479,31 +3346,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database;veld;criteria)\n"
-"@DESCRIPTION=DSTDEV geeft de schatting van de standaarddeviatie van een "
-"populatie gebaseerd op een steekproef. De populaties bestaan uit getallen "
-"die aan de opgegeven criteria voldoen.\n"
+"@DESCRIPTION=DSTDEV geeft de schatting van de standaarddeviatie van een populatie gebaseerd op een steekproef. De populaties bestaan uit getallen die aan de opgegeven voorwaarden voldoen.\n"
 "\n"
-"@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn, en kolommen met data velden. De eerste rij van een database bevat "
-"labels for elke kolom. \n"
+"@database is een celbereik waarin rijen met gerelateerde informatie records zijn, en kolommen met data, velden. De eerste rij van een database bevat labels for elke kolom. \n"
 "\n"
-"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
-"geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
-"ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
-"de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
 "\n"
-"@criteria is het celbereik wat de gegeven condities bevat.  De eerste rij "
-"van @criteria moet de labels bevatten van de velden waarvoor de criteria "
-"bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, "
-"``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het "
-"opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in "
-"@criteria specificeert een aparte voorwaarde, dus; Als een rij in @database "
-"overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt "
-"(technisch gesproken is er een boolese OR tussen de rijen in @criteria).  "
-"Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom "
-"waarvan er een overeenkomst is met een rij in @database, waar zijn. "
-"(wederom, technisch gesproken een  boolese AND tussen de kolommen en elke "
-"rij in @criteria). \n"
+"@criteria is het celbereik met de gegeven voorwaarden.  De eerste rij van @criteria moet de labels bevatten van de velden waarvoor de criteria bedoeld zijn.  Cellen onder de labels geven de voorwaarden aan, bijvoorbeeld, ``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het opgeven van een waarde, bijvoorbeeld ``3'' of ``Jan''.\n"
+"Elke rij in @criteria specificeert een aparte voorwaarde, dus; Als een rij in @database overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt (technisch gesproken is er een boolese OR tussen de rijen in @criteria).  \n"
+"Als @criteria meer dan één kolom omvat, moet elke voorwaarde in deze kolom waarvan er een overeenkomst is met een rij in @database, waar zijn. (wederom, technisch gesproken een  boolese AND tussen de kolommen en elke rij in @criteria). \n"
 "\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
@@ -3530,7 +3381,7 @@ msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
 "@DESCRIPTION=DSTDEVP function returns the standard deviation of a population "
-"based on the entire populations. The populations consists of numbers that "
+"based on the entire population. The population consists of numbers that "
 "match conditions specified.\n"
 "\n"
 "@database is a range of cells in which rows of related information are "
@@ -3577,31 +3428,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database;veld;criteria)\n"
-"@DESCRIPTION=DSTDEVP geeft de standaarddeviatie van een populatie gebaseerd "
-"op de gehele populatie. De populaties bestaan uit getallen die aan de "
-"opgegeven criteria voldoen.\n"
+"@DESCRIPTION=DSTDEVP geeft de standaarddeviatie van een populatie gebaseerd op de gehele populatie. De populaties bestaan uit getallen die aan de opgegeven voorwaarden voldoen.\n"
 "\n"
-"@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn, en kolommen met data velden. De eerste rij van een database bevat "
-"labels for elke kolom. \n"
+"@database is een celbereik waarin rijen met gerelateerde informatie records zijn, en kolommen met data, velden. De eerste rij van een database bevat labels for elke kolom. \n"
 "\n"
-"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
-"geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
-"ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
-"de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
 "\n"
-"@criteria is het celbereik wat de gegeven condities bevat.  De eerste rij "
-"van @criteria moet de labels bevatten van de velden waarvoor de criteria "
-"bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, "
-"``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het "
-"opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in "
-"@criteria specificeert een aparte voorwaarde, dus; Als een rij in @database "
-"overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt "
-"(technisch gesproken is er een boolese OR tussen de rijen in @criteria).  "
-"Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom "
-"waarvan er een overeenkomst is met een rij in @database, waar zijn. "
-"(wederom, technisch gesproken een  boolese AND tussen de kolommen en elke "
-"rij in @criteria).\n"
+"@criteria is het celbereik met de gegeven voorwaarden.  De eerste rij van @criteria moet de labels bevatten van de velden waarvoor de criteria bedoeld zijn.  Cellen onder de labels geven de voorwaarden aan, bijvoorbeeld, ``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het opgeven van een waarde, bijvoorbeeld ``3'' of ``Jan''.\n"
+"Elke rij in @criteria specificeert een aparte voorwaarde, dus; Als een rij in @database overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt (technisch gesproken is er een boolese OR tussen de rijen in @criteria).\n"
+"Als @criteria meer dan één kolom omvat, moet elke voorwaarde in deze kolom waarvan er een overeenkomst is met een rij in @database, waar zijn. (wederom, technisch gesproken een boolese AND tussen de kolommen en elke rij in @criteria).\n"
 "\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
@@ -3674,30 +3509,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database;veld;criteria)\n"
-"@DESCRIPTION=DSUM geeft de som van getallen uit een lijst of database, die "
-"aan de opgegeven criteria voldoen.\n"
+"@DESCRIPTION=DSUM geeft de som van getallen uit een lijst of database, die aan de opgegeven criteria voldoen.\n"
 "\n"
-"@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn, en kolommen met data velden. De eerste rij van een database bevat "
-"labels for elke kolom. \n"
+"@database is een celbereik waarin rijen met gerelateerde informatie records zijn, en kolommen met data, velden. De eerste rij van een database bevat labels for elke kolom. \n"
 "\n"
-"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
-"geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
-"ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
-"de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
 "\n"
-"@criteria is het celbereik wat de gegeven condities bevat.  De eerste rij "
-"van @criteria moet de labels bevatten van de velden waarvoor de criteria "
-"bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, "
-"``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het "
-"opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in "
-"@criteria specificeert een aparte voorwaarde, dus; Als een rij in @database "
-"overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt "
-"(technisch gesproken is er een boolese OR tussen de rijen in @criteria).  "
-"Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom "
-"waarvan er een overeenkomst is met een rij in @database, waar zijn. "
-"(wederom, technisch gesproken een  boolese AND tussen de kolommen en elke "
-"rij in @criteria). \n"
+"@criteria is het celbereik met de opgegeven voorwaarden.  De eerste rij van @criteria moet de labels bevatten van de velden waarvoor de criteria bedoeld zijn. Cellen onder de labels geven de voorwaarden aan, bijvoorbeeld, ``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het opgeven van een waarde, bijvoorbeeld ``3'' of ``Jan''.\n"
+"Elke rij in @criteria specificeert een aparte voorwaarde, dus; Als een rij in @database overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt (technisch gesproken is er een boolese OR tussen de rijen in @criteria).\n"
+"Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom waarvan er een overeenkomst is met een rij in @database, waar zijn. (wederom, technisch gesproken een  boolese AND tussen de kolommen en elke rij in @criteria). \n"
 "\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
@@ -3719,12 +3539,15 @@ msgstr ""
 "\n"
 "@SEEALSO=DPRODUCT"
 
+# condities->voorwaarden
+# John->jan
 #: ../plugins/fn-database/functions.c:1038
+#, fuzzy
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
 "@DESCRIPTION=DVAR function returns the estimate of variance of a population "
-"based on a sample. The populations consists of numbers that match conditions "
+"based on a sample. The population consists of numbers that match conditions "
 "specified.\n"
 "\n"
 "@database is a range of cells in which rows of related information are "
@@ -3771,31 +3594,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database;veld;criteria)\n"
-"@DESCRIPTION=DVAR geeft een schatting van de variantie van een populatie "
-"gebaseerd op een steekproef. De populaties bestaan uit getallen die aan de "
-"opgegeven voorwaarden voldoen..\n"
+"@DESCRIPTION=DVAR geeft een schatting van de variantie van een populatie gebaseerd op een steekproef. De populaties bestaan uit getallen die aan de opgegeven voorwaarden voldoen..\n"
 "\n"
-"@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn, en kolommen met data, velden. De eerste rij van een database bevat "
-"labels for elke kolom. \n"
+"@database is een celbereik waarin rijen met gerelateerde informatie records zijn, en kolommen met data, velden. De eerste rij van een database bevat labels for elke kolom. \n"
 "\n"
-"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
-"geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
-"ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
-"de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
 "\n"
-"@criteria is het celbereik wat de gegeven condities bevat.  De eerste rij "
-"van @criteria moet de labels bevatten van de velden waarvoor de criteria "
-"bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, "
-"``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het "
-"opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in "
-"@criteria specificeert een aparte voorwaarde, dus; Als een rij in @database "
-"overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt "
-"(technisch gesproken is er een boolese OR tussen de rijen in @criteria).  "
-"Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom "
-"waarvan er een overeenkomst is met een rij in @database, waar zijn. "
-"(wederom, technisch gesproken een  boolese AND tussen de kolommen en elke "
-"rij in @criteria). \n"
+"@criteria is het celbereik wat de gegeven condities bevat.  De eerste rij van @criteria moet de labels bevatten van de velden waarvoor de criteria bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, ``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het opgeven van een waarde, bijvoorbeeld ``3'' of ``John''.  Elke rij in @criteria specificeert een aparte voorwaarde, dus; Als een rij in @database overeenkomt met een van de rijen in @criteria dan wordt die rij gebruikt (technisch gesproken is er een boolese OR tussen de rijen in @criteria).  Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom waarvan er een overeenkomst is met een rij in @database, waar zijn. (wederom, technisch gesproken een  boolese AND tussen de kolommen en elke rij in @criteria). \n"
 "\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
@@ -3818,11 +3623,12 @@ msgstr ""
 "@SEEALSO=DVARP"
 
 #: ../plugins/fn-database/functions.c:1114
+#, fuzzy
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
 "@DESCRIPTION=DVARP function returns the variance of a population based on "
-"the entire populations. The populations consists of numbers that match "
+"the entire population. The population consists of numbers that match "
 "conditions specified.\n"
 "\n"
 "@database is a range of cells in which rows of related information are "
@@ -4174,7 +3980,7 @@ msgid ""
 "@DESCRIPTION=NOW returns the serial number for the date and time at the time "
 "it is evaluated.\n"
 "\n"
-"Serial Numbers in Gnumeric are represented as follows:The integral part is "
+"Serial Numbers in Gnumeric are represented as follows: The integral part is "
 "the number of days since the 1st of January of 1900.  The decimal part "
 "represent the fraction of the day and is mapped into hour, minutes and "
 "seconds.\n"
@@ -4191,15 +3997,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
-"@DESCRIPTION=NOW geeft het serienummer voor de datum en het tijdstip waarop "
-"het wordt geevalueerd.\n"
+"@DESCRIPTION=NOW geeft het serienummer voor de datum en het tijdstip waarop het wordt geevalueerd.\n"
 "\n"
-"Serienummers worden in Gnumeric als volgt gerepresenteerd: Het gedeelte voor "
-"de komma is het aantal dagen sinds 1 januari 1900.  Het decimale gedeelte "
-"geeft het daggedeelte, en wordt omgezet naar uren, minuten en seconden.\n"
+"De betekenis van de serienummers in Gnumeric is als volgt: Het gedeelte voor de komma is het aantal dagen sinds 1 januari 1900.  Het gedeelte achter de komma geeft een dagdeel, en wordt omgezet naar uren, minuten en seconden.\n"
 "\n"
-"Bijvoorbeeld: ,0 staat voor het begin van de dag, en 0,5 voor 12 uur 's "
-"middags.\n"
+"Bijvoorbeeld: ,0 staat voor het begin van de dag, en 0,5 voor 12 uur 's middags.\n"
 "\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
@@ -4223,7 +4025,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (uren;minuten;seconden)\n"
-"@DESCRIPTION=TIME geeft een breuk die het daggedeelte aangeeft.\n"
+"@DESCRIPTION=TIME geeft een breuk die het dagdeel aangeeft.\n"
 "\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
@@ -5651,8 +5453,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
-"@DESCRIPTION=GESTEP function test for if @x is >= @y, returning 1 if it is "
-"so, and 0 otherwise. @y is optional, and defaults to 0.\n"
+"@DESCRIPTION=GESTEP function tests if @x is >= @y, returning 1 if it is so, "
+"and 0 otherwise. @y is optional, and defaults to 0.\n"
 "\n"
 "* If either argument is non-numeric returns a #VALUE! error.\n"
 "* This function is Excel compatible.\n"
@@ -5662,17 +5464,14 @@ msgid ""
 "@SEEALSO=DELTA"
 msgstr ""
 "@FUNCTION=GESTEP\n"
-"@SYNTAX=GESTEP(x[,y])\n"
-"@DESCRIPTION=GESTEP test of @x groter of gelijk is aan @y. In dat geval is "
-"het resultaat 1. In de andere gevallen is het resultaat 0. @y is optioneel. "
-"Indien het wordt weggelaten wordt @x met 0 vergeleken.\n"
+"@SYNTAX=GESTEP(x[;y])\n"
+"@DESCRIPTION=GESTEP test of @x groter of gelijk is aan @y. In dat geval is het resultaat 1. In de andere gevallen is het resultaat 0. @y is optioneel. Indien het wordt weggelaten wordt @x met 0 vergeleken.\n"
 "\n"
-"* Indien een van de argumenten geen getal is geeft GESTEP een #WAARDE! "
-"foutmelding.\n"
+"* Indien een van de argumenten geen getal is geeft GESTEP de foutmelding: #WAARDE!.\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
 "@EXAMPLES=\n"
-"GESTEP(5,4) is 1\n"
+"GESTEP(5;4) is 1\n"
 "\n"
 "@SEEALSO=DELTA"
 
@@ -5965,6 +5764,7 @@ msgstr ""
 "@SEEALSO=ACCRINT"
 
 #: ../plugins/fn-financial/functions.c:453
+#, fuzzy
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -5972,7 +5772,7 @@ msgid ""
 "vested security.\n"
 "\n"
 "@settlement is the settlement date of the security.  @maturity is the "
-"maturity date of the security. @investment is the prize of the security paid "
+"maturity date of the security. @investment is the price of the security paid "
 "at @settlement date and @redemption is the amount to be received at "
 "@maturity date.\n"
 "\n"
@@ -6536,6 +6336,7 @@ msgstr ""
 "@SEEALSO=SYD"
 
 #: ../plugins/fn-financial/functions.c:1061
+#, fuzzy
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -6544,7 +6345,7 @@ msgid ""
 "particular period. This method accelerates the rate of the depreciation, so "
 "that more depreciation expense occurs in earlier periods than in later ones. "
 "The depreciable cost is the actual cost minus the salvage value. The useful "
-"life is the number of periods (typically years) over with the asset is "
+"life is the number of periods (typically years) over which the asset is "
 "depreciated.\n"
 "\n"
 "The Formula used for sum-of-years digits depreciation is:\n"
@@ -7145,6 +6946,7 @@ msgstr ""
 "@SEEALSO=IPMT,PV,FV"
 
 #: ../plugins/fn-financial/functions.c:2120
+#, fuzzy
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv[,fv,type])\n"
@@ -7160,8 +6962,8 @@ msgid ""
 "\n"
 "@EXAMPLES=\n"
 "For example, if you deposit $10,000 in a savings account that earns an "
-"interest rate of 6%. To calculate home many years it will take to double "
-"your investment use NPER as follows:\n"
+"interest rate of 6%. To calculate how many years it will take to double your "
+"investment use NPER as follows:\n"
 "=NPER(0.06, 0, -10000, 20000,0)returns 11.895661046 which indicates that you "
 "can double your money just before the end of the 12th year.\n"
 "@SEEALSO=PPMT,PV,FV"
@@ -7588,11 +7390,12 @@ msgstr ""
 "@SEEALSO="
 
 #: ../plugins/fn-financial/functions.c:2744
+#, fuzzy
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
 "@DESCRIPTION=YIELDMAT calculates the annual yield of a security for which "
-"the interest is payed at maturity date.\n"
+"the interest is paid at maturity date.\n"
 "\n"
 "@settlement is the settlement date of the security. @maturity is the "
 "maturity date of the security. @issue is the issue date of the security. "
@@ -9178,8 +8981,8 @@ msgid ""
 "@DESCRIPTION=AND implements the logical AND function: the result is TRUE if "
 "all of the expressions evaluate to TRUE, otherwise it returns FALSE.\n"
 "\n"
-"@b1 trough @bN are expressions that should evaluate to TRUE or FALSE.  If an "
-"integer or floating point value is provided, zero is considered FALSE and "
+"@b1 through @bN are expressions that should evaluate to TRUE or FALSE.  If "
+"an integer or floating point value is provided, zero is considered FALSE and "
 "anything else is TRUE.\n"
 "\n"
 "* If the values contain strings or empty cells those values are ignored.\n"
@@ -9197,26 +9000,19 @@ msgid ""
 msgstr ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1; b2; ...)\n"
-"@DESCRIPTION=AND implementeert de logische AND functie: het resultaat is "
-"WAAR als alle uitdrukkingen WAAR als resultaat hebben, anders geeft AND als "
-"resultaat ONWAAR.\n"
+"@DESCRIPTION=AND implementeert de logische functie AND: het resultaat is WAAR als alle uitdrukkingen WAAR als resultaat hebben, anders geeft AND als resultaat ONWAAR.\n"
 "\n"
-"@b1 tot en met @bN zijn uitdrukkingen die WAAR of ONWAAR moeten geven. Als "
-"ze getallen als resultaat geven, wordt 0 als ONWAAR beschouwd en ieder ander "
-"getal als WAAR.\n"
+"@b1 tot en met @bN zijn uitdrukkingen die WAAR of ONWAAR moeten geven. Als het resultaat een getal is, wordt 0 als ONWAAR beschouwd en ieder ander getal als WAAR.\n"
 "\n"
-"* Als de waarden tekenreeksen of lege cellen bevatten worden deze waardes "
-"genegeerd.\n"
-"* Als geen logische waardes worden gegeven, wordt de foutmelding #WAARDE! "
-"gegeven.\n"
+"* Als de waardes tekenreeksen of lege cellen bevatten, worden deze waardes genegeerd.\n"
+"* Als geen logische waardes worden gegeven, wordt de foutmelding #WAARDE! gegeven.\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
 "@EXAMPLES=\n"
 "AND(WAAR;WAAR) is WAAR.\n"
 "AND(WAAR;ONWAAR) is ONWAAR\n"
 "\n"
-"Laten we aannemen dat cel A2 het getal 5 bevat en cel A2 het getal 1. Dan "
-"geldt:\n"
+"Laten we aannemen dat cel A2 het getal 5 bevat en cel A2 het getal 1. Dan geldt:\n"
 "AND(A1>3;A2<2) is WAAR.\n"
 "\n"
 "@SEEALSO=OR, NOT"
@@ -9262,7 +9058,7 @@ msgid ""
 "@DESCRIPTION=OR implements the logical OR function: the result is TRUE if "
 "any of the values evaluated to TRUE.\n"
 "\n"
-"@b1 trough @bN are expressions that should evaluate to TRUE or FALSE. If an "
+"@b1 through @bN are expressions that should evaluate to TRUE or FALSE. If an "
 "integer or floating point value is provided, zero is considered FALSE and "
 "anything else is TRUE.\n"
 "\n"
@@ -9278,17 +9074,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1;b2; ...)\n"
-"@DESCRIPTION=OR implementeert de logische OR functie: het resultaat is WAAR "
-"als een van de argumenten WAAR is.\n"
+"@DESCRIPTION=OR implementeert de logische functie OR: het resultaat is WAAR als een van de argumenten WAAR is.\n"
 "\n"
 "@b1 tot en met @bN zijn uitdrukkingen die WAAR of ONWAAR moeten geven.\n"
-"Als ze getallen als resultaat geven, wordt 0 als ONWAAR beschouwd en ieder "
-"ander getal als WAAR.\n"
+"Als het resultaat een getal is, wordt 0 als ONWAAR beschouwd en ieder ander getal als WAAR.\n"
 "\n"
-"* Als een argument een tekenreeks of een lege cel is, wordt dat argument "
-"genegeerd.\n"
-"* Als geen logische waarden worden gegeven, wordt de foutmelding #WAARDE! "
-"gegeven.\n"
+"* Als een argument een tekenreeks of een lege cel is, wordt dat argument genegeerd.\n"
+"* Als geen logische waarden worden gegeven, wordt de foutmelding #WAARDE! gegeven.\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -9299,13 +9091,14 @@ msgstr ""
 
 # zie commentaar bij OR
 #: ../plugins/fn-logical/functions.c:202
+#, fuzzy
 msgid ""
 "@FUNCTION=XOR\n"
 "@SYNTAX=XOR(b1, b2, ...)\n"
 "@DESCRIPTION=XOR implements the logical exclusive OR function: the result is "
 "TRUE if an odd number of the values evaluated to TRUE.\n"
 "\n"
-"@b1 trough @bN are expressions that should evaluate to TRUE or FALSE. If an "
+"@b1 through @bN are expressions that should evaluate to TRUE or FALSE. If an "
 "integer or floating point value is provided, zero is considered FALSE and "
 "anything else is TRUE.\n"
 "\n"
@@ -9986,6 +9779,7 @@ msgstr ""
 "@SEEALSO=LCM"
 
 #: ../plugins/fn-math/functions.c:146
+#, fuzzy
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -9998,8 +9792,8 @@ msgid ""
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
-"LCM(2,13) equals to 26.\n"
-"LCM(4,7,5) equals to 140.\n"
+"LCM(2,13) equals 26.\n"
+"LCM(4,7,5) equals 140.\n"
 "\n"
 "@SEEALSO=GCD"
 msgstr ""
@@ -10030,17 +9824,16 @@ msgid ""
 "arguments.\n"
 "\n"
 "@EXAMPLES=\n"
-"HYPOT(3,4) equals to 5.\n"
+"HYPOT(3,4) equals 5.\n"
 "\n"
 "@SEEALSO=MIN,MAX"
 msgstr ""
 "@FUNCTION=HYPOT\n"
 "@SYNTAX=HYPOT(getal1;getal2;...)\n"
-"@DESCRIPTION=HYPOT geeft de wortel van de som van de kwadraten van de "
-"argumenten.\n"
+"@DESCRIPTION=HYPOT geeft de wortel van de som van de kwadraten van de argumenten.\n"
 "\n"
 "@EXAMPLES=\n"
-"HYPOT(3,4) is 5\n"
+"HYPOT(3;4) is 5\n"
 "\n"
 "@SEEALSO=MIN,MAX"
 
@@ -10829,13 +10622,14 @@ msgstr ""
 "@SEEALSO=LN, EXPM1"
 
 #: ../plugins/fn-math/functions.c:1220
+#, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
 "@DESCRIPTION=POWER returns the value of @x raised to the power @y.\n"
 "\n"
 "\n"
-"* If both @x and @y equals to 0, POWER returns #NUM! error.\n"
+"* If both @x and @y equal 0, POWER returns #NUM! error.\n"
 "* If @x = 0 and @y < 0, POWER returns #DIV/0! error.\n"
 "* If @x < 0 and @y is non-integer, POWER returns #NUM! error.\n"
 "* This function is Excel compatible.\n"
@@ -11945,13 +11739,16 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:3163
 msgid "SUMPRODUCT:Multiplies components and adds the results."
-msgstr "SUMPRODUCT:Vermenigvuldigt componenten en telt de resultaten bij elkaar op."
+msgstr ""
+"SUMPRODUCT:Vermenigvuldigt componenten en telt de resultaten bij elkaar op."
 
 #: ../plugins/fn-math/functions.c:3165
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
-msgstr "Vermenigvuldigt corresponderende datavelden in de gegeven arrays of bereiken, en geeft dan de som van deze producten."
+msgstr ""
+"Vermenigvuldigt corresponderende datavelden in de gegeven arrays of "
+"bereiken, en geeft dan de som van deze producten."
 
 #: ../plugins/fn-math/functions.c:3168
 msgid "If an entry is not numeric, the value zero is used instead."
@@ -11961,17 +11758,22 @@ msgstr "Indien een veld geen getal is, wordt in plaats daarvan nul gebruikt."
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
-msgstr "Indien arrays of bereiken niet dezelfde afmetingen hebben, wordt een  foutmelding: #WAARDE gegeven."
+msgstr ""
+"Indien arrays of bereiken niet dezelfde afmetingen hebben, wordt een  "
+"foutmelding: #WAARDE gegeven."
 
 #: ../plugins/fn-math/functions.c:3171
 msgid ""
 "SUMPRODUCTs arguments are arrays or ranges. Attempting to use A1:A5>0 will "
 "not work, implicit intersection will kick in. Instead use --(A1:A5>0)"
-msgstr "SUMPRODUCT's argumenten zijn arrays of bereiken. U kunt niet A1:A5>0 gebruiken want dan zal 'impliciete intersectie' optreden. Gebruik in plaats daarvan --(A1:A5>0)"
+msgstr ""
+"SUMPRODUCT's argumenten zijn arrays of bereiken. U kunt niet A1:A5>0 "
+"gebruiken want dan zal 'impliciete intersectie' optreden. Gebruik in plaats "
+"daarvan --(A1:A5>0)"
 
 #: ../plugins/fn-r/functions.c:19
 msgid "R.DNORM:probability density function of the normal distribution."
-msgstr "R.DNORM:waarschijnlijkheidsdichtheidfunctie van de normale verdeling."
+msgstr "R.DNORM:kansdichtheidfunctie van de normale verdeling."
 
 #: ../plugins/fn-r/functions.c:20 ../plugins/fn-r/functions.c:45
 #: ../plugins/fn-r/functions.c:99 ../plugins/fn-r/functions.c:124
@@ -11987,9 +11789,9 @@ msgstr "R.DNORM:waarschijnlijkheidsdichtheidfunctie van de normale verdeling."
 #: ../plugins/fn-r/functions.c:786 ../plugins/fn-r/functions.c:811
 #: ../plugins/fn-r/functions.c:838 ../plugins/fn-r/functions.c:865
 #: ../plugins/fn-r/functions.c:890 ../plugins/fn-r/functions.c:944
-#: ../plugins/fn-r/functions.c:971 ../plugins/fn-r/functions.c:1000
-#: ../plugins/fn-r/functions.c:1023 ../plugins/fn-r/functions.c:1073
-#: ../plugins/fn-r/functions.c:1098
+#: ../plugins/fn-r/functions.c:971 ../plugins/fn-r/functions.c:1029
+#: ../plugins/fn-r/functions.c:1052 ../plugins/fn-r/functions.c:1102
+#: ../plugins/fn-r/functions.c:1127
 msgid "x:observation."
 msgstr "x:waarneming."
 
@@ -12009,8 +11811,8 @@ msgstr "sigma:standaarddeviatie van de verdeling."
 #: ../plugins/fn-r/functions.c:490 ../plugins/fn-r/functions.c:564
 #: ../plugins/fn-r/functions.c:642 ../plugins/fn-r/functions.c:715
 #: ../plugins/fn-r/functions.c:789 ../plugins/fn-r/functions.c:868
-#: ../plugins/fn-r/functions.c:948 ../plugins/fn-r/functions.c:1002
-#: ../plugins/fn-r/functions.c:1076
+#: ../plugins/fn-r/functions.c:948 ../plugins/fn-r/functions.c:1031
+#: ../plugins/fn-r/functions.c:1105
 msgid ""
 "give_log:if true, log of the result will be returned instead.  This is "
 "useful if the result would otherwise underflow to 0.  Defaults to false."
@@ -12019,13 +11821,11 @@ msgstr ""
 "is handig als het resultaat anders onder 0 zou lopen.  Standaardwaarde is "
 "false."
 
-# een keer function weggelaten, overbodig.
 #: ../plugins/fn-r/functions.c:24
 msgid ""
 "This function returns the probability density function of the normal "
 "distribution."
-msgstr ""
-"Deze functie geeft de waarschijnlijkheidsdichtheid van de normale verdeling."
+msgstr "Deze functie geeft de kansdichtheidfunctie van de normale verdeling."
 
 #: ../plugins/fn-r/functions.c:44
 msgid "R.PNORM:cumulative distribution function of the normal distribution."
@@ -12044,9 +11844,9 @@ msgstr "R.PNORM:cumulatieve distributiefunctie van de normale verdeling."
 #: ../plugins/fn-r/functions.c:738 ../plugins/fn-r/functions.c:763
 #: ../plugins/fn-r/functions.c:814 ../plugins/fn-r/functions.c:841
 #: ../plugins/fn-r/functions.c:893 ../plugins/fn-r/functions.c:920
-#: ../plugins/fn-r/functions.c:975 ../plugins/fn-r/functions.c:1025
-#: ../plugins/fn-r/functions.c:1050 ../plugins/fn-r/functions.c:1101
-#: ../plugins/fn-r/functions.c:1128 ../plugins/fn-r/functions.c:1156
+#: ../plugins/fn-r/functions.c:975 ../plugins/fn-r/functions.c:1004
+#: ../plugins/fn-r/functions.c:1054 ../plugins/fn-r/functions.c:1079
+#: ../plugins/fn-r/functions.c:1130 ../plugins/fn-r/functions.c:1157
 msgid ""
 "lower_tail:if true (the default), the lower tail of the distribution is "
 "considered."
@@ -12066,31 +11866,35 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:739 ../plugins/fn-r/functions.c:764
 #: ../plugins/fn-r/functions.c:815 ../plugins/fn-r/functions.c:842
 #: ../plugins/fn-r/functions.c:894 ../plugins/fn-r/functions.c:921
-#: ../plugins/fn-r/functions.c:976 ../plugins/fn-r/functions.c:1026
-#: ../plugins/fn-r/functions.c:1051 ../plugins/fn-r/functions.c:1102
-#: ../plugins/fn-r/functions.c:1129 ../plugins/fn-r/functions.c:1157
+#: ../plugins/fn-r/functions.c:976 ../plugins/fn-r/functions.c:1005
+#: ../plugins/fn-r/functions.c:1055 ../plugins/fn-r/functions.c:1080
+#: ../plugins/fn-r/functions.c:1131 ../plugins/fn-r/functions.c:1158
 msgid ""
 "log_p:if true, log of the probability is used.  This is useful if the "
 "probability would otherwise underflow to 0.  Defaults to false."
-msgstr "log_p:indien waar, wordt de logaritme van de kans gebruikt.  Dit is handig wanneer de kans anders naar 0 zou gaan.  Standaard is 'onwaar'."
+msgstr ""
+"log_p:indien waar, wordt de logaritme van de kans gebruikt.  Dit is handig "
+"wanneer de kans anders naar 0 zou gaan.  Standaard is 'onwaar'."
 
 #: ../plugins/fn-r/functions.c:50
 msgid ""
 "This function returns the cumulative distribution function of the normal "
 "distribution."
-msgstr "Deze functie geeft de cumulatieve distributiefunctie van de normale verdeling."
+msgstr ""
+"Deze functie geeft de cumulatieve distributiefunctie van de normale "
+"verdeling."
 
 # quantile/kwantiel/kwartiel
 #: ../plugins/fn-r/functions.c:71
 msgid "R.QNORM:probability quantile function of the normal distribution."
-msgstr "R.QNORM:kanskwantiel-functie van de normale verdeling."
+msgstr "R.QNORM:kanskwantielfunctie van de normale verdeling."
 
 #: ../plugins/fn-r/functions.c:72 ../plugins/fn-r/functions.c:230
 #: ../plugins/fn-r/functions.c:309 ../plugins/fn-r/functions.c:384
 #: ../plugins/fn-r/functions.c:536 ../plugins/fn-r/functions.c:613
 #: ../plugins/fn-r/functions.c:688 ../plugins/fn-r/functions.c:761
-#: ../plugins/fn-r/functions.c:917 ../plugins/fn-r/functions.c:1048
-#: ../plugins/fn-r/functions.c:1125 ../plugins/fn-r/functions.c:1152
+#: ../plugins/fn-r/functions.c:917 ../plugins/fn-r/functions.c:1000
+#: ../plugins/fn-r/functions.c:1077 ../plugins/fn-r/functions.c:1154
 msgid "p:probability."
 msgstr "p:kans."
 
@@ -12098,7 +11902,7 @@ msgstr "p:kans."
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the normal distribution."
-msgstr "Deze functie geeft de kanskwantiel-functie; de inverse van de cumulatieve distributiefunctie van de normale verdeling."
+msgstr "Deze functie geeft de kanskwantielfunctie; de inverse van de cumulatieve distributiefunctie van de normale verdeling."
 
 #: ../plugins/fn-r/functions.c:98
 msgid "R.DLNORM:probability density function of the log-normal distribution."
@@ -12130,17 +11934,21 @@ msgstr "R.PLNORM:cumulatieve distributiefuncte van de log-normale verdeling."
 msgid ""
 "This function returns the cumulative distribution function of the log-normal "
 "distribution."
-msgstr "Deze functie geeft de cumulatieve distributiefunctie van de log-normale verdeling."
+msgstr ""
+"Deze functie geeft de cumulatieve distributiefunctie van de log-normale "
+"verdeling."
 
 #: ../plugins/fn-r/functions.c:150
 msgid "R.QLNORM:probability quantile function of the log-normal distribution."
-msgstr "R.QLNORM:kanskwantiel-functie van de log-normale verdeling."
+msgstr "R.QLNORM:kanskwantielfunctie van de log-normale verdeling."
 
 #: ../plugins/fn-r/functions.c:156
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the log-normal distribution."
-msgstr "Deze functie geeft de kanskantiel-functie; de inverse van de cumulatieve distributiefunctie van de log-normale verdeling."
+msgstr ""
+"Deze functie geeft de kanskantiel-functie; de inverse van de cumulatieve "
+"distributiefunctie van de log-normale verdeling."
 
 #: ../plugins/fn-r/functions.c:177
 msgid "R.DGAMMA:probability density function of the gamma distribution."
@@ -12156,8 +11964,8 @@ msgstr "shape:de vormparameter van de verdeling"
 #: ../plugins/fn-r/functions.c:232 ../plugins/fn-r/functions.c:563
 #: ../plugins/fn-r/functions.c:588 ../plugins/fn-r/functions.c:615
 #: ../plugins/fn-r/functions.c:714 ../plugins/fn-r/functions.c:737
-#: ../plugins/fn-r/functions.c:762 ../plugins/fn-r/functions.c:1075
-#: ../plugins/fn-r/functions.c:1100 ../plugins/fn-r/functions.c:1127
+#: ../plugins/fn-r/functions.c:762 ../plugins/fn-r/functions.c:1104
+#: ../plugins/fn-r/functions.c:1129 ../plugins/fn-r/functions.c:1156
 msgid "scale:the scale parameter of the distribution"
 msgstr "scale:de schaalparameter van de verdeling"
 
@@ -12165,7 +11973,7 @@ msgstr "scale:de schaalparameter van de verdeling"
 msgid ""
 "This function returns the probability density function of the gamma "
 "distribution."
-msgstr "Deze functie geeft de kansdichtheidsfunctie van de gamma-verdeling."
+msgstr "Deze functie geeft de kansdichtheidfunctie van de gamma-verdeling."
 
 #: ../plugins/fn-r/functions.c:202
 msgid "R.PGAMMA:cumulative distribution function of the gamma distribution."
@@ -12175,7 +11983,8 @@ msgstr "R.PGAMMA:cumulative distributiefunctie van de gamma-verdeling."
 msgid ""
 "This function returns the cumulative distribution function of the gamma "
 "distribution."
-msgstr "Deze functie geeft de cumulatieve distributiefunctie van de gamma-verdeling."
+msgstr ""
+"Deze functie geeft de cumulatieve distributiefunctie van de gamma-verdeling."
 
 #: ../plugins/fn-r/functions.c:229
 msgid "R.QGAMMA:probability quantile function of the gamma distribution."
@@ -12185,7 +11994,9 @@ msgstr "R.QGAMMA:kanskwantielfunctie van de gamma-verdeling."
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the gamma distribution."
-msgstr "Deze functie geeft de kanskwantielfunctie; de inverse van de cumulatieve distributiefunctie van de gamma-verdeling."
+msgstr ""
+"Deze functie geeft de kanskwantielfunctie; de inverse van de cumulatieve "
+"distributiefunctie van de gamma-verdeling."
 
 #: ../plugins/fn-r/functions.c:256
 msgid "R.DBETA:probability density function of the beta distribution."
@@ -12205,7 +12016,7 @@ msgstr "b:de tweede schalingsparameter van de verdeling"
 msgid ""
 "This function returns the probability density function of the beta "
 "distribution."
-msgstr "Deze functie geeft de kansdichtheidsfunctie van de beta-verdeling."
+msgstr "Deze functie geeft de kansdichtheidfunctie van de beta-verdeling."
 
 #: ../plugins/fn-r/functions.c:281
 msgid "R.PBETA:cumulative distribution function of the beta distribution."
@@ -12215,21 +12026,22 @@ msgstr "R.PBETA:cumulatieve distributiefunctie van de beta-verdeling."
 msgid ""
 "This function returns the cumulative distribution function of the beta "
 "distribution."
-msgstr "Deze functie geeft de cumulatieve distributiefunctie van de beta-verdeling."
+msgstr ""
+"Deze functie geeft de cumulatieve distributiefunctie van de beta-verdeling."
 
 #: ../plugins/fn-r/functions.c:308
 msgid "R.QBETA:probability quantile function of the beta distribution."
-msgstr "R.QBETA:kanskwantiel-function van de beta-verdeling."
+msgstr "R.QBETA:kanskwantielfunction van de beta-verdeling."
 
 #: ../plugins/fn-r/functions.c:314
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the beta distribution."
-msgstr "Deze functie geeft de kanskwantiel-functie; de inverse van de cumulatieve distributiefunctie van de beta-verdeling."
+msgstr "Deze functie geeft de kanskwantielfunctie; de inverse van de cumulatieve distributiefunctie van de beta-verdeling."
 
 #: ../plugins/fn-r/functions.c:335
 msgid "R.DT:probability density function of the Student t distribution."
-msgstr "R.DT:kansdichtheidsfunctie van de Student-t verdeling."
+msgstr "R.DT:kansdichtheidfunctie van de Student-t verdeling."
 
 #: ../plugins/fn-r/functions.c:337 ../plugins/fn-r/functions.c:360
 #: ../plugins/fn-r/functions.c:385
@@ -12250,36 +12062,38 @@ msgstr "R.PT:cumulatieve distributiefunctie of de Student-t verdeling."
 msgid ""
 "This function returns the cumulative distribution function of the Student t "
 "distribution."
-msgstr "Deze functie geeft de cumulatieve distributiefunctie van de Student-t verdeling."
+msgstr ""
+"Deze functie geeft de cumulatieve distributiefunctie van de Student-t "
+"verdeling."
 
 #: ../plugins/fn-r/functions.c:383
 msgid "R.QT:probability quantile function of the Student t distribution."
-msgstr "R.QT:kanskwantiel-functie van de Student-t verdeling."
+msgstr "R.QT:kanskwantielfunctie van de Student-t verdeling."
 
 #: ../plugins/fn-r/functions.c:388
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Student t distribution."
-msgstr "Deze functie geeft de kanskwantiel-functie; de inverse van de cumulatieve distributiefunctie van de Student-t verdeling."
+msgstr "Deze functie geeft de kanskwantielfunctie; de inverse van de cumulatieve distributiefunctie van de Student-t verdeling."
 
 #: ../plugins/fn-r/functions.c:408
 msgid "R.DF:probability density function of the F distribution."
-msgstr "R.DF:kansdichtheidsfunctie van de F-verdeling."
+msgstr "R.DF:kansdichtheidfunctie van de F-verdeling."
 
 #: ../plugins/fn-r/functions.c:410 ../plugins/fn-r/functions.c:435
 #: ../plugins/fn-r/functions.c:462
 msgid "n1:the first number of degrees of freedom of the distribution"
-msgstr ""
+msgstr "n1:het eerste aantal vrijheidsgraden van de verdeling"
 
 #: ../plugins/fn-r/functions.c:411 ../plugins/fn-r/functions.c:436
 #: ../plugins/fn-r/functions.c:463
-msgid "n2:the first number of degrees of freedom of the distribution"
-msgstr ""
+msgid "n2:the second number of degrees of freedom of the distribution"
+msgstr "n2:het tweede aantal vrijheidsgraden van de verdeling"
 
 #: ../plugins/fn-r/functions.c:413
 msgid ""
 "This function returns the probability density function of the F distribution."
-msgstr "Deze functie geeft de kansdichtheidsfunctie van de F-verdeling."
+msgstr "Deze functie geeft de kansdichtheidfunctie van de F-verdeling."
 
 #: ../plugins/fn-r/functions.c:433
 msgid "R.PF:cumulative distribution function of the F distribution."
@@ -12289,21 +12103,22 @@ msgstr "R.PF:cumulatieve distributiefunctie van de F-verdeling."
 msgid ""
 "This function returns the cumulative distribution function of the F "
 "distribution."
-msgstr "Deze functie geeft de cumulatieve distributiefunctie van de F-verdeling."
+msgstr ""
+"Deze functie geeft de cumulatieve distributiefunctie van de F-verdeling."
 
 #: ../plugins/fn-r/functions.c:460
 msgid "R.QF:probability quantile function of the F distribution."
-msgstr "R.QF:kanskwantiel-functie van de F-verdeling."
+msgstr "R.QF:kanskwantielfunctie van de F-verdeling."
 
 #: ../plugins/fn-r/functions.c:466
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the F distribution."
-msgstr "Deze functie geeft de kanskwantiel-functie; de inverse van de cumulatieve distributiefunctie van de F-verdeling."
+msgstr "Deze functie geeft de kanskwantielfunctie; de inverse van de cumulatieve distributiefunctie van de F-verdeling."
 
 #: ../plugins/fn-r/functions.c:487
 msgid "R.DCHISQ:probability density function of the chi-square distribution."
-msgstr "R.DCHISQ:kansdichtheidsfunctie van de chi-kwadraat verdeling."
+msgstr "R.DCHISQ:kansdichtheidfunctie van de chi-kwadraat verdeling."
 
 #: ../plugins/fn-r/functions.c:489 ../plugins/fn-r/functions.c:512
 #: ../plugins/fn-r/functions.c:537
@@ -12314,7 +12129,7 @@ msgstr "df:het aantal vrijheidsgraden van de verdeling"
 msgid ""
 "This function returns the probability density function of the chi-square "
 "distribution."
-msgstr "Deze functie geeft de kansdichtheidsfunctie van de chi-kwadraat verdeling."
+msgstr "Deze functie geeft de kansdichtheidfunctie van de chi-kwadraat verdeling."
 
 #: ../plugins/fn-r/functions.c:510
 msgid ""
@@ -12325,118 +12140,121 @@ msgstr "R.PCHISQ:cumulatieve distributiefunctie van de chi-kwadraat verdeling."
 msgid ""
 "This function returns the cumulative distribution function of the chi-square "
 "distribution."
-msgstr "Deze functie geeft de cumulatieve distributiefunctie van de chi-kwadraat verdeling."
+msgstr ""
+"Deze functie geeft de cumulatieve distributiefunctie van de chi-kwadraat "
+"verdeling."
 
 #: ../plugins/fn-r/functions.c:535
 msgid "R.QCHISQ:probability quantile function of the chi-square distribution."
-msgstr "R.QCHISQ:kanskwantiel-functie van de chi-kwadraat verdeling."
+msgstr "R.QCHISQ:kanskwantielfunctie van de chi-kwadraat verdeling."
 
 #: ../plugins/fn-r/functions.c:540
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the chi-square distribution."
-msgstr "Deze functie geeft de kanskwantiel-functie; de inverse van de cumulatieve distributiefunctie van de chi-kwadraat verdeling."
+msgstr "Deze functie geeft de kanskwantielfunctie; de inverse van de cumulatieve distributiefunctie van de chi-kwadraat verdeling."
 
 #: ../plugins/fn-r/functions.c:560
 msgid "R.DWEIBULL:probability density function of the Weibull distribution."
-msgstr "R.DWEIBULL:kansdichtheidsfunctie van de Weibull-verdeling."
+msgstr "R.DWEIBULL:kansdichtheidfunctie van de Weibull-verdeling."
 
 #: ../plugins/fn-r/functions.c:565
 msgid ""
 "This function returns the probability density function of the Weibull "
 "distribution."
-msgstr "Deze functie geeft de kansdichtheidsfunctie van de Weibull-verdeling."
+msgstr "Deze functie geeft de kansdichtheidfunctie van de Weibull-verdeling."
 
 #: ../plugins/fn-r/functions.c:585
 msgid ""
 "R.PWEIBULL:cumulative distribution function of the Weibull distribution."
-msgstr ""
+msgstr "R.PWEIBULL:cumulatieve distributiefunctie van de Weibull-verdeling"
 
 #: ../plugins/fn-r/functions.c:591
 msgid ""
 "This function returns the cumulative distribution function of the Weibull "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de cumulatieve distributiefunctie van de Weibull-verdeling."
 
 #: ../plugins/fn-r/functions.c:612
 msgid "R.QWEIBULL:probability quantile function of the Weibull distribution."
-msgstr ""
+msgstr "R.QWEIBULL:kanskwantielfunctie van de Weibull-verdeling."
 
 #: ../plugins/fn-r/functions.c:618
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Weibull distribution."
-msgstr ""
+msgstr "Deze functie geeft de kanskwantielfunctie; de inverse van de cumulatieve distributiefunctie van de Weibull-verdeling."
 
 #: ../plugins/fn-r/functions.c:639
 msgid "R.DPOIS:probability density function of the Poisson distribution."
-msgstr ""
+msgstr "R.DPOIS::kansdichtheidfunctie van de Poisson-verdeling."
 
+# mediaan?/gemiddelde
 #: ../plugins/fn-r/functions.c:641 ../plugins/fn-r/functions.c:664
 #: ../plugins/fn-r/functions.c:689
 msgid "lambda:the mean of the distribution"
-msgstr ""
+msgstr "lambda:het gemiddelde van de distributie"
 
 #: ../plugins/fn-r/functions.c:643
 msgid ""
 "This function returns the probability density function of the Poisson "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de kansdichtheidfunctie van de Poisson-verdeling"
 
 #: ../plugins/fn-r/functions.c:662
 msgid "R.PPOIS:cumulative distribution function of the Poisson distribution."
-msgstr ""
+msgstr "R.PPOIS:cumulatieve distributiefunctie van de Poisson-verdeling."
 
 #: ../plugins/fn-r/functions.c:667
 msgid ""
 "This function returns the cumulative distribution function of the Poisson "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de cumulatieve distributiefunctie van de Poisson-verdeling."
 
 #: ../plugins/fn-r/functions.c:687
 msgid "R.QPOIS:probability quantile function of the Poisson distribution."
-msgstr ""
+msgstr "R.QPOIS:kanskwantielfunctie van de Poisson-verdeling."
 
 #: ../plugins/fn-r/functions.c:692
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Poisson distribution."
-msgstr ""
+msgstr "Deze functie geeft de kanskwantielfunctie; de inverse van de cumulatieve distributiefunctie van de Poisson-verdeling."
 
 #: ../plugins/fn-r/functions.c:712
 msgid "R.DEXP:probability density function of the exponential distribution."
-msgstr ""
+msgstr "R.DEXP:kansdichtheidfunctie van de exponentiële verdeling."
 
 #: ../plugins/fn-r/functions.c:716
 msgid ""
 "This function returns the probability density function of the exponential "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de kansdichtheidfunctie van de exponentiële verdeling"
 
 #: ../plugins/fn-r/functions.c:735
 msgid ""
 "R.PEXP:cumulative distribution function of the exponential distribution."
-msgstr ""
+msgstr "R.PEXP:cumulatieve distributiefunctie van de exponentiële verdeling."
 
 #: ../plugins/fn-r/functions.c:740
 msgid ""
 "This function returns the cumulative distribution function of the "
 "exponential distribution."
-msgstr ""
+msgstr "Deze functie geeft de cumulatieve distributiefunctie van de exponentiële verdeling."
 
 #: ../plugins/fn-r/functions.c:760
 msgid "R.QEXP:probability quantile function of the exponential distribution."
-msgstr ""
+msgstr "R.QEXP:kanskwantielfunctie van de exponentiële verdeling."
 
 #: ../plugins/fn-r/functions.c:765
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the exponential distribution."
-msgstr ""
+msgstr "Deze functie geeft de kanskwantielfunctie; de inverse van de cumulatieve distributiefunctie van de exponentiële verdeling."
 
 #: ../plugins/fn-r/functions.c:785
 msgid "R.DBINOM:probability density function of the binomial distribution."
-msgstr ""
+msgstr "R.DBINOM:kansdichtheidfunctie van de binomiale verdeling."
 
 #: ../plugins/fn-r/functions.c:787 ../plugins/fn-r/functions.c:812
 #: ../plugins/fn-r/functions.c:839 ../plugins/fn-r/functions.c:866
@@ -12447,8 +12265,8 @@ msgstr "n:het aantal trekkingen"
 #: ../plugins/fn-r/functions.c:788 ../plugins/fn-r/functions.c:813
 #: ../plugins/fn-r/functions.c:840 ../plugins/fn-r/functions.c:867
 #: ../plugins/fn-r/functions.c:892 ../plugins/fn-r/functions.c:919
-#: ../plugins/fn-r/functions.c:1001 ../plugins/fn-r/functions.c:1024
-#: ../plugins/fn-r/functions.c:1049
+#: ../plugins/fn-r/functions.c:1030 ../plugins/fn-r/functions.c:1053
+#: ../plugins/fn-r/functions.c:1078
 msgid "psuc:the probability of success in each trial"
 msgstr "psuc:de kans op succes in elke trekking"
 
@@ -12456,81 +12274,81 @@ msgstr "psuc:de kans op succes in elke trekking"
 msgid ""
 "This function returns the probability density function of the binomial "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de kansdichtheidfunctie van de binomiale verdeling."
 
 #: ../plugins/fn-r/functions.c:810
 msgid "R.PBINOM:cumulative distribution function of the binomial distribution."
-msgstr ""
+msgstr "R.PBINOM:cumulatieve distributiefunctie van de binomiale verdeling."
 
 #: ../plugins/fn-r/functions.c:816
 msgid ""
 "This function returns the cumulative distribution function of the binomial "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de cumulatieve distributiefunctie van de binomiale verdeling."
 
 #: ../plugins/fn-r/functions.c:837
 msgid "R.QBINOM:probability quantile function of the binomial distribution."
-msgstr ""
+msgstr "R.QBINOM:kanskwantielfunctie van de binomiale verdeling."
 
 #: ../plugins/fn-r/functions.c:843
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the binomial distribution."
-msgstr ""
+msgstr "Deze functie geeft de kanskwantielfunctie; de inverse van de cumulatieve distributiefunctie van de binomiale verdeling."
 
 #: ../plugins/fn-r/functions.c:864
 msgid ""
 "R.DNBINOM:probability density function of the negative binomial distribution."
-msgstr ""
+msgstr "R.DNBINOM:kansdichtheidfunctie van de negatieve binomiale verdeling."
 
 #: ../plugins/fn-r/functions.c:869
 msgid ""
 "This function returns the probability density function of the negative "
 "binomial distribution."
-msgstr ""
+msgstr "Deze functie geeft de kansdichtheidfunctie van de negatieve binomiale verdeling."
 
 #: ../plugins/fn-r/functions.c:889
 msgid ""
 "R.PNBINOM:cumulative distribution function of the negative binomial "
 "distribution."
-msgstr ""
+msgstr "R.PNBINOM:cumulatieve distributiefunctie van de negatieve binomiale verdeling."
 
 #: ../plugins/fn-r/functions.c:895
 msgid ""
 "This function returns the cumulative distribution function of the negative "
 "binomial distribution."
-msgstr ""
+msgstr "Deze functie geeft de cumulatieve distributiefunctie van de negatieve binomiale verdeling."
 
 #: ../plugins/fn-r/functions.c:916
 msgid ""
 "R.QNBINOM:probability quantile function of the negative binomial "
 "distribution."
-msgstr ""
+msgstr "R.QNBINOM:kanskwantielfunctie van de negatieve binomiale verdeling."
 
 #: ../plugins/fn-r/functions.c:922
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the negative binomial "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de kanskwantielfunctie; de inverse van de cumulatieve distributiefunctie van de negaieve binomiale verdeling."
 
 #: ../plugins/fn-r/functions.c:943
 msgid ""
 "R.DHYPER:probability density function of the hypergeometric distribution."
-msgstr ""
+msgstr "R.DHYPER:kansdichtheidfunctie van de hypergeometrische verdeling."
 
 #: ../plugins/fn-r/functions.c:945 ../plugins/fn-r/functions.c:972
-#: ../plugins/fn-r/functions.c:1153
+#: ../plugins/fn-r/functions.c:1001
 msgid "r:the number of red balls"
 msgstr "r:het aantal rode ballen"
 
 #: ../plugins/fn-r/functions.c:946 ../plugins/fn-r/functions.c:973
-#: ../plugins/fn-r/functions.c:1154
+#: ../plugins/fn-r/functions.c:1002
 msgid "b:the number of black balls"
 msgstr "b:het aantal zwarte ballen"
 
 #: ../plugins/fn-r/functions.c:947 ../plugins/fn-r/functions.c:974
-#: ../plugins/fn-r/functions.c:1155
+#: ../plugins/fn-r/functions.c:1003
 msgid "n:the number of balls drawn"
 msgstr "n:het aantal getrokken ballen"
 
@@ -12538,94 +12356,94 @@ msgstr "n:het aantal getrokken ballen"
 msgid ""
 "This function returns the probability density function of the hypergeometric "
 "distribution."
-msgstr ""
+msgstr "Deze functie geeft de kansdichtheidfunctie van de hypergeometrische verdeling."
 
 #: ../plugins/fn-r/functions.c:970
 msgid ""
 "R.PHYPER:cumulative distribution function of the hypergeometric distribution."
-msgstr ""
+msgstr "R.PHYPER:cumulatieve distributiefunctie van de hypergeometrische verdeling."
 
 #: ../plugins/fn-r/functions.c:977
 msgid ""
 "This function returns the cumulative distribution function of the "
 "hypergeometric distribution."
-msgstr ""
+msgstr "Deze functie geeft de cumulatieve distributiefunctie van de hypergeometrische verdeling."
 
 #: ../plugins/fn-r/functions.c:999
-msgid "R.DGEOM:probability density function of the geometric distribution."
-msgstr ""
-
-#: ../plugins/fn-r/functions.c:1003
-msgid ""
-"This function returns the probability density function of the geometric "
-"distribution."
-msgstr ""
-
-#: ../plugins/fn-r/functions.c:1022
-msgid "R.PGEOM:cumulative distribution function of the geometric distribution."
-msgstr ""
-
-#: ../plugins/fn-r/functions.c:1027
-msgid ""
-"This function returns the cumulative distribution function of the geometric "
-"distribution."
-msgstr ""
-
-#: ../plugins/fn-r/functions.c:1047
-msgid "R.QGEOM:probability quantile function of the geometric distribution."
-msgstr ""
-
-#: ../plugins/fn-r/functions.c:1052
-msgid ""
-"This function returns the probability quantile function, i.e., the inverse "
-"of the cumulative distribution function, of the geometric distribution."
-msgstr ""
-
-#: ../plugins/fn-r/functions.c:1072
-msgid "R.DCAUCHY:probability density function of the Cauchy distribution."
-msgstr ""
-
-#: ../plugins/fn-r/functions.c:1074 ../plugins/fn-r/functions.c:1099
-#: ../plugins/fn-r/functions.c:1126
-msgid "location:the center of the distribution"
-msgstr ""
-
-#: ../plugins/fn-r/functions.c:1077
-msgid ""
-"This function returns the probability density function of the Cauchy "
-"distribution."
-msgstr ""
-
-#: ../plugins/fn-r/functions.c:1097
-msgid "R.PCAUCHY:cumulative distribution function of the Cauchy distribution."
-msgstr ""
-
-#: ../plugins/fn-r/functions.c:1103
-msgid ""
-"This function returns the cumulative distribution function of the Cauchy "
-"distribution."
-msgstr ""
-
-#: ../plugins/fn-r/functions.c:1124
-msgid "R.QCAUCHY:probability quantile function of the Cauchy distribution."
-msgstr ""
-
-#: ../plugins/fn-r/functions.c:1130
-msgid ""
-"This function returns the probability quantile function, i.e., the inverse "
-"of the cumulative distribution function, of the Cauchy distribution."
-msgstr ""
-
-#: ../plugins/fn-r/functions.c:1151
 msgid ""
 "R.QHYPER:probability quantile function of the hypergeometric distribution."
-msgstr ""
+msgstr "R.QHYPER:kanskwantielfunctie van de hypergeometrische verdeling."
 
-#: ../plugins/fn-r/functions.c:1158
+#: ../plugins/fn-r/functions.c:1006
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the hypergeometric distribution."
-msgstr ""
+msgstr "Deze functie geeft de kanskwantielfunctie; de inverse van de cumulatieve distributiefunctie van de hypergeometrische verdeling."
+
+#: ../plugins/fn-r/functions.c:1028
+msgid "R.DGEOM:probability density function of the geometric distribution."
+msgstr "R.DGEOM:kansdichtheidfunctie van de geometrische verdeling."
+
+#: ../plugins/fn-r/functions.c:1032
+msgid ""
+"This function returns the probability density function of the geometric "
+"distribution."
+msgstr "Deze functie geeft de kansdichtheidfunctie van de geometrische verdeling."
+
+#: ../plugins/fn-r/functions.c:1051
+msgid "R.PGEOM:cumulative distribution function of the geometric distribution."
+msgstr "R.PGEOM:cumulatieve distributiefunctie van de geometrische verdeling."
+
+#: ../plugins/fn-r/functions.c:1056
+msgid ""
+"This function returns the cumulative distribution function of the geometric "
+"distribution."
+msgstr "Deze functie geeft de cumulatieve distributiefunctie van de geometrische verdeling."
+
+#: ../plugins/fn-r/functions.c:1076
+msgid "R.QGEOM:probability quantile function of the geometric distribution."
+msgstr "R.QGEOM:kanskwantielfunctie van de geometrische verdeling."
+
+#: ../plugins/fn-r/functions.c:1081
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the geometric distribution."
+msgstr "Deze functie geeft de kanskwantielfunctie; de inverse van de cumulatieve distributiefunctie van de geometrische verdeling."
+
+#: ../plugins/fn-r/functions.c:1101
+msgid "R.DCAUCHY:probability density function of the Cauchy distribution."
+msgstr "R.DCAUCHY:kansdichtheidfunctie van de Cauchy-verdeling."
+
+#: ../plugins/fn-r/functions.c:1103 ../plugins/fn-r/functions.c:1128
+#: ../plugins/fn-r/functions.c:1155
+msgid "location:the center of the distribution"
+msgstr "locatie:het centrum van de verdeling"
+
+#: ../plugins/fn-r/functions.c:1106
+msgid ""
+"This function returns the probability density function of the Cauchy "
+"distribution."
+msgstr "Deze functie geeft de kansdichtheidfunctie van de Cauchy-verdeling."
+
+#: ../plugins/fn-r/functions.c:1126
+msgid "R.PCAUCHY:cumulative distribution function of the Cauchy distribution."
+msgstr "R.PCAUCHY:cumulatieve distributiefunctie van de Cauchy-verdeling."
+
+#: ../plugins/fn-r/functions.c:1132
+msgid ""
+"This function returns the cumulative distribution function of the Cauchy "
+"distribution."
+msgstr "Deze functie geeft de cumulatieve distributiefunctie van de Cauchy-verdeling."
+
+#: ../plugins/fn-r/functions.c:1153
+msgid "R.QCAUCHY:probability quantile function of the Cauchy distribution."
+msgstr "R.QCAUCHY:kanskwantielfunctie van de Cauchy-verdeling."
+
+#: ../plugins/fn-r/functions.c:1159
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the Cauchy distribution."
+msgstr "Deze functie geeft de kanskwantielfunctie; de inverse van de cumulatieve distributiefunctie van de Cauchy-verdeling."
 
 #: ../plugins/fn-r/functions.c:1194
 msgid "x,mu,sigma,give_log"
@@ -12749,32 +12567,32 @@ msgid "x,r,b,n,lower_tail,log_p"
 msgstr "x,r,b,n,lower_tail,log_p"
 
 #: ../plugins/fn-r/functions.c:1498
+msgid "p,r,b,n,lower_tail,log_p"
+msgstr "p,r,b,n,lower_tail,log_p"
+
+#: ../plugins/fn-r/functions.c:1506
 msgid "x,psuc,give_log"
 msgstr "x,psuc,give_log"
 
-#: ../plugins/fn-r/functions.c:1506
+#: ../plugins/fn-r/functions.c:1514
 msgid "x,psuc,lower_tail,log_p"
 msgstr "x,psuc,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1514
+#: ../plugins/fn-r/functions.c:1522
 msgid "p,psuc,lower_tail,log_p"
 msgstr "p,psuc,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1522
+#: ../plugins/fn-r/functions.c:1530
 msgid "x,location,scale,give_log"
 msgstr "x,location,scale,give_log"
 
-#: ../plugins/fn-r/functions.c:1530
+#: ../plugins/fn-r/functions.c:1538
 msgid "x,location,scale,lower_tail,log_p"
 msgstr "x,location,scale,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1538
+#: ../plugins/fn-r/functions.c:1546
 msgid "p,location,scale,lower_tail,log_p"
 msgstr "p,location,scale,lower_tail,log_p"
-
-#: ../plugins/fn-r/functions.c:1546
-msgid "p,r,b,n,lower_tail,log_p"
-msgstr "p,r,b,n,lower_tail,log_p"
 
 #: ../plugins/fn-random/functions.c:47
 msgid ""
@@ -16329,6 +16147,7 @@ msgstr ""
 "@SEEALSO="
 
 #: ../plugins/fn-stat/functions.c:4077
+#, fuzzy
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -16341,8 +16160,8 @@ msgid ""
 "(b) in the second.\n"
 "\n"
 "If @stat is TRUE, extra statistical information will be returned. Extra "
-"statistical information is written bellow the regression line coefficients "
-"in the result array.  Extra statistical information consists of four rows of "
+"statistical information is written below the regression line coefficients in "
+"the result array.  Extra statistical information consists of four rows of "
 "data.  In the first row the standard error values for the coefficients m1, "
 "(m2, ...), b are represented.  The second row contains the square of R and "
 "the standard error for the y estimate.  The third row contains the F-"
@@ -16566,6 +16385,7 @@ msgstr ""
 "@SEEALSO=LINEST"
 
 #: ../plugins/fn-stat/functions.c:4853
+#, fuzzy
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -16575,8 +16395,8 @@ msgid ""
 "\ty = b * m{1}^x{1} * m{2}^x{2}... to your data.\n"
 "\n"
 "If @stat is TRUE, extra statistical information will be returned. Extra "
-"statistical information is written bellow the regression line coefficients "
-"in the result array.  Extra statistical information consists of four rows of "
+"statistical information is written below the regression line coefficients in "
+"the result array.  Extra statistical information consists of four rows of "
 "data.  In the first row the standard error values for the coefficients m1, "
 "(m2, ...), b are represented.  The second row contains the square of R and "
 "the standard error for the y estimate.  The third row contains the F-"
@@ -17726,7 +17546,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/gda/plugin-gda.c:136
+#: ../plugins/gda/plugin-gda.c:141
 msgid ""
 "@FUNCTION=EXECSQL\n"
 "@SYNTAX=EXECSQL(dsn,username,password,sql)\n"
@@ -17756,13 +17576,14 @@ msgstr ""
 "@SEEALSO=READDBTABLE"
 
 # BUG: de engelse versie voldoet niet aan het formaat: na de beschrijving begint het met: The
-#: ../plugins/gda/plugin-gda.c:203
+#: ../plugins/gda/plugin-gda.c:214
+#, fuzzy
 msgid ""
 "@FUNCTION=READDBTABLE\n"
 "@SYNTAX=READDBTABLE(dsn,username,password,table)\n"
 "@DESCRIPTION=The READDBTABLE function lets you get the contents of a table, "
-"as stored in a database.For using it, you need first to set up a libgda data "
-"source.\n"
+"as stored in a database. For using it, you need first to set up a libgda "
+"data source.\n"
 "Note that this function returns all the rows in the given table. If you want "
 "to get data from more than one table or want a more precise selection "
 "(conditions), use the EXECSQL function.\n"
@@ -18033,7 +17854,7 @@ msgstr ""
 
 # BUG hoofdletters voor de functienaam
 #: ../plugins/sample_datasource/sample_datasource.c:274
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=atl_last\n"
 "@SYNTAX=ATL_LAST (tag)\n"
@@ -18041,7 +17862,7 @@ msgid ""
 "It takes a string tag and monitors the named pipe /tmp/atl for changes to "
 "the value of that tag.\n"
 "\n"
-"* This is no intended to be generally enabled and is OFF by default.\n"
+"* This is not intended to be generally enabled and is OFF by default.\n"
 "\n"
 "@EXAMPLES=\n"
 "ATL_LAST(\"IBM\")\n"
