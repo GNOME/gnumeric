@@ -5279,10 +5279,10 @@ cmd_object_raise_redo (GnmCommand *cmd,
 	CmdObjectRaise *me = CMD_OBJECT_RAISE (cmd);
 	switch (me->dir) {
 	case cmd_object_pull_to_front:
-		me->changed_positions = sheet_object_adjust_stacking (me->so, 1);
+		me->changed_positions = sheet_object_adjust_stacking (me->so, G_MAXINT/2);
 		break;
 	case cmd_object_pull_forward:
-		me->changed_positions = sheet_object_adjust_stacking (me->so, G_MAXINT/2);
+		me->changed_positions = sheet_object_adjust_stacking (me->so, 1);
 		break;
 	case cmd_object_push_backward:
 		me->changed_positions = sheet_object_adjust_stacking (me->so, -1);
