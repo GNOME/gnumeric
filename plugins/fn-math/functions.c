@@ -944,7 +944,7 @@ static GnmFuncHelp const help_beta[] = {
 	   "@SYNTAX=BETA(a,b)\n"
 
 	   "@DESCRIPTION="
-	   "BETA function returns the value of the mathematic beta function "
+	   "BETA function returns the value of the mathematical beta function "
 	   "extended to all real numbers except 0 and negative integers.\n"
 	   "\n"
 	   "* If @a, @b, or (@a + @b) are non-positive integers, BETA returns #NUM! "
