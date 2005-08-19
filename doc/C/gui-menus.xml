@@ -905,7 +905,7 @@
 		selection is not visible, then the frozen section will
 		be nine rows tall and five columns wide unless the
 		selection is in a currently visible column or row in
-		which case that postion is used.
+		which case that position is used.
               </para>
 <!-- TODO: menu elements, freeze only row/col. -->
             </listitem>
@@ -2192,7 +2192,7 @@
           </imageobject>
           <textobject>
             <phrase>An image of the context submenu allowing the
-            re-odering of graphical objects.</phrase>
+            re-ordering of graphical objects.</phrase>
           </textobject>
         </mediaobject>
       </screenshot>

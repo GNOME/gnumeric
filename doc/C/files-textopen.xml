@@ -277,7 +277,7 @@
 
       If the default encoding is incorrect, the correct encoding must
       be found by trial and error. One strategy to use is to examine
-      the major wester encodings and then the major regional
+      the major western encodings and then the major regional
       encodings. The major western encoding schemes are ASCII,
       ISO-8859-1, and UTF-8, but ASCII is a subset of the other two so
       it does not need to be tried on its own. The major regional

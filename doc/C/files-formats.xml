@@ -2189,7 +2189,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	    <entry>
 	      PDF is supported by a wide variety of programs including
 	      <application>gPDF</application>, 
-	      <application>xPDF</application>, 
+	      <application>Xpdf</application>, 
 	      <application>GGV</application>, 
 	      <application>ghostview</application>
 	      (<application>gv</application>), and

@@ -139,7 +139,7 @@
         <markup>\longtable</markup>, HTML, and roff
         files. <application>Gnumeric</application> also benefits from
         a highly configurable text importer and exporter which ensures
-        that data can be transfered smoothly, and allows new formats
+        that data can be transferred smoothly, and allows new formats
         to be added easily as plug-in software routines.
       </para>
     </listitem>

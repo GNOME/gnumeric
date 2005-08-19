@@ -930,7 +930,7 @@ c:\Program Files\Gnome-Office\gnumeric
   </para>
 
   <sect2 id="quick-format-simple">
-    <title>Simple Cell Formating</title>
+    <title>Simple Cell Formatting</title>
 
     <para>
       Simple changes to the format of a cell include changing the
@@ -958,7 +958,7 @@ c:\Program Files\Gnome-Office\gnumeric
   </sect2>
 
   <sect2 id="sect-quick-format-number">
-    <title>Formating the Display and Entry Data Types</title>
+    <title>Formatting the Display and Entry Data Types</title>
 
     <para>
       Cell formats are most difficult to understand when they address
@@ -1190,7 +1190,7 @@ c:\Program Files\Gnome-Office\gnumeric
       cell contents or to alter the contents in specific ways. This
       option allows the transfer of only the cell contents, only the
       cell formats or only the calculated values of the cells. The
-      transfered contents can also be mathematically combined with the
+      transferred contents can also be mathematically combined with the
       current contents of cells in the new location. Alternatively,
       the selection can be transposed. See <xref
       linkend="sect-movecopy-pastespecial" /> for more information on

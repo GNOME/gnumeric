@@ -258,7 +258,7 @@
            This chapter explains how to compiling the &gnum; source
            code into a working program. The chapter explains how to
            obtain the source code for the &gnum; program, how to
-           create a correct envirnoment for compilation, and the steps
+           create a correct environment for compilation, and the steps
            involved in compilation.
 	</para>
       </listitem>
@@ -299,7 +299,7 @@
            This chapter explains how to help improve this manual by
            editing the text from which the manual is build. This
            includes explaining the GNOME Documentation Project,
-           Docbook and other relevant information.
+           DocBook and other relevant information.
 	</para>
       </listitem>
       <listitem>

@@ -361,7 +361,7 @@
 
               <step>
                 <para>
-                  RedHat: <literal>./autogen.sh</literal>
+                  Red Hat: <literal>./autogen.sh</literal>
                 </para>
               </step>
 
@@ -411,7 +411,7 @@
 			<step><para><literal>cvs -z3 checkout gnumeric -d
 				gnumeric-head</literal></para></step>
 			<step><para><literal>cd gnumeric-head</literal></para></step>
-			<step><para>RedHat: <literal>./autogen.sh</literal> and wait while it
+			<step><para>Red Hat: <literal>./autogen.sh</literal> and wait while it
 			  compiles</para></step>
 			<step><para>Debian: <literal>./autogen.sh --prefix=/usr --with-gconf-schema-file-dir=/etc/gconf/schemas</literal></para></step>
 			<step><para><literal>make</literal></para></step>
@@ -428,7 +428,7 @@
           OK, you should now have gnumeric! Test it! If you installed
           the Debianized version via apt-get, or did "make install",
           it should be installed to /usr/bin (or /usr/local/bin on
-          RedHat?)  and you can just type
+          Red Hat?)  and you can just type
           <literal>gnumeric</literal>. Otherwise you will find it in
           <literal>gnumeric-head/src/</literal> and you will have to
           run it from there. 
@@ -463,7 +463,7 @@
         have to turn it on. To do this you simply uncomment a line in
         python-loader/plugins.xml. Normally, that file lives in
         /usr/lib/gnumeric/<emphasis>$version</emphasis>/plugins/python-loader/,
-        or perhaps <emphasis>/usr/local/lib...</emphasis> on RedHat.
+        or perhaps <emphasis>/usr/local/lib...</emphasis> on Red Hat.
         I used to suggest making a local but you should probably make
         a local copy, but that was pain for little gain. So:
       </para>
