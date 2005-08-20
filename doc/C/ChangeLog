@@ -1,3 +1,8 @@
+2005-08-19  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* Spell: New. List possible misspellings in the XML docs.
+	* Localwords: Local word list for Spell.
+
 2005-08-18  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* ssindex.1: New.
