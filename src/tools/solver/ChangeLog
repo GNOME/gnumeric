@@ -1,3 +1,8 @@
+2005-08-22  Morten Welinder  <terra@gnome.org>
+
+	* solver.c (lp_qp_solver_init): Properly check that the constraint
+	sides are not empty.  Fixes #314025.
+
 2005-08-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.5.3

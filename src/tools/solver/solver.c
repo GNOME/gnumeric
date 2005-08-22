@@ -385,19 +385,22 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 	for (i = ind = 0; i < param->n_total_constraints; i++) {
 	        SolverConstraint const *c = solver_get_constraint (res, i);
 		GTimeVal cur_time;
+		const GnmValue *val;
 
 		target = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
-		cell_eval (target);
+		if (target) {
+			cell_eval (target);
+			val = target->value;
+		} else
+			val = NULL;
 
 		/* Check that LHS is a number type. */
-		if (! (target->value == NULL ||
-		       VALUE_IS_EMPTY (target->value) ||
-		       VALUE_IS_NUMBER (target->value))) {
-		          *errmsg = _("The LHS cells should contain formulas "
-				      "that yield proper numerical values.  "
-				      "Specify valid LHS entries.");
-			  solver_results_free (res);
-			  return NULL;
+		if (val == NULL || !VALUE_IS_NUMBER (val)) {
+			*errmsg = _("The LHS cells should contain formulas "
+				    "that yield proper numerical values.  "
+				    "Specify valid LHS entries.");
+			solver_results_free (res);
+			return NULL;
 		}
 
 		if (c->type == SolverINT) {
@@ -427,18 +430,21 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 				res->constr_coeff[i][n] = x;
 			}
 		}
+
 		target = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
-		cell_eval (target);
+		if (target) {
+			cell_eval (target);
+			val = target->value;
+		} else
+			val = NULL;
 
 		/* Check that RHS is a number type. */
-		if (! (target->value == NULL ||
-		       VALUE_IS_EMPTY (target->value) ||
-		       VALUE_IS_NUMBER (target->value))) {
-		          *errmsg = _("The RHS cells should contain proper "
-				      "numerical values only.  Specify valid "
-				      "RHS entries.");
-			  solver_results_free (res);
-			  return NULL;
+		if (val == NULL || !VALUE_IS_NUMBER (val)) {
+			*errmsg = _("The RHS cells should contain proper "
+				    "numerical values only.  Specify valid "
+				    "RHS entries.");
+			solver_results_free (res);
+			return NULL;
 		}
 
 		x = value_get_as_float (target->value) - base;

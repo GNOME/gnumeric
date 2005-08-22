@@ -1,10 +1,11 @@
 Gnumeric 1.5.4
 
 Jean Brefort:
-	* Fix #313463.
+	* Fix crash on close related to graph plugins.  [#313463]
 
 Morten:
 	* Fix harmless, but ugly, error message on xls save.
+	* Fix solver crash.  [#314025]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.3
