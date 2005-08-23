@@ -1,3 +1,8 @@
+2005-08-23  Morten Welinder  <terra@gnome.org>
+
+	* dialog-solver.c (dialog_init): Handle button alignment here, not
+	in the .glade file.  Fixes #307783.
+
 2005-08-18  Morten Welinder  <terra@gnome.org>
 
 	* dialog-doc-metadata.c (dialog_doc_metadata_init): Use the right

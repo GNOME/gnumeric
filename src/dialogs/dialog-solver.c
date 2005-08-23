@@ -1072,6 +1072,7 @@ dialog_init (SolverState *state)
 				   GNUMERIC_HELP_LINK_SOLVER);
 
 	state->add_button  = glade_xml_get_widget (state->gui, "addbutton");
+	gtk_button_set_alignment (GTK_BUTTON (state->add_button), 0.5, .5);
 	g_signal_connect_swapped (G_OBJECT (state->add_button), "clicked",
 		G_CALLBACK (cb_dialog_add_clicked), state);
 
@@ -1082,6 +1083,7 @@ dialog_init (SolverState *state)
 
 	state->delete_button = glade_xml_get_widget (state->gui,
 						     "deletebutton");
+	gtk_button_set_alignment (GTK_BUTTON (state->delete_button), 0.5, .5);
 	g_signal_connect (G_OBJECT (state->delete_button), "clicked",
 			  G_CALLBACK (cb_dialog_delete_clicked), state);
 
