@@ -1,5 +1,9 @@
 2005-08-23  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-edit.c (set_cur_fmt): Split out.
+	(cb_entry_cursor_pos): From here.
+	(cb_entry_cursor_pos): use set_cur_fmt.  Fixes #314209.
+
 	* src/dependent.c (dep_hash_destroy): Another case of
 	don't-muck-with-the-hash-you-are-iterating-over.
 

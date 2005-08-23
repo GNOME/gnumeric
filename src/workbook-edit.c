@@ -444,6 +444,25 @@ attrs_at_byte (PangoAttrList *alist, guint bytepos)
 	return attrs;
 }
 
+/* Find the markup to be used for new characters.  */
+static void
+set_cur_fmt (WorkbookControlGUI *wbcg, int target_pos_in_bytes)
+{
+	PangoAttrList *new_list = pango_attr_list_new ();
+	GSList *ptr, *attrs = attrs_at_byte (wbcg->edit_line.markup, target_pos_in_bytes);
+
+	for (ptr = attrs; ptr != NULL ; ptr = ptr->next) {
+		PangoAttribute *attr = ptr->data;
+		attr->start_index = 0;
+		attr->end_index = INT_MAX;
+		pango_attr_list_change (new_list, attr);
+	}
+	g_slist_free (attrs);
+	if (wbcg->edit_line.cur_fmt)
+		pango_attr_list_unref (wbcg->edit_line.cur_fmt);
+	wbcg->edit_line.cur_fmt = new_list;
+}
+
 static void
 cb_entry_cursor_pos (WorkbookControlGUI *wbcg)
 {
@@ -490,21 +509,7 @@ cb_entry_cursor_pos (WorkbookControlGUI *wbcg)
 		g_slist_free (attrs);
 	}
 
-	/* Find the markup to be used for new characters.  */
-	{
-		PangoAttrList *new_list = pango_attr_list_new ();
-		GSList *ptr, *attrs = attrs_at_byte (wbcg->edit_line.markup, target_pos_in_bytes);
-
-		for (ptr = attrs; ptr != NULL ; ptr = ptr->next) {
-			PangoAttribute *attr = ptr->data;
-			attr->start_index = 0;
-			attr->end_index = INT_MAX;
-			pango_attr_list_change (new_list, attr);
-		}
-		g_slist_free (attrs);
-		pango_attr_list_unref (wbcg->edit_line.cur_fmt);
-		wbcg->edit_line.cur_fmt = new_list;
-	}
+	set_cur_fmt (wbcg, target_pos_in_bytes);
 }
 
 typedef struct {
@@ -586,6 +591,7 @@ static void
 wbcg_edit_init_markup (WorkbookControlGUI *wbcg, PangoAttrList *markup)
 {
 	SheetView const *sv  = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	const char *text = gtk_entry_get_text (wbcg_get_entry (wbcg));
 
 	g_return_if_fail (wbcg->edit_line.full_content == NULL);
 
@@ -593,7 +599,8 @@ wbcg_edit_init_markup (WorkbookControlGUI *wbcg, PangoAttrList *markup)
 	wbcg->edit_line.full_content = gnm_style_generate_attrs_full (
 		sheet_style_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row));
 	pango_attr_list_splice (wbcg->edit_line.full_content, markup, 0, 0);
-	wbcg->edit_line.cur_fmt = pango_attr_list_copy (markup);
+
+	set_cur_fmt (wbcg, strlen (text) - 1);
 }
 
 /**
