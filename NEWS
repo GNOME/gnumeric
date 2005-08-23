@@ -6,6 +6,8 @@ Jean Brefort:
 Morten:
 	* Fix harmless, but ugly, error message on xls save.
 	* Fix solver crash.  [#314025]
+	* Fix solver coefficients.
+	* Package lp_solve into a single file and sanitize its API.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.3

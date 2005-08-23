@@ -42,17 +42,17 @@
 #include <math.h>
 #include <stdlib.h>
 
-#include "lp_solve/lpkit.h"
+#include "lp_solve/lp_solve.h"
 #include "api.h"
 #include "glpk.h"
 
 /* ------------------------------------------------------------------------- */
 
 /*
- * Solver's API wrappings for the LP Solve 5.0.
+ * Solver's API wrappings for the LP Solve 5.5.
  *
  * Package:    LP Solve
- * Version:    5.0
+ * Version:    5.5
  * License:    LGPL
  * Homepage:   
  */
@@ -138,9 +138,9 @@ w_lp_solve_set_constr (SolverProgram program, int row,
 	lp_solve_t *lp = (lp_solve_t *) program;
 	int lp_constraint_type;
 	switch (type) {
-	case SolverLE:	lp_constraint_type = LE; break;
-	case SolverGE:	lp_constraint_type = GE; break;
-	case SolverEQ:	lp_constraint_type = EQ; break;
+	case SolverLE:	lp_constraint_type = ROWTYPE_LE; break;
+	case SolverGE:	lp_constraint_type = ROWTYPE_GE; break;
+	case SolverEQ:	lp_constraint_type = ROWTYPE_EQ; break;
 	default:
 		g_warning ("unexpected constraint type %d", type);
 		lp_constraint_type = 0; /* silence the compiler */
@@ -199,7 +199,7 @@ w_lp_solve_solve (SolverProgram program)
 #if SOLVER_DEBUG
 	w_lp_solve_print_lp (program);
 #endif
-        switch ((res = res = lp_solve_solve (lp->p))) {
+        switch ((res = lp_solve_solve (lp->p))) {
 	default:
 		g_warning ("unknown result from lp_solve_solve '%d'" , res);
 
@@ -216,7 +216,6 @@ w_lp_solve_solve (SolverProgram program)
 
 	case OPTIMAL:	return SolverOptimal;
 	case SUBOPTIMAL: return SolverMaxIterExc; /* or SolverMaxTimeExc */
-	case NOFEASFOUND:
 	case INFEASIBLE:return SolverInfeasible;
 	case UNBOUNDED:	return SolverUnbounded;
 	case RUNNING:	return SolverRunning;
@@ -227,14 +226,15 @@ static gnm_float
 w_lp_solve_get_solution (SolverProgram program, int column)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
+	int nrows = lp_solve_get_nrows (lp->p);
 
 	if (lp->assume_non_negative)
-	        return lp->p->best_solution [lp->p->rows + column + 1];
+		return lp_solve_get_primal (lp->p, nrows + column + 1);
 	else {
-	        gnm_float x, neg_x;
+		int i = nrows + 2 * column + 1;
+	        gnm_float x = lp_solve_get_primal (lp->p, i);
+	        gnm_float neg_x = lp_solve_get_primal (lp->p, i + 1);
 
-	        x     = lp->p->best_solution [lp->p->rows + 2 * column + 1];
-		neg_x = lp->p->best_solution [lp->p->rows + 2 * column + 2];
 		if (x > neg_x)
 		        return x;
 		else
@@ -248,9 +248,8 @@ w_lp_solve_get_value_of_obj_fn (SolverProgram program)
 	lp_solve_t *lp = (lp_solve_t *) program;
 	g_return_val_if_fail (lp != NULL, 0.);
 	g_return_val_if_fail (lp->p != NULL, 0.);
-	g_return_val_if_fail (lp->p->best_solution != NULL, 0.);
 
-        return lp->p->best_solution [0];
+	return lp_solve_get_primal (lp->p, 0);
 }
 
 static gnm_float
@@ -259,9 +258,8 @@ w_lp_solve_get_dual (SolverProgram program, int row)
 	lp_solve_t *lp = (lp_solve_t *) program;
 	g_return_val_if_fail (lp != NULL, 0.);
 	g_return_val_if_fail (lp->p != NULL, 0.);
-	g_return_val_if_fail (lp->p->duals != NULL, 0.);
 
-        return lp->p->duals [row + 1];
+	return lp_solve_get_dual (lp->p, row + 1);
 }
 
 static int
@@ -271,7 +269,8 @@ w_lp_solve_get_iterations (SolverProgram program)
 	g_return_val_if_fail (lp != NULL, 0);
 	g_return_val_if_fail (lp->p != NULL, 0);
 
-        return lp->p->total_iter;
+	/* FIXME: gint64 */
+        return lp_solve_get_total_iter (lp->p);
 }
 
 static gboolean

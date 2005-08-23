@@ -1,3 +1,7 @@
+2005-08-23  Morten Welinder  <terra@gnome.org>
+
+	* solver.c (get_lp_coeff): Fix.
+
 2005-08-22  Morten Welinder  <terra@gnome.org>
 
 	* solver.c (lp_qp_solver_init): Properly check that the constraint

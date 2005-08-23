@@ -242,18 +242,22 @@ write_constraint_str (int lhs_col, int lhs_row, int rhs_col,
  * returns the coefficent of the first variable of the objective
  * function.
  */
-static inline gnm_float
-get_lp_coeff (GnmCell *target, GnmCell *change, gnm_float *x0)
+static gnm_float
+get_lp_coeff (GnmCell *target, GnmCell *change)
 {
-        gnm_float tmp = *x0;
+        gnm_float x0, x1;
+
+	cell_set_value (change, value_new_float (0.0));
+	cell_queue_recalc (change);
+	cell_eval (target);
+	x0 = value_get_as_float (target->value);
 
 	cell_set_value (change, value_new_float (1.0));
 	cell_queue_recalc (change);
-
 	cell_eval (target);
-	*x0 = value_get_as_float (target->value);
+	x1 = value_get_as_float (target->value);
 
-	return *x0 - tmp;
+	return x1 - x0;
 }
 
 /*
@@ -348,7 +352,7 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 {
         SolverProgram     program;
 	GnmCell          *target;
-	gnm_float         x, x0, base;
+	gnm_float         x;
 	int               i, n, ind;
 
 	/* Initialize the SolverProgram structure. */
@@ -359,12 +363,11 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 	clear_input_vars (param->n_variables, res);
 
 	cell_eval (target);
-	x0 = base = value_get_as_float (target->value);
 
 	if (param->options.model_type == SolverLPModel) {
 	        for (i = 0; i < param->n_variables; i++) {
 		        x = get_lp_coeff (target,
-					  solver_get_input_var (res, i), &x0);
+					  solver_get_input_var (res, i));
 			if (x != 0) {
 			        alg->set_obj_fn (program, i, x);
 				res->n_nonzeros_in_obj += 1;
@@ -420,10 +423,9 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 		        continue;
 		}
 		clear_input_vars (param->n_variables, res);
-		x0 = base = value_get_as_float (target->value);
 		for (n = 0; n < param->n_variables; n++) {
 		        x = get_lp_coeff (target,
-					  solver_get_input_var (res, n), &x0);
+					  solver_get_input_var (res, n));
 			if (x != 0) {
 			        res->n_nonzeros_in_mat += 1;
 				alg->set_constr_mat_fn (program, n, ind, x);
@@ -447,7 +449,7 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 			return NULL;
 		}
 
-		x = value_get_as_float (target->value) - base;
+		x = value_get_as_float (val);
 		alg->set_constr_fn (program, ind, c->type, x);
 		res->rhs[i] = x; 
 		ind++;

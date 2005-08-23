@@ -1,3 +1,7 @@
+2005-08-23  Morten Welinder <terra@gnome.org>
+
+	* import-lpsolve: New program.
+
 2005-08-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.5.3

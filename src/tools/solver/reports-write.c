@@ -703,7 +703,7 @@ solver_performance_report (WorkbookControl *wbc,
 
 
 	/* Set the options. */
-	dao_set_cell (&dao, 2, 34, _("LP Solve 3.2"));
+	dao_set_cell (&dao, 2, 34, _("LP Solve"));
 	dao_set_cell (&dao, 1, 35, _("Model Assumptions:"));
 
 	/* Set the `Assumptions'. */
