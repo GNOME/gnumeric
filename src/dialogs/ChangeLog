@@ -1,5 +1,8 @@
 2005-08-23  Morten Welinder  <terra@gnome.org>
 
+	* dialog-sheet-order.c (cb_ok_clicked): Fix type screwup causing
+	crashes when changing colours.
+
 	* dialog-solver.c (dialog_init): Handle button alignment here, not
 	in the .glade file.  Fixes #307783.
 

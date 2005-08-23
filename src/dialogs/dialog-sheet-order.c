@@ -720,6 +720,11 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 		if (is_deleted)
 			workbook_sheet_delete (this_sheet);
 		else {
+			GnmColor *gnmfore =
+				fore ? style_color_new_gdk (fore) : NULL;
+			GnmColor *gnmback =
+				back ? style_color_new_gdk (back) : NULL;
+
 			if (!this_sheet)
 				this_sheet = workbook_sheet_add (wb, i, FALSE);
 
@@ -727,10 +732,13 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 				      "protected", is_locked,
 				      "visibility", is_visible ? GNM_SHEET_VISIBILITY_VISIBLE : GNM_SHEET_VISIBILITY_HIDDEN,
 				      "name", *new_name ? new_name : old_name,
-				      "tab-foreground", fore,
-				      "tab-background", back,
+				      "tab-foreground", gnmfore,
+				      "tab-background", gnmback,
 				      "text-is-rtl", is_rtl,				      
 				      NULL);
+
+			style_color_unref (gnmfore);
+			style_color_unref (gnmback);
 
 			if (this_sheet->index_in_wb != i)
 				workbook_sheet_move (this_sheet, i - this_sheet->index_in_wb);

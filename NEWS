@@ -11,6 +11,7 @@ Morten:
 	  Update to lp_solve 5.5 in the process.
 	* Fix dependency crash.  [Part of #314207]
 	* Fix theming bug.  [#307783]
+	* Fix crash related to changing colours of sheet tabs.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.3
