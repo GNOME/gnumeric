@@ -1,3 +1,8 @@
+2005-08-23  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (dep_hash_destroy): Another case of
+	don't-muck-with-the-hash-you-are-iterating-over.
+
 2005-08-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* src/commands.c (cmd_object_raise_redo): pull_to_front and

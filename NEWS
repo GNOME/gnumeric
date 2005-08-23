@@ -8,6 +8,8 @@ Morten:
 	* Fix solver crash.  [#314025]
 	* Fix solver coefficients.
 	* Package lp_solve into a single file and sanitize its API.
+	  Update to lp_solve 5.5 in the process.
+	* Fix dependency crash.  [Part of #314207]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.3
