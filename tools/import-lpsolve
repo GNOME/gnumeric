@@ -31,7 +31,7 @@ my @files =
      "lp_lib.h",
      "lp_crash.h",
      "lp_MPS.h",
-     "lp_wlp.h",
+     # "lp_wlp.h",
      "lp_report.h",
      "lp_scale.h",
      "lp_presolve.h",
@@ -67,7 +67,7 @@ my @files =
      "lp_matrix.c",
      "lp_MDO.c",
      "lp_mipbb.c",
-     "lp_MPS.c",
+     # "lp_MPS.c",
      # "lp_params.c",
      "lp_presolve.c",
      "lp_price.c",
@@ -77,7 +77,7 @@ my @files =
      "lp_simplex.c",
      "lp_SOS.c",
      "lp_utils.c",
-     "lp_wlp.c",
+     # "lp_wlp.c",
      );
 
 my $headers = '';
@@ -173,16 +173,27 @@ foreach my $file (@files) {
 	    s/\bchar\s+\*/const char */;
 	}
 
-	if (/^(char|void|int|gboolean)\b(\s|\*)*(bfp_LUSOL(setcolumn|identity|factorize|tighten)|relationChar|HUP|HDOWN|HINSERT|HCHANGE|HDELETE|HBUILD|LU[167][a-zA-Z0-9_]+|QS_(validate|updatelink|sort|finish)|clean_realloc|LUSOL_realloc_a|LUSOL_expand_a|LUSOL_realloc_r|LUSOL_realloc_c|invert|debug_print|debug_print_solution|debug_print_bounds)\b/) {
+	s|^/\* INLINE \*/\s+||;
+	s/^PUBLIC\s+//;
+	s/^PRIVATE\s+/static /;
+
+	if (/^(INLINE\s+|const\s+)*(char|void|int|long|gint64|gboolean|double|gnm_float|LUSOLmat|lprec|LUSOLrec)\b(\s|\*)*(bfp_LUSOL(setcolumn|identity|factorize|tighten)|relationChar|HUP|HDOWN|HINSERT|HCHANGE|HDELETE|HBUILD|LU[167][a-zA-Z0-9_]+|QS_(validate|updatelink|sort|finish)|clean_realloc|LUSOL_realloc_a|LUSOL_expand_a|LUSOL_realloc_r|LUSOL_realloc_c|invert|debug_print|debug_print_solution|debug_print_bounds|mod|mygcd|del_splitvars|is_int|is_binary|is_SOS_var|is_action|is_add_rowmode|is_anti_degen|is_bb_mode|is_break_at_first|is_chsign|is_constr_type|is_debug|is_feasible|is_fixedvar|is_infinite|is_integerscaling|is_lag_trace|is_maxim|is_nativeBFP|is_nativeBLAS|is_nativeXLI|compRedundant|compSparsity|compAggregate|CurtisReidMeasure|CurtisReidScales|LU8RPC|LUSOL_assign|LUSOL_btran|LUSOL_clear|LUSOL_create|LUSOL_dump|LUSOL_factorize|LUSOL_findColumnPosition|LUSOL_free|LUSOL_ftran|LUSOL_informstr|LUSOL_loadColumn|LUSOL_matcreate|LUSOL_matfree|LUSOL_pivotLabel|LUSOL_replaceColumn|LUSOL_report|LUSOL_setpivotmodel|LUSOL_sizeto|LUSOL_tightenpivot|LUSOL_timer|LUSOL_vecdensity|MIP_stepOF|QS_addfirst|QS_append|QS_delete|QS_execute|QS_insert|QS_replace|QS_swap|REPORT_constraintinfo|REPORT_constraints|REPORT_debugdump|REPORT_duals|REPORT_extended|REPORT_lp|REPORT_mat_mmsave|REPORT_modelinfo|REPORT_objective|REPORT_scales|REPORT_solution|REPORT_tableau|SOS_can_activate|SOS_fix_list|SOS_fix_unmarked|SOS_get_candidates|SOS_get_type|SOS_infeasible|SOS_is_GUB|SOS_is_active|SOS_is_feasible|SOS_is_full|SOS_is_marked|SOS_is_member|SOS_is_member_of_type|SOS_is_satisfied|SOS_member_count|SOS_member_delete|SOS_member_index|SOS_memberships|SOS_set_GUB|SOS_set_marked|SOS_unmark|SOS_usecount|add_SOS|add_column|add_columnex|add_constraint|add_constraintex|add_lag_con|bfp_btran_double|bfp_btran_normal|bfp_canresetbasis|bfp_colcount|bfp_compatible|bfp_createMDO|bfp_efficiency|bfp_factorize|bfp_findredundant|bfp_finishfactorization|bfp_finishupdate|bfp_free|bfp_ftran_normal|bfp_ftran_prepare|bfp_implicitslack|bfp_indexbase|bfp_init|bfp_isSetI|bfp_memallocated|bfp_mustrefactorize|bfp_name|bfp_nonzeros|bfp_pivotRHS|bfp_pivotalloc|bfp_pivotcount|bfp_pivotmax|bfp_pivotvector|bfp_preparefactorization|bfp_prepareupdate|bfp_refactcount|bfp_resize|bfp_restart|bfp_rowoffset|bfp_status|bfp_updaterefactstats|blockWriteAMAT|blockWriteBMAT|blockWriteBOOL|blockWriteINT|blockWriteLREAL|blockWriteREAL|callcount|clear_action|cloneINT|cloneMYBOOL|cloneREAL|colamd|colamd_recommended|colamd_report|colamd_set_defaults|column_in_lp|comp_bits|compareBoundFlipVar|compareCHAR|compareINT|compareImprovementQS|compareImprovementVar|compareREAL|compareSubstitutionQS|compareSubstitutionVar|daxpy|dcopy|ddot|ddrand|default_basis|del_column|del_constraint|dload|dnormi|dscal|dswap|dualize_lp|explain|findIndex|findIndexEx|free_lp|getMDO|get_Lrows|get_Ncolumns|get_Norig_columns|get_Norig_rows|get_OF_active|get_anti_degen|get_basis|get_basiscolumn|get_basiscrash|get_bb_depthlimit|get_bb_floorfirst|get_bb_rule|get_bounds|get_bounds_tighter|get_break_at_value|get_col_name|get_column|get_columnex|get_constr_type|get_constr_value|get_constraints|get_dual_solution|get_epsb|get_epsd|get_epsel|get_epsint|get_epsperturb|get_epspivot|get_improve|get_infinite|get_lambda|get_lowbo|get_lp_index|get_lp_name|get_mat|get_mat_byindex|get_max_level|get_maxpivot|get_mip_gap|get_multiprice|get_nameindex|get_negrange|get_nonzeros|get_obj_bound|get_objective|get_orig_index|get_origcol_name|get_origrow_name|get_partialprice|get_piv_rule|get_pivoting|get_presolve|get_presolveloops|get_primal_solution|get_print_sol|get_pseudocosts|get_ptr_constraints|get_ptr_dual_solution|get_ptr_lambda|get_ptr_primal_solution|get_ptr_sensitivity_obj|get_ptr_sensitivity_objex|get_ptr_sensitivity_rhs|get_ptr_variables|get_rh|get_rh_lower|get_rh_range|get_rh_upper|get_row|get_row_name|get_rowex|get_scalelimit|get_scaling|get_sensitivity_obj|get_sensitivity_objex|get_sensitivity_rhs|get_simplextype|get_solutioncount|get_solutionlimit|get_status|get_statustext|get_timeout|get_total_nodes|get_upbo|get_var_branch|get_var_priority|get_variables|get_verbose|get_working_objective|has_BFP|has_XLI|hpsort|hpsortex|idamax|init_BLAS|is_negative|is_obj_in_basis|is_piv_mode|is_piv_rule|is_presolve|is_scalemode|is_scaletype|is_semicont|is_splitvar|is_trace|is_unbounded|is_use_names|load_BLAS|make_lag|mat_get_data|mat_set_rowmap|mdo_calloc|mdo_free|mm_is_valid|mm_read_banner|mm_read_mtx_array_size|mm_read_mtx_crd_data|mm_read_mtx_crd_entry|mm_read_mtx_crd_size|mm_read_unsymmetric_sparse|mm_typecode_to_str|mm_write_banner|mm_write_mtx_array_size|mm_write_mtx_crd|mm_write_mtx_crd_size|modifyOF1|mustinitBLAS|my_daxpy|my_dcopy|my_ddot|my_dload|my_dnormi|my_dscal|my_dswap|my_idamax|obtain_column|posmat|presolve_getcolumnEQ|print_L0|print_constraints|print_debugdump|print_duals|print_objective|print_scales|print_solution|print_str|print_tableau|printmatSQ|printmatUT|printvec|put_abortfunc|put_bb_branchfunc|put_bb_nodefunc|put_logfunc|put_msgfunc|randomdens|randomseed|rename_var|report|reset_basis|reset_params|resize_lp|set_BFP|set_XLI|set_action|set_add_rowmode|set_anti_degen|set_basis|set_basiscrash|set_basisvar|set_bb_depthlimit|set_bb_floorfirst|set_bb_rule|set_binary|set_bounds|set_bounds_tighter|set_break_at_first|set_break_at_value|set_callbacks|set_col_name|set_column|set_columnex|set_debug|set_epsb|set_epsd|set_epsel|set_epsint|set_epslevel|set_epsperturb|set_epspivot|set_improve|set_infinite|set_lag_trace|set_lp_name|set_maxpivot|set_mip_gap|set_multiprice|set_negrange|set_obj|set_obj_bound|set_obj_fn|set_obj_fnex|set_obj_in_basis|set_outputfile|set_outputstream|set_partialprice|set_pivoting|set_preferdual|set_presolve|set_print_sol|set_pseudocosts|set_rh_lower|set_rh_range|set_rh_upper|set_rh_vec|set_row|set_row_name|set_rowex|set_scaling|set_semicont|set_sense|set_simplextype|set_solutionlimit|set_trace|set_unbounded|set_use_names|set_var_branch|set_var_weights|set_verbose|sortByINT|sortByREAL|sortREALByINT|str_add_column|str_add_constraint|str_add_lag_con|str_set_obj_fn|str_set_rh_vec|submat|symamd|symamd_report|time_elapsed|undoscale|unload_BLAS|unscale|userabort|timeNow)\b/) {
 	    s/^/static /;
-	    s/^static static/static /;
+	    s/^static static/static /i;
 	}
 
-	next if /read_params/;
-	next if /write_params/;
-	next if /read_LPhandle/;
+	if (/^(const\s+)?(void|int|gboolean|gnm_float|char|LREAL)\b(\s|\*)*\(bfp_[a-zA-Z0-9_]+\).*;$/) {
+	    s/^/static /;
+	}
 
-	if (/^((STATIC|static|INLINE)\s+)?(char|void|int|gboolean|gnm_float|PVrec|BBrec|MATrec)\b(\s|\*)*(freePackedVector|vec_compress|compareLink|mat_setitem|prod_Ax|set_dv_bounds|get_dv_lower|get_dv_upper|print_indent|allocFREE|set_bitoff|normalizeVector|chsign_bounds|sizeLink|countActiveLink|prevInactiveLink|verifyLink|createPackedVector|pushPackedVector|unpackPackedVector|getvaluePackedVector|popPackedVector|mat_extractmat|mat_indexrange|mat_equalRows|mat_additem|mat_mergemat|mat_matinsert|vec_expand|fimprove|findself_BB|check_if_less|verify_solution|is_slackbasis|validate_bounds|varmap_validate|varmap_addcolumn|varmap_addconstraint|set_OF_override|guess_basis|debug_print|debug_print_solution|debug_print_bounds|verifyPricer|update_reducedcosts|partial_activeBlocks|partial_blockNextPos|partial_isVarActive|multi_size|multi_valueList|multi_getvar|LU1MCP|QS_updatelink|compute_violation|isPrimalSimplex|isPhase1|isDegenerateBasis|findNonBasicSlack|replaceBasisVar|mat_findcolumn|verifyMDO|probe_BB|presolve_BB|presolve_mustupdate|presolve_debugmap|presolve_debugcheck|presolve_rowlengthdebug|presolve_rowfix|presolve_probetighten01|presolve_invalideq2|presolve_debugdump|longdual_testset|stallMonitor_creepingObj|stallMonitor_shortSteps|findBasicArtificial)\b/ .. (/^\}/ || /^[A-Za-z].*;$/)) {
+	if (/^BLAS_([a-z]+)_func\s+\*BLAS_\1;$/) {
+	    s/^/static /;
+	}
+
+
+	next if /\b(copy_lp|read_XLI|write_XLI|read_params|write_params|read_LPhandle|read_basis|write_basis|write_freemps|write_freeMPS|MPS_readhandle|write_lp|write_LP|write_mps|write_MPS|read_MPShandle)(_func)?\b.*;/;
+
+	if (/^((STATIC|static|INLINE)\s+)?(char|void|int|gboolean|gnm_float|lprec|PVrec|BBrec|MATrec)\b(\s|\*)*(freePackedVector|vec_compress|compareLink|mat_setitem|prod_Ax|set_dv_bounds|get_dv_lower|get_dv_upper|print_indent|allocFREE|set_bitoff|normalizeVector|chsign_bounds|sizeLink|countActiveLink|prevInactiveLink|verifyLink|createPackedVector|pushPackedVector|unpackPackedVector|getvaluePackedVector|popPackedVector|mat_extractmat|mat_indexrange|mat_equalRows|mat_additem|mat_mergemat|mat_matinsert|vec_expand|fimprove|findself_BB|check_if_less|verify_solution|is_slackbasis|validate_bounds|varmap_validate|varmap_addcolumn|varmap_addconstraint|set_OF_override|guess_basis|debug_print|debug_print_solution|debug_print_bounds|verifyPricer|update_reducedcosts|partial_activeBlocks|partial_blockNextPos|partial_isVarActive|multi_size|multi_valueList|multi_getvar|LU1MCP|QS_updatelink|compute_violation|isPrimalSimplex|isPhase1|isDegenerateBasis|findNonBasicSlack|replaceBasisVar|mat_findcolumn|verifyMDO|probe_BB|presolve_BB|presolve_mustupdate|presolve_debugmap|presolve_debugcheck|presolve_rowlengthdebug|presolve_rowfix|presolve_probetighten01|presolve_invalideq2|presolve_debugdump|longdual_testset|stallMonitor_creepingObj|stallMonitor_shortSteps|findBasicArtificial|write_(lp|LP|mps|MPS)|read_(free|)(mps|MPS)|write_free(mps|MPS)|write_basis|read_basis|read_XLI|write_XLI|read_lp|read_LP|LP_readhandle|copy_lp|mm_read_mtx_crd|LUSOL_dump|LUSOL_findColumnPosition|LUSOL_timer|QS_delete|QS_replace|REPORT_mat_mmsave|SOS_member_count|SOS_memberships|bfp_createMDO|blockWriteBMAT|blockWriteLREAL|cloneINT|cloneMYBOOL|colamd_report|comp_bits|compareCHAR|dcopy|dload|dswap|findIndex|get_bounds|get_column|is_use_names|mm_read_mtx_array_size|mm_write_mtx_array_size|posmat|print_L0|printmatSQ|printmatUT|randomdens|randomseed|set_column|set_columnex|set_use_names|symamd_report|printvec|submat|ddrand|ddot|dnormi|LUSOL_vecdensity|cloneREAL)\b/ .. (/^\}/ || /^[A-Za-z].*;$/)) {
 	    next;
 	}
 

@@ -182,40 +182,33 @@ typedef union _QSORTrec
   extern "C" {
 #endif
 
-int mod(int n, int d);
-int mygcd(gint64 a, gint64 b, int *c, int *d);
+static int mod(int n, int d);
+static int mygcd(gint64 a, gint64 b, int *c, int *d);
 
-int findIndex(int target, int *attributes, int count, int offset);
-int findIndexEx(void *target, void *attributes, int count, int offset, int recsize, findCompare_func findCompare, gboolean ascending);
+static int findIndexEx(void *target, void *attributes, int count, int offset, int recsize, findCompare_func findCompare, gboolean ascending);
 
-int compareCHAR(const void *current, const void *candidate);
-int compareINT(const void *current, const void *candidate);
-int compareREAL(const void *current, const void *candidate);
-void hpsort(void *attributes, int count, int offset, int recsize, gboolean descending, findCompare_func findCompare);
-void hpsortex(void *attributes, int count, int offset, int recsize, gboolean descending, findCompare_func findCompare, int *tags);
+static int compareINT(const void *current, const void *candidate);
+static int compareREAL(const void *current, const void *candidate);
+static void hpsort(void *attributes, int count, int offset, int recsize, gboolean descending, findCompare_func findCompare);
+static void hpsortex(void *attributes, int count, int offset, int recsize, gboolean descending, findCompare_func findCompare, int *tags);
 
-int QS_addfirst(QSORTrec a[], void *mydata);
-int QS_append(QSORTrec a[], int ipos, void *mydata);
-void QS_replace(QSORTrec a[], int ipos, void *mydata);
-void QS_insert(QSORTrec a[], int ipos, void *mydata, int epos);
-void QS_delete(QSORTrec a[], int ipos, int epos);
-void QS_swap(QSORTrec a[], int i, int j);
-gboolean QS_execute(QSORTrec a[], int count, findCompare_func findCompare, gboolean islinkedlist, int *nswaps);
+static int QS_addfirst(QSORTrec a[], void *mydata);
+static int QS_append(QSORTrec a[], int ipos, void *mydata);
+static void QS_insert(QSORTrec a[], int ipos, void *mydata, int epos);
+static void QS_swap(QSORTrec a[], int i, int j);
+static gboolean QS_execute(QSORTrec a[], int count, findCompare_func findCompare, gboolean islinkedlist, int *nswaps);
 
-int sortByREAL(int *item, gnm_float *weight, int size, int offset, gboolean unique);
-int sortByINT(int *item, int *weight, int size, int offset, gboolean unique);
-gnm_float sortREALByINT(gnm_float *item, int *weight, int size, int offset, gboolean unique);
+static int sortByREAL(int *item, gnm_float *weight, int size, int offset, gboolean unique);
+static int sortByINT(int *item, int *weight, int size, int offset, gboolean unique);
+static gnm_float sortREALByINT(gnm_float *item, int *weight, int size, int offset, gboolean unique);
 
 
-double timeNow(void);
+static double timeNow(void);
 
-void blockWriteBOOL(FILE *output, const char *label, gboolean *myvector, int first, int last, gboolean asRaw);
-void blockWriteINT(FILE *output, const char *label, int *myvector, int first, int last);
-void blockWriteREAL(FILE *output, const char *label, gnm_float *myvector, int first, int last);
+static void blockWriteBOOL(FILE *output, const char *label, gboolean *myvector, int first, int last, gboolean asRaw);
+static void blockWriteINT(FILE *output, const char *label, int *myvector, int first, int last);
+static void blockWriteREAL(FILE *output, const char *label, gnm_float *myvector, int first, int last);
 
-void printvec( int n, gnm_float *x, int modulo );
-void printmatSQ( int size, int n, gnm_float *X, int modulo );
-void printmatUT( int size, int n, gnm_float *U, int modulo );
 
 #if defined _MSC_VER
 int fileCount( char *filemask );
@@ -516,9 +509,6 @@ STATIC gboolean allocMYBOOL(lprec *lp, gboolean **ptr, int size, gboolean clear)
 STATIC gboolean allocINT(lprec *lp, int **ptr, int size, gboolean clear);
 STATIC gboolean allocREAL(lprec *lp, gnm_float **ptr, int size, gboolean clear);
 STATIC gboolean allocLREAL(lprec *lp, LREAL **ptr, int size, gboolean clear);
-gnm_float *cloneREAL(lprec *lp, gnm_float *origlist, int size);
-gboolean *cloneMYBOOL(lprec *lp, gboolean *origlist, int size);
-int *cloneINT(lprec *lp, int *origlist, int size);
 
 #if defined INLINE
 INLINE void set_biton(gboolean *bitarray, int item)
@@ -533,7 +523,6 @@ INLINE gboolean is_biton(gboolean *bitarray, int item)
 void set_biton(gboolean *bitarray, int item);
 gboolean is_biton(gboolean *bitarray, int item);
 #endif
-int comp_bits(gboolean *bitarray1, gboolean *bitarray2, int items);
 
 STATIC workarraysrec *mempool_create(lprec *lp);
 STATIC char *mempool_obtainVector(workarraysrec *mempool, int count, int unitsize);
@@ -785,8 +774,8 @@ STATIC int mat_shiftrows(MATrec *mat, int *bbase, int delta, LLrec *varmap);
 STATIC int mat_shiftcols(MATrec *mat, int *bbase, int delta, LLrec *varmap);
 STATIC int mat_appendrow(MATrec *mat, int count, gnm_float *row, int *colno, gnm_float mult, gboolean checkrowmode);
 STATIC int mat_appendcol(MATrec *mat, int count, gnm_float *column, int *rowno, gnm_float mult, gboolean checkrowmode);
-gboolean mat_get_data(lprec *lp, int matindex, gboolean isrow, int **rownr, int **colnr, gnm_float **value);
-gboolean mat_set_rowmap(MATrec *mat, int row_mat_index, int rownr, int colnr, int col_mat_index);
+static gboolean mat_get_data(lprec *lp, int matindex, gboolean isrow, int **rownr, int **colnr, gnm_float **value);
+static gboolean mat_set_rowmap(MATrec *mat, int row_mat_index, int rownr, int colnr, int col_mat_index);
 STATIC gboolean mat_validate(MATrec *mat);
 STATIC int mat_findelm(MATrec *mat, int row, int column);
 STATIC int mat_findins(MATrec *mat, int row, int column, int *insertpos, gboolean validate);
@@ -923,30 +912,28 @@ STATIC void free_SOSrec(SOSrec *SOS);
 STATIC int make_SOSchain(lprec *lp, gboolean forceresort);
 STATIC gboolean SOS_sort_members(SOSgroup *group, int sosindex);
 STATIC gboolean SOS_shift_col(SOSgroup *group, int sosindex, int column, int delta, LLrec *usedmap, gboolean forceresort);
-int SOS_member_delete(SOSgroup *group, int sosindex, int member);
-int SOS_get_type(SOSgroup *group, int sosindex);
-int SOS_infeasible(SOSgroup *group, int sosindex);
-int SOS_usecount(SOSgroup *group, int varnr);
-int SOS_member_index(SOSgroup *group, int sosindex, int member);
-int SOS_member_count(SOSgroup *group, int sosindex);
-int SOS_memberships(SOSgroup *group, int column);
-int *SOS_get_candidates(SOSgroup *group, int sosindex, int column, gboolean excludetarget, gnm_float *upbound, gnm_float *lobound);
-int SOS_is_member(SOSgroup *group, int sosindex, int column);
-gboolean SOS_is_member_of_type(SOSgroup *group, int column, int sostype);
-gboolean SOS_set_GUB(SOSgroup *group, int sosindex, gboolean state);
-gboolean SOS_is_GUB(SOSgroup *group, int sosindex);
-gboolean SOS_is_marked(SOSgroup *group, int sosindex, int column);
-gboolean SOS_is_active(SOSgroup *group, int sosindex, int column);
-gboolean SOS_is_full(SOSgroup *group, int sosindex, int column, gboolean activeonly);
-gboolean SOS_can_activate(SOSgroup *group, int sosindex, int column);
-gboolean SOS_set_marked(SOSgroup *group, int sosindex, int column, gboolean asactive);
-gboolean SOS_unmark(SOSgroup *group, int sosindex, int column);
-int SOS_fix_unmarked(SOSgroup *group, int sosindex, int variable, gnm_float *bound, gnm_float value,
+static int SOS_member_delete(SOSgroup *group, int sosindex, int member);
+static int SOS_get_type(SOSgroup *group, int sosindex);
+static int SOS_infeasible(SOSgroup *group, int sosindex);
+static int SOS_usecount(SOSgroup *group, int varnr);
+static int SOS_member_index(SOSgroup *group, int sosindex, int member);
+static int *SOS_get_candidates(SOSgroup *group, int sosindex, int column, gboolean excludetarget, gnm_float *upbound, gnm_float *lobound);
+static int SOS_is_member(SOSgroup *group, int sosindex, int column);
+static gboolean SOS_is_member_of_type(SOSgroup *group, int column, int sostype);
+static gboolean SOS_set_GUB(SOSgroup *group, int sosindex, gboolean state);
+static gboolean SOS_is_GUB(SOSgroup *group, int sosindex);
+static gboolean SOS_is_marked(SOSgroup *group, int sosindex, int column);
+static gboolean SOS_is_active(SOSgroup *group, int sosindex, int column);
+static gboolean SOS_is_full(SOSgroup *group, int sosindex, int column, gboolean activeonly);
+static gboolean SOS_can_activate(SOSgroup *group, int sosindex, int column);
+static gboolean SOS_set_marked(SOSgroup *group, int sosindex, int column, gboolean asactive);
+static gboolean SOS_unmark(SOSgroup *group, int sosindex, int column);
+static int SOS_fix_unmarked(SOSgroup *group, int sosindex, int variable, gnm_float *bound, gnm_float value,
                      gboolean isupper, int *diffcount, DeltaVrec *changelog);
-int SOS_fix_list(SOSgroup *group, int sosindex, int variable, gnm_float *bound, 
+static int SOS_fix_list(SOSgroup *group, int sosindex, int variable, gnm_float *bound, 
                   int *varlist, gboolean isleft, DeltaVrec *changelog);
-int SOS_is_satisfied(SOSgroup *group, int sosindex, gnm_float *solution);
-gboolean SOS_is_feasible(SOSgroup *group, int sosindex, gnm_float *solution);
+static int SOS_is_satisfied(SOSgroup *group, int sosindex, gnm_float *solution);
+static gboolean SOS_is_feasible(SOSgroup *group, int sosindex, gnm_float *solution);
 
 #ifdef __cplusplus
  }
@@ -1796,7 +1783,6 @@ typedef gboolean (add_constraintex_func)(lprec *lp, int count, gnm_float *row, i
 typedef gboolean (add_lag_con_func)(lprec *lp, gnm_float *row, int con_type, gnm_float rhs);
 typedef int (add_SOS_func)(lprec *lp, char *name, int sostype, int priority, int count, int *sosvars, gnm_float *weights);
 typedef int (column_in_lp_func)(lprec *lp, gnm_float *column);
-typedef lprec * (copy_lp_func)(lprec *lp);
 typedef void (default_basis_func)(lprec *lp);
 typedef gboolean (del_column_func)(lprec *lp, int colnr);
 typedef gboolean (del_constraint_func)(lprec *lp, int rownr);
@@ -1935,9 +1921,6 @@ typedef void (put_bb_nodefunc_func)(lprec *lp, lphandleint_intfunc newnode, void
 typedef void (put_bb_branchfunc_func)(lprec *lp, lphandleint_intfunc newbranch, void *bbbranchhandle);
 typedef void (put_logfunc_func)(lprec *lp, lphandlestr_func newlog, void *loghandle);
 typedef void (put_msgfunc_func)(lprec *lp, lphandleint_func newmsg, void *msghandle, int mask);
-typedef gboolean (read_MPShandle_func)(lprec **lp, FILE *filehandle, int typeMPS, int verbose);
-typedef lprec * (read_XLI_func)(char *xliname, char *modelname, char *dataname, char *options, int verbose);
-typedef gboolean (read_basis_func)(lprec *lp, char *filename, char *info);
 typedef void (reset_basis_func)(lprec *lp);
 typedef void (reset_params_func)(lprec *lp);
 typedef gboolean (resize_lp_func)(lprec *lp, int rows, int columns);
@@ -2021,14 +2004,6 @@ typedef gboolean (str_set_obj_fn_func)(lprec *lp, char *row_string);
 typedef gboolean (str_set_rh_vec_func)(lprec *lp, char *rh_string);
 typedef gnm_float (time_elapsed_func)(lprec *lp);
 typedef void (unscale_func)(lprec *lp);
-typedef gboolean (write_lp_func)(lprec *lp, char *filename);
-typedef gboolean (write_LP_func)(lprec *lp, FILE *output);
-typedef gboolean (write_mps_func)(lprec *lp, char *filename);
-typedef gboolean (write_MPS_func)(lprec *lp, FILE *output);
-typedef gboolean (write_freemps_func)(lprec *lp, char *filename);
-typedef gboolean (write_freeMPS_func)(lprec *lp, FILE *output);
-typedef gboolean (write_XLI_func)(lprec *lp, char *filename, char *options, gboolean results);
-typedef gboolean (write_basis_func)(lprec *lp, char *filename);
 
 
 /* Prototypes for callbacks from basis inverse/factorization libraries       */
@@ -2091,7 +2066,6 @@ struct _lprec
   add_lag_con_func              *add_lag_con;
   add_SOS_func                  *add_SOS;
   column_in_lp_func             *column_in_lp;
-  copy_lp_func                  *copy_lp;
   default_basis_func            *default_basis;
   del_column_func               *del_column;
   del_constraint_func           *del_constraint;
@@ -2228,9 +2202,6 @@ struct _lprec
   put_bb_branchfunc_func        *put_bb_branchfunc;
   put_logfunc_func              *put_logfunc;
   put_msgfunc_func              *put_msgfunc;
-  read_MPShandle_func           *read_MPShandle;
-  read_XLI_func                 *read_XLI;
-  read_basis_func               *read_basis;
   reset_basis_func              *reset_basis;
   reset_params_func             *reset_params;
   resize_lp_func                *resize_lp;
@@ -2315,14 +2286,6 @@ struct _lprec
   str_set_rh_vec_func           *str_set_rh_vec;
   time_elapsed_func             *time_elapsed;
   unscale_func                  *unscale;
-  write_lp_func                 *write_lp;
-  write_LP_func                 *write_LP;
-  write_mps_func                *write_mps;
-  write_MPS_func                *write_MPS;
-  write_freemps_func            *write_freemps;
-  write_freeMPS_func            *write_freeMPS;
-  write_XLI_func                *write_XLI;
-  write_basis_func              *write_basis;
 
   /* Spacer */
   int       *alignmentspacer;
@@ -2689,408 +2652,384 @@ __EXTERN_C {
 void lp_solve_version(int *majorversion, int *minorversion, int *release, int *build);
 
 lprec  * lp_solve_make_lp(int rows, int columns);
-gboolean resize_lp(lprec *lp, int rows, int columns);
-int get_status(lprec *lp);
-const char * get_statustext(lprec *lp, int statuscode);
-gboolean is_obj_in_basis(lprec *lp);
-void set_obj_in_basis(lprec *lp, gboolean obj_in_basis);
+static gboolean resize_lp(lprec *lp, int rows, int columns);
+static int get_status(lprec *lp);
+static const char * get_statustext(lprec *lp, int statuscode);
+static gboolean is_obj_in_basis(lprec *lp);
+static void set_obj_in_basis(lprec *lp, gboolean obj_in_basis);
 /* Create and initialise a lprec structure defaults */
 
-lprec  * copy_lp(lprec *lp);
-gboolean dualize_lp(lprec *lp);
+static gboolean dualize_lp(lprec *lp);
 STATIC gboolean memopt_lp(lprec *lp, int rowextra, int colextra, int nzextra);
 /* Copy or dualize the lp */
 
 void lp_solve_delete_lp(lprec *lp);
-void free_lp(lprec **plp);
+static void free_lp(lprec **plp);
 /* Remove problem from memory */
 
-gboolean set_lp_name(lprec *lp, char *lpname);
-char  * get_lp_name(lprec *lp);
+static gboolean set_lp_name(lprec *lp, char *lpname);
+static char  * get_lp_name(lprec *lp);
 /* Set and get the problem name */
 
-gboolean has_BFP(lprec *lp);
-gboolean is_nativeBFP(lprec *lp);
-gboolean set_BFP(lprec *lp, char *filename);
+static gboolean has_BFP(lprec *lp);
+static gboolean is_nativeBFP(lprec *lp);
+static gboolean set_BFP(lprec *lp, char *filename);
 /* Set basis factorization engine */
 
-lprec  * read_XLI(char *xliname, char *modelname, char *dataname, char *options, int verbose);
-gboolean write_XLI(lprec *lp, char *filename, char *options, gboolean results);
-gboolean has_XLI(lprec *lp);
-gboolean is_nativeXLI(lprec *lp);
-gboolean set_XLI(lprec *lp, char *filename);
+static gboolean has_XLI(lprec *lp);
+static gboolean is_nativeXLI(lprec *lp);
+static gboolean set_XLI(lprec *lp, char *filename);
 /* Set external language interface */
 
-gboolean set_obj(lprec *lp, int colnr, gnm_float value);
-gboolean set_obj_fn(lprec *lp, gnm_float *row);
-gboolean set_obj_fnex(lprec *lp, int count, gnm_float *row, int *colno);
+static gboolean set_obj(lprec *lp, int colnr, gnm_float value);
+static gboolean set_obj_fn(lprec *lp, gnm_float *row);
+static gboolean set_obj_fnex(lprec *lp, int count, gnm_float *row, int *colno);
 /* set the objective function (Row 0) of the matrix */
-gboolean str_set_obj_fn(lprec *lp, char *row_string);
+static gboolean str_set_obj_fn(lprec *lp, char *row_string);
 /* The same, but with string input */
-void set_sense(lprec *lp, gboolean maximize);
+static void set_sense(lprec *lp, gboolean maximize);
 void lp_solve_set_maxim(lprec *lp);
 void lp_solve_set_minim(lprec *lp);
-gboolean is_maxim(lprec *lp);
+static gboolean is_maxim(lprec *lp);
 /* Set optimization direction for the objective function */
 
-gboolean add_constraint(lprec *lp, gnm_float *row, int constr_type, gnm_float rh);
-gboolean add_constraintex(lprec *lp, int count, gnm_float *row, int *colno, int constr_type, gnm_float rh);
-gboolean set_add_rowmode(lprec *lp, gboolean turnon);
-gboolean is_add_rowmode(lprec *lp);
+static gboolean add_constraint(lprec *lp, gnm_float *row, int constr_type, gnm_float rh);
+static gboolean add_constraintex(lprec *lp, int count, gnm_float *row, int *colno, int constr_type, gnm_float rh);
+static gboolean set_add_rowmode(lprec *lp, gboolean turnon);
+static gboolean is_add_rowmode(lprec *lp);
 /* Add a constraint to the problem, row is the constraint row, rh is the right hand side,
    constr_type is the type of constraint (LE (<=), GE(>=), EQ(=)) */
-gboolean str_add_constraint(lprec *lp, char *row_string, int constr_type, gnm_float rh);
+static gboolean str_add_constraint(lprec *lp, char *row_string, int constr_type, gnm_float rh);
 /* The same, but with string input */
 
-gboolean set_row(lprec *lp, int rownr, gnm_float *row);
-gboolean set_rowex(lprec *lp, int rownr, int count, gnm_float *row, int *colno);
-gboolean get_row(lprec *lp, int rownr, gnm_float *row);
-int get_rowex(lprec *lp, int rownr, gnm_float *row, int *colno);
+static gboolean set_row(lprec *lp, int rownr, gnm_float *row);
+static gboolean set_rowex(lprec *lp, int rownr, int count, gnm_float *row, int *colno);
+static gboolean get_row(lprec *lp, int rownr, gnm_float *row);
+static int get_rowex(lprec *lp, int rownr, gnm_float *row, int *colno);
 /* Fill row with the row row_nr from the problem */
 
-gboolean del_constraint(lprec *lp, int rownr);
+static gboolean del_constraint(lprec *lp, int rownr);
 STATIC gboolean del_constraintex(lprec *lp, LLrec *rowmap);
 /* Remove constrain nr del_row from the problem */
 
-gboolean add_lag_con(lprec *lp, gnm_float *row, int con_type, gnm_float rhs);
+static gboolean add_lag_con(lprec *lp, gnm_float *row, int con_type, gnm_float rhs);
 /* add a Lagrangian constraint of form Row' x contype Rhs */
-gboolean str_add_lag_con(lprec *lp, char *row_string, int con_type, gnm_float rhs);
+static gboolean str_add_lag_con(lprec *lp, char *row_string, int con_type, gnm_float rhs);
 /* The same, but with string input */
-void set_lag_trace(lprec *lp, gboolean lag_trace);
-gboolean is_lag_trace(lprec *lp);
+static void set_lag_trace(lprec *lp, gboolean lag_trace);
+static gboolean is_lag_trace(lprec *lp);
 /* Set debugging/tracing mode of the Lagrangean solver */
 
 gboolean lp_solve_set_constr_type(lprec *lp, int rownr, int con_type);
-int get_constr_type(lprec *lp, int rownr);
-gnm_float get_constr_value(lprec *lp, int rownr, int count, gnm_float *primsolution, int *nzindex);
-gboolean is_constr_type(lprec *lp, int rownr, int mask);
+static int get_constr_type(lprec *lp, int rownr);
+static gnm_float get_constr_value(lprec *lp, int rownr, int count, gnm_float *primsolution, int *nzindex);
+static gboolean is_constr_type(lprec *lp, int rownr, int mask);
 STATIC const char *get_str_constr_type(lprec *lp, int con_type);
 STATIC int get_constr_class(lprec *lp, int rownr);
 STATIC const char *get_str_constr_class(lprec *lp, int con_class);
 /* Set the type of constraint in row Row (LE, GE, EQ) */
 
 gboolean lp_solve_set_rh(lprec *lp, int rownr, gnm_float value);
-gnm_float get_rh(lprec *lp, int rownr);
+static gnm_float get_rh(lprec *lp, int rownr);
 /* Set and get the right hand side of a constraint row */
-gboolean set_rh_range(lprec *lp, int rownr, gnm_float deltavalue);
-gnm_float get_rh_range(lprec *lp, int rownr);
+static gboolean set_rh_range(lprec *lp, int rownr, gnm_float deltavalue);
+static gnm_float get_rh_range(lprec *lp, int rownr);
 /* Set the RHS range; i.e. the lower and upper bounds of a constraint row */
-void set_rh_vec(lprec *lp, gnm_float *rh);
+static void set_rh_vec(lprec *lp, gnm_float *rh);
 /* Set the right hand side vector */
-gboolean str_set_rh_vec(lprec *lp, char *rh_string);
+static gboolean str_set_rh_vec(lprec *lp, char *rh_string);
 /* The same, but with string input */
 
-gboolean add_column(lprec *lp, gnm_float *column);
-gboolean add_columnex(lprec *lp, int count, gnm_float *column, int *rowno);
-gboolean str_add_column(lprec *lp, char *col_string);
+static gboolean add_column(lprec *lp, gnm_float *column);
+static gboolean add_columnex(lprec *lp, int count, gnm_float *column, int *rowno);
+static gboolean str_add_column(lprec *lp, char *col_string);
 /* Add a column to the problem */
 
-gboolean set_column(lprec *lp, int colnr, gnm_float *column);
-gboolean set_columnex(lprec *lp, int colnr, int count, gnm_float *column, int *rowno);
 /* Overwrite existing column data */
 
-int column_in_lp(lprec *lp, gnm_float *column);
+static int column_in_lp(lprec *lp, gnm_float *column);
 /* Returns the column index if column is already present in lp, otherwise 0.
    (Does not look at bounds and types, only looks at matrix values */
 
-int get_columnex(lprec *lp, int colnr, gnm_float *column, int *nzrow);
-gboolean get_column(lprec *lp, int colnr, gnm_float *column);
+static int get_columnex(lprec *lp, int colnr, gnm_float *column, int *nzrow);
 /* Fill column with the column col_nr from the problem */
 
-gboolean del_column(lprec *lp, int colnr);
+static gboolean del_column(lprec *lp, int colnr);
 STATIC gboolean del_columnex(lprec *lp, LLrec *colmap);
 /* Delete a column */
 
 gboolean lp_solve_set_mat(lprec *lp, int rownr, int colnr, gnm_float value);
 /* Fill in element (Row,Column) of the matrix
    Row in [0..Rows] and Column in [1..Columns] */
-gnm_float get_mat(lprec *lp, int rownr, int colnr);
-gnm_float get_mat_byindex(lprec *lp, int matindex, gboolean isrow, gboolean adjustsign);
-int get_nonzeros(lprec *lp);
+static gnm_float get_mat(lprec *lp, int rownr, int colnr);
+static gnm_float get_mat_byindex(lprec *lp, int matindex, gboolean isrow, gboolean adjustsign);
+static int get_nonzeros(lprec *lp);
 /* get a single element from the matrix */  /* Name changed from "mat_elm" by KE */
 
-void set_bounds_tighter(lprec *lp, gboolean tighten);
-gboolean get_bounds(lprec *lp, int column, gnm_float *lower, gnm_float *upper);
-gboolean get_bounds_tighter(lprec *lp);
+static void set_bounds_tighter(lprec *lp, gboolean tighten);
+static gboolean get_bounds_tighter(lprec *lp);
 gboolean lp_solve_set_upbo(lprec *lp, int colnr, gnm_float value);
-gnm_float get_upbo(lprec *lp, int colnr);
+static gnm_float get_upbo(lprec *lp, int colnr);
 gboolean lp_solve_set_lowbo(lprec *lp, int colnr, gnm_float value);
-gnm_float get_lowbo(lprec *lp, int colnr);
-gboolean set_bounds(lprec *lp, int colnr, gnm_float lower, gnm_float upper);
-gboolean set_unbounded(lprec *lp, int colnr);
-gboolean is_unbounded(lprec *lp, int colnr);
+static gnm_float get_lowbo(lprec *lp, int colnr);
+static gboolean set_bounds(lprec *lp, int colnr, gnm_float lower, gnm_float upper);
+static gboolean set_unbounded(lprec *lp, int colnr);
+static gboolean is_unbounded(lprec *lp, int colnr);
 /* Set the upper and lower bounds of a variable */
 
 gboolean lp_solve_set_int(lprec *lp, int colnr, gboolean must_be_int);
-gboolean is_int(lprec *lp, int colnr);
-gboolean set_binary(lprec *lp, int colnr, gboolean must_be_bin);
-gboolean is_binary(lprec *lp, int colnr);
-gboolean set_semicont(lprec *lp, int colnr, gboolean must_be_sc);
-gboolean is_semicont(lprec *lp, int colnr);
-gboolean is_negative(lprec *lp, int colnr);
-gboolean set_var_weights(lprec *lp, gnm_float *weights);
-int get_var_priority(lprec *lp, int colnr);
+static gboolean is_int(lprec *lp, int colnr);
+static gboolean set_binary(lprec *lp, int colnr, gboolean must_be_bin);
+static gboolean is_binary(lprec *lp, int colnr);
+static gboolean set_semicont(lprec *lp, int colnr, gboolean must_be_sc);
+static gboolean is_semicont(lprec *lp, int colnr);
+static gboolean is_negative(lprec *lp, int colnr);
+static gboolean set_var_weights(lprec *lp, gnm_float *weights);
+static int get_var_priority(lprec *lp, int colnr);
 /* Set the type of variable */
 
-gboolean set_pseudocosts(lprec *lp, gnm_float *clower, gnm_float *cupper, int *updatelimit);
-gboolean get_pseudocosts(lprec *lp, gnm_float *clower, gnm_float *cupper, int *updatelimit);
+static gboolean set_pseudocosts(lprec *lp, gnm_float *clower, gnm_float *cupper, int *updatelimit);
+static gboolean get_pseudocosts(lprec *lp, gnm_float *clower, gnm_float *cupper, int *updatelimit);
 /* Set initial values for, or get computed pseudocost vectors;
    note that setting of pseudocosts can only happen in response to a
    call-back function optionally requesting this */
 
-int  add_SOS(lprec *lp, char *name, int sostype, int priority, int count, int *sosvars, gnm_float *weights);
-gboolean is_SOS_var(lprec *lp, int colnr);
+static int  add_SOS(lprec *lp, char *name, int sostype, int priority, int count, int *sosvars, gnm_float *weights);
+static gboolean is_SOS_var(lprec *lp, int colnr);
 /* Add SOS constraints */
 
-gboolean set_row_name(lprec *lp, int rownr, char *new_name);
-char  * get_row_name(lprec *lp, int rownr);
-char  * get_origrow_name(lprec *lp, int rownr);
+static gboolean set_row_name(lprec *lp, int rownr, char *new_name);
+static char  * get_row_name(lprec *lp, int rownr);
+static char  * get_origrow_name(lprec *lp, int rownr);
 /* Set/Get the name of a constraint row */   /* Get added by KE */
 
-gboolean set_col_name(lprec *lp, int colnr, char *new_name);
-char  * get_col_name(lprec *lp, int colnr);
-char  * get_origcol_name(lprec *lp, int colnr);
+static gboolean set_col_name(lprec *lp, int colnr, char *new_name);
+static char  * get_col_name(lprec *lp, int colnr);
+static char  * get_origcol_name(lprec *lp, int colnr);
 /* Set/Get the name of a variable column */  /* Get added by KE */
 
-void unscale(lprec *lp);
+static void unscale(lprec *lp);
 /* Undo previous scaling of the problem */
 
-void set_preferdual(lprec *lp, gboolean dodual);
-void set_simplextype(lprec *lp, int simplextype);
-int get_simplextype(lprec *lp);
+static void set_preferdual(lprec *lp, gboolean dodual);
+static void set_simplextype(lprec *lp, int simplextype);
+static int get_simplextype(lprec *lp);
 /* Set/Get if lp_solve should prefer the dual simplex over the primal -- added by KE */
 
-void default_basis(lprec *lp);
-void set_basiscrash(lprec *lp, int mode);
-int get_basiscrash(lprec *lp);
-int set_basisvar(lprec *lp, int basisPos, int enteringCol);
-gboolean set_basis(lprec *lp, int *bascolumn, gboolean nonbasic);
-gboolean get_basis(lprec *lp, int *bascolumn, gboolean nonbasic);
-void reset_basis(lprec *lp);
+static void default_basis(lprec *lp);
+static void set_basiscrash(lprec *lp, int mode);
+static int get_basiscrash(lprec *lp);
+static int set_basisvar(lprec *lp, int basisPos, int enteringCol);
+static gboolean set_basis(lprec *lp, int *bascolumn, gboolean nonbasic);
+static gboolean get_basis(lprec *lp, int *bascolumn, gboolean nonbasic);
+static void reset_basis(lprec *lp);
 /* Set/Get basis for a re-solved system */  /* Added by KE */
 
-gboolean is_feasible(lprec *lp, gnm_float *values, gnm_float threshold);
+static gboolean is_feasible(lprec *lp, gnm_float *values, gnm_float threshold);
 /* returns TRUE if the vector in values is a feasible solution to the lp */
 
 int lp_solve_solve(lprec *lp);
 /* Solve the problem */
 
-gnm_float time_elapsed(lprec *lp);
+static gnm_float time_elapsed(lprec *lp);
 /* Return the number of seconds since start of solution process */
 
-void put_bb_nodefunc(lprec *lp, lphandleint_intfunc newnode, void *bbnodehandle);
-void put_bb_branchfunc(lprec *lp, lphandleint_intfunc newbranch, void *bbbranchhandle);
+static void put_bb_nodefunc(lprec *lp, lphandleint_intfunc newnode, void *bbnodehandle);
+static void put_bb_branchfunc(lprec *lp, lphandleint_intfunc newbranch, void *bbbranchhandle);
 /* Allow the user to override B&B node and branching decisions */
 
-void put_abortfunc(lprec *lp, lphandle_intfunc newctrlc, void *ctrlchandle);
+static void put_abortfunc(lprec *lp, lphandle_intfunc newctrlc, void *ctrlchandle);
 /* Allow the user to define an interruption callback function */
 
-void put_logfunc(lprec *lp, lphandlestr_func newlog, void *loghandle);
+static void put_logfunc(lprec *lp, lphandlestr_func newlog, void *loghandle);
 /* Allow the user to define a logging function */
 
-void put_msgfunc(lprec *lp, lphandleint_func newmsg, void *msghandle, int mask);
+static void put_msgfunc(lprec *lp, lphandleint_func newmsg, void *msghandle, int mask);
 /* Allow the user to define an event-driven message/reporting */
 
-gboolean get_primal_solution(lprec *lp, gnm_float *pv);
-gboolean get_ptr_primal_solution(lprec *lp, gnm_float **pv);
-gboolean get_dual_solution(lprec *lp, gnm_float *rc);
-gboolean get_ptr_dual_solution(lprec *lp, gnm_float **rc);
-gboolean get_lambda(lprec *lp, gnm_float *lambda);
-gboolean get_ptr_lambda(lprec *lp, gnm_float **lambda);
+static gboolean get_primal_solution(lprec *lp, gnm_float *pv);
+static gboolean get_ptr_primal_solution(lprec *lp, gnm_float **pv);
+static gboolean get_dual_solution(lprec *lp, gnm_float *rc);
+static gboolean get_ptr_dual_solution(lprec *lp, gnm_float **rc);
+static gboolean get_lambda(lprec *lp, gnm_float *lambda);
+static gboolean get_ptr_lambda(lprec *lp, gnm_float **lambda);
 /* Get the primal, dual/reduced costs and Lambda vectors */
 
 /* Read an MPS file */
-lprec  * read_MPS(char *filename, int verbose);
-lprec  * read_mps(FILE *filename, int verbose);
-lprec  * read_freeMPS(char *filename, int verbose);
-lprec  * read_freemps(FILE *filename, int verbose);
 
 /* Write a MPS file to output */
-gboolean write_mps(lprec *lp, char *filename);
-gboolean write_MPS(lprec *lp, FILE *output);
-gboolean write_freemps(lprec *lp, char *filename);
-gboolean write_freeMPS(lprec *lp, FILE *output);
 
-gboolean write_lp(lprec *lp, char *filename);
-gboolean write_LP(lprec *lp, FILE *output);
  /* Write a LP file to output */
 
-gboolean LP_readhandle(lprec **lp, FILE *filename, int verbose, char *lp_name);
-lprec  * read_lp(FILE *filename, int verbose, char *lp_name);
-lprec  * read_LP(char *filename, int verbose, char *lp_name);
 /* Old-style lp format file parser */
 
-gboolean write_basis(lprec *lp, char *filename);
-gboolean read_basis(lprec *lp, char *filename, char *info);
 /* Read and write basis from/to file in CPLEX BAS format */
 
-void reset_params(lprec *lp);
+static void reset_params(lprec *lp);
 /* Read and write parameter file */
 
 void lp_solve_print_lp(lprec *lp);
-void print_tableau(lprec *lp);
+static void print_tableau(lprec *lp);
 /* Print the current problem, only useful in very small (test) problems */
 
-void print_objective(lprec *lp);
-void print_solution(lprec *lp, int columns);
-void print_constraints(lprec *lp, int columns);
+static void print_objective(lprec *lp);
+static void print_solution(lprec *lp, int columns);
+static void print_constraints(lprec *lp, int columns);
 /* Print the solution to stdout */
 
-void print_duals(lprec *lp);
+static void print_duals(lprec *lp);
 /* Print the dual variables of the solution */
 
-void print_scales(lprec *lp);
+static void print_scales(lprec *lp);
 /* If scaling is used, print the scaling factors */
 
-void print_str(lprec *lp, char *str);
+static void print_str(lprec *lp, char *str);
 
-void set_outputstream(lprec *lp, FILE *stream);
-gboolean set_outputfile(lprec *lp, char *filename);
+static void set_outputstream(lprec *lp, FILE *stream);
+static gboolean set_outputfile(lprec *lp, char *filename);
 
-void set_verbose(lprec *lp, int verbose);
-int get_verbose(lprec *lp);
+static void set_verbose(lprec *lp, int verbose);
+static int get_verbose(lprec *lp);
 
 void lp_solve_set_timeout(lprec *lp, long sectimeout);
-long get_timeout(lprec *lp);
+static long get_timeout(lprec *lp);
 
-void set_print_sol(lprec *lp, int print_sol);
-int get_print_sol(lprec *lp);
+static void set_print_sol(lprec *lp, int print_sol);
+static int get_print_sol(lprec *lp);
 
-void set_debug(lprec *lp, gboolean debug);
-gboolean is_debug(lprec *lp);
+static void set_debug(lprec *lp, gboolean debug);
+static gboolean is_debug(lprec *lp);
 
-void set_trace(lprec *lp, gboolean trace);
-gboolean is_trace(lprec *lp);
+static void set_trace(lprec *lp, gboolean trace);
+static gboolean is_trace(lprec *lp);
 
-gboolean print_debugdump(lprec *lp, char *filename);
+static gboolean print_debugdump(lprec *lp, char *filename);
 
-void set_anti_degen(lprec *lp, int anti_degen);
-int get_anti_degen(lprec *lp);
-gboolean is_anti_degen(lprec *lp, int testmask);
+static void set_anti_degen(lprec *lp, int anti_degen);
+static int get_anti_degen(lprec *lp);
+static gboolean is_anti_degen(lprec *lp, int testmask);
 
-void set_presolve(lprec *lp, int presolvemode, int maxloops);
-int get_presolve(lprec *lp);
-int get_presolveloops(lprec *lp);
-gboolean is_presolve(lprec *lp, int testmask);
+static void set_presolve(lprec *lp, int presolvemode, int maxloops);
+static int get_presolve(lprec *lp);
+static int get_presolveloops(lprec *lp);
+static gboolean is_presolve(lprec *lp, int testmask);
 
-int get_orig_index(lprec *lp, int lp_index);
-int get_lp_index(lprec *lp, int orig_index);
+static int get_orig_index(lprec *lp, int lp_index);
+static int get_lp_index(lprec *lp, int orig_index);
 
-void set_maxpivot(lprec *lp, int max_num_inv);
-int get_maxpivot(lprec *lp);
+static void set_maxpivot(lprec *lp, int max_num_inv);
+static int get_maxpivot(lprec *lp);
 
-void set_obj_bound(lprec *lp, gnm_float obj_bound);
-gnm_float get_obj_bound(lprec *lp);
+static void set_obj_bound(lprec *lp, gnm_float obj_bound);
+static gnm_float get_obj_bound(lprec *lp);
 
-void set_mip_gap(lprec *lp, gboolean absolute, gnm_float mip_gap);
-gnm_float get_mip_gap(lprec *lp, gboolean absolute);
+static void set_mip_gap(lprec *lp, gboolean absolute, gnm_float mip_gap);
+static gnm_float get_mip_gap(lprec *lp, gboolean absolute);
 
-void set_bb_rule(lprec *lp, int bb_rule);
-int get_bb_rule(lprec *lp);
+static void set_bb_rule(lprec *lp, int bb_rule);
+static int get_bb_rule(lprec *lp);
 
-gboolean set_var_branch(lprec *lp, int colnr, int branch_mode);
-int get_var_branch(lprec *lp, int colnr);
+static gboolean set_var_branch(lprec *lp, int colnr, int branch_mode);
+static int get_var_branch(lprec *lp, int colnr);
 
-gboolean is_infinite(lprec *lp, gnm_float value);
-void set_infinite(lprec *lp, gnm_float infinite);
-gnm_float get_infinite(lprec *lp);
+static gboolean is_infinite(lprec *lp, gnm_float value);
+static void set_infinite(lprec *lp, gnm_float infinite);
+static gnm_float get_infinite(lprec *lp);
 
-void set_epsint(lprec *lp, gnm_float epsint);
-gnm_float get_epsint(lprec *lp);
+static void set_epsint(lprec *lp, gnm_float epsint);
+static gnm_float get_epsint(lprec *lp);
 
-void set_epsb(lprec *lp, gnm_float epsb);
-gnm_float get_epsb(lprec *lp);
+static void set_epsb(lprec *lp, gnm_float epsb);
+static gnm_float get_epsb(lprec *lp);
 
-void set_epsd(lprec *lp, gnm_float epsd);
-gnm_float get_epsd(lprec *lp);
+static void set_epsd(lprec *lp, gnm_float epsd);
+static gnm_float get_epsd(lprec *lp);
 
-void set_epsel(lprec *lp, gnm_float epsel);
-gnm_float get_epsel(lprec *lp);
+static void set_epsel(lprec *lp, gnm_float epsel);
+static gnm_float get_epsel(lprec *lp);
 
-gboolean set_epslevel(lprec *lp, int epslevel);
+static gboolean set_epslevel(lprec *lp, int epslevel);
 
-void set_scaling(lprec *lp, int scalemode);
-int get_scaling(lprec *lp);
-gboolean is_scalemode(lprec *lp, int testmask);
-gboolean is_scaletype(lprec *lp, int scaletype);
-gboolean is_integerscaling(lprec *lp);
+static void set_scaling(lprec *lp, int scalemode);
+static int get_scaling(lprec *lp);
+static gboolean is_scalemode(lprec *lp, int testmask);
+static gboolean is_scaletype(lprec *lp, int scaletype);
+static gboolean is_integerscaling(lprec *lp);
 void lp_solve_set_scalelimit(lprec *lp, gnm_float scalelimit);
-gnm_float get_scalelimit(lprec *lp);
+static gnm_float get_scalelimit(lprec *lp);
 
-void set_improve(lprec *lp, int improve);
-int get_improve(lprec *lp);
+static void set_improve(lprec *lp, int improve);
+static int get_improve(lprec *lp);
 
-void set_pivoting(lprec *lp, int piv_rule);
-int get_pivoting(lprec *lp);
-gboolean set_partialprice(lprec *lp, int blockcount, int *blockstart, gboolean isrow);
-void get_partialprice(lprec *lp, int *blockcount, int *blockstart, gboolean isrow);
+static void set_pivoting(lprec *lp, int piv_rule);
+static int get_pivoting(lprec *lp);
+static gboolean set_partialprice(lprec *lp, int blockcount, int *blockstart, gboolean isrow);
+static void get_partialprice(lprec *lp, int *blockcount, int *blockstart, gboolean isrow);
 
-gboolean set_multiprice(lprec *lp, int multiblockdiv);
-int get_multiprice(lprec *lp, gboolean getabssize);
+static gboolean set_multiprice(lprec *lp, int multiblockdiv);
+static int get_multiprice(lprec *lp, gboolean getabssize);
 
-gboolean is_use_names(lprec *lp, gboolean isrow);
-void set_use_names(lprec *lp, gboolean isrow, gboolean use_names);
 
-int get_nameindex(lprec *lp, char *varname, gboolean isrow);
+static int get_nameindex(lprec *lp, char *varname, gboolean isrow);
 
-gboolean is_piv_mode(lprec *lp, int testmask);
-gboolean is_piv_rule(lprec *lp, int rule);
+static gboolean is_piv_mode(lprec *lp, int testmask);
+static gboolean is_piv_rule(lprec *lp, int rule);
 
-void set_break_at_first(lprec *lp, gboolean break_at_first);
-gboolean is_break_at_first(lprec *lp);
+static void set_break_at_first(lprec *lp, gboolean break_at_first);
+static gboolean is_break_at_first(lprec *lp);
 
-void set_bb_floorfirst(lprec *lp, int bb_floorfirst);
-int get_bb_floorfirst(lprec *lp);
+static void set_bb_floorfirst(lprec *lp, int bb_floorfirst);
+static int get_bb_floorfirst(lprec *lp);
 
-void set_bb_depthlimit(lprec *lp, int bb_maxlevel);
-int get_bb_depthlimit(lprec *lp);
+static void set_bb_depthlimit(lprec *lp, int bb_maxlevel);
+static int get_bb_depthlimit(lprec *lp);
 
-void set_break_at_value(lprec *lp, gnm_float break_at_value);
-gnm_float get_break_at_value(lprec *lp);
+static void set_break_at_value(lprec *lp, gnm_float break_at_value);
+static gnm_float get_break_at_value(lprec *lp);
 
-void set_negrange(lprec *lp, gnm_float negrange);
-gnm_float get_negrange(lprec *lp);
+static void set_negrange(lprec *lp, gnm_float negrange);
+static gnm_float get_negrange(lprec *lp);
 
-void set_epsperturb(lprec *lp, gnm_float epsperturb);
-gnm_float get_epsperturb(lprec *lp);
+static void set_epsperturb(lprec *lp, gnm_float epsperturb);
+static gnm_float get_epsperturb(lprec *lp);
 
-void set_epspivot(lprec *lp, gnm_float epspivot);
-gnm_float get_epspivot(lprec *lp);
+static void set_epspivot(lprec *lp, gnm_float epspivot);
+static gnm_float get_epspivot(lprec *lp);
 
-int get_max_level(lprec *lp);
-gint64 get_total_nodes(lprec *lp);
+static int get_max_level(lprec *lp);
+static gint64 get_total_nodes(lprec *lp);
 gint64 lp_solve_get_total_iter(lprec *lp);
 
-gnm_float get_objective(lprec *lp);
-gnm_float get_working_objective(lprec *lp);
+static gnm_float get_objective(lprec *lp);
+static gnm_float get_working_objective(lprec *lp);
 
 gnm_float lp_solve_get_primal(lprec *lp, int index);
 gnm_float lp_solve_get_dual(lprec *lp, int index);
 
-gboolean get_variables(lprec *lp, gnm_float *var);
-gboolean get_ptr_variables(lprec *lp, gnm_float **var);
+static gboolean get_variables(lprec *lp, gnm_float *var);
+static gboolean get_ptr_variables(lprec *lp, gnm_float **var);
 
-gboolean get_constraints(lprec *lp, gnm_float *constr);
-gboolean get_ptr_constraints(lprec *lp, gnm_float **constr);
+static gboolean get_constraints(lprec *lp, gnm_float *constr);
+static gboolean get_ptr_constraints(lprec *lp, gnm_float **constr);
 
-gboolean get_sensitivity_rhs(lprec *lp, gnm_float *duals, gnm_float *dualsfrom, gnm_float *dualstill);
-gboolean get_ptr_sensitivity_rhs(lprec *lp, gnm_float **duals, gnm_float **dualsfrom, gnm_float **dualstill);
+static gboolean get_sensitivity_rhs(lprec *lp, gnm_float *duals, gnm_float *dualsfrom, gnm_float *dualstill);
+static gboolean get_ptr_sensitivity_rhs(lprec *lp, gnm_float **duals, gnm_float **dualsfrom, gnm_float **dualstill);
 
-gboolean get_sensitivity_obj(lprec *lp, gnm_float *objfrom, gnm_float *objtill);
-gboolean get_sensitivity_objex(lprec *lp, gnm_float *objfrom, gnm_float *objtill, gnm_float *objfromvalue, gnm_float *objtillvalue);
-gboolean get_ptr_sensitivity_obj(lprec *lp, gnm_float **objfrom, gnm_float **objtill);
-gboolean get_ptr_sensitivity_objex(lprec *lp, gnm_float **objfrom, gnm_float **objtill, gnm_float **objfromvalue, gnm_float **objtillvalue);
+static gboolean get_sensitivity_obj(lprec *lp, gnm_float *objfrom, gnm_float *objtill);
+static gboolean get_sensitivity_objex(lprec *lp, gnm_float *objfrom, gnm_float *objtill, gnm_float *objfromvalue, gnm_float *objtillvalue);
+static gboolean get_ptr_sensitivity_obj(lprec *lp, gnm_float **objfrom, gnm_float **objtill);
+static gboolean get_ptr_sensitivity_objex(lprec *lp, gnm_float **objfrom, gnm_float **objtill, gnm_float **objfromvalue, gnm_float **objtillvalue);
 
-void set_solutionlimit(lprec *lp, int limit);
-int get_solutionlimit(lprec *lp);
-int get_solutioncount(lprec *lp);
+static void set_solutionlimit(lprec *lp, int limit);
+static int get_solutionlimit(lprec *lp);
+static int get_solutioncount(lprec *lp);
 
-int get_Norig_rows(lprec *lp);
+static int get_Norig_rows(lprec *lp);
 int lp_solve_get_nrows(lprec *lp);
-int get_Lrows(lprec *lp);
+static int get_Lrows(lprec *lp);
 
-int get_Norig_columns(lprec *lp);
-int get_Ncolumns(lprec *lp);
+static int get_Norig_columns(lprec *lp);
+static int get_Ncolumns(lprec *lp);
 
 
 #ifdef __cplusplus
@@ -3099,11 +3038,11 @@ int get_Ncolumns(lprec *lp);
 
 
 /* Forward definitions of functions used internaly by the lp toolkit */
-gboolean set_callbacks(lprec *lp);
+static gboolean set_callbacks(lprec *lp);
 STATIC int yieldformessages(lprec *lp);
-gboolean userabort(lprec *lp, int message);
+static gboolean userabort(lprec *lp, int message);
 /*char * explain(lprec *lp, const char *format, ...);
-void report(lprec *lp, int level, const char *format, ...);*/
+static void report(lprec *lp, int level, const char *format, ...);*/
 
 /* Memory management routines */
 STATIC gboolean append_rows(lprec *lp, int deltarows);
@@ -3118,15 +3057,15 @@ STATIC gboolean shift_basis(lprec *lp, int base, int delta, LLrec *usedmap, gboo
 STATIC gboolean shift_rowdata(lprec *lp, int base, int delta, LLrec *usedmap);
 STATIC gboolean shift_coldata(lprec *lp, int base, int delta, LLrec *usedmap);
 
-/* INLINE */ gboolean is_chsign(lprec *lp, int rownr);
+static gboolean is_chsign(lprec *lp, int rownr);
 
 STATIC gboolean inc_lag_space(lprec *lp, int deltarows, gboolean ignoreMAT);
-lprec *make_lag(lprec *server);
+static lprec *make_lag(lprec *server);
 
-gnm_float get_rh_upper(lprec *lp, int rownr);
-gnm_float get_rh_lower(lprec *lp, int rownr);
-gboolean set_rh_upper(lprec *lp, int rownr, gnm_float value);
-gboolean set_rh_lower(lprec *lp, int rownr, gnm_float value);
+static gnm_float get_rh_upper(lprec *lp, int rownr);
+static gnm_float get_rh_lower(lprec *lp, int rownr);
+static gboolean set_rh_upper(lprec *lp, int rownr, gnm_float value);
+static gboolean set_rh_lower(lprec *lp, int rownr, gnm_float value);
 STATIC int bin_count(lprec *lp, gboolean working);
 STATIC int MIP_count(lprec *lp);
 STATIC int SOS_count(lprec *lp);
@@ -3141,16 +3080,16 @@ STATIC void initialize_solution(lprec *lp, gboolean shiftbounds);
 STATIC void recompute_solution(lprec *lp, gboolean shiftbounds);
 STATIC int check_solution(lprec *lp, int  lastcolumn, gnm_float *solution,
                           gnm_float *upbo, gnm_float *lowbo, gnm_float tolerance);
-/* INLINE */ gboolean is_fixedvar(lprec *lp, int variable);
-/* INLINE */ gboolean is_splitvar(lprec *lp, int colnr);
+static gboolean is_fixedvar(lprec *lp, int variable);
+static gboolean is_splitvar(lprec *lp, int colnr);
 
-void   set_action(int *actionvar, int actionmask);
-void   clear_action(int *actionvar, int actionmask);
-gboolean is_action(int actionvar, int testmask);
+static void   set_action(int *actionvar, int actionmask);
+static void   clear_action(int *actionvar, int actionmask);
+static gboolean is_action(int actionvar, int testmask);
 
 INLINE gboolean is_bb_rule(lprec *lp, int bb_rule);
-/* INLINE */ gboolean is_bb_mode(lprec *lp, int bb_mask);
-/* INLINE */ int get_piv_rule(lprec *lp);
+static gboolean is_bb_mode(lprec *lp, int bb_mask);
+static int get_piv_rule(lprec *lp);
 STATIC const char *get_str_piv_rule(int rule);
 STATIC gboolean set_var_priority(lprec *lp);
 STATIC int find_sc_bbvar(lprec *lp, int *count);
@@ -3218,13 +3157,13 @@ STATIC gnm_float get_pseudonodecost(BBPSrec *pc, int mipvar, int vartype, gnm_fl
 /* Matrix access and equation solving routines */
 STATIC void set_OF_p1extra(lprec *lp, gnm_float p1extra);
 STATIC void unset_OF_p1extra(lprec *lp);
-gboolean modifyOF1(lprec *lp, int index, gnm_float *ofValue, gnm_float mult);
-gnm_float get_OF_active(lprec *lp, int varnr, gnm_float mult);
+static gboolean modifyOF1(lprec *lp, int index, gnm_float *ofValue, gnm_float mult);
+static gnm_float get_OF_active(lprec *lp, int varnr, gnm_float mult);
 STATIC gboolean is_OF_nz(lprec *lp, int colnr);
 
 STATIC int get_basisOF(lprec *lp, int coltarget[], gnm_float crow[], int colno[]);
-int    get_basiscolumn(lprec *lp, int j, int rn[], double bj[]);
-int    obtain_column(lprec *lp, int varin, gnm_float *pcol, int *nzlist, int *maxabs);
+static int    get_basiscolumn(lprec *lp, int j, int rn[], double bj[]);
+static int    obtain_column(lprec *lp, int varin, gnm_float *pcol, int *nzlist, int *maxabs);
 STATIC int compute_theta(lprec *lp, int rownr, LREAL *theta, int isupbound, gnm_float HarrisScalar, gboolean primal);
 
 /* Pivot utility routines */
@@ -3285,7 +3224,6 @@ extern "C" {
 
 /* Read an MPS file */
 gboolean MPS_readfile(lprec **newlp, char *filename, int typeMPS, int verbose);
-gboolean MPS_readhandle(lprec **newlp, FILE *filehandle, int typeMPS, int verbose);
 
 /* Write a MPS file to output */
 gboolean MPS_writefile(lprec *lp, int typeMPS, char *filename);
@@ -3302,29 +3240,6 @@ gboolean MPS_writeBAS(lprec *lp, int typeMPS, char *filename);
 #endif /* HEADER_lp_MPS */
 
 /* ------------------------------------------------------------------------- */
-/* Imported lp_wlp.h */
-
-#ifndef HEADER_lp_lp
-#define HEADER_lp_lp
-
-
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-/* Put function headers here */
-gboolean LP_writefile(lprec *lp, char *filename);
-gboolean LP_writehandle(lprec *lp, FILE *output);
-
-
-#ifdef __cplusplus
- }
-#endif
-
-#endif /* HEADER_lp_lp */
-
-/* ------------------------------------------------------------------------- */
 /* Imported lp_report.h */
 
 #ifndef HEADER_lp_report
@@ -3335,30 +3250,27 @@ extern "C" {
 #endif
 
 /* General information functions */
-char * explain(lprec *lp, const char *format, ...);
-void report(lprec *lp, int level, const char *format, ...);
+static char * explain(lprec *lp, const char *format, ...);
+static void report(lprec *lp, int level, const char *format, ...);
 
 /* Prototypes for debugging and general data dumps */
-void blockWriteLREAL(FILE *output, const char *label, LREAL *vector, int first, int last);
-void blockWriteAMAT(FILE *output, const char *label, lprec* lp, int first, int last);
-void blockWriteBMAT(FILE *output, const char *label, lprec* lp, int first, int last);
+static void blockWriteAMAT(FILE *output, const char *label, lprec* lp, int first, int last);
 
 
 /* Model reporting headers */
-void REPORT_objective(lprec *lp);
-void REPORT_solution(lprec *lp, int columns);
-void REPORT_constraints(lprec *lp, int columns);
-void REPORT_duals(lprec *lp);
-void REPORT_extended(lprec *lp);
+static void REPORT_objective(lprec *lp);
+static void REPORT_solution(lprec *lp, int columns);
+static void REPORT_constraints(lprec *lp, int columns);
+static void REPORT_duals(lprec *lp);
+static void REPORT_extended(lprec *lp);
 
 /* Other rarely used, but sometimes extremely useful reports */
-void REPORT_constraintinfo(lprec *lp, const char *datainfo);
-void REPORT_modelinfo(lprec *lp, gboolean doName, const char *datainfo);
-void REPORT_lp(lprec *lp);
-gboolean REPORT_tableau(lprec *lp);
-void REPORT_scales(lprec *lp);
-gboolean REPORT_debugdump(lprec *lp, char *filename, gboolean livedata);
-gboolean REPORT_mat_mmsave(lprec *lp, char *filename, int *colndx, gboolean includeOF, char *infotext);
+static void REPORT_constraintinfo(lprec *lp, const char *datainfo);
+static void REPORT_modelinfo(lprec *lp, gboolean doName, const char *datainfo);
+static void REPORT_lp(lprec *lp);
+static gboolean REPORT_tableau(lprec *lp);
+static void REPORT_scales(lprec *lp);
+static gboolean REPORT_debugdump(lprec *lp, char *filename, gboolean livedata);
 
 #ifdef __cplusplus
  }
@@ -3391,7 +3303,7 @@ STATIC gnm_float unscaled_value(lprec *lp, gnm_float value, int index);
 STATIC gboolean scaleCR(lprec *lp, gnm_float *scaledelta);
 STATIC gboolean finalize_scaling(lprec *lp, gnm_float *scaledelta);
 STATIC gnm_float auto_scale(lprec *lp);
-void undoscale(lprec *lp);
+static void undoscale(lprec *lp);
 
 #ifdef __cplusplus
  }
@@ -3578,9 +3490,9 @@ extern "C" {
 #endif
 
 /* Comparison and validity routines */
-int compareImprovementVar(const pricerec *current, const pricerec *candidate);
-int compareSubstitutionVar(const pricerec *current, const pricerec *candidate);
-int compareBoundFlipVar(const pricerec *current, const pricerec *candidate);
+static int compareImprovementVar(const pricerec *current, const pricerec *candidate);
+static int compareSubstitutionVar(const pricerec *current, const pricerec *candidate);
+static int compareBoundFlipVar(const pricerec *current, const pricerec *candidate);
 STATIC int addCandidateVar(pricerec *candidate, multirec *multi, findCompare_func findCompare, gboolean allowSortedExpand);
 STATIC gboolean collectMinorVar(pricerec *candidate, multirec *longsteps, gboolean isphase2, gboolean isbatch);
 STATIC gboolean validImprovementVar(pricerec *candidate);
@@ -3691,7 +3603,7 @@ STATIC int lin_solve(lprec *lp);
 extern "C" {
 #endif
 
-int getMDO(lprec *lp, gboolean *usedpos, int *colorder, int *size, gboolean symmetric);
+static int getMDO(lprec *lp, gboolean *usedpos, int *colorder, int *size, gboolean symmetric);
 
 #ifdef __cplusplus
  }
@@ -3976,44 +3888,39 @@ typedef struct _LUSOLrec {
 } LUSOLrec;
 
 
-LUSOLrec *LUSOL_create(FILE *outstream, int msgfil, int pivotmodel, int updatelimit);
-gboolean LUSOL_sizeto(LUSOLrec *LUSOL, int init_r, int init_c, int init_a);
-gboolean LUSOL_assign(LUSOLrec *LUSOL, int iA[], int jA[], gnm_float Aij[], 
+static LUSOLrec *LUSOL_create(FILE *outstream, int msgfil, int pivotmodel, int updatelimit);
+static gboolean LUSOL_sizeto(LUSOLrec *LUSOL, int init_r, int init_c, int init_a);
+static gboolean LUSOL_assign(LUSOLrec *LUSOL, int iA[], int jA[], gnm_float Aij[], 
                                      int nzcount, gboolean istriplet);
-void LUSOL_clear(LUSOLrec *LUSOL, gboolean nzonly);
-void LUSOL_free(LUSOLrec *LUSOL);
+static void LUSOL_clear(LUSOLrec *LUSOL, gboolean nzonly);
+static void LUSOL_free(LUSOLrec *LUSOL);
 
-LUSOLmat *LUSOL_matcreate(int dim, int nz);
-void LUSOL_matfree(LUSOLmat **mat);
+static LUSOLmat *LUSOL_matcreate(int dim, int nz);
+static void LUSOL_matfree(LUSOLmat **mat);
 
-int LUSOL_loadColumn(LUSOLrec *LUSOL, int iA[], int jA, gnm_float Aij[], int nzcount, int offset1);
-void LUSOL_setpivotmodel(LUSOLrec *LUSOL, int pivotmodel, int initlevel);
-int LUSOL_factorize(LUSOLrec *LUSOL);
-int LUSOL_replaceColumn(LUSOLrec *LUSOL, int jcol, gnm_float v[]);
+static int LUSOL_loadColumn(LUSOLrec *LUSOL, int iA[], int jA, gnm_float Aij[], int nzcount, int offset1);
+static void LUSOL_setpivotmodel(LUSOLrec *LUSOL, int pivotmodel, int initlevel);
+static int LUSOL_factorize(LUSOLrec *LUSOL);
+static int LUSOL_replaceColumn(LUSOLrec *LUSOL, int jcol, gnm_float v[]);
 
-gboolean LUSOL_tightenpivot(LUSOLrec *LUSOL);
-int LUSOL_findColumnPosition(LUSOLrec *LUSOL, int jcol);
+static gboolean LUSOL_tightenpivot(LUSOLrec *LUSOL);
 
-const char *LUSOL_pivotLabel(LUSOLrec *LUSOL);
-const char *LUSOL_informstr(LUSOLrec *LUSOL, int inform);
-gnm_float LUSOL_vecdensity(LUSOLrec *LUSOL, gnm_float V[]);
-void LUSOL_report(LUSOLrec *LUSOL, int msglevel, const char *format, ...);
-void LUSOL_timer(LUSOLrec *LUSOL, int timerid, char *text);
+static const char *LUSOL_pivotLabel(LUSOLrec *LUSOL);
+static const char *LUSOL_informstr(LUSOLrec *LUSOL, int inform);
+static void LUSOL_report(LUSOLrec *LUSOL, int msglevel, const char *format, ...);
 
-int LUSOL_ftran(LUSOLrec *LUSOL, gnm_float b[], int NZidx[], gboolean prepareupdate);
-int LUSOL_btran(LUSOLrec *LUSOL, gnm_float b[], int NZidx[]);
+static int LUSOL_ftran(LUSOLrec *LUSOL, gnm_float b[], int NZidx[], gboolean prepareupdate);
+static int LUSOL_btran(LUSOLrec *LUSOL, gnm_float b[], int NZidx[]);
 
 static void LU1FAC(LUSOLrec *LUSOL, int *INFORM);
 static gboolean LU1L0(LUSOLrec *LUSOL, LUSOLmat **mat, int *inform);
 static void LU6SOL(LUSOLrec *LUSOL, int MODE, gnm_float V[], gnm_float W[], int NZidx[], int *INFORM);
-void LU8RPC(LUSOLrec *LUSOL, int MODE1, int MODE2, 
+static void LU8RPC(LUSOLrec *LUSOL, int MODE1, int MODE2, 
             int JREP, gnm_float V[], gnm_float W[], 
             int *INFORM, gnm_float *DIAG, gnm_float *VNORM);
 
-void LUSOL_dump(FILE *output, LUSOLrec *LUSOL);
 
 
-void print_L0(LUSOLrec *LUSOL);
 
 
 #endif /* HEADER_LUSOL */
@@ -4106,50 +4013,49 @@ extern "C" {
 
 /* Routines with UNIQUE implementations for each inversion engine                     */
 /* ---------------------------------------------------------------------------------- */
-const char *(bfp_name)(void);
-void    (bfp_free)(lprec *lp);
-gboolean  (bfp_resize)(lprec *lp, int newsize);
-int     (bfp_nonzeros)(lprec *lp, gboolean maximum);
-int     (bfp_memallocated)(lprec *lp);
-int     (bfp_preparefactorization)(lprec *lp);
-int     (bfp_factorize)(lprec *lp, int uservars, int Bsize, gboolean *usedpos, gboolean final);
-gboolean  (bfp_finishupdate)(lprec *lp, gboolean changesign);
-void    (bfp_ftran_normal)(lprec *lp, gnm_float *pcol, int *nzidx);
-void    (bfp_ftran_prepare)(lprec *lp, gnm_float *pcol, int *nzidx);
-void    (bfp_btran_normal)(lprec *lp, gnm_float *prow, int *nzidx);
-int     (bfp_status)(lprec *lp);
-int     (bfp_findredundant)(lprec *lp, int items, getcolumnex_func cb, int *maprow, int*mapcol);
+static const char *(bfp_name)(void);
+static void    (bfp_free)(lprec *lp);
+static gboolean  (bfp_resize)(lprec *lp, int newsize);
+static int     (bfp_nonzeros)(lprec *lp, gboolean maximum);
+static int     (bfp_memallocated)(lprec *lp);
+static int     (bfp_preparefactorization)(lprec *lp);
+static int     (bfp_factorize)(lprec *lp, int uservars, int Bsize, gboolean *usedpos, gboolean final);
+static gboolean  (bfp_finishupdate)(lprec *lp, gboolean changesign);
+static void    (bfp_ftran_normal)(lprec *lp, gnm_float *pcol, int *nzidx);
+static void    (bfp_ftran_prepare)(lprec *lp, gnm_float *pcol, int *nzidx);
+static void    (bfp_btran_normal)(lprec *lp, gnm_float *prow, int *nzidx);
+static int     (bfp_status)(lprec *lp);
+static int     (bfp_findredundant)(lprec *lp, int items, getcolumnex_func cb, int *maprow, int*mapcol);
 
 
 /* Routines SHARED for all inverse implementations; located in lp_BFP1.c              */
 /* ---------------------------------------------------------------------------------- */
-gboolean  (bfp_compatible)(lprec *lp, int bfpversion, int lpversion, int sizeofvar);
-int     (bfp_indexbase)(lprec *lp);
-int     (bfp_rowoffset)(lprec *lp);
-int     (bfp_pivotmax)(lprec *lp);
-gnm_float    (bfp_efficiency)(lprec *lp);
-gnm_float    *(bfp_pivotvector)(lprec *lp);
-int     (bfp_pivotcount)(lprec *lp);
-gboolean  (bfp_mustrefactorize)(lprec *lp);
-int     (bfp_refactcount)(lprec *lp, int kind);
-gboolean  (bfp_isSetI)(lprec *lp);
-int    *bfp_createMDO(lprec *lp, gboolean *usedpos, int count, gboolean doMDO);
-void   bfp_updaterefactstats(lprec *lp);
+static gboolean  (bfp_compatible)(lprec *lp, int bfpversion, int lpversion, int sizeofvar);
+static int     (bfp_indexbase)(lprec *lp);
+static int     (bfp_rowoffset)(lprec *lp);
+static int     (bfp_pivotmax)(lprec *lp);
+static gnm_float    (bfp_efficiency)(lprec *lp);
+static gnm_float    *(bfp_pivotvector)(lprec *lp);
+static int     (bfp_pivotcount)(lprec *lp);
+static gboolean  (bfp_mustrefactorize)(lprec *lp);
+static int     (bfp_refactcount)(lprec *lp, int kind);
+static gboolean  (bfp_isSetI)(lprec *lp);
+static void   bfp_updaterefactstats(lprec *lp);
 
 
 /* Routines with OPTIONAL SHARED code; template routines suitable for canned          */
 /* inverse engines are located in lp_BFP2.c                                           */
 /* ---------------------------------------------------------------------------------- */
-gboolean  (bfp_init)(lprec *lp, int size, int deltasize, char *options);
-gboolean  (bfp_restart)(lprec *lp);
-gboolean  (bfp_implicitslack)(lprec *lp);
-gboolean  (bfp_pivotalloc)(lprec *lp, int newsize);
-int     (bfp_colcount)(lprec *lp);
-gboolean  (bfp_canresetbasis)(lprec *lp);
-void    (bfp_finishfactorization)(lprec *lp);
-LREAL   (bfp_prepareupdate)(lprec *lp, int row_nr, int col_nr, gnm_float *pcol);
-gnm_float    (bfp_pivotRHS)(lprec *lp, LREAL theta, gnm_float *pcol);
-void    (bfp_btran_double)(lprec *lp, gnm_float *prow, int *pnzidx, gnm_float *drow, int *dnzidx);
+static gboolean  (bfp_init)(lprec *lp, int size, int deltasize, char *options);
+static gboolean  (bfp_restart)(lprec *lp);
+static gboolean  (bfp_implicitslack)(lprec *lp);
+static gboolean  (bfp_pivotalloc)(lprec *lp, int newsize);
+static int     (bfp_colcount)(lprec *lp);
+static gboolean  (bfp_canresetbasis)(lprec *lp);
+static void    (bfp_finishfactorization)(lprec *lp);
+static LREAL   (bfp_prepareupdate)(lprec *lp, int row_nr, int col_nr, gnm_float *pcol);
+static gnm_float    (bfp_pivotRHS)(lprec *lp, LREAL theta, gnm_float *pcol);
+static void    (bfp_btran_double)(lprec *lp, gnm_float *prow, int *pnzidx, gnm_float *drow, int *dnzidx);
 
 /* ------------------------------------------------------------------------- */
 /* Imported bfp/bfp_LUSOL/LUSOL/myblas.h */
@@ -4203,35 +4109,30 @@ typedef int    (BLAS_idamax_func)(int *n, gnm_float *x,  int *is);
 typedef void   (BLAS_dload_func) (int *n, gnm_float *da, gnm_float *dx, int *incx);
 typedef double (BLAS_dnormi_func)(int *n, gnm_float *x);
 
-void init_BLAS(void);
-gboolean is_nativeBLAS(void);
-gboolean load_BLAS(char *libname);
-gboolean unload_BLAS(void);
+static void init_BLAS(void);
+static gboolean is_nativeBLAS(void);
+static gboolean load_BLAS(char *libname);
+static gboolean unload_BLAS(void);
 
 /* ************************************************************************ */
 /* User-callable BLAS definitions (C base 1)                                */
 /* ************************************************************************ */
-void dscal ( int n, gnm_float da,  gnm_float *dx, int incx );
-void dcopy ( int n, gnm_float *dx, int incx, gnm_float *dy, int incy );
-void daxpy ( int n, gnm_float da,  gnm_float *dx, int incx,   gnm_float *dy, int incy );
-void dswap ( int n, gnm_float *dx, int incx, gnm_float *dy, int incy );
-gnm_float ddot  ( int n, gnm_float *dx, int incx, gnm_float *dy, int incy );
-int  idamax( int n, gnm_float *x,  int is );
-void dload ( int n, gnm_float da,  gnm_float *dx, int incx );
-gnm_float dnormi( int n, gnm_float *x );
+static void dscal ( int n, gnm_float da,  gnm_float *dx, int incx );
+static void daxpy ( int n, gnm_float da,  gnm_float *dx, int incx,   gnm_float *dy, int incy );
+static int  idamax( int n, gnm_float *x,  int is );
 
 
 /* ************************************************************************ */
 /* Locally implemented BLAS functions (C base 0)                            */
 /* ************************************************************************ */
-void my_dscal ( int *n, gnm_float *da, gnm_float *dx,  int *incx );
-void my_dcopy ( int *n, gnm_float *dx, int *incx, gnm_float *dy, int *incy );
-void my_daxpy ( int *n, gnm_float *da, gnm_float *dx,  int *incx,  gnm_float *dy, int *incy );
-void my_dswap ( int *n, gnm_float *dx, int *incx, gnm_float *dy, int *incy );
-gnm_float my_ddot  ( int *n, gnm_float *dx, int *incx,  gnm_float *dy, int *incy );
-int  my_idamax( int *n, gnm_float *x,  int *is );
-void my_dload ( int *n, gnm_float *da, gnm_float *dx, int *incx );
-gnm_float my_dnormi( int *n, gnm_float *x );
+static void my_dscal ( int *n, gnm_float *da, gnm_float *dx,  int *incx );
+static void my_dcopy ( int *n, gnm_float *dx, int *incx, gnm_float *dy, int *incy );
+static void my_daxpy ( int *n, gnm_float *da, gnm_float *dx,  int *incx,  gnm_float *dy, int *incy );
+static void my_dswap ( int *n, gnm_float *dx, int *incx, gnm_float *dy, int *incy );
+static gnm_float my_ddot  ( int *n, gnm_float *dx, int *incx,  gnm_float *dy, int *incy );
+static int  my_idamax( int *n, gnm_float *x,  int *is );
+static void my_dload ( int *n, gnm_float *da, gnm_float *dx, int *incx );
+static gnm_float my_dnormi( int *n, gnm_float *x );
 
 
 /* ************************************************************************ */
@@ -4243,16 +4144,11 @@ gnm_float my_dnormi( int *n, gnm_float *x );
   int subvec( int item );
 #endif
 
-int submat( int nrowb, int row, int col );
-int posmat( int nrowb, int row, int col );
 
 
 /* ************************************************************************ */
 /* Randomization functions                                                  */
 /* ************************************************************************ */
-void randomseed(int *seeds);
-void randomdens( int n, gnm_float *x, gnm_float r1, gnm_float r2, gnm_float densty, int *seeds);
-void ddrand( int n, gnm_float *x, int incx, int *seeds );
 
 
 #ifdef __cplusplus
@@ -4280,15 +4176,13 @@ void ddrand( int n, gnm_float *x, int incx, int *seeds );
 
 typedef char MM_typecode[4];
 
-char *mm_typecode_to_str(MM_typecode matcode);
+static char *mm_typecode_to_str(MM_typecode matcode);
 
-int mm_read_banner(FILE *f, MM_typecode *matcode);
-int mm_read_mtx_crd_size(FILE *f, int *M, int *N, int *nz);
-int mm_read_mtx_array_size(FILE *f, int *M, int *N);
+static int mm_read_banner(FILE *f, MM_typecode *matcode);
+static int mm_read_mtx_crd_size(FILE *f, int *M, int *N, int *nz);
 
-int mm_write_banner(FILE *f, MM_typecode matcode);
-int mm_write_mtx_crd_size(FILE *f, int M, int N, int nz);
-int mm_write_mtx_array_size(FILE *f, int M, int N);
+static int mm_write_banner(FILE *f, MM_typecode matcode);
+static int mm_write_mtx_crd_size(FILE *f, int M, int N, int nz);
 
 
 /********************* MM_typecode query fucntions ***************************/
@@ -4310,7 +4204,7 @@ int mm_write_mtx_array_size(FILE *f, int M, int N);
 #define mm_is_skew(typecode)  ((typecode)[3]=='K')
 #define mm_is_hermitian(typecode)((typecode)[3]=='H')
 
-int mm_is_valid(MM_typecode matcode);   /* too complex for a macro */
+static int mm_is_valid(MM_typecode matcode);   /* too complex for a macro */
 
 
 /********************* MM_typecode modify fucntions ***************************/
@@ -4383,14 +4277,14 @@ int mm_is_valid(MM_typecode matcode);   /* too complex for a macro */
 
 /*  high level routines */
 
-int mm_write_mtx_crd(char fname[], int M, int N, int nz, int I[], int J[],
+static int mm_write_mtx_crd(char fname[], int M, int N, int nz, int I[], int J[],
      double val[], MM_typecode matcode);
-int mm_read_mtx_crd_data(FILE *f, int M, int N, int nz, int I[], int J[],
+static int mm_read_mtx_crd_data(FILE *f, int M, int N, int nz, int I[], int J[],
     double val[], MM_typecode matcode);
-int mm_read_mtx_crd_entry(FILE *f, int *I, int *J, double *real, double *img,
+static int mm_read_mtx_crd_entry(FILE *f, int *I, int *J, double *real, double *img,
       MM_typecode matcode);
 
-int mm_read_unsymmetric_sparse(const char *fname, int *M_, int *N_, int *nz_,
+static int mm_read_unsymmetric_sparse(const char *fname, int *M_, int *N_, int *nz_,
                 double **val_, int **I_, int **J_);
 
 
@@ -4413,7 +4307,7 @@ int mm_read_unsymmetric_sparse(const char *fname, int *M_, int *N_, int *nz_,
 
 
 /* MUST MODIFY */
-gboolean bfp_compatible(lprec *lp, int bfpversion, int lpversion, int sizeofvar)
+static gboolean bfp_compatible(lprec *lp, int bfpversion, int lpversion, int sizeofvar)
 {
   gboolean status = FALSE;
   
@@ -4427,19 +4321,19 @@ gboolean bfp_compatible(lprec *lp, int bfpversion, int lpversion, int sizeofvar)
 }
 
 /* DON'T MODIFY */
-int bfp_status(lprec *lp)
+static int bfp_status(lprec *lp)
 {
   return(lp->invB->status);
 }
 
 /* DON'T MODIFY */
-int bfp_indexbase(lprec *lp)
+static int bfp_indexbase(lprec *lp)
 {
   return( MATINDEXBASE );
 }
 
 /* DON'T MODIFY */
-int bfp_rowoffset(lprec *lp)
+static int bfp_rowoffset(lprec *lp)
 {
   if(lp->obj_in_basis)
     return( 1 );
@@ -4448,7 +4342,7 @@ int bfp_rowoffset(lprec *lp)
 }
 
 /* DON'T MODIFY */
-int bfp_pivotmax(lprec *lp)
+static int bfp_pivotmax(lprec *lp)
 {
   if(lp->max_pivots > 0)
     return( lp->max_pivots );
@@ -4457,13 +4351,13 @@ int bfp_pivotmax(lprec *lp)
 }
 
 /* DON'T MODIFY */
-gnm_float * bfp_pivotvector(lprec *lp)
+static gnm_float * bfp_pivotvector(lprec *lp)
 {
   return( lp->invB->pcol );
 }
 
 /* DON'T MODIFY */
-gnm_float bfp_efficiency(lprec *lp)
+static gnm_float bfp_efficiency(lprec *lp)
 {
   gnm_float hold;
 
@@ -4476,14 +4370,14 @@ gnm_float bfp_efficiency(lprec *lp)
 }
 
 /* DON'T MODIFY */
-int bfp_pivotcount(lprec *lp)
+static int bfp_pivotcount(lprec *lp)
 {
   return(lp->invB->num_pivots);
 }
 
 
 /* DON'T MODIFY */
-int bfp_refactcount(lprec *lp, int kind)
+static int bfp_refactcount(lprec *lp, int kind)
 {
   if(kind == BFP_STAT_REFACT_TOTAL)
     return(lp->invB->num_refact);
@@ -4496,7 +4390,7 @@ int bfp_refactcount(lprec *lp, int kind)
 }
 
 /* DON'T MODIFY */
-gboolean bfp_mustrefactorize(lprec *lp)
+static gboolean bfp_mustrefactorize(lprec *lp)
 {
   gboolean test = lp->is_action(lp->spx_action, ACTION_REINVERT | ACTION_TIMEDREINVERT);
   if(!test) {
@@ -4541,44 +4435,13 @@ gboolean bfp_mustrefactorize(lprec *lp)
 }
 
 /* DON'T MODIFY */
-gboolean bfp_isSetI(lprec *lp)
+static gboolean bfp_isSetI(lprec *lp)
 {
   return( (gboolean) lp->invB->set_Bidentity );
 }
 
 /* DON'T MODIFY */
-int *bfp_createMDO(lprec *lp, gboolean *usedpos, int count, gboolean doMDO)
-{
-  int *mdo, i, j, kk;
-  
-  mdo = (int *) g_malloc((count + 1)*sizeof(*mdo));
-/*  allocINT(lp, &mdo, count + 1, FALSE); */
-
- /* Fill the mdo[] array with remaining full-pivot basic user variables */
-  kk = 0;
-  for(j = 1; j <= lp->columns; j++) {
-    i = lp->rows + j;
-    if(usedpos[i] == TRUE) {
-      kk++;
-      mdo[kk] = i;
-    }
-  }
-  mdo[0] = kk;
-  if(kk == 0)
-    goto Process;
-
- /* Calculate the approximate minimum degree column ordering */
-  if(doMDO) {
-    i = lp->getMDO(lp, usedpos, mdo, NULL, FALSE);
-    if(i != 0) {
-      lp->report(lp, CRITICAL, "bfp_createMDO: Internal error %d in minimum degree ordering routine", i);
-      FREE(mdo);
-    }
-  }
-Process:  
-  return( mdo );
-}
-void bfp_updaterefactstats(lprec *lp)
+static void bfp_updaterefactstats(lprec *lp)
 {
   INVrec *lu = lp->invB;
 
@@ -4608,7 +4471,7 @@ void bfp_updaterefactstats(lprec *lp)
 
 
 /* DON'T MODIFY */
-gboolean bfp_init(lprec *lp, int size, int delta, char *options)
+static gboolean bfp_init(lprec *lp, int size, int delta, char *options)
 {
   INVrec *lu;
 
@@ -4634,7 +4497,7 @@ gboolean bfp_init(lprec *lp, int size, int delta, char *options)
 }
 
 /* DON'T MODIFY */
-gboolean bfp_restart(lprec *lp)
+static gboolean bfp_restart(lprec *lp)
 {
   INVrec *lu;
 
@@ -4657,27 +4520,27 @@ gboolean bfp_restart(lprec *lp)
 }
 
 /* DON'T MODIFY */
-gboolean bfp_implicitslack(lprec *lp)
+static gboolean bfp_implicitslack(lprec *lp)
 {
   return( FALSE );
 }
 
 /* DON'T MODIFY */
-int bfp_colcount(lprec *lp)
+static int bfp_colcount(lprec *lp)
 {
   return(lp->invB->user_colcount);
 }
 
 
 /* DON'T MODIFY */
-gboolean bfp_canresetbasis(lprec *lp)
+static gboolean bfp_canresetbasis(lprec *lp)
 {
   return( FALSE );
 }
 
 
 /* DON'T MODIFY */
-gboolean bfp_pivotalloc(lprec *lp, int newsize)
+static gboolean bfp_pivotalloc(lprec *lp, int newsize)
 {
   /* Does nothing in the default implementation */
   return( TRUE );
@@ -4685,7 +4548,7 @@ gboolean bfp_pivotalloc(lprec *lp, int newsize)
 
 
 /* DON'T MODIFY */
-void bfp_finishfactorization(lprec *lp)
+static void bfp_finishfactorization(lprec *lp)
 {
   INVrec *lu;
 
@@ -4736,7 +4599,7 @@ LREAL bfp_prepareupdate(lprec *lp, int row_nr, int col_nr, gnm_float *pcol)
 
 
 /* DON'T MODIFY */
-gnm_float bfp_pivotRHS(lprec *lp, LREAL theta, gnm_float *pcol)
+static gnm_float bfp_pivotRHS(lprec *lp, LREAL theta, gnm_float *pcol)
 /* This function is used to adjust the RHS in bound swap operations as
    well as handling the updating of the RHS for normal basis changes.
    Was rhsmincol(), ie. "rhs minus column" in versions of lp_solve before 4.0.1.8 - KE */
@@ -4769,7 +4632,7 @@ gnm_float bfp_pivotRHS(lprec *lp, LREAL theta, gnm_float *pcol)
 
 
 /* DON'T MODIFY */
-void bfp_btran_double(lprec *lp, gnm_float *prow, int *pnzidx, gnm_float *drow, int *dnzidx)
+static void bfp_btran_double(lprec *lp, gnm_float *prow, int *pnzidx, gnm_float *drow, int *dnzidx)
 {
   if(prow != NULL)
     lp->bfp_btran_normal(lp, prow, pnzidx);
@@ -4812,14 +4675,14 @@ void bfp_btran_double(lprec *lp, gnm_float *prow, int *pnzidx, gnm_float *drow, 
 
 
 /* MUST MODIFY */
-const char * bfp_name(void)
+static const char * bfp_name(void)
 {
   return( "LUSOL v2.2.1.0" );
 }
 
 
 /* MUST MODIFY */
-gboolean bfp_resize(lprec *lp, int newsize)
+static gboolean bfp_resize(lprec *lp, int newsize)
 {
   INVrec *lu;
 
@@ -4899,7 +4762,7 @@ gboolean bfp_resize(lprec *lp, int newsize)
 
 
 /* MUST MODIFY */
-void bfp_free(lprec *lp)
+static void bfp_free(lprec *lp)
 {
   INVrec *lu;
 
@@ -4920,7 +4783,7 @@ void bfp_free(lprec *lp)
 
 
 /* MUST MODIFY */
-int bfp_nonzeros(lprec *lp, gboolean maximum)
+static int bfp_nonzeros(lprec *lp, gboolean maximum)
 {
   INVrec *lu;
 
@@ -4936,7 +4799,7 @@ int bfp_nonzeros(lprec *lp, gboolean maximum)
 
 
 /* MUST MODIFY (or ignore) */
-int bfp_memallocated(lprec *lp)
+static int bfp_memallocated(lprec *lp)
 {
   int      mem;
   LUSOLrec *LUSOL = lp->invB->LUSOL;
@@ -4954,7 +4817,7 @@ int bfp_memallocated(lprec *lp)
 
 
 /* MUST MODIFY */
-int bfp_preparefactorization(lprec *lp)
+static int bfp_preparefactorization(lprec *lp)
 {
   INVrec *lu = lp->invB;
 
@@ -5103,7 +4966,7 @@ static void bfp_LUSOLtighten(lprec *lp)
 
 
 /* MUST MODIFY */
-int bfp_factorize(lprec *lp, int uservars, int Bsize, gboolean *usedpos, gboolean final)
+static int bfp_factorize(lprec *lp, int uservars, int Bsize, gboolean *usedpos, gboolean final)
 {
   int      kcol, inform, *rownum = NULL, singularities = 0;
   LUSOLrec *LUSOL = lp->invB->LUSOL;
@@ -5218,7 +5081,7 @@ int bfp_factorize(lprec *lp, int uservars, int Bsize, gboolean *usedpos, gboolea
 
 
 /* MUST MODIFY */
-gboolean bfp_finishupdate(lprec *lp, gboolean changesign)
+static gboolean bfp_finishupdate(lprec *lp, gboolean changesign)
 /* Was addetacol() in versions of lp_solve before 4.0.1.8 - KE */
 {
   int      i, k, kcol, deltarows = bfp_rowoffset(lp);
@@ -5326,7 +5189,7 @@ gboolean bfp_finishupdate(lprec *lp, gboolean changesign)
 
 
 /* MUST MODIFY */
-void bfp_ftran_normal(lprec *lp, gnm_float *pcol, int *nzidx)
+static void bfp_ftran_normal(lprec *lp, gnm_float *pcol, int *nzidx)
 {
   int    i;
   INVrec *lu;
@@ -5344,7 +5207,7 @@ void bfp_ftran_normal(lprec *lp, gnm_float *pcol, int *nzidx)
 
 
 /* MAY MODIFY */
-void bfp_ftran_prepare(lprec *lp, gnm_float *pcol, int *nzidx)
+static void bfp_ftran_prepare(lprec *lp, gnm_float *pcol, int *nzidx)
 {
   int    i;
   INVrec *lu;
@@ -5362,7 +5225,7 @@ void bfp_ftran_prepare(lprec *lp, gnm_float *pcol, int *nzidx)
 
 
 /* MUST MODIFY */
-void bfp_btran_normal(lprec *lp, gnm_float *prow, int *nzidx)
+static void bfp_btran_normal(lprec *lp, gnm_float *prow, int *nzidx)
 {
   int    i;
   INVrec *lu;
@@ -5395,7 +5258,7 @@ void bfp_btran_normal(lprec *lp, gnm_float *prow, int *nzidx)
 }
 
 /* MUST MODIFY - Routine to find maximum rank of equality constraints */
-int bfp_findredundant(lprec *lp, int items, getcolumnex_func cb, int *maprow, int *mapcol)
+static int bfp_findredundant(lprec *lp, int items, getcolumnex_func cb, int *maprow, int *mapcol)
 {
   int       i, j, nz = 0, m = 0, n = 0, *nzrows = NULL;
   gnm_float      *nzvalues = NULL, *arraymax = NULL;
@@ -5713,7 +5576,7 @@ static gboolean LUSOL_realloc_c(LUSOLrec *LUSOL, int newsize)
     return( FALSE );
 }
 
-LUSOLrec *LUSOL_create(FILE *outstream, int msgfil, int pivotmodel, int updatelimit)
+static LUSOLrec *LUSOL_create(FILE *outstream, int msgfil, int pivotmodel, int updatelimit)
 {
   LUSOLrec *newLU;
 
@@ -5753,7 +5616,7 @@ LUSOLrec *LUSOL_create(FILE *outstream, int msgfil, int pivotmodel, int updateli
   return( newLU );
 }
 
-gboolean LUSOL_sizeto(LUSOLrec *LUSOL, int init_r, int init_c, int init_a)
+static gboolean LUSOL_sizeto(LUSOLrec *LUSOL, int init_r, int init_c, int init_a)
 {
   if(LUSOL_realloc_a(LUSOL, init_a) &&
      LUSOL_realloc_r(LUSOL, init_r) &&
@@ -5763,14 +5626,14 @@ gboolean LUSOL_sizeto(LUSOLrec *LUSOL, int init_r, int init_c, int init_a)
     return( FALSE );
 }
 
-const char *LUSOL_pivotLabel(LUSOLrec *LUSOL)
+static const char *LUSOL_pivotLabel(LUSOLrec *LUSOL)
 {
   static const /*const*/ char *pivotText[LUSOL_PIVMOD_MAX+1] =
   {"TPP", "TRP", "TCP", "TSP"};
   return(pivotText[LUSOL->luparm[LUSOL_IP_PIVOTTYPE]]);
 }
 
-void LUSOL_setpivotmodel(LUSOLrec *LUSOL, int pivotmodel, int initlevel)
+static void LUSOL_setpivotmodel(LUSOLrec *LUSOL, int pivotmodel, int initlevel)
 {
   gnm_float newFM, newUM;
 
@@ -5817,7 +5680,7 @@ void LUSOL_setpivotmodel(LUSOLrec *LUSOL, int pivotmodel, int initlevel)
   LUSOL->parmlu[LUSOL_RP_UPDATEMAX_Lij] = newUM;
 }
 
-gboolean LUSOL_tightenpivot(LUSOLrec *LUSOL)
+static gboolean LUSOL_tightenpivot(LUSOLrec *LUSOL)
 {
   gnm_float newvalue;
 
@@ -5848,7 +5711,7 @@ gboolean LUSOL_tightenpivot(LUSOLrec *LUSOL)
 }
 
 
-const char *LUSOL_informstr(LUSOLrec *LUSOL, int inform)
+static const char *LUSOL_informstr(LUSOLrec *LUSOL, int inform)
 {
   static const char *informText[LUSOL_INFORM_MAX-LUSOL_INFORM_MIN+1] =
   {"LUSOL_RANKLOSS: Lost rank",
@@ -5868,7 +5731,7 @@ const char *LUSOL_informstr(LUSOLrec *LUSOL, int inform)
   return(informText[inform-LUSOL_INFORM_MIN]);
 }
 
-void LUSOL_clear(LUSOLrec *LUSOL, gboolean nzonly)
+static void LUSOL_clear(LUSOLrec *LUSOL, gboolean nzonly)
 {
   int len;
 
@@ -5922,7 +5785,7 @@ void LUSOL_clear(LUSOLrec *LUSOL, gboolean nzonly)
 }
 
 
-gboolean LUSOL_assign(LUSOLrec *LUSOL, int iA[], int jA[], gnm_float Aij[], int nzcount, gboolean istriplet)
+static gboolean LUSOL_assign(LUSOLrec *LUSOL, int iA[], int jA[], gnm_float Aij[], int nzcount, gboolean istriplet)
 {
   int k, m, n, ij, kol;
 
@@ -5971,7 +5834,7 @@ gboolean LUSOL_assign(LUSOLrec *LUSOL, int iA[], int jA[], gnm_float Aij[], int 
   return( TRUE );
 }
 
-int LUSOL_loadColumn(LUSOLrec *LUSOL, int iA[], int jA, gnm_float Aij[], int nzcount, int offset1)
+static int LUSOL_loadColumn(LUSOLrec *LUSOL, int iA[], int jA, gnm_float Aij[], int nzcount, int offset1)
 {
   int i, ii, nz, k;
 
@@ -6002,7 +5865,7 @@ int LUSOL_loadColumn(LUSOLrec *LUSOL, int iA[], int jA, gnm_float Aij[], int nzc
   return( k );
 }
 
-void LUSOL_free(LUSOLrec *LUSOL)
+static void LUSOL_free(LUSOLrec *LUSOL)
 {
   LUSOL_realloc_a(LUSOL, 0);
   LUSOL_realloc_r(LUSOL, 0);
@@ -6014,7 +5877,7 @@ void LUSOL_free(LUSOLrec *LUSOL)
   g_free(LUSOL);
 }
 
-void LUSOL_report(LUSOLrec *LUSOL, int msglevel, const char *format, ...)
+static void LUSOL_report(LUSOLrec *LUSOL, int msglevel, const char *format, ...)
 {
   va_list ap;
 
@@ -6037,13 +5900,8 @@ void LUSOL_report(LUSOLrec *LUSOL, int msglevel, const char *format, ...)
   va_end(ap);
 }
 
-void LUSOL_timer(LUSOLrec *LUSOL, int timerid, char *text)
-{
-  LUSOL_report(LUSOL, -1, "TimerID %d at %s - %s\n",
-                          timerid, "", text);
-}
 
-int LUSOL_factorize(LUSOLrec *LUSOL)
+static int LUSOL_factorize(LUSOLrec *LUSOL)
 {
   int inform;
 
@@ -6051,7 +5909,7 @@ int LUSOL_factorize(LUSOLrec *LUSOL)
   return( inform );
 }
 
-int LUSOL_ftran(LUSOLrec *LUSOL, gnm_float b[], int NZidx[], gboolean prepareupdate)
+static int LUSOL_ftran(LUSOLrec *LUSOL, gnm_float b[], int NZidx[], gboolean prepareupdate)
 {
   int  inform;
   gnm_float *vector;
@@ -6074,7 +5932,7 @@ int LUSOL_ftran(LUSOLrec *LUSOL, gnm_float b[], int NZidx[], gboolean prepareupd
 }
 
 
-int LUSOL_btran(LUSOLrec *LUSOL, gnm_float b[], int NZidx[])
+static int LUSOL_btran(LUSOLrec *LUSOL, gnm_float b[], int NZidx[])
 {
   int inform;
 
@@ -6091,7 +5949,7 @@ int LUSOL_btran(LUSOLrec *LUSOL, gnm_float b[], int NZidx[])
 }
 
 
-int LUSOL_replaceColumn(LUSOLrec *LUSOL, int jcol, gnm_float v[])
+static int LUSOL_replaceColumn(LUSOLrec *LUSOL, int jcol, gnm_float v[])
 {
   int  inform;
   gnm_float DIAG, VNORM;
@@ -6104,33 +5962,7 @@ int LUSOL_replaceColumn(LUSOLrec *LUSOL, int jcol, gnm_float v[])
   return( inform );
 }
 
-int LUSOL_findColumnPosition(LUSOLrec *LUSOL, int jcol)
-/* The purpose of this routine is to find the slack row/column in
-   user-index that was singular in the last unsuccessful column
-   update; zero is returned if the search was unsuccessful.
-   (Source: Michael A. Saunders; private communication to KE) */
-{
-  int j;
 
-#if 1 /* Michael Saunders version */
-  for(j = LUSOL->m; j > 0; j--)
-    if(LUSOL->iq[j] == jcol)
-      break;
-#else /* Kjell Eikland version (note that iqinv could be invalid) */
-  j = LUSOL->iqinv[jcol];
-#endif
-  return( j );
-}
-
-gnm_float LUSOL_vecdensity(LUSOLrec *LUSOL, gnm_float V[])
-{
-  int I, N = 0;
-
-  for(I = 1; I <= LUSOL->m; I++)
-    if(fabs(V[I]) > 0)
-      N++;
-  return( (gnm_float) N / (gnm_float) LUSOL->m );
-}
 
 static char relationChar(gnm_float left, gnm_float right)
 {
@@ -6146,35 +5978,8 @@ static char relationChar(gnm_float left, gnm_float right)
 
 
 
-void LUSOL_dump(FILE *output, LUSOLrec *LUSOL)
-{
-  gboolean userfile = (gboolean) (output != NULL);
 
-  if(!userfile)
-    output = fopen("LUSOL.dbg", "w");
-
-  blockWriteREAL(output, "a", LUSOL->a, 1, LUSOL->lena);
-  blockWriteINT(output, "indc", LUSOL->indc, 1, LUSOL->lena);
-  blockWriteINT(output, "indr", LUSOL->indr, 1, LUSOL->lena);
-
-  blockWriteINT(output, "ip", LUSOL->ip, 1, LUSOL->m);
-  blockWriteINT(output, "iq", LUSOL->iq, 1, LUSOL->n);
-  blockWriteINT(output, "lenc", LUSOL->lenc, 1, LUSOL->n);
-  blockWriteINT(output, "lenr", LUSOL->lenr, 1, LUSOL->m);
-
-  blockWriteINT(output, "locc", LUSOL->locc, 1, LUSOL->n);
-  blockWriteINT(output, "locr", LUSOL->locr, 1, LUSOL->m);
-  blockWriteINT(output, "iploc", LUSOL->iploc, 1, LUSOL->n);
-  blockWriteINT(output, "iqloc", LUSOL->iqloc, 1, LUSOL->m);
-
-  blockWriteINT(output, "ipinv", LUSOL->ipinv, 1, LUSOL->m);
-  blockWriteINT(output, "iqinv", LUSOL->iqinv, 1, LUSOL->n);
-
-  if(!userfile)
-    fclose(output);
-}
-
-LUSOLmat *LUSOL_matcreate(int dim, int nz)
+static LUSOLmat *LUSOL_matcreate(int dim, int nz)
 {
   LUSOLmat *newm;
 
@@ -6192,7 +5997,7 @@ LUSOLmat *LUSOL_matcreate(int dim, int nz)
   }
   return(newm);
 }
-void LUSOL_matfree(LUSOLmat **mat)
+static void LUSOL_matfree(LUSOLmat **mat)
 {
   if((mat == NULL) || (*mat == NULL))
     return;
@@ -7180,34 +6985,6 @@ static void LU6LT(LUSOLrec *LUSOL, int *INFORM, gnm_float V[], int NZidx[])
   LUSOL->luparm[LUSOL_IP_INFORM] = *INFORM;
 }
 
-void print_L0(LUSOLrec *LUSOL)
-{
-  int  I, J, K, L, L1, L2, LEN, LENL0, NUML0;
-  gnm_float *denseL0 = (gnm_float*) calloc(LUSOL->m+1, (LUSOL->n+1)*sizeof(*denseL0));
-
-  NUML0 = LUSOL->luparm[LUSOL_IP_COLCOUNT_L0];
-  LENL0 = LUSOL->luparm[LUSOL_IP_NONZEROS_L0];
-
-  L2 = LUSOL->lena-LENL0;
-  for(K = NUML0; K >= 1; K--) {
-    LEN = LUSOL->lenc[K];
-    L1 = L2+1;
-    L2 += LEN;
-    for(L = L1; L <= L2; L++) {
-      I = LUSOL->indc[L];
-      I = LUSOL->ipinv[I]; /* Undo row mapping */
-      J = LUSOL->indr[L];
-      denseL0[(LUSOL->n+1)*(J-1) + I] = LUSOL->a[L];
-    }
-  }
-
-  for(I = 1; I <= LUSOL->n; I++) {
-    for(J = 1; J <= LUSOL->m; J++)
-      fprintf(stdout, "%10g", denseL0[(LUSOL->n+1)*(J-1) + I]);
-    fprintf(stdout, "\n");
-  }
-  FREE(denseL0);
-}
 
 /* ==================================================================
    lu6U   solves   U w = v.          v  is not altered.
@@ -11741,7 +11518,7 @@ x800:
    10 May 1988: First f77 version.
    16 Oct 2000: Added test for instability (inform = 2).
    ================================================================== */
-void LU8RPC(LUSOLrec *LUSOL, int MODE1, int MODE2,
+static void LU8RPC(LUSOLrec *LUSOL, int MODE1, int MODE2,
             int JREP, gnm_float V[], gnm_float W[],
             int *INFORM, gnm_float *DIAG, gnm_float *VNORM)
 {
@@ -12192,7 +11969,7 @@ __EXTERN_C {
 
 
 
-int colamd_recommended		/* returns recommended value of Alen, */
+static int colamd_recommended		/* returns recommended value of Alen, */
 				/* or (-1) if input arguments are erroneous */
 (
     int nnz,			/* nonzeros in A */
@@ -12200,12 +11977,12 @@ int colamd_recommended		/* returns recommended value of Alen, */
     int n_col			/* number of columns in A */
 ) ;
 
-void colamd_set_defaults	/* sets default parameters */
+static void colamd_set_defaults	/* sets default parameters */
 (				/* knobs argument is modified on output */
     double knobs [COLAMD_KNOBS]	/* parameter settings for colamd */
 ) ;
 
-int colamd			/* returns (1) if successful, (0) otherwise*/
+static int colamd			/* returns (1) if successful, (0) otherwise*/
 (				/* A and p arguments are modified on output */
     int n_row,		/* number of rows in A */
     int n_col,		/* number of columns in A */
@@ -12216,7 +11993,7 @@ int colamd			/* returns (1) if successful, (0) otherwise*/
     int stats [COLAMD_STATS]	/* colamd output statistics and error codes */
 ) ;
 
-int symamd				/* return (1) if OK, (0) otherwise */
+static int symamd				/* return (1) if OK, (0) otherwise */
 (
     int n,				/* number of rows and columns of A */
     int A [],			/* row indices of A */
@@ -12232,21 +12009,6 @@ int symamd				/* return (1) if OK, (0) otherwise */
     					/* mxFree (for Matlab mexFunction) */
 ) ;
 
-void colamd_report
-(
-    int stats [COLAMD_STATS]
-) ;
-
-void symamd_report
-(
-    int stats [COLAMD_STATS]
-) ;
-
-#endif /* COLAMD_H */
-
-
-#ifdef __cplusplus
-}
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -13000,7 +12762,7 @@ void symamd_report
 /* === Prototypes of PRIVATE routines ======================================= */
 /* ========================================================================== */
 
-PRIVATE int init_rows_cols
+static int init_rows_cols
 (
     int n_row,
     int n_col,
@@ -13011,7 +12773,7 @@ PRIVATE int init_rows_cols
     int stats [COLAMD_STATS]
 ) ;
 
-PRIVATE void init_scoring
+static void init_scoring
 (
     int n_row,
     int n_col,
@@ -13025,7 +12787,7 @@ PRIVATE void init_scoring
     int *p_max_deg
 ) ;
 
-PRIVATE int find_ordering
+static int find_ordering
 (
     int n_row,
     int n_col,
@@ -13039,14 +12801,14 @@ PRIVATE int find_ordering
     int pfree
 ) ;
 
-PRIVATE void order_children
+static void order_children
 (
     int n_col,
     Colamd_Col Col [],
     int p []
 ) ;
 
-PRIVATE void detect_super_cols
+static void detect_super_cols
 (
 
 #ifndef NDEBUG
@@ -13061,7 +12823,7 @@ PRIVATE void detect_super_cols
     int row_length
 ) ;
 
-PRIVATE int garbage_collection
+static int garbage_collection
 (
     int n_row,
     int n_col,
@@ -13071,13 +12833,13 @@ PRIVATE int garbage_collection
     int *pfree
 ) ;
 
-PRIVATE int clear_mark
+static int clear_mark
 (
     int n_row,
     Colamd_Row Row []
 ) ;
 
-PRIVATE void print_report
+static void print_report
 (
     const char *method,
     int stats [COLAMD_STATS]
@@ -13092,7 +12854,7 @@ PRIVATE void print_report
 /* colamd_debug is the *ONLY* global variable, and is only */
 /* present when debugging */
 
-PRIVATE int colamd_debug ;	/* debug print level */
+static int colamd_debug ;	/* debug print level */
 
 #define DEBUG0(params) { (void) PRINTF params ; }
 #define DEBUG1(params) { if (colamd_debug >= 1) (void) PRINTF params ; }
@@ -13106,12 +12868,12 @@ PRIVATE int colamd_debug ;	/* debug print level */
 #define ASSERT(expression) (assert (expression))
 #endif /* MATLAB_MEX_FILE */
 
-PRIVATE void colamd_get_debug	/* gets the debug print level from getenv */
+static void colamd_get_debug	/* gets the debug print level from getenv */
 (
     const char *method
 ) ;
 
-PRIVATE void debug_deg_lists
+static void debug_deg_lists
 (
     int n_row,
     int n_col,
@@ -13123,7 +12885,7 @@ PRIVATE void debug_deg_lists
     int max_deg
 ) ;
 
-PRIVATE void debug_mark
+static void debug_mark
 (
     int n_row,
     Colamd_Row Row [],
@@ -13131,7 +12893,7 @@ PRIVATE void debug_mark
     int max_mark
 ) ;
 
-PRIVATE void debug_matrix
+static void debug_matrix
 (
     int n_row,
     int n_col,
@@ -13140,7 +12902,7 @@ PRIVATE void debug_matrix
     int A []
 ) ;
 
-PRIVATE void debug_structures
+static void debug_structures
 (
     int n_row,
     int n_col,
@@ -13186,7 +12948,7 @@ PRIVATE void debug_structures
     can use it for a statically-allocated array size.
 */
 
-PUBLIC int colamd_recommended	/* returns recommended value of Alen. */
+static int colamd_recommended	/* returns recommended value of Alen. */
 (
     /* === Parameters ======================================================= */
 
@@ -13220,7 +12982,7 @@ PUBLIC int colamd_recommended	/* returns recommended value of Alen. */
 	knobs [2..19]	unused, but future versions might use this
 */
 
-PUBLIC void colamd_set_defaults
+static void colamd_set_defaults
 (
     /* === Parameters ======================================================= */
 
@@ -13248,7 +13010,7 @@ PUBLIC void colamd_set_defaults
 /* === symamd =============================================================== */
 /* ========================================================================== */
 
-PUBLIC int symamd			/* return TRUE if OK, FALSE otherwise */
+static int symamd			/* return TRUE if OK, FALSE otherwise */
 (
     /* === Parameters ======================================================= */
 
@@ -13593,7 +13355,7 @@ PUBLIC int symamd			/* return TRUE if OK, FALSE otherwise */
     (AQ)'(AQ) = LL' remains sparse.
 */
 
-PUBLIC int colamd		/* returns TRUE if successful, FALSE otherwise*/
+static int colamd		/* returns TRUE if successful, FALSE otherwise*/
 (
     /* === Parameters ======================================================= */
 
@@ -13752,26 +13514,12 @@ PUBLIC int colamd		/* returns TRUE if successful, FALSE otherwise*/
 /* === colamd_report ======================================================== */
 /* ========================================================================== */
 
-PUBLIC void colamd_report
-(
-    int stats [COLAMD_STATS]
-)
-{
-    print_report ("colamd", stats) ;
-}
 
 
 /* ========================================================================== */
 /* === symamd_report ======================================================== */
 /* ========================================================================== */
 
-PUBLIC void symamd_report
-(
-    int stats [COLAMD_STATS]
-)
-{
-    print_report ("symamd", stats) ;
-}
 
 
 
@@ -13795,7 +13543,7 @@ PUBLIC void symamd_report
     TRUE otherwise.  Not user-callable.
 */
 
-PRIVATE int init_rows_cols	/* returns TRUE if OK, or FALSE otherwise */
+static int init_rows_cols	/* returns TRUE if OK, or FALSE otherwise */
 (
     /* === Parameters ======================================================= */
 
@@ -14032,7 +13780,7 @@ PRIVATE int init_rows_cols	/* returns TRUE if OK, or FALSE otherwise */
     each column, and places all columns in the degree lists.  Not user-callable.
 */
 
-PRIVATE void init_scoring
+static void init_scoring
 (
     /* === Parameters ======================================================= */
 
@@ -14288,7 +14036,7 @@ PRIVATE void init_scoring
     degree ordering method.  Not user-callable.
 */
 
-PRIVATE int find_ordering	/* return the number of garbage collections */
+static int find_ordering	/* return the number of garbage collections */
 (
     /* === Parameters ======================================================= */
 
@@ -14852,7 +14600,7 @@ PRIVATE int find_ordering	/* return the number of garbage collections */
     columns.  Not user-callable.
 */
 
-PRIVATE void order_children
+static void order_children
 (
     /* === Parameters ======================================================= */
 
@@ -14953,7 +14701,7 @@ PRIVATE void order_children
     Not user-callable.
 */
 
-PRIVATE void detect_super_cols
+static void detect_super_cols
 (
     /* === Parameters ======================================================= */
 
@@ -15110,7 +14858,7 @@ PRIVATE void detect_super_cols
     Not user-callable.
 */
 
-PRIVATE int garbage_collection  /* returns the new value of pfree */
+static int garbage_collection  /* returns the new value of pfree */
 (
     /* === Parameters ======================================================= */
 
@@ -15246,7 +14994,7 @@ PRIVATE int garbage_collection  /* returns the new value of pfree */
     Return value is the new tag_mark.  Not user-callable.
 */
 
-PRIVATE int clear_mark	/* return the new value for tag_mark */
+static int clear_mark	/* return the new value for tag_mark */
 (
     /* === Parameters ======================================================= */
 
@@ -15273,7 +15021,7 @@ PRIVATE int clear_mark	/* return the new value for tag_mark */
 /* === print_report ========================================================= */
 /* ========================================================================== */
 
-PRIVATE void print_report
+static void print_report
 (
     const char *method,
     int stats [COLAMD_STATS]
@@ -15421,7 +15169,7 @@ PRIVATE void print_report
     least one live column.
 */
 
-PRIVATE void debug_structures
+static void debug_structures
 (
     /* === Parameters ======================================================= */
 
@@ -15508,7 +15256,7 @@ PRIVATE void debug_structures
     checks the row degrees.
 */
 
-PRIVATE void debug_deg_lists
+static void debug_deg_lists
 (
     /* === Parameters ======================================================= */
 
@@ -15582,7 +15330,7 @@ PRIVATE void debug_deg_lists
     each entry in the mark array is less than the tag mark.
 */
 
-PRIVATE void debug_mark
+static void debug_mark
 (
     /* === Parameters ======================================================= */
 
@@ -15618,7 +15366,7 @@ PRIVATE void debug_mark
     Prints out the contents of the columns and the rows.
 */
 
-PRIVATE void debug_matrix
+static void debug_matrix
 (
     /* === Parameters ======================================================= */
 
@@ -15683,7 +15431,7 @@ PRIVATE void debug_matrix
     }
 }
 
-PRIVATE void colamd_get_debug
+static void colamd_get_debug
 (
     const char *method
 )
@@ -15754,7 +15502,7 @@ PRIVATE void colamd_get_debug
 
 
 /* Math operator equivalence function */
-int mod(int n, int d)
+static int mod(int n, int d)
 {
   return(n % d);
 }
@@ -15763,7 +15511,7 @@ int mod(int n, int d)
 /* Return the greatest common divisor of a and b, or -1 if it is 
    not defined. Return through the pointer arguments the integers
    such that mygcd(a,b) = c*a + b*d. */
-int mygcd(gint64 a, gint64 b, int *c, int *d)
+static int mygcd(gint64 a, gint64 b, int *c, int *d)
 {
   gint64 q,r,t;
   int   cret,dret,C,D,rval, sgn_a = 1,sgn_b = 1, swap = 0;
@@ -15825,84 +15573,7 @@ int mygcd(gint64 a, gint64 b, int *c, int *d)
 }
 
 /* Array search functions */
-int findIndex(int target, int *attributes, int count, int offset)
-{
-  int focusPos, beginPos, endPos;
-  int focusAttrib, beginAttrib, endAttrib;
-
- /* Set starting and ending index offsets */
-  beginPos = offset;
-  endPos = beginPos + count - 1;
-  if(endPos < beginPos)
-    return(-1);
-
- /* Do binary search logic based on a sorted (decending) attribute vector */
-  focusPos = (beginPos + endPos) / 2;
-  beginAttrib = attributes[beginPos];
-  focusAttrib = attributes[focusPos];
-  endAttrib   = attributes[endPos];
-
-  while(endPos - beginPos > LINEARSEARCH) {
-    if(beginAttrib == target) {
-      focusAttrib = beginAttrib;
-      endPos = beginPos;
-    }
-    else if(endAttrib == target) {
-      focusAttrib = endAttrib;
-      beginPos = endPos;
-    }
-    else if(focusAttrib < target) {
-      beginPos = focusPos + 1;
-      beginAttrib = attributes[beginPos];
-      focusPos = (beginPos + endPos) / 2;
-      focusAttrib = attributes[focusPos];
-    }
-    else if(focusAttrib > target) {
-      endPos = focusPos - 1;
-      endAttrib = attributes[endPos];
-      focusPos = (beginPos + endPos) / 2;
-      focusAttrib = attributes[focusPos];
-    }
-    else {
-      beginPos = focusPos;
-      endPos = focusPos;
-    }
-  }
-
- /* Do linear (unsorted) search logic */
-  if(endPos - beginPos <= LINEARSEARCH) {
-
-    /* CPU intensive loop; provide alternative evaluation models */
-#if defined DOFASTMATH
-    /* Do fast pointer arithmetic */
-    int *attptr = attributes + beginPos;
-    while((beginPos < endPos) && ((*attptr) < target)) {
-      beginPos++;
-      attptr++;
-    }
-    focusAttrib = (*attptr);
-#else
-    /* Do traditional indexed access */
-    focusAttrib = attributes[beginPos];
-    while((beginPos < endPos) && (focusAttrib < target)) {
-      beginPos++;
-      focusAttrib = attributes[beginPos];
-    }
-#endif
-  }
-
- /* Return the index if a match was found, or signal failure with a -1        */
-  if(focusAttrib == target)             /* Found; return retrieval index      */
-    return(beginPos);
-  else if(focusAttrib > target)         /* Not found; last item               */
-    return(-beginPos);
-  else if(beginPos > offset+count-1)
-    return(-(endPos+1));                /* Not found; end of list             */
-  else
-    return(-(beginPos+1));              /* Not found; intermediate point      */
-
-}
-int findIndexEx(void *target, void *attributes, int count, int offset, int recsize, findCompare_func findCompare, gboolean ascending)
+static int findIndexEx(void *target, void *attributes, int count, int offset, int recsize, findCompare_func findCompare, gboolean ascending)
 {
   int  focusPos, beginPos, endPos, compare, order;
   void *focusAttrib, *beginAttrib, *endAttrib;
@@ -15979,16 +15650,7 @@ int findIndexEx(void *target, void *attributes, int count, int offset, int recsi
 }
 
 /* Simple sorting and searching comparison "operators" */
-int compareCHAR(const void *current, const void *candidate)
-{
-  if(*(char *) current < *(char *) candidate)
-    return( -1 );
-  else if(*(char *) current > *(char *) candidate)
-    return( 1 );
-  else
-    return( 0 );
-}
-int compareINT(const void *current, const void *candidate)
+static int compareINT(const void *current, const void *candidate)
 {
   if(*(int *) current < *(int *) candidate)
     return( -1 );
@@ -15997,7 +15659,7 @@ int compareINT(const void *current, const void *candidate)
   else
     return( 0 );
 }
-int compareREAL(const void *current, const void *candidate)
+static int compareREAL(const void *current, const void *candidate)
 {
   if(*(gnm_float *) current < *(gnm_float *) candidate)
     return( -1 );
@@ -16011,7 +15673,7 @@ int compareREAL(const void *current, const void *candidate)
    but expanded and generalized to hande any object with the use of 
    qsort-style comparison operator).  An expanded version is also implemented,
    where interchanges are reflected in a caller-initialized integer "tags" list. */
-void hpsort(void *attributes, int count, int offset, int recsize, gboolean descending, findCompare_func findCompare)
+static void hpsort(void *attributes, int count, int offset, int recsize, gboolean descending, findCompare_func findCompare)
 {
   register int  i, j, k, ir, order;
   register char *hold, *base;
@@ -16066,7 +15728,7 @@ void hpsort(void *attributes, int count, int offset, int recsize, gboolean desce
   
   FREE(save);
 }
-void hpsortex(void *attributes, int count, int offset, int recsize, gboolean descending, findCompare_func findCompare, int *tags)
+static void hpsortex(void *attributes, int count, int offset, int recsize, gboolean descending, findCompare_func findCompare, int *tags)
 {
   if(count < 2)
     return;
@@ -16144,12 +15806,12 @@ void hpsortex(void *attributes, int count, int offset, int recsize, gboolean des
    the ability for to do linked list sorting. If the passed comparison operator 
    is NULL, the comparison is assumed to be for integers. */
 #define QS_IS_switch 4    /* Threshold for switching to insertion sort */
-int QS_addfirst(QSORTrec a[], void *mydata)
+static int QS_addfirst(QSORTrec a[], void *mydata)
 {
   a[0].self = mydata;
   return( 0 );
 }
-int QS_append(QSORTrec a[], int ipos, void *mydata)
+static int QS_append(QSORTrec a[], int ipos, void *mydata)
 {
   if(ipos <= 0)
     ipos = QS_addfirst(a, mydata);
@@ -16157,20 +15819,11 @@ int QS_append(QSORTrec a[], int ipos, void *mydata)
     a[ipos].self = mydata;
   return( ipos );
 }
-void QS_replace(QSORTrec a[], int ipos, void *mydata)
-{
-  a[ipos].self = mydata;
-}
-void QS_insert(QSORTrec a[], int ipos, void *mydata, int epos)
+static void QS_insert(QSORTrec a[], int ipos, void *mydata, int epos)
 {
   for(; epos > ipos; epos--)
     a[epos] = a[epos-1];
   a[ipos].self = mydata;
-}
-void QS_delete(QSORTrec a[], int ipos, int epos)
-{
-  for(; epos > ipos; epos--)
-    a[epos] = a[epos-1];
 }
 static gboolean QS_validate(QSORTrec a[], int count)
 {
@@ -16187,7 +15840,7 @@ static gboolean QS_validate(QSORTrec a[], int count)
     printf("QS_validate: Error in linked list consistency at position %d\n", count);
   return( ! iserror );
 }
-void QS_swap(QSORTrec a[], int i, int j)
+static void QS_swap(QSORTrec a[], int i, int j)
 {
   QSORTrec T = a[i];
   a[i] = a[j];
@@ -16250,7 +15903,7 @@ static int QS_finish(QSORTrec a[], int lo0, int hi0, findCompare_func findCompar
   }
   return( nmove );
 }
-gboolean QS_execute(QSORTrec a[], int count, findCompare_func findCompare, gboolean islinkedlist, int *nswaps)
+static gboolean QS_execute(QSORTrec a[], int count, findCompare_func findCompare, gboolean islinkedlist, int *nswaps)
 {
   int iswaps = 0;
 
@@ -16288,7 +15941,7 @@ Finish:
  
 
 /* Simple specialized bubble/insertion sort functions */
-int sortByREAL(int *item, gnm_float *weight, int size, int offset, gboolean unique)
+static int sortByREAL(int *item, gnm_float *weight, int size, int offset, gboolean unique)
 {
   int i, ii, saveI;
   gnm_float saveW;
@@ -16313,7 +15966,7 @@ int sortByREAL(int *item, gnm_float *weight, int size, int offset, gboolean uniq
   }
   return(0);
 }
-int sortByINT(int *item, int *weight, int size, int offset, gboolean unique)
+static int sortByINT(int *item, int *weight, int size, int offset, gboolean unique)
 {
   int i, ii, saveI;
   int saveW;
@@ -16338,7 +15991,7 @@ int sortByINT(int *item, int *weight, int size, int offset, gboolean unique)
   }
   return(0);
 }
-gnm_float sortREALByINT(gnm_float *item, int *weight, int size, int offset, gboolean unique)
+static gnm_float sortREALByINT(gnm_float *item, int *weight, int size, int offset, gboolean unique)
 {
   int  i, ii, saveW;
   gnm_float saveI;
@@ -16366,7 +16019,7 @@ gnm_float sortREALByINT(gnm_float *item, int *weight, int size, int offset, gboo
 
 
 /* Time and message functions */
-double timeNow(void)
+static double timeNow(void)
 {
 #ifdef INTEGERTIME
   return((double)time(NULL));
@@ -16384,7 +16037,7 @@ double timeNow(void)
 /* Miscellaneous reporting functions */
 
 /* List a vector of INT values for the given index range */
-void blockWriteINT(FILE *output, const char *label, int *myvector, int first, int last)
+static void blockWriteINT(FILE *output, const char *label, int *myvector, int first, int last)
 {
   int i, k = 0;
 
@@ -16403,7 +16056,7 @@ void blockWriteINT(FILE *output, const char *label, int *myvector, int first, in
 }
 
 /* List a vector of gboolean values for the given index range */
-void blockWriteBOOL(FILE *output, const char *label, gboolean *myvector, int first, int last, gboolean asRaw)
+static void blockWriteBOOL(FILE *output, const char *label, gboolean *myvector, int first, int last, gboolean asRaw)
 {
   int i, k = 0;
 
@@ -16425,7 +16078,7 @@ void blockWriteBOOL(FILE *output, const char *label, gboolean *myvector, int fir
 }
 
 /* List a vector of gnm_float values for the given index range */
-void blockWriteREAL(FILE *output, const char *label, gnm_float *myvector, int first, int last)
+static void blockWriteREAL(FILE *output, const char *label, gnm_float *myvector, int first, int last)
 {
   int i, k = 0;
 
@@ -16445,41 +16098,10 @@ void blockWriteREAL(FILE *output, const char *label, gnm_float *myvector, int fi
 
 
 /* CONSOLE vector and matrix printing routines */
-void printvec( int n, gnm_float *x, int modulo )
-{
-  int i;
-
-  if (modulo <= 0) modulo = 5;
-  for (i = 1; i<=n; i++) {
-    if(mod(i, modulo) == 1)
-      printf("\n%2d:%12g", i, x[i]);
-    else
-      printf(" %2d:%12g", i, x[i]);
-  }
-  if(i % modulo != 0) printf("\n");
-}
 
 
-void printmatUT( int size, int n, gnm_float *U, int modulo)
-{
-   int i, ll;
-   ll = 0;
-   for(i = 1; i<=n; i++) {
-     printvec(n-i+1, &U[ll], modulo);
-     ll += size-i+1;
-   }
-}
 
 
-void printmatSQ( int size, int n, gnm_float *X, int modulo)
-{
-   int i, ll;
-   ll = 0;
-   for(i = 1; i<=n; i++) {
-     printvec(n, &X[ll], modulo);
-     ll += size;
-   }
-}
 
 /* Miscellaneous file functions */
 #if defined _MSC_VER
@@ -16537,7 +16159,7 @@ gboolean fileSearchPath( char *envvar, char *searchfile, char *foundpath )
 
 
 
-int mm_read_unsymmetric_sparse(const char *fname, int *M_, int *N_, int *nz_,
+static int mm_read_unsymmetric_sparse(const char *fname, int *M_, int *N_, int *nz_,
                 double **val_, int **I_, int **J_)
 {
     FILE *f;
@@ -16606,7 +16228,7 @@ int mm_read_unsymmetric_sparse(const char *fname, int *M_, int *N_, int *nz_,
     return 0;
 }
 
-int mm_is_valid(MM_typecode matcode)
+static int mm_is_valid(MM_typecode matcode)
 {
     if (!mm_is_matrix(matcode)) return 0;
     if (mm_is_dense(matcode) && mm_is_pattern(matcode)) return 0;
@@ -16616,7 +16238,7 @@ int mm_is_valid(MM_typecode matcode)
     return 1;
 }
 
-int mm_read_banner(FILE *f, MM_typecode *matcode)
+static int mm_read_banner(FILE *f, MM_typecode *matcode)
 {
     char line[MM_MAX_LINE_LENGTH];
     char banner[MM_MAX_TOKEN_LENGTH];
@@ -16702,7 +16324,7 @@ int mm_read_banner(FILE *f, MM_typecode *matcode)
     return 0;
 }
 
-int mm_write_mtx_crd_size(FILE *f, int M, int N, int nz)
+static int mm_write_mtx_crd_size(FILE *f, int M, int N, int nz)
 {
     if (fprintf(f, "%d %d %d\n", M, N, nz) < 0)
         return MM_COULD_NOT_WRITE_FILE;
@@ -16710,7 +16332,7 @@ int mm_write_mtx_crd_size(FILE *f, int M, int N, int nz)
         return 0;
 }
 
-int mm_read_mtx_crd_size(FILE *f, int *M, int *N, int *nz )
+static int mm_read_mtx_crd_size(FILE *f, int *M, int *N, int *nz )
 {
     char line[MM_MAX_LINE_LENGTH];
     int num_items_read;
@@ -16738,42 +16360,7 @@ int mm_read_mtx_crd_size(FILE *f, int *M, int *N, int *nz )
 }
 
 
-int mm_read_mtx_array_size(FILE *f, int *M, int *N)
-{
-    char line[MM_MAX_LINE_LENGTH];
-    int num_items_read;
-    /* set return null parameter values, in case we exit with errors */
-    *M = *N = 0;
-	
-    /* now continue scanning until you reach the end-of-comments */
-    do 
-    {
-        if (fgets(line,MM_MAX_LINE_LENGTH,f) == NULL) 
-            return MM_PREMATURE_EOF;
-    }while (line[0] == '%');
 
-    /* line[] is either blank or has M,N, nz */
-    if (sscanf(line, "%d %d", M, N) == 2)
-        return 0;
-        
-    else /* we have a blank line */
-    do
-    { 
-        num_items_read = fscanf(f, "%d %d", M, N); 
-        if (num_items_read == EOF) return MM_PREMATURE_EOF;
-    }
-    while (num_items_read != 2);
-
-    return 0;
-}
-
-int mm_write_mtx_array_size(FILE *f, int M, int N)
-{
-    if (fprintf(f, "%d %d\n", M, N) < 0)
-        return MM_COULD_NOT_WRITE_FILE;
-    else 
-        return 0;
-}
 
 
 
@@ -16783,7 +16370,7 @@ int mm_write_mtx_array_size(FILE *f, int M, int N)
 /* use when I[], J[], and val[]J, and val[] are already allocated */
 /******************************************************************/
 
-int mm_read_mtx_crd_data(FILE *f, int M, int N, int nz, int I[], int J[],
+static int mm_read_mtx_crd_data(FILE *f, int M, int N, int nz, int I[], int J[],
         double val[], MM_typecode matcode)
 {
     int i;
@@ -16816,7 +16403,7 @@ int mm_read_mtx_crd_data(FILE *f, int M, int N, int nz, int I[], int J[],
         
 }
 
-int mm_read_mtx_crd_entry(FILE *f, int *I, int *J,
+static int mm_read_mtx_crd_entry(FILE *f, int *I, int *J,
         double *real, double *imag, MM_typecode matcode)
 {
     if (mm_is_complex(matcode))
@@ -16851,60 +16438,8 @@ int mm_read_mtx_crd_entry(FILE *f, int *I, int *J,
                             (nz pairs of real/imaginary values)
 ************************************************************************/
 
-int mm_read_mtx_crd(char *fname, int *M, int *N, int *nz, int **I, int **J, 
-        double **val, MM_typecode *matcode)
-{
-    int ret_code;
-    FILE *f;
 
-    if (strcmp(fname, "stdin") == 0) f=stdin;
-    else
-    if ((f = fopen(fname, "r")) == NULL)
-        return MM_COULD_NOT_READ_FILE;
-
-
-    if ((ret_code = mm_read_banner(f, matcode)) != 0)
-        return ret_code;
-
-    if (!(mm_is_valid(*matcode) && mm_is_sparse(*matcode) && 
-            mm_is_matrix(*matcode)))
-        return MM_UNSUPPORTED_TYPE;
-
-    if ((ret_code = mm_read_mtx_crd_size(f, M, N, nz)) != 0)
-        return ret_code;
-
-
-    *I = (int *)  g_malloc(*nz * sizeof(int));
-    *J = (int *)  g_malloc(*nz * sizeof(int));
-    *val = NULL;
-
-    if (mm_is_complex(*matcode))
-    {
-        *val = (double *) g_malloc(*nz * 2 * sizeof(double));
-        ret_code = mm_read_mtx_crd_data(f, *M, *N, *nz, *I, *J, *val, 
-                *matcode);
-        if (ret_code != 0) return ret_code;
-    }
-    else if (mm_is_real(*matcode))
-    {
-        *val = (double *) g_malloc(*nz * sizeof(double));
-        ret_code = mm_read_mtx_crd_data(f, *M, *N, *nz, *I, *J, *val, 
-                *matcode);
-        if (ret_code != 0) return ret_code;
-    }
-
-    else if (mm_is_pattern(*matcode))
-    {
-        ret_code = mm_read_mtx_crd_data(f, *M, *N, *nz, *I, *J, *val, 
-                *matcode);
-        if (ret_code != 0) return ret_code;
-    }
-
-    if (f != stdin) fclose(f);
-    return 0;
-}
-
-int mm_write_banner(FILE *f, MM_typecode matcode)
+static int mm_write_banner(FILE *f, MM_typecode matcode)
 {
     char *str = mm_typecode_to_str(matcode);
     int ret_code;
@@ -16917,7 +16452,7 @@ int mm_write_banner(FILE *f, MM_typecode matcode)
         return 0;
 }
 
-int mm_write_mtx_crd(char fname[], int M, int N, int nz, int I[], int J[],
+static int mm_write_mtx_crd(char fname[], int M, int N, int nz, int I[], int J[],
         double val[], MM_typecode matcode)
 {
     FILE *f;
@@ -16961,7 +16496,7 @@ int mm_write_mtx_crd(char fname[], int M, int N, int nz, int I[], int J[],
 }
     
 
-char  *mm_typecode_to_str(MM_typecode matcode)
+static char  *mm_typecode_to_str(MM_typecode matcode)
 {
     static char buffer[MM_MAX_LINE_LENGTH];
     char *types[4];
@@ -17028,27 +16563,27 @@ char  *mm_typecode_to_str(MM_typecode matcode)
 /* ************************************************************************ */
 /* Initialize BLAS interfacing routines                                     */
 /* ************************************************************************ */
-gboolean mustinitBLAS = TRUE;
+static gboolean mustinitBLAS = TRUE;
 
 
 /* ************************************************************************ */
 /* Function pointers for external BLAS library (C base 0)                   */
 /* ************************************************************************ */
-BLAS_dscal_func  *BLAS_dscal;
-BLAS_dcopy_func  *BLAS_dcopy;
-BLAS_daxpy_func  *BLAS_daxpy;
-BLAS_dswap_func  *BLAS_dswap;
-BLAS_ddot_func   *BLAS_ddot;
-BLAS_idamax_func *BLAS_idamax;
-BLAS_dload_func  *BLAS_dload;
-BLAS_dnormi_func *BLAS_dnormi;
+static BLAS_dscal_func  *BLAS_dscal;
+static BLAS_dcopy_func  *BLAS_dcopy;
+static BLAS_daxpy_func  *BLAS_daxpy;
+static BLAS_dswap_func  *BLAS_dswap;
+static BLAS_ddot_func   *BLAS_ddot;
+static BLAS_idamax_func *BLAS_idamax;
+static BLAS_dload_func  *BLAS_dload;
+static BLAS_dnormi_func *BLAS_dnormi;
 
 
 /* ************************************************************************ */
 /* Define the BLAS interfacing routines                                     */
 /* ************************************************************************ */
 
-void init_BLAS(void)
+static void init_BLAS(void)
 {
   if(mustinitBLAS) {
     load_BLAS(NULL);
@@ -17056,7 +16591,7 @@ void init_BLAS(void)
   }
 }
 
-gboolean is_nativeBLAS(void)
+static gboolean is_nativeBLAS(void)
 {
 #ifdef LoadableBlasLib
   return( (gboolean) (hBLAS == NULL) );
@@ -17065,7 +16600,7 @@ gboolean is_nativeBLAS(void)
 #endif
 }
 
-gboolean load_BLAS(char *libname)
+static gboolean load_BLAS(char *libname)
 {
   gboolean result = TRUE;
 
@@ -17166,7 +16701,7 @@ gboolean load_BLAS(char *libname)
   }
   return( result );
 }
-gboolean unload_BLAS(void)
+static gboolean unload_BLAS(void)
 {
   return( load_BLAS(NULL) );
 }
@@ -17175,13 +16710,13 @@ gboolean unload_BLAS(void)
 /* ************************************************************************ */
 /* Now define the unoptimized local BLAS functions                          */
 /* ************************************************************************ */
-void daxpy( int n, gnm_float da, gnm_float *dx, int incx, gnm_float *dy, int incy)
+static void daxpy( int n, gnm_float da, gnm_float *dx, int incx, gnm_float *dy, int incy)
 {
   dx++;
   dy++;
   BLAS_daxpy( &n, &da, dx, &incx, dy, &incy);
 }
-void my_daxpy( int *_n, gnm_float *_da, gnm_float *dx, int *_incx, gnm_float *dy, int *_incy)
+static void my_daxpy( int *_n, gnm_float *_da, gnm_float *dx, int *_incx, gnm_float *dy, int *_incy)
 {
 
 /* constant times a vector plus a vector.
@@ -17250,14 +16785,8 @@ x40:
 
 
 /* ************************************************************************ */
-void dcopy( int n, gnm_float *dx, int incx, gnm_float *dy, int incy)
-{
-  dx++;
-  dy++;
-  BLAS_dcopy( &n, dx, &incx, dy, &incy);
-}
 
-void my_dcopy (int *_n, gnm_float *dx, int *_incx, gnm_float *dy, int *_incy)
+static void my_dcopy (int *_n, gnm_float *dx, int *_incx, gnm_float *dy, int *_incy)
 {
 
 /* copies a vector, x, to a vector, y.
@@ -17335,13 +16864,13 @@ x40:
 
 /* ************************************************************************ */
 
-void dscal (int n, gnm_float da, gnm_float *dx, int incx)
+static void dscal (int n, gnm_float da, gnm_float *dx, int incx)
 {
   dx++;
   BLAS_dscal (&n, &da, dx, &incx);
 }
 
-void my_dscal (int *_n, gnm_float *_da, gnm_float *dx, int *_incx)
+static void my_dscal (int *_n, gnm_float *_da, gnm_float *dx, int *_incx)
 {
 
 /* Multiply a vector by a constant.
@@ -17415,14 +16944,8 @@ x40:
 
 /* ************************************************************************ */
 
-gnm_float ddot(int n, gnm_float *dx, int incx, gnm_float *dy, int incy)
-{
-  dx++;
-  dy++;
-  return( BLAS_ddot (&n, dx, &incx, dy, &incy) );
-}
 
-gnm_float my_ddot(int *_n, gnm_float *dx, int *_incx, gnm_float *dy, int *_incy)
+static gnm_float my_ddot(int *_n, gnm_float *dx, int *_incx, gnm_float *dy, int *_incy)
 {
 
 /* forms the dot product of two vectors.
@@ -17495,14 +17018,8 @@ x60:
 
 /* ************************************************************************ */
 
-void dswap( int n, gnm_float *dx, int incx, gnm_float *dy, int incy )
-{
-  dx++;
-  dy++;
-  BLAS_dswap( &n, dx, &incx, dy, &incy );
-}
 
-void my_dswap( int *_n, gnm_float *dx, int *_incx, gnm_float *dy, int *_incy )
+static void my_dswap( int *_n, gnm_float *dx, int *_incx, gnm_float *dy, int *_incy )
 {
   int   i, ix, iy, m, mp1, ns;
   gnm_float  dtemp1, dtemp2, dtemp3;
@@ -17591,13 +17108,8 @@ x60:
 
 /* ************************************************************************ */
 
-void dload(int n, gnm_float da, gnm_float *dx, int incx)
-{
-  dx++;
-  BLAS_dload (&n, &da, dx, &incx);
-}
 
-void my_dload (int *_n, gnm_float *_da, gnm_float *dx, int *_incx)
+static void my_dload (int *_n, gnm_float *_da, gnm_float *dx, int *_incx)
 {
 /* copies a scalar, a, to a vector, x.
    uses unrolled loops when incx equals one.
@@ -17659,13 +17171,13 @@ x40:
 }
 
 /* ************************************************************************ */
-int idamax( int n, gnm_float *x, int is )
+static int idamax( int n, gnm_float *x, int is )
 {
   x++;
   return ( BLAS_idamax( &n, x, &is ) );
 }
 
-int my_idamax( int *_n, gnm_float *x, int *_is )
+static int my_idamax( int *_n, gnm_float *x, int *_is )
 {
   register gnm_float xmax, xtest;
   int    i, imax = 0;
@@ -17706,13 +17218,8 @@ int my_idamax( int *_n, gnm_float *x, int *_is )
 
 
 /* ************************************************************************ */
-gnm_float dnormi( int n, gnm_float *x )
-{
-  x++;
-  return( BLAS_dnormi( &n, x ) );
-}
 
-gnm_float my_dnormi( int *_n, gnm_float *x )
+static gnm_float my_dnormi( int *_n, gnm_float *x )
 {
 /* ===============================================================
    dnormi  returns the infinity-norm of the vector x.
@@ -17744,94 +17251,17 @@ int  subvec( int item)
 }
 #endif
 
-int submat( int nrowb, int row, int col)
-{
-  return( nrowb*(col-1) + subvec(row) );
-}
 
-int posmat( int nrowb, int row, int col)
-{
-  return( submat(nrowb, row, col)+BLAS_BASE );
-}
 
 /* ************************************************************************ */
 /* Randomization functions                                                  */
 /* ************************************************************************ */
 
-void randomseed(int seeds[])
-/* Simply create some default seed values */
-{
-  seeds[1] = 123456;
-  seeds[2] = 234567;
-  seeds[3] = 345678;
-}
 
-void randomdens( int n, gnm_float *x, gnm_float r1, gnm_float r2, gnm_float densty, int *seeds )
-{
-/* ------------------------------------------------------------------
-   random  generates a vector x[*] of random numbers
-   in the range (r1, r2) with (approximate) specified density.
-   seeds[*] must be initialized before the first call.
-   ------------------------------------------------------------------ */
-
-  int   i;
-  gnm_float  *y;
-
-  y = (gnm_float *) g_malloc(sizeof(*y) * (n+1));
-  ddrand( n, x, 1, seeds );
-  ddrand( n, y, 1, seeds );
-
-  for (i = 1; i<=n; i++) {
-     if (y[i] < densty)
-        x[i] = r1  +  (r2 - r1) * x[i];
-     else
-        x[i] = 0.0;
-  }
-  g_free(y);
-}
 
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
-void ddrand( int n, gnm_float *x, int incx, int *seeds )
-{
-
-/* ------------------------------------------------------------------
-   ddrand fills a vector x with uniformly distributed random numbers
-   in the interval (0, 1) using a method due to  Wichman and Hill.
-
-   seeds[1..3] should be set to integer values
-   between 1 and 30000 before the first entry.
-
-   Integer arithmetic up to 30323 is required.
-
-   Blatantly copied from Wichman and Hill 19-January-1987.
-   14-Feb-94. Original version.
-   30 Jun 1999. seeds stored in an array.
-   30 Jun 1999. This version of ddrand.
-   ------------------------------------------------------------------ */
-
-  int    ix, xix;
-
-  if (n < 1) return;
-
-  for (ix = 1; ix<=1+(n-1)*incx; ix=ix+incx) {
-     seeds[1]     = 171*(seeds[1] % 177) -  2*(seeds[1]/177);
-     seeds[2]     = 172*(seeds[2] % 176) - 35*(seeds[2]/176);
-     seeds[3]     = 170*(seeds[3] % 178) - 63*(seeds[3]/178);
-
-     if (seeds[1] < 0) seeds[1] = seeds[1] + 30269;
-     if (seeds[2] < 0) seeds[2] = seeds[2] + 30307;
-     if (seeds[3] < 0) seeds[3] = seeds[3] + 30323;
-
-	 x[ix]  = ((gnm_float) seeds[1])/30269.0 +
-             ((gnm_float) seeds[2])/30307.0 +
-             ((gnm_float) seeds[3])/30323.0;
-     xix    = (int) x[ix];
-	 x[ix]  = fabs(x[ix] - xix);
-   }
-
-}
 
 /* ------------------------------------------------------------------------- */
 /* Imported lp_crash.c */
@@ -18466,7 +17896,7 @@ STATIC int find_var(lprec *lp, char *name, gboolean verbose)
 /* ---------------------------------------------------------------------------------- */
 /* Define some globals                                                                */
 /* ---------------------------------------------------------------------------------- */
-int callcount = 0;
+static int callcount = 0;
 
 /* Return lp_solve version information */
 void lp_solve_version(int *majorversion, int *minorversion, int *release, int *build)
@@ -18486,7 +17916,7 @@ void lp_solve_version(int *majorversion, int *minorversion, int *release, int *b
 /* Various interaction elements                                                       */
 /* ---------------------------------------------------------------------------------- */
 
-gboolean userabort(lprec *lp, int message)
+static gboolean userabort(lprec *lp, int message)
 {
   static gboolean abort;
   static int spx_save;
@@ -18527,7 +17957,7 @@ STATIC int yieldformessages(lprec *lp)
     return(0);
 }
 
-void set_outputstream(lprec *lp, FILE *stream)
+static void set_outputstream(lprec *lp, FILE *stream)
 {
   if((lp->outstream != NULL) && (lp->outstream != stdout)) {
     if(lp->streamowned)
@@ -18542,7 +17972,7 @@ void set_outputstream(lprec *lp, FILE *stream)
   lp->streamowned = FALSE;
 }
 
-gboolean set_outputfile(lprec *lp, char *filename)
+static gboolean set_outputfile(lprec *lp, char *filename)
 {
   gboolean ok;
   FILE   *output = stdout;
@@ -18555,7 +17985,7 @@ gboolean set_outputfile(lprec *lp, char *filename)
   return(ok);
 }
 
-gnm_float time_elapsed(lprec *lp)
+static gnm_float time_elapsed(lprec *lp)
 {
   if(lp->timeend > 0)
     return(lp->timeend - lp->timestart);
@@ -18563,27 +17993,27 @@ gnm_float time_elapsed(lprec *lp)
     return(timeNow() - lp->timestart);
 }
 
-void put_bb_nodefunc(lprec *lp, lphandleint_intfunc newnode, void *bbnodehandle)
+static void put_bb_nodefunc(lprec *lp, lphandleint_intfunc newnode, void *bbnodehandle)
 {
   lp->bb_usenode = newnode;
   lp->bb_nodehandle = bbnodehandle;         /* User-specified "owner process ID" */
 }
-void put_bb_branchfunc(lprec *lp, lphandleint_intfunc newbranch, void *bbbranchhandle)
+static void put_bb_branchfunc(lprec *lp, lphandleint_intfunc newbranch, void *bbbranchhandle)
 {
   lp->bb_usebranch = newbranch;
   lp->bb_branchhandle = bbbranchhandle;     /* User-specified "owner process ID" */
 }
-void put_abortfunc(lprec *lp, lphandle_intfunc newctrlc, void *ctrlchandle)
+static void put_abortfunc(lprec *lp, lphandle_intfunc newctrlc, void *ctrlchandle)
 {
   lp->ctrlc = newctrlc;
   lp->ctrlchandle = ctrlchandle;            /* User-specified "owner process ID" */
 }
-void put_logfunc(lprec *lp, lphandlestr_func newlog, void *loghandle)
+static void put_logfunc(lprec *lp, lphandlestr_func newlog, void *loghandle)
 {
   lp->writelog = newlog;
   lp->loghandle = loghandle;                /* User-specified "owner process ID" */
 }
-void put_msgfunc(lprec *lp, lphandleint_func newmsg, void *msghandle, int mask)
+static void put_msgfunc(lprec *lp, lphandleint_func newmsg, void *msghandle, int mask)
 {
   lp->usermessage = newmsg;
   lp->msghandle = msghandle;                /* User-specified "owner process ID" */
@@ -18594,105 +18024,14 @@ void put_msgfunc(lprec *lp, lphandleint_func newmsg, void *msghandle, int mask)
 /* ---------------------------------------------------------------------------------- */
 /* DLL exported function                                                              */
 /* ---------------------------------------------------------------------------------- */
-lprec * read_MPS(char *filename, int verbose)
-{
-  lprec *lp = NULL;
 
-  if(MPS_readfile(&lp, filename, MPSFIXED, verbose))
-    return( lp );
-  else
-    return( NULL );
-}
-lprec * read_mps(FILE *filename, int verbose)
-{
-  lprec *lp = NULL;
 
-  if(MPS_readhandle(&lp, filename, MPSFIXED, verbose))
-    return( lp );
-  else
-    return( NULL );
-}
-lprec * read_freeMPS(char *filename, int verbose)
-{
-  lprec *lp = NULL;
-
-  if(MPS_readfile(&lp, filename, MPSFREE, verbose))
-    return( lp );
-  else
-    return( NULL );
-}
-lprec * read_freemps(FILE *filename, int verbose)
-{
-  lprec *lp = NULL;
-
-  if(MPS_readhandle(&lp, filename, MPSFREE, verbose))
-    return( lp );
-  else
-    return( NULL );
-}
-gboolean write_mps(lprec *lp, char *filename)
-{
-  return(MPS_writefile(lp, MPSFIXED, filename));
-}
-gboolean write_MPS(lprec *lp, FILE *output)
-{
-  return(MPS_writehandle(lp, MPSFIXED, output));
-}
-
-gboolean write_freemps(lprec *lp, char *filename)
-{
-  return(MPS_writefile(lp, MPSFREE, filename));
-}
-gboolean write_freeMPS(lprec *lp, FILE *output)
-{
-  return(MPS_writehandle(lp, MPSFREE, output));
-}
-
-gboolean write_lp(lprec *lp, char *filename)
-{
-  return(LP_writefile(lp, filename));
-}
-gboolean write_LP(lprec *lp, FILE *output)
-{
-  return(LP_writehandle(lp, output));
-}
 #ifndef PARSER_LP
-gboolean LP_readhandle(lprec **lp, FILE *filename, int verbose, char *lp_name)
-{
-  return(FALSE);
-}
-lprec * read_lp(FILE *filename, int verbose, char *lp_name)
-{
-  return(NULL);
-}
-lprec * read_LP(char *filename, int verbose, char *lp_name)
-{
-  return(NULL);
-}
 #endif
 
-gboolean write_basis(lprec *lp, char *filename)
-{
-  int typeMPS = MPSFIXED;
-  return( MPS_writeBAS(lp, typeMPS, filename) );
-}
-gboolean read_basis(lprec *lp, char *filename, char *info)
-{
-  int typeMPS = MPSFIXED;
-
-  typeMPS = MPS_readBAS(lp, typeMPS, filename, info);
-
-  /* Code basis */
-  if(typeMPS) {
-    set_action(&lp->spx_action, ACTION_REBASE | ACTION_REINVERT | ACTION_RECOMPUTE);
-    lp->basis_valid = TRUE;   /* Do not re-initialize basis on entering Solve */
-    lp->var_basic[0] = FALSE; /* Set to signal that this is a non-default basis */
-  }
-  return( (gboolean) typeMPS );
-}
 
 /* Write and read lp_solve parameters (placeholders) - see lp_params.c */
-void reset_params(lprec *lp)
+static void reset_params(lprec *lp)
 {
   int mode;
 
@@ -18770,7 +18109,7 @@ void reset_params(lprec *lp)
   lp->bb_trace          = FALSE;
 }
 
-void unscale(lprec *lp)
+static void unscale(lprec *lp)
 {
   undoscale(lp);
 }
@@ -18789,35 +18128,35 @@ void lp_solve_print_lp(lprec *lp)
 {
   REPORT_lp(lp);
 }
-void print_tableau(lprec *lp)
+static void print_tableau(lprec *lp)
 {
   REPORT_tableau(lp);
 }
-void print_objective(lprec *lp)
+static void print_objective(lprec *lp)
 {
   REPORT_objective(lp);
 }
-void print_solution(lprec *lp, int columns)
+static void print_solution(lprec *lp, int columns)
 {
   REPORT_solution(lp, columns);
 }
-void print_constraints(lprec *lp, int columns)
+static void print_constraints(lprec *lp, int columns)
 {
   REPORT_constraints(lp, columns);
 }
-void print_duals(lprec *lp)
+static void print_duals(lprec *lp)
 {
   REPORT_duals(lp);
 }
-void print_scales(lprec *lp)
+static void print_scales(lprec *lp)
 {
   REPORT_scales(lp);
 }
-gboolean print_debugdump(lprec *lp, char *filename)
+static gboolean print_debugdump(lprec *lp, char *filename)
 {
   return(REPORT_debugdump(lp, filename, (gboolean) (lp_solve_get_total_iter(lp) > 0)));
 }
-void print_str(lprec *lp, char *str)
+static void print_str(lprec *lp, char *str)
 {
   report(lp, lp->verbose, "%s", str);
 }
@@ -18833,78 +18172,78 @@ void lp_solve_set_timeout(lprec *lp, long sectimeout)
   lp->sectimeout = sectimeout;
 }
 
-long get_timeout(lprec *lp)
+static long get_timeout(lprec *lp)
 {
   return(lp->sectimeout);
 }
 
-void set_verbose(lprec *lp, int verbose)
+static void set_verbose(lprec *lp, int verbose)
 {
   lp->verbose = verbose;
 }
 
-int get_verbose(lprec *lp)
+static int get_verbose(lprec *lp)
 {
   return(lp->verbose);
 }
 
-void set_print_sol(lprec *lp, int print_sol)
+static void set_print_sol(lprec *lp, int print_sol)
 {
   lp->print_sol = print_sol;
 }
 
-int get_print_sol(lprec *lp)
+static int get_print_sol(lprec *lp)
 {
   return(lp->print_sol);
 }
 
-void set_debug(lprec *lp, gboolean debug)
+static void set_debug(lprec *lp, gboolean debug)
 {
   lp->bb_trace = debug;
 }
 
-gboolean is_debug(lprec *lp)
+static gboolean is_debug(lprec *lp)
 {
   return(lp->bb_trace);
 }
 
-void set_trace(lprec *lp, gboolean trace)
+static void set_trace(lprec *lp, gboolean trace)
 {
   lp->spx_trace = trace;
 }
 
-gboolean is_trace(lprec *lp)
+static gboolean is_trace(lprec *lp)
 {
   return(lp->spx_trace);
 }
 
-void set_anti_degen(lprec *lp, int anti_degen)
+static void set_anti_degen(lprec *lp, int anti_degen)
 {
   lp->anti_degen = anti_degen;
 }
 
-int get_anti_degen(lprec *lp)
+static int get_anti_degen(lprec *lp)
 {
   return(lp->anti_degen);
 }
 
-gboolean is_anti_degen(lprec *lp, int testmask)
+static gboolean is_anti_degen(lprec *lp, int testmask)
 {
   return((gboolean) ((lp->anti_degen == testmask) || ((lp->anti_degen & testmask) != 0)));
 }
 
-void set_presolve(lprec *lp, int presolvemode, int maxloops)
+static void set_presolve(lprec *lp, int presolvemode, int maxloops)
 {
   lp->do_presolve = presolvemode;
   lp->presolveloops = maxloops;
 }
 
-int get_presolve(lprec *lp)
+static int get_presolve(lprec *lp)
 {
   return(lp->do_presolve);
 }
 
-int get_presolveloops(lprec *lp)
+static int get_presolveloops(lprec *lp)
 {
   if(lp->presolveloops < 0)
     return(DEF_MAXPRESOLVELOOPS);
@@ -18914,27 +18253,27 @@ int get_presolveloops(lprec *lp)
     return(lp->presolveloops);
 }
 
-gboolean is_presolve(lprec *lp, int testmask)
+static gboolean is_presolve(lprec *lp, int testmask)
 {
   return((gboolean) ((lp->do_presolve == testmask) || ((lp->do_presolve & testmask) != 0)));
 }
 
-void set_maxpivot(lprec *lp, int maxpivot)
+static void set_maxpivot(lprec *lp, int maxpivot)
 {
   lp->max_pivots = maxpivot;
 }
 
-int get_maxpivot(lprec *lp)
+static int get_maxpivot(lprec *lp)
 {
   return( lp->bfp_pivotmax(lp) );
 }
 
-void set_bb_rule(lprec *lp, int bb_rule)
+static void set_bb_rule(lprec *lp, int bb_rule)
 {
   lp->bb_rule = bb_rule;
 }
 
-int get_bb_rule(lprec *lp)
+static int get_bb_rule(lprec *lp)
 {
   return(lp->bb_rule);
 }
@@ -18944,47 +18283,47 @@ INLINE gboolean is_bb_rule(lprec *lp, int bb_rule)
   return( (gboolean) ((lp->bb_rule & NODE_STRATEGYMASK) == bb_rule) );
 }
 
-/* INLINE */ gboolean is_bb_mode(lprec *lp, int bb_mask)
+static gboolean is_bb_mode(lprec *lp, int bb_mask)
 {
   return( (gboolean) ((lp->bb_rule & bb_mask) > 0) );
 }
 
-void set_action(int *actionvar, int actionmask)
+static void set_action(int *actionvar, int actionmask)
 {
   *actionvar |= actionmask;
 }
 
-void clear_action(int *actionvar, int actionmask)
+static void clear_action(int *actionvar, int actionmask)
 {
   *actionvar &= ~actionmask;
 }
 
-gboolean is_action(int actionvar, int testmask)
+static gboolean is_action(int actionvar, int testmask)
 {
   return( (gboolean) ((actionvar & testmask) != 0) );
 }
 
-void set_bb_depthlimit(lprec *lp, int bb_maxlevel)
+static void set_bb_depthlimit(lprec *lp, int bb_maxlevel)
 {
   lp->bb_limitlevel = bb_maxlevel;
 }
 
-int get_bb_depthlimit(lprec *lp)
+static int get_bb_depthlimit(lprec *lp)
 {
   return(lp->bb_limitlevel);
 }
 
-void set_obj_bound(lprec *lp, gnm_float bb_heuristicOF)
+static void set_obj_bound(lprec *lp, gnm_float bb_heuristicOF)
 {
   lp->bb_heuristicOF = bb_heuristicOF;
 }
 
-gnm_float get_obj_bound(lprec *lp)
+static gnm_float get_obj_bound(lprec *lp)
 {
   return(lp->bb_heuristicOF);
 }
 
-void set_mip_gap(lprec *lp, gboolean absolute, gnm_float mip_gap)
+static void set_mip_gap(lprec *lp, gboolean absolute, gnm_float mip_gap)
 {
   if(absolute)
     lp->mip_absgap = mip_gap;
@@ -18992,7 +18331,7 @@ void set_mip_gap(lprec *lp, gboolean absolute, gnm_float mip_gap)
     lp->mip_relgap = mip_gap;
 }
 
-gnm_float get_mip_gap(lprec *lp, gboolean absolute)
+static gnm_float get_mip_gap(lprec *lp, gboolean absolute)
 {
   if(absolute)
     return(lp->mip_absgap);
@@ -19000,7 +18339,7 @@ gnm_float get_mip_gap(lprec *lp, gboolean absolute)
     return(lp->mip_relgap);
 }
 
-gboolean set_var_branch(lprec *lp, int colnr, int branch_mode)
+static gboolean set_var_branch(lprec *lp, int colnr, int branch_mode)
 {
   if(colnr > lp->columns || colnr < 1) {
     report(lp, IMPORTANT, "set_var_branch: Column %d out of range\n", colnr);
@@ -19019,7 +18358,7 @@ gboolean set_var_branch(lprec *lp, int colnr, int branch_mode)
   return( TRUE );
 }
 
-int get_var_branch(lprec *lp, int colnr)
+static int get_var_branch(lprec *lp, int colnr)
 {
   if(colnr > lp->columns || colnr < 1) {
     report(lp, IMPORTANT, "get_var_branch: Column %d out of range\n", colnr);
@@ -19053,7 +18392,7 @@ static void set_infiniteex(lprec *lp, gnm_float infinite, gboolean init)
 }
 
 
-gboolean is_infinite(lprec *lp, gnm_float value)
+static gboolean is_infinite(lprec *lp, gnm_float value)
 {
 #if 1
   return( (gboolean) (fabs(value) >= lp->infinite) );
@@ -19065,77 +18404,77 @@ gboolean is_infinite(lprec *lp, gnm_float value)
 #endif
 }
 
-void set_infinite(lprec *lp, gnm_float infinite)
+static void set_infinite(lprec *lp, gnm_float infinite)
 {
   set_infiniteex(lp, infinite, FALSE);
 }
 
-gnm_float get_infinite(lprec *lp)
+static gnm_float get_infinite(lprec *lp)
 {
   return(lp->infinite);
 }
 
-void set_epsperturb(lprec *lp, gnm_float epsperturb)
+static void set_epsperturb(lprec *lp, gnm_float epsperturb)
 {
   lp->epsperturb = epsperturb;
 }
 
-gnm_float get_epsperturb(lprec *lp)
+static gnm_float get_epsperturb(lprec *lp)
 {
   return(lp->epsperturb);
 }
 
-void set_epspivot(lprec *lp, gnm_float epspivot)
+static void set_epspivot(lprec *lp, gnm_float epspivot)
 {
   lp->epspivot = epspivot;
 }
 
-gnm_float get_epspivot(lprec *lp)
+static gnm_float get_epspivot(lprec *lp)
 {
   return(lp->epspivot);
 }
 
-void set_epsint(lprec *lp, gnm_float epsint)
+static void set_epsint(lprec *lp, gnm_float epsint)
 {
   lp->epsint = epsint;
 }
 
-gnm_float get_epsint(lprec *lp)
+static gnm_float get_epsint(lprec *lp)
 {
   return(lp->epsint);
 }
 
-void set_epsb(lprec *lp, gnm_float epsb)
+static void set_epsb(lprec *lp, gnm_float epsb)
 {
   lp->epsprimal = MAX(epsb, lp->epsmachine);
 }
 
-gnm_float get_epsb(lprec *lp)
+static gnm_float get_epsb(lprec *lp)
 {
   return(lp->epsprimal);
 }
 
-void set_epsd(lprec *lp, gnm_float epsd)
+static void set_epsd(lprec *lp, gnm_float epsd)
 {
   lp->epsdual = MAX(epsd, lp->epsmachine); /* Mainly used as tolerance for reduced cost */
 }
 
-gnm_float get_epsd(lprec *lp)
+static gnm_float get_epsd(lprec *lp)
 {
   return(lp->epsdual);
 }
 
-void set_epsel(lprec *lp, gnm_float epsel)
+static void set_epsel(lprec *lp, gnm_float epsel)
 {
   lp->epsvalue = MAX(epsel, lp->epsmachine);
 }
 
-gnm_float get_epsel(lprec *lp)
+static gnm_float get_epsel(lprec *lp)
 {
   return(lp->epsvalue);
 }
 
-gboolean set_epslevel(lprec *lp, int epslevel)
+static gboolean set_epslevel(lprec *lp, int epslevel)
 {
   gnm_float SPX_RELAX, MIP_RELAX;
 
@@ -19166,22 +18505,22 @@ gboolean set_epslevel(lprec *lp, int epslevel)
   return( TRUE );
 }
 
-void set_scaling(lprec *lp, int scalemode)
+static void set_scaling(lprec *lp, int scalemode)
 {
   lp->scalemode = scalemode;
 }
 
-int get_scaling(lprec *lp)
+static int get_scaling(lprec *lp)
 {
   return(lp->scalemode);
 }
 
-gboolean is_scalemode(lprec *lp, int testmask)
+static gboolean is_scalemode(lprec *lp, int testmask)
 {
   return((gboolean) ((lp->scalemode & testmask) != 0));
 }
 
-gboolean is_scaletype(lprec *lp, int scaletype)
+static gboolean is_scaletype(lprec *lp, int scaletype)
 {
   int testtype;
 
@@ -19196,37 +18535,37 @@ void lp_solve_set_scalelimit(lprec *lp, gnm_float scalelimit)
   lp->scalelimit = fabs(scalelimit);
 }
 
-gnm_float get_scalelimit(lprec *lp)
+static gnm_float get_scalelimit(lprec *lp)
 {
   return(lp->scalelimit);
 }
 
-gboolean is_integerscaling(lprec *lp)
+static gboolean is_integerscaling(lprec *lp)
 {
   return(is_scalemode(lp, SCALE_INTEGERS));
 }
 
-void set_improve(lprec *lp, int improve)
+static void set_improve(lprec *lp, int improve)
 {
   lp->improve = improve;
 }
 
-int get_improve(lprec *lp)
+static int get_improve(lprec *lp)
 {
   return(lp->improve);
 }
 
-void set_lag_trace(lprec *lp, gboolean lag_trace)
+static void set_lag_trace(lprec *lp, gboolean lag_trace)
 {
   lp->lag_trace = lag_trace;
 }
 
-gboolean is_lag_trace(lprec *lp)
+static gboolean is_lag_trace(lprec *lp)
 {
   return(lp->lag_trace);
 }
 
-void set_pivoting(lprec *lp, int pivoting)
+static void set_pivoting(lprec *lp, int pivoting)
 {
   /* Set new pivoting strategy */
   lp->piv_strategy = pivoting;
@@ -19234,12 +18573,12 @@ void set_pivoting(lprec *lp, int pivoting)
                        get_str_piv_rule(get_piv_rule(lp)));
 }
 
-int get_pivoting(lprec *lp)
+static int get_pivoting(lprec *lp)
 {
   return( lp->piv_strategy );
 }
 
-/* INLINE */ int get_piv_rule(lprec *lp)
+static int get_piv_rule(lprec *lp)
 {
   return( (lp->piv_strategy | PRICE_STRATEGYMASK) ^ PRICE_STRATEGYMASK );
 }
@@ -19252,48 +18591,48 @@ STATIC const char *get_str_piv_rule(int rule)
   return( pivotText[rule] );
 }
 
-gboolean is_piv_rule(lprec *lp, int rule)
+static gboolean is_piv_rule(lprec *lp, int rule)
 {
   return( (gboolean) (get_piv_rule(lp) == rule) );
 }
 
-gboolean is_piv_mode(lprec *lp, int testmask)
+static gboolean is_piv_mode(lprec *lp, int testmask)
 {
   return((gboolean) (((testmask & PRICE_STRATEGYMASK) != 0) &&
                    ((lp->piv_strategy & testmask) != 0)));
 }
 
-void set_break_at_first(lprec *lp, gboolean break_at_first)
+static void set_break_at_first(lprec *lp, gboolean break_at_first)
 {
   lp->bb_breakfirst = break_at_first;
 }
 
-gboolean is_break_at_first(lprec *lp)
+static gboolean is_break_at_first(lprec *lp)
 {
   return(lp->bb_breakfirst);
 }
 
-void set_bb_floorfirst(lprec *lp, int bb_floorfirst)
+static void set_bb_floorfirst(lprec *lp, int bb_floorfirst)
 {
   lp->bb_floorfirst = (gboolean) bb_floorfirst;
 }
 
-int get_bb_floorfirst(lprec *lp)
+static int get_bb_floorfirst(lprec *lp)
 {
   return(lp->bb_floorfirst);
 }
 
-void set_break_at_value(lprec *lp, gnm_float break_at_value)
+static void set_break_at_value(lprec *lp, gnm_float break_at_value)
 {
   lp->bb_breakOF = break_at_value;
 }
 
-gnm_float get_break_at_value(lprec *lp)
+static gnm_float get_break_at_value(lprec *lp)
 {
   return(lp->bb_breakOF);
 }
 
-void set_negrange(lprec *lp, gnm_float negrange)
+static void set_negrange(lprec *lp, gnm_float negrange)
 {
   if(negrange <= 0)
     lp->negrange = negrange;
@@ -19301,17 +18640,17 @@ void set_negrange(lprec *lp, gnm_float negrange)
     lp->negrange = 0.0;
 }
 
-gnm_float get_negrange(lprec *lp)
+static gnm_float get_negrange(lprec *lp)
 {
   return(lp->negrange);
 }
 
-int get_max_level(lprec *lp)
+static int get_max_level(lprec *lp)
 {
   return(lp->bb_maxlevel);
 }
 
-gint64 get_total_nodes(lprec *lp)
+static gint64 get_total_nodes(lprec *lp)
 {
   return(lp->bb_totalnodes);
 }
@@ -19321,7 +18660,7 @@ gint64 lp_solve_get_total_iter(lprec *lp)
   return(lp->total_iter + lp->current_iter);
 }
 
-gnm_float get_objective(lprec *lp)
+static gnm_float get_objective(lprec *lp)
 {
   if(!lp->basis_valid) {
     report(lp, CRITICAL, "get_objective: Not a valid basis\n");
@@ -19331,7 +18670,7 @@ gnm_float get_objective(lprec *lp)
   return( lp->best_solution[0] );
 }
 
-int get_nonzeros(lprec *lp)
+static int get_nonzeros(lprec *lp)
 {
   return( mat_nonzeros(lp->matA) );
 }
@@ -19360,7 +18699,7 @@ gboolean lp_solve_set_mat(lprec *lp, int rownr, int colnr, gnm_float value)
     return( mat_setvalue(lp->matA, rownr, colnr, value, FALSE) );
 }
 
-gnm_float get_working_objective(lprec *lp)
+static gnm_float get_working_objective(lprec *lp)
 {
   gnm_float value = 0.0;
 
@@ -19406,7 +18745,7 @@ gnm_float lp_solve_get_dual(lprec *lp, int index)
   return( duals[index] );
 }
 
-gboolean get_variables(lprec *lp, gnm_float *var)
+static gboolean get_variables(lprec *lp, gnm_float *var)
 {
   if(!lp->basis_valid) {
     report(lp, CRITICAL, "get_variables: Not a valid basis\n");
@@ -19417,7 +18756,7 @@ gboolean get_variables(lprec *lp, gnm_float *var)
   return(TRUE);
 }
 
-gboolean get_ptr_variables(lprec *lp, gnm_float **var)
+static gboolean get_ptr_variables(lprec *lp, gnm_float **var)
 {
   if(!lp->basis_valid) {
     report(lp, CRITICAL, "get_ptr_variables: Not a valid basis\n");
@@ -19429,7 +18768,7 @@ gboolean get_ptr_variables(lprec *lp, gnm_float **var)
   return(TRUE);
 }
 
-gboolean get_constraints(lprec *lp, gnm_float *constr)
+static gboolean get_constraints(lprec *lp, gnm_float *constr)
 {
   if(!lp->basis_valid) {
     report(lp, CRITICAL, "get_constraints: Not a valid basis\n");
@@ -19440,7 +18779,7 @@ gboolean get_constraints(lprec *lp, gnm_float *constr)
   return(TRUE);
 }
 
-gboolean get_ptr_constraints(lprec *lp, gnm_float **constr)
+static gboolean get_ptr_constraints(lprec *lp, gnm_float **constr)
 {
   if(!lp->basis_valid) {
     report(lp, CRITICAL, "get_ptr_constraints: Not a valid basis\n");
@@ -19452,7 +18791,7 @@ gboolean get_ptr_constraints(lprec *lp, gnm_float **constr)
   return(TRUE);
 }
 
-gboolean get_sensitivity_rhs(lprec *lp, gnm_float *duals, gnm_float *dualsfrom, gnm_float *dualstill)
+static gboolean get_sensitivity_rhs(lprec *lp, gnm_float *duals, gnm_float *dualsfrom, gnm_float *dualstill)
 {
   gnm_float *duals0, *dualsfrom0, *dualstill0;
 
@@ -19476,7 +18815,7 @@ gboolean get_sensitivity_rhs(lprec *lp, gnm_float *duals, gnm_float *dualsfrom, 
   return(TRUE);
 }
 
-gboolean get_ptr_sensitivity_rhs(lprec *lp, gnm_float **duals, gnm_float **dualsfrom, gnm_float **dualstill)
+static gboolean get_ptr_sensitivity_rhs(lprec *lp, gnm_float **duals, gnm_float **dualsfrom, gnm_float **dualstill)
 {
   if(!lp->basis_valid) {
     report(lp, CRITICAL, "get_ptr_sensitivity_rhs: Not a valid basis\n");
@@ -19513,7 +18852,7 @@ gboolean get_ptr_sensitivity_rhs(lprec *lp, gnm_float **duals, gnm_float **duals
   return(TRUE);
 }
 
-gboolean get_sensitivity_objex(lprec *lp, gnm_float *objfrom, gnm_float *objtill, gnm_float *objfromvalue, gnm_float *objtillvalue)
+static gboolean get_sensitivity_objex(lprec *lp, gnm_float *objfrom, gnm_float *objtill, gnm_float *objfromvalue, gnm_float *objtillvalue)
 {
   gnm_float *objfrom0, *objtill0, *objfromvalue0, *objtillvalue0;
 
@@ -19539,12 +18878,12 @@ gboolean get_sensitivity_objex(lprec *lp, gnm_float *objfrom, gnm_float *objtill
   return(TRUE);
 }
 
-gboolean get_sensitivity_obj(lprec *lp, gnm_float *objfrom, gnm_float *objtill)
+static gboolean get_sensitivity_obj(lprec *lp, gnm_float *objfrom, gnm_float *objtill)
 {
   return(get_sensitivity_objex(lp, objfrom, objtill, NULL, NULL));
 }
 
-gboolean get_ptr_sensitivity_objex(lprec *lp, gnm_float **objfrom, gnm_float **objtill, gnm_float **objfromvalue, gnm_float **objtillvalue)
+static gboolean get_ptr_sensitivity_objex(lprec *lp, gnm_float **objfrom, gnm_float **objtill, gnm_float **objfromvalue, gnm_float **objtillvalue)
 {
   if(!lp->basis_valid) {
     report(lp, CRITICAL, "get_ptr_sensitivity_objex: Not a valid basis\n");
@@ -19589,20 +18928,20 @@ gboolean get_ptr_sensitivity_objex(lprec *lp, gnm_float **objfrom, gnm_float **o
   return(TRUE);
 }
 
-gboolean get_ptr_sensitivity_obj(lprec *lp, gnm_float **objfrom, gnm_float **objtill)
+static gboolean get_ptr_sensitivity_obj(lprec *lp, gnm_float **objfrom, gnm_float **objtill)
 {
   return(get_ptr_sensitivity_objex(lp, objfrom, objtill, NULL, NULL));
 }
 
-void set_solutionlimit(lprec *lp, int limit)
+static void set_solutionlimit(lprec *lp, int limit)
 {
   lp->solutionlimit = limit;
 }
-int get_solutionlimit(lprec *lp)
+static int get_solutionlimit(lprec *lp)
 {
   return(lp->solutionlimit);
 }
-int get_solutioncount(lprec *lp)
+static int get_solutioncount(lprec *lp)
 {
   return(lp->solutioncount);
 }
@@ -19612,7 +18951,7 @@ int lp_solve_get_nrows(lprec *lp)
   return(lp->rows);
 }
 
-int get_Norig_rows(lprec *lp)
+static int get_Norig_rows(lprec *lp)
 {
   if(lp->varmap_locked)
     return(lp->presolve_undo->orig_rows);
@@ -19620,7 +18959,7 @@ int get_Norig_rows(lprec *lp)
     return(lp->rows);
 }
 
-int get_Lrows(lprec *lp)
+static int get_Lrows(lprec *lp)
 {
   if(lp->matL == NULL)
     return( 0 );
@@ -19628,12 +18967,12 @@ int get_Lrows(lprec *lp)
     return( lp->matL->rows );
 }
 
-int get_Ncolumns(lprec *lp)
+static int get_Ncolumns(lprec *lp)
 {
   return(lp->columns);
 }
 
-int get_Norig_columns(lprec *lp)
+static int get_Norig_columns(lprec *lp)
 {
   if(lp->varmap_locked)
     return(lp->presolve_undo->orig_columns);
@@ -19645,12 +18984,12 @@ int get_Norig_columns(lprec *lp)
 /* ---------------------------------------------------------------------------------- */
 /* Core routines for lp_solve                                                         */
 /* ---------------------------------------------------------------------------------- */
-int get_status(lprec *lp)
+static int get_status(lprec *lp)
 {
   return(lp->spx_status);
 }
 
-const char * get_statustext(lprec *lp, int statuscode)
+static const char * get_statustext(lprec *lp, int statuscode)
 {
   if (statuscode == NOBFP)             return("No basis factorization package");
   else if (statuscode == DATAIGNORED)  return("Invalid input data provided");
@@ -19674,12 +19013,12 @@ const char * get_statustext(lprec *lp, int statuscode)
   else                                 return("Undefined internal error");
 }
 
-gboolean is_obj_in_basis(lprec *lp)
+static gboolean is_obj_in_basis(lprec *lp)
 {
   return( lp->obj_in_basis );
 }
 
-void set_obj_in_basis(lprec *lp, gboolean obj_in_basis)
+static void set_obj_in_basis(lprec *lp, gboolean obj_in_basis)
 {
   lp->obj_in_basis = (gboolean) (obj_in_basis == TRUE);
 }
@@ -19815,7 +19154,7 @@ lprec * lp_solve_make_lp(int rows, int columns)
   return(lp);
 }
 
-gboolean resize_lp(lprec *lp, int rows, int columns)
+static gboolean resize_lp(lprec *lp, int rows, int columns)
 {
   gboolean status = TRUE;
 
@@ -19834,7 +19173,7 @@ gboolean resize_lp(lprec *lp, int rows, int columns)
   return( status );
 }
 
-void free_lp(lprec **plp)
+static void free_lp(lprec **plp)
 {
   if(plp != NULL) {
     lprec *lp = *plp;
@@ -19954,92 +19293,7 @@ void lp_solve_delete_lp(lprec *lp)
 
 /* Make a copy of the existing model using (mostly) high-level
    construction routines to simplify future maintainance. */
-lprec* copy_lp(lprec *lp)
-{
-  int   i, n, *idx = NULL;
-  gnm_float  hold, *val = NULL;
-  lprec *newlp = NULL;
-
-#if 0
-  if(lp->wasPresolved)
-    return( newlp );
-#endif
-
-  if(!allocINT(lp, &idx, lp->rows+1, FALSE) ||
-     !allocREAL(lp, &val, lp->rows+1, FALSE))
-    goto Finish;
-
-  /* Create the new object */
-  newlp = lp_solve_make_lp(lp->rows, 0);
-  resize_lp(newlp, lp->rows, lp->columns);
-  set_sense(newlp, is_maxim(lp));
-
-  /* Transfer parameters */
-  set_epspivot(newlp, get_epspivot(lp));
-  set_epsel(newlp, get_epsel(lp));
-  set_epsb(newlp, get_epsb(lp));
-  set_epsd(newlp, get_epsd(lp));
-  set_epsint(newlp, get_epsint(lp));
-  set_pivoting(newlp, get_pivoting(lp));
-  set_negrange(newlp, lp->negrange);
-  set_infinite(newlp, get_infinite(lp));
-  set_presolve(newlp, get_presolve(lp), get_presolveloops(lp));
-  set_scaling(newlp, get_scaling(lp));
-  set_simplextype(newlp, get_simplextype(lp));
-
-  /* Set RHS and range */
-  for(i = 0; i <= lp->rows; i++) {
-    if(i > 0)
-      lp_solve_set_constr_type(newlp, 0, get_constr_type(lp, i));
-    lp_solve_set_rh(newlp, i, get_rh(lp, 0));
-    if((i > 0) && ((hold = get_rh_range(lp, i)) < lp->infinite))
-      set_rh_range(newlp, i, hold);
-    if(lp->names_used)
-      set_row_name(newlp, i, get_row_name(lp, i));
-  }
-  /* Load the constraint matrix and variable definitions */
-  for(i = 1; i <= lp->columns; i++) {
-    n = get_columnex(lp, i, val, idx);
-    add_columnex(newlp, n, val, idx);
-    if(is_binary(lp, i))
-      set_binary(newlp, i, TRUE);
-    else {
-      if(is_int(lp, i))
-        lp_solve_set_int(newlp, i, TRUE);
-      if((hold = get_lowbo(lp, i)) != 0)
-        lp_solve_set_lowbo(newlp, i, hold);
-      if((hold = get_upbo(lp, i)) < lp->infinite)
-        lp_solve_set_upbo(newlp, i, hold);
-    }
-    if(is_semicont(lp, i))
-      set_semicont(newlp, i, TRUE);
-    if(lp->names_used)
-      set_col_name(newlp, i, get_col_name(lp, i));
-  }
-
-  /* Other parameters set if the source model was previously solved */
-  if(lp->solvecount > 0) {
-    MEMCOPY(newlp->scalars, lp->scalars, lp->sum+1);
-    MEMCOPY(newlp->var_basic, lp->var_basic, lp->rows+1);
-    MEMCOPY(newlp->is_basic, lp->is_basic, lp->sum+1);
-    MEMCOPY(newlp->is_lower, lp->is_lower, lp->sum+1);
-    MEMCOPY(newlp->solution, lp->solution, lp->sum+1);
-    if(lp->duals != NULL) {
-      allocREAL(newlp, &newlp->duals, newlp->sum_alloc+1, FALSE);
-      MEMCOPY(newlp->duals, lp->duals, lp->sum+1);
-    }
-    newlp->solutioncount = lp->solutioncount;
-    newlp->solvecount = lp->solvecount;
-  }
-
-  /* Clean up before returning */
-Finish:
-  FREE(val);
-  FREE(idx);
-
-  return( newlp );
-}
-gboolean dualize_lp(lprec *lp)
+static gboolean dualize_lp(lprec *lp)
 {
   int     i, n;
   MATrec  *mat = lp->matA;
@@ -21100,7 +20354,7 @@ STATIC gboolean inc_col_space(lprec *lp, int deltacols)
 
 /* Problem manipulation routines */
 
-gboolean set_obj(lprec *lp, int colnr, gnm_float value)
+static gboolean set_obj(lprec *lp, int colnr, gnm_float value)
 {
   if(colnr <= 0)
     colnr = lp_solve_set_rh(lp, 0, value);
@@ -21109,7 +20363,7 @@ gboolean set_obj(lprec *lp, int colnr, gnm_float value)
   return((gboolean) colnr);
 }
 
-gboolean set_obj_fnex(lprec *lp, int count, gnm_float *row, int *colno)
+static gboolean set_obj_fnex(lprec *lp, int count, gnm_float *row, int *colno)
 {
   gboolean chsgn = is_maxim(lp);
   int    i, ix;
@@ -21144,12 +20398,12 @@ gboolean set_obj_fnex(lprec *lp, int count, gnm_float *row, int *colno)
   return(TRUE);
 }
 
-gboolean set_obj_fn(lprec *lp, gnm_float *row)
+static gboolean set_obj_fn(lprec *lp, gnm_float *row)
 {
   return( set_obj_fnex(lp, 0, row, NULL) );
 }
 
-gboolean str_set_obj_fn(lprec *lp, char *row_string)
+static gboolean str_set_obj_fn(lprec *lp, char *row_string)
 {
   int    i;
   gboolean ret = TRUE;
@@ -21194,7 +20448,7 @@ STATIC gboolean append_rows(lprec *lp, int deltarows)
   return( TRUE );
 }
 
-gboolean set_add_rowmode(lprec *lp, gboolean turnon)
+static gboolean set_add_rowmode(lprec *lp, gboolean turnon)
 {
   if(turnon ^ lp->matA->is_roworder)
     return( mat_transpose(lp->matA) );
@@ -21202,12 +20456,12 @@ gboolean set_add_rowmode(lprec *lp, gboolean turnon)
     return( FALSE );
 }
 
-gboolean is_add_rowmode(lprec *lp)
+static gboolean is_add_rowmode(lprec *lp)
 {
   return(lp->matA->is_roworder);
 }
 
-gboolean set_row(lprec *lp, int rownr, gnm_float *row)
+static gboolean set_row(lprec *lp, int rownr, gnm_float *row)
 {
   if((rownr < 0) || (rownr > lp->rows)) {
     report(lp, IMPORTANT, "set_row: Row %d out of range\n", rownr);
@@ -21219,7 +20473,7 @@ gboolean set_row(lprec *lp, int rownr, gnm_float *row)
     return( mat_setrow(lp->matA, rownr, lp->columns, row, NULL, TRUE, TRUE) );
 }
 
-gboolean set_rowex(lprec *lp, int rownr, int count, gnm_float *row, int *colno)
+static gboolean set_rowex(lprec *lp, int rownr, int count, gnm_float *row, int *colno)
 {
   if((rownr < 0) || (rownr > lp->rows)) {
     report(lp, IMPORTANT, "set_rowex: Row %d out of range\n", rownr);
@@ -21231,7 +20485,7 @@ gboolean set_rowex(lprec *lp, int rownr, int count, gnm_float *row, int *colno)
     return( mat_setrow(lp->matA, rownr, count, row, colno, TRUE, TRUE) );
 }
 
-gboolean add_constraintex(lprec *lp, int count, gnm_float *row, int *colno, int constr_type, gnm_float rh)
+static gboolean add_constraintex(lprec *lp, int count, gnm_float *row, int *colno, int constr_type, gnm_float rh)
 {
   int    n;
   gboolean status = FALSE;
@@ -21285,12 +20539,12 @@ gboolean add_constraintex(lprec *lp, int count, gnm_float *row, int *colno, int 
   return( status );
 }
 
-gboolean add_constraint(lprec *lp, gnm_float *row, int constr_type, gnm_float rh)
+static gboolean add_constraint(lprec *lp, gnm_float *row, int constr_type, gnm_float rh)
 {
   return( add_constraintex(lp, 0, row, NULL, constr_type, rh) );
 }
 
-gboolean str_add_constraint(lprec *lp, char *row_string, int constr_type, gnm_float rh)
+static gboolean str_add_constraint(lprec *lp, char *row_string, int constr_type, gnm_float rh)
 {
   int    i;
   char   *p, *newp;
@@ -21347,7 +20601,7 @@ STATIC gboolean del_constraintex(lprec *lp, LLrec *rowmap)
 
   return(TRUE);
 }
-gboolean del_constraint(lprec *lp, int rownr)
+static gboolean del_constraint(lprec *lp, int rownr)
 {
   gboolean preparecompact = (gboolean) (rownr < 0);
 
@@ -21381,7 +20635,7 @@ gboolean del_constraint(lprec *lp, int rownr)
   return(TRUE);
 }
 
-gboolean add_lag_con(lprec *lp, gnm_float *row, int con_type, gnm_float rhs)
+static gboolean add_lag_con(lprec *lp, gnm_float *row, int con_type, gnm_float rhs)
 {
   int  k;
   gnm_float sign;
@@ -21406,7 +20660,7 @@ gboolean add_lag_con(lprec *lp, gnm_float *row, int con_type, gnm_float rhs)
   return(TRUE);
 }
 
-gboolean str_add_lag_con(lprec *lp, char *row_string, int con_type, gnm_float rhs)
+static gboolean str_add_lag_con(lprec *lp, char *row_string, int con_type, gnm_float rhs)
 {
   int    i;
   gboolean ret = TRUE;
@@ -21433,7 +20687,7 @@ gboolean str_add_lag_con(lprec *lp, char *row_string, int con_type, gnm_float rh
   return( ret );
 }
 
-/* INLINE */ gboolean is_splitvar(lprec *lp, int colnr)
+static gboolean is_splitvar(lprec *lp, int colnr)
 /* Two cases handled by var_is_free:
 
    1) LB:-Inf / UB:<Inf variables
@@ -21449,7 +20703,7 @@ gboolean str_add_lag_con(lprec *lp, char *row_string, int con_type, gnm_float rh
                     (lp->var_is_free[colnr] < 0) && (-lp->var_is_free[colnr] != colnr)));
 }
 
-void del_splitvars(lprec *lp)
+static void del_splitvars(lprec *lp)
 {
   int j, jj, i;
 
@@ -21470,17 +20724,9 @@ void del_splitvars(lprec *lp)
   }
 }
 
-gboolean set_column(lprec *lp, int colnr, gnm_float *column)
-{
-  return( mat_setcol(lp->matA, colnr, lp->rows, column, NULL, TRUE, TRUE) );
-}
 
-gboolean set_columnex(lprec *lp, int colnr, int count, gnm_float *column, int *rowno)
-{
-  return( mat_setcol(lp->matA, colnr, count, column, rowno, TRUE, TRUE) );
-}
 
-gboolean add_columnex(lprec *lp, int count, gnm_float *column, int *rowno)
+static gboolean add_columnex(lprec *lp, int count, gnm_float *column, int *rowno)
 /* This function adds a data column to the current model; three cases handled:
 
     1: Prepare for column data by setting column = NULL
@@ -21519,13 +20765,13 @@ gboolean add_columnex(lprec *lp, int count, gnm_float *column, int *rowno)
   return( status );
 }
 
-gboolean add_column(lprec *lp, gnm_float *column)
+static gboolean add_column(lprec *lp, gnm_float *column)
 {
   del_splitvars(lp);
   return(add_columnex(lp, lp->rows, column, NULL));
 }
 
-gboolean str_add_column(lprec *lp, char *col_string)
+static gboolean str_add_column(lprec *lp, char *col_string)
 {
   int  i;
   gboolean ret = TRUE;
@@ -21610,7 +20856,7 @@ STATIC gboolean del_columnex(lprec *lp, LLrec *colmap)
 
   return(TRUE);
 }
-gboolean del_column(lprec *lp, int colnr)
+static gboolean del_column(lprec *lp, int colnr)
 {
   gboolean preparecompact = (gboolean) (colnr < 0);
 
@@ -21643,17 +20889,17 @@ gboolean del_column(lprec *lp, int colnr)
   return(TRUE);
 }
 
-void set_simplextype(lprec *lp, int simplextype)
+static void set_simplextype(lprec *lp, int simplextype)
 {
   lp->simplex_strategy = simplextype;
 }
 
-int get_simplextype(lprec *lp)
+static int get_simplextype(lprec *lp)
 {
   return(lp->simplex_strategy);
 }
 
-void set_preferdual(lprec *lp, gboolean dodual)
+static void set_preferdual(lprec *lp, gboolean dodual)
 {
   if(dodual & TRUE)
     lp->simplex_strategy = SIMPLEX_DUAL_DUAL;
@@ -21661,11 +20907,11 @@ void set_preferdual(lprec *lp, gboolean dodual)
     lp->simplex_strategy = SIMPLEX_PRIMAL_PRIMAL;
 }
 
-void set_bounds_tighter(lprec *lp, gboolean tighten)
+static void set_bounds_tighter(lprec *lp, gboolean tighten)
 {
   lp->tighten_on_set = tighten;
 }
-gboolean get_bounds_tighter(lprec *lp)
+static gboolean get_bounds_tighter(lprec *lp)
 {
   return(lp->tighten_on_set);
 }
@@ -21702,7 +20948,7 @@ gboolean lp_solve_set_upbo(lprec *lp, int colnr, gnm_float value)
   return(TRUE);
 }
 
-gnm_float get_upbo(lprec *lp, int colnr)
+static gnm_float get_upbo(lprec *lp, int colnr)
 {
   gnm_float value;
 
@@ -21748,7 +20994,7 @@ gboolean lp_solve_set_lowbo(lprec *lp, int colnr, gnm_float value)
   return(TRUE);
 }
 
-gnm_float get_lowbo(lprec *lp, int colnr)
+static gnm_float get_lowbo(lprec *lp, int colnr)
 {
   gnm_float value;
 
@@ -21762,7 +21008,7 @@ gnm_float get_lowbo(lprec *lp, int colnr)
   return(value);
 }
 
-gboolean set_bounds(lprec *lp, int colnr, gnm_float lower, gnm_float upper)
+static gboolean set_bounds(lprec *lp, int colnr, gnm_float lower, gnm_float upper)
 {
   if((colnr > lp->columns) || (colnr < 1)) {
     report(lp, IMPORTANT, "set_bounds: Column %d out of range\n", colnr);
@@ -21807,20 +21053,6 @@ gboolean set_bounds(lprec *lp, int colnr, gnm_float lower, gnm_float upper)
   return(TRUE);
 }
 
-gboolean get_bounds(lprec *lp, int column, gnm_float *lower, gnm_float *upper)
-{
-  if((column > lp->columns) || (column < 1)) {
-    report(lp, IMPORTANT, "get_bounds: Column %d out of range", column);
-    return(FALSE);
-  }
-
-  if(lower != NULL)
-    *lower = get_lowbo(lp, column);
-  if(upper != NULL)
-    *upper = get_upbo(lp, column);
-
-  return(TRUE);
-}
 
 gboolean lp_solve_set_int(lprec *lp, int colnr, gboolean var_type)
 {
@@ -21842,7 +21074,7 @@ gboolean lp_solve_set_int(lprec *lp, int colnr, gboolean var_type)
   return(TRUE);
 }
 
-gboolean is_int(lprec *lp, int colnr)
+static gboolean is_int(lprec *lp, int colnr)
 {
   if((colnr > lp->columns) || (colnr < 1)) {
     report(lp, IMPORTANT, "is_int: Column %d out of range\n", colnr);
@@ -21852,7 +21084,7 @@ gboolean is_int(lprec *lp, int colnr)
   return((lp->var_type[colnr] & ISINTEGER) != 0);
 }
 
-gboolean is_SOS_var(lprec *lp, int colnr)
+static gboolean is_SOS_var(lprec *lp, int colnr)
 {
   if((colnr > lp->columns) || (colnr < 1)) {
     report(lp, IMPORTANT, "is_SOS_var: Column %d out of range\n", colnr);
@@ -21862,7 +21094,7 @@ gboolean is_SOS_var(lprec *lp, int colnr)
   return((lp->var_type[colnr] & ISSOS) != 0);
 }
 
-int add_SOS(lprec *lp, char *name, int sostype, int priority, int count, int *sosvars, gnm_float *weights)
+static int add_SOS(lprec *lp, char *name, int sostype, int priority, int count, int *sosvars, gnm_float *weights)
 {
   SOSrec *SOS;
   int    k;
@@ -21919,7 +21151,7 @@ STATIC int add_GUB(lprec *lp, char *name, int priority, int count, int *gubvars)
   return(k);
 }
 
-gboolean set_binary(lprec *lp, int colnr, gboolean must_be_bin)
+static gboolean set_binary(lprec *lp, int colnr, gboolean must_be_bin)
 {
   gboolean status = FALSE;
 
@@ -21934,7 +21166,7 @@ gboolean set_binary(lprec *lp, int colnr, gboolean must_be_bin)
   return( status );
 }
 
-gboolean is_binary(lprec *lp, int colnr)
+static gboolean is_binary(lprec *lp, int colnr)
 {
   if((colnr > lp->columns) || (colnr < 1)) {
     report(lp, IMPORTANT, "is_binary: Column %d out of range\n", colnr);
@@ -21946,7 +21178,7 @@ gboolean is_binary(lprec *lp, int colnr)
                     (fabs(get_upbo(lp, colnr) - 1) < lp->epsprimal)));
 }
 
-gboolean set_unbounded(lprec *lp, int colnr)
+static gboolean set_unbounded(lprec *lp, int colnr)
 {
   if((colnr > lp->columns) || (colnr < 1)) {
     report(lp, IMPORTANT, "set_unbounded: Column %d out of range\n", colnr);
@@ -21956,7 +21188,7 @@ gboolean set_unbounded(lprec *lp, int colnr)
   return( set_bounds(lp, colnr, -lp->infinite, lp->infinite) );
 }
 
-gboolean is_unbounded(lprec *lp, int colnr)
+static gboolean is_unbounded(lprec *lp, int colnr)
 {
   gboolean test;
 
@@ -21974,7 +21206,7 @@ gboolean is_unbounded(lprec *lp, int colnr)
   return( test );
 }
 
-gboolean is_negative(lprec *lp, int colnr)
+static gboolean is_negative(lprec *lp, int colnr)
 {
   if((colnr > lp->columns) || (colnr < 1)) {
     report(lp, IMPORTANT, "is_negative: Column %d out of range\n", colnr);
@@ -21986,7 +21218,7 @@ gboolean is_negative(lprec *lp, int colnr)
                     (lp->orig_lowbo[colnr] < 0)) );
 }
 
-gboolean set_var_weights(lprec *lp, gnm_float *weights)
+static gboolean set_var_weights(lprec *lp, gnm_float *weights)
 {
   if(lp->var_priority != NULL) {
     FREE(lp->var_priority);
@@ -22044,7 +21276,7 @@ gboolean set_var_priority(lprec *lp)
   return( status );
 }
 
-int get_var_priority(lprec *lp, int colnr)
+static int get_var_priority(lprec *lp, int colnr)
 {
   if((colnr > lp->columns) || (colnr < 1)) {
     report(lp, IMPORTANT, "get_var_priority: Column %d out of range\n", colnr);
@@ -22057,7 +21289,7 @@ int get_var_priority(lprec *lp, int colnr)
     return(lp->var_priority[colnr - 1]);
 }
 
-gboolean set_semicont(lprec *lp, int colnr, gboolean must_be_sc)
+static gboolean set_semicont(lprec *lp, int colnr, gboolean must_be_sc)
 {
   if((colnr > lp->columns) || (colnr < 1)) {
     report(lp, IMPORTANT, "set_semicont: Column %d out of range\n", colnr);
@@ -22076,7 +21308,7 @@ gboolean set_semicont(lprec *lp, int colnr, gboolean must_be_sc)
   return(TRUE);
 }
 
-gboolean is_semicont(lprec *lp, int colnr)
+static gboolean is_semicont(lprec *lp, int colnr)
 {
   if((colnr > lp->columns) || (colnr < 1)) {
     report(lp, IMPORTANT, "is_semicont: Column %d out of range\n", colnr);
@@ -22112,7 +21344,7 @@ gboolean lp_solve_set_rh(lprec *lp, int rownr, gnm_float value)
   return(TRUE);
 }
 
-gnm_float get_rh(lprec *lp, int rownr)
+static gnm_float get_rh(lprec *lp, int rownr)
 {
   gnm_float value;
 
@@ -22129,7 +21361,7 @@ gnm_float get_rh(lprec *lp, int rownr)
   return(value);
 }
 
-gnm_float get_rh_upper(lprec *lp, int rownr)
+static gnm_float get_rh_upper(lprec *lp, int rownr)
 {
   gnm_float value, valueR;
 
@@ -22145,7 +21377,7 @@ gnm_float get_rh_upper(lprec *lp, int rownr)
   return(value);
 }
 
-gnm_float get_rh_lower(lprec *lp, int rownr)
+static gnm_float get_rh_lower(lprec *lp, int rownr)
 {
   gnm_float value, valueR;
 
@@ -22162,7 +21394,7 @@ gnm_float get_rh_lower(lprec *lp, int rownr)
   return(value);
 }
 
-gboolean set_rh_upper(lprec *lp, int rownr, gnm_float value)
+static gboolean set_rh_upper(lprec *lp, int rownr, gnm_float value)
 {
   if(rownr > lp->rows || rownr < 1) {
     report(lp, IMPORTANT, "set_rh_upper: Row %d out of range", rownr);
@@ -22207,7 +21439,7 @@ gboolean set_rh_upper(lprec *lp, int rownr, gnm_float value)
   return(TRUE);
 }
 
-gboolean set_rh_lower(lprec *lp, int rownr, gnm_float value)
+static gboolean set_rh_lower(lprec *lp, int rownr, gnm_float value)
 {
   if(rownr > lp->rows || rownr < 1) {
     report(lp, IMPORTANT, "set_rh_lower: Row %d out of range", rownr);
@@ -22253,7 +21485,7 @@ gboolean set_rh_lower(lprec *lp, int rownr, gnm_float value)
   return(TRUE);
 }
 
-gboolean set_rh_range(lprec *lp, int rownr, gnm_float deltavalue)
+static gboolean set_rh_range(lprec *lp, int rownr, gnm_float deltavalue)
 {
   if((rownr > lp->rows) || (rownr < 1)) {
     report(lp, IMPORTANT, "set_rh_range: Row %d out of range", rownr);
@@ -22290,7 +21522,7 @@ gboolean set_rh_range(lprec *lp, int rownr, gnm_float deltavalue)
   return(TRUE);
 }
 
-gnm_float get_rh_range(lprec *lp, int rownr)
+static gnm_float get_rh_range(lprec *lp, int rownr)
 {
   if((rownr > lp->rows) || (rownr < 0)) {
     report(lp, IMPORTANT, "get_rh_range: row %d out of range\n", rownr);
@@ -22303,7 +21535,7 @@ gnm_float get_rh_range(lprec *lp, int rownr)
     return(unscaled_value(lp, lp->orig_upbo[rownr], rownr));
 }
 
-void set_rh_vec(lprec *lp, gnm_float *rh)
+static void set_rh_vec(lprec *lp, gnm_float *rh)
 {
   int  i;
   gnm_float rhi;
@@ -22318,7 +21550,7 @@ void set_rh_vec(lprec *lp, gnm_float *rh)
   set_action(&lp->spx_action, ACTION_RECOMPUTE);
 }
 
-gboolean str_set_rh_vec(lprec *lp, char *rh_string)
+static gboolean str_set_rh_vec(lprec *lp, char *rh_string)
 {
   int  i;
   gboolean ret = TRUE;
@@ -22345,7 +21577,7 @@ gboolean str_set_rh_vec(lprec *lp, char *rh_string)
   return( ret );
 }
 
-void set_sense(lprec *lp, gboolean maximize)
+static void set_sense(lprec *lp, gboolean maximize)
 {
   maximize = (gboolean) (maximize != FALSE);
   if(is_maxim(lp) != maximize) {
@@ -22375,7 +21607,7 @@ void lp_solve_set_minim(lprec *lp)
   set_sense(lp, FALSE);
 }
 
-gboolean is_maxim(lprec *lp)
+static gboolean is_maxim(lprec *lp)
 {
   return( (gboolean) ((lp->row_type != NULL) &&
                      ((lp->row_type[0] & ROWTYPE_CHSIGN) == ROWTYPE_GE)) );
@@ -22431,12 +21663,12 @@ gboolean lp_solve_set_constr_type(lprec *lp, int rownr, int con_type)
   return( TRUE );
 }
 
-/* INLINE */ gboolean is_chsign(lprec *lp, int rownr)
+static gboolean is_chsign(lprec *lp, int rownr)
 {
   return( (gboolean) ((lp->row_type[rownr] & ROWTYPE_CONSTRAINT) == ROWTYPE_CHSIGN) );
 }
 
-gboolean is_constr_type(lprec *lp, int rownr, int mask)
+static gboolean is_constr_type(lprec *lp, int rownr, int mask)
 {
   if((rownr < 0) || (rownr > lp->rows)) {
     report(lp, IMPORTANT, "is_constr_type: Row %d out of range\n", rownr);
@@ -22445,7 +21677,7 @@ gboolean is_constr_type(lprec *lp, int rownr, int mask)
   return( (gboolean) ((lp->row_type[rownr] & ROWTYPE_CONSTRAINT) == mask));
 }
 
-int get_constr_type(lprec *lp, int rownr)
+static int get_constr_type(lprec *lp, int rownr)
 {
   if((rownr < 0) || (rownr > lp->rows)) {
     report(lp, IMPORTANT, "get_constr_type: Row %d out of range\n", rownr);
@@ -22453,7 +21685,7 @@ int get_constr_type(lprec *lp, int rownr)
   }
   return( lp->row_type[rownr] );
 }
-gnm_float get_constr_value(lprec *lp, int rownr, int count, gnm_float *primsolution, int *nzindex)
+static gnm_float get_constr_value(lprec *lp, int rownr, int count, gnm_float *primsolution, int *nzindex)
 {
   int    i;
   gnm_float   value = 0.0;
@@ -22618,7 +21850,7 @@ STATIC int get_constr_class(lprec *lp, int rownr)
   return( j );
 }
 
-gnm_float get_mat(lprec *lp, int rownr, int colnr)
+static gnm_float get_mat(lprec *lp, int rownr, int colnr)
 {
   gnm_float value;
   int  elmnr;
@@ -22654,7 +21886,7 @@ gnm_float get_mat(lprec *lp, int rownr, int colnr)
   return(value);
 }
 
-gnm_float get_mat_byindex(lprec *lp, int matindex, gboolean isrow, gboolean adjustsign)
+static gnm_float get_mat_byindex(lprec *lp, int matindex, gboolean isrow, gboolean adjustsign)
 /* Note that this function does not adjust for sign-changed GT constraints! */
 {
   int  *rownr, *colnr;
@@ -22671,7 +21903,7 @@ gnm_float get_mat_byindex(lprec *lp, int matindex, gboolean isrow, gboolean adju
     return( result );
 }
 
-int get_rowex(lprec *lp, int rownr, gnm_float *row, int *colno)
+static int get_rowex(lprec *lp, int rownr, gnm_float *row, int *colno)
 {
   gboolean isnz;
   int    j, countnz = 0;
@@ -22726,12 +21958,12 @@ int get_rowex(lprec *lp, int rownr, gnm_float *row, int *colno)
   return( countnz );
 }
 
-gboolean get_row(lprec *lp, int rownr, gnm_float *row)
+static gboolean get_row(lprec *lp, int rownr, gnm_float *row)
 {
   return((gboolean) (get_rowex(lp, rownr, row, NULL) >= 0) );
 }
 
-int get_columnex(lprec *lp, int colnr, gnm_float *column, int *nzrow)
+static int get_columnex(lprec *lp, int colnr, gnm_float *column, int *nzrow)
 {
   int    n = 0, i, ii, ie, *rownr;
   gnm_float   hold, *value;
@@ -22784,13 +22016,9 @@ int get_columnex(lprec *lp, int colnr, gnm_float *column, int *nzrow)
   return( n );
 }
 
-gboolean get_column(lprec *lp, int colnr, gnm_float *column)
-{
-  return( (gboolean) (get_columnex(lp, colnr, column, NULL) >= 0) );
-}
 
 
-gboolean modifyOF1(lprec *lp, int index, gnm_float *ofValue, gnm_float mult)
+static gboolean modifyOF1(lprec *lp, int index, gnm_float *ofValue, gnm_float mult)
 /* Adjust objective function values for primal/dual phase 1, if appropriate */
 {
   gboolean accept = TRUE;
@@ -22868,7 +22096,7 @@ STATIC void unset_OF_p1extra(lprec *lp)
   FREE(lp->obj);
 }
 
-gnm_float get_OF_active(lprec *lp, int varnr, gnm_float mult)
+static gnm_float get_OF_active(lprec *lp, int varnr, gnm_float mult)
 {
   int  colnr = varnr - lp->rows;
   gnm_float holdOF = 0;
@@ -22993,7 +22221,7 @@ STATIC int expand_column(lprec *lp, int col_nr, gnm_float *column, int *nzlist, 
 
 /* Retrieve a column vector from the data matrix [1..rows, rows+1..rows+columns];
    needs call model since it may be called from BFPs */
-int obtain_column(lprec *lp, int varin, gnm_float *pcol, int *nzlist, int *maxabs)
+static int obtain_column(lprec *lp, int varin, gnm_float *pcol, int *nzlist, int *maxabs)
 {
   gnm_float value = my_chsign(lp->is_lower[varin], -1);
   if(varin > lp->rows) {
@@ -23009,7 +22237,7 @@ int obtain_column(lprec *lp, int varin, gnm_float *pcol, int *nzlist, int *maxab
 }
 
 /* GENERAL INVARIANT CALLBACK FUNCTIONS */
-gboolean set_callbacks(lprec *lp)
+static gboolean set_callbacks(lprec *lp)
 {
   /* Assign API functions to lp structure (mainly for XLIs) */
   lp->add_column              = add_column;
@@ -23019,7 +22247,6 @@ gboolean set_callbacks(lprec *lp)
   lp->add_lag_con             = add_lag_con;
   lp->add_SOS                 = add_SOS;
   lp->column_in_lp            = column_in_lp;
-  lp->copy_lp                 = copy_lp;
   lp->default_basis           = default_basis;
   lp->del_column              = del_column;
   lp->del_constraint          = del_constraint;
@@ -23155,9 +22382,6 @@ gboolean set_callbacks(lprec *lp)
   lp->put_bb_branchfunc       = put_bb_branchfunc;
   lp->put_logfunc             = put_logfunc;
   lp->put_msgfunc             = put_msgfunc;
-  lp->read_MPShandle          = MPS_readhandle;
-  lp->read_XLI                = read_XLI;
-  lp->read_basis              = read_basis;
   lp->reset_basis             = reset_basis;
   lp->reset_params            = reset_params;
   lp->resize_lp               = resize_lp;
@@ -23240,14 +22464,6 @@ gboolean set_callbacks(lprec *lp)
   lp->str_set_rh_vec          = str_set_rh_vec;
   lp->time_elapsed            = time_elapsed;
   lp->unscale                 = unscale;
-  lp->write_lp                = write_lp;
-  lp->write_LP                = write_LP;
-  lp->write_mps               = write_mps;
-  lp->write_freemps           = write_freemps;
-  lp->write_MPS               = write_MPS;
-  lp->write_freeMPS           = write_freeMPS;
-  lp->write_XLI               = write_XLI;
-  lp->write_basis             = write_basis;
 
   /* Utility functions (mainly for BFPs) */
   lp->userabort               = userabort;
@@ -23267,7 +22483,7 @@ gboolean set_callbacks(lprec *lp)
 }
 
 /* SUPPORT FUNCTION FOR BASIS FACTORIZATION PACKAGES */
-gboolean has_BFP(lprec *lp)
+static gboolean has_BFP(lprec *lp)
 {
   return( is_nativeBFP(lp)
 #if LoadInverseLib == TRUE
@@ -23276,7 +22492,7 @@ gboolean has_BFP(lprec *lp)
         );
 }
 
-gboolean is_nativeBFP(lprec *lp)
+static gboolean is_nativeBFP(lprec *lp)
 {
 #ifdef ExcludeNativeInverse
   return( FALSE );
@@ -23287,7 +22503,7 @@ gboolean is_nativeBFP(lprec *lp)
 #endif
 }
 
-gboolean set_BFP(lprec *lp, char *filename)
+static gboolean set_BFP(lprec *lp, char *filename)
 /* (Re)mapping of basis factorization variant methods is done here */
 {
   int result = LIB_LOADED;
@@ -23596,32 +22812,9 @@ gboolean set_BFP(lprec *lp, char *filename)
 
 /* External language interface routines */
 /* DON'T MODIFY */
-lprec * read_XLI(char *xliname, char *modelname, char *dataname, char *options, int verbose)
-{
-  lprec *lp;
 
-  lp = lp_solve_make_lp(0, 0);
-  if(lp != NULL) {
-    lp->source_is_file = TRUE;
-    lp->verbose = verbose;
-    if(!set_XLI(lp, xliname)) {
-      free_lp(&lp);
-      printf("read_XLI: No valid XLI package selected or available.\n");
-    }
-    else {
-      if(!lp->xli_readmodel(lp, modelname, dataname, options, verbose))
-        free_lp(&lp);
-    }
-  }
-  return( lp );
-}
 
-gboolean write_XLI(lprec *lp, char *filename, char *options, gboolean results)
-{
-  return( has_XLI(lp) && mat_validate(lp->matA) && lp->xli_writemodel(lp, filename, options, results) );
-}
-
-gboolean has_XLI(lprec *lp)
+static gboolean has_XLI(lprec *lp)
 {
   return( is_nativeXLI(lp)
 #if LoadLanguageLib == TRUE
@@ -23630,7 +22823,7 @@ gboolean has_XLI(lprec *lp)
         );
 }
 
-gboolean is_nativeXLI(lprec *lp)
+static gboolean is_nativeXLI(lprec *lp)
 {
 #ifdef ExcludeNativeLanguage
   return( FALSE );
@@ -23641,7 +22834,7 @@ gboolean is_nativeXLI(lprec *lp)
 #endif
 }
 
-gboolean set_XLI(lprec *lp, char *filename)
+static gboolean set_XLI(lprec *lp, char *filename)
 /* (Re)mapping of external language interface variant methods is done here */
 {
   int result = LIB_LOADED;
@@ -23817,7 +23010,7 @@ STATIC int get_basisOF(lprec *lp, int coltarget[], gnm_float crow[], int colno[]
   return( nz );
 }
 
-int get_basiscolumn(lprec *lp, int j, int rn[], double bj[])
+static int get_basiscolumn(lprec *lp, int j, int rn[], double bj[])
 /* This routine returns sparse vectors for all basis
    columns, including the OF dummy (index 0) and slack columns.
    NOTE that the index usage is nonstandard for lp_solve, since
@@ -23852,7 +23045,7 @@ int get_basiscolumn(lprec *lp, int j, int rn[], double bj[])
   return( k );
 }
 
-gboolean get_primal_solution(lprec *lp, gnm_float *pv)
+static gboolean get_primal_solution(lprec *lp, gnm_float *pv)
 {
   if(!lp->basis_valid) {
     report(lp, CRITICAL, "get_primal_solution: Not a valid basis");
@@ -23863,13 +23056,13 @@ gboolean get_primal_solution(lprec *lp, gnm_float *pv)
   return(TRUE);
 }
 
-gboolean get_ptr_primal_solution(lprec *lp, gnm_float **pv)
+static gboolean get_ptr_primal_solution(lprec *lp, gnm_float **pv)
 {
   *pv = lp->best_solution;
   return(TRUE);
 }
 
-gboolean get_dual_solution(lprec *lp, gnm_float *rc)
+static gboolean get_dual_solution(lprec *lp, gnm_float *rc)
 {
   gnm_float *duals;
   gboolean ret;
@@ -23886,7 +23079,7 @@ gboolean get_dual_solution(lprec *lp, gnm_float *rc)
   return(ret);
 }
 
-gboolean get_ptr_dual_solution(lprec *lp, gnm_float **rc)
+static gboolean get_ptr_dual_solution(lprec *lp, gnm_float **rc)
 {
   gboolean ret = lp->basis_valid;
 
@@ -23907,7 +23100,7 @@ gboolean get_ptr_dual_solution(lprec *lp, gnm_float **rc)
   return(ret);
 }
 
-gboolean get_lambda(lprec *lp, gnm_float *lambda)
+static gboolean get_lambda(lprec *lp, gnm_float *lambda)
 {
   if(!lp->basis_valid || (get_Lrows(lp) == 0)) {
     report(lp, CRITICAL, "get_lambda: Not a valid basis");
@@ -23918,13 +23111,13 @@ gboolean get_lambda(lprec *lp, gnm_float *lambda)
   return(TRUE);
 }
 
-gboolean get_ptr_lambda(lprec *lp, gnm_float **lambda)
+static gboolean get_ptr_lambda(lprec *lp, gnm_float **lambda)
 {
   *lambda = lp->lambda;
   return(TRUE);
 }
 
-int get_orig_index(lprec *lp, int lp_index)
+static int get_orig_index(lprec *lp, int lp_index)
 {
   if(lp->varmap_locked)
     return(lp->presolve_undo->var_to_orig[lp_index]);
@@ -23933,7 +23126,7 @@ int get_orig_index(lprec *lp, int lp_index)
   else
     return(lp_index-lp->presolve_undo->orig_rows);
 }
-int get_lp_index(lprec *lp, int orig_index)
+static int get_lp_index(lprec *lp, int orig_index)
 {
   if(lp->varmap_locked)
     return(lp->presolve_undo->orig_to_var[orig_index]);
@@ -23943,7 +23136,7 @@ int get_lp_index(lprec *lp, int orig_index)
     return(orig_index-lp->presolve_undo->orig_rows);
 }
 
-gboolean is_feasible(lprec *lp, gnm_float *values, gnm_float threshold)
+static gboolean is_feasible(lprec *lp, gnm_float *values, gnm_float threshold)
 /* Recommend to use threshold = lp->epspivot */
 {
   int     i, j, elmnr, ie;
@@ -23985,7 +23178,7 @@ gboolean is_feasible(lprec *lp, gnm_float *values, gnm_float threshold)
 }
 
 
-int column_in_lp(lprec *lp, gnm_float *testcolumn)
+static int column_in_lp(lprec *lp, gnm_float *testcolumn)
 {
   int    i, j, je, colnr = 0;
   int    nz, ident = 1;
@@ -24022,7 +23215,7 @@ int column_in_lp(lprec *lp, gnm_float *testcolumn)
 }
 
 
-gboolean set_lp_name(lprec *lp, char *name)
+static gboolean set_lp_name(lprec *lp, char *name)
 {
   if (name == NULL) {
     FREE(lp->lp_name);
@@ -24035,7 +23228,7 @@ gboolean set_lp_name(lprec *lp, char *name)
   return(TRUE);
 }
 
-char * get_lp_name(lprec *lp)
+static char * get_lp_name(lprec *lp)
 {
   return((lp->lp_name != NULL) ? lp->lp_name : (char *) "");
 }
@@ -24052,7 +23245,7 @@ STATIC gboolean init_rowcol_names(lprec *lp)
   return(TRUE);
 }
 
-gboolean rename_var(lprec *lp, int varindex, char *new_name, hashelem **list, hashtable **ht)
+static gboolean rename_var(lprec *lp, int varindex, char *new_name, hashelem **list, hashtable **ht)
 {
   hashelem *hp;
   gboolean   newitem;
@@ -24074,23 +23267,9 @@ gboolean rename_var(lprec *lp, int varindex, char *new_name, hashelem **list, ha
   return(newitem);
 }
 
-gboolean is_use_names(lprec *lp, gboolean isrow)
-{
-  if(isrow)
-    return( lp->use_row_names );
-  else
-    return( lp->use_col_names );
-}
 
-void set_use_names(lprec *lp, gboolean isrow, gboolean use_names)
-{
-  if(isrow)
-    lp->use_row_names = use_names;
-  else
-    lp->use_col_names = use_names;
-}
 
-int get_nameindex(lprec *lp, char *varname, gboolean isrow)
+static int get_nameindex(lprec *lp, char *varname, gboolean isrow)
 {
   if(isrow)
     return( find_row(lp, varname, FALSE) );
@@ -24098,7 +23277,7 @@ int get_nameindex(lprec *lp, char *varname, gboolean isrow)
     return( find_var(lp, varname, FALSE) );
 }
 
-gboolean set_row_name(lprec *lp, int rownr, char *new_name)
+static gboolean set_row_name(lprec *lp, int rownr, char *new_name)
 {
   if((rownr < 0) || (rownr > lp->rows+1)) {
     report(lp, IMPORTANT, "set_row_name: Row %d out of range", rownr);
@@ -24117,7 +23296,7 @@ gboolean set_row_name(lprec *lp, int rownr, char *new_name)
   return(TRUE);
 }
 
-char * get_row_name(lprec *lp, int rownr)
+static char * get_row_name(lprec *lp, int rownr)
 {
   if((rownr < 0) || (rownr > lp->rows+1)) {
     report(lp, IMPORTANT, "get_row_name: Row %d out of range", rownr);
@@ -24133,7 +23312,7 @@ char * get_row_name(lprec *lp, int rownr)
   return( get_origrow_name(lp, rownr) );
 }
 
-char * get_origrow_name(lprec *lp, int rownr)
+static char * get_origrow_name(lprec *lp, int rownr)
 {
   gboolean newrow;
   static char name[50];
@@ -24168,7 +23347,7 @@ char * get_origrow_name(lprec *lp, int rownr)
   return(ptr);
 }
 
-gboolean set_col_name(lprec *lp, int colnr, char *new_name)
+static gboolean set_col_name(lprec *lp, int colnr, char *new_name)
 {
   if((colnr > lp->columns+1) || (colnr < 1)) {
     report(lp, IMPORTANT, "set_col_name: Column %d out of range", colnr);
@@ -24184,7 +23363,7 @@ gboolean set_col_name(lprec *lp, int colnr, char *new_name)
   return(TRUE);
 }
 
-char * get_col_name(lprec *lp, int colnr)
+static char * get_col_name(lprec *lp, int colnr)
 {
   if((colnr > lp->columns+1) || (colnr < 1)) {
     report(lp, IMPORTANT, "get_col_name: Column %d out of range", colnr);
@@ -24200,7 +23379,7 @@ char * get_col_name(lprec *lp, int colnr)
   return( get_origcol_name(lp, colnr) );
 }
 
-char * get_origcol_name(lprec *lp, int colnr)
+static char * get_origcol_name(lprec *lp, int colnr)
 {
   gboolean newcol;
   char   *ptr;
@@ -24492,7 +23671,7 @@ STATIC int row_intstats(lprec *lp, int rownr, int pivcolnr,
   return(nn);
 }
 
-gnm_float MIP_stepOF(lprec *lp)
+static gnm_float MIP_stepOF(lprec *lp)
 /* This function tries to find a non-zero minimum improvement
    if the OF contains all integer variables (logic only applies if we are
    looking for a single solution, not possibly several equal-valued ones).
@@ -24720,7 +23899,7 @@ STATIC gboolean isDualFeasible(lprec *lp, gnm_float tol, int *boundflipcount, in
   return(feasible);
 }
 
-void default_basis(lprec *lp)
+static void default_basis(lprec *lp)
 {
   int i;
 
@@ -24745,17 +23924,17 @@ void default_basis(lprec *lp)
   lp->basis_valid = TRUE;  /* Do not re-initialize basis on entering Solve */
 }
 
-int get_basiscrash(lprec *lp)
+static int get_basiscrash(lprec *lp)
 {
   return(lp->crashmode);
 }
 
-void set_basiscrash(lprec *lp, int mode)
+static void set_basiscrash(lprec *lp, int mode)
 {
   lp->crashmode = mode;
 }
 
-gboolean set_basis(lprec *lp, int *bascolumn, gboolean nonbasic)   /* Added by KE */
+static gboolean set_basis(lprec *lp, int *bascolumn, gboolean nonbasic)   /* Added by KE */
 {
   int    i,s,k,n;
 
@@ -24806,12 +23985,12 @@ gboolean set_basis(lprec *lp, int *bascolumn, gboolean nonbasic)   /* Added by K
   return( TRUE );
 }
 
-void reset_basis(lprec *lp)
+static void reset_basis(lprec *lp)
 {
   lp->basis_valid = FALSE;   /* Causes reinversion at next opportunity */
 }
 
-gboolean get_basis(lprec *lp, int *bascolumn, gboolean nonbasic)
+static gboolean get_basis(lprec *lp, int *bascolumn, gboolean nonbasic)
 {
   int    k, i;
 
@@ -24875,7 +24054,7 @@ Done:
   return(result);
 }
 
-int set_basisvar(lprec *lp, int basisPos, int enteringCol)
+static int set_basisvar(lprec *lp, int basisPos, int enteringCol)
 {
   int leavingCol;
 
@@ -25641,7 +24820,7 @@ STATIC void free_pseudocost(lprec *lp)
   }
 }
 
-gboolean set_pseudocosts(lprec *lp, gnm_float *clower, gnm_float *cupper, int *updatelimit)
+static gboolean set_pseudocosts(lprec *lp, gnm_float *clower, gnm_float *cupper, int *updatelimit)
 {
   int i;
 
@@ -25658,7 +24837,7 @@ gboolean set_pseudocosts(lprec *lp, gnm_float *clower, gnm_float *cupper, int *u
   return(TRUE);
 }
 
-gboolean get_pseudocosts(lprec *lp, gnm_float *clower, gnm_float *cupper, int *updatelimit)
+static gboolean get_pseudocosts(lprec *lp, gnm_float *clower, gnm_float *cupper, int *updatelimit)
 {
   int i;
 
@@ -26094,7 +25273,7 @@ STATIC gnm_float get_refactfrequency(lprec *lp, gboolean final)
     return( (gnm_float) (lp->bfp_pivotmax(lp)+iters) / (1+refacts) );
 }
 
-/* INLINE */ gboolean is_fixedvar(lprec *lp, int variable)
+static gboolean is_fixedvar(lprec *lp, int variable)
 {
   if(lp->bb_bounds->UBzerobased || (variable <= lp->rows))
     return( (gboolean) (lp->upbo[variable] < lp->epsprimal) );
@@ -26118,7 +25297,7 @@ STATIC gboolean solution_is_int(lprec *lp, int index, gboolean checkfixed)
 } /* solution_is_int */
 
 
-gboolean set_multiprice(lprec *lp, int multiblockdiv)
+static gboolean set_multiprice(lprec *lp, int multiblockdiv)
 {
   /* See if we are resetting multiply priced column structures */
   if(multiblockdiv != lp->multiblockdiv) {
@@ -26130,7 +25309,7 @@ gboolean set_multiprice(lprec *lp, int multiblockdiv)
   return( TRUE );
 }
 
-int get_multiprice(lprec *lp, gboolean getabssize)
+static int get_multiprice(lprec *lp, gboolean getabssize)
 {
   if((lp->multivars == NULL) || (lp->multivars->used == 0))
     return( 0 );
@@ -26140,7 +25319,7 @@ int get_multiprice(lprec *lp, gboolean getabssize)
     return( lp->multiblockdiv );
 }
 
-gboolean set_partialprice(lprec *lp, int blockcount, int *blockstart, gboolean isrow)
+static gboolean set_partialprice(lprec *lp, int blockcount, int *blockstart, gboolean isrow)
 {
   int        ne, i, items;
   partialrec **blockdata;
@@ -26234,7 +25413,7 @@ gboolean set_partialprice(lprec *lp, int blockcount, int *blockstart, gboolean i
   return( TRUE );
 } /* set_partialprice */
 
-void get_partialprice(lprec *lp, int *blockcount, int *blockstart, gboolean isrow)
+static void get_partialprice(lprec *lp, int *blockcount, int *blockstart, gboolean isrow)
 {
   partialrec *blockdata;
 
@@ -29166,7 +28345,7 @@ STATIC gboolean mat_validate(MATrec *mat)
   return( TRUE );
 }
 
-gboolean mat_get_data(lprec *lp, int matindex, gboolean isrow, int **rownr, int **colnr, gnm_float **value)
+static gboolean mat_get_data(lprec *lp, int matindex, gboolean isrow, int **rownr, int **colnr, gnm_float **value)
 {
   MATrec *mat = lp->matA;
 
@@ -29204,7 +28383,7 @@ gboolean mat_get_data(lprec *lp, int matindex, gboolean isrow, int **rownr, int 
 }
 
 
-gboolean mat_set_rowmap(MATrec *mat, int row_mat_index, int rownr, int colnr, int col_mat_index)
+static gboolean mat_set_rowmap(MATrec *mat, int row_mat_index, int rownr, int colnr, int col_mat_index)
 {
 #if MatrixRowAccess == RAM_Index
   mat->row_mat[row_mat_index] = col_mat_index;
@@ -30946,17 +30125,17 @@ STATIC int prepareMDO(lprec *lp, gboolean *usedpos, int *colorder, int *data, in
 }
 
 
-void *mdo_calloc(size_t size, size_t count)
+static void *mdo_calloc(size_t size, size_t count)
 {
   return ( calloc(size, count) );
 }
-void mdo_free(void *mem)
+static void mdo_free(void *mem)
 {
   g_free( mem );
 }
 
 
-int getMDO(lprec *lp, gboolean *usedpos, int *colorder, int *size, gboolean symmetric)
+static int getMDO(lprec *lp, gboolean *usedpos, int *colorder, int *size, gboolean symmetric)
 {
   int    error = FALSE;
   int    nrows = lp->rows+1, ncols = colorder[0];
@@ -32348,1628 +31527,6 @@ STATIC int run_BB(lprec *lp)
   return( status );
 }
 
-/* ------------------------------------------------------------------------- */
-/* Imported lp_MPS.c */
-
-
-
-#ifdef FORTIFY
-#endif
-
-
-/* MPS file input and output routines for lp_solve                           */
-/* ------------------------------------------------------------------------- */
-
-/*
-A:  MPS format was named after an early IBM LP product and has emerged
-as a de facto standard ASCII medium among most of the commercial LP
-codes.  Essentially all commercial LP codes accept this format, but if
-you are using public domain software and have MPS files, you may need
-to write your own reader routine for this.  It's not too hard.  The
-main things to know about MPS format are that it is column oriented (as
-opposed to entering the model as equations), and everything (variables,
-rows, etc.) gets a name.  MPS format is described in more detail in
-Murtagh's book, referenced in another section. Also,
-
-ftp://softlib.cs.rice.edu/pub/miplib/mps_format
-
-is a nice short introduction.  exports
-
-MPS is an old format, so it is set up as though you were using punch
-cards, and is not g_free format. Fields start in column 1, 5, 15, 25, 40
-and 50.  Sections of an MPS file are marked by so-called header cards,
-which are distinguished by their starting in column 1.  Although it is
-typical to use upper-case throughout the file (like I said, MPS has
-long historical roots), many MPS-readers will accept mixed-case for
-anything except the header cards, and some allow mixed-case anywhere.
-The names that you choose for the individual entities (constraints or
-variables) are not important to the solver; you should pick names that
-are meaningful to you, or will be easy for a post-processing code to
-read.
-
-Here is a little sample model written in MPS format (explained in more
-detail below):
-
-NAME          TESTPROB
-ROWS
- N  COST
- L  LIM1
- G  LIM2
- E  MYEQN
-COLUMNS
-    XONE      COST                 1   LIM1                 1
-    XONE      LIM2                 1
-    YTWO      COST                 4   LIM1                 1
-    YTWO      MYEQN               -1
-    ZTHREE    COST                 9   LIM2                 1
-    ZTHREE    MYEQN                1
-RHS
-    RHS1      LIM1                 5   LIM2                10
-    RHS1      MYEQN                7
-BOUNDS
- UP BND1      XONE                 4
- LO BND1      YTWO                -1
- UP BND1      YTWO                 1
-ENDATA
-
-means:
-
-Optimize
- COST:    XONE + 4 YTWO + 9 ZTHREE
-Subject To
- LIM1:    XONE + YTWO <= 5
- LIM2:    XONE + ZTHREE >= 10
- MYEQN:   - YTWO + ZTHREE  = 7
-Bounds
- 0 <= XONE <= 4
--1 <= YTWO <= 1
-End
-
-*/
-
-/* copy a MPS name, only trailing spaces are removed. In MPS, names can have
-   embedded spaces! */
-STATIC void namecpy(char *into, char *from)
-{
-  int i;
-
-  /* copy at most 8 characters of from, stop at end of string or newline */
-  for(i = 0; (from[i] != '\0') && (from[i] != '\n') && (from[i] != '\r') && (i < 8); i++)
-    into[i] = from[i];
-
-  /* end with end of string */
-  into[i] = '\0';
-
-  /* remove trailing spaces, if any */
-  for(i--; (i >= 0) && (into[i] == ' '); i--)
-    into[i] = '\0';
-}
-
-/* scan an MPS line, and pick up the information in the fields that are
-   present */
-
-/* scan_line for fixed MPS format */
-STATIC int scan_lineFIXED(int section, char* line, char *field1, char *field2, char *field3,
-                          double *field4, char *field5, double *field6)
-{
-  int  items = 0, line_len;
-  char buf[16], *ptr1, *ptr2;
-
-  line_len = (int) strlen(line);
-  while ((line_len) && ((line[line_len-1] == '\n') || (line[line_len-1] == '\r') || (line[line_len-1] == ' ')))
-   line_len--;
-
-  if(line_len >= 1) { /* spaces or N/L/G/E or UP/LO */
-    strncpy(buf, line, 4);
-    buf[4] = '\0';
-    sscanf(buf, "%s", field1);
-    items++;
-  }
-  else
-    field1[0] = '\0';
-
-  line += 4;
-
-  if(line_len >= 5) { /* name */
-    namecpy(field2, line);
-    items++;
-  }
-  else
-    field2[0] = '\0';
-
-  line += 10;
-
-  if(line_len >= 14) { /* name */
-    namecpy(field3, line);
-    items++;
-  }
-  else
-    field3[0] = '\0';
-
-  line += 10;
-
-  if(line_len >= 25) { /* number */
-    strncpy(buf, line, 15);
-    buf[15] = '\0';
-    for(ptr1 = ptr2 = buf; ; ptr1++)
-      if(!g_ascii_isspace((unsigned char) *ptr1))
-        if((*(ptr2++) = *ptr1) == 0)
-          break;
-    /* *field4 = atof(buf); */
-    *field4 = strtod(buf, &ptr1);
-    if(*ptr1)
-      return(-1);
-    items++;
-  }
-  else
-    *field4 = 0;
-
-  line += 15;
-
-  if(line_len >= 40) { /* name */
-    namecpy(field5, line);
-    items++;
-  }
-  else
-    field5[0] = '\0';
-  line += 10;
-
-  if(line_len >= 50) { /* number */
-    strncpy(buf, line, 15);
-    buf[15] = '\0';
-    for(ptr1 = ptr2 = buf; ; ptr1++)
-      if(!g_ascii_isspace((unsigned char) *ptr1))
-        if((*(ptr2++) = *ptr1) == 0)
-          break;
-    /* *field6 = atof(buf); */
-    *field6 = strtod(buf, &ptr1);
-    if(*ptr1)
-      return(-1);
-    items++;
-  }
-  else
-    *field6 = 0;
-
-  return(items);
-}
-
-STATIC int spaces(char *line, int line_len)
-{
-  int l;
-  char *line1 = line;
-
-  while (*line1 == ' ')
-    line1++;
-  l = (int) (line1 - line);
-  if (line_len < l)
-    l = line_len;
-  return(l);
-}
-
-STATIC int lenfield(char *line, int line_len)
-{
-  int l;
-  char *line1 = line;
-
-  while ((*line1) && (*line1 != ' '))
-    line1++;
-  l = (int) (line1 - line);
-  if (line_len < l)
-    l = line_len;
-  return(l);
-}
-
-/* scan_line for fixed MPS format */
-STATIC int scan_lineFREE(int section, char* line, char *field1, char *field2, char *field3,
-                         double *field4, char *field5, double *field6)
-{
-  int  items = 0, line_len, len;
-  char buf[256], *ptr1, *ptr2;
-
-  line_len = (int) strlen(line);
-  while ((line_len) && ((line[line_len-1] == '\n') || (line[line_len-1] == '\r') || (line[line_len-1] == ' ')))
-   line_len--;
-
-  len = spaces(line, line_len);
-  line += len;
-  line_len -= len;
-
-  if ((section == MPSCOLUMNS) || (section == MPSRHS) || (section == MPSRANGES)) {
-    field1[0] = '\0';
-    items++;
-  }
-  else {
-    len = lenfield(line, line_len);
-    if(line_len >= 1) { /* spaces or N/L/G/E or UP/LO */
-      strncpy(buf, line, len);
-      buf[len] = '\0';
-      sscanf(buf, "%s", field1);
-      items++;
-    }
-    else
-      field1[0] = '\0';
-
-    line += len;
-    line_len -= len;
-
-    len = spaces(line, line_len);
-    line += len;
-    line_len -= len;
-  }
-
-  len = lenfield(line, line_len);
-  if(line_len >= 1) { /* name */
-    strncpy(field2, line, len);
-    field2[len] = '\0';
-    items++;
-  }
-  else
-    field2[0] = '\0';
-
-  line += len;
-  line_len -= len;
-
-  len = spaces(line, line_len);
-  line += len;
-  line_len -= len;
-
-  len = lenfield(line, line_len);
-  if(line_len >= 1) { /* name */
-    strncpy(field3, line, len);
-    field3[len] = '\0';
-    items++;
-  }
-  else
-    field3[0] = '\0';
-
-  line += len;
-  line_len -= len;
-
-  len = spaces(line, line_len);
-  line += len;
-  line_len -= len;
-
-  if (*field3) {
-    if((section == MPSCOLUMNS) && (strcmp(field3, "'MARKER'") == 0)) {
-      *field4 = 0;
-      items++;
-      ptr1 = field3;
-    }
-    else {
-      *field4 = strtod(field3, &ptr1);
-      if(*ptr1 == 0) {
-        strcpy(field3, field2);
-  if ((section == MPSROWS) || (section == MPSBOUNDS) /* || (section == MPSSOS) */)
-    *field2 = 0;
-  else {
-          strcpy(field2, field1);
-    *field1 = 0;
-  }
-        items++;
-      }
-      else
-        ptr1 = NULL;
-    }
-  }
-  else ptr1 = NULL;
-
-  if(ptr1 == NULL) {
-    len = lenfield(line, line_len);
-    if(line_len >= 1) { /* number */
-      strncpy(buf, line, len);
-      buf[len] = '\0';
-      for(ptr1 = ptr2 = buf; ; ptr1++)
-        if(!g_ascii_isspace((unsigned char) *ptr1))
-          if((*(ptr2++) = *ptr1) == 0)
-            break;
-      /* *field4 = atof(buf); */
-      *field4 = strtod(buf, &ptr1);
-      if(*ptr1)
-        return(-1);
-      items++;
-    }
-    else
-      *field4 = 0;
-
-    line += len;
-    line_len -= len;
-
-    len = spaces(line, line_len);
-    line += len;
-    line_len -= len;
-  }
-
-  len = lenfield(line, line_len);
-  if(line_len >= 1) { /* name */
-    strncpy(field5, line, len);
-    field5[len] = '\0';
-    items++;
-  }
-  else
-    field5[0] = '\0';
-  line += len;
-  line_len -= len;
-
-  len = spaces(line, line_len);
-  line += len;
-  line_len -= len;
-
-  len = lenfield(line, line_len);
-  if(line_len >= 1) { /* number */
-    strncpy(buf, line, len);
-    buf[len] = '\0';
-    for(ptr1 = ptr2 = buf; ; ptr1++)
-      if(!g_ascii_isspace((unsigned char) *ptr1))
-        if((*(ptr2++) = *ptr1) == 0)
-          break;
-    /* *field6 = atof(buf); */
-    *field6 = strtod(buf, &ptr1);
-    if(*ptr1)
-      return(-1);
-    items++;
-  }
-  else
-    *field6 = 0;
-
-  if((section == MPSSOS) && (items == 2)) {
-    strcpy(field3, field2);
-    strcpy(field2, field1);
-    *field1 = 0;
-  }
-
-  if(section != MPSOBJNAME) {
-    for(ptr1 = field1; *ptr1; ptr1++)
-      *ptr1=(char)g_ascii_toupper(*ptr1);
-  }
-
-  return(items);
-}
-
-STATIC int addmpscolumn(lprec *lp, gboolean Int_section, gboolean *Column_ready,
-                        int *count, gnm_float *Last_column, int *Last_columnno, char *Last_col_name)
-{
-  int ok = TRUE;
-
-  if (*Column_ready) {
-    ok = add_columnex(lp, *count, Last_column, Last_columnno);
-    if (ok) {
-      ok = set_col_name(lp, lp->columns, Last_col_name);
-    }
-    if (ok)
-      lp_solve_set_int(lp, lp->columns, Int_section);
-  }
-  *Column_ready = FALSE;
-  *count = 0;
-  return(ok);
-}
-
-STATIC gboolean appendmpsitem(int *count, int rowIndex[], gnm_float rowValue[])
-{
-  int i = *count;
-
-  if(rowValue[i] == 0)
-    return( FALSE );
-
-  while((i > 0) && (rowIndex[i] < rowIndex[i-1])) {
-    swapINT (rowIndex+i, rowIndex+i-1);
-    swapREAL(rowValue+i, rowValue+i-1);
-    i--;
-  }
-  (*count)++;
-  return( TRUE );
-}
-
-gboolean MPS_readfile(lprec **newlp, char *filename, int typeMPS, int verbose)
-{
-  gboolean status = FALSE;
-  FILE   *fpin;
-
-  fpin = fopen(filename, "r");
-  if(fpin != NULL) {
-    status = MPS_readhandle(newlp, fpin, typeMPS, verbose);
-    fclose(fpin);
-  }
-  return( status );
-}
-
-gboolean MPS_readhandle(lprec **newlp, FILE *filehandle, int typeMPS, int verbose)
-{
-  char   field1[BUFSIZ], field2[BUFSIZ], field3[BUFSIZ], field5[BUFSIZ], line[BUFSIZ], tmp[BUFSIZ],
-         Last_col_name[BUFSIZ], probname[BUFSIZ], OBJNAME[BUFSIZ], *ptr;
-  int    items, row, Lineno, var,
-         section = MPSUNDEF, variant = 0, NZ = 0, SOS = 0;
-  gboolean Int_section, Column_ready, Column_ready1,
-         Unconstrained_rows_found = FALSE, OF_found = FALSE, CompleteStatus = FALSE;
-  double field4, field6;
-  gnm_float   *Last_column = NULL;
-  int    count = 0, *Last_columnno = NULL;
-  int    OBJSENSE = ROWTYPE_EMPTY;
-  lprec  *lp;
-  int    (*scan_line)(int section, char* line, char *field1, char *field2, char *field3,
-                      double *field4, char *field5, double *field6);
-
-  if(newlp == NULL)
-    return( CompleteStatus );
-  else if(*newlp == NULL)
-    lp = lp_solve_make_lp(0, 0);
-  else
-    lp = *newlp;
-
-  switch(typeMPS) {
-    case MPSFIXED:
-      scan_line = scan_lineFIXED;
-      break;
-    case MPSFREE:
-      scan_line = scan_lineFREE;
-      break;
-    default:
-      report(lp, IMPORTANT, "MPS_readfile: Unrecognized MPS line type.\n");
-      lp_solve_delete_lp(lp);
-      return( CompleteStatus );
-  }
-
-  if (lp != NULL) {
-    lp->source_is_file = TRUE;
-    lp->verbose = verbose;
-    strcpy(Last_col_name, "");
-    strcpy(OBJNAME, "");
-    Int_section = FALSE;
-    Column_ready = FALSE;
-    Lineno = 0;
-
-    /* let's initialize line to all zero's */
-    MEMCLEAR(line, BUFSIZ);
-
-    while(fgets(line, BUFSIZ - 1, filehandle)) {
-      Lineno++;
-
-      for(ptr = line; (*ptr) && (g_ascii_isspace((unsigned char) *ptr)); ptr++);
-
-      /* skip lines which start with "*", they are comment */
-      if((line[0] == '*') || (*ptr == 0) || (*ptr == '\n') || (*ptr == '\r')) {
-        report(lp, FULL, "Comment on line %d: %s", Lineno, line);
-        continue;
-      }
-
-      report(lp, FULL, "Line %6d: %s", Lineno, line);
-
-      /* first check for "special" lines: NAME, ROWS, BOUNDS .... */
-      /* this must start in the first position of line */
-      if(line[0] != ' ') {
-        sscanf(line, "%s", tmp);
-        if(strcmp(tmp, "NAME") == 0) {
-          section = MPSNAME;
-          *probname = 0;
-          sscanf(line, "NAME %s", probname);
-          if (!set_lp_name(lp, probname))
-            break;
-        }
-        else if((typeMPS == MPSFREE) && (strcmp(tmp, "OBJSENSE") == 0)) {
-          section = MPSOBJSENSE;
-          report(lp, FULL, "Switching to OBJSENSE section\n");
-        }
-        else if((typeMPS == MPSFREE) && (strcmp(tmp, "OBJNAME") == 0)) {
-          section = MPSOBJNAME;
-          report(lp, FULL, "Switching to OBJNAME section\n");
-        }
-        else if(strcmp(tmp, "ROWS") == 0) {
-          section = MPSROWS;
-          report(lp, FULL, "Switching to ROWS section\n");
-        }
-        else if(strcmp(tmp, "COLUMNS") == 0) {
-          allocREAL(lp, &Last_column, lp->rows + 1, TRUE);
-          allocINT(lp, &Last_columnno, lp->rows + 1, TRUE);
-          count = 0;
-          if ((Last_column == NULL) || (Last_columnno == NULL))
-            break;
-          section = MPSCOLUMNS;
-          report(lp, FULL, "Switching to COLUMNS section\n");
-        }
-        else if(strcmp(tmp, "RHS") == 0) {
-          if (!addmpscolumn(lp, Int_section, &Column_ready, &count, Last_column, Last_columnno, Last_col_name))
-            break;
-          section = MPSRHS;
-          report(lp, FULL, "Switching to RHS section\n");
-        }
-        else if(strcmp(tmp, "BOUNDS") == 0) {
-          section = MPSBOUNDS;
-          report(lp, FULL, "Switching to BOUNDS section\n");
-        }
-        else if(strcmp(tmp, "RANGES") == 0) {
-          section = MPSRANGES;
-          report(lp, FULL, "Switching to RANGES section\n");
-        }
-        else if((strcmp(tmp, "SOS") == 0) || (strcmp(tmp, "SETS") == 0)) {
-          section = MPSSOS;
-          if(strcmp(tmp, "SOS") == 0)
-            variant = 0;
-          else
-            variant = 1;
-          report(lp, FULL, "Switching to %s section\n", tmp);
-        }
-        else if(strcmp(tmp, "ENDATA") == 0) {
-          report(lp, FULL, "Finished reading MPS file\n");
-          CompleteStatus = TRUE;
-          break;
-        }
-        else { /* line does not start with space and does not match above */
-          report(lp, IMPORTANT, "Unrecognized MPS line %d: %s\n", Lineno, line);
-          break;
-        }
-      }
-      else { /* normal line, process */
-        items = scan_line(section, line, field1, field2, field3, &field4, field5, &field6);
-        if(items < 0){
-          report(lp, IMPORTANT, "Syntax error on line %d: %s\n", Lineno, line);
-          break;
-        }
-
-        switch(section) {
-
-        case MPSNAME:
-          report(lp, IMPORTANT, "Error, extra line under NAME line\n");
-          break;
-
-        case MPSOBJSENSE:
-          if(OBJSENSE != ROWTYPE_EMPTY) {
-            report(lp, IMPORTANT, "Error, extra line under OBJSENSE line\n");
-            break;
-          }
-          if((strcmp(field1, "MAXIMIZE") == 0) || (strcmp(field1, "MAX") == 0)) {
-            OBJSENSE = ROWTYPE_OFMAX;
-            lp_solve_set_maxim(lp);
-          }
-          else if((strcmp(field1, "MINIMIZE") == 0) || (strcmp(field1, "MIN") == 0)) {
-            OBJSENSE = ROWTYPE_OFMIN;
-            lp_solve_set_minim(lp);
-          }
-          else {
-            report(lp, SEVERE, "Unknown OBJSENSE direction '%s' on line %d\n", field1, Lineno);
-            break;
-          }
-          continue;
-
-        case MPSOBJNAME:
-          if(*OBJNAME) {
-            report(lp, IMPORTANT, "Error, extra line under OBJNAME line\n");
-            break;
-          }
-          strcpy(OBJNAME, field1);
-          continue;
-
-        /* Process entries in the ROWS section */
-        case MPSROWS:
-          /* field1: rel. operator; field2: name of constraint */
-
-          report(lp, FULL, "Row   %5d: %s %s\n", lp->rows + 1, field1, field2);
-
-          if(strcmp(field1, "N") == 0) {
-            if((*OBJNAME) && (strcmp(field2, OBJNAME)))
-              /* Ignore this objective name since it is not equal to the OBJNAME name */;
-            else if(!OF_found) { /* take the first N row as OF, ignore others */
-              if (!set_row_name(lp, 0, field2))
-                break;
-              OF_found = TRUE;
-            }
-            else if(!Unconstrained_rows_found) {
-              report(lp, IMPORTANT, "Unconstrained row %s ignored\n", field2);
-              report(lp, IMPORTANT, "Further messages of this kind will be suppressed\n");
-              Unconstrained_rows_found = TRUE;
-            }
-          }
-          else if(strcmp(field1, "L") == 0) {
-            if ((!str_add_constraint(lp, "" ,LE ,0)) || (!set_row_name(lp, lp->rows, field2)))
-              break;
-          }
-          else if(strcmp(field1, "G") == 0) {
-            if ((!str_add_constraint(lp, "" ,GE ,0)) || (!set_row_name(lp, lp->rows, field2)))
-              break;
-          }
-          else if(strcmp(field1, "E") == 0) {
-            if ((!str_add_constraint(lp, "",EQ ,0)) || (!set_row_name(lp, lp->rows, field2)))
-              break;
-          }
-          else {
-            report(lp, SEVERE, "Unknown relation code '%s' on line %d\n", field1, Lineno);
-            break;
-          }
-
-          continue;
-
-        /* Process entries in the COLUMNS section */
-        case MPSCOLUMNS:
-          /* field2: variable; field3: constraint; field4: coef */
-          /* optional: field5: constraint; field6: coef */
-
-          report(lp, FULL, "Column %4d: %s %s %g %s %g\n",
-                            lp->columns + 1, field2, field3, field4, field5, field6);
-
-          if((items == 4) || (items == 5) || (items == 6)) {
-            if (NZ == 0)
-              strcpy(Last_col_name, field2);
-            else if(*field2) {
-              Column_ready1 = (gboolean) (strcmp(field2, Last_col_name) != 0);
-              if(Column_ready1) {
-                if (find_var(lp, field2, FALSE) >= 0) {
-                  report(lp, SEVERE, "Variable name (%s) is already used!\n", field2);
-                  break;
-                }
-
-                if(Column_ready) {  /* Added ability to handle non-standard "same as above" column name */
-                  if (addmpscolumn(lp, Int_section, &Column_ready, &count, Last_column, Last_columnno, Last_col_name)) {
-                    strcpy(Last_col_name, field2);
-                    NZ = 0;
-                  }
-                  else
-                    break;
-                }
-              }
-            }
-            if(items == 5) { /* there might be an INTEND or INTORG marker */
-             /* look for "    <name>  'MARKER'                 'INTORG'"
-                      or "    <name>  'MARKER'                 'INTEND'"  */
-              if(strcmp(field3, "'MARKER'") != 0)
-                break;
-              if(strcmp(field5, "'INTORG'") == 0) {
-                Int_section = TRUE;
-                report(lp, FULL, "Switching to integer section\n");
-              }
-              else if(strcmp(field5, "'INTEND'") == 0) {
-                Int_section = FALSE;
-                report(lp, FULL, "Switching to non-integer section\n");
-              }
-              else
-                report(lp, IMPORTANT, "Unknown marker (ignored) at line %d: %s\n",
-                                       Lineno, field5);
-            }
-            else if((row = find_row(lp, field3, Unconstrained_rows_found)) >= 0) {
-              if(row > lp->rows)
-                report(lp, CRITICAL, "Invalid row %s encountered in the MPS file\n", field3);
-              Last_columnno[count] = row;
-              Last_column[count] = (gnm_float)field4;
-              if(appendmpsitem(&count, Last_columnno, Last_column)) {
-                NZ++;
-                Column_ready = TRUE;
-              }
-            }
-          }
-          if(items == 6) {
-            if((row = find_row(lp, field5, Unconstrained_rows_found)) >= 0) {
-              if(row > lp->rows)
-                report(lp, CRITICAL, "Invalid row %s encountered in the MPS file\n", field6);
-              Last_columnno[count] = row;
-              Last_column[count] = (gnm_float)field6;
-              if(appendmpsitem(&count, Last_columnno, Last_column)) {
-                NZ++;
-                Column_ready = TRUE;
-              }
-            }
-          }
-
-          if((items < 4) || (items > 6)) { /* Wrong! */
-            report(lp, CRITICAL, "Wrong number of items (%d) in COLUMNS section (line %d)\n",
-                                  items, Lineno);
-            break;
-          }
-
-          continue;
-
-        /* Process entries in the RHS section */
-        /* field2: uninteresting name; field3: constraint name */
-        /* field4: value */
-        /* optional: field5: constraint name; field6: value */
-        case MPSRHS:
-
-          report(lp, FULL, "RHS line: %s %s %g %s %g\n",
-                            field2, field3, field4, field5, field6);
-
-          if((items != 4) && (items != 6)) {
-            report(lp, CRITICAL, "Wrong number of items (%d) in RHS section line %d\n",
-                                  items, Lineno);
-            break;
-          }
-
-          if((row = find_row(lp, field3, Unconstrained_rows_found)) >= 0) {
-            lp_solve_set_rh(lp, row, (gnm_float)field4);
-          }
-
-          if(items == 6) {
-            if((row = find_row(lp, field5, Unconstrained_rows_found)) >= 0) {
-              lp_solve_set_rh(lp, row, (gnm_float)field6);
-            }
-          }
-
-          continue;
-
-        /* Process entries in the BOUNDS section */
-        /* field1: bound type; field2: uninteresting name; */
-        /* field3: variable name; field4: value */
-        case MPSBOUNDS:
-
-          report(lp, FULL, "BOUNDS line: %s %s %s %g\n",
-                            field1, field2, field3, field4);
-
-          var = find_var(lp, field3, FALSE);
-          if(var < 0){ /* bound on undefined var in COLUMNS section ... */
-            Column_ready = TRUE;
-            if (!addmpscolumn(lp, FALSE, &Column_ready, &count, Last_column, Last_columnno, field3))
-              break;
-            Column_ready = TRUE;
-            var = find_var(lp, field3, TRUE);
-          }
-          if(var < 0) /* undefined var and could add ... */;
-          else if(strcmp(field1, "UP") == 0) {
-          /* upper bound */
-            set_bounds(lp, var, get_lowbo(lp, var), field4);
-          }
-          else if(strcmp(field1, "SC") == 0) {
-            /* upper bound */
-            if(field4 == 0)
-              field4 = lp->infinite;
-            set_bounds(lp, var, get_lowbo(lp, var), field4);
-            set_semicont(lp, var, TRUE);
-          }
-          else if(strcmp(field1, "SI") == 0) {
-            /* upper bound */
-            if(field4 == 0)
-              field4 = lp->infinite;
-            set_bounds(lp, var, get_lowbo(lp, var), field4);
-            lp_solve_set_int(lp, var, TRUE);
-            set_semicont(lp, var, TRUE);
-          }
-          else if(strcmp(field1, "LO") == 0) {
-            /* lower bound */
-            set_bounds(lp, var, field4, get_upbo(lp, var));
-          }
-          else if(strcmp(field1, "PL") == 0)   /* plus-ranged variable */
-            set_bounds(lp, var, get_lowbo(lp, var), lp->infinite);
-          else if(strcmp(field1, "MI") == 0) { /* minus-ranged variable */
-            set_bounds(lp, var, -lp->infinite, get_upbo(lp, var));
-          }
-          else if(strcmp(field1, "FR") == 0) { /* g_free variable */
-            set_unbounded(lp, var);
-          }
-          else if(strcmp(field1, "FX") == 0) {
-            /* fixed, upper _and_ lower  */
-            set_bounds(lp, var, field4, field4);
-          }
-          else if(strcmp(field1, "BV") == 0) { /* binary variable */
-            set_binary(lp, var, TRUE);
-          }
-          /* AMPL bounds type UI and LI added by E.Imamura (CRIEPI)  */
-          else if(strcmp(field1, "UI") == 0) { /* upper bound for integer variable */
-            set_bounds(lp, var, get_lowbo(lp, var), field4);
-            lp_solve_set_int(lp, var, TRUE);
-          }
-          else if(strcmp(field1, "LI") == 0) { /* lower bound for integer variable - corrected by KE */
-            set_bounds(lp, var, field4, get_upbo(lp, var));
-            lp_solve_set_int(lp, var, TRUE);
-          }
-          else {
-            report(lp, CRITICAL, "BOUND type %s on line %d is not supported",
-                                  field1, Lineno);
-            break;
-          }
-
-          continue;
-
-          /* Process entries in the BOUNDS section */
-
-      /* We have to implement the following semantics:
-
-      D. The RANGES section is for constraints of the form: h <=
-      constraint <= u .  The range of the constraint is r = u - h .  The
-      value of r is specified in the RANGES section, and the value of u or
-      h is specified in the RHS section.  If b is the value entered in the
-      RHS section, and r is the value entered in the RANGES section, then
-      u and h are thus defined:
-
-      row type       sign of r       h          u
-      ----------------------------------------------
-     G            + or -         b        b + |r|
-     L            + or -       b - |r|      b
-     E              +            b        b + |r|
-     E              -          b - |r|      b            */
-
-        /* field2: uninteresting name; field3: constraint name */
-        /* field4: value */
-        /* optional: field5: constraint name; field6: value */
-
-        case MPSRANGES:
-
-          report(lp, FULL, "RANGES line: %s %s %g %s %g",
-                            field2, field3, field4, field5, field6);
-
-          if((items != 4) && (items != 6)) {
-            report(lp, CRITICAL, "Wrong number of items (%d) in RANGES section line %d",
-                                  items, Lineno);
-            break;
-          }
-
-          if((row = find_row(lp, field3, Unconstrained_rows_found)) >= 0) {
-            /* Determine constraint type */
-
-            if(fabs(field4) >= lp->infinite) {
-              report(lp, IMPORTANT,
-                          "Warning, Range for row %s >= infinity (value %g) on line %d, ignored",
-                          field3, field4, Lineno);
-            }
-            else if(field4 == 0) {
-              /* Change of a GE or LE to EQ */
-              if(lp->orig_upbo[row] != 0)
-                lp_solve_set_constr_type(lp, row, EQ);
-            }
-            else if(is_chsign(lp, row)) {
-              /* GE */
-              lp->orig_upbo[row] = fabs(field4);
-            }
-            else if((lp->orig_upbo[row] == 0) && (field4 >= 0)) {
-              /*  EQ with positive sign of r value */
-              lp_solve_set_constr_type(lp, row, GE);
-              lp->orig_upbo[row] = field4;
-            }
-            else if(lp->orig_upbo[row] == lp->infinite) {
-              /* LE */
-              lp->orig_upbo[row] = fabs(field4);
-            }
-            else if((lp->orig_upbo[row] == 0) && (field4 < 0)) {
-              /* EQ with negative sign of r value */
-              lp_solve_set_constr_type(lp, row, LE);
-              lp->orig_upbo[row] = my_flipsign(field4);
-            }
-            else { /* let's be paranoid */
-              report(lp, IMPORTANT,
-                          "Cannot figure out row type, row = %d, is_chsign = %d, upbo = %g on line %d",
-                          row, is_chsign(lp, row), (double)lp->orig_upbo[row], Lineno);
-            }
-          }
-
-          if(items == 6) {
-            if((row = find_row(lp, field5, Unconstrained_rows_found)) >= 0) {
-              /* Determine constraint type */
-
-              if(fabs(field6) >= lp->infinite) {
-                report(lp, IMPORTANT,
-                            "Warning, Range for row %s >= infinity (value %g) on line %d, ignored",
-                            field5, field6, Lineno);
-              }
-              else if(field6 == 0) {
-                /* Change of a GE or LE to EQ */
-                if(lp->orig_upbo[row] != 0)
-                  lp_solve_set_constr_type(lp, row, EQ);
-              }
-              else if(is_chsign(lp, row)) {
-                /* GE */
-                lp->orig_upbo[row] = fabs(field6);
-              }
-              else if(lp->orig_upbo[row] == 0 && field6 >= 0) {
-                /*  EQ with positive sign of r value */
-                lp_solve_set_constr_type(lp, row, GE);
-                lp->orig_upbo[row] = field6;
-              }
-              else if(lp->orig_upbo[row] == lp->infinite) {
-                /* LE */
-                lp->orig_upbo[row] = fabs(field6);
-              }
-              else if((lp->orig_upbo[row] == 0) && (field6 < 0)) {
-                /* EQ with negative sign of r value */
-                lp_solve_set_constr_type(lp, row, LE);
-                lp->orig_upbo[row] = my_flipsign(field6);
-              }
-              else { /* let's be paranoid */
-                report(lp, IMPORTANT,
-                            "Cannot figure out row type, row = %d, is_chsign = %d, upbo = %g on line",
-                            row, is_chsign(lp,row), (double) lp->orig_upbo[row], Lineno);
-              }
-            }
-          }
-
-          continue;
-
-        /* Process entries in the SOS section */
-
-        /* We have to implement the following semantics:
-
-          E. The SOS section is for ordered variable sets of the form:
-      x1, x2, x3 ... xn where only a given number of consequtive variables
-          may be non-zero.  Each set definition is prefaced by type, name
-      and priority data.  Each set member has an optional weight that
-      determines its order.  There are two forms supported; a full format
-      and a reduced CPLEX-like format.                                       */
-
-        case MPSSOS:
-          report(lp, FULL, "SOS line: %s %s %g %s %g",
-                             field2, field3, field4, field5, field6);
-
-          if((items == 0) || (items > 4)) {
-            report(lp, IMPORTANT,
-                   "Invalid number of items (%d) in SOS section line %d\n",
-                   items, Lineno);
-            break;
-          }
-
-          if(strlen(field1) == 0) items--;  /* fix scanline anomoly! */
-
-          /* Check if this is the start of a new SOS */
-          if(items == 1 || items == 4) {
-            row = (int) (field1[1] - '0');
-            if((row <= 0) || (row > 9)) {
-              report(lp, IMPORTANT,
-                     "Error: Invalid SOS type %s line %d\n", field1, Lineno);
-              break;
-            }
-            field1[0] = '\0';               /* fix scanline anomoly! */
-
-            /* lp_solve needs a name for the SOS */
-            if(variant == 0) {
-              if(strlen(field3) == 0)  /* CPLEX format does not provide a SOS name; create one */
-                sprintf(field3, "SOS_%d", SOS_count(lp) + 1);
-            }
-            else {                     /* Remap XPRESS format name */
-              strcpy(field3, field1);
-            }
-            /* Obtain the SOS priority */
-            if(items == 4)
-              SOS = (int) field4;
-            else
-              SOS = 1;
-
-            /* Define a new SOS instance */
-
-            SOS = add_SOS(lp, field3, (int) row, SOS, 0, NULL, NULL);
-          }
-          /* Otherwise, add set members to the active SOS */
-          else {
-            char *field = (items == 3) ? field3 /* Native lp_solve and XPRESS formats */ : field2 /* CPLEX format */;
-
-            var = find_var(lp, field, FALSE);  /* Native lp_solve and XPRESS formats */
-            if(var < 0){ /* SOS on undefined var in COLUMNS section ... */
-              Column_ready = TRUE;
-              if (!addmpscolumn(lp, FALSE, &Column_ready, &count, Last_column, Last_columnno, field))
-                break;
-              Column_ready = TRUE;
-              var = find_var(lp, field, TRUE);
-            }
-            if((var < 0) || (SOS < 1)) /* undefined var and could add ... */;
-            else append_SOSrec(lp->SOS->sos_list[SOS-1], 1, &var, &field4);
-          }
-
-          continue;
-        }
-
-        /* If we got here there was an error "upstream" */
-         report(lp, IMPORTANT,
-                     "Error: Cannot handle line %d\n", Lineno);
-         break;
-      }
-    }
-
-    if((*OBJNAME) && (!OF_found)) {
-      report(lp, IMPORTANT,
-                  "Error: Objective function specified by OBJNAME card not found\n");
-      CompleteStatus = FALSE;
-    }
-
-    if(CompleteStatus == FALSE)
-      lp_solve_delete_lp(lp);
-    else
-      *newlp = lp;
-    if(Last_column != NULL)
-      FREE(Last_column);
-    if(Last_columnno != NULL)
-      FREE(Last_columnno);
-  }
-
-  return( CompleteStatus );
-}
-
-static void number(char *str,gnm_float value)
- {
-  char __str[80], *_str;
-  int  i;
-
-  /* sprintf(_str,"%12.6G",value); */
-  _str=__str+2;
-  if (value>=0.0)
-   if ((value!=0.0) && ((value>0.99999999e12) || (value<0.0001))) {
-    int n=15;
-
-    do {
-     n--;
-     i=sprintf(_str,"%*.*E",n,n-6,(double) value);
-     if (i>12) {
-      char *ptr=strchr(_str,'E');
-
-      if (ptr!=NULL) {
-       if (*(++ptr)=='-') ptr++;
-       while ((i>12) && ((*ptr=='+') || (*ptr=='0'))) {
-        strcpy(ptr,ptr+1);
-        i--;
-       }
-      }
-     }
-    } while (i>12);
-   }
-   else if (value>=1.0e10) {
-    int n=13;
-
-    do {
-     i=sprintf(_str,"%*.0f",--n,(double) value);
-    } while (i>12);
-   }
-   else {
-    if (((i=sprintf(_str,"%12.10f",(double) value))>12) && (_str[12]>='5')) {
-     for (i=11;i>=0;i--)
-      if (_str[i]!='.') {
-       if (++_str[i]>'9') _str[i]='0';
-       else break;
-      }
-     if (i<0) {
-      *(--_str)='1';
-      *(--_str)=' ';
-     }
-    }
-   }
-  else
-   if ((value<-0.99999999e11) || (value>-0.0001)) {
-    int n=15;
-
-    do {
-     n--;
-     i=sprintf(_str,"%*.*E",n,n-7,(double) value);
-     if (i>12) {
-      char *ptr=strchr(_str,'E');
-
-      if (ptr!=NULL) {
-       if (*(++ptr)=='-') ptr++;
-       while ((i>12) && ((*ptr=='+') || (*ptr=='0'))) {
-        strcpy(ptr,ptr+1);
-        i--;
-       }
-      }
-     }
-    } while (i>12);
-   }
-   else if (value<=-1.0e9) {
-    int n=13;
-
-    do {
-     i=sprintf(_str,"%*.0f",--n,(double) value);
-    } while (i>12);
-   }
-   else
-    if (((i=sprintf(_str,"%12.9f",(double) value))>12) && (_str[12]>='5')) {
-     for (i=11;i>=1;i--)
-      if (_str[i]!='.') {
-       if (++_str[i]>'9') _str[i]='0';
-       else break;
-      }
-     if (i<1) {
-      *_str='1';
-      *(--_str)='-';
-      *(--_str)=' ';
-     }
-    }
-  strncpy(str,_str,12);
- }
-
-static char numberbuffer[15];
-
-static char *formatnumber12(double a)
-{
-#if 0
-  return(sprintf(numberbuffer, "%12g", a));
-#else
-  number(numberbuffer, a);
-  return(numberbuffer);
-#endif
-}
-
-STATIC char *MPSnameFIXED(char *name)
-{
-  static char name0[9];
-
-  sprintf(name0, "%-8.8s", name);
-  return(name0);
-}
-
-STATIC char *MPSnameFREE(char *name)
-{
-  if(strlen(name) < 8)
-    return(MPSnameFIXED(name));
-  else
-    return(name);
-}
-
-gboolean MPS_writefile(lprec *lp, int typeMPS, char *filename)
-{
-  int    i, j, jj, je, k, marker, putheader, ChangeSignObj = FALSE, *idx, *idx1;
-  gboolean ok, names_used;
-  gnm_float   a, *val, *val1;
-  FILE   *output = stdout;
-  char * (*MPSname)(char *name);
-
-  if(lp->matA->is_roworder) {
-    report(lp, IMPORTANT, "MPS_writefile: Cannot write to MPS file while in row entry mode.\n");
-    return(FALSE);
-  }
-
-  switch(typeMPS) {
-    case MPSFIXED:
-      MPSname = MPSnameFIXED;
-      ChangeSignObj = is_maxim(lp);
-      break;
-    case MPSFREE:
-      MPSname = MPSnameFREE;
-      break;
-    default:
-      report(lp, IMPORTANT, "MPS_writefile: unrecognized MPS name type.\n");
-      return(FALSE);
-  }
-
-  ok = (gboolean) ((filename == NULL) || ((output = fopen(filename,"w")) != NULL));
-  if(!ok)
-    return(ok);
-  if(filename == NULL && lp->outstream != NULL)
-    output = lp->outstream;
-
-  names_used = lp->names_used;
-
-  if(typeMPS == MPSFIXED) {
-    /* Check if there is no variable name where the first 8 charachters are equal to the first 8 characters of anothe variable */
-    if(names_used)
-      for(i = 1; (i <= lp->columns) && (ok); i++)
-        if((lp->col_name[i] != NULL) && (lp->col_name[i]->name != NULL) && (!is_splitvar(lp, i)) && (strlen(lp->col_name[i]->name) > 8))
-          for(j = 1; (j < i) && (ok); j++)
-    if((lp->col_name[j] != NULL) && (lp->col_name[j]->name != NULL) && (!is_splitvar(lp, j)))
-      if(strncmp(lp->col_name[i]->name, lp->col_name[j]->name, 8) == 0)
-        ok = FALSE;
-  }
-
-  if(!ok) {
-    lp->names_used = FALSE;
-    ok = TRUE;
-  }
-  marker = 0;
-
-  /* First write metadata in structured comment form (lp_solve style) */
-  fprintf(output, "*<meta creator='lp_solve v%d.%d'>\n",
-                  (int) MAJORVERSION, (int) MINORVERSION);
-  fprintf(output, "*<meta rows=%d>\n", lp->rows);
-  fprintf(output, "*<meta columns=%d>\n", lp->columns);
-  fprintf(output, "*<meta equalities=%d>\n", lp->equalities);
-  if(SOS_count(lp) > 0)
-    fprintf(output, "*<meta SOS=%d>\n", SOS_count(lp));
-  fprintf(output, "*<meta integers=%d>\n", lp->int_vars);
-  if(lp->sc_vars > 0)
-    fprintf(output, "*<meta scvars=%d>\n", lp->sc_vars);
-  fprintf(output, "*<meta origsense='%s'>\n", (is_maxim(lp) ? "MAX" : "MIN"));
-  fprintf(output, "*\n");
-
-  /* Write the MPS content */
-  fprintf(output, "NAME          %s\n", MPSname(get_lp_name(lp)));
-  if((typeMPS == MPSFREE) && (is_maxim(lp)))
-    fprintf(output, "OBJSENSE\n MAX\n");
-  fprintf(output, "ROWS\n");
-  for(i = 0; i <= lp->rows; i++) {
-    if(i == 0)
-      fprintf(output, " N  ");
-    else if(lp->orig_upbo[i] != 0) {
-      if(is_chsign(lp,i))
-        fprintf(output, " G  ");
-      else
-        fprintf(output, " L  ");
-    }
-    else
-      fprintf(output, " E  ");
-    fprintf(output, "%s\n", MPSname(get_row_name(lp, i)));
-  }
-
-  allocREAL(lp, &val, 1 + lp->rows, TRUE);
-  allocINT(lp, &idx, 1 + lp->rows, TRUE);
-  fprintf(output, "COLUMNS\n");
-  for(i = 1; i <= lp->columns; i++) {
-    if(!is_splitvar(lp, i)) {
-      if(is_int(lp,i) && (marker % 2) == 0) {
-        fprintf(output,
-                "    MARK%04d  'MARKER'                 'INTORG'\n",
-                marker);
-        marker++;
-      }
-      if(!is_int(lp,i) && (marker % 2) == 1) {
-        fprintf(output,
-                "    MARK%04d  'MARKER'                 'INTEND'\n",
-                marker);
-        marker++;
-      }
-
-      /* Loop over non-zero column entries */
-      je = get_columnex(lp, i, val, idx);
-      for(k = 1, val1 = val, idx1 = idx, jj = 0; jj < je; jj++) {
-        k = 1 - k;
-        j = *(idx1++);
-        a = *(val1++);
-        if (k == 0) {
-          fprintf(output, "    %s",
-                          MPSname(get_col_name(lp, i)));
-          fprintf(output, "  %s  %s",
-                          MPSname(get_row_name(lp, j)),
-/*                          formatnumber12((double) a)); */
-                          formatnumber12((double) (a * (j == 0 && ChangeSignObj ? -1 : 1))));
-	}
-        else
-          fprintf(output, "   %s  %s\n",
-                          MPSname(get_row_name(lp, j)),
-                          formatnumber12((double) (a * (j == 0 && ChangeSignObj ? -1 : 1))));
-/*                          formatnumber12((double) a)); */
-      }
-      if(k == 0)
-        fprintf(output, "\n");
-    }
-  }
-  if((marker % 2) == 1) {
-    fprintf(output, "    MARK%04d  'MARKER'                 'INTEND'\n",
-            marker);
-  /* marker++; */ /* marker not used after this */
-  }
-  FREE(idx);
-  FREE(val);
-
-  fprintf(output, "RHS\n");
-  for(k = 1, i = 0; i <= lp->rows; i++) {
-    a = lp->orig_rhs[i];
-    if(a) {
-      a = unscaled_value(lp, a, i);
-      if((i == 0) || is_chsign(lp, i))
-        a = my_flipsign(a);
-      k = 1 - k;
-      if(k == 0)
-        fprintf(output, "    RHS       %s  %s",
-                        MPSname(get_row_name(lp, i)),
-                        formatnumber12((double)a));
-      else
-        fprintf(output, "   %s  %s\n",
-                        MPSname(get_row_name(lp, i)),
-                        formatnumber12((double)a));
-    }
-  }
-  if(k == 0)
-    fprintf(output, "\n");
-
-  putheader = TRUE;
-  for(k = 1, i = 1; i <= lp->rows; i++){
-    a = 0;
-    if((lp->orig_upbo[i] < lp->infinite) && (lp->orig_upbo[i] != 0.0))
-      a = lp->orig_upbo[i];
-    if(a) {
-      if(putheader) {
-        fprintf(output, "RANGES\n");
-        putheader = FALSE;
-      }
-      a = unscaled_value(lp, a, i);
-      k = 1 - k;
-      if(k == 0)
-        fprintf(output, "    RGS       %s  %s",
-                        MPSname(get_row_name(lp, i)),
-                        formatnumber12((double)a));
-      else
-        fprintf(output, "   %s  %s\n",
-                        MPSname(get_row_name(lp, i)),
-                        formatnumber12((double)a));
-    }
-  }
-  if(k == 0)
-    fprintf(output, "\n");
-
-  putheader = TRUE;
-  for(i = lp->rows + 1; i <= lp->sum; i++)
-    if(!is_splitvar(lp, i - lp->rows)) {
-      j = i - lp->rows;
-      if((lp->orig_lowbo[i] != 0) && (lp->orig_upbo[i] < lp->infinite) &&
-         (lp->orig_lowbo[i] == lp->orig_upbo[i])) {
-        a = lp->orig_upbo[i];
-        a = unscaled_value(lp, a, i);
-        if(putheader) {
-          fprintf(output, "BOUNDS\n");
-          putheader = FALSE;
-        }
-        fprintf(output, " FX BND       %s  %s\n",
-                        MPSname(get_col_name(lp, j)),
-                        formatnumber12((double)a));
-      }
-      else if(is_binary(lp, j)) {
-        if(putheader) {
-          fprintf(output, "BOUNDS\n");
-          putheader = FALSE;
-        }
-        fprintf(output, " BV BND       %s\n",
-                        MPSname(get_col_name(lp, j)));
-      }
-      else if(is_unbounded(lp, j)) {
-        if(putheader) {
-          fprintf(output, "BOUNDS\n");
-          putheader = FALSE;
-        }
-        fprintf(output, " FR BND       %s\n",
-                        MPSname(get_col_name(lp, j)));
-      }
-      else {
-        if(lp->orig_upbo[i] < lp->infinite) {
-          a = lp->orig_upbo[i];
-          a = unscaled_value(lp, a, i);
-          if(putheader) {
-            fprintf(output, "BOUNDS\n");
-            putheader = FALSE;
-          }
-          if(is_semicont(lp, j)) {
-            if(is_int(lp, j))
-              fprintf(output, " SI BND       %s  %s\n",
-                              MPSname(get_col_name(lp, j)),
-                              formatnumber12((double)a));
-            else
-              fprintf(output, " SC BND       %s  %s\n",
-                              MPSname(get_col_name(lp, j)),
-            formatnumber12((double)a));
-          }
-          else
-            fprintf(output, " UP BND       %s  %s\n",
-                            MPSname(get_col_name(lp, j)),
-                            formatnumber12((double)a));
-        }
-        if(lp->orig_lowbo[i] != 0) {
-          a = lp->orig_lowbo[i];
-          a = unscaled_value(lp, a, i);
-          if(putheader) {
-            fprintf(output, "BOUNDS\n");
-            putheader = FALSE;
-          }
-          if(lp->orig_lowbo[i] != -lp->infinite)
-            fprintf(output, " LO BND       %s  %s\n",
-                            MPSname(get_col_name(lp, j)),
-                            formatnumber12((double)a));
-          else
-            fprintf(output, " MI BND       %s\n",
-                            MPSname(get_col_name(lp, j)));
-        }
-      }
-    }
-
- /* Write optional SOS section */
-  putheader = TRUE;
-  for(i = 0; i < SOS_count(lp); i++) {
-    SOSgroup *SOS = lp->SOS;
-
-    if(putheader) {
-      fprintf(output, "SOS\n");
-      putheader = FALSE;
-    }
-    fprintf(output, " S%1d SOS       %s  %s\n",
-                    SOS->sos_list[i]->type,
-                    MPSname(SOS->sos_list[i]->name),
-                    formatnumber12((double) SOS->sos_list[i]->priority));
-    for(j = 1; j <= SOS->sos_list[i]->size; j++) {
-      fprintf(output, "    SOS       %s  %s\n",
-                      MPSname(get_col_name(lp, SOS->sos_list[i]->members[j])),
-                      formatnumber12((double) SOS->sos_list[i]->weights[j]));
-    }
-  }
-
-  fprintf(output, "ENDATA\n");
-
-  lp->names_used = names_used;
-
-  if(filename != NULL)
-    fclose(output);
-  return(ok);
-}
-
-gboolean MPS_writehandle(lprec *lp, int typeMPS, FILE *output)
-{
-  set_outputstream(lp, output);
-  return(MPS_writefile(lp, typeMPS, NULL));
-}
-
-
-/* Read and write BAS files */
-static int MPS_getnameidx(lprec *lp, char *varname, gboolean isrow)
-{
-  int in = -1;
-
-  in = get_nameindex(lp, varname, isrow);
-  if((in < 0) && (strncmp(varname, (isrow ? ROWNAMEMASK : COLNAMEMASK), 1) == 0)) {
-    if(sscanf(varname + 1, "%d", &in) != 1)
-      in = -1;
-  }
-  return( in );
-}
-
-gboolean MPS_readBAS(lprec *lp, int typeMPS, char *filename, char *info)
-{
-  char   field1[BUFSIZ], field2[BUFSIZ], field3[BUFSIZ], field5[BUFSIZ],
-         line[BUFSIZ], tmp[BUFSIZ], *ptr;
-  double field4, field6;
-  int    ib, in, items, Lineno = 0;
-  gboolean ok;
-  FILE   *input = stdin;
-  int    (*scan_line)(int section, char* line, char *field1, char *field2, char *field3,
-                      double *field4, char *field5, double *field6);
-
-  switch(typeMPS) {
-    case MPSFIXED:
-      scan_line = scan_lineFIXED;
-      break;
-    case MPSFREE:
-      scan_line = scan_lineFREE;
-      break;
-    default:
-      report(lp, IMPORTANT, "MPS_readBAS: unrecognized MPS line type.\n");
-      return(FALSE);
-  }
-
-  ok = (gboolean) ((filename != NULL) && ((input = fopen(filename,"r")) != NULL));
-  if(!ok)
-    return(ok);
-  default_basis(lp);
-
-  /* Let's initialize line to all zero's */
-  MEMCLEAR(line, BUFSIZ);
-  ok = FALSE;
-  while(fgets(line, BUFSIZ - 1, input)) {
-    Lineno++;
-
-    for(ptr = line; (*ptr) && (g_ascii_isspace((unsigned char) *ptr)); ptr++);
-
-    /* skip lines which start with "*", they are comment */
-    if((line[0] == '*') || (*ptr == 0) || (*ptr == '\n') || (*ptr == '\r')) {
-      report(lp, FULL, "Comment on line %d: %s", Lineno, line);
-      continue;
-    }
-
-    report(lp, FULL, "Line %6d: %s", Lineno, line);
-
-    /* first check for "special" lines: in our case only NAME and ENDATA,
-       ...this must start in the first position of line */
-    if(line[0] != ' ') {
-      sscanf(line, "%s", tmp);
-      if(strcmp(tmp, "NAME") == 0) {
-        if(info != NULL) {
-          *info = 0;
-          for(ptr = line + 4; (*ptr) && (g_ascii_isspace((unsigned char) *ptr)); ptr++);
-          in = (int) strlen(ptr);
-          while ((in > 0) && ((ptr[in - 1] == '\r') || (ptr[in - 1] == '\n') || g_ascii_isspace(ptr[in - 1])))
-            in--;
-          ptr[in] = 0;
-          strcpy(info, ptr);
-        }
-      }
-      else if(strcmp(tmp, "ENDATA") == 0) {
-        report(lp, FULL, "Finished reading BAS file\n");
-        ok = TRUE;
-        break;
-      }
-      else { /* line does not start with space and does not match above */
-        report(lp, IMPORTANT, "Unrecognized BAS line %d: %s\n", Lineno, line);
-        break;
-      }
-    }
-    else { /* normal line, process */
-      items = scan_line(MPSRHS, line, field1, field2, field3, &field4, field5, &field6);
-      if(items < 0){
-        report(lp, IMPORTANT, "Syntax error on line %d: %s\n", Lineno, line);
-        break;
-      }
-      /* find first variable index value */
-      in = MPS_getnameidx(lp, field2, FALSE);
-      if(in < 0)
-        in = MPS_getnameidx(lp, field2, TRUE);
-      else
-        in += lp->rows;
-      if(in < 0)
-        break;
-
-      /* check if we have the basic/non-basic variable format */
-      if(field1[0] == 'X') {
-        /* find second variable index value */
-        ib = in;
-        in = MPS_getnameidx(lp, field3, FALSE);
-        if(in < 0)
-          in = MPS_getnameidx(lp, field3, TRUE);
-        else
-          in += lp->rows;
-        if(in < 0)
-          break;
-
-        lp->is_lower[in] = (gboolean) (field1[1] == 'L');
-        lp->is_basic[ib] = TRUE;
-      }
-      else
-        lp->is_lower[in] = (gboolean) (field1[0] == 'L');
-
-      lp->is_basic[in] = FALSE;
-
-    }
-  }
-  /* Update the basis index-to-variable array */
-  ib = 0;
-  for(in = 1; in <= lp->sum; in++)
-    if(lp->is_basic[in]) {
-      ib++;
-      lp->var_basic[ib] = in;
-    }
-
-  fclose(input);
-  return( ok );
-}
-
-gboolean MPS_writeBAS(lprec *lp, int typeMPS, char *filename)
-{
-  int    ib, in;
-  gboolean ok;
-  char   name1[100], name2[100];
-  FILE   *output = stdout;
-  char * (*MPSname)(char *name);
-
-  /* Set name formatter */
-  switch(typeMPS) {
-    case MPSFIXED:
-      MPSname = MPSnameFIXED;
-      break;
-    case MPSFREE:
-      MPSname = MPSnameFREE;
-      break;
-    default:
-      report(lp, IMPORTANT, "MPS_writeBAS: unrecognized MPS name type.\n");
-      return(FALSE);
-  }
-
-  /* Open the file for writing */
-  ok = (gboolean) ((filename == NULL) || ((output = fopen(filename,"w")) != NULL));
-  if(!ok)
-    return(ok);
-  if(filename == NULL && lp->outstream != NULL)
-    output = lp->outstream;
-
-  fprintf(output, "NAME          %s Rows %d Cols %d Iters %.0f\n",
-                  get_lp_name(lp), lp->rows, lp->columns, (double) lp_solve_get_total_iter(lp));
-
-  ib = lp->rows;
-  in = 0;
-  while ((ib < lp->sum) || (in < lp->sum)) {
-
-    /* Find next basic variable (skip slacks) */
-    ib++;
-    while((ib <= lp->sum) && !lp->is_basic[ib])
-      ib++;
-
-    /* Find next non-basic variable (skip lower-bounded structural variables) */
-    in++;
-    while((in <= lp->sum) && (lp->is_basic[in] ||
-                              ((in > lp->rows) && lp->is_lower[in])))
-      in++;
-
-    /* Check if we have a basic/non-basic variable pair */
-    if((ib <= lp->sum) && (in <= lp->sum)) {
-      strcpy(name1, MPSname((ib <= lp->rows ? get_row_name(lp, ib) :
-                                              get_col_name(lp, ib-lp->rows))));
-      strcpy(name2, MPSname((in <= lp->rows ? get_row_name(lp, in) :
-                                              get_col_name(lp, in-lp->rows))));
-      fprintf(output, " %2s %s  %s\n", (lp->is_lower[in] ? "XL" : "XU"), name1, name2);
-    }
-
-    /* Otherwise just write the bound state of the non-basic variable */
-    else if(in <= lp->sum) {
-      strcpy(name1, MPSname((in <= lp->rows ? get_row_name(lp, in) :
-                                              get_col_name(lp, in-lp->rows))));
-      fprintf(output, " %2s %s\n", (lp->is_lower[in] ? "LL" : "UL"), name1);
-    }
-
-  }
-  fprintf(output, "ENDATA\n");
-
-  if(filename != NULL)
-    fclose(output);
-  return( ok );
-}
 /* ------------------------------------------------------------------------- */
 /* Imported lp_presolve.c */
 
@@ -35772,7 +33329,7 @@ Finish:
 
 
 /* Callback to obtain the non-zero rows of equality constraints */
-int presolve_getcolumnEQ(lprec *lp, int colnr, gnm_float nzvalues[], int nzrows[], int mapin[])
+static int presolve_getcolumnEQ(lprec *lp, int colnr, gnm_float nzvalues[], int nzrows[], int mapin[])
 {
   int    i, ib, ie, nn = 0;
   MATrec *mat = lp->matA;
@@ -36778,7 +34335,7 @@ STATIC gboolean presolve_finalize(presolverec *psdata)
 }
 
 
-int compRedundant(const QSORTrec *current, const QSORTrec *candidate)
+static int compRedundant(const QSORTrec *current, const QSORTrec *candidate)
 {
   int start1 = (int) (current->prev),
       start2 = (int) (candidate->prev),
@@ -36791,7 +34348,7 @@ int compRedundant(const QSORTrec *current, const QSORTrec *candidate)
   }
   return( result );
 }
-int compSparsity(const QSORTrec *current, const QSORTrec *candidate)
+static int compSparsity(const QSORTrec *current, const QSORTrec *candidate)
 {
   int start1 = (int) (current->prev),
       start2 = (int) (candidate->prev),
@@ -36810,7 +34367,7 @@ int compSparsity(const QSORTrec *current, const QSORTrec *candidate)
   }
   return( result );
 }
-int compAggregate(const QSORTrec *current, const QSORTrec *candidate)
+static int compAggregate(const QSORTrec *current, const QSORTrec *candidate)
 {
   int  index1 = (int) (current->self),
        index2 = (int) (candidate->self);
@@ -38339,8 +35896,6 @@ STATIC int presolve(lprec *lp)
     lp->var_basic[0] = AUTOMATIC; /* Flag that we are presolving */
 
 #if 0
-write_lp(lp, "test_in.lp");    /* Write to lp-formatted file for debugging */
-/*write_mps(lp, "test_in.mps");*/  /* Write to lp-formatted file for debugging */
 #endif
 
   /* Do traditional simple presolve */
@@ -38680,8 +36235,6 @@ Finish:
   lp->timepresolved = timeNow();
 
 #if 0
-/*  write_mps(lp, "test_out.mps"); */ /* Must put here due to variable name mapping */
-  write_lp(lp, "test_out.lp");   /* Must put here due to variable name mapping */
 #endif
 #if 0
   REPORT_debugdump(lp, "testint2.txt", FALSE);
@@ -38777,7 +36330,7 @@ STATIC gboolean postsolve(lprec *lp, int status)
       -1 for the candidate being "worse", and
        0 for the candidate being "equal" to the incumbent.
 */
-int compareImprovementVar(const pricerec *current, const pricerec *candidate)
+static int compareImprovementVar(const pricerec *current, const pricerec *candidate)
 {
   register int   result = COMP_EQUAL;
   register lprec *lp = current->lp;
@@ -38888,7 +36441,7 @@ Finish:
 
 }
 
-int compareSubstitutionVar(const pricerec *current, const pricerec *candidate)
+static int compareSubstitutionVar(const pricerec *current, const pricerec *candidate)
 {
   register int    result = COMP_EQUAL;
   register lprec  *lp = current->lp;
@@ -39028,7 +36581,7 @@ int compareSubstitutionVar(const pricerec *current, const pricerec *candidate)
 Finish:
   return( result );
 }
-int compareBoundFlipVar(const pricerec *current, const pricerec *candidate)
+static int compareBoundFlipVar(const pricerec *current, const pricerec *candidate)
 {
   register gnm_float  testvalue, margin;
   register int   result = COMP_EQUAL;
@@ -39136,11 +36689,11 @@ STATIC gboolean validSubstitutionVar(pricerec *candidate)
                       (fabs(candidate->pivot) >= candidate->epspivot)) );
 }
 
-int compareImprovementQS(const QSORTrec *current, const QSORTrec *candidate)
+static int compareImprovementQS(const QSORTrec *current, const QSORTrec *candidate)
 {
   return( compareImprovementVar((pricerec *) current->self, (pricerec *) candidate->self) );
 }
-int compareSubstitutionQS(const QSORTrec *current, const QSORTrec *candidate)
+static int compareSubstitutionQS(const QSORTrec *current, const QSORTrec *candidate)
 {
   return( compareBoundFlipVar((pricerec *) current->self, (pricerec *) candidate->self) );
 /*  return( compareSubstitutionVar((pricerec *) current->self, (pricerec *) candidate->self) ); */
@@ -41216,7 +38769,7 @@ STATIC gboolean updatePricer(lprec *lp, int rownr, int colnr, gnm_float *pcol, g
 /* ------------------------------------------------------------------------- */
 
 /* First define general utilties for reporting and output */
-char * explain(lprec *lp, const char *format, ...)
+static char * explain(lprec *lp, const char *format, ...)
 {
   char buff[DEF_STRBUFSIZE+1];
   va_list ap;
@@ -41228,7 +38781,7 @@ char * explain(lprec *lp, const char *format, ...)
   va_end(ap);
   return( lp->ex_status );
 }
-void report(lprec *lp, int level, const char *format, ...)
+static void report(lprec *lp, int level, const char *format, ...)
 {
   static char buff[DEF_STRBUFSIZE+1];
   static va_list ap;
@@ -41262,26 +38815,9 @@ void report(lprec *lp, int level, const char *format, ...)
 
 
 /* List a vector of LREAL values for the given index range */
-void blockWriteLREAL(FILE *output, const char *label, LREAL *vector, int first, int last)
-{
-  int i, k = 0;
-
-  fprintf(output, label);
-  fprintf(output, "\n");
-  for(i = first; i <= last; i++) {
-    fprintf(output, " %18g", vector[i]);
-    k++;
-    if(my_mod(k, 4) == 0) {
-      fprintf(output, "\n");
-      k = 0;
-    }
-  }
-  if(my_mod(k, 4) != 0)
-    fprintf(output, "\n");
-}
 
 /* List the current user data matrix columns over the selected row range */
-void blockWriteAMAT(FILE *output, const char *label, lprec* lp, int first, int last)
+static void blockWriteAMAT(FILE *output, const char *label, lprec* lp, int first, int last)
 {
   int    i, j, k = 0;
   int    nzb, nze, jb;
@@ -41350,52 +38886,10 @@ void blockWriteAMAT(FILE *output, const char *label, lprec* lp, int first, int l
 }
 
 /* List the current basis matrix columns over the selected row range */
-void blockWriteBMAT(FILE *output, const char *label, lprec* lp, int first, int last)
-{
-  int    i, j, jb, k = 0;
-  double hold;
-
-  if(first < 0)
-    first = 0;
-  if(last < 0)
-    last = lp->rows;
-
-  fprintf(output, label);
-  fprintf(output, "\n");
-
-  for(i = first; i <= last; i++) {
-    for(j = 1; j <= lp->rows; j++) {
-      jb = lp->var_basic[j];
-      if(jb <= lp->rows) {
-        if(jb == i)
-          hold = 1;
-        else
-          hold = 0;
-      }
-      else
-        hold = get_mat(lp, i, j);
-      if(i == 0)
-        modifyOF1(lp, jb, &hold, 1);
-      hold = unscaled_mat(lp, hold, i, jb);
-      fprintf(output, " %18g", hold);
-      k++;
-      if(my_mod(k, 4) == 0) {
-        fprintf(output, "\n");
-        k = 0;
-      }
-    }
-    if(my_mod(k, 4) != 0) {
-      fprintf(output, "\n");
-      k = 0;
-    }
-  }
-  if(my_mod(k, 4) != 0)
-    fprintf(output, "\n");
-}
 
 /* Do a generic readable data dump of key lp_solve model variables;
    principally for run difference and debugging purposes */
-gboolean REPORT_debugdump(lprec *lp, char *filename, gboolean livedata)
+static gboolean REPORT_debugdump(lprec *lp, char *filename, gboolean livedata)
 {
   FILE   *output = stdout;
   gboolean ok;
@@ -41454,14 +38948,14 @@ gboolean REPORT_debugdump(lprec *lp, char *filename, gboolean livedata)
 
 /* High level reports for model results */
 
-void REPORT_objective(lprec *lp)
+static void REPORT_objective(lprec *lp)
 {
   fprintf(lp->outstream, "\nValue of objective function: %g\n",
     (double)lp->best_solution[0]);
   fflush(lp->outstream);
 }
 
-void REPORT_solution(lprec *lp, int columns)
+static void REPORT_solution(lprec *lp, int columns)
 {
   int i, j, n;
   gnm_float value;
@@ -41488,7 +38982,7 @@ void REPORT_solution(lprec *lp, int columns)
   fflush(lp->outstream);
 } /* REPORT_solution */
 
-void REPORT_constraints(lprec *lp, int columns)
+static void REPORT_constraints(lprec *lp, int columns)
 {
   int i, n;
   gnm_float value;
@@ -41514,7 +39008,7 @@ void REPORT_constraints(lprec *lp, int columns)
   fflush(lp->outstream);
 }
 
-void REPORT_duals(lprec *lp)
+static void REPORT_duals(lprec *lp)
 {
   int i;
   gnm_float *duals, *dualsfrom, *dualstill, *objfrom, *objtill, *objfromvalue;
@@ -41543,7 +39037,7 @@ void REPORT_duals(lprec *lp)
 }
 
 /* Printing of sensitivity analysis reports */
-void REPORT_extended(lprec *lp)
+static void REPORT_extended(lprec *lp)
 {
   int  i, j;
   gnm_float hold;
@@ -41597,7 +39091,7 @@ void REPORT_extended(lprec *lp)
 }
 
 /* A more readable lp-format report of the model; antiquated and not updated */
-void REPORT_lp(lprec *lp)
+static void REPORT_lp(lprec *lp)
 {
   int  i, j;
 
@@ -41666,7 +39160,7 @@ void REPORT_lp(lprec *lp)
 }
 
 /* Report the scaling factors used; extremely rarely used */
-void REPORT_scales(lprec *lp)
+static void REPORT_scales(lprec *lp)
 {
   int i, colMax;
 
@@ -41683,7 +39177,7 @@ void REPORT_scales(lprec *lp)
 }
 
 /* Report the traditional tableau corresponding to the current basis */
-gboolean REPORT_tableau(lprec *lp)
+static gboolean REPORT_tableau(lprec *lp)
 {
   int  j, row_nr, *coltarget;
   gnm_float *prow = NULL;
@@ -41742,7 +39236,7 @@ gboolean REPORT_tableau(lprec *lp)
   return(TRUE);
 }
 
-void REPORT_constraintinfo(lprec *lp, const char *datainfo)
+static void REPORT_constraintinfo(lprec *lp, const char *datainfo)
 {
   int i, tally[ROWCLASS_MAX+1];
 
@@ -41758,7 +39252,7 @@ void REPORT_constraintinfo(lprec *lp, const char *datainfo)
       report(lp, NORMAL, "%-15s %4d\n", get_str_constr_class(lp, i), tally[i]);
 }
 
-void REPORT_modelinfo(lprec *lp, gboolean doName, const char *datainfo)
+static void REPORT_modelinfo(lprec *lp, gboolean doName, const char *datainfo)
 {
   if(doName) {
     report(lp, NORMAL, "\nModel name:  '%s' - run #%-5d\n",
@@ -41782,96 +39276,6 @@ void REPORT_modelinfo(lprec *lp, gboolean doName, const char *datainfo)
 /* Save a matrix column subset to a MatrixMarket formatted file,
    say to export the basis matrix for further numerical analysis.
    If colndx is NULL, then the full constraint matrix is assumed. */
-gboolean REPORT_mat_mmsave(lprec *lp, char *filename, int *colndx, gboolean includeOF, char *infotext)
-{
-  int         n, m, nz, i, j, k, kk;
-  MATrec      *mat = lp->matA;
-  MM_typecode matcode;
-  FILE        *output = stdout;
-  gboolean      ok;
-  gnm_float        *acol = NULL;
-  int         *nzlist = NULL;
-
-  /* Open file */
-  ok = (gboolean) ((filename == NULL) || ((output = fopen(filename,"w")) != NULL));
-  if(!ok)
-    return(ok);
-  if((filename == NULL) && (lp->outstream != NULL))
-    output = lp->outstream;
-
-  /* Compute column and non-zero counts */
-  if(colndx == lp->var_basic) {
-    if(!lp->basis_valid)
-      return( FALSE );
-    m = lp->rows;
-  }
-  else if(colndx != NULL)
-    m = colndx[0];
-  else
-    m = lp->columns;
-  n = lp->rows;
-  nz = 0;
-
-  for(j = 1; j <= m; j++) {
-    k = (colndx == NULL ? lp->rows + j : colndx[j]);
-    if(k > lp->rows) {
-      k -= lp->rows;
-      nz += mat_collength(mat, k);
-      if(includeOF && is_OF_nz(lp, k))
-        nz++;
-    }
-    else
-      nz++;
-  }
-  kk = 0;
-  if(includeOF) {
-    n++;   /* Row count */
-    kk++;  /* Row index offset */
-  }
-
-  /* Initialize */
-  mm_initialize_typecode(&matcode);
-  mm_set_matrix(&matcode);
-  mm_set_coordinate(&matcode);
-  mm_set_real(&matcode);
-
-  mm_write_banner(output, matcode);
-  mm_write_mtx_crd_size(output, n+kk, m, nz+(colndx == lp->var_basic ? 1 : 0));
-
-  /* Allocate working arrays for sparse column storage */
-  allocREAL(lp, &acol, n+2, FALSE);
-  allocINT(lp, &nzlist, n+2, FALSE);
-
-  /* Write the matrix non-zero values column-by-column.
-     NOTE: matrixMarket files use 1-based indeces,
-     i.e. first row of a vector has index 1, not 0. */
-  if(infotext != NULL) {
-    fprintf(output, "%%\n");
-    fprintf(output, "%% %s\n", infotext);
-    fprintf(output, "%%\n");
-  }
-  if(includeOF && (colndx == lp->var_basic))
-    fprintf(output, "%d %d %g\n", 1, 1, 1.0);
-  for(j = 1; j <= m; j++) {
-    k = (colndx == NULL ? lp->rows + j : colndx[j]);
-    if(k == 0)
-      continue;
-    nz = obtain_column(lp, k, acol, nzlist, NULL);
-    for(i = 1; i <= nz; i++) {
-      if(!includeOF && (nzlist[i] == 0))
-        continue;
-      fprintf(output, "%d %d %g\n", nzlist[i]+kk, j+kk, acol[i]);
-    }
-  }
-  fprintf(output, "%% End of MatrixMarket file\n");
-
-  /* Finish */
-  FREE(acol);
-  FREE(nzlist);
-  fclose(output);
-
-  return(ok);
-}
 
 /* Cleaning up after import of lp_report.c */
 #undef vsnprintf
@@ -41950,7 +39354,7 @@ STATIC gnm_float unscaled_mat(lprec *lp, gnm_float value, int rownr, int colnr)
 /* Compute the scale factor by the formulae:
       FALSE: SUM (log |Aij|) ^ 2
       TRUE:  SUM (log |Aij| - RowScale[i] - ColScale[j]) ^ 2 */
-gnm_float CurtisReidMeasure(lprec *lp, gboolean _Advanced, gnm_float *FRowScale, gnm_float *FColScale)
+static gnm_float CurtisReidMeasure(lprec *lp, gboolean _Advanced, gnm_float *FRowScale, gnm_float *FColScale)
 {
   int      i, nz;
   gnm_float     absvalue, logvalue;
@@ -42011,7 +39415,7 @@ gnm_float CurtisReidMeasure(lprec *lp, gboolean _Advanced, gnm_float *FRowScale,
 
     r, c are resulting row and column scalings (RowScale, ColScale) */
 
-int CurtisReidScales(lprec *lp, gboolean _Advanced, gnm_float *FRowScale, gnm_float *FColScale)
+static int CurtisReidScales(lprec *lp, gboolean _Advanced, gnm_float *FRowScale, gnm_float *FColScale)
 {
   int    i, row, col, ent, nz;
   gnm_float   *RowScalem2, *ColScalem2,
@@ -42893,7 +40297,7 @@ STATIC void unscale_columns(lprec *lp)
   set_action(&lp->spx_action, ACTION_REBASE | ACTION_REINVERT | ACTION_RECOMPUTE);
 }
 
-void undoscale(lprec *lp)
+static void undoscale(lprec *lp)
 {
   int     i, j, nz;
   MATrec  *mat = lp->matA;
@@ -44570,7 +41974,7 @@ STATIC int spx_run(lprec *lp, gboolean validInvB)
   return(lp->spx_status);
 } /* spx_run */
 
-lprec *make_lag(lprec *lpserver)
+static lprec *make_lag(lprec *lpserver)
 {
   int    i;
   lprec  *hlp;
@@ -45279,7 +42683,7 @@ STATIC int append_SOSrec(SOSrec *SOS, int size, int *variables, gnm_float *weigh
 
 }
 
-int SOS_usecount(SOSgroup *group, int varnr)
+static int SOS_usecount(SOSgroup *group, int varnr)
 {
   int    i, j, n;
   int    *list, *counts = NULL;
@@ -45573,21 +42977,8 @@ STATIC gboolean SOS_shift_col(SOSgroup *group, int sosindex, int column, int del
 
 }
 
-int SOS_member_count(SOSgroup *group, int sosindex)
-{
-  SOSrec *SOS;
 
-#ifdef Paranoia
-  if((sosindex < 0) || (sosindex > group->sos_count)) {
-    report(group->lp, IMPORTANT, "SOS_member_count: Invalid SOS index %d\n", sosindex);
-    return( -1 );
-  }
-#endif
-  SOS = group->sos_list[sosindex-1];
-  return( SOS->members[0] );
-}
-
-int SOS_member_delete(SOSgroup *group, int sosindex, int member)
+static int SOS_member_delete(SOSgroup *group, int sosindex, int member)
 {
   int *list, i, i2, k, n, nn = 0;
   SOSrec *SOS;
@@ -45648,7 +43039,7 @@ int SOS_member_delete(SOSgroup *group, int sosindex, int member)
   return( nn );
 }
 
-int SOS_get_type(SOSgroup *group, int sosindex)
+static int SOS_get_type(SOSgroup *group, int sosindex)
 {
 #ifdef Paranoia
   if((sosindex < 1) || (sosindex > group->sos_count)) {
@@ -45661,7 +43052,7 @@ int SOS_get_type(SOSgroup *group, int sosindex)
 }
 
 
-int SOS_infeasible(SOSgroup *group, int sosindex)
+static int SOS_infeasible(SOSgroup *group, int sosindex)
 {
   int    i, n, nn, failindex;
   int    *list;
@@ -45708,7 +43099,7 @@ int SOS_infeasible(SOSgroup *group, int sosindex)
 }
 
 
-int SOS_member_index(SOSgroup *group, int sosindex, int member)
+static int SOS_member_index(SOSgroup *group, int sosindex, int member)
 {
   int    n;
   SOSrec *SOS;
@@ -45724,30 +43115,8 @@ int SOS_member_index(SOSgroup *group, int sosindex, int member)
 }
 
 
-int SOS_memberships(SOSgroup *group, int column)
-{
-  int    i, n = 0;
-  lprec  *lp;
 
-  if(group == NULL)
-    return( n );
-  lp = group->lp;
-
-#ifdef Paranoia
-  if((column <= 0) || (column > lp->columns)) {
-    report(lp, IMPORTANT, "SOS_memberships: Invalid column index %d\n", column);
-    return(n);
-  }
-#endif
-
-  for(i = 1; i <= group->sos_count; i++)
-    if(SOS_is_member(group, i, column) != 0)
-      n++;
-
-  return( n );
-}
-
-int SOS_is_member(SOSgroup *group, int sosindex, int column)
+static int SOS_is_member(SOSgroup *group, int sosindex, int column)
 {
   int    i, n = FALSE, *list;
   lprec  *lp;
@@ -45793,7 +43162,7 @@ int SOS_is_member(SOSgroup *group, int sosindex, int column)
 }
 
 
-gboolean SOS_is_member_of_type(SOSgroup *group, int column, int sostype)
+static gboolean SOS_is_member_of_type(SOSgroup *group, int column, int sostype)
 {
   int i, n;
 
@@ -45808,7 +43177,7 @@ gboolean SOS_is_member_of_type(SOSgroup *group, int column, int sostype)
 }
 
 
-gboolean SOS_set_GUB(SOSgroup *group, int sosindex, gboolean state)
+static gboolean SOS_set_GUB(SOSgroup *group, int sosindex, gboolean state)
 {
   int i;
 
@@ -45831,7 +43200,7 @@ gboolean SOS_set_GUB(SOSgroup *group, int sosindex, gboolean state)
 }
 
 
-gboolean SOS_is_GUB(SOSgroup *group, int sosindex)
+static gboolean SOS_is_GUB(SOSgroup *group, int sosindex)
 {
   int    i;
 
@@ -45857,7 +43226,7 @@ gboolean SOS_is_GUB(SOSgroup *group, int sosindex)
 }
 
 
-gboolean SOS_is_marked(SOSgroup *group, int sosindex, int column)
+static gboolean SOS_is_marked(SOSgroup *group, int sosindex, int column)
 {
   int    i, n, *list;
   lprec  *lp;
@@ -45900,7 +43269,7 @@ gboolean SOS_is_marked(SOSgroup *group, int sosindex, int column)
 }
 
 
-gboolean SOS_is_active(SOSgroup *group, int sosindex, int column)
+static gboolean SOS_is_active(SOSgroup *group, int sosindex, int column)
 {
   int    i, n, nn, *list;
   lprec  *lp = group->lp;
@@ -45939,7 +43308,7 @@ gboolean SOS_is_active(SOSgroup *group, int sosindex, int column)
 }
 
 
-gboolean SOS_is_full(SOSgroup *group, int sosindex, int column, gboolean activeonly)
+static gboolean SOS_is_full(SOSgroup *group, int sosindex, int column, gboolean activeonly)
 {
   int    i, nn, n, *list;
   lprec  *lp = group->lp;
@@ -45991,7 +43360,7 @@ gboolean SOS_is_full(SOSgroup *group, int sosindex, int column, gboolean activeo
 }
 
 
-gboolean SOS_can_activate(SOSgroup *group, int sosindex, int column)
+static gboolean SOS_can_activate(SOSgroup *group, int sosindex, int column)
 {
   int    i, n, nn, *list;
   lprec  *lp;
@@ -46076,7 +43445,7 @@ gboolean SOS_can_activate(SOSgroup *group, int sosindex, int column)
 }
 
 
-gboolean SOS_set_marked(SOSgroup *group, int sosindex, int column, gboolean asactive)
+static gboolean SOS_set_marked(SOSgroup *group, int sosindex, int column, gboolean asactive)
 {
   int    i, n, nn, *list;
   lprec  *lp = group->lp;
@@ -46138,7 +43507,7 @@ gboolean SOS_set_marked(SOSgroup *group, int sosindex, int column, gboolean asac
 }
 
 
-gboolean SOS_unmark(SOSgroup *group, int sosindex, int column)
+static gboolean SOS_unmark(SOSgroup *group, int sosindex, int column)
 {
   int    i, n, nn, *list;
   gboolean isactive;
@@ -46205,7 +43574,7 @@ gboolean SOS_unmark(SOSgroup *group, int sosindex, int column)
 }
 
 
-int SOS_fix_unmarked(SOSgroup *group, int sosindex, int variable, gnm_float *bound, gnm_float value, gboolean isupper, 
+static int SOS_fix_unmarked(SOSgroup *group, int sosindex, int variable, gnm_float *bound, gnm_float value, gboolean isupper, 
                      int *diffcount, DeltaVrec *changelog)
 {
   int    i, ii, count, n, nn, nLeft, nRight, *list;
@@ -46287,7 +43656,7 @@ int SOS_fix_unmarked(SOSgroup *group, int sosindex, int variable, gnm_float *bou
   return(count);
 }
 
-int *SOS_get_candidates(SOSgroup *group, int sosindex, int column, gboolean excludetarget, 
+static int *SOS_get_candidates(SOSgroup *group, int sosindex, int column, gboolean excludetarget, 
                         gnm_float *upbound, gnm_float *lobound)
 {
   int    i, ii, j, n, nn = 0, *list, *candidates = NULL;
@@ -46358,7 +43727,7 @@ Finish:
 
 }
 
-int SOS_fix_list(SOSgroup *group, int sosindex, int variable, gnm_float *bound, 
+static int SOS_fix_list(SOSgroup *group, int sosindex, int variable, gnm_float *bound, 
                  int *varlist, gboolean isleft, DeltaVrec *changelog)
 {
   int    i, ii, jj, count = 0;
@@ -46418,7 +43787,7 @@ int SOS_fix_list(SOSgroup *group, int sosindex, int variable, gnm_float *bound,
   return( count );
 }
 
-int SOS_is_satisfied(SOSgroup *group, int sosindex, gnm_float *solution)
+static int SOS_is_satisfied(SOSgroup *group, int sosindex, gnm_float *solution)
 /* Determine if the SOS is satisfied for the current solution vector;
    The return code is in the range [-2..+2], depending on the type of
    satisfaction.  Positive return value means too many non-zero values,
@@ -46525,7 +43894,7 @@ int SOS_is_satisfied(SOSgroup *group, int sosindex, gnm_float *solution)
   return( status );
 }
 
-gboolean SOS_is_feasible(SOSgroup *group, int sosindex, gnm_float *solution)
+static gboolean SOS_is_feasible(SOSgroup *group, int sosindex, gnm_float *solution)
 /* Determine if the SOS is feasible up to the current SOS variable */
 {
   int    i, n, nn, *list;
@@ -46713,59 +44082,6 @@ gboolean is_biton(gboolean *bitarray, int item)
   return( (gboolean) ((bitarray[item / 8] & (1 << (item % 8))) != 0) );
 }
 #endif
-int comp_bits(gboolean *bitarray1, gboolean *bitarray2, int items)
-{
-  int            i, items4, left = 0, right = 0;
-  gboolean         comp1;
-  unsigned long comp4;
-
-  /* Convert items count to 8-bit representation, if necessary */
-  if(items > 0) {
-    i = items % 8;
-    items /= 8;
-    if(i)
-      items++;
-  }
-  else
-    items = -items;
-
-  /* Do the wide unsigned integer part for speed */
-  items4 = items / sizeof(unsigned long);
-  i = 0;
-  while(i < items4) {
-    comp4 = ((unsigned long *) bitarray1)[i] &  ~((unsigned long *) bitarray2)[i];
-    if(comp4)
-      left++;
-    comp4 = ((unsigned long *) bitarray2)[i] &  ~((unsigned long *) bitarray1)[i];
-    if(comp4)
-      right++;
-    i++;
-  }
-
-  /* Do the trailing slow narrow unsigned integer part */
-  i *= sizeof(unsigned long);
-  i++;
-  while(i < items) {
-    comp1 = bitarray1[i] & ~bitarray2[i];
-    if(comp1)
-      left++;
-    comp1 = bitarray2[i] & ~bitarray1[i];
-    if(comp1)
-      right++;
-    i++;
-  }
-
-  /* Determine set comparison outcomes */
-  if((left > 0) && (right == 0))         /* array1 is a superset of array2 */
-    i = 1;
-  else if((left == 0) && (right > 0))   /* array2 is a superset of array1 */
-    i = -1;
-  else if((left == 0) && (right == 0))  /* array1 and array2 are identical */
-    i = 0;
-  else
-    i = -2;                              /* indicate all other outcomes */
-  return( i );
-}
 
 
 STATIC workarraysrec *mempool_create(lprec *lp)
@@ -46903,33 +44219,6 @@ STATIC gboolean mempool_free(workarraysrec **mempool)
   return( TRUE );
 }
 
-gnm_float *cloneREAL(lprec *lp, gnm_float *origlist, int size)
-{
-  gnm_float *newlist;
-
-  size += 1;
-  if(allocREAL(lp, &newlist, size, FALSE))
-    MEMCOPY(newlist, origlist, size);
-  return(newlist);
-}
-gboolean *cloneMYBOOL(lprec *lp, gboolean *origlist, int size)
-{
-  gboolean *newlist;
-
-  size += 1;
-  if(allocMYBOOL(lp, &newlist, size, FALSE))
-    MEMCOPY(newlist, origlist, size);
-  return(newlist);
-}
-int *cloneINT(lprec *lp, int *origlist, int size)
-{
-  int *newlist;
-
-  size += 1;
-  if(allocINT(lp, &newlist, size, FALSE))
-    MEMCOPY(newlist, origlist, size);
-  return(newlist);
-}
 
 STATIC void roundVector(LREAL *myvector, int endpos, LREAL roundzero)
 {
@@ -47449,297 +44738,3 @@ STATIC LLrec *cloneLink(LLrec *sourcemap, int newsize, gboolean freesource)
 /* Cleaning up after import of lp_utils.c */
 #undef CODE_lp_utils
 #undef roundPrecisionBase2
-/* ------------------------------------------------------------------------- */
-/* Imported lp_wlp.c */
-
-
-
-#ifdef FORTIFY
-#endif
-
-
-/* ------------------------------------------------------------------------- */
-/* Input and output of lp format model files for lp_solve                    */
-/* ------------------------------------------------------------------------- */
-
-STATIC void write_lpcomment(FILE *output, const char *string, gboolean newlinebefore)
-{
-  fprintf(output, "%s/* %s */\n", (newlinebefore) ? "\n" : "", string);
-}
-
-STATIC gboolean write_lprow(lprec *lp, int rowno, FILE *output)
-{
-  int     i, ie, j;
-  gnm_float    a;
-  MATrec  *mat = lp->matA;
-  gboolean  first = TRUE, rowwritten;
-
-  if(rowno == 0) {
-    i = 1;
-    ie = lp->columns+1;
-  }
-  else {
-    i = mat->row_end[rowno-1];
-    ie = mat->row_end[rowno];
-  }
-  rowwritten = (gboolean)(i < ie);
-  for(; i < ie; i++) {
-    if(rowno == 0) {
-      j = i;
-      a = get_mat(lp, 0, i);
-      if(a == 0)
-        continue;
-    }
-    else {
-      j = ROW_MAT_COLNR(i);
-      a = ROW_MAT_VALUE(i);
-      a = my_chsign(is_chsign(lp, rowno), a);
-      a = unscaled_mat(lp, a, rowno, j);
-    }
-    if(is_splitvar(lp, j))
-      continue;
-    if(!first)
-      fputc(' ', output);
-    else
-      first = FALSE;
-    if(a == -1)
-      fprintf(output, "-");
-    else if(a == 1)
-      fprintf(output, "+");
-    else
-      fprintf(output, "%+.12g ", (double)a);
-    fprintf(output, "%s", get_col_name(lp, j));
-  }
-  return(rowwritten);
-}
-
-gboolean LP_writefile(lprec *lp, char *filename)
-{
-  int    i, j, b;
-  gboolean ok;
-  gnm_float   a;
-  FILE   *output = stdout;
-  char   *ptr;
-
-  if(lp->matA->is_roworder) {
-    report(lp, IMPORTANT, "LP_writefile: Cannot write to LP file while in row entry mode.\n");
-    return(FALSE);
-  }
-  if(!mat_validate(lp->matA)) {
-    report(lp, IMPORTANT, "LP_writefile: Could not validate the data matrix.\n");
-    return(FALSE);
-  }
-
-  ok = (gboolean) ((filename == NULL) || ((output = fopen(filename,"w")) != NULL));
-  if(!ok)
-    return(ok);
-  if(filename == NULL && lp->outstream != NULL)
-    output = lp->outstream;
-
-  /* Write name of model */
-  ptr = get_lp_name(lp);
-  if(ptr != NULL)
-    if(*ptr)
-      write_lpcomment(output, ptr, FALSE);
-    else
-      ptr = NULL;
-
-  /* Write the objective function */
-  write_lpcomment(output, "Objective function", (gboolean) (ptr != NULL));
-  if(is_maxim(lp))
-    fprintf(output, "max: ");
-  else
-    fprintf(output, "min: ");
-
-  write_lprow(lp, 0, output);
-  a = get_rh(lp, 0);
-  if(a)
-    fprintf(output, " %+.12g", a);
-  fprintf(output, ";\n");
-
-  /* Write constraints */
-  if(lp->rows > 0)
-    write_lpcomment(output, "Constraints", TRUE);
-  for(j = 1; j <= lp->rows; j++) {
-    if(lp->names_used && (lp->row_name[j] != NULL))
-      ptr = get_row_name(lp, j);
-    else
-      ptr = NULL;
-    if((ptr != NULL) && (*ptr))
-      fprintf(output, "%s: ", ptr);
-
-#ifndef SingleBoundedRowInLP
-    /* Write the ranged part of the constraint, if specified */
-    if ((lp->orig_upbo[j]) && (lp->orig_upbo[j] < lp->infinite)) {
-      if(my_chsign(is_chsign(lp, j), lp->orig_rhs[j]) == -lp->infinite)
-        fprintf(output, "-Inf %s ", (is_chsign(lp, j)) ? ">=" : "<=");
-      else if(my_chsign(is_chsign(lp, j), lp->orig_rhs[j]) == lp->infinite)
-        fprintf(output, "+Inf %s ", (is_chsign(lp, j)) ? ">=" : "<=");
-      else
-        fprintf(output, "%+.12g %s ",
-                (lp->orig_upbo[j]-lp->orig_rhs[j]) * (is_chsign(lp, j) ? 1.0 : -1.0) / (lp->scaling_used ? lp->scalars[j] : 1.0),
-                (is_chsign(lp, j)) ? ">=" : "<=");
-    }
-#endif
-
-    if((!write_lprow(lp, j, output)) && (get_Ncolumns(lp) >= 1))
-      fprintf(output, "0 %s", get_col_name(lp, 1));
-
-    if(lp->orig_upbo[j] == 0)
-      fprintf(output, " =");
-    else if(is_chsign(lp, j))
-      fprintf(output, " >=");
-    else
-      fprintf(output, " <=");
-    if(fabs(get_rh(lp, j) + lp->infinite) < 1)
-      fprintf(output, " -Inf;\n");
-    else if(fabs(get_rh(lp, j) - lp->infinite) < 1)
-      fprintf(output, " +Inf;\n");
-    else
-      fprintf(output, " %.12g;\n", get_rh(lp, j));
-
-#ifdef SingleBoundedRowInLP
-    /* Write the ranged part of the constraint, if specified */
-    if ((lp->orig_upbo[j]) && (lp->orig_upbo[j] < lp->infinite)) {
-      if(lp->names_used && (lp->row_name[j] != NULL))
-        ptr = get_row_name(lp, j);
-      else
-        ptr = NULL;
-      if((ptr != NULL) && (*ptr))
-        fprintf(output, "%s: ", ptr);
-      if((!write_lprow(lp, j, output)) && (get_Ncolumns(lp) >= 1))
-        fprintf(output, "0 %s", get_col_name(lp, 1));
-      fprintf(output, " %s %g;\n",
-                     (is_chsign(lp, j)) ? "<=" : ">=",
-                     (lp->orig_upbo[j]-lp->orig_rhs[j]) * (is_chsign(lp, j) ? 1.0 : -1.0) / (lp->scaling_used ? lp->scalars[j] : 1.0));
-    }
-#endif
-  }
-
-  /* Write bounds on variables */
-  ok = FALSE;
-  for(i = lp->rows + 1; i <= lp->sum; i++)
-    if(!is_splitvar(lp, i - lp->rows)) {
-      if(lp->orig_lowbo[i] == lp->orig_upbo[i]) {
-        if(!ok) {
-	  write_lpcomment(output, "Variable bounds", TRUE);
-	  ok = TRUE;
-	}
-        fprintf(output, "%s = %.12g;\n", get_col_name(lp, i - lp->rows), get_upbo(lp, i - lp->rows));
-      }
-      else {
-#ifndef SingleBoundedRowInLP
-        if((lp->orig_lowbo[i] != 0) && (lp->orig_upbo[i] < lp->infinite)) {
-          if(!ok) {
-	    write_lpcomment(output, "Variable bounds", TRUE);
-	    ok = TRUE;
-	  }
-          if(lp->orig_lowbo[i] == -lp->infinite)
-            fprintf(output, "-Inf");
-          else
-            fprintf(output, "%.12g", get_lowbo(lp, i - lp->rows));
-          fprintf(output, " <= %s <= ", get_col_name(lp, i - lp->rows));
-          if(lp->orig_lowbo[i] == lp->infinite)
-            fprintf(output, "+Inf");
-          else
-            fprintf(output, "%.12g", get_upbo(lp, i - lp->rows));
-          fprintf(output, ";\n");
-	}
-        else
-#endif
-        {
-          if(lp->orig_lowbo[i] != 0) {
-            if(!ok) {
-	      write_lpcomment(output, "Variable bounds", TRUE);
-	      ok = TRUE;
-	    }
-      	    if(lp->orig_lowbo[i] == -lp->infinite)
-	      fprintf(output, "%s >= -Inf;\n", get_col_name(lp, i - lp->rows));
-      	    else if(lp->orig_lowbo[i] == lp->infinite)
-	      fprintf(output, "%s >= +Inf;\n", get_col_name(lp, i - lp->rows));
-	    else
-              fprintf(output, "%s >= %.12g;\n",
-                              get_col_name(lp, i - lp->rows), get_lowbo(lp, i - lp->rows));
-	  }
-	  if(lp->orig_upbo[i] != lp->infinite) {
-            if(!ok) {
-	      write_lpcomment(output, "Variable bounds", TRUE);
-	      ok = TRUE;
-	    }
-            fprintf(output, "%s <= %.12g;\n",
-                            get_col_name(lp, i - lp->rows), get_upbo(lp, i - lp->rows));
-	  }
-        }
-      }
-    }
-
-  /* Write optional integer section */
-  if(lp->int_vars > 0) {
-    write_lpcomment(output, "Integer definitions", TRUE);
-    i = 1;
-    while(i <= lp->columns && !is_int(lp, i))
-      i++;
-    if(i <= lp->columns) {
-      fprintf(output, "int %s", get_col_name(lp, i));
-      i++;
-      for(; i <= lp->columns; i++)
-        if((!is_splitvar(lp, i)) && (is_int(lp, i)))
-          fprintf(output, ",%s", get_col_name(lp, i));
-      fprintf(output, ";\n");
-    }
-  }
-
-  /* Write optional SEC section */
-  if(lp->sc_vars > 0) {
-    write_lpcomment(output, "Semi-continuous variables", TRUE);
-    i = 1;
-    while(i <= lp->columns && !is_semicont(lp, i))
-      i++;
-    if(i <= lp->columns) {
-      fprintf(output, "sec %s", get_col_name(lp, i));
-      i++;
-      for(; i <= lp->columns; i++)
-        if((!is_splitvar(lp, i)) && (is_semicont(lp, i)))
-		    fprintf(output, ",%s", get_col_name(lp, i));
-      fprintf(output, ";\n");
-    }
-  }
-
-  /* Write optional SOS section */
-  if(SOS_count(lp) > 0) {
-    SOSgroup *SOS = lp->SOS;
-    write_lpcomment(output, "SOS definitions", TRUE);
-    for(b = 0, i = 0; i < SOS->sos_count; b = SOS->sos_list[i]->priority, i++) {
-      fprintf(output, "SOS\n%s: ",
-              (SOS->sos_list[i]->name == NULL) ||
-              (*SOS->sos_list[i]->name==0) ? "SOS" : SOS->sos_list[i]->name); /* formatnumber12((double) lp->sos_list[i]->priority) */
-
-      for(a = 0.0, j = 1; j <= SOS->sos_list[i]->size; a = SOS->sos_list[i]->weights[j], j++)
-        if(SOS->sos_list[i]->weights[j] == ++a)
-          fprintf(output, "%s%s",
-                  (j > 1) ? "," : "",
-                  get_col_name(lp, SOS->sos_list[i]->members[j]));
-        else
-          fprintf(output, "%s%s:%.12g",
-                  (j > 1) ? "," : "",
-                  get_col_name(lp, SOS->sos_list[i]->members[j]),
-		  SOS->sos_list[i]->weights[j]);
-      if(SOS->sos_list[i]->priority == ++b)
-        fprintf(output, " <= %d;\n", SOS->sos_list[i]->type);
-      else
-        fprintf(output, " <= %d:%d;\n", SOS->sos_list[i]->type, SOS->sos_list[i]->priority);
-    }
-  }
-
-  ok = TRUE;
-
-  if(filename != NULL)
-    fclose(output);
-  return(ok);
-}
-
-gboolean LP_writehandle(lprec *lp, FILE *output)
-{
-  set_outputstream(lp, output);
-  return(LP_writefile(lp, NULL));
-}
