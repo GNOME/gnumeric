@@ -45,8 +45,8 @@
 #include <bonobo/bonobo-main.h>
 #else
 #include <gtk/gtkmain.h> /* for gtk_main_quit */
-#endif /* WITH_GTK */
 #endif
+#endif /* WITH_GTK */
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 #include <errno.h>
