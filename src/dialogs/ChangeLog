@@ -1,3 +1,7 @@
+2005-08-24  Morten Welinder  <terra@gnome.org>
+
+	* *.glade: Be consistent about dialog separators.
+
 2005-08-23  Morten Welinder  <terra@gnome.org>
 
 	* dialog-sheet-order.c (cb_ok_clicked): Fix type screwup causing
