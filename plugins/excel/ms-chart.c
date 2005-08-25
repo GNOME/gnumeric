@@ -1867,6 +1867,7 @@ static gboolean
 BC_R(text)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
 {
+#if 0 /*when we have somewhere to store it */
 	static GnmHAlign const haligns[] = { /* typo in docs */
 		HALIGN_LEFT, HALIGN_CENTER, HALIGN_RIGHT, HALIGN_JUSTIFY
 	};
@@ -1874,15 +1875,14 @@ BC_R(text)(XLChartHandler const *handle,
 		VALIGN_TOP, VALIGN_CENTER, VALIGN_BOTTOM, VALIGN_JUSTIFY
 	};
 	unsigned tmp;
+#endif
 	BC_R(get_style) (s);
 
+#if 0 /*when we have somewhere to store it */
 	tmp = GSF_LE_GET_GINT8 (q->data + 0);
-#if 0 /*when we have somewhere to store it */
-	style-> .... = haligns[tmp < G_N_ELEMENTS (haligns) ? tmp : 0];
-#endif
+	s->style-> .... = haligns[tmp < G_N_ELEMENTS (haligns) ? tmp : 0];
 	tmp = GSF_LE_GET_GINT8 (q->data + 1);
-#if 0 /*when we have somewhere to store it */
-	style-> .... = valigns[tmp < G_N_ELEMENTS (valigns) ? tmp : 0];
+	s->style-> .... = valigns[tmp < G_N_ELEMENTS (valigns) ? tmp : 0];
 #endif
 
 	s->style->font.color = BC_R(color) (q->data+4, "Font");

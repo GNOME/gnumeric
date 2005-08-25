@@ -60,7 +60,6 @@ so_polygon_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean
 	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
 
 	if (visible) {
-		FooCanvasPolygon	*poly = FOO_CANVAS_POLYGON (view);
 		SheetObject		*so   = sheet_object_view_get_so (sov);
 		GnmSOPolygon const	*sop  = GNM_SO_POLYGON (so);
 		unsigned		 i    = sop->points->len / 2;

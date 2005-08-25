@@ -1,6 +1,8 @@
 2005-08-24  Stepan Kasal  <kasal@ucw.cz>
 
-	* src/workbook.c: Move the /* WITH_GTK */ to the right #endif.
+	* src/workbook.c: Move the /* WITH_GTK */ comment to the right #endif.
+	* src/gnm-so-polygon.c (so_polygon_view_set_bounds): Remove unused
+	variable.
 
 2005-08-23  Morten Welinder  <terra@gnome.org>
 
