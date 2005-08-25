@@ -4,17 +4,15 @@
 
 SUBDIRS = tools cut-n-paste-code
 
-bin_PROGRAMS =
 lib_LTLIBRARIES = libspreadsheet.la
 
+bin_PROGRAMS =
 check_PROGRAMS =
-check_PROGRAMS += test-pango
-# number-match
-## Don't put comment on an assignment line!  It can trigger an automake bug.
 
 if WITH_GTK
   SUBDIRS += pixmaps dialogs widgets
   bin_PROGRAMS += gnumeric
+  check_PROGRAMS += test-pango
 endif
 
 if ENABLE_SSCONVERT
@@ -342,7 +340,6 @@ test_pango_LDADD   = $(gnumeric_LDADD)
 test_pango_LDFLAGS = -export-dynamic
 test_pango_SOURCES =				\
 	test-pango.c
-nodist_test_pango_SOURCES = $(nodist_gnumeric_SOURCES)
 
 # Rules for the marshalers code:
 GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=gnm_
@@ -394,12 +391,11 @@ uninstall-hook:
 EXTRA_DIST = GNOME_Gnumeric-gtk.xml.in				\
 	    main-component.c					\
 	    $(GNUMERIC_GNOME) README.gnm_float			\
-	    gnumeric.rc gnm-i18n.h $(UNUSED)
-
-# silence intltool
-UNUSED = test-pango.c
+	    gnumeric.rc gnm-i18n.h
 
 DISTCLEANFILES = GNOME_Gnumeric-gtk.xml
+
+##check_PROGRAMS += number-match
 
 ##number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
 
@@ -423,7 +419,6 @@ GNOME_Gnumeric-gtk.xml: GNOME_Gnumeric-gtk.xml.in
 ##gnumeric_component_SOURCES =			\
 ##	$(GNUMERIC_SOURCE)			\
 ##	main-component.c
-##nodist_gnumeric_component_SOURCES = $(nodist_gnumeric_SOURCES)
 ##
 ##gnumeric_component_LDADD = $(gnumeric_LDADD)
 ##

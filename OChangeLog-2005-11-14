@@ -1,3 +1,10 @@
+2005-08-25  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/Makefile.am (check_PROGRAMS): Add test-pango only if WITH_GTK.
+	(nodist_test_pango_SOURCES, nodist_gnumeric_component_SOURCES): Nuke,
+	they only referred to nodist_gnumeric_SOURCES, which no longer exists.
+	(UNUSED): Remove, this hack is no longer needed.
+
 2005-08-24  Stepan Kasal  <kasal@ucw.cz>
 
 	* src/workbook.c: Move the /* WITH_GTK */ comment to the right #endif.
