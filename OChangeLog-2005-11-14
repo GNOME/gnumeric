@@ -11,6 +11,19 @@
 	* src/dependent.c (dep_hash_destroy): Another case of
 	don't-muck-with-the-hash-you-are-iterating-over.
 
+2005-08-21  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook.c (workbook_sheet_attach_at_pos) : don't signal until
+	  after the controls have been added. [#314208]
+
+2005-08-21  Jody Goldberg <jody@gnome.org>
+
+	* src/mstyle.c (gnm_style_equal) : MSTYLE_COLOR_BACK == 0 now, there
+	  is no longer an invalid entry at 0 with back at 1.
+	(gnm_style_equal_XL) : ditto.
+
+	* src/sheet-style.c (cb_style_list_add_node) : improve the debugging.
+
 2005-08-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* src/commands.c (cmd_object_raise_redo): pull_to_front and

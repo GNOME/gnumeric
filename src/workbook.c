@@ -978,8 +978,6 @@ workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
 			     new_sheet->name_case_insensitive,
 			     new_sheet);
 
-	post_sheet_index_change (wb);
-
 	WORKBOOK_FOREACH_VIEW (wb, view,
 		wb_view_sheet_add (view, new_sheet););
 
@@ -987,6 +985,9 @@ workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
 			  "notify::visibility",
 			  G_CALLBACK (cb_sheet_visibility_change),
 			  NULL);
+
+	/* Do not signal until after adding the views [#314208] */
+	post_sheet_index_change (wb);
 }
 
 /**
@@ -1365,7 +1366,7 @@ workbook_sheet_state_restore (Workbook *wb, const WorkbookSheetState *wss)
 	int i;
 
 	/* Get rid of sheets that shouldn't be there.  */
-	for (i = workbook_sheet_count (wb) - 1; i >= 0; i--) {
+	for (i = workbook_sheet_count (wb) ; i-- > 0; ) {
 		Sheet *sheet = workbook_sheet_by_index (wb, i);
 		int j;
 		for (j = 0; j < wss->n_sheets; j++)

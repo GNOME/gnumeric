@@ -902,12 +902,6 @@ disconnect_sheet_signals (WorkbookControlGUI *wbcg, Sheet *sheet)
 	g_signal_handlers_disconnect_by_func (sheet, cb_zoom_change, wbcg);
 }
 
-/**
- * wbcg_sheet_add:
- * @sheet: a sheet
- *
- * Creates a new SheetControlGUI for the sheet and adds it to the workbook-control-gui.
- */
 static void
 wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 {
@@ -1047,7 +1041,7 @@ wbcg_sheet_order_changed (WorkbookControlGUI *wbcg, Workbook const *wb)
 	for (i = 0 ; i < workbook_sheet_count (wb); i++)
 		if (NULL != (sheet = wbcg_page_index_to_sheet (wbcg, i, &scg)) &&
 		    sheet->index_in_wb != i)
-	gtk_notebook_reorder_child (wbcg->notebook,
+			gtk_notebook_reorder_child (wbcg->notebook,
 				GTK_WIDGET (scg->table), sheet->index_in_wb);
 }
 

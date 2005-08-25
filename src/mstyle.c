@@ -701,7 +701,7 @@ gnm_style_equal (GnmStyle const *a, GnmStyle const *b)
 
 	if (a == b)
 		return TRUE;
-	for (i = 1; i < MSTYLE_ELEMENT_MAX; i++)
+	for (i = MSTYLE_COLOR_BACK; i < MSTYLE_ELEMENT_MAX; i++)
 		if (!elem_is_eq (a, b, i))
 			return FALSE;
 	return TRUE;
@@ -717,7 +717,7 @@ gnm_style_equal_XL (GnmStyle const *a, GnmStyle const *b)
 
 	if (a == b)
 		return TRUE;
-	for (i = 1; i < MSTYLE_VALIDATION; i++)
+	for (i = MSTYLE_COLOR_BACK; i < MSTYLE_VALIDATION; i++)
 		if (!elem_is_eq (a, b, i))
 			return FALSE;
 	return TRUE;

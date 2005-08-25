@@ -1442,24 +1442,24 @@ excel_palette_get (GnmXLImporter *importer, gint idx)
 	g_return_val_if_fail (importer != NULL, style_color_black ());
 
 	if (NULL == (pal = importer->palette)) {
-	int entries = EXCEL_DEF_PAL_LEN;
-		ExcelPaletteEntry const *defaults = (importer->ver >= MS_BIFF_V8)
-		? excel_default_palette_v8 : excel_default_palette_v7;
+		int entries = EXCEL_DEF_PAL_LEN;
+			ExcelPaletteEntry const *defaults = (importer->ver >= MS_BIFF_V8)
+			? excel_default_palette_v8 : excel_default_palette_v7;
 
-		pal = importer->palette = g_new (ExcelPalette, 1);
-	pal->length = entries;
-	pal->red   = g_new (int, entries);
-	pal->green = g_new (int, entries);
-	pal->blue  = g_new (int, entries);
-	pal->gnm_colors = g_new (GnmColor *, entries);
+			pal = importer->palette = g_new (ExcelPalette, 1);
+		pal->length = entries;
+		pal->red   = g_new (int, entries);
+		pal->green = g_new (int, entries);
+		pal->blue  = g_new (int, entries);
+		pal->gnm_colors = g_new (GnmColor *, entries);
 
-	while (--entries >= 0) {
-		pal->red[entries]   = defaults[entries].r;
-		pal->green[entries] = defaults[entries].g;
-		pal->blue[entries]  = defaults[entries].b;
-		pal->gnm_colors[entries] = NULL;
+		while (--entries >= 0) {
+			pal->red[entries]   = defaults[entries].r;
+			pal->green[entries] = defaults[entries].g;
+			pal->blue[entries]  = defaults[entries].b;
+			pal->gnm_colors[entries] = NULL;
+		}
 	}
-}
 
 	/* NOTE: not documented but seems close
 	 * If you find a normative reference please forward it.
@@ -1516,7 +1516,7 @@ excel_palette_get (GnmXLImporter *importer, gint idx)
 					    (guint8) pal->blue[idx]);
 		g_return_val_if_fail (pal->gnm_colors[idx],
 				      style_color_black ());
-		d (1, {
+		d (5, {
 			GnmColor *c = pal->gnm_colors[idx];
 			fprintf (stderr,"New color in slot %d: RGB= %x,%x,%x\n",
 				idx, c->gdk_color.red, c->gdk_color.green, c->gdk_color.blue);
@@ -1734,8 +1734,7 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 
 	switch (back_index) {
 	case 64:
-		back_color = sheet_style_get_auto_pattern_color
-			(esheet->sheet);
+		back_color = sheet_style_get_auto_pattern_color (esheet->sheet);
 		break;
 	case 65:
 		back_color = style_color_auto_back ();
@@ -1819,8 +1818,8 @@ excel_set_xf (ExcelReadSheet *esheet, BiffQuery *q)
 	BiffXFData const *xf = excel_get_xf (esheet, GSF_LE_GET_GUINT16 (q->data + 4));
 	GnmStyle *mstyle     = excel_get_style_from_xf (esheet, xf);
 
-	d (2, fprintf (stderr,"%s!%s%d = xf(0x%p)\n", esheet->sheet->name_unquoted,
-		      col_name (col), row + 1, xf););
+	d (3, fprintf (stderr,"%s!%s%d = xf(0x%hx) = style (%p) [LEN = %u]\n", esheet->sheet->name_unquoted,
+		 col_name (col), row + 1, GSF_LE_GET_GUINT16 (q->data + 4), mstyle, q->length););
 
 	if (mstyle != NULL)
 		sheet_style_set_pos (esheet->sheet, col, row, mstyle);

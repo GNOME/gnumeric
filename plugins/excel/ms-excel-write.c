@@ -1686,7 +1686,7 @@ excel_font_new (GnmStyle const *base_style)
 	efont->font_name_copy	= NULL;
 	efont->size_pts		= gnm_style_get_font_size   (base_style);
 	efont->is_bold		= gnm_style_get_font_bold   (base_style);
-	efont->is_italic	= gnm_style_get_font_uline  (base_style);
+	efont->is_italic	= gnm_style_get_font_italic (base_style);
 	efont->underline	= gnm_style_get_font_uline  (base_style);
 	efont->strikethrough	= gnm_style_get_font_strike (base_style);
 

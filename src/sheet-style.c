@@ -1065,7 +1065,6 @@ sheet_style_set_range (Sheet *sheet, GnmRange const *range,
 
 /**
  * sheet_style_set_pos :
- *
  * @sheet :
  * @col   :
  * @row   :
@@ -1073,7 +1072,7 @@ sheet_style_set_range (Sheet *sheet, GnmRange const *range,
  *
  * Change the complete style for a single cell.
  * This function absorbs a reference to the the new @style.
- */
+ **/
 void
 sheet_style_set_pos (Sheet *sheet, int col, int row,
 		     GnmStyle *style)
@@ -1093,7 +1092,7 @@ sheet_style_set_pos (Sheet *sheet, int col, int row,
  * @sheet :
  *
  * Returns a reference to default style for a sheet.
- */
+ **/
 GnmStyle *
 sheet_style_default (Sheet const *sheet)
 {
@@ -1922,20 +1921,27 @@ cb_style_list_add_node (GnmStyle *style,
 			range.end.row = apply_to->end.row;
 		range.end.row -= apply_to->start.row;
 	}
-#ifdef DEBUG_STYLE_LIST
-	range_dump (&range, " <= Add node \n");
-#endif
 
 	/* Do some simple minded merging vertically */
 	key.col = range.end.col;
 	key.row = range.start.row - 1;
+#ifdef DEBUG_STYLE_LIST
+	range_dump (&range, " Checking\n");
+#endif
 	if (key.row >= 0 &&
 	    (sr = (GnmStyleRegion *)g_hash_table_lookup (mi->cache, &key)) != NULL &&
 	    sr->range.start.col == range.start.col && (mi->style_equal) (sr->style, style)) {
 		g_hash_table_remove (mi->cache, &key);
 		sr->range.end.row = range.end.row;
-	} else
+#ifdef DEBUG_STYLE_LIST
+		range_dump (&sr->range, " <= merged into\n");
+#endif
+	} else {
+#ifdef DEBUG_STYLE_LIST
+		range_dump (&range, " <= Added\n");
+#endif
 		sr = style_region_new (&range, style);
+	}
 
 	g_hash_table_insert (mi->cache, &sr->range.end, sr);
 }

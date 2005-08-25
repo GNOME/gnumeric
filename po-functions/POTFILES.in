@@ -144,6 +144,7 @@ src/gnm-plugin.c
 src/gnm-plugin.h
 src/gnm-so-filled.c
 src/gnm-so-line.c
+src/gnm-so-polygon.c
 src/gnumeric-canvas.c
 src/gnumeric-pane.c
 src/gui-clipboard.c

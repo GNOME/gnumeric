@@ -3,6 +3,10 @@ Gnumeric 1.5.4
 Jean Brefort:
 	* Fix crash on close related to graph plugins.  [#313463]
 
+Jody:
+	* Fix lost background colours. [#314207 and others]
+	* Add some drag handles for graphicly creating frozen panes.
+
 Morten:
 	* Fix harmless, but ugly, error message on xls save.
 	* Fix solver crash.  [#314025]

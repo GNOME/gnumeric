@@ -1,3 +1,7 @@
+2005-08-24  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_font_new) : typo. [#314206]
+
 2005-08-17  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (ms_excel_chart_write): fix a compilation warning
