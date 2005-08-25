@@ -616,7 +616,7 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 		 PROP_DISPLAY_OUTLINES_BELOW,
 		 g_param_spec_boolean ("display-outlines-below",
 				       _("Display Outlines Below"),
-				       _("Control whether outlines symbols are shown below."),
+				       _("Control whether outline symbols are shown below."),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
@@ -625,7 +625,7 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 		 PROP_DISPLAY_OUTLINES_RIGHT,
 		 g_param_spec_boolean ("display-outlines-right",
 				       _("Display Outlines Right"),
-				       _("Control whether outlines symbols are shown to the right."),
+				       _("Control whether outline symbols are shown to the right."),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));

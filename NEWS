@@ -1,5 +1,8 @@
 Gnumeric 1.5.4
 
+Clytie Siddall:
+	* Audit strings.  [#312746]  [#312986]
+
 Jean Brefort:
 	* Fix crash on close related to graph plugins.  [#313463]
 
