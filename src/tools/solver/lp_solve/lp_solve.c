@@ -6,12 +6,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <time.h>
 #include <sys/timeb.h>
 
 #define LoadInverseLib FALSE
-
 #define LoadLanguageLib FALSE
 
+#undef calloc
+#define calloc(_a,_b) g_malloc0 ((_a)*(_b))
 /* ------------------------------------------------------------------------- */
 /* Imported shared/commonlib.h */
 
@@ -1969,7 +1971,6 @@ typedef void (set_obj_bound_func)(lprec *lp, gnm_float obj_bound);
 typedef gboolean (set_obj_fn_func)(lprec *lp, gnm_float *row);
 typedef gboolean (set_obj_fnex_func)(lprec *lp, int count, gnm_float *row, int *colno);
 typedef void (set_obj_in_basis_func)(lprec *lp, gboolean obj_in_basis);
-typedef gboolean (set_outputfile_func)(lprec *lp, char *filename);
 typedef void (set_outputstream_func)(lprec *lp, FILE *stream);
 typedef gboolean (set_partialprice_func)(lprec *lp, int blockcount, int *blockstart, gboolean isrow);
 typedef void (set_pivoting_func)(lprec *lp, int piv_rule);
@@ -2250,7 +2251,6 @@ struct _lprec
   set_obj_fnex_func             *set_obj_fnex;
   set_obj_func                  *set_obj;
   set_obj_in_basis_func         *set_obj_in_basis;
-  set_outputfile_func           *set_outputfile;
   set_outputstream_func         *set_outputstream;
   set_partialprice_func         *set_partialprice;
   set_pivoting_func             *set_pivoting;
@@ -2412,7 +2412,7 @@ struct _lprec
   int       sc_vars;            /* Number of semi-continuous variables */
   gnm_float      *sc_lobound;        /* sum_columns+1 : TRUE if variable is semi-continuous;
                                    value replaced by conventional lower bound during lp_solve_solve */
-  int       *var_is_free;       /* columns+1: Index of twin variable if variable is g_free */
+  int       *var_is_free;       /* columns+1: Index of twin variable if variable is free */
   int       *var_priority;      /* columns: Priority-mapping of variables */
 
   SOSgroup  *GUB;               /* Pointer to record containing GUBs */
@@ -2886,7 +2886,6 @@ static void print_scales(lprec *lp);
 static void print_str(lprec *lp, char *str);
 
 static void set_outputstream(lprec *lp, FILE *stream);
-static gboolean set_outputfile(lprec *lp, char *filename);
 
 static void set_verbose(lprec *lp, int verbose);
 static int get_verbose(lprec *lp);
@@ -4157,140 +4156,6 @@ static gnm_float my_dnormi( int *n, gnm_float *x );
 
 #endif
 /* ------------------------------------------------------------------------- */
-/* Imported shared/mmio.h */
-
-/*
-*   Matrix Market I/O library for ANSI C
-*
-*   See http://math.nist.gov/MatrixMarket for details.
-*
-*
-*/
-
-#ifndef MM_IO_H
-#define MM_IO_H
-
-#define MM_MAX_LINE_LENGTH 1025
-#define MatrixMarketBanner "%%MatrixMarket"
-#define MM_MAX_TOKEN_LENGTH 64
-
-typedef char MM_typecode[4];
-
-static char *mm_typecode_to_str(MM_typecode matcode);
-
-static int mm_read_banner(FILE *f, MM_typecode *matcode);
-static int mm_read_mtx_crd_size(FILE *f, int *M, int *N, int *nz);
-
-static int mm_write_banner(FILE *f, MM_typecode matcode);
-static int mm_write_mtx_crd_size(FILE *f, int M, int N, int nz);
-
-
-/********************* MM_typecode query fucntions ***************************/
-
-#define mm_is_matrix(typecode)  ((typecode)[0]=='M')
-
-#define mm_is_sparse(typecode)  ((typecode)[1]=='C')
-#define mm_is_coordinate(typecode)((typecode)[1]=='C')
-#define mm_is_dense(typecode) ((typecode)[1]=='A')
-#define mm_is_array(typecode) ((typecode)[1]=='A')
-
-#define mm_is_complex(typecode) ((typecode)[2]=='C')
-#define mm_is_real(typecode)    ((typecode)[2]=='R')
-#define mm_is_pattern(typecode) ((typecode)[2]=='P')
-#define mm_is_integer(typecode) ((typecode)[2]=='I')
-
-#define mm_is_symmetric(typecode)((typecode)[3]=='S')
-#define mm_is_general(typecode) ((typecode)[3]=='G')
-#define mm_is_skew(typecode)  ((typecode)[3]=='K')
-#define mm_is_hermitian(typecode)((typecode)[3]=='H')
-
-static int mm_is_valid(MM_typecode matcode);   /* too complex for a macro */
-
-
-/********************* MM_typecode modify fucntions ***************************/
-
-#define mm_set_matrix(typecode) ((*typecode)[0]='M')
-#define mm_set_coordinate(typecode) ((*typecode)[1]='C')
-#define mm_set_array(typecode)  ((*typecode)[1]='A')
-#define mm_set_dense(typecode)  mm_set_array(typecode)
-#define mm_set_sparse(typecode) mm_set_coordinate(typecode)
-
-#define mm_set_complex(typecode)((*typecode)[2]='C')
-#define mm_set_real(typecode) ((*typecode)[2]='R')
-#define mm_set_pattern(typecode)((*typecode)[2]='P')
-#define mm_set_integer(typecode)((*typecode)[2]='I')
-
-
-#define mm_set_symmetric(typecode)((*typecode)[3]='S')
-#define mm_set_general(typecode)((*typecode)[3]='G')
-#define mm_set_skew(typecode) ((*typecode)[3]='K')
-#define mm_set_hermitian(typecode)((*typecode)[3]='H')
-
-#define mm_clear_typecode(typecode) ((*typecode)[0]=(*typecode)[1]= \
-                  (*typecode)[2]=' ',(*typecode)[3]='G')
-
-#define mm_initialize_typecode(typecode) mm_clear_typecode(typecode)
-
-
-/********************* Matrix Market error codes ***************************/
-
-
-#define MM_COULD_NOT_READ_FILE  11
-#define MM_PREMATURE_EOF        12
-#define MM_NOT_MTX              13
-#define MM_NO_HEADER            14
-#define MM_UNSUPPORTED_TYPE     15
-#define MM_LINE_TOO_LONG        16
-#define MM_COULD_NOT_WRITE_FILE 17
-
-
-/******************** Matrix Market internal definitions ********************
-
-   MM_matrix_typecode: 4-character sequence
-
-            ojbect    sparse/     data        storage
-                  dense       type        scheme
-
-   string position:  [0]        [1]     [2]         [3]
-
-   Matrix typecode:  M(atrix)  C(oord)    R(eal)    G(eneral)
-                    A(array)  C(omplex)   H(ermitian)
-                      P(attern)   S(ymmetric)
-                        I(nteger) K(kew)
-
- ***********************************************************************/
-
-#define MM_MTX_STR    "matrix"
-#define MM_ARRAY_STR  "array"
-#define MM_DENSE_STR  "array"
-#define MM_COORDINATE_STR "coordinate"
-#define MM_SPARSE_STR "coordinate"
-#define MM_COMPLEX_STR  "complex"
-#define MM_REAL_STR   "real"
-#define MM_INT_STR    "integer"
-#define MM_GENERAL_STR  "general"
-#define MM_SYMM_STR   "symmetric"
-#define MM_HERM_STR   "hermitian"
-#define MM_SKEW_STR   "skew-symmetric"
-#define MM_PATTERN_STR  "pattern"
-
-
-/*  high level routines */
-
-static int mm_write_mtx_crd(char fname[], int M, int N, int nz, int I[], int J[],
-     double val[], MM_typecode matcode);
-static int mm_read_mtx_crd_data(FILE *f, int M, int N, int nz, int I[], int J[],
-    double val[], MM_typecode matcode);
-static int mm_read_mtx_crd_entry(FILE *f, int *I, int *J, double *real, double *img,
-      MM_typecode matcode);
-
-static int mm_read_unsymmetric_sparse(const char *fname, int *M_, int *N_, int *nz_,
-                double **val_, int **I_, int **J_);
-
-
-
-#endif
-/* ------------------------------------------------------------------------- */
 /* Imported bfp/lp_BFP1.c */
 
 
@@ -4475,7 +4340,7 @@ static gboolean bfp_init(lprec *lp, int size, int delta, char *options)
 {
   INVrec *lu;
 
-  lp->invB = (INVrec *) calloc(1, sizeof(*(lp->invB)));
+  lp->invB = g_new0 (INVrec , 1);
   lu = lp->invB;
   if((lu == NULL) || 
      !lp->bfp_resize(lp, size) ||
@@ -5580,7 +5445,7 @@ static LUSOLrec *LUSOL_create(FILE *outstream, int msgfil, int pivotmodel, int u
 {
   LUSOLrec *newLU;
 
-  newLU = (LUSOLrec *) calloc(1, sizeof(*newLU));
+  newLU = g_new0 (LUSOLrec , 1);
   if(newLU == NULL)
     return( newLU );
 
@@ -5983,7 +5848,7 @@ static LUSOLmat *LUSOL_matcreate(int dim, int nz)
 {
   LUSOLmat *newm;
 
-  newm = (LUSOLmat *) calloc(1, sizeof(*newm));
+  newm = g_new0 (LUSOLmat , 1);
   if(newm != NULL) {
     newm->a    = (gnm_float *) g_malloc((nz+1)*sizeof(gnm_float));
     newm->lenx = (int *)  g_malloc((dim+1)*sizeof(int));
@@ -6244,7 +6109,7 @@ static gboolean LU1L0(LUSOLrec *LUSOL, LUSOLmat **mat, int *inform)
     return( status );
 
   /* Allocate temporary array */
-  lsumr = (int *) calloc((LUSOL->m+1), sizeof(*lsumr));
+  lsumr = g_new0 (int , (LUSOL->m+1));
   if(lsumr == NULL) {
     *inform = LUSOL_INFORM_NOMEMLEFT;
     return( status );
@@ -7546,7 +7411,7 @@ static void LU1PQ1(LUSOLrec *LUSOL, int M, int N, int LEN[],
 /* ==================================================================
    lu1pq2 frees the space occupied by the pivot row,
    and updates the column permutation iq.
-   Also used to g_free the pivot column and update the row perm ip.
+   Also used to free the pivot column and update the row perm ip.
    ------------------------------------------------------------------
    nzpiv   (input)    is the length of the pivot row (or column).
    nzchng  (output)   is the net change in total nonzeros.
@@ -7703,7 +7568,7 @@ static void LU1REC(LUSOLrec *LUSOL, int N, gboolean REALS, int *LTOP,
       KLAST = K;
     }
   }
-/*      Move any empty items to the end, adding 1 g_free entry for each. */
+/*      Move any empty items to the end, adding 1 free entry for each. */
   if(NEMPTY>0) {
     for(I = 1; I <= N; I++) {
       if(LEN[I]==0) {
@@ -7921,7 +7786,7 @@ x520:
     for(L = (*LCOL)+1; L <= (*LCOL)+NSPARE; L++) {
       *LCOL = L;  /* ****** ERROR ???? */
 #endif
-/*      Spare space is g_free. */
+/*      Spare space is free. */
       LUSOL->indc[L] = 0;
     }
     ATEND = TRUE;
@@ -9619,7 +9484,7 @@ x250:
                  a dense matrix D.
                  We may have to compress the column file first.
                  12 Nov 1999: D used to be put at the
-                              beginning of g_free storage (lD = lcol + 1).
+                              beginning of free storage (lD = lcol + 1).
                               Now put it at the end     (lD = lu1 - lenD)
                               so the left-shift in lu1ful will not
                               involve overlapping storage
@@ -9987,7 +9852,7 @@ x700:
 /*         ===============================================================
            Free the space occupied by the pivot row
            and update the column permutation.
-           Then g_free the space occupied by the pivot column
+           Then free the space occupied by the pivot column
            and update the row permutation.
            nzchng is found in both calls to lu1pq2, but we use it only
            after the second.
@@ -10090,7 +9955,7 @@ x900:
   }
   *MINLEN = (*LENL)+(*LENU)+2*(LUSOL->m+LUSOL->n);
   goto x990;
-/*      Not enough space g_free after a compress.
+/*      Not enough space free after a compress.
         Set  minlen  to an estimate of the necessary value of  lena. */
 x970:
   *INFORM = LUSOL_INFORM_ANEEDMEM;
@@ -10541,10 +10406,10 @@ static void LU1FAC(LUSOLrec *LUSOL, int *INFORM)
 /*         ---------------------------------------------------------------
            The LU factors are at the top of  a, indc, indr,
            with the columns of  L  and the rows of  U  in the order
-           ( g_free )   ... ( u3 ) ( l3 ) ( u2 ) ( l2 ) ( u1 ) ( l1 ).
+           ( free )   ... ( u3 ) ( l3 ) ( u2 ) ( l2 ) ( u1 ) ( l1 ).
            Starting with ( l1 ) and ( u1 ), move the rows of  U  to the
            left and the columns of  L  to the right, giving
-           ( u1 ) ( u2 ) ( u3 ) ...   ( g_free )   ... ( l3 ) ( l2 ) ( l1 ).
+           ( u1 ) ( u2 ) ( u3 ) ...   ( free )   ... ( l3 ) ( l2 ) ( l1 ).
            Also, set  numl0 = the number of nonempty columns of  U.
            --------------------------------------------------------------- */
     LU = 0;
@@ -11797,7 +11662,7 @@ x990:
 	above copyright notice.  You must also retain the Availability
 	information below, of the original version.
 
-	This software is provided g_free of charge.
+	This software is provided free of charge.
 
     Availability:
 
@@ -12085,7 +11950,7 @@ static int symamd				/* return (1) if OK, (0) otherwise */
 	above copyright notice.  You must also retain the Availability
 	information below, of the original version.
 
-	This software is provided g_free of charge.
+	This software is provided free of charge.
 
     Availability:
 
@@ -12113,7 +11978,7 @@ static int symamd				/* return (1) if OK, (0) otherwise */
 		available as a mexFunction from Matlab.
 
 	* added error-checking to symamd.  Formerly, it assumed its input
-		was error-g_free.
+		was error-free.
 
 	* added the optional stats and knobs arguments to the symamd mexFunction
 
@@ -12441,7 +12306,7 @@ static int symamd				/* return (1) if OK, (0) otherwise */
 	    so that the nonzero pattern of M'M is the same as A.  The matrix A
 	    is assumed to be symmetric; only the strictly lower triangular part
 	    is accessed.  You must pass your selected memory allocator (usually
-	    calloc/g_free or mxCalloc/mxFree) to symamd, for it to allocate
+	    calloc/free or mxCalloc/mxFree) to symamd, for it to allocate
 	    memory for the temporary matrix M.
 
 	Returns:
@@ -12593,7 +12458,7 @@ static int symamd				/* return (1) if OK, (0) otherwise */
 
 	    	A pointer to a function that frees memory allocated by the
 		memory allocation routine above.  For a C application, this
-		argument should normally be a pointer to g_free.  For a Matlab
+		argument should normally be a pointer to free.  For a Matlab
 		mexFunction, the routine mxFree is passed instead.
 
 
@@ -12661,7 +12526,7 @@ static int symamd				/* return (1) if OK, (0) otherwise */
 	one can get a glimpse into what the code is doing).
 
    (3) (gasp!) for actually finding bugs.  This code has been heavily tested
-	and "should" be fully functional and bug-g_free ... but you never know...
+	and "should" be fully functional and bug-free ... but you never know...
 
     To enable debugging, comment out the "#define NDEBUG" above.  For a Matlab
     mexFunction, you will also need to modify mexopts.sh to remove the -DNDEBUG
@@ -14049,7 +13914,7 @@ static int find_ordering	/* return the number of garbage collections */
     int head [],		/* of size n_col+1 */
     int n_col2,			/* Remaining columns to order */
     int max_deg,		/* Maximum row degree */
-    int pfree			/* index of first g_free slot (2*nnz on entry) */
+    int pfree			/* index of first free slot (2*nnz on entry) */
 )
 {
     /* === Local variables ================================================== */
@@ -14065,7 +13930,7 @@ static int find_ordering	/* return the number of garbage collections */
     int pivot_row_degree ;	/* number of columns in pivot row */
     int pivot_row_length ;	/* number of supercolumns in pivot row */
     int pivot_col_score ;	/* score of pivot column */
-    int needed_memory ;		/* g_free space needed for pivot row */
+    int needed_memory ;		/* free space needed for pivot row */
     int *cp_end ;		/* pointer to the end of a column */
     int *rp_end ;		/* pointer to the end of a row */
     int row ;			/* a row index */
@@ -14852,7 +14717,7 @@ static void detect_super_cols
 /*
     Defragments and compacts columns and rows in the workspace A.  Used when
     all avaliable memory has been used while performing row merging.  Returns
-    the index of the first g_free position in A, after garbage collection.  The
+    the index of the first free position in A, after garbage collection.  The
     time taken by this routine is linear is the size of the array A, which is
     itself linear in the number of nonzeros in the input matrix.
     Not user-callable.
@@ -16146,412 +16011,6 @@ gboolean fileSearchPath( char *envvar, char *searchfile, char *foundpath )
 #undef QS_IS_switch
 #undef intptr_t
 /* ------------------------------------------------------------------------- */
-/* Imported shared/mmio.c */
-
-/* 
-*   Matrix Market I/O library for ANSI C
-*
-*   See http://math.nist.gov/MatrixMarket for details.
-*
-*   (Version 1.01, 5/2003)
-*/
-
-
-
-
-static int mm_read_unsymmetric_sparse(const char *fname, int *M_, int *N_, int *nz_,
-                double **val_, int **I_, int **J_)
-{
-    FILE *f;
-    MM_typecode matcode;
-    int M, N, nz;
-    int i;
-    double *val;
-    int *I, *J;
- 
-    if ((f = fopen(fname, "r")) == NULL)
-            return -1;
- 
- 
-    if (mm_read_banner(f, &matcode) != 0)
-    {
-        printf("mm_read_unsymetric: Could not process Matrix Market banner ");
-        printf(" in file [%s]\n", fname);
-        return -1;
-    }
- 
- 
- 
-    if ( !(mm_is_real(matcode) && mm_is_matrix(matcode) &&
-            mm_is_sparse(matcode)))
-    {
-        fprintf(stderr, "Sorry, this application does not support ");
-        fprintf(stderr, "Market Market type: [%s]\n",
-                mm_typecode_to_str(matcode));
-        return -1;
-    }
- 
-    /* find out size of sparse matrix: M, N, nz .... */
- 
-    if (mm_read_mtx_crd_size(f, &M, &N, &nz) !=0)
-    {
-        fprintf(stderr, "read_unsymmetric_sparse(): could not parse matrix size.\n");
-        return -1;
-    }
- 
-    *M_ = M;
-    *N_ = N;
-    *nz_ = nz;
- 
-    /* reseve memory for matrices */
- 
-    I = (int *) g_malloc(nz * sizeof(int));
-    J = (int *) g_malloc(nz * sizeof(int));
-    val = (double *) g_malloc(nz * sizeof(double));
- 
-    *val_ = val;
-    *I_ = I;
-    *J_ = J;
- 
-    /* NOTE: when reading in doubles, ANSI C requires the use of the "l"  */
-    /*   specifier as in "%lg", "%lf", "%le", otherwise errors will occur */
-    /*  (ANSI C X3.159-1989, Sec. 4.9.6.2, p. 136 lines 13-15)            */
- 
-    for (i=0; i<nz; i++)
-    {
-        fscanf(f, "%d %d %lg\n", &I[i], &J[i], &val[i]);
-        I[i]--;  /* adjust from 1-based to 0-based */
-        J[i]--;
-    }
-    fclose(f);
- 
-    return 0;
-}
-
-static int mm_is_valid(MM_typecode matcode)
-{
-    if (!mm_is_matrix(matcode)) return 0;
-    if (mm_is_dense(matcode) && mm_is_pattern(matcode)) return 0;
-    if (mm_is_real(matcode) && mm_is_hermitian(matcode)) return 0;
-    if (mm_is_pattern(matcode) && (mm_is_hermitian(matcode) || 
-                mm_is_skew(matcode))) return 0;
-    return 1;
-}
-
-static int mm_read_banner(FILE *f, MM_typecode *matcode)
-{
-    char line[MM_MAX_LINE_LENGTH];
-    char banner[MM_MAX_TOKEN_LENGTH];
-    char mtx[MM_MAX_TOKEN_LENGTH]; 
-    char crd[MM_MAX_TOKEN_LENGTH];
-    char data_type[MM_MAX_TOKEN_LENGTH];
-    char storage_scheme[MM_MAX_TOKEN_LENGTH];
-    char *p;
-
-
-    mm_clear_typecode(matcode);  
-
-    if (fgets(line, MM_MAX_LINE_LENGTH, f) == NULL) 
-        return MM_PREMATURE_EOF;
-
-    if (sscanf(line, "%s %s %s %s %s", banner, mtx, crd, data_type, 
-        storage_scheme) != 5)
-        return MM_PREMATURE_EOF;
-
-	/* convert to lower case */
-    for (p=mtx; *p!='\0'; *p= (char) g_ascii_tolower(*p),p++);  
-    for (p=crd; *p!='\0'; *p= (char) g_ascii_tolower(*p),p++);  
-    for (p=data_type; *p!='\0'; *p= (char) g_ascii_tolower(*p),p++);
-    for (p=storage_scheme; *p!='\0'; *p= (char) g_ascii_tolower(*p),p++);
-
-    /* check for banner */
-    if (strncmp(banner, MatrixMarketBanner, strlen(MatrixMarketBanner)) != 0)
-        return MM_NO_HEADER;
-
-    /* first field should be "mtx" */
-    if (strcmp(mtx, MM_MTX_STR) != 0)
-        return  MM_UNSUPPORTED_TYPE;
-    mm_set_matrix(matcode);
-
-
-    /* second field describes whether this is a sparse matrix (in coordinate
-            storgae) or a dense array */
-
-
-    if (strcmp(crd, MM_SPARSE_STR) == 0)
-        mm_set_sparse(matcode);
-    else
-    if (strcmp(crd, MM_DENSE_STR) == 0)
-            mm_set_dense(matcode);
-    else
-        return MM_UNSUPPORTED_TYPE;
-    
-
-    /* third field */
-
-    if (strcmp(data_type, MM_REAL_STR) == 0)
-        mm_set_real(matcode);
-    else
-    if (strcmp(data_type, MM_COMPLEX_STR) == 0)
-        mm_set_complex(matcode);
-    else
-    if (strcmp(data_type, MM_PATTERN_STR) == 0)
-        mm_set_pattern(matcode);
-    else
-    if (strcmp(data_type, MM_INT_STR) == 0)
-        mm_set_integer(matcode);
-    else
-        return MM_UNSUPPORTED_TYPE;
-    
-
-    /* fourth field */
-
-    if (strcmp(storage_scheme, MM_GENERAL_STR) == 0)
-        mm_set_general(matcode);
-    else
-    if (strcmp(storage_scheme, MM_SYMM_STR) == 0)
-        mm_set_symmetric(matcode);
-    else
-    if (strcmp(storage_scheme, MM_HERM_STR) == 0)
-        mm_set_hermitian(matcode);
-    else
-    if (strcmp(storage_scheme, MM_SKEW_STR) == 0)
-        mm_set_skew(matcode);
-    else
-        return MM_UNSUPPORTED_TYPE;
-        
-
-    return 0;
-}
-
-static int mm_write_mtx_crd_size(FILE *f, int M, int N, int nz)
-{
-    if (fprintf(f, "%d %d %d\n", M, N, nz) < 0)
-        return MM_COULD_NOT_WRITE_FILE;
-    else 
-        return 0;
-}
-
-static int mm_read_mtx_crd_size(FILE *f, int *M, int *N, int *nz )
-{
-    char line[MM_MAX_LINE_LENGTH];
-    int num_items_read;
-
-    /* set return null parameter values, in case we exit with errors */
-    *M = *N = *nz = 0;
-
-    /* now continue scanning until you reach the end-of-comments */
-    do {
-      if (fgets(line,MM_MAX_LINE_LENGTH,f) == NULL) 
-          return MM_PREMATURE_EOF;
-    } while (line[0] == '%');
-
-    /* line[] is either blank, har M,N or M,N,nz */
-    if (sscanf(line, "%d %d %d", M, N, nz) >= 2)
-      return 0;
-        
-    else
-    do { 
-        num_items_read = fscanf(f, "%d %d %d", M, N, nz); 
-        if (num_items_read == EOF) return MM_PREMATURE_EOF;
-    } while (num_items_read < 2);
-
-    return 0;
-}
-
-
-
-
-
-
-/*-------------------------------------------------------------------------*/
-
-/******************************************************************/
-/* use when I[], J[], and val[]J, and val[] are already allocated */
-/******************************************************************/
-
-static int mm_read_mtx_crd_data(FILE *f, int M, int N, int nz, int I[], int J[],
-        double val[], MM_typecode matcode)
-{
-    int i;
-    if (mm_is_complex(matcode))
-    {
-        for (i=0; i<nz; i++)
-            if (fscanf(f, "%d %d %lg %lg", &I[i], &J[i], &val[2*i], &val[2*i+1])
-                != 4) return MM_PREMATURE_EOF;
-    }
-    else if (mm_is_real(matcode))
-    {
-        for (i=0; i<nz; i++)
-        {
-            if (fscanf(f, "%d %d %lg\n", &I[i], &J[i], &val[i])
-                != 3) return MM_PREMATURE_EOF;
-
-        }
-    }
-
-    else if (mm_is_pattern(matcode))
-    {
-        for (i=0; i<nz; i++)
-            if (fscanf(f, "%d %d", &I[i], &J[i])
-                != 2) return MM_PREMATURE_EOF;
-    }
-    else
-        return MM_UNSUPPORTED_TYPE;
-
-    return 0;
-        
-}
-
-static int mm_read_mtx_crd_entry(FILE *f, int *I, int *J,
-        double *real, double *imag, MM_typecode matcode)
-{
-    if (mm_is_complex(matcode))
-    {
-            if (fscanf(f, "%d %d %lg %lg", I, J, real, imag)
-                != 4) return MM_PREMATURE_EOF;
-    }
-    else if (mm_is_real(matcode))
-    {
-            if (fscanf(f, "%d %d %lg\n", I, J, real)
-                != 3) return MM_PREMATURE_EOF;
-
-    }
-
-    else if (mm_is_pattern(matcode))
-    {
-            if (fscanf(f, "%d %d", I, J) != 2) return MM_PREMATURE_EOF;
-    }
-    else
-        return MM_UNSUPPORTED_TYPE;
-
-    return 0;
-        
-}
-
-
-/************************************************************************
-    mm_read_mtx_crd()  fills M, N, nz, array of values, and return
-                        type code, e.g. 'MCRS'
-
-                        if matrix is complex, values[] is of size 2*nz,
-                            (nz pairs of real/imaginary values)
-************************************************************************/
-
-
-static int mm_write_banner(FILE *f, MM_typecode matcode)
-{
-    char *str = mm_typecode_to_str(matcode);
-    int ret_code;
-
-    ret_code = fprintf(f, "%s %s\n", MatrixMarketBanner, str);
-/*    g_free(str);  This is a bug from the official distribution - KE fixed */
-    if (ret_code < 0 )
-        return MM_COULD_NOT_WRITE_FILE;
-    else
-        return 0;
-}
-
-static int mm_write_mtx_crd(char fname[], int M, int N, int nz, int I[], int J[],
-        double val[], MM_typecode matcode)
-{
-    FILE *f;
-    int i;
-
-    if (strcmp(fname, "stdout") == 0) 
-        f = stdout;
-    else
-    if ((f = fopen(fname, "w")) == NULL)
-        return MM_COULD_NOT_WRITE_FILE;
-    
-    /* print banner followed by typecode */
-    fprintf(f, "%s ", MatrixMarketBanner);
-    fprintf(f, "%s\n", mm_typecode_to_str(matcode));
-
-    /* print matrix sizes and nonzeros */
-    fprintf(f, "%d %d %d\n", M, N, nz);
-
-    /* print values */
-    if (mm_is_pattern(matcode))
-        for (i=0; i<nz; i++)
-            fprintf(f, "%d %d\n", I[i], J[i]);
-    else
-    if (mm_is_real(matcode))
-        for (i=0; i<nz; i++)
-            fprintf(f, "%d %d %20.16g\n", I[i], J[i], val[i]);
-    else
-    if (mm_is_complex(matcode))
-        for (i=0; i<nz; i++)
-            fprintf(f, "%d %d %20.16g %20.16g\n", I[i], J[i], val[2*i], 
-                        val[2*i+1]);
-    else
-    {
-        if (f != stdout) fclose(f);
-        return MM_UNSUPPORTED_TYPE;
-    }
-
-    if (f !=stdout) fclose(f);
-
-    return 0;
-}
-    
-
-static char  *mm_typecode_to_str(MM_typecode matcode)
-{
-    static char buffer[MM_MAX_LINE_LENGTH];
-    char *types[4];
-
-    /* check for MTX type */
-    if (mm_is_matrix(matcode)) 
-        types[0] = MM_MTX_STR;
-    else
-        return NULL;
-
-    /* check for CRD or ARR matrix */
-    if (mm_is_sparse(matcode))
-        types[1] = MM_SPARSE_STR;
-    else
-    if (mm_is_dense(matcode))
-        types[1] = MM_DENSE_STR;
-    else
-        return NULL;
-
-    /* check for element data type */
-    if (mm_is_real(matcode))
-        types[2] = MM_REAL_STR;
-    else
-    if (mm_is_complex(matcode))
-        types[2] = MM_COMPLEX_STR;
-    else
-    if (mm_is_pattern(matcode))
-        types[2] = MM_PATTERN_STR;
-    else
-    if (mm_is_integer(matcode))
-        types[2] = MM_INT_STR;
-    else
-        return NULL;
-
-
-    /* check for symmetry type */
-    if (mm_is_general(matcode))
-        types[3] = MM_GENERAL_STR;
-    else
-    if (mm_is_symmetric(matcode))
-        types[3] = MM_SYMM_STR;
-    else 
-    if (mm_is_hermitian(matcode))
-        types[3] = MM_HERM_STR;
-    else 
-    if (mm_is_skew(matcode))
-        types[3] = MM_SKEW_STR;
-    else
-        return NULL;
-
-    sprintf(buffer,"%s %s %s %s", types[0], types[1], types[2], types[3]);
-    return & buffer[0];
-
-}
-/* ------------------------------------------------------------------------- */
 /* Imported shared/myblas.c */
 
 
@@ -17627,8 +17086,8 @@ STATIC hashtable *create_hash_table(int size, int base)
   size = HashPrimes[i];
 
   /* Then allocate and initialize memory */
-  ht = (hashtable *) calloc(1 , sizeof(*ht));
-  ht->table = (hashelem **) calloc(size, sizeof(*(ht->table)));
+  ht = g_new0 (hashtable , 1 );
+  ht->table = g_new0 (hashelem *, size);
   ht->size = size;
   ht->base = base;
   ht->count = base-1;
@@ -17638,8 +17097,8 @@ STATIC hashtable *create_hash_table(int size, int base)
 
 STATIC void free_hash_item(hashelem **hp)
 {
-  g_free((*hp)->name);
-  g_free(*hp);
+  free((*hp)->name);
+  free(*hp);
   *hp = NULL;
 }
 
@@ -17706,7 +17165,7 @@ STATIC hashelem *puthash(const char *name, int index, hashelem **list, hashtable
   if((hp = findhash(name, ht)) == NULL) {
 
     hashindex = hashval(name, ht->size);
-    hp = (hashelem *) calloc(1, sizeof(*hp));
+    hp = g_new0 (hashelem , 1);
     allocCHAR(NULL, &hp->name, (int) (strlen(name) + 1), FALSE);
     strcpy(hp->name, name);
     hp->index = index;
@@ -17972,18 +17431,6 @@ static void set_outputstream(lprec *lp, FILE *stream)
   lp->streamowned = FALSE;
 }
 
-static gboolean set_outputfile(lprec *lp, char *filename)
-{
-  gboolean ok;
-  FILE   *output = stdout;
-
-  ok = (gboolean) ((filename == NULL) || ((output = fopen(filename,"w")) != NULL));
-  if(ok) {
-    set_outputstream(lp, output);
-    lp->streamowned = (gboolean) (filename != NULL);
-  }
-  return(ok);
-}
 
 static gnm_float time_elapsed(lprec *lp)
 {
@@ -19031,7 +18478,7 @@ lprec * lp_solve_make_lp(int rows, int columns)
   if(rows < 0 || columns < 0)
     return(NULL);
 
-  lp = (lprec*) calloc(1, sizeof(*lp));
+  lp = g_new0 (lprec, 1);
   if(!lp)
     return(NULL);
 
@@ -20692,7 +20139,7 @@ static gboolean is_splitvar(lprec *lp, int colnr)
 
    1) LB:-Inf / UB:<Inf variables
       No helper column created, sign of var_is_free set negative with index to itself.
-   2) LB:-Inf / UB: Inf (g_free) variables
+   2) LB:-Inf / UB: Inf (free) variables
       Sign of var_is_free set positive with index to new helper column,
       helper column created with negative var_is_free with index to the original column.
 
@@ -22429,7 +21876,6 @@ static gboolean set_callbacks(lprec *lp)
   lp->set_obj_fn              = set_obj_fn;
   lp->set_obj_fnex            = set_obj_fnex;
   lp->set_obj_in_basis        = set_obj_in_basis;
-  lp->set_outputfile          = set_outputfile;
   lp->set_outputstream        = set_outputstream;
   lp->set_partialprice        = set_partialprice;
   lp->set_pivoting            = set_pivoting;
@@ -23236,8 +22682,8 @@ static char * get_lp_name(lprec *lp)
 STATIC gboolean init_rowcol_names(lprec *lp)
 {
   if(!lp->names_used) {
-    lp->row_name = (hashelem **) calloc(lp->rows_alloc + 1, sizeof(*lp->row_name));
-    lp->col_name = (hashelem **) calloc(lp->columns_alloc + 1, sizeof(*lp->col_name));
+    lp->row_name = g_new0 (hashelem *, lp->rows_alloc + 1);
+    lp->col_name = g_new0 (hashelem *, lp->columns_alloc + 1);
     lp->rowname_hashtab = create_hash_table(lp->rows_alloc + 1, 0);
     lp->colname_hashtab = create_hash_table(lp->columns_alloc + 1, 1);
     lp->names_used = TRUE;
@@ -24291,7 +23737,7 @@ STATIC gboolean restore_basis(lprec *lp)
 }
 
 STATIC gboolean pop_basis(lprec *lp, gboolean restore)
-/* Pop / g_free, and optionally restore the previously "pushed" / saved basis */
+/* Pop / free, and optionally restore the previously "pushed" / saved basis */
 {
   gboolean ok;
   basisrec *oldbasis;
@@ -26536,7 +25982,7 @@ STATIC int prepare_GUB(lprec *lp)
   return(GUB_count(lp));
 }
 
-/* Pre- and post processing functions, i.a. splitting g_free variables */
+/* Pre- and post processing functions, i.a. splitting free variables */
 STATIC gboolean pre_MIPOBJ(lprec *lp)
 {
 #ifdef MIPboundWithOF
@@ -26778,7 +26224,7 @@ void postprocess(lprec *lp)
   if(!lp->wasPreprocessed)
     return;
 
- /* Must compute duals here in case we have g_free variables; note that in
+ /* Must compute duals here in case we have free variables; note that in
     this case sensitivity analysis is not possible unless done here */
   if((MIP_count(lp) == 0) &&
      (is_presolve(lp, PRESOLVE_DUALS) || (lp->var_is_free != NULL)))
@@ -26818,7 +26264,7 @@ void postprocess(lprec *lp)
       }
       /* Ignore the split / helper columns (will be deleted later) */
     }
-   /* Condense values of extra columns of quasi-g_free variables split in two */
+   /* Condense values of extra columns of quasi-free variables split in two */
     else if((lp->var_is_free != NULL) && (lp->var_is_free[j] > 0)) {
       ii = lp->var_is_free[j]; /* Index of the split helper var */
       /* if(lp->objfrom[j] == -lp->infinite)
@@ -26902,7 +26348,7 @@ STATIC MATrec *mat_create(lprec *lp, int rows, int columns, gnm_float epsvalue)
 {
   MATrec *newmat;
 
-  newmat = (MATrec *) calloc(1, sizeof(*newmat));
+  newmat = g_new0 (MATrec , 1);
   newmat->lp = lp;
 
   newmat->rows_alloc = 0;
@@ -30030,7 +29476,7 @@ STATIC void bsolve_xA2(lprec *lp, int* coltarget,
 STATIC gboolean includeMDO(gboolean *usedpos, int item)
 {
 /*  Legend:   TRUE            => A basic slack variable already in the basis
-              FALSE           => A column g_free for being pivoted in
+              FALSE           => A column free for being pivoted in
               AUTOMATIC+TRUE  => A row-singleton user column pivoted into the basis
               AUTOMATIC+FALSE => A column-singleton user column pivoted into the basis */
 
@@ -30131,7 +29577,7 @@ static void *mdo_calloc(size_t size, size_t count)
 }
 static void mdo_free(void *mem)
 {
-  g_free( mem );
+  free( mem );
 }
 
 
@@ -30260,7 +29706,7 @@ STATIC BBrec *create_BB(lprec *lp, BBrec *parentBB, gboolean dofullcopy)
 {
   BBrec *newBB;
 
-  newBB = (BBrec *) calloc(1, sizeof(*newBB));
+  newBB = g_new0 (BBrec , 1);
   if(newBB != NULL) {
 
     if(parentBB == NULL) {
@@ -30405,7 +29851,7 @@ STATIC gboolean free_BB(BBrec **BB)
 }
 
 STATIC BBrec *pop_BB(BBrec *BB)
-/* Pop / g_free the previously "pushed" / saved bounds */
+/* Pop / free the previously "pushed" / saved bounds */
 {
   int   k;
   BBrec *parentBB;
@@ -30474,7 +29920,7 @@ STATIC BBrec *pop_BB(BBrec *BB)
   pop_basis(lp, BB->isSOS);
 #endif
 
-  /* Finally g_free the B&B object */
+  /* Finally free the B&B object */
   free_BB(&BB);
 
   /* Return the parent BB */
@@ -31580,7 +31026,7 @@ STATIC gboolean presolve_createUndo(lprec *lp)
 {
   if(lp->presolve_undo != NULL)
     presolve_freeUndo(lp);
-  lp->presolve_undo = (presolveundorec *) calloc(1, sizeof(presolveundorec));
+  lp->presolve_undo = g_new0 (presolveundorec , 1);
   lp->presolve_undo->lp = lp;
   if(lp->presolve_undo == NULL)
     return( FALSE );
@@ -32620,7 +32066,7 @@ STATIC int presolve_rowtighten(presolverec *psdata, int rownr, int *tally, gbool
     jjx = idxbound[ix];
     jx = abs(jjx);
 
-    /* Skip g_free variables and non-ints, if specified */
+    /* Skip free variables and non-ints, if specified */
     if(is_unbounded(lp, jjx) ||
        (intsonly && !is_int(lp, jjx)))
       continue;
@@ -33835,7 +33281,7 @@ STATIC gboolean presolve_impliedcolfix(presolverec *psdata, int rownr, int colnr
   /* Calculate the dual value */
   dual = vecOF[colnr]/pivot;
 
-  /* Here we have g_free variable in an equality constraint; this means we can
+  /* Here we have free variable in an equality constraint; this means we can
      can adjust the OF for the deleted variable and also delete the constraint. */
   if(isfree && is_constr_type(lp, rownr, EQ)) {
     matValue = RHS/pivot;
@@ -33883,13 +33329,13 @@ STATIC gboolean presolve_impliedcolfix(presolverec *psdata, int rownr, int colnr
     }
     matValue = RHS/pivot;
 
-    /* Prepare for deleting g_free or implied g_free variable in inequality constraint.
+    /* Prepare for deleting free or implied free variable in inequality constraint.
        Different strategies need to be used:
 
        ACTUAL:  Find the proper constraint bound and store undo information for
-                recovering the value of the implied g_free variable.  The constraint
+                recovering the value of the implied free variable.  The constraint
                 is then deleted.  We have to adjust the objective function if the
-                OF coefficient for the implied g_free variable is non-zero.
+                OF coefficient for the implied free variable is non-zero.
        IMPLIED: Convert the constraint to an inequality at the proper bound.
                 For given models, the new equality constraint can later provide
                 an implied slack, which means that a further variable is eliminated,
@@ -33995,7 +33441,7 @@ STATIC gboolean presolve_impliedcolfix(presolverec *psdata, int rownr, int colnr
 
 STATIC psrec *presolve_initpsrec(lprec *lp, int size)
 {
-  psrec *ps = (psrec *) calloc(1, sizeof(*ps));
+  psrec *ps = g_new0 (psrec , 1);
   int   nzused = get_nonzeros(lp), nzalloc = lp->matA->mat_alloc;
 
   /* Optimize memory usage if we have a very large model;
@@ -34016,7 +33462,7 @@ STATIC psrec *presolve_initpsrec(lprec *lp, int size)
   allocREAL(lp, &ps->neglower,  size, FALSE);
   allocINT(lp,  &ps->infcount,  size, FALSE);
 
-  ps->next = (int **) calloc(size, sizeof(**(ps->next)));
+  ps->next = g_new0 (int *, size);
 
   allocINT(lp,  &ps->plucount,  size, TRUE);
   allocINT(lp,  &ps->negcount,  size, TRUE);
@@ -34061,7 +33507,7 @@ STATIC presolverec *presolve_init(lprec *lp)
   MATrec      *mat = lp->matA;
   presolverec *psdata = NULL;
 
-  psdata = (presolverec *) calloc(1, sizeof(*psdata));
+  psdata = g_new0 (presolverec , 1);
 
   psdata->lp   = lp;
   psdata->rows = presolve_initpsrec(lp, nrows);
@@ -34180,7 +33626,7 @@ STATIC int presolve_makefree(presolverec *psdata)
     }
   }
 
-  /* Collect columns available for bound relaxation (find implied g_free variables)
+  /* Collect columns available for bound relaxation (find implied free variables)
      (consider sorting the list in decending order of column lengths or do call to
       COLAMD to maximize impact) */
   createLink(lp->columns, &colLL, NULL);
@@ -34403,7 +33849,7 @@ STATIC int presolve_rowdominance(presolverec *psdata, int *nCoeffChanged, int *n
   int      i, ii, ib, ie, n, jb, je, jx, *coldel = NULL, status = RUNNING, item,
            iCoeffChanged = 0, iRowRemoved = 0, iVarFixed = 0;
   gnm_float     ratio, *rowvalues = NULL;
-  QSORTrec *QS = (QSORTrec *) calloc(lp->rows+1, sizeof(*QS));
+  QSORTrec *QS = g_new0 (QSORTrec , lp->rows+1);
 
   /* Check if we were able to obtain working memory */
   if(QS == NULL)
@@ -34506,7 +33952,7 @@ STATIC int presolve_rowdominance(presolverec *psdata, int *nCoeffChanged, int *n
           jx = ROW_MAT_COLNR(jb);
           if(mat_findelm(mat, ii, jx) <= 0) {
 
-            /* Cancel if we detect a g_free or "quasi-g_free" variable */
+            /* Cancel if we detect a free or "quasi-free" variable */
             if((lp->orig_lowbo[lp->rows + jx] < 0) &&
                (lp->orig_upbo[lp->rows + jx] > 0)) {
               coldel[0] = -1;
@@ -34591,7 +34037,7 @@ STATIC int presolve_coldominance01(presolverec *psdata, int *nConRemoved, int *n
   int      i, ii, ib, ie, n, jb, je, jx, jj, item, item2,
            *coldel = NULL, status = RUNNING, iVarFixed = 0;
   gnm_float     scale, rhsval, *colvalues = NULL;
-  QSORTrec *QS = (QSORTrec *) calloc(lp->columns+1, sizeof(*QS));
+  QSORTrec *QS = g_new0 (QSORTrec , lp->columns+1);
 
   /* Check if we were able to obtain working memory */
   if(QS == NULL)
@@ -34765,7 +34211,7 @@ STATIC int presolve_aggregate(presolverec *psdata, int *nConRemoved, int *nVarsF
   int      i, ii, ib, ie, ix, n, jb, je, jx, jj, item, item2,
            *coldel = NULL, status = RUNNING, iVarFixed = 0;
   gnm_float     scale, *colvalues = NULL;
-  QSORTrec *QScand = (QSORTrec *) calloc(lp->columns+1, sizeof(*QScand));
+  QSORTrec *QScand = g_new0 (QSORTrec , lp->columns+1);
 
   /* Check if we were able to obtain working memory */
   if(QScand == NULL)
@@ -34862,7 +34308,7 @@ STATIC int presolve_aggregate(presolverec *psdata, int *nConRemoved, int *nVarsF
     if(coldel[0] > 1) {
       gnm_float     of, ofelim, fixvalue;
       gboolean   isint;
-      QSORTrec *QSagg = (QSORTrec *) calloc(coldel[0], sizeof(*QSagg));
+      QSORTrec *QSagg = g_new0 (QSORTrec , coldel[0]);
 
       for(jb = 1; jb <= coldel[0]; jb++) {
         ii = jb - 1;
@@ -34884,9 +34330,9 @@ STATIC int presolve_aggregate(presolverec *psdata, int *nConRemoved, int *nVarsF
 
              1) The first column has Inf upper bound, which means that it can
                 "absorb" compatible columns, which are then fixed at the appropriate
-                bounds (or zero in case of g_free variables).
+                bounds (or zero in case of free variables).
              2) The first column has a -Inf lower bound, and further columns are
-                Inf upper bounds, which means steps towards forming a g_free variable
+                Inf upper bounds, which means steps towards forming a free variable
                 can be made.
              3) The first column is a non-Inf upper bound, in which case the bounds
                 are summed into a helper variable and the variable simply deleted.
@@ -34981,7 +34427,7 @@ STATIC int presolve_makesparser(presolverec *psdata, int *nCoeffChanged, int *nC
            *nzidx = NULL, status = RUNNING, iObjChanged = 0, iCoeffChanged = 0, iConRemove = 0;
   gnm_float     test, ratio, value, valueEQ, *valptr;
   LLrec    *EQlist = NULL;
-  QSORTrec *QS = (QSORTrec *) calloc(lp->rows, sizeof(*QS));
+  QSORTrec *QS = g_new0 (QSORTrec , lp->rows);
 
   /* Check if we were able to obtain working memory */
   if((QS == NULL) || (psdata->rows->varmap->count == 0) || (psdata->EQmap->count == 0))
@@ -35370,7 +34816,7 @@ STATIC int presolve_columns(presolverec *psdata, int *nCoeffChanged, int *nConRe
 
 #if 0
     /* Merge OF-constraint column doubleton in equality constraint (if it has
-      not been captured by the singleton g_free variable rule above) */
+      not been captured by the singleton free variable rule above) */
     else if((countNZ == 1) && isOFNZ &&
              ((i = presolve_nextrow(psdata, j, &item)) >= 0) &&
              is_constr_type(lp, i = COL_MAT_ROWNR(i), EQ)) {
@@ -35496,10 +34942,10 @@ STATIC int presolve_freeandslacks(presolverec *psdata, int *nCoeffChanged, int *
     unbounded = my_infinite(lp, coeff_bl) && my_infinite(lp, coeff_bu);
     ix = lp->rows + j;
 
-    /* Eliminate singleton g_free variable and its associated constraint */
+    /* Eliminate singleton free variable and its associated constraint */
     if(impliedfree && unbounded &&
              presolve_impliedcolfix(psdata, i, j, TRUE)) {
-      report(lp, DETAILED, "presolve_freeandslacks: Eliminated g_free variable %s and row %s\n",
+      report(lp, DETAILED, "presolve_freeandslacks: Eliminated free variable %s and row %s\n",
                             get_col_name(lp, j), get_row_name(lp, i));
       presolve_rowremove(psdata, i, TRUE);
       iConRemove++;
@@ -35626,7 +35072,7 @@ STATIC int presolve_preparerows(presolverec *psdata, int *nBoundTighten, int *nS
     }
 
     /* Do bound (LHS) or constraint range (RHS) tightening if we will later identify
-      implied g_free variables (tends to produce degeneracy otherwise) */
+      implied free variables (tends to produce degeneracy otherwise) */
     if(impliedfree && (j > 1) && mat_validate(mat)){
 
       /* Look for opportunity to tighten constraint bounds (and check for feasibility again) */
@@ -35709,7 +35155,7 @@ STATIC int presolve_rows(presolverec *psdata, int *nCoeffChanged, int *nConRemov
        && (fabs(lp->orig_rhs[i]) < psdata->epsvalue)  /* .. and the current RHS is zero, */
        && ((psdata->rows->plucount[i] == 0) ||
            (psdata->rows->negcount[i] == 0))               /* .. and the parameter signs are all equal, */
-       && (psdata->rows->pluneg[i] == 0)                   /* .. and no (quasi) g_free variables, */
+       && (psdata->rows->pluneg[i] == 0)                   /* .. and no (quasi) free variables, */
        && (is_constr_type(lp, i, EQ)
 #ifdef FindImpliedEqualities
            || (fabs(lorhs-upsum) < psdata->epsvalue)  /* Convert to equalities */
@@ -36007,7 +35453,7 @@ STATIC int presolve(lprec *lp)
            is_presolve(lp, PRESOLVE_AGGREGATE))
           presolve_aggregate(psdata, &iConRemove, &iVarFixed, &iSum);
 
-        /* Eliminate g_free variables and implied slacks */
+        /* Eliminate free variables and implied slacks */
         if(presolve_statuscheck(psdata, &status) &&
 /*           !is_presolve(lp, PRESOLVE_ELIMEQ2) && */
            is_presolve(lp, PRESOLVE_IMPLIEDSLK | PRESOLVE_IMPLIEDFREE) && mat_validate(mat))
@@ -36039,7 +35485,7 @@ STATIC int presolve(lprec *lp)
         iSum = jjx;
 
 #if 0
-        /* Eliminate g_free variables and implied slacks */
+        /* Eliminate free variables and implied slacks */
         if(presolve_statuscheck(psdata, &status) &&
            is_presolve(lp, PRESOLVE_IMPLIEDSLK | PRESOLVE_IMPLIEDFREE) && mat_validate(mat))
           status = presolve_freeandslacks(psdata, &iCoeffChanged, &iConRemove, &iVarFixed, &iSum);
@@ -36741,7 +36187,7 @@ STATIC int addCandidateVar(pricerec *candidate, multirec *multi, findCompare_fun
 
     /* Define the target for storing the candidate;
        Case 1: List is full and we must discard the previously worst candidate
-       Case 2: List is not full and we simply use the next g_free position */
+       Case 2: List is not full and we simply use the next free position */
     if(multi->freeList[0] == 0)
       targetrec = (pricerec *) multi->sortedList[multi->used-1].self;
     else {
@@ -36830,7 +36276,7 @@ STATIC gboolean collectMinorVar(pricerec *candidate, multirec *longsteps, gboole
   if(!validSubstitutionVar(candidate))
     return( FALSE );
 
-  /* 2. If the g_free-list is empty we need to see if we have a better candidate,
+  /* 2. If the free-list is empty we need to see if we have a better candidate,
         and for this the candidate list has to be sorted by merit */
   if(!isbatch &&
      !longsteps->sorted && (longsteps->used > 1) &&
@@ -36894,7 +36340,7 @@ STATIC partialrec *partial_createBlocks(lprec *lp, gboolean isrow)
 {
   partialrec *blockdata;
 
-  blockdata = (partialrec *) calloc(1, sizeof(*blockdata));
+  blockdata = g_new0 (partialrec , 1);
   blockdata->lp = lp;
   blockdata->blockcount = 1;
   blockdata->blocknow = 1;
@@ -37895,7 +37341,7 @@ STATIC multirec *multi_create(lprec *lp, gboolean truncinf)
 {
   multirec *multi;
 
-  multi = (multirec *) calloc(1, sizeof(*multi));
+  multi = g_new0 (multirec , 1);
   if(multi != NULL) {
     multi->active = 1;
     multi->lp = lp;
@@ -38092,7 +37538,7 @@ STATIC gboolean multi_recompute(multirec *multi, int index, gboolean isphase2, g
   }
 
   /* Discard candidates entered earlier that now make the OF worsen, and
-     make sure that the released positions are added to the g_free list. */
+     make sure that the released positions are added to the free list. */
   n = index;
   while(n < multi->used) {
     i = ++multi->freeList[0];
@@ -39700,7 +39146,7 @@ static int CurtisReidScales(lprec *lp, gboolean _Advanced, gnm_float *FRowScale,
     FRowScale[row] = absvalue;
   }
 
- /* g_free temporary memory */
+ /* free temporary memory */
   FREE(RowSum);
   FREE(ColSum);
   FREE(RowCount);
@@ -42296,7 +41742,7 @@ Leave:
     lp_solve_set_mat(lp, 0, i, OrigObj[i]);
 #endif
 
-  /* ... and then g_free memory */
+  /* ... and then free memory */
   FREE(BestFeasSol);
   FREE(SubGrad);
   FREE(OrigObj);
@@ -42494,7 +41940,7 @@ STATIC SOSgroup *create_SOSgroup(lprec *lp)
 {
   SOSgroup *group;
 
-  group = (SOSgroup *) calloc(1, sizeof(*group));
+  group = g_new0 (SOSgroup , 1);
   group->lp = lp;
   group->sos_alloc = SOS_START_SIZE;
   group->sos_list = (SOSrec **) g_malloc((group->sos_alloc) * sizeof(*group->sos_list));
@@ -42593,7 +42039,7 @@ STATIC SOSrec *create_SOSrec(SOSgroup *group, char *name, int type, int priority
 {
   SOSrec *SOS;
 
-  SOS = (SOSrec *) calloc(1 , sizeof(*SOS));
+  SOS = g_new0 (SOSrec , 1 );
   SOS->parent = group;
   SOS->type = type;
   if(name == NULL)
@@ -42795,7 +42241,7 @@ STATIC gboolean delete_SOSrec(SOSgroup *group, int sosindex)
   }
 #endif
 
-  /* Delete and g_free the SOS record */
+  /* Delete and free the SOS record */
   if(abs(SOS_get_type(group, sosindex)) == 1)
     group->sos1_count--;
   free_SOSrec(group->sos_list[sosindex-1]);
@@ -43601,7 +43047,7 @@ static int SOS_fix_unmarked(SOSgroup *group, int sosindex, int variable, gnm_flo
     list = group->sos_list[sosindex-1]->members;
     n = list[0]+1;
 
-   /* Count the number of active and g_free SOS variables */
+   /* Count the number of active and free SOS variables */
     nn = list[n];
     for(i = 1; i <= nn; i++) {
       if(list[n+i] == 0)
@@ -43610,7 +43056,7 @@ static int SOS_fix_unmarked(SOSgroup *group, int sosindex, int variable, gnm_flo
     i--;
     i = nn - i;  /* Establish the number of unused slots */
 
-   /* Determine the g_free SOS variable window */
+   /* Determine the free SOS variable window */
     if(i == nn) {
       nLeft = 0;
       nRight = SOS_member_index(group, sosindex, variable);
@@ -43625,7 +43071,7 @@ static int SOS_fix_unmarked(SOSgroup *group, int sosindex, int variable, gnm_flo
 
     nRight += i;  /* Loop (nRight+1)..n */
 
-   /* Fix variables outside of the g_free SOS variable window */
+   /* Fix variables outside of the free SOS variable window */
     for(i = 1; i < n; i++)  {
      /* Skip the SOS variable window */
       if((i >= nLeft) && (i <= nRight))
@@ -43974,7 +43420,7 @@ static gboolean SOS_is_feasible(SOSgroup *group, int sosindex, gnm_float *soluti
 STATIC gboolean allocCHAR(lprec *lp, char **ptr, int size, gboolean clear)
 {
   if(clear == TRUE)
-    *ptr = (char *) calloc(size, sizeof(**ptr));
+    *ptr = g_new0 (char , size);
   else if(clear & AUTOMATIC) {
     *ptr = (char *) g_realloc(*ptr, size * sizeof(**ptr));
     if(clear & TRUE)
@@ -43993,7 +43439,7 @@ STATIC gboolean allocCHAR(lprec *lp, char **ptr, int size, gboolean clear)
 STATIC gboolean allocMYBOOL(lprec *lp, gboolean **ptr, int size, gboolean clear)
 {
   if(clear == TRUE)
-    *ptr = (gboolean *) calloc(size, sizeof(**ptr));
+    *ptr = g_new0 (gboolean , size);
   else if(clear & AUTOMATIC) {
     *ptr = (gboolean *) g_realloc(*ptr, size * sizeof(**ptr));
     if(clear & TRUE)
@@ -44012,7 +43458,7 @@ STATIC gboolean allocMYBOOL(lprec *lp, gboolean **ptr, int size, gboolean clear)
 STATIC gboolean allocINT(lprec *lp, int **ptr, int size, gboolean clear)
 {
   if(clear == TRUE)
-    *ptr = (int *) calloc(size, sizeof(**ptr));
+    *ptr = g_new0 (int , size);
   else if(clear & AUTOMATIC) {
     *ptr = (int *) g_realloc(*ptr, size * sizeof(**ptr));
     if(clear & TRUE)
@@ -44031,7 +43477,7 @@ STATIC gboolean allocINT(lprec *lp, int **ptr, int size, gboolean clear)
 STATIC gboolean allocREAL(lprec *lp, gnm_float **ptr, int size, gboolean clear)
 {
   if(clear == TRUE)
-    *ptr = (gnm_float *) calloc(size, sizeof(**ptr));
+    *ptr = g_new0 (gnm_float , size);
   else if(clear & AUTOMATIC) {
     *ptr = (gnm_float *) g_realloc(*ptr, size * sizeof(**ptr));
     if(clear & TRUE)
@@ -44050,7 +43496,7 @@ STATIC gboolean allocREAL(lprec *lp, gnm_float **ptr, int size, gboolean clear)
 STATIC gboolean allocLREAL(lprec *lp, LREAL **ptr, int size, gboolean clear)
 {
   if(clear == TRUE)
-    *ptr = (LREAL *) calloc(size, sizeof(**ptr));
+    *ptr = g_new0 (LREAL , size);
   else if(clear & AUTOMATIC) {
     *ptr = (LREAL *) g_realloc(*ptr, size * sizeof(**ptr));
     if(clear & TRUE)
@@ -44087,7 +43533,7 @@ gboolean is_biton(gboolean *bitarray, int item)
 STATIC workarraysrec *mempool_create(lprec *lp)
 {
   workarraysrec *temp;
-  temp = (workarraysrec *) calloc(1, sizeof(workarraysrec));
+  temp = g_new0 (workarraysrec , 1);
   temp->lp = lp;
   return( temp );
 }
@@ -44439,14 +43885,14 @@ STATIC int createLink(int size, LLrec **linkmap, gboolean *usedpos)
   int i, j;
   gboolean reverse;
 
-  *linkmap = (LLrec *) calloc(1, sizeof(**linkmap));
+  *linkmap = g_new0 (LLrec , 1);
   if(*linkmap == NULL)
     return( -1 );
 
   reverse = (gboolean) (size < 0);
   if(reverse)
     size = -size;
-  (*linkmap)->map = (int *) calloc(2*(size + 1), sizeof(int));
+  (*linkmap)->map = g_new0 (int , 2*(size + 1));
   if((*linkmap)->map == NULL)
     return( -1 );
 
@@ -44481,8 +43927,8 @@ STATIC gboolean freeLink(LLrec **linkmap)
     status = FALSE;
   else {
     if((*linkmap)->map != NULL)
-      g_free((*linkmap)->map);
-    g_free(*linkmap);
+      free((*linkmap)->map);
+    free(*linkmap);
     *linkmap = NULL;
   }
   return( status );

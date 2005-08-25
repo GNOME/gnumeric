@@ -1,3 +1,8 @@
+2005-08-25  Morten Welinder <terra@gnome.org>
+
+	* import-lpsolve: Delete more unused stuff.  Fix calloc calls.
+	Add <time.h>
+
 2005-08-24  Morten Welinder <terra@gnome.org>
 
 	* import-lpsolve: Make just about everything static and delete a
