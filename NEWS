@@ -6,6 +6,7 @@ Jean Brefort:
 Jody:
 	* Fix lost background colours. [#314207 and others]
 	* Add some drag handles for graphicly creating frozen panes.
+	* Fix sheetview confusion.  [#314208]
 
 Morten:
 	* Fix harmless, but ugly, error message on xls save.
