@@ -70,7 +70,7 @@ paradox_file_open (GOFileOpener const *fo, IOContext *io_context,
 	pxdoc = PX_new2(gn_errorhandler, gn_malloc, gn_realloc, gn_free);
 	if (PX_open_gsf (pxdoc, input) < 0) {
 		gnumeric_io_error_info_set (io_context, error_info_new_str_with_details (
-		                            _("Error while opening paradox file."),
+		                            _("Error while opening Paradox file."),
 		                            open_error));
 		return;
 	}
@@ -119,7 +119,7 @@ paradox_file_open (GOFileOpener const *fo, IOContext *io_context,
 
 	if((data = (char *) pxdoc->malloc(pxdoc, pxh->px_recordsize, _("Could not allocate memory for record."))) == NULL) {
 		gnumeric_io_error_info_set (io_context, error_info_new_str_with_details (
-		                            _("Error while opening paradox file."),
+		                            _("Error while opening Paradox file."),
 		                            open_error));
 		return;
 	}

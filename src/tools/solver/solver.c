@@ -499,7 +499,7 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 	}
 	if (alg->set_option_fn (program, SolverOptMaxTimeSec, NULL, &start_time,
 				&(param->options.max_time_sec))) {
-		*errmsg = _("Failure setting setting the maximum solving time with this solver, try a different algorithm.");
+		*errmsg = _("Failure setting the maximum solving time with this solver, try a different algorithm.");
 		solver_results_free (res);
 	        return NULL;
 	}

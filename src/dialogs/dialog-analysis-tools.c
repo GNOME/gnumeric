@@ -1043,7 +1043,7 @@ desc_stat_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	/* Checking Statistics Page */
 	if (!(stats_button || ci_button || largest_button || smallest_button)) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
-				    _("No statistics is selected."));
+				    _("No statistics are selected."));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;		
 	} 

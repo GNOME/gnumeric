@@ -1700,7 +1700,7 @@ static GtkActionEntry const actions[] = {
 		"<control>F3", N_("Edit sheet and workbook names"),
 		G_CALLBACK (cb_define_name) },
 	{ "PasteNames", GTK_STOCK_PASTE, NULL,
-		"F3", N_("Paste the definition a name, or names"),
+		"F3", N_("Paste the definition of a name or names"),
 		G_CALLBACK (cb_paste_names) },
 #if 0
 	{ "EditGenerateName", NULL,  N_("_Auto generate names..."),

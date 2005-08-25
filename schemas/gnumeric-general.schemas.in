@@ -219,7 +219,7 @@
 	<default>200</default>
         <locale name="C">
         <short>Auto Expression Recalculation Lag</short>
-        <long>If `lag' is 0, gnumeric recalculates all auto expressions immediately after every change.  Non-zero values of `lag' allow gnumeric to acumulate more changes before each recalculation.
+        <long>If `lag' is 0, gnumeric recalculates all auto expressions immediately after every change.  Non-zero values of `lag' allow gnumeric to accumulate more changes before each recalculation.
 If `lag' is positive, then whenever a change appears, gnumeric waits `lag'
 milleseconds and then recalculates; if more changes appear during that period,
 they are also processed at that time. If `lag' is negative, then recalculation happens only after a quiet period of

@@ -544,12 +544,12 @@ solver_performance_report (WorkbookControl *wbc,
 	case SolverMaxIterExc:
 	        dao_set_cell (&dao, 2, 7, 
 			      _("Maximum number of iterations "
-				"exceeded: optimization interupted"));
+				"exceeded: optimization interrupted"));
 		break;
 	case SolverMaxTimeExc:
 	        dao_set_cell (&dao, 2, 7, 
 			      _("Maximum time exceeded: optimization "
-				"interupted"));
+				"interrupted"));
 		break;
 	default:
 	        /* This should never occur. */

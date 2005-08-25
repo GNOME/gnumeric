@@ -433,7 +433,7 @@
 			  <child>
 			    <widget class="GtkButton" id="sheet_bottom">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Move the selected sheet to the end of the list of to be exported exported sheets to be exported last.</property>
+			      <property name="tooltip" translatable="yes">Move the selected sheet to the end of the list of to be exported sheets to be exported last.</property>
 			      <property name="can_focus">True</property>
 			      <property name="label">gtk-goto-bottom</property>
 			      <property name="use_stock">True</property>
