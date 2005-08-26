@@ -22,6 +22,7 @@ Morten:
 	* Fix crash related to changing colours of sheet tabs.
 	* Fix rich text editing problem.  [#314209]
 	* Be consistent about dialog separators.  [#314306]
+	* Fix print problem with page numbers.  [#314520]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.3

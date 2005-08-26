@@ -1017,7 +1017,7 @@ print_sheet_range (PrintJobInfo *pj, Sheet const *sheet,
 
 /*
  * code to count the number of pages that will be printed.
- * Unfortuantely a lot of data here is caclualted again when you
+ * Unfortuantely a lot of data here is calculated again when you
  * actually print the page ...
  */
 
@@ -1263,6 +1263,7 @@ dialog_response (GtkDialog *dialog, gint id,
 	switch (id) {
 	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
 	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
+		state->pj->render_info->page = 1;
 		state->sheet = wbcg_cur_sheet (state->wbcg);
 		range = gnome_print_dialog_get_range_page (
 			GNOME_PRINT_DIALOG (state->dialog), &first, &end);
