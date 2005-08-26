@@ -9,10 +9,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.3.1\n"
+"Project-Id-Version: gnumeric 1.5.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-12 11:12-0500\n"
-"PO-Revision-Date: 2004-12-16 09:27-0500\n"
+"POT-Creation-Date: 2005-08-26 23:11+0200\n"
+"PO-Revision-Date: 2005-08-26 23:11+0200\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: plugins/derivatives/options.c:160
+#, no-c-format
 msgid ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
@@ -231,6 +232,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:474
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_VEGA\n"
 "@SYNTAX=OPT_BS_VEGA(spot,strike,time,rate,volatility[,cost_of_carry])\n"
@@ -278,6 +280,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:547
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_RHO\n"
 "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -327,6 +330,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:614
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_CARRYCOST\n"
 "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -381,6 +385,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:687
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
 "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domestic_rate,"
@@ -429,6 +434,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:759
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FRENCH\n"
 "@SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,volatility[,"
@@ -477,6 +483,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:824
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_JUMP_DIFF\n"
 "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,lambda,"
@@ -500,9 +507,9 @@ msgstr ""
 "@FUNCTION=OPT_BJER_STENS\n"
 "@SYNTAX=OPT_BJER_STENS(call_ou_put;prix;valeur;durée;taux;volatilité[;"
 "coût_de_détention])\n"
-"@DESCRIPTION=OPT_BJER_STENS utilise l'approximation de Bjerksund et Stensland "
-"pour calculer le prix d'une option Américaine de valeur @valeur sur un titre "
-"valant @prix.\n"
+"@DESCRIPTION=OPT_BJER_STENS utilise l'approximation de Bjerksund et "
+"Stensland pour calculer le prix d'une option Américaine de valeur @valeur "
+"sur un titre valant @prix.\n"
 "\n"
 "@call_ou_put vaut 'c' ou 'p' pour indiquer le type d'option.\n"
 "@durée est la durée avant échéance, exprimée en jours.\n"
@@ -530,7 +537,7 @@ msgid ""
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
 "@p_t is a zero coupon bond with expiry at option maturity.\n"
-"@f_t is is the futures price.\n"
+"@f_t is the futures price.\n"
 "@x is is the strike price.\n"
 "@t1 is the time to maturity of the option.\n"
 "@t2 is the time to maturity of the underlying commodity futures contract.\n"
@@ -552,6 +559,7 @@ msgid ""
 msgstr ""
 
 #: plugins/derivatives/options.c:1034
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_RGW\n"
 "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)\n"
@@ -583,6 +591,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1091
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BAW_AMER\n"
 "@SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,cost_of_carry,"
@@ -594,7 +603,7 @@ msgid ""
 "@spot is the spot price of the underlying asset.\n"
 "@strike is the strike price at which the option is struck.\n"
 "@time is the number of days to maturity of the option.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
@@ -626,6 +635,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1277
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BJER_STENS\n"
 "@SYNTAX=OPT_BJER_STENS(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -637,7 +647,7 @@ msgid ""
 "@spot is the spot price of the underlying asset.\n"
 "@strike is the strike price at which the option is struck.\n"
 "@time is the number of days to maturity of the option.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
@@ -649,9 +659,9 @@ msgstr ""
 "@FUNCTION=OPT_BJER_STENS\n"
 "@SYNTAX=OPT_BJER_STENS(call_ou_put;prix;valeur;durée;taux;volatilité[;"
 "coût_de_détention])\n"
-"@DESCRIPTION=OPT_BJER_STENS utilise l'approximation de Bjerksund et Stensland "
-"pour calculer le prix d'une option Américaine de valeur @valeur sur un titre "
-"valant @prix.\n"
+"@DESCRIPTION=OPT_BJER_STENS utilise l'approximation de Bjerksund et "
+"Stensland pour calculer le prix d'une option Américaine de valeur @valeur "
+"sur un titre valant @prix.\n"
 "\n"
 "@call_ou_put vaut 'c' ou 'p' pour indiquer le type d'option.\n"
 "@durée est la durée avant échéance, exprimée en jours.\n"
@@ -669,6 +679,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1364
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXEC\n"
 "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
@@ -680,7 +691,7 @@ msgid ""
 "@spot is the spot price of the underlying asset.\n"
 "@strike is the strike price at which the option is struck.\n"
 "@time is the number of days to maturity of the option.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
@@ -716,6 +727,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1415
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FORWARD_START\n"
 "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,"
@@ -728,7 +740,7 @@ msgid ""
 "@alpha is a fraction that set the strike price the future date @time1.\n"
 "@time1 is the number of days until the option starts.\n"
 "@time is the number of days to maturity of the option.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
@@ -760,6 +772,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1481
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_TIME_SWITCH\n"
 "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
@@ -777,7 +790,7 @@ msgid ""
 "@m is the number of time units the option has already met the condition.\n"
 "@dt is the agreed upon discrete time period (often a day) expressed as a "
 "fraction of a year.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
 "@EXAMPLES=\n"
@@ -807,6 +820,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1541
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
 "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,rate,"
@@ -820,7 +834,7 @@ msgid ""
 "@time1 is the time in years until the holder chooses a put or a call "
 "option.\n"
 "@time2 is the time in years until the the chosen option expires.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
 "@EXAMPLES=\n"
@@ -854,6 +868,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1605
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
 "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,strike_put,time,"
@@ -871,7 +886,7 @@ msgid ""
 "option. \n"
 "@time_call is the time in years to maturity of the call option if chosen.\n"
 "@time_put is the time in years  to maturity of the put option if chosen.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
@@ -907,6 +922,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1723
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_ON_OPTIONS\n"
 "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,"
@@ -921,7 +937,7 @@ msgid ""
 "@time1 is the time in years to maturity of the option.\n"
 "@time2 is the time in years to the maturity of the underlying option.\n"
 "(@time2 >= @time1).\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset of the "
 "underlying option.for common stocks, this would be the dividend yield.\n"
 "@volatility is the annualized volatility in price of the underlying asset of "
@@ -958,6 +974,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1811
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
 "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,"
@@ -974,7 +991,7 @@ msgid ""
 "money at @time1.\n"
 "@time1 is the initial maturity of the option in years.\n"
 "@time2 is the is the extended maturity in years if chosen.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
@@ -1006,6 +1023,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1876
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_2_ASSET_CORRELATION\n"
 "@SYNTAX=OPT_2_ASSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
@@ -1021,7 +1039,7 @@ msgid ""
 "@spot1 & @spot2 are the spot prices of the underlying assets.\n"
 "@strike1 & @strike2 are the strike prices at which the option is struck.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying "
 "assets, for common stocks, this would be the dividend yield.\n"
 "@volatility1 & @volatility2 are the annualized volatility in price of the "
@@ -1054,6 +1072,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1932
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_EURO_EXCHANGE\n"
 "@SYNTAX=OPT_EURO_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,"
@@ -1062,7 +1081,7 @@ msgid ""
 "option to exchange one asset with quantity @qty2 and spot price @spot2 for "
 "another, with quantity @qty1 and spot price @spot1.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying "
 "assets, for common stocks, this would be the dividend yield.\n"
 "@volatility1 & @volatility2 are the annualized volatility in price of the "
@@ -1097,6 +1116,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1978
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_AMER_EXCHANGE\n"
 "@SYNTAX=OPT_AMER_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,"
@@ -1105,7 +1125,7 @@ msgid ""
 "option to exchange one asset with quantity @qty2 and spot price @spot2 for "
 "another, with quantity @qty1 and spot price @spot1.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying "
 "assets, for common stocks, this would be the dividend yield.\n"
 "@volatility1 & @volatility2 are the annualized volatility in price of the "
@@ -1140,6 +1160,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:2025
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_SPREAD_APPROX\n"
 "@SYNTAX=OPT_SPREAD_APPROX(call_put_flag,fut_price1,fut_price2,strike,time, "
@@ -1151,7 +1172,7 @@ msgid ""
 "@fut_price1 & @fut_price2 are the prices of the two futures contracts.\n"
 "@strike is the strike price at which the option is struck \n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@volatility1 & @volatility2 are the annualized volatility in price of the "
 "underlying futures contracts.\n"
 "@rho is the correlation between the two futures contracts.\n"
@@ -1163,9 +1184,9 @@ msgstr ""
 "@FUNCTION=OPT_BJER_STENS\n"
 "@SYNTAX=OPT_BJER_STENS(call_ou_put;prix;valeur;durée;taux;volatilité[;"
 "coût_de_détention])\n"
-"@DESCRIPTION=OPT_BJER_STENS utilise l'approximation de Bjerksund et Stensland "
-"pour calculer le prix d'une option Américaine de valeur @valeur sur un titre "
-"valant @prix.\n"
+"@DESCRIPTION=OPT_BJER_STENS utilise l'approximation de Bjerksund et "
+"Stensland pour calculer le prix d'une option Américaine de valeur @valeur "
+"sur un titre valant @prix.\n"
 "\n"
 "@call_ou_put vaut 'c' ou 'p' pour indiquer le type d'option.\n"
 "@durée est la durée avant échéance, exprimée en jours.\n"
@@ -1182,7 +1203,8 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: plugins/derivatives/options.c:2081
+#: plugins/derivatives/options.c:2082
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
 "@SYNTAX=OPT_FLOAT_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,time,rate,"
@@ -1198,7 +1220,7 @@ msgid ""
 "@spot_max is the maximum spot price of the underlying asset so far "
 "observed.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
@@ -1229,7 +1251,8 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: plugins/derivatives/options.c:2149
+#: plugins/derivatives/options.c:2152
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
 "@SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,strike,time,"
@@ -1246,7 +1269,7 @@ msgid ""
 "observed.\n"
 "@strike is the strike prices at which the option is struck.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
@@ -1277,7 +1300,8 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: plugins/derivatives/options.c:2233
+#: plugins/derivatives/options.c:2236
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BINOMIAL\n"
 "@SYNTAX=OPT_BINOMIAL(amer_euro_flag,call_put_flag,num_time_steps, spot, "
@@ -1294,7 +1318,7 @@ msgid ""
 "@spot is the spot price of the underlying asset.\n"
 "@strike is the strike price at which the option is struck.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualized free rate of interest.\n"
+"@rate is the annualized risk-free rate of interest.\n"
 "@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset.\n"
 "\n"
@@ -1305,9 +1329,9 @@ msgstr ""
 "@FUNCTION=OPT_BJER_STENS\n"
 "@SYNTAX=OPT_BJER_STENS(call_ou_put;prix;valeur;durée;taux;volatilité[;"
 "coût_de_détention])\n"
-"@DESCRIPTION=OPT_BJER_STENS utilise l'approximation de Bjerksund et Stensland "
-"pour calculer le prix d'une option Américaine de valeur @valeur sur un titre "
-"valant @prix.\n"
+"@DESCRIPTION=OPT_BJER_STENS utilise l'approximation de Bjerksund et "
+"Stensland pour calculer le prix d'une option Américaine de valeur @valeur "
+"sur un titre valant @prix.\n"
 "\n"
 "@call_ou_put vaut 'c' ou 'p' pour indiquer le type d'option.\n"
 "@durée est la durée avant échéance, exprimée en jours.\n"
@@ -3192,11 +3216,12 @@ msgstr ""
 "@SEEALSO=DSUM"
 
 #: plugins/fn-database/functions.c:810
+#, fuzzy
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
 "@DESCRIPTION=DSTDEV function returns the estimate of the standard deviation "
-"of a population based on a sample. The populations consists of numbers that "
+"of a population based on a sample. The population consists of numbers that "
 "match conditions specified.\n"
 "\n"
 "@database is a range of cells in which rows of related information are "
@@ -3289,11 +3314,12 @@ msgstr ""
 "@SEEALSO=DSTDEVP"
 
 #: plugins/fn-database/functions.c:886
+#, fuzzy
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
 "@DESCRIPTION=DSTDEVP function returns the standard deviation of a population "
-"based on the entire populations. The populations consists of numbers that "
+"based on the entire population. The population consists of numbers that "
 "match conditions specified.\n"
 "\n"
 "@database is a range of cells in which rows of related information are "
@@ -3481,11 +3507,12 @@ msgstr ""
 "@SEEALSO=DPRODUCT"
 
 #: plugins/fn-database/functions.c:1038
+#, fuzzy
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
 "@DESCRIPTION=DVAR function returns the estimate of variance of a population "
-"based on a sample. The populations consists of numbers that match conditions "
+"based on a sample. The population consists of numbers that match conditions "
 "specified.\n"
 "\n"
 "@database is a range of cells in which rows of related information are "
@@ -3578,11 +3605,12 @@ msgstr ""
 "@SEEALSO=DVARP"
 
 #: plugins/fn-database/functions.c:1114
+#, fuzzy
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
 "@DESCRIPTION=DVARP function returns the variance of a population based on "
-"the entire populations. The populations consists of numbers that match "
+"the entire population. The population consists of numbers that match "
 "conditions specified.\n"
 "\n"
 "@database is a range of cells in which rows of related information are "
@@ -3903,13 +3931,14 @@ msgstr ""
 "@SEEALSO=NOW"
 
 #: plugins/fn-date/functions.c:465
+#, fuzzy
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
 "@DESCRIPTION=NOW returns the serial number for the date and time at the time "
 "it is evaluated.\n"
 "\n"
-"Serial Numbers in Gnumeric are represented as follows:The integral part is "
+"Serial Numbers in Gnumeric are represented as follows: The integral part is "
 "the number of days since the 1st of January of 1900.  The decimal part "
 "represent the fraction of the day and is mapped into hour, minutes and "
 "seconds.\n"
@@ -5285,11 +5314,12 @@ msgstr ""
 "@SEEALSO=EXACT,GESTEP"
 
 #: plugins/fn-eng/functions.c:1274
+#, fuzzy
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
-"@DESCRIPTION=GESTEP function test for if @x is >= @y, returning 1 if it is "
-"so, and 0 otherwise. @y is optional, and defaults to 0.\n"
+"@DESCRIPTION=GESTEP function tests if @x is >= @y, returning 1 if it is so, "
+"and 0 otherwise. @y is optional, and defaults to 0.\n"
 "\n"
 "* If either argument is non-numeric returns a #VALUE! error.\n"
 "* This function is Excel compatible.\n"
@@ -5327,7 +5357,7 @@ msgid ""
 "@SEEALSO=HARMEAN"
 msgstr ""
 
-#: plugins/fn-erlang/functions.c:121
+#: plugins/fn-erlang/functions.c:107
 msgid ""
 "@FUNCTION=PROBBLOCK\n"
 "@SYNTAX=PROBBLOCK(traffic,circuits)\n"
@@ -5342,7 +5372,7 @@ msgid ""
 "@SEEALSO=OFFTRAF, DIMCIRC, OFFCAP"
 msgstr ""
 
-#: plugins/fn-erlang/functions.c:153
+#: plugins/fn-erlang/functions.c:139
 msgid ""
 "@FUNCTION=OFFTRAF\n"
 "@SYNTAX=OFFTRAF(traffic,circuits)\n"
@@ -5358,7 +5388,7 @@ msgid ""
 "@SEEALSO=PROBBLOCK, DIMCIRC, OFFCAP"
 msgstr ""
 
-#: plugins/fn-erlang/functions.c:222
+#: plugins/fn-erlang/functions.c:208
 msgid ""
 "@FUNCTION=DIMCIRC\n"
 "@SYNTAX=DIMCIRC(traffic,gos)\n"
@@ -5371,7 +5401,7 @@ msgid ""
 "@SEEALSO=OFFCAP, OFFTRAF, PROBBLOCK"
 msgstr ""
 
-#: plugins/fn-erlang/functions.c:267
+#: plugins/fn-erlang/functions.c:253
 msgid ""
 "@FUNCTION=OFFCAP\n"
 "@SYNTAX=OFFCAP(circuits,gos)\n"
@@ -5384,7 +5414,7 @@ msgid ""
 "@SEEALSO=DIMCIRC, OFFTRAF, PROBBLOCK"
 msgstr ""
 
-#: plugins/fn-financial/functions.c:305
+#: plugins/fn-financial/functions.c:306
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
@@ -5453,7 +5483,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACCRINTM"
 
-#: plugins/fn-financial/functions.c:394
+#: plugins/fn-financial/functions.c:395
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -5507,7 +5537,8 @@ msgstr ""
 "\n"
 "@SEEALSO=ACCRINTM"
 
-#: plugins/fn-financial/functions.c:452
+#: plugins/fn-financial/functions.c:453
+#, fuzzy
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -5515,7 +5546,7 @@ msgid ""
 "vested security.\n"
 "\n"
 "@settlement is the settlement date of the security.  @maturity is the "
-"maturity date of the security. @investment is the prize of the security paid "
+"maturity date of the security. @investment is the price of the security paid "
 "at @settlement date and @redemption is the amount to be received at "
 "@maturity date.\n"
 "\n"
@@ -5565,7 +5596,7 @@ msgstr ""
 "ou 6.48%\n"
 "@SEEALSO=RECEIVED, DATE"
 
-#: plugins/fn-financial/functions.c:517
+#: plugins/fn-financial/functions.c:518
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
@@ -5614,7 +5645,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RECEIVED, DATE"
 
-#: plugins/fn-financial/functions.c:579
+#: plugins/fn-financial/functions.c:580
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
@@ -5665,7 +5696,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEDISC"
 
-#: plugins/fn-financial/functions.c:636
+#: plugins/fn-financial/functions.c:637
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
@@ -5716,7 +5747,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEDISC"
 
-#: plugins/fn-financial/functions.c:700
+#: plugins/fn-financial/functions.c:701
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
@@ -5767,7 +5798,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEDISC"
 
-#: plugins/fn-financial/functions.c:756
+#: plugins/fn-financial/functions.c:757
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -5818,7 +5849,7 @@ msgstr ""
 "de votre crédit.\n"
 "@SEEALSO=NOMINAL"
 
-#: plugins/fn-financial/functions.c:806
+#: plugins/fn-financial/functions.c:807
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -5856,7 +5887,7 @@ msgstr ""
 "* Si @nper <= 0, NOMINAL renvoie #NUM!\n"
 "@SEEALSO=EFFECT"
 
-#: plugins/fn-financial/functions.c:847
+#: plugins/fn-financial/functions.c:848
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -5877,7 +5908,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV"
 
-#: plugins/fn-financial/functions.c:887
+#: plugins/fn-financial/functions.c:888
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -5912,7 +5943,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DDB,SLN,SYD"
 
-#: plugins/fn-financial/functions.c:951
+#: plugins/fn-financial/functions.c:952
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -5945,7 +5976,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SLN,SYD"
 
-#: plugins/fn-financial/functions.c:1007
+#: plugins/fn-financial/functions.c:1008
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -5989,7 +6020,8 @@ msgstr ""
 "\n"
 "@SEEALSO=SYD"
 
-#: plugins/fn-financial/functions.c:1060
+#: plugins/fn-financial/functions.c:1061
+#, fuzzy
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -5998,7 +6030,7 @@ msgid ""
 "particular period. This method accelerates the rate of the depreciation, so "
 "that more depreciation expense occurs in earlier periods than in later ones. "
 "The depreciable cost is the actual cost minus the salvage value. The useful "
-"life is the number of periods (typically years) over with the asset is "
+"life is the number of periods (typically years) over which the asset is "
 "depreciated.\n"
 "\n"
 "The Formula used for sum-of-years digits depreciation is:\n"
@@ -6044,7 +6076,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SLN"
 
-#: plugins/fn-financial/functions.c:1121
+#: plugins/fn-financial/functions.c:1122
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -6074,7 +6106,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARFR"
 
-#: plugins/fn-financial/functions.c:1168
+#: plugins/fn-financial/functions.c:1169
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -6101,7 +6133,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARDE"
 
-#: plugins/fn-financial/functions.c:1212
+#: plugins/fn-financial/functions.c:1213
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
@@ -6119,7 +6151,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV"
 
-#: plugins/fn-financial/functions.c:1275
+#: plugins/fn-financial/functions.c:1276
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -6154,7 +6186,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 
-#: plugins/fn-financial/functions.c:1326
+#: plugins/fn-financial/functions.c:1327
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -6182,7 +6214,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 
-#: plugins/fn-financial/functions.c:1372
+#: plugins/fn-financial/functions.c:1373
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -6211,7 +6243,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 
-#: plugins/fn-financial/functions.c:1418
+#: plugins/fn-financial/functions.c:1419
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -6239,7 +6271,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,FV,PMT"
 
-#: plugins/fn-financial/functions.c:1532
+#: plugins/fn-financial/functions.c:1533
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -6278,7 +6310,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FV,NPV,PV"
 
-#: plugins/fn-financial/functions.c:1658
+#: plugins/fn-financial/functions.c:1667
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -6307,7 +6339,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FV"
 
-#: plugins/fn-financial/functions.c:1702
+#: plugins/fn-financial/functions.c:1711
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -6331,7 +6363,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,XNPV"
 
-#: plugins/fn-financial/functions.c:1758
+#: plugins/fn-financial/functions.c:1762
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -6360,7 +6392,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV,PV"
 
-#: plugins/fn-financial/functions.c:1821
+#: plugins/fn-financial/functions.c:1825
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -6404,7 +6436,7 @@ msgstr ""
 "XIRR(A1:A5;B1:B5) renvoie 0,224838.\n"
 "@SEEALSO=IRR,XNPV"
 
-#: plugins/fn-financial/functions.c:1931
+#: plugins/fn-financial/functions.c:1935
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt[,pv,type])\n"
@@ -6436,7 +6468,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: plugins/fn-financial/functions.c:1971
+#: plugins/fn-financial/functions.c:1975
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -6470,7 +6502,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FV"
 
-#: plugins/fn-financial/functions.c:2011
+#: plugins/fn-financial/functions.c:2015
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv[,fv,type])\n"
@@ -6510,7 +6542,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: plugins/fn-financial/functions.c:2064
+#: plugins/fn-financial/functions.c:2068
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -6552,7 +6584,8 @@ msgstr ""
 "\n"
 "@SEEALSO=IPMT,PV,FV"
 
-#: plugins/fn-financial/functions.c:2116
+#: plugins/fn-financial/functions.c:2120
+#, fuzzy
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv[,fv,type])\n"
@@ -6568,8 +6601,8 @@ msgid ""
 "\n"
 "@EXAMPLES=\n"
 "For example, if you deposit $10,000 in a savings account that earns an "
-"interest rate of 6%. To calculate home many years it will take to double "
-"your investment use NPER as follows:\n"
+"interest rate of 6%. To calculate how many years it will take to double your "
+"investment use NPER as follows:\n"
 "=NPER(0.06, 0, -10000, 20000,0)returns 11.895661046 which indicates that you "
 "can double your money just before the end of the 12th year.\n"
 "@SEEALSO=PPMT,PV,FV"
@@ -6592,7 +6625,7 @@ msgstr ""
 "l'aurez doublé juste avant la fin de la douzième année.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: plugins/fn-financial/functions.c:2173
+#: plugins/fn-financial/functions.c:2177
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(settlement,maturity,coup,yield,frequency[,basis])\n"
@@ -6643,7 +6676,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2235
+#: plugins/fn-financial/functions.c:2239
 msgid ""
 "@FUNCTION=G_DURATION\n"
 "@SYNTAX=G_DURATION(rate,pv,fv)\n"
@@ -6675,7 +6708,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: plugins/fn-financial/functions.c:2279
+#: plugins/fn-financial/functions.c:2283
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -6701,7 +6734,7 @@ msgstr ""
 "FVSCHEDULE(3000;A1:A5) vaut 4942,7911611.\n"
 "@SEEALSO=PV,FV"
 
-#: plugins/fn-financial/functions.c:2326
+#: plugins/fn-financial/functions.c:2330
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -6757,7 +6790,7 @@ msgstr ""
 "EURO(\"DEM\") vaut 1,95583.\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2436
+#: plugins/fn-financial/functions.c:2440
 msgid ""
 "@FUNCTION=EUROCONVERT\n"
 "@SYNTAX=EUROCONVERT(n,source,target)\n"
@@ -6812,7 +6845,7 @@ msgstr ""
 "EUROCONVERT(2,1;\"DEM\",\"EUR\") vaut 1,07.\n"
 "@SEEALSO=EURO"
 
-#: plugins/fn-financial/functions.c:2486
+#: plugins/fn-financial/functions.c:2490
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,[frequency,basis])\n"
@@ -6861,7 +6894,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2553
+#: plugins/fn-financial/functions.c:2557
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settlement,maturity,rate,price,redemption_price,frequency[,"
@@ -6911,7 +6944,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2676
+#: plugins/fn-financial/functions.c:2680
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -6960,12 +6993,13 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2740
+#: plugins/fn-financial/functions.c:2744
+#, fuzzy
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
 "@DESCRIPTION=YIELDMAT calculates the annual yield of a security for which "
-"the interest is payed at maturity date.\n"
+"the interest is paid at maturity date.\n"
 "\n"
 "@settlement is the settlement date of the security. @maturity is the "
 "maturity date of the security. @issue is the issue date of the security. "
@@ -7009,7 +7043,7 @@ msgstr ""
 "\n"
 "@SEEALSO=YIELDDISC"
 
-#: plugins/fn-financial/functions.c:2795
+#: plugins/fn-financial/functions.c:2799
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -7066,7 +7100,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2952
+#: plugins/fn-financial/functions.c:2956
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -7121,7 +7155,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:3063
+#: plugins/fn-financial/functions.c:3067
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -7176,7 +7210,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:3157
+#: plugins/fn-financial/functions.c:3161
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -7231,7 +7265,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:3251
+#: plugins/fn-financial/functions.c:3255
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -7296,7 +7330,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AMORLINC"
 
-#: plugins/fn-financial/functions.c:3317
+#: plugins/fn-financial/functions.c:3321
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -7357,7 +7391,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AMORDEGRC"
 
-#: plugins/fn-financial/functions.c:3378
+#: plugins/fn-financial/functions.c:3382
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis,eom])\n"
@@ -7417,7 +7451,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:3426
+#: plugins/fn-financial/functions.c:3430
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
@@ -7476,7 +7510,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:3475
+#: plugins/fn-financial/functions.c:3479
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
@@ -7533,7 +7567,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:3523
+#: plugins/fn-financial/functions.c:3527
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -7591,7 +7625,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:3572
+#: plugins/fn-financial/functions.c:3576
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -7650,7 +7684,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:3622
+#: plugins/fn-financial/functions.c:3626
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
@@ -7706,7 +7740,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:3666
+#: plugins/fn-financial/functions.c:3670
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -7741,7 +7775,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV"
 
-#: plugins/fn-financial/functions.c:3719
+#: plugins/fn-financial/functions.c:3723
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -7777,7 +7811,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:3772
+#: plugins/fn-financial/functions.c:3776
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -7827,7 +7861,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:3833
+#: plugins/fn-financial/functions.c:3837
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -7862,7 +7896,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DB"
 
-#: plugins/fn-info/functions.c:66
+#: plugins/fn-info/functions.c:67
 msgid ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL(type,ref)\n"
@@ -7907,7 +7941,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1168
+#: plugins/fn-info/functions.c:1171
 msgid ""
 "@FUNCTION=EXPRESSION\n"
 "@SYNTAX=EXPRESSION(cell)\n"
@@ -7930,7 +7964,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TEXT"
 
-#: plugins/fn-info/functions.c:1214
+#: plugins/fn-info/functions.c:1217
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -7954,7 +7988,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT"
 
-#: plugins/fn-info/functions.c:1261
+#: plugins/fn-info/functions.c:1264
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO(type)\n"
@@ -8000,7 +8034,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1367
+#: plugins/fn-info/functions.c:1372
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(value)\n"
@@ -8023,7 +8057,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ERROR"
 
-#: plugins/fn-info/functions.c:1392
+#: plugins/fn-info/functions.c:1397
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(value)\n"
@@ -8046,7 +8080,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1421
+#: plugins/fn-info/functions.c:1426
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
@@ -8070,7 +8104,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1447
+#: plugins/fn-info/functions.c:1452
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR.TYPE(value)\n"
@@ -8108,7 +8142,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISERROR"
 
-#: plugins/fn-info/functions.c:1489
+#: plugins/fn-info/functions.c:1494
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -8131,7 +8165,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1514
+#: plugins/fn-info/functions.c:1519
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -8150,7 +8184,7 @@ msgstr ""
 "ERROR(\"#MON ERREUR!\")\n"
 "@SEEALSO=ISERROR"
 
-#: plugins/fn-info/functions.c:1538
+#: plugins/fn-info/functions.c:1543
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(value)\n"
@@ -8172,7 +8206,7 @@ msgstr ""
 "ISBLANK(A1)\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1563
+#: plugins/fn-info/functions.c:1568
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(value)\n"
@@ -8194,7 +8228,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISODD"
 
-#: plugins/fn-info/functions.c:1588
+#: plugins/fn-info/functions.c:1593
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(value)\n"
@@ -8217,7 +8251,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1613
+#: plugins/fn-info/functions.c:1618
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(value)\n"
@@ -8241,7 +8275,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTEXT"
 
-#: plugins/fn-info/functions.c:1638
+#: plugins/fn-info/functions.c:1643
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -8264,7 +8298,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1664
+#: plugins/fn-info/functions.c:1669
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(value)\n"
@@ -8286,7 +8320,7 @@ msgstr ""
 "ISODD(3) renvoie VRAI\n"
 "@SEEALSO=ISEVEN"
 
-#: plugins/fn-info/functions.c:1689
+#: plugins/fn-info/functions.c:1694
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(value)\n"
@@ -8309,7 +8343,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1724
+#: plugins/fn-info/functions.c:1729
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -8332,7 +8366,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISNONTEXT"
 
-#: plugins/fn-info/functions.c:1749
+#: plugins/fn-info/functions.c:1754
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -8356,7 +8390,7 @@ msgstr ""
 "N(\"42\") vaut 42.\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1792
+#: plugins/fn-info/functions.c:1797
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -8391,7 +8425,7 @@ msgstr ""
 "TYPE (\"texte\") vaut 2\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1844
+#: plugins/fn-info/functions.c:1849
 msgid ""
 "@FUNCTION=GETENV\n"
 "@SYNTAX=GETENV(string)\n"
@@ -8415,14 +8449,15 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-logical/functions.c:44
+#, fuzzy
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
 "@DESCRIPTION=AND implements the logical AND function: the result is TRUE if "
 "all of the expressions evaluate to TRUE, otherwise it returns FALSE.\n"
 "\n"
-"@b1 trough @bN are expressions that should evaluate to TRUE or FALSE.  If an "
-"integer or floating point value is provided, zero is considered FALSE and "
+"@b1 through @bN are expressions that should evaluate to TRUE or FALSE.  If "
+"an integer or floating point value is provided, zero is considered FALSE and "
 "anything else is TRUE.\n"
 "\n"
 "* If the values contain strings or empty cells those values are ignored.\n"
@@ -8487,13 +8522,14 @@ msgstr ""
 "@SEEALSO=AND, OR"
 
 #: plugins/fn-logical/functions.c:140
+#, fuzzy
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
 "@DESCRIPTION=OR implements the logical OR function: the result is TRUE if "
 "any of the values evaluated to TRUE.\n"
 "\n"
-"@b1 trough @bN are expressions that should evaluate to TRUE or FALSE. If an "
+"@b1 through @bN are expressions that should evaluate to TRUE or FALSE. If an "
 "integer or floating point value is provided, zero is considered FALSE and "
 "anything else is TRUE.\n"
 "\n"
@@ -8523,13 +8559,14 @@ msgstr ""
 "@SEEALSO=AND, NOT"
 
 #: plugins/fn-logical/functions.c:202
+#, fuzzy
 msgid ""
 "@FUNCTION=XOR\n"
 "@SYNTAX=XOR(b1, b2, ...)\n"
 "@DESCRIPTION=XOR implements the logical exclusive OR function: the result is "
 "TRUE if an odd number of the values evaluated to TRUE.\n"
 "\n"
-"@b1 trough @bN are expressions that should evaluate to TRUE or FALSE. If an "
+"@b1 through @bN are expressions that should evaluate to TRUE or FALSE. If an "
 "integer or floating point value is provided, zero is considered FALSE and "
 "anything else is TRUE.\n"
 "\n"
@@ -8630,7 +8667,7 @@ msgstr ""
 "FALSE() vaut FAUX.\n"
 "@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:324
+#: plugins/fn-lookup/functions.c:327
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -8683,7 +8720,7 @@ msgstr ""
 "ADDRESS(5;4;3;FAUX) vaut \"R[5]C4\".\n"
 "@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:431
+#: plugins/fn-lookup/functions.c:434
 msgid ""
 "@FUNCTION=AREAS\n"
 "@SYNTAX=AREAS(reference)\n"
@@ -8702,7 +8739,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET"
 
-#: plugins/fn-lookup/functions.c:508
+#: plugins/fn-lookup/functions.c:511
 msgid ""
 "@FUNCTION=CHOOSE\n"
 "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
@@ -8728,7 +8765,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IF"
 
-#: plugins/fn-lookup/functions.c:563
+#: plugins/fn-lookup/functions.c:566
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
@@ -8761,7 +8798,7 @@ msgstr ""
 "* La fonction renvoie #REF! si @colonne tombe en dehors de @intervalle.\n"
 "@SEEALSO=HLOOKUP"
 
-#: plugins/fn-lookup/functions.c:624
+#: plugins/fn-lookup/functions.c:627
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])\n"
@@ -8794,7 +8831,7 @@ msgstr ""
 "* Elle renvoie #REF! si @ligne tombe en dehors de @intervalle.\n"
 "@SEEALSO=VLOOKUP"
 
-#: plugins/fn-lookup/functions.c:686
+#: plugins/fn-lookup/functions.c:689
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1[,vector2])\n"
@@ -8824,7 +8861,7 @@ msgstr ""
 "* Si @valeur est inférieur à la première valeur, la fonction renvoie #N/A\n"
 "@SEEALSO=VLOOKUP,HLOOKUP"
 
-#: plugins/fn-lookup/functions.c:752
+#: plugins/fn-lookup/functions.c:755
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -8861,7 +8898,7 @@ msgstr ""
 "* Si @valeur n'est pas trouvée, la fonction renvoie #N/A!\n"
 "@SEEALSO=LOOKUP"
 
-#: plugins/fn-lookup/functions.c:810
+#: plugins/fn-lookup/functions.c:813
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text[,format])\n"
@@ -8893,7 +8930,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AREAS,INDEX"
 
-#: plugins/fn-lookup/functions.c:856
+#: plugins/fn-lookup/functions.c:862
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(array[,row, col, area])\n"
@@ -8925,7 +8962,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:926
+#: plugins/fn-lookup/functions.c:932
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -8953,7 +8990,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:984
+#: plugins/fn-lookup/functions.c:988
 msgid ""
 "@FUNCTION=COLUMNNUMBER\n"
 "@SYNTAX=COLUMNNUMBER(name)\n"
@@ -8978,7 +9015,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ADDRESS"
 
-#: plugins/fn-lookup/functions.c:1019
+#: plugins/fn-lookup/functions.c:1023
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -9005,7 +9042,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:1047
+#: plugins/fn-lookup/functions.c:1051
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
@@ -9031,7 +9068,7 @@ msgstr ""
 "utilisées.\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS,INDEX,INDIRECT,ADDRESS"
 
-#: plugins/fn-lookup/functions.c:1108
+#: plugins/fn-lookup/functions.c:1112
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -9059,7 +9096,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: plugins/fn-lookup/functions.c:1164
+#: plugins/fn-lookup/functions.c:1166
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -9086,7 +9123,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:1192
+#: plugins/fn-lookup/functions.c:1194
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location[,optional_label])\n"
@@ -9108,7 +9145,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:1220
+#: plugins/fn-lookup/functions.c:1222
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -9154,6 +9191,7 @@ msgstr ""
 "@SEEALSO=LCM"
 
 #: plugins/fn-math/functions.c:146
+#, fuzzy
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -9166,8 +9204,8 @@ msgid ""
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
-"LCM(2,13) equals to 26.\n"
-"LCM(4,7,5) equals to 140.\n"
+"LCM(2,13) equals 26.\n"
+"LCM(4,7,5) equals 140.\n"
 "\n"
 "@SEEALSO=GCD"
 msgstr ""
@@ -9186,6 +9224,7 @@ msgstr ""
 "@SEEALSO=GCD"
 
 #: plugins/fn-math/functions.c:206
+#, fuzzy
 msgid ""
 "@FUNCTION=HYPOT\n"
 "@SYNTAX=HYPOT(number1,number2,...)\n"
@@ -9193,7 +9232,7 @@ msgid ""
 "arguments.\n"
 "\n"
 "@EXAMPLES=\n"
-"HYPOT(3,4) equals to 5.\n"
+"HYPOT(3,4) equals 5.\n"
 "\n"
 "@SEEALSO=MIN,MAX"
 msgstr ""
@@ -9451,7 +9490,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
-#: plugins/fn-math/functions.c:522
+#: plugins/fn-math/functions.c:521
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -9699,11 +9738,12 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-math/functions.c:943
+#, fuzzy
 msgid ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
-"@DESCRIPTION=BETA function returns the value of the mathematic beta function "
-"extended to all real numbers except 0 and negative integers.\n"
+"@DESCRIPTION=BETA function returns the value of the mathematical beta "
+"function extended to all real numbers except 0 and negative integers.\n"
 "\n"
 "* If @a, @b, or (@a + @b) are non-positive integers, BETA returns #NUM! "
 "error.\n"
@@ -9918,13 +9958,14 @@ msgstr ""
 "@SEEALSO=EXP, LOG10, LOG"
 
 #: plugins/fn-math/functions.c:1220
+#, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
 "@DESCRIPTION=POWER returns the value of @x raised to the power @y.\n"
 "\n"
 "\n"
-"* If both @x and @y equals to 0, POWER returns #NUM! error.\n"
+"* If both @x and @y equal 0, POWER returns #NUM! error.\n"
 "* If @x = 0 and @y < 0, POWER returns #DIV/0! error.\n"
 "* If @x < 0 and @y is non-integer, POWER returns #NUM! error.\n"
 "* This function is Excel compatible.\n"
@@ -10889,7 +10930,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: plugins/fn-math/functions.c:3039
+#: plugins/fn-math/functions.c:3038
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -10911,7 +10952,7 @@ msgstr ""
 "* Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: plugins/fn-math/functions.c:3118
+#: plugins/fn-math/functions.c:3114
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -10942,42 +10983,828 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: plugins/fn-math/functions.c:3168
-msgid ""
-"@FUNCTION=SUMPRODUCT\n"
-"@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
-"@DESCRIPTION=SUMPRODUCT function multiplies corresponding data entries in "
-"the given arrays or ranges, and then returns the sum of those products.  If "
-"an array entry is not numeric, the value zero is used instead.\n"
-"\n"
-"* If arrays or range arguments do not have the same dimensions, SUMPRODUCT "
-"returns #VALUE! error.\n"
-"* This function is Excel compatible.\n"
-"\n"
-"@EXAMPLES=\n"
-"Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
-"and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.  "
-"Then\n"
-"SUMPRODUCT(A1:A5,B1:B5) equals 3370.\n"
-"\n"
-"@SEEALSO=SUM,PRODUCT"
+#: plugins/fn-math/functions.c:3163
+msgid "SUMPRODUCT:Multiplies components and adds the results."
 msgstr ""
-"@FUNCTION=SUMPRODUCT\n"
-"@SYNTAX=SUMPRODUCT(intervalle1;intervalle2;...)\n"
-"@DESCRIPTION=La fonction SUMPRODUCT multiplie les données correspondantes "
-"des tableaux ou intervalles donnés en paramètre, et renvoie la somme de ces "
-"produits. Si une entrée dans un tableau n'est pas numérique, la valeur zéro "
-"est utilisée à la place. \n"
-"\n"
-"* Si les tableaux ou intervalles n'ont pas les mêmes dimensions, SUMPRODUCT "
-"renvoie l'erreur #VALEUR!. \n"
-"* Cette fonction est compatible avec Excel.\n"
-"@EXAMPLES=\n"
-"Si A1, A2,..., A5 contiennent 11, 15, 17, 21, et 43, et que B1, B2,..., B5 "
-"contiennent 13, 22, 31, 33, et 39, alors\n"
-"SUMPRODUCT(A1:A5;B1:B5) vaut 3370.\n"
-"\n"
-"@SEEALSO=SUM,PRODUCT"
+
+#: plugins/fn-math/functions.c:3165
+msgid ""
+"Multiplies corresponding data entries in the given arrays or ranges, and "
+"then returns the sum of those products."
+msgstr ""
+
+#: plugins/fn-math/functions.c:3168
+msgid "If an entry is not numeric, the value zero is used instead."
+msgstr ""
+
+#: plugins/fn-math/functions.c:3169
+msgid ""
+"If arrays or range arguments do not have the same dimensions, return #VALUE! "
+"error."
+msgstr ""
+
+#: plugins/fn-math/functions.c:3171
+msgid ""
+"SUMPRODUCTs arguments are arrays or ranges. Attempting to use A1:A5>0 will "
+"not work, implicit intersection will kick in. Instead use --(A1:A5>0)"
+msgstr ""
+
+#: plugins/fn-r/functions.c:19
+msgid "R.DNORM:probability density function of the normal distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:20 plugins/fn-r/functions.c:45
+#: plugins/fn-r/functions.c:99 plugins/fn-r/functions.c:124
+#: plugins/fn-r/functions.c:151 plugins/fn-r/functions.c:178
+#: plugins/fn-r/functions.c:203 plugins/fn-r/functions.c:257
+#: plugins/fn-r/functions.c:282 plugins/fn-r/functions.c:336
+#: plugins/fn-r/functions.c:359 plugins/fn-r/functions.c:409
+#: plugins/fn-r/functions.c:434 plugins/fn-r/functions.c:461
+#: plugins/fn-r/functions.c:488 plugins/fn-r/functions.c:511
+#: plugins/fn-r/functions.c:561 plugins/fn-r/functions.c:586
+#: plugins/fn-r/functions.c:640 plugins/fn-r/functions.c:663
+#: plugins/fn-r/functions.c:713 plugins/fn-r/functions.c:736
+#: plugins/fn-r/functions.c:786 plugins/fn-r/functions.c:811
+#: plugins/fn-r/functions.c:838 plugins/fn-r/functions.c:865
+#: plugins/fn-r/functions.c:890 plugins/fn-r/functions.c:944
+#: plugins/fn-r/functions.c:971 plugins/fn-r/functions.c:1029
+#: plugins/fn-r/functions.c:1052 plugins/fn-r/functions.c:1102
+#: plugins/fn-r/functions.c:1127
+msgid "x:observation."
+msgstr ""
+
+#: plugins/fn-r/functions.c:21 plugins/fn-r/functions.c:46
+#: plugins/fn-r/functions.c:73
+msgid "mu:mean of the distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:22 plugins/fn-r/functions.c:47
+#: plugins/fn-r/functions.c:74
+msgid "sigma:standard deviation of the distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:23 plugins/fn-r/functions.c:102
+#: plugins/fn-r/functions.c:181 plugins/fn-r/functions.c:260
+#: plugins/fn-r/functions.c:338 plugins/fn-r/functions.c:412
+#: plugins/fn-r/functions.c:490 plugins/fn-r/functions.c:564
+#: plugins/fn-r/functions.c:642 plugins/fn-r/functions.c:715
+#: plugins/fn-r/functions.c:789 plugins/fn-r/functions.c:868
+#: plugins/fn-r/functions.c:948 plugins/fn-r/functions.c:1031
+#: plugins/fn-r/functions.c:1105
+msgid ""
+"give_log:if true, log of the result will be returned instead.  This is "
+"useful if the result would otherwise underflow to 0.  Defaults to false."
+msgstr ""
+
+#: plugins/fn-r/functions.c:24
+msgid ""
+"This function returns the probability density function of the normal "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:44
+msgid "R.PNORM:cumulative distribution function of the normal distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:48 plugins/fn-r/functions.c:75
+#: plugins/fn-r/functions.c:127 plugins/fn-r/functions.c:154
+#: plugins/fn-r/functions.c:206 plugins/fn-r/functions.c:233
+#: plugins/fn-r/functions.c:285 plugins/fn-r/functions.c:312
+#: plugins/fn-r/functions.c:361 plugins/fn-r/functions.c:386
+#: plugins/fn-r/functions.c:437 plugins/fn-r/functions.c:464
+#: plugins/fn-r/functions.c:513 plugins/fn-r/functions.c:538
+#: plugins/fn-r/functions.c:589 plugins/fn-r/functions.c:616
+#: plugins/fn-r/functions.c:665 plugins/fn-r/functions.c:690
+#: plugins/fn-r/functions.c:738 plugins/fn-r/functions.c:763
+#: plugins/fn-r/functions.c:814 plugins/fn-r/functions.c:841
+#: plugins/fn-r/functions.c:893 plugins/fn-r/functions.c:920
+#: plugins/fn-r/functions.c:975 plugins/fn-r/functions.c:1004
+#: plugins/fn-r/functions.c:1054 plugins/fn-r/functions.c:1079
+#: plugins/fn-r/functions.c:1130 plugins/fn-r/functions.c:1157
+msgid ""
+"lower_tail:if true (the default), the lower tail of the distribution is "
+"considered."
+msgstr ""
+
+#: plugins/fn-r/functions.c:49 plugins/fn-r/functions.c:76
+#: plugins/fn-r/functions.c:128 plugins/fn-r/functions.c:155
+#: plugins/fn-r/functions.c:207 plugins/fn-r/functions.c:234
+#: plugins/fn-r/functions.c:286 plugins/fn-r/functions.c:313
+#: plugins/fn-r/functions.c:362 plugins/fn-r/functions.c:387
+#: plugins/fn-r/functions.c:438 plugins/fn-r/functions.c:465
+#: plugins/fn-r/functions.c:514 plugins/fn-r/functions.c:539
+#: plugins/fn-r/functions.c:590 plugins/fn-r/functions.c:617
+#: plugins/fn-r/functions.c:666 plugins/fn-r/functions.c:691
+#: plugins/fn-r/functions.c:739 plugins/fn-r/functions.c:764
+#: plugins/fn-r/functions.c:815 plugins/fn-r/functions.c:842
+#: plugins/fn-r/functions.c:894 plugins/fn-r/functions.c:921
+#: plugins/fn-r/functions.c:976 plugins/fn-r/functions.c:1005
+#: plugins/fn-r/functions.c:1055 plugins/fn-r/functions.c:1080
+#: plugins/fn-r/functions.c:1131 plugins/fn-r/functions.c:1158
+msgid ""
+"log_p:if true, log of the probability is used.  This is useful if the "
+"probability would otherwise underflow to 0.  Defaults to false."
+msgstr ""
+
+#: plugins/fn-r/functions.c:50
+msgid ""
+"This function returns the cumulative distribution function of the normal "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:71
+msgid "R.QNORM:probability quantile function of the normal distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:72 plugins/fn-r/functions.c:230
+#: plugins/fn-r/functions.c:309 plugins/fn-r/functions.c:384
+#: plugins/fn-r/functions.c:536 plugins/fn-r/functions.c:613
+#: plugins/fn-r/functions.c:688 plugins/fn-r/functions.c:761
+#: plugins/fn-r/functions.c:917 plugins/fn-r/functions.c:1000
+#: plugins/fn-r/functions.c:1077 plugins/fn-r/functions.c:1154
+msgid "p:probability."
+msgstr ""
+
+#: plugins/fn-r/functions.c:77
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the normal distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:98
+msgid "R.DLNORM:probability density function of the log-normal distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:100 plugins/fn-r/functions.c:125
+#: plugins/fn-r/functions.c:152
+msgid "logmean:mean of the underlying normal distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:101 plugins/fn-r/functions.c:126
+#: plugins/fn-r/functions.c:153
+msgid "logsd:standard deviation of the underlying normal distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:103
+msgid ""
+"This function returns the probability density function of the log-normal "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:123
+msgid ""
+"R.PLNORM:cumulative distribution function of the log-normal distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:129
+msgid ""
+"This function returns the cumulative distribution function of the log-normal "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:150
+msgid "R.QLNORM:probability quantile function of the log-normal distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:156
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the log-normal distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:177
+msgid "R.DGAMMA:probability density function of the gamma distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:179 plugins/fn-r/functions.c:204
+#: plugins/fn-r/functions.c:231 plugins/fn-r/functions.c:562
+#: plugins/fn-r/functions.c:587 plugins/fn-r/functions.c:614
+msgid "shape:the shape parameter of the distribution"
+msgstr ""
+
+#: plugins/fn-r/functions.c:180 plugins/fn-r/functions.c:205
+#: plugins/fn-r/functions.c:232 plugins/fn-r/functions.c:563
+#: plugins/fn-r/functions.c:588 plugins/fn-r/functions.c:615
+#: plugins/fn-r/functions.c:714 plugins/fn-r/functions.c:737
+#: plugins/fn-r/functions.c:762 plugins/fn-r/functions.c:1104
+#: plugins/fn-r/functions.c:1129 plugins/fn-r/functions.c:1156
+msgid "scale:the scale parameter of the distribution"
+msgstr ""
+
+#: plugins/fn-r/functions.c:182
+msgid ""
+"This function returns the probability density function of the gamma "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:202
+msgid "R.PGAMMA:cumulative distribution function of the gamma distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:208
+msgid ""
+"This function returns the cumulative distribution function of the gamma "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:229
+msgid "R.QGAMMA:probability quantile function of the gamma distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:235
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the gamma distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:256
+msgid "R.DBETA:probability density function of the beta distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:258 plugins/fn-r/functions.c:283
+#: plugins/fn-r/functions.c:310
+msgid "a:the first shape parameter of the distribution"
+msgstr ""
+
+#: plugins/fn-r/functions.c:259 plugins/fn-r/functions.c:284
+#: plugins/fn-r/functions.c:311
+msgid "b:the second scale parameter of the distribution"
+msgstr ""
+
+#: plugins/fn-r/functions.c:261
+msgid ""
+"This function returns the probability density function of the beta "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:281
+msgid "R.PBETA:cumulative distribution function of the beta distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:287
+msgid ""
+"This function returns the cumulative distribution function of the beta "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:308
+msgid "R.QBETA:probability quantile function of the beta distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:314
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the beta distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:335
+msgid "R.DT:probability density function of the Student t distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:337 plugins/fn-r/functions.c:360
+#: plugins/fn-r/functions.c:385
+msgid "n:the number of degrees of freedom of the distribution"
+msgstr ""
+
+#: plugins/fn-r/functions.c:339
+msgid ""
+"This function returns the probability density function of the Student t "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:358
+msgid "R.PT:cumulative distribution function of the Student t distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:363
+msgid ""
+"This function returns the cumulative distribution function of the Student t "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:383
+msgid "R.QT:probability quantile function of the Student t distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:388
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the Student t distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:408
+msgid "R.DF:probability density function of the F distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:410 plugins/fn-r/functions.c:435
+#: plugins/fn-r/functions.c:462
+msgid "n1:the first number of degrees of freedom of the distribution"
+msgstr ""
+
+#: plugins/fn-r/functions.c:411 plugins/fn-r/functions.c:436
+#: plugins/fn-r/functions.c:463
+msgid "n2:the second number of degrees of freedom of the distribution"
+msgstr ""
+
+#: plugins/fn-r/functions.c:413
+msgid ""
+"This function returns the probability density function of the F distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:433
+msgid "R.PF:cumulative distribution function of the F distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:439
+msgid ""
+"This function returns the cumulative distribution function of the F "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:460
+msgid "R.QF:probability quantile function of the F distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:466
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the F distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:487
+msgid "R.DCHISQ:probability density function of the chi-square distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:489 plugins/fn-r/functions.c:512
+#: plugins/fn-r/functions.c:537
+msgid "df:the number of degrees of freedom of the distribution"
+msgstr ""
+
+#: plugins/fn-r/functions.c:491
+msgid ""
+"This function returns the probability density function of the chi-square "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:510
+msgid ""
+"R.PCHISQ:cumulative distribution function of the chi-square distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:515
+msgid ""
+"This function returns the cumulative distribution function of the chi-square "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:535
+msgid "R.QCHISQ:probability quantile function of the chi-square distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:540
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the chi-square distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:560
+msgid "R.DWEIBULL:probability density function of the Weibull distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:565
+msgid ""
+"This function returns the probability density function of the Weibull "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:585
+msgid ""
+"R.PWEIBULL:cumulative distribution function of the Weibull distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:591
+msgid ""
+"This function returns the cumulative distribution function of the Weibull "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:612
+msgid "R.QWEIBULL:probability quantile function of the Weibull distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:618
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the Weibull distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:639
+msgid "R.DPOIS:probability density function of the Poisson distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:641 plugins/fn-r/functions.c:664
+#: plugins/fn-r/functions.c:689
+msgid "lambda:the mean of the distribution"
+msgstr ""
+
+#: plugins/fn-r/functions.c:643
+msgid ""
+"This function returns the probability density function of the Poisson "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:662
+msgid "R.PPOIS:cumulative distribution function of the Poisson distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:667
+msgid ""
+"This function returns the cumulative distribution function of the Poisson "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:687
+msgid "R.QPOIS:probability quantile function of the Poisson distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:692
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the Poisson distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:712
+msgid "R.DEXP:probability density function of the exponential distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:716
+msgid ""
+"This function returns the probability density function of the exponential "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:735
+msgid ""
+"R.PEXP:cumulative distribution function of the exponential distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:740
+msgid ""
+"This function returns the cumulative distribution function of the "
+"exponential distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:760
+msgid "R.QEXP:probability quantile function of the exponential distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:765
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the exponential distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:785
+msgid "R.DBINOM:probability density function of the binomial distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:787 plugins/fn-r/functions.c:812
+#: plugins/fn-r/functions.c:839 plugins/fn-r/functions.c:866
+#: plugins/fn-r/functions.c:891 plugins/fn-r/functions.c:918
+msgid "n:the number of trials"
+msgstr ""
+
+#: plugins/fn-r/functions.c:788 plugins/fn-r/functions.c:813
+#: plugins/fn-r/functions.c:840 plugins/fn-r/functions.c:867
+#: plugins/fn-r/functions.c:892 plugins/fn-r/functions.c:919
+#: plugins/fn-r/functions.c:1030 plugins/fn-r/functions.c:1053
+#: plugins/fn-r/functions.c:1078
+msgid "psuc:the probability of success in each trial"
+msgstr ""
+
+#: plugins/fn-r/functions.c:790
+msgid ""
+"This function returns the probability density function of the binomial "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:810
+msgid "R.PBINOM:cumulative distribution function of the binomial distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:816
+msgid ""
+"This function returns the cumulative distribution function of the binomial "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:837
+msgid "R.QBINOM:probability quantile function of the binomial distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:843
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the binomial distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:864
+msgid ""
+"R.DNBINOM:probability density function of the negative binomial distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:869
+msgid ""
+"This function returns the probability density function of the negative "
+"binomial distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:889
+msgid ""
+"R.PNBINOM:cumulative distribution function of the negative binomial "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:895
+msgid ""
+"This function returns the cumulative distribution function of the negative "
+"binomial distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:916
+msgid ""
+"R.QNBINOM:probability quantile function of the negative binomial "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:922
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the negative binomial "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:943
+msgid ""
+"R.DHYPER:probability density function of the hypergeometric distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:945 plugins/fn-r/functions.c:972
+#: plugins/fn-r/functions.c:1001
+msgid "r:the number of red balls"
+msgstr ""
+
+#: plugins/fn-r/functions.c:946 plugins/fn-r/functions.c:973
+#: plugins/fn-r/functions.c:1002
+msgid "b:the number of black balls"
+msgstr ""
+
+#: plugins/fn-r/functions.c:947 plugins/fn-r/functions.c:974
+#: plugins/fn-r/functions.c:1003
+msgid "n:the number of balls drawn"
+msgstr ""
+
+#: plugins/fn-r/functions.c:949
+msgid ""
+"This function returns the probability density function of the hypergeometric "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:970
+msgid ""
+"R.PHYPER:cumulative distribution function of the hypergeometric distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:977
+msgid ""
+"This function returns the cumulative distribution function of the "
+"hypergeometric distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:999
+msgid ""
+"R.QHYPER:probability quantile function of the hypergeometric distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:1006
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the hypergeometric distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:1028
+msgid "R.DGEOM:probability density function of the geometric distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:1032
+msgid ""
+"This function returns the probability density function of the geometric "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:1051
+msgid "R.PGEOM:cumulative distribution function of the geometric distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:1056
+msgid ""
+"This function returns the cumulative distribution function of the geometric "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:1076
+msgid "R.QGEOM:probability quantile function of the geometric distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:1081
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the geometric distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:1101
+msgid "R.DCAUCHY:probability density function of the Cauchy distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:1103 plugins/fn-r/functions.c:1128
+#: plugins/fn-r/functions.c:1155
+msgid "location:the center of the distribution"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1106
+msgid ""
+"This function returns the probability density function of the Cauchy "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:1126
+msgid "R.PCAUCHY:cumulative distribution function of the Cauchy distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:1132
+msgid ""
+"This function returns the cumulative distribution function of the Cauchy "
+"distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:1153
+msgid "R.QCAUCHY:probability quantile function of the Cauchy distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:1159
+msgid ""
+"This function returns the probability quantile function, i.e., the inverse "
+"of the cumulative distribution function, of the Cauchy distribution."
+msgstr ""
+
+#: plugins/fn-r/functions.c:1194
+msgid "x,mu,sigma,give_log"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1202
+msgid "x,mu,sigma,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1210
+msgid "p,mu,sigma,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1218
+msgid "x,logmean,logsd,give_log"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1226 plugins/fn-r/functions.c:1234
+msgid "x,logmean,logsd,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1242 plugins/fn-r/functions.c:1362
+msgid "x,shape,scale,give_log"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1250 plugins/fn-r/functions.c:1370
+msgid "x,shape,scale,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1258 plugins/fn-r/functions.c:1378
+msgid "p,shape,scale,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1266
+msgid "x,a,b,give_log"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1274
+msgid "x,a,b,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1282
+msgid "p,a,b,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1290
+msgid "x,n,give_log"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1298
+msgid "x,n,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1306
+msgid "p,n,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1314
+msgid "x,n1,n2,give_log"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1322 plugins/fn-r/functions.c:1330
+msgid "x,n1,n2,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1338
+msgid "x,df,give_log"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1346
+msgid "x,df,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1354
+msgid "p,df,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1386
+msgid "x,lambda,give_log"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1394
+msgid "x,lambda,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1402
+msgid "p,lambda,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1410
+msgid "x,scale,give_log"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1418
+msgid "x,scale,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1426
+msgid "p,scale,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1434 plugins/fn-r/functions.c:1458
+msgid "x,n,psuc,give_log"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1442 plugins/fn-r/functions.c:1450
+#: plugins/fn-r/functions.c:1466
+msgid "x,n,psuc,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1474
+msgid "p,n,psuc,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1482
+msgid "x,r,b,n,give_log"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1490
+msgid "x,r,b,n,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1498
+msgid "p,r,b,n,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1506
+msgid "x,psuc,give_log"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1514
+msgid "x,psuc,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1522
+msgid "p,psuc,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1530
+msgid "x,location,scale,give_log"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1538
+msgid "x,location,scale,lower_tail,log_p"
+msgstr ""
+
+#: plugins/fn-r/functions.c:1546
+msgid "p,location,scale,lower_tail,log_p"
+msgstr ""
 
 #: plugins/fn-random/functions.c:47
 msgid ""
@@ -11916,6 +12743,7 @@ msgstr ""
 "@SEEALSO=PERCENTRANK"
 
 #: plugins/fn-stat/functions.c:376
+#, fuzzy
 msgid ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=TRIMMEAN(ref,fraction)\n"
@@ -11923,8 +12751,9 @@ msgid ""
 "is the list of numbers whose mean you want to calculate and @fraction is the "
 "fraction of the data set excluded from the mean. For example, if "
 "@fraction=0.2 and the data set contains 40 numbers, 8 numbers are trimmed "
-"from the data set (40 x 0.2), 4 from the top and 4 from the bottom of the "
-"set.\n"
+"from the data set (40 x 0.2): the 4 largest and the 4 smallest.  To avoid a "
+"bias, the number of points to be excluded is always rounded down to the "
+"nearest even number.\n"
 "\n"
 "* This function is Excel compatible.\n"
 "\n"
@@ -11951,7 +12780,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
 
-#: plugins/fn-stat/functions.c:441
+#: plugins/fn-stat/functions.c:438
 msgid ""
 "@FUNCTION=COVAR\n"
 "@SYNTAX=COVAR(array1,array2)\n"
@@ -11982,7 +12811,7 @@ msgstr ""
 "COVAR(A1:A5;B1:B5) vaut 65,858.\n"
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 
-#: plugins/fn-stat/functions.c:476
+#: plugins/fn-stat/functions.c:473
 msgid ""
 "@FUNCTION=CORREL\n"
 "@SYNTAX=CORREL(array1,array2)\n"
@@ -12013,7 +12842,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 
-#: plugins/fn-stat/functions.c:511
+#: plugins/fn-stat/functions.c:508
 msgid ""
 "@FUNCTION=NEGBINOMDIST\n"
 "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
@@ -12045,7 +12874,7 @@ msgstr ""
 "NEGBINOMDIST(2;5;0,55) vaut 0,152872629\n"
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 
-#: plugins/fn-stat/functions.c:552
+#: plugins/fn-stat/functions.c:549
 msgid ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
@@ -12070,7 +12899,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST"
 
-#: plugins/fn-stat/functions.c:584
+#: plugins/fn-stat/functions.c:581
 msgid ""
 "@FUNCTION=NORMSINV\n"
 "@SYNTAX=NORMSINV(p)\n"
@@ -12098,7 +12927,7 @@ msgstr ""
 "NORMSINV(0,2) vaut -0,841621234.\n"
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 
-#: plugins/fn-stat/functions.c:619
+#: plugins/fn-stat/functions.c:616
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=LOGNORMDIST(x,mean,stddev)\n"
@@ -12130,7 +12959,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST"
 
-#: plugins/fn-stat/functions.c:662
+#: plugins/fn-stat/functions.c:654
 msgid ""
 "@FUNCTION=LOGINV\n"
 "@SYNTAX=LOGINV(p,mean,stddev)\n"
@@ -12159,7 +12988,7 @@ msgstr ""
 "LOGINV(0,5;2;3) vaut 7,389056099.\n"
 "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST"
 
-#: plugins/fn-stat/functions.c:702
+#: plugins/fn-stat/functions.c:694
 msgid ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
@@ -12186,7 +13015,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FISHER"
 
-#: plugins/fn-stat/functions.c:732
+#: plugins/fn-stat/functions.c:724
 msgid ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
@@ -12219,7 +13048,7 @@ msgstr ""
 "MODE(A1:A5) vaut 11,4.\n"
 "@SEEALSO=AVERAGE,MEDIAN"
 
-#: plugins/fn-stat/functions.c:771
+#: plugins/fn-stat/functions.c:763
 msgid ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
@@ -12247,7 +13076,7 @@ msgstr ""
 "HARMEAN(A1:A5) vaut 19,529814427.\n"
 "@SEEALSO=GEOMEAN,MEDIAN,TRIMMEAN,MODE,AVERAGE"
 
-#: plugins/fn-stat/functions.c:806
+#: plugins/fn-stat/functions.c:798
 msgid ""
 "@FUNCTION=GEOMEAN\n"
 "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
@@ -12276,7 +13105,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HARMEAN,MEDIAN,HARMEAN,MODE,TRIMMEAN"
 
-#: plugins/fn-stat/functions.c:840
+#: plugins/fn-stat/functions.c:832
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -12305,7 +13134,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: plugins/fn-stat/functions.c:886
+#: plugins/fn-stat/functions.c:878
 msgid ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=COUNTA(b1, b2, ...)\n"
@@ -12333,7 +13162,7 @@ msgstr ""
 "COUNTA(A1:A5) vaut 5.\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 
-#: plugins/fn-stat/functions.c:931
+#: plugins/fn-stat/functions.c:923
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -12363,7 +13192,7 @@ msgstr ""
 "AVERAGE(A1:A5) vaut 23,2.\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-stat/functions.c:966
+#: plugins/fn-stat/functions.c:958
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -12394,7 +13223,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,ABS"
 
-#: plugins/fn-stat/functions.c:1011
+#: plugins/fn-stat/functions.c:1003
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -12424,7 +13253,7 @@ msgstr ""
 "MAX(A1:A5) vaut 40,1.\n"
 "@SEEALSO=MIN,ABS"
 
-#: plugins/fn-stat/functions.c:1056
+#: plugins/fn-stat/functions.c:1048
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -12464,7 +13293,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 
-#: plugins/fn-stat/functions.c:1097
+#: plugins/fn-stat/functions.c:1089
 msgid ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(n1, n2, ...)\n"
@@ -12493,7 +13322,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 
-#: plugins/fn-stat/functions.c:1133
+#: plugins/fn-stat/functions.c:1125
 msgid ""
 "@FUNCTION=EXPONDIST\n"
 "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
@@ -12526,7 +13355,7 @@ msgstr ""
 "EXPONDIST(2;4;0) vaut 0,001341851.\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:1180
+#: plugins/fn-stat/functions.c:1172
 msgid ""
 "@FUNCTION=BERNOULLI\n"
 "@SYNTAX=BERNOULLI(k,p)\n"
@@ -12551,7 +13380,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDBERNOULLI"
 
-#: plugins/fn-stat/functions.c:1225
+#: plugins/fn-stat/functions.c:1217
 msgid ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
@@ -12580,7 +13409,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:1265
+#: plugins/fn-stat/functions.c:1257
 msgid ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
@@ -12610,7 +13439,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GAMMAINV"
 
-#: plugins/fn-stat/functions.c:1309
+#: plugins/fn-stat/functions.c:1301
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -12639,7 +13468,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GAMMADIST"
 
-#: plugins/fn-stat/functions.c:1347
+#: plugins/fn-stat/functions.c:1339
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -12669,7 +13498,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIINV;CHITEST"
 
-#: plugins/fn-stat/functions.c:1386
+#: plugins/fn-stat/functions.c:1378
 msgid ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
@@ -12698,7 +13527,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIDIST;CHITEST"
 
-#: plugins/fn-stat/functions.c:1423
+#: plugins/fn-stat/functions.c:1415
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
@@ -12725,7 +13554,7 @@ msgstr ""
 "* Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=CHIDIST,CHIINV"
 
-#: plugins/fn-stat/functions.c:1564
+#: plugins/fn-stat/functions.c:1556
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -12757,7 +13586,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETAINV"
 
-#: plugins/fn-stat/functions.c:1608
+#: plugins/fn-stat/functions.c:1600
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -12791,7 +13620,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETADIST"
 
-#: plugins/fn-stat/functions.c:1652
+#: plugins/fn-stat/functions.c:1644
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -12824,7 +13653,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TINV;TTEST"
 
-#: plugins/fn-stat/functions.c:1696
+#: plugins/fn-stat/functions.c:1688
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -12851,7 +13680,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TDIST;TTEST"
 
-#: plugins/fn-stat/functions.c:1733
+#: plugins/fn-stat/functions.c:1725
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -12882,7 +13711,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FINV"
 
-#: plugins/fn-stat/functions.c:1773
+#: plugins/fn-stat/functions.c:1765
 msgid ""
 "@FUNCTION=LANDAU\n"
 "@SYNTAX=LANDAU(x)\n"
@@ -12899,7 +13728,7 @@ msgstr ""
 "distribution de Landau, en utilisant une méthode d'approximation.\n"
 "@SEEALSO=RANDLANDAU"
 
-#: plugins/fn-stat/functions.c:1918
+#: plugins/fn-stat/functions.c:1910
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=FINV(p,dof1,dof2)\n"
@@ -12929,7 +13758,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST"
 
-#: plugins/fn-stat/functions.c:1957
+#: plugins/fn-stat/functions.c:1949
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -12964,7 +13793,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:2006
+#: plugins/fn-stat/functions.c:1998
 msgid ""
 "@FUNCTION=CAUCHY\n"
 "@SYNTAX=CAUCHY(x,a,cum)\n"
@@ -12989,7 +13818,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDCAUCHY"
 
-#: plugins/fn-stat/functions.c:2049
+#: plugins/fn-stat/functions.c:2041
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -13025,7 +13854,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST"
 
-#: plugins/fn-stat/functions.c:2092
+#: plugins/fn-stat/functions.c:2084
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -13056,7 +13885,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COMBIN"
 
-#: plugins/fn-stat/functions.c:2130
+#: plugins/fn-stat/functions.c:2122
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N[,cumulative])\n"
@@ -13093,7 +13922,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST;POISSON"
 
-#: plugins/fn-stat/functions.c:2177
+#: plugins/fn-stat/functions.c:2169
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -13126,7 +13955,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: plugins/fn-stat/functions.c:2221
+#: plugins/fn-stat/functions.c:2207
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stddev)\n"
@@ -13155,7 +13984,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: plugins/fn-stat/functions.c:2262
+#: plugins/fn-stat/functions.c:2244
 msgid ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -13191,13 +14020,17 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:2311
+#: plugins/fn-stat/functions.c:2293
+#, fuzzy
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stddev,cumulative)\n"
-"@DESCRIPTION=NORMDIST function returns the normal cumulative distribution. "
-"@x is the value for which you want the distribution, @mean is the mean of "
-"the distribution, @stddev is the standard deviation.\n"
+"@DESCRIPTION=The NORMDIST function returns the value of the probability "
+"density function or the cumulative distribution function for the normal "
+"distribution with the mean given by @mean, and the standard deviation given "
+"by @stddev. If @cumulative is FALSE, NORMDIST returns the value of the "
+"probability density function at the value @x. If @cumulative is TRUE, "
+"NORMDIST returns the value of the cumulative distribution function at @x.\n"
 "\n"
 "* If @stddev is 0 NORMDIST returns #DIV/0! error.\n"
 "* This function is Excel compatible.\n"
@@ -13220,7 +14053,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:2359
+#: plugins/fn-stat/functions.c:2346
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stddev)\n"
@@ -13249,7 +14082,7 @@ msgstr ""
 "NORMINV(0,76;2;3) vaut 4,118907689.?\n"
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 
-#: plugins/fn-stat/functions.c:2400
+#: plugins/fn-stat/functions.c:2387
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -13289,7 +14122,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 
-#: plugins/fn-stat/functions.c:2442
+#: plugins/fn-stat/functions.c:2429
 msgid ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -13324,7 +14157,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEW,KURT"
 
-#: plugins/fn-stat/functions.c:2478
+#: plugins/fn-stat/functions.c:2465
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -13352,7 +14185,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
-#: plugins/fn-stat/functions.c:2512
+#: plugins/fn-stat/functions.c:2499
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -13381,7 +14214,7 @@ msgstr ""
 "DEVSQ(A1:A5) vaut 470,56.\n"
 "@SEEALSO=STDEV"
 
-#: plugins/fn-stat/functions.c:2548
+#: plugins/fn-stat/functions.c:2535
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -13408,7 +14241,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SKEW"
 
-#: plugins/fn-stat/functions.c:2586
+#: plugins/fn-stat/functions.c:2573
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -13442,7 +14275,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST, WEIBULL"
 
-#: plugins/fn-stat/functions.c:2632
+#: plugins/fn-stat/functions.c:2619
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
@@ -13465,7 +14298,7 @@ msgstr ""
 "* Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 
-#: plugins/fn-stat/functions.c:2660
+#: plugins/fn-stat/functions.c:2647
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
@@ -13488,7 +14321,7 @@ msgstr ""
 "* Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 
-#: plugins/fn-stat/functions.c:2693
+#: plugins/fn-stat/functions.c:2680
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -13522,7 +14355,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
-#: plugins/fn-stat/functions.c:2730
+#: plugins/fn-stat/functions.c:2717
 msgid ""
 "@FUNCTION=SSMEDIAN\n"
 "@SYNTAX=SSMEDIAN(array[,interval)]\n"
@@ -13563,7 +14396,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MEDIAN"
 
-#: plugins/fn-stat/functions.c:2836
+#: plugins/fn-stat/functions.c:2823
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -13599,7 +14432,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 
-#: plugins/fn-stat/functions.c:2886
+#: plugins/fn-stat/functions.c:2873
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -13635,7 +14468,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 
-#: plugins/fn-stat/functions.c:2959
+#: plugins/fn-stat/functions.c:2946
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
@@ -13670,7 +14503,7 @@ msgstr ""
 "* Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
 
-#: plugins/fn-stat/functions.c:3054
+#: plugins/fn-stat/functions.c:3041
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -13703,7 +14536,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 
-#: plugins/fn-stat/functions.c:3212
+#: plugins/fn-stat/functions.c:3199
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
@@ -13735,7 +14568,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 
-#: plugins/fn-stat/functions.c:3269
+#: plugins/fn-stat/functions.c:3256
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -13770,7 +14603,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: plugins/fn-stat/functions.c:3308
+#: plugins/fn-stat/functions.c:3295
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -13805,7 +14638,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: plugins/fn-stat/functions.c:3347
+#: plugins/fn-stat/functions.c:3334
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -13840,7 +14673,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: plugins/fn-stat/functions.c:3386
+#: plugins/fn-stat/functions.c:3373
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -13879,7 +14712,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VAR,VARPA"
 
-#: plugins/fn-stat/functions.c:3431
+#: plugins/fn-stat/functions.c:3418
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -13915,7 +14748,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VARP"
 
-#: plugins/fn-stat/functions.c:3471
+#: plugins/fn-stat/functions.c:3458
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -13956,7 +14789,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:3517
+#: plugins/fn-stat/functions.c:3504
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -13993,7 +14826,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:3558
+#: plugins/fn-stat/functions.c:3545
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -14029,7 +14862,7 @@ msgstr ""
 "correspond à plusieurs valeurs, la valeur renvoyée est une interpolation.\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 
-#: plugins/fn-stat/functions.c:3671
+#: plugins/fn-stat/functions.c:3658
 msgid ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
@@ -14063,7 +14896,7 @@ msgstr ""
 "\n"
 "@SEEALSO=QUARTILE"
 
-#: plugins/fn-stat/functions.c:3723
+#: plugins/fn-stat/functions.c:3710
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -14110,7 +14943,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 
-#: plugins/fn-stat/functions.c:3782
+#: plugins/fn-stat/functions.c:3769
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -14140,7 +14973,7 @@ msgstr ""
 "FTEST(A1:A5;B1:B5) vaut 0,510815017.\n"
 "@SEEALSO=FDIST,FINV"
 
-#: plugins/fn-stat/functions.c:3839
+#: plugins/fn-stat/functions.c:3826
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -14198,7 +15031,7 @@ msgstr ""
 "TTEST(A1:A5;B1:B5;1;3) vaut 0,113821797.\n"
 "@SEEALSO=FDIST,FINV"
 
-#: plugins/fn-stat/functions.c:4010
+#: plugins/fn-stat/functions.c:3997
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -14230,7 +15063,8 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO="
 
-#: plugins/fn-stat/functions.c:4090
+#: plugins/fn-stat/functions.c:4077
+#, fuzzy
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -14243,8 +15077,8 @@ msgid ""
 "(b) in the second.\n"
 "\n"
 "If @stat is TRUE, extra statistical information will be returned. Extra "
-"statistical information is written bellow the regression line coefficients "
-"in the result array.  Extra statistical information consists of four rows of "
+"statistical information is written below the regression line coefficients in "
+"the result array.  Extra statistical information consists of four rows of "
 "data.  In the first row the standard error values for the coefficients m1, "
 "(m2, ...), b are represented.  The second row contains the square of R and "
 "the standard error for the y estimate.  The third row contains the F-"
@@ -14288,7 +15122,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: plugins/fn-stat/functions.c:4365
+#: plugins/fn-stat/functions.c:4352
 msgid ""
 "@FUNCTION=LOGREG\n"
 "@SYNTAX=LOGREG(known_y's[,known_x's[,const[,stat]]])\n"
@@ -14347,7 +15181,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST,LOGFIT,LOGEST"
 
-#: plugins/fn-stat/functions.c:4645
+#: plugins/fn-stat/functions.c:4632
 msgid ""
 "@FUNCTION=LOGFIT\n"
 "@SYNTAX=LOGFIT(known_y's,known_x's)\n"
@@ -14409,7 +15243,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 
-#: plugins/fn-stat/functions.c:4748
+#: plugins/fn-stat/functions.c:4735
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's[,new_x's[,const]]])\n"
@@ -14455,7 +15289,8 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
-#: plugins/fn-stat/functions.c:4866
+#: plugins/fn-stat/functions.c:4853
+#, fuzzy
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -14465,8 +15300,8 @@ msgid ""
 "\ty = b * m{1}^x{1} * m{2}^x{2}... to your data.\n"
 "\n"
 "If @stat is TRUE, extra statistical information will be returned. Extra "
-"statistical information is written bellow the regression line coefficients "
-"in the result array.  Extra statistical information consists of four rows of "
+"statistical information is written below the regression line coefficients in "
+"the result array.  Extra statistical information consists of four rows of "
 "data.  In the first row the standard error values for the coefficients m1, "
 "(m2, ...), b are represented.  The second row contains the square of R and "
 "the standard error for the y estimate.  The third row contains the F-"
@@ -14514,7 +15349,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:5122
+#: plugins/fn-stat/functions.c:5109
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -14553,7 +15388,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: plugins/fn-stat/functions.c:5237
+#: plugins/fn-stat/functions.c:5224
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -14592,7 +15427,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: plugins/fn-stat/functions.c:5311
+#: plugins/fn-stat/functions.c:5298
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -14629,7 +15464,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
-#: plugins/fn-stat/functions.c:5364
+#: plugins/fn-stat/functions.c:5351
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -14659,7 +15494,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:5411
+#: plugins/fn-stat/functions.c:5398
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
@@ -14722,7 +15557,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: plugins/fn-stat/functions.c:5514
+#: plugins/fn-stat/functions.c:5501
 msgid ""
 "@FUNCTION=CRONBACH\n"
 "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
@@ -14741,7 +15576,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-stat/functions.c:5646
+#: plugins/fn-stat/functions.c:5633
 msgid ""
 "@FUNCTION=GEOMDIST\n"
 "@SYNTAX=GEOMDIST(k,p,cum)\n"
@@ -14772,7 +15607,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDGEOM"
 
-#: plugins/fn-stat/functions.c:5685
+#: plugins/fn-stat/functions.c:5672
 msgid ""
 "@FUNCTION=LOGISTIC\n"
 "@SYNTAX=LOGISTIC(x,a)\n"
@@ -14793,7 +15628,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-stat/functions.c:5724
+#: plugins/fn-stat/functions.c:5711
 msgid ""
 "@FUNCTION=PARETO\n"
 "@SYNTAX=PARETO(x,a,b)\n"
@@ -14814,7 +15649,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDPARETO"
 
-#: plugins/fn-stat/functions.c:5765
+#: plugins/fn-stat/functions.c:5752
 msgid ""
 "@FUNCTION=RAYLEIGH\n"
 "@SYNTAX=RAYLEIGH(x,sigma)\n"
@@ -14835,7 +15670,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGH"
 
-#: plugins/fn-stat/functions.c:5808
+#: plugins/fn-stat/functions.c:5795
 msgid ""
 "@FUNCTION=RAYLEIGHTAIL\n"
 "@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
@@ -14857,7 +15692,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGHTAIL"
 
-#: plugins/fn-stat/functions.c:5854
+#: plugins/fn-stat/functions.c:5841
 msgid ""
 "@FUNCTION=EXPPOWDIST\n"
 "@SYNTAX=EXPPOWDIST(x,a,b)\n"
@@ -14881,7 +15716,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDEXPPOW"
 
-#: plugins/fn-stat/functions.c:5893
+#: plugins/fn-stat/functions.c:5880
 msgid ""
 "@FUNCTION=LAPLACE\n"
 "@SYNTAX=LAPLACE(x,a)\n"
@@ -14901,7 +15736,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLAPLACE"
 
-#: plugins/fn-string/functions.c:58
+#: plugins/fn-string/functions.c:59
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
@@ -14920,7 +15755,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CODE"
 
-#: plugins/fn-string/functions.c:103
+#: plugins/fn-string/functions.c:104
 msgid ""
 "@FUNCTION=UNICHAR\n"
 "@SYNTAX=UNICHAR(x)\n"
@@ -14943,7 +15778,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHAR,UNICODE,CODE"
 
-#: plugins/fn-string/functions.c:138
+#: plugins/fn-string/functions.c:139
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
@@ -14966,7 +15801,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHAR"
 
-#: plugins/fn-string/functions.c:186
+#: plugins/fn-string/functions.c:187
 msgid ""
 "@FUNCTION=UNICODE\n"
 "@SYNTAX=UNICODE(char)\n"
@@ -14988,7 +15823,7 @@ msgstr ""
 "\n"
 "@SEEALSO=UNICHAR,CODE,CHAR"
 
-#: plugins/fn-string/functions.c:215
+#: plugins/fn-string/functions.c:216
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
@@ -15014,7 +15849,7 @@ msgstr ""
 "EXACT(\"mot\";\"Mot\") vaut FAUX.\n"
 "@SEEALSO=LEN"
 
-#: plugins/fn-string/functions.c:243
+#: plugins/fn-string/functions.c:244
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -15037,7 +15872,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHAR, CODE, LENB"
 
-#: plugins/fn-string/functions.c:267
+#: plugins/fn-string/functions.c:268
 msgid ""
 "@FUNCTION=LENB\n"
 "@SYNTAX=LENB(string)\n"
@@ -15051,7 +15886,7 @@ msgid ""
 "@SEEALSO=CHAR, CODE, LEN"
 msgstr ""
 
-#: plugins/fn-string/functions.c:292
+#: plugins/fn-string/functions.c:293
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -15076,7 +15911,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, RIGHT"
 
-#: plugins/fn-string/functions.c:331
+#: plugins/fn-string/functions.c:332
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -15099,7 +15934,7 @@ msgstr ""
 "\n"
 "@SEEALSO=UPPER"
 
-#: plugins/fn-string/functions.c:356
+#: plugins/fn-string/functions.c:357
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -15124,7 +15959,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, RIGHT"
 
-#: plugins/fn-string/functions.c:404
+#: plugins/fn-string/functions.c:405
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -15151,7 +15986,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, LEFT"
 
-#: plugins/fn-string/functions.c:451
+#: plugins/fn-string/functions.c:452
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -15174,7 +16009,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER"
 
-#: plugins/fn-string/functions.c:476
+#: plugins/fn-string/functions.c:477
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -15199,7 +16034,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 
-#: plugins/fn-string/functions.c:504
+#: plugins/fn-string/functions.c:505
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -15222,7 +16057,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CONCATENATE"
 
-#: plugins/fn-string/functions.c:553
+#: plugins/fn-string/functions.c:554
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -15245,7 +16080,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-string/functions.c:589
+#: plugins/fn-string/functions.c:590
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -15271,7 +16106,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
-#: plugins/fn-string/functions.c:650
+#: plugins/fn-string/functions.c:651
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
@@ -15297,7 +16132,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-string/functions.c:718
+#: plugins/fn-string/functions.c:719
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -15321,7 +16156,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER, UPPER"
 
-#: plugins/fn-string/functions.c:773
+#: plugins/fn-string/functions.c:774
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -15346,7 +16181,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
-#: plugins/fn-string/functions.c:825
+#: plugins/fn-string/functions.c:826
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -15372,7 +16207,7 @@ msgstr ""
 "T(64) renvoie une cellule vide.\n"
 "@SEEALSO=CELL, N, VALUE"
 
-#: plugins/fn-string/functions.c:856
+#: plugins/fn-string/functions.c:857
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -15398,7 +16233,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR"
 
-#: plugins/fn-string/functions.c:900
+#: plugins/fn-string/functions.c:901
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -15421,7 +16256,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
-#: plugins/fn-string/functions.c:955
+#: plugins/fn-string/functions.c:956
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -15444,7 +16279,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
-#: plugins/fn-string/functions.c:1001
+#: plugins/fn-string/functions.c:1002
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -15471,7 +16306,7 @@ msgstr ""
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
-#: plugins/fn-string/functions.c:1070
+#: plugins/fn-string/functions.c:1071
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -15494,7 +16329,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 
-#: plugins/fn-string/functions.c:1129
+#: plugins/fn-string/functions.c:1130
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(search_string,text[,start_num])\n"
@@ -15543,7 +16378,20 @@ msgstr ""
 "\n"
 "@SEEALSO=FIND"
 
-#: plugins/gda/plugin-gda.c:136
+#: plugins/fn-string/functions.c:1204
+msgid ""
+"@FUNCTION=ASC\n"
+"@SYNTAX=ASC(string)\n"
+"@DESCRIPTION=ASC a compatibility function that is meaningless in Gnumeric.  "
+"In MS Excel (tm) it converts 2 byte @string into single byte text.\n"
+"\n"
+"@EXAMPLES=\n"
+"CHAR(\"Foo\") equals \"Foo\".\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: plugins/gda/plugin-gda.c:141
 msgid ""
 "@FUNCTION=EXECSQL\n"
 "@SYNTAX=EXECSQL(dsn,username,password,sql)\n"
@@ -15571,13 +16419,14 @@ msgstr ""
 "clients\")\n"
 "@SEEALSO=READDBTABLE"
 
-#: plugins/gda/plugin-gda.c:203
+#: plugins/gda/plugin-gda.c:214
+#, fuzzy
 msgid ""
 "@FUNCTION=READDBTABLE\n"
 "@SYNTAX=READDBTABLE(dsn,username,password,table)\n"
 "@DESCRIPTION=The READDBTABLE function lets you get the contents of a table, "
-"as stored in a database.For using it, you need first to set up a libgda data "
-"source.\n"
+"as stored in a database. For using it, you need first to set up a libgda "
+"data source.\n"
 "Note that this function returns all the rows in the given table. If you want "
 "to get data from more than one table or want a more precise selection "
 "(conditions), use the EXECSQL function.\n"
@@ -15710,7 +16559,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:444
+#: plugins/numtheory/numtheory.c:445
 msgid ""
 "@FUNCTION=PFACTOR\n"
 "@SYNTAX=PFACTOR(n)\n"
@@ -15723,7 +16572,7 @@ msgid ""
 "@SEEALSO=ITHPRIME"
 msgstr ""
 
-#: plugins/numtheory/numtheory.c:476
+#: plugins/numtheory/numtheory.c:478
 msgid ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
@@ -15740,7 +16589,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:505
+#: plugins/numtheory/numtheory.c:508
 msgid ""
 "@FUNCTION=BITOR\n"
 "@SYNTAX=BITOR(a,b)\n"
@@ -15757,7 +16606,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITXOR,BITAND"
 
-#: plugins/numtheory/numtheory.c:527
+#: plugins/numtheory/numtheory.c:530
 msgid ""
 "@FUNCTION=BITXOR\n"
 "@SYNTAX=BITXOR(a,b)\n"
@@ -15775,7 +16624,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITAND"
 
-#: plugins/numtheory/numtheory.c:550
+#: plugins/numtheory/numtheory.c:553
 msgid ""
 "@FUNCTION=BITAND\n"
 "@SYNTAX=BITAND(a,b)\n"
@@ -15792,7 +16641,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITXOR"
 
-#: plugins/numtheory/numtheory.c:573
+#: plugins/numtheory/numtheory.c:576
 msgid ""
 "@FUNCTION=BITLSHIFT\n"
 "@SYNTAX=BITLSHIFT(x,n)\n"
@@ -15812,7 +16661,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITRSHIFT"
 
-#: plugins/numtheory/numtheory.c:603
+#: plugins/numtheory/numtheory.c:606
 msgid ""
 "@FUNCTION=BITRSHIFT\n"
 "@SYNTAX=BITRSHIFT(x,n)\n"
@@ -15832,8 +16681,8 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITRSHIFT"
 
-#: plugins/sample_datasource/sample_datasource.c:272
-#, no-c-format
+#: plugins/sample_datasource/sample_datasource.c:274
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=atl_last\n"
 "@SYNTAX=ATL_LAST (tag)\n"
@@ -15841,7 +16690,7 @@ msgid ""
 "It takes a string tag and monitors the named pipe /tmp/atl for changes to "
 "the value of that tag.\n"
 "\n"
-"* This is no intended to be generally enabled and is OFF by default.\n"
+"* This is not intended to be generally enabled and is OFF by default.\n"
 "\n"
 "@EXAMPLES=\n"
 "ATL_LAST(\"IBM\")\n"
