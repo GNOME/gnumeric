@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-23 20:03+0000\n"
-"PO-Revision-Date: 2005-08-23 21:50-0300\n"
+"POT-Creation-Date: 2005-08-27 19:50+0000\n"
+"PO-Revision-Date: 2005-08-27 19:12-0300\n"
 "Last-Translator: Afonso Celso Medina <afmedina@uol.com.br>\n"
 "Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -249,7 +249,7 @@ msgstr "Derivativos Financeiros"
 msgid "Functions related to financial derivatives"
 msgstr "Funções relativas a derivativos financeiros"
 
-#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:6009
+#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:6008
 #: ../plugins/mps/mps.c:544 ../src/xml-io.c:3917
 msgid "Reading file..."
 msgstr "Lendo arquivo..."
@@ -374,12 +374,12 @@ msgstr "Gráfico%d"
 msgid "Module%d"
 msgstr "Módulo%d"
 
-#: ../plugins/excel/ms-excel-read.c:3020
+#: ../plugins/excel/ms-excel-read.c:3019
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Falha processando o arquivo '%s'"
 
-#: ../plugins/excel/ms-excel-read.c:3116
+#: ../plugins/excel/ms-excel-read.c:3115
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -388,7 +388,7 @@ msgstr ""
 "Links DDE não são suportados.\n"
 "O nome '%s' será perdido.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3122
+#: ../plugins/excel/ms-excel-read.c:3121
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -397,11 +397,11 @@ msgstr ""
 "Links OLE não são suportados.\n"
 "O nome '%s' será perdido.\n"
 
-#: ../plugins/excel/ms-excel-read.c:5322
+#: ../plugins/excel/ms-excel-read.c:5321
 msgid "external references"
 msgstr "referências externas"
 
-#: ../plugins/excel/ms-excel-read.c:5348
+#: ../plugins/excel/ms-excel-read.c:5347
 msgid "No password supplied"
 msgstr "Nenhuma senha fornecida"
 
@@ -1695,8 +1695,8 @@ msgid "OpenOffice OASIS _UNFINISHED_"
 msgstr "OpenOffice OASIS _UNFINISHED_"
 
 #: ../plugins/paradox/paradox.c:73 ../plugins/paradox/paradox.c:122
-msgid "Error while opening paradox file."
-msgstr "Erro ao abrir arquivo paradox."
+msgid "Error while opening Paradox file."
+msgstr "Erro ao abrir arquivo Paradox."
 
 # plugins/guile/plugin.c:278
 #: ../plugins/paradox/paradox.c:120
@@ -2072,7 +2072,7 @@ msgstr "Erro ao abrir arquivo xbase."
 #: ../plugins/xbase/boot.c:176 ../src/dialogs/dialog-goto-cell.c:289
 #: ../src/dialogs/dialog-search.c:422 ../src/dialogs/dialog-stf-export.c:461
 #: ../src/dialogs/print.glade.h:23 ../src/print-info.c:400
-#: ../src/workbook.c:1019 ../src/xml-io.c:3515
+#: ../src/workbook.c:1020 ../src/xml-io.c:3515
 msgid "Sheet"
 msgstr "Pasta"
 
@@ -2114,12 +2114,12 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:2
 msgid ""
-">This value determines the default setting in the Print Setup dialog whether "
-"to center pages vertically. Please use the Print Setup dialog to edit this "
-"value."
+">This value determines the default setting in the Print Setup dialog: "
+"whether to center pages vertically. Please use the Print Setup dialog to "
+"edit this value."
 msgstr ""
-">Este valor determina a definição padrão no diálogo Configurar Impressão "
-"para quando centralizar ou não a página verticalmente. Por favor, utilize o "
+">Este valor determina a definição padrão no diálogo Configurar Impressão: "
+"se a página deve ou não ser centralizada verticalmente. Por favor, utilize o "
 "diálogo Configurar Impressão para editar este valor."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:3
@@ -2452,16 +2452,6 @@ msgstr ""
 #: ../schemas/gnumeric-dialogs.schemas.in.h:68
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
-"to center pages horizontally. Please use the Print Setup dialog to edit this "
-"value."
-msgstr ""
-"Este valor determina a configuração padrão no diálogo Configurar Impressão "
-"sobre quando centrar as páginas horizontalmente. Por favor, utilize o "
-"diálogo Configurar Impressão para editar este valor."
-
-#: ../schemas/gnumeric-dialogs.schemas.in.h:69
-msgid ""
-"This value determines the default setting in the Print Setup dialog whether "
 "to print empty but formatted cells. Please use the Print Setup dialog to "
 "edit this value."
 msgstr ""
@@ -2469,7 +2459,7 @@ msgstr ""
 "sobre quando imprimir células vazias mas formatadas. Por favor, utilize o "
 "diálogo Configurar Impressão para editar este valor."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:70
+#: ../schemas/gnumeric-dialogs.schemas.in.h:69
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to print first right then down. Please use the Print Setup dialog to edit "
@@ -2479,7 +2469,7 @@ msgstr ""
 "sobre quando imprimir primeiro à direita e depois a baixo. Por favor, "
 "utilize o diálogo Configurar Impressão para editar este valor."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:71
+#: ../schemas/gnumeric-dialogs.schemas.in.h:70
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to print in only black and white. Please use the Print Setup dialog to edit "
@@ -2489,7 +2479,7 @@ msgstr ""
 "sobre quando imprimir somente em preto e branco. Por favor, utilize o "
 "diálogo Configurar Impressão para editar este valor."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:72
+#: ../schemas/gnumeric-dialogs.schemas.in.h:71
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to print row and column headers. Please use the Print Setup dialog to edit "
@@ -2499,7 +2489,7 @@ msgstr ""
 "Impressão sobre quando se deve imprimir cabeçalhos de linhas e colunas. Por "
 "favor, utilize o diálogo Configurar Impressão para editar este valor."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:73
+#: ../schemas/gnumeric-dialogs.schemas.in.h:72
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to scale pages by a given percentage. Please use the Print Setup dialog to "
@@ -2508,6 +2498,16 @@ msgstr ""
 "Este valor determina a configuração padrão no diálogo Configurar Impressão "
 "sobre quando aplicar o efeito de escala por uma dada porcentagem. Por favor, "
 "utilize o diálogo Configurar Impressão para editar este valor."
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:73
+msgid ""
+"This value determines the default setting in the Print Setup dialog: whether "
+"to center pages horizontally. Please use the Print Setup dialog to edit this "
+"value."
+msgstr ""
+"Este valor determina a configuração padrão no diálogo Configurar Impressão: "
+"se as páginas devem ou não ser centradas horizontalmente. Por favor, utilize o "
+"diálogo Configurar Impressão para editar este valor."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:74
 msgid ""
@@ -2636,7 +2636,7 @@ msgstr "DPI Horizontal"
 #: ../schemas/gnumeric-general.schemas.in.h:14
 msgid ""
 "If `lag' is 0, gnumeric recalculates all auto expressions immediately after "
-"every change. Non-zero values of `lag' allow gnumeric to acumulate more "
+"every change. Non-zero values of `lag' allow gnumeric to accumulate more "
 "changes before each recalculation. If `lag' is positive, then whenever a "
 "change appears, gnumeric waits `lag' milleseconds and then recalculates; if "
 "more changes appear during that period, they are also processed at that "
@@ -2646,7 +2646,7 @@ msgstr ""
 "Se `intervalo' é 0, o gnumeric recalcula todas as auto expressões "
 "imediatamente após cada mudança. Valores diferentes de zero para o "
 "`intervalo' permitem ao gnumeric acumular mais alterações antes de cada "
-"recálculo. Se `intervalo' é positivo, então quando surge uma alteração, o "
+"recálculo. Se `intervalo' é positivo, então quando surge uma alteração o "
 "gnumeric aguarda `intervalo' milisegundos e então realiza o recálculo, se "
 "mais alterações surgem durante este intervalo, elas são também processadas "
 "naquele momento. Se `intervalo' é negativo, então o recálculo apenas ocorre "
@@ -4250,7 +4250,7 @@ msgid "Jon Kåre Hellan"
 msgstr "Jon Kåre Hellan"
 
 #: ../src/dialogs/dialog-about.c:111
-msgid "UI Polish and all round bug fixer"
+msgid "UI polish and all round bug fixer"
 msgstr "Polimento da interface e fixador de defeitos diversos"
 
 #: ../src/dialogs/dialog-about.c:112
@@ -4543,7 +4543,7 @@ msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Impossível criar o diálogo da Ferramenta da Análise de Fourier."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1046
-msgid "No statistics is selected."
+msgid "No statistics are selected."
 msgstr "Nenhuma estatística foi selecionada."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1056
@@ -5772,12 +5772,12 @@ msgstr "Existe mais de uma pasta chamada \"%s\""
 msgid "At least one sheet must remain visible!"
 msgstr "Ao menos uma pasta deve permanecer visível!"
 
-#: ../src/dialogs/dialog-sheet-order.c:933
+#: ../src/dialogs/dialog-sheet-order.c:941
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "A ordem das pastas foi alterada. Você deseja atualizar a lista?"
 
-#: ../src/dialogs/dialog-sheet-order.c:1004
-#: ../src/dialogs/dialog-sheet-order.c:1014
+#: ../src/dialogs/dialog-sheet-order.c:1012
+#: ../src/dialogs/dialog-sheet-order.c:1022
 msgid "Default"
 msgstr "Padrão"
 
@@ -5822,16 +5822,16 @@ msgid "Variable"
 msgstr "Variável"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/workbook-control-gui.c:1928
+#: ../src/workbook-control-gui.c:1922
 msgid "Min"
 msgstr "Mín"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/workbook-control-gui.c:1930
+#: ../src/dialogs/dialog-simulation.c:237 ../src/workbook-control-gui.c:1924
 msgid "Average"
 msgstr "Média"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/workbook-control-gui.c:1929
+#: ../src/workbook-control-gui.c:1923
 msgid "Max"
 msgstr "Máx"
 
@@ -6024,8 +6024,8 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.glade.h:17
 msgid ""
-"Move the selected sheet to the end of the list of to be exported exported "
-"sheets to be exported last."
+"Move the selected sheet to the end of the list of to be exported sheets to "
+"be exported last."
 msgstr ""
 "Move a pasta selecionada para o final da lista de pastas a serem exportadas "
 "para que ela seja exportada por último."
@@ -8886,7 +8886,7 @@ msgstr "Curtose"
 msgid "Range"
 msgstr "Região"
 
-#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1931
+#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1925
 msgid "Count"
 msgstr "Contar"
 
@@ -9120,11 +9120,11 @@ msgid "Infeasible problem"
 msgstr "Problema inviável"
 
 #: ../src/tools/solver/reports-write.c:546
-msgid "Maximum number of iterations exceeded: optimization interupted"
+msgid "Maximum number of iterations exceeded: optimization interrupted"
 msgstr "O número máximo de iterações foi excedido: otimização interrompida"
 
 #: ../src/tools/solver/reports-write.c:551
-msgid "Maximum time exceeded: optimization interupted"
+msgid "Maximum time exceeded: optimization interrupted"
 msgstr "Tempo máximo excedido: otimização interrompida"
 
 #: ../src/tools/solver/reports-write.c:570
@@ -9325,10 +9325,10 @@ msgstr ""
 
 #: ../src/tools/solver/solver.c:502
 msgid ""
-"Failure setting setting the maximum solving time with this solver, try a "
-"different algorithm."
+"Failure setting the maximum solving time with this solver, try a different "
+"algorithm."
 msgstr ""
-"Falha ao definir o tempo máximo para este algoritmo, tente um algoritmo "
+"Falha ao definir o tempo máximo para este otimizador, tente um algoritmo "
 "diferente."
 
 #: ../src/tools/solver/solver.c:548
@@ -10135,6 +10135,10 @@ msgstr "Propriedades de Objeto Preenchido"
 msgid "Line/Arrow Properties"
 msgstr "Propriedades da Seta/Linha"
 
+#: ../src/gnm-so-polygon.c:179
+msgid "Polygon Properties"
+msgstr "Propriedades do Polígono"
+
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:1
 msgid "FormatToolbar"
 msgstr "Formatar"
@@ -10602,15 +10606,15 @@ msgstr "Visualiza a impressão"
 msgid "Printing failed"
 msgstr "Falha de impressão"
 
-#: ../src/print.c:1349
+#: ../src/print.c:1350
 msgid "Print Sheets"
 msgstr "Imprimir Pastas"
 
-#: ../src/print.c:1358
+#: ../src/print.c:1359
 msgid "Act_ive sheet"
 msgstr "Pasta at_iva"
 
-#: ../src/print.c:1358
+#: ../src/print.c:1359
 msgid "S_heets"
 msgstr "_Pastas"
 
@@ -10854,7 +10858,7 @@ msgid "Display Outlines Below"
 msgstr "Exibir Contornos Abaixo"
 
 #: ../src/sheet.c:619
-msgid "Control whether outlines symbols are shown below."
+msgid "Control whether outline symbols are shown below."
 msgstr "Controla se os contornos são exibidos abaixo."
 
 #: ../src/sheet.c:627
@@ -10862,7 +10866,7 @@ msgid "Display Outlines Right"
 msgstr "Exibir Contornos à Direita"
 
 #: ../src/sheet.c:628
-msgid "Control whether outlines symbols are shown to the right."
+msgid "Control whether outline symbols are shown to the right."
 msgstr "Controla se os contornos são exibidos à direita."
 
 #: ../src/sheet.c:636
@@ -12046,11 +12050,11 @@ msgstr "_Nova Visualização..."
 msgid "Create a new view of the workbook"
 msgstr "Cria uma nova vista do Workbook"
 
-#: ../src/wbcg-actions.c:1648 ../src/workbook-control-gui.c:1149
+#: ../src/wbcg-actions.c:1648 ../src/workbook-control-gui.c:1143
 msgid "_Freeze Panes"
 msgstr "Con_gelar Painéis"
 
-#: ../src/wbcg-actions.c:1649 ../src/workbook-control-gui.c:1152
+#: ../src/wbcg-actions.c:1649 ../src/workbook-control-gui.c:1146
 msgid "Freeze the top left of the sheet"
 msgstr "Congela a extremidade superior esquerda da pasta"
 
@@ -12158,8 +12162,8 @@ msgid "Edit sheet and workbook names"
 msgstr "Edita nomes de regiões de células nas pastas e Workbooks"
 
 #: ../src/wbcg-actions.c:1703
-msgid "Paste the definition a name, or names"
-msgstr "Colar a definição do nome, ou nomes"
+msgid "Paste the definition of a name or names"
+msgstr "Colar a definição de um nome ou de nomes"
 
 #: ../src/wbcg-actions.c:1706
 msgid "_Auto generate names..."
@@ -12568,7 +12572,7 @@ msgid "Remove an outline group"
 msgstr "Remove um grupo de contorno"
 
 #. Data -> Filter
-#: ../src/wbcg-actions.c:1888 ../src/workbook-control-gui.c:1160
+#: ../src/wbcg-actions.c:1888 ../src/workbook-control-gui.c:1154
 msgid "Add _Auto Filter"
 msgstr "Adicionar _Auto Filtro"
 
@@ -12602,7 +12606,7 @@ msgid "Import the text from a file"
 msgstr "Importa o texto de um arquivo"
 
 #. Standard Toolbar
-#: ../src/wbcg-actions.c:1903 ../src/workbook-control-gui.c:1927
+#: ../src/wbcg-actions.c:1903 ../src/workbook-control-gui.c:1921
 #: ../src/workbook-view.c:588
 msgid "Sum"
 msgstr "Soma"
@@ -13166,55 +13170,55 @@ msgstr "Exibir/Ocultar a barras de ferramentas %s"
 msgid "Book%d.%s"
 msgstr "Livro%d.%s"
 
-#: ../src/workbook.c:1489
+#: ../src/workbook.c:1490
 msgid "Renaming sheet"
 msgstr "Renomeando as pastas"
 
-#: ../src/workbook.c:1490
+#: ../src/workbook.c:1491
 #, c-format
 msgid "Renaming %d sheets"
 msgstr "Renomeando %d pastas"
 
-#: ../src/workbook.c:1493
+#: ../src/workbook.c:1494
 msgid "Adding sheet"
 msgstr "Adicionando a pasta"
 
-#: ../src/workbook.c:1494
+#: ../src/workbook.c:1495
 #, c-format
 msgid "Adding %d sheets"
 msgstr "Adicionando %d pastas"
 
-#: ../src/workbook.c:1501
+#: ../src/workbook.c:1502
 msgid "Inserting sheet"
 msgstr "Inserindo a pasta"
 
-#: ../src/workbook.c:1502
+#: ../src/workbook.c:1503
 #, c-format
 msgid "Inserting %d sheets"
 msgstr "Inserindo %d pastas"
 
-#: ../src/workbook.c:1504
+#: ../src/workbook.c:1505
 msgid "Changing sheet tab colors"
 msgstr "Alterando as cores das abas das pastas"
 
-#: ../src/workbook.c:1506
+#: ../src/workbook.c:1507
 msgid "Changing sheet properties"
 msgstr "Alterando as propriedades da pasta"
 
-#: ../src/workbook.c:1514
+#: ../src/workbook.c:1515
 msgid "Deleting sheet"
 msgstr "Excluindo a pasta"
 
-#: ../src/workbook.c:1515
+#: ../src/workbook.c:1516
 #, c-format
 msgid "Deleting %d sheets"
 msgstr "Excluindo %d pastas"
 
-#: ../src/workbook.c:1517
+#: ../src/workbook.c:1518
 msgid "Changing sheet order"
 msgstr "Alterando a ordem da pasta"
 
-#: ../src/workbook.c:1519
+#: ../src/workbook.c:1520
 msgid "Reorganizing Sheets"
 msgstr "Reorganizando Pastas"
 
@@ -13250,106 +13254,106 @@ msgstr "Remover"
 msgid "Rename"
 msgstr "Renomear"
 
-#: ../src/workbook-control-gui.c:1148
+#: ../src/workbook-control-gui.c:1142
 msgid "Un_freeze Panes"
 msgstr "Descon_gelar Painéis"
 
-#: ../src/workbook-control-gui.c:1151
+#: ../src/workbook-control-gui.c:1145
 msgid "Unfreeze the top left of the sheet"
 msgstr "Descongela a extremidade superior esquerda da pasta"
 
-#: ../src/workbook-control-gui.c:1159
+#: ../src/workbook-control-gui.c:1153
 msgid "Remove _Auto Filter"
 msgstr "_Remover Auto Filtro"
 
-#: ../src/workbook-control-gui.c:1162
+#: ../src/workbook-control-gui.c:1156
 msgid "Remove a filter"
 msgstr "Remove um filtro"
 
-#: ../src/workbook-control-gui.c:1163
+#: ../src/workbook-control-gui.c:1157
 msgid "Add a filter"
 msgstr "Adiciona um filtro"
 
-#: ../src/workbook-control-gui.c:1174
+#: ../src/workbook-control-gui.c:1168
 msgid "_Undo"
 msgstr "_Desfazer"
 
-#: ../src/workbook-control-gui.c:1175
+#: ../src/workbook-control-gui.c:1169
 msgid "_Redo"
 msgstr "_Refazer"
 
-#: ../src/workbook-control-gui.c:1261
+#: ../src/workbook-control-gui.c:1255
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Salvar as alterações para o Workbook '%s' antes de sair da sessão?"
 
-#: ../src/workbook-control-gui.c:1265
+#: ../src/workbook-control-gui.c:1259
 msgid "Save changes to workbook before closing?"
 msgstr "Salvar as alterações para o Workbook antes de fechar a sessão?"
 
-#: ../src/workbook-control-gui.c:1271
+#: ../src/workbook-control-gui.c:1265
 msgid "If you close without saving, changes will be discarded."
 msgstr "Se você fechar sem salvar, as alterações serão descartadas."
 
-#: ../src/workbook-control-gui.c:1277
+#: ../src/workbook-control-gui.c:1271
 msgid "Discard all"
 msgstr "Descartar tudo"
 
-#: ../src/workbook-control-gui.c:1279 ../src/workbook-control-gui.c:1286
-#: ../src/workbook-control-gui.c:1292
+#: ../src/workbook-control-gui.c:1273 ../src/workbook-control-gui.c:1280
+#: ../src/workbook-control-gui.c:1286
 msgid "Discard"
 msgstr "Descartar"
 
-#: ../src/workbook-control-gui.c:1281
+#: ../src/workbook-control-gui.c:1275
 msgid "Save all"
 msgstr "Salvar tudo"
 
-#: ../src/workbook-control-gui.c:1283 ../src/workbook-control-gui.c:1288
+#: ../src/workbook-control-gui.c:1277 ../src/workbook-control-gui.c:1282
 msgid "Don't quit"
 msgstr "Não sair"
 
-#: ../src/workbook-control-gui.c:1294
+#: ../src/workbook-control-gui.c:1288
 msgid "Don't close"
 msgstr "Não fechar"
 
-#: ../src/workbook-control-gui.c:1976
+#: ../src/workbook-control-gui.c:1970
 msgid "Use maximum precision"
 msgstr "Utilizar a precisão máxima"
 
-#: ../src/workbook-control-gui.c:2203
+#: ../src/workbook-control-gui.c:2197
 msgid "Cancel change"
 msgstr "Cancelar alteração"
 
-#: ../src/workbook-control-gui.c:2207
+#: ../src/workbook-control-gui.c:2201
 msgid "Accept change"
 msgstr "Aceitar alteração"
 
-#: ../src/workbook-control-gui.c:2211
+#: ../src/workbook-control-gui.c:2205
 msgid "Enter formula..."
 msgstr "Entrar com a fórmula..."
 
-#: ../src/workbook-control-gui.c:2345 ../src/workbook-control-gui.c:2360
+#: ../src/workbook-control-gui.c:2339 ../src/workbook-control-gui.c:2354
 msgid "_Re-Edit"
 msgstr "_Reeditar"
 
-#: ../src/workbook-control-gui.c:2346 ../src/workbook-control-gui.c:2351
+#: ../src/workbook-control-gui.c:2340 ../src/workbook-control-gui.c:2345
 msgid "_Discard"
 msgstr "_Descartar"
 
-#: ../src/workbook-control-gui.c:2350 ../src/workbook-control-gui.c:2361
+#: ../src/workbook-control-gui.c:2344 ../src/workbook-control-gui.c:2355
 msgid "_Accept"
 msgstr "_Aceitar"
 
-#: ../src/workbook-edit.c:699
+#: ../src/workbook-edit.c:706
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s está travado"
 
-#: ../src/workbook-edit.c:703
+#: ../src/workbook-edit.c:710
 msgid "Unprotect the workbook to enable editing."
 msgstr "Desbloqueie o Workbook para habilitar a edição."
 
-#: ../src/workbook-edit.c:704
+#: ../src/workbook-edit.c:711
 msgid "Unprotect the sheet to enable editing."
 msgstr " Desbloqueie a pasta para habilitar a edição."
 
