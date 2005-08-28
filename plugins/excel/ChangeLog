@@ -1,3 +1,7 @@
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
 2005-08-25  Stepan Kasal  <kasal@ucw.cz>
 
 	* ms-chart.c (BC_R(text)): Comment out declarations of variables for

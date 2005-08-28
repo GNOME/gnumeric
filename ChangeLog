@@ -1,3 +1,7 @@
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
 2005-08-26  Morten Welinder  <terra@gnome.org>
 
 	* src/print.c (dialog_response): Reset page count.  [#314520]

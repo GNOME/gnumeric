@@ -1,3 +1,7 @@
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
 2005-08-23  Morten Welinder  <terra@gnome.org>
 
 	* lp_solve.c: Update to lp_solve 5.5 and put everything in one
