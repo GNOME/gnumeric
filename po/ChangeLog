@@ -1,3 +1,7 @@
+2005-08-28  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* fr.po: Escape ampersand.
+
 2005-08-28  Valek Filippov  <frob@df.ru>
 
 	* ru.po: Updated russian translation.

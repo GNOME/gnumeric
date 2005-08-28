@@ -474,7 +474,7 @@ msgstr "MS Excel (tm) 97/2000/XP"
 
 #: plugins/excel/plugin.xml.in.h:6
 msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
-msgstr "MS Excel (tm) 97/2000/XP & 5.0/95"
+msgstr "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:7
 msgid "MS Excel (tm) SpreadsheetML"
