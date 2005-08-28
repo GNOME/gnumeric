@@ -4140,7 +4140,7 @@ ATANH(0.8) equals 1.098612.
 @CATEGORY=Mathematics
 @FUNCTION=BETA
 @SYNTAX=BETA(a,b)
-@DESCRIPTION=BETA function returns the value of the mathematic beta function extended to all real numbers except 0 and negative integers.
+@DESCRIPTION=BETA function returns the value of the mathematical beta function extended to all real numbers except 0 and negative integers.
 
 * If @a, @b, or (@a + @b) are non-positive integers, BETA returns #NUM! error.
 
