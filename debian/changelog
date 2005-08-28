@@ -1,3 +1,12 @@
+gnumeric (1.5.4-1) unstable; urgency=low
+
+  * New upstream release.
+  * [debian/rules] Temporarily disabled GDA and GnomeDB plugins as they 
+    currently require newer versions of those libraries than are available in
+    sid.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 28 Aug 2005 19:02:18 +0200
+
 gnumeric (1.5.3-2) unstable; urgency=low
 
   * [debian/gnumeric-common.install] Install all translations, including those
