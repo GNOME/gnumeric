@@ -1,3 +1,8 @@
+2005-08-29  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/ssconvert.c (convert): If output file name was not given,
+	don't call go_shell_arg_to_uri.  Without gnome, this caused a segfault.
+
 2005-08-28  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post release bump.

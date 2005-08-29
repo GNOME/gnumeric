@@ -101,7 +101,10 @@ convert (char const **args, GOCmdContext *cc)
 	int res = 0;
 	GOFileSaver *fs = NULL;
 	GOFileOpener *fo = NULL;
-	char *outfile = go_shell_arg_to_uri (args[1]);
+	char *outfile = NULL;
+
+	if (args[1] != NULL)
+		outfile = go_shell_arg_to_uri (args[1]);
 
 	if (ssconvert_export_id != NULL) {
 		fs = go_file_saver_for_id (ssconvert_export_id);
