@@ -2461,7 +2461,7 @@ msgid ""
 "sheet is suppposed to be high. 0 disables scaling. Please use the Print "
 "Setup dialog to edit this value."
 msgstr ""
-"Dieser Wert legt fest, wieviele Seiten hoch ein Ausdruck des momentanen "
+"Dieser Wert legt fest, wie viele Seiten hoch ein Ausdruck des momentanen "
 "Blattes sein soll. Bitte verwenden Sie den Druckeinstellungsdialog zum "
 "Bearbeiten dieses Werts."
 
@@ -2471,7 +2471,7 @@ msgid ""
 "sheet is suppposed to be wide. 0 disables scaling. Please use the Print "
 "Setup dialog to edit this value."
 msgstr ""
-"Dieser Wert legt fest, wieviele Seiten breit ein Ausdruck des momentanen "
+"Dieser Wert legt fest, wie viele Seiten breit ein Ausdruck des momentanen "
 "Blattes sein soll. Bitte verwenden Sie den Druckeinstellungsdialog zum "
 "Bearbeiten dieses Werts."
 
@@ -9210,7 +9210,7 @@ msgstr ""
 #: ../src/tools/solver/solver.c:465
 msgid "EqualTo models are not supported yet.  Please use Min or Max"
 msgstr ""
-"Gleichheitsmodelle werden zur Zeit nicht unterstützt. Verwenden Sie bitte "
+"Gleichheitsmodelle werden zurzeit nicht unterstützt. Verwenden Sie bitte "
 "Min oder Max."
 
 #: ../src/tools/solver/solver.c:478
