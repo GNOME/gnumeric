@@ -1,3 +1,7 @@
+2005-08-29  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : bump goffice req
+
 2005-08-27  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook.c (workbook_dispose) : Looks like this patch got
