@@ -818,7 +818,7 @@ cmd_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			GnmRange r;
 
 			gnm_style_set_format (new_style, sf);
-			style_format_unref (sf);
+			go_format_unref (sf);
 			r.start = r.end = me->pos.eval;
 			sheet_apply_style (me->cmd.sheet, &r, new_style);
 		}
@@ -912,7 +912,7 @@ cmd_set_text (WorkbookControl *wbc,
 
 		if (same_text && cell->value && VALUE_IS_STRING (cell->value)) {
 			const GOFormat *fmt = VALUE_FMT (cell->value);
-			if (fmt && style_format_is_markup (fmt))
+			if (fmt && go_format_is_markup (fmt))
 				old_markup = fmt->markup;
 		}
 
@@ -951,7 +951,7 @@ cmd_set_text (WorkbookControl *wbc,
 	g_free (where);
 	g_free (text);
 
-	me->has_user_format = !style_format_is_general (
+	me->has_user_format = !go_format_is_general (
 		gnm_style_get_format (sheet_style_get (sheet, pos->col, pos->row)));
 
 	return command_push_undo (wbc, G_OBJECT (me));
@@ -1047,7 +1047,7 @@ cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		if (sf != NULL) {
 			new_style = gnm_style_new ();
 			gnm_style_set_format (new_style, sf);
-			style_format_unref (sf);
+			go_format_unref (sf);
 		}
 	}
 
@@ -2486,7 +2486,7 @@ typedef struct {
  * workbooks.
  */
 static void
-cmd_paste_cut_update_origin (GnmExprRelocateInfo const  *info,
+cmd_paste_cut_update_origin (GnmExprRelocateInfo const *info,
 			     G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	/* Dirty and update both sheets */
@@ -2513,6 +2513,7 @@ cmd_paste_cut_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me->paste_content != NULL, TRUE);
 	g_return_val_if_fail (me->deleted_sheet_contents == NULL, TRUE);
 
+	reverse.reloc_type = GNM_EXPR_RELOCATE_STD;
 	reverse.target_sheet = me->info.origin_sheet;
 	reverse.origin_sheet = me->info.target_sheet;
 	reverse.origin = me->info.origin;

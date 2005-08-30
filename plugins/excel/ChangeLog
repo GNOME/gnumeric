@@ -1,3 +1,15 @@
+2005-08-29  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (excel_parse_formula) : support data tables.
+	* ms-excel-read.c (excel_formula_shared) : ditto.
+	* ms-formula-write.c (write_node) : ditto.
+	* ms-excel-write.c (excel_write_FORMULA) : ditto.
+
+2005-08-27  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_obj_map_forms_obj) : no need to warn about record with
+	  no expressions. (Wallenbach/Formulas-2003/chap05/character\ set.xls)
+
 2005-08-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.5.5

@@ -2,9 +2,22 @@
 /*
  * sheet-control-gui.c: Implements a graphic control for a sheet.
  *
- * Author:
- *    Miguel de Icaza (miguel@kernel.org)
- *    Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 1997-1999 Miguel de Icaza (miguel@kernel.org)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
@@ -66,6 +79,8 @@
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkdnd.h>
+#include <gtk/gtkhpaned.h>
+#include <gtk/gtkvpaned.h>
 
 #include <string.h>
 
@@ -413,8 +428,8 @@ void
 scg_scrollbar_config (SheetControl const *sc)
 {
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
-	GtkAdjustment *va = GTK_ADJUSTMENT (scg->va);
-	GtkAdjustment *ha = GTK_ADJUSTMENT (scg->ha);
+	GtkAdjustment *va = scg->va;
+	GtkAdjustment *ha = scg->ha;
 	GnmCanvas *gcanvas = scg_pane (scg, 0);
 	Sheet const    *sheet = sc->sheet;
 	SheetView const*sv = sc->view;
@@ -1134,11 +1149,101 @@ cb_scg_redraw_resize (Sheet *sheet,
 }
 
 static void
-cb_scg_direction_changed (Sheet *sheet,
-			  GParamSpec *pspec,
-			  SheetControlGUI *scg)
+cb_scg_direction_changed (SheetControl *sc)
 {
-	scg_resize (SHEET_CONTROL (scg), TRUE);
+	scg_resize (sc, TRUE);
+}
+
+static int
+resize_pane_pos (SheetControlGUI *scg, GtkPaned *p, int *colrow_result)
+{
+	ColRowInfo const *cri;
+	GnmCanvas const  *gcanvas = scg_pane (scg, 0);
+	gboolean const    vert = (p == scg->hpane);
+	int colrow, guide_pos, raw = gtk_paned_get_position (p);
+
+	if (vert) {
+		raw -= GTK_WIDGET (scg->pane[0].row.canvas)->allocation.width;
+		raw += gcanvas->first_offset.col;
+		colrow = gnm_canvas_find_col (gcanvas, raw, &guide_pos);
+	} else {
+		raw -= GTK_WIDGET (scg->pane[0].col.canvas)->allocation.height;
+		raw += gcanvas->first_offset.row;
+		colrow = gnm_canvas_find_row (gcanvas, raw, &guide_pos);
+	}
+	cri = sheet_colrow_get_info (sc_sheet (SHEET_CONTROL (scg)), colrow, vert);
+	if (raw >= (guide_pos + cri->size_pixels/2)) {
+		guide_pos += cri->size_pixels;
+		colrow++;
+	}
+	if (NULL != colrow_result)
+		*colrow_result = colrow;
+
+	return guide_pos;
+}
+static gboolean
+cb_resize_pane_finish (SheetControlGUI *scg, GtkPaned *p)
+{
+	SheetView *sv =	sc_view ((SheetControl *) scg);
+	GnmCellPos frozen_tl, unfrozen_tl;
+	int	   colrow;
+
+	if (p->in_drag)
+		return TRUE;
+	resize_pane_pos (scg, p, &colrow);
+
+	if (sv_is_frozen (sv)) {
+		frozen_tl   = sv->frozen_top_left;
+		unfrozen_tl = sv->unfrozen_top_left;
+	} else {
+		GnmCanvas const *gcanvas = scg_pane (scg, 0);
+		frozen_tl = gcanvas->first;
+	}
+	if (p == scg->hpane) {
+		unfrozen_tl.col = colrow;
+		if (!sv_is_frozen (sv))
+			unfrozen_tl.row = frozen_tl.row = 0;
+	} else {
+		unfrozen_tl.row = colrow;
+		if (!sv_is_frozen (sv))
+			unfrozen_tl.col = frozen_tl.col = 0;
+	}
+	sv_freeze_panes	(sv, &frozen_tl, &unfrozen_tl);
+
+	scg->pane_drag_handler = 0;
+	scg_size_guide_stop (scg);
+	gtk_paned_set_position (p, 0);
+
+	return FALSE;
+}
+static gboolean
+cb_resize_vpane_finish (SheetControlGUI *scg)
+{
+	return cb_resize_pane_finish (scg, scg->vpane);
+}
+static gboolean
+cb_resize_hpane_finish (SheetControlGUI *scg)
+{
+	return cb_resize_pane_finish (scg, scg->hpane);
+}
+static void
+cb_resize_pane_motion (GtkPaned *p,
+		       G_GNUC_UNUSED GParamSpec *pspec,
+		       SheetControlGUI *scg)
+{
+	gboolean const vert = (p == scg->hpane);
+
+	if (scg->pane_drag_handler == 0 && p->in_drag) {
+		GnmCanvas const *gcanvas = scg_pane (scg, 0);
+		scg_size_guide_start (scg, vert,
+			vert ? gcanvas->first.col : gcanvas->first.row, 7);
+		scg->pane_drag_handler = g_timeout_add (250,
+			vert ? (GSourceFunc) cb_resize_hpane_finish
+			     : (GSourceFunc) cb_resize_vpane_finish,
+			(gpointer) scg);
+	}
+	if (scg->pane_drag_handler)
+		scg_size_guide_motion (scg, vert, resize_pane_pos (scg, p, NULL));
 }
 
 SheetControlGUI *
@@ -1165,6 +1270,7 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 	scg->pane [1].is_active = FALSE;
 	scg->pane [2].is_active = FALSE;
 	scg->pane [3].is_active = FALSE;
+	scg->pane_drag_handler = 0;
 
 	scg->col_group.buttons = g_ptr_array_new ();
 	scg->row_group.buttons = g_ptr_array_new ();
@@ -1220,9 +1326,9 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 	/* Scroll bars and their adjustments */
 	scroll_update_policy = gnm_app_live_scrolling ()
 		? GTK_UPDATE_CONTINUOUS : GTK_UPDATE_DELAYED;
-	scg->va = gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
+	scg->va = (GtkAdjustment *)gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
 	scg->vs = g_object_new (GTK_TYPE_VSCROLLBAR,
-			"adjustment",	 GTK_ADJUSTMENT (scg->va),
+			"adjustment",	 scg->va,
 			"update-policy", scroll_update_policy,
 			NULL);
 	g_signal_connect (G_OBJECT (scg->vs),
@@ -1232,9 +1338,9 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 		"adjust_bounds",
 		G_CALLBACK (cb_vscrollbar_adjust_bounds), NULL);
 
-	scg->ha = gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
+	scg->ha = (GtkAdjustment *)gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
 	scg->hs = g_object_new (GTK_TYPE_HSCROLLBAR,
-			"adjustment", GTK_ADJUSTMENT (scg->ha),
+			"adjustment", scg->ha,
 			"update-policy", scroll_update_policy,
 			NULL);
 	g_signal_connect (G_OBJECT (scg->hs),
@@ -1251,16 +1357,29 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 		0, 0);
-	gtk_table_attach (scg->table, scg->vs,
+	scg->vpane = g_object_new (GTK_TYPE_VPANED, NULL);
+	gtk_paned_add1 (scg->vpane, gtk_vscrollbar_new (scg->va));
+	gtk_paned_add2 (scg->vpane, scg->vs);
+	gtk_paned_set_position (scg->vpane, 0);
+	gtk_table_attach (scg->table, GTK_WIDGET (scg->vpane),
 		1, 2, 0, 1,
 		GTK_FILL,
 		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 		0, 0);
-	gtk_table_attach (scg->table, scg->hs,
+	scg->hpane = g_object_new (GTK_TYPE_HPANED, NULL);
+	gtk_paned_add1 (scg->hpane, gtk_hscrollbar_new (scg->ha));
+	gtk_paned_add2 (scg->hpane, scg->hs);
+	gtk_paned_set_position (scg->hpane, 0);
+	gtk_table_attach (scg->table, GTK_WIDGET (scg->hpane),
 		0, 1, 1, 2,
 		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 		GTK_FILL,
 		0, 0);
+	/* do not connect until after setting position */
+	g_signal_connect (G_OBJECT (scg->vpane), "notify::position",
+		G_CALLBACK (cb_resize_pane_motion), scg);
+	g_signal_connect (G_OBJECT (scg->hpane), "notify::position",
+		G_CALLBACK (cb_resize_pane_motion), scg);
 	g_signal_connect_data (G_OBJECT (scg->table),
 		"size_allocate",
 		G_CALLBACK (scg_scrollbar_config), scg, NULL,
@@ -1274,7 +1393,7 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 
 	g_object_connect
 		(G_OBJECT (sheet),
-		 "signal::notify::text-is-rtl", cb_scg_direction_changed, scg,
+		 "swapped_signal::notify::text-is-rtl", cb_scg_direction_changed, scg,
 		 "signal::notify::display-formulas", cb_scg_redraw, scg,
 		 "signal::notify::display-zeros", cb_scg_redraw, scg,
 		 "signal::notify::display-grid", cb_scg_redraw, scg,
@@ -2762,35 +2881,29 @@ scg_take_focus (SheetControlGUI *scg)
 				      GTK_WIDGET (scg_pane (scg, 0)));
 }
 
+/*********************************************************************************/
 void
-scg_colrow_resize_stop (SheetControlGUI *scg)
+scg_size_guide_start (SheetControlGUI *scg, gboolean vert, int colrow, int width)
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
-
 	SCG_FOREACH_PANE (scg, pane,
-		gnm_pane_colrow_resize_stop (pane););
+		gnm_pane_size_guide_start (pane, vert, colrow, width););
 }
-
 void
-scg_colrow_resize_start	(SheetControlGUI *scg,
-			 gboolean is_cols, int resize_first)
+scg_size_guide_motion (SheetControlGUI *scg, gboolean vert, int guide_pos)
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
-
 	SCG_FOREACH_PANE (scg, pane,
-		gnm_pane_colrow_resize_start (pane,
-			is_cols, resize_first););
+		gnm_pane_size_guide_motion (pane, vert, guide_pos););
 }
-
 void
-scg_colrow_resize_move (SheetControlGUI *scg,
-			gboolean is_cols, int pos)
+scg_size_guide_stop (SheetControlGUI *scg)
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
-
 	SCG_FOREACH_PANE (scg, pane,
-		gnm_pane_colrow_resize_move (pane, is_cols, pos););
+		gnm_pane_size_guide_stop (pane););
 }
+/*********************************************************************************/
 
 void
 scg_special_cursor_start (SheetControlGUI *scg, int style, int button)

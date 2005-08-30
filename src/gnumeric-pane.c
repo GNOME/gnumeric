@@ -90,9 +90,9 @@ gnumeric_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 		pane->row.canvas = canvas;
 		pane->row.item = ITEM_BAR (item);
 	}
-	pane->colrow_resize.points = NULL;
-	pane->colrow_resize.start  = NULL;
-	pane->colrow_resize.guide  = NULL;
+	pane->size_guide.points = NULL;
+	pane->size_guide.start  = NULL;
+	pane->size_guide.guide  = NULL;
 
 	if (NULL != scg &&
 	    NULL != (sheet = sc_sheet (SHEET_CONTROL (scg))) &&
@@ -411,9 +411,9 @@ gnm_pane_release (GnmPane *pane)
 	pane->grid = NULL;
 	pane->editor = NULL;
 	pane->cursor.std = pane->cursor.rangesel = pane->cursor.special = pane->cursor.rangehighlight = NULL;
-	pane->colrow_resize.guide = NULL;
-	pane->colrow_resize.start = NULL;
-	pane->colrow_resize.points = NULL;
+	pane->size_guide.guide = NULL;
+	pane->size_guide.start = NULL;
+	pane->size_guide.points = NULL;
 }
 
 void
@@ -435,30 +435,28 @@ gnm_pane_bound_set (GnmPane *pane,
 /****************************************************************************/
 
 void
-gnm_pane_colrow_resize_start (GnmPane *pane,
-			      gboolean is_cols, int resize_pos)
+gnm_pane_size_guide_start (GnmPane *pane, gboolean vert, int colrow, int width)
 {
 	SheetControlGUI const *scg;
 	GnmCanvas const *gcanvas;
 	FooCanvasPoints *points;
-	FooCanvasItem *item;
 	double zoom;
 	gboolean text_is_rtl;
 
 	g_return_if_fail (pane != NULL);
-	g_return_if_fail (pane->colrow_resize.guide  == NULL);
-	g_return_if_fail (pane->colrow_resize.start  == NULL);
-	g_return_if_fail (pane->colrow_resize.points == NULL);
+	g_return_if_fail (pane->size_guide.guide  == NULL);
+	g_return_if_fail (pane->size_guide.start  == NULL);
+	g_return_if_fail (pane->size_guide.points == NULL);
 
 	gcanvas = pane->gcanvas;
 	scg = gcanvas->simple.scg;
 	text_is_rtl = scg->sheet_control.sheet->text_is_rtl;
 	zoom = FOO_CANVAS (gcanvas)->pixels_per_unit;
 
-	points = pane->colrow_resize.points = foo_canvas_points_new (2);
-	if (is_cols) {
+	points = pane->size_guide.points = foo_canvas_points_new (2);
+	if (vert) {
 		double x = scg_colrow_distance_get (scg, TRUE,
-					0, resize_pos) / zoom;
+					0, colrow) / zoom;
 		if (text_is_rtl)
 			x = -x;
 		points->coords [0] = x;
@@ -469,7 +467,7 @@ gnm_pane_colrow_resize_start (GnmPane *pane,
 					0, gcanvas->last_visible.row+1) / zoom;
 	} else {
 		double const y = scg_colrow_distance_get (scg, FALSE,
-					0, resize_pos) / zoom;
+					0, colrow) / zoom;
 		points->coords [0] = scg_colrow_distance_get (scg, TRUE,
 					0, gcanvas->first.col) / zoom;
 		points->coords [1] = y;
@@ -483,55 +481,73 @@ gnm_pane_colrow_resize_start (GnmPane *pane,
 		}
 	}
 
-	/* Position the stationary only.  Guide line is handled elsewhere. */
-	item = foo_canvas_item_new (gcanvas->action_items,
+	/* Guideline positioning is done in gnm_pane_size_guide_motion */
+	pane->size_guide.guide = foo_canvas_item_new (gcanvas->action_items,
 		FOO_TYPE_CANVAS_LINE,
-		"points", points,
 		"fill-color", "black",
-		"width-pixels", 1,
+		"width-pixels", width,
 		NULL);
-	pane->colrow_resize.start = GTK_OBJECT (item);
 
-	item = foo_canvas_item_new (gcanvas->action_items,
-		FOO_TYPE_CANVAS_LINE,
-		"fill-color", "black",
-		"width-pixels", 1,
-		NULL);
-	pane->colrow_resize.guide = GTK_OBJECT (item);
+	/* cheat for now and differentiate between col/row resize and frozen panes
+	 * using the width.  Frozen pane guides do not require a start line */
+	if (width == 1)
+		pane->size_guide.start = foo_canvas_item_new (gcanvas->action_items,
+			FOO_TYPE_CANVAS_LINE,
+			"points", points,
+			"fill-color", "black",
+			"width-pixels", 1,
+			NULL);
+	else {
+		static char const dat [] = { 0x22, 0x88, 0x22, 0x88, 0x22, 0x88, 0x22, 0x88 };
+		GdkBitmap *stipple = gdk_bitmap_create_from_data (
+			GTK_WIDGET (pane->gcanvas)->window, dat, 8, 8);
+		foo_canvas_item_set (pane->size_guide.guide, "fill-stipple", stipple, NULL);
+		g_object_unref (stipple);
+	}
 }
 
 void
-gnm_pane_colrow_resize_stop (GnmPane *pane)
+gnm_pane_size_guide_stop (GnmPane *pane)
 {
 	g_return_if_fail (pane != NULL);
 
-	if (pane->colrow_resize.points != NULL) {
-		foo_canvas_points_free (pane->colrow_resize.points);
-		pane->colrow_resize.points = NULL;
+	if (pane->size_guide.points != NULL) {
+		foo_canvas_points_free (pane->size_guide.points);
+		pane->size_guide.points = NULL;
 	}
-	if (pane->colrow_resize.start != NULL) {
-		gtk_object_destroy (pane->colrow_resize.start);
-		pane->colrow_resize.start = NULL;
+	if (pane->size_guide.start != NULL) {
+		gtk_object_destroy (GTK_OBJECT (pane->size_guide.start));
+		pane->size_guide.start = NULL;
 	}
-	if (pane->colrow_resize.guide != NULL) {
-		gtk_object_destroy (pane->colrow_resize.guide);
-		pane->colrow_resize.guide = NULL;
+	if (pane->size_guide.guide != NULL) {
+		gtk_object_destroy (GTK_OBJECT (pane->size_guide.guide));
+		pane->size_guide.guide = NULL;
 	}
 }
 
+/**
+ * gnm_pane_size_guide_motion
+ * @pane : #GnmPane
+ * @vert : TRUE for a vertical guide, FALSE for horizontal
+ * @guide_pos : in unscaled sheet pixel coords
+ *
+ * Moves the guide line to @guide_pos.
+ * NOTE : gnm_pane_size_guide_start must be called before any calls to
+ *	gnm_pane_size_guide_motion
+ **/
 void
-gnm_pane_colrow_resize_move (GnmPane *pane, gboolean is_cols, int resize_pos)
+gnm_pane_size_guide_motion (GnmPane *pane, gboolean vert, int guide_pos)
 {
-	FooCanvasItem *resize_guide = FOO_CANVAS_ITEM (pane->colrow_resize.guide);
-	FooCanvasPoints *points     = pane->colrow_resize.points;
+	FooCanvasItem *resize_guide = FOO_CANVAS_ITEM (pane->size_guide.guide);
+	FooCanvasPoints *points     = pane->size_guide.points;
 	double const	 scale	    = 1. / resize_guide->canvas->pixels_per_unit;
 
-	if (is_cols) {
+	if (vert) {
 		gboolean text_is_rtl = pane->gcanvas->simple.scg->sheet_control.sheet->text_is_rtl;
 		points->coords [0] = points->coords [2] = scale *
-			(text_is_rtl ? -resize_pos : resize_pos);
+			(text_is_rtl ? -guide_pos : guide_pos);
 	} else
-		points->coords [1] = points->coords [3] = scale * resize_pos;
+		points->coords [1] = points->coords [3] = scale * guide_pos;
 
 	foo_canvas_item_set (resize_guide, "points",  points, NULL);
 }

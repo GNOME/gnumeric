@@ -124,6 +124,7 @@ do_swap_cells (data_shuffling_t *st, swap_t *sw)
 {
         GnmExprRelocateInfo reverse;
 
+	reverse.reloc_type = GNM_EXPR_RELOCATE_STD;
         reverse.target_sheet = st->sheet;
         reverse.origin_sheet = st->sheet;
 	st->tmp_area.end.col = st->tmp_area.start.col;
@@ -157,6 +158,7 @@ do_swap_cols (data_shuffling_t *st, swap_t *sw)
 {
         GnmExprRelocateInfo reverse;
 
+	reverse.reloc_type = GNM_EXPR_RELOCATE_STD;
         reverse.target_sheet = st->sheet;
         reverse.origin_sheet = st->sheet;
 	st->tmp_area.end.col = st->tmp_area.start.col;
@@ -190,6 +192,7 @@ do_swap_rows (data_shuffling_t *st, swap_t *sw)
 {
         GnmExprRelocateInfo reverse;
 
+	reverse.reloc_type = GNM_EXPR_RELOCATE_STD;
         reverse.target_sheet = st->sheet;
         reverse.origin_sheet = st->sheet;
 	st->tmp_area.end.col = st->tmp_area.start.col + st->cols - 1;

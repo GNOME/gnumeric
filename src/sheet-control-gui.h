@@ -87,11 +87,11 @@ gboolean scg_special_cursor_bound_set (SheetControlGUI *scg, GnmRange const *r);
 void scg_set_left_col		(SheetControlGUI *scg, int new_first_col);
 void scg_set_top_row		(SheetControlGUI *scg, int new_first_row);
 
-void scg_colrow_resize_stop	(SheetControlGUI *scg);
-void scg_colrow_resize_start	(SheetControlGUI *scg,
-				 gboolean is_cols, int resize_first);
-void scg_colrow_resize_move	(SheetControlGUI *scg,
-				 gboolean is_cols, int resize_last);
+void scg_size_guide_start	(SheetControlGUI *scg, gboolean vert,
+				 int colrow, int width);
+void scg_size_guide_motion	(SheetControlGUI *scg, gboolean vert,
+				 int guide_pos);
+void scg_size_guide_stop	(SheetControlGUI *scg);
 
 typedef void (*SCGUIMoveFunc)	(SheetControlGUI *, int n,
 				 gboolean jump, gboolean horiz);

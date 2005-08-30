@@ -686,7 +686,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 	char * rendered_string;
 	gushort r,g,b;
 	gboolean wrap = FALSE;
-	FormatFamily cell_format_family;
+	GOFormatFamily cell_format_family;
 	int merge_width = 0;
 	StyleBorderType left_border = STYLE_BORDER_NONE;
 	StyleBorderType right_border = STYLE_BORDER_NONE;
@@ -854,9 +854,9 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 
 
 		cell_format_family = cell_get_format (cell)->family;
-		if (cell_format_family == FMT_NUMBER || cell_format_family == FMT_CURRENCY ||
-		    cell_format_family == FMT_PERCENT || cell_format_family == FMT_FRACTION ||
-		    cell_format_family == FMT_SCIENCE){
+		if (cell_format_family == GO_FORMAT_NUMBER || cell_format_family == GO_FORMAT_CURRENCY ||
+		    cell_format_family == GO_FORMAT_PERCENTAGE || cell_format_family == GO_FORMAT_FRACTION ||
+		    cell_format_family == GO_FORMAT_SCIENTIFIC){
 			gsf_output_printf (output, "$");
 		        if (gnm_style_get_font_italic(mstyle))
 			    gsf_output_printf (output, "\\gnumericmathit{");

@@ -233,7 +233,7 @@ xbase_field_new (XBfile *file)
 	} else
 		field->pos = 0;
 
-	field->fmt = (field->type == 'D') ? style_format_default_date () : NULL;
+	field->fmt = (field->type == 'D') ? go_format_default_date () : NULL;
 
 	return field; /* FIXME: use more of buf if needed ? */
 }
@@ -273,7 +273,7 @@ xbase_close (XBfile *x)
 	for (i = 0; i < x->fields; i++) {
 		XBfield *field = x->format[i];
 		if (field->fmt != NULL)
-			style_format_unref (field->fmt);
+			go_format_unref (field->fmt);
 		g_free (field);
 	}
 	gsf_iconv_close (x->char_map);

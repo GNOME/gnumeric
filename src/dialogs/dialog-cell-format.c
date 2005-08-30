@@ -1007,8 +1007,7 @@ fmt_dialog_init_font_page (FormatState *state)
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_UNDERLINE))) {
 		GnmUnderline ut = gnm_style_get_font_uline (state->style);
 		uline_str = _(underline_types[ut].Cname);
-		font_selector_set_underline (state->font.selector,
-			gnm_style_get_font_uline (state->style));
+		font_selector_set_underline (state->font.selector, ut);
 	} else
 		uline_str = "";
 	go_combo_text_set_text	(GO_COMBO_TEXT (uline), uline_str,

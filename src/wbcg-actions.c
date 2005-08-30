@@ -582,7 +582,7 @@ static GNM_ACTION_DEF (cb_insert_current_date_time)
 		Workbook const *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 		GnmValue *v = value_new_float (
 			datetime_timet_to_serial_raw (time (NULL), workbook_date_conv (wb)));
-		char *txt = format_value (style_format_default_date_time (), v, NULL, -1,
+		char *txt = format_value (go_format_default_date_time (), v, NULL, -1,
 				workbook_date_conv (wb));
 		value_release (v);
 		wb_control_edit_line_set (WORKBOOK_CONTROL (wbcg), txt);
@@ -595,8 +595,8 @@ static GNM_ACTION_DEF (cb_insert_current_date)
 		Workbook const *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 		GnmValue *v = value_new_int (
 			datetime_timet_to_serial (time (NULL), workbook_date_conv (wb)));
-		char *txt = format_value (style_format_default_date (), v, NULL, -1,
-				workbook_date_conv (wb));
+		char *txt = format_value (go_format_default_date (), v, NULL, -1,
+			workbook_date_conv (wb));
 		value_release (v);
 		wb_control_edit_line_set (WORKBOOK_CONTROL (wbcg), txt);
 		g_free (txt);
@@ -609,7 +609,7 @@ static GNM_ACTION_DEF (cb_insert_current_time)
 		Workbook const *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 		GnmValue *v = value_new_float (
 			datetime_timet_to_seconds (time (NULL)) / (24.0 * 60 * 60));
-		char *txt = format_value (style_format_default_time (), v, NULL, -1,
+		char *txt = format_value (go_format_default_time (), v, NULL, -1,
 				workbook_date_conv (wb));
 		value_release (v);
 		wb_control_edit_line_set (WORKBOOK_CONTROL (wbcg), txt);
@@ -1229,38 +1229,38 @@ apply_number_format (WorkbookControlGUI *wbcg,
 static GNM_ACTION_DEF (cb_format_as_number)
 {
 	apply_number_format (wbcg,
-		cell_formats [FMT_NUMBER][0], _("Format as Number"));
+		go_format_builtins [GO_FORMAT_NUMBER][0], _("Format as Number"));
 }
 static GNM_ACTION_DEF (cb_format_as_currency)
 {
 	apply_number_format (wbcg,
-		cell_formats [FMT_CURRENCY][0], _("Format as Currency"));
+		go_format_builtins [GO_FORMAT_CURRENCY][0], _("Format as Currency"));
 }
 static GNM_ACTION_DEF (cb_format_as_accounting)
 {
 	apply_number_format (wbcg,
-		cell_formats[FMT_ACCOUNT][2], _("Format as Accounting"));
+		go_format_builtins[GO_FORMAT_ACCOUNTING][2], _("Format as Accounting"));
 }
 
 static GNM_ACTION_DEF (cb_format_as_percentage)
 {
 	apply_number_format (wbcg,
-		cell_formats [FMT_PERCENT][0], _("Format as Percentage"));
+		go_format_builtins [GO_FORMAT_PERCENTAGE][0], _("Format as Percentage"));
 }
 static GNM_ACTION_DEF (cb_format_as_scientific)
 {
 	apply_number_format (wbcg,
-		cell_formats [FMT_SCIENCE][0], _("Format as Scientific"));
+		go_format_builtins [GO_FORMAT_SCIENTIFIC][0], _("Format as Scientific"));
 }
 static GNM_ACTION_DEF (cb_format_as_time)
 {
 	apply_number_format (wbcg,
-		cell_formats [FMT_DATE][0], _("Format as Date"));
+		go_format_builtins [GO_FORMAT_DATE][0], _("Format as Date"));
 }
 static GNM_ACTION_DEF (cb_format_as_date)
 {
 	apply_number_format (wbcg,
-		cell_formats [FMT_TIME][0], _("Format as Time"));
+		go_format_builtins [GO_FORMAT_TIME][0], _("Format as Time"));
 }
 
 /* Adds borders to all the selected regions on the sheet.
@@ -1308,16 +1308,16 @@ modify_format (WorkbookControlGUI *wbcg,
 		GnmStyle *style = gnm_style_new ();
 		gnm_style_set_format (style, new_fmt);
 		cmd_selection_format (wbc, style, NULL, descriptor);
-		style_format_unref (new_fmt);
+		go_format_unref (new_fmt);
 	}
 }
 
 static GNM_ACTION_DEF (cb_format_inc_precision)
-	{ modify_format (wbcg, &format_add_decimal, _("Increase precision")); }
+	{ modify_format (wbcg, &go_format_inc_precision, _("Increase precision")); }
 static GNM_ACTION_DEF (cb_format_dec_precision)
-	{ modify_format (wbcg, &format_remove_decimal, _("Decrease precision")); }
+	{ modify_format (wbcg, &go_format_dec_precision, _("Decrease precision")); }
 static GNM_ACTION_DEF (cb_format_with_thousands)
-	{ modify_format (wbcg, &format_toggle_thousands, _("Toggle thousands separator")); }
+	{ modify_format (wbcg, &go_format_toggle_1000sep, _("Toggle thousands separator")); }
 
 static GNM_ACTION_DEF (cb_format_inc_indent)
 {

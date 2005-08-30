@@ -177,8 +177,8 @@ dependent_set_expr (GnmDependent *dep, GnmExpr const *new_expr)
 	}
 }
 
-static inline const GnmCellPos *
-dependent_pos (const GnmDependent *dep)
+static inline GnmCellPos const *
+dependent_pos (GnmDependent const *dep)
 {
 	return dependent_is_cell (dep) ? &DEP_TO_CELL (dep)->pos : &dummy;
 }
@@ -439,7 +439,7 @@ micro_hash_init (MicroHash *hash_table, gpointer key)
 }
 
 static inline gboolean
-micro_hash_is_empty (const MicroHash *hash_table)
+micro_hash_is_empty (MicroHash const *hash_table)
 {
 	return hash_table->num_elements == 0;
 }
@@ -1561,15 +1561,15 @@ cb_single_contained_collect (DependencySingle const *depsingle,
 
 /**
  * dependents_relocate:
- * Fixes references to or from a region that is going to be moved.
- *
  * @info : the descriptor record for what is being moved where.
  *
+ * Fixes references to or from a region that is going to be moved.
  * Returns a list of the locations and expressions that were changed outside of
  * the region.
+ *
  * NOTE : Does not queue the changed elemenents or their recursive dependents
- * for recalc
- */
+ * 	for recalc
+ **/
 GSList *
 dependents_relocate (GnmExprRelocateInfo const *info)
 {
@@ -1622,7 +1622,7 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 	}
 	dependents = collect.list;
 
-	rwinfo.type = GNM_EXPR_REWRITE_RELOCATE;
+	rwinfo.rw_type = GNM_EXPR_REWRITE_EXPR;
 	memcpy (&rwinfo.u.relocate, info, sizeof (GnmExprRelocateInfo));
 
 	for (l = dependents; l; l = l->next) {
@@ -1683,6 +1683,7 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 
 	names = info->origin_sheet->deps->referencing_names;
 	if (names != NULL) {
+		rwinfo.rw_type = GNM_EXPR_REWRITE_NAME;
 	}
 
 	g_slist_free (dependents);
@@ -1717,7 +1718,7 @@ dep_hash_destroy (GHashTable *hash, GSList **dyn_deps, Sheet *sheet, gboolean de
 		g_hash_table_foreach (hash, (GHFunc)cb_collect_range, &deps);
 	}
 
-	rwinfo.type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
+	rwinfo.rw_type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
 	for (l2 = deps; l2; l2 = l2->next) {
 		DependencyAny *depany = l2->data;
 		GSList *deplist = NULL, *l;
@@ -1808,7 +1809,7 @@ invalidate_name (GnmNamedExpr *nexpr, Sheet *sheet, gboolean destroy)
 
 	if (!scope_being_killed) {
 		GnmExprRewriteInfo rwinfo;
-		rwinfo.type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
+		rwinfo.rw_type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
 		new_expr = gnm_expr_rewrite (old_expr, &rwinfo);
 		g_return_if_fail (new_expr != NULL);
 	}
@@ -2068,11 +2069,11 @@ tweak_3d (Sheet *sheet, gboolean destroy)
 			      (GHFunc)cb_tweak_3d,
 			      &deps);
 
-	rwinfo.type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
+	rwinfo.rw_type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
 	for (l = deps; l; l = l->next) {
 		GnmDependent *dep = l->data;
 		GnmExpr *e = (GnmExpr *)dep->expression;
-		const GnmExpr *newtree = gnm_expr_rewrite (e, &rwinfo);
+		GnmExpr const *newtree = gnm_expr_rewrite (e, &rwinfo);
 
 		if (newtree != NULL) {
 			if (!destroy) {
@@ -2483,7 +2484,7 @@ gnm_dep_container_dump (GnmDepContainer const *deps)
 void
 gnm_dep_container_sanity_check (GnmDepContainer const *deps)
 {
-	const GnmDependent *dep;
+	GnmDependent const *dep;
 	GHashTable *seenb4;
 
 	if (deps->head && !deps->tail)

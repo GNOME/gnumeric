@@ -207,10 +207,8 @@ stf_parse_options_free (StfParseOptions_t *parseoptions)
 		unsigned int ui;
 		GPtrArray *formats = parseoptions->formats;
 
-		for (ui = 0; ui < formats->len; ui++) {
-			GOFormat *sf = g_ptr_array_index (formats, ui);
-			style_format_unref (sf);
-		}
+		for (ui = 0; ui < formats->len; ui++)
+			go_format_unref (g_ptr_array_index (formats, ui));
 		g_ptr_array_free (formats, TRUE);
 		parseoptions->formats = NULL;
 	}

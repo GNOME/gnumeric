@@ -68,7 +68,7 @@ my_get_format (GnmCell const *cell)
 {
 	GOFormat const *format = gnm_style_get_format (cell_get_mstyle (cell));
 
-	if (style_format_is_general (format) &&
+	if (go_format_is_general (format) &&
 	    cell->value != NULL && VALUE_FMT (cell->value) != NULL)
 		return VALUE_FMT (cell->value);
 	return format;

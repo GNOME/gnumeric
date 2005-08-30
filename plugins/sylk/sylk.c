@@ -255,7 +255,7 @@ sylk_rtd_p_parse (SylkReadState *state, char *str)
 		case 'P' : /* format */
 			tmp = sylk_parse_string (str+1);
 			g_ptr_array_add (state->formats,
-				style_format_new_XL (tmp, FALSE));
+				go_format_new_from_XL (tmp, FALSE));
 			g_free (tmp);
 			break;
 
@@ -531,7 +531,7 @@ sylk_file_open (GOFileOpener const *fo,
 	g_object_unref (G_OBJECT (state.input));
 	gsf_iconv_close (state.converter);
 	for (i = state.formats->len ; i-- > 0 ; )
-		style_format_unref (g_ptr_array_index (state.formats, i));
+		go_format_unref (g_ptr_array_index (state.formats, i));
 
 	g_ptr_array_free (state.formats, TRUE);
 }

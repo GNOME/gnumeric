@@ -51,7 +51,7 @@ GNM_PLUGIN_MODULE_HEADER;
 static GnmValue *
 make_date (GnmValue *res)
 {
-	value_set_fmt (res, style_format_default_date ());
+	value_set_fmt (res, go_format_default_date ());
 	return res;
 }
 
@@ -428,7 +428,7 @@ gnumeric_edate (FunctionEvalInfo *ei, GnmValue const * const *argv)
                   return value_new_error_NUM (ei->pos);
 
 	res = value_new_int (datetime_g_to_serial (&date, conv));
-	value_set_fmt (res, style_format_default_date ());
+	value_set_fmt (res, go_format_default_date ());
 	return res;
 }
 
@@ -820,7 +820,7 @@ static GnmFuncHelp const help_days360[] = {
 	   "* If @method is 1, the European method will be used.  In this "
 	   "case, if the day of the month is 31 it will be considered as 30."
 	   "\n"
-	   "* If @method is 0 or omitted, the XL US method will be used.  "
+	   "* If @method is 0 or omitted, the MS Excel (tm) US method will be used.  "
 	   "This is a somewhat complicated industry standard method "
 	   "where the last day of February is considered to be the 30th day "
 	   "of the month, but only for the first date."
@@ -911,7 +911,7 @@ gnumeric_eomonth (FunctionEvalInfo *ei, GnmValue const * const *argv)
 						  g_date_get_year (&date)));
 
 	res = value_new_int (datetime_g_to_serial (&date, conv));
-	value_set_fmt (res, style_format_default_date ());
+	value_set_fmt (res, go_format_default_date ());
 	return res;
 }
 

@@ -84,6 +84,7 @@ typedef enum {
 	GNM_FUNC_IS_PLACEHOLDER		= 1 << 3,
 	GNM_FUNC_FREE_NAME		= 1 << 4,
 	GNM_FUNC_IS_WORKBOOK_LOCAL	= 1 << 5,
+	GNM_FUNC_INTERNAL		= 1 << 6,
 
 	GNM_FUNC_AUTO_UNKNOWN           = 0 << 8,
 	GNM_FUNC_AUTO_MONETARY          = 1 << 8,  /* Like PV */
@@ -96,9 +97,9 @@ typedef enum {
 	GNM_FUNC_AUTO_MASK              = 7 << 8   /* The bits we use for AUTO.  */
 } GnmFuncFlags;
 
-/* I do not like this it is going to be different for different apps
- * probably want to split it into bit file with our notion of its state, and 2
- * bits of state per import format.
+/* I do not like this.  It is going to be different for different apps probably
+ * want to split it into bit file with our notion of its state, and 2 bits of
+ * state per import format.
  */
 typedef enum {
 	GNM_FUNC_IMPL_STATUS_EXISTS = 0,

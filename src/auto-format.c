@@ -20,7 +20,7 @@
 #include "expr-impl.h"
 #include "sheet.h"
 #include "workbook.h"
-#include <goffice/utils/format.h>
+#include <goffice/utils/go-format.h>
 
 /* ------------------------------------------------------------------------- */
 /*
@@ -83,8 +83,7 @@ static gboolean
 is_date (GnmFuncFlags typ, GOFormat *explicit)
 {
 	return (typ == GNM_FUNC_AUTO_DATE ||
-		(typ == AF_EXPLICIT &&
-		 explicit->family == FMT_DATE));
+		(typ == AF_EXPLICIT && explicit->family == GO_FORMAT_DATE));
 }
 
 static GnmFuncFlags
@@ -260,19 +259,19 @@ auto_style_format_suggest (GnmExpr const *expr, GnmEvalPos const *epos)
 		break;
 
 	case GNM_FUNC_AUTO_DATE: /* FIXME: any better idea?  */
-		explicit = style_format_default_date ();
+		explicit = go_format_default_date ();
 		break;
 
 	case GNM_FUNC_AUTO_TIME: /* FIXME: any better idea?  */
-		explicit = style_format_default_time ();
+		explicit = go_format_default_time ();
 		break;
 
 	case GNM_FUNC_AUTO_PERCENT: /* FIXME: any better idea?  */
-		explicit = style_format_default_percentage ();
+		explicit = go_format_default_percentage ();
 		break;
 
 	case GNM_FUNC_AUTO_MONETARY: /* FIXME: any better idea?  */
-		explicit = style_format_default_money ();
+		explicit = go_format_default_money ();
 		break;
 
 	case GNM_FUNC_AUTO_FIRST:
@@ -284,7 +283,7 @@ auto_style_format_suggest (GnmExpr const *expr, GnmEvalPos const *epos)
 	}
 
 	if (explicit)
-		style_format_ref (explicit);
+		go_format_ref (explicit);
 
 	return explicit;
 }

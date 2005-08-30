@@ -418,9 +418,9 @@ render_value_with_format (GString *target, char const *number_format, HFRenderIn
 	GOFormat *format;
 
 	/* TODO : Check this assumption.  Is it a localized format ?? */
-	format = style_format_new_XL (number_format, FALSE);
+	format = go_format_new_from_XL (number_format, FALSE);
 	format_value_gstring (target, format, info->date_time, NULL, -1, NULL);
-	style_format_unref (format);
+	go_format_unref (format);
 }
 
 static void

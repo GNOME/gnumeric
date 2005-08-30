@@ -59,8 +59,8 @@ cb_update_auto_expr (gpointer data)
 {
 	SheetView *sv = (SheetView *) data;
 
-	if (wb_view_cur_sheet_view (sv->wbv) == sv)
-		wb_view_auto_expr_recalc (sv->wbv, TRUE);
+	if (wb_view_cur_sheet_view (sv->sv_wbv) == sv)
+		wb_view_auto_expr_recalc (sv->sv_wbv, TRUE);
 
 	sv->auto_expr_timer = 0;
 	return FALSE;
@@ -85,7 +85,7 @@ sv_sheet (SheetView const *sv)
 WorkbookView *
 sv_wbv (SheetView const *sv)
 {
-	return sv->wbv;
+	return sv->sv_wbv;
 }
 
 static void
@@ -257,7 +257,7 @@ sheet_view_new (Sheet *sheet, WorkbookView *wbv)
 
 	sv = g_object_new (SHEET_VIEW_TYPE, NULL);
 	sv->sheet = g_object_ref (sheet);
-	sv->wbv = wbv;
+	sv->sv_wbv = wbv;
 	g_ptr_array_add (sheet->sheet_views, sv);
 	g_object_ref (sv);
 
@@ -582,19 +582,19 @@ sv_update (SheetView *sv)
 {
 	if (sv->edit_pos_changed.content) {
 		sv->edit_pos_changed.content = FALSE;
-		if (wb_view_cur_sheet_view (sv->wbv) == sv)
-			wb_view_edit_line_set (sv->wbv, NULL);
+		if (wb_view_cur_sheet_view (sv->sv_wbv) == sv)
+			wb_view_edit_line_set (sv->sv_wbv, NULL);
 	}
 
 	if (sv->edit_pos_changed.format) {
 		sv->edit_pos_changed.format = FALSE;
-		if (wb_view_cur_sheet_view (sv->wbv) == sv)
-			wb_view_format_feedback (sv->wbv, TRUE);
+		if (wb_view_cur_sheet_view (sv->sv_wbv) == sv)
+			wb_view_format_feedback (sv->sv_wbv, TRUE);
 	}
 
 	if (sv->edit_pos_changed.location) {
 		sv->edit_pos_changed.location = FALSE;
-		if (wb_view_cur_sheet_view (sv->wbv) == sv) {
+		if (wb_view_cur_sheet_view (sv->sv_wbv) == sv) {
 			char const *new_pos = sheet_names_check (sv->sheet,
 				selection_first_range (sv, NULL, NULL));
 			if (new_pos == NULL)
@@ -721,7 +721,7 @@ sv_freeze_panes (SheetView *sv,
 	SHEET_VIEW_FOREACH_CONTROL (sv, control,
 		sv_init_sc (sv, control););
 
-	WORKBOOK_VIEW_FOREACH_CONTROL(sv->wbv, wbc,
+	WORKBOOK_VIEW_FOREACH_CONTROL(sv->sv_wbv, wbc,
 		wb_control_menu_state_update (wbc, MS_FREEZE_VS_THAW););
 }
 

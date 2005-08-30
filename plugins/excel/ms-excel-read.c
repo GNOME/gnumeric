@@ -210,7 +210,7 @@ excel_wb_get_fmt (GnmXLImporter *importer, unsigned idx)
 		fprintf (stderr,"Unknown format: 0x%x\n", idx);
 
 	if (ans)
-		return style_format_new_XL (ans, FALSE);
+		return go_format_new_from_XL (ans, FALSE);
 	else
 		return NULL;
 }
@@ -671,14 +671,6 @@ excel_shared_formula_free (XLSharedFormula *sf)
 		g_free (sf);
 	}
 }
-static void
-excel_data_table_free (XLDataTable *dt)
-{
-	if (dt != NULL) {
-		g_free (dt->data);
-		g_free (dt);
-	}
-}
 
 static ExcelReadSheet *
 excel_sheet_new (GnmXLImporter *importer, char const *sheet_name, GnmSheetType type)
@@ -714,7 +706,7 @@ excel_sheet_new (GnmXLImporter *importer, char const *sheet_name, GnmSheetType t
 		NULL, (GDestroyNotify) &excel_shared_formula_free);
 	esheet->tables		= g_hash_table_new_full (
 		(GHashFunc)&cellpos_hash, (GCompareFunc)&cellpos_equal,
-		NULL, (GDestroyNotify) &excel_data_table_free);
+		NULL, (GDestroyNotify) g_free);
 	esheet->biff2_prev_xf_index = -1;
 
 	excel_init_margins (esheet);
@@ -934,7 +926,7 @@ excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet,
 			txo_run.last = txo_run.first;
 		}
 	}
-	return style_format_new_markup (txo_run.accum, FALSE);
+	return go_format_new_markup (txo_run.accum, FALSE);
 }
 
 /*
@@ -1003,7 +995,7 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 		txo_run.last = G_MAXINT;
 		pango_attr_list_filter (prev_markup,
 			(PangoAttrFilterFunc) append_markup, &txo_run);
-		res->markup = style_format_new_markup (txo_run.accum, FALSE);
+		res->markup = go_format_new_markup (txo_run.accum, FALSE);
 
 		total_end_len -= 4*total_n_markup;
 	}
@@ -2258,7 +2250,7 @@ static void
 biff_xf_data_destroy (BiffXFData *xf)
 {
 	if (xf->style_format) {
-		style_format_unref (xf->style_format);
+		go_format_unref (xf->style_format);
 		xf->style_format = NULL;
 	}
 	if (xf->mstyle) {
@@ -2279,23 +2271,40 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 	XLSharedFormula *sf;
 
 	if (!ms_biff_query_peek_next (q, &opcode) ||
-	    (opcode != BIFF_SHRFMLA &&
-	     opcode != BIFF_ARRAY_v0 &&
-	     opcode != BIFF_ARRAY_v2)) {
+	    !(opcode == BIFF_SHRFMLA ||
+	      opcode == BIFF_ARRAY_v0 || opcode == BIFF_ARRAY_v2 ||
+	      opcode == BIFF_TABLE_v0 || opcode == BIFF_TABLE_v2)) {
 		g_warning ("EXCEL: unexpected record '0x%x' after a formula in '%s'.",
 			   opcode, cell_name (cell));
 		return NULL;
 	}
-
 	ms_biff_query_next (q);
 
-	d (2, range_dump (&r, " <-- shared fmla in\n"););
-
-	is_array = (q->opcode != BIFF_SHRFMLA);
 	r.start.row	= GSF_LE_GET_GUINT16 (q->data + 0);
 	r.end.row	= GSF_LE_GET_GUINT16 (q->data + 2);
 	r.start.col	= GSF_LE_GET_GUINT8 (q->data + 4);
 	r.end.col	= GSF_LE_GET_GUINT8 (q->data + 5);
+
+	if (opcode == BIFF_TABLE_v0 || opcode == BIFF_TABLE_v2) {
+		XLDataTable *dt = g_new0 (XLDataTable, 1);
+		guint16 const flags = GSF_LE_GET_GUINT16 (q->data + 6);
+
+		d (-2, range_dump (&r, " <-- contains data table\n"););
+		gsf_mem_dump (q->data, q->length);
+
+		dt->table = r;
+		g_hash_table_insert (esheet->tables, &dt->table.start, dt);
+
+		expr = gnm_expr_new_funcall (gnm_func_lookup ("table", NULL), NULL);
+		cell_set_array_formula (esheet->sheet,
+			r.start.col, r.start.row,
+			r.end.col,   r.end.row, expr);
+		return expr;
+	}
+
+	d (2, range_dump (&r, " <-- contains a shared formula\n"););
+
+	is_array = (q->opcode != BIFF_SHRFMLA);
 
 	if (esheet_ver (esheet) > MS_BIFF_V4) {
 		data = q->data + (is_array ? 14 : 10);
@@ -2304,9 +2313,8 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 		data = q->data + 10;
 		data_len = GSF_LE_GET_GUINT16 (q->data + 8);
 	}
-	expr = excel_parse_formula (
-		&esheet->container, esheet, r.start.col, r.start.row,
-		data, data_len, !is_array, NULL);
+	expr = excel_parse_formula (&esheet->container, esheet,
+		r.start.col, r.start.row, data, data_len, !is_array, NULL);
 
 	sf = g_new (XLSharedFormula, 1);
 
@@ -2905,7 +2913,7 @@ gnm_xl_importer_free (GnmXLImporter *importer)
 		while (i-- > 0) {
 			g_free (importer->sst[i].str);
 			if (importer->sst[i].markup != NULL)
-				style_format_unref (importer->sst[i].markup);
+				go_format_unref (importer->sst[i].markup);
 		}
 		g_free (importer->sst);
 	}
@@ -5381,7 +5389,7 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 		v = value_new_string_nocopy (txt);
 		if (fmt != NULL) {
 			value_set_fmt (v, fmt);
-			style_format_unref (fmt);
+			go_format_unref (fmt);
 		}
 		cell_set_value (sheet_cell_fetch (esheet->sheet, col, row), v);
 	}
@@ -6206,10 +6214,10 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view, GsfInput *input,
 void
 excel_read_init (void)
 {
-	excel_builtin_formats [0x0e] = cell_formats [FMT_DATE][0];
-	excel_builtin_formats [0x0f] = cell_formats [FMT_DATE][2];
-	excel_builtin_formats [0x10] = cell_formats [FMT_DATE][4];
-	excel_builtin_formats [0x16] = cell_formats [FMT_DATE][20];
+	excel_builtin_formats [0x0e] = go_format_builtins [GO_FORMAT_DATE][0];
+	excel_builtin_formats [0x0f] = go_format_builtins [GO_FORMAT_DATE][2];
+	excel_builtin_formats [0x10] = go_format_builtins [GO_FORMAT_DATE][4];
+	excel_builtin_formats [0x16] = go_format_builtins [GO_FORMAT_DATE][20];
 }
 
 void

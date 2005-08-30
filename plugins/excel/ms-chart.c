@@ -291,11 +291,11 @@ BC_R(ai)(XLChartHandler const *handle,
 			GSF_LE_GET_GUINT16 (q->data + 4));
 		d (2, fputs ("Has Custom number format;\n", stderr););
 		if (fmt != NULL) {
-			char *desc = style_format_as_XL (fmt, FALSE);
+			char *desc = go_format_as_XL (fmt, FALSE);
 			d (2, fprintf (stderr, "Format = '%s';\n", desc););
 			g_free (desc);
 
-			style_format_unref (fmt);
+			go_format_unref (fmt);
 		}
 	} else {
 		d (2, fputs ("Uses number format from data source;\n", stderr););
@@ -1083,7 +1083,7 @@ BC_R(ifmt)(XLChartHandler const *handle,
 		GSF_LE_GET_GUINT16 (q->data));
 
 	if (fmt != NULL) {
-		char *desc = style_format_as_XL (fmt, FALSE);
+		char *desc = go_format_as_XL (fmt, FALSE);
 
 		if (s->axis != NULL)
 			g_object_set (G_OBJECT (s->axis),
@@ -1091,7 +1091,7 @@ BC_R(ifmt)(XLChartHandler const *handle,
 				NULL);
 		d (0, fprintf (stderr, "Format = '%s';\n", desc););
 		g_free (desc);
-		style_format_unref (fmt);
+		go_format_unref (fmt);
 	}
 
 	return FALSE;

@@ -26,8 +26,10 @@
 #include "str.h"
 #include "numbers.h"
 #include <goffice/utils/go-format-match.h>
+#include <goffice/utils/format-impl.h>
 #include <goffice/utils/regutf8.h>
 #include <goffice/utils/datetime.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -38,8 +40,7 @@
 #undef DEBUG_NUMBER_MATCH
 
 static GSList *format_match_list = NULL;
-static GSList *format_dup_match_list = NULL;
-static GSList *format_failed_match_list = NULL;
+static GSList *builtin_fmts = NULL;
 
 /*
  * value_is_error : Check to see if a string begins with one of the magic
@@ -68,54 +69,45 @@ void
 format_match_init (void)
 {
 	int i;
-	GOFormat *fmt;
-	GHashTable *hash;
+	GSList		*ptr;
+	GOFormat	*fmt;
+	GOFormatElement	*entry;
+	GHashTable	*unique = g_hash_table_new (g_str_hash, g_str_equal);
 
 	currency_date_format_init ();
-	hash = g_hash_table_new (g_str_hash, g_str_equal);
 
-	for (i = 0; cell_formats[i]; i++) {
-		char const * const * p = cell_formats[i];
+	for (i = 0; go_format_builtins[i]; i++) {
+		char const * const *p = go_format_builtins[i];
 
 		for (; *p; p++) {
 			/*  do not include text formats in the standard set */
 			if (!strcmp ("@", *p))
 				continue;
 
-			fmt = style_format_new_XL (*p, FALSE);
-			if (fmt->regexp_str != NULL) {
+			fmt = go_format_new_from_XL (*p, FALSE);
+			builtin_fmts = g_slist_prepend (builtin_fmts, fmt);
+			for (ptr = fmt->entries ; ptr != NULL ; ptr = ptr->next) {
+				entry = ptr->data;
 				/* TODO : * We could keep track of the regexps
 				 * that General would match.  and avoid putting
 				 * them in the list. */
-				if (g_hash_table_lookup (hash, fmt->regexp_str) == NULL) {
-					format_match_list = g_slist_append (format_match_list, fmt);
-					g_hash_table_insert (hash, fmt->regexp_str, fmt);
-				} else
-					format_dup_match_list = g_slist_append (format_dup_match_list, fmt);
-			} else
-				format_failed_match_list = g_slist_append (format_failed_match_list, fmt);
+				if (NULL == entry->regexp_str &&
+				    NULL == g_hash_table_lookup (unique, entry->regexp_str)) {
+					format_match_list = g_slist_prepend (format_match_list, entry);
+					g_hash_table_insert (unique, entry->regexp_str, entry);
+				}
+			}
 		}
 	}
-	g_hash_table_destroy (hash);
+	g_hash_table_destroy (unique);
+
+	format_match_list = g_slist_reverse (format_match_list);
 }
 
 void
 format_match_finish (void)
 {
-	GSList *l;
-
-	for (l = format_match_list; l; l = l->next)
-		style_format_unref (l->data);
-	g_slist_free (format_match_list);
-
-	for (l = format_dup_match_list; l; l = l->next)
-		style_format_unref (l->data);
-	g_slist_free (format_dup_match_list);
-
-	for (l = format_failed_match_list; l; l = l->next)
-		style_format_unref (l->data);
-	g_slist_free (format_failed_match_list);
-
+	go_slist_free_custom (builtin_fmts, (GFreeFunc) go_format_unref);
 	currency_date_format_shutdown ();
 }
 
@@ -600,7 +592,6 @@ format_match_simple (char const *text)
 
 /**
  * format_match :
- *
  * @text    : The text to parse
  * @cur_fmt : The current format for the value (potentially NULL)
  * @date_conv: optional date convention
@@ -612,8 +603,9 @@ GnmValue *
 format_match (char const *text, GOFormat *cur_fmt,
 	      GODateConventions const *date_conv)
 {
-	GnmValue  *v;
-	GSList *l;
+	GnmValue *v;
+	GSList	 *ptr;
+	GOFormatElement const *entry;
 	regmatch_t mp[NM + 1];
 
 	if (text[0] == '\0')
@@ -624,18 +616,17 @@ format_match (char const *text, GOFormat *cur_fmt,
 		return value_new_string (text + 1);
 
 	if (cur_fmt) {
-		switch (cur_fmt->family) {
-		case FMT_TEXT:
+		if (cur_fmt->family == GO_FORMAT_TEXT)
 			return value_new_string (text);
 
-		default:
-			if (cur_fmt->regexp_str != NULL &&
-			    go_regexec (&cur_fmt->regexp, text, NM, mp, 0) != REG_NOMATCH &&
-			    NULL != (v = compute_value (text, mp, cur_fmt->match_tags,
-							date_conv))) {
+		for (ptr = cur_fmt->entries; ptr != NULL ; ptr = ptr->next) {
+			entry = ptr->data;
+			if (entry->regexp_str != NULL &&
+			    go_regexec (&entry->regexp, text, NM, mp, 0) != REG_NOMATCH &&
+			    NULL != (v = compute_value (text, mp, entry->match_tags, date_conv))) {
 #ifdef DEBUG_NUMBER_MATCH
 				int i;
-				g_print ("matches expression: %s %s\n", cur_fmt->format, cur_fmt->regexp_str);
+				g_print ("matches expression: %s %s\n", entry->format, entry->regexp_str);
 				for (i = 0; i < NM; i++) {
 					char *p;
 
@@ -665,18 +656,18 @@ format_match (char const *text, GOFormat *cur_fmt,
 		return v;
 
 	/* Fall back to checking the set of canned formats */
-	for (l = format_match_list; l; l = l->next) {
-		GOFormat *fmt = l->data;
+	for (ptr = format_match_list; ptr; ptr = ptr->next) {
+		entry = ptr->data;
 #ifdef DEBUG_NUMBER_MATCH
 		printf ("test: %s \'%s\'\n", fmt->format, fmt->regexp_str);
 #endif
-		if (go_regexec (&fmt->regexp, text, NM, mp, 0) == REG_NOMATCH)
+		if (go_regexec (&entry->regexp, text, NM, mp, 0) == REG_NOMATCH)
 			continue;
 
 #ifdef DEBUG_NUMBER_MATCH
 		{
 			int i;
-			printf ("matches expression: %s %s\n", fmt->format, fmt->regexp_str);
+			printf ("matches expression: %s %s\n", entry->format, entry->regexp_str);
 			for (i = 0; i < NM; i++) {
 				char *p;
 
@@ -689,7 +680,7 @@ format_match (char const *text, GOFormat *cur_fmt,
 		}
 #endif
 
-		v = compute_value (text, mp, fmt->match_tags, date_conv);
+		v = compute_value (text, mp, entry->match_tags, date_conv);
 
 #ifdef DEBUG_NUMBER_MATCH
 		if (v) {
@@ -699,7 +690,7 @@ format_match (char const *text, GOFormat *cur_fmt,
 			printf ("unable to compute value\n");
 #endif
 		if (v != NULL) {
-			value_set_fmt (v, fmt);
+			value_set_fmt (v, entry->container);
 			return v;
 		}
 	}

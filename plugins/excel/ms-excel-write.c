@@ -1935,7 +1935,7 @@ after_put_format (GOFormat *format, gboolean was_added, gint index,
 	if (was_added) {
 		d (2, fprintf (stderr, tmpl, index, format););
 	} else {
-		style_format_unref (format);
+		go_format_unref (format);
 	}
 }
 
@@ -1947,7 +1947,7 @@ formats_init (ExcelWriteState *ewb)
 
 	ewb->formats.two_way_table
 		= two_way_table_new (g_direct_hash, g_direct_equal, 0,
-				     (GDestroyNotify)style_format_unref);
+				     (GDestroyNotify)go_format_unref);
 
 	/* Add built-in formats to format table */
 	for (i = 0; i < EXCEL_BUILTIN_FORMAT_LEN; i++) {
@@ -1955,7 +1955,7 @@ formats_init (ExcelWriteState *ewb)
 		if (!fmt || strlen (fmt) == 0)
 			fmt = "General";
 		two_way_table_put (ewb->formats.two_way_table,
-				   style_format_new_XL (fmt, FALSE),
+				   go_format_new_from_XL (fmt, FALSE),
 				   FALSE, /* Not unique */
 				   (AfterPutFunc) after_put_format,
 				   "Magic format %d - 0x%x\n");
@@ -1985,12 +1985,10 @@ formats_get_index (ExcelWriteState *ewb, GOFormat const *format)
 static void
 put_format (GnmStyle *mstyle, gconstpointer dummy, ExcelWriteState *ewb)
 {
-	GOFormat *fmt = gnm_style_get_format (mstyle);
-	style_format_ref (fmt);
 	two_way_table_put (ewb->formats.two_way_table,
-			   (gpointer)fmt, TRUE,
-			   (AfterPutFunc) after_put_format,
-			   "Found unique format %d - 0x%x\n");
+		go_format_ref (gnm_style_get_format (mstyle)), TRUE,
+		(AfterPutFunc) after_put_format,
+		"Found unique format %d - 0x%x\n");
 }
 
 static void
@@ -1999,7 +1997,7 @@ excel_write_FORMAT (ExcelWriteState *ewb, int fidx)
 	guint8 data[64];
 	GOFormat const *sf = formats_get_format (ewb, fidx);
 
-	char *format = style_format_as_XL (sf, FALSE);
+	char *format = go_format_as_XL (sf, FALSE);
 
 	d (1, fprintf (stderr, "Writing format 0x%x: %s\n", fidx, format););
 
@@ -2153,7 +2151,7 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 
 		/* Collect unique fonts in rich text */
 		if (cell->value->type == VALUE_STRING &&
-		    style_format_is_markup (fmt)) {
+		    go_format_is_markup (fmt)) {
 			GArray *txo = txomarkup_new (ewb, 
 						     fmt->markup, style);
 
@@ -2166,7 +2164,7 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 		 * imaginary styles with the value format substituted into the
 		 * current style.  Otherwise an entry like '10:00' gets loaded
 		 * as a raw number.  */
-		else if (style_format_is_general (gnm_style_get_format (style))) {
+		else if (go_format_is_general (gnm_style_get_format (style))) {
 			style = gnm_style_dup (style);
 			gnm_style_set_format (style, fmt);
 			g_hash_table_insert (ewb->xf.value_fmt_styles,
@@ -2356,7 +2354,7 @@ log_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, int idx)
 	ExcelWriteFont *f = fonts_get_font (ewb, xfd->font_idx);
 
 	/* Formats are saved using the 'C' locale number format */
-	char * desc = style_format_as_XL (xfd->style_format, FALSE);
+	char * desc = go_format_as_XL (xfd->style_format, FALSE);
 
 	fprintf (stderr, "Writing xf 0x%x : font 0x%x (%s), format 0x%x (%s)\n",
 		idx, xfd->font_idx, excel_font_to_string (f),
@@ -2940,22 +2938,35 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 
 	if (expr->any.oper == GNM_EXPR_OP_ARRAY &&
 	    expr->array.x == 0 && expr->array.y == 0) {
-		ms_biff_put_var_next (ewb->bp, BIFF_ARRAY_v2);
-		GSF_LE_SET_GUINT16 (data+0, cell->pos.row);
-		GSF_LE_SET_GUINT16 (data+2, cell->pos.row + expr->array.rows-1);
-		GSF_LE_SET_GUINT16 (data+4, cell->pos.col);
-		GSF_LE_SET_GUINT16 (data+5, cell->pos.col + expr->array.cols-1);
-		GSF_LE_SET_GUINT16 (data+6, 0x0); /* alwaysCalc & calcOnLoad */
-		GSF_LE_SET_GUINT32 (data+8, 0);
-		GSF_LE_SET_GUINT16 (data+12, 0); /* bogus len, fill in later */
-		ms_biff_put_var_write (ewb->bp, data, 14);
-		len = excel_write_formula (ewb, expr->array.corner.expr,
-				esheet->gnum_sheet, col, row, EXCEL_CALLED_FROM_ARRAY);
+		GnmCellPos r_input, c_input;
+		if (gnm_expr_is_data_table (expr, &r_input, &c_input)) {
+			guint16 flags = 0;
+			guint8 *data = ms_biff_put_len_next (ewb->bp, BIFF_TABLE_v2, 16);
+			GSF_LE_SET_GUINT16 (data+0, cell->pos.row);
+			GSF_LE_SET_GUINT16 (data+2, cell->pos.row + expr->array.rows-1);
+			GSF_LE_SET_GUINT16 (data+4, cell->pos.col);
+			GSF_LE_SET_GUINT16 (data+5, cell->pos.col + expr->array.cols-1);
+			GSF_LE_SET_GUINT16 (data+6, flags);
+#warning FINISH THIS
+			ms_biff_put_commit (ewb->bp);
+		} else {
+			ms_biff_put_var_next (ewb->bp, BIFF_ARRAY_v2);
+			GSF_LE_SET_GUINT16 (data+0, cell->pos.row);
+			GSF_LE_SET_GUINT16 (data+2, cell->pos.row + expr->array.rows-1);
+			GSF_LE_SET_GUINT16 (data+4, cell->pos.col);
+			GSF_LE_SET_GUINT16 (data+5, cell->pos.col + expr->array.cols-1);
+			GSF_LE_SET_GUINT16 (data+6, 0x0); /* alwaysCalc & calcOnLoad */
+			GSF_LE_SET_GUINT32 (data+8, 0);
+			GSF_LE_SET_GUINT16 (data+12, 0); /* bogus len, fill in later */
+			ms_biff_put_var_write (ewb->bp, data, 14);
+			len = excel_write_formula (ewb, expr->array.corner.expr,
+					esheet->gnum_sheet, col, row, EXCEL_CALLED_FROM_ARRAY);
 
-		ms_biff_put_var_seekto (ewb->bp, 12);
-		GSF_LE_SET_GUINT16 (lendat, len);
-		ms_biff_put_var_write (ewb->bp, lendat, 2);
-		ms_biff_put_commit (ewb->bp);
+			ms_biff_put_var_seekto (ewb->bp, 12);
+			GSF_LE_SET_GUINT16 (lendat, len);
+			ms_biff_put_var_write (ewb->bp, lendat, 2);
+			ms_biff_put_commit (ewb->bp);
+		}
 	}
 
 	if (string_result) {
@@ -3084,7 +3095,7 @@ excel_write_cell (ExcelWriteState *ewb, ExcelWriteSheet *esheet,
 	else if ((v = cell->value) != NULL) {
 		if (v->type == VALUE_STRING &&
 		    VALUE_FMT (v) != NULL &&
-		    style_format_is_markup (VALUE_FMT (v)))
+		    go_format_is_markup (VALUE_FMT (v)))
 			excel_write_RSTRING (ewb, cell, xf);
 		else
 			excel_write_value (ewb, cell->value, cell->pos.col, cell->pos.row, xf);
@@ -5348,14 +5359,14 @@ extract_gog_object_style (ExcelWriteState *ewb, GogObject *obj)
 		char *fmt_str;
 		g_object_get (G_OBJECT (obj), "assigned-format-string-XL", &fmt_str, NULL);
 		if (fmt_str != NULL) {
-			GOFormat *fmt = style_format_new_XL (fmt_str, FALSE);
-			if (!style_format_is_general (fmt))
+			GOFormat *fmt = go_format_new_from_XL (fmt_str, FALSE);
+			if (!go_format_is_general (fmt))
 				two_way_table_put (ewb->formats.two_way_table,
 						   (gpointer)fmt, TRUE,
 						   (AfterPutFunc) after_put_format,
 						   "Found unique format %d - 0x%x\n");
 			else
-				style_format_unref (fmt);
+				go_format_unref (fmt);
 		}
 		g_free (fmt_str);
 	}

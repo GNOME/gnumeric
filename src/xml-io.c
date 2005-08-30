@@ -521,7 +521,7 @@ xml_write_style (XmlParseContext *ctxt,
 		xml_node_set_color (cur, "PatternColor",
 				    gnm_style_get_pattern_color (style));
 	if (gnm_style_is_element_set (style, MSTYLE_FORMAT)) {
-		char *fmt = style_format_as_XL (gnm_style_get_format (style), FALSE);
+		char *fmt = go_format_as_XL (gnm_style_get_format (style), FALSE);
 		xml_node_set_cstr (cur, "Format", fmt);
 		g_free (fmt);
 	}
@@ -1683,7 +1683,7 @@ xml_write_cell_and_position (XmlParseContext *ctxt,
 			xml_node_set_int (cellNode, "ValueType", val->type);
 
 			if (VALUE_FMT (val) != NULL) {
-				char *fmt = style_format_as_XL (VALUE_FMT (val), FALSE);
+				char *fmt = go_format_as_XL (VALUE_FMT (val), FALSE);
 				xmlSetProp (cellNode, CC2XML ("ValueFormat"), CC2XML (fmt));
 				g_free (fmt);
 			}
@@ -1870,7 +1870,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 
 				fmt = xmlGetProp (tree, CC2XML ("ValueFormat"));
 				if (fmt != NULL) {
-					value_fmt = style_format_new_XL (CXML2C (fmt), FALSE);
+					value_fmt = go_format_new_from_XL (CXML2C (fmt), FALSE);
 					xmlFree (fmt);
 				}
 			}
@@ -1998,7 +1998,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		 */
 		cell_set_value (cell, value_new_empty ());
 
-	style_format_unref (value_fmt);
+	go_format_unref (value_fmt);
 	return cell;
 }
 
@@ -3190,7 +3190,7 @@ xml_read_clipboard_cell (XmlParseContext *ctxt, xmlNodePtr tree,
 
 		fmt = xmlGetProp (tree, CC2XML ("ValueFormat"));
 		if (fmt != NULL) {
-			value_fmt = style_format_new_XL (CXML2C (fmt), FALSE);
+			value_fmt = go_format_new_from_XL (CXML2C (fmt), FALSE);
 			xmlFree (fmt);
 		}
 	}
@@ -3249,7 +3249,7 @@ xml_read_clipboard_cell (XmlParseContext *ctxt, xmlNodePtr tree,
 		}
 		cc->val = value_new_empty ();
 	}
-	style_format_unref (value_fmt);
+	go_format_unref (value_fmt);
 
 	cr->content = g_slist_prepend (cr->content, cc);
 }

@@ -129,7 +129,7 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 		g_free (s);
 		return val;
 	case 'F':
-		g_assert (sizeof (double) == field->len);
+		g_return_val_if_fail (sizeof (double) == field->len, value_new_float (0.));
 		val = value_new_float (XB_GETDOUBLE (s));
 		g_free (s);
 		return val;
@@ -137,7 +137,7 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 		gint64 tmp = GINT32_FROM_LE (*(gint64 *)s);
 		g_free (s);
 		g_warning ("FIXME: \"BINARY\" field type doesn't work");
-		g_assert (sizeof(tmp) == field->len);
+		g_return_val_if_fail (sizeof(tmp) == field->len, value_new_int (0));
 		return value_new_int (tmp);
 	}
 	default: {

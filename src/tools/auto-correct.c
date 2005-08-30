@@ -32,7 +32,7 @@
 #include "application.h"
 #include "gutils.h"
 #include "gnumeric-gconf.h"
-#include <goffice/utils/format.h>
+#include <goffice/utils/go-format.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 

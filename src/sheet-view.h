@@ -8,7 +8,7 @@ struct _SheetView {
 	GObject  base;
 
 	Sheet	 	*sheet;
-	WorkbookView	*wbv;
+	WorkbookView	*sv_wbv;
 	GPtrArray	*controls;
 
 	GList		*ants;	/* animated cursors */

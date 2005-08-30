@@ -208,14 +208,14 @@ wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 
 	style = sheet_style_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row);
 	sf_style = gnm_style_get_format (style);
-	if (style_format_is_general (sf_style) &&
+	if (go_format_is_general (sf_style) &&
 	    (cell = sheet_cell_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row)) &&
 	    cell->value && VALUE_FMT (cell->value))
 		sf_cell = VALUE_FMT (cell->value);
 	else
 		sf_cell = sf_style;
 
-	if (style_format_equal (sf_cell, sf_style)) {
+	if (go_format_eq (sf_cell, sf_style)) {
 		if (style == wbv->current_format)
 			return;
 		gnm_style_ref (style);
@@ -455,7 +455,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 			format_value_gstring (str, format, v, NULL,
 					      -1, workbook_date_conv (wb_view_workbook (wbv)));
 			if (tmp_format)
-				style_format_unref (tmp_format);
+				go_format_unref (tmp_format);
 		} else {
 			g_string_append (str, value_peek_string (v));
 		}

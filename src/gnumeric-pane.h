@@ -15,12 +15,12 @@ struct _GnumericPane {
 		ItemBar   *item;
 	} col, row;
 
-	/* Lines for resizing cols and rows */
+	/* Lines across the grid.  Used for col/row resize and the creation of
+	 * frozen panes */
 	struct {
-		GtkObject       *guide;
-		GtkObject       *start;
+		FooCanvasItem   *guide, *start;
 		FooCanvasPoints *points;
-	} colrow_resize;
+	} size_guide;
 
 	ItemGrid      *grid;
 	ItemEdit      *editor;
@@ -49,14 +49,13 @@ void gnm_pane_bound_set	(GnmPane *pane,
 			 int start_col, int start_row,
 			 int end_col, int end_row);
 
-void gnm_pane_edit_start		(GnmPane *gsheet);
-void gnm_pane_edit_stop			(GnmPane *gsheet);
+void gnm_pane_edit_start	(GnmPane *p);
+void gnm_pane_edit_stop		(GnmPane *p);
 
-void gnm_pane_colrow_resize_stop	(GnmPane *pane);
-void gnm_pane_colrow_resize_start	(GnmPane *pane,
-					 gboolean is_cols, int resize_pos);
-void gnm_pane_colrow_resize_move	(GnmPane *pane,
-					 gboolean is_cols, int resize_pos);
+void gnm_pane_size_guide_start  (GnmPane *p, gboolean vert, int colrow,
+				 int width);
+void gnm_pane_size_guide_motion	(GnmPane *p, gboolean vert, int guide_pos);
+void gnm_pane_size_guide_stop	(GnmPane *p);
 
 void gnm_pane_reposition_cursors		(GnmPane *pane);
 gboolean gnm_pane_cursor_bound_set	 	(GnmPane *pane, GnmRange const *r);

@@ -739,11 +739,7 @@ dao_set_percent (data_analysis_output_t *dao, int col1, int row1,
 		 int col2, int row2)
 {
 	GnmStyle *mstyle = gnm_style_new ();
-	GOFormat *style_format = NULL;
-
-	style_format = style_format_default_percentage ();
-	gnm_style_set_format (mstyle, style_format);
-
+	gnm_style_set_format (mstyle, go_format_default_percentage ());
 	dao_set_style (dao, col1, row1, col2, row2, mstyle);
 }
 
@@ -764,13 +760,8 @@ dao_set_date (data_analysis_output_t *dao, int col1, int row1,
 		 int col2, int row2)
 {
 	GnmStyle *mstyle = gnm_style_new ();
-	GOFormat *style_format = NULL;
-
-	style_format = style_format_default_date ();
-	gnm_style_set_format (mstyle, style_format);
-
-	dao_set_style (dao, col1, row1,
-		       col2, row2, mstyle);
+	gnm_style_set_format (mstyle, go_format_default_date ());
+	dao_set_style (dao, col1, row1, col2, row2, mstyle);
 }
 
 /**

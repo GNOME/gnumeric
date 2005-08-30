@@ -122,8 +122,8 @@ try_auto_date (GnmValue *value, const GOFormat *format,
 	vr = gnm_fake_round (v);
 	vs = (24 * 60 * 60) * gnm_abs (v - vr);
 
-	needs_date = (format->family == FMT_DATE) || gnm_abs (v) >= 1;
-	needs_time = (format->family == FMT_TIME) || gnm_abs (v - vr) > 1e-9;
+	needs_date = (format->family == GO_FORMAT_DATE) || gnm_abs (v) >= 1;
+	needs_time = (format->family == GO_FORMAT_TIME) || gnm_abs (v - vr) > 1e-9;
 	needs_frac_sec = needs_time && gnm_abs (vs - gnm_fake_trunc (vs)) > 1e-6;
 
 	xlfmt = g_string_new (NULL);
@@ -135,10 +135,10 @@ try_auto_date (GnmValue *value, const GOFormat *format,
 		if (needs_frac_sec)
 			g_string_append (xlfmt, ".000000");
 	}
-	actual = style_format_new_XL (xlfmt->str, FALSE);
+	actual = go_format_new_from_XL (xlfmt->str, FALSE);
 	g_string_free (xlfmt, TRUE);
 	res = format_value (actual, value, NULL, -1, date_conv);
-	style_format_unref (actual);
+	go_format_unref (actual);
 
 	return res;
 }
@@ -169,8 +169,8 @@ stf_export_cell (GnmStfExport *stfe, GnmCell *cell)
 				const GODateConventions *date_conv =
 					workbook_date_conv (cell->base.sheet->workbook);
 				GOFormat *format = cell_get_format (cell);
-				if (format->family == FMT_DATE ||
-				    format->family == FMT_TIME)
+				if (format->family == GO_FORMAT_DATE ||
+				    format->family == GO_FORMAT_TIME)
 					text = tmp = try_auto_date (cell->value, format, date_conv);
 				if (!text)
 					text = value_peek_string (cell->value);

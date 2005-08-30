@@ -121,11 +121,11 @@ rendered_value_render (GString *str,
 		GOFormat *format = gnm_style_get_format (mstyle);
 
 		/* For format general approximate the cell width in characters */
-		if (style_format_is_var_width (format)) {
+		if (go_format_is_var_width (format)) {
 			gboolean is_rotated = (gnm_style_get_rotation (mstyle) != 0);
 			is_variable_width = !is_rotated &&
 				(VALUE_FMT (cell->value) == NULL ||
-				 style_format_is_var_width (VALUE_FMT (cell->value)));
+				 go_format_is_var_width (VALUE_FMT (cell->value)));
 			if (is_variable_width && allow_variable_width) {
 				GnmFont *style_font = gnm_style_get_font (mstyle, context, zoom);
 				double wdigit = style_font->approx_width.pts.digit;
@@ -155,7 +155,7 @@ rendered_value_render (GString *str,
 					col_width = cell_width / wdigit;
 				}
 				style_font_unref (style_font);
-			} else if (style_format_is_general (format))
+			} else if (go_format_is_general (format))
 				format = VALUE_FMT (cell->value);
 		}
 		format_value_gstring (str, format, cell->value, go_color,
@@ -402,7 +402,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 
 	if (cell->value != NULL) {
 		GOFormat const *fmt = VALUE_FMT (cell->value);
-		if (fmt != NULL && style_format_is_markup (fmt)) {
+		if (fmt != NULL && go_format_is_markup (fmt)) {
 			PangoAttrList *orig = attrs;
 			attrs = pango_attr_list_copy (attrs);
 			pango_attr_list_splice (attrs, fmt->markup, 0, 0);

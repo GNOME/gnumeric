@@ -1236,7 +1236,7 @@ xml_sax_cell (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		else if (xml_sax_attr_int (attrs, "ExprID", &expr_id)) ;
 		else if (xml_sax_attr_int (attrs, "ValueType", &value_type)) ;
 		else if (!strcmp (attrs[0], "ValueFormat"))
-			value_fmt = style_format_new_XL ((char *)attrs[1], FALSE);
+			value_fmt = go_format_new_from_XL ((char *)attrs[1], FALSE);
 		else
 			unknown_attr (state, attrs);
 	}
@@ -1423,7 +1423,7 @@ xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 		cell_set_value (cell, value_new_empty ());
 
 	if (value_fmt != NULL)
-		style_format_unref (value_fmt);
+		go_format_unref (value_fmt);
 }
 
 static void

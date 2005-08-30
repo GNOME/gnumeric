@@ -612,7 +612,7 @@ solver_performance_report (WorkbookControl *wbc,
 
 	/* Set the `Ratio of Matrix Elements'. */
 	v = value_new_float (1);
-	value_set_fmt (v, style_format_default_percentage ());
+	value_set_fmt (v, go_format_default_percentage ());
 	dao_set_cell_value (&dao, 2, 20, v);
 
 	/* Set the `Nbr of Non-zeros (constr.)'. */
@@ -621,7 +621,7 @@ solver_performance_report (WorkbookControl *wbc,
 
 	/* Set the `Ratio of Non-zeros (constr.)'. */
 	v = value_new_float ((gnm_float) res->n_nonzeros_in_mat / mat_size);
-	value_set_fmt (v, style_format_default_percentage ());
+	value_set_fmt (v, go_format_default_percentage ());
 	dao_set_cell_value (&dao, 3, 20, v);
 
 	/* Set the `Nbr of Non-zeros (obj. fn)'. */
@@ -631,7 +631,7 @@ solver_performance_report (WorkbookControl *wbc,
 	/* Set the `Ratio of Non-zeros (obj. fn)'. */
 	v = value_new_float ((gnm_float) res->n_nonzeros_in_obj /
 			     res->param->n_variables);
-	value_set_fmt (v, style_format_default_percentage ());
+	value_set_fmt (v, go_format_default_percentage ());
 	dao_set_cell_value (&dao, 4, 20, v);
 			
 

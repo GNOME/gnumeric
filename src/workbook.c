@@ -116,8 +116,10 @@ workbook_dispose (GObject *wb_object)
 	}
 
 	/* Now remove the sheets themselves */
-	for (ptr = sheets; ptr != NULL ; ptr = ptr->next)
-		workbook_sheet_delete (ptr->data);
+	for (ptr = sheets; ptr != NULL ; ptr = ptr->next) {
+		Sheet *sheet = ptr->data;
+		workbook_sheet_delete (sheet);
+	}
 	g_list_free (sheets);
 
 	/* TODO : This should be earlier when we figure out how to deal with
@@ -133,17 +135,11 @@ workbook_dispose (GObject *wb_object)
 			g_warning ("Unexpected left over views");
 	}
 
-	if (wb->sheet_local_functions != NULL) {
-		g_hash_table_destroy (wb->sheet_local_functions);
-		wb->sheet_local_functions = NULL;
-	}
-
-	/* do this last so that we can identify it after a crash */
 	if (wb->uri) {
 		if (wb->file_format_level >= FILE_FL_MANUAL_REMEMBER)
 			gnm_app_history_add (wb->uri);
-		g_free (wb->uri);
-		wb->uri = NULL;
+	       g_free (wb->uri);
+	       wb->uri = NULL;
 	}
 
 	workbook_parent_class->dispose (wb_object);
@@ -1447,6 +1443,13 @@ workbook_sheet_state_diff (const WorkbookSheetState *wss_a, const WorkbookSheetS
 
 		if (ia != ib) {
 			what |= WSS_SHEET_ORDER;
+			/* We do not count reordered sheet.  */
+		}			
+
+		pa = wss_a->sheets[ia].properties;
+		pb = wss_b->sheets[ib].properties;
+		for (; pa && pb; pa = pa->next->next, pb = pb->next->next) {
+			GParamSpec *pspec = pa->data;
 			/* We do not count reordered sheet.  */
 		}			
 

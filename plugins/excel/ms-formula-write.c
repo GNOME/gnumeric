@@ -635,6 +635,19 @@ excel_formula_write_NAME_v7 (PolishData *pd, GnmExpr const *expr,
 	}
 }
 
+gboolean
+gnm_expr_is_data_table (GnmExpr const *expr, GnmCellPos *c_in, GnmCellPos *r_in)
+{
+	if (expr->any.oper == GNM_EXPR_OP_FUNCALL) {
+		char const *name = gnm_func_get_name (expr->func.func);
+		if (name && 0 == strcmp (name, "table")) {
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
 static void
 write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 	    XLOpType target_type)
@@ -813,7 +826,10 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 	case GNM_EXPR_OP_ARRAY : {
 		GnmExprArray const *array = &expr->array;
 		guint8 data[5];
-		GSF_LE_SET_GUINT8 (data, FORMULA_PTG_EXPR);
+		if (gnm_expr_is_data_table (expr, NULL, NULL))
+			GSF_LE_SET_GUINT8 (data, FORMULA_PTG_TBL);
+		else
+			GSF_LE_SET_GUINT8 (data, FORMULA_PTG_EXPR);
 		GSF_LE_SET_GUINT16 (data+1, pd->row - array->y);
 		GSF_LE_SET_GUINT16 (data+3, pd->col - array->x);
 		ms_biff_put_var_write (pd->ewb->bp, data, 5);

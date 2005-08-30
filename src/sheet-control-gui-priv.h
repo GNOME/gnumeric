@@ -6,6 +6,7 @@
 #include "gnumeric-pane.h"
 #include "sheet-object.h"
 #include <gtk/gtktable.h>
+#include <gtk/gtkpaned.h>
 
 #define	SCG_NUM_PANES		4
 struct _SheetControlGUI {
@@ -30,8 +31,10 @@ struct _SheetControlGUI {
 	int grab_stack; /* utility to keep track of grabs in the various canvases */
 
 	/* Scrolling information */
+	GtkPaned	*vpane, *hpane;	/* drag panes for freezing */
 	GtkWidget	*vs, *hs;	/* Scrollbars */
-	GtkObject	*va, *ha;	/* Adjustments */
+	GtkAdjustment	*va, *ha;	/* Adjustments */
+	guint 		 pane_drag_handler;
 
 	/* SheetObject support */
 	SheetObject	 *new_object;	/* A newly created object that has yet to be realized */

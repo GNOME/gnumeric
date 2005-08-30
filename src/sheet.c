@@ -3,7 +3,8 @@
 /*
  * sheet.c: Implements the sheet management and per-sheet storage
  *
- * Copyright (C) 2000-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 1997-1999 Miguel de Icaza (miguel@kernel.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -1666,15 +1667,10 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
 }
 
 /****************************************************************************/
-
-/*
- * Callback for sheet_foreach_cell_in_range to assign some text
- * to a range.
- */
 typedef struct {
-	GnmValue         *val;
+	GnmValue      *val;
 	GnmExpr const *expr;
-	GnmRange	       expr_bound;
+	GnmRange       expr_bound;
 } closure_set_cell_value;
 
 static GnmValue *
@@ -1688,7 +1684,7 @@ cb_set_cell_content (Sheet *sheet, int col, int row, GnmCell *cell,
 		if (!range_contains (&info->expr_bound, col, row)) {
 			GnmExprRewriteInfo rwinfo;
 
-			rwinfo.type = GNM_EXPR_REWRITE_RELOCATE;
+			rwinfo.rw_type = GNM_EXPR_REWRITE_EXPR;
 			rwinfo.u.relocate.pos.eval.col =
 			rwinfo.u.relocate.origin.start.col =
 			rwinfo.u.relocate.origin.end.col = col;
@@ -1830,9 +1826,9 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 
 		cell_set_value (cell, val);
 		if (markup != NULL && VALUE_IS_STRING (cell->value)) {
-			GOFormat *fmt = style_format_new_markup (markup, TRUE);
+			GOFormat *fmt = go_format_new_markup (markup, TRUE);
 			value_set_fmt (cell->value, fmt);
-			style_format_unref (fmt);
+			go_format_unref (fmt);
 		}
 
 		sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
@@ -3644,6 +3640,7 @@ sheet_insert_cols (Sheet *sheet,
 		sheet_col_destroy (sheet, i, TRUE);
 
 	/* 2. Fix references to and from the cells which are moving */
+	reloc_info.reloc_type = GNM_EXPR_RELOCATE_COLS;
 	reloc_info.origin.start.col = col;
 	reloc_info.origin.start.row = 0;
 	reloc_info.origin.end.col = SHEET_MAX_COLS-1;
@@ -3686,6 +3683,7 @@ sheet_delete_cols (Sheet *sheet,
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
 
+	reloc_info.reloc_type = GNM_EXPR_RELOCATE_COLS;
 	reloc_info.origin.start.col = col;
 	reloc_info.origin.start.row = 0;
 	reloc_info.origin.end.col = col + count - 1;
@@ -3766,6 +3764,7 @@ sheet_insert_rows (Sheet *sheet,
 		sheet_row_destroy (sheet, i, TRUE);
 
 	/* 2. Fix references to and from the cells which are moving */
+	reloc_info.reloc_type = GNM_EXPR_RELOCATE_ROWS;
 	reloc_info.origin.start.col = 0;
 	reloc_info.origin.start.row = row;
 	reloc_info.origin.end.col = SHEET_MAX_COLS-1;
@@ -3808,6 +3807,7 @@ sheet_delete_rows (Sheet *sheet,
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
 
+	reloc_info.reloc_type = GNM_EXPR_RELOCATE_ROWS;
 	reloc_info.origin.start.col = 0;
 	reloc_info.origin.start.row = row;
 	reloc_info.origin.end.col = SHEET_MAX_COLS-1;
@@ -3909,6 +3909,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 			else
 				invalid = g_slist_append (NULL, range_dup (&dst));
 
+			reloc_info.reloc_type = GNM_EXPR_RELOCATE_STD;
 			reloc_info.origin_sheet = reloc_info.target_sheet = rinfo->target_sheet;;
 			reloc_info.col_offset = SHEET_MAX_COLS; /* send to infinity */
 			reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */

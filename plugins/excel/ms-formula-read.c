@@ -901,7 +901,7 @@ excel_parse_formula (MSContainer const *container,
 			GnmCellPos top_left;
 
 			top_left.row = GSF_LE_GET_GUINT16 (cur+0);
-			top_left.col = GSF_LE_GET_GUINT16 (cur+2);
+			top_left.col = (ver >= MS_BIFF_V3) ? GSF_LE_GET_GUINT16 (cur+2) : GSF_LE_GET_GUINT8 (cur+2);
 			sf = excel_sheet_shared_formula (esheet, &top_left);
 
 			if (sf == NULL) {
@@ -936,9 +936,28 @@ excel_parse_formula (MSContainer const *container,
 			break;
 		}
 
-		case FORMULA_PTG_TBL :
-			ptg_length = 4;
-			break;
+		case FORMULA_PTG_TBL : {
+			XLDataTable *dt;
+			GnmCellPos top_left;
+
+			top_left.row = GSF_LE_GET_GUINT16 (cur+0);
+			top_left.col = (ver >= MS_BIFF_V3) ? GSF_LE_GET_GUINT16 (cur+2) : GSF_LE_GET_GUINT8 (cur+2);
+			dt = excel_sheet_data_table (esheet, &top_left);
+
+			if (dt == NULL) {
+				if (top_left.col != fn_col || top_left.row != fn_row) {
+					g_warning ("Unknown data table (key = %s) in ", cellpos_as_string (&top_left));
+					ms_excel_dump_cellname (container->importer, esheet, fn_col, fn_row);
+				}
+			} else if (array_element != NULL) {
+				*array_element = TRUE;
+			} else {
+				g_warning ("EXCEL : unexpected table\n");
+			}
+
+			parse_list_free (&stack);
+			return NULL;
+		}
 
 		case FORMULA_PTG_ADD :  case FORMULA_PTG_SUB :
 		case FORMULA_PTG_MULT : case FORMULA_PTG_DIV :

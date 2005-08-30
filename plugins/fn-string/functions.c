@@ -670,7 +670,7 @@ gnumeric_fixed (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	int decimals;
 	gnm_float num;
 	gboolean commas = TRUE;
-	format_info_t fmt;
+	GONumberFormat fmt;
 	GString *str;
 
 	num = value_get_as_float (argv[0]);
@@ -883,10 +883,10 @@ gnumeric_text (FunctionEvalInfo *ei, GnmValue const * const *argv)
 		if (match != NULL)
 			v = match;
 	}
-	fmt = style_format_new_XL (value_peek_string (argv[1]), TRUE);
+	fmt = go_format_new_from_XL (value_peek_string (argv[1]), TRUE);
 	res = value_new_string_nocopy (
 		format_value (fmt, v, NULL, -1, conv));
-	style_format_unref (fmt);
+	go_format_unref (fmt);
 
 	if (match != NULL)
 		value_release (match);
@@ -1085,7 +1085,7 @@ static GnmFuncHelp const help_dollar[] = {
 static GnmValue *
 gnumeric_dollar (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	FormatCharacteristics info;
+	GOFormatDetails info;
 	GOFormat *sf;
 	gnm_float p10;
 	GnmValue *v;
@@ -1104,16 +1104,16 @@ gnumeric_dollar (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	else
 		number = gnm_fake_round (number * p10) / p10;
 
-	info = style_format_default_money ()->family_info;
+	info = go_format_default_money ()->family_info;
 	info.num_decimals = MAX (decimals, 0);
 	info.negative_fmt = 2;
 
-	sf = style_format_build (FMT_CURRENCY, &info);
+	sf = go_format_new (GO_FORMAT_CURRENCY, &info);
 	v = value_new_float (number);
 	s = format_value (sf, v, NULL, -1,
 		workbook_date_conv (ei->pos->sheet->workbook));
 	value_release (v);
-	style_format_unref (sf);
+	go_format_unref (sf);
 
 	/* Trim terminal space.  */
 	end = s + strlen (s);

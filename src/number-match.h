@@ -3,9 +3,6 @@
 
 #include "gnumeric.h"
 
-gboolean format_match_create  (GOFormat *fmt);
-void	 format_match_release (GOFormat *fmt);
-
 GnmValue   *format_match_simple (char const *s);
 GnmValue   *format_match        (char const *s, GOFormat *cur_fmt,
 				 GODateConventions const *date_conv);

@@ -306,7 +306,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 
 		fi->type    = FILL_NUMBER;
 		fi->v.value = value;
-		if (sf->family == FMT_DATE)
+		if (sf->family == GO_FORMAT_DATE)
 			fi->type = sf->family_info.date_has_days
 				? FILL_DAYS
 				: sf->family_info.date_has_months ? FILL_MONTHS : FILL_YEARS;
@@ -598,7 +598,7 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 		rinfo = &rwinfo.u.relocate;
 
 		/* FIXME : Find out how to handle this */
-		rwinfo.type = GNM_EXPR_REWRITE_RELOCATE;
+		rwinfo.rw_type = GNM_EXPR_REWRITE_EXPR;
 		rinfo->target_sheet = rinfo->origin_sheet = NULL;
 		rinfo->col_offset = rinfo->row_offset = 0;
 		rinfo->origin.start = rinfo->origin.end = cell->pos;

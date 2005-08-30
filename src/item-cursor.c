@@ -139,15 +139,9 @@ item_cursor_realize (FooCanvasItem *item)
 			ic);
 	}
 
-	/*
-	 * Create the stipple pattern for the drag and the autofill cursors
-	 */
-	if (ic->style == ITEM_CURSOR_DRAG ||
-	    ic->style == ITEM_CURSOR_AUTOFILL) {
-		static char stipple_data [] = { 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa };
-
-		ic->stipple =
-			gdk_bitmap_create_from_data (window, stipple_data, 8, 8);
+	if (ic->style == ITEM_CURSOR_DRAG || ic->style == ITEM_CURSOR_AUTOFILL) {
+		static char const stipple_data [] = { 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa };
+		ic->stipple = gdk_bitmap_create_from_data (window, stipple_data, 8, 8);
 	}
 }
 

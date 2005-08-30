@@ -55,9 +55,8 @@ typedef struct {
 } XLSharedFormula;
 
 typedef struct {
-	GnmCellPos key;
-	guint8 *data;
-	guint32 data_len;
+	GnmRange   table;
+	GnmCellPos c_in, r_in;
 } XLDataTable;
 
 /* Use the upper left corner as the key to a collection of shared formulas */

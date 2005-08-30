@@ -264,7 +264,7 @@ stf_preview_colformats_clear (RenderData_t *renderdata)
 	g_return_if_fail (renderdata != NULL);
 
 	for (i = 0; i < renderdata->colformats->len; i++)
-		style_format_unref (g_ptr_array_index (renderdata->colformats, i));
+		go_format_unref (g_ptr_array_index (renderdata->colformats, i));
 	g_ptr_array_free (renderdata->colformats, TRUE);
 	renderdata->colformats = g_ptr_array_new ();
 }
@@ -287,8 +287,7 @@ stf_preview_colformats_add (RenderData_t *renderdata, GOFormat *format)
 	g_return_if_fail (renderdata != NULL);
 	g_return_if_fail (format != NULL);
 
-	style_format_ref (format);
-	g_ptr_array_add (renderdata->colformats, format);
+	g_ptr_array_add (renderdata->colformats, go_format_ref (format));
 }
 
 

@@ -602,13 +602,13 @@ cell_get_format (GnmCell const *cell)
 {
 	GOFormat *fmt;
 
-	g_return_val_if_fail (cell != NULL, style_format_general ());
+	g_return_val_if_fail (cell != NULL, go_format_general ());
 
 	fmt = gnm_style_get_format (cell_get_mstyle (cell));
 
-	g_return_val_if_fail (fmt != NULL, style_format_general ());
+	g_return_val_if_fail (fmt != NULL, go_format_general ());
 
-	if (style_format_is_general (fmt) &&
+	if (go_format_is_general (fmt) &&
 	    cell->value != NULL && VALUE_FMT (cell->value))
 		fmt = VALUE_FMT (cell->value);
 

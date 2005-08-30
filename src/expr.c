@@ -926,7 +926,7 @@ negate_value (GnmValue const *v)
 
 	if (fmt != NULL) {
 		VALUE_FMT (tmp) = fmt;
-		style_format_ref (fmt);
+		go_format_ref (fmt);
 	}
 
 	return tmp;
@@ -981,8 +981,8 @@ cb_iter_percentage (GnmValue const *v, GnmEvalPos const *ep,
 
 		if (VALUE_IS_NUMBER (v)){
 			tmp = value_new_float (value_get_as_float (v) / 100);
-			VALUE_FMT (tmp) = style_format_default_percentage ();
-			style_format_ref (VALUE_FMT (tmp));
+			VALUE_FMT (tmp) = go_format_default_percentage ();
+			go_format_ref (VALUE_FMT (tmp));
 		} else
 			tmp = value_new_error_VALUE (ep);
 
@@ -1202,8 +1202,8 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			res = negate_value (a);
 		else {
 			res = value_new_float (value_get_as_float (a) / 100);
-			VALUE_FMT (res) = style_format_default_percentage ();
-			style_format_ref (VALUE_FMT (res));
+			VALUE_FMT (res) = go_format_default_percentage ();
+			go_format_ref (VALUE_FMT (res));
 		}
 		value_release (a);
 		return res;
@@ -1899,14 +1899,12 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		if (!nexpr->active)
 			return gnm_expr_new_constant (value_new_error_REF (NULL));
 
-		if (rwinfo->type == GNM_EXPR_REWRITE_INVALIDATE_SHEETS) {
+		if (rwinfo->rw_type == GNM_EXPR_REWRITE_INVALIDATE_SHEETS) {
 			if (nexpr->pos.sheet && nexpr->pos.sheet->being_invalidated)
 				return gnm_expr_new_constant (value_new_error_REF (NULL));
 			else
 				return NULL;
 		}
-
-		g_assert (rwinfo->type == GNM_EXPR_REWRITE_RELOCATE);
 
 		/* If the name is not officially scoped, check that it is
 		 * available in the new scope ?  */
@@ -1943,13 +1941,14 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 	}
 
 	case GNM_EXPR_OP_CELLREF:
-		switch (rwinfo->type) {
+		switch (rwinfo->rw_type) {
 		case GNM_EXPR_REWRITE_INVALIDATE_SHEETS:
 			if (expr->cellref.ref.sheet &&
 			    expr->cellref.ref.sheet->being_invalidated)
 				return gnm_expr_new_constant (value_new_error_REF (NULL));
 			return NULL;
 
+		case GNM_EXPR_REWRITE_NAME:
 		default : {
 			GnmCellRef res = expr->cellref.ref; /* Copy */
 
@@ -1973,7 +1972,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 			GnmCellRef const *ref_a = &v->v_range.cell.a;
 			GnmCellRef const *ref_b = &v->v_range.cell.b;
 
-			if (rwinfo->type == GNM_EXPR_REWRITE_INVALIDATE_SHEETS) {
+			if (rwinfo->rw_type == GNM_EXPR_REWRITE_INVALIDATE_SHEETS) {
 				Sheet *sheet_a = ref_a->sheet;
 				Sheet *sheet_b = ref_b->sheet;
 				Workbook *wb;

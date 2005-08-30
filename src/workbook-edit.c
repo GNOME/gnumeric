@@ -731,7 +731,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 
 		if (cell->value != NULL) {
 			GOFormat *fmt = VALUE_FMT (cell->value);
-			if (fmt != NULL && style_format_is_markup (fmt))
+			if (fmt != NULL && go_format_is_markup (fmt))
 				wbcg_edit_init_markup (wbcg,
 					pango_attr_list_copy (fmt->markup));
 		}

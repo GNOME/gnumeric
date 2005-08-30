@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-stf-format-page.c : Controls the widgets on the format page of the dialog
  *
@@ -259,10 +260,9 @@ cb_popup_menu_extend_format (GtkWidget *widget, gpointer data)
 	for (index++; index < pagedata->format.formats->len; index++) {
 		GOFormat *sf = g_ptr_array_index 
 			(pagedata->format.formats, index);
-		style_format_unref (sf);
-		style_format_ref (colformat); 
+		go_format_unref (sf);
 		g_ptr_array_index (pagedata->format.formats, index) 
-			= colformat;
+			= go_format_ref (colformat); 
 	}
 
 	format_page_update_preview (data);
@@ -452,9 +452,9 @@ format_page_update_preview (StfDialogData *pagedata)
 			char * label_text = g_strdup_printf 
 				(pagedata->format.col_header, i+1);
 			GtkWidget *label = gtk_label_new (label_text);
-			const GOFormat *sfg = style_format_general ();
+			GOFormat const *gf = go_format_general ();
 			GtkWidget *format_label = gtk_label_new 
-				(go_format_sel_format_classification (sfg));
+				(go_format_sel_format_classification (gf));
 			
 			g_free (label_text);
 			gtk_misc_set_alignment (GTK_MISC (format_label), 0, 0);
@@ -546,9 +546,9 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 
 		sf = g_ptr_array_index (data->format.formats, 
 					data->format.index);
-		style_format_unref (sf);
+		go_format_unref (sf);
 
-		sf = style_format_new_XL (fmt, FALSE);
+		sf = go_format_new_from_XL (fmt, FALSE);
 		gtk_label_set_text (GTK_LABEL (w), 
 				    go_format_sel_format_classification (sf));
 		g_ptr_array_index (data->format.formats, data->format.index) =
@@ -576,10 +576,9 @@ stf_dialog_format_page_prepare (StfDialogData *data)
 	format_page_trim_menu_changed (NULL, data);
 
 	/* If necessary add new items (non-visual) */
-	while ((int)data->format.formats->len < data->format.renderdata->colcount) {
+	while ((int)data->format.formats->len < data->format.renderdata->colcount)
 		g_ptr_array_add (data->format.formats,
-				 style_format_new_XL (cell_formats[0][0], FALSE));
-	}
+			go_format_new_from_XL (go_format_builtins[0][0], FALSE));
 
 	data->format.manual_change = TRUE;
 	activate_column (data, 0);
@@ -599,10 +598,8 @@ stf_dialog_format_page_cleanup (StfDialogData *pagedata)
 	GPtrArray *formats = pagedata->format.formats;
 	if (formats) {
 		unsigned int ui;
-		for (ui = 0; ui < formats->len; ui++) {
-			GOFormat *sf = g_ptr_array_index (formats, ui);
-			style_format_unref (sf);
-		}
+		for (ui = 0; ui < formats->len; ui++)
+			go_format_unref (g_ptr_array_index (formats, ui));
 		g_ptr_array_free (formats, TRUE);
 	}
 

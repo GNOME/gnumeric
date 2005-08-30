@@ -135,7 +135,7 @@ translate_cell_format (GOFormat const *format)
 	if (format == NULL)
 		return value_new_string ("G");
 
-	fmt = style_format_as_XL (format, FALSE);
+	fmt = go_format_as_XL (format, FALSE);
 
 	/*
 	 * TODO : What does this do in different locales ??
@@ -161,11 +161,11 @@ translate_cell_format (GOFormat const *format)
 	return value_new_string ("G");
 }
 
-static const FormatCharacteristics
+static GOFormatDetails
 retrieve_format_info (const Sheet *sheet, int col, int row)
 {
-	const GnmStyle *mstyle = sheet_style_get (sheet, col, row);
-	const GOFormat *format = gnm_style_get_format (mstyle);
+	GnmStyle const *mstyle = sheet_style_get (sheet, col, row);
+	GOFormat const *format = gnm_style_get_format (mstyle);
 	return format->family_info;
 }
 
@@ -225,7 +225,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	 * Another place where Excel doesn't conform to its documentation!
 	 */
 	} else if (!g_ascii_strcasecmp (info_type, "color")) {
-		const FormatCharacteristics info =
+		GOFormatDetails const info =
 			retrieve_format_info (sheet, ref->col, ref->row);
 
 		/* 0x01 = first bit (1) indicating negative colors */
@@ -265,7 +265,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	/* from CELL */
 	/* Backwards compatibility w/123 - unnecessary */
 	} else if (!g_ascii_strcasecmp (info_type, "parentheses")) {
-		const FormatCharacteristics info =
+		GOFormatDetails const info =
 			retrieve_format_info (sheet, ref->col, ref->row);
 
 		/* 0x02 = second bit (2) indicating parentheses */

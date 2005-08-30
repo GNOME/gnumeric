@@ -1026,7 +1026,7 @@ oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (state->accum_fmt != NULL);
 
 	g_hash_table_insert (state->formats, state->fmt_name,
-		style_format_new_XL (state->accum_fmt->str, FALSE));
+		go_format_new_from_XL (state->accum_fmt->str, FALSE));
 	g_string_free (state->accum_fmt, TRUE);
 	state->accum_fmt = NULL;
 	state->fmt_name = NULL;
@@ -1512,7 +1512,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		(GDestroyNotify) gnm_style_unref);
 	state.formats = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
-		(GDestroyNotify) style_format_unref);
+		(GDestroyNotify) go_format_unref);
 	state.cur_style.cell   = NULL;
 	state.default_style_cell = NULL;
 	state.cur_style_type   = OO_STYLE_UNKNOWN;

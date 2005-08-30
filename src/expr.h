@@ -83,23 +83,26 @@ gboolean  gnm_expr_containts_subtotal(GnmExpr const *expr);
 struct _GnmExprRelocateInfo {
 	GnmEvalPos pos;
 
-	GnmRange   origin;	        /* References to cells in origin_sheet!range */
-	Sheet  *origin_sheet;	/* should to adjusted */
-
-	Sheet  *target_sheet;	/* to point at this sheet */
-	int col_offset, row_offset;/* and offset by this amount */
+	GnmRange   origin;	    /* References to cells in origin_sheet!range */
+	Sheet     *origin_sheet;    /* should to adjusted */
+	Sheet     *target_sheet;    /* to point at this sheet */
+	int col_offset, row_offset; /* and offset by this amount */
 	enum {
-		GNM_EXPR_RELOCATE_STD = 0,	/* do standard relocation */
-		GNM_EXPR_RELOCATE_NAME_COL = 0x1, /* col ins/del */
-		GNM_EXPR_RELOCATE_NAME_ROW = 0x2  /* row ins/del */
-	} type;
+		GNM_EXPR_RELOCATE_STD,	/* do standard relocation */
+		GNM_EXPR_RELOCATE_COLS, /* ins/del col */
+		GNM_EXPR_RELOCATE_ROWS	/* ins/del row */
+	} reloc_type;
 };
 
 struct _GnmExprRewriteInfo {
 	enum {
+		/* invalidate references to specified sheet */
 		GNM_EXPR_REWRITE_INVALIDATE_SHEETS,
-		GNM_EXPR_REWRITE_RELOCATE
-	} type;
+		/* relocate only fully absolute references */
+		GNM_EXPR_REWRITE_NAME,
+		/* relocate all references */
+		GNM_EXPR_REWRITE_EXPR
+	} rw_type;
 
 	union {
 		struct {

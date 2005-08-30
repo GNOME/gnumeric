@@ -3565,7 +3565,7 @@ static GnmValue *
 gnumeric_coupncd (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmValue *res = func_coup (ei, argv, coupncd);
-	value_set_fmt (res, style_format_default_date ());
+	value_set_fmt (res, go_format_default_date ());
 	return res;
 }
 
@@ -3615,7 +3615,7 @@ static GnmValue *
 gnumeric_couppcd (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmValue *res = func_coup (ei, argv, couppcd);
-	value_set_fmt (res, style_format_default_date ());
+	value_set_fmt (res, go_format_default_date ());
 	return res;
 }
 

@@ -32,7 +32,7 @@
 #include <string.h>
 
 static gboolean
-gnm_style_format_condition (StyleFormatEntry const *entry, GnmValue const *value)
+gnm_style_format_condition (GOFormatElement const *entry, GnmValue const *value)
 {
 	if (entry->restriction_type == '*')
 		return TRUE;
@@ -80,7 +80,7 @@ format_value_gstring (GString *result, GOFormat const *format,
 		      GnmValue const *value, GOColor *go_color,
 		      double col_width, GODateConventions const *date_conv)
 {
-	StyleFormatEntry const *entry = NULL; /* default to General */
+	GOFormatElement const *entry = NULL; /* default to General */
 	GSList *list;
 	gboolean need_abs = FALSE;
 

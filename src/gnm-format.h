@@ -2,7 +2,7 @@
 #define GNM_FORMAT_H
 
 #include "gnumeric.h"
-#include <goffice/utils/format.h>
+#include <goffice/utils/go-format.h>
 
 char  *format_value	    (GOFormat const *format,
 			     GnmValue const *value, GOColor *go_color,

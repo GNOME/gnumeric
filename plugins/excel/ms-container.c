@@ -122,6 +122,9 @@ ms_container_set_blips (MSContainer *container, GPtrArray *blips)
 void
 ms_container_add_obj (MSContainer *container, MSObj *obj)
 {
+#if 0
+	g_warning ("registered obj %d\n", obj->id);
+#endif
 	container->obj_queue = g_slist_prepend (container->obj_queue, obj);
 }
 

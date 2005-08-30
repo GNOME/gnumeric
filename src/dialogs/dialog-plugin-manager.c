@@ -598,7 +598,9 @@ cb_active_toggled (G_GNUC_UNUSED GtkCellRendererToggle *celltoggle,
 	model = gtk_tree_view_get_model (pm_gui->list_plugins);
 	gtk_tree_model_get_iter_from_string (model, &iter, path);
 	gtk_tree_model_get (model, &iter, PLUGIN_POINTER, &plugin, -1);
-	g_assert (plugin != NULL);
+
+	g_return_if_fail (plugin != NULL);
+
 	if (go_plugin_is_active (plugin)) {
 		go_plugin_deactivate (plugin, &error);
 	} else {

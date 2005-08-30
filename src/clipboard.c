@@ -367,7 +367,7 @@ clipboard_paste_region (GnmCellRegion const *content,
 			GnmExprRewriteInfo   rwinfo;
 			GnmExprRelocateInfo *rinfo;
 
-			rwinfo.type = GNM_EXPR_REWRITE_RELOCATE;
+			rwinfo.rw_type = GNM_EXPR_REWRITE_EXPR;
 			rinfo = &rwinfo.u.relocate;
 			rinfo->origin_sheet = rinfo->target_sheet = pt->sheet;
 

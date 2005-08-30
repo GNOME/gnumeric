@@ -21,7 +21,6 @@
 #include "gnm-format-sel.h"
 #include "src/value.h"
 #include "src/gnm-format.h"
-#include <goffice/utils/format.h>
 
 static char *
 cb_generate_preview (GOFormatSel *gfs, GOColor *c)
@@ -31,7 +30,7 @@ cb_generate_preview (GOFormatSel *gfs, GOColor *c)
 
 	if (NULL == v)
 		return NULL;
-	if (style_format_is_general (fmt) && VALUE_FMT (v) != NULL)
+	if (go_format_is_general (fmt) && VALUE_FMT (v) != NULL)
 		fmt = VALUE_FMT (v);
 	return format_value (fmt, v, c, -1, go_format_sel_get_dateconv (gfs));
 }

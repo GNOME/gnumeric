@@ -261,7 +261,7 @@ elem_assign_content (GnmStyle *dst, GnmStyle const *src, GnmStyleElement elem)
 	case MSTYLE_FONT_UNDERLINE:	dst->font_detail.underline = src->font_detail.underline; return;
 	case MSTYLE_FONT_STRIKETHROUGH: dst->font_detail.strikethrough = src->font_detail.strikethrough; return;
 	case MSTYLE_FONT_SIZE:		dst->font_detail.size = src->font_detail.size; return;
-	case MSTYLE_FORMAT:		style_format_ref (dst->format = src->format); return;
+	case MSTYLE_FORMAT:		go_format_ref (dst->format = src->format); return;
 	case MSTYLE_ALIGN_V:		dst->v_align = src->v_align; return;
 	case MSTYLE_ALIGN_H:		dst->h_align = src->h_align; return;
 	case MSTYLE_INDENT:		dst->indent = src->indent; return;
@@ -309,7 +309,7 @@ elem_clear_content (GnmStyle *style, GnmStyleElement elem)
 		return;
 	case MSTYLE_FONT_COLOR :	style_color_unref (style->color.font); return;
 	case MSTYLE_FONT_NAME:		gnm_string_unref (style->font_detail.name); return;
-	case MSTYLE_FORMAT:		style_format_unref (style->format); return;
+	case MSTYLE_FORMAT:		go_format_unref (style->format); return;
 	case MSTYLE_VALIDATION:
 		if (style->validation)
 			validation_unref (style->validation);
@@ -1081,7 +1081,7 @@ gnm_style_set_format (GnmStyle *style, GOFormat *format)
 	g_return_if_fail (format != NULL);
 
 	elem_changed (style, MSTYLE_FORMAT);
-	style_format_ref (format);
+	go_format_ref (format);
 	elem_clear_content (style, MSTYLE_FORMAT);
 	elem_set (style, MSTYLE_FORMAT);
 	style->format = format;
@@ -1099,9 +1099,9 @@ gnm_style_set_format_text (GnmStyle *style, const char *format)
 	 * I am not sure people are feeding us only translated formats.
 	 * This entire function should be deleted.
 	 */
-	sf = style_format_new_XL (format, FALSE);
+	sf = go_format_new_from_XL (format, FALSE);
 	gnm_style_set_format (style, sf);
-	style_format_unref (sf);
+	go_format_unref (sf);
 }
 
 GOFormat *
@@ -1584,7 +1584,7 @@ gnm_style_dump (GnmStyle const *style)
 	if (elem_is_set (style, MSTYLE_FONT_SIZE))
 		fprintf (stderr, "\tsize %f\n", style->font_detail.size);
 	if (elem_is_set (style, MSTYLE_FORMAT)) {
-		char *fmt = style_format_as_XL (style->format, TRUE);
+		char *fmt = go_format_as_XL (style->format, TRUE);
 		fprintf (stderr, "\tformat '%s'\n", fmt);
 		g_free (fmt);
 	}

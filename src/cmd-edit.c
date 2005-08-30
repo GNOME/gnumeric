@@ -343,6 +343,7 @@ cmd_paste (WorkbookControl *wbc, GnmPasteTarget const *pt)
 			return;
 		}
 
+		rinfo.reloc_type = GNM_EXPR_RELOCATE_STD;
 		rinfo.origin = *src_range;
 		rinfo.col_offset = dst.start.col - rinfo.origin.start.col;
 		rinfo.row_offset = dst.start.row - rinfo.origin.start.row;
@@ -399,8 +400,7 @@ cmd_paste_to_selection (WorkbookControl *wbc, SheetView *dest_sv, int paste_flag
  *
  * Takes the cells in the region (col,start_row):(MAX_COL,end_row)
  * and copies them @count units (possibly negative) to the right.
- */
-
+ **/
 void
 cmd_shift_rows (WorkbookControl *wbc, Sheet *sheet,
 		int col, int start_row, int end_row, int count)
@@ -408,6 +408,7 @@ cmd_shift_rows (WorkbookControl *wbc, Sheet *sheet,
 	GnmExprRelocateInfo rinfo;
 	char *desc;
 
+	rinfo.reloc_type = GNM_EXPR_RELOCATE_STD;
 	rinfo.col_offset = count;
 	rinfo.row_offset = 0;
 	rinfo.origin_sheet = rinfo.target_sheet = sheet;
@@ -446,6 +447,7 @@ cmd_shift_cols (WorkbookControl *wbc, Sheet *sheet,
 	GnmExprRelocateInfo rinfo;
 	char *desc;
 
+	rinfo.reloc_type = GNM_EXPR_RELOCATE_STD;
 	rinfo.col_offset = 0;
 	rinfo.row_offset = count;
 	rinfo.origin_sheet = rinfo.target_sheet = sheet;

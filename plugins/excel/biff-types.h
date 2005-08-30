@@ -82,7 +82,7 @@
 #define BIFF_PRINTSIZE			0x033	/* Undocumented */
 #define BIFF_TABLE_v0			0x036
 #define BIFF_TABLE_v2				0x236
-#define BIFF_TABLE2			0x037	/* Undocumented */
+#define BIFF_TABLE2			0x037	/* OOo has docs */
 #define BIFF_WNDESK			0x038	/* Undocumented */
 #define BIFF_ZOOM			0x039	/* Undocumented */
 #define BIFF_BEGINPREF			0x03a	/* Undocumented */

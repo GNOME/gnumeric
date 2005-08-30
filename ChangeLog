@@ -1,3 +1,8 @@
+2005-08-27  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook.c (workbook_dispose) : Looks like this patch got
+	  munged. Make it sane.
+
 2005-08-29  Stepan Kasal  <kasal@ucw.cz>
 
 	* src/ssconvert.c (convert): If output file name was not given,

@@ -34,7 +34,7 @@
 #include "gutils.h"
 #include "mstyle.h"
 #include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/format.h>
+#include <goffice/utils/go-format.h>
 #include <value.h>
 #include <number-match.h>
 

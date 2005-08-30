@@ -126,6 +126,13 @@ gnumeric_version (FunctionEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+GnmValue *
+gnumeric_table (FunctionEvalInfo *ei, GnmExprList const *nodes)
+{
+	return value_new_error_REF (ei->pos);
+}
+/***************************************************************************/
+
 static GnmFuncGroup *math_group = NULL;
 static GnmFuncGroup *gnumeric_group = NULL;
 
@@ -151,6 +158,12 @@ func_builtin_init (void)
 			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 			GNM_FUNC_TEST_STATUS_EXHAUSTIVE
 		},
+		{	"table",	"",	"",
+			NULL,		NULL,	gnumeric_table,
+			NULL, NULL, NULL, GNM_FUNC_SIMPLE + GNM_FUNC_INTERNAL,
+			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
+			GNM_FUNC_TEST_STATUS_EXHAUSTIVE
+		},
 		{ NULL }
 	};
 
@@ -160,6 +173,7 @@ func_builtin_init (void)
 
 	gnumeric_group = gnm_func_group_fetch (N_("Gnumeric"));
 	gnm_func_add (gnumeric_group, builtins + 2);
+	gnm_func_add (gnumeric_group, builtins + 3);
 }
 
 static void

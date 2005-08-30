@@ -803,7 +803,7 @@ item_bar_resize_stop (ItemBar *ib, int new_size)
 				     ib->colrow_being_resized, new_size);
 	ib->colrow_being_resized = -1;
 	ib->has_resize_guides = FALSE;
-	scg_colrow_resize_stop (ib->gcanvas->simple.scg);
+	scg_size_guide_stop (ib->gcanvas->simple.scg);
 
 	if (ib->tip != NULL) {
 		gtk_widget_destroy (gtk_widget_get_toplevel (ib->tip));
@@ -876,15 +876,12 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 			int new_size;
 			if (!ib->has_resize_guides) {
 				ib->has_resize_guides = TRUE;
-				scg_colrow_resize_start	(ib->gcanvas->simple.scg,
-							 ib->is_col_header,
-							 ib->colrow_being_resized);
+				scg_size_guide_start (ib->gcanvas->simple.scg,
+					ib->is_col_header, ib->colrow_being_resized, 1);
 
 				gnm_simple_canvas_grab (item,
-					GDK_POINTER_MOTION_MASK |
-					GDK_BUTTON_RELEASE_MASK,
-					ib->change_cursor,
-					e->motion.time);
+					GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+					ib->change_cursor, e->motion.time);
 			}
 
 			cri = sheet_colrow_get_info (sheet,
@@ -913,7 +910,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 
 			ib->colrow_resize_size = new_size;
 			colrow_tip_setlabel (ib, is_cols, new_size);
-			scg_colrow_resize_move (scg, is_cols, pos);
+			scg_size_guide_motion (scg, is_cols, pos);
 
 			/* Redraw the ItemBar to show nice incremental progress */
 			foo_canvas_request_redraw (canvas, 0, 0, G_MAXINT/2,  G_MAXINT/2);

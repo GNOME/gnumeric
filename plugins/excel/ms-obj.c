@@ -851,6 +851,9 @@ ms_obj_map_forms_obj (MSObj *obj, MSContainer *c, guint8 const *data, gint32 len
 	int i = G_N_ELEMENTS (map_forms);
 	char const *key;
 	int key_len = 0;
+	guint8 const *ptr;
+	guint16 expr_len;
+	GnmExpr const *ref;
 
 	if (obj->excel_type != 8 || len <= 27 ||
 	    strncmp ((char *)(data+21), "Forms.", 6))
@@ -865,21 +868,25 @@ ms_obj_map_forms_obj (MSObj *obj, MSContainer *c, guint8 const *data, gint32 len
 			break;
 	}
 
-	if (i >= 0) {
-		obj->excel_type = map_forms [i].excel_type;
-		if (map_forms [i].offset_to_link != 0) {
-			guint8 const *ptr = data + 27 + key_len + map_forms [i].offset_to_link;
-			guint16 expr_len;
-			GnmExpr const *ref;
-			g_return_if_fail (ptr + 2 <= (data + len));
-			expr_len = GSF_LE_GET_GUINT16 (ptr);
-			g_return_if_fail (ptr + 2 + expr_len <= (data + len));
-			ref = ms_container_parse_expr (c, ptr + 6, expr_len);
-			if (ref != NULL)
-				ms_obj_attr_bag_insert (obj->attrs,
-					ms_obj_attr_new_expr (MS_OBJ_ATTR_LINKED_TO_CELL, ref));
-		}
-	}
+	if (i < 0)
+		return;
+	obj->excel_type = map_forms [i].excel_type;
+
+	if (map_forms [i].offset_to_link == 0)
+		return;
+
+	ptr = data + 27 + key_len + map_forms [i].offset_to_link;
+	if (ptr + 2 > (data + len))
+		return;
+
+	expr_len = GSF_LE_GET_GUINT16 (ptr);
+
+	g_return_if_fail (ptr + 2 + expr_len <= (data + len));
+
+	ref = ms_container_parse_expr (c, ptr + 6, expr_len);
+	if (ref != NULL)
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_expr (MS_OBJ_ATTR_LINKED_TO_CELL, ref));
 }
 
 static gboolean
@@ -1230,15 +1237,13 @@ ms_read_OBJ (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs)
 		obj->gnum_obj = (*c->vtbl->create_obj) (c, obj);
 
 	/* Chart, There should be a BOF next */
-	if (obj->excel_type == 0x5 &&
-	    ms_excel_chart_read_BOF (q, c, obj->gnum_obj)) {
-		ms_obj_delete (obj);
-		return;
+	if (obj->excel_type == 0x5) {
+		if (ms_excel_chart_read_BOF (q, c, obj->gnum_obj)) {
+			ms_obj_delete (obj);
+			return;
+		}
 	}
 
-#if 0
-	g_warning ("registered obj %d\n", obj->id);
-#endif
 	ms_container_add_obj (c, obj);
 }
 
@@ -1296,9 +1301,4 @@ ms_objv8_write_listbox (BiffPut *bp, gboolean filtered)
 	if (filtered)
 		GSF_LE_SET_GUINT16 (buf + 14, 0xa);
 	ms_biff_put_var_write (bp, buf, sizeof data);
-}
-
-void
-ms_objv8_write_chart (BiffPut *bp, SheetObject *sog)
-{
 }

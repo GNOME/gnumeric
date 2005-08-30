@@ -220,7 +220,7 @@ templates_load (AutoFormatState *state)
 	GSList *l;
 	gint n_templates;
 
-	g_assert (state != NULL);
+	g_return_val_if_fail (state != NULL, FALSE);
 
 	if (state->category_groups == NULL)
 		return FALSE;
