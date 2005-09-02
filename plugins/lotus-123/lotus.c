@@ -375,19 +375,30 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 			break;
 		}
 
-		case LOTUS_INTEGER2: {
+		case LOTUS_PACKED_NUMBER: {
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			int sheetno = r->data[2];
 			int col = r->data[3];
-			int i = GSF_LE_GET_GINT32 (r->data + 4);
+			guint32 u = GSF_LE_GET_GUINT32 (r->data + 4);
 			Sheet *sheet = get_sheet (state->wb, sheetno);
+			double v;
+			GnmValue *val;
 
-			if ((i & 63) == 0)
-				insert_value (sheet, col, row,
-					      value_new_int (i / 64));
+			v = (u >> 6);
+			if (u & 0x20) v = 0 - v;
+			if (u & 0x10)
+				v = v / gnm_pow10 (u & 15);
 			else
-				g_warning ("Strange number: %08x",
-					   i);
+				v = v * gnm_pow10 (u & 15);  /* Guess */
+
+			if (v == gnm_floor (v) &&
+			    v >= G_MININT &&
+			    v <= G_MAXINT)
+				val = value_new_int ((int)v);
+			else
+				val = value_new_float (v);
+
+			insert_value (sheet, col, row, val);
 			break;
 		}
 

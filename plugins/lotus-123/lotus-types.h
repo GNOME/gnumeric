@@ -40,7 +40,7 @@
 
 /* Stuff observed in new formats only: */
 #define LOTUS_LABEL2         0x16
+#define LOTUS_PACKED_NUMBER  0x25
 #define LOTUS_SHEET_NAME     0x204
-#define LOTUS_INTEGER2       0x25
 
 #endif
