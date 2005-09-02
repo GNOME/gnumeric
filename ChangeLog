@@ -1,3 +1,8 @@
+2005-09-01  Morten Welinder <terra@gnome.org>
+
+	* src/gnumeric-pane.c (gnm_pane_display_obj_size_tip): Make the
+	tooltips use "www x hhh" format.
+
 2005-08-29  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : bump goffice req
