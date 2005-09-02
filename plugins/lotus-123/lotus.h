@@ -4,6 +4,13 @@
 #include <gnumeric.h>
 #include <gsf/gsf.h>
 
+typedef enum {
+	LOTUS_VERSION_ORIG_123 = 0x0404,
+	LOTUS_VERSION_SYMPHONY = 0x0405,
+	LOTUS_VERSION_123V6    = 0x1003,
+	LOTUS_VERSION_123SS98  = 0x1005
+} LotusVersion;
+
 typedef struct {
 	GsfInput	*input;
 	IOContext	*io_context;
@@ -11,6 +18,8 @@ typedef struct {
 	WorkbookView	*wbv;
 	Workbook	*wb;
 	Sheet		*sheet;
+	LotusVersion     version;
+  
 } LotusWk1Read;
 
 GnmValue *lotus_new_string (LotusWk1Read *state, gchar const *data);

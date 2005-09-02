@@ -6,7 +6,7 @@
  *    See: README
  *    Michael Meeks (mmeeks@gnu.org)
  *    Stephen Wood (saw@genhomepage.com)
- *    Morten Welinder (terra@diku.dk)
+ *    Morten Welinder (terra@gnome.org)
  **/
 #include <gnumeric-config.h>
 #include <gnumeric.h>
@@ -159,11 +159,16 @@ record_next (record_t *r)
 	r->type = GSF_LE_GET_GUINT16 (header);
 	r->len  = GSF_LE_GET_GUINT16 (header + 2);
 
+	r->data = (r->len == 0
+		   ? (void *)""
+		   : gsf_input_read (r->input, r->len, NULL));
+
 #if LOTUS_DEBUG > 0
-	printf ("Record 0x%x length 0x%x\n", r->type, r->len);
+	g_print ("Record 0x%x length 0x%x\n", r->type, r->len);
+	if (r->data)
+		gsf_mem_dump (r->data, r->len);
 #endif
 
-	r->data = gsf_input_read (r->input, r->len, NULL);
 	return (r->data != NULL);
 }
 
@@ -199,7 +204,7 @@ insert_value (Sheet *sheet, guint32 col, guint32 row, GnmValue *val)
 static Sheet *
 attach_sheet (Workbook *wb, int idx)
 {
-	/* Yes I do mean col_name.  Use that as an easy proxy for naming the sheets 
+	/* Yes I do mean col_name.  Use that as an easy proxy for naming the sheets
 	 * similarly to lotus.
 	 */
 	Sheet *sheet = sheet_new (wb, col_name (idx));
@@ -214,37 +219,26 @@ attach_sheet (Workbook *wb, int idx)
 	return sheet;
 }
 
-gboolean
-lotus_read (LotusWk1Read *state)
+static gboolean
+lotus_read_old (LotusWk1Read *state, record_t *r)
 {
 	gboolean result = TRUE;
 	int sheetidx = 0;
 	GnmCell    *cell;
 	GnmValue	*v;
 	guint16  fmt;	/* Format code of Lotus Cell */
-	record_t *r;
 
-	state->sheet = attach_sheet (state->wb, sheetidx++);
-
-	r = record_new (state->input);
-
-	while (record_next (r)) {
-		if (sheetidx == 0 && r->type != 0) {
-			result = FALSE;
-			break;
-		}
-
+	do {
 		switch (r->type) {
-		case LOTUS_BOF :
-			if (sheetidx > 1)
-				state->sheet = attach_sheet (state->wb, sheetidx++);
+		case LOTUS_BOF:
+			state->sheet = attach_sheet (state->wb, sheetidx++);
 			break;
 
-		case LOTUS_EOF :
+		case LOTUS_EOF:
 			state->sheet = NULL;
 			break;
 
-		case LOTUS_INTEGER : {
+		case LOTUS_INTEGER: {
 			GnmValue *v = value_new_int (GSF_LE_GET_GINT16 (r->data + 5));
 			int i = GSF_LE_GET_GUINT16 (r->data + 1);
 			int j = GSF_LE_GET_GUINT16 (r->data + 3);
@@ -255,7 +249,7 @@ lotus_read (LotusWk1Read *state)
 				cell_set_format_from_lotus_format (cell, fmt);
 			break;
 		}
-		case LOTUS_NUMBER : {
+		case LOTUS_NUMBER: {
 			GnmValue *v = value_new_float (gsf_le_get_double (r->data + 5));
 			int i = GSF_LE_GET_GUINT16 (r->data + 1);
 			int j = GSF_LE_GET_GUINT16 (r->data + 3);
@@ -266,19 +260,20 @@ lotus_read (LotusWk1Read *state)
 				cell_set_format_from_lotus_format (cell, fmt);
 			break;
 		}
-		case LOTUS_LABEL : {
+		case LOTUS_LABEL: {
 			/* one of '\', '''', '"', '^' */
-/*			gchar format_prefix = *(r->data + 5);*/
+/*			gchar format_prefix = *(r->data + 1 + 4);*/
 			GnmValue *v = lotus_new_string (state, r->data + 6);
 			int i = GSF_LE_GET_GUINT16 (r->data + 1);
 			int j = GSF_LE_GET_GUINT16 (r->data + 3);
-			fmt = *(guint8 *)(r->data);
 			cell = insert_value (state->sheet, i, j, v);
-			if (cell)
+			if (cell) {
+				fmt = *(guint8 *)(r->data);
 				cell_set_format_from_lotus_format (cell, fmt);
+			}
 			break;
 		}
-		case LOTUS_FORMULA : {
+		case LOTUS_FORMULA: {
 			/* 5-12 = value */
 			/* 13-14 = formula r->length */
 			if (r->len >= 15) {
@@ -325,7 +320,126 @@ lotus_read (LotusWk1Read *state)
 		default:
 			break;
 		}
-	}
+	} while (record_next (r));
+
+	return result;
+}
+
+static Sheet *
+get_sheet (Workbook *wb, int i)
+{
+	g_return_val_if_fail (i >= 0 && i <= 255, NULL);
+
+	while (i >= workbook_sheet_count (wb))
+		workbook_sheet_add (wb, -1, FALSE);
+
+	return workbook_sheet_by_index (wb, i);
+}
+
+static char *
+lotus_get_cstr (LotusWk1Read *state, const record_t *r, int ofs)
+{
+	int i = ofs;
+	while (i < r->len && r->data[i])
+		i++;
+	if (i >= r->len)
+		return NULL;
+
+	return g_convert_with_iconv (r->data + ofs, -1, state->converter,
+				     NULL, NULL, NULL);
+}
+
+static gboolean
+lotus_read_new (LotusWk1Read *state, record_t *r)
+{
+	gboolean result = TRUE;
+	int sheetnameno = 0;
+
+	do {
+		switch (r->type) {
+		case LOTUS_BOF:
+			break;
+
+		case LOTUS_EOF:
+			goto done;
+
+		case LOTUS_LABEL2: {
+			/* one of '\', '''', '"', '^' */
+			int row = GSF_LE_GET_GUINT16 (r->data);
+			int sheetno = r->data[2];
+			int col = r->data[3];
+/*			gchar format_prefix = *(r->data + ofs + 4);*/
+			GnmValue *v = lotus_new_string (state, r->data + 5);
+			Sheet *sheet = get_sheet (state->wb, sheetno);
+			(void)insert_value (sheet, col, row, v);
+			break;
+		}
+
+		case LOTUS_INTEGER2: {
+			int row = GSF_LE_GET_GUINT16 (r->data);
+			int sheetno = r->data[2];
+			int col = r->data[3];
+			int i = GSF_LE_GET_GINT32 (r->data + 4);
+			Sheet *sheet = get_sheet (state->wb, sheetno);
+
+			if ((i & 63) == 0)
+				insert_value (sheet, col, row,
+					      value_new_int (i / 64));
+			else
+				g_warning ("Strange number: %08x",
+					   i);
+			break;
+		}
+
+		case LOTUS_SHEET_NAME: {
+			Sheet *sheet = get_sheet (state->wb, sheetnameno++);
+			char *name = lotus_get_cstr (state, r, 10);
+			g_return_val_if_fail (name != NULL, FALSE);
+			g_object_set (sheet, "name", name, NULL);
+			g_free (name);
+			break;
+		}
+
+		default:
+			break;
+		}
+	} while (record_next (r));
+
+ done:
+	/*
+	 * Newer formats have something that looks like document
+	 * properties after the EOF record.
+	 */
+
+	if (workbook_sheet_count (state->wb) < 1)
+		result = FALSE;
+
+	return result;
+}
+
+gboolean
+lotus_read (LotusWk1Read *state)
+{
+	record_t *r = record_new (state->input);
+	gboolean result;
+
+	if (record_next (r) && r->type == LOTUS_BOF) {
+		state->version = GSF_LE_GET_GUINT16 (r->data);
+		switch (state->version) {
+		case LOTUS_VERSION_ORIG_123:
+		case LOTUS_VERSION_SYMPHONY:
+			result = lotus_read_old (state, r);
+			break;
+		default:
+			g_warning ("Unexpected version %x", state->version);
+			/* Fall through.  */
+		case LOTUS_VERSION_123V6:
+		case LOTUS_VERSION_123SS98:
+			result = lotus_read_new (state, r);
+		}
+	} else
+		result = FALSE;
+
 	record_destroy (r);
 
 	return result;

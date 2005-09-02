@@ -2,6 +2,8 @@ Gnumeric 1.5.6
 
 Morten:
 	* Fix tooltip problem.  [#314865]
+	* Throw a minimum of effort at a Lotus importer for modern
+	  versions.  [#314875]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.5

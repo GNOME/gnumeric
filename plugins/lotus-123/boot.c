@@ -21,6 +21,7 @@
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
+#include <gsf/gsf-msole-utils.h>
 
 GNM_PLUGIN_MODULE_HEADER;
 
@@ -34,24 +35,33 @@ gboolean
 lotus_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	char const *h = NULL;
+	int len;
+	LotusVersion version;
+
 	if (!gsf_input_seek (input, 0, G_SEEK_SET))
 		h = gsf_input_read (input, 6, NULL);
 
 	if (h == NULL ||
-	    GSF_LE_GET_GUINT16 (h+0) != LOTUS_BOF)
+	    GSF_LE_GET_GUINT16 (h + 0) != LOTUS_BOF)
 		return FALSE;
 
-	/* wk1 and wks */
-	if (GSF_LE_GET_GUINT16 (h+2) == 2 &&
-	    (GSF_LE_GET_GUINT8 (h+4) == 4 || GSF_LE_GET_GUINT8 (h+4) == 6) &&
-	    GSF_LE_GET_GUINT8 (h+5) == 4)
+	len = GSF_LE_GET_GUINT16 (h + 2);
+	if (len < 2)
+		return FALSE;
+
+	version = GSF_LE_GET_GUINT16 (h + 4);
+	switch (version) {
+	case LOTUS_VERSION_ORIG_123:
+	case LOTUS_VERSION_SYMPHONY:
+		return len == 2;
+
+	case LOTUS_VERSION_123V6:
+	case LOTUS_VERSION_123SS98:
 		return TRUE;
-	/* 123 */
-	if (GSF_LE_GET_GUINT8 (h+3) == 0 &&
-	    GSF_LE_GET_GUINT8 (h+4) == 3 &&
-	    GSF_LE_GET_GUINT8 (h+5) == 0x10)
-		return TRUE;
-	return FALSE;
+
+	default:
+		return FALSE;
+	}
 }
 
 void
@@ -65,7 +75,18 @@ lotus_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.wbv	 = wb_view;
 	state.wb	 = wb_view_workbook (wb_view);
 	state.sheet	 = NULL;
-	state.converter	 = g_iconv_open ("UTF-8", "ISO-8859-1");
+
+	/*
+	 * "Lotus International Character Set" seems to be the same
+	 * as CP850.  Information is sparse (beyond the acronym)
+	 * in Google.
+	 */
+	state.converter =
+		gsf_msole_iconv_open_for_import (850);
+	if (state.converter == (GIConv)-1) {
+		g_warning ("Unable to obtain proper chacterset converter.");
+		state.converter	 = g_iconv_open ("UTF-8", "ISO-8859-1");
+	}
 
 	if (!lotus_read (&state))
 		gnumeric_io_error_string (io_context,
