@@ -8,8 +8,7 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - F4 is not working
-    - GOFormatEntry regex move seems to have broken number match
+    - F4 partially working for mixed abs/rel range references ($A1:B1)
     - Patch for non-gconf gnm-config
     - Patches for Maemo
     - autoformat template array bound reads
