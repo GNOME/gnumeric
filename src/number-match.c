@@ -80,10 +80,6 @@ format_match_init (void)
 		char const * const *p = go_format_builtins[i];
 
 		for (; *p; p++) {
-			/*  do not include text formats in the standard set */
-			if (!strcmp ("@", *p))
-				continue;
-
 			fmt = go_format_new_from_XL (*p, FALSE);
 			builtin_fmts = g_slist_prepend (builtin_fmts, fmt);
 			for (ptr = fmt->entries ; ptr != NULL ; ptr = ptr->next) {
@@ -91,7 +87,9 @@ format_match_init (void)
 				/* TODO : * We could keep track of the regexps
 				 * that General would match.  and avoid putting
 				 * them in the list. */
-				if (NULL == entry->regexp_str &&
+
+				if (!entry->forces_text &&
+				    NULL != entry->regexp_str &&
 				    NULL == g_hash_table_lookup (unique, entry->regexp_str)) {
 					format_match_list = g_slist_prepend (format_match_list, entry);
 					g_hash_table_insert (unique, entry->regexp_str, entry);
@@ -621,12 +619,13 @@ format_match (char const *text, GOFormat *cur_fmt,
 
 		for (ptr = cur_fmt->entries; ptr != NULL ; ptr = ptr->next) {
 			entry = ptr->data;
-			if (entry->regexp_str != NULL &&
+			if (!entry->forces_text &&
+			    entry->regexp_str != NULL &&
 			    go_regexec (&entry->regexp, text, NM, mp, 0) != REG_NOMATCH &&
 			    NULL != (v = compute_value (text, mp, entry->match_tags, date_conv))) {
 #ifdef DEBUG_NUMBER_MATCH
 				int i;
-				g_print ("matches expression: %s %s\n", entry->format, entry->regexp_str);
+				g_warning ("matches fmt: '%s' with regex '%s'\n", entry->format, entry->regexp_str);
 				for (i = 0; i < NM; i++) {
 					char *p;
 
@@ -643,8 +642,8 @@ format_match (char const *text, GOFormat *cur_fmt,
 			} else {
 #ifdef DEBUG_NUMBER_MATCH
 				g_print ("does not match expression: %s %s\n",
-					 cur_fmt->format,
-					 cur_fmt->regexp_str ? cur_fmt->regexp_str : "(null)");
+					 entry->format,
+					 entry->regexp_str ? entry->regexp_str : "(null)");
 #endif
 			}
 		}
@@ -659,7 +658,7 @@ format_match (char const *text, GOFormat *cur_fmt,
 	for (ptr = format_match_list; ptr; ptr = ptr->next) {
 		entry = ptr->data;
 #ifdef DEBUG_NUMBER_MATCH
-		printf ("test: %s \'%s\'\n", fmt->format, fmt->regexp_str);
+		printf ("test: %s \'%s\'\n", entry->format, entry->regexp_str);
 #endif
 		if (go_regexec (&entry->regexp, text, NM, mp, 0) == REG_NOMATCH)
 			continue;

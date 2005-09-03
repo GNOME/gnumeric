@@ -1,3 +1,8 @@
+2005-09-02  Jody Goldberg <jody@gnome.org>
+
+	* src/number-match.c : Make DEBUG_NUMBER_MATCH compile again.
+	(format_match_init) : Ignore fmt elements that contain '@'
+
 2005-09-01  Morten Welinder <terra@gnome.org>
 
 	* src/gnumeric-pane.c (gnm_pane_display_obj_size_tip): Make the

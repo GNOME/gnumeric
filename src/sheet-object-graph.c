@@ -296,9 +296,9 @@ sheet_object_graph_write_object (SheetObject const *so, const char *format,
 	pDoc->children = gog_object_write_xml (graph, pDoc);
 	g_object_unref (graph);
 	xmlDocDumpMemory (pDoc, &mem, &size);
-    go_setlocale (LC_MONETARY, old_monetary_locale);
+	go_setlocale (LC_MONETARY, old_monetary_locale);
 	g_free (old_monetary_locale);
-    go_setlocale (LC_NUMERIC, old_num_locale);
+	go_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 	gsf_output_write (output, size, (guint8 const*) mem);
 }

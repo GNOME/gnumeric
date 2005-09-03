@@ -294,18 +294,18 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 			}
 
 		} else {
-			if (!rs->ref.a.row_relative != !rs->ref.a.col_relative) {
-				if ((rs->ref.b.row_relative = rs->ref.a.row_relative =
-					!rs->ref.a.row_relative)) {
-					rs->ref.a.row -= gee->pp.eval.row;
-					rs->ref.b.row -= gee->pp.eval.row;
-				} else {
-					rs->ref.a.row += gee->pp.eval.row;
-					rs->ref.b.row += gee->pp.eval.row;
-				}
+			gboolean const c = rs->ref.a.col_relative;
+			gboolean const r = rs->ref.a.row_relative;
+			rs->ref.b.row_relative = rs->ref.a.row_relative = (c ^ r);
+			if (rs->ref.a.row_relative ^ r) { 
+				rs->ref.a.row -= gee->pp.eval.row;
+				rs->ref.b.row -= gee->pp.eval.row;
+			} else {
+				rs->ref.a.row += gee->pp.eval.row;
+				rs->ref.b.row += gee->pp.eval.row;
 			}
-			if ((rs->ref.b.col_relative = rs->ref.a.col_relative =
-				!rs->ref.a.col_relative)) {
+
+			if ((rs->ref.b.col_relative = rs->ref.a.col_relative = !c)) {
 				rs->ref.a.col -= gee->pp.eval.col;
 				rs->ref.b.col -= gee->pp.eval.col;
 			} else {

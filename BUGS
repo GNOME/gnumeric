@@ -8,6 +8,8 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    - F4 is not working
+    - GOFormatEntry regex move seems to have broken number match
     - Patch for non-gconf gnm-config
     - Patches for Maemo
     - crash on sheet delete for 314207
