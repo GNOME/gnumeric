@@ -12,7 +12,11 @@ Release Critical
     - GOFormatEntry regex move seems to have broken number match
     - Patch for non-gconf gnm-config
     - Patches for Maemo
+    - autoformat template array bound reads
     - crash on sheet delete for 314207
+    - SheetObjectGroup
+    - Finish Data -> Table 
+    - quotes for pure strings in expressions for xml in/out
 
 Worries
 -------
