@@ -16,6 +16,7 @@ Release Critical
     - SheetObjectGroup
     - Finish Data -> Table 
     - quotes for pure strings in expressions for xml in/out
+    - Get rotation widget into CVS
 
 Worries
 -------
