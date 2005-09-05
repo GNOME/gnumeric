@@ -1,3 +1,7 @@
+2005-09-05  Jody Goldberg <jody@gnome.org>
+
+	* src/wbcg-actions.c (cb_data_import_text) : s/druid/assistant/ [#311998]
+
 2005-09-04  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-canvas.c (gnm_canvas_key_press) : only ignore keyboard

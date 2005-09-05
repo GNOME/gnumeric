@@ -719,7 +719,7 @@ static GNM_ACTION_DEF (cb_tools_ftest)		{ dialog_ftest_tool (wbcg, wbcg_cur_shee
 static GNM_ACTION_DEF (cb_tools_random_generator) { dialog_random_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_data_sort)		{ dialog_cell_sort (wbcg); }
 static GNM_ACTION_DEF (cb_data_shuffle)		{ dialog_shuffle (wbcg); }
-static GNM_ACTION_DEF (cb_data_import_text)	{ gui_file_open (wbcg, "Gnumeric_stf:stf_druid"); }
+static GNM_ACTION_DEF (cb_data_import_text)	{ gui_file_open (wbcg, "Gnumeric_stf:stf_assistant"); }
 
 static GNM_ACTION_DEF (cb_auto_filter)
 {
