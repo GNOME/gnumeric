@@ -475,6 +475,7 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 					 r->type, subtype,
 					 r->len);
 #endif
+				;
 			}
 			break;
 		}
