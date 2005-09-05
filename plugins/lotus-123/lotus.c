@@ -15,7 +15,6 @@
 #include "lotus-formula.h"
 
 #include <workbook.h>
-#include <sheet.h>
 #include <cell.h>
 #include <expr.h>
 #include <value.h>
@@ -291,7 +290,7 @@ lotus_read_old (LotusWk1Read *state, record_t *r)
 				if (r->len < (15+len))
 					break;
 
-				expr = lotus_parse_formula (state, col, row,
+				expr = lotus_parse_formula (state, NULL, col, row,
 					r->data + 15, len);
 
 				v = NULL;
@@ -308,7 +307,7 @@ lotus_read_old (LotusWk1Read *state, record_t *r)
 						v = value_new_error_VALUE (NULL);
 				} else
 					v = value_new_float (gsf_le_get_double (r->data + 5));
-				cell = sheet_cell_fetch (state->sheet, col, row),
+				cell = sheet_cell_fetch (state->sheet, col, row);
 				cell_set_expr_and_value (cell, expr, v, TRUE);
 
 				gnm_expr_unref (expr);
@@ -325,8 +324,8 @@ lotus_read_old (LotusWk1Read *state, record_t *r)
 	return result;
 }
 
-static Sheet *
-get_sheet (Workbook *wb, int i)
+Sheet *
+lotus_get_sheet (Workbook *wb, int i)
 {
 	g_return_val_if_fail (i >= 0 && i <= 255, NULL);
 
@@ -349,6 +348,37 @@ lotus_get_cstr (LotusWk1Read *state, const record_t *r, int ofs)
 				     NULL, NULL, NULL);
 }
 
+double
+lotus_unpack_number (guint32 u)
+{
+	double v = (u >> 6);
+
+	if (u & 0x20) v = 0 - v;
+	if (u & 0x10)
+		v = v / gnm_pow10 (u & 15);
+	else
+		v = v * gnm_pow10 (u & 15);
+
+	return v;
+}
+
+static GnmValue *
+get_lnumber (const record_t *r, int ofs)
+{
+	const guint8 *p;
+	g_return_val_if_fail (ofs + 8 <= r->len, NULL);
+
+	p = r->data + ofs;
+
+	/* FIXME: Some special values indicate ERR, NA, BLANK, and string.  */
+
+	if (1) {
+		double v = gsf_le_get_double (p);
+		return value_new_float (v);
+	}
+}
+
+
 static gboolean
 lotus_read_new (LotusWk1Read *state, record_t *r)
 {
@@ -363,33 +393,98 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 		case LOTUS_EOF:
 			goto done;
 
+		case LOTUS_ERRCELL: {
+			int row = GSF_LE_GET_GUINT16 (r->data);
+			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
+			int col = r->data[3];
+			GnmValue *v = value_new_error_VALUE (NULL);
+			(void)insert_value (sheet, col, row, v);
+			break;
+		}
+
+		case LOTUS_NACELL: {
+			int row = GSF_LE_GET_GUINT16 (r->data);
+			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
+			int col = r->data[3];
+			GnmValue *v = value_new_error_NA (NULL);
+			(void)insert_value (sheet, col, row, v);
+			break;
+		}
+
 		case LOTUS_LABEL2: {
 			/* one of '\', '''', '"', '^' */
 			int row = GSF_LE_GET_GUINT16 (r->data);
-			int sheetno = r->data[2];
+			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
 /*			gchar format_prefix = *(r->data + ofs + 4);*/
 			GnmValue *v = lotus_new_string (state, r->data + 5);
-			Sheet *sheet = get_sheet (state->wb, sheetno);
 			(void)insert_value (sheet, col, row, v);
+			break;
+		}
+
+		case LOTUS_NUMBER2: {
+			int row = GSF_LE_GET_GUINT16 (r->data);
+			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
+			int col = r->data[3];
+			GnmValue *v = get_lnumber (r, 4);
+			(void)insert_value (sheet, col, row, v);
+			break;
+		}
+
+		case LOTUS_STYLE: {
+			guint16 subtype = GSF_LE_GET_GUINT16 (r->data);
+			switch (subtype) {
+			case 0xfa1: {
+				/* Text style.  */
+				guint16 styleid = GSF_LE_GET_GUINT16 (r->data + 2);
+				guint8 fontid = GSF_LE_GET_GUINT8 (r->data + 9);
+				guint16 fontsize = GSF_LE_GET_GUINT16 (r->data + 10);
+				/* (FontSize * 100 / 83 + 16 ) / 32. */
+				guint16 fg = GSF_LE_GET_GUINT16 (r->data + 12);
+				guint16 bg = GSF_LE_GET_GUINT16 (r->data + 14);
+				guint16 facebits = GSF_LE_GET_GUINT16 (r->data + 16);
+				guint16 facemask = GSF_LE_GET_GUINT16 (r->data + 18);
+				guint8 halign = GSF_LE_GET_GUINT8 (r->data + 20);
+				guint8 valign = GSF_LE_GET_GUINT8 (r->data + 21);
+				guint16 angle = GSF_LE_GET_GUINT16 (r->data + 22);
+				break;
+			}
+
+			case 0xfd2: {
+				/* Cell style.  */
+				guint16 styleid = GSF_LE_GET_GUINT16 (r->data + 2);
+				guint8 fontid = GSF_LE_GET_GUINT8 (r->data + 9);
+				guint16 fontsize = GSF_LE_GET_GUINT16 (r->data + 10);
+				/* (FontSize * 100 / 83 + 16 ) / 32. */
+				guint16 textfg = GSF_LE_GET_GUINT16 (r->data + 12);
+				guint16 textbg = GSF_LE_GET_GUINT16 (r->data + 14);
+				guint16 facebits = GSF_LE_GET_GUINT16 (r->data + 16);
+				guint16 facemask = GSF_LE_GET_GUINT16 (r->data + 18);
+				guint8 halign = GSF_LE_GET_GUINT8 (r->data + 20);
+				guint8 valign = GSF_LE_GET_GUINT8 (r->data + 21);
+				guint16 angle = GSF_LE_GET_GUINT16 (r->data + 22);
+				guint16 intfg = GSF_LE_GET_GUINT16 (r->data + 24);
+				guint16 intbg = GSF_LE_GET_GUINT16 (r->data + 26);
+				guint8 intpat = GSF_LE_GET_GUINT8 (r->data + 28);
+				break;
+			}
+
+			default:
+#if LOTUS_DEBUG > 0
+				g_print ("Unknown style record 0x%x/%04x of length %d.\n",
+					 r->type, subtype,
+					 r->len);
+#endif
+			}
 			break;
 		}
 
 		case LOTUS_PACKED_NUMBER: {
 			int row = GSF_LE_GET_GUINT16 (r->data);
-			int sheetno = r->data[2];
+			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
-			guint32 u = GSF_LE_GET_GUINT32 (r->data + 4);
-			Sheet *sheet = get_sheet (state->wb, sheetno);
-			double v;
+			double v = lotus_unpack_number (GSF_LE_GET_GUINT32 (r->data + 4));
 			GnmValue *val;
-
-			v = (u >> 6);
-			if (u & 0x20) v = 0 - v;
-			if (u & 0x10)
-				v = v / gnm_pow10 (u & 15);
-			else
-				v = v * gnm_pow10 (u & 15);  /* Guess */
 
 			if (v == gnm_floor (v) &&
 			    v >= G_MININT &&
@@ -398,20 +493,39 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 			else
 				val = value_new_float (v);
 
-			insert_value (sheet, col, row, val);
+			(void)insert_value (sheet, col, row, val);
 			break;
 		}
 
 		case LOTUS_SHEET_NAME: {
-			Sheet *sheet = get_sheet (state->wb, sheetnameno++);
+			Sheet *sheet = lotus_get_sheet (state->wb, sheetnameno++);
 			char *name = lotus_get_cstr (state, r, 10);
 			g_return_val_if_fail (name != NULL, FALSE);
+			/* Name is followed by something indicating tab colour.  */
 			g_object_set (sheet, "name", name, NULL);
 			g_free (name);
 			break;
 		}
 
+		case LOTUS_FORMULA2: {
+			int row = GSF_LE_GET_GUINT16 (r->data);
+			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
+			int col = r->data[3];
+			GnmValue *curval = get_lnumber (r, 4);
+			const GnmExpr *expr =
+				lotus_parse_formula (state, sheet, col, row,
+						     r->data + 12, r->len - 12);
+			GnmCell *cell = sheet_cell_fetch (sheet, col, row);
+			cell_set_expr_and_value (cell, expr, curval, TRUE);
+
+			gnm_expr_unref (expr);
+			break;
+		}
+
 		default:
+#if LOTUS_DEBUG > 0
+			g_print ("Unknown record 0x%x of length %d.\n", r->type, r->len);
+#endif
 			break;
 		}
 	} while (record_next (r));

@@ -22,6 +22,8 @@ typedef struct {
   
 } LotusWk1Read;
 
+Sheet *lotus_get_sheet (Workbook *wb, int i);
+double lotus_unpack_number (guint32 u);
 GnmValue *lotus_new_string (LotusWk1Read *state, gchar const *data);
 gboolean  lotus_read   (LotusWk1Read *state);
 

@@ -39,8 +39,13 @@
 #define LOTUS_STRING         0x33
 
 /* Stuff observed in new formats only: */
+#define LOTUS_ERRCELL        0x14
+#define LOTUS_NACELL         0x15
 #define LOTUS_LABEL2         0x16
+#define LOTUS_STYLE          0x1b
 #define LOTUS_PACKED_NUMBER  0x25
+#define LOTUS_NUMBER2        0x27
+#define LOTUS_FORMULA2       0x28
 #define LOTUS_SHEET_NAME     0x204
 
 #endif

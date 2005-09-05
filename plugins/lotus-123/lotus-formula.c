@@ -7,6 +7,8 @@
  *    Michael Meeks <michael@imagiantor.com>
  * Revamped in Aug 2002
  *    Jody Goldberg <jody@gnome.org>
+ * New 123 formats done September 2005
+ *    Morten Welinder (terra@gnome.org)
  **/
 #include <gnumeric-config.h>
 #include <gnumeric.h>
@@ -48,7 +50,7 @@ static int wk1_fv_pv_pmt_func (GnmExprList **stack, Wk1Func const *func, guint8 
 static int wk1_irr_func    (GnmExprList **stack, Wk1Func const *func, guint8 const *data, int col, int row);
 static int wk1_rate_func   (GnmExprList **stack, Wk1Func const *func, guint8 const *data, int col, int row);
 
-const Wk1Func functions[] = {
+static const Wk1Func functions[] = {
 	{  1, 0x08, "-",	wk1_unary_func,  GNM_EXPR_OP_UNARY_NEG },
 	{  2, 0x09, "+",	wk1_binary_func, GNM_EXPR_OP_ADD },
 	{  2, 0x0A, "-",	wk1_binary_func, GNM_EXPR_OP_SUB },
@@ -67,20 +69,20 @@ const Wk1Func functions[] = {
 	{  1, 0x17, "+",	wk1_unary_func, GNM_EXPR_OP_UNARY_PLUS },
 	{  0, 0x1F, "NA",	wk1_std_func, 0 },
 	{  1, 0x20, "ERR",	wk1_std_func, 0 },
-	{  1, 0x21, "abs",	wk1_std_func, 0 },
-	{  1, 0x22, "floor",	wk1_std_func, 0 },
-	{  1, 0x23, "sqrt",	wk1_std_func, 0 },
-	{  1, 0x24, "log",	wk1_std_func, 0 },
-	{  1, 0x25, "ln",	wk1_std_func, 0 },
-	{  0, 0x26, "pi",	wk1_std_func, 0 },
-	{  1, 0x27, "sin",	wk1_std_func, 0 },
-	{  1, 0x28, "cos",	wk1_std_func, 0 },
-	{  1, 0x29, "tan",	wk1_std_func, 0 },
-	{  2, 0x2A, "atan2",	wk1_std_func, 0 },
-	{  1, 0x2B, "atan",	wk1_std_func, 0 },
-	{  1, 0x2C, "asin",	wk1_std_func, 0 },
-	{  1, 0x2D, "acos",	wk1_std_func, 0 },
-	{  1, 0x2E, "exp",	wk1_std_func, 0 },
+	{  1, 0x21, "ABS",	wk1_std_func, 0 },
+	{  1, 0x22, "FLOOR",	wk1_std_func, 0 },
+	{  1, 0x23, "SQRT",	wk1_std_func, 0 },
+	{  1, 0x24, "LOG",	wk1_std_func, 0 },
+	{  1, 0x25, "LN",	wk1_std_func, 0 },
+	{  0, 0x26, "PI",	wk1_std_func, 0 },
+	{  1, 0x27, "SIN",	wk1_std_func, 0 },
+	{  1, 0x28, "COS",	wk1_std_func, 0 },
+	{  1, 0x29, "TAN",	wk1_std_func, 0 },
+	{  2, 0x2A, "ATAN2",	wk1_std_func, 0 },
+	{  1, 0x2B, "ATAN",	wk1_std_func, 0 },
+	{  1, 0x2C, "ASIN",	wk1_std_func, 0 },
+	{  1, 0x2D, "ACOS",	wk1_std_func, 0 },
+	{  1, 0x2E, "EXP",	wk1_std_func, 0 },
 	{  2, 0x2F, "MOD",	wk1_std_func, 0 },
 	{ -1, 0x30, "CHOOSE",	wk1_std_func, 0 },
 	{  1, 0x31, "ISNA",	wk1_std_func, 0 },
@@ -278,6 +280,10 @@ wk1_std_func (GnmExprList **stack, Wk1Func const *f,
 	GnmFunc *func = gnm_func_lookup (f->name, NULL);
 	int numargs, size;
 
+#if FORMULA_DEBUG > 0
+	g_print ("Function %s\n", f->name);
+#endif
+
 	if (f->args < 0) {
 		numargs = data[1];
 		size = 2;
@@ -353,6 +359,7 @@ make_function (GnmExprList **stack, guint8 const *data, int col, int row)
 		g_warning ("%s : unknown PTG 0x%x", cell_coord_name (col, row), *data);
 		return 1;
 	}
+
 	return (f->handler) (stack, f, data, col, row);
 }
 
@@ -395,14 +402,14 @@ get_cellref (GnmCellRef *ref, guint8 const *dataa, guint8 const *datab,
 #endif
 }
 
-GnmExpr const *
-lotus_parse_formula (LotusWk1Read *state, guint32 col, guint32 row,
-		     guint8 const *data, guint32 len)
+static GnmExpr const *
+lotus_parse_formula_old (LotusWk1Read *state, guint32 col, guint32 row,
+			 guint8 const *data, guint32 len)
 {
 	GnmExprList *stack = NULL;
 	guint     i;
 	GnmCellRef   a, b;
-	gboolean  done  = FALSE;
+	gboolean done = FALSE;
 
 	for (i = 0; (i < len) && !done;) {
 		switch (data[i]) {
@@ -436,7 +443,7 @@ lotus_parse_formula (LotusWk1Read *state, guint32 col, guint32 row,
 
 		case LOTUS_FORMULA_INTEGER:
 			parse_list_push_value (&stack,
-				value_new_int (GSF_LE_GET_GINT16 (data + i + 1)));
+					       value_new_int (GSF_LE_GET_GINT16 (data + i + 1)));
 			i += 3;
 			break;
 
@@ -459,4 +466,183 @@ lotus_parse_formula (LotusWk1Read *state, guint32 col, guint32 row,
 		g_warning ("%s : args remain on stack",
 			   cell_coord_name (col, row));
 	return parse_list_pop (&stack, col, row);
+}
+
+static void
+get_new_cellref (LotusWk1Read *state,
+		 GnmCellRef *dst, int relbits, const guint8 *data,
+		 const GnmCellRef *orig)
+{
+	dst->row = GSF_LE_GET_GUINT16 (data);
+	dst->sheet = lotus_get_sheet (state->wb, data[2]);
+	dst->col = data[3];
+
+	dst->row_relative = (relbits & 1) != 0;
+	if (dst->row_relative)
+		dst->row -= orig->row;
+
+	dst->col_relative = (relbits & 2) != 0;
+	if (dst->col_relative)
+		dst->col -= orig->col;	
+}
+
+
+#define HANDLE_BINARY(op)						\
+  {									\
+	GnmExpr const *r = parse_list_pop (&stack, col, row);		\
+	GnmExpr const *l = parse_list_pop (&stack, col, row);		\
+	parse_list_push_expr (&stack, gnm_expr_new_binary (l, op, r));	\
+        i++;								\
+        break;								\
+  }
+
+#define HANDLE_UNARY(op)						\
+  {									\
+	GnmExpr const *a = parse_list_pop (&stack, col, row);		\
+	parse_list_push_expr (&stack, gnm_expr_new_unary (op, a));	\
+        i++;								\
+        break;								\
+  }
+
+#define HANDLE_NAMED_FUNC(name,args)						\
+  {										\
+	GnmFunc *func = gnm_func_lookup (name, NULL);				\
+	if (func == NULL)							\
+		func = gnm_func_add_placeholder (NULL, name, "Lotus ", TRUE);	\
+	parse_list_push_expr (&stack, gnm_expr_new_funcall (func,		\
+		parse_list_last_n (&stack, args, col, row)));			\
+	break;									\
+  }
+
+
+static GnmExpr const *
+lotus_parse_formula_new (LotusWk1Read *state,
+			 Sheet *sheet, guint32 col, guint32 row,			 
+			 guint8 const *data, guint32 len)
+{
+	GnmExprList *stack = NULL;
+	guint     i;
+	GnmCellRef a, b, orig;
+	gboolean done = FALSE;
+
+	orig.sheet = sheet;
+	orig.col = col;
+	orig.row = row;
+	orig.col_relative = FALSE;
+	orig.row_relative = FALSE;
+
+	for (i = 0; (i < len) && !done;) {
+		switch (data[i]) {
+		case LOTUS_FORMULA_CONSTANT:
+			parse_list_push_value (&stack,
+				value_new_float (gsf_le_get_double (data + i + 1)));
+			i += 9;
+			break;
+
+		case LOTUS_FORMULA_VARIABLE:
+			get_new_cellref (state, &a, data[1] & 7, data + i + 2, &orig);
+			parse_list_push_expr (&stack, gnm_expr_new_cellref (&a));
+			i += 6;
+			break;
+
+		case LOTUS_FORMULA_RANGE:
+			get_new_cellref (state, &a, data[1] & 7, data + i + 2, &orig);
+			get_new_cellref (state, &b, (data[1] >> 3) & 7, data + i + 6, &orig);
+			parse_list_push_value (&stack,
+				value_new_cellrange (&a, &b, col, row));
+			i += 10;
+			break;
+
+		case LOTUS_FORMULA_RETURN:
+			done = TRUE;
+			break;
+
+		case LOTUS_FORMULA_BRACKET:
+			i += 1; /* Ignore */
+			break;
+
+		case LOTUS_FORMULA_PACKED_NUMBER: {
+			double v = lotus_unpack_number (GSF_LE_GET_GUINT32 (data + i + 1));
+			GnmValue *val;
+
+			if (v == gnm_floor (v) && v >= G_MININT && v <= G_MAXINT)
+				val = value_new_int ((int)v);
+			else
+				val = value_new_float (v);
+			parse_list_push_value (&stack, val);
+			i += 5;
+			break;
+		}
+
+		case LOTUS_FORMULA_STRING:
+			parse_list_push_value (&stack,
+				lotus_new_string (state, data + i + 1));
+			i += 2 + strlen (data + i + 1);
+			break;
+
+		case LOTUS_FORMULA_NAMED:
+		case LOTUS_FORMULA_ABS_NAMED:
+			g_warning ("Named ranges not implemented.");
+			i += 1;  /* Guess */
+			break;
+
+		case LOTUS_FORMULA_ERR_RREF:
+			parse_list_push_value (&stack,
+					       value_new_error_REF (NULL));
+			i += 5;
+			break;
+
+		case LOTUS_FORMULA_ERR_CREF:
+			parse_list_push_value (&stack,
+					       value_new_error_REF (NULL));
+			i += 6;
+			break;
+
+
+		case LOTUS_FORMULA_ERR_CONSTANT:
+			parse_list_push_value (&stack,
+					       value_new_error_VALUE (NULL));
+			i += 12;
+			break;
+
+		case LOTUS_FORMULA_OP_NEG: HANDLE_UNARY (GNM_EXPR_OP_UNARY_PLUS);
+		case LOTUS_FORMULA_OP_PLU: HANDLE_BINARY (GNM_EXPR_OP_ADD);
+		case LOTUS_FORMULA_OP_MNS: HANDLE_BINARY (GNM_EXPR_OP_SUB);
+		case LOTUS_FORMULA_OP_MUL: HANDLE_BINARY (GNM_EXPR_OP_MULT);
+		case LOTUS_FORMULA_OP_DIV: HANDLE_BINARY (GNM_EXPR_OP_DIV);
+		case LOTUS_FORMULA_OP_POW: HANDLE_BINARY (GNM_EXPR_OP_EXP);
+		case LOTUS_FORMULA_OP_EQ: HANDLE_BINARY (GNM_EXPR_OP_EQUAL);
+		case LOTUS_FORMULA_OP_NE: HANDLE_BINARY (GNM_EXPR_OP_NOT_EQUAL);
+		case LOTUS_FORMULA_OP_LE: HANDLE_BINARY (GNM_EXPR_OP_LTE);
+		case LOTUS_FORMULA_OP_GE: HANDLE_BINARY (GNM_EXPR_OP_GTE);
+		case LOTUS_FORMULA_OP_LT: HANDLE_BINARY (GNM_EXPR_OP_LT);
+		case LOTUS_FORMULA_OP_GT: HANDLE_BINARY (GNM_EXPR_OP_GT);
+		case LOTUS_FORMULA_OP_UPLU: HANDLE_UNARY (GNM_EXPR_OP_UNARY_PLUS);
+		case LOTUS_FORMULA_OP_CAT: HANDLE_BINARY (GNM_EXPR_OP_CAT);
+
+			/* FIXME: Check if we need bit versions.  */
+		case LOTUS_FORMULA_OP_AND: HANDLE_NAMED_FUNC ("AND", 2);
+		case LOTUS_FORMULA_OP_OR: HANDLE_NAMED_FUNC ("OR", 2);
+		case LOTUS_FORMULA_OP_NOT: HANDLE_NAMED_FUNC ("NOT", 1);
+
+		default:
+			i += make_function (&stack, data + i, col, row);
+		}
+	}
+
+	if (gnm_expr_list_length (stack) != 1)
+		g_warning ("%s : args remain on stack",
+			   cell_coord_name (col, row));
+	return parse_list_pop (&stack, col, row);
+}
+
+
+GnmExpr const *
+lotus_parse_formula (LotusWk1Read *state,
+		     Sheet *sheet, guint32 col, guint32 row,
+		     guint8 const *data, guint32 len)
+{
+	return (state->version >= LOTUS_VERSION_123V6)
+		? lotus_parse_formula_new (state, sheet, col, row, data, len)
+		: lotus_parse_formula_old (state, col, row, data, len);
 }
