@@ -412,6 +412,11 @@ gee_init (GnmExprEntry *gee)
 	gee_rangesel_reset (gee);
 
 	gee->entry = GTK_ENTRY (gtk_entry_new ());
+	/* Disable selecting the entire content when the widget gets focus */
+	g_object_set (gtk_widget_get_settings (GTK_WIDGET (gee->entry)),
+		      "gtk-entry-select-on-focus", FALSE,
+		      NULL);
+
 	g_signal_connect (G_OBJECT (gee->entry),
 		"activate",
 		G_CALLBACK (cb_entry_activate), gee);

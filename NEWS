@@ -5,6 +5,7 @@ Jody:
 	* Fix F4 cycling of abs/rel in mixed mode range refs
 	* Check all format tuples for a match [#85950]
 	* Escape cancels object drag. [#314866]
+	* F2 while editing jumps focus to entry. [#314869]
 
 Morten:
 	* Fix tooltip problem.  [#314865]

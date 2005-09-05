@@ -1,3 +1,8 @@
+2005-09-05  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (gee_init) : disable gtk-entry-select-on-focus
+	  here rather than doing it ad-hoc elsewhere. [#314869]
+
 2005-08-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.5.5

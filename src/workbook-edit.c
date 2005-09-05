@@ -6,7 +6,7 @@
  *   Miguel de Icaza (miguel@ximian.com)
  *   Jody Goldberg (jody@gnome.org)
  *
- * (C) 2000-2001 Ximian, Inc.
+ * (C) 2000-2005 Ximian, Inc.
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
@@ -161,9 +161,10 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 
 				/* set focus _before_ selection.  gtk2 seems to
 				 * screw with selection in gtk_entry_grab_focus
-				 */
+				 * (no longer required now that we clear
+				 * gtk-entry-select-on-focus) */
 				gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
-						      GTK_WIDGET (wbcg_get_entry (wbcg)));
+					(GtkWidget *) wbcg_get_entry (wbcg));
 
 				if (perr.begin_char != 0 || perr.end_char != 0) {
 					int offset = expr_txt - txt;
@@ -218,8 +219,8 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 			command_undo (wbc);
 			if (valid == VALIDATION_STATUS_INVALID_EDIT) {
 				gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
-						      GTK_WIDGET (wbcg_get_entry (wbcg)));
-				  return FALSE;
+					(GtkWidget *) wbcg_get_entry (wbcg));
+				return FALSE;
 			}
 		}
 	} else {
@@ -758,14 +759,9 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 		wbcg->auto_complete = NULL;
 
 	/* Give the focus to the edit line */
-	if (!cursorp) {
-		GtkEntry *w = wbcg_get_entry (wbcg);
-		gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel), GTK_WIDGET (w));
-		/* the gtk-entry-select-on-focus property of GtkEntry is not
-		 * what we want here.  Rather than trying some gtk-2.2 specific
-		 * magic just undo the selection change here */
-		gtk_editable_select_region (GTK_EDITABLE (w), -1, -1);
-	}
+	if (!cursorp)
+		gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
+			(GtkWidget *) wbcg_get_entry (wbcg));
 
 	wbcg->wb_control.editing = TRUE;
 	wbcg->wb_control.editing_sheet = sv->sheet;

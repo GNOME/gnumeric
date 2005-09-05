@@ -299,6 +299,14 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 		if (gnm_canvas_guru_key (wbcg, event))
 			break;
 
+		if (wbcg_is_editing (wbcg)) {
+			GtkWidget *entry = (GtkWidget *) wbcg_get_entry (wbcg);
+			GtkWindow *top   = wbcg_toplevel (wbcg);
+			if (entry != gtk_window_get_focus (top)) {
+				gtk_window_set_focus (top, entry);
+				return TRUE;
+			}
+		}
 		if (!wbcg_edit_start (wbcg, FALSE, FALSE))
 			return FALSE; /* attempt to edit failed */
 		/* fall down */

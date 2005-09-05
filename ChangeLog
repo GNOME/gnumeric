@@ -1,5 +1,11 @@
 2005-09-05  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-edit.c (wbcg_edit_start) : no need to do the selection
+	  magic here.  We now over ride 'gtk-entry-select-on-focus' in the
+	  ExprEntry widget.
+
+2005-09-05  Jody Goldberg <jody@gnome.org>
+
 	* src/wbcg-actions.c (cb_data_import_text) : s/druid/assistant/ [#311998]
 
 2005-09-04  Jody Goldberg <jody@gnome.org>
