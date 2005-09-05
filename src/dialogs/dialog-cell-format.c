@@ -59,10 +59,11 @@
 #include <goffice/gtk/go-combo-color.h>
 #include <goffice/gtk/go-combo-box.h>
 #include <goffice/gtk/go-combo-text.h>
+#include <goffice/gtk/go-rotation-sel.h>
 #include <goffice/utils/go-font.h>
-#include <libart_lgpl/art_alphagamma.h>
-#include <libart_lgpl/art_pixbuf.h>
-#include <libart_lgpl/art_rgb_pixbuf_affine.h>
+#include <goffice/utils/go-glib-extras.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <glade/glade.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtknotebook.h>
@@ -80,13 +81,6 @@
 #include <gtk/gtktable.h>
 #include <gtk/gtkicontheme.h>
 #include <gtk/gtkbox.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-pixbuf.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
 
 static struct {
 	char const *Cname;
@@ -165,16 +159,7 @@ typedef struct _FormatState {
 		GtkSpinButton	*indent_button;
 		GtkWidget	*indent_label;
 		int		 indent;
-
-		GtkSpinButton	*rotate_spinner;
-		FooCanvas       *rotate_canvas;
-		FooCanvasItem   *rotate_marks[13];
-		FooCanvasItem   *line;
-		GtkWidget       *text_widget;
-		FooCanvasItem   *text;
-		int		 rot_width, rot_height;
-		int		 rotation;
-		gulong		 motion_handle;
+		GORotationSel	*rotation;
 	} align;
 	struct {
 		FontSelector	*selector;
@@ -579,174 +564,12 @@ fmt_dialog_init_align_radio (char const *const name,
 }
 
 static void
-cb_rotate_changed (GtkEditable *editable, FormatState *state)
+cb_rotation_changed (GORotationSel *grs, int angle, FormatState *state)
 {
-	char const *colour;
-	int i;
-
-	if (editable != NULL && state->enable_edit) {
-		GtkSpinButton *sb = GTK_SPIN_BUTTON (editable);
-		int val = gtk_spin_button_get_value_as_int (sb) % 360;
-
-		if (state->align.rotation != val) {
-			state->align.rotation = val;
-			if (val < 0)
-				val += 360;
-			gnm_style_set_rotation (state->result, val);
-			fmt_dialog_changed (state);
-		}
-	}
-
-	for (i = 0 ; i <= 12 ; i++)
-		if (state->align.rotate_marks[i] != NULL) {
-			colour = (state->align.rotation == (i-6)*15) ? "green" : "black";
-			foo_canvas_item_set (state->align.rotate_marks[i],
-					     "fill-color", colour,
-					     NULL);
-		}
-	if (state->align.line != NULL) {
-		FooCanvasPoints *points = foo_canvas_points_new (2);
-		double rad = state->align.rotation * M_PIgnum / 180.;
-		points->coords[0] =  15 + cos (rad) * state->align.rot_width;
-		points->coords[1] = 100 - sin (rad) * state->align.rot_width;
-		points->coords[2] =  15 + cos (rad) * 72.;
-		points->coords[3] = 100 - sin (rad) * 72.;
-		foo_canvas_item_set (state->align.line,
-				     "points", points,
-				     NULL);
-		foo_canvas_points_free (points);
-	}
-
-	if (state->align.text) {
-		double x = 15.0;
-		double y = 100.0;
-		double rad = state->align.rotation * M_PIgnum / 180.;
-		x -= state->align.rot_height * sin (fabs (rad)) / 2;
-		y -= state->align.rot_height * cos (rad) / 2;
-		if (rad >= 0)
-			y -= state->align.rot_width * sin (rad);
-		foo_canvas_item_set (state->align.text,
-				     "x", x, "y", y,
-				     NULL);
-		gtk_label_set_angle (GTK_LABEL (state->align.text_widget),
-				     (state->align.rotation + 360) % 360);
-	}
-}
-
-static void
-cb_rotate_canvas_realize (FooCanvas *canvas, FormatState *state)
-{
-	FooCanvasGroup  *group = FOO_CANVAS_GROUP (foo_canvas_root (canvas));
-	int i;
-	GtkStyle *style = gtk_style_copy (GTK_WIDGET (canvas)->style);
-	style->bg[GTK_STATE_NORMAL] = style->white;
-	gtk_widget_set_style (GTK_WIDGET (canvas), style);
-	g_object_unref (style);
-
-	foo_canvas_set_scroll_region (canvas, 0, 0, 100, 200);
-	foo_canvas_scroll_to (canvas, 0, 0);
-
-	for (i = 0 ; i <= 12 ; i++) {
-		double rad = (i-6) * M_PIgnum / 12.;
-		double x = 15 + cos (rad) * 80.;
-		double y = 100 - sin (rad) * 80.;
-		double size = (i % 3) ? 3.0 : 4.0;
-		FooCanvasItem *item =
-			foo_canvas_item_new (group,
-					     FOO_TYPE_CANVAS_ELLIPSE,
-					     "x1", x-size,	"y1", y-size,
-					     "x2", x+size,	"y2", y+size,
-					     "width-pixels", (int) 1,
-					     "outline-color","black",
-					     "fill-color",	"black",
-					     NULL);
-		state->align.rotate_marks[i] = item;
-	}
-	state->align.line = foo_canvas_item_new (group,
-		FOO_TYPE_CANVAS_LINE,
-		"fill-color",	"black",
-		"width_units",	2.,
-		NULL);
-
-	{
-		int w, h;
-		GtkWidget *tw = state->align.text_widget = gtk_label_new (_("Text"));
-		PangoAttrList *attrs = pango_attr_list_new ();
-		PangoAttribute *attr = pango_attr_scale_new (1.3);
-		attr->start_index = 0;
-		attr->end_index = -1;
-		pango_attr_list_insert (attrs, attr);
-#ifdef DEBUG_ROTATION
-		attr = pango_attr_background_new (0xffff, 0, 0);
-		attr->start_index = 0;
-		attr->end_index = -1;
-		pango_attr_list_insert (attrs, attr);
-#endif
-		gtk_label_set_attributes (GTK_LABEL (tw), attrs);
-		pango_attr_list_unref (attrs);
-
-		pango_layout_get_pixel_size (gtk_label_get_layout (GTK_LABEL (tw)), &w, &h);
-		state->align.rot_width  = w;
-		state->align.rot_height = h;
-
-		state->align.text = foo_canvas_item_new (group,
-							 FOO_TYPE_CANVAS_WIDGET,
-							 "widget", tw,
-							 NULL);
-		gtk_widget_show (tw);
-	}
-
-	cb_rotate_changed (NULL, state);
-}
-
-static void
-set_rot_from_point (FormatState *state, FooCanvas *canvas, double x, double y)
-{
-	double degrees;
-	foo_canvas_window_to_world (canvas, x, y, &x, &y);
-	x -= 15.;	if (x < 0.) x = 0.;
-	y -= 100.;
-
-	degrees = atan2 (-y, x) * 180 / M_PIgnum;
-
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->align.rotate_spinner),
-				   gnm_fake_round (degrees));
-}
-
-static gboolean
-cb_rotate_motion_notify_event (FooCanvas *canvas, GdkEventMotion *event,
-			       FormatState *state)
-{
-	set_rot_from_point (state, canvas, event->x, event->y);
-	return TRUE;
-}
-
-static gboolean
-cb_rotate_canvas_button (FooCanvas *canvas, GdkEventButton *event,
-			 FormatState *state)
-{
-	if (event->type == GDK_BUTTON_PRESS) {
-		set_rot_from_point (state, canvas, event->x, event->y);
-		if (state->align.motion_handle == 0) {
-			gdk_pointer_grab (canvas->layout.bin_window, FALSE,
-					  GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-					  NULL, NULL, event->time);
-
-			state->align.motion_handle = g_signal_connect (G_OBJECT (canvas),
-				"motion_notify_event",
-				G_CALLBACK (cb_rotate_motion_notify_event), state);
-		}
-		return TRUE;
-	} else if (event->type == GDK_BUTTON_RELEASE) {
-		if (state->align.motion_handle != 0) {
-			gdk_display_pointer_ungrab (gtk_widget_get_display (GTK_WIDGET (canvas)),
-						    event->time);
-			g_signal_handler_disconnect (canvas, state->align.motion_handle);
-			state->align.motion_handle = 0;
-		}
-		return TRUE;
-	} else
-		return FALSE;
+	if (angle < 0)
+		angle += 360;
+	gnm_style_set_rotation (state->result, angle);
+	fmt_dialog_changed (state);
 }
 
 static void
@@ -782,7 +605,7 @@ fmt_dialog_init_align_page (FormatState *state)
 	GnmHAlign    h = HALIGN_GENERAL;
 	GnmVAlign    v = VALIGN_CENTER;
 	char const *name;
-	int i;
+	int i, r;
 
 	if (0 == (state->conflicts & (1 << MSTYLE_ALIGN_H)))
 		h = gnm_style_get_align_h (state->style);
@@ -839,37 +662,17 @@ fmt_dialog_init_align_page (FormatState *state)
 		GTK_WIDGET (w));
 
 	/* setup the rotation canvas */
-	state->align.line = NULL;
-	state->align.text = NULL;
-	state->align.text_widget = NULL;
-	if (0 == (state->conflicts & (1 << MSTYLE_ROTATION)))
-		state->align.rotation = 0;
-	else {
-		int r = gnm_style_get_rotation (state->style);
-		if (r > 180) r -= 360;
-		state->align.rotation = r;
-	}
-	memset (state->align.rotate_marks, 0,
-		sizeof (state->align.rotate_marks));
-	w = glade_xml_get_widget (state->gui, "rotate_spinner");
-	state->align.rotate_spinner = GTK_SPIN_BUTTON (w);
-	g_signal_connect (G_OBJECT (w),
-		"value-changed",
-		G_CALLBACK (cb_rotate_changed), state);
-
-	state->align.motion_handle = 0;
-	w = GTK_WIDGET (state->align.rotate_canvas);
-	g_signal_connect (G_OBJECT (w),
-		"realize",
-		G_CALLBACK (cb_rotate_canvas_realize), state);
-	g_signal_connect (G_OBJECT (w),
-		"button_press_event",
-		G_CALLBACK (cb_rotate_canvas_button), state);
-	g_signal_connect (G_OBJECT (w),
-		"button_release_event",
-		G_CALLBACK (cb_rotate_canvas_button), state);
-	gtk_spin_button_set_value (state->align.rotate_spinner,
-				   state->align.rotation);
+	if (0 == (state->conflicts & (1 << MSTYLE_ROTATION))) {
+		r = gnm_style_get_rotation (state->style);
+		if (r > 180)
+			r -= 360;
+	} else
+		r = 0;
+	state->align.rotation = (GORotationSel *)
+		glade_xml_get_widget (state->gui, "rotation_selector");
+	go_rotation_sel_set_rotation (state->align.rotation, r);
+	g_signal_connect (G_OBJECT (state->align.rotation), "rotation-changed",
+		G_CALLBACK (cb_rotation_changed), state);
 }
 
 /*****************************************************************************/
@@ -2509,10 +2312,6 @@ dialog_cell_format (WorkbookControlGUI *wbcg, FormatDialogPosition_t pageno)
 	state->gui	= gui;
 	state->sv	= wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->sheet	= sv_sheet (state->sv);
-	state->align.rotate_canvas = FOO_CANVAS (foo_canvas_new ());
-	gtk_container_add (GTK_CONTAINER (glade_xml_get_widget (state->gui, "rotate_canvas_container")),
-			   GTK_WIDGET (state->align.rotate_canvas));
-	gtk_widget_show (GTK_WIDGET (state->align.rotate_canvas));
 
 	edit_cell = sheet_cell_get (state->sheet,
 				    state->sv->edit_pos.col,

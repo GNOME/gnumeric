@@ -1,3 +1,10 @@
+2005-09-05  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c : Move the rotation code into goffice's
+	  GORotationSel.
+	(fmt_dialog_init_align_page) : init the new rotation selector.
+	(cb_rotation_changed) : new.
+
 2005-08-28  Morten Welinder <terra@gnome.org>
 
 	* Release 1.5.5
