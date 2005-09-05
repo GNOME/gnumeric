@@ -3,7 +3,7 @@
 /*
  * graph.c: The gnumeric specific data wrappers for GOffice
  *
- * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -251,18 +251,6 @@ gnm_go_data_scalar_get_str (GODataScalar *dat)
 	return scalar->val_str;
 }
 
-static char *
-gnm_go_data_scalar_as_str (GOData const *dat)
-{
-	GnmDependent const *dep = gnm_go_data_get_dep (dat);
-	GnmValue const *v;
-	if (NULL != dep->expression &&
-	    NULL != (v = gnm_expr_get_constant (dep->expression)) &&
-	    VALUE_IS_STRING (v))
-		return value_get_as_string (v);
-	return gnm_go_data_as_str (dat);
-}
-
 static void
 gnm_go_data_scalar_class_init (GObjectClass *gobject_klass)
 {
@@ -274,7 +262,7 @@ gnm_go_data_scalar_class_init (GObjectClass *gobject_klass)
 	godata_klass->dup		= gnm_go_data_dup;
 	godata_klass->eq		= gnm_go_data_eq;
 	godata_klass->preferred_fmt	= gnm_go_data_preferred_fmt;
-	godata_klass->as_str		= gnm_go_data_scalar_as_str;
+	godata_klass->as_str		= gnm_go_data_as_str;
 	godata_klass->from_str		= gnm_go_data_from_str;
 	scalar_klass->get_value		= gnm_go_data_scalar_get_value;
 	scalar_klass->get_str		= gnm_go_data_scalar_get_str;

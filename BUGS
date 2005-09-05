@@ -15,7 +15,6 @@ Release Critical
     - crash on sheet delete for 314207
     - SheetObjectGroup
     - Finish Data -> Table 
-    - quotes for pure strings in expressions for xml in/out
     - Get rotation widget into CVS
 
 Worries

@@ -429,13 +429,13 @@ gnm_canvas_key_press (GtkWidget *widget, GdkEventKey *event)
 	SheetControlGUI *scg = gcanvas->simple.scg;
 	gboolean res;
 
-	if (scg->grab_stack > 0)
-		return TRUE;
-
 	if (wbcg_edit_get_guru (scg->wbcg) == NULL  &&
 	    (scg->selected_objects != NULL || scg->new_object != NULL))
 		res = gnm_canvas_key_mode_object (gcanvas, event);
 	else {
+		if (scg->grab_stack > 0)
+			return TRUE;
+
 		gcanvas->mask_state = event->state;
 		if (gtk_im_context_filter_keypress (gcanvas->im_context,event)) {
 			gcanvas->need_im_reset = TRUE;

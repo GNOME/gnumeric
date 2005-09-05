@@ -142,10 +142,10 @@ gnm_pane_display_obj_size_tip (GnmPane *pane, SheetObject const *so)
 	scg_object_coords_to_anchor (scg, coords, &anchor);
 	sheet_object_anchor_to_pts (&anchor, sc_sheet (SHEET_CONTROL (scg)), pts);
 	msg = g_strdup_printf (_("%.1f x %.1f pts\n%d x %d pixels"),
-		MAX (fabs (pts[2] - pts[0]) + 1., 0),
-		MAX (fabs (pts[3] - pts[1]) + 1., 0),
-		MAX ((int)floor (fabs (coords [2] - coords [0]) + 1.5), 0),
-		MAX ((int)floor (fabs (coords [3] - coords [1]) + 1.5), 0));
+		MAX (fabs (pts[2] - pts[0]), 0),
+		MAX (fabs (pts[3] - pts[1]), 0),
+		MAX ((int)floor (fabs (coords [2] - coords [0]) + 0.5), 0),
+		MAX ((int)floor (fabs (coords [3] - coords [1]) + 0.5), 0));
 	gtk_label_set_text (GTK_LABEL (pane->size_tip), msg);
 	g_free (msg);
 }
@@ -1072,7 +1072,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 
 	case GDK_BUTTON_RELEASE:
 		if (pane->drag.button != (int)event->button.button)
-			return FALSE;
+			break;
 		pane->drag.button = 0;
 		gnm_simple_canvas_ungrab (ctrl_pt, event->button.time);
 		gnm_canvas_slide_stop (gcanvas);
@@ -1091,7 +1091,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 
 	case GDK_BUTTON_PRESS:
 		if (0 != pane->drag.button)
-			return FALSE;
+			break;
 		switch (event->button.button) {
 		case 1:
 		case 2: gnm_pane_object_start_resize (pane, &event->button, so,  idx, FALSE);

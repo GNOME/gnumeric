@@ -1,5 +1,11 @@
 Gnumeric 1.5.6
 
+Jody:
+	* quotes for pure strings in expressions for xml in/out [#313460]
+	* Fix F4 cycling of abs/rel in mixed mode range refs
+	* Check all format tuples for a match [#85950]
+	* Escape cancels object drag. [#314866]
+
 Morten:
 	* Fix tooltip problem.  [#314865]
 	* Throw a minimum of effort at a Lotus importer for modern

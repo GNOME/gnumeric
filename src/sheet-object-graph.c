@@ -3,7 +3,7 @@
 /*
  * sheet-object-graph.c: Wrapper for GNOME Office graphs in gnumeric
  *
- * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public

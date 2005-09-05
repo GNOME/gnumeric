@@ -1,3 +1,18 @@
+2005-09-04  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_press) : only ignore keyboard
+	  events for normal mode.  objects still accept escape [#314866]
+	* src/gnumeric-pane.c (cb_control_point_event) : ignore other buttons
+	  while dragging.
+
+2005-09-04  Jody Goldberg <jody@gnome.org>
+
+	* src/graph.c (gnm_go_data_scalar_as_str) : remove.  This was intended
+	  as a fix for #152317.  Unfortunately it ended up breaking two other
+	  things.  xml persistence could not tell if something was a string or
+	  an expression.  User input would not be quoted.  A more functional
+	  solution is to push this logic down into the xls exporter.
+
 2005-09-02  Jody Goldberg <jody@gnome.org>
 
 	* src/number-match.c : Make DEBUG_NUMBER_MATCH compile again.

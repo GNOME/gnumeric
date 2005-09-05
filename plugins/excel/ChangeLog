@@ -1,3 +1,14 @@
+2005-09-04  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_ClientTextbox) : property is called
+	  'text' not 'label'
+
+2005-09-04  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (chart_write_AI) : Move logic from #152317 here.
+	  If we are writing an expression with only a string constant do not
+	  quote it.
+
 2005-08-29  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c (excel_parse_formula) : support data tables.

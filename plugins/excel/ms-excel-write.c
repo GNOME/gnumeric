@@ -3785,7 +3785,7 @@ excel_write_image_v8 (ExcelWriteSheet *esheet, BlipInf *bi)
 }
 
 static void
-excel_write_ClientTextbox(ExcelWriteState *ewb, SheetObject *so)
+excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so)
 {
 	guint8 buf [18];
 	int txo_len = 18;
@@ -3805,7 +3805,7 @@ excel_write_ClientTextbox(ExcelWriteState *ewb, SheetObject *so)
 	ms_biff_put_var_next (bp, BIFF_TXO);
 	memset (buf, 0, txo_len);
 	GSF_LE_SET_GUINT16 (buf, 0x212); /* end */
-	g_object_get (G_OBJECT (so), "label", &label, NULL);
+	g_object_get (G_OBJECT (so), "text", &label, NULL);
 	char_len = excel_write_string_len (label, NULL);
 	GSF_LE_SET_GUINT16 (buf + 10, char_len);
 	if (markup)
