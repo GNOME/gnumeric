@@ -1,3 +1,7 @@
+2005-09-05  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/gnm-so-polygon.c, COPYING: Update FSF's address.
+
 2005-09-05  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-edit.c (wbcg_edit_start) : no need to do the selection
