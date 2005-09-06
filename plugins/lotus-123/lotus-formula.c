@@ -280,10 +280,6 @@ wk1_std_func (GnmExprList **stack, Wk1Func const *f,
 	GnmFunc *func = gnm_func_lookup (f->name, NULL);
 	int numargs, size;
 
-#if FORMULA_DEBUG > 0
-	g_print ("Function %s\n", f->name);
-#endif
-
 	if (f->args < 0) {
 		numargs = data[1];
 		size = 2;
@@ -511,7 +507,6 @@ get_new_cellref (LotusWk1Read *state,
 		func = gnm_func_add_placeholder (NULL, name, "Lotus ", TRUE);	\
 	parse_list_push_expr (&stack, gnm_expr_new_funcall (func,		\
 		parse_list_last_n (&stack, args, col, row)));			\
-	break;									\
   }
 
 
@@ -621,9 +616,30 @@ lotus_parse_formula_new (LotusWk1Read *state,
 		case LOTUS_FORMULA_OP_CAT: HANDLE_BINARY (GNM_EXPR_OP_CAT);
 
 			/* FIXME: Check if we need bit versions.  */
-		case LOTUS_FORMULA_OP_AND: HANDLE_NAMED_FUNC ("AND", 2);
-		case LOTUS_FORMULA_OP_OR: HANDLE_NAMED_FUNC ("OR", 2);
-		case LOTUS_FORMULA_OP_NOT: HANDLE_NAMED_FUNC ("NOT", 1);
+		case LOTUS_FORMULA_OP_AND: HANDLE_NAMED_FUNC ("AND", 2); break;
+		case LOTUS_FORMULA_OP_OR: HANDLE_NAMED_FUNC ("OR", 2); break;
+		case LOTUS_FORMULA_OP_NOT: HANDLE_NAMED_FUNC ("NOT", 1); break;
+
+		case LOTUS_FORMULA_SPLFUNC: {
+			int args = data[i + 1];
+			int fnamelen = GSF_LE_GET_GUINT16 (data + i + 2);
+			GnmValue *fname = lotus_new_string (state, data + i + 4);
+			char *name = value_get_as_string (fname);
+			size_t namelen = strlen (name);
+			char *p;
+			value_release (fname);
+			/* Get rid of the '(' in the name.  */
+			if (namelen && name[namelen - 1] == '(')
+				name[--namelen] = 0;
+			/* There is a weird prefix -- ignore it.  */
+			for (p = name + namelen; p > name; p--)
+				if (!g_ascii_isalnum (p[-1]))
+					break;
+			HANDLE_NAMED_FUNC (p, args);
+			g_free (name);
+			i += 4 + fnamelen;
+			break;
+		}
 
 		default:
 			i += make_function (&stack, data + i, col, row);
@@ -642,7 +658,25 @@ lotus_parse_formula (LotusWk1Read *state,
 		     Sheet *sheet, guint32 col, guint32 row,
 		     guint8 const *data, guint32 len)
 {
-	return (state->version >= LOTUS_VERSION_123V6)
+	const GnmExpr *result = (state->version >= LOTUS_VERSION_123V6)
 		? lotus_parse_formula_new (state, sheet, col, row, data, len)
 		: lotus_parse_formula_old (state, col, row, data, len);
+
+#if FORMULA_DEBUG > 0
+	GnmParsePos pp;
+	char *txt;
+
+	pp.eval.col = col;
+	pp.eval.row = row;
+	pp.sheet = sheet;
+	pp.wb = sheet->workbook;
+	txt = gnm_expr_as_string (result, &pp, gnm_expr_conventions_default);
+	g_print ("Lotus: %s!%s: %s\n",
+		 sheet->name_unquoted,
+		 cell_coord_name (col, row),
+		 txt);
+	g_free (txt);
+#endif
+
+	return result;
 }

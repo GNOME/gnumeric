@@ -41,6 +41,7 @@
 #define LOTUS_FORMULA_OP_UPLU       0x1D
 #define LOTUS_FORMULA_OP_CAT        0x1E
 
+#define LOTUS_FORMULA_SPLFUNC       0x7A
 
 GnmExpr const *lotus_parse_formula (LotusWk1Read *state,
 				    Sheet *sheet, guint32 col, guint32 row,

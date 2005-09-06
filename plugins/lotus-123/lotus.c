@@ -290,7 +290,7 @@ lotus_read_old (LotusWk1Read *state, record_t *r)
 				if (r->len < (15+len))
 					break;
 
-				expr = lotus_parse_formula (state, NULL, col, row,
+				expr = lotus_parse_formula (state, state->sheet, col, row,
 					r->data + 15, len);
 
 				v = NULL;
@@ -470,12 +470,17 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 			}
 
 			default:
-#if LOTUS_DEBUG > 0
 				g_print ("Unknown style record 0x%x/%04x of length %d.\n",
 					 r->type, subtype,
 					 r->len);
-#endif
-				;
+
+			case 0xfab: /* Edge style */
+			case 0xfb4: /* Interior style */
+			case 0xfc9: /* Frame style */
+			case 0xfdc: /* Fontname style */
+			case 0xfe6: /* Named style */
+			case 0xffa: /* Style pool */
+				break;
 			}
 			break;
 		}
@@ -523,10 +528,75 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 			break;
 		}
 
+		case LOTUS_CA_DB:
+		case LOTUS_DEFAULTS_DB:
+		case LOTUS_NAMED_STYLE_DB:
+
+		case LOTUS_RLDB_DEFAULTS:
+		case LOTUS_RLDB_NAMEDSTYLES:
+		case LOTUS_RLDB_STYLES:
+		case LOTUS_RLDB_FORMATS:
+		case LOTUS_RLDB_BORDERS:
+		case LOTUS_RLDB_COLWIDTHS:
+		case LOTUS_RLDB_ROWHEIGHTS:
+		case LOTUS_RL2DB:
+		case LOTUS_RL3DB:
+		case LOTUS_RLDB_NODE:
+		case LOTUS_RLDB_DATANODE:
+		case LOTUS_RLDB_REGISTERID:
+		case LOTUS_RLDB_USEREGISTEREDID:
+		case LOTUS_RLDB_PACKINFO:
+			/* Style database related.  */
+			break;
+
+		case LOTUS_DOCUMENT_1:
+		case LOTUS_DOCUMENT_2:
+			break;
+
+		case LOTUS_PRINT_SETTINGS:
+		case LOTUS_PRINT_STRINGS:
+			break;
+
+		case LOTUS_LARGE_DATA:
+			g_warning ("Unhandled \"large data\" record seen.");
+
 		default:
-#if LOTUS_DEBUG > 0
 			g_print ("Unknown record 0x%x of length %d.\n", r->type, r->len);
-#endif
+
+		case LOTUS_CALCORDER:
+		case LOTUS_USER_RANGE:
+		case LOTUS_ZEROFORCE:
+		case LOTUS_SORTKEY_DIR:
+		case LOTUS_DTLABELMISC:
+		case LOTUS_CPA:
+		case LOTUS_PERSISTENT_ID:
+		case LOTUS_WINDOW:
+		case LOTUS_BEGIN_OBJECT:
+		case LOTUS_END_OBJECT:
+		case LOTUS_BEGIN_GROUP:
+		case LOTUS_END_GROUP:
+		case LOTUS_DOCUMENT_WINDOW:
+		case LOTUS_OBJECT_SELECT:
+		case LOTUS_OBJECT_NAME_INDEX:
+		case LOTUS_STYLE_MANAGER_BEGIN:
+		case LOTUS_STYLE_MANAGER_END:
+		case LOTUS_WORKBOOK_VIEW:
+		case LOTUS_SPLIT_MANAGEMENT:
+		case LOTUS_SHEET_OBJECT_ID:
+		case LOTUS_SHEET:
+		case LOTUS_SHEET_VIEW:
+		case LOTUS_FIRST_WORKSHEET:
+		case LOTUS_RESERVED_288:
+		case LOTUS_SCRIPT_STREAM:
+		case LOTUS_RANGE_REGION:
+		case LOTUS_RANGE_MISC:
+		case LOTUS_RANGE_ALIAS:
+		case LOTUS_DATA_FILL:
+		case LOTUS_BACKSOLVER:
+		case LOTUS_SORT_HEADER:
+		case LOTUS_CELL_EOF:
+		case LOTUS_FILE_PREFERENCE:
+		case LOTUS_END_DATA:
 			break;
 		}
 	} while (record_next (r));
