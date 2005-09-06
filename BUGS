@@ -26,9 +26,6 @@ Worries
     : editing text boxes (do a derived FooCanvasEditableTextItem)
       we can steal some of the xim support from item-edit.
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=144112
-    : fraction matching
-
     : HARMEAN with no arguments (or just strings/booleans) should yield N/A,
       not NUM.
     : MAXA,MINA with no arguments should yield N/A, not NUM.
@@ -54,6 +51,9 @@ Blocked Patches
 Architecture Changes
 --------------------
 
+- R1C1								(DONE)
+- repeat (http://bugzilla.gnome.org/show_bug.cgi?id=143244)	(DONE)
+- ssconvert for non-gnome					(DONE)
 - Merge wb_control_init_state and wb_control_set_view
 
 1) things to move into libgoffice
@@ -323,11 +323,8 @@ Target Features
 - load/save of external references
 - all the merged cell singleton bugs
 
-- R1C1								(DONE)
 - finish corba plugin
 - scripting
-- repeat (http://bugzilla.gnome.org/show_bug.cgi?id=143244)	(DONE)
-- ssconvert for non-gnome					(DONE)
 
 -------------------------------------------------------------------------------
 Short Term Goals
