@@ -516,8 +516,8 @@ lotus_parse_formula_new (LotusWk1Read *state,
 			 guint8 const *data, guint32 len)
 {
 	GnmExprList *stack = NULL;
-	guint     i;
-	GnmCellRef a, b, orig;
+	guint i;
+	GnmCellRef orig;
 	gboolean done = FALSE;
 
 	orig.sheet = sheet;
@@ -526,7 +526,7 @@ lotus_parse_formula_new (LotusWk1Read *state,
 	orig.col_relative = FALSE;
 	orig.row_relative = FALSE;
 
-	for (i = 0; (i < len) && !done;) {
+	for (i = 0; i < len && !done;) {
 		switch (data[i]) {
 		case LOTUS_FORMULA_CONSTANT:
 			parse_list_push_value (&stack,
@@ -534,19 +534,29 @@ lotus_parse_formula_new (LotusWk1Read *state,
 			i += 9;
 			break;
 
-		case LOTUS_FORMULA_VARIABLE:
+		case LOTUS_FORMULA_VARIABLE: {
+			GnmCellRef a;
 			get_new_cellref (state, &a, data[1] & 7, data + i + 2, &orig);
+			if (a.sheet == sheet)
+				a.sheet = NULL;
 			parse_list_push_expr (&stack, gnm_expr_new_cellref (&a));
 			i += 6;
 			break;
+		}
 
-		case LOTUS_FORMULA_RANGE:
+		case LOTUS_FORMULA_RANGE: {
+			GnmCellRef a, b;
 			get_new_cellref (state, &a, data[1] & 7, data + i + 2, &orig);
 			get_new_cellref (state, &b, (data[1] >> 3) & 7, data + i + 6, &orig);
+			if (b.sheet == a.sheet)
+				b.sheet = NULL;
+			if (a.sheet == sheet && b.sheet == NULL)
+				a.sheet = NULL;
 			parse_list_push_value (&stack,
 				value_new_cellrange (&a, &b, col, row));
 			i += 10;
 			break;
+		}
 
 		case LOTUS_FORMULA_RETURN:
 			done = TRUE;
