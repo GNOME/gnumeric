@@ -2467,6 +2467,20 @@ gnm_expr_is_err (GnmExpr const *expr, GnmStdError err)
 	return err == err2;
 }
 
+gboolean
+gnm_expr_is_data_table (GnmExpr const *expr, GnmCellPos *c_in, GnmCellPos *r_in)
+{
+	if (expr->any.oper == GNM_EXPR_OP_FUNCALL) {
+		char const *name = gnm_func_get_name (expr->func.func);
+		if (name && 0 == strcmp (name, "table")) {
+			return TRUE;
+		}
+	}
+
+	/* Do we need anything else here ? */
+	return FALSE;
+}
+
 void
 gnm_expr_list_unref (GnmExprList *list)
 {

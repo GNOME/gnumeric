@@ -62,11 +62,16 @@ so_polygon_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean
 	if (visible) {
 		SheetObject		*so   = sheet_object_view_get_so (sov);
 		GnmSOPolygon const	*sop  = GNM_SO_POLYGON (so);
-		unsigned		 i    = sop->points->len / 2;
-		FooCanvasPoints		*pts  = foo_canvas_points_new (i);
+		unsigned		 i;
+		FooCanvasPoints		*pts;
 		double *dst, x_scale, y_scale, x_translate, y_translate;
 		double const *src;
 
+		if (sop->points == NULL)
+			return;
+
+		i = sop->points->len / 2;
+		pts = foo_canvas_points_new (i);
 		x_scale = fabs (coords[2] - coords[0]);
 		y_scale = fabs (coords[3] - coords[1]);
 		x_translate = MIN (coords[0], coords[2]),

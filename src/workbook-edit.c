@@ -163,7 +163,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 				 * screw with selection in gtk_entry_grab_focus
 				 * (no longer required now that we clear
 				 * gtk-entry-select-on-focus) */
-				gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
+				gtk_window_set_focus (wbcg_toplevel (wbcg),
 					(GtkWidget *) wbcg_get_entry (wbcg));
 
 				if (perr.begin_char != 0 || perr.end_char != 0) {
@@ -218,7 +218,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 			result = WBC_EDIT_REJECT;
 			command_undo (wbc);
 			if (valid == VALIDATION_STATUS_INVALID_EDIT) {
-				gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
+				gtk_window_set_focus (wbcg_toplevel (wbcg),
 					(GtkWidget *) wbcg_get_entry (wbcg));
 				return FALSE;
 			}
@@ -760,7 +760,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 
 	/* Give the focus to the edit line */
 	if (!cursorp)
-		gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
+		gtk_window_set_focus (wbcg_toplevel (wbcg),
 			(GtkWidget *) wbcg_get_entry (wbcg));
 
 	wbcg->wb_control.editing = TRUE;

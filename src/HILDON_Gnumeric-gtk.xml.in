@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui>
+  <menubar>
+    <menu name="File" action="MenuFile">
+      <menuitem action="FileNew"/>
+      <menuitem action="FileOpen"/>
+      <separator name="file-sep1"/>
+      <menuitem action="FileSave"/>
+      <menuitem action="FileSaveAs"/>
+      <separator name="file-sep2"/>
+      <menuitem action="FilePageSetup"/>
+      <menuitem action="FilePrint"/>
+      <separator name="file-sep3"/>
+      <menuitem action="FileSend"/>
+      <menuitem action="FileSummary"/>
+      <menuitem action="FilePreferences"/>
+      <separator name="file-sep4"/>
+      <placeholder name="FileHistory" />
+      <separator name="file-sep5"/>
+      <menuitem action="FileClose"/>
+      <menuitem action="FileQuit"/>
+    </menu>
+    <menu name="Edit" action="MenuEdit">
+      <menuitem action="Undo"/>
+      <menuitem action="Redo"/>
+      <separator name="edit-sep1"/>
+      <menuitem action="EditCut"/>
+      <menuitem action="EditCopy"/>
+      <menuitem action="EditPaste"/>
+      <separator name="edit-sep2"/>
+      <menuitem action="EditFillAutofill"/>
+      <menu name="Clear" action="MenuEditClear">
+        <menuitem action="EditClearAll"/>
+        <menuitem action="EditClearFormats"/>
+        <menuitem action="EditClearComments"/>
+        <menuitem action="EditClearContent"/>
+      </menu>
+      <menu name="Delete" action="MenuEditDelete">
+	<menuitem action="EditDeleteColumns"/>
+	<menuitem action="EditDeleteRows"/>
+	<menuitem action="EditDeleteCells"/>
+      </menu>
+      <separator name="edit-sep3"/>
+      <menuitem action="EditFind"/>
+      <menuitem action="EditReplace"/>
+      <separator name="edit-sep4"/>
+      <menu name="EditSheet" action="MenuEditSheet">
+        <menuitem action="SheetReorder"/>
+	<separator/>
+        <menuitem action="InsertSheetAtEnd"/>
+        <menuitem action="EditDuplicateSheet"/>
+	<menuitem action="SheetRemove"/>
+      </menu>
+      <menu name="Select" action="MenuEditSelect">
+        <menuitem action="EditSelectAll"/>
+        <menuitem action="EditSelectColumn"/>
+	<menuitem action="EditSelectRow"/>
+      </menu>
+      <menuitem action="EditRecalc"/>
+      <placeholder name="ops"/>
+    </menu>
+    <menu name="View" action="MenuView">
+      <menuitem action="ViewFullScreen"/>
+      <menuitem action="ViewZoom"/>
+    </menu>
+    <menu name="Insert" action="MenuInsert">
+      <menuitem action="InsertCells"/>
+      <menuitem action="InsertColumns"/>
+      <menuitem action="InsertRows"/>
+      <separator/>
+      <menuitem action="SheetInsert"/>
+      <menuitem action="InsertImage"/>
+      <menuitem action="InsertFormula"/>
+      <menuitem action="InsertComment"/>
+      <menuitem action="InsertHyperlink"/>
+      <menu name="Special" action="MenuInsertSpecial">
+        <menuitem action="InsertCurrentDate"/>
+        <menuitem action="InsertCurrentTime"/>
+        <menuitem action="InsertCurrentDateTime"/>
+      </menu>
+    </menu>
+    <menu name="Format" action="MenuFormat">
+      <menuitem action="FormatCells"/>
+      <menu name="FormatColumn" action="MenuFormatColumn">
+        <menuitem action="ColumnSize"/>
+        <menuitem action="ColumnAutoSize"/>
+        <menuitem action="ColumnHide"/>
+        <menuitem action="ColumnUnhide"/>
+        <menuitem action="ColumnDefaultSize"/>
+      </menu>
+      <menu name="FormatRow" action="MenuFormatRow">
+        <menuitem action="RowSize"/>
+        <menuitem action="RowAutoSize"/>
+        <menuitem action="RowHide"/>
+        <menuitem action="RowUnhide"/>
+        <menuitem action="RowDefaultSize"/>
+      </menu>
+      <menu name="FormatSheets" action="MenuFormatSheet">
+        <menuitem action="SheetReorder"/>
+        <menuitem action="SheetChangeName"/>
+        <separator/>
+        <menuitem action="SheetDisplayFormulas"/>
+        <menuitem action="SheetHideZeros"/>
+        <menuitem action="SheetHideGridlines"/>
+        <menuitem action="SheetHideColHeader"/>
+        <menuitem action="SheetHideRowHeader"/>
+      </menu>
+      <menuitem action="FormatWorkbook"/>
+      <menuitem action="FilePreferences"/>
+      <menuitem action="FormatAuto"/>
+    </menu>
+    <menu name="Help" action="MenuHelp">
+      <menuitem action="HelpAbout"/>
+      <menuitem action="HelpWeb"/>
+    </menu>
+  </menubar>
+  <toolbar name="HildonToolbar">
+    <toolitem action="UndoHildon"/>
+    <toolitem action="RedoHildon"/>
+    <separator/>
+    <toolitem action="EditCut"/>
+    <toolitem action="EditCopy"/>
+    <toolitem action="EditPaste"/>
+    <separator/>
+    <toolitem action="BorderSelector"/>
+    <toolitem action="ColorBack"/>
+    <toolitem action="ColorFore"/>
+    <separator/>
+    <toolitem action="Zoom"/>
+    <toolitem action="ViewFullScreen"/>
+  </toolbar>
+  <toolbar name="HildonTopToolbar">
+    <toolitem action="AutoSum"/>
+    <toolitem action="InsertFormula"/>
+    <toolitem action="SortAscending"/>
+    <toolitem action="SortDescending"/>
+  </toolbar>
+</ui>

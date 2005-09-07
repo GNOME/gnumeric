@@ -635,19 +635,6 @@ excel_formula_write_NAME_v7 (PolishData *pd, GnmExpr const *expr,
 	}
 }
 
-gboolean
-gnm_expr_is_data_table (GnmExpr const *expr, GnmCellPos *c_in, GnmCellPos *r_in)
-{
-	if (expr->any.oper == GNM_EXPR_OP_FUNCALL) {
-		char const *name = gnm_func_get_name (expr->func.func);
-		if (name && 0 == strcmp (name, "table")) {
-			return TRUE;
-		}
-	}
-
-	return FALSE;
-}
-
 static void
 write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 	    XLOpType target_type)
