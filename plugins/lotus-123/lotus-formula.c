@@ -31,24 +31,24 @@ struct _Wk1Func {
 	int		 args; /* -1 for multiple arguments */
 	unsigned	 idx;
 	char const	*name;
-	int (*handler) (GnmExprList **stack, Wk1Func const *func, guint8 const *data, int col, int row);
+	int (*handler) (GnmExprList **stack, Wk1Func const *func, guint8 const *data, const GnmParsePos *orig);
 	guint32  data;
 };
 
-static int wk1_unary_func  (GnmExprList **stack, Wk1Func const *func, guint8 const *data, int col, int row);
-static int wk1_binary_func (GnmExprList **stack, Wk1Func const *func, guint8 const *data, int col, int row);
-static int wk1_std_func	   (GnmExprList **stack, Wk1Func const *func, guint8 const *data, int col, int row);
+static int wk1_unary_func  (GnmExprList **stack, Wk1Func const *func, guint8 const *data, const GnmParsePos *orig);
+static int wk1_binary_func (GnmExprList **stack, Wk1Func const *func, guint8 const *data, const GnmParsePos *orig);
+static int wk1_std_func	   (GnmExprList **stack, Wk1Func const *func, guint8 const *data, const GnmParsePos *orig);
 /* a,b,c -> a,,-c,b */
-static int wk1_nper_func   (GnmExprList **stack, Wk1Func const *func, guint8 const *data, int col, int row);
+static int wk1_nper_func   (GnmExprList **stack, Wk1Func const *func, guint8 const *data, const GnmParsePos *orig);
 /* year - 1900 */
-static int wk1_year_func   (GnmExprList **stack, Wk1Func const *func, guint8 const *data, int col, int row);
+static int wk1_year_func   (GnmExprList **stack, Wk1Func const *func, guint8 const *data, const GnmParsePos *orig);
 /* find - 1 */
-static int wk1_find_func   (GnmExprList **stack, Wk1Func const *func, guint8 const *data, int col, int row);
+static int wk1_find_func   (GnmExprList **stack, Wk1Func const *func, guint8 const *data, const GnmParsePos *orig);
 /* a,b,c -> b,c,-a */
-static int wk1_fv_pv_pmt_func (GnmExprList **stack, Wk1Func const *func, guint8 const *data, int col, int row);
+static int wk1_fv_pv_pmt_func (GnmExprList **stack, Wk1Func const *func, guint8 const *data, const GnmParsePos *orig);
 /* a,b -> b,a */
-static int wk1_irr_func    (GnmExprList **stack, Wk1Func const *func, guint8 const *data, int col, int row);
-static int wk1_rate_func   (GnmExprList **stack, Wk1Func const *func, guint8 const *data, int col, int row);
+static int wk1_irr_func    (GnmExprList **stack, Wk1Func const *func, guint8 const *data, const GnmParsePos *orig);
+static int wk1_rate_func   (GnmExprList **stack, Wk1Func const *func, guint8 const *data, const GnmParsePos *orig);
 
 static const Wk1Func functions[] = {
 	{  1, 0x08, "-",	wk1_unary_func,  GNM_EXPR_OP_UNARY_NEG },
@@ -216,7 +216,7 @@ parse_list_push_value (GnmExprList **list, GnmValue *v)
 }
 
 static GnmExpr const *
-parse_list_pop (GnmExprList **list, int col, int row)
+parse_list_pop (GnmExprList **list, const GnmParsePos *orig)
 {
 	/* Get the head */
 	GnmExprList *tmp = g_slist_nth (*list, 0);
@@ -227,7 +227,7 @@ parse_list_pop (GnmExprList **list, int col, int row)
 	}
 
 	g_warning ("%s : Incorrect number of parsed formula arguments",
-		   cell_coord_name (col, row));
+		   cell_coord_name (orig->eval.col, orig->eval.row));
 	return gnm_expr_new_constant (value_new_error (NULL, "WrongArgs"));
 }
 
@@ -235,36 +235,36 @@ parse_list_pop (GnmExprList **list, int col, int row)
  * Returns a new list composed of the last n items pop'd off the list.
  **/
 static GnmExprList *
-parse_list_last_n (GnmExprList **list, gint n, int col, int row)
+parse_list_last_n (GnmExprList **list, gint n, const GnmParsePos *orig)
 {
 	GnmExprList *l = NULL;
 	while (n-- > 0)
-		l = gnm_expr_list_prepend (l, parse_list_pop (list, col, row));
+		l = gnm_expr_list_prepend (l, parse_list_pop (list, orig));
 	return l;
 }
 
 
 static int
 wk1_unary_func  (GnmExprList **stack, Wk1Func const *f,
-		 guint8 const *data, int col, int row)
+		 guint8 const *data, const GnmParsePos *orig)
 {
-	GnmExpr const *r = parse_list_pop (stack, col, row);
+	GnmExpr const *r = parse_list_pop (stack, orig);
 	parse_list_push_expr (stack, gnm_expr_new_unary (f->data, r));
 	return 1;
 }
 static int
 wk1_binary_func (GnmExprList **stack, Wk1Func const *f,
-		 guint8 const *data, int col, int row)
+		 guint8 const *data, const GnmParsePos *orig)
 {
-	GnmExpr const *r = parse_list_pop (stack, col, row);
-	GnmExpr const *l = parse_list_pop (stack, col, row);
+	GnmExpr const *r = parse_list_pop (stack, orig);
+	GnmExpr const *l = parse_list_pop (stack, orig);
 	parse_list_push_expr (stack, gnm_expr_new_binary (l, f->data, r));
 	return 1;
 }
 
 static int
 wk1_std_func (GnmExprList **stack, Wk1Func const *f,
-	      guint8 const *data, int col, int row)
+	      guint8 const *data, const GnmParsePos *orig)
 {
 	GnmFunc *func = gnm_func_lookup (f->name, NULL);
 	int numargs, size;
@@ -279,57 +279,62 @@ wk1_std_func (GnmExprList **stack, Wk1Func const *f,
 
 	if (func == NULL) {
 		func = gnm_func_add_placeholder (NULL, f->name, "Lotus ", TRUE);
-		puts (cell_coord_name (col, row));
+		puts (cell_coord_name (orig->eval.col, orig->eval.row));
 	}
 	parse_list_push_expr (stack, gnm_expr_new_funcall (func,
-		parse_list_last_n (stack, numargs, col, row)));
+		parse_list_last_n (stack, numargs, orig)));
 
 	return size;
 }
 static int
 wk1_nper_func (GnmExprList **stack, Wk1Func const *func,
-	       guint8 const *data, int col, int row)
+	       guint8 const *data, const GnmParsePos *orig)
 {
 	/* a,b,c -> a,,-c,b */
-	return wk1_std_func (stack, func, data, col, row);
+	return wk1_std_func (stack, func, data, orig);
 }
+
 static int
 wk1_year_func (GnmExprList **stack, Wk1Func const *func,
-	       guint8 const *data, int col, int row)
+	       guint8 const *data, const GnmParsePos *orig)
 {
 	/* year - 1900 */
-	return wk1_std_func (stack, func, data, col, row);
+	return wk1_std_func (stack, func, data, orig);
 }
+
 static int
 wk1_find_func (GnmExprList **stack, Wk1Func const *func,
-	       guint8 const *data, int col, int row)
+	       guint8 const *data, const GnmParsePos *orig)
 {
 	/* find - 1 */
-	return wk1_std_func (stack, func, data, col, row);
+	return wk1_std_func (stack, func, data, orig);
 }
+
 static int
 wk1_fv_pv_pmt_func (GnmExprList **stack, Wk1Func const *func,
-		     guint8 const *data, int col, int row)
+		     guint8 const *data, const GnmParsePos *orig)
 {
 	/* a,b,c -> b,c,-a */
-	return wk1_std_func (stack, func, data, col, row);
+	return wk1_std_func (stack, func, data, orig);
 }
+
 static int
 wk1_irr_func (GnmExprList **stack, Wk1Func const *func,
-		 guint8 const *data, int col, int row)
+		 guint8 const *data, const GnmParsePos *orig)
 {
 	/* a,b -> b,a */
-	return wk1_std_func (stack, func, data, col, row);
+	return wk1_std_func (stack, func, data, orig);
 }
+
 static int
 wk1_rate_func (GnmExprList **stack, Wk1Func const *func,
-	       guint8 const *data, int col, int row)
+	       guint8 const *data, const GnmParsePos *orig)
 {
-	return wk1_std_func (stack, func, data, col, row);
+	return wk1_std_func (stack, func, data, orig);
 }
 
 static gint32
-make_function (GnmExprList **stack, guint8 const *data, int col, int row)
+make_function (GnmExprList **stack, guint8 const *data, const GnmParsePos *orig)
 {
 	Wk1Func const *f = NULL;
 	unsigned i;
@@ -341,11 +346,13 @@ make_function (GnmExprList **stack, guint8 const *data, int col, int row)
 		}
 
 	if (f == NULL) {
-		g_warning ("%s : unknown PTG 0x%x", cell_coord_name (col, row), *data);
+		g_warning ("%s : unknown PTG 0x%x",
+			   cell_coord_name (orig->eval.col, orig->eval.row),
+			   *data);
 		return 1;
 	}
 
-	return (f->handler) (stack, f, data, col, row);
+	return (f->handler) (stack, f, data, orig);
 }
 
 static gint16
@@ -358,7 +365,7 @@ sign_extend (guint16 num)
 /* FIXME: dodgy stuff, hacked for now */
 static void
 get_cellref (GnmCellRef *ref, guint8 const *dataa, guint8 const *datab,
-	     guint32 orig_col, guint32 orig_row)
+	     const GnmParsePos *orig)
 {
 	guint16 i;
 
@@ -388,7 +395,7 @@ get_cellref (GnmCellRef *ref, guint8 const *dataa, guint8 const *datab,
 }
 
 static GnmExpr const *
-lotus_parse_formula_old (LotusWk1Read *state, guint32 col, guint32 row,
+lotus_parse_formula_old (LotusWk1Read *state, GnmParsePos *orig,
 			 guint8 const *data, guint32 len)
 {
 	GnmExprList *stack = NULL;
@@ -405,16 +412,16 @@ lotus_parse_formula_old (LotusWk1Read *state, guint32 col, guint32 row,
 			break;
 
 		case LOTUS_FORMULA_VARIABLE:
-			get_cellref (&a, data + i + 1, data + i + 3, col, row);
+			get_cellref (&a, data + i + 1, data + i + 3, orig);
 			parse_list_push_expr (&stack, gnm_expr_new_cellref (&a));
 			i += 5;
 			break;
 
 		case LOTUS_FORMULA_RANGE:
-			get_cellref (&a, data + i + 1, data + i + 3, col, row);
-			get_cellref (&b, data + i + 5, data + i + 7, col, row);
+			get_cellref (&a, data + i + 1, data + i + 3, orig);
+			get_cellref (&b, data + i + 5, data + i + 7, orig);
 			parse_list_push_value (&stack,
-				value_new_cellrange (&a, &b, col, row));
+				value_new_cellrange (&a, &b, orig->eval.col, orig->eval.row));
 			i += 9;
 			break;
 
@@ -434,7 +441,7 @@ lotus_parse_formula_old (LotusWk1Read *state, guint32 col, guint32 row,
 
 		case LOTUS_FORMULA_STRING:
 			parse_list_push_value (&stack,
-				lotus_new_string (state, data + i + 1));
+				lotus_new_string (data + i + 1));
 			i += 2 + strlen (data + i + 1);
 			break;
 
@@ -443,20 +450,20 @@ lotus_parse_formula_old (LotusWk1Read *state, guint32 col, guint32 row,
 			break;
 
 		default:
-			i += make_function (&stack, data + i, col, row);
+			i += make_function (&stack, data + i, orig);
 		}
 	}
 
 	if (gnm_expr_list_length (stack) != 1)
 		g_warning ("%s : args remain on stack",
-			   cell_coord_name (col, row));
-	return parse_list_pop (&stack, col, row);
+			   cell_coord_name (orig->eval.col, orig->eval.row));
+	return parse_list_pop (&stack, orig);
 }
 
 static void
 get_new_cellref (LotusWk1Read *state,
 		 GnmCellRef *dst, int relbits, const guint8 *data,
-		 const GnmCellRef *orig)
+		 const GnmParsePos *orig)
 {
 	dst->row = GSF_LE_GET_GUINT16 (data);
 	dst->sheet = lotus_get_sheet (state->wb, data[2]);
@@ -464,18 +471,18 @@ get_new_cellref (LotusWk1Read *state,
 
 	dst->row_relative = (relbits & 1) != 0;
 	if (dst->row_relative)
-		dst->row -= orig->row;
+		dst->row -= orig->eval.row;
 
 	dst->col_relative = (relbits & 2) != 0;
 	if (dst->col_relative)
-		dst->col -= orig->col;	
+		dst->col -= orig->eval.col;
 }
 
 
 #define HANDLE_BINARY(op)						\
   {									\
-	GnmExpr const *r = parse_list_pop (&stack, col, row);		\
-	GnmExpr const *l = parse_list_pop (&stack, col, row);		\
+	GnmExpr const *r = parse_list_pop (&stack, orig);		\
+	GnmExpr const *l = parse_list_pop (&stack, orig);		\
 	parse_list_push_expr (&stack, gnm_expr_new_binary (l, op, r));	\
         i++;								\
         break;								\
@@ -483,37 +490,38 @@ get_new_cellref (LotusWk1Read *state,
 
 #define HANDLE_UNARY(op)						\
   {									\
-	GnmExpr const *a = parse_list_pop (&stack, col, row);		\
+	GnmExpr const *a = parse_list_pop (&stack, orig);		\
 	parse_list_push_expr (&stack, gnm_expr_new_unary (op, a));	\
         i++;								\
         break;								\
   }
 
-#define HANDLE_NAMED_FUNC(name,args)						\
-  {										\
-	GnmFunc *func = gnm_func_lookup (name, NULL);				\
-	if (func == NULL)							\
-		func = gnm_func_add_placeholder (NULL, name, "Lotus ", TRUE);	\
-	parse_list_push_expr (&stack, gnm_expr_new_funcall (func,		\
-		parse_list_last_n (&stack, args, col, row)));			\
-  }
+static void
+handle_named_func (GnmExprList **stack, const GnmParsePos *orig,
+		   const char *name, int args)
+{
+	GnmFunc *func = gnm_func_lookup (name, NULL);
+	if (!func) {
+		/* A hack, for now.  */
+		if (strcmp (name, "ISEMPTY") == 0)
+			name = "ISBLANK";
+		func = gnm_func_lookup (name, NULL);
+	}
+
+	if (func == NULL)
+		func = gnm_func_add_placeholder (NULL, name, "Lotus ", TRUE);
+	parse_list_push_expr (stack, gnm_expr_new_funcall (func,
+		parse_list_last_n (stack, args, orig)));
+}
 
 
 static GnmExpr const *
-lotus_parse_formula_new (LotusWk1Read *state,
-			 Sheet *sheet, guint32 col, guint32 row,			 
+lotus_parse_formula_new (LotusWk1Read *state, GnmParsePos *orig,
 			 guint8 const *data, guint32 len)
 {
 	GnmExprList *stack = NULL;
 	guint i;
-	GnmCellRef orig;
 	gboolean done = FALSE;
-
-	orig.sheet = sheet;
-	orig.col = col;
-	orig.row = row;
-	orig.col_relative = FALSE;
-	orig.row_relative = FALSE;
 
 	for (i = 0; i < len && !done;) {
 		switch (data[i]) {
@@ -525,8 +533,8 @@ lotus_parse_formula_new (LotusWk1Read *state,
 
 		case LOTUS_FORMULA_VARIABLE: {
 			GnmCellRef a;
-			get_new_cellref (state, &a, data[1] & 7, data + i + 2, &orig);
-			if (a.sheet == sheet)
+			get_new_cellref (state, &a, data[1] & 7, data + i + 2, orig);
+			if (a.sheet == orig->sheet)
 				a.sheet = NULL;
 			parse_list_push_expr (&stack, gnm_expr_new_cellref (&a));
 			i += 6;
@@ -535,14 +543,17 @@ lotus_parse_formula_new (LotusWk1Read *state,
 
 		case LOTUS_FORMULA_RANGE: {
 			GnmCellRef a, b;
-			get_new_cellref (state, &a, data[1] & 7, data + i + 2, &orig);
-			get_new_cellref (state, &b, (data[1] >> 3) & 7, data + i + 6, &orig);
+			get_new_cellref (state, &a, data[1] & 7, data + i + 2, orig);
+			get_new_cellref (state, &b, (data[1] >> 3) & 7, data + i + 6, orig);
 			if (b.sheet == a.sheet)
 				b.sheet = NULL;
-			if (a.sheet == sheet && b.sheet == NULL)
+			if (a.sheet == orig->sheet && b.sheet == NULL)
 				a.sheet = NULL;
-			parse_list_push_value (&stack,
-				value_new_cellrange (&a, &b, col, row));
+			parse_list_push_value
+				(&stack,
+				 value_new_cellrange (&a, &b,
+						      orig->eval.col,
+						      orig->eval.row));
 			i += 10;
 			break;
 		}
@@ -570,7 +581,7 @@ lotus_parse_formula_new (LotusWk1Read *state,
 
 		case LOTUS_FORMULA_STRING:
 			parse_list_push_value (&stack,
-				lotus_new_string (state, data + i + 1));
+				lotus_new_string (data + i + 1));
 			i += 2 + strlen (data + i + 1);
 			break;
 
@@ -614,19 +625,23 @@ lotus_parse_formula_new (LotusWk1Read *state,
 		case LOTUS_FORMULA_OP_UPLU: HANDLE_UNARY (GNM_EXPR_OP_UNARY_PLUS);
 		case LOTUS_FORMULA_OP_CAT: HANDLE_BINARY (GNM_EXPR_OP_CAT);
 
+		case LOTUS_FORMULA_OP_AND:
 			/* FIXME: Check if we need bit versions.  */
-		case LOTUS_FORMULA_OP_AND: HANDLE_NAMED_FUNC ("AND", 2); break;
-		case LOTUS_FORMULA_OP_OR: HANDLE_NAMED_FUNC ("OR", 2); break;
-		case LOTUS_FORMULA_OP_NOT: HANDLE_NAMED_FUNC ("NOT", 1); break;
+			handle_named_func (&stack, orig, "AND", 2);
+			break;
+		case LOTUS_FORMULA_OP_OR:
+			handle_named_func (&stack, orig, "OR", 2);
+			break;
+		case LOTUS_FORMULA_OP_NOT:
+			handle_named_func (&stack, orig, "NOT", 1);
+			break;
 
 		case LOTUS_FORMULA_SPLFUNC: {
 			int args = data[i + 1];
 			int fnamelen = GSF_LE_GET_GUINT16 (data + i + 2);
-			GnmValue *fname = lotus_new_string (state, data + i + 4);
-			char *name = value_get_as_string (fname);
+			char *name = lotus_get_lmbcs (data + i + 4, -1);
 			size_t namelen = strlen (name);
 			char *p;
-			value_release (fname);
 			/* Get rid of the '(' in the name.  */
 			if (namelen && name[namelen - 1] == '(')
 				name[--namelen] = 0;
@@ -634,47 +649,41 @@ lotus_parse_formula_new (LotusWk1Read *state,
 			for (p = name + namelen; p > name; p--)
 				if (!g_ascii_isalnum (p[-1]))
 					break;
-			HANDLE_NAMED_FUNC (p, args);
+			handle_named_func (&stack, orig, p, args);
 			g_free (name);
 			i += 4 + fnamelen;
 			break;
 		}
 
 		default:
-			i += make_function (&stack, data + i, col, row);
+			i += make_function (&stack, data + i, orig);
 		}
 	}
 
 	if (gnm_expr_list_length (stack) != 1)
 		g_warning ("%s : args remain on stack",
-			   cell_coord_name (col, row));
-	return parse_list_pop (&stack, col, row);
+			   cell_coord_name (orig->eval.col, orig->eval.row));
+	return parse_list_pop (&stack, orig);
 }
 
 
 GnmExpr const *
-lotus_parse_formula (LotusWk1Read *state,
-		     Sheet *sheet, guint32 col, guint32 row,
+lotus_parse_formula (LotusWk1Read *state, GnmParsePos *pos,
 		     guint8 const *data, guint32 len)
 {
 	const GnmExpr *result = (state->version >= LOTUS_VERSION_123V6)
-		? lotus_parse_formula_new (state, sheet, col, row, data, len)
-		: lotus_parse_formula_old (state, col, row, data, len);
+		? lotus_parse_formula_new (state, pos, data, len)
+		: lotus_parse_formula_old (state, pos, data, len);
 
 #if FORMULA_DEBUG > 0
-	GnmParsePos pp;
-	char *txt;
-
-	pp.eval.col = col;
-	pp.eval.row = row;
-	pp.sheet = sheet;
-	pp.wb = sheet->workbook;
-	txt = gnm_expr_as_string (result, &pp, gnm_expr_conventions_default);
-	g_print ("Lotus: %s!%s: %s\n",
-		 sheet->name_unquoted,
-		 cell_coord_name (col, row),
-		 txt);
-	g_free (txt);
+	{
+		char *txt = gnm_expr_as_string (result, pos, gnm_expr_conventions_default);
+		g_print ("Lotus: %s!%s: %s\n",
+			 pos->sheet->name_unquoted,
+			 cell_coord_name (pos->eval.col, pos->eval.row),
+			 txt);
+		g_free (txt);
+	}
 #endif
 
 	return result;

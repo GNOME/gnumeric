@@ -22,9 +22,12 @@ typedef struct {
   
 } LotusWk1Read;
 
+extern const gunichar lmbcs_group_1[256];
+
 Sheet *lotus_get_sheet (Workbook *wb, int i);
 double lotus_unpack_number (guint32 u);
-GnmValue *lotus_new_string (LotusWk1Read *state, gchar const *data);
+char *lotus_get_lmbcs (const char *data, int maxlen);
+GnmValue *lotus_new_string (gchar const *data);
 gboolean  lotus_read   (LotusWk1Read *state);
 
 #endif

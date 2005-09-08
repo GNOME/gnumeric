@@ -1,3 +1,17 @@
+2005-09-07  Morten Welinder <terra@gnome.org>
+
+	* lotus-formula.c (lotus_parse_formula): Change to take a
+	GnmParsePos instead of sheet/col/row.  This change propagated all
+	the way down.
+	(handle_named_func): Made into a function and asked to handle
+	naming differences too.
+
+	* lotus.c (lotus_read_new): Handle cell comments.  Add missing
+	"break" after large-data record handling.
+	(lotus_get_lmbcs): First try at a reasonable decoder from LMBCS to
+	UTF-8.  (In particular this handles the junk that appears in
+	SPLFUNCs.)
+
 2005-09-06  Morten Welinder <terra@gnome.org>
 
 	* lotus-formula.c (lotus_parse_formula_new): Handle SPLFUNCs too.

@@ -48,7 +48,9 @@
 #define LOTUS_STYLE                  0x1b
 #define LOTUS_DTLABELMISC            0x1c
 #define LOTUS_CPA                    0x1f
+#define LOTUS_NAMED_SHEET            0x23
 #define LOTUS_PACKED_NUMBER          0x25
+#define LOTUS_CELL_COMMENT           0x26
 #define LOTUS_NUMBER2                0x27
 #define LOTUS_FORMULA2               0x28
 #define LOTUS_PERSISTENT_ID          0x100
@@ -76,6 +78,7 @@
 #define LOTUS_RLDB_STYLES            0x284
 #define LOTUS_FIRST_WORKSHEET        0x285
 #define LOTUS_CA_DB                  0x286
+#define LOTUS_SHEET_PROPS            0x287
 #define LOTUS_RESERVED_288           0x288
 #define LOTUS_DEFAULTS_DB            0x292
 #define LOTUS_RLDB_FORMATS           0x293
