@@ -649,15 +649,16 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 			int col = r->data[3];
 			GnmValue *curval = get_lnumber (r, 4);
 			GnmParsePos pp;
+			const GnmExpr *expr;
+			GnmCell *cell;
 
 			pp.eval.col = col;
 			pp.eval.row = row;
 			pp.sheet = sheet;
 			pp.wb = sheet->workbook;
-			const GnmExpr *expr =
-				lotus_parse_formula (state, &pp,
-						     r->data + 12, r->len - 12);
-			GnmCell *cell = sheet_cell_fetch (sheet, col, row);
+			expr = lotus_parse_formula (state, &pp,
+						    r->data + 12, r->len - 12);
+			cell = sheet_cell_fetch (sheet, col, row);
 			cell_set_expr_and_value (cell, expr, curval, TRUE);
 
 			gnm_expr_unref (expr);

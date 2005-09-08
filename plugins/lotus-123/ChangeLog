@@ -1,3 +1,7 @@
+2005-09-08  Morten Welinder  <terra@gnome.org>
+
+	* lotus.c (lotus_read_new): Fix C99ism.
+
 2005-09-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.90
