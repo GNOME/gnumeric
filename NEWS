@@ -6,6 +6,8 @@ Jody:
 	* Check all format tuples for a match [#85950]
 	* Escape cancels object drag. [#314866]
 	* F2 while editing jumps focus to entry. [#314869]
+	* XLS in/out for Data -> Table
+	* 2d Data -> Table support
 
 Morten:
 	* Fix tooltip problem.  [#314865]

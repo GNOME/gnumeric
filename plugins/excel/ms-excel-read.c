@@ -2287,15 +2287,35 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 
 	if (opcode == BIFF_TABLE_v0 || opcode == BIFF_TABLE_v2) {
 		XLDataTable *dt = g_new0 (XLDataTable, 1);
+		GnmExprList *args = NULL;
+		GnmCellRef   ref;
 		guint16 const flags = GSF_LE_GET_GUINT16 (q->data + 6);
 
-		d (-2, range_dump (&r, " <-- contains data table\n"););
-		gsf_mem_dump (q->data, q->length);
+		d (2, { range_dump (&r, " <-- contains data table\n");
+		   gsf_mem_dump (q->data, q->length); });
 
 		dt->table = r;
+		dt->c_in.row = GSF_LE_GET_GUINT16 (q->data + 8);
+		dt->c_in.col = GSF_LE_GET_GUINT16 (q->data + 10);
+		dt->r_in.row = GSF_LE_GET_GUINT16 (q->data + 12);
+		dt->r_in.col = GSF_LE_GET_GUINT16 (q->data + 14);
 		g_hash_table_insert (esheet->tables, &dt->table.start, dt);
 
-		expr = gnm_expr_new_funcall (gnm_func_lookup ("table", NULL), NULL);
+		args = gnm_expr_list_append (args, gnm_expr_new_cellref (
+			cellref_init (&ref, NULL,
+				      dt->c_in.col - r.start.col,
+				      dt->c_in.row - r.start.row, TRUE)));
+		if (flags & 0x8) {
+			args = gnm_expr_list_append (args, gnm_expr_new_cellref (
+				cellref_init (&ref, NULL,
+					      dt->r_in.col - r.start.col,
+					      dt->r_in.row - r.start.row, TRUE)));
+		} else {
+			GnmExpr	const *missing = gnm_expr_new_constant (value_new_empty ());
+			args = (flags & 4) ? gnm_expr_list_append (args, missing)
+					   : gnm_expr_list_prepend (args, missing);
+		}
+		expr = gnm_expr_new_funcall (gnm_func_lookup ("table", NULL), args);
 		cell_set_array_formula (esheet->sheet,
 			r.start.col, r.start.row,
 			r.end.col,   r.end.row, expr);

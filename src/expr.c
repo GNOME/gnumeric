@@ -117,7 +117,7 @@ gnm_expr_function_eq (GnmExprFunction const *a,
 #endif
 
 GnmExpr const *
-gnm_expr_new_funcall (GnmFunc *func, GnmExprList *args)
+gnm_expr_new_funcall (GnmFunc *func, GnmExprList *arg_list)
 {
 	GnmExprFunction *ans;
 	g_return_val_if_fail (func, NULL);
@@ -129,8 +129,8 @@ gnm_expr_new_funcall (GnmFunc *func, GnmExprList *args)
 	ans->ref_count = 1;
 	ans->oper = GNM_EXPR_OP_FUNCALL;
 	gnm_func_ref (func);
-	ans->func = func;;
-	ans->arg_list = args;
+	ans->func = func;
+	ans->arg_list = arg_list;
 
 	return (GnmExpr *)ans;
 }
@@ -2473,6 +2473,22 @@ gnm_expr_is_data_table (GnmExpr const *expr, GnmCellPos *c_in, GnmCellPos *r_in)
 	if (expr->any.oper == GNM_EXPR_OP_FUNCALL) {
 		char const *name = gnm_func_get_name (expr->func.func);
 		if (name && 0 == strcmp (name, "table")) {
+			if (NULL != r_in) {
+				GnmExpr const *r = gnm_expr_list_nth (expr->func.arg_list, 0);
+				if (r != NULL && r->any.oper == GNM_EXPR_OP_CELLREF) {
+					r_in->col = r->cellref.ref.col;
+					r_in->row = r->cellref.ref.row;
+				} else
+					r_in->col = r_in->row = 0; /* impossible */
+			}
+			if (NULL != c_in) {
+				GnmExpr const *c = gnm_expr_list_nth (expr->func.arg_list, 1);
+				if (c != NULL && c->any.oper == GNM_EXPR_OP_CELLREF) {
+					c_in->col = c->cellref.ref.col;
+					c_in->row = c->cellref.ref.row;
+				} else
+					c_in->col = c_in->row = 0; /* impossible */
+			}
 			return TRUE;
 		}
 	}

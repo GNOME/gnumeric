@@ -1,8 +1,10 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * func-builtin.c:  Built in functions.
  *
  * Authors:
  *   Morten Welinder (terra@gnome.org)
+ *   Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +29,10 @@
 #include <collect.h>
 #include <value.h>
 #include <selection.h>
+#include <expr.h>
+#include <expr-impl.h>
+#include <sheet.h>
+#include <cell.h>
 
 /***************************************************************************/
 
@@ -126,10 +132,83 @@ gnumeric_version (FunctionEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
-GnmValue *
-gnumeric_table (FunctionEvalInfo *ei, GnmExprList const *nodes)
+static GnmValue *
+gnumeric_table (FunctionEvalInfo *ei, GnmExprList const *args)
 {
-	return value_new_error_REF (ei->pos);
+	GnmExpr const *arg;
+	GnmCell       *in[3], *x_iter, *y_iter;
+	GnmValue      *val[3], *res;
+	GnmCellPos     pos;
+	int x, y;
+
+	if (gnm_expr_list_length (args) != 2 &&
+	    ei->pos->eval.col > 0 && ei->pos->eval.row > 0)
+		return value_new_error_REF (ei->pos);
+
+	for (x = 0; x < 2 ; x++) {
+		arg = gnm_expr_list_nth (args, x);
+		val[x] = NULL;
+		if (NULL != arg && arg->any.oper == GNM_EXPR_OP_CELLREF) {
+			cellref_get_abs_pos (&arg->cellref.ref, &ei->pos->eval, &pos);
+			in[x] = sheet_cell_get (ei->pos->sheet, pos.col, pos.row);
+			if (NULL == in[x])
+				in[x] = sheet_cell_fetch (ei->pos->sheet, pos.col, pos.row);
+			else
+				val[x] = in[x]->value;
+		} else
+			in[x] = NULL;
+	}
+
+	val[2] = NULL;
+	if (NULL != in[0] && NULL != in[1]) {
+		in[2] = sheet_cell_get (ei->pos->sheet, 
+			ei->pos->eval.col - 1, ei->pos->eval.row - 1);
+		if (NULL == in[2])
+			in[2] = sheet_cell_fetch (ei->pos->sheet,
+				ei->pos->eval.col - 1, ei->pos->eval.row - 1);
+		else
+			val[2] = value_dup (in[2]->value);
+	}
+
+	res = value_new_array (ei->pos->cols, ei->pos->rows);
+	for (x = ei->pos->cols ; x-- > 0 ; ) {
+		x_iter = sheet_cell_get (ei->pos->sheet,
+			x + ei->pos->eval.col, ei->pos->eval.row-1);
+		if (NULL == x_iter)
+			continue;
+		cell_eval (x_iter);
+		in[0]->value = value_dup (x_iter->value);
+		dependent_queue_recalc (&in[0]->base);
+		for (y = ei->pos->rows ; y-- > 0 ; ) {
+			y_iter = sheet_cell_get (ei->pos->sheet,
+				ei->pos->eval.col-1, y + ei->pos->eval.row);
+			if (NULL == y_iter)
+				continue;
+			cell_eval (y_iter);
+			in[1]->value = value_dup (y_iter->value);
+			dependent_queue_recalc (&in[1]->base);
+
+			cell_eval (in[2]);
+			value_array_set (res, x, y, value_dup (in[2]->value));
+
+			value_release (in[1]->value);
+		}
+		value_release (in[0]->value);
+	}
+	value_release (in[2]->value);
+	for (x = 0 ; x < 3 ; x++)
+		if (in[x]) {
+			if (val[x])
+				in[x]->value = val[x];
+			else
+				sheet_cell_remove (ei->pos->sheet, in[x], FALSE, FALSE);
+			dependent_queue_recalc (&in[x]->base);
+		}
+	for (x = 0 ; x < 3 ; x++)
+		if (in[x])
+			cell_eval (in[x]);
+
+	return res;
 }
 /***************************************************************************/
 

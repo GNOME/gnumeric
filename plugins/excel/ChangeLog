@@ -1,3 +1,8 @@
+2005-09-06  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_formula_shared) : finish TABLE importer.
+	* ms-excel-write.c (excel_write_FORMULA) : finish TABLE exporter.
+
 2005-09-04  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_ClientTextbox) : property is called

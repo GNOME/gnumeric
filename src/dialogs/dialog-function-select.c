@@ -356,12 +356,13 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 
 static void
 cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection,
-					     FunctionSelectState *state)
+						 FunctionSelectState *state)
 {
 	GtkTreeIter  iter;
 	GtkTreeModel *model;
 	GnmFuncGroup const * cat;
-	GSList *funcs, *this_func;
+	GSList *funcs, *ptr;
+	GnmFunc const *func;
 
 	gtk_list_store_clear (state->model_f);
 
@@ -378,31 +379,31 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 					funcs = g_slist_concat (funcs,
 							g_slist_copy (cat->functions));
 
-				funcs = g_slist_sort (funcs, dialog_function_select_by_name);
+				funcs = g_slist_sort (funcs,
+						      dialog_function_select_by_name);
 			} else
 				funcs = g_slist_sort (g_slist_copy (cat->functions),
-						     dialog_function_select_by_name);
+						      dialog_function_select_by_name);
 			
-			for (this_func = funcs; this_func; this_func = this_func->next) {
-				GnmFunc const *a_func = this_func->data;
-				gtk_list_store_append (state->model_f, &iter);
-				gtk_list_store_set (state->model_f, &iter,
-						    FUN_NAME, gnm_func_get_name (a_func),
-						    FUNCTION, a_func,
-						    -1);
+			for (ptr = funcs; ptr; ptr = ptr->next) {
+				func = ptr->data;
+				if (!(func->flags & GNM_FUNC_INTERNAL)) {
+					gtk_list_store_append (state->model_f, &iter);
+					gtk_list_store_set (state->model_f, &iter,
+						FUN_NAME, gnm_func_get_name (func),
+						FUNCTION, func,
+						-1);
+				}
 			}
 			g_slist_free (funcs);
 		} else if (cat == NULL) {
-			GSList *rec_funcs;
-			for (rec_funcs = state->recent_funcs; rec_funcs;
-			     rec_funcs = rec_funcs->next) {
-				GnmFunc const *a_func = rec_funcs->data;
-
+			for (ptr = state->recent_funcs; ptr != NULL; ptr = ptr->next) {
+				func = ptr->data;
 				gtk_list_store_append (state->model_f, &iter);
 				gtk_list_store_set (state->model_f, &iter,
-						    FUN_NAME, gnm_func_get_name (a_func),
-						    FUNCTION, a_func,
-						    -1);
+					FUN_NAME, gnm_func_get_name (func),
+					FUNCTION, func,
+					-1);
 			}
 		} else {
 			int i = 0;

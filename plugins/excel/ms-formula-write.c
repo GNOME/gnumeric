@@ -25,6 +25,7 @@
 #include <workbook-priv.h>
 #include <func.h>
 #include <value.h>
+#include <cell.h>
 #include <expr.h>
 #include <expr-impl.h>
 #include <expr-name.h>
@@ -812,11 +813,17 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 
 	case GNM_EXPR_OP_ARRAY : {
 		GnmExprArray const *array = &expr->array;
-		guint8 data[5];
-		if (gnm_expr_is_data_table (expr, NULL, NULL))
-			GSF_LE_SET_GUINT8 (data, FORMULA_PTG_TBL);
-		else
-			GSF_LE_SET_GUINT8 (data, FORMULA_PTG_EXPR);
+		guint8 data[5], ptg = FORMULA_PTG_EXPR;
+
+		if (pd->sheet != NULL) {
+			GnmExprArray const *corner = cell_is_array (sheet_cell_get (
+				pd->sheet, pd->col - array->x, pd->row - array->y));
+			if (NULL != corner &&
+			    gnm_expr_is_data_table (corner->corner.expr, NULL, NULL))
+				ptg = FORMULA_PTG_TBL;
+		}
+
+		GSF_LE_SET_GUINT8 (data, ptg);
 		GSF_LE_SET_GUINT16 (data+1, pd->row - array->y);
 		GSF_LE_SET_GUINT16 (data+3, pd->col - array->x);
 		ms_biff_put_var_write (pd->ewb->bp, data, 5);

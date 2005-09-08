@@ -2938,16 +2938,39 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 
 	if (expr->any.oper == GNM_EXPR_OP_ARRAY &&
 	    expr->array.x == 0 && expr->array.y == 0) {
-		GnmCellPos r_input, c_input;
-		if (gnm_expr_is_data_table (expr, &r_input, &c_input)) {
+		GnmCellPos c_in, r_in;
+		if (gnm_expr_is_data_table (expr->array.corner.expr, &c_in, &r_in)) {
 			guint16 flags = 0;
 			guint8 *data = ms_biff_put_len_next (ewb->bp, BIFF_TABLE_v2, 16);
-			GSF_LE_SET_GUINT16 (data+0, cell->pos.row);
-			GSF_LE_SET_GUINT16 (data+2, cell->pos.row + expr->array.rows-1);
-			GSF_LE_SET_GUINT16 (data+4, cell->pos.col);
-			GSF_LE_SET_GUINT16 (data+5, cell->pos.col + expr->array.cols-1);
-			GSF_LE_SET_GUINT16 (data+6, flags);
-#warning FINISH THIS
+			GSF_LE_SET_GUINT16 (data + 0, cell->pos.row);
+			GSF_LE_SET_GUINT16 (data + 2, cell->pos.row + expr->array.rows-1);
+			GSF_LE_SET_GUINT16 (data + 4, cell->pos.col);
+			GSF_LE_SET_GUINT16 (data + 5, cell->pos.col + expr->array.cols-1);
+
+			if ((c_in.col != 0 || c_in.row != 0) &&
+			    (r_in.col != 0 || r_in.row != 0)) {
+				GSF_LE_SET_GUINT16 (data + 8, r_in.row + cell->pos.row);
+				GSF_LE_SET_GUINT16 (data +10, r_in.col + cell->pos.col);
+				GSF_LE_SET_GUINT16 (data +12, c_in.row + cell->pos.row);
+				GSF_LE_SET_GUINT16 (data +14, c_in.col + cell->pos.col);
+				flags |= 0xC;
+			} else {
+				if (c_in.col != 0 || c_in.row != 0) {
+					GSF_LE_SET_GUINT16 (data + 8, c_in.row + cell->pos.row);
+					GSF_LE_SET_GUINT16 (data +10, c_in.col + cell->pos.col);
+					/* it seems arbitrary, but this is what XL generates */
+					GSF_LE_SET_GUINT16 (data +12, 0x401c);
+					/* flags |= 0; */
+				} else {
+					GSF_LE_SET_GUINT16 (data + 8, r_in.row + cell->pos.row);
+					GSF_LE_SET_GUINT16 (data +10, r_in.col + cell->pos.col);
+					/* it seems arbitrary, but this is what XL generates */
+					GSF_LE_SET_GUINT16 (data +12, 0x4037);
+					flags |= 4;
+				}
+				GSF_LE_SET_GUINT16 (data +14, 0);
+			}
+			GSF_LE_SET_GUINT16 (data + 6, flags);
 			ms_biff_put_commit (ewb->bp);
 		} else {
 			ms_biff_put_var_next (ewb->bp, BIFF_ARRAY_v2);
