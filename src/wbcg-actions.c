@@ -1523,7 +1523,7 @@ static GtkActionEntry const actions[] = {
 		NULL, N_("Change Gnumeric Preferences"),
 		G_CALLBACK (cb_file_preferences) },
 
-#warning new hook put here to avoid patch conflict
+/* new hook put here to avoid patch conflict */
 	{ "FileSummary_new", GTK_STOCK_PROPERTIES, N_("NEW Proper_ties..."),
 		NULL, N_("Edit descriptive information"),
 		G_CALLBACK (cb_new_doc_metadata) },

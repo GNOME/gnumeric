@@ -1,3 +1,7 @@
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
 2005-09-06  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_formula_shared) : finish TABLE importer.

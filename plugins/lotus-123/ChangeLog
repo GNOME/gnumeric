@@ -1,3 +1,7 @@
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
 2005-09-07  Morten Welinder <terra@gnome.org>
 
 	* lotus-formula.c (lotus_parse_formula): Change to take a

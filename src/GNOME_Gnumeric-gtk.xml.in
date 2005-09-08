@@ -72,7 +72,6 @@
         <menuitem action="EditSelectInputs"/>
       </menu>
       <menuitem action="EditRecalc"/>
-      <menuitem action="EditMetadata"/>
       <placeholder name="ops"/>
     </menu>
     <menu name="View" action="MenuView">
