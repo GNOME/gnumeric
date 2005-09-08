@@ -21,7 +21,6 @@
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
-#include <gsf/gsf-msole-utils.h>
 
 GNM_PLUGIN_MODULE_HEADER;
 
@@ -76,21 +75,7 @@ lotus_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.wb	 = wb_view_workbook (wb_view);
 	state.sheet	 = NULL;
 
-	/*
-	 * "Lotus International Character Set" seems to be the same
-	 * as CP850.  Information is sparse (beyond the acronym)
-	 * in Google.
-	 */
-	state.converter =
-		gsf_msole_iconv_open_for_import (850);
-	if (state.converter == (GIConv)-1) {
-		g_warning ("Unable to obtain proper chacterset converter.");
-		state.converter	 = g_iconv_open ("UTF-8", "ISO-8859-1");
-	}
-
 	if (!lotus_read (&state))
 		gnumeric_io_error_string (io_context,
 			_("Error while reading lotus workbook."));
-
-	gsf_iconv_close (state.converter);
 }

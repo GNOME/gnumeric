@@ -461,12 +461,11 @@ lotus_parse_formula_old (LotusWk1Read *state, GnmParsePos *orig,
 }
 
 static void
-get_new_cellref (LotusWk1Read *state,
-		 GnmCellRef *dst, int relbits, const guint8 *data,
+get_new_cellref (GnmCellRef *dst, int relbits, const guint8 *data,
 		 const GnmParsePos *orig)
 {
 	dst->row = GSF_LE_GET_GUINT16 (data);
-	dst->sheet = lotus_get_sheet (state->wb, data[2]);
+	dst->sheet = lotus_get_sheet (orig->sheet->workbook, data[2]);
 	dst->col = data[3];
 
 	dst->row_relative = (relbits & 1) != 0;
@@ -533,7 +532,7 @@ lotus_parse_formula_new (LotusWk1Read *state, GnmParsePos *orig,
 
 		case LOTUS_FORMULA_VARIABLE: {
 			GnmCellRef a;
-			get_new_cellref (state, &a, data[1] & 7, data + i + 2, orig);
+			get_new_cellref (&a, data[1] & 7, data + i + 2, orig);
 			if (a.sheet == orig->sheet)
 				a.sheet = NULL;
 			parse_list_push_expr (&stack, gnm_expr_new_cellref (&a));
@@ -543,8 +542,8 @@ lotus_parse_formula_new (LotusWk1Read *state, GnmParsePos *orig,
 
 		case LOTUS_FORMULA_RANGE: {
 			GnmCellRef a, b;
-			get_new_cellref (state, &a, data[1] & 7, data + i + 2, orig);
-			get_new_cellref (state, &b, (data[1] >> 3) & 7, data + i + 6, orig);
+			get_new_cellref (&a, data[1] & 7, data + i + 2, orig);
+			get_new_cellref (&b, (data[1] >> 3) & 7, data + i + 6, orig);
 			if (b.sheet == a.sheet)
 				b.sheet = NULL;
 			if (a.sheet == orig->sheet && b.sheet == NULL)
@@ -639,7 +638,7 @@ lotus_parse_formula_new (LotusWk1Read *state, GnmParsePos *orig,
 		case LOTUS_FORMULA_SPLFUNC: {
 			int args = data[i + 1];
 			int fnamelen = GSF_LE_GET_GUINT16 (data + i + 2);
-			char *name = lotus_get_lmbcs (data + i + 4, -1);
+			char *name = lotus_get_lmbcs (data + (i + 4), len - (i + 4));
 			size_t namelen = strlen (name);
 			char *p;
 			/* Get rid of the '(' in the name.  */

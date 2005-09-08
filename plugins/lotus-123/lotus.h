@@ -14,7 +14,6 @@ typedef enum {
 typedef struct {
 	GsfInput	*input;
 	IOContext	*io_context;
-	GIConv           converter;
 	WorkbookView	*wbv;
 	Workbook	*wb;
 	Sheet		*sheet;
