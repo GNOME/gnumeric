@@ -1,3 +1,12 @@
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* src/GNOME_Gnumeric-gtk.xml.in : remove 'EditMetaData' it is not
+	  complete.
+
 2005-09-05  Jody Goldberg <jody@gnome.org>
 
 	* src/expr.c (gnm_expr_is_data_table) : move this out of the xls

@@ -13,8 +13,9 @@ Release Critical
     - Patches for Maemo
     - autoformat template array bound reads
     - crash on sheet delete for 314207
-    - SheetObjectGroup
     - Finish Data -> Table 
+    - use new clipboard handling
+    ?? autoscroll with sheet objects ??
 
 Worries
 -------
@@ -55,6 +56,7 @@ Architecture Changes
 - repeat (http://bugzilla.gnome.org/show_bug.cgi?id=143244)	(DONE)
 - ssconvert for non-gnome					(DONE)
 - Merge wb_control_init_state and wb_control_set_view
+- SheetObjectGroup
 
 1) things to move into libgoffice
     1.1) plugin-manager dialog

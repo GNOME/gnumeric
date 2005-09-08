@@ -1093,7 +1093,7 @@ DAY("10/24/1968") equals 24.
 @DESCRIPTION=DAYS360 returns the number of days from @date1 to @date2 following a 360-day calendar in which all months are assumed to have 30 days.
 
 * If @method is 1, the European method will be used.  In this case, if the day of the month is 31 it will be considered as 30.
-* If @method is 0 or omitted, the XL US method will be used.  This is a somewhat complicated industry standard method where the last day of February is considered to be the 30th day of the month, but only for the first date.
+* If @method is 0 or omitted, the MS Excel (tm) US method will be used.  This is a somewhat complicated industry standard method where the last day of February is considered to be the 30th day of the month, but only for the first date.
 * If @method is 2, a saner version of the US method is used in which both dates get the same February treatment.
 * Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.
 * This function is mostly Excel compatible.
@@ -1932,17 +1932,6 @@ Named for AMORtissement LINeaire Comptabilite.
 AMORLINC(2400,DATE(1998,8,19),DATE(1998,12,31),300,1,0.15,1) = 360
 
 @SEEALSO=AMORDEGRC
-
-@CATEGORY=Finance
-@FUNCTION=atl_last
-@SYNTAX=ATL_LAST (tag)
-@DESCRIPTION=ATL_LAST is a sample implemention of a real time data source. It takes a string tag and monitors the named pipe /tmp/atl for changes to the value of that tag.
-
-* This is not intended to be generally enabled and is OFF by default.
-
-@EXAMPLES=
-ATL_LAST("IBM")
-@SEEALSO=
 
 @CATEGORY=Finance
 @FUNCTION=COUPDAYBS
