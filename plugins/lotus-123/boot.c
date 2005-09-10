@@ -1,9 +1,10 @@
 /**
  * boot.c: Lotus 123 support for Gnumeric
  *
- * Author:
+ * Authors:
  *    See: README
  *    Michael Meeks <mmeeks@gnu.org>
+ *    Morten Welinder (terra@gnome.org)
  **/
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
@@ -67,7 +68,7 @@ void
 lotus_file_open (GOFileOpener const *fo, IOContext *io_context,
                  WorkbookView *wb_view, GsfInput *input)
 {
-	LotusWk1Read state;
+	LotusState state;
 
 	state.input	 = input;
 	state.io_context = io_context;

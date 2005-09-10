@@ -218,17 +218,16 @@ parse_list_push_value (GnmExprList **list, GnmValue *v)
 static GnmExpr const *
 parse_list_pop (GnmExprList **list, const GnmParsePos *orig)
 {
-	/* Get the head */
-	GnmExprList *tmp = g_slist_nth (*list, 0);
+	GnmExprList *tmp = *list;
 	if (tmp != NULL) {
 		GnmExpr const *ans = tmp->data ;
 		*list = g_slist_remove (*list, ans) ;
 		return ans ;
 	}
 
-	g_warning ("%s : Incorrect number of parsed formula arguments",
+	g_warning ("%s: Incorrect number of parsed formula arguments",
 		   cell_coord_name (orig->eval.col, orig->eval.row));
-	return gnm_expr_new_constant (value_new_error (NULL, "WrongArgs"));
+	return gnm_expr_new_constant (value_new_error_REF (NULL));
 }
 
 /**
@@ -346,7 +345,7 @@ make_function (GnmExprList **stack, guint8 const *data, const GnmParsePos *orig)
 		}
 
 	if (f == NULL) {
-		g_warning ("%s : unknown PTG 0x%x",
+		g_warning ("%s: unknown PTG 0x%x",
 			   cell_coord_name (orig->eval.col, orig->eval.row),
 			   *data);
 		return 1;
@@ -395,7 +394,7 @@ get_cellref (GnmCellRef *ref, guint8 const *dataa, guint8 const *datab,
 }
 
 static GnmExpr const *
-lotus_parse_formula_old (LotusWk1Read *state, GnmParsePos *orig,
+lotus_parse_formula_old (LotusState *state, GnmParsePos *orig,
 			 guint8 const *data, guint32 len)
 {
 	GnmExprList *stack = NULL;
@@ -455,7 +454,7 @@ lotus_parse_formula_old (LotusWk1Read *state, GnmParsePos *orig,
 	}
 
 	if (gnm_expr_list_length (stack) != 1)
-		g_warning ("%s : args remain on stack",
+		g_warning ("%s: args remain on stack",
 			   cell_coord_name (orig->eval.col, orig->eval.row));
 	return parse_list_pop (&stack, orig);
 }
@@ -515,7 +514,7 @@ handle_named_func (GnmExprList **stack, const GnmParsePos *orig,
 
 
 static GnmExpr const *
-lotus_parse_formula_new (LotusWk1Read *state, GnmParsePos *orig,
+lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 			 guint8 const *data, guint32 len)
 {
 	GnmExprList *stack = NULL;
@@ -639,9 +638,14 @@ lotus_parse_formula_new (LotusWk1Read *state, GnmParsePos *orig,
 			int args = data[i + 1];
 			int fnamelen = GSF_LE_GET_GUINT16 (data + i + 2);
 			char *name = lotus_get_lmbcs (data + (i + 4), len - (i + 4));
-			size_t namelen = strlen (name);
+			size_t namelen;
 			char *p;
+
+			if (name == NULL)
+				name = g_strdup ("bogus");
+
 			/* Get rid of the '(' in the name.  */
+			namelen = strlen (name);
 			if (namelen && name[namelen - 1] == '(')
 				name[--namelen] = 0;
 			/* There is a weird prefix -- ignore it.  */
@@ -660,14 +664,14 @@ lotus_parse_formula_new (LotusWk1Read *state, GnmParsePos *orig,
 	}
 
 	if (gnm_expr_list_length (stack) != 1)
-		g_warning ("%s : args remain on stack",
+		g_warning ("%s: args remain on stack",
 			   cell_coord_name (orig->eval.col, orig->eval.row));
 	return parse_list_pop (&stack, orig);
 }
 
 
 GnmExpr const *
-lotus_parse_formula (LotusWk1Read *state, GnmParsePos *pos,
+lotus_parse_formula (LotusState *state, GnmParsePos *pos,
 		     guint8 const *data, guint32 len)
 {
 	const GnmExpr *result = (state->version >= LOTUS_VERSION_123V6)

@@ -353,16 +353,21 @@ typedef struct {
 	guint8 const *data;
 } record_t;
 
-static record_t *
-record_new (GsfInput *input)
+
+static void
+report_record_size_error (LotusState *state, record_t *r)
 {
-	record_t *r = g_new (record_t, 1);
-	r->input    = input;
-	r->data     = NULL;
-	r->type     = 0;
-	r->len      = 0;
-	return r;
+	g_warning ("Record with type 0x%x has wrong length %d.",
+		   r->type, r->len);
+	/* FIXME: mark the error in the state instead. */
 }
+
+#define CHECK_RECORD_SIZE(cond)				\
+    if (!(r->len cond)) {				\
+	    report_record_size_error (state, r);	\
+	    break;					\
+    } else
+
 
 static guint16
 record_peek_next (record_t *r)
@@ -407,15 +412,6 @@ record_next (record_t *r)
 	return (r->data != NULL);
 }
 
-static void
-record_destroy (record_t *r)
-{
-	if (r) {
-		r->data = NULL;
-		g_free (r);
-	}
-}
-
 static GnmCell *
 insert_value (Sheet *sheet, guint32 col, guint32 row, GnmValue *val)
 {
@@ -455,7 +451,7 @@ attach_sheet (Workbook *wb, int idx)
 }
 
 static gboolean
-lotus_read_old (LotusWk1Read *state, record_t *r)
+lotus_read_old (LotusState *state, record_t *r)
 {
 	gboolean result = TRUE;
 	int sheetidx = 0;
@@ -780,7 +776,7 @@ get_lnumber (const record_t *r, int ofs)
 
 
 static gboolean
-lotus_read_new (LotusWk1Read *state, record_t *r)
+lotus_read_new (LotusState *state, record_t *r)
 {
 	gboolean result = TRUE;
 	int sheetnameno = 0;
@@ -793,7 +789,7 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 		case LOTUS_EOF:
 			goto done;
 
-		case LOTUS_ERRCELL: {
+		case LOTUS_ERRCELL: CHECK_RECORD_SIZE (>=4) {
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
@@ -802,7 +798,7 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 			break;
 		}
 
-		case LOTUS_NACELL: {
+		case LOTUS_NACELL: CHECK_RECORD_SIZE (>=4) {
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
@@ -811,7 +807,7 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 			break;
 		}
 
-		case LOTUS_LABEL2: {
+		case LOTUS_LABEL2: CHECK_RECORD_SIZE (>=6) {
 			/* one of '\', '''', '"', '^' */
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
@@ -822,7 +818,7 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 			break;
 		}
 
-		case LOTUS_NUMBER2: {
+		case LOTUS_NUMBER2: CHECK_RECORD_SIZE (>=12) {
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
@@ -831,10 +827,10 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 			break;
 		}
 
-		case LOTUS_STYLE: {
+		case LOTUS_STYLE: CHECK_RECORD_SIZE (>=2) {
 			guint16 subtype = GSF_LE_GET_GUINT16 (r->data);
 			switch (subtype) {
-			case 0xfa1: {
+			case 0xfa1: CHECK_RECORD_SIZE (>=24) {
 				/* Text style.  */
 				guint16 styleid = GSF_LE_GET_GUINT16 (r->data + 2);
 				guint8 fontid = GSF_LE_GET_GUINT8 (r->data + 9);
@@ -850,7 +846,7 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 				break;
 			}
 
-			case 0xfd2: {
+			case 0xfd2: CHECK_RECORD_SIZE (>=24) {
 				/* Cell style.  */
 				guint16 styleid = GSF_LE_GET_GUINT16 (r->data + 2);
 				guint8 fontid = GSF_LE_GET_GUINT8 (r->data + 9);
@@ -885,7 +881,7 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 			break;
 		}
 
-		case LOTUS_PACKED_NUMBER: {
+		case LOTUS_PACKED_NUMBER: CHECK_RECORD_SIZE (>=8) {
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
@@ -903,7 +899,7 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 			break;
 		}
 
-		case LOTUS_SHEET_NAME: {
+		case LOTUS_SHEET_NAME: CHECK_RECORD_SIZE (>=11) {
 			Sheet *sheet = lotus_get_sheet (state->wb, sheetnameno++);
 			char *name = lotus_get_cstr (r, 10);
 			g_return_val_if_fail (name != NULL, FALSE);
@@ -920,7 +916,7 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 			 */
 			break;
 
-		case LOTUS_FORMULA2: {
+		case LOTUS_FORMULA2: CHECK_RECORD_SIZE (>=13) {
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
@@ -975,7 +971,7 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 			g_warning ("Unhandled \"large data\" record seen.");
 			break;
 
-		case LOTUS_CELL_COMMENT: {
+		case LOTUS_CELL_COMMENT: CHECK_RECORD_SIZE (>=6) {
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
@@ -1044,29 +1040,26 @@ lotus_read_new (LotusWk1Read *state, record_t *r)
 }
 
 gboolean
-lotus_read (LotusWk1Read *state)
+lotus_read (LotusState *state)
 {
-	record_t *r = record_new (state->input);
-	gboolean result;
+	record_t r;
+	r.input = state->input;
 
-	if (record_next (r) && r->type == LOTUS_BOF) {
-		state->version = GSF_LE_GET_GUINT16 (r->data);
+	if (record_next (&r) && r.type == LOTUS_BOF) {
+		state->version = GSF_LE_GET_GUINT16 (r.data);
 		switch (state->version) {
 		case LOTUS_VERSION_ORIG_123:
 		case LOTUS_VERSION_SYMPHONY:
-			result = lotus_read_old (state, r);
-			break;
+			return lotus_read_old (state, &r);
+
 		default:
 			g_warning ("Unexpected version %x", state->version);
 			/* Fall through.  */
 		case LOTUS_VERSION_123V6:
 		case LOTUS_VERSION_123SS98:
-			result = lotus_read_new (state, r);
+			return lotus_read_new (state, &r);
 		}
-	} else
-		result = FALSE;
+	}
 
-	record_destroy (r);
-
-	return result;
+	return FALSE;
 }

@@ -18,13 +18,12 @@ typedef struct {
 	Workbook	*wb;
 	Sheet		*sheet;
 	LotusVersion     version;
-  
-} LotusWk1Read;
+} LotusState;
 
 Sheet *lotus_get_sheet (Workbook *wb, int i);
 double lotus_unpack_number (guint32 u);
 char *lotus_get_lmbcs (const char *data, int maxlen);
 GnmValue *lotus_new_string (gchar const *data);
-gboolean  lotus_read   (LotusWk1Read *state);
+gboolean  lotus_read   (LotusState *state);
 
 #endif

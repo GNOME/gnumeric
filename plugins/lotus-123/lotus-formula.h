@@ -43,7 +43,7 @@
 
 #define LOTUS_FORMULA_SPLFUNC       0x7A
 
-GnmExpr const *lotus_parse_formula (LotusWk1Read *state, GnmParsePos *pos,
+GnmExpr const *lotus_parse_formula (LotusState *state, GnmParsePos *pos,
 				    guint8 const *data, guint32 len);
 
 #endif
