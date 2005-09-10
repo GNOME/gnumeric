@@ -1450,13 +1450,6 @@ workbook_sheet_state_diff (const WorkbookSheetState *wss_a, const WorkbookSheetS
 		pb = wss_b->sheets[ib].properties;
 		for (; pa && pb; pa = pa->next->next, pb = pb->next->next) {
 			GParamSpec *pspec = pa->data;
-			/* We do not count reordered sheet.  */
-		}			
-
-		pa = wss_a->sheets[ia].properties;
-		pb = wss_b->sheets[ib].properties;
-		for (; pa && pb; pa = pa->next->next, pb = pb->next->next) {
-			GParamSpec *pspec = pa->data;
 			const GValue *va = pa->next->data;
 			const GValue *vb = pb->next->data;
 			if (pspec != pb->data)

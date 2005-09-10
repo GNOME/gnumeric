@@ -6,6 +6,9 @@
 	* src/ssconvert.c, src/ssindex.c: Likewise.
 	* configure.in: Require goffice 0.1.0.
 
+	* src/workbook.c (workbook_sheet_state_diff): It seems that the last
+	  chunk of the change from 2005-08-27 was a mistake.  Remove it.
+
 2005-09-08  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump, prep for 1.6.0
