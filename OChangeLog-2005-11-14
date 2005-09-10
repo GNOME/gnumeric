@@ -1,4 +1,4 @@
-2005-09-11  Stepan Kasal  <kasal@ucw.cz>
+2005-09-10  Stepan Kasal  <kasal@ucw.cz>
 
 	* src/main-application.c (main): Change the type of variable "args"
 	  to "gchar const **", call go_shell_argv_to_glib_encoding_free at
