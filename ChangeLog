@@ -1,3 +1,11 @@
+2005-09-11  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/main-application.c (main): Change the type of variable "args"
+	  to "gchar const **", call go_shell_argv_to_glib_encoding_free at
+	  the end of the day.
+	* src/ssconvert.c, src/ssindex.c: Likewise.
+	* configure.in: Require goffice 0.1.0.
+
 2005-09-08  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump, prep for 1.6.0

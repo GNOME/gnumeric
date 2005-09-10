@@ -183,9 +183,7 @@ main (int argc, char const *argv [])
 	int		 res = 0;
 	GOCmdContext	*cc;
 	poptContext ctx;
-	gchar **args;
-	
-	args = go_shell_argv_to_glib_encoding (argc, argv);
+	gchar const **args = go_shell_argv_to_glib_encoding (argc, argv);
 
 	gnm_pre_parse_init (args[0]);
 
@@ -194,7 +192,7 @@ main (int argc, char const *argv [])
 	ssconvert_popt_options[3].arg = &gnumeric_data_dir;
 #endif
 
-	ctx = poptGetContext (NULL, argc, (gchar const **) args, ssconvert_popt_options, 0);
+	ctx = poptGetContext (NULL, argc, args, ssconvert_popt_options, 0);
 	while (poptGetNextOpt (ctx) > 0)
 		;
 
@@ -233,14 +231,7 @@ main (int argc, char const *argv [])
 	poptFreeContext (ctx);
 	g_object_unref (cc);
 	gnm_shutdown ();
-
-	if (argv != (gchar const **) args) {
-		gint i;
-
-		for (i = 0; i < argc; ++i)
-			g_free (args[i]);
-		g_free (args);
-	}
+	go_shell_argv_to_glib_encoding_free ();
 
 	return res;
 }

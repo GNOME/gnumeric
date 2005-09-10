@@ -186,13 +186,11 @@ main (int argc, char const *argv [])
 	int		 res = 0;
 	GOCmdContext	*cc;
 	poptContext ctx;
-	gchar **args;
-	
-	args = go_shell_argv_to_glib_encoding (argc, argv);
+	gchar const **args = go_shell_argv_to_glib_encoding (argc, argv);
 
 	gnm_pre_parse_init (args[0]);
 
-	ctx = poptGetContext (NULL, argc, (gchar const **) args, ssindex_popt_options, 0);
+	ctx = poptGetContext (NULL, argc, args, ssindex_popt_options, 0);
 	while (poptGetNextOpt (ctx) > 0)
 		;
 
@@ -218,8 +216,9 @@ main (int argc, char const *argv [])
 		char const **args = poptGetArgs (ctx);
 		int argc = 0;
 
-		while (args != NULL && args[argc] != NULL)
-			argc++;
+		if (args != NULL)
+			while (args[argc] != NULL)
+				argc++;
 		gnm_io_context_set_num_files (ioc, argc);
 
 		for (; args != NULL && *args ; args++) {
@@ -240,14 +239,7 @@ main (int argc, char const *argv [])
 	poptFreeContext (ctx);
 	g_object_unref (cc);
 	gnm_shutdown ();
-
-	if (argv != (gchar const **) args) {
-		gint i;
-
-		for (i = 0; i < argc; ++i)
-			g_free (args[i]);
-		g_free (args);
-	}
+	go_shell_argv_to_glib_encoding_free ();
 
 	return res;
 }

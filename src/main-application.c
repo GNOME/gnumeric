@@ -299,14 +299,12 @@ main (int argc, char const *argv [])
 	WorkbookView *wbv;
 	GSList *wbcgs_to_kill = NULL;
 	poptContext ctx;
-	gchar **args;
-	
-	args = go_shell_argv_to_glib_encoding (argc, argv);
+	gchar const **args = go_shell_argv_to_glib_encoding (argc, argv);
 
 	gnm_pre_parse_init (args[0]);
 
-	ctx = gnumeric_arg_parse (argc, (gchar const **) args);
-        bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	ctx = gnumeric_arg_parse (argc, args);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
 	if (gnumeric_show_version) {
 		g_print (_("gnumeric version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
@@ -439,14 +437,7 @@ main (int argc, char const *argv [])
 #ifdef WITH_GNOME
 	bonobo_ui_debug_shutdown ();
 #endif
-
-	if (argv != (gchar const **) args) {
-		gint i;
-
-		for (i = 0; i < argc; ++i)
-			g_free (args[i]);
-		g_free (args);
-	}
+	go_shell_argv_to_glib_encoding_free ();
 
 	return 0;
 }
