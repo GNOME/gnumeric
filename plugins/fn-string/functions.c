@@ -1165,7 +1165,7 @@ gnumeric_search (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	int start = argv[2] ? value_get_as_int (argv[2]) : 1;
 	char const *hay2;
 	GORegexp r;
-	regmatch_t rm;
+	GORegmatch rm;
 	GnmValue *res = NULL;
 	int i;
 

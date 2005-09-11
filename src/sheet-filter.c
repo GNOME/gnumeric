@@ -674,7 +674,7 @@ filter_expr_eval (GnmFilterOp op, GnmValue const *src, GORegexp const *regexp,
 
 	if (src == NULL) {
 		char const *str = value_peek_string (target);
-		regmatch_t rm;
+		GORegmatch rm;
 
 		switch (go_regexec (regexp, str, 1, &rm, 0)) {
 		case REG_OK:

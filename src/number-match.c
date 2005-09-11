@@ -33,6 +33,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <errno.h>
 #include <locale.h>
 #include <math.h>
@@ -143,11 +144,11 @@ table_lookup (char const *str, char const *const *table)
  * extract_text:
  *
  * Returns a newly allocated string which is a region from
- * STR.   The ranges are defined in the regmatch_t variable MP
+ * STR.   The ranges are defined in the GORegmatch variable MP
  * in the fields rm_so and rm_eo
  */
 static char *
-extract_text (char const *str, const regmatch_t *mp)
+extract_text (char const *str, const GORegmatch *mp)
 {
 	char *p;
 
@@ -166,7 +167,7 @@ extract_text (char const *str, const regmatch_t *mp)
  * of the date/time matching.
  */
 static GnmValue *
-compute_value (char const *s, const regmatch_t *mp,
+compute_value (char const *s, const GORegmatch *mp,
 	       GByteArray *array, GODateConventions const *date_conv)
 {
 	int const len = array->len;
@@ -604,7 +605,7 @@ format_match (char const *text, GOFormat *cur_fmt,
 	GnmValue *v;
 	GSList	 *ptr;
 	GOFormatElement const *entry;
-	regmatch_t mp[NM + 1];
+	GORegmatch mp[NM + 1];
 
 	if (text[0] == '\0')
 		return value_new_empty ();
