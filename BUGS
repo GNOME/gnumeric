@@ -12,7 +12,6 @@ Release Critical
     - Patch for non-gconf gnm-config
     - Patches for Maemo
     - autoformat template array bound reads
-    - crash on sheet delete for 314207
     - Finish Data -> Table 
     - use new clipboard handling
     ?? autoscroll with sheet objects ??

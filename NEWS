@@ -1,10 +1,11 @@
-Gnumeric 1.5.7
+Gnumeric 1.6.0
 
 Morten:
 	* Fix C99ism.
+	* Fix rare dependency crash.
 
 --------------------------------------------------------------------------
-Gnumeric 1.5.6
+Gnumeric 1.5.90
 
 Jody:
 	* quotes for pure strings in expressions for xml in/out [#313460]

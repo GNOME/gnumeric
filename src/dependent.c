@@ -1705,8 +1705,9 @@ cb_collect_range (G_GNUC_UNUSED gpointer key,
 static void
 dep_hash_destroy (GHashTable *hash, GSList **dyn_deps, Sheet *sheet, gboolean destroy)
 {
-	GSList *deps = NULL, *l2;
+	GSList *deps = NULL, *l;
 	GnmExprRewriteInfo rwinfo;
+	GSList *deplist = NULL;
 
 	/* We collect first because we will be changing the hash.  */
 	if (destroy) {
@@ -1718,10 +1719,8 @@ dep_hash_destroy (GHashTable *hash, GSList **dyn_deps, Sheet *sheet, gboolean de
 		g_hash_table_foreach (hash, (GHFunc)cb_collect_range, &deps);
 	}
 
-	rwinfo.rw_type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
-	for (l2 = deps; l2; l2 = l2->next) {
-		DependencyAny *depany = l2->data;
-		GSList *deplist = NULL, *l;
+	for (l = deps; l; l = l->next) {
+		DependencyAny *depany = l->data;
 
 		micro_hash_foreach_dep (depany->deps, dep, {
 			if (dependent_type (dep) == DEPENDENT_DYNAMIC_DEP) {
@@ -1739,34 +1738,43 @@ dep_hash_destroy (GHashTable *hash, GSList **dyn_deps, Sheet *sheet, gboolean de
 			}
 		});
 
-		for (l = deplist; l; l = l->next) {
-			GnmDependent *dep = l->data;
-			GnmExpr *e = (GnmExpr *)dep->expression;
-			/* We are told this dependent depends on this region, hence if
-			 * newtree is null then either
-			 * 1) we did not depend on it (ie., serious breakage )
-			 * 2) we had a duplicate reference and we have already removed it.
-			 * 3) We depended on things via a name which will be
-			 *    invalidated elsewhere */
-			GnmExpr const *newtree = gnm_expr_rewrite (e, &rwinfo);
-			if (newtree != NULL) {
-				if (!destroy) {
-					gnm_expr_ref (e);
-					sheet->revive.dep_exprs =
-						g_slist_prepend
-						(g_slist_prepend (sheet->revive.dep_exprs, e),
-						 dep);
-				}
-				dependent_set_expr (dep, newtree);
-				gnm_expr_unref (newtree);
-			}
-		}
-		g_slist_free (deplist);
-
 		if (destroy)
 			micro_hash_release (&depany->deps);
 	}
 	g_slist_free (deps);
+
+	/*
+	 * We do this after the above loop as this loop will
+	 * invalidate some of the DependencyAny pointers from
+	 * above.  The testcase for that is 314207, deleting
+	 * all but the first sheet in one go.
+	 */
+	rwinfo.rw_type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
+	for (l = deplist; l; l = l->next) {
+		GnmDependent *dep = l->data;
+		GnmExpr *e = (GnmExpr *)dep->expression;
+		/* We are told this dependent depends on this region, hence if
+		 * newtree is null then either
+		 * 1) we did not depend on it (ie., serious breakage )
+		 * 2) we had a duplicate reference and we have already removed it.
+		 * 3) We depended on things via a name which will be
+		 *    invalidated elsewhere */
+		GnmExpr const *newtree = gnm_expr_rewrite (e, &rwinfo);
+		if (newtree != NULL) {
+			if (!destroy) {
+				gnm_expr_ref (e);
+				sheet->revive.dep_exprs =
+					g_slist_prepend
+					(g_slist_prepend (sheet->revive.dep_exprs, e),
+					 dep);
+			}
+			dependent_set_expr (dep, newtree);
+			gnm_expr_unref (newtree);
+		}
+	}
+	g_slist_free (deplist);
+
+
 }
 
 static void
