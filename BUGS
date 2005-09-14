@@ -10,11 +10,14 @@ Release Critical
 
     - F4 partially working for mixed abs/rel range references ($A1:B1)
     - Patch for non-gconf gnm-config
-    - Patches for Maemo
+    - Patches for Maemo {partially done}
     - autoformat template array bound reads
     - Finish Data -> Table 
-    - use new clipboard handling
-    ?? autoscroll with sheet objects ??
+    - use 2.6 clipboard handling
+	: gtk_clipboard_set_can_store
+	: gtk_clipboard_store
+    - autoscroll with sheet objects
+	: get correct deltas from autoscroll
 
 Worries
 -------
