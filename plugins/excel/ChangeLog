@@ -1,3 +1,8 @@
+2005-09-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (ms_excel_chart_read): import polynomial, exponential and
+	logarithmic regression curves.
+
 2005-09-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.90
