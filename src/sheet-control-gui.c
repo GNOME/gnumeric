@@ -2078,7 +2078,7 @@ snap_pos_to_grid (ObjDragInfo const *info, gboolean is_col, double w_pos,
 
 static void
 apply_move (SheetObject *so, int x_idx, int y_idx, double *coords,
-	    ObjDragInfo *info, gboolean snap)
+	    ObjDragInfo *info, gboolean snap_to_grid)
 {
 	gboolean move_x = (x_idx >= 0);
 	gboolean move_y = (y_idx >= 0);
@@ -2087,7 +2087,7 @@ apply_move (SheetObject *so, int x_idx, int y_idx, double *coords,
 	x = move_x ? coords[x_idx] + info->dx : 0;
 	y = move_y ? coords[y_idx] + info->dy : 0;
 
-	if (snap) {
+	if (snap_to_grid) {
 		g_return_if_fail (info->gcanvas != NULL);
 
 		if (move_x)
@@ -2105,39 +2105,39 @@ apply_move (SheetObject *so, int x_idx, int y_idx, double *coords,
 	if (move_x) coords[x_idx] = x;
 	if (move_y) coords[y_idx] = y;
 
-	if (info->symmetric && !snap) {
+	if (info->symmetric && !snap_to_grid) {
 		if (move_x) coords[x_idx == 0 ? 2 : 0] -= info->dx;
 		if (move_y) coords[y_idx == 1 ? 3 : 1] -= info->dy;
 	}
 }
 
 static void
-drag_object (SheetObject *so,
-	     double *coords, ObjDragInfo *info)
+drag_object (SheetObject *so, double *coords, ObjDragInfo *info)
 {
 	static struct {
 		int x_idx, y_idx;
-	} const idx_info[9] = {
+	} const idx_info[8] = {
 		{ 0, 1}, {-1, 1}, { 2, 1}, { 0,-1},
-		{ 2,-1}, { 0, 3}, {-1, 3}, { 2, 3},
-		{ 0, 1}
+		{ 2,-1}, { 0, 3}, {-1, 3}, { 2, 3}
 	};
 
 	g_return_if_fail (info->drag_type <= 8);
 
-	apply_move (so,
-		    idx_info[info->drag_type].x_idx,
-		    idx_info[info->drag_type].y_idx,
-		    coords, info, info->snap_to_grid);
-	if (info->drag_type == 8)
-		apply_move (so, 2, 3, coords, info, FALSE);
+	if (info->drag_type == 8) {
+		gboolean const rtl = info->scg->sheet_control.sheet->text_is_rtl;
+		apply_move (so, rtl ? 2 : 0, 1, coords, info, info->snap_to_grid);
+		apply_move (so, rtl ? 0 : 2, 3, coords, info, FALSE);
+	} else
+		apply_move (so,
+			    idx_info[info->drag_type].x_idx,
+			    idx_info[info->drag_type].y_idx,
+			    coords, info, info->snap_to_grid);
 	SCG_FOREACH_PANE (info->scg, pane,
 		gnm_pane_object_update_bbox (pane, so););
 }
 
 static void
-cb_drag_selected_objects (SheetObject *so,
-			  double *coords, ObjDragInfo *info)
+cb_drag_selected_objects (SheetObject *so, double *coords, ObjDragInfo *info)
 {
 	if (so != info->primary_object)
 		drag_object (so, coords, info);
