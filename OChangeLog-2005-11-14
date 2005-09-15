@@ -1,3 +1,9 @@
+2005-09-15  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c (check_pango_attr_list_splice_bug): New
+	function.
+	(main): Call check_pango_attr_list_splice_bug.
+
 2005-09-13  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (dep_hash_destroy): Don't start changing

@@ -3,6 +3,7 @@ Gnumeric 1.6.0
 Morten:
 	* Fix C99ism.
 	* Fix rare dependency crash.
+	* Warn if running with buggy pango_attr_list_splice.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.90
