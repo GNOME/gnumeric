@@ -41,7 +41,7 @@
 #define GNUMERIC_ITEM "GnmPane"
 #include "item-debug.h"
 
-#define DEBUG_DND
+#undef DEBUG_DND
 
 /**
  * For now, application/x-gnumeric is disabled. It handles neither
@@ -208,10 +208,10 @@ cb_pane_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 }
 
 static void
-cb_gnm_pane_drag_data_get (GtkWidget *widget, GdkDragContext *context,
-			   GtkSelectionData *selection_data,
-			   guint info, guint time,
-			   SheetControlGUI *scg)
+cb_pane_drag_data_get (GtkWidget *widget, GdkDragContext *context,
+		       GtkSelectionData *selection_data,
+		       guint info, guint time,
+		       SheetControlGUI *scg)
 {
 #ifdef DEBUG_DND
 	gchar *target_name = gdk_atom_name (selection_data->target);
@@ -223,8 +223,8 @@ cb_gnm_pane_drag_data_get (GtkWidget *widget, GdkDragContext *context,
 
 /* Move the rubber bands if we are the source */
 static gboolean
-cb_gnm_pane_drag_motion (GtkWidget *widget, GdkDragContext *context,
-			 int x, int y, guint32 time, GnmPane *pane)
+cb_pane_drag_motion (GtkWidget *widget, GdkDragContext *context,
+		     int x, int y, guint32 time, GnmPane *pane)
 {
 	GtkWidget *source_widget = gtk_drag_get_source_widget (context);
 	SheetControlGUI *scg = GNM_CANVAS (widget)->simple.scg;
@@ -236,7 +236,8 @@ cb_gnm_pane_drag_motion (GtkWidget *widget, GdkDragContext *context,
 		GdkModifierType mask;
 		double wx, wy;
 
-		g_object_set_data (&context->parent_instance, "gnm-pane", pane);
+		g_object_set_data (&context->parent_instance,
+			"wbcg", scg_get_wbcg (scg));
 		gnm_canvas_window_to_coord (gcanvas, x, y, &wx, &wy);
 
 		gdk_window_get_pointer (gtk_widget_get_parent_window (widget),
@@ -255,12 +256,12 @@ cb_gnm_pane_drag_motion (GtkWidget *widget, GdkDragContext *context,
  * drag_leave to the old one.
  */
 static void
-cb_gnm_pane_drag_leave (GtkWidget *widget, GdkDragContext *context,
-		       guint32 time, GnmPane *pane)
+cb_pane_drag_leave (GtkWidget *widget, GdkDragContext *context,
+		    guint32 time, GnmPane *pane)
 {
 	GtkWidget *source_widget = gtk_drag_get_source_widget (context);
 	GnmPane *source_pane;
-	GnmPane *ctxt_pane;
+	WorkbookControlGUI *wbcg;
 
 	if (!source_widget) return;
 
@@ -268,10 +269,9 @@ cb_gnm_pane_drag_leave (GtkWidget *widget, GdkDragContext *context,
 
 	source_pane = GNM_CANVAS (source_widget)->pane;
 
-	ctxt_pane = g_object_get_data (&context->parent_instance, "gnm-pane");
-	if (pane != ctxt_pane)
+	wbcg = scg_get_wbcg (source_pane->gcanvas->simple.scg);
+	if (wbcg == g_object_get_data (&context->parent_instance, "wbcg"))
 		return;
-	g_object_set_data (&context->parent_instance, "gnm-pane", NULL);
 
 	gnm_pane_objects_drag (source_pane, NULL,
 			       source_pane->drag.origin_x,
@@ -292,14 +292,12 @@ gnm_pane_drag_dest_init (GnmPane *pane, SheetControlGUI *scg)
 	gtk_drag_dest_add_image_targets (widget);
 	gtk_drag_dest_add_text_targets (widget);
 
-	g_signal_connect (widget, "drag-data-received",
-		G_CALLBACK (cb_pane_drag_data_received), pane);
-	g_signal_connect (widget, "drag-data-get",
-		G_CALLBACK (cb_gnm_pane_drag_data_get), scg);
-	g_signal_connect (widget, "drag-motion",
-		G_CALLBACK (cb_gnm_pane_drag_motion), pane);
- 	g_signal_connect (widget, "drag-leave",
-		G_CALLBACK (cb_gnm_pane_drag_leave), pane);
+	g_object_connect (G_OBJECT (widget),
+		"signal::drag-data-received",	G_CALLBACK (cb_pane_drag_data_received), pane,
+		"signal::drag-data-get",	G_CALLBACK (cb_pane_drag_data_get),	scg,
+		"signal::drag-motion",		G_CALLBACK (cb_pane_drag_motion),	pane,
+		"signal::drag-leave",		G_CALLBACK (cb_pane_drag_leave),	pane,
+		NULL);
 }
 
 void
@@ -764,21 +762,22 @@ gnm_pane_object_move (GnmPane *pane, GObject *ctrl_pt,
 }
 
 static gboolean
-cb_slide_handler (GnmCanvas *gcanvas, int col, int row, gpointer ctrl_pt)
+cb_slide_handler (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 {
 	int x, y;
 	SheetControlGUI const *scg = gcanvas->simple.scg;
 	double const scale = 1. / FOO_CANVAS (gcanvas)->pixels_per_unit;
 
-	x = scg_colrow_distance_get (scg, TRUE, gcanvas->first.col, col);
+	x = scg_colrow_distance_get (scg, TRUE, gcanvas->first.col, info->col);
 	x += gcanvas->first_offset.col;
-	y = scg_colrow_distance_get (scg, FALSE, gcanvas->first.row, row);
+	y = scg_colrow_distance_get (scg, FALSE, gcanvas->first.row, info->row);
 	y += gcanvas->first_offset.row;
 
 	if (scg->sheet_control.sheet->text_is_rtl)
 		x *= -1;
 
-	gnm_pane_object_move (gcanvas->pane, ctrl_pt, x * scale, y * scale, FALSE, FALSE);
+	gnm_pane_object_move (gcanvas->pane, info->user_data,
+		x * scale, y * scale, FALSE, FALSE);
 
 	return TRUE;
 }
@@ -1077,6 +1076,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 		gnm_simple_canvas_ungrab (ctrl_pt, event->button.time);
 		gnm_canvas_slide_stop (gcanvas);
 		control_point_set_cursor (scg, ctrl_pt);
+		g_warning ("release");
 		if (pane->drag.had_motion)
 			scg_objects_drag_commit	(scg, idx,
 				pane->drag.created_objects);

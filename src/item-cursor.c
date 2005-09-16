@@ -1109,20 +1109,20 @@ item_cursor_tip_setlabel (ItemCursor *ic)
 }
 
 static gboolean
-cb_move_cursor (GnmCanvas *gcanvas, int col, int row, gpointer user_data)
+cb_move_cursor (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 {
-	ItemCursor *ic = user_data;
+	ItemCursor *ic = info->user_data;
 	int const w = (ic->pos.end.col - ic->pos.start.col);
 	int const h = (ic->pos.end.row - ic->pos.start.row);
 	GnmCellPos corner;
 
-	corner.col = col - ic->col_delta;
+	corner.col = info->col - ic->col_delta;
 	if (corner.col < 0)
 		corner.col = 0;
 	else if (corner.col >= (SHEET_MAX_COLS - w))
 		corner.col = SHEET_MAX_COLS - w - 1;
 
-	corner.row = row - ic->row_delta;
+	corner.row = info->row - ic->row_delta;
 	if (corner.row < 0)
 		corner.row = 0;
 	else if (corner.row >= (SHEET_MAX_ROWS - h))
@@ -1131,8 +1131,8 @@ cb_move_cursor (GnmCanvas *gcanvas, int col, int row, gpointer user_data)
 	item_cursor_tip_setlabel (ic);
 
 	/* Make target cell visible, and adjust the cursor size */
-	item_cursor_set_bounds_visibly (ic, col, row, &corner,
-					corner.col + w, corner.row + h);
+	item_cursor_set_bounds_visibly (ic, info->col, info->row, &corner,
+		corner.col + w, corner.row + h);
 	return FALSE;
 }
 
@@ -1181,14 +1181,14 @@ item_cursor_drag_event (FooCanvasItem *item, GdkEvent *event)
 }
 
 static gboolean
-cb_autofill_scroll (GnmCanvas *gcanvas, int col, int row, gpointer user_data)
+cb_autofill_scroll (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 {
-	ItemCursor *ic = user_data;
+	ItemCursor *ic = info->user_data;
 	GnmRange r = ic->autofill_src;
+	int col = info->col, row = info->row;
 
 	/* compass offsets are distances (in cells) from the edges of the
-	 * selected area to the mouse cursor
-	 */
+	 * selected area to the mouse cursor */
 	int north_offset = r.start.row - row;
 	int south_offset = row - r.end.row;
 	int west_offset  = r.start.col - col;

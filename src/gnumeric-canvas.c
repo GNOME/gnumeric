@@ -503,7 +503,6 @@ gnm_canvas_key_release (GtkWidget *widget, GdkEventKey *event)
 	return (*GTK_WIDGET_CLASS (parent_klass)->key_release_event) (widget, event);
 }
 
-/* Focus in handler for the canvas */
 static gint
 gnm_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 {
@@ -512,7 +511,6 @@ gnm_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 	return (*GTK_WIDGET_CLASS (parent_klass)->focus_in_event) (widget, event);
 }
 
-/* Focus out handler for the canvas */
 static gint
 gnm_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 {
@@ -1068,9 +1066,8 @@ row_scroll_step (int dy)
 }
 
 static gint
-gcanvas_sliding_callback (gpointer data)
+cb_gcanvas_sliding (GnmCanvas *gcanvas)
 {
-	GnmCanvas *gcanvas = data;
 	int const pane_index = gcanvas->pane->index;
 	GnmCanvas *gcanvas0 = scg_pane (gcanvas->simple.scg, 0);
 	GnmCanvas *gcanvas1 = scg_pane (gcanvas->simple.scg, 1);
@@ -1078,6 +1075,7 @@ gcanvas_sliding_callback (gpointer data)
 	gboolean slide_x = FALSE, slide_y = FALSE;
 	int col = -1, row = -1;
 	gboolean text_is_rtl = gcanvas->simple.scg->sheet_control.sheet->text_is_rtl;
+	GnmCanvasSlideInfo info;
 
 #if 0
 	g_warning ("slide: %d, %d", gcanvas->sliding_dx, gcanvas->sliding_dy);
@@ -1204,16 +1202,18 @@ gcanvas_sliding_callback (gpointer data)
 	} else if (row < 0)
 		row = gnm_canvas_find_row (gcanvas, gcanvas->sliding_y, NULL);
 
+	info.col = col;
+	info.row = row;
+	info.user_data = gcanvas->slide_data;
 	if (gcanvas->slide_handler == NULL ||
-	    (*gcanvas->slide_handler) (gcanvas, col, row, gcanvas->slide_data))
+	    (*gcanvas->slide_handler) (gcanvas, &info))
 		scg_make_cell_visible (gcanvas->simple.scg, col, row, FALSE, TRUE);
 
-	if (slide_x || slide_y) {
-		if (gcanvas->sliding == -1)
-			gcanvas->sliding = g_timeout_add (
-				300, gcanvas_sliding_callback, gcanvas);
-	} else
+	if (!slide_x && !slide_y)
 		gnm_canvas_slide_stop (gcanvas);
+	else if (gcanvas->sliding == -1)
+		gcanvas->sliding = g_timeout_add (
+			300, (GSourceFunc) cb_gcanvas_sliding, gcanvas);
 
 	return TRUE;
 }
@@ -1352,11 +1352,13 @@ gnm_canvas_handle_motion (GnmCanvas *gcanvas,
 	/* Movement is inside the visible region */
 	if (dx == 0 && dy == 0) {
 		if (!(slide_flags & GNM_CANVAS_SLIDE_EXTERIOR_ONLY)) {
-			int const row = gnm_canvas_find_row (gcanvas, y, NULL);
-			int const col = gnm_canvas_find_col (gcanvas, text_is_rtl
-				? -(x + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit) : x, NULL);
-
-			(*slide_handler) (gcanvas, col, row, user_data);
+			GnmCanvasSlideInfo info;
+			info.row = gnm_canvas_find_row (gcanvas, y, NULL);
+			info.col = gnm_canvas_find_col (gcanvas, text_is_rtl
+				? -(x + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit)
+				: x, NULL);
+			info.user_data = user_data;;
+			(*slide_handler) (gcanvas, &info);
 		}
 		gnm_canvas_slide_stop (gcanvas);
 		return TRUE;
@@ -1370,7 +1372,7 @@ gnm_canvas_handle_motion (GnmCanvas *gcanvas,
 	gcanvas->slide_data = user_data;
 
 	if (gcanvas->sliding == -1)
-		(void) gcanvas_sliding_callback (gcanvas);
+		cb_gcanvas_sliding (gcanvas);
 	return FALSE;
 }
 
@@ -1423,4 +1425,86 @@ gnm_canvas_window_to_coord (GnmCanvas *gcanvas,
 		x += gcanvas->first_offset.col;
 	*wx = x * scale;
 	*wy = y * scale;
+}
+
+static gboolean
+cb_obj_autoscroll (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
+{
+	SheetControlGUI *scg = gcanvas->simple.scg;
+	GdkModifierType mask;
+
+	/* Cheesy hack calculate distance we move the screen, this loses the
+	 * mouse position */
+	double dx = gcanvas->first_offset.col;
+	double dy = gcanvas->first_offset.row;
+	scg_make_cell_visible (scg, info->col, info->row, FALSE, TRUE);
+	dx = gcanvas->first_offset.col - dx;
+	dy = gcanvas->first_offset.row - dy;
+
+#if 0
+	g_warning ("dx = %g, dy = %g", dx, dy);
+#endif
+
+	gcanvas->pane->drag.had_motion = TRUE;
+	gdk_window_get_pointer (gtk_widget_get_parent_window (GTK_WIDGET (gcanvas)),
+		NULL, NULL, &mask);
+ 	scg_objects_drag (gcanvas->simple.scg, gcanvas,
+ 		NULL, &dx, &dy, 8, FALSE, (mask & GDK_SHIFT_MASK) != 0, TRUE);
+
+ 	gcanvas->pane->drag.last_x += dx;
+ 	gcanvas->pane->drag.last_y += dy;
+	return FALSE;
+}
+
+/**
+ * This does not really belong here.  We're breaking all sorts of encapsulations
+ * but the line between GnmCanvas and GnmPane is blurry.
+ **/
+void
+gnm_canvas_object_autoscroll (GnmCanvas *gcanvas, GdkDragContext *context,
+			      gint x, gint y, guint time)
+{
+	int const pane_index = gcanvas->pane->index;
+	SheetControlGUI *scg = gcanvas->simple.scg;
+	GnmCanvas *gcanvas0 = scg_pane (scg, 0);
+	GnmCanvas *gcanvas1 = scg_pane (scg, 1);
+	GnmCanvas *gcanvas3 = scg_pane (scg, 3);
+	GtkWidget *w = GTK_WIDGET (gcanvas);
+	gint dx, dy;
+
+	if (y < w->allocation.y) {
+		if (pane_index < 2 && gcanvas3 != NULL)
+			w = GTK_WIDGET (gcanvas3);
+		dy = y - w->allocation.y;
+		g_return_if_fail (dy <= 0);
+	} else if (y >= (w->allocation.y + w->allocation.height)) {
+		if (pane_index >= 2)
+			w = GTK_WIDGET (gcanvas0);
+		dy = y - (w->allocation.y + w->allocation.height);
+		g_return_if_fail (dy >= 0);
+	} else
+		dy = 0;
+	if (x < w->allocation.x) {
+		if ((pane_index == 0 || pane_index == 3) && gcanvas1 != NULL)
+			w = GTK_WIDGET (gcanvas1);
+		dx = x - w->allocation.x;
+		g_return_if_fail (dx <= 0);
+	} else if (x >= (w->allocation.x + w->allocation.width)) {
+		if (pane_index >= 2)
+			w = GTK_WIDGET (gcanvas0);
+		dx = x - (w->allocation.x + w->allocation.width);
+		g_return_if_fail (dx >= 0);
+	} else
+		dx = 0;
+
+	g_object_set_data (&context->parent_instance,
+		"wbcg", scg_get_wbcg (scg));
+	gcanvas->sliding_dx    = dx;
+	gcanvas->sliding_dy    = dy;
+	gcanvas->slide_handler = &cb_obj_autoscroll;
+	gcanvas->slide_data    = NULL;
+	gcanvas->sliding_x     = x;
+	gcanvas->sliding_y     = y;
+	if (gcanvas->sliding == -1)
+		cb_gcanvas_sliding (gcanvas);
 }

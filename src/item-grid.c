@@ -910,16 +910,17 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
  */
 
 static gboolean
-cb_extend_cell_range (GnmCanvas *gcanvas, int col, int row, gpointer ignored)
+cb_extend_cell_range (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 {
-	sv_selection_extend_to (((SheetControl *) gcanvas->simple.scg)->view, col, row);
+	sv_selection_extend_to (((SheetControl *) gcanvas->simple.scg)->view,
+		info->col, info->row);
 	return TRUE;
 }
 
 static gboolean
-cb_extend_expr_range (GnmCanvas *gcanvas, int col, int row, gpointer ignored)
+cb_extend_expr_range (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 {
-	scg_rangesel_extend_to (gcanvas->simple.scg, col, row);
+	scg_rangesel_extend_to (gcanvas->simple.scg, info->col, info->row);
 	return TRUE;
 }
 

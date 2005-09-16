@@ -1,8 +1,26 @@
+2005-09-15  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_is_local_drag) : new.
+	(cb_wbcg_drag_motion) : check for object drags here.
+	(cb_wbcg_drag_leave) : here.
+	(cb_wbcg_drag_data_received) : and here.
+	(wbcg_set_toplevel) : include the local object targets.
+
+	* src/gnumeric-canvas.c (cb_obj_autoscroll) : new.
+	(gnm_canvas_object_autoscroll) : new.  A kludge to get sheet objects
+	  to autoscroll again.
+
 2005-09-15  Morten Welinder  <terra@gnome.org>
 
 	* src/main-application.c (check_pango_attr_list_splice_bug): New
 	function.
 	(main): Call check_pango_attr_list_splice_bug.
+
+2005-09-13  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=316026
+	* src/sheet-control-gui.c (drag_object) : type 8 movement (sliding
+	  full object) in rtl mode should snap coord 2, the right side.
 
 2005-09-13  Morten Welinder  <terra@gnome.org>
 

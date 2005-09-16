@@ -1,5 +1,9 @@
 Gnumeric 1.6.0
 
+Jody:
+	* Snap objects right in RTL mode. [#316026]
+	* Finish Data -> Table evaluation
+
 Morten:
 	* Fix C99ism.
 	* Fix rare dependency crash.

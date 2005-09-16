@@ -2100,36 +2100,44 @@ wbcg_get_label_for_position (WorkbookControlGUI *wbcg, GtkWidget *source,
 }
 
 static gboolean
+wbcg_is_local_drag (WorkbookControlGUI *wbcg, GtkWidget *source_widget)
+{
+	GtkWidget *top = (GtkWidget *)wbcg_toplevel (wbcg);
+	return IS_GNM_CANVAS (source_widget) &&
+		gtk_widget_get_toplevel (source_widget) == top;
+}
+static gboolean
 cb_wbcg_drag_motion (GtkWidget *widget, GdkDragContext *context,
 		     gint x, gint y, guint time, WorkbookControlGUI *wbcg)
 {
 	GtkWidget *source_widget = gtk_drag_get_source_widget (context);
 
-	g_warning ("wbcg motion");
 	if (IS_EDITABLE_LABEL (source_widget)) {
-		GtkWidget *label;
-
 		/* The user wants to reorder sheets. We simulate a
 		 * drag motion over a label.
 		 */
-		label = wbcg_get_label_for_position (wbcg, source_widget, x);
-		return cb_sheet_label_drag_motion (label, context, x, y,
-						    time, wbcg);
-	}
+		GtkWidget *label = wbcg_get_label_for_position (wbcg, source_widget, x);
+		return cb_sheet_label_drag_motion (label, context, x, y, time, wbcg);
+	} else if (wbcg_is_local_drag (wbcg, source_widget))
+		gnm_canvas_object_autoscroll (GNM_CANVAS (source_widget),
+			context, x, y, time);
 
 	return TRUE;
 }
 
 static void
 cb_wbcg_drag_leave (GtkWidget *widget, GdkDragContext *context,
-		    gint x, gint y, guint time, WorkbookControlGUI *wbcg)
+		    guint time, WorkbookControlGUI *wbcg)
 {
 	GtkWidget *source_widget = gtk_drag_get_source_widget (context);
 
-	g_warning ("leave");
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+
 	if (IS_EDITABLE_LABEL (source_widget))
 		gtk_widget_hide (
 			g_object_get_data (G_OBJECT (source_widget), "arrow"));
+	else if (wbcg_is_local_drag (wbcg, source_widget))
+		gnm_canvas_slide_stop (GNM_CANVAS (source_widget));
 }
 
 static void
@@ -2153,8 +2161,14 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 		cb_sheet_label_drag_data_received (label, context, x, y,
 				selection_data, info, time, wbcg);
 
-	} else
-		g_warning ("Unknown target type '%s'!", target_type);
+	} else {
+		GtkWidget *source_widget = gtk_drag_get_source_widget (context);
+		if (wbcg_is_local_drag (wbcg, source_widget))
+			printf ("autoscroll complete - stop it\n");
+		else
+			scg_drag_data_received (wbcg_cur_scg (wbcg), 
+				source_widget, 0, 0, selection_data);
+	}
 	g_free (target_type);
 }
 
@@ -2284,7 +2298,8 @@ wbcg_set_toplevel (WorkbookControlGUI *wbcg, GtkWidget *w)
 {
 	static GtkTargetEntry const drag_types[] = {
 		{ (char *) "text/uri-list", 0, TARGET_URI_LIST },
-		{ (char *) "GNUMERIC_SHEET", 0, TARGET_SHEET }
+		{ (char *) "GNUMERIC_SHEET", 0, TARGET_SHEET },
+		{ (char *) "GNUMERIC_SAME_PROC", GTK_TARGET_SAME_APP, 0 }
 	};
 
 	g_return_if_fail (wbcg->toplevel == NULL);
@@ -2310,17 +2325,16 @@ wbcg_set_toplevel (WorkbookControlGUI *wbcg, GtkWidget *w)
 	gtk_drag_dest_set (GTK_WIDGET (w),
 		GTK_DEST_DEFAULT_ALL, drag_types, G_N_ELEMENTS (drag_types),
 		GDK_ACTION_COPY | GDK_ACTION_MOVE);
-	g_signal_connect (w, "drag-data-received",
-		G_CALLBACK (cb_wbcg_drag_data_received), wbcg);
-	g_signal_connect (w, "drag-motion",
-		G_CALLBACK (cb_wbcg_drag_motion), wbcg);
-	g_signal_connect (w, "drag-leave",
-		G_CALLBACK (cb_wbcg_drag_leave), wbcg);
+	gtk_drag_dest_add_image_targets (GTK_WIDGET (w));
+	gtk_drag_dest_add_text_targets (GTK_WIDGET (w));
+	g_object_connect (G_OBJECT (w),
+		"signal::drag-leave",	G_CALLBACK (cb_wbcg_drag_leave), wbcg,
+		"signal::drag-data-received", G_CALLBACK (cb_wbcg_drag_data_received), wbcg,
+		"signal::drag-motion",	G_CALLBACK (cb_wbcg_drag_motion), wbcg,
 #if 0
-	g_signal_connect (G_OBJECT (gcanvas),
-		"drag-data-get",
-		G_CALLBACK (wbcg_drag_data_get), WORKBOOK_CONTROL (wbc));
+		"signal::drag-data-get", G_CALLBACK (wbcg_drag_data_get), wbc,
 #endif
+		NULL);
 }
 
 static int

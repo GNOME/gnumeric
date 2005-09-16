@@ -11,9 +11,11 @@
 #define GNUMERIC_CANVAS_FACTOR_X 1000000
 #define GNUMERIC_CANVAS_FACTOR_Y 6000000
 
-typedef gboolean (*GnmCanvasSlideHandler) (GnmCanvas *gcanvas,
-					   int col, int row,
-					   gpointer user_data);
+typedef struct {
+	int col, row;
+	gpointer user_data;
+} GnmCanvasSlideInfo;
+typedef gboolean (*GnmCanvasSlideHandler) (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info);
 
 struct _GnmCanvas {
 	GnmSimpleCanvas simple;
@@ -71,5 +73,7 @@ gboolean gnm_canvas_handle_motion (GnmCanvas *gsheet,
 void gnm_canvas_window_to_coord   (GnmCanvas *gcanvas,
 				   gint    x,	gint    y,
 				   double *wx, double *wy);
+void gnm_canvas_object_autoscroll (GnmCanvas *gcanvas, GdkDragContext *context,
+				   gint x, gint y, guint time);
 
 #endif /* GNM_CANVAS_H */

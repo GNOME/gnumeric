@@ -812,13 +812,12 @@ item_bar_resize_stop (ItemBar *ib, int new_size)
 }
 
 static gboolean
-cb_extend_selection (GnmCanvas *gcanvas,
-		     int col, int row, gpointer user_data)
+cb_extend_selection (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 {
-	ItemBar * const ib = user_data;
+	ItemBar * const ib = info->user_data;
 	gboolean const is_cols = ib->is_col_header;
 	scg_colrow_select (gcanvas->simple.scg,
-			   is_cols, is_cols ? col : row, GDK_SHIFT_MASK);
+		is_cols, is_cols ? info->col : info->row, GDK_SHIFT_MASK);
 	return TRUE;
 }
 
