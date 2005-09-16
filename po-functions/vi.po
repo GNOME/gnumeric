@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric-functions 1.5.2 for Gnome HEAD\n"
+"Project-Id-Version: gnumeric-functions 1.5.90 for Gnome HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-08-22 04:01+0000\n"
-"PO-Revision-Date: 2005-08-22 16:30+0930\n"
+"PO-Revision-Date: 2005-09-16 17:00+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
