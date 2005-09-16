@@ -729,9 +729,7 @@ link_expr_dep (GnmDependent *dep, GnmExpr const *tree)
 		 * intersection
 		 */
 		if (VALUE_CELLRANGE == tree->constant.value->type)
-			return link_cellrange_dep
-				(dep,
-				 dependent_pos (dep),
+			return link_cellrange_dep (dep, dependent_pos (dep),
 				 &tree->constant.value->v_range.cell.a,
 				 &tree->constant.value->v_range.cell.b);
 		return DEPENDENT_NO_FLAG;
@@ -749,8 +747,9 @@ link_expr_dep (GnmDependent *dep, GnmExpr const *tree)
 			fei.func_call = &tree->func;
 			flag = tree->func.func->linker (&fei);
 		}
-		for (l = tree->func.arg_list; l; l = l->next)
-			flag |= link_expr_dep (dep, l->data);
+		if (!(flag & DEPENDENT_IGNORE_ARGS))
+			for (l = tree->func.arg_list; l; l = l->next)
+				flag |= link_expr_dep (dep, l->data);
 		return flag;
 	}
 

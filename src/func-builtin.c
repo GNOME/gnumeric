@@ -132,6 +132,34 @@ gnumeric_version (FunctionEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static void
+table_make_ref (FunctionEvalInfo const *ei,
+		GnmRangeRef *top, GnmRangeRef *left)
+{
+	GnmDependent *dep = ei->pos->dep;
+	top->a.sheet = top->b.sheet = left->a.sheet = left->b.sheet = dep->sheet;
+}
+static DependentFlags
+gnumeric_table_link (FunctionEvalInfo *ei)
+{
+	GnmDependent *dep = ei->pos->dep;
+	GnmRangeRef   top, left;
+	table_make_ref (ei, &top, &left);
+	return DEPENDENT_IGNORE_ARGS;
+#if 0
+	|
+		dependent_add_dep_range (dep, &ei->pos->eval, &top.a, &top.b) |
+		dependent_add_dep_range (dep, &ei->pos->eval, &left.a, &left.b);
+#endif
+}
+static void
+gnumeric_table_unlink (FunctionEvalInfo *ei)
+{
+	GnmRangeRef top, left;
+	table_make_ref (ei, &top, &left);
+#warning remove dep
+}
+
 static GnmValue *
 gnumeric_table (FunctionEvalInfo *ei, GnmExprList const *args)
 {
@@ -168,7 +196,8 @@ gnumeric_table (FunctionEvalInfo *ei, GnmExprList const *args)
 				ei->pos->eval.col - 1, ei->pos->eval.row - 1);
 		else
 			val[2] = value_dup (in[2]->value);
-	}
+	} else
+		in[2] = NULL;
 
 	res = value_new_array (ei->pos->cols, ei->pos->rows);
 	for (x = ei->pos->cols ; x-- > 0 ; ) {
@@ -176,26 +205,36 @@ gnumeric_table (FunctionEvalInfo *ei, GnmExprList const *args)
 			x + ei->pos->eval.col, ei->pos->eval.row-1);
 		if (NULL == x_iter)
 			continue;
-		cell_eval (x_iter);
-		in[0]->value = value_dup (x_iter->value);
-		dependent_queue_recalc (&in[0]->base);
+		if (NULL != in[0]) {
+			cell_eval (x_iter);
+			in[0]->value = value_dup (x_iter->value);
+			dependent_queue_recalc (&in[0]->base);
+		}
 		for (y = ei->pos->rows ; y-- > 0 ; ) {
 			y_iter = sheet_cell_get (ei->pos->sheet,
 				ei->pos->eval.col-1, y + ei->pos->eval.row);
 			if (NULL == y_iter)
 				continue;
 			cell_eval (y_iter);
-			in[1]->value = value_dup (y_iter->value);
-			dependent_queue_recalc (&in[1]->base);
-
-			cell_eval (in[2]);
-			value_array_set (res, x, y, value_dup (in[2]->value));
-
-			value_release (in[1]->value);
+			if (NULL != in[1]) {
+				in[1]->value = value_dup (y_iter->value);
+				dependent_queue_recalc (&in[1]->base);
+				if (NULL != in[0]) {
+					cell_eval (in[2]);
+					value_array_set (res, x, y, value_dup (in[2]->value));
+					value_release (in[1]->value);
+				} else {
+					cell_eval (x_iter);
+					value_array_set (res, x, y, value_dup (x_iter->value));
+				}
+			} else
+				value_array_set (res, x, y, value_dup (y_iter->value));
 		}
-		value_release (in[0]->value);
+		if (NULL != in[0])
+			value_release (in[0]->value);
 	}
-	value_release (in[2]->value);
+	if (NULL != in[2])
+		value_release (in[2]->value);
 	for (x = 0 ; x < 3 ; x++)
 		if (in[x]) {
 			if (val[x])
@@ -239,7 +278,8 @@ func_builtin_init (void)
 		},
 		{	"table",	"",	"",
 			NULL,		NULL,	gnumeric_table,
-			NULL, NULL, NULL, GNM_FUNC_SIMPLE + GNM_FUNC_INTERNAL,
+			gnumeric_table_link, gnumeric_table_unlink,
+			NULL, GNM_FUNC_SIMPLE + GNM_FUNC_INTERNAL,
 			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 			GNM_FUNC_TEST_STATUS_EXHAUSTIVE
 		},

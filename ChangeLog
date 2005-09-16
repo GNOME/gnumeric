@@ -1,5 +1,11 @@
 2005-09-15  Jody Goldberg <jody@gnome.org>
 
+	* src/func-builtin.c (gnumeric_table_link) : new incomplete.
+	(gnumeric_table_unlink) : new incomplete.
+	(gnumeric_table) : implement 1d iteration.
+
+2005-09-15  Jody Goldberg <jody@gnome.org>
+
 	* src/workbook-control-gui.c (wbcg_is_local_drag) : new.
 	(cb_wbcg_drag_motion) : check for object drags here.
 	(cb_wbcg_drag_leave) : here.
@@ -37,6 +43,12 @@
 
 	* src/workbook.c (workbook_sheet_state_diff): It seems that the last
 	  chunk of the change from 2005-08-27 was a mistake.  Remove it.
+
+2005-09-09  Jody Goldberg <jody@gnome.org>
+
+	* src/dependent.c (link_expr_dep) : honor new DEPENDENT_IGNORE_ARGS
+	  flag which instructs the linker not to depend on the arguments to
+	  the function.
 
 2005-09-08  Jody Goldberg <jody@gnome.org>
 
