@@ -16,8 +16,6 @@ Release Critical
     - use 2.6 clipboard handling
 	: gtk_clipboard_set_can_store
 	: gtk_clipboard_store
-    - autoscroll with sheet objects
-	: get correct deltas from autoscroll
 
 Worries
 -------
