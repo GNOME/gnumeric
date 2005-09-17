@@ -1,3 +1,9 @@
+2005-09-16  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (sheet_destroy_contents) : destroy filters and pivots
+	  before remaining objects.  Those are higher order objects and may
+	  contain objects themselves.  [#316533]
+
 2005-09-15  Jody Goldberg <jody@gnome.org>
 
 	* src/func-builtin.c (gnumeric_table_link) : new incomplete.

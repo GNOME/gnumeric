@@ -3094,6 +3094,18 @@ sheet_destroy_contents (Sheet *sheet)
 	if (sheet->hash_merged == NULL)
 		return;
 
+	/* These contain SheetObjects, remove them first */
+	if (NULL != sheet->filters) {
+		g_slist_foreach (sheet->filters, (GFunc)gnm_filter_free, NULL);
+		g_slist_free (sheet->filters);
+		sheet->filters = NULL;
+	}
+	if (NULL != sheet->pivottables) {
+		g_slist_foreach (sheet->pivottables, (GFunc)gnm_pivottable_free, NULL);
+		g_slist_free (sheet->pivottables);
+		sheet->pivottables = NULL;
+	}
+
 	if (sheet->sheet_objects) {
 		/* The list is changed as we remove */
 		GSList *objs = g_slist_copy (sheet->sheet_objects);
@@ -3106,17 +3118,6 @@ sheet_destroy_contents (Sheet *sheet)
 		g_slist_free (objs);
 		if (sheet->sheet_objects != NULL)
 			g_warning ("There is a problem with sheet objects");
-	}
-
-	if (NULL != sheet->filters) {
-		g_slist_foreach (sheet->filters, (GFunc)gnm_filter_free, NULL);
-		g_slist_free (sheet->filters);
-		sheet->filters = NULL;
-	}
-	if (NULL != sheet->pivottables) {
-		g_slist_foreach (sheet->pivottables, (GFunc)gnm_pivottable_free, NULL);
-		g_slist_free (sheet->pivottables);
-		sheet->pivottables = NULL;
 	}
 
 	/* The memory is managed by Sheet::list_merged */
