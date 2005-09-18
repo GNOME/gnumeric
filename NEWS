@@ -4,6 +4,7 @@ Jody:
 	* Snap objects right in RTL mode. [#316026]
 	* Finish Data -> Table evaluation
 	* Avoid entering "" for every keystroke when using gtk-2.8
+	* Fix xls import/export of markers for radar plots.
 
 Morten:
 	* Fix C99ism.

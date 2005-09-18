@@ -1487,6 +1487,10 @@ BC_R(radar)(XLChartHandler const *handle,
 {
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 	s->plot = (GogPlot*) gog_plot_new_by_name ("GogRadarPlot");
+	/* XL defaults to having markers and does not emit a style record
+	 * to define a marker in the default case. */
+	if (s->plot)
+		g_object_set (G_OBJECT (s->plot), "default-style-has-markers", TRUE, NULL);
 
 	return FALSE;
 }
@@ -3934,6 +3938,7 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 			chart_write_dummy_style (s, default_separation, FALSE, FALSE);
 	} else if (0 == strcmp (type, "GogRadarPlot")) {
 		ms_biff_put_2byte (s->bp, BIFF_CHART_radar, flags);
+		check_marks = TRUE;
 	} else if (0 == strcmp (type, "GogRadarAreaPlot")) {
 		ms_biff_put_2byte (s->bp, BIFF_CHART_radararea, flags);
 	} else if (0 == strcmp (type, "GogBubblePlot") ||
