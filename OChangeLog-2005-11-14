@@ -1,6 +1,7 @@
 2005-09-18  Stepan Kasal  <kasal@ucw.cz>
 
-	* configure.in: Update.
+	* configure.in: Fix the way GCONF_SCHEMAS_INSTALL is set.
+	  Update obsolete macros.
 
 2005-09-17  Jody Goldberg <jody@gnome.org>
 

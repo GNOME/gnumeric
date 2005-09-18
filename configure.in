@@ -269,6 +269,11 @@ AM_CONDITIONAL(WITH_HILDON, test "x$hildon" = "xtrue")
 
 dnl ==============================================
 dnl GNOME Specific extensions
+
+dnl The following conditional is set in AM_GCONF_SOURCE_2.
+dnl Because we may skip its execution, we have to set a default here.
+AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL], [false])
+
 with_corba=false
 if test "x${gnumeric_with_gnome}" = "xtrue"; then
 
@@ -301,8 +306,8 @@ if test "x${gnumeric_with_gnome}" = "xtrue"; then
 		AC_SUBST(ORBIT_IDL)
 	fi
 fi
-AM_CONDITIONAL(GCONF_SCHEMAS_INSTALL, $gnumeric_with_gnome)
 AM_CONDITIONAL(WITH_CORBA, $with_corba)
+
 
 dnl ****************************
 dnl prep the pixmap generator
