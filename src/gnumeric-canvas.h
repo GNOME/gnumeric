@@ -38,7 +38,7 @@ struct _GnmCanvas {
 	gboolean   sliding_adjacent_h, sliding_adjacent_v;
 
 	/*  IM */
-	guint      need_im_reset :1;
+	guint      reseting_im :1;	/* quick hack to keep gtk_im_context_reset from starting an edit */
 	guint      mask_state;
 	guint      preedit_length;
 	GtkIMContext  *im_context;

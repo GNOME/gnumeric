@@ -3,6 +3,7 @@ Gnumeric 1.6.0
 Jody:
 	* Snap objects right in RTL mode. [#316026]
 	* Finish Data -> Table evaluation
+	* Avoid entering "" for every keystroke when using gtk-2.8
 
 Morten:
 	* Fix C99ism.

@@ -1,3 +1,8 @@
+2005-09-17  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_press) : add a quick guard
+	  around gtk_im_context_reset to avoid starting an edit for no reason.
+
 2005-09-16  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (sheet_destroy_contents) : destroy filters and pivots
