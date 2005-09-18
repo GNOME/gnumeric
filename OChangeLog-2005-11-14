@@ -1,3 +1,7 @@
+2005-09-18  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: Update.
+
 2005-09-17  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-canvas.c (gnm_canvas_key_press) : add a quick guard
