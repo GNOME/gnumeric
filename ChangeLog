@@ -1,3 +1,10 @@
+2005-09-19  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=316597
+	* src/cell-draw.c (cell_draw) : gtk-2.8 clips more vigorously.
+	  Don't clip at all for rotation rather than setting a clip of
+	  0..maxint
+
 2005-09-18  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in: Fix the way GCONF_SCHEMAS_INSTALL is set.

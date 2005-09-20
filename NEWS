@@ -5,6 +5,7 @@ Jody:
 	* Finish Data -> Table evaluation
 	* Avoid entering "" for every keystroke when using gtk-2.8
 	* Fix xls import/export of markers for radar plots.
+	* Fix rotated text with pango-1.10 [#316597]
 
 Morten:
 	* Fix C99ism.
