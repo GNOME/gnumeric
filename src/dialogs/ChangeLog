@@ -1,3 +1,8 @@
+2005-09-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-define-names.c (load_selection): new
+	(name_guru_init): preload current selection
+
 2005-09-08  Morten Welinder  <terra@gnome.org>
 
 	* dialog-about.c: Add the lpsolve guys.

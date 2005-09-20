@@ -1,5 +1,8 @@
 Gnumeric 1.6.0
 
+Andreas:
+	* Preload selection in "Define Names" dialog [#316406]
+
 Jody:
 	* Snap objects right in RTL mode. [#316026]
 	* Finish Data -> Table evaluation

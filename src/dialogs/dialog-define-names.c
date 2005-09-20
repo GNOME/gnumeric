@@ -31,6 +31,7 @@
 #include <expr.h>
 #include <str.h>
 #include <expr-name.h>
+#include <selection.h>
 #include <sheet.h>
 #include <sheet-view.h>
 #include <workbook.h>
@@ -452,6 +453,17 @@ cb_entry_activate (G_GNUC_UNUSED GtkWidget *item,
 	name_guru_add (state);
 }
 
+static void
+load_selection (NameGuruState *state)
+{
+	GnmRange const *first = selection_first_range (state->sv, NULL, NULL);
+
+	if (first != NULL)
+		gnm_expr_entry_load_from_range (state->expr_entry,
+						state->sheet, first);
+}
+
+
 static gboolean
 name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 {
@@ -539,6 +551,7 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 		G_CALLBACK (cb_entry_activate), state);
 
 	name_guru_populate_list (state);
+	load_selection (state);
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
