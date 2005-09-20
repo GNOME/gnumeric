@@ -1,3 +1,10 @@
+2005-09-20  Morten Welinder  <terra@gnome.org>
+
+	* src/cell-draw.c: Don't use gdk_draw_layout_with_colors -- it
+	breaks rich text.  (We might be able to use it if we can somehow
+	deduce that rich text is not present, but that is a patch for
+	later.)  Unset clip explicitly in the rotation case.
+
 2005-09-19  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=316597

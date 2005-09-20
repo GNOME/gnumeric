@@ -214,7 +214,6 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	RenderedValue *rv = cell->rendered_value;
 	ColRowInfo const * const ci = cell->col_info;
 	ColRowInfo const * const ri = cell->row_info;
-	GdkColor fore_gdk;
 
 	/* Get the sizes exclusive of margins and grids */
 	/* FIXME : all callers will eventually pass in their cell size */
@@ -229,6 +228,8 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 			      height * PANGO_SCALE,
 			      h_center == -1 ? -1 : (h_center * PANGO_SCALE),
 			      &fore_color, &x, &y)) {
+		GdkColor fore_gdk;
+
 		/* +1 to get past left grid-line.  */
 		GdkRectangle rect;
 		rect.x = x1 + 1 + ci->margin_a;
@@ -252,10 +253,13 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		 * approximation to the right effect.  (The right way
 		 * would be to create a proper cellspan type.)
 		 */
-		if (!rv->rotation)
-			gdk_gc_set_clip_rectangle (gc, &rect);
+		gdk_gc_set_clip_rectangle (gc,
+					   rv->rotation ? NULL : &rect);
 
+		/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
 		go_color_to_gdk (fore_color, &fore_gdk);
+		gdk_gc_set_rgb_fg_color (gc, &fore_gdk);
+
 		if (rv->rotation) {
 			RenderedRotatedValue *rrv = (RenderedRotatedValue *)rv;
 			PangoContext *context = pango_layout_get_context (rv->layout);
@@ -267,18 +271,17 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 			for (lines = pango_layout_get_lines (rv->layout);
 			     lines;
 			     lines = lines->next, li++) {
-				gdk_draw_layout_line_with_colors (drawable, gc,
+				gdk_draw_layout_line (drawable, gc,
 					x1 + PANGO_PIXELS (x + li->dx),
 					y1 + PANGO_PIXELS (y + li->dy),
-					lines->data,
-					&fore_gdk, NULL);
+					lines->data);
 			}
 			pango_context_set_matrix (context, NULL);
 			pango_layout_context_changed (rv->layout);
 		} else
-			gdk_draw_layout_with_colors (drawable, gc,
+			gdk_draw_layout (drawable, gc,
 				x1 + PANGO_PIXELS (x),
 				y1 + PANGO_PIXELS (y),
-				rv->layout, &fore_gdk, NULL);
+				rv->layout);
 	}
 }
