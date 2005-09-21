@@ -1,5 +1,9 @@
 2005-09-21  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* ms-chart.c: (chart_write_MARKERFORMAT): don't use style if NULL.
+
+2005-09-21  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* ms-chart.c: (markerformat): enhance markers import for MS_BIFF_V8
 	(chart_write_MARKERFORMAT): enhanced export as well.
 

@@ -3358,10 +3358,10 @@ chart_write_MARKERFORMAT (XLChartWriteState *s, GogStyle const *style,
 	if (s->bp->version >= MS_BIFF_V8) {
 		/* if s->cur_series is UINT_MAX, we are not saving a series format */
 		GSF_LE_SET_GUINT16 (data+12,
-			(style->marker.auto_outline_color && s->cur_series != UINT_MAX) ?
-			32 + s->cur_series: fore_index);
+			(style && style->marker.auto_outline_color && s->cur_series != UINT_MAX) ?
+			(guint16) (32 + s->cur_series): fore_index);
 		GSF_LE_SET_GUINT16 (data+14,
-			(style->marker.auto_outline_color && s->cur_series != UINT_MAX) ?
+			(style && style->marker.auto_outline_color && s->cur_series != UINT_MAX) ?
 			32 + s->cur_series: back_index);
 		GSF_LE_SET_GUINT32 (data+16, size);
 	}
