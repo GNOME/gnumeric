@@ -1,3 +1,9 @@
+2005-09-20  Jody Goldberg <jody@gnome.org>
+
+	* src/position.c : Add some gnm_ to the api.
+	(gnm_cellref_set_col_ar) : new
+	(gnm_cellref_set_row_ar) : new.
+
 2005-09-20  Morten Welinder  <terra@gnome.org>
 
 	* src/cell-draw.c: Don't use gdk_draw_layout_with_colors -- it

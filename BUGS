@@ -8,18 +8,16 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - F4 partially working for mixed abs/rel range references ($A1:B1)
-    - Patch for non-gconf gnm-config
     - Patches for Maemo {partially done}
     - autoformat template array bound reads
     - Finish Data -> Table 
     - use 2.6 clipboard handling
 	: gtk_clipboard_set_can_store
 	: gtk_clipboard_store
-    - rotated text is broken in gtk-2.8
 
 Worries
 -------
+    - Patch for non-gconf gnm-config
     : provide undo for dropped objects from sheet_objects_clear
     : undo of pasting copy/cut of objects
     : Select graph, Copy, and paste to Emacs: used to crash, but now it

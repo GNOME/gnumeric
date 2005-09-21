@@ -702,10 +702,10 @@ excel_sheet_new (GnmXLImporter *importer, char const *sheet_name, GnmSheetType t
 	esheet->freeze_panes = FALSE;
 	esheet->active_pane  = 3; /* The default */
 	esheet->shared_formulae	= g_hash_table_new_full (
-		(GHashFunc)&cellpos_hash, (GCompareFunc)&cellpos_equal,
+		(GHashFunc)&gnm_cellpos_hash, (GCompareFunc)&gnm_cellpos_equal,
 		NULL, (GDestroyNotify) &excel_shared_formula_free);
 	esheet->tables		= g_hash_table_new_full (
-		(GHashFunc)&cellpos_hash, (GCompareFunc)&cellpos_equal,
+		(GHashFunc)&gnm_cellpos_hash, (GCompareFunc)&gnm_cellpos_equal,
 		NULL, (GDestroyNotify) g_free);
 	esheet->biff2_prev_xf_index = -1;
 
@@ -2302,14 +2302,14 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 		g_hash_table_insert (esheet->tables, &dt->table.start, dt);
 
 		args = gnm_expr_list_append (args, gnm_expr_new_cellref (
-			cellref_init (&ref, NULL,
-				      dt->c_in.col - r.start.col,
-				      dt->c_in.row - r.start.row, TRUE)));
+			gnm_cellref_init (&ref, NULL,
+				dt->c_in.col - r.start.col,
+				dt->c_in.row - r.start.row, TRUE)));
 		if (flags & 0x8) {
 			args = gnm_expr_list_append (args, gnm_expr_new_cellref (
-				cellref_init (&ref, NULL,
-					      dt->r_in.col - r.start.col,
-					      dt->r_in.row - r.start.row, TRUE)));
+				gnm_cellref_init (&ref, NULL,
+					dt->r_in.col - r.start.col,
+					dt->r_in.row - r.start.row, TRUE)));
 		} else {
 			GnmExpr	const *missing = gnm_expr_new_constant (value_new_empty ());
 			args = (flags & 4) ? gnm_expr_list_append (args, missing)
