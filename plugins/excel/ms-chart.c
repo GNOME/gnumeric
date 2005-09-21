@@ -1272,7 +1272,8 @@ BC_R(markerformat)(XLChartHandler const *handle,
 	GOMarker *marker;
 	guint16 shape = GSF_LE_GET_GUINT16 (q->data+8);
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+10);
-	gboolean const auto_color = (flags & 0x01) ? TRUE : FALSE;
+	gboolean const auto_marker = (flags & 0x01) ? TRUE : FALSE;
+	gboolean no_outline = flags & 0x20, no_fill = flags & 0x10;
 
 	BC_R(get_style) (s);
 	marker = go_marker_new ();
@@ -1283,18 +1284,25 @@ BC_R(markerformat)(XLChartHandler const *handle,
 	go_marker_set_shape (marker, shape_map [shape]);
 
 	go_marker_set_outline_color (marker,
-		(flags & 0x20) ? 0 : BC_R(color) (q->data + 0, "MarkerFore"));
+		no_outline ? 0 : BC_R(color) (q->data + 0, "MarkerFore"));
 	go_marker_set_fill_color (marker,
-		(flags & 0x10) ? 0 : BC_R(color) (q->data + 4, "MarkerBack"));
+		no_fill ? 0 : BC_R(color) (q->data + 4, "MarkerBack"));
 
-	s->style->marker.auto_shape = shape > 0;
-	s->style->marker.auto_outline_color =
-		s->style->marker.auto_fill_color = auto_color;
+	s->style->marker.auto_shape = auto_marker;
 
 	if (BC_R(ver)(s) >= MS_BIFF_V8) {
+		guint16 const fore = GSF_LE_GET_GUINT16 (q->data+12);
+		guint16 const back = GSF_LE_GET_GUINT16 (q->data+14);
 		guint32 const marker_size = GSF_LE_GET_GUINT32 (q->data+16);
 		go_marker_set_size (marker, marker_size / 20.);
 		d (1, fprintf (stderr, "Marker size : is %f pts\n", marker_size / 20.););
+		/* Excel assumes that the color is automatic if it is the same
+		as the automatic one whatever the auto flag value is */
+		s->style->marker.auto_outline_color = (fore == 31 + s->series->len);
+		s->style->marker.auto_fill_color = (back == 31 + s->series->len);
+	} else {
+		s->style->marker.auto_outline_color = auto_marker && !no_outline;
+		s->style->marker.auto_fill_color = auto_marker && !no_fill;
 	}
 
 	gog_style_set_marker (s->style, marker);
