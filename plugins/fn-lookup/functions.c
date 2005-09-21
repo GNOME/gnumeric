@@ -964,7 +964,7 @@ gnumeric_column (FunctionEvalInfo *ei, GnmValue const * const *args)
 		Sheet    *tmp;
 		GnmRange  r;
 
-		rangeref_normalize (&ref->v_range.cell, ei->pos, &tmp, &tmp, &r);
+		gnm_rangeref_normalize (&ref->v_range.cell, ei->pos, &tmp, &tmp, &r);
 		col    = r.start.col + 1;
 		width  = range_width (&r);
 		height = range_height (&r);
@@ -1142,7 +1142,7 @@ gnumeric_row (FunctionEvalInfo *ei, GnmValue const * const *args)
 		Sheet    *tmp;
 		GnmRange  r;
 
-		rangeref_normalize (&ref->v_range.cell, ei->pos, &tmp, &tmp, &r);
+		gnm_rangeref_normalize (&ref->v_range.cell, ei->pos, &tmp, &tmp, &r);
 		row    = r.start.row + 1;
 		width  = range_width (&r);
 		height = range_height (&r);

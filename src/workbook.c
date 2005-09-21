@@ -601,8 +601,8 @@ workbook_foreach_cell_in_range (GnmEvalPos const *pos,
 	g_return_val_if_fail (cell_range != NULL, NULL);
 	g_return_val_if_fail (cell_range->type == VALUE_CELLRANGE, NULL);
 
-	rangeref_normalize (&cell_range->v_range.cell, pos,
-			    &start_sheet, &end_sheet, &r);
+	gnm_rangeref_normalize (&cell_range->v_range.cell, pos,
+		&start_sheet, &end_sheet, &r);
 
 	if (start_sheet != end_sheet) {
 		GnmValue *res;

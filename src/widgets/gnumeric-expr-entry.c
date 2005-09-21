@@ -260,6 +260,7 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 		Rangesel *rs = &gee->rangesel;
 		gboolean abs_cols = (gee->flags & GNM_EE_ABS_COL);
 		gboolean abs_rows = (gee->flags & GNM_EE_ABS_ROW);
+		gboolean c, r;
 
 		/* FIXME: since the range can't have changed we should just be able to */
 		/*        look it up rather than reparse */
@@ -272,46 +273,21 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 		if (!rs->is_valid || rs->text_start >= rs->text_end)
 			return TRUE;
 
+		c = rs->ref.a.col_relative;
+		r = rs->ref.a.row_relative;
 		if (abs_rows) {
 			if (abs_cols)
 				return TRUE;
-			if ((rs->ref.b.col_relative = rs->ref.a.col_relative =
-				!rs->ref.a.col_relative)) {
-				rs->ref.a.col -= gee->pp.eval.col;
-				rs->ref.b.col -= gee->pp.eval.col;
-			} else {
-				rs->ref.a.col += gee->pp.eval.col;
-				rs->ref.b.col += gee->pp.eval.col;
-			}
+			gnm_cellref_set_row_ar (&rs->ref.a, &gee->pp, !c);
+			gnm_cellref_set_col_ar (&rs->ref.b, &gee->pp, !c);
 		} else if (abs_cols) {
-			if ((rs->ref.b.row_relative = rs->ref.a.row_relative =
-				!rs->ref.a.row_relative)) {
-				rs->ref.a.row -= gee->pp.eval.row;
-				rs->ref.b.row -= gee->pp.eval.row;
-			} else {
-				rs->ref.a.row += gee->pp.eval.row;
-				rs->ref.b.row += gee->pp.eval.row;
-			}
-
+			gnm_cellref_set_row_ar (&rs->ref.a, &gee->pp, !r);
+			gnm_cellref_set_row_ar (&rs->ref.b, &gee->pp, !r);
 		} else {
-			gboolean const c = rs->ref.a.col_relative;
-			gboolean const r = rs->ref.a.row_relative;
-			rs->ref.b.row_relative = rs->ref.a.row_relative = (c ^ r);
-			if (rs->ref.a.row_relative ^ r) { 
-				rs->ref.a.row -= gee->pp.eval.row;
-				rs->ref.b.row -= gee->pp.eval.row;
-			} else {
-				rs->ref.a.row += gee->pp.eval.row;
-				rs->ref.b.row += gee->pp.eval.row;
-			}
-
-			if ((rs->ref.b.col_relative = rs->ref.a.col_relative = !c)) {
-				rs->ref.a.col -= gee->pp.eval.col;
-				rs->ref.b.col -= gee->pp.eval.col;
-			} else {
-				rs->ref.a.col += gee->pp.eval.col;
-				rs->ref.b.col += gee->pp.eval.col;
-			}
+			gnm_cellref_set_col_ar (&rs->ref.a, &gee->pp, !c);
+			gnm_cellref_set_col_ar (&rs->ref.b, &gee->pp, !c);
+			gnm_cellref_set_row_ar (&rs->ref.a, &gee->pp, c^r);
+			gnm_cellref_set_row_ar (&rs->ref.b, &gee->pp, c^r);
 		}
 
 		gee_rangesel_update_text (gee);
@@ -1148,8 +1124,8 @@ gnm_expr_entry_get_rangesel (GnmExprEntry const *gee,
 
 	gee_prepare_range (gee, &ref);
 	if (r != NULL) {
-		cellref_get_abs_pos (&ref.a, &gee->pp.eval, &r->start);
-		cellref_get_abs_pos (&ref.b, &gee->pp.eval, &r->end);
+		gnm_cellpos_init_cellref (&r->start, &ref.a, &gee->pp.eval);
+		gnm_cellpos_init_cellref (&r->end, &ref.b, &gee->pp.eval);
 		range_normalize (r);
 	}
 

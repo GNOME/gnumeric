@@ -461,7 +461,7 @@ gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 			a->name.optional_wb_scope == b->name.optional_wb_scope;
 
 	case GNM_EXPR_OP_CELLREF:
-		return cellref_equal (&a->cellref.ref, &b->cellref.ref);
+		return gnm_cellref_equal (&a->cellref.ref, &b->cellref.ref);
 
 	case GNM_EXPR_OP_CONSTANT:
 		return value_equal (a->constant.value, b->constant.value);
@@ -598,7 +598,7 @@ value_intersection (GnmValue *v, GnmEvalPos const *pos)
 	}
 
 	/* inverted ranges */
-	rangeref_normalize (&v->v_range.cell, pos, &start_sheet, &end_sheet, &r);
+	gnm_rangeref_normalize (&v->v_range.cell, pos, &start_sheet, &end_sheet, &r);
 	value_release (v);
 
 	if (start_sheet == end_sheet || end_sheet == NULL) {
@@ -1007,8 +1007,8 @@ gnm_expr_range_op (GnmExpr const *expr, GnmEvalPos const *ep,
 	    gnm_expr_extract_ref (&b_ref, expr->binary.value_b, ep, flags))
 		return value_new_error_REF (ep);
 
-	rangeref_normalize (&a_ref, ep, &a_start, &a_end, &a_range);
-	rangeref_normalize (&b_ref, ep, &b_start, &b_end, &b_range);
+	gnm_rangeref_normalize (&a_ref, ep, &a_start, &a_end, &a_range);
+	gnm_rangeref_normalize (&b_ref, ep, &b_start, &b_end, &b_range);
 
 	if (expr->any.oper != GNM_EXPR_OP_INTERSECT)
 		res_range = range_union (&a_range, &b_range);
@@ -1287,7 +1287,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		GnmCell *cell;
 		GnmCellPos dest;
 
-		cellref_get_abs_pos (&expr->cellref.ref, &pos->eval, &dest);
+		gnm_cellpos_init_cellref (&dest, &expr->cellref.ref, &pos->eval);
 
 		cell = sheet_cell_get (eval_sheet (expr->cellref.ref.sheet, pos->sheet),
 			dest.col, dest.row);
@@ -2597,7 +2597,7 @@ ets_hash (gconstpointer key)
 		return (guint)(expr->name.name);
 
 	case GNM_EXPR_OP_CELLREF:
-		return cellref_hash (&expr->cellref.ref);
+		return gnm_cellref_hash (&expr->cellref.ref);
 
 	case GNM_EXPR_OP_ARRAY:
 		break;

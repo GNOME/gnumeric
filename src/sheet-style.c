@@ -2015,8 +2015,8 @@ sheet_style_get_list (Sheet const *sheet, GnmRange const *r)
 	StyleListMerge mi;
 
 	mi.style_equal = gnm_style_equal;
-	mi.cache = g_hash_table_new ((GHashFunc)&cellpos_hash,
-				     (GCompareFunc)&cellpos_equal);
+	mi.cache = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
+				     (GCompareFunc)&gnm_cellpos_equal);
 
 	foreach_tile (sheet->style_data->styles,
 		      TILE_TOP_LEVEL, 0, 0, r,
@@ -2065,8 +2065,8 @@ sheet_style_collect_conditions (Sheet const *sheet, GnmRange const *r)
 	GnmStyleList *res = NULL;
 	StyleListMerge mi;
 	mi.style_equal = style_conditions_equal;
-	mi.cache = g_hash_table_new ((GHashFunc)&cellpos_hash,
-				     (GCompareFunc)&cellpos_equal);
+	mi.cache = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
+				     (GCompareFunc)&gnm_cellpos_equal);
 
 	foreach_tile (sheet->style_data->styles,
 		      TILE_TOP_LEVEL, 0, 0, r,
@@ -2117,8 +2117,8 @@ sheet_style_collect_validations (Sheet const *sheet, GnmRange const *r)
 	StyleListMerge mi;
 
 	mi.style_equal = style_validation_equal;
-	mi.cache = g_hash_table_new ((GHashFunc)&cellpos_hash,
-				     (GCompareFunc)&cellpos_equal);
+	mi.cache = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
+				     (GCompareFunc)&gnm_cellpos_equal);
 
 	foreach_tile (sheet->style_data->styles,
 		      TILE_TOP_LEVEL, 0, 0, r,

@@ -5546,12 +5546,10 @@ function_marshal_arg (FunctionEvalInfo *ei,
 	}
 
 	if (v->type == VALUE_CELLRANGE) {
-		cellref_make_abs (&v->v_range.cell.a,
-				  &v->v_range.cell.a,
-				  ei->pos);
-		cellref_make_abs (&v->v_range.cell.b,
-				  &v->v_range.cell.b,
-				  ei->pos);
+		gnm_cellref_make_abs (&v->v_range.cell.a, &v->v_range.cell.a,
+			ei->pos);
+		gnm_cellref_make_abs (&v->v_range.cell.b, &v->v_range.cell.b,
+			ei->pos);
 	}
 
 	return v;

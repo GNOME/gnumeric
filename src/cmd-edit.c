@@ -274,12 +274,12 @@ sv_select_cur_inputs (SheetView *sv)
 			continue;
 
 		sv_selection_add_range (sv,
-					cellref_get_abs_col (&r->a, &ep),
-					cellref_get_abs_row (&r->a, &ep),
-					cellref_get_abs_col (&r->a, &ep),
-					cellref_get_abs_row (&r->a, &ep),
-					cellref_get_abs_col (&r->b, &ep),
-					cellref_get_abs_row (&r->b, &ep));
+			gnm_cellref_get_col (&r->a, &ep),
+			gnm_cellref_get_row (&r->a, &ep),
+			gnm_cellref_get_col (&r->a, &ep),
+			gnm_cellref_get_row (&r->a, &ep),
+			gnm_cellref_get_col (&r->b, &ep),
+			gnm_cellref_get_row (&r->b, &ep));
 		value_release (v);
 	}
 	g_slist_free (ranges);

@@ -366,7 +366,7 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 	if (vec->val != NULL) {
 		switch (vec->val->type) {
 		case VALUE_CELLRANGE:
-			rangeref_normalize (&vec->val->v_range.cell, &ep,
+			gnm_rangeref_normalize (&vec->val->v_range.cell, &ep,
 				&start_sheet, &end_sheet, &r);
 
 			if (r.end.col > start_sheet->cols.max_used)
@@ -474,7 +474,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 	vals = dat->values;
 	switch (vec->val->type) {
 	case VALUE_CELLRANGE:
-		rangeref_normalize (&vec->val->v_range.cell,
+		gnm_rangeref_normalize (&vec->val->v_range.cell,
 			eval_pos_init_dep (&ep, &vec->dep),
 			&start_sheet, &end_sheet, &r);
 
@@ -608,8 +608,8 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 		GnmCell  *cell;
 		GnmRange  r;
 
-		rangeref_normalize (&v->v_range.cell, &ep,
-				    &start_sheet, &end_sheet, &r);
+		gnm_rangeref_normalize (&v->v_range.cell, &ep,
+			&start_sheet, &end_sheet, &r);
 		if (vec->as_col)
 			r.start.row += i;
 		else
@@ -752,7 +752,7 @@ gnm_go_data_matrix_load_size (GODataMatrix *dat)
 	if (mat->val != NULL) {
 		switch (mat->val->type) {
 		case VALUE_CELLRANGE:
-			rangeref_normalize (&mat->val->v_range.cell, &ep,
+			gnm_rangeref_normalize (&mat->val->v_range.cell, &ep,
 				&start_sheet, &end_sheet, &r);
 			if (r.end.col > start_sheet->cols.max_used)
 				r.end.col = start_sheet->cols.max_used;
@@ -884,7 +884,7 @@ gnm_go_data_matrix_load_values (GODataMatrix *dat)
 	vals = dat->values;
 	switch (mat->val->type) {
 	case VALUE_CELLRANGE:
-		rangeref_normalize (&mat->val->v_range.cell,
+		gnm_rangeref_normalize (&mat->val->v_range.cell,
 			eval_pos_init_dep (&ep, &mat->dep),
 			&start_sheet, &end_sheet, &r);
 
@@ -1013,8 +1013,8 @@ gnm_go_data_matrix_get_str (GODataMatrix *dat, unsigned i, unsigned j)
 		GnmCell  *cell;
 		GnmRange  r;
 
-		rangeref_normalize (&v->v_range.cell, &ep,
-				    &start_sheet, &end_sheet, &r);
+		gnm_rangeref_normalize (&v->v_range.cell, &ep,
+			&start_sheet, &end_sheet, &r);
 		r.start.row += i;
 		r.start.col += j;
 		cell = sheet_cell_get (start_sheet, r.start.col, r.start.row);

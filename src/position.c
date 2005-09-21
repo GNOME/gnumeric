@@ -1,10 +1,9 @@
-/* vim: set sw=8: */
-
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * position.c: Utility routines for various types of positional
  *         coordinates.
  *
- * Copyright (C) 2000-2002 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -193,7 +192,7 @@ parse_pos_init_sheet (GnmParsePos *pp, Sheet *sheet)
 /********************************************************************************/
 
 GnmCellRef *
-cellref_init (GnmCellRef *ref, Sheet *sheet, int col, int row, gboolean relative)
+gnm_cellref_init (GnmCellRef *ref, Sheet *sheet, int col, int row, gboolean relative)
 {
 	ref->sheet = sheet;
 	ref->col   = col;
@@ -204,7 +203,7 @@ cellref_init (GnmCellRef *ref, Sheet *sheet, int col, int row, gboolean relative
 }
 
 gboolean
-cellref_equal (GnmCellRef const *a, GnmCellRef const *b)
+gnm_cellref_equal (GnmCellRef const *a, GnmCellRef const *b)
 {
 	return (a->col == b->col) &&
 	       (a->col_relative == b->col_relative) &&
@@ -214,7 +213,7 @@ cellref_equal (GnmCellRef const *a, GnmCellRef const *b)
 }
 
 guint
-cellref_hash (GnmCellRef const *cr)
+gnm_cellref_hash (GnmCellRef const *cr)
 {
 	guint h = ((cr->row << 8) ^ cr->col) * 4;
 	if (cr->col_relative) h |= 1;
@@ -223,7 +222,7 @@ cellref_hash (GnmCellRef const *cr)
 }
 
 int
-cellref_get_abs_col (GnmCellRef const *ref, GnmEvalPos const *ep)
+gnm_cellref_get_col (GnmCellRef const *ref, GnmEvalPos const *ep)
 {
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (ep != NULL, 0);
@@ -238,7 +237,7 @@ cellref_get_abs_col (GnmCellRef const *ref, GnmEvalPos const *ep)
 }
 
 int
-cellref_get_abs_row (GnmCellRef const *ref, GnmEvalPos const *ep)
+gnm_cellref_get_row (GnmCellRef const *ref, GnmEvalPos const *ep)
 {
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (ep != NULL, 0);
@@ -253,9 +252,8 @@ cellref_get_abs_row (GnmCellRef const *ref, GnmEvalPos const *ep)
 }
 
 void
-cellref_get_abs_pos (GnmCellRef const *cell_ref,
-		     GnmCellPos const *pos,
-		     GnmCellPos *res)
+gnm_cellpos_init_cellref (GnmCellPos *res,
+			  GnmCellRef const *cell_ref, GnmCellPos const *pos)
 {
 	g_return_if_fail (cell_ref != NULL);
 	g_return_if_fail (res != NULL);
@@ -276,7 +274,7 @@ cellref_get_abs_pos (GnmCellRef const *cell_ref,
 }
 
 void
-cellref_make_abs (GnmCellRef *dest, GnmCellRef const *src, GnmEvalPos const *ep)
+gnm_cellref_make_abs (GnmCellRef *dest, GnmCellRef const *src, GnmEvalPos const *ep)
 {
 	g_return_if_fail (dest != NULL);
 	g_return_if_fail (src != NULL);
@@ -298,20 +296,45 @@ cellref_make_abs (GnmCellRef *dest, GnmCellRef const *src, GnmEvalPos const *ep)
 	dest->row_relative = dest->col_relative = FALSE;
 }
 
-gboolean
-rangeref_equal (GnmRangeRef const *a, GnmRangeRef const *b)
+void
+gnm_cellref_set_col_ar (GnmCellRef *cr, GnmParsePos const *pp, gboolean abs_rel)
 {
-	return cellref_equal (&a->a, &b->a) && cellref_equal (&a->b, &b->b);
+	if (cr->col_relative ^ abs_rel) {
+		if (cr->col_relative)
+			cr->col += pp->eval.col;
+		else
+			cr->col -= pp->eval.col;
+		cr->col_relative = abs_rel;
+	}
+}
+
+void
+gnm_cellref_set_row_ar (GnmCellRef *cr, GnmParsePos const *pp, gboolean abs_rel)
+{
+	if (cr->row_relative ^ abs_rel) {
+		if (cr->row_relative)
+			cr->row += pp->eval.row;
+		else
+			cr->row -= pp->eval.row;
+		cr->row_relative = abs_rel;
+	}
+}
+
+gboolean
+gnm_rangeref_equal (GnmRangeRef const *a, GnmRangeRef const *b)
+{
+	return  gnm_cellref_equal (&a->a, &b->a) &&
+		gnm_cellref_equal (&a->b, &b->b);
 }
 
 guint
-rangeref_hash (GnmRangeRef const *rr)
+gnm_rangeref_hash (GnmRangeRef const *rr)
 {
-	return cellref_hash (&rr->a) << 16 | cellref_hash (&rr->b);
+	return gnm_cellref_hash (&rr->a) << 16 | gnm_cellref_hash (&rr->b);
 }
 
 GnmRangeRef *
-rangeref_dup (GnmRangeRef const *rr)
+gnm_rangeref_dup (GnmRangeRef const *rr)
 {
 	GnmRangeRef *res;
 
@@ -323,32 +346,32 @@ rangeref_dup (GnmRangeRef const *rr)
 }
 
 /**
- * range_ref_normalize :  Take a range_ref and normalize it
+ * gnm_rangeref_normalize :  Take a range_ref and normalize it
  *     by converting to absolute coords and handling inversions.
  */
 void
-rangeref_normalize (GnmRangeRef const *ref, GnmEvalPos const *ep,
-		    Sheet **start_sheet, Sheet **end_sheet, GnmRange *dest)
+gnm_rangeref_normalize (GnmRangeRef const *ref, GnmEvalPos const *ep,
+			Sheet **start_sheet, Sheet **end_sheet, GnmRange *dest)
 {
 	g_return_if_fail (ref != NULL);
 	g_return_if_fail (ep != NULL);
 
-	cellref_get_abs_pos (&ref->a, &ep->eval, &dest->start);
-	cellref_get_abs_pos (&ref->b, &ep->eval, &dest->end);
+	gnm_cellpos_init_cellref (&dest->start, &ref->a, &ep->eval);
+	gnm_cellpos_init_cellref (&dest->end, &ref->b, &ep->eval);
 	range_normalize (dest);
 
 	*start_sheet = eval_sheet (ref->a.sheet, ep->sheet);
-	*end_sheet = eval_sheet (ref->b.sheet, *start_sheet);
+	*end_sheet   = eval_sheet (ref->b.sheet, *start_sheet);
 }
 
 guint
-cellpos_hash (GnmCellPos const *key)
+gnm_cellpos_hash (GnmCellPos const *key)
 {
 	return (key->row << 8) | key->col;
 }
 
 gint
-cellpos_equal (GnmCellPos const *a, GnmCellPos const *b)
+gnm_cellpos_equal (GnmCellPos const *a, GnmCellPos const *b)
 {
 	return (a->row == b->row && a->col == b->col);
 }

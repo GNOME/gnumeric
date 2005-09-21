@@ -177,7 +177,8 @@ gnumeric_table (FunctionEvalInfo *ei, GnmExprList const *args)
 		arg = gnm_expr_list_nth (args, x);
 		val[x] = NULL;
 		if (NULL != arg && arg->any.oper == GNM_EXPR_OP_CELLREF) {
-			cellref_get_abs_pos (&arg->cellref.ref, &ei->pos->eval, &pos);
+			gnm_cellpos_init_cellref (&pos,
+				&arg->cellref.ref, &ei->pos->eval);
 			in[x] = sheet_cell_get (ei->pos->sheet, pos.col, pos.row);
 			if (NULL == in[x])
 				in[x] = sheet_cell_fetch (ei->pos->sheet, pos.col, pos.row);

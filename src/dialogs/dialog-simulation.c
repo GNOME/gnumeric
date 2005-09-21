@@ -109,8 +109,8 @@ prepare_ranges (simulation_t *sim)
 	    sim->outputs->type != VALUE_CELLRANGE)
 		return TRUE;
 
-	sim->ref_inputs  = rangeref_dup (value_get_rangeref (sim->inputs));
-	sim->ref_outputs = rangeref_dup (value_get_rangeref (sim->outputs));
+	sim->ref_inputs  = gnm_rangeref_dup (value_get_rangeref (sim->inputs));
+	sim->ref_outputs = gnm_rangeref_dup (value_get_rangeref (sim->outputs));
 
 	sim->n_input_vars =
 		(abs (sim->ref_inputs->a.col - sim->ref_inputs->b.col) + 1) *

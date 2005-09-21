@@ -270,7 +270,7 @@ value_area_foreach (GnmValue const *v, GnmEvalPos const *ep,
 		GnmRange  r;
 		Sheet *start_sheet, *end_sheet;
 
-		rangeref_normalize (&v->v_range.cell, ep, &start_sheet, &end_sheet, &r);
+		gnm_rangeref_normalize (&v->v_range.cell, ep, &start_sheet, &end_sheet, &r);
 
 		wrap.callback = callback;
 		wrap.ep = ep;

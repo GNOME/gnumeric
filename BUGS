@@ -8,6 +8,7 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    - autopackage patches
     - Patches for Maemo {partially done}
     - autoformat template array bound reads
     - Finish Data -> Table 

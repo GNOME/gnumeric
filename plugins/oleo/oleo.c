@@ -154,7 +154,7 @@ oleo_get_gnumeric_expr (char const *o_expr,
 			cellref_as_string (gres, gnm_expr_conventions_default,
 					   &start, cur_pos, TRUE);
 
-			if (!cellref_equal (&start, &end)) {
+			if (!gnm_cellref_equal (&start, &end)) {
 				g_string_append_c (gres, ':');
 				cellref_as_string (gres, gnm_expr_conventions_default,
 						   &end, cur_pos, TRUE);

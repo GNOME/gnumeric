@@ -1,3 +1,9 @@
+2005-09-20  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (cb_gee_key_press_event) : Use
+	  gnm_cellref_set_{col,row}_ar to compress the code and to handle
+	  mixed mode references (eg $A1:B2)
+
 2005-09-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.90

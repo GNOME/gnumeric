@@ -709,8 +709,8 @@ value_equal (GnmValue const *a, GnmValue const *b)
 		return TRUE;
 
 	case VALUE_CELLRANGE:
-		return	cellref_equal (&a->v_range.cell.a, &b->v_range.cell.a) &&
-			cellref_equal (&a->v_range.cell.b, &b->v_range.cell.b);
+		return	gnm_cellref_equal (&a->v_range.cell.a, &b->v_range.cell.a) &&
+			gnm_cellref_equal (&a->v_range.cell.b, &b->v_range.cell.b);
 
 	case VALUE_ARRAY:
 		if (a->v_array.x == b->v_array.x && a->v_array.y == b->v_array.y) {
@@ -763,8 +763,8 @@ value_hash (GnmValue const *v)
 
 	case VALUE_CELLRANGE:
 		/* FIXME: take sheet into account?  */
-		return (cellref_hash (&v->v_range.cell.a) * 3) ^
-			cellref_hash (&v->v_range.cell.b);
+		return (gnm_cellref_hash (&v->v_range.cell.a) * 3) ^
+			gnm_cellref_hash (&v->v_range.cell.b);
 
 	case VALUE_ARRAY: {
 		int i;

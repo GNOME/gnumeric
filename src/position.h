@@ -51,29 +51,29 @@ struct _GnmRangeRef {
 	GnmCellRef a, b;
 };
 
-GnmCellRef *cellref_init        (GnmCellRef *ref, Sheet *sheet, int col, int row,
-				 gboolean rel);
-gboolean    cellref_equal	(GnmCellRef const *a, GnmCellRef const *b);
-guint       cellref_hash        (GnmCellRef const *cr);
-void        cellref_make_abs	(GnmCellRef *dest,
-				 GnmCellRef const *src,
-				 GnmEvalPos const *ep);
-int         cellref_get_abs_col	(GnmCellRef const *ref,
-				 GnmEvalPos const *pos);
-int         cellref_get_abs_row	(GnmCellRef const *cell_ref,
-				 GnmEvalPos const *src_fp);
-void        cellref_get_abs_pos	(GnmCellRef const *cell_ref,
-				 GnmCellPos const *pos,
-				 GnmCellPos *res);
+GnmCellRef *gnm_cellref_init       (GnmCellRef *ref, Sheet *sheet,
+				    int col, int row, gboolean rel);
+gboolean    gnm_cellref_equal	   (GnmCellRef const *a, GnmCellRef const *b);
+guint       gnm_cellref_hash	   (GnmCellRef const *cr);
+void        gnm_cellref_make_abs   (GnmCellRef *dest, GnmCellRef const *src,
+				    GnmEvalPos const *ep);
+void        gnm_cellref_set_col_ar (GnmCellRef *cr, GnmParsePos const *pp,
+				    gboolean abs_rel);
+void        gnm_cellref_set_row_ar (GnmCellRef *cr, GnmParsePos const *pp,
+				    gboolean abs_rel);
+int         gnm_cellref_get_col	   (GnmCellRef const *cr, GnmEvalPos const *ep);
+int         gnm_cellref_get_row	   (GnmCellRef const *cr, GnmEvalPos const *ep);
 
-gboolean     rangeref_equal	(GnmRangeRef const *a, GnmRangeRef const *b);
-guint	     rangeref_hash	(GnmRangeRef const *cr);
-GnmRangeRef *rangeref_dup	(GnmRangeRef const *cr);
-void         rangeref_normalize (GnmRangeRef const *ref, GnmEvalPos const *ep,
-				 Sheet **start_sheet, Sheet **end_sheet,
-				 GnmRange *dest);
+gboolean     gnm_rangeref_equal	   (GnmRangeRef const *a, GnmRangeRef const *b);
+guint	     gnm_rangeref_hash	   (GnmRangeRef const *cr);
+GnmRangeRef *gnm_rangeref_dup	   (GnmRangeRef const *cr);
+void         gnm_rangeref_normalize(GnmRangeRef const *rr, GnmEvalPos const *ep,
+				    Sheet **start_sheet, Sheet **end_sheet,
+				    GnmRange *dest);
 
-guint cellpos_hash  (GnmCellPos const *key);
-gint  cellpos_equal (GnmCellPos const *a, GnmCellPos const *b);
+guint gnm_cellpos_hash		(GnmCellPos const *key);
+gint  gnm_cellpos_equal		(GnmCellPos const *a, GnmCellPos const *b);
+void  gnm_cellpos_init_cellref	(GnmCellPos *cp,
+				 GnmCellRef const *cr, GnmCellPos const *pos);
 
 #endif /* GNUMERIC_POSITION_H */

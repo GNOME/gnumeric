@@ -551,7 +551,7 @@ link_single_dep (GnmDependent *dep, GnmCellPos const *pos, GnmCellRef const *ref
 		deps = dep->sheet->deps;
 
 	/* Inserts if it is not already there */
-	cellref_get_abs_pos (ref, pos, &lookup.pos);
+	gnm_cellpos_init_cellref (&lookup.pos, ref, pos);
 	single = g_hash_table_lookup (deps->single_hash, &lookup);
 	if (single == NULL) {
 		single = go_mem_chunk_alloc (deps->single_pool);
@@ -574,7 +574,7 @@ unlink_single_dep (GnmDependent *dep, GnmCellPos const *pos, GnmCellRef const *a
 	if (!deps)
 		return;
 
-	cellref_get_abs_pos (a, pos, &lookup.pos);
+	gnm_cellpos_init_cellref (&lookup.pos, a, pos);
 	single = g_hash_table_lookup (deps->single_hash, &lookup);
 	if (single != NULL) {
 		micro_hash_remove (&single->deps, dep);
@@ -649,8 +649,8 @@ link_cellrange_dep (GnmDependent *dep, GnmCellPos const *pos,
 	DependencyRange range;
 	DependentFlags flag = DEPENDENT_NO_FLAG;
 
-	cellref_get_abs_pos (a, pos, &range.range.start);
-	cellref_get_abs_pos (b, pos, &range.range.end);
+	gnm_cellpos_init_cellref (&range.range.start, a, pos);
+	gnm_cellpos_init_cellref (&range.range.end, b, pos);
 	range_normalize (&range.range);
 
 	if (a->sheet != NULL) {
@@ -686,8 +686,8 @@ unlink_cellrange_dep (GnmDependent *dep, GnmCellPos const *pos,
 {
 	DependencyRange range;
 
-	cellref_get_abs_pos (a, pos, &range.range.start);
-	cellref_get_abs_pos (b, pos, &range.range.end);
+	gnm_cellpos_init_cellref (&range.range.start, a, pos);
+	gnm_cellpos_init_cellref (&range.range.end, b, pos);
 	range_normalize (&range.range);
 
 	if (a->sheet != NULL) {
@@ -966,8 +966,8 @@ dependent_add_dynamic_dep (GnmDependent *dep, GnmValueRange const *v)
 		g_hash_table_insert (dep->sheet->deps->dynamic_deps, dep, dyn);
 	}
 
-	cellref_get_abs_pos (&v->cell.a, pos, &range.range.start);
-	cellref_get_abs_pos (&v->cell.b, pos, &range.range.end);
+	gnm_cellpos_init_cellref (&range.range.start, &v->cell.a, pos);
+	gnm_cellpos_init_cellref (&range.range.end, &v->cell.b, pos);
 	if (range_is_singleton (&range.range)) {
 		flags = link_single_dep (&dyn->base, pos, &v->cell.a);
 		dyn->singles = g_slist_prepend (dyn->singles, value_dup ((GnmValue *)v));

@@ -387,8 +387,8 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 		  cell_queue_recalc (cell);
 
 		  /* Add Slack calculation */
-		  cellref_init (&ref1, sh, ecol + 1, r, FALSE);
-		  cellref_init (&ref2, sh, ecol + 3, r, FALSE);
+		  gnm_cellref_init (&ref1, sh, ecol + 1, r, FALSE);
+		  gnm_cellref_init (&ref2, sh, ecol + 3, r, FALSE);
 		  expr = (GnmExpr *) gnm_expr_new_binary
 			  (gnm_expr_new_cellref (&ref1),
 			   GNM_EXPR_OP_SUB,

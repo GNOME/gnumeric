@@ -1246,7 +1246,7 @@ gnumeric_countblank (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	GnmRange r;
 	int count;
 
-	rangeref_normalize (&argv[0]->v_range.cell, ei->pos,
+	gnm_rangeref_normalize (&argv[0]->v_range.cell, ei->pos,
 		&start_sheet, &end_sheet, &r);
 	count = range_width (&r) * range_height	(&r);
 	if (start_sheet != end_sheet && end_sheet != NULL)

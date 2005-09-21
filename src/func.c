@@ -982,7 +982,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 		if (arg_type == 'A' || arg_type == 'r') {
 			if (expr->any.oper == GNM_EXPR_OP_CELLREF) {
 				GnmCellRef r;
-				cellref_make_abs (&r, &expr->cellref.ref, ei->pos);
+				gnm_cellref_make_abs (&r, &expr->cellref.ref, ei->pos);
 				args[i] = value_new_cellrange_unsafe (&r, &r);
 				/* TODO decide on the semantics of these argument types */
 #warning do we need to force an eval here ?
@@ -990,12 +990,12 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 				tmp = args[i] = gnm_expr_eval (expr, ei->pos,
 					GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 				if (tmp->type == VALUE_CELLRANGE) {
-					cellref_make_abs (&tmp->v_range.cell.a,
-							  &tmp->v_range.cell.a,
-							  ei->pos);
-					cellref_make_abs (&tmp->v_range.cell.b,
-							  &tmp->v_range.cell.b,
-							  ei->pos);
+					gnm_cellref_make_abs (&tmp->v_range.cell.a,
+						&tmp->v_range.cell.a,
+						ei->pos);
+					gnm_cellref_make_abs (&tmp->v_range.cell.b,
+						&tmp->v_range.cell.b,
+						ei->pos);
 
 				/* Array args accept scalars */
 				} else if (arg_type != 'A' && tmp->type != VALUE_ARRAY) {

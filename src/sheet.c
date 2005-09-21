@@ -479,12 +479,12 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->pivottables = NULL;
 	sheet->scenarios = NULL;
 	sheet->list_merged = NULL;
-	sheet->hash_merged = g_hash_table_new ((GHashFunc)&cellpos_hash,
-					       (GCompareFunc)&cellpos_equal);
+	sheet->hash_merged = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
+					       (GCompareFunc)&gnm_cellpos_equal);
 
 	sheet->deps	 = gnm_dep_container_new ();
-	sheet->cell_hash = g_hash_table_new ((GHashFunc)&cellpos_hash,
-					     (GCompareFunc)&cellpos_equal);
+	sheet->cell_hash = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
+					     (GCompareFunc)&gnm_cellpos_equal);
 
 	sheet->pristine = TRUE;
 	sheet->modified = FALSE;
