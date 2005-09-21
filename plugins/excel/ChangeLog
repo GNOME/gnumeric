@@ -1,6 +1,7 @@
 2005-09-21  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* ms-chart.c: (markerformat): enhance markers import for MS_BIFF_V8.
+	* ms-chart.c: (markerformat): enhance markers import for MS_BIFF_V8
+	(chart_write_MARKERFORMAT): enhanced export as well.
 
 2005-09-18  Jody Goldberg <jody@gnome.org>
 

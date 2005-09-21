@@ -1273,7 +1273,6 @@ BC_R(markerformat)(XLChartHandler const *handle,
 	guint16 shape = GSF_LE_GET_GUINT16 (q->data+8);
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+10);
 	gboolean const auto_marker = (flags & 0x01) ? TRUE : FALSE;
-	gboolean no_outline = flags & 0x20, no_fill = flags & 0x10;
 
 	BC_R(get_style) (s);
 	marker = go_marker_new ();
@@ -1284,9 +1283,9 @@ BC_R(markerformat)(XLChartHandler const *handle,
 	go_marker_set_shape (marker, shape_map [shape]);
 
 	go_marker_set_outline_color (marker,
-		no_outline ? 0 : BC_R(color) (q->data + 0, "MarkerFore"));
+		(flags & 0x20) ? 0 : BC_R(color) (q->data + 0, "MarkerFore"));
 	go_marker_set_fill_color (marker,
-		no_fill ? 0 : BC_R(color) (q->data + 4, "MarkerBack"));
+		(flags & 0x10) ? 0 : BC_R(color) (q->data + 4, "MarkerBack"));
 
 	s->style->marker.auto_shape = auto_marker;
 
@@ -1300,10 +1299,9 @@ BC_R(markerformat)(XLChartHandler const *handle,
 		as the automatic one whatever the auto flag value is */
 		s->style->marker.auto_outline_color = (fore == 31 + s->series->len);
 		s->style->marker.auto_fill_color = (back == 31 + s->series->len);
-	} else {
-		s->style->marker.auto_outline_color = auto_marker && !no_outline;
-		s->style->marker.auto_fill_color = auto_marker && !no_fill;
-	}
+	} else
+		s->style->marker.auto_outline_color = 
+			s->style->marker.auto_fill_color = auto_marker;
 
 	gog_style_set_marker (s->style, marker);
 
@@ -3334,12 +3332,13 @@ chart_write_MARKERFORMAT (XLChartWriteState *s, GogStyle const *style,
 		shape = shape_map[go_marker_get_shape (style->marker.mark)];
 		size = go_marker_get_size (style->marker.mark) * 20;
 		if (style->marker.auto_outline_color &&
-		    style->marker.auto_fill_color)
+		    style->marker.auto_fill_color && style->marker.auto_shape &&
+			((size == 100) || (s->bp->version < MS_BIFF_V8)))
 			flags |= 1;
 		if (fore == 0)
-			flags |= 0x10;
-		if (back == 0)
 			flags |= 0x20;
+		if (back == 0)
+			flags |= 0x10;
 	} else {
 		fore = back = 0;
 		if (clear_marks_for_null) {
@@ -3348,16 +3347,22 @@ chart_write_MARKERFORMAT (XLChartWriteState *s, GogStyle const *style,
 			shape = 2;
 			flags = 1;
 		}
-		size = 60;
+		size = 100;
 	}
 
 	fore_index = chart_write_color (s, data+0, fore);
 	back_index = chart_write_color (s, data+4, back);
+
 	GSF_LE_SET_GUINT16 (data+8,  shape);
 	GSF_LE_SET_GUINT16 (data+10, flags);
 	if (s->bp->version >= MS_BIFF_V8) {
-		GSF_LE_SET_GUINT16 (data+12, fore_index);
-		GSF_LE_SET_GUINT16 (data+14, back_index);
+		/* if s->cur_series is UINT_MAX, we are not saving a series format */
+		GSF_LE_SET_GUINT16 (data+12,
+			(style->marker.auto_outline_color && s->cur_series != UINT_MAX) ?
+			32 + s->cur_series: fore_index);
+		GSF_LE_SET_GUINT16 (data+14,
+			(style->marker.auto_outline_color && s->cur_series != UINT_MAX) ?
+			32 + s->cur_series: back_index);
 		GSF_LE_SET_GUINT32 (data+16, size);
 	}
 
@@ -4669,6 +4674,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 		chart_write_text (&state, NULL, NULL);
 	}
 
+	state.cur_series = UINT_MAX;
 	chart_write_axis_sets (&state, sets);
 
 #if 0
