@@ -26,6 +26,7 @@
 #include <gui-util.h>
 #include <workbook.h>
 #include <gtk/gtkframe.h>
+#include <goffice/utils/go-glib-extras.h>
 
 /*************************************************************************************************
  * MISC UTILITY FUNCTIONS
@@ -44,12 +45,20 @@ main_page_set_encoding (StfDialogData *pagedata, const char *enc)
 	utf8_data = g_convert (pagedata->raw_data, pagedata->raw_data_len,
 			       "UTF-8", enc,
 			       &bytes_read, &bytes_written, &error);
-	if (error) {
+
+	/*
+	 * It _is_ possible to get NULL error, but not have valid UTF-8.
+	 * Specifically observed with UTF-16BE.
+	 */
+	if (error || !g_utf8_validate (utf8_data, -1, NULL)) {
 		g_free (utf8_data);
-		g_error_free (error);
-		/* FIXME: What to do with error?  */
+		if (error) {
+			/* FIXME: What to do with error?  */
+			g_error_free (error);
+		}
 		return FALSE;
 	}
+
 
 	if (!go_charmap_sel_set_encoding (pagedata->main.charmap_selector, enc)) {
 		g_free (utf8_data);
@@ -163,8 +172,8 @@ encodings_changed_cb (GOCharmapSel *cs, char const *new_charmap,
 		      StfDialogData *pagedata)
 {
 	if (main_page_set_encoding (pagedata, new_charmap)) {
-		main_page_import_range_changed (pagedata);
 		main_page_update_preview (pagedata);
+		main_page_import_range_changed (pagedata);
 	} else {
 		const char *name = go_charmap_sel_get_encoding_name (cs, new_charmap);
 		char *msg = g_strdup_printf
@@ -326,9 +335,11 @@ stf_dialog_main_page_init (GladeXML *gui, StfDialogData *pagedata)
 {
 	RenderData_t *renderdata;
 	GtkTreeViewColumn *column;
-	char const *locale_encoding;
+	const char *encoding_guess;
 
-	g_get_charset (&locale_encoding);
+	encoding_guess = go_guess_encoding (pagedata->raw_data, pagedata->raw_data_len,
+					    "ASCII",
+					    NULL);
 
 	pagedata->main.main_separated = GTK_RADIO_BUTTON (glade_xml_get_widget (gui, "main_separated"));
 	pagedata->main.main_fixed     = GTK_RADIO_BUTTON (glade_xml_get_widget (gui, "main_fixed"));
@@ -342,11 +353,11 @@ stf_dialog_main_page_init (GladeXML *gui, StfDialogData *pagedata)
 
 	pagedata->main.charmap_selector = GO_CHARMAP_SEL (go_charmap_sel_new (GO_CHARMAP_SEL_TO_UTF8));
 	if (!main_page_set_encoding (pagedata, pagedata->encoding) &&
-	    !main_page_set_encoding (pagedata, locale_encoding) &&
-	    !main_page_set_encoding (pagedata, "ASCII") &&
-	    !main_page_set_encoding (pagedata, "ISO-8859-1") &&
-	    !main_page_set_encoding (pagedata, "UTF-8"))
+	    !main_page_set_encoding (pagedata, encoding_guess)) {
 		g_warning ("This is not good -- failed to find a valid encoding of data!");
+		pagedata->raw_data_len = 0;
+		main_page_set_encoding (pagedata, "ASCII");
+	}
 	gtk_container_add (GTK_CONTAINER (glade_xml_get_widget (gui, "encoding_hbox")),
 			   GTK_WIDGET (pagedata->main.charmap_selector));
 	gtk_widget_show_all (GTK_WIDGET (pagedata->main.charmap_selector));

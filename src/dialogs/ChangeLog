@@ -1,3 +1,12 @@
+2005-09-21  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-main-page.c (stf_dialog_main_page_init): Use
+	go_guess_encoding.
+	(main_page_set_encoding): Explicitly verify that the generated
+	text is valid UTF-8.
+	(encodings_changed_cb): Update preview before spinbuttons as the
+	number of lines might have changed.
+
 2005-09-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-define-names.c (load_selection): new
