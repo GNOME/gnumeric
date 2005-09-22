@@ -127,8 +127,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-09-07 19:14+0200\n"
-"PO-Revision-Date: 2005-09-07 23:22+0200\n"
+"POT-Creation-Date: 2005-09-22 11:09+0200\n"
+"PO-Revision-Date: 2005-09-22 17:55+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
@@ -148,7 +148,7 @@ msgid "Gnumeric Workbook viewer factory"
 msgstr "Gnumeric werkboekweergave-fabriek"
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:1 ../src/main-application.c:343
+#: ../gnumeric.desktop.in.h:1 ../src/main-application.c:376
 msgid "Gnumeric Spreadsheet"
 msgstr "Gnumeric rekenblad"
 
@@ -362,7 +362,7 @@ msgstr "Financieel Afgeleiden"
 msgid "Functions related to financial derivatives"
 msgstr "Functies gerelateerd aan financieel afgeleiden"
 
-#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:6016
+#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:6036
 #: ../plugins/mps/mps.c:544 ../src/xml-io.c:3917
 msgid "Reading file..."
 msgstr "Bezig met lezen bestand..."
@@ -488,12 +488,12 @@ msgstr "Grafiek%d"
 msgid "Module%d"
 msgstr "Module%d"
 
-#: ../plugins/excel/ms-excel-read.c:3027
+#: ../plugins/excel/ms-excel-read.c:3047
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Fout bij verwerken naam '%s'"
 
-#: ../plugins/excel/ms-excel-read.c:3123
+#: ../plugins/excel/ms-excel-read.c:3143
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -502,7 +502,7 @@ msgstr ""
 "DDE-links zijn niet ondersteund.\n"
 "Naam '%s' zal verloren gaan.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3129
+#: ../plugins/excel/ms-excel-read.c:3149
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -511,11 +511,11 @@ msgstr ""
 "OLE-links zijn niet ondersteund.\n"
 "Naam '%s' zal verloren gaan.\n"
 
-#: ../plugins/excel/ms-excel-read.c:5329
+#: ../plugins/excel/ms-excel-read.c:5349
 msgid "external references"
 msgstr "externe verwijzingen"
 
-#: ../plugins/excel/ms-excel-read.c:5355
+#: ../plugins/excel/ms-excel-read.c:5375
 msgid "No password supplied"
 msgstr "Geen wachtwoord opgegeven"
 
@@ -529,7 +529,7 @@ msgstr ""
 "We hebben reeds een lengte weggeschreven voor een tekenreeks die wordt "
 "afgekapt vanwege tekensetproblemen."
 
-#: ../plugins/excel/ms-excel-write.c:4514
+#: ../plugins/excel/ms-excel-write.c:4537
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -539,7 +539,7 @@ msgstr ""
 "(tm) 95 bestand. Excel (tm) 95 ondersteunt slechts %d rijen, en dit werkboek "
 "heeft er %d"
 
-#: ../plugins/excel/ms-excel-write.c:4521
+#: ../plugins/excel/ms-excel-write.c:4544
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -549,11 +549,11 @@ msgstr ""
 "(tm) bestand. MS Excel ondersteunt slechts %d rijen en dit werkboek heeft er "
 "%d"
 
-#: ../plugins/excel/ms-excel-write.c:5294
+#: ../plugins/excel/ms-excel-write.c:5317
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Kon de stroom 'Map' niet openen voor schrijven\n"
 
-#: ../plugins/excel/ms-excel-write.c:5314
+#: ../plugins/excel/ms-excel-write.c:5337
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kon de stroom 'Werkmap' niet openen voor schrijven\n"
 
@@ -562,7 +562,7 @@ msgid "Broken function"
 msgstr "Gebroken functie"
 
 # verwerken/behandelen/in behandeling nemen
-#: ../plugins/excel/ms-formula-write.c:529
+#: ../plugins/excel/ms-formula-write.c:530
 #, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
@@ -915,20 +915,20 @@ msgstr "Typen komen niet overeen"
 
 #: ../plugins/fn-logical/functions.c:354 ../plugins/fn-logical/functions.c:358
 #: ../plugins/fn-logical/functions.c:378 ../plugins/fn-math/functions.c:3451
-#: ../plugins/fn-stat/functions.c:5910 ../plugins/fn-stat/functions.c:5914
-#: ../plugins/fn-stat/functions.c:5918 ../plugins/fn-stat/functions.c:5956
-#: ../plugins/fn-stat/functions.c:5959 ../plugins/fn-stat/functions.c:5968
-#: ../plugins/fn-stat/functions.c:6004 ../plugins/fn-stat/functions.c:6018
-#: ../plugins/fn-stat/functions.c:6021 ../plugins/fn-stat/functions.c:6024
-#: ../plugins/fn-stat/functions.c:6046 ../plugins/fn-stat/functions.c:6050
-#: ../plugins/fn-stat/functions.c:6054 ../plugins/fn-stat/functions.c:6058
-#: ../plugins/fn-stat/functions.c:6062 ../plugins/fn-stat/functions.c:6066
-#: ../plugins/fn-stat/functions.c:6112 ../plugins/fn-stat/functions.c:6122
-#: ../plugins/fn-stat/functions.c:6126 ../plugins/fn-stat/functions.c:6130
-#: ../plugins/fn-stat/functions.c:6134 ../plugins/fn-stat/functions.c:6163
-#: ../plugins/fn-stat/functions.c:6166 ../plugins/fn-stat/functions.c:6169
-#: ../plugins/fn-stat/functions.c:6172 ../plugins/fn-stat/functions.c:6188
-#: ../src/func-builtin.c:143 ../src/func-builtin.c:149
+#: ../plugins/fn-stat/functions.c:5908 ../plugins/fn-stat/functions.c:5912
+#: ../plugins/fn-stat/functions.c:5916 ../plugins/fn-stat/functions.c:5954
+#: ../plugins/fn-stat/functions.c:5957 ../plugins/fn-stat/functions.c:5966
+#: ../plugins/fn-stat/functions.c:6002 ../plugins/fn-stat/functions.c:6016
+#: ../plugins/fn-stat/functions.c:6019 ../plugins/fn-stat/functions.c:6022
+#: ../plugins/fn-stat/functions.c:6044 ../plugins/fn-stat/functions.c:6048
+#: ../plugins/fn-stat/functions.c:6052 ../plugins/fn-stat/functions.c:6056
+#: ../plugins/fn-stat/functions.c:6060 ../plugins/fn-stat/functions.c:6064
+#: ../plugins/fn-stat/functions.c:6110 ../plugins/fn-stat/functions.c:6120
+#: ../plugins/fn-stat/functions.c:6124 ../plugins/fn-stat/functions.c:6128
+#: ../plugins/fn-stat/functions.c:6132 ../plugins/fn-stat/functions.c:6161
+#: ../plugins/fn-stat/functions.c:6164 ../plugins/fn-stat/functions.c:6167
+#: ../plugins/fn-stat/functions.c:6170 ../plugins/fn-stat/functions.c:6186
+#: ../src/func-builtin.c:262 ../src/func-builtin.c:268
 msgid "number,number,"
 msgstr "getal;getal;"
 
@@ -950,9 +950,9 @@ msgstr "getal;getal;"
 #: ../plugins/fn-math/functions.c:3439 ../plugins/fn-math/functions.c:3442
 #: ../plugins/fn-math/functions.c:3445 ../plugins/fn-math/functions.c:3448
 #: ../plugins/fn-math/functions.c:3461 ../plugins/fn-math/functions.c:3473
-#: ../plugins/fn-math/functions.c:3476 ../plugins/fn-stat/functions.c:5980
-#: ../plugins/fn-stat/functions.c:5983 ../plugins/fn-stat/functions.c:6001
-#: ../plugins/fn-stat/functions.c:6079 ../plugins/fn-string/functions.c:1230
+#: ../plugins/fn-math/functions.c:3476 ../plugins/fn-stat/functions.c:5978
+#: ../plugins/fn-stat/functions.c:5981 ../plugins/fn-stat/functions.c:5999
+#: ../plugins/fn-stat/functions.c:6077 ../plugins/fn-string/functions.c:1230
 #: ../plugins/fn-string/functions.c:1233
 msgid "number"
 msgstr "getal"
@@ -1067,7 +1067,7 @@ msgstr "bereik;criteria"
 msgid "number,significance"
 msgstr "getal;significantie"
 
-#: ../plugins/fn-math/functions.c:3358 ../plugins/fn-stat/functions.c:6094
+#: ../plugins/fn-math/functions.c:3358 ../plugins/fn-stat/functions.c:6092
 msgid "n,k"
 msgstr "n;k"
 
@@ -1114,8 +1114,8 @@ msgstr "bereik;bereik;"
 
 #: ../plugins/fn-math/functions.c:3464 ../plugins/fn-math/functions.c:3467
 #: ../plugins/fn-math/functions.c:3470 ../plugins/fn-math/functions.c:3486
-#: ../plugins/fn-stat/functions.c:5953 ../plugins/fn-stat/functions.c:5962
-#: ../plugins/fn-stat/functions.c:6085 ../plugins/fn-stat/functions.c:6141
+#: ../plugins/fn-stat/functions.c:5951 ../plugins/fn-stat/functions.c:5960
+#: ../plugins/fn-stat/functions.c:6083 ../plugins/fn-stat/functions.c:6139
 msgid "array1,array2"
 msgstr "array1;array2"
 
@@ -1133,7 +1133,7 @@ msgstr "Mathematische functies"
 msgid "Mathematical Functions"
 msgstr "Mathematische functies"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:170
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:290
 msgid "Mathematics"
 msgstr "Wiskunde"
 
@@ -1155,7 +1155,7 @@ msgid "Statistics"
 msgstr "Statistieken"
 
 #: ../plugins/fn-random/functions.c:1193 ../plugins/fn-random/functions.c:1229
-#: ../plugins/fn-random/functions.c:1247 ../plugins/fn-stat/functions.c:6082
+#: ../plugins/fn-random/functions.c:1247 ../plugins/fn-stat/functions.c:6080
 msgid "p"
 msgstr "p"
 
@@ -1242,181 +1242,181 @@ msgstr "Functies voor willekeurige getallen"
 msgid "Random Numbers"
 msgstr "Willekeurige getallen"
 
-#: ../plugins/fn-stat/functions.c:5923 ../plugins/fn-stat/functions.c:6185
+#: ../plugins/fn-stat/functions.c:5921 ../plugins/fn-stat/functions.c:6183
 msgid "k,p"
 msgstr "k;p"
 
-#: ../plugins/fn-stat/functions.c:5927
+#: ../plugins/fn-stat/functions.c:5925
 msgid "x,alpha,beta,a,b"
 msgstr "x;alpha;beta;a;b"
 
-#: ../plugins/fn-stat/functions.c:5930
+#: ../plugins/fn-stat/functions.c:5928
 msgid "p,alpha,beta,a,b"
 msgstr "p;alpha;beta;a;b"
 
-#: ../plugins/fn-stat/functions.c:5933
+#: ../plugins/fn-stat/functions.c:5931
 msgid "n,t,p,c"
 msgstr "n;t;p;c"
 
-#: ../plugins/fn-stat/functions.c:5937
+#: ../plugins/fn-stat/functions.c:5935
 msgid "x,a,cum"
 msgstr "x;a;cum"
 
-#: ../plugins/fn-stat/functions.c:5941
+#: ../plugins/fn-stat/functions.c:5939
 msgid "x,dof"
 msgstr "x;dof"
 
-#: ../plugins/fn-stat/functions.c:5944 ../plugins/fn-stat/functions.c:6150
+#: ../plugins/fn-stat/functions.c:5942 ../plugins/fn-stat/functions.c:6148
 msgid "p,dof"
 msgstr "p;dof"
 
-#: ../plugins/fn-stat/functions.c:5947
+#: ../plugins/fn-stat/functions.c:5945
 msgid "act_range,theo_range"
 msgstr "feitlk_bereik;theo_bereik"
 
-#: ../plugins/fn-stat/functions.c:5950
+#: ../plugins/fn-stat/functions.c:5948
 msgid "x,stddev,size"
 msgstr "x;stddev;grootte"
 
-#: ../plugins/fn-stat/functions.c:5965
+#: ../plugins/fn-stat/functions.c:5963
 msgid "trials,p,alpha"
 msgstr "trekkingen;p;alpha"
 
-#: ../plugins/fn-stat/functions.c:5971
+#: ../plugins/fn-stat/functions.c:5969
 msgid "x,y,cumulative"
 msgstr "x;y;cumulatief"
 
-#: ../plugins/fn-stat/functions.c:5974
+#: ../plugins/fn-stat/functions.c:5972
 msgid "x,dof of num,dof of denom"
 msgstr "x;dof van teller;dof van noemer"
 
-#: ../plugins/fn-stat/functions.c:5977
+#: ../plugins/fn-stat/functions.c:5975
 msgid "p,dof of num,dof of denom"
 msgstr "p;dof van teller;dof van noemer"
 
-#: ../plugins/fn-stat/functions.c:5986
+#: ../plugins/fn-stat/functions.c:5984
 msgid "x,known y's,known x's"
 msgstr "x;y_bekend;x_bekend"
 
-#: ../plugins/fn-stat/functions.c:5989
+#: ../plugins/fn-stat/functions.c:5987
 msgid "data_array,bins_array"
 msgstr "data_array;bins_array"
 
-#: ../plugins/fn-stat/functions.c:5992
+#: ../plugins/fn-stat/functions.c:5990
 msgid "arr1,arr2"
 msgstr "arr1;arr2"
 
-#: ../plugins/fn-stat/functions.c:5995
+#: ../plugins/fn-stat/functions.c:5993
 msgid "number,alpha,beta,cum"
 msgstr "getal;alpha;beta;cum"
 
-#: ../plugins/fn-stat/functions.c:5998
+#: ../plugins/fn-stat/functions.c:5996
 msgid "number,alpha,beta"
 msgstr "getal;alpha;beta"
 
-#: ../plugins/fn-stat/functions.c:6008 ../plugins/fn-stat/functions.c:6153
+#: ../plugins/fn-stat/functions.c:6006 ../plugins/fn-stat/functions.c:6151
 msgid "known_y's,known_x's,new_x's,const"
 msgstr "y_bekend;x_bekend;x_nieuw;const"
 
-#: ../plugins/fn-stat/functions.c:6015
+#: ../plugins/fn-stat/functions.c:6013
 msgid "x,n,M,N,cumulative"
 msgstr "x;n;M;N;cumulatief"
 
-#: ../plugins/fn-stat/functions.c:6028 ../plugins/fn-stat/functions.c:6031
-#: ../plugins/fn-stat/functions.c:6043
+#: ../plugins/fn-stat/functions.c:6026 ../plugins/fn-stat/functions.c:6029
+#: ../plugins/fn-stat/functions.c:6041
 msgid "known_y's,known_x's,const,stat"
 msgstr "y_bekend;x_bekend;const;stat"
 
-#: ../plugins/fn-stat/functions.c:6034 ../plugins/fn-stat/functions.c:6109
-#: ../plugins/fn-stat/functions.c:6138
+#: ../plugins/fn-stat/functions.c:6032 ../plugins/fn-stat/functions.c:6107
+#: ../plugins/fn-stat/functions.c:6136
 msgid "known_y's,known_x's"
 msgstr "y_bekend;x_bekend"
 
-#: ../plugins/fn-stat/functions.c:6037 ../plugins/fn-stat/functions.c:6076
+#: ../plugins/fn-stat/functions.c:6035 ../plugins/fn-stat/functions.c:6074
 msgid "p,mean,stddev"
 msgstr "p;gemiddelde;stddev"
 
-#: ../plugins/fn-stat/functions.c:6040 ../plugins/fn-stat/functions.c:6116
+#: ../plugins/fn-stat/functions.c:6038 ../plugins/fn-stat/functions.c:6114
 msgid "x,mean,stddev"
 msgstr "x;gemiddelde;stddev"
 
-#: ../plugins/fn-stat/functions.c:6070
+#: ../plugins/fn-stat/functions.c:6068
 msgid "f,t,p"
 msgstr "f;t;p"
 
-#: ../plugins/fn-stat/functions.c:6073
+#: ../plugins/fn-stat/functions.c:6071
 msgid "x,mean,stddev,cumulative"
 msgstr "x;gemiddelde;stddev;cumulatief"
 
-#: ../plugins/fn-stat/functions.c:6088
+#: ../plugins/fn-stat/functions.c:6086
 msgid "array,k"
 msgstr "array;k"
 
-#: ../plugins/fn-stat/functions.c:6091
+#: ../plugins/fn-stat/functions.c:6089
 msgid "array,x,significance"
 msgstr "arraym;x;significantie"
 
-#: ../plugins/fn-stat/functions.c:6097
+#: ../plugins/fn-stat/functions.c:6095
 msgid "x,mean,cumulative"
 msgstr "x;gemiddelde;cumulatief"
 
-#: ../plugins/fn-stat/functions.c:6100
+#: ../plugins/fn-stat/functions.c:6098
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr "x_bereik;waarsch_bereik;onderlimiet;bovenlimiet"
 
-#: ../plugins/fn-stat/functions.c:6103
+#: ../plugins/fn-stat/functions.c:6101
 msgid "array,quart"
 msgstr "array;kwart"
 
-#: ../plugins/fn-stat/functions.c:6119
+#: ../plugins/fn-stat/functions.c:6117
 msgid "array,interval"
 msgstr "array;interval"
 
-#: ../plugins/fn-stat/functions.c:6147
+#: ../plugins/fn-stat/functions.c:6145
 msgid "x,dof,tails"
 msgstr "x;dof;staarten"
 
-#: ../plugins/fn-stat/functions.c:6156
+#: ../plugins/fn-stat/functions.c:6154
 msgid "ref,fraction"
 msgstr "verw;fractie"
 
-#: ../plugins/fn-stat/functions.c:6160
+#: ../plugins/fn-stat/functions.c:6158
 msgid "array1,array2,tails,type"
 msgstr "array1;array2;staarten;type"
 
-#: ../plugins/fn-stat/functions.c:6175
+#: ../plugins/fn-stat/functions.c:6173
 msgid "x.alpha,beta,cumulative"
 msgstr "x.alpha;beta;cumulatief"
 
-#: ../plugins/fn-stat/functions.c:6178
+#: ../plugins/fn-stat/functions.c:6176
 msgid "ref,x"
 msgstr "ref;x"
 
-#: ../plugins/fn-stat/functions.c:6182 ../plugins/fn-stat/functions.c:6200
+#: ../plugins/fn-stat/functions.c:6180 ../plugins/fn-stat/functions.c:6198
 msgid "x,a,b"
 msgstr "x;a;b"
 
-#: ../plugins/fn-stat/functions.c:6191
+#: ../plugins/fn-stat/functions.c:6189
 msgid "x"
 msgstr "x"
 
-#: ../plugins/fn-stat/functions.c:6194 ../plugins/fn-stat/functions.c:6197
+#: ../plugins/fn-stat/functions.c:6192 ../plugins/fn-stat/functions.c:6195
 msgid "x,a"
 msgstr "x;a"
 
-#: ../plugins/fn-stat/functions.c:6203
+#: ../plugins/fn-stat/functions.c:6201
 msgid "x,sigma"
 msgstr "x;sigma"
 
-#: ../plugins/fn-stat/functions.c:6206
+#: ../plugins/fn-stat/functions.c:6204
 msgid "x,a,sigma"
 msgstr "x;a;sigma"
 
-#: ../plugins/fn-stat/functions.c:6212
+#: ../plugins/fn-stat/functions.c:6210
 msgid "function_nbr,ref,ref,"
 msgstr "functie_nbr;verw;verw;"
 
-#: ../plugins/fn-stat/functions.c:6215
+#: ../plugins/fn-stat/functions.c:6213
 msgid "ref,ref,"
 msgstr "verw;verw;"
 
@@ -1586,7 +1586,7 @@ msgstr "XHTML (*.html)"
 msgid "XHTML range - for export to clipboard"
 msgstr "XHTML bereik - voor export naar klembord"
 
-#: ../plugins/lotus-123/boot.c:93
+#: ../plugins/lotus-123/boot.c:81
 msgid "Error while reading lotus workbook."
 msgstr "Fout bij lezen van lotus werkmap."
 
@@ -1623,10 +1623,10 @@ msgstr "Objectieve functie:"
 msgid "Constraints:"
 msgstr "Voorwaarden:"
 
-#: ../plugins/mps/mps.c:242 ../src/dialogs/dialog-define-names.c:496
+#: ../plugins/mps/mps.c:242 ../src/dialogs/dialog-define-names.c:508
 #: ../src/dialogs/dialog-formula-guru.c:810
-#: ../src/dialogs/dialog-function-select.c:443
-#: ../src/dialogs/dialog-function-select.c:465
+#: ../src/dialogs/dialog-function-select.c:444
+#: ../src/dialogs/dialog-function-select.c:466
 #: ../src/dialogs/dialog-paste-names.c:101
 #: ../src/dialogs/dialog-scenarios.c:368
 #: ../src/dialogs/dialog-simulation.c:217 ../src/dialogs/dialog-zoom.c:198
@@ -2242,7 +2242,10 @@ msgid ""
 ">This value determines the default setting in the Print Setup dialog: "
 "whether to center pages vertically. Please use the Print Setup dialog to "
 "edit this value."
-msgstr ">Deze waarde geeft de standaardinstelling in het dialoogvenster Afdrukinstellingen: of pagina's verticaal gecentreerd worden. Gebruik het dialoogvenster Afdrukinstellingen om deze waarde te bewerken."
+msgstr ""
+">Deze waarde geeft de standaardinstelling in het dialoogvenster "
+"Afdrukinstellingen: of pagina's verticaal gecentreerd worden. Gebruik het "
+"dialoogvenster Afdrukinstellingen om deze waarde te bewerken."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:3
 msgid "Activate New Plugins"
@@ -2628,7 +2631,10 @@ msgid ""
 "This value determines the default setting in the Print Setup dialog: whether "
 "to center pages horizontally. Please use the Print Setup dialog to edit this "
 "value."
-msgstr "Deze waarde geeft de standaardinstelling in het dialoogvenster Afdrukinstellingen: of pagina's horizontaal gecentreerd worden. Gebruik het dialoogvenster Afdrukinstellingen om deze waarde te bewerken."
+msgstr ""
+"Deze waarde geeft de standaardinstelling in het dialoogvenster "
+"Afdrukinstellingen: of pagina's horizontaal gecentreerd worden. Gebruik het "
+"dialoogvenster Afdrukinstellingen om deze waarde te bewerken."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:74
 msgid ""
@@ -4372,68 +4378,68 @@ msgid "Original plugin engine."
 msgstr "Oorspronkelijke plugin-motor."
 
 #: ../src/dialogs/dialog-about.c:104
+msgid "Kjell Eikland"
+msgstr "Kjell Eikland"
+
+#: ../src/dialogs/dialog-about.c:105 ../src/dialogs/dialog-about.c:131
+msgid "LP-solve"
+msgstr "LP-solve"
+
+#: ../src/dialogs/dialog-about.c:106
 msgid "Gergo Erdi"
 msgstr "Gergo Erdi"
 
-#: ../src/dialogs/dialog-about.c:105
+#: ../src/dialogs/dialog-about.c:107
 msgid "Custom UI tools"
 msgstr "Aangepaste UI-tools"
 
-#: ../src/dialogs/dialog-about.c:106
+#: ../src/dialogs/dialog-about.c:108
 msgid "John Gotts"
 msgstr "John Gotts"
 
-#: ../src/dialogs/dialog-about.c:107
+#: ../src/dialogs/dialog-about.c:109
 msgid "RPM packaging"
-msgstr "RPM pakketten"
+msgstr "RPM-pakketten"
 
-#: ../src/dialogs/dialog-about.c:108
+#: ../src/dialogs/dialog-about.c:110
 msgid "Andreas J. Gülzow"
 msgstr "Andreas J. Gülzow"
 
-#: ../src/dialogs/dialog-about.c:109
+#: ../src/dialogs/dialog-about.c:111
 msgid "Statistics and GUI master"
 msgstr "Statistieken en GUI-meester"
 
-#: ../src/dialogs/dialog-about.c:110
+#: ../src/dialogs/dialog-about.c:112
 msgid "Jon Kåre Hellan"
 msgstr "Jon Kåre Hellan"
 
-#: ../src/dialogs/dialog-about.c:111
+#: ../src/dialogs/dialog-about.c:113
 msgid "UI polish and all round bug fixer"
 msgstr "UI-afwerking en all-round bug fixer"
 
-#: ../src/dialogs/dialog-about.c:112
+#: ../src/dialogs/dialog-about.c:114
 msgid "Ross Ihaka"
 msgstr "Ross Ihaka"
 
-#: ../src/dialogs/dialog-about.c:113
+#: ../src/dialogs/dialog-about.c:115
 msgid "Special functions"
 msgstr "Speciale functies"
 
-#: ../src/dialogs/dialog-about.c:114
+#: ../src/dialogs/dialog-about.c:116
 msgid "Jukka-Pekka Iivonen"
 msgstr "Jukka-Pekka Iivonen"
 
-#: ../src/dialogs/dialog-about.c:115
+#: ../src/dialogs/dialog-about.c:117
 msgid "Solver, lots of worksheet functions, and general trailblazer"
 msgstr "Solver, veel werkbladfuncties en algemeen pionier"
 
-#: ../src/dialogs/dialog-about.c:116
+#: ../src/dialogs/dialog-about.c:118
 msgid "Jakub Jelínek"
 msgstr "Jakub Jelínek"
 
-#: ../src/dialogs/dialog-about.c:117
+#: ../src/dialogs/dialog-about.c:119
 msgid "One of the original core contributors"
 msgstr "Een van de oorspronkelijke hoofdontwikkelaars"
-
-#: ../src/dialogs/dialog-about.c:118
-msgid "Jakub Steiner"
-msgstr "Jakub Steiner"
-
-#: ../src/dialogs/dialog-about.c:119
-msgid "Icons and Images"
-msgstr "Pictogrammen en afbeeldingen"
 
 #: ../src/dialogs/dialog-about.c:120
 msgid "Chris Lahey"
@@ -4441,7 +4447,7 @@ msgstr "Chris Lahey"
 
 #: ../src/dialogs/dialog-about.c:121
 msgid "The original value format engine and libgoffice work"
-msgstr "De oorspronkelijke waardeformaat-motor en libgoffice-werk"
+msgstr "De oorspronkelijke waardeformaat-motor en libgoffice"
 
 #: ../src/dialogs/dialog-about.c:122
 msgid "Takashi Matsuda"
@@ -4476,138 +4482,150 @@ msgid "Support for non-Latin languages"
 msgstr "Ondersteuning voor niet-latijnse talen"
 
 #: ../src/dialogs/dialog-about.c:130
+msgid "Peter Notebaert"
+msgstr "Peter Notebaert"
+
+#: ../src/dialogs/dialog-about.c:132
 msgid "Emmanuel Pacaud"
 msgstr "Emmanuel Pacaud"
 
-#: ../src/dialogs/dialog-about.c:131
+#: ../src/dialogs/dialog-about.c:133
 msgid "Many plot types for charting engine."
 msgstr "Veel plot-types voor de grafiek-motor."
 
-#: ../src/dialogs/dialog-about.c:132
+#: ../src/dialogs/dialog-about.c:134
 msgid "Federico M. Quintero"
 msgstr "Federico M. Quintero"
 
-#: ../src/dialogs/dialog-about.c:133
+#: ../src/dialogs/dialog-about.c:135
 msgid "canvas support"
-msgstr "canvas ondersteuning"
+msgstr "ondersteuning voor canvas"
 
-#: ../src/dialogs/dialog-about.c:134
+#: ../src/dialogs/dialog-about.c:136
 msgid "Mark Probst"
 msgstr "Mark Probst"
 
-#: ../src/dialogs/dialog-about.c:135 ../src/dialogs/dialog-about.c:141
+#: ../src/dialogs/dialog-about.c:137 ../src/dialogs/dialog-about.c:143
 msgid "Guile support"
 msgstr "Guile ondersteuning"
 
-#: ../src/dialogs/dialog-about.c:136
+#: ../src/dialogs/dialog-about.c:138
 msgid "Rasca"
 msgstr "Rasca"
 
-#: ../src/dialogs/dialog-about.c:137
+#: ../src/dialogs/dialog-about.c:139
 msgid "HTML, troff, LaTeX exporters"
 msgstr "Export van HTML, troff, LaTeX"
 
-#: ../src/dialogs/dialog-about.c:138
+#: ../src/dialogs/dialog-about.c:140
 msgid "Vincent Renardias"
 msgstr "Vincent Renardias"
 
-#: ../src/dialogs/dialog-about.c:139
+#: ../src/dialogs/dialog-about.c:141
 msgid "original CSV support, French localization"
 msgstr "oorspronkelijke CSV ondersteuning, Franse vertaling"
 
-#: ../src/dialogs/dialog-about.c:140
+#: ../src/dialogs/dialog-about.c:142
 msgid "Ariel Rios"
 msgstr "Ariel Rios"
 
-#: ../src/dialogs/dialog-about.c:142
+#: ../src/dialogs/dialog-about.c:144
+msgid "Jakub Steiner"
+msgstr "Jakub Steiner"
+
+#: ../src/dialogs/dialog-about.c:145
+msgid "Icons and Images"
+msgstr "Pictogrammen en afbeeldingen"
+
+#: ../src/dialogs/dialog-about.c:146
 msgid "Uwe Steinmann"
 msgstr "Uwe Steinmann"
 
-#: ../src/dialogs/dialog-about.c:143
+#: ../src/dialogs/dialog-about.c:147
 msgid "Paradox Importer"
 msgstr "Import van Paradox"
 
-#: ../src/dialogs/dialog-about.c:144
+#: ../src/dialogs/dialog-about.c:148
 msgid "Arturo Tena"
 msgstr "Arturo Tena"
 
-#: ../src/dialogs/dialog-about.c:145
+#: ../src/dialogs/dialog-about.c:149
 msgid "Initial work on OLE2 for libgsf"
 msgstr "Oorspronkelijke werk aan OLE2 voor libgsf"
 
-#: ../src/dialogs/dialog-about.c:146
+#: ../src/dialogs/dialog-about.c:150
 msgid "Almer S. Tigelaar"
 msgstr "Almer S. Tigelaar"
 
-#: ../src/dialogs/dialog-about.c:147
+#: ../src/dialogs/dialog-about.c:151
 msgid "Consolidation and Structured Text importer"
 msgstr "Consolidatie en import van gestructureerde tekst"
 
-#: ../src/dialogs/dialog-about.c:148
+#: ../src/dialogs/dialog-about.c:152
 msgid "Bruno Unna"
 msgstr "Bruno Unna"
 
-#: ../src/dialogs/dialog-about.c:149
+#: ../src/dialogs/dialog-about.c:153
 msgid "Pieces of MS Excel import"
 msgstr "Import van MS Excel (onderdelen)"
 
-#: ../src/dialogs/dialog-about.c:150
+#: ../src/dialogs/dialog-about.c:154
 msgid "Arief Mulya Utama"
 msgstr "Arief Mulya Utama"
 
-#: ../src/dialogs/dialog-about.c:151
+#: ../src/dialogs/dialog-about.c:155
 msgid "Telecommunications functions"
 msgstr "Telecommunicatie-functies"
 
-#: ../src/dialogs/dialog-about.c:152
+#: ../src/dialogs/dialog-about.c:156
 msgid "Daniel Veillard"
 msgstr "Daniel Veillard"
 
-#: ../src/dialogs/dialog-about.c:153
+#: ../src/dialogs/dialog-about.c:157
 msgid "Initial XML support"
 msgstr "XML ondersteuning (oorspronkelijk)"
 
-#: ../src/dialogs/dialog-about.c:154
+#: ../src/dialogs/dialog-about.c:158
 msgid "Vladimir Vuksan"
 msgstr "Vladimir Vuksan"
 
-#: ../src/dialogs/dialog-about.c:155
+#: ../src/dialogs/dialog-about.c:159
 msgid "Some financial functions"
 msgstr "Enige financiële functies"
 
-#: ../src/dialogs/dialog-about.c:156
+#: ../src/dialogs/dialog-about.c:160
 msgid "Morten Welinder"
 msgstr "Morten Welinder"
 
-#: ../src/dialogs/dialog-about.c:157
+#: ../src/dialogs/dialog-about.c:161
 msgid "All round powerhouse"
 msgstr "Algemene krachtbron"
 
-#: ../src/dialogs/dialog-about.c:158
+#: ../src/dialogs/dialog-about.c:162
 msgid "Kevin Breit"
 msgstr "Kevin Breit"
 
-#: ../src/dialogs/dialog-about.c:159
+#: ../src/dialogs/dialog-about.c:163
 msgid "Thomas Canty"
 msgstr "Thomas Canty"
 
-#: ../src/dialogs/dialog-about.c:160
+#: ../src/dialogs/dialog-about.c:164
 msgid "Adrian Custer"
 msgstr "Adrian Custer"
 
-#: ../src/dialogs/dialog-about.c:161
+#: ../src/dialogs/dialog-about.c:165
 msgid "Adrian Likins"
 msgstr "Adrian Likins"
 
-#: ../src/dialogs/dialog-about.c:162
+#: ../src/dialogs/dialog-about.c:166
 msgid "Aaron Weber"
 msgstr "Aaron Weber"
 
-#: ../src/dialogs/dialog-about.c:163
+#: ../src/dialogs/dialog-about.c:167
 msgid "Alexander Kirillov"
 msgstr "Alexander Kirillov"
 
-#: ../src/dialogs/dialog-about.c:263
+#: ../src/dialogs/dialog-about.c:267
 msgid "About Gnumeric"
 msgstr "Over Gnumeric"
 
@@ -5092,11 +5110,11 @@ msgstr "Het uitvoerbereik overlapt met de invoerbereiken."
 msgid "Could not create the Consolidate dialog."
 msgstr "Kon het dialoogvenster 'Consolideren' niet aanmaken."
 
-#: ../src/dialogs/dialog-define-names.c:361
+#: ../src/dialogs/dialog-define-names.c:362
 msgid "Why would you want to define a name to be #NAME?"
 msgstr "Waarom zou je een naam als #NAAM willen definiëren?"
 
-#: ../src/dialogs/dialog-define-names.c:584
+#: ../src/dialogs/dialog-define-names.c:597
 #: ../src/dialogs/dialog-doc-metadata.c:183
 #: ../src/dialogs/dialog-paste-names.c:145
 msgid "Could not create the Name Guru."
@@ -6641,26 +6659,26 @@ msgstr "_Windows (CR+LF)"
 msgid "`"
 msgstr "`"
 
-#: ../src/dialogs/dialog-stf-main-page.c:150
+#: ../src/dialogs/dialog-stf-main-page.c:159
 #, c-format
 msgid "%d of %d lines to import"
 msgstr "%d van %d regels te importeren"
 
-#: ../src/dialogs/dialog-stf-main-page.c:171
+#: ../src/dialogs/dialog-stf-main-page.c:180
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr ""
 "De gegevens zijn niet geldig in tekenset %s; plobeer een andere tekenset."
 
-#: ../src/dialogs/dialog-stf-main-page.c:370 ../src/wbcg-actions.c:1942
+#: ../src/dialogs/dialog-stf-main-page.c:381 ../src/wbcg-actions.c:1942
 msgid "Line"
 msgstr "Lijn"
 
-#: ../src/dialogs/dialog-stf-main-page.c:382
+#: ../src/dialogs/dialog-stf-main-page.c:393
 msgid "Text"
 msgstr "Tekst"
 
-#: ../src/dialogs/dialog-stf-main-page.c:395
+#: ../src/dialogs/dialog-stf-main-page.c:406
 #, c-format
 msgid "Data (from %s)"
 msgstr "Gegevens (uit %s)"
@@ -9563,7 +9581,7 @@ msgstr ""
 msgid "Tabulation"
 msgstr "Tablulatie"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1273
+#: ../src/widgets/gnumeric-expr-entry.c:1249
 msgid "Expecting a single range"
 msgstr "Verwachtte een enkel bereik"
 
@@ -9708,11 +9726,11 @@ msgstr "Typen van \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Kolom/Rij inv/verw"
 
-#: ../src/commands.c:1290 ../src/commands.c:1295 ../src/sheet.c:3697
+#: ../src/commands.c:1290 ../src/commands.c:1295 ../src/sheet.c:3698
 msgid "Delete Columns"
 msgstr "Kolommen verwijderen"
 
-#: ../src/commands.c:1290 ../src/commands.c:1295 ../src/sheet.c:3821
+#: ../src/commands.c:1290 ../src/commands.c:1295 ../src/sheet.c:3822
 msgid "Delete Rows"
 msgstr "Rijen verwijderen"
 
@@ -9757,7 +9775,7 @@ msgid "Deleting row %s"
 msgstr "Verwijderen rij %s"
 
 #. Check for locked cells
-#: ../src/commands.c:1563 ../src/commands.c:1567 ../src/sheet.c:3298
+#: ../src/commands.c:1563 ../src/commands.c:1567 ../src/sheet.c:3299
 msgid "Clear"
 msgstr "Wissen"
 
@@ -10184,7 +10202,7 @@ msgstr "Het doelbereik is te klein, het moet tenminste %d kolommen breed zijn."
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Het doelbereik is te klein, het moet tenminste %d rijen hoog zijn."
 
-#: ../src/func-builtin.c:35
+#: ../src/func-builtin.c:41
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -10209,7 +10227,7 @@ msgstr ""
 "is\n"
 "SUM(A1:A5) is 107"
 
-#: ../src/func-builtin.c:67
+#: ../src/func-builtin.c:73
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -10233,7 +10251,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "PRODUCT(2;5;9) is 90."
 
-#: ../src/func-builtin.c:108
+#: ../src/func-builtin.c:114
 msgid ""
 "@FUNCTION=GNUMERIC_VERSION\n"
 "@SYNTAX=GNUMERIC_VERSION()\n"
@@ -10248,7 +10266,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "GNUMERIC_VERSION()"
 
-#: ../src/func-builtin.c:174
+#: ../src/func-builtin.c:294
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -10704,7 +10722,20 @@ msgstr "Gnumeric opties"
 msgid "GTK+ options"
 msgstr "GTK+ opties"
 
-#: ../src/main-application.c:312
+#: ../src/main-application.c:319
+msgid ""
+"The Pango library present on your system is buggy, see\n"
+"http://bugzilla.gnome.org/show_bug.cgi?id=316054\n"
+"Editing rich text therefore does not work well.  Please check\n"
+"with your distribution if a fixed Pango library is available."
+msgstr ""
+"De Pango-bibliotheek op uw computer bevat fouten. Zie\n"
+"http://bugzilla.gnome.org/show_bug.cgi?id=316054\n"
+"Het bewerken van rich-text functioneert daarom niet goed.\n"
+"Controleer of voor uw systeem een verbeterde versie van Pango\n"
+"beschikbaar is."
+
+#: ../src/main-application.c:343
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -11166,11 +11197,11 @@ msgstr "kan niet toepassen op samengevoegde cellen"
 msgid "cannot operate on array formulae"
 msgstr "kan niet worden toegepast op array formules"
 
-#: ../src/sheet.c:3634
+#: ../src/sheet.c:3635
 msgid "Insert Columns"
 msgstr "Kolommen Invoegen"
 
-#: ../src/sheet.c:3758
+#: ../src/sheet.c:3759
 msgid "Insert Rows"
 msgstr "Rijen Invoegen"
 
@@ -11486,7 +11517,7 @@ msgstr ""
 "een bestand niet.\n"
 "Alleen het huidige blad zal worden opgeslagen."
 
-#: ../src/ssconvert.c:202
+#: ../src/ssconvert.c:200
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -11507,7 +11538,7 @@ msgstr "Geeft de MIME-types die ssindex in staat is te lezen"
 msgid "Index the given files"
 msgstr "De gegeven bestanden indexeren"
 
-#: ../src/ssindex.c:200
+#: ../src/ssindex.c:198
 #, c-format
 msgid ""
 "ssindex version '%s'\n"
@@ -12087,6 +12118,7 @@ msgstr "_Voorkeuren..."
 msgid "Change Gnumeric Preferences"
 msgstr "Verander Gnumeric Voorkeuren"
 
+#. new hook put here to avoid patch conflict
 #: ../src/wbcg-actions.c:1527
 msgid "NEW Proper_ties..."
 msgstr "NIEUW _eigenschappen..."
@@ -12877,7 +12909,7 @@ msgstr "De tekst vanuit een bestand importeren."
 
 #. Standard Toolbar
 #: ../src/wbcg-actions.c:1903 ../src/workbook-control-gui.c:1921
-#: ../src/workbook-view.c:588
+#: ../src/workbook-view.c:589
 msgid "Sum"
 msgstr "Som"
 
@@ -13455,55 +13487,55 @@ msgstr "Knoppenbalk %s tonen/verbergen"
 msgid "Book%d.%s"
 msgstr "Boek%d.%s"
 
-#: ../src/workbook.c:1493
+#: ../src/workbook.c:1486
 msgid "Renaming sheet"
 msgstr "Werkblad hernoemen"
 
-#: ../src/workbook.c:1494
+#: ../src/workbook.c:1487
 #, c-format
 msgid "Renaming %d sheets"
 msgstr "%d werkbladen hernoemen"
 
-#: ../src/workbook.c:1497
+#: ../src/workbook.c:1490
 msgid "Adding sheet"
 msgstr "Werkblad toevoegen"
 
-#: ../src/workbook.c:1498
+#: ../src/workbook.c:1491
 #, c-format
 msgid "Adding %d sheets"
 msgstr "%d werkbladen toevoegen"
 
-#: ../src/workbook.c:1505
+#: ../src/workbook.c:1498
 msgid "Inserting sheet"
 msgstr "Werkblad invoegen"
 
-#: ../src/workbook.c:1506
+#: ../src/workbook.c:1499
 #, c-format
 msgid "Inserting %d sheets"
 msgstr "%d werkbladen invoegen"
 
-#: ../src/workbook.c:1508
+#: ../src/workbook.c:1501
 msgid "Changing sheet tab colors"
 msgstr "Kleur van tabs wijzigen"
 
-#: ../src/workbook.c:1510
+#: ../src/workbook.c:1503
 msgid "Changing sheet properties"
 msgstr "Bladeigenschappen wijzigen"
 
-#: ../src/workbook.c:1518
+#: ../src/workbook.c:1511
 msgid "Deleting sheet"
 msgstr "Werkblad verwijderen"
 
-#: ../src/workbook.c:1519
+#: ../src/workbook.c:1512
 #, c-format
 msgid "Deleting %d sheets"
 msgstr "%d werkbladen verwijderen"
 
-#: ../src/workbook.c:1521
+#: ../src/workbook.c:1514
 msgid "Changing sheet order"
 msgstr "Volgorde bladen wijzigen"
 
-#: ../src/workbook.c:1523
+#: ../src/workbook.c:1516
 msgid "Reorganizing Sheets"
 msgstr "Bladen Herordenen"
 
@@ -13607,27 +13639,27 @@ msgstr "Niet sluiten"
 msgid "Use maximum precision"
 msgstr "Maximale nauwkeurigheid"
 
-#: ../src/workbook-control-gui.c:2197
+#: ../src/workbook-control-gui.c:2211
 msgid "Cancel change"
 msgstr "Wijziging verwerpen"
 
-#: ../src/workbook-control-gui.c:2201
+#: ../src/workbook-control-gui.c:2215
 msgid "Accept change"
 msgstr "Wijziging accepteren"
 
-#: ../src/workbook-control-gui.c:2205
+#: ../src/workbook-control-gui.c:2219
 msgid "Enter formula..."
 msgstr "Formule invoeren..."
 
-#: ../src/workbook-control-gui.c:2339 ../src/workbook-control-gui.c:2354
+#: ../src/workbook-control-gui.c:2353 ../src/workbook-control-gui.c:2368
 msgid "_Re-Edit"
 msgstr "_Opnieuw bewerken"
 
-#: ../src/workbook-control-gui.c:2340 ../src/workbook-control-gui.c:2345
+#: ../src/workbook-control-gui.c:2354 ../src/workbook-control-gui.c:2359
 msgid "_Discard"
 msgstr "_Verwerpen"
 
-#: ../src/workbook-control-gui.c:2344 ../src/workbook-control-gui.c:2355
+#: ../src/workbook-control-gui.c:2358 ../src/workbook-control-gui.c:2369
 msgid "_Accept"
 msgstr "_Accepteren"
 
@@ -13644,48 +13676,48 @@ msgstr "Beveiliging van de werkmap opheffen om bewerken mogelijk te maken."
 msgid "Unprotect the sheet to enable editing."
 msgstr "Beveiliging werkblad opheffen om bewerken mogelijk te maken."
 
-#: ../src/workbook-view.c:283
+#: ../src/workbook-view.c:284
 #, c-format
 msgid "%dC"
 msgstr "%dK"
 
-#: ../src/workbook-view.c:285
+#: ../src/workbook-view.c:286
 #, c-format
 msgid "%dR"
 msgstr "%dR"
 
-#: ../src/workbook-view.c:287
+#: ../src/workbook-view.c:288
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dK"
 
-#: ../src/workbook-view.c:466
+#: ../src/workbook-view.c:467
 msgid "Internal ERROR"
 msgstr "Interne FOUT"
 
-#: ../src/workbook-view.c:614
+#: ../src/workbook-view.c:615
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "Kan '%s' niet openen voor schrijven: %s"
 
-#: ../src/workbook-view.c:641
+#: ../src/workbook-view.c:642
 #, c-format
 msgid "An unexplained error happened while saving %s"
 msgstr "Er ontstond een onverklaarbare fout bij het opslaan van %s"
 
-#: ../src/workbook-view.c:727 ../src/workbook-view.c:900
+#: ../src/workbook-view.c:728 ../src/workbook-view.c:901
 msgid "Default file saver is not available."
 msgstr "Standaard bestandsopslag is niet beschikbaar."
 
-#: ../src/workbook-view.c:841
+#: ../src/workbook-view.c:842
 msgid "Failed to create temporary file for sending."
 msgstr "Kon geen tijdelijk bestand aanmaken voor verzenden."
 
-#: ../src/workbook-view.c:992
+#: ../src/workbook-view.c:993
 msgid "Unsupported file format."
 msgstr "Niet ondersteund bestandsformaat."
 
-#: ../src/workbook-view.c:1040
+#: ../src/workbook-view.c:1041
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Er trad een onverklaarbare fout op bij het openen van %s"
