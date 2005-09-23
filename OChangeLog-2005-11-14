@@ -1,3 +1,9 @@
+2005-09-22  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=314867
+	* src/dependent.c (workbook_recalc) : queue an update to the auto
+	  expr.
+
 2005-09-20  Jody Goldberg <jody@gnome.org>
 
 	* src/position.c : Add some gnm_ to the api.

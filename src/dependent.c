@@ -2240,7 +2240,9 @@ workbook_recalc (Workbook *wb)
 
 	WORKBOOK_FOREACH_DEPENDENT (wb, dep, redraw |= dependent_eval (dep););
 	if (redraw) {
-		WORKBOOK_FOREACH_SHEET (wb, sheet, sheet_redraw_all (sheet, FALSE););
+		WORKBOOK_FOREACH_SHEET (wb, sheet, {
+			SHEET_FOREACH_VIEW (sheet, sv, sv_flag_selection_change (sv););
+			sheet_redraw_all (sheet, FALSE);});
 	}
 }
 
