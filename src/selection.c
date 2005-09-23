@@ -1301,11 +1301,9 @@ characterize_vec (Sheet *sheet, GnmRange *vector,
 void
 sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 {
-	/* the first range controls which direction to associate with rectangles */
-	GList *ptr = g_list_last (sv->selections);
-	GnmRange const *r = ptr->data;
-	int num_cols = range_width (r);
-	int num_rows = range_height (r);
+	GList *ptr;
+	GnmRange const *r;
+	int num_cols, num_rows;
 
 	Sheet *sheet = sv_sheet (sv);
 	GnmCellRef header;
@@ -1316,8 +1314,20 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 	unsigned i, count, cur_dim = 0, num_series = 1;
 	gboolean has_header, as_cols;
 
+	gboolean default_to_cols;
+
+	/* Use the total number of cols vs rows in all of the selected regions.
+	 * We can not use just one in case one of the others happens to be the transpose
+	 * eg select A1 + A:B would default_to_cols = FALSE, then produce a vector for each row */
+	num_cols = num_rows = 0;
+	for (ptr = sv->selections; ptr != NULL ; ptr = ptr->next) {
+		r = ptr->data;
+		num_cols += range_width (r);
+		num_rows += range_height (r);
+	}
+
 	/* Excel docs claim that rows == cols uses rows */
-	gboolean default_to_cols = (num_cols < num_rows);
+	default_to_cols = (num_cols < num_rows);
 
 	desc = gog_plot_description (plot);
 	series = gog_plot_new_series (plot);

@@ -1,5 +1,12 @@
 2005-09-22  Jody Goldberg <jody@gnome.org>
 
+	* src/selection.c (sv_selection_to_plot) : Use the total number of
+	  rows and cols to decide row vs col major.  Using just the first
+	  range had the potential for problems with a singleton followed by a
+	  full col.
+
+2005-09-22  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=314867
 	* src/dependent.c (workbook_recalc) : queue an update to the auto
 	  expr.
