@@ -443,7 +443,9 @@ cb_filter_button_pressed (GtkButton *button, FooCanvasItem *view)
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
 
 	range_dump (&so->anchor.cell_bound, "");
+#if 0
 	fprintf (stderr, " : so = %p, view = %p\n", so, view);
+#endif
 	if (clip != NULL) {
 		GdkRectangle  rect;
 		GtkWidget *sw = gtk_scrolled_window_new (
