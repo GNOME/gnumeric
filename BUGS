@@ -8,17 +8,24 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - autopackage patches
-    - Patches for Maemo {partially done}
     - autoformat template array bound reads
     - Finish Data -> Table 
     - use 2.6 clipboard handling
 	: gtk_clipboard_set_can_store
 	: gtk_clipboard_store
 
+Pending Patches
+---------------
+    - Patch for non-gconf gnm-config	{bugzilla}
+    - autopackage patches		{rob}
+    - Patches for Maemo			{partially in}
+    - Meta Data
+	: Patches for OOo metadata	{lucianomw}
+	: Patches for metadata dialog	{etrunko}
+	: Patches to use GsfDocMetaData	{jody}
+
 Worries
 -------
-    - Patch for non-gconf gnm-config
     : provide undo for dropped objects from sheet_objects_clear
     : undo of pasting copy/cut of objects
     : Select graph, Copy, and paste to Emacs: used to crash, but now it
