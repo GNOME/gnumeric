@@ -275,7 +275,6 @@ print_page_repeated_intersect (PrintJobInfo const *pj, Sheet const *sheet,
 static PangoLayout *
 ensure_decoration_layout (PrintJobInfo *pj)
 {
-
 	if (!pj->decoration_layout) {
 		PangoLayout *layout = gnome_print_pango_create_layout (pj->print_context);
 		/*
@@ -763,7 +762,7 @@ compute_scale_fit_to (PrintJobInfo const *pj, Sheet const *sheet,
 
 static int
 print_range_down_then_across (PrintJobInfo const *pj, Sheet const *sheet,
-			     GnmRange const *r, gboolean output)
+			      GnmRange const *r, gboolean output)
 {
 	PrintInformation *pi = sheet->print_info;
 	double usable_x, usable_x_initial, usable_x_repeating;
