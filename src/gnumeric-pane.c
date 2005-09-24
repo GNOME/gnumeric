@@ -1076,7 +1076,6 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 		gnm_simple_canvas_ungrab (ctrl_pt, event->button.time);
 		gnm_canvas_slide_stop (gcanvas);
 		control_point_set_cursor (scg, ctrl_pt);
-		g_warning ("release");
 		if (pane->drag.had_motion)
 			scg_objects_drag_commit	(scg, idx,
 				pane->drag.created_objects);
