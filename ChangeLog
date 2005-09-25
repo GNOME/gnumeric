@@ -1,5 +1,19 @@
 2005-09-24  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-control-gui.c (resize_pane_pos) : handle motion in frozen
+	  areas.
+	(sheet_control_gui_new) : use a blank label as a space rather than a
+	  scrollbar.  Emmanuel's idea seems more consistent with frozen panes
+	  than reseting the pane.
+	(set_resize_pane_pos) : new utility to calculate the desired pane
+	  position and block the signal.
+	(resize_pane_finish) : renamed from cb_resize_pane_finish to be more
+	  consistent.  Round the pane position to the col/row bound using
+	  set_resize_pane_pos.
+	(scg_set_panes) : position the resize panes.  Change the behavior not
+	  to short circuit if the freeze status is unchanged.  This seems safe
+	  and makes sue that set_resize_pane_pos is called.
+
 	* src/dependent.c : warning suppression.
 
 2005-09-22  Jody Goldberg <jody@gnome.org>
