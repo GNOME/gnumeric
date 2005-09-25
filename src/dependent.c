@@ -36,7 +36,7 @@
 #include "rendered-value.h" /* FIXME : should not be needed with JIT-R */
 #include "ranges.h"
 #include "gutils.h"
-#include "selection.h"
+#include "sheet-view.h"
 
 #include <string.h>
 #include <goffice/utils/go-glib-extras.h>

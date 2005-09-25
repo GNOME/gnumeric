@@ -1,3 +1,7 @@
+2005-09-24  Jody Goldberg <jody@gnome.org>
+
+	* src/dependent.c : warning suppression.
+
 2005-09-22  Jody Goldberg <jody@gnome.org>
 
 	* src/selection.c (sv_selection_to_plot) : Use the total number of
