@@ -3245,8 +3245,8 @@ msgid "Description:"
 msgstr "Kirjeldus:"
 
 #: ../src/dialogs/autoformat.glade.h:13
-msgid "Edges"
-msgstr "Ääred"
+msgid "_Edges"
+msgstr "_Ääred"
 
 #: ../src/dialogs/autoformat.glade.h:14
 msgid "Name of template"

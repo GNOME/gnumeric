@@ -3791,7 +3791,7 @@ msgid "Description:"
 msgstr "Umwirondoro"
 
 #: src/dialogs/autoformat.glade.h:13
-msgid "Edges"
+msgid "_Edges"
 msgstr ""
 
 #: src/dialogs/autoformat.glade.h:14

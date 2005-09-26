@@ -3214,8 +3214,8 @@ msgid "Description:"
 msgstr "Aprašymas:"
 
 #: src/dialogs/autoformat.glade.h:13
-msgid "Edges"
-msgstr "Kraštai"
+msgid "_Edges"
+msgstr "_Kraštai"
 
 #: src/dialogs/autoformat.glade.h:14
 msgid "Name of template"

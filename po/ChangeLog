@@ -1,3 +1,8 @@
+2005-09-25  Jody Goldberg <jody@gnome.org>
+
+	* *.po : s/Edges/_Edges/ including translation where possible to avoid
+	  breaking string freeze.
+
 2005-09-23  Adam Weinberger  <adamw@gnome.org>
 
 	* en_CA.po: Updated Canadian English translation.
@@ -8,7 +13,7 @@
 
 2005-09-09  Clytie Siddall <clytie@riverland.net.au>
 
-        * vi.po: Updated Vietnamese translation.
+	* vi.po: Updated Vietnamese translation.
 
 2005-09-08  Jody Goldberg <jody@gnome.org>
 

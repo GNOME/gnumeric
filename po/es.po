@@ -3292,8 +3292,8 @@ msgid "Description:"
 msgstr "Descripción:"
 
 #: ../src/dialogs/autoformat.glade.h:13
-msgid "Edges"
-msgstr "Bordes"
+msgid "_Edges"
+msgstr "_Bordes"
 
 #: ../src/dialogs/autoformat.glade.h:14
 msgid "Name of template"

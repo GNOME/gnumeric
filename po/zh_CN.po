@@ -6398,8 +6398,8 @@ msgid "Description:"
 msgstr "描述："
 
 #: src/dialogs/autoformat.glade.h:13
-msgid "Edges"
-msgstr "边缘"
+msgid "_Edges"
+msgstr "_边缘"
 
 #: src/dialogs/autoformat.glade.h:14
 msgid "Name of template"

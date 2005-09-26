@@ -6417,8 +6417,8 @@ msgid "Description:"
 msgstr "Keterangan:"
 
 #: src/dialogs/autoformat.glade.h:13
-msgid "Edges"
-msgstr "Pinggir"
+msgid "_Edges"
+msgstr "_Pinggir"
 
 #: src/dialogs/autoformat.glade.h:14
 msgid "Name of template"

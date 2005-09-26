@@ -7742,8 +7742,8 @@ msgstr "Descripció:"
 #
 # fitxer: src.ca.po.11
 #: src/dialogs/autoformat.glade.h:13
-msgid "Edges"
-msgstr "Vores"
+msgid "_Edges"
+msgstr "_Vores"
 
 # fitxer: src.ca.po.11
 #: src/dialogs/autoformat.glade.h:14

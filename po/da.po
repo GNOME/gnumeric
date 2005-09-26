@@ -6701,8 +6701,8 @@ msgstr "Beskrivelse:"
 
 #: src/dialogs/autoformat.glade.h:13
 #, fuzzy
-msgid "Edges"
-msgstr "sider"
+msgid "_Edges"
+msgstr "_sider"
 
 #: src/dialogs/autoformat.glade.h:14
 msgid "Name of template"

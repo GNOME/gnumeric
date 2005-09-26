@@ -3070,8 +3070,8 @@ msgid "Description:"
 msgstr "वर्णन:"
 
 #: src/dialogs/autoformat.glade.h:13
-msgid "Edges"
-msgstr "किनारहरु"
+msgid "_Edges"
+msgstr "_किनारहरु"
 
 #: src/dialogs/autoformat.glade.h:14
 msgid "Name of template"

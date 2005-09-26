@@ -3284,8 +3284,8 @@ msgstr "Περιγραφή:"
 
 #: ../src/dialogs/autoformat.glade.h:13
 #, fuzzy
-msgid "Edges"
-msgstr "Τελειώνει"
+msgid "_Edges"
+msgstr "_Τελειώνει"
 
 #: ../src/dialogs/autoformat.glade.h:14
 #, fuzzy

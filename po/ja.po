@@ -6310,8 +6310,8 @@ msgid "Description:"
 msgstr "説明:"
 
 #: src/dialogs/autoformat.glade.h:13
-msgid "Edges"
-msgstr "隅"
+msgid "_Edges"
+msgstr "_隅"
 
 #: src/dialogs/autoformat.glade.h:14
 msgid "Name of template"
