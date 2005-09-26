@@ -1245,7 +1245,7 @@ gnm_style_set_shrink_to_fit (GnmStyle *style, gboolean f)
 
 	elem_changed (style, MSTYLE_SHRINK_TO_FIT);
 	elem_set (style, MSTYLE_SHRINK_TO_FIT);
-	style->wrap_text = f;
+	style->shrink_to_fit = f;
 }
 
 gboolean
@@ -1253,7 +1253,7 @@ gnm_style_get_shrink_to_fit (GnmStyle const *style)
 {
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_SHRINK_TO_FIT), FALSE);
 
-	return style->wrap_text;
+	return style->shrink_to_fit;
 }
 void
 gnm_style_set_content_locked (GnmStyle *style, gboolean f)

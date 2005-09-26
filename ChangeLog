@@ -1,3 +1,9 @@
+2005-09-26  Jody Goldberg <jody@gnome.org>
+
+	* src/mstyle.c (gnm_style_set_shrink_to_fit) : cut-n-paste-o that
+	  would erase wrap text with shrink to fit.
+	(gnm_style_get_shrink_to_fit) : ditto.
+
 2005-09-24  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-control-gui.c (resize_pane_pos) : handle motion in frozen
