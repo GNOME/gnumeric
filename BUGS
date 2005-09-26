@@ -8,10 +8,8 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - Finish Data -> Table 
-    - use 2.6 clipboard handling
-	: gtk_clipboard_set_can_store
-	: gtk_clipboard_store
+    ** (lt-gnumeric:23623): WARNING **: Probable ref counting problem. fmt 0x11977118 '@[family=Arial:4:2147483647][size=10240:4:2147483647][bold=1:4:2147483647][italic=1:4:2147483647][strikthrough=0:4:2147483647][underline=none:4:2147483647][color=00x00x00:4:2147483647]' is being unrefed while still in the global cache
+	: Some sort of rich text ref counting oddness.
 
 Pending Patches
 ---------------
@@ -46,6 +44,13 @@ Worries
     : support array evaluation for =LARGE and friends
     : TRIMEAN is a list function ?
     : ISREF is a list function ?
+
+2.6 TODO
+--------
+    - Finish Data -> Table 
+    - use 2.6 clipboard handling
+	: gtk_clipboard_set_can_store
+	: gtk_clipboard_store
 
 -------------------------------------------------------------------------------
 Blocked Patches
