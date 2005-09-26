@@ -894,7 +894,8 @@ disconnect_sheet_signals (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return;
 
 	i = wbcg_sheet_to_page_index (wbcg, sheet, &scg);
-	g_return_if_fail (i >= 0);
+	if (i < 0)
+		return;
 
 	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_tab_change, scg->label);
 	g_signal_handlers_disconnect_by_func (sheet, cb_toggle_menu_item_changed, wbcg);
@@ -2039,14 +2040,14 @@ show_gui (WorkbookControlGUI *wbcg)
 		gtk_window_set_default_size (wbcg->toplevel, sx * fx, sy * fy);
 	}
 
-	scg = wbcg_cur_scg (wbcg);
-	cb_direction_change (NULL, NULL, scg);
+	if (NULL != (scg = wbcg_cur_scg (wbcg)))
+		cb_direction_change (NULL, NULL, scg);
 
 	x_geometry = NULL;
 	gtk_widget_show (GTK_WIDGET (wbcg->toplevel));
 
 	/* rehide headers if necessary */
-	if (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)))
+	if (NULL != scg && wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)))
 		scg_adjust_preferences (SHEET_CONTROL (scg));
 
 	return FALSE;
