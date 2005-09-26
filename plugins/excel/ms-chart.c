@@ -587,6 +587,13 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 			gog_object_add_by_name (GOG_OBJECT (s->axis), "MinorGrid", GridLine);
 			break;
 		}
+		case 3: {
+			/* in that case, we have an areaformat too */
+			ms_biff_query_next (q);
+			if (BC_R(areaformat)(handle, s, q))
+				return TRUE;
+			break;
+		}
 		default:
 			break;
 		}
