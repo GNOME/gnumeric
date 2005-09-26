@@ -1,3 +1,7 @@
+2005-09-25  Jody Goldberg <jody@gnome.org>
+
+	* autoformat.glade : Add a mnemonic to the Edges menu
+
 2005-09-21  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-main-page.c (stf_dialog_main_page_init): Use

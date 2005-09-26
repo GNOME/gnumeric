@@ -183,6 +183,8 @@ format_template_member_get_rect (TemplateMember const *member, GnmRange const *r
 			res.start.col = r->start.col - member->col.size;
 	}
 
+	range_is_sane (&res);
+
 	return res;
 }
 
@@ -750,16 +752,15 @@ static gboolean
 format_template_range_check (FormatTemplate *ft, GnmRange const *r,
 			     GOCmdContext *optional_cc)
 {
-	GSList *iterator;
+	GSList *ptr;
 	int diff_col_high = -1;
 	int diff_row_high = -1;
 	gboolean invalid_range_seen = FALSE;
 
 	g_return_val_if_fail (ft != NULL, FALSE);
 
-	iterator = ft->members;
-	while (iterator) {
-		TemplateMember *member = iterator->data;
+	for (ptr = ft->members; NULL != ptr ; ptr = ptr->next) {
+		TemplateMember *member = ptr->data;
 		GnmRange range = format_template_member_get_rect (member, r);
 
 		if (!range_valid (&range)) {
@@ -774,8 +775,6 @@ format_template_range_check (FormatTemplate *ft, GnmRange const *r,
 
 			invalid_range_seen = TRUE;
 		}
-
-		iterator = g_slist_next (iterator);
 	}
 
 	if (invalid_range_seen && optional_cc != NULL) {
@@ -808,92 +807,68 @@ format_template_range_check (FormatTemplate *ft, GnmRange const *r,
 	return !invalid_range_seen;
 }
 
-/**
- * format_template_transform_edges:
- * @ft: The template to transform
- *
- * Transforms a template by remove edge styles. This routine
- * will return a copy of @ft which should be freed by the
- * caller.
- *
- * Return value: A new tranformed format template
- **/
+/* Remove edge styles from a template and shift items that anchor on a filtered
+ * edge.  Returns a filtered copy of @origft. */
 static FormatTemplate *
-format_template_transform_edges (FormatTemplate const *origft)
+gnm_auto_fmt_filter_edges (FormatTemplate const *origft)
 {
-	FormatTemplate *ft;
-	GSList *ptr0, *ptr1, *next;
+	GSList *ptr;
+	FormatTemplate *ft = format_template_clone (origft);
+	TemplateMember *member;
+	gboolean is_edge, l = FALSE, r = FALSE, t = FALSE, b = FALSE;
 
-	g_return_val_if_fail (origft != NULL, NULL);
+	for (ptr = ft->members; ptr != NULL ; ) {
+		member = ptr->data;
+		ptr = ptr->next;
+		if (!member->direction == FREQ_DIRECTION_NONE)
+			continue;
 
-	ft = format_template_clone (origft);
-	for (ptr0 = ft->members; ptr0 != NULL ; ptr0 = next) {
-		TemplateMember *member = ptr0->data;
-
-		gboolean left   = FALSE;
-		gboolean right  = FALSE;
-		gboolean top    = FALSE;
-		gboolean bottom = FALSE;
-
-		next = ptr0->next; /* we may delete it later */
-
-		if (member->col.size == 1 &&
-		    member->direction == FREQ_DIRECTION_NONE) {
-			left   = (member->col.offset_gravity > 0
-				  && !ft->edges.left);
-			right  = (member->col.offset_gravity < 0
-				  && !ft->edges.right);
+		is_edge = FALSE;
+		if (member->col.size == 1) {
+			if (!ft->edges.left && member->col.offset_gravity > 0)
+				l |= (is_edge = TRUE);
+			if (!ft->edges.right && member->col.offset_gravity < 0)
+				r |= (is_edge = TRUE);
 		}
-		if (member->row.size == 1 &&
-		    member->direction == FREQ_DIRECTION_NONE) {
-			top    = (member->row.offset_gravity > 0
-				  && !ft->edges.top);
-			bottom = (member->row.offset_gravity < 0
-				  && !ft->edges.bottom);
+		if (member->row.size == 1) {
+			if (!ft->edges.top && member->row.offset_gravity > 0)
+				t |= (is_edge = TRUE);
+			if (!ft->edges.bottom && member->row.offset_gravity < 0)
+				b |= (is_edge = TRUE);
+		}
+		if (is_edge) {
+			format_template_member_free (member);
+			ft->members = g_slist_remove (ft->members, member);
+		}
+	}
+
+	if (!l && !r && !t && !b)
+		return ft;
+	for (ptr = ft->members; ptr != NULL ; ptr = ptr->next) {
+		TemplateMember *submember = ptr->data;
+
+		if (l && submember->col.offset_gravity > 0) {
+			if (submember->col.offset >= 1)
+				submember->col.offset--;
+			submember->edge = 0;
 		}
 
-		if (left || right || top || bottom) {
+		if (r && submember->col.offset_gravity < 0) {
+			if (submember->col.offset >= 1)
+				submember->col.offset--;
+			submember->edge = 0;
+		}
 
-			for (ptr1 = ft->members; ptr1 != NULL ; ptr1 = ptr1->next) {
-				TemplateMember *submember = ptr1->data;
+		if (t && submember->row.offset_gravity > 0) {
+			if (submember->row.offset >= 1)
+				submember->row.offset--;
+			submember->edge = 0;
+		}
 
-				if (left
-				    && submember->col.offset_gravity == member->col.offset_gravity) {
-					if (submember->direction != FREQ_DIRECTION_NONE) {
-						submember->edge = 0;
-						submember->col.offset--;
-					} else if (submember->col.offset == 1)
-						submember->col.offset = 0;
-				}
-
-				if (right
-				    && submember->col.offset_gravity == -member->col.offset_gravity) {
-					if (submember->col.size == -member->col.size)
-						submember->col.size = 0;
-					else if (submember->direction != FREQ_DIRECTION_NONE)
-						submember->edge = 0;
-				}
-
-				if (top
-				    && submember->row.offset_gravity == member->row.offset_gravity) {
-					if (submember->direction != FREQ_DIRECTION_NONE) {
-						submember->edge = 0;
-						submember->row.offset--;
-					} else if (submember->row.offset == 1)
-						submember->row.offset = 0;
-				}
-
-				if (bottom
-				    && submember->row.offset_gravity == -member->row.offset_gravity) {
-					if (submember->row.size == -member->row.size)
-						submember->row.size = 0;
-					else if (submember->direction != FREQ_DIRECTION_NONE)
-						submember->edge = 0;
-				}
-			}
-
-			format_template_member_free (ptr0->data);
-			ft->members = g_slist_remove (ft->members, ptr0->data);
+		if (b && submember->row.offset_gravity < 0) {
+			if (submember->row.offset >= 1)
+				submember->row.offset--;
+			submember->edge = 0;
 		}
 	}
 	return ft;
@@ -915,19 +890,15 @@ static void
 format_template_calculate (FormatTemplate *origft, GnmRange const *r, PCalcCallback pc, gpointer cb_data)
 {
 	FormatTemplate *ft = origft;
-	GSList *iterator;
+	GSList *ptr;
 
 	g_return_if_fail (origft != NULL);
 
 	if (!ft->edges.left || !ft->edges.right || !ft->edges.top || !ft->edges.bottom)
-		ft = format_template_transform_edges (origft);
+		ft = gnm_auto_fmt_filter_edges (origft);
 
-	/*
-	 * Apply all styles
-	 */
-	iterator = ft->members;
-	while (iterator) {
-		TemplateMember const *member = iterator->data;
+	for (ptr = ft->members; NULL != ptr ; ptr = ptr->next) {
+		TemplateMember const *member = ptr->data;
 		GnmStyle const *mstyle = member->mstyle;
 		GnmRange range = format_template_member_get_rect (member, r);
 
@@ -975,8 +946,6 @@ format_template_calculate (FormatTemplate *origft, GnmRange const *r, PCalcCallb
 					break;
 			}
 		}
-
-		iterator = g_slist_next (iterator);
 	}
 
 	if (ft != origft)

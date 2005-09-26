@@ -1,5 +1,11 @@
 2005-09-26  Jody Goldberg <jody@gnome.org>
 
+	* src/format-template.c (gnm_auto_fmt_filter_edges) : This is not
+	  correct, but at least it no longer causes a crash.  Rework things to
+	  rationalize the handling of edges at some point in the future.
+
+2005-09-26  Jody Goldberg <jody@gnome.org>
+
 	* src/mstyle.c (gnm_style_set_shrink_to_fit) : cut-n-paste-o that
 	  would erase wrap text with shrink to fit.
 	(gnm_style_get_shrink_to_fit) : ditto.

@@ -213,7 +213,7 @@
 			      <child>
 				<widget class="GtkMenuItem" id="format_edges">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">Edges</property>
+				  <property name="label" translatable="yes">_Edges</property>
 				  <property name="use_underline">True</property>
 
 				  <child>
