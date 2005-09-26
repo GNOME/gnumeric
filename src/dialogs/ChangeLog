@@ -1,3 +1,7 @@
+2005-09-26  Eduardo de Barros Lima <eduardo.lima@indt.org.br>
+	* doc-meta-data.glade : UI Reformulation.
+	* dialog-doc-metadata.c : First modifications to handle the new UI.
+
 2005-09-25  Jody Goldberg <jody@gnome.org>
 
 	* autoformat.glade : Add a mnemonic to the Edges menu
