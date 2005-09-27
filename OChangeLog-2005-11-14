@@ -1,3 +1,7 @@
+2005-09-27  Morten Welinder  <terra@gnome.org>
+
+	* src/position.c (eval_pos_init_dep): Fix typo.
+
 2005-09-26  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (show_gui) : protection against scg == NULL
@@ -31,6 +35,7 @@
 
 	* src/dependent.c : warning suppression.
 
+>>>>>>> 1.4113
 2005-09-22  Jody Goldberg <jody@gnome.org>
 
 	* src/selection.c (sv_selection_to_plot) : Use the total number of

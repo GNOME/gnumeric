@@ -70,7 +70,7 @@ eval_pos_init_dep (GnmEvalPos *ep, GnmDependent const *dep)
 	if (dependent_is_cell (dep))
 		ep->eval = DEP_TO_CELL (dep)->pos;
 	else
-		ep->eval.col = ep->eval.col = 0;
+		ep->eval.col = ep->eval.row = 0;
 	ep->cols  = ep->rows = 1;
 	ep->sheet = dep->sheet;
 	ep->dep = (GnmDependent *)dep;
