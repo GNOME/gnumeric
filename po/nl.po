@@ -127,8 +127,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-09-22 11:09+0200\n"
-"PO-Revision-Date: 2005-09-22 17:55+0200\n"
+"POT-Creation-Date: 2005-09-27 11:15+0200\n"
+"PO-Revision-Date: 2005-09-27 17:57+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
@@ -1150,7 +1150,7 @@ msgstr ""
 
 #: ../plugins/fn-r/plugin.xml.in.h:3 ../plugins/fn-stat/plugin.xml.in.h:2
 #: ../src/dialogs/descriptive-stats.glade.h:12
-#: ../src/dialogs/doc-meta-data.glade.h:30
+#: ../src/dialogs/doc-meta-data.glade.h:38
 msgid "Statistics"
 msgstr "Statistieken"
 
@@ -1638,7 +1638,7 @@ msgstr "Voorwaarden:"
 #: ../src/tools/solver/reports-write.c:393
 #: ../src/tools/solver/reports-write.c:400
 #: ../src/tools/solver/reports-write.c:668 ../src/commands.c:5514
-#: ../src/format-template.c:249 ../src/sheet.c:528
+#: ../src/format-template.c:251 ../src/sheet.c:528
 msgid "Name"
 msgstr "Naam"
 
@@ -2450,9 +2450,10 @@ msgstr ""
 "Autocorrectie corrigeert niet een begin-hoofdletter van woorden die in deze "
 "lijst staan."
 
+# bewerken/veranderen
 #: ../schemas/gnumeric-dialogs.schemas.in.h:48
 msgid "The configuration of gnome-print. Do not edit this variable."
-msgstr "De configuratie van  gnome-printer. Deze variabele niet veranderen."
+msgstr "De configuratie van gnome-printer. Deze variabele niet veranderen."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:49
 msgid "The default font name for headers and footers."
@@ -2490,9 +2491,7 @@ msgstr ""
 msgid ""
 "The function selector keeps a list of recently used functions. This is that "
 "list."
-msgstr ""
-"De functiekiezer houdt een lijst bij van recentelijk gebruikte functies. Dit "
-"is deze lijst."
+msgstr "De functiekiezer houdt een lijst bij van recentelijk gebruikte functies. Dat is deze lijst."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:56
 msgid ""
@@ -2701,7 +2700,7 @@ msgstr "Gebruikersmap voor autoformaten."
 
 #: ../schemas/gnumeric-general.schemas.in.h:1
 msgid "Auto Expression Recalculation Lag"
-msgstr "Vertraging bij automatische herberekening van uitdrukkingen"
+msgstr "Vertraging bij automatisch herberekenen van uitdrukkingen"
 
 #: ../schemas/gnumeric-general.schemas.in.h:2
 #: ../src/dialogs/dialog-preferences.c:729
@@ -2876,7 +2875,7 @@ msgstr ""
 #: ../schemas/gnumeric-general.schemas.in.h:31
 #: ../src/dialogs/dialog-preferences.c:539 ../src/wbcg-actions.c:1910
 msgid "Sort Ascending"
-msgstr "Oplopend sorteeren"
+msgstr "Oplopend sorteren"
 
 #: ../schemas/gnumeric-general.schemas.in.h:32
 msgid "Sort is Case-Sensitive"
@@ -3157,7 +3156,7 @@ msgstr "Alleen _unieke records"
 
 #: ../src/dialogs/anova-one.glade.h:1
 msgid "ANOVA - Single Factor"
-msgstr "ANOVA - Enkel-Factor"
+msgstr "ANOVA - Enkele-factor"
 
 # gegroepeerd door:
 #: ../src/dialogs/anova-one.glade.h:2 ../src/dialogs/correlation.glade.h:2
@@ -3274,7 +3273,7 @@ msgstr "1"
 # kleine letters?
 #: ../src/dialogs/anova-two.glade.h:3
 msgid "ANOVA - Two-Factor"
-msgstr "ANOVA - Twee-Factor"
+msgstr "ANOVA - Twee-factor"
 
 #: ../src/dialogs/anova-two.glade.h:5 ../src/dialogs/histogram.glade.h:7
 msgid "Input _range:"
@@ -3318,7 +3317,6 @@ msgid "First Letter"
 msgstr "Eerste Letter"
 
 #: ../src/dialogs/autocorrect.glade.h:8
-#: ../src/dialogs/doc-meta-data.glade.h:14
 msgid "General"
 msgstr "Algemeen"
 
@@ -3432,7 +3430,7 @@ msgstr "_Getalsopmaak weergeven"
 msgid "Apply _Patterns"
 msgstr "_Kleurenpatroon weergeven"
 
-#: ../src/dialogs/autoformat.glade.h:8
+#: ../src/dialogs/autoformat.glade.h:8 ../src/dialogs/doc-meta-data.glade.h:26
 msgid "Author:"
 msgstr "Auteur:"
 
@@ -3445,6 +3443,7 @@ msgid "C_ategory:"
 msgstr "C_ategorie:"
 
 #: ../src/dialogs/autoformat.glade.h:11
+#: ../src/dialogs/doc-meta-data.glade.h:27
 msgid "Category:"
 msgstr "Categorie:"
 
@@ -3453,36 +3452,36 @@ msgid "Description:"
 msgstr "Omschrijving:"
 
 #: ../src/dialogs/autoformat.glade.h:13
-msgid "_Edges"
-msgstr "_Randen"
-
-#: ../src/dialogs/autoformat.glade.h:14
 msgid "Name of template"
 msgstr "Sjabloonnaam"
 
-#: ../src/dialogs/autoformat.glade.h:15
+#: ../src/dialogs/autoformat.glade.h:14
 msgid "Name:"
 msgstr "Naam:"
 
-#: ../src/dialogs/autoformat.glade.h:16 ../src/dialogs/font-sel.glade.h:4
+#: ../src/dialogs/autoformat.glade.h:15 ../src/dialogs/font-sel.glade.h:4
 msgid "Preview"
 msgstr "Voorbeeld"
 
-#: ../src/dialogs/autoformat.glade.h:17
+#: ../src/dialogs/autoformat.glade.h:16
 msgid "Template Details"
 msgstr "Sjabloondetails"
 
-#: ../src/dialogs/autoformat.glade.h:18
+#: ../src/dialogs/autoformat.glade.h:17
 msgid "The category this template belongs to"
 msgstr "De categorie waartoe dit sjabloon behoort"
 
-#: ../src/dialogs/autoformat.glade.h:19
+#: ../src/dialogs/autoformat.glade.h:18
 msgid "The group/individual that made the template"
 msgstr "De groep/individu die het sjabloon heeft gemaakt"
 
-#: ../src/dialogs/autoformat.glade.h:20 ../src/dialogs/cell-format.glade.h:87
+#: ../src/dialogs/autoformat.glade.h:19 ../src/dialogs/cell-format.glade.h:87
 msgid "_Bottom"
 msgstr "_Onder"
+
+#: ../src/dialogs/autoformat.glade.h:20
+msgid "_Edges"
+msgstr "_Randen"
 
 #: ../src/dialogs/autoformat.glade.h:21 ../src/dialogs/cell-format.glade.h:93
 msgid "_Left"
@@ -4844,7 +4843,7 @@ msgstr "Het aantal rijen per steekproef moet een positieg geheel getal zijn."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2969
 msgid "Could not create the ANOVA (two factor) tool dialog."
-msgstr "Kon het ANOVA (twee factor) dialoogvenster niet maken."
+msgstr "Kon het ANOVA (twee-factor) dialoogvenster niet maken."
 
 #: ../src/dialogs/dialog-autocorrect.c:334
 msgid "Could not create the AutoCorrect dialog."
@@ -5115,7 +5114,7 @@ msgid "Why would you want to define a name to be #NAME?"
 msgstr "Waarom zou je een naam als #NAAM willen definiëren?"
 
 #: ../src/dialogs/dialog-define-names.c:597
-#: ../src/dialogs/dialog-doc-metadata.c:183
+#: ../src/dialogs/dialog-doc-metadata.c:309
 #: ../src/dialogs/dialog-paste-names.c:145
 msgid "Could not create the Name Guru."
 msgstr "Kon de Naamgoeroe niet opstarten."
@@ -5266,7 +5265,7 @@ msgstr "Hyperlink toevoegen"
 msgid "Edit Hyperlink"
 msgstr "Hyperlink bewerken"
 
-#: ../src/dialogs/dialog-hyperlink.c:350 ../src/sheet-control-gui.c:1652
+#: ../src/dialogs/dialog-hyperlink.c:350 ../src/sheet-control-gui.c:1699
 msgid "Remove Hyperlink"
 msgstr "Hyperlink Verwijderen"
 
@@ -5461,7 +5460,7 @@ msgid "Plugin name"
 msgstr "Pluginnaam"
 
 #: ../src/dialogs/dialog-plugin-manager.c:743
-#: ../src/dialogs/doc-meta-data.glade.h:8
+#: ../src/dialogs/doc-meta-data.glade.h:30
 #: ../src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "Omschrijving"
@@ -6004,16 +6003,16 @@ msgid "Variable"
 msgstr "Variabele"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/workbook-control-gui.c:1922
+#: ../src/workbook-control-gui.c:1923
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/workbook-control-gui.c:1924
+#: ../src/dialogs/dialog-simulation.c:237 ../src/workbook-control-gui.c:1925
 msgid "Average"
 msgstr "Gemiddelde"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/workbook-control-gui.c:1923
+#: ../src/workbook-control-gui.c:1924
 msgid "Max"
 msgstr "Max"
 
@@ -6796,160 +6795,163 @@ msgid "_Fit Selection %"
 msgstr "Op _selectie aanpassen"
 
 #: ../src/dialogs/doc-meta-data.glade.h:1
-msgid "Advanced..."
-msgstr "Geavanceerd..."
+msgid "<accessed>"
+msgstr "<benaderd>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:2
-msgid "Author: "
-msgstr "Auteur: "
+msgid "<b>Created:</b>"
+msgstr "<b>Aangemaakt:</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:3
-msgid "Cancel"
-msgstr "Annuleren"
+msgid "<b>Group:</b>"
+msgstr "<b>Groep</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:4
-msgid "Comments: "
-msgstr "Opmerkingen: "
+msgid "<b>Information</b>"
+msgstr "<b>Informatie</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:5
-msgid "Content: "
-msgstr "Inhoud: "
+msgid "<b>Last Accessed:</b>"
+msgstr "<b>Laatst benaderd:</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:6
-msgid "Created: "
-msgstr "Aangemaakt op: "
+msgid "<b>Last Modified:</b>"
+msgstr "<b>Laatst gewijzigd:</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:7
-msgid "Custom"
-msgstr "Aangepast"
+msgid "<b>Location:</b>"
+msgstr "<b>Locatie:</b>"
+
+#: ../src/dialogs/doc-meta-data.glade.h:8
+msgid "<b>Name:</b>"
+msgstr "<b>Naam:</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:9
-msgid "Document Subject: "
-msgstr "Document onderwerp: "
+msgid "<b>Number of cells:</b>"
+msgstr "<b>Aantal cellen:</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:10
-msgid "Document Title: "
-msgstr "Documenttitel: "
+msgid "<b>Number of pages:</b>"
+msgstr "<b>Aantal pagina's:</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:11
-msgid "Document: "
-msgstr "Document: "
+msgid "<b>Number of sheets:</b>"
+msgstr "<b>Aantal werkbladen:</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:12
-msgid "Editing Workbook Metadata..."
-msgstr "Werkblad metatdata bewerken..."
+msgid "<b>Other:</b>"
+msgstr "<b>Overig:</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:13
-msgid "File Information"
-msgstr "Bestandsinformatie"
+msgid "<b>Owner:</b>"
+msgstr "<b>Eigenaar:</b>"
+
+#: ../src/dialogs/doc-meta-data.glade.h:14
+msgid "<b>Permissions</b>"
+msgstr "<b>Rechten</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:15
-msgid "Global (Others) Permissions"
-msgstr "Algemene (anderen) rechten"
+msgid "<b>Read</b>"
+msgstr "<b>Lezen</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:16
-msgid "Group Permissions"
-msgstr "Groepsrechten"
+msgid "<b>Write</b>"
+msgstr "<b>Schrijven</b>"
 
-# dit gaat waarschijnlijk om de rechten van user/groep/other
 #: ../src/dialogs/doc-meta-data.glade.h:17
-msgid "Group: "
-msgstr "Groep: "
+msgid "<cells>"
+msgstr "<cellen>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:18
-msgid "Internet"
-msgstr "Internet"
+msgid "<created>"
+msgstr "<aangemaakt>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:19
-msgid "Keywords: "
-msgstr "Sleutelwoorden: "
+msgid "<group>"
+msgstr "<groep>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:20
-msgid "Last Accessed: "
-msgstr "Laatst benaderd: "
+msgid "<location>"
+msgstr "<locatie>"
 
+# aangepast/gewijzigd
 #: ../src/dialogs/doc-meta-data.glade.h:21
-msgid "Last Modified: "
-msgstr "Laatst gewijzigd: "
+msgid "<modified>"
+msgstr "<gewijzigd>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:22
-msgid "Location: "
-msgstr "Locatie: "
+msgid "<name.extension>"
+msgstr "<naam.extensie>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:23
-msgid "Name of the property"
-msgstr "Naam van de eigenschap"
+msgid "<owner>"
+msgstr "<eigenaar>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:24
+msgid "<pages>"
+msgstr "<pagina's>"
+
+#: ../src/dialogs/doc-meta-data.glade.h:25
+msgid "<sheets>"
+msgstr "<bladen>"
+
+#: ../src/dialogs/doc-meta-data.glade.h:28
+msgid "Comments:"
+msgstr "Opmerkingen:"
+
+#: ../src/dialogs/doc-meta-data.glade.h:29
+msgid "Company:"
+msgstr "Bedrijf:"
+
+#: ../src/dialogs/doc-meta-data.glade.h:31
+msgid "Document Properties"
+msgstr "Documenteigenschappen"
+
+#: ../src/dialogs/doc-meta-data.glade.h:32
+msgid "File"
+msgstr "Bestand"
+
+# sleutelwoorden/kernwoorden
+#: ../src/dialogs/doc-meta-data.glade.h:33
+msgid "Keywords:"
+msgstr "Kernwoorden:"
+
+# verwijzing/doel/link
+#: ../src/dialogs/doc-meta-data.glade.h:34
+msgid "Link:"
+msgstr "Link:"
+
+#: ../src/dialogs/doc-meta-data.glade.h:35
+msgid "Manager:"
+msgstr "Beheerder:"
+
+#: ../src/dialogs/doc-meta-data.glade.h:36
 msgid "Name: "
 msgstr "Naam: "
 
-#: ../src/dialogs/doc-meta-data.glade.h:25
-msgid "OK"
-msgstr "OK"
+#: ../src/dialogs/doc-meta-data.glade.h:37
+msgid "Properties"
+msgstr "Eigenschappen"
 
-#: ../src/dialogs/doc-meta-data.glade.h:26
-msgid "Owner Permissions"
-msgstr "Eigenaarsrechten"
+#: ../src/dialogs/doc-meta-data.glade.h:39
+msgid "Subject:"
+msgstr "Onderwerp:"
 
-#: ../src/dialogs/doc-meta-data.glade.h:27
-msgid "Owner: "
-msgstr "Eigenaar: "
-
-#: ../src/dialogs/doc-meta-data.glade.h:28
-msgid "Property:"
-msgstr "Eigenschap:"
-
-#: ../src/dialogs/doc-meta-data.glade.h:29
-msgid "Read"
-msgstr "Lezen"
-
-# linkage is ws soort link: mailto: news: http:
-#: ../src/dialogs/doc-meta-data.glade.h:31
-msgid ""
-"Text\n"
-"Image\n"
-"Hyperlink\n"
-"Linkage"
-msgstr ""
-"Tekst\n"
-"Afbeelding\n"
-"Hyperlink\n"
-"Linktype"
-
-#: ../src/dialogs/doc-meta-data.glade.h:35
+#: ../src/dialogs/doc-meta-data.glade.h:40
 msgid "The document title (not filename)"
 msgstr "De documenttitel (niet de bestandnaam)"
 
-#: ../src/dialogs/doc-meta-data.glade.h:36
+#: ../src/dialogs/doc-meta-data.glade.h:41
 msgid "This property's content (text)"
 msgstr "De inhoud van deze eigenschap (tekst)"
 
-#: ../src/dialogs/doc-meta-data.glade.h:37
-msgid "Type: "
-msgstr "Type: "
+#: ../src/dialogs/doc-meta-data.glade.h:42
+msgid "Title:"
+msgstr "Titel:"
 
-#. Set the `CPU Model'.
-#. Set the `CPU Mhz'.
-#: ../src/dialogs/doc-meta-data.glade.h:38
-#: ../src/tools/solver/reports-write.c:673
-#: ../src/tools/solver/reports-write.c:676
-#: ../src/tools/solver/reports-write.c:689
-msgid "Unknown"
-msgstr "Onbekend"
-
-#: ../src/dialogs/doc-meta-data.glade.h:39
-msgid "Untitled"
-msgstr "Zonder titel"
-
-#: ../src/dialogs/doc-meta-data.glade.h:40
-msgid "Write"
-msgstr "Schrijven"
-
-# de X is hier groot om rwx duidelijk te maken
-#: ../src/dialogs/doc-meta-data.glade.h:41
-msgid "eXecute"
-msgstr "Uitvoeren"
+#: ../src/dialogs/doc-meta-data.glade.h:43
+msgid "Value: "
+msgstr "Waarde: "
 
 #: ../src/dialogs/exp-smoothing.glade.h:2
 msgid "0.2"
@@ -8866,7 +8868,7 @@ msgstr "Rangen"
 
 #: ../src/tools/analysis-tools.c:4027
 msgid "Anova: Single Factor"
-msgstr "Anova: Enkel Factor"
+msgstr "Anova: Enkele-factor"
 
 #: ../src/tools/analysis-tools.c:4028 ../src/tools/analysis-tools.c:4709
 #: ../src/tools/simulation.c:336
@@ -8905,7 +8907,7 @@ msgstr "Het invoerbereik bevat niet-numerieke gegevens."
 
 #: ../src/tools/analysis-tools.c:4489
 msgid "Anova: Two-Factor Without Replication"
-msgstr "Anova: Twee-Factor Zonder Herhaling"
+msgstr "Anova: Twee-factor zonder herhaling"
 
 #: ../src/tools/analysis-tools.c:4490
 msgid "/SUMMARY/Count/Sum/Average/Variance"
@@ -8922,7 +8924,7 @@ msgstr "Een van de factorcombinaties bevat geen waarnemingen!"
 #. We are ready to create the summary table
 #: ../src/tools/analysis-tools.c:4708
 msgid "Anova: Two-Factor With Replication"
-msgstr "Anova: Twee-Factor met Herhaling"
+msgstr "Anova: Twee-factor met herhaling"
 
 #: ../src/tools/analysis-tools.c:4715
 msgid "/Count/Sum/Average/Variance"
@@ -8935,16 +8937,16 @@ msgstr "/ANOVA/Bron van Variantie/Rijen/Kolommen/Interactie/Binnen"
 #: ../src/tools/analysis-tools.c:5024
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
-msgstr "Twee-Factor ANOVA (%s), geen herhaling"
+msgstr "Twee-factor ANOVA (%s), geen herhaling"
 
 #: ../src/tools/analysis-tools.c:5025
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
-msgstr "Twee-Factor ANOVA(%s), met herhaling"
+msgstr "Twee-factor ANOVA(%s), met herhaling"
 
 #: ../src/tools/analysis-tools.c:5043
 msgid "Two Factor ANOVA"
-msgstr "Twee Factor ANOVA"
+msgstr "Twee-factor ANOVA"
 
 #: ../src/tools/analysis-tools.c:5224
 #, c-format
@@ -8953,7 +8955,7 @@ msgstr "<%s"
 
 #: ../src/tools/analysis-tools.c:5228
 msgid "Too Small"
-msgstr "Te Klein"
+msgstr "Te klein"
 
 #: ../src/tools/analysis-tools.c:5245
 msgid "More"
@@ -8966,7 +8968,7 @@ msgstr ">%s"
 
 #: ../src/tools/analysis-tools.c:5258
 msgid "Too Large"
-msgstr "Te Groot"
+msgstr "Te groot"
 
 #: ../src/tools/analysis-tools.c:5302
 msgid "Bin"
@@ -8997,19 +8999,19 @@ msgstr "Imaginair"
 #: ../src/tools/analysis-tools.c:5579
 #, c-format
 msgid "Fourier Series (%s)"
-msgstr "Fourier Serie (%s)"
+msgstr "Fourierserie (%s)"
 
 #: ../src/tools/analysis-tools.c:5591 ../src/tools/analysis-tools.c:5594
 msgid "Fourier Series"
-msgstr "Fourier Serie"
+msgstr "Fourierserie"
 
 #: ../src/tools/dao.c:147
 msgid "New Sheet"
-msgstr "Nieuw Blad"
+msgstr "Nieuw blad"
 
 #: ../src/tools/dao.c:150
 msgid "New Workbook"
-msgstr "Nieuwe Werkmap"
+msgstr "Nieuwe werkmap"
 
 #: ../src/tools/dao.c:907
 msgid "Gnumeric "
@@ -9021,7 +9023,7 @@ msgstr "Werkblad:"
 
 #: ../src/tools/dao.c:920
 msgid "Report Created: "
-msgstr "Rapport Opgemaakt: "
+msgstr "Rapport opgemaakt: "
 
 #: ../src/tools/fill-series.c:395
 #, c-format
@@ -9122,7 +9124,7 @@ msgstr "Kurtosis"
 msgid "Range"
 msgstr "Bereik"
 
-#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1925
+#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1926
 msgid "Count"
 msgstr "Telling"
 
@@ -9259,12 +9261,13 @@ msgstr "Kosten"
 
 #: ../src/tools/solver/reports-write.c:238
 msgid "Coefficient"
-msgstr "Coefficient"
+msgstr "Coëfficiënt"
 
+# ophogen/verhogen
 #: ../src/tools/solver/reports-write.c:239
 #: ../src/tools/solver/reports-write.c:285
 msgid "Increase"
-msgstr "Ophogen"
+msgstr "Verhogen"
 
 #: ../src/tools/solver/reports-write.c:240
 #: ../src/tools/solver/reports-write.c:286
@@ -9275,6 +9278,7 @@ msgstr "Verlagen"
 msgid "Shadow"
 msgstr "Shaduw"
 
+# randvoorwaarde/voorwaarde
 #: ../src/tools/solver/reports-write.c:276
 msgid "Constraint"
 msgstr "Voorwaarde"
@@ -9367,7 +9371,7 @@ msgstr "Maximumtijd is overschreden: optimalisatie onderbroken"
 
 #: ../src/tools/solver/reports-write.c:570
 msgid "Integer Constraints"
-msgstr "Getallen-voorwaarden"
+msgstr "Gehele getallen-voorwaarden"
 
 #: ../src/tools/solver/reports-write.c:571
 msgid "Boolean Constraints"
@@ -9398,9 +9402,10 @@ msgstr "Niet-nul in"
 msgid "Obj. fn"
 msgstr "Obj. fn"
 
+# ratio/verhouding
 #: ../src/tools/solver/reports-write.c:604
 msgid "Ratio"
-msgstr "Ratio"
+msgstr "Verhouding"
 
 #.
 #. * Fill in the labels of `Computing Time' section.
@@ -9422,7 +9427,7 @@ msgstr "Tijd (sec.)"
 #.
 #: ../src/tools/solver/reports-write.c:665
 msgid "CPU Model"
-msgstr "CPU Model"
+msgstr "CPU-model"
 
 #: ../src/tools/solver/reports-write.c:666
 msgid "CPU MHz"
@@ -9431,6 +9436,14 @@ msgstr "CPU MHz"
 #: ../src/tools/solver/reports-write.c:667
 msgid "OS"
 msgstr "OS"
+
+#. Set the `CPU Model'.
+#. Set the `CPU Mhz'.
+#: ../src/tools/solver/reports-write.c:673
+#: ../src/tools/solver/reports-write.c:676
+#: ../src/tools/solver/reports-write.c:689
+msgid "Unknown"
+msgstr "Onbekend"
 
 #: ../src/tools/solver/reports-write.c:698
 msgid "Algorithm:"
@@ -9443,24 +9456,24 @@ msgstr "Modelaannames:"
 
 #: ../src/tools/solver/reports-write.c:700
 msgid "Autoscaling:"
-msgstr "Automatisch Schalen:"
+msgstr "Automatisch schalen:"
 
 #: ../src/tools/solver/reports-write.c:701
 msgid "Max Iterations:"
-msgstr "Max Iteraties:"
+msgstr "Max iteraties:"
 
 #: ../src/tools/solver/reports-write.c:702
 msgid "Max Time:"
-msgstr "Max Tijd:"
+msgstr "Max tijd:"
 
 #. Set the options.
 #: ../src/tools/solver/reports-write.c:706
 msgid "LP Solve"
-msgstr "LP Solve"
+msgstr "LP solve"
 
 #: ../src/tools/solver/reports-write.c:715
 msgid "Non-Negative"
-msgstr "Niet-Negatief"
+msgstr "Niet-negatief"
 
 #: ../src/tools/solver/reports-write.c:722
 msgid "Yes"
@@ -9473,15 +9486,15 @@ msgstr "Nee"
 #. Fill in other titles.
 #: ../src/tools/solver/reports-write.c:746
 msgid "General Information"
-msgstr "Algemene Informatie"
+msgstr "Algemene informatie"
 
 #: ../src/tools/solver/reports-write.c:747
 msgid "Problem Size"
-msgstr "Probleem Grootte"
+msgstr "Probleemgrootte"
 
 #: ../src/tools/solver/reports-write.c:748
 msgid "Data Sparsity"
-msgstr "Gegevens Schaarsheid"
+msgstr "Gegevensschaarsheid"
 
 #: ../src/tools/solver/reports-write.c:749
 msgid "Computing Time"
@@ -9489,7 +9502,7 @@ msgstr "Berekeningstijd"
 
 #: ../src/tools/solver/reports-write.c:750
 msgid "System Information"
-msgstr "Systeem Informatie"
+msgstr "Systeeminformatie"
 
 #: ../src/tools/solver/reports-write.c:766
 #: ../src/tools/solver/reports-write.c:907
@@ -9517,27 +9530,25 @@ msgstr "Gelijk aan"
 msgid "Subject to"
 msgstr "Onder voorwaarde"
 
+# tweeledige rapportage
 #: ../src/tools/solver/reports-write.c:945
 #: ../src/tools/solver/reports-write.c:958
 msgid "Dual Program Report"
-msgstr "Tweeledig Programmarapport"
+msgstr "Tweeledig programmarapport"
 
 #: ../src/tools/solver/solver.c:402
 msgid ""
 "The LHS cells should contain formulas that yield proper numerical values.  "
 "Specify valid LHS entries."
 msgstr ""
-"De Linkerzijde-cellen moeten formules bevatten die numerieke waarden "
-"geven. \n"
-"Geef geldige Linkerzijde."
+"De cellen aan de linkerkant moeten formules bevatten die numerieke waarden geven. \n"
+"Geef geldige linkerkant."
 
 #: ../src/tools/solver/solver.c:445
 msgid ""
 "The RHS cells should contain proper numerical values only.  Specify valid "
 "RHS entries."
-msgstr ""
-"De Rechterzijde-cellen moeten geldige numerieke waarden bevatten. Geef "
-"geldige Rechterzijde."
+msgstr "De cellen aan de rechterkant moeten geldige numerieke waarden bevatten. Geef geldige rechterkant."
 
 #: ../src/tools/solver/solver.c:477
 msgid "EqualTo models are not supported yet.  Please use Min or Max"
@@ -10169,35 +10180,35 @@ msgstr "'%s' is reeds in werkmap gedefinieerd"
 msgid "Invalid template file: %s"
 msgstr "Ongeldig sjabloon bestand: %s"
 
-#: ../src/format-template.c:469
+#: ../src/format-template.c:471
 msgid "Error while trying to load autoformat template"
 msgstr "Fout bij laden autoformat sjabloon bestand"
 
-#: ../src/format-template.c:486
+#: ../src/format-template.c:488
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Fout bij verwerken autoformat sjabloon bestand"
 
-#: ../src/format-template.c:492
+#: ../src/format-template.c:494
 msgid "Is not an autoformat template file"
 msgstr "Is geen autoformat sjabloon bestand"
 
-#: ../src/format-template.c:495
+#: ../src/format-template.c:497
 msgid "Invalid xml file. Tree is empty?"
 msgstr "Ongeldig xml-bestand. Boom is leeg?"
 
-#: ../src/format-template.c:788
+#: ../src/format-template.c:787
 #, c-format
 msgid ""
 "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr ""
 "Het doelbereik is te klein, het moet tenminste %d rijen bij %d kolommen zijn."
 
-#: ../src/format-template.c:792
+#: ../src/format-template.c:791
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
 msgstr "Het doelbereik is te klein, het moet tenminste %d kolommen breed zijn."
 
-#: ../src/format-template.c:796
+#: ../src/format-template.c:795
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Het doelbereik is te klein, het moet tenminste %d rijen hoog zijn."
@@ -10514,7 +10525,7 @@ msgstr ""
 msgid "_Move"
 msgstr "_Verplaatsen"
 
-#: ../src/item-cursor.c:1003 ../src/sheet-control-gui.c:1684
+#: ../src/item-cursor.c:1003 ../src/sheet-control-gui.c:1731
 msgid "_Copy"
 msgstr "_Kopiëren"
 
@@ -10861,31 +10872,31 @@ msgid "Unexpected token %c"
 msgstr "Onverwacht teken %c"
 
 #. Note: we cannot have spaces in page numbers.
-#: ../src/print.c:612
+#: ../src/print.c:611
 msgid "&[PAGE]"
 msgstr "&[PAGINA]"
 
-#: ../src/print.c:1117
+#: ../src/print.c:1116
 msgid "Print Region"
 msgstr "Bereik Afdrukken"
 
-#: ../src/print.c:1234 ../src/wbcg-actions.c:1514
+#: ../src/print.c:1233 ../src/wbcg-actions.c:1514
 msgid "Print preview"
 msgstr "Afdrukvoorbeeld"
 
-#: ../src/print.c:1246
+#: ../src/print.c:1245
 msgid "Printing failed"
 msgstr "Afdrukken mislukt"
 
-#: ../src/print.c:1350
+#: ../src/print.c:1349
 msgid "Print Sheets"
 msgstr "Werkbladen Afdrukken"
 
-#: ../src/print.c:1359
+#: ../src/print.c:1358
 msgid "Act_ive sheet"
 msgstr "Huid_ige werkblad"
 
-#: ../src/print.c:1359
+#: ../src/print.c:1358
 msgid "S_heets"
 msgstr "Werkbladen"
 
@@ -10931,9 +10942,10 @@ msgstr "pagina's"
 msgid "file"
 msgstr "bestand"
 
+# pad/map/kruimelpad
 #: ../src/print-info.c:484
 msgid "path"
-msgstr "Map"
+msgstr "map"
 
 #. Actually we can get slightly more than max_width here.
 #. * But max_width was computed as an estimate, anyway, so we don't care.
@@ -10944,7 +10956,7 @@ msgstr "..."
 
 #: ../src/search.c:64
 msgid "You must specify a range to search."
-msgstr "Je moet een zoekbereik opgeven."
+msgstr "U moet een zoekbereik opgeven."
 
 #: ../src/search.c:68
 msgid "The search range is invalid."
@@ -10961,7 +10973,7 @@ msgstr "Moet tekst worden doorzocht?"
 
 #: ../src/search.c:544
 msgid "Search Other Values"
-msgstr "Andere waarden doorzoeken"
+msgstr "Andere waardes doorzoeken"
 
 #: ../src/search.c:545
 msgid "Should non-strings be searched?"
@@ -11028,19 +11040,20 @@ msgstr "%s ondersteunt geen meerdere bereiken"
 #: ../src/session.c:112
 #, c-format
 msgid "Save changes to workbook '%s' before logging out?"
-msgstr "Veranderingen aan werkmap '%s' opslaan voor afsluiten?"
+msgstr "Wijzigingen aan werkmap '%s' opslaan voor afsluiten?"
 
 #: ../src/session.c:116
 msgid "Save changes to workbook before logging out?"
-msgstr "Veranderingen aan werkmap opslaan voor afsluiten?"
+msgstr "Wijzigingen aan werkmap opslaan voor afsluiten?"
 
 #: ../src/session.c:122
 msgid "If you do not save, changes may be discarded."
-msgstr "Als u niet opslaat zullen de veranderingen verloren gaan."
+msgstr "Als u niet opslaat zullen de wijzigingen verloren gaan."
 
+# geen enkele opslaan/niets opslaan
 #: ../src/session.c:124
 msgid "Do not save any"
-msgstr "Geen enkele opslaan"
+msgstr "Niets opslaan"
 
 #: ../src/session.c:126 ../src/session.c:129
 msgid "Do not save"
@@ -11205,15 +11218,15 @@ msgstr "Kolommen Invoegen"
 msgid "Insert Rows"
 msgstr "Rijen Invoegen"
 
-#: ../src/sheet-control-gui.c:1682
+#: ../src/sheet-control-gui.c:1729
 msgid "Cu_t"
 msgstr "K_nippen"
 
-#: ../src/sheet-control-gui.c:1686
+#: ../src/sheet-control-gui.c:1733
 msgid "_Paste"
 msgstr "_Plakken"
 
-#: ../src/sheet-control-gui.c:1688
+#: ../src/sheet-control-gui.c:1735
 msgid "Paste _Special"
 msgstr "Plakken _Speciaal"
 
@@ -11224,88 +11237,88 @@ msgstr "Plakken _Speciaal"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: ../src/sheet-control-gui.c:1700
+#: ../src/sheet-control-gui.c:1747
 msgid "_Insert Cells..."
 msgstr "Cellen _invoegen..."
 
-#: ../src/sheet-control-gui.c:1702
+#: ../src/sheet-control-gui.c:1749
 msgid "_Delete Cells..."
 msgstr "Cellen verwij_deren..."
 
-#: ../src/sheet-control-gui.c:1704
+#: ../src/sheet-control-gui.c:1751
 msgid "_Insert Column(s)"
-msgstr "Kolom(men) _Invoegen"
+msgstr "Kolom(men) _invoegen"
 
-#: ../src/sheet-control-gui.c:1706
+#: ../src/sheet-control-gui.c:1753
 msgid "_Delete Column(s)"
-msgstr "Kolom(men) Verwij_deren"
+msgstr "Kolom(men) verwij_deren"
 
-#: ../src/sheet-control-gui.c:1708
+#: ../src/sheet-control-gui.c:1755
 msgid "_Insert Row(s)"
 msgstr "Rij(en) _Invoegen"
 
-#: ../src/sheet-control-gui.c:1710
+#: ../src/sheet-control-gui.c:1757
 msgid "_Delete Row(s)"
-msgstr "Rij(en) Verwij_deren"
+msgstr "Rij(en) verwij_deren"
 
-#: ../src/sheet-control-gui.c:1713
+#: ../src/sheet-control-gui.c:1760
 msgid "Clear Co_ntents"
-msgstr "I_nhoud Leegmaken"
+msgstr "I_nhoud leegmaken"
 
-#: ../src/sheet-control-gui.c:1715
+#: ../src/sheet-control-gui.c:1762
 msgid "Edit Co_mment..."
 msgstr "Op_merking bewerken..."
 
-#: ../src/sheet-control-gui.c:1721
+#: ../src/sheet-control-gui.c:1768
 msgid "_Format Cells..."
 msgstr "_Celeigenschappen..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: ../src/sheet-control-gui.c:1725
+#: ../src/sheet-control-gui.c:1772
 msgid "Column _Width..."
-msgstr "Kolom _Breedte..."
+msgstr "Kolom_breedte..."
 
-#: ../src/sheet-control-gui.c:1727 ../src/sheet-control-gui.c:1735
+#: ../src/sheet-control-gui.c:1774 ../src/sheet-control-gui.c:1782
 #: ../src/wbcg-actions.c:1732 ../src/wbcg-actions.c:1749
 msgid "_Hide"
 msgstr "_Verbergen"
 
-#: ../src/sheet-control-gui.c:1729 ../src/sheet-control-gui.c:1737
+#: ../src/sheet-control-gui.c:1776 ../src/sheet-control-gui.c:1784
 #: ../src/wbcg-actions.c:1735 ../src/wbcg-actions.c:1752
 msgid "_Unhide"
 msgstr "_Zichtbaar maken"
 
 #. Row specific (Note some labels duplicate col labels)
-#: ../src/sheet-control-gui.c:1733
+#: ../src/sheet-control-gui.c:1780
 msgid "_Row Height..."
-msgstr "_Rij Hoogte..."
+msgstr "_Rijhoogte..."
 
-#: ../src/sheet-control-gui.c:1740
+#: ../src/sheet-control-gui.c:1787
 msgid "_Hyperlink"
 msgstr "_Hyperlink"
 
-#: ../src/sheet-control-gui.c:1743
+#: ../src/sheet-control-gui.c:1790
 msgid "Edit _Hyperlink"
 msgstr "_Hyperlink bewerken"
 
-#: ../src/sheet-control-gui.c:1746
+#: ../src/sheet-control-gui.c:1793
 msgid "_Remove Hyperlink"
-msgstr "Hyperlink Ve_rwijderen"
+msgstr "Hyperlink ve_rwijderen"
 
 #. This is somewhat cheesy and should use ngettext
-#: ../src/sheet-control-gui.c:2237
+#: ../src/sheet-control-gui.c:2284
 msgid "Duplicate Object"
 msgstr "Object dupliceren"
 
-#: ../src/sheet-control-gui.c:2237
+#: ../src/sheet-control-gui.c:2284
 msgid "Insert Object"
 msgstr "Object invoegen"
 
-#: ../src/sheet-control-gui.c:2238
+#: ../src/sheet-control-gui.c:2285
 msgid "Move Object"
 msgstr "Object verplaatsen"
 
-#: ../src/sheet-control-gui.c:2238
+#: ../src/sheet-control-gui.c:2285
 msgid "Resize Object"
 msgstr "Object van grootte veranderen"
 
@@ -11824,34 +11837,35 @@ msgstr "Verticale uitlijning instellen"
 msgid "Set Font Style"
 msgstr "Lettertype stijl instellen"
 
-# formateren/opmaken
+# formatteren/opmaken/opmaak
 #: ../src/wbcg-actions.c:1232
 msgid "Format as Number"
-msgstr "Formateren als Getal"
+msgstr "Opmaken als een getal"
 
 #: ../src/wbcg-actions.c:1237
 msgid "Format as Currency"
-msgstr "Formateren als Valuta"
+msgstr "Opmaken als bij valuta"
 
 #: ../src/wbcg-actions.c:1242
 msgid "Format as Accounting"
-msgstr "Formateren als Boekhouden"
+msgstr "Opmaken als bij boekhouden"
 
 #: ../src/wbcg-actions.c:1248
 msgid "Format as Percentage"
-msgstr "Formateren als Percentage"
+msgstr "Opmaken als een percentage"
 
+# als bij wetenschappelijke notatie
 #: ../src/wbcg-actions.c:1253
 msgid "Format as Scientific"
-msgstr "Formateren als Wetenschappelijk"
+msgstr "Opmaken als wetenschappelijk"
 
 #: ../src/wbcg-actions.c:1258
 msgid "Format as Date"
-msgstr "Formateren als Datum"
+msgstr "Opmaken als een datum"
 
 #: ../src/wbcg-actions.c:1263
 msgid "Format as Time"
-msgstr "Formateren als Tijd"
+msgstr "Opmaken als een tijd"
 
 #: ../src/wbcg-actions.c:1287
 msgid "Add Borders"
@@ -11863,23 +11877,23 @@ msgstr "Randen verwijderen"
 
 #: ../src/wbcg-actions.c:1316
 msgid "Increase precision"
-msgstr "Verhoog nauwkeurigheid"
+msgstr "Nauwkeurigheid verhogen"
 
 #: ../src/wbcg-actions.c:1318
 msgid "Decrease precision"
-msgstr "Verlaag nauwkeurigheid"
+msgstr "Nauwkeurigheid verlagen"
 
 #: ../src/wbcg-actions.c:1320
 msgid "Toggle thousands separator"
-msgstr "Scheidingsteken voor duizendtallen omschakelen"
+msgstr "Scheidingsteken voor duizendtallen aan/uit"
 
 #: ../src/wbcg-actions.c:1340
 msgid "Increase Indent"
-msgstr "Tabulatie vergroten"
+msgstr "Inspringen vergroten"
 
 #: ../src/wbcg-actions.c:1360
 msgid "Decrease Indent"
-msgstr "Tabulatie verkleinen"
+msgstr "Inspringen verkleinen"
 
 # omlaag kopieren
 #: ../src/wbcg-actions.c:1367
@@ -12027,8 +12041,9 @@ msgstr "Gnumeric op het _Web"
 
 #: ../src/wbcg-actions.c:1474
 msgid "Browse to Gnumeric's website"
-msgstr "Naar Gnumerics webstek surfen"
+msgstr "Naar Gnumeric's webstek surfen"
 
+# onmiddellijke/directe assistentie/hulp
 #: ../src/wbcg-actions.c:1476
 msgid "_Live Assistance"
 msgstr "_Directe assistentie"
@@ -12043,7 +12058,7 @@ msgstr "_Probleem melden"
 
 #: ../src/wbcg-actions.c:1480
 msgid "Report problem "
-msgstr "Een probleem rapporteren "
+msgstr "Een probleem melden "
 
 #: ../src/wbcg-actions.c:1482
 msgid "_About"
@@ -12355,11 +12370,11 @@ msgstr "_Nieuw beeld..."
 msgid "Create a new view of the workbook"
 msgstr "Een nieuwe weergave van de werkmap maken"
 
-#: ../src/wbcg-actions.c:1648 ../src/workbook-control-gui.c:1143
+#: ../src/wbcg-actions.c:1648 ../src/workbook-control-gui.c:1144
 msgid "_Freeze Panes"
 msgstr "_Panelen vastzetten"
 
-#: ../src/wbcg-actions.c:1649 ../src/workbook-control-gui.c:1146
+#: ../src/wbcg-actions.c:1649 ../src/workbook-control-gui.c:1147
 msgid "Freeze the top left of the sheet"
 msgstr "Het gedeelte van het werkblad links boven vastzetten"
 
@@ -12874,7 +12889,7 @@ msgid "Remove an outline group"
 msgstr "Een outline-groep verwijderen"
 
 #. Data -> Filter
-#: ../src/wbcg-actions.c:1888 ../src/workbook-control-gui.c:1154
+#: ../src/wbcg-actions.c:1888 ../src/workbook-control-gui.c:1155
 msgid "Add _Auto Filter"
 msgstr "Aut_o-filter toevoegen"
 
@@ -12908,7 +12923,7 @@ msgid "Import the text from a file"
 msgstr "De tekst vanuit een bestand importeren."
 
 #. Standard Toolbar
-#: ../src/wbcg-actions.c:1903 ../src/workbook-control-gui.c:1921
+#: ../src/wbcg-actions.c:1903 ../src/workbook-control-gui.c:1922
 #: ../src/workbook-view.c:589
 msgid "Sum"
 msgstr "Som"
@@ -13571,95 +13586,95 @@ msgstr "Verwijderen"
 msgid "Rename"
 msgstr "Hernoemen"
 
-#: ../src/workbook-control-gui.c:1142
+#: ../src/workbook-control-gui.c:1143
 msgid "Un_freeze Panes"
 msgstr "Panelen losmaken"
 
 # ontdooien of loslaten
-#: ../src/workbook-control-gui.c:1145
+#: ../src/workbook-control-gui.c:1146
 msgid "Unfreeze the top left of the sheet"
 msgstr "Het gedeelte van het werkblad links boven ontdooien"
 
-#: ../src/workbook-control-gui.c:1153
+#: ../src/workbook-control-gui.c:1154
 msgid "Remove _Auto Filter"
 msgstr "_Autofilter verwijderen"
 
-#: ../src/workbook-control-gui.c:1156
+#: ../src/workbook-control-gui.c:1157
 msgid "Remove a filter"
 msgstr "Een filter verwijderen"
 
-#: ../src/workbook-control-gui.c:1157
+#: ../src/workbook-control-gui.c:1158
 msgid "Add a filter"
 msgstr "Een filter toevoegen"
 
-#: ../src/workbook-control-gui.c:1168
+#: ../src/workbook-control-gui.c:1169
 msgid "_Undo"
 msgstr "_Ongedaan maken"
 
 # alle letters behalve i en e worden al in het menu gebruikt
-#: ../src/workbook-control-gui.c:1169
+#: ../src/workbook-control-gui.c:1170
 msgid "_Redo"
 msgstr "Opni_euw"
 
-#: ../src/workbook-control-gui.c:1255
+#: ../src/workbook-control-gui.c:1256
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Veranderingen aan werkboek '%s' opslaan voor afsluiten?"
 
-#: ../src/workbook-control-gui.c:1259
+#: ../src/workbook-control-gui.c:1260
 msgid "Save changes to workbook before closing?"
 msgstr "Veranderingen aan werkboek opslaan voor afsluiten?"
 
-#: ../src/workbook-control-gui.c:1265
+#: ../src/workbook-control-gui.c:1266
 msgid "If you close without saving, changes will be discarded."
 msgstr "Als u afsluit zonder opslaan, zullen de veranderingen verloren gaan."
 
-#: ../src/workbook-control-gui.c:1271
+#: ../src/workbook-control-gui.c:1272
 msgid "Discard all"
 msgstr "Alles verwerpen"
 
-#: ../src/workbook-control-gui.c:1273 ../src/workbook-control-gui.c:1280
-#: ../src/workbook-control-gui.c:1286
+#: ../src/workbook-control-gui.c:1274 ../src/workbook-control-gui.c:1281
+#: ../src/workbook-control-gui.c:1287
 msgid "Discard"
 msgstr "Verwerpen"
 
-#: ../src/workbook-control-gui.c:1275
+#: ../src/workbook-control-gui.c:1276
 msgid "Save all"
 msgstr "Alles opslaan"
 
-#: ../src/workbook-control-gui.c:1277 ../src/workbook-control-gui.c:1282
+#: ../src/workbook-control-gui.c:1278 ../src/workbook-control-gui.c:1283
 msgid "Don't quit"
 msgstr "Niet afsluiten"
 
-#: ../src/workbook-control-gui.c:1288
+#: ../src/workbook-control-gui.c:1289
 msgid "Don't close"
 msgstr "Niet sluiten"
 
-#: ../src/workbook-control-gui.c:1970
+#: ../src/workbook-control-gui.c:1971
 msgid "Use maximum precision"
 msgstr "Maximale nauwkeurigheid"
 
-#: ../src/workbook-control-gui.c:2211
+#: ../src/workbook-control-gui.c:2212
 msgid "Cancel change"
 msgstr "Wijziging verwerpen"
 
-#: ../src/workbook-control-gui.c:2215
+#: ../src/workbook-control-gui.c:2216
 msgid "Accept change"
 msgstr "Wijziging accepteren"
 
-#: ../src/workbook-control-gui.c:2219
+#: ../src/workbook-control-gui.c:2220
 msgid "Enter formula..."
 msgstr "Formule invoeren..."
 
-#: ../src/workbook-control-gui.c:2353 ../src/workbook-control-gui.c:2368
+#: ../src/workbook-control-gui.c:2354 ../src/workbook-control-gui.c:2369
 msgid "_Re-Edit"
 msgstr "_Opnieuw bewerken"
 
-#: ../src/workbook-control-gui.c:2354 ../src/workbook-control-gui.c:2359
+#: ../src/workbook-control-gui.c:2355 ../src/workbook-control-gui.c:2360
 msgid "_Discard"
 msgstr "_Verwerpen"
 
-#: ../src/workbook-control-gui.c:2358 ../src/workbook-control-gui.c:2369
+#: ../src/workbook-control-gui.c:2359 ../src/workbook-control-gui.c:2370
 msgid "_Accept"
 msgstr "_Accepteren"
 
@@ -13963,6 +13978,101 @@ msgstr "Lila lijst"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Een eenvoudige lijst"
+
+#~ msgid "Advanced..."
+#~ msgstr "Geavanceerd..."
+
+#~ msgid "Author: "
+#~ msgstr "Auteur: "
+
+#~ msgid "Cancel"
+#~ msgstr "Annuleren"
+
+#~ msgid "Comments: "
+#~ msgstr "Opmerkingen: "
+
+#~ msgid "Content: "
+#~ msgstr "Inhoud: "
+
+#~ msgid "Custom"
+#~ msgstr "Aangepast"
+
+#~ msgid "Document Subject: "
+#~ msgstr "Document onderwerp: "
+
+#~ msgid "Document Title: "
+#~ msgstr "Documenttitel: "
+
+#~ msgid "Document: "
+#~ msgstr "Document: "
+
+#~ msgid "Editing Workbook Metadata..."
+#~ msgstr "Werkblad metatdata bewerken..."
+
+#~ msgid "File Information"
+#~ msgstr "Bestandsinformatie"
+
+#~ msgid "Global (Others) Permissions"
+#~ msgstr "Algemene (anderen) rechten"
+
+#~ msgid "Group Permissions"
+#~ msgstr "Groepsrechten"
+
+# dit gaat waarschijnlijk om de rechten van user/groep/other
+#~ msgid "Group: "
+#~ msgstr "Groep: "
+
+#~ msgid "Internet"
+#~ msgstr "Internet"
+
+#~ msgid "Keywords: "
+#~ msgstr "Sleutelwoorden: "
+
+#~ msgid "Location: "
+#~ msgstr "Locatie: "
+
+#~ msgid "Name of the property"
+#~ msgstr "Naam van de eigenschap"
+
+#~ msgid "OK"
+#~ msgstr "OK"
+
+#~ msgid "Owner Permissions"
+#~ msgstr "Eigenaarsrechten"
+
+#~ msgid "Owner: "
+#~ msgstr "Eigenaar: "
+
+#~ msgid "Property:"
+#~ msgstr "Eigenschap:"
+
+#~ msgid "Read"
+#~ msgstr "Lezen"
+
+# linkage is ws soort link: mailto: news: http:
+#~ msgid ""
+#~ "Text\n"
+#~ "Image\n"
+#~ "Hyperlink\n"
+#~ "Linkage"
+#~ msgstr ""
+#~ "Tekst\n"
+#~ "Afbeelding\n"
+#~ "Hyperlink\n"
+#~ "Linktype"
+
+#~ msgid "Type: "
+#~ msgstr "Type: "
+
+#~ msgid "Untitled"
+#~ msgstr "Zonder titel"
+
+#~ msgid "Write"
+#~ msgstr "Schrijven"
+
+# de X is hier groot om rwx duidelijk te maken
+#~ msgid "eXecute"
+#~ msgstr "Uitvoeren"
 
 #~ msgid "MS Excel (tm) SpreadsheetML"
 #~ msgstr "MS Excel (tm) SpreadsheetML"
@@ -14500,9 +14610,6 @@ msgstr "Een eenvoudige lijst"
 
 #~ msgid "<b>Marker</b>"
 #~ msgstr "<b>Markering</b>"
-
-#~ msgid "<b>Outline</b>"
-#~ msgstr "<b>Omtrek</b>"
 
 #~ msgid "Co_lor:"
 #~ msgstr "K_leur:"
