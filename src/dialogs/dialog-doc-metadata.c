@@ -133,12 +133,12 @@ void populate_page_2 (DialogDocMetaData *state);
 void populate_page_3 (DialogDocMetaData *state);
 void populate_page_4 (DialogDocMetaData *state);
 
+void dialog_doc_metadata_set_entry_text_with_gsf_str_prop_value (GtkEntry * entry, GsfDocMetaData * metadata, const char * prop_name);
 void dialog_doc_metadata_set_label_text_with_gsf_str_prop_value (GtkLabel * label, GsfDocMetaData * metadata, const char * prop_name);
 void dialog_doc_metadata_set_label_text_with_gsf_int_prop_value (GtkLabel * label, GsfDocMetaData * metadata, const char * prop_name);
 const GValue * dialog_doc_metadata_get_gsf_prop_value (GsfDocMetaData * metadata, const char * prop_name);
 const char * dialog_doc_metadata_get_gsf_prop_value_as_str (GsfDocMetaData * metadata, const char * prop_name);
 int dialog_doc_metadata_get_gsf_prop_value_as_int (GsfDocMetaData * metadata, const char * prop_name);
-void dialog_doc_metadata_set_file_permissions();
 
 /*
  * Signal Handlers.
@@ -337,10 +337,6 @@ cb_dialog_doc_metadata_owner_read_clicked (GtkWidget *w, DialogDocMetaData *stat
 
 	g_return_if_fail(button != NULL);
 	fprintf(stderr, "%s() - state = %d\n", __FUNCTION__, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)));
-	/*
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->owner_read), 
-				      !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->owner_read)));
-	*/
 }
 
 static void
@@ -381,16 +377,18 @@ void populate_page_1 (DialogDocMetaData *state)
 
 	dialog_doc_metadata_set_label_text_with_gsf_str_prop_value (state->created, state->metadata, GSF_META_NAME_DATE_CREATED);
 	dialog_doc_metadata_set_label_text_with_gsf_str_prop_value (state->modified, state->metadata, GSF_META_NAME_DATE_MODIFIED);
-
 	
-	//dialog_doc_metadata_set_label_text_with_gsf_str_prop_value (state->accessed, state->metadata, const char * prop_name);
-	//dialog_doc_metadata_set_label_text_with_gsf_str_prop_value (state->owner, state->metadata, const char * prop_name);
-	//dialog_doc_metadata_set_label_text_with_gsf_str_prop_value (state->group, state->metadata, const char * prop_name);
+	/* GSF_META_NAME_DATE_ACCESSED does not exist. Create it? 
+	 * dialog_doc_metadata_set_label_text_with_gsf_str_prop_value (state->accessed, state->metadata, GSF_META_NAME_DATE_ACCESSED);
+	 */
+
+	/*
+	 * dialog_doc_metadata_set_label_text_with_gsf_str_prop_value (state->owner, state->metadata, const char * prop_name);
+	 * dialog_doc_metadata_set_label_text_with_gsf_str_prop_value (state->group, state->metadata, const char * prop_name);
+	 */
 
 	/* Set up check buttons */
 	//dialog_doc_metadata_set_file_permissions();
-	
-	
 
 	/* Set up signals */
 	g_signal_connect (G_OBJECT (state->owner_read), "clicked", G_CALLBACK (cb_dialog_doc_metadata_owner_read_clicked), (gpointer) state);
@@ -405,6 +403,30 @@ void populate_page_1 (DialogDocMetaData *state)
 
 void populate_page_2(DialogDocMetaData *state)
 {
+	g_return_if_fail (state->metadata != NULL);
+
+	dialog_doc_metadata_set_entry_text_with_gsf_str_prop_value (state->title, state->metadata, GSF_META_NAME_TITLE);
+	dialog_doc_metadata_set_entry_text_with_gsf_str_prop_value (state->subject, state->metadata, GSF_META_NAME_SUBJECT);
+
+	/* GSF_META_NAME_AUTHOR does not exist. Create it? 
+	 * dialog_doc_metadata_set_entry_text_with_gsf_str_prop_value (state->author, state->metadata, GSF_META_NAME_);
+	 */
+	
+	dialog_doc_metadata_set_entry_text_with_gsf_str_prop_value (state->manager, state->metadata, GSF_META_NAME_MANAGER);
+	dialog_doc_metadata_set_entry_text_with_gsf_str_prop_value (state->company, state->metadata, GSF_META_NAME_COMPANY);
+	dialog_doc_metadata_set_entry_text_with_gsf_str_prop_value (state->category, state->metadata, GSF_META_NAME_CATEGORY);
+	dialog_doc_metadata_set_entry_text_with_gsf_str_prop_value (state->keywords, state->metadata, GSF_META_NAME_KEYWORDS);
+
+	/* GSF_META_NAME_COMMENTS does not exist. Create it?
+	 * {
+	 * 	char * value;
+	 * 	value = dialog_doc_metadata_get_gsf_prop_value_as_str (state->metadata, GSF_META_NAME_COMMENTS);
+	 * 	if (value != NULL)
+	 * 		gtk_text_buffer_set_text (gtk_text_view_get_buffer (state->comments), value, -1); 
+	 * 	else
+	 * 		gtk_text_buffer_set_text (gtk_text_view_get_buffer (state->comments), "", 0); 
+	 * }
+	 */
 }
 
 void populate_page_3(DialogDocMetaData *state)
@@ -422,6 +444,17 @@ void populate_page_4(DialogDocMetaData *state)
 }
 
 void
+dialog_doc_metadata_set_entry_text_with_gsf_str_prop_value (GtkEntry * entry, GsfDocMetaData * metadata, const char * prop_name)
+{
+	const char * value = dialog_doc_metadata_get_gsf_prop_value_as_str (metadata, prop_name);
+
+	if (value != NULL)
+		gtk_entry_set_text (entry, value);
+	else
+		gtk_entry_set_text (entry, "");
+}
+
+void
 dialog_doc_metadata_set_label_text_with_gsf_str_prop_value (GtkLabel * label, GsfDocMetaData * metadata, const char * prop_name)
 {
 	const char * value = dialog_doc_metadata_get_gsf_prop_value_as_str (metadata, prop_name);
@@ -430,7 +463,6 @@ dialog_doc_metadata_set_label_text_with_gsf_str_prop_value (GtkLabel * label, Gs
 		gtk_label_set_text (label, value);
 	else
 		gtk_label_set_text (label, "");
-	
 }
 
 void

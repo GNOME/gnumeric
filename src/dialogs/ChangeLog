@@ -1,3 +1,9 @@
+2005-09-28 Eduardo de Barros Lima <eduardo.lima@indt.org.br>
+
+	* dialog-doc-metadata.c: new function implemented 
+	(dialog_doc_metadata_set_entry_text_with_gsf_str_prop_value) : new.
+	(populate_page_2) : code to set the text of the entries.
+	
 2005-09-26  Jody Goldberg <jody@gnome.org>
 
 	* cell-format.glade : give the super/sub script buttons names and
