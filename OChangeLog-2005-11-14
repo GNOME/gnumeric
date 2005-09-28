@@ -1,3 +1,8 @@
+2005-09-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c: (gnm_go_data_dup): set the sheet of the dep with a
+	call to dependent_set_sheet.
+
 2005-09-26  Jody Goldberg <jody@gnome.org>
 
 	* src/gnm-style-impl.h : Add a script element to GnmStyle

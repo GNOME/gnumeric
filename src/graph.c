@@ -51,7 +51,8 @@ gnm_go_data_dup (GOData const *src)
 	GnmDependent *dst_dep = gnm_go_data_get_dep (dst);
 
 	dst_dep->expression = src_dep->expression;
-	dst_dep->sheet      = src_dep->sheet;
+	if (src_dep->sheet)
+		dependent_set_sheet (dst_dep, src_dep->sheet);
 	if (dst_dep->expression == NULL) {
 		char const *str = g_object_get_data (G_OBJECT (src), "from-str");
 		g_object_set_data_full (G_OBJECT (dst),
