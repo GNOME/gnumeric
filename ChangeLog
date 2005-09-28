@@ -1,3 +1,10 @@
+2005-09-28  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-io.c (xml_read_names): Check whether the expression is
+	NULL, not whether the exp function pointer is.
+	(xml_workbook_read): Setup context earlier.
+	(xml_read_names): Work around bug 317427.
+
 2005-09-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c: (gnm_go_data_set_sheet): unlink dependent if necessary

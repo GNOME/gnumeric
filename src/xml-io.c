@@ -756,10 +756,18 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 		}
 
 		parse_error_init (&perr);
+		g_print ("expr_str=[%s]\n", expr_str);
 		expr = gnm_expr_parse_str (CXML2C (expr_str), &pp,
 					   GNM_EXPR_PARSE_DEFAULT,
 					   ctxt->exprconv, &perr);
-		if (exp != NULL) {
+		/* See http://bugzilla.gnome.org/show_bug.cgi?id=317427 */
+		if (!expr)
+			expr = gnm_expr_parse_str (CXML2C (expr_str), &pp,
+						   GNM_EXPR_PARSE_DEFAULT,
+						   gnm_expr_conventions_default,
+						   NULL);
+
+		if (expr != NULL) {
 			char *err = NULL;
 			expr_name_add (&pp, CXML2C (name_str), expr, &err, TRUE, NULL);
 			if (err != NULL) {
@@ -1966,11 +1974,14 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 				GnmParsePos pos;
 				GnmExpr const *expr = NULL;
 				char const *expr_start = gnm_expr_char_start_p (CXML2C (content));
-				if (NULL != expr_start && *expr_start)
+				if (NULL != expr_start && *expr_start) {
+					g_print ("expr_start=[%s]\n", expr_start);
 					expr = gnm_expr_parse_str (expr_start,
 								   parse_pos_init_cell (&pos, cell),
 								   GNM_EXPR_PARSE_DEFAULT,
 								   ctxt->exprconv, NULL);
+				}
+				g_print ("expr=%p\n" ,expr);
 				if (expr != NULL) {
 					cell_set_expr (cell, expr);
 					gnm_expr_unref (expr);
@@ -3595,9 +3606,8 @@ xml_workbook_read (IOContext *context,
 	char *old_num_locale, *old_monetary_locale;
 
 	if (strcmp (tree->name, "Workbook")){
-		fprintf (stderr,
-			 "xml_workbook_read: invalid element type %s, 'Workbook' expected`\n",
-			 tree->name);
+		g_warning ("xml_workbook_read: invalid element type %s, 'Workbook' expected`\n",
+			   tree->name);
 		return FALSE;
 	}
 
@@ -3624,7 +3634,7 @@ xml_workbook_read (IOContext *context,
 
 		if (xml_node_get_int (child, "Width", &width) &&
 		    xml_node_get_int (child, "Height", &height))
-			wb_view_preferred_size	  (ctxt->wb_view, width, height);
+			wb_view_preferred_size (ctxt->wb_view, width, height);
 	}
 
 /*	child = xml_search_child (tree, "Style");
@@ -3634,6 +3644,12 @@ xml_workbook_read (IOContext *context,
 	child = e_xml_get_child_by_name (tree, CC2XML ("Sheets"));
 	if (child == NULL)
 		return FALSE;
+
+	io_progress_message (context, _("Processing file..."));
+	io_progress_range_push (context, 0.5, 1.0);
+	count_io_progress_set (context, xml_read_workbook_n_elements (child),
+	                       N_ELEMENTS_BETWEEN_UPDATES);
+	ctxt->io_context = context;
 
 	/*
 	 * Pass 1: Create all the sheets, to make sure
@@ -3650,16 +3666,9 @@ xml_workbook_read (IOContext *context,
 	 */
 	xml_read_names (ctxt, tree, ctxt->wb, NULL);
 
-	child = e_xml_get_child_by_name (tree, CC2XML ("Sheets"));
-
 	/*
 	 * Pass 2: read the contents
 	 */
-	io_progress_message (context, _("Processing file..."));
-	io_progress_range_push (context, 0.5, 1.0);
-	count_io_progress_set (context, xml_read_workbook_n_elements (child),
-	                       N_ELEMENTS_BETWEEN_UPDATES);
-	ctxt->io_context = context;
 	for (c = child->xmlChildrenNode; c != NULL ; c = c->next)
 		if (!xmlIsBlankNode (c))
 			sheet = xml_sheet_read (ctxt, c);

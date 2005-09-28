@@ -18,6 +18,7 @@ Morten:
 	* Fix rare dependency crash.
 	* Warn if running with buggy pango_attr_list_splice.
 	* Improve stf import gui for multi-byte encoded text.  [#316816]
+	* Fix xml-io's name parsing.  [#317427]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.90
