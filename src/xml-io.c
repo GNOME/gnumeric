@@ -756,7 +756,6 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 		}
 
 		parse_error_init (&perr);
-		g_print ("expr_str=[%s]\n", expr_str);
 		expr = gnm_expr_parse_str (CXML2C (expr_str), &pp,
 					   GNM_EXPR_PARSE_DEFAULT,
 					   ctxt->exprconv, &perr);
@@ -1975,13 +1974,11 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 				GnmExpr const *expr = NULL;
 				char const *expr_start = gnm_expr_char_start_p (CXML2C (content));
 				if (NULL != expr_start && *expr_start) {
-					g_print ("expr_start=[%s]\n", expr_start);
 					expr = gnm_expr_parse_str (expr_start,
 								   parse_pos_init_cell (&pos, cell),
 								   GNM_EXPR_PARSE_DEFAULT,
 								   ctxt->exprconv, NULL);
 				}
-				g_print ("expr=%p\n" ,expr);
 				if (expr != NULL) {
 					cell_set_expr (cell, expr);
 					gnm_expr_unref (expr);
