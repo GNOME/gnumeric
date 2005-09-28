@@ -133,6 +133,10 @@ gnm_go_data_set_sheet (GOData *dat, Sheet *sheet)
 	if (dep == NULL)
 		return;
 
+	if (dependent_is_linked (dep)) {
+		dependent_unlink (dep);
+		dep->sheet = NULL;
+	}
 	if (sheet != NULL) {
 		/* no expression ?
 		 * Do we need to parse one now that we have more context ? */
@@ -150,9 +154,6 @@ gnm_go_data_set_sheet (GOData *dat, Sheet *sheet)
 
 		dep->sheet = NULL;
 		dependent_set_sheet (dep, sheet);
-	} else if (dependent_is_linked (dep)) {
-		dependent_unlink (dep);
-		dep->sheet = NULL;
 	}
 }
 

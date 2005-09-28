@@ -1,5 +1,10 @@
 2005-09-28  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* src/graph.c: (gnm_go_data_set_sheet): unlink dependent if necessary
+	before setting the sheet.
+
+2005-09-28  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* src/graph.c: (gnm_go_data_dup): set the sheet of the dep with a
 	call to dependent_set_sheet.
 
