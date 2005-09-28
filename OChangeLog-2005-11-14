@@ -1,3 +1,32 @@
+2005-09-26  Jody Goldberg <jody@gnome.org>
+
+	* src/gnm-style-impl.h : Add a script element to GnmStyle
+	* src/mstyle.c (elem_is_eq) : support scripts
+	(elem_assign_content) : support scripts
+	(gnm_style_new_default) : support scripts
+	(gnm_style_get_pango_attrs) : support scripts
+	(gnm_style_dump) : support scripts
+	(gnm_style_set_font_script) : new.
+	(gnm_style_get_font_script) : new.
+
+	* src/GNOME_Gnumeric-gtk.xml.in  : Add the super/sub script
+	  accelerators
+
+	* gnumeric.xsd : update to include the new h/v alignments and to add
+	  Script.
+
+	* src/wbc-gtk.c (wbc_gtk_style_feedback) : support super/sub script
+	  and fix support for double underline
+
+	* src/wbcg-actions.c (toggle_font_attr) : support super/sub script
+	(cb_font_subscript) : new.
+	(cb_font_superscript) : new.
+
+	* src/xml-io.c (xml_write_style) : ditto.
+	(xml_read_style) : ditto.
+	* src/xml-sax-read.c (xml_sax_styleregion_font) : ditto.
+	* src/xml-sax-write.c (xml_write_gnmstyle) : ditto.
+
 2005-09-27  Morten Welinder  <terra@gnome.org>
 
 	* src/position.c (eval_pos_init_dep): Fix typo.

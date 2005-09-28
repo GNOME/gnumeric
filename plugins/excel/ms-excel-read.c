@@ -1279,7 +1279,7 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 			fd->boldness = 0x2bc;
 		else
 			fd->boldness = 0x190;
-		fd->script = MS_BIFF_F_S_NONE;
+		fd->script = GO_FONT_SCRIPT_STANDARD;
 		fd->fontname = excel_get_text (importer, q->data + 5,
 			GSF_LE_GET_GUINT8 (q->data + 4), NULL);
 		if (ms_biff_query_peek_next (q, &opcode) &&
@@ -1298,7 +1298,7 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 			fd->boldness = 0x2bc;
 		else
 			fd->boldness = 0x190;
-		fd->script = MS_BIFF_F_S_NONE;
+		fd->script = GO_FONT_SCRIPT_STANDARD;
 		fd->fontname = excel_get_text (importer, q->data + 7,
 			GSF_LE_GET_GUINT8 (q->data + 6), NULL);
 	} else {
@@ -1306,15 +1306,9 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 		fd->boldness   = GSF_LE_GET_GUINT16 (q->data + 6);
 		data = GSF_LE_GET_GUINT16 (q->data + 8);
 		switch (data) {
-		case 0:
-			fd->script = MS_BIFF_F_S_NONE;
-			break;
-		case 1:
-			fd->script = MS_BIFF_F_S_SUPER;
-			break;
-		case 2:
-			fd->script = MS_BIFF_F_S_SUB;
-			break;
+		case 0: fd->script = GO_FONT_SCRIPT_STANDARD; break;
+		case 1: fd->script = GO_FONT_SCRIPT_SUPER; break;
+		case 2: fd->script = GO_FONT_SCRIPT_SUB; break;
 		default:
 			fprintf (stderr,"Unknown script %d\n", data);
 			break;
@@ -1683,6 +1677,7 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 		gnm_style_set_font_bold   (mstyle, fd->boldness >= 0x2bc);
 		gnm_style_set_font_italic (mstyle, fd->italic);
 		gnm_style_set_font_strike (mstyle, fd->struck_out);
+		gnm_style_set_font_script (mstyle, fd->script);
 		switch (fd->underline) {
 		case MS_BIFF_F_U_SINGLE:
 		case MS_BIFF_F_U_SINGLE_ACC:
@@ -2772,11 +2767,6 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 
 		default: break;
 		}
-		switch (fd->script) {
-		case MS_BIFF_F_S_SUPER: rise =  500; break;
-		case MS_BIFF_F_S_SUB:   rise = -500; break;
-		default: break;
-		}
 
 		attrs = pango_attr_list_new ();
 		add_attr (attrs, pango_attr_family_new (fd->fontname));
@@ -2785,7 +2775,9 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 		add_attr (attrs, pango_attr_style_new (fd->italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL));
 		add_attr (attrs, pango_attr_strikethrough_new (fd->struck_out));
 		add_attr (attrs, pango_attr_underline_new (underline));
-		add_attr (attrs, pango_attr_rise_new (rise));
+		add_attr (attrs, pango_attr_rise_new (5000 * fd->script));
+		if (fd->script != GO_FONT_SCRIPT_STANDARD)
+			add_attr (attrs, pango_attr_scale_new (.5));
 
 		color = (fd->color_idx == 127) ? style_color_black ()
 			: excel_palette_get (importer, fd->color_idx);
@@ -4560,13 +4552,13 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 			gnm_style_set_font_strike (cond.overlay, 0 != (tmp8 & 0x80));
 
 		if (0 == GSF_LE_GET_GUINT8  (data + 28)) {
-#if 0
 			switch (GSF_LE_GET_GUINT8  (data + 10)) {
-			case 1 : gnm_style_set_font_super (cond.overlay); break;
-			case 2 : gnm_style_set_font_sub (cond.overlay); break;
-			default : ignore ... ?
+			default : fprintf (stderr,"Unknown script %d\n", GSF_LE_GET_GUINT8 (data));
+				  /* fall through */
+			case 0: gnm_style_set_font_script (cond.overlay, GO_FONT_SCRIPT_STANDARD); break;
+			case 1: gnm_style_set_font_script (cond.overlay, GO_FONT_SCRIPT_SUPER); break;
+			case 2: gnm_style_set_font_script (cond.overlay, GO_FONT_SCRIPT_SUB); break;
 			}
-#endif
 		}
 		if (0 == GSF_LE_GET_GUINT8  (data + 32)) {
 			switch (GSF_LE_GET_GUINT8  (data + 12)) {

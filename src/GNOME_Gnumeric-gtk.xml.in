@@ -295,6 +295,8 @@
   <accelerator name="FontItalic"	 action="FontItalic"/>
   <accelerator name="FontUnderline"	 action="FontUnderline"/>
   <accelerator name="FontDoubleUnderline" action="FontDoubleUnderline"/>
+  <accelerator name="FontSuperscript"	 action="FontSuperscript"/>
+  <accelerator name="FontSubscript"	 action="FontSubscript"/>
   <accelerator name="FontStrikeThrough"  action="FontStrikeThrough"/>
   <accelerator name="FormatAsNumber"	 action="FormatAsNumber"/>
   <accelerator name="FormatAsCurrency"	 action="FormatAsCurrency"/>

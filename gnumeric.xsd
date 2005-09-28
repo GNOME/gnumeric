@@ -8,7 +8,9 @@
     <xsd:annotation>
         <xsd:documentation xml:lang="en">
             Schema for gnumeric spreadsheet documents
-            Assumes Gnumeric 1.2.2, updated for 1.4.2 in Feb 2005
+            Assumes Gnumeric 1.2.2,
+	    updated for 1.4.2 in Feb 2005
+	    updated for 1.6.0 in Sept 2005
             Based on gnumeric source code and sample gnumeric documents
             Author: Marc Johnson (marc_johnson27591@hotmail.com)
         </xsd:documentation>
@@ -223,7 +225,9 @@
                     <xsd:attribute name="DisplayOutlines"     type="xsd:boolean" use="required"/>
                     <xsd:attribute name="OutlineSymbolsBelow" type="xsd:boolean" use="required"/>
                     <xsd:attribute name="OutlineSymbolsRight" type="xsd:boolean" use="required"/>
+                    <xsd:attribute name="RTL_Layout"	      type="xsd:boolean" use="optional"/>
                     <xsd:attribute name="TabColor"	      type="gmr:color"   use="optional"/>
+                    <xsd:attribute name="TabTextColor"	      type="gmr:color"   use="optional"/>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
@@ -387,6 +391,7 @@
                             <xsd:attribute name="Italic"        type="xsd:boolean"	use="required"/>
                             <xsd:attribute name="Underline"     type="gmr:underline"	use="required"/>
                             <xsd:attribute name="StrikeThrough" type="xsd:boolean"	use="required"/>
+                            <xsd:attribute name="Script"        type="gmr:script"	use="required"/>
                         </xsd:extension>
                     </xsd:simpleContent>
                 </xsd:complexType>
@@ -493,6 +498,17 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:simpleType name="script">
+        <xsd:restriction base="xsd:integer">
+            <!-- GO_FONT_SCRIPT_SUB	 = -1,
+	         GO_FONT_SCRIPT_STANDARD =  0,
+		 GO_FONT_SCRIPT_SUPER	 =  1
+            -->
+            <xsd:minInclusive value="-1"/>
+            <xsd:maxInclusive value="1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
     <xsd:simpleType name="horizontal_alignment">
         <xsd:restriction base="xsd:integer">
             <!-- this is a bit map as follows:
@@ -503,9 +519,10 @@
                  16 = FILL
                  32 = JUSTIFY
                  64 = CENTER ACROSS SELECTION
+		128 = DISTRIBUTED
             -->
-            <xsd:minInclusive value="0"/>
-            <xsd:maxInclusive value="127"/>
+            <xsd:minInclusive value="1"/>
+            <xsd:maxInclusive value="128"/>
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -516,9 +533,10 @@
                  2 = BOTTOM
                  4 = CENTER
                  8 = JUSTIFY
+                16 = DISTRIBUTED
             -->
-            <xsd:minInclusive value="0"/>
-            <xsd:maxInclusive value="15"/>
+            <xsd:minInclusive value="1"/>
+            <xsd:maxInclusive value="16"/>
         </xsd:restriction>
     </xsd:simpleType>
 

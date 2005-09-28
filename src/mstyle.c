@@ -56,6 +56,7 @@ gnm_style_element_name[MSTYLE_ELEMENT_MAX] = {
 	"Font.Italic",
 	"Font.Underline",
 	"Font.Strikethrough",
+	"Font.Script",
 	"Font.Size",
 	"Format",
 	"Align.v",
@@ -219,6 +220,7 @@ elem_is_eq (GnmStyle const *a, GnmStyle const *b, GnmStyleElement elem)
 	case MSTYLE_FONT_ITALIC:	return a->font_detail.italic == b->font_detail.italic;
 	case MSTYLE_FONT_UNDERLINE:	return a->font_detail.underline == b->font_detail.underline;
 	case MSTYLE_FONT_STRIKETHROUGH:	return a->font_detail.strikethrough == b->font_detail.strikethrough;
+	case MSTYLE_FONT_SCRIPT:	return a->font_detail.script == b->font_detail.script;
 	case MSTYLE_FONT_SIZE:		return a->font_detail.size == b->font_detail.size;
 	case MSTYLE_FORMAT:		return a->format == b->format;
 	case MSTYLE_ALIGN_V:		return a->v_align == b->v_align;
@@ -260,6 +262,7 @@ elem_assign_content (GnmStyle *dst, GnmStyle const *src, GnmStyleElement elem)
 	case MSTYLE_FONT_ITALIC:	dst->font_detail.italic = src->font_detail.italic; return;
 	case MSTYLE_FONT_UNDERLINE:	dst->font_detail.underline = src->font_detail.underline; return;
 	case MSTYLE_FONT_STRIKETHROUGH: dst->font_detail.strikethrough = src->font_detail.strikethrough; return;
+	case MSTYLE_FONT_SCRIPT:	dst->font_detail.script = src->font_detail.script; return;
 	case MSTYLE_FONT_SIZE:		dst->font_detail.size = src->font_detail.size; return;
 	case MSTYLE_FORMAT:		go_format_ref (dst->format = src->format); return;
 	case MSTYLE_ALIGN_V:		dst->v_align = src->v_align; return;
@@ -443,6 +446,7 @@ gnm_style_new_default (void)
 	gnm_style_set_content_hidden (new_style, FALSE);
 	gnm_style_set_font_uline  (new_style, UNDERLINE_NONE);
 	gnm_style_set_font_strike (new_style, FALSE);
+	gnm_style_set_font_script (new_style, GO_FONT_SCRIPT_STANDARD);
 
 	gnm_style_set_validation (new_style, NULL);
 	gnm_style_set_hlink      (new_style, NULL);
@@ -1054,6 +1058,25 @@ gnm_style_get_font_strike (GnmStyle const *style)
 
 	return style->font_detail.strikethrough;
 }
+
+void
+gnm_style_set_font_script (GnmStyle *style, GOFontScript script)
+{
+	g_return_if_fail (style != NULL);
+	elem_changed (style, MSTYLE_FONT_SCRIPT);
+	elem_set (style, MSTYLE_FONT_SCRIPT);
+	style->font_detail.script = script;
+	gnm_style_pango_clear (style);
+}
+
+GOFontScript
+gnm_style_get_font_script (GnmStyle const *style)
+{
+	g_return_val_if_fail (elem_is_set (style, MSTYLE_FONT_SCRIPT), GO_FONT_SCRIPT_STANDARD);
+
+	return style->font_detail.script;
+}
+
 void
 gnm_style_set_font_size (GnmStyle *style, float size)
 {
@@ -1433,6 +1456,18 @@ gnm_style_get_pango_attrs (GnmStyle const *style,
 
 	if (gnm_style_get_font_strike (style))
 		add_attr (l, pango_attr_strikethrough_new (TRUE));
+	switch (gnm_style_get_font_script (style)) {
+	default :
+	case GO_FONT_SCRIPT_STANDARD :
+		break;
+	case GO_FONT_SCRIPT_SUB :
+		add_attr (l, pango_attr_rise_new (-5000));
+		zoom *= .5;
+		break;
+	case GO_FONT_SCRIPT_SUPER :
+		add_attr (l, pango_attr_rise_new (5000));
+		zoom *= .5;
+	}
 
 	{
 		GnmFont *font = gnm_style_get_font (style, context, zoom);
@@ -1581,6 +1616,16 @@ gnm_style_dump (GnmStyle const *style)
 		}
 	if (elem_is_set (style, MSTYLE_FONT_STRIKETHROUGH))
 		fprintf (stderr, style->font_detail.strikethrough ? "\tstrikethrough\n" : "\tno strikethrough\n");
+	if (elem_is_set (style, MSTYLE_FONT_SCRIPT))
+		switch (style->font_detail.script) {
+		case GO_FONT_SCRIPT_SUB :
+			fprintf (stderr, "\tsubscript\n"); break;
+		default :
+		case GO_FONT_SCRIPT_STANDARD :
+			fprintf (stderr, "\tno super or sub\n"); break;
+		case GO_FONT_SCRIPT_SUPER :
+			fprintf (stderr, "\tsuperscript\n"); break;
+		}
 	if (elem_is_set (style, MSTYLE_FONT_SIZE))
 		fprintf (stderr, "\tsize %f\n", style->font_detail.size);
 	if (elem_is_set (style, MSTYLE_FORMAT)) {

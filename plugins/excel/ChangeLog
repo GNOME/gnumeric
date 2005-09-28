@@ -1,3 +1,26 @@
+2005-09-28  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (xl_chart_import_reg_curve) : split out from
+	  ms_excel_chart_read.
+	(xl_chart_import_error_bar) : ditto.
+
+	* ms-excel-write.c (excel_font_overlay_pango) : check super/sub scripts.
+	(excel_font_hash) : ditto.
+	(excel_font_equal) : ditto.
+	(excel_font_new) : init the super/sub status
+	(map_underline_to_xl) : new.
+	(map_script_to_xl) : new.
+	(cb_write_condition) : handle super/sub script.
+	(excel_write_FONT) : ditto.
+	(excel_font_new) : ditto.
+
+	* ms-excel-read.c (ms_wb_get_font_markup) : The super/subscript
+	  distances were broken.  Use 5000 not 500.  Seems like we may want a
+	  scale in there too.
+	(excel_read_FONT) : Use GOFontScript
+	(excel_get_style_from_xf) : store the script (super/sub)
+	(excel_read_CF) : handle scripts.
+
 2005-09-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (axislineformat): read the areaformat for type 3

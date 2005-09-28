@@ -163,6 +163,7 @@ typedef struct _FormatState {
 	} align;
 	struct {
 		FontSelector	*selector;
+		GtkToggleButton	*superscript, *subscript;
 		ColorPicker      color;
 	} font;
 	struct {
@@ -688,6 +689,7 @@ cb_font_changed (G_GNUC_UNUSED GtkWidget *widget,
 		MSTYLE_FONT_ITALIC,
 		MSTYLE_FONT_UNDERLINE,
 		MSTYLE_FONT_STRIKETHROUGH,
+		MSTYLE_FONT_SCRIPT,
 		MSTYLE_FONT_COLOR
 	};
 	int i;
@@ -742,6 +744,25 @@ cb_font_strike_toggle (GtkToggleButton *button, FormatState *state)
 			gtk_toggle_button_get_active (button));
 	}
 }
+static void
+cb_font_script_toggle (GtkToggleButton *button, FormatState *state)
+{
+	if (state->enable_edit) {
+		GOFontScript script = GO_FONT_SCRIPT_STANDARD;
+		if (gtk_toggle_button_get_active (button)) {
+			state->enable_edit = FALSE;
+			if (button == state->font.superscript) {
+				script = GO_FONT_SCRIPT_SUPER;
+				gtk_toggle_button_set_active (state->font.subscript, FALSE);
+			} else {
+				script = GO_FONT_SCRIPT_SUB;
+				gtk_toggle_button_set_active (state->font.subscript, FALSE);
+			}
+			state->enable_edit = TRUE;
+		}
+		font_selector_set_script (state->font.selector, script);
+	}
+}
 
 static gboolean
 cb_font_underline_changed (G_GNUC_UNUSED GtkWidget *ct,
@@ -775,6 +796,7 @@ fmt_dialog_init_font_page (FormatState *state)
 	char const *uline_str;
 	GtkWidget *strike = glade_xml_get_widget (state->gui, "strikethrough_button");
 	gboolean   strikethrough = FALSE;
+	GOFontScript script = GO_FONT_SCRIPT_STANDARD;
 	int i;
 
 	g_return_if_fail (container != NULL);
@@ -825,13 +847,29 @@ fmt_dialog_init_font_page (FormatState *state)
 
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_STRIKETHROUGH)))
 		strikethrough = gnm_style_get_font_strike (state->style);
-
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (strike), strikethrough);
 	font_selector_set_strike (state->font.selector, strikethrough);
-
 	g_signal_connect (G_OBJECT (strike),
 		"toggled",
 		G_CALLBACK (cb_font_strike_toggle), state);
+
+	if (0 == (state->conflicts & (1 << MSTYLE_FONT_SCRIPT)))
+		script = gnm_style_get_font_script (state->style);
+	font_selector_set_script (state->font.selector, script);
+	if (NULL != (tmp = glade_xml_get_widget (state->gui, "superscript_button"))) {
+		state->font.superscript = GTK_TOGGLE_BUTTON (tmp);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp),
+			script == GO_FONT_SCRIPT_SUPER);
+		g_signal_connect (G_OBJECT (tmp), "toggled",
+			G_CALLBACK (cb_font_script_toggle), state);
+	}
+	if (NULL != (tmp =  glade_xml_get_widget (state->gui, "subscript_button"))) {
+		state->font.subscript = GTK_TOGGLE_BUTTON (tmp);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp),
+			script == GO_FONT_SCRIPT_SUB);
+		g_signal_connect (G_OBJECT (tmp), "toggled",
+			G_CALLBACK (cb_font_script_toggle), state);
+	}
 
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_COLOR)))
 		font_selector_set_color (

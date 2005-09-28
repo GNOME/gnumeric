@@ -412,7 +412,8 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 	    gnm_style_is_element_set (style, MSTYLE_FONT_BOLD) ||
 	    gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC) ||
 	    gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
-	    gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH)) {
+	    gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH) ||
+	    gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT)) {
 		char const *fontname;
 
 		gsf_xml_out_start_element (state->output, GNM "Font");
@@ -427,6 +428,8 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 			gsf_xml_out_add_int (state->output, "Underline", (int)gnm_style_get_font_uline (style));
 		if (gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH))
 			gsf_xml_out_add_int (state->output, "StrikeThrough", gnm_style_get_font_strike (style));
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT))
+			gsf_xml_out_add_int (state->output, "Script", (int)gnm_style_get_font_script (style));
 
 		if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME))
 			fontname = gnm_style_get_font_name (style);

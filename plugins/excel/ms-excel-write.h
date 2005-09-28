@@ -36,6 +36,7 @@ typedef struct {
 	gboolean  	is_auto;
 	GnmUnderline	underline;
 	gboolean	strikethrough;
+	unsigned	script;
 } ExcelWriteFont;
 
 typedef struct {

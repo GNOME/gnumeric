@@ -78,7 +78,8 @@ struct _WBCgtk {
 	GOActionComboText	*font_name, *font_size, *zoom;
 	GOActionComboPixmaps	*borders, *halignment, *valignment;
 	struct {
-		GtkToggleAction	 *bold, *italic, *underline, *strikethrough;
+		GtkToggleAction	 *bold, *italic, *underline, *d_underline;
+		GtkToggleAction	 *superscript, *subscript, *strikethrough;
 	} font;
 	struct {
 		GtkToggleAction	 *left, *center, *right, *center_across_selection;
@@ -874,12 +875,22 @@ wbc_gtk_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
 	if (gnm_style_is_element_set (changes, MSTYLE_FONT_ITALIC))
 		gtk_toggle_action_set_active (wbcg->font.italic,
 			gnm_style_get_font_italic (changes));
-	if (gnm_style_is_element_set (changes, MSTYLE_FONT_UNDERLINE))
+	if (gnm_style_is_element_set (changes, MSTYLE_FONT_UNDERLINE)) {
 		gtk_toggle_action_set_active (wbcg->font.underline,
 			gnm_style_get_font_uline (changes) == UNDERLINE_SINGLE);
+		gtk_toggle_action_set_active (wbcg->font.d_underline,
+			gnm_style_get_font_uline (changes) == UNDERLINE_DOUBLE);
+	}
 	if (gnm_style_is_element_set (changes, MSTYLE_FONT_STRIKETHROUGH))
 		gtk_toggle_action_set_active (wbcg->font.strikethrough,
 			gnm_style_get_font_strike (changes));
+
+	if (gnm_style_is_element_set (changes, MSTYLE_FONT_SCRIPT)) {
+		gtk_toggle_action_set_active (wbcg->font.superscript,
+			gnm_style_get_font_script (changes) == GO_FONT_SCRIPT_SUPER);
+		gtk_toggle_action_set_active (wbcg->font.subscript,
+			gnm_style_get_font_script (changes) == GO_FONT_SCRIPT_SUB);
+	}
 
 	if (gnm_style_is_element_set (changes, MSTYLE_ALIGN_H)) {
 		GnmHAlign align = gnm_style_get_align_h (changes);
@@ -1346,6 +1357,9 @@ wbc_gtk_init (GObject *obj)
 		{ "FontBold",		   TRUE, G_STRUCT_OFFSET (WBCgtk, font.bold) },
 		{ "FontItalic",		   TRUE, G_STRUCT_OFFSET (WBCgtk, font.italic) },
 		{ "FontUnderline",	   TRUE, G_STRUCT_OFFSET (WBCgtk, font.underline) },
+		{ "FontDoubleUnderline",   TRUE, G_STRUCT_OFFSET (WBCgtk, font.d_underline) },
+		{ "FontSuperscript",	   TRUE, G_STRUCT_OFFSET (WBCgtk, font.superscript) },
+		{ "FontSubscript",	   TRUE, G_STRUCT_OFFSET (WBCgtk, font.subscript) },
 		{ "FontStrikeThrough",	   TRUE, G_STRUCT_OFFSET (WBCgtk, font.strikethrough) },
 
 		{ "AlignLeft",		   FALSE, G_STRUCT_OFFSET (WBCgtk, h_align.left) },

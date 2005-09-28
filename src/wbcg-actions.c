@@ -1189,6 +1189,9 @@ toggle_font_attr (WorkbookControlGUI *wbcg, GtkToggleAction *act,
 		case MSTYLE_FONT_STRIKETHROUGH:
 			attr = pango_attr_strikethrough_new (val);
 			break;
+		case MSTYLE_FONT_SCRIPT:
+			attr = pango_attr_rise_new (5000 * val);
+			break;
 		}
 		wbcg_edit_add_markup (wbcg, attr);
 		return;
@@ -1201,6 +1204,7 @@ toggle_font_attr (WorkbookControlGUI *wbcg, GtkToggleAction *act,
 	case MSTYLE_FONT_ITALIC:	gnm_style_set_font_italic (new_style, val); break;
 	case MSTYLE_FONT_UNDERLINE:	gnm_style_set_font_uline (new_style, val); break;
 	case MSTYLE_FONT_STRIKETHROUGH: gnm_style_set_font_strike (new_style, val); break;
+	case MSTYLE_FONT_SCRIPT:	gnm_style_set_font_script (new_style, val); break;
 	};
 
 	cmd_selection_format (wbc, new_style, NULL, _("Set Font Style"));
@@ -1216,6 +1220,10 @@ static void cb_font_double_underline (GtkToggleAction *act, WorkbookControlGUI *
 	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_UNDERLINE, UNDERLINE_DOUBLE, UNDERLINE_NONE); }
 static void cb_font_strikethrough (GtkToggleAction *act, WorkbookControlGUI *wbcg)
 	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_STRIKETHROUGH, TRUE, FALSE); }
+static void cb_font_subscript (GtkToggleAction *act, WorkbookControlGUI *wbcg)
+	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_SCRIPT, GO_FONT_SCRIPT_SUB, GO_FONT_SCRIPT_STANDARD); }
+static void cb_font_superscript (GtkToggleAction *act, WorkbookControlGUI *wbcg)
+	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_SCRIPT, GO_FONT_SCRIPT_SUPER, GO_FONT_SCRIPT_STANDARD); }
 
 static void
 apply_number_format (WorkbookControlGUI *wbcg,
@@ -2120,10 +2128,15 @@ static GtkToggleActionEntry const font_toggle_actions[] = {
 	{ "FontStrikeThrough", GTK_STOCK_UNDERLINE,
 		N_("_Strike Through"), "<control>5",
 		N_("Strike Through"), G_CALLBACK (cb_font_strikethrough), FALSE },
-#warning "Add double underline icon"
-	{ "FontDoubleUnderline", GTK_STOCK_UNDERLINE,
+	{ "FontDoubleUnderline", "stock_text_underlined-double",	/* from icon theme */
 		N_("_Double Underline"), "<control><shift>d",
 		N_("Double Underline"), G_CALLBACK (cb_font_double_underline), FALSE },
+	{ "FontSuperscript", "stock_superscript",	/* from icon theme */
+		N_("Su_perscript"), "<control>asciicircum",
+		N_("Superscript"), G_CALLBACK (cb_font_superscript), FALSE },
+	{ "FontSubscript", "stock_subscript",	/* from icon theme */
+		N_("Subscrip_t"), "<control>underscore",
+		N_("Subscript"), G_CALLBACK (cb_font_subscript), FALSE }
 };
 
 void wbcg_register_actions (WorkbookControlGUI *wbcg,

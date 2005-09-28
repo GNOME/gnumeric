@@ -1912,15 +1912,15 @@ BC_R(text)(XLChartHandler const *handle,
 	if (s->prev_opcode == BIFF_CHART_defaulttext) {
 		fputs ("Text follows defaulttext;\n", stderr);
 	} else switch (BC_R(top_state) (s, 0)) {
-case BIFF_CHART_chart :
-	fputs ("Text follows chart;\n", stderr);
-	break;
-case BIFF_CHART_legend :
-	fputs ("Text follows legend;\n", stderr);
-	break;
-default :
-	fprintf (stderr, "BIFF ERROR : A Text record follows a %x\n",
-		s->prev_opcode);
+	case BIFF_CHART_chart :
+		fputs ("Text follows chart;\n", stderr);
+		break;
+	case BIFF_CHART_legend :
+		fputs ("Text follows legend;\n", stderr);
+		break;
+	default :
+		fprintf (stderr, "BIFF ERROR : A Text record follows a %x\n",
+			s->prev_opcode);
 	}};);
 
 return FALSE;
@@ -2725,6 +2725,140 @@ chart_get_sheet (MSContainer const *container)
 	return ms_container_sheet (container->parent);
 }
 
+static void
+xl_chart_import_reg_curve (XLChartReadState *state, XLChartSeries *series)
+{
+	GogRegCurve *rc;
+	XLChartSeries *parent = g_ptr_array_index (state->series, series->reg_parent);
+
+	if (NULL == parent)
+		return;
+
+	switch (series->reg_type) {
+	case 0:
+		if (series->reg_order == 1)
+			rc = gog_reg_curve_new_by_name ("GogLinRegCurve");
+		else {
+			rc = gog_reg_curve_new_by_name ("GogPolynomRegCurve");
+			g_object_set (G_OBJECT (rc), "dims", series->reg_order, NULL);
+		}
+		break;
+	case 1:
+		rc = gog_reg_curve_new_by_name ("GogExpRegCurve");
+		break;
+	case 2:
+		rc = gog_reg_curve_new_by_name ("GogLogRegCurve");
+		break;
+	case 3:
+		rc = NULL; /*Power: not yet supported*/
+		break;
+	default: /* moving average is 4 and not supported */
+		rc = NULL;
+		break;
+	}
+	if (rc) {
+		if (series->reg_intercept == 0.)
+			g_object_set (G_OBJECT (rc),
+				"affine", series->reg_order,
+				NULL);
+		gog_object_add_by_name (GOG_OBJECT (parent->series),
+			"Regression curve", GOG_OBJECT (rc));
+		if (series->reg_show_eq || series->reg_show_R2) {
+			GogObject *obj = gog_object_add_by_name (
+				GOG_OBJECT (rc), "Equation", NULL);
+			g_object_set (G_OBJECT (obj),
+				"show_eq", series->reg_show_eq,
+				"show_r2", series->reg_show_R2,
+				NULL);
+		}
+	}
+}
+
+static void
+xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
+{
+	XLChartSeries *parent = g_ptr_array_index (state->series, series->err_parent);
+	Sheet *sheet;
+	int orig_dim;
+	GogMSDimType msdim;
+	char const *prop_name = (series->err_type < 3)
+		? "x-errors" : "y-errors";
+	GParamSpec *pspec = g_object_class_find_property (
+		G_OBJECT_GET_CLASS (parent->series),
+		prop_name);
+
+	state->plot = parent->series->plot;
+	if (pspec == NULL) {
+		pspec = g_object_class_find_property (
+			G_OBJECT_GET_CLASS (parent->series), "errors");
+		prop_name = (pspec)? "errors": NULL;
+		msdim = (series->err_type < 3)
+			? GOG_MS_DIM_TYPES + series->err_type
+			: GOG_MS_DIM_TYPES + series->err_type - 2;
+	} else
+		msdim = (series->err_type < 3)
+			? GOG_MS_DIM_TYPES + series->err_type + 2
+			: GOG_MS_DIM_TYPES + series->err_type - 2;
+
+	sheet = ms_container_sheet (state->container.parent);
+	if (sheet && parent && prop_name) {
+		GnmExpr const *expr;
+		GogErrorBar   *error_bar = g_object_new (GOG_ERROR_BAR_TYPE, NULL);
+		GOData	      *data;
+
+		error_bar->display |= (series->err_type & 1)
+			? GOG_ERROR_BAR_DISPLAY_POSITIVE
+			: GOG_ERROR_BAR_DISPLAY_NEGATIVE;
+		if (!series->err_teetop)
+			error_bar->width = 0;
+		error_bar->style = gog_style_dup (series->style);						
+		switch (series->err_src) {
+		case 1:
+			/* percentage */
+			error_bar->type = GOG_ERROR_BAR_TYPE_PERCENT;
+			expr = gnm_expr_new_constant (
+						value_new_float (series->err_val));
+			data = gnm_go_data_vector_new_expr (sheet, expr);
+			XL_gog_series_set_dim (parent->series, msdim, data);
+			break;
+		case 2:
+			/* fixed value */
+			error_bar->type = GOG_ERROR_BAR_TYPE_ABSOLUTE;
+			expr = gnm_expr_new_constant (
+						value_new_float (series->err_val));
+			data = gnm_go_data_vector_new_expr (sheet, expr);
+			XL_gog_series_set_dim (parent->series, msdim, data);
+			break;
+		case 3:
+			/* not supported */
+			break;
+		case 4:
+			orig_dim = (series->err_type < 3)
+				? GOG_MS_DIM_CATEGORIES
+				: GOG_MS_DIM_VALUES;
+			error_bar->type = GOG_ERROR_BAR_TYPE_ABSOLUTE;
+			if (series->data[orig_dim].data) {
+				XL_gog_series_set_dim (parent->series, msdim,
+							series->data[orig_dim].data);
+				series->data[orig_dim].data = NULL;
+			} else if (series->data [orig_dim].value) {
+				expr = gnm_expr_new_constant ((GnmValue *)
+							series->data[orig_dim].value);
+				data = gnm_go_data_vector_new_expr (sheet, expr);
+				XL_gog_series_set_dim (parent->series, msdim, data);
+			}
+			break;
+		default:
+			/* type 5, standard error is not supported */
+			break;
+		}
+		g_object_set (G_OBJECT (parent->series),
+						prop_name, error_bar,
+						NULL);
+		g_object_unref (error_bar);
+	}
+}
+
 gboolean
 ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 		     SheetObject *sog, Sheet *full_page)
@@ -2915,7 +3049,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 
 		case BIFF_PRINTSIZE: {
 #if 0
-			/* Undocumented, seems like an enum ??? */
+			/* Undocumented, seems like an enum ?? */
 			gint16 const v = GSF_LE_GET_GUINT16 (q->data);
 #endif
 		}
@@ -2937,149 +3071,33 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 	}
 
 	for (i = state.series->len; i-- > 0 ; ) {
-		Sheet *sheet = ms_container_sheet (state.container.parent);
 		int j;
-		XLChartSeries *series = g_ptr_array_index (state.series, i), *parent;
-		GOData *data;
-		GnmExpr const * expr;
-		GParamSpec *pspec;
-		GogErrorBar *error_bar;
-		char const *prop_name;
-		GogMSDimType msdim;
+		XLChartSeries *series = g_ptr_array_index (state.series, i);
+
 		if (series != NULL) {
+			Sheet *sheet = ms_container_sheet (state.container.parent);
+			GnmExpr const *expr;
+			GOData	      *data;
+
 			if (series->chart_group < 0) {
 				/* might be a error bar series or a regression curve */
-				if (series->err_type == 0) {
-					/* it is a regression curve */
-					GogRegCurve *rc;
-					parent = g_ptr_array_index (state.series, series->reg_parent);
-					if (parent) {
-						switch (series->reg_type) {
-						case 0:
-							if (series->reg_order == 1)
-								rc = gog_reg_curve_new_by_name ("GogLinRegCurve");
-							else {
-								rc = gog_reg_curve_new_by_name ("GogPolynomRegCurve");
-								g_object_set (G_OBJECT (rc), "dims", series->reg_order, NULL);
-							}
-							break;
-						case 1:
-							rc = gog_reg_curve_new_by_name ("GogExpRegCurve");
-							break;
-						case 2:
-							rc = gog_reg_curve_new_by_name ("GogLogRegCurve");
-							break;
-						case 3:
-							rc = NULL; /*Power: not yet supported*/
-							break;
-						default: /* moving average is 4 and not supported */
-							rc = NULL;
-							break;
-						}
-						if (rc) {
-							if (series->reg_intercept == 0.)
-							 g_object_set (G_OBJECT (rc), "affine", series->reg_order, FALSE);
-							gog_object_add_by_name (GOG_OBJECT (parent->series),
-											"Regression curve", GOG_OBJECT (rc));
-							if (series->reg_show_eq || series->reg_show_R2) {
-								GogObject *obj = gog_object_add_by_name (
-												GOG_OBJECT (rc), "Equation", NULL);
-								g_object_set (G_OBJECT (obj),
-										"show_eq", series->reg_show_eq,
-										"show_r2", series->reg_show_R2,
-										NULL);
-							}
-						}
-					}
-				} else {
-					int orig_dim;
-					prop_name = NULL;
-					parent = g_ptr_array_index (state.series, series->err_parent);
-					state.plot = parent->series->plot;
-					prop_name = (series->err_type < 3)? "x-errors": "y-errors";
-					pspec = g_object_class_find_property (
-								G_OBJECT_GET_CLASS (parent->series),
-								prop_name);
-					if (pspec == NULL) {
-						pspec = g_object_class_find_property (
-									G_OBJECT_GET_CLASS (parent->series), "errors");
-						prop_name = (pspec)? "errors": NULL;
-						msdim = (series->err_type < 3)?
-								GOG_MS_DIM_TYPES + series->err_type:
-								GOG_MS_DIM_TYPES + series->err_type - 2;
-					} else {
-						msdim = (series->err_type < 3)?
-								GOG_MS_DIM_TYPES + series->err_type + 2:
-								GOG_MS_DIM_TYPES + series->err_type - 2;
-					}
-					if (sheet && parent && prop_name) {
-						error_bar = g_object_new (GOG_ERROR_BAR_TYPE, NULL);
-						error_bar->display |= (series->err_type & 1)?
-												GOG_ERROR_BAR_DISPLAY_POSITIVE:
-												GOG_ERROR_BAR_DISPLAY_NEGATIVE;
-						if (!series->err_teetop)
-							error_bar->width = 0;
-						error_bar->style = gog_style_dup (series->style);						
-						switch (series->err_src) {
-						case 1:
-							/* percentage */
-							error_bar->type = GOG_ERROR_BAR_TYPE_PERCENT;
-							expr = gnm_expr_new_constant (
-										value_new_float (series->err_val));
-							data = gnm_go_data_vector_new_expr (sheet, expr);
-							XL_gog_series_set_dim (parent->series, msdim, data);
-							break;
-						case 2:
-							/* fixed value */
-							error_bar->type = GOG_ERROR_BAR_TYPE_ABSOLUTE;
-							expr = gnm_expr_new_constant (
-										value_new_float (series->err_val));
-							data = gnm_go_data_vector_new_expr (sheet, expr);
-							XL_gog_series_set_dim (parent->series, msdim, data);
-							break;
-						case 3:
-							/* not supported */
-							break;
-						case 4:
-							orig_dim = (series->err_type < 3)? GOG_MS_DIM_CATEGORIES: GOG_MS_DIM_VALUES;
-							error_bar->type = GOG_ERROR_BAR_TYPE_ABSOLUTE;
-							if (series->data[orig_dim].data) {
-								XL_gog_series_set_dim (parent->series, msdim,
-											series->data[orig_dim].data);
-								series->data[orig_dim].data = NULL;
-							} else if (series->data [orig_dim].value) {
-								expr = gnm_expr_new_constant ((GnmValue *)
-											series->data[orig_dim].value);
-								data = gnm_go_data_vector_new_expr (sheet, expr);
-								XL_gog_series_set_dim (parent->series, msdim, data);
-							}
-							break;
-						default:
-							/* type 5, standard error is not supported */
-							break;
-						}
-						g_object_set (G_OBJECT (parent->series),
-										prop_name, error_bar,
-										NULL);
-						g_object_unref (error_bar);
-					}
-				}
+				if (series->err_type == 0)
+					xl_chart_import_reg_curve (&state, series);
+				else
+					xl_chart_import_error_bar (&state, series);
 			}
 			for (j = GOG_MS_DIM_VALUES ; j < GOG_MS_DIM_TYPES; j++ )
-				if (series->data [j].value != NULL) {
-					expr = gnm_expr_new_constant ((GnmValue *)series->data [j].value);
-					if (expr != NULL) {
-				
-						if (sheet == NULL || series->series == NULL) {
-							gnm_expr_unref (expr);
-							continue;
-						}
-						data = gnm_go_data_vector_new_expr (sheet, expr);
-						if (series->extra_dim == 0)
-							XL_gog_series_set_dim (series->series, j, data);
-						else if (j == GOG_MS_DIM_VALUES)
-							XL_gog_series_set_dim (series->series, series->extra_dim, data);
+				if (NULL != series->data [j].value &&
+				    NULL != (expr = gnm_expr_new_constant ((GnmValue *)series->data [j].value))) {
+					if (sheet == NULL || series->series == NULL) {
+						gnm_expr_unref (expr);
+						continue;
 					}
+					data = gnm_go_data_vector_new_expr (sheet, expr);
+					if (series->extra_dim == 0)
+						XL_gog_series_set_dim (series->series, j, data);
+					else if (j == GOG_MS_DIM_VALUES)
+						XL_gog_series_set_dim (series->series, series->extra_dim, data);
 				}			
 		}
 	}

@@ -561,6 +561,18 @@ font_selector_set_strike (FontSelector *fs, gboolean strikethrough)
 }
 
 void
+font_selector_set_script (FontSelector *fs, GOFontScript script)
+{
+	GnmStyle *change;
+
+	g_return_if_fail (IS_FONT_SELECTOR (fs));
+
+	change = gnm_style_new ();
+	gnm_style_set_font_script (change, script);
+	fs_modify_style (fs, change);
+}
+
+void
 font_selector_set_underline (FontSelector *fs, GnmUnderline underline)
 {
 	GnmStyle *change;

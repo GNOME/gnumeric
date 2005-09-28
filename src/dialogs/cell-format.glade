@@ -942,9 +942,9 @@
 			      <property name="spacing">24</property>
 
 			      <child>
-				<widget class="GtkCheckButton" id="checkbutton3">
+				<widget class="GtkCheckButton" id="superscript_button">
 				  <property name="visible">True</property>
-				  <property name="sensitive">False</property>
+				  <property name="sensitive">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="label" translatable="yes">Sup_erscript</property>
 				  <property name="use_underline">True</property>
@@ -962,9 +962,9 @@
 			      </child>
 
 			      <child>
-				<widget class="GtkCheckButton" id="checkbutton4">
+				<widget class="GtkCheckButton" id="subscript_button">
 				  <property name="visible">True</property>
-				  <property name="sensitive">False</property>
+				  <property name="sensitive">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="label" translatable="yes">Su_bscript</property>
 				  <property name="use_underline">True</property>

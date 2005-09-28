@@ -36,11 +36,12 @@ struct _GnmStyle {
 #warning TODO use GOFont
 	struct {
 		GnmString *name;
-		gboolean   bold;
-		gboolean   italic;
-		GnmUnderline  underline;
-		gboolean  strikethrough;
-		float     size;
+		gboolean	bold;
+		gboolean	italic;
+		GnmUnderline	underline;
+		gboolean	strikethrough;
+		GOFontScript	script;
+		float		size;
 	} font_detail;
 	float            font_zoom;
 

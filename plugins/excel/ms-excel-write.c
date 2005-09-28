@@ -775,6 +775,28 @@ write_border (ExcelWriteSheet const *esheet,
 	return FALSE;
 }
 
+static int
+map_underline_to_xl (GnmStyle const *style)
+{
+	switch (gnm_style_get_font_uline (style)) {
+	default :
+	case UNDERLINE_NONE :   return 0;
+	case UNDERLINE_SINGLE : return 1;
+	case UNDERLINE_DOUBLE : return 2;
+	}
+}
+
+static int
+map_script_to_xl (GnmStyle const *style)
+{
+	switch (gnm_style_get_font_script (style)) {
+	case GO_FONT_SCRIPT_SUB :	return 2;
+	default :
+	case GO_FONT_SCRIPT_STANDARD :	return 0;
+	case GO_FONT_SCRIPT_SUPER :	return 1;
+	}
+}
+
 static guint8 const zeros[64];
 static void
 cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
@@ -855,19 +877,18 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 				font_flags |= 0x80;
 			GSF_LE_SET_GUINT32 (fbuf+68, tmp);
 
-			tmp = 0;
 			if (gnm_style_is_element_set (s, MSTYLE_FONT_UNDERLINE)) {
-				switch (gnm_style_get_font_uline  (s)) {
-				default :
-				case UNDERLINE_NONE :   tmp = 0; break;
-				case UNDERLINE_SINGLE : tmp = 1; break;
-				case UNDERLINE_DOUBLE : tmp = 2; break;
-				}
+				tmp = map_underline_to_xl (s);
+				GSF_LE_SET_GUINT32 (fbuf+76, tmp);
 			} else
-				GSF_LE_SET_GUINT32 (fbuf+96, 1);
-			GSF_LE_SET_GUINT32 (fbuf+76, tmp);
+				GSF_LE_SET_GUINT32 (fbuf+96, 1); /* flag as unused */
 
-			GSF_LE_SET_GUINT32 (fbuf+92, 1); /* no super/sub yet */
+			if (gnm_style_is_element_set (s, MSTYLE_FONT_SCRIPT)) {
+				guint16 script = map_script_to_xl (s);
+				GSF_LE_SET_GUINT16 (fbuf+72, script);
+			} else
+				GSF_LE_SET_GUINT32 (fbuf+92, 1); /* flag as unused */
+
 			GSF_LE_SET_GUINT16 (fbuf+116, 1); /* dunno ? */
 
 			if (gnm_style_is_element_set (s, MSTYLE_FONT_COLOR))
@@ -1689,6 +1710,7 @@ excel_font_new (GnmStyle const *base_style)
 	efont->is_italic	= gnm_style_get_font_italic (base_style);
 	efont->underline	= gnm_style_get_font_uline  (base_style);
 	efont->strikethrough	= gnm_style_get_font_strike (base_style);
+	efont->script		= map_script_to_xl (base_style);
 
 	c = gnm_style_get_font_color (base_style);
 	efont->color = gnm_color_to_bgr (c);
@@ -1724,6 +1746,15 @@ excel_font_overlay_pango (ExcelWriteFont *efont, GSList *pango)
 		case PANGO_ATTR_STRIKETHROUGH : efont->strikethrough =
 			((PangoAttrInt *)attr)->value != 0;
 			break;
+		case PANGO_ATTR_RISE :
+			if (((PangoAttrInt *)attr)->value < 0)
+				efont->script = 2;
+			else if (((PangoAttrInt *)attr)->value < 0)
+				efont->script = 1;
+			else
+				efont->script = 0;
+			break;
+
 		case PANGO_ATTR_UNDERLINE :
 			switch (((PangoAttrInt *)attr)->value) {
 			case PANGO_UNDERLINE_NONE :
@@ -1763,7 +1794,8 @@ excel_font_hash (gconstpointer f)
 			^ font->color
 			^ font->is_auto
 			^ (font->underline << 1)
-			^ (font->strikethrough << 2);
+			^ (font->strikethrough << 2)
+			^ (font->script << 3);
 
 	return res;
 }
@@ -1786,7 +1818,8 @@ excel_font_equal (gconstpointer a, gconstpointer b)
 			&& (fa->color		== fb->color)
 			&& (fa->is_auto		== fb->is_auto)
 			&& (fa->underline	== fb->underline)
-			&& (fa->strikethrough	== fb->strikethrough);
+			&& (fa->strikethrough	== fb->strikethrough)
+			&& (fa->script		== fb->script);
 	}
 
 	return res;
@@ -1845,9 +1878,13 @@ excel_write_FONT (ExcelWriteState *ewb, ExcelWriteFont const *f)
 	guint16 color;
 
 	guint16 boldstyle = 0x190; /* Normal boldness */
-	guint16 subsuper  = 0;   /* 0: Normal, 1; Super, 2: Sub script*/
-	guint8  underline = (guint8) f->underline; /* 0: None, 1: Single,
-						      2: Double */
+
+	/* 0: Normal, 1; Super, 2: Sub script*/
+	guint16 subsuper  = f->script;
+
+	/* 0: None, 1: Single, 2: Double */
+	guint8  underline = (guint8) f->underline;
+
 	guint8  family    = 0;
 	guint8  charset   = 0;	 /* Seems OK. */
 	char const *font_name = f->font_name;

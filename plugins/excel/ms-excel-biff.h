@@ -39,8 +39,6 @@ typedef enum {
 	MS_BIFF_F_U_DOUBLE_ACC = 5
 } MsBiffFontUnderline ;
 
-typedef enum { MS_BIFF_F_S_NONE, MS_BIFF_F_S_SUB, MS_BIFF_F_S_SUPER } MsBiffFontScript ;
-
 typedef enum {	/* Horizontal alignment */
 	MS_BIFF_H_A_GENERAL = 0,
 	MS_BIFF_H_A_LEFT    = 1,

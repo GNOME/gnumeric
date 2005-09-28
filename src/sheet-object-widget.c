@@ -3,7 +3,7 @@
 /*
  * sheet-object-widget.c: SheetObject wrappers for simple gtk widgets.
  *
- * Copyright (C) 2000-2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -208,6 +208,7 @@ sheet_object_widget_new_view (SheetObject *so, SheetObjectViewContainer *contain
 		"widget", view_widget,
 		"size_pixels", FALSE,
 		NULL);
+	/* g_warning ("%p is widget for so %p", view_widget, so);*/
 	gtk_widget_show_all (view_widget);
 	foo_canvas_item_hide (view_item);
 	return gnm_pane_widget_register (so, view_widget, view_item);

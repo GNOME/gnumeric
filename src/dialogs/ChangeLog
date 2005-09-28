@@ -1,4 +1,13 @@
+2005-09-26  Jody Goldberg <jody@gnome.org>
+
+	* cell-format.glade : give the super/sub script buttons names and
+	  enable them.
+	* dialog-cell-format.c (cb_font_changed) : watch for script changes.
+	(cb_font_script_toggle) : new.
+	(fmt_dialog_init_font_page) : setup super/sub script buttons.
+
 2005-09-26  Eduardo de Barros Lima <eduardo.lima@indt.org.br>
+
 	* doc-meta-data.glade : UI Reformulation.
 	* dialog-doc-metadata.c : First modifications to handle the new UI.
 

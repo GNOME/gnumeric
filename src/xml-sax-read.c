@@ -923,7 +923,14 @@ xml_sax_styleregion_font (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			gnm_style_set_font_uline (state->style, (GnmUnderline)val);
 		else if (xml_sax_attr_int (attrs, "StrikeThrough", &val))
 			gnm_style_set_font_strike (state->style, val ? TRUE : FALSE);
-		else
+		else if (xml_sax_attr_int (attrs, "Script", &val)) {
+			if (val == 0)
+				gnm_style_set_font_script (state->style, GO_FONT_SCRIPT_STANDARD);
+			else if (val < 0)
+				gnm_style_set_font_script (state->style, GO_FONT_SCRIPT_SUB);
+			else
+				gnm_style_set_font_script (state->style, GO_FONT_SCRIPT_SUPER);
+		} else
 			unknown_attr (state, attrs);
 	}
 }

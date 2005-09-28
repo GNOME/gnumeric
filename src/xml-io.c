@@ -531,7 +531,8 @@ xml_write_style (XmlParseContext *ctxt,
 	    gnm_style_is_element_set (style, MSTYLE_FONT_BOLD) ||
 	    gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC) ||
 	    gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
-	    gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH)) {
+	    gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH) ||
+	    gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT)) {
 		char const *fontname;
 
 		if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME))
@@ -560,6 +561,9 @@ xml_write_style (XmlParseContext *ctxt,
 		if (gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH))
 			xml_node_set_int (child, "StrikeThrough",
 					   gnm_style_get_font_strike (style));
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT))
+			xml_node_set_int (child, "Script",
+					   (int)gnm_style_get_font_script (style));
 	}
 
 	if (gnm_style_is_element_set (style, MSTYLE_HLINK) &&
@@ -1391,6 +1395,15 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 
 			if (xml_node_get_int (child, "StrikeThrough", &t))
 				gnm_style_set_font_strike (style, t ? TRUE : FALSE);
+
+			if (xml_node_get_int (child, "Script", &t)) {
+				if (t == 0)
+					gnm_style_set_font_script (style, GO_FONT_SCRIPT_STANDARD);
+				else if (t < 0)
+					gnm_style_set_font_script (style, GO_FONT_SCRIPT_SUB);
+				else
+					gnm_style_set_font_script (style, GO_FONT_SCRIPT_SUPER);
+			}
 
 			font = xml_node_get_cstr (child, NULL);
 			if (font) {

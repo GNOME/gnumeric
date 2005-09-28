@@ -1,3 +1,7 @@
+2005-09-26  Jody Goldberg <jody@gnome.org>
+
+	* widget-font-selector.c (font_selector_set_script) : new.
+
 2005-09-20  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (cb_gee_key_press_event) : Use

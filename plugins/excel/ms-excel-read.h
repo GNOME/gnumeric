@@ -16,6 +16,7 @@
 #include "ms-excel-biff.h"
 #include "ms-container.h"
 #include <expr.h>
+#include <mstyle.h>
 #include <pango/pango-attributes.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
@@ -80,7 +81,7 @@ typedef struct {
 	int struck_out;     /* boolean : strikethrough */
 	int color_idx;
 	int boldness;       /* 100->1000 dec, normal = 0x190, bold = 0x2bc */
-	int script;         /* sub = -1, none = 0, super = 1 */
+	GOFontScript script;
 	MsBiffFontUnderline underline;
 	char *fontname;
 	PangoAttrList *attrs;

@@ -32,6 +32,7 @@ typedef enum {
 		MSTYLE_FONT_ITALIC,		/* marks a header */
 		MSTYLE_FONT_UNDERLINE,		/* marks a header */
 		MSTYLE_FONT_STRIKETHROUGH,	/* marks a header */
+		MSTYLE_FONT_SCRIPT,		/* marks a header */
 	        MSTYLE_FONT_SIZE,		/* marks a header */
 
 		MSTYLE_FORMAT,			/* marks a header */
@@ -103,6 +104,8 @@ void         gnm_style_set_font_uline	   (GnmStyle *style, GnmUnderline ul);
 GnmUnderline gnm_style_get_font_uline	   (GnmStyle const *style);
 void         gnm_style_set_font_strike	   (GnmStyle *style, gboolean strike);
 gboolean     gnm_style_get_font_strike	   (GnmStyle const *style);
+void         gnm_style_set_font_script	   (GnmStyle *style, GOFontScript script);
+GOFontScript gnm_style_get_font_script	   (GnmStyle const *style);
 void         gnm_style_set_font_size	   (GnmStyle *style, float size);
 float        gnm_style_get_font_size	   (GnmStyle const *style);
 
