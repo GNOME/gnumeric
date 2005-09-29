@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-09-28 21:44-0400\n"
+"POT-Creation-Date: 2005-09-29 10:30-0400\n"
 "PO-Revision-Date: 2005-08-27 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
@@ -13465,3 +13465,7 @@ msgstr "Lila"
 #: templates/autoformat/autoformat.List.lila.xml.in.h:3
 msgid "Lila list template"
 msgstr "Lila list template"
+
+#: templates/autoformat/autoformat.List.simple.xml.in.h:1
+msgid "A simple list template"
+msgstr "A simple list template"
