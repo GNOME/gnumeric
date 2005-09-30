@@ -1,5 +1,9 @@
 2005-09-30  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* ms-chart.c: (text), (xl_chart_import_error_bar): fixed style leaks.
+
+2005-09-30  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* ms-chart.c: (xl_chart_import_reg_curve): set the correct value to the
 	"affine" property.
 

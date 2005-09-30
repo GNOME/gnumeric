@@ -1921,6 +1921,8 @@ BC_R(text)(XLChartHandler const *handle,
 	default :
 		fprintf (stderr, "BIFF ERROR : A Text record follows a %x\n",
 			s->prev_opcode);
+		g_object_unref (s->style);
+		s->style = NULL;
 	}};);
 
 return FALSE;
@@ -2811,6 +2813,8 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 			: GOG_ERROR_BAR_DISPLAY_NEGATIVE;
 		if (!series->err_teetop)
 			error_bar->width = 0;
+		if (error_bar->style != NULL) /* it should never be NULL */
+			g_object_unref (error_bar->style);
 		error_bar->style = gog_style_dup (series->style);						
 		switch (series->err_src) {
 		case 1:
