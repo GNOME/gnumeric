@@ -2759,7 +2759,7 @@ xl_chart_import_reg_curve (XLChartReadState *state, XLChartSeries *series)
 	if (rc) {
 		if (series->reg_intercept == 0.)
 			g_object_set (G_OBJECT (rc),
-				"affine", series->reg_order,
+				"affine", FALSE,
 				NULL);
 		gog_object_add_by_name (GOG_OBJECT (parent->series),
 			"Regression curve", GOG_OBJECT (rc));
