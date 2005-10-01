@@ -1,3 +1,8 @@
+2005-10-01  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/Makefile.am (libspreadsheet_la_LDFLAGS): Add a -release flag,
+	  that says that there is no compatibility between releases.
+
 2005-09-28  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-io.c (xml_read_names): Check whether the expression is

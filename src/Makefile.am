@@ -298,6 +298,8 @@ libspreadsheet_la_LIBADD = 			\
 	$(GNUMERIC_LIBS)			\
 	$(INTLLIBS)
 
+libspreadsheet_la_LDFLAGS = -release $(VERSION)
+
 gnumeric_SOURCES =				\
 	io-context-gtk.c			\
 	io-context-gtk.h			\
