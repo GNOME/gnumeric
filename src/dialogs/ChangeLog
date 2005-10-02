@@ -1,3 +1,8 @@
+2005-10-02  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (cb_font_script_toggle) : cut-n-paste-o.
+	  Thanks emmanuel.
+
 2005-09-28 Eduardo de Barros Lima <eduardo.lima@indt.org.br>
 
 	* dialog-doc-metadata.c: new function implemented 

@@ -756,7 +756,7 @@ cb_font_script_toggle (GtkToggleButton *button, FormatState *state)
 				gtk_toggle_button_set_active (state->font.subscript, FALSE);
 			} else {
 				script = GO_FONT_SCRIPT_SUB;
-				gtk_toggle_button_set_active (state->font.subscript, FALSE);
+				gtk_toggle_button_set_active (state->font.superscript, FALSE);
 			}
 			state->enable_edit = TRUE;
 		}
