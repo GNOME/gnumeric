@@ -20,12 +20,9 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "excel-xml-read.h"
 #include "xml-io-version.h"
-#include <goffice/app/io-context.h>
-#include <goffice/app/go-plugin.h>
 #include "sheet-view.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"
@@ -47,58 +44,30 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include <goffice/app/error-info.h>
+#include <goffice/app/io-context.h>
+#include <goffice/app/go-plugin.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
+#include <gmodule.h>
+#include <glib/gi18n.h>
 #include <stdlib.h>
 #include <string.h>
-
-gboolean excel_xml_file_probe (GOFileOpener const *fo, GsfInput *input,
-			       FileProbeLevel pl);
-void     excel_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
-			      WorkbookView *wb_view, GsfInput *input);
 
 /*****************************************************************************/
 
 typedef struct {
-	GsfXMLIn base;
-
+	GnumericXMLVersion version;
 	IOContext 	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
 	Workbook	*wb;		/* The new workbook */
 	Sheet		*sheet;		/* The current sheet */
+	GnmCellPos	 pos;
+	char		*style_name;
+	GnmStyle	*style;
+	GnmStyle	*def_style;
+	GHashTable	*style_hash;
 } ExcelXMLReadState;
-
-/****************************************************************************/
-
-#if 0
-static void
-unknown_attr (ExcelXMLReadState *state,
-	      xmlChar const * const *attrs, char const *name)
-{
-	g_return_if_fail (attrs != NULL);
-
-	if (state->version == GNM_XML_LATEST)
-		gnm_io_warning (state->context,
-			_("Unexpected attribute %s::%s == '%s'."),
-			name, attrs[0], attrs[1]);
-}
-#endif
-
-#if 0
-static void
-xl_xml_wb (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	ExcelXMLReadState *state = (ExcelXMLReadState *)xin;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], "schemaLocation")) {
-		} else
-			unknown_attr (state, attrs, "Workbook");
-}
-#endif
-
-/****************************************************************************/
 
 enum {
 	XL_NS_SS,
@@ -106,6 +75,564 @@ enum {
 	XL_NS_XL,
 	XL_NS_HTML
 };
+
+/****************************************************************************/
+
+static gboolean xl_xml_warning (GsfXMLIn *xin, char const *fmt, ...)
+	G_GNUC_PRINTF (2, 3);
+
+static gboolean
+xl_xml_warning (GsfXMLIn *xin, char const *fmt, ...)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	char *msg;
+	va_list args;
+
+	va_start (args, fmt);
+	msg = g_strdup_vprintf (fmt, args);
+	va_end (args);
+
+	if (IS_SHEET (state->sheet)) {
+		char *tmp;
+		if (state->pos.col >= 0 && state->pos.row >= 0)
+			tmp = g_strdup_printf ("%s!%s : %s",
+				state->sheet->name_quoted,
+				cellpos_as_string (&state->pos), msg);
+		else
+			tmp = g_strdup_printf ("%s : %s",
+				state->sheet->name_quoted, msg);
+		g_free (msg);
+		msg = tmp;
+	}
+
+	gnm_io_warning (state->context, msg);
+	g_free (msg);
+
+	return FALSE; /* convenience */
+}
+static void
+unknown_attr (GsfXMLIn *xin,
+	      xmlChar const * const *attrs, char const *name)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+
+	g_return_if_fail (attrs != NULL);
+
+	if (state->version == GNM_XML_LATEST)
+		gnm_io_warning (state->context,
+			_("Unexpected attribute %s::%s == '%s'."),
+			name, attrs[0], attrs[1]);
+}
+
+typedef struct {
+	char const * const name;
+	int val;
+} EnumVal;
+
+static gboolean
+attr_enum (GsfXMLIn *xin, xmlChar const * const *attrs,
+	   int ns_id, char const *name, EnumVal const *enums, int *res)
+{
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
+		return FALSE;
+
+	for (; enums->name != NULL ; enums++)
+		if (!strcmp (enums->name, attrs[1])) {
+			*res = enums->val;
+			return TRUE;
+		}
+	return xl_xml_warning (xin, "Invalid attribute '%s', unknown enum value '%s'",
+			       name, attrs[1]);
+}
+
+static gboolean
+attr_bool (GsfXMLIn *xin, xmlChar const * const *attrs,
+	   int ns_id, char const *name, gboolean *res)
+{
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
+		return FALSE;
+	*res = g_ascii_strcasecmp ((gchar *)attrs[1], "false") && strcmp (attrs[1], "0");
+
+	return TRUE;
+}
+
+static gboolean
+attr_int (GsfXMLIn *xin, xmlChar const * const *attrs,
+	  int ns_id, char const *name, int *res)
+{
+	char *end;
+	int tmp;
+
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
+		return FALSE;
+
+	tmp = strtol ((gchar *)attrs[1], &end, 10);
+	if (*end)
+		return xl_xml_warning (xin, "Invalid attribute '%s', expected integer, received '%s'",
+				   name, attrs[1]);
+
+	*res = tmp;
+	return TRUE;
+}
+
+static gboolean
+attr_float (GsfXMLIn *xin, xmlChar const * const *attrs,
+	    int ns_id, char const *name, gnm_float *res)
+{
+	char *end;
+	double tmp;
+
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
+		return FALSE;
+
+	tmp = gnm_strto ((gchar *)attrs[1], &end);
+	if (*end)
+		return xl_xml_warning (xin, "Invalid attribute '%s', expected number, received '%s'",
+				   name, attrs[1]);
+	*res = tmp;
+	return TRUE;
+}
+
+static GnmColor *
+parse_color (GsfXMLIn *xin, xmlChar const *str, char const *name)
+{
+	guint r, g, b;
+
+	g_return_val_if_fail (str != NULL, NULL);
+
+	if (3 == sscanf (str, "#%2x%2x%2x", &r, &g, &b))
+		return style_color_new_i8 (r, g, b);
+
+	xl_xml_warning (xin, "Invalid attribute '%s', expected color, received '%s'",
+			name, str);
+	return NULL;
+}
+
+static GnmColor *
+attr_color (GsfXMLIn *xin, xmlChar const * const *attrs,
+	    int ns_id, char const *name)
+{
+	g_return_val_if_fail (attrs != NULL, NULL);
+	g_return_val_if_fail (attrs[0] != NULL, NULL);
+
+	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
+		return NULL;
+	return parse_color (xin, attrs[1], name);
+}
+
+static void
+xl_xml_col_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	int tmp;
+	gboolean  auto_fit = TRUE;
+	gnm_float width = -1;
+
+	state->pos.col = 0;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_int (xin, attrs, XL_NS_SS, "Index", &tmp)) {
+			if (tmp > 0)
+				state->pos.col = tmp -1;
+		} else if (attr_bool (xin, attrs, XL_NS_SS, "AutoFitWidth", &auto_fit))
+			;
+		else if (attr_float (xin, attrs, XL_NS_SS, "Width", &width))
+			;
+		else
+			unknown_attr (xin, attrs, "Cell");
+
+	if (width >= 0.)
+		sheet_col_set_size_pts (state->sheet, state->pos.col, width, !auto_fit);
+}
+
+static void
+xl_xml_row_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	int tmp;
+	gboolean  auto_fit = TRUE;
+	gnm_float height = -1;
+
+	state->pos.col = 0;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_int (xin, attrs, XL_NS_SS, "Index", &tmp)) {
+			if (tmp > 0)
+				state->pos.row = tmp -1;
+		} else if (attr_bool (xin, attrs, XL_NS_SS, "AutoFitHeight", &auto_fit))
+			;
+		else if (attr_float (xin, attrs, XL_NS_SS, "Height", &height))
+			;
+		else
+			unknown_attr (xin, attrs, "Cell");
+
+	if (height >= 0.)
+		sheet_row_set_size_pts (state->sheet, state->pos.row, height, !auto_fit);
+}
+static void
+xl_xml_row_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	((ExcelXMLReadState *)xin->user_state)->pos.row++;
+}
+static void
+xl_xml_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	GnmStyle *style = NULL;
+	int across = 0, down = 0, type, tmp;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_int (xin, attrs, XL_NS_SS, "Index", &tmp)) {
+			if (tmp > 0)
+				state->pos.col = tmp -1;
+		} else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "StyleID"))
+			style = g_hash_table_lookup (state->style_hash, attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "ArrayRange"))
+			;
+		else if (attr_int (xin, attrs, XL_NS_SS, "MergeAcross", &across))
+			;
+		else if (attr_int (xin, attrs, XL_NS_SS, "MergeDown", &down))
+			;
+		else if (attr_int (xin, attrs, XL_NS_SS, "Type", &type))
+			;
+		else
+			unknown_attr (xin, attrs, "Cell");
+
+	if (NULL != style) {
+		gnm_style_ref (style);
+		if (across > 0 || down > 0) {
+			GnmRange r;
+			r.start = r.end = state->pos;
+			r.end.col += across;
+			r.end.row += down;
+			sheet_merge_add (state->sheet, &r, FALSE,
+				GO_CMD_CONTEXT (state->context));
+			sheet_style_set_range (state->sheet, &r, style);
+		} else
+			sheet_style_set_pos (state->sheet,
+				state->pos.col, state->pos.row, style);
+	}
+}
+static void
+xl_xml_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	((ExcelXMLReadState *)xin->user_state)->pos.col++;
+}
+static void
+xl_xml_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	GnmCell *cell = sheet_cell_fetch (state->sheet, state->pos.col, state->pos.row);
+	cell_set_text (cell, xin->content->str);
+}
+
+static void
+xl_xml_font (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal const underlines[] = {
+		{ "None",		UNDERLINE_NONE },
+		{ "Single",		UNDERLINE_SINGLE },
+		{ "SingleAccounting",	UNDERLINE_SINGLE },
+		{ "Double",		UNDERLINE_DOUBLE },
+		{ "DoubleAccounting",	UNDERLINE_DOUBLE },
+		{ NULL, 0 }
+	};
+	static EnumVal const scripts[] = {
+		{ "Superscript",	GO_FONT_SCRIPT_SUPER },
+		{ "Subscript",		GO_FONT_SCRIPT_SUB },
+		{ "None",		GO_FONT_SCRIPT_STANDARD },
+		{ NULL, 0 }
+	};
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	GnmColor *color;
+	gboolean b_tmp;
+	int i_tmp;
+	gnm_float tmp;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "Family"))
+			;
+		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "FontName"))
+			;
+		else if (attr_float (xin, attrs, XL_NS_SS, "Size", &tmp))
+			gnm_style_set_font_size	(state->style, tmp);
+		else if (attr_bool (xin, attrs, XL_NS_SS, "Bold", &b_tmp))
+			gnm_style_set_font_bold (state->style, b_tmp);
+		else if (attr_bool (xin, attrs, XL_NS_SS, "Italic", &b_tmp))
+			gnm_style_set_font_italic (state->style, b_tmp);
+		else if (attr_bool (xin, attrs, XL_NS_SS, "StrikeThrough", &b_tmp))
+			gnm_style_set_font_strike (state->style, b_tmp);
+		else if (attr_enum (xin, attrs, XL_NS_SS, "Underline", underlines, &i_tmp))
+			gnm_style_set_font_uline (state->style, i_tmp);
+		else if (attr_enum (xin, attrs, XL_NS_SS, "VerticalAlign", scripts, &i_tmp))
+			gnm_style_set_font_script (state->style, i_tmp);
+		else if ((color = attr_color (xin, attrs, XL_NS_SS, "Color")))
+			gnm_style_set_font_color (state->style, color);
+		else
+			unknown_attr (xin, attrs, "Style::Font");
+}
+
+static void
+xl_xml_alignment (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal const valignments [] = {
+		{ "Bottom", VALIGN_BOTTOM },
+		{ "Center", VALIGN_CENTER },
+		{ "Distributed", VALIGN_DISTRIBUTED },
+		{ "Justify", VALIGN_JUSTIFY },
+		{ "Top", VALIGN_TOP },
+		{ NULL, 0 }
+	};
+	static EnumVal const halignments [] = {
+		{ "Center", HALIGN_CENTER },
+		{ "CenterAcrossSelection", HALIGN_CENTER_ACROSS_SELECTION },
+		{ "Distributed", HALIGN_DISTRIBUTED },
+		{ "Fill", HALIGN_FILL },
+		{ "Justify", HALIGN_JUSTIFY },
+		{ "Left", HALIGN_LEFT },
+		{ "Right", HALIGN_RIGHT },
+
+		{ NULL, 0 }
+	};
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	gboolean b_tmp;
+	int i_tmp;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_int (xin, attrs, XL_NS_SS, "Rotate", &i_tmp))
+			gnm_style_set_rotation (state->style, i_tmp);
+		else if (attr_bool (xin, attrs, XL_NS_SS, "WrapText", &b_tmp))
+			gnm_style_set_wrap_text (state->style, b_tmp);
+		else if (attr_enum (xin, attrs, XL_NS_SS, "Vertical", valignments, &i_tmp))
+			gnm_style_set_align_v (state->style, i_tmp);
+		else if (attr_enum (xin, attrs, XL_NS_SS, "Horizontal", halignments, &i_tmp))
+			gnm_style_set_align_h (state->style, i_tmp);
+		else if (attr_int (xin, attrs, XL_NS_SS, "Indent",  &i_tmp))
+			gnm_style_set_indent (state->style, i_tmp);
+}
+
+static void
+xl_xml_border (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal const sides[] = {
+		{ "Top",		STYLE_BORDER_TOP },
+		{ "Bottom",		STYLE_BORDER_BOTTOM },
+		{ "Right",		STYLE_BORDER_RIGHT },
+		{ "Left",		STYLE_BORDER_LEFT },
+		{ "DiagonalLeft",	STYLE_BORDER_REV_DIAG },
+		{ "DiagonalRight",	STYLE_BORDER_DIAG },
+		{ NULL, 0 }
+	};
+	static EnumVal const line_styles[] = {
+		{ "Continuous",		STYLE_BORDER_HAIR },		/* 1 2 3 */
+		{ "Dash",		STYLE_BORDER_DASHED },		/* 1 2 */
+		{ "DashDot",		STYLE_BORDER_DASH_DOT },	/* 1 2 */
+		{ "DashDotDot",		STYLE_BORDER_DASH_DOT_DOT },	/* 1 2 */
+		{ "Dot",		STYLE_BORDER_DOTTED },		/* 1 */
+		{ "Double",		STYLE_BORDER_DOUBLE },		/* 3 */
+		{ "SlantDashDot",	STYLE_BORDER_SLANTED_DASH_DOT },/* 2 */
+		{ NULL, 0 }
+	};
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	StyleBorderLocation location  = STYLE_BORDER_EDGE_MAX;
+	StyleBorderType	    line_type = STYLE_BORDER_MAX;
+	GnmBorder	   *border;
+	GnmColor 	   *color = NULL, *new_color;
+	int		   weight = 1, tmp;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_enum (xin, attrs, XL_NS_SS, "Position", sides, &tmp))
+			location = tmp;
+		else if (attr_enum (xin, attrs, XL_NS_SS, "LineStyle", line_styles, &tmp))
+			line_type = tmp;
+		else if (attr_int (xin, attrs, XL_NS_SS, "Weight", &weight))
+			;
+		else if ((new_color = attr_color (xin, attrs, XL_NS_SS, "Color"))) {
+			if (color)
+				style_color_unref (color);
+			color = new_color;
+		} else
+			unknown_attr (xin, attrs, "Style::Border");
+
+	switch (line_type) {
+	default:
+		break;
+	case STYLE_BORDER_HAIR:
+		if (weight == 2)
+			line_type = STYLE_BORDER_THIN;
+		else if (weight >= 3)
+			line_type = STYLE_BORDER_THICK;
+		break;
+	case STYLE_BORDER_DASHED:
+		if (weight >= 2)
+			line_type = STYLE_BORDER_MEDIUM_DASH;
+		break;
+	case STYLE_BORDER_DASH_DOT:
+		if (weight >= 2)
+			line_type = STYLE_BORDER_MEDIUM_DASH_DOT;
+		break;
+	case STYLE_BORDER_DASH_DOT_DOT:
+		if (weight >= 2)
+			line_type = STYLE_BORDER_MEDIUM_DASH_DOT_DOT;
+		break;
+	}
+
+	if (color != NULL &&
+	    location  != STYLE_BORDER_EDGE_MAX &&
+	    line_type != STYLE_BORDER_MAX) {
+		border = style_border_fetch (line_type,
+			color, style_border_get_orientation (location));
+		gnm_style_set_border (state->style, MSTYLE_BORDER_TOP + location, border);
+	} else if (color)
+		    style_color_unref (color);
+}
+
+static void
+xl_xml_num_interior (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal const patterns[] = {
+		{ "Solid",	1 },
+		{ "Gray75",	2 },
+		{ "Gray50", 	3 },
+		{ "Gray25", 	4 },
+		{ "Gray125", 	5 },
+		{ "Gray0625", 	6 },
+		{ "HorzStripe", 7 },
+		{ "VertStripe", 8 },
+		{ "ReverseDiagStripe", 9 },
+		{ "DiagStripe", 10 },
+		{ "DiagCross", 	11 },
+		{ "ThickDiagCross", 12 },
+		{ "ThinHorzStripe", 13 },
+		{ "ThinVertStripe", 14 },
+		{ "ThinReverseDiagStripe", 15 },
+		{ "ThinDiagStripe", 16 },
+		{ "ThinHorzCross",  17 },
+		{ "ThinDiagCross",  18 },
+		{ NULL, 0 }
+	};
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	GnmColor *color;
+	int tmp;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if ((color = attr_color (xin, attrs, XL_NS_SS, "Color")))
+			gnm_style_set_back_color (state->style, color);
+		else if (attr_enum (xin, attrs, XL_NS_SS, "Pattern", patterns, &tmp))
+			gnm_style_set_pattern (state->style, tmp);
+		else if ((color = attr_color (xin, attrs, XL_NS_SS, "PatternColor")))
+			gnm_style_set_pattern_color (state->style, color);
+		else
+			unknown_attr (xin, attrs, "Style::Interior");
+}
+
+static void
+xl_xml_num_fmt (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "Format")) {
+			GOFormat *fmt = NULL;
+			if (!strcmp (attrs[1], "Percent"))
+				fmt = go_format_default_percentage ();
+			else if (!strcmp (attrs[1], "Short Time"))
+				fmt = go_format_default_time ();
+
+			if (NULL != fmt) 
+				go_format_ref (fmt);
+			else if (!strcmp (attrs[1], "Fixed"))
+				fmt = go_format_new_from_XL ("0.00", FALSE);
+			else
+				fmt = go_format_new_from_XL (attrs[1], FALSE);
+			gnm_style_set_format (state->style, fmt);
+			go_format_unref (fmt);
+		} else
+			unknown_attr (xin, attrs, "Style::NumberFormat");
+}
+
+static void
+xl_xml_style_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	char const *id = NULL;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "ID"))
+			id = attrs[1];
+		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "Name"))
+			; /* does anything use this ? */
+		else
+			unknown_attr (xin, attrs, "Style");
+
+	if (id == NULL)
+		return;
+
+	g_return_if_fail (state->style == NULL);
+
+	state->style = (state->def_style != NULL)
+		? gnm_style_dup (state->def_style)
+		: gnm_style_new_default ();
+	if (!strcmp (id, "Default"))
+		state->def_style = state->style;
+	g_hash_table_replace (state->style_hash, g_strdup (id), state->style);
+}
+
+static void
+xl_xml_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	((ExcelXMLReadState *)xin->user_state)->style = NULL;
+}
+
+static void
+xl_xml_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	char const *name = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "Name"))
+			name = attrs[1];
+		else
+			unknown_attr (xin, attrs, "Worksheet");
+
+	if (name != NULL){
+		g_return_if_fail (state->sheet == NULL);
+		state->sheet =  workbook_sheet_by_name (state->wb, name);
+		if (state->sheet == NULL) {
+			state->sheet = sheet_new (state->wb, name);
+			workbook_sheet_attach (state->wb, state->sheet);
+		}
+
+		/* Flag a respan here in case nothing else does */
+		sheet_flag_recompute_spans (state->sheet);
+		state->pos.col = state->pos.row = 0;
+	}
+}
+
+static void
+xl_xml_sheet_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+
+	g_return_if_fail (state->sheet != NULL);
+
+	state->sheet = NULL;
+}
+
+/****************************************************************************/
 
 static GsfXMLInNS content_ns[] = {
 	GSF_XML_IN_NS (XL_NS_SS,   "urn:schemas-microsoft-com:office:spreadsheet"),
@@ -138,33 +665,31 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", FALSE, FALSE, TRUE,
     GSF_XML_IN_NODE (WB_VIEW, PROTECT_WINDOWS,   XL_NS_XL, "ProtectWindows",     TRUE, NULL, NULL),
     GSF_XML_IN_NODE (WB_VIEW, NATURAL_LANGUAGE,  XL_NS_XL, "AcceptLabelsInFormulas", TRUE, NULL, NULL),
   GSF_XML_IN_NODE (WORKBOOK, STYLES, XL_NS_SS, "Styles", FALSE, NULL, NULL),
-    GSF_XML_IN_NODE (STYLES, STYLE, XL_NS_SS,  "Style", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (STYLE, ALIGNMENT,  XL_NS_SS, "Alignment", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (STYLES, STYLE, XL_NS_SS,  "Style", FALSE, &xl_xml_style_start, &xl_xml_style_end),
+      GSF_XML_IN_NODE (STYLE, ALIGNMENT,  XL_NS_SS, "Alignment", FALSE, &xl_xml_alignment, NULL),
       GSF_XML_IN_NODE (STYLE, BORDERS,    XL_NS_SS, "Borders",   FALSE, NULL, NULL),
-        GSF_XML_IN_NODE (BORDERS, BORDER, XL_NS_SS, "Border",    FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (STYLE, FONT,       XL_NS_SS, "Font",      FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (STYLE, INTERIOR,   XL_NS_SS, "Interior",  FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (STYLE, NUM_FMT,    XL_NS_SS, "NumberFormat", FALSE, NULL, NULL),
+        GSF_XML_IN_NODE (BORDERS, BORDER, XL_NS_SS, "Border",    FALSE, &xl_xml_border, NULL),
+      GSF_XML_IN_NODE (STYLE, FONT,       XL_NS_SS, "Font",      FALSE, &xl_xml_font, NULL),
+      GSF_XML_IN_NODE (STYLE, INTERIOR,   XL_NS_SS, "Interior",  FALSE, &xl_xml_num_interior, NULL),
+      GSF_XML_IN_NODE (STYLE, NUM_FMT,    XL_NS_SS, "NumberFormat", FALSE, &xl_xml_num_fmt, NULL),
       GSF_XML_IN_NODE (STYLE, PROTECTION, XL_NS_SS, "Protection", FALSE, NULL, NULL),
   GSF_XML_IN_NODE (WORKBOOK, NAMES, XL_NS_SS, "Names", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (NAMES, NAMED_RANGE, XL_NS_SS, "NamedRange", FALSE, NULL, NULL),
 
-  GSF_XML_IN_NODE_FULL (WORKBOOK, WORKSHEET, XL_NS_SS, "Worksheet", FALSE, FALSE, TRUE, NULL, NULL, 0),
+  GSF_XML_IN_NODE_FULL (WORKBOOK, WORKSHEET, XL_NS_SS, "Worksheet", FALSE, FALSE, TRUE, &xl_xml_sheet_start, &xl_xml_sheet_end, 0),
     GSF_XML_IN_NODE (WORKSHEET, TABLE, XL_NS_SS, "Table", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (TABLE, COLUMN, XL_NS_SS, "Column", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (TABLE, ROW, XL_NS_SS, "Row", FALSE, NULL, NULL),
-	GSF_XML_IN_NODE_FULL (ROW, CELL, XL_NS_SS, "Cell", FALSE, FALSE, TRUE, NULL, NULL, 0),
+      GSF_XML_IN_NODE (TABLE, COLUMN, XL_NS_SS, "Column", FALSE, &xl_xml_col_start, NULL),
+      GSF_XML_IN_NODE (TABLE, ROW, XL_NS_SS, "Row", FALSE, &xl_xml_row_start, &xl_xml_row_end),
+	GSF_XML_IN_NODE_FULL (ROW, CELL, XL_NS_SS, "Cell", FALSE, FALSE, TRUE, &xl_xml_cell_start, &xl_xml_cell_end, 0),
           GSF_XML_IN_NODE (CELL, NAMED_CELL, XL_NS_SS, "NamedCell", FALSE, NULL, NULL),
-          GSF_XML_IN_NODE_FULL (CELL, CELL_DATA, XL_NS_SS, "Data", TRUE, FALSE, TRUE, NULL, NULL, 0),
-	    GSF_XML_IN_NODE (CELL_DATA, HTML_B,	  XL_NS_HTML, "B",	GSF_XML_SHARED_CONTENT, NULL, NULL),
-	    GSF_XML_IN_NODE (CELL_DATA, HTML_I,	  XL_NS_HTML, "I",	GSF_XML_SHARED_CONTENT, NULL, NULL),
-	    GSF_XML_IN_NODE (CELL_DATA, HTML_FONT,XL_NS_HTML, "Font",	GSF_XML_SHARED_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (HTML_B, HTML_I,	  XL_NS_HTML, "I",	FALSE, NULL, NULL), /* 2nd def */
-	      GSF_XML_IN_NODE (HTML_B, HTML_FONT, XL_NS_HTML, "Font",	FALSE, NULL, NULL), /* 2nd def */
-	      GSF_XML_IN_NODE (HTML_I, HTML_B,	  XL_NS_HTML, "B",	FALSE, NULL, NULL), /* 2nd def */
-	      GSF_XML_IN_NODE (HTML_I, HTML_FONT, XL_NS_HTML, "Font",	FALSE, NULL, NULL), /* 2nd def */
-	      GSF_XML_IN_NODE (HTML_FONT, HTML_I, XL_NS_HTML, "I",	FALSE, NULL, NULL), /* 2nd def */
-	      GSF_XML_IN_NODE (HTML_FONT, HTML_B, XL_NS_HTML, "B",	FALSE, NULL, NULL), /* 2nd def */
+          GSF_XML_IN_NODE_FULL (CELL, CELL_DATA, XL_NS_SS, "Data", GSF_XML_CONTENT, FALSE, TRUE, NULL, &xl_xml_data_end, 0),
+	    GSF_XML_IN_NODE_FULL (CELL_DATA, HTML_B,    XL_NS_HTML, "B",    GSF_XML_SHARED_CONTENT, TRUE, FALSE, NULL, NULL, 0),
+	    GSF_XML_IN_NODE_FULL (CELL_DATA, HTML_I,    XL_NS_HTML, "I",    GSF_XML_SHARED_CONTENT, TRUE, FALSE, NULL, NULL, 1),
+	    GSF_XML_IN_NODE_FULL (CELL_DATA, HTML_U,    XL_NS_HTML, "U",    GSF_XML_SHARED_CONTENT, TRUE, FALSE, NULL, NULL, 2),
+	    GSF_XML_IN_NODE_FULL (CELL_DATA, HTML_FONT, XL_NS_HTML, "Font", GSF_XML_SHARED_CONTENT, TRUE, FALSE, NULL, NULL, 3),
+	    GSF_XML_IN_NODE_FULL (CELL_DATA, HTML_S,    XL_NS_HTML, "S",    GSF_XML_SHARED_CONTENT, TRUE, FALSE, NULL, NULL, 4),
+	    GSF_XML_IN_NODE_FULL (CELL_DATA, HTML_SUP,  XL_NS_HTML, "Sup",  GSF_XML_SHARED_CONTENT, TRUE, FALSE, NULL, NULL, 5),
+	    GSF_XML_IN_NODE_FULL (CELL_DATA, HTML_SUB,  XL_NS_HTML, "Sub",  GSF_XML_SHARED_CONTENT, TRUE, FALSE, NULL, NULL, 6),
     GSF_XML_IN_NODE (WORKSHEET, OPTIONS, XL_NS_XL, "WorksheetOptions", FALSE, NULL, NULL),
       GSF_XML_IN_NODE (OPTIONS, SELECTED, XL_NS_XL, "Selected", FALSE, NULL, NULL),
       GSF_XML_IN_NODE (OPTIONS, PANES, XL_NS_XL, "Panes", FALSE, NULL, NULL),
@@ -172,37 +697,45 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", FALSE, FALSE, TRUE,
           GSF_XML_IN_NODE (PANE, PANE_NUM, XL_NS_XL,  "Number", TRUE, NULL, NULL),
           GSF_XML_IN_NODE (PANE, PANE_ACTIVEROW, XL_NS_XL,  "ActiveRow", TRUE, NULL, NULL),
           GSF_XML_IN_NODE (PANE, PANE_ACTIVECOL, XL_NS_XL,  "ActiveCol", TRUE, NULL, NULL),
-      GSF_XML_IN_NODE (OPTIONS, PROT_OBJS,	XL_NS_XL, "ProtectObjects", TRUE, NULL, NULL),
-      GSF_XML_IN_NODE (OPTIONS, PROT_SCENARIOS, XL_NS_XL, "ProtectScenarios", TRUE, NULL, NULL),
-      GSF_XML_IN_NODE (OPTIONS, PAGEBREAK_ZOOM,	XL_NS_XL, "PageBreakZoom", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (OPTIONS, PAGE_SETUP, XL_NS_XL, "PageSetup", FALSE, NULL, NULL),
+	GSF_XML_IN_NODE (PAGE_SETUP, PAGE_HEADER, XL_NS_XL, "Header", FALSE, NULL, NULL),
+	GSF_XML_IN_NODE (PAGE_SETUP, PAGE_FOOTER, XL_NS_XL, "Footer", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (OPTIONS, PRINT, XL_NS_XL, "Print", FALSE, NULL, NULL),
+	GSF_XML_IN_NODE (PRINT, PRINT_VALID_INFO,  XL_NS_XL, "ValidPrinterInfo", FALSE, NULL, NULL),
+	GSF_XML_IN_NODE (PRINT, PRINT_PAPER_SIZE,  XL_NS_XL, "PaperSizeIndex", TRUE, NULL, NULL),
+	GSF_XML_IN_NODE (PRINT, PRINT_HRES,	   XL_NS_XL, "HorizontalResolution", TRUE, NULL, NULL),
+	GSF_XML_IN_NODE (PRINT, PRINT_VRES,	   XL_NS_XL, "VerticalResolution", TRUE, NULL, NULL),
+
+      GSF_XML_IN_NODE (OPTIONS, PROT_OBJS,	 XL_NS_XL, "ProtectObjects", TRUE, NULL, NULL),
+      GSF_XML_IN_NODE (OPTIONS, PROT_SCENARIOS,  XL_NS_XL, "ProtectScenarios", TRUE, NULL, NULL),
+      GSF_XML_IN_NODE (OPTIONS, PAGEBREAK_ZOOM,	 XL_NS_XL, "PageBreakZoom", FALSE, NULL, NULL),
   { NULL }
 };
-static GsfXMLInDoc *doc;
+
+G_MODULE_EXPORT void
+excel_xml_file_open (GOFileOpener const *fo, IOContext *context,
+		     WorkbookView *wbv, GsfInput *input);
 
 void
 excel_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 		     WorkbookView *wb_view, GsfInput *input)
 {
+	GsfXMLInDoc *doc;
 	ExcelXMLReadState state;
 
-	/* init */
-	state.base.doc = doc;
-	state.context = io_context;
-	state.wb_view = wb_view;
-	state.wb = wb_view_workbook (wb_view);
-	state.sheet = NULL;
+	state.context	= io_context;
+	state.wb_view	= wb_view;
+	state.wb	= wb_view_workbook (wb_view);
+	state.sheet	= NULL;
+	state.style	= NULL;
+	state.def_style	= NULL;
+	state.style_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
+		(GDestroyNotify)g_free, (GDestroyNotify) gnm_style_unref);
 
-	if (!gsf_xml_in_parse (&state.base, input))
-		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
-}
-
-void
-excel_xml_read_init (void)
-{
 	doc = gsf_xml_in_doc_new (excel_xml_dtd, content_ns);
-}
-void
-excel_xml_read_cleanup (void)
-{
+	if (!gsf_xml_in_doc_parse (doc, input, &state))
+		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
 	gsf_xml_in_doc_free (doc);
+
+	g_hash_table_destroy (state.style_hash);
 }

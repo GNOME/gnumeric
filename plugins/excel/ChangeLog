@@ -1,3 +1,27 @@
+2005-10-02  Jody Goldberg <jody@gnome.org>
+
+	* plugin.xml.in : enable SpreadsheetML importer
+
+	* excel-xml-read.c : implement
+
+	* ms-formula-write.c (write_funcall) : handle macros.
+	  exporting Analysis.xls
+
+	* ms-formula-read.c (excel_parse_formula) : REF_3D, and AREA_3D for
+	  biff7 seem to use the shared flag to define whether to sign extend.
+
+	* ms-excel-read.c (excel_parse_name) : name expressions are parsed as
+	  shared.  Not sure about this.  This seems to work for the oo name
+	  and relref tests.  Do more validation.
+	(ms_wb_get_font_markup) : suppress warning.
+	(excel_read_BOOLERR) : new split from.
+	(excel_read_sheet) : here.
+
+	* ms-chart.c (BC_R(alruns)) : do not leak content. [#157059]
+	(BC_R(pieformat)) : The magic 0xfffd in dataformat seems to do
+	  something here too.  Without it plots that had a default separation
+	  were thinking that it was just for 1 pt.
+
 2005-09-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (text), (xl_chart_import_error_bar): fixed style leaks.

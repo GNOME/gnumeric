@@ -1613,7 +1613,7 @@ excel_parse_formula (MSContainer const *container,
 				getRefV7 (&first,
 					  GSF_LE_GET_GUINT8  (cur + 16),
 					  GSF_LE_GET_GUINT16 (cur + 14),
-					  fn_col, fn_row, 0);
+					  fn_col, fn_row, shared);
 				last = first;
 				ptg_length = 17;
 			}
@@ -1645,11 +1645,11 @@ excel_parse_formula (MSContainer const *container,
 				getRefV7 (&first,
 					  GSF_LE_GET_GUINT8(cur+18),
 					  GSF_LE_GET_GUINT16(cur+14),
-					  fn_col, fn_row, 0);
+					  fn_col, fn_row, shared);
 				getRefV7 (&last,
 					  GSF_LE_GET_GUINT8(cur+19),
 					  GSF_LE_GET_GUINT16(cur+16),
-					  fn_col, fn_row, 0);
+					  fn_col, fn_row, shared);
 				ptg_length = 20;
 			}
 			if (excel_formula_parses_ref_sheets (container, cur, &first.sheet, &last.sheet))

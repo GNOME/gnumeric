@@ -525,7 +525,7 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 		arg_types = ef->efunc->known_args;
 
 	for (ptr = expr->func.arg_list ; ptr != NULL; ptr = ptr->next, num_args++)
-		if (num_args >= ef->efunc->max_args) {
+		if (ef->efunc != NULL && num_args >= ef->efunc->max_args) {
 			gnm_io_warning (pd->ewb->io_context, 
 				_("Too many arguments for function '%s', MS Excel can only handle %d not %d"),
 				ef->efunc->name, ef->efunc->max_args, num_args);

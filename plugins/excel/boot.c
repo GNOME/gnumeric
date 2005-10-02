@@ -299,7 +299,6 @@ G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 	excel_read_init ();
-	excel_xml_read_init ();
 
 #if 0
 {
@@ -339,5 +338,4 @@ go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
 	destroy_xl_font_widths ();
 	excel_read_cleanup ();
-	excel_xml_read_cleanup ();
 }

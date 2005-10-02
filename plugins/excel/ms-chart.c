@@ -110,16 +110,16 @@ typedef struct {
 	GogStyle	*dropbar_style;
 
 	int		 style_element;
-	int		cur_role;
-	gboolean hilo;
-	gboolean dropbar;
-	guint16 dropbar_width;
+	int		 cur_role;
+	gboolean	 hilo;
+	gboolean	 dropbar;
+	guint16		 dropbar_width;
 
 	gboolean	 frame_for_grid;
 	gboolean	 has_a_grid;
-	gboolean	is_surface;
-	gboolean	is_contour;
-	gboolean	has_extra_dataformat;
+	gboolean	 is_surface;
+	gboolean	 is_contour;
+	gboolean	 has_extra_dataformat;
 	int		 plot_counter;
 	XLChartSeries	*currentSeries;
 	GPtrArray	*series;
@@ -352,9 +352,10 @@ static gboolean
 BC_R(alruns)(XLChartHandler const *handle,
 	     XLChartReadState *s, BiffQuery *q)
 {
+#if 0
 	gint16 length = GSF_LE_GET_GUINT16 (q->data);
 	guint8 const *in = (q->data + 2);
-	char *const ans = (char *) g_new (char, length + 2);
+	char *conans = (char *) g_new (char, length + 2);
 	char *out = ans;
 
 	for (; --length >= 0 ; in+=4, ++out) {
@@ -370,6 +371,7 @@ BC_R(alruns)(XLChartHandler const *handle,
 	*out = '\0';
 
 	/*fputs (ans, stderr);*/
+#endif
 	return FALSE;
 }
 
@@ -1427,11 +1429,12 @@ BC_R(pieformat)(XLChartHandler const *handle,
 
 	/* we only support the default right now.  Also, XL sets this for _all_ types
 	 * rather than just pies. */
-	if (s->style_element >= 0 && s->style != NULL)
+	if (s->style_element >= 0 && s->style != NULL &&
+	    !s->has_extra_dataformat)	/* this is cheesy, figure out what the 0xfffd in dataformat means */
 		g_object_set_data (G_OBJECT (s->style),
 			"pie-separation", GUINT_TO_POINTER (separation));
 	else if (s->plot != NULL &&
-	    g_object_class_find_property (G_OBJECT_GET_CLASS (s->plot), "default-separation"))
+		 g_object_class_find_property (G_OBJECT_GET_CLASS (s->plot), "default-separation"))
 		g_object_set (G_OBJECT (s->plot),
 			"default-separation",	((double) separation) / 100.,
 			NULL);
@@ -1860,6 +1863,7 @@ static gboolean
 BC_R(surf)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
 {
+#warning implement wireframe (aka use-color)
 #if 0
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+4);
 

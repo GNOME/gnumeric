@@ -2752,7 +2752,6 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 	if (fd->attrs == NULL) {
 		PangoAttrList *attrs;
 		PangoUnderline underline = PANGO_UNDERLINE_NONE;
-		int rise = 0;
 
 		switch (fd->underline) {
 		case MS_BIFF_F_U_SINGLE:
@@ -3033,8 +3032,10 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 
 	/* expr_len == 0 seems to indicate a placeholder for an unknown name */
 	if (expr_len != 0) {
+
 		expr = excel_parse_formula (&importer->container, NULL, 0, 0,
-			expr_data, expr_len, FALSE, NULL);
+			expr_data, expr_len, TRUE, NULL);
+
 		if (expr == NULL) {
 			gnm_io_warning (importer->context, _("Failure parsing name '%s'"), name);
 			expr = gnm_expr_new_constant (value_new_error_REF (NULL));
@@ -5407,6 +5408,21 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 	}
 }
 
+static void
+excel_read_BOOLERR (BiffQuery *q, ExcelReadSheet *esheet)
+{
+	int base = (q->opcode == BIFF_BOOLERR_v0) ? 7 : 6;
+	GnmValue *v;
+
+	if (GSF_LE_GET_GUINT8 (q->data + base + 1)) {
+		GnmEvalPos ep;
+		eval_pos_init (&ep, esheet->sheet, XL_GETCOL (q), XL_GETROW (q));
+		v = biff_get_error (&ep, GSF_LE_GET_GUINT8 (q->data + base));
+	} else
+		v = value_new_bool (GSF_LE_GET_GUINT8 (q->data + base));
+	excel_sheet_insert_val (esheet, q, v);
+}
+
 /* hands the peculiar ampersand escaping, and returns the string _after_
  * &<target> to the end of the buffer.  It also stores \0 in place
  * of &<target>.  If not found return NULL and do nothing */
@@ -5527,15 +5543,7 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 		case BIFF_LABEL_v2: excel_read_LABEL (q, esheet, FALSE); break;
 
 		case BIFF_BOOLERR_v0:
-		case BIFF_BOOLERR_v2:
-			if (GSF_LE_GET_GUINT8 (q->data + 7)) {
-				GnmEvalPos ep;
-				eval_pos_init (&ep, esheet->sheet, XL_GETCOL (q), XL_GETROW (q));
-				v = biff_get_error (&ep, GSF_LE_GET_GUINT8 (q->data + 6));
-			} else
-				v = value_new_bool (GSF_LE_GET_GUINT8 (q->data + 6));
-			excel_sheet_insert_val (esheet, q, v);
-			break;
+		case BIFF_BOOLERR_v2: excel_read_BOOLERR (q, esheet); break;
 
 		case BIFF_FORMULA_v0:
 		case BIFF_FORMULA_v2:

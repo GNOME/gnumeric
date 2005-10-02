@@ -7,7 +7,4 @@
 #ifndef EXCEL_XML_READ_H
 #define EXCEL_XML_READ_H
 
-void excel_xml_read_cleanup (void);
-void excel_xml_read_init (void);
-
 #endif /* EXCEL_XML_READ_H */
