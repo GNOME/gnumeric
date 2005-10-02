@@ -8,8 +8,7 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    * surface plot not using full area
-      and having unlabeled axis ticks
+    * surface plot not using full area and having unlabeled axis ticks
     * Finish Data -> Table 
 	- draw merged
 	- draw long spans
@@ -17,7 +16,7 @@ Release Critical
 	- check dependencies
     * Check dynamic deps.  Do they work at all ?
     * more condition types
-    * Check with federico re: recently used list in file selector
+    * Tokenized help is broken for new style functions
 
 Pending Patches
 ---------------
@@ -31,6 +30,7 @@ Pending Patches
 
 2.6 TODO
 --------
+    - Check with federico re: recently used list in file selector
     - use 2.6 clipboard handling
 	: gtk_clipboard_set_can_store
 	: gtk_clipboard_store
