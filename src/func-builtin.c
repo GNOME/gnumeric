@@ -132,32 +132,18 @@ gnumeric_version (FunctionEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
-static void
-table_make_ref (FunctionEvalInfo const *ei,
-		GnmRangeRef *top, GnmRangeRef *left)
-{
-	GnmDependent *dep = ei->pos->dep;
-	top->a.sheet = top->b.sheet = left->a.sheet = left->b.sheet = dep->sheet;
-}
 static DependentFlags
 gnumeric_table_link (FunctionEvalInfo *ei)
 {
 	GnmDependent *dep = ei->pos->dep;
-	GnmRangeRef   top, left;
-	table_make_ref (ei, &top, &left);
-	return DEPENDENT_IGNORE_ARGS;
-#if 0
-	|
-		dependent_add_dep_range (dep, &ei->pos->eval, &top.a, &top.b) |
-		dependent_add_dep_range (dep, &ei->pos->eval, &left.a, &left.b);
-#endif
-}
-static void
-gnumeric_table_unlink (FunctionEvalInfo *ei)
-{
 	GnmRangeRef top, left;
-	table_make_ref (ei, &top, &left);
-#warning remove dep
+
+	top.a.sheet = top.b.sheet = left.a.sheet = left.b.sheet = dep->sheet;
+
+	dependent_add_dynamic_dep (dep, &top);
+	dependent_add_dynamic_dep (dep, &left);
+
+	return DEPENDENT_IGNORE_ARGS;
 }
 
 static GnmValue *
@@ -168,6 +154,9 @@ gnumeric_table (FunctionEvalInfo *ei, GnmExprList const *args)
 	GnmValue      *val[3], *res;
 	GnmCellPos     pos;
 	int x, y;
+
+	/* evaluation clears the dynamic deps */
+	gnumeric_table_link (ei);
 
 	if (gnm_expr_list_length (args) != 2 &&
 	    ei->pos->eval.col > 0 && ei->pos->eval.row > 0)
@@ -279,7 +268,7 @@ func_builtin_init (void)
 		},
 		{	"table",	"",	"",
 			NULL,		NULL,	gnumeric_table,
-			gnumeric_table_link, gnumeric_table_unlink,
+			gnumeric_table_link, NULL,
 			NULL, GNM_FUNC_SIMPLE + GNM_FUNC_INTERNAL,
 			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 			GNM_FUNC_TEST_STATUS_EXHAUSTIVE

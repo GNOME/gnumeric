@@ -1016,7 +1016,7 @@ gnm_expr_range_op (GnmExpr const *expr, GnmEvalPos const *ep,
 		return value_new_error_NULL (ep);
 
 	res = value_new_cellrange_r (a_start, &res_range);
-	dependent_add_dynamic_dep (ep->dep, &res->v_range);
+	dependent_add_dynamic_dep (ep->dep, &res->v_range.cell);
 	if (!(flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)) {
 		res = value_intersection (res, ep);
 		return (res != NULL)
@@ -1260,7 +1260,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			return (flags & GNM_EXPR_EVAL_PERMIT_EMPTY)
 			    ? NULL : value_new_int (0);
 		if (res->type == VALUE_CELLRANGE) {
-			dependent_add_dynamic_dep (pos->dep, &res->v_range);
+			dependent_add_dynamic_dep (pos->dep, &res->v_range.cell);
 			if (!(flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)) {
 				res = value_intersection (res, pos);
 				return (res != NULL)

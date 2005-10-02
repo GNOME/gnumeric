@@ -48,6 +48,7 @@
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-zip.h>
+#include <gsf/gsf-opendoc-utils.h>
 #include <glib/gi18n.h>
 
 #include <string.h>
@@ -67,8 +68,6 @@ typedef enum {
 } OOStyleType;
 
 typedef struct {
-	GsfXMLIn base;
-
 	IOContext 	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
 
@@ -96,12 +95,13 @@ typedef struct {
 	GnmExprConventions *exprconv;
 } OOParseState;
 
-static gboolean oo_warning (OOParseState *state, char const *fmt, ...)
+static gboolean oo_warning (GsfXMLIn *xin, char const *fmt, ...)
 	G_GNUC_PRINTF (2, 3);
 
 static gboolean
-oo_warning (OOParseState *state, char const *fmt, ...)
+oo_warning (GsfXMLIn *xin, char const *fmt, ...)
 {
+	OOParseState *state = (OOParseState *)xin->user_state;
 	char *msg;
 	va_list args;
 
@@ -129,14 +129,14 @@ oo_warning (OOParseState *state, char const *fmt, ...)
 }
 
 static gboolean
-oo_attr_bool (OOParseState *state, xmlChar const * const *attrs,
+oo_attr_bool (GsfXMLIn *xin, xmlChar const * const *attrs,
 	      int ns_id, char const *name, gboolean *res)
 {
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (&state->base, attrs[0], ns_id, name))
+	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
 		return FALSE;
 	*res = g_ascii_strcasecmp ((gchar *)attrs[1], "false") && strcmp (attrs[1], "0");
 
@@ -144,7 +144,7 @@ oo_attr_bool (OOParseState *state, xmlChar const * const *attrs,
 }
 
 static gboolean
-oo_attr_int (OOParseState *state, xmlChar const * const *attrs,
+oo_attr_int (GsfXMLIn *xin, xmlChar const * const *attrs,
 	     int ns_id, char const *name, int *res)
 {
 	char *end;
@@ -154,12 +154,12 @@ oo_attr_int (OOParseState *state, xmlChar const * const *attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (&state->base, attrs[0], ns_id, name))
+	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
 		return FALSE;
 
 	tmp = strtol ((gchar *)attrs[1], &end, 10);
 	if (*end)
-		return oo_warning (state, "Invalid attribute '%s', expected integer, received '%s'",
+		return oo_warning (xin, "Invalid attribute '%s', expected integer, received '%s'",
 				   name, attrs[1]);
 
 	*res = tmp;
@@ -167,7 +167,7 @@ oo_attr_int (OOParseState *state, xmlChar const * const *attrs,
 }
 
 static gboolean
-oo_attr_float (OOParseState *state, xmlChar const * const *attrs,
+oo_attr_float (GsfXMLIn *xin, xmlChar const * const *attrs,
 	       int ns_id, char const *name, gnm_float *res)
 {
 	char *end;
@@ -177,12 +177,12 @@ oo_attr_float (OOParseState *state, xmlChar const * const *attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (&state->base, attrs[0], ns_id, name))
+	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
 		return FALSE;
 
 	tmp = gnm_strto ((gchar *)attrs[1], &end);
 	if (*end)
-		return oo_warning (state, "Invalid attribute '%s', expected number, received '%s'",
+		return oo_warning (xin, "Invalid attribute '%s', expected number, received '%s'",
 				   name, attrs[1]);
 	*res = tmp;
 	return TRUE;
@@ -190,7 +190,7 @@ oo_attr_float (OOParseState *state, xmlChar const * const *attrs,
 
 
 static GnmColor *
-oo_parse_color (OOParseState *state, xmlChar const *str, char const *name)
+oo_parse_color (GsfXMLIn *xin, xmlChar const *str, char const *name)
 {
 	guint r, g, b;
 
@@ -199,25 +199,25 @@ oo_parse_color (OOParseState *state, xmlChar const *str, char const *name)
 	if (3 == sscanf (str, "#%2x%2x%2x", &r, &g, &b))
 		return style_color_new_i8 (r, g, b);
 
-	oo_warning (state, "Invalid attribute '%s', expected color, received '%s'",
+	oo_warning (xin, "Invalid attribute '%s', expected color, received '%s'",
 		    name, str);
 	return NULL;
 }
 static GnmColor *
-oo_attr_color (OOParseState *state, xmlChar const * const *attrs,
+oo_attr_color (GsfXMLIn *xin, xmlChar const * const *attrs,
 	       int ns_id, char const *name)
 {
 	g_return_val_if_fail (attrs != NULL, NULL);
 	g_return_val_if_fail (attrs[0] != NULL, NULL);
 
-	if (!gsf_xml_in_namecmp (&state->base, attrs[0], ns_id, name))
+	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
 		return NULL;
-	return oo_parse_color (state, attrs[1], name);
+	return oo_parse_color (xin, attrs[1], name);
 }
 
 /* returns pts */
 static char const *
-oo_parse_distance (OOParseState *state, xmlChar const *str,
+oo_parse_distance (GsfXMLIn *xin, xmlChar const *str,
 		  char const *name, double *pts)
 {
 	double num;
@@ -254,12 +254,12 @@ oo_parse_distance (OOParseState *state, xmlChar const *str,
 			num = GO_IN_TO_PT (num);
 			end += 4;
 		} else {
-			oo_warning (state, "Invalid attribute '%s', unknown unit '%s'",
+			oo_warning (xin, "Invalid attribute '%s', unknown unit '%s'",
 				    name, str);
 			return NULL;
 		}
 	} else {
-		oo_warning (state, "Invalid attribute '%s', expected distance, received '%s'",
+		oo_warning (xin, "Invalid attribute '%s', expected distance, received '%s'",
 			    name, str);
 		return NULL;
 	}
@@ -269,16 +269,16 @@ oo_parse_distance (OOParseState *state, xmlChar const *str,
 }
 /* returns pts */
 static char const *
-oo_attr_distance (OOParseState *state, xmlChar const * const *attrs,
+oo_attr_distance (GsfXMLIn *xin, xmlChar const * const *attrs,
 		  int ns_id, char const *name, double *pts)
 {
 	g_return_val_if_fail (attrs != NULL, NULL);
 	g_return_val_if_fail (attrs[0] != NULL, NULL);
 	g_return_val_if_fail (attrs[1] != NULL, NULL);
 
-	if (!gsf_xml_in_namecmp (&state->base, attrs[0], ns_id, name))
+	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
 		return NULL;
-	return oo_parse_distance (state, attrs[1], name, pts);
+	return oo_parse_distance (xin, attrs[1], name, pts);
 }
 
 typedef struct {
@@ -287,14 +287,14 @@ typedef struct {
 } OOEnum;
 
 static gboolean
-oo_attr_enum (OOParseState *state, xmlChar const * const *attrs,
+oo_attr_enum (GsfXMLIn *xin, xmlChar const * const *attrs,
 	      int ns_id, char const *name, OOEnum const *enums, int *res)
 {
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (&state->base, attrs[0], ns_id, name))
+	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
 		return FALSE;
 
 	for (; enums->name != NULL ; enums++)
@@ -302,7 +302,7 @@ oo_attr_enum (OOParseState *state, xmlChar const * const *attrs,
 			*res = enums->val;
 			return TRUE;
 		}
-	return oo_warning (state, "Invalid attribute '%s', unknown enum value '%s'",
+	return oo_warning (xin, "Invalid attribute '%s', unknown enum value '%s'",
 			   name, attrs[1]);
 }
 
@@ -313,83 +313,11 @@ oo_attr_enum (OOParseState *state, xmlChar const * const *attrs,
 
 /****************************************************************************/
 
-enum {
-	OO_NS_OFFICE,
-	OO_NS_STYLE,
-	OO_NS_TEXT,
-	OO_NS_TABLE,
-	OO_NS_DRAW,
-	OO_NS_NUMBER,
-	OO_NS_CHART,
-	OO_NS_DR3D,
-	OO_NS_FORM,
-	OO_NS_SCRIPT,
-	OO_NS_CONFIG,
-	OO_NS_MATH,
-	OO_NS_FO,
-	OO_NS_DC,
-	OO_NS_META,
-	OO_NS_XLINK,
-	OO_NS_SVG,
-
-	/* new in 2.0 */
-	OO_NS_OOO,
-	OO_NS_OOOW,
-	OO_NS_OOOC,
-	OO_NS_DOM,
-	OO_NS_XFORMS,
-	OO_NS_XSD,
-	OO_NS_XSI
-};
-
-static GsfXMLInNS ooo_ns[] = {
-	/* OOo 1.0.x & 1.1.x */
-	GSF_XML_IN_NS (OO_NS_OFFICE,	"http://openoffice.org/2000/office"),
-	GSF_XML_IN_NS (OO_NS_STYLE,	"http://openoffice.org/2000/style"),
-	GSF_XML_IN_NS (OO_NS_TEXT,	"http://openoffice.org/2000/text"),
-	GSF_XML_IN_NS (OO_NS_TABLE,	"http://openoffice.org/2000/table"),
-	GSF_XML_IN_NS (OO_NS_DRAW,	"http://openoffice.org/2000/drawing"),
-	GSF_XML_IN_NS (OO_NS_NUMBER,	"http://openoffice.org/2000/datastyle"),
-	GSF_XML_IN_NS (OO_NS_CHART,	"http://openoffice.org/2000/chart"),
-	GSF_XML_IN_NS (OO_NS_DR3D,	"http://openoffice.org/2000/dr3d"),
-	GSF_XML_IN_NS (OO_NS_FORM,	"http://openoffice.org/2000/form"),
-	GSF_XML_IN_NS (OO_NS_SCRIPT,	"http://openoffice.org/2000/script"),
-	GSF_XML_IN_NS (OO_NS_CONFIG,	"http://openoffice.org/2001/config"),
-	GSF_XML_IN_NS (OO_NS_MATH,	"http://www.w3.org/1998/Math/MathML"),	/* also in 2.0 */
-	GSF_XML_IN_NS (OO_NS_FO,	"http://www.w3.org/1999/XSL/Format"),
-	GSF_XML_IN_NS (OO_NS_XLINK,	"http://www.w3.org/1999/xlink"),	/* also in 2.0 */
-	GSF_XML_IN_NS (OO_NS_SVG,	"http://www.w3.org/2000/svg"),
-
-	/* OOo 1.9.x & 2.0.x */
-	GSF_XML_IN_NS (OO_NS_OFFICE,	"urn:oasis:names:tc:opendocument:xmlns:office:1.0"),
-	GSF_XML_IN_NS (OO_NS_STYLE,	"urn:oasis:names:tc:opendocument:xmlns:style:1.0"),
-	GSF_XML_IN_NS (OO_NS_TEXT,	"urn:oasis:names:tc:opendocument:xmlns:text:1.0"),
-	GSF_XML_IN_NS (OO_NS_TABLE,	"urn:oasis:names:tc:opendocument:xmlns:table:1.0"),
-	GSF_XML_IN_NS (OO_NS_DRAW,	"urn:oasis:names:tc:opendocument:xmlns:drawing:1.0"),
-	GSF_XML_IN_NS (OO_NS_FO,	"urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0"),
-	GSF_XML_IN_NS (OO_NS_META,	"urn:oasis:names:tc:opendocument:xmlns:meta:1.0"),
-	GSF_XML_IN_NS (OO_NS_NUMBER,	"urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0"),
-	GSF_XML_IN_NS (OO_NS_SVG,	"urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0"),
-	GSF_XML_IN_NS (OO_NS_CHART,	"urn:oasis:names:tc:opendocument:xmlns:chart:1.0"),
-	GSF_XML_IN_NS (OO_NS_DR3D,	"urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0"),
-	GSF_XML_IN_NS (OO_NS_FORM,	"urn:oasis:names:tc:opendocument:xmlns:form:1.0"),
-	GSF_XML_IN_NS (OO_NS_SCRIPT,	"urn:oasis:names:tc:opendocument:xmlns:script:1.0"),
-	GSF_XML_IN_NS (OO_NS_DC,	"http://purl.org/dc/elements/1.1/"),
-	GSF_XML_IN_NS (OO_NS_OOO,	"http://openoffice.org/2004/office"),
-	GSF_XML_IN_NS (OO_NS_OOOW,	"http://openoffice.org/2004/writer"),
-	GSF_XML_IN_NS (OO_NS_OOOC,	"http://openoffice.org/2004/calc"),
-	GSF_XML_IN_NS (OO_NS_DOM,	"http://www.w3.org/2001/xml-events"),
-	GSF_XML_IN_NS (OO_NS_XFORMS,	"http://www.w3.org/2002/xforms"),
-	GSF_XML_IN_NS (OO_NS_XSD,	"http://www.w3.org/2001/XMLSchema"),
-	GSF_XML_IN_NS (OO_NS_XSI,	"http://www.w3.org/2001/XMLSchema-instance"),
-	{ NULL }
-};
-
 static void
 oo_date_convention (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	/* <table:null-date table:date-value="1904-01-01"/> */
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "date-value")) {
 			if (!strncmp (attrs[1], "1904", 4))
@@ -401,7 +329,7 @@ static void
 oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	/* <table:table table:name="Result" table:style-name="ta1"> */
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	int i;
 
 	state->pos.eval.col = 0;
@@ -426,7 +354,7 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmStyle *style = NULL;
 	double   *width_pts = NULL;
 	int repeat_count = 1;
@@ -436,7 +364,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 			style = g_hash_table_lookup (state->cell_styles, attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "style-name"))
 			width_pts = g_hash_table_lookup (state->col_row_styles, attrs[1]);
-		else if (oo_attr_int (state, attrs, OO_NS_TABLE, "number-columns-repeated", &repeat_count))
+		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &repeat_count))
 			;
 
 	while (repeat_count-- > 0) {
@@ -450,7 +378,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	int	 i, repeat_count = 1;
 	double  *height_pts = NULL;
 
@@ -462,7 +390,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "style-name"))
 			height_pts = g_hash_table_lookup (state->col_row_styles, attrs[1]);
-		else if (oo_attr_int (state, attrs, OO_NS_TABLE, "number-rows-repeated", &repeat_count))
+		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-rows-repeated", &repeat_count))
 			;
 	}
 	if (height_pts != NULL)
@@ -552,7 +480,7 @@ oo_cell_content_span_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmExpr const	*expr = NULL;
 	GnmValue		*val = NULL;
 	gboolean	 bool_val;
@@ -564,18 +492,18 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->col_inc = 1;
 	state->error_content = FALSE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (oo_attr_int (state, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc))
+		if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc))
 			;
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "formula")) {
 			char const *expr_string;
 
 			if (attrs[1] == NULL) {
-				oo_warning (state, _("Missing expression"));
+				oo_warning (xin, _("Missing expression"));
 				continue;
 			}
 			expr_string = gnm_expr_char_start_p (attrs[1]);
 			if (expr_string == NULL)
-				oo_warning (state, _("Expression '%s' does not start with a recognized character"), attrs[1]);
+				oo_warning (xin, _("Expression '%s' does not start with a recognized character"), attrs[1]);
 			else if (*expr_string == '\0')
 				/* Ick.  They seem to store error cells as
 				 * having value date with expr : '=' and the
@@ -588,12 +516,12 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				expr = oo_expr_parse_str (expr_string,
 					&state->pos, 0, &perr);
 				if (expr == NULL) {
-					oo_warning (state, _("Unable to parse '%s' because '%s'"),
+					oo_warning (xin, _("Unable to parse '%s' because '%s'"),
 						    attrs[1], perr.err->message);
 					parse_error_free (&perr);
 				}
 			}
-		} else if (oo_attr_bool (state, attrs, OO_NS_TABLE, "boolean-value", &bool_val))
+		} else if (oo_attr_bool (xin, attrs, OO_NS_TABLE, "boolean-value", &bool_val))
 			val = value_new_bool (bool_val);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "date-value")) {
 			unsigned y, m, d, h, mi;
@@ -620,15 +548,15 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				val = value_new_float (h + ((double)m / 60.) + ((double)s / 3600.));
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "string-value"))
 			val = value_new_string (attrs[1]);
-		else if (oo_attr_float (state, attrs, OO_NS_TABLE, "value", &float_val))
+		else if (oo_attr_float (xin, attrs, OO_NS_TABLE, "value", &float_val))
 			val = value_new_float (float_val);
-		else if (oo_attr_int (state, attrs, OO_NS_TABLE, "number-matrix-columns-spanned", &array_cols))
+		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-matrix-columns-spanned", &array_cols))
 			;
-		else if (oo_attr_int (state, attrs, OO_NS_TABLE, "number-matrix-rows-spanned", &array_rows))
+		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-matrix-rows-spanned", &array_rows))
 			;
-		else if (oo_attr_int (state, attrs, OO_NS_TABLE, "number-columns-spanned", &merge_cols))
+		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-columns-spanned", &merge_cols))
 			;
-		else if (oo_attr_int (state, attrs, OO_NS_TABLE, "number-rows-spanned", &merge_rows))
+		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-rows-spanned", &merge_rows))
 			;
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "style-name")) {
 			style = g_hash_table_lookup (state->cell_styles, attrs[1]);
@@ -659,10 +587,10 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (array_cols > 0 || array_rows > 0) {
 			if (array_cols < 0) {
 				array_cols = 1;
-				oo_warning (state, _("Invalid array expression does not specify number of columns."));
+				oo_warning (xin, _("Invalid array expression does not specify number of columns."));
 			} else if (array_rows < 0) {
 				array_rows = 1;
-				oo_warning (state, _("Invalid array expression does not specify number of rows."));
+				oo_warning (xin, _("Invalid array expression does not specify number of rows."));
 			}
 			cell_set_array_formula (state->pos.sheet,
 				state->pos.eval.col, state->pos.eval.row,
@@ -706,7 +634,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 
 	if (state->col_inc > 1) {
 		GnmCell *cell = sheet_cell_get (state->pos.sheet,
@@ -729,11 +657,11 @@ oo_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 oo_covered_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 
 	state->col_inc = 1;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_int (state, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc))
+		if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc))
 			;
 #if 0
 		/* why bother it is covered ? */
@@ -754,14 +682,14 @@ oo_covered_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_covered_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	state->pos.eval.col += state->col_inc;
 }
 
 static void
 oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 
 	if (state->simple_content || state->error_content) {
 		GnmValue *v;
@@ -769,9 +697,9 @@ oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			state->pos.eval.col, state->pos.eval.row);
 
 		if (state->simple_content)
-			v = value_new_string (state->base.content->str);
+			v = value_new_string (xin->content->str);
 		else
-			v = value_new_error (NULL, state->base.content->str);
+			v = value_new_error (NULL, xin->content->str);
 		cell_set_value (cell, v);
 	}
 }
@@ -790,7 +718,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL,	0 },
 	};
 
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	xmlChar const *name = NULL;
 	xmlChar const *parent_name = NULL;
 	GnmStyle *style;
@@ -800,7 +728,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->cur_style_type == OO_STYLE_UNKNOWN);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_enum (state, attrs, OO_NS_STYLE, "family", style_types, &tmp))
+		if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "family", style_types, &tmp))
 			state->cur_style_type = tmp;
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "name"))
 			name = attrs[1];
@@ -848,9 +776,9 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 
-	switch (((OOParseState *)xin)->cur_style_type) {
+	switch (state->cur_style_type) {
 	case OO_STYLE_CELL : state->cur_style.cell = NULL;
 		break;
 	case OO_STYLE_COL : 
@@ -866,7 +794,7 @@ oo_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 oo_date_day (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean is_short = TRUE;
 
 	if (state->accum_fmt == NULL)
@@ -881,7 +809,7 @@ oo_date_day (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_date_month (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean as_text = FALSE;
 	gboolean is_short = TRUE;
 
@@ -891,7 +819,7 @@ oo_date_month (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_NUMBER, "style"))
 			is_short = 0 == strcmp (attrs[1], "short");
-		else if (oo_attr_bool (state, attrs, OO_NS_NUMBER, "textual", &as_text))
+		else if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "textual", &as_text))
 			;
 	g_string_append (state->accum_fmt, as_text
 			 ? (is_short ? "mmm" : "mmmm")
@@ -900,7 +828,7 @@ oo_date_month (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_date_year (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean is_short = TRUE;
 
 	if (state->accum_fmt == NULL)
@@ -918,7 +846,7 @@ oo_date_era (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_date_day_of_week (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean is_short = TRUE;
 
 	if (state->accum_fmt == NULL)
@@ -941,7 +869,7 @@ oo_date_quarter (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_date_hours (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean is_short = TRUE;
 
 	if (state->accum_fmt == NULL)
@@ -955,7 +883,7 @@ oo_date_hours (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_date_minutes (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean is_short = TRUE;
 
 	if (state->accum_fmt == NULL)
@@ -969,7 +897,7 @@ oo_date_minutes (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_date_seconds (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean is_short = TRUE;
 
 	if (state->accum_fmt == NULL)
@@ -983,7 +911,7 @@ oo_date_seconds (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_date_am_pm (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	if (state->accum_fmt != NULL)
 		g_string_append (state->accum_fmt, "AM/PM");
 
@@ -991,18 +919,18 @@ oo_date_am_pm (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_date_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 
 	if (state->accum_fmt == NULL)
 		return;
 
-	g_string_append (state->accum_fmt, state->base.content->str);
+	g_string_append (state->accum_fmt, xin->content->str);
 }
 
 static void
 oo_date_style (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	char const *name = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -1022,7 +950,7 @@ oo_date_style (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	g_return_if_fail (state->accum_fmt != NULL);
 
 	g_hash_table_insert (state->formats, state->fmt_name,
@@ -1033,11 +961,11 @@ oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-oo_parse_border (OOParseState *state, GnmStyle *style,
+oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 		 char const *str, GnmStyleElement location)
 {
 	double pts;
-	char const *end = oo_parse_distance (state, str, "border", &pts);
+	char const *end = oo_parse_distance (xin, str, "border", &pts);
 	if (end == NULL || end == str)
 		return;
 /* "0.035cm solid #000000" */
@@ -1059,7 +987,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "middle",	VALIGN_CENTER },
 		{ NULL,	0 },
 	};
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmColor *color;
 	GnmStyle *style = state->cur_style.cell;
 	GnmHAlign h_align = HALIGN_GENERAL;
@@ -1069,29 +997,29 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (style != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if ((color = oo_attr_color (state, attrs, OO_NS_FO, "background-color"))) {
+		if ((color = oo_attr_color (xin, attrs, OO_NS_FO, "background-color"))) {
 			gnm_style_set_back_color (style, color);
 			gnm_style_set_pattern (style, 1);
-		} else if ((color = oo_attr_color (state, attrs, OO_NS_FO, "color")))
+		} else if ((color = oo_attr_color (xin, attrs, OO_NS_FO, "color")))
 			gnm_style_set_font_color (style, color);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "cell-protect"))
 			gnm_style_set_content_locked (style, !strcmp (attrs[1], "protected"));
-		else if (oo_attr_enum (state, attrs, OO_NS_STYLE, "text-align", h_alignments, &tmp))
+		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-align", h_alignments, &tmp))
 			h_align = tmp;
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "text-align-source"))
 			h_align_is_valid = !strcmp (attrs[1], "fixed");
-		else if (oo_attr_enum (state, attrs, OO_NS_FO, "vertical-align", v_alignments, &tmp))
+		else if (oo_attr_enum (xin, attrs, OO_NS_FO, "vertical-align", v_alignments, &tmp))
 			gnm_style_set_align_v (style, tmp);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "wrap-option"))
 			gnm_style_set_wrap_text (style, !strcmp (attrs[1], "wrap"));
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border-bottom"))
-			oo_parse_border (state, style, attrs[1], MSTYLE_BORDER_BOTTOM);
+			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_BOTTOM);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border-left"))
-			oo_parse_border (state, style, attrs[1], MSTYLE_BORDER_LEFT);
+			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_LEFT);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border-right"))
-			oo_parse_border (state, style, attrs[1], MSTYLE_BORDER_RIGHT);
+			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_RIGHT);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border-top"))
-			oo_parse_border (state, style, attrs[1], MSTYLE_BORDER_TOP);
+			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_TOP);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "font-name"))
 			gnm_style_set_font_name (style, attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "font-size")) {
@@ -1119,32 +1047,33 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_style_prop_row (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	double pts;
 
 	g_return_if_fail (state->cur_style.col_row != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (NULL != oo_attr_distance (state, attrs, OO_NS_STYLE, "row-height", &pts))
+		if (NULL != oo_attr_distance (xin, attrs, OO_NS_STYLE, "row-height", &pts))
 			*(state->cur_style.col_row) = pts;
 }
 static void
 oo_style_prop_col (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	double pts;
 
 	g_return_if_fail (state->cur_style.col_row != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (NULL != oo_attr_distance (state, attrs, OO_NS_STYLE, "column-width", &pts))
+		if (NULL != oo_attr_distance (xin, attrs, OO_NS_STYLE, "column-width", &pts))
 			*(state->cur_style.col_row) = pts;
 }
 
 static void
 oo_style_prop (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	switch (((OOParseState *)xin)->cur_style_type) {
+	OOParseState *state = (OOParseState *)xin->user_state;
+	switch (state->cur_style_type) {
 	case OO_STYLE_CELL : oo_style_prop_cell (xin, attrs); break;
 	case OO_STYLE_COL :  oo_style_prop_col (xin, attrs); break;
 	case OO_STYLE_ROW :  oo_style_prop_row (xin, attrs); break;
@@ -1156,7 +1085,7 @@ oo_style_prop (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin;
+	OOParseState *state = (OOParseState *)xin->user_state;
 	xmlChar const *name     = NULL;
 	xmlChar const *base_str  = NULL;
 	xmlChar const *expr_str = NULL;
@@ -1184,7 +1113,7 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 		g_free (tmp);
 
 		if (expr == NULL || expr->any.oper != GNM_EXPR_OP_CELLREF) {
-			oo_warning (state, _("Unable to parse position for expression '%s' @ '%s' because '%s'"),
+			oo_warning (xin, _("Unable to parse position for expression '%s' @ '%s' because '%s'"),
 				    name, base_str, perr.err->message);
 			parse_error_free (&perr);
 			if (expr != NULL)
@@ -1197,7 +1126,7 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_expr_unref (expr);
 			expr = oo_expr_parse_str (expr_str, &pp, 0, &perr);
 			if (expr == NULL) {
-				oo_warning (state, _("Unable to parse position for expression '%s' with value '%s' because '%s'"),
+				oo_warning (xin, _("Unable to parse position for expression '%s' with value '%s' because '%s'"),
 					    name, expr_str, perr.err->message);
 				parse_error_free (&perr);
 			} else {
@@ -1447,8 +1376,6 @@ oo_conventions (void)
 	return res;
 }
 
-static GsfXMLInDoc *content_doc, *settings_doc, *styles_doc;
-
 void
 openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input);
@@ -1456,12 +1383,13 @@ void
 openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input)
 {
+	GsfXMLInDoc	*doc;
+	OOParseState	 state;
+	GsfInput	*content = NULL;
+	GsfInput	*styles = NULL;
+	GError		*err = NULL;
+	GsfInfile	*zip;
 	char *old_num_locale, *old_monetary_locale;
-	OOParseState state;
-	GsfInput *content = NULL;
-	GsfInput *styles = NULL;
-	GError   *err = NULL;
-	GsfInfile *zip;
 	int i;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wb_view));
@@ -1521,17 +1449,18 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.accum_fmt = NULL;
 
 	if (styles != NULL) {
-		state.base.doc = styles_doc;
-		gsf_xml_in_parse (&state.base, styles);
+		GsfXMLInDoc *doc = gsf_xml_in_doc_new (opencalc_styles_dtd, gsf_ooo_ns);
+		gsf_xml_in_doc_parse (doc, styles, &state);
+		gsf_xml_in_doc_free (doc);
 		g_object_unref (styles);
 	}
 
-	state.base.doc = content_doc;
-	if (gsf_xml_in_parse (&state.base, content)) {
+	doc  = gsf_xml_in_doc_new (opencalc_content_dtd, gsf_ooo_ns);
+	if (gsf_xml_in_doc_parse (doc, content, &state)) {
 		GsfInput *settings;
 
 		/* get the sheet in the right order (in case something was
-		 * created out of order implictly */
+		 * created out of order implictly) */
 		state.sheet_order = g_slist_reverse (state.sheet_order);
 		workbook_sheet_reorder (state.pos.wb, state.sheet_order);
 		g_slist_free (state.sheet_order);
@@ -1539,12 +1468,15 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		/* look for the view settings */
 		settings = gsf_infile_child_by_name (zip, "settings.xml");
 		if (settings != NULL) {
-			state.base.doc = settings_doc;
-			gsf_xml_in_parse (&state.base, settings);
+			GsfXMLInDoc *sdoc = gsf_xml_in_doc_new (opencalc_settings_dtd, gsf_ooo_ns);
+			gsf_xml_in_doc_parse (sdoc, settings, &state);
+			gsf_xml_in_doc_free (sdoc);
 			g_object_unref (G_OBJECT (settings));
+
 		}
 	} else
 		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
+	gsf_xml_in_doc_free (doc);
 
 	if (state.default_style_cell)
 		gnm_style_unref (state.default_style_cell);
@@ -1566,19 +1498,4 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	g_free (old_monetary_locale);
 	go_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
-}
-
-G_MODULE_EXPORT void
-go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
-{
-	styles_doc   = gsf_xml_in_doc_new (opencalc_styles_dtd, ooo_ns);
-	content_doc  = gsf_xml_in_doc_new (opencalc_content_dtd, ooo_ns);
-	settings_doc = gsf_xml_in_doc_new (opencalc_settings_dtd, ooo_ns);
-}
-G_MODULE_EXPORT void
-go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
-{
-	gsf_xml_in_doc_free (styles_doc);
-	gsf_xml_in_doc_free (content_doc);
-	gsf_xml_in_doc_free (settings_doc);
 }

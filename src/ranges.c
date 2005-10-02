@@ -637,7 +637,8 @@ range_fragment_free (GSList *fragments)
 gboolean
 range_intersection (GnmRange *r, GnmRange const *a, GnmRange const *b)
 {
-	g_return_val_if_fail (range_overlap (a, b), FALSE);
+	if (!range_overlap (a, b))
+		return FALSE;
 
 	r->start.col = MAX (a->start.col, b->start.col);
 	r->start.row = MAX (a->start.row, b->start.row);

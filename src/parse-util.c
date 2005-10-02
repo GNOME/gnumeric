@@ -407,6 +407,65 @@ rangeref_as_string (GString *target, GnmExprConventions const *conv,
 	}
 }
 
+/**
+ * gnm_1_0_rangeref_as_string :
+ * @ref :
+ * @pp :
+ *
+ * Simplified variant of rangeref_as_string that old version of gnumeric can
+ * read.  It drops support for full col/row references.  We can remap them on import.
+ **/
+void
+gnm_1_0_rangeref_as_string (GString *target, GnmExprConventions const *conv,
+			    GnmRangeRef const *ref, GnmParsePos const *pp)
+{
+	GnmRange r;
+
+	r.start.col = cellref_abs_col (&ref->a, pp);
+	r.end.col   = cellref_abs_col (&ref->b, pp);
+	r.start.row = cellref_abs_row (&ref->a, pp);
+	r.end.row   = cellref_abs_row (&ref->b, pp);
+
+	if (ref->a.sheet) {
+		if (pp->wb != NULL && ref->a.sheet->workbook != pp->wb) {
+			g_string_append_c (target, '[');
+			g_string_append (target, workbook_get_uri (ref->a.sheet->workbook));
+			g_string_append_c (target, ']');
+		}
+		if (pp->wb == NULL && pp->sheet == NULL)
+			/* For the expression leak printer. */
+			g_string_append (target, "'?'");
+		else if (ref->b.sheet == NULL || ref->a.sheet == ref->b.sheet)
+			g_string_append (target, ref->a.sheet->name_quoted);
+		else {
+			g_string_append (target, ref->a.sheet->name_quoted);
+			g_string_append_c (target, ':');
+			g_string_append (target, ref->b.sheet->name_quoted);
+		}
+		g_string_append (target, conv->output_sheet_name_sep);
+	}
+
+	if (!ref->a.col_relative)
+		g_string_append_c (target, '$');
+	col_name_internal (target, r.start.col);
+	if (!ref->a.row_relative)
+		g_string_append_c (target, '$');
+	row_name_internal (target, r.start.row);
+
+	if (r.start.col != r.end.col ||
+	    ref->a.col_relative != ref->b.col_relative ||
+	    r.start.row != r.end.row ||
+	    ref->a.row_relative != ref->b.row_relative) {
+		g_string_append_c (target, ':');
+		if (!ref->b.col_relative)
+			g_string_append_c (target, '$');
+		col_name_internal (target, r.end.col);
+		if (!ref->b.row_relative)
+			g_string_append_c (target, '$');
+		row_name_internal (target, r.end.row);
+	}
+}
+
 static char const *
 cellref_a1_get (GnmCellRef *out, char const *in, GnmCellPos const *pos)
 {
@@ -960,7 +1019,8 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 	return tmp2;
 }
 
-
+#if 0
+/* Do we even need this anymore ? */
 char const *
 gnm_1_0_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 			G_GNUC_UNUSED GnmExprConventions const *convs)
@@ -1013,6 +1073,7 @@ gnm_1_0_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *
 		res->b.row -= pp->eval.row;
 	return tmp2;
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 

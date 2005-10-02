@@ -19,6 +19,7 @@
 #include "dependent.h"
 #include "expr.h"
 #include "expr-impl.h"
+#include "expr-name.h"
 #include "cell.h"
 #include "str.h"
 #include "symbol.h"
@@ -1376,14 +1377,37 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 				  CellIterFlags		 iter_flags)
 {
 	GnmValue *result = NULL;
+	GnmExpr const *expr;
+	GnmValue *val;
+
 	for (; result == NULL && expr_node_list;
 	     expr_node_list = expr_node_list->next) {
-		GnmExpr const *expr = expr_node_list->data;
-		GnmValue *val;
+		expr = expr_node_list->data;
 
 		if (iter_flags & CELL_ITER_IGNORE_SUBTOTAL &&
 		    gnm_expr_containts_subtotal (expr))
 			continue;
+
+/* NOT UNTIL 1.7 */
+#if 0
+		/* need to drill down into names to handle things like
+		 * sum(name)  with name := (A:A,B:B) */
+		while (expr->any.oper == GNM_EXPR_OP_NAME) {
+			expr = expr->name.name->expr;
+			if (expr == NULL) {
+				if (strict)
+					return value_new_error_REF (ep);
+				continue;
+			}
+		}
+
+		/* Handle sets as a special case */
+		if (expr->any.oper == GNM_EXPR_OP_SET) {
+			result = function_iterate_argument_values (ep, callback,
+				callback_closure, expr->set.set, strict, iter_flags);
+			continue;
+		}
+#endif
 
 		/* Permit empties and non scalars. We don't know what form the
 		 * function wants its arguments */

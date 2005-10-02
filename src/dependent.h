@@ -90,7 +90,7 @@ void	 dependent_link		   (GnmDependent *dep);
 void	 dependent_unlink	   (GnmDependent *dep);
 gboolean dependent_eval		   (GnmDependent *dep);
 void	 dependent_queue_recalc	   (GnmDependent *dep);
-void	 dependent_add_dynamic_dep (GnmDependent *dep, GnmValueRange const *v);
+void	 dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr);
 
 GSList  *dependents_relocate	    (GnmExprRelocateInfo const *info);
 void     dependents_unrelocate      (GSList *info);

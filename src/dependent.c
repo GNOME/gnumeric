@@ -942,12 +942,12 @@ dynamic_dep_debug_name (GnmDependent const *dep, GString *target)
 }
 
 void
-dependent_add_dynamic_dep (GnmDependent *dep, GnmValueRange const *v)
+dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr)
 {
-	DependentFlags   flags;
-	DynamicDep	*dyn;
-	GnmCellPos const	*pos;
-	DependencyRange  range;
+	DependentFlags    flags;
+	DynamicDep	 *dyn;
+	GnmCellPos const *pos;
+	DependencyRange   range;
 
 	g_return_if_fail (dep != NULL);
 
@@ -967,14 +967,14 @@ dependent_add_dynamic_dep (GnmDependent *dep, GnmValueRange const *v)
 		g_hash_table_insert (dep->sheet->deps->dynamic_deps, dep, dyn);
 	}
 
-	gnm_cellpos_init_cellref (&range.range.start, &v->cell.a, pos);
-	gnm_cellpos_init_cellref (&range.range.end, &v->cell.b, pos);
+	gnm_cellpos_init_cellref (&range.range.start, &rr->a, pos);
+	gnm_cellpos_init_cellref (&range.range.end, &rr->b, pos);
 	if (range_is_singleton (&range.range)) {
-		flags = link_single_dep (&dyn->base, pos, &v->cell.a);
-		dyn->singles = g_slist_prepend (dyn->singles, value_dup ((GnmValue *)v));
+		flags = link_single_dep (&dyn->base, pos, &rr->a);
+		dyn->singles = g_slist_prepend (dyn->singles, gnm_rangeref_dup (rr));
 	} else {
-		flags = link_cellrange_dep (&dyn->base, pos, &v->cell.a, &v->cell.b);
-		dyn->ranges = g_slist_prepend (dyn->ranges, value_dup ((GnmValue *)v));
+		flags = link_cellrange_dep (&dyn->base, pos, &rr->a, &rr->b);
+		dyn->ranges = g_slist_prepend (dyn->ranges, gnm_rangeref_dup (rr));
 	}
 	if (flags & DEPENDENT_HAS_3D)
 		workbook_link_3d_dep (dep);
@@ -2267,21 +2267,21 @@ dynamic_dep_free (DynamicDep *dyn)
 {
 	GnmDependent *dep = dyn->container;
 	GnmCellPos const *pos = dependent_pos (dep);
-	GnmValueRange *v;
+	GnmRangeRef *rr;
 	GSList *ptr;
 
 	for (ptr = dyn->singles ; ptr != NULL ; ptr = ptr->next) {
-		v = ptr->data;
-		unlink_single_dep (&dyn->base, pos, &v->cell.a);
-		value_release ((GnmValue *)v);
+		rr = ptr->data;
+		unlink_single_dep (&dyn->base, pos, &rr->a);
+		g_free (rr);
 	}
 	g_slist_free (dyn->singles);
 	dyn->singles = NULL;
 
 	for (ptr = dyn->ranges ; ptr != NULL ; ptr = ptr->next) {
-		v = ptr->data;
-		unlink_cellrange_dep (&dyn->base, pos, &v->cell.a, &v->cell.b);
-		value_release ((GnmValue *)v);
+		rr = ptr->data;
+		unlink_cellrange_dep (&dyn->base, pos, &rr->a, &rr->b);
+		g_free (rr);
 	}
 	g_slist_free (dyn->ranges);
 	dyn->ranges = NULL;
@@ -2393,16 +2393,14 @@ dump_dynamic_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 
 	g_string_append (target, ", s=[");
 	for (l = dyn->singles; l; l = l->next) {
-		GnmValueRange const *v = l->data;
-		rangeref_as_string (target, gnm_expr_conventions_default, &v->cell, &pp);
+		rangeref_as_string (target, gnm_expr_conventions_default, l->data, &pp);
 		if (l->next)
 			g_string_append (target, ", ");
 	}
 
 	g_string_append (target, "], r=[");
 	for (l = dyn->ranges; l; l = l->next) {
-		GnmValueRange const *v = l->data;
-		rangeref_as_string (target, gnm_expr_conventions_default, &v->cell, &pp);
+		rangeref_as_string (target, gnm_expr_conventions_default, l->data, &pp);
 		if (l->next)
 			g_string_append (target, ", ");
 	}

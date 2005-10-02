@@ -92,7 +92,8 @@ xml_io_conventions (void)
 	GnmExprConventions *res = gnm_expr_conventions_new ();
 
 	res->decimal_sep_dot = TRUE;
-	res->ref_parser = gnm_1_0_rangeref_parse;
+	res->range_ref_handler = gnm_1_0_rangeref_as_string;
+	res->ref_parser = rangeref_parse;
 	res->range_sep_colon = TRUE;
 	res->sheet_sep_exclamation = TRUE;
 	res->dots_in_names = TRUE;

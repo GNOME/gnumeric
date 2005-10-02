@@ -1,3 +1,33 @@
+2005-10-02  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-sax-read.c : Move to new libgsf xml interface.
+	  Support un-namespaced variant of Name for compatibility.
+	* src/xml-sax-write.c (xml_io_conventions) : Use new gnm_1_0_rangeref_as_string;
+	  to improve back compat.  We read using something that can handle the
+	  modern format, but we write the old version.
+	* src/xml-io.c (xml_io_conventions) : ditto.
+
+	* src/ranges.c (range_intersection) : return FALSE if the ranges do
+	  not overlap, but do not generate an error.
+	  formula_import_biff8.xls
+
+	* src/gnumeric-pane.c (gnm_pane_init) : Use a realize handler on the
+	  canvas to create the object views.  Doing it sooner can break
+	  because the canvas has not been attached to a container yet.
+	  test-xls/prislistekomplett.xls
+
+	* src/workbook-control-gui.c (wbcg_sheet_add) : only grab focus if we
+	  are the current sheet.
+	  samples/derivatives.gnumeric
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=317427
+	* src/parse-util.c (gnm_1_0_rangeref_as_string) : new stripped down
+	  variant of rangeref_as_string.
+	* src/xml-sax-write.c (xml_io_conventions) : use it here.
+	* src/xml-io.c (xml_io_conventions) : and here.
+
+	* src/style.c (required_updates_for_style) : add super/sub script
+
 2005-10-01  Stepan Kasal  <kasal@ucw.cz>
 
 	* src/Makefile.am (libspreadsheet_la_LDFLAGS): Add a -release flag,

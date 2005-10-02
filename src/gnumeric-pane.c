@@ -60,7 +60,7 @@ static const GtkTargetEntry drag_types_out[] =
 	};
 
 static void
-gnumeric_pane_realized (GtkWidget *widget, gpointer ignored)
+gnm_pane_header_realized (GtkWidget *widget)
 {
 	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
 }
@@ -99,9 +99,8 @@ gnumeric_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 	    fabs (1. - sheet->last_zoom_factor_used) > 1e-6)
 		foo_canvas_set_pixels_per_unit (canvas, sheet->last_zoom_factor_used);
 
-	g_signal_connect (G_OBJECT (canvas),
-		"realize",
-		G_CALLBACK (gnumeric_pane_realized), NULL);
+	g_signal_connect (G_OBJECT (canvas), "realize",
+		G_CALLBACK (gnm_pane_header_realized), NULL);
 }
 
 static void
@@ -300,6 +299,19 @@ gnm_pane_drag_dest_init (GnmPane *pane, SheetControlGUI *scg)
 		NULL);
 }
 
+static void
+cb_pane_init_objs (GnmPane *pane)
+{
+	/* create views for the sheet objects now that we exist */
+	Sheet *sheet = sc_sheet (SHEET_CONTROL (pane->gcanvas->simple.scg));
+	GSList *ptr;
+
+	if (sheet != NULL)
+		for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next)
+			sheet_object_new_view (ptr->data,
+				(SheetObjectViewContainer *)pane);
+}
+
 void
 gnm_pane_init (GnmPane *pane, SheetControlGUI *scg,
 	       gboolean col_headers, gboolean row_headers, int index)
@@ -315,6 +327,8 @@ gnm_pane_init (GnmPane *pane, SheetControlGUI *scg,
 	g_signal_connect_swapped (pane->gcanvas,
 		"popup-menu",
 		G_CALLBACK (cb_pane_popup_menu), pane);
+	g_signal_connect_swapped (G_OBJECT (pane->gcanvas), "realize",
+		G_CALLBACK (cb_pane_init_objs), pane);
 
 	if (NULL != scg &&
 	    NULL != (sheet = sc_sheet (SHEET_CONTROL (scg))) &&
@@ -354,16 +368,6 @@ gnm_pane_init (GnmPane *pane, SheetControlGUI *scg,
 	pane->drag.button = 0;
 	pane->drag.ctrl_pts = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 		NULL, (GDestroyNotify) cb_ctrl_pts_free);
-
-	/* create views for the sheet objects */
-	sheet = sc_sheet (SHEET_CONTROL (scg));
-	if (sheet != NULL) {
-		GSList *ptr;
-		for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next)
-			sheet_object_new_view (ptr->data,
-				(SheetObjectViewContainer *)pane);
-	}
-
 	gnm_pane_drag_dest_init (pane, scg);
 	pane->mouse_cursor = NULL;
 }

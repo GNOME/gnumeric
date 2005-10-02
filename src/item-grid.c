@@ -31,6 +31,9 @@
 #include "selection.h"
 #include "parse-util.h"
 #include "mstyle.h"
+#include "style-conditions.h"
+#include "gnm-style-impl.h"	/* cheesy */
+#include "position.h"		/* to eval conditions */
 #include "style-border.h"
 #include "style-color.h"
 #include "pattern.h"
@@ -265,6 +268,14 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 	if (l == r || t == b)
 		return;
 
+	if (style->conditions) {
+		GnmEvalPos ep;
+		int res;
+		eval_pos_init (&ep, (Sheet *)sheet, range->start.col, range->start.row);
+		if ((res = gnm_style_conditions_eval (style->conditions, &ep)) >= 0)
+			style = g_ptr_array_index (style->cond_styles, res);
+	}
+
 	/* Check for background THEN selection */
 	if (gnumeric_background_set_gc (style, gc,
 			ig->canvas_item.canvas, is_selected) ||
@@ -273,7 +284,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 		if (sheet->text_is_rtl)
 			gdk_draw_rectangle (drawable, gc, TRUE, r, t, l-r+1, b-t+1);
 		else
-		gdk_draw_rectangle (drawable, gc, TRUE, l, t, r-l+1, b-t+1);
+			gdk_draw_rectangle (drawable, gc, TRUE, l, t, r-l+1, b-t+1);
 	}
 
 	if (range->start.col < view->start.col)

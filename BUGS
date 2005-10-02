@@ -8,46 +8,39 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    * surface plot not using full area
+      and having unlabeled axis ticks
+    * Finish Data -> Table 
+	- draw merged
+	- draw long spans
+	- print merged & long spans
+	- check dependencies
+    * Check dynamic deps.  Do they work at all ?
+    * more condition types
+    * Check with federico re: recently used list in file selector
+
 Pending Patches
 ---------------
     - Patch for non-gconf gnm-config	{bugzilla}
     - autopackage patches		{rob}
     - Patches for Maemo			{partially in}
     - Meta Data
-	: Patches for OOo metadata	{lucianomw}
+	: Patches for OOo metadata	{lucianomw, jody}
 	: Patches for metadata dialog	{etrunko}
 	: Patches to use GsfDocMetaData	{jody}
+
+2.6 TODO
+--------
+    - use 2.6 clipboard handling
+	: gtk_clipboard_set_can_store
+	: gtk_clipboard_store
 
 Worries
 -------
     : provide undo for dropped objects from sheet_objects_clear
     : undo of pasting copy/cut of objects
     : Select graph, Copy, and paste to Emacs: used to crash, but now it
-    just g_barfs and pastes empty string.
-
-    : editing text boxes (do a derived FooCanvasEditableTextItem)
-      we can steal some of the xim support from item-edit.
-
-    : HARMEAN with no arguments (or just strings/booleans) should yield N/A,
-      not NUM.
-    : MAXA,MINA with no arguments should yield N/A, not NUM.
-    : STDEVPA,VARPA with no arguments should yield VALUE, not DIV0.
-    : STDEVA,VARA with 0-1 arguments should yield DIV0, not VALUE.
-    : DEVSQ with no arguments should yield #NUM, not zero.
-	? How did you enter this.  xl-2k refuses to parse that
-        ! Import from a .csv file.
-
-    : tie the custom ui into action sensitivity pools
-    : support array evaluation for =LARGE and friends
-    : TRIMEAN is a list function ?
-    : ISREF is a list function ?
-
-2.6 TODO
---------
-    - Finish Data -> Table 
-    - use 2.6 clipboard handling
-	: gtk_clipboard_set_can_store
-	: gtk_clipboard_store
+      just g_barfs and pastes empty string.
 
 -------------------------------------------------------------------------------
 Blocked Patches
@@ -64,7 +57,6 @@ Architecture Changes
 - repeat (http://bugzilla.gnome.org/show_bug.cgi?id=143244)	(DONE)
 - ssconvert for non-gnome					(DONE)
 - Merge wb_control_init_state and wb_control_set_view
-- SheetObjectGroup
 
 1) things to move into libgoffice
     1.1) plugin-manager dialog
@@ -77,6 +69,7 @@ Architecture Changes
 	1.2.2) doc meta data dialog	{Trelane and etrunko}
     1.3) Insert hyperlink dialog
 	1.3.1) Integration with evo address book
+    1.4) move password dialog to goffice
 2) Font handling (move to GOFont)
 3) Charting Enhancements					(DONE)
     3.1) SheetObject editing					(DONE)
@@ -100,7 +93,8 @@ Architecture Changes
     7.2) Find a better place than SheetControlGUI for dnd code
     7.3) More formats, at least html and text
     7.4) Advertise SVG for graphs, as the preferred format      (DONE)
-    7.5) Autoscroll for sheet object movement
+    7.5) Autoscroll for sheet object movement			(DONE)
+    7.6) Autoscroll in 1 dimension and movement in other
 8) Rich Text
     8.1) font actions valid while editing			(DONE)
     8.2) accumulate markup from toolbar while editing		(DONE)
@@ -276,6 +270,19 @@ Architecture Changes
 	1) A registry of named data tables to reference from examples
 	2) The example text should have the expr in C locale 
 		?? how to reference the sample data ??
+    : HARMEAN with no arguments (or just strings/booleans) should yield N/A,
+      not NUM.
+    : MAXA,MINA with no arguments should yield N/A, not NUM.
+    : STDEVPA,VARPA with no arguments should yield VALUE, not DIV0.
+    : STDEVA,VARA with 0-1 arguments should yield DIV0, not VALUE.
+    : DEVSQ with no arguments should yield #NUM, not zero.
+	? How did you enter this.  xl-2k refuses to parse that
+        ! Import from a .csv file.
+
+    : tie the custom ui into action sensitivity pools
+    : support array evaluation for =LARGE and friends
+    : TRIMEAN is a list function ?
+    : ISREF is a list function ?
 
 11) Conditional formats
     11.1) Data Structures in the core
@@ -310,7 +317,10 @@ Architecture Changes
 	11.7.1) background					(DONE)
 	11.7.2) borders						(DONE)
 	11.7.3) font and font colour
+	11.7.4) Merged cells					(DONE)
+	11.7.5) Long spans
     11.8) UI to modify
+
 12) Input Messages
     12.1) Implement
 	12.1.1) Data Structure to store it			(DONE)
@@ -322,6 +332,16 @@ Architecture Changes
     12.6) SAX Export						(DONE)
     12.7) DOM Import						(DONE)
     12.8) DOM Export						(DONE)
+
+13) Sheet Objects
+    13.1) SheetObjectGroup
+    13.2) editing text boxes (do a derived FooCanvasEditableTextItem) we can
+          steal some of the xim support from item-edit.
+    13.3) rich text for objects
+
+14) Zoom
+    14.1) Add a 'global' flag for the zoom dialog
+    14.2) Zoom to selection
 
 -------------------------------------------------------------------------------
 Target Features

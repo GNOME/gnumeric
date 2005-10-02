@@ -3,6 +3,9 @@ Gnumeric 1.6.0
 Andreas:
 	* Preload selection in "Define Names" dialog [#316406]
 
+Jean Brefort:
+	* Fix crash when deleting plot with dynamic deps.
+
 Jody:
 	* Snap objects right in RTL mode. [#316026]
 	* Finish Data -> Table evaluation

@@ -205,6 +205,9 @@ static char *
 icg_get_password (GOCmdContext *cc, char const *filename)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
+	if (gnumeric_no_warnings)
+		return NULL;
+
 	return dialog_get_password (icg->window, filename);
 }
 

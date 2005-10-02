@@ -975,7 +975,8 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next)
 		sc_object_create_view (sc, ptr->data);
 	scg_adjust_preferences (sc);
-	scg_take_focus (scg);
+	if (sheet == wb_control_cur_sheet (wbc))
+		scg_take_focus (scg);
 }
 
 static void
