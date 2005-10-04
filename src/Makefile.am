@@ -313,7 +313,7 @@ gnumeric_LDADD =				\
 gnumeric_LDFLAGS = -export-dynamic
 
 if WITH_WIN32
-    libspreadsheet_la_LDFLAGS = -no-undefined -Wl,--export-all-symbols,--enable-runtime-pseudo-relo
+    libspreadsheet_la_LDFLAGS += -no-undefined -Wl,--export-all-symbols,--enable-runtime-pseudo-relo
     gnumeric_LDADD += gnumeric_rc.o
 endif
 

@@ -310,7 +310,7 @@ setup_pattern_button (GdkScreen *screen,
 		if (flag) {
 			GdkPixbuf *pixbuf = gtk_icon_theme_load_icon (
 				gtk_icon_theme_get_for_screen (screen),
-				name, 16, 0, NULL);
+				name, 54, 0, NULL);
 			GtkWidget *image = gtk_image_new_from_pixbuf (pixbuf);
 			g_object_unref (pixbuf);
 			gtk_widget_show (image);

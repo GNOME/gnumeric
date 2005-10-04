@@ -19,9 +19,8 @@ Release Critical
     - Finish Data -> Table 
 	: add a ui
     - Conditional formats
-	: draw merged
-	: draw long spans
-	: print merged & long spans
+	: draw & print merged
+	: draw & print long spans
 	: more condition types
     - Tokenized help is broken for new style functions
 

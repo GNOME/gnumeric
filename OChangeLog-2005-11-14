@@ -1,4 +1,9 @@
-2005-10-03  Jody Goldberg <jody@gnome.org>
+2005-10-04  Jody Goldberg <jody@gnome.org>
+
+	* src/Makefile.am : libspreadsheet_la_LDFLAGS is already defined use
+	  += for WITH_WIN32
+
+2005-10-04  Jody Goldberg <jody@gnome.org>
 
 	* src/func-builtin.c (gnumeric_table_link) : finish
 	* src/dependent.c (link_expr_dep) : take an EvalPos rather than just a

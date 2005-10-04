@@ -1,3 +1,10 @@
+2005-10-04  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (setup_pattern_button) : The width dominates
+	  the height on asymetric pixmaps like the line samples.  Use the
+	  width of the xpms rather than the target height.  This makes double
+	  visible as double again.
+
 2005-10-02  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-format.c (cb_font_script_toggle) : cut-n-paste-o.
