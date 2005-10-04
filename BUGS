@@ -8,15 +8,22 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    * surface plot not using full area and having unlabeled axis ticks
-    * Finish Data -> Table 
-	- draw merged
-	- draw long spans
-	- print merged & long spans
-	- check dependencies
-    * Check dynamic deps.  Do they work at all ?
-    * more condition types
-    * Tokenized help is broken for new style functions
+    * Double borders in rtl
+
+2.6 TODO before we branch
+-------------------------
+    - Check with federico re: recently used list in file selector
+    - use 2.6 clipboard handling
+	: gtk_clipboard_set_can_store
+	: gtk_clipboard_store
+    - Finish Data -> Table 
+	: add a ui
+    - Conditional formats
+	: draw merged
+	: draw long spans
+	: print merged & long spans
+	: more condition types
+    - Tokenized help is broken for new style functions
 
 Pending Patches
 ---------------
@@ -27,13 +34,6 @@ Pending Patches
 	: Patches for OOo metadata	{lucianomw, jody}
 	: Patches for metadata dialog	{etrunko}
 	: Patches to use GsfDocMetaData	{jody}
-
-2.6 TODO
---------
-    - Check with federico re: recently used list in file selector
-    - use 2.6 clipboard handling
-	: gtk_clipboard_set_can_store
-	: gtk_clipboard_store
 
 Worries
 -------

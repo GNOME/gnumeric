@@ -136,12 +136,23 @@ static DependentFlags
 gnumeric_table_link (FunctionEvalInfo *ei)
 {
 	GnmDependent *dep = ei->pos->dep;
-	GnmRangeRef top, left;
+	GnmRangeRef rr;
 
-	top.a.sheet = top.b.sheet = left.a.sheet = left.b.sheet = dep->sheet;
+	rr.a.col_relative = rr.a.row_relative = 
+	rr.b.col_relative = rr.b.row_relative = FALSE;
+	rr.a.sheet = rr.b.sheet = dep->sheet;
 
-	dependent_add_dynamic_dep (dep, &top);
-	dependent_add_dynamic_dep (dep, &left);
+	g_return_val_if_fail (ei->pos->eval.col > 0, DEPENDENT_IGNORE_ARGS);
+	rr.a.col = rr.b.col = ei->pos->eval.col - 1;
+	rr.a.row = ei->pos->eval.row;
+	rr.b.row = rr.a.row + ei->pos->rows - 1;
+	dependent_add_dynamic_dep (dep, &rr);
+
+	g_return_val_if_fail (ei->pos->eval.row > 0, DEPENDENT_IGNORE_ARGS);
+	rr.a.row = rr.b.row = ei->pos->eval.row - 1;
+	rr.a.col = ei->pos->eval.col;
+	rr.b.col = rr.a.col + ei->pos->cols - 1;
+	dependent_add_dynamic_dep (dep, &rr);
 
 	return DEPENDENT_IGNORE_ARGS;
 }

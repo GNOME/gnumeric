@@ -1,3 +1,9 @@
+2005-10-03  Jody Goldberg <jody@gnome.org>
+
+	* src/func-builtin.c (gnumeric_table_link) : finish
+	* src/dependent.c (link_expr_dep) : take an EvalPos rather than just a
+	  dep so that we can pass around array bound details.
+
 2005-10-02  Jody Goldberg <jody@gnome.org>
 
 	* src/ranges.c (range_intersection) : return FALSE if the ranges do

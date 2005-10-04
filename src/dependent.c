@@ -712,25 +712,25 @@ unlink_cellrange_dep (GnmDependent *dep, GnmCellPos const *pos,
 }
 
 static DependentFlags
-link_expr_dep (GnmDependent *dep, GnmExpr const *tree)
+link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 {
 	g_return_val_if_fail (tree != NULL, DEPENDENT_NO_FLAG);
 
 	switch (tree->any.oper) {
 	case GNM_EXPR_OP_ANY_BINARY:
-		return  link_expr_dep (dep, tree->binary.value_a) |
-			link_expr_dep (dep, tree->binary.value_b);
+		return  link_expr_dep (ep, tree->binary.value_a) |
+			link_expr_dep (ep, tree->binary.value_b);
 	case GNM_EXPR_OP_ANY_UNARY:
-		return link_expr_dep (dep, tree->unary.value);
+		return link_expr_dep (ep, tree->unary.value);
 	case GNM_EXPR_OP_CELLREF:
-		return link_single_dep (dep, dependent_pos (dep), &tree->cellref.ref);
+		return link_single_dep (ep->dep, dependent_pos (ep->dep), &tree->cellref.ref);
 
 	case GNM_EXPR_OP_CONSTANT:
 		/* TODO: pass in eval flags so that we can use implicit
 		 * intersection
 		 */
 		if (VALUE_CELLRANGE == tree->constant.value->type)
-			return link_cellrange_dep (dep, dependent_pos (dep),
+			return link_cellrange_dep (ep->dep, dependent_pos (ep->dep),
 				 &tree->constant.value->v_range.cell.a,
 				 &tree->constant.value->v_range.cell.b);
 		return DEPENDENT_NO_FLAG;
@@ -742,50 +742,53 @@ link_expr_dep (GnmDependent *dep, GnmExpr const *tree)
 		if (tree->func.func->fn_type == GNM_FUNC_TYPE_STUB)
 			gnm_func_load_stub (tree->func.func);
 		if (tree->func.func->linker) {
-			GnmEvalPos		 ep;
 			FunctionEvalInfo fei;
-			fei.pos = eval_pos_init_dep (&ep, dep);
+			fei.pos = ep;
 			fei.func_call = &tree->func;
 			flag = tree->func.func->linker (&fei);
 		}
 		if (!(flag & DEPENDENT_IGNORE_ARGS))
 			for (l = tree->func.arg_list; l; l = l->next)
-				flag |= link_expr_dep (dep, l->data);
+				flag |= link_expr_dep (ep, l->data);
 		return flag;
 	}
 
 	case GNM_EXPR_OP_NAME:
-		expr_name_add_dep (tree->name.name, dep);
+		expr_name_add_dep (tree->name.name, ep->dep);
 		if (tree->name.name->active)
-			return link_expr_dep (dep, tree->name.name->expr) | DEPENDENT_USES_NAME;
+			return link_expr_dep (ep, tree->name.name->expr) | DEPENDENT_USES_NAME;
 		return DEPENDENT_USES_NAME;
 
 	case GNM_EXPR_OP_ARRAY:
 		if (tree->array.x != 0 || tree->array.y != 0) {
 			/* Non-corner cells depend on the corner */
 			GnmCellRef a;
-			GnmCellPos const *pos = dependent_pos (dep);
+			GnmCellPos const *pos = dependent_pos (ep->dep);
 			/* We cannot support array expressions unless
 			 * we have a position.
 			 */
 			g_return_val_if_fail (pos != NULL, DEPENDENT_NO_FLAG);
 
 			a.col_relative = a.row_relative = FALSE;
-			a.sheet = dep->sheet;
+			a.sheet = ep->dep->sheet;
 			a.col   = pos->col - tree->array.x;
 			a.row   = pos->row - tree->array.y;
 
-			return link_single_dep (dep, pos, &a);
-		} else
+			return link_single_dep (ep->dep, pos, &a);
+		} else {
+			GnmEvalPos pos = *ep;
+			pos.cols = tree->array.cols;
+			pos.rows = tree->array.rows;
 			/* Corner cell depends on the contents of the expr */
-			return link_expr_dep (dep, tree->array.corner.expr);
+			return link_expr_dep (&pos, tree->array.corner.expr);
+		}
 
 	case GNM_EXPR_OP_SET: {
 		GnmExprList *l;
 		DependentFlags res = DEPENDENT_NO_FLAG;
 
 		for (l = tree->set.set; l; l = l->next)
-			res |= link_expr_dep (dep, l->data);
+			res |= link_expr_dep (ep, l->data);
 		return res;
 	}
 	case GNM_EXPR_OP_RANGE_CTOR:
@@ -997,7 +1000,8 @@ dependent_clear_dynamic_deps (GnmDependent *dep)
 void
 dependent_link (GnmDependent *dep)
 {
-	Sheet *sheet;
+	Sheet	   *sheet;
+	GnmEvalPos  ep;
 
 	g_return_if_fail (dep != NULL);
 	g_return_if_fail (dep->expression != NULL);
@@ -1015,9 +1019,8 @@ dependent_link (GnmDependent *dep)
 	else
 		sheet->deps->head = dep; /* first element */
 	sheet->deps->tail = dep;
-	dep->flags |=
-		DEPENDENT_IS_LINKED |
-		link_expr_dep (dep, dep->expression);
+	dep->flags |= DEPENDENT_IS_LINKED |
+		link_expr_dep (eval_pos_init_dep (&ep, dep), dep->expression);
 
 	if (dep->flags & DEPENDENT_HAS_3D)
 		workbook_link_3d_dep (dep);

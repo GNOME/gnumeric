@@ -15,6 +15,7 @@ Jody:
 	* Update auto-expr after a recalc [#314867]
 	* Use Emmanuel's ideas to improve the frozen pane drag handles.
 	* Enable super/subscripts.
+	* SpreadsheetML importer.
 
 Morten:
 	* Fix C99ism.

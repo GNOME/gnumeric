@@ -1,3 +1,9 @@
+2005-10-03  Jody Goldberg <jody@gnome.org>
+
+	* excel-xml-read.c : Implement based on inspection of exported result
+	  of a test xls (Did not read or download the schemas).  No support
+	  for expressions or names yet.
+
 2005-10-02  Jody Goldberg <jody@gnome.org>
 
 	* plugin.xml.in : enable SpreadsheetML importer
