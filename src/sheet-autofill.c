@@ -157,7 +157,8 @@ in_list (AutoFillList const *afl, char const *s, int *n, int *is_i18n)
 	int i;
 
 	for (i = 0; i < afl->count; i++) {
-		char const *translated_text = _(afl->items [i]);
+#warning we need to retrieve translations from goffice domain. This should be moved to goffice for 1.7
+		char const *translated_text = dgettext ("goffice", afl->items [i]);
 		if (*translated_text == '*')
 			translated_text++;
 		if (g_ascii_strcasecmp (translated_text, s) == 0) {
@@ -709,8 +710,9 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 			n += delta->v.list.list->count;
 
 		text = delta->v.list.list->items [n];
+#warning we need to retrieve translations from goffice domain. This should be moved to goffice for 1.7
 		if (delta->v.list.was_i18n)
-			text = _(text);
+			text = dgettext ("goffice", text);
 
 		if (*text == '*')
 			text++;

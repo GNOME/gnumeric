@@ -1,3 +1,9 @@
+2005-10-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnumeric-pane.c: (build_so_menu): localize all menu items [#318042].
+	* src/sheet-autofill.c: (in_list), (autofill_cell): use localized days
+	and months names when autofilling [#318043].
+
 2005-10-06  Jody Goldberg <jody@gnome.org>
 
 	* src/style-conditions.c (gnm_style_conditions_eval) : whip up the

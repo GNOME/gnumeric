@@ -811,13 +811,13 @@ build_so_menu (GnmPane *pane, SheetObjectView *view,
 			break;
 		if (a->icon != NULL) {
 			if (a->label != NULL) {
-				item = gtk_image_menu_item_new_with_mnemonic (a->label);
+				item = gtk_image_menu_item_new_with_mnemonic (_(a->label));
 				gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
 					gtk_image_new_from_stock (a->icon, GTK_ICON_SIZE_MENU));
 			} else
 				item = gtk_image_menu_item_new_from_stock (a->icon, NULL);
 		} else if (a->label != NULL)
-			item = gtk_menu_item_new_with_mnemonic (a->label);
+			item = gtk_menu_item_new_with_mnemonic (_(a->label));
 		else
 			item = gtk_separator_menu_item_new ();
 		if (a->submenu > 0)
