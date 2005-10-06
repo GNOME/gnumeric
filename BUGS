@@ -13,15 +13,14 @@ Release Critical
 2.6 TODO before we branch
 -------------------------
     - Check with federico re: recently used list in file selector
+	: use extra_widget or wait for 2.14
     - use 2.6 clipboard handling
 	: gtk_clipboard_set_can_store
 	: gtk_clipboard_store
     - Finish Data -> Table 
 	: add a ui
     - Conditional formats
-	: draw & print merged
 	: draw & print long spans
-	: more condition types
     - Tokenized help is broken for new style functions
     - Save as ps/pdf
 

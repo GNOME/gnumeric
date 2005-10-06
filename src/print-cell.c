@@ -18,6 +18,8 @@
 #include "cell.h"
 #include "value.h"
 #include "style-border.h"
+#include "style-conditions.h"
+#include "gnm-style-impl.h"
 #include "pattern.h"
 #include "cellspan.h"
 #include "ranges.h"
@@ -235,6 +237,14 @@ print_merged_range (GnomePrintContext *context, PangoContext *pcontext,
 
 	if (l == r || t == b)
 		return;
+
+	if (style->conditions) {
+		GnmEvalPos ep;
+		int res;
+		eval_pos_init (&ep, (Sheet *)sheet, range->start.col, range->start.row);
+		if ((res = gnm_style_conditions_eval (style->conditions, &ep)) >= 0)
+			style = g_ptr_array_index (style->cond_styles, res);
+	}
 
 	if (gnumeric_background_set_pc (style, context))
 		/* Remember api excludes the far pixels */

@@ -1,4 +1,12 @@
-2005-10-04  Jody Goldberg <jody@gnome.org>
+2005-10-06  Jody Goldberg <jody@gnome.org>
+
+	* src/style-conditions.c (gnm_style_conditions_eval) : whip up the
+	  other conditions.
+	* src/print-cell.c (print_merged_range) : support conditional styles
+	  in merged cells.
+	* src/item-grid.c (item_grid_draw_merged_range) : ditto.
+
+2005-10-06  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=317806
 	* src/dependent.c (cb_single_contained_collect) : do not collect

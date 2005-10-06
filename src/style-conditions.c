@@ -25,7 +25,9 @@
 #include "mstyle.h"
 #include "gnm-style-impl.h"
 #include "expr.h"
+#include "cell.h"
 #include "value.h"
+#include "sheet.h"
 #include <gsf/gsf-impl-utils.h>
 
 typedef GObjectClass GnmStyleConditionsClass;
@@ -192,32 +194,46 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 		cond = &g_array_index (conds, GnmStyleCond, i);
 
 		val = gnm_expr_eval (cond->expr[0], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-		switch (cond->op) {
-		case GNM_STYLE_COND_BETWEEN:
-		case GNM_STYLE_COND_NOT_BETWEEN:
-		case GNM_STYLE_COND_EQUAL:
-		case GNM_STYLE_COND_NOT_EQUAL:
-		case GNM_STYLE_COND_GT:
-		case GNM_STYLE_COND_LT:
-		case GNM_STYLE_COND_GTE:
-		case GNM_STYLE_COND_LTE:
-			break;
-
-		case GNM_STYLE_COND_CUSTOM:
+		if (cond->op == GNM_STYLE_COND_CUSTOM) {
 			use_this = value_get_as_bool (val, NULL);
 #if 0
-			{
-				char *str = gnm_expr_as_string (cond->expr[0],
-								&pp, gnm_expr_conventions_default);
-				g_print ("'%s' = %s\n", str, use_this ? "true" : "false");
-				g_free (str);
-			}
+			char *str = gnm_expr_as_string (cond->expr[0],
+				&pp, gnm_expr_conventions_default);
+			g_print ("'%s' = %s\n", str, use_this ? "true" : "false");
+			g_free (str);
 #endif
+		} else {
+			GnmCell const *cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
+			GnmValue const *cv = cell ? cell->value : NULL;
+			GnmValDiff diff = value_compare (cv, val, TRUE);
+
+			switch (cond->op) {
+			default:
+			case GNM_STYLE_COND_EQUAL:	use_this = (diff == IS_EQUAL); break;
+			case GNM_STYLE_COND_NOT_EQUAL:	use_this = (diff != IS_EQUAL); break;
+			case GNM_STYLE_COND_NOT_BETWEEN:
+				if (diff != IS_LESS)
+					break;
+				value_release (val);
+				val = gnm_expr_eval (cond->expr[1], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+				diff = value_compare (cv, val, TRUE);
+			case GNM_STYLE_COND_GT:		use_this = (diff == IS_GREATER); break;
+			case GNM_STYLE_COND_LT:		use_this = (diff == IS_LESS); break;
+			case GNM_STYLE_COND_GTE:	use_this = (diff != IS_LESS); break;
+			case GNM_STYLE_COND_BETWEEN:
+				if (diff == IS_LESS)
+					break;
+				value_release (val);
+				val = gnm_expr_eval (cond->expr[1], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+				diff = value_compare (cv, val, TRUE);
+				/* fall through */
+			case GNM_STYLE_COND_LTE:	use_this = (diff != IS_GREATER); break;
+			}
 		}
+
 		value_release (val);
 		if (use_this)
 			return i;
-
 	}
 	return -1;
 }
