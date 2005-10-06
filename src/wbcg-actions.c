@@ -1582,7 +1582,7 @@ static GtkActionEntry const actions[] = {
 		"<control>bracketleft", N_("Select all the cells are used by the current edit cell"),
 		G_CALLBACK (cb_edit_select_inputs) },
 	{ "EditMetadata", NULL, N_("Edit Metadata"),
-		"<control>bracketleft", N_("Edit the document's extra information (metadata)"),
+		NULL, N_("Edit the document's extra information (metadata)"),
 		G_CALLBACK (cb_new_doc_metadata) },
 
 /* Edit -> Fill */
@@ -2117,7 +2117,7 @@ static GtkToggleActionEntry const toggle_actions[] = {
 
 static GtkToggleActionEntry const font_toggle_actions[] = {
 	{ "FontBold", GTK_STOCK_BOLD,
-		N_("_Bold"), "<control>B",	/* ALSO "<control>2" */
+		N_("_Bold"), "<control>b",	/* ALSO "<control>2" */
 		N_("Bold"), G_CALLBACK (cb_font_bold), FALSE },
 	{ "FontItalic", GTK_STOCK_ITALIC,
 		N_("_Italic"), "<control>i",	/* ALSO "<control>3" */
@@ -2125,7 +2125,7 @@ static GtkToggleActionEntry const font_toggle_actions[] = {
 	{ "FontUnderline", GTK_STOCK_UNDERLINE,
 		N_("_Underline"), "<control>u",	/* ALSO "<control>4" */
 		N_("Underline"), G_CALLBACK (cb_font_underline), FALSE },
-	{ "FontStrikeThrough", GTK_STOCK_UNDERLINE,
+	{ "FontStrikeThrough", GTK_STOCK_STRIKETHROUGH,
 		N_("_Strike Through"), "<control>5",
 		N_("Strike Through"), G_CALLBACK (cb_font_strikethrough), FALSE },
 	{ "FontDoubleUnderline", "stock_text_underlined-double",	/* from icon theme */

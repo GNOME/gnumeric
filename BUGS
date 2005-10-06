@@ -23,14 +23,15 @@ Release Critical
 	: draw & print long spans
 	: more condition types
     - Tokenized help is broken for new style functions
+    - Save as ps/pdf
 
 Pending Patches
 ---------------
+    http://bugzilla.gnome.org/show_bug.cgi?id=310354
     - Patch for non-gconf gnm-config	{bugzilla}
     - autopackage patches		{rob}
     - Patches for Maemo			{partially in}
     - Meta Data
-	: Patches for OOo metadata	{lucianomw, jody}
 	: Patches for metadata dialog	{etrunko}
 	: Patches to use GsfDocMetaData	{jody}
 

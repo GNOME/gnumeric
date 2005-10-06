@@ -136,5 +136,30 @@
       </para>
     </listitem>
 
+    <listitem>
+      <para>
+	<keycap>Ctrl-B</keycap> or <keycap>Ctrl-2</keycap>
+	Toggles the boldness of the font in the current selection.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctrl-I</keycap> or <keycap>Ctrl-3</keycap>
+	Toggles the italics of the font in the current selection.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctrl-U</keycap> or <keycap>Ctrl-4</keycap>
+	Toggles single underlining of the current selection.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <keycap>Ctrl-5</keycap>
+	Toggles strikethrough of the current selection.
+      </para>
+    </listitem>
+
   </itemizedlist>
 </appendix>

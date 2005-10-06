@@ -1,5 +1,12 @@
 2005-10-04  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=317806
+	* src/dependent.c (cb_single_contained_collect) : do not collect
+	  dynamic depends they may get cleared.
+	(cb_range_contained_collect) : ditto.
+
+2005-10-04  Jody Goldberg <jody@gnome.org>
+
 	* src/Makefile.am : libspreadsheet_la_LDFLAGS is already defined use
 	  += for WITH_WIN32
 
