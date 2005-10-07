@@ -5,6 +5,7 @@ Andreas:
 
 Jean Brefort:
 	* Fix crash when deleting plot with dynamic deps.
+	* Fixe localization issues [#318042][#318043].
 
 Jody:
 	* Snap objects right in RTL mode. [#316026]
