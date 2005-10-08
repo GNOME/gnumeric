@@ -141,7 +141,6 @@ xml_write_summary (GnmOutputXML *state)
 {
 	SummaryInfo *summary_info = workbook_metadata (state->wb);
 	GList *items, *ptr;
-	SummaryItem *sit;
 
 	if (summary_info == NULL)
 		return;
@@ -151,7 +150,7 @@ xml_write_summary (GnmOutputXML *state)
 
 	gsf_xml_out_start_element (state->output, GNM "Summary");
 	for (ptr = items ; ptr != NULL ; ptr = ptr->next) {
-		sit = items->data;
+		SummaryItem *sit = ptr->data;
 		if (sit == NULL)
 			continue;
 		gsf_xml_out_start_element (state->output, GNM "Item");

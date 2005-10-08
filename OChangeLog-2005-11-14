@@ -1,3 +1,8 @@
+2005-10-07  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c (xml_write_summary): Save all the summary
+	items, not N copies of the first.  [#318254]
+
 2005-10-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnumeric-pane.c: (build_so_menu): localize all menu items [#318042].
