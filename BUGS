@@ -9,6 +9,8 @@ Release Critical
 ----------------
 
     * Double borders in rtl
+    http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=286131
+    * numbers do not center across selection
 
 2.6 TODO before we branch
 -------------------------
