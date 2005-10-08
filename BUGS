@@ -8,12 +8,13 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    * Double borders in rtl
-    http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=286131
-    * numbers do not center across selection
-
 2.6 TODO before we branch
 -------------------------
+    http://bugzilla.gnome.org/show_bug.cgi?id=317662
+    * Double borders in rtl
+    * Drag clearing frozen panes
+    http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=286131
+    * numbers do not center across selection
     - Check with federico re: recently used list in file selector
 	: use extra_widget or wait for 2.14
     - use 2.6 clipboard handling

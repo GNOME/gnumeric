@@ -302,7 +302,8 @@ setup_pattern_button (GdkScreen *screen,
 		      PatternPicker *picker,
 		      gboolean const flag,
 		      int const index,
-		      int const select_index)
+		      int const select_index,
+		      unsigned size)
 {
 	GtkWidget *tmp = glade_xml_get_widget (gui, name);
 	if (tmp != NULL) {
@@ -310,7 +311,7 @@ setup_pattern_button (GdkScreen *screen,
 		if (flag) {
 			GdkPixbuf *pixbuf = gtk_icon_theme_load_icon (
 				gtk_icon_theme_get_for_screen (screen),
-				name, 54, 0, NULL);
+				name, size, 0, NULL);
 			GtkWidget *image = gtk_image_new_from_pixbuf (pixbuf);
 			g_object_unref (pixbuf);
 			gtk_widget_show (image);
@@ -2179,7 +2180,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 				      state->gui, name, &state->border.pattern,
 				      i != 0, /* No image for None */
 				      line_pattern_buttons[i].pattern,
-				      default_border_style);
+				      default_border_style, 54);
 
 	setup_color_pickers (state, &state->border.color,	"border_color_group",
 			     "border_color_hbox",		"border_color_label",
@@ -2233,7 +2234,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 				      state->gui, name,
 				      &state->back.pattern, TRUE,
 				      i+1, /* Pattern #s start at 1 */
-				      selected);
+				      selected, 16);
 
 	/* If the pattern is 0 indicating no background colour
 	 * Set background to No colour.  This will set states correctly.

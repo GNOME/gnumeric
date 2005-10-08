@@ -1,3 +1,8 @@
+2005-10-07  Jody Goldberg <jody@gnome.org>
+
+	* src/style-border.c (style_borders_row_draw) : more rtl fixage.
+	(style_borders_row_print) : ditto.
+
 2005-10-07  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-write.c (xml_write_summary): Save all the summary

@@ -668,7 +668,7 @@ style_borders_row_draw (GnmBorder const * const * prev_vert,
 			if (style_border_vmargins (prev_vert, sr, col, o)) {
 				gdk_draw_line (drawable, gc, x-dir, y1 + o[1][0],
 					       x-dir, y2 + o[1][1] + 1);
-				++x1;
+				x1 += dir;
 			}
 			/* See note in style_border_set_gc_dash about +1 */
 			gdk_draw_line (drawable, gc, x1, y1 + o[0][0],
@@ -682,10 +682,10 @@ style_borders_row_draw (GnmBorder const * const * prev_vert,
 			if (style_border_vmargins (prev_vert, sr, col, o)) {
 				gdk_draw_line (drawable, gc, x-dir, y1 + o[1][0],
 					       x-dir, y2 + o[1][1] + 1);
-				++x1;
+				x1 += dir;
 			}
 			/* See note in style_border_set_gc_dash about +1 */
-			gdk_draw_line (drawable, gc, x, y1 + o[0][0],
+			gdk_draw_line (drawable, gc, x1, y1 + o[0][0],
 				       x1, y2 + o[0][1] + 1);
 		}
 	}
@@ -788,7 +788,7 @@ style_borders_row_print (GnmBorder const * const * prev_vert,
 			if (style_border_vmargins (prev_vert, sr, col, o)) {
 				print_vline (context, x-dir, y1 - o[1][0],
 					     y2 - o[1][1] - 1., border->width);
-				++x1;
+				x1 += dir;
 			}
 			print_vline (context, x1, y1 - o[0][0],
 				     y2 - o[0][1] - 1., border->width);
@@ -802,10 +802,10 @@ style_borders_row_print (GnmBorder const * const * prev_vert,
 			if (style_border_vmargins (prev_vert, sr, col, o)) {
 				print_vline (context, x-dir, y1 - o[1][0] - 1.,
 					    y2 - o[1][1], border->width);
-				++x1;
+				x1 += dir;
 			}
 			/* See note in style_border_set_gc_dash about +1 */
-			print_vline (context, x, y1 - o[0][0],
+			print_vline (context, x1, y1 - o[0][0],
 				     y2 - o[0][1] - 1, border->width);
 			gnome_print_grestore (context);
 		}
