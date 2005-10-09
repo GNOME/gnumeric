@@ -211,6 +211,9 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	sheet = cell->base.sheet;
 	ri = cell->row_info;
 
+	mstyle = cell_get_mstyle (cell);
+	h_align = style_default_halign (mstyle, cell);
+
         /*
 	 * Report only one column is used if
 	 *	- Cell is in a hidden col
@@ -220,14 +223,13 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	 * 	- The alignment mode are set to "justify"
 	 */
 	if (sheet != NULL &&
+	    h_align != HALIGN_CENTER_ACROSS_SELECTION &&
 	    (cell_is_merged (cell) ||
 	     (!sheet->display_formulas && cell_is_number (cell)))) {
 		*col1 = *col2 = cell->pos.col;
 		return;
 	}
 
-	mstyle = cell_get_mstyle (cell);
-	h_align = style_default_halign (mstyle, cell);
 	v_align = gnm_style_get_align_v (mstyle);
 	row   = cell->pos.row;
 	indented_w = cell_width_pixel = cell_rendered_width (cell);

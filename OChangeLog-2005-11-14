@@ -1,3 +1,8 @@
+2005-10-08  Jody Goldberg <jody@gnome.org>
+
+	* src/cellspan.c (cell_calc_span) : numbers can span when centered
+	  across selection. [Debian #286131]
+
 2005-10-07  Jody Goldberg <jody@gnome.org>
 
 	* src/style-border.c (style_borders_row_draw) : more rtl fixage.
