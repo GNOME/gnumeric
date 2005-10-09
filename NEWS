@@ -25,6 +25,7 @@ Morten:
 	* Improve stf import gui for multi-byte encoded text.  [#316816]
 	* Fix xml-io's name parsing.  [#317427]
 	* Fix .gnumeric saving of summary items.  [#318254]
+	* Import some style info from Lotus 1-2-3 files.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.90

@@ -19,6 +19,8 @@
 #include <expr.h>
 #include <value.h>
 #include <gutils.h>
+#include <mstyle.h>
+#include <style-color.h>
 #include <parse-util.h>
 #include <sheet-object-cell-comment.h>
 
@@ -27,6 +29,9 @@
 #include <string.h>
 
 #define LOTUS_DEBUG 0
+#undef DEBUG_RLDB
+
+/* ------------------------------------------------------------------------- */
 
 static const guint16 lmbcs_group_1[256] = {
 	0x0000, 0x263A, 0x263B, 0x2665, 0x2666, 0x2663, 0x2660, 0x2022,
@@ -263,7 +268,586 @@ static const guint16 lmbcs_group_f[256] = {
 	0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000
 };
 
-static const char *
+/* ------------------------------------------------------------------------- */
+
+static const guint8
+lotus_color_table[240][3] = {
+	{ 255, 255, 255 },		/* white		*/
+	{ 255, 239, 206 },		/* vanilla		*/
+	{ 255, 255, 194 },		/* parchment		*/
+	{ 255, 255, 208 },		/* ivory		*/
+	{ 224, 255, 191 },		/* pale green		*/
+	{ 224, 255, 223 },		/* sea mist		*/
+	{ 224, 255, 255 },		/* ice blue		*/
+	{ 194, 239, 255 },		/* powder blue		*/
+	{ 224, 241, 255 },		/* arctic blue		*/
+	{ 224, 224, 255 },		/* lilac mist		*/
+	{ 232, 224, 255 },		/* purple wash		*/
+	{ 241, 224, 255 },		/* violet frost		*/
+	{ 255, 224, 255 },		/* seashell		*/
+	{ 255, 224, 245 },		/* rose pearl		*/
+	{ 255, 224, 230 },		/* pale cherry		*/
+	{ 255, 255, 255 },		/* white		*/
+	{ 255, 225, 220 },		/* blush		*/
+	{ 255, 225, 176 },		/* sand			*/
+	{ 255, 255, 128 },		/* light yellow		*/
+	{ 241, 241, 180 },		/* honeydew		*/
+	{ 194, 255, 145 },		/* celery		*/
+	{ 193, 255, 213 },		/* pale aqua		*/
+	{ 193, 255, 255 },		/* pale blue		*/
+	{ 161, 226, 255 },		/* crystal blue		*/
+	{ 192, 225, 255 },		/* light cornflower	*/
+	{ 191, 191, 255 },		/* pale lavender	*/
+	{ 210, 191, 255 },		/* grape fizz		*/
+	{ 225, 191, 255 },		/* pale plum		*/
+	{ 255, 193, 253 },		/* pale pink		*/
+	{ 255, 192, 228 },		/* pale rose		*/
+	{ 255, 192, 206 },		/* rose quartz		*/
+	{ 247, 247, 247 },		/* 5% gray		*/
+	{ 255, 192, 182 },		/* red sand		*/
+	{ 255, 194, 129 },		/* buff			*/
+	{ 255, 255, 53 },		/* lemon		*/
+	{ 241, 241, 128 },		/* pale lemon lime	*/
+	{ 128, 255, 128 },		/* mint green		*/
+	{ 130, 255, 202 },		/* pastel green		*/
+	{ 128, 255, 255 },		/* pastel blue		*/
+	{ 130, 224, 255 },		/* sapphire		*/
+	{ 130, 192, 255 },		/* cornflower		*/
+	{ 159, 159, 255 },		/* light lavender	*/
+	{ 194, 159, 255 },		/* pale purple		*/
+	{ 226, 159, 255 },		/* light orchid		*/
+	{ 255, 159, 255 },		/* pink orchid		*/
+	{ 255, 159, 207 },		/* apple blossom	*/
+	{ 255, 159, 169 },		/* pink coral		*/
+	{ 239, 239, 239 },		/* 10% gray		*/
+	{ 255, 159, 159 },		/* light salmon		*/
+	{ 255, 159, 113 },		/* light peach		*/
+	{ 255, 255, 0 },		/* yellow		*/
+	{ 224, 224, 116 },		/* avocado		*/
+	{ 65, 255, 50 },		/* leaf green		*/
+	{ 66, 255, 199 },		/* light aqua		*/
+	{ 66, 255, 255 },		/* light turquoise  	*/
+	{ 0, 191, 255 },		/* light cerulean	*/
+	{ 82, 145, 239 },		/* azure		*/
+	{ 128, 128, 255 },		/* lavender		*/
+	{ 192, 130, 255 },		/* light purple		*/
+	{ 224, 129, 255 },		/* dusty violet		*/
+	{ 255, 127, 255 },		/* pink			*/
+	{ 255, 130, 194 },		/* pastel pink		*/
+	{ 255, 130, 160 },		/* pastel red		*/
+	{ 225, 225, 225 },		/* 15% gray		*/
+	{ 255, 128, 128 },		/* salmon		*/
+	{ 255, 129, 65 },		/* peach		*/
+	{ 255, 225, 24 },		/* mustard		*/
+	{ 225, 225, 64 },		/* lemon lime		*/
+	{ 0, 255, 0 },			/* neon green		*/
+	{ 0, 255, 178 },		/* aqua			*/
+	{ 0, 255, 255 },		/* turquoise		*/
+	{ 0, 161, 224 },		/* cerulean		*/
+	{ 33, 129, 255 },		/* wedgwood		*/
+	{ 97, 129, 255 },		/* heather		*/
+	{ 161, 96, 255 },		/* purple haze		*/
+	{ 192, 98, 255 },		/* orchid		*/
+	{ 255, 95, 255 },		/* flamingo		*/
+	{ 255, 96, 175 },		/* cherry pink		*/
+	{ 255, 96, 136 },		/* red coral		*/
+	{ 210, 210, 210 },		/* 20% gray  (Windows)	*/
+	{ 255, 64, 64 },		/* dark salmon		*/
+	{ 255, 66, 30 },		/* dark peach		*/
+	{ 255, 191, 24 },		/* gold			*/
+	{ 225, 225, 0 },		/* yellow green		*/
+	{ 0, 225, 0 },			/* light green		*/
+	{ 0, 225, 173 },		/* caribbean		*/
+	{ 0, 224, 224 },		/* dark pastel blue	*/
+	{ 0, 130, 191 },		/* dark cerulean	*/
+	{ 0, 128, 255 },		/* manganese blue	*/
+	{ 65, 129, 255 },		/* lilac		*/
+	{ 130, 66, 255 },		/* purple		*/
+	{ 193, 64, 255 },		/* light red violet	*/
+	{ 255, 66, 249 },		/* light magenta	*/
+	{ 255, 64, 160 },		/* rose			*/
+	{ 255, 64, 112 },		/* carnation pink	*/
+	{ 192, 192, 192 },		/* 25% gray		*/
+	{ 255, 31, 53 },		/* watermelon		*/
+	{ 255, 31, 16 },		/* tangerine		*/
+	{ 255, 129, 0 },		/* orange		*/
+	{ 191, 191, 0 },		/* chartreuse		*/
+	{ 0, 194, 0 },			/* green		*/
+	{ 0, 193, 150 },		/* teal			*/
+	{ 0, 193, 194 },		/* dark turquoise	*/
+	{ 65, 129, 192 },		/* light slate blue	*/
+	{ 0, 98, 225 },			/* medium blue		*/
+	{ 65, 65, 255 },		/* dark lilac		*/
+	{ 66, 0, 255 },			/* royal purple		*/
+	{ 194, 0, 255 },		/* fuchsia		*/
+	{ 255, 34, 255 },		/* confetti pink	*/
+	{ 245, 43, 151 },		/* pale burgundy	*/
+	{ 255, 34, 89 },		/* strawberry		*/
+	{ 178, 178, 178 },		/* 30% gray		*/
+	{ 224, 31, 37 },		/* rouge		*/
+	{ 225, 32, 0 },			/* burnt orange		*/
+	{ 226, 98, 0 },			/* dark orange		*/
+	{ 161, 161, 0 },		/* light olive		*/
+	{ 0, 160, 0 },			/* kelly green		*/
+	{ 0, 159, 130 },		/* sea green		*/
+	{ 0, 128, 128 },		/* aztec blue		*/
+	{ 0, 96, 160 },			/* dusty blue		*/
+	{ 0, 65, 194 },			/* blueberry		*/
+	{ 0, 33, 191 },			/* violet         	*/
+	{ 65, 0, 194 },			/* deep purple		*/
+	{ 129, 0, 255 },		/* red violet		*/
+	{ 255, 0, 255 },		/* hot pink		*/
+	{ 255, 0, 128 },		/* dark rose		*/
+	{ 255, 0, 65 },			/* poppy red		*/
+	{ 162, 162, 162 },		/* 35% gray		*/
+	{ 194, 0, 0 },			/* crimson		*/
+	{ 255, 0, 0 },			/* red			*/
+	{ 191, 65, 0 },			/* light brown		*/
+	{ 128, 128, 0 },		/* olive		*/
+	{ 0, 128, 0 },			/* dark green		*/
+	{ 0, 130, 80 },			/* dark teal		*/
+	{ 0, 96, 98 },			/* spruce		*/
+	{ 0, 64, 128 },			/* slate blue		*/
+	{ 0, 31, 226 },			/* navy blue		*/
+	{ 64, 64, 194 },		/* blue violet		*/
+	{ 64, 0, 162 },			/* amethyst		*/
+	{ 96, 0, 161 },			/* dark red violet	*/
+	{ 224, 0, 224 },		/* magenta		*/
+	{ 223, 0, 127 },		/* light burgundy	*/
+	{ 194, 0, 65 },			/* cherry red		*/
+	{ 143, 143, 143 },		/* 40% gray		*/
+	{ 160, 0, 0 },			/* dark crimson		*/
+	{ 225, 0, 0 },			/* dark red		*/
+	{ 161, 63, 0 },			/* hazelnut		*/
+	{ 98, 98, 0 },			/* dark olive		*/
+	{ 0, 96, 0 },			/* emerald		*/
+	{ 0, 96, 60 },			/* malachite		*/
+	{ 0, 64, 65 },			/* dark spruce		*/
+	{ 0, 47, 128 },			/* steel blue		*/
+	{ 0, 0, 255 },			/* blue			*/
+	{ 32, 32, 160 },		/* iris			*/
+	{ 34, 0, 161 },			/* grape		*/
+	{ 64, 0, 128 },			/* plum			*/
+	{ 161, 0, 159 },		/* dark magenta		*/
+	{ 192, 0, 127 },		/* burgundy		*/
+	{ 159, 0, 15 },			/* cranberry		*/
+	{ 128, 128, 128 },		/* 50% gray		*/
+	{ 96, 0, 0 },			/* mahogany		*/
+	{ 194, 18, 18 },		/* brick		*/
+	{ 130, 66, 0 },			/* dark brown		*/
+	{ 66, 66, 0 },			/* deep olive		*/
+	{ 0, 66, 0 },			/* dark emerald		*/
+	{ 0, 64, 35 },			/* evergreen		*/
+	{ 0, 50, 63 },			/* baltic blue		*/
+	{ 0, 32, 96 },			/* blue denim		*/
+	{ 0, 32, 194 },			/* cobalt blue		*/
+	{ 34, 34, 192 },		/* dark iris		*/
+	{ 0, 0, 128 },			/* midnight		*/
+	{ 31, 0, 127 },			/* dark plum		*/
+	{ 128, 0, 128 },		/* plum red		*/
+	{ 130, 0, 64 },			/* dark burgundy	*/
+	{ 128, 0, 0 },			/* scarlet		*/
+	{ 95, 95, 95 },			/* 60% gray		*/
+	{ 64, 0, 0 },			/* chestnut		*/
+	{ 161, 31, 18 },		/* terra cotta		*/
+	{ 96, 66, 0 },			/* umber		*/
+	{ 33, 33, 0 },			/* amazon		*/
+	{ 0, 33, 0 },			/* peacock green	*/
+	{ 0, 32, 31 },			/* pine			*/
+	{ 0, 32, 65 },			/* seal blue		*/
+	{ 0, 32, 79 },			/* dark slate blue	*/
+	{ 0, 0, 224 },			/* royal blue		*/
+	{ 0, 0, 161 },			/* lapis		*/
+	{ 0, 0, 97 },			/* dark grape		*/
+	{ 31, 0, 98 },			/* aubergine		*/
+	{ 64, 0, 95 },			/* dark plum red	*/
+	{ 98, 0, 66 },			/* raspberry		*/
+	{ 98, 0, 18 },			/* deep scarlet		*/
+	{ 79, 79, 79 },			/* 70% gray		*/
+	{ 32, 0, 0 },			/* burnt sienna		*/
+	{ 98, 33, 0 },			/* milk chocolate	*/
+	{ 65, 32, 0 },			/* burnt umber		*/
+	{ 16, 16, 0 },			/* deep avocado		*/
+	{ 0, 16, 0 },			/* deep forest		*/
+	{ 0, 18, 12 },			/* dark pine		*/
+	{ 0, 18, 31 },			/* dark metallic blue	*/
+	{ 0, 16, 64 },			/* air force blue	*/
+	{ 0, 0, 194 },			/* ultramarine		*/
+	{ 0, 0, 175 },			/* prussian blue	*/
+	{ 0, 0, 79 },			/* raisin		*/
+	{ 0, 0, 64 },			/* eggplant		*/
+	{ 32, 0, 66 },			/* boysenberry		*/
+	{ 64, 0, 64 },			/* bordeaux		*/
+	{ 65, 0, 18 },			/* ruby			*/
+	{ 64, 64, 64 },			/* 75% gray		*/
+	{ 208, 177, 161 },		/* red gray		*/
+	{ 224, 161, 117 },		/* tan			*/
+	{ 210, 176, 106 },		/* khaki		*/
+	{ 192, 194, 124 },		/* putty		*/
+	{ 130, 193, 104 },		/* bamboo green		*/
+	{ 129, 192, 151 },		/* green gray		*/
+	{ 127, 194, 188 },		/* baltic gray		*/
+	{ 113, 178, 207 },		/* blue gray		*/
+	{ 177, 177, 210 },		/* rain cloud		*/
+	{ 159, 159, 224 },		/* lilac gray		*/
+	{ 192, 161, 224 },		/* light purple gray	*/
+	{ 226, 159, 222 },		/* light mauve		*/
+	{ 239, 145, 235 },		/* light plum gray	*/
+	{ 226, 159, 200 },		/* light burgundy gray	*/
+	{ 241, 143, 188 },		/* rose gray		*/
+	{ 47, 47, 47 },			/* 80% gray		*/
+	{ 127, 96, 79 },		/* dark red gray	*/
+	{ 161, 98, 82 },		/* dark tan		*/
+	{ 128, 98, 16 },		/* safari		*/
+	{ 130, 130, 63 },		/* olive gray		*/
+	{ 63, 98, 31 },			/* jade			*/
+	{ 60, 97, 62 },			/* dark green gray	*/
+	{ 55, 96, 94 },			/* spruce gray		*/
+	{ 16, 65, 96 },			/* dark blue gray	*/
+	{ 66, 66, 130 },		/* atlantic gray	*/
+	{ 98, 96, 161 },		/* dark lilac gray	*/
+	{ 98, 65, 129 },		/* purple gray		*/
+	{ 96, 49, 129 },		/* mauve		*/
+	{ 96, 33, 98 },			/* plum gray		*/
+	{ 98, 33, 82 },			/* burgundy gray	*/
+	{ 129, 63, 98 },		/* dark rose gray	*/
+	{ 0, 0, 0 }			/* black		*/
+};
+
+static GnmColor *
+lotus_color (guint i)
+{
+	if (i > G_N_ELEMENTS (lotus_color_table))
+		return NULL;
+	return style_color_new_i8 (lotus_color_table[i][0],
+				   lotus_color_table[i][1],
+				   lotus_color_table[i][2]);
+}
+
+/* ------------------------------------------------------------------------- */
+
+typedef struct _LotusRLDB LotusRLDB;
+
+struct _LotusRLDB {
+	int refcount;
+	LotusRLDB *top;
+	int ndims;
+
+	int rll;
+	int rest;
+
+	/* Used only at top level */
+	int *dims;  /* Reversed from file format, e.g., sheets*cols*rows */
+	guint16 pending_id;
+	GHashTable *definitions;
+
+	/* Used only when ndims > 0 */
+	GPtrArray *lower;
+
+	/* Used only when ndims == 0 */
+	GString *datanode;
+};
+
+static void
+lotus_rldb_unref (LotusRLDB *rldb)
+{
+	int i;
+
+	if (rldb->refcount-- > 1)
+		return;
+
+	if (rldb->lower) {
+		for (i = rldb->lower->len; --i >= 0; ) {
+			LotusRLDB *subrldb = g_ptr_array_index (rldb->lower, i);
+			lotus_rldb_unref (subrldb);
+		}
+		g_ptr_array_free (rldb->lower, TRUE);
+	}
+
+	g_free (rldb->dims);
+
+	if (rldb->datanode)
+		g_string_free (rldb->datanode, TRUE);
+
+	if (rldb->definitions)
+		g_hash_table_destroy (rldb->definitions);
+
+	g_free (rldb);
+}
+
+static void
+lotus_rldb_ref (LotusRLDB *rldb)
+{
+	rldb->refcount++;
+}
+
+static LotusRLDB *
+lotus_rldb_new (int ndims, const int *dims, LotusRLDB *top)
+{
+	LotusRLDB *res = g_new0 (LotusRLDB, 1);
+
+	if (!top) {
+		top = res;
+		res->dims = g_memdup (dims, ndims * sizeof (*dims));
+		res->definitions = g_hash_table_new_full
+			(g_direct_hash,
+			 g_direct_equal,
+			 NULL,
+			 (GDestroyNotify)lotus_rldb_unref);
+	}
+
+	res->refcount = 1;
+	res->top = top;
+	res->ndims = ndims;
+	if (ndims > 0) {
+		res->lower = g_ptr_array_new ();
+		res->rest = top->dims[top->ndims - ndims];
+	}
+
+	return res;
+}
+
+static gboolean
+lotus_rldb_full (LotusRLDB *rldb)
+{
+	return rldb->rest == 0;
+}
+
+static LotusRLDB *
+lotus_rldb_open_child (LotusRLDB *rldb)
+{
+	LotusRLDB *last;
+
+	if (rldb->ndims == 0 || rldb->lower->len == 0)
+		return NULL;
+
+	last = g_ptr_array_index (rldb->lower, rldb->lower->len - 1);
+	return lotus_rldb_full (last) ? NULL : last;
+}
+
+static void
+lotus_rldb_repeat (LotusRLDB *rldb, int rll)
+{
+	LotusRLDB *child;
+
+	g_return_if_fail (rll > 0);
+	g_return_if_fail (rldb->ndims > 0);
+
+	child = lotus_rldb_open_child (rldb);
+	if (child) {
+		lotus_rldb_repeat (child, rll);
+	} else {
+#ifdef DEBUG_RLDB
+		g_print ("%*sRepeat %d.\n", 3 - rldb->ndims, "", rll);
+#endif
+		g_return_if_fail (rll <= rldb->rest);
+		child = lotus_rldb_new (rldb->ndims - 1,
+					NULL,
+					rldb->top);
+		child->rll = rll;
+		g_ptr_array_add (rldb->lower, child);
+		if (rldb->top->pending_id) {
+			lotus_rldb_ref (child);
+			g_hash_table_insert (rldb->top->definitions,
+					     GUINT_TO_POINTER ((guint)rldb->top->pending_id),
+					     child);
+			rldb->top->pending_id = 0;
+		}
+	}
+
+	if (lotus_rldb_full (child)) {
+		rldb->rest -= child->rll;
+#ifdef DEBUG_RLDB
+		g_print ("%*sNow %d left.\n", 3 - rldb->ndims, "",
+			 rldb->rest);
+#endif
+	}
+}
+
+static void
+lotus_rldb_data (LotusRLDB *rldb, gconstpointer p, size_t l)
+{
+	while (rldb->ndims > 0) {
+		g_return_if_fail (rldb->lower->len > 0);
+		rldb = g_ptr_array_index (rldb->lower, rldb->lower->len - 1);
+		g_return_if_fail (rldb != NULL);
+	}
+
+	g_return_if_fail (rldb->datanode == NULL);
+	rldb->datanode = g_string_sized_new (l);
+	g_string_append_len (rldb->datanode, p, l);
+}
+
+static void
+lotus_rldb_register_id (LotusRLDB *rldb, guint16 id)
+{
+	g_return_if_fail (id > 0);
+	g_return_if_fail (rldb->pending_id == 0);
+
+#ifdef DEBUG_RLDB
+	g_print ("Defining id %d.\n", id);
+#endif
+	rldb->pending_id = id;
+}
+
+static void
+lotus_rldb_use_id (LotusRLDB *rldb, guint16 id)
+{
+	LotusRLDB *child;
+
+	child = lotus_rldb_open_child (rldb);
+	if (child) {
+		lotus_rldb_use_id (child, id);
+	} else {
+		child = g_hash_table_lookup (rldb->top->definitions,
+					     GUINT_TO_POINTER ((guint)id));
+		g_return_if_fail (child != NULL);
+		g_return_if_fail (lotus_rldb_full (child));
+#ifdef DEBUG_RLDB
+		g_print ("Using id %d.\n", id);
+#endif
+		lotus_rldb_ref (child);
+		g_ptr_array_add (rldb->lower, child);
+	}
+
+	if (lotus_rldb_full (child)) {
+		rldb->rest -= child->rll;
+#ifdef DEBUG_RLDB
+		g_print ("%*sNow %d left.\n", 3 - rldb->ndims, "",
+			 rldb->rest);
+#endif
+	}
+}
+
+typedef void (*LotusRLDB_3D_Handler) (LotusState *state,
+				      const GnmSheetRange *r,
+				      const guint8 *data,
+				      size_t len);
+
+static void
+lotus_rldb_walk_3d (LotusRLDB *rldb3,
+		    LotusState *state,
+		    LotusRLDB_3D_Handler handler)
+{
+	int sheetcount = workbook_sheet_count (state->wb);
+	int sno, srll;
+	guint si, ri, ci;
+	LotusRLDB *rldb2, *rldb1, *rldb0;
+	GnmSheetRange r;
+	const GString *data;
+
+	g_return_if_fail (rldb3->ndims == 3);
+
+	rldb2 = NULL;
+	si = 0;
+	srll = 0;
+	for (sno = 0; sno < sheetcount; sno++) {
+		if (srll == 0) {
+			if (si >= rldb3->lower->len)
+				break;
+			rldb2 = g_ptr_array_index (rldb3->lower, si);
+			si++;
+			srll = rldb2->rll;
+		}
+		r.sheet = lotus_get_sheet (state->wb, sno);
+		srll--;
+
+		ci = 0;
+		for (r.range.start.col = 0;
+		     r.range.start.col < SHEET_MAX_COLS;
+		     r.range.start.col = r.range.end.col + 1) {
+			if (ci >= rldb2->lower->len)
+				break;
+			rldb1 = g_ptr_array_index (rldb2->lower, ci);
+			ci++;
+			r.range.end.col =
+				MIN (SHEET_MAX_COLS - 1,
+				     r.range.start.col + (rldb1->rll - 1));
+
+			ri = 0;
+			for (r.range.start.row = 0;
+			     r.range.start.row < SHEET_MAX_ROWS;
+			     r.range.start.row = r.range.end.row + 1) {
+				if (ri >= rldb1->lower->len)
+					break;
+				rldb0 = g_ptr_array_index (rldb1->lower, ri);
+				ri++;
+				r.range.end.row =
+					MIN (SHEET_MAX_ROWS - 1,
+					     r.range.start.row + (rldb0->rll - 1));
+
+				data = rldb0->datanode;
+				handler (state, &r,
+					 data ? data->str : NULL,
+					 data ? data->len : 0);
+			}
+		}
+	}
+}
+
+static void
+lotus_set_style_cb (LotusState *state, const GnmSheetRange *r,
+		    const guint8 *data, size_t len)
+{
+	guint sid;
+	GnmStyle *style;
+
+	if (len < 2)
+		return;
+
+	sid = GSF_LE_GET_GUINT16 (data);
+	g_print ("Got style %d for %s!%s",
+		 sid,
+		 r->sheet->name_unquoted,
+		 cellpos_as_string (&r->range.start));
+	g_print (":%s\n",
+		 cellpos_as_string (&r->range.end));
+
+	style = g_hash_table_lookup (state->style_pool,
+				     GUINT_TO_POINTER (sid));
+	g_return_if_fail (style != NULL);
+
+	gnm_style_ref (style);
+
+	sheet_apply_style (r->sheet, &r->range, style);
+}
+
+static void
+lotus_set_formats_cb (LotusState *state, const GnmSheetRange *r,
+		      const guint8 *data, size_t len)
+{
+}
+
+static void
+lotus_set_borders_cb (LotusState *state, const GnmSheetRange *r,
+		      const guint8 *data, size_t len)
+{
+}
+
+static void
+lotus_rldb_apply (LotusRLDB *rldb, int type, LotusState *state)
+{
+	switch (type) {
+	case LOTUS_RLDB_STYLES:
+		lotus_rldb_walk_3d (rldb, state, lotus_set_style_cb);
+		break;
+
+	case LOTUS_RLDB_FORMATS:
+		lotus_rldb_walk_3d (rldb, state, lotus_set_formats_cb);
+		break;
+
+	case LOTUS_RLDB_BORDERS:
+		lotus_rldb_walk_3d (rldb, state, lotus_set_borders_cb);
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+/* ------------------------------------------------------------------------- */
+
+static const char *const
 lotus_special_formats[16] = {
 	"",
 	"",
@@ -435,12 +1019,14 @@ insert_value (Sheet *sheet, guint32 col, guint32 row, GnmValue *val)
 static Sheet *
 attach_sheet (Workbook *wb, int idx)
 {
-	/* Yes I do mean col_name.  Use that as an easy proxy for naming the sheets
-	 * similarly to lotus.
+	/*
+	 * Yes, I do mean col_name.  Use that as an easy proxy for
+	 * naming the sheets similarly to lotus.
 	 */
 	Sheet *sheet = sheet_new (wb, col_name (idx));
 
-	/* in case nothing forces a spanning, do it here so that any new
+	/*
+	 * In case nothing forces a spanning, do it here so that any new
 	 * content will get spanned.
 	 */
 	sheet_flag_recompute_spans (sheet);
@@ -780,6 +1366,16 @@ lotus_read_new (LotusState *state, record_t *r)
 {
 	gboolean result = TRUE;
 	int sheetnameno = 0;
+	gboolean bigrll = (state->version >= LOTUS_VERSION_123SS98);
+	int rllsize = bigrll ? 4 : 2;
+	LotusRLDB *rldb = NULL;
+	int rldb_type = 0;
+
+	state->style_pool = g_hash_table_new_full
+		(g_direct_hash,
+		 g_direct_equal,
+		 NULL,
+		 (GDestroyNotify)gnm_style_unref);
 
 	do {
 		switch (r->type) {
@@ -789,7 +1385,7 @@ lotus_read_new (LotusState *state, record_t *r)
 		case LOTUS_EOF:
 			goto done;
 
-		case LOTUS_ERRCELL: CHECK_RECORD_SIZE (>=4) {
+		case LOTUS_ERRCELL: CHECK_RECORD_SIZE (>= 4) {
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
@@ -798,7 +1394,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			break;
 		}
 
-		case LOTUS_NACELL: CHECK_RECORD_SIZE (>=4) {
+		case LOTUS_NACELL: CHECK_RECORD_SIZE (>= 4) {
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
@@ -807,7 +1403,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			break;
 		}
 
-		case LOTUS_LABEL2: CHECK_RECORD_SIZE (>=6) {
+		case LOTUS_LABEL2: CHECK_RECORD_SIZE (>= 6) {
 			/* one of '\', '''', '"', '^' */
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
@@ -818,7 +1414,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			break;
 		}
 
-		case LOTUS_NUMBER2: CHECK_RECORD_SIZE (>=12) {
+		case LOTUS_NUMBER2: CHECK_RECORD_SIZE (>= 12) {
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
@@ -827,10 +1423,10 @@ lotus_read_new (LotusState *state, record_t *r)
 			break;
 		}
 
-		case LOTUS_STYLE: CHECK_RECORD_SIZE (>=2) {
+		case LOTUS_STYLE: CHECK_RECORD_SIZE (>= 2) {
 			guint16 subtype = GSF_LE_GET_GUINT16 (r->data);
 			switch (subtype) {
-			case 0xfa1: CHECK_RECORD_SIZE (>=24) {
+			case 0xfa1: CHECK_RECORD_SIZE (>= 24) {
 				/* Text style.  */
 				guint16 styleid = GSF_LE_GET_GUINT16 (r->data + 2);
 				guint8 fontid = GSF_LE_GET_GUINT8 (r->data + 9);
@@ -846,7 +1442,10 @@ lotus_read_new (LotusState *state, record_t *r)
 				break;
 			}
 
-			case 0xfd2: CHECK_RECORD_SIZE (>=24) {
+			case 0xfd2: CHECK_RECORD_SIZE (>= 24) {
+				GnmStyle *style;
+				GnmColor *color;
+
 				/* Cell style.  */
 				guint16 styleid = GSF_LE_GET_GUINT16 (r->data + 2);
 				guint8 fontid = GSF_LE_GET_GUINT8 (r->data + 9);
@@ -862,6 +1461,21 @@ lotus_read_new (LotusState *state, record_t *r)
 				guint16 intfg = GSF_LE_GET_GUINT16 (r->data + 24);
 				guint16 intbg = GSF_LE_GET_GUINT16 (r->data + 26);
 				guint8 intpat = GSF_LE_GET_GUINT8 (r->data + 28);
+
+				style = gnm_style_new ();
+				gnm_style_set_pattern (style, 1);
+
+				color = lotus_color (intbg);
+				if (color)
+					gnm_style_set_back_color (style, color);
+
+				color = lotus_color (intfg);
+				if (color)
+					gnm_style_set_font_color (style, color);
+
+				g_hash_table_insert (state->style_pool,
+						     GUINT_TO_POINTER ((guint)styleid),
+						     style);
 				break;
 			}
 
@@ -881,7 +1495,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			break;
 		}
 
-		case LOTUS_PACKED_NUMBER: CHECK_RECORD_SIZE (>=8) {
+		case LOTUS_PACKED_NUMBER: CHECK_RECORD_SIZE (== 8) {
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
@@ -899,7 +1513,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			break;
 		}
 
-		case LOTUS_SHEET_NAME: CHECK_RECORD_SIZE (>=11) {
+		case LOTUS_SHEET_NAME: CHECK_RECORD_SIZE (>= 11) {
 			Sheet *sheet = lotus_get_sheet (state->wb, sheetnameno++);
 			char *name = lotus_get_cstr (r, 10);
 			g_return_val_if_fail (name != NULL, FALSE);
@@ -916,7 +1530,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			 */
 			break;
 
-		case LOTUS_FORMULA2: CHECK_RECORD_SIZE (>=13) {
+		case LOTUS_FORMULA2: CHECK_RECORD_SIZE (>= 13) {
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
@@ -941,21 +1555,88 @@ lotus_read_new (LotusState *state, record_t *r)
 		case LOTUS_CA_DB:
 		case LOTUS_DEFAULTS_DB:
 		case LOTUS_NAMED_STYLE_DB:
+			break;
+
+		case LOTUS_RLDB_PACKINFO: CHECK_RECORD_SIZE (>= 4 + rllsize) {
+			int ndims = GSF_LE_GET_GUINT16 (r->data + 2);
+			int *dims, i;
+
+			if (rldb) {
+				g_warning ("Unused rldb.");
+				lotus_rldb_unref (rldb);
+				rldb = NULL;
+			}
+
+			CHECK_RECORD_SIZE (== 4 + rllsize * ndims);
+			if (ndims < 1 || ndims > 3) {
+				g_warning ("Ignoring %dd rldb.", ndims);
+				break;
+			}
+
+			dims = g_new (int, ndims);
+			for (i = 0; i < ndims; i++) {
+				gconstpointer p = r->data + 4 + i * rllsize;
+				dims[ndims - 1 - i] = bigrll
+					? GSF_LE_GET_GUINT32 (p)
+					: GSF_LE_GET_GUINT16 (p);
+			}
+
+			rldb = lotus_rldb_new (ndims, dims, NULL);
+			g_free (dims);
+			break;
+		}
+
+		case LOTUS_RLDB_NODE: CHECK_RECORD_SIZE (>= rllsize) {
+			guint32 rll = bigrll
+				? GSF_LE_GET_GUINT32 (r->data)
+				: GSF_LE_GET_GUINT16 (r->data);
+
+			if (!rldb) {
+				g_warning ("Ignoring stray RLDB_NODE");
+				break;				
+			}
+
+			lotus_rldb_repeat (rldb, rll);
+			break;
+		}
+
+		case LOTUS_RLDB_DATANODE: /* No length check needed.  */ {
+			lotus_rldb_data (rldb, r->data, r->len);
+			break;
+		}
+
+		case LOTUS_RLDB_REGISTERID: CHECK_RECORD_SIZE (== 2) {
+			guint16 id = GSF_LE_GET_GUINT16 (r->data);
+			lotus_rldb_register_id (rldb, id);
+			break;
+		}
+
+		case LOTUS_RLDB_USEREGISTEREDID: CHECK_RECORD_SIZE (== 2) {
+			guint16 id = GSF_LE_GET_GUINT16 (r->data);
+			lotus_rldb_use_id (rldb, id);
+			break;
+		}
+
+		case LOTUS_RLDB_FORMATS:
+		case LOTUS_RLDB_BORDERS:
+		case LOTUS_RLDB_STYLES:
+			if (rldb_type == 0)
+				rldb_type = r->type;
+			else if (rldb && rldb_type == r->type) {
+				lotus_rldb_apply (rldb, rldb_type, state);
+				lotus_rldb_unref (rldb);
+				rldb_type = 0;
+				rldb = NULL;
+			} else
+				g_warning ("Unordered style info.");
+			break;
 
 		case LOTUS_RLDB_DEFAULTS:
 		case LOTUS_RLDB_NAMEDSTYLES:
-		case LOTUS_RLDB_STYLES:
-		case LOTUS_RLDB_FORMATS:
-		case LOTUS_RLDB_BORDERS:
 		case LOTUS_RLDB_COLWIDTHS:
 		case LOTUS_RLDB_ROWHEIGHTS:
 		case LOTUS_RL2DB:
 		case LOTUS_RL3DB:
-		case LOTUS_RLDB_NODE:
-		case LOTUS_RLDB_DATANODE:
-		case LOTUS_RLDB_REGISTERID:
-		case LOTUS_RLDB_USEREGISTEREDID:
-		case LOTUS_RLDB_PACKINFO:
 			/* Style database related.  */
 			break;
 
@@ -1036,6 +1717,15 @@ lotus_read_new (LotusState *state, record_t *r)
 	if (workbook_sheet_count (state->wb) < 1)
 		result = FALSE;
 
+	if (rldb) {
+		g_warning ("Unfinished rldb.");
+		lotus_rldb_unref (rldb);
+		rldb = NULL;
+	}
+
+	g_hash_table_destroy (state->style_pool);
+	state->style_pool = NULL;
+
 	return result;
 }
 
@@ -1047,6 +1737,7 @@ lotus_read (LotusState *state)
 
 	if (record_next (&r) && r.type == LOTUS_BOF) {
 		state->version = GSF_LE_GET_GUINT16 (r.data);
+		g_print ("Version=%x\n", state->version);
 		switch (state->version) {
 		case LOTUS_VERSION_ORIG_123:
 		case LOTUS_VERSION_SYMPHONY:

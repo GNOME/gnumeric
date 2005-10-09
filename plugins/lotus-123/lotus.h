@@ -18,6 +18,8 @@ typedef struct {
 	Workbook	*wb;
 	Sheet		*sheet;
 	LotusVersion     version;
+
+        GHashTable      *style_pool;
 } LotusState;
 
 Sheet *lotus_get_sheet (Workbook *wb, int i);
