@@ -517,11 +517,32 @@ lotus_color_table[240][3] = {
 static GnmColor *
 lotus_color (guint i)
 {
-	if (i > G_N_ELEMENTS (lotus_color_table))
+	if (i < G_N_ELEMENTS (lotus_color_table))
+		return style_color_new_i8 (lotus_color_table[i][0],
+					   lotus_color_table[i][1],
+					   lotus_color_table[i][2]);
+	switch (i) {
+	case 240:
+		g_warning ("Unhandled \"3D face\" color.");
 		return NULL;
-	return style_color_new_i8 (lotus_color_table[i][0],
-				   lotus_color_table[i][1],
-				   lotus_color_table[i][2]);
+	case 241:
+		g_warning ("Unhandled \"highlight\" color.");
+		return NULL;
+	case 242:
+		g_warning ("Unhandled \"button shadow\" color.");
+		return NULL;
+	case 243:
+		g_warning ("Unhandled \"window background\" color.");
+		return NULL;
+	case 244:
+		g_warning ("Unhandled \"window text\" color.");
+		return NULL;
+	default:
+		g_warning ("Unhandled color id %d.\n", i);
+		return NULL;
+	case 0xffff:
+		return NULL;
+	}
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1466,8 +1487,10 @@ lotus_read_new (LotusState *state, record_t *r)
 				gnm_style_set_pattern (style, 1);
 
 				color = lotus_color (intbg);
-				if (color)
+				if (color) {
 					gnm_style_set_back_color (style, color);
+					g_print ("XXX %d %d\n", intbg, intpat);
+				}
 
 				color = lotus_color (intfg);
 				if (color)
