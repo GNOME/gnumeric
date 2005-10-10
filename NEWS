@@ -1,3 +1,9 @@
+Gnumeric 1.6.1
+
+Morten:
+	* Fix content probing of csv and tsv files.  [#318419]
+
+--------------------------------------------------------------------------
 Gnumeric 1.6.0
 
 Andreas:

@@ -444,16 +444,18 @@ stf_write_csv (GOFileSaver const *fs, IOContext *context,
 static gboolean
 csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
-	/* Rough and ready heuristic.  If the first 80 bytes have no
-	 * nuls this may be text */
-	const int N = 80;
+	/* Rough and ready heuristic.  If the first N bytes have no
+	 * unprintable characters this may be text */
+	const int N = 512;
 
 	if (pl == FILE_PROBE_CONTENT) {
 		guint8 const *header;
 		int i;
-		const char *enc;
+		const char *enc = NULL;
 		char *header_utf8;
 		const char *p;
+		int try;
+		gboolean ok = TRUE;
 
 		if (gsf_input_seek (input, 0, G_SEEK_SET))
 			return FALSE;
@@ -462,20 +464,30 @@ csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 		if (NULL == (header = gsf_input_read (input, i, NULL)))
 			return FALSE;
 
-		enc = go_guess_encoding (header, i, NULL, &header_utf8);
+		/*
+		 * It is conceivable that encoding guessing could fail
+		 * if our truncated buffer had partial characters.  We
+		 * really need go_guess_encoding_truncated, but for now
+		 * let's just try cutting a byte away at a time.
+		 */
+		for (try = 0; !enc && try < MIN (i, 6); try++)
+			enc = go_guess_encoding (header, i - try, NULL, &header_utf8);
 		if (!enc)
 			return FALSE;
 
 		for (p = header_utf8; *p; p = g_utf8_next_char (p)) {
 			gunichar uc = g_utf8_get_char (p);
+			/* isprint might not be true for these: */
+			if (uc == '\n' || uc == '\t' || uc == '\r')
+				continue;
 			if (!g_unichar_isprint (uc)) {
-				p = NULL;
+				ok = FALSE;
 				break;
 			}
 		}
 
 		g_free (header_utf8);
-		return p == NULL;
+		return ok;
 	} else {
 		char const *name = gsf_input_name (input);
 		if (name == NULL)
