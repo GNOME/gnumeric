@@ -642,7 +642,7 @@ static GsfXMLInNS content_ns[] = {
 	{ NULL }
 };
 
-static GsfXMLInNode excel_xml_dtd[] = {
+static GsfXMLInNode const excel_xml_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, FALSE, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", FALSE, FALSE, TRUE, NULL, NULL, 0),
   GSF_XML_IN_NODE (WORKBOOK, DOC_PROP, XL_NS_O, "DocumentProperties", FALSE, NULL, NULL),

@@ -1,3 +1,7 @@
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
 2005-10-03  Jody Goldberg <jody@gnome.org>
 
 	* excel-xml-read.c : Implement based on inspection of exported result
