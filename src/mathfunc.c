@@ -3329,7 +3329,7 @@ static gnm_float pdhyper (gnm_float x, gnm_float NR, gnm_float NB, gnm_float n, 
     gnm_float sum = 0;
     gnm_float term = 1;
 
-    while (x > 0 && term >= GNM_EPSILON * sum) {
+    while (x > 0 && term > GNM_EPSILON * sum) {
 	term *= x * (NB - n + x) / (n + 1 - x) / (NR + 1 - x);
 	sum += term;
 	x--;

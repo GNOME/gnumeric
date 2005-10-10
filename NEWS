@@ -26,6 +26,7 @@ Morten:
 	* Fix xml-io's name parsing.  [#317427]
 	* Fix .gnumeric saving of summary items.  [#318254]
 	* Import some style info from Lotus 1-2-3 files.
+	* Fix infinite loop in pdhyper.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.90
