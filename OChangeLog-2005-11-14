@@ -2,6 +2,7 @@
 
 	* src/stf.c (csv_tsv_probe): Fix a pile of content-probe issues.
 	Fixes #318419.
+	Handle empty csv files sanely.
 
 2005-10-10  Jody Goldberg <jody@gnome.org>
 

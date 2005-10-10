@@ -460,6 +460,12 @@ csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 		if (gsf_input_seek (input, 0, G_SEEK_SET))
 			return FALSE;
 		i = gsf_input_remaining (input);
+
+		/* If someone ship us an empty file, accept it only if
+		   it has a proper name.  */
+		if (i == 0)
+			return csv_tsv_probe (fo, input, FILE_PROBE_FILE_NAME);
+
 		if (i > N) i = N;
 		if (NULL == (header = gsf_input_read (input, i, NULL)))
 			return FALSE;
