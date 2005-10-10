@@ -1,0 +1,19 @@
+#! /bin/sh
+set -e
+
+for s in gnumeric-dialogs.schemas gnumeric-general.schemas gnumeric-plugins.schemas ; do
+	f=/etc/gconf/schemas/$s
+	if [ -e $f ] ; then
+		echo "Obsoleted conffile $f found... "
+		if grep -q '^'$(md5sum $f | sed -e 's/  .*$//')'$' /usr/share/gnumeric/$s.md5sum ; then
+			echo "... no local changes detected. Removing."
+			rm -f $f
+		else
+			echo "... locally modified. Leaving as-is."
+		fi
+	fi
+done
+
+#DEBHELPER#
+
+exit 0

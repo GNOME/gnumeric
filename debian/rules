@@ -66,9 +66,9 @@ features+= --without-guile
 
 features+= --without-gb
 
-# The GDA and GnomeDB plugins for gnumeric CVS HEAD now require CVS HEAD
-# versions of GDA and GnomeDB.
-#	Tue,  9 Aug 2005 17:37:14 +0200
+# The GDA and GnomeDB plugins for gnumeric now require versions of GDA and
+# GnomeDB that are not available as packages yet.
+#	Mon, 10 Oct 2005 20:37:06 +0200
 features+= --without-gda --without-gnomedb
 
 # Debian's psiconv packages are not recent enough for gnumeric; see
@@ -82,7 +82,9 @@ features+= --with-paradox
 # Spreadsheet indexer for beagle
 features+= --enable-ssindex
 
-confflags :=	--prefix=/usr --sysconfdir=/etc \
+confflags :=	--prefix=/usr \
+		--mandir=\$${prefix}/share/man \
+		--sysconfdir=/etc \
 		--localstatedir=/var/lib \
 		--libexecdir=/usr/bin \
                 --enable-compile-warnings=minimum \
@@ -94,7 +96,11 @@ else
 	confflags += --build $(DEB_BUILD_GNU_TYPE) --host $(DEB_HOST_GNU_TYPE)
 endif
 
-confflags += LDFLAGS="-Wl,-O1"
+# Make the linker work a bit harder so dynamic loading can be done faster
+#
+# Make the linker only include actual dependencies on libraries, rather than
+# for all libraries specified in the link line.
+confflags += LDFLAGS="-Wl,-O1 -Wl,--as-needed"
 
 source-updates:
 	rm -f configure-stamp
@@ -193,6 +199,9 @@ install: build
 	# Low-colour icon for use by the menu system
 	$(INSTALL) -m 644 debian/gnome-gnumeric.xpm `pwd`/debian/tmp/usr/share/pixmaps/
 
+	# Checksums of historical versions of conffiles
+	$(INSTALL) -m 644 debian/gnumeric-dialogs.schemas.md5sum debian/gnumeric-general.schemas.md5sum debian/gnumeric-plugins.schemas.md5sum `pwd`/debian/tmp/usr/share/gnumeric/
+
 	dh_install --sourcedir=`pwd`/debian/tmp --fail-missing
 
 	# Name the binary just "gnumeric"
@@ -214,7 +223,7 @@ install: build
 	done < debian/gnumeric-plugins-extra.install
 
 	# Remove dirs that are now empty
-	-find debian/gnumeric -type d -depth | xargs rmdir >/dev/null 2>&1
+	-find debian/gnumeric -depth -type d | xargs rmdir >/dev/null 2>&1
 
 # Build architecture-independent files here.
 # Pass -i to all debhelper commands in this target to reduce clutter.

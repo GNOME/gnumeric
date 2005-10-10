@@ -1,3 +1,22 @@
+gnumeric (1.6.0-1) experimental; urgency=low
+
+  * New upstream release.
+  * Fixed upstream: crash on close with some spreadsheets. (Closes: #329227)
+  * [debian/*.md5sum] New. Checksums of historical versions of obsoleted
+    conffiles.
+  * [debian/rules, debian/gnumeric-common.install] Install checksum files.
+  * [debian/gnumeric-common.postinst] New. Remove unmodified obsoleted schema
+    files in /etc/gconf/schemas. (Closes: #264324)
+  * [debian/rules] Deal with changed mandir; pass --as-needed to ld.
+  * [debian/gnumeric.install] Updated now that libspreadsheet has version
+    information in its filename.
+  * [debian/control] Bumped goffice and libgsf build dependencies per 
+    configure.in .
+    Added gnumeric-plugins-extra Depends: python-gtk2. (Closes: #332509)
+  * Upload to experimental due to dependencies.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 10 Oct 2005 21:17:20 +0200
+
 gnumeric (1.5.90-1) unstable; urgency=low
 
   * New upstream beta release.

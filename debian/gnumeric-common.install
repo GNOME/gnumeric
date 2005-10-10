@@ -1,4 +1,5 @@
 /usr/share/applications/gnumeric.desktop
+/usr/share/gnumeric/*.md5sum
 /usr/share/gnumeric/*/autoformat-templates/*/*.xml
 /usr/share/gnumeric/*/autoformat-templates/*/.category
 /usr/share/gnumeric/*/glade/*.glade
