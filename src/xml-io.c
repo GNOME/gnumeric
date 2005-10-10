@@ -3114,11 +3114,11 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 		sheet->hide_col_header = FALSE;
 	if (!xml_node_get_bool (tree, "HideRowHeader", &(sheet->hide_row_header)))
 		sheet->hide_row_header = FALSE;
-	if (!xml_node_get_bool (tree, "DisplayOutlines", &tmp))
+	if (xml_node_get_bool (tree, "DisplayOutlines", &tmp))
 		g_object_set (sheet, "display-outlines", tmp, NULL);
-	if (!xml_node_get_bool (tree, "OutlineSymbolsBelow", &tmp))
+	if (xml_node_get_bool (tree, "OutlineSymbolsBelow", &tmp))
 		g_object_set (sheet, "display-outlines-below", tmp, NULL);
-	if (!xml_node_get_bool (tree, "OutlineSymbolsRight", &tmp))
+	if (xml_node_get_bool (tree, "OutlineSymbolsRight", &tmp))
 		g_object_set (sheet, "display-outlines-right", tmp, NULL);
 	if (xml_node_get_bool (tree, "RTL_Layout", &tmp))
 		g_object_set (sheet, "text-is-rtl", tmp, NULL);

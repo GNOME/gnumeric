@@ -6,6 +6,13 @@
 
 2005-10-10  Jody Goldberg <jody@gnome.org>
 
+	* src/xml-io.c (xml_sheet_read) : xml_node_get_bool returns TRUE on
+	  success.  Only set the value if we have one.  The other code is
+	  reading directly into the value and setting it to a constant on
+	  failure.
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : post release bump
 
 2005-10-10  Jody Goldberg <jody@gnome.org>
