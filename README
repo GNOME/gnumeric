@@ -18,8 +18,8 @@ You need:				Debian package name
 	gtk+		>= 2.6.0	libgtk2.0-dev
 	libgnomeprint	>= 2.8.2	libgnomeprint2.2-dev
 	libgnomeprintui	>= 2.8.2	libgnomeprintui2.2-dev
-	libgsf		>= 1.13.1	libgsf-1-dev
-	libGOffice	>= 0.0.4	libgoffice-1-dev
+	libgsf		>= 1.13.2	libgsf-1-dev
+	libGOffice	>= 0.1.0	libgoffice-1-dev
 	libglade	>= 2.3.6	libglade2-dev
 	gnome-xml   	>= 2.4.12	libxml2-dev
 	libart   	>= 2.3.11	libart-2.0-dev
@@ -27,17 +27,17 @@ You need:				Debian package name
 	NOTE: gnome-xml is also known as libxml
 
 Optionally:
-	libgsf-gnome	>= 1.12.0	libgsf-gnome-1-dev
+	libgsf-gnome	>= 1.13.0	libgsf-gnome-1-dev
 	libgnome	>= 2.0.0	libgnome2-dev
 	libgnomeui	>= 2.0.0	libgnomeui-dev
-	libbonobo	>= 2.0.0	libbonobo2-dev
-	libbonoboui	>= 2.0.0	libbonoboui2-dev
+	libbonobo	>= 2.2.0	libbonobo2-dev
+	libbonoboui	>= 2.2.0	libbonoboui2-dev
 	python		>= 2.0		python2.3-dev
 	pygtk		>= 1.99.10	python-gtk2-dev
 
 	The GDA plugin, for accessing databases
-	gda		>= 1.0.1	libgda2-dev
-	libgnomedb	>= 1.0.1	libgnomedb2-dev
+	gda		>= 1.3.0	libgda2-dev
+	libgnomedb	>= 1.3.0	libgnomedb2-dev
 
 Currently disabled:
 	guile		>= 1.5	(no maintainer)

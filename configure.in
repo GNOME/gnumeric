@@ -134,7 +134,7 @@ gnumeric_gnome_reqs="
 	libbonoboui-2.0		>= 2.2.0
 	libgnome-2.0		>= 2.0.0
 	libgnomeui-2.0		>= 2.0.0
-	libgsf-gnome-1		>= 1.12.1
+	libgsf-gnome-1		>= 1.13.0
 "
 
 ui_msg=
