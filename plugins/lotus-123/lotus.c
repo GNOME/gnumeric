@@ -32,6 +32,7 @@
 #undef DEBUG_RLDB
 #undef DEBUG_STYLE
 #undef DEBUG_FORMAT
+#undef DEBUG_COLROW
 
 /* ------------------------------------------------------------------------- */
 
@@ -751,12 +752,22 @@ lotus_fontsize_to_pts (int fontsize)
 	/* Round to nearest half point.  */
 	size = floor (size * 2 + 0.5) / 2;
 
-	return size;	
+	return size;
+}
+
+static double
+lotus_twips_to_points (guint twips)
+{
+	return ((twips * 100.0) + (44 * 20)) / (87 * 20);
+}
+
+static double
+lotus_qmps_to_points (guint qmps)
+{
+	return ((qmps * 100.0) + (44 * 256)) / (87 * 256);
 }
 
 /* ------------------------------------------------------------------------- */
-
-
 
 typedef struct _LotusRLDB LotusRLDB;
 
@@ -1035,6 +1046,59 @@ lotus_rldb_walk_3d (LotusRLDB *rldb3,
 	}
 }
 
+typedef void (*LotusRLDB_2D_Handler) (LotusState *state,
+				      Sheet *sheet, int start, int end,
+				      const guint8 *data,
+				      size_t len);
+
+static void
+lotus_rldb_walk_2d (LotusRLDB *rldb2,
+		    LotusState *state,
+		    gboolean iscol,
+		    LotusRLDB_2D_Handler handler)
+{
+	int sheetcount = workbook_sheet_count (state->wb);
+	int sno, srll;
+	guint si, cri;
+	LotusRLDB *rldb1, *rldb0;
+	const GString *data;
+	int max = iscol ? SHEET_MAX_COLS : SHEET_MAX_ROWS;
+	int start, end;
+	Sheet *sheet;
+
+	g_return_if_fail (rldb2->ndims == 2);
+
+	rldb1 = NULL;
+	si = 0;
+	srll = 0;
+	for (sno = 0; sno < sheetcount; sno++) {
+		if (srll == 0) {
+			if (si >= rldb2->lower->len)
+				break;
+			rldb1 = g_ptr_array_index (rldb2->lower, si);
+			si++;
+			srll = rldb1->rll;
+		}
+		sheet = lotus_get_sheet (state->wb, sno);
+		srll--;
+
+		cri = 0;
+		for (start = 0; start < max; start = end + 1) {
+			if (cri >= rldb1->lower->len)
+				break;
+			rldb0 = g_ptr_array_index (rldb1->lower, cri);
+			cri++;
+			end = MIN (max - 1, start + (rldb0->rll - 1));
+
+			data = rldb0->datanode;
+			handler (state, sheet, start, end,
+				 data ? data->str : NULL,
+				 data ? data->len : 0);
+		}
+	}
+}
+
+
 static void
 lotus_set_style_cb (LotusState *state, const GnmSheetRange *r,
 		    const guint8 *data, size_t len)
@@ -1121,6 +1185,97 @@ lotus_set_borders_cb (LotusState *state, const GnmSheetRange *r,
 }
 
 static void
+lotus_set_colwidth_cb (LotusState *state,
+		       Sheet *sheet, int start, int end,
+		       const guint8 *data, size_t len)
+{
+	guint16 flags, outlinelevel;
+	double size;
+	gboolean value_set;
+
+	g_return_if_fail (len == 0 || len >= 8);
+	if (len == 0)
+		return;
+
+#ifdef DEBUG_COLROW
+	g_print ("Got width for %s!%s",
+		 sheet->name_unquoted,
+		 col_name (start));
+	g_print ("-%s\n", col_name (end));
+#endif
+
+	outlinelevel = GSF_LE_GET_GUINT16 (data);
+	flags = GSF_LE_GET_GUINT16 (data + 2);
+	size = (state->version >= LOTUS_VERSION_123SS98)
+		? lotus_twips_to_points (GSF_LE_GET_GUINT32 (data + 4))
+		: lotus_qmps_to_points (GSF_LE_GET_GUINT32 (data + 4));
+
+	value_set = (flags & 1) != 0;
+	if (end - start >= SHEET_MAX_COLS)
+		sheet_col_set_default_size_pixels (sheet, size);
+	else {
+		int i;
+		for (i = start; i <= end; i++)
+			sheet_col_set_size_pts (sheet, i, size, value_set);
+	}
+
+	if (flags & 2) {
+		/* Hidden */
+		colrow_set_visibility (sheet, TRUE, FALSE, start, end);
+	}
+
+	/* (flags & 4): Collapsed */
+	/* (flags & 8): Level set */
+	/* (flags & 0x10): Invisible */
+	/* (flags & 0x20): Page break */
+}
+
+static void
+lotus_set_rowheight_cb (LotusState *state,
+			Sheet *sheet, int start, int end,
+			const guint8 *data, size_t len)
+{
+	guint16 flags, outlinelevel;
+	double size;
+	gboolean value_set;
+
+	g_return_if_fail (len == 0 || len >= 8);
+	if (len == 0)
+		return;
+
+#ifdef DEBUG_COLROW
+	g_print ("Got height for %s!%d-%d\n",
+		 sheet->name_unquoted,
+		 start, end);
+#endif
+
+	outlinelevel = GSF_LE_GET_GUINT16 (data);
+	flags = GSF_LE_GET_GUINT16 (data + 2);
+	size = (state->version >= LOTUS_VERSION_123SS98)
+		? lotus_twips_to_points (GSF_LE_GET_GUINT32 (data + 4))
+		: lotus_qmps_to_points (GSF_LE_GET_GUINT32 (data + 4));
+
+	value_set = (flags & 1) != 0;
+	if (end - start >= SHEET_MAX_ROWS)
+		sheet_row_set_default_size_pixels (sheet, size);
+	else {
+		int i;
+		for (i = start; i <= end; i++)
+			sheet_row_set_size_pts (sheet, i, size, value_set);
+	}
+
+	if (flags & 2) {
+		/* Hidden */
+		colrow_set_visibility (sheet, FALSE, FALSE, start, end);
+	}
+
+	/* (flags & 4): Collapsed */
+	/* (flags & 8): Level set */
+	/* (flags & 0x10): Invisible */
+	/* (flags & 0x20): Page break */
+}
+
+static void
 lotus_rldb_apply (LotusRLDB *rldb, int type, LotusState *state)
 {
 	g_return_if_fail (lotus_rldb_full (rldb));
@@ -1136,6 +1291,14 @@ lotus_rldb_apply (LotusRLDB *rldb, int type, LotusState *state)
 
 	case LOTUS_RLDB_BORDERS:
 		lotus_rldb_walk_3d (rldb, state, lotus_set_borders_cb);
+		break;
+
+	case LOTUS_RLDB_COLWIDTHS:
+		lotus_rldb_walk_2d (rldb, state, TRUE, lotus_set_colwidth_cb);
+		break;
+
+	case LOTUS_RLDB_ROWHEIGHTS:
+		lotus_rldb_walk_2d (rldb, state, FALSE, lotus_set_rowheight_cb);
 		break;
 
 	default:
@@ -1861,7 +2024,7 @@ lotus_read_new (LotusState *state, record_t *r)
 
 			if (!rldb) {
 				g_warning ("Ignoring stray RLDB_NODE");
-				break;				
+				break;
 			}
 
 			lotus_rldb_repeat (rldb, rll);
@@ -1888,6 +2051,8 @@ lotus_read_new (LotusState *state, record_t *r)
 		case LOTUS_RLDB_FORMATS:
 		case LOTUS_RLDB_BORDERS:
 		case LOTUS_RLDB_STYLES:
+		case LOTUS_RLDB_COLWIDTHS:
+		case LOTUS_RLDB_ROWHEIGHTS:
 			if (rldb_type == 0)
 				rldb_type = r->type;
 			else if (rldb && rldb_type == r->type) {
@@ -1901,8 +2066,6 @@ lotus_read_new (LotusState *state, record_t *r)
 
 		case LOTUS_RLDB_DEFAULTS:
 		case LOTUS_RLDB_NAMEDSTYLES:
-		case LOTUS_RLDB_COLWIDTHS:
-		case LOTUS_RLDB_ROWHEIGHTS:
 		case LOTUS_RL2DB:
 		case LOTUS_RL3DB:
 			/* Style database related.  */
@@ -1930,7 +2093,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			pos.col = col;
 			pos.row = row;
 			cell_set_comment (sheet, &pos, NULL, text);
-			g_free (text);			
+			g_free (text);
 			break;
 		}
 

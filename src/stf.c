@@ -446,11 +446,11 @@ csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	/* Rough and ready heuristic.  If the first N bytes have no
 	 * unprintable characters this may be text */
-	const int N = 512;
+	const gsf_off_t N = 512;
 
 	if (pl == FILE_PROBE_CONTENT) {
 		guint8 const *header;
-		int i;
+		gsf_off_t i;
 		const char *enc = NULL;
 		char *header_utf8;
 		const char *p;
@@ -461,7 +461,7 @@ csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 			return FALSE;
 		i = gsf_input_remaining (input);
 
-		/* If someone ship us an empty file, accept it only if
+		/* If someone ships us an empty file, accept it only if
 		   it has a proper name.  */
 		if (i == 0)
 			return csv_tsv_probe (fo, input, FILE_PROBE_FILE_NAME);

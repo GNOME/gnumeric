@@ -1,3 +1,9 @@
+2005-10-13  Morten Welinder  <terra@gnome.org>
+
+	* lotus.c (lotus_set_rowheight_cb, lotus_set_colwidth_cb,
+	lotus_twips_to_points, lotus_qmps_to_points): New functions.
+	(lotus_rldb_apply): Handle column height and row widths too.
+
 2005-10-12  Morten Welinder  <terra@gnome.org>
 
 	* lotus.c (lotus_format_string): Extract from...
