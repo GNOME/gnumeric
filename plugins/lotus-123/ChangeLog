@@ -1,3 +1,13 @@
+2005-10-12  Morten Welinder  <terra@gnome.org>
+
+	* lotus.c (lotus_format_string): Extract from...
+	(cell_set_format_from_lotus_format): ...here.
+	(lotus_pattern): New function.
+	(lotus_set_formats_cb): Implement.
+	(lotus_read_old): Check record sizes.
+	(lotus_read_new): Deal with patterns, font sizes, and some font
+	bits.  (The latter not observed in corpus.)
+
 2005-10-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.0
