@@ -1,3 +1,9 @@
+2005-10-12  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (excel_parse_formula) : Ignore the data for Attr
+	  CHOOSE that specifies which element to select.  We do not need it.
+	* ms-excel-read.c (excel_read_FORMULA) : Use val_offset consistently
+
 2005-10-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.0

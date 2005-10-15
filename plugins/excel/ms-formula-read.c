@@ -1015,28 +1015,16 @@ excel_parse_formula (MSContainer const *container,
 			break;
 
 		case FORMULA_PTG_ATTR : { /* FIXME: not fully implemented */
-			guint8  grbit = GSF_LE_GET_GUINT8(cur);
+			guint8  grbit = GSF_LE_GET_GUINT8 (cur);
 			guint16 w;
 			if (ver >= MS_BIFF_V3) {
-				w = GSF_LE_GET_GUINT16(cur+1);
+				w = GSF_LE_GET_GUINT16 (cur+1);
 				ptg_length = 3;
 			} else {
-				w = GSF_LE_GET_GUINT8(cur+1);
+				w = GSF_LE_GET_GUINT8 (cur+1);
 				ptg_length = 2;
 			}
 			if (grbit == 0x00) {
-				static gboolean warned_a = FALSE;
-				static gboolean warned_3 = FALSE;
-				if (w == 0xa) {
-					if (warned_a)
-						break;
-					warned_a = TRUE;
-				} else if (w == 3) {
-					if (warned_3)
-						break;
-					warned_3 = TRUE;
-				} /* else always warn */
-
 				ms_excel_dump_cellname (container->importer, esheet, fn_col, fn_row);
 				fprintf (stderr, "Hmm, ptgAttr of type 0 ??\n"
 					"I've seen a case where an instance of this with flag A and another with flag 3\n"
@@ -1062,34 +1050,9 @@ excel_parse_formula (MSContainer const *container,
 					: gnm_expr_new_constant (value_new_string (""));
 				parse_list_push (&stack, tr);
 				ptg_length += w;
-			} else if (grbit & 0x04) { /* AttrChoose 'optimised' my foot. */
-				guint16 len, lp;
-				guint32 offset=0;
-				guint8 const *data=cur+3;
-				GnmExpr const *tr;
-
-#ifndef NO_DEBUG_EXCEL
-				if (ms_excel_formula_debug > 1) {
-					fprintf (stderr, "'Optimised' choose\n");
-					gsf_mem_dump (mem,length);
-				}
-#endif
-				for (lp=0;lp<w;lp++) { /* w = wCases */
-					offset= GSF_LE_GET_GUINT16(data);
-					len = GSF_LE_GET_GUINT16(data+2) - offset;
-#ifndef NO_DEBUG_EXCEL
-					if (ms_excel_formula_debug > 1) {
-						fprintf (stderr, "Get from %d len %d [ = 0x%x ]\n",
-							ptg_length+offset, len,
-							*(cur+ptg_length+offset));
-					}
-#endif
-					tr = excel_parse_formula (container, esheet, fn_col, fn_row,
-						cur+ptg_length+offset, len, shared, NULL);
-					data += 2;
-					parse_list_push (&stack, tr);
-				}
-				ptg_length+=GSF_LE_GET_GUINT16(data);
+			} else if (grbit & 0x04) { /* Optimized CHOOSE function */
+				/* Ignore the optimzation to specificy which arg to use */
+				ptg_length = 2 + GSF_LE_GET_GUINT8 (cur+1) + 1;
 			} else if (grbit & 0x08) { /* AttrGoto */
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 2) {
