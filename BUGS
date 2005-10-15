@@ -56,6 +56,10 @@ Architecture Changes
 - ssconvert for non-gnome					(DONE)
 - Merge wb_control_init_state and wb_control_set_view
 
+- Check format accelerators
+     : Looks like ctrl-~ is General not number
+     : Can not replicate ctrl-! as accounting with 2k or xp, check 2003
+
 1) things to move into libgoffice
     1.1) plugin-manager dialog
     1.2) doc meta data

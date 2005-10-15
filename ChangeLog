@@ -1,5 +1,9 @@
 2005-10-14  Jody Goldberg <jody@gnome.org>
 
+	* src/gnm-format.c (format_value_gstring) : Use the last element as a
+	  catch all. eg [>10][Blue]0;0 will fmt 1 in black even though it's
+	  implicit condition is <0
+
 	* src/sheet-view.c (sv_freeze_panes) : if frozen == unfrozen unfreeze
 	  things.
 

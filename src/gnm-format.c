@@ -92,25 +92,17 @@ format_value_gstring (GString *result, GOFormat const *format,
 	if (format == NULL)
 		format = VALUE_FMT (value);
 
-	/* Use top left corner of an array result.
-	 * This wont work for ranges because we dont't have a location
-	 */
+	/* Use top left corner of an array result.  This will not work for
+	 * ranges because we dont't have a location */
 	if (value->type == VALUE_ARRAY)
 		value = value_area_fetch_x_y (value, 0, 0, NULL);
 
 	if (format) {
 		for (list = format->entries; list; list = list->next)
-			if (gnm_style_format_condition (list->data, value))
+			if (gnm_style_format_condition (entry = list->data, value))
 				break;
 
-		if (list == NULL &&
-		    (value->type == VALUE_INTEGER || value->type == VALUE_FLOAT))
-			list = format->entries;
-
-		/* If nothing matches treat it as General */
-		if (list != NULL) {
-			entry = list->data;
-
+		if (entry != NULL) {
 			/* Empty formats should be ignored */
 			if (entry->format[0] == '\0')
 				return;
@@ -199,4 +191,3 @@ format_value (GOFormat const *format, GnmValue const *value, GOColor *go_color,
 	format_value_gstring (result, format, value, go_color, col_width, date_conv);
 	return g_string_free (result, FALSE);
 }
-
