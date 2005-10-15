@@ -12,7 +12,6 @@ Release Critical
 -------------------------
     http://bugzilla.gnome.org/show_bug.cgi?id=317662
     * Double borders in rtl
-    * Drag clearing frozen panes
     http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=286131
     - use 2.6 clipboard handling
 	: gtk_clipboard_set_can_store

@@ -1,3 +1,8 @@
+2005-10-14  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-view.c (sv_freeze_panes) : if frozen == unfrozen unfreeze
+	  things.
+
 2005-10-12  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in (gnumeric_gnome_reqs): Require libgsf-gnome >= 1.13.0,

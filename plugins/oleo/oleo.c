@@ -1,4 +1,4 @@
-/* -*-mode:c; c-style:k&r; c-basic-offset:8; -*- */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * GNU Oleo input filter for Gnumeric
  *
@@ -326,7 +326,7 @@ oleo_deal_with_format (OleoParseState *state, guint8 *str, int *ccol, int *crow,
 			break;
 		case 'R':
 			gnm_style_set_align_h (mstyle, HALIGN_RIGHT);
-	}
+		}
 	}
 	if (fmt_string->len)
 		gnm_style_set_format_text (mstyle, fmt_string->str);
