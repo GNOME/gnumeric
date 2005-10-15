@@ -1234,6 +1234,11 @@ apply_number_format (WorkbookControlGUI *wbcg,
 	cmd_selection_format (WORKBOOK_CONTROL (wbcg), mstyle, NULL, descriptor);
 }
 
+static GNM_ACTION_DEF (cb_format_as_general)
+{
+	apply_number_format (wbcg,
+		go_format_builtins [GO_FORMAT_GENERAL][0], _("Format as General"));
+}
 static GNM_ACTION_DEF (cb_format_as_number)
 {
 	apply_number_format (wbcg,
@@ -1974,14 +1979,17 @@ static GtkActionEntry const actions[] = {
 		NULL, N_("Split merged ranges of cells"),
 		G_CALLBACK (cb_unmerge_cells) },
 
+	{ "FormatAsGeneral", NULL, N_("General"),
+		"<control>asciitilde", N_("Format the selection as General"),
+		G_CALLBACK (cb_format_as_general) },
 	{ "FormatAsNumber", NULL, N_("Number"),
-		"<control>asciitilde", N_("Format the selection as numbers"),
+		"<control>exclam", N_("Format the selection as numbers"),
 		G_CALLBACK (cb_format_as_number) },
 	{ "FormatAsCurrency", NULL, N_("Currency"),
 		"<control>dollar", N_("Format the selection as currency"),
 		G_CALLBACK (cb_format_as_currency) },
 	{ "FormatAsAccounting", "Gnumeric_FormatAsAccounting", N_("Accounting"),
-		"<control>exclam", N_("Format the selection as accounting"),
+		NULL, N_("Format the selection as accounting"),
 		G_CALLBACK (cb_format_as_accounting) },
 	{ "FormatAsPercentage", "Gnumeric_FormatAsPercentage", N_("Percentage"),
 		"<control>percent", N_("Format the selection as percentage"),

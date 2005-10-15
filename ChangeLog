@@ -1,4 +1,8 @@
-2005-10-14  Jody Goldberg <jody@gnome.org>
+2005-10-15  Jody Goldberg <jody@gnome.org>
+
+	* src/wbcg-actions.c (cb_format_general) : Fix fmt accelerators.
+	  ctrl-~ == general not number
+	  ctrl-! == number not accounting
 
 	* src/gnm-format.c (format_value_gstring) : Use the last element as a
 	  catch all. eg [>10][Blue]0;0 will fmt 1 in black even though it's

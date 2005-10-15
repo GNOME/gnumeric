@@ -300,7 +300,7 @@
   <accelerator name="FontStrikeThrough"  action="FontStrikeThrough"/>
   <accelerator name="FormatAsNumber"	 action="FormatAsNumber"/>
   <accelerator name="FormatAsCurrency"	 action="FormatAsCurrency"/>
-  <accelerator name="FormatAsAccounting" action="FormatAsAccounting"/>
+  <accelerator name="FormatAsGeneral"    action="FormatAsGeneral"/>
   <accelerator name="FormatAsPercentage" action="FormatAsPercentage"/>
   <accelerator name="FormatAsScientific" action="FormatAsScientific"/>
   <accelerator name="FormatAsDate"	 action="FormatAsDate"/>
