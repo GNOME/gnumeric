@@ -6498,8 +6498,7 @@
 	(workbook_is_pristine): Test file_format_level > "new" instead of
 	needs_name true.
 	(workbook_new): Tag workbook as new. Set save function.
-	(workbook_set_filename): needs_name has no longer exists. Don't
-	set it.
+	(workbook_set_filename): needs_name no longer exists. Don't set it.
 
 	* src/xml-io.c (gnumeric_xml_read_workbook): Set save info. Tag as
 	AUTO.

@@ -4143,7 +4143,7 @@
 	(cb_unregister_save, workbook_save): Fix
 	typo: FILE_SAVER_ID_INVAID -> FILE_SAVER_ID_INVALID.
 
-	* src/workbook.c (workbook_destroy): Only include in history is
+	* src/workbook.c (workbook_destroy): Only include in history if
 	file_format_level >= FILE_FL_MANUAL_REMEMBER.
 	(workbook_new, workbook_set_saveinfo): Fix typo:
 	FILE_SAVER_ID_INVAID -> FILE_SAVER_ID_INVALID.
