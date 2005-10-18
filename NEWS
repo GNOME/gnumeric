@@ -7,6 +7,7 @@ Morten:
 	* Fix content probing of csv and tsv files.  [#318419]
 	* Import formats from Lotus 1-2-3 files.
 	* Import column widths and row heights from Lotus 1-2-3 files.
+	* Read basic info from wk4 files.
 
 --------------------------------------------------------------------------
 Gnumeric 1.6.0

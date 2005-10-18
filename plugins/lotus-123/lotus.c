@@ -769,6 +769,140 @@ lotus_qmps_to_points (guint qmps)
 
 /* ------------------------------------------------------------------------- */
 
+typedef struct {
+	GsfInput *input;
+	guint16   type;
+	guint16   len;
+	guint8 const *data;
+} record_t;
+
+static void
+report_record_size_error (LotusState *state, record_t *r)
+{
+	g_warning ("Record with type 0x%x has wrong length %d.",
+		   r->type, r->len);
+	/* FIXME: mark the error in the state instead. */
+}
+
+#define CHECK_RECORD_SIZE(cond)				\
+    if (!(r->len cond)) {				\
+	    report_record_size_error (state, r);	\
+	    break;					\
+    } else
+
+static guint16
+record_peek_next (record_t *r)
+{
+	guint8 const *header;
+	guint16 type;
+
+	g_return_val_if_fail (r != NULL, LOTUS_EOF);
+
+	header = gsf_input_read (r->input, 2, NULL);
+	if (header == NULL)
+		return 0xffff;
+	type = GSF_LE_GET_GUINT16 (header);
+	gsf_input_seek (r->input, -2, G_SEEK_CUR);
+	return type;
+}
+
+static gboolean
+record_next (record_t *r)
+{
+	guint8 const *header;
+
+	g_return_val_if_fail (r != NULL, FALSE);
+
+	header = gsf_input_read (r->input, 4, NULL);
+	if (header == NULL)
+		return FALSE;
+
+	r->type = GSF_LE_GET_GUINT16 (header);
+	r->len  = GSF_LE_GET_GUINT16 (header + 2);
+
+	r->data = (r->len == 0
+		   ? (void *)""
+		   : gsf_input_read (r->input, r->len, NULL));
+
+#if LOTUS_DEBUG > 0
+	g_print ("Record 0x%x length 0x%x\n", r->type, r->len);
+	if (r->data)
+		gsf_mem_dump (r->data, r->len);
+#endif
+
+	return (r->data != NULL);
+}
+
+/* ------------------------------------------------------------------------- */
+
+static GnmValue *
+lotus_value (gnm_float v)
+{
+	if (v == gnm_floor (v) &&
+	    v >= G_MININT &&
+	    v <= G_MAXINT)
+		return value_new_int ((int)v);
+	else
+		return value_new_float (v);
+}
+
+static GnmValue *
+lotus_lnumber (const record_t *r, int ofs)
+{
+	const guint8 *p;
+	g_return_val_if_fail (ofs + 8 <= r->len, NULL);
+
+	p = r->data + ofs;
+
+	/* FIXME: Some special values indicate ERR, NA, BLANK, and string.  */
+
+	return lotus_value (gsf_le_get_double (p));
+}
+
+GnmValue *
+lotus_unpack_number (guint32 u)
+{
+	double v = (u >> 6);
+
+	if (u & 0x20) v = 0 - v;
+	if (u & 0x10)
+		return lotus_value (v / gnm_pow10 (u & 15));
+	else
+		return lotus_value (v * gnm_pow10 (u & 15));
+}
+
+GnmValue *
+lotus_smallnum (signed int d)
+{
+	if (d & 1) {
+		static int factors[8] = {
+			5000, 500, -20, -200, -2000, -20000, -16, -64
+		};
+		int f = factors[(d >> 1) & 7];
+		int mant = (d >> 4);
+		return (f > 0)
+			? value_new_int (f * mant)
+			: lotus_value ((gnm_float)mant / -f);
+	} else
+		return value_new_int (d >> 1);
+}
+
+static GnmValue *
+lotus_treal (const record_t *r, int ofs)
+{
+	const guint8 *p;
+	gnm_float v;
+	g_return_val_if_fail (ofs + 10 <= r->len, NULL);
+
+	p = r->data + ofs;
+
+	/* This this ignores two bytes of mantissa.  */
+	v = GSF_LE_GET_DOUBLE (p + 2);
+	return lotus_value (v);
+}
+
+/* ------------------------------------------------------------------------- */
+
 typedef struct _LotusRLDB LotusRLDB;
 
 struct _LotusRLDB {
@@ -1308,72 +1442,6 @@ lotus_rldb_apply (LotusRLDB *rldb, int type, LotusState *state)
 
 /* ------------------------------------------------------------------------- */
 
-typedef struct {
-	GsfInput *input;
-	guint16   type;
-	guint16   len;
-	guint8 const *data;
-} record_t;
-
-
-static void
-report_record_size_error (LotusState *state, record_t *r)
-{
-	g_warning ("Record with type 0x%x has wrong length %d.",
-		   r->type, r->len);
-	/* FIXME: mark the error in the state instead. */
-}
-
-#define CHECK_RECORD_SIZE(cond)				\
-    if (!(r->len cond)) {				\
-	    report_record_size_error (state, r);	\
-	    break;					\
-    } else
-
-
-static guint16
-record_peek_next (record_t *r)
-{
-	guint8 const *header;
-	guint16 type;
-
-	g_return_val_if_fail (r != NULL, LOTUS_EOF);
-
-	header = gsf_input_read (r->input, 2, NULL);
-	if (header == NULL)
-		return 0xffff;
-	type = GSF_LE_GET_GUINT16 (header);
-	gsf_input_seek (r->input, -2, G_SEEK_CUR);
-	return type;
-}
-
-static gboolean
-record_next (record_t *r)
-{
-	guint8 const *header;
-
-	g_return_val_if_fail (r != NULL, FALSE);
-
-	header = gsf_input_read (r->input, 4, NULL);
-	if (header == NULL)
-		return FALSE;
-
-	r->type = GSF_LE_GET_GUINT16 (header);
-	r->len  = GSF_LE_GET_GUINT16 (header + 2);
-
-	r->data = (r->len == 0
-		   ? (void *)""
-		   : gsf_input_read (r->input, r->len, NULL));
-
-#if LOTUS_DEBUG > 0
-	g_print ("Record 0x%x length 0x%x\n", r->type, r->len);
-	if (r->data)
-		gsf_mem_dump (r->data, r->len);
-#endif
-
-	return (r->data != NULL);
-}
-
 static GnmCell *
 insert_value (Sheet *sheet, guint32 col, guint32 row, GnmValue *val)
 {
@@ -1421,6 +1489,8 @@ lotus_read_old (LotusState *state, record_t *r)
 	int sheetidx = 0;
 	GnmCell    *cell;
 
+	state->lmbcs_group = 1;
+
 	do {
 		switch (r->type) {
 		case LOTUS_BOF:
@@ -1443,7 +1513,7 @@ lotus_read_old (LotusState *state, record_t *r)
 			break;
 		}
 		case LOTUS_NUMBER: CHECK_RECORD_SIZE (>= 13) {
-			GnmValue *v = value_new_float (gsf_le_get_double (r->data + 5));
+			GnmValue *v = lotus_value (gsf_le_get_double (r->data + 5));
 			guint8 fmt = GSF_LE_GET_GUINT8 (r->data);
 			int i = GSF_LE_GET_GUINT16 (r->data + 1);
 			int j = GSF_LE_GET_GUINT16 (r->data + 3);
@@ -1498,7 +1568,7 @@ lotus_read_old (LotusState *state, record_t *r)
 				} else
 					v = value_new_error_VALUE (NULL);
 			} else
-				v = value_new_float (gsf_le_get_double (r->data + 5));
+				v = lotus_value (gsf_le_get_double (r->data + 5));
 			cell = sheet_cell_fetch (state->sheet, col, row);
 			cell_set_expr_and_value (cell, expr, v, TRUE);
 
@@ -1698,37 +1768,6 @@ lotus_new_string (gchar const *data)
 		(lotus_get_lmbcs (data, strlen (data)));
 }
 
-double
-lotus_unpack_number (guint32 u)
-{
-	double v = (u >> 6);
-
-	if (u & 0x20) v = 0 - v;
-	if (u & 0x10)
-		v = v / gnm_pow10 (u & 15);
-	else
-		v = v * gnm_pow10 (u & 15);
-
-	return v;
-}
-
-static GnmValue *
-get_lnumber (const record_t *r, int ofs)
-{
-	const guint8 *p;
-	g_return_val_if_fail (ofs + 8 <= r->len, NULL);
-
-	p = r->data + ofs;
-
-	/* FIXME: Some special values indicate ERR, NA, BLANK, and string.  */
-
-	if (1) {
-		double v = gsf_le_get_double (p);
-		return value_new_float (v);
-	}
-}
-
-
 static gboolean
 lotus_read_new (LotusState *state, record_t *r)
 {
@@ -1747,8 +1786,13 @@ lotus_read_new (LotusState *state, record_t *r)
 
 	do {
 		switch (r->type) {
-		case LOTUS_BOF:
+		case LOTUS_BOF: CHECK_RECORD_SIZE (>= 18) {
+			state->lmbcs_group = GSF_LE_GET_GUINT8 (r->data + 16);
+			if (state->lmbcs_group != 1)
+				g_warning ("Unhandled character set setting (%d)",
+					   state->lmbcs_group);
 			break;
+		}
 
 		case LOTUS_EOF:
 			goto done;
@@ -1786,7 +1830,16 @@ lotus_read_new (LotusState *state, record_t *r)
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
-			GnmValue *v = get_lnumber (r, 4);
+			GnmValue *v = lotus_lnumber (r, 4);
+			(void)insert_value (sheet, col, row, v);
+			break;
+		}
+
+		case LOTUS_SMALLNUM: CHECK_RECORD_SIZE (>= 6) {
+			int row = GSF_LE_GET_GUINT16 (r->data);
+			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
+			int col = r->data[3];
+			GnmValue *v = lotus_smallnum (GSF_LE_GET_GINT16 (r->data + 4));
 			(void)insert_value (sheet, col, row, v);
 			break;
 		}
@@ -1927,16 +1980,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
-			double v = lotus_unpack_number (GSF_LE_GET_GUINT32 (r->data + 4));
-			GnmValue *val;
-
-			if (v == gnm_floor (v) &&
-			    v >= G_MININT &&
-			    v <= G_MAXINT)
-				val = value_new_int ((int)v);
-			else
-				val = value_new_float (v);
-
+			GnmValue *val = lotus_unpack_number (GSF_LE_GET_GUINT32 (r->data + 4));
 			(void)insert_value (sheet, col, row, val);
 			break;
 		}
@@ -1962,7 +2006,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
-			GnmValue *curval = get_lnumber (r, 4);
+			GnmValue *curval = lotus_lnumber (r, 4);
 			GnmParsePos pp;
 			const GnmExpr *expr;
 			GnmCell *cell;
@@ -1973,6 +2017,28 @@ lotus_read_new (LotusState *state, record_t *r)
 			pp.wb = sheet->workbook;
 			expr = lotus_parse_formula (state, &pp,
 						    r->data + 12, r->len - 12);
+			cell = sheet_cell_fetch (sheet, col, row);
+			cell_set_expr_and_value (cell, expr, curval, TRUE);
+
+			gnm_expr_unref (expr);
+			break;
+		}
+
+		case LOTUS_FORMULA3: CHECK_RECORD_SIZE (>= 15) {
+			int row = GSF_LE_GET_GUINT16 (r->data);
+			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
+			int col = r->data[3];
+			GnmValue *curval = lotus_treal (r, 4);
+			GnmParsePos pp;
+			const GnmExpr *expr;
+			GnmCell *cell;
+
+			pp.eval.col = col;
+			pp.eval.row = row;
+			pp.sheet = sheet;
+			pp.wb = sheet->workbook;
+			expr = lotus_parse_formula (state, &pp,
+						    r->data + 14, r->len - 14);
 			cell = sheet_cell_fetch (sheet, col, row);
 			cell_set_expr_and_value (cell, expr, curval, TRUE);
 
@@ -2182,7 +2248,9 @@ lotus_read (LotusState *state)
 		default:
 			g_warning ("Unexpected version %x", state->version);
 			/* Fall through.  */
+		case LOTUS_VERSION_123V4:
 		case LOTUS_VERSION_123V6:
+		case LOTUS_VERSION_123V7:
 		case LOTUS_VERSION_123SS98:
 			return lotus_read_new (state, &r);
 		}

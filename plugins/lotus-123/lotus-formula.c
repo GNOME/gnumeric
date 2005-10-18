@@ -388,7 +388,9 @@ get_cellref (GnmCellRef *ref, guint8 const *dataa, guint8 const *datab,
 	}
 
 #if FORMULA_DEBUG > 0
-	printf ("0x%x 0x%x -> (%d, %d)\n", *(guint16 *)dataa, *(guint16 *)datab,
+	printf ("0x%x 0x%x -> (%d, %d)\n",
+		GSF_LE_GET_GUINT16 (dataa),
+		GSF_LE_GET_GUINT16 (datab),
 		ref->col, ref->row);
 #endif
 }
@@ -442,10 +444,6 @@ lotus_parse_formula_old (LotusState *state, GnmParsePos *orig,
 			parse_list_push_value (&stack,
 				lotus_new_string (data + i + 1));
 			i += 2 + strlen (data + i + 1);
-			break;
-
-		case LOTUS_FORMULA_UNARY_PLUS:
-			i++;
 			break;
 
 		default:
@@ -520,6 +518,7 @@ lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 	GnmExprList *stack = NULL;
 	guint i;
 	gboolean done = FALSE;
+	gboolean uses_snum = (state->version <= LOTUS_VERSION_123V4);
 
 	for (i = 0; i < len && !done;) {
 		switch (data[i]) {
@@ -565,15 +564,16 @@ lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 			break;
 
 		case LOTUS_FORMULA_PACKED_NUMBER: {
-			double v = lotus_unpack_number (GSF_LE_GET_GUINT32 (data + i + 1));
 			GnmValue *val;
+			if (uses_snum) {
+				val = lotus_smallnum (GSF_LE_GET_GUINT16 (data + i + 1));
+				i += 3;
+			} else {
+				val = lotus_unpack_number (GSF_LE_GET_GUINT32 (data + i + 1));
+				i += 5;
+			}
 
-			if (v == gnm_floor (v) && v >= G_MININT && v <= G_MAXINT)
-				val = value_new_int ((int)v);
-			else
-				val = value_new_float (v);
 			parse_list_push_value (&stack, val);
-			i += 5;
 			break;
 		}
 
@@ -674,7 +674,7 @@ GnmExpr const *
 lotus_parse_formula (LotusState *state, GnmParsePos *pos,
 		     guint8 const *data, guint32 len)
 {
-	const GnmExpr *result = (state->version >= LOTUS_VERSION_123V6)
+	const GnmExpr *result = (state->version >= LOTUS_VERSION_123V4)
 		? lotus_parse_formula_new (state, pos, data, len)
 		: lotus_parse_formula_old (state, pos, data, len);
 
