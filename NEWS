@@ -2,6 +2,9 @@ Gnumeric 1.6.1
 
 Jody:
 	* Unfreeze panes if the drag handles are pulled outwards.
+	* Adjust ctrl-~ vs ctrl-!
+	* Some R1C1 fixes
+	* More SpreadsheetML from MS Office XP.
 
 Morten:
 	* Fix content probing of csv and tsv files.  [#318419]

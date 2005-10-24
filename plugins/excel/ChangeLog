@@ -1,3 +1,22 @@
+2005-10-23  Jody Goldberg <jody@gnome.org>
+
+	* excel-xml-read.c (xl_xml_col_start) :
+	  - add hidden.
+	  - support spans
+	  - support styles
+	  - support sizes (still off by what seems like a constant factor ??
+	    of 12.5% ??)
+	(xl_xml_row_start) : ditto.
+	(xl_xml_pane) : init edit pos to A1.
+	(xl_xml_selection) : new. handle selection
+	(xl_xml_editpos_col) : new. handle edit position
+	(xl_xml_editpos_row) : new. ditto.
+	(xl_xml_data_start) : load Data::Type here
+	(xl_xml_cell_start) : not here.  Store the expr.
+	(xl_xml_data_end) : store exprs and values.
+	(xl_xml_named_range) : new.  No entirely functional.
+	  It does not handle implicit fwd declatation of names.
+
 2005-10-12  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c (excel_parse_formula) : Ignore the data for Attr

@@ -122,7 +122,7 @@ oo_warning (GsfXMLIn *xin, char const *fmt, ...)
 		msg = tmp;
 	}
 
-	gnm_io_warning (state->context, msg);
+	gnm_io_warning (state->context, "%s", msg);
 	g_free (msg);
 
 	return FALSE; /* convenience */

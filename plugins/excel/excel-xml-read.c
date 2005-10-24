@@ -53,6 +53,7 @@
 #include <glib/gi18n.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 /*****************************************************************************/
 
@@ -63,6 +64,9 @@ typedef struct {
 	Workbook	*wb;		/* The new workbook */
 	Sheet		*sheet;		/* The current sheet */
 	GnmCellPos	 pos;
+	GnmValueType	 val_type;
+	GnmExpr const   *expr;
+	GnmRange	 array_range;
 	char		*style_name;
 	GnmStyle	*style;
 	GnmStyle	*def_style;
@@ -105,7 +109,8 @@ xl_xml_warning (GsfXMLIn *xin, char const *fmt, ...)
 		msg = tmp;
 	}
 
-	gnm_io_warning (state->context, msg);
+	gnm_io_warning (state->context, "%s", msg);
+	g_warning ("%s", msg);
 	g_free (msg);
 
 	return FALSE; /* convenience */
@@ -178,10 +183,14 @@ attr_int (GsfXMLIn *xin, xmlChar const * const *attrs,
 	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
 		return FALSE;
 
+	errno = 0;
 	tmp = strtol ((gchar *)attrs[1], &end, 10);
+	if (errno == ERANGE)
+		return xl_xml_warning (xin, "Invalid attribute '%s', integer '%s' is out of range",
+				       name, attrs[1]);
 	if (*end)
 		return xl_xml_warning (xin, "Invalid attribute '%s', expected integer, received '%s'",
-				   name, attrs[1]);
+				       name, attrs[1]);
 
 	*res = tmp;
 	return TRUE;
@@ -204,7 +213,7 @@ attr_float (GsfXMLIn *xin, xmlChar const * const *attrs,
 	tmp = gnm_strto ((gchar *)attrs[1], &end);
 	if (*end)
 		return xl_xml_warning (xin, "Invalid attribute '%s', expected number, received '%s'",
-				   name, attrs[1]);
+				       name, attrs[1]);
 	*res = tmp;
 	return TRUE;
 }
@@ -236,52 +245,133 @@ attr_color (GsfXMLIn *xin, xmlChar const * const *attrs,
 	return parse_color (xin, attrs[1], name);
 }
 
+static GnmExpr const *
+xl_xml_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
+		   GnmParsePos const *pp)
+{
+	GnmExpr const *expr;
+	GnmParseError err;
+	if (*expr_str != '=') {
+		xl_xml_warning (xin, "Invalid formula '%s' does not begin with '='", expr_str);
+		return NULL;
+	}
+	/* Odd, some time IF and CHOOSE show up with leading spaces ??
+	 * = IF(....
+	 * = CHOOSE(...
+	 * I wonder if it is related to some of the funky old
+	 * optimizations in * xls ? */
+	while (' ' == *(++expr_str))
+		;
+	expr = gnm_expr_parse_str (expr_str, pp,
+		GNM_EXPR_PARSE_DEFAULT, gnm_expr_conventions_r1c1,
+		parse_error_init (&err));
+	if (NULL == expr)
+		xl_xml_warning (xin, "'%s' %s", expr_str, err.err->message);
+	parse_error_free (&err);
+	return expr;
+}
+
+static void
+xl_xml_table_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	state->pos.col = 0;
+}
+
 static void
 xl_xml_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
-	int tmp;
-	gboolean  auto_fit = TRUE;
+	int tmp, span = 1;
+	gboolean  auto_fit = TRUE, hidden = FALSE;
 	gnm_float width = -1;
+	GnmStyle *style = NULL;
 
-	state->pos.col = 0;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_int (xin, attrs, XL_NS_SS, "Index", &tmp)) {
 			if (tmp > 0)
-				state->pos.col = tmp -1;
+				state->pos.col = tmp - 1;
+		} else if (attr_int (xin, attrs, XL_NS_SS, "Span", &tmp)) {
+			/* NOTE : span is odd.  It seems to apply as col+span
+			 * rather than col+span-1 that is used for rows which
+			 * is the more logical (to me) arrangement) */
+			if (tmp > 0)
+				span = tmp + 1;
 		} else if (attr_bool (xin, attrs, XL_NS_SS, "AutoFitWidth", &auto_fit))
 			;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "Hidden", &hidden))
+			;
+		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "StyleID"))
+			style = g_hash_table_lookup (state->style_hash, attrs[1]);
 		else if (attr_float (xin, attrs, XL_NS_SS, "Width", &width))
 			;
 		else
-			unknown_attr (xin, attrs, "Cell");
+			unknown_attr (xin, attrs, "Column");
 
+	if (NULL != style) {
+		GnmRange r;
+		r.start.col = state->pos.col;
+		r.end.col   = state->pos.col + span - 1;
+		r.start.row = 0;
+		r.end.row  = SHEET_MAX_ROWS - 1;
+		gnm_style_ref (style);
+		sheet_style_set_range (state->sheet, &r, style);
+	}
 	if (width >= 0.)
-		sheet_col_set_size_pts (state->sheet, state->pos.col, width, !auto_fit);
+		for (tmp = 0 ; tmp < span ; tmp++)
+			sheet_col_set_size_pts (state->sheet,
+				state->pos.col + tmp, width, !auto_fit);
+	if (hidden)
+		colrow_set_visibility (state->sheet, TRUE, FALSE,
+			state->pos.col, state->pos.col+span-1);
+
+	state->pos.col += span;
 }
 
 static void
 xl_xml_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
-	int tmp;
-	gboolean  auto_fit = TRUE;
+	int tmp, span = 1;
+	gboolean  auto_fit = TRUE, hidden = FALSE;
 	gnm_float height = -1;
+	GnmStyle *style = NULL;
 
 	state->pos.col = 0;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_int (xin, attrs, XL_NS_SS, "Index", &tmp)) {
 			if (tmp > 0)
-				state->pos.row = tmp -1;
-		} else if (attr_bool (xin, attrs, XL_NS_SS, "AutoFitHeight", &auto_fit))
+				state->pos.row = tmp - 1;
+		} else if (attr_int (xin, attrs, XL_NS_SS, "Span", &tmp)) {
+			if (tmp > 0)
+				span = tmp;
+		} else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "StyleID"))
+			style = g_hash_table_lookup (state->style_hash, attrs[1]);
+		else if (attr_bool (xin, attrs, XL_NS_SS, "AutoFitHeight", &auto_fit))
+			;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "Hidden", &hidden))
 			;
 		else if (attr_float (xin, attrs, XL_NS_SS, "Height", &height))
 			;
 		else
-			unknown_attr (xin, attrs, "Cell");
+			unknown_attr (xin, attrs, "Row");
 
 	if (height >= 0.)
-		sheet_row_set_size_pts (state->sheet, state->pos.row, height, !auto_fit);
+		for (tmp = 0 ; tmp < span ; tmp++)
+			sheet_row_set_size_pts (state->sheet, state->pos.row+tmp, height, !auto_fit);
+	if (hidden)
+		colrow_set_visibility (state->sheet, FALSE, FALSE,
+			state->pos.row, state->pos.row+span-1);
+
+	if (NULL != style) {
+		GnmRange r;
+		r.start.row = state->pos.row;
+		r.end.row   = state->pos.row + span - 1;
+		r.start.col = 0;
+		r.end.col  = SHEET_MAX_COLS - 1;
+		gnm_style_ref (style);
+		sheet_style_set_range (state->sheet, &r, style);
+	}
 }
 static void
 xl_xml_row_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
@@ -293,22 +383,36 @@ xl_xml_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
 	GnmStyle *style = NULL;
-	int across = 0, down = 0, type, tmp;
+	GnmExpr const *expr;
+	int across = 0, down = 0, tmp;
+	GnmParsePos pp;
 
+	parse_pos_init (&pp, NULL, state->sheet,
+		state->pos.col, state->pos.row);
+	state->array_range.start.col = -1; /* poison it */
+	state->val_type = VALUE_STRING;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_int (xin, attrs, XL_NS_SS, "Index", &tmp)) {
 			if (tmp > 0)
 				state->pos.col = tmp -1;
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "StyleID"))
-			style = g_hash_table_lookup (state->style_hash, attrs[1]);
-		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "ArrayRange"))
-			;
-		else if (attr_int (xin, attrs, XL_NS_SS, "MergeAcross", &across))
+		} else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "Formula")) {
+			expr = xl_xml_parse_expr (xin, attrs[1], &pp);
+			if (NULL != expr) {
+				if (NULL != state->expr)
+					gnm_expr_unref (state->expr);
+				state->expr = expr;
+			}
+		} else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "ArrayRange")) {
+			GnmRangeRef rr;
+			xmlChar const *end = rangeref_parse (&rr, attrs[1], &pp, gnm_expr_conventions_r1c1);
+			if (end != attrs[1] && *end == '\0')
+				range_init_rangeref (&state->array_range, &rr);
+		} else if (attr_int (xin, attrs, XL_NS_SS, "MergeAcross", &across))
 			;
 		else if (attr_int (xin, attrs, XL_NS_SS, "MergeDown", &down))
 			;
-		else if (attr_int (xin, attrs, XL_NS_SS, "Type", &type))
-			;
+		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "StyleID"))
+			style = g_hash_table_lookup (state->style_hash, attrs[1]);
 		else
 			unknown_attr (xin, attrs, "Cell");
 
@@ -333,11 +437,42 @@ xl_xml_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	((ExcelXMLReadState *)xin->user_state)->pos.col++;
 }
 static void
+xl_xml_data_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal const val_types[] = {
+		{ "String",	VALUE_STRING },
+		{ "Number",	VALUE_FLOAT },
+		{ "Boolean",	VALUE_BOOLEAN },
+		{ "Error",	VALUE_ERROR },
+		{ NULL, 0 }
+	};
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	int type;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_enum (xin, attrs, XL_NS_SS, "Type", val_types, &type))
+			state->val_type = type;
+		else
+			unknown_attr (xin, attrs, "CellData");
+}
+
+static void
 xl_xml_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
 	GnmCell *cell = sheet_cell_fetch (state->sheet, state->pos.col, state->pos.row);
-	cell_set_text (cell, xin->content->str);
+	GnmValue *v = value_new_from_string (state->val_type, xin->content->str, NULL, FALSE);
+	if (NULL != state->expr) {
+		if (NULL != v)
+			cell_set_expr_and_value (cell, state->expr, v, TRUE);
+		else
+			cell_set_expr (cell, state->expr);
+		gnm_expr_unref (state->expr);
+		state->expr = NULL;
+	} else if (NULL != v)
+		cell_set_value (cell, v);
+	else
+		cell_set_text (cell, xin->content->str);
 }
 
 static void
@@ -597,6 +732,29 @@ xl_xml_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+xl_xml_named_range (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	char const *name = NULL;
+	char const *expr_str = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "Name"))
+			name = attrs[1];
+		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "RefersTo"))
+			expr_str = attrs[1];
+
+	if (NULL != name && NULL != expr_str) {
+		GnmParsePos pp;
+		GnmExpr const *expr = xl_xml_parse_expr (xin, expr_str,
+			parse_pos_init (&pp, state->wb, NULL, 0, 0));
+		g_warning ("%s = %s", name, expr_str);
+		if (NULL != expr)
+			expr_name_add (&pp, name, expr, NULL, TRUE, NULL);
+	}
+}
+
+static void
 xl_xml_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
@@ -632,6 +790,68 @@ xl_xml_sheet_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->sheet = NULL;
 }
 
+static void
+xl_xml_pane (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	state->pos.col = 0;
+	state->pos.row = 0;
+}
+static void
+xl_xml_editpos_row (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	char *end;
+	int tmp;
+	errno = 0;
+	tmp = strtol (xin->content->str, &end, 10);
+	if (errno != ERANGE && *end == '\0')
+		state->pos.row = tmp;
+}
+static void
+xl_xml_editpos_col (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	char *end;
+	int tmp;
+	errno = 0;
+	tmp = strtol (xin->content->str, &end, 10);
+	if (errno != ERANGE && *end == '\0')
+		state->pos.col = tmp;
+}
+static void
+xl_xml_selection (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
+	SheetView *sv = sheet_get_view (state->sheet, state->wb_view);
+	char const *ptr, *end;
+	GnmParsePos pp;
+	GnmRangeRef rr;
+	GnmRange    r;
+
+	g_return_if_fail (sv != NULL);
+
+	parse_pos_init_sheet (&pp, state->sheet);
+	sv_selection_reset (sv);
+	for (ptr = xin->content->str; ptr && *ptr ; ) {
+		end = rangeref_parse (&rr, ptr, &pp, gnm_expr_conventions_r1c1);
+		if (end != ptr) {
+			range_init_rangeref (&r, &rr);
+			fprintf (stderr, "%s = ", ptr);
+			range_dump (&r, "\n");
+			sv_selection_add_range (sv,
+				state->pos.col, state->pos.row,
+				r.start.col, r.start.row,
+				r.end.col, r.end.row);
+
+			if (*end != ',')
+				break;
+			ptr = end + 1;
+		} else
+			break;
+	}
+}
+
 /****************************************************************************/
 
 static GsfXMLInNS content_ns[] = {
@@ -657,6 +877,10 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", FALSE, FALSE, TRUE,
     GSF_XML_IN_NODE (DOC_SETTINGS, DOC_COMPONENTS, XL_NS_O, "DownloadComponents", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (DOC_SETTINGS, DOC_COMPONENTS_LOCATION, XL_NS_O, "LocationOfComponents", FALSE, NULL, NULL),
   GSF_XML_IN_NODE (WORKBOOK, WB_VIEW, XL_NS_XL, "ExcelWorkbook", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (WB_VIEW, SUPBOOK, XL_NS_XL, "SupBook", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (SUPBOOK, SUP_DLL, XL_NS_XL, "Dll", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (SUPBOOK, SUP_EXTERNNAME, XL_NS_XL, "ExternName", FALSE, NULL, NULL),
+        GSF_XML_IN_NODE (SUP_EXTERNNAME, EXTERNNAME_NAME, XL_NS_XL, "Name", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (WB_VIEW, VIEW_HEIGHT, XL_NS_XL, "WindowHeight", TRUE, NULL, NULL),
     GSF_XML_IN_NODE (WB_VIEW, VIEW_WIDTH,  XL_NS_XL, "WindowWidth",  TRUE, NULL, NULL),
     GSF_XML_IN_NODE (WB_VIEW, VIEW_TOP_X,  XL_NS_XL, "WindowTopX",   TRUE, NULL, NULL),
@@ -674,15 +898,15 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", FALSE, FALSE, TRUE,
       GSF_XML_IN_NODE (STYLE, NUM_FMT,    XL_NS_SS, "NumberFormat", FALSE, &xl_xml_num_fmt, NULL),
       GSF_XML_IN_NODE (STYLE, PROTECTION, XL_NS_SS, "Protection", FALSE, NULL, NULL),
   GSF_XML_IN_NODE (WORKBOOK, NAMES, XL_NS_SS, "Names", FALSE, NULL, NULL),
-    GSF_XML_IN_NODE (NAMES, NAMED_RANGE, XL_NS_SS, "NamedRange", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (NAMES, NAMED_RANGE, XL_NS_SS, "NamedRange", FALSE, &xl_xml_named_range, NULL),
 
   GSF_XML_IN_NODE_FULL (WORKBOOK, WORKSHEET, XL_NS_SS, "Worksheet", FALSE, FALSE, TRUE, &xl_xml_sheet_start, &xl_xml_sheet_end, 0),
-    GSF_XML_IN_NODE (WORKSHEET, TABLE, XL_NS_SS, "Table", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (WORKSHEET, TABLE, XL_NS_SS, "Table", FALSE, &xl_xml_table_start, NULL),
       GSF_XML_IN_NODE (TABLE, COLUMN, XL_NS_SS, "Column", FALSE, &xl_xml_col_start, NULL),
       GSF_XML_IN_NODE (TABLE, ROW, XL_NS_SS, "Row", FALSE, &xl_xml_row_start, &xl_xml_row_end),
 	GSF_XML_IN_NODE_FULL (ROW, CELL, XL_NS_SS, "Cell", FALSE, FALSE, TRUE, &xl_xml_cell_start, &xl_xml_cell_end, 0),
           GSF_XML_IN_NODE (CELL, NAMED_CELL, XL_NS_SS, "NamedCell", FALSE, NULL, NULL),
-          GSF_XML_IN_NODE_FULL (CELL, CELL_DATA, XL_NS_SS, "Data", GSF_XML_CONTENT, FALSE, TRUE, NULL, &xl_xml_data_end, 0),
+          GSF_XML_IN_NODE_FULL (CELL, CELL_DATA, XL_NS_SS, "Data", GSF_XML_CONTENT, FALSE, TRUE, &xl_xml_data_start, &xl_xml_data_end, 0),
 	    GSF_XML_IN_NODE_FULL (CELL_DATA, HTML_B,    XL_NS_HTML, "B",    GSF_XML_SHARED_CONTENT, TRUE, FALSE, NULL, NULL, 0),
 	    GSF_XML_IN_NODE_FULL (CELL_DATA, HTML_I,    XL_NS_HTML, "I",    GSF_XML_SHARED_CONTENT, TRUE, FALSE, NULL, NULL, 1),
 	    GSF_XML_IN_NODE_FULL (CELL_DATA, HTML_U,    XL_NS_HTML, "U",    GSF_XML_SHARED_CONTENT, TRUE, FALSE, NULL, NULL, 2),
@@ -691,12 +915,14 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", FALSE, FALSE, TRUE,
 	    GSF_XML_IN_NODE_FULL (CELL_DATA, HTML_SUP,  XL_NS_HTML, "Sup",  GSF_XML_SHARED_CONTENT, TRUE, FALSE, NULL, NULL, 5),
 	    GSF_XML_IN_NODE_FULL (CELL_DATA, HTML_SUB,  XL_NS_HTML, "Sub",  GSF_XML_SHARED_CONTENT, TRUE, FALSE, NULL, NULL, 6),
     GSF_XML_IN_NODE (WORKSHEET, OPTIONS, XL_NS_XL, "WorksheetOptions", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (OPTIONS, SELECTED, XL_NS_XL, "Selected", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (OPTIONS, UNSYNCED, XL_NS_XL, "Unsynced", FALSE, NULL, NULL),	/* ?? */
+      GSF_XML_IN_NODE (OPTIONS, SELECTED, XL_NS_XL, "Selected", FALSE, NULL, NULL),	/* ?? */
       GSF_XML_IN_NODE (OPTIONS, PANES, XL_NS_XL, "Panes", FALSE, NULL, NULL),
-        GSF_XML_IN_NODE (PANES, PANE, XL_NS_XL,  "Pane", FALSE, NULL, NULL),
+        GSF_XML_IN_NODE (PANES, PANE, XL_NS_XL,  "Pane", FALSE, &xl_xml_pane, NULL),
           GSF_XML_IN_NODE (PANE, PANE_NUM, XL_NS_XL,  "Number", TRUE, NULL, NULL),
-          GSF_XML_IN_NODE (PANE, PANE_ACTIVEROW, XL_NS_XL,  "ActiveRow", TRUE, NULL, NULL),
-          GSF_XML_IN_NODE (PANE, PANE_ACTIVECOL, XL_NS_XL,  "ActiveCol", TRUE, NULL, NULL),
+          GSF_XML_IN_NODE (PANE, PANE_ACTIVEROW, XL_NS_XL,  "ActiveRow", TRUE, NULL, &xl_xml_editpos_row),
+          GSF_XML_IN_NODE (PANE, PANE_ACTIVECOL, XL_NS_XL,  "ActiveCol", TRUE, NULL, &xl_xml_editpos_col),
+          GSF_XML_IN_NODE (PANE, PANE_SELECTION, XL_NS_XL,  "RangeSelection", TRUE, NULL, &xl_xml_selection),
       GSF_XML_IN_NODE (OPTIONS, PAGE_SETUP, XL_NS_XL, "PageSetup", FALSE, NULL, NULL),
 	GSF_XML_IN_NODE (PAGE_SETUP, PAGE_HEADER, XL_NS_XL, "Header", FALSE, NULL, NULL),
 	GSF_XML_IN_NODE (PAGE_SETUP, PAGE_FOOTER, XL_NS_XL, "Footer", FALSE, NULL, NULL),
@@ -709,6 +935,11 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", FALSE, FALSE, TRUE,
       GSF_XML_IN_NODE (OPTIONS, PROT_OBJS,	 XL_NS_XL, "ProtectObjects", TRUE, NULL, NULL),
       GSF_XML_IN_NODE (OPTIONS, PROT_SCENARIOS,  XL_NS_XL, "ProtectScenarios", TRUE, NULL, NULL),
       GSF_XML_IN_NODE (OPTIONS, PAGEBREAK_ZOOM,	 XL_NS_XL, "PageBreakZoom", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (WORKSHEET, COND_FMT, XL_NS_XL, "ConditionalFormatting", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (COND_FMT, COND_RANGE,	XL_NS_XL, "Range", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (COND_FMT, COND,		XL_NS_XL, "Condition", FALSE, NULL, NULL),
+        GSF_XML_IN_NODE (COND, COND_VALUE1,	XL_NS_XL, "Value1", FALSE, NULL, NULL),
+        GSF_XML_IN_NODE (COND, COND_STYLE,	XL_NS_XL, "Format", FALSE, NULL, NULL),
   { NULL }
 };
 
@@ -729,6 +960,7 @@ excel_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.sheet	= NULL;
 	state.style	= NULL;
 	state.def_style	= NULL;
+	state.expr	= NULL;
 	state.style_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify)g_free, (GDestroyNotify) gnm_style_unref);
 

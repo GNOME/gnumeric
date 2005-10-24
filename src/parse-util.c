@@ -524,7 +524,7 @@ r1c1_get_index (char const *str, int *num, unsigned char *relative, gboolean is_
 			return NULL;
 		return end + 1;
 	} else {
-		if (*num <= 0 || *num >= colrow_max (is_col))
+		if (*num <= 0 || *num > colrow_max (is_col))
 			return NULL;
 		(*num)--;
 	}
@@ -895,7 +895,7 @@ r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
 		if (ptr[0] != ':' || (ptr[1] != 'R' && ptr[1] != 'r') ||
 		    NULL == (tmp = r1c1_get_index (ptr+1, &res->b.row, &res->b.row_relative, FALSE)) ||
 		    (*tmp != 'C' && *tmp != 'c') ||
-		    NULL == (tmp = r1c1_get_index (tmp, &res->b.row, &res->b.row_relative, FALSE)))
+		    NULL == (tmp = r1c1_get_index (tmp, &res->b.col, &res->b.col_relative, FALSE)))
 			return ptr;
 		return tmp;
 	} else if (*ptr == 'C' || *ptr == 'c') { /* full col C[#] */

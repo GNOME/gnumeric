@@ -717,6 +717,9 @@ cellref:  RANGEREF { $$ = $1; }
 		$$ = build_range_ctor ($1, $3, $3);
 		if ($$ == NULL) { YYERROR; }
 	}
+	| RANGEREF RANGE_SEP RANGEREF {
+		$$ = build_binop ($1, GNM_EXPR_OP_RANGE_CTOR, $3);
+	}
 	;
 
 arg_list: exp {
@@ -1195,7 +1198,8 @@ yylex (void)
 			while ((tmp = g_utf8_get_char (state->ptr)) != 0 &&
 			       !g_unichar_isspace (tmp)) {
 				state->ptr = g_utf8_next_char (state->ptr);
-				if (tmp == '!' || tmp == '?') {
+				if (tmp == '!' || tmp == '?' ||
+				((state->ptr - start) == 4 && 0 == strncmp (start, "#N/A", 4))) {
 					GnmString *name = gnm_string_get_nocopy (g_strndup (start, state->ptr - start));
 					yylval.expr = register_expr_allocation
 						(gnm_expr_new_constant (
