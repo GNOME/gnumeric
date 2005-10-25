@@ -5,7 +5,7 @@ use strict;
 
 foreach my $srcfile (@ARGV) {
     my $dstfile = $srcfile;
-    $dstfile =~ s/\.html$/.shtml/;
+    $dstfile =~ s/\.xhtml$/.shtml/;
 
     my $func = $srcfile;
     $func =~ s|^(.*/)?gnumeric-||;
@@ -18,15 +18,21 @@ foreach my $srcfile (@ARGV) {
     print DST '<!--#set var="title" value="Gnumeric function ', $func, '" -->';
     print DST '<!--#set var="rootdir" value=".." -->';
     print DST '<!--#include virtual="../header-begin.shtml" -->', "\n";
-    print DST '<link rel="stylesheet" href="stylesheet/function.css" type="text/css"/>', "\n";
+    print DST '<link rel="stylesheet" href="style/function.css" type="text/css"/>', "\n";
     print DST '<!--#include virtual="../header-end.shtml" -->', "\n";
 
     while (<SRC>) {
 	if (m'<body>' ... m'</body>') {
-	    s|<body>||;
-	    s|</body>||;
+	    s|^.*<body>||;
+	    s|</body>.*$||;
 
-	    s/(href=\".*\.)html\"/$1shtml\"/g;
+	    if (s|(<div class="refnamediv")|<p>$1| .. m{</div>}) {
+		s|</div>|</div></p>|;
+	    }
+	    s/<(span class="(function|parameter)")\s+style="font-family: monospace;\s*"\s*>/<$1>/g;
+	    s/\&\#10;\s*//g;
+
+	    s/(href=\".*\.)xhtml\"/$1shtml\"/g;
 
 	    print DST;
 	}
