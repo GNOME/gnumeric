@@ -284,8 +284,44 @@ function_dump_defs (char const *filename, int dump_type)
 	for (i = 0; i < ordered->len; i++) {
 		GnmFunc const *fd = g_ptr_array_index (ordered, i);
 		if (dump_type == 1) {
-			fprintf (output_file, "@CATEGORY=%s\n%s\n\n",
-				 _(fd->fn_group->display_name->str), _(fd->help[0].text));
+			int i;
+			fprintf (output_file, "@CATEGORY=%s\n",
+				 _(fd->fn_group->display_name->str));
+			for (i = 0;
+			     fd->help[i].type != GNM_FUNC_HELP_END;
+			     i++) {
+				switch (fd->help[i].type) {
+				case GNM_FUNC_HELP_OLD:
+					fprintf (output_file, "%s\n",
+						 _(fd->help[i].text));
+					break;
+				case GNM_FUNC_HELP_NAME: {
+					char *name = g_strdup (_(fd->help[i].text));
+					char *colon = strchr (name, ':');
+					if (colon) *colon = 0;
+					fprintf (output_file,
+						 "@FUNCTION=%s\n",
+						 name);
+					g_free (name);
+					break;
+				}
+				case GNM_FUNC_HELP_SEEALSO:
+					fprintf (output_file, "@SEEALSO=%s\n",
+						 _(fd->help[i].text));
+					break;
+				case GNM_FUNC_HELP_DESCRIPTION:
+					fprintf (output_file, "@DESCRIPTION=%s\n",
+						 _(fd->help[i].text));
+					break;
+				case GNM_FUNC_HELP_EXAMPLES:
+				case GNM_FUNC_HELP_ARG:
+				case GNM_FUNC_HELP_END:
+				case GNM_FUNC_HELP_NOTE:
+					break;
+					
+				}
+			}
+			fputc ('\n', output_file);
 		} else if (dump_type == 0) {
 			static struct {
 				char const *name;

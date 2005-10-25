@@ -11,6 +11,7 @@ Morten:
 	* Import formats from Lotus 1-2-3 files.
 	* Import column widths and row heights from Lotus 1-2-3 files.
 	* Read basic info from wk4 files.
+	* Fix issues with new function docs method.
 
 --------------------------------------------------------------------------
 Gnumeric 1.6.0
