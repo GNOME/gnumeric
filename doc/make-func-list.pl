@@ -7,6 +7,10 @@ my $func = "";
 while (<>) {
     s/\s+$//;
     if (/^\@CATEGORY=(.*)/) {
+	if ($state) {
+	    print "    </refsect1>\n";
+	    print "  </refentry>\n\n";
+	}
 	if ($cat ne $1) {
 	    if ($cat ne "") {
 		print "</sect1>\n";
