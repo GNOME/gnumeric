@@ -132,6 +132,7 @@ sub markup_stuff {
     $str = &quote_stuff ($str);
 
     $str =~ s/\b$func\b/<function>$func<\/function>/g;
+    $str =~ s/\@\{(\w*)\}/<parameter>\1<\/parameter>/g;
     $str =~ s/\@(\w*)\b/<parameter>\1<\/parameter>/g;
 
     return $str;

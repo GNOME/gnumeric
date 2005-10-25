@@ -1934,6 +1934,17 @@ AMORLINC(2400,DATE(1998,8,19),DATE(1998,12,31),300,1,0.15,1) = 360
 @SEEALSO=AMORDEGRC
 
 @CATEGORY=Finance
+@FUNCTION=atl_last
+@SYNTAX=ATL_LAST (tag)
+@DESCRIPTION=ATL_LAST is a sample implemention of a real time data source. It takes a string tag and monitors the named pipe /tmp/atl for changes to the value of that tag.
+
+* This is not intended to be generally enabled and is OFF by default.
+
+@EXAMPLES=
+ATL_LAST("IBM")
+@SEEALSO=
+
+@CATEGORY=Finance
 @FUNCTION=COUPDAYBS
 @SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis,eom])
 @DESCRIPTION=COUPDAYBS returns the number of days from the beginning of the coupon period to the settlement date.
@@ -4601,6 +4612,7 @@ POWER(3,3.141) equals 31.523749.
 
 @EXAMPLES=
 PRODUCT(2,5,9) equals 90.
+@SEEALSO=SUM,COUNT,G_PRODUCT
 
 @CATEGORY=Mathematics
 @FUNCTION=QUOTIENT
@@ -4792,6 +4804,7 @@ SQRTPI(2) equals 2.506628275.
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43.  Then
 SUM(A1:A5) equals 107.
+@SEEALSO=AVERAGE,COUNT
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMA
@@ -4821,7 +4834,10 @@ SUMIF(A1:A5,"<=27",B1:B5) equals 8.
 @SEEALSO=COUNTIF, SUM
 
 @CATEGORY=Mathematics
-SUMPRODUCT:Multiplies components and adds the results.
+@FUNCTION=SUMPRODUCT
+@SYNTAX=SUMPRODUCT()
+@DESCRIPTION=Multiplies corresponding data entries in the given arrays or ranges, and then returns the sum of those products.
+@SEEALSO=SUM,PRODUCT,G_PRODUCT
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMSQ
@@ -6353,139 +6369,472 @@ QUARTILE(A1:A5,1) equals 17.3.
 @SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL
 
 @CATEGORY=Statistics
-R.DBETA:probability density function of the beta distribution.
+@FUNCTION=R.DBETA
+@SYNTAX=R.DBETA(,xabgive_log)
+@DESCRIPTION=This function returns the probability density function of the beta distribution.
+@{x}: observation.
+@{a}: the first shape parameter of the distribution
+@{b}: the second scale parameter of the distribution
+@{give_log}: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.PBETA,R.QBETA
 
 @CATEGORY=Statistics
-R.DBINOM:probability density function of the binomial distribution.
+@FUNCTION=R.DBINOM
+@SYNTAX=R.DBINOM(,xnpsucgive_log)
+@DESCRIPTION=This function returns the probability density function of the binomial distribution.
+@{x}: observation.
+@{n}: the number of trials
+@{psuc}: the probability of success in each trial
+@{give_log}: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.PBINOM,R.QBINOM
 
 @CATEGORY=Statistics
-R.DCAUCHY:probability density function of the Cauchy distribution.
+@FUNCTION=R.DCAUCHY
+@SYNTAX=R.DCAUCHY(,xlocationscalegive_log)
+@DESCRIPTION=This function returns the probability density function of the Cauchy distribution.
+@{x}: observation.
+@{location}: the center of the distribution
+@{scale}: the scale parameter of the distribution
+@{give_log}: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.PCAUCHY,R.QCAUCHY
 
 @CATEGORY=Statistics
-R.DCHISQ:probability density function of the chi-square distribution.
+@FUNCTION=R.DCHISQ
+@SYNTAX=R.DCHISQ(,xdfgive_log)
+@DESCRIPTION=This function returns the probability density function of the chi-square distribution.
+@{x}: observation.
+@{df}: the number of degrees of freedom of the distribution
+@{give_log}: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.PCHISQ,R.QCHISQ
 
 @CATEGORY=Statistics
-R.DEXP:probability density function of the exponential distribution.
+@FUNCTION=R.DEXP
+@SYNTAX=R.DEXP(,xscalegive_log)
+@DESCRIPTION=This function returns the probability density function of the exponential distribution.
+@{x}: observation.
+@{scale}: the scale parameter of the distribution
+@{give_log}: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.PEXP,R.QEXP
 
 @CATEGORY=Statistics
-R.DF:probability density function of the F distribution.
+@FUNCTION=R.DF
+@SYNTAX=R.DF(,xn1n2give_log)
+@DESCRIPTION=This function returns the probability density function of the F distribution.
+@{x}: observation.
+@{n1}: the first number of degrees of freedom of the distribution
+@{n2}: the second number of degrees of freedom of the distribution
+@{give_log}: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.PF,R.QF
 
 @CATEGORY=Statistics
-R.DGAMMA:probability density function of the gamma distribution.
+@FUNCTION=R.DGAMMA
+@SYNTAX=R.DGAMMA(,xshapescalegive_log)
+@DESCRIPTION=This function returns the probability density function of the gamma distribution.
+@{x}: observation.
+@{shape}: the shape parameter of the distribution
+@{scale}: the scale parameter of the distribution
+@{give_log}: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.PGAMMA,R.QGAMMA
 
 @CATEGORY=Statistics
-R.DGEOM:probability density function of the geometric distribution.
+@FUNCTION=R.DGEOM
+@SYNTAX=R.DGEOM(,xpsucgive_log)
+@DESCRIPTION=This function returns the probability density function of the geometric distribution.
+@{x}: observation.
+@{psuc}: the probability of success in each trial
+@{give_log}: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.PGEOM,R.QGEOM
 
 @CATEGORY=Statistics
-R.DHYPER:probability density function of the hypergeometric distribution.
+@FUNCTION=R.DHYPER
+@SYNTAX=R.DHYPER(,xrbngive_log)
+@DESCRIPTION=This function returns the probability density function of the hypergeometric distribution.
+@{x}: observation.
+@{r}: the number of red balls
+@{b}: the number of black balls
+@{n}: the number of balls drawn
+@{give_log}: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.PHYPER,R.QHYPER
 
 @CATEGORY=Statistics
-R.DLNORM:probability density function of the log-normal distribution.
+@FUNCTION=R.DLNORM
+@SYNTAX=R.DLNORM(,xlogmeanlogsdgive_log)
+@DESCRIPTION=This function returns the probability density function of the log-normal distribution.
+@{x}: observation.
+@{logmean}: mean of the underlying normal distribution.
+@{logsd}: standard deviation of the underlying normal distribution.
+@{give_log}: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.PLNORM,R.QLNORM
 
 @CATEGORY=Statistics
-R.DNBINOM:probability density function of the negative binomial distribution.
+@FUNCTION=R.DNBINOM
+@SYNTAX=R.DNBINOM(,xnpsucgive_log)
+@DESCRIPTION=This function returns the probability density function of the negative binomial distribution.
+@{x}: observation.
+@{n}: the number of trials
+@{psuc}: the probability of success in each trial
+@{give_log}: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.PNBINOM,R.QNBINOM
 
 @CATEGORY=Statistics
-R.DNORM:probability density function of the normal distribution.
+@FUNCTION=R.DNORM
+@SYNTAX=R.DNORM(,xmusigmagive_log)
+@DESCRIPTION=This function returns the probability density function of the normal distribution.
+@{x}: observation.
+@{mu}: mean of the distribution.
+@{sigma}: standard deviation of the distribution.
+@{give_log}: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.PNORM,R.QNORM
 
 @CATEGORY=Statistics
-R.DPOIS:probability density function of the Poisson distribution.
+@FUNCTION=R.DPOIS
+@SYNTAX=R.DPOIS(,xlambdagive_log)
+@DESCRIPTION=This function returns the probability density function of the Poisson distribution.
+@{x}: observation.
+@{lambda}: the mean of the distribution
+@{give_log}: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.PPOIS,R.QPOIS
 
 @CATEGORY=Statistics
-R.DT:probability density function of the Student t distribution.
+@FUNCTION=R.DT
+@SYNTAX=R.DT(,xngive_log)
+@DESCRIPTION=This function returns the probability density function of the Student t distribution.
+@{x}: observation.
+@{n}: the number of degrees of freedom of the distribution
+@{give_log}: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.PT,R.QT
 
 @CATEGORY=Statistics
-R.DWEIBULL:probability density function of the Weibull distribution.
+@FUNCTION=R.DWEIBULL
+@SYNTAX=R.DWEIBULL(,xshapescalegive_log)
+@DESCRIPTION=This function returns the probability density function of the Weibull distribution.
+@{x}: observation.
+@{shape}: the shape parameter of the distribution
+@{scale}: the scale parameter of the distribution
+@{give_log}: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.PWEIBULL,R.QWEIBULL
 
 @CATEGORY=Statistics
-R.PBETA:cumulative distribution function of the beta distribution.
+@FUNCTION=R.PBETA
+@SYNTAX=R.PBETA(,xablower_taillog_p)
+@DESCRIPTION=This function returns the cumulative distribution function of the beta distribution.
+@{x}: observation.
+@{a}: the first shape parameter of the distribution
+@{b}: the second scale parameter of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DBETA,R.QBETA
 
 @CATEGORY=Statistics
-R.PBINOM:cumulative distribution function of the binomial distribution.
+@FUNCTION=R.PBINOM
+@SYNTAX=R.PBINOM(,xnpsuclower_taillog_p)
+@DESCRIPTION=This function returns the cumulative distribution function of the binomial distribution.
+@{x}: observation.
+@{n}: the number of trials
+@{psuc}: the probability of success in each trial
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DBINOM,R.QBINOM
 
 @CATEGORY=Statistics
-R.PCAUCHY:cumulative distribution function of the Cauchy distribution.
+@FUNCTION=R.PCAUCHY
+@SYNTAX=R.PCAUCHY(,xlocationscalelower_taillog_p)
+@DESCRIPTION=This function returns the cumulative distribution function of the Cauchy distribution.
+@{x}: observation.
+@{location}: the center of the distribution
+@{scale}: the scale parameter of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DCAUCHY,R.QCAUCHY
 
 @CATEGORY=Statistics
-R.PCHISQ:cumulative distribution function of the chi-square distribution.
+@FUNCTION=R.PCHISQ
+@SYNTAX=R.PCHISQ(,xdflower_taillog_p)
+@DESCRIPTION=This function returns the cumulative distribution function of the chi-square distribution.
+@{x}: observation.
+@{df}: the number of degrees of freedom of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DCHISQ,R.QCHISQ
 
 @CATEGORY=Statistics
-R.PEXP:cumulative distribution function of the exponential distribution.
+@FUNCTION=R.PEXP
+@SYNTAX=R.PEXP(,xscalelower_taillog_p)
+@DESCRIPTION=This function returns the cumulative distribution function of the exponential distribution.
+@{x}: observation.
+@{scale}: the scale parameter of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DEXP,R.QEXP
 
 @CATEGORY=Statistics
-R.PF:cumulative distribution function of the F distribution.
+@FUNCTION=R.PF
+@SYNTAX=R.PF(,xn1n2lower_taillog_p)
+@DESCRIPTION=This function returns the cumulative distribution function of the F distribution.
+@{x}: observation.
+@{n1}: the first number of degrees of freedom of the distribution
+@{n2}: the second number of degrees of freedom of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DF,R.QF
 
 @CATEGORY=Statistics
-R.PGAMMA:cumulative distribution function of the gamma distribution.
+@FUNCTION=R.PGAMMA
+@SYNTAX=R.PGAMMA(,xshapescalelower_taillog_p)
+@DESCRIPTION=This function returns the cumulative distribution function of the gamma distribution.
+@{x}: observation.
+@{shape}: the shape parameter of the distribution
+@{scale}: the scale parameter of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DGAMMA,R.QGAMMA
 
 @CATEGORY=Statistics
-R.PGEOM:cumulative distribution function of the geometric distribution.
+@FUNCTION=R.PGEOM
+@SYNTAX=R.PGEOM(,xpsuclower_taillog_p)
+@DESCRIPTION=This function returns the cumulative distribution function of the geometric distribution.
+@{x}: observation.
+@{psuc}: the probability of success in each trial
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DGEOM,R.QGEOM
 
 @CATEGORY=Statistics
-R.PHYPER:cumulative distribution function of the hypergeometric distribution.
+@FUNCTION=R.PHYPER
+@SYNTAX=R.PHYPER(,xrbnlower_taillog_p)
+@DESCRIPTION=This function returns the cumulative distribution function of the hypergeometric distribution.
+@{x}: observation.
+@{r}: the number of red balls
+@{b}: the number of black balls
+@{n}: the number of balls drawn
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DHYPER,R.QHYPER
 
 @CATEGORY=Statistics
-R.PLNORM:cumulative distribution function of the log-normal distribution.
+@FUNCTION=R.PLNORM
+@SYNTAX=R.PLNORM(,xlogmeanlogsdlower_taillog_p)
+@DESCRIPTION=This function returns the cumulative distribution function of the log-normal distribution.
+@{x}: observation.
+@{logmean}: mean of the underlying normal distribution.
+@{logsd}: standard deviation of the underlying normal distribution.
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DLNORM,R.QLNORM
 
 @CATEGORY=Statistics
-R.PNBINOM:cumulative distribution function of the negative binomial distribution.
+@FUNCTION=R.PNBINOM
+@SYNTAX=R.PNBINOM(,xnpsuclower_taillog_p)
+@DESCRIPTION=This function returns the cumulative distribution function of the negative binomial distribution.
+@{x}: observation.
+@{n}: the number of trials
+@{psuc}: the probability of success in each trial
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DNBINOM,R.QNBINOM
 
 @CATEGORY=Statistics
-R.PNORM:cumulative distribution function of the normal distribution.
+@FUNCTION=R.PNORM
+@SYNTAX=R.PNORM(,xmusigmalower_taillog_p)
+@DESCRIPTION=This function returns the cumulative distribution function of the normal distribution.
+@{x}: observation.
+@{mu}: mean of the distribution.
+@{sigma}: standard deviation of the distribution.
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DNORM,R.QNORM
 
 @CATEGORY=Statistics
-R.PPOIS:cumulative distribution function of the Poisson distribution.
+@FUNCTION=R.PPOIS
+@SYNTAX=R.PPOIS(,xlambdalower_taillog_p)
+@DESCRIPTION=This function returns the cumulative distribution function of the Poisson distribution.
+@{x}: observation.
+@{lambda}: the mean of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DPOIS,R.QPOIS
 
 @CATEGORY=Statistics
-R.PT:cumulative distribution function of the Student t distribution.
+@FUNCTION=R.PT
+@SYNTAX=R.PT(,xnlower_taillog_p)
+@DESCRIPTION=This function returns the cumulative distribution function of the Student t distribution.
+@{x}: observation.
+@{n}: the number of degrees of freedom of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DT,R.QT
 
 @CATEGORY=Statistics
-R.PWEIBULL:cumulative distribution function of the Weibull distribution.
+@FUNCTION=R.PWEIBULL
+@SYNTAX=R.PWEIBULL(,xshapescalelower_taillog_p)
+@DESCRIPTION=This function returns the cumulative distribution function of the Weibull distribution.
+@{x}: observation.
+@{shape}: the shape parameter of the distribution
+@{scale}: the scale parameter of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DWEIBULL,R.QWEIBULL
 
 @CATEGORY=Statistics
-R.QBETA:probability quantile function of the beta distribution.
+@FUNCTION=R.QBETA
+@SYNTAX=R.QBETA(,pablower_taillog_p)
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the beta distribution.
+@{p}: probability.
+@{a}: the first shape parameter of the distribution
+@{b}: the second scale parameter of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DBETA,R.PBETA
 
 @CATEGORY=Statistics
-R.QBINOM:probability quantile function of the binomial distribution.
+@FUNCTION=R.QBINOM
+@SYNTAX=R.QBINOM(,xnpsuclower_taillog_p)
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the binomial distribution.
+@{x}: observation.
+@{n}: the number of trials
+@{psuc}: the probability of success in each trial
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DBINOM,R.PBINOM
 
 @CATEGORY=Statistics
-R.QCAUCHY:probability quantile function of the Cauchy distribution.
+@FUNCTION=R.QCAUCHY
+@SYNTAX=R.QCAUCHY(,plocationscalelower_taillog_p)
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Cauchy distribution.
+@{p}: probability.
+@{location}: the center of the distribution
+@{scale}: the scale parameter of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DCAUCHY,R.PCAUCHY
 
 @CATEGORY=Statistics
-R.QCHISQ:probability quantile function of the chi-square distribution.
+@FUNCTION=R.QCHISQ
+@SYNTAX=R.QCHISQ(,pdflower_taillog_p)
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the chi-square distribution.
+@{p}: probability.
+@{df}: the number of degrees of freedom of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DCHISQ,R.PCHISQ
 
 @CATEGORY=Statistics
-R.QEXP:probability quantile function of the exponential distribution.
+@FUNCTION=R.QEXP
+@SYNTAX=R.QEXP(,pscalelower_taillog_p)
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the exponential distribution.
+@{p}: probability.
+@{scale}: the scale parameter of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DEXP,R.PEXP
 
 @CATEGORY=Statistics
-R.QF:probability quantile function of the F distribution.
+@FUNCTION=R.QF
+@SYNTAX=R.QF(,xn1n2lower_taillog_p)
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the F distribution.
+@{x}: observation.
+@{n1}: the first number of degrees of freedom of the distribution
+@{n2}: the second number of degrees of freedom of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DF,R.PF
 
 @CATEGORY=Statistics
-R.QGAMMA:probability quantile function of the gamma distribution.
+@FUNCTION=R.QGAMMA
+@SYNTAX=R.QGAMMA(,pshapescalelower_taillog_p)
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the gamma distribution.
+@{p}: probability.
+@{shape}: the shape parameter of the distribution
+@{scale}: the scale parameter of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DGAMMA,R.PGAMMA
 
 @CATEGORY=Statistics
-R.QGEOM:probability quantile function of the geometric distribution.
+@FUNCTION=R.QGEOM
+@SYNTAX=R.QGEOM(,ppsuclower_taillog_p)
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the geometric distribution.
+@{p}: probability.
+@{psuc}: the probability of success in each trial
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DGEOM,R.PGEOM
 
 @CATEGORY=Statistics
-R.QHYPER:probability quantile function of the hypergeometric distribution.
+@FUNCTION=R.QHYPER
+@SYNTAX=R.QHYPER(,prbnlower_taillog_p)
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the hypergeometric distribution.
+@{p}: probability.
+@{r}: the number of red balls
+@{b}: the number of black balls
+@{n}: the number of balls drawn
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DHYPER,R.PHYPER
 
 @CATEGORY=Statistics
-R.QLNORM:probability quantile function of the log-normal distribution.
+@FUNCTION=R.QLNORM
+@SYNTAX=R.QLNORM(,xlogmeanlogsdlower_taillog_p)
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the log-normal distribution.
+@{x}: observation.
+@{logmean}: mean of the underlying normal distribution.
+@{logsd}: standard deviation of the underlying normal distribution.
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DLNORM,R.PLNORM
 
 @CATEGORY=Statistics
-R.QNBINOM:probability quantile function of the negative binomial distribution.
+@FUNCTION=R.QNBINOM
+@SYNTAX=R.QNBINOM(,pnpsuclower_taillog_p)
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the negative binomial distribution.
+@{p}: probability.
+@{n}: the number of trials
+@{psuc}: the probability of success in each trial
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DNBINOM,R.PNBINOM
 
 @CATEGORY=Statistics
-R.QNORM:probability quantile function of the normal distribution.
+@FUNCTION=R.QNORM
+@SYNTAX=R.QNORM(,pmusigmalower_taillog_p)
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the normal distribution.
+@{p}: probability.
+@{mu}: mean of the distribution.
+@{sigma}: standard deviation of the distribution.
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DNORM,R.PNORM
 
 @CATEGORY=Statistics
-R.QPOIS:probability quantile function of the Poisson distribution.
+@FUNCTION=R.QPOIS
+@SYNTAX=R.QPOIS(,plambdalower_taillog_p)
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Poisson distribution.
+@{p}: probability.
+@{lambda}: the mean of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DPOIS,R.PPOIS
 
 @CATEGORY=Statistics
-R.QT:probability quantile function of the Student t distribution.
+@FUNCTION=R.QT
+@SYNTAX=R.QT(,pnlower_taillog_p)
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Student t distribution.
+@{p}: probability.
+@{n}: the number of degrees of freedom of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DT,R.PT
 
 @CATEGORY=Statistics
-R.QWEIBULL:probability quantile function of the Weibull distribution.
+@FUNCTION=R.QWEIBULL
+@SYNTAX=R.QWEIBULL(,pshapescalelower_taillog_p)
+@DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Weibull distribution.
+@{p}: probability.
+@{shape}: the shape parameter of the distribution
+@{scale}: the scale parameter of the distribution
+@{lower_tail}: if true (the default), the lower tail of the distribution is considered.
+@{log_p}: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.
+@SEEALSO=R.DWEIBULL,R.PWEIBULL
 
 @CATEGORY=Statistics
 @FUNCTION=RANK
