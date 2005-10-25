@@ -1,5 +1,9 @@
 2005-10-24  Morten Welinder  <terra@gnome.org>
 
+	* src/func.c (function_dump_defs): Describe args too.
+
+2005-10-24  Morten Welinder  <terra@gnome.org>
+
 	* src/func.c (function_dump_defs): Do the minimum for the new
 	function doc stuff.
 

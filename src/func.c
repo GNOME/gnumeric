@@ -174,6 +174,21 @@ cb_dump_usage (gpointer key, Symbol *sym, FILE *out)
 	}
 }
 
+static char *
+split_at_colon (const char *s, char **rest)
+{
+	char *dup = g_strdup (s);
+	char *colon = strchr (dup, ':');
+	if (colon) {
+		*colon = 0;
+		if (rest) *rest = colon + 1;
+	} else {
+		if (rest) *rest = NULL;
+	}
+	return dup;
+}
+
+
 /**
  * function_dump_defs :
  * @filename :
@@ -285,6 +300,9 @@ function_dump_defs (char const *filename, int dump_type)
 		GnmFunc const *fd = g_ptr_array_index (ordered, i);
 		if (dump_type == 1) {
 			int i;
+			gboolean first_arg = TRUE;
+			GString *syntax = g_string_new ("@SYNTAX=");
+			GString *arg_desc = g_string_new (NULL);
 			fprintf (output_file, "@CATEGORY=%s\n",
 				 _(fd->fn_group->display_name->str));
 			for (i = 0;
@@ -296,12 +314,13 @@ function_dump_defs (char const *filename, int dump_type)
 						 _(fd->help[i].text));
 					break;
 				case GNM_FUNC_HELP_NAME: {
-					char *name = g_strdup (_(fd->help[i].text));
-					char *colon = strchr (name, ':');
-					if (colon) *colon = 0;
+					char *short_desc;
+					char *name = split_at_colon (_(fd->help[i].text), &short_desc);
 					fprintf (output_file,
 						 "@FUNCTION=%s\n",
 						 name);
+					g_string_append (syntax, name);
+					g_string_append_c (syntax, '(');
 					g_free (name);
 					break;
 				}
@@ -310,17 +329,40 @@ function_dump_defs (char const *filename, int dump_type)
 						 _(fd->help[i].text));
 					break;
 				case GNM_FUNC_HELP_DESCRIPTION:
-					fprintf (output_file, "@DESCRIPTION=%s\n",
-						 _(fd->help[i].text));
+					g_string_append_c (syntax, ')');
+					fprintf (output_file, "%s\n@DESCRIPTION=%s\n%s",
+						 syntax->str,
+						 _(fd->help[i].text),
+						 arg_desc->str);
 					break;
+				case GNM_FUNC_HELP_ARG: {
+					char *desc;
+					char *name = split_at_colon (_(fd->help[i].text), &desc);
+					if (first_arg) {
+						g_string_append_c (syntax, format_get_arg_sep ());
+						first_arg = FALSE;
+					}
+					g_string_append (syntax, name);
+					if (desc) {
+						g_string_append_printf (arg_desc,
+									"@{%s}: %s\n",
+									name,
+									desc);
+					}
+					g_free (name);
+					/* FIXME: Optional args?  */
+					break;
+				}
+					
 				case GNM_FUNC_HELP_EXAMPLES:
-				case GNM_FUNC_HELP_ARG:
 				case GNM_FUNC_HELP_END:
 				case GNM_FUNC_HELP_NOTE:
 					break;
 					
 				}
 			}
+			g_string_free (syntax, TRUE);
+			g_string_free (arg_desc, TRUE);
 			fputc ('\n', output_file);
 		} else if (dump_type == 0) {
 			static struct {
