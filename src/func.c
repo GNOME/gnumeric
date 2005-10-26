@@ -338,10 +338,10 @@ function_dump_defs (char const *filename, int dump_type)
 				case GNM_FUNC_HELP_ARG: {
 					char *desc;
 					char *name = split_at_colon (_(fd->help[i].text), &desc);
-					if (first_arg) {
-						g_string_append_c (syntax, format_get_arg_sep ());
+					if (first_arg)
 						first_arg = FALSE;
-					}
+					else
+						g_string_append_c (syntax, format_get_arg_sep ());
 					g_string_append (syntax, name);
 					if (desc) {
 						g_string_append_printf (arg_desc,

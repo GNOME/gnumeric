@@ -18,7 +18,7 @@ foreach my $srcfile (@ARGV) {
     print DST '<!--#set var="title" value="Gnumeric function ', $func, '" -->';
     print DST '<!--#set var="rootdir" value=".." -->';
     print DST '<!--#include virtual="../header-begin.shtml" -->', "\n";
-    print DST '<link rel="stylesheet" href="style/function.css" type="text/css"/>', "\n";
+    print DST '<link rel="stylesheet" href="../style/function.css" type="text/css"/>', "\n";
     print DST '<!--#include virtual="../header-end.shtml" -->', "\n";
 
     while (<SRC>) {

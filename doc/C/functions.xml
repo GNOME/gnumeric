@@ -16411,7 +16411,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.DBETA</function>(<parameter/>,<parameter>xabgive_log</parameter>)</synopsis>
+        <synopsis><function>R.DBETA</function>(<parameter>x</parameter>,<parameter>a</parameter>,<parameter>b</parameter>,<parameter>give_log</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16440,7 +16440,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.DBINOM</function>(<parameter/>,<parameter>xnpsucgive_log</parameter>)</synopsis>
+        <synopsis><function>R.DBINOM</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>psuc</parameter>,<parameter>give_log</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16469,7 +16469,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.DCAUCHY</function>(<parameter/>,<parameter>xlocationscalegive_log</parameter>)</synopsis>
+        <synopsis><function>R.DCAUCHY</function>(<parameter>x</parameter>,<parameter>location</parameter>,<parameter>scale</parameter>,<parameter>give_log</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16498,7 +16498,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.DCHISQ</function>(<parameter/>,<parameter>xdfgive_log</parameter>)</synopsis>
+        <synopsis><function>R.DCHISQ</function>(<parameter>x</parameter>,<parameter>df</parameter>,<parameter>give_log</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16526,7 +16526,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.DEXP</function>(<parameter/>,<parameter>xscalegive_log</parameter>)</synopsis>
+        <synopsis><function>R.DEXP</function>(<parameter>x</parameter>,<parameter>scale</parameter>,<parameter>give_log</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16554,7 +16554,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.DF</function>(<parameter/>,<parameter>xn1n2give_log</parameter>)</synopsis>
+        <synopsis><function>R.DF</function>(<parameter>x</parameter>,<parameter>n1</parameter>,<parameter>n2</parameter>,<parameter>give_log</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16583,7 +16583,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.DGAMMA</function>(<parameter/>,<parameter>xshapescalegive_log</parameter>)</synopsis>
+        <synopsis><function>R.DGAMMA</function>(<parameter>x</parameter>,<parameter>shape</parameter>,<parameter>scale</parameter>,<parameter>give_log</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16612,7 +16612,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.DGEOM</function>(<parameter/>,<parameter>xpsucgive_log</parameter>)</synopsis>
+        <synopsis><function>R.DGEOM</function>(<parameter>x</parameter>,<parameter>psuc</parameter>,<parameter>give_log</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16640,7 +16640,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.DHYPER</function>(<parameter/>,<parameter>xrbngive_log</parameter>)</synopsis>
+        <synopsis><function>R.DHYPER</function>(<parameter>x</parameter>,<parameter>r</parameter>,<parameter>b</parameter>,<parameter>n</parameter>,<parameter>give_log</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16670,7 +16670,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.DLNORM</function>(<parameter/>,<parameter>xlogmeanlogsdgive_log</parameter>)</synopsis>
+        <synopsis><function>R.DLNORM</function>(<parameter>x</parameter>,<parameter>logmean</parameter>,<parameter>logsd</parameter>,<parameter>give_log</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16699,7 +16699,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.DNBINOM</function>(<parameter/>,<parameter>xnpsucgive_log</parameter>)</synopsis>
+        <synopsis><function>R.DNBINOM</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>psuc</parameter>,<parameter>give_log</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16728,7 +16728,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.DNORM</function>(<parameter/>,<parameter>xmusigmagive_log</parameter>)</synopsis>
+        <synopsis><function>R.DNORM</function>(<parameter>x</parameter>,<parameter>mu</parameter>,<parameter>sigma</parameter>,<parameter>give_log</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16757,7 +16757,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.DPOIS</function>(<parameter/>,<parameter>xlambdagive_log</parameter>)</synopsis>
+        <synopsis><function>R.DPOIS</function>(<parameter>x</parameter>,<parameter>lambda</parameter>,<parameter>give_log</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16785,7 +16785,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.DT</function>(<parameter/>,<parameter>xngive_log</parameter>)</synopsis>
+        <synopsis><function>R.DT</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>give_log</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16813,7 +16813,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.DWEIBULL</function>(<parameter/>,<parameter>xshapescalegive_log</parameter>)</synopsis>
+        <synopsis><function>R.DWEIBULL</function>(<parameter>x</parameter>,<parameter>shape</parameter>,<parameter>scale</parameter>,<parameter>give_log</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16842,7 +16842,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.PBETA</function>(<parameter/>,<parameter>xablower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.PBETA</function>(<parameter>x</parameter>,<parameter>a</parameter>,<parameter>b</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16872,7 +16872,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.PBINOM</function>(<parameter/>,<parameter>xnpsuclower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.PBINOM</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>psuc</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16902,7 +16902,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.PCAUCHY</function>(<parameter/>,<parameter>xlocationscalelower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.PCAUCHY</function>(<parameter>x</parameter>,<parameter>location</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16932,7 +16932,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.PCHISQ</function>(<parameter/>,<parameter>xdflower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.PCHISQ</function>(<parameter>x</parameter>,<parameter>df</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16961,7 +16961,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.PEXP</function>(<parameter/>,<parameter>xscalelower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.PEXP</function>(<parameter>x</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -16990,7 +16990,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.PF</function>(<parameter/>,<parameter>xn1n2lower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.PF</function>(<parameter>x</parameter>,<parameter>n1</parameter>,<parameter>n2</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17020,7 +17020,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.PGAMMA</function>(<parameter/>,<parameter>xshapescalelower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.PGAMMA</function>(<parameter>x</parameter>,<parameter>shape</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17050,7 +17050,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.PGEOM</function>(<parameter/>,<parameter>xpsuclower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.PGEOM</function>(<parameter>x</parameter>,<parameter>psuc</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17079,7 +17079,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.PHYPER</function>(<parameter/>,<parameter>xrbnlower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.PHYPER</function>(<parameter>x</parameter>,<parameter>r</parameter>,<parameter>b</parameter>,<parameter>n</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17110,7 +17110,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.PLNORM</function>(<parameter/>,<parameter>xlogmeanlogsdlower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.PLNORM</function>(<parameter>x</parameter>,<parameter>logmean</parameter>,<parameter>logsd</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17140,7 +17140,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.PNBINOM</function>(<parameter/>,<parameter>xnpsuclower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.PNBINOM</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>psuc</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17170,7 +17170,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.PNORM</function>(<parameter/>,<parameter>xmusigmalower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.PNORM</function>(<parameter>x</parameter>,<parameter>mu</parameter>,<parameter>sigma</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17200,7 +17200,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.PPOIS</function>(<parameter/>,<parameter>xlambdalower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.PPOIS</function>(<parameter>x</parameter>,<parameter>lambda</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17229,7 +17229,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.PT</function>(<parameter/>,<parameter>xnlower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.PT</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17258,7 +17258,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.PWEIBULL</function>(<parameter/>,<parameter>xshapescalelower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.PWEIBULL</function>(<parameter>x</parameter>,<parameter>shape</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17288,7 +17288,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QBETA</function>(<parameter/>,<parameter>pablower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.QBETA</function>(<parameter>p</parameter>,<parameter>a</parameter>,<parameter>b</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17318,7 +17318,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QBINOM</function>(<parameter/>,<parameter>xnpsuclower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.QBINOM</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>psuc</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17348,7 +17348,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QCAUCHY</function>(<parameter/>,<parameter>plocationscalelower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.QCAUCHY</function>(<parameter>p</parameter>,<parameter>location</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17378,7 +17378,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QCHISQ</function>(<parameter/>,<parameter>pdflower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.QCHISQ</function>(<parameter>p</parameter>,<parameter>df</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17407,7 +17407,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QEXP</function>(<parameter/>,<parameter>pscalelower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.QEXP</function>(<parameter>p</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17436,7 +17436,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QF</function>(<parameter/>,<parameter>xn1n2lower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.QF</function>(<parameter>x</parameter>,<parameter>n1</parameter>,<parameter>n2</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17466,7 +17466,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QGAMMA</function>(<parameter/>,<parameter>pshapescalelower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.QGAMMA</function>(<parameter>p</parameter>,<parameter>shape</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17496,7 +17496,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QGEOM</function>(<parameter/>,<parameter>ppsuclower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.QGEOM</function>(<parameter>p</parameter>,<parameter>psuc</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17525,7 +17525,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QHYPER</function>(<parameter/>,<parameter>prbnlower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.QHYPER</function>(<parameter>p</parameter>,<parameter>r</parameter>,<parameter>b</parameter>,<parameter>n</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17556,7 +17556,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QLNORM</function>(<parameter/>,<parameter>xlogmeanlogsdlower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.QLNORM</function>(<parameter>x</parameter>,<parameter>logmean</parameter>,<parameter>logsd</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17586,7 +17586,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QNBINOM</function>(<parameter/>,<parameter>pnpsuclower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.QNBINOM</function>(<parameter>p</parameter>,<parameter>n</parameter>,<parameter>psuc</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17616,7 +17616,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QNORM</function>(<parameter/>,<parameter>pmusigmalower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.QNORM</function>(<parameter>p</parameter>,<parameter>mu</parameter>,<parameter>sigma</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17646,7 +17646,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QPOIS</function>(<parameter/>,<parameter>plambdalower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.QPOIS</function>(<parameter>p</parameter>,<parameter>lambda</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17675,7 +17675,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QT</function>(<parameter/>,<parameter>pnlower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.QT</function>(<parameter>p</parameter>,<parameter>n</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -17704,7 +17704,7 @@
         </refname>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>R.QWEIBULL</function>(<parameter/>,<parameter>pshapescalelower_taillog_p</parameter>)</synopsis>
+        <synopsis><function>R.QWEIBULL</function>(<parameter>p</parameter>,<parameter>shape</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>

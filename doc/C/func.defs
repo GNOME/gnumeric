@@ -6370,7 +6370,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.DBETA
-@SYNTAX=R.DBETA(,xabgive_log)
+@SYNTAX=R.DBETA(x,a,b,give_log)
 @DESCRIPTION=This function returns the probability density function of the beta distribution.
 @{x}: observation.
 @{a}: the first shape parameter of the distribution
@@ -6380,7 +6380,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.DBINOM
-@SYNTAX=R.DBINOM(,xnpsucgive_log)
+@SYNTAX=R.DBINOM(x,n,psuc,give_log)
 @DESCRIPTION=This function returns the probability density function of the binomial distribution.
 @{x}: observation.
 @{n}: the number of trials
@@ -6390,7 +6390,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.DCAUCHY
-@SYNTAX=R.DCAUCHY(,xlocationscalegive_log)
+@SYNTAX=R.DCAUCHY(x,location,scale,give_log)
 @DESCRIPTION=This function returns the probability density function of the Cauchy distribution.
 @{x}: observation.
 @{location}: the center of the distribution
@@ -6400,7 +6400,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.DCHISQ
-@SYNTAX=R.DCHISQ(,xdfgive_log)
+@SYNTAX=R.DCHISQ(x,df,give_log)
 @DESCRIPTION=This function returns the probability density function of the chi-square distribution.
 @{x}: observation.
 @{df}: the number of degrees of freedom of the distribution
@@ -6409,7 +6409,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.DEXP
-@SYNTAX=R.DEXP(,xscalegive_log)
+@SYNTAX=R.DEXP(x,scale,give_log)
 @DESCRIPTION=This function returns the probability density function of the exponential distribution.
 @{x}: observation.
 @{scale}: the scale parameter of the distribution
@@ -6418,7 +6418,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.DF
-@SYNTAX=R.DF(,xn1n2give_log)
+@SYNTAX=R.DF(x,n1,n2,give_log)
 @DESCRIPTION=This function returns the probability density function of the F distribution.
 @{x}: observation.
 @{n1}: the first number of degrees of freedom of the distribution
@@ -6428,7 +6428,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.DGAMMA
-@SYNTAX=R.DGAMMA(,xshapescalegive_log)
+@SYNTAX=R.DGAMMA(x,shape,scale,give_log)
 @DESCRIPTION=This function returns the probability density function of the gamma distribution.
 @{x}: observation.
 @{shape}: the shape parameter of the distribution
@@ -6438,7 +6438,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.DGEOM
-@SYNTAX=R.DGEOM(,xpsucgive_log)
+@SYNTAX=R.DGEOM(x,psuc,give_log)
 @DESCRIPTION=This function returns the probability density function of the geometric distribution.
 @{x}: observation.
 @{psuc}: the probability of success in each trial
@@ -6447,7 +6447,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.DHYPER
-@SYNTAX=R.DHYPER(,xrbngive_log)
+@SYNTAX=R.DHYPER(x,r,b,n,give_log)
 @DESCRIPTION=This function returns the probability density function of the hypergeometric distribution.
 @{x}: observation.
 @{r}: the number of red balls
@@ -6458,7 +6458,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.DLNORM
-@SYNTAX=R.DLNORM(,xlogmeanlogsdgive_log)
+@SYNTAX=R.DLNORM(x,logmean,logsd,give_log)
 @DESCRIPTION=This function returns the probability density function of the log-normal distribution.
 @{x}: observation.
 @{logmean}: mean of the underlying normal distribution.
@@ -6468,7 +6468,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.DNBINOM
-@SYNTAX=R.DNBINOM(,xnpsucgive_log)
+@SYNTAX=R.DNBINOM(x,n,psuc,give_log)
 @DESCRIPTION=This function returns the probability density function of the negative binomial distribution.
 @{x}: observation.
 @{n}: the number of trials
@@ -6478,7 +6478,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.DNORM
-@SYNTAX=R.DNORM(,xmusigmagive_log)
+@SYNTAX=R.DNORM(x,mu,sigma,give_log)
 @DESCRIPTION=This function returns the probability density function of the normal distribution.
 @{x}: observation.
 @{mu}: mean of the distribution.
@@ -6488,7 +6488,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.DPOIS
-@SYNTAX=R.DPOIS(,xlambdagive_log)
+@SYNTAX=R.DPOIS(x,lambda,give_log)
 @DESCRIPTION=This function returns the probability density function of the Poisson distribution.
 @{x}: observation.
 @{lambda}: the mean of the distribution
@@ -6497,7 +6497,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.DT
-@SYNTAX=R.DT(,xngive_log)
+@SYNTAX=R.DT(x,n,give_log)
 @DESCRIPTION=This function returns the probability density function of the Student t distribution.
 @{x}: observation.
 @{n}: the number of degrees of freedom of the distribution
@@ -6506,7 +6506,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.DWEIBULL
-@SYNTAX=R.DWEIBULL(,xshapescalegive_log)
+@SYNTAX=R.DWEIBULL(x,shape,scale,give_log)
 @DESCRIPTION=This function returns the probability density function of the Weibull distribution.
 @{x}: observation.
 @{shape}: the shape parameter of the distribution
@@ -6516,7 +6516,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.PBETA
-@SYNTAX=R.PBETA(,xablower_taillog_p)
+@SYNTAX=R.PBETA(x,a,b,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the beta distribution.
 @{x}: observation.
 @{a}: the first shape parameter of the distribution
@@ -6527,7 +6527,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.PBINOM
-@SYNTAX=R.PBINOM(,xnpsuclower_taillog_p)
+@SYNTAX=R.PBINOM(x,n,psuc,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the binomial distribution.
 @{x}: observation.
 @{n}: the number of trials
@@ -6538,7 +6538,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.PCAUCHY
-@SYNTAX=R.PCAUCHY(,xlocationscalelower_taillog_p)
+@SYNTAX=R.PCAUCHY(x,location,scale,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the Cauchy distribution.
 @{x}: observation.
 @{location}: the center of the distribution
@@ -6549,7 +6549,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.PCHISQ
-@SYNTAX=R.PCHISQ(,xdflower_taillog_p)
+@SYNTAX=R.PCHISQ(x,df,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the chi-square distribution.
 @{x}: observation.
 @{df}: the number of degrees of freedom of the distribution
@@ -6559,7 +6559,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.PEXP
-@SYNTAX=R.PEXP(,xscalelower_taillog_p)
+@SYNTAX=R.PEXP(x,scale,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the exponential distribution.
 @{x}: observation.
 @{scale}: the scale parameter of the distribution
@@ -6569,7 +6569,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.PF
-@SYNTAX=R.PF(,xn1n2lower_taillog_p)
+@SYNTAX=R.PF(x,n1,n2,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the F distribution.
 @{x}: observation.
 @{n1}: the first number of degrees of freedom of the distribution
@@ -6580,7 +6580,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.PGAMMA
-@SYNTAX=R.PGAMMA(,xshapescalelower_taillog_p)
+@SYNTAX=R.PGAMMA(x,shape,scale,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the gamma distribution.
 @{x}: observation.
 @{shape}: the shape parameter of the distribution
@@ -6591,7 +6591,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.PGEOM
-@SYNTAX=R.PGEOM(,xpsuclower_taillog_p)
+@SYNTAX=R.PGEOM(x,psuc,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the geometric distribution.
 @{x}: observation.
 @{psuc}: the probability of success in each trial
@@ -6601,7 +6601,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.PHYPER
-@SYNTAX=R.PHYPER(,xrbnlower_taillog_p)
+@SYNTAX=R.PHYPER(x,r,b,n,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the hypergeometric distribution.
 @{x}: observation.
 @{r}: the number of red balls
@@ -6613,7 +6613,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.PLNORM
-@SYNTAX=R.PLNORM(,xlogmeanlogsdlower_taillog_p)
+@SYNTAX=R.PLNORM(x,logmean,logsd,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the log-normal distribution.
 @{x}: observation.
 @{logmean}: mean of the underlying normal distribution.
@@ -6624,7 +6624,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.PNBINOM
-@SYNTAX=R.PNBINOM(,xnpsuclower_taillog_p)
+@SYNTAX=R.PNBINOM(x,n,psuc,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the negative binomial distribution.
 @{x}: observation.
 @{n}: the number of trials
@@ -6635,7 +6635,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.PNORM
-@SYNTAX=R.PNORM(,xmusigmalower_taillog_p)
+@SYNTAX=R.PNORM(x,mu,sigma,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the normal distribution.
 @{x}: observation.
 @{mu}: mean of the distribution.
@@ -6646,7 +6646,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.PPOIS
-@SYNTAX=R.PPOIS(,xlambdalower_taillog_p)
+@SYNTAX=R.PPOIS(x,lambda,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the Poisson distribution.
 @{x}: observation.
 @{lambda}: the mean of the distribution
@@ -6656,7 +6656,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.PT
-@SYNTAX=R.PT(,xnlower_taillog_p)
+@SYNTAX=R.PT(x,n,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the Student t distribution.
 @{x}: observation.
 @{n}: the number of degrees of freedom of the distribution
@@ -6666,7 +6666,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.PWEIBULL
-@SYNTAX=R.PWEIBULL(,xshapescalelower_taillog_p)
+@SYNTAX=R.PWEIBULL(x,shape,scale,lower_tail,log_p)
 @DESCRIPTION=This function returns the cumulative distribution function of the Weibull distribution.
 @{x}: observation.
 @{shape}: the shape parameter of the distribution
@@ -6677,7 +6677,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.QBETA
-@SYNTAX=R.QBETA(,pablower_taillog_p)
+@SYNTAX=R.QBETA(p,a,b,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the beta distribution.
 @{p}: probability.
 @{a}: the first shape parameter of the distribution
@@ -6688,7 +6688,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.QBINOM
-@SYNTAX=R.QBINOM(,xnpsuclower_taillog_p)
+@SYNTAX=R.QBINOM(x,n,psuc,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the binomial distribution.
 @{x}: observation.
 @{n}: the number of trials
@@ -6699,7 +6699,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.QCAUCHY
-@SYNTAX=R.QCAUCHY(,plocationscalelower_taillog_p)
+@SYNTAX=R.QCAUCHY(p,location,scale,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Cauchy distribution.
 @{p}: probability.
 @{location}: the center of the distribution
@@ -6710,7 +6710,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.QCHISQ
-@SYNTAX=R.QCHISQ(,pdflower_taillog_p)
+@SYNTAX=R.QCHISQ(p,df,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the chi-square distribution.
 @{p}: probability.
 @{df}: the number of degrees of freedom of the distribution
@@ -6720,7 +6720,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.QEXP
-@SYNTAX=R.QEXP(,pscalelower_taillog_p)
+@SYNTAX=R.QEXP(p,scale,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the exponential distribution.
 @{p}: probability.
 @{scale}: the scale parameter of the distribution
@@ -6730,7 +6730,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.QF
-@SYNTAX=R.QF(,xn1n2lower_taillog_p)
+@SYNTAX=R.QF(x,n1,n2,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the F distribution.
 @{x}: observation.
 @{n1}: the first number of degrees of freedom of the distribution
@@ -6741,7 +6741,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.QGAMMA
-@SYNTAX=R.QGAMMA(,pshapescalelower_taillog_p)
+@SYNTAX=R.QGAMMA(p,shape,scale,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the gamma distribution.
 @{p}: probability.
 @{shape}: the shape parameter of the distribution
@@ -6752,7 +6752,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.QGEOM
-@SYNTAX=R.QGEOM(,ppsuclower_taillog_p)
+@SYNTAX=R.QGEOM(p,psuc,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the geometric distribution.
 @{p}: probability.
 @{psuc}: the probability of success in each trial
@@ -6762,7 +6762,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.QHYPER
-@SYNTAX=R.QHYPER(,prbnlower_taillog_p)
+@SYNTAX=R.QHYPER(p,r,b,n,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the hypergeometric distribution.
 @{p}: probability.
 @{r}: the number of red balls
@@ -6774,7 +6774,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.QLNORM
-@SYNTAX=R.QLNORM(,xlogmeanlogsdlower_taillog_p)
+@SYNTAX=R.QLNORM(x,logmean,logsd,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the log-normal distribution.
 @{x}: observation.
 @{logmean}: mean of the underlying normal distribution.
@@ -6785,7 +6785,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.QNBINOM
-@SYNTAX=R.QNBINOM(,pnpsuclower_taillog_p)
+@SYNTAX=R.QNBINOM(p,n,psuc,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the negative binomial distribution.
 @{p}: probability.
 @{n}: the number of trials
@@ -6796,7 +6796,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.QNORM
-@SYNTAX=R.QNORM(,pmusigmalower_taillog_p)
+@SYNTAX=R.QNORM(p,mu,sigma,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the normal distribution.
 @{p}: probability.
 @{mu}: mean of the distribution.
@@ -6807,7 +6807,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.QPOIS
-@SYNTAX=R.QPOIS(,plambdalower_taillog_p)
+@SYNTAX=R.QPOIS(p,lambda,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Poisson distribution.
 @{p}: probability.
 @{lambda}: the mean of the distribution
@@ -6817,7 +6817,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.QT
-@SYNTAX=R.QT(,pnlower_taillog_p)
+@SYNTAX=R.QT(p,n,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Student t distribution.
 @{p}: probability.
 @{n}: the number of degrees of freedom of the distribution
@@ -6827,7 +6827,7 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=R.QWEIBULL
-@SYNTAX=R.QWEIBULL(,pshapescalelower_taillog_p)
+@SYNTAX=R.QWEIBULL(p,shape,scale,lower_tail,log_p)
 @DESCRIPTION=This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Weibull distribution.
 @{p}: probability.
 @{shape}: the shape parameter of the distribution
