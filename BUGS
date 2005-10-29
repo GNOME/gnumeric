@@ -20,7 +20,6 @@ Release Critical
 	: add a ui
     - Conditional formats
 	: draw & print long spans
-    - Tokenized help is broken for new style functions
     - Save as ps/pdf
 
 Pending Patches
