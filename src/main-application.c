@@ -14,6 +14,10 @@
 #include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "libgnumeric.h"
+#ifdef WIN32
+#define POPT_STATIC
+#endif
+#include <popt.h>
 
 #include "command-context.h"
 #include <goffice/app/io-context.h>

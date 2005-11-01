@@ -35,15 +35,16 @@
 #include <gsf/gsf-output-stdio.h>
 #include <string.h>
 #include <stdio.h>
+#ifdef WIN32
+#define POPT_STATIC
+#endif
+#include <popt.h>
 
 static gboolean ssindex_show_version = FALSE;
 static gboolean ssindex_list_mime_types = FALSE;
 static gboolean ssindex_run_indexer	= FALSE;
 static char const *ssindex_import_encoding = NULL;
 
-#ifdef WIN32
-#define POPT_STATIC
-#endif
 const struct poptOption
 ssindex_popt_options[] = {
 	{ NULL, '\0', POPT_ARG_INTL_DOMAIN, (char *)GETTEXT_PACKAGE, 0, NULL, NULL },

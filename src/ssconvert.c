@@ -24,6 +24,10 @@
 #include <goffice/utils/go-file.h>
 #include <gsf/gsf-utils.h>
 #include <string.h>
+#ifdef WIN32
+#define POPT_STATIC
+#endif
+#include <popt.h>
 
 static gboolean ssconvert_show_version = FALSE;
 static gboolean ssconvert_list_exporters = FALSE;
@@ -33,9 +37,6 @@ static char const *ssconvert_import_encoding = NULL;
 static char const *ssconvert_import_id = NULL;
 static char const *ssconvert_export_id = NULL;
 
-#ifdef WIN32
-#define POPT_STATIC
-#endif
 struct poptOption
 ssconvert_popt_options[] = {
 	{ NULL, '\0', POPT_ARG_INTL_DOMAIN, (char *)GETTEXT_PACKAGE, 0, NULL, NULL },

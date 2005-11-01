@@ -1,3 +1,8 @@
+2005-11-01  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c: Move include of popt stuff here.  It has
+	no business in libgnumeric.h
+
 2005-11-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* README: Updated list archives URL (Debian #336699).

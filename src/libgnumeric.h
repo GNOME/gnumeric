@@ -3,11 +3,6 @@
 
 #include "gutils.h"
 
-#ifdef WIN32
-#define POPT_STATIC
-#endif
-#include <popt.h>
-
 extern int	 gnumeric_debugging;
 extern int	 dependency_debugging;
 extern int	 expression_sharing_debugging;
