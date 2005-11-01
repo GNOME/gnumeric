@@ -1,3 +1,9 @@
+gnumeric (1.6.0-2) unstable; urgency=low
+
+  * Upload to unstable.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue,  1 Nov 2005 21:44:07 +0100
+
 gnumeric (1.6.0-1) experimental; urgency=low
 
   * New upstream release.
