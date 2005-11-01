@@ -979,12 +979,14 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "center",	HALIGN_CENTER },
 		{ "end", 	HALIGN_RIGHT },
 		{ "justify",	HALIGN_JUSTIFY },
+		{ "automatic",	HALIGN_GENERAL },
 		{ NULL,	0 },
 	};
 	static OOEnum const v_alignments [] = {
 		{ "bottom", 	VALIGN_BOTTOM },
 		{ "top",	VALIGN_TOP },
 		{ "middle",	VALIGN_CENTER },
+		{ "automatic",	VALIGN_TOP },
 		{ NULL,	0 },
 	};
 	OOParseState *state = (OOParseState *)xin->user_state;
