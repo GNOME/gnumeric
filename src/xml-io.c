@@ -71,6 +71,7 @@
 #include <math.h>
 #include <string.h>
 #include <limits.h>
+#include <stdlib.h>
 
 /* Precision to use when saving point measures. */
 #define POINT_SIZE_PRECISION 4

@@ -48,6 +48,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
 #include <string.h>
+#include <stdlib.h>
 
 typedef struct {
 	SheetObject parent;
