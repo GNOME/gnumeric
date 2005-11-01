@@ -53,6 +53,7 @@ lotus_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	switch (version) {
 	case LOTUS_VERSION_ORIG_123:
 	case LOTUS_VERSION_SYMPHONY:
+	case LOTUS_VERSION_SYMPHONY2:
 		return len == 2;
 
 	case LOTUS_VERSION_123V4: /* Barely and crudely handled.  */

@@ -2243,6 +2243,7 @@ lotus_read (LotusState *state)
 		switch (state->version) {
 		case LOTUS_VERSION_ORIG_123:
 		case LOTUS_VERSION_SYMPHONY:
+		case LOTUS_VERSION_SYMPHONY2:
 			return lotus_read_old (state, &r);
 
 		default:
