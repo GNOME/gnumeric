@@ -2,6 +2,7 @@
 
 	* src/sheet-filter.c, src/xml-io.c, src/tools/analysis-tools.c:
 	#include <stdlib.h>, for the qsort() prototype.
+	* src/gnumeric-gconf.c: In the non-gconf case, #include glib/gstdio.h.
 
 2005-10-31  Morten Welinder  <terra@gnome.org>
 

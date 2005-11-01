@@ -1064,6 +1064,7 @@ go_conf_add_monitor (GOConfNode *node, gchar const *key,
 
 #else
 
+#include <glib/gstdio.h>
 #include <errno.h>
 
 #define BOOL_GROUP    "Booleans"
