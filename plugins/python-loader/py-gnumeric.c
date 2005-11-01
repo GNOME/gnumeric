@@ -888,7 +888,7 @@ py_RangeRef_object_getattr (py_RangeRef_object *self, gchar *name)
 	if (strcmp (name, "start") == 0) {
 		return py_new_CellRef_object (&self->range_ref.a);
 	} else if (strcmp (name, "end") == 0) {
-		return py_new_CellRef_object (&self->range_ref.a);
+		return py_new_CellRef_object (&self->range_ref.b);
 	} else {
 		return Py_FindMethod (py_RangeRef_object_methods,
 				      (PyObject *) self, name);

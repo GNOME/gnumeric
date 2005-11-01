@@ -1,3 +1,9 @@
+2005-10-20  Jody Goldberg <jody@gnome.org>
+
+	Noted by Lukasz Stelmach <steelman@post.pl>
+	* py-gnumeric.c (py_RangeRef_object_getattr) : actually return the
+	  end.
+
 2005-10-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.0
