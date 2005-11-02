@@ -1,3 +1,16 @@
+2005-11-02  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-autofill.c : remove the i18n flags for string lists as far
+	  as I can tell they were always true.
+	(type_is_compatible) : an item might be in
+	  multiple lists.  Check that the current item is in the previous list
+	  or that the previous item is in the current list.
+
+2005-10-25  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-filter.c (collect_unique_elements) : yes that is the type
+	  of equality and hash we want.  Remove the warning.
+
 2005-11-01  Morten Welinder  <terra@gnome.org>
 
 	* src/main-application.c: Move include of popt stuff here.  It has
