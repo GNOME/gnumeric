@@ -344,7 +344,6 @@ collect_unique_elements (GnmFilterField *field,
 	/* r.end.row =  XL actually extend to the first non-empty element in the list */
 	r.end.col = r.start.col += filter_field_index (field);
 	uc.has_blank = FALSE;
-#warning "FIXME: is this really the type of equality (and hash) we want here?"
 	uc.hash = g_hash_table_new (
 			(GHashFunc) value_hash, (GEqualFunc) value_equal);
 	sheet_foreach_cell_in_range (field->filter->sheet,
