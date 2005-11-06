@@ -300,31 +300,6 @@ gnm_so_line_read_xml_dom (SheetObject *so, char const *typename,
 	return FALSE;
 }
 
-static gboolean
-gnm_so_line_write_xml_dom (SheetObject const *so,
-			   XmlParseContext const *ctxt,
-			   xmlNodePtr node)
-{
-	GnmSOLine const *sol = GNM_SO_LINE (so);
-	xmlNode *child;
-
-	/* YES FillColor, this is for backwards compat */
-	xml_node_set_gocolor (node, "FillColor", sol->style->line.color);
-	xml_node_set_double (node,  "Width", sol->style->line.width, -1);
-
-	if (sol->end_arrow.c > 0.) {
-		xml_node_set_int (node, "Type", 2);
-		xml_node_set_double (node, "ArrowShapeA", sol->end_arrow.a, -1);
-		xml_node_set_double (node, "ArrowShapeB", sol->end_arrow.b, -1);
-		xml_node_set_double (node, "ArrowShapeC", sol->end_arrow.c, -1);
-	} else
-		xml_node_set_int (node, "Type", 1);
-
-	child = xmlNewDocNode (node->doc, NULL, "Style", NULL);
-	gog_persist_dom_save (GOG_PERSIST (sol->style), child);
-	xmlAddChild (node, child);
-	return FALSE;
-}
 static void
 gnm_so_line_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
@@ -431,7 +406,6 @@ gnm_so_line_class_init (GObjectClass *gobject_class)
 	gobject_class->set_property	= gnm_so_line_set_property;
 	gobject_class->get_property	= gnm_so_line_get_property;
 	so_class->read_xml_dom		= gnm_so_line_read_xml_dom;
-	so_class->write_xml_dom		= gnm_so_line_write_xml_dom;
 	so_class->write_xml_sax		= gnm_so_line_write_xml_sax;
 	so_class->copy			= gnm_so_line_copy;
 	so_class->rubber_band_directly  = TRUE;

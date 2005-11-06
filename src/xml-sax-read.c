@@ -320,7 +320,8 @@ xml_sax_wb (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (strcmp (attrs[0], "xmlns:gmr") == 0) {
+		if (strcmp (attrs[0], "xmlns:gmr") == 0 ||
+		    strcmp (attrs[0], "xmlns:gnm") == 0) {
 			static struct {
 				char const * const id;
 				GnumericXMLVersion const version;
@@ -359,10 +360,12 @@ static void
 xml_sax_wb_sheetname (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	char const *name = gsf_state->content->str;
+	
+	g_return_if_fail (name != NULL);
 
-	char const *content = gsf_state->content->str;
-	Sheet *sheet = sheet_new (state->wb, content);
-	workbook_sheet_attach (state->wb, sheet);
+	if (NULL == workbook_sheet_by_name (state->wb, name))
+		workbook_sheet_attach (state->wb, sheet_new (state->wb, name));
 }
 
 static void
@@ -1451,6 +1454,7 @@ xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	char const *type_name = gsf_state->node->name;
 	int tmp_int;
 	SheetObject *so;
+	SheetObjectClass *klass;
 
 	g_return_if_fail (state->so == NULL);
 
@@ -1508,7 +1512,7 @@ xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			sscanf (attrs[1], "%g %g %g %g",
 				so->anchor.offset +0, so->anchor.offset +1,
 				so->anchor.offset +2, so->anchor.offset +3);
-		} else if (!strcmp (attrs[0], "ObjectanchorType")) {
+		} else if (!strcmp (attrs[0], "ObjectAnchorType")) {
 			int i[4], count;
 			sscanf (attrs[1], "%d %d %d %d", i+0, i+1, i+2, i+3);
 
@@ -1519,6 +1523,11 @@ xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		else
 			unknown_attr (gsf_state, attrs);
 	}
+
+	klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS (so));
+	if (klass->prep_xml_sax &&
+	    (klass->prep_xml_sax) (so, gsf_state, attrs))
+		g_object_unref (G_OBJECT (so));
 }
 
 static void
@@ -1787,6 +1796,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
 	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_LINE, GNM, "SheetObjectGraphic", FALSE, &xml_sax_object_start, &xml_sax_object_end),
 	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_FILLED, GNM, "SheetObjectFilled", FALSE, &xml_sax_object_start, &xml_sax_object_end),
 	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_TEXT, GNM, "SheetObjectText", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_GRAPH, GNM, "SheetObjectGraph", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
 
   GSF_XML_IN_NODE (WB, WB_GEOMETRY, GNM, "Geometry", FALSE, &xml_sax_wb_view, NULL),
   GSF_XML_IN_NODE (WB, WB_VIEW, GNM, "UIData", FALSE, &xml_sax_wb_view, NULL),

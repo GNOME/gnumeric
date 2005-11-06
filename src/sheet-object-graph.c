@@ -280,27 +280,33 @@ sheet_object_graph_write_image (SheetObject const *so, const char *format,
 
 static void
 sheet_object_graph_write_object (SheetObject const *so, const char *format,
-				GsfOutput *output, GError **err)
+				 GsfOutput *output, GError **err)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-	xmlDocPtr pDoc = xmlNewDoc ((xmlChar const*)"1.0");
-	xmlChar *mem;
-	int size;
+	GsfXMLOut *xout;
 	char *old_num_locale, *old_monetary_locale;
-	GogObject *graph = gog_object_dup (GOG_OBJECT (sog->graph), NULL, gog_dataset_dup_to_simple);
+	GogObject *graph;
+
 	g_return_if_fail (strcmp (format, "application/x-goffice-graph") == 0);
+
 	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
 	go_setlocale (LC_NUMERIC, "C");
 	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
-	go_setlocale(LC_MONETARY, "C");
-	pDoc->children = gog_object_write_xml (graph, pDoc);
+	go_setlocale (LC_MONETARY, "C");
+	go_set_untranslated_bools ();
+
+	graph = gog_object_dup (GOG_OBJECT (sog->graph),
+		NULL, gog_dataset_dup_to_simple);
+	xout = gsf_xml_out_new (output);
+	gog_object_write_xml_sax (GOG_OBJECT (graph), xout);
+	g_object_unref (xout);
 	g_object_unref (graph);
-	xmlDocDumpMemory (pDoc, &mem, &size);
+
+	/* go_setlocale restores bools to locale translation */
 	go_setlocale (LC_MONETARY, old_monetary_locale);
 	g_free (old_monetary_locale);
 	go_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
-	gsf_output_write (output, size, (guint8 const*) mem);
 }
 
 /* 
@@ -337,9 +343,8 @@ sog_cb_save_as (SheetObject *so, SheetControl *sc)
 		l = g_slist_prepend (l, (gpointer) (fmts + i));
 	l = g_slist_reverse (l);
 
-	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
-
 #warning "This violates model gui barrier"
+	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 	uri = gui_get_image_save_info (wbcg_toplevel (wbcg), l, &sel_fmt);
 	if (!uri)
 		goto out;
@@ -380,21 +385,27 @@ sheet_object_graph_read_xml_dom (SheetObject *so, char const *typename,
 	return FALSE;
 }
 
-static gboolean
-sheet_object_graph_write_xml_dom (SheetObject const *so,
-				  XmlParseContext const *ctxt, xmlNode *parent)
-{
-	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-	xmlNode *res = gog_object_write_xml (GOG_OBJECT (sog->graph), ctxt->doc);
-	if (res != NULL)
-		xmlAddChild (parent, res);
-	return FALSE;
-}
 static void
 sheet_object_graph_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
 	SheetObjectGraph const *sog = SHEET_OBJECT_GRAPH (so);
 	gog_object_write_xml_sax (GOG_OBJECT (sog->graph), output);
+}
+
+static void
+sog_xml_finish (GogObject *graph, SheetObject *so)
+{
+	sheet_object_graph_set_gog (so, GOG_GRAPH (graph));
+	g_object_unref (graph);
+}
+
+static gboolean
+sheet_object_graph_prep_xml_sax (SheetObject const *so,
+				 GsfXMLIn *xin, xmlChar const **attrs)
+{
+	gog_object_sax_push_parser (xin, attrs,
+		(GogObjectSaxHandler) sog_xml_finish, so);
+	return FALSE;
 }
 
 static void
@@ -512,8 +523,8 @@ sheet_object_graph_class_init (GObjectClass *klass)
 	so_class->bounds_changed     = sheet_object_graph_bounds_changed;
 	so_class->populate_menu	     = sheet_object_graph_populate_menu;
 	so_class->read_xml_dom	     = sheet_object_graph_read_xml_dom;
-	so_class->write_xml_dom	     = sheet_object_graph_write_xml_dom;
 	so_class->write_xml_sax	     = sheet_object_graph_write_xml_sax;
+	so_class->prep_xml_sax	     = sheet_object_graph_prep_xml_sax;
 	so_class->copy               = sheet_object_graph_copy;
 	so_class->user_config        = sheet_object_graph_user_config;
 	so_class->assign_to_sheet    = sheet_object_graph_set_sheet;

@@ -619,7 +619,6 @@ filter_field_class_init (GObjectClass *object_class)
 	/* SheetObject class method overrides */
 	sheet_object_class->new_view	  = filter_field_new_view;
 	sheet_object_class->read_xml_dom  = NULL;
-	sheet_object_class->write_xml_dom = NULL;
 	sheet_object_class->write_xml_sax = NULL;
 	sheet_object_class->print         = NULL;
 	sheet_object_class->copy          = NULL;

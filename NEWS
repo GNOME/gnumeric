@@ -8,6 +8,8 @@ Jody:
 	* Adjust ctrl-~ vs ctrl-!
 	* Some R1C1 fixes
 	* More SpreadsheetML from MS Office XP.
+	* Some OpenDoc import extensions.
+	* Enable a chart importer in the experimental xml sax importer.
 
 Lukasz Stelmach:
 	* Fix python binding for RangeRef::end.

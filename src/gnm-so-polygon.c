@@ -210,14 +210,6 @@ gnm_so_polygon_read_xml_dom (SheetObject *so, char const *typename,
 		read_xml_dom (so, typename, ctxt, node);
 }
 
-static gboolean
-gnm_so_polygon_write_xml_dom (SheetObject const *so,
-			      XmlParseContext const *ctxt, xmlNodePtr node)
-{
-	/* TODO */
-	return gnm_so_polygon_parent_class->write_xml_dom (so, ctxt, node);
-}
-
 static void
 gnm_so_polygon_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
@@ -311,7 +303,6 @@ gnm_so_polygon_class_init (GObjectClass *gobject_class)
 	gobject_class->set_property	= gnm_so_polygon_set_property;
 	gobject_class->get_property	= gnm_so_polygon_get_property;
 	so_class->read_xml_dom		= gnm_so_polygon_read_xml_dom;
-	so_class->write_xml_dom		= gnm_so_polygon_write_xml_dom;
 	so_class->write_xml_sax		= gnm_so_polygon_write_xml_sax;
 	so_class->copy			= gnm_so_polygon_copy;
 	so_class->rubber_band_directly	= FALSE;

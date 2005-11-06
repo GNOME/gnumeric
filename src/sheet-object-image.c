@@ -566,18 +566,6 @@ sheet_object_image_read_xml_dom (SheetObject *so, char const *typename,
 	return FALSE;
 }
 
-static gboolean
-sheet_object_image_write_xml_dom (SheetObject const *so,
-				  XmlParseContext const *ctxt, xmlNodePtr tree)
-{
-	SheetObjectImage *soi;
-
-	g_return_val_if_fail (IS_SHEET_OBJECT_IMAGE (so), TRUE);
-	soi = SHEET_OBJECT_IMAGE (so);
-
-	return FALSE;
-}
-
 static void
 sheet_object_image_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
@@ -691,7 +679,6 @@ sheet_object_image_class_init (GObjectClass *object_class)
 	sheet_object_class->new_view	  	= sheet_object_image_new_view;
 	sheet_object_class->populate_menu	= sheet_object_image_populate_menu;
 	sheet_object_class->read_xml_dom	= sheet_object_image_read_xml_dom;
-	sheet_object_class->write_xml_dom	= sheet_object_image_write_xml_dom;
 	sheet_object_class->write_xml_sax	= sheet_object_image_write_xml_sax;
 	sheet_object_class->copy		= sheet_object_image_copy;
 	sheet_object_class->user_config		= NULL;

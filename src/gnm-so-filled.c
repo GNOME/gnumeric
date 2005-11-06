@@ -390,27 +390,6 @@ gnm_so_filled_read_xml_dom (SheetObject *so, char const *typename,
 	return FALSE;
 }
 
-static gboolean
-gnm_so_filled_write_xml_dom (SheetObject const *so,
-			     XmlParseContext const *ctxt,
-			     xmlNodePtr node)
-{
-	GnmSOFilled *sof = GNM_SO_FILLED (so);
-	xmlNode *child;
-
-	xml_node_set_int (node,  "Type",  sof->is_oval ? 102 : 101);
-	xml_node_set_double (node,  "Width", sof->style->outline.width, 2);
-	xml_node_set_gocolor (node, "OutlineColor",	sof->style->outline.color);
-	xml_node_set_gocolor (node, "FillColor",	sof->style->fill.pattern.back);
-	if (sof->text != NULL)
-		xml_node_set_cstr (node, "Label", sof->text);
-
-	child = xmlNewDocNode (node->doc, NULL, "Style", NULL);
-	gog_persist_dom_save (GOG_PERSIST (sof->style), child);
-	xmlAddChild (node, child);
-	return FALSE;
-}
-
 static void
 gnm_so_filled_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
@@ -532,7 +511,6 @@ gnm_so_filled_class_init (GObjectClass *gobject_class)
 	gobject_class->set_property	= gnm_so_filled_set_property;
 	gobject_class->get_property	= gnm_so_filled_get_property;
 	so_class->read_xml_dom		= gnm_so_filled_read_xml_dom;
-	so_class->write_xml_dom		= gnm_so_filled_write_xml_dom;
 	so_class->write_xml_sax		= gnm_so_filled_write_xml_sax;
 	so_class->copy			= gnm_so_filled_copy;
 	so_class->rubber_band_directly	= TRUE;

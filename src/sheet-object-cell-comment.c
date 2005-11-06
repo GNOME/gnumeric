@@ -275,15 +275,6 @@ cell_comment_read_xml_dom (SheetObject *so, char const *typename,
 	return FALSE;
 }
 
-static gboolean
-cell_comment_write_xml_dom (SheetObject const *so, XmlParseContext const *ctxt,
-			    xmlNodePtr tree)
-{
-	GnmComment const *cc = CELL_COMMENT (so);
-	xml_node_set_cstr (tree, "Author", cc->author);
-	xml_node_set_cstr (tree, "Text", cc->text);
-	return FALSE;
-}
 static void
 cell_comment_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
@@ -335,7 +326,6 @@ cell_comment_class_init (GObjectClass *gobject_class)
 	/* SheetObject class method overrides */
 	sheet_object_class->new_view		= &cell_comment_new_view;
 	sheet_object_class->read_xml_dom	= &cell_comment_read_xml_dom;
-	sheet_object_class->write_xml_dom	= &cell_comment_write_xml_dom;
 	sheet_object_class->write_xml_sax	= &cell_comment_write_xml_sax;
 	sheet_object_class->print		= &cell_comment_print;
 	sheet_object_class->copy		= &cell_comment_copy;

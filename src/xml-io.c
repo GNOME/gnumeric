@@ -194,21 +194,6 @@ xml_node_get_value (xmlNodePtr node, char const *name)
 	return value;
 }
 
-static void
-xml_node_set_value (xmlNodePtr node, char const *name, GnmValue const *value)
-{
-        GString *str;
-
-	/* Set value type. */
-	str = g_string_new (NULL);
-	g_string_append_printf (str, "%d:", value->type);
-
-	/* Set value. */
-        value_get_as_gstring (value, str, gnm_expr_conventions_default);
-	xml_node_set_cstr (node, name, str->str);
-	g_string_free (str, FALSE);
-}
-
 GnmColor *
 xml_node_get_color (xmlNodePtr node, char const *name)
 {
@@ -246,44 +231,6 @@ xml_node_get_cellpos (xmlNodePtr node, char const *name, GnmCellPos *val)
 	res = cellpos_parse (CXML2C (buf), val, TRUE) != NULL;
 	xmlFree (buf);
 	return res;
-}
-
-static void
-xml_node_set_cellpos (xmlNodePtr node, char const *name, GnmCellPos const *val)
-{
-	xml_node_set_cstr (node, name, cellpos_as_string (val));
-}
-
-/*
- * Set a double value for a node with POINT_SIZE_PRECISION digits precision.
- */
-static void
-xml_node_set_points (xmlNodePtr node, char const *name, double val)
-{
-	xml_node_set_double (node, name, val, POINT_SIZE_PRECISION);
-}
-
-static void
-xml_node_set_print_unit (xmlNodePtr node, char const *name,
-			 PrintUnit const *pu)
-{
-	xmlNodePtr child = xmlNewChild (node, NULL, CC2XML (name), NULL);
-	xml_node_set_points (child, "Points", pu->points);
-	xml_node_set_cstr (child, "PrefUnit", pu->desired_display->abbr);
-}
-
-static void
-xml_node_set_print_margins (xmlNodePtr node, char const *name,
-			    double points)
-{
-	xmlNodePtr  child;
-
-	if (name == NULL)
-		return;
-
-	child = xmlNewChild (node, NULL, CC2XML (name), NULL);
-	xml_node_set_points (child, "Points", points);
-	xml_node_set_cstr (child, "PrefUnit", "Pt");
 }
 
 static void
@@ -326,17 +273,6 @@ xml_node_get_range (xmlNodePtr tree, GnmRange *r)
 }
 
 static void
-xml_node_set_range (xmlNodePtr tree, GnmRange const *r)
-{
-	g_return_if_fail (range_is_sane (r));
-
-	xml_node_set_int (tree, "startCol", r->start.col);
-	xml_node_set_int (tree, "startRow", r->start.row);
-	xml_node_set_int (tree, "endCol",   r->end.col);
-	xml_node_set_int (tree, "endRow",   r->end.row);
-}
-
-static void
 xml_read_selection_info (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	GnmRange r;
@@ -363,39 +299,10 @@ xml_read_selection_info (XmlParseContext *ctxt, xmlNodePtr tree)
 		sv_set_edit_pos (sv, &pos);
 }
 
-static void
-xml_write_selection_info (XmlParseContext *ctxt, Sheet const *sheet,
-			  xmlNodePtr tree)
-{
-	GList *ptr, *copy;
-	SheetView *sv = sheet_get_view (sheet, ctxt->wb_view);
-
-	if (!sv)
-		return;  /* Hidden, for example.  */
-
-	tree = xmlNewChild (tree, ctxt->ns,
-		CC2XML ("Selections"), NULL);
-
-	/* Insert the selections in REVERSE order */
-	copy = g_list_copy (sv->selections);
-	ptr = g_list_reverse (copy);
-	for (; ptr != NULL ; ptr = ptr->next) {
-		GnmRange const *r = ptr->data;
-		xmlNodePtr child = xmlNewChild (tree, ctxt->ns,
-						CC2XML ("Selection"),
-						NULL);
-		xml_node_set_range (child, r);
-	}
-	g_list_free (copy);
-
-	xml_node_set_int (tree, "CursorCol", sv->edit_pos_real.col);
-	xml_node_set_int (tree, "CursorRow", sv->edit_pos_real.row);
-}
-
 /*
  * Create an XML subtree of doc equivalent to the given GnmBorder.
  */
-static char const *StyleSideNames[6] =
+static char const *const StyleSideNames[6] =
 {
  	"Top",
  	"Bottom",
@@ -404,44 +311,6 @@ static char const *StyleSideNames[6] =
 	"Diagonal",
 	"Rev-Diagonal"
 };
-
-static xmlNodePtr
-xml_write_style_border (XmlParseContext *ctxt,
-			const GnmStyle *style)
-{
-	xmlNodePtr cur;
-	xmlNodePtr side;
-	int        i;
-
-	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
-		GnmBorder const *border;
-		if (gnm_style_is_element_set (style, i) &&
-		    NULL != (border = gnm_style_get_border (style, i))) {
-			break;
-		}
-	}
-	if (i > MSTYLE_BORDER_DIAGONAL)
-		return NULL;
-
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns,
-			     CC2XML ("StyleBorder"), NULL);
-
-	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
-		GnmBorder const *border;
-		if (gnm_style_is_element_set (style, i) &&
-		    NULL != (border = gnm_style_get_border (style, i))) {
-			StyleBorderType t = border->line_type;
-			GnmColor *col   = border->color;
- 			side = xmlNewChild (cur, ctxt->ns,
-					    CC2XML (StyleSideNames [i - MSTYLE_BORDER_TOP]),
- 					    NULL);
-			xml_node_set_int (side, "Style", t);
-			if (t != STYLE_BORDER_NONE)
-				xml_node_set_color (side, "Color", col);
- 		}
-	}
-	return cur;
-}
 
 static void
 xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, GnmStyle *style)
@@ -469,245 +338,6 @@ xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, GnmStyle *style)
 			gnm_style_set_border (style, i, border);
  		}
 	}
-}
-
-/*
- * Create an XML subtree of doc equivalent to the given Style.
- */
-xmlNodePtr
-xml_write_style (XmlParseContext *ctxt,
-		 GnmStyle *style)
-{
-	xmlNodePtr  cur, child;
-	xmlChar    *tstr;
-	GnmValidation const *v;
-	GnmHLink   const *link;
-	GnmInputMsg const *im;
-	GnmStyleConditions const *sc;
-	GnmStyleCond const *cond;
-	GnmParsePos    pp;
-	char	   *tmp;
-	unsigned    i;
-
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("Style"), NULL);
-	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_H))
-		xml_node_set_int (cur, "HAlign", gnm_style_get_align_h (style));
-	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_V))
-		xml_node_set_int (cur, "VAlign", gnm_style_get_align_v (style));
-	if (gnm_style_is_element_set (style, MSTYLE_WRAP_TEXT))
-		xml_node_set_bool (cur, "WrapText",
-				  gnm_style_get_wrap_text (style));
-	if (gnm_style_is_element_set (style, MSTYLE_SHRINK_TO_FIT))
-		xml_node_set_bool (cur, "ShrinkToFit",
-				  gnm_style_get_shrink_to_fit (style));
-	if (gnm_style_is_element_set (style, MSTYLE_ROTATION))
-		xml_node_set_int (cur, "Rotation", gnm_style_get_rotation (style));
-	if (gnm_style_is_element_set (style, MSTYLE_PATTERN))
-		xml_node_set_int (cur, "Shade", gnm_style_get_pattern (style));
-	if (gnm_style_is_element_set (style, MSTYLE_INDENT))
-		xml_node_set_int (cur, "Indent", gnm_style_get_indent (style));
-	if (gnm_style_is_element_set (style, MSTYLE_CONTENT_LOCKED))
-		xml_node_set_bool (cur, "Locked",
-				  gnm_style_get_content_locked (style));
-	if (gnm_style_is_element_set (style, MSTYLE_CONTENT_HIDDEN))
-		xml_node_set_bool (cur, "Hidden",
-				  gnm_style_get_content_hidden (style));
-
-	if (gnm_style_is_element_set (style, MSTYLE_FONT_COLOR))
-		xml_node_set_color (cur, "Fore",
-				    gnm_style_get_font_color (style));
-	if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
-		xml_node_set_color (cur, "Back",
-				    gnm_style_get_back_color (style));
-	if (gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN))
-		xml_node_set_color (cur, "PatternColor",
-				    gnm_style_get_pattern_color (style));
-	if (gnm_style_is_element_set (style, MSTYLE_FORMAT)) {
-		char *fmt = go_format_as_XL (gnm_style_get_format (style), FALSE);
-		xml_node_set_cstr (cur, "Format", fmt);
-		g_free (fmt);
-	}
-
-	if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME) ||
-	    gnm_style_is_element_set (style, MSTYLE_FONT_SIZE) ||
-	    gnm_style_is_element_set (style, MSTYLE_FONT_BOLD) ||
-	    gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC) ||
-	    gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
-	    gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH) ||
-	    gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT)) {
-		char const *fontname;
-
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME))
-			fontname = gnm_style_get_font_name (style);
-		else /* backwards compatibility */
-			fontname = "Helvetica";
-
-		tstr = xmlEncodeEntitiesReentrant (ctxt->doc,
-						   CC2XML (fontname));
-		child = xmlNewChild (cur, ctxt->ns, CC2XML ("Font"),
-				     tstr);
-		if (tstr) xmlFree (tstr);
-
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_SIZE))
-			xml_node_set_points (child, "Unit",
-					      gnm_style_get_font_size (style));
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_BOLD))
-			xml_node_set_int (child, "Bold",
-					   gnm_style_get_font_bold (style));
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC))
-			xml_node_set_int (child, "Italic",
-					   gnm_style_get_font_italic (style));
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE))
-			xml_node_set_int (child, "Underline",
-					   (int)gnm_style_get_font_uline (style));
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH))
-			xml_node_set_int (child, "StrikeThrough",
-					   gnm_style_get_font_strike (style));
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT))
-			xml_node_set_int (child, "Script",
-					   (int)gnm_style_get_font_script (style));
-	}
-
-	if (gnm_style_is_element_set (style, MSTYLE_HLINK) &&
-	    NULL != (link = gnm_style_get_hlink (style))) {
-		child = xmlNewChild (cur, ctxt->ns,
-			CC2XML ("HyperLink"), NULL);
-		xml_node_set_cstr (child, "type",
-			g_type_name (G_OBJECT_TYPE (link)));
-		xml_node_set_cstr (child, "target",
-			(const char *)gnm_hlink_get_target (link));
-
-		if (gnm_hlink_get_tip (link) != NULL)
-			xml_node_set_cstr (child, "tip",
-				(const char *)gnm_hlink_get_tip (link));
-	}
-
-	if (gnm_style_is_element_set (style, MSTYLE_VALIDATION) &&
-	    NULL != (v = gnm_style_get_validation (style))) {
-		child = xmlNewChild (cur, ctxt->ns,
-				     CC2XML ("Validation"), NULL);
-		xml_node_set_int (child, "Style", v->style);
-		xml_node_set_int (child, "Type", v->type);
-		switch (v->type) {
-		case VALIDATION_TYPE_AS_INT :
-		case VALIDATION_TYPE_AS_NUMBER :
-		case VALIDATION_TYPE_AS_DATE :
-		case VALIDATION_TYPE_AS_TIME :
-		case VALIDATION_TYPE_TEXT_LENGTH :
-			xml_node_set_int (child, "Operator", v->op);
-			break;
-		default :
-			break;
-		}
-
-		xml_node_set_bool (child, "AllowBlank", v->allow_blank);
-		xml_node_set_bool (child, "UseDropdown", v->use_dropdown);
-
-		if (v->title != NULL && v->title->str[0] != '\0')
-			xml_node_set_cstr (child, "Title", v->title->str);
-		if (v->msg != NULL && v->msg->str[0] != '\0')
-			xml_node_set_cstr (child, "Message", v->msg->str);
-
-		parse_pos_init_sheet (&pp, ctxt->sheet);
-		if (v->expr[0] != NULL &&
-		    (tmp = gnm_expr_as_string (v->expr[0], &pp, ctxt->exprconv)) != NULL) {
-			xmlNewChild (child, child->ns, CC2XML ("Expression0"), CC2XML (tmp));
-			g_free (tmp);
-		}
-		if (v->expr[1] != NULL &&
-		    (tmp = gnm_expr_as_string (v->expr[1], &pp, ctxt->exprconv)) != NULL) {
-			xmlNewChild (child, child->ns, CC2XML ("Expression1"), CC2XML (tmp));
-			g_free (tmp);
-		}
-	}
-
-	if (gnm_style_is_element_set (style, MSTYLE_INPUT_MSG) &&
-	    NULL != (im = gnm_style_get_input_msg (style))) {
-		char const *txt;
-		child = xmlNewChild (cur, ctxt->ns,
-				     CC2XML ("InputMessage"), NULL);
-		if (NULL != (txt = gnm_input_msg_get_title (im)))
-			xml_node_set_cstr (child, "Title", txt);
-		if (NULL != (txt = gnm_input_msg_get_msg (im)))
-			xml_node_set_cstr (child, "Message", txt);
-	}
-
-	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS) &&
-	    NULL != (sc = gnm_style_get_conditions (style))) {
-		GArray const *conds = gnm_style_conditions_details (sc);
-		xmlNodePtr overlay_child;
-		if (conds != NULL)
-			for (i = 0 ; i < conds->len ; i++) {
-				cond = &g_array_index (conds, GnmStyleCond, i);
-				child = xmlNewChild (cur, ctxt->ns, CC2XML ("Condition"), NULL);
-				xml_node_set_int (child, "Operator", cond->op);
-				parse_pos_init_sheet (&pp, ctxt->sheet);
-				if (cond->expr[0] != NULL &&
-				    (tmp = gnm_expr_as_string (cond->expr[0], &pp, ctxt->exprconv)) != NULL) {
-					xmlNewChild (child, child->ns, CC2XML ("Expression0"), CC2XML (tmp));
-					g_free (tmp);
-				}
-				if (cond->expr[1] != NULL &&
-				    (tmp = gnm_expr_as_string (cond->expr[1], &pp, ctxt->exprconv)) != NULL) {
-					xmlNewChild (child, child->ns, CC2XML ("Expression1"), CC2XML (tmp));
-					g_free (tmp);
-				}
-				if (NULL != (overlay_child = xml_write_style (ctxt, cond->overlay)))
-					xmlAddChild (child, overlay_child);
-			}
-	}
-
-	child = xml_write_style_border (ctxt, style);
-	if (child)
-		xmlAddChild (cur, child);
-
-	return cur;
-}
-
-typedef struct {
-	xmlNode *names;
-	XmlParseContext *ctxt;
-} XMLWriteNames;
-
-static void
-cb_xml_write_name (gpointer key, GnmNamedExpr *nexpr, XMLWriteNames *user)
-{
-	xmlNodePtr  nameNode;
-	xmlChar *txt;
-	char *expr_str;
-
-	g_return_if_fail (nexpr != NULL);
-
-	nameNode = xmlNewChild (user->names, user->ctxt->ns, CC2XML ("Name"), NULL);
-	txt = xmlEncodeEntitiesReentrant (user->ctxt->doc, CC2XML (nexpr->name->str));
-	xmlNewChild (nameNode, user->ctxt->ns, CC2XML ("name"), txt);
-	if (txt)
-		xmlFree (txt);
-
-	expr_str = expr_name_as_string (nexpr, NULL, user->ctxt->exprconv);
-	txt = xmlEncodeEntitiesReentrant (user->ctxt->doc, CC2XML (expr_str));
-	xmlNewChild (nameNode, user->ctxt->ns, CC2XML ("value"), txt);
-	if (txt)
-		xmlFree (txt);
-	g_free (expr_str);
-
-	xmlNewChild (nameNode, user->ctxt->ns, CC2XML ("position"),
-		CC2XML (cellpos_as_string (&nexpr->pos.eval)));
-}
-
-static xmlNodePtr
-xml_write_names (XmlParseContext *ctxt, GnmNamedExprCollection *scope)
-{
-	XMLWriteNames user;
-
-	if (scope == NULL)
-		return NULL;
-
-	user.ctxt  = ctxt;
-	user.names = xmlNewDocNode (ctxt->doc, ctxt->ns,
-				    CC2XML ("Names"), NULL);
-	g_hash_table_foreach (scope->names, (GHFunc) cb_xml_write_name, &user);
-	return user.names;
 }
 
 static void
@@ -784,54 +414,6 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 	}
 }
 
-static xmlNodePtr
-xml_write_summary (XmlParseContext *ctxt, SummaryInfo *summary_info)
-{
-	GList *items, *m;
-	xmlChar *tstr;
-	xmlNodePtr cur;
-
-	if (!summary_info)
-		return NULL;
-
-	m = items = summary_info_as_list (summary_info);
-
-	if (!items)
-		return NULL;
-
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("Summary"), NULL);
-
-	while (items) {
-		xmlNodePtr   tmp;
-		SummaryItem *sit = items->data;
-		if (sit) {
-			xmlChar *text;
-
-			tmp = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("Item"), NULL);
-			tstr = xmlEncodeEntitiesReentrant (ctxt->doc, CC2XML (sit->name));
-			xmlNewChild (tmp, ctxt->ns, CC2XML ("name"), tstr);
-			if (tstr) xmlFree (tstr);
-
-			if (sit->type == SUMMARY_INT) {
-				text = C2XML (g_strdup_printf ("%d", sit->v.i));
-				tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text);
-				xmlNewChild (tmp, ctxt->ns, CC2XML ("val-int"), tstr);
-				if (tstr) xmlFree (tstr);
-			} else {
-				text = C2XML (summary_item_as_text (sit));
-				tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text);
-				xmlNewChild (tmp, ctxt->ns, CC2XML ("val-string"), tstr);
-				if (tstr) xmlFree (tstr);
-			}
-			g_free (text);
-			xmlAddChild (cur, tmp);
-		}
-		items = g_list_next (items);
-	}
-	g_list_free (m);
-	return cur;
-}
-
 static void
 xml_read_summary (XmlParseContext *ctxt, xmlNodePtr tree, SummaryInfo *summary_info)
 {
@@ -882,21 +464,6 @@ xml_read_summary (XmlParseContext *ctxt, xmlNodePtr tree, SummaryInfo *summary_i
 }
 
 static void
-xml_node_set_print_hf (xmlNodePtr node, char const *name,
-		       PrintHF const *hf)
-{
-	xmlNodePtr  child;
-
-	if (hf == NULL || name == NULL)
-		return;
-
-	child = xmlNewChild (node, NULL, CC2XML (name), NULL);
-	xml_node_set_cstr (child, "Left", hf->left_format);
-	xml_node_set_cstr (child, "Middle", hf->middle_format);
-	xml_node_set_cstr (child, "Right", hf->right_format);
-}
-
-static void
 xml_node_get_print_hf (xmlNodePtr node, PrintHF *hf)
 {
 	xmlChar *txt;
@@ -927,34 +494,6 @@ xml_node_get_print_hf (xmlNodePtr node, PrintHF *hf)
 		hf->right_format = g_strdup ((gchar *)txt);
 		xmlFree (txt);
 	}
-}
-
-static void
-xml_write_attribute (xmlNode *parent, char const *name, char const *value)
-{
-	xmlNodePtr attr = xmlNewChild (parent, parent->ns, CC2XML ("Attribute"), NULL);
-
-	/* backwards compatibility with 1.0.x which uses gtk-1.2 GTK_TYPE_BOOLEAN */
-	xmlNewChild (attr, attr->ns, CC2XML ("type"), CC2XML ("4"));
-	xmlNewChild (attr, attr->ns, CC2XML ("name"), CC2XML (name));
-	xmlNewChild (attr, attr->ns, CC2XML ("value"), CC2XML (value));
-}
-
-static xmlNodePtr
-xml_write_wbv_attributes (XmlParseContext *ctxt)
-{
-	xmlNodePtr attributes = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("Attributes"), NULL);
-	xml_write_attribute (attributes, "WorkbookView::show_horizontal_scrollbar",
-		ctxt->wb_view->show_horizontal_scrollbar ? "TRUE" : "FALSE");
-	xml_write_attribute (attributes, "WorkbookView::show_vertical_scrollbar",
-		ctxt->wb_view->show_vertical_scrollbar ? "TRUE" : "FALSE");
-	xml_write_attribute (attributes, "WorkbookView::show_notebook_tabs",
-		ctxt->wb_view->show_notebook_tabs ? "TRUE" : "FALSE");
-	xml_write_attribute (attributes, "WorkbookView::do_auto_completion",
-		ctxt->wb_view->do_auto_completion ? "TRUE" : "FALSE");
-	xml_write_attribute (attributes, "WorkbookView::is_protected",
-		ctxt->wb_view->is_protected ? "TRUE" : "FALSE");
-	return attributes;
 }
 
 static void
@@ -990,92 +529,6 @@ xml_read_wbv_attributes (XmlParseContext *ctxt, xmlNodePtr tree)
 		xmlFree (name);
 		xmlFree (value);
 	}
-}
-
-static xmlNodePtr
-xml_write_print_repeat_range (XmlParseContext *ctxt,
-			      char const *name,
-			      PrintRepeatRange *range)
-{
-	xmlNodePtr cur;
-	char const *s;
-
-	g_return_val_if_fail (name != NULL, NULL);
-	g_return_val_if_fail (range != NULL, NULL);
-
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML (name), NULL);
-	s = (range->use) ? range_name (&range->range) : "";
-	xml_node_set_cstr  (cur, "value", s);
-
-	return cur;
-}
-
-static xmlNodePtr
-xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
-{
-	xmlNodePtr cur, child;
-
-	g_return_val_if_fail (pi != NULL, NULL);
-
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("PrintInformation"), NULL);
-
-	child = xmlNewChild (cur, ctxt->ns, CC2XML ("Margins"), NULL);
-	xml_node_set_print_unit (child, "top",    &pi->margin.top);
-	xml_node_set_print_unit (child, "bottom", &pi->margin.bottom);
-
-	if (pi->margin.left >= 0.)
-		xml_node_set_print_margins (child, "left", pi->margin.left);
-	if (pi->margin.right >= 0.)
-		xml_node_set_print_margins (child, "right", pi->margin.right);
-	if (pi->margin.header >= 0.)
-		xml_node_set_print_margins (child, "header", pi->margin.header);
-	if (pi->margin.footer >= 0.)
-		xml_node_set_print_margins (child, "footer", pi->margin.footer);
-
-	child = xmlNewChild (cur, ctxt->ns, CC2XML ("Scale"), NULL);
-	if (pi->scaling.type == PRINT_SCALE_PERCENTAGE) {
-		xml_node_set_cstr  (child, "type", "percentage");
-		xml_node_set_double  (child, "percentage", pi->scaling.percentage.x, -1);
-	} else {
-		xml_node_set_cstr  (child, "type", "size_fit");
-		xml_node_set_double  (child, "cols", pi->scaling.dim.cols, -1);
-		xml_node_set_double  (child, "rows", pi->scaling.dim.rows, -1);
-	}
-
-	child = xmlNewChild (cur, ctxt->ns, CC2XML ("vcenter"), NULL);
-	xml_node_set_int  (child, "value", pi->center_vertically);
-	child = xmlNewChild (cur, ctxt->ns, CC2XML ("hcenter"), NULL);
-	xml_node_set_int  (child, "value", pi->center_horizontally);
-
-	child = xmlNewChild (cur, ctxt->ns, CC2XML ("grid"), NULL);
-	xml_node_set_int  (child, "value",    pi->print_grid_lines);
-	child = xmlNewChild (cur, ctxt->ns, CC2XML ("even_if_only_styles"), NULL);
-	xml_node_set_int  (child, "value",    pi->print_even_if_only_styles);
-	child = xmlNewChild (cur, ctxt->ns, CC2XML ("monochrome"), NULL);
-	xml_node_set_int  (child, "value",    pi->print_black_and_white);
-	child = xmlNewChild (cur, ctxt->ns, CC2XML ("draft"), NULL);
-	xml_node_set_int  (child, "value",    pi->print_as_draft);
-	child = xmlNewChild (cur, ctxt->ns, CC2XML ("titles"), NULL);
-	xml_node_set_int  (child, "value",    pi->print_titles);
-
-	child = xml_write_print_repeat_range (ctxt, "repeat_top", &pi->repeat_top);
-	xmlAddChild (cur, child);
-
-	child = xml_write_print_repeat_range (ctxt, "repeat_left", &pi->repeat_left);
-	xmlAddChild (cur, child);
-
-	xmlNewChild (cur, ctxt->ns, CC2XML ("order"),
-		CC2XML (pi->print_across_then_down ? "r_then_d" :"d_then_r"));
-	xmlNewChild (cur, ctxt->ns, CC2XML ("orientation"),
-		CC2XML (pi->portrait_orientation ? "portrait" : "landscape"));
-
-	xml_node_set_print_hf (cur, "Header", pi->header);
-	xml_node_set_print_hf (cur, "Footer", pi->footer);
-	if (NULL != print_info_get_paper (pi))
-		xmlNewChild (cur, ctxt->ns, CC2XML ("paper"),
-			CC2XML (print_info_get_paper (pi)));
-
-	return cur;
 }
 
 /*
@@ -1540,25 +993,6 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 }
 
 /*
- * Create an XML subtree of doc equivalent to the given GnmStyleRegion.
- */
-static xmlNodePtr
-xml_write_style_region (XmlParseContext *ctxt, GnmStyleRegion const *region)
-{
-	xmlNodePtr cur, child;
-
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("StyleRegion"), NULL);
-	xml_node_set_range (cur, &region->range);
-
-	if (region->style != NULL) {
-		child = xml_write_style (ctxt, region->style);
-		if (child)
-			xmlAddChild (cur, child);
-	}
-	return cur;
-}
-
-/*
  * Create a GnmStyleRegion equivalent to the XML subtree of doc.
  * Return an style and a range in the @range parameter
  */
@@ -1601,146 +1035,6 @@ xml_read_style_region (XmlParseContext *ctxt, xmlNodePtr tree)
 		else
 			sheet_style_apply_range (ctxt->sheet, &range, style);
 	}
-}
-
-/*
- * Create an XML subtree of doc equivalent to the given ColRowInfo.
- */
-typedef struct
-{
-	gboolean is_column;
-	xmlNodePtr container;
-	XmlParseContext *ctxt;
-
-	ColRowInfo *previous;
-	int rle_count;
-} closure_write_colrow;
-
-static gboolean
-xml_write_colrow_info (ColRowInfo *info, void *user_data)
-{
-	closure_write_colrow * closure = user_data;
-	xmlNodePtr cur;
-	ColRowInfo const *prev = closure->previous;
-
-	closure->rle_count++;
-	if (colrow_equal (prev, info))
-		return FALSE;
-
-	if (prev != NULL) {
-		if (closure->is_column)
-			cur = xmlNewDocNode (closure->ctxt->doc,
-					     closure->ctxt->ns, CC2XML ("ColInfo"), NULL);
-		else
-			cur = xmlNewDocNode (closure->ctxt->doc,
-					     closure->ctxt->ns, CC2XML ("RowInfo"), NULL);
-
-		if (cur != NULL) {
-			xml_node_set_int (cur, "No", prev->pos);
-			xml_node_set_points (cur, "Unit", prev->size_pts);
-			xml_node_set_int (cur, "MarginA", prev->margin_a);
-			xml_node_set_int (cur, "MarginB", prev->margin_b);
-			if (prev->hard_size)
-				xml_node_set_int (cur, "HardSize", TRUE);
-			if (!prev->visible)
-				xml_node_set_int (cur, "Hidden", TRUE);
-			if (prev->is_collapsed)
-				xml_node_set_int (cur, "Collapsed", TRUE);
-			if (prev->outline_level > 0)
-				xml_node_set_int (cur, "OutlineLevel", prev->outline_level);
-
-			if (closure->rle_count > 1)
-				xml_node_set_int (cur, "Count", closure->rle_count);
-			xmlAddChild (closure->container, cur);
-		}
-	}
-	closure->rle_count = 0;
-	closure->previous = info;
-
-	return FALSE;
-}
-
-/*
- * Create an XML subtree of doc equivalent to the given Cell.
- * set col and row to be the absolute coordinates
- */
-static xmlNodePtr
-xml_write_cell_and_position (XmlParseContext *ctxt,
-			     GnmExpr const *expr, GnmValue const *val,
-			     GnmParsePos const *pp)
-{
-	xmlNodePtr cellNode;
-	xmlChar *tstr;
-	GnmExprArray const *ar = NULL;
-	gboolean write_contents = TRUE;
-	gboolean const is_shared_expr = (expr != NULL) &&
-		gnm_expr_is_shared (expr);
-
-	cellNode = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("Cell"), NULL);
-	xml_node_set_int (cellNode, "Col", pp->eval.col);
-	xml_node_set_int (cellNode, "Row", pp->eval.row);
-
-	/* Only the top left corner of an array needs to be saved (>= 0.53) */
-	if (expr && NULL != (ar = gnm_expr_is_array (expr)) && (ar->y != 0 || ar->x != 0))
-		return cellNode;
-
-	/* As of version 0.53 we save the ID of shared expressions */
-	if (is_shared_expr) {
-		gpointer id = g_hash_table_lookup (ctxt->expr_map, (gpointer) expr);
-
-		if (id == NULL) {
-			id = GINT_TO_POINTER (g_hash_table_size (ctxt->expr_map) + 1);
-			g_hash_table_insert (ctxt->expr_map, (gpointer)expr, id);
-		} else
-			write_contents = FALSE;
-
-		xml_node_set_int (cellNode, "ExprID", GPOINTER_TO_INT (id));
-	}
-
-	if (write_contents) {
-		GString *str = g_string_sized_new (1000);
-		if (NULL == expr) {
-			g_return_val_if_fail (val != NULL, cellNode);
-
-			xml_node_set_int (cellNode, "ValueType", val->type);
-
-			if (VALUE_FMT (val) != NULL) {
-				char *fmt = go_format_as_XL (VALUE_FMT (val), FALSE);
-				xmlSetProp (cellNode, CC2XML ("ValueFormat"), CC2XML (fmt));
-				g_free (fmt);
-			}
-			value_get_as_gstring (val, str, ctxt->exprconv);
-		} else {
-			g_string_append_c (str, '=');
-			gnm_expr_as_gstring (str, expr, pp, ctxt->exprconv);
-		}
-		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, CC2XML (str->str));
-		xmlNodeSetContent (cellNode, CC2XML (tstr));
-		if (tstr)
-			xmlFree (tstr);
-		g_string_free (str, TRUE);
-	}
-
-	/* As of version 0.53 we save the size of the array as attributes */
-	/* As of version 0.57 the attributes are in the Cell not the Content */
-	if (ar != NULL) {
-	        xml_node_set_int (cellNode, "Rows", ar->rows);
-	        xml_node_set_int (cellNode, "Cols", ar->cols);
-	}
-
-	return cellNode;
-}
-
-/*
- * Create an XML subtree of doc equivalent to the given Cell.
- */
-static xmlNodePtr
-xml_write_cell (XmlParseContext *ctxt, GnmCell const *cell)
-{
-	GnmParsePos pp;
-	return xml_write_cell_and_position (ctxt,
-		cell->base.expression, cell->value,
-		parse_pos_init_cell (&pp, cell));
 }
 
 /**
@@ -2026,22 +1320,6 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 }
 
 static void
-xml_write_merged_regions (XmlParseContext const *ctxt,
-			  xmlNodePtr sheet, GSList *ptr)
-{
-	xmlNodePtr container;
-
-	if (ptr == NULL)
-		return;
-
-	container = xmlNewChild (sheet, ctxt->ns, CC2XML ("MergedRegions"), NULL);
-	for (; ptr != NULL ; ptr = ptr->next) {
-		GnmRange const * const range = ptr->data;
-		xmlNewChild (container, ctxt->ns, CC2XML ("Merge"), CC2XML (range_name (range)));
-	}
-}
-
-static void
 xml_read_sheet_layout (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	SheetView *sv = sheet_get_view (ctxt->sheet, ctxt->wb_view);
@@ -2061,23 +1339,6 @@ xml_read_sheet_layout (XmlParseContext *ctxt, xmlNodePtr tree)
 	    xml_node_get_cellpos (child, "FrozenTopLeft", &frozen_tl) &&
 	    xml_node_get_cellpos (child, "UnfrozenTopLeft", &unfrozen_tl))
 		sv_freeze_panes (sv, &frozen_tl, &unfrozen_tl);
-}
-
-static void
-xml_write_sheet_layout (XmlParseContext *ctxt, xmlNodePtr tree, Sheet const *sheet)
-{
-	SheetView const *sv = sheet_get_view (sheet, ctxt->wb_view);
-	if (!sv) return;  /* Hidden.  */
-
-	tree = xmlNewChild (tree, ctxt->ns, CC2XML ("SheetLayout"), NULL);
-
-	xml_node_set_cellpos (tree, "TopLeft", &sv->initial_top_left);
-	if (sv_is_frozen (sv)) {
-		xmlNodePtr freeze = xmlNewChild (tree, ctxt->ns, CC2XML ("FreezePanes"), NULL);
-		xml_node_set_cellpos (freeze, "FrozenTopLeft", &sv->frozen_top_left);
-		xml_node_set_cellpos (freeze, "UnfrozenTopLeft",
-				      &sv->unfrozen_top_left);
-	}
 }
 
 static char const *filter_cond_name[] = { "eq", "gt", "lt", "gte", "lte", "ne" };
@@ -2139,22 +1400,6 @@ xml_read_filter_expr (XmlParseContext *ctxt, xmlNode *field)
 }
 
 static void
-xml_write_filter_expr (XmlParseContext *ctxt, xmlNode *field,
-		       GnmFilterCondition const *cond, unsigned i)
-{
-	GString *text = g_string_new (NULL);
-
-	xml_node_set_cstr (field, filter_expr_attrs[i].op,
-			   filter_cond_name [cond->op[i]]);
-	xml_node_set_int (field, filter_expr_attrs[i].valtype,
-			  cond->value[i]->type);
-
-	value_get_as_gstring (cond->value[i], text, ctxt->exprconv);
-	xml_node_set_cstr (field, filter_expr_attrs[i].val, CC2XML (text->str));
-	g_string_free (text, TRUE);
-}
-
-static void
 xml_read_filter_field (XmlParseContext *ctxt, xmlNode *field, GnmFilter *filter)
 {
 	GnmFilterCondition *cond = NULL;
@@ -2193,39 +1438,6 @@ xml_read_filter_field (XmlParseContext *ctxt, xmlNode *field, GnmFilter *filter)
 }
 
 static void
-xml_write_filter_field (XmlParseContext *ctxt, xmlNode *filter,
-			GnmFilterCondition const *cond, unsigned i)
-{
-	xmlNode *field = xmlNewChild (filter, ctxt->ns,
-				      CC2XML ("Field"), NULL);
-	xml_node_set_int (field, "Index", i);
-
-	switch (GNM_FILTER_OP_TYPE_MASK & cond->op[0]) {
-	case 0: xml_node_set_cstr (field, "Type", "expr");
-		xml_write_filter_expr (ctxt, field, cond, 0);
-		if (cond->op[1] != GNM_FILTER_UNUSED) {
-			xml_write_filter_expr (ctxt, field, cond, 1);
-			xml_node_set_bool (field, "IsAnd", cond->is_and);
-		}
-		break;
-	case GNM_FILTER_OP_BLANKS:
-		xml_node_set_cstr (field, "Type", "blanks");
-		break;
-	case GNM_FILTER_OP_NON_BLANKS:
-		xml_node_set_cstr (field, "Type", "nonblanks");
-		break;
-	case GNM_FILTER_OP_TOP_N:
-		xml_node_set_cstr (field, "Type", "bucket");
-		xml_node_set_bool (field, "top",
-			cond->op[0] & 1 ? TRUE : FALSE);
-		xml_node_set_bool (field, "items",
-			cond->op[0] & 2 ? TRUE : FALSE);
-		xml_node_set_int (field, "count", cond->count);
-		break;
-	};
-}
-
-static void
 xml_read_sheet_filters (XmlParseContext *ctxt, xmlNode const *container)
 {
 	xmlNode *filter_node, *field;
@@ -2251,59 +1463,6 @@ xml_read_sheet_filters (XmlParseContext *ctxt, xmlNode const *container)
 		}
 		xmlFree (area);
 	}
-}
-
-static void
-xml_write_sheet_filters (XmlParseContext *ctxt, xmlNode *container,
-			 Sheet const *sheet)
-{
-	GSList *ptr;
-	GnmFilter *filter;
-	GnmFilterCondition const *cond;
-	xmlNode *filter_node;
-	unsigned i;
-
-	if (sheet->filters == NULL)
-		return;
-
-	container = xmlNewChild (container, ctxt->ns, CC2XML ("Filters"), NULL);
-	for (ptr = sheet->filters; ptr != NULL ; ptr = ptr->next) {
-		filter = ptr->data;
-		filter_node = xmlNewChild (container, ctxt->ns,
-				   CC2XML ("Filter"), NULL);
-
-		if (filter_node != NULL) {
-			xml_node_set_cstr (filter_node, "Area",
-				range_name (&filter->r));
-			for (i = filter->fields->len ; i-- > 0 ; ) {
-				cond = gnm_filter_get_condition (filter, i);
-				if (cond != NULL &&
-				    cond->op[0] != GNM_FILTER_UNUSED)
-					xml_write_filter_field (ctxt, filter_node, cond, i);
-			}
-		}
-	}
-}
-
-static xmlNodePtr
-xml_write_styles (XmlParseContext *ctxt, GnmStyleList *styles)
-{
-	GnmStyleList *ptr;
-	xmlNodePtr cur;
-
-	if (!styles)
-		return NULL;
-
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("Styles"),
-			     NULL);
-	for (ptr = styles; ptr; ptr = ptr->next) {
-		GnmStyleRegion *sr = ptr->data;
-
-		xmlAddChild (cur, xml_write_style_region (ctxt, sr));
-	}
-	style_list_free (styles);
-
-	return cur;
 }
 
 static void
@@ -2401,91 +1560,6 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 	xml_node_get_bool (tree, "ProgramR", &(param->options.program_report));
 }
 
-static xmlNodePtr
-xml_write_solver (XmlParseContext *ctxt, SolverParameters const *param)
-{
-	xmlNodePtr       cur;
-	xmlNodePtr       constr;
-	xmlNodePtr       prev = NULL;
-	GSList           *constraints;
-
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns,
-			     CC2XML ("Solver"), NULL);
-
-	if (param->target_cell != NULL) {
-	        xml_node_set_int (cur, "TargetCol",
-				   param->target_cell->pos.col);
-	        xml_node_set_int (cur, "TargetRow",
-				   param->target_cell->pos.row);
-	} else {
-	        xml_node_set_int (cur, "TargetCol", -1);
-	        xml_node_set_int (cur, "TargetRow", -1);
-	}
-
-	xml_node_set_int (cur, "ProblemType", param->problem_type);
-	xml_node_set_cstr (cur, "Inputs", param->input_entry_str);
-
-	constraints = param->constraints;
-	while (constraints) {
-	        const SolverConstraint *c =
-			(const SolverConstraint *)constraints->data;
-
-		constr = xmlNewDocNode (ctxt->doc, ctxt->ns,
-					CC2XML ("Constr"), NULL);
-		xml_node_set_int (constr, "Lcol", c->lhs.col);
-		xml_node_set_int (constr, "Lrow", c->lhs.row);
-		xml_node_set_int (constr, "Rcol", c->rhs.col);
-		xml_node_set_int (constr, "Rrow", c->rhs.row);
-		xml_node_set_int (constr, "Cols", c->cols);
-		xml_node_set_int (constr, "Rows", c->rows);
-
-		switch (c->type) {
-		case SolverLE:
-		        xml_node_set_int (constr, "Type", 1);
-			break;
-		case SolverGE:
-		        xml_node_set_int (constr, "Type", 2);
-			break;
-		case SolverEQ:
-		        xml_node_set_int (constr, "Type", 4);
-			break;
-		case SolverINT:
-		        xml_node_set_int (constr, "Type", 8);
-			break;
-		case SolverBOOL:
-		        xml_node_set_int (constr, "Type", 16);
-			break;
-		default:
-		        xml_node_set_int (constr, "Type", 0);
-			break;
-		}
-
-		if (!prev)
-		        xmlAddChild (cur, constr);
-		else
-		        xmlAddChild (prev, constr);
-
-		prev = constr;
-		constraints = constraints->next;
-	}
-
-	/* The options of the Solver. */
-	xml_node_set_int (cur, "MaxTime", param->options.max_time_sec);
-	xml_node_set_int (cur, "MaxIter", param->options.max_iter);
-	xml_node_set_bool (cur, "NonNeg",
-			  param->options.assume_non_negative);
-	xml_node_set_bool (cur, "Discr", param->options.assume_discrete);
-	xml_node_set_bool (cur, "AutoScale", param->options.automatic_scaling);
-	xml_node_set_bool (cur, "ShowIter", param->options.show_iter_results);
-	xml_node_set_bool (cur, "AnswerR", param->options.answer_report);
-	xml_node_set_bool (cur, "SensitivityR",
-			  param->options.sensitivity_report);
-	xml_node_set_bool (cur, "LimitsR", param->options.limits_report);
-	xml_node_set_bool (cur, "PerformR", param->options.performance_report);
-	xml_node_set_bool (cur, "ProgramR", param->options.program_report);
-	return cur;
-}
-
 static void
 xml_read_scenarios (XmlParseContext *ctxt, xmlNodePtr tree)
 {
@@ -2547,59 +1621,6 @@ xml_read_scenarios (XmlParseContext *ctxt, xmlNodePtr tree)
 		sheet->scenarios = g_list_append (sheet->scenarios, s);
 		child = e_xml_get_child_by_name (child, CC2XML ("Scenario"));
 	}
-}
-
-static xmlNodePtr
-xml_write_scenarios (XmlParseContext *ctxt, GList const *scenarios)
-{
-	xmlNodePtr cur;
-	xmlNodePtr scen;
-	xmlNodePtr prev = NULL;
-
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns,
-			     CC2XML ("Scenarios"), NULL);
-
-	while (scenarios) {
-	        const scenario_t *s =
-			(const scenario_t *)scenarios->data;
-		GString  *name;
-		int      i, cols, rows;
-
-		scen = xmlNewDocNode (ctxt->doc, ctxt->ns,
-				      CC2XML ("Scenario"), NULL);
-
-		/* Scenario: name. */
-		xml_node_set_cstr (scen, "Name", s->name);
-
-		/* Scenario: comment. */
-		xml_node_set_cstr (scen, "Comment", s->comment);
-
-		/* Scenario: changing cells in a string form.  In a string
-		 * form so that we can in the future allow it to contain
-		 * multiple ranges without modifing the file format.*/
-		xml_node_set_cstr (scen, "CellsStr", s->cell_sel_str);
-
-		/* Scenario: values. */
-		rows = s->range.end.row - s->range.start.row + 1;
-		cols = s->range.end.col - s->range.start.col + 1;
-		for (i = 0; i < cols * rows; i++) {
-			name = g_string_new (NULL);
-			g_string_append_printf (name, "V%d", i);
-			xml_node_set_value (scen, name->str,
-					    s->changing_cells [i]);
-			g_string_free (name, FALSE);
-		}
-
-		if (!prev)
-		        xmlAddChild (cur, scen);
-		else
-		        xmlAddChild (prev, scen);
-
-		prev = scen;
-		scenarios = scenarios->next;
-	}
-
-	return cur;
 }
 
 static SheetObject *
@@ -2699,221 +1720,6 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
 		g_object_unref (G_OBJECT (so));
 	}
 	return so;
-}
-
-static xmlNodePtr
-xml_write_sheet_object (XmlParseContext const *ctxt, SheetObject const *so)
-{
-	xmlNodePtr tree;
-	char buffer[4*(DBL_DIG+10)];
-	char const *type_name;
-	SheetObjectClass *klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so));
-
-	g_return_val_if_fail (klass != NULL, NULL);
-
-	if (klass->write_xml_dom == NULL)
-		return NULL;
-
-	/* A hook so that things can sometimes change names */
-	type_name = klass->xml_export_name;
-	if (type_name == NULL)
-		type_name = G_OBJECT_TYPE_NAME (so);
-	tree = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar *)type_name, NULL);
-
-	if (tree == NULL)
-		return NULL;
-
-	if (klass->write_xml_dom (so, ctxt, tree)) {
-		xmlUnlinkNode (tree);
-		xmlFreeNode (tree);
-		return NULL;
-	}
-
-	xml_node_set_cstr (tree, "ObjectBound", range_name (&so->anchor.cell_bound));
-	snprintf (buffer, sizeof (buffer), "%.*g %.*g %.*g %.*g",
-		  DBL_DIG, so->anchor.offset [0], DBL_DIG, so->anchor.offset [1],
-		  DBL_DIG, so->anchor.offset [2], DBL_DIG, so->anchor.offset [3]);
-	xml_node_set_cstr (tree, "ObjectOffset", buffer);
-	snprintf (buffer, sizeof (buffer), "%d %d %d %d",
-		  so->anchor.type [0], so->anchor.type [1],
-		  so->anchor.type [2], so->anchor.type [3]);
-	xml_node_set_cstr (tree, "ObjectAnchorType", buffer);
-	xml_node_set_int (tree, "Direction", so->anchor.direction);
-
-	return tree;
-}
-
-/*
- *
- */
-
-static int
-natural_order_cmp (const void *a, const void *b)
-{
-	GnmCell const *ca = *(GnmCell const **)a ;
-	GnmCell const *cb = *(GnmCell const **)b ;
-	int diff = (ca->pos.row - cb->pos.row);
-
-	if (diff != 0)
-		return diff;
-	return ca->pos.col - cb->pos.col;
-}
-
-static void
-copy_hash_table_to_ptr_array (gpointer key, GnmCell *cell, gpointer user_data)
-{
-	if (!cell_is_empty (cell) || cell->base.expression != NULL)
-		g_ptr_array_add (user_data, cell) ;
-}
-
-/*
- * Create an XML subtree of doc equivalent to the given Sheet.
- */
-static xmlNodePtr
-xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
-{
-	xmlNodePtr sheetNode;
-	xmlNodePtr child;
-	xmlNodePtr cells;
-	xmlChar *tstr;
-
-	/* General information about the Sheet */
-	sheetNode = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("Sheet"), NULL);
-	if (sheetNode == NULL)
-		return NULL;
-	xml_node_set_bool (sheetNode, "DisplayFormulas", sheet->display_formulas);
-	xml_node_set_bool (sheetNode, "HideZero", sheet->hide_zero);
-	xml_node_set_bool (sheetNode, "HideGrid", sheet->hide_grid);
-	xml_node_set_bool (sheetNode, "HideColHeader", sheet->hide_col_header);
-	xml_node_set_bool (sheetNode, "HideRowHeader", sheet->hide_row_header);
-	xml_node_set_bool (sheetNode, "DisplayOutlines", sheet->display_outlines);
-	xml_node_set_bool (sheetNode, "OutlineSymbolsBelow", sheet->outline_symbols_below);
-	xml_node_set_bool (sheetNode, "OutlineSymbolsRight", sheet->outline_symbols_right);
-	if (sheet->text_is_rtl)
-		xml_node_set_bool (sheetNode, "RTL_Layout", sheet->text_is_rtl);
-	xml_node_set_enum (sheetNode, "Visibility", GNM_SHEET_VISIBILITY_TYPE, sheet->visibility);
-
-	if (sheet->tab_color != NULL)
-		xml_node_set_color (sheetNode, "TabColor", sheet->tab_color);
-	if (sheet->tab_text_color != NULL)
-		xml_node_set_color (sheetNode, "TabTextColor", sheet->tab_text_color);
-
-	tstr = xmlEncodeEntitiesReentrant (ctxt->doc, CC2XML (sheet->name_unquoted));
-	xmlNewChild (sheetNode, ctxt->ns, CC2XML ("Name"),  tstr);
-	if (tstr)
-		xmlFree (tstr);
-	{
-		char str[4 * sizeof (int) + DBL_DIG + 50];
-		sprintf (str, "%d", sheet->cols.max_used);
-		xmlNewChild (sheetNode, ctxt->ns, CC2XML ("MaxCol"), CC2XML (str));
-		sprintf (str, "%d", sheet->rows.max_used);
-		xmlNewChild (sheetNode, ctxt->ns, CC2XML ("MaxRow"), CC2XML (str));
-		sprintf (str, "%f", sheet->last_zoom_factor_used);
-		xmlNewChild (sheetNode, ctxt->ns, CC2XML ("Zoom"), CC2XML (str));
-	}
-
-	child = xml_write_names (ctxt, sheet->names);
-	if (child)
-		xmlAddChild (sheetNode, child);
-
-	/*
-	 * Print Information
-	 */
-	child = xml_write_print_info (ctxt, sheet->print_info);
-	if (child)
-		xmlAddChild (sheetNode, child);
-
-	/*
-	 * Styles
-	 */
-	child = xml_write_styles (ctxt, sheet_style_get_list (sheet, NULL));
-	if (child)
-		xmlAddChild (sheetNode, child);
-
-	/*
-	 * Cols informations.
-	 */
-	child = xmlNewChild (sheetNode, ctxt->ns, CC2XML ("Cols"), NULL);
-	xml_node_set_points (child, "DefaultSizePts",
-			      sheet_col_get_default_size_pts (sheet));
-	{
-		closure_write_colrow closure;
-		closure.is_column = TRUE;
-		closure.container = child;
-		closure.ctxt = ctxt;
-		closure.previous = NULL;
-		closure.rle_count = 0;
-		colrow_foreach (&sheet->cols,
-				0, SHEET_MAX_COLS-1,
-				&xml_write_colrow_info, &closure);
-		xml_write_colrow_info (NULL, &closure); /* flush */
-	}
-
-	/*
-	 * Rows informations.
-	 */
-	child = xmlNewChild (sheetNode, ctxt->ns, CC2XML ("Rows"), NULL);
-	xml_node_set_points (child, "DefaultSizePts",
-			      sheet_row_get_default_size_pts (sheet));
-	{
-		closure_write_colrow closure;
-		closure.is_column = FALSE;
-		closure.container = child;
-		closure.ctxt = ctxt;
-		closure.previous = NULL;
-		closure.rle_count = 0;
-		colrow_foreach (&sheet->rows,
-				0, SHEET_MAX_ROWS-1,
-				&xml_write_colrow_info, &closure);
-		xml_write_colrow_info (NULL, &closure); /* flush */
-	}
-
-	/* Save the current selection */
-	xml_write_selection_info (ctxt, sheet, sheetNode);
-
-	/* Objects */
-	if (sheet->sheet_objects != NULL) {
-		xmlNodePtr objects = xmlNewChild (sheetNode, ctxt->ns,
-						  CC2XML ("Objects"), NULL);
-		GSList *ptr;
-		for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next) {
-			child = xml_write_sheet_object (ctxt, ptr->data);
-			if (child)
-				xmlAddChild (objects, child);
-		}
-	}
-
-	/* save cells in natural order */
-	cells = xmlNewChild (sheetNode, ctxt->ns, CC2XML ("Cells"), NULL);
-	{
-		size_t i;
-		GPtrArray *natural = g_ptr_array_new ();
-		g_hash_table_foreach (sheet->cell_hash,
-				      (GHFunc) copy_hash_table_to_ptr_array, natural);
-		qsort (&g_ptr_array_index (natural, 0),
-		       natural->len,
-		       sizeof (gpointer),
-		       natural_order_cmp);
-		for (i = 0; i < natural->len; i++) {
-			child = xml_write_cell (ctxt, g_ptr_array_index (natural, i));
-			xmlAddChild (cells, child);
-		}
-		g_ptr_array_free (natural, TRUE);
-	}
-
-	xml_write_merged_regions (ctxt, sheetNode, sheet->list_merged);
-	xml_write_sheet_layout (ctxt, sheetNode, sheet);
-	xml_write_sheet_filters (ctxt, sheetNode, sheet);
-
-	child = xml_write_solver (ctxt, sheet->solver_parameters);
-	if (child)
-		xmlAddChild (sheetNode, child);
-
-	child = xml_write_scenarios (ctxt, sheet->scenarios);
-	if (child)
-		xmlAddChild (sheetNode, child);
-
-	return sheetNode;
 }
 
 static void
@@ -3407,121 +2213,6 @@ xml_check_version (xmlDocPtr doc, GnumericXMLVersion *version)
 	return NULL;
 }
 
-/*
- * Create an XML subtree of doc equivalent to the given Workbook.
- */
-static xmlNodePtr
-xml_workbook_write (XmlParseContext *ctxt)
-{
-	xmlNodePtr cur;
-	xmlNodePtr child;
-	GList *sheets, *sheets0;
-	char *old_num_locale, *old_monetary_locale;
-	Workbook *wb = wb_view_workbook (ctxt->wb_view);
-
-	/*
-	 * General informations about the Sheet.
-	 */
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("Workbook"), NULL);	/* the Workbook name !!! */
-	if (cur == NULL)
-		return NULL;
-	if (ctxt->ns == NULL) {
-		/* GnumericVersions[0] is always the first item and
-		 * the most recent version, see table above. Keep the table
-		 * ordered this way!
-		 */
-		ctxt->ns = xmlNewNs (cur, CC2XML (GnumericVersions[0].id), CC2XML ("gmr"));
-		xmlSetNs(cur, ctxt->ns);
-
-		xmlNewNsProp (cur,
-			xmlNewNs (cur, CC2XML ("http://www.w3.org/2001/XMLSchema-instance"), CC2XML ("xsi")),
-			CC2XML ("schemaLocation"),
-			CC2XML ("http://www.gnumeric.org/v8.xsd"));
-	}
-	child = xmlNewChild (cur, ctxt->ns, CC2XML ("Version"), NULL);
-	xml_node_set_int (child, "Epoch", GNM_VERSION_EPOCH);
-	xml_node_set_int (child, "Major", GNM_VERSION_MAJOR);
-	xml_node_set_int (child, "Minor", GNM_VERSION_MINOR);
-	xml_node_set_cstr (child, "Full", GNUMERIC_VERSION);
-
-	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
-	go_setlocale (LC_NUMERIC, "C");
-	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
-	go_setlocale (LC_MONETARY, "C");
-	go_set_untranslated_bools ();
-
-	child = xml_write_wbv_attributes (ctxt);
-	if (child)
-		xmlAddChild (cur, child);
-
-	child = xml_write_summary (ctxt, workbook_metadata (wb));
-	if (child)
-		xmlAddChild (cur, child);
-
-	{
-		GODateConventions const *conv = workbook_date_conv (wb);
-		if (conv->use_1904)
-			xmlNewChild (cur, ctxt->ns, CC2XML ("DateConvention"), "1904");
-	}
-
-	/* The sheet name index is required for the xml_sax
-	 * importer to work correctly. We don't use it for
-	 * the dom loader! These must be written BEFORE
-	 * the named expressions.
-	 */
-	child = xmlNewChild (cur, ctxt->ns, CC2XML ("SheetNameIndex"), NULL);
-	sheets0 = sheets = workbook_sheets (wb);
-	while (sheets) {
-		xmlChar *tstr;
-		Sheet *sheet = sheets->data;
-
-		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, CC2XML (sheet->name_unquoted));
-		xmlNewChild (child, ctxt->ns, CC2XML ("SheetName"),  tstr);
-		if (tstr)
-			xmlFree (tstr);
-
-		sheets = g_list_next (sheets);
-	}
-	xmlAddChild (cur, child);
-
-	child = xml_write_names (ctxt, wb->names);
-	if (child)
-		xmlAddChild (cur, child);
-
-/*	child = xml_write_style (ctxt, &wb->style, -1);
-	if (child)
-	xmlAddChild (cur, child);*/
-
-	child = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("Geometry"), NULL);
-	xml_node_set_int (child, "Width", ctxt->wb_view->preferred_width);
-	xml_node_set_int (child, "Height", ctxt->wb_view->preferred_height);
-	xmlAddChild (cur, child);
-
-	/* sheet content */
-	child = xmlNewChild (cur, ctxt->ns, CC2XML ("Sheets"), NULL);
-	for (sheets = sheets0; sheets ; sheets = sheets->next)
-		xmlAddChild (child, xml_sheet_write (ctxt, sheets->data));
-	g_list_free (sheets0);
-
-	child = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("UIData"), NULL);
-	xml_node_set_int (child, "SelectedTab", wb_view_cur_sheet (ctxt->wb_view)->index_in_wb);
-	xmlAddChild (cur, child);
-
-	child = xmlNewChild (cur, ctxt->ns, CC2XML ("Calculation"), NULL);
-	xml_node_set_bool   (child, "ManualRecalc",	 !ctxt->wb->recalc_auto);
-	xml_node_set_bool   (child, "EnableIteration",    ctxt->wb->iteration.enabled);
-	xml_node_set_int    (child, "MaxIterations",      ctxt->wb->iteration.max_number);
-	xml_node_set_double (child, "IterationTolerance", ctxt->wb->iteration.tolerance, -1);
-
-	/* go_setlocale restores bools to locale translation */
-	go_setlocale (LC_MONETARY, old_monetary_locale);
-	g_free (old_monetary_locale);
-	go_setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
-
-	return cur;
-}
-
 static void
 xml_sheet_create (XmlParseContext *ctxt, xmlNodePtr node)
 {
@@ -3998,65 +2689,6 @@ gnumeric_xml_read_workbook (GOFileOpener const *fo,
 	xmlFreeDoc (res);
 }
 
-/*
- * Save a Workbook in an XML file
- * One build an in-memory XML tree and save it to a file.
- */
-static void
-gnumeric_xml_write_workbook (GOFileSaver const *fs,
-                             IOContext *context,
-                             gconstpointer wb_view,
-                             GsfOutput *output)
-{
-	xmlDocPtr xml;
-	XmlParseContext *ctxt;
-	char const *extension;
-	GsfOutput *gzout = NULL;
-	const char *filename;
-	gboolean compress;
-
-	g_return_if_fail (wb_view != NULL);
-	g_return_if_fail (GSF_IS_OUTPUT (output));
-
-	xml = xmlNewDoc (CC2XML ("1.0"));
-	if (xml == NULL) {
-		go_cmd_context_error_export (GO_CMD_CONTEXT (context),
-			_("Failure saving file"));
-		return;
-	}
-
-	/* we share context with import const_cast is safe */
-	ctxt = xml_parse_ctx_new (xml, NULL, (WorkbookView *)wb_view);
-	ctxt->io_context = context;
-	xml->xmlRootNode = xml_workbook_write (ctxt);
-	xml_parse_ctx_destroy (ctxt);
-
-	/* If the suffix is .xml disable compression */
-	/* FIXME: using gsf_output_name is wrong.  -- MW  */
-	filename = gsf_output_name (output);
-	extension = filename ? gsf_extension_pointer (filename) : NULL;
-	if (extension && g_ascii_strcasecmp (extension, "xml") == 0)
-		compress = FALSE;
-	else 
-		compress = (gnm_app_prefs->xml_compression_level > 0);
-
-	if (compress) {
-		gzout  = gsf_output_gzip_new (output, NULL);
-		output = gzout;
-	}
-
-	xmlIndentTreeOutput = TRUE;
-	if (gsf_xmlDocFormatDump (output, xml, "UTF-8", TRUE) < 0)
-		go_cmd_context_error_export (GO_CMD_CONTEXT (context),
-				     "Error saving XML");
-	if (gzout) {
-		gsf_output_close (gzout);
-		g_object_unref (gzout);
-	}
-
-	xmlFreeDoc (xml);
-}
-
 void
 xml_init (void)
 {
@@ -4072,10 +2704,6 @@ xml_init (void)
 		_("Gnumeric XML (*.gnumeric)"),
 		suffixes, mimes,
 		xml_probe, gnumeric_xml_read_workbook), 50);
-	go_file_saver_register_as_default (go_file_saver_new (
-		"Gnumeric_XmlIO:gnum_xml", "gnumeric",
-		_("Gnumeric XML (*.gnumeric) original slow exporter"),
-		FILE_FL_AUTO, gnumeric_xml_write_workbook), 30);
 
 	go_file_opener_register (go_file_opener_new (
 		"Gnumeric_XmlIO:xml_sax",

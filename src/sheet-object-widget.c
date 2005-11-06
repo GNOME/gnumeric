@@ -116,7 +116,7 @@ static GSF_CLASS_FULL (SOWidgetFooView, so_widget_foo_view,
 #define SOW_CLASS(so)	 	     (SHEET_OBJECT_WIDGET_CLASS (G_OBJECT_GET_CLASS(so)))
 
 #define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet,			\
-		      fn_copy, fn_write_dom, fn_read_dom, fn_write_sax,			\
+		      fn_copy, fn_read_dom, fn_write_sax,				\
 	              fn_get_property, fn_set_property, class_init_code)		\
 static void										\
 sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)				\
@@ -130,7 +130,6 @@ sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)				\
 	so_class->assign_to_sheet	= fn_set_sheet;					\
 	so_class->remove_from_sheet	= fn_clear_sheet;				\
 	so_class->copy			= fn_copy;					\
-	so_class->write_xml_dom		= fn_write_dom;					\
 	so_class->read_xml_dom		= fn_read_dom;					\
 	so_class->write_xml_sax		= fn_write_sax;					\
 	sow_class->create_widget     	= &sheet_widget_ ## n1 ## _create_widget;	\
@@ -297,18 +296,6 @@ sheet_widget_frame_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 }
 
 static gboolean
-sheet_widget_frame_write_xml_dom (SheetObject const 	*so,
-				  XmlParseContext const *context,
-				  xmlNodePtr tree)
-{
-	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (so);
-
-	xml_node_set_cstr (tree, "Label", swf->label);
-
-	return FALSE;
-}
-
-static gboolean
 sheet_widget_frame_read_xml_dom (SheetObject *so, char const *typename,
 				 XmlParseContext const *context,
 				 xmlNodePtr tree)
@@ -468,7 +455,6 @@ SOW_MAKE_TYPE (frame, Frame,
 	       NULL,
 	       NULL,
 	       &sheet_widget_frame_copy,
-	       &sheet_widget_frame_write_xml_dom,
 	       &sheet_widget_frame_read_xml_dom,
 	       &sheet_widget_frame_write_xml_sax,
 	       NULL,
@@ -542,19 +528,6 @@ sheet_widget_button_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 	// FIXME: markup
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
 	gsf_xml_out_add_cstr (output, "Label", swb->label);
-}
-
-static gboolean
-sheet_widget_button_write_xml_dom (SheetObject const	 *so,
-				   XmlParseContext const *context,
-				   xmlNodePtr tree)
-{
-	// FIXME: markup
-	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
-
-	xml_node_set_cstr (tree, "Label", swb->label);
-
-	return FALSE;
 }
 
 static gboolean
@@ -666,7 +639,6 @@ SOW_MAKE_TYPE (button, Button,
 	       NULL,
 	       NULL,
 	       sheet_widget_button_copy,
-	       sheet_widget_button_write_xml_dom,
 	       sheet_widget_button_read_xml_dom,
 	       sheet_widget_button_write_xml_sax,
 	       sheet_widget_button_get_property,
@@ -1048,22 +1020,6 @@ sheet_widget_adjustment_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 }
 
 static gboolean
-sheet_widget_adjustment_write_xml_dom (SheetObject const     *so,
-				       XmlParseContext const *context,
-				       xmlNodePtr tree)
-{
-	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
-
-	xml_node_set_double (tree, "Min", swa->adjustment->lower, 2);
-	xml_node_set_double (tree, "Max", swa->adjustment->upper, 2); /* allow scrolling to max */
-	xml_node_set_double (tree, "Inc", swa->adjustment->step_increment, 2);
-	xml_node_set_double (tree, "Page", swa->adjustment->page_increment, 2);
-	xml_node_set_double  (tree, "Value", swa->adjustment->value, 2);
-	dom_write_dep (tree, &swa->dep, "Input");
-	return FALSE;
-}
-
-static gboolean
 sheet_widget_adjustment_read_xml_dom (SheetObject *so, char const *typename,
 				      XmlParseContext const *context,
 				      xmlNodePtr tree)
@@ -1122,7 +1078,6 @@ SOW_MAKE_TYPE (adjustment, Adjustment,
 	       &sheet_widget_adjustment_set_sheet,
 	       &sheet_widget_adjustment_clear_sheet,
 	       &sheet_widget_adjustment_copy,
-	       &sheet_widget_adjustment_write_xml_dom,
 	       &sheet_widget_adjustment_read_xml_dom,
 	       &sheet_widget_adjustment_write_xml_sax,
 	       NULL,
@@ -1659,18 +1614,6 @@ sheet_widget_checkbox_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 }
 
 static gboolean
-sheet_widget_checkbox_write_xml_dom (SheetObject const 	   *so,
-				     XmlParseContext const *context,
-				     xmlNodePtr tree)
-{
-	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
-	xml_node_set_cstr (tree, "Label", swc->label);
-	xml_node_set_int  (tree, "Value", swc->value);
-	dom_write_dep (tree, &swc->dep, "Input");
-	return FALSE;
-}
-
-static gboolean
 sheet_widget_checkbox_read_xml_dom (SheetObject *so, char const *typename,
 				    XmlParseContext const *context,
 				    xmlNodePtr tree)
@@ -1730,7 +1673,6 @@ SOW_MAKE_TYPE (checkbox, Checkbox,
 	       &sheet_widget_checkbox_set_sheet,
 	       &sheet_widget_checkbox_clear_sheet,
 	       &sheet_widget_checkbox_copy,
-	       &sheet_widget_checkbox_write_xml_dom,
 	       &sheet_widget_checkbox_read_xml_dom,
 	       &sheet_widget_checkbox_write_xml_sax,
 	       &sheet_widget_checkbox_get_property,
@@ -1961,7 +1903,6 @@ SOW_MAKE_TYPE (radio_button, RadioButton,
 	       NULL,
 	       NULL,
 	       NULL,
-	       NULL,
 	       &sheet_widget_radio_button_get_property,
 	       &sheet_widget_radio_button_set_property,
 	       {
@@ -2114,17 +2055,6 @@ sheet_widget_list_base_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 }
 
 static gboolean
-sheet_widget_list_base_write_xml_dom (SheetObject const 	*so,
-				      XmlParseContext const *context,
-				      xmlNodePtr tree)
-{
-	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
-	dom_write_dep (tree, &swl->content_dep, "Content");
-	dom_write_dep (tree, &swl->output_dep, "Output");
-	return FALSE;
-}
-
-static gboolean
 sheet_widget_list_base_read_xml_dom (SheetObject *so, char const *typename,
 				     XmlParseContext const *context,
 				     xmlNodePtr tree)
@@ -2152,7 +2082,6 @@ SOW_MAKE_TYPE (list_base, ListBase,
 	       &sheet_widget_list_base_set_sheet,
 	       &sheet_widget_list_base_clear_sheet,
 	       NULL,
-	       &sheet_widget_list_base_write_xml_dom,
 	       &sheet_widget_list_base_read_xml_dom,
 	       &sheet_widget_list_base_write_xml_sax,
 	       NULL,

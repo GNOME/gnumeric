@@ -1,3 +1,32 @@
+2005-11-05  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c : Delete the original DOM based export.  The pseudo-sax
+	  based variant is faster and lighter and there's not much point in
+	  maintaining two code bases.
+
+	* src/gnm-so-filled.c (gnm_so_filled_write_xml_dom) : delete.
+	* src/gnm-so-line.c (gnm_so_line_write_xml_dom) : delete.
+	* src/gnm-so-polygon.c (gnm_so_polygon_write_xml_dom) : delete.
+	* src/sheet-object-cell-comment.c (cell_comment_write_xml_dom) : delete.
+	* src/sheet-object-image.c (sheet_object_image_write_xml_dom) : delete.
+	* src/sheet-object-widget.c
+	(sheet_widget_frame_write_xml_dom) : delete.
+	(sheet_widget_button_write_xml_dom) : delete.
+	(sheet_widget_adjustment_write_xml_dom) : delete.
+	(sheet_widget_checkbox_write_xml_dom) : delete.
+	(sheet_widget_list_base_write_xml_dom) : delete.
+	* src/sheet-object-graph.c (sheet_object_graph_write_xml_dom) : delete.
+	(sheet_object_graph_prep_xml_sax) : new.
+	(sog_xml_finish) : new.
+	(sheet_object_graph_write_object) : use the sax interface.
+
+	* src/xml-sax-read.c (xml_sax_wb) : ICK.  We are actually depenent on
+	  the prefix for the namespace.  The change from gmr -> gnm broke the
+	  version test here.  Add gnm to fix it.
+	(xml_sax_wb_sheetname) : be more flexible and only create a sheet if
+	  we really need it.
+	(xml_sax_object_start) : implement.
+
 2005-11-02  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-autofill.c : remove the i18n flags for string lists as far
