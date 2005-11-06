@@ -46,6 +46,7 @@
 #include <goffice/app/error-info.h>
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-plugin.h>
+#include <goffice/utils/datetime.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
@@ -444,6 +445,7 @@ xl_xml_data_start (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "Number",	VALUE_FLOAT },
 		{ "Boolean",	VALUE_BOOLEAN },
 		{ "Error",	VALUE_ERROR },
+		{ "DateTime",	0x42 /* some cheesy magic */ },
 		{ NULL, 0 }
 	};
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
@@ -461,7 +463,25 @@ xl_xml_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
 	GnmCell *cell = sheet_cell_fetch (state->sheet, state->pos.col, state->pos.row);
-	GnmValue *v = value_new_from_string (state->val_type, xin->content->str, NULL, FALSE);
+	GnmValue *v;
+	
+	if (state->val_type == 0x42) { /* see cheesy magic above */
+		GDate date;
+		unsigned y, mo, d, h, mi;
+		double s;
+		if (6 == sscanf (xin->content->str, "%u-%u-%uT%u:%u:%lg", &y, &mo, &d, &h, &mi, &s)) {
+			g_date_clear (&date, 1);
+			g_date_set_dmy (&date, d, mo, y);
+			if (g_date_valid (&date)) {
+				unsigned d_serial = datetime_g_to_serial (&date,
+					workbook_date_conv (state->wb));
+				v = value_new_float (d_serial + h/24. + mi/(24.*60.) + s/(24.*60.*60.));
+			} else
+				v = value_new_string (xin->content->str);
+		} else
+			v = value_new_string (xin->content->str);
+	} else
+		v = value_new_from_string (state->val_type, xin->content->str, NULL, FALSE);
 	if (NULL != state->expr) {
 		if (NULL != v)
 			cell_set_expr_and_value (cell, state->expr, v, TRUE);
@@ -877,6 +897,7 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", FALSE, FALSE, TRUE,
     GSF_XML_IN_NODE (DOC_SETTINGS, DOC_COMPONENTS, XL_NS_O, "DownloadComponents", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (DOC_SETTINGS, DOC_COMPONENTS_LOCATION, XL_NS_O, "LocationOfComponents", FALSE, NULL, NULL),
   GSF_XML_IN_NODE (WORKBOOK, WB_VIEW, XL_NS_XL, "ExcelWorkbook", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (WB_VIEW, TAB_RATIO, XL_NS_XL, "TabRatio", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (WB_VIEW, SUPBOOK, XL_NS_XL, "SupBook", FALSE, NULL, NULL),
       GSF_XML_IN_NODE (SUPBOOK, SUP_DLL, XL_NS_XL, "Dll", FALSE, NULL, NULL),
       GSF_XML_IN_NODE (SUPBOOK, SUP_EXTERNNAME, XL_NS_XL, "ExternName", FALSE, NULL, NULL),
@@ -915,6 +936,7 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", FALSE, FALSE, TRUE,
 	    GSF_XML_IN_NODE_FULL (CELL_DATA, HTML_SUP,  XL_NS_HTML, "Sup",  GSF_XML_SHARED_CONTENT, TRUE, FALSE, NULL, NULL, 5),
 	    GSF_XML_IN_NODE_FULL (CELL_DATA, HTML_SUB,  XL_NS_HTML, "Sub",  GSF_XML_SHARED_CONTENT, TRUE, FALSE, NULL, NULL, 6),
     GSF_XML_IN_NODE (WORKSHEET, OPTIONS, XL_NS_XL, "WorksheetOptions", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (OPTIONS, TOP_ROW, XL_NS_XL, "TopRowVisible", FALSE, NULL, NULL),
       GSF_XML_IN_NODE (OPTIONS, UNSYNCED, XL_NS_XL, "Unsynced", FALSE, NULL, NULL),	/* ?? */
       GSF_XML_IN_NODE (OPTIONS, SELECTED, XL_NS_XL, "Selected", FALSE, NULL, NULL),	/* ?? */
       GSF_XML_IN_NODE (OPTIONS, PANES, XL_NS_XL, "Panes", FALSE, NULL, NULL),
