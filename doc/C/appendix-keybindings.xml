@@ -92,7 +92,7 @@
 
     <listitem>
       <para>
-	<keycap>Ctrl-~</keycap> Formats the current selection as a number.
+	<keycap>Ctrl-~</keycap> Formats the current selection as a 'General'.
       </para>
     </listitem>
     <listitem>
@@ -117,7 +117,7 @@
     </listitem>
     <listitem>
       <para>
-	<keycap>Ctrl-!</keycap> Formats the current selection with the default accounting format
+	<keycap>Ctrl-!</keycap> Formats the current selection as a number with 2 decimal places.
       </para>
     </listitem>
     <listitem>
